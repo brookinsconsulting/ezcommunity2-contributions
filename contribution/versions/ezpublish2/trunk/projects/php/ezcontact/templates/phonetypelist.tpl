@@ -30,9 +30,9 @@
 //-->
 </SCRIPT> 
 
-<h1>Kontaktmedier</h1>
+<h1>{intl-headline}</h1>
 <table width="100%" cellspacing="0" cellpadding="2" border="0">
 {phone_type_list}
 </table>
 <br>
-<a href="index.php4?page={document_root}phonetypeedit.php4&PID={phone_type_id}">[Legg til nytt kontaktmedium]</a>
+<a href="index.php4?page={document_root}phonetypeedit.php4&PID={phone_type_id}">{intl-newcontact}</a>

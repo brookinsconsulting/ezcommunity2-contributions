@@ -1,10 +1,10 @@
 <form method="post" action="index.php4?page={document_root}passwordedit.php4">
-<h1>Forandre passord</h1>
+<h1>{intl-headline}</h1>
 
-<p>Passord:<br>
+<p>{intl-password}<br>
 <input type="password" name="Pwd"></p>
 
-<p>Passord (verifisering):<br>
+<p>{intl-passwordvert}<br>
 <input type="password" name="PwdVer"></p>
 
 <input type="hidden" name="UID" value="{user_id}">

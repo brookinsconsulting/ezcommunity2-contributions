@@ -1,51 +1,62 @@
 <?
-include  "template.inc";
-require "ezphputils.php";
-require "ezcontact/dbsettings.php";
-require $DOCUMENTROOT . "classes/ezsession.php";
-require $DOCUMENTROOT . "classes/ezperson.php";
-require $DOCUMENTROOT . "classes/ezuser.php";
-require $DOCUMENTROOT . "classes/ezusergroup.php";
-require $DOCUMENTROOT . "classes/ezpersontype.php";
+include_once( "class.INIFile.php" );
 
-// sjekke session
-{
-    include( $DOCUMENTROOT . "checksession.php" );
-}
+$ini = new INIFIle( "site.ini" );
 
-// hente ut rettigheter
-{    
-    $session = new eZSession();
+$Language = $ini->read_var( "eZContactMain", "Language" );
+
+$DOC_ROOT = $ini->read_var( "eZContactMain", "DocumentRoot" );
+
+include_once( "../classes/eztemplate.php" );
+include_once( "ezphputils.php" );
+
+// require $DOC_ROOT . "classes/ezsession.php";
+// require $DOC_ROOT . "classes/ezuser.php";
+
+include_once( "ezcontact/classes/ezperson.php" );
+include_once( "ezcontact/classes/ezusergroup.php" );
+include_once( "ezcontact/classes/ezpersontype.php" );
+
+//  // sjekke session
+//  {
+//      include( $DOC_ROOT . "checksession.php" );
+//  }
+
+//  // hente ut rettigheter
+//  {    
+//      $session = new eZSession();
     
-    if ( !$session->get( $AuthenticatedSession ) )
-    {
-        die( "Du må logge deg på." );    
-    }        
+//      if ( !$session->get( $AuthenticatedSession ) )
+//      {
+//          die( "Du må logge deg på." );    
+//      }        
     
-    $usr = new eZUser();
-    $usr->get( $session->userID() );
+//      $usr = new eZUser();
+//      $usr->get( $session->userID() );
 
-    $usrGroup = new eZUserGroup();
-    $usrGroup->get( $usr->group() );
-}
+//      $usrGroup = new eZUserGroup();
+//      $usrGroup->get( $usr->group() );
+//  }
 
-// vise feilmelding dersom brukeren ikke har rettigheter.
-if ( $usrGroup->personTypeAdmin() == 'N' )
-{    
-    $t = new Template( "." );
-    $t->set_file( array(
-        "error_page" => $DOCUMENTROOT . "templates/errorpage.tpl"
-        ) );
+//  // vise feilmelding dersom brukeren ikke har rettigheter.
+//  if ( $usrGroup->personTypeAdmin() == 'N' )
+//  {    
+//      $t = new Template( "." );
+//      $t->set_file( array(
+//          "error_page" => $DOC_ROOT . "templates/errorpage.tpl"
+//          ) );
 
-    $t->set_var( "error_message", "Du har ikke rettiheter til dette." );
-    $t->pparse( "output", "error_page" );
-}
-else
+//      $t->set_var( "error_message", "Du har ikke rettiheter til dette." );
+//      $t->pparse( "output", "error_page" );
+//  }
+//  else
 {
-    $t = new Template( "." );
+    $t = new eZTemplate( $DOC_ROOT . "/" . $ini->read_var( "eZContactMain", "TemplateDir" ), $DOC_ROOT . "/intl", $Language, "persontypelist.php" );
+    $t->setAllStrings();
+
     $t->set_file( array(
-        "persontype_page" => $DOCUMENTROOT . "templates/persontypelist.tpl",
-        "persontype_item" => $DOCUMENTROOT . "templates/persontypeitem.tpl"
+        "persontype_page" => "persontypelist.tpl",
+        "persontype_item" => "persontypeitem.tpl"
         ) );    
 
     $persontype = new eZPersonType();
@@ -68,7 +79,7 @@ else
         $t->parse( "persontype_list", "persontype_item", true );
     }
 
-    $t->set_var( "document_root", $DOCUMENTROOT );
+    $t->set_var( "document_root", $DOC_ROOT );
     $t->pparse( "output", "persontype_page" );
 }
 ?>

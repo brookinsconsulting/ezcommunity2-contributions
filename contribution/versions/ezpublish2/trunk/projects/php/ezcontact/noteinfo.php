@@ -1,16 +1,28 @@
 <?
+/*
+  Viser innholdet til en notat.
+*/
+    
+include_once( "class.INIFile.php" );
 
-include  "template.inc";
-require "ezcontact/dbsettings.php";
-require  "ezphputils.php";
+$ini = new INIFile( "site.ini" );
+$DOC_ROOT = $ini->read_var( "eZContactMain", "DocumentRoot" );
+$Language = $ini->read_var( "eZContactMain", "Language" );
 
-require "classes/ezsession.php";
-require "classes/ezuser.php";
-require "classes/eznote.php";
+include_once( "../classes/eztemplate.php" );
 
-$t = new Template( "." );
+include_once(  "ezphputils.php" ); 
+
+include_once( "ezcontact/classes/ezsession.php" );
+include_once( "ezcontact/classes/ezuser.php" );
+include_once( "ezcontact/classes/eznote.php" );
+
+// Setter template
+$t = new eZTemplate( $DOC_ROOT . "/" . $ini->read_var ( "eZContactMain", "TemplateDir" ), $DOC_ROOT . "/intl", $Language, "noteinfo.php" );
+$t->setAllStrings();
+
 $t->set_file( array( 
-    "note_info" => "templates/noteinfo.tpl"
+    "note_info" => "noteinfo.tpl"
     ) );
 
 $session = new eZSession();
@@ -25,8 +37,5 @@ $note->get( $NID );
 $t->set_var( "note_title", $note->title() );
 $t->set_var( "note_body", $note->body() );
 
-
 $t->pparse( "output", "note_info" );
-
-
 ?>

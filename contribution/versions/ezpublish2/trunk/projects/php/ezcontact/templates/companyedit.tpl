@@ -62,29 +62,29 @@
 //-->
 </script>
 
-<h1>{message}</h1>
+<h1>{intl-headline}</h1>
 
 <table width="100%" border="0" cellpadding="2" cellspacing="2">
 <tr>
 	<td bgcolor="#3c3c3c">
-	<font color="#ffffff"><b>&nbsp;&nbsp;Firmainformasjon</b></font>
+	<font color="#ffffff"><b>&nbsp;&nbsp;{intl-firminfo}</b></font>
 	</td>
 
 	<td bgcolor="#3c3c3c">
-	<font color="#ffffff"><b>&nbsp;&nbsp;Kommentar</b></font>	
+	<font color="#ffffff"><b>&nbsp;&nbsp;{intl-comment}</b></font>	
 	</td>
 </tr>
 <tr>
 	<td valign="top" bgcolor="#f0f0f0">
 <form method="post" name="CompanyEdit" action="index.php4?page={document_root}companyedit.php4">
 <br>
-&nbsp;&nbsp;Kontakttype:
+&nbsp;&nbsp;{intl-contacttype}
 <br>
 &nbsp;&nbsp;<select name="CompanyType">
 {company_type}
 </select>
 <br>
-&nbsp;&nbsp;Firmanavn:<br>
+&nbsp;&nbsp;{intl-firmname}<br>
 &nbsp;&nbsp;<input type="text" name="CompanyName" value="{company_name}"><br><br>
 
 &nbsp;&nbsp;<input type="submit" value="{submit_text}">
@@ -112,11 +112,11 @@
 </tr>
 <tr>
 	<td bgcolor="#3c3c3c">
-	<font color="#ffffff"><b>&nbsp;&nbsp;Registrer ny adresse</b></font>	
+	<font color="#ffffff"><b>&nbsp;&nbsp;{intl-addressinfo}</b></font>	
 	</td>
 
 	<td bgcolor="#3c3c3c">
-	<font color="#ffffff"><b>&nbsp;&nbsp;Registrerte adresser</b></font>	
+	<font color="#ffffff"><b>&nbsp;&nbsp;{intl-registeraddress}</b></font>	
 	</td>
 </tr>
 
@@ -125,17 +125,17 @@
 <form method="post" name="CompanyAddressEdit" action="index.php4?page={document_root}companyedit.php4">
 
 <br>
-&nbsp;&nbsp;Adressetype:
+&nbsp;&nbsp;{intl-addresstype}
 <br>
 &nbsp;&nbsp;<select name="AddressType">
 {address_type} 
 </select>
 <br>
 
-&nbsp;&nbsp;Adresse:<br>
+&nbsp;&nbsp;{intl-address}<br>
 &nbsp;&nbsp;<input type="text" name="Street1" value="{street_1}"><br>
 &nbsp;&nbsp;<input type="text" name="Street2" value="{street_2}"><br>
-&nbsp;&nbsp;Postnummer:<br>
+&nbsp;&nbsp;{intl-postnumber}<br>
 &nbsp;&nbsp;<input type="text" name="Zip" value="{zip_code}"><br>
 
 <input type="hidden" name="AddressID" value="{address_edit_id}">
@@ -162,11 +162,11 @@
 </tr>
 <tr>
 	<td bgcolor="#3c3c3c">
-	<font color="#ffffff"><b>&nbsp;&nbsp;Registrer nytt kontaktmedium</b></font>	
+	<font color="#ffffff"><b>&nbsp;&nbsp;{intl-contactinfo}</b></font>	
 	</td>
 
 	<td bgcolor="#3c3c3c">
-	<font color="#ffffff"><b>&nbsp;&nbsp;Registrerte kontaktmedier</b></font>	
+	<font color="#ffffff"><b>&nbsp;&nbsp;{intl-registercontact}</b></font>	
 	</td>
 </tr>
 	<td valign="top" bgcolor="#f0f0f0">
@@ -174,7 +174,7 @@
 <form method="post" name="CompanyPhoneEdit" action="index.php4?page={document_root}companyedit.php4">
 
 <br>
-&nbsp;&nbsp;Kontaktmedium:<br>
+&nbsp;&nbsp;{intl-contact}<br>
 &nbsp;&nbsp;<select name="PhoneType">
 {phone_type}
 </select>
@@ -209,11 +209,11 @@
 
 <tr>
 	<td bgcolor="#3c3c3c">
-	<font color="#ffffff"><b>&nbsp;&nbsp;Registrer ny konsultasjon</b></font>	
+	<font color="#ffffff"><b>&nbsp;&nbsp;{intl-consultinfo}</b></font>	
 	</td>
 
 	<td bgcolor="#3c3c3c">
-	<font color="#ffffff"><b>&nbsp;&nbsp;Registrerte konsultasjoner</b></font>	
+	<font color="#ffffff"><b>&nbsp;&nbsp;{intl-registerconsult}</b></font>	
 	</td>
 </tr>
 	<td valign="top" bgcolor="#f0f0f0">
@@ -221,10 +221,10 @@
 <form method="post" name="CompanyConsultEdit" action="index.php4?page={document_root}companyedit.php4">
 
 <br>
-&nbsp;&nbsp;Konsultasjon:<br>
+&nbsp;&nbsp;{intl-consult}<br>
 &nbsp;&nbsp;<input type="text" name="ConsultTitle" value="{consult_title}">
 <br>
-&nbsp;&nbsp;Tekstbeskrivelse:<br>
+&nbsp;&nbsp;{intl-textdesc}<br>
 &nbsp;&nbsp;<textarea rows="5" cols="40" wrap="soft"name="ConsultBody">{consult_body}</textarea>
 
 <input type="hidden" name="ConsultID" value="{consult_edit_id}">
@@ -248,10 +248,4 @@
 </form>
 	</td>
 </tr>
-
-
-
-
-
-
 </table>

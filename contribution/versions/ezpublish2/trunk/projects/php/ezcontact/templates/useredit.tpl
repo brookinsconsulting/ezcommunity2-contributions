@@ -1,23 +1,23 @@
 <form method="post" action="index.php4?prePage={document_root}useredit.php4">
-<h1>{head_line}</h1>
+<h1>{intl-headline}</h1>
 
-<p>Brukergruppe:<br>
+<p>{intl-usergroup}<br>
 <select name="UserGroup">
 {user_group}
 </select></p>
 
 <p>
-Brukernavn:<br>
+{intl-username}<br>
 <input type="text" name="Login" value="{user_login}">
 </p>
 
 <p>
-Passord:<br>
+{intl-password}<br>
 <input type="password" name="Pwd">
 </p>
 
 <p>
-Passord (verifisering):<br>
+{intl-passwordvert}<br>
 <input type="password" name="PwdVer">
 </p>
 

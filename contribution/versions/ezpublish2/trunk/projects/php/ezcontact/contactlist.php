@@ -1,28 +1,38 @@
 <?
-include_once( "template.inc" );
-require "ezcontact/dbsettings.php";
+/*
+  Viser en liste over alle kontaktene.
+*/
+include_once( "class.INIFile.php" );
 
+$ini = new INIFIle( "site.ini" );
+$Language = $ini->read_var( "eZContactMain", "Language" );
+$DOC_ROOT = $ini->read_var( "eZContactMain", "DocumentRoot" );
+
+include_once( "../classes/eztemplate.php" );
 include_once( "ezphputils.php" );
-include_once( $DOCUMENTROOT . "classes/ezperson.php" );
-include_once( $DOCUMENTROOT . "classes/ezpersontype.php" );
-include_once( $DOCUMENTROOT . "classes/ezsession.php" );
-include_once( $DOCUMENTROOT . "classes/ezuser.php" );
-include_once( $DOCUMENTROOT . "classes/ezusergroup.php" );
-include_once( $DOCUMENTROOT . "classes/ezcompany.php" );
 
-include( $DOCUMENTROOT . "checksession.php" );
+include_once( "ezcontact/classes/ezperson.php" );
+include_once( "ezcontact/classes/ezpersontype.php" );
+include_once( "ezcontact/classes/ezsession.php" );
+include_once( "ezcontact/classes/ezuser.php" );
+include_once( "ezcontact/classes/ezusergroup.php" );
+include_once( "ezcontact/classes/ezcompany.php" );
+include_once( "ezcontact/checksession.php" );
 
-$t = new Template( "." );  
+// Setter template.
+$t = new eZTemplate( $DOC_ROOT . "/" . $ini->read_var( "eZContactMain", "TemplateDir" ), $DOC_ROOT . "/intl", $Language, "contactpage.php" );
+$t->setAllStrings();
 
 $t->set_file( array(
-                   "contact_page" => $DOCUMENTROOT . "templates/contactpage.tpl",
-                   "person_item" =>  $DOCUMENTROOT . "templates/personitem.tpl",
-                   "delete_person_item" =>  $DOCUMENTROOT . "templates/persondeleteitem.tpl",
-                   "delete_company_item" =>  $DOCUMENTROOT . "templates/companydeleteitem.tpl",
-                   "company_item" => $DOCUMENTROOT . "templates/companyitem.tpl" ) );
+                   "contact_page" => "contactpage.tpl",
+                   "person_item" =>  "personitem.tpl",
+                   "delete_person_item" =>  "persondeleteitem.tpl",
+                   "delete_company_item" =>  "companydeleteitem.tpl",
+                   "company_item" => "companyitem.tpl" ) );
 
 $company = new eZCompany();
 
+// Søker etter kontakter.
 if ( $Query != ""  )
 {
     $company_array = $company->searchByPerson( $Query );
@@ -32,6 +42,7 @@ else
     $company_array = $company->getAll( );
 }
 
+// Viser liste over kontakter.
 if ( count( $company_array ) == 0 )
     $t->set_var( "company_list", "<h2>Ingen treff.</h2>", true );
 
@@ -65,7 +76,7 @@ for ( $i=0; $i<count( $company_array ); $i++ )
   $cid = $company_array[$i][ "ID" ];
   $t->set_var( "company_id", $cid );
   $t->set_var( "company_name", $company_array[$i][ "Name" ] );
-  $t->set_var( "document_root", $DOCUMENTROOT );
+  $t->set_var( "document_root", $DOC_ROOT );
 
   {
       $person = new eZPerson();
@@ -97,15 +108,15 @@ for ( $i=0; $i<count( $company_array ); $i++ )
           $t->set_var( "person_id", $person_array[$j][ "ID" ] );
           $t->set_var( "first_name", $person_array[$j][ "FirstName" ] );
           $t->set_var( "last_name", $person_array[$j][ "LastName" ] );
-          $t->set_var( "document_root", $DOCUMENTROOT );
+          $t->set_var( "document_root", $DOC_ROOT );
 
-          // utøve rettigheter
+          // Utøve rettigheter.
           if ( $usrGroup->personDelete() == 'Y' )
           {
               $t->parse( "delete_person", "delete_person_item" );
               
 //                $t->set_var( "delete_person",
-//                             "<a href=\"#\" onClick=\"verify( 'Slette kontakt person?', 'index.php?prePage=" . $DOCUMENTROOT . "personedit.php&Action=delete&PID=" .  $person_array[$j][ "ID" ] . "'); return false;\"><img src=\"" . $DOCUMENTROOT ."images/slettmini.gif\" width=\"16\" height=\"16\"  border=\"0\"></a>" );
+//                             "<a href=\"#\" onClick=\"verify( 'Slette kontakt person?', 'index.php?prePage=" . $DOC_ROOT . "personedit.php&Action=delete&PID=" .  $person_array[$j][ "ID" ] . "'); return false;\"><img src=\"" . $DOC_ROOT ."images/slettmini.gif\" width=\"16\" height=\"16\"  border=\"0\"></a>" );
           }
           else
           {
@@ -116,12 +127,12 @@ for ( $i=0; $i<count( $company_array ); $i++ )
       }
   }
 
-  // utøve rettigheter
+  // Utøve rettigheter.
   if ( $usrGroup->companyDelete() == 'Y' )
   {
       $t->parse( "delete_company", "delete_company_item" );
       
-//    	$t->set_var( "delete_company", "<a href=\"#\" onClick=\"verify( 'Slette firma?', 'index.php?prePage=" . $DOCUMENTROOT .  "companyedit.php&Action=delete&CID=" . $cid . "'); return false;\"><img src=\"" . $DOCUMENTROOT ."images/slettmini.gif\" width=\"16\" height=\"16\"  border=\"0\" align=\"top\"></a>" );
+//    	$t->set_var( "delete_company", "<a href=\"#\" onClick=\"verify( 'Slette firma?', 'index.php?prePage=" . $DOC_ROOT .  "companyedit.php&Action=delete&CID=" . $cid . "'); return false;\"><img src=\"" . $DOC_ROOT ."images/slettmini.gif\" width=\"16\" height=\"16\"  border=\"0\" align=\"top\"></a>" );
   }
   else
   {
@@ -135,7 +146,7 @@ for ( $i=0; $i<count( $company_array ); $i++ )
 }
 
 
-$t->set_var( "document_root", $DOCUMENTROOT );  
+$t->set_var( "document_root", $DOC_ROOT );  
 
 $t->pparse( "output", "contact_page");
 ?>

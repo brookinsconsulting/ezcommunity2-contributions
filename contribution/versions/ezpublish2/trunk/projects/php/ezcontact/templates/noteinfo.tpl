@@ -4,6 +4,8 @@
 	{note_title}
 	</title>
 
+{intl-variable}
+
 </head>
 <body bgcolor="#f0dc64">
 <table width="100%" cellspacing="0" cellpadding="0" border="0">

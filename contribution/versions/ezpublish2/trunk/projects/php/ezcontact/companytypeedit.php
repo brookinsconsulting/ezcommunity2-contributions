@@ -1,15 +1,25 @@
 <?
-include  "template.inc";
+/*
+  Editerer firma typer.
+*/
 
-require "ezcontact/dbsettings.php";
-require "ezphputils.php";
+include_once( "class.INIFile.php" );
 
-require $DOCUMENTROOT . "classes/ezsession.php";
-require $DOCUMENTROOT . "classes/ezuser.php";
-require $DOCUMENTROOT . "classes/ezusergroup.php";
-require $DOCUMENTROOT . "classes/ezcompanytype.php";
+$ini = new INIFIle( "site.ini" );
+$Language = $ini->read_var( "eZContactMain", "Language" );
+$DOC_ROOT = $ini->read_var( "eZContactMain", "DocumentRoot" );
 
-// Legge til
+include_once( "../classes/eztemplate.php" );
+include_once( "ezphputils.php" );
+
+// require $DOC_ROOT . "classes/ezsession.php";
+// require $DOC_ROOT . "classes/ezuser.php";
+
+include_once( "ezcontact/classes/ezperson.php" );
+include_once( "ezcontact/classes/ezusergroup.php" );
+include_once( "ezcontact/classes/ezcompanytype.php" );
+
+// Legge til firma type.
 if ( $Action == "insert" )
 {
   $type = new eZCompanyType();
@@ -17,10 +27,10 @@ if ( $Action == "insert" )
   $type->setDescription( $CompanyTypeDescription );
   $type->store(); 
 
-  printRedirect( "../index.php?page=" . $DOCUMENTROOT . "companytypelist.php" );
+  Header( "Location: index.php?page=" . $DOC_ROOT . "companytypelist.php" ); 
 }
 
-// Oppdatere
+// Oppdatere firma type.
 if ( $Action == "update" )
 {
   $type = new eZCompanyType();
@@ -30,57 +40,60 @@ if ( $Action == "update" )
   $type->setDescription( $CompanyTypeDescription );
   $type->update();
 
-  printRedirect( "../index.php?page=" . $DOCUMENTROOT . "companytypelist.php" );
+  Header( "Location: index.php?page=" . $DOC_ROOT . "companytypelist.php" ); 
 }
 
-// Slette
+// Slette firma type.
 if ( $Action == "delete" )
 {
     $type = new eZCompanyType();
     $type->get( $CID );
     $type->delete( );
 
-    printRedirect( "../index.php?page=" . $DOCUMENTROOT . "companytypelist.php" );
+    Header( "Location: index.php?page=" . $DOC_ROOT . "companytypelist.php" ); 
 }
 
-// sjekke session
-{
-  include( $DOCUMENTROOT . "checksession.php" );
-}
+//  // Sjekke session.
+//  {
+//    include( $DOC_ROOT . "checksession.php" );
+//  }
 
 
-// hente ut rettigheter
-{    
-    $session = new eZSession();
+//  // Hente ut rettigheter.
+//  {    
+//      $session = new eZSession();
     
-    if ( !$session->get( $AuthenticatedSession ) )
-    {
-        die( "Du må logge deg på." );    
-    }        
+//      if ( !$session->get( $AuthenticatedSession ) )
+//      {
+//          die( "Du må logge deg på." );    
+//      }        
     
-    $usr = new eZUser();
-    $usr->get( $session->userID() );
+//      $usr = new eZUser();
+//      $usr->get( $session->userID() );
 
-    $usrGroup = new eZUserGroup();
-    $usrGroup->get( $usr->group() );
-}
+//      $usrGroup = new eZUserGroup();
+//      $usrGroup->get( $usr->group() );
+//  }
 
-// vise feilmelding dersom brukeren ikke har rettigheter.
-if ( $usrGroup->companyTypeAdmin() == 'N' )
-{    
-    $t = new Template( "." );
-    $t->set_file( array(
-        "error_page" => $DOCUMENTROOT . "templates/errorpage.tpl"
-        ) );
+//  // Vise feilmelding dersom brukeren ikke har rettigheter.
+//  if ( $usrGroup->companyTypeAdmin() == 'N' )
+//  {    
+//      $t = new Template( "." );
+//      $t->set_file( array(
+//          "error_page" => $DOC_ROOT . "templates/errorpage.tpl"
+//          ) );
 
-    $t->set_var( "error_message", "Du har ikke rettiheter til dette." );
-    $t->pparse( "output", "error_page" );
-}
-else
+//      $t->set_var( "error_message", "Du har ikke rettiheter til dette." );
+//      $t->pparse( "output", "error_page" );
+//  }
+//  else
 {
-    $t = new Template( "." );
+    // Setter template.
+    $t = new eZTemplate( $DOC_ROOT . "/" . $ini->read_var( "eZContactMain", "TemplateDir" ), $DOC_ROOT . "/intl", $Language, "companytypeedit.php" );
+    $t->setAllStrings();
+
     $t->set_file( array(
-        "companytype_edit_page" => $DOCUMENTROOT . "templates/companytypeedit.tpl"
+        "companytype_edit_page" => "companytypeedit.tpl"
         ) );    
 
     $t->set_var( "submit_text", "Legg til" );
@@ -88,7 +101,7 @@ else
     $t->set_var( "companytype_id", "" );
     $t->set_var( "head_line", "Legg til ny firmatype" );
 
-// Editere
+// Editere firma type.
     if ( $Action == "edit" )
     {
         $type = new eZCompanyType();
@@ -101,11 +114,10 @@ else
         $t->set_var( "action_value", "update" );
         $t->set_var( "companytype_id", $CID );
         $t->set_var( "head_line", "Rediger firmatype" );
-
     }
 
-// Sette template variabler
-    $t->set_var( "document_root", $DOCUMENTROOT );
+// Sette template variabler.
+    $t->set_var( "document_root", $DOC_ROOT );
 
     $t->set_var( "companytype_name", $CompanyTypeName );
     $t->set_var( "description", $CompanyTypeDescription );

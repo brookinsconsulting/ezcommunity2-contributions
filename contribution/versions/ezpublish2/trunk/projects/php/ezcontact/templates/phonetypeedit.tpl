@@ -1,7 +1,7 @@
 <form method="post" action="index.php4?prePage={document_root}phonetypeedit.php4">
-<h1>{head_line}</h1>
+<h1>{intl-headline}</h1>
 
-<p>Navn:<br>
+<p>{intl-name}<br>
 <input type="text" name="PhoneTypeName" value="{phone_type_name}"><br></p>
 
 <input type="hidden" name="PID" value="{phone_type_id}">

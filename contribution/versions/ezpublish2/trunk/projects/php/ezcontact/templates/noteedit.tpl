@@ -1,10 +1,10 @@
 <form method="post" action="index.php4?prePage={document_root}noteedit.php4">
 
-<h1>{message}</h1>
-<p>Tittel:<br>
+<h1>{intl-headline}</h1>
+<p>{intl-title}<br>
 <input type="text" name="Title" value="{title}"></p>
 
-<p>Tekst:<br>
+<p>{intl-text}<br>
 <textarea rows="5" name="Body">{body}</textarea></p>
 
 <input type="hidden" name="Action" value="{action_value}">

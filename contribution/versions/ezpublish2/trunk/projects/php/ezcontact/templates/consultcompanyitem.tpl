@@ -7,7 +7,6 @@
 </td>
 
 <td bgcolor="#dcdcdc">
-
 <a href="index.php4?page={document_root}companyedit.php4&ConsultAction=DeleteConsult&ConsultID={consult_id}&CID={company_id}&Action=edit">slett</a>
 </td>
 

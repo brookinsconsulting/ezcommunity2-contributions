@@ -1,54 +1,69 @@
 <?
-include  "template.inc";
-require "ezphputils.php";
-require "ezcontact/dbsettings.php";
-require $DOCUMENTROOT . "classes/ezsession.php";
-require $DOCUMENTROOT . "classes/ezperson.php";
-require $DOCUMENTROOT . "classes/ezuser.php";
-require $DOCUMENTROOT . "classes/ezusergroup.php";
-require $DOCUMENTROOT . "classes/ezcompanytype.php";
+/*
+  Viser firma typer.
+*/
 
-// sjekke session
-{
-    include( $DOCUMENTROOT . "checksession.php" );
-}
+include_once( "class.INIFile.php" );
+
+$ini = new INIFIle( "site.ini" );
+$Language = $ini->read_var( "eZContactMain", "Language" );
+$DOC_ROOT = $ini->read_var( "eZContactMain", "DocumentRoot" );
+
+include_once( "../classes/eztemplate.php" );
+include_once( "ezphputils.php" );
+
+// require $DOC_ROOT . "classes/ezsession.php";
+// require $DOC_ROOT . "classes/ezuser.php";
+
+include_once( "ezcontact/classes/ezperson.php" );
+include_once( "ezcontact/classes/ezusergroup.php" );
+include_once( "ezcontact/classes/ezcompanytype.php" );
+
+//  // Sjekke session.
+//  {
+//      include( $DOC_ROOT . "checksession.php" );
+//  }
 
 
-// hente ut rettigheter
-{    
-    $session = new eZSession();
+//  // Hente ut rettigheter.
+//  {    
+//      $session = new eZSession();
     
-    if ( !$session->get( $AuthenticatedSession ) )
-    {
-        die( "Du må logge deg på." );    
-    }        
+//      if ( !$session->get( $AuthenticatedSession ) )
+//      {
+//          die( "Du må logge deg på." );    
+//      }        
     
-    $usr = new eZUser();
-    $usr->get( $session->userID() );
+//      $usr = new eZUser();
+//      $usr->get( $session->userID() );
 
-    $usrGroup = new eZUserGroup();
-    $usrGroup->get( $usr->group() );
-}
+//      $usrGroup = new eZUserGroup();
+//      $usrGroup->get( $usr->group() );
+//  }
 
-// vise feilmelding dersom brukeren ikke har rettigheter.
-if ( $usrGroup->companyTypeAdmin() == 'N' )
-{    
-    $t = new Template( "." );
-    $t->set_file( array(
-        "error_page" => $DOCUMENTROOT . "templates/errorpage.tpl"
-        ) );
+//  // vise feilmelding dersom brukeren ikke har rettigheter.
+//  if ( $usrGroup->companyTypeAdmin() == 'N' )
+//  {    
+//      $t = new Template( "." );
+//      $t->set_file( array(
+//          "error_page" => $DOC_ROOT . "templates/errorpage.tpl"
+//          ) );
 
-    $t->set_var( "error_message", "Du har ikke rettiheter til dette." );
-    $t->pparse( "output", "error_page" );
-}
-else
+//      $t->set_var( "error_message", "Du har ikke rettiheter til dette." );
+//      $t->pparse( "output", "error_page" );
+//  }
+// else
 {
-    $t = new Template( "." );
+    // Sette template.
+    $t = new eZTemplate( $DOC_ROOT . "/" . $ini->read_var( "eZContactMain", "TemplateDir" ), $DOC_ROOT . "/intl", $Language, "companytypelist.php" );
+    $t->setAllStrings();
+
     $t->set_file( array(
-        "companytype_page" => $DOCUMENTROOT . "templates/companytypelist.tpl",
-        "companytype_item" => $DOCUMENTROOT . "templates/companytypeitem.tpl"
+        "companytype_page" => "companytypelist.tpl",
+        "companytype_item" => "companytypeitem.tpl"
         ) );    
 
+    // Viser firma typer.
     $companytype = new eZCompanyType();
     $companytype_array = $companytype->getAll();
 
@@ -69,7 +84,7 @@ else
         $t->parse( "companytype_list", "companytype_item", true );
     }               
 
-    $t->set_var( "document_root", $DOCUMENTROOT );
+    $t->set_var( "document_root", $DOC_ROOT );
     $t->pparse( "output", "companytype_page" );
 }
 ?>

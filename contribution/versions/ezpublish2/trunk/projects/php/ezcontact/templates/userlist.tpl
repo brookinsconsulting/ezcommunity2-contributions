@@ -30,9 +30,9 @@
 //-->
 </SCRIPT>
 
-<h1>Registrerte brukere</h1>
+<h1>{intl-registeruser}</h1>
 <table width="100%" cellspacing="0" cellpadding="2" border="0">
 {user_list}
 </table>
 <br>
-<a href="index.php4?page={document_root}useredit.php4">[Ny bruker]</a>
+<a href="index.php4?page={document_root}useredit.php4">{intl-newuser}</a>

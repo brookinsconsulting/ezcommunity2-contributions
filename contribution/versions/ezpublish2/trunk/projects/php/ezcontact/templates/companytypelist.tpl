@@ -30,9 +30,9 @@
 //-->
 </SCRIPT>
 
-<h1>Firmatyper</h1>
+<h1>{intl-headline}</h1>
 <table width="100%" cellspacing="0" cellpadding="2" border="0">
 {companytype_list}
 </table>
 <br>
-<a href="index.php4?page={document_root}companytypeedit.php4&CID={companytype_id}">[Ny firmatype]</a>
+<a href="index.php4?page={document_root}companytypeedit.php4&CID={companytype_id}">{intl-newfirm}</a>

@@ -1,13 +1,13 @@
 <form method="post" action="index.php4?prePage={document_root}persontypeedit.php4">
-<h1>{head_line}</h1>
+<h1>{intl-headline}</h1>
 
 <p>
-Navn:<br>
+{intl-name}<br>
 <input type="text" name="PersonTypeName" value="{persontype_name}">
 </p>
 
 <p>
-Description:<br>
+{intl-desc}<br>
 <textarea rows="5" name="PersonTypeDescription">{description}</textarea>
 </p>
 

@@ -1,18 +1,18 @@
 <form method="post" action="index.php4?prePage={document_root}usergroupedit.php4">
-<h1>{head_line}</h1>
+<h1>{intl-headline}</h1>
 
 <p>
-Brukergruppe navn:<br>
+{intl-usergroup}<br>
 <input type="text" name="Name" value="{user_group_name}">
 </p>
 
 <p>
-Beskrivelse:<br>
+{intl-desc}<br>
 <textarea name="Description" rows="5">{user_group_description}</textarea>
 </p>
 
 <p>
-<b>Rettigheter:</b>
+<b>{intl-premission}</b>
 </p>
 
 <table>
@@ -21,7 +21,7 @@ Beskrivelse:<br>
 			<input type="checkbox" name="PersonDelete" {person_delete_checked}>
 		</td>
 		<td>
-			<p>Sletting av personer.</p>
+			<p>{intl-deleteperson}</p>
 		</td>
 	</tr>
 	<tr>
@@ -29,7 +29,7 @@ Beskrivelse:<br>
 			<input type="checkbox" name="CompanyDelete" {company_delete_checked}>
 		</td>
 		<td>
-			<p>Sletting av firma.</p>
+			<p>{intl-deletefirm}</p>
 		</td>
 	</tr>
 	<tr>
@@ -37,7 +37,7 @@ Beskrivelse:<br>
 			<input type="checkbox" name="UserAdmin" {user_checked}>
 		</td>
 		<td>
-			<p>Brukeradministrasjon.</p>
+			<p>{intl-useradmin}</p>
 		</td>
 	</tr>
 	<tr>
@@ -45,7 +45,7 @@ Beskrivelse:<br>
 			<input type="checkbox" name="UserGroupAdmin" {user_group_checked}>
 		</td>
 		<td>
-			<p>Brukergruppeadministrasjon.</p>
+			<p>{intl-usergroupadmin}</p>
 		</td>
 	</tr>
 	<tr>
@@ -53,7 +53,7 @@ Beskrivelse:<br>
 			<input type="checkbox" name="PersonTypeAdmin" {person_type_checked}>
 		</td>
 		<td>
-			<p>Persontypeadministrasjon.</p>
+			<p>{intl-persontypeadmin}</p>
 		</td>
 	</tr>
 	<tr>
@@ -61,7 +61,7 @@ Beskrivelse:<br>
 			<input type="checkbox" name="CompanyTypeAdmin" {company_type_checked}>
 		</td>
 		<td>
-			<p>Firmatypeadministrasjon.</p>
+			<p>{intl-firmtypeadmin}</p>
 		</td>
 	</tr>
 	<tr>
@@ -69,7 +69,7 @@ Beskrivelse:<br>
 			<input type="checkbox" name="PhoneTypeAdmin" {phone_type_checked}>
 		</td>
 		<td>
-			<p>Kontaktmediumadministrasjon.</p>
+			<p>{intl-contacttypeadmin}</p>
 		</td>
 	</tr>
 	<tr>
@@ -77,7 +77,7 @@ Beskrivelse:<br>
 			<input type="checkbox" name="AddressTypeAdmin" {address_type_checked}>
 		</td>
 		<td>
-			<p>Adressetypeadministrasjon.</p>
+			<p>{intl-addresstypeadmin}</p>
 		</td>
 	</tr>
 </table>

@@ -1,13 +1,25 @@
 <?
-include  "template.inc";
-require "ezphputils.php";
-require "ezcontact/dbsettings.php";
+/*
+  Editere en gruppe.
+*/
 
-require  $DOCUMENTROOT . "classes/ezsession.php";
-require  $DOCUMENTROOT . "classes/ezuser.php";
-require  $DOCUMENTROOT . "classes/ezusergroup.php";
+include_once( "class.INIFile.php" );
 
-// Slette
+$ini = new INIFile( "site.ini" );
+
+$DOC_ROOT = $ini->read_var( "eZContactMain", "DocumentRoot" );
+
+$Language = $ini->read_var( "eZContactMain", "Language" );
+
+include_once( "../classes/eztemplate.php" );
+
+include_once(  "ezphputils.php" ); 
+
+include_once( "ezcontact/classes/ezsession.php" );
+include_once( "ezcontact/classes/ezuser.php" );
+include_once( "ezcontact/classes/ezusergroup.php" ); 
+
+// Slette gruppe.
 if ( $Action == "delete" )
 {
     $group =  new eZUserGroup();
@@ -15,151 +27,152 @@ if ( $Action == "delete" )
     $group->delete( );
     print ( $UGID );
 
-    printRedirect( "../index.php?page=" . $DOCUMENTROOT . "usergrouplist.php" );
+    Header( "Location: index.php?page=" . $DOC_ROOT . "usergrouplist.php" ); 
 }
 
-// Legge til
+// Legge til gruppe.
 if ( $Action == "insert" )
 {
-  $group = new eZUserGroup();
-  $group->setName( $Name );
-  $group->setDescription( $Description );
+    $group = new eZUserGroup();
+    $group->setName( $Name );
+    $group->setDescription( $Description );
 
-  if ( $PersonDelete == "on" )    
-  {
-      $group->setPersonDelete( "Y" );    
-  }
+    if ( $PersonDelete == "on" )    
+    {
+        $group->setPersonDelete( "Y" );    
+    }
   
-  if ( $CompanyDelete == "on" )    
-  {
-      $group->setCompanyDelete( "Y" );    
-  }
+    if ( $CompanyDelete == "on" )    
+    {
+        $group->setCompanyDelete( "Y" );    
+    }
   
-  if ( $UserAdmin == "on" )    
-  {
-    $group->setUserAdmin( "Y" );    
-  }
+    if ( $UserAdmin == "on" )    
+    {
+        $group->setUserAdmin( "Y" );    
+    }
 
-  if ( $UserGroupAdmin == "on" )    
-  {
-    $group->setUserGroupAdmin( "Y" );    
-  }
+    if ( $UserGroupAdmin == "on" )    
+    {
+        $group->setUserGroupAdmin( "Y" );    
+    }
 
-  if ( $PersonTypeAdmin == "on" )    
-  {
-    $group->setPersonTypeAdmin( "Y" );    
-  }
+    if ( $PersonTypeAdmin == "on" )    
+    {
+        $group->setPersonTypeAdmin( "Y" );    
+    }
 
-  if ( $CompanyTypeAdmin == "on" )    
-  {
-    $group->setCompanyTypeAdmin( "Y" );    
-  }
+    if ( $CompanyTypeAdmin == "on" )    
+    {
+        $group->setCompanyTypeAdmin( "Y" );    
+    }
 
-  if ( $PhoneTypeAdmin == "on" )    
-  {
-    $group->setPhoneTypeAdmin( "Y" );    
-  }
+    if ( $PhoneTypeAdmin == "on" )    
+    {
+        $group->setPhoneTypeAdmin( "Y" );    
+    }
 
-  if ( $AddressTypeAdmin == "on" )    
-  {
-    $group->setAddressTypeAdmin( "Y" );    
-  }
+    if ( $AddressTypeAdmin == "on" )    
+    {
+        $group->setAddressTypeAdmin( "Y" );    
+    }
   
-  $group->store();
-  printRedirect( "../index.php?page=" . $DOCUMENTROOT . "usergrouplist.php" );
+    $group->store();
+    Header( "Location: index.php?page=" . $DOC_ROOT . "usergrouplist.php" ); 
 }
 
+// Oppdatere gruppe.
 if ( $Action == "update" )
 {
-  $group = new eZUserGroup();
-  $group->get( $UGID );
+    $group = new eZUserGroup();
+    $group->get( $UGID );
   
-  $group->setName( $Name );
-  $group->setDescription( $Description );
+    $group->setName( $Name );
+    $group->setDescription( $Description );
   
-  if ( $PersonDelete == "on" )    
-  {
-      $group->setPersonDelete( "Y" );    
-  }
-  else
-  {
-      $group->setPersonDelete( "N" );
-  }
+    if ( $PersonDelete == "on" )    
+    {
+        $group->setPersonDelete( "Y" );    
+    }
+    else
+    {
+        $group->setPersonDelete( "N" );
+    }
   
-  if ( $CompanyDelete == "on" )    
-  {
-      $group->setCompanyDelete( "Y" );    
-  }
-  else
-  {
-      $group->setCompanyDelete( "N" );
-  }
+    if ( $CompanyDelete == "on" )    
+    {
+        $group->setCompanyDelete( "Y" );    
+    }
+    else
+    {
+        $group->setCompanyDelete( "N" );
+    }
 
-  if ( $UserAdmin == "on" )    
-  {
-    $group->setUserAdmin( "Y" );    
-  }
-  else
-  {
-    $group->setUserAdmin( "N" );
-  }
+    if ( $UserAdmin == "on" )    
+    {
+        $group->setUserAdmin( "Y" );    
+    }
+    else
+    {
+        $group->setUserAdmin( "N" );
+    }
 
-  if ( $UserGroupAdmin == "on" )    
-  {
-    $group->setUserGroupAdmin( "Y" );    
-  }
-  else
-  {
-    $group->setUserGroupAdmin( "N" );
-  }
+    if ( $UserGroupAdmin == "on" )    
+    {
+        $group->setUserGroupAdmin( "Y" );    
+    }
+    else
+    {
+        $group->setUserGroupAdmin( "N" );
+    }
 
-  if ( $PersonTypeAdmin == "on" )    
-  {
-    $group->setPersonTypeAdmin( "Y" );    
-  }
-  else
-  {
-    $group->setPersonTypeAdmin( "N" );
-  }
+    if ( $PersonTypeAdmin == "on" )    
+    {
+        $group->setPersonTypeAdmin( "Y" );    
+    }
+    else
+    {
+        $group->setPersonTypeAdmin( "N" );
+    }
 
-  if ( $CompanyTypeAdmin == "on" )    
-  {
-    $group->setCompanyTypeAdmin( "Y" );    
-  }
-  else
-  {
-    $group->setCompanyTypeAdmin( "N" );
-  }
+    if ( $CompanyTypeAdmin == "on" )    
+    {
+        $group->setCompanyTypeAdmin( "Y" );    
+    }
+    else
+    {
+        $group->setCompanyTypeAdmin( "N" );
+    }
 
-  if ( $PhoneTypeAdmin == "on" )    
-  {
-    $group->setPhoneTypeAdmin( "Y" );    
-  }
-  else
-  {
-    $group->setPhoneTypeAdmin( "N" );
-  }
+    if ( $PhoneTypeAdmin == "on" )    
+    {
+        $group->setPhoneTypeAdmin( "Y" );    
+    }
+    else
+    {
+        $group->setPhoneTypeAdmin( "N" );
+    }
 
-  if ( $AddressTypeAdmin == "on" )    
-  {
-    $group->setAddressTypeAdmin( "Y" );    
-  }
-  else
-  {
-    $group->setAddressTypeAdmin( "N" );
-  }
+    if ( $AddressTypeAdmin == "on" )    
+    {
+        $group->setAddressTypeAdmin( "Y" );    
+    }
+    else
+    {
+        $group->setAddressTypeAdmin( "N" );
+    }
   
-  $group->update();
-  printRedirect( "../index.php?page=" . $DOCUMENTROOT . "usergrouplist.php" );
+    $group->update();
+    Header( "Location: index.php?page=" . $DOC_ROOT . "usergrouplist.php" ); 
 }
 
-// sjekke session
+// Sjekke session.
 {
-  include(  $DOCUMENTROOT . "checksession.php" );
+    include(  $DOC_ROOT . "checksession.php" );
 }
 
 
-// hente ut rettigheter
+// Hente ut rettigheter.
 {    
     $session = new eZSession();
     
@@ -175,12 +188,12 @@ if ( $Action == "update" )
     $usrGroup->get( $usr->group() );
 }
 
-// vise feilmelding dersom brukeren ikke har rettigheter.
+// Vise feilmelding dersom brukeren ikke har rettigheter.
 if ( $usrGroup->userGroupAdmin() == 'N' )
 {    
     $t = new Template( "." );
     $t->set_file( array(
-        "error_page" => $DOCUMENTROOT . "templates/errorpage.tpl"
+        "error_page" => $DOC_ROOT . "templates/errorpage.tpl"
         ) );
 
     $t->set_var( "error_message", "Du har ikke rettiheter til dette." );
@@ -188,14 +201,20 @@ if ( $usrGroup->userGroupAdmin() == 'N' )
 }
 else
 {
-    $t = new Template( "." );
-    $t->set_file( array( "user_page" =>  $DOCUMENTROOT . "templates/usergroupedit.tpl" ) );   
+    // Sette template.
+    $t = new eZTemplate( $DOC_ROOT . "/" . $ini->read_var ( "eZContactMain", "TemplateDir" ), $DOC_ROOT . "/intl", $Language, "usergroupedit.php" );
+    $t->setAllStrings();
+
+    $t->set_file( array(
+        "user_page" =>  "usergroupedit.tpl"
+        ) );   
 
     $t->set_var( "submit_text", "Legg til" );
     $t->set_var( "action_value", "insert" );
     $t->set_var( "user_group_id", "" );
     $t->set_var( "head_line", "Legg til ny brukergruppe" );
 
+    // Editere gruppe.
     if ( $Action == "edit" )
     {
         $group = new eZUserGroup();
@@ -247,9 +266,10 @@ else
         $t->set_var( "submit_text", "Lagre endringer" );  
         $t->set_var( "action_value", "update" );
         $t->set_var( "user_group_id", $UGID  );  
-	$t->set_var( "head_line", "Rediger brukergruppe" );
+        $t->set_var( "head_line", "Rediger brukergruppe" );
     }
-
+    
+    // Sette template variabler.
     $t->set_var( "user_group_name", $Name );
     $t->set_var( "user_group_description", $Description );
 
@@ -263,7 +283,7 @@ else
     $t->set_var( "phone_type_checked", $PhoneTypeAdmin );
     $t->set_var( "address_type_checked", $AddressTypeAdmin );
 
-    $t->set_var( "document_root", $DOCUMENTROOT );
+    $t->set_var( "document_root", $DOC_ROOT );
     $t->pparse( "output", "user_page" );
 }
 ?>

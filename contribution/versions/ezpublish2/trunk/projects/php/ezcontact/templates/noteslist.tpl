@@ -64,10 +64,10 @@
 </script>
 
 
-<h1>Notater for: {user} </h1>
+<h1>{intl-headline} {user} </h1>
 
 <table width="100%" cellspacing="0" cellpadding="2" border="0">
 {notes}
 </table>
 <br>
-<a href="index.php4?page={document_root}noteedit.php4">[nytt notat]</a>
+<a href="index.php4?page={document_root}noteedit.php4">{intl-newnote}</a>

@@ -1,19 +1,31 @@
 <?
 
-include  "template.inc";
-require "ezphputils.php";
-require "ezcontact/dbsettings.php";
+/*
+  Viser bruker grupper.
+*/
+  
 
-require $DOCUMENTROOT . "classes/ezsession.php";
-require $DOCUMENTROOT . "classes/ezuser.php";
-require $DOCUMENTROOT . "classes/ezusergroup.php";
+include_once( "class.INIFile.php" );
 
-// sjekke session
+$ini = new INIFile( "site.ini" );
+
+$DOC_ROOT = $ini->read_var( "eZContactMain", "DocumentRoot" );
+
+$Language = $ini->read_var( "eZContactMain", "Language" );
+
+include_once( "../classes/eztemplate.php" );
+include_once(  "ezphputils.php" );
+
+include_once( "ezcontact/classes/ezuser.php" );
+include_once( "ezcontact/classes/ezsession.php" );
+include_once( "ezcontact/classes/ezusergroup.php" );
+
+// Sjekke session.
 {
-  include(  $DOCUMENTROOT . "checksession.php" );
+  include(  $DOC_ROOT . "checksession.php" );
 }
 
-// hente ut rettigheter
+// Hente ut rettigheter.
 {    
     $session = new eZSession();
     
@@ -29,12 +41,12 @@ require $DOCUMENTROOT . "classes/ezusergroup.php";
     $usrGroup->get( $usr->group() );
 }
 
-// vise feilmelding dersom brukeren ikke har rettigheter.
+// Vise feilmelding dersom brukeren ikke har rettigheter.
 if ( $usrGroup->userGroupAdmin() == 'N' )
 {    
     $t = new Template( "." );
     $t->set_file( array(
-        "error_page" => $DOCUMENTROOT . "templates/errorpage.tpl"
+        "error_page" => $DOC_ROOT . "templates/errorpage.tpl"
         ) );
 
     $t->set_var( "error_message", "Du har ikke rettiheter til dette." );
@@ -42,12 +54,16 @@ if ( $usrGroup->userGroupAdmin() == 'N' )
 }
 else
 {
-    $menuTemplate = new Template( "." );
-    $menuTemplate->set_file( array(
-        "user_page" => $DOCUMENTROOT . "templates/usergrouplist.tpl",
-        "user_group_item" => $DOCUMENTROOT . "templates/usergroupitem.tpl"
+    // Setter template.
+    $t = new eZTemplate( $DOC_ROOT . "/" . $ini->read_var ( "eZContactMain", "TemplateDir" ), $DOC_ROOT . "/intl", $Language, "usergrouplist.php" );
+    $t->setAllStrings();
+
+    $t->set_file( array(
+        "user_page" => "usergrouplist.tpl",
+        "user_group_item" => "usergroupitem.tpl"
         ) );    
 
+    // Viser liste over alle grupper.
     $group = new eZUserGroup();
     $user_group_array = $group->getAll();
 
@@ -55,20 +71,20 @@ else
     {
         if ( ( $i % 2 ) == 0 )
         {
-            $menuTemplate->set_var( "bg_color", "#eeeeee" );
+            $t->set_var( "bg_color", "#eeeeee" );
         }
         else
         {
-            $menuTemplate->set_var( "bg_color", "#dddddd" );
+            $t->set_var( "bg_color", "#dddddd" );
         }  
   
-        $menuTemplate->set_var( "user_group_id", $user_group_array[$i][ "ID" ] );
-        $menuTemplate->set_var( "user_group_name", $user_group_array[$i][ "Name" ] );
-        $menuTemplate->set_var( "user_group_description", $user_group_array[$i][ "Description" ] );
-        $menuTemplate->parse( "user_group_list", "user_group_item", true );
+        $t->set_var( "user_group_id", $user_group_array[$i][ "ID" ] );
+        $t->set_var( "user_group_name", $user_group_array[$i][ "Name" ] );
+        $t->set_var( "user_group_description", $user_group_array[$i][ "Description" ] );
+        $t->parse( "user_group_list", "user_group_item", true );
     } 
 
-    $menuTemplate->set_var( "document_root", $DOCUMENTROOT );
-    $menuTemplate->pparse( "output", "user_page" );
+    $t->set_var( "document_root", $DOC_ROOT );
+    $t->pparse( "output", "user_page" );
 }
 ?>

@@ -1,22 +1,31 @@
 <?
-include  "template.inc";
-require "ezphputils.php";
-require "ezcontact/dbsettings.php";
+/*
+  Editerer en person.
+*/
 
-require $DOCUMENTROOT . "classes/ezperson.php";
-require $DOCUMENTROOT . "classes/ezpersontype.php";
-require $DOCUMENTROOT . "classes/ezcompany.php";
-require $DOCUMENTROOT . "classes/ezaddress.php";
-require $DOCUMENTROOT . "classes/ezaddresstype.php";
-require $DOCUMENTROOT . "classes/ezsession.php";
-require $DOCUMENTROOT . "classes/ezuser.php";
-require $DOCUMENTROOT . "classes/ezphone.php";
-require $DOCUMENTROOT . "classes/ezphonetype.php";
-require $DOCUMENTROOT . "classes/ezpersonphonedict.php";
-require $DOCUMENTROOT . "classes/ezpersonaddressdict.php";
-require $DOCUMENTROOT . "classes/ezpersonconsultdict.php";
-require $DOCUMENTROOT . "classes/ezconsult.php";
-require $DOCUMENTROOT . "classes/ezcompanyconsultdict.php";
+include_once( "class.INIFile.php" );
+
+$ini = new INIFIle( "site.ini" );
+$Language = $ini->read_var( "eZContactMain", "Language" );
+$DOC_ROOT = $ini->read_var( "eZContactMain", "DocumentRoot" );
+
+include_once( "../classes/eztemplate.php" );
+include_once( "ezphputils.php" );
+
+include_once( "ezcontact/classes/ezperson.php" );
+include_once( "ezcontact/classes/ezpersontype.php" );
+include_once( "ezcontact/classes/ezcompany.php" );
+include_once( "ezcontact/classes/ezaddress.php" );
+include_once( "ezcontact/classes/ezaddresstype.php" );
+include_once( "ezcontact/classes/ezsession.php" );
+include_once( "ezcontact/classes/ezuser.php" );
+include_once( "ezcontact/classes/ezphone.php" );
+include_once( "ezcontact/classes/ezphonetype.php" );
+include_once( "ezcontact/classes/ezpersonphonedict.php" );
+include_once( "ezcontact/classes/ezpersonaddressdict.php" );
+include_once( "ezcontact/classes/ezpersonconsultdict.php" );
+include_once( "ezcontact/classes/ezconsult.php" );
+include_once( "ezcontact/classes/ezcompanyconsultdict.php" );
 
 
 // Oppdatere informasjon.
@@ -41,7 +50,7 @@ if ( $Action == "delete" )
     $deletePerson->get ( $PID );
     $deletePerson->delete();
 
-    printRedirect( "../index.php?page=" . $DOCUMENTROOT . "contactlist.php" );
+    Header( "Location: index.php?page=" . $DOC_ROOT . "contactlist.php" ); 
 }
 
 // Legge til kontakt person.
@@ -81,7 +90,7 @@ if ( $Action == "insert" )
 //    $link->store();
 }
 
-// Legge til telefon
+// Legge til telefon.
 if ( $PhoneAction == "AddPhone" )
 {
     $phone = new eZPhone();
@@ -97,7 +106,7 @@ if ( $PhoneAction == "AddPhone" )
     $PhoneNumber = "";    
 }
 
-// Oppdatere telefon
+// Oppdatere telefon.
 if ( $PhoneAction == "UpdatePhone" )
 {
     $phone = new eZPhone();
@@ -109,7 +118,7 @@ if ( $PhoneAction == "UpdatePhone" )
 
 }
 
-// Slette telefon
+// Slette telefon.
 if ( $PhoneAction == "DeletePhone" )
 {
     $phone = new eZPhone();
@@ -122,10 +131,9 @@ if ( $PhoneAction == "DeletePhone" )
     $dict->delete();
 }
 
-// Oppdatere konsultasjon
+// Oppdatere konsultasjon.
 if ( $ConsultAction == "UpdateConsult" )
 {
-
     $consult = new eZConsult();
     $consult->get( $ConsultID );
     $consult->setTitle( $ConsultTitle );
@@ -133,7 +141,7 @@ if ( $ConsultAction == "UpdateConsult" )
     $consult->update();
 }
 
-// Legge til konsultasjon
+// Legge til konsultasjon.
 if ( $ConsultAction == "AddConsult" )
 {
 
@@ -161,7 +169,7 @@ if ( $ConsultAction == "AddConsult" )
     $Body = "";
 }
 
-// Slette konsultasjon
+// Slette konsultasjon.
 if ( $ConsultAction == "DeleteConsult" )
 {
     $consult = new eZConsult();
@@ -176,7 +184,7 @@ if ( $ConsultAction == "DeleteConsult" )
     Header( "Location: index.php?page=ezcontact/personedit.php&Action=edit&PID=" . $PID );
 }
 
-// legge til adresse
+// Legge til adresse.
 if ( $AddressAction == "AddAddress" )
 {
     $address = new eZAddress( );
@@ -196,7 +204,7 @@ if ( $AddressAction == "AddAddress" )
     $Zip = "";    
 }
 
-// legge til adresse
+// Oppgradere  adresse.
 if ( $AddressAction == "UpdateAddress" )
 {
     $address = new eZAddress( );
@@ -212,7 +220,7 @@ if ( $AddressAction == "UpdateAddress" )
     $Zip = "";    
 }
 
-// slette adresse
+// Slette adresse.
 if ( $AddressAction == "DeleteAddress" )
 {
     $address = new eZAddress( );
@@ -223,25 +231,27 @@ if ( $AddressAction == "DeleteAddress" )
     
     $address->delete();
     $dict->delete();
-    
 }
 
 
-// sjekke session
+// Sjekke session.
 {
-  include( $DOCUMENTROOT . "checksession.php" );
+  include( $DOC_ROOT . "checksession.php" );
 }
 
-$t = new Template( "." );
+// Sette template.
+$t = new eZTemplate( $DOC_ROOT . "/" . $ini->read_var( "eZContactMain", "TemplateDir" ), $DOC_ROOT . "/intl", $Language, "personedit.php" );
+$t->setAllStrings();
+
 $t->set_file( array(                    
-                    "person_edit" => $DOCUMENTROOT . "templates/personedit.tpl",
-                    "person_type_select" => $DOCUMENTROOT . "templates/persontypeselect.tpl",
-                    "company_select" => $DOCUMENTROOT . "templates/companyselect.tpl",
-                    "address_type_select" => $DOCUMENTROOT . "templates/addresstypeselect.tpl",
-                    "phone_type_select" => $DOCUMENTROOT . "templates/phonetypeselect.tpl",
-                    "phone_item" => $DOCUMENTROOT . "templates/phoneitem.tpl",
-                    "address_item" => $DOCUMENTROOT . "templates/addressitem.tpl",
-                    "consult_item" => $DOCUMENTROOT . "templates/consultitem.tpl"
+                    "person_edit" => "personedit.tpl",
+                    "person_type_select" => "persontypeselect.tpl",
+                    "company_select" => "companyselect.tpl",
+                    "address_type_select" => "addresstypeselect.tpl",
+                    "phone_type_select" => "phonetypeselect.tpl",
+                    "phone_item" => "phoneitem.tpl",
+                    "address_item" => "addressitem.tpl",
+                    "consult_item" => "consultitem.tpl"
                     ) );
 
 
@@ -268,7 +278,7 @@ $t->set_var( "address_action_type", "hidden" );
 $t->set_var( "address_list", "" );
 
 
-// address type selector
+// Address type selector.
 for ( $i=0; $i<count( $address_type_array ); $i++ )
 {
   $t->set_var( "address_type_id", $address_type_array[$i][ "ID" ] );
@@ -289,7 +299,7 @@ for ( $i=0; $i<count( $address_type_array ); $i++ )
 }
 
 $phone_select_dict = "";
-// telefon type selector
+// Telefon type selector.
 for ( $i=0; $i<count( $phone_type_array ); $i++ )
 {
     $t->set_var( "phone_type_id", $phone_type_array[$i][ "ID" ] );
@@ -309,7 +319,7 @@ for ( $i=0; $i<count( $phone_type_array ); $i++ )
     $t->parse( "phone_type", "phone_type_select", true );
 }
 
-// Editere kontakt person
+// Editere kontakt person.
 if ( $Action == "edit" )
 {
     $editPerson = new eZPerson();
@@ -327,7 +337,7 @@ if ( $Action == "edit" )
     $action_value = "update";
     $person_id = $PID;
 
-    // telefonliste
+    // Telefonliste.
     $phone = new eZPhone();
     $phone_dict = new eZPersonPhoneDict();
     $phone_dict_array = $phone_dict->getByPerson( $PID );
@@ -349,7 +359,7 @@ if ( $Action == "edit" )
     }
 
 
-    // adresseliste
+    // Adresseliste.
     $address = new eZAddress();
     $address_dict = new eZPersonAddressDict();
     $address_dict_array = $address_dict->getByPerson( $PID );
@@ -374,7 +384,7 @@ if ( $Action == "edit" )
         $t->parse( "address_list", "address_item", true );                
     }
 
-    // konsultasjonliste
+    // Konsultasjonliste.
     $consult = new eZConsult();
     $consult_dict = new eZPersonConsultDict();
     $consult_dict_array = $consult_dict->getByPerson( $PID );
@@ -412,7 +422,7 @@ if ( $Action == "edit" )
 }
 
 
-// person type selector
+// Person type selector.
 for ( $i=0; $i<count( $person_type_array ); $i++ )
 {
   $t->set_var( "person_type_id", $person_type_array[$i][ "ID" ] );
@@ -430,7 +440,7 @@ for ( $i=0; $i<count( $person_type_array ); $i++ )
   $t->parse( "person_type", "person_type_select", true );
 }
 
-// company type selector
+// Company type selector.
 for ( $i=0; $i<count( $company_array ); $i++ )
 {
   $t->set_var( "company_type_id", $company_array[$i][ "ID" ] );
@@ -448,18 +458,11 @@ for ( $i=0; $i<count( $company_array ); $i++ )
   $t->parse( "company_type", "company_select", true );
 }
 
+// Setter tempalte variabler.
 $t->set_var( "first_name", $FirstName );
 $t->set_var( "last_name", $LastName );
 
 $t->set_var( "comment", $Comment );
-
-//  $t->set_var( "street_1", $Street1 );
-//  $t->set_var( "street_2", $Street2 );
-//  $t->set_var( "zip_code", $Zip );
-
-//  $t->set_var( "consult_title", $Title );
-//  $t->set_var( "consult_body", $Body );
-
 
 $t->set_var( "street_1", "" );
 $t->set_var( "street_2", "" );
@@ -476,7 +479,7 @@ $t->set_var( "submit_text", $submit_text );
 $t->set_var( "action_value", $action_value );
 $t->set_var( "message", $message );
 
-$t->set_var( "document_root", $DOCUMENTROOT );
+$t->set_var( "document_root", $DOC_ROOT );
 $t->set_var( "person_id", $PID );
 
 $t->pparse( "output", "person_edit"  );

@@ -30,7 +30,7 @@
 //-->
 </SCRIPT> 
 
-<h1>eZ contact</h1>
+<h1>{intl-headline}</h1>
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
 {company_list}
 </table>

@@ -1,25 +1,38 @@
 <?
-include "template.inc";
-require "ezphputils.php";
+/*
+  Redigerer en person
+*/
 
-require "classes/ezperson.php";
-require "classes/ezpersontype.php";
-require "classes/ezsession.php";
-require "classes/ezuser.php";
-require "classes/ezcompany.php";
-require "classes/ezaddress.php";
-require "classes/ezaddresstype.php";
-require "classes/ezphone.php";
-require "classes/ezphonetype.php";
-require "classes/ezzip.php";
-require "classes/ezpersonaddressdict.php";
-require "classes/ezpersonphonedict.php";
+include_once( "class.INIFile.php" );
 
-$t = new Template( ".");  
+$ini = new INIFIle( "site.ini" );
+$Language = $ini->read_var( "eZContactMain", "Language" );
+$DOC_ROOT = $ini->read_var( "eZContactMain", "DocumentRoot" );
+
+include_once( "../classes/eztemplate.php" );
+include_once( "ezphputils.php" );
+
+include_once( "ezcontact/classes/ezperson.php" );
+include_once( "ezcontact/classes/ezpersontype.php" );
+include_once( "ezcontact/classes/ezsession.php" );
+include_once( "ezcontact/classes/ezuser.php" );
+include_once( "ezcontact/classes/ezcompany.php" );
+include_once( "ezcontact/classes/ezaddress.php" );
+include_once( "ezcontact/classes/ezaddresstype.php" );
+include_once( "ezcontact/classes/ezphone.php" );
+include_once( "ezcontact/classes/ezphonetype.php" );
+include_once( "ezcontact/classes/ezzip.php" );
+include_once( "ezcontact/classes/ezpersonaddressdict.php" );
+include_once( "ezcontact/classes/ezpersonphonedict.php" );
+
+// Setter template.
+$t = new eZTemplate( $DOC_ROOT . "/" . $ini->read_var( "eZContactMain", "TemplateDir" ), $DOC_ROOT . "/intl", $Language, "personedit.php" );
+$t->setAllStrings();
+
 $t->set_file( array(
-    "address_info" =>  "templates/addressinfo.tpl",
-    "phone_info" =>  "templates/phoneinfo.tpl",
-    "person_info" =>  "templates/personinfo.tpl" ) );
+    "address_info" =>  "addressinfo.tpl",
+    "phone_info" =>  "phoneinfo.tpl",
+    "person_info" =>  "personinfo.tpl" ) );
 
 $person = new eZPerson();
 $person->get( $PID );
@@ -82,5 +95,4 @@ for ( $i=0; $i<count( $dict_array ); $i++ )
 }
 
 $t->pparse( "output", "person_info" );
-
 ?>

@@ -1,15 +1,18 @@
 <?
-include "template.inc";
+include_once( "class.INIFile.php" );
 
-require "ezcontact/dbsettings.php";
-require "ezphputils.php";
+$ini = new INIFIle( "site.ini" );
 
-require $DOCUMENTROOT . "classes/ezsession.php";
-require $DOCUMENTROOT . "classes/ezaddresstype.php";
-require $DOCUMENTROOT . "classes/ezuser.php";
-require $DOCUMENTROOT . "classes/ezusergroup.php";
+$Language = $ini->read_var( "eZContactMain", "Language" );
 
-// sjekke login.......
+$DOC_ROOT = $ini->read_var( "eZContactMain", "DocumentRoot" );
+
+include_once( "../classes/eztemplate.php" );
+include_once( "ezphputils.php" );
+//  require $DOC_ROOT . "classes/ezsession.php";
+//  require $DOC_ROOT . "classes/ezuser.php";
+include_once( "ezcontact/classes/ezusergroup.php" );
+include_once( "ezcontact/classes/ezaddresstype.php" );
 
 // Legge til
 if ( $Action == "insert" )
@@ -18,19 +21,18 @@ if ( $Action == "insert" )
     $type->setName( $AddressTypeName );
     $type->store();    
 
-    printRedirect( "../index.php?page=" . $DOCUMENTROOT . "addresstypelist.php" );
+    Header( "Location: index.php?page=" . $DOC_ROOT . "addresstypelist.php" );
 }
 
 // Oppdatere
 if ( $Action == "update" )
 {
-  $type = new eZAddressType();
-  $type->get( $AID );
-  $type->setName( $AddressTypeName );
-  $type->update();
+    $type = new eZAddressType();
+    $type->get( $AID );
+    $type->setName( $AddressTypeName );
+    $type->update();
 
-  print( "hva?" );
-  printRedirect( "../index.php?page=" . $DOCUMENTROOT . "addresstypelist.php" );
+    Header( "Location: index.php?page=" . $DOC_ROOT . "addresstypelist.php" );
 }
 
 // Slette
@@ -39,47 +41,50 @@ if ( $Action == "delete" )
     $type = new eZAddressType();
     $type->get( $AID );
     $type->delete( );
-    printRedirect( "../index.php?page=" . $DOCUMENTROOT . "addresstypelist.php " );
+
+    Header( "Location: index.php?page=" . $DOC_ROOT . "addresstypelist.php" ); 
 }
 
-// sjekke session
-{
-    include( $DOCUMENTROOT . "checksession.php" );
-}
+//  // sjekke session
+//  {
+//      include( $DOC_ROOT . "checksession.php" );
+//  }
 
 
-// hente ut rettigheter
-{    
-    $session = new eZSession();
+//  // hente ut rettigheter
+//  {    
+//      $session = new eZSession();
     
-    if ( !$session->get( $AuthenticatedSession ) )
-    {
-        die( "Du må logge deg på." );    
-    }        
+//      if ( !$session->get( $AuthenticatedSession ) )
+//      {
+//          die( "Du må logge deg på." );    
+//      }        
     
-    $usr = new eZUser();
-    $usr->get( $session->userID() );
+//      $usr = new eZUser();
+//      $usr->get( $session->userID() );
 
-    $usrGroup = new eZUserGroup();
-    $usrGroup->get( $usr->group() );
-}
+//      $usrGroup = new eZUserGroup();
+//      $usrGroup->get( $usr->group() );
+//  }
 
-// vise feilmelding dersom brukeren ikke har rettigheter.
-if ( $usrGroup->addressTypeAdmin() == 'N' )
-{    
-    $t = new Template( "." );
-    $t->set_file( array(
-        "error_page" => $DOCUMENTROOT . "templates/errorpage.tpl"
-        ) );
+//  // vise feilmelding dersom brukeren ikke har rettigheter.
+//  if ( $usrGroup->addressTypeAdmin() == 'N' )
+//  {    
+//      $t = new Template( "." );
+//      $t->set_file( array(
+//          "error_page" => $DOC_ROOT . "templates/errorpage.tpl"
+//          ) );
 
-    $t->set_var( "error_message", "Du har ikke rettiheter til dette." );
-    $t->pparse( "output", "error_page" );
-}
-else
+//      $t->set_var( "error_message", "Du har ikke rettiheter til dette." );
+//      $t->pparse( "output", "error_page" );
+//  }
+//  else
 {
-    $t = new Template( "." );
+    $t = new eZTemplate( $DOC_ROOT . "/" . $ini->read_var( "eZContactMain", "TemplateDir" ), $DOC_ROOT . "/intl", $Language, "addresstypeedit.php" );
+    $t->setAllStrings();
+
     $t->set_file( array(
-        "address_type_edit_page" =>  $DOCUMENTROOT . "templates/addresstypeedit.tpl"
+        "address_type_edit_page" =>  "addresstypeedit.tpl"
         ) );    
 
     $t->set_var( "submit_text", "Legg til" );
@@ -100,12 +105,10 @@ else
         $t->set_var( "head_line", "Rediger addressetype");
 
         $AddressTypeName = $type->name();
-
-//    printRedirect( "../index.php?page=" . $DOCUMENTROOT . "addresstypelist.php" );
     }
 
 // Sette template variabler
-    $t->set_var( "document_root", $DOCUMENTROOT );
+    $t->set_var( "document_root", $DOC_ROOT );
     $t->set_var( "address_type_name", $AddressTypeName );
 
     $t->pparse( "output", "address_type_edit_page" );

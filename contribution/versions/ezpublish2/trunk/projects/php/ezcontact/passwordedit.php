@@ -1,34 +1,41 @@
 <?
-include  "template.inc";
-require "ezphputils.php";
-require "ezcontact/dbsettings.php";
-require $DOCUMENTROOT . "classes/ezsession.php";
- require $DOCUMENTROOT . "classes/ezuser.php";
-require $DOCUMENTROOT . "classes/ezusergroup.php";
+/*
+  Editere passord.
+*/
+
+include_once( "class.INIFile.php" );
+
+$ini = new INIFile( "site.ini" );
+$DOC_ROOT = $ini->read_var( "eZContactMain", "DocumentRoot" );
+$Language = $ini->read_var( "eZContactMain", "Language" );
+
+include_once( "../classes/eztemplate.php" );
+include_once(  "ezphputils.php" ); 
+
+include_once( "ezcontact/classes/ezsession.php" );
+include_once( "ezcontact/classes/ezuser.php" );
+include_once( "ezcontact/classes/ezusergroup.php" ); 
 
 
-// Oppdater
+// Oppdater passord.
 if ( $Action == "update" )
 {
   $user = new eZUser();
   $user->get( $UID );
-//  $user->setLogin( $Login );
 
   if (( $Pwd == $PwdVer ) && $Pwd != "" )
   {
       $user->setPassword( $Pwd );
   }
   $user->update();
-
-//   printRedirect( "../index.php?page=" . $DOCUMENTROOT . "userlist.php" );
 }
 
-// sjekke session
+// Sjekke session.
 {
-    include( $DOCUMENTROOT . "checksession.php" );
+    include( $DOC_ROOT . "checksession.php" );
 }
 
-// hente ut gjeldende bruker
+// Hente ut gjeldende bruker.
 {    
     $session = new eZSession();
     
@@ -41,21 +48,23 @@ if ( $Action == "update" )
     $usr->get( $session->userID() );
 
     $UID = $usr->id();
-
 }
 
 
 {
-    $t = new Template( "." );
+    // Sette template.
+    $t = new eZTemplate( $DOC_ROOT . "/" . $ini->read_var ( "eZContactMain", "TemplateDir" ), $DOC_ROOT . "/intl", $Language, "passwordedit.php" );
+    $t->setAllStrings();
+
     $t->set_file( array(
-        "user_edit_page" => $DOCUMENTROOT . "templates/passwordedit.tpl"
+        "user_edit_page" => "passwordedit.tpl"
          ) );    
 
     $t->set_var( "submit_text", "endre" );
     $t->set_var( "user_id", "" );
     $Action = "edit";
 
-// Editer
+// Editer passord.
     if ( $Action == "edit" )
     {
         $user = new eZUser();
@@ -72,10 +81,8 @@ if ( $Action == "update" )
     $group = new eZUserGroup();
     $group_array = $group->getAll();
 
-
     $t->set_var( "user_login", $Login );
-    $t->set_var( "document_root", $DOCUMENTROOT );
-
+    $t->set_var( "document_root", $DOC_ROOT );
 
     $t->pparse( "output", "user_edit_page" );
 }

@@ -1,12 +1,22 @@
 <?
 
-include  "template.inc";
-require "ezcontact/dbsettings.php";
-require "ezphputils.php";
-require $DOCUMENTROOT . "classes/ezsession.php";
-require $DOCUMENTROOT . "classes/ezuser.php";
-require $DOCUMENTROOT . "classes/ezusergroup.php";
-require $DOCUMENTROOT . "classes/ezpersontype.php";
+include_once( "class.INIFile.php" );
+
+$ini = new INIFIle( "site.ini" );
+
+$Language = $ini->read_var( "eZContactMain", "Language" );
+
+$DOC_ROOT = $ini->read_var( "eZContactMain", "DocumentRoot" );
+
+include_once( "../classes/eztemplate.php" );
+include_once( "ezphputils.php" );
+
+// require $DOC_ROOT . "classes/ezsession.php";
+// require $DOC_ROOT . "classes/ezuser.php";
+
+include_once( "ezcontact/classes/ezperson.php" );
+include_once( "ezcontact/classes/ezusergroup.php" );
+include_once( "ezcontact/classes/ezpersontype.php" );
 
 // Legge til
 if ( $Action == "insert" )
@@ -15,8 +25,8 @@ if ( $Action == "insert" )
   $type->setName( $PersonTypeName );
   $type->setDescription( $PersonTypeDescription );
   $type->store();
-  
-  printRedirect( "../index.php?page=" . $DOCUMENTROOT . "persontypelist.php " );
+
+  Header( "Location: index.php?page=" . $DOC_ROOT . "persontypelist.php" ); 
 }
 
 // Oppdatere
@@ -30,7 +40,7 @@ if ( $Action == "update" )
   $type->setDescription( $PersonTypeDescription );
   $type->update();
 
-  printRedirect( "../index.php?page=" . $DOCUMENTROOT . "persontypelist.php " );
+  Header( "Location: index.php?page=" . $DOC_ROOT . "persontypelist.php" ); 
 }
 
 // Slette
@@ -39,46 +49,48 @@ if ( $Action == "delete" )
     $type = new eZPersonType();
     $type->get( $PID );
     $type->delete( );
-    printRedirect( "../index.php?page=" . $DOCUMENTROOT . "persontypelist.php " );
+  Header( "Location: index.php?page=" . $DOC_ROOT . "persontypelist.php" ); 
 }
 
-// sjekke session
-{
-  include( $DOCUMENTROOT . "checksession.php" );
-}
+//  // sjekke session
+//  {
+//    include( $DOC_ROOT . "checksession.php" );
+//  }
 
-// hente ut rettigheter
-{    
-    $session = new eZSession();
+//  // hente ut rettigheter
+//  {    
+//      $session = new eZSession();
     
-    if ( !$session->get( $AuthenticatedSession ) )
-    {
-        die( "Du må logge deg på." );    
-    }        
+//      if ( !$session->get( $AuthenticatedSession ) )
+//      {
+//          die( "Du må logge deg på." );    
+//      }        
     
-    $usr = new eZUser();
-    $usr->get( $session->userID() );
+//      $usr = new eZUser();
+//      $usr->get( $session->userID() );
 
-    $usrGroup = new eZUserGroup();
-    $usrGroup->get( $usr->group() );
-}
+//      $usrGroup = new eZUserGroup();
+//      $usrGroup->get( $usr->group() );
+//  }
 
-// vise feilmelding dersom brukeren ikke har rettigheter.
-if ( $usrGroup->personTypeAdmin() == 'N' )
-{    
-    $t = new Template( "." );
-    $t->set_file( array(
-        "error_page" => $DOCUMENTROOT . "templates/errorpage.tpl"
-        ) );
+//  // vise feilmelding dersom brukeren ikke har rettigheter.
+//  if ( $usrGroup->personTypeAdmin() == 'N' )
+//  {    
+//      $t = new Template( "." );
+//      $t->set_file( array(
+//          "error_page" => $DOC_ROOT . "templates/errorpage.tpl"
+//          ) );
 
-    $t->set_var( "error_message", "Du har ikke rettiheter til dette." );
-    $t->pparse( "output", "error_page" );
-}
-else
+//      $t->set_var( "error_message", "Du har ikke rettiheter til dette." );
+//      $t->pparse( "output", "error_page" );
+//  }
+//  else
 {
-    $t = new Template( "." );
+    $t = new eZTemplate( $DOC_ROOT . "/" . $ini->read_var( "eZContactMain", "TemplateDir" ), $DOC_ROOT . "/intl", $Language, "persontypeedit.php" );
+    $t->setAllStrings();
+
     $t->set_file( array(
-        "persontype_edit_page" => $DOCUMENTROOT . "templates/persontypeedit.tpl"
+        "persontype_edit_page" => "persontypeedit.tpl"
         ) );    
 
     $t->set_var( "submit_text", "Legg til" );
@@ -103,7 +115,7 @@ else
     }
 
 // Sette tempalte variabler
-    $t->set_var( "document_root", $DOCUMENTROOT );
+    $t->set_var( "document_root", $DOC_ROOT );
     $t->set_var( "persontype_name", $PersonTypeName );
     $t->set_var( "description", $PersonTypeDescription );
 

@@ -1,12 +1,22 @@
 <?
+/*
+  Redigerer en notat for bruker
+*/
 
-include  "template.inc";
-require "ezcontact/dbsettings.php";
-require  "ezphputils.php";
+include_once( "class.INIFile.php" );
 
-require $DOCUMENTROOT . "classes/ezsession.php";
-require $DOCUMENTROOT . "classes/ezuser.php";
-require $DOCUMENTROOT . "classes/eznote.php";
+$ini = new INIFile( "site.ini" );
+$DOC_ROOT = $ini->read_var( "eZContactMain", "DocumentRoot" );
+$Language = $ini->read_var( "eZContactMain", "Language" );
+
+include_once( "../classes/eztemplate.php" );
+include_once(  "ezphputils.php" ); 
+
+include_once( "ezcontact/classes/ezsession.php" );
+include_once( "ezcontact/classes/ezuser.php" );
+include_once( "ezcontact/classes/eznote.php" );
+include( "ezcontact/checksession.php" );
+
 
 $session = new eZSession();
 if ( !$session->get( $AuthenticatedSession ) )
@@ -26,22 +36,20 @@ if ( $Action == "insert" )
     $note->setUserID( $usr->id() );
 
     $note->store();
-    printRedirect( "../index.php?page=" . $DOCUMENTROOT . "noteslist.php " );
+    Header( "Location: index.php?page=" . $DOC_ROOT . "notelist.php" ); 
 }
 
 // Oppdatere
 if ( $Action == "update" )
 {
     $note = new eZNote();
-    print( "-->".$NID );
     $note->get( $NID );
     $note->setTitle( $Title );
     $note->setBody( $Body );
     $note->update( );
 
-    printRedirect( "../index.php?page=" . $DOCUMENTROOT . "noteslist.php " );
+    Header( "Location: index.php?page=" . $DOC_ROOT . "noteslist.php" ); 
 }
-
 
 // Slette
 if ( $Action == "delete" )
@@ -50,16 +58,17 @@ if ( $Action == "delete" )
     $note->get( $NID );
     $note->delete( );
 
-    printRedirect( "../index.php?page=" . $DOCUMENTROOT . "noteslist.php " );
+    Header( "Location: index.php?page=" . $DOC_ROOT . "notelist.php" ); 
 }
 
+include( $DOC_ROOT . "checksession.php" );
 
-include( $DOCUMENTROOT . "checksession.php" );
+$t = new eZTemplate( $DOC_ROOT . "/" . $ini->read_var ( "eZContactMain", "TemplateDir" ), $DOC_ROOT . "/intl", $Language, "noteedit.php" );
+$t->setAllStrings();
 
-$t = new Template( "." );
 $t->set_file( array( 
-    "note_edit" => $DOCUMENTROOT . "templates/noteedit.tpl"    ) );
-
+    "note_edit" => "noteedit.tpl"
+    ) );
 
 $t->set_var( "message", "Legg til nytt notat" );
 //$t->set_var( "action", "insert" );
@@ -84,9 +93,8 @@ if ( $Action == "edit" )
 }
 
 $t->set_var( "action_value", $action );
-$t->set_var( "document_root", $DOCUMENTROOT );
+$t->set_var( "document_root", $DOC_ROOT );
 
 $t->pparse( "output", "note_edit" );
-
 
 ?>

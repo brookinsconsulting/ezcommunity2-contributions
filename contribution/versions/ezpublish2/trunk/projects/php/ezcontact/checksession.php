@@ -1,7 +1,6 @@
 <?
 /*
   Denne filen sjekker om brukeren er logget på..
-
 */
 
 require "ezcontact/dbsettings.php";

@@ -30,9 +30,9 @@
 //-->
 </SCRIPT>
 
-<h1>Persontyper</h1>
+<h1>{intl-headline}</h1>
 <table width="100%" cellspacing="0" cellpadding="2" border="0">
 {persontype_list}
 </table>
 <br>
-<a href="index.php4?page={document_root}persontypeedit.php4&PID={persontype_id}">[Ny persontype]</a>
+<a href="index.php4?page={document_root}persontypeedit.php4&PID={persontype_id}">{intl-newperson}</a>

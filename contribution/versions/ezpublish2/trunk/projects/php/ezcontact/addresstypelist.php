@@ -1,53 +1,65 @@
 <?
-include  "template.inc";
-require "ezcontact/dbsettings.php";
-require "ezphputils.php";
-require $DOCUMENTROOT . "classes/ezsession.php";
-require $DOCUMENTROOT . "classes/ezuser.php";
-require $DOCUMENTROOT . "classes/ezusergroup.php";
-require $DOCUMENTROOT . "classes/ezaddresstype.php";
+/*
+  Viser liste over adresse typer.
+*/
 
-// sjekke session
+include_once( "class.INIFile.php" );
+
+$ini = new INIFIle( "site.ini" );
+$Language = $ini->read_var( "eZContactMain", "Language" );
+$DOC_ROOT = $ini->read_var( "eZContactMain", "DocumentRoot" );
+
+include_once( "../classes/eztemplate.php" );
+include_once( "ezphputils.php" );
+//  require $DOC_ROOT . "classes/ezsession.php";
+//  require $DOC_ROOT . "classes/ezuser.php";
+include_once( "ezcontact/classes/ezusergroup.php" );
+include_once( "ezcontact/classes/ezaddresstype.php" );
+
+// Sjekke session.
+//  {
+//    include( $DOC_ROOT . "checksession.php" );
+//  }
+
+// Hente ut rettigheter.
+//  {    
+//      $session = new eZSession();
+    
+//      if ( !$session->get( $AuthenticatedSession ) )
+//      {
+//          die( "Du må logge deg på." );    
+//      }        
+    
+//      $usr = new eZUser();
+//      $usr->get( $session->userID() );
+
+//      $usrGroup = new eZUserGroup();
+//      $usrGroup->get( $usr->group() );
+//  }
+
+//  // Vise feilmelding dersom brukeren ikke har rettigheter.
+//  if ( $usrGroup->addressTypeAdmin() == 'N' )
+//  {    
+//      $t = new Template( "." );
+//      $t->set_file( array(
+//          "error_page" => $DOC_ROOT . "templates/errorpage.tpl"
+//          ) );
+
+//      $t->set_var( "error_message", "Du har ikke rettiheter til dette." );
+//      $t->pparse( "output", "error_page" );
+//  }
+//  else
 {
-  include( $DOCUMENTROOT . "checksession.php" );
-}
+    // Sette template.
+    $t = new eZTemplate( $DOC_ROOT . "/" . $ini->read_var( "eZContactMain", "TemplateDir" ), $DOC_ROOT . "/intl", $Language, "addresstypelist.php" );
+    $t->setAllStrings();
 
-// hente ut rettigheter
-{    
-    $session = new eZSession();
-    
-    if ( !$session->get( $AuthenticatedSession ) )
-    {
-        die( "Du må logge deg på." );    
-    }        
-    
-    $usr = new eZUser();
-    $usr->get( $session->userID() );
-
-    $usrGroup = new eZUserGroup();
-    $usrGroup->get( $usr->group() );
-}
-
-// vise feilmelding dersom brukeren ikke har rettigheter.
-if ( $usrGroup->addressTypeAdmin() == 'N' )
-{    
-    $t = new Template( "." );
     $t->set_file( array(
-        "error_page" => $DOCUMENTROOT . "templates/errorpage.tpl"
+        "address_type_page" => "addresstypelist.tpl",
+        "address_type_item" => "addresstypeitem.tpl"
         ) );
 
-    $t->set_var( "error_message", "Du har ikke rettiheter til dette." );
-    $t->pparse( "output", "error_page" );
-}
-else
-{
-
-    $menuTemplate = new Template( "." );
-    $menuTemplate->set_file( array(
-        "address_type_page" => $DOCUMENTROOT . "templates/addresstypelist.tpl",
-        "address_type_item" => $DOCUMENTROOT . "templates/addresstypeitem.tpl"
-        ) );
-
+    // Liste telefon typer.
     $address_type = new eZAddressType();
     $address_type_array = $address_type->getAll();
 
@@ -55,20 +67,20 @@ else
     {
         if ( ( $i % 2 ) == 0 )
         {
-            $menuTemplate->set_var( "bg_color", "#eeeeee" );
+            $t->set_var( "bg_color", "#eeeeee" );
         }
         else
         {
-            $menuTemplate->set_var( "bg_color", "#dddddd" );
+            $t->set_var( "bg_color", "#dddddd" );
         }  
 
-        $menuTemplate->set_var( "address_type_id", $address_type_array[$i][ "ID" ] );
-        $menuTemplate->set_var( "address_type_name", $address_type_array[$i][ "Name" ] );
+        $t->set_var( "address_type_id", $address_type_array[$i][ "ID" ] );
+        $t->set_var( "address_type_name", $address_type_array[$i][ "Name" ] );
 
-        $menuTemplate->parse( "address_type_list", "address_type_item", true );
+        $t->parse( "address_type_list", "address_type_item", true );
     } 
 
-    $menuTemplate->set_var( "document_root", $DOCUMENTROOT );
-    $menuTemplate->pparse( "output", "address_type_page" );
+    $t->set_var( "document_root", $DOC_ROOT );
+    $t->pparse( "output", "address_type_page" );
 }
 ?>

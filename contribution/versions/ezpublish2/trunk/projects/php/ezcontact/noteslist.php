@@ -1,23 +1,33 @@
 <?
-
 /*
-
+  Lister opp alle notatene av en bruker
 */
 
-include  "template.inc";
-require "ezcontact/dbsettings.php";
-require  "ezphputils.php";
+include_once( "class.INIFile.php" );
 
-require $DOCUMENTROOT . "classes/ezsession.php";
-require $DOCUMENTROOT . "classes/ezuser.php";
-require $DOCUMENTROOT . "classes/eznote.php";
+$ini = new INIFile( "site.ini" );
 
-include( $DOCUMENTROOT . "checksession.php" );
+$DOC_ROOT = $ini->read_var( "eZContactMain", "DocumentRoot" );
 
-$t = new Template( "." );
+$Language = $ini->read_var( "eZContactMain", "Language" );
+
+include_once( "../classes/eztemplate.php" );
+
+include_once(  "ezphputils.php" ); 
+
+include_once( "ezcontact/classes/ezsession.php" );
+include_once( "ezcontact/classes/ezuser.php" );
+include_once( "ezcontact/classes/eznote.php" );
+
+include( "ezcontact/checksession.php" );
+
+// $t = new Template( "." );
+$t = new eZTemplate( $DOC_ROOT . "/" . $ini->read_var ( "eZContactMain", "TemplateDir" ), $DOC_ROOT . "/intl", $Language, "noteslist.php" );
+$t->setAllStrings();
+
 $t->set_file( array( 
-    "notes_list" => $DOCUMENTROOT . "templates/noteslist.tpl",
-    "notes_item" => $DOCUMENTROOT . "templates/noteitem.tpl"
+    "notes_list" => "noteslist.tpl",
+    "notes_item" => "noteitem.tpl"
     ) );
 
 $session = new eZSession();
@@ -51,11 +61,11 @@ for ( $i=0; $i<count( $note_array ); $i++ )
 
     $t->set_var( "note_title", $note_array[ $i ][ "Title" ] );
     
-    $t->set_var( "document_root", $DOCUMENTROOT );
+    $t->set_var( "document_root", $DOC_ROOT );
     $t->parse( "notes", "notes_item", true );
 }
 
-$t->set_var( "document_root", $DOCUMENTROOT );
+$t->set_var( "document_root", $DOC_ROOT );
 
 $t->pparse( "output", "notes_list" );
 
