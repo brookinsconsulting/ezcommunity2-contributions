@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: header.php,v 1.34 2001/05/07 08:46:04 fh Exp $
+// $Id: header.php,v 1.35 2001/05/25 11:13:00 ce Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <23-Jan-2001 16:06:07 bf>
@@ -103,7 +103,11 @@ if ( $ModuleTab == true )
             }
             $t->set_var( "ez_module_name", $site_module );
             $t->set_var( "ez_dir_name", $module );
-            $lang_file = new INIFile( "$module/admin/intl/$Language/menubox.php.ini" );
+            $moduleSettingName = $site_module . "Main";
+            $moduleLanguage = $ini->read_var( $moduleSettingName, "Language" );
+            if ( !$moduleLanguage )
+                $moduleLanguage = $Lanugage;
+            $lang_file = new INIFile( "$module/admin/intl/$moduleLanguage/menubox.php.ini" );
             $mod_name = $lang_file->read_var( "strings", "module_name" );
             $t->set_var( "module_name", $mod_name );
             $t->parse( "module_item", "module_item_tpl", true );
