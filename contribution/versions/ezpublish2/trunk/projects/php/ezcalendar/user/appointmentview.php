@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: appointmentview.php,v 1.16 2001/09/12 11:44:53 jhe Exp $
+// $Id: appointmentview.php,v 1.17 2001/09/19 11:30:31 jhe Exp $
 //
 // Created on: <08-Jan-2001 11:53:05 bf>
 //
@@ -69,12 +69,12 @@ if ( $GetByUserID == false )
     $GetByUserID = $userID;
 }
 
-if ( ( $session->variable( "ShowOtherCalenderUsers" ) == false ) || ( isSet( $GetByUser ) ) )
+if ( ( $session->variable( "ShowOtherCalendarUsers" ) == false ) || ( isSet( $GetByUser ) ) )
 {
-    $session->setVariable( "ShowOtherCalenderUsers", $GetByUserID );
+    $session->setVariable( "ShowOtherCalendarUsers", $GetByUserID );
 }
 
-$tmpUser = new eZUser( $session->variable( "ShowOtherCalenderUsers" ) );
+$tmpUser = new eZUser( $session->variable( "ShowOtherCalendarUsers" ) );
 
 if ( $tmpUser->id() == $userID )
 {

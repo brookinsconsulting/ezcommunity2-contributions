@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: appointmentedit.php,v 1.56 2001/09/19 10:52:59 jhe Exp $
+// $Id: appointmentedit.php,v 1.57 2001/09/19 11:30:31 jhe Exp $
 //
 // Created on: <03-Jan-2001 12:47:22 bf>
 //
@@ -699,11 +699,12 @@ if ( $Action == "New" )
             $t->set_var( "user_name", "" );
             $sessionUser = $session->variable( "ShowOtherCalendarUsers" );
             $trusteeArray = $user->getByTrustee( -1, true );
+        
             foreach ( $trusteeArray as $trustee )
             {
                 $t->set_var( "user_id", $trustee->ID() );
                 $t->set_var( "user_name", $trustee->name() );
-                if ( isSet( $StartTime ) && $sessionUser == $trustee->id() )
+                if ( $sessionUser == $trustee->id() )
                     $t->set_var( "selected", "selected" );
                 else
                     $t->set_var( "selected", "" );
