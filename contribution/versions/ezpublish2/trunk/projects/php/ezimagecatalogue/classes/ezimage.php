@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezimage.php,v 1.62 2001/06/29 07:08:38 bf Exp $
+// $Id: ezimage.php,v 1.63 2001/07/03 15:16:49 jb Exp $
 //
 // Definition of eZImage class
 //
@@ -636,7 +636,7 @@ class eZImage
            $group->store();
 
            
-           $ret =& $variation->requestVariation( $this, $group, $convertToGray, $allow_erro );
+           $ret =& $variation->requestVariation( $this, $group, $convertToGray, $allow_error );
        }
        
        return $ret;
