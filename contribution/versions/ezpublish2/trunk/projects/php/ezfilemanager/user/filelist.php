@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: filelist.php,v 1.42 2001/09/22 11:07:37 master Exp $
+// $Id: filelist.php,v 1.43 2001/09/22 11:32:13 master Exp $
 //
 // Created on: <10-Dec-2000 16:16:20 bf>
 //
@@ -34,18 +34,6 @@ include_once( "ezuser/classes/ezuser.php" );
 include_once( "ezuser/classes/ezpermission.php" );
 include_once( "ezuser/classes/ezobjectpermission.php" );
 
-
-// sections
-include_once( "ezsitemanager/classes/ezsection.php" );
-
-if ( $FolderID != 0 )
-{
-    $GlobalSectionID = eZVirtualFolder::sectionIDstatic ( $FolderID );
-}
-    
-// init the section
-$sectionObject =& eZSection::globalSectionObject( $GlobalSectionID );
-$sectionObject->setOverrideVariables();
 
 $ini =& INIFile::globalINI();
 
@@ -88,6 +76,19 @@ $t->set_var( "read", "" );
 $user =& eZUser::currentUser();
 
 $folder = new eZVirtualFolder( $FolderID );
+
+// sections
+include_once( "ezsitemanager/classes/ezsection.php" );
+
+// tempo fix for admin users - maybe in the future must be changed
+if ( ($FolderID != 0) && ! eZPermission::checkPermission( $user, "eZUser", "AdminLogin" ) )
+{
+    $GlobalSectionID = eZVirtualFolder::sectionIDstatic ( $FolderID );
+}
+    
+// init the section
+$sectionObject =& eZSection::globalSectionObject( $GlobalSectionID );
+$sectionObject->setOverrideVariables();
 
 $error = true;
 
