@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: productview.php,v 1.5 2000/11/01 09:24:19 ce-cvs Exp $
+// $Id: productview.php,v 1.6 2000/11/01 09:59:19 bf-cvs Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <24-Sep-2000 12:20:32 bf>
@@ -45,6 +45,9 @@ $t->set_file( array(
     "product_view_tpl" => "productview.tpl"
     ) );
 
+
+$t->set_block( "product_view_tpl", "price_tpl", "price" );
+$t->set_block( "product_view_tpl", "add_to_cart_tpl", "add_to_cart" );
 
 $t->set_block( "product_view_tpl", "path_tpl", "path" );
 $t->set_block( "product_view_tpl", "image_tpl", "image" );
@@ -171,10 +174,21 @@ else
 }
 
 $locale = new eZLocale( $Language );
-$price = new eZCurrency( $product->price() );
 
 $t->set_var( "product_number", $product->productNumber() );
-$t->set_var( "product_price", $locale->format( $price ) );
+
+if ( $product->showPrice() == true  )
+{
+    $price = new eZCurrency( $product->price() );
+    $t->set_var( "product_price", $locale->format( $price ) );
+    $t->parse( "price", "price_tpl" );
+    $t->parse( "add_to_cart", "add_to_cart_tpl" );
+}
+else
+{
+    $t->set_var( "price", "" );
+    $t->set_var( "add_to_cart", "" );
+}
 
 if ( $GenerateStaticPage == "true" )
 {

@@ -112,8 +112,10 @@
 <table width="100%" border="0">
 <tr>
 	<td>
+	<!-- BEGIN price_tpl -->
 	<p class="boxtext">{intl-price}:</p>
 	{product_price}
+	<!-- END price_tpl -->
 	</td>
 	<td align="right">
 	<!-- BEGIN external_link_tpl -->
@@ -126,6 +128,8 @@
 <br /><br />
 
 <hr noshade="noshade" size="4" />
-
+<!-- BEGIN add_to_cart_tpl -->
 <input class="okbutton" type="submit" name="Cart" value="Add to cart" />
+<!-- END add_to_cart_tpl -->
+
 </form>

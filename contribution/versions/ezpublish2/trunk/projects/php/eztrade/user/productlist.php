@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: productlist.php,v 1.4 2000/11/01 09:24:19 ce-cvs Exp $
+// $Id: productlist.php,v 1.5 2000/11/01 09:59:19 bf-cvs Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <23-Sep-2000 14:46:20 bf>
@@ -39,6 +39,8 @@ $t = new eZTemplate( "eztrade/user/" . $ini->read_var( "eZTradeMain", "TemplateD
                      "eztrade/user/intl/", $Language, "productlist.php" );
 
 $t->set_file( "product_list_page_tpl", "productlist.tpl" );
+
+$t->set_block( "product_list_page_tpl", "price_tpl", "price" );
 
 $t->set_block( "product_list_page_tpl", "path_tpl", "path" );
 $t->set_block( "product_list_page_tpl", "product_list_tpl", "product_list" );
@@ -143,9 +145,17 @@ foreach ( $productList as $product )
 
     $t->set_var( "product_name", $product->name() );
 
-    $price = new eZCurrency( $product->price() );
+    if ( $product->showPrice() == true  )
+    {
+        $price = new eZCurrency( $product->price() );
+        $t->set_var( "product_price", $locale->format( $price ) );        
+        $t->parse( "price", "price_tpl" );
+    }
+    else
+    {
+        $t->set_var( "price", "" );
+    }
     
-    $t->set_var( "product_price", $locale->format( $price ) );
     $t->set_var( "product_intro_text", $product->brief() );
     $t->set_var( "category_id", $category->id() );
 
