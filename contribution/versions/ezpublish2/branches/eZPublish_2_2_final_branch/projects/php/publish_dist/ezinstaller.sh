@@ -1,13 +1,15 @@
 #!/bin/sh
 
 #
-# ezinstaller - version 1.10 - (c) 2001 Kai Dübbert <kai@duebbert.de> - Licence: GPL
-# =================================================================================
+# ezinstaller - version 1.10 - (c) 2001 Kai Dübbert <kai@duebbert.de>, eZ Systems
+# ===============================================================================
 #
 # This shell script will install eZ publish (http://developer.ez.no) on a Linux 
 # (or Unix) system.
 #
 #---------------------------------------------------------------------------
+# Licence: GPL
+#
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
 # as published by the Free Software Foundation; either version 2
@@ -23,7 +25,7 @@
 # Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, US
 #---------------------------------------------------------------------------
 #
-# changelog:
+# Changelog:
 #
 # 1.10: - vl : Fixed bug when www-dir and inst-dir is the same dir
 # 1.9: - jhe : changed publish.ez.no to developer.ez.no 
@@ -56,10 +58,10 @@ DEF_INSTALL=1
 ############################################################################
 #Let's go
 #
-DATE="2001-09-06"
-VERSION="1.8 [$DATE]"
+DATE="2001-12-07"
+VERSION="1.10 [$DATE]"
 
-echo "ezinstaller.sh - version $VERSION - (c) 2001 Kai Dübbert <kai@duebbert.de>"
+echo "ezinstaller.sh - version $VERSION - (c) 2001 Kai Dübbert, eZ Systems"
 echo ""
 echo "This tool will help you install eZ publish on your server."
 echo ""
