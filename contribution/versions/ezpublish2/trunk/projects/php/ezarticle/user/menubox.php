@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: menubox.php,v 1.25 2001/10/16 09:07:22 bf Exp $
+// $Id: menubox.php,v 1.26 2001/10/16 09:08:28 bf Exp $
 //
 // 
 //
@@ -35,50 +35,6 @@ include_once( "ezuser/classes/ezobjectpermission.php" );
 $Language = $ini->read_var( "eZArticleMain", "Language" );
 
 $PageCaching = $ini->read_var( "eZArticleMain", "PageCaching" );
-
-
-// do the caching 
-if ( $PageCaching == "enabled" )
-{
-    $user =& eZUser::currentUser();
-    $groupstr = "";
-    if( get_class( $user ) == "ezuser" )
-    {
-        $groupIDArray = $user->groups( false );
-        sort( $groupIDArray );
-        $first = true;
-        foreach( $groupIDArray as $groupID )
-        {
-            $first ? $groupstr .= "$groupID" : $groupstr .= "-$groupID";
-            $first = false;
-        }
-    }
-    
-//    $menuCachedFile = "ezarticle/cache/menubox," . $groupstr . ",". $GlobalSiteDesign . "," . $CategoryID. ".cache";
-
-    $menuCacheFile = new eZCacheFile( "ezarticle/cache",
-                                      array( "menubox",
-                                             $groupstr,
-                                             $GlobalSiteDesign,
-                                             $CategoryID
-                                             ),
-                                      "cache", "," );
-
-    if ( $menuCacheFile->exists() )
-    {
-        print( $menuCacheFile->contents() );
-    }
-    else
-    {
-        createArticleMenu( $menuCacheFile );
-    }
-}
-else
-{
-    createArticleMenu();
-}
-
-
 
 if ( !(function_exists('createArticleMenu') ) )
 { 
@@ -165,5 +121,49 @@ if ( !(function_exists('createArticleMenu') ) )
     
         }
 } 
+
+// do the caching 
+if ( $PageCaching == "enabled" )
+{
+    $user =& eZUser::currentUser();
+    $groupstr = "";
+    if( get_class( $user ) == "ezuser" )
+    {
+        $groupIDArray = $user->groups( false );
+        sort( $groupIDArray );
+        $first = true;
+        foreach( $groupIDArray as $groupID )
+        {
+            $first ? $groupstr .= "$groupID" : $groupstr .= "-$groupID";
+            $first = false;
+        }
+    }
+    
+//    $menuCachedFile = "ezarticle/cache/menubox," . $groupstr . ",". $GlobalSiteDesign . "," . $CategoryID. ".cache";
+
+    $menuCacheFile = new eZCacheFile( "ezarticle/cache",
+                                      array( "menubox",
+                                             $groupstr,
+                                             $GlobalSiteDesign,
+                                             $CategoryID
+                                             ),
+                                      "cache", "," );
+
+    if ( $menuCacheFile->exists() )
+    {
+        print( $menuCacheFile->contents() );
+    }
+    else
+    {
+        createArticleMenu( $menuCacheFile );
+    }
+}
+else
+{
+    createArticleMenu();
+}
+
+
+
 
 ?>
