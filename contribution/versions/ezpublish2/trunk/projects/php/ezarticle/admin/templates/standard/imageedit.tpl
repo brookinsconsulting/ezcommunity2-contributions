@@ -17,6 +17,26 @@
 <p class="boxtext">{intl-imagecaption}:</p>
 <input class="box" type="text" size="40" name="Caption" value="{caption_value}"/>
 
+<p class="boxtext">{intl-photographer}:</p>
+<select name="PhotoID">
+<!-- BEGIN photographer_item_tpl -->
+<option value="{photo_id}" {selected}>{photo_name}</option>
+<!-- END photographer_item_tpl -->
+</select>
+<br /><br />
+<table width="100%" cellspacing="0" cellpadding="0" border="0">
+<tr>
+	<td>
+	<p class="boxtext">{intl-new_photographer_name}:</p>
+	<input class="halfbox" type="text" name="NewPhotographerName" size="20" value="" />
+	</td>
+	<td>
+	<p class="boxtext">{intl-new_photographer_email}:</p>
+	<input class="halfbox" type="text" name="NewPhotographerEmail" size="20" value="" />
+	</td>
+</tr>
+</table>
+
 <p class="boxtext">{intl-imagefile}:</p>
 <input class="box" size="40" name="userfile" type="file" />
 <br /><br />
