@@ -290,16 +290,14 @@ else
         $t->set_var( "no_companies", "" );
         $t->parse( "companies_table", "companies_table_tpl" );
     }
-    
+
     if( $typesDone == true )
     {
-
         $t->set_var( "no_type_item", "" );    
         $t->parse( "type_list", "type_list_tpl" );
     }
     else
     {
-
         $t->set_var( "type_list", "" );
         $t->parse( "no_type_item", "no_type_item_tpl" );
     }
@@ -315,8 +313,6 @@ else
         $t->parse( "no_category_item", "no_category_item_tpl" );
     }
 
-    
-    
     $t->pparse( "output", "type_page" );
 }
 ?>
