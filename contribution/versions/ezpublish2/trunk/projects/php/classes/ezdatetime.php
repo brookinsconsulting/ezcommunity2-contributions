@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezdatetime.php,v 1.5 2000/09/13 09:57:41 bf-cvs Exp $
+// $Id: ezdatetime.php,v 1.6 2000/09/13 11:19:49 bf-cvs Exp $
 //
 // Definition of eZCompany class
 //
@@ -160,6 +160,14 @@ class eZDateTime
     {
         $this->Second = $value;
         setType( $this->Second, "integer" );
+    }
+
+    /*!
+      Returns all the values for this option.
+    */
+    function values( )
+    {
+        return 
     }
     
     /*!

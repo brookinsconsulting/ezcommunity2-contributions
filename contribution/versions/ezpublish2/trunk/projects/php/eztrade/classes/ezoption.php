@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezoption.php,v 1.3 2000/09/13 09:57:41 bf-cvs Exp $
+// $Id: ezoption.php,v 1.4 2000/09/13 11:19:49 bf-cvs Exp $
 //
 // Definition of eZCompany class
 //
@@ -17,6 +17,11 @@
 //!! eZTrade
 //! The eZOption class handles options for products and product categories.
 /*!
+  eZOption class handles product options. The class has functions for storing
+  to the database and fetching from the database.
+
+  
+  You can add option values to options, and get the values for a option.
 
   Example code:
   \code
@@ -38,12 +43,27 @@
     print( "Option: " . $optionItem->name() . "<br>" );
   }
 
+  // Create some values
+  $value1 = new eZOptionValue();
+  $value1->setName( "Red" );
+
+  $value2 = new eZOptionValue();
+  $value2->setName( "Green" );
+
+  $value3 = new eZOptionValue();
+  $value3->setName( "Blue" );
+
+  // Add them to the option
+  $option->addValue( $value1 );
+  $option->addValue( $value2 );
+  $option->addValue( $value3 );  
+
   \endcode  
   \sa eZProductCategory eZOptionValue
 */
 
 include_once( "classes/ezdb.php" );
-include_once( "classes/ezoptionvalue.php" );
+include_once( "eztrade/classes/ezoptionvalue.php" );
 
 class eZOption
 {
@@ -133,7 +153,17 @@ class eZOption
         
         return $return_array;
     }
-    
+
+    /*!
+      Returns the object ID to the option. This is the unique ID stored in the database.
+    */
+    function id()
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+       
+       return $this->ID;
+    }
 
     /*!
       Returns the name of the option.
@@ -155,7 +185,18 @@ class eZOption
             $this->get( $this->ID );
         
         return $this->Description;
-    }    
+    }
+
+    /*!
+      Returns all the values to the current option.
+
+      The values are returned as an array of eZOptionValue objects.
+    */
+    function values( )
+    {
+        $value = new eZOptionValue();
+        return $value->getByOption( $this );
+    }
 
     /*!
       Sets the name of the option.
@@ -180,14 +221,24 @@ class eZOption
     }
 
     /*!
-
+      Adds a value to the option. The value must be of eZOptionValue type.
+      
+      NOTE: It stores the value object to the database. 
     */
     function addValue( $value )
     {
-        print( getType( $value ) );
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+        
+        if ( get_class( $value ) == "ezoptionvalue" )
+        {
+            $this->dbInit();
 
+            $value->setOptionID( $this->ID );
+            
+            $value->store();            
+        }
     }
-      
     
     /*!
       Private function.

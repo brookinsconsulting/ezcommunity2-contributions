@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezoptionvalue.php,v 1.2 2000/09/13 09:45:25 bf-cvs Exp $
+// $Id: ezoptionvalue.php,v 1.3 2000/09/13 11:19:49 bf-cvs Exp $
 //
 // Definition of eZCompany class
 //
@@ -34,6 +34,7 @@
 */
 
 include_once( "classes/ezdb.php" );
+include_once( "eztrade/classes/ezoption.php" );
 
 class eZOptionValue
 {
@@ -69,7 +70,8 @@ class eZOptionValue
         $this->dbInit();
 
         $this->Database->query( "INSERT INTO eZTrade_OptionValue SET
-		                         Name='$this->Name'" );
+		                         Name='$this->Name',
+                                 OptionID='$this->OptionID'" );
         
         return mysql_insert_id();
     }
@@ -92,7 +94,7 @@ class eZOptionValue
             {
                 $this->ID = $optionValue_array[0][ "ID" ];
                 $this->Name = $optionValue_array[0][ "Name" ];
-                $this->Description = $optionValue_array[0][ "Description" ];
+                $this->OptionID = $optionValue_array[0][ "OptionID" ];
             }                 
             $this->State_ = "Coherent";
         }
@@ -114,13 +116,44 @@ class eZOptionValue
         
         $this->Database->array_query( $optionValue_array, "SELECT ID FROM eZTrade_OptionValue ORDER BY Name" );
         
-        for ( $i=0; $i<count($optionValue_array); $i++ )
+        for ( $i=0; $i<count($optionValue_array); $i++ )            
         {
-            $return_array[$i] = new eZOptionValue( $optionValue_array[$i]["ID"], 0 );
+            $return_array[$i] = new eZOptionValue( $optionValue_array[$i]["ID"], 0 );            
         }
         
         return $return_array;
     }
+
+    /*!
+      Returns every optionValue connected to a certain Option.
+
+      The values are sorted by name. Returns 0 if no values are found.
+    */
+    function getByOption( $value )
+    {
+        if ( get_class( $value ) == "ezoption" )
+        {        
+            $this->dbInit();
+        
+            $return_array = array();
+            $optionValue_array = array();
+
+            $id = $value->id(); 
+        
+            $this->Database->array_query( $optionValue_array, "SELECT ID FROM eZTrade_OptionValue WHERE OptionID='$id' ORDER BY Name" );
+        
+            for ( $i=0; $i<count($optionValue_array); $i++ )            
+            {
+                $return_array[$i] = new eZOptionValue( $optionValue_array[$i]["ID"], 0 );            
+            }
+        
+            return $return_array;
+        }
+        else
+        {
+            return 0;
+        }
+    }    
 
     /*!
       Returns the name of the option.
@@ -132,6 +165,14 @@ class eZOptionValue
         
         return $this->Name;
     }
+
+    /*!
+      Returns the option connected to the value.
+    */
+    function option()
+    {
+        return new eZOption( $this->OptionID );
+    }
     
     /*!
       Sets the name of the option.
@@ -142,6 +183,18 @@ class eZOptionValue
             $this->get( $this->ID );
         
         $this->Name = $value;
+    }
+
+    /*!
+      
+    */
+    function setOptionID( $value )
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+       $this->OptionID = $value;       
+       setType( $this->OptionID, "integer" );
     }
     
     /*!
@@ -160,6 +213,7 @@ class eZOptionValue
     
     var $ID;
     var $Name;
+    var $OptionID;
 
     ///  Variable for keeping the database connection.
     var $Database;
