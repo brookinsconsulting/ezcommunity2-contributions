@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezbulkmail.php,v 1.26.2.3 2001/11/19 11:29:37 jhe Exp $
+// $Id: ezbulkmail.php,v 1.26.2.4 2001/11/19 12:17:37 jhe Exp $
 //
 // eZBulkMail class
 //
@@ -646,7 +646,7 @@ class eZBulkMail
     function haveSentHourly( )
     {
         $db =& eZDB::globalDatabase();
-        $now = eZDateTime::timestamp( true );
+        $now = eZDateTime::timeStamp( true );
         $db->query_single( $offset, "SELECT Hour FROM eZBulkMail_Offset" );
 
         $check = $now - $offset["Hour"];
@@ -666,7 +666,7 @@ class eZBulkMail
     function haveSentDaily( )
     {
         $db =& eZDB::globalDatabase();
-        $now = eZDateTime::timestamp( true );
+        $now = eZDateTime::timeStamp( true );
         $db->query_single( $offset, "SELECT Daily FROM eZBulkMail_Offset" );
 
         $check = $now - $offset["Daily"];
@@ -684,7 +684,7 @@ class eZBulkMail
     function haveSentWeekly( )
     {
         $db =& eZDB::globalDatabase();
-        $now = eZDateTime::timestamp( true );
+        $now = eZDateTime::timeStamp( true );
         $db->query_single( $offset, "SELECT Weekly FROM eZBulkMail_Offset" );
 
         $check = $now - $offset["Weekly"];
@@ -702,7 +702,7 @@ class eZBulkMail
     function haveSentMonthly( )
     {
         $db =& eZDB::globalDatabase();
-        $now = eZDateTime::timestamp( true );
+        $now = eZDateTime::timeStamp( true );
         $db->query_single( $offset, "SELECT Monthly FROM eZBulkMail_Offset" );
 
         $check = $now - $offset["Monthly"];
@@ -756,7 +756,7 @@ class eZBulkMail
         $db->begin();
         $timeStamp =& eZDateTime::timeStamp( true );
         $id = $bulkMail->id();
-        $result = $db->query( "UPDATE eZBulkMail_Mail SET SentDate='$timestamp' WHERE ID='$id'");
+        $result = $db->query( "UPDATE eZBulkMail_Mail SET SentDate='$timeStamp' WHERE ID='$id'");
         if ( $result == false )
             $db->rollback( );
         else
@@ -818,7 +818,7 @@ class eZBulkMail
         $result = $db->query( "INSERT INTO eZBulkMail_SentLog
                   ( ID, SentDate, Mail, MailID )
                   VALUES
-                  ( '$nextID', '$timestamp', '$mail', '$this->ID' )
+                  ( '$nextID', '$timeStamp', '$mail', '$this->ID' )
                   " );
 
         $db->unlock();
