@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: articlerate.php,v 1.1 2001/10/31 12:25:19 bf Exp $
+// $Id: articlerate.php,v 1.2 2001/11/01 09:09:43 bf Exp $
 //
 // Created on: <31-Oct-2001 09:51:25 bf>
 //
@@ -47,17 +47,17 @@ $t->setAllStrings();
 
 $rateOk = false;
 if ( is_numeric( $RateValue ) )
-{
-    
+{    
     $t->set_var( "referer_url",  $HTTP_REFERER );
     
     $article = new eZArticle();
     if ( $article->get( $ArticleID ) )
     {
-        $rateOk = true; 
-        eZArticleRate::addRate( $article, $RateValue );
-    }
-    
+        $hasRated = eZArticleRate::addRate( $article, $RateValue );
+
+        if ( $hasRated == false )
+            $rateOk = true; 
+    }    
 }
 
 if ( $SendFeedback == "true" )

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezarticlerate.php,v 1.1 2001/10/31 12:25:19 bf Exp $
+// $Id: ezarticlerate.php,v 1.2 2001/11/01 09:09:42 bf Exp $
 //
 // Definition of eZArticleRate class
 //
@@ -48,28 +48,73 @@ class eZArticleRate
       and does not get stored if it's above the MAX level.
 
       It's checked on IP and cookie if a user has rated before.
+      False is returned if the rating was invalid.
     */
     function addRate( $article, $rate )
     {
         $db =& eZDB::globalDatabase();
-        $db->begin( );
-        
-        // lock the table
-        $db->lock( "eZArticle_ArticleRate" );
 
-        $nextID = $db->nextID( "eZArticle_ArticleRate", "ID" );
         $ip = $GLOBALS["REMOTE_ADDR"];
         $articleID = $article->id();
         
-        $ret[] = $db->query( "INSERT INTO eZArticle_ArticleRate ( ID, ArticleID, Rate, IP ) VALUES
+        // check if the user has rated before
+        $ini =& INIFile::globalINI();
+
+        $ratingCheck = $ini->read_var( "eZArticleMain", "ArticleRatingCheck" );
+
+        $hasRated = false;
+        switch ( $ratingCheck )
+        {
+            case "ip" :
+            {
+                $db->array_query( $ratedArticles,
+                "SELECT ID  FROM eZArticle_ArticleRate WHERE IP='$ip' AND ArticleID='$articleID'" );
+                if ( count( $ratedArticles ) > 0 )
+                {
+                    $hasRated = true;
+                }
+
+            }break;
+
+            case "cookie" :
+            {
+                if ( $GLOBALS["eZArticleRate$articleID"] == "rated" )
+                {
+                    $hasRated = true;
+                }
+            }break;
+
+            default :
+            {
+                $hasRated = false;
+            }break;
+        }
+
+        if ( $hasRated == false )
+        {
+            if ( $ratingCheck == "cookie" )
+            {
+                setcookie ( "eZArticleRate$articleID", "rated", time() + ( 3600 * 24 * 365 ), "/",  "", 0 )
+                or print( "Error: could not set cookie." );
+            }
+
+            $db->begin( );
+
+            // lock the table
+            $db->lock( "eZArticle_ArticleRate" );
+            
+            $nextID = $db->nextID( "eZArticle_ArticleRate", "ID" );
+            
+            $ret[] = $db->query( "INSERT INTO eZArticle_ArticleRate ( ID, ArticleID, Rate, IP ) VALUES
                                       ( '$nextID',
                                         '$articleID',
                                         '$rate',
                                         '$ip' )" );
+            eZDB::finish( $ret, $db );
+        }
+        
 
-        eZDB::finish( $ret, $db );
-
-        return $ret;
+        return $hasRated;
     }
 
     /*!
