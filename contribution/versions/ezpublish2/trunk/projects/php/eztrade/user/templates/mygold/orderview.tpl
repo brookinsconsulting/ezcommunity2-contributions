@@ -1,5 +1,5 @@
 <!-- orderlist.tpl --> 
-<!-- $Id: orderview.tpl,v 1.1 2001/10/12 11:58:08 sascha Exp $ -->
+<!-- $Id: orderview.tpl,v 1.2 2001/10/22 10:38:36 sascha Exp $ -->
 
 <h1>{intl-head_line}</h1>
 
@@ -25,6 +25,9 @@
       {shipping_zip} {shipping_place}<br />
       {shipping_country}
     </td>
+  </tr>
+  <tr>
+    <td class="small">&nbsp;</td>
   </tr>
   <tr>
     <td>

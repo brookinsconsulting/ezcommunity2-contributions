@@ -1,6 +1,6 @@
 <h1>Geschenk Gutscheine von MyGold.com</h1>
 <hr size="1" noshade="noshade" />
-Mit einem Gutschein von MyGold.com k&ouml;nnen Sie sicher gehen, da&szlig; der 
+Mit einem Geschenk Gutschein von MyGold.com k&ouml;nnen Sie sicher gehen, da&szlig; der 
 Empf&auml;nger das Richtige bekommt - denn er kann sich sein Geschenk selber aussuchen.<br />
 Dabei haben Sie die Wahl ob Sie den Gutschein lieber per E-Mail oder per Post an den 
 Empf&auml;nger schicken m&ouml;chten.<br />
@@ -13,25 +13,25 @@ Empf&auml;nger schicken m&ouml;chten.<br />
         <tr> 					 
           <td align="center" valign="middle">
 	    <img src="/sitedesign/mygold/images/egutschein_s.gif" width="100" height="136" alt="Abbildung E-Mail Gutschein" /><br />
-            <a class="small" href="/imagecatalogue/imageview/218573/?RefererURL=/trade/vouchermain/">Detailansicht</a>
+            <a class="small" href="/trade/voucheremailsample/">Detailansicht</a>
 	  </td>
           <td valign="top"> 
             <h2><nobr>Zusendung per E-Mail</nobr></h2>
             Egal wohin, mit einem E-Mail-Gutschein erreichen Sie den Empf&auml;nger 
             innerhalb weiniger Stunden.<br />
-            <a href="/trade/productview/3156/">Gutschein kaufen</a> </td>
+            <a href="/schmuck/gutschein/">Gutschein kaufen</a> </td>
         </tr>
         <tr> 
           <td align="center" valign="middle">
 	    <img src="/sitedesign/mygold/images/gutschein_s.gif" width="100" height="99" alt="Abbildung Brief Gutschein" /><br />	  
-            <a class="small" href="/trade/voucheremailsample/">Detailansicht</a>
+            <a class="small" href="/imagecatalogue/imageview/218573/?RefererURL=/trade/vouchermain/">Detailansicht</a>	    
 	  </td>
           <td valign="top"> 
             <h2><nobr>Zusendung per Post</nobr></h2>
             Die eleganteste Form einen Gutschein zu schenken. Hier verschicken 
             wir Ihren Gutschein auf einer edlen Karte per Brief. Die Zustellung 
             erfolgt innerhalb von drei bis f&uuml;nf Werktagen.<br />
-            <a href="/trade/productview/3156/">Gutschein kaufen</a> </td>
+            <a href="/schmuck/gutschein/">Gutschein kaufen</a> </td>
         </tr>
       </table>
     </td>
@@ -51,7 +51,7 @@ Empf&auml;nger schicken m&ouml;chten.<br />
                   zu zahlen.<br />
                   Sollte Ihr Gutschein einen h&ouml;heren Wert als Ihr Einkauf 
                   haben, bleibt der Restwert erhalten. Sie k&ouml;nnen den momentanen 
-                  Wert Ihres Gutscheines jederzeit <a href="/trade/voucherinformation/">hier 
+                  Wert Ihres Gutscheines jederzeit <a href="/trade/voucherview/">hier 
                   abfragen</a>.<br />
                   Sollte der Wert Ihres Einkaufes h&ouml;her sein als der Wert 
                   Ihres Gutscheines, k&ouml;nnen Sie den Restbetrag mit einer 
@@ -73,7 +73,7 @@ Empf&auml;nger schicken m&ouml;chten.<br />
           <td> 
             <ul>
               <li><b><a href="/trade/productview/3156/">Gutschein erstellen</a></b></li>
-              <li><b><a href="/trade/voucherinformation/">Wert eines Gutscheines abfragen</a></b></li>
+              <li><b><a href="/trade/voucherview/">Wert eines Gutscheines abfragen</a></b></li>
             </ul>
           </td>
         </tr>

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: orderlist.php,v 1.2 2001/10/12 12:11:39 ce Exp $
+// $Id: orderlist.php,v 1.3 2001/10/22 10:38:36 sascha Exp $
 //
 // Created on: <21-Sep-2001 17:41:07 ce>
 //
@@ -90,6 +90,8 @@ if ( $ShowOrderStatusToUser )
     $t->parse( "order_status_header", "order_status_header_tpl" );
 else
 $t->set_var( "order_status_header" );
+
+$t->set_var( "test",  $ShowOrderStatusToUser );
 
 foreach ( $orderArray as $order )
 {

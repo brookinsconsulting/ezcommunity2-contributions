@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: voucher.php,v 1.4 2001/09/24 10:19:16 ce Exp $
+// $Id: voucher.php,v 1.5 2001/10/22 10:38:36 sascha Exp $
 //
 // Created on: <08-Feb-2001 14:11:48 ce>
 //
@@ -42,7 +42,7 @@ $ini =& INIFile::globalINI();
 
 $Language = $ini->read_var( "eZTradeMain", "Language" );
 
-$session->setVariable( "PayWithVocuher", "" );
+$session->setVariable( "PayWithVoucher", "" );
 
 $t = new eZTemplate( "eztrade/user/" . $ini->read_var( "eZTradeMain", "TemplateDir" ),
                      "eztrade/user/intl/", $Language, "voucher.php" );

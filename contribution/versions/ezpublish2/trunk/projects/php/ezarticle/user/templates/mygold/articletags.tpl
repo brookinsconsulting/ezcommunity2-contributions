@@ -1,9 +1,9 @@
 <!-- BEGIN header_1_tpl -->
-<h1>{contents}</h1>
+<h2>{contents}</h2>
 <!-- END header_1_tpl -->
 
 <!-- BEGIN header_2_tpl -->
-<h2>{contents}</h2>
+<h3>{contents}</h3>
 <!-- END header_2_tpl -->
 
 <!-- BEGIN header_3_tpl -->
@@ -11,15 +11,15 @@
 <!-- END header_3_tpl -->
 
 <!-- BEGIN header_4_tpl -->
-<h4>{contents}</h4>
+<h3>{contents}</h3>
 <!-- END header_4_tpl -->
 
 <!-- BEGIN header_5_tpl -->
-<h5>{contents}</h5>
+<h3>{contents}</h3>
 <!-- END header_5_tpl -->
 
 <!-- BEGIN header_6_tpl -->
-<h6>{contents}</h6>
+<h3>{contents}</h3>
 <!-- END header_6_tpl -->
 
 <!-- BEGIN image_tpl -->
@@ -27,12 +27,12 @@
 <tr>
 <td>
    <!-- BEGIN image_link_tpl -->
-   <a href="{www_dir}{index}/imagecatalogue/imageview/{image_id}/?RefererURL={referer_url}">
+   <a target="{target}" href="{www_dir}{index}/imagecatalogue/imageview/{image_id}/?RefererURL={referer_url}">
    <img src="{www_dir}{image_url}" border="0" width="{image_width}" height="{image_height}" alt="" />
    </a>   
    <!-- END image_link_tpl -->
    <!-- BEGIN ext_link_tpl -->
-   <a href="{www_dir}{index}{image_href}">
+   <a target="{target}" href="{www_dir}{index}{image_href}">
    <img src="{www_dir}{image_url}" border="0" width="{image_width}" height="{image_height}" alt="" />
    </a>   
    <!-- END ext_link_tpl -->
@@ -53,7 +53,7 @@
 
 <!-- BEGIN image_float_tpl -->
    <!-- BEGIN image_link_float_tpl -->
-   <a href="{www_dir}{index}/imagecatalogue/imageview/{image_id}/?RefererURL={referer_url}">
+   <a target="{target}" href="{www_dir}{index}/imagecatalogue/imageview/{image_id}/?RefererURL={referer_url}">
    <img src="{www_dir}{image_url}" border="0" width="{image_width}" height="{image_height}" alt="" />
    </a>   
    <!-- END image_link_float_tpl -->
@@ -68,8 +68,12 @@
 <!-- END image_float_tpl -->
 
 <!-- BEGIN link_tpl -->
-<a href="{www_dir}{index}{href}">{link_text}</a>
+<a href="{www_dir}{index}{href}" target="{target}" >{link_text}</a>
 <!-- END link_tpl -->
+
+<!-- BEGIN popuplink_tpl -->
+<a href="{href}" target="_new" >{link_text}</a>
+<!-- END popuplink_tpl -->
 
 
 <!-- BEGIN bold_tpl -->
@@ -84,14 +88,18 @@
 <u>{contents}</u>
 <!-- END underline_tpl -->
 
+<!-- BEGIN strike_tpl -->
+<s>{contents}</s>
+<!-- END strike_tpl -->
+
 <!-- BEGIN strong_tpl -->
 <font color="885522" ><strong>{contents}</strong></font>
 <!-- END strong_tpl -->
 
 <!-- BEGIN factbox_tpl -->
-<table bgcolor="#555555" width="250" align="right" cellspacing="2" cellpadding="2" >
+<table width="250" align="right" cellspacing="4" cellpadding="4" >
 <tr>
-	<td bgcolor="#eeeeee" >
+	<td class="bglight">
 	{contents}
 	</td>
 </tr>
@@ -128,25 +136,31 @@
 <table width="100%" bgcolor="#eeeeee" >
 <tr>
 	<td>
-	<pre>
-	{contents}
-	</pre>
+	<pre>{contents}</pre>
 	</td>
 </tr>
 </table>
 <!-- END pre_tpl -->
 
+<!-- BEGIN html_tpl -->
+{contents}
+<!-- END html_tpl -->
+
 <!-- BEGIN media_tpl -->
 <embed src="{www_dir}{media_uri}" {attribute_string} />
 <!-- END media_tpl -->
 
+<!-- BEGIN file_tpl -->
+<a href="{www_dir}{file_uri}">{text}</a>
+<!-- END file_tpl -->
+
 
 <!-- BEGIN table_tpl -->
 <br clear="all" />
-<table width="{table_width}" >
+<table width="{table_width}" cellpadding="0" cellspacing="0">
 <tr>
-<td bgcolor="#aaaaaa">
-<table width="100%" border="{table_border}" cellpadding="2" cellspacing="2">
+<td class="bgdark" valign="top">
+<table width="100%" cellpadding="2" cellspacing="{table_border}">
 <!-- BEGIN tr_tpl -->
 <tr>
 <!-- BEGIN td_tpl -->
