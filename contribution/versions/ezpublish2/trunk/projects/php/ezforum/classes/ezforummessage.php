@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezforummessage.php,v 1.98 2001/09/14 14:29:31 jhe Exp $
+// $Id: ezforummessage.php,v 1.99 2001/09/21 07:56:43 jhe Exp $
 //
 // Definition of eZForumMessage class
 //
@@ -42,7 +42,7 @@ class eZForumMessage
     /*!
       Constructs a new eZForumMessage object.
     */
-    function eZForumMessage( $id="" )
+    function eZForumMessage( $id = "" )
     {
         $this->IsApproved = true;
         $this->IsTemporary = false;
@@ -51,8 +51,7 @@ class eZForumMessage
         
         if ( $id != "" )
         {
-            $this->ID = $id;
-            $this->get( $this->ID );
+            $this->get( $id );
         }
     }
 
@@ -240,9 +239,7 @@ class eZForumMessage
     function delete()
     {
         $db =& eZDB::globalDatabase();
-
         $db->query( "DELETE FROM eZForum_Message WHERE ID='$this->ID'" );
-        
         return true;
     }
     
@@ -260,11 +257,10 @@ class eZForumMessage
     /*!
       Fetches the object information from the database.
     */
-    function get( $id="" )
+    function get( $id = "" )
     {
         $db =& eZDB::globalDatabase();
         $ret = false;
-        
         if ( $id != "" )
         {
             $timeStamp =& eZDateTime::timeStamp( true );            
@@ -272,7 +268,6 @@ class eZForumMessage
             $db->array_query( $message_array, "SELECT *,
                              ( $timeStamp  - PostingTime ) AS Age
                               FROM eZForum_Message WHERE ID='$id'" );
-            
             if ( count( $message_array ) > 1 )
             {
                 die( "Error: Message's with the same ID was found in the database. This shouldn't happen." );
@@ -292,7 +287,7 @@ class eZForumMessage
                 $this->IsTemporary =& $message_array[0][$db->fieldName( "IsTemporary" )];
 
                 $this->ThreadID =& $message_array[0][$db->fieldName( "ThreadID" )];
-                $this->TreeID =& $message_array[0][$db->fieldName( "TreeID" )];                
+                $this->TreeID =& $message_array[0][$db->fieldName( "TreeID" )];
                 $this->Depth =& $message_array[0][$db->fieldName( "Depth" )];
 
                 $this->Age =& $message_array[0][$db->fieldName( "Age" )];
@@ -324,7 +319,7 @@ class eZForumMessage
 
         foreach ( $message_array as $message )
         {
-            $ret[] =& new eZForumMessage( $message[$db->fieldName("ID")] );
+            $ret[] =& new eZForumMessage( $message[$db->fieldName( "ID" )] );
         }
         
         return $ret;
@@ -431,7 +426,7 @@ class eZForumMessage
     {
        if( $htmlchars == true )
        {
-            return  htmlspecialchars( $this->Topic );
+            return htmlspecialchars( $this->Topic );
        }
        else
        {
@@ -621,7 +616,7 @@ class eZForumMessage
                            WHERE ThreadID='$threadID'
                            AND IsTemporary='0'" );
 
-        return $message_array[0][$db->fieldName("Count")];
+        return $message_array[0][$db->fieldName( "Count" )];
     }
 
     
@@ -638,7 +633,7 @@ class eZForumMessage
                            WHERE ForumID='$ID'
                            AND Parent IS NULL AND IsTemporary='0'" );
         
-        return $message_array[0][$db->fieldName("Messages")];
+        return $message_array[0][$db->fieldName( "Messages" )];
     }
     
     /*!
@@ -651,7 +646,7 @@ class eZForumMessage
         $db->array_query( $message_array,
         "SELECT COUNT(ID) AS Replies FROM eZForum_Message WHERE Parent='$ID' AND IsTemporary='0'" );
          
-        return $message_array[0][$db->fieldName("Replies")];
+        return $message_array[0][$db->fieldName( "Replies" )];
     }
 
     /*!
@@ -693,7 +688,7 @@ class eZForumMessage
 
         foreach ( $message_array as $message )
         {
-            $ret[] =& new eZForumMessage( $message[$db->fieldName("ID")] );
+            $ret[] =& new eZForumMessage( $message[$db->fieldName( "ID" )] );
         }
         
         return $ret;
@@ -708,7 +703,7 @@ class eZForumMessage
         
         $db->array_query( $message_array, "SELECT COUNT(ID) as Count FROM eZForum_Message WHERE IsApproved='0' AND IsTemporary='0'" );        
 
-        return $message_array[0][$db->fieldName("Count")];
+        return $message_array[0][$db->fieldName( "Count" )];
     }
 
     /*!
@@ -725,7 +720,7 @@ class eZForumMessage
 
         foreach ( $message_array as $message )
         {
-            $ret[] =& new eZForumMessage( $message[$db->fieldName("ID")] );
+            $ret[] =& new eZForumMessage( $message[$db->fieldName( "ID" )] );
         }
         
         return $ret;

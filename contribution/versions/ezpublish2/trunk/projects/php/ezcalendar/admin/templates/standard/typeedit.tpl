@@ -6,8 +6,9 @@
 
 <p class="boxtext">{intl-parent}:</p>
 <select name="ParentID">
+<option value="0" {no_parent_is_selected}>{intl-no_parent_name}</option>
 <!-- BEGIN parent_item_tpl -->
-<option {parent_is_selected} value="{parent_id}">{parent_name}</option>
+<option value="{parent_id}" {parent_is_selected}>{parent_name}</option>
 <!-- END parent_item_tpl -->
 </select>
 

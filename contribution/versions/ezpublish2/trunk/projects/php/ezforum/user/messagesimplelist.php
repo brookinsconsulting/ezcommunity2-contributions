@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: messagesimplelist.php,v 1.14 2001/09/20 12:14:27 jhe Exp $
+// $Id: messagesimplelist.php,v 1.15 2001/09/21 07:56:43 jhe Exp $
 //
 // Created on: <11-Sep-2000 22:10:06 bf>
 //
@@ -94,8 +94,8 @@ else
         $t->set_var( "postingtime", $locale->format( $time ) );
         $t->set_var( "message_id", $message->id() );
         
-        $user =& $message->user();
-        $t->set_var( "user", $user->firstName() . " " . $user->lastName() );
+        $muser =& $message->user();
+        $t->set_var( "user", $muser->firstName() . " " . $muser->lastName() );
         
         $t->parse( "message_item", "message_item_tpl", true );
         $i++;

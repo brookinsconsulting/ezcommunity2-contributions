@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: typeedit.php,v 1.9 2001/09/05 11:55:50 jhe Exp $
+// $Id: typeedit.php,v 1.10 2001/09/21 08:00:10 jhe Exp $
 //
 // Created on: <20-Dec-2000 18:24:06 gl>
 //
@@ -105,23 +105,18 @@ $t->set_file( array( "type_edit_tpl" => "typeedit.tpl" ) );
 $t->set_block( "type_edit_tpl", "parent_item_tpl", "parent_item" );
 
 
-$t->set_var( "parent_is_selected", "selected" );
+$t->set_var( "no_parent_is_selected", "selected" );
 
 if ( $Action == "Edit" )
 {
     $type = new eZAppointmentType( $TypeID );
     if ( $type->parentID() != 0 )
-        $t->set_var( "parent_is_selected", "" );
+        $t->set_var( "no_parent_is_selected", "" );
 }
 else
 {
     $type = new eZAppointmentType();
 }
-
-$t->set_var( "parent_name", "No parent" );
-$t->set_var( "parent_id", "0" );
-$t->parse( "parent_item", "parent_item_tpl", true );
-
 
 $typeList = $type->getTree();
 foreach ( $typeList as $typeSubList )
@@ -140,8 +135,7 @@ foreach ( $typeList as $typeSubList )
     if ( $Action == "Edit" && $type->parentID() == $typeItem->id() )
         $t->set_var( "parent_is_selected", "selected" );
 
-    if ( $type->id() != $typeItem->id() )
-        $t->parse( "parent_item", "parent_item_tpl", true );
+    $t->parse( "parent_item", "parent_item_tpl", true );
 }
 
 if ( $Action == "Edit" )

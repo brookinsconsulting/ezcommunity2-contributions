@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: messageedit.php,v 1.54 2001/08/31 14:01:59 jhe Exp $
+// $Id: messageedit.php,v 1.55 2001/09/21 07:56:43 jhe Exp $
 //
 // Created on: <21-Feb-2001 18:00:00 pkej>
 //
@@ -202,7 +202,7 @@ switch ( $Action )
 
     case "cancel":
     {
-       // If PreviewID is set then we need to delete the object.
+        // If PreviewID is set then we need to delete the object.
         // Since all objects are smart enough to not generate any
         // error messages if we new an empty object and then delete it
         // no ifs are neccessary.

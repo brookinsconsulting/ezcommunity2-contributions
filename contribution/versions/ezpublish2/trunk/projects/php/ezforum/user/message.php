@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: message.php,v 1.30 2001/09/17 12:27:31 jhe Exp $
+// $Id: message.php,v 1.31 2001/09/21 07:56:43 jhe Exp $
 //
 // Created on: <11-Sep-2000 22:10:06 bf>
 //
@@ -45,9 +45,11 @@ $t->setAllStrings();
 
 $t->set_file( "message_tpl", "message.tpl" );
 
-$t->set_block( "message_tpl", "header_list_tpl", "header_list" );
-$t->set_block( "message_tpl", "message_item_tpl", "message_item" );
-$t->set_block( "message_tpl", "edit_current_message_item_tpl", "edit_current_message_item" );
+$t->set_block( "message_tpl", "message_body_tpl", "message_body" );
+$t->set_block( "message_tpl", "message_error_tpl", "message_error" );
+$t->set_block( "message_body_tpl", "header_list_tpl", "header_list" );
+$t->set_block( "message_body_tpl", "message_item_tpl", "message_item" );
+$t->set_block( "message_body_tpl", "edit_current_message_item_tpl", "edit_current_message_item" );
 $t->set_block( "message_item_tpl", "edit_message_item_tpl", "edit_message_item" );
 
 $t->set_block( "message_item_tpl", "new_icon_tpl", "new_icon" );
@@ -149,7 +151,7 @@ $messages = $forum->messageThreadTree( $message->threadID() );
 $level = 0;
 
 $i = 0;
-foreach ( $messages as $message )
+foreach ( $messages as $threadmessage )
 {
     $t->set_var( "edit_message_item", "" );
     if ( ( $i % 2 ) == 0 )
@@ -163,9 +165,9 @@ foreach ( $messages as $message )
         $t->set_var( "td_alt", "2" );
     }
     
-    $level = $message->depth();
+    $level = $threadmessage->depth();
 
-    if ( $message->id() == $MessageID )
+    if ( $threadmessage->id() == $MessageID )
     {
         $t->set_var( "link_color", "linkselect" );
         $t->set_var( "td_class", "bgselect" );
@@ -180,10 +182,10 @@ foreach ( $messages as $message )
     else
         $t->set_var( "spacer", "" );
     
-    $t->set_var( "reply_topic", $message->topic() );
-    $t->set_var( "reply_body", $message->body() );
+    $t->set_var( "reply_topic", $threadmessage->topic() );
+    $t->set_var( "reply_body", $threadmessage->body() );
 
-    $messageAge = round( $message->age() / ( 60 * 60 * 24 ) );
+    $messageAge = round( $threadmessage->age() / ( 60 * 60 * 24 ) );
     if ( $messageAge <= $NewMessageLimit )
     {
         $t->parse( "new_icon", "new_icon_tpl" );
@@ -196,17 +198,17 @@ foreach ( $messages as $message )
     }
     
 
-    $time = $message->postingTime();
+    $time = $threadmessage->postingTime();
     $t->set_var( "postingtime", $locale->format( $time ) );
 
-    $t->set_var( "message_id", $message->id() );
+    $t->set_var( "message_id", $threadmessage->id() );
 
-    $user = $message->user();
+    $user = $threadmessage->user();
 
     if ( $user->id() == 0 )
     {
-        if ( $message->userName() )
-            $MessageAuthor = $message->userName();
+        if ( $threadmessage->userName() )
+            $MessageAuthor = $threadmessage->userName();
         else
             $MessageAuthor = $anonymous;
     }
@@ -220,7 +222,7 @@ foreach ( $messages as $message )
     /*
     if( get_class( $viewer ) == "ezuser" )
     {
-        if( ( $viewer->id() == $message->userId() ) && ( eZForumMessage::countReplies( $message->id() ) == 0 ) )
+        if( ( $viewer->id() == $threadmessage->userId() ) && ( eZForumMessage::countReplies( $threadmessage->id() ) == 0 ) )
         {
             $t->parse( "edit_message_item", "edit_message_item_tpl" );
         }
@@ -233,6 +235,19 @@ foreach ( $messages as $message )
 if ( !isSet( $RedirectURL ) )
     $RedirectURL = "";
 $t->set_var( "redirect_url", $RedirectURL );
+
+if ( $message->id() > 0 && !$message->isTemporary() )
+{
+    $t->parse( "message_body", "message_body_tpl" );
+    $t->set_var( "message_error", "" );
+}
+else
+{
+    $t->set_var( "message_body", "" );
+    $t->parse( "message_error", "message_error_tpl" );
+}
+    
+
 
 if ( $readPermission == true )
     $t->pparse( "output", "message_tpl" );

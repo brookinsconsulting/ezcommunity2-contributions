@@ -53,9 +53,9 @@
 	<input class="box" size="40" name="userfile" type="file" />
 	<br />
 	
-    <p class="boxtext">{intl-file_description}:</p>
+        <p class="boxtext">{intl-file_description}:</p>
 	<textarea name="Description" class="box" cols="40" rows="5" wrap="soft">{description_value}</textarea>
-    <br /><br />
+        <br /><br />
 
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
@@ -100,5 +100,3 @@
 </table>
 
 </form>
-
-

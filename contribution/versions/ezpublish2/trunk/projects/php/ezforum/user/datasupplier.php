@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: datasupplier.php,v 1.22 2001/08/31 14:01:59 jhe Exp $
+// $Id: datasupplier.php,v 1.23 2001/09/21 07:56:43 jhe Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -38,7 +38,7 @@ function &errorPage( $PrimaryName, $PrimaryURL, $type )
     $t->set_file( "page", "messageerror.tpl"  );
     $t->set_var( "primary_url", $PrimaryURL  );
     $t->set_var( "primary_url_name", $t->Ini->read_var( "strings", $PrimaryName  ) );
-    if( $type == 404 )
+    if ( $type == 404 )
     {
         $t->set_var( "error_1", $t->Ini->read_var( "strings", error_missing_page_1  ) );
         $t->set_var( "error_2", $t->Ini->read_var( "strings", error_missing_page_2  ) );
@@ -64,7 +64,7 @@ switch ( $url_array[2] )
     {
         $Action = $url_array[3];
         
-        switch( $Action )
+        switch ( $Action )
         {
             case "edit":
             case "delete":
@@ -149,7 +149,7 @@ switch ( $url_array[2] )
         $Action = $url_array[3];
         $ID = $url_array[4];
 
-        switch( $Action )
+        switch ( $Action )
         {
             case "reply":
             {
