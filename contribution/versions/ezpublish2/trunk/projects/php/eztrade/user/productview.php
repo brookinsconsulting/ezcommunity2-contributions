@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: productview.php,v 1.25 2001/02/28 11:12:48 jb Exp $
+// $Id: productview.php,v 1.26 2001/02/28 12:28:01 jb Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <24-Sep-2000 12:20:32 bf>
@@ -95,7 +95,8 @@ $t->set_block( "alternative_currency_list_tpl", "alternative_currency_tpl", "alt
 $t->set_block( "product_view_tpl", "add_to_cart_tpl", "add_to_cart" );
 
 $t->set_block( "product_view_tpl", "path_tpl", "path" );
-$t->set_block( "product_view_tpl", "image_tpl", "image" );
+$t->set_block( "product_view_tpl", "image_list_tpl", "image_list" );
+$t->set_block( "image_list_tpl", "image_tpl", "image" );
 $t->set_block( "product_view_tpl", "main_image_tpl", "main_image" );
 $t->set_block( "product_view_tpl", "option_tpl", "option" );
 $t->set_block( "option_tpl", "value_price_header_tpl", "value_price_header" );
@@ -180,6 +181,8 @@ $images = $product->images();
 
 $i=0;
 $t->set_var( "image", "" );
+$t->set_var( "image_list", "" );
+$image_count = 0;
 foreach ( $images as $image )
 {
     if ( $image->id() != $mainImageID )
@@ -206,10 +209,14 @@ foreach ( $images as $image )
         $t->set_var( "image_height", $variation->height() );
     
         $t->parse( "image", "image_tpl", true );
-    
+
+        $image_count++;
         $i++;
     }
 }
+
+if ( $image_count > 0 )
+    $t->parse( "image_list", "image_list_tpl" );
 
 $options = $product->options();
 

@@ -52,6 +52,7 @@
 
 <br clear="all" />
 
+<!-- BEGIN image_list_tpl -->
 <table width="100%" cellspacing="0" cellpadding="7">
 <tr>
 <!-- BEGIN image_tpl -->
@@ -81,6 +82,7 @@
 </tr>
 </table>
 <br />
+<!-- END image_list_tpl -->
 
 <!-- BEGIN attribute_list_tpl -->
 <table width="70%" cellspacing="0" cellpadding="2" border="0" align="center">
