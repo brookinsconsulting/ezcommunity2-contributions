@@ -11,7 +11,7 @@
     <td class="tdmini" width="1%" valign="bottom"><img src="/images/{site_style}/box-r05.gif" width="10" height="19" border="0" /><br /></td>
 </tr>
 </table>
-<a href="http://www.ez.no"><img src="/images/{site_style}/ezsystems-minilogo.gif" width="100" height="25" border="0" align="right" /></a><br />
+<a href="http://www.ez.no" target="_vblank"><img src="/images/{site_style}/ezsystems-minilogo.gif" width="100" height="25" border="0" align="right" /></a><br />
 
 	</td>
 </tr>
