@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: articleedit.php,v 1.98 2001/07/06 11:14:01 bf Exp $
+// $Id: articleedit.php,v 1.99 2001/07/09 11:57:24 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <18-Oct-2000 15:04:39 bf>
@@ -671,55 +671,43 @@ if ( $Action == "Edit" )
     $startDate =& $article->startDate();
     $stopDate =& $article->stopDate();
 
-    if ( get_class( $startDate ) == "ezdatetime" )
+    if ( $article->startDate( false ) != 0 )
     {
-        if ( $startDate->day() == 0 )
-            $t->set_var( "start_day", "" );
-        else
+        $t->set_var( "start_day", "" );
+        $t->set_var( "start_month", "" );
+        $t->set_var( "start_year", "" );
+        $t->set_var( "start_hour", "" );
+        $t->set_var( "start_minute", "" );
+        if ( get_class( $startDate ) == "ezdatetime" )
+        {
             $t->set_var( "start_day", $startDate->addZero( $startDate->day() ) );
-        if ( $startDate->month() == 0 )
-            $t->set_var( "start_month", "" );
-        else
             $t->set_var( "start_month", $startDate->addZero( $startDate->month() ) );
-        if ( $startDate->year() == 0 )
-            $t->set_var( "start_year", "" );
-        else
             $t->set_var( "start_year", $startDate->addZero( $startDate->year() ) );
-        if ( $startDate->hour() == 0 )
-            $t->set_var( "start_hour", "" );
-        else
             $t->set_var( "start_hour", $startDate->addZero( $startDate->hour() ) );
-        if ( $startDate->minute() == 0 )
-            $t->set_var( "start_minute", "" );
-        else
             $t->set_var( "start_minute", $startDate->addZero( $startDate->minute() ) );
+        }
     }
-    if ( get_class( $stopDate ) == "ezdatetime" )
+
+    if ( $article->stopDate( false ) != 0 )
     {
-        if ( $stopDate->day() == 0 )
-            $t->set_var( "stop_day", "" );
-        else
+        $t->set_var( "stop_day", "" );
+        $t->set_var( "stop_month", "" );
+        $t->set_var( "stop_year", "" );
+        $t->set_var( "stop_hour", "" );
+        $t->set_var( "stop_minute", "" );
+        
+        if ( get_class( $stopDate ) == "ezdatetime" )
+        {
             $t->set_var( "stop_day", $startDate->addZero( $stopDate->day() ) );
-        if ( $stopDate->month() == 0 )
-            $t->set_var( "stop_month", "" );
-        else
             $t->set_var( "stop_month", $startDate->addZero( $stopDate->month() ) );
-        if ( $stopDate->year() == 0 )
-            $t->set_var( "stop_year", "" );
-        else
             $t->set_var( "stop_year", $startDate->addZero( $stopDate->year() ) );
-        if ( $stopDate->hour() == 0 )
-            $t->set_var( "stop_hour", "" );
-        else
             $t->set_var( "stop_hour", $startDate->addZero( $stopDate->hour() ) );
-        if ( $stopDate->minute() == 0 )
-            $t->set_var( "stop_minute", "" );
-        else
             $t->set_var( "stop_minute", $startDate->addZero( $stopDate->minute() ) );
+        }
     }
     
     if ( !isset( $Name ) )        
-         $t->set_var( "article_name", $article->name() );
+        $t->set_var( "article_name", $article->name() );
 
     $generator = new eZArticleGenerator();
     
