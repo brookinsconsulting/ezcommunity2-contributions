@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezmail.php,v 1.3 2001/03/22 17:09:28 fh Exp $
+// $Id: ezmail.php,v 1.4 2001/03/24 10:50:33 fh Exp $
 //
 // Definition of eZCompany class
 //
@@ -109,7 +109,7 @@ class eZMail
                                  Cc='$this->Cc',
                                  Bcc='$this->Bcc',
                                  MessageID='$this->MessageID',
-                                 Reference='$this->Reference',
+                                 Reference='$this->References',
                                  ReplyTo='$this->ReplyTo',
                                  Subject='$this->Subject',
                                  BodyText='$this->BodyText',
@@ -129,7 +129,7 @@ class eZMail
                                  Cc='$this->Cc',
                                  Bcc='$this->Bcc',
                                  MessageID='$this->MessageID',
-                                 Reference='$this->Reference',
+                                 Reference='$this->References',
                                  ReplyTo='$this->ReplyTo',
                                  Subject='$this->Subject',
                                  BodyText='$this->BodyText',
@@ -208,6 +208,30 @@ class eZMail
         $this->To = $newTo;
     }
 
+
+    /*!
+      Returns the receiver address.
+    */
+    function replyTo()
+    {
+        if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+        return $this->ReplyTo;
+    }
+
+    /*!
+      Sets the receiver address.
+    */
+    function setReplyTo( $newReplyTo )
+    {
+        if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+        $this->ReplyTo = $newReplyTo;
+    }
+
+    
     /*! 
       Returns the receiver address. Wrapper function
     */
@@ -405,6 +429,32 @@ class eZMail
         $this->BodyText = $newBody;
     }
 
+    /*!
+      Returns the userID of the user that owns this object
+    */
+    function owner()
+    {
+        if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+        return $this->UserID;;
+    }
+
+    /*!
+      Sets the owner of this mail
+    */
+    function setOwner( $newOwner )
+    {
+        if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+        if( get_class( $newOwner ) == "ezuser" )
+            $this->UserID = $newOwner->id();
+        else
+            $this->UserID = $newOwner;
+    }
+
+    
     /*!
       Sends the mail.
     */

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezmailaccount.php,v 1.5 2001/03/22 17:09:28 fh Exp $
+// $Id: ezmailaccount.php,v 1.6 2001/03/24 10:50:33 fh Exp $
 //
 // eZMailAccount class
 //
@@ -381,10 +381,11 @@ class eZMailAccount
             if( !eZMail::isDownloaded( $headerinfo->message_id, $user->id() ) )             // check if allready downloaded
             {
                 $mail = new eZMail();
+                $mail->setOwner( $user );
                 getHeaders( $mail, $mbox, $i ); // fetch header information
                 $mailstructure = imap_fetchstructure( $mbox, $i );
-                disectThisPart( $mailstructure, "1", $mbox, $i );
-                echo "--------------------------<BR>";
+                disectThisPart( $mailstructure, "1", $mbox, $i, $mail );
+                $mail->store();
             }
             
         }

@@ -1,18 +1,28 @@
 <?
+include_once( "ezmail/classes/ezmail.php" );
+
 /* This file contains a list of functions that are used by the various classes.
  They are put here because they are generall and to keep the classes from beeing
 crouded.*/
 
-function getHeaders( &$Mail, $imap_stream, $msgno )
+function getHeaders( &$mail, $imap_stream, $msgno )
 {
     $headers = imap_headerinfo( $imap_stream, $msgno );
-    print( "To: " . getDecodedHeader( $headers->toaddress ). "<br>" );
-    print( "From: " . getDecodedHeader( $headers->fromaddress ). "<br>"); // from NAME
-    print( "Reply: " . getDecodedHeader( $headers->reply_toaddress ) ."<br>");
-    print( "Subject: " . getDecodedHeader( $headers->subject )."<br>");
-    print( "MessageID: " . getDecodedHeader( $headers->message_id ). "<br>" );
-    print( "Date: " . getDecodedHeader( $headers->date ) . "<br>" );
-    print( "ReplyID: " . getDecodedHeader( $headers->in_reply_to ). "<br>" );
+//    print( "To: " . getDecodedHeader( $headers->toaddress ). "<br>" );
+//    print( "From: " . getDecodedHeader( $headers->fromaddress ). "<br>"); // from NAME
+//    print( "Reply: " . getDecodedHeader( $headers->reply_toaddress ) ."<br>");
+//    print( "Subject: " . getDecodedHeader( $headers->subject )."<br>");
+//    print( "MessageID: " . getDecodedHeader( $headers->message_id ). "<br>" );
+//    print( "Date: " . getDecodedHeader( $headers->date ) . "<br>" );
+//    print( "ReplyID: " . getDecodedHeader( $headers->in_reply_to ). "<br>" );
+
+    $mail->setTo( getDecodedHeader( $headers->toaddress )  );
+    $mail->setFrom( getDecodedHeader( $headers->fromaddress ) ); // from NAME
+    $mail->setReplyTo( getDecodedHeader( $headers->reply_toaddress ) );
+    $mail->setSubject( getDecodedHeader( $headers->subject ) );
+    $mail->setMessageID( getDecodedHeader( $headers->message_id ) );
+//    print( "Date: " . getDecodedHeader( $headers->date ) . "<br>" );
+    $mail->setReferences( getDecodedHeader( $headers->in_reply_to ) );
 }
 
 /*
@@ -35,15 +45,13 @@ function getDecodedHeader( $headervalue )
 //$msg_struct = imap_fetchstructure($mconn, $msg_no);
 //
 //disectThisPart($msg_struct, "");
-function disectThisPart($this_part, $part_no, $mbox, $msgnum, $level=0 )
+function disectThisPart( $this_part, $part_no, $mbox, $msgnum, &$mail, $level=0 )
 {
 	if ($this_part->ifdisposition)
     {
 		if ($this_part->disposition == "ATTACHMENT")
         {
-			// If it is an attachment, then we let people download it
-			
-			// First see if they sent a filename
+            // First see if they sent a filename
 			$att_name = "unknown";
             for ($lcv = 0; $lcv < count($this_part->parameters); $lcv++)
             {
@@ -57,7 +65,7 @@ function disectThisPart($this_part, $part_no, $mbox, $msgnum, $level=0 )
 	        }
 
 			// You could give a link to download the attachment here....
-            print( "Mail has an attachment named: $att_name <br>" );
+//            print( "Mail has an attachment named: $att_name <br>" );
         }
         else
         {
@@ -73,7 +81,7 @@ function disectThisPart($this_part, $part_no, $mbox, $msgnum, $level=0 )
             {
                 $mime_type = "text";
                 $value = decode( $this_part->encoding, fetch_part( $part_no, $mbox, $msgnum ) );
-                echo "$value";
+                $mail->setBodyText( $value );
             }
 			break;
             case TYPEMULTIPART:
@@ -88,7 +96,7 @@ function disectThisPart($this_part, $part_no, $mbox, $msgnum, $level=0 )
                 
                     for ($i = 0; $i < count($this_part->parts); $i++)
                     {
-                        disectThisPart($this_part->parts[$i], $part_no.($i + 1), $mbox, $msgnum, 1);
+                        disectThisPart($this_part->parts[$i], $part_no.($i + 1), $mbox, $msgnum, $mail, 1);
                     }
                 }
             }
@@ -174,12 +182,13 @@ function decode( $enctype, $value )
         default: // what is this???
             $ret = $value;
     }
+    return $ret;
 }
 
 function fetch_part( $partnum, $mbox, $msgnum )
 {
     $part = imap_fetchbody( $mbox, $msgnum, $partnum );
-    echo "$part <BR>";
+    return $part;
 }
 
 function get_mime_type(&$structure)
