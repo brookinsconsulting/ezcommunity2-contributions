@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezusergroup.php,v 1.16 2001/02/23 18:47:21 jb Exp $
+// $Id: ezusergroup.php,v 1.17 2001/03/09 11:50:16 fh Exp $
 //
 // Definition of eZCompany class
 //
@@ -294,8 +294,28 @@ class eZUserGroup
             break;
         }
 
-        if ( !is_numeric( $GroupID ) )
+        if( is_array( $GroupID ) )
+        {
+            $first = true;
+            foreach( $GroupID as $item )
+            {
+                if( $first )
+                    $userSQL = "UGL.GroupID='$item' ";
+                else
+                    $userSQL .= "OR UGL.GroupID='$item' ";
+                $first = false;
+            }
+        }
+        else if( !is_numeric( $GroupID ) )
+        {
             $GroupID = $this->ID;
+            $userSQL = "UGL.GroupID='$GroupID'";
+        }
+        else
+        {
+            $userSQL = "UGL.GroupID='$GroupID'";
+        }
+
 
         $ret = array();
         $db =& eZDB::globalDatabase();
@@ -303,11 +323,12 @@ class eZUserGroup
         $query = new eZQuery( array( "U.FirstName", "U.LastName",
                                      "U.Login", "U.Email" ), $search );
 
-        $db->array_query( $user_array, "SELECT UGL.UserID FROM eZUser_UserGroupLink AS UGL,
+        $db->array_query( $user_array, "SELECT DISTINCT UGL.UserID FROM eZUser_UserGroupLink AS UGL,
                                                                eZUser_User AS U
-                                                   WHERE UGL.GroupID='$GroupID' AND UGL.UserID=U.ID
+                                                   WHERE ( $userSQL ) AND UGL.UserID=U.ID
                                                    AND ( " . $query->buildQuery() . " )
                                                    ORDER By $orderBy" );
+        print_r( $user_array );
         foreach ( $user_array as $user )
         {
             $ret[] = new eZUser( $user["UserID"] );
