@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: bugedit.php,v 1.11 2001/02/02 13:13:31 fh Exp $
+// $Id: bugedit.php,v 1.12 2001/02/07 13:35:52 fh Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <28-Nov-2000 19:45:35 bf>
@@ -237,16 +237,23 @@ if ( $Action == "Edit" )
         $t->set_var( "isclosed", "" );
     }
     
-    foreach ( $logList as $log )
+    if( count( $loglist == 0 ) )
     {
-        $date =& $log->created();
+        $t->set_var( "log_item", "" );
+    }
+    else
+    {
+        foreach ( $logList as $log )
+        {
+            $date =& $log->created();
         
-        $t->set_var( "log_date", $locale->format( $date ) );
+            $t->set_var( "log_date", $locale->format( $date ) );
         
         
-        $t->set_var( "log_description", $log->description() );
+            $t->set_var( "log_description", $log->description() );
         
-        $t->parse( "log_item", "log_item_tpl", true );
+            $t->parse( "log_item", "log_item_tpl", true );
+        }
     }
 }
 
