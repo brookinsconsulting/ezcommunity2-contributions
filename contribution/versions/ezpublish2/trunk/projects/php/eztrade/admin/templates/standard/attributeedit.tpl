@@ -10,7 +10,7 @@
 <!-- BEGIN type_tpl -->
 <option value="{type_id}" {selected}>{type_name}</option>
 <!-- END type_tpl -->
-</select>
+</select>&nbsp;<input class="stdbutton" type="submit" name="Update" value="{intl-update}" />
 
 <br /><br />
 
@@ -36,10 +36,6 @@
 <!-- END attribute_list_tpl -->
 
 <br />
-
-<hr noshade size="4" />
-
-<input class="stdbutton" type="submit" name="Update" value="{intl-update}" />
 
 <hr noshade size="4" />
 
