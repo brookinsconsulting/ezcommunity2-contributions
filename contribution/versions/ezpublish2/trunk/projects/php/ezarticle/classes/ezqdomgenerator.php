@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezqdomgenerator.php,v 1.33 2001/09/14 11:32:24 bf Exp $
+// $Id: ezqdomgenerator.php,v 1.34 2001/09/17 12:31:06 bf Exp $
 //
 // Definition of eZQDomGenerator class
 //
@@ -183,7 +183,7 @@ class eZQDomGenerator
     function &generateFile( $tmpPage )
     {
         // default image tag <file id text>
-        $tmpPage = preg_replace( "/(<file\s+?([0-9]+?)\s*?(.*?)>)/", "<file id=\"\\2\" text=\"\\3\" />", $tmpPage );
+        $tmpPage = preg_replace( "/(<file\s+?([0-9]+)\s*(.*?)>)/", "<file id=\"\\2\" text=\"\\3\" />", $tmpPage );
         return $tmpPage;
     }
     
