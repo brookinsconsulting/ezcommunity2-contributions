@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: payment.php,v 1.20.2.1 2001/03/16 15:34:01 pkej Exp $
+// $Id: payment.php,v 1.20.2.2 2001/03/21 13:59:41 pkej Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <02-Feb-2001 16:31:53 bf>
@@ -304,7 +304,7 @@ if ( $PaymentSuccess == "true" )
     $mailSubjectUser = $mailTemplate->parse( "subject_user", "subject_user_tpl" );
     $mailTemplate->set_var( "subject_user", "" );
 
-    $mailSubjectAdmin = $mailTemplate->parse( "subject_admin", "subject_admin_tpl" );
+    $mailSubject = $mailTemplate->parse( "subject_admin", "subject_admin_tpl" );
     $mailTemplate->set_var( "subject_admin", "" );
 
 
@@ -318,7 +318,6 @@ if ( $PaymentSuccess == "true" )
     
     // Send E-mail    
     $mail = new eZMail();
-    $mailToAdmin = $ini->read_var( "eZTradeMain", "mailToAdmin" );    
     
     $mailBody = $mailTemplate->parse( "dummy", "mail_order_tpl" );
     $mail->setFrom( $OrderSenderEmail );
@@ -328,8 +327,8 @@ if ( $PaymentSuccess == "true" )
     $mail->setBody( $mailBody );
     $mail->send();
     
-    $mail->setSubject( $mailSubjectAdmin );
-    $mail->setTo( $mailToAdmin );
+    $mail->setSubject( $mailSubject );
+    $mail->setTo( $OrderReceiverEmail );
 
     $mail->send();
 
