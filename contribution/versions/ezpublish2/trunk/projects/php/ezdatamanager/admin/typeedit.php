@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: typeedit.php,v 1.1 2001/11/21 14:49:02 bf Exp $
+// $Id: typeedit.php,v 1.2 2002/02/08 15:31:47 br Exp $
 //
 // Created on: <20-Nov-2001 15:04:53 bf>
 //
@@ -31,6 +31,24 @@ include_once( "classes/INIFile.php" );
 include_once( "ezdatamanager/classes/ezdatatype.php" );
 include_once( "ezdatamanager/classes/ezdatatypeitem.php" );
 
+function selectType( &$t, $value )
+{
+    switch ( $value )
+    {
+        case "string":
+        {
+            $t->set_var( "string", "selected" );
+        }
+        break;
+        case "relation":
+        {
+            $t->set_var( "relation", "selected" );
+        }
+        break;
+    }
+}
+
+
 if ( isset( $DeleteItems ) )
 {
     foreach ( $DeleteItemArray as $itemID )
@@ -44,7 +62,7 @@ if ( isset( $DeleteItems ) )
 }
 
 
-if ( isset( $Store ) || isset( $NewItem ) )
+if ( isset( $Store ) || isset( $NewItem ) || isSet( $Update ) )
 {
     if ( $TypeID > 0 )
     {
@@ -79,8 +97,8 @@ if ( isset( $Store ) || isset( $NewItem ) )
         eZHTTPTool::header( "Location: /datamanager/typeedit/" . $type->id() );
         exit();
     }
-    else
-    {    
+    else if ( !isSet( $Update ) )
+    {
         eZHTTPTool::header( "Location: /datamanager/typelist/" );
         exit();
     }
@@ -105,34 +123,63 @@ $t->set_var( "type_item_list", "" );
 
 if ( $TypeID > 0 )
 {
-    $type = new eZDataType( $TypeID );
-    
-    $t->set_var( "type_id", $type->id() );
-    $t->set_var( "type_name", $type->name() );
-
-    $items =& $type->typeItems();
-    $i = 0;
-    foreach ( $items as $item )
+    // if this is the first parsing of the site.
+    if ( count( $EditItemTypeIDArray ) > 0 )
     {
-        if ( ( $i % 2 ) == 0 )
-        {
-            $t->set_var( "td_class", "bglight" );
-        }
-        else
-        {
-            $t->set_var( "td_class", "bgdark" );
-        }
+        // fetch the items from the form variables.
+        $t->set_var( "type_id", $TypeID );
+        $t->set_var( "type_name", $TypeName );
 
-        $t->set_var( "item_id", $item->id() );
-        $t->set_var( "item_name", $item->name() );
+        for ( $i=0; $i < count( $EditItemTypeIDArray ); $i++ )
+        {
+            if ( ( $i % 2 ) == 0 )
+            {
+                $t->set_var( "td_class", "bglight" );
+            }
+            else
+            {
+                $t->set_var( "td_class", "bgdark" );
+            }
+            
+            $t->set_var( "item_id", $ItemID[$i] );
+            $t->set_var( "item_name", $ItemName[$i] );
 
-        $t->parse( "type_item", "type_item_tpl", true );
-        $i++;
+            $t->set_var( "string", "" );
+            $t->set_var( "relation", "" );
+            selectType( $t, $EditItemTypeIDArray[$i] );
+            
+            $t->parse( "type_item", "type_item_tpl", true );
+        }
     }
-    if ( count( $items ) > 0 )
-        $t->parse( "type_item_list", "type_item_list_tpl" );
     else
-        $t->set_var( "type_item_list", "" );
+    {
+        // fetch the items from the database.
+        $type = new eZDataType( $TypeID );
+        
+        $t->set_var( "type_id", $type->id() );
+        $t->set_var( "type_name", $type->name() );
+        
+        $items =& $type->typeItems();
+        $i = 0;
+        foreach ( $items as $item )
+        {
+            if ( ( $i % 2 ) == 0 )
+            {
+                $t->set_var( "td_class", "bglight" );
+            }
+            else
+            {
+                $t->set_var( "td_class", "bgdark" );
+            }
+            
+            $t->set_var( "item_id", $item->id() );
+            $t->set_var( "item_name", $item->name() );
+            
+            $t->parse( "type_item", "type_item_tpl", true );
+            $i++;
+        }
+    }
+    $t->parse( "type_item_list", "type_item_list_tpl" );
 }
 
 $t->pparse( "output", "type_edit_tpl" );

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezdatatypeitem.php,v 1.1 2001/11/21 14:49:02 bf Exp $
+// $Id: ezdatatypeitem.php,v 1.2 2002/02/08 15:31:47 br Exp $
 //
 // Definition of eZDataTypeItem class
 //
@@ -170,6 +170,17 @@ class eZDataTypeItem
     }
 
     /*!
+      
+    */
+    function setDataType( $type )
+    {
+        if ( get_class( $type ) == "ezdatatype" )
+        {
+            $this->DataTypeID = $type->id();                        
+        }
+    }
+    
+    /*!
       Sets the data type
     */
     function setDataType( $type )
@@ -186,7 +197,7 @@ class eZDataTypeItem
     /// the name of the data type item
     var $Name;
 
-    /// the data type for this item. Default 1=text
+    /// the data type for this item. Default 1=text, 2=relation.
     var $ItemType = 1;
     
     /// the ID for the data type this item belongs to

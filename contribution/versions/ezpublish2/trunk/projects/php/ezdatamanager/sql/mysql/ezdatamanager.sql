@@ -29,6 +29,14 @@ CREATE TABLE eZDataManager_ItemValue(
     PRIMARY KEY (ID)
 );
 
+CREATE TABLE eZDataManager_RelationDefinition(
+    ID int NOT NULL,
+    DataTypeItemID int NOT NULL,
+    DataTypeRelationID int NOT NULL,
+    PRIMARY KEY (ID)
+);
+
+
 
 CREATE INDEX DataManager_Item_Name ON eZDataManager_Item (Name);
 # CREATE INDEX DataManager_ItemValue_Value ON eZDataManager_ItemValue (Value);
