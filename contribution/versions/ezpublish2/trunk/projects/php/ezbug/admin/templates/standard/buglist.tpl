@@ -71,7 +71,7 @@
 	</td>-->
 
 	<td width="1%" class="{td_class}">
-	<a href="/bug/moduleedit/edit/{module_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezac{module_id}-red','','/images/{site_style}/redigerminimrk.gif',1)"><img name="ezac{module_id}-red" border="0" src="/images/{site_style}/redigermini.gif" width="16" height="16" align="top" alt="Edit" /></a>
+	<a href="/bug/module/edit/{module_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezac{module_id}-red','','/images/{site_style}/redigerminimrk.gif',1)"><img name="ezac{module_id}-red" border="0" src="/images/{site_style}/redigermini.gif" width="16" height="16" align="top" alt="Edit" /></a>
 	</td>
 </tr>
 <!-- END module_item_tpl -->

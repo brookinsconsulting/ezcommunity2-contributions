@@ -40,45 +40,6 @@ switch ( $url_array[2] )
                 include( "ezbug/admin/prioritylist.php" );
             }
             break;
-
-            case "new":
-            {
-                $Action = "new";
-                include( "ezbug/admin/priorityedit.php" );
-            }
-            break;
-
-            case "insert":
-            {
-                $Action = "insert";
-                include( "ezbug/admin/priorityedit.php" );
-            }
-            break;
-
-            case "edit":
-            {
-                $Action = "edit";
-                $PriorityID = $url_array[4];
-                include( "ezbug/admin/priorityedit.php" );
-            }
-            break;
-
-            case "update":
-            {
-                $Action = "update";
-                $PriorityID = $url_array[4];
-                include( "ezbug/admin/priorityedit.php" );
-            }
-            break;
-
-            case "delete":
-            {
-                $Action = "delete";
-                $PriorityID = $url_array[4];
-                include( "ezbug/admin/priorityedit.php" );
-            }
-            break;
-
         }
     }
     break;
@@ -92,45 +53,6 @@ switch ( $url_array[2] )
                 include( "ezbug/admin/categorylist.php" );
             }
             break;
-
-            case "new":
-            {
-                $Action = "new";
-                include( "ezbug/admin/categoryedit.php" );
-            }
-            break;
-
-            case "insert":
-            {
-                $Action = "insert";
-                include( "ezbug/admin/categoryedit.php" );
-            }
-            break;
-
-            case "edit":
-            {
-                $Action = "edit";
-                $CategoryID = $url_array[4];
-                include( "ezbug/admin/categoryedit.php" );
-            }
-            break;
-
-            case "update":
-            {
-                $Action = "update";
-                $CategoryID = $url_array[4];
-                include( "ezbug/admin/categoryedit.php" );
-            }
-            break;
-
-            case "delete":
-            {
-                $Action = "delete";
-                $CategoryID = $url_array[4];
-                include( "ezbug/admin/categoryedit.php" );
-            }
-            break;
-
         }
     }
     break;
@@ -199,45 +121,6 @@ switch ( $url_array[2] )
                 include( "ezbug/admin/statuslist.php" );
             }
             break;
-
-            case "new":
-            {
-                $Action = "new";
-                include( "ezbug/admin/statusedit.php" );
-            }
-            break;
-
-            case "insert":
-            {
-                $Action = "insert";
-                include( "ezbug/admin/statusedit.php" );
-            }
-            break;
-
-            case "edit":
-            {
-                $Action = "edit";
-                $StatusID = $url_array[4];
-                include( "ezbug/admin/statusedit.php" );
-            }
-            break;
-
-            case "update":
-            {
-                $Action = "update";
-                $StatusID = $url_array[4];
-                include( "ezbug/admin/statusedit.php" );
-            }
-            break;
-
-            case "delete":
-            {
-                $Action = "delete";
-                $StatusID = $url_array[4];
-                include( "ezbug/admin/statusedit.php" );
-            }
-            break;
-
         }
     }
     break;
