@@ -374,3 +374,17 @@ Maintainer(s) : vl@ez.no
 
     * admin/newsedit.php: fixed bug with redirecting on nVH
 
+
+Module : eznewsfeed
+Repository path : /home/cvsroot/projects/php/eznewsfeed
+Maintainer(s) : br@ez.no
+2002-02-26  Bjoern Reiten  <br@ez.no>
+
+    * classes/ezbackslashimporter.php
+      classes/ezrdfimporter.php
+      classes/ezrssimporter.php: changed fread to fgets
+
+    * classes/ezbackslashimporter.php
+      classes/ezrdfimporter.php
+      classes/ezrssimporter.php: use fgets instead of fread.
+

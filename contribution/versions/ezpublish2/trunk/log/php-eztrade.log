@@ -3227,3 +3227,24 @@ Maintainer(s) : ce@ez.no
       admin/orderedit.php
       admin/productedit.php: Added fixes
 
+
+Module : eztrade
+Repository path : /home/cvsroot/projects/php/eztrade
+Maintainer(s) : ce@ez.no
+2002-02-26  Christoffer Elo  <ce@ez.no>
+
+    * classes/ezcart.php
+      classes/ezoptionvalue.php:
+    Fixed a bug in the recalculating with the shipping groups.
+
+    * admin/datasupplier.php:
+    Added permission check on deleting, editing from products
+
+    * user/productlist.php: Fixed a typo fix
+
+    * classes/ezproduct.php
+      user/Attic/biglist.php
+      user/datasupplier.php
+      user/productlist.php
+      user/productview.php: Updates design
+

@@ -1091,3 +1091,15 @@ Maintainer(s) : jhe@ez.no
 
     * user/messagesimplelist.php: *** empty log message ***
 
+
+Module : ezforum
+Repository path : /home/cvsroot/projects/php/ezforum
+Maintainer(s) : jhe@ez.no
+2002-02-26  Christoffer Elo  <ce@ez.no>
+
+    * user/messagesimplelist.php: Updates design
+
+2002-02-26  Baard Farstad  <bf@ez.no>
+
+    * user/latestmessages.php: Added limit in forum list.
+

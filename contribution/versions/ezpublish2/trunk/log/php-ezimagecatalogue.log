@@ -919,3 +919,27 @@ Maintainer(s) : br@ez.no
     * user/imagelist.php:
     Fixed bug where image edit was shown without the correct permissions
 
+
+Module : ezimagecatalogue
+Repository path : /home/cvsroot/projects/php/ezimagecatalogue
+Maintainer(s) : br@ez.no
+2002-02-26  Bjoern Reiten  <br@ez.no>
+
+    * admin/categoryedit.php: fixed bug. $folder should be $category.
+
+    * admin/categoryedit.php: fixed bug. $folder should be $category
+
+    * admin/categoryedit.php:
+    fixed bug with getImagesAndCategories function. (had a wrong name)
+
+    * admin/categoryedit.php:
+    fixed bug with getImagesAndCategories function (had a wrong name)
+
+2002-02-26  Jo Henrik Endrerud  <jhe@ez.no>
+
+    * classes/ezimage.php: coding standard issues
+
+2002-02-26  Christoffer Elo  <ce@ez.no>
+
+    * classes/ezimage.php: Updates design
+
