@@ -55,16 +55,12 @@ if ( $StoreStats == "enabled" )
 	include( "ezimagecatalogue/user/menubox.php" );
 	?>
 
-	<table width="100%" cellspacing="0" cellpadding="2" border="0">
-    <tr>
-		<td colspan="2" class="menuhead">Static pages</td>
-	</tr>
-<?
-     // include the static pages for category 2
-     $CategoryID = 2;
-     include( "ezarticle/user/articlelinks.php" );
-?>
-	</table>
+	<?
+    // include the static pages for category 2
+    $CategoryID = 2;
+    include( "ezarticle/user/articlelinks.php" );
+	?>
+
 
    	<!-- Left menu end -->
 		
