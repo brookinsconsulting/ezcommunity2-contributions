@@ -50,6 +50,15 @@ switch ( $url_array[2] )
         include( "ezgroupeventcalendar/user/dayview.php" );
     }
     break;
+    case "weekview" :
+    {
+        $Year = $url_array[3];
+        $Month = $url_array[4];
+        $Day = $url_array[5];
+
+        include( "ezgroupeventcalendar/user/dayview.php" );
+    }
+    break;
     
     case "eventedit" :
     {
