@@ -31,10 +31,13 @@
 <!-- END no_selected_type_item_tpl -->
 
 <!-- BEGIN attribute_list_tpl -->
+<h2 class="boxtext">{type_name}d:</h2>
+<!-- {type_id} -->
+
 <!-- BEGIN attribute_item_tpl -->
 <p class="boxtext">{attribute_name}:</p>
-<textarea class="box" name="AttributeValue[]" cols="40" rows="5" wrap="soft">{attribute_value}</textarea>
-<input class="box" type="hidden" name="AttributeID[]" value="{attribute_id}" />
+<div class="box">{attribute_value}</div>
+<!-- {attribute_id}" -->
 <br /><br />
 <!-- END attribute_item_tpl -->
 <!-- END attribute_list_tpl -->

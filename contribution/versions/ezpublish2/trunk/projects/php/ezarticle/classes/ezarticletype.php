@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezarticletype.php,v 1.2 2001/06/06 11:30:08 pkej Exp $
+// $Id: ezarticletype.php,v 1.3 2001/06/06 11:57:16 pkej Exp $
 //
 // Definition of eZArticleType class
 //
@@ -221,6 +221,47 @@ class eZArticleType
        }
        
        return $return_array;       
+    }
+    
+    /*!
+      Returns every attribute belonging to an article as an array of eZArticleAttribute objects.
+    */
+    function attributesByArticle( $article )
+    {
+        $ret = false;
+
+
+        if ( get_class( $article ) == "ezarticle" )
+        {
+            if ( $this->State_ == "Dirty" )
+                $this->get( $this->ID );
+
+            $this->dbInit();
+            
+            $articleID = $article->id();
+            
+            $return_array = array();
+            $attribute_array = array();
+
+            $this->Database->array_query( $attribute_array, "
+            SELECT Attribute.ID
+            FROM
+                eZArticle_AttributeValue AS Value,
+                eZArticle_Attribute AS Attr
+            WHERE
+                Value.ArticleID='$articleID'
+            AND Value.AttributeID=Attr.ID
+            AND Attr.TypeID='$this->ID'
+            ORDER BY Attr.TypeID, Attr.Placement" );
+
+            for ( $i=0; $i < count( $attribute_array ); $i++ )
+            {
+                $return_array[$i] = new eZArticleAttribute( $attribute_array[$i]["AttributeID"], false );
+            }
+            
+            $ret = true;
+        }
+        return $ret;
     }
 
     /*!

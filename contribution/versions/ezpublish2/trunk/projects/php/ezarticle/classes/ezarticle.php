@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezarticle.php,v 1.91 2001/06/06 11:30:08 pkej Exp $
+// $Id: ezarticle.php,v 1.92 2001/06/06 11:57:16 pkej Exp $
 //
 // Definition of eZArticle class
 //
@@ -1097,7 +1097,7 @@ class eZArticle
         $return_array = array();
         $attribute_array = array();
        
-        $this->Database->array_query( $attribute_array, "SELECT AttributeID FROM eZArticle_AttributeValue WHERE ArticleID='$this->ID'" );
+        $this->Database->array_query( $attribute_array, "SELECT Value.AttributeID FROM eZArticle_AttributeValue as Value, eZArticle_Attribute as Attr WHERE Attr.ID = Value.AttributeID AND Value.ArticleID='$this->ID' ORDER BY Attr.TypeID, Attr.Placement" );
        
         for ( $i=0; $i < count( $attribute_array ); $i++ )
         {
