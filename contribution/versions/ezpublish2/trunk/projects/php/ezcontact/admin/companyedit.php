@@ -69,49 +69,43 @@ if ( $Action == "insert" )
 
     // Upload images
     $file = new eZImageFile();
-    if ( $file->getUploadedFile( "CompanyLogo" ) )
+    if ( $file->getUploadedFile( "logo" ) )
     {
         $logo = new eZImage();
         $logo->setName( "Logo" );
-        
         $logo->setImage( $file );
 
         $logo->store();
-      
-        $company->addImage( $logo );
+
+        $company->setLogoImage( $logo );
     }
     else
     {
+        exit();
         print( $file->name() . " not uploaded successfully" );
     }
+  
+    // Upload images
+    $file = new eZImageFile();
+    if ( $file->getUploadedFile( "image" ) )
+    {
+        $image = new eZImage();
+        $image->setName( "Image" );
+        $image->setImage( $file );
 
-    
-//      if ( isSet ( $CompanyImage ) )
-//      {
-//          $file = new eZImageFile();
-//          if ( $file->getUploadedFile( $CompanyImage ) )
-//          {
-//              $image = new eZImage();
-//              $image->setName( "Image" );
-           
-//              $image->setImage( $file );
-            
-//              $image->store();
-//          }
-//          else
-//          {
-//              print( "bilde funker ikke" );
-//          }
-//      }
+        $image->store();
+
+        $company->setCompanyImage( $image );
+    }
+    else
+    {
+        exit();
+        print( $file->name() . " not uploaded successfully" );
+    }
 
     // Add to user object
     $company->addAddress( $address );
     
-    if ( isSet( $image ) )
-        $company->addImage( $image );
-    if ( isSet( $logo ) )
-        $company->addImage( $logo );
-
     Header( "Location: /contact/companylist/" );
     exit();
 }
@@ -246,8 +240,8 @@ $t->set_block( "company_edit", "email_item_tpl", "email_item" );
 
 $t->set_block( "company_edit", "logo_add_tpl", "logo_add" );
 $t->set_block( "company_edit", "image_add_tpl", "image_add" );
-$t->set_block( "company_edit", "logo_delete_tpl", "logo_delete" );
-$t->set_block( "company_edit", "image_delete_tpl", "image_delete" );
+$t->set_block( "company_edit", "logo_edit_tpl", "logo_edit" );
+$t->set_block( "company_edit", "image_edit_tpl", "image_edit" );
 
 $t->set_block( "company_edit", "company_type_select_tpl", "company_type_select" );
 
@@ -276,8 +270,8 @@ if ( $Action == "new" )
     $t->parse( "logo_add", "logo_add_tpl" );
     $t->parse( "image_add", "image_add_tpl" );
 
-    $t->set_var( "logo_delete", "" );
-    $t->set_var( "image_delete", "" );
+    $t->set_var( "logo_edit", "" );
+    $t->set_var( "image_edit", "" );
     $Action_value = "Insert";
 
     $t->parse( "address_item", "address_item_tpl" );
@@ -296,6 +290,22 @@ if ( $Action == "edit" )
     $t->set_var( "name", $company->name() );
     $t->set_var( "description", $company->comment() );
     $t->set_var( "companyno", $company->companyNo() );
+
+    $logoImage = $company->logoImage();
+
+    if ( get_class ($logoImage ) )
+    {
+        $variation = $logoImage->requestImageVariation( 150, 150 );
+        
+        $t->set_var( "logo_image_src", "/" . $variation->imagePath() );
+        $t->set_var( "logo_name", $imageList[$i]->name() );
+        
+        $t->set_var( "logo_add", "" );
+        $t->parse( "logo_edit", "logo_edit_tpl" );
+        print( "5555" );
+    }
+        
+    }
 
     $message = "Rediger firmainformasjon";
 
@@ -366,30 +376,44 @@ if ( $Action == "edit" )
     }
 
     // Image list
-    $imageList = $company->images( $company->id() );
+
+
+    print ( count ( $imageList ) );
     if ( count ( $imageList ) <= 2 )
     {
-        foreach( $imageList as $imageItem )
+        for( $i=0; $i<count( $imageList ); $i++ )
         {
-            if ( $imageItem->name() == "CompanyLogo" )
+            if ( $imageList[$i]->name() == "Logo" )
             {
+                $variation = $imageList[$i]->requestImageVariation( 150, 150 );
+
+                $t->set_var( "logo_image_src", "/" . $variation->imagePath() );
+                $t->set_var( "logo_name", $imageList[$i]->name() );
+                
                 $t->set_var( "logo_add", "" );
-                $t->parse( "logo_delete", "logo_delete_tpl" );
+                $t->parse( "logo_edit", "logo_edit_tpl" );
+                print( "5555" );
             }
             else
             {
-                $t->set_var( "logo_delete", "" );
+                print( "6666" );
+                $t->set_var( "logo_edit", "" );
                 $t->parse( "logo_add", "logo_add_tpl" );
             }
 
-            if ( $imageItem->name() == "CompanyImage" )
+            if ( $imageList[$i]->name() == "Image" )
             {
+                $variation = $imageList[$i]->requestImageVariation( 150, 150 );
+
+                $t->set_var( "image_src", "/" . $variation->imagePath() );
+                $t->set_var( "image_name", $imageList[$i]->name() );
+
                 $t->set_var( "image_add", "" );
-                $t->parse( "image_delete", "image_delete_tpl" );
+                $t->parse( "image_edit", "image_edit_tpl" );
             }
             else
             {
-                $t->set_var( "image_delete", "" );
+                $t->set_var( "image_edit", "" );
                 $t->parse( "image_add", "image_add_tpl" );
             }
                  

@@ -77,23 +77,56 @@
 <!-- END email_item_tpl -->
 
 
+
 <!-- BEGIN logo_add_tpl -->
 	<p class="boxtext">{intl-logo}</p>
-	<input size="40" name="CompanyLogo" type="file" />
+	<input size="40" name="logo" type="file" />
 <!-- END logo_add_tpl -->
 
 <!-- BEGIN image_add_tpl -->
 	<p class="boxtext">{intl-image}</p>
-	<input size="40" name="CompanyImage" type="file" />
+	<input size="40" name="image" type="file" />
 <!-- END image_add_tpl -->
 
-<!-- BEGIN logo_delete_tpl -->
-<img src="{logo_src}">{image_text}</img>
-<!-- END logo_delete_tpl -->
+<!-- BEGIN image_edit_tpl -->
+<table width="100%" cellspacing="0" cellpadding="0" border="0">
+<tr>
+    <td>
+       <p class="boxtext">{image_name}</p>
+       <img src="{image_src}" width="{image_width}" height="{image_height}" border="0" alt="{image_alt}" />
+        </td>
+    <td>
+    	<p class="boxtext">{intl-logo}</p>
+	<input size="20" name="userfile" type="file" />
+    </td>
+    <td>
+	<p class="boxtext">{intl-delete}</p>
+	<input name="DeleteImage" type="checkbox" />
+    </td>
+<tr>
+</table>
+<!-- END image_edit_tpl -->
 
-<!-- BEGIN image_delete_tpl -->
-<img src="{image_src}">{image_text}</img>
-<!-- END image_delete_tpl -->
+<!-- BEGIN logo_edit_tpl -->
+<table width="100%" cellspacing="0" cellpadding="0" border="0">
+<tr>
+    <td>
+    weopgkwegpojwepgjwigweogkw
+       <p class="boxtext">{logo_name}</p>
+       <img src="{logo_image_src}" width="{image_width}" height="{image_height}" border="0" alt="{image_alt}" />
+        </td>
+    <td>
+    	<p class="boxtext">{intl-logo}</p>
+	<input size="20" name="userfile" type="file" />
+    </td>
+    <td>
+	<p class="boxtext">{intl-delete}</p>
+	<input name="DeleteImage" type="checkbox" />
+    </td>
+<tr>
+</table>
+<!-- END logo_edit_tpl -->
+
 
 <br />
 

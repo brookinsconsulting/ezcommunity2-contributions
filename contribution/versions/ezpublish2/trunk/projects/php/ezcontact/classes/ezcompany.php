@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezcompany.php,v 1.26 2000/11/15 15:31:43 ce-cvs Exp $
+// $Id: ezcompany.php,v 1.27 2000/11/16 10:40:06 ce-cvs Exp $
 //
 // Definition of eZProduct class
 //
@@ -442,6 +442,138 @@ class eZCompany
        return $return_array;
     }
 
+    /*!
+      Sets the logo image for the company.
+
+      The argument must be a eZImage object.
+    */
+    function setLogoImage( $image )
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+        
+        if ( get_class( $image ) == "ezimage" )
+        {
+            $this->dbInit();
+
+            $imageID = $image->id();
+
+            $this->Database->array_query( $res_array, "SELECT COUNT(*) AS Number FROM eZContact_CompanyImageDefinition
+                                     WHERE
+                                     CompanyID='$this->ID'" );
+
+            if ( $res_array[0]["Number"] == "1" )
+            {            
+                $this->Database->query( "UPDATE eZContact_CompanyImageDefinition
+                                     SET
+                                     LogoImageID='$imageID'
+                                     WHERE
+                                     CompanyID='$this->ID'" );
+            }
+            else
+            {
+                $this->Database->query( "INSERT INTO eZContact_CompanyImageDefinition
+                                     SET
+                                     CompanyID='$this->ID',
+                                     LogoImageID='$imageID'" );
+            }
+        }
+    }
+
+
+    /*!
+      Returns the logo image of the company as a eZImage object.
+    */
+    function logoImage( )
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+       $ret = false;
+       $this->dbInit();
+       
+       $this->Database->array_query( $res_array, "SELECT * FROM eZContact_CompanyImageDefinition
+                                     WHERE
+                                     CompanyID='$this->ID'
+                                   " );
+       
+       if ( count( $res_array ) == 1 )
+       {
+           if ( $res_array[0]["LogoImageID"] != "NULL" )
+           {
+               $ret = new eZImage( $res_array[0]["LogoImageID"], false );
+           }               
+       }
+       
+       return $ret;
+    }
+
+
+    /*!
+      Sets the company image for the company.
+
+      The argument must be a eZImage object.
+    */
+    function setCompanyImage( $image )
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+        
+        if ( get_class( $image ) == "ezimage" )
+        {
+            $this->dbInit();
+
+            $imageID = $image->id();
+
+            $this->Database->array_query( $res_array, "SELECT COUNT(*) AS Number FROM eZContact_CompanyImageDefinition
+                                     WHERE
+                                     CompanyID='$this->ID'" );
+
+            if ( $res_array[0]["Number"] == "1" )
+            {            
+                $this->Database->query( "UPDATE eZContact_CompanyImageDefinition
+                                     SET
+                                     CompanyImageID='$imageID'
+                                     WHERE
+                                     CompanyID='$this->ID'" );
+            }
+            else
+            {
+                $this->Database->query( "INSERT INTO eZContact_CompanyImageDefinition
+                                     SET
+                                     CompanyID='$this->ID',
+                                     CompanyImageID='$imageID'" );
+            }
+        }
+    }
+
+
+    /*!
+      Returns the logo image of the company as a eZImage object.
+    */
+    function imageImage( )
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+       $ret = false;
+       $this->dbInit();
+       
+       $this->Database->array_query( $res_array, "SELECT * FROM eZContact_CompanyImageDefinition
+                                     WHERE
+                                     CompanyID='$this->ID'
+                                   " );
+       
+       if ( count( $res_array ) == 1 )
+       {
+           if ( $res_array[0]["CompanyImageID"] != "NULL" )
+           {
+               $ret = new eZImage( $res_array[0]["CompanyImageID"], false );
+           }               
+       }
+       
+       return $ret;
+    }
     
     
     /*!

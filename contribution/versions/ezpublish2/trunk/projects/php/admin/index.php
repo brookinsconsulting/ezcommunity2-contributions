@@ -56,9 +56,6 @@ if ( $user )
         if ( $ini->read_var( "site", "eZLink" ) == "enabled" )
             include( "ezlink/admin/menubox.php" );
 
-        if ( $ini->read_var( "site", "eZContact" ) == "enabled" )
-            include( "ezcontact/admin/menubox.php" );
-
         if ( $ini->read_var( "site", "eZTodo" ) == "enabled" )
             include( "eztodo/admin/menubox.php" );
 
