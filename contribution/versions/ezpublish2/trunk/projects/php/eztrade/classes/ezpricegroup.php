@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezpricegroup.php,v 1.2 2001/02/26 17:36:56 jb Exp $
+// $Id: ezpricegroup.php,v 1.3 2001/02/27 10:47:35 jb Exp $
 //
 // Definition of eZPriceGroup class
 //
@@ -72,6 +72,8 @@ class eZPriceGroup
                      Description='$this->Description',
                      Placement='$this->Placement'
                      $id_type ID='$this->ID'" );
+        if ( !is_numeric( $this->ID ) )
+            $this->ID = mysql_insert_id();
     }
 
     function delete( $id = false )
