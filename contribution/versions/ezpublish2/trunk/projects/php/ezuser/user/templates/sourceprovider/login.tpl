@@ -1,9 +1,9 @@
-	<h3>Brukerinformasjon</h3>
-
+	
 	<form method="post" action="/user/login/login/">
-	{intl-username}<br>
-	<input type="text" size="10" name="Username"/><br>
-	{intl-password}<br>
-	<input type="password" size="10" name="Password"/><br>
+	<p class="menutext">{intl-username}</p>
+	<input type="text" size="8" name="Username"/>
+	<p class="menutext">{intl-password}</p>
+	<input type="password" size="8" name="Password"/><br />
+	<p class="menuspacer">&nbsp;</p>
 	<input type="submit" value="OK" />
 	</form>
