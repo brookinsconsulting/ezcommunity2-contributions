@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: messagelist.php,v 1.40 2001/09/05 07:55:00 jhe Exp $
+// $Id: messagelist.php,v 1.41 2001/09/05 09:06:47 jhe Exp $
 //
 // Created on: <11-Sep-2000 22:10:06 bf>
 //
@@ -31,7 +31,7 @@ include_once( "classes/eztemplate.php" );
 include_once( "classes/ezlocale.php" );
 include_once( "classes/ezdatetime.php" );
 include_once( "classes/ezlist.php" );
-include_once( "ezsession/classes/ezpreference.php" );
+include_once( "ezsession/classes/ezpreferences.php" );
 include_once( "ezuser/classes/ezuser.php" );
 
 include_once( "ezforum/classes/ezforummessage.php" );
@@ -67,7 +67,7 @@ $user =& eZUser::currentUser();
 if ( isSet( $ForumMessages ) )
 {
     if ( $user )
-        eZPreference::setVariable( "eZForum_ForumMessages", $ForumMessages );
+        eZPreferences::setVariable( "eZForum_ForumMessages", $ForumMessages );
     else
         $session->setVariable( "eZForum_ForumMessages", $ForumMessages );
     $UserLimit = $ForumMessages;
@@ -76,8 +76,8 @@ else
 {
     if ( $user )
     {
-        if ( eZPreference::variable( "eZForum_ForumMessages" ) )
-            $UserLimit = eZPreference::variable( "eZForum_ForumMessages" );
+        if ( eZPreferences::variable( "eZForum_ForumMessages" ) )
+            $UserLimit = eZPreferences::variable( "eZForum_ForumMessages" );
         else
             $UserLimit = $ini->read_var( "eZForumMain", "MessageUserLimit" );
     }
