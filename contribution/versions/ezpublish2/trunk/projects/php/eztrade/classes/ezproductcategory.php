@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezproductcategory.php,v 1.5 2000/09/13 12:51:08 bf-cvs Exp $
+// $Id: ezproductcategory.php,v 1.6 2000/09/14 12:44:17 bf-cvs Exp $
 //
 // Definition of eZCompany class
 //
@@ -99,6 +99,8 @@ class eZProductCategory
 		                         Name='$this->Name',
                                  Description='$this->Description',
                                  Parent='$this->Parent'" );
+
+        $this->ID = mysql_insert_id();
         
         return mysql_insert_id();
     }
@@ -156,6 +158,37 @@ class eZProductCategory
     }
 
     /*!
+      Returns the categories with the category given as parameter as parent.
+
+      The categories are returned as an array of eZProductCategory objects.
+    */
+    function getByParent( $parent, $sortby=name )
+    {
+        if ( get_class( $parent ) == "ezproductcategory" )
+        {
+            $this->dbInit();
+        
+            $return_array = array();
+            $category_array = array();
+
+            $parentID = $parent->id();
+                 
+            $this->Database->array_query( $category_array, "SELECT ID, Name FROM eZTrade_Category WHERE Parent='$parentID' ORDER BY Name" );
+        
+            for ( $i=0; $i<count($category_array); $i++ )
+            {
+                $return_array[$i] = new eZProductCategory( $category_array[$i]["ID"], 0 );
+            }
+            
+            return $return_array;
+        }
+        else
+        {
+            return 0;
+        }
+    }
+    
+    /*!
       Returns the object ID to the category. This is the unique ID stored in the database.
     */
     function id()
@@ -196,8 +229,15 @@ class eZProductCategory
     {
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
-        
-        // implement
+
+       if ( $this->Parent != 0 )
+       {
+           return new eZProductCategory( $this->Parent );
+       }
+       else
+       {
+           return 0;           
+       }
     }
 
 
@@ -231,6 +271,7 @@ class eZProductCategory
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
 
+       print get_class( $value );
        if ( get_class( $value ) == "ezproductcategory" )
        {
            $this->Parent = $value->id();

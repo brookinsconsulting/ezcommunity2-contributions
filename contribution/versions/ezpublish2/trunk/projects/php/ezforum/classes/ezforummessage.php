@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: ezforummessage.php,v 1.38 2000/09/08 13:10:05 bf-cvs Exp $
+    $Id: ezforummessage.php,v 1.39 2000/09/14 12:44:17 bf-cvs Exp $
 
     Author: Lars Wilhelmsen <lw@ez.no>
     
@@ -395,13 +395,13 @@ class eZForumMessage
             $t->set_var( "replies", $replies );
 
             // legger på kode for å vise "gren" ikon
-            $spacer = "<img src=\"". $document_root ."/images/trans.gif\" border=\"0\" height=\"21\" width=\"5\" >";
+            $spacer = "<img src=\"/". $document_root ."/images/trans.gif\" border=\"0\" height=\"21\" width=\"5\" >";
 
             if ( ( $replies == 0 ) )
             {
                 if ( $level == 1 )
                 {            
-                    $spacer .= "<img src=\"". $document_root ."/images/n.gif\" border=\"0\" height=\"21\" width=\"9\" >";
+                    $spacer .= "<img src=\"/". $document_root ."/images/n.gif\" border=\"0\" height=\"21\" width=\"9\" >";
                 }
                 else
                 {
@@ -416,11 +416,11 @@ class eZForumMessage
                     }
 
                     if ( $level > 2 )
-                        $spacer .= "<img  src=\"". $document_root ."/images/trans.gif\" height=\"21\" width=\"" . ( ($level-2)*12 ) ."\" border=\"0\">";
+                        $spacer .= "<img  src=\"/". $document_root ."/images/trans.gif\" height=\"21\" width=\"" . ( ($level-2)*12 ) ."\" border=\"0\">";
                 
-                    $spacer .= "<img  src=\"". $document_root ."/images/" . $imgtype . ".gif\"  height=\"21\" width=\"12\" border=\"0\">";
+                    $spacer .= "<img  src=\"/". $document_root ."/images/" . $imgtype . ".gif\"  height=\"21\" width=\"12\" border=\"0\">";
 
-                    $spacer .= "<img  src=\"". $document_root ."/images/c.gif\" border=\"0\" height=\"21\" width=\"9\" >";
+                    $spacer .= "<img  src=\"/". $document_root ."/images/c.gif\" border=\"0\" height=\"21\" width=\"9\" >";
                 
                 }            
             }
@@ -429,14 +429,14 @@ class eZForumMessage
                 if ( $level > 1 )
                 {
                     if ( $level > 2 )
-                        $spacer .= "<img   src=\"". $document_root ."/images/trans.gif\" width=\"" . ( ($level-2)*12 ) ."\" border=\"0\">";
+                        $spacer .= "<img   src=\"/". $document_root ."/images/trans.gif\" width=\"" . ( ($level-2)*12 ) ."\" border=\"0\">";
                 
-                    $spacer .= "<img  height=\"21\" width=\"12\" src=\"". $document_root ."/images/l.gif\" border=\"0\">";
-                    $spacer .= "<img  height=\"21\" width=\"9\" src=\"". $document_root ."/images/m.gif\" border=\"0\">";
+                    $spacer .= "<img  height=\"21\" width=\"12\" src=\"/". $document_root ."/images/l.gif\" border=\"0\">";
+                    $spacer .= "<img  height=\"21\" width=\"9\" src=\"/". $document_root ."/images/m.gif\" border=\"0\">";
                 }
                 else
                 {
-                    $spacer .= "<img  height=\"21\" width=\"9\" src=\"". $document_root ."/images/m.gif\" border=\"0\">";
+                    $spacer .= "<img  height=\"21\" width=\"9\" src=\"/". $document_root ."/images/m.gif\" border=\"0\">";
                 }
             }
 
