@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: payment.php,v 1.36 2001/03/27 09:16:11 jb Exp $
+// $Id: payment.php,v 1.37 2001/03/27 13:05:23 ce Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <02-Feb-2001 16:31:53 bf>
@@ -203,6 +203,8 @@ if ( $PaymentSuccess == "true" )
             $orderOptionValue = new eZOrderOptionValue();
             $orderOptionValue->setOrderItem( $orderItem );
 
+            $orderOptionValue->setRemoteID( $optionValue->remoteID() );
+
             $descriptions =&$value->descriptions();
             
             $orderOptionValue->setOptionName( $option->name() );
@@ -213,7 +215,7 @@ if ( $PaymentSuccess == "true" )
             $orderOptionValue->store();
         }
     }
-   
+
 //      $cart->clear();
 
     //

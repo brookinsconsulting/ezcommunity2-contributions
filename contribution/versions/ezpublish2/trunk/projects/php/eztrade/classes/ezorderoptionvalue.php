@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezorderoptionvalue.php,v 1.6 2001/01/06 16:21:01 bf Exp $
+// $Id: ezorderoptionvalue.php,v 1.7 2001/03/27 13:05:23 ce Exp $
 //
 // Definition of eZOrderOptionValue class
 //
@@ -80,6 +80,7 @@ class eZOrderOptionValue
             $this->Database->query( "INSERT INTO eZTrade_OrderOptionValue SET
 		                         OrderItemID='$this->OrderItemID',
 		                         OptionName='$this->OptionName',
+		                         RemoteID='$this->RemoteID',
 		                         ValueName='$this->ValueName'
                                  " );
 
@@ -92,6 +93,7 @@ class eZOrderOptionValue
             $this->Database->query( "UPDATE eZTrade_Order SET
 		                         OrderItemID='$this->OrderItemID',
 		                         OptionName='$this->OptionName',
+		                         RemoteID='$this->RemoteID',
 		                         ValueName='$this->ValueName'
                                  WHERE ID='$this->ID'
                                  " );
@@ -123,6 +125,7 @@ class eZOrderOptionValue
                 $this->OrderItemID =& $option_value_array[0][ "OrderItemID" ];
                 $this->OptionName =& $option_value_array[0][ "OptionName" ];
                 $this->ValueName =& $option_value_array[0][ "ValueName" ];
+                $this->RemoteID =& $option_value_array[0][ "RemoteID" ];
 
                 $this->State_ = "Coherent";
                 $ret = true;
@@ -164,6 +167,17 @@ class eZOrderOptionValue
 
        return $this->ValueName;
     }
+
+    /*!
+      Returns the value name.
+    */
+    function remoteID( )
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+       return $this->RemoteID;
+    }
     
     /*!
       Sets the order item.
@@ -200,7 +214,17 @@ class eZOrderOptionValue
 
        $this->ValueName = $value;
     }
-    
+
+    /*!
+      Sets the option name.
+    */
+    function setRemoteID( $value )
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+       $this->RemoteID = $value;
+    }
     
     /*!
       \private
@@ -219,7 +243,8 @@ class eZOrderOptionValue
     var $ID;
     var $OrderItemID;
     var $OptionName;
-    var $ValueName;    
+    var $ValueName;
+    var $RemoteID;    
 
     ///  Variable for keeping the database connection.
     var $Database;

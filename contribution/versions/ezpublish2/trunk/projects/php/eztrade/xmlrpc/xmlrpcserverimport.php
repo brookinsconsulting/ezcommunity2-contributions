@@ -446,6 +446,11 @@ function belongsTo( $category )
     {
         $ret[] = "Ansteckschmuck";
     }
+    if ( isPartOf( $orhArray, $category ) )
+    {
+        $ret[] = "Ohrschmuck";
+    }
+
     return $ret;
 }
 
