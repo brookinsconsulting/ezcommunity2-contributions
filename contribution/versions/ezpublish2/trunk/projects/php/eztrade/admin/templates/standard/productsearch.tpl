@@ -1,7 +1,7 @@
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
 	<td>
-	<h1>{intl-productlist} - ({product_start}-{product_end}/{product_total})</h1>
+	<h1>{intl-product_search} - ({product_start}-{product_end}/{product_total})</h1>
 	</td>
      <td align="right">
  	 <form action="{www_dir}{index}/trade/search/" method="post">
