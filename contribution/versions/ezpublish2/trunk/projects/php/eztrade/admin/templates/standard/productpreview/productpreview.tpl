@@ -39,16 +39,14 @@
 
 <br clear="all" />
 <table width="100%" cellspacing="0" cellpadding="7">
-<tr>
 <!-- BEGIN image_tpl -->
+<tr>
 <td class="bglight">
 <table cellspacing="0" cellpadding="0" border="0" border="0">
 <tr>
 	<td valign="top">
 	<img src="{image_url}" border="0" alt="{image_caption}" width="{image_width}" height="{image_height}"/>
 	</td>
-</tr>
-<tr>
 	<td valign="top">
 	<p class="pictext">
 	{image_caption}
@@ -58,11 +56,9 @@
 </table>
 
 </td>
-
+</tr>
 <!-- END image_tpl -->
 
-
-</tr>
 </table>
 
 <!-- BEGIN option_tpl -->
