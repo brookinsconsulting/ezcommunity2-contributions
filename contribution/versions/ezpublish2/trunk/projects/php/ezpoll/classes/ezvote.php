@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezvote.php,v 1.19 2001/06/26 11:31:35 bf Exp $
+// $Id: ezvote.php,v 1.20 2001/07/12 07:03:50 fh Exp $
 //
 // Definition of eZVote class
 //
@@ -235,7 +235,7 @@ class eZVote
     */
     function ipHasVoted( $IP, $pollID )
     { 
-        $ret = false;
+        $ret = true;
 
         $vote_array = array();
 
@@ -245,7 +245,7 @@ class eZVote
                                                     WHERE VotingIP='$IP' AND PollID='$pollID'" );
         if ( count( $vote_array ) == 0 )
         {
-            $ret = true;
+            $ret = false;
         }
 
         return $ret;

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: vote.php,v 1.12 2001/01/23 13:16:57 jb Exp $
+// $Id: vote.php,v 1.13 2001/07/12 07:03:50 fh Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <20-Sep-2000 13:32:11 ce>
@@ -54,8 +54,8 @@ if ( $poll->isClosed() )
 $poll = new eZPoll( $PollID );
 if ( !$poll->anonymous() )
 {
-    $user = eZUser::currentUser();
-    if ( !$user )
+    $pollUser = eZUser::currentUser();
+    if ( !$pollUser )
     {
         eZHTTPTool::header( "Location: /user/user/new/" );
         exit();
@@ -85,10 +85,10 @@ else
 }
 
 
-if ( $user )
+if ( $pollUser )
 {
     $checkvote = new eZVote();
-    if ( $checkvote->isVoted( $user->id(), $PollID  ))
+    if ( $checkvote->isVoted( $pollUser->id(), $PollID  ))
         $Voted = true;
     else
         $Voted = false;
@@ -100,8 +100,8 @@ if ( !$Voted )
     $vote->setPollID( $PollID );
     $vote->setChoiceID( $ChoiceID );
     $vote->setVotingIP( $REMOTE_ADDR );
-    if ( $user )
-        $vote->setUserID( $user->id() );
+    if ( $pollUser )
+        $vote->setUserID( $pollUser->id() );
     if ( !$ChoiceID == 0 )
     $vote->store();
 }
