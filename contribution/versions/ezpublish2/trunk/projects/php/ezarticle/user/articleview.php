@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: articleview.php,v 1.43 2001/06/06 12:12:25 pkej Exp $
+// $Id: articleview.php,v 1.44 2001/06/06 12:31:02 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <18-Oct-2000 16:34:51 bf>
@@ -343,12 +343,22 @@ else
 }
 
 
+// set variables for meta information
+$SiteTitleAppend = $article->name();
+$SiteDescriptionOverride = str_replace( "\"", "", strip_tags( $articleContents[0] ) );
 
 if ( $GenerateStaticPage == "true" )
 {
+    
     $fp = fopen ( $cachedFile, "w+");
 
-    $output = $t->parse( $target, "article_view_page_tpl" );
+    // add PHP code in the cache file to store variables
+    $output = "<?php\n";
+    $output .= "\$SiteTitleAppend=\"$SiteTitleAppend\";\n";
+    $output .= "\$SiteDescriptionOverride=\"$SiteDescriptionOverride\";\n";    
+    $output .= "?>\n";
+
+    $output .= $t->parse( $target, "article_view_page_tpl" );
     
     // print the output the first time while printing the cache file.
     print( $output );

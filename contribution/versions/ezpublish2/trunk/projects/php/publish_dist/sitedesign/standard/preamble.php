@@ -2,12 +2,17 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="no" lang="no">
 
 <head>
-<title><?
-if ( isset( $Title ) )
-    print( $Title );
+<title><?php
+// set the site title
+
+$SiteTitle = $ini->read_var( "site", "SiteTitle" );
+
+if ( isset( $SiteTitleAppend ) )    
+    print( $SiteTitle . " - " . $SiteTitleAppend );
 else
-	print( "eZ publish" );
-    ?></title>
+    print( $SiteTitle );
+
+?></title>
     
 <link rel="stylesheet" type="text/css" href="/sitedesign/standard/style.css" />
 
@@ -42,4 +47,24 @@ else
 	
 //-->
 </script> 
+
+
+<meta name="author" content="eZ systems" />
+<meta name="copyright" content="eZ systems &copy; 2001" />
+<meta name="description" content="<?php
+
+// set the content meta information
+if ( isset( $SiteDescriptionOverride ) )
+{
+    print( $SiteDescriptionOverride );
+}
+else
+{
+    $SiteDescription = $ini->read_var( "site", "SiteDescription" );
+    print( $SiteDescription );
+}
+
+?>" />
+<meta name="keywords" content="IT, data, computer, web, internet, PC, network, server, programming, publishing, portal, intranet, e-commerce, e-trade, software, database, open source, unix, linux, apache, PHP, HTML, XML, MySQL, Skien, Grenland, Telemark, Norway" />
+
 

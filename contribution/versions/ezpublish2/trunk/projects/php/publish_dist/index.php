@@ -17,7 +17,6 @@ $UsePHPSessions = false;
 ob_start();
 // Turn on output buffering with gz compression
 //ob_start("ob_gzhandler");
-//ob_start("ob_gzhandler");
 
 if ( $UsePHPSessions == true )
 {
@@ -186,6 +185,8 @@ if ( ( $requireUserLogin == "disabled" ) ||
             // The following variables can be set from the contents page:
             // $PrintableVersion = "enabled | disabled";
             // $GlobalSectionID = integer value, reference to the selected section.
+            // $SiteTitleAppend = string which will be appended to the site title
+            // $SiteDescriptionOverride = string which will override the meta content information
         }
         else
         {
@@ -222,22 +223,10 @@ if ( ( $requireUserLogin == "disabled" ) ||
             $GlobalSiteDesign = $siteDesign;
         }
         
-        $meta_page = "ez" . $url_array[1] . "/metasupplier.php";
-        
         // include some html
         $Title = $ini->read_var( "site", "SiteTitle" );
         include( "sitedesign/$siteDesign/preamble.php" );
         
-        // check if there is specific meta info, if not include the default
-        if ( file_exists( $meta_page ) )
-        {
-            include( $meta_page );
-        }
-        else
-        {
-            // Load the default meta info
-            include( "sitedesign/$siteDesign/defaultmetainfo.php" );
-        }    
 
         // include more html
         if ( $PrintableVersion == "enabled" )
