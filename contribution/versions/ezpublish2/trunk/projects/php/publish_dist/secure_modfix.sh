@@ -73,8 +73,8 @@ do
     else
         echo "Creating $dir"
 	    mkdir -p $dir
-            chown $1:$2 $dir
     fi
+    chown $1:$2 $dir
     chmod 770 $dir   
 done
 
