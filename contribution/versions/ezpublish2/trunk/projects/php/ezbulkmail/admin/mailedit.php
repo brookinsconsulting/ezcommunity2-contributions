@@ -61,6 +61,7 @@ $t->set_var( "error_message", "" );
 
 $t->set_var( "site_style", $SiteStyle );
 $t->set_var( "from_value", "" );
+$t->set_var( "from_name_value", "" );
 $t->set_var( "subject_value", "" );
 $t->set_var( "mail_body", "" );
 $t->set_var( "current_mail_id", "" );
@@ -70,8 +71,19 @@ if( $MailID == 0 )
 {
     // put signature stuff here...
 }
-$user = eZUser::currentUser();
-$t->set_var( "from_value", $user->email() );
+$useDefaults = $ini->read_var( "eZBulkMailMain", "UseBulkmailSenderDefaults" );
+
+if( $useDefaults == "enabled" && empty( $From ) && empty( $FromName ) )
+{
+    $t->set_var( "from_value", $ini->read_var( "eZBulkMailMain", "BulkmailSenderAddress" ) );
+    $t->set_var( "from_name_value", $ini->read_var( "eZBulkMailMain", "BulkmailSenderName" ) );
+}
+else
+{
+    $user = eZUser::currentUser();
+    $t->set_var( "from_value", $user->email() );
+    $t->set_var( "from_name_value", $user->name() );
+}
 $categoryArrayID = array();
 /** We are editing an allready existent mail... lets insert it's values **/
 if( $MailID != 0 ) 
@@ -130,7 +142,7 @@ $t->pparse( "output", "mail_edit_page_tpl" );
  */
 function save_mail()
 {
-    global $CategoryArrayID, $TemplateID, $To, $From, $Subject, $MailBody, $MailID, $error;// instead of passing them as arguments..
+    global $ini, $CategoryArrayID, $TemplateID, $To, $FromName, $From, $Subject, $MailBody, $MailID, $error;// instead of passing them as arguments..
 
     if( $MailID == 0 )
     {
@@ -141,7 +153,10 @@ function save_mail()
     {
         $mail = new eZBulkMail( $MailID );
     }
+
     $mail->setSender( $From  ); // from NAME
+    $mail->setFromName( $FromName ); // from NAME
+    
     $mail->setSubject( $Subject );
     $mail->setBodyText( $MailBody );
 

@@ -59,8 +59,9 @@ if( $EditButton == true )
 $mail = new eZBulkMail( $MailID );
 if( is_object( $mail ) )
 {
+    $fromString = $mail->fromName() . " &lt;" . $mail->sender() ."&gt;";
     $t->set_var( "current_mail_id", $MailID );
-    $t->set_var( "from", $mail->sender() );
+    $t->set_var( "from", $fromString );
     $t->set_var( "subject", $mail->subject() );
 
     /** check if this mail has a template associated with it **/

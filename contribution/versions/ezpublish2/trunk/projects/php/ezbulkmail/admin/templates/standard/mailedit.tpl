@@ -42,6 +42,9 @@
 <p class="boxtext">{intl-from}:</p>
 <input type="text" class="box" size="40" name="From" value="{from_value}"/>
 
+<p class="boxtext">{intl-from_name}:</p>
+<input type="text" class="box" size="40" name="FromName" value="{from_name_value}"/>
+
 <p class="boxtext">{intl-body}:</p>
 <textarea name="MailBody" class="box" cols="40" rows="20" wrap="soft">{mail_body}</textarea>
 <br /><br />
