@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: itemedit.php,v 1.1 2001/11/21 14:49:02 bf Exp $
+// $Id: itemedit.php,v 1.2 2002/02/08 16:13:37 bf Exp $
 //
 // Created on: <20-Nov-2001 17:23:58 bf>
 //
@@ -33,12 +33,16 @@ include_once( "ezdatamanager/classes/ezdatatypeitem.php" );
 include_once( "ezdatamanager/classes/ezdataitem.php" );
 include_once( "ezarticle/classes/ezarticlegenerator.php" );
 
+include_once( "ezuser/classes/ezusergroup.php" );
+
 
 if ( isset( $Store ) )
 {
     $item = new eZDataItem( $ItemID );
 
     $item->setName( $ItemName );
+    $item->setOwnerGroup( $ItemOwnerGroupID );
+    
     $item->store();
     
     $dataType =& $item->dataType();
@@ -49,8 +53,8 @@ if ( isset( $Store ) )
     {
         unset( $contentsArray );
         $contentsArray[] = $ItemValueArray[$dataTypeItem->id()];
-        $contents = $generator->generateXML( $contentsArray );
-        
+        $contents = $generator->generateXML( $contentsArray );        
+
         $item->setItemValue( $dataTypeItem, $contents );
     }
 
@@ -87,6 +91,7 @@ $locale = new eZLocale( $Language );
 
 $t->set_file( "item_edit_tpl", "itemedit.tpl" );
 $t->set_block( "item_edit_tpl", "item_type_option_tpl", "item_type_option" );
+$t->set_block( "item_edit_tpl", "item_owner_group_tpl", "item_owner_group" );
 $t->set_block( "item_edit_tpl", "item_value_list_tpl", "item_value_list" );
 $t->set_block( "item_value_list_tpl", "item_value_tpl", "item_value" );
 
@@ -120,6 +125,33 @@ foreach ( $types as $type )
     $t->set_var( "type_name", $type->name() );
 
     $t->parse( "item_type_option", "item_type_option_tpl", true );
+}
+
+$item = new eZDataItem( $ItemID );
+
+
+// group selector
+$group = new eZUserGroup();
+$groupList = $group->getAll();
+
+foreach ( $groupList as $group )
+{
+    $t->set_var( "group_id", $group->id() );
+    $t->set_var( "group_name", $group->name() );
+
+    if ( $ItemID > 0 )
+    {
+        if ( $item->ownerGroup( false ) == $group->id() )
+            $t->set_var( "selected", "selected" );
+        else
+            $t->set_var( "selected", "" );        
+    }
+    else
+    {
+        $t->set_var( "selected", "" );
+    }
+
+    $t->parse( "item_owner_group", "item_owner_group_tpl", true );
 }
 
 if ( $ItemID > 0 )

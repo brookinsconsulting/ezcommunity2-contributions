@@ -11,6 +11,15 @@
 <!-- END item_type_option_tpl -->
 </select>
 
+
+<p class="boxtext">{intl-item_owner_group}:</p>
+<select name="ItemOwnerGroupID" >
+<option value="0">{intl-everybody}</option>
+<!-- BEGIN item_owner_group_tpl -->
+<option {selected} value="{group_id}">{group_name}</option>
+<!-- END item_owner_group_tpl -->
+</select>
+
 <input class="stdbutton" type="submit" name="SelectType" value="{intl-select}" />
 
 <p class="boxtext">{intl-item_name}:</p>

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezdataitem.php,v 1.3 2001/11/23 18:13:45 bf Exp $
+// $Id: ezdataitem.php,v 1.4 2002/02/08 16:13:37 bf Exp $
 //
 // Definition of eZDataItem class
 //
@@ -67,6 +67,7 @@ class eZDataItem
                          ( ID, DataTypeID, Name ) VALUES 
                          ( '$nextID',
                            '$this->DataTypeID',
+                           '$this->OwnerGroupID',
 		                   '$name' )
                           " );
         
@@ -76,7 +77,8 @@ class eZDataItem
         {
             $res = $db->query( "UPDATE eZDataManager_Item SET
 		                 Name='$name',
-                         DataTypeID='$this->DataTypeID'
+                         DataTypeID='$this->DataTypeID',
+                         OwnerGroupID='$this->OwnerGroupID'
                          WHERE ID='$this->ID'" );
         }
 
@@ -110,6 +112,7 @@ class eZDataItem
                 $this->ID =& $type_array[0][$db->fieldName( "ID" )];
                 $this->Name =& $type_array[0][$db->fieldName( "Name" )];
                 $this->DataTypeID =& $type_array[0][$db->fieldName( "DataTypeID" )];
+                $this->OwnerGroupID =& $type_array[0][$db->fieldName( "OwnerGroupID" )];
             }
         }
     }
@@ -157,6 +160,28 @@ class eZDataItem
         return $this->Name;
     }
 
+    /*!
+      Sets the owner group id.
+    */
+    function setOwnerGroup( $value )
+    {
+        $this->OwnerGroupID = $value;
+    }
+
+    /*!
+      Returns the owner group as object or id.
+    */
+    function ownerGroup( $as_object=true )
+    {
+        if ( $as_object == true )
+        {
+            include_once( "ezuser/classes/ezusergroup.php" );
+            return new eZUserGroup( $this->OwnerGroupID );
+        }
+        else
+            return $this->OwnerGroupID;
+    }
+    
     /*!
       Sets the data type
     */
@@ -330,6 +355,9 @@ class eZDataItem
 
     /// the name of the data item
     var $Name;
+
+    /// the user group which can edit the item
+    var $OwnerGroupID;
 
     /// the datatype for this item
     var $DataTypeID;
