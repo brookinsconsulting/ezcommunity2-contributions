@@ -6,6 +6,7 @@
      <td>Forfatter:</td>
      <td>Tidspunkt:</td>
      <td>Emailnotis:</td>
+     <td colspan="2">&nbsp;</td>
    </tr>
-   {messages}
+   {fields}
 </table>
