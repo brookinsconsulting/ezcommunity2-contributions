@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezconsultation.php,v 1.27 2001/09/14 12:21:35 jhe Exp $
+// $Id: ezconsultation.php,v 1.27.2.1 2001/10/24 11:29:01 jhe Exp $
 //
 // Definition of eZConsultation class
 //
@@ -546,13 +546,11 @@ class eZConsultation
             $db->array_query( $qry_array, "SELECT CPUD.ConsultationID
                                            FROM
                                            eZContact_ConsultationPersonUserDict AS CPUD,
-                                           eZContact_Consultation AS C,
-                                           eZContact_ConsultationType AS CT
+                                           eZContact_Consultation AS C
                                            WHERE
                                            CPUD.PersonID='$contact' AND
                                            $userString
-                                           CPUD.ConsultationID = C.ID AND
-                                           CT.ID=C.StateID
+                                           CPUD.ConsultationID = C.ID
                                            $OrderBy", $limit );
         }
         else
@@ -560,15 +558,14 @@ class eZConsultation
             $db->array_query( $qry_array, "SELECT CPCD.ConsultationID
                                            FROM
                                            eZContact_ConsultationCompanyUserDict AS CPCD,
-                                           eZContact_Consultation AS C,
-                                           eZContact_ConsultationType AS CT
+                                           eZContact_Consultation AS C
                                            WHERE
                                            CPCD.CompanyID='$contact' AND
                                            $userString2
-                                           CPCD.ConsultationID = C.ID AND
-                                           CT.ID=C.StateID
+                                           CPCD.ConsultationID = C.ID
                                            $OrderBy", $limit );
         }
+        
         $ret_array = array();
         foreach ( $qry_array as $qry )
         {
