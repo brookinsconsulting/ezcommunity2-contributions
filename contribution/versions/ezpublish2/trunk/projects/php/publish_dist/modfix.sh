@@ -1,6 +1,12 @@
 #!/bin/sh
 echo "Creating symbolic links and setting permissions as needed."
 chmod 666 site.ini
+if [ -f "override/site.ini" ]; then
+    chmod 666 override/site.ini
+fi
+if [ -f "override/site.ini.append" ]; then
+    chmod 666 override/site.ini.append
+fi
 
 touch error.log
 chmod 666 error.log
@@ -50,6 +56,14 @@ do
     chmod 777 $dir   
 done
 
+for dir in $dirs
+do
+    override_dir="override/"$dir
+    if [ -d $override_dir ]; then
+	chmod 777 $override_dir
+    fi
+done
+
 # [admin section]
 # This part will link the modules into the admin directory
 
@@ -80,10 +94,19 @@ ezcalendar
 
 for file in $files
 do
-    if [ -d admin/$file ]; then
+    if [ -d $file ]; then
+	if [ -d admin/$file ]; then
 	    echo "admin/$file already exist"
-    else
+	else
 	    echo "Linking ./$file to admin/$file"
-	    ln -s ../$file admin/$file
+	    ln -sf ../$file admin/$file
+	fi
     fi
 done
+
+if [ -d "override" ]; then
+    if [ ! -d "admin/override" ]; then
+	echo "Linking override to admin/override"
+	ln -sf ../override admin/override
+    fi
+fi
