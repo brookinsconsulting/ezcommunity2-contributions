@@ -1,15 +1,24 @@
 #!/bin/sh
 echo "Creating symbolic links and setting permissions as needed."
+
+# Set permissions for site.ini files
 chmod 666 bin/ini/site.ini
 if [ -f "bin/ini/override/site.ini" ]; then
     chmod 666 bin/ini/override/site.ini
 fi
+if [ -f "bin/ini/override/site.ini.php" ]; then
+    chmod 666 bin/ini/override/site.ini.php
+fi
+
 if [ -f "bin/ini/override/site.ini.append" ]; then
     chmod 666 bin/ini/override/site.ini.append
 fi
 
-touch bin/logs/error.log
-chmod 666 bin/logs/error.log
+# Set permissions for log dir & files
+if [ -d "bin/logs/" ]; then
+    chmod -R 666 bin/logs/
+fi
+
 
 # [cache section]
 # This part will create the cache dirs which are needed and make sure
@@ -61,10 +70,11 @@ ezmediacatalogue/admin/cache
 ezmediacatalogue/cache
 "
 
+
 for dir in $dirs
 do
     if [ -d $dir ]; then
-	    echo "$dir already exist"
+	echo "$dir already exist"
     else
         echo "Creating $dir"
 	    mkdir -p $dir
@@ -79,6 +89,8 @@ do
 	chmod 777 $override_dir
     fi
 done
+
+
 
 # [admin section]
 # This part will link the modules into the admin directory
