@@ -23,9 +23,9 @@ include_once( "ezcontact/classes/ezcompanytype.php" );
 include_once( "classes/ezimagefile.php" );
 include_once( "ezimagecatalogue/classes/ezimage.php" );
 
-$t = new eZTemplate( "ezcontact/user/" . $ini->read_var( "eZContactMain", "TemplateDir" ),
-                     "ezcontact/user/intl", $Language, "companyview.php" );
-$intl = new INIFile( "ezcontact/user/intl/$Language/companyview.php.ini", false );
+$t = new eZTemplate( "ezcontact/admin/" . $ini->read_var( "eZContactMain", "AdminTemplateDir" ),
+                     "ezcontact/admin/intl", $Language, "companyview.php" );
+$intl = new INIFile( "ezcontact/admin/intl/$Language/companyview.php.ini", false );
 $t->setAllStrings();
 
 $t->set_file( array(                    

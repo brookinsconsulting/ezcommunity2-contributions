@@ -50,7 +50,7 @@
 	<td>
 	<br />
 	<p class="boxtext">{intl-infosubscription}:</p>
-	<input {info_subscription} type="checkbox" name="InfoSubscription" /
+	<input {info_subscription} type="checkbox" name="InfoSubscription" />
 	</td>
 </tr>
 

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: sourcesiteedit.php,v 1.1 2000/11/27 09:38:58 bf-cvs Exp $
+// $Id: sourcesiteedit.php,v 1.2 2000/12/06 12:48:36 ce-cvs Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <26-Nov-2000 17:55:31 bf>
@@ -24,6 +24,12 @@
 //
 
 include_once( "classes/INIFile.php" );
+
+$ini = new INIFIle( "site.ini" );
+
+$Language = $ini->read_var( "eZNewsFeedMain", "Language" );
+$ImageDir = $ini->read_var( "eZNewsFeedMain", "ImageDir" );
+
 include_once( "classes/eztemplate.php" );
 include_once( "classes/ezlocale.php" );
 
@@ -33,72 +39,70 @@ include_once( "eznewsfeed/classes/eznewscategory.php" );
 
 if ( $Action == "Insert" )
 {
+    $sourcesite = new eZSourceSite();
+    
+    $sourcesite->setName( $SourceSiteName );
+    $sourcesite->setURL( $SourceSiteURL );
+    $sourcesite->setLogin( $SourceSiteLogin );
+    $sourcesite->setPassword( $SourceSitePassword );
     $category = new eZNewsCategory( $CategoryID );
-    
-    $news = new eZNews( );
+    $sourcesite->setCategory( $catgory );
+    $sourcesite->setDecoder( $SourceSiteDecoder );
 
-    $news->setName( $NewsTitle );
-    $news->setIntro( $NewsIntro );
-    
-    if ( $IsPublished == "on" )
+    if ( $SourceSiteIsActive == "on" )
     {
-        $news->setIsPublished( true );
+        $sourcesite->setIsActive( true );
     }
     else
     {
-        $news->setIsPublished( false );
+        $sourcesite->setIsActive( false  );
     }
 
-    $news->setKeywords( $NewsKeywords );
-    $news->setOrigin( $NewsSource );
-    $news->setURL( $NewsURL );
-    $dateTime = new eZDateTime( 2000, 11, 13, 14, 0, 15 );
-    $news->setOriginalPublishingDate( $dateTime );
+    $sourcesite->store();
 
-    $news->store();
-
-    $category->addNews( $news );
     Header( "Location: /newsfeed/archive/$CategoryID/" );
     exit();
 }
 
 if ( $Action == "Update" )
 {
-    $category = new eZNewsCategory( $CategoryID );
+    print( "ohman" );
+    $sourcesite = new eZSourceSite( $SourceSiteID );
     
-    $news = new eZNews( $NewsID );
+    $sourcesite->setName( $SourceSiteName );
+    $sourcesite->setURL( $SourceSiteURL );
+    $sourcesite->setLogin( $SourceSiteLogin );
+    $sourcesite->setPassword( $SourceSitePassword );
+    $category = new eZNewsCategory( $CategoryID );
+    $sourcesite->setCategory( $category );
+    $sourcesite->setDecoder( $SourceSiteDecoder );
 
-    $news->setName( $NewsTitle );
-    $news->setIntro( $NewsIntro );
-
-    if ( $IsPublished == "on" )
+    if ( $SourceSiteIsActive == "on" )
     {
-        $news->setIsPublished( true );
+        $sourcesite->setIsActive( true );
     }
     else
     {
-        $news->setIsPublished( false );
+        $sourcesite->setIsActive( false  );
     }
 
-    $news->setKeywords( $NewsKeywords );
-    $news->setOrigin( $NewsSource );
-    $news->setURL( $NewsURL );
-    $dateTime = new eZDateTime( 2000, 11, 13, 14, 0, 15 );
-    $news->setOriginalPublishingDate( $dateTime );
+    $sourcesite->store();
 
-    $news->store();
-
-    $news->removeFromCategories();
-    $category->addNews( $news );
     Header( "Location: /newsfeed/archive/$CategoryID/" );
     exit();
 }
 
+if ( $Action == "Delete" )
+{
+    $sourcesite = new eZSourceSite( $SourceSiteID );
+    $sourcesite->delete();
 
-$ini = new INIFIle( "site.ini" );
+    Header( "Location: /newsfeed/archive/$CategoryID/" );
+    exit();
 
-$Language = $ini->read_var( "eZNewsFeedMain", "Language" );
-$ImageDir = $ini->read_var( "eZNewsFeedMain", "ImageDir" );
+}
+
+
 
 $t = new eZTemplate( "eznewsfeed/admin/" . $ini->read_var( "eZNewsFeedMain", "AdminTemplateDir" ),
                      "eznewsfeed/admin/intl/", $Language, "sourcesiteedit.php" );
@@ -111,41 +115,42 @@ $t->set_file( array(
 
 $t->set_block( "news_edit_page_tpl", "value_tpl", "value" );
 
-$t->set_var( "action_value", "Insert" );
+if ( $Action == "New" )
+{
+    $t->set_var( "source_site_name_value", "" );
+    $t->set_var( "source_site_id_value", "" );
+    $t->set_var( "source_site_url_value", "" );
+    $t->set_var( "source_site_login_value", "" );
+    $t->set_var( "source_site_password_value", "" );
+    $t->set_var( "source_site_decoder_value", "" );
+    $t->set_var( "action_value", "Insert" );    
+}
 
-$t->set_var( "news_title_value", "" );
-$t->set_var( "news_source_value", "" );
-$t->set_var( "news_date_value", "" );
-$t->set_var( "news_intro_value", "" );
-$t->set_var( "news_url_value", "" );
-$t->set_var( "news_keywords_value", "" );
-$t->set_var( "news_id", "" );
+
 
 if ( $Action == "Edit" )
 {
-    $news = new eZNews( $NewsID );
+    $sourcesite = new eZSourceSite( $SourceSiteID );
 
-    $t->set_var( "news_title_value", $news->name() );
-    $t->set_var( "news_source_value", $news->origin() );
-    $t->set_var( "news_intro_value", $news->intro() );
-    $t->set_var( "news_url_value", $news->url() );
-    $t->set_var( "news_keywords_value", $news->keywords() );
-    $t->set_var( "news_id", $news->id() );
-    $t->set_var( "action_value", "Update" );
+    $t->set_var( "source_site_name_value", $sourcesite->name() );
+    $t->set_var( "source_site_url_value", $sourcesite->url() );
+    $t->set_var( "source_site_login_value", $sourcesite->login() );
+    $t->set_var( "source_site_password_value", $sourcesite->password() );
+    $t->set_var( "source_site_decoder_value", $sourcesite->decoder() );
+    $t->set_var( "source_site_id", $sourcesite->id() );
+    $t->set_var( "action_value", "update" );
 
-    if ( $news->isPublished() == true )
+    $category = $sourcesite->category();
+
+    if ( $sourcesite->isActive() == true )
     {
-        $t->set_var( "news_is_published", "checked" );
+        $t->set_var( "source_site_isactive_value", "checked" );
     }
     else
     {
-        $t->set_var( "news_is_published", "" );
+        $t->set_var( "source_site_isactive", "" );
     }
-    
-
-    $cats = $news->categories();
-
-    $defCat = $cats[0];
+  
 }
 
 // category select
@@ -156,7 +161,7 @@ foreach ( $categoryArray as $catItem )
 {
     if ( $Action == "Edit" )
     {
-        if ( $defCat->id() == $catItem->id() )
+        if ( $category->ID() == $catItem->id() )
         {
             $t->set_var( "selected", "selected" );
         }

@@ -58,6 +58,19 @@ switch ( $url_array[2] )
     }
     break;
 
+    case "category":
+    {
+        switch( $url_array[3] )
+        {
+            case "edit":
+            {
+                
+            }
+            break;
+        }
+    }
+    break;
+
     default :
         print( "blæ" );
 //        header( "Location: /error.php?type=404&reason=missingpage&hint[]=/contact/company/list/&hint[]=/contact/person/list&module=ezcontact" );

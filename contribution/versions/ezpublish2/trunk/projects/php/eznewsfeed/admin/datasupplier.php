@@ -32,7 +32,20 @@ switch ( $url_array[2] )
         {
             $Action = "Edit";
         }
-        
+        if ( $url_array[3]  == "update" )
+        {
+            $Action = "Update";
+        }
+        if ( $url_array[3]  == "new" )
+        {
+            $Action = "New";
+        }
+        if ( $url_array[3]  == "delete" )
+        {
+            $Action = "Delete";
+        }
+
+        $SourceSiteID = $url_array[4];
         include( "eznewsfeed/admin/sourcesiteedit.php" );
     }
     break;

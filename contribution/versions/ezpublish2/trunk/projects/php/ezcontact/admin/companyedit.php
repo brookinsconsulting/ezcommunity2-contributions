@@ -61,6 +61,17 @@ if ( isSet ( $Back ) )
     exit();
 }
 
+if ( isSet ( $Edit ) )
+{
+    $Action = "edit";
+}
+
+if ( isSet ( $Delete ) )
+{
+    $Action = "delete";
+}
+
+
 if ( isSet ( $Preview ) )
 {
     header( "Location: /contact/company/view/$CompanyID" );
@@ -129,6 +140,7 @@ $t->set_var( "email_online_id", "$MailID" );
 $t->set_var( "web_online_id", "$WebID" );
 $t->set_var( "address_id", "$AddressID" );
 $t->set_var( "user_id", "$UserID" );
+$t->set_var( "login", "$Login" );
 
 $t->set_var( "address_action_type", "hidden" );
 $t->set_var( "address_list", "&nbsp;" );
@@ -277,7 +289,7 @@ if( $Action == "insert" && $error == false )
     $user = new eZUser();
     $user->setFirstName( $Name );
     $user->setLastName( $CompanyNo );
-    $user->setLogin( $Name );
+    $user->setLogin( $Login );
     $user->setEmail( $Online[1] );
     if( $Password == $RepeatPassword && !empty( $Password ) )
     {
@@ -303,6 +315,12 @@ if( $Action == "insert" && $error == false )
     $company->setComment( $Description );
 
     $company->store();
+
+    // add the user
+    if ( get_class( $user ) == "ezuser" )
+    {
+        $company->addUser( $user );
+    }
 
     // adresss
     $address = new eZAddress();

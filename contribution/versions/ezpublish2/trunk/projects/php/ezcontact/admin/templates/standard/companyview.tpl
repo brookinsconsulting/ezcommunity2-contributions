@@ -1,132 +1,122 @@
-<h1>{name}</h1>
-
-<hr noshade size="4"/>
-
-<br />
-
-<!-- <p class="boxtext">{intl-logo}:</p> -->
-
-<!-- BEGIN no_logo_tpl -->
-<p>{intl-no_logo}</p>
-<!-- END no_logo_tpl -->
-
-<!-- BEGIN logo_view_tpl -->
-<!--       <p class="boxtext">{logo_name}</p> -->
-<img src="{logo_image_src}" width="{image_width}" height="{image_height}" border="0" alt="{image_alt}" align="right" />
-<!-- END logo_view_tpl -->
-
-
-<p class="boxtext">{intl-name}:</p>
-<span class="text">
-{name}
-</span>
-
-<p class="boxtext">{intl-orgno}:</p>
-<span class="text">
-{companyno}
-</span>
-
-<!-- BEGIN address_item_tpl -->
-<p class="boxtext">{intl-address}:</p>
-<span class="text">
-{street1}<br />
-{street2}
-</span>
-
-<br /><br />
-
-<table width="100%" cellpadding="0" cellspacing="0" border="0">
+<table width="100%" border="0">
 <tr>
-	<td width="50%">
-	<p class="boxtext">{intl-zip}:</p>
-	<span class="text">
-	{zip}
-	</span>
-	</td>
-	<td>
-	<p class="boxtext">{intl-place}:</p>
-	<span class="text">
-	{place}
-	</span>
-	</td>
-</tr>
-</table>
-<!-- END address_item_tpl -->
-
-<br />
-
-<table width="100%" cellpadding="0" cellspacing="0" border="0">
-<tr>
-	<td width="50%">
-
-<!-- BEGIN phone_item_tpl -->
-<p class="boxtext">{intl-telephone}:</p>
-<span class="text">
-{telephone}
-</span>
-<!-- END phone_item_tpl -->
-
-	</td>
-	<td>
-	
-<!-- BEGIN fax_item_tpl -->
-<p class="boxtext">{intl-fax}:</p>
-<span class="text">
-{fax}
-</span>
-<!-- END fax_item_tpl -->
-	
-	</td>
+        <td valign="bottom">
+        <h1>{name}</h1>
+        </td>
+        <td rowspan="2" align="right">
+        <form action="/contact/search/company" method="post">
+        <input type="text" name="SearchText" size="12" />       
+        <input type="submit" value="{intl-search}" />
+        </form> 
+        </td>
 </tr>
 </table>
 
-<br />
-
-<table width="100%" cellpadding="0" cellspacing="0" border="0">
-<tr>
-	<td width="50%">
-
-<!-- BEGIN web_item_tpl -->
-<p class="boxtext">{intl-web}:</p>
-<span class="text">
-{web}
-</span>
-<!-- END web_item_tpl -->
-
-	</td>
-	<td>
-
-<!-- BEGIN email_item_tpl -->
-<p class="boxtext">{intl-email}:</p>
-<span class="text">
-{email}
-</span>
-<!-- END email_item_tpl -->
-
-	</td>
-</tr>
-</table>
-
-<!-- BEGIN no_image_tpl -->
-<p>{intl-no_logo}</p>
-<!-- END no_image_tpl -->
-
-<!-- BEGIN image_view_tpl -->
-<!--     <p class="boxtext">{intl-company_image}:</p>  -->
-       <img src="{image_src}" width="{image_width}" height="{image_height}" border="0" alt="{image_alt}" align="right" />
-<!-- END image_view_tpl -->
-
-<p class="boxtext">{intl-description}:</p>
-<span class="text">
-{description}
-</span>
-
-<form method="post" action="/contact/company/http/{company_id}/" enctype="multipart/form-data">
 
 <hr noshade="noshade" size="4" />
 
-<input class="okbutton" type="submit" name="Edit" value="{intl-edit}" />
+<!-- <p class="boxtext">{intl-logo}:</p> -->
+<!-- BEGIN no_logo_tpl -->
+<!-- <p>{intl-no_logo}</p> -->
+<!-- END no_logo_tpl -->
+<!-- BEGIN logo_view_tpl -->
+
+<br/>
+<img src="{logo_image_src}" width="{image_width}" height="{image_height}" border="0" alt="{image_alt}" /><br /><br />
+
+<!-- END logo_view_tpl -->
+
+<table width="100%" cellpadding="0" cellspacing="0" border="0">
+<tr>
+	<td width="50%" valign="top">
+<!-- BEGIN address_item_tpl -->
+<p class="boxtext">{intl-address}:</p>
+<div class="p">{street1}</div>
+<div class="p">{street2}</div>
+<div class="p">{zip} {place}</div>
+<!-- END address_item_tpl -->
+	</td>
+	<td valign="top">
+	<p class="boxtext">{intl-company_no}:</p>
+	<div class="p">{company_no}:</div>
+	</td>
+</tr>
+</table>
+
+<br clear="all" />
+
+<br />
+
+
+
+<!-- BEGIN phone_item_tpl -->
+<h2>{intl-telephone_headline}</h2>
+<table width="100%" cellpadding="0" cellspacing="0" border="0">
+<tr>
+    <!-- BEGIN phone_line_tpl -->
+    <td width="{phone_width}%">
+        <p class="boxtext">{phone_type_name}:</p>
+        {phone}
+    </td>
+    <!-- END phone_line_tpl -->
+</tr>
+</table>
+<!-- END phone_item_tpl -->
+
+<!-- BEGIN no_phone_item_tpl -->
+<p class="boxtext">{intl-telephone_headline}:</p>
+<p>{intl-error_no_phones}</p>
+<!-- END no_phone_item_tpl -->
+
+<!-- BEGIN online_item_tpl -->
+<h2>{intl-online_headline}</h2>
+<table width="100%" cellpadding="0" cellspacing="0" border="0">
+<tr>
+    <!-- BEGIN online_line_tpl -->
+    <td width="{online_width}%">
+        <p class="boxtext">{online_type_name}:</p>
+        <!-- BEGIN email_line_tpl -->
+        <a href="{online_url_type}:{online}">{online}</a>
+        <!-- END email_line_tpl -->
+        <!-- BEGIN url_line_tpl -->
+        <a href="{online_url_type}://{online}">{online}</a>
+        <!-- END url_line_tpl -->
+    </td>
+    <!-- END online_line_tpl -->
+</tr>
+</table>
+<!-- END online_item_tpl -->
+
+<!-- BEGIN no_online_item_tpl -->
+<p class="boxtext">{intl-online_headline}:</p>
+<p>{intl-error_no_onlines}</p>
+<!-- END no_online_item_tpl -->
+
+
+
+
+
+
+
+<!-- BEGIN no_image_tpl -->
+&nbsp;
+<!-- END no_image_tpl -->
+
+
+<h2>{intl-description}</h2>
+
+<!-- BEGIN image_view_tpl -->
+<!--     <p class="boxtext">{intl-company_image}:</p> -->
+<img src="{image_src}" width="{image_width}" height="{image_height}" border="0" alt="{image_alt}" align="left" vspace="2" hspace="6" />
+<!-- END image_view_tpl -->
+
+<p>{description}</p>
+<hr noshade="noshade" size="4" />
+<br />
+<form method="post" action="/contact/company/edit/{company_id}/">
+
+<input class="okbutton" type="submit" name="Edit" value="{intl-edit}">
 <input class="okbutton" type="submit" name="Delete" value="{intl-delete}" />
-<input class="okbutton" type="submit" name="Back" value="{intl-back}" />
+<input class="okbutton" type="submit" name="Back" value="{intl-list}">
 
 </form>

@@ -1,11 +1,11 @@
-<form method="post" action="/newsfeed/sourcesite/">
+<form method="post" action="/newsfeed/sourcesite/{action_value}/{source_site_id}">
 
 <h1>{intl-sourcesite_edit}</h1>
 
 <hr noshade="noshade" size="4" />
 
-<p class="boxtext">{intl-source_site_title}:</p>
-<input type="text" size="40" name="SourceSiteTitle" value="{source_site_title_value}" />
+<p class="boxtext">{intl-source_site_name}:</p>
+<input type="text" size="40" name="SourceSiteName" value="{source_site_name_value}" />
 
 <p class="boxtext">{intl-source_site_url}:</p>
 <input type="text" size="40" name="SourceSiteURL" value="{source_site_url_value}" />
@@ -16,6 +16,13 @@
 <p class="boxtext">{intl-source_site_password}:</p>
 <input type="text" size="40" name="SourceSitePassword" value="{source_site_password_value}" />
 
+<p class="boxtext">{intl-source_site_decoder}:</p>
+<input type="text" size="40" name="SourceSiteDecoder" value="{source_site_decoder_value}" />
+
+<p class="boxtext">{intl-source_site_isactive}:</p>
+<input type="checkbox" name="SourceSiteIsActive" {source_site_isactive_value} />
+
+
 <p class="boxtext">{intl-source_site_category}:</p>
 <select name="CategoryID">
 
@@ -24,25 +31,10 @@
 <!-- END value_tpl -->
 
 </select>
-
-<p class="boxtext">{intl-sourcesite_intro}:</p>
-<textarea cols="40" rows="5" wrap="soft" name="SourcesiteIntro">{sourcesite_intro_value}</textarea>
-
-<p class="boxtext">{intl-sourcesite_url}:</p>
-<input type="text" size="40" name="SourcesiteURL" value="{sourcesite_url_value}"/>
-
-<p class="boxtext">{intl-sourcesite_keywords}:</p>
-<input type="text" size="40" name="SourcesiteKeywords" value="{sourcesite_keywords_value}"/>
-
-<br />
-<input type="checkbox" name="IsPublished" {sourcesite_is_published} />
-<span class="boxtext">{intl-sourcesite_is_published}</span><br />
-
+<br /><br />
 <hr noshade="noshade" size="4" />
-
+<br />
 <input type="submit" class="okbutton" value="{intl-ok}" />
 <input class="okbutton" type="submit" name="Cancel" value="{intl-cancel}" />
-<input type="hidden" value="{action_value}" name="Action" />
-<input type="hidden" value="{sourcesite_id}" name="SourcesiteID" />
 
 </form>

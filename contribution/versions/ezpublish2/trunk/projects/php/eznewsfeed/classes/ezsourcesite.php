@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezsourcesite.php,v 1.1 2000/11/19 11:10:22 bf-cvs Exp $
+// $Id: ezsourcesite.php,v 1.2 2000/12/06 12:48:36 ce-cvs Exp $
 //
 // Definition of eZSourceSite class
 //
@@ -142,7 +142,8 @@ class eZSourceSite
                 $this->Login =& $news_array[0][ "Login" ];
                 $this->Password =& $news_array[0][ "Password" ];
                 $this->CategoryID =& $news_array[0][ "CategoryID" ];
-                $this->Decoder =& $news_array[0][ "Decoder" ];                
+                $this->Decoder =& $news_array[0][ "Decoder" ];
+                $this->IsActive =& $news_array[0][ "IsActive" ];
 
                 $this->State_ = "Coherent";
                 $ret = true;
@@ -266,6 +267,21 @@ class eZSourceSite
 
        return $ret;
     }
+
+    /*!
+      Returns the isActive, return true if succsessfull.
+    */
+    function &isActive()
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+       $ret = false;
+       if ( $this->isActive == "true" )
+           $ret = true;
+
+       return $ret;
+    }
     
     /*!
       Sets the source site name.
@@ -334,7 +350,18 @@ class eZSourceSite
             $this->get( $this->ID );
 
        $this->Decoder = $value;
-    }    
+    }
+
+    /*!
+      Sets the IsActive.
+    */
+    function setIsActive( $value )
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+       $this->IsActive = $value;
+    }
     
     
     /*!      
@@ -357,6 +384,7 @@ class eZSourceSite
     var $Password;    
     var $CategoryID;
     var $Decoder;
+    var $IsActive;
     
     ///  Variable for keeping the database connection.
     var $Database;
