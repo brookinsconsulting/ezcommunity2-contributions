@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezbulkmailsubscriptionaddress.php,v 1.20 2001/09/10 11:37:29 ce Exp $
+// $Id: ezbulkmailsubscriptionaddress.php,v 1.20.2.1 2001/10/30 18:11:38 fh Exp $
 //
 // eZBulkMailSubscriptionAddress class
 //
@@ -167,7 +167,7 @@ class eZBulkMailSubscriptionAddress
             $is_valid = new eZBulkMailSubscriptionAddress();
             if( $is_valid->setEMail( $email ) )
             {
-//                $is_valid->store();
+                $is_valid->store();
                 $return_value = $is_valid;
             }
         }
