@@ -37,7 +37,12 @@ else
 
 // Local test
 
-$client = new eZXMLRPCClient( "php.ez.no", "/xmlrpc/server.php" );
+//$client = new eZXMLRPCClient( "php.ez.no", "/xmlrpc/server.php" );
+
+$RAW_HTTP_HOST = explode(":",$HTTP_HOST);
+$RAW_HTTP_HOST = $RAW_HTTP_HOST[0];
+
+$client = new eZXMLRPCClient( $RAW_HTTP_HOST, dirname($PHP_SELF)."/server.php" ,$SERVER_PORT);
 //$client->setDebug( true );
 
 // error test, to many parameters
@@ -47,9 +52,8 @@ $call->setMethodName( "myFunc2" );
 $call->addParameter( new eZXMLRPCString( "bla" ) );
 $call->addParameter( new eZXMLRPCString( "bla" ) );
 $call->addParameter( new eZXMLRPCDouble( "bla" ) );
-
 $response = $client->send( $call );
-
+print_r($response);
 $result = $response->result();
 
 if ( $response->isFault() )
