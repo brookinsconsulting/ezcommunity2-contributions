@@ -80,7 +80,7 @@
 <tr>
     	<td class="{td_class}">
 	   {spacer}
-	<a href="/forum/message/{message_id}/">
+	<a class="{link_color}" href="/forum/message/{message_id}/">
 	{reply_topic}
 	</a>
 	</td>
