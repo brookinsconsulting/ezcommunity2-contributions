@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: categoryedit.php,v 1.7 2001/10/31 11:59:44 br Exp $
+// $Id: categoryedit.php,v 1.8 2001/11/08 13:28:08 br Exp $
 //
 // Created on: <26-Oct-2000 14:57:28 ce>
 //
@@ -81,7 +81,8 @@ if ( $Action == "insert" )
         $ParentCategory != "" )
         {
             $category = new eZLinkCategory();
-            
+
+            $category->setSortMode( $SortMode );
             $category->setName( $Name );
             $category->setDescription( $Description );
             $category->setSectionID( $SectionID );
@@ -217,6 +218,7 @@ if ( $Action == "update" )
             $category->setDescription( $Description );
             $category->setSectionID( $SectionID );
             $category->setParent( $ParentCategory );
+            $category->setSortMode( $SortMode );
 
             $file = new eZImageFile();
             if ( $file->getUploadedFile( "ImageFile" ) )
@@ -277,6 +279,7 @@ $t->set_block( "category_edit", "section_item_tpl", "section_item" );
 $t->set_block( "category_edit", "parent_category_tpl", "parent_category" );
 $t->set_block( "category_edit", "image_item_tpl", "image_item" );
 $t->set_block( "category_edit", "no_image_item_tpl", "no_image_item" );
+$t->set_block( "category_edit", "sort_mode_tpl", "sort_mode" );
 
 $categoryselect = new eZLinkCategory();
 $categoryLinkList = $categoryselect->getTree( );
@@ -405,6 +408,19 @@ if ( count( $sectionList ) > 0 )
 else
     $t->set_var( "section_item", "" );
 
+// Get the sort modes
+if ( isSet( $SortMode ) )
+{
+    $sortMode = $SortMode;
+}
+else
+{
+    $linkCategory = new eZLinkCategory();
+    $linkCategory->get ( $LinkCategoryID );
+    $sortMode =& $linkCategory->sortMode( true );
+}
+
+$t->set_var( $sortMode . "_selected", "selected" );
 
 
 $t->set_var( "headline", $headline );

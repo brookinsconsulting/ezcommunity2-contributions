@@ -35,7 +35,7 @@
 <form method="post" action="{www_dir}{index}/link/categoryedit/edit/" enctype="multipart/form-data">
 <table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
 <tr>
-	<td colspan="6">
+	<td colspan="8">
 	<h2>{categories}</h2>
 	</td>
 </tr>
@@ -57,7 +57,12 @@
 	<!-- BEGIN no_image_tpl -->
 	&nbsp;
 	<!-- END no_image_tpl -->
-        </td>
+	<td width="1%" class="{bg_color}">
+	<a href="{www_dir}{index}/link/category/{category_id}/?MoveCategoryDown={linkcategory_id}"><img src="{www_dir}/admin/images/{site_style}/move-down.gif" height="12" width="12" border="0" alt="Down" /></a>
+	</td>
+	<td width="1%" class="{bg_color}">
+	<a href="{www_dir}{index}/link/category/{category_id}/?MoveCategoryUp={linkcategory_id}"><img src="{www_dir}/admin/images/{site_style}/move-up.gif" height="12" width="12" border="0" alt="Up" /></a>
+	</td>
 	<td width="1%" class="{bg_color}">
 	<a href="{www_dir}{index}/link/categoryedit/edit/{linkcategory_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ela{linkcategory_id}-red','','/admin/images/{site_style}/redigerminimrk.gif',1)"><img name="ela{linkcategory_id}-red" border="0" src="{www_dir}/admin/images/{site_style}/redigermini.gif" width="16" height="16" align="top" border="0" alt="Edit" /></a>
 	</td>
@@ -77,7 +82,7 @@
 <form method="post" action="{www_dir}{index}/link/linkedit/edit/" enctype="multipart/form-data">
 <table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
 <tr>
-	<td colspan="6">
+	<td colspan="8">
 	<h2>{links}</h2>
 	<div class="boxtext">({link_start}-{link_end}/{link_total})</div>
 	</td>
@@ -102,6 +107,17 @@
 	<td class="{td_class}" width="80" align="right">
 	(Hits:&nbsp;{link_hits})
 	</td>
+	<!-- BEGIN absolute_placement_item_tpl -->
+	<td width="1%" class="{td_class}">
+	<a href="{www_dir}{index}/link/category/{category_id}/?MoveLinkDown={link_id}"><img src="{www_dir}/admin/images/{site_style}/move-down.gif" height="12" width="12" border="0" alt="Down" /></a>
+	</td>
+	<td width="1%" class="{td_class}">
+	<a href="{www_dir}{index}/link/category/{category_id}/?MoveLinkUp={link_id}"><img src="{www_dir}/admin/images/{site_style}/move-up.gif" height="12" width="12" border="0" alt="Up" /></a>
+	</td>
+	<!-- END absolute_placement_item_tpl -->
+	<!-- BEGIN no_absolute_placement_item_tpl -->
+        <td width="1%" class="{td_class}" colspan="2">&nbsp;</td>
+	<!-- END no_absolute_placement_item_tpl -->
 	<td class="{td_class}" width="1%">
 	<a href="{www_dir}{index}/link/linkedit/edit/{link_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('el{link_id}-red','','/admin/images/{site_style}/redigerminimrk.gif',1)"><img name="el{link_id}-red" border="0" src="{www_dir}/admin/images/{site_style}/redigermini.gif" width="16" height="16" align="top" border="0" alt="Edit" /></a>
 	</td>

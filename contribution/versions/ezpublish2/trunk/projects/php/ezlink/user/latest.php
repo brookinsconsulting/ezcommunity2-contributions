@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: latest.php,v 1.8 2001/11/01 18:08:44 bf Exp $
+// $Id: latest.php,v 1.9 2001/11/08 13:28:08 br Exp $
 //
 // Created on: <26-Oct-2000 14:50:13 ce>
 //
@@ -27,7 +27,6 @@ include_once( "classes/INIFile.php" );
 $ini =& $GLOBALS["GlobalSiteIni"];
 
 $Language = $ini->read_var( "eZLinkMain", "Language" );
-$DOC_ROOT = $ini->read_var( "eZLinkMain", "DocumentRoot" );
 
 include_once( "classes/eztemplate.php" );
 include_once( "ezlink/classes/ezlinkcategory.php" );
@@ -44,6 +43,7 @@ $t->set_file( array(
     ) );
 
 $t->set_block( "last_links", "link_list_tpl", "link_item" );
+$t->set_block( "last_links", "err_no_links_tpl", "err_no_links" );
 
 $link = new eZLink();
 
@@ -52,7 +52,8 @@ $link_array = $link->getLastTenDate( 10, 0 );
 if ( count( $link_array ) == 0 )
 {
     
-    $t->set_var( "link_list", "<p>Ingen linker ble funnet.</p>" );
+    $t->set_var( "link_list", "" );
+    $t->parse( "last_links", "err_no_links_tpl" );
 }
 else
 {
@@ -80,15 +81,14 @@ else
         $t->set_var( "link_url", $linkItem->url() );
 
         $hit = new eZHit();
-        $hits = $hit->getLinkHits( $link_array[ $i ][ "ID" ] );
+        $hits = $hit->getLinkHits( $link_array[$i]["ID"] );
 
         $t->set_var( "link_hits", $hits );
-
-        $t->set_var( "document_root", $DOC_ROOT );
 
         $t->parse( "link_item", "link_list_tpl", true );
         $i++;
     }
+    $t->set_var( "err_no_links", "" );
 }
 
 $t->pparse( "output", "last_links" );

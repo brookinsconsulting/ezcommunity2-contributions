@@ -6,5 +6,8 @@
 	</td>
 </tr>
 <!-- END link_list_tpl -->
+<!-- BEGIN err_no_links_tpl -->
+<p>{intl-no_links_found}.</p>
+<!-- END err_no_links_tpl -->
 </table>
 

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezlinkcategory.php,v 1.11 2001/09/24 09:51:46 bf Exp $
+// $Id: ezlinkcategory.php,v 1.12 2001/11/08 13:28:08 br Exp $
 //
 // Definition of eZLinkCategory class
 //
@@ -56,24 +56,44 @@ class eZLinkCategory
         $name = $db->escapeString( $this->Name );
         $description = $db->escapeString( $this->Description );
         
+        
         $db->begin();
+
+        if ( !isSet( $this->ID ) )
+        {
         
-        $db->lock( "eZLink_Category" );
-        
-        $nextID = $db->nextID( "eZLink_Category", "ID" );        
-        $res = $db->query( "INSERT INTO eZLink_Category
-                (ID, Parent, Name, ImageID, Description, SectionID)
+            $db->lock( "eZLink_Category" );
+            
+            $nextID = $db->nextID( "eZLink_Category", "ID" );
+            $res = $db->query( "INSERT INTO eZLink_Category
+                (ID, Parent, Name, ImageID, Description, SectionID, SortMode, Placement )
                 VALUES
                 ('$nextID',
                  '$this->Parent',
                  '$name',
                  '$this->ImageID',
                  '$description',
-                 '$this->SectionID' )" );
+                 '$this->SectionID',
+                 '$this->SortMode',
+                 '$nextID' )" );
         
-        $db->unlock();
+            $db->unlock();
         
-        $this->ID = $nextID;
+            $this->ID = $nextID;
+            $this->Placement = $nextID;
+        }
+        else
+        {
+            $res = $db->query( "UPDATE eZLink_Category SET 
+                Name='$name',
+                Description='$description',
+                Parent='$this->Parent',
+                ImageID='$this->ImageID',
+                SectionID='$this->SectionID',
+                SortMode='$this->SortMode',
+                Placement='$this->Placement'
+                WHERE ID='$this->ID'" );
+        }
         
         if ( $res == false )
             $db->rollback( );
@@ -98,7 +118,9 @@ class eZLinkCategory
                 Description='$description',
                 Parent='$this->Parent',
                 ImageID='$this->ImageID',
-                SectionID='$this->SectionID'
+                SectionID='$this->SectionID',
+                SortMode='$this->SortMode',
+                Placement='$this->Placement'
                 WHERE ID='$this->ID'" );
          
         if ( $res == false )
@@ -149,11 +171,17 @@ class eZLinkCategory
         $db->begin();
         $db->lock( "eZLink_LinkCategoryLink" );
         
+        $db->array_query( $qry, "SELECT ID, Placement FROM eZLink_LinkCategoryLink
+                                 WHERE CategoryID='$categoryid'
+                                 ORDER BY Placement DESC", array( "Limit" => 1, "Offset" => 0 ) );
+
+        $place = count( $qry ) == 1 ? $qry[0][$db->fieldName("Placement")] + 1 : 1;
+    
         $nextID = $db->nextID( "eZLink_LinkCategoryLink", "ID" );
         $res[] = $db->query( "INSERT INTO eZLink_LinkCategoryLink
-                              (ID, LinkID, CategoryID)
+                              ( ID, LinkID, CategoryID, Placement )
                               VALUES
-                              ('$nextID', '$linkID', '$categoryid') ");
+                              ( '$nextID', '$linkID', '$categoryid', '$place' ) ");
         $db->unlock();
         eZDB::finish( $res, $db );
     }
@@ -249,6 +277,8 @@ class eZLinkCategory
             $this->Parent =& $linkcategory_array[0][$db->fieldName("Parent")];
             $this->ImageID =& $linkcategory_array[0][$db->fieldName("ImageID")];
             $this->SectionID =& $linkcategory_array[0][$db->fieldName("SectionID")];
+            $this->SortMode =& $linkcategory_array[0][$db->fieldName("SortMode")];
+            $this->Placement =& $linkcategory_array[0][$db->fieldName("Placement")];
         }
     }
 
@@ -284,7 +314,6 @@ class eZLinkCategory
 
     }
 
-
     /*!
       \static
       Fetch out parent.
@@ -301,7 +330,7 @@ class eZLinkCategory
         $return_array = array();
 
         $db->array_query( $parent_array, "SELECT ID FROM eZLink_Category
-                                                 WHERE Parent='$id' ORDER BY Name" );
+                                                 WHERE Parent='$id' ORDER BY Placement" );
 
         for( $i=0; $i<count( $parent_array ); $i++ )
         {
@@ -374,6 +403,57 @@ class eZLinkCategory
         }
         return $tree;
     }
+    
+
+    /*!
+      Return the sort mode for the category.
+    */
+    function &sortMode( $return_id = false )
+    {
+        switch ( $this->SortMode )
+        {
+            case 1 :
+            {
+                $SortMode = "time";
+            }
+            break;
+
+            case 2 :
+            {
+                $SortMode = "alpha";
+            }
+            break;
+            
+            case 3 :
+            {
+                $SortMode = "alphadesc";
+            }
+            break;
+
+            case 4 :
+            {
+                $SortMode = "absolute_placement";
+            }
+            break;
+
+            case 5 :
+            {
+                $SortMode = "modification";
+            }
+            break;
+
+            default :
+            {
+                $SortMode = "alpha";
+            }
+        }
+        
+        if ( $return_id == true )
+            return $this->SortMode;
+        else
+            return $SortMode;
+    }
+
 
     /*!
       Returns all the links in the current category.
@@ -388,6 +468,47 @@ class eZLinkCategory
         if( $id == -1 )
             $id = $this->id();
         $returnArray = array();
+
+        $sortMode =& $this->sortMode( false );
+
+        switch ( $sortMode )
+        {
+            case "time" :
+            {
+                $OrderBy = "eZLink_Link.Created DESC";
+            }
+           break;
+
+           case "alpha" :
+           {
+               $OrderBy = "eZLink_Link.Name ASC";
+           }
+           break;
+
+           case "alphadesc" :
+           {
+               $OrderBy = "eZLink_Link.Name DESC";
+           }
+           break;
+
+           case "absolute_placement" :
+           {
+               $OrderBy = "eZLink_LinkCategoryLink.Placement ASC";
+           }
+           break;
+
+           case "modification" :
+           {
+               $OrderBy = "eZLink_Link.Modified DESC";
+           }
+           break;
+           
+           default :
+           {
+               $OrderBy = "eZLink_Link.Name ASC";
+           }
+       }
+
         
         if ( $fetchUnAccepted )
             $fetchUnAccepted = "";
@@ -400,7 +521,7 @@ class eZLinkCategory
                                 eZLink_Link.ID=eZLink_LinkCategoryLink.LinkID AND
                                 eZLink_LinkCategoryLink.CategoryID='$id'
                                $fetchUnAccepted
-                           ORDER BY eZLink_Link.Name";
+                           ORDER BY $OrderBy";
 
         if( $limit != -1 && $offset != -1 )
             $db->array_query( $linkArray, $query ,
@@ -485,6 +606,23 @@ class eZLinkCategory
     }
 
     /*!
+      Sets the sort mode for the category.
+
+      1 - publishing date
+      2 - alphabetic
+      3 - alphabetic desc
+      4 - absolute placement
+      5 - modification date
+    */
+    function setSortMode( $value )
+    {
+        if ( is_Numeric( $value ) )
+        {
+            $this->SortMode = $value;
+        }
+    }
+
+    /*!
       Sets the description of a group.
     */
     function setDescription( &$value )
@@ -506,6 +644,205 @@ class eZLinkCategory
     function setSectionID( $value )
     {
         $this->SectionID = $value;
+    }
+
+
+    /*!
+      Moves the link placement with the given ID up.
+    */
+    function moveLinkUp( $id )
+    {
+        $db =& eZDB::globalDatabase();
+
+        $db->query_single( $qry, "SELECT * FROM eZLink_LinkCategoryLink
+                                  WHERE LinkID='$id' AND CategoryID='$this->ID'" );
+
+        if ( is_numeric( $qry[$db->fieldName("ID")] ) )
+        {
+            $linkID = $qry[$db->fieldName("ID")];
+            
+            $placement = $qry[$db->fieldName("Placement")];
+           
+            $db->query_single( $qry, "SELECT ID, Placement FROM eZLink_LinkCategoryLink
+                                    WHERE Placement<'$placement' AND CategoryID='$this->ID'
+                                    ORDER BY Placement DESC" );
+
+           $newPlacement = $qry[$db->fieldName("Placement")];
+           $listid = $qry[$db->fieldName("ID")];
+
+           if ( $newPlacement == $placement )
+           {
+               $placement += 1;
+           }
+               
+
+           if ( is_numeric( $listid ) )
+           {           
+               $db->query( "UPDATE eZLink_LinkCategoryLink SET Placement='$newPlacement' WHERE ID='$linkID'" );
+               $db->query( "UPDATE eZLink_LinkCategoryLink SET Placement='$placement' WHERE ID='$listid'" );
+           }           
+           else
+           {
+               $query = "SELECT ID, Placement FROM eZLink_LinkCategoryLink
+                         WHERE Placement>'$placement' AND CategoryID='$this->ID' ORDER BY Placement DESC";
+               
+               $db->query_single( $qry, $query );
+               
+               if ( is_numeric( $qry[$db->fieldName("ID")] ) )
+               {
+                   $swapCatPlacement = $qry[$db->fieldName("Placement")];
+                   $swapCatID = $qry[$db->fieldName("ID")];
+                   
+                   if ( is_numeric( $swapCatPlacement ) )
+                   {
+                       $db->query( "UPDATE eZLink_LinkCategoryLink SET Placement=Placement-1 WHERE CategoryID='$this->ID'" ); 
+                       $db->query( "UPDATE eZLink_LinkCategoryLink SET Placement='$swapCatPlacement' WHERE LinkID='$id'" );
+                   }
+               }
+           }
+       }
+    }
+
+    /*!
+      Moves the link placement with the given ID down.
+    */
+    function moveLinkDown( $id )
+    {
+       $db =& eZDB::globalDatabase();
+
+       $db->query_single( $qry, "SELECT * FROM eZLink_LinkCategoryLink
+                                  WHERE LinkID='$id' AND CategoryID='$this->ID'" );
+
+       if ( is_numeric( $qry[$db->fieldName("ID")] ) )
+       {
+           $linkID = $qry[$db->fieldName("ID")];
+           
+           $placement = $qry[$db->fieldName("Placement")];
+           
+           $db->query_single( $qry, "SELECT ID, Placement FROM eZLink_LinkCategoryLink
+                                    WHERE Placement>'$placement' AND CategoryID='$this->ID' ORDER BY Placement ASC" );
+
+           if ( $qry[$db->fieldName("ID")] )
+           {
+               $newPlacement = $qry[$db->fieldName("Placement")];
+               $listid = $qry[$db->fieldName("ID")];
+               
+               if ( $newPlacement == $placement )
+               {
+                   $newPlacement += 1;
+               }           
+               
+               if ( is_numeric( $listid ) )
+               {
+                   $db->query( "UPDATE eZLink_LinkCategoryLink SET Placement='$newPlacement' WHERE ID='$linkID'" );
+                   $db->query( "UPDATE eZLink_LinkCategoryLink SET Placement='$placement' WHERE ID='$listid'" );
+               }
+           }
+           else
+           {
+               $query = "SELECT ID, Placement FROM eZLink_LinkCategoryLink
+                         WHERE Placement<'$placement' AND CategoryID='$this->ID' ORDER BY Placement ASC";
+
+               $db->query_single( $qry, $query );
+               
+               if ( is_numeric( $qry[$db->fieldName("ID")] ) )
+               {
+                   $swapCatPlacement = $qry[$db->fieldName("Placement")];
+                   $swapCatID = $qry[$db->fieldName("ID")];
+                   
+                   if ( is_numeric( $swapCatPlacement ) )
+                   {
+                       $db->query( "UPDATE eZLink_LinkCategoryLink SET Placement=Placement+1 WHERE CategoryID='$this->ID'" ); 
+                       $db->query( "UPDATE eZLink_LinkCategoryLink SET Placement='$swapCatPlacement' WHERE LinkID='$id'" );
+                   }
+               }
+           }
+       }
+    }
+
+
+   /*!
+     Moves the link category with the given ID up.
+    */
+    function moveCategoryUp()
+    {
+        $db =& eZDB::globalDatabase();
+        $query = "SELECT ID, Placement FROM eZLink_Category
+                  WHERE Placement<'$this->Placement' AND Parent='$this->Parent' ORDER BY Placement DESC";
+
+        $db->query_single( $qry, $query );
+
+        if ( is_numeric( $qry[$db->fieldName("ID")] ) )
+        {
+           $swapCatPlacement = $qry[$db->fieldName("Placement")];
+           $swapCatID = $qry[$db->fieldName("ID")];
+
+           if ( is_numeric( $swapCatPlacement ) )
+           {           
+               $db->query( "UPDATE eZLink_Category SET Placement='$swapCatPlacement' WHERE ID='$this->ID'" );
+               $db->query( "UPDATE eZLink_Category SET Placement='$this->Placement' WHERE ID='$swapCatID'" );
+           }
+        }       
+        else
+        {
+            $query = "SELECT ID, Placement FROM eZLink_Category
+                      WHERE Placement>'$this->Placement' AND Parent='$this->Parent' ORDER BY Placement DESC";
+            
+            $db->query_single( $qry, $query );
+            if ( is_numeric( $qry[$db->fieldName( "ID" )] ) )
+            {
+                $swapCatPlacement = $qry[$db->fieldName( "Placement" )];
+                $swapCatID = $qry[$db->fieldName( "ID" )];
+                
+                if ( is_numeric( $swapCatPlacement ) )
+                {
+                    $db->query( "UPDATE eZLink_Category SET Placement=Placement-1 WHERE Parent='$this->Parent'" );
+                    $db->query( "UPDATE eZLink_Category SET Placement='$swapCatPlacement' WHERE ID='$this->ID'" );
+                }
+            }
+        }
+    }
+
+    /*!
+     Moves the link category with the given ID down.
+    */
+    function moveCategoryDown()
+    {
+        $db =& eZDB::globalDatabase();
+        $query = "SELECT ID, Placement FROM eZLink_Category
+                  WHERE Placement>'$this->Placement' AND Parent='$this->Parent' ORDER BY Placement ASC";
+
+        
+        $db->query_single( $qry, $query );
+        if ( is_numeric( $qry[$db->fieldName("ID")] ) )
+        {
+            $swapCatPlacement = $qry[$db->fieldName("Placement")];
+            $swapCatID = $qry[$db->fieldName("ID")];
+            
+            if ( is_numeric( $swapCatPlacement ) )
+            {           
+                $db->query( "UPDATE eZLink_Category SET Placement='$swapCatPlacement' WHERE ID='$this->ID'" );
+                $db->query( "UPDATE eZLink_Category SET Placement='$this->Placement' WHERE ID='$swapCatID'" );
+            }
+        }
+        else
+        {
+            $query = "SELECT ID, Placement FROM eZLink_Category
+                 WHERE Placement<'$this->Placement' AND Parent='$this->Parent' ORDER BY Placement ASC";
+
+            $db->query_single( $qry, $query );
+            if ( is_numeric( $qry[$db->fieldName("ID")] ) )
+            {
+                $swapCatPlacement = $qry[$db->fieldName("Placement")];
+                $swapCatID = $qry[$db->fieldName("ID")];
+
+                if ( is_numeric( $swapCatPlacement ) )
+                {
+                    $db->query( "UPDATE eZLink_Category SET Placement=Placement+1 WHERE Parent='$this->Parent'" ); 
+                    $db->query( "UPDATE eZLink_Category SET Placement='$swapCatPlacement' WHERE ID='$this->ID'" );
+                }
+            }
+        }
     }
     
    /*!
@@ -585,6 +922,8 @@ class eZLinkCategory
     var $Parent;
     var $ImageID;
     var $SectionID;
+    var $SortMode;
+    var $Placement;
 }
 
 ?>

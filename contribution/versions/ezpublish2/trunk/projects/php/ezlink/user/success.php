@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: success.php,v 1.6 2001/07/20 11:15:21 jakobn Exp $
+// $Id: success.php,v 1.7 2001/11/08 13:28:08 br Exp $
 //
 // Created on: <14-Sep-2000 19:37:17 bf>
 //
@@ -29,7 +29,6 @@ include_once( "classes/eztemplate.php" );
 $ini =& $GLOBALS["GlobalSiteIni"];
 
 $Language = $ini->read_var( "eZLinkMain", "Language" );
-$DOC_ROOT = $ini->read_var( "eZLinkMain", "DocumentRoot" );
 
 include_once( "ezlink/classes/ezlinkgroup.php" );
 include_once( "ezlink/classes/ezlink.php" );

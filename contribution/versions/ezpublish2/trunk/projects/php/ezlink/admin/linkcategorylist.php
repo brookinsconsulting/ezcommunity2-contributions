@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: linkcategorylist.php,v 1.9 2001/09/19 11:35:52 bf Exp $
+// $Id: linkcategorylist.php,v 1.10 2001/11/08 13:28:08 br Exp $
 //
 // Created on: <26-Oct-2000 14:55:24 ce>
 //
@@ -65,6 +65,10 @@ $t->set_block( "link_list_tpl", "link_item_tpl", "link_item" );
 $t->set_block( "link_item_tpl", "image_item_tpl", "image_item" );
 $t->set_block( "link_item_tpl", "no_image_tpl", "no_image" );
 
+$t->set_block( "link_item_tpl", "absolute_placement_item_tpl", "absolute_placement_item" );
+$t->set_block( "link_item_tpl", "no_absolute_placement_item_tpl", "no_absolute_placement_item" );
+
+
 
 $t->set_block( "link_page_tpl", "path_item_tpl", "path_item" );
 
@@ -89,6 +93,48 @@ foreach ( $pathArray as $path )
     $t->set_var( "category_name", $path[1] );
     $t->parse( "path_item", "path_item_tpl", true );
 }
+
+$t->set_var( "category_id", $LinkCategoryID );
+
+/** move link categories up/down **/
+if( is_numeric( $MoveCategoryUp ) || is_numeric( $MoveCategoryDown ) )
+{
+    if( is_numeric( $MoveCategoryUp ) )
+    {
+        $mvcategory = new eZLinkCategory( $MoveCategoryUp );
+        $mvcategory->moveCategoryUp();
+    }
+
+    if( is_numeric( $MoveCategoryDown ) )
+    {
+        $mvcategory = new eZLinkCategory( $MoveCategoryDown );
+        $mvcategory->moveCategoryDown();
+    }
+
+    eZHTTPTool::header( "Location: /link/category/$LinkCategoryID" );
+    exit();
+}
+
+// move links up / down
+if ( is_numeric( $MoveLinkUp ) || is_numeric( $MoveLinkDown ) )
+{
+    $mvCategory = new eZLinkCategory( $LinkCategoryID );
+    if ( $mvCategory->sortMode() == "absolute_placement" )
+    {
+        if ( is_numeric( $MoveLinkUp ) )
+        {
+            $mvCategory->moveLinkUp( $MoveLinkUp );
+        }
+        
+        if ( is_numeric( $MoveLinkDown ) )
+        {
+            $mvCategory->moveLinkDown( $MoveLinkDown );
+        }
+        eZHTTPTool::header( "Location: /link/category/$LinkCategoryID" );
+        exit();
+    }
+}
+
 
 $linkCategoryList =& $linkCategory->getByParent( $LinkCategoryID );
 
@@ -121,6 +167,7 @@ else
         $t->set_var( "linkcategory_name", $linkCategoryItem->name() );
         $t->set_var( "category_description", $linkCategoryItem->description() );
         $t->set_var( "linkcategory_parent", $linkCategoryItem->parent() );
+        $t->set_var( "", $linkCategoryItem->parent() );
         
         $t->set_var( "total_links", $total_sub_links );
         $t->set_var( "new_links", $new_sub_links );
@@ -155,7 +202,7 @@ else
             $t->parse( "no_image", "no_image_tpl" );
             $t->set_var( "image_item", "" );
         }
-        
+
         $categories = $languageIni->read_var( "strings", "categories" );
         
         $t->parse( "category_item", "category_item_tpl", true );
@@ -185,6 +232,9 @@ if ( !$linkList )
 else
 {
     $i=0;
+    
+    $sortMode =  $linkCategory->sortMode();
+    
     foreach( $linkList as $linkItem )
     {
         if ( ( $i %2 ) == 0 )
@@ -229,6 +279,16 @@ else
             $t->parse( "no_image", "no_image_tpl" );
         }
 
+        if ( $sortMode == "absolute_placement" )
+        {
+            $t->set_var( "no_absolute_placement_item", "" );
+            $t->parse( "absolute_placement_item", "absolute_placement_item_tpl" );
+        }
+        else
+        {
+            $t->set_var( "absolute_placement_item", "" );
+            $t->parse( "no_absolute_placement_item", "no_absolute_placement_item_tpl" );
+        }
         
         $hit = new eZHit();
         $hits = $hit->getLinkHits( $linkItem->id() );

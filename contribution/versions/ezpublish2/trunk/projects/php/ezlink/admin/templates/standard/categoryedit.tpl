@@ -39,6 +39,17 @@
      <option value="{section_id}" {section_is_selected}>{section_name}</option>
      <!-- END section_item_tpl -->
      </select></td>
+     
+     <td><p class="boxtext">{intl-sort_mode}:</p>
+     <select name="SortMode">
+     
+      <option {1_selected} value="1">{intl-publishing_date}</option>
+      <option {5_selected} value="5">{intl-modification_date}</option>
+      <option {2_selected} value="2">{intl-alphabetic_asc}</option>
+      <option {3_selected} value="3">{intl-alphabetic_desc}</option>
+      <option {4_selected} value="4">{intl-absolute_placement}</option>
+
+     </select></td>
 </tr>
 </table>
 
