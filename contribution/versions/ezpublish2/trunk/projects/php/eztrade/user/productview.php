@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: productview.php,v 1.58 2001/08/30 09:57:31 ce Exp $
+// $Id: productview.php,v 1.59 2001/08/30 11:18:15 bf Exp $
 //
 // Created on: <24-Sep-2000 12:20:32 bf>
 //
@@ -208,7 +208,7 @@ else
     $t->set_var( "title_text", $product->name() );
 }
 $t->set_var( "intro_text", $product->brief() );
-$t->set_var( "description_text", eZTextTool::nl2br( $product->description() ) );
+$t->set_var( "description_text", $product->description() );
 
 $images = $product->images();
 
