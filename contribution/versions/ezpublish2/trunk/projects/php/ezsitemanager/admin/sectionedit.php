@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: sectionedit.php,v 1.12 2001/10/11 20:21:32 br Exp $
+// $Id: sectionedit.php,v 1.13 2001/10/12 07:30:03 br Exp $
 //
 // Created on: <10-May-2001 16:17:29 ce>
 //
@@ -31,6 +31,8 @@ include_once( "ezsitemanager/classes/ezsection.php" );
 include_once( "ezsitemanager/classes/ezsectionfrontpage.php" );
 
 include_once( "ezarticle/classes/ezarticlecategory.php" );
+
+include_once( "ezad/classes/ezadcategory.php" );
 
 if ( isSet ( $OK ) )
 {
@@ -166,10 +168,7 @@ if ( ( $Action == "Insert" ) || ( $Action == "Update" ) && ( $user ) )
             
             // increase $i if the Row have at least one category.
             $settingName =& eZSectionFrontPage::settingByRowID( $RowID );
-            if ( $settingName != "1short" && $settingName != "ad" )
-            {
-                $i++;
-            }
+            $i++;
             $j++;
         }
     }
@@ -224,6 +223,9 @@ if ( count ( $rows ) > 0 )
 
     $category = new eZProductCategory();
     $productCategoryArray =& $category->getTree( );
+
+    $ad = new eZAdCategory();
+    $adCategoryArray =& $ad->getTree();
         
     $i=0;
     $count = count( $rows );
@@ -251,6 +253,7 @@ if ( count ( $rows ) > 0 )
         {
             case "1column":
             case "2column":
+            case "1short":
             {
                 $t->set_var( "article_category_item", "" );
                 if ( count ( $articleTreeArray ) > 0 )
@@ -301,10 +304,38 @@ if ( count ( $rows ) > 0 )
                         
                         $t->parse( "product_category_item", "product_category_item_tpl", true );    
                     }
-                    $t->parse( "product_category_list", "product_category_list_tpl", true );
+                    $t->parse( "product_category_list", "product_category_list_tpl" );
                 }
             }
             break;
+
+            case "ad":
+            {
+                $t->set_var( "product_category_item", "" );
+                if ( count ( $productCategoryArray ) > 0 )
+                {
+                    foreach ( $adCategoryArray as $catItem )
+                    {
+                        $t->set_var( "option_value", $catItem[0]->id() );
+                        $t->set_var( "option_name", $catItem[0]->name() );
+                        
+                        if ( $catItem[0]->id() == $row->categoryID() )
+                            $t->set_var( "selected", "selected" );
+                        else
+                            $t->set_var( "selected", "" );
+                        
+                        if ( $catItem[1] > 0 )
+                            $t->set_var( "option_level", str_repeat( "&nbsp;", $catItem[1] ) );
+                        else
+                            $t->set_var( "option_level", "" );
+                        
+                        $t->parse( "product_category_item", "product_category_item_tpl", true );    
+                    }
+                    $t->parse( "product_category_list", "product_category_list_tpl" );
+                }
+            }
+            break;
+
         }
 
         $t->set_var( "settings", "" );
