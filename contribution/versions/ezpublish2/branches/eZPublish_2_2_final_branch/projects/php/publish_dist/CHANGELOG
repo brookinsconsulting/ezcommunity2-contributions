@@ -4,6 +4,8 @@ eZ publish changelog:
 Changes from 2.2.9 to 2.2.10
 ---------------------------
 * Fixed bug. Now setting envelope information when sending mail with ezmail
+* Fixed bug. In moderated forums, notifications are now sendt when message is approved (not when
+  message is submitted)
 
 Changes from 2.2.8 to 2.2.9
 ---------------------------

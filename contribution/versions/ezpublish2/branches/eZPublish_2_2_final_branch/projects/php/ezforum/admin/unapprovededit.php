@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: unapprovededit.php,v 1.12.2.1 2001/11/02 07:47:20 jhe Exp $
+// $Id: unapprovededit.php,v 1.12.2.2 2003/08/25 10:56:20 vl Exp $
 //
 // Created on: <21-Jan-2001 13:34:48 bf>
 //
@@ -56,6 +56,7 @@ for ( $i = 0; $i < count( $ActionValueArray ); $i++ )
         $message->setIsApproved( 1 );
         $message->store();
         $msg = $message;
+        $StartAction = "moderatorapprove";
         include( "ezforum/user/messagereply.php" );
     }
     if ( $ActionValueArray[$i] == "Discard" )

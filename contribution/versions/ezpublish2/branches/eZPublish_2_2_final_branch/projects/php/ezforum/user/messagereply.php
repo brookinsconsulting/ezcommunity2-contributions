@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: messagereply.php,v 1.44.2.4 2002/02/05 10:39:07 jhe Exp $
+// $Id: messagereply.php,v 1.44.2.5 2003/08/25 10:56:20 vl Exp $
 //
 // Created on: <24-Sep-2000 12:20:32 bf>
 //
@@ -118,62 +118,157 @@ if ( $StartAction == "reply" )
             }
         }
     }
-    
-    $mail = new eZMail();
-    $replyAddress = $ini->read_var( "eZForumMain", "ReplyAddress" );
-    $mail->setFrom( $replyAddress );
-    
-    foreach ( $messages as $message )
+
+
+    // We just want to send notifications if forums is not moderated or message is approved
+    if ( $msg->isApproved() ) 
     {
-        if ( $message->id() != $msg->id() )
+        $mail = new eZMail();
+        $replyAddress = $ini->read_var( "eZForumMain", "ReplyAddress" );
+        $mail->setFrom( $replyAddress );
+    
+        foreach ( $messages as $message )
         {
-            if ( ( $message->treeID() > $msg->treeID() ) && $message->emailNotice() )
+            if ( $message->id() != $msg->id() )
             {
-                $user =& eZUser::currentUser();
-                $headersInfo = ( getallheaders() );
-
-                // $user may be false (answering an anonymous forum, with user not logged in)
-                if ( $user )
+                if ( ( $message->treeID() > $msg->treeID() ) && $message->emailNotice() )
                 {
-                    $mailTemplate->set_var( "author", $user->firstName() . " " . $user->lastName() );
-                }
-                else
-                {
-                    $mailTemplate->set_var( "author", "Anonymous" );
-                }
+                    $user =& eZUser::currentUser();
+                    $headersInfo = ( getallheaders() );
 
-                $mailTemplate->set_var( "posted_at", $locale->format( $msg->postingTime() ) );
+                    // $user may be false (answering an anonymous forum, with user not logged in)
+                    if ( $user )
+                    {
+                        $mailTemplate->set_var( "author", $user->firstName() . " " . $user->lastName() );
+                    }
+                    else
+                    {
+                        $mailTemplate->set_var( "author", "Anonymous" );
+                    }
 
-                $subject_line = $mailTemplate->Ini->read_var( "strings", "subject_prepend" );
-                $subject_line = $subject_line . $message->topic();
-                $subject_line = $subject_line . $mailTemplate->Ini->read_var( "strings", "subject_append" );
+                    $mailTemplate->set_var( "posted_at", $locale->format( $msg->postingTime() ) );
 
-                $mailTemplate->set_var( "topic", $msg->topic() );
-                $mailTemplate->set_var( "body", $msg->body() );
-                $mailTemplate->set_var( "forum_name", $forum->name() );
-                $mailTemplate->set_var( "forum_link", "http://" . $headersInfo["Host"] . "/forum/message/" . $message->id() );
-                $mailTemplate->set_var( "link_1", "http://" . $headersInfo["Host"] . "/forum/message/" . $msg->id() );
-                $mailTemplate->set_var( "link_2", "http://" . $headersInfo["Host"] . "/forum/message/" . $msg->id() );
-                $mailTemplate->parse( "link", "link_tpl" );
+                    $subject_line = $mailTemplate->Ini->read_var( "strings", "subject_prepend" );
+                    $subject_line = $subject_line . $message->topic();
+                    $subject_line = $subject_line . $mailTemplate->Ini->read_var( "strings", "subject_append" );
 
-                $bodyText = $mailTemplate->parse( "dummy", "mailreply" );
+                    $mailTemplate->set_var( "topic", $msg->topic() );
+                    $mailTemplate->set_var( "body", $msg->body() );
+                    $mailTemplate->set_var( "forum_name", $forum->name() );
+                    $mailTemplate->set_var( "forum_link", "http://" . $headersInfo["Host"] . "/forum/message/" . $message->id() );
+                    $mailTemplate->set_var( "link_1", "http://" . $headersInfo["Host"] . "/forum/message/" . $msg->id() );
+                    $mailTemplate->set_var( "link_2", "http://" . $headersInfo["Host"] . "/forum/message/" . $msg->id() );
+                    $mailTemplate->parse( "link", "link_tpl" );
 
-                $mail->setSubject( $subject_line );
+                    $bodyText = $mailTemplate->parse( "dummy", "mailreply" );
 
-                $author =& $message->user();
+                    $mail->setSubject( $subject_line );
 
-                $mail->setTo( $author->email() );
-                $mail->setBody( $bodyText );
+                    $author =& $message->user();
 
-                // only send replies to a user once
-                if ( !in_array( $author->id(), $emailNoticeArray ) )
-                {
-                    $mail->send();
-                    $emailNoticeArray[] = $author->id();
+                    $mail->setTo( $author->email() );
+                    $mail->setBody( $bodyText );
+
+                    // only send replies to a user once
+                    if ( !in_array( $author->id(), $emailNoticeArray ) )
+                    {
+                        $mail->send();
+                        $emailNoticeArray[] = $author->id();
+                    }
                 }
             }
         }
     }
 }
+
+if ( $StartAction == "moderatorapprove" )
+{
+
+    if ( !is_object( $msg ) )
+    {
+        $msg = new eZForumMessage( $MessageID );
+    }
+
+    $ForumID = $msg->forumId();
+
+    if ( !is_object( $forum ) )
+    {
+        $forum = new eZForum( $ForumID );
+    }
+
+    $messages = $forum->messageThreadTree( $msg->threadID() );
+
+    $locale = new eZLocale( $Language );
+
+    $mailTemplate = new eZTemplate( "ezforum/user/" . $ini->read_var( "eZForumMain", "TemplateDir" ),
+                                    "ezforum/user/intl", $Language, "mailreply.php" );
+
+    $mailTemplate->set_file( "mailreply", "mailreply.tpl" );
+    $mailTemplate->setAllStrings();
+    $mailTemplate->set_block( "mailreply", "link_tpl", "link" );
+
+    $emailNoticeArray = array();
+
+    // We just want to send notifications if forums is not moderated or message is approved
+    if ( $msg->isApproved() ) 
+    {
+        $mail = new eZMail();
+        $replyAddress = $ini->read_var( "eZForumMain", "ReplyAddress" );
+        $mail->setFrom( $replyAddress );
+    
+        foreach ( $messages as $message )
+        {
+            if ( $message->id() != $msg->id() )
+            {
+                if ( ( $message->treeID() > $msg->treeID() ) && $message->emailNotice() )
+                {
+                    $user =& eZUser::currentUser();
+                    $headersInfo = ( getallheaders() );
+
+                    // $user may be false (answering an anonymous forum, with user not logged in)
+                    if ( $user )
+                    {
+                        $mailTemplate->set_var( "author", $user->firstName() . " " . $user->lastName() );
+                    }
+                    else
+                    {
+                        $mailTemplate->set_var( "author", "Anonymous" );
+                    }
+
+                    $mailTemplate->set_var( "posted_at", $locale->format( $msg->postingTime() ) );
+
+                    $subject_line = $mailTemplate->Ini->read_var( "strings", "subject_prepend" );
+                    $subject_line = $subject_line . $message->topic();
+                    $subject_line = $subject_line . $mailTemplate->Ini->read_var( "strings", "subject_append" );
+
+                    $mailTemplate->set_var( "topic", $msg->topic() );
+                    $mailTemplate->set_var( "body", $msg->body() );
+                    $mailTemplate->set_var( "forum_name", $forum->name() );
+                    $mailTemplate->set_var( "forum_link", "http://" . $headersInfo["Host"] . "/forum/message/" . $message->id() );
+                    $mailTemplate->set_var( "link_1", "http://" . $headersInfo["Host"] . "/forum/message/" . $msg->id() );
+                    $mailTemplate->set_var( "link_2", "http://" . $headersInfo["Host"] . "/forum/message/" . $msg->id() );
+                    $mailTemplate->parse( "link", "link_tpl" );
+
+                    $bodyText = $mailTemplate->parse( "dummy", "mailreply" );
+
+                    $mail->setSubject( $subject_line );
+
+                    $author =& $message->user();
+
+                    $mail->setTo( $author->email() );
+                    $mail->setBody( $bodyText );
+
+                    // only send replies to a user once
+                    if ( !in_array( $author->id(), $emailNoticeArray ) )
+                    {
+                        $mail->send();
+                        $emailNoticeArray[] = $author->id();
+                    }
+                }
+            }
+        }
+    }
+}
+
 
 ?>
