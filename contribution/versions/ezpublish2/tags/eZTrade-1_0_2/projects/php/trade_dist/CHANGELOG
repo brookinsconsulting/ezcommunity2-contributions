@@ -1,0 +1,27 @@
+Changes from version 1.0.1
+-------------------------
+* Added multiple assignments of products.
+* Added hot deals on products.
+* Added clickable thumbnail images on product view.
+* Added assignment of articles to multiple categories.
+* Added showing of customers email address in Order edit.
+* Added showing of number of users registered
+* Added searchable products.
+* Added searchable articles.
+* Added welcome message.
+* Removed Javascript from the cart.
+* Removed broken image on product preview if no image exists.
+* Fixed some issues with cache coherence
+* Fixed preview of product options.
+* Fixed external link on products.
+* Fixed deleting of cached printed version, when an article is updated.
+* Fixed internationalization of Order list and Order edit.
+* Various language updates.
+
+
+Changes from version 1.0
+------------------------
+* Added printable version of the articles
+* Fixed an calculation error in the mails sendt on order confirmation.
+* Fixed editing of user addresses and checking if the user has an address
+  before sending an order.

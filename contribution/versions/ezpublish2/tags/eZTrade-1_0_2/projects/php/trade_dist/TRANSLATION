@@ -1,0 +1,38 @@
+eZ trade / eZ publish translation guide
+---------------------------------------
+
+This file will give you a brief introduction on how to translate eZ publish and 
+eZ trade to your language.
+
+Download eZ publish and or eZ trade. you will find a directory structure like:
+
+         ezarticle
+         ezimagecagalogue
+         ezforum
+         etc ...
+
+Each module has two sub directories user and admin with intl catalogues under 
+them. It's in the intl catalogue which the text used on the pages are defined. 
+So you'll have a structure like this:
+
+                          /intl/no_NO
+                         /intl/en_GB/
+                   /user/
+          ezarticle\admin\intl\en_GB
+                               \no_NO
+
+
+What you need to do is to create a new sub directory in every intl catalogue 
+and call them fr_FR or what the ISO code for your language is. And make a copy 
+of the files in the en_GB directory in the same catalogue.
+
+Then you get several .ini files with contents like this:
+[strings]
+head_line=Login
+username=User name
+password=Password
+error_login=Could not login, check login and password.
+ok=OK       
+
+Then you just replace words on the right of the = with the equivalent word(s)
+in your language.
