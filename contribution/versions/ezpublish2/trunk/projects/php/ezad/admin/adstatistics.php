@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: adstatistics.php,v 1.5 2001/01/22 14:42:59 jb Exp $
+// $Id: adstatistics.php,v 1.6 2001/02/13 13:34:08 jb Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <26-Nov-2000 11:47:03 bf>
@@ -70,7 +70,14 @@ $t->set_var( "ad_click_revenue", $viewRevenue );
 $t->set_var( "ad_total_revenue", $clickRevenue + $viewRevenue );
 
 
-$t->set_var( "ad_click_percent", ( $ad->clickCount() / $ad->viewCount() ) * 100 );
+if ( $ad->viewCount() != 0 )
+{
+    $t->set_var( "ad_click_percent", ( $ad->clickCount() / $ad->viewCount() ) * 100 );
+}
+else
+{
+    $t->set_var( "ad_click_percent", ( 0 ) );
+}
 
 if ( $ad->isActive() == true )
 {
