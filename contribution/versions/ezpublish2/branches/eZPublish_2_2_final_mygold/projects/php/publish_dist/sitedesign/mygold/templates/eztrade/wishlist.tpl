@@ -2,7 +2,7 @@
 
 <form action="{www_dir}{index}/trade/wishlist/" method="post">
 
-<!-- BEGIN full_wishlist_tpl -->
+
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
 <tr>
     <td>
@@ -10,25 +10,26 @@
     </td>
     <td align="right">
     <!-- BEGIN public_wishlist_tpl -->
-    <span class="boxtext">{intl-non_public_wishlist_text}</span>&nbsp;<input type="submit" class="okbutton" name="IsPublic" value="{intl-non_public_wishlist}" />
+    <span class="boxtext">{intl-non_public_wishlist_text}</span>&nbsp;<input type="submit" class="okbutton" name="IsNotPublic" value="{intl-non_public_wishlist}" />
     <!-- END public_wishlist_tpl -->
     <!-- BEGIN non_public_wishlist_tpl -->
-    <span class="boxtext">{intl-non_public_wishlist_text}</span>&nbsp;<input type="submit" class="okbutton" name="IsPublic"  value="{intl-non_public_wishlist}"/>
+    <span class="boxtext">{intl-non_public_wishlist_text}</span>&nbsp;<input type="submit" class="okbutton" name="IsPublicButton"  value="{intl-public_wishlist}"/>
     <!-- END non_public_wishlist_tpl -->
 	</td>
 </tr>
 </table>
+
+<!-- BEGIN empty_wishlist_tpl -->
+<h2>{intl-empty_wishlist}</h2>
+<!-- END empty_wishlist_tpl --> 
+
+<!-- BEGIN full_wishlist_tpl -->
 
 <hr noshade="noshade" size="1" />
 <br />
 <table width="100%" border="1" cellspacing="0" cellpadding="4">
 <tr>
     <td colspan="2">
-
-    <!-- BEGIN empty_wishlist_tpl -->
-    <h2>{intl-empty_wishlist}</h2>
-    <!-- END empty_wishlist_tpl --> 
-
     <!-- BEGIN wishlist_item_list_tpl -->
     <tr> 
         <th>{intl-pic}</th>
@@ -174,13 +175,12 @@
 <input type="hidden" name="Action" value="Refresh" />
 <input class="okbutton" type="submit" name="DeleteItems" value="{intl-delete_slected}" />&nbsp;
 <!-- <input class="stdbutton" type="submit" value="{intl-update}" /> -->
+<hr noshade="noshade" size="1" />
 
 <!-- END full_wishlist_tpl -->
 
-
 </form>
 
-<hr noshade="noshade" size="1" />
 
 <!-- BEGIN wishlist_checkout_tpl -->
 <form action="{www_dir}{index}/trade/sendwishlist/" method="post">
