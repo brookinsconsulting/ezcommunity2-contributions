@@ -98,7 +98,7 @@ else
 }
 
 ?>" />
-<meta name="MSSmartTagsPreventParsing" content="TRUE">
+<meta name="MSSmartTagsPreventParsing" content="TRUE" />
 
 <meta name="generator" content="eZ publish" />
 
