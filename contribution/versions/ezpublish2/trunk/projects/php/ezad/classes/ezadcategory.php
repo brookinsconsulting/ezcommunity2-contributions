@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezadcategory.php,v 1.25 2001/08/23 11:48:35 bf Exp $
+// $Id: ezadcategory.php,v 1.26 2001/10/01 11:32:24 br Exp $
 //
 // Definition of eZAdCategory class
 //
@@ -460,7 +460,7 @@ class eZAdCategory
        if ( $sortMode == "name" )
            $orderBySQL = "eZAd_Ad.Name ASC";
        else       
-           $orderBySQL = "eZAd_View.ViewCount ASC";
+           $orderBySQL = "eZAd_View.ViewOffsetCount ASC";
 
        $db->array_query( $ad_array,
        "SELECT eZAd_Ad.ID, eZAd_View.ViewCount, eZAd_Ad.Name
@@ -476,7 +476,6 @@ class eZAdCategory
             ORDER BY $orderBySQL",
        array( "Limit" => $limit, "Offset" => $offset ) );
 
-       
        if ( count( $ad_array ) > 0 )
        {
            for ( $i=0; $i < count($ad_array); $i++ )

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezad.php,v 1.26 2001/08/20 14:56:35 br Exp $
+// $Id: ezad.php,v 1.27 2001/10/01 11:32:24 br Exp $
 //
 // Definition of eZAd class
 //
@@ -477,8 +477,7 @@ class eZAd
         $db->array_query( $view_result, "SELECT * FROM
                                          eZAd_View
                                          WHERE AdID='$this->ID'" );        
-        
-        if ( count( $view_result )  == 0 )
+        if ( count( $view_result ) == 0 )
         {
             $db->lock( "eZAd_View" );
 
@@ -489,24 +488,31 @@ class eZAd
                                          eZAd_View
                                          ORDER BY ViewOffsetCount" );
 
+            // set all offsets to 1.
+            $db->query( "UPDATE eZAd_View
+                         SET ViewOffsetCount='1'" );
+            
             if ( count( $view_offset ) > 0 )
                 $offs = $view_offset[0][$db->fieldName("ViewOffsetCount")];
             else
                 $offs = 1;
 
+            $timeStamp =& eZDateTime::timeStamp( true );
+            
             $res = $db->query( "INSERT INTO eZAd_View
                          ( ID,   
                            AdID,
                            ViewCount,
                            ViewOffsetCount,
-                           ViewPrice )
+                           ViewPrice,
+                           Date )
                          VALUES
-                         (
-                           '$nextID',
+                         ( '$nextID',
                            '$this->ID',
                            '1',
                            '$offs',
-                           '$this->ViewPrice' )" );
+                           '$this->ViewPrice',
+                           '$timeStamp' )" );
 
         }
         else
@@ -523,9 +529,13 @@ class eZAd
         $db->unlock();
     
         if ( $res == false )
+        {
             $db->rollback( );
+        }
         else
+        {
             $db->commit();
+        }
 
     }
 
