@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: articleview.php,v 1.33 2001/04/30 08:28:22 bf Exp $
+// $Id: articleview.php,v 1.34 2001/04/30 08:50:34 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <18-Oct-2000 16:34:51 bf>
@@ -43,9 +43,18 @@ $t = new eZTemplate( "ezarticle/user/" . $ini->read_var( "eZArticleMain", "Templ
 
 $t->setAllStrings();
 
-$t->set_file( array(
-    "article_view_page_tpl" => "articleview.tpl"
-    ) );
+$StaticPage = false;
+if ( $url_array[2] == "static" || $url_array[2] == "articlestatic"  )
+{
+    $StaticPage = true;
+}
+
+if ( $StaticPage == true )    
+    $t->set_file( "article_view_page_tpl", "articlestatic.tpl"  );
+else
+    $t->set_file( "article_view_page_tpl", "articleview.tpl"  );
+
+
 
 // path
 $t->set_block( "article_view_page_tpl", "path_item_tpl", "path_item" );
