@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: articlelist.php,v 1.45 2001/05/16 12:24:58 ce Exp $
+// $Id: articlelist.php,v 1.46 2001/05/21 12:13:58 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <18-Oct-2000 14:41:37 bf>
@@ -61,6 +61,8 @@ $t->set_block( "article_list_page_tpl", "category_list_tpl", "category_list" );
 $t->set_block( "category_list_tpl", "category_item_tpl", "category_item" );
 
 // image
+$t->set_block( "article_list_page_tpl", "current_image_item_tpl", "current_image_item" );
+
 $t->set_block( "category_item_tpl", "image_item_tpl", "image_item" );
 $t->set_block( "category_item_tpl", "no_image_tpl", "no_image" );
 
@@ -116,6 +118,35 @@ foreach ( $pathArray as $path )
 $categoryList = $category->getByParent( $category );
 
 $user =& eZUser::currentUser();
+
+// current category image
+$image =& $category->image();
+
+$t->set_var( "current_image_item", "" );
+        
+if ( ( get_class( $image ) == "ezimage" ) && ( $image->id() != 0 ) )
+{
+    $imageWidth =& $ini->read_var( "eZArticleMain", "CategoryImageWidth" );
+    $imageHeight =& $ini->read_var( "eZArticleMain", "CategoryImageHeight" );
+
+    $variation =& $image->requestImageVariation( $imageWidth, $imageHeight );
+
+    $imageURL = "/" . $variation->imagePath();
+    $imageWidth =& $variation->width();
+    $imageHeight =& $variation->height();
+    $imageCaption =& $image->caption();
+            
+    $t->set_var( "current_image_width", $imageWidth );
+    $t->set_var( "current_image_height", $imageHeight );
+    $t->set_var( "current_image_url", $imageURL );
+    $t->set_var( "current_image_caption", $imageCaption );
+    $t->parse( "current_image_item", "current_image_item_tpl" );
+}
+else
+{
+    $t->set_var( "current_image_item", "" );
+}
+
 
 // categories
 $i=0;
