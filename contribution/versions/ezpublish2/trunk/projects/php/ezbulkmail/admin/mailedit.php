@@ -131,8 +131,6 @@ function save_mail()
     $mail->setSubject( $Subject );
     $mail->setBodyText( $MailBody );
 
-    if( $TemplateID != -1 )
-        $mail->useTemplate( $TemplateID );
     $mail->setIsDraft( true );
     
     $mail->store();

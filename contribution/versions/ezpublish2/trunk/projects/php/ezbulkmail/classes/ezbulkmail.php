@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezbulkmail.php,v 1.6 2001/04/20 12:22:09 fh Exp $
+// $Id: ezbulkmail.php,v 1.7 2001/04/20 12:37:11 fh Exp $
 //
 // eZBulkMail class
 //
@@ -350,7 +350,8 @@ class eZBulkMail
         $this->IsDraft = false;
         $template = $this->template();
         if( is_object( $template ) )
-            $this->Body = $template->header( false ) . $this->Body . $template->footer( false );
+            $this->BodyText = $template->header( false ) . $this->BodyText . $template->footer( false );
+
         $this->useTemplate( false );
 
         $category = $this->category();
