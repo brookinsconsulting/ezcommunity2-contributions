@@ -108,35 +108,48 @@ $t->set_var( "company_no", eZTextTool::htmlspecialchars( $company->companyNo() )
 // View logo.
 $logoImage = $company->logoImage();
 
+$no_image = true;
 if ( ( get_class ( $logoImage ) == "ezimage" ) && ( $logoImage->id() != 0 ) )
 {
     $variation = $logoImage->requestImageVariation( 150, 150 );
-        
-    $t->set_var( "logo_image_src", "/" . $variation->imagePath() );
-    $t->set_var( "logo_name", eZTextTool::htmlspecialchars( $logoImage->name() ) );
-    $t->set_var( "logo_id", $logoImage->id() );
+    if ( get_class( $variation ) == "ezimagevariation" )
+    {
+        $t->set_var( "logo_image_src", "/" . $variation->imagePath() );
+        $t->set_var( "logo_name", eZTextTool::htmlspecialchars( $logoImage->name() ) );
+        $t->set_var( "logo_id", $logoImage->id() );
+        $t->set_var( "logo_width", $variation->width() );
+        $t->set_var( "logo_height", $variation->height() );
+        $t->set_var( "logo_alt", eZTextTool::htmlspecialchars( $logoImage->caption() ) );
 
-    $t->parse( "logo_view", "logo_view_tpl" );
+        $t->parse( "logo_view", "logo_view_tpl" );
+        $no_image = false;
+    }
 }
     
 
 // View company image.
 $companyImage = $company->companyImage();
-    
+
+$no_image = true;
 if ( ( get_class ( $companyImage ) == "ezimage" ) && ( $companyImage->id() != 0 ) )
 {
     $variation = $companyImage->requestImageVariation( 150, 150 );
-        
-    $t->set_var( "image_src", "/" . $variation->imagePath() );
-    $t->set_var( "image_name", eZTextTool::htmlspecialchars( $companyImage->name() ) );
-    $t->set_var( "image_id", $companyImage->id() );
+    if ( get_class( $variation ) == "ezimagevariation" )
+    {
+        $t->set_var( "image_src", "/" . $variation->imagePath() );
+        $t->set_var( "image_name", eZTextTool::htmlspecialchars( $companyImage->name() ) );
+        $t->set_var( "image_id", $companyImage->id() );
+        $t->set_var( "image_width", $variation->width() );
+        $t->set_var( "image_height", $variation->height() );
 
-    $t->parse( "image_view", "image_view_tpl" );
+        $t->set_var( "image_alt", eZTextTool::htmlspecialchars( $companyImage->caption() ) );
+
+        $t->parse( "image_view", "image_view_tpl" );
+        $no_image = false;
+    }
 }
-else
-{
+if ( $no_image )
     $t->parse( "no_image", "no_image_tpl" );
-}
 
 
 $message = "Rediger firmainformasjon";

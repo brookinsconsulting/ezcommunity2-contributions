@@ -235,6 +235,8 @@ else
 $t->set_block( "errors_tpl", "error_address_item_tpl", "error_address_item" );
 $t->set_block( "errors_tpl", "error_phone_item_tpl", "error_phone_item" );
 $t->set_block( "errors_tpl", "error_online_item_tpl", "error_online_item" );
+$t->set_block( "errors_tpl", "error_logo_item_tpl", "error_logo_item" );
+$t->set_block( "errors_tpl", "error_image_item_tpl", "error_image_item" );
 
 $confirm = false;
 
@@ -305,6 +307,8 @@ if ( !$confirm )
         $t->set_var( "error_address_item", "" );
         $t->set_var( "error_phone_item", "" );
         $t->set_var( "error_online_item", "" );
+        $t->set_var( "error_logo_item", "" );
+        $t->set_var( "error_image_item", "" );
 
         if ( isset( $CompanyEdit ) )
         {
@@ -412,6 +416,30 @@ if ( !$confirm )
             }
         }
 
+        // Check uploaded logo image
+        $file = new eZImageFile();
+        if ( $file->getUploadedFile( "logo" ) )
+        {
+            $logo = new eZImage();
+            if ( !$logo->checkImage( $file ) )
+            {
+                $t->parse( "error_logo_item", "error_logo_item_tpl", true );
+                $error = true;
+            }
+        }
+
+        // Check uploaded image
+        $file = new eZImageFile();
+        if ( $file->getUploadedFile( "image" ) )
+        {
+            $image = new eZImage();
+            if ( !$image->checkImage( $file ) )
+            {
+                $t->parse( "error_image_item", "error_image_item_tpl", true );
+                $error = true;
+            }
+        }
+
         if( $error == true )
         {
             $t->parse( "errors_item", "errors_tpl" );
@@ -464,10 +492,16 @@ if ( !$confirm )
             {
                 $logo = new eZImage();
                 $logo->setName( "Logo" );
-                $logo->setImage( $file );
-                $logo->store();
+                if ( $logo->checkImage( $file ) and $logo->setImage( $file ) )
+                {
+                    $logo->store();
 
-                $company->setLogoImage( $logo );
+                    $company->setLogoImage( $logo );
+                }
+                else
+                {
+                    $company->deleteLogo();
+                }
             }
             else
             {
@@ -480,11 +514,16 @@ if ( !$confirm )
             {
                 $image = new eZImage( );
                 $image->setName( "Image" );
-                $image->setImage( $file );
+                if ( $image->checkImage( $file ) and $image->setImage( $file ) )
+                {
+                    $image->store();
 
-                $image->store();
-
-                $company->setCompanyImage( $image );
+                    $company->setCompanyImage( $image );
+                }
+                else
+                {
+                    $company->deleteImage();
+                }
             }
             else
             {
@@ -700,11 +739,13 @@ if ( !$confirm )
             {
                 if ( isset( $DeleteImage ) )
                 {
+                    print( "deleteimage $CompanyID" );
                     eZCompany::deleteImage( $CompanyID );
                 }
 
                 if ( isset( $DeleteLogo ) )
                 {
+                    print( "deletelogo $CompanyID" );
                     eZCompany::deleteLogo( $CompanyID );
                 }
             }
@@ -1123,16 +1164,18 @@ if ( !$confirm )
             if ( ( get_class ( $logoImage ) == "ezimage" ) && ( $logoImage->id() != 0 ) )
             {
                 $variation = $logoImage->requestImageVariation( 150, 150 );
-        
-                $t->set_var( "logo_image_src", "/" . $variation->imagePath() );
+                if ( get_class( $variation ) == "ezimagevariation" )
+                {
+                    $t->set_var( "logo_image_src", "/" . $variation->imagePath() );
 
-                $t->set_var( "logo_image_width", $variation->width() );
-                $t->set_var( "logo_image_height", $variation->height() );
-
-                $t->set_var( "logo_name", eZTextTool::htmlspecialchars( $logoImage->name() ) );
-                $t->set_var( "logo_id", $logoImage->id() );
+                    $t->set_var( "logo_image_width", $variation->width() );
+                    $t->set_var( "logo_image_height", $variation->height() );
+                    $t->set_var( "logo_image_alt", eZTextTool::htmlspecialchars( $logoImage->caption() ) );
+                    $t->set_var( "logo_name", eZTextTool::htmlspecialchars( $logoImage->name() ) );
+                    $t->set_var( "logo_id", $logoImage->id() );
         
-                $t->parse( "logo_item", "logo_item_tpl" );
+                    $t->parse( "logo_item", "logo_item_tpl" );
+                }
             }
 
             // View company image.
@@ -1143,18 +1186,20 @@ if ( !$confirm )
             }
 
             $t->set_var( "image_item", "&nbsp;" );
-            if ( ( get_class ( $logoImage ) == "ezimage" ) && ( $companyImage->id() != 0 ) )
+            if ( ( get_class ( $companyImage ) == "ezimage" ) && ( $companyImage->id() != 0 ) )
             {
                 $variation = $companyImage->requestImageVariation( 150, 150 );
-        
-                $t->set_var( "image_src", "/" . $variation->imagePath() );
-                $t->set_var( "image_width", $variation->width() );
-                $t->set_var( "image_height", $variation->height() );
+                if ( get_class( $variation ) == "ezimagevariation" )
+                {
+                    $t->set_var( "image_src", "/" . $variation->imagePath() );
+                    $t->set_var( "image_width", $variation->width() );
+                    $t->set_var( "image_height", $variation->height() );
+                    $t->set_var( "image_alt", eZTextTool::htmlspecialchars( $companyImage->caption() ) );
+                    $t->set_var( "image_name", eZTextTool::htmlspecialchars( $companyImage->name() ) );
+                    $t->set_var( "image_id", $companyImage->id() );
 
-                $t->set_var( "image_name", eZTextTool::htmlspecialchars( $companyImage->name() ) );
-                $t->set_var( "image_id", $companyImage->id() );
-        
-                $t->parse( "image_item", "image_item_tpl" );
+                    $t->parse( "image_item", "image_item_tpl" );
+                }
             }
         }
     }

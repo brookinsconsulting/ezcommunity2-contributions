@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezcompany.php,v 1.62 2001/02/20 13:37:55 jb Exp $
+// $Id: ezcompany.php,v 1.63 2001/03/05 15:43:31 jb Exp $
 //
 // Definition of eZProduct class
 //
@@ -557,7 +557,7 @@ class eZCompany
 
         $db->array_query( $image_array, "SELECT ImageID FROM eZContact_CompanyImageDict WHERE CompanyID='$this->ID'" );
 
-        for ( $i=0; $i<count($image_array); $i++ )
+        for ( $i=0; $i < count($image_array); $i++ )
         {
             $return_array[$i] =& new eZImage( $image_array[$i]["ImageID"], false );
         }
@@ -566,7 +566,7 @@ class eZCompany
     }
 
     /*!
-      Delete all onlines and the relation to the eZContact_Company
+      Delete all images for this company.
     */
     function removeImages()
     {
@@ -593,7 +593,7 @@ class eZCompany
 
         if ( count( $res_array ) == 1 )
         {
-            if ( $res_array[0]["LogoImageID"] != "NULL" )
+            if ( $res_array[0]["LogoImageID"] != "NULL" and $res_array[0]["LogoImageID"] != "0" )
             {
                 $ret = new eZImage( $res_array[0]["LogoImageID"], false );
             }
@@ -703,7 +703,7 @@ class eZCompany
 
 
     /*!
-      Returns the logo image of the company as a eZImage object.
+      Returns the image of the company as a eZImage object.
     */
     function companyImage( $id = false )
     {
@@ -717,9 +717,9 @@ class eZCompany
 
         if ( count( $res_array ) == 1 )
         {
-            if ( $res_array[0]["CompanyImageID"] != "NULL" )
+            if ( $res_array[0]["CompanyImageID"] != "NULL" and $res_array[0]["CompanyImageID"] != "0" )
             {
-                $ret =& new eZImage( $res_array[0]["CompanyImageID"], false );
+                $ret = new eZImage( $res_array[0]["CompanyImageID"], false );
             }
         }
 
