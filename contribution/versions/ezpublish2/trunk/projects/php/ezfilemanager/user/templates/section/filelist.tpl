@@ -19,9 +19,8 @@
 
 <table width="100%" border="0">
 <tr>
-	<td valign="bottom">
 	<td>
-	<h1>{intl-files}
+	<h1>{intl-files}</h1>
 	</td>
 	<td align="right">
 	<form action="/filemanager/search/" method="post">
