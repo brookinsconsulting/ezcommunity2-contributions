@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: checkout.php,v 1.96 2001/10/12 11:42:48 ce Exp $
+// $Id: checkout.php,v 1.96.4.1 2001/10/24 14:19:17 ce Exp $
 //
 // Created on: <28-Sep-2000 15:52:08 bf>
 //
@@ -255,6 +255,14 @@ $vat = true;
 if ( is_numeric( $BillingAddressID ) )
 {
     $address = new eZAddress( $BillingAddressID );
+
+    if ( !$country )
+    {
+        $user = eZUser::currentUser();
+        $userID = $user->id();
+        eZHTTPTool::header( "Location: /user/userwithaddress/edit/$userID/MissingCountry" );
+        exit();
+    }
     $country =& $address->country();
     if ( !$country->hasVAT() )
         $vat = false;
