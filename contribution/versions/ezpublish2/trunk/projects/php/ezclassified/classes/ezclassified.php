@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezclassified.php,v 1.10 2000/12/14 16:38:33 pkej Exp $
+// $Id: ezclassified.php,v 1.11 2000/12/14 16:45:21 pkej Exp $
 //
 // Definition of eZProduct class
 //
@@ -43,7 +43,7 @@
 //require "ezphputils.php";
 
 include_once( "ezcontact/classes/ezcompany.php" );
-include_once( "ezcontact/classes/ezcategory.php" );
+include_once( "ezclassified/classes/ezcategory.php" );
 include_once( "classes/ezdate.php" );
 // include_once( "ezcontact/classes/ezonline.php" );
 
@@ -298,6 +298,39 @@ class eZClassified
         return $return_array;
     }
 
+    /*
+      Search the classified database in a single category, using query as the search string in classified name.
+    */
+    function searchByCategory( $categoryID, $query )
+    {
+        $this->dbInit();
+        
+        $classified_array = array();
+        $return_array = array();
+        if( !empty( $query ) )
+        {
+            $query = "
+                SELECT 
+                    Comp.ID 
+                FROM
+                    eZClassified_ClassifiedCategoryLink as Dict,
+                    eZClassified_Classified as Comp
+                WHERE
+                    Comp.Name LIKE '%$query%'
+                AND
+                    Dict.CategoryID = '$categoryID'
+                AND
+                    Comp.ID = Dict.ClassifiedID
+                ORDER BY Name";
+            $this->Database->array_query( $classified_array, $query );
+            foreach( $classified_array as $classifiedItem )
+            {
+                $return_array[] = new eZClassified( $classifiedItem["ID"] );
+            }
+        }
+        
+        return $return_array;
+    }
     /*!
       Add a company to the eZClassified object.
     */
