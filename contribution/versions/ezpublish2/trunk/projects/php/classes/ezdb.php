@@ -1,12 +1,18 @@
 <?
 /*!
-    $Id: ezdb.php,v 1.3 2000/08/30 09:42:11 ce-cvs Exp $
+    $Id: ezdb.php,v 1.4 2000/09/08 13:17:17 bf-cvs Exp $
 
     Author: Bård Farstad <bf@ez.no>
     
     Created on: Created on: <14-Jul-2000 13:01:15 bf>
     
     Copyright (C) 2000 eZ systems. All rights reserved.
+*/
+
+//!! eZCommon
+//! The eZDB class provides database.
+/*!
+  
 */
 
 

@@ -1,11 +1,18 @@
 <?php
-// $Id: ezusergroup.php,v 1.5 2000/09/07 15:44:44 bf-cvs Exp $
+// $Id: ezusergroup.php,v 1.6 2000/09/08 13:17:17 bf-cvs Exp $
 // Lars Wilhelmsen <lw@ez.no>
 // eZ systems <http://www.ez.no/>
 //
 
 // Generated with the PHP Class Generator
 // (C) 2000 by Lars Wilhelmsen <lw@ez.no>, All rights reserved.
+
+
+//!! eZCommon
+//! The eZUserGroup class provides usergroup functions.
+/*!
+  
+*/
 
 class eZUserGroup
 {

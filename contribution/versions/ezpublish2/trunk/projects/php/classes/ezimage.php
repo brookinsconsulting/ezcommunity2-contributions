@@ -1,5 +1,11 @@
 <?php
 
+//!! eZCommon
+//! The eZImage class provides image functions.
+/*!
+  
+*/
+
 class eZImage
 {
   var $Antall = 0;

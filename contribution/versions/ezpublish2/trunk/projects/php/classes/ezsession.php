@@ -1,12 +1,18 @@
 <?
 /*!
-    $Id: ezsession.php,v 1.6 2000/09/07 15:44:44 bf-cvs Exp $
+    $Id: ezsession.php,v 1.7 2000/09/08 13:17:17 bf-cvs Exp $
 
     Author: Lars Wilhelmsen <lw@ez.no> (Bård Farstad <bf@ez.no>)
     
     Created on: Created on: <14-Jul-2000 13:06:16 lw>
     
     Copyright (C) 2000 eZ systems. All rights reserved.
+*/
+
+//!! eZCommon
+//! The eZSession class provides session handling.
+/*!
+  
 */
 
 class eZSession

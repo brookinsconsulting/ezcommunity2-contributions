@@ -28,6 +28,12 @@
 //    Modified by Jo Henrik Endrerud <jhe@ez.no> for eZ systems
 //
 
+//!! eZCommon
+//! The INIFile class provides .ini file functions.
+/*!
+  
+*/
+
 class  INIFile
 { 
     var $INI_FILE_NAME =  ""; 

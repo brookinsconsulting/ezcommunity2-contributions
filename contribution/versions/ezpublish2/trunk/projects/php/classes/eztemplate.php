@@ -1,6 +1,6 @@
 <?php
 /*!
-    $Id: eztemplate.php,v 1.4 2000/09/07 15:44:44 bf-cvs Exp $
+    $Id: eztemplate.php,v 1.5 2000/09/08 13:17:17 bf-cvs Exp $
 
     Author: Lars Wilhelmsen <lw@ez.no>
     
@@ -10,6 +10,13 @@
 */
 include_once( "classes/template.inc" );
 include_once( "classes/INIFile.php" );
+
+
+//!! eZCommon
+//! The eZTemplate class provides template functions. In regard to locale information.
+/*!
+  
+*/
 
 class eZTemplate extends Template
 {
