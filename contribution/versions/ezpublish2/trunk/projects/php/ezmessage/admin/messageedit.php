@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: messageedit.php,v 1.1 2001/06/06 09:52:43 bf Exp $
+// $Id: messageedit.php,v 1.2 2001/06/06 11:19:23 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <05-Jun-2001 17:19:01 bf>
@@ -32,6 +32,7 @@ include_once( "ezuser/classes/ezuser.php" );
 
 include_once( "ezmessage/classes/ezmessage.php" );
 
+$MessageSent = false;
 if ( isset( $SendMessage ) )
 {
     $users = explode( ",", $Receiver );
@@ -63,6 +64,8 @@ if ( isset( $SendMessage ) )
             $message->setFromUser( $fromUser );
 
             $message->store();
+
+            $MessageSent = true;
             
         }
     }    
@@ -71,11 +74,82 @@ if ( isset( $SendMessage ) )
 $t = new eZTemplate( "ezmessage/admin/" . $ini->read_var( "eZMessageMain", "AdminTemplateDir" ),
                      "ezmessage/admin/intl", $Language, "messageedit.php" );
 
-$locale = new eZLocale( $Language ); 
+$locale = new eZLocale( $Language );
+
+
 
 $t->set_file( "message_page_tpl", "messageedit.tpl" );
 
+$t->set_block( "message_page_tpl", "error_tpl", "error" );
+$t->set_block( "message_page_tpl", "message_sent_tpl", "message_sent" );
+$t->set_block( "message_page_tpl", "message_verify_tpl", "message_verify" );
+$t->set_block( "message_verify_tpl", "message_receiver_tpl", "message_receiver" );
+$t->set_block( "message_page_tpl", "message_edit_tpl", "message_edit" );
+
+
 $t->setAllStrings();
+
+$t->set_var( "receiver", $Receiver );
+$t->set_var( "subject", $Subject );
+$t->set_var( "description", $Description );
+
+$t->set_var( "error", "" );
+
+if ( $MessageSent == true )
+{
+    $t->parse( "message_sent", "message_sent_tpl" );
+    $t->set_var( "message_verify", "" );
+    $t->set_var( "message_edit", "" );
+}
+else if ( !isset( $Preview ) || isset( $Edit ) )
+{
+    $t->parse( "message_edit", "message_edit_tpl" );
+    $t->set_var( "message_verify", "" );
+    $t->set_var( "message_sent", "" );
+    
+}
+else
+{
+    $users = explode( ",", $Receiver );
+
+    // check for valid users:
+    $usersValid = true;
+    foreach ( $users as $user )
+    {
+        $user = trim( $user );
+        
+        if ( !eZUser::exists( $user ) )            
+            $usersValid = false;
+    }
+    
+    if ( $usersValid == true )
+    {
+        foreach ( $users as $user )
+        {
+            $user = trim( $user );
+            
+            $toUser = eZUser::getUser( $user );
+
+            $t->set_var( "login", $user );
+            $t->set_var( "first_name", $toUser->firstName() );
+            $t->set_var( "last_name", $toUser->lastName() );
+            $t->parse( "message_receiver", "message_receiver_tpl", true );            
+        }
+    
+        $t->parse( "message_verify", "message_verify_tpl" );
+        $t->set_var( "message_edit", "" );
+        $t->set_var( "message_sent", "" );        
+    }
+    else
+    {
+        // show error
+        $t->parse( "error", "error_tpl" );
+        $t->parse( "message_edit", "message_edit_tpl" );
+        $t->set_var( "message_verify", "" );
+        $t->set_var( "message_sent", "" );
+
+    }
+}
 
 
 $t->pparse( "output", "message_page_tpl" );
