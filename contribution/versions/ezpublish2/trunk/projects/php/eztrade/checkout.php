@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: checkout.php,v 1.1 2000/09/30 10:17:32 bf-cvs Exp $
+// $Id: checkout.php,v 1.2 2000/10/02 11:57:24 bf-cvs Exp $
 //
 // Definition of eZCompany class
 //
@@ -26,12 +26,14 @@ $DOC_ROOT = $ini->read_var( "eZTradeMain", "DocumentRoot" );
 include_once( "eztrade/classes/ezproduct.php" );
 include_once( "eztrade/classes/ezoption.php" );
 include_once( "eztrade/classes/ezoptionvalue.php" );
-include_once( "eztrade/classes/ezproductcategory.php" );
 include_once( "eztrade/classes/ezcart.php" );
 include_once( "eztrade/classes/ezcartitem.php" );
 include_once( "eztrade/classes/ezcartoptionvalue.php" );
+include_once( "eztrade/classes/ezorder.php" );
+include_once( "eztrade/classes/ezorderitem.php" );
+include_once( "eztrade/classes/ezorderoptionvalue.php" );
+
 include_once( "ezsession/classes/ezsession.php" );
-include_once( "ezimagecatalogue/classes/ezimage.php" );
 
 
 $cart = new eZCart();
@@ -61,22 +63,42 @@ $t->set_file( array(
 
 //  $t->set_block( "cart_page", "cart_header_tpl", "cart_header" );
 
-$t->pparse( "output", "checkout_tpl" );
 
-$product = new eZProduct();
+// create a new order
+$order = new eZOrder();
+$user = eZUser::currentUser();
+$order->setUser( $user );
+$order->setAddress( 42 );
+$order->setShippingCharge( 120.0 );
+$order->store();
 
-for ( $i=0; $i<100; $i++ )
+// fetch the cart items
+$items = $cart->items( $CartType );
+
+foreach ( $items as $item )
 {
-    $product->get( 1 );
-    $product->name();
-    $product->setName( "blah" );
-    $product2 =& $product;
-} 
+    $product = $item->product();
+    print( $product->name() . "<br>" );
 
+    // create a new order item
+    $orderItem = new eZOrderItem();
+    $orderItem->setOrder( $order );
+    $orderItem->setProduct( $product );
+    $orderItem->setCount( $item->count );
+    $orderItem->setPrice( $product->price() );
+    $orderItem->store();
 
+    $optionValues =& $item->optionValues();
 
+    $t->set_var( "cart_item_option", "" );
+    foreach ( $optionValues as $optionValue )
+    {
+        $option =& $optionValue->option();
+        $value =& $optionValue->optionValue();
+        print( "&nbsp;&nbsp;" . $option->name() . " " . $value->name() . "<br>");
+    }    
+}
 
-
-
+$t->pparse( "output", "checkout_tpl" );
 
 ?>

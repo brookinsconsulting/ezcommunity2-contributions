@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezcart.php,v 1.3 2000/09/28 13:15:45 bf-cvs Exp $
+// $Id: ezcart.php,v 1.4 2000/10/02 11:57:25 bf-cvs Exp $
 //
 // Definition of eZCompany class
 //
@@ -245,14 +245,14 @@ class eZCart
     /*!
       Returns all the cart items in the cart.
 
-      An array of eZCartItem objects are retunred if successful, false if not.
+      An array of eZCartItem objects are retunred if successful, an empty array.
     */
     function items( )
     {
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
 
-       $ret = false;
+       $ret = array();
        
        $this->dbInit();
 

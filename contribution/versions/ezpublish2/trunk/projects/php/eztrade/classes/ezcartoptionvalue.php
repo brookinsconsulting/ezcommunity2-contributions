@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezcartoptionvalue.php,v 1.1 2000/09/28 13:17:07 bf-cvs Exp $
+// $Id: ezcartoptionvalue.php,v 1.2 2000/10/02 11:57:25 bf-cvs Exp $
 //
 // Definition of eZCompany class
 //
@@ -111,10 +111,10 @@ class eZCartOptionValue
             }
             else if( count( $cart_array ) == 1 )
             {
-                $this->ID = $cart_array[0][ "ID" ];
-                $this->CartItemID = $cart_array[0][ "CartItemID" ];
-                $this->OptionID = $cart_array[0][ "OptionID" ];
-                $this->OptionValueID = $cart_array[0][ "OptionValueID" ];
+                $this->ID =& $cart_array[0][ "ID" ];
+                $this->CartItemID =& $cart_array[0][ "CartItemID" ];
+                $this->OptionID =& $cart_array[0][ "OptionID" ];
+                $this->OptionValueID =& $cart_array[0][ "OptionValueID" ];
 
                 $this->State_ = "Coherent";
                 $ret = true;
@@ -138,7 +138,7 @@ class eZCartOptionValue
     /*!
       Returns the cart item object.
     */
-    function cartItem()
+    function &cartItem()
     {
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
@@ -149,7 +149,7 @@ class eZCartOptionValue
     /*!
       Returns the option object.
     */
-    function option()
+    function &option()
     {
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
@@ -160,7 +160,7 @@ class eZCartOptionValue
     /*!
       Returns the option value object.
     */
-    function optionValue()
+    function &optionValue()
     {
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
@@ -171,7 +171,7 @@ class eZCartOptionValue
     /*!
       Sets the cart item object id.
     */
-    function setCartItem( $cartItem )
+    function setCartItem( &$cartItem )
     {
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
@@ -185,7 +185,7 @@ class eZCartOptionValue
     /*!
       Sets the option object id.
     */
-    function setOption( $option )
+    function setOption( &$option )
     {
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
@@ -199,7 +199,7 @@ class eZCartOptionValue
     /*!
       Sets the option value object id.
     */
-    function setOptionValue( $optionValue )
+    function setOptionValue( &$optionValue )
     {
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );

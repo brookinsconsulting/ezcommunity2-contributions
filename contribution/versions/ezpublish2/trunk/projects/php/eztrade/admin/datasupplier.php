@@ -5,6 +5,11 @@ $url_array = explode( "/", $REQUEST_URI );
 
 switch ( $url_array[2] )
 {
+    case "orderlist" :
+        include( "eztrade/admin/orderlist.php" );
+        break;
+        
+    
     case "categorylist" :
         if ( ( $url_array[3] == "parent") && ( $url_array[4] != "" ) )
         {

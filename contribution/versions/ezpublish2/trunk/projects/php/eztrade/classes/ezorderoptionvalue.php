@@ -1,8 +1,8 @@
-<?
+<?php
 // 
-// $Id: ezorder.php,v 1.2 2000/10/02 11:57:25 bf-cvs Exp $
+// $Id: ezorderoptionvalue.php,v 1.1 2000/10/02 11:57:25 bf-cvs Exp $
 //
-// Definition of eZOrder class
+// Definition of eZOrderOptionValue class
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <28-Sep-2000 16:40:01 bf>
@@ -14,22 +14,19 @@
 //
 
 //!! eZTrade
-//! eZOrder handles orders.
+//! eZOrderOptionValue handles selected options for the order items.
 /*!
 
-  \sa eZOrderItem eZOrderOptionValue
+  \sa eZOrder eZOrderItem 
 */
 
 /*!TODO
-  Fix address, should take an object as parameter.
     
 */
 
 include_once( "classes/ezdb.php" );
 
-include_once( "ezuser/classes/ezuser.php" );
-
-class eZOrder
+class eZOrderOptionValue
 {
     /*!
       Constructs a new eZOrder object.
@@ -69,10 +66,10 @@ class eZOrder
         
         if ( !isset( $this->ID ) )
         {
-            $this->Database->query( "INSERT INTO eZTrade_Order SET
-		                         UserID='$this->UserID',
-		                         AddressID='$this->AddressID',
-		                         ShippingCharge='$this->ShippingCharge'
+            $this->Database->query( "INSERT INTO eZTrade_OrderOptionValue SET
+		                         OrderItemID='$this->OrderItemID',
+		                         OptionName='$this->OptionName',
+		                         ValueName='$this->ValueName'
                                  " );
 
             $this->ID = mysql_insert_id();
@@ -82,9 +79,9 @@ class eZOrder
         else
         {
             $this->Database->query( "UPDATE eZTrade_Order SET
-		                         UserID='$this->UserID',
-		                         AddressID='$this->AddressID',
-		                         ShippingCharge='$this->ShippingCharge'
+		                         OrderItemID='$this->OrderItemID',
+		                         OptionName='$this->OptionName',
+		                         ValueName='$this->ValueName'
                                  WHERE ID='$this->ID'
                                  " );
 
@@ -104,17 +101,17 @@ class eZOrder
         
         if ( $id != "" )
         {
-            $this->Database->array_query( $cart_array, "SELECT * FROM eZTrade_Order WHERE ID='$id'" );
-            if ( count( $cart_array ) > 1 )
+            $this->Database->array_query( $option_value_array, "SELECT * FROM eZTrade_OrderOptionValue WHERE ID='$id'" );
+            if ( count( $option_value_array ) > 1 )
             {
-                die( "Error: Cart's with the same ID was found in the database. This shouldent happen." );
+                die( "Error: Option_value's with the same ID was found in the database. This shouldent happen." );
             }
-            else if( count( $cart_array ) == 1 )
+            else if( count( $option_value_array ) == 1 )
             {
-                $this->ID = $cart_array[0][ "ID" ];
-                $this->UserID = $cart_array[0][ "UserID" ];
-                $this->AddressID = $cart_array[0][ "AddressID" ];
-                $this->ShippingCharge = $cart_array[0][ "ShippingCharge" ];
+                $this->ID =& $option_value_array[0][ "ID" ];
+                $this->OrderItemID =& $option_value_array[0][ "OrderItemID" ];
+                $this->OptionName =& $option_value_array[0][ "OptionName" ];
+                $this->ValueName =& $option_value_array[0][ "ValueName" ];
 
                 $this->State_ = "Coherent";
                 $ret = true;
@@ -134,71 +131,11 @@ class eZOrder
     {
         return $this->ID;
     }
-
-    /*!
-      Returns the user as a eZUser object.
-
-      True is retuned if successful, false (0) if not.
-    */
-    function user()
-    {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
-       $ret = false;
-       
-       $user = new eZUser( );
-       if ( $user->get( $this->UserID ) )
-           $ret = true;
-
-       return $ret;
-    }
-
-    /*!
-      Sets the user.
-    */
-    function setUser( $user )
-    {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
-       if ( get_class( $user ) == "ezuser" )
-       {
-           $this->UserID = $user->id();
-       }
-    }
-
-    /*!
-      Sets the address.
-    */
-    function setAddress( $address )
-    {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
-//         if ( get_class( $user ) == "ezuser" )
-       {
-           $this->AddressID = $address;
-       }
-    }
-
-    /*!
-      Sets the shipping charge.
-    */
-    function setShippingCharge( $value )
-    {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
-       
-       $this->ShippingCharge = $value;
-
-       setType( $this->ShippingCharge, "double" );       
-    }    
     
-
+    
     /*!
       \private
+      
       Open the database for read and write. Gets all the database information from site.ini.
     */
     function dbInit()
@@ -211,10 +148,10 @@ class eZOrder
     }
 
     var $ID;
-    var $UserID;
-    var $AddressID;
-    var $ShippingCharge;
-    
+    var $OrderItemID;
+    var $OptionName;
+    var $ValueName;    
+
     ///  Variable for keeping the database connection.
     var $Database;
 

@@ -1,8 +1,8 @@
 <?
 // 
-// $Id: categorylist.php,v 1.4 2000/09/27 07:08:28 bf-cvs Exp $
+// $Id: categorylist.php,v 1.5 2000/10/02 11:57:25 bf-cvs Exp $
 //
-// Definition of eZCompany class
+// 
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <13-Sep-2000 14:56:11 bf>
@@ -21,13 +21,12 @@ include_once( "classes/ezcurrency.php" );
 $ini = new INIFIle( "site.ini" );
 
 $Language = $ini->read_var( "eZTradeMain", "Language" );
-$DOC_ROOT = $ini->read_var( "eZTradeMain", "DocumentRoot" );
 
-include_once( $DOC_ROOT . "/classes/ezproductcategory.php" );
-include_once( $DOC_ROOT . "/classes/ezproduct.php" );
+include_once( "eztrade/classes/ezproductcategory.php" );
+include_once( "eztrade/classes/ezproduct.php" );
 
-$t = new eZTemplate( $DOC_ROOT . "/admin/" . $ini->read_var( "eZTradeMain", "TemplateDir" ) . "/categorylist/",
-                     $DOC_ROOT . "/admin/intl/", $Language, "categorylist.php" );
+$t = new eZTemplate( "eztrade/admin/" . $ini->read_var( "eZTradeMain", "TemplateDir" ) . "/categorylist/",
+                     "eztrade/admin/intl/", $Language, "categorylist.php" );
 
 $t->setAllStrings();
 

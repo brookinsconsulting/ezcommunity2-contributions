@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: productlist.php,v 1.5 2000/09/30 10:17:32 bf-cvs Exp $
+// $Id: productlist.php,v 1.6 2000/10/02 11:57:24 bf-cvs Exp $
 //
 // Definition of eZCompany class
 //
@@ -21,13 +21,12 @@ include_once( "classes/ezcurrency.php" );
 $ini = new INIFIle( "site.ini" );
 
 $Language = $ini->read_var( "eZTradeMain", "Language" );
-$DOC_ROOT = $ini->read_var( "eZTradeMain", "DocumentRoot" );
 
-include_once( $DOC_ROOT . "/classes/ezproduct.php" );
-include_once( $DOC_ROOT . "/classes/ezproductcategory.php" );
+include_once( "eztrade/classes/ezproduct.php" );
+include_once( "eztrade/classes/ezproductcategory.php" );
 
-$t = new eZTemplate( $DOC_ROOT . "/" . $ini->read_var( "eZTradeMain", "TemplateDir" ) . "/productlist/",
-                     $DOC_ROOT . "/intl/", $Language, "productlist.php" );
+$t = new eZTemplate( "eztrade/" . $ini->read_var( "eZTradeMain", "TemplateDir" ) . "/productlist/",
+                     "eztrade/intl/", $Language, "productlist.php" );
 
 $t->setAllStrings();
 
@@ -106,7 +105,7 @@ foreach ( $productList as $product )
     $thumbnailImage = $product->thumbnailImage();
     if ( $thumbnailImage )
     {
-        $variation = $thumbnailImage->requestImageVariation( 250, 250 );
+        $variation =& $thumbnailImage->requestImageVariation( 250, 250 );
     
         $t->set_var( "thumbnail_image_uri", "/" . $variation->imagePath() );
         $t->set_var( "thumbnail_image_width", $variation->width() );

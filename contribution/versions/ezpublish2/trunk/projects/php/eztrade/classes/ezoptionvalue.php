@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezoptionvalue.php,v 1.8 2000/09/21 12:42:24 bf-cvs Exp $
+// $Id: ezoptionvalue.php,v 1.9 2000/10/02 11:57:25 bf-cvs Exp $
 //
 // Definition of eZCompany class
 //
@@ -103,9 +103,9 @@ class eZOptionValue
             }
             else if( count( $optionValue_array ) == 1 )
             {
-                $this->ID = $optionValue_array[0][ "ID" ];
-                $this->Name = $optionValue_array[0][ "Name" ];
-                $this->OptionID = $optionValue_array[0][ "OptionID" ];
+                $this->ID =& $optionValue_array[0][ "ID" ];
+                $this->Name =& $optionValue_array[0][ "Name" ];
+                $this->OptionID =& $optionValue_array[0][ "OptionID" ];
             }                 
             $this->State_ = "Coherent";
         }
@@ -118,7 +118,7 @@ class eZOptionValue
     /*!
       Returns every optionValue stored in the database.
     */
-    function getAll()
+    function &getAll()
     {
         $this->dbInit();
         
@@ -140,7 +140,7 @@ class eZOptionValue
 
       The values are sorted by name. Returns 0 if no values are found.
     */
-    function getByOption( $value )
+    function &getByOption( &$value )
     {
         if ( get_class( $value ) == "ezoption" )
         {        

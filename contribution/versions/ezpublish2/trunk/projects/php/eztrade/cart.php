@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: cart.php,v 1.4 2000/09/30 10:17:32 bf-cvs Exp $
+// $Id: cart.php,v 1.5 2000/10/02 11:57:24 bf-cvs Exp $
 //
 // Definition of eZCompany class
 //
@@ -21,7 +21,6 @@ include_once( "classes/ezcurrency.php" );
 $ini = new INIFIle( "site.ini" );
 
 $Language = $ini->read_var( "eZTradeMain", "Language" );
-$DOC_ROOT = $ini->read_var( "eZTradeMain", "DocumentRoot" );
 
 include_once( "eztrade/classes/ezproduct.php" );
 include_once( "eztrade/classes/ezoption.php" );
@@ -99,8 +98,8 @@ if ( $Action == "AddToBasket" )
     exit();
 }
 
-$t = new eZTemplate( $DOC_ROOT . "/" . $ini->read_var( "eZTradeMain", "TemplateDir" ) . "/cart/",
-                     $DOC_ROOT . "/intl/", $Language, "cart.php" );
+$t = new eZTemplate( "eztrade/" . $ini->read_var( "eZTradeMain", "TemplateDir" ) . "/cart/",
+                     "eztrade/intl/", $Language, "cart.php" );
 
 $t->setAllStrings();
 
@@ -133,66 +132,63 @@ else
 // fetch the cart items
 $items = $cart->items( $CartType );
 
-if  ( $items )
-{
-    $locale = new eZLocale( $Language );
-    $currency = new eZCurrency();
+$locale = new eZLocale( $Language );
+$currency = new eZCurrency();
     
-    $i = 0;
-    $sum = 0.0;
-    foreach ( $items as $item )
+$i = 0;
+$sum = 0.0;
+foreach ( $items as $item )
+{
+    $product = $item->product();
+
+    $image = $product->thumbnailImage();
+
+    $thumbnail =& $image->requestImageVariation( 35, 35 );        
+
+    $t->set_var( "product_image_path", "/" . $thumbnail->imagePath() );
+    $t->set_var( "product_image_width", $thumbnail->width() );
+    $t->set_var( "product_image_height", $thumbnail->height() );
+    $t->set_var( "product_image_caption", $image->caption() );
+
+    $currency->setValue( $product->price() );
+
+    $sum += $product->price();
+    $t->set_var( "product_name", $product->name() );
+    $t->set_var( "product_price", $locale->format( $currency ) );
+
+    if ( ( $i % 2 ) == 0 )
+        $t->set_var( "td_class", "bglight" );
+    else
+        $t->set_var( "td_class", "bgdark" );
+
+    $optionValues =& $item->optionValues();
+
+    $t->set_var( "cart_item_option", "" );
+    foreach ( $optionValues as $optionValue )
     {
-        $product = $item->product();
-
-        $image = $product->thumbnailImage();
-
-        $thumbnail = $image->requestImageVariation( 35, 35 );        
-
-        $t->set_var( "product_image_path", "/" . $thumbnail->imagePath() );
-        $t->set_var( "product_image_width", $thumbnail->width() );
-        $t->set_var( "product_image_height", $thumbnail->height() );
-        $t->set_var( "product_image_caption", $image->caption() );
-
-        $currency->setValue( $product->price() );
-
-        $sum += $product->price();
-        $t->set_var( "product_name", $product->name() );
-        $t->set_var( "product_price", $locale->format( $currency ) );
-
-        if ( ( $i % 2 ) == 0 )
-            $t->set_var( "td_class", "bglight" );
-        else
-            $t->set_var( "td_class", "bgdark" );
-
-        $optionValues = $item->optionValues();
-
-        $t->set_var( "cart_item_option", "" );
-        foreach ( $optionValues as $optionValue )
-        {
-            $option = $optionValue->option();
-            $value = $optionValue->optionValue();
+        $option =& $optionValue->option();
+        $value =& $optionValue->optionValue();
                  
-            $t->set_var( "option_name", $option->name() );
-            $t->set_var( "option_value", $value->name() );
+        $t->set_var( "option_name", $option->name() );
+        $t->set_var( "option_value", $value->name() );
             
-            $t->parse( "cart_item_option", "cart_item_option_tpl", true );
-        }
-        
-        $t->parse( "cart_item", "cart_item_tpl", true );
-        
-        $i++;
+        $t->parse( "cart_item_option", "cart_item_option_tpl", true );
     }
-
-    $shippingCost = 100.0;
-    $currency->setValue( $shippingCost );
-    $t->set_var( "shipping_cost", $locale->format( $currency ) );
-
-    $sum += $shippingCost;
-    $currency->setValue( $sum );
-    $t->set_var( "cart_sum", $locale->format( $currency ) );
         
-    $t->parse( "cart_item_list", "cart_item_list_tpl" );
-} 
+    $t->parse( "cart_item", "cart_item_tpl", true );
+        
+    $i++;
+}
+
+$shippingCost = 100.0;
+$currency->setValue( $shippingCost );
+$t->set_var( "shipping_cost", $locale->format( $currency ) );
+
+$sum += $shippingCost;
+$currency->setValue( $sum );
+$t->set_var( "cart_sum", $locale->format( $currency ) );
+        
+$t->parse( "cart_item_list", "cart_item_list_tpl" );
 
 //  $cart->delete();
 
