@@ -1010,6 +1010,8 @@ if ( $Action == "Update" && $groupError == false )
       $t->set_var( "1_status_selected", "selected" );
     else if ( $Status == 2 )
       $t->set_var( "2_status_selected", "selected" );
+    else
+      $t->set_var( "1_status_selected", "selected" );
 
     if ( $IsPrivate == "on" )
         $t->set_var( "is_private", "checked" );

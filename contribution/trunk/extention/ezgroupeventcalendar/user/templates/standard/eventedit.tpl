@@ -28,7 +28,7 @@
 <!-- END stop_time_error_tpl -->
 
 
-<form method="post" onSubmit="return formCheck(this)" name="EventEdit" action="{www_dir}{index}/groupeventcalendar/eventedit/{action_value}/{event_id}/">
+<form method="post" name="EventEdit" action="{www_dir}{index}/groupeventcalendar/eventedit/{action_value}/{event_id}/">
 
 <!-- BEGIN top_buttons_tpl -->
 <table width="100%" border="0" cellpadding="0" cellspacing="0" align="right">
@@ -947,7 +947,8 @@ if (frm.IsRecurring.checked) {
 <table border="0" cellspacing="0" cellpadding="0" width="100%">
 <tr>
     <td>
-        <input class="gcalSwitchBox" type="submit" name="Submit" value="{intl-ok}" 
+        <input class="gcalSwitchBox" type="submit" name="Submit" value="{intl-ok}"
+        onclick="return formCheck(this)" 
 	onmouseout="this.className='gcalSwitchBox'"
 	onmouseover="this.className='gcalSwitchBoxSelect'"
 	/>

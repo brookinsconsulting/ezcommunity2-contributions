@@ -55,7 +55,7 @@
 	</td>
 </tr>
 <tr><td>
-<table width="100%" cellspacing="4" cellpadding="0" border="1">
+<table width="100%" cellspacing="4" cellpadding="0" border="0">
 <tr>
 	<td colspan=2 align="left">
 	<!-- BEGIN private_tpl -->
