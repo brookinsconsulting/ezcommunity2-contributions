@@ -1192,7 +1192,7 @@ INSERT INTO eZForm_FormElementType VALUES (6,'radiobox_item','HTML RadioBox');
 CREATE TABLE eZForum_Category (
   ID int NOT NULL,
   Name varchar(255) DEFAULT NULL,
-  Description varchar(40) DEFAULT NULL,
+  Description varchar(255) DEFAULT NULL,
   IsPrivate int DEFAULT NULL,
   SectionID int DEFAULT 1,
   PRIMARY KEY (ID)
