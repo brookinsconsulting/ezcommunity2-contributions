@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezarticletool.php,v 1.6 2001/05/11 07:56:42 bf Exp $
+// $Id: ezarticletool.php,v 1.7 2001/06/08 14:12:12 ce Exp $
 //
 // Definition of eZArticleTool class
 //
@@ -101,6 +101,15 @@ class eZArticleTool
         {
             $file->delete();
         }
+
+        $files =& eZCacheFile::files( "ezarticle/cache/",
+                                      array( "smallarticlelist",
+                                             NULL ),
+                                      "cache", "," );
+        foreach( $files as $file )
+        {
+            $file->delete();
+        }        
         
     }
 

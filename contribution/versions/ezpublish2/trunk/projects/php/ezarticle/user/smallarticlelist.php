@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: smallarticlelist.php,v 1.4 2001/03/17 12:39:22 bf Exp $
+// $Id: smallarticlelist.php,v 1.5 2001/06/08 14:12:12 ce Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <18-Oct-2000 14:41:37 bf>
@@ -39,63 +39,108 @@ $Language = $ini->read_var( "eZArticleMain", "Language" );
 $ImageDir = $ini->read_var( "eZArticleMain", "ImageDir" );
 $CapitalizeHeadlines = $ini->read_var( "eZArticleMain", "CapitalizeHeadlines" );
 $DefaultLinkText =  $ini->read_var( "eZArticleMain", "DefaultLinkText" );
+$PageCaching = $ini->read_var( "eZArticleMain", "PageCaching" );
 
-$t = new eZTemplate( "ezarticle/user/" . $ini->read_var( "eZArticleMain", "TemplateDir" ),
-                     "ezarticle/user/intl/", $Language, "smallarticlelist.php" );
-
-$t->setAllStrings();
-
-$t->set_file( array(
-    "article_list_page_tpl" => "smallarticlelist.tpl"
-    ) );
-
-$t->set_block( "article_list_page_tpl", "article_list_tpl", "article_list" );
-$t->set_block( "article_list_tpl", "article_item_tpl", "article_item" );
-
-
-$category = new eZArticleCategory( $CategoryID );
-
-$t->set_var( "current_category_name", $category->name() );
-$t->set_var( "current_category_description", $category->description() );
-
-
-$articleList = $category->articles( $category->sortMode(), false, true, $Offset, $Limit );
-
-$locale = new eZLocale( $Language );
-$i=0;
-$t->set_var( "article_list", "" );
-foreach ( $articleList as $article )
+unset( $menuCachedFile );
+// do the caching
+if ( $PageCaching == "enabled" )
 {
-    $t->set_var( "article_id", $article->id() );
-    $t->set_var( "article_name", $article->name() );
-    
-    $renderer = new eZArticleRenderer( $article );
+    $menuCachedFile = "ezarticle/cache/smallarticlelist,". $GlobalSiteDesign .".cache";
 
-    $t->set_var( "article_intro", $renderer->renderIntro(  ) );
-
-    if ( $article->linkText() != "" )
+    if ( file_exists( $menuCachedFile ) )
     {
-        $t->set_var( "article_link_text", $article->linkText() );
+        include( $menuCachedFile );
     }
     else
     {
-        $t->set_var( "article_link_text", $DefaultLinkText );
-    }
-
-    $t->parse( "article_item", "article_item_tpl", true );
-    $i++;
+        createSmallArticleList( true );
+    }            
+}
+else
+{
+    createSmallArticleList();
 }
 
+function createSmallArticleList( $generateStaticPage = false )
+{
+    global $ini;
+    global $menuCachedFile;
+    global $noItem;
+	global $GlobalSiteDesign;
+    global $CategoryID;
+    global $Offset;
+    global $Limit;
+
+    $Language = $ini->read_var( "eZArticleMain", "Language" );
+
+    $t = new eZTemplate( "ezarticle/user/" . $ini->read_var( "eZArticleMain", "TemplateDir" ),
+                         "ezarticle/user/intl/", $Language, "smallarticlelist.php" );
+
+    $t->setAllStrings();
+
+    $t->set_file( array(
+        "article_list_page_tpl" => "smallarticlelist.tpl"
+        ) );
+
+    $t->set_block( "article_list_page_tpl", "article_list_tpl", "article_list" );
+    $t->set_block( "article_list_tpl", "article_item_tpl", "article_item" );
 
 
-if ( count( $articleList ) > 0 )    
-    $t->parse( "article_list", "article_list_tpl" );
-else
+    $category = new eZArticleCategory( $CategoryID );
+
+    $t->set_var( "current_category_name", $category->name() );
+    $t->set_var( "current_category_description", $category->description() );
+
+
+    $articleList = $category->articles( $category->sortMode(), false, true, $Offset, $Limit );
+
+    $locale = new eZLocale( $Language );
+    $i=0;
     $t->set_var( "article_list", "" );
+    foreach ( $articleList as $article )
+    {
+        $t->set_var( "article_id", $article->id() );
+        $t->set_var( "article_name", $article->name() );
+    
+        $renderer = new eZArticleRenderer( $article );
+
+        $t->set_var( "article_intro", $renderer->renderIntro(  ) );
+
+        if ( $article->linkText() != "" )
+        {
+            $t->set_var( "article_link_text", $article->linkText() );
+        }
+        else
+        {
+            $t->set_var( "article_link_text", $DefaultLinkText );
+        }
+
+        $t->parse( "article_item", "article_item_tpl", true );
+        $i++;
+    }
+
+    if ( count( $articleList ) > 0 )    
+        $t->parse( "article_list", "article_list_tpl" );
+    else
+        $t->set_var( "article_list", "" );
 
 
-$t->pparse( "output", "article_list_page_tpl" );
 
+    if ( $generateStaticPage == true )
+    {
+        $fp = fopen ( $menuCachedFile, "w+");
 
+        $output = $t->parse( $target, "article_list_page_tpl" );
+        // print the output the first time while printing the cache file.
+    
+        print( $output );
+        fwrite ( $fp, $output );
+        fclose( $fp );
+    }
+    else
+    {
+    $t->pparse( "output", "article_list_page_tpl" );
+    }
+}
 ?>
 
