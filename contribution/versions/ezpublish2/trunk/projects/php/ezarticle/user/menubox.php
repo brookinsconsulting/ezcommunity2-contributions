@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: menubox.php,v 1.23 2001/08/29 14:39:44 th Exp $
+// $Id: menubox.php,v 1.24 2001/09/21 14:28:48 jhe Exp $
 //
 // 
 //
@@ -44,7 +44,7 @@ if ( $PageCaching == "enabled" )
     $groupstr = "";
     if( get_class( $user ) == "ezuser" )
     {
-        $groupIDArray = $user->groups( true );
+        $groupIDArray = $user->groups( false );
         sort( $groupIDArray );
         $first = true;
         foreach( $groupIDArray as $groupID )

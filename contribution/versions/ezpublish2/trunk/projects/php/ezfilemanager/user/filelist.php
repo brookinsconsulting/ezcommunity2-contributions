@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: filelist.php,v 1.40 2001/09/17 19:53:11 fh Exp $
+// $Id: filelist.php,v 1.41 2001/09/21 14:28:48 jhe Exp $
 //
 // Created on: <10-Dec-2000 16:16:20 bf>
 //
@@ -39,6 +39,7 @@ $ini =& INIFile::globalINI();
 $Language = $ini->read_var( "eZFileManagerMain", "Language" );
 $ImageDir = $ini->read_var( "eZFileManagerMain", "ImageDir" );
 $Limit = $ini->read_var( "eZFileManagerMain", "Limit" );
+$ShowUpFolder = $ini->read_var( "eZFileManagerMain", "ShowUpFolder" ) == "enabled";
 
 $t = new eZTemplate( "ezfilemanager/user/" . $ini->read_var( "eZFileManagerMain", "TemplateDir" ),
                      "ezfilemanager/user/intl/", $Language, "filelist.php" );
@@ -62,6 +63,7 @@ $t->set_block( "file_list_tpl", "file_tpl", "file" );
 $t->set_block( "file_tpl", "read_tpl", "read" );
 $t->set_block( "file_tpl", "write_tpl", "write" );
 
+$t->set_block( "file_list_page_tpl", "parent_folder_tpl", "parent_folder" );
 $t->set_block( "file_list_page_tpl", "folder_list_tpl", "folder_list" );
 $t->set_block( "folder_list_tpl", "folder_tpl", "folder" );
 
@@ -98,8 +100,21 @@ if ( $folder->id() != 0 )
     $t->set_var( "current_folder_description", $folder->description() );
     $t->set_var( "folder_id", $folder->id() );
     $t->set_var( "folder_name", $folder->name() );
-    
     $t->parse( "current_folder", "current_folder_tpl" );
+
+    $parent = $folder->parent();
+    if ( is_object( $parent ) )
+        $parent = $parent->id();
+    $t->set_var( "parent_folder_id", $parent );
+    $t->set_var( "td_class_parent", "bglight" );
+    if ( $ShowUpFolder )
+        $t->parse( "parent_folder", "parent_folder_tpl" );
+    else
+        $t->set_var( "parent_folder", "" );
+}
+else
+{
+    $t->set_var( "parent_folder", "" );
 }
 
 // path
@@ -119,7 +134,7 @@ $t->set_var( "top_folder_name", $path[1] );
 // Print out the folders.
 $folderList =& $folder->getByParent( $folder );
 
-$i = 0;
+$i = ( $folder->id() && $ShowUpFolder ) ? 1 : 0;
 $deleteFolders = false;
 foreach ( $folderList as $folderItem )
 {

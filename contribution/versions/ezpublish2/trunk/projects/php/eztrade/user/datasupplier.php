@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: datasupplier.php,v 1.47 2001/09/19 12:58:01 ce Exp $
+// $Id: datasupplier.php,v 1.48 2001/09/21 14:28:49 jhe Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -38,7 +38,7 @@ $ShowPrice = $RequireUser ? get_class( $user ) == "ezuser" : true;
 $PriceGroup = 0;
 if ( get_class( $user ) == "ezuser" )
 {
-    $PriceGroup = eZPriceGroup::correctPriceGroup( $user->groups( true ) );
+    $PriceGroup = eZPriceGroup::correctPriceGroup( $user->groups( false ) );
 }
 if ( !$ShowPrice )
     $PriceGroup = -1;
@@ -49,7 +49,7 @@ $GlobalSectionID = $ini->read_var( "site", "DefaultSection" );
 $user =& eZUser::currentUser();
 if ( $user )
 {
-    $groupIDArray =& $user->groups( true );
+    $groupIDArray =& $user->groups( false );
     sort( $groupIDArray );
 }
 

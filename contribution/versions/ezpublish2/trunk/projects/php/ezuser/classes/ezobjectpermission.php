@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezobjectpermission.php,v 1.31 2001/09/13 21:05:23 fh Exp $
+// $Id: ezobjectpermission.php,v 1.32 2001/09/21 14:28:49 jhe Exp $
 //
 // Definition of eZObjectPermission class
 //
@@ -86,7 +86,7 @@ class eZObjectPermission
         $SQLGroups = "GroupID = '-1'";
         if ( get_class( $user ) == "ezuser" )
         {
-            $groups =& $user->groups( true );
+            $groups =& $user->groups( false );
             $first = true;
             if ( count( $groups ) > 0 )
             {
@@ -156,7 +156,7 @@ class eZObjectPermission
         $SQLGroups = "Object.GroupID = '-1'";
         if ( get_class( $user ) == "ezuser" )
         {
-            $groups =& $user->groups( true );
+            $groups =& $user->groups( false );
             $first = true;
             if ( count( $groups ) > 0 )
             {
@@ -420,7 +420,7 @@ class eZObjectPermission
         $SQLGroups = "GroupID = '-1'";
         if ( get_class( $user ) == "ezuser" )
         {
-            $groups =& $user->groups( true );
+            $groups =& $user->groups( false );
             $first = true;
             if ( count( $groups ) > 0 )
             {

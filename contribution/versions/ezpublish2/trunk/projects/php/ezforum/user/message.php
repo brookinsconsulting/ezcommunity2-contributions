@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: message.php,v 1.32 2001/09/21 12:17:54 bf Exp $
+// $Id: message.php,v 1.33 2001/09/21 14:28:48 jhe Exp $
 //
 // Created on: <11-Sep-2000 22:10:06 bf>
 //
@@ -245,7 +245,7 @@ if ( !isSet( $RedirectURL ) )
     $RedirectURL = "";
 $t->set_var( "redirect_url", $RedirectURL );
 
-if ( $message->id() > 0 && !$message->isTemporary() )
+if ( $message->id() > 0 && !$message->isTemporary() && $message->isApproved() )
 {
     $t->parse( "message_body", "message_body_tpl" );
     $t->set_var( "message_error", "" );

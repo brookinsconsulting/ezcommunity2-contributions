@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezproductpermission.php,v 1.2 2001/08/21 11:21:41 ce Exp $
+// $Id: ezproductpermission.php,v 1.3 2001/09/21 14:28:49 jhe Exp $
 //
 // Definition of eZProductPermission class
 //
@@ -47,7 +47,7 @@ class eZProductPermission
             return false;
         $ret = false;
 
-        $groups =& $user->groups( true );
+        $groups =& $user->groups( false );
         foreach ( $groups as $groupItem )
         {
             $db->array_query( $permissions, "SELECT * FROM eZTrade_ProductPermissionLink

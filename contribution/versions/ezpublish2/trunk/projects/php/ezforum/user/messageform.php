@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: messageform.php,v 1.14 2001/09/04 12:06:43 jhe Exp $
+// $Id: messageform.php,v 1.15 2001/09/21 14:28:48 jhe Exp $
 //
 // Created on: <21-Feb-2001 18:00:00 pkej>
 //
@@ -130,7 +130,6 @@ if ( $ShowMessageForm )
             }
         }
         
-        
         if ( isSet( $NewMessagePostedAt ) )
         {
             $MessagePostedAt = $NewMessagePostedAt;
@@ -144,7 +143,6 @@ if ( $ShowMessageForm )
         {
             $MessageNotice = $NewMessageNotice;
         }
-        
     }
     else
     {

@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: messagereply.php,v 1.41 2001/07/26 20:22:28 chrism Exp $
+// $Id: messagereply.php,v 1.42 2001/09/21 14:28:49 jhe Exp $
 //
 // Created on: <24-Sep-2000 12:20:32 bf>
 //
@@ -28,14 +28,14 @@ include_once( "ezuser/classes/ezuser.php" );
 
 if ( $StartAction == "reply" )
 {
-    if( !is_object( $msg )  )
+    if ( !is_object( $msg ) )
     {
         $msg = new eZForumMessage( $MessageID );
     }
 
     $ForumID = $msg->forumId();
 
-    if( !is_object( $forum ) )
+    if ( !is_object( $forum ) )
     {
         $forum = new eZForum( $ForumID );
     }
@@ -64,9 +64,9 @@ if ( $StartAction == "reply" )
     {
         $moderators = eZUserGroup::users($moderator->id() );
 
-        if( count( $moderators ) > 0 )
+        if ( count( $moderators ) > 0 )
         {
-            foreach( $moderators as $moderatorItem )
+            foreach ( $moderators as $moderatorItem )
             {
 
                 $author = $msg->user();
@@ -109,10 +109,10 @@ if ( $StartAction == "reply" )
             }
         }
     }
-   $mail = new eZMail();
-    foreach( $messages as $message )
+    $mail = new eZMail();
+    foreach ( $messages as $message )
     {
-        if( $message->id() != $msg->id() )
+        if ( $message->id() != $msg->id() )
         {
             if ( ( $message->treeID() > $msg->treeID() ) && $message->emailNotice() )
             {
@@ -120,7 +120,7 @@ if ( $StartAction == "reply" )
                 $headersInfo = ( getallheaders() );
 
                 // $user may be false (answering an anonymous forum, with user not logged in)
-                if ($user)
+                if ( $user )
                 {
                     $mailTemplate->set_var( "author", $user->firstName() . " " . $user->lastName() );
                 }
@@ -160,6 +160,5 @@ if ( $StartAction == "reply" )
             }
         }
     }
-
 }
 ?>

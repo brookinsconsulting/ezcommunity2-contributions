@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezforummessage.php,v 1.99 2001/09/21 07:56:43 jhe Exp $
+// $Id: ezforummessage.php,v 1.100 2001/09/21 14:28:48 jhe Exp $
 //
 // Definition of eZForumMessage class
 //
@@ -742,7 +742,7 @@ class eZForumMessage
         $query_string = "AND ( f.GroupID='0' ";
         if ( $user )
         {
-            $groups = $user->groups( true );
+            $groups = $user->groups( false );
             foreach ( $groups as $group )
             {
                 $query_string .= "OR f.GroupID='$group' ";
@@ -752,11 +752,13 @@ class eZForumMessage
         
         $ret = array();
 
-        $db->array_query( $message_array, "SELECT m.ID as ID, m.ForumID, m.Topic, m.PostingTime, l.ForumID,
+        $db->array_query( $message_array, "SELECT m.ID as ID, m.ForumID, m.Topic, m.PostingTime, m.IsApproved,
+                                           l.ForumID,
                                            f.ID as FID, f.GroupID
                                            FROM eZForum_Message as m, eZForum_ForumCategoryLink as l,
                                            eZForum_Forum as f
                                            WHERE IsTemporary='0' AND l.ForumID=m.ForumID
+                                           AND m.IsApproved='1'
                                            AND f.ID=l.ForumID $query_string
                                            ORDER BY m.PostingTime DESC", array( "Limit" => $limit ) );
 

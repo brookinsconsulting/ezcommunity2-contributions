@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezproduct.php,v 1.99 2001/09/18 12:48:54 pkej Exp $
+// $Id: ezproduct.php,v 1.100 2001/09/21 14:28:49 jhe Exp $
 //
 // Definition of eZProduct class
 //
@@ -351,7 +351,7 @@ class eZProduct
         
         if ( get_class( $inUser ) == "ezuser" )
         {
-            $groups = $inUser->groups( true );
+            $groups = $inUser->groups( false );
 
             $price = eZPriceGroup::correctPrice( $this->ID, $groups );
         }
@@ -410,7 +410,7 @@ class eZProduct
             $inUser = new eZUser();
         }
 
-        $groups = $inUser->groups( true );
+        $groups = $inUser->groups( false );
 
         $options = $this->options();
 

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: productlist.php,v 1.35 2001/09/21 09:58:05 bf Exp $
+// $Id: productlist.php,v 1.36 2001/09/21 14:28:49 jhe Exp $
 //
 // Created on: <23-Sep-2000 14:46:20 bf>
 //
@@ -295,7 +295,7 @@ eZList::drawNavigator( $t, $TotalTypes, $Limit, $Offset, "product_list_page_tpl"
 if ( $GenerateStaticPage == "true" )
 {
     if ( $user )
-        $CategoryArray =& $user->groups( true );
+        $CategoryArray =& $user->groups( false );
     $cache = new eZCacheFile( "eztrade/cache/", array( "productlist", $CategoryArray, $Offset, $PriceGroup ),
                               "cache", "," );
     $output = $t->parse( $target, "product_list_page_tpl" );

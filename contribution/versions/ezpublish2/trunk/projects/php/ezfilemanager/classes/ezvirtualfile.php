@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezvirtualfile.php,v 1.46 2001/09/17 19:53:11 fh Exp $
+// $Id: ezvirtualfile.php,v 1.47 2001/09/21 14:28:48 jhe Exp $
 //
 // Definition of eZVirtualFile class
 //
@@ -228,7 +228,7 @@ class eZVirtualfile
         $groupString = "AND f.ID=p.ObjectID AND ( ( ( p.GroupID='-1' ";
         if ( $user )
         {
-            foreach ( $user->groups( true ) as $group )
+            foreach ( $user->groups( false ) as $group )
             {
                 $groupString .= "OR p.GroupID='$group' ";
             }

@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: messageedit.php,v 1.55 2001/09/21 07:56:43 jhe Exp $
+// $Id: messageedit.php,v 1.56 2001/09/21 14:28:48 jhe Exp $
 //
 // Created on: <21-Feb-2001 18:00:00 pkej>
 //
@@ -484,6 +484,9 @@ switch ( $Action )
             $NewMessageBody = eZTextTool::addPre( $msg->body() );
         }
 
+        $author =& eZUser::currentUser();
+
+           
         $NewMessageTopic = $msg->topic();
 
         $ReplyPrefix = $ini->read_var( "eZForumMain", "ReplyPrefix" );
@@ -509,6 +512,7 @@ switch ( $Action )
         $ShowHiddenMessageForm = true;
         $ShowReplyInfo = true;
         $ShowBodyInfo = true;
+        $NewMessageAuthor = true;
         include_once( "ezforum/user/messageform.php" );
 
         $doPrint = true;

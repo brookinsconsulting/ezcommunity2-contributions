@@ -1,5 +1,5 @@
 <?php
-// $Id: unapprovededit.php,v 1.9 2001/09/21 11:34:16 jhe Exp $
+// $Id: unapprovededit.php,v 1.10 2001/09/21 14:28:48 jhe Exp $
 //
 // Created on: <21-Jan-2001 13:34:48 bf>
 //
@@ -52,6 +52,8 @@ for ( $i = 0; $i < count ( $ActionValueArray ); $i++ )
     {
         $message->setIsApproved( 1 );
         $message->store();
+        $msg = $message;
+        include( "ezforum/user/messagereply.php" );
     }
     if ( $ActionValueArray[$i] == "Discard" )
     {
@@ -62,11 +64,10 @@ for ( $i = 0; $i < count ( $ActionValueArray ); $i++ )
         $user =& $message->user();
 
         $mail = new eZMail();
-
         $mailTemplate = new eZTemplate( "ezforum/admin/" . $ini->read_var( "eZForumMain", "AdminTemplateDir" ),
                                         "ezforum/admin/intl", $Language, "mailreject.php" );
 
-        $languageIni = new INIFIle( "ezforum/admin/intl/" . $Language . "/mailreject.php.ini", false );
+        $languageIni = new INIFile( "ezforum/admin/intl/" . $Language . "/mailreject.php.ini", false );
 
         $mailTemplate->set_file( "mail_reject_tpl", "mailreject.tpl" );
         $mailTemplate->setAllStrings();
@@ -84,7 +85,7 @@ for ( $i = 0; $i < count ( $ActionValueArray ); $i++ )
 
         $messageUser =& $message->user();
 
-        if ( get_class ( $messageUser ) == "ezuser" )
+        if ( get_class( $messageUser ) == "ezuser" )
         {
             $mail->setTo( $messageUser->email() );
 
@@ -92,7 +93,7 @@ for ( $i = 0; $i < count ( $ActionValueArray ); $i++ )
 
             $forumUser =& $forum->moderator();
 
-            if ( get_class ( $forumUser ) == "ezuser" )
+            if ( get_class( $forumUser ) == "ezuser" )
             {
                 $mail->setFrom( $forumUser->email() );
                 $mail->setBody( $body );

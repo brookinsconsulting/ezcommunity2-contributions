@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: hotdealslist.php,v 1.24 2001/09/17 10:46:36 pkej Exp $
+// $Id: hotdealslist.php,v 1.25 2001/09/21 14:28:49 jhe Exp $
 //
 // Created on: <12-Nov-2000 19:34:40 bf>
 //
@@ -51,7 +51,7 @@ $ShowPrice = $RequireUser ? get_class( $user ) == "ezuser" : true;
 $PriceGroup = 0;
 if ( get_class( $user ) == "ezuser" )
 {
-    $PriceGroup = eZPriceGroup::correctPriceGroup( $user->groups( true ) );
+    $PriceGroup = eZPriceGroup::correctPriceGroup( $user->groups( false ) );
 }
 if ( !$ShowPrice )
     $PriceGroup = -1;

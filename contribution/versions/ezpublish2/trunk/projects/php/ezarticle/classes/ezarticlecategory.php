@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezarticlecategory.php,v 1.97 2001/09/20 14:29:02 ce Exp $
+// $Id: ezarticlecategory.php,v 1.98 2001/09/21 14:28:48 jhe Exp $
 //
 // Definition of eZArticleCategory class
 //
@@ -298,7 +298,7 @@ class eZArticleCategory
 
         if ( $user )
         {
-            $groups =& $user->groups( true );
+            $groups =& $user->groups( false );
 
             $i = 0;
             foreach ( $groups as $group )
@@ -370,7 +370,7 @@ class eZArticleCategory
 
             if ( $user )
             {
-                $groups =& $user->groups( true );
+                $groups =& $user->groups( false );
                 
                 $i = 0;
                 foreach ( $groups as $group )
@@ -446,7 +446,7 @@ class eZArticleCategory
 
             if ( $user )
             {
-                $groups =& $user->groups( true );
+                $groups =& $user->groups( false );
                 
                 $i = 0;
                 foreach ( $groups as $group )
@@ -1107,7 +1107,7 @@ class eZArticleCategory
        $usePermission = true;
        if ( $user )
        {
-           $groups =& $user->groups( true );
+           $groups =& $user->groups( false );
            
            foreach ( $groups as $group )
            {
@@ -1215,7 +1215,7 @@ class eZArticleCategory
         $usePermission = true;
         if ( $user )
         {
-            $groups =& $user->groups( true );
+            $groups =& $user->groups( false );
            
             foreach ( $groups as $group )
             {

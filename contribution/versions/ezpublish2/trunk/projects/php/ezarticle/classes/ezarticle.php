@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezarticle.php,v 1.172 2001/09/20 14:29:01 ce Exp $
+// $Id: ezarticle.php,v 1.173 2001/09/21 14:28:48 jhe Exp $
 //
 // Definition of eZArticle class
 //
@@ -1032,7 +1032,7 @@ class eZArticle
         $groupSQL = "";
         if ( $user )
         {
-            $groups =& $user->groups( true );
+            $groups =& $user->groups( false );
 
             $i = 0;
             foreach ( $groups as $group )
@@ -1152,7 +1152,7 @@ class eZArticle
         $groupSQL = "";
         if ( $user )
         {
-            $groups = $user->groups( true );
+            $groups = $user->groups( false );
            
             $i = 0;
             foreach ( $groups as $group )
@@ -1816,7 +1816,7 @@ class eZArticle
         $groupSQL = "";
         if ( $user )
         {
-            $groups = $user->groups( true );
+            $groups = $user->groups( false );
            
             $i = 0;
             foreach ( $groups as $group )
@@ -2069,7 +2069,7 @@ class eZArticle
         $groupSQL = "";
         if ( $user )
         {
-            $groups = $user->groups( true );
+            $groups = $user->groups( false );
            
             $i = 0;
             foreach ( $groups as $group )
@@ -2279,7 +2279,7 @@ class eZArticle
         $groupSQL = "";
         if ( $user )
         {
-            $groups =& $user->groups( true );
+            $groups =& $user->groups( false );
            
             $i = 0;
             foreach ( $groups as $group )
@@ -2417,7 +2417,7 @@ class eZArticle
         $groupSQL = "";
         if ( $user )
         {
-            $groups =& $user->groups( true );
+            $groups =& $user->groups( false );
            
             foreach ( $groups as $group )
             {
@@ -2521,7 +2521,7 @@ class eZArticle
         $usePermission = true;
         if ( $user )
         {
-            $groups =& $user->groups( true );
+            $groups =& $user->groups( false );
 
             foreach ( $groups as $group )
             { 
@@ -2864,7 +2864,7 @@ class eZArticle
         $groupSQL = "";
         if ( $user )
         {
-            $groups = $user->groups( true );
+            $groups = $user->groups( false );
 
             $i = 0;
             foreach ( $groups as $group )
@@ -2904,7 +2904,7 @@ class eZArticle
         $groupSQL = "";
         if ( $user )
         {
-            $groups =& $user->groups( true );
+            $groups =& $user->groups( false );
 
             $i = 0;
             foreach ( $groups as $group )

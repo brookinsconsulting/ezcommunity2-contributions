@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezimagecategory.php,v 1.37 2001/09/21 13:25:59 br Exp $
+// $Id: ezimagecategory.php,v 1.38 2001/09/21 14:28:49 jhe Exp $
 //
 // Definition of eZImageCategory class
 //
@@ -123,7 +123,7 @@ class eZImageCategory
 
         if ( $user )
         {
-            $groups =& $user->groups( true );
+            $groups =& $user->groups( false );
 
             $i = 0;
             foreach ( $groups as $group )
@@ -644,7 +644,7 @@ class eZImageCategory
         $usePermission = true;
         if ( $user )
         {
-            $groups =& $user->groups( true );
+            $groups =& $user->groups( false );
             
             $i = 0;
             foreach ( $groups as $group )
@@ -696,7 +696,7 @@ class eZImageCategory
        $usePermission = true;
        if ( $user )
        {
-           $groups =& $user->groups( true );
+           $groups =& $user->groups( false );
            
            $i = 0;
            foreach ( $groups as $group )

@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: datasupplier.php,v 1.87 2001/09/14 11:32:24 bf Exp $
+// $Id: datasupplier.php,v 1.88 2001/09/21 14:28:48 jhe Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -120,7 +120,7 @@ switch ( $url_array[2] )
         $groupstr = "";
         if( get_class( $user ) == "ezuser" )
         {
-            $groupIDArray = $user->groups( true );
+            $groupIDArray = $user->groups( false );
             sort( $groupIDArray );
             $first = true;
             foreach( $groupIDArray as $groupID )
@@ -204,7 +204,7 @@ switch ( $url_array[2] )
         $groupstr = "";
         if( get_class( $user ) == "ezuser" )
         {
-            $groupIDArray = $user->groups( true );
+            $groupIDArray = $user->groups( false );
             sort( $groupIDArray );
             $first = true;
             foreach( $groupIDArray as $groupID )
@@ -275,7 +275,7 @@ switch ( $url_array[2] )
         $groupstr = "";
         if( get_class( $user ) == "ezuser" )
         {
-            $groupIDArray =& $user->groups( true );
+            $groupIDArray =& $user->groups( false );
             sort( $groupIDArray );
             $first = true;
             foreach( $groupIDArray as $groupID )
@@ -366,7 +366,7 @@ switch ( $url_array[2] )
         $groupstr = "";
         if( get_class( $user ) == "ezuser" )
         {
-            $groupIDArray = $user->groups( true );
+            $groupIDArray = $user->groups( false );
             sort( $groupIDArray );
             $first = true;
             foreach( $groupIDArray as $groupID )
@@ -429,7 +429,7 @@ switch ( $url_array[2] )
         $groupstr = "";
         if( get_class( $user ) == "ezuser" )
         {
-            $groupIDArray = $user->groups( true );
+            $groupIDArray = $user->groups( false );
             sort( $groupIDArray );
             $first = true;
             foreach( $groupIDArray as $groupID )

@@ -34,6 +34,8 @@ insert into eZUser_Permission (ModuleID, Name) VALUES ('6', 'Buy');
 
 alter table eZTrade_CartItem add VoucherInformationID int default 0;
 
+alter table eZTrade_Category add SectionID int default 1;
+
 alter table eZTrade_Category add SectionID int default 1;       
 
 alter table eZFileManager_Folder add SectionID int default 1;

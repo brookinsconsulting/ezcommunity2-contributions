@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: orderedit.php,v 1.27 2001/08/30 11:38:31 ce Exp $
+// $Id: orderedit.php,v 1.28 2001/09/21 14:28:49 jhe Exp $
 //
 // Created on: <30-Sep-2000 13:03:13 bf>
 //
@@ -184,7 +184,7 @@ if ( $user )
     $t->set_var( "billing_zip", $billingAddress->zip() );
     $t->set_var( "billing_place", $billingAddress->place() );
     
-    $PriceGroup = eZPriceGroup::correctPriceGroup( $user->groups( true ) );
+    $PriceGroup = eZPriceGroup::correctPriceGroup( $user->groups( false ) );
 
     $country = $billingAddress->country();
     if ( is_object( $country ) )
