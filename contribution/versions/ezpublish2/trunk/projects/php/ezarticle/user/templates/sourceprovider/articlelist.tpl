@@ -8,7 +8,6 @@ how we can make your customer experience better, please contact us.
 
 <p>
 You can start shopping by clicking on the "Products" link. 
-You might find our selection a bit sparse, but over time we will expand our selection.
 </p>
 
 <br />
