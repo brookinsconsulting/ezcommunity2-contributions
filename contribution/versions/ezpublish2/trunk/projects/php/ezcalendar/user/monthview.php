@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: monthview.php,v 1.36 2001/09/17 10:26:54 jhe Exp $
+// $Id: monthview.php,v 1.37 2001/09/27 09:27:38 jhe Exp $
 //
 // Created on: <27-Dec-2000 14:09:56 bf>
 //
@@ -246,7 +246,9 @@ $t->set_file( "month_view_page_tpl", "monthview.tpl" );
                         }
 
                         $prevNextDate->setDay( $prevNextDate->daysInMonth() - $firstDay + $day + 1 );
-                        $t->set_var( "prev_day_number", $prevNextDate->day() );
+                        $t->set_var( "day_number", $prevNextDate->day() );
+                        $t->set_var( "month_number", $prevNextDate->month() );
+                        $t->set_var( "year_number", $prevNextDate->year() );
                         $t->set_var( "prev_month_number", $prevNextDate->month() );
                         $t->set_var( "prev_year_number", $prevNextDate->year() );
 
@@ -273,7 +275,9 @@ $t->set_file( "month_view_page_tpl", "monthview.tpl" );
                             $tmp = 7;
 
                         $prevNextDate->setDay( ( 7 - $tmp - 6 ) + $day );
-                        $t->set_var( "next_day_number", $prevNextDate->day() );
+                        $t->set_var( "day_number", $prevNextDate->day() );
+                        $t->set_var( "month_number", $prevNextDate->month() );
+                        $t->set_var( "year_number", $prevNextDate->year() );
                         $t->set_var( "next_month_number", $prevNextDate->month() );
                         $t->set_var( "next_year_number", $prevNextDate->year() );
 
