@@ -81,23 +81,46 @@ else
 
 </head>
 
-<body bgcolor="#b5b5b5" topmargin="6" marginheight="6" leftmargin="6" marginwidth="6"  onload="MM_preloadImages('<? print $GlobalSiteIni->WWWDir; ?>/images/redigerminimrk.gif','<? print $GlobalSiteIni->WWWDir; ?>/images/slettminimrk.gif','<? print $GlobalSiteIni->WWWDir; ?>/images/downloadminimrk.gif','<? print $GlobalSiteIni->WWWDir; ?>/images/addminimrk.gif')">
+<body bgcolor="#999999" topmargin="6" marginheight="6" leftmargin="6" marginwidth="6"  onload="MM_preloadImages('<? print $GlobalSiteIni->WWWDir; ?>/images/redigerminimrk.gif','<? print $GlobalSiteIni->WWWDir; ?>/images/slettminimrk.gif','<? print $GlobalSiteIni->WWWDir; ?>/images/downloadminimrk.gif','<? print $GlobalSiteIni->WWWDir; ?>/images/addminimrk.gif')">
 
-
-<table width="100%">
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
 <tr>
-<td>
-<img src="<? print $GlobalSiteIni->WWWDir; ?>/sitedesign/<? print ($GlobalSiteDesign); ?>/images/ezpublish-standard.gif" height="40" width="610" border="0" alt="" />
-</td>
-<td>
-<form action="<? print $GlobalSiteIni->WWWDir . $GlobalSiteIni->Index; ?>/search/" method="get" style="margin-top: 0px; margin-bottom: 0px; padding: 0px;">
-    <input type="hidden" name="SectionIDOverride" value="2" />
-    <input type="text" size="10" name="SearchText" value="" style="font-family: verdana; width: 80px; font-size: 9px; margin: 0px;" />
-    <input type="submit" name="Search" value="search" style="font-size: 7px; margin: 0px; padding: 0px;" />
-</form>
-</td>
+	<td>
+
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+	<td class="tdmini" width="99%">
+<img src="<? print $GlobalSiteIni->WWWDir; ?>/sitedesign/<? print ($GlobalSiteDesign); ?>/images/ezpublish-yourcontentmadeeasy.gif" height="20" width="290" border="0" alt="" /><br />
+	</td>
+	<td class="tdmini" width="1%" align="right">
+
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+	<td class="tdmini" width="1%">
+	<img src="<? print $GlobalSiteIni->WWWDir; ?>/sitedesign/<? print ($GlobalSiteDesign); ?>/images/tab-mrk-left.gif" height="20" width="20" border="0" alt="" /><br />
+	</td>
+	<td class="tab" bgcolor="#ffffff" width="23%">&nbsp;&nbsp;<a href="/">Standard</a>&nbsp;&nbsp;</td>
+	<td class="tdmini" width="1%">
+	<img src="<? print $GlobalSiteIni->WWWDir; ?>/sitedesign/<? print ($GlobalSiteDesign); ?>/images/tab-mrk-unmrk.gif" height="20" width="20" border="0" alt="" /><br />
+	</td>
+	<td class="tab" bgcolor="#dcdcdc" width="23%">&nbsp;&nbsp;<a href="/">Intranet</a>&nbsp;&nbsp;</td>
+	<td class="tdmini" width="1%">
+	<img src="<? print $GlobalSiteIni->WWWDir; ?>/sitedesign/<? print ($GlobalSiteDesign); ?>/images/tab-unmrk-unmrk.gif" height="20" width="20" border="0" alt="" /><br />
+	</td>
+	<td class="tab" bgcolor="#dcdcdc" width="23%">&nbsp;&nbsp;<a href="/">Trade</a>&nbsp;&nbsp;</td>
+	<td class="tdmini" width="1%">
+	<img src="<? print $GlobalSiteIni->WWWDir; ?>/sitedesign/<? print ($GlobalSiteDesign); ?>/images/tab-unmrk-unmrk.gif" height="20" width="20" border="0" alt="" /><br />
+	</td>
+	<td class="tab" bgcolor="#dcdcdc" width="23%">&nbsp;&nbsp;<a href="/">News</a>&nbsp;&nbsp;</td>
+	<td class="tdmini" width="1%">
+	<img src="<? print $GlobalSiteIni->WWWDir; ?>/sitedesign/<? print ($GlobalSiteDesign); ?>/images/tab-unmrk-right.gif" height="20" width="20" border="0" alt="" /><br />
+	</td>
+</tr>
 </table>
 
+	</td>
+</tr>
+</table>
 
 <table width="100%" border="0" cellspacing="0" cellpadding="4">
 <tr valign="top">
@@ -137,12 +160,13 @@ else
 
    <td width="1%" bgcolor="#ffffff"><img src="<? print $GlobalSiteIni->WWWDir; ?>/images/1x1.gif" width="2" height="1" border="0" alt="0" /></td>
    <td width="96%" bgcolor="#ffffff">
+<!--
     <?
     $CategoryID = 1;
     $Limit = 1;
 	include( "ezad/user/adlist.php" );
     ?>
-
+-->
 
     <!-- Banner start -->
 
@@ -186,6 +210,14 @@ else
     <?
     include( "ezpoll/user/votebox.php" );
     ?>
+
+    <hr noshade="noshade" size="4" />
+
+<form action="<? print $GlobalSiteIni->WWWDir . $GlobalSiteIni->Index; ?>/search/" method="get" style="margin-top: 0px; margin-bottom: 0px; padding: 0px;">
+    <input type="hidden" name="SectionIDOverride" value="2" />
+    <input type="text" size="10" name="SearchText" value="" style="font-family: verdana; width: 80px; font-size: 9px; margin: 0px;" />
+    <input type="submit" name="Search" value="search" style="font-size: 9px; margin: 0px; padding: 0px;" />
+</form>
 
     <hr noshade="noshade" size="4" />
 
@@ -255,6 +287,10 @@ if ( isset( $Design ) and $Design == 3 )
 
     <a href="?PrintableVersion=enabled">Printerfriendly version</a>
    <img src="<? print $GlobalSiteIni->WWWDir; ?>/images/1x1.gif" width="130" height="8" border="0" alt="" /><br />
+
+   </td>
+</tr>
+</table>
 
    </td>
 </tr>

@@ -47,9 +47,46 @@ else
 
 </head>
 
-<body bgcolor="#7ca37c" topmargin="6" marginheight="6" leftmargin="6" marginwidth="6"  onload="MM_preloadImages('<? print $GlobalSiteIni->WWWDir; ?>/images/redigerminimrk.gif','<? print $GlobalSiteIni->WWWDir; ?>/images/slettminimrk.gif','<? print $GlobalSiteIni->WWWDir; ?>/images/downloadminimrk.gif','<? print $GlobalSiteIni->WWWDir; ?>/images/addminimrk.gif')">
+<body bgcolor="#669966" topmargin="6" marginheight="6" leftmargin="6" marginwidth="6"  onload="MM_preloadImages('<? print $GlobalSiteIni->WWWDir; ?>/images/redigerminimrk.gif','<? print $GlobalSiteIni->WWWDir; ?>/images/slettminimrk.gif','<? print $GlobalSiteIni->WWWDir; ?>/images/downloadminimrk.gif','<? print $GlobalSiteIni->WWWDir; ?>/images/addminimrk.gif')">
 
-<img src="<? print $GlobalSiteIni->WWWDir; ?>/sitedesign/intranet/images/ezpublish-intranet.gif" height="40" width="690" border="0" alt="" />
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+	<td>
+
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+	<td class="tdmini" width="99%">
+<img src="<? print $GlobalSiteIni->WWWDir; ?>/sitedesign/<? print ($GlobalSiteDesign); ?>/images/ezpublish-yourcontentmadeeasy.gif" height="20" width="290" border="0" alt="" /><br />
+	</td>
+	<td class="tdmini" width="1%" align="right">
+
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+	<td class="tdmini" width="1%">
+	<img src="<? print $GlobalSiteIni->WWWDir; ?>/sitedesign/<? print ($GlobalSiteDesign); ?>/images/tab-unmrk-left.gif" height="20" width="20" border="0" alt="" /><br />
+	</td>
+	<td class="tab" bgcolor="#e2efe2" width="23%">&nbsp;&nbsp;<a href="/">Standard</a>&nbsp;&nbsp;</td>
+	<td class="tdmini" width="1%">
+	<img src="<? print $GlobalSiteIni->WWWDir; ?>/sitedesign/<? print ($GlobalSiteDesign); ?>/images/tab-unmrk-mrk.gif" height="20" width="20" border="0" alt="" /><br />
+	</td>
+	<td class="tab" bgcolor="#ffffff" width="23%">&nbsp;&nbsp;<a href="/">Intranet</a>&nbsp;&nbsp;</td>
+	<td class="tdmini" width="1%">
+	<img src="<? print $GlobalSiteIni->WWWDir; ?>/sitedesign/<? print ($GlobalSiteDesign); ?>/images/tab-mrk-unmrk.gif" height="20" width="20" border="0" alt="" /><br />
+	</td>
+	<td class="tab" bgcolor="#e2efe2" width="23%">&nbsp;&nbsp;<a href="/">Trade</a>&nbsp;&nbsp;</td>
+	<td class="tdmini" width="1%">
+	<img src="<? print $GlobalSiteIni->WWWDir; ?>/sitedesign/<? print ($GlobalSiteDesign); ?>/images/tab-unmrk-unmrk.gif" height="20" width="20" border="0" alt="" /><br />
+	</td>
+	<td class="tab" bgcolor="#e2efe2" width="23%">&nbsp;&nbsp;<a href="/">News</a>&nbsp;&nbsp;</td>
+	<td class="tdmini" width="1%">
+	<img src="<? print $GlobalSiteIni->WWWDir; ?>/sitedesign/<? print ($GlobalSiteDesign); ?>/images/tab-unmrk-right.gif" height="20" width="20" border="0" alt="" /><br />
+	</td>
+</tr>
+</table>
+
+	</td>
+</tr>
+</table>
 
 <table width="100%" border="0" cellspacing="0" cellpadding="4">
 <tr valign="top">
@@ -102,7 +139,7 @@ else
     <td width="96%" bgcolor="#ffffff">
 	
     <!-- Banner start -->
-
+<!--
     <div align="center">
         <?
         
@@ -112,7 +149,7 @@ else
 
         ?>
     </div><br />
-
+-->
     <!-- Banner end -->
 
 	<!-- Main content view start -->
@@ -237,6 +274,9 @@ if ( $Design == 3 )
   </tr>
 </table>
 
+	</td>
+  </tr>
+</table>
 <?
 // Store the statistics with a callback image.
 // It will be no overhead with this method for storing stats

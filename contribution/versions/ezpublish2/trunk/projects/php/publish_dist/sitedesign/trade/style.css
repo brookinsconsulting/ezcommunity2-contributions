@@ -14,7 +14,7 @@ body, p, .p, ul, li, a, h3, .path, th, td, .check
 h1 
 {
 	font-weight: bold;
-	font-size: 24px;
+	font-size: 22px;
 	color: #000000;
 	margin-bottom: 8px;
 	text-decoration : none;
@@ -23,7 +23,7 @@ h1
 h2, .listheadline, .listproducts
 {
 	font-weight: bold;
-	font-size: 18px;
+	font-size: 17px;
 	color: #000000;
 	margin-top: 16px;
 	margin-bottom: 8px;	
@@ -51,6 +51,14 @@ h3, .path
 	text-decoration : none;
 }
 
+.tab, .tab a
+{
+	font-size: 11px;
+	font-weight: bold;
+	text-align: center;
+	text-decoration: none;
+}
+
 a:hover 
 {
 	color: #404040;
@@ -59,10 +67,10 @@ a:hover
 
 .menuhead
 {
-	background: #4e4e86;
-	font-size: 18px;
+	background: #333366;
+	font-size: 13px;
 	color: #ffffff;
-	font-weight: normal;
+	font-weight: bold;
 	text-align: center;
 }
 
