@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezuser.php,v 1.88 2001/08/21 11:23:58 ce Exp $
+// $Id: ezuser.php,v 1.89 2001/08/22 13:12:50 jb Exp $
 //
 // Definition of eZUser class
 //
@@ -387,7 +387,7 @@ class eZUser
     /*!
       Returns the correct eZUser object if the user is validated.
 
-      False (0) is returned if the users isn't validated.
+      False (0) is returned if the user isn't validated.
     */
     function validateUser( $login, $password )
     {
@@ -739,7 +739,7 @@ class eZUser
 
       If the session timeout is set to 0 it is disabled.
 
-      False is returned if unseccessful.
+      False is returned if unsuccessful.
     */
     function &currentUser()
     {
@@ -754,7 +754,7 @@ class eZUser
         $session =& eZSession::globalSession();
 
         $returnValue = false;
-        
+
         if ( $session->fetch( false ) )
         {
             $user = new eZUser( $session->variable("AuthenticatedUser" ) );
