@@ -2672,3 +2672,18 @@ Maintainer(s) : bf@ez.no
     * classes/ezqdomgenerator.php:
     fixed bug in decodeCustom() when using multiple standards tags in custom tag.
 
+
+Module : ezarticle
+Repository path : /home/cvsroot/projects/php/ezarticle
+Maintainer(s) : bf@ez.no
+2002-01-16  Jan Borsodi  <jb@ez.no>
+
+    * xmlrpc/article.php
+      xmlrpc/categorylist.php:
+    Added $wwwDir to returned web urls to make it work with virtualhost-less
+    setups.
+
+2002-01-16  Kai Duebbert  <kai@duebbert.de>
+
+    * classes/ezqdomrenderer.php: cosmetic fix
+

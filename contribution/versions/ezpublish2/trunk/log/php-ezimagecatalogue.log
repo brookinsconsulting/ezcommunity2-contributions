@@ -880,3 +880,14 @@ Maintainer(s) : br@ez.no
 
     * admin/categoryedit.php: speed improvement
 
+
+Module : ezimagecatalogue
+Repository path : /home/cvsroot/projects/php/ezimagecatalogue
+Maintainer(s) : br@ez.no
+2002-01-16  Jan Borsodi  <jb@ez.no>
+
+    * xmlrpc/categorylist.php
+      xmlrpc/image.php:
+    Added $wwwDir to returned web urls, this means that images will
+    work with virtualhost-less setups.
+

@@ -2728,3 +2728,29 @@ Maintainer(s) : ce@ez.no
       user/productsearch.php
       classes/ezproduct.php: Added search.
 
+
+Module : eztrade
+Repository path : /home/cvsroot/projects/php/eztrade
+Maintainer(s) : ce@ez.no
+2002-01-16  Baard Farstad  <bf@ez.no>
+
+    * user/datasupplier.php
+      user/productlist.php
+      user/productsearch.php
+      user/productview.php
+      classes/ezproduct.php: Layout fix.
+
+    * classes/ezproduct.php: Fikset indeksering av attributter.
+
+2002-01-16  Christoffer Elo  <ce@ez.no>
+
+    * admin/attributeedit.php
+      admin/templates/standard/typeedit.tpl
+      admin/typeedit.php
+      classes/ezproductattribute.php
+      user/productview.php: Added url actions on attributes
+
+2002-01-16  Baard Farstad  <bf@ez.no>
+
+    * sql/mysql/eztrade.sql: SQL.
+

@@ -529,3 +529,21 @@ Maintainer(s) : vl@ez.no
       admin/templates/standard/sectionlist.tpl:
     fixed missing {www_dir} in templates
 
+
+Module : ezsitemanager
+Repository path : /home/cvsroot/projects/php/ezsitemanager
+Maintainer(s) : vl@ez.no
+2001-12-21  Gunnstein Lye  <gl@ez.no>
+
+    * admin/intl/pt_PT/menubox.php.ini
+      admin/intl/pt_PT/sectionedit.php.ini
+      admin/intl/pt_PT/sectionlist.php.ini: pt_PT (Portuguese) version 2.2.2
+
+
+Module : ezsitemanager
+Repository path : /home/cvsroot/projects/php/ezsitemanager
+Maintainer(s) : vl@ez.no
+2002-01-16  Kai Duebbert  <kai@duebbert.de>
+
+    * classes/ezsection.php: fix warnings
+
