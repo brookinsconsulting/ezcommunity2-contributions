@@ -1,8 +1,12 @@
-This file contains all changes in intl files since version 2.0 beta3
+This file contains all changes in intl files since version 2.0 pre1
 Example:
 mod: bug/user, fileedit.php.ini
 change: added user_edit=Some text
 --------------------------------------------------------------------
+mod: ezarticle/ admin , search.php.ini
+change: added delete=Delete selected articles
+
+##################### BETA 3 --- PRE 1 #############################################
 mod: ezforum/ admin, forumedit.php.ini
 change: added
 no_moderator=No moderator selected
