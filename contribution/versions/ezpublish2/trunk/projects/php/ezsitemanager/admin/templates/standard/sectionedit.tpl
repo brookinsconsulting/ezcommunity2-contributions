@@ -18,6 +18,7 @@
 </tr>
 <tr>
 	<td>
+	<br />
 	<p class="boxtext">{intl-description}:</p>
 	<textarea name="Description" wrap="soft" cols="30" rows="10">{section_description}</textarea>
 	</td>	
@@ -25,8 +26,11 @@
 </table>
 
 <br />
-<input type="submit" name="OK" value="{intl-ok}" />&nbsp;
-<input type="submit" name="Cancel" value="{intl-cancel}" />
+
+<hr noshade="noshade" size="4" />
+
+<input class="okbutton" type="submit" name="OK" value="{intl-ok}" />&nbsp;
+<input class="okbutton" type="submit" name="Cancel" value="{intl-cancel}" />
 
 </form>
 	

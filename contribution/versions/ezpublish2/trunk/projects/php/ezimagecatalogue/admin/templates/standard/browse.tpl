@@ -23,7 +23,7 @@
 <div class="spacer"><div class="p">{current_category_description}</div></div>
 
 <!-- BEGIN category_list_tpl -->
-<table width="100%" border="0" cellspacing="0" cellpadding="4" >
+<table class="list" width="100%" border="0" cellspacing="0" cellpadding="4">
 
 <!-- BEGIN category_tpl -->
 <tr>
@@ -45,7 +45,7 @@
 <!-- END category_list_tpl -->
 
 <!-- BEGIN image_list_tpl -->
-<table width="100%" border="0" cellspacing="0" cellpadding="4" >
+<table class="list" width="100%" border="0" cellspacing="0" cellpadding="4" >
 <!-- BEGIN detail_view_tpl -->
 <tr>
 	<!-- BEGIN detail_read_tpl -->

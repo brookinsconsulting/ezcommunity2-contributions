@@ -166,6 +166,11 @@ th
 	color: #ffffff;
 }
 
+.linkselect:hover
+{
+	color: #e2efe2;
+}
+
 .linknormal
 {
 	color: #000000;
@@ -226,4 +231,4 @@ hr
     color: #f07800;
 }
 
-/* Hellstrøm 11.4.2001 */
+/* Hellstrøm 18.5.2001 */

@@ -51,16 +51,22 @@
 
 <table cellspacing="0" cellpadding="0" border="0">
 <tr>
-	<td valign="top">
-	<input class="stdbutton" type="submit" name="NewImage" value="{intl-image_upload}" />
-	</td>
-	<td>&nbsp;</td>
 	<td>
 	<input class="stdbutton" type="submit" name="NoFrontImage" value="{intl-image_no_front}" />
 	</td>
 	<td>&nbsp;</td>
 	<td>
 	<input class="stdbutton" type="submit" name="DeleteSelected" value="{intl-delete_selected}" />
+	</td>
+</tr>
+</table>
+
+<hr noshade="noshade" size="4" />
+
+<table cellspacing="0" cellpadding="0" border="0">
+<tr>
+	<td valign="top">
+	<input class="stdbutton" type="submit" name="NewImage" value="{intl-image_upload}" />
 	</td>
 	<td>&nbsp;</td>
 	<td>

@@ -32,21 +32,19 @@
     </tr>
     <!-- BEGIN forum_item_tpl -->
     <tr>
-	<td class="{td_class}" valign="top">
+	<td class="{td_class}" width="1%" valign="top">
 	    <img src="/images/forum.gif" width="16" height="16" border="0" alt="Forum" />
 	</td>
-	<td class="{td_class}" valign="top">
-	    <a href="/forum/messagelist/{forum_id}/">
-	    {name}
-	    </a>
+	<td class="{td_class}" width="47%" valign="top">
+	    <a href="/forum/messagelist/{forum_id}/">{name}</a>
         </td>
-	<td class="{td_class}" valign="top">
+	<td class="{td_class}" width="50%" valign="top">
 	    {description}
         </td>
-	<td class="{td_class}" valign="top">
+	<td class="{td_class}" width="1%" valign="top">
 	    {threads}
         </td>
-	<td class="{td_class}" valign="top">
+	<td class="{td_class}" width="1%" valign="top">
 	    {messages}
         </td>
     </tr>
