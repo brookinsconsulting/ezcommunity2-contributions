@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezqdomrenderer.php,v 1.56 2001/10/24 10:43:17 bf Exp $
+// $Id: ezqdomrenderer.php,v 1.57 2001/10/29 09:46:19 bf Exp $
 //
 // Definition of eZQDomRenderer class
 //
@@ -781,7 +781,7 @@ class eZQDomrenderer
                 
                 $ini =& INIFile::globalINI();
 
-                $this->Template->set_var( "file_uri", "/filemanager/download/" . $fileID . "/"  );
+                $this->Template->set_var( "file_uri", "/filemanager/download/" . $fileID  );
                 $this->Template->set_var( "text", $fileText );
 
                 $pageContent = $this->Template->parse( "file", "file_tpl" );
