@@ -61,7 +61,6 @@ class eZLinkGroup
         }
     }
 
-
     /*
       Rekursiv funksjon, skriver ut hele pathen til gruppen.
     */
@@ -76,9 +75,9 @@ class eZLinkGroup
         }
         else
         {
-            print( "/ <a href=\"index.php?page=$url&LGID=0\">" . "linker" . "</a>" );
+            print( "/ <a href=\"index.php?page=$url&LGID=0\">" . "kategorier" . "</a>" );
         }
-        print( " / <a href=\"index.php?page=$url&LGID=$this->ID\">" . $lg->title() . "</a>" );
+        print( " / <a href=\"index.php?page=$url&LGID=$id\">" . $lg->title() . "</a>" );
     }
 
 

@@ -22,11 +22,8 @@ if ( $Action == "addhit" )
     $hit->store();
 
 }
-die();
 
 printRedirect( "http://" . $Url );
-
-
 
 
 

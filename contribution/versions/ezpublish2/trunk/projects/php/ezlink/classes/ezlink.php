@@ -31,7 +31,6 @@ class eZLink
     /*
       Oppgraderer databasen
     */
-
     function update()
     {
         $this->dbInit();

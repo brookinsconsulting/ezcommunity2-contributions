@@ -68,7 +68,6 @@ if ( ( $LGID == 0 ) && ( $LGID != "incoming" ) )
 // Lister alle linker i kategori
 $link = new eZLink();
 
-
 $link_array = $link->getByGroup( $LGID );
 
 if ( count( $link_array ) == 0 )
@@ -91,6 +90,8 @@ else
         $t->set_var( "link_modified", $link_array[ $i ][ "Modified" ] );
         $t->set_var( "link_accepted", $link_array[ $i ][ "Accepted" ] );
         $t->set_var( "link_url", $link_array[ $i ][ "Url" ] );
+
+        
 
         $t->set_var( "document_root", $DOCUMENTROOT );
 

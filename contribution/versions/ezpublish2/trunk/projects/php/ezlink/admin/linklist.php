@@ -48,6 +48,9 @@ else
         $t->set_var( "linkgroup_title", $linkgroup_array[ $i ][ "Title" ] );
         $t->set_var( "linkgroup_parent", $linkgroup_array[ $i ][ "Parent" ] );
 
+        $t->set_var( "total_links", 100 );
+        $t->set_var( "new_links", 10 );
+        
         $t->set_var( "document_root", $DOCUMENTROOT );
     
         $t->parse( "group_list", "linkgroup_item", true );
@@ -92,7 +95,6 @@ else
 {
     for ( $i=0; $i<count( $link_array ); $i++ )
     {
-
         $t->set_var( "bg_color", "#eeddaa" );
 
         $t->set_var( "link_id", $link_array[ $i ][ "ID" ] );
@@ -103,6 +105,11 @@ else
         $t->set_var( "link_created", $link_array[ $i ][ "Created" ] );
         $t->set_var( "link_modified", $link_array[ $i ][ "Modified" ] );
         $t->set_var( "link_accepted", $link_array[ $i ][ "Accepted" ] );
+
+        $hit = new eZHit();
+        $hits = $hit->getLinkHits( $link_array[ $i ][ "ID" ] );
+
+        $t->set_var( "link_hits", $hits );
 
         $t->set_var( "document_root", $DOCUMENTROOT );
 

@@ -41,6 +41,17 @@ class eZHit
         query( "DELETE FROM Hit WHERE ID='$ID'" );
     }
 
+    /*
+      Henter ut antall hits på en bestemt link.
+     */
+    function getLinkHits( $id )
+    {
+        $this->dbInit();        
+        array_query( $hit_array, "SELECT * FROM Hit WHERE Link='$id'" );        
+        $count = count( $hit_array );
+        return $count;
+    }
+    
     function get( $id )
     {
         $this->dbInit();
