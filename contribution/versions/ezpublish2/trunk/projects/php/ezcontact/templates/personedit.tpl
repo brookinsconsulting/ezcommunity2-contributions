@@ -30,8 +30,12 @@
 
 <table width="100%" border="0">
 <tr>
-	<td valign="top"  bgcolor="#ddeedd">
-
+	<td bgcolor="#888888">
+	<font color="#ffffff" size="4">Personinformasjon</font>	
+	</td>
+</tr>
+<tr>
+	<td valign="top"  bgcolor="#eeeeee">
 <form method="post"  name="CompanyAddressEdit" action="index.php4?page={document_root}personedit.php4">
 Kontakt person type:
 <br>
