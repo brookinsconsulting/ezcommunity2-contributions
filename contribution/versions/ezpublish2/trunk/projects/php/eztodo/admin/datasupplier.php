@@ -3,18 +3,23 @@
 $url_array = explode( "/", $REQUEST_URI );
 switch ( $url_array[2] )
 {
-    case "categorytypelist" :
+    case "categorytypelist":
+    {
         include( "eztodo/admin/categorytypelist.php" );        
-        break;
+    }
+    break;
+    
     case "categorytypeedit" :
     {
         switch( $url_array[3] )
         {
             case "new":
             {
+                $Action = "new";
                 include( "eztodo/admin/categorytypeedit.php" );
             }
             break;
+            
             case "insert":
             {
                 $CategoryID = $url_array[4];
@@ -22,6 +27,7 @@ switch ( $url_array[2] )
                 include( "eztodo/admin/categorytypeedit.php" );
             }
             break;
+            
             case "edit":
             {
                 $CategoryID = $url_array[4];
@@ -29,6 +35,7 @@ switch ( $url_array[2] )
                 include( "eztodo/admin/categorytypeedit.php" );
             }
             break;
+            
             case "update":
             {
                 $CategoryID = $url_array[4];
@@ -36,6 +43,7 @@ switch ( $url_array[2] )
                 include( "eztodo/admin/categorytypeedit.php" );
             }
             break;
+            
             case "delete":
             {
                 $CategoryID = $url_array[4];
@@ -47,47 +55,63 @@ switch ( $url_array[2] )
     }
     break;
         
-    case "prioritytypelist" :
+    case "prioritytypelist":
+    {
         include( "eztodo/admin/prioritytypelist.php" );
-        break;
+    }
+    break;
 
     case "prioritytypeedit" :
     {
-        if ( $url_array[3] == "new" )
+        switch( $url_array[3] )
         {
-        include( "eztodo/admin/prioritytypeedit.php" );
-        }
-        else if ( $url_array[3] == "insert" )
-        {
-            $PriorityID = $url_array[4];
-            $Action = "insert";
-            include( "eztodo/admin/prioritytypeedit.php" );
-        }
+            case "new":
+            {
+                $Action = "new";
+                include( "eztodo/admin/prioritytypeedit.php" );
+            }
+            break;
 
-        else if ( $url_array[3] == "edit" )
-        {
-            $PriorityID = $url_array[4];
-            $Action = "edit";
-            include( "eztodo/admin/prioritytypeedit.php" );
-        }
-        else if ( $url_array[3] == "update" )
-        {
-            $PriorityID = $url_array[4];
-            $Action = "update";
-            include( "eztodo/admin/prioritytypeedit.php" );
-        }
-        else if ( $url_array[3] == "delete" )
-        {
-            $PriorityID = $url_array[4];
-            $Action = "delete";
-            include( "eztodo/admin/prioritytypeedit.php" );
+            case "insert":
+            {
+                $PriorityID = $url_array[4];
+                $Action = "insert";
+                include( "eztodo/admin/prioritytypeedit.php" );
+            }
+            break;
+
+            case "edit":
+            {
+                $PriorityID = $url_array[4];
+                $Action = "edit";
+                include( "eztodo/admin/prioritytypeedit.php" );
+            }
+            break;
+
+            case "update":
+            {
+                $PriorityID = $url_array[4];
+                $Action = "update";
+                include( "eztodo/admin/prioritytypeedit.php" );
+            }
+            break;
+
+            case "delete":
+            {
+                $PriorityID = $url_array[4];
+                $Action = "delete";
+                include( "eztodo/admin/prioritytypeedit.php" );
+            }
+            break;
         }
     }
     break;
 
     default:
-        print( "<h1>Sorry, Your link page could not be found. </h1>" );
-        break;
+    {
+        print( "<h1>Sorry, Your todo page could not be found. </h1>" );
+    }
+    break;
 }
 
 ?>
