@@ -28,7 +28,7 @@
 	<table width="100%" cellspacing="0" cellpadding="0" border="0">
 	<tr>
 		<td width="50%">
-		<span class="path">{intl-hour}: {current_hour}</span>
+		<span class="path">{current_hour}:00 - {current_hour}:59</span>
 		</td>
 		<td align="right">
 		{page_view_count} {intl-pages} ({percent_count}%)

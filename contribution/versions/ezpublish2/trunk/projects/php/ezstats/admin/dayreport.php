@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: dayreport.php,v 1.5 2001/03/02 09:44:55 fh Exp $
+// $Id: dayreport.php,v 1.6 2001/04/06 13:17:27 jb Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <07-Jan-2001 14:47:04 bf>
@@ -94,7 +94,7 @@ if ( count( $dayReport ) > 0 )
         $totalCount = $dayReport["TotalPages"];
         
         $t->set_var( "page_view_count", $count );
-        $t->set_var( "current_hour", $i );
+        $t->set_var( "current_hour", $i > 9 ? $i : "0" . $i );
 
         if ( $totalCount > 0 )
         {
