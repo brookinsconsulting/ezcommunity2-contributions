@@ -1,8 +1,8 @@
 <?
 // 
-// $Id: linklist.php,v 1.4 2000/10/26 13:02:41 ce-cvs Exp $
+// $Id: linklist.php,v 1.5 2000/10/26 13:08:34 ce-cvs Exp $
 //
-// <real-name> <<mail-name>>
+// Christoffer A. Elo <ce@ez.no>
 // Created on: <26-Oct-2000 15:02:09 ce>
 //
 // This source file is part of eZ publish, publishing software.

@@ -1,14 +1,9 @@
 <?
 // 
-// $Id: pollist.php,v 1.2 2000/10/26 12:44:59 ce-cvs Exp $
+// $Id: pollist.php,v 1.3 2000/10/26 13:08:34 ce-cvs Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <20-Sep-2000 13:32:11 ce>
-//
-// Copyright (C) 1999-2000 eZ Systems.  All rights reserved.
-//
-// IMPORTANT NOTE: You may NOT copy this file or any part of it into
-// your own programs or libraries.
 //
 // This source file is part of eZ publish, publishing software.
 // Copyright (C) 1999-2000 eZ systems as

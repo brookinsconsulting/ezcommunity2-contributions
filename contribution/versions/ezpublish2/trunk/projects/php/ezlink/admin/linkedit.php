@@ -1,13 +1,8 @@
 <?
-// $Id: linkedit.php,v 1.29 2000/10/26 12:59:18 ce-cvs Exp $
+// $Id: linkedit.php,v 1.30 2000/10/26 13:08:34 ce-cvs Exp $
 //
-// <real-name> <<mail-name>>
+// Christoffer A. Elo <ce@ez.no>
 // Created on: <26-Oct-2000 14:58:57 ce>
-//
-// Copyright (C) 1999-2000 eZ Systems.  All rights reserved.
-//
-// IMPORTANT NOTE: You may NOT copy this file or any part of it into
-// your own programs or libraries.
 //
 // This source file is part of eZ publish, publishing software.
 // Copyright (C) 1999-2000 eZ systems as

@@ -1,16 +1,9 @@
 <?
 // 
-// $Id: choiceedit.php,v 1.5 2000/10/26 12:59:18 ce-cvs Exp $
-//
-// Definition of eZPollChoice class
+// $Id: choiceedit.php,v 1.6 2000/10/26 13:08:34 ce-cvs Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <21-Sep-2000 10:39:19 ce>
-//
-// Copyright (C) 1999-2000 eZ Systems.  All rights reserved.
-//
-// IMPORTANT NOTE: You may NOT copy this file or any part of it into
-// your own programs or libraries.
 //
 // This source file is part of eZ publish, publishing software.
 // Copyright (C) 1999-2000 eZ systems as
