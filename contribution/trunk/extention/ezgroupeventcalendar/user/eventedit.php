@@ -671,7 +671,7 @@ if ( ($Action == "Insert" || $Action == "Update")  && $groupError == false )
         if ( $TitleError == false && $GroupInsertError == false && $StartTimeError == false && $StopTimeError == false )
         {
             $resultz = $event->store();
-            echo 'made it here';
+            // echo 'made it here';
             exec("secure_clearcache.sh");
             $year = addZero( $datetime->year() );
             $month = addZero( $datetime->month() );
