@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: productedit.php,v 1.9 2000/10/19 10:43:43 bf-cvs Exp $
+// $Id: productedit.php,v 1.10 2000/10/23 09:18:24 bf-cvs Exp $
 //
 // Definition of eZCompany class
 //
@@ -94,8 +94,12 @@ if ( $Action == "Insert" )
         Header( "Location: /trade/productedit/productpreview/$productID/" );
         exit();
     }
+
+    // get the category to redirect to
+    $categories = $product->categories();    
+    $categoryID = $categories[0]->id();
     
-    Header( "Location: /trade/categorylist/" );
+    Header( "Location: /trade/categorylist/parent/$categoryID" );
     exit();
 }
 
@@ -170,8 +174,24 @@ if ( $Action == "Update" )
         Header( "Location: /trade/productedit/productpreview/$productID/" );
         exit();
     }
+
+    // get the category to redirect to
+    $categories = $product->categories();    
+    $categoryID = $categories[0]->id();
     
-    Header( "Location: /trade/categorylist/" );
+    Header( "Location: /trade/categorylist/parent/$categoryID" );
+    exit();
+}
+
+if ( $Action == "Cancel" )
+{
+    $product = new eZProduct( $ProductID );
+
+    $categories = $product->categories();
+
+    $categoryID = $categories[0]->id();
+
+    Header( "Location: /trade/categorylist/parent/$categoryID" );
     exit();
 }
 

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezproduct.php,v 1.14 2000/10/19 10:43:43 bf-cvs Exp $
+// $Id: ezproduct.php,v 1.15 2000/10/23 09:18:24 bf-cvs Exp $
 //
 // Definition of eZCompany class
 //
@@ -722,6 +722,29 @@ class eZProduct
        return $ret;
     }
 
+    /*!
+      Returns the categrories a product is assigned to.
+
+      The categories are returned as an array of eZProductCategory objects.
+    */
+    function categories()
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+       $this->dbInit();
+
+       $ret = array();
+       $this->Database->array_query( $category_array, "SELECT * FROM eZTrade_ProductCategoryLink WHERE ProductID='$this->ID'" );
+
+       foreach ( $category_array as $category )
+       {
+           $ret[] = new eZArticleCategory( $category["CategoryID"] );
+       }
+
+       return $ret;
+    }
+    
 
     /*!
       Removes every category assignments from the current product.

@@ -46,8 +46,10 @@
 	</td>
 	<td>&nbsp;</td>
 	<td>
-	Avbrytknapp
+	<form method="post" action="/article/articleedit/cancel/{article_id}/" >
+	<input  class="okbutton" type="submit" value="Avbryt" />	
+	</form>
 	</td>
 </tr>
 </table>
-	
+

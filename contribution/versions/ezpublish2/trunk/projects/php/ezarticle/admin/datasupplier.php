@@ -44,6 +44,14 @@ switch ( $url_array[2] )
             }
             break;
 
+            case "cancel" :
+            {
+                $Action = "Cancel";
+                $ArticleID = $url_array[4];
+                include( "ezarticle/admin/articleedit.php" );
+            }
+            break;
+            
             case "new" :
             {
                 $Action = "New";

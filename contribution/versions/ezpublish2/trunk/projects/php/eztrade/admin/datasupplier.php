@@ -151,6 +151,15 @@ switch ( $url_array[2] )
                 $Action = "Update";
                 include( "eztrade/admin/productedit.php" );
                 break;
+
+            case "cancel" :
+            {
+                $Action = "Cancel";
+                $ProductID = $url_array[4];
+                include( "eztrade/admin/productedit.php" );                
+            }
+            break;
+                
             case "delete" :
                 $Action = "Delete";
                 $ProductID = $url_array[4];

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: articleedit.php,v 1.8 2000/10/21 11:08:58 bf-cvs Exp $
+// $Id: articleedit.php,v 1.9 2000/10/23 09:18:24 bf-cvs Exp $
 //
 // 
 //
@@ -63,10 +63,30 @@ if ( $Action == "Insert" )
         Header( "Location: /article/articlepreview/$articleID/" );
         exit();
     }
+
+
+    // get the category to redirect to
+    $categories = $article->categories();    
+    $categoryID = $categories[0]->id();
+
     
-    Header( "Location: /article/archive/$CategoryID/" );
+    Header( "Location: /article/archive/$categoryID/" );
     exit();
 }
+
+
+if ( $Action == "Cancel" )
+{
+    $article = new eZArticle( $ArticleID );
+
+    $categories = $article->categories();
+
+    $categoryID = $categories[0]->id();
+
+    Header( "Location: /article/archive/$categoryID/" );
+    exit();
+}
+
 
 if ( $Action == "Update" )
 {
@@ -105,8 +125,12 @@ if ( $Action == "Update" )
         Header( "Location: /article/articlepreview/$ArticleID/" );
         exit();
     }
+
+    // get the category to redirect to
+    $categories = $article->categories();    
+    $categoryID = $categories[0]->id();
     
-    Header( "Location: /article/archive/$CategoryID/" );
+    Header( "Location: /article/archive/$categoryID/" );
     exit();
 }
 
