@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: menubox.php,v 1.1 2001/01/26 08:55:48 ce Exp $
+// $Id: menubox.php,v 1.2 2001/03/19 15:33:22 fh Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <16-Jan-2001 13:23:02 ce>
@@ -32,6 +32,7 @@ $Language = $ini->read_var( "eZBugMain", "Language" );
     
 include_once( "classes/eztemplate.php" );
 include_once( "classes/ezdb.php" );
+include_once( "ezuser/classes/ezobjectpermission.php" );
 
 $t = new eZTemplate( "ezbug/user/" . $ini->read_var( "eZBugMain", "TemplateDir" ),
                      "ezbug/user/intl", $Language, "menubox.php" );
@@ -41,7 +42,14 @@ $t->setAllStrings();
 $t->set_file( array(
     "menu_box_tpl" => "menubox.tpl"
     ) );
-    
+
+$t->set_block( "menu_box_tpl", "unhandled_tpl", "unhandled" );
+
+if( eZObjectPermission::getObjects( "bug_module", 'w', true ) )
+    $t->parse( "unhandled", "unhandled_tpl" );
+else
+    $t->set_var( "unhandled", "" );
+
 $t->pparse( "output", "menu_box_tpl" );
 
 ?>

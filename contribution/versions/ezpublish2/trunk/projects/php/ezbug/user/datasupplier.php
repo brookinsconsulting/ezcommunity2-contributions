@@ -245,6 +245,12 @@ switch ( $url_array[2] )
     }
     break;
 
+    case "unhandled" :
+    {
+        include( "ezbug/user/unhandledbugs.php" );
+    }
+    break;
+
     case "reportsuccess" :
     {
         include( "ezbug/user/reportsuccess.php" );

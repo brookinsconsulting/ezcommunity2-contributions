@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezbug.php,v 1.19 2001/03/10 19:59:05 fh Exp $
+// $Id: ezbug.php,v 1.20 2001/03/19 15:33:22 fh Exp $
 //
 // Definition of eZBug class
 //
@@ -181,18 +181,18 @@ class eZBug
             }
             else if( count( $module_array ) == 1 )
             {
-                $this->ID = $module_array[0][ "ID" ];
-                $this->Name = $module_array[0][ "Name" ];
-                $this->Description = $module_array[0][ "Description" ];
-                $this->UserID = $module_array[0][ "UserID" ];
-                $this->UserEmail = $module_array[0][ "UserEmail" ];
-                $this->Created = $module_array[0][ "Created" ];
-                $this->IsHandled = $module_array[0][ "IsHandled" ];
-                $this->IsClosed = $module_array[0][ "IsClosed" ];
-                $this->PriorityID = $module_array[0][ "PriorityID" ];
-                $this->StatusID = $module_array[0][ "StatusID" ];
-                $this->OwnerID = $module_array[0][ "OwnerID" ];
-                $this->IsPrivate = $module_array[0][ "IsPrivate" ];
+                $this->ID =& $module_array[0][ "ID" ];
+                $this->Name =& $module_array[0][ "Name" ];
+                $this->Description =& $module_array[0][ "Description" ];
+                $this->UserID =& $module_array[0][ "UserID" ];
+                $this->UserEmail =& $module_array[0][ "UserEmail" ];
+                $this->Created =& $module_array[0][ "Created" ];
+                $this->IsHandled =& $module_array[0][ "IsHandled" ];
+                $this->IsClosed =& $module_array[0][ "IsClosed" ];
+                $this->PriorityID =& $module_array[0][ "PriorityID" ];
+                $this->StatusID =& $module_array[0][ "StatusID" ];
+                $this->OwnerID =& $module_array[0][ "OwnerID" ];
+                $this->IsPrivate =& $module_array[0][ "IsPrivate" ];
             }
                  
             $this->State_ = "Coherent";
@@ -606,7 +606,7 @@ class eZBug
 
       If the bug is not assigned to any module false is returned.
     */
-    function module()
+    function module( $IDOnly=false )
     {
         if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
@@ -620,7 +620,8 @@ class eZBug
         $ret = false;
         if ( count( $module_array ) == 1 )
         {
-            $ret = new eZBugModule( $module_array[0]["ModuleID"] );
+            $ret = $IDOnly ? $module_array[0]["ModuleID"] :
+                new eZBugModule( $module_array[0]["ModuleID"] );
         }
 
         return $ret;

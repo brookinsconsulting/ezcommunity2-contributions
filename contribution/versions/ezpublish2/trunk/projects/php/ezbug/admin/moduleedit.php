@@ -146,7 +146,7 @@ foreach( $moduleList as $moduleItem )
 
 // group selector
 $group = new eZUserGroup();
-$groupList =& $user->groups();
+$groupList =& $group->getAll();
 
 foreach( $groupList as $groupItem )
 {
