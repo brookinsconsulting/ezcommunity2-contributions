@@ -75,6 +75,13 @@ switch ( $url_array[2] )
         include_once( "ezbulkmail/admin/mailview.php" );
     }
     break;
+
+
+    case "masssubscribe":
+    {
+        include_once( "ezbulkmail/admin/masssubscribe.php" );
+    }
+          break;
     
     default:
     {
