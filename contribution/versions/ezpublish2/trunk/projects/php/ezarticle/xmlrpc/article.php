@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: article.php,v 1.14 2001/08/21 10:30:35 jb Exp $
+// $Id: article.php,v 1.15 2001/08/21 15:11:37 jb Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -65,6 +65,13 @@ if( $Command == "data" ) // return all the data in the category
                                                          "Attributes" => new eZXMLRPCArray( $attr_arr ) ) );
             }
         }
+        $images = $article->images( false );
+        $img = array();
+        foreach( $images as $image )
+        {
+            $img[] = new eZXMLRPCStruct( array( "Image" => new eZXMLRPCInt( $image["Image"] ),
+                                                "Placement" => new eZXMLRPCInt( $image["Placement"] ) ) );
+        }
         $ret = array( "Location" => createURLStruct( "ezarticle", "article", $article->id() ),
                       "AuthorID" => new eZXMLRPCInt( $article->author( false ) ),
                       "Name" => new eZXMLRPCString( $article->name( false ) ), // title
@@ -78,7 +85,7 @@ if( $Command == "data" ) // return all the data in the category
                       "IsPublished" => new eZXMLRPCBool( $article->isPublished() ),
                       "PageCount" => new eZXMLRPCInt( $article->pageCount() ),
                       "Thumbnail" => new eZXMLRPCInt( $article->thumbnailImage( false ) ),
-                      "Images" => new eZXMLRPCArray( $article->images( false ), "integer" ),
+                      "Images" => new eZXMLRPCArray( $img ),
                       "Files" => new eZXMLRPCArray( $article->files( false ), "integer" ),
                       "Forms" => new eZXMLRPCArray( $article->forms( false ), "integer" ),
                       "ReadGroups" => new eZXMLRPCArray( $readGroups, "integer" ),
@@ -168,17 +175,31 @@ else if( $Command == "storedata" )
     $new_images = array();
     foreach( $images as $img )
     {
-        $new_images[] = $img->value();
+        $image = $img->value();
+        $id = $image["Image"]->value();
+        $ix = $image["Placement"]->value();
+        $new_images[$ix] = $id;
     }
     $images = $article->images( false );
-    $old_images = array_diff( $images, $new_images );
-    $added_images = array_diff( $new_images, $images );
-    $changed_images = array_intersect( $new_images, $images );
+    $old_images = array();
+    foreach( $images as $image )
+    {
+        $id = $image["Image"];
+        $ix = $image["Placement"];
+        $old_images[$ix] = $id;
+    }
+    $del_images = array_diff( $old_images, $new_images );
+    $added_images = array_diff( $new_images, $old_images );
+    $changed_images = array_intersect( $new_images, $old_images );
 
-    foreach( $old_images as $image )
+    foreach( $del_images as $image )
+    {
         $article->deleteImage( $image );
-    foreach( $added_images as $image )
-        $article->addImage( $image );
+    }
+    while( list($add_ix, $add_id) = each($added_images) )
+    {
+        $article->addImage( $add_id, $add_ix );
+    }
 
 
     // files
