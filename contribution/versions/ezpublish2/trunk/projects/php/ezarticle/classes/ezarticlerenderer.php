@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezarticlerenderer.php,v 1.12 2001/08/21 15:13:32 bf Exp $
+// $Id: ezarticlerenderer.php,v 1.13 2001/10/15 12:08:50 jhe Exp $
 //
 // Definition of eZArticleRenderer class
 //
@@ -44,7 +44,7 @@ class eZArticleRenderer
 //        print( nl2br( htmlspecialchars( $contents ) ) );
 
         // find the generator used
-        if ( ereg("<generator>(.*)</generator>", $contents, $regs ) )
+        if ( ereg("<generator>(.*)</generator>", substr( $contents, 0, 200 ), $regs ) )
         {
             $generator =& $regs[1];
             
