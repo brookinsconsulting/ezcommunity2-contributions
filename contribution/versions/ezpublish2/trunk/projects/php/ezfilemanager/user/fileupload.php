@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: fileupload.php,v 1.6 2001/01/08 15:34:04 ce Exp $
+// $Id: fileupload.php,v 1.7 2001/01/10 15:22:40 ce Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <10-Dec-2000 15:49:57 bf>
@@ -130,9 +130,6 @@ if ( $Action == "Insert" || $Action == "Update" )
 
     if ( $descriptionCheck )
     {
-
-
-
         if ( empty ( $Description ) )
         {
             $t->parse( "error_description", "error_description_tpl" );
@@ -203,11 +200,9 @@ if ( $Action == "Insert" && $error == false )
     
     $folder->addFile( $uploadedFile );
     
-    
     eZLog::writeNotice( "File added to file manager from IP: $REMOTE_ADDR" );
     Header( "Location: /filemanager/list/$FolderID/" );
     exit();
-    
 }
 
 if ( $Action == "Update" && $error == false )
