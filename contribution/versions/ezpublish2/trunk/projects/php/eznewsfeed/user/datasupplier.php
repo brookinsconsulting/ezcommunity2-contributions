@@ -27,8 +27,16 @@ switch ( $url_array[2] )
         }
         else
         {
+            $GenerateStaticPage = "false";
             include( "eznewsfeed/user/newslist.php" );
         }
+    }
+    break;
+
+    case "allcategories" :
+    {
+        $GenerateStaticPage = "false";
+        include( "eznewsfeed/user/allcategories.php" );
     }
     break;
 

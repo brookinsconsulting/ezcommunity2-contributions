@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eznewsimporter.php,v 1.5 2001/01/02 12:26:54 bf Exp $
+// $Id: eznewsimporter.php,v 1.6 2001/01/02 14:54:59 bf Exp $
 //
 // Definition of eZNewsImporter class
 //
@@ -124,7 +124,29 @@ class eZNewsImporter
                 }
             }
             break;
-        }
+
+            case "backslash" :
+            {
+                include_once( "eznewsfeed/classes/ezbackslashimporter.php" );
+                
+                $importer = new eZBackslashImporter( $this->Site, $this->Login, $this->Password );
+                $newsList =& $importer->news();
+
+                foreach ( $newsList as $newsItem )
+                {
+                    if ( $newsItem->store() == true )
+                    {
+                        $category->addNews( $newsItem );
+                        print( "storing: -" .$newsItem->name() . "<br>");
+                    }
+                    else
+                    {
+                        print( "already stored: -" .$newsItem->name() . "<br>");
+                    }
+                }
+            }
+            break;
+          }
     }
 
     var $Decoder;
