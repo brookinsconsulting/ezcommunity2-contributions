@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezlink.php,v 1.72 2001/10/16 13:44:57 jhe Exp $
+// $Id: ezlink.php,v 1.73 2001/10/16 14:08:37 jhe Exp $
 //
 // Definition of eZLink class
 //
@@ -82,7 +82,7 @@ class eZLink
     {
         $db =& eZDB::globalDatabase();
 
-        $db->begin( );
+        $db->begin();
 
         $description = $db->escapeString( $this->Description );
         $name = $db->escapeString( $this->Name );
@@ -319,7 +319,7 @@ class eZLink
 
         for( $i=0; $i < count( $link_array ); $i++ )
         {
-            $return_array[] = new eZLink( $link_array[$i][$db->fieldName("ID")] );
+            $return_array[] = new eZLink( $link_array[$i][$db->fieldName( "ID" )] );
         }
 
         return $return_array;
@@ -330,7 +330,7 @@ class eZLink
 
       Default limit is set to 30.
     */
-    function &getNotAccepted( $offset=0, $limit=30 )
+    function &getNotAccepted( $offset = 0, $limit = 30 )
     {
         $db =& eZDB::globalDatabase();
         
@@ -341,9 +341,9 @@ class eZLink
                                         WHERE Accepted='0' ORDER BY Name",
                           array( "Limit" => $limit, "Offset" => $offset ) );
 
-        for ( $i=0; $i < count( $link_array ); $i++ )
+        for ( $i = 0; $i < count( $link_array ); $i++ )
         {
-            $return_array[] = new eZLink( $link_array[$i][$db->fieldName("ID")] );
+            $return_array[] = new eZLink( $link_array[$i][$db->fieldName( "ID" )] );
         }
 
         return $return_array;
@@ -361,7 +361,7 @@ class eZLink
 
         $db->array_query( $linkArray, $query );
         
-        return $linkArray[0][$db->fieldName("Count")];
+        return $linkArray[0][$db->fieldName( "Count" )];
     }
 
 
@@ -381,7 +381,7 @@ class eZLink
 
         for( $i=0; $i < count( $link_array ); $i++ )
         {
-            $return_array[] = new eZLink( $link_array[$i][$db->fieldName("ID")] );
+            $return_array[] = new eZLink( $link_array[$i][$db->fieldName( "ID" )] );
         }
         return $return_array;
     }
@@ -414,18 +414,18 @@ class eZLink
 
         $query = new eZQuery( array( "KeyWords", "Name", "Description" ), $query );
         $query->setPartialCompare( true );
-        $query_str =  "SELECT ID, Name FROM eZLink_Link WHERE (" .
-             $query->buildQuery()  .
-             ") AND Accepted='1' GROUP BY Name, ID ORDER BY Name";
+        $query_str = "SELECT ID FROM eZLink_Link WHERE (" .
+                      $query->buildQuery()  .
+                     ") AND Accepted='1' GROUP BY Name, ID ORDER BY Name";
 
-        $db->array_query( $link_array,
-        $query_str,  array( "Limit" => $limit, "Offset" => $offset ) );
-    
+        $db->array_query( $link_array, $query_str,
+                          array( "Limit" => $limit, "Offset" => $offset ) );
+        
         $ret = array();
 
         foreach( $link_array as $linkItem )
         {
-            $ret[] = new eZLink( $linkItem[$db->fieldName("ID")] );
+            $ret[] = new eZLink( $linkItem[$db->fieldName( "ID" )] );
         }
         return $ret;
     }
@@ -559,14 +559,14 @@ class eZLink
         {
             foreach ( $category_array as $category )
             {
-                $ret[] = new eZLinkCategory( $category[$db->fieldName("CategoryID")] );
+                $ret[] = new eZLinkCategory( $category[$db->fieldName( "CategoryID" )] );
             }
         }
         else
         {
             foreach ( $category_array as $category )
             {
-                $ret[] = $category[$db->fieldName("CategoryID")];
+                $ret[] = $category[$db->fieldName( "CategoryID" )];
             }
         }
         return $ret;
