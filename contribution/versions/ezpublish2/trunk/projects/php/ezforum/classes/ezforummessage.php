@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezforummessage.php,v 1.75 2001/02/26 10:12:42 pkej Exp $
+// $Id: ezforummessage.php,v 1.76 2001/02/26 12:57:27 pkej Exp $
 //
 // Definition of eZCompany class
 //
@@ -200,6 +200,8 @@ class eZForumMessage
         //$db =& eZDB::globalDatabase();
         //$query = "LOCK TABLES eZForum_Message READ LOCAL";
         //$db->query( $query );
+        
+        //$this->writeLock();
     }
     
     /*!
