@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: smallarticlelist.php,v 1.11.2.2 2001/10/30 19:34:36 master Exp $
+// $Id: smallarticlelist.php,v 1.11.2.3 2001/11/05 16:44:16 th Exp $
 //
 // Created on: <18-Oct-2000 14:41:37 bf>
 //
@@ -127,7 +127,7 @@ function createSmallArticleList( $generateStaticPage = false )
 		else
 		{
             $t->set_var( "article_link_text", "" );
-        	$t->parse( "read_more_item", "read_more_tpl" );
+        	$t->set_var( "read_more_item", "" );
 		}
 		
         $t->parse( "article_item", "article_item_tpl", true );

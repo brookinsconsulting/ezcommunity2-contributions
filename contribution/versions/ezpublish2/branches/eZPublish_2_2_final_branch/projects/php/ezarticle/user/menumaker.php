@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: menumaker.php,v 1.5 2001/10/11 14:53:50 br Exp $
+// $Id: menumaker.php,v 1.5.2.1 2001/11/05 16:44:15 th Exp $
 //
 // Definition of ||| class
 //
@@ -97,7 +97,7 @@ function menuMaker()
         $t->set_var( "current_category_name", $articleCategory->name() );
         $t->parse( "menu_box", "menu_box_tpl", true );
     }
-    
+   
     foreach( $articleCategory_array as $categoryItem )
     {
         $t->set_var( "menu_header", "" );
