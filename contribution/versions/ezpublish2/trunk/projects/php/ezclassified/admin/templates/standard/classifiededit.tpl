@@ -1,3 +1,37 @@
+<SCRIPT LANGUAGE="JavaScript1.2">
+<!--//
+
+	function MM_swapImgRestore() 
+	{
+		var i,x,a=document.MM_sr; for(i=0;a&&i<a.length&&(x=a[i])&&x.oSrc;i++) x.src=x.oSrc;
+	}
+
+	function MM_preloadImages() 
+	{
+		var d=document; if(d.images){ if(!d.MM_p) d.MM_p=new Array();
+		var i,j=d.MM_p.length,a=MM_preloadImages.arguments; for(i=0; i<a.length; i++)
+		if (a[i].indexOf("#")!=0){ d.MM_p[j]=new Image; d.MM_p[j++].src=a[i];}}
+	}
+
+	function MM_findObj(n, d) 
+	{
+		var p,i,x;  if(!d) d=document; if((p=n.indexOf("?"))>0&&parent.frames.length) {
+		d=parent.frames[n.substring(p+1)].document; n=n.substring(0,p);}
+		if(!(x=d[n])&&d.all) x=d.all[n]; for (i=0;!x&&i<d.forms.length;i++) x=d.forms[i][n];
+		for(i=0;!x&&d.layers&&i<d.layers.length;i++) x=MM_findObj(n,d.layers[i].document); return x;
+	}
+
+	function MM_swapImage() 
+	{
+		var i,j=0,x,a=MM_swapImage.arguments; document.MM_sr=new Array; for(i=0;i<(a.length-2);i+=3)
+		if ((x=MM_findObj(a[i]))!=null){document.MM_sr[j++]=x; if(!x.oSrc) x.oSrc=x.src; x.src=a[i+2];}
+	}
+	
+//-->
+</SCRIPT> 
+
+<div onLoad="MM_preloadImages('/images/redigermini-mrk.gif','/images/slettmini-mrk.gif')"></div>
+
 <form method="post" action="/classified/{action_value}/{classified_id}/">
 
 <h1>{intl-headline}</h1>
@@ -106,6 +140,53 @@
 
 <p class="boxtext">{intl-contact_persons}:</p>
 <!-- <textarea cols="40" rows="8" name="ContactPerson">{classified_contact_person}</textarea> -->
+
+<table class="list" width="100%" cellspacing="0" cellpadding="0" border="0">
+<tr>
+	<th>{intl-person_name}:</th>
+	<th>{intl-person_title}:</th>
+	<th>{intl-email}:</th>
+	<th>{intl-telephone}:</th>
+	<th>{intl-fax}:</th>
+</tr>
+<!-- BEGIN contact_person_item_tpl -->
+<tr>
+	<td class="{td_class}" -->
+	<a href=/contact/person/view/{contact_person_id}>{contact_person_name}</a>
+	</td>
+
+	<td class="{td_class}" -->
+	{contact_person_title}
+	</td>
+
+	<td class="{td_class}" -->
+	{contact_person_mail}
+	</td>
+
+	<td class="{td_class}" -->
+	{contact_person_phone}
+	</td>
+
+	<td class="{td_class}" -->
+	{contact_person_fax}
+	</td>
+
+	<td class="{td_class}" width="1%">
+	<a href="/classified/person/edit/{classified_id}/{contact_person_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezuser{contact_person_id}-red','','/images/redigerminimrk.gif',1)"><img name="ezuser{contact_person_id}-red" border="0" src="/images/redigermini.gif" width="16" height="16" align="top"></a>
+	</td>
+
+	<td class="{td_class}" width="1%">
+	<a href="/classified/person/remove/{classified_id}/{contact_person_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezuser{contact_person_id}-slett','','/images/slettminimrk.gif',1)"><img name="ezuser{contact_person_id}-slett" border="0" src="/images/slettmini.gif" width="16" height="16" align="top"></a>
+	</td>	
+
+</tr>
+<!-- END contact_person_item_tpl -->
+<!-- BEGIN no_contact_person_item_tpl -->
+{intl-no_persons}
+<!-- END no_contact_person_item_tpl -->
+</table>
+
+
 <br /><br />
 
 <table width="100%" cellpadding="0" cellspacing="0" border="0">
