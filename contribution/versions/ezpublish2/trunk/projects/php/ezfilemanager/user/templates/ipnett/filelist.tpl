@@ -20,10 +20,7 @@
 <a class="path" href="/filemanager/list/0/">Kategorier</a>
 -->
 <!-- BEGIN path_item_tpl -->
-<!--
-<img src="/images/path-slash.gif" height="10" width="16" border="0" alt="" />
-<a class="path" href="/filemanager/list/{folder_id}/">{folder_name}</a>
--->
+<a class="path" href="/filemanager/list/{folder_id}/">&gt;&gt; {folder_name}</a>
 <!-- END path_item_tpl -->
 
 <div class="spacer"><div class="p">{current_folder_description}</div></div>
