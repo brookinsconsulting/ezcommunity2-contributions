@@ -1773,6 +1773,9 @@ class eZGroupEvent
        case 'day': // the easy one #uno
        // this moves the date 0 years, 0 months, and the correct amount of days
        // (recurrance frequency * the number of times to repeat) forward
+	   if ($freq == 1)
+        $date->move(0,0, $not);
+	   else
         $date->move(0, 0, (($freq * $not)-1));
        // format this for mysql
         $datet = new eZDateTime($date->year(), $date->month(), $date->day(), $datetime->hour(), $datetime->minute(), $datetime->second());
