@@ -375,7 +375,7 @@ class INIFile
     function error($errmsg) 
     { 
         $this->ERROR = $errmsg; 
-        echo  "Error:".$this->ERROR. "<br>\n"; 
+        echo  "Error:" . $this->ERROR . "<br>\n"; 
         return; 
     }
 
