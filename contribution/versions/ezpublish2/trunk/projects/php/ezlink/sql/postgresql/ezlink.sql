@@ -42,7 +42,7 @@ CREATE TABLE eZLink_Category (
   Parent int NOT NULL,
   Name varchar(100) default NULL,
   ImageID int NOT NULL,
-  Description text,
+  Description varchar(200),
   PRIMARY KEY (ID)
 );
 
@@ -53,6 +53,7 @@ CREATE TABLE eZLink_Attribute (
   Name varchar(150) default NULL,
   Created int default NULL,
   Placement int default 0,
+  Unit varchar(8) default NULL,
   PRIMARY KEY (ID)
 );
 
