@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: cron.php,v 1.3 2001/10/31 07:25:55 jhe Exp $
+// $Id: cron.php,v 1.4 2001/10/31 13:03:53 jhe Exp $
 //
 // Created on: <26-Oct-2001 15:57:39 jhe>
 //
@@ -63,8 +63,8 @@ foreach ( $mailArray as $mail )
         if ( ereg( " #([0-9]+)", $subject, $list ) )
         {
             $support = new eZBugSupport( $list[1] );
-            if ( $support->expiryDate() >= eZDateTime::timeStamp( true ) ) //&&
-//                 $support->userEmail() == $mail->from() )
+            if ( $support->expiryDate() >= eZDateTime::timeStamp( true ) &&
+                 strstr( $mail->from(), $support->userEmail() ) )
             {
                 $validUser = true;
             }
