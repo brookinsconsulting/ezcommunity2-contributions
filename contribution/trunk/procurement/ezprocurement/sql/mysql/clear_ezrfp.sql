@@ -1,0 +1,29 @@
+# Delete Data From Tablses
+
+Delete from eZRfp_Rfp where ID;
+Delete from eZRfp_RfpCategoryDefinition where ID;
+Delete from eZRfp_RfpCategoryLink where ID;
+Delete from eZRfp_RfpFileLink where ID;
+Delete from eZRfp_RfpFormDict where ID;
+Delete from eZRfp_RfpForumLink where ID;
+Delete from eZRfp_RfpImageDefinition where ID;
+Delete from eZRfp_RfpImageLink where ID;
+Delete from eZRfp_RfpKeyword where ID;
+
+Delete from eZRfp_RfpPermission where ID;
+Delete from eZRfp_RfpTypeLink where ID;
+Delete from eZRfp_Attribute where ID;
+Delete from eZRfp_AttributeValue where ID;
+Delete from eZRfp_BulkMailCategoryLink where ID;
+Delete from eZRfp_Category where ID;
+Delete from eZRfp_CategoryPermission where ID;
+Delete from eZRfp_CategoryReaderLink where ID;
+Delete from eZRfp_Log where ID;
+Delete from eZRfp_Topic where ID;
+Delete from eZRfp_Type where ID;
+Delete from eZRfp_RfpMediaLink where ID;
+Delete from eZRfp_RfpWordLink where ID;
+Delete from eZRfp_Word where ID;
+Delete from eZRfp_RfpKeywordFirstLetter where ID;
+Delete from eZRfp_RfpWordLink where ID;
+Delete from eZRfp_Word where ID;

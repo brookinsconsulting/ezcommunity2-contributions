@@ -1,0 +1,27 @@
+<h1>{intl-head_line}</h1>
+
+<p>{intl-author_info}</p>
+
+<!-- BEGIN author_item_tpl -->
+		<div class="{td_class}" style="position:relative; left:0px; right:0px; padding: 3px; z-index:1">
+			
+                        <a href="{www_dir}{index}/rfp/author/view/{author_id}/">{author_name}</a></span>
+
+			<br />
+		   <span class="{td_class}" style="font-size: 12px">
+			<a href="{www_dir}{index}/rfp/author/view/{author_id}/">{author_name}</a></span>
+
+		        <span class="{td_class}" style="font-size: 10px; padding: 7px; position:absolute; right:0px;"> 
+			  {rfp_count}
+			<!--
+			<span class="subdiv">
+			        {rfp_count}
+       			</span>
+			-->
+
+  	             	</span>
+
+		   </span>
+		</div>
+<!-- END author_item_tpl -->
+
