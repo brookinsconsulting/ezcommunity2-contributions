@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezpermission.php,v 1.12 2001/05/04 11:47:26 fh Exp $
+// $Id: ezpermission.php,v 1.13 2001/05/04 13:50:45 bf Exp $
 //
 // Definition of eZCompany class
 //
@@ -425,7 +425,10 @@ class eZPermission
         $module = new eZModule();
         $module = $module->exists( $moduleName );
 
-        if( $user->hasRootAccess() )
+        if( get_class( $user ) != "ezuser" )
+            return false;
+        
+        if ( $user->hasRootAccess() )
             return true;
         
         $ret = false;
