@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezarticle.php,v 1.138 2001/08/09 10:56:07 bf Exp $
+// $Id: ezarticle.php,v 1.139 2001/08/14 10:14:19 bf Exp $
 //
 // Definition of eZArticle class
 //
@@ -1990,7 +1990,6 @@ class eZArticle
                         $publishedCode
                         AND Permission.ObjectID=Article.ID
                         AND Link.ArticleID=Article.ID
-                        AND Category.ID=Link.CategoryID
                         AND Category.ID=Link.CategoryID
                         AND Category.ExcludeFromSearch = '0'
                  ORDER BY $OrderBy";

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: categoryedit.php,v 1.25 2001/07/19 12:19:20 jakobn Exp $
+// $Id: categoryedit.php,v 1.26 2001/08/14 10:14:19 bf Exp $
 //
 // Created on: <18-Sep-2000 14:46:19 bf>
 //
@@ -167,8 +167,6 @@ if ( $Action == "insert" && !$error )
         eZObjectPermission::removePermissions( $categoryID, "article_category", 'r' );
     }
 
-    
-
     $files =& eZCacheFile::files( "ezarticle/cache/",
                                   array( "articlelist", $ParentID, NULL ),
                                   "cache", "," );
@@ -210,7 +208,14 @@ if ( $Action == "update" && !$error )
     if (  $parentCategory->get( $ParentID ) == true )
     {
         $category->setParent( $parentCategory );
-    }    
+    }
+    else if ( $ParentID == 0 )
+    {
+        $category->setParent( 0 );
+    }
+        
+        
+
     $category->setDescription( $Description );
     $category->setSectionID( $SectionID );
 

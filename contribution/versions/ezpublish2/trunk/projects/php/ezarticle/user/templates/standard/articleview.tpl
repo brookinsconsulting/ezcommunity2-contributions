@@ -56,6 +56,8 @@
 {article_body}
 </p>
 
+<br clear="all" />
+
 <!-- BEGIN image_list_tpl -->
 <table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
 <!-- BEGIN image_tpl -->
