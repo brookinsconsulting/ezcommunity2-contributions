@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezpageview.php,v 1.16.2.4 2001/12/02 12:48:02 kaid Exp $
+// $Id: ezpageview.php,v 1.16.2.4.2.1 2002/05/22 12:16:39 pkej Exp $
 //
 // Definition of eZPageView class
 //
@@ -192,8 +192,18 @@ class eZPageView
             $requestURI = $GLOBALS["REQUEST_URI"];
 
             // Remove url parameters
-            ereg( "([^?]+)", $requestURI, $regs);
+            ereg( "([^?]+)-([^?]+)-", $requestURI, $regs);
             $requestURI =& $regs[1];
+            $requestSectionID =& $regs[2];
+            
+            if ( empty( $requestURI ) || $requestURI == "" )
+            {
+                $requestURI = $GLOBALS["REQUEST_URI"];
+                ereg( "([^?]+)", $requestURI, $regs);
+                $requestURI =& $regs[1];
+                #$requestSectionID =& $regs[2];
+            }
+
 
             $db->begin();
             $db->lock( "eZStats_RequestPage" );
@@ -234,6 +244,15 @@ class eZPageView
                 $this->UserID = 0;
             }
             
+            // Get the section of the request
+            $this->RequestSectionID = $requestSectionID;
+            
+            if ( $requestSectionID == "" || empty( $requestSectionID ) )
+            {
+                global $GlobalSiteDesign;
+                $this->RequestSectionID = $GlobalSiteDesign;
+            }
+            
             $db->begin();
             $db->lock( "eZStats_PageView" );
             $nextID = $db->nextID( "eZStats_PageView", "ID" );
@@ -243,13 +262,14 @@ class eZPageView
             $time = eZTime::timeStamp( true );
 
             $result = $db->query( "INSERT INTO eZStats_PageView
-                                ( ID, UserID, BrowserTypeID, RemoteHostID, RefererURLID, RequestPageID, Date, DateValue, TimeValue )
+                                ( ID, UserID, BrowserTypeID, RemoteHostID, RefererURLID, RequestPageID, RequestSectionID, Date, DateValue, TimeValue )
                                 VALUES ( '$nextID',
                                          '$this->UserID',
                                          '$this->BrowserTypeID',
                                          '$this->RemoteHostID',
                                          '$this->RefererURLID',
                                          '$this->RequestPageID',
+                                         '$this->RequestSectionID',
                                          '$now',
                                          '$date',
                                          '$time' )
@@ -307,6 +327,7 @@ class eZPageView
                 $this->RemoteHostID =& $pageview_array[0][$db->fieldName( "RemoteHostID" )];
                 $this->RefererURLID =& $pageview_array[0][$db->fieldName( "RefererURLID" )];
                 $this->RequestPageID =& $pageview_array[0][$db->fieldName( "RequestPageID" )];
+                $this->RequestSectionID =& $pageview_array[0][$db->fieldName( "RequestSectionID" )];
 
                 // fetch the remote IP and domain
                 $db->array_query( $pageview_array,
@@ -401,6 +422,14 @@ class eZPageView
     {
         return $this->RequestPage;
     }
+
+    /*!
+      Returns the requested section
+    */
+    function requestSectionID()
+    {
+        return $this->RequestSectionID;
+    }
     
 
     /*!
@@ -426,6 +455,7 @@ class eZPageView
     var $RemoteHostID;
     var $RefererID;
     var $RequestPageID;
+    var $RequestSectionID;
 
     var $BrowserType;
     var $RemoteIP;
