@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: articlelist.php,v 1.39 2001/03/27 09:54:41 jb Exp $
+// $Id: articlelist.php,v 1.40 2001/04/05 14:07:47 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <18-Oct-2000 14:41:37 bf>
@@ -42,7 +42,7 @@ $ImageDir = $ini->read_var( "eZArticleMain", "ImageDir" );
 $CapitalizeHeadlines = $ini->read_var( "eZArticleMain", "CapitalizeHeadlines" );
 $DefaultLinkText =  $ini->read_var( "eZArticleMain", "DefaultLinkText" );
 $UserListLimit = $ini->read_var( "eZArticleMain", "UserListLimit" );
-
+$GrayScaleImageList = $ini->read_var( "eZArticleMain", "GrayScaleImageList" );
 
 $t = new eZTemplate( "ezarticle/user/" . $ini->read_var( "eZArticleMain", "TemplateDir" ),
                      "ezarticle/user/intl/", $Language, "articlelist.php" );
@@ -196,8 +196,13 @@ foreach ( $articleList as $article )
         $thumbnailImage = $article->thumbnailImage();
         if ( $thumbnailImage )
         {
+            if ( $GrayScaleImageList == "enabled" )
+                $convertToGray = true;
+            else
+                $convertToGray = false;
+            
             $variation =& $thumbnailImage->requestImageVariation( $ini->read_var( "eZArticleMain", "ThumbnailImageWidth" ),
-            $ini->read_var( "eZArticleMain", "ThumbnailImageHeight" ));
+            $ini->read_var( "eZArticleMain", "ThumbnailImageHeight" ), $convertToGray );
     
             $t->set_var( "thumbnail_image_uri", "/" . $variation->imagePath() );
             $t->set_var( "thumbnail_image_width", $variation->width() );
