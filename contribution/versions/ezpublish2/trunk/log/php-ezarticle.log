@@ -3570,3 +3570,13 @@ Maintainer(s) : bf@ez.no
 
     * classes/ezqdomrenderer.php: Fixed rendering of nexted tables.
 
+
+Module : ezarticle
+Repository path : /home/cvsroot/projects/php/ezarticle
+Maintainer(s) : bf@ez.no
+2003-02-10  wy  <wy@zev.ez.no>
+
+    * classes/ezqdomrenderer.php:
+    Fixed bug in warning message "\{\{" with mail tag.
+    CV: ----------------------------------------------------------------------
+
