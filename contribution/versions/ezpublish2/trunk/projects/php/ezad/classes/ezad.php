@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezad.php,v 1.12 2001/01/24 16:18:05 gl Exp $
+// $Id: ezad.php,v 1.13 2001/02/23 15:58:21 ce Exp $
 //
 // Definition of eZAd class
 //
@@ -495,11 +495,11 @@ class eZAd
     {
        $this->dbInit();
 
-       $this->Database->array_query( $view_result, "SELECT count(*) AS Count FROM
+       $this->Database->array_query( $view_result, "SELECT ViewCount FROM
                                                        eZAd_View
                                                        WHERE AdID='$this->ID'" );
 
-       return $view_result[0]["Count"];
+       return $view_result[0]["ViewCount"];
     }
   
     /*!
