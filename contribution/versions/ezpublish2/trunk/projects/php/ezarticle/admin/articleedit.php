@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: articleedit.php,v 1.42 2001/02/22 13:57:00 jb Exp $
+// $Id: articleedit.php,v 1.43 2001/02/22 18:40:29 jb Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <18-Oct-2000 15:04:39 bf>
@@ -39,9 +39,23 @@ include_once( "ezarticle/classes/ezarticlerenderer.php" );
 
 function deleteCache( $ArticleID, $CategoryID, $CategoryArray )
 {
+    $user = eZUser::currentUser();
+    $groupstr = "";
+    if( get_class( $user ) == "ezuser" )
+    {
+        $groupIDArray = $user->groups( true );
+        sort( $groupIDArray );
+        $first = true;
+        foreach( $groupIDArray as $groupID )
+        {
+            $first ? $groupstr .= "$groupID" : $groupstr .= "-$groupID";
+            $first = false;
+        }
+    }
+
     $files = eZCacheFile::files( "ezarticle/cache/",
                                  array( array( "articleprint", "articleview", "articlestatic" ),
-                                        $ArticleID, NULL ), "cache", "," );
+                                        $ArticleID, NULL, $groupstr ), "cache", "," );
     foreach( $files as $file )
     {
         $file->delete();
@@ -49,12 +63,15 @@ function deleteCache( $ArticleID, $CategoryID, $CategoryArray )
 
     $files = eZCacheFile::files( "ezarticle/cache/",
                                  array( "articlelist",
-                                        array_merge( $CategoryID, $CategoryArray ), NULL ),
+                                        array_merge( 0, $CategoryID, $CategoryArray ),
+                                        NULL, $groupstr ),
                                  "cache", "," );
     foreach( $files as $file )
     {
         $file->delete();
     }
+
+//      exit();
 }
 
 if ( isset ( $DeleteArticles ) )
@@ -427,14 +444,11 @@ if ( $Action == "DeleteArticles" )
             {
                 $categoryIDArray[] = $cat->id();
             }
-    
-    
-            // clear the cache files.
-            deleteCache( $ArticleID, $CategoryID, $CategoryArray );
+            $categoryID = $article->categoryDefinition();
+            $categoryID = $categoryID->id();
 
-            $categories = $article->categories();
-            $categoryID = $categories[0]->id();
-    
+            // clear the cache files.
+            deleteCache( $ArticleID, $categoryID, $categoryIDArray );
             $article->delete();
         }
         eZHTTPTool::header( "Location: /article/archive/$categoryID/" );

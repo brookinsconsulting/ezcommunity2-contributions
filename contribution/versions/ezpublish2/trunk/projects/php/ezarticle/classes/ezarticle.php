@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezarticle.php,v 1.42 2001/02/22 17:04:48 fh Exp $
+// $Id: ezarticle.php,v 1.43 2001/02/22 18:40:29 jb Exp $
 //
 // Definition of eZArticle class
 //
@@ -936,14 +936,46 @@ class eZArticle
                     eZArticle_Category.ExcludeFromSearch = 'false'
                     GROUP BY eZArticle_Article.ID ORDER BY $OrderBy" );
  
-       for ( $i=0; $i<count($article_array); $i++ )
+       for ( $i=0; $i < count($article_array); $i++ )
        {
            $return_array[$i] = new eZArticle( $article_array[$i]["ArticleID"], false );
        }
        
        return $return_array;
     }
-    
+
+    /*!
+      Returns the number of articles available.
+    */
+    function articleCount( $fetchNonPublished=true )
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+       $this->dbInit();
+
+       $return_array = array();
+       $article_array = array();
+
+       if ( !$fetchNonPublished )
+       {
+           $fetch_text = "AND eZArticle_Article.IsPublished = 'true'";
+       }
+       $this->Database->array_query( $article_array, "
+                    SELECT eZArticle_Article.ID
+                    FROM eZArticle_Article, eZArticle_Category, eZArticle_ArticleCategoryLink 
+                    WHERE 
+                    eZArticle_ArticleCategoryLink.ArticleID = eZArticle_Article.ID
+                    AND
+                    eZArticle_Category.ID = eZArticle_ArticleCategoryLink.CategoryID
+                    $fetch_text
+                    AND
+                    eZArticle_Category.ExcludeFromSearch = 'false'
+                    GROUP BY eZArticle_Article.ID" );
+
+       return count( $article_array );
+    }
+
     /*!
       Returns every article in every category sorted by time.
     */

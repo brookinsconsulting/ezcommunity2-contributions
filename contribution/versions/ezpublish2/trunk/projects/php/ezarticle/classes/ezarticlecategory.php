@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezarticlecategory.php,v 1.31 2001/02/22 17:04:48 fh Exp $
+// $Id: ezarticlecategory.php,v 1.32 2001/02/22 18:40:29 jb Exp $
 //
 // Definition of eZArticleCategory class
 //
@@ -832,11 +832,11 @@ class eZArticleCategory
                 $excludedCode  
                 GROUP BY eZArticle_Article.ID ORDER BY $OrderBy LIMIT $offset,$limit" );
  
-       for ( $i=0; $i<count($article_array); $i++ )
+       for ( $i=0; $i < count($article_array); $i++ )
        {
            $return_array[$i] = new eZArticle( $article_array[$i]["ArticleID"], false );
        }
-       
+
        return $return_array;
     }
 
@@ -865,7 +865,7 @@ class eZArticleCategory
        }
        else
        {
-           $excludedCode = "";           
+           $excludedCode = "";
        }
 
        if ( $fetchAll  == true )             // fetch all articles

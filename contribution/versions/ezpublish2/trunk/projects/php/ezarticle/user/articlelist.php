@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: articlelist.php,v 1.30 2001/02/22 17:04:48 fh Exp $
+// $Id: articlelist.php,v 1.31 2001/02/22 18:40:30 jb Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <18-Oct-2000 14:41:37 bf>
@@ -28,6 +28,7 @@
 include_once( "classes/INIFile.php" );
 include_once( "classes/eztemplate.php" );
 include_once( "classes/ezlocale.php" );
+include_once( "classes/ezlist.php" );
 
 include_once( "ezarticle/classes/ezarticlecategory.php" );
 include_once( "ezarticle/classes/ezarticle.php" );
@@ -145,7 +146,7 @@ else
 
 
 // set the offset/limit
-if ( !isset( $Offset ) )
+if ( !isset( $Offset ) or !is_numeric( $Offset ) )
     $Offset = 0;
 
 $Limit = $UserListLimit;
@@ -156,13 +157,17 @@ if ( $CategoryID == 0 )
     // do not set offset for the main page news
     // always sort by publishing date is the merged category
     $article = new eZArticle();
-    $articleList = $article->articles( "time", false, 0, $Limit );
+    $articleList = $article->articles( "time", false, $Offset, $Limit );
+    $articleCount = $article->articleCount( false );
+    print( $articleCount );
 }
 else
 {
     $articleList = $category->articles( $category->sortMode(), false, true, false, $Offset, $Limit );
     $articleCount = $category->articleCount( false, true, false );
 }
+
+$t->set_var( "category_current_id", $CategoryID );
 
 $locale = new eZLocale( $Language );
 $i=0;
@@ -232,30 +237,7 @@ foreach ( $articleList as $article )
     $i++;
 }
 
-
-$prevOffs = $Offset - $Limit;
-$nextOffs = $Offset + $Limit;
-        
-if ( $prevOffs >= 0 and !$NoNavigators )
-{
-    $t->set_var( "prev_offset", $prevOffs  );
-    $t->parse( "previous", "previous_tpl" );
-}
-else
-{
-    $t->set_var( "previous", "" );
-}
-        
-if ( $nextOffs <= $articleCount and !$NoNavigators )
-{
-    $t->set_var( "next_offset", $nextOffs  );
-    $t->parse( "next", "next_tpl" );
-}
-else
-{
-    $t->set_var( "next", "" );
-}
-
+eZList::drawNavigator( $t, $articleCount, $Limit, $Offset, "article_list_page_tpl" );
 
 if ( count( $articleList ) > 0 )    
     $t->parse( "article_list", "article_list_tpl" );
