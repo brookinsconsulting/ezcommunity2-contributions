@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: sitemap.php,v 1.4 2001/09/16 18:44:57 bf Exp $
+// $Id: sitemap.php,v 1.5 2001/09/16 18:46:57 bf Exp $
 //
 // Created on: <06-Jun-2001 17:05:38 bf>
 //
@@ -61,18 +61,19 @@ foreach ( $treeArray as $catItem )
     if ( eZObjectPermission::hasPermission( $catItem[0]->id(), "article_category", 'r', $user ) == true  ||
          eZArticleCategory::isOwner( eZUser::currentUser(), $catItem[0]->id() ) )
     {    
-        $option_level = str_repeat( "&nbsp;&nbsp;&nbsp;&nbsp;", $catItem[1] );
-
-        $t->set_var( "option_value", $catItem[0]->id() );
-        $t->set_var( "option_name", $catItem[0]->name() );
-        $t->set_var( "option_level", $option_level );
-
-        $t->parse( "value", "category_value_tpl", true );    
 
         $category = new eZArticleCategory( $catItem[0]->id() );
 
         if ( $category->excludeFromSearch() == false )
         {
+            $option_level = str_repeat( "&nbsp;&nbsp;&nbsp;&nbsp;", $catItem[1] );
+
+            $t->set_var( "option_value", $catItem[0]->id() );
+            $t->set_var( "option_name", $catItem[0]->name() );
+            $t->set_var( "option_level", $option_level );
+
+            $t->parse( "value", "category_value_tpl", true );    
+            
             $articleList =& $category->articles( 1, false, true, 0, 50 );
 
             foreach ( $articleList as $article )
