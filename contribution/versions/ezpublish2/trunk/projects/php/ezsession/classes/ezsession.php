@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezsession.php,v 1.20 2001/01/21 18:15:51 jb Exp $
+// $Id: ezsession.php,v 1.21 2001/01/22 07:12:05 bf Exp $
 //
 // Definition of eZSession class
 //
@@ -162,12 +162,19 @@ class eZSession
     /*!
       Fetches a session from cookie and database.
 
+      Fetches a session and stores the result in the global session object. 
+
       Returnes false if unsuccessful.
     */
     function fetch( $refresh=true )
     {
-        $db =& eZDB::globalDatabase();
         $ret = false;
+        
+        $globalSessionIsFetched =& $GLOBALS["eZSessionObjectIsFetched"];
+        if ( $globalSessionIsFetched != "true" )
+        {
+            $db =& eZDB::globalDatabase();
+            $ret = false;
 
 //          if ( session_is_registered("eZSession") )
 //          {
@@ -178,24 +185,32 @@ class eZSession
 //              print("variable not registered" );
 //          }
 //          $hash = $HTTP_SESSION_VARS["eZSession"];
+            
         
-        $hash = $GLOBALS["eZSession"];
-
-        $db->array_query( $session_array, "SELECT ID
+            $hash = $GLOBALS["eZSession"];
+            
+            $db->array_query( $session_array, "SELECT ID
                                       FROM eZSession_Session
                                       WHERE Hash='$hash'" );
-
-        if ( count( $session_array ) == 1 )
-        {
-            $ret = $this->get( $session_array[0]["ID"] );
-
-            if ( $refresh == true )
+            
+            if ( count( $session_array ) == 1 )
             {
-                $this->refresh();
+                $ret = $this->get( $session_array[0]["ID"] );
+                
+                if ( $refresh == true )
+                {
+                    $this->refresh();
+                }
             }
+            
+            $globalSessionIsFetched = "true";
+        }
+        else
+        {
+            $ret = true;
         }
         
-        return $ret;        
+        return $ret;
     }
 
     /*!
@@ -380,6 +395,8 @@ class eZSession
       \static
       Returns a reference to the global session object, if it doesn't exists it is initialized.
       This is safe to call without an object since it does not access member variables.
+
+      Do not call this method unless you want to fetch the global session variable.
     */
     function &globalSession( $id="", $fetch=true )
     {

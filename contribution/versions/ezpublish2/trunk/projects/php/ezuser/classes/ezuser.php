@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezuser.php,v 1.38 2001/01/21 18:11:45 jb Exp $
+// $Id: ezuser.php,v 1.39 2001/01/22 07:12:05 bf Exp $
 //
 // Definition of eZCompany class
 //
@@ -506,17 +506,16 @@ class eZUser
     */
     function currentUser()
     {
-        $session = eZSession::globalSession();
+        $session =& eZSession::globalSession();
 
         $returnValue = false;
         
         if ( $session->fetch( false ) )
         {
-            $val = $session->variable( "AuthenticatedUser" );
+            $val =& $session->variable( "AuthenticatedUser" );
             $user = new eZUser( $val );
 
 //              print( $session->variable( "AuthenticatedUser" ) );
-//              print( "bla" );
 
             $idle = $session->idle();
             $idle = $idle / 60;
@@ -546,7 +545,7 @@ class eZUser
     */
     function currentUsers()
     {
-        $session = eZSession::globalSession();
+        $session =& eZSession::globalSession();
 
         $ret = array();
 
@@ -554,21 +553,23 @@ class eZUser
 
         foreach ( $sessionIDArray as $sessionID )
         {
-            $session = eZSession::globalSession( $sessionID );
+            $session = new eZSession( $sessionID );
 
             $user = new eZUser( $session->variable( "AuthenticatedUser" ) );
 
             $idle = $session->idle();
             $idle = $idle / 60;
-                 
-            if ( $idle > $user->timeoutValue() )
+
+            if ( ( $idle > $user->timeoutValue() ) && ( $user->timeoutValue() != 0  ) )
             {
-//                  $session->delete( );                
+                $session->delete( );                
             }
             else            
             {
                 if ( ( $user->id() != 0 ) && ( $user->id() != "" ) )
                 {
+
+                    
                     $ret[] = array( $user, $session );
                 }
             }
