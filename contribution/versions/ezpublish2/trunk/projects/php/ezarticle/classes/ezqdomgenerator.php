@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezqdomgenerator.php,v 1.38 2001/10/16 07:52:08 bf Exp $
+// $Id: ezqdomgenerator.php,v 1.39 2001/10/17 10:51:32 bf Exp $
 //
 // Definition of eZQDomGenerator class
 //
@@ -1022,7 +1022,7 @@ class eZQDomGenerator
                 {
                     if ( $child->name == "text" )
                     {                
-                        $content .= eZTextTool::nl2br( $child->content );
+                        $content .= $child->content;
                     }
                     else
                     {
