@@ -11,14 +11,23 @@ Changes from version 2.0 beta 2
 * Added banner ads in templates
 * Removed some status/type admin pages, added buttons in listings instead
 * Changed over to use mass update forms for category types and similar short lists with litle information
-* Deletion isn't done on an item to item basis, but with a select items then select delete functionality
+* Deletion isn't done on an item to item basis, but with a checkboxes for each item then delete checked
+* Added proper deletion checks; now there are fewer cases where something belonging to objects in use can be deleted
+* Removed unsued files and clutter
+* Quite a few language fixes
 * Fixed bugs
 
 Changes from version 2.0 beta 1
 -------------------------------
 * Forums can be assigned to certain user groups for posting and reading
 * Templates changed
-* Small article list.
+* Top referers and read pages working in stats
+* Yearly, daily and monthly reports in stats
+* Entry/exit pages analysed by stats
+* Bugs shows date and who commited them
+* Small article list
+* Added mass delete functionality
+* Quite a few language fixes
 * Fixed bugs
 
 
