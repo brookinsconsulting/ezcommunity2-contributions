@@ -125,8 +125,6 @@
 	<!-- END price_tpl -->	
 	</td>
 	<td align="right">
-	bla
-
 	<!-- BEGIN external_link_tpl -->
 	<p class="boxtext">{intl-external_link}:</p>
 	<a href="{external_link_url}" target="_blank">{external_link_url}</a>

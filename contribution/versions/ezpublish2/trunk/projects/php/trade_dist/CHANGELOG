@@ -1,5 +1,12 @@
+eZ trade changelog:
+-------------------
+
+Changes from version 1.0.2
+--------------------------
+* Removed debug output from product view template.
+
 Changes from version 1.0.1
--------------------------
+--------------------------
 * Added multiple assignments of products.
 * Added hot deals on products.
 * Added clickable thumbnail images on product view.
