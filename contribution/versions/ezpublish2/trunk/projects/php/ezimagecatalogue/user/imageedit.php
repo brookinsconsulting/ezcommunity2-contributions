@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: imageedit.php,v 1.41 2001/09/06 09:05:29 ce Exp $
+// $Id: imageedit.php,v 1.42 2001/09/07 14:44:37 fh Exp $
 //
 // Created on: <09-Jan-2001 10:45:44 ce>
 //
@@ -228,12 +228,27 @@ if ( $Action == "Insert" && $error == false )
 {
     $image = new eZImage();
     $image->setName( $Name );
-    $image->setPhotographer( $PhotoID );
     $image->setCaption( $Caption );
     $image->setDescription( $Description );
     $image->setUser( $user );
 
     $image->setImage( $file );
+
+
+    if ( trim( $NewPhotographerName ) != "" &&
+         trim( $NewPhotographerEmail ) != ""
+         )
+    {
+        $author = new eZAuthor( );
+        $author->setName( $NewPhotographerName );
+        $author->setEmail( $NewPhotographerEmail );
+        $author->store();
+        $image->setPhotographer( $author );
+    }
+    else
+    {
+        $image->setPhotographer( $PhotoID );
+    }
 
     $image->store();
 
@@ -285,7 +300,21 @@ if ( $Action == "Update" && $error == false )
 {
     $image = new eZImage( $ImageID );
     $image->setName( $Name );
-    $image->setPhotographer( $PhotoID );
+    if ( trim( $NewPhotographerName ) != "" &&
+         trim( $NewPhotographerEmail ) != ""
+         )
+    {
+        $author = new eZAuthor( );
+        $author->setName( $NewPhotographerName );
+        $author->setEmail( $NewPhotographerEmail );
+        $author->store();
+        $image->setPhotographer( $author );
+    }
+    else
+    {
+        $image->setPhotographer( $PhotoID );
+    }
+
     $image->setCaption( $Caption );
 
     $image->setDescription( $Description );

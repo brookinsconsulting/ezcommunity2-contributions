@@ -54,6 +54,19 @@
 <option value="{photo_id}" {selected}>{photo_name}</option>
 <!-- END photographer_item_tpl -->
 </select>
+<table width="100%" cellspacing="0" cellpadding="0" border="0">
+<tr>
+	<td>
+	<p class="boxtext">{intl-new_photographer_name}:</p>
+	<input class="halfbox" type="text" name="NewPhotographerName" size="20" value="" />
+	</td>
+	<td>
+	<p class="boxtext">{intl-new_photographer_email}:</p>
+	<input class="halfbox" type="text" name="NewPhotographerEmail" size="20" value="" />
+	</td>
+</tr>
+</table>
+
 
 <p class="boxtext">{intl-category}:</p>
 <select name="CategoryID">
