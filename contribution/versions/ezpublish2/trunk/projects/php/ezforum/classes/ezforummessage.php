@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezforummessage.php,v 1.45 2000/10/11 16:47:49 bf-cvs Exp $
+// $Id: ezforummessage.php,v 1.46 2000/10/12 12:26:18 bf-cvs Exp $
 //
 // Definition of eZCompany class
 //
@@ -74,7 +74,6 @@ class eZForumMessage
 		                         Topic='$this->Topic',
 		                         Body='$this->Body',
 		                         UserId='$this->UserID',
-		                         PostingTime='$this->PostingTime',
 		                         Parent='$this->ParentID',
 		                         EmailNotice='$this->EmailNotice'
                                  " );
@@ -90,7 +89,6 @@ class eZForumMessage
 		                         Topic='$this->Topic',
 		                         Body='$this->Body',
 		                         UserId='$this->UserID',
-		                         PostingTime='$this->PostingTime',
 		                         Parent='$this->ParentID',
 		                         EmailNotice='$this->EmailNotice'
                                  WHERE ID='$this->ID'
@@ -184,7 +182,7 @@ class eZForumMessage
     {
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
-        
+
         return $this->ForumID;
     }
     
@@ -220,12 +218,12 @@ class eZForumMessage
     /*!
       
     */      
-    function setParent($newParent)
+    function setParent( $newParent )
     {
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
         
-        $this->Parent = $newParent;    
+        $this->ParentID = $newParent;    
     }
 
     /*!
@@ -309,8 +307,7 @@ class eZForumMessage
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
         
-        
-        $this->UserId = $newUserId;
+        $this->UserID = $newUserId;
     }
 
     /*!
@@ -443,30 +440,26 @@ class eZForumMessage
     }
 
     /*!
-      getTopMessage
+      Returns the first message in a thread as a eZForumMessage object.
       
-      Gets the top message of a thread.
       *warning* This function is recursive!
      */
-    function getTopMessage( $id )
+    function threadTop( &$msg )
     {
-        $ret_id = "";
-
         $this->dbInit();
 
-        $msg = new eZForumMessage( );
-        $msg->get( $id );
+        $ret = 0;
         
-        if ( $msg->parent() != "" )
+        if ( $msg->parent() != 0 )
         {
-            $ret_id = $this->getTopMessage( $msg->parent() );
+            $ret = $this->threadTop( $msg->parent() );
         }
         else
         {
-            $ret_id = $msg->id( );
+            $ret = $msg;
         }
         
-        return $ret_id;
+        return $ret;
     }
 
 

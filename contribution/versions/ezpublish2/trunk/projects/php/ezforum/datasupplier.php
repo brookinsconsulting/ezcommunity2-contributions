@@ -1,7 +1,7 @@
 <?
 //print $REQUEST_URI;
 
-$url_array = explode( "/", $REQUEST_URI );
+//  $url_array = explode( "/", $REQUEST_URI );
 
 switch ( $url_array[2] )
 {
@@ -9,6 +9,14 @@ switch ( $url_array[2] )
         include( "ezforum/main.php" );
         break;
 
+    case "reply" :
+    {
+        $Action = "Reply";
+        $ReplyID = $url_array[3];
+        include( "ezforum/replymessage.php" );
+    }    
+    break;
+        
     case "category" :
         if ( $url_array[3] == "forum" )
         {
@@ -23,14 +31,17 @@ switch ( $url_array[2] )
                 $forum_id = $url_array[5];
                 include( "ezforum/newmessage.php" );                
             }
+            else if ( $url_array[4] == "post" )
+            {
+                $Action = "post";
+                $forum_id = $url_array[5];
+                include( "ezforum/forum.php" );                
+            }
             else if ( $url_array[4] == "replymessage" )
             {
-                $forum_id = $url_array[5];
-                $category_id = $url_array[6];
-                $parent = $url_array[7];
+                $ReplyID = $url_array[5];
                 include( "ezforum/replymessage.php" );                
             }
-
             else                
             {
                 $forum_id = $url_array[4];

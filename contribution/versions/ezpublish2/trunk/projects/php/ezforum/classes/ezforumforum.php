@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezforumforum.php,v 1.17 2000/10/11 16:47:49 bf-cvs Exp $
+// $Id: ezforumforum.php,v 1.18 2000/10/12 12:26:18 bf-cvs Exp $
 //
 // Definition of eZCompany class
 //
@@ -164,7 +164,7 @@ class eZForumForum
 
        $this->Database->array_query( $message_array, "SELECT Id as ID FROM
                                                        ezforum_MessageTable
-                                                       WHERE ForumId='$this->ID'" );
+                                                       WHERE ForumId='$this->ID' ORDER BY PostingTime DESC" );
 
        $ret = array();
 
@@ -188,26 +188,25 @@ class eZForumForum
        $this->dbInit();
 
        $message_array = array();
+       $ret = array();
+       
        if ( get_class( $parent ) == "ezforummessage" )
        {
            $parentID = $parent->id();
            
            $this->Database->array_query( $message_array, "SELECT Id as ID FROM
                                                        ezforum_MessageTable
-                                                       WHERE ForumId='$forumID' AND Parent='$parentID'" );
+                                                       WHERE ForumId='$forumID' AND Parent='$parentID' ORDER BY PostingTime DESC" );
            
        }
        else
        {
            $this->Database->array_query( $message_array, "SELECT Id as ID FROM
                                                        ezforum_MessageTable
-                                                       WHERE ForumId='$forumID'" );
+                                                       WHERE ForumId='$forumID' ORDER BY PostingTime DESC" );
            
        }
        
-       // create an empty array the first time
-       if ( $parent == 0 )
-           $ret = array();
 
        foreach ( $message_array as $message )
        {

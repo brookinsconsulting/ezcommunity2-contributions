@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: message.php,v 1.27 2000/10/11 16:47:49 bf-cvs Exp $
+// $Id: message.php,v 1.28 2000/10/12 12:26:18 bf-cvs Exp $
 //
 // 
 //
@@ -62,21 +62,29 @@ $user = $message->user();
 
 $t->set_var( "user", $user->firstName() . " " . $user->lastName() );
 
+$t->set_var( "topic", $message->topic() );
+
 $t->set_var( "postingtime", $message->postingTime() );
 $t->set_var( "body", nl2br( $message->body() ) );
 
-$t->set_var( "reply_id", $message_id );
+$t->set_var( "reply_id", $message->id() );
+
 $t->set_var( "forum_id", $forum->id() );
 
 
+$topMessage = $message->threadTop( $message );
+
+
 // print out the replies tree
-$messages = $forum->messageTree( $forum->id(), 0, 2 );
+
+$messages = $forum->messageTree( $forum->id(), $topMessage, 2 );
 
 //  $messages = $forum->messages();
 
 $locale = new eZLocale( $Language );
 
 $level = 0;
+
 foreach ( $messages as $message )
 {
     $level = $message->level();
@@ -86,7 +94,7 @@ foreach ( $messages as $message )
     else
         $t->set_var( "spacer", "" );
     
-    $t->set_var( "topic", $message->topic() );
+    $t->set_var( "reply_topic", $message->topic() );
 
     $t->set_var( "postingtime", $locale->format( $message->postingTime() ) );
 

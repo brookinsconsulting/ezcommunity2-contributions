@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: forum.php,v 1.40 2000/10/12 11:00:29 ce-cvs Exp $
+// $Id: forum.php,v 1.41 2000/10/12 12:26:18 bf-cvs Exp $
 //
 // 
 //
@@ -19,6 +19,7 @@ $ini = new INIFile( "site.ini" ); // get language settings
 
 include_once( "classes/eztemplate.php" );
 include_once( "classes/ezlocale.php" );
+include_once( "ezuser/classes/ezuser.php" );
 
 include_once( "ezforum/classes/ezforummessage.php" );
 include_once( "ezforum/classes/ezforumcategory.php" );
@@ -53,15 +54,27 @@ $msg = new eZForumMessage( $forum_id );
 // new posting
 if ( $Action == "post" )
 {
-    $msg->newMessage();
-    $msg->setTopic( $Topic );
-    $msg->setBody( $Body );
-    $msg->setUserId( $UserID );
+    print( "post" );
+    $message = new eZForumMessage();
+
+    $message->setForumID( $forum_id );
+    $message->setTopic( $Topic );
+    $message->setBody( $Body );
+
+    $user = eZUser::currentUser();
+
+    print( $user->id() );
+    
+    $message->setUserId( $user->id() );
+
     if ( $notice )
-        $msg->enableEmailNotice();
+        $message->enableEmailNotice();
     else
-        $msg->disableEmailNotice();
-    $msg->store();
+        $message->disableEmailNotice();
+
+    $message->store();
+
+    Header( "Location: /forum/category/forum/$forum_id/" );
 }
 
 // reply
