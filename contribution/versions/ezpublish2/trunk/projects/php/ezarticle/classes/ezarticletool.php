@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezarticletool.php,v 1.1 2001/04/27 12:13:25 jb Exp $
+// $Id: ezarticletool.php,v 1.2 2001/04/27 13:23:57 jb Exp $
 //
 // Definition of eZArticleTool class
 //
@@ -26,12 +26,21 @@
 //
 
 //!! 
-//! The class eZArticleTool does
+//! The class eZArticleTool has functions for article handling.
 /*!
 
 */
 
 include_once( "classes/ezcachefile.php" );
+include_once( "classes/INIFile.php" );
+include_once( "classes/eztemplate.php" );
+include_once( "classes/eztexttool.php" );
+
+include_once( "ezarticle/classes/ezarticlerenderer.php" );
+include_once( "ezuser/classes/ezuser.php" );
+
+include_once( "ezbulkmail/classes/ezbulkmail.php" );
+include_once( "ezbulkmail/classes/ezbulkmailcategory.php" );
 
 class eZArticleTool
 {
@@ -42,18 +51,6 @@ class eZArticleTool
     function deleteCache( $ArticleID, $CategoryID, $CategoryArray )
     {
         $user = eZUser::currentUser();
-/*    $groupstr = "";
-      if( get_class( $user ) == "ezuser" )
-      {
-      $groupIDArray = $user->groups( true );
-      sort( $groupIDArray );
-      $first = true;
-      foreach( $groupIDArray as $groupID )
-      {
-      $first ? $groupstr .= "$groupID" : $groupstr .= "-$groupID";
-      $first = false;
-      }
-      }*/
 
         $files =& eZCacheFile::files( "ezarticle/cache/",
                                       array( array( "articleprint", "articleview", "articlestatic", "static", "view", "print"  ),
@@ -92,6 +89,71 @@ class eZArticleTool
         foreach( $files as $file )
         {
             $file->delete();
+        }
+    }
+
+    function notificationMessage( &$article )
+    {
+        include_once( "classes/eztexttool.php" );
+        $ini =& INIFile::globalINI();
+
+        $PublishNoticeReceiver = $ini->read_var( "eZArticleMain", "PublishNoticeReceiver" );
+        $PublishNoticeSender = $ini->read_var( "eZArticleMain", "PublishNoticeSender" );
+        $PublishNoticePadding = $ini->read_var( "eZArticleMain", "PublishNoticePadding" );
+        $PublishSite = $ini->read_var( "site", "SiteTitle" );
+        $SiteURL = $ini->read_var( "site", "SiteURL" );
+
+        $mailTemplate = new eZTemplate( "ezarticle/admin/" . $ini->read_var( "eZArticleMain", "AdminTemplateDir" ),
+                                        "ezarticle/admin/intl", $ini->read_var( "eZArticleMain", "Language" ), "mailtemplate.php" );
+    
+        $mailTemplate->set_file( "mailtemplate", "mailtemplate.tpl" );
+        $mailTemplate->setAllStrings();
+
+        $renderer = new eZArticleRenderer( $article );
+
+        $subjectLine = $mailTemplate->Ini->read_var( "strings", "subject" );
+        $subjectLine = $subjectLine . " " . $PublishSite;
+
+        $intro = eZTextTool::linesplit(strip_tags( $renderer->renderIntro( ) ), $PublishNoticePadding, 76 );
+
+        $mailTemplate->set_var( "body", "$intro" );
+        $mailTemplate->set_var( "site", "$PublishSite" );
+        $mailTemplate->set_var( "title", $article->name( false ) );
+        $mailTemplate->set_var( "author", $article->authorText( false ) );
+    
+        $mailTemplate->set_var( "link", "http://" . $SiteURL . "/article/articleview/" . $article->id() );
+
+        $bodyText = $mailTemplate->parse( "dummy", "mailtemplate" );
+    
+        // send a notice mail
+        $noticeMail = new eZMail();
+
+        $noticeMail->setFrom( $PublishNoticeSender );
+        $noticeMail->setTo( $PublishNoticeReceiver );
+
+        $noticeMail->setSubject( $subjectLine );
+        $noticeMail->setBodyText( $bodyText );
+
+        $noticeMail->send();
+
+        // Send bulkmail also
+        $BulkMailGroup = $ini->read_var( "eZArticleMain", "BulkMailNotifyGroup" );
+        $category = eZBulkMailCategory::getByName( $BulkMailGroup );
+
+        if( is_object( $category ) ) // send a mail to this group
+        {
+            $bulkmail = new eZBulkMail();
+            $bulkmail->setOwner( eZUser::currentUser() );
+
+            $bulkmail->setSender( $PublishNoticeSender  ); // from NAME
+            $bulkmail->setSubject( $subjectLine );
+            $bulkmail->setBodyText( $bodyText );
+
+            $bulkmail->setIsDraft( false );
+    
+            $bulkmail->store();
+            $category->addMail( $bulkmail );
+            $bulkmail->send();
         }
     }
 
