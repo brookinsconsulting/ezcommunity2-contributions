@@ -36,13 +36,13 @@ switch ( $url_array[2] )
     {
         switch( $url_array[3] )
         {
-            case "list":
-            {
-                $PersonID = $url_array[4];
-                $Action = "list";
-                include( "ezcontact/user/personlist.php" );
-                break;
-            }
+            #case "list":
+            #{
+            #    $PersonID = $url_array[4];
+            #    $Action = "list";
+            #    include( "ezcontact/user/personlist.php" );
+            #    break;
+            #}
             case "new":
             {
                 $Action = "new";
