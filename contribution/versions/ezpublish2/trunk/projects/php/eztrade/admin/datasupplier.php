@@ -214,10 +214,17 @@ switch ( $url_array[2] )
 
         if ( isset( $Delete ) )
             $Action = "Delete";
+        
+        include( "eztrade/admin/vattypes.php" );        
+    }        
+    break;
 
-        include( "eztrade/admin/vattypes.php" );
-        break;
-    }
+    case "shippingtypes" :
+    {
+        include( "eztrade/admin/shippingtypes.php" );
+    }        
+    break;
+    
 
     case "search":
     {

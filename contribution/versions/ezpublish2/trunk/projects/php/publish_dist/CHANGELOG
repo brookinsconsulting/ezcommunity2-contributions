@@ -3,6 +3,8 @@ eZ publish changelog:
 
 Changes from version 2.0 beta 3
 -------------------------------
+* Added VAT handling in eZ trade
+* Added images to link groups and links
 
 
 Changes from version 2.0 beta 2
