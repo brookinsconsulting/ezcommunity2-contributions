@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: dayreport.php,v 1.1 2001/02/09 17:09:05 jb Exp $
+// $Id: dayreport.php,v 1.2 2001/02/12 16:07:37 jb Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <07-Jan-2001 14:47:04 bf>
@@ -175,6 +175,7 @@ foreach( $months as $cur_month )
 $t->parse( $months[$Month], $months[$Month] . "_tpl" );
 
 $t->set_var( "this_day", $Day );
+$t->set_var( "this_month", $Month );
 $t->set_var( "this_year", $Year );
 
 $NextYear = $Year;

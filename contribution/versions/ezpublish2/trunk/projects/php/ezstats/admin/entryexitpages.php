@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: entryexitpages.php,v 1.4 2001/02/09 17:09:33 jb Exp $
+// $Id: entryexitpages.php,v 1.5 2001/02/12 16:09:46 jb Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <12-Jan-2001 16:31:41 bf>
@@ -45,6 +45,19 @@ $t->set_file( array(
 
 $t->set_block( "entry_exit_report_tpl", "exit_page_tpl", "exit_page" );
 $t->set_block( "entry_exit_report_tpl", "entry_page_tpl", "entry_page" );
+
+$t->set_block( "entry_exit_report_tpl", "month_tpl", "month" );
+$t->set_block( "month_tpl", "month_previous_tpl", "month_previous" );
+$t->set_block( "month_tpl", "month_previous_inactive_tpl", "month_previous_inactive" );
+$t->set_block( "month_tpl", "month_next_tpl", "month_next" );
+$t->set_block( "month_tpl", "month_next_inactive_tpl", "month_next_inactive" );
+
+if ( !is_numeric( $Year ) || !is_numeric( $Month ) )
+{
+    $cur_date = new eZDate();
+    $Year = $cur_date->year();
+    $Month = $cur_date->month();
+}
 
 $query = new eZPageViewQuery();
 
@@ -115,6 +128,29 @@ foreach ( $entryPageArray as $entryPage )
         break;
 }
 
+$next_month = new eZDate( $Year, $Month, 1, 0, 1, 0 );
+$prev_month = new eZDate( $Year, $Month, 1, 0, -1, 0 );
+
+$t->set_var( "next_month", $next_month->month() );
+$t->set_var( "previous_month", $prev_month->month() );
+$t->set_var( "next_year", $next_month->year() );
+$t->set_var( "previous_year", $prev_month->year() );
+
+$t->set_var( "month_next_inactive", "" );
+$t->set_var( "month_next", "" );
+$t->set_var( "month_previous", "" );
+$t->set_var( "month_previous_inactive", "" );
+
+$cur_date = new eZDate();
+
+if ( $cur_date->isGreater( $next_month ) )
+    $t->parse( "month_next_inactive", "month_next_inactive_tpl" );
+else
+    $t->parse( "month_next", "month_next_tpl" );
+
+$t->parse( "month_previous", "month_previous_tpl" );
+
+$t->parse( "month", "month_tpl" );
 
 $t->set_var( "this_month", $Month );
 $t->set_var( "this_year", $Year );
