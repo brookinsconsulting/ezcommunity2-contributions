@@ -561,3 +561,27 @@ Maintainer(s) : fh@ez.no
       user/mailview.php
       user/menubox.php: Fix for in depth mailboxes..
 
+
+Module : ezmail
+Repository path : /home/cvsroot/projects/php/ezmail
+Maintainer(s) : fh@ez.no
+2002-04-09  fh  <fh@zev.ez.no>
+
+    * user/folderedit.php
+      user/folderlist.php
+      user/templates/standard/folderlist.tpl:
+    folderlist now shows imap folders
+    TODO:
+    -editing of folders
+    -deleting of folders
+    -show depth correctly
+
+    * classes/ezimapmailfolder.php
+      user/datasupplier.php
+      user/folderedit.php
+      user/templates/standard/folderedit.tpl
+      user/templates/standard/folderlist.tpl
+      user/templates/standard/menubox.tpl: Fixed:
+    1. Creating subdirs in imap folders
+    2. Creating folders with spaces in them.
+

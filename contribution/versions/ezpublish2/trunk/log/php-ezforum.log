@@ -1133,3 +1133,12 @@ Maintainer(s) : jhe@ez.no
     * user/message.php:
     Added functionality for more flexible layout. Contributed by a user.
 
+
+Module : ezforum
+Repository path : /home/cvsroot/projects/php/ezforum
+Maintainer(s) : jhe@ez.no
+2002-04-09  jhe  <jhe@zev.ez.no>
+
+    * user/templates/standard/messagelist.tpl
+      user/message.php: fixed bad white spaces and incorrect html code
+
