@@ -550,8 +550,9 @@ alter table eZNewsFeed_SourceSite change Decoder Decoder varchar(50);
 alter table eZTrade_Product change ShowPrice ShowPrice int default '1';
 alter table eZTrade_Product change ShowProduct ShowProduct int default '1';
 alter table eZTrade_Product change Discontinued Discontinued int default '0';
-alter table eZTrade_Product change InheritOptions InheritOptions int default '0';
 alter table eZTrade_Product change IsHotDeal IsHotDeal int default '0';
+alter table eZTrade_Product drop InheritOptions;
+alter table eZTrade_Product drop Altered;
 
 
 alter table eZImageCatalogue_Image add PhotographerID int;
