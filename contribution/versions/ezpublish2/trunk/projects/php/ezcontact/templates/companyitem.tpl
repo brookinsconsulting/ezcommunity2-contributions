@@ -18,7 +18,6 @@
 		{delete_company}
 	</td>
 </tr>
-<tr>
-	{person_list}
-</tr>
+
+{person_list}
 

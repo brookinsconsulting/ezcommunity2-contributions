@@ -1,5 +1,5 @@
 <form method="post" action="index.php4?page={document_root}passwordedit.php4">
-<h2>Forandre passord</h2>
+<h1>Forandre passord</h1>
 
 <p>Passord:<br>
 <input type="password" name="Pwd"></p>

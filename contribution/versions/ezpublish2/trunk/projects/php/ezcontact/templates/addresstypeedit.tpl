@@ -1,5 +1,5 @@
 <form method="post" action="index.php4?prePage={document_root}addresstypeedit.php4">
-<h2>{head_line}</h2>
+<h1>{head_line}</h1>
 
 <p>Navn:<br>
 <input type="text" name="AddressTypeName" value="{address_type_name}"><br></p>

@@ -61,7 +61,7 @@ $t->set_file( array(
     "note_edit" => $DOCUMENTROOT . "templates/noteedit.tpl"    ) );
 
 
-$t->set_var( "message", "Legg til ny notat" );
+$t->set_var( "message", "Legg til nytt notat" );
 //$t->set_var( "action", "insert" );
 $action = "insert";
 $t->set_var( "submit_text", "legg til" );

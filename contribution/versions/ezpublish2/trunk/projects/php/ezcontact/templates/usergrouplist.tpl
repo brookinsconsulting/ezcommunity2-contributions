@@ -30,7 +30,7 @@
 //-->
 </SCRIPT>
 
-<h2>Brukergrupper</h2>
+<h1>Brukergrupper</h1>
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
 {user_group_list}
 </table>

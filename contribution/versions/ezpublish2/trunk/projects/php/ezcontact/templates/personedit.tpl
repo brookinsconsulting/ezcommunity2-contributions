@@ -63,7 +63,7 @@
 
 </script>
 
-<h2>{message}</h2>
+<h1>{message}</h1>
 
 <table width="100%" border="0" cellpadding="2" cellspacing="2">
 <tr>
@@ -211,10 +211,12 @@
 	</td>
 </tr>
 
+<tr>
+</tr>
 
 <tr>
 	<td bgcolor="#3c3c3c">
-	<font color="#ffffff"><b>&nbsp;&nbsp;Registerre ny konsultasjon</b></font>	
+	<font color="#ffffff"><b>&nbsp;&nbsp;Registere ny konsultasjon</b></font>	
 	</td>
 
 	<td bgcolor="#3c3c3c">
@@ -227,15 +229,9 @@
 <form method="post" name="PersonConsultEdit" action="index.php4?page={document_root}personedit.php4">
 <br>
 &nbsp;&nbsp;Konsultasjon:<br>
-&nbsp;&nbsp;
-
-<br>
 &nbsp;&nbsp;<input type="text" name="ConsultTitle" value="{consult_title}">
 <br><br>
-&nbsp;&nbsp;Tekst beskrivelse:<br>
-&nbsp;&nbsp;
-
-<br>
+&nbsp;&nbsp;Tekstbeskrivelse:<br>
 &nbsp;&nbsp;<textarea rows="5" cols="40" wrap="soft" name="ConsultBody">{consult_body}</textarea>
 
 <input type="hidden" name="ConsultID" value="{consult_edit_id}">

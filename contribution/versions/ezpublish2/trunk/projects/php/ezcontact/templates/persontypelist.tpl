@@ -30,7 +30,7 @@
 //-->
 </SCRIPT>
 
-<h2>Persontyper</h2>
+<h1>Persontyper</h1>
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
 {persontype_list}
 </table>

@@ -1,5 +1,5 @@
 <form method="post" action="index.php4?prePage={document_root}useredit.php4">
-<h2>{head_line}</h2>
+<h1>{head_line}</h1>
 
 <p>Brukergruppe:<br>
 <select name="UserGroup">

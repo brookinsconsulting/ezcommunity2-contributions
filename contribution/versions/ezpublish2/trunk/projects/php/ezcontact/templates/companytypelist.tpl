@@ -30,7 +30,7 @@
 //-->
 </SCRIPT>
 
-<h2>Firmatyper</h2>
+<h1>Firmatyper</h1>
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
 {companytype_list}
 </table>

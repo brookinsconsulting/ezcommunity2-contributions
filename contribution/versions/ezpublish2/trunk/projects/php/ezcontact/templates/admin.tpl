@@ -1,4 +1,4 @@
-<h2>Programadministrasjon</h2>
+<h1>Programadministrasjon</h1>
 
 <form method="post" action="index.php4" >
 <select name="page" size="1">

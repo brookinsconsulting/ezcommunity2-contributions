@@ -1,8 +1,11 @@
 <form method="post" action="index.php4?prePage={document_root}noteedit.php4">
 
 <h1>{message}</h1>
-<input type="text" name="Title" value="{title}"><br>
-<textarea rows="5" name="Body">{body}</textarea><br>
+<p>Tittel:<br>
+<input type="text" name="Title" value="{title}"></p>
+
+<p>Tekst:<br>
+<textarea rows="5" name="Body">{body}</textarea></p>
 
 <input type="hidden" name="Action" value="{action_value}">
 <input type="hidden" name="NID" value="{note_id}">

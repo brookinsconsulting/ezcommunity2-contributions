@@ -62,7 +62,7 @@
 //-->
 </script>
 
-<h2>{message}</h2>
+<h1>{message}</h1>
 
 <table width="100%" border="0" cellpadding="2" cellspacing="2">
 <tr>
@@ -204,8 +204,8 @@
 	</td>
 </tr>
 
-
-
+<tr>
+</tr>
 
 <tr>
 	<td bgcolor="#3c3c3c">
@@ -222,15 +222,9 @@
 
 <br>
 &nbsp;&nbsp;Konsultasjon:<br>
-&nbsp;&nbsp;
-<br>
-
 &nbsp;&nbsp;<input type="text" name="ConsultTitle" value="{consult_title}">
 <br><br>
-&nbsp;&nbsp;Tekst beskrivelse:<br>
-&nbsp;&nbsp;
-
-<br>
+&nbsp;&nbsp;Tekstbeskrivelse:<br>
 &nbsp;&nbsp;<textarea rows="5" cols="40" wrap="soft"name="ConsultBody">{consult_body}</textarea>
 
 <input type="hidden" name="ConsultID" value="{consult_edit_id}">
