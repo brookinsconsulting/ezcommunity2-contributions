@@ -1525,3 +1525,13 @@ Maintainer(s) : ce@ez.no
 
     * classes/ezpreorder.php: Added the Value Verified, to verify orders.
 
+
+Module : eztrade
+Repository path : /home/cvsroot/projects/php/eztrade
+Maintainer(s) : ce@ez.no
+2001-10-24  Christoffer Elo  <ce@ez.no>
+
+    * user/checkout.php: added a country check
+
+    * user/payment.php: Fixed a clear bug
+

@@ -444,3 +444,11 @@ Maintainer(s) : bf@ez.no
       user/intl/no_NO/forgot.php.ini
       user/intl/no_NO/forgotmessage.php.ini: updated no_NO
 
+
+Module : ezuser
+Repository path : /home/cvsroot/projects/php/ezuser
+Maintainer(s) : bf@ez.no
+2001-10-24  Christoffer Elo  <ce@ez.no>
+
+    * user/userwithaddress.php: Fixed a delete address bug
+

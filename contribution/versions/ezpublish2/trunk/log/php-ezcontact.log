@@ -381,3 +381,13 @@ Maintainer(s) : jhe@ez.no
     * classes/ezperson.php
       classes/ezcompany.php: fixed several bugs
 
+
+Module : ezcontact
+Repository path : /home/cvsroot/projects/php/ezcontact
+Maintainer(s) : jhe@ez.no
+2001-10-24  Jo Henrik Endrerud  <jhe@ez.no>
+
+    * classes/ezconsultation.php: fixed small bug
+
+    * classes/ezconsultation.php: fixed bug
+

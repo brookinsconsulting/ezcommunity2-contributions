@@ -235,3 +235,15 @@ Maintainer(s) : pkej@ez.no
     * admin/templates/standard/formrenderer.tpl
       classes/ezformrenderer.php: Added bg color cwitching.
 
+
+Module : ezform
+Repository path : /home/cvsroot/projects/php/ezform
+Maintainer(s) : pkej@ez.no
+2001-10-24  Paul Kenneth Egell-Johnsen  <pkej@ez.no>
+
+    * admin/templates/standard/formlist.tpl:
+    Doesn't need an OK button in form list.
+
+    * admin/templates/standard/formlist.tpl:
+    Formlist doesn't need an OK button.
+

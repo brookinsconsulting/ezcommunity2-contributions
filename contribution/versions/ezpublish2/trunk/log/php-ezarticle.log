@@ -1573,3 +1573,20 @@ Maintainer(s) : bf@ez.no
 
     * user/smallarticlelist.php: Fixed "read more" text
 
+
+Module : ezarticle
+Repository path : /home/cvsroot/projects/php/ezarticle
+Maintainer(s) : bf@ez.no
+2001-10-24  Jan Borsodi  <jb@ez.no>
+
+    * xmlrpc/article.php:
+    Workaround: & characters are converted to &amp; when saving, and &amp; are
+    converted to & when loading.
+
+2001-10-24  Baard Farstad  <bf@ez.no>
+
+    * classes/ezqdomrenderer.php:
+    Fixed not converting \n to <br> inside <html>.
+
+    * classes/ezqdomrenderer.php: Fixed not converting \n to br.
+
