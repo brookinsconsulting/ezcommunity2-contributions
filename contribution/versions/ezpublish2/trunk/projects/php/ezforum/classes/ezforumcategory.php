@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezforumcategory.php,v 1.22 2000/10/26 13:23:25 ce-cvs Exp $
+// $Id: ezforumcategory.php,v 1.23 2000/11/19 09:41:03 bf-cvs Exp $
 //
 // Definition of eZForumCategory class
 //
@@ -184,15 +184,15 @@ class eZForumCategory
         
        $this->dbInit();
 
-       $this->Database->array_query( $forum_array, "SELECT ID FROM
-                                                       eZForum_Forum
+       $this->Database->array_query( $forum_array, "SELECT ForumID FROM
+                                                       eZForum_ForumCategoryLink
                                                        WHERE CategoryID='$this->ID'" );
 
        $ret = array();
 
        foreach ( $forum_array as $forum )
        {
-           $ret[] = new eZForum( $forum["ID"] );
+           $ret[] = new eZForum( $forum["ForumID"] );
        }
        
        return $ret;

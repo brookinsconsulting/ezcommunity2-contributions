@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: articleview.php,v 1.17 2000/11/17 13:41:38 bf-cvs Exp $
+// $Id: articleview.php,v 1.18 2000/11/19 09:41:03 bf-cvs Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <18-Oct-2000 16:34:51 bf>
@@ -193,6 +193,7 @@ else
 {
     $t->pparse( "output", "article_view_page_tpl" );
 }
+
 
 
 ?>

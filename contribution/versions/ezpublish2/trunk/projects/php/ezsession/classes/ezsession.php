@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezsession.php,v 1.9 2000/11/01 11:44:53 ce-cvs Exp $
+// $Id: ezsession.php,v 1.10 2000/11/19 09:41:03 bf-cvs Exp $
 //
 // Definition of eZSession class
 //
@@ -54,6 +54,7 @@
 */
 
 include_once( "classes/ezdb.php" );
+include_once( "classes/ezdatetime.php" );
 
 class eZSession
 {
@@ -98,6 +99,8 @@ class eZSession
         if ( !isset( $this->ID ) )
         {
             $this->Database->query( "INSERT INTO eZSession_Session SET
+                                 Created=now(),
+                                 LastAccessed=now(),
 		                         Hash='$this->Hash'
                                  " );
 
@@ -108,6 +111,8 @@ class eZSession
         else
         {
             $this->Database->query( "UPDATE eZSession_Session SET
+                                 Created=Created,
+                                 LastAccessed=now(),
 		                         Hash='$this->Hash'
                                  WHERE ID='$this->ID'
                                  " );
@@ -137,7 +142,9 @@ class eZSession
             {
                 $this->ID = $session_array[0][ "ID" ];
                 $this->Hash = $session_array[0][ "Hash" ];
-                $this->Modified = $session_array[0][ "Modified" ];
+                $this->LastAccessed = $session_array[0][ "LastAccessed" ];
+                $this->Created = $session_array[0][ "Created" ];
+                
 
                 $this->State_ = "Coherent";
                 $ret = true;
@@ -169,6 +176,13 @@ class eZSession
         if ( count( $session_array ) == 1 )
         {
             $ret = $this->get( $session_array[0]["ID"] );
+
+            // update session
+            $this->Database->query( "UPDATE eZSession_Session SET
+                                 Created=Created,
+                                 LastAccessed=now()
+                                 WHERE ID='$this->ID'
+                                 " );
         }
         
         return $ret;        
@@ -215,16 +229,33 @@ class eZSession
     }
     
     /*!
-      Returns the midification time of the session.
+      Returns the last accessed time of the session.
     */
-    function modified( )
+    function lastAccessed( )
     {
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
-        
-       return $this->Modified;
+
+       $dateTime = new eZDateTime();
+       $dateTime->setMySQLTimeStamp( $this->LastAccessed );
+       
+       return $dateTime;
     }
 
+    /*!
+      Returns the cretation time of the session.
+    */
+    function created( )
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+       $dateTime = new eZDateTime();
+       $dateTime->setMySQLTimeStamp( $this->Created );
+       
+       return $dateTime;
+    }
+    
     /*!
       Sets the hash to the session.
     */
@@ -260,6 +291,28 @@ class eZSession
        return $ret;
     }
 
+    /*!
+      Returns an array of values 
+    */
+    function variable( $name )
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+       
+       $ret = false;
+       $this->dbInit();
+
+       $this->Database->array_query( $value_array, "SELECT Value FROM eZSession_SessionVariable
+                                                    WHERE SessionID='$this->ID' AND Name='$name'" );       
+
+       if ( count( $value_array ) == 1 )
+       {
+           $ret = $value_array[0]["Value"];
+       }
+
+       return $ret;
+    }
+    
     /*!
       Adds or updates a variable to the session.
     */
@@ -304,7 +357,10 @@ class eZSession
 
     var $ID;
     var $Hash;
-    var $Modified;    
+    var $Modified;
+    var $Created;
+    var $LastAccessed;
+    
 
     ///  Variable for keeping the database connection.
     var $Database;

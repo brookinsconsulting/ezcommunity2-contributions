@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: messageedit.php,v 1.7 2000/11/09 15:01:46 bf-cvs Exp $
+// $Id: messageedit.php,v 1.8 2000/11/19 09:41:03 bf-cvs Exp $
 //
 // Lars Wilhelmsen <lw@ez.no>
 // Created on: <11-Sep-2000 22:10:06 bf>
@@ -51,8 +51,6 @@ if ( $Action == "insert" )
 
     $user = eZUser::currentUser();
 
-    print( $user->id() );
-    
     $message->setUserId( $user->id() );
 
     if ( $notice )
@@ -105,6 +103,7 @@ if ( !$user )
     {
         Header( "Location: /forum/userlogin/new/$ForumID" );
     }
+    
     if ( $Action == "reply" )
     {
         Header( "Location: /forum/userlogin/reply/$MessageID" );

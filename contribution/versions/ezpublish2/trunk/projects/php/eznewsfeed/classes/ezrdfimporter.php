@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezrdfimporter.php,v 1.1 2000/11/15 18:14:15 bf-cvs Exp $
+// $Id: ezrdfimporter.php,v 1.2 2000/11/19 09:41:03 bf-cvs Exp $
 //
 // Definition of ezrdfimporter class
 //
@@ -87,7 +87,6 @@ class eZRDFImporter
                                     print( "<b>" . $value->name . "</b><br>");
                                     print( $contentValue . "<br>" );                                    
                                 }
-
                             }
                         }
                     }

@@ -83,7 +83,15 @@ switch ( $url_array[2] )
         else
         {
             include( "ezarticle/user/articleview.php" );
+            
         }
+        
+        if  ( $PrintableVersion != "enabled" )
+        {
+            $forum = $article->forum();
+            $ForumID = $forum->id();
+            include( "ezforum/user/messagesimplelist.php" );
+        }        
     }
     break;
     

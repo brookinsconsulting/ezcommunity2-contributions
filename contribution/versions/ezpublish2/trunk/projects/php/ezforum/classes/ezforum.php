@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezforum.php,v 1.5 2000/10/26 13:23:25 ce-cvs Exp $
+// $Id: ezforum.php,v 1.6 2000/11/19 09:41:03 bf-cvs Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <11-Sep-2000 22:10:06 bf>
@@ -78,7 +78,6 @@ class eZForum
         if ( !isset( $this->ID ) )
         {
             $this->Database->query( "INSERT INTO eZForum_Forum SET
-		                         CategoryID='$this->CategoryID',
 		                         Name='$this->Name',
 		                         Description='$this->Description',
 		                         Moderated='$this->Moderated',
@@ -92,7 +91,6 @@ class eZForum
         else
         {
             $this->Database->query( "UPDATE eZForum_Forum SET
-		                         CategoryID='$this->CategoryID',
 		                         Name='$this->Name',
 		                         Description='$this->Description',
 		                         Moderated='$this->Moderated',

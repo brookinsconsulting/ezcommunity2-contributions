@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezarticle.php,v 1.26 2000/11/09 18:15:05 bf-cvs Exp $
+// $Id: ezarticle.php,v 1.27 2000/11/19 09:41:02 bf-cvs Exp $
 //
 // Definition of eZArticle class
 //
@@ -62,6 +62,9 @@ include_once( "classes/ezdatetime.php" );
 include_once( "ezuser/classes/ezuser.php" );
 
 include_once( "ezimagecatalogue/classes/ezimage.php" );
+
+include_once( "ezforum/classes/ezforum.php" );
+
 
 class eZArticle
 {
@@ -832,6 +835,53 @@ class eZArticle
 
        return $category;
     }
+
+    /*!
+      Creates a discussion forum for the article.
+    */
+    function createForum()
+    {
+
+    }
+
+    /*!
+      Returns the forum for the article.
+    */
+    function forum()
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+       
+       $this->dbInit();
+
+       $this->Database->array_query( $res, "SELECT ForumID FROM
+                                            eZArticle_ArticleForumLink
+                                            WHERE ArticleID='$this->ID'" );
+       
+       $forum = false;
+       if ( count( $res ) == 1 )
+       {
+           $forum = new eZForum( $res[0]["ForumID"] );
+       }
+       else
+       {
+           $forum = new eZForum();
+           $forum->setName( $this->Name );
+           $forum->store();
+
+           $forumID = $forum->id();
+
+           $this->Database->query( "INSERT INTO eZArticle_ArticleForumLink
+                                          SET ArticleID='$this->ID', ForumID='$forumID'" );
+
+           $forum = new eZForum( $forumID );
+       }
+
+
+       return $forum;
+    }
+
+    
     
     /*!
       \private
