@@ -475,15 +475,20 @@ if ( !$confirm )
             $CompanyID = $item_id;
 
             // Update categories
-            if ( ( $CompanyCategoryID ) != "" )
+            $company->removeCategories();
+            $category = new eZCompanyType();
+            if ( count( $CompanyCategoryID ) > 0 )
             {
-                $company->removeCategories();
-                $category = new eZCompanyType();
-                for( $i=0; $i<count( $CompanyCategoryID ); $i++ )
+                for( $i=0; $i < count( $CompanyCategoryID ); $i++ )
                 {
                     $category->get( $CompanyCategoryID[$i] );
                     $category->addCompany( $company );
                 }
+            }
+            else
+            {
+                $category->get( 0 );
+                $category->addCompany( $company );
             }
 
             // Upload images
@@ -763,6 +768,8 @@ if ( !$confirm )
                 $categoryList =& eZCompany::categories( $CompanyID, false );
             else
                 $categoryList =& $CompanyCategoryID;
+            if ( isset( $NewCompanyCategory ) and !is_numeric( $NewCompanyCategory ) )
+                $NewCompanyCategory = 0;
             if ( isset( $NewCompanyCategory ) and is_numeric( $NewCompanyCategory ) )
                 $categoryList =& array_unique( array_merge( $NewCompanyCategory, $categoryList ) );
             $category_values = array_values( $categoryList );
