@@ -7,6 +7,7 @@ Changes from 2.2.7 to 2.2.8
 * Added menufilelist for listing files from a folder in the filemanager in the frame.php
 * Fixed bug when adding/editing ads in "Section edit" if no productcategories 
   exist in eZ trade.
+* Fixed cache bug in eZTrade (productlist)
 
 Changes from 2.2.6 to 2.2.7
 ---------------------------
