@@ -153,7 +153,17 @@ td
 	font-family: Verdana, Arial, Helvetica, Swiss, Futura, sans-serif;	
 	font-size: 12px;
 	color: #000000;
+	background-repeat: no-repeat;
+}
 
+.repeatx
+{
+	background-repeat: repeat-x;
+}
+
+.repeaty
+{
+	background-repeat: repeat-y;
 }
 
 .bglight 

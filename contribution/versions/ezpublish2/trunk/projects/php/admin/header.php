@@ -22,11 +22,11 @@ if ( $user )
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
 <tr>
 	<td width="1%"><img src="/images/<? echo $SiteStyle; ?>/top-logo.gif" width="300" height="70" border="0"></td>
-	<td width="96%" background="/images/<? echo $SiteStyle; ?>/top-m.gif">&nbsp;</td>
-	<td width="1%" background="/images/<? echo $SiteStyle; ?>/top-m.gif" valign="top">
+	<td width="96%" class="repeatx" background="/images/<? echo $SiteStyle; ?>/top-m.gif">&nbsp;</td>
+	<td width="1%" class="repeatx" background="/images/<? echo $SiteStyle; ?>/top-m.gif" valign="top">
     <img src="/images/<? echo $SiteStyle; ?>/1x1.gif" width="120" height="16" border="0"><br><div class="top">Innlogget bruker:</div>
     <div class="topusername"><? print( $firstName . " " . $lastName ); ?></div></td>
-	<td width="1%" background="/images/<? echo $SiteStyle; ?>/top-m.gif" valign="top"><img src="/images/<? echo $SiteStyle; ?>/1x1.gif" width="120" height="16" border="0"><br />
+	<td width="1%" class="repeatx" background="/images/<? echo $SiteStyle; ?>/top-m.gif" valign="top"><img src="/images/<? echo $SiteStyle; ?>/1x1.gif" width="120" height="16" border="0"><br />
     <img src="/images/<? echo $SiteStyle; ?>//topmenu-arrow.gif" width="20" height="10"><a class="topmenu">Brukerstatus</a><br />
     <img src="/images/<? echo $SiteStyle; ?>/topmenu-arrow.gif" width="20" height="10" border="0"><a href="/user/passwordchange/" class="topmenu">Endre passord</a></td>
 	<td width="1%">	<img src="/images/<? echo $SiteStyle; ?>/top-logout.gif" width="50" height="70" usemap="#topmap" border="0"></td>
