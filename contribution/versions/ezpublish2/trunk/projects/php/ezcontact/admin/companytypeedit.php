@@ -69,6 +69,8 @@ if( $Action == "insert" || $Action == "update" )
     }
     $type->setName( $TypeName );
     $type->setDescription( $TypeDescription );
+    if ( !empty( $TypeID ) and $SelectParentID == $TypeID )
+        $SelectParentID = 0;
     $type->setParentID( $SelectParentID ); 
 
     $file = new eZImageFile();
