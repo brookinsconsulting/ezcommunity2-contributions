@@ -9,10 +9,24 @@
 
 <hr noshade="noshade" size="4" />
 
-
 <p class="boxtext">{intl-article_name}:</p>
 <input class="box" type="text" name="Name" size="40" value="{article_name}" />
 <br /><br />
+
+<!-- BEGIN urltranslator_tpl -->
+<table width="100%" cellspacing="0" cellpadding="0" border="0">
+<tr>
+	<td valign="top">
+	<p class="boxtext">{intl-article_urltranslator}:</p>
+	<input class="halfbox" type="text" name="Urltranslator" size="20" value="{article_urltranslator}" />
+	</td>
+	<td valign="top">
+	<p class="boxtext">{intl-article_url}:</p><span class="halfbox">{article_url}</span>
+	</td>
+</tr>
+</table>
+<br />
+<!-- END urltranslator_tpl -->
 
 	<p class="boxtext">{intl-article_author}:</p>
 	<select name="ContentsWriterID">
