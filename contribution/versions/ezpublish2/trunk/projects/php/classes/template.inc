@@ -5,7 +5,7 @@
  * (C) Copyright 1999-2000 NetUSE GmbH
  *                    Kristian Koehntopp
  *
- * $Id: template.inc,v 1.4 2001/01/21 16:02:23 jb Exp $
+ * $Id: template.inc,v 1.5 2001/01/21 19:23:34 jb Exp $
  *
  */ 
 
@@ -33,7 +33,7 @@ class Template {
   var $unknowns = "remove";
   
   /* "yes" => halt, "report" => report error, continue, "no" => ignore error quietly */
-  var $halt_on_error  = "yes";
+  var $halt_on_error  = "report";
   
   /* last error message is retained here */
   var $last_error     = "";
