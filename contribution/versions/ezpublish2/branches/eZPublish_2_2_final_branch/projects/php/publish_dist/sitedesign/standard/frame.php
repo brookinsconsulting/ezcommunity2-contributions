@@ -100,6 +100,8 @@ else
 ?>" />
 <meta name="MSSmartTagsPreventParsing" content="TRUE">
 
+<meta name="generator" content="eZ publish" />
+
 </head>
 
 <body bgcolor="#999999" topmargin="6" marginheight="6" leftmargin="6" marginwidth="6"  onload="MM_preloadImages('<? print $GlobalSiteIni->WWWDir; ?>/images/redigerminimrk.gif','<? print $GlobalSiteIni->WWWDir; ?>/images/slettminimrk.gif','<? print $GlobalSiteIni->WWWDir; ?>/images/downloadminimrk.gif','<? print $GlobalSiteIni->WWWDir; ?>/images/addminimrk.gif')">
