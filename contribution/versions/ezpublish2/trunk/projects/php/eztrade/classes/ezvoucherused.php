@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezvoucherused.php,v 1.2 2001/09/26 07:09:33 ce Exp $
+// $Id: ezvoucherused.php,v 1.3 2001/09/28 09:19:50 ce Exp $
 //
 // eZVoucherUsed class
 //
@@ -42,6 +42,7 @@
 
 include_once( "classes/ezdate.php" );
 include_once( "eztrade/classes/ezorder.php" );
+include_once( "eztrade/classes/ezvoucher.php" );
 	      
 class eZVoucherUsed
 {
@@ -344,6 +345,54 @@ class eZVoucherUsed
     {
         return $this->Price;
     }
+
+    /*!
+      Returns the correct price of the voucher based on the logged in user, and the
+      VAT status and use.
+    */
+    function &correctPrice( $calcVAT )
+    {
+        $voucher =& $this->voucher();
+        $product =& $voucher->product();
+        
+        $price = $this->Price;
+        
+        $vatType =& $product->vatType();
+        
+        if ( $calcVAT == true )
+        {
+            if ( $product->excludedVAT() )
+            {
+                $vatType =& $product->vatType();
+                $vat = 0;
+       
+                if ( $vatType )
+                {
+                    $vat =& $vatType->value();
+                }
+                
+                $price = ( $price * $vat / 100 ) + $price;
+            }
+        }
+        else
+        {
+            if ( $product->includesVAT() )
+            {
+                $vatType =& $product->vatType();
+                $vat = 0;
+                
+                if ( $vatType )
+                {
+                    $vat =& $vatType->value();
+                }
+                
+                $price = $price - ( $price / ( 100 + $vat ) ) * $vat;
+                
+            }
+        }
+        return $price;
+    }    
+
 
     /*!
       Get the used voucher for a user.

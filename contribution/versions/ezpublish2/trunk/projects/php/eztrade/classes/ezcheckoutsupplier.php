@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezcheckoutsupplier.php,v 1.4 2001/08/24 07:21:07 ce Exp $
+// $Id: ezcheckoutsupplier.php,v 1.5 2001/09/28 09:19:50 ce Exp $
 //
 // Definition of eZCheckoutSupplier class
 //
@@ -71,6 +71,8 @@ class eZCheckoutSupplier
             {
                 $ret = $paymentMethod["Text"];
             }
+            if ( $id == "voucher_done" )
+                $ret = $this->PaymentMethods[3]["Text"];
         }
 
         return $ret;
@@ -89,13 +91,11 @@ class eZCheckoutSupplier
                 $ret = "eztrade/user/visa.php";
             }
             break;
-
             case 2 :
             {
                 $ret = "eztrade/user/mastercard.php";
             }
             break;
-
             case 3 :
             {
                 $ret = "eztrade/user/invoice.php";

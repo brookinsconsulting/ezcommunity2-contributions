@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ordersendt.php,v 1.47 2001/09/17 11:34:36 pkej Exp $
+// $Id: ordersendt.php,v 1.48 2001/09/28 09:19:50 ce Exp $
 //
 // Created on: <06-Oct-2000 14:04:17 bf>
 //
@@ -71,6 +71,17 @@ $t->set_block( "full_cart_tpl", "cart_item_list_tpl", "cart_item_list" );
 $t->set_block( "cart_item_list_tpl", "header_savings_item_tpl", "header_savings_item" );
 $t->set_block( "cart_item_list_tpl", "header_inc_tax_item_tpl", "header_inc_tax_item" );
 $t->set_block( "cart_item_list_tpl", "header_ex_tax_item_tpl", "header_ex_tax_item" );
+
+$t->set_block( "full_cart_tpl", "voucher_item_list_tpl", "voucher_item_list" );
+$t->set_block( "voucher_item_list_tpl", "voucher_used_header_inc_tax_item_tpl", "voucher_used_header_inc_tax_item" );
+$t->set_block( "voucher_item_list_tpl", "voucher_used_header_ex_tax_item_tpl", "voucher_used_header_ex_tax_item" );
+$t->set_block( "voucher_item_list_tpl", "voucher_left_header_inc_tax_item_tpl", "voucher_left_header_inc_tax_item" );
+$t->set_block( "voucher_item_list_tpl", "voucher_left_header_ex_tax_item_tpl", "voucher_left_header_ex_tax_item" );
+$t->set_block( "voucher_item_list_tpl", "voucher_item_tpl", "voucher_item" );
+$t->set_block( "voucher_item_tpl", "voucher_used_inc_tax_item_tpl", "voucher_used_inc_tax_item" );
+$t->set_block( "voucher_item_tpl", "voucher_used_ex_tax_item_tpl", "voucher_used_ex_tax_item" );
+$t->set_block( "voucher_item_tpl", "voucher_left_inc_tax_item_tpl", "voucher_left_inc_tax_item" );
+$t->set_block( "voucher_item_tpl", "voucher_left_ex_tax_item_tpl", "voucher_left_ex_tax_item" );
 
 $t->set_block( "full_cart_tpl", "total_ex_tax_item_tpl", "total_ex_tax_item" );
 $t->set_block( "full_cart_tpl", "total_inc_tax_item_tpl", "total_inc_tax_item" );
@@ -379,12 +390,12 @@ $locale = new eZLocale( $Language );
 $currency = new eZCurrency();
 
 $numberOfItems = 0;
-$i = 0;
+$j = 0;
 
 foreach ( $items as $item )
 {
-    $t->set_var( "td_class", ( $i % 2 ) == 0 ? "bglight" : "bgdark" );
-    $i++;
+    $t->set_var( "td_class", ( $j % 2 ) == 0 ? "bglight" : "bgdark" );
+    $j++;  
     $t->set_var( "cart_item_id", $item->id() );
     $product =& $item->product();
     $vatPercentage = $product->vatPercentage();
@@ -541,7 +552,7 @@ if ( $ShowCart == true )
 
     foreach( $tax as $taxGroup )
     {
-        $t->set_var( "td_class", ( $i % 2 ) == 0 ? "bglight" : "bgdark" );
+        $t->set_var( "td_class", ( $j % 2 ) == 0 ? "bglight" : "bgdark" );
         $j++;  
         $currency->setValue( $taxGroup["basis"] );    
         $t->set_var( "sub_tax_basis", $locale->format( $currency ) );
@@ -556,6 +567,40 @@ if ( $ShowCart == true )
     $t->parse( "tax_specification", "tax_specification_tpl" );
 }
 
+$usedVouchers =& $order->usedVouchers();
+
+if ( count ( $usedVouchers ) > 0 )
+{
+    turnColumnsOnOff( "voucher_used_header");
+    turnColumnsOnOff( "voucher_left_header");
+    $j = 0;
+    foreach ( $usedVouchers as $voucherUsed )
+    {
+        $t->set_var( "td_class", ( $j % 2 ) == 0 ? "bglight" : "bgdark" );
+        $j++;  
+
+        $voucher =& $voucherUsed->voucher();
+        $t->set_var( "voucher_number", $voucher->keyNumber() );
+
+        eZOrder::voucherTotal( $tax, $total, $voucherUsed );
+        $currency->setValue( $total["extax"] );
+        $t->set_var( "voucher_used_ex_tax", $locale->format( $currency ) );
+        $currency->setValue( $total["inctax"] );
+        $t->set_var( "voucher_used_inc_tax", $locale->format( $currency ) );
+
+        eZOrder::voucherTotal( $tax, $total, $voucher );
+        $currency->setValue( $total["extax"] );
+        $t->set_var( "voucher_left_ex_tax", $locale->format( $currency ) );
+        $currency->setValue( $total["inctax"] );
+        $t->set_var( "voucher_left_inc_tax", $locale->format( $currency ) );
+
+        turnColumnsOnOff( "voucher_used" );
+        turnColumnsOnOff( "voucher_left" );
+        $t->parse( "voucher_item", "voucher_item_tpl", true );
+        
+    }
+    $t->parse( "voucher_item_list", "voucher_item_list_tpl" );
+}
 
 
 

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: payment.php,v 1.77 2001/09/27 14:53:51 ce Exp $
+// $Id: payment.php,v 1.78 2001/09/28 09:19:50 ce Exp $
 //
 // Created on: <02-Feb-2001 16:31:53 bf>
 //
@@ -152,10 +152,13 @@ $preOrder = new eZPreOrder( $PreOrderID );
 
 // print( "Checkout number: " . $PreOrderID . "<br>" );
 
-$paymentMethod = $session->variable( "PaymentMethod" );
+$paymentMethod = $session->arrayValue( "PaymentMethod" );
+
+$paymentMethod = $paymentMethod[0];
+
 $locale = new eZLocale( $Language );
 
-if ( $paymentMethod == true )
+if ( $paymentMethod == true and $paymentMethod != "voucher_done" )
     include( $instance->paymentFile( $paymentMethod ) );
 else
 $PaymentSuccess = "true";
@@ -166,7 +169,6 @@ $currency = new eZCurrency();
 // only do this if the payment was OK.
 if ( $PaymentSuccess == "true" ) 
 {
-    
     // create a new order
     $order = new eZOrder();
     $user =& eZUser::currentUser();
@@ -185,7 +187,8 @@ if ( $PaymentSuccess == "true" )
 
     $order->setShippingCharge( $session->variable( "ShippingCost" ) );
     $order->setShippingVAT( $session->variable( "ShippingVAT" ) );
-    $order->setPaymentMethod( $session->variable( "PaymentMethod" ) );
+
+    $order->setPaymentMethod( $session->arrayValue( "PaymentMethod" ) );
 
     $order->setShippingTypeID( $session->variable( "ShippingTypeID" ) );
 

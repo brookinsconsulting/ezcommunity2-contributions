@@ -276,6 +276,8 @@
 <!-- END payment_method_tpl -->
 </select>
 <!-- END show_payment_tpl -->
+<input type="hidden" name="PayWithVoucher" value="{pay_with_voucher}" />
+
 
 <br /><br />
 

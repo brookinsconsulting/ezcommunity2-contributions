@@ -208,11 +208,64 @@
 
 </table>
 
+<!-- BEGIN voucher_item_list_tpl -->
+
+<h2>{intl-voucher_list}:</h2>
+<table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
+<tr>
+	<th>{intl-voucher_number}:</th>
+
+	<!-- BEGIN voucher_used_header_ex_tax_item_tpl -->
+	<th class="right">{intl-voucher_used_ex_tax}:</th>
+	<!-- END voucher_used_header_ex_tax_item_tpl -->
+
+	<!-- BEGIN voucher_used_header_inc_tax_item_tpl -->
+	<th class="right">{intl-voucher_used_inc_tax}:</th>
+	<!-- END voucher_used_header_inc_tax_item_tpl -->
+
+	<!-- BEGIN voucher_left_header_ex_tax_item_tpl -->
+	<th class="right">{intl-voucher_left_ex_tax}:</th>
+	<!-- END voucher_left_header_ex_tax_item_tpl -->
+
+	<!-- BEGIN voucher_left_header_inc_tax_item_tpl -->
+	<th class="right">{intl-voucher_left_inc_tax}:</th>
+	<!-- END voucher_left_header_inc_tax_item_tpl -->
+
+</tr>
+<!-- BEGIN voucher_item_tpl -->
+<tr>
+
+    <td class="{td_class}">{voucher_number}</td>
+
+	<!-- BEGIN voucher_used_ex_tax_item_tpl -->
+    <td class="{td_class}" align="right"><nobr>{voucher_used_ex_tax}</nobr></td>
+	<!-- END voucher_used_ex_tax_item_tpl -->
+
+	<!-- BEGIN voucher_used_inc_tax_item_tpl -->
+    <td class="{td_class}" align="right"><nobr>{voucher_used_inc_tax}</nobr></td>
+	<!-- END voucher_used_inc_tax_item_tpl -->
+
+	<!-- BEGIN voucher_left_ex_tax_item_tpl -->
+    <td class="{td_class}" align="right"><nobr>{voucher_left_ex_tax}</nobr></td>
+	<!-- END voucher_left_ex_tax_item_tpl -->
+
+	<!-- BEGIN voucher_left_inc_tax_item_tpl -->
+    <td class="{td_class}" align="right"><nobr>{voucher_left_inc_tax}</nobr></td>
+	<!-- END voucher_left_inc_tax_item_tpl -->
+
+</tr>
+<!-- END voucher_item_tpl -->
+
+</table>
+<!-- END voucher_item_list_tpl -->
+
 <!-- BEGIN tax_specification_tpl -->
 <br />
 <br />
 <br />
 <br />
+
+<h2>{intl-tax_list}:</h2>
 
 <table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
 <tr>

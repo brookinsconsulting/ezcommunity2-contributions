@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: checkout.php,v 1.93 2001/09/21 09:53:02 ce Exp $
+// $Id: checkout.php,v 1.94 2001/09/28 09:19:50 ce Exp $
 //
 // Created on: <28-Sep-2000 15:52:08 bf>
 //
@@ -156,6 +156,7 @@ $t->set_var( "show_payment", "" );
 $t->set_var( "price_ex_vat", "" );
 $t->set_var( "price_inc_vat", "" );
 $t->set_var( "cart_item", "" );
+$t->set_var( "pay_with_voucher", "false" );
 
 if ( isSet ( $RemoveVoucher ) )
 {
@@ -192,7 +193,16 @@ if ( isSet( $SendOrder ) )
 
     $session->setVariable( "TotalCost", eZHTTPTool::getVar( "TotalCost", true ) );
     $session->setVariable( "TotalVAT", eZHTTPTool::getVar( "TotalVAT", true ) );
-    $session->setVariable( "PaymentMethod", eZHTTPTool::getVar( "PaymentMethod", true ) );
+
+    if ( eZHTTPTool::getVar( "PayWithVoucher", true ) == "true" )
+    {
+        if ( eZHTTPTool::getVar( "PaymentMethod", true ) )
+            $session->setArray( "PaymentMethod", array( eZHTTPTool::getVar( "PaymentMethod", true ),  "voucher_done" ) );
+        else
+            $session->setArray( "PaymentMethod", array( "voucher_done" ) );
+    }
+    else
+        $session->setArray( "PaymentMethod", array( eZHTTPTool::getVar( "PaymentMethod", true ) ) );
 
     $session->setVariable( "Comment", eZHTTPTool::getVar( "Comment", true ) );
 
@@ -434,6 +444,9 @@ if ( $ShowCart == true )
                 
                 $voucherSession[$voucherID] = $subtractIncVAT["inctax"];
                 $t->set_var( "number", $i );
+
+                $t->set_var( "voucher_key", $voucher->keyNumber() );
+                $t->set_var( "pay_with_voucher", "true" );
                 
                 $t->parse( "voucher_item", "voucher_item_tpl", true );
 
@@ -566,11 +579,6 @@ else
 
 
 $can_checkout = true;
-
-
-
-
-
 
 $user =& eZUser::currentUser();
 

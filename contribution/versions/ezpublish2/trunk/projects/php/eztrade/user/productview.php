@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: productview.php,v 1.69 2001/09/27 12:00:00 ce Exp $
+// $Id: productview.php,v 1.70 2001/09/28 09:19:50 ce Exp $
 //
 // Created on: <24-Sep-2000 12:20:32 bf>
 //
@@ -31,7 +31,7 @@ include_once( "classes/eztexttool.php" );
 
 $ini =& INIFile::globalINI();
 
-$Language = $ini->read_var( "eZTradeMain", "Language" ) == "true";
+$Language = $ini->read_var( "eZTradeMain", "Language" );
 $ShowPriceGroups = $ini->read_var( "eZTradeMain", "PriceGroupsEnabled" ) == "true";
 $RequireUserLogin = $ini->read_var( "eZTradeMain", "RequireUserLogin" ) == "true";
 $SimpleOptionHeaders = $ini->read_var( "eZTradeMain", "SimpleOptionHeaders" ) == "true";
