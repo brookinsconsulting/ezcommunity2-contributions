@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: fileupload.php,v 1.17 2001/02/26 17:20:14 ce Exp $
+// $Id: fileupload.php,v 1.18 2001/02/26 17:28:08 ce Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <10-Dec-2000 15:49:57 bf>
@@ -59,6 +59,15 @@ if ( isSet ( $Cancel ) )
     exit();
 }
 
+if ( isSet ( $Download ) )
+{
+    $file = new eZVirtualFile( $FileID );
+    $fileName = $file->originalFileName();
+
+    eZHTTPTool::header( "Location: /filemanager/download/$FileID/$fileName/" );
+    exit();
+}
+
 $user = eZUser::currentUser();
 
 if ( !$user )
@@ -66,8 +75,6 @@ if ( !$user )
     eZHTTPTool::header( "Location: /error/403/" );
     exit();
 }
-
-
 
 $ini =& $GLOBALS["GlobalSiteIni"];
 

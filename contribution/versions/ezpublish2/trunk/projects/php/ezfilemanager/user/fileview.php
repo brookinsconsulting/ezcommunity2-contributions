@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: fileview.php,v 1.8 2001/02/20 18:20:23 jb Exp $
+// $Id: fileview.php,v 1.9 2001/02/26 17:28:08 ce Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <04-Jan-2001 16:47:23 ce>
@@ -31,7 +31,7 @@ include_once( "ezfilemanager/classes/ezvirtualfile.php" );
 include_once( "ezfilemanager/classes/ezvirtualfolder.php" );
 include_once( "ezuser/classes/ezuser.php" );
 
-$ini = new INIFIle( "site.ini" );
+$ini =& $GLOBALS["GlobalSiteIni"];
 
 $Language = $ini->read_var( "eZFileManagerMain", "Language" );
 
@@ -62,11 +62,13 @@ if ( $FileID != 0 )
     $t->set_var( "file_description", $file->description() );
 
     $user = eZUser::currentUser();
-    if ( $file->checkReadPermission( $user ) != false )
+
+    if ( $file->hasReadPermissions( $user ) )
     {
         $t->parse( "download", "download_tpl" );
     }
-    if ( $file->checkWritePermission( $user ) != false )
+
+    if ( $file->hasWritePermissions( $user ) && $user )
     {
         $t->parse( "delete", "delete_tpl" );
         $t->parse( "edit", "edit_tpl" );
