@@ -34,7 +34,7 @@
 		<option value="150-200">150-200 DM</option>		
 		<option value="200-300">200-300 DM</option>
 		<option value="300-500">300-500 DM</option>
-		<option value="500-1000">100-150 DM</option>
+		<option value="500-1000">500-1000 DM</option>
 		<option value="1000-100000">&gt; 1000 DM</option>		
 	    </select>
 	</td>
