@@ -465,6 +465,25 @@ CREATE TABLE eZTrade_WishListOptionValue (
   PRIMARY KEY (ID)
 ) TYPE=MyISAM;
 
+CREATE TABLE eZTrade_ProductForumLink (
+  ID int NOT NULL,
+  ProductID int NOT NULL default '0',
+  ForumID int NOT NULL default '0',
+  PRIMARY KEY (ID)
+);
+
+CREATE TABLE eZTrade_ProductWordLink (
+  ProductID int(11) NOT NULL default '0',
+  Frequency float default 0.2,
+  WordID int(11) NOT NULL default '0'
+);
+
+CREATE TABLE eZTrade_Word (
+  ID int(11) NOT NULL default '0',
+  Frequency float default 0.2,
+  Word varchar(50) NOT NULL default ''
+);
+
 
 CREATE INDEX TradeCategory_Name ON eZTrade_Category (Name);
 CREATE INDEX TradeCategory_Parent ON eZTrade_Category (Parent);
@@ -481,3 +500,10 @@ CREATE INDEX TradeProductDef_ProductID ON eZTrade_ProductCategoryDefinition (Pro
 
 CREATE INDEX TradeAttributeValue_ProductID ON eZTrade_AttributeValue (ProductID);
 CREATE INDEX TradeAttributeValue_AttributeID ON eZTrade_AttributeValue (AttributeID);
+
+
+CREATE INDEX TradeWordLink_ArticleID ON eZTrade_ArticleWordLink (ProductID);
+CREATE INDEX TradeWordLink_WordID ON eZTrade_ArticleWordLink (WordID);
+CREATE INDEX TradeWord_Word ON eZTrade_Word (Word);
+CREATE UNIQUE INDEX TradeWord_ID ON eZTrade_Word (ID);
+

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: productsearch.php,v 1.20 2001/09/27 12:00:00 ce Exp $
+// $Id: productsearch.php,v 1.20.8.1 2002/01/15 15:39:24 bf Exp $
 //
 // Created on: <10-Oct-2000 17:49:05 bf>
 //
@@ -96,8 +96,7 @@ if ( isset( $URLQueryString ) )
 
 if ( $Query )
 {
-    $productList =& $product->activeProductSearch( $Query, $Offset, $Limit );
-    $total_count = $product->activeProductSearchCount( $Query );
+    $productList =& $product->search( $Query, $Offset, $Limit, array(), $total_count );
 } 
 
 $t->set_var( "url_text", urlencode( $Query ) );

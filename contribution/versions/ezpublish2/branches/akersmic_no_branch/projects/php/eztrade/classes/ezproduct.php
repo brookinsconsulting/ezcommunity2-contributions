@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: ezproduct.php,v 1.119.2.1.4.2 2002/01/14 10:28:54 ce Exp $
+// $Id: ezproduct.php,v 1.119.2.1.4.3 2002/01/15 15:39:23 bf Exp $
 //
 // Definition of eZProduct class
 //
@@ -208,8 +208,145 @@ class eZProduct
         else
             $db->commit();
 
+        $this->createIndex();
+        
         return true;
     }
+
+    /*!
+      \private
+      will index the product keywords (fetched from Contents) and name for fulltext search.
+    */
+    function createIndex()
+    {
+        // generate keywords
+        $tmpContents = $this->Contents;
+
+        $tmpContents = str_replace ("</intro>", " ", $tmpContents );
+        $tmpContents = str_replace ("</page>", " ", $tmpContents );
+        
+        $contents = strtolower( strip_tags( $tmpContents ) ) . " " . $this->Name;
+        $contents = str_replace ("\n", "", $contents );
+        $contents = str_replace ("\r", "", $contents );
+        $contents = str_replace ("(", " ", $contents );
+        $contents = str_replace (")", " ", $contents );
+        $contents = str_replace (",", " ", $contents );
+        $contents = str_replace (".", " ", $contents );
+        $contents = str_replace ("/", " ", $contents );
+        $contents = str_replace ("-", " ", $contents );
+        $contents = str_replace ("_", " ", $contents );
+        $contents = str_replace ("\"", " ", $contents );
+        $contents = str_replace ("'", " ", $contents );
+        $contents = str_replace (":", " ", $contents );
+        $contents = str_replace ("?", " ", $contents );
+        $contents = str_replace ("!", " ", $contents );
+        $contents = str_replace ("\"", " ", $contents );
+        $contents = str_replace ("|", " ", $contents );
+        $contents = str_replace ("qdom", " ", $contents );
+        $contents = str_replace ("tech", " ", $contents );
+
+        // strip &quot; combinations
+        $contents = preg_replace("(&.+?;)", " ", $contents );
+
+        // strip multiple whitespaces
+        $contents = preg_replace("(\s+)", " ", $contents );
+
+        $contents_array =& split( " ", $contents );
+       
+        $totalWordCount = count( $contents_array );
+        $wordCount = array_count_values( $contents_array );
+
+        $contents_array = array_unique( $contents_array );
+        
+        $keywords = "";
+        foreach ( $contents_array as $word )
+        {
+            if ( strlen( $word ) >= 2 )
+            {
+                $keywords .= $word . " ";
+            }
+        }
+
+        $this->Keywords = $keywords;
+
+        $db =& eZDB::globalDatabase();
+        $ret = array();
+
+        $ret[] = $db->query( "DELETE FROM  eZTrade_ProductWordLink WHERE ProductID='$this->ID'" );
+
+        // get total number of products
+        $db->array_query( $product_array, "SELECT COUNT(*) AS Count FROM eZTrade_Product" );
+        $productCount = $product_array[0][$db->fieldName( "Count" )];        
+
+        $db->begin( );
+        
+        foreach ( $contents_array as $word )
+        {
+            if ( strlen( $word ) >= 2 )
+            {
+                $indexWord = $word;
+
+                $indexWord = $db->escapeString( $indexWord );
+
+
+                // find the frequency
+                $count = $wordCount[$indexWord];
+
+                $freq = ( $count / $totalWordCount );
+                
+                $query = "SELECT ID FROM eZTrade_Word
+                      WHERE Word='$indexWord'";
+
+                $db->array_query( $word_array, $query );
+
+               
+                if ( count( $word_array ) == 1 )
+                {
+                    // word exists create reference
+                    $wordID = $word_array[0][$db->fieldName("ID")];
+
+                    // number of links to this word
+                    $db->array_query( $product_array, "SELECT COUNT(*) AS Count FROM eZTrade_ProductWordLink WHERE WordID='$wordID'" );
+                    $wordUsageCount = $product_array[0][$db->fieldName( "Count" )];
+
+                    $wordFreq = ( $wordUsageCount + 1 )  / $productCount;
+
+                    // update word frequency
+                    $ret[] = $db->query( "UPDATE  eZTrade_Word SET Frequency='$wordFreq' WHERE ID='$wordID'" );
+                    
+                
+                    $ret[] = $db->query( "INSERT INTO eZTrade_ProductWordLink ( ProductID, WordID, Frequency ) VALUES
+                                      ( '$this->ID',
+                                        '$wordID',
+                                        '$freq' )" );
+                }
+                else
+                {
+                    // lock the table
+                    $db->lock( "eZTrade_Word" );
+
+                    $wordFreq = 1 / $productCount;
+
+                    // new word, create word
+                    $nextID = $db->nextID( "eZTrade_Word", "ID" );
+                    $ret[] = $db->query( "INSERT INTO eZTrade_Word ( ID, Word, Frequency ) VALUES
+                                      ( '$nextID',
+                                        '$indexWord',
+                                        '$wordFreq' )" );
+                    $db->unlock();
+
+                    $ret[] = $db->query( "INSERT INTO eZTrade_ProductWordLink ( ProductID, WordID, Frequency ) VALUES
+                                      ( '$this->ID',
+                                        '$nextID',
+                                        '$freq' )" );
+                
+                }
+            }
+        }        
+        eZDB::finish( $ret, $db );
+
+    }
+    
 
     /*!
       Fetches the object information from the database.
@@ -1419,6 +1556,121 @@ class eZProduct
     }
 
     /*!
+      Does a search in the article archive.
+      queryText is the text to search for
+      sortMode is the way the result is sorted.
+      fetchnonPublished can be either true or false.
+      offset, limit are self explanatory.
+
+      params is an associative array that can contain the following items
+      FromDate an eZDate object.
+      ToDate an eZDate object.
+      Categories an array of Category ID's
+      Type
+      AuthorID the ID of the author writing the article
+      PhotographerID a photographer that has contributed to the article
+
+      if SearchExcludedArticles is set to "true" articles which is set non searchable will also be searched.
+      $SearchTotalCount will return the total number of items found in the search
+    */
+    function &search( &$queryText, $offset=0, $limit=10, $params = array(), &$SearchTotalCount )
+    {
+        $db =& eZDB::globalDatabase();
+
+        $queryText = $db->escapeString( $queryText );
+        
+        // Build the ORDER BY
+        $OrderBy = "eZTrade_ProductWordLink.Frequency DESC";
+        switch( $sortMode )
+        {
+            case "alpha" :
+            {
+                $OrderBy = "eZTrade_Product.Name DESC";
+            }
+            break;
+        }
+
+        if ( $fetchPublished == true )
+        {
+            $fetchText = "";
+        }
+        else
+        {
+//            $fetchText = "AND eZTrade_Product.Published = '1'";
+        }
+
+        $user =& eZUser::currentUser();
+
+
+        // stop word frequency
+        $ini =& INIFile::globalINI();
+        $StopWordFrequency = $ini->read_var( "eZTradeMain", "StopWordFrequency" );
+       
+        $query = new eZQuery( "eZTrade_Word.Word", $queryText );
+        $query->setIsLiteral( true );
+        $query->setStopWordColumn(  "eZTrade_Word.Frequency" );
+        $query->setStopWordPercent( $StopWordFrequency );
+        $searchSQL = $query->buildQuery();        
+
+        {
+            $queryArray = explode( " ", trim( $queryText ) );
+
+            $db->query( "CREATE TEMPORARY TABLE eZTrade_SearchTemp( ProductID int )" );
+
+            $count = 1;
+            foreach ( $queryArray as $queryWord )
+            {                
+                $queryWord = trim( $queryWord );
+
+                $searchSQL = " ( eZTrade_Word.Word = '$queryWord' AND eZTrade_Word.Frequency < '$StopWordFrequency' ) ";
+                
+                $queryString = "INSERT INTO eZTrade_SearchTemp ( ProductID ) SELECT DISTINCT eZTrade_Product.ID AS ProductID
+                 FROM eZTrade_Product,
+                      eZTrade_ProductWordLink,
+                      eZTrade_Word
+                 WHERE
+                       $searchSQL
+                       AND
+                       ( eZTrade_Product.ID=eZTrade_ProductWordLink.ProductID
+                         AND eZTrade_ProductWordLink.WordID=eZTrade_Word.ID
+                         $fetchText
+                        )
+                       ORDER BY $OrderBy";
+
+                $db->query( $queryString );
+
+                // check if this is a stop word
+                $queryString = "SELECT Frequency FROM eZTrade_Word WHERE Word='$queryWord'";
+
+
+                $db->query_single( $WordFreq, $queryString, array( "LIMIT" => 1 ) );
+
+                if ( $WordFreq["Frequency"] <= $StopWordFrequency )                    
+                    $count += 1;
+            }
+            $count -= 1;
+
+            $queryString = "SELECT ProductID, Count(*) AS Count FROM eZTrade_SearchTemp GROUP BY ProductID HAVING Count>='$count'";
+            
+            $db->array_query( $product_array, $queryString );
+
+            $db->query( "DROP  TABLE eZTrade_SearchTemp" );
+
+            $SearchTotalCount = count( $product_array );
+            if ( $limit >= 0 )
+                $product_array =& array_slice( $product_array, $offset, $limit );            
+        }
+
+        for ( $i=0; $i < count($product_array); $i++ )
+        {
+            $return_array[$i] = new eZProduct( $product_array[$i][$db->fieldName("ProductID")], false );
+        }
+       
+        return $return_array;
+    }
+
+    
+    /*!
       Search through the products.
 
       Returns the products as an array of eZProducts objects.
@@ -2243,6 +2495,59 @@ class eZProduct
         return $ret;
     }
 
+    /*!
+      Returns the forum for the product.
+    */
+    function forum( $as_object = true )
+    {
+        $db =& eZDB::globalDatabase();
+
+        $db->array_query( $res, "SELECT ForumID FROM
+                                            eZTrade_ProductForumLink
+                                            WHERE ProductID='$this->ID'" );
+        $forum = false;
+        if ( count( $res ) == 1 )
+        {
+            if ( $as_object )
+                $forum = new eZForum( $res[0][$db->fieldName( "ForumID" )] );
+            else
+                $forum = $res[0][$db->fieldName( "ForumID" )];
+        }
+        else
+        {
+            $forum = new eZForum();
+            $forum->setName( $db->escapeString( $this->Name ) );
+            $forum->store();
+
+            $forumID = $forum->id();
+
+            $db->begin( );
+    
+            $db->lock( "eZTrade_ProductForumLink" );
+
+            $nextID = $db->nextID( "eZTrade_ProductForumLink", "ID" );
+            
+            $res = $db->query( "INSERT INTO eZTrade_ProductForumLink
+                                ( ID, ProductID, ForumID )
+                                VALUES
+                                ( '$nextID', '$this->ID', '$forumID' )" );
+
+            $db->unlock();
+    
+            if ( $res == false )
+                $db->rollback( );
+            else
+                $db->commit();
+            
+
+            if ( $as_object )
+                $forum = new eZForum( $forumID );
+            else
+                $forum = $forumID;
+        }
+        return $forum;
+    }
+    
 
     var $ID;
     var $Name;

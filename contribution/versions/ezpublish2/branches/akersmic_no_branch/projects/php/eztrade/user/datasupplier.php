@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: datasupplier.php,v 1.54 2001/10/12 10:52:59 sascha Exp $
+// $Id: datasupplier.php,v 1.54.8.1 2002/01/15 15:39:24 bf Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -112,6 +112,16 @@ switch ( $url_array[2] )
             include( "eztrade/user/productview.php" );
         }
 
+        // forum
+        $RedirectURL = "/trade/productview/$ProductID/";
+        $product = new eZProduct( $ProductID );
+        if ( ( $product->id() >= 1 ) )
+        {
+            $forum = $product->forum();
+            $ForumID = $forum->id();
+            include( "ezforum/user/messagesimplelist.php" );
+        }
+        
         break;
         
     case "print" :

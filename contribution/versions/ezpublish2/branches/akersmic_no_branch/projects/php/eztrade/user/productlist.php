@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: productlist.php,v 1.41.8.4 2002/01/14 12:54:07 bf Exp $
+// $Id: productlist.php,v 1.41.8.5 2002/01/15 15:39:24 bf Exp $
 //
 // Created on: <23-Sep-2000 14:46:20 bf>
 //
@@ -114,7 +114,7 @@ foreach ( $pathArray as $path )
     $SiteTitleAppend .= $path[1] . " - ";
 }
 
-$categoryList =& $category->getByParentAsID( $category, "name", $Limit, $Offset );
+$categoryList =& $category->getByParentAsID( $category, "name", $Limit*4, $Offset );
 $TotalTypes =& $category->countByParent( $category );
 
 // categories
@@ -160,7 +160,7 @@ foreach ( $categoryList as $categoryItem )
     $t->parse( "category", "category_tpl", true );
     $i++;
 }
-eZList::drawNavigator( $t, $TotalTypes, $Limit, $Offset, "product_list_page_tpl" );
+eZList::drawNavigator( $t, $TotalTypes, $Limit*4, $Offset, "product_list_page_tpl" );
 
 if ( count( $categoryList ) == 0 )
 {
