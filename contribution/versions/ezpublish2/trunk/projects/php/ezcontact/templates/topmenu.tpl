@@ -7,6 +7,7 @@
 | <a href="index.php4?page={document_root}userlist.php4">Brukeradmin</a>
 | <a href="index.php4?page={document_root}userlist.php4">Brukeradmin</a>
 | <a href="index.php4?page={document_root}usergrouplist.php4">Gruppeadmin</a>
+| <a href="index.php4?page={document_root}persontypelist.php4">Person Type</a>
 | bruker: <b>{current_user}</b> | -
 <hr noshade side="3" color="#000000">
 
