@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: exportform.php,v 1.6 2002/01/09 16:08:36 jhe Exp $
+// $Id: exportform.php,v 1.7 2002/01/29 09:26:28 jhe Exp $
 //
 // Created on: <07-Jan-2002 12:54:53 jhe>
 //
@@ -46,13 +46,42 @@ $elements = array();
 
 for ( $i = 0; $i < count( $elementList ); $i++ )
 {
-    if ( $elementList[$i]->ElementType->name() == "table_item" )
+    $eType = $elementList[$i]->elementType();
+    if ( $eType->name() == "text_field_item" ||
+         $eType->name() == "text_area_item" ||
+         $eType->name() == "dropdown_item" ||
+         $eType->name() == "multiple_select_item" ||
+         $eType->name() == "radiobox_item" ||
+         $eType->name() == "checkbox_item" ||
+         $eType->name() == "numerical_float_item" ||
+         $eType->name() == "numerical_integer_item" ||
+         $eType->name() == "user_email_item" ||
+         $eType->name() == "table_item" )
     {
-        $elements = array_merge( $elements, eZFormTable::tableElements( $elementList[$i]->id() ) );
-    }
-    else
-    {
-        $elements[] = $elementList[$i];
+        if ( $eType->name() == "table_item" )
+        {
+            $tableElements = eZFormTable::tableElements( $elementList[$i]->id() );
+            foreach ( $tableElements as $te )
+            {
+                $eType = $elementList[$i]->elementType();
+                if ( $eType->name() == "text_field_item" ||
+                     $eType->name() == "text_area_item" ||
+                     $eType->name() == "dropdown_item" ||
+                     $eType->name() == "multiple_select_item" ||
+                     $eType->name() == "radiobox_item" ||
+                     $eType->name() == "checkbox_item" ||
+                     $eType->name() == "numerical_float_item" ||
+                     $eType->name() == "numerical_integer_item" ||
+                     $eType->name() == "user_email_item" )
+                {
+                    $elements[] = $te;                    
+                }
+            }
+        }
+        else
+        {
+            $elements[] = $elementList[$i];
+        }
     }
 }
 
