@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezsession.php,v 1.18 2001/01/11 11:46:01 ce Exp $
+// $Id: ezsession.php,v 1.19 2001/01/19 20:27:44 bf Exp $
 //
 // Definition of eZSession class
 //
@@ -97,10 +97,17 @@ class eZSession
 //          $HTTP_SESSION_VARS["eZSession"] = $this->Hash;
 //          print( "new session" );
 
+//          session_start();
+        
+//          session_register( "eZSessionSession" );
+        
+//          $GLOBALS["eZSessionSession"] = $this->Hash;
+
         setcookie ( "eZSession", $this->Hash, 0, "/",  "", 0 )
             or die( "Error: could not set cookie." );        
 
         $remoteIP = $GLOBALS["REMOTE_ADDR"];
+        
         if ( !isset( $this->ID ) )
         {
             $this->Database->query( "INSERT INTO eZSession_Session SET

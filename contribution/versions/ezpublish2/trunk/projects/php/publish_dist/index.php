@@ -7,6 +7,8 @@ header("Pragma: no-cache");
 // turn on output buffering
 ob_start();
 
+
+
 include_once( "classes/INIFile.php" );
 $ini = new INIFile( "site.ini" );
 $GlobalSiteIni =& $ini;
@@ -45,8 +47,10 @@ $content_page = "";
 // Check if userlogin is required
 $user = eZUser::currentUser();
 
-if ( ( $ini->read_var( "eZUserMain", "RequireUserLogin" ) == "enabled" ) ||
-    ( $ini->read_var( "eZUserMain", "RequireUserLogin" ) == "enabled"  & ( get_class( $user ) == "ezuser" ) && ( $user->id() != 0 ) ) ) 
+$requireUserLogin =& $ini->read_var( "eZUserMain", "RequireUserLogin" );
+
+if ( ( $requireUserLogin == "disabled" ) ||
+    ( ( $requireUserLogin == "enabled" )   & ( get_class( $user ) == "ezuser" ) && ( $user->id() != 0 ) ) ) 
 {
 
 // Remove url parameters

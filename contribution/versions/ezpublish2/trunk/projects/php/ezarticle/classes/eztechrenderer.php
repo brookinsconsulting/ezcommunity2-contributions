@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eztechrenderer.php,v 1.44 2000/12/14 21:05:02 bf Exp $
+// $Id: eztechrenderer.php,v 1.45 2001/01/19 20:27:44 bf Exp $
 //
 // Definition of eZTechRenderer class
 //
@@ -43,6 +43,10 @@
 
   <module modulename> - this will include a php file named "modulename.php" if it is found in the
   ezrticle/modules dir.
+
+  <bullet>
+  
+  </bullet>
 
   <cpp>
   cpp code
@@ -631,6 +635,17 @@ class eZTechRenderer
             $pageContent .= "<br clear=\"all\"><p><table width=\"100%\" cellspacing=\"0\" cellpadding=\"4\" border=\"0\"><tr><td bgcolor=\"#f0f0f0\"><pre>" .
              $paragraph->children[0]->content . "</pre></td></tr></table></p>";
         }
+
+        // bullet list
+        if ( $paragraph->name == "bullet" )
+        {
+            $tmpContent = $paragraph->children[0]->content;
+            
+            $tmpContent = preg_replace( "#^(.*)$#m", "<li>\\1</li>", $tmpContent );
+            
+            $pageContent .= "<ul>" . $tmpContent . "</ul>";
+        }
+        
         return $pageContent;
     }
 

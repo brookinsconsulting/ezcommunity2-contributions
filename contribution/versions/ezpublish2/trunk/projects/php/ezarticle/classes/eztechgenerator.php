@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eztechgenerator.php,v 1.28 2000/12/14 21:05:02 bf Exp $
+// $Id: eztechgenerator.php,v 1.29 2001/01/19 20:27:44 bf Exp $
 //
 // Definition of eZTechGenerator class
 //
@@ -113,12 +113,12 @@ class eZTechGenerator
     function &generateUnknowns( $tmpPage )
     {
         // make unknown tags readable.. look-ahead assertion is used ( ?! ) 
-        $tmpPage = preg_replace( "/<(?!(page|php|\/|image|cpp|shell|sql|hea|lin|per|bol|ita|und|str|pre|ver|lis|ezhtml|java|ezanchor|mail|module))/", "&lt;", $tmpPage );
+        $tmpPage = preg_replace( "/<(?!(page|php|\/|image|cpp|shell|sql|hea|lin|per|bol|ita|und|str|pre|ver|lis|ezhtml|java|ezanchor|mail|module|bullet))/", "&lt;", $tmpPage );
 
         // look-behind assertion is used here (?<!) 
         // the expression must be fixed width eg just use the 3 last letters of the tag
 
-        $tmpPage = preg_replace( "#(?<!(age|php|age|cpp|ell|sql|der|erl|old|lic|ine|ike|pre|tim|isp|tml|ava))>#", "&gt;", $tmpPage );
+        $tmpPage = preg_replace( "#(?<!(age|php|age|cpp|ell|sql|der|erl|old|lic|ine|ike|pre|tim|isp|tml|ava|let))>#", "&gt;", $tmpPage );
         // make better..
         $tmpPage = preg_replace( "#/&gt;#", "/>", $tmpPage );
 
@@ -259,6 +259,7 @@ class eZTechGenerator
         
         return $tmpPage;
     }
+
 
     /*!
       Decodes the xml chunk and returns the original array to the article. 
@@ -402,6 +403,7 @@ class eZTechGenerator
         {
             $pageContent .= "<lisp>" . $paragraph->children[0]->content . "</lisp>";
         }
+
 
         
         return $pageContent;
@@ -599,6 +601,13 @@ class eZTechGenerator
         {
             $pageContent .= "<verbatim>" . $paragraph->children[0]->content . "</verbatim>";
         }
+
+        // bullet list
+        if ( $paragraph->name == "bullet" )
+        {
+            $pageContent .= "<bullet>" . $paragraph->children[0]->content . "</bullet>";
+        }
+        
         return $pageContent;
     }
 

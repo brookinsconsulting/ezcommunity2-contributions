@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: articleedit.php,v 1.30 2000/12/23 14:23:49 bf Exp $
+// $Id: articleedit.php,v 1.31 2001/01/19 20:27:44 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <18-Oct-2000 15:04:39 bf>
@@ -26,12 +26,21 @@
 include_once( "classes/INIFile.php" );
 include_once( "classes/eztemplate.php" );
 include_once( "classes/ezlocale.php" );
+include_once( "classes/ezmail.php" );
+
 include_once( "ezuser/classes/ezuser.php" );
 
 include_once( "ezarticle/classes/ezarticlecategory.php" );
 include_once( "ezarticle/classes/ezarticle.php" );
 include_once( "ezarticle/classes/ezarticlegenerator.php" );
+include_once( "ezarticle/classes/ezarticlerenderer.php" );
 
+$ini =& $GLOBALS["GlobalSiteIni"];
+
+$PublishNoticeReceiver = $ini->read_var( "eZArticleMain", "PublishNoticeReceiver" );
+$PublishNoticeSender = $ini->read_var( "eZArticleMain", "PublishNoticeSender" );
+
+// insert a new article in the database
 
 if ( $Action == "Insert" )
 {
@@ -57,6 +66,20 @@ if ( $Action == "Insert" )
     // add check for publishing rights here
     if ( $IsPublished == "on" )
     {
+        // send a notice mail
+        $noticeMail = new eZMail();
+
+        $noticeMail->setFrom( $PublishNoticeSender );
+        $noticeMail->setTo( $PublishNoticeReceiver );
+            
+        $renderer = new eZArticleRenderer( $article );
+        $intro = strip_tags( $renderer->renderIntro( ) );
+            
+        $noticeMail->setSubject( $article->name() );
+        $noticeMail->setBody( $intro );
+
+        $noticeMail->send();                        
+        
         $article->setIsPublished( true );
     }
     else
@@ -204,7 +227,7 @@ if ( $Action == "Cancel" )
     exit();
 }
 
-
+// update an existing article in the database
 if ( $Action == "Update" )
 {
     $article = new eZArticle( $ArticleID );
@@ -229,6 +252,24 @@ if ( $Action == "Update" )
     // add check for publishing rights here
     if ( $IsPublished == "on" )
     {
+        // check if the article is published now
+        if ( $article->isPublished() == false )
+        {
+            // send a notice mail
+            $noticeMail = new eZMail();
+
+            $noticeMail->setFrom( $PublishNoticeSender );
+            $noticeMail->setTo( $PublishNoticeReceiver );
+            
+            $renderer = new eZArticleRenderer( $article );
+            $intro = strip_tags( $renderer->renderIntro( ) );
+            
+            $noticeMail->setSubject( $article->name() );
+            $noticeMail->setBody( $intro );
+
+            $noticeMail->send();                        
+        }
+        
         $article->setIsPublished( true );
     }
     else
@@ -432,7 +473,6 @@ if ( $Action == "Delete" )
 }
 
 
-$ini = new INIFIle( "site.ini" );
 
 $Language = $ini->read_var( "eZArticleMain", "Language" );
 
