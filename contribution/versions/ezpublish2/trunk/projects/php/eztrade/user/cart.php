@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: cart.php,v 1.11 2000/11/02 20:26:19 bf-cvs Exp $
+// $Id: cart.php,v 1.12 2000/12/12 18:11:48 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <27-Sep-2000 11:57:49 bf>
@@ -78,37 +78,103 @@ if ( !$cart )
 
 if ( $Action == "AddToBasket" )
 {
-    print( "add<br>" );
-
     $product = new eZProduct( $ProductID );
 
-    $cartItem = new eZCartItem();
-    
-    $cartItem->setProduct( $product );
-    $cartItem->setCart( $cart );
+    // check if a product like this is already in the basket.
+    // if so-> add the count value.
 
-    $cartItem->store();
-
-    if ( count( $OptionValueArray ) > 0 )
+    $productAddedToBasket = false;
     {
-        $i = 0;
-        foreach ( $OptionValueArray as $value )
-        {
-            
-            $option = new eZOption( $OptionIDArray[$i] );
-            $optionValue = new eZOptionValue( $value );
-        
-            $cartOption = new eZCartOptionValue();
-            $cartOption->setCartItem( $cartItem );
-            $cartOption->setOption( $option );
-            $cartOption->setOptionValue( $optionValue );
+        // fetch the cart items
+        $items = $cart->items( );
 
-            $cartOption->store();
-        
-            $i++;
+        foreach ( $items as $item )
+        {
+            // the same product
+            if ( ( $ProductID == $product->id() ) && ( $productAddedToBasket == false ) )
+            {
+                $optionValues =& $item->optionValues();
+
+                if ( count( $optionValues ) > 0 )
+                { // product with options
+                    $hasTheSameOptions = true;
+                    
+                    foreach ( $optionValues as $optionValue )
+                    {
+                        $option =& $optionValue->option();
+                        $value =& $optionValue->optionValue();                        
+
+                        $optionValueFound = false;
+                        
+                        if ( count( $OptionValueArray ) > 0 )
+                        {
+                            $i=0;
+                            foreach ( $OptionValueArray as $valueItem )
+                            {
+                                if ( ( $OptionIDArray[$i] == $option->id() )
+                                     && ( $valueItem == $value->id() ) )
+                                {
+                                    $optionValueFound = true;
+                                }
+                                $i++;
+                            }
+                        }
+                        
+                        if ( $optionValueFound == false )
+                        {
+                            $hasTheSameOptions = false;
+                        }
+                    }
+
+                    if ( $hasTheSameOptions == true )
+                    {
+                        $item->setCount( $item->count() + 1 );
+                        $item->store();
+                        $productAddedToBasket = true;
+                    }
+                }
+                else
+                { // product without options
+                    if ( count( $OptionValueArray ) == 0 )
+                    {
+                        $item->setCount( $item->count() + 1 );
+                        $item->store();
+                        $productAddedToBasket = true;
+                    }
+                }
+            }
         }
     }
 
+    if ( $productAddedToBasket == false )
+    {
+        $cartItem = new eZCartItem();
+
+        $cartItem->setProduct( $product );
+        $cartItem->setCart( $cart );
+
+        $cartItem->store();
+
+        if ( count( $OptionValueArray ) > 0 )
+        {
+            $i = 0;
+            foreach ( $OptionValueArray as $value )
+            {
+                $option = new eZOption( $OptionIDArray[$i] );
+                $optionValue = new eZOptionValue( $value );
+                
+                $cartOption = new eZCartOptionValue();
+                $cartOption->setCartItem( $cartItem );
+                $cartOption->setOption( $option );
+                $cartOption->setOptionValue( $optionValue );
+
+                $cartOption->store();
+                
+                $i++;
+            }
+        }
+    }
+    
     Header( "Location: /trade/cart/" );
     
     exit();
