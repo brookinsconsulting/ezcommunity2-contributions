@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezdatetime.php,v 1.21 2001/01/23 16:36:10 gl Exp $
+// $Id: ezdatetime.php,v 1.22 2001/02/08 16:25:16 gl Exp $
 //
 // Definition of eZCompany class
 //
@@ -362,6 +362,29 @@ class eZDateTime
     function dateEquals( $date )
     {
         return $this->Date->equals( $date );
+    }
+
+    /*!
+      Returns true if the eZDateTime object given as argument is
+      greater than the internal values.
+
+      If $equal is set to true then true is returned if the datetime
+      is greater than or equal.
+
+      Returns false is the object is not a eZDateTime object.
+    */
+    function isGreater( &$datetime, $equal=false )
+    {
+        $ret = false;
+
+        if ( get_class( $datetime ) == "ezdatetime" )
+        {
+            if ( $this->Date->equals( $datetime->date() ) == true )
+                $ret = $this->Time->isGreater( $datetime->time(), $equal );
+            else
+                $ret = $this->Date->isGreater( $datetime->date(), false );
+        }
+        return $ret;
     }
 
 
