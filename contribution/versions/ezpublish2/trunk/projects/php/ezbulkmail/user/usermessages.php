@@ -61,6 +61,16 @@ if( isset( $subscribed ) )
     $t->set_var( "header", $languageIni->read_var( "strings", "subscribed_header" ) );
     $t->set_var( "body", $languageIni->read_var( "strings", "subscribed_message" ) );
 }
+if( isset( $hasherror ) )
+{
+    $t->set_var( "header", $languageIni->read_var( "strings", "unvalid_hash_header" ) );
+    $t->set_var( "body", $languageIni->read_var( "strings", "unvalid_hash_message" ) );
+}
+if( isset( $subscriptionerror ) )
+{
+    $t->set_var( "header", $languageIni->read_var( "strings", "address_allready_subscribed_header" ) );
+    $t->set_var( "body", $languageIni->read_var( "strings", "address_allready_subscribed_message" ) );
+}
 
 $t->pparse( "output", "message" );
 ?>

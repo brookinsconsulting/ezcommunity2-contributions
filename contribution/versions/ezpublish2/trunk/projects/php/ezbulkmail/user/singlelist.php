@@ -42,6 +42,11 @@ if( isset( $Hash ) && is_object( $category ) )
 
         }
     }
+    else
+    {
+        $hasherror = "";
+        include( "ezbulkmail/user/usermessages.php" );
+    }
 }
 else if( isset( $Hash ) && !is_object( $category ) )
 {
@@ -76,6 +81,8 @@ if( isset( $SubscribeButton ) )
         else
         {
             // Not a valid email address
+            $subscriptionerror = "";
+            include( "ezbulkmail/user/usermessages.php" );
         }
 }
 
@@ -105,6 +112,12 @@ if( isset( $UnSubscribeButton ) )
 
         $unsubscribemail = "";
         include( "ezbulkmail/user/usermessages.php" );
+    }
+    else
+    {
+        $subscriptionerror = "";
+        include( "ezbulkmail/user/usermessages.php" );
+
     }
 }
 

@@ -277,25 +277,6 @@ class eZBulkMailCategory
     }
 
     /*!
-      Adds a mail to the category.
-    */
-    function addMail( $value )
-    {
-       if ( get_class( $value ) == "ezbulkmail" )
-       {
-            $this->dbInit();
-
-            $mailID = $value->id();
-
-            $this->Database->query( "DELETE FROM eZBulkMail_MailCategoryLink WHERE MailID='$mailID'");
-            $query = "INSERT INTO eZBulkMail_MailCategoryLink
-                      SET CategoryID='$this->ID', MailID='$mailID'";
-            
-            $this->Database->query( $query );
-       }       
-    }
-
-    /*!
       Returns every mail in a category as a array of eZBulkmail objects.
 
     */

@@ -18,11 +18,11 @@ if( isset( $Edit ) )
 if( isset( $Send ) )
 {
     $mail = new eZBulkMail( $MailID );
-    $category = $mail->category();
-    if( is_object( $category ) )
+    $category = $mail->categories();
+    if( count( $category ) > 0 )
     {
         $mail->send();
-        $catID = $category->id();
+        $catID = $category[0]->id();
         eZHTTPTool::header( "Location: /bulkmail/categorylist/$catID" );
         exit();
     }
@@ -70,10 +70,10 @@ if( is_object( $mail ) )
         $body = $template->header() . $body . $template->footer();
     $t->set_var( "mail_body", nl2br( $body ) );
 
-    $category = $mail->category();
-    if( is_object( $category ) )
+    $category = $mail->categories();
+    if( count( $category ) > 0 )
     {
-        $t->set_var( "category", $category->name() );
+        $t->set_var( "category", $category[0]->name() );
     }
 }
 else

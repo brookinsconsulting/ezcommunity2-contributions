@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezbulkmail.php,v 1.9 2001/04/27 21:50:26 fh Exp $
+// $Id: ezbulkmail.php,v 1.10 2001/04/30 15:04:23 fh Exp $
 //
 // eZBulkMail class
 //
@@ -285,23 +285,44 @@ class eZBulkMail
     }
 
     /*!
-      Returns the first category this mail is a member of.
+      Adds this bulkmail to a category. 
+     */
+    function addToCategory( $value )
+    {
+       if( get_class( $value ) == "ezbulkmailcategory" )
+           $value = $value->id();
+
+       $db =& eZDB::globalDatabase();
+
+       if( $value == false )
+           $db->query( "DELETE FROM eZBulkMail_MailCategoryLink WHERE MailID='$this->ID'");
+       else
+       {
+           $db->query_single( $result, "SELECT count( ID ) AS Count FROM eZBulkMail_MailCategoryLink WHERE CategoryID='$value' AND MailID='$this->ID'" );
+           if( $result["Count"] == 0 )
+               $db->query( "INSERT INTO eZBulkMail_MailCategoryLink SET CategoryID='$value', MailID='$this->ID'" );
+       }
+    }
+    
+    
+    /*!
+      Returns the categories a mail is member of.
       False if none..
      */
-    function category( $as_object = true )
+    function categories( $as_object = true )
     {
         $db =& eZDB::globalDatabase();
         $category_array = array();
+        $result_array = array();
         
         $db->array_query( $category_array, "SELECT CategoryID FROM eZBulkMail_MailCategoryLink WHERE MailID='$this->ID'" );
 
-        if( count( $category_array ) > 0 && $as_object == true )
-            return new eZBulkMailCategory( $category_array[0]["CategoryID"] );
-        if( count( $category_array ) > 0 && $as_object == false )
-            return $category_array[0]["CategoryID"];
+        foreach( $category_array as $arrayItem )
+        {
+            $result_array[] = ( $as_object == true ) ? new eZBulkMailCategory( $arrayItem["CategoryID"] ) : $arrayItem["CategoryID"];
+        }
         
-        return false;
-
+        return $result_array;
     }
 
     /*!
@@ -350,8 +371,8 @@ class eZBulkMail
 
         $this->useTemplate( false );
 
-        $category = $this->category();
-        if( is_object( $category ) ) // category does exist...
+        $categories = $this->categories();
+        if( count( $categories ) > 0 ) // category does exist...
         {
             $mail = new eZMail();
             $mail->setBodyText( $this->BodyText );
@@ -359,12 +380,17 @@ class eZBulkMail
             $mail->setSender( $this->From );
             // get subscribers from groups
             $subscribers = array();
-            $groups = $category->groupSubscriptions();
-            foreach( $groups as $group )
-                $subscribers = array_merge( $subscribers, $group->userEmails() );
 
             // normal subscribers...
-            $subscribers = array_merge( $subscribers,  $category->subscribers() );
+            foreach( $categories as $categoryItem )
+            {
+                $subscribers = array_merge( $subscribers,  $categoryItem->subscribers() );
+
+                $groups = $categoryItem->groupSubscriptions();
+                foreach( $groups as $group )
+                    $subscribers = array_merge( $subscribers, $group->userEmails() );
+            }
+            
             foreach( $subscribers as $subscriber )
             {
                 if( !$this->isSent( $subscriber ) )

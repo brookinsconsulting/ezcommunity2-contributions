@@ -9,6 +9,7 @@ include_once( "classes/ezlocale.php" );
 include_once( "ezuser/classes/ezuser.php" );
 include_once( "classes/ezhttptool.php" );
 
+
 if( isset( $Cancel ) )
 {
     eZHTTPTool::header( "Location: /bulkmail/mailedit" );
@@ -17,9 +18,12 @@ if( isset( $Cancel ) )
 
 if( isset( $Preview ) )
 {
-    $id = save_mail();
-    eZHTTPTool::header( "Location: /bulkmail/preview/$id" );
-    exit();
+    $MailID = save_mail();
+    if( !isset( $error ) )
+    {
+        eZHTTPTool::header( "Location: /bulkmail/preview/$MailID" );
+        exit();
+    }
 }
 
 if( isset( $Save ) )
@@ -29,9 +33,12 @@ if( isset( $Save ) )
 
 if( isset( $Send ) )
 {
-    $id = save_mail();
-    eZHTTPTool::header( "Location: /bulkmail/send/$id" );
-    exit();
+    $MailID = save_mail();
+    if( !isset( $error ) )
+    {
+        eZHTTPTool::header( "Location: /bulkmail/send/$MailID" );
+        exit();
+    }
 }
 
 $ini =& INIFile::globalINI();
@@ -45,10 +52,12 @@ $t->set_file( array(
     "mail_edit_page_tpl" => "mailedit.tpl"
     ) );
 
-$t->set_block( "mail_edit_page_tpl", "category_item_tpl", "category_item" );
 $t->set_block( "mail_edit_page_tpl", "template_item_tpl", "template_item" );
-$t->set_var( "category_item", "" );
+$t->set_block( "mail_edit_page_tpl", "multiple_value_tpl", "multiple_value" );
+$t->set_block( "mail_edit_page_tpl", "error_message_tpl", "error_message" );
+$t->set_var( "multiple_value", "" );
 $t->set_var( "template_item", "" );
+$t->set_var( "error_message", "" );
 
 $t->set_var( "site_style", $SiteStyle );
 $t->set_var( "from_value", "" );
@@ -63,7 +72,7 @@ if( $MailID == 0 )
 }
 $user = eZUser::currentUser();
 $t->set_var( "from_value", $user->email() );
-
+$categoryArrayID = array();
 /** We are editing an allready existent mail... lets insert it's values **/
 if( $MailID != 0 ) 
 {
@@ -76,7 +85,7 @@ if( $MailID != 0 )
     $t->set_var( "subject_value", $mail->subject() );
     $t->set_var( "mail_body", $mail->body() );
 
-    $categoryID = $mail->category( false );
+    $categoryArrayID = $mail->categories( false );
     $templateID = $mail->template( false );
 }
 
@@ -86,12 +95,13 @@ foreach( $categories as $category )
 {
     $t->set_var( "category_id", $category->id() );
     $t->set_var( "category_name", $category->name() );
-    if( $categoryID == $category->id() )
-        $t->set_var( "selected", "selected" );
+
+    if( in_array( $category->id(), $categoryArrayID ) )
+        $t->set_var( "multiple_selected", "selected" );
     else
-        $t->set_var( "selected", "" );
+        $t->set_var( "multiple_selected", "" );
         
-    $t->parse( "category_item", "category_item_tpl",  true );
+    $t->parse( "multiple_value", "multiple_value_tpl", true );
 }
 $templates = eZBulkMailTemplate::getAll();
 foreach( $templates as $template )
@@ -107,6 +117,10 @@ foreach( $templates as $template )
     $t->parse( "template_item", "template_item_tpl",  true );
 }
 
+/** Lets check for errors and display them to the user **/
+if( isset( $error ) )
+    $t->parse( "error_message", "error_message_tpl", false );
+
 $t->pparse( "output", "mail_edit_page_tpl" );
 
 /*********************** FUNCTIONS ***************************************/
@@ -116,7 +130,7 @@ $t->pparse( "output", "mail_edit_page_tpl" );
  */
 function save_mail()
 {
-    global $CategoryID,$TemplateID, $To, $From, $Subject, $MailBody, $MailID; // instead of passing them as arguments..
+    global $CategoryArrayID, $TemplateID, $To, $From, $Subject, $MailBody, $MailID, $error;// instead of passing them as arguments..
 
     if( $MailID == 0 )
     {
@@ -137,8 +151,16 @@ function save_mail()
     if( $TemplateID != -1 )
         $mail->useTemplate( $TemplateID );
     
-    $category = new eZBulkMailCategory( $CategoryID );
-    $category->addMail( $mail );
+    $mail->addToCategory( false );
+    if( count( $CategoryArrayID ) > 0 )
+    {
+        foreach( $CategoryArrayID as $categoryItemID )
+        {
+            $mail->addToCategory( $categoryItemID );
+        }
+    }
+    else
+        $error = "No categories set";
     
     return $mail->id();
 }

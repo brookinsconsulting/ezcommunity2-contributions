@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: maillist.php,v 1.2 2001/04/19 12:27:26 fh Exp $
+// $Id: maillist.php,v 1.3 2001/04/30 15:04:23 fh Exp $
 //
 // Frederik Holljen <fh@ez.no>
 // Created on: <18-Apr-2001 10:26:26 fh>
@@ -63,10 +63,10 @@ $i = 0;
 foreach( $mail as $mailItem )
 {
     $t->set_var( "bulkmail_subject", $mailItem->subject() );
-    $category = $mailItem->category();
-    if( is_object( $category ) )
+    $categories = $mailItem->categories();
+    if( count( $categories ) > 0 )
     {
-        $t->set_var( "bulkmail_category", $category->name() );
+        $t->set_var( "bulkmail_category", $categories[0]->name() );
     }
 
     $t->set_var( "bulkmail_id", $mailItem->id() );
