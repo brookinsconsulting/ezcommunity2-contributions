@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezimage.php,v 1.18 2000/11/16 10:40:06 ce-cvs Exp $
+// $Id: ezimage.php,v 1.19 2000/11/22 11:26:29 ce-cvs Exp $
 //
 // Definition of eZImage class
 //
@@ -170,6 +170,16 @@ class eZImage
                 $this->OriginalFileName =& $image_array[0][ "OriginalFileName" ];
 
                 $this->State_ = "Coherent";
+
+                if ( $this->ID != "" )
+                {
+                    $this->Database->array_query( $image_variation_array, "SELECT ImagePath FROM eZImageCatalogue_Image WHERE ImageID='$this->ID'" );
+                    if ( count( $image_variation_array ) > 1 )
+                    {
+                        die( "Error: Image's with the same ID was found in the database. This shouldent happen." );
+            }
+
+                }
             }
             else if( count( $image_array ) < 1 )
             {
@@ -306,6 +316,8 @@ class eZImage
 
        return $ret;
     }
+
+    
     
     /*!
       Sets the image name.
