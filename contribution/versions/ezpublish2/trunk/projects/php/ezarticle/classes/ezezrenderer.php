@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezezrenderer.php,v 1.11 2000/10/30 12:25:52 bf-cvs Exp $
+// $Id: ezezrenderer.php,v 1.12 2000/10/30 13:58:30 bf-cvs Exp $
 //
 // Definition of eZEzRenderer class
 //
@@ -302,13 +302,13 @@ class eZEzRenderer
                         if ( ( $href[0] == "/" ) || ( $href[0] == "#" ) )
                         {
                             $pageContent .= "
-                                       <img align=\"baseline\" src=\"/images/pil-space.gif\" width=\"50\" height=\"10\" border=\"0\" hspace=\"0\"><a class=\"path\" href=\"$href\">"
+                                       <img align=\"baseline\" src=\"/images/pil-space.gif\" width=\"50\" height=\"10\" border=\"0\" hspace=\"0\">&nbsp;<a class=\"path\" href=\"$href\">"
                                  . $text . "</a>";
                         }
                         else
                         {
                             $pageContent .= "
-                                       <img align=\"baseline\" src=\"/images/pil-space.gif\" width=\"50\" height=\"10\" border=\"0\" hspace=\"0\"><a class=\"path\" href=\"http://$href\">"
+                                       <img align=\"baseline\" src=\"/images/pil-space.gif\" width=\"50\" height=\"10\" border=\"0\" hspace=\"0\">&nbsp;<a class=\"path\" href=\"http://$href\">"
                                  . $text . "</a>";
 
                         }

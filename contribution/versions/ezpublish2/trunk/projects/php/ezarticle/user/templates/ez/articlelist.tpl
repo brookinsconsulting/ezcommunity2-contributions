@@ -1,8 +1,15 @@
+<table width="100%" cellspacing="0" cellpadding="0" border="0">
+<tr>
+        <td bgcolor="#f08c00"  width="100%">
+        <strong class="h1"><img src="/images/1x1.gif" width="3" height="1" border="0">{intl-head_line}</strong>
+        </td>
+</tr>
+</table>
+<br />
+
 <!-- BEGIN path_item_tpl -->
 
 <!-- END path_item_tpl -->
-
-<hr noshade="noshade" size="4" />
 
 
 <!-- BEGIN category_list_tpl -->
@@ -24,10 +31,16 @@
 <!-- BEGIN article_item_tpl -->
 <tr>
 	<td>
-	<a href="/article/articleview/{article_id}/">
-	<h2>{article_name}</h2>
-	</a>
-	
+        <table width="100%" cellspacing="0" cellpadding="0" border="0">
+        <tr>
+	        <td bgcolor="#c0c0c0" width="100%">
+		<a href="/article/articleview/{article_id}/">
+                <strong class="h2"><img src="/images/1x1.gif" width="3" height="1" border="0">&nbsp;{article_name}
+                </strong>
+		</a>
+                </td>
+        </tr>
+        </table>
 
 	<!-- BEGIN article_image_tpl -->
 	    <table align="right" width="{thumbnail_image_width}">
