@@ -1,5 +1,5 @@
 <?
-// $Id: linkedit.php,v 1.47 2001/05/29 14:15:04 ce Exp $
+// $Id: linkedit.php,v 1.48 2001/06/23 12:25:32 bf Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <26-Oct-2000 14:58:57 ce>
@@ -138,7 +138,12 @@ if ( $Action == "update" )
             $link->setDescription( $Description );
             $link->setLinkGroupID( $LinkGroupID );
             $link->setKeyWords( $Keywords );
-            $link->setAccepted( $Accepted );
+            
+            if ( $Accepted == "1" )
+                $link->setAccepted( true );
+            else
+                $link->setAccepted( false );
+            
             $link->setUrl( $Url );
 
             $file = new eZImageFile();
@@ -195,7 +200,7 @@ if ( $Action == "delete" )
         $LinkGroupID = $deletelink->linkGroupID();
         $deletelink->delete();
 
-        if ( $deletelink->accepted() == "N" )
+        if ( $deletelink->accepted() == false )
         {
             eZHTTPTool::header( "Location: /link/group/incoming" );
             exit();
@@ -223,7 +228,7 @@ if ( $Action == "DeleteLinks" )
         }
         if ( $deletelink )
         {
-            if ( $deletelink->accepted() == "N" )
+            if ( $deletelink->accepted() == false )
             {
                 eZHTTPTool::header( "Location: /link/group/incoming" );
                 exit();
@@ -252,7 +257,11 @@ if ( $Action == "insert" )
             $link->setDescription( $Description );
             $link->setLinkGroupID( $LinkGroupID );
             $link->setKeyWords( $Keywords );
-            $link->setAccepted( $Accepted );
+            if ( $Accepted == "1" )
+                $link->setAccepted( true );
+            else
+                $link->setAccepted( false );
+
             $link->setUrl( $Url );
 
             $ttitle = $Title;
@@ -418,7 +427,7 @@ if ( $Action == "edit" )
         
         
 
-        if ( $editlink->accepted() == "Y" )
+        if ( $editlink->accepted() == true )
         {
             $yes_selected = "selected";
             $no_selected = "";

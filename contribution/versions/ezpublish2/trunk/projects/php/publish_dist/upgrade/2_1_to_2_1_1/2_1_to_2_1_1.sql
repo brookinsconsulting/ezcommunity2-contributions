@@ -294,7 +294,7 @@ alter table eZArticle_Log add UserID int not null;
 alter table eZArticle_Article add StartDate timestamp default 0;  
 alter table eZArticle_Article add StopDate timestamp default 0;
 
-alter table eZArticle_Category add SectionID int(11) default 0;
+#alter table eZArticle_Category add SectionID int(11) default 0;
 
 #
 # Table structure for table 'eZArticle_ArticleFormDict'
@@ -372,6 +372,27 @@ alter table eZSiteManager_Section add CreatedTmp int;
 update eZSiteManager_Section set CreatedTmp= UNIX_TIMESTAMP( Created );
 alter table eZSiteManager_Section drop Created; 
 alter table eZSiteManager_Section change CreatedTmp Created int;
+
+# eZ link
+alter table eZLink_Hit add TimeTmp int;
+update eZLink_Hit set TimeTmp= UNIX_TIMESTAMP( Time );
+alter table eZLink_Hit drop Time; 
+alter table eZLink_Hit change TimeTmp Time int; 
+
+alter table eZLink_Link add ModifiedTmp int;
+update eZLink_Link set ModifiedTmp= UNIX_TIMESTAMP( Modified );
+alter table eZLink_Link drop Modified; 
+alter table eZLink_Link change ModifiedTmp Modified int; 
+
+alter table eZLink_Link add AcceptedTmp int default '0';
+update eZLink_Link set AcceptedTmp='1' where Accepted='y';
+alter table eZLink_Link drop Accepted;
+alter table eZLink_Link change AcceptedTmp Accepted int;
+
+alter table eZLink_Link add CreatedTmp int;
+update eZLink_Link set CreatedTmp= UNIX_TIMESTAMP( Created );
+alter table eZLink_Link drop Created; 
+alter table eZLink_Link change CreatedTmp Created int; 
 
 
 

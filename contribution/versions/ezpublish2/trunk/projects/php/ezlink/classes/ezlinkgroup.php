@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezlinkgroup.php,v 1.53 2001/05/29 14:00:57 ce Exp $
+// $Id: ezlinkgroup.php,v 1.54 2001/06/23 12:25:33 bf Exp $
 //
 // Definition of eZLinkGroup class
 //
@@ -59,25 +59,12 @@ class eZLinkGroup
     /*!
       Counstructor
     */
-    function eZLinkGroup( $id=-1, $fetch=true )
+    function eZLinkGroup( $id=-1 )
     {
-        $this->IsConnected = false;
         if ( $id != -1 )
         {
             $this->ID = $id;
-            if ( $fetch == true )
-            {
-                
-                $this->get( $this->ID );
-            }
-            else
-            {
-                $this->State_ = "Dirty";
-            }
-        }
-        else
-        {
-            $this->State_ = "New";
+            $this->get( $this->ID );
         }
     }
 
@@ -86,18 +73,34 @@ class eZLinkGroup
     */
     function store()
     {
-        $title = addslashes( $this->Title );
-        $description = addslashes( $this->Description );
+        $db =& eZDB::globalDatabase();
 
-        $this->dbInit();
-        $this->Database->query( "INSERT INTO eZLink_LinkGroup SET
-                ID='$this->ID',
-                Title='$title',
-                Description='$description',
-                ImageID='$this->ImageID',
-                Parent='$this->Parent'" );
+        $title = $db->escapeString( $this->Title );
+        $description = $db->escapeString( $this->Description );
 
-        $this->ID = $this->Database->insertID();
+        $db->begin( );
+
+        $db->lock( "eZLink_LinkGroup" );
+
+        $nextID = $db->nextID( "eZLink_LinkGroup", "ID" );        
+
+        $res = $db->query( "INSERT INTO eZLink_LinkGroup
+                ( ID, Title, Description, ImageID, Parent )
+                VALUES
+                ( '$nextID',
+                  '$title',
+                  '$description',
+                  '$this->ImageID',
+                  '$this->Parent' )" );
+
+        $this->ID = $nextID;
+
+        $db->unlock();
+    
+        if ( $res == false )
+            $db->rollback( );
+        else
+            $db->commit();        
     }
 
     /*!
@@ -105,16 +108,24 @@ class eZLinkGroup
     */
     function update()
     {
-        $title = addslashes( $this->Title );
-        $description = addslashes( $this->Description );
+        $db =& eZDB::globalDatabase();
+        
+        $title = $db->escapeString( $this->Title );
+        $description = $db->escapeString( $this->Description );
 
-        $this->dbInit();
-        $this->Database->query( "UPDATE eZLink_LinkGroup SET 
+        $db->begin( );
+
+        $res = $db->query( "UPDATE eZLink_LinkGroup SET 
                 Title='$title',
                 Description='$description',
                 Parent='$this->Parent',
                 ImageID='$this->ImageID'
                 WHERE ID='$this->ID'" );
+         
+        if ( $res == false )
+            $db->rollback( );
+        else
+            $db->commit();    
     }
 
     /*!
@@ -122,9 +133,9 @@ class eZLinkGroup
     */
     function delete( )
     {
-        $this->dbInit();
-        $this->Database->query( "DELETE FROM eZLink_Link WHERE LinkGroup='$this->ID'" );
-        $this->Database->query( "DELETE FROM eZLink_LinkGroup WHERE ID='$this->ID'" );
+        $db =& eZDB::globalDatabase();
+        $db->query( "DELETE FROM eZLink_Link WHERE LinkGroup='$this->ID'" );
+        $db->query( "DELETE FROM eZLink_LinkGroup WHERE ID='$this->ID'" );
     }
 
     /*!
@@ -132,19 +143,19 @@ class eZLinkGroup
     */
     function get( $id )
     {
-        $this->dbInit();
-        $this->Database->array_query( $linkgroup_array,  "SELECT * FROM eZLink_LinkGroup WHERE ID='$id'" );
+        $db =& eZDB::globalDatabase();
+        $db->array_query( $linkgroup_array,  "SELECT * FROM eZLink_LinkGroup WHERE ID='$id'" );
         if ( count( $linkgroup_array ) > 1 )
         {
             die( "feil, flere grupper med samme id" );
         }
         else if ( count( $linkgroup_array ) == 1 )
         {
-            $this->ID =& $linkgroup_array[ 0 ][ "ID" ];
-            $this->Title =& $linkgroup_array[ 0 ][ "Title" ];
-            $this->Description =& $linkgroup_array[ 0 ][ "Description" ];
-            $this->Parent =& $linkgroup_array[ 0 ][ "Parent" ];
-            $this->ImageID = $linkgroup_array[ 0 ][ "ImageID" ];
+            $this->ID =& $linkgroup_array[0][$db->fieldName("ID")];
+            $this->Title =& $linkgroup_array[0][$db->fieldName("Title")];
+            $this->Description =& $linkgroup_array[0][$db->fieldName("Description")];
+            $this->Parent =& $linkgroup_array[0][$db->fieldName("Parent")];
+            $this->ImageID = $linkgroup_array[0][$db->fieldName("ImageID")];
         }
     }
 
@@ -153,7 +164,7 @@ class eZLinkGroup
     */
     function &path( $groupID=0 )
     {
-        $this->dbInit();
+        $db =& eZDB::globalDatabase();
         
         if ( $groupID == 0 )
         {
@@ -179,8 +190,6 @@ class eZLinkGroup
             array_push( $path, array( $group->id(), $group->title() ) );                                
         
         return $path;
-
-        
     }
 
 
@@ -194,44 +203,43 @@ class eZLinkGroup
         else
             $id = $value;
         
-        $this->dbInit();
+        $db =& eZDB::globalDatabase();
         $parent_array = array();
         $return_array = array();
 
-        $this->Database->array_query( $parent_array, "SELECT ID FROM eZLink_LinkGroup
-                                                      WHERE Parent='$id' ORDER BY Title" );
+        $db->array_query( $parent_array, "SELECT ID FROM eZLink_LinkGroup
+                                                 WHERE Parent='$id' ORDER BY Title" );
 
         for( $i=0; $i<count( $parent_array ); $i++ )
         {
-            $return_array[] = new eZLinkGroup( $parent_array[$i][ "ID" ] );
+            $return_array[] = new eZLinkGroup( $parent_array[$i][$db->fieldName("ID")] );
         }
 
-        return $return_array;
-                   
+        return $return_array;                   
     }
 
     /*!
       Returns the count for subgroup in a group.
-     */
+    */
     function &getTotalSubLinks( $id, $start_id )
     {
-        $this->dbInit();
+        $db =& eZDB::globalDatabase();
         
         $count = 0;
         $sibling_array = $this->getByParent( $id );
 
         if ( $id == $start_id )
         {
-            $this->Database->array_query( $link_count, "SELECT COUNT(ID) AS LinkCount FROM eZLink_Link WHERE LinkGroup='$id' AND Accepted='Y'" );
-            $count += $link_count[0][ "LinkCount" ];
+            $db->array_query( $link_count, "SELECT COUNT(ID) AS LinkCount FROM eZLink_Link WHERE LinkGroup='$id' AND Accepted='1'" );
+            $count += $link_count[0][$db->fieldName("LinkCount")];
         }
         
         for ( $i=0; $i<count( $sibling_array ); $i++ )
         {
-            $group_id =  $sibling_array[ $i][ "ID" ];
+            $group_id =  $sibling_array[ $i][$db->fieldName("ID")];
             $count += $this->getTotalSubLinks( $group_id, $start_id );
-            $this->Database->array_query( $link_count, "SELECT COUNT(ID) AS LinkCount FROM eZLink_Link WHERE LinkGroup='$group_id' AND Accepted='Y'" );
-            $count += $link_count[0][ "LinkCount" ];            
+            $db->array_query( $link_count, "SELECT COUNT(ID) AS LinkCount FROM eZLink_Link WHERE LinkGroup='$group_id' AND Accepted='1'" );
+            $count += $link_count[0][$db->fieldName("LinkCount")];            
         }
 
         return $count;
@@ -243,23 +251,29 @@ class eZLinkGroup
      */
     function &getNewSubLinks( $id, $start_id, $new_limit )
     {
-        $this->dbInit();
+        $db =& eZDB::globalDatabase();
         
         $count = 0;
         $sibling_array = $this->getByParent( $id );
 
+        $new_limit = $new_limit*60*60*24;
+             
         if ( $id == $start_id )
         {
-            $this->Database->array_query( $link_count, "SELECT COUNT( ID ) AS LinkCount from eZLink_Link WHERE LinkGroup='$id' AND Accepted='Y' AND ( TO_DAYS( Now() ) - TO_DAYS( Created ) ) <= $new_limit  ORDER BY Title" );
-            $count += $link_count[0][ "LinkCount" ];
+            $timeStamp =& eZDate::timeStamp( true );
+
+            $db->array_query( $link_count, "SELECT COUNT( ID ) AS LinkCount from eZLink_Link WHERE LinkGroup='$id'
+                                                        AND Accepted='1' AND ( ( $timeStamp - Created ) <= $new_limit  ) ORDER BY Title" );
+            $count += $link_count[0][$db->fieldName("LinkCount")];
         }
         
         for ( $i=0; $i<count( $sibling_array ); $i++ )
         {
-            $group_id =  $sibling_array[ $i][ "ID" ];
+            $group_id =  $sibling_array[ $i][$db->fieldName("ID")];
             $count += $this->getNewSubLinks( $group_id, $start_id, $new_limit );
-            $this->Database->array_query( $link_count, "SELECT COUNT( ID ) AS LinkCount  from eZLink_Link WHERE LinkGroup='$group_id' AND Accepted='Y' AND ( To_DAYS( Now() ) - TO_DAYS( Created ) ) <= $new_limit  ORDER BY Title" );
-            $count += $link_count[0][ "LinkCount" ];            
+            $db->array_query( $link_count, "SELECT COUNT( ID ) AS LinkCount  from eZLink_Link WHERE LinkGroup='$group_id'
+                                                        AND Accepted='1' AND ( ( $timeStamp - Created ) <= $new_limit  )  ORDER BY Title" );
+            $count += $link_count[0][$db->fieldName("LinkCount")];
         }
         return $count;
     }
@@ -269,11 +283,11 @@ class eZLinkGroup
      */
     function &getTotalIncomingLinks()
     {
-        $this->dbInit();
+        $db =& eZDB::globalDatabase();
         
         $count = 0;
-        $this->Database->array_query( $link_count, "SELECT COUNT(ID) AS LinkCount FROM eZLink_Link WHERE Accepted='N'" );
-        $count = $link_count[0][ "LinkCount" ];
+        $db->array_query( $link_count, "SELECT COUNT(ID) AS LinkCount FROM eZLink_Link WHERE Accepted='0'" );
+        $count = $link_count[0][$db->fieldName("LinkCount")];
 
         return $count;
     }
@@ -283,15 +297,15 @@ class eZLinkGroup
     */
     function &getAll()
     {
-        $this->dbInit();
+        $db =& eZDB::globalDatabase();
         $parnet_array = array();
         $return_array = array();
 
-        $this->Database->array_query( $parent_array, "SELECT ID FROM eZLink_LinkGroup ORDER BY Title" );
+        $db->array_query( $parent_array, "SELECT ID FROM eZLink_LinkGroup ORDER BY Title" );
 
         for( $i=0; $i<count( $parent_array ); $i++ )
         {
-            $return_array[$i] = new eZLinkGroup( $parent_array[$i]["ID"] );
+            $return_array[$i] = new eZLinkGroup( $parent_array[$i][$db->fieldName("ID")] );
         }
 
         return $return_array;
@@ -329,27 +343,28 @@ class eZLinkGroup
     */
     function links( $offset=0, $limit=30, $fetchUnAccepted=false )
     {
-        $this->dbInit();
+        $db =& eZDB::globalDatabase();
 
         $returnArray = array();
         
         if ( $fetchUnAccepted )
             $fetchUnAccepted = "";
         else
-            $fetchUnAccepted = " AND Accepted='Y' ";
+            $fetchUnAccepted = " AND Accepted='1' ";
         
-        $this->Database->array_query( $linkArray, "SELECT ID
-                                                   FROM eZLink_Link
-                                                   WHERE LinkGroup='$this->ID'
-                                                   $fetchUnAccepted
-                                                   ORDER BY Title
-                                                   LIMIT $offset, $limit" );
+        $db->array_query( $linkArray,
+                          "SELECT ID
+                           FROM eZLink_Link
+                           WHERE LinkGroup='$this->ID'
+                           $fetchUnAccepted
+                           ORDER BY Title",
+                           array( "Limit" => $limit, "Offset" => $offset ) );
+        
         foreach( $linkArray as $link )
         {
-            $returnArray[] = new eZLink( $link["ID"] );
+            $returnArray[] = new eZLink( $link[$db->fieldName("ID")] );
         }
-        return $returnArray;
-        
+        return $returnArray;        
     }
     
     
@@ -358,24 +373,21 @@ class eZLinkGroup
     */
     function linkCount( $fetchUnAccepted=false )
     {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-        
-        $this->dbInit();
+        $db =& eZDB::globalDatabase();
 
         if ( $fetchUnAccepted )
             $fetchUnAccepted = "";
         else
-            $fetchUnAccepted = " AND Accepted='Y' ";
+            $fetchUnAccepted = " AND Accepted='1' ";
 
         $query = "SELECT count( ID ) AS Count 
                   FROM eZLink_Link
                   WHERE LinkGroup='$this->ID'
                   $fetchUnAccepted";
 
-        $this->Database->array_query( $linkArray, $query );
+        $db->array_query( $linkArray, $query );
         
-        return $linkArray[0]["Count"];
+        return $linkArray[0][$db->fieldName("Count")];
     }
 
     /*!
@@ -383,9 +395,6 @@ class eZLinkGroup
     */
     function id()
     {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
         return $this->ID;
     }
 
@@ -394,9 +403,6 @@ class eZLinkGroup
     */
     function setTitle( &$value )
     {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-        
         $this->Title = ( $value );
     }
 
@@ -405,9 +411,6 @@ class eZLinkGroup
     */
     function setDescription( &$value )
     {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-        
         $this->Description = ( $value );
     }
 
@@ -416,9 +419,6 @@ class eZLinkGroup
     */
     function setParent( $value )
     {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-        
         $this->Parent = ( $value );
     }
 
@@ -427,9 +427,6 @@ class eZLinkGroup
     */
     function &title()
     {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-        
         return htmlspecialchars( $this->Title );
     }
 
@@ -438,9 +435,6 @@ class eZLinkGroup
     */
     function &description()
     {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-        
         return htmlspecialchars( $this->Description );
     }
 
@@ -449,11 +443,7 @@ class eZLinkGroup
     */
     function parent()
     {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-        
         return $this->Parent;
-
     }
 
     /*!
@@ -461,9 +451,6 @@ class eZLinkGroup
      */
     function setImage( &$value )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-        
         if ( get_class( $value ) == "ezimage" )
         {
             $this->ImageID = $value->id();
@@ -479,9 +466,6 @@ class eZLinkGroup
     */
     function &image( )
     {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
         $ret = false;
         if ( $this->ImageID != 0 )
         {
@@ -496,45 +480,24 @@ class eZLinkGroup
     */
     function deleteImage()
     {
-        $this->dbInit();
+        $db =& eZDB::globalDatabase();
 
-        $this->Database->array_query( $result, "SELECT ImageID FROM eZLink_LinkGroup WHERE ID='$this->ID'" );
+        $db->array_query( $result, "SELECT ImageID FROM eZLink_LinkGroup WHERE ID='$this->ID'" );
 
         foreach ( $result as $item )
         {
-            $image = new eZImage( $item["ImageID"] );
+            $image = new eZImage( $item[$db->fieldName("ImageID")] );
             $image->delete();
         }
         
-        $this->Database->query( "UPDATE eZLink_LinkGroup set ImageID='0' WHERE ID='$this->ID'" );
+        $db->query( "UPDATE eZLink_LinkGroup set ImageID='0' WHERE ID='$this->ID'" );
     }
     
-	/*!
-      Initializing the database.
-    */
-    function dbInit()
-    {
-        if ( $this->IsConnected == false )
-        {
-            $this->Database =& eZDB::globalDatabase();
-            $this->IsConnected = true;
-        }
-    }
-
     var $ID;
     var $Title;
     var $Description;
     var $Parent;
     var $ImageID;
-
-    /// Is true if the object has database connection, false if not.
-    var $IsConnected;
-
-    /// database connection indicator
-    var $Database;
-
-    /// internal object state
-    var $State_;
 }
 
 ?>

@@ -52,8 +52,8 @@ http://<input type="text" class="halfbox" name="Url" size="40" value="{url}">
 
 <p class="boxtext">{intl-accepted}</p>
 <select name="Accepted">
-	<option {no_selected} value="N">{intl-no}</option>
-	<option	{yes_selected} value="y">{intl-yes}</option>
+	<option {no_selected} value="0">{intl-no}</option>
+	<option	{yes_selected} value="1">{intl-yes}</option>
 </select>
 
 <br /><br />

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezlink.php,v 1.51 2001/05/29 14:00:57 ce Exp $
+// $Id: ezlink.php,v 1.52 2001/06/23 12:25:33 bf Exp $
 //
 // Definition of eZLink class
 //
@@ -36,8 +36,7 @@
   $link->setTitle( "ZEZ website" );
   $link->Description( "zez.org is a page dedicated to all kinds of computer programming." );
   $link->KeyWords( "code programing c++ php sql python" );
-  $link->setModified( date() );
-  $link->setAccepted( "Y" );
+  $link->setAccepted( true );
   $link->setUrl( "zez.org" );
 
   // Store the link to the datavase.
@@ -58,6 +57,7 @@
 */
 
 include_once( "classes/ezquery.php" );
+include_once( "classes/ezdatetime.php" );
 include_once( "classes/ezdb.php" );
 
 class eZLink
@@ -65,27 +65,13 @@ class eZLink
     /*!
       Constructor
     */
-    function eZLink( $id=-1, $fetch=true  )
+    function eZLink( $id=-1  )
     {
-
-        $this->IsConnected = false;
         if ( $id != -1 )
         {
             $this->ID = $id;
-            if ( $fetch == true )
-            {
-                $this->get( $this->ID );
-            }
-            else
-            {
-                $this->State_ = "Dirty";
-            }
+            $this->get( $this->ID );
         }
-        else
-        {
-            $this->State_ = "New";
-        }
-
     }
 
     /*!
@@ -93,26 +79,44 @@ class eZLink
     */
     function store()
     {
-        $this->dbInit();
+        $db =& eZDB::globalDatabase();
 
-        $description = addslashes( $this->Description );
-        $title = addslashes( $this->Title );
-        $url = addslashes( $this->Url );
-        $keywords = addslashes( $this->KeyWords );
-        // Sets the created to the system clock
-        $this->Created = date( "Y-m-d G:i:s" );        
-        $this->Database->query( "INSERT INTO eZLink_Link SET
-                ID='$this->ID',
-                Title='$title',
-                Description='$description',
-                LinkGroup='$this->LinkGroupID',
-                KeyWords='$keywords',
-                Created='$this->Created',
-                Url='$url',
-                ImageID='$this->ImageID',
-                Accepted='$this->Accepted'" );
+        $db->begin( );
 
-        $this->ID = $this->Database->insertID();
+        $description = $db->escapeString( $this->Description );
+        $title = $db->escapeString( $this->Title );
+        $url = $db->escapeString( $this->Url );
+        $keywords = $db->escapeString( $this->KeyWords );
+
+        $db->lock( "eZLink_Link" );
+
+        $nextID = $db->nextID( "eZLink_Link", "ID" );
+
+        $timeStamp =& eZDateTime::timeStamp( true );
+                    
+        $res = $db->query( "INSERT INTO eZLink_Link 
+                ( ID, Title, Description, LinkGroup, KeyWords, Created, Modified, Url, ImageID, Accepted )
+                VALUES
+                ( '$nextID',
+                  '$title',
+                  '$description',
+                  '$this->LinkGroupID',
+                  '$keywords',
+                  '$timeStamp',
+                  '$timeStamp',
+                  '$url',
+                  '$this->ImageID',
+                  '$this->Accepted' )" );
+
+        $this->ID = $nextID;
+
+        $db->unlock();
+    
+        if ( $res == false )
+            $db->rollback( );
+        else
+            $db->commit();
+        
     }
 
     /*!
@@ -120,22 +124,36 @@ class eZLink
     */
     function update()
     {
-        $this->dbInit();
+        $db =& eZDB::globalDatabase();
 
-        $description = addslashes( $this->Description );
-        $title = addslashes( $this->Title );
-        $url = addslashes( $this->Url );
-        $keywords = addslashes( $this->KeyWords );
+        $db->begin( );
+
+        $description = $db->escapeString( $this->Description );
+        $title = $db->escapeString( $this->Title );
+        $url = $db->escapeString( $this->Url );
+        $keywords = $db->escapeString( $this->KeyWords );
+
+        $timeStamp =& eZDateTime::timeStamp( true );
+
+
         
-        $this->Database->query( "UPDATE eZLink_Link SET
+        $res = $db->query( "UPDATE eZLink_Link SET
                 Title='$title',
                 Description='$description',
                 LinkGroup='$this->LinkGroupID',
                 KeyWords='$keywords',
+                Modified='$timeStamp',
                 Url='$url',
                 ImageID='$this->ImageID',
                 Accepted='$this->Accepted'
                 WHERE ID='$this->ID'" );
+
+      
+        if ( $res == false )
+            $db->rollback( );
+        else
+            $db->commit();
+        
     }
 
     /*!
@@ -143,9 +161,9 @@ class eZLink
     */
     function delete( )
     {
-        $this->dbInit();
-        $this->Database->query( "DELETE FROM eZLink_Hit WHERE Link='$this->ID'" );        
-        $this->Database->query( "DELETE FROM eZLink_Link WHERE ID='$this->ID'" );
+        $db =& eZDB::globalDatabase();
+        $db->query( "DELETE FROM eZLink_Hit WHERE Link='$this->ID'" );        
+        $db->query( "DELETE FROM eZLink_Link WHERE ID='$this->ID'" );
     }
 
     /*!
@@ -153,26 +171,27 @@ class eZLink
     */
     function get ( $id )
     {
-        $this->dbInit();
+        $db =& eZDB::globalDatabase();
+        
         if ( $id != "" )
         {
-            $this->Database->array_query( $link_array, "SELECT * FROM eZLink_Link WHERE ID='$id'" );
+            $db->array_query( $link_array, "SELECT * FROM eZLink_Link WHERE ID='$id'" );
             if ( count( $link_array ) > 1 )
             {
-                die( "Feil: flere linker med samme ID ble funnet i databasen, dette skal ikke være mulig." );
+                die( "Error: more than one link with the same ID found" );
             }
             else if ( count( $link_array ) == 1 )
             {
-                $this->ID =& $link_array[ 0 ][ "ID" ];
-                $this->Title =& $link_array[ 0 ][ "Title" ];
-                $this->Description =& $link_array[ 0 ][ "Description" ];
-                $this->LinkGroupID =& $link_array[ 0 ][ "LinkGroup" ];
-                $this->KeyWords =& $link_array[ 0 ][ "KeyWords" ];
-                $this->Created =& $link_array[ 0 ][ "Created" ];
-                $this->Modified =& $link_array[ 0 ][ "Modified" ];
-                $this->Accepted =& $link_array[ 0 ][ "Accepted" ];
-                $this->Url =& $link_array[ 0 ][ "Url" ];
-                $this->ImageID =& $link_array[ 0 ][ "ImageID" ];
+                $this->ID =& $link_array[0][$db->fieldName("ID")];
+                $this->Title =& $link_array[0][$db->fieldName("Title")];
+                $this->Description =& $link_array[0][$db->fieldName("Description")];
+                $this->LinkGroupID =& $link_array[0][$db->fieldName("LinkGroup")];
+                $this->KeyWords =& $link_array[0][$db->fieldName("KeyWords")];
+                $this->Created =& $link_array[0][$db->fieldName("Created")];
+                $this->Modified =& $link_array[0][$db->fieldName("Modified")];
+                $this->Accepted =& $link_array[0][$db->fieldName("Accepted")];
+                $this->Url =& $link_array[0][$db->fieldName("Url")];
+                $this->ImageID =& $link_array[0][$db->fieldName("ImageID")];
             }
         }
     }
@@ -182,15 +201,16 @@ class eZLink
     */
     function &getByGroup( $id )
     {
-        $this->dbInit();
+        $db =& eZDB::globalDatabase();
+        
         $link_array = array();
         $return_array = array();
         
-        $this->Database->array_query( $link_array, "SELECT ID FROM eZLink_Link WHERE LinkGroup='$id' AND Accepted='Y' ORDER BY Title" );
+        $db->array_query( $link_array, "SELECT ID FROM eZLink_Link WHERE LinkGroup='$id' AND Accepted='1' ORDER BY Title" );
 
         for( $i=0; $i < count( $link_array ); $i++ )
         {
-            $return_array[] = new eZLink( $link_array[$i][ "ID" ] );
+            $return_array[] = new eZLink( $link_array[$i][$db->fieldName("ID")] );
         }
 
 
@@ -204,19 +224,20 @@ class eZLink
     */
     function &getNotAccepted( $offset=0, $limit=30 )
     {
-        $this->dbInit();
+        $db =& eZDB::globalDatabase();
+        
         $link_array = array();
         $return_array = array();
         
-        $this->Database->array_query( $link_array, "SELECT ID
-                                                    FROM eZLink_Link
-                                                    WHERE Accepted='N'
-                                                    ORDER BY Title
-                                                    LIMIT $offset, $limit" );
+        $db->array_query( $link_array, "SELECT ID
+                                        FROM eZLink_Link
+                                        WHERE Accepted='0'
+                                        ORDER BY Title",
+                          array( "Limit" => $limit, "Offset" => $offset ) );
 
         for ( $i=0; $i < count( $link_array ); $i++ )
         {
-            $return_array[] = new eZLink( $link_array[$i]["ID"] );
+            $return_array[] = new eZLink( $link_array[$i][$db->fieldName("ID")] );
         }
 
         return $return_array;
@@ -227,18 +248,15 @@ class eZLink
     */
     function unAcceptedCount(  )
     {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-        
-        $this->dbInit();
+        $db =& eZDB::globalDatabase();
 
         $query = "SELECT count( ID ) AS Count 
                   FROM eZLink_Link
-                  WHERE Accepted='N'";
+                  WHERE Accepted='0'";
 
-        $this->Database->array_query( $linkArray, $query );
+        $db->array_query( $linkArray, $query );
         
-        return $linkArray[0]["Count"];
+        return $linkArray[0][$db->fieldName("Count")];
     }
 
 
@@ -247,15 +265,18 @@ class eZLink
     */
     function &getLastTenDate( $limit, $offset )
     {
-        $this->dbInit();
+        $db =& eZDB::globalDatabase();
+        
         $link_array = array();
         $return_array = array();
         
-        $this->Database->array_query( $link_array, "SELECT * FROM eZLink_Link WHERE Accepted='Y' ORDER BY Created DESC LIMIT $offset, $limit" );
+        $db->array_query( $link_array,
+        "SELECT * FROM eZLink_Link WHERE Accepted='1' ORDER BY Created DESC",
+        array( "Limit" => $limit, "Offset" => $offset ) );
 
         for( $i=0; $i < count( $link_array ); $i++ )
         {
-            $return_array[] = new eZLink( $link_array[$i][ "ID" ] );
+            $return_array[] = new eZLink( $link_array[$i][$db->fieldName("ID")] );
         }
         return $return_array;
     }
@@ -265,10 +286,12 @@ class eZLink
     */
     function &getLastTen( $limit, $offset )
     {
-        $this->dbInit();
+        $db =& eZDB::globalDatabase();
         $link_array = 0;
         
-        $this->Database->array_query( $link_array, "SELECT * FROM eZLink_Link WHERE Accepted='Y' ORDER BY Title DESC LIMIT $offset, $limit" );
+        $db->array_query( $link_array,
+        "SELECT * FROM eZLink_Link WHERE Accepted='1' ORDER BY Title DESC",
+        array( "Limit" => $limit, "Offset" => $offset ) );
 
         return $link_array;
     }
@@ -280,7 +303,7 @@ class eZLink
     */
     function &getQuery( $query, $limit, $offset )
     {
-        $this->dbInit();
+        $db =& eZDB::globalDatabase();
         $link_array = array();
         $return_array = array();
 
@@ -288,14 +311,16 @@ class eZLink
         
         $query_str =  "SELECT ID FROM eZLink_Link WHERE (" .
              $query->buildQuery()  .
-             ") AND Accepted='Y' ORDER BY Title LIMIT $offset, $limit";
+             ") AND Accepted='1' ORDER BY Title";
 
-        $this->Database->array_query( $link_array, $query_str );
+        $db->array_query( $link_array,
+        $query_str,  array( "Limit" => $limit, "Offset" => $offset ) );
+    
         $ret = array();
 
         foreach( $link_array as $linkItem )
         {
-            $ret[] = new eZLink( $linkItem["ID"] );
+            $ret[] = new eZLink( $linkItem[$db->fieldName("ID")] );
         }
         return $ret;
     }
@@ -306,20 +331,20 @@ class eZLink
     */
     function &getQueryCount( $query  )
     {
-        $this->dbInit();
+        $db =& eZDB::globalDatabase();
         $link_array = 0;
 
         $query = new eZQuery( array( "KeyWords", "Title", "Description" ), $query );
         
         $query_str = "SELECT count(ID) AS Count FROM eZLink_Link WHERE (" .
              $query->buildQuery()  .
-             ") AND Accepted='Y' ORDER BY Title";
+             ") AND Accepted='1' ORDER BY Title";
 
-        $this->Database->array_query( $link_array, $query_str );
+        $db->array_query( $link_array, $query_str );
 
         $ret = 0;
         if ( count( $link_array ) == 1 )
-            $ret = $link_array[0]["Count"];
+            $ret = $link_array[0][$db->fieldName("Count")];
 
         return $ret;
     }
@@ -330,10 +355,10 @@ class eZLink
     */
     function &getAll()
     {
-        $this->dbInit();
+        $db =& eZDB::globalDatabase();
         $group_array = 0;
 
-        $this->Database->array_query( $group_array, "SELECT * FROM eZLink_Link ORDER BY Title" );
+        $db->array_query( $group_array, "SELECT * FROM eZLink_Link ORDER BY Title" );
 
         return $group_array;
     }
@@ -343,9 +368,9 @@ class eZLink
     */
     function &checkUrl( $url )
     {
-        $this->dbInit();
+        $db =& eZDB::globalDatabase();
 
-        $this->Database->array_query( $url_array, "SELECT url FROM eZLink_Link WHERE url='$url'" );
+        $db->array_query( $url_array, "SELECT url FROM eZLink_Link WHERE url='$url'" );
 
         return count( $url_array );
     }
@@ -355,9 +380,6 @@ class eZLink
     */
     function id()
     {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
         return $this->ID;
     }
 
@@ -367,9 +389,6 @@ class eZLink
     */
     function setTitle( &$value )
     {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
         $this->Title = $value;
     }
 
@@ -378,9 +397,6 @@ class eZLink
     */
     function setDescription( &$value )
     {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
         $this->Description = $value;
     }
 
@@ -389,9 +405,6 @@ class eZLink
     */
     function setLinkGroupID( $value )
     {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
         $this->LinkGroupID = $value;
     }
 
@@ -400,32 +413,18 @@ class eZLink
     */    
     function setKeyWords( &$value )
     {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
         $this->KeyWords = ( $value );
     }
 
     /*!
-       Sets the modified date of the link.
-    */
-    function setModified( $value )
-    {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
-        $this->Modified = ( $value );
-    }
-
-    /*!
-      Sets if the link is accepted.
+      Sets if the link is accepted, true/false.
     */
     function setAccepted( $value )
     {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
-        $this->Accepted = ( $value );
+        if ( $value == true )            
+            $this->Accepted = "1";
+        else
+            $this->Accepted = "0";
     }
 
     /*!
@@ -433,9 +432,6 @@ class eZLink
     */
     function setUrl( &$value )
     {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
         $this->Url = ( $value );
     }
 
@@ -444,9 +440,6 @@ class eZLink
     */
     function &title()
     {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
         return htmlspecialchars( $this->Title );
     }
 
@@ -456,9 +449,6 @@ class eZLink
     */
     function &description()
     {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
         return htmlspecialchars( $this->Description );
     }
 
@@ -467,9 +457,6 @@ class eZLink
     */
     function linkGroupID()
     {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
         return htmlspecialchars( $this->LinkGroupID );
     }
 
@@ -478,9 +465,6 @@ class eZLink
     */
     function &keyWords()
     {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
         return htmlspecialchars( $this->KeyWords );
     }
 
@@ -489,9 +473,6 @@ class eZLink
     */
     function &created()
     {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
         return $this->Created;
     }
 
@@ -500,21 +481,18 @@ class eZLink
     */
     function &modified()
     {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
         return $this->Modified;
     }
 
     /*!
-      Returns if the link is Accepted.
+      Returns true if the link is Accepted, false if not.
     */
     function accepted()
     {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
-        return $this->Accepted;
+        if ( $this->Accepted == 1 )
+            return true;
+        else
+            return false;
     }
 
     /*!
@@ -522,9 +500,6 @@ class eZLink
     */
     function &url()
     {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
         return htmlspecialchars( $this->Url );
     }
 
@@ -533,9 +508,6 @@ class eZLink
     */
     function id()
     {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-        
         return $this->ID;
     }
 
@@ -544,9 +516,6 @@ class eZLink
      */
     function setImage( &$value )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-        
         if ( get_class( $value ) == "ezimage" )
         {
             $this->ImageID = $value->id();
@@ -564,9 +533,6 @@ class eZLink
     */
     function &image( )
     {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
         $ret = false;
         if ( $this->ImageID != 0 )
         {
@@ -581,33 +547,19 @@ class eZLink
     */
     function deleteImage()
     {
-        $this->dbInit();
+        $db =& eZDB::globalDatabase();
 
-        $this->Database->array_query( $result, "SELECT ImageID FROM eZLink_Link WHERE ID='$this->ID'" );
+        $db->array_query( $result, "SELECT ImageID FROM eZLink_Link WHERE ID='$this->ID'" );
 
         foreach ( $result as $item )
         {
-            $image = new eZImage( $item["ImageID"] );
+            $image = new eZImage( $item[$db->fieldName("ImageID")] );
             $image->delete();
         }
         
-        $this->Database->query( "UPDATE eZLink_Link set ImageID='0' WHERE ID='$this->ID'" );
+        $db->query( "UPDATE eZLink_Link set ImageID='0' WHERE ID='$this->ID'" );
     }
 
-    
-    /*!
-      \private
-      
-      Open the database for read and write. Gets all the database information from site.ini.
-    */
-    function dbInit()
-    {
-        if ( $this->IsConnected == false )
-        {
-            $this->Database =& eZDB::globalDatabase();
-            $this->IsConnected = true;
-        }
-    }
 
     var $ID;
     var $Title;
@@ -621,14 +573,5 @@ class eZLink
     var $Url;
     var $url_array;
 
-
-    /// Is true if the object has database connection, false if not.
-    var $IsConnected;
-
-    /// database connection indicator
-    var $Database;
-
-    /// internal object state
-    var $State_;
 }
 ?>
