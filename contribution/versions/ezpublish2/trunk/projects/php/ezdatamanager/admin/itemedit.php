@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: itemedit.php,v 1.5 2002/02/21 14:50:52 jhe Exp $
+// $Id: itemedit.php,v 1.6 2002/02/27 12:27:07 jhe Exp $
 //
 // Created on: <20-Nov-2001 17:23:58 bf>
 //
@@ -106,8 +106,9 @@ if ( isset( $SelectType ) )
     }
     else
     {
-        $item = new eZDataItem( );
+        $item = new eZDataItem();
     }
+
     $item->setName( $ItemName );
     
     $type = new eZDataType( $NewItemTypeID );
@@ -145,6 +146,7 @@ $t->set_var( "item_id", $ItemID );
 
 $t->set_var( "item_name", $ItemName );
 $t->set_var( "item_value_list", "" );
+$t->set_var( "image", "" );
 
 foreach ( $types as $type )
 {

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezdataitem.php,v 1.8 2002/02/21 14:50:52 jhe Exp $
+// $Id: ezdataitem.php,v 1.9 2002/02/27 12:27:07 jhe Exp $
 //
 // Definition of eZDataItem class
 //
@@ -64,7 +64,7 @@ class eZDataItem
             $nextID = $db->nextID( "eZDataManager_Item", "ID" );
             
             $res = $db->query( "INSERT INTO eZDataManager_Item
-                         ( ID, DataTypeID, OwnerGroupID, Name ) VALUES 
+                         ( ID, DataTypeID, OwnerGroupID, Name, Image ) VALUES 
                          ( '$nextID',
                            '$this->DataTypeID',
                            '$this->OwnerGroupID',
