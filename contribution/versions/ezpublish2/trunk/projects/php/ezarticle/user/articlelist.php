@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: articlelist.php,v 1.71 2001/09/11 11:50:03 jhe Exp $
+// $Id: articlelist.php,v 1.72 2001/09/12 11:28:22 bf Exp $
 //
 // Created on: <18-Oct-2000 14:41:37 bf>
 //
@@ -347,11 +347,18 @@ foreach ( $articleList as $article )
 
     if ( ( $i % 2 ) == 0 )
     {
+        $t->set_var( "tr_start", "<tr>" );
+        $t->set_var( "tr_stop", "" );
+        
         $t->set_var( "td_alt", "1" );
         $t->set_var( "td_class", "bglight" );
     }
     else
     {
+        $t->set_var( "tr_start", "" );
+        $t->set_var( "tr_stop", "</tr>" );
+
+
         $t->set_var( "td_alt", "2" );
         $t->set_var( "td_class", "bgdark" );
     }
