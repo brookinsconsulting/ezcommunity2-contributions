@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: imagelist.php,v 1.9 2000/11/01 09:24:18 ce-cvs Exp $
+// $Id: imagelist.php,v 1.10 2001/02/01 12:05:03 th Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <21-Sep-2000 10:32:19 bf>
@@ -46,6 +46,8 @@ $t->set_file( array(
     ) );
 
 $t->set_block( "image_list_page_tpl", "image_tpl", "image" );
+
+$t->set_var( "site_style", $SiteStyle );
 
 $product = new eZProduct( $ProductID );
 

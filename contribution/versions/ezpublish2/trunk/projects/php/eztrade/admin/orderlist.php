@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: orderlist.php,v 1.10 2000/11/10 10:44:41 bf-cvs Exp $
+// $Id: orderlist.php,v 1.11 2001/02/01 12:05:03 th Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <30-Sep-2000 13:03:13 bf>
@@ -55,6 +55,8 @@ $t->set_block( "order_item_list_tpl", "order_item_tpl", "order_item" );
 // next prvious
 $t->set_block( "order_list_tpl", "previous_tpl", "previous" );
 $t->set_block( "order_list_tpl", "next_tpl", "next" );
+
+$t->set_var( "site_style", $SiteStyle );
 
 if ( isSet( $URLQueryText ) )
 {

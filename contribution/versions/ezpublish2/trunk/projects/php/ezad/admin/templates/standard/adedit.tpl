@@ -30,7 +30,7 @@
 <input type="text" size="40" name="ViewPrice" value="{ad_view_price_value}"/>
 
 
-<br />
+<br /><br />
 <input type="checkbox" name="UseHTML" {use_html} />
 <span class="boxtext">{intl-use_html}</span><br /><br />
 

@@ -1,5 +1,5 @@
 <!-- orderlist.tpl --> 
-<!-- $Id: orderedit.tpl,v 1.12 2001/01/30 11:15:59 pkej Exp $ -->
+<!-- $Id: orderedit.tpl,v 1.13 2001/02/01 12:05:03 th Exp $ -->
 
 <h1>{intl-head_line}</h1>
 
@@ -7,38 +7,36 @@
 
 <h2>{intl-customerinfo}</h2>
 
+<div class="p">
 {customer_first_name} {customer_last_name} 
+</div>
 
-<br />
-
-
-<h3>{intl-shipping_address}</h3>
-
+<p class="boxtext">{intl-shipping_address}:</p>
+<div class="p">
 <!-- BEGIN shipping_address_tpl -->
 {street1}<br />
 {street2}<br />
 {zip} {place}<br />
 {country}
 <!-- END shipping_address_tpl -->
+</div>
 
-<h3>{intl-billing_address}</h3>
-
+<p class="boxtext">{intl-billing_address}:</p>
+<div class="p">
 <!-- BEGIN shipping_address_tpl -->
 {street1}<br />
 {street2}<br />
 {zip} {place}<br />
 {country}
 <!-- END shipping_address_tpl -->
-
-
-<br />
+</div>
 
 <h2>{intl-customer_email}</h2>
-{customer_email}
+<div class="p">{customer_email}</div>
 
 
-<h2>{intl-payment_method}:</h2>
-
+<h2>{intl-payment_method}</h2>
+<div class="p">
 <!-- BEGIN visa_tpl -->
 {intl-visa_text}
 <!-- END visa_tpl -->
@@ -54,6 +52,7 @@
 <!-- BEGIN invoice_tpl -->
 {intl-invoice_text}
 <!-- END invoice_tpl -->
+</div>
 
 <h2>{intl-productlist}</h2>
 
@@ -91,12 +90,12 @@
 </tr>
 <!-- END order_item_tpl -->
 <tr>
-	<td colspan="2">&nbsp;</td>
+	<td colspan="3">&nbsp;</td>
 	<td class="boxtext">{intl-shipping}</td>
 	<td align="right">{shipping_cost}</td>
 </tr>
 <tr>
-	<td colspan="2">&nbsp;</td>
+	<td colspan="3">&nbsp;</td>
 	<td class="boxtext">{intl-total}:</td>
 	<td align="right">{order_sum}</td>
 </tr>
@@ -126,7 +125,7 @@
 <tr>
 	<td>
 	<p class="boxtext">{intl-comments_for_status_chage}:</p>
-	<textarea cols="40" rows="5" name="StatusComment" wrap="soft"></textarea>
+	<textarea cols="20" rows="5" name="StatusComment" wrap="soft"></textarea>
 	</td>
 </tr>
 <tr>

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: polledit.php,v 1.21 2001/01/23 13:16:57 jb Exp $
+// $Id: polledit.php,v 1.22 2001/02/01 12:05:02 th Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <21-Sep-2000 10:39:19 ce>
@@ -36,7 +36,7 @@ $errorIni = new INIFIle( "ezpoll/admin/intl/" . $Language . "/polledit.php.ini",
 include_once( "ezpoll/classes/ezpoll.php" );
 include_once( "ezpoll/classes/ezpollchoice.php" );
 include_once( "ezpoll/classes/ezvote.php" );
-        
+ 
 require( "ezuser/admin/admincheck.php" );
 
 if ( isSet( $Back ) )
@@ -202,6 +202,7 @@ $t->set_file( array( "poll_edit_page" => "polledit.tpl"
 
 $t->set_block( "poll_edit_page", "poll_choice_tpl", "poll_choice" );
 
+$t->set_var( "site_style", $SiteStyle );
 
 $Action_value = "insert";
 $Name = "";

@@ -1,8 +1,9 @@
+<form action="/trade/productedit/edit/{product_id}/" method="post">
+
 <h1>{intl-head_line}</h1>
 
 <hr noshade="noshade" size="4" />
 
-<form action="/trade/productedit/edit/{product_id}/" method="post">
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
 	<td>
@@ -28,6 +29,7 @@
 <tr>
 	<td class="pictext">
 	{main_image_caption}
+	<br /><br />
 	</td>
 </tr>
 </table>
@@ -45,7 +47,7 @@
 <table cellspacing="0" cellpadding="0" border="0" border="0">
 <tr>
 	<td valign="top">
-	<img src="{image_url}" border="0" alt="{image_caption}" width="{image_width}" height="{image_height}"/>
+	<img src="{image_url}" border="0" alt="{image_caption}" width="{image_width}" height="{image_height}" hspace="5" />
 	</td>
 	<td valign="top">
 	<p class="pictext">
@@ -60,13 +62,13 @@
 <!-- END image_tpl -->
 
 </table>
+<br />
 
 <!-- BEGIN option_tpl -->
 <table width="100%" cellpadding="0" cellspacing="0" border="0">
 <tr>
 	<th colspan="2">
-	<br />
-	{option_name}
+	{option_name}:
 	</th>
 </tr>
 <tr>
@@ -84,6 +86,7 @@
 </tr>
 </table>
 
+<br />
 <!-- END option_tpl -->
 
 	</td>
@@ -116,11 +119,10 @@
 
 <br />
 
-<span class="boxtext">{intl-price}:</span> {product_price}
+<span class="boxtext">{intl-price}:</span> 
+<div class="p">{product_price}</div>
 
 <br />
-
-
 
 <hr noshade="noshade" size="4" />
 

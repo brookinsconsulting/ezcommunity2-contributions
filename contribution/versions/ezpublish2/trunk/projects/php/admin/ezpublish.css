@@ -92,7 +92,6 @@ a:hover
 	text-decoration: none;
 }
 
-
 .menu 
 {
 	font-size: 11px;
@@ -226,6 +225,13 @@ input
 	color: #000000;
 }
 
+textarea 
+{
+	font-family: Verdana, Arial, Helvetica, Swiss, Futura, sans-serif;
+	font-size: 13px;
+	color: #000000;
+}
+
 .stdbutton 
 {
 	font-weight: normal;
@@ -235,13 +241,6 @@ input
 {
 	font-size: 18px;
 	font-weight: bold;
-}
-
-textarea 
-{
-	font-size: 13px;
-	color: #000000;
-	width: 500px;
 }
 
 .pris

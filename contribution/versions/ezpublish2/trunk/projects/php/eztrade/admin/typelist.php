@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: typelist.php,v 1.1 2000/12/21 13:00:29 bf Exp $
+// $Id: typelist.php,v 1.2 2001/02/01 12:05:03 th Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <20-Dec-2000 18:18:28 bf>
@@ -50,6 +50,8 @@ $t->set_file( array(
 // type
 $t->set_block( "type_list_page_tpl", "type_list_tpl", "type_list" );
 $t->set_block( "type_list_tpl", "type_item_tpl", "type_item" );
+
+$t->set_var( "site_style", $SiteStyle );
 
 $type = new eZProductType(  );
 

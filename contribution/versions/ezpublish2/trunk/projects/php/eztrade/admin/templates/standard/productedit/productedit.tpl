@@ -49,22 +49,22 @@ http://<input type="text" size="36" name="ExternalLink" value="{external_link}"/
 
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
+	<td width="20%">
+	<p class="boxtext">{intl-price}:</p>
+	<input type="text" size="10" name="Price" value="{price_value}" />
+	<br /><br />
+	</td>
+	<td>
+	<div class="check"><input type="checkbox" name="ShowPrice" {showprice_checked} />&nbsp;{intl-has_price}</div>
+	<br />
+	</td>
+</tr>
+<tr>
 	<td>
 	<div class="check"><input type="checkbox" name="Active" {showproduct_checked} />&nbsp;{intl-active}</div>
 	</td>
 	<td>
 	<div class="check"><input type="checkbox" name="IsHotDeal" {is_hot_deal_checked} />{intl-is_hot_deal}</div>
-	</td>
-</tr>
-<tr>
-	<td width="20%">
-	<div class="check"><input type="checkbox" name="ShowPrice" {showprice_checked} />&nbsp;{intl-has_price}</div>
-	<br />
-	</td>
-	<td>
-	<p class="boxtext">{intl-price}:</p>
-	<input type="text" size="10" name="Price" value="{price_value}" />
-	<br /><br />
 	</td>
 </tr>
 </table>

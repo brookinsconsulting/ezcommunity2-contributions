@@ -1,4 +1,3 @@
-
 <h1>{intl-attribute_edit} - {product_name}</h1>
 
 <hr noshade size="4" />
@@ -11,20 +10,18 @@
 <!-- END type_tpl -->
 </select>
 
+<br /><br />
+
 <!-- BEGIN attribute_list_tpl -->
 <table width="100%" cellspacing="0" cellpadding="2" border="0">
 <tr>
-	<th>
-	{intl-attribute_name}
-	</th>
-	<th>
-	{intl-attribute_value}
-	</th>
+	<th>{intl-attribute_name}:</th>
+	<th>{intl-attribute_value}:</th>
 </tr>
 <!-- BEGIN attribute_tpl -->
 <tr>
 	<td>
-	{attribute_name} : 
+	{attribute_name}: 
 	</td>
 	<td>
 	<input type="hidden" name="AttributeID[]" value="{attribute_id}" />
@@ -35,6 +32,8 @@
 <!-- END attribute_tpl -->
 </table>
 <!-- END attribute_list_tpl -->
+
+<br />
 
 <hr noshade size="4" />
 

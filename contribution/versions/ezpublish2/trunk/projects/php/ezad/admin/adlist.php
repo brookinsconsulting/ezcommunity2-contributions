@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: adlist.php,v 1.6 2001/01/23 13:43:54 bf Exp $
+// $Id: adlist.php,v 1.7 2001/02/01 12:05:02 th Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <22-Nov-2000 21:08:34 bf>
@@ -59,6 +59,7 @@ $t->set_block( "ad_item_tpl", "ad_not_active_tpl", "ad_not_active" );
 $t->set_block( "ad_item_tpl", "image_item_tpl", "image_item" );
 $t->set_block( "ad_item_tpl", "no_image_tpl", "no_image" );
 
+$t->set_var( "site_style", $SiteStyle );
 
 $category = new eZAdCategory( $CategoryID );
 

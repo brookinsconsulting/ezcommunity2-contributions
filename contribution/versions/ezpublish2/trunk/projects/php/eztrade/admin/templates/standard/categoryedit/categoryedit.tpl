@@ -6,7 +6,7 @@
 
 <p class="boxtext">{intl-name}:</p>
 <input type="text" size="40" name="Name" value="{name_value}"/>
-
+<br /><br />
 
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: pollist.php,v 1.17 2001/01/22 14:43:01 jb Exp $
+// $Id: pollist.php,v 1.18 2001/02/01 12:05:02 th Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <20-Sep-2000 13:32:11 ce>
@@ -72,6 +72,8 @@ $t->set_file( array(
     ) );
 
 $t->set_block( "poll_list_page", "poll_item_tpl", "poll_item" );
+
+$t->set_var( "site_style", $SiteStyle );
 
 $nopolls = "";
 

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: optionlist.php,v 1.8 2000/11/01 09:24:18 ce-cvs Exp $
+// $Id: optionlist.php,v 1.9 2001/02/01 12:05:03 th Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <20-Sep-2000 10:18:33 bf>
@@ -46,6 +46,8 @@ $t->set_file( array(
     ) );
 
 $t->set_block( "option_list_tpl", "option_tpl", "option" );
+
+$t->set_var( "site_style", $SiteStyle );
 
 $product = new eZProduct( $ProductID );
     
