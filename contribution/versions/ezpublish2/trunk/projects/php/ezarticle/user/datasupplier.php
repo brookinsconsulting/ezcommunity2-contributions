@@ -290,7 +290,7 @@ switch ( $url_array[2] )
 
         // if file exists... evrything is ok..
         // if not.. check permission, then run page if ok
-        $user = eZUser::currentUser();
+        $user =& eZUser::currentUser();
         $groupstr = "";
         if( get_class( $user ) == "ezuser" )
         {
@@ -349,7 +349,7 @@ switch ( $url_array[2] )
 
         // if file exists... evrything is ok..
         // if not.. check permission, then run page if ok
-        $user = eZUser::currentUser();
+        $user =& eZUser::currentUser();
         $groupstr = "";
         if( get_class( $user ) == "ezuser" )
         {
