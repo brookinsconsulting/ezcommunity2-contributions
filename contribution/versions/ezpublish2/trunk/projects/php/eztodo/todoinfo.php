@@ -1,6 +1,6 @@
 <?php
 
-// $Id: todoinfo.php,v 1.2 2000/09/14 13:05:00 ce-cvs Exp $
+// $Id: todoinfo.php,v 1.3 2000/11/20 13:21:17 ce-cvs Exp $
 //
 // Definition of todo list.
 //
@@ -20,9 +20,6 @@ $Language = $ini->read_var( "eZTodoMain", "Language" );
 $DOC_ROOT = $ini->read_var( "eZTodoMain", "DocumentRoot" );
 
 include_once( "classes/eztemplate.php" );
-include_once( "classes/ezsession.php" );
-include_once( "classes/ezuser.php" );
-include_once( "classes/ezusergroup.php" );
 include_once( "common/ezphputils.php" );
 include_once( "classes/ezlocale.php" );
 
@@ -30,11 +27,6 @@ include_once( "eztodo/classes/eztodo.php" );
 include_once( "eztodo/classes/ezcategory.php" );
 include_once( "eztodo/classes/ezpriority.php" );
 
-$session = new eZSession();
-//  if( $session->get( $AuthenticatedSession ) == 1 )
-//  {
-//      print( "ER IKKE LOGGGT INN!!!!!!!!" );
-//  }
 
 $t = new eZTemplate( $DOC_ROOT . "/" . $ini->read_var( "eZTodoMain", "TemplateDir" ), $DOC_ROOT . "intl/", $Language, "todoinfo.php" );
 $t->setAllStrings();

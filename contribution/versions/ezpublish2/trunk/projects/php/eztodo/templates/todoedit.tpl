@@ -64,7 +64,7 @@
 	</td>
 	<td class="br">
 	<p class="boxtext">Visning:</p>
-	<div class="check"><input type="checkbox" name="Permission" {permission}>&nbsp;{intl-private}</div>
+	<div class="check"><input type="checkbox" name="Permission" {permission}>&nbsp;{intl-public}</div>
 	</td>
 </tr>
 </table>

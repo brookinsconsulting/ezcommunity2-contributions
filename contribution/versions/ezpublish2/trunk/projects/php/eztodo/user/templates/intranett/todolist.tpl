@@ -1,3 +1,4 @@
+
 <SCRIPT LANGUAGE="JavaScript1.2">
 <!--//
 
@@ -38,7 +39,11 @@
 
 <form method="post" action="/todo/todolist/">
 <p class="boxtext">{intl-user}</p>
-<select name="GetByUserID">{user_select}</select>
+<select name="GetByUserID">
+<!-- BEGIN user_item_tpl -->
+<option {user_is_selected} value="{user_id}">{user_firstname} {user_lastname}</option>
+<!-- END user_item_tpl -->
+</select>
 
 <input type="hidden" name="Action" value="ShowTodosByUser">
 <input class="stdbutton" type="submit" value="Vis">
@@ -57,10 +62,51 @@
 	<th>&nbsp;</th>
 </tr>
 
-{todos}
+<!-- BEGIN todo_item_tpl -->
+<tr>
+	<td class="{td_class}">
+	<a href="/todo/todoinfo/?TodoID={todo_id}">{todo_name}</a>
+	</td>
+
+	<td class="{td_class}">
+	{todo_category_id}
+	</td>
+
+	<td class="{td_class}">
+	{todo_date}
+	</td>
+
+	<td class="{td_class}">
+	{todo_priority_id}
+	</td>
+
+	<td class="{td_class}">
+	{todo_permission}
+	</td>
+
+	<td class="{td_class}">
+	<a href="/todo/todoedit/?Action=done&TodoID={todo_id}&Done={todo_done}">{todo_done}</a>
+	</td>
+
+	<td class="{td_class}">
+	<a href="/todo/todoedit/edit/{todo_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('et{todo_id}-red','','/eztodo/images/redigerminimrk.gif',1)"><img name="et{todo_id}-red" border="0" src="/eztodo/images/redigermini.gif" width="16" height="16" align="top"></a>
+	</td>
+	<td class="{td_class}">
+	<a href="/todo/todoedit/delete/{todo_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('et{todo_id}-slett','','/eztodo/images/slettminimrk.gif',1)"><img name="et{todo_id}-slett" border="0" src="/eztodo/images/slettmini.gif" width="16" height="16" align="top"></a>
+	</td>
+</tr>
+<!-- END todo_item_tpl -->
+
+<!-- BEGIN no_found_tpl -->
+<tr>
+	<td>
+	<p class="error">{intl-noitem}</p>
+	</td>
+</tr>
+<!-- END no_found_tpl -->
 
 </table>
 
 <hr noshade size="4">
 
-<form action="/todo/todoedit/"><input class="okbutton" type="submit" value="Ny to do"></form>
+<form action="/todo/todoedit/new"><input class="okbutton" type="submit" value="Ny to do"></form>

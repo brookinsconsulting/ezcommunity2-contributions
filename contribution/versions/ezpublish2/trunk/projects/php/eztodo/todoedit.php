@@ -1,5 +1,5 @@
 <?
-// $Id: todoedit.php,v 1.6 2000/10/03 16:00:56 ce-cvs Exp $
+// $Id: todoedit.php,v 1.7 2000/11/20 13:21:17 ce-cvs Exp $
 //
 // Definition of todo list.
 //
@@ -19,9 +19,6 @@ $Language = $ini->read_var( "eZTodoMain", "Language" );
 $DOC_ROOT = $ini->read_var( "eZTodoMain", "DocumentRoot" );
 
 include_once( "classes/eztemplate.php" );
-include_once( "classes/ezregional.php" );
-include_once( "classes/ezdatetime.php" );
-include_once( "common/ezphputils.php" );
 include_once( "eztodo/classes/eztodo.php" );
 include_once( "eztodo/classes/ezcategory.php" );
 include_once( "eztodo/classes/ezpriority.php" );
@@ -153,9 +150,8 @@ $t->set_file( array(
     ) );
 
 // Template variables.
-$initemplate = new INIFile( "./eztodo/intl/no_NO/todoedit.php.ini", false );
-$submit_text = $initemplate->read_var( "strings", "submitinsert" );
-$headline = $initemplate->read_var( "strings", "headlineinsert" );
+//  $submit_text = $initemplate->read_var( "strings", "submitinsert" );
+//  $headline = $initemplate->read_var( "strings", "headlineinsert" );
 $action_value = "insert";
 $title = "";
 $text = "";
@@ -168,10 +164,11 @@ $min = "";
 // default user
 $UserID = $user->id();
 $OwnerID = $user->id();
-
+print( "--->" . date() );
 // Edit a todo.
 if ( $Action == "edit" )
 {
+    
     $todo = new eZTodo();
     $todo->get( $TodoID );
     if ( $todo->status() == "Y" )

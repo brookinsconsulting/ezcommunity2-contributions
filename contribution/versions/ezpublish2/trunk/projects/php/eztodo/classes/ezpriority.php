@@ -1,5 +1,5 @@
 <?
-// $Id: ezpriority.php,v 1.2 2000/09/08 14:00:19 ce-cvs Exp $
+// $Id: ezpriority.php,v 1.3 2000/11/20 13:21:17 ce-cvs Exp $
 //
 // Definition of eZPriority class
 //
@@ -25,6 +25,7 @@ class eZPriority
     */
     function eZPriority( $id=-1, $fetch=true )
     {
+        $this->IsConnected = false;
         if ( $id != -1 )
         {
             $this->ID = $id;
@@ -40,7 +41,7 @@ class eZPriority
         else
         {
             $this->State_ = "New";
-        }        
+        }
     }
 
     //! store
@@ -51,10 +52,25 @@ class eZPriority
     function store()
     {
         $this->dbInit();
-        query( "INSERT INTO eZTodo_Priority SET
-                ID='$this->ID',
-                Title='$this->Title'" );
-        return mysql_insert_id();
+
+        if ( isSet ( $this->ID ) )
+        {
+            $this->Database->query( "INSERT INTO eZTodo_Priority SET
+                                     ID='$this->ID',
+                                     Name='$this->Name'" );
+            return mysql_insert_id();
+            $this->State_ = "Coherent";
+        }
+        else
+        {
+            $this->Database->query( "UPDATE eZTodo_Priority SET
+                                     ID='$this->ID',
+                                     Name='$this->Name'
+                                     WHERE ID='$this->ID' ");
+            $this->State_ = "Coherent";
+        }
+
+        return true;
     }
 
     //! delete
@@ -64,20 +80,7 @@ class eZPriority
     function delete()
     {
         $this->dbInit();
-        query( "DELETE FROM eZTodo_Priority WHERE ID='$this->ID'" );
-    }
-
-    //! update
-    /*!
-      Update the priority object in the database.
-    */
-    function update()
-    {
-        $this->dbInit();
-        query( "UPDATE eZTodo_Priority SET
-                ID='$this->ID',
-                Title='$this->Title'
-                WHERE ID='$this->ID' ");
+        $this->Database->query( "DELETE FROM eZTodo_Priority WHERE ID='$this->ID'" );
     }
 
     //! get
@@ -90,7 +93,7 @@ class eZPriority
         $this->dbInit();
         if ( $id != "" )
         {
-            array_query( $priority_array, "SELECT * FROM eZTodo_Priority WHERE ID='$id'" );
+            $this->Database->array_query( $priority_array, "SELECT * FROM eZTodo_Priority WHERE ID='$id'" );
             if ( count( $priority_array ) > 1 )
             {
                 die( "Error: Priority's with the same ID was found in the database. This shouldent happen." );
@@ -98,16 +101,23 @@ class eZPriority
             else if( count( $priority_array ) == 1 )
             {
                 $this->ID = $priority_array[0][ "ID" ];
-                $this->Title = $priority_array[0][ "Title" ];
+                $this->Name = $priority_array[0][ "Name" ];
+
+                $ret = true;
             }
             $this->State_ = "Coherent";
         }
+        else
+        {
+            $this->State_ = "Dirty";
+        }
+        return $ret;
     }
 
     //! getAll
     /*!
       Gets all the priority informasjon from the database.
-      Returns the array in $priority_array ordered by title.
+      Returns the array in $priority_array ordered by name.
     */
     function getAll()
     {
@@ -118,7 +128,7 @@ class eZPriority
         $return_array = array();
         $priority_array = array();
 
-        array_query( $priority_array, "SELECT ID FROM eZTodo_Priority ORDER BY Title" );
+        $this->Database->array_query( $priority_array, "SELECT ID FROM eZTodo_Priority ORDER BY Name" );
         
         for ( $i=0; $i<count( $priority_array ); $i++ )
         {
@@ -128,28 +138,28 @@ class eZPriority
     }
 
 
-    //! title
+    //! name
     /*!
       Tilte of the priority.
-      Returns the title of the priority as a string.
+      Returns the name of the priority as a string.
     */
-    function title()
+    function name()
     {
         if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
-        return $this->Title;
+        return $this->Name;
     }
 
-    //! setTitle
+    //! setName
     /*!
-      Sets the title of the priority.
-      The new title of the priority is passed as a paramenter ( $value ).
+      Sets the name of the priority.
+      The new name of the priority is passed as a paramenter ( $value ).
     */
-    function setTitle( $value )
+    function setName( $value )
     {
         if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
-        $this->Title = $value;
+        $this->Name = $value;
     }
 
     //! id
@@ -164,30 +174,32 @@ class eZPriority
         return $this->ID;
     }
 
-    //! dbInit
     /*!
+      \private
       Private function.
-      Open the database for read and write. Gets all the database informasjon from site.ini.
+      Open the database for read and write. Gets all the database information from site.ini.
     */
-    function dbInit()
+    function dbInit( )
     {
-        include_once( "classes/INIFile.php" );
-
-        $ini = new INIFile( "site.ini" );
-        
-        $SERVER = $ini->read_var( "eZTodoMain", "Server" );
-        $DATABASE = $ini->read_var( "eZTodoMain", "Database" );
-        $USER = $ini->read_var( "eZTodoMain", "User" );
-        $PWD = $ini->read_var( "eZTodoMain", "Password" );
-        
-        mysql_pconnect( $SERVER, $USER, $PWD ) or die( "Kunne ikke kople til database" );
-        mysql_select_db( $DATABASE ) or die( "Kunne ikke velge database" );
+        if ( $this->IsConnected == false )
+        {
+            $this->Database = new eZDB( "site.ini", "site" );
+            $this->IsConnected = true;
+        }
     }
 
     var $ID;
-    var $Title;
+    var $Name;
     var $Priority;
+
+    ///  Variable for keeping the database connection.
+    var $Database;
+
+    /// Indicates the state of the object. In regard to database information.
     var $State_;
+    /// Is true if the object has database connection, false if not.
+    var $IsConnected;
+
 }    
     
 

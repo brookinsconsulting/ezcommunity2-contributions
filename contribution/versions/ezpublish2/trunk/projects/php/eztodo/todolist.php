@@ -1,5 +1,5 @@
 <?
-// $Id: todolist.php,v 1.7 2000/10/03 16:00:57 ce-cvs Exp $
+// $Id: todolist.php,v 1.8 2000/11/20 13:21:17 ce-cvs Exp $
 //
 // Definition of todo list.
 //
@@ -40,12 +40,13 @@ if ( !$user )
 $t = new eZTemplate( $DOC_ROOT . "/" . $ini->read_var( "eZTodoMain", "TemplateDir" ), $DOC_ROOT . "intl/", $Language, "todolist.php" );
 $t->setAllStrings();
 $t->set_file( array(
-    "todo_list" => "todolist.tpl",
-    "todo_item" => "todoitem.tpl",
-    "user_item" => "useritem.tpl"
+    "todo_list" => "todolist.tpl"
     ) );
 
-$user = new eZUser();
+$t->set_block( "todo_list_page", "todo_item_tpl", "todo_item" );
+$t->set_block( "todo_list_page", "user_item_tpl", "useritem_item" );
+
+
 $user->get( $user->id() );
 $UserID = $user->id();
 
@@ -57,6 +58,7 @@ $todo = new eZTodo();
 
 if ( $GetByUserID == $user->id() )
 {
+
     $GetByUserID = $user->id();
     $todo_array = $todo->getByOwnerID( $GetByUserID );
     
@@ -83,7 +85,7 @@ foreach( $userList as $userItem )
 
     if ( $GetByUserID == $user->id() )
     {
-        if ( $user->id() == $userItemr->id() )
+        if ( $user->id() == $userItem->id() )
         {
             $t->set_var( "user_is_selected", "selected" );
         }
@@ -104,7 +106,7 @@ foreach( $userList as $userItem )
         {
             $t->set_var( "user_is_selected", "" );
         }
-        $t->parse( "user_select", "user_item", true );
+        $t->parse( "user_item", "user_item_tpl", true );
     }
 }
 
@@ -116,8 +118,14 @@ if ( count( $todo_array ) == 0 )
 
 $locale = new eZLocale();
 
+$i=0;
 foreach( $todo_array as $todoItem )
 {
+    if ( ( $i %2 ) == 0 )
+        $t->set_var( "td_class", "bgdark" );
+    else
+        $t->set_var( "td_class", "bglight" );
+    
     $t->set_var( "todo_id", $todoItem->id() );
     $t->set_var( "todo_title", $todoItem->title() );
     $t->set_var( "todo_text", $todoItem->text() );
@@ -130,14 +138,16 @@ foreach( $todo_array as $todoItem )
     $t->set_var( "todo_permission", $todoItem->permission() );
     $t->set_var( "todo_date", $locale->format( $todoItem->date() ) );
 
-    $t->set_var( "todo_status", $$todoItem->status() );
+    $t->set_var( "todo_status", $todoItem->status() );
 
-    $t->parse( "todos", "todo_item", true );
+    $t->parse( "todo_item", "todo_item_tpl", true );
+    $i++;
 }
 
 
 $t->set_var( "document_root", $DOC_ROOT );
 
-$t->pparse( "output", "todo_list" );
+$t->pparse( "output", "todo_list_page" );
 
 ?>
+
