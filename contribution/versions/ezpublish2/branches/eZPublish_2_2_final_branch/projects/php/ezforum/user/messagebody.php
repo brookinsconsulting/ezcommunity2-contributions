@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: messagebody.php,v 1.9.2.3 2003/06/05 10:33:29 br Exp $
+// $Id: messagebody.php,v 1.9.2.4 2004/07/08 12:57:16 br Exp $
 //
 // Created on: <21-Feb-2001 18:00:00 pkej>
 //
@@ -40,7 +40,7 @@ if ( $ShowMessage )
     
     $msg = new eZForumMessage( $MessageID );
     $MessageTopic = $msg->topic();
-    $MessageBody = eZTextTool::nl2br( $msg->body() );
+    $MessageBody = $msg->body();
     
     $author = new eZUser( $msg->userID() );
     
@@ -108,9 +108,8 @@ if ( $ShowMessage )
         }
         break;
     }
-
     $t->set_var( "message_topic", htmlspecialchars( $MessageTopic ) );
-    $t->set_var( "message_body", htmlspecialchars( $MessageBody ) );
+    $t->set_var( "message_body", eZTextTool::nl2br( htmlspecialchars( $MessageBody ) ) );
     $t->set_var( "message_posted_at", $MessagePostedAt );
     $t->set_var( "message_author", htmlspecialchars( $MessageAuthor ) );
     $t->set_var( "message_id", $MessageID );
