@@ -88,26 +88,43 @@ if( $Action == "down" )
     exit();
 }
 
-if( $Action == "insert" )
+if( $Action == "insert" or $Action == "update" )
 {
-    unset( $item_type->ID );
-    $item_type->setName( $ItemName );
+    if ( $Action == "insert" )
+        unset( $item_type->ID );
+
+    if ( isset( $func_call_set ) and is_array( $func_call_set ) )
+    {
+        reset( $func_call_set );
+        while( list($key,$val) = each( $func_call_set ) )
+        {
+            $item_type->$key( ${$val} );
+        }
+    }
+    else
+    {
+        $item_type->setName( $ItemName );
+    }
     $item_type->store();
     include_once( "classes/ezhttptool.php" );
     eZHTTPTool::header( "Location: $page_path/list" );
 }
 
-if( $Action == "update" )
+if ( !isset( $typeedit ) )
+    $typeedit = "typeedit.tpl";
+if ( isset( $template_array ) and isset( $block_array ) and
+     is_array( $template_array ) and is_array( $block_array ) )
 {
-    $item_type->setName( $ItemName );
-    $item_type->store();
-    include_once( "classes/ezhttptool.php" );
-    eZHTTPTool::header( "Location: $page_path/list" );
+    $standard_array = array( "list_page" => $typeedit );
+    $t->set_file( array_merge( $standard_array, $template_array ) );
+    $t->set_file_block( $template_array );
+    $t->parse( $block_array );
 }
-
-$t->set_file( array(
-    "list_page" =>  "typeedit.tpl",
-    ) );
+else
+{
+    $t->set_var( "extra_type_input", "" );
+    $t->set_file( "list_page", $typeedit );
+}
 $t->set_block( "list_page", "type_edit_tpl", "type_edit" );
 $t->set_block( "list_page", "type_confirm_tpl", "type_confirm" );
 
@@ -126,8 +143,10 @@ $t->set_var( "item_delete_command", "$page_path/delete" );
 $t->set_var( "item_view_command", "$page_path/view" );
 $t->set_var( "item_list_command", "$page_path/list" );
 $t->set_var( "item_new_command", "$page_path/new" );
+
 $t->set_var( "item_id", $ItemID );
 $t->set_var( "item_name", $ItemName );
+
 $t->set_var( "back_url", $back_command );
 $t->set_var( "item_back_command", $back_command );
 
@@ -160,15 +179,22 @@ if( $error == false )
 {
     $t->set_var( "errors", "" );
 }
-//  else
-//  {
-//      $Action = "formdata";
-//  }
 
-if( is_numeric( $item_type->id() ) )
+if ( isset( $func_call ) and is_array( $func_call ) )
 {
-    $t->set_var( "item_id", $item_type->id() );
-    $t->set_var( "item_name", $item_type->name() );
+    reset( $func_call );
+    while( list($key,$val) = each( $func_call ) )
+    {
+        $t->set_var( $key, $item_type->$val() );
+    }
+}
+else
+{
+    if( is_numeric( $item_type->id() ) )
+    {
+        $t->set_var( "item_id", $item_type->id() );
+        $t->set_var( "item_name", $item_type->name() );
+    }
 }
 
 if( $Action == "edit" )
