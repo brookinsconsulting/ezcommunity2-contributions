@@ -20,15 +20,15 @@
 <!-- BEGIN article_header_tpl -->
 <!-- END article_header_tpl -->
 <p>
-sf{article_body}
+{article_body}
 </p>
-
+<br />
 <p>
 
 <!-- BEGIN attached_file_list_tpl -->
 <h3>{intl-attached_files}:</h3>
 <!-- BEGIN attached_file_tpl -->
-<a href="/filemanager/download/{file_id}/{original_file_name}/">{file_name}</a><br />
+<a href="/filemanager/download/{file_id}/{original_file_name}/">{file_name}</a></div><br />
 <!-- END attached_file_tpl -->
 
 <!-- END attached_file_list_tpl -->
@@ -53,10 +53,10 @@ sf{article_body}
 
 <p>
 <!-- BEGIN numbered_page_link_tpl -->
-| <a class="path" href="/article/articleview/{article_id}/0/">{intl-numbered_page}</a> |
+<div align="center"><a class="path" href="/article/articleview/{article_id}/0/">{intl-numbered_page}</a></div>
 <!-- END numbered_page_link_tpl -->
 
 <!-- BEGIN print_page_link_tpl -->
-| <a class="path" href="/article/articleprint/{article_id}/">{intl-print_page}</a> |
+<div align="center"><a class="path" href="/article/articleprint/{article_id}/">{intl-print_page}</a></div>
 <!-- END print_page_link_tpl -->
 </p>

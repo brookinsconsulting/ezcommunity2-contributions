@@ -13,7 +13,7 @@
 			<td colspan="2" width="99%"> 
 				<h2>{title_text}</h2>
 			</td>
-			<td rowspan="4"><img src="/sitedesign/mygold/images/shim.gif" alt="" width="8" height="1" /></td>
+			<td rowspan="3"><img src="/sitedesign/mygold/images/shim.gif" alt="" width="8" height="8" /></td>
 			<td align="right" width="1%"> 
 				<!-- BEGIN product_number_item_tpl -->
 				{intl-nr}: {product_number} 
@@ -25,9 +25,9 @@
 		<tr> 
 			<td colspan="2" valign="top"> 
 				<p>{intro_text}</p>
-				<p>{description_text}</p>				
+				<p>{description_text}</p>
 			</td>
-			<td rowspan="3" align="right" valign="middle"> 
+			<td rowspan="2" align="right" valign="middle"> 
 				<!-- BEGIN main_image_tpl -->
 				<table cellspacing="0" cellpadding="0" border="0">
 					<tr> 
@@ -46,74 +46,81 @@
 				<!-- END main_image_tpl -->
 			</td>
 		</tr>
-		<tr>
+		<tr> 
 			<td colspan="2" valign="bottom"> 
-				<!-- BEGIN attribute_list_tpl -->
-				<table cellspacing="0" cellpadding="0" border="0" width="100%">
+				<table width="100%" border="0" cellspacing="0" cellpadding="0">
 					<tr> 
 						<td colspan="2"> 
-							<hr size="1" noshade />
+							<!-- BEGIN attribute_list_tpl -->
+							<table cellspacing="0" cellpadding="0" border="0" width="100%">
+								<tr> 
+									<td colspan="2"> 
+										<hr size="1" noshade />
+									</td>
+								</tr>
+								<!-- BEGIN attribute_tpl -->
+								<tr> 
+									<td class="attribute" valign="top"> {attribute_name}:&nbsp; 
+									</td>
+									<td class="attributevalue" align="right" valign="top"> 
+										{attribute_value} </td>
+								</tr>
+								<!-- END attribute_tpl -->
+								<tr> 
+									<td colspan="2"> 
+										<hr size="1" noshade />
+									</td>
+								</tr>
+							</table>
+							<!-- END attribute_list_tpl -->
 						</td>
 					</tr>
-					<!-- BEGIN attribute_tpl -->
 					<tr> 
-						<td class="attribute" valign="top"> {attribute_name}:&nbsp; 
+						<td valign="bottom"> 
+							<!-- BEGIN option_tpl -->
+							Gr&ouml;&szlig;e: 
+							<input type="hidden" name="OptionIDArray[]" value="{option_id}" />
+							<!-- BEGIN value_price_header_tpl -->
+							<!-- BEGIN value_description_header_tpl -->
+							<!-- END value_description_header_tpl -->
+							<!-- BEGIN value_price_header_item_tpl -->
+							<!-- END value_price_header_item_tpl -->
+							<!-- BEGIN value_currency_header_item_tpl -->
+							<!-- END value_currency_header_item_tpl -->
+							<!-- END value_price_header_tpl -->
+							<select name="OptionValueArray[]">
+								<!-- BEGIN value_tpl -->
+								<!-- BEGIN value_description_tpl -->
+								<option value="{value_id}">{value_name} 
+								<!-- END value_description_tpl -->
+								<!-- BEGIN value_price_item_tpl -->
+								{value_price} 
+								<!-- END value_price_item_tpl -->
+								<!-- BEGIN value_availability_item_tpl -->
+								({value_availability}) 
+								<!-- END value_availability_item_tpl -->
+								</option>
+								<!-- BEGIN value_price_currency_list_tpl -->
+								<!-- BEGIN value_price_currency_item_tpl -->
+								<!-- END value_price_currency_item_tpl -->
+								<!-- END value_price_currency_list_tpl -->
+								<!-- END value_tpl -->
+							</select>
+							{option_description} 
+							<!-- END option_tpl -->
 						</td>
-						<td class="attributevalue" align="right" valign="top"> {attribute_value} </td>
-					</tr>
-					<!-- END attribute_tpl -->
-					<tr> 
-						<td colspan="2"> 
-							<hr size="1" noshade />
+						<td align="right" valign="bottom"> 
+							<!-- BEGIN price_tpl -->
+							{product_price}<br />
+							<!-- BEGIN alternative_currency_list_tpl -->
+							<!-- BEGIN alternative_currency_tpl -->
+							<span style="font-style: italic">{alt_price}</span> 
+							<!-- END alternative_currency_tpl -->
+							<!-- END alternative_currency_list_tpl -->
+							<!-- END price_tpl -->
 						</td>
 					</tr>
 				</table>
-				<!-- END attribute_list_tpl -->
-			</td>
-		</tr>
-		<tr> 
-			<td valign="bottom"> 
-				<!-- BEGIN option_tpl -->
-				Gr&ouml;&szlig;e: 
-				<input type="hidden" name="OptionIDArray[]" value="{option_id}" />
-				<!-- BEGIN value_price_header_tpl -->
-				<!-- BEGIN value_description_header_tpl -->
-				<!-- END value_description_header_tpl -->
-				<!-- BEGIN value_price_header_item_tpl -->
-				<!-- END value_price_header_item_tpl -->
-				<!-- BEGIN value_currency_header_item_tpl -->
-				<!-- END value_currency_header_item_tpl -->
-				<!-- END value_price_header_tpl -->
-				<select name="OptionValueArray[]">
-					<!-- BEGIN value_tpl -->
-					<!-- BEGIN value_description_tpl -->
-					<option value="{value_id}">{value_name} 
-					<!-- END value_description_tpl -->
-					<!-- BEGIN value_price_item_tpl -->
-					{value_price} 
-					<!-- END value_price_item_tpl -->
-					<!-- BEGIN value_availability_item_tpl -->
-					({value_availability}) 
-					<!-- END value_availability_item_tpl -->
-					</option>
-					<!-- BEGIN value_price_currency_list_tpl -->
-					<!-- BEGIN value_price_currency_item_tpl -->
-					<!-- END value_price_currency_item_tpl -->
-					<!-- END value_price_currency_list_tpl -->
-					<!-- END value_tpl -->
-				</select>
-				{option_description} 
-				<!-- END option_tpl -->
-			</td>
-			<td align="right"> 
-				<!-- BEGIN price_tpl -->
-				{product_price}<br />
-				<!-- BEGIN alternative_currency_list_tpl -->
-				<!-- BEGIN alternative_currency_tpl -->
-				<span style="font-style: italic">{alt_price}</span> 
-				<!-- END alternative_currency_tpl -->
-				<!-- END alternative_currency_list_tpl -->
-				<!-- END price_tpl -->
 			</td>
 		</tr>
 	</table>

@@ -15,7 +15,7 @@
 <!-- END header_item_tpl -->
 
 <p>
-{current_category_description}sf
+{current_category_description}
 </p>
 
 <hr noshade size="1" />
