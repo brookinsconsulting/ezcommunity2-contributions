@@ -424,6 +424,7 @@ CREATE TABLE eZTrade_VoucherInformation (
   FromName varchar(80) default NULL,
   FromOnlineID int(11) default '0',
   FromAddressID int(11) default '0',
+  ProductID int(11) default '0',
   PRIMARY KEY (ID)
 ) TYPE=MyISAM;
 

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezvoucherused.php,v 1.3 2001/09/28 09:19:50 ce Exp $
+// $Id: ezvoucherused.php,v 1.4 2001/10/16 09:21:04 ce Exp $
 //
 // eZVoucherUsed class
 //
@@ -166,12 +166,13 @@ class eZVoucherUsed
     */
     function fill( &$voucherArray )
     {
-        $this->ID =& $voucherArray[ "ID" ];
-        $this->Used =& $voucherArray[ "Used" ];
-        $this->Price =& $voucherArray[ "Price" ];
-        $this->VoucherID =& $voucherArray[ "VoucherID" ];
-        $this->OrderID =& $voucherArray[ "OrderID" ];
-        $this->UserID =& $voucherArray[ "UserID" ];
+        $db =& eZDB::globalDatabase();
+        $this->ID =& $voucherArray[$db->fieldName( "ID" )];
+        $this->Used =& $voucherArray[$db->fieldName( "Used" )];
+        $this->Price =& $voucherArray[$db->fieldName( "Price" )];
+        $this->VoucherID =& $voucherArray[$db->fieldName( "VoucherID" )];
+        $this->OrderID =& $voucherArray[$db->fieldName( "OrderID" )];
+        $this->UserID =& $voucherArray[$db->fieldName( "UserID" )];
     }
 
     /*!
@@ -408,7 +409,7 @@ class eZVoucherUsed
 
         foreach( $res as $result )
         {
-            $ret[] = new eZVoucherUsed( $result["ID"] );
+            $ret[] = new eZVoucherUsed( $result[$db->fieldName( "ID" )] );
         }
 
         return $ret;

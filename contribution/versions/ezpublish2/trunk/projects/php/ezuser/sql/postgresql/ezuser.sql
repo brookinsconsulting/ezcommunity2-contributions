@@ -87,6 +87,13 @@ CREATE TABLE eZUser_Trustees (
   PRIMARY KEY (ID)
 );
 
+CREATE TABLE eZUser_UserShippingLink (
+  ID int NOT NULL default '0',
+  UserID int default '0',
+  AddressID int default '0',
+  PRIMARY KEY  (ID)
+);
+
 INSERT INTO eZUser_Module (ID, Name) VALUES (1,'eZTrade');
 INSERT INTO eZUser_Module (ID, Name) VALUES (2,'eZPoll');
 INSERT INTO eZUser_Module (ID, Name) VALUES (3,'eZUser');

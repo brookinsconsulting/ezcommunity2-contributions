@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: payment.php,v 1.82 2001/10/15 06:22:27 ce Exp $
+// $Id: payment.php,v 1.83 2001/10/16 09:21:05 ce Exp $
 //
 // Created on: <02-Feb-2001 16:31:53 bf>
 //
@@ -182,12 +182,12 @@ if ( $PaymentSuccess == "true" )
     $shippingAddress = new eZAddress( $session->variable( "ShippingAddressID" ) );
     $billingAddress = new eZAddress( $session->variable( "BillingAddressID" ) );
 
-    $order->setShippingAddress( $shippingAddress, $user );
-    $order->setBillingAddress( $billingAddress, $user );
-
     $order->setShippingCharge( $session->variable( "ShippingCost" ) );
     $order->setShippingVAT( $session->variable( "ShippingVAT" ) );
 
+    $order->setShippingAddress( $shippingAddress, $user );
+    $order->setBillingAddress( $billingAddress, $user );
+    
     $order->setPaymentMethod( $session->arrayValue( "PaymentMethod" ) );
 
     $order->setShippingTypeID( $session->variable( "ShippingTypeID" ) );
@@ -211,6 +211,7 @@ if ( $PaymentSuccess == "true" )
     }
 
     $order->store();
+
 
     $order_id = $order->id();
     
@@ -525,15 +526,16 @@ if ( $PaymentSuccess == "true" )
         $len_product_total_inc_tax = strlen( $shipinctax ) > $len_product_total_inc_tax ? strlen( $shipinctax ) : $len_product_total_inc_tax;
     }
 
-
-
-    foreach( $productOptions as $line )
+    if ( count ( $productOptions ) > 0 )
     {
-        $len_option_name = strlen( $line["option_name"] ) > $len_option_name ? strlen( $line["option_name"] ) : $len_option_name;
-        $len_option_value = strlen( $line["option_value"] ) > $len_option_value ? strlen( $line["option_value"] ) : $len_option_value;
-        $len_option_price = strlen( $line["option_price"] ) > $len_option_price ? strlen( $line["option_price"] ) : $len_option_price;
+        foreach( $productOptions as $line )
+        {
+            $len_option_name = strlen( $line["option_name"] ) > $len_option_name ? strlen( $line["option_name"] ) : $len_option_name;
+            $len_option_value = strlen( $line["option_value"] ) > $len_option_value ? strlen( $line["option_value"] ) : $len_option_value;
+            $len_option_price = strlen( $line["option_price"] ) > $len_option_price ? strlen( $line["option_price"] ) : $len_option_price;
+        }
     }
-
+    
     $len_option_name += $separateBy;
     $len_option_value += $separateBy;
     $len_option_price += $separateBy;
@@ -916,7 +918,7 @@ if ( $PaymentSuccess == "true" )
         include( "checkout/user/postpayment.php" );
     }
     
-//    $cart->clear();
+    //  $cart->clear();
 
     $OrderID = $order->id();
 
@@ -949,7 +951,7 @@ if ( $PaymentSuccess == "true" )
         $session->setVariable( "PayWithVoucher", "" );
     }
     
-//    $cart->delete();
+    $cart->delete();
 
     // call the payment script after the payment is successful.
     // some systems needs this, e.g. to print out the OrderID which was cleared..
@@ -960,7 +962,7 @@ if ( $PaymentSuccess == "true" )
 
     $session->setVariable( "SSLMode", "" );
 
-//    eZHTTPTool::header( "Location: http://$HTTP_HOST/trade/ordersendt/$OrderID/" );
+    eZHTTPTool::header( "Location: http://$HTTP_HOST/trade/ordersendt/$OrderID/" );
     exit();
 }
 

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: orderview.php,v 1.1 2001/09/24 10:20:18 ce Exp $
+// $Id: orderview.php,v 1.2 2001/10/16 09:21:05 ce Exp $
 //
 // Created on: <30-Sep-2000 13:03:13 bf>
 //
@@ -166,8 +166,8 @@ if ( $localUser )
     $t->set_var( "billing_street2", $billingAddress->street2() );
     $t->set_var( "billing_zip", $billingAddress->zip() );
     $t->set_var( "billing_place", $billingAddress->place() );
-    
-    $PriceGroup = eZPriceGroup::correctPriceGroup( $localUser->groups( true ) );
+
+    $PriceGroup = eZPriceGroup::correctPriceGroup( $localUser->groups( false ), true );
 
     $country = $billingAddress->country();
     if ( is_object( $country ) )

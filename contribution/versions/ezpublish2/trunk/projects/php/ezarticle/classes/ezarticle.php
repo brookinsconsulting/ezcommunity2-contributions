@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezarticle.php,v 1.180 2001/10/15 11:04:57 jhe Exp $
+// $Id: ezarticle.php,v 1.181 2001/10/16 09:21:04 ce Exp $
 //
 // Definition of eZArticle class
 //
@@ -2504,10 +2504,12 @@ class eZArticle
         $db =& eZDB::globalDatabase();
 
         $OrderBy = "Article.Published DESC";
+        $GroupBy = "Article.Published";
         switch( $sortMode )
         {
             case "alpha" :
             {
+                $GroupBy = "Article.Name";
                 $OrderBy = "Article.Name DESC";
             }
             break;
@@ -2588,7 +2590,7 @@ class eZArticle
                         $excludeSQL
                         AND Definition.ArticleID=Article.ID
                         AND CategoryPermission.ObjectID=Definition.CategoryID
-                 GROUP BY Article.ID ORDER BY $OrderBy";
+                 GROUP BY Article.ID, Article.IsPublished, $GroupBy ORDER BY $OrderBy";
 
 
         $db->array_query( $article_array, $query, array( "Limit" => $limit, "Offset" => $offset )  );

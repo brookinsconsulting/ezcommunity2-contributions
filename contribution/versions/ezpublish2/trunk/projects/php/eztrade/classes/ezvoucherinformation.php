@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezvoucherinformation.php,v 1.6 2001/10/10 12:30:18 ce Exp $
+// $Id: ezvoucherinformation.php,v 1.7 2001/10/16 09:21:04 ce Exp $
 //
 // eZVoucherInformation class
 //
@@ -519,7 +519,10 @@ class eZVoucherInformation
     function voucher( $asObject=true )
     {
         if ( $asObject )
+        {
+            print( $this->VoucherID );
             return new eZVoucher( $this->VoucherID );
+        }
         else
             return $this->VoucherID;
     }
@@ -583,7 +586,8 @@ class eZVoucherInformation
         $t->set_var( "from_name", $this->fromName() );
         $t->set_var( "to_name", $this->toName() );
         $t->set_var( "key_number", $voucher->keyNumber() );
-        
+
+
         $mailAddress = $this->online();
         
         $mail->setTo( $mailAddress->url() );

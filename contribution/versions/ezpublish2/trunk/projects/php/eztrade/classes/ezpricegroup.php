@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezpricegroup.php,v 1.16 2001/10/05 12:37:50 br Exp $
+// $Id: ezpricegroup.php,v 1.17 2001/10/16 09:21:04 ce Exp $
 //
 // Definition of eZPriceGroup class
 //
@@ -192,7 +192,7 @@ class eZPriceGroup
     /*!
       Returns the price group which the user group is connected to or false if none.
     */
-    function correctPriceGroup( $group_id )
+    function correctPriceGroup( $group_id, $debug=false )
     {
         $db =& eZDB::globalDatabase();
         if ( is_array( $group_id ) )
@@ -210,10 +210,12 @@ class eZPriceGroup
         {
             $group_text = "AND GroupID='$group_id'";
         }
+
         $db->array_query( $array, "SELECT PriceID
                                    FROM eZTrade_GroupPriceLink, eZTrade_PriceGroup
                                    WHERE PriceID=ID $group_text
                                    ORDER BY Placement", array( "Limit" => 1, "Offset" => 0 ) );
+
         if ( count( $array ) == 1 )
             return $array[0][$db->fieldName("PriceID")];
         return false;
@@ -242,7 +244,7 @@ class eZPriceGroup
                 if ( $group_text )
                     $group_text = " AND ( $group_text )";
                 else
-                    $group_text = "AND PriceID='$priceid'";
+                    $group_text = "";
             }
             else
             {
@@ -252,7 +254,6 @@ class eZPriceGroup
             $db->array_query( $array, "SELECT Price FROM eZTrade_ProductPriceLink
                                        WHERE ProductID='$productid' $group_text
                                          AND OptionID='$optionid' ORDER BY Price" );
-
             if ( count( $array ) > 0 )
                 return $array[0][$db->fieldName("Price")];
             else
@@ -268,10 +269,11 @@ class eZPriceGroup
         {
             $db->array_query( $array, "SELECT Price FROM eZTrade_OptionValue
                                        WHERE OptionID='$optionid' ORDER BY Price" );
-
             if ( count( $array ) > 0 )
                 return $array[0][$db->fieldName("Price")];
         }
+
+
         return false;
     }
 
@@ -298,7 +300,7 @@ class eZPriceGroup
                 if ( $group_text )
                     $group_text = " AND ( $group_text )";
                 else
-                    $group_text = "AND PriceID='$priceid'";
+                    $group_text = "";
             }
             else
             {
@@ -352,7 +354,7 @@ class eZPriceGroup
                 if ( $group_text )
                     $group_text = " AND ( $group_text )";
                 else
-                    $group_text = "AND PriceID='$priceid'";
+                    $group_text = "";
             }
             else
             {

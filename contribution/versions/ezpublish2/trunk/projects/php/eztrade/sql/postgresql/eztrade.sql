@@ -402,6 +402,7 @@ CREATE TABLE eZTrade_Voucher (
   MailMethod int default '1',
   UserID int default '0',
   ProductID int default '0',
+  TotalValue int default '0',
   PRIMARY KEY (ID)
 );
 
@@ -418,6 +419,7 @@ CREATE TABLE eZTrade_VoucherInformation (
   FromName varchar(80) default NULL,
   FromOnlineID int default '0',
   FromAddressID int default '0',
+  ProductID int default '0',
   PRIMARY KEY (ID)
 );
 

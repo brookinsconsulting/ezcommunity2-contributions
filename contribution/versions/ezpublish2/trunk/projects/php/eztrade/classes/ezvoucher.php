@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezvoucher.php,v 1.12 2001/09/27 14:53:51 ce Exp $
+// $Id: ezvoucher.php,v 1.13 2001/10/16 09:21:04 ce Exp $
 //
 // eZVoucher class
 //
@@ -157,6 +157,7 @@ class eZVoucher
         {
             $db->array_query( $voucherArray, "SELECT * FROM eZTrade_Voucher WHERE ID='$id'",
                               0, 1 );
+
             if( count( $voucherArray ) == 1 )
             {
                 $this->fill( &$voucherArray[0] );
@@ -175,14 +176,15 @@ class eZVoucher
     */
     function fill( &$voucherArray )
     {
-        $this->ID =& $voucherArray[ "ID" ];
-        $this->Created =& $voucherArray[ "Created" ];
-        $this->Price =& $voucherArray[ "Price" ];
-        $this->Available =& $voucherArray[ "Available" ];
-        $this->KeyNumber =& $voucherArray[ "KeyNumber" ];
-        $this->UserID =& $voucherArray[ "UserID" ];
-        $this->ProductID =& $voucherArray[ "ProductID" ];
-        $this->TotalValue =& $voucherArray[ "TotalValue" ];
+        $db =& eZDB::globalDatabase();
+        $this->ID =& $voucherArray[$db->fieldName( "ID" )];
+        $this->Created =& $voucherArray[$db->fieldName( "Created" )];
+        $this->Price =& $voucherArray[$db->fieldName( "Price" )];
+        $this->Available =& $voucherArray[$db->fieldName( "Available" )];
+        $this->KeyNumber =& $voucherArray[$db->fieldName( "KeyNumber" )];
+        $this->UserID =& $voucherArray[$db->fieldName( "UserID" )];
+        $this->ProductID =& $voucherArray[$db->fieldName( "ProductID" )];
+        $this->TotalValue =& $voucherArray[$db->fieldName( "TotalValue" )];
     }
 
     /*!
@@ -434,9 +436,9 @@ class eZVoucher
         else
             $db->query_single( $res, "SELECT ID FROM eZTrade_Voucher WHERE KeyNumber='$key'" );
 
-        if ( $res["ID"] )
+        if ( $res[$db->fieldName( "ID" )] )
         {
-            $ret = new eZVoucher( $res["ID"] );
+            $ret = new eZVoucher( $res[$db->fieldName( "ID" )] );
         }
 
         return $ret;
@@ -459,7 +461,7 @@ class eZVoucher
 
         foreach( $res as $result )
         {
-            $ret[] = new eZVoucher( $result["ID"] );
+            $ret[] = new eZVoucher( $result[$db->fieldName( "ID" )] );
         }
 
         return $ret;
@@ -475,9 +477,9 @@ class eZVoucher
         
         $db->query_single( $res, "SELECT ID FROM eZTrade_VoucherInformation WHERE VoucherID='$this->ID'" );
 
-        if ( $res["ID"] )
+        if ( $res[$db->fieldName( "ID" )] )
         {
-            $ret = new eZVoucherInformation( $res["ID"] );
+            $ret = new eZVoucherInformation( $res[$db->fieldName( "ID" )] );
         }
 
         return $ret;
@@ -498,7 +500,7 @@ class eZVoucher
 
         foreach( $res as $used )
         {
-            $ret[] = new eZVoucherUsed( $used["ID"] );
+            $ret[] = new eZVoucherUsed( $used[$db->fieldName( "ID" )] );
         }
 
         return $ret;

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezproduct.php,v 1.118 2001/10/15 11:32:18 ce Exp $
+// $Id: ezproduct.php,v 1.119 2001/10/16 09:21:04 ce Exp $
 //
 // Definition of eZProduct class
 //
@@ -2219,12 +2219,12 @@ class eZProduct
         $query = "SELECT ID FROM eZTrade_VoucherInformation
                       WHERE ProductID='$ProductID'
                       ";
-        
-        $db->query_single( $ret, $query );
 
-        if ( is_numeric ( $ret["ID"] ) )
+        $db->query_single( $res, $query );
+
+        if ( is_numeric ( $res[$db->fieldName( "ID" )] ) )
         {
-            $ret = new eZVoucherInformation( $ret["ID"] );
+            $ret = new eZVoucherInformation( $res[$db->fieldName( "ID" )] );
         }
         
         return $ret;

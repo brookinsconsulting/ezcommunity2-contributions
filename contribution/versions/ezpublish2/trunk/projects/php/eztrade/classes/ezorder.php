@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezorder.php,v 1.59 2001/10/15 11:32:18 ce Exp $
+// $Id: ezorder.php,v 1.60 2001/10/16 09:21:04 ce Exp $
 //
 // Definition of eZOrder class
 //
@@ -386,7 +386,7 @@ class eZOrder
                            FROM eZTrade_Order, eZTrade_OrderStatus
                            WHERE eZTrade_Order.ID = eZTrade_OrderStatus.OrderID AND UserID='$userID'" );
 
-        return $res["Count"];
+        return $res[$db->fieldName( "Count" )];
     }
 
     function &getByContact( $contact, $is_person = true, $offset = 0, $limit = 40 )
@@ -749,15 +749,12 @@ class eZOrder
            $userID = $user->id();
 
            $db =& eZDB::globalDatabase();
-           $db->query_single( $ret, "SELECT COUNT(ID) as Count FROM eZUser_UserShippingLink
-                               WHERE UserID='$userID' AND AddressID='$this->ShippingAddressID'" );
-
            $db->begin();
            $userID = $user->id();
            $db->lock( "eZUser_UserShippingLink" );
            $nextID = $db->nextID( "eZUser_UserShippingLink", "ID" );
 
-                          print( "INSERT INTO eZUser_UserShippingLink
+           $ret[] = $db->query( "INSERT INTO eZUser_UserShippingLink
                                   (ID,
 	     	                       UserID,
 		                           AddressID )
@@ -765,18 +762,6 @@ class eZOrder
                                   ('$nextID',
 		                           '$userID',
 		                           '$this->ShippingAddressID') " );
-
-           if ( $ret["Count"] == 0 )
-           {
-               $ret[] = $db->query( "INSERT INTO eZUser_UserShippingLink
-                                  (ID,
-	     	                       UserID,
-		                           AddressID )
-                                  VALUES
-                                  ('$nextID',
-		                           '$userID',
-		                           '$this->ShippingAddressID') " );
-           }
            $db->unlock();
            eZDB::finish( $ret, $db );
        }
@@ -1047,7 +1032,7 @@ class eZOrder
 
        foreach ( $order_item_array as $item )
        {
-           $price = $item["VAT"];
+           $price = $item[$db->fieldName( "VAT" )];
 
 //           $price = $price * $item["Count"];
 
@@ -1069,7 +1054,7 @@ class eZOrder
        $db->query_single( $res, "SELECT ID FROM
                                                     eZTrade_Order
                                                     WHERE ID='$this->ID' AND UserID='$userID'" );
-       if ( is_numeric ( $res["ID"] ) )
+       if ( is_numeric ( $res[$db->fieldName( "ID" )] ) )
             $ret = true;
 
        return $ret;       
