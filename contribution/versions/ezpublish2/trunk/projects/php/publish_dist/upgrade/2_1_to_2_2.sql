@@ -684,10 +684,11 @@ update eZStats_PageView set DateTmp= UNIX_TIMESTAMP( Date );
 alter table eZStats_PageView drop Date; 
 alter table eZStats_PageView change DateTmp Date int; 
 
-alter table eZStats_PageView add DateTimeTmp int;
-update eZStats_PageView set DateTimeTmp= UNIX_TIMESTAMP( DateTime );
-alter table eZStats_PageView drop DateTime; 
-alter table eZStats_PageView change DateTimeTmp Date int; 
+#
+#alter table eZStats_PageView add DateTimeTmp int;
+#update eZStats_PageView set DateTimeTmp= UNIX_TIMESTAMP( DateTime );
+#alter table eZStats_PageView drop DateTime; 
+#alter table eZStats_PageView change DateTimeTmp Date int; 
 
 alter table eZStats_PageView add DateValueTmp int;
 update eZStats_PageView set  DateValueTmp= UNIX_TIMESTAMP( DateValue );
@@ -831,26 +832,26 @@ CREATE TABLE eZTrade_ProductPermissionLink (
 alter table eZBug_Bug change Created Created int;
 alter table eZBug_Bug change IsHandled IsHandled int default 0;
 alter table eZBug_Bug change IsClosed IsClosed int default 0;
-alter table eZBug_Bug add OwnerID OwnerID int default 0;
+alter table eZBug_Bug change OwnerID OwnerID int default 0;
 alter table eZBug_Bug change IsPrivate IsPrivate int default 0;
 
-alter table eZBug_Module add OwnerGroupID int default 0;
+#alter table eZBug_Module add OwnerGroupID int default 0;
 
-CREATE TABLE eZBug_BugFileLink (
-  ID int NOT NULL,
-  BugID int NOT NULL default '0',
-  FileID int NOT NULL default '0',
-  Created int NOT NULL,
-  PRIMARY KEY (ID)
-);
+#CREATE TABLE eZBug_BugFileLink (
+#  ID int NOT NULL,
+#  BugID int NOT NULL default '0',
+#  FileID int NOT NULL default '0',
+#  Created int NOT NULL,
+#  PRIMARY KEY (ID)
+#);
  
-CREATE TABLE eZBug_BugImageLink (
-  ID int NOT NULL,
-  BugID int NOT NULL default '0',
-  ImageID int NOT NULL default '0',
-  Created int NOT NULL,
-  PRIMARY KEY (ID)
-);
+#CREATE TABLE eZBug_BugImageLink (
+#  ID int NOT NULL,
+#  BugID int NOT NULL default '0',
+#  ImageID int NOT NULL default '0',
+#  Created int NOT NULL,
+#  PRIMARY KEY (ID)
+#);
 
 
 alter table eZBug_Log change Created Created int;
@@ -905,8 +906,6 @@ alter table eZAd_View change DateTmp Date int;
 alter table eZAd_View add ViewOffsetCount int;
 
 alter table eZTrade_OrderItem add ExpiryDate int;             
-alter table eZAd_Click drop ClickOffsetCount;
-alter table eZAd_Click drop ClickCount;
 
 #
 # Table structure for table 'eZTrade_VoucherSMail'
@@ -974,8 +973,6 @@ CREATE TABLE eZTrade_ProductPermission (
   KEY ProductPermissionReadPermission(ReadPermission)
 ) TYPE=MyISAM;
 
-alter table eZAddress_Address add Name varchar(30);
-
 # eZTrade_Product
 
 alter table eZTrade_Product add PublishedTmp int;
@@ -990,7 +987,7 @@ update eZContact_Consultation set DateTmp= UNIX_TIMESTAMP( Date );
 alter table eZContact_Consultation drop Date; 
 alter table eZContact_Consultation change DateTmp Date int;
 
-drop table eZContact_ImageType;
+drop table if exists eZContact_ImageType;
 
 alter table eZContact_CompanyView add DateTmp int;
 update eZContact_CompanyView set DateTmp= UNIX_TIMESTAMP( Date );
@@ -1102,9 +1099,9 @@ alter table eZTrade_Cart add CompanyID int default 0;
 
 alter table eZTrade_Order add Comment text;
 
+/* speeding up the keywords */
 alter table eZArticle_ArticleKeyword add index (Keyword);
 alter table eZArticle_ArticleKeyword add index (ArticleID);
-
 create table eZBulkMail_UserCategoryLink ( UserID int default 0, CategoryID int default 0 ); 
 
 create table eZBulkMail_UserSubscriptionCategorySettings( CategoryID int default 0, UserID int default 0, Delay int default 0 );
@@ -1119,8 +1116,18 @@ CREATE TABLE eZArticle_ArticleKeywordFirstLetter (
   Letter char(1) NOT NULL default ''
 );
 
+CREATE TABLE eZTrade_VoucherUsed (
+  ID int(11) NOT NULL default '0',
+  Used int(11) default '0',
+  Price float default NULL,
+  VoucherID int(11) default '0',
+  OrderID int(11) default '0',
+  UserID int(11) default '0',
+  PRIMARY KEY (ID)
+) TYPE=MyISAM;
+
+
 alter table eZTrade_Voucher add UserID int default 0; 
-alter table eZTrade_VoucherUsed add OrderID int default 0;
 create table eZTrade_ProductPriceRange( ID int NOT NULL, Min int default 0, Max int default 0, ProductID int default 0 );        
 
 alter table eZBulkMail_UserSubscriptionCategorySettings rename eZBulkMail_UserCategorySettings;  
@@ -1164,17 +1171,8 @@ CREATE TABLE eZTrade_VoucherInformation (
   ProductID int(11) default '0'
 ) TYPE=MyISAM;
 
-CREATE TABLE eZTrade_VoucherUsed (
-  ID int(11) default '0',
-  Used int(11) default '0',
-  Price float default NULL,
-  VoucherID int(11) default '0',
-  OrderID int(11) default '0',
-  UserID int(11) default '0'
-) TYPE=MyISAM;
-
 alter table eZTrade_Voucher add VoucherInformationID int default 0;  
-alter table eZTrade_Voucher add TotalValue float default 0;  
+#alter table eZTrade_Voucher add TotalValue float default 0;  
 
 
 CREATE TABLE eZForum_MessageWordLink (
@@ -1195,12 +1193,9 @@ create table eZSiteManager_Menu( ID int NOT NULL, Name varchar(40), Link varchar
 
 alter table eZTrade_ProductImageLink change Placement Placement int default 0;  
 update eZTrade_ProductImageLink set Placement='0' where Placement IS NULL;
-
 alter table eZTrade_VoucherInformation add FromAddressID int default 0; 
-alter table eZTrade_VoucherInformation add ProductID int default 0; 
+#alter table eZTrade_VoucherInformation add ProductID int default 0; 
 alter table eZTrade_VoucherInformation change AddressID ToAddressID int default 0;        
-
-alter table eZFileManager_Folder add SectionID int(11);
 
 alter table eZTrade_OrderOptionValue change OptionName OptionName text;
 alter table eZTrade_OrderOptionValue change ValueName ValueName text;
@@ -1258,6 +1253,14 @@ CREATE TABLE eZContact_PersonIndex (
   Value varchar(255) NOT NULL default '',
   Type int(11) NOT NULL default '0',
   PRIMARY KEY (PersonID,Value)
+) TYPE=MyISAM;
+
+
+CREATE TABLE eZForm_FormElementType (
+  ID int(11) NOT NULL,
+  Name varchar(255) default NULL,
+  Description text,
+  PRIMARY KEY (ID)
 ) TYPE=MyISAM;
 
 INSERT INTO eZContact_CompanyIndex (CompanyID, Value, Type) SELECT ID, lower(Name), '0' FROM eZContact_Company;
