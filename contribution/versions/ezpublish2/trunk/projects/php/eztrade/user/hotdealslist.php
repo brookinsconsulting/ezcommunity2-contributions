@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: hotdealslist.php,v 1.5 2000/12/14 20:32:15 bf Exp $
+// $Id: hotdealslist.php,v 1.6 2001/02/08 10:17:38 jb Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <12-Nov-2000 19:34:40 bf>
@@ -56,9 +56,13 @@ $t->setAllStrings();
 
 $product = new eZProduct(  );
 
+if ( !isset( $MaxHotDeals ) )
+    $MaxHotDeals = false;
+if ( isset( $HotDealColumns ) )
+    $hotDealColumns = $HotDealColumns;
 
 // products
-$productList =& $product->hotDealProducts();
+$productList =& $product->hotDealProducts( $MaxHotDeals );
 
 $locale = new eZLocale( $Language );
 $i=0;
