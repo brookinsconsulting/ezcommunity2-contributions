@@ -1,8 +1,8 @@
 <!-- BEGIN header_item_tpl -->
 
 <!-- END header_item_tpl -->
-
-<table width="100%" border="0" cellspacing="0" cellpadding="0">
+aaaaaaaaaaaaa
+ <table width="100%" border="0" cellspacing="0" cellpadding="0">
 <tr>
     <td class="tdminipath" width="1%"><img src="{www_dir}/images/1x1.gif" width="1" height="38"></td>
 	<td class="tdminipath" align="left" width="99%">
