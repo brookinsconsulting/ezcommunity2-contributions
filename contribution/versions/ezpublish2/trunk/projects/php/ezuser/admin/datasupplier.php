@@ -1,5 +1,6 @@
 <?
 include_once( "ezuser/classes/ezpermission.php" );
+include_once( "ezuser/classes/ezuser.php" );
 include_once( "classes/ezhttptool.php" );
 
 
@@ -110,7 +111,7 @@ if ( get_class( $user ) == "ezuser"  and eZPermission::checkPermission( $user, "
         }
         break;
 
-                case "login" :
+        case "login" :
         {
             $Action = $url_array[3];
             include( "ezuser/admin/login.php" );
@@ -145,6 +146,12 @@ if ( get_class( $user ) == "ezuser"  and eZPermission::checkPermission( $user, "
         }
         break;
 
+        default :
+        {
+            eZHTTPTool::header( "Location: /error/403" );
+            exit();
+        }
+        break;
     }
 }
 else
@@ -189,7 +196,7 @@ else
 
         default :
         {
-            eZHTTPTool::header( "Location: /error/403" );
+            eZHTTPTool::header( "Location: /" );
             exit();
         }
         break;

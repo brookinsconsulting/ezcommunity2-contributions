@@ -17,6 +17,8 @@ ob_start();
 ob_start("ob_gzhandler");
 //ob_start("ob_gzhandler");
 
+apc_reset_cache();
+
 if ( $UsePHPSessions == true )
 {
     // start session handling
