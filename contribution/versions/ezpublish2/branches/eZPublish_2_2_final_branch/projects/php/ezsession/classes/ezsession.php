@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezsession.php,v 1.67.2.2 2001/11/15 13:12:24 bf Exp $
+// $Id: ezsession.php,v 1.67.2.3 2002/07/09 07:25:04 bf Exp $
 //
 // Definition of eZSession class
 //
@@ -399,7 +399,7 @@ class eZSession
         $db->array_query( $value_array, "SELECT eZSession_Session.ID
                                                     FROM eZSession_Session, eZSession_SessionVariable
                                                     WHERE eZSession_Session.ID=eZSession_SessionVariable.SessionID
-                                                    AND eZSession_SessionVariable.Name='AuthenticatedUser'" );
+                                                    AND eZSession_SessionVariable.Name='AuthenticatedUser' ORDER BY eZSession_Session.LastAccessed" );
 
         foreach ( $value_array as $value )
         {
