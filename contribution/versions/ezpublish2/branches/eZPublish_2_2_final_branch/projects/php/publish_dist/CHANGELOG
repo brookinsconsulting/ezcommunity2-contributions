@@ -16,6 +16,7 @@ Changes from 2.2.6 to 2.2.7
 * Fixed bug when using <file ID> and nVH setup.
 * Articles no longer loose their placement when using the XMLRPC interface
 * Fixed sorting of user list in admin area
+* Added printing of articles for the root category in sitemap.
 
 Changes from 2.2.5 to 2.2.6
 ---------------------------
