@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: articleedit.php,v 1.24.2.3 2002/04/02 18:21:34 bf Exp $
+// $Id: articleedit.php,v 1.24.2.4 2002/04/03 12:48:29 bf Exp $
 //
 // Created on: <18-Oct-2000 15:04:39 bf>
 //
@@ -31,6 +31,7 @@ include_once( "classes/ezcachefile.php" );
 include_once( "ezuser/classes/ezuser.php" );
 include_once( "classes/ezhttptool.php" );
 
+include_once( "ezarticle/classes/ezarticletool.php" );
 include_once( "ezarticle/classes/ezarticlecategory.php" );
 include_once( "ezarticle/classes/ezarticle.php" );
 include_once( "ezarticle/classes/ezarticlegenerator.php" );
@@ -97,10 +98,6 @@ if ( ( $Action == "Insert" ) || ( $Action == "Update" ) )
 
     // user-submitted articles are never directly published
 
-    if ( $ini->read_var( "eZArticleMain", "CanUserPublish" ) == "enabled" )
-        $article->setIsPublished( true );
-    else
-        $article->setIsPublished( false );
 
     // check if the contents is parseable
     if ( eZXML::domTree( $contents ) )
@@ -148,6 +145,20 @@ if ( ( $Action == "Insert" ) || ( $Action == "Update" ) )
             }
         }
 
+        if ( $ini->read_var( "eZArticleMain", "CanUserPublish" ) == "enabled" )
+        {
+            $article->setIsPublished( true );
+
+            eZArticleTool::deleteCache( $articleID, $CategoryIDSelect, array( $CategoryIDSelect ) );
+            eZArticleTool::notificationMessage( $article );
+        }
+        else
+        {
+            $article->setIsPublished( false );
+        }
+
+        $article->store();
+        
         $session->setVariable( "ArticleEditID", "" );
         eZHTTPTool::header( "Location: /article/archive/$CategoryIDSelect/" );
         exit();
@@ -233,6 +244,9 @@ if ( $Action == "Edit" )
     
     $contentsArray = $generator->decodeXML( $article->contents() );
 
+    $catDef =& $article->categoryDefinition();
+    $catDefID = $catDef->id();
+
     $user =& eZUser::currentUser();
     $t->set_var( "author_text", $user->firstName() . " " . $user->lastName());    
 
@@ -266,7 +280,7 @@ foreach ( $treeArray as $catItem )
     {
         $t->set_var( "selected", "" );
 
-        if ( $CategoryIDSelect == $catItem[0]->id() )
+        if ( $catDefID == $catItem[0]->id() )
         {
             $t->set_var( "selected", "selected" );
         }
