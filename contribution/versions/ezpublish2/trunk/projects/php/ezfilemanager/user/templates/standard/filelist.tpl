@@ -2,7 +2,7 @@
 
 <div onLoad="MM_preloadImages('/ezfilemanager/user/{image_dir}/redigerminimrk.gif','/ezfilemanager/user/{image_dir}/slettminimrk.gif','/ezfilemanager/user/{image_dir}/downloadminimrk.gif')"></div>
 
-<h1>Filer</h1>
+<h1>{intl-file_list}</h1>
 
 <!-- BEGIN current_folder_tpl -->
 <!--
