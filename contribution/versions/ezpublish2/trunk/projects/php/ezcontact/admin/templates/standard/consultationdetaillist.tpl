@@ -67,7 +67,7 @@
 <tr>
 <td>
 
-<input class="okbutton" type="submit" name="New" value="{intl-new_consultation}">
+<input class="stdbutton" type="submit" name="New" value="{intl-new_consultation}">
 <input class="stdbutton" type="submit" name="Delete" value="{intl-delete_consultations}">
 </form>
 </td>

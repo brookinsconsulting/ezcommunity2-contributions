@@ -54,7 +54,7 @@
 	<td valign="top">
 
 <p class="boxtext">{intl-userlist}:</p>
-<select name="TrusteeUser">
+<select name="TrusteeUser[]">
 <option value="{own_user_id}" {own_selected}>{own_user_name}</option>
 <!-- BEGIN trustee_user_name_tpl -->
 <option value="{user_id}" {selected}>{user_name}</option>

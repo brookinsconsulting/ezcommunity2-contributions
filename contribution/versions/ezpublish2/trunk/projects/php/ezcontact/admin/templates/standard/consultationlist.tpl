@@ -6,7 +6,9 @@
 <p>{intl-consultation_no_companies}</p>
 <!-- END no_companies_item_tpl -->
 
+
 <!-- BEGIN company_table_item_tpl -->
+<form action="{www_dir}{index}/contact/consultation/company/delete/" method="post">
 <table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
 <tr>
 	<th>{intl-company_name}:</th>
@@ -29,7 +31,7 @@
 	</td>	
 
 	<td width="1%">
-	<a href="{www_dir}{index}/contact/consultation/company/delete/{company_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezc{company_id}-slett','','/admin/images/slettminimrk.gif',1)"><img name="ezc{company_id}-slett" border="0" src="{www_dir}/admin/images/slettmini.gif" width="16" height="16" align="top" alt="Delete" /></a>
+	<input type="checkbox" name="ConsultationList[]" value="{company_id}" />
 	</td>	
 
 </tr>
@@ -42,6 +44,7 @@
 <!-- END no_persons_item_tpl -->
 
 <!-- BEGIN person_table_item_tpl -->
+<form action="{www_dir}{index}/contact/consultation/person/delete/" method="post">
 <table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
 <tr>
 	<th>{intl-person_name}:</th>
@@ -64,16 +67,14 @@
 	</td>	
 
 	<td width="1%">
-	<a href="{www_dir}{index}/contact/consultation/person/delete/{person_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezp{person_id}-slett','','/admin/images/slettminimrk.gif',1)"><img name="ezp{person_id}-slett" border="0" src="{www_dir}/admin/images/slettmini.gif" width="16" height="16" align="top" alt="Delete" /></a>
+	<input type="checkbox" name="ConsultationList[]" value="{person_id}" />
 	</td>	
 
 </tr>
 <!-- END person_item_tpl -->
 </table>
 <!-- END person_table_item_tpl -->
-
-<form method="post" action="{www_dir}{index}/contact/consultation/new">
 <hr noshade="noshade" size="4" />
-
-<input class="stdbutton" type="submit" value="{intl-new_consultation}">
+<input class="stdbutton" type="submit" name="new_consultation" value="{intl-new_consultation}" />
+<input class="stdbutton" type="submit" value="{intl-delete_consultation}" />
 </form>

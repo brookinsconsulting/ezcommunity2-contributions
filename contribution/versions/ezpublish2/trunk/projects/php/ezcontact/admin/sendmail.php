@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: sendmail.php,v 1.1 2001/08/16 13:57:04 jhe Exp $
+// $Id: sendmail.php,v 1.2 2001/08/31 12:18:31 jhe Exp $
 //
 // Created on: <14-Aug-2001 15:43:17 jhe>
 //
@@ -27,26 +27,29 @@ include_once( "ezcontact/classes/ezperson.php" );
 
 $toArray = array();
 
-foreach ( $ContactArrayID as $contact )
+if ( isSet( $ContactArrayID ) )
 {
-    if ( $CompanyEdit )
-        $contact = new eZCompany( $contact );
-    else
-        $contact = new eZPerson( $contact );
-    $onlines = $contact->onlines();
-    $onlineCount = count( $onlines );
-    $loop = true;
-    $i = 0;
-    while ( $i < $onlineCount && $loop )
+    foreach ( $ContactArrayID as $contact )
     {
-        $onlineType = $onlines[$i]->onlineType();
-        if ( $onlineType->urlPrefix() == "mailto:" )
+        if ( $CompanyEdit )
+            $contact = new eZCompany( $contact );
+        else
+            $contact = new eZPerson( $contact );
+        $onlines = $contact->onlines();
+        $onlineCount = count( $onlines );
+        $loop = true;
+        $i = 0;
+        while ( $i < $onlineCount && $loop )
         {
-            $toArray["Email"][] = $onlines[$i]->url();
-            $toArray["ID"][] = $contact->id();
-            $loop = false;
+            $onlineType = $onlines[$i]->onlineType();
+            if ( $onlineType->urlPrefix() == "mailto:" )
+            {
+                $toArray["Email"][] = $onlines[$i]->url();
+                $toArray["ID"][] = $contact->id();
+                $loop = false;
+            }
+            $i++;
         }
-        $i++;
     }
 }
 $toArray["CompanyEdit"] = $CompanyEdit;

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezcompany.php,v 1.75 2001/08/13 13:50:22 jhe Exp $
+// $Id: ezcompany.php,v 1.76 2001/08/31 12:18:31 jhe Exp $
 //
 // Definition of eZProduct class
 //
@@ -934,7 +934,7 @@ class eZCompany
     /*!
       Returns the contact for this company.
     */
-    function contact( )
+    function contact()
     {
         return $this->ContactID;
         $this->ContactType = "ezuser";

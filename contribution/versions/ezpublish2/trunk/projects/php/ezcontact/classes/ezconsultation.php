@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezconsultation.php,v 1.22 2001/08/17 13:35:59 jhe Exp $
+// $Id: ezconsultation.php,v 1.23 2001/08/31 12:18:31 jhe Exp $
 //
 // Definition of eZConsultation class
 //
@@ -75,7 +75,7 @@ class eZConsultation
     /*!
       Stores the consultation to the database.
     */
-    function store( )
+    function store()
     {
         $db =& eZDB::globalDatabase();
         $db->begin();
@@ -119,7 +119,6 @@ class eZConsultation
     {
         if ( !$id )
             $id = $this->ID;
-
         if ( isSet( $id ) && is_numeric( $id ) )
         {
             $db =& eZDB::globalDatabase();
@@ -147,17 +146,17 @@ class eZConsultation
     {
         $ret = false;
 
-        if ( $id != "" )
+        if ( $id != -1 )
         {
             $db =& eZDB::globalDatabase();
             $db->query_single( $consult_array, "SELECT * FROM eZContact_Consultation WHERE ID='$id'" );
-            $this->ID = $consult_array[ $db->fieldName( "ID" ) ];
-            $this->ShortDesc = $consult_array[ $db->fieldName( "ShortDesc" ) ];
-            $this->Description = $consult_array[ $db->fieldName( "Description" ) ];
-            $this->State = $consult_array[ $db->fieldName( "StateID" ) ];
-            $this->EmailNotice = $consult_array[ $db->fieldName( "EmailNotifications" ) ];
+            $this->ID = $consult_array[$db->fieldName( "ID" )];
+            $this->ShortDesc = $consult_array[$db->fieldName( "ShortDesc" )];
+            $this->Description = $consult_array[$db->fieldName( "Description" )];
+            $this->State = $consult_array[$db->fieldName( "StateID" )];
+            $this->EmailNotice = $consult_array[$db->fieldName( "EmailNotifications" )];
             $this->Date = new eZDate();
-            $this->Date->setTimeStamp( $consult_array[ $db->fieldName( "Date" ) ] );
+            $this->Date->setTimeStamp( $consult_array[$db->fieldName( "Date" )] );
 
             $ret = true;
         }

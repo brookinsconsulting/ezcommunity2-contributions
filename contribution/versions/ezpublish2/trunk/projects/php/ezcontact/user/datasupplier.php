@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: datasupplier.php,v 1.31 2001/08/14 14:12:15 jhe Exp $
+// $Id: datasupplier.php,v 1.32 2001/08/31 12:18:31 jhe Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -266,6 +266,12 @@ switch ( $url_array[2] )
     {
         if ( !isSet( $ConsultationID ) or !is_numeric( $ConsultationID ) )
             $ConsultationID = $url_array[4];
+        if ( isSet( $new_consultation ) )
+        {
+            include_once( "classes/ezhttptool.php" );
+            eZHTTPTool::header( "Location: /contact/consultation/new" );
+            exit();
+        }
         $Action = $url_array[3];
         switch ( $Action )
         {

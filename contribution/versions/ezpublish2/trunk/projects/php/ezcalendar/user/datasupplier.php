@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: datasupplier.php,v 1.15 2001/07/27 13:05:57 jhe Exp $
+// $Id: datasupplier.php,v 1.16 2001/08/31 12:21:36 jhe Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -96,7 +96,6 @@ switch ( $url_array[2] )
                 $Action = $url_array[3];
             }
         }
-
         include( "ezcalendar/user/appointmentedit.php" );
     }
     break;

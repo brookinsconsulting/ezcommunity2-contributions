@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: companyview.php,v 1.30 2001/08/17 12:29:17 jhe Exp $
+// $Id: companyview.php,v 1.31 2001/08/31 12:18:31 jhe Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -329,11 +329,11 @@ else
         if ( $contact )
         {
             if ( $company->contactType() == "ezperson" )
-                $user = new eZPerson( $contact );
+                $contactPerson = new eZPerson( $contact );
             else
-                $user = new eZUser( $contact );
-            $t->set_var( "contact_firstname", eZTextTool::htmlspecialchars( $user->firstName() ) );
-            $t->set_var( "contact_lastname", eZTextTool::htmlspecialchars( $user->lastName() ) );
+                $contactPerson = new eZUser( $contact );
+            $t->set_var( "contact_firstname", eZTextTool::htmlspecialchars( $contactPerson->firstName() ) );
+            $t->set_var( "contact_lastname", eZTextTool::htmlspecialchars( $contactPerson->lastName() ) );
             $t->parse( "contact_person", "contact_person_tpl" );
         }
         else
