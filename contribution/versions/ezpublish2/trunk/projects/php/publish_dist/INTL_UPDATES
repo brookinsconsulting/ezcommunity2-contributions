@@ -17,6 +17,11 @@ calendar=Calendar
 new_appointment=New appointment
 month_view=Month view
 
+mod: eznewsfeed/user, menubox.php.ini
+change: added
+newsfeed=Newsfeed
+latest=Latest newsfeeds
+
 ### 2.0 - 2.0.1 ####################
 mod: eztodo/admin, statustypeedit.php.ini
 change: added
