@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: pageedit.php,v 1.30 2001/12/22 18:34:27 jhe Exp $
+// $Id: pageedit.php,v 1.31 2002/01/03 08:52:46 jhe Exp $
 //
 // Definition of ||| class
 //
@@ -553,8 +553,8 @@ if ( $count > 0 )
     $elementTemplate->parse( "element_list", "element_list_tpl" );
 }
 
-if ( count( $errorMessages ) > 0 && !isSet( $NewElement ) && !isSet( $DeleteSelected )
-      && count( $elements ) > 0 )
+if ( count( $errorMessages ) > 0 && !isSet( $NewElement ) &&
+     !isSet( $DeleteSelected ) && count( $elements ) > 0 )
 {
     $elementTemplate->parse( "error_list", "error_list_tpl" );
 }
@@ -573,6 +573,9 @@ else
 if ( $element )
 {
     $values =& $element->fixedValues();
+    foreach ( $condArray as $cond )
+    {
+    }
     
     // parse the valid jump elements.
     $elements = $page->pageElements();
@@ -811,7 +814,6 @@ if ( $element )
         else if ( count( $values ) > 0 )
         {
             $t->set_var( "fixed_value_text_field", "" );
-            
             foreach ( $values as $value )
             {
                 $t->set_var( "fixed_value_name", $value->value() );
@@ -826,19 +828,16 @@ if ( $element )
                     
                     $check_id = "FixedPage_" . $value->id();
                     $check = $$check_id;
-                    
                     if ( !$check )
                     {
-                        $check[0] = $element->getConditionMaxByPage( $value->id() );
+                        $check = $element->getConditionMaxByPage( $value->id(), $value->id() );
                     }
                     
                     foreach ( $pages as $pageValue )
                     {
                         if ( $page->id() != $pageValue->id() )
                         {
-                            
-                            
-                            if ( $check[0] == $pageValue->id() )
+                            if ( $check == $pageValue->id() )
                             {
                                 $t->set_var( "selected", "selected" );
                             }
