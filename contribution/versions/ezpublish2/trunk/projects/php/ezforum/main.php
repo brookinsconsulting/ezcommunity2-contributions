@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: main.php,v 1.25 2000/08/28 13:48:03 bf-cvs Exp $
+    $Id: main.php,v 1.26 2000/08/28 13:53:50 bf-cvs Exp $
 
     Author: Lars Wilhelmsen <lw@ez.no>
     
@@ -49,8 +49,9 @@ $categories = $category->getAllCategories();
 
 if ( $session->get( $AuthenticatedSession ) == 0 )
 {
-   $t->set_var( "user", eZUser::resolveUser( $session->UserID() ) );
-   $t->parse( "logout-message", "logout", true);
+    $user = new eZUser();    
+    $t->set_var( "user", $user->resolveUser( $session->UserID() ) );
+    $t->parse( "logout-message", "logout", true);
 }
 else
 {
