@@ -60,6 +60,9 @@ CREATE TABLE eZBug_Category (
 
 INSERT INTO eZBug_Category VALUES (1,'GUI','');
 INSERT INTO eZBug_Category VALUES (2,'Feature request','');
+INSERT INTO eZBug_Category VALUES (3,'Suggestion','');
+INSERT INTO eZBug_Category VALUES (4,'Enhancement','');
+INSERT INTO eZBug_Category VALUES (5,'Bug','');
 
 CREATE TABLE eZBug_Log (
   ID int NOT NULL,
@@ -92,6 +95,7 @@ CREATE TABLE eZBug_Priority (
 INSERT INTO eZBug_Priority VALUES (1,'High',NULL);
 INSERT INTO eZBug_Priority VALUES (2,'Medium',NULL);
 INSERT INTO eZBug_Priority VALUES (3,'Low',NULL);
+INSERT INTO eZBug_Priority VALUES (4,'Critical',NULL);
 
 CREATE TABLE eZBug_Status (
   ID int NOT NULL,
@@ -100,6 +104,12 @@ CREATE TABLE eZBug_Status (
 );
 
 INSERT INTO eZBug_Status VALUES (1,'Fixed');
+INSERT INTO eZBug_Status VALUES (2,'Duplicate');
+INSERT INTO eZBug_Status VALUES (3,'Invalid');
+INSERT INTO eZBug_Status VALUES (4,'Will not fix');
+INSERT INTO eZBug_Status VALUES (5,'Works here');
+INSERT INTO eZBug_Status VALUES (6,'Future addition');
+
 
 CREATE TABLE eZBug_ModulePermission (
   ID int(11) NOT NULL,
