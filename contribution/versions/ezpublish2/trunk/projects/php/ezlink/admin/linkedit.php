@@ -27,6 +27,8 @@ if ( $Action == "update" )
     $updatelink->setUrl( $url );
     
     $updatelink->update();
+    
+    printRedirect( "../index.php?page=" . $DOCUMENTROOT . "admin/linklist.php" );    
 }
 
 // Slette link
@@ -79,9 +81,11 @@ $message = "Legg til link";
 $submit = "Legg til";
 $action = "insert";
 
+// setter akseptert link som default.
+$yes_selected = "selected";
+$no_selected = "";
 
 // editere
-
 if ( $Action == "edit" )
 {
 

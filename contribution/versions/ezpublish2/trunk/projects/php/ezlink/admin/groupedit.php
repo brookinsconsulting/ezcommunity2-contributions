@@ -20,7 +20,7 @@ if ( $Action == "delete" )
     $deletelinkgroup->get( $LGID );
     $deletelinkgroup->delete();
 
-    printRedirect( "../index.php?page=" . $DOCUMENTROOT . "admin/listlink.php" );
+    printRedirect( "../index.php?page=" . $DOCUMENTROOT . "admin/linklist.php" );
 }
 
 // Legg til gruppe
@@ -38,6 +38,7 @@ if ( $Action == "insert" )
     
     $message = "Legg til gruppe";
     $submit = "Legg til";
+    printRedirect( "../index.php?page=" . $DOCUMENTROOT . "admin/linklist.php" );    
 }
 
 // Oppdatere
