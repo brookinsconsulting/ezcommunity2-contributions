@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezformrenderer.php,v 1.46 2002/01/04 13:39:24 jhe Exp $
+// $Id: ezformrenderer.php,v 1.47 2002/01/11 09:13:58 jhe Exp $
 //
 // eZFormRenderer class
 //
@@ -158,21 +158,19 @@ class eZFormRenderer
     /*!
         Renders the element which are given as an argument based on its type.
      */
-    function &renderElement( $element, $setSize = true, $header = true )
+    function &renderElement( $element, $setSize = true, $header = true, $result = false )
     {
         $output = "";
         if ( get_class( $element ) == "ezformelement" )
         {
             $subItems =& $element->fixedValues();
+
             $this->Template->set_var( "sub_item", "" );
 
             $type =& $element->elementType();
-
             $name = $type->name();
 
-            $elementType = $element->elementType();
-            $type = $elementType->name();
-            $type = str_replace( " ", "_", $type );
+            $name = str_replace( " ", "_", $name );
 
             $elementName = "eZFormElement_" . $element->id();
 
@@ -183,11 +181,16 @@ class eZFormRenderer
             
             $this->Template->set_var( "field_name", $elementName );
             if ( !( isSet( $elementValue ) && $elementValue != "" ) )
-                $elementValue = $element->result();
-
-            if ( $elementType->name() == "user_email_item" )
             {
-                if ( $elementValue == "" )
+                if ( $result )
+                    $elementValue = $element->result( -1, $result );
+                else
+                    $elementValue = $element->result();
+            }
+
+            if ( $name == "user_email_item" )
+            {
+                if ( $elementValue == "" && $result = false )
                 {
                     if ( $user =& eZUser::currentUser() )
                     {
@@ -199,18 +202,18 @@ class eZFormRenderer
             $this->Template->set_var( "field_value", $elementValue );
             $this->Template->set_var( "element_name", $element->name() );
 
-            if ( $elementType->name() == "text_block_item" )
+            if ( $name == "text_block_item" )
             {
                 $elementText = new eZFormElementText( $element->id() );
                 $this->Template->set_var( "text_block", nl2br( $elementText->text() ) );
             }
             
-            if ( $elementType->name() == "numerical_float_item" ||
-                 $elementType->name() == "numerical_integer_item" )
+            if ( $name == "numerical_float_item" ||
+                 $name == "numerical_integer_item" )
             {
                 $elementNumerical = new eZFormElementNumerical( $element->id() );
                 
-                if ( $elementType->name() == "numerical_float_item" )
+                if ( $name == "numerical_float_item" )
                 {
                     if ( $elementNumerical->minValue() != "" && $elementNumerical->maxValue() != "" )
                     {
@@ -233,13 +236,9 @@ class eZFormRenderer
             if ( $setSize )
             {
                 if ( $element->size() == 0 )
-                {
                     $this->Template->set_var( "element_size", "size=\"40\"" );
-                }
                 else
-                {
                     $this->Template->set_var( "element_size", "size=\"" . $element->size() . "\"" );
-                }
             }
             else
             {
@@ -247,13 +246,9 @@ class eZFormRenderer
             }
 
             if ( $element->isBreaking() )
-            {
                 $this->Template->set_var( "break", "<br>" );
-            }
             else
-            {
                 $this->Template->set_var( "break", "" );
-            }
 
             $this->Template->set_var( $name . "_sub_item", "" );
 
@@ -263,24 +258,22 @@ class eZFormRenderer
                 $this->Template->set_var( "header_line", "" );
             
             $checked = "";
-            $elementType = $element->elementType();
-            if ( $elementType == "checkbox_item" ||
-                 $elementType == "radiobox_item" )
+
+            if ( $name == "checkbox_item" ||
+                 $name == "radiobox_item" )
             {
                 $checked = "checked";
-                if ( $elementType == "checkbox_item" )
-                {
+                if ( $name == "checkbox_item" )
                     $elementArray = split( ",", $elementValue );
-                }
             }
-            else if ( $elementType == "dropdown_item" )
+            else if ( $name == "dropdown_item" )
             {
                 $checked = "selected";
             }
 
             foreach ( $subItems as $subItem )
             {
-                if ( ( $elementType == "checkbox_item" && in_array( $subItem->value(), $elementArray ) ) ||
+                if ( ( $name == "checkbox_item" && in_array( $subItem->value(), $elementArray ) ) ||
                      $subItem->value() == $elementValue )
                     $this->Template->set_var( "selected", $checked );
                 else
@@ -289,16 +282,155 @@ class eZFormRenderer
                 $this->Template->set_var( "sub_value", $subItem->value() );
                 $this->Template->parse( $name . "_sub_item", $name . "_sub_item_tpl", true );
             }
-            
+                    
             $elementValue = str_replace( "eZFormElement_", "", $$elementName );
 
             if ( trim( $type ) != "" )
-                $output =& $this->Template->parse( $target, $type . "_tpl" );
+                $output =& $this->Template->parse( $target, $name . "_tpl" );
         }
 
         return $output;
     }
 
+    function &renderResult( $resultID )
+    {
+        $elements = $this->Form->formElements();
+        $elementCounter = 0;
+        
+        $this->Template->set_var( "form_id", $this->Form->id() );
+        $this->Template->set_var( "form_name", $this->Form->name() );
+        $this->Template->set_var( "form_completed_page", $this->Form->completedPage() );
+        if ( $pageList == "" )
+            $this->Template->set_var( "page_list", $this->Page );
+        else
+            $this->Template->set_var( "page_list", $pageList );
+        
+        if ( $this->Form->instructionPage() != "" )
+        {
+            $this->Template->set_var( "form_instruction_page", $this->Form->instructionPage() );
+            $this->Template->set_var( "form_instruction_page_name", $this->Form->instructionPageName() );
+            $this->Template->parse( "form_instructions", "form_instructions_tpl" );
+        }
+
+        $maxBreakCount = 1;
+        $breakCount = 1;
+        $lastBreaked = true;
+        // count the max number of unbreaked elements
+        foreach ( $elements as $element )
+        {
+            $eType = $element->elementType();
+            
+            if ( $element->isBreaking() || ( $eType->name() != "text_field_item" ) )
+            {
+                $lastBreaked = true;
+                $breakCount = 1;
+            }
+            else
+            {
+                $lastBreaked = false;
+            }
+            
+            if ( $lastBreaked == false )
+            {
+                $breakCount++;
+                $maxBreakCount = max( $maxBreakCount, $breakCount );
+            }
+        }
+
+        foreach ( $elements as $element )
+        {
+            $elementCounter++;
+            $eType = $element->elementType();
+            if ( $eType->name() == "table_item" )
+            {
+                $table = new eZFormTable( $element->id() );
+                $tableElements = $table->tableElements();
+                $i = 0;
+                for ( $rows = 0; $rows < $table->rows(); $rows++ )
+                {
+                    for ( $cols = 0; $cols < $table->cols(); $cols++ )
+                    {
+                        $elementType = $tableElements[$i]->elementType();
+                        $colspan = 0;
+                        for ( $check = $cols + 1; $check < $table->cols(); $check++ )
+                        {
+                            $nextPos = $check + $table->cols() * $rows;
+                            $nextType = $tableElements[$nextPos]->elementType();
+                            if ( $nextType->name() == "empty_item" )
+                            {
+                                if ( $colspan == 0 )
+                                    $colspan = 2;
+                                else
+                                    $colspan++;
+                            }
+                            else
+                            {
+                                $check = $table->cols();
+                            }
+                        }
+                        
+                        if ( $colspan > 0 )
+                            $this->Template->set_var( "colspan", "colspan=\"$colspan\"" );
+                        else
+                            $this->Template->set_var( "colspan", "" );
+                        
+                        $output = $this->renderElement( $tableElements[$i], true, false, $resultID );
+                        
+                        $this->Template->set_var( "element", $output );
+                        
+                        if ( $cols == 0 )
+                            $this->Template->parse( "table_item_cell", "table_item_cell_tpl" );
+                        else
+                            $this->Template->parse( "table_item_cell", "table_item_cell_tpl", true );
+                        
+                        if ( $colspan > 0 )
+                        {
+                            $i += $colspan - 1;
+                            $cols += $colspan - 1;
+                        }
+                        $i++;
+                    }
+                    if ( $rows == 0 )
+                        $this->Template->parse( "table_item_sub_item", "table_item_sub_item_tpl" );
+                    else
+                        $this->Template->parse( "table_item_sub_item", "table_item_sub_item_tpl", true );
+                    
+                }
+                $tableString = $this->Template->parse( "table_item", "table_item_tpl" );
+                
+                $this->Template->set_var( "element", $tableString );
+                $this->Template->set_var( "colspan", " colspan=\"$maxBreakCount\"" );
+                
+                $this->Template->parse( "break", "break_tpl" );
+                $this->Template->parse( "form_item", "form_item_tpl", true );
+            }
+            else
+            {
+                $output = $this->renderElement( $element, true, true, $resultID );
+                
+                $this->Template->set_var( "element", $output );
+                
+                if ( $eType->name() != "text_field_item" )
+                    $this->Template->set_var( "colspan", " colspan=\"$maxBreakCount\"" );
+                else
+                    $this->Template->set_var( "colspan", " colspan=\"1\"" );
+                
+                if ( ( $eType->name() != "text_field_item" ) or $element->isBreaking() )
+                {
+                    $this->Template->parse( "break", "break_tpl" );
+                }
+                else
+                {
+                    $this->Template->set_var( "break", "" );
+                }
+                $this->Template->parse( "form_item", "form_item_tpl", true );
+            }
+        }
+        $output = $this->Template->parse( $target, "form_list_tpl" );
+
+        return $output;
+    }
+    
     /*!
         Renders a form
      */
@@ -380,6 +512,7 @@ class eZFormRenderer
                     $table = new eZFormTable( $element->id() );
                     $tableElements = $table->tableElements();
                     $i = 0;
+
                     for ( $rows = 0; $rows < $table->rows(); $rows++ )
                     {
                         for ( $cols = 0; $cols < $table->cols(); $cols++ )
@@ -430,6 +563,7 @@ class eZFormRenderer
                             $this->Template->parse( "table_item_sub_item", "table_item_sub_item_tpl", true );
 
                     }
+
                     $tableString = $this->Template->parse( "table_item", "table_item_tpl" );
                     
                     $this->Template->set_var( "element", $tableString );
@@ -461,7 +595,7 @@ class eZFormRenderer
                     $this->Template->parse( "form_item", "form_item_tpl", true );
                 }
             }
-
+            
             if ( $elementCounter != 0 )
             {
                 if ( $addFormTags == true )
@@ -486,9 +620,17 @@ class eZFormRenderer
                 }
                 else
                 {
+                    if ( $this->Form->lastPage( false ) == $this->Page )
+                    {
+                        $this->Template->parse( "ok_button", "ok_button_tpl" );
+                        $this->Template->set_var( "next_button", "" );
+                    }
+                    else
+                    {
+                        $this->Template->set_var( "ok_button", "" );
+                        $this->Template->parse( "next_button", "next_button_tpl" );
+                    }
                     $this->Template->parse( "previous_button", "previous_button_tpl" );
-                    $this->Template->parse( "next_button", "next_button_tpl" );
-                    $this->Template->set_var( "ok_button", "" );
                 }
                     
                 
@@ -496,7 +638,7 @@ class eZFormRenderer
                 $output = $this->Template->parse( $target, "form_list_tpl" );
             }
         }
-        
+
         return $output;
     }
 

@@ -1,12 +1,11 @@
 <?php
-// 
-// $Id: formlist.php,v 1.3 2002/01/11 09:13:58 jhe Exp $
 //
-// Created on: <12-Jun-2001 13:07:24 pkej>
+// $Id: formlist.php,v 1.1 2002/01/11 09:13:59 jhe Exp $
+//
+// Created on: <10-Jan-2002 14:35:46 jhe>
 //
 // This source file is part of eZ publish, publishing software.
-//
-// Copyright (C) 1999-2001 eZ Systems.  All rights reserved.
+// Copyright (C) 1999-2001 eZ systems as
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License
@@ -25,38 +24,17 @@
 
 include_once( "classes/INIFile.php" );
 include_once( "classes/eztemplate.php" );
-include_once( "classes/ezhttptool.php" );
-include_once( "classes/ezlist.php" );
-
 include_once( "ezform/classes/ezform.php" );
-
-$ActionValue = "list";
-$ini =& INIFile::globalINI();
+include_once( "ezform/classes/ezformrenderer.php" );
 
 $Language = $ini->read_var( "eZFormMain", "Language" );
-$Limit = $ini->read_var( "eZFormMain", "AdminFormListLimit" );
 
-if ( !$Offset )
-    $Offset = 0;
+$t = new eZTemplate( "ezform/user/" . $ini->read_var( "eZFormMain", "TemplateDir" ),
+                     "ezform/user/intl/", $Language, "formlist.php" );
 
-if ( isset( $DeleteSelected ) )
-{
-    foreach ( $formDelete as $deleteMe )
-    {
-        $form = new eZForm( $deleteMe );
-        $form->delete();
-    }
-    eZHTTPTool::header( "Location: /form/form/list" );
-    exit();
-}
-
-$t = new eZTemplate( "ezform/admin/" . $ini->read_var( "eZFormMain", "AdminTemplateDir" ),
-                     "ezform/admin/intl/", $Language, "form.php" );
 $t->setAllStrings();
 
-$t->set_file( array(
-    "form_list_page_tpl" => "formlist.tpl"
-    ) );
+$t->set_file( "form_list_page_tpl", "formlist.tpl" );
 
 $t->set_block( "form_list_page_tpl", "no_forms_item_tpl", "no_forms_item" );
 $t->set_block( "form_list_page_tpl", "form_list_tpl", "form_list" );
@@ -66,44 +44,26 @@ $t->set_var( "form_item", "" );
 $t->set_var( "form_list", "" );
 $t->set_var( "no_forms_item", "" );
 
-$totalCount =& eZForm::count();
-$forms =& eZForm::getAll( $Offset, $Limit );
+$formlist = eZForm::getAll( 0, false );
 
-
-if( count( $forms ) == 0 )
+if ( count( $formlist ) > 0 )
 {
-    $t->parse( "no_forms_item", "no_forms_item_tpl" );
-}
-else
-{
-    $i = 0;
-    foreach( $forms as $form )
+    foreach ( $formlist as $form )
     {
-        if ( ( $i % 2 ) == 0 )
-        {
-            $t->set_var( "td_class", "bglight" );
-        }
-        else
-        {
-            $t->set_var( "td_class", "bgdark" );
-        }
-        
         $t->set_var( "form_id", $form->id() );
         $t->set_var( "form_name", $form->name() );
         $t->set_var( "form_receiver", $form->receiver() );
+
         $t->parse( "form_item", "form_item_tpl", true );
-        
-        $i++;
     }
-    
-    
     $t->parse( "form_list", "form_list_tpl" );
 }
+else
+{
+    $t->parse( "no_forms_item", "no_forms_item_tpl" );
+}
 
-eZList::drawNavigator( $t, $totalCount, $Limit, $Offset, "form_list_page_tpl" );
-
-$t->set_var( "action_value", $ActionValue );
-$t->set_var( "site_style", $SiteStyle );
 $t->pparse( "output", "form_list_page_tpl" );
+
 
 ?>

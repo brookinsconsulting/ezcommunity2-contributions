@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezformpage.php,v 1.10 2001/12/22 18:34:27 jhe Exp $
+// $Id: ezformpage.php,v 1.11 2002/01/11 09:13:58 jhe Exp $
 //
 // Definition of ||| class
 //
@@ -526,12 +526,18 @@ class eZFormPage
             {
                 if ( $i > 0 && $i < count( $elementList ) )
                     $str .= "OR ";
+                else if ( $i == 0 )
+                    $str .= "WHERE ";
                 
                 $str .= "ElementID='" . $e->id() . "' ";
                 $i++;
             }
 
-            $db->query_single( $q, "select ElementID from eZForm_FormCondition WHERE $str" );
+            if ( count( $elementList ) > 0 )
+                $db->query_single( $q, "select ElementID from eZForm_FormCondition $str" );
+            else
+                return false;
+            
             return $q[$db->fieldName( "ElementID" )];
         }
     }

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezformelement.php,v 1.29 2002/01/09 16:08:36 jhe Exp $
+// $Id: ezformelement.php,v 1.30 2002/01/11 09:13:58 jhe Exp $
 //
 // ezformelement class
 //
@@ -427,12 +427,10 @@ class eZFormElement
         $db =& eZDB::globalDatabase();
         $db->begin();
 
-        $db->query_single( $pageID, "SELECT ElementID FROM eZForm_FormCondition WHERE
-                     PageID='$pageID' GROUP BY ElementID" );
+        $db->query_single( $pageID, "SELECT ElementID FROM eZForm_FormCondition WHERE PageID='$pageID' GROUP BY ElementID" );
         
         return $pageID[$db->fieldName( "ElementID" )];
     }
-
 
     function getConditionMaxByPage( $min = 0, $max = 0 )
     {
@@ -465,7 +463,7 @@ class eZFormElement
         
         return $ret;
     }
-    
+   
     
     /*!
       Removes all Conditions which have the given ID.
@@ -568,7 +566,7 @@ class eZFormElement
                     $db->query( "DELETE FROM eZForm_FormElementFixedValues WHERE ID='" . $q[$db->fieldName( "ID" )] . "'" );
                 }
             }
-        }
+        } 
         return $returnArray;
     }
 
@@ -611,15 +609,49 @@ class eZFormElement
         
         return $result;
     }
+
+    function searchForResults( $elementID, $searchString )
+    {
+        $db =& eZDB::globalDatabase();
+
+        $db->array_query( $qa, "SELECT ResultID FROM eZForm_FormElementResult
+                                WHERE ElementID='$elementID'
+                                AND Result LIKE '%$searchString%'" );
+        $result = array();
+        foreach ( $qa as $q )
+        {
+            $result[] = $q[$db->fieldName( "ResultID" )];
+        }
+        
+        return $result;
+    }
     
-    function getAllResults( $getAll = true )
+    function getAllResults( $getAll = true, $elements = false )
     {
         $result = array();
+        $where = "";
+        $elementWhere = "";
         $db =& eZDB::globalDatabase();
-        if ( !getAll )
-            $where = "WHERE IsRegistered=1";
+        if ( !$getAll )
+            $where = "AND IsRegistered=1";
 
-        $db->array_query( $qa, "SELECT ID FROM eZForm_FormResults $where" );
+        if ( $elements )
+        {
+            for ( $i = 0; $i < count( $elements ); $i++ )
+            {
+                if ( $i == 0 )
+                    $elementWhere .= "AND ( ";
+                else
+                    $elementWhere .= "OR ";
+                $elementWhere .= "fer.ElementID = '" . $elements[$i]->id() . "' ";
+
+                if ( $i == count( $elements ) - 1 )
+                    $elementWhere .= ") ";
+            }
+        }
+
+        $db->array_query( $qa, "SELECT fr.ID AS ID FROM eZForm_FormResults as fr, eZForm_FormElementResult as fer
+                                WHERE fr.ID=fer.ResultID $where $elementWhere GROUP BY fr.ID" );
 
         foreach ( $qa as $q )
         {
@@ -639,17 +671,23 @@ class eZFormElement
     /*!
       Returns the value of the element
     */
-    function result( $hash = -1 )
+    function result( $hash = -1, $resultID = -1 )
     {
         $result = array();
         $session =& eZSession::globalSession();
         if ( $hash == -1 )
             $hash = $session->hash();
+
+        if ( $resultID == -1 )
+            $where = "fr.UserHash='$hash'";
+        else
+            $where = "fer.ResultID='$resultID'";
+        
         $db =& eZDB::globalDatabase();
         $db->array_query( $result, "SELECT fer.Result AS Result FROM eZForm_FormResults AS fr,
                                      eZForm_FormElementResult AS fer WHERE
                                      fer.ResultID=fr.ID AND ElementID='$this->ID'
-                                     AND fr.UserHash='$hash'" );
+                                     AND $where" );
         if ( count( $result ) == 1 )
             return $result[0][$db->fieldName( "Result" )];
         else

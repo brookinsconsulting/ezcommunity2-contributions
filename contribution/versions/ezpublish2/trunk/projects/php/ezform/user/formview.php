@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: formview.php,v 1.11 2002/01/04 10:20:58 jhe Exp $
+// $Id: formview.php,v 1.12 2002/01/11 09:13:59 jhe Exp $
 //
 // Created on: <12-Jun-2001 13:07:24 pkej>
 //
@@ -64,8 +64,8 @@ $t->set_block( "form_view_page_tpl", "mail_preview_tpl", "mail_preview" );
 $t->set_var( "error", "" );
 $t->set_var( "form", "" );
 
-$renderer =& new eZFormRenderer( $form );
 $form = new eZForm( $FormID );
+$renderer =& new eZFormRenderer( $form );
 $currentPage = $page_array[count( $page_array ) - 1];
 
 $t->set_var( "form_id", $FormID );

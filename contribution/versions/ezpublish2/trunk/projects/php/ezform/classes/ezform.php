@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezform.php,v 1.19 2002/01/07 17:21:23 jhe Exp $
+// $Id: ezform.php,v 1.20 2002/01/11 09:13:58 jhe Exp $
 //
 // ezform class
 //
@@ -463,7 +463,7 @@ class eZForm
         
         $db =& eZDB::globalDatabase();
         
-        $db->array_query( $formArray, "SELECT ElementID FROM eZForm_PageElementDict, eZForm_FormPage WHERE eZForm_PageElementDict.PageID=eZForm_FormPage.ID AND eZForm_FormPage.FormID='$this->ID'" );
+        $db->array_query( $formArray, "SELECT ElementID FROM eZForm_PageElementDict, eZForm_FormPage WHERE eZForm_PageElementDict.PageID=eZForm_FormPage.ID AND eZForm_FormPage.FormID='$this->ID' order by eZForm_FormPage.Placement, eZForm_PageElementDict.Placement" );
         
         for ( $i = 0; $i < count( $formArray ); $i++ )
         {
@@ -489,6 +489,18 @@ class eZForm
         return $formpage;
     }
 
+    function lastPage( $as_object = true )
+    {
+        $db =& eZDB::globalDatabase();
+        $db->query_single( $element, "SELECT * FROM eZForm_FormPage WHERE FormID='$this->ID' ORDER BY Placement DESC" );
+        if ( $as_object )
+            $formpage = new eZFormPage( $element );
+        else
+            $formpage = $element[$db->fieldName( "ID" )];
+        
+        return $formpage;
+    }
+    
     /*!
       Returns the number of types which exists
     */
