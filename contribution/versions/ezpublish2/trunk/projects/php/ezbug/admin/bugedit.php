@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: bugedit.php,v 1.35 2001/04/23 10:35:20 fh Exp $
+// $Id: bugedit.php,v 1.36 2001/04/23 10:41:57 fh Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <28-Nov-2000 19:45:35 bf>
@@ -587,7 +587,7 @@ function sendAssignedMail( $bug, $userEmail, $ini, $Language )
 {
     $module = $bug->module();
     $user = $bug->user();
-    if( $user )
+    if( is_object( $user ) )
         $reporter = $user->namedEmail();
     else
         $reporter = $bug->userEmail();
