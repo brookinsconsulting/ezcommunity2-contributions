@@ -57,6 +57,7 @@ CREATE TABLE eZUser_Group (
   Description text,
   SessionTimeout int default '60',
   IsRoot int default '0',
+  GroupURL varchar(200) default NULL,
   PRIMARY KEY (ID)
 );
 
