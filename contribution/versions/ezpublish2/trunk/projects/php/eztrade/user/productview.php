@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: productview.php,v 1.73 2001/10/10 12:44:21 ce Exp $
+// $Id: productview.php,v 1.74 2001/10/12 10:40:18 ce Exp $
 //
 // Created on: <24-Sep-2000 12:20:32 bf>
 //
@@ -397,10 +397,12 @@ foreach ( $options as $option )
             $t->set_var( "value_price_currency_list", "" );
             if ( $ShowPrice and $product->showPrice() == true  )
             {
-
                 $price = new eZCurrency( $value->correctPrice( $PricesIncludeVAT, $product ) );
 
-                $t->set_var( "value_price", $value->localePrice( $PricesIncludeVAT, $product ) );
+                if ( $value->price() != 0 )
+                    $t->set_var( "value_price", $value->localePrice( $PricesIncludeVAT, $product ) );
+                else
+                    $t->set_var( "value_price", "" );
 
                 $t->parse( "value_price_item", "value_price_item_tpl" );
 
