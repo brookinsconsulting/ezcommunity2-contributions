@@ -237,9 +237,10 @@ if ( isset( $Design ) and $Design == 3 )
    <img src="<? print $wwwDir; ?>/images/1x1.gif" width="130" height="20" border="0" alt="" /><br />
 
    <div align="center">
-   <a target="_blank" href="http://publish.ez.no"><img src="<? print $wwwDir; ?>/images/powered-by-ezpublish-100x35-trans-lgrey.gif" width="100" height="35" border="0" alt="Powered by eZ publish" /></a>
+   <a target="_blank" href="http://developer.ez.no"><img src="<? print $wwwDir; ?>/images/powered-by-ezpublish-100x35-trans-lgrey.gif" width="100" height="35" border="0" alt="Powered by eZ publish" /></a>
    </div>
 
+    <a href="?PrintableVersion=enabled">Printerfriendly version</a>
    <img src="<? print $wwwDir; ?>/images/1x1.gif" width="130" height="8" border="0" alt="" /><br />
 
    </td>

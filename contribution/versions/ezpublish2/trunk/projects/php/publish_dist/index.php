@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: index.php,v 1.111 2001/09/26 07:11:12 ce Exp $
+// $Id: index.php,v 1.112 2001/09/27 14:28:45 bf Exp $
 //
 // Created on: <09-Nov-2000 14:52:40 ce>
 //
@@ -187,6 +187,11 @@ if ( ( $requireUserLogin == "disabled" ) ||
         {
             $REQUEST_URI = "/article/archive/0/";
         }
+        else
+        {
+            $REQUEST_URI = $ini->read_var( "site", "DefaultPage" );
+        }
+        
         if ( $user )
         {
             $mainGroup = $user->groupDefinition( true );
