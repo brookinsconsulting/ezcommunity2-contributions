@@ -7,7 +7,8 @@
 <tr bgcolor="#C8B4B4"> 
 <td>
 <a class="small" href="/trade/testbench/">Test benk</a><br>
-<a class="small" href="/trade/">Kategorier</a><br>
+<a class="small" href="/trade/categorylist/">Kategorier</a><br>
+<a class="small" href="/trade/categoryedit/">Ny kategorier</a><br>
 
 </td>
 </tr>

@@ -5,9 +5,46 @@ $url_array = explode( "/", $REQUEST_URI );
 
 switch ( $url_array[2] )
 {
-    case "" :
-        include( "eztrade/admin/categorylist.php" );
+    case "categorylist" :
+        if ( ( $url_array[3] == "parent") && ( $url_array[4] != "" ) )
+        {
+            $ParentID = $url_array[4];
+            include( "eztrade/admin/categorylist.php" );
+        }
+        else
+        {
+            include( "eztrade/admin/categorylist.php" );
+        }
         break;
+        
+    case "categoryedit" :
+        if ( ( $url_array[3] == "insert") )
+        {
+            $Action = "Insert";
+            include( "eztrade/admin/categoryedit.php" );
+        }
+        else if ( ( $url_array[3] == "edit") )
+        {
+            $Action = "Edit";
+            $CategoryID = $url_array[4];            
+            include( "eztrade/admin/categoryedit.php" );
+        }
+        else if ( ( $url_array[3] == "update") )
+        {
+            $Action = "Update";
+            include( "eztrade/admin/categoryedit.php" );
+        }        
+        else if ( ( $url_array[3] == "delete") )
+        {
+            $Action = "Delete";
+            $CategoryID = $url_array[4];
+            include( "eztrade/admin/categoryedit.php" );
+        }        
+        else
+        {
+            include( "eztrade/admin/categoryedit.php" );
+        }        
+        break;        
     case "testbench" :
         include( "eztrade/admin/testbench.php" );
         break;

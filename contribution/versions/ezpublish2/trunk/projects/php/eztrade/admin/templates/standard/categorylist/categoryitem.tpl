@@ -1,6 +1,6 @@
 <tr>
 	<td>
-	<a href="index.php?page=eztrade/admin/categorylist.php&ParentID={category_id}">{category_name}</a>
+	<a href="/trade/categorylist/parent/{category_id}/">{category_name}</a>
 	</td>
 	<td>
 	{category_parent}		
@@ -9,9 +9,9 @@
 	{category_description}
 	</td>
 	<td>
-	rediger
+	<a href="/trade/categoryedit/edit/{category_id}/">[ Rediger ]</a>
 	</td>
 	<td>
-	slett
+	<a href="/trade/categoryedit/delete/{category_id}/">[ slett ]</a>
 	</td>	
 </tr>
