@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezarticlecategory.php,v 1.89 2001/09/03 16:05:31 bf Exp $
+// $Id: ezarticlecategory.php,v 1.90 2001/09/04 08:42:38 pkej Exp $
 //
 // Definition of eZArticleCategory class
 //
@@ -1277,6 +1277,25 @@ class eZArticleCategory
                $db->query( "UPDATE eZArticle_Category SET Placement='$this->Placement' WHERE ID='$swapCatID'" );
            }
         }       
+        else
+        {
+            $query = "SELECT ID, Placement FROM eZArticle_Category
+                 WHERE Placement>'$this->Placement' AND ParentID='$this->ParentID' ORDER BY Placement DESC";
+
+            $db->query_single( $qry, $query );
+            if ( is_numeric( $qry[$db->fieldName("ID")] ) )
+            {
+                $swapCatPlacement = $qry[$db->fieldName("Placement")];
+                $swapCatID = $qry[$db->fieldName("ID")];
+
+                if ( is_numeric( $swapCatPlacement ) )
+                {
+                    $db->query( "UPDATE eZArticle_Category SET Placement=Placement-1 WHERE ParentID='$this->ParentID'" ); 
+                    $db->query( "UPDATE eZArticle_Category SET Placement='$swapCatPlacement' WHERE ID='$this->ID'" );
+                }
+                
+            }
+        }
     }
 
      /*!
@@ -1291,14 +1310,32 @@ class eZArticleCategory
         $db->query_single( $qry, $query );
         if ( is_numeric( $qry[$db->fieldName("ID")] ) )
         {
-           $swapCatPlacement = $qry[$db->fieldName("Placement")];
-           $swapCatID = $qry[$db->fieldName("ID")];
+            $swapCatPlacement = $qry[$db->fieldName("Placement")];
+            $swapCatID = $qry[$db->fieldName("ID")];
+            
+            if ( is_numeric( $swapCatPlacement ) )
+            {           
+                $db->query( "UPDATE eZArticle_Category SET Placement='$swapCatPlacement' WHERE ID='$this->ID'" );
+                $db->query( "UPDATE eZArticle_Category SET Placement='$this->Placement' WHERE ID='$swapCatID'" );
+            }
+        }
+        else
+        {
+            $query = "SELECT ID, Placement FROM eZArticle_Category
+                 WHERE Placement<'$this->Placement' AND ParentID='$this->ParentID' ORDER BY Placement ASC";
 
-           if ( is_numeric( $swapCatPlacement ) )
-           {           
-               $db->query( "UPDATE eZArticle_Category SET Placement='$swapCatPlacement' WHERE ID='$this->ID'" );
-               $db->query( "UPDATE eZArticle_Category SET Placement='$this->Placement' WHERE ID='$swapCatID'" );
-           }
+            $db->query_single( $qry, $query );
+            if ( is_numeric( $qry[$db->fieldName("ID")] ) )
+            {
+                $swapCatPlacement = $qry[$db->fieldName("Placement")];
+                $swapCatID = $qry[$db->fieldName("ID")];
+
+                if ( is_numeric( $swapCatPlacement ) )
+                {
+                    $db->query( "UPDATE eZArticle_Category SET Placement=Placement+1 WHERE ParentID='$this->ParentID'" ); 
+                    $db->query( "UPDATE eZArticle_Category SET Placement='$swapCatPlacement' WHERE ID='$this->ID'" );
+                }
+            }
         }
 
     }
