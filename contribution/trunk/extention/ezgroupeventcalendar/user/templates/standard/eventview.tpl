@@ -2,17 +2,23 @@
 
   <tr>
     <td align="right">
+    <table cellpadding="0" cellspacing="0" border="0">
+    <tr>
     <!-- BEGIN valid_editor_tpl -->
-	<form method="post" action="{www_dir}{index}/groupeventcalendar/eventedit/edit/{event_id}/">
+    <form method="post" action="{www_dir}{index}/groupeventcalendar/eventedit/edit/{event_id}/">
 	<input type="hidden" name="eventArrayID[]" value={event_id}>
-     <span><input class="gcalSwitchBox" onmouseover="this.className='gcalSwitchBoxSelect'" onmouseout="this.className='gcalSwitchBox'" type="submit"  value="{intl-edit_event}">&nbsp;
-	 <input class="gcalSwitchBox" onmouseover="this.className='gcalSwitchBoxSelect'" onmouseout="this.className='gcalSwitchBox'" type="submit" name="DeleteEvents" value="{intl-delete_events}">
-      </form></span>
+    <td style="height: 25px;" >
+    <input class="gcalSwitchBox" onmouseover="this.className='gcalSwitchBoxSelect'" onmouseout="this.className='gcalSwitchBox'" type="submit"  value="{intl-edit_event}">&nbsp;
+    </td><td>
+    <input class="gcalSwitchBox" onmouseover="this.className='gcalSwitchBoxSelect'" onmouseout="this.className='gcalSwitchBox'" type="submit" name="DeleteEvents" value="{intl-delete_events}"></form>
+     </td>
        <!-- END valid_editor_tpl -->
+      <td>
       <span class="gcalSwitchBox" onmouseover="this.className='gcalSwitchBoxSelect'"
       onmouseout="this.className='gcalSwitchBox'">
       <a href="{www_dir}{index}/groupeventcalendar/dayview/{the_year}/{the_month}/{the_day}/" style="text-decoration:none; font-weight:normal;font-size:12px;">{intl-day}</a>
       </span>
+      
       <span class="gcalSwitchBox" onmouseover="this.className='gcalSwitchBoxSelect'"
       onmouseout="this.className='gcalSwitchBox'">
       <a href="{www_dir}{index}/groupeventcalendar/weekview/{the_year}/{the_month}/{the_day}/" style="text-decoration:none; font-weight:normal;font-size:12px;">{intl-week}</a>
@@ -29,9 +35,7 @@
       onmouseout="this.className='gcalSwitchBox'">
       <a href="{www_dir}{index}/groupeventcalendar/dayview/{year_cur}/{month_cur}/{day_cur}/" style="text-decoration:none; font-weight:normal;font-size:12px;">{intl-today}</a>
       </span>
-
-
-	</td>
+      </td></tr></table>
     </td>
   </tr>
 </table>
@@ -51,7 +55,7 @@
 	</td>
 </tr>
 <tr><td>
-<table width="100%" cellspacing="4" cellpadding="0" border="0">
+<table width="100%" cellspacing="4" cellpadding="0" border="1">
 <tr>
 	<td colspan=2 align="left">
 	<!-- BEGIN private_tpl -->
@@ -63,7 +67,7 @@
 	</td>
 </tr>
 <tr>
-        <td style="width: 100px;" class="gcalViewLabel">
+        <td width="20%" class="gcalViewLabel">
         {intl-description}:
         </td> <td  class="gcalViewResult">
                 {event_description}
