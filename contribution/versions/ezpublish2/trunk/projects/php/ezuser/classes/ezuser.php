@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezuser.php,v 1.72 2001/06/21 09:08:37 ce Exp $
+// $Id: ezuser.php,v 1.73 2001/06/21 09:16:00 ce Exp $
 //
 // Definition of eZUser class
 //
@@ -585,7 +585,7 @@ class eZUser
 
             $session->refresh();
 //            $session->refresh();
-            exit();
+
             $session->setVariable( "AuthenticatedUser", $user->id() );
             $ret = true;
         }
