@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezarticlegenerator.php,v 1.12 2001/04/07 13:54:19 bf Exp $
+// $Id: ezarticlegenerator.php,v 1.13 2001/05/28 14:18:13 bf Exp $
 //
 // Definition of eZArticleGenerator class
 //
@@ -118,8 +118,6 @@ class eZArticleGenerator
     */
     function &decodeXML( &$contents )
     {
-//        print( $contents );
-
         // find the generator used
         if ( ereg("<generator>(.*)</generator>", $contents, $regs ) )
         {

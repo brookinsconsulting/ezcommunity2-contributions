@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: articleedit.php,v 1.82 2001/05/08 15:08:56 bf Exp $
+// $Id: articleedit.php,v 1.83 2001/05/28 14:18:13 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <18-Oct-2000 15:04:39 bf>
@@ -576,7 +576,6 @@ if ( $Action == "Edit" )
     {
         $t->set_var( "discuss_article", "" );
     }
-
     
     if ( !isset( $Name ) )        
          $t->set_var( "article_name", $article->name() );
@@ -584,7 +583,7 @@ if ( $Action == "Edit" )
     $generator = new eZArticleGenerator();
     
     $contentsArray = $generator->decodeXML( $article->contents() );
-    
+
     $i=0;
     foreach ( $contentsArray as $content )
     {

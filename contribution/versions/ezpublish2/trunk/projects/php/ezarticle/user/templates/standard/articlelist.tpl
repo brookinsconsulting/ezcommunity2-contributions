@@ -89,9 +89,12 @@
 
 
 	<div class="spacer"><div class="p">{article_intro}</div></div>
+
+        <!-- BEGIN read_more_tpl -->
 	<img src="/images/path-arrow.gif" height="10" width="12" border="0" alt="" />
 	<a class="path" href="/article/articleview/{article_id}/1/{category_id}/">{article_link_text}</a>
 	<br /><br />
+        <!-- END read_more_tpl -->
 	</td>
 </tr>
 <!-- END article_item_tpl -->

@@ -7,8 +7,8 @@ header("Pragma: no-cache");
 include_once( "classes/ezbenchmark.php" );
 
 // Run benchmark test.
-// $bench = new eZBenchmark();
-// $bench->start();
+ $bench = new eZBenchmark();
+ $bench->start();
   
 $GLOBALS["DEBUG"] = true;
 
@@ -25,6 +25,7 @@ if ( $UsePHPSessions == true )
     // start session handling
     session_start();
 }
+
 
 // settings for sessions
 // max timeout is set to 48 hours
@@ -257,8 +258,8 @@ else
 eZDB::close();
 
 // Stop benchmark test and print the result.
-// $bench->stop();
-// $bench->printResults();
+ $bench->stop();
+ $bench->printResults();
 
 ob_end_flush();
 ?>

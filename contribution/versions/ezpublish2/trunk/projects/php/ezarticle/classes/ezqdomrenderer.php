@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezqdomrenderer.php,v 1.1 2001/04/09 12:37:40 bf Exp $
+// $Id: ezqdomrenderer.php,v 1.2 2001/05/28 14:18:13 bf Exp $
 //
 // Definition of eZQDomRenderer class
 //
@@ -129,6 +129,27 @@ class eZQDomrenderer
     */
     function eZQDomrenderer( &$article )
     {
+        $ini =& INIFile::globalINI();
+
+        $this->Template = new eZTemplate( "ezarticle/user/" . $ini->read_var( "eZArticleMain", "TemplateDir" ),
+                     "ezarticle/user/intl/", "en_GB", "articleview.php" );
+
+        $this->Template->set_file( "articletags_tpl", "articletags.tpl"  );
+
+        $this->Template->set_block( "articletags_tpl", "header_1_tpl", "header_1"  );
+        $this->Template->set_block( "articletags_tpl", "header_2_tpl", "header_2"  );
+        $this->Template->set_block( "articletags_tpl", "header_3_tpl", "header_3"  );
+        $this->Template->set_block( "articletags_tpl", "header_4_tpl", "header_4"  );
+        $this->Template->set_block( "articletags_tpl", "header_5_tpl", "header_5"  );
+        $this->Template->set_block( "articletags_tpl", "header_6_tpl", "header_6"  );
+        
+        $this->Template->set_block( "articletags_tpl", "bold_tpl", "bold"  );
+        $this->Template->set_block( "articletags_tpl", "italic_tpl", "italic"  );
+        $this->Template->set_block( "articletags_tpl", "underline_tpl", "underline"  );
+        $this->Template->set_block( "articletags_tpl", "strong_tpl", "strong"  );
+
+
+        
         $this->Article = $article;
     }
 
@@ -193,7 +214,9 @@ class eZQDomrenderer
     */
     function &renderPage( $pageNumber=0 )
     {
-        $xml =& qdom_tree( $this->Article->contents() );
+//        $xml =& qdom_tree( $this->Article->contents() );
+
+        $xml =& xmltree( $this->Article->contents() );
 
 //        $err = qdom_error();
 //        if ( $err )
@@ -208,7 +231,7 @@ class eZQDomrenderer
             $intro = "";
             $body = "";
 
-            $this->$PrevTag = "";
+            $this->PrevTag = "";
             $articleImages =& $this->Article->images();
             $articleID = $this->Article->id();
             
@@ -223,7 +246,7 @@ class eZQDomrenderer
                             if ( count( $article->children ) > 0 )
                                 foreach ( $article->children as $paragraph )
                                 {
-                                    $intro .= $this->renderPlain( $paragraph );                                    
+                                    $intro .= $this->renderPlain( $paragraph );
                                     $intro .= $this->renderStandards( $paragraph );
                                     
 //                                    $intro = $this->renderCode( $intro, $paragraph );
@@ -240,7 +263,7 @@ class eZQDomrenderer
                             $body = $article->children;
                         }                        
                     }
-                }                
+                }
             }
 
             $pageArray = array();
@@ -253,6 +276,7 @@ class eZQDomrenderer
                 if ( count( $page->children ) > 0 )
                 foreach ( $page->children as $paragraph )
                 {
+                    $pageContent .= $this->renderHeader( $paragraph );
                     $pageContent .= $this->renderStandards( $paragraph );
                     $pageContent .= $this->renderPlain( $paragraph );
 //                      $pageContent = $this->renderCode( $pageContent, $paragraph );
@@ -268,28 +292,70 @@ class eZQDomrenderer
                 
             }
 
+            $returnArray = array();
+            $bodyContents = "";
+            
             if ( $pageNumber == -1 )
             {
                 $newArticle = $intro . "\n</p><p>\n";
                 if ( count( $pageArray ) > 0 )
                     foreach ( $pageArray as $page )
                     {
-                        $newArticle .= $page;
+                        $bodyContents .= $page;
                     }
             }
             else if ( $pageNumber != 0 )
             {
-                $newArticle = $pageArray[$pageNumber];
+                $bodyContents = $pageArray[$pageNumber];
             }
             else
             {
-//                  $newArticle = eZTextTool::nl2br( $intro ) . "</p><p>". $pageArray[$pageNumber];
-                $newArticle = $intro . "\n</p><p>\n". $pageArray[$pageNumber];
+                $bodyContents = $pageArray[$pageNumber];
             }
                 
         }
+
+        $returnArray[] =& $intro;
+        $returnArray[] =& $bodyContents;
         
-        return $newArticle;
+        return $returnArray;
+    }
+
+    function &renderHeader( $paragraph )
+    {
+        $pageContent = "";
+        if ( $paragraph->name == "header" )
+        {
+            $level = 1;
+            if  ( count( $paragraph->attributes ) > 0 )
+            foreach ( $paragraph->attributes as $attr )
+            {
+                switch ( $attr->name )
+                {
+                    case "level" :
+                    {
+                       $level = $attr->children[0]->content;
+                    }
+                    break;
+                }
+            }
+
+            foreach ( $paragraph->children as $child )
+            {
+                if ( $child->name == "text" )
+                {
+                    $content = $child->content;
+                }
+            }
+            
+            $level = min( 6, $level );
+            $level = max( 1, $level );
+
+            $this->Template->set_var( "contents", $content );
+            $pageContent =& $this->Template->parse( "header_" . $level, "header_" . $level. "_tpl" );
+        }
+
+        return $pageContent;
     }
 
     function &renderPlain( $paragraph )
@@ -307,7 +373,7 @@ class eZQDomrenderer
         }
         return $pageContent;
     }
-
+    
 
     function &renderStandards( $paragraph )
     {
@@ -319,7 +385,7 @@ class eZQDomrenderer
                 $tmpContent = "";
                 foreach ( $paragraph->children as $child )
                 {
-                    if ( $child->name == "#text" )
+                    if ( $child->name == "text" )
                     {
                         $content = $child->content;
                     }
@@ -337,45 +403,14 @@ class eZQDomrenderer
             } break;
 
             case "bold" :
-            {
-                $tmpContent = "";
-                foreach ( $paragraph->children as $child )
-                {
-                    if ( $child->name == "#text" )
-                    {                
-                        $tmpContent .= $child->content;
-                    }
-                    else
-                    {
-                        $tmpContent .= $this->renderStandards( $child );
-                    }
-                }
-                $pageContent .= "<b>" . $tmpContent . "</b>";                
-            }break;
-
-            case "italic" :
-            {
-                $tmpContent = "";
-                foreach ( $paragraph->children as $child )
-                {
-                    if ( $child->name == "#text" )
-                    {                
-                        $tmpContent .= $child->content;
-                    }
-                    else
-                    {
-                        $tmpContent .= $this->renderStandards( $child );
-                    }
-                }
-                $pageContent .= "<i>" . $tmpContent . "</i>";
-            }break;
-
+            case "italic" :                
             case "underline" :
+            case "strong" :
             {
                 $tmpContent = "";
                 foreach ( $paragraph->children as $child )
                 {
-                    if ( $child->name == "#text" )
+                    if ( $child->name == "text" )
                     {                
                         $tmpContent .= $child->content;
                     }
@@ -384,54 +419,34 @@ class eZQDomrenderer
                         $tmpContent .= $this->renderStandards( $child );
                     }
                 }
-                $pageContent .= "<u>" . $tmpContent . "</u>";
+
+                $this->Template->set_var( "contents", $tmpContent );
+                switch ( $paragraph->name )
+                {
+                    case "bold" :
+                        $pageContent = $this->Template->parse( "bold", "bold_tpl" );
+                        break;
+                    case "italic" :
+                        $pageContent = $this->Template->parse( "italic", "italic_tpl" );
+                        break;
+                    case "underline" :
+                        $pageContent = $this->Template->parse( "underline", "underline_tpl" );
+                    break;
+                    case "strong" :
+                        $pageContent = $this->Template->parse( "strong", "strong_tpl" );
+                    break;
+                }
+                
             }break;
 
         }
-        
-//          // header
-//          if ( $paragraph->name == "header" )
-//          {
-//              $pageContent .= "\n<h2>".  $paragraph->children[0]->content . "</h2>\n";
-//          }
-                    
-//          // bold text
-//          if ( $paragraph->name == "bold" )
-//          {
-//              $pageContent .= "<b>" . $paragraph->children[0]->content . "</b>";
-//          }
-
-//          // italic text
-//          if ( $paragraph->name == "italic" )
-//          {
-//              $pageContent .= "<i>" . $paragraph->children[0]->content . "</i>";
-//          }
-
-//          // underline text
-//          if ( $paragraph->name == "underline" )
-//          {
-//              $pageContent .= "<u>" . $paragraph->children[0]->content . "</u>";
-//          }
-
-//          // strike text
-//          if ( $paragraph->name == "strike" )
-//          {
-//              $pageContent .= "<s>" . $paragraph->children[0]->content . "</s>";
-//          }
-
-//          // pre text
-//          if ( ( $paragraph->name == "pre" ) || ( $paragraph->name == "verbatim" ) )
-//          {
-//              $pageContent .= "<br clear=\"all\"><p><table width=\"100%\" cellspacing=\"0\" cellpadding=\"4\" border=\"0\"><tr><td bgcolor=\"#f0f0f0\"><pre>" .
-//               $paragraph->children[0]->content . "</pre></td></tr></table></p>";
-//          }
-
         
         return $pageContent;
     }    
     
     var $Article;
     var $PrevTag;
+    var $Template;
 }
 
 ?>

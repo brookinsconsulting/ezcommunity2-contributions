@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezqdomgenerator.php,v 1.1 2001/04/09 12:37:40 bf Exp $
+// $Id: ezqdomgenerator.php,v 1.2 2001/05/28 14:18:13 bf Exp $
 //
 // Definition of eZQDomGenerator class
 //
@@ -94,6 +94,8 @@ class eZQDomGenerator
         $tmpPage = ereg_replace ( "&", "&amp;", $tmpPage );
 
         $tmpPage = $this->generateUnknowns( $tmpPage );        
+
+        $tmpPage = $this->generateHeader( $tmpPage );
         
 //        $tmpPage = $this->generateImage( $tmpPage );
 
@@ -128,6 +130,16 @@ class eZQDomGenerator
         return $tmpPage;
     }
 
+    /*!
+      \private
+      
+    */
+    function &generateHeader( $tmpPage )
+    {
+        $tmpPage = preg_replace( "/(<header\s+?([^ ]+)\s*>)/", "<header level=\"\\2\">", $tmpPage );
+        return $tmpPage;
+    }
+    
 
     /*!
       Decodes the xml chunk and returns the original array to the article.
@@ -135,17 +147,17 @@ class eZQDomGenerator
       If htmlSpecialChars == true the output is converted to HTML special chars like:
       &gt; and &lt;...
     */
-    function &decodeXML( $htmlSpecialChars=true )
+    function &decodeXML( $htmlSpecialChars=false )
     {
         $contentsArray = array();
 
-//        $xml =& xmltree( $this->Contents );
+        $xml =& xmltree( $this->Contents );
 
-        $xml =& qdom_tree( $this->Contents );
+//        $xml =& qdom_tree( $this->Contents );
 
         if ( !$xml )
         {
-            print( "<br /><b>Error: eZTechRenderer::docodeXML() could not decode XML</b><br />" );
+            print( "<br /><b>Error: eZQDomRenderer::docodeXML() could not decode XML</b><br />" );
         }
         else
         {
@@ -211,94 +223,119 @@ class eZQDomGenerator
         {            
             foreach ( $page->children as $paragraph )
             {
-                // can have sub items
                 $value .= $this->decodeStandards( $paragraph );
+                $value .= $this->decodeHeader( $paragraph );
             }
         }
 
         return $value;
     }
-    
 
-    function &decodeStandards(  $paragraph )
+    /*!
+      Decodes header tags
+    */     
+    function &decodeHeader(  $paragraph )
     {
-
-        $pageContent = "";
         switch ( $paragraph->name )
         {
-            case "bullet" :
+            case "header" :
             {
-                $tmpContent = "";
+
                 foreach ( $paragraph->children as $child )
                 {
-                    if ( $child->name == "#text" )
+                    if ( $child->name == "#text" or $child->name == "text" )
                     {
                         $content = $child->content;
                     }
-                    else
-                    {
-                        $content = $this->decodeStandards( $child );
-                    }
+                }
 
-                    $tmpContent .=  $content;
+                $level = 1;
+
+                if ( count( $paragraph->attributes ) > 0 )                 
+                foreach ( $paragraph->attributes as $attr )
+                {
+                    switch ( $attr->name )
+                    {
+                        case "level" :
+                        {
+                            $level = $attr->children[0]->content;
+                        }
+                        break;
+                    }
+                }
+
+                
+                
+                $pageContent .= "<header $level>" . $content . "</header>";
+            }
+            break;
+        }        
+        
+        return $pageContent;        
+    }
+    
+
+        function &decodeStandards(  $paragraph )
+    {
+        $pageContent = "";
+        $tmpContent = "";
+
+        if ( is_array( $paragraph->children ) )
+        {
+            foreach ( $paragraph->children as $child )
+            {
+                if ( $child->name == "#text" or $child->name == "text" )
+                {
+                    $content = $child->content;
+                }
+                else
+                {
+                    $content = $this->decodeStandards( $child );
                 }
                 
-                $pageContent .= "<bullet>" . $tmpContent . "</bullet>";
-
-            } break;
-
-            case "bold" :
+                $tmpContent .=  $content;
+            }
+            
+            switch ( $paragraph->name )
             {
-                $tmpContent = "";
-                foreach ( $paragraph->children as $child )
-                {
-                    if ( $child->name == "#text" )
-                    {                
-                        $tmpContent .= $child->content;
-                    }
-                    else
-                    {
-                        $tmpContent .= $this->decodeStandards( $child );
-                    }
+                case "bullet" :
+                {                        
+                    $pageContent .= "<bullet>" . $tmpContent . "</bullet>";
                 }
-                $pageContent .= "<bold>" . $tmpContent . "</bold>";
-            }break;
+                break;
+                
+                case "bold" :
+                {                        
+                    $pageContent .= "<bold>" . $tmpContent . "</bold>";
+                }
+                break;
+                
+                case "italic" :
+                {                        
+                    $pageContent .= "<italic>" . $tmpContent . "</italic>";
+                }
+                break;
+            
+                case "underline" :
+                {                        
+                    $pageContent .= "<underline>" . $tmpContent . "</underline>";
+                }
+                break;
 
-            case "italic" :
-            {
-                $tmpContent = "";
-                foreach ( $paragraph->children as $child )
-                {
-                    if ( $child->name == "#text" )
-                    {                
-                        $tmpContent .= $child->content;
-                    }
-                    else
-                    {
-                        $tmpContent .= $this->decodeStandards( $child );
-                    }
+                case "strong" :
+                {                        
+                    $pageContent .= "<strong>" . $tmpContent . "</strong>";
                 }
-                $pageContent .= "<italic>" . $tmpContent . "</italic>";
-            }break;
-
-            case "underline" :
-            {
-                $tmpContent = "";
-                foreach ( $paragraph->children as $child )
-                {
-                    if ( $child->name == "#text" )
-                    {                
-                        $tmpContent .= $child->content;
-                    }
-                    else
-                    {
-                        $tmpContent .= $this->decodeStandards( $child );
-                    }
-                }
-                $pageContent .= "<underline>" . $tmpContent . "</underline>";
-            }break;
+                break;
+            }
 
         }
+        else
+        {
+            $pageContent = $paragraph->content;
+        
+        }
+        
         return $pageContent;
     }
 

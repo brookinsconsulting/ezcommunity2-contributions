@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: articlelist.php,v 1.46 2001/05/21 12:13:58 bf Exp $
+// $Id: articlelist.php,v 1.47 2001/05/28 14:18:13 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <18-Oct-2000 14:41:37 bf>
@@ -72,6 +72,7 @@ $t->set_block( "article_list_tpl", "article_item_tpl", "article_item" );
 
 
 $t->set_block( "article_item_tpl", "article_image_tpl", "article_image" );
+$t->set_block( "article_item_tpl", "read_more_tpl", "read_more" );
 
 // prev/next
 $t->set_block( "article_list_page_tpl", "previous_tpl", "previous" );
@@ -263,7 +264,7 @@ foreach ( $articleList as $article )
         $t->set_var( "author_text", $article->authorText() );
     
         // preview image
-        $thumbnailImage = $article->thumbnailImage();
+        $thumbnailImage =& $article->thumbnailImage();
         if ( $thumbnailImage )
         {
             if ( $GrayScaleImageList == "enabled" )
@@ -305,6 +306,7 @@ foreach ( $articleList as $article )
 
         $t->set_var( "article_intro", $renderer->renderIntro(  ) );
 
+        
         if ( $article->linkText() != "" )
         {
             $t->set_var( "article_link_text", $article->linkText() );
@@ -313,6 +315,19 @@ foreach ( $articleList as $article )
         {
             $t->set_var( "article_link_text", $DefaultLinkText );
         }
+
+        // check if the article contains more than intro
+        $contents =& $renderer->renderPage();
+
+        if ( trim( $contents[1] ) == "" )
+        {
+            $t->set_var( "read_more", "" );
+        }
+        else
+        {
+            $t->parse( "read_more", "read_more_tpl" );
+        }
+
 
         $t->parse( "article_item", "article_item_tpl", true );
         $i++;
