@@ -3493,6 +3493,9 @@ extensions
 Apache Configuration
 \layout Standard
 
+If you're using IIS skip this and the next section.
+\layout Standard
+
 Create the virtual hosts for apache.
  Use the file virtualhosts.conf in this package as a template
 \layout Standard
@@ -3533,7 +3536,7 @@ Also remember to enable the rewrite module in httpd.conf:
 LoadModule rewrite_module modules/ApacheModuleRewrite.dll
 \layout Section
 
-Configuration of Virtual Host for win2000
+Configuration of Virtual Host for Apache/win2000
 \layout Subsection
 
 User Site
@@ -3764,20 +3767,48 @@ ServerName [admin.yourdomain.org]
 ServerAlias [admin.yourdomain.org]
 \layout Section
 
+IIS Installation
+\layout Standard
+
+If you're using Apache skip this section.
+\layout Standard
+
+Create the virtual hosts.
+ For both of the hosts change the custom errors for 404 and 405 to:
+\newline 
+
+\newline 
+
+\family typewriter 
+\size footnotesize 
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+Message type: URL
+\newline 
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+URL: /index.php
+\family default 
+\size default 
+
+\newline 
+
+\newline 
+If you encounter 500 errors you may need to reboot the server.
+ eZ publish and IIS don't run well together.
+\layout Section
+
 eZ publish Installation
 \layout Standard
 
-Decompress eZ publish to 
-\begin_inset Quotes eld
-\end_inset 
-
-c:
-\backslash 
-ezpublish
-\begin_inset Quotes erd
-\end_inset 
-
-, then run 
+Decompress eZ publish to your documentroot.
+ Decompress all the files in ezpublish-win.files.zip to the same directory,
+ remember to keep the directory structure and to overwrite the old files.
+ Run 
 \begin_inset Quotes eld
 \end_inset 
 
@@ -3785,18 +3816,8 @@ modfix.bat
 \begin_inset Quotes erd
 \end_inset 
 
- from the 
-\begin_inset Quotes eld
-\end_inset 
-
-ezpublish-win.files.zip
-\begin_inset Quotes erd
-\end_inset 
-
- distribution in that catalog.
-\layout Standard
-
-Add the file 
+.
+ Configure the 
 \begin_inset Quotes eld
 \end_inset 
 
@@ -3804,70 +3825,7 @@ winINIFile.php
 \begin_inset Quotes erd
 \end_inset 
 
- from the 
-\begin_inset Quotes eld
-\end_inset 
-
-ezpublish-win.files.zip
-\begin_inset Quotes erd
-\end_inset 
-
- distribution to 
-\begin_inset Quotes eld
-\end_inset 
-
-c:
-\backslash 
-ezpublish
-\backslash 
-classes
-\begin_inset Quotes erd
-\end_inset 
-
-:
-\layout Itemize
-
-replace c:
-\backslash 
-ezpublish
-\backslash 
-classes
-\backslash 
-INIFile.php with the file from the 
-\begin_inset Quotes eld
-\end_inset 
-
-ezpublish-win.files.zip
-\begin_inset Quotes erd
-\end_inset 
-
- distribution.
-\layout Itemize
-
-replace c:
-\backslash 
-ezpublish
-\backslash 
-classes
-\backslash 
-eztemplate.php with the file from the 
-\begin_inset Quotes eld
-\end_inset 
-
-ezpublish-win.files.zip
-\begin_inset Quotes erd
-\end_inset 
-
- distribution.
-\layout Itemize
-
-replace c:
-\backslash 
-ezpublish
-\backslash 
-admin
-\backslash 
-index.php with the file from the "ezpublish-win.files.zip" distribution.
+ to match your document root.
 \layout Chapter
 
 Mandrake
