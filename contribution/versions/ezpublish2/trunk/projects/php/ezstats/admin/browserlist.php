@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: browserlist.php,v 1.4 2001/08/24 11:46:14 br Exp $
+// $Id: browserlist.php,v 1.5 2001/09/24 17:58:18 br Exp $
 //
 // Created on: <07-Jan-2001 16:13:21 bf>
 //
@@ -49,7 +49,8 @@ if ( !isset( $Offset ) or !is_numeric( $Offset ) )
 
 $latest =& eZPageViewQuery::topBrowsers( $ViewLimit, $Offset );
 $ItemCount = eZPageViewQuery::topBrowsersCount();
-$total_count = eZPageViewQuery::latestCount();
+// $total_count = eZPageViewQuery::latestCount();
+$total_count = eZPageViewQuery::sumBrowserTypeCount();
 
 $t->set_var( "item_start", $Offset + 1 );
 $t->set_var( "item_end", $Offset + $ViewLimit );
@@ -72,6 +73,8 @@ if ( count( $latest ) > 0 )
         $t->parse( "browser", "browser_tpl", true );
         $i++;
     }
+
+    eZList::drawNavigator( $t, $ItemCount, $ViewLimit, $Offset, "browser_list_tpl" );
     $t->parse( "browser_list", "browser_list_tpl" );
 }
 else
@@ -82,7 +85,6 @@ else
 $t->set_var( "view_mode", $ViewMode );
 $t->set_var( "view_limit", $ViewLimit );
 
-eZList::drawNavigator( $t, $ItemCount, $ViewLimit, $Offset, "browser_list_tpl" );
 
 $t->pparse( "output", "browser_page_tpl" );
 

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezpageviewquery.php,v 1.20 2001/08/23 08:44:12 br Exp $
+// $Id: ezpageviewquery.php,v 1.21 2001/09/24 17:58:18 br Exp $
 //
 // Definition of eZPageViewQuery class
 //
@@ -151,6 +151,24 @@ class eZPageViewQuery
             $ret = $ret + $pageview_array[0][$db->fieldName( "Count" )];
         }
         return $ret;
+    }
+
+    /*!
+      \static
+      Return the sum of Count BrowserType
+    */
+    function &sumBrowserTypeCount()
+    {
+        $db =& eZDB::globalDatabase();
+        $db->array_query( $pageview_array,
+        "SELECT Count FROM eZStats_Archive_BrowserType" );
+
+        $sum = 0;
+        foreach ( $pageview_array as $pageview )
+        {
+            $sum += $pageview[$db->fieldName( "Count" )];
+        }
+        return $sum;
     }
 
 
