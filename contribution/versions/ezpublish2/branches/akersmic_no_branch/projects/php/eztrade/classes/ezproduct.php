@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: ezproduct.php,v 1.119.2.1.4.14 2002/01/22 13:45:44 bf Exp $
+// $Id: ezproduct.php,v 1.119.2.1.4.15 2002/01/23 10:11:38 bf Exp $
 //
 // Definition of eZProduct class
 //
@@ -1669,7 +1669,7 @@ class eZProduct
         {
             $queryArray = explode( " ", trim( $queryText ) );
 
-            $db->query( "CREATE TEMPORARY TABLE eZTrade_SearchTemp( ProductID int, Name varchar(150), Price float )" );
+            $db->query( "CREATE TEMPORARY TABLE eZTrade_SearchTemp( ProductID int, Name varchar(150), Price float, TypeName varchar(60) )" );
 
 
             $count = 1;
@@ -1698,11 +1698,15 @@ class eZProduct
                     }
 
 
-                    $queryString = "INSERT INTO eZTrade_SearchTemp ( ProductID, Name, Price ) SELECT DISTINCT eZTrade_Product.ID AS ProductID, eZTrade_Product.Name AS Name, eZTrade_Product.Price as Price
-                 FROM eZTrade_Product
+                    $queryString = "INSERT INTO eZTrade_SearchTemp ( ProductID, Name, Price, TypeName ) SELECT DISTINCT eZTrade_Product.ID AS ProductID, eZTrade_Product.Name AS Name, eZTrade_Product.Price as Price, eZTrade_Type.Name AS TypeName
+                 FROM eZTrade_Product,
+                      eZTrade_Type
                       $attributeValueTables
                  WHERE
                          eZTrade_Product.TypeID='1'
+                         AND
+                         eZTrade_Type.ID=eZTrade_Product.TypeID  
+
                          $attributeSQL
                          $albumSQL
                          $artistSQL
@@ -1711,7 +1715,7 @@ class eZProduct
 
                     $db->query( $queryString );
                     
-                    $queryString = "SELECT ProductID, Name, Price, Count(*) AS Count FROM eZTrade_SearchTemp GROUP BY ProductID";
+                    $queryString = "SELECT ProductID, Name, Price, TypeName, Count(*) AS Count FROM eZTrade_SearchTemp GROUP BY ProductID";
 
                     
 
@@ -1737,18 +1741,21 @@ class eZProduct
                     }
                     
                         
-                    $queryString = "INSERT INTO eZTrade_SearchTemp ( ProductID, Name, Price ) SELECT DISTINCT eZTrade_Product.ID AS ProductID, eZTrade_Product.Name AS Name, eZTrade_Product.Price as Price
-                 FROM eZTrade_Product
+                    $queryString = "INSERT INTO eZTrade_SearchTemp ( ProductID, Name, Price, TypeName ) SELECT DISTINCT eZTrade_Product.ID AS ProductID, eZTrade_Product.Name AS Name, eZTrade_Product.Price as Price, eZTrade_Type.Name AS TypeName
+                 FROM eZTrade_Product,
+                      eZTrade_Type
  					$attributeValueTables
                  WHERE
                          eZTrade_Product.TypeID='2'
+                         AND
+                         eZTrade_Type.ID=eZTrade_Product.TypeID  
                          $dvdSQL
                          $attributeSQL
                        ORDER BY $OrderBy";
 
                     $db->query( $queryString );
                     
-                    $queryString = "SELECT ProductID, Name, Price FROM eZTrade_SearchTemp GROUP BY ProductID";
+                    $queryString = "SELECT ProductID, Name, Price, TypeName FROM eZTrade_SearchTemp GROUP BY ProductID";
                     
 
                 }break;
@@ -1770,11 +1777,14 @@ class eZProduct
                         $titleSQL = " AND eZTrade_Product.Name LIKE '%$gameTitle%' ";
                     }
 
-                    $queryString = "INSERT INTO eZTrade_SearchTemp ( ProductID, Name, Price ) SELECT DISTINCT eZTrade_Product.ID AS ProductID, eZTrade_Product.Name AS Name, eZTrade_Product.Price as Price
-                 FROM eZTrade_Product
+                    $queryString = "INSERT INTO eZTrade_SearchTemp ( ProductID, Name, Price, TypeName ) SELECT DISTINCT eZTrade_Product.ID AS ProductID, eZTrade_Product.Name AS Name, eZTrade_Product.Price as Price, eZTrade_Type.Name AS TypeName
+                 FROM eZTrade_Product,
+                      eZTrade_Type
                       $attributeValueTables
                  WHERE
                          eZTrade_Product.TypeID='4'
+                         AND
+                         eZTrade_Type.ID=eZTrade_Product.TypeID  
                          $titleSQL
                          $attributeSQL
                        ORDER BY $OrderBy";
@@ -1782,14 +1792,13 @@ class eZProduct
 
                     $db->query( $queryString );
                     
-                    $queryString = "SELECT ProductID, Name, Price FROM eZTrade_SearchTemp GROUP BY ProductID";
+                    $queryString = "SELECT ProductID, Name, Price, TypeName FROM eZTrade_SearchTemp GROUP BY ProductID";
 
                     
 
                 }break;
                 
            
-
                 default:
                 {
                     
@@ -1811,15 +1820,18 @@ class eZProduct
                             $typeSQL = "";
                         }
 
-                        $queryString = "INSERT INTO eZTrade_SearchTemp ( ProductID, Name, Price ) SELECT DISTINCT eZTrade_Product.ID AS ProductID, eZTrade_Product.Name AS Name, eZTrade_Product.Price as Price
+                        $queryString = "INSERT INTO eZTrade_SearchTemp ( ProductID, Name, Price, TypeName ) SELECT DISTINCT eZTrade_Product.ID AS ProductID, eZTrade_Product.Name AS Name, eZTrade_Product.Price as Price, eZTrade_Type.Name as TypeName
                  FROM eZTrade_Product,
                       eZTrade_ProductWordLink,
-                      eZTrade_Word
+                      eZTrade_Word,
+                      eZTrade_Type 
                  WHERE
                        $searchSQL
                        ( eZTrade_Product.ID=eZTrade_ProductWordLink.ProductID
                          AND
                          eZTrade_ProductWordLink.WordID=eZTrade_Word.ID
+                         AND
+                         eZTrade_Type.ID=eZTrade_Product.TypeID  
                          $typeSQL
                         )
                        ORDER BY $OrderBy";
@@ -1837,7 +1849,7 @@ class eZProduct
                     }
                     $count -= 1;
 
-                    $queryString = "SELECT ProductID, Name, Price, Count(*) AS Count FROM eZTrade_SearchTemp GROUP BY ProductID HAVING Count='$count'";
+                    $queryString = "SELECT ProductID, Name, Price, TypeName, Count(*) AS Count FROM eZTrade_SearchTemp GROUP BY ProductID HAVING Count='$count'";
                     
                 }break;
                         

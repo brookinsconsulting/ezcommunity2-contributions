@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: productsearch.php,v 1.20.8.8 2002/01/22 16:46:34 bf Exp $
+// $Id: productsearch.php,v 1.20.8.9 2002/01/23 10:11:38 bf Exp $
 //
 // Created on: <10-Oct-2000 17:49:05 bf>
 //
@@ -143,7 +143,7 @@ if ( isSet( $Query ) && ( count ( $productList ) > 0 ) )
            }
         }
 
-
+        $t->set_var( "type_name", $product["TypeName"] );
         $t->set_var( "product_name", $product["Name"] );
         $t->set_var( "product_price", number_format( $product["Price"], 2, ",", " " ) );
         
