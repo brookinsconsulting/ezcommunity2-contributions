@@ -44,7 +44,7 @@
 
 
 <p class="boxtext">{intl-bug_description}:</p>
-<table cellspacing="0" cellpadding="0" border="0" width="100%">
+<table cellspacing="0" cellpadding="4" border="0" width="100%">
 <tr>
 	<td class="bglight">
 	{description_value}

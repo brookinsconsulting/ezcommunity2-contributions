@@ -1,4 +1,3 @@
-
 <h1>{intl-bug_view}</h1>
 
 <hr noshade="noshade" size="4">
@@ -124,11 +123,10 @@
 </table>
 <!-- END patches_tpl -->
 
-
-<br />
 <br />
 <!-- BEGIN log_item_tpl -->
 <p class="boxtext">{log_date}:</p>
 <div class="p">{log_description}</div>
 <!-- END log_item_tpl -->	
 
+<br />

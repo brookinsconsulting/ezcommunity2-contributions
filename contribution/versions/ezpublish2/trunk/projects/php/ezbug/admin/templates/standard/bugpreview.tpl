@@ -1,4 +1,3 @@
-
 <h1>{intl-bug_view}</h1>
 
 <hr noshade="noshade" size="4">
@@ -53,7 +52,6 @@
 </tr>
 </table>
 
-<br />
 <p class="boxtext">{intl-is_closed}:</p>
 <!-- BEGIN yes_tpl -->
 <div class="p">{intl-yes}</div>
@@ -62,13 +60,12 @@
 <div class="p">{intl-no}</div>
 <!-- END no_tpl -->
 
-<br />
 <!-- BEGIN log_item_tpl -->
-<b>{log_date}</b>
+<p class="boxtext>{log_date}</p>
 <div class="p">{log_description}</div>
-<br />
 <!-- END log_item_tpl -->	
 
+<br />
 
 
 
