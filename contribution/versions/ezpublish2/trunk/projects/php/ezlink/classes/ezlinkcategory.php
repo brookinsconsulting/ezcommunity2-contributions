@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezlinkcategory.php,v 1.5 2001/07/11 08:09:37 jhe Exp $
+// $Id: ezlinkcategory.php,v 1.6 2001/07/12 09:11:12 fh Exp $
 //
 // Definition of eZLinkCategory class
 //
@@ -164,14 +164,75 @@ class eZLinkCategory
     /*!
       Delete from database.
     */
-    function delete( )
+/*    function delete( $id = -1 )
     {
+        if( $id == -1 )
+            $id = $this->ID;
+
+        // delete children, and links
+        $children = eZLinkCategory::getByParent( $id );
+        foreach( $children as $child )
+        {
+            $child->delete();
+        }
+        $links = eZLinkCategory::links( -1, -1, true, $id );
+        foreach( $links as $link )
+        {
+            $link->delete();
+        }
+        // delete self
         $db =& eZDB::globalDatabase();
-        $db->query( "DELETE FROM eZLink_LinkCategoryLink WHERE CategoryID='$this->ID'" );
-        $db->query( "DELETE FROM eZLink_LinkCategoryDefinition WHERE CategoryID='$this->ID'" );
-        $db->query( "DELETE FROM eZLink_Category WHERE ID='$this->ID'" );
+        $db->query( "DELETE FROM eZLink_LinkCategoryLink WHERE CategoryID='$id'" );
+        $db->query( "DELETE FROM eZLink_LinkCategoryDefinition WHERE CategoryID='$id'" );
+        $db->query( "DELETE FROM eZLink_Category WHERE ID='$id'" );
+        }*/
+
+    /*!
+      Delete from database.
+    */
+    function delete( $id = -1 )
+    {
+        if( $id == -1 )
+            $id = $this->ID;
+
+        $res = array(); // put the database results in here.
+        
+        // get all children categories recursivly
+        $categories = eZLinkCategory::getByParent( $id, true, true );
+        $categories[] = $id; // add self
+
+        // get all the links
+        $links = array();
+        foreach( $categories as $category )
+        {
+            $links = array_merge( eZLinkCategory::links( -1, -1, true, $category, true ), $links );
+        }
+
+        // now lets delete all the links..
+        $db =& eZDB::globalDatabase();
+        $db->begin();
+        foreach( $links as $link )
+        {
+            $res[] = $db->query( "DELETE FROM eZLink_Hit WHERE Link='$link'" );
+            $res[] = $db->query( "DELETE FROM eZLink_Link WHERE ID='$link'" );
+            $res[] = $db->query( "DELETE FROM eZLink_TypeLink WHERE LinkID='$link'" );
+            $res[] = $db->query( "DELETE FROM eZLink_AttributeValue WHERE LinkID='$link'" );
+            $res[] = $db->query( "DELETE FROM eZLink_LinkCategoryDefinition WHERE LinkID='$link'" );
+            $res[] = $db->query( "DELETE FROM eZLink_LinkCategoryLink WHERE LinkID='$link'" );
+        }
+        // then we delete the categories
+        foreach( $categories as $category )
+        {
+            $res[] = $db->query( "DELETE FROM eZLink_Category WHERE ID='$category'" );
+            // these two should not be nesseccary but we run them anyway, so we are sure that
+            // everything is cleaned up.
+            $res[] = $db->query( "DELETE FROM eZLink_LinkCategoryLink WHERE CategoryID='$category'" );
+            $res[] = $db->query( "DELETE FROM eZLink_LinkCategoryDefinition WHERE CategoryID='$category'" );
+        }
+        eZDB::finish( $res, $db );
     }
 
+    
     /*!
       Fetch out a group from the database.
     */
@@ -228,9 +289,10 @@ class eZLinkCategory
 
 
     /*!
+      \static
       Fetch out parent.
     */
-    function &getByParent( $value )
+    function &getByParent( $value, $idOnly = false, $recursive = false )
     {
         if ( get_class ( $value ) )
             $id = $value->id();
@@ -246,7 +308,14 @@ class eZLinkCategory
 
         for( $i=0; $i<count( $parent_array ); $i++ )
         {
-            $return_array[] = new eZLinkCategory( $parent_array[$i][$db->fieldName("ID")] );
+            $catID = $parent_array[$i][$db->fieldName("ID")];
+            if( $idOnly )
+                $return_array[] = $catID;
+            else
+                $return_array[] = new eZLinkCategory( $catID );
+
+            if( $recursive )
+                $return_array = array_merge( eZLinkCategory::getByParent( $catID, true, true ), $return_array );
         }
 
         return $return_array;                   
@@ -293,7 +362,7 @@ class eZLinkCategory
     {
         $category = new eZLinkCategory( $parentID );
         
-        $categoryList = $category->getByParent( $category, true );
+        $categoryList = $category->getByParent( $category );
         
         $tree = array();
         $level++;
@@ -311,32 +380,43 @@ class eZLinkCategory
 
     /*!
       Returns all the links in the current category.
+      If limit or offset is set to -1 all links are returned.
 
       Default limit is set to 30.
     */
-    function links( $offset=0, $limit=30, $fetchUnAccepted=false )
+    function links( $offset=0, $limit=30, $fetchUnAccepted=false, $id = -1, $idOnly = false )
     {
         $db =& eZDB::globalDatabase();
 
+        if( $id == -1 )
+            $id = $this->id();
         $returnArray = array();
         
         if ( $fetchUnAccepted )
             $fetchUnAccepted = "";
         else
             $fetchUnAccepted = " AND eZLink_Link.Accepted='1' ";
-        
-        $db->array_query( $linkArray,
-                          "SELECT eZLink_Link.ID, eZLink_Link.Name
+
+        $query = "SELECT eZLink_Link.ID, eZLink_Link.Name
                            FROM eZLink_LinkCategoryLink, eZLink_Link
                            WHERE
                                 eZLink_Link.ID=eZLink_LinkCategoryLink.LinkID AND
-                                eZLink_LinkCategoryLink.CategoryID='$this->ID'
+                                eZLink_LinkCategoryLink.CategoryID='$id'
                                $fetchUnAccepted
-                           ORDER BY eZLink_Link.Name",
-                           array( "Limit" => $limit, "Offset" => $offset ) );
+                           ORDER BY eZLink_Link.Name";
+
+        if( $limit != -1 && $offset != -1 )
+            $db->array_query( $linkArray, $query ,
+                    array( "Limit" => $limit, "Offset" => $offset ) );
+        else
+            $db->array_query( $linkArray, $query );
+        
         foreach( $linkArray as $link )
         {
-            $returnArray[] = new eZLink( $link[$db->fieldName("ID")] );
+            if( $idOnly )
+                $returnArray[] =  $link[$db->fieldName("ID")];
+            else
+                $returnArray[] = new eZLink( $link[$db->fieldName("ID")] );
         }
         return $returnArray;        
     }
