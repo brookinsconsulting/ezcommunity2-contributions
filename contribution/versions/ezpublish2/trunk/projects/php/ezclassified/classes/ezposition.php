@@ -35,7 +35,6 @@ class eZPosition extends eZClassified
         {
                 $this->dbInit();
                 
-//                                                    ContactPerson='$this->ContactPerson',
                 $this->Database->query( "INSERT INTO eZClassified_Position SET
                                                   Duration='$this->Duration',
 	                                              WorkTime='$this->WorkTime',
@@ -44,13 +43,13 @@ class eZPosition extends eZClassified
                                                   PositionType='$this->PositionType',
                                                   InitiateType='$this->InitiateType',
                                                   DueDate='$this->DueDate',
+                                                  Reference='$this->Reference',
                                                   ID='$this->ID'
                                                   ");
                     $this->State_ = "Coherent";
         }
         elseif ( ( $this->Status_ ) == "Update" )
         {
-//                                                    ContactPerson='$this->ContactPerson',
             $this->Database->query( "UPDATE eZClassified_Position SET
                                                   Duration='$this->Duration',
 	                                              WorkTime='$this->WorkTime',
@@ -58,6 +57,7 @@ class eZPosition extends eZClassified
                                                   WorkPlace='$this->WorkPlace',
                                                   PositionType='$this->PositionType',
                                                   InitiateType='$this->InitiateType',
+                                                  Reference='$this->Reference',
                                                   DueDate='$this->DueDate'
                                                	  WHERE ID='$this->ID'
                                                	  " );
@@ -90,10 +90,10 @@ class eZPosition extends eZClassified
                 $this->WorkTime = $position_array[0]["WorkTime"];
                 $this->WorkPlace = $position_array[0]["WorkPlace"];
                 $this->Pay = $position_array[0]["Pay"];
-//                  $this->ContactPerson = $position_array[0]["ContactPerson"];
                 $this->PositionType = $position_array[0]["PositionType"];
                 $this->InitiateType = $position_array[0]["InitiateType"];
                 $this->DueDate = $position_array[0]["DueDate"];
+                $this->Reference = $position_array[0]["Reference"];
 
                 $ret = true;
             }
@@ -148,17 +148,6 @@ class eZPosition extends eZClassified
         $this->Pay = $value;
     }
 
-//      /*!
-//        Sets the name of the company.
-//      */
-//      function setContactPerson( $value )
-//      {
-//          if ( $this->State_ == "Dirty" )
-//              $this->get( $this->ID );
-
-//          $this->ContactPerson = $value;
-//      }
-
     /*!
       Sets the position type
     */
@@ -190,6 +179,17 @@ class eZPosition extends eZClassified
             $this->get( $this->ID );
 
         $this->DueDate = $value;
+    }
+
+    /*!
+      Sets the reference for the position.
+    */
+    function setReference( $value )
+    {
+        if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+        $this->Reference = $value;
     }
 
     /*!
@@ -234,17 +234,6 @@ class eZPosition extends eZClassified
         return $this->Pay;
     }
 
-//          /*!
-//        Returnerer firmanavn.
-//      */
-//      function contactPerson()
-//      {
-//          if ( $this->State_ == "Dirty" )
-//              $this->get( $this->ID );
-
-//          return $this->ContactPerson;
-//      }
-
     /*!
       Returns position type.
     */
@@ -255,7 +244,7 @@ class eZPosition extends eZClassified
 
         return $this->PositionType;
     }
-    
+
     /*!
       Returns initiate type.
     */
@@ -268,7 +257,7 @@ class eZPosition extends eZClassified
     }
 
     /*!
-      Returns initiate type.
+      Returns duedate.
     */
     function dueDate()
     {
@@ -276,6 +265,17 @@ class eZPosition extends eZClassified
             $this->get( $this->ID );
 
         return $this->DueDate;
+    }
+
+    /*!
+      Returns reference for position.
+    */
+    function reference()
+    {
+        if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+        return $this->Reference;
     }
 
     var $Duration;
@@ -286,6 +286,7 @@ class eZPosition extends eZClassified
     var $PositionType;
     var $InitiateType;
     var $DueDate;
+    var $Reference;
 }
 
 /*!
@@ -369,6 +370,28 @@ function initiateTypeName( $initiate_type )
         die( "eZPosition::initiateTypeName(): Found more than one initiate type with id='$initiate_type'" );
 
     return $name;
+}
+
+/*!
+  Returns all contact persons for a given position.
+*/
+
+function getPositionContactPersons( $position_id )
+{
+    $database = new eZDB( "site.ini", "site" );
+
+    $qry_array = array();
+
+    $query = "SELECT PersonID FROM eZClassified_ClassifiedPersonLink WHERE ClassifiedID='$position_id'";
+    $database->array_query( $qry_array, $query );
+
+    $res_array = array();
+    foreach ( $qry_array as $position )
+        {
+            $res_array[] = $position["PersonID"];
+        }
+
+    return $res_array;
 }
 
 ?>
