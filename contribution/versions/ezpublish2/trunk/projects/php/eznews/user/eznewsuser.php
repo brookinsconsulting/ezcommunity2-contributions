@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eznewsuser.php,v 1.4 2000/10/16 12:24:42 pkej-cvs Exp $
+// $Id: eznewsuser.php,v 1.5 2000/10/16 12:33:05 pkej-cvs Exp $
 //
 // Definition of eZNewsUser class
 //
@@ -134,7 +134,7 @@ class eZNewsUser
             }
             else
             {
-                $value = $this->doDefault();
+                $value = $this->doDefault( $inMeta );
             }
         }
         
@@ -150,12 +150,19 @@ class eZNewsUser
         \return
             Returns true if successful.
      */
-    function doDefault()
+    function doDefault( $inMeta = false )
     {
         #echo "eZNewsUser::doDefault()<br />\n";
         $value = false;
 
-        echo $this->IniObject->GlobalIni->read_var( "eZNewsMain", "URLDefault" );
+        if( $inMeta == true )
+        {
+        }
+        else
+        {
+            echo "<h2>bruk en korrekt kommandolinje</h2>";
+            echo $this->IniObject->GlobalIni->read_var( "eZNewsMain", "URLDefault" );
+        }
         $value = true;
 
         return $value;

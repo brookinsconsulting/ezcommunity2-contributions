@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eznewsflowerarticleviewer.php,v 1.6 2000/10/16 12:01:38 pkej-cvs Exp $
+// $Id: eznewsflowerarticleviewer.php,v 1.7 2000/10/16 12:33:05 pkej-cvs Exp $
 //
 // Definition of eZNewsFlowerArticleViewer class
 //
@@ -151,14 +151,14 @@ class eZNewsFlowerArticleViewer extends eZNewsViewer
 
             $newStory = "<?xml version=\"1.0\"?>\n";
             $newStory = $newStory . "<ezflower>\n";
-            $newStory = $newStory . "<name>\n";
-            $newStory = $newStory . htmlspecialchars( trim( $Name ) ) . "\n";
+            $newStory = $newStory . "<name>";
+            $newStory = $newStory . htmlspecialchars( trim( $Name ) );
             $newStory = $newStory . "</name>\n";
-            $newStory = $newStory . "<description>\n";
-            $newStory = $newStory . htmlspecialchars( trim( $Story ) ) . "\n";
+            $newStory = $newStory . "<description>";
+            $newStory = $newStory . htmlspecialchars( trim( $Story ) );
             $newStory = $newStory . "</description>\n";
-            $newStory = $newStory . "<price>\n";
-            $newStory = $newStory . htmlspecialchars( trim( $Price ) ) . "\n";
+            $newStory = $newStory . "<price>";
+            $newStory = $newStory . htmlspecialchars( trim( $Price ) );
             $newStory = $newStory . "</price>\n";
             $newStory = $newStory . "</ezflower>\n";
 
