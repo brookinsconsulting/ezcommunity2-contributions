@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: main.php,v 1.8 2000/07/24 12:58:01 lw-cvs Exp $
+    $Id: main.php,v 1.9 2000/07/24 13:24:43 lw Exp $
 
     Author: Lars Wilhelmsen <lw@ez.no>
     
@@ -62,6 +62,8 @@ if ( $search )
     $criteria = addslashes( $criteria );
     $headers = eZforumMessage::search( $criteria );
 
+    if ( count( $headers ) == 0 )
+       $t->set_var( "fields", "<b>Ingen treff</b>");  
     for ( $i = 0; $i < count ( $headers ); $i++)
     {
         $t->set_var( "message_id", $headers[$i]["Id"] );

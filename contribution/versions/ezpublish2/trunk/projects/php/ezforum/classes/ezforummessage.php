@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: ezforummessage.php,v 1.11 2000/07/24 12:58:01 lw-cvs Exp $
+    $Id: ezforummessage.php,v 1.12 2000/07/24 13:24:48 lw Exp $
 
     Author: Lars Wilhelmsen <lw@ez.no>
     
@@ -148,9 +148,8 @@ class eZforumMessage
     function search( $criteria )
     {
         openDB();
-
         $query_id = mysql_query( "SELECT Id, Topic, UserId, Parent, PostingTime FROM MessageTable
-                      WHERE Topic LIKE '%$criteria%' OR Body LIKE '%$critria%'" )
+                      WHERE Topic LIKE '%$criteria%' OR Body LIKE '%$criteria%'" )
             or die("Could not execute search, dying...");
 
         for ( $i = 0; $i < mysql_num_rows( $query_id ); $i++ )
