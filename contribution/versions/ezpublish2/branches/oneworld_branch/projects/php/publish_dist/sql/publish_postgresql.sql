@@ -1871,6 +1871,7 @@ CREATE TABLE eZStats_PageView (
   RefererURLID int NOT NULL default '0',
   Date int NOT NULL,
   RequestPageID int NOT NULL default '0',
+  RequestSectionID int NOT NULL default '0',
   DateValue int NOT NULL,
   TimeValue int NOT NULL,
   PRIMARY KEY (ID)
