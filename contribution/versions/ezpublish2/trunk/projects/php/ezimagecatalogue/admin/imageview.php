@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: imageview.php,v 1.6 2001/09/27 16:19:19 br Exp $
+// $Id: imageview.php,v 1.7 2001/10/05 09:50:30 br Exp $
 //
 // Created on: <26-Oct-2000 19:40:18 bf>
 //
@@ -40,7 +40,7 @@ $Language = $ini->read_var( "eZImageCatalogueMain", "Language" );
 $ShowOriginal = $ini->read_var( "eZImageCatalogueMain", "ShowOriginal" );
 
 
-$t = new eZTemplate( "ezimagecatalogue/admin/" . $ini->read_var( "eZImageCatalogueMain", "TemplateDir" ),
+$t = new eZTemplate( "ezimagecatalogue/admin/" . $ini->read_var( "eZImageCatalogueMain", "AdminTemplateDir" ),
                      "ezimagecatalogue/admin/intl/", $Language, "imageview.php" );
 
 $t->set_file( "image_view_tpl", "imageview.tpl" );
