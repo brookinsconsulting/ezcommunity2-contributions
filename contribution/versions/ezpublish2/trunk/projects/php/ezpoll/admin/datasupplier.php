@@ -9,13 +9,15 @@ switch ( $url_array[2] )
     {
         if( isset( $DeletePolls ) )
             $Action = "Delete";
-        if( isset( $AddPoll ) )
+
+        if ( isset( $AddPoll ) )
         {
             include( "ezpoll/admin/polledit.php" );
-            exit();
         }
-        
-        include( "ezpoll/admin/pollist.php" );
+        else
+        {        
+            include( "ezpoll/admin/pollist.php" );
+        }
     }
     break;
 
@@ -24,7 +26,6 @@ switch ( $url_array[2] )
         {
             include( "ezpoll/admin/polledit.php" );
         }
-
         else if ( ( $url_array[3] == "insert" ) )
         {
             $Action = "Insert";

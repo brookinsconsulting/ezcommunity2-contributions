@@ -1,4 +1,4 @@
-<form action="/poll/pollist/">
+<form action="/poll/pollist/" method="post">
 
 <h1>{intl-head_line}</h1>
 
