@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezqdomgenerator.php,v 1.34 2001/09/17 12:31:06 bf Exp $
+// $Id: ezqdomgenerator.php,v 1.35 2001/09/25 11:50:50 bf Exp $
 //
 // Definition of eZQDomGenerator class
 //
@@ -256,6 +256,11 @@ class eZQDomGenerator
         // to valid xml
         $tmpPage = preg_replace( "#<mail\s+?([^ ]*?)\s+?(.*?),\s+?([^>]*?)>#", "<mail to=\"\\1\" subject=\"\\2\" text=\"\\3\" />", $tmpPage );
 
+        // convert bf@nospam.ez.no to <mail to="bf@nospam.ez.no" subject="" text="bf@nospam.ez.no" />
+
+        $tmpPage = preg_replace( "#([\s\n]|^)(([a-zA-Z0-9_\-\.]+)@((([a-zA-Z0-9\-]+\.)+))([a-zA-Z]{2,4}))([\s\n]|$)#",
+                                 "<mail to=\"\\2\" subject=\"\" text=\"\\2\" />", $tmpPage );
+        
         return $tmpPage;
     }
     

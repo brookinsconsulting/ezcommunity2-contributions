@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: datasupplier.php,v 1.88 2001/09/21 14:28:48 jhe Exp $
+// $Id: datasupplier.php,v 1.89 2001/09/25 11:50:50 bf Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -62,6 +62,9 @@ switch ( $url_array[2] )
 
     case "frontpage":
     {
+        if ( isset( $url_array[3] ) )
+            $FrontPageCategory = $url_array[3];
+
         include( "ezarticle/user/frontpage.php" );        
     }
     break;

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: frontpage.php,v 1.9 2001/09/18 12:20:24 bf Exp $
+// $Id: frontpage.php,v 1.10 2001/09/25 11:50:50 bf Exp $
 //
 // Created on: <30-May-2001 14:06:59 bf>
 //
@@ -41,7 +41,9 @@ $CapitalizeHeadlines = $ini->read_var( "eZArticleMain", "CapitalizeHeadlines" );
 $DefaultLinkText =  $ini->read_var( "eZArticleMain", "DefaultLinkText" );
 $GrayScaleImageList = $ini->read_var( "eZArticleMain", "GrayScaleImageList" );
 
-$FrontPageCategory = $ini->read_var( "eZArticleMain", "FrontPageCategory" );
+if ( !isset( $FrontPageCategory )  )
+    $FrontPageCategory = $ini->read_var( "eZArticleMain", "FrontPageCategory" );
+
 $FrontPageAdCategory = $ini->read_var( "eZArticleMain", "FrontPageAdCategory" );
 $FrontPageSettings = $ini->read_var( "eZArticleMain", "FrontPageSettings" );
 
@@ -107,18 +109,18 @@ $category = new eZArticleCategory( $FrontPageCategory );
 
 $user =& eZUser::currentUser();
 
-if ( $FrontPageAdCategory == 0 )
+if ( $FrontPageCategory == 0 )
 {
     // do not set offset for the main page news
     // always sort by publishing date is the merged category
     $article = new eZArticle();
     $articleList =& $article->articles( "time", false, 0, $articleCount );
-    $articleCount = $article->articleCount( false );
+    $articleCount = $articleCount;
 }
 else
 {
     $articleList =& $category->articles( $category->sortMode(), false, true, 0, $articleCount );
-    $articleCount = $category->articleCount( false, true  );
+    $articleCount = $articleCount;
 }
 
 if ( $adCount > 0 )

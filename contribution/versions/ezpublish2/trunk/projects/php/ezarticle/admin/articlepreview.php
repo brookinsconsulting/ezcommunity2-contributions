@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: articlepreview.php,v 1.20 2001/08/09 10:56:07 bf Exp $
+// $Id: articlepreview.php,v 1.21 2001/09/25 11:50:50 bf Exp $
 //
 // Created on: <18-Oct-2000 16:34:51 bf>
 //
@@ -22,6 +22,7 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, US
 //
+
 
 include_once( "classes/INIFile.php" );
 include_once( "classes/eztemplate.php" );
