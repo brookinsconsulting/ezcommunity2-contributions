@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: search.php,v 1.12 2000/11/02 14:09:55 ce-cvs Exp $
+// $Id: search.php,v 1.13 2000/11/02 16:14:22 ce-cvs Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <15-Sep-2000 14:40:06 bf>
@@ -104,11 +104,12 @@ if ( $QueryString != "" )
     $link_array = $link->getQuery( $QueryString, $Limit, $Offset );    
     $total_count = $link->getQueryCount( $QueryString );
 
-    $t->set_var( "empty_result_tpl", "" );
+    $t->set_var( "empty_result", "" );
     $i=0;
-    foreach( $link_array as $linkItem )
+    if ( $link_array )
+    {
+        foreach( $link_array as $linkItem )
         {
-
             if ( ( $i % 2 ) == 0 )
             {
                 $t->set_var( "bg_color", "#f0f0f0" );
@@ -168,11 +169,13 @@ if ( $QueryString != "" )
             $t->parse( "search_item", "search_item_tpl", true );
             $i++;
         }
+    }
+    else
+    {
+        $t->set_var( "search_item", "" );
+        $t->parse( "empty_result", "empty_result_tpl" );
+    }
 }
-else
-{
-    $t->parse( "empty_result", "empty_result_tpl" );
-} 
 
 
 $t->set_var( "hit_count", $total_count );

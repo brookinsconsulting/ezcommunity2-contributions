@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: search.php,v 1.7 2000/11/02 15:25:33 ce-cvs Exp $
+// $Id: search.php,v 1.8 2000/11/02 16:14:22 ce-cvs Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <15-Sep-2000 14:40:06 bf>
@@ -49,12 +49,14 @@ $t->set_file( array(
 $t->set_block( "search_list", "search_item_tpl", "search_item" );
 
 $t->set_block( "search_list", "empty_result_tpl", "empty_result" );
+
 $t->set_block( "search_list", "search_result_tpl", "search_result" );
 
 $t->set_block( "search_list", "previous_tpl", "previous" );
 $t->set_block( "search_list", "next_tpl", "next" );
 
 $linkGroup = new eZLinkGroup();
+
 $linkGroup->get ( $LGID );
 
 $link = new eZLink();
@@ -99,11 +101,12 @@ if ( $QueryString != "" )
     $link_array = $link->getQuery( $QueryString, $Limit, $Offset );    
     $total_count = $link->getQueryCount( $QueryString );
 
-    $t->set_var( "empty_result_tpl", "" );
+    $t->set_var( "empty_result", "" );
     $i=0;
-    foreach( $link_array as $linkItem )
+    if ( $link_array )
+    {
+        foreach( $link_array as $linkItem )
         {
-
             if ( ( $i % 2 ) == 0 )
             {
                 $t->set_var( "bg_color", "#f0f0f0" );
@@ -160,16 +163,21 @@ if ( $QueryString != "" )
             $tlink_message = "Linker";
 
             $t->set_var( "empty_result", "" );
-
             $t->parse( "search_item", "search_item_tpl", true );
             $i++;
+
         }
+    }
+    else
+    {
+        $t->set_var( "search_item", "" );
+        $t->parse( "empty_result", "empty_result_tpl" );
+    }
 }
-else
 {
     $t->set_var( "search_item", "" );
     $t->parse( "empty_result", "empty_result_tpl" );
-} 
+}
 
 $t->set_var( "url_query_string", urlencode( $QueryString ) );
 
