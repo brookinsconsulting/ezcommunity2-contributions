@@ -1,8 +1,8 @@
 <?php
 // 
-// $Id: eznewsuser.php,v 1.2 2000/10/14 01:40:51 pkej-cvs Exp $
+// $Id: eznewsadmin.php,v 1.5 2000/10/14 01:40:51 pkej-cvs Exp $
 //
-// Definition of eZNewsUser class
+// Definition of eZNewsAdmin class
 //
 // Paul K Egell-Johnsen <pkej@ez.no>
 // Created on: <20-Sep-2000 13:03:00 pkej>
@@ -13,7 +13,7 @@
 // your own programs or libraries.
 //
 //!! eZNews
-//! eZNewsUser handles the kind of info the user sees.
+//! eZNewsAdmin handles the kind of info the admin user sees.
 /*!
  */
 
@@ -29,7 +29,7 @@ include_once( "eznews/classes/eznewsoutput.php" );
     
     Write examples.
  */
-class eZNewsUser
+class eZNewsAdmin
 {
     /*!
         Just initalizing some variables.
@@ -38,9 +38,9 @@ class eZNewsUser
             \$inURLObject An eZURL object.
             \$inNewsConfigFileName The name of the file with the global config options.
      */
-    function eZNewsUser( $inConfigFileName )
+    function eZNewsAdmin( $inConfigFileName )
     {
-        #echo "eZNewsUser::eZNewsUser( \$inConfigFileName = $inConfigFileName )<br />\n";
+        #echo "eZNewsAdmin::eZNewsAdmin( \$inConfigFileName = $inConfigFileName )<br />\n";
 
         $this->URLObject = new eZURL();
         $this->IniObject = new eZNewsOutput( $inConfigFileName );
@@ -134,7 +134,7 @@ class eZNewsUser
      */
     function doDefault()
     {
-        #echo "eZNewsUser::doDefault()<br />\n";
+        #echo "eZNewsAdmin::doDefault()<br />\n";
         $value = false;
 
         echo $this->IniObject->GlobalIni->read_var( "eZNewsMain", "URLDefault" );
@@ -158,7 +158,7 @@ class eZNewsUser
      */
     function doItem( $inItemData )
     {
-        #echo "eZNewsUser::doItem( \$inItemData = $inItemData )<br />\n";
+        #echo "eZNewsAdmin::doItem( \$inItemData = $inItemData )<br />\n";
         $value = false;
         
         $tempItem = new eZNewsItem( $inItemData );
@@ -174,7 +174,7 @@ class eZNewsUser
                 $itemType = new eZNewsItemType( $tempItem->itemTypeID() );
 
                 $class = $itemType->eZClass() . "Viewer";
-                $classPath = "eznews/user/" . $class . ".php";
+                $classPath = "eznews/admin/" . $class . ".php";
                 $classPath = strtolower( $classPath );
 
                 include_once( $classPath );
@@ -201,6 +201,128 @@ class eZNewsUser
     
     /// The name of the global configuration file for eznews (ie. "site.ini")
     var $ConfigFileName;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   
+     function doAdminAction( $itemNo )
+    {
+        #echo "eZNewsItemViewer::doAdminAction( \$itemNo = $itemNo )<br>\n";
+        $continue = true;
+        $value = false;
+        
+        $this->URLObject->getQueries( $queries, "image" );
+        $count = count( $queries );
+        
+        if( $count && $continue )
+        {
+            $item = new eZNewsImageViewer( $this->IniObject, $itemNo );
+            
+            if( !$item->isFinished() )
+            {
+                $continue = false;
+            }
+        }
+        
+        
+        
+        $this->URLObject->getQueries( $queries, "file" );
+        $count = count( $queries );
+        
+        if( $count && $continue )
+        {
+            #$item = new eZNewsImageViewer( $this->IniObject, $itemNo );
+            
+            #if( !$item->isFinished() )
+            #{
+            #    $continue = false;
+            #}
+        }
+        
+        
+        
+        $this->URLObject->getQueries( $queries, "^add" );
+        $count = count( $queries );
+        
+        if( $count && $continue )
+        {
+            $value = $this->doAdminAdd( $itemNo );
+            $continue = false;
+        }
+        
+        
+        
+        $this->URLObject->getQueries( $queries, "^delete" );
+        $count = count( $queries );
+        
+        if( $count && $continue )
+        {
+            $value = $this->doAdminDelete( $itemNo );
+            $continue = false;
+        }
+        
+
+
+        $this->URLObject->getQueries( $queries, "^create" );
+        $count = count( $queries );
+        
+        if( $count && $continue )
+        {
+            $value = $this->doAdminCreate( $itemNo );
+            $continue = false;
+        }
+        
+
+
+        $this->URLObject->getQueries( $queries, "^edit" );
+        $count = count( $queries );
+        
+        if( $count && $continue  )
+        {
+            $value = $this->doAdminEdit( $itemNo );
+            $continue = false;
+        }
+
+
+        
+        if( $continue )
+        {
+            $value = $this->doAdminBrowse( $itemNo );
+            $continue = false;
+        }
+        
+        return $value;
+    }
 };
 
 ?>

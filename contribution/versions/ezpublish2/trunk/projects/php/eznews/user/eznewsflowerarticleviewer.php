@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eznewsflowerarticleviewer.php,v 1.2 2000/10/13 21:46:07 pkej-cvs Exp $
+// $Id: eznewsflowerarticleviewer.php,v 1.3 2000/10/14 01:40:51 pkej-cvs Exp $
 //
 // Definition of eZNewsFlowerArticleViewer class
 //
@@ -117,16 +117,16 @@ class eZNewsFlowerArticleViewer extends eZNewsArticleViewer
         
         if( $frontImage )
         {
-            $mainImage = new eZImage( $PictureID, 0 );
+            $mainImage = new eZImage( $this->Item->getFrontImage(), 0 );
 
             $image = $mainImage->requestImageVariation( 250, 250 );
 
             $this->IniObject->set_var( "this_image_id", $mainImage->id() );
-            $this->IniObject->set_var( "this_image_value", htmlspecialchars( $mainImage->name() ) );
-            $this->IniObject->set_var( "this_image", "/" . htmlspecialchars( $image->imagePath() ) );
-            $this->IniObject->set_var( "this_image_width", "/" . htmlspecialchars( $image->width() ) );
-            $this->IniObject->set_var( "this_image_height", "/" . htmlspecialchars( $image->height() ) );
-            $this->IniObject->set_var( "this_image_caption", "/" . htmlspecialchars( $mainImage->caption() ) );
+            $this->IniObject->set_var( "this_image_name", $mainImage->name() );
+            $this->IniObject->set_var( "this_image", "/" . $image->imagePath() );
+            $this->IniObject->set_var( "this_image_width", $image->width() );
+            $this->IniObject->set_var( "this_image_height", $image->height() );
+            $this->IniObject->set_var( "this_image_caption",  $mainImage->caption() );
             $this->IniObject->parse( "article_image", "article_image_template" );
             $this->IniObject->set_var( "this_picture", $this->IniObject->get_var( "article_image" ) );
             $this->IniObject->set_var( "image", "" );

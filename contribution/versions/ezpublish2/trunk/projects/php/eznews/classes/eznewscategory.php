@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eznewscategory.php,v 1.11 2000/10/13 20:55:50 pkej-cvs Exp $
+// $Id: eznewscategory.php,v 1.12 2000/10/14 01:40:51 pkej-cvs Exp $
 //
 // Definition of eZNewsCategory class
 //
@@ -207,7 +207,7 @@ class eZNewsCategory extends eZNewsItem
      */
     function setPublicDescriptionID( $inPPID )
     {
-        echo "eZNewsCategory::setPublicDescriptionID( \$inPPID=$inPPID )<br />\n";
+        #echo "eZNewsCategory::setPublicDescriptionID( \$inPPID=$inPPID )<br />\n";
         $oldPPID = $this->PublicDescriptionID;
         
         $value = false;

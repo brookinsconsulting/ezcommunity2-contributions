@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eznewsitem.php,v 1.44 2000/10/13 20:55:50 pkej-cvs Exp $
+// $Id: eznewsitem.php,v 1.45 2000/10/14 01:40:51 pkej-cvs Exp $
 //
 // Definition of eZNewsItem class
 //
@@ -655,6 +655,7 @@ class eZNewsItem extends eZNewsUtility
                         
                         if( $oldCanonicalID != $ParentID )
                         {
+                            include_once( "eznews/classes/eznewscategory.php" );
                             $oldCanonical = new eZNewsCategory( $oldCanonicalID );
                             $this->createLogItem( $this->ID . ": Canonical parent changed from " . $oldCanonical->Name() . "(" . $oldCanonical->ID()  .")" . " to " . $item->Name() . "(" . $item->ID()  .")", $this->Status );
                         }
@@ -2085,6 +2086,28 @@ class eZNewsItem extends eZNewsUtility
         return true;
     }
     
+
+
+    /*!
+        Returns the object CreatedAt in local time.
+        
+        \return
+            Returns the CreatedAt of the object.
+    */
+    function createdAtLocal( $inLocale )
+    {
+        include_once( "classes/ezdatetime.php" );
+        include_once( "classes/ezlocale.php" );
+        
+        $this->dirtyUpdate();
+        
+        $localTime = new eZDateTime( );
+        $localTime->setMySQLTimeStamp( $this->CreatedAt );
+        $locale = new eZLocale( $inLocale );
+        
+        return $locale->format( $localTime );
+    }
+
 
 
     /*!

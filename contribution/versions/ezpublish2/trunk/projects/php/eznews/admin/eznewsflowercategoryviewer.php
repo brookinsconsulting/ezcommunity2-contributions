@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eznewsflowercategoryviewer.php,v 1.4 2000/10/14 01:40:51 pkej-cvs Exp $
+// $Id: eznewsflowercategoryviewer.php,v 1.1 2000/10/14 01:40:51 pkej-cvs Exp $
 //
 // Definition of eZNewsFlowerCategoryCreator class
 //
@@ -34,6 +34,117 @@ include_once( "eznews/classes/eznewsoutput.php" );
 class eZNewsFlowerCategoryViewer extends eZNewsCategoryViewer
 {
     /*!
+        This function renders the view page.
+        
+        \out
+            \$outPage   The text string with the page info
+        \return
+            Returns true if successful.
+     */
+    function viewPage( &$outPage )
+    {
+        $value = false;
+        
+        $this->IniObject->readAdminTemplate( "eznewsflower/category", "view.php" );
+
+        $this->IniObject->set_file( array( "category" => "view.tpl" ) );
+        $this->IniObject->set_block( "category", "this_item_template", "this_item" );
+        $this->IniObject->set_block( "category", "articles_template", "articles" );
+        $this->IniObject->set_block( "category", "no_articles_template", "no_articles" );
+        $this->IniObject->set_block( "category", "go_to_parent_template", "go_to_parent" );
+
+        $this->IniObject->set_file( array( "article" => "article.tpl" ) );
+        $this->IniObject->set_block( "article", "article_item_template", "article_item" );
+        $this->IniObject->set_block( "article", "article_image_template", "article_image" );
+
+        if( $this->doChildren( $children ) )
+        {
+            $this->IniObject->set_var( "article_items", $children );
+            $this->IniObject->parse( "articles", "articles_template" );
+            $this->IniObject->set_var( "article", "" );
+            $this->IniObject->set_var( "article_item", "" );
+            $this->IniObject->set_var( "no_articles", "" );
+        }
+        else
+        {
+            $this->IniObject->set_var( "articles", "" );
+            $this->IniObject->parse( "no_articles", "no_articles_template" );
+        }
+
+
+        $this->doThis();
+        $this->IniObject->setAllStrings();
+        $this->IniObject->parse( "this_item", "this_item_template" );
+        $outPage = $this->IniObject->parse( "output", "category" );
+        $value = true;
+            
+        return $value;
+    }
+    
+    
+    
+    /*!
+        This function renders the edit pages.
+        
+        \out
+            \$outPage   The text string with the page info
+        \return
+            Returns true if successful.
+     */
+    function editPage( &$outPage )
+    {
+        $value = false;
+
+        global $form_preview;
+        global $form_submit;
+        
+        $this->IniObject->readAdminTemplate( "eznewsflower/category", "view.php" );
+
+        if( !empty( $form_preview ) )
+        {
+            // OK, we need to store the changes.
+            global $PublicText;
+
+            $this->IniObject->set_file( array( "category" => "preview.tpl" ) );
+            $this->IniObject->set_block( "category", "go_to_parent_template", "go_to_parent" );
+            $this->IniObject->set_block( "category", "go_to_self_template", "go_to_self" );
+
+            $publicDescription = new eZNewsArticle( $this->Item->publicDescriptionID() );
+            $publicDescription->setAuthorText( "automatic" );
+            $publicDescription->setParent( $this->Item->ID() );
+            $publicDescription->setStory( nl2br( htmlspecialchars( $PublicText ) ) );
+            $publicDescription->setLinkText( "Public description" );
+            $publicDescription->setMeta( "Plain text" );
+            $publicDescription->setName( "Public description for " . $this->Item->name() );
+            $publicDescription->setItemTypeID( "article" );
+            $publicDescription->Errors();
+            
+            $publicDescription->store( $outID );
+            
+            $this->Item->setPublicDescriptionID( $outID );
+            $this->Item->store( $outID );
+        }
+        else
+        {
+            $this->IniObject->set_file( array( "category" => "edit.tpl" ) );
+            $this->IniObject->set_block( "category", "go_to_parent_template", "go_to_parent" );
+            $this->IniObject->set_block( "category", "go_to_self_template", "go_to_self" );
+        }
+        
+
+        $this->doThis();
+        $this->IniObject->setAllStrings();
+        $outPage = $this->IniObject->parse( "output", "category" );
+        $value = true;
+
+        $value = true;
+            
+        return $value;
+    }
+    
+    
+    
+    /*!
         This function renders the page.
         
         \out
@@ -45,47 +156,18 @@ class eZNewsFlowerCategoryViewer extends eZNewsCategoryViewer
     {
         $value = false;
         
-        $this->Item = new eZNewsFlowerCategory( $this->Item->id() );
+        global $form_abort;
+        global $form_submit;
         
-        if( $isCached == true )
+        $this->Item = new eZNewsFlowerCategory( $this->Item->id() );
+
+        if( $this->URLObject->getQueries( $queries, "edit\+this" ) && empty( $form_abort ) && empty( $form_submit ) )
         {
-            /// fetch the cached version
+            $value = $this->editPage( $outPage );
         }
         else
         {
-            $this->IniObject->readUserTemplate( "eznewsflower/category", "view.php" );
-            
-            $this->IniObject->set_file( array( "category" => "view.tpl" ) );
-            $this->IniObject->set_block( "category", "this_item_template", "this_item" );
-            $this->IniObject->set_block( "category", "articles_template", "articles" );
-            $this->IniObject->set_block( "category", "no_articles_template", "no_articles" );
-            $this->IniObject->set_block( "category", "article_item_template", "article_item" );
-            $this->IniObject->set_block( "category", "go_to_parent_template", "go_to_parent" );
-            
-            $this->IniObject->set_file( array( "article" => "article.tpl" ) );
-            $this->IniObject->set_block( "article", "article_item_template", "article_item" );
-            $this->IniObject->set_block( "article", "article_image_template", "article_image" );
-            
-            if( $this->doChildren( $children ) )
-            {
-                $this->IniObject->set_var( "article_items", $children );
-                $this->IniObject->parse( "articles", "articles_template" );
-                $this->IniObject->set_var( "article", "" );
-                $this->IniObject->set_var( "article_item", "" );
-                $this->IniObject->set_var( "no_articles", "" );
-            }
-            else
-            {
-                $this->IniObject->set_var( "articles", "" );
-                $this->IniObject->parse( "no_articles", "no_articles_template" );
-            }
-           
-
-            $this->doThis();
-            $this->IniObject->setAllStrings();
-            $this->IniObject->parse( "this_item", "this_item_template" );
-            $outPage = $this->IniObject->parse( "output", "category" );
-            $value = true;
+            $value = $this->viewPage( $outPage );
         }
         
         return $value;
@@ -164,20 +246,19 @@ class eZNewsFlowerCategoryViewer extends eZNewsCategoryViewer
 
                 if( $frontImage )
                 {
-                    $mainImage = new eZImage( $child->getFrontImage(), 0 );
+                    $mainImage = new eZImage( $this->Item->getFrontImage(), 0 );
 
                     $image = $mainImage->requestImageVariation( 250, 250 );
 
                     $this->IniObject->set_var( "this_image_id", $mainImage->id() );
-                    $this->IniObject->set_var( "this_image_name", $mainImage->name() );
-                    $this->IniObject->set_var( "this_image", "/" . $image->imagePath() );
+                    $this->IniObject->set_var( "this_image_name", htmlspecialchars( $mainImage->name() ) );
+                    $this->IniObject->set_var( "this_image", "/" . htmlspecialchars( $image->imagePath() ) );
                     $this->IniObject->set_var( "this_image_width", $image->width() );
                     $this->IniObject->set_var( "this_image_height", $image->height() );
-                    $this->IniObject->set_var( "this_image_caption",  $mainImage->caption() );
+                    $this->IniObject->set_var( "this_image_caption", "/" . htmlspecialchars( $mainImage->name() ) );
                     $this->IniObject->parse( "article_image", "article_image_template" );
                     $this->IniObject->set_var( "this_picture", $this->IniObject->get_var( "article_image" ) );
                     $this->IniObject->set_var( "image", "" );
-                    $this->IniObject->set_var( "article_image", "" );
                 }
                 else
                 {
@@ -193,17 +274,27 @@ class eZNewsFlowerCategoryViewer extends eZNewsCategoryViewer
                 $this->IniObject->setAllStrings();
                 $this->IniObject->parse( "article_item", "article_item_template", true );
                 $outPage = $this->IniObject->parse( "output", "article" );
+
+                if( $i % 2 == 0 )
+                {
+                    $this->IniObject->set_var( "color", "bglight" );
+                }
+                else
+                {
+                    $this->IniObject->set_var( "color", "bgdark" );
+                }
+
+                $i++;
+                
                 /* snitched from article class end */
 
                 #$viewer = new $class( $child, $this->IniObject, $this->URLObject );
                 #$value = $viewer->initializeTemplate();
                 #$value = $viewer->renderPage( $outPage );
-                
-            
-                $i++;
             }
             
             $this->IniObject->set_var( "article", $outPage );
+            $this->IniObject->set_var( "this_article_count", $i );
             $outChildren = $outChildren . $this->IniObject->parse( "article_item", "article_item_template", true );
         }
         
@@ -240,25 +331,28 @@ class eZNewsFlowerCategoryViewer extends eZNewsCategoryViewer
 
         $this->IniObject->set_var( "this_id", $this->Item->id() );
         $this->IniObject->set_var( "this_name", $this->Item->name() );
+        $this->IniObject->set_var( "this_createdat", $this->Item->createdAtLocal( $this->IniObject->Language ) );
 
         $itemType = new eZNewsItemType( "flowercategory" );
         
         $thisParent = new eZNewsItem( $this->Item->getIsCanonical() );
         
+        $url = $this->IniObject->GlobalIni->read_var( "eZNewsMain", "URL" );
+        $this->IniObject->set_var( "this_path", $url );
+
         if( $thisParent->isCoherent() && $thisParent->itemTypeID() == $itemType->id() )
         {
-            $url = $this->IniObject->GlobalIni->read_var( "eZNewsMain", "URL" );
             $this->IniObject->set_var( "this_canonical_parent_id", $thisParent->id() );
             $this->IniObject->set_var( "this_canonical_parent_name", $thisParent->name() );
-            $this->IniObject->set_var( "this_path", $url );
             $this->IniObject->parse( "go_to_parent", "go_to_parent_template" );
+            $this->IniObject->set_var( "go_to_self", "" );
         }
         else
         {
             $this->IniObject->set_var( "this_canonical_parent_id", "" );
             $this->IniObject->set_var( "this_canonical_parent_name", "" );
             $this->IniObject->set_var( "go_to_parent", "" );
-            $this->IniObject->set_var( "this_path", "" );
+            $this->IniObject->parse( "go_to_self", "go_to_self_template" );
         }
 
         return $value;
