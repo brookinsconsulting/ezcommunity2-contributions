@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezperson.php,v 1.31 2000/12/21 20:29:48 jb Exp $
+// $Id: ezperson.php,v 1.32 2000/12/23 14:31:14 jb Exp $
 //
 // Definition of eZPerson class
 //
@@ -442,6 +442,25 @@ class eZPerson
     /*!
       Returns the title of the user related to a given company ($companyID)
     */
+    function hasTitle( $companyID )
+    {
+        if( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+        $this->dbInit();
+        $checkQuery = "SELECT Title FROM eZContact_CompanyPersonDict
+                                    WHERE CompanyID='$companyID' and PersonID='$this->ID'";
+
+        $title_array = array();
+
+        $this->Database->array_query( $title_array, $checkQuery );
+
+        return count( $title_array ) > 0;
+    }
+
+    /*!
+      Returns the title of the user related to a given company ($companyID)
+    */
     function title( $companyID )
     {
         if( $this->State_ == "Dirty" )
@@ -671,6 +690,17 @@ class eZPerson
     }
 
     /*!
+      Returns the first name and last name of the person concated together.
+    */
+    function fullName()
+    {
+        if( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+        return $this->FirstName . " " . $this->LastName;
+    }
+
+    /*!
       Returns the person number of the person.
     */
     function personNo()
@@ -724,7 +754,7 @@ class eZPerson
 
         return $this->BirthDate;
     }
-  
+
     /*!
       \private
       Used by this class to connect to the database.
