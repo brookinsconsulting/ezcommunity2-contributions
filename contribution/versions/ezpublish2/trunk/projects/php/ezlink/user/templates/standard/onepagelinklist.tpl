@@ -5,7 +5,7 @@
         <h1>{intl-headline}</h1>
      </td>
      <td align="right">
-	 <form action="/link/search/" method="post">
+	 <form action="{www_dir}{index}/link/search/" method="post">
 	       <input type="text" name="QueryString" size="12" />
 	       <input class="stdbutton" type="submit" name="search" value="{intl-search}" />
          </form>
