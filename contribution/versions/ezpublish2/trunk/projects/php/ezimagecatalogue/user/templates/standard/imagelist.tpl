@@ -28,21 +28,21 @@
 <!-- BEGIN category_tpl -->
 <tr>
         <!-- BEGIN category_read_tpl -->
-	<td width="1%" valign="top">
+	<td class="{td_class}" width="1%" valign="top">
 	<a href="/imagecatalogue/image/list/{category_id}/"><img src="/images/folder.gif" alt="" width="16" height="16" border="0" /></a>
 	</td>
-	<td width="38%" valign="top">
+	<td class="{td_class}" width="38%" valign="top">
 	<a href="/imagecatalogue/image/list/{category_id}/">{category_name}</a>
 	</td>
-	<td width="59%" valign="top">
+	<td class="{td_class}" width="59%" valign="top">
 	{category_description}
 	</td>
         <!-- END category_read_tpl -->
         <!-- BEGIN category_write_tpl -->
-	<td width="1%" valign="top">
+	<td class="{td_class}" width="1%" valign="top">
 	<a href="/imagecatalogue/category/edit/{category_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezim{category_id}-red','','/images/redigerminimrk.gif',1)"><img name="ezim{category_id}-red" border="0" src="/images/redigermini.gif" width="16" height="16" align="top" alt="Edit" /></a>
 	</td>
-	<td width="1%" valign="top">
+	<td class="{td_class}" width="1%" valign="top">
 	<input type="checkbox" name="CategoryArrayID[]" value="{category_id}" />
 	</td>
         <!-- END category_write_tpl -->

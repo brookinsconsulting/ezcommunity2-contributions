@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: imagelist.php,v 1.22 2001/03/08 21:26:29 fh Exp $
+// $Id: imagelist.php,v 1.23 2001/04/24 15:03:06 fh Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <10-Dec-2000 16:16:20 bf>
@@ -170,6 +170,7 @@ foreach ( $categoryList as $categoryItem )
 
     $t->set_var( "category_read", "" );
     $t->set_var( "category_write", "" );
+    ( $i % 2 ) ? $t->set_var( "td_class", "bgdark" ) : $t->set_var( "td_class", "bglight" );
 
     // Check if user have read permission
     if ( eZObjectPermission::hasPermission( $categoryItem->id(), "imagecatalogue_category", "r", $user ) ||
@@ -187,7 +188,6 @@ foreach ( $categoryList as $categoryItem )
         $t->parse( "default_delete", "default_delete_tpl" );
         $t->parse( "write_menu", "write_menu_tpl" );
     }
-
     $t->parse( "category", "category_tpl", true );
     $i++;
 }
