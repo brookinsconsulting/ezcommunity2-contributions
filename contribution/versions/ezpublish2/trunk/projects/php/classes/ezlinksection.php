@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezlinksection.php,v 1.3 2001/05/03 16:54:21 jb Exp $
+// $Id: ezlinksection.php,v 1.4 2001/05/04 08:49:21 jb Exp $
 //
 // Definition of eZLinkSection class
 //
@@ -26,24 +26,35 @@
 //
 
 //!! 
-//! The class eZLinkSection does
+//! The class eZLinkSection handles link sections.
 /*!
+  Link sections are connected to a specific item in a module
+  and contains zero or more links.
 
+  To link a linksection to an item you need to use the eZModuleLink class.
+
+  \sa eZModuleLink
 */
 
 include_once( "classes/ezlinkitem.php" );
 
 class eZLinkSection
 {
+    /*!
+      Initializes the link section with an $id and $module name.
+      Set the id to false to create a new section.
+    */
     function eZLinkSection( $id, $module )
     {
         $this->Module = $module;
-        $this->Type = $type;
         $this->ID = $id;
         if ( is_numeric( $id ) )
             $this->get( $id );
     }
 
+    /*!
+      Fetches the link section from the database with the given id.
+    */
     function get( $id )
     {
         $db =& eZDB::globalDatabase();
@@ -52,6 +63,9 @@ class eZLinkSection
         $this->fill( $row );
     }
 
+    /*!
+      Stores the link section in the database.
+    */
     function store()
     {
         $db =& eZDB::globalDatabase();
@@ -70,6 +84,9 @@ class eZLinkSection
         $this->ID = $db->insertID();
     }
 
+    /*!
+      Deletes the linksections and all links connected to it from the database.
+    */
     function delete( $id = false, $module = false )
     {
         if ( !$id )
@@ -83,11 +100,17 @@ class eZLinkSection
         $db->query( "DELETE FROM $table_name WHERE ID='$id'" );
     }
 
+    /*!
+      Fills in database information in the object.
+    */
     function fill( $row )
     {
         $this->Name = $row["Name"];
     }
 
+    /*!
+      Returns an array of links connected to this section.
+    */
     function &links()
     {
         $db =& eZDB::globalDatabase();
@@ -102,6 +125,10 @@ class eZLinkSection
         return $ret;
     }
 
+    /*!
+      Moves the linksection up one place in the section list.
+      If the top is reached it is wrapped to the bottom.
+    */
     function moveUp( $objectid, $id, $module, $type )
     {
         $db =& eZDB::globalDatabase();
@@ -134,6 +161,10 @@ class eZLinkSection
         }
     }
 
+    /*!
+      Moves the linksection down one place in the section list.
+      If the bottom is reached it is wrapped to the top.
+    */
     function moveDown( $objectid, $id, $module, $type )
     {
         $db =& eZDB::globalDatabase();
@@ -166,16 +197,25 @@ class eZLinkSection
         }
     }
 
+    /*!
+      Sets the name of the section.
+    */
     function setName( $name )
     {
         $this->Name = $name;
     }
 
+    /*!
+      Returns the id of the section.
+    */
     function id()
     {
         return $this->ID;
     }
 
+    /*!
+      Returns the name of the section.
+    */
     function name()
     {
         return $this->Name;
