@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: articlelist.php,v 1.34 2001/03/01 14:06:25 jb Exp $
+// $Id: articlelist.php,v 1.35 2001/03/01 14:46:23 fh Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <18-Oct-2000 14:41:37 bf>
@@ -33,6 +33,7 @@ include_once( "classes/ezlist.php" );
 include_once( "ezarticle/classes/ezarticlecategory.php" );
 include_once( "ezarticle/classes/ezarticle.php" );
 include_once( "ezarticle/classes/ezarticlerenderer.php" );
+include_once( "ezuser/classes/ezobjectpermission.php" );
 
 $ini =& INIFile::globalINI();
 
@@ -118,7 +119,7 @@ $i=0;
 $t->set_var( "category_list", "" );
 foreach ( $categoryList as $categoryItem )
 {
-    if ( eZArticleCategory::hasReadPermission( $user, $categoryItem->id() ) == true )
+    if ( eZObjectPermission::hasPermission( $categoryItem->id(), "article_category", 'r' == true ) )
     {    
         $t->set_var( "category_id", $categoryItem->id() );
         
@@ -181,7 +182,7 @@ foreach ( $articleList as $article )
 {
     // check if user has permission, if not break to next article.
     $aid = $article->id();
-    if ( eZArticle::hasReadPermission( $user, $aid ) == true )
+    if( eZObjectPermission::hasPermission( $aid, "article_article", 'r' ) )
     {
     
         $t->set_var( "article_id", $article->id() );
