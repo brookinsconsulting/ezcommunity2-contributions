@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: orderedit.php,v 1.4 2000/10/10 14:04:10 bf-cvs Exp $
+// $Id: orderedit.php,v 1.5 2000/10/25 19:49:33 bf-cvs Exp $
 //
 // 
 //
@@ -12,6 +12,12 @@
 // IMPORTANT NOTE: You may NOT copy this file or any part of it into
 // your own programs or libraries.
 //
+
+if ( isset( $Cancel ) )
+{
+    Header( "Location: /trade/orderlist/" );
+    exit();
+}
 
 include_once( "classes/INIFile.php" );
 include_once( "classes/eztemplate.php" );
@@ -59,7 +65,7 @@ if ( $Action == "delete" )
     exit();
 }
 
-$t = new eZTemplate( "eztrade/admin/" . $ini->read_var( "eZTradeMain", "TemplateDir" ) . "/orderedit/",
+$t = new eZTemplate( "eztrade/admin/" . $ini->read_var( "eZTradeMain", "AdminTemplateDir" ) . "/orderedit/",
                      "eztrade/admin/intl/", $Language, "orderedit.php" );
 
 $t->setAllStrings();
@@ -130,12 +136,15 @@ foreach ( $items as $item )
     $t->set_var( "product_image_height", $thumbnail->height() );
     $t->set_var( "product_image_caption", $image->caption() );
 
-    $currency->setValue( $product->price() );
+    $price = $product->price() * $item->count();
+    $currency->setValue( $price );
 
-    $sum += $product->price();
+    $sum += $price;
     $t->set_var( "product_name", $product->name() );
     $t->set_var( "product_price", $locale->format( $currency ) );
 
+    $t->set_var( "order_item_count", $item->count() );
+    
     if ( ( $i % 2 ) == 0 )
         $t->set_var( "td_class", "bglight" );
     else
@@ -177,17 +186,20 @@ foreach ( $statusTypeArray as $status )
 
 $historyArray = $order->statusHistory();
 $i=0;
-foreach ( $historyArray as $history )
+foreach ( $historyArray as $status )
 {
     if ( ( $i % 2 ) == 0 )
         $t->set_var( "td_class", "bglight" );
     else
         $t->set_var( "td_class", "bgdark" );
+
+    $admin =  $status->admin();
     
-    $statusType = $history->type();
-    $t->set_var( "status_date", $locale->format( $history->altered() ) );
+    $statusType = $status->type();
+    $t->set_var( "status_date", $locale->format( $status->altered() ) );
     $t->set_var( "status_name", $statusType->name() );
-    $t->set_var( "status_comment", $history->comment() );
+    $t->set_var( "status_comment", $status->comment() );
+    $t->set_var( "admin_login", $admin->login() );
     $t->parse( "order_status_history", "order_status_history_tpl", true );
     $i++;
 }

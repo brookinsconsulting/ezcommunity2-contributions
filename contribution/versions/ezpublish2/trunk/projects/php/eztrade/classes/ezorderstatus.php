@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezorderstatus.php,v 1.3 2000/10/08 13:07:10 bf-cvs Exp $
+// $Id: ezorderstatus.php,v 1.4 2000/10/25 19:49:33 bf-cvs Exp $
 //
 // Definition of eZOrderStatus class
 //
@@ -176,6 +176,18 @@ class eZOrderStatus
             $this->get( $this->ID );
 
        return $this->Comment;
+    }
+
+    /*!
+      Returns the admin user.
+    */
+    function admin()
+    {
+        if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+        $ret = new eZUser( $this->AdminID );
+        return $ret;
     }
     
 

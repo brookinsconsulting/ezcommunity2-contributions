@@ -63,7 +63,7 @@
 	<a href="/trade/categorylist/parent/{category_id}/">{category_name}</a>
 	</td>
 	<td class="{td_class}">
-	{category_description}
+	{category_description}&nbsp;
 	</td>
 	<td width="1%" class="{td_class}">
 	<a href="/trade/categoryedit/edit/{category_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('eztc{category_id}-red','','/eztrade/images/redigerminimrk.gif',1)"><img name="eztc{category_id}-red" border="0" src="/eztrade/images/redigermini.gif" width="16" height="16" align="top"></a>

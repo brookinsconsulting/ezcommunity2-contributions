@@ -1,5 +1,5 @@
 <!-- orderlist.tpl --> 
-<!-- $Id: orderedit.tpl,v 1.4 2000/10/20 10:07:49 bf-cvs Exp $ -->
+<!-- $Id: orderedit.tpl,v 1.5 2000/10/25 19:49:33 bf-cvs Exp $ -->
 
 <h1>{intl-head_line}</h1>
 
@@ -27,6 +27,7 @@
 	<th>Bilde:</th>
 	<th>Varenavn:</th>
 	<th>Opsjoner:</th>
+	<th>Antall:</th>
 	<td align="right"><b>Pris:</b></td>
 </tr>
 <!-- BEGIN order_item_tpl -->
@@ -36,7 +37,7 @@
 	<img src="{product_image_path}" border="0" width="{product_image_width}" height="{product_image_height}" alt="{product_image_caption}"/>
 	</td>
 	<td class="{td_class}">
-	{product_name}
+	{product_name}&nbsp;
 	</td>
 	<td class="{td_class}">
         <!-- BEGIN order_item_option_tpl -->
@@ -44,6 +45,9 @@
 	{option_value}<br>
         <!-- END order_item_option_tpl -->
 	&nbsp;
+	</td>
+	<td class="{td_class}">
+	{order_item_count}
 	</td>
 	<td class="{td_class}" align="right">
 	{product_price}
@@ -103,13 +107,16 @@
 	<!-- BEGIN order_status_history_tpl -->	
 	<tr>
 		<td class="{td_class}">
-		<span class="small">{status_date}</span>
+		<span class="small">{status_date}</span>&nbsp;
 		</td>
 		<td class="{td_class}">
 		{status_name}&nbsp;&nbsp;
 		</td>
 		<td class="{td_class}">
-		<span class="small">{status_comment}</span>
+		<span class="small">{status_comment}</span>&nbsp;
+		</td>
+		<td class="{td_class}">
+		<span class="small">{admin_login}</span>&nbsp;
 		</td>
 	</tr>
 	<!-- END order_status_history_tpl -->	
@@ -124,13 +131,13 @@
 <table cellspacing="0" cellpadding="0" border="0">
 <tr>
 	<td>
-	<input class="okbutton" type="submit" value="endre status"/>
-	</form>
+	<input class="okbutton" type="submit" value="Endre status"/>
 	</td>
 	<td>&nbsp;</td>
 	<td>
-	Avbrytknapp!
+	<input class="okbutton" type="submit" name="Cancel" value="Avbryt"/>
 	</td>
 </tr>
 </table>
 
+</form>
