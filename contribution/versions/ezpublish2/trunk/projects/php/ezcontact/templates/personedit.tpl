@@ -211,16 +211,6 @@
 	</td>
 </tr>
 
-En kunde av dem ønsker å få tilsendt faks fra et webgrensesnitt. Avtalt pris for slikt arbeid er 7,5 timer a 650. Oppdraget er enten 1) installere faksmodem og hylafax hos oss. Kunde forwarder mail en en boks her. Det faktueres for initial oppsett ( lavere enn ovenfor ), samt vedlikehold. 2) Kunden installere faksmodem og oppdraget kun å installere hylafaks etter spesifikasjon. Det bør i dette tilfellet også sikres mot misbruk av modemet. Arbeidet tenkes utført innen 1 uke
-
-
-
-
-
-
-
-
-
 
 <tr>
 	<td bgcolor="#3c3c3c">
@@ -268,19 +258,4 @@ En kunde av dem ønsker å få tilsendt faks fra et webgrensesnitt. Avtalt pris for
         </form>
 	</td>
 </tr>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 </table>
