@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezlocale.php,v 1.25 2001/02/06 18:10:51 gl Exp $
+// $Id: ezlocale.php,v 1.26 2001/02/08 09:53:29 gl Exp $
 //
 // Definition of eZLocale class
 //
@@ -318,6 +318,9 @@ class eZLocale
     */
     function &dayName( $day, $isShort=true )
     {
+        if ( $day == "unknown" )
+            return false;
+
         $errorString = "<b>Locale error</b>: unknown day name";
         $name = "";
 
@@ -348,6 +351,9 @@ class eZLocale
     */
     function &monthName( $month, $isShort=true )
     {
+        if ( $month == "unknown" )
+            return false;
+
         $errorString = "<b>Locale error</b>: unknown month name";
         $name = "";
 
