@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: productview.php,v 1.36 2001/03/14 17:21:57 jb Exp $
+// $Id: productview.php,v 1.37 2001/03/15 18:27:22 ce Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <24-Sep-2000 12:20:32 bf>
@@ -407,7 +407,8 @@ if ( $type )
         $t->set_var( "attribute_name", $attribute->name( ) );
         $t->set_var( "attribute_value", $value );
 
-        if ( $value )
+        // don't who empty attributes or attributes == 0.0
+        if ( ( is_numeric( $value ) and ( $value > 0 ) ) || ( !is_numeric( $value ) and $value != "" ) )
             $t->parse( "attribute", "attribute_tpl", true );
         
         $i++;
