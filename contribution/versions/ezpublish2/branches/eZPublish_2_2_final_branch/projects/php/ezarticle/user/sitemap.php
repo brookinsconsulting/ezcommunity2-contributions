@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: sitemap.php,v 1.9.2.2 2001/11/01 12:58:32 master Exp $
+// $Id: sitemap.php,v 1.9.2.3 2002/04/05 11:41:23 br Exp $
 //
 // Created on: <06-Jun-2001 17:05:38 bf>
 //
@@ -81,8 +81,8 @@ foreach ( $treeArray as $catItem )
 	
         if ( $category->excludeFromSearch() == false )
         {
-
-            $option_level = str_repeat( "&nbsp;&nbsp;&nbsp;&nbsp;", $catItem[1] );
+            $placement = $catItem[1] - 1;
+            $option_level = str_repeat( "&nbsp;&nbsp;&nbsp;&nbsp;", $placement );
 
             $t->set_var( "option_value", $catItem[0]->id() );
             $t->set_var( "option_name", $catItem[0]->name() );

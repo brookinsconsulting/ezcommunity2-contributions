@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: sitemap.php,v 1.5 2001/07/19 12:19:21 jakobn Exp $
+// $Id: sitemap.php,v 1.5.2.1 2002/04/05 11:41:23 br Exp $
 //
 // Created on: <18-Oct-2000 15:04:39 bf>
 //
@@ -60,8 +60,9 @@ foreach ( $treeArray as $catItem )
 {
     if ( eZObjectPermission::hasPermission( $catItem[0]->id(), "article_category", 'w', $user ) == true  ||
          eZArticleCategory::isOwner( eZUser::currentUser(), $catItem[0]->id() ) )
-    {    
-        $option_level = str_repeat( "&nbsp;&nbsp;&nbsp;&nbsp;", $catItem[1] );
+    {
+        $placement = $catItem[1] - 1;
+        $option_level = str_repeat( "&nbsp;&nbsp;&nbsp;&nbsp;", $placement );
 
         $t->set_var( "category_id", $catItem[0]->id() );
 
