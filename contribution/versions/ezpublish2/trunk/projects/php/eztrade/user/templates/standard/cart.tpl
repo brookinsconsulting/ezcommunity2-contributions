@@ -1,5 +1,5 @@
 <!-- cart.tpl --> 
-<!-- $Id: cart.tpl,v 1.4 2000/11/01 17:26:25 pkej-cvs Exp $ -->
+<!-- $Id: cart.tpl,v 1.5 2000/11/01 17:31:19 ce-cvs Exp $ -->
 
 <h1>{intl-cart}</h1>
 
@@ -39,7 +39,8 @@
 	{product_price}
 	</td>
 	<td class="{td_class}">
-	<a href="/trade/cart/remove/{cart_item_id}/">remove</a>
+	<a href="#" onClick="verify( '{intl-delete}', '/trade/cart/remove/{cart_item_id}/'); return false;"
+onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezuser{user_id}-slett','','/images/slettminimrk.gif',1)"><img name="ezuser{user_id}-slett" border="0" src="/images/slettmini.gif" width="16" height="16" align="top"></a>
 	</td>
 </tr>
 <!-- END cart_item_tpl -->

@@ -102,7 +102,7 @@
 
 
 <input type="hidden" name="SendOrder" value="true" />
-<input class="okbutton" type="submit" value="Send ordre" />
+<input class="okbutton" type="submit" value="{intl-send}" />
 </form>
 
 
