@@ -204,7 +204,7 @@ $t->set_block( "no_error_tpl", "category_value_tpl", "category_value" );
 
 $t->set_block( "no_error_tpl", "month_tpl", "month" );
 $t->set_block( "no_error_tpl", "day_tpl", "day" );
-$t->set_block( "no_error_tpl", "year_tpl", "year" );
+//$t->set_block( "no_error_tpl", "year_tpl", "year" );
 $t->set_block( "no_error_tpl", "group_name_edit_tpl", "group_name_edit" );
 $t->set_block( "no_error_tpl", "group_name_new_tpl", "group_name_new" );
 $t->set_block( "group_name_new_tpl", "group_item_tpl", "group_item" );
@@ -411,7 +411,7 @@ if ( $Action == "DeleteEvents" )
 					exec("secure_clearcache.sh");
 					break;
 				}
-			}  
+			}
 		}
 	}
 
@@ -1759,13 +1759,13 @@ if ( $Action != "Edit" )
 {
     $t->set_var( "year_value", $tmpdate->year() );
 	$t->set_var( "is_year_selected", "selected" );
-	$t->parse( "year", "year_tpl", true );
+//	$t->parse( "year", "year_tpl", true );
 	$yearsPrint = $ini->read_var( "eZGroupEventCalendarMain", "YearsPrint" );
 	for( $i=1; $i<=$yearsPrint; $i++ )
 	{
 		$t->set_var( "year_value", $tmpdate->year() + $i );
 		$t->set_var( "is_year_selected", "" );
-		$t->parse( "year", "year_tpl", true );
+//		$t->parse( "year", "year_tpl", true );
 	}
 }
 
