@@ -9,7 +9,7 @@ $ini = new INIFIle( "site.ini" );
 $Language = $ini->read_var( "eZBugMain", "Language" );
 
 include_once( "classes/eztemplate.php" );
-
+include_once( "ezuser/classes/ezusergroup.php" );
 include_once( "ezbug/classes/ezbugmodule.php" );
 
 if ( $Action == "insert" )
@@ -31,6 +31,8 @@ if ( $Action == "update" )
     $module->setName( $Name );
     $parent = new eZBugModule( $ParentID );
     $module->setParent( $parent );
+    $ownerGroup = new eZUserGroup( $OwnerID );
+    $module->setOwnerGroup( $ownerGroup );
     $module->store();
 
     Header( "Location: /bug/module/list/" );
@@ -56,6 +58,7 @@ $t->set_file( array(
     ) );
 
 $t->set_block( "moduleedit", "module_item_tpl", "module_item" );
+$t->set_block( "moduleedit", "module_owner_tpl", "module_owner" );
 
 if ( $Action == "new" )
 {
@@ -107,6 +110,28 @@ foreach( $moduleList as $moduleItem )
     $t->parse( "module_item", "module_item_tpl", true );
 }
 
+// group selector
+$group = new eZUserGroup();
+$groupList = $group->getAll();
+$module = new eZBugModule( $ModuleID );
+if( get_class( $module ) == "ezbugmodule" )
+{
+    $owner = $module->ownerGroup();
+    $ownerGroup = $owner->id();
+}
+
+foreach( $groupList as $groupItem )
+{
+    $t->set_var( "module_owner_id", $groupItem->id() );
+    $t->set_var( "module_owner_name", $groupItem->name() );
+
+    if( isset( $ownerGroup ) && $ownerGroup == $groupItem->id() )
+        $t->set_var( "is_selected", "selected" );
+    else
+        $t->set_var( "is_selected", "" );
+    
+    $t->parse( "module_owner", "module_owner_tpl", true );
+}
 
 $t->pparse( "output", "moduleedit" );
 ?>

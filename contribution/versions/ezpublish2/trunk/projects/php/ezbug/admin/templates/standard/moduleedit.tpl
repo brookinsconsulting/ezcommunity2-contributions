@@ -14,6 +14,14 @@
 <!-- END module_item_tpl -->
 </select>
 
+<p class="boxtext">{intl-owner}</p>
+<select name="OwnerID">
+<option value="0">{intl-none}</option>
+<!-- BEGIN module_owner_tpl -->
+<option value="{module_owner_id}" {is_selected}>{module_owner_name}</option>
+<!-- END module_owner_tpl -->
+</select>
+
 <br /><br />
 
 <hr noshade size="4"/>

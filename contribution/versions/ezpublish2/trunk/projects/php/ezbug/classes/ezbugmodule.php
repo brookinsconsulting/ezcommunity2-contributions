@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezbugmodule.php,v 1.10 2001/02/14 12:49:24 fh Exp $
+// $Id: ezbugmodule.php,v 1.11 2001/02/14 13:38:26 fh Exp $
 //
 // Definition of eZBugModule class
 //
@@ -101,7 +101,7 @@ class eZBugModule
             $this->Database->query( "UPDATE eZBug_Module SET
 		                         Name='$this->Name',
                                  Description='$this->Description',
-                                 ParentID='$this->ParentID'
+                                 ParentID='$this->ParentID',
                                  OwnerGroupID='$this->OwnerGroupID' WHERE ID='$this->ID'" );
         }
         
