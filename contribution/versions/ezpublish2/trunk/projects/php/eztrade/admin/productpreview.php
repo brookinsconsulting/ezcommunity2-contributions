@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: productpreview.php,v 1.18 2001/03/23 12:05:43 pkej Exp $
+// $Id: productpreview.php,v 1.19 2001/03/23 12:32:30 pkej Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <22-Sep-2000 16:13:32 bf>
@@ -235,18 +235,21 @@ if ( $image_count > 0 )
 $options = $product->options();
 $t->set_var( "option", "" );
 
+$t->set_var( "value_price_header", "" );
+if ( $ShowPrice and $product->showPrice() == true  )
+    $t->parse( "value_price_header", "value_price_header_tpl" );
+
 // show alternative currencies
 $currency = new eZProductCurrency( );
 $currencies =& $currency->getAll();
 $t->set_var( "currency_count", count( $currencies ) );
+$t->set_var( "value_price_header", "" );
 $t->set_var( "value_price_header_item", "" );
 $t->set_var( "value_currency_header_item", "" );
-if ( !$RequireUserLogin or get_class( $user ) == "ezuser"  )
-{
-    $t->parse( "value_price_header_item", "value_price_header_item_tpl" );
-    if ( count( $currencies ) > 0 )
-        $t->parse( "value_currency_header_item", "value_currency_header_item_tpl" );
-}
+
+$t->parse( "value_price_header_item", "value_price_header_item_tpl" );
+if ( count( $currencies ) > 0 )
+    $t->parse( "value_currency_header_item", "value_currency_header_item_tpl" );
 
 $can_checkout = false;
 
@@ -306,7 +309,7 @@ foreach ( $options as $option )
             $t->set_var( "value_price", "" );
             $t->set_var( "value_price_item", "" );
             $t->set_var( "value_price_currency_list", "" );
-            if ( ( !$RequireUserLogin or get_class( $user ) == "ezuser"  ) and
+            if ( 
                  $ShowPrice and $product->showPrice() == true  )
             {
                 $found_price = false;
@@ -479,7 +482,7 @@ if ( $ShowQuantity and $product->hasPrice() )
 $t->set_var( "price", "" );
 $t->set_var( "add_to_cart", "" );
 
-if ( ( !$RequireUserLogin or get_class( $user ) == "ezuser"  ) and
+if ( 
      $ShowPrice and $product->showPrice() == true and $product->hasPrice()  )
 {
     $found_price = false;
