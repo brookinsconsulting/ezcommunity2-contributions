@@ -6,8 +6,8 @@
   <link rel="stylesheet" type="text/css" href="{www_dir}/design/admin/templates/{site_style}/style.css" />
   <meta http-equiv="Content-Type" content="text/html; charset={charset}"/>
 
-<script language="JavaScript1.2">
-<!--//
+  <script language="JavaScript1.2">
+  <!--//
 
 	function MM_swapImgRestore() 
 	{
@@ -56,12 +56,14 @@
 	}
 
 	
-//-->
-</script> 
+  //-->
+  </script> 
 
+  <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
 </head>
 
 <body bgcolor="#777777" topmargin="6" marginheight="6" leftmargin="6" marginwidth="6" onload="MM_preloadImages('{www_dir}/design/admin/images/{site_style}/redigerminimrk.gif','{www_dir}/design/admin/images/{site_style}/slettminimrk.gif','{www_dir}/design/admin/images/{site_style}/downloadminimrk.gif','{www_dir}/design/admin/images/{site_style}/imagemapminimrk.gif')">
+
 <table width="100%" cellpadding="0" cellspacing="0" border="0">
 <tr>
     <td class="repeaty" width="1" background="{www_dir}/design/admin/images/{site_style}/top-l02.gif" valign="top" align="left"><img src="{www_dir}/design/admin/images/{site_style}/top-l01.gif" width="10" height="10" border="0" alt="" /><br /></td>
@@ -76,7 +78,7 @@
 <table width="100%" cellpadding="0" cellspacing="0" border="0">
 <tr>
 	<td width="1%" class="tdmini">
-	<a href="http://developer.ez.no" target="_vblank"><img src="{www_dir}/design/admin/images/{site_style}/top-ezpublishlogo.gif" width="200" height="40" border="0" alt="" /></a><br />
+	<a href="{admin_site_protocol}://{admin_site_host}" target=""><img src="{www_dir}/design/admin/images/{site_style}/top-ezpublishlogo.gif" width="200" height="40" border="0" alt="" /></a><br />
 	</td>
 	<td width="1%"><img src="{www_dir}/design/admin/images/1x1.gif" width="10" height="10" border="0" alt="" /></td>
 	<td width="91%" valign="top">
@@ -94,7 +96,7 @@
 	<td width="1%"><img src="{www_dir}/design/admin/images/1x1.gif" width="10" height="10" border="0" alt="" /></td>						
 	<td width="1%">
 	<span class="top">{intl-ezpublish_version}:</span><br />
-	<span class="topusername">{ezpublish_version}</span><br />
+	<span class="topusername">{ezpublish_version}</span>.<span class="topusername">{ezpublish_installation_version}</span><br />
 	<img src="{www_dir}/design/admin/images/1x1.gif" width="80" height="10" border="0" alt="" /><br />
 	</td>	
 	<td width="1%"><img src="{www_dir}/design/admin/images/1x1.gif" width="10" height="10" border="0" alt="" /></td>
