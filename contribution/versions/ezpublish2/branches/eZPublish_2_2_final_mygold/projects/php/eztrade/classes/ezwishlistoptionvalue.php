@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezwishlistoptionvalue.php,v 1.9 2001/07/31 11:33:11 jhe Exp $
+// $Id: ezwishlistoptionvalue.php,v 1.9.4.1 2001/10/23 10:27:14 ce Exp $
 //
 // Definition of eZWishListOptionValue class
 //
@@ -186,6 +186,11 @@ class eZWishListOptionValue
        {
            $this->OptionValueID = $optionValue->id();
        }
+    }
+
+    function count()
+    {
+        return 1;
     }
 
     var $ID;

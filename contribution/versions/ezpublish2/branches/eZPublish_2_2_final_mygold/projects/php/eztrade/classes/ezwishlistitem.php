@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezwishlistitem.php,v 1.15 2001/09/26 07:09:33 ce Exp $
+// $Id: ezwishlistitem.php,v 1.15.4.1 2001/10/23 10:27:14 ce Exp $
 //
 // Definition of eZWishItem class
 //
@@ -402,6 +402,77 @@ class eZWishListItem
 
         return $price;        
     }
+
+    /*!
+      Returns the correct localized price of the product.
+    */
+    function localePrice( $calcCount=true, $withOptions=true, $calcVAT )
+    {
+        $ini =& INIFile::globalINI();
+        $inLanguage = $ini->read_var( "eZTradeMain", "Language" );
+        
+        $locale = new eZLocale( $inLanguage );
+        $currency = new eZCurrency();
+        
+        $price = $this->correctPrice( $calcCount, $withOptions, $calcVAT );
+        
+        $currency->setValue( $price );
+        return $locale->format( $currency );
+    }    
+    
+    /*!
+      Returns the correct price of the product based on the logged in user, and the
+      VAT status and use.
+    */
+    function correctPrice( $calcCount=true, $withOptions=true, $calcVAT )
+    {
+        $optionValues =& $this->optionValues();
+        $product =& $this->product();
+
+        $optionPrice = 0.0;
+        if ( $withOptions )
+        {
+            foreach ( $optionValues as $optionValue )
+            {
+                $option =& $optionValue->option();
+                $value =& $optionValue->optionValue();
+                    
+                $price = $value->correctPrice( $calcVAT, $product );
+                        
+                if ( $calcCount == true )
+                    $price = $price * $optionValue->count();
+                    
+                $optionPrice+=$price;
+            }
+        }
+            
+        if ( $calcCount == true )
+        {
+            $price = ( $product->correctPrice( $calcVAT ) * $this->count() ) + $optionPrice;
+        }
+        else
+        {
+            $price = ( $product->correctPrice( $calcVAT ) + $optionPrice );
+        }
+
+//        $voucherInfo =& $this->voucherInformation();
+
+        if ( $voucherInfo )
+        {
+            if ( $calcCount == true )
+            {
+                $price = ( $voucherInfo->correctPrice( $calcVAT, $product ) * $this->count() ) + $optionPrice;
+            }
+            else
+            {
+                $price = ( $voucherInfo->correctPrice( $calcVAT, $product ) + $optionPrice );
+            }
+        }
+
+        return $price;        
+    }
+
+    
 
     var $ID;
     var $ProductID;
