@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eztechrenderer.php,v 1.22 2000/10/30 21:23:15 bf-cvs Exp $
+// $Id: eztechrenderer.php,v 1.23 2000/10/30 21:46:29 bf-cvs Exp $
 //
 // Definition of eZTechRenderer class
 //
@@ -536,6 +536,11 @@ class eZTechRenderer
     */
     function &sqlHighlight( $string )
     {
+
+        // some special characters
+        $string = ereg_replace ( "([(){},+-;]|=|\[|\])", "<font color=\"green\">\\1</font>", $string );
+
+        $string = preg_replace ( "#('.*?')#", "<font color=\"red\">\\1</font>", $string );
         
         $string = preg_replace( "/(\([0-9]+\))/", "<font color=\"green\">\\1</font>", $string );
         $string = preg_replace( "/('[0-9]+')/", "<font color=\"red\">\\1</font>", $string );
@@ -553,7 +558,11 @@ class eZTechRenderer
                                 "/(KEY )/i",
                                 "/(NULL )/i",
                                 "/(NULL,)/i",
-                                "/(INT)/i",
+                                "/(INSERT )/i",
+                                "/(INTO )/i",
+                                "/(VALUES )/i",
+                                "/(UNIQUE )/i",
+                                "/(INT )/i",
                                 "/(INT,)/i",
                                 "/(CHAR )/i",
                                 "/( TEXT,)/i",
@@ -567,6 +576,8 @@ class eZTechRenderer
         
         
         $string = preg_replace( $reservedWords, "<font color=\"blue\">\\1</font>", $string );
+
+
 
         // some special characters
         $string = ereg_replace ( "([;,])", "<font color=\"red\">\\1</font>", $string );
