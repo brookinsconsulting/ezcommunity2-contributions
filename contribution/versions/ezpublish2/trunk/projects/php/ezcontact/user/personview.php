@@ -62,38 +62,39 @@ if( is_object( $user ) )
 {
     $UserID = $user->id();
     
-    if( $UserID > 0 )
-    {
-        $user = $person->user();
-        
-        if( is_object( $user[0] ) )
-        {
-            if( $user[0]->id() != $UserID )
-            {
-
-                // We will need to check if people can view, if they have special
-                // info.
-                $person = $person->getByUserID( $UserID );
-                $PersonID = $person->id();
-                header( "Location: /contact/person/view/$PersonID" );
-                exit();
-            }
-        }
-        else
-        {
-            header( "Location: /contact/person/list" );
-        }
-    }
-    else
-    {
-        header( "Location: /contact/person/new/" );
-        exit();
-    }
 }
 else
 {
     header( "Location: /contact/person/new/" );
     exit();
+}
+
+if( $UserID > 0 )
+{
+    $user = $person->user();
+}
+else
+{
+    header( "Location: /contact/person/new/" );
+    exit();
+}
+
+if( is_object( $user[0] ) )
+{
+    if( $user[0]->id() != $UserID || eZPermission::checkPermission( $user, "eZCV", "CVView" ) )
+    {
+
+        // We will need to check if people can view, if they have special
+        // info.
+        $person = $person->getByUserID( $UserID );
+        $PersonID = $person->id();
+        header( "Location: /contact/person/view/$PersonID" );
+        exit();
+    }
+}
+else
+{
+    header( "Location: /contact/person/list" );
 }
 
 /*
