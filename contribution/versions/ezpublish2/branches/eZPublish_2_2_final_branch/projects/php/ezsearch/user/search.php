@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: search.php,v 1.8.2.1 2001/11/01 13:01:24 master Exp $
+// $Id: search.php,v 1.8.2.2 2002/05/02 13:18:59 bf Exp $
 //
 // Created on: <08-Jun-2001 13:10:36 bf>
 //
@@ -58,7 +58,9 @@ $t->setAllStrings();
 $Limit = 10;
 $Offset = 0;
 
-$t->set_var( "search_text", $SearchText );
+$tmpSearchText = str_replace( "<", "&lt;", $SearchText );
+$tmpSearchText = str_replace( ">", "&gt;", $tmpSearchText );
+$t->set_var( "search_text", $tmpSearchText );
 
 foreach ( $moduleArray as $module )
 {

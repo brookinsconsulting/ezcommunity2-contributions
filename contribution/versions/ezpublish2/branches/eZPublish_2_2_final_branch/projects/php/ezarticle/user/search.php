@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: search.php,v 1.18.2.5 2002/03/01 13:12:05 master Exp $
+// $Id: search.php,v 1.18.2.6 2002/05/02 13:17:51 bf Exp $
 //
 // Created on: <28-Oct-2000 15:56:58 bf>
 //
@@ -83,7 +83,9 @@ $t->set_var( "current_category_id", $category->id() );
 $t->set_var( "current_category_name", $category->name() );
 $t->set_var( "current_category_description", $category->description() );
 
-$t->set_var( "search_text", $SearchText );
+$tmpSearchText = str_replace( "<", "&lt;", $SearchText );
+$tmpSearchText = str_replace( ">", "&gt;", $tmpSearchText );
+$t->set_var( "search_text", $tmpSearchText );
 
 if( !isset ( $Offset ) )
     $Offset = 0;
@@ -136,7 +138,7 @@ if ( $SearchText )
         $t->set_var( "url_category_array", urlencode( implode( "-", $CategoryArray ) ) );
     }
 
-    $t->set_var( "search_text", $SearchText );
+    $t->set_var( "search_text", $tmpSearchText );
     $article = new eZArticle();
     $totalCount = 0;
     $articleList = $article->search( $SearchText, "time", false, $Offset, $Limit, $paramsArray, $totalCount );
