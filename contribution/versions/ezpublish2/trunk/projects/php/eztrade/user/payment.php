@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: payment.php,v 1.24 2001/03/15 17:18:16 bf Exp $
+// $Id: payment.php,v 1.25 2001/03/15 17:37:26 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <02-Feb-2001 16:31:53 bf>
@@ -41,6 +41,7 @@ include_once( "eztrade/classes/ezoptionvalue.php" );
 include_once( "eztrade/classes/ezcart.php" );
 include_once( "eztrade/classes/ezcartitem.php" );
 include_once( "eztrade/classes/ezcartoptionvalue.php" );
+include_once( "eztrade/classes/ezpreorder.php" );
 include_once( "eztrade/classes/ezorder.php" );
 include_once( "eztrade/classes/ezorderitem.php" );
 include_once( "eztrade/classes/ezorderoptionvalue.php" );
@@ -515,14 +516,23 @@ if ( $PaymentSuccess == "true" )
         }
     }
 
-    $order->setIsActive( true );
-    $order->store();
     $cart->clear();
 
-    $orderID = $order->id();
+    $OrderID = $order->id();
 
-    eZHTTPTool::header( "Location: /trade/ordersendt/$orderID/" );
+    $preOrder = new eZPreOrder( $PreOrderID );
+    $preOrder->setOrderID( $OrderID );
+    $preOrder->store();
+    
+    // call the payment script after the payment is successful.
+    // some systems needs this, e.g. to print out the OrderID which was cleared..
+    $Action = "PostPayment";
+    include( $instance->paymentFile( $paymentMethod ) );
+
+    eZHTTPTool::header( "Location: /trade/ordersendt/$OrderID/" );
     exit();
 }
+
+
 
 ?>

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezpreorder.php,v 1.1 2001/03/15 17:18:16 bf Exp $
+// $Id: ezpreorder.php,v 1.2 2001/03/15 17:37:26 bf Exp $
 //
 // Definition of eZPreOrder class
 //
@@ -49,6 +49,7 @@ class eZPreOrder
     */
     function eZPreOrder( $id="" )
     {
+        $this->OrderID = 0;
         $this->IsConnected = false;
 
         if ( $id != "" )
@@ -72,6 +73,7 @@ class eZPreOrder
         if ( !isset( $this->ID ) )
         {
             $this->Database->query( "INSERT INTO eZTrade_PreOrder SET
+		                         OrderID='$this->OrderID',
 		                         Created=now()
                                  " );
 
@@ -82,7 +84,8 @@ class eZPreOrder
         else
         {
             $this->Database->query( "UPDATE eZTrade_PreOrder SET
-		                         Created=Created
+		                         Created=Created,
+		                         OrderID='$this->OrderID'
                                  WHERE ID='$this->ID'
                                  " );
 
@@ -123,6 +126,7 @@ class eZPreOrder
             else if( count( $cart_array ) == 1 )
             {
                 $this->ID = $cart_array[0][ "ID" ];
+                $this->OrderID = $cart_array[0][ "OrderID" ];
                 $this->Created = $cart_array[0][ "Created" ];
                 $this->State_ = "Coherent";
                 $ret = true;
@@ -154,6 +158,23 @@ class eZPreOrder
         return $this->ID;
     }
 
+    /*!
+      Returns the order id. If 0 this pre order has not
+      resulted in an order.
+    */
+    function orderID()
+    {
+        return $this->OrderID;
+    }
+    
+    /*!
+      Sets the order id which corresponds to this pre-order
+    */
+    function setOrderID( $value )
+    {
+        $this->OrderID = $value;
+    }
+
     
     /*!
       \private
@@ -170,6 +191,7 @@ class eZPreOrder
 
     var $ID;
     var $Created;
+    var $OrderID;
 
     ///  Variable for keeping the database connection.
     var $Database;

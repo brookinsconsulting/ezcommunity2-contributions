@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezorder.php,v 1.27 2001/03/15 12:58:32 jb Exp $
+// $Id: ezorder.php,v 1.28 2001/03/15 17:37:26 bf Exp $
 //
 // Definition of eZOrder class
 //
@@ -91,7 +91,6 @@ class eZOrder
 		                         BillingAddressID='$this->BillingAddressID',
 		                         PaymentMethod='$this->PaymentMethod',
 		                         IsExported='$this->IsExported',
-                                 IsActive='$this->IsActive',
                                  ShippingVAT='$this->ShippingVAT',
                                  ShippingTypeID='$this->ShippingTypeID',
 		                         Date=now(),
@@ -125,7 +124,6 @@ class eZOrder
 		                         BillingAddressID='$this->BillingAddressID',
 		                         PaymentMethod='$this->PaymentMethod',
 		                         IsExported='$this->IsExported',
-                                 IsActive='$this->IsActive',
                                  ShippingVAT='$this->ShippingVAT',
                                  ShippingTypeID='$this->ShippingTypeID',
 		                         Date=Date,
@@ -191,7 +189,6 @@ class eZOrder
                 $this->ShippingVAT = $cart_array[0][ "ShippingVAT" ];
                 $this->ShippingTypeID = $cart_array[0][ "ShippingTypeID" ];
                 $this->PaymentMethod = $cart_array[0][ "PaymentMethod" ];
-                $this->IsActive = $cart_array[0][ "IsActive" ];
 
                 $this->IsExported = $cart_array[0][ "IsExported" ];
 
@@ -222,7 +219,6 @@ class eZOrder
 
         $this->Database->array_query( $order_array,
         "SELECT ID FROM eZTrade_Order
-         WHERE IsActive='1'
          LIMIT $offset, $limit" );
 
         for ( $i=0; $i < count( $order_array ); $i++ )
@@ -245,7 +241,6 @@ class eZOrder
 
         $this->Database->array_query( $order_array,
         "SELECT ID FROM eZTrade_Order
-         WHERE IsActive='1' 
          AND IsExported='0'" );
 
         for ( $i=0; $i < count( $order_array ); $i++ )
@@ -759,36 +754,6 @@ class eZOrder
         return $ret;        
     }
 
-    /*!
-      Set the order active or not.
-    */
-    function setIsActive( $value=false )
-    {
-        if ( $value == true )
-        {
-            $this->IsActive = 1;
-        }
-        else
-        {
-            $this->IsActive = 0;
-        }
-    }
-
-    /*!
-      Check if the order is active or not.
-      Returns true when active.
-    */
-    function isActive()
-    {
-        if ( $this->IsActive == true )
-        {
-            return 1;
-        }
-        else
-        {
-            return 0;
-        }
-    }
     
     /*!
       \private
@@ -813,7 +778,6 @@ class eZOrder
     var $ShippingVAT;
     var $PaymentMethod;
     var $Date;
-    var $IsActive;
 
     var $ShippingTypeID;
     
