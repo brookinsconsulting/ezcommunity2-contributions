@@ -60,7 +60,7 @@
 			<img src="/sitedesign/mygold/images/menu_arrow.gif" width="15" height="16" name="gutschein_arrow" alt="" />
 		    </td>
 		    <td>
-			<a class="nav" href="/trade/vouchermain/" onmouseout="MM_swapImgRestore()" onmouseover="MM_swapImage('gutschein_arrow','','/sitedesign/mygold/images/menu_arrow_o.gif',0)"><nobr>Geschenk-Gutschein</nobr></a>
+			<a class="nav" href="/schmuck/gutschein/" onmouseout="MM_swapImgRestore()" onmouseover="MM_swapImage('gutschein_arrow','','/sitedesign/mygold/images/menu_arrow_o.gif',0)"><nobr>Geschenk-Gutschein</nobr></a>
 		    </td>
 	        </tr>
 	    </table>

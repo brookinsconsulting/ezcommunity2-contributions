@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: orderlist.php,v 1.2.4.1 2001/10/22 13:40:19 ce Exp $
+// $Id: orderlist.php,v 1.2.4.2 2001/10/25 09:50:03 sascha Exp $
 //
 // Created on: <21-Sep-2001 17:41:07 ce>
 //
@@ -79,7 +79,9 @@ if ( !$user )
 $orderArray = $order->getByUser( $Offset, $Limit, $OrderBy, $user );
 $total_count = $order->getCountByUser( $user );
 if ( !$orderArray )
+{
     $t->set_var( "order_item", "" );
+}
 
 $locale = new eZLocale( $Language );
 $currency = new eZCurrency();
@@ -127,17 +129,19 @@ if ( count ( $orderArray ) > 0 )
         $i++;
     }
     $t->set_var( "no_items", "" );
+    $t->parse( "order_item_list", "order_item_list_tpl" );
 }
 else
 {
     $t->parse( "no_items", "no_items_tpl" );
+    $t->set_var( "order_item_list", "" );
 }
     
 
 eZList::drawNavigator( $t, $total_count, $Limit, $Offset, "order_list_tpl" );
 
 
-$t->parse( "order_item_list", "order_item_list_tpl" );
+
 $t->pparse( "output", "order_list_tpl" );
 
 ?>

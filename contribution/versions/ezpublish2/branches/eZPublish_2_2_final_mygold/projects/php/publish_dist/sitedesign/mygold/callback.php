@@ -12,7 +12,9 @@
 	  <td class="small" align="center">
 	    Haben Sie Fragen zu unserem Sortiment oder brauchen Sie Beratung?<br />
             Wir rufen Sie umgehend zur&uuml;ck.<br />
-	    <a href="/callback/" onclick="window.open('/callback/callback.htm', 'callback', config='height=380,width=350,toolbar=no,scrollbars=yes,resizable=no,location=no,directories=no,status=yes'); return false;"><img src="/sitedesign/mygold/images/callback.gif" alt="zum R&uuml;ckrufformular" width="60" height="21" border="0" vspace="5" /></a> 
+	    <form action="/callback/" method="post">
+	    <input class="okbutton" type="submit" value="Callback" name="Callback" onclick="window.open('/callback/callback.htm', 'callback', config='height=380,width=350,toolbar=no,scrollbars=yes,resizable=no,location=no,directories=no,status=yes'); return false;" /> 
+	    </form>
 	  </td>
 	</tr>
       </table>

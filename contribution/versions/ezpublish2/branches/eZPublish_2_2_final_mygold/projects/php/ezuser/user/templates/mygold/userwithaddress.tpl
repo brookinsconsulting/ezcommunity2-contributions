@@ -6,7 +6,7 @@
 <h1>{intl-edit_head_line}</h1>
 <!-- END edit_user_tpl -->
 
-<hr noshade="noshade" size="4" />
+<hr noshade="noshade" size="1" />
 
 <!-- BEGIN info_item_tpl -->
 <ul>
@@ -15,7 +15,7 @@
     <!-- END info_updated_tpl -->
 </ul>
 
-<hr noshade size="4"/>
+<hr noshade="noshade" size="1"/>
 
 <!-- END info_item_tpl -->
 
@@ -79,7 +79,7 @@
     <!-- END error_missing_country_tpl -->
 </ul>
 
-<hr noshade size="4"/>
+<hr noshade="noshade" size="1"/>
 <!-- END errors_item_tpl -->
 
 <!-- BEGIN edit_user_info_tpl -->
@@ -127,7 +127,7 @@
 </tr>
 </table>
 
-
+<hr noshade="noshade" size="1"/>
 
 <!-- BEGIN address_tpl -->
 
@@ -135,17 +135,18 @@
 <input type="hidden" name="AddressArrayID[]" value="{address_id}">
 
 <!-- BEGIN main_address_tpl -->
-<input {is_checked} type="radio" name="MainAddressID" value="{address_id}"><span class="check">{intl-main_address}</span>
+<input {is_checked} type="radio" class="white" name="MainAddressID" value="{address_id}"><span class="check">{intl-main_address}</span>
 <!-- END main_address_tpl -->
 
 <!-- BEGIN delete_address_tpl -->
-<input type="checkbox" name="DeleteAddressArrayID[]" value="{address_id}">
+<input type="checkbox" class="white" name="DeleteAddressArrayID[]" value="{address_id}">
 <span class="check">{intl-delete}</span>
 <!-- END delete_address_tpl -->
 <input type="hidden" name="AddressID[]" value="{address_id}"/>
 
-<p class="boxtext">{intl-street}:</p>
+<p class="boxtext">{intl-street1}:</p>
 <input type="text" size="20" name="Street1[]" value="{street1_value}"/><br />
+<p class="boxtext">{intl-street2}:</p>
 <input type="text" size="20" name="Street2[]" value="{street2_value}"/>
 
 <p class="boxtext">{intl-zip}:</p>
@@ -162,23 +163,23 @@
 <!-- END country_option_tpl -->
 </select>
 <!-- END country_tpl -->
-
+<hr noshade="noshade" size="1"/>
 <!-- END address_tpl -->
 
 
 <br /><br />
 
-<div class="boxtext"><input {info_subscription} type="checkbox" name="InfoSubscription" />&nbsp;{intl-infosubscription}</div>
+<div class="boxtext"><input class="white" {info_subscription} type="checkbox" name="InfoSubscription" />&nbsp;{intl-infosubscription}</div>
 <br />
 
 <!-- BEGIN address_actions_tpl -->
-<hr noshade="noshade" size="4" />
+<hr noshade="noshade" size="1" />
 
-<input class="stdbutton" type="submit" value="{intl-new_address}" name="NewAddress" />
-<input class="stdbutton" type="submit" value="{intl-delete_address}" name="DeleteAddress" />
+<input class="okbutton" type="submit" value="{intl-new_address}" name="NewAddress" />
+<input class="okbutton" type="submit" value="{intl-delete_address}" name="DeleteAddress" />
 <!-- END address_actions_tpl -->
 
-<hr noshade="noshade" size="4" />
+<hr noshade="noshade" size="1" />
 
 
 <input type="hidden" name="UserID" value="{user_id}" />

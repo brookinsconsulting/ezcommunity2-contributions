@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: productview.php,v 1.77.4.1 2001/10/22 11:52:22 ce Exp $
+// $Id: productview.php,v 1.77.4.2 2001/10/25 09:50:03 sascha Exp $
 //
 // Created on: <24-Sep-2000 12:20:32 bf>
 //
@@ -165,6 +165,7 @@ $t->set_block( "value_price_header_tpl", "value_currency_header_item_tpl", "valu
 
 $t->set_block( "value_tpl", "value_description_tpl", "value_description" );
 $t->set_block( "value_tpl", "value_price_item_tpl", "value_price_item" );
+$t->set_block( "value_tpl", "value_price_seperator_tpl", "value_price_seperator" ); //SF
 $t->set_block( "value_tpl", "value_availability_item_tpl", "value_availability_item" );
 $t->set_block( "value_tpl", "value_price_currency_list_tpl", "value_price_currency_list" );
 
@@ -375,6 +376,7 @@ foreach ( $options as $option )
 
             $t->set_var( "value_price", "" );
             $t->set_var( "value_price_item", "" );
+            $t->set_var( "value_price_seperator", "" );	    
             $t->set_var( "value_price_currency_list", "" );
             if ( $ShowPrice and $product->showPrice() == true  )
             {
@@ -386,6 +388,14 @@ foreach ( $options as $option )
                     $t->set_var( "value_price", "" );
 
                 $t->parse( "value_price_item", "value_price_item_tpl" );
+
+
+                if ( $value->price() != 0 )
+                    $t->set_var( "value_price_seperator", " - " );
+                else
+                    $t->set_var( "value_price_seperator", "" );
+
+                $t->parse( "value_price_seperator", "value_price_seperator_tpl" );		
 
                 $t->set_var( "value_price_currency_item", "" );
                 foreach ( $currencies as $currency )
