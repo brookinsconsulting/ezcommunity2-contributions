@@ -1,26 +1,36 @@
+
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
-	<td>
-	<h1>{article_name}</h1>
-	</td>
+   <td colspan="3">
+	  <center><span class="h3">The World of Sailing World</span></center><br>
+   </td>
 </tr>
-</table>
+  <tr>
+    <td bgcolor="#006699" width="9"><img src="/sitedesign/sailing/images/leftrounded.gif" width="9" height="20" hspace="0" vspace="0" border="0" align="left" alt=""></td>
+    <td bgcolor="#006699" width="100%"><b class="white">{category_definition_name}</b></td>
+    <td width="70"><img src="/sitedesign/sailing/images/rightrounded.gif" width="70" height="20" hspace="0" vspace="0" border="0" align="right" alt=""></td>
+  </tr>
 
-<hr noshade="noshade" size="4" />
+</table>
 
 <br />
+<!-- BEGIN print_page_link_tpl -->
+&nbsp;&nbsp; <img src="/sitedesign/sailing/images/print.gif" alt="">&nbsp; <a class="section" href="/article/articleprint/{article_id}/">{intl-print_page}</a>
+<!-- END print_page_link_tpl -->
 
-<!-- BEGIN article_header_tpl -->
+
+<br />
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
 	<td>
-	<p class="byline">{intl-article_author}: {author_text}</p>
-	</td>
-	<td align="right">
-	<p class="byline">{intl-article_date}: {article_created}</p>
+	<span class="h3">{article_name}</span>
 	</td>
 </tr>
 </table>
+
+<!-- BEGIN article_header_tpl -->
+<b>By</b>: {author_text} <br />
+{article_created}
 <!-- END article_header_tpl -->
 
 <p>
@@ -59,7 +69,4 @@
 | <a class="path" href="/article/articleview/{article_id}/0/">{intl-numbered_page}</a> |
 <!-- END numbered_page_link_tpl -->
 
-<!-- BEGIN print_page_link_tpl -->
-| <a class="path" href="/article/articleprint/{article_id}/">{intl-print_page}</a> |
-<!-- END print_page_link_tpl -->
 </div>

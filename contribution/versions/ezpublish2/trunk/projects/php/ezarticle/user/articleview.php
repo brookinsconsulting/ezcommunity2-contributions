@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: articleview.php,v 1.26 2001/01/23 13:16:57 jb Exp $
+// $Id: articleview.php,v 1.27 2001/02/16 14:54:27 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <18-Oct-2000 16:34:51 bf>
@@ -96,6 +96,11 @@ if ( $article->get( $ArticleID ) )
     }
 
     $t->set_var( "author_text", $article->authorText() );
+
+    $categoryDef =& $article->categoryDefinition();
+
+    $t->set_var( "category_definition_name", $categoryDef->name() );
+    
 
     $pageCount = $article->pageCount();
     if ( $PageNumber > $pageCount )
