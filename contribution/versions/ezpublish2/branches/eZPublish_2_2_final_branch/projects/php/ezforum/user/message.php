@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: message.php,v 1.36.2.2 2002/04/05 08:41:55 bf Exp $
+// $Id: message.php,v 1.36.2.3 2002/04/09 12:22:17 jhe Exp $
 //
 // Created on: <11-Sep-2000 22:10:06 bf>
 //
@@ -28,6 +28,7 @@ include_once( "classes/INIFile.php" );
 $ini =& INIFile::globalINI();
 $Language = $ini->read_var( "eZForumMain", "Language" );
 $NewMessageLimit = $ini->read_var( "eZForumMain", "NewMessageLimit" );
+$AllowHTML = $ini->read_var( "eZForumMain", "AllowHTML" );
 
 include_once( "classes/ezlocale.php" );
 include_once( "classes/eztexttool.php" );
@@ -159,6 +160,7 @@ $messages = $forum->messageThreadTree( $message->threadID() );
 $level = 0;
 
 $i = 0;
+
 foreach ( $messages as $threadmessage )
 {
     $t->set_var( "edit_message_item", "" );
@@ -189,14 +191,15 @@ foreach ( $messages as $threadmessage )
         $t->set_var( "spacer", str_repeat( "&nbsp;", $level ) );
     else
         $t->set_var( "spacer", "" );
-    
-    $t->set_var( "reply_id", $threadmessage->id() );
-    $t->set_var( "reply_topic", $threadmessage->topic() );
-    if ( $AllowHTML == "enabled" )
-        $t->set_var( "reply_body", eZTextTool::nl2br( $threadmessage->body( true ) ) );
-    else
-        $t->set_var( "reply_body", eZTextTool::nl2br( $threadmessage->body( false ) ) );
-    
+
+    $t->set_var( "reply_id", $threadmessage->id() );
+    $t->set_var( "reply_topic", $threadmessage->topic() );
+
+    if ( $AllowHTML == "enabled" )
+        $t->set_var( "reply_body", eZTextTool::nl2br( $threadmessage->body( true ) ) );
+    else
+        $t->set_var( "reply_body", eZTextTool::nl2br( $threadmessage->body( false ) ) );
+  
     $messageAge = round( $threadmessage->age() / 86400 );
     if ( $messageAge <= $NewMessageLimit )
     {
@@ -209,14 +212,12 @@ foreach ( $messages as $threadmessage )
         $t->set_var( "new_icon", "" );
     }
     
-
     $time = $threadmessage->postingTime();
-    $t->set_var( "postingtime", $locale->format( $time ) );
 
+    $t->set_var( "postingtime", $locale->format( $time ) );
     $t->set_var( "message_id", $threadmessage->id() );
 
     $author = $threadmessage->user();
-
 
     if ( $author->id() == 0 )
     {
@@ -247,6 +248,7 @@ foreach ( $messages as $threadmessage )
 
 if ( !isSet( $RedirectURL ) )
     $RedirectURL = "";
+
 $t->set_var( "redirect_url", $RedirectURL );
 
 if ( $message->id() > 0 && !$message->isTemporary() && $message->isApproved() )

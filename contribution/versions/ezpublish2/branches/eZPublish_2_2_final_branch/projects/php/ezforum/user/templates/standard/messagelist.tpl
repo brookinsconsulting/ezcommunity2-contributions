@@ -22,9 +22,10 @@
     <td><p class="boxtext">({forum_start}-{forum_end}/{forum_total})</p></td>
     <td align="right" valign="middle">
 	<form action="{www_dir}{index}/forum/messagelist/{forum_id}/parent/{offset}" method="post">
-	<span class="boxtext">{intl-show}:&nbsp;</span><select name="ForumMessages">
+	<span class="boxtext">{intl-show}:&nbsp;</span>
+        <select name="ForumMessages">
 	<!-- BEGIN messages_element_tpl -->
-	<option value="{messages_number}" {is_selected} />{messages_number}</option>
+	<option value="{messages_number}" {is_selected} />{messages_number}
 	<!-- END messages_element_tpl -->
 	</select>
 	<input class="stdbutton" type="submit" value="{intl-update}" />
