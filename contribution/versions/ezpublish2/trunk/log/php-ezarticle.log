@@ -3717,3 +3717,12 @@ Maintainer(s) : bf@ez.no
     * user/articleview.php:
     Fixed bug with section overrride in articleview.php
 
+
+Module : ezarticle
+Repository path : /home/cvsroot/projects/php/ezarticle
+Maintainer(s) : bf@ez.no
+2003-09-04  Bjoern Reiten  <br@ez.no>
+
+    * user/datasupplier.php
+      user/search.php: - Fixed bug with escape of strings in search.
+

@@ -505,3 +505,12 @@ Maintainer(s) : br@ez.no
     * admin/cron.php
       sql/mysql/ezstats.sql: added optimalisation to eZ stats.
 
+
+Module : ezstats
+Repository path : /home/cvsroot/projects/php/ezstats
+Maintainer(s) : br@ez.no
+2003-09-04  Bjoern Reiten  <br@ez.no>
+
+    * admin/cron.php:
+    - Fixed bugs with no escaping of database variables in cron for eZStats
+
