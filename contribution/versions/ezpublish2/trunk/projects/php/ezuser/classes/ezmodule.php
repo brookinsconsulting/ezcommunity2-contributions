@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezmodule.php,v 1.9 2001/06/23 10:17:05 bf Exp $
+// $Id: ezmodule.php,v 1.10 2001/06/24 15:54:27 bf Exp $
 //
 // Definition of eZCompany class
 //
@@ -174,7 +174,7 @@ class eZModule
         $return_array = array();
         $module_array = array();
 
-        $db->array_query( $module_array, "SELECT ID FROM eZUser_Module ORDER By Name" );
+        $db->array_query( $module_array, "SELECT ID,Name FROM eZUser_Module ORDER By Name" );
 
         for ( $i=0; $i<count ( $module_array ); $i++ )
         {

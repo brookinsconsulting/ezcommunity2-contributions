@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezuser.php,v 1.75 2001/06/23 11:09:44 bf Exp $
+// $Id: ezuser.php,v 1.76 2001/06/24 15:54:27 bf Exp $
 //
 // Definition of eZUser class
 //
@@ -1011,7 +1011,7 @@ class eZUser
         
         $return_array = array();
         $user_array = array();
-        $query = "SELECT ID FROM eZUser_User WHERE
+        $query = "SELECT * FROM eZUser_User WHERE
                   Login LIKE '%$queryText%' OR Email LIKE '%$queryText%'
                   OR FirstName LIKE '$queryText' OR LastName LIKE '%$queryText%'
                   ORDER BY $orderBy";

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezlink.php,v 1.52 2001/06/23 12:25:33 bf Exp $
+// $Id: ezlink.php,v 1.53 2001/06/24 15:54:27 bf Exp $
 //
 // Definition of eZLink class
 //
@@ -311,7 +311,7 @@ class eZLink
         
         $query_str =  "SELECT ID FROM eZLink_Link WHERE (" .
              $query->buildQuery()  .
-             ") AND Accepted='1' ORDER BY Title";
+             ") AND Accepted='1' GROUP BY Title, ID ORDER BY Title";
 
         $db->array_query( $link_array,
         $query_str,  array( "Limit" => $limit, "Offset" => $offset ) );
@@ -338,7 +338,7 @@ class eZLink
         
         $query_str = "SELECT count(ID) AS Count FROM eZLink_Link WHERE (" .
              $query->buildQuery()  .
-             ") AND Accepted='1' ORDER BY Title";
+             ") AND Accepted='1' GROUP BY Title ORDER BY Title";
 
         $db->array_query( $link_array, $query_str );
 

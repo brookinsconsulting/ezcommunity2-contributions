@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezsession.php,v 1.46 2001/06/23 12:25:33 bf Exp $
+// $Id: ezsession.php,v 1.47 2001/06/24 15:54:27 bf Exp $
 //
 // Definition of eZSession class
 //
@@ -106,7 +106,7 @@ class eZSession
         {
             $nextID = $db->nextID( "eZSession_Session", "ID" );
 
-            $timeStamp = eZDate::timeStamp( true );
+            $timeStamp =& eZDateTime::timeStamp( true );
 
             $res = $db->query( "INSERT INTO eZSession_Session
                                     ( ID, Created, LastAccessed, Hash )
@@ -261,8 +261,7 @@ class eZSession
             
             $db->begin( );
             
-            $dateTime = new eZDateTime( );
-            $timeStamp = $dateTime->timeStamp();
+            $timeStamp = eZDateTime::timeStamp( true );
             
             // update session
             $ret = $db->query( "UPDATE eZSession_Session SET

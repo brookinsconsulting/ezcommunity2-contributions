@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezauthor.php,v 1.3 2001/06/23 10:17:05 bf Exp $
+// $Id: ezauthor.php,v 1.4 2001/06/24 15:54:27 bf Exp $
 //
 // Definition of eZAuthor class
 //
@@ -156,7 +156,7 @@ class eZAuthor
         $author_array = array();
 
 
-        $db->array_query( $author_array, "SELECT ID FROM eZUser_Author
+        $db->array_query( $author_array, "SELECT ID,Name FROM eZUser_Author
                                         ORDER By Name" );
 
         foreach ( $author_array as $author )

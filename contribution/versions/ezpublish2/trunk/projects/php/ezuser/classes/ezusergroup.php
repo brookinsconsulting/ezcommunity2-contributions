@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezusergroup.php,v 1.25 2001/06/23 10:17:05 bf Exp $
+// $Id: ezusergroup.php,v 1.26 2001/06/24 15:54:27 bf Exp $
 //
 // Definition of eZCompany class
 //
@@ -199,7 +199,7 @@ class eZUserGroup
         if ( $as_object )
             $select = "*";
         else
-            $select = "ID";
+            $select = "ID,Name";
 
         $db->array_query( $group_array, "SELECT $select FROM eZUser_Group ORDER By Name" );
 

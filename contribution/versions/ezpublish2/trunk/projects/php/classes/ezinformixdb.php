@@ -52,6 +52,7 @@ class eZInformixDB
 
         if ( !$res_id )
         {
+            print( "Informix error:" . ifx_errormsg( ) );
         }
 
         $rowcount = ifx_affected_rows( $res_id );
@@ -66,7 +67,6 @@ class eZInformixDB
 
         if ( !ifx_do( $res_id ) )
         {
-            // error
         }
 
 
@@ -84,6 +84,18 @@ class eZInformixDB
         
         return $ret_array;
     }
+
+    /*!
+      Same as array_query() but expects to recieve 1 row only (no array), no more no less.
+      $column is the same as in array_query().
+    */
+    function query_single( &$row, $sql, $column = false )
+    {
+        $ret = $this->array_query( $array, $sql, 1, 1, $column );
+        $row = $array[0];
+        return $ret;
+    }
+
 
     /*!
       Locks a table

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezpermission.php,v 1.16 2001/06/23 10:17:05 bf Exp $
+// $Id: ezpermission.php,v 1.17 2001/06/24 15:54:27 bf Exp $
 //
 // Definition of eZCompany class
 //
@@ -229,7 +229,7 @@ class eZPermission
             $return_array = array();
             $permission_array = array();
         
-            $db->array_query( $permission_array, "SELECT ID FROM eZUser_Permission
+            $db->array_query( $permission_array, "SELECT ID,Name FROM eZUser_Permission
                                                               WHERE ModuleID='$moduleID'
                                                               ORDER BY Name" );
 
