@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezdate.php,v 1.24 2001/06/07 10:01:41 ce Exp $
+// $Id: ezdate.php,v 1.25 2001/06/27 12:06:27 bf Exp $
 //
 // Definition of eZCompany class
 //
@@ -153,6 +153,42 @@ class eZDate
         return $return;
     }
 
+    /*!
+      Sets the data according to the UNIX timestamp given as argument.
+    */
+    function setTimeStamp( $value )
+    {
+        $formattedTime =& date('Ymd', $value );
+        
+        if ( ereg( "([0-9]{4})([0-9]{2})([0-9]{2})", $formattedTime, $valueArray ) )
+        {
+            $this->setYear( $valueArray[1] );
+            $this->setMonth( $valueArray[2] );
+            $this->setDay( $valueArray[3] );
+        }
+        else
+        {
+            print( "<b>Error:</b> eZDateTime::setMySQLTimeStamp() received wrong MySQL timestamp format." );
+        }
+        
+    }
+
+    /*!
+      \static
+      Returns the timestamp as a UNIX timestamp.
+
+      If returnNow is set to true a timestamp of the current time is returned.
+    */
+    function timeStamp( $returnNow=false )
+    {
+        if ( $returnNow == true )
+            return mktime();
+        else
+            return mktime( 0, 0, 0,
+                           $this->month(), $this->day(), $this->year() );
+    }
+    
+    
     /*!
       Returns the number of days in the current month.
     */
