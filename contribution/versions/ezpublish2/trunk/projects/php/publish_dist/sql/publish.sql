@@ -29,6 +29,8 @@ CREATE TABLE eZArticle_Article (
 #
 
 INSERT INTO eZArticle_Article VALUES (1,'Demo article','<?xml version=\"1.0\"?><article><generator>tech</generator>\n<intro>This is a demo article. It will demontrate the power of the eZTechRenderer used for generating articles.</intro><body><page><header>Here I will demonstrate some simple tags</header>\r\n\r\n<bold> this is bold text</bold> \r\n<italic>this is italic text</italic>\r\n<strike>this is strike through text</strike>\r\n\r\n<link href=\"ez.no\" text=\"this is a link\" />\r\n<mail to=\"bf@ez.no\" subject=\"demo\" text=\"mail me\" /> a mail link with subject set to demo\r\n\r\n</page><page>\r\n\r\n<header>Here I will demonstrate images</header>\r\n\r\nAs you see the images are generated on the fly, so you can request any size (small, medium, large) at any time.\r\n\r\n<image id=\"1\" align=\"left\" size=\"small\" /> This is a small image. Bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla .\r\n\r\nbla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla .\r\n\r\n<header>A large image:</header>\r\n\r\n<image id=\"1\" align=\"center\" size=\"large\" /> \r\n\r\n</page><page>\r\n\r\n<header>Coding tags</header>\r\n\r\nHere I will demonstrate som programming tags.\r\n\r\n<php>\r\n// this is php code\r\nfunction foo()\r\n{\r\n  bar();\r\n}\r\n</php>\r\n\r\nAnd some cpp:\r\n<cpp>\r\nclass foo\r\n{\r\n  foo();\r\n  void bar();\r\n}\r\n</cpp>\r\n\r\nAnd \r\n<ezhtml>\r\n&lt;html&gt;\r\n&lt;head&gt;\r\n  &lt;title&gt;\r\n  Title\r\n  &lt;/title&gt;\r\n&lt;/head&gt;\r\n&lt;body&gt;\r\nthis is the body\r\n&lt;/body&gt;\r\n&lt;/html&gt;\r\n</ezhtml>\r\n\r\n</page></body></article>','Bård Farstad','read',27,20001101123424,20001101122842,3,'true',20001101122842,'tech\nThis is a demo article. It will demontrate the power of eZTechRenderer used for generating articles.Here I demonstrate some simple tags\r\n\r\n this bold text \r\nthis italic text\r\nthis strike through text\r\n\r\n\r\n mail link with subject set to demo\r\n\r\n\r\n\r\nHere images\r\n\r\nAs you see images are generated on fly, so can request any size (small, medium, large) at time.\r\n\r\n This small image. Bla bla .\r\n\r\nbla .\r\n\r\nA large image:\r\n\r\n \r\n\r\n\r\n\r\nCoding tags\r\n\r\nHere som programming tags.\r\n\r\n\r\n// php code\r\nfunction foo()\r\n{\r\n  bar();\r\n}\r\n\r\n\r\nAnd cpp:\r\n\r\nclass foo\r\n{\r\n foo();\r\n void \r\n\r\n&lt;html&gt;\r\n&lt;head&gt;\r\n &lt;title&gt;\r\n Title\r\n &lt;/title&gt;\r\n&lt;/head&gt;\r\n&lt;body&gt;\r\nthis body\r\n&lt;/body&gt;\r\n&lt;/html&gt;\r\n\r\n\r\n ');
+INSERT INTO eZArticle_Article VALUES (2,'About eZ publish','<?xml version=\"1.0\"?><article><generator>tech</generator>\n<intro>eZ publish is an Open Source portal building software, content manager or publishing solution whichever fits your needs. </intro><body><page>It is released under the GPL license and can be downloaded from <link href=\"publish.ez.no\" text=\"publish.ez.no\" />. You can get commercial support from eZ systems at <link href=\"ez.no\" text=\"ez.no\" /> or at <link href=\"sourceprovider.com\" text=\"sourceprovider.com\" />.\r\n\r\nThere is a similar project which deals with e-commerce solutions at <link href=\"trade.ez.no\" text=\"trade.ez.no\" /></page></body></article>','admin user','',27,20001123085405,20001123085405,1,'true',20001123085405,'tech\neZ publish is an Open Source portal building software, content manager or publishing solution whichever fits your needs. It released under the GPL license and can be downloaded from . You get commercial support eZ systems at  .\r\n\r\nThere a similar project which deals with e-commerce solutions ');
+INSERT INTO eZArticle_Article VALUES (3,'eZ publish introduction','<?xml version=\"1.0\"?><article><generator>tech</generator>\n<intro>This is an example of articles which is a member of two or more categories. As you can see this article is a part of the News and Help category.\r\n</intro><body><page>For more information about eZ publish go to :\r\n<link href=\"developer.ez.no\" text=\"developer.ez.no\" />.</page></body></article>','admin user','Read more',27,20001123090845,20001123090702,1,'true',20001123090717,'tech\nThis is an example of articles which a member two or more categories. As you can see this article part the News and Help category.\r\nFor information about eZ publish go to :\r\n. ');
 
 #
 # Table structure for table 'eZArticle_ArticleCategoryDefinition'
@@ -46,6 +48,8 @@ CREATE TABLE eZArticle_ArticleCategoryDefinition (
 #
 
 INSERT INTO eZArticle_ArticleCategoryDefinition VALUES (1,1,1);
+INSERT INTO eZArticle_ArticleCategoryDefinition VALUES (2,2,2);
+INSERT INTO eZArticle_ArticleCategoryDefinition VALUES (3,3,3);
 
 #
 # Table structure for table 'eZArticle_ArticleCategoryLink'
@@ -63,6 +67,27 @@ CREATE TABLE eZArticle_ArticleCategoryLink (
 #
 
 INSERT INTO eZArticle_ArticleCategoryLink VALUES (1,1,1);
+INSERT INTO eZArticle_ArticleCategoryLink VALUES (2,2,2);
+INSERT INTO eZArticle_ArticleCategoryLink VALUES (4,3,1);
+INSERT INTO eZArticle_ArticleCategoryLink VALUES (3,3,3);
+
+#
+# Table structure for table 'eZArticle_ArticleForumLink'
+#
+DROP TABLE IF EXISTS eZArticle_ArticleForumLink;
+CREATE TABLE eZArticle_ArticleForumLink (
+  ID int(11) DEFAULT '0' NOT NULL auto_increment,
+  ArticleID int(11) DEFAULT '0' NOT NULL,
+  ForumID int(11) DEFAULT '0' NOT NULL,
+  PRIMARY KEY (ID)
+);
+
+#
+# Dumping data for table 'eZArticle_ArticleForumLink'
+#
+
+INSERT INTO eZArticle_ArticleForumLink VALUES (1,1,3);
+INSERT INTO eZArticle_ArticleForumLink VALUES (2,3,4);
 
 #
 # Table structure for table 'eZArticle_ArticleImageDefinition'
@@ -117,6 +142,8 @@ CREATE TABLE eZArticle_Category (
 #
 
 INSERT INTO eZArticle_Category VALUES (1,'News','Here are some news, fresh from the press.',0,'false');
+INSERT INTO eZArticle_Category VALUES (2,'Static pages','Here you put pages which is not supposed to come up in search.',0,'true');
+INSERT INTO eZArticle_Category VALUES (3,'Help','',0,'false');
 
 #
 # Table structure for table 'eZContact_Address'
@@ -415,7 +442,6 @@ INSERT INTO eZForum_Category VALUES ('Talk center','General talk','N',1);
 #
 DROP TABLE IF EXISTS eZForum_Forum;
 CREATE TABLE eZForum_Forum (
-  CategoryID int(11) DEFAULT '0' NOT NULL,
   Name varchar(20) DEFAULT '' NOT NULL,
   Description varchar(40),
   Moderated enum('Y','N') DEFAULT 'N',
@@ -428,8 +454,30 @@ CREATE TABLE eZForum_Forum (
 # Dumping data for table 'eZForum_Forum'
 #
 
-INSERT INTO eZForum_Forum VALUES (1,'Discussion','Discuss everything here','','',1);
-INSERT INTO eZForum_Forum VALUES (1,'Special talk','Talk about something else here','','',2);
+INSERT INTO eZForum_Forum VALUES ('Discussion','Discuss everything here','','',1);
+INSERT INTO eZForum_Forum VALUES ('Special talk','Talk about something else here','','',2);
+INSERT INTO eZForum_Forum VALUES ('Demo article','','','',3);
+INSERT INTO eZForum_Forum VALUES ('eZ publish introduct','','','',4);
+
+#
+# Table structure for table 'eZForum_ForumCategoryLink'
+#
+DROP TABLE IF EXISTS eZForum_ForumCategoryLink;
+CREATE TABLE eZForum_ForumCategoryLink (
+  ID int(11) DEFAULT '0' NOT NULL auto_increment,
+  ForumID int(11) DEFAULT '0' NOT NULL,
+  CategoryID int(11) DEFAULT '0' NOT NULL,
+  PRIMARY KEY (ID)
+);
+
+#
+# Dumping data for table 'eZForum_ForumCategoryLink'
+#
+
+INSERT INTO eZForum_ForumCategoryLink VALUES (1,1,1);
+INSERT INTO eZForum_ForumCategoryLink VALUES (2,2,1);
+INSERT INTO eZForum_ForumCategoryLink VALUES (3,1,1);
+INSERT INTO eZForum_ForumCategoryLink VALUES (4,2,1);
 
 #
 # Table structure for table 'eZForum_Message'
@@ -666,6 +714,9 @@ DROP TABLE IF EXISTS eZSession_Session;
 CREATE TABLE eZSession_Session (
   ID int(11) DEFAULT '0' NOT NULL auto_increment,
   Hash char(33),
+  Created timestamp(14),
+  LastAccessed timestamp(14),
+  SecondLastAccessed timestamp(14),
   PRIMARY KEY (ID)
 );
 
@@ -673,6 +724,7 @@ CREATE TABLE eZSession_Session (
 # Dumping data for table 'eZSession_Session'
 #
 
+INSERT INTO eZSession_Session VALUES (1,'e506185ac60c7ea6d25ee9b5368a2873',20001123084928,20001123090845,20001123090845);
 
 #
 # Table structure for table 'eZSession_SessionVariable'
@@ -690,6 +742,7 @@ CREATE TABLE eZSession_SessionVariable (
 # Dumping data for table 'eZSession_SessionVariable'
 #
 
+INSERT INTO eZSession_SessionVariable VALUES (1,1,'AuthenticatedUser','27');
 
 #
 # Table structure for table 'eZUser_Forgot'
@@ -716,6 +769,7 @@ CREATE TABLE eZUser_Group (
   ID int(11) DEFAULT '0' NOT NULL auto_increment,
   Name varchar(100),
   Description text,
+  SessionTimeout int(11) DEFAULT '60',
   PRIMARY KEY (ID)
 );
 
@@ -723,8 +777,8 @@ CREATE TABLE eZUser_Group (
 # Dumping data for table 'eZUser_Group'
 #
 
-INSERT INTO eZUser_Group VALUES (2,'Anonymous','Users that register themself on the user page, eg forum users.');
-INSERT INTO eZUser_Group VALUES (1,'Adminitrators','All rights');
+INSERT INTO eZUser_Group VALUES (2,'Anonymous','Users that register themself on the user page, eg forum users.',60);
+INSERT INTO eZUser_Group VALUES (1,'Adminitrators','All rights',60);
 
 #
 # Table structure for table 'eZUser_GroupPermissionLink'
