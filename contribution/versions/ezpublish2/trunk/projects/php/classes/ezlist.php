@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezlist.php,v 1.14 2001/09/14 10:56:11 br Exp $
+// $Id: ezlist.php,v 1.15 2001/09/14 11:00:57 br Exp $
 //
 // Definition of eZList class
 //
@@ -499,7 +499,7 @@ class eZList
                 else
                 {
                     $i = $max - $item_count;
-                    if ( $i % 10 )
+                    if ( ( $i % 10 ) + 1 != 1 )
                     {
                         $i += 10 - ( $i % 10 ) + 1;
                     }
