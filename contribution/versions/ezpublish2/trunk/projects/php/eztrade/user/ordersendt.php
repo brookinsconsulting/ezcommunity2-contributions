@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ordersendt.php,v 1.18 2001/02/08 18:21:01 bf Exp $
+// $Id: ordersendt.php,v 1.19 2001/02/09 14:43:00 ce Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <06-Oct-2000 14:04:17 bf>
@@ -29,6 +29,7 @@ include_once( "classes/ezlocale.php" );
 include_once( "classes/ezcurrency.php" ); 
 include_once( "eztrade/classes/ezorder.php" ); 
 include_once( "eztrade/classes/ezproduct.php" ); 
+include_once( "eztrade/classes/ezcheckout.php" ); 
 
 
 $Language = $ini->read_var( "eZTradeMain", "Language" );
@@ -172,6 +173,12 @@ foreach ( $items as $item )
 }
 
 $t->parse( "order_item_list", "order_item_list_tpl" );
+
+$checkout = new eZCheckout();
+$instance =& $checkout->instance();
+$paymentMethod = $instance->paymentName( $order->paymentMethod() );
+
+$t->set_var( "payment_method", $paymentMethod );
 
 $shippingCost = $order->shippingCharge();
 $currency->setValue( $shippingCost );

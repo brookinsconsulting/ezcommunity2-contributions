@@ -37,6 +37,9 @@
 
 <br />
 
+<h3>{intl-payment_method}</h3>
+{payment_method}
+
 <h2>{intl-goods_list}</h2>
 
 <!-- BEGIN order_item_list_tpl -->

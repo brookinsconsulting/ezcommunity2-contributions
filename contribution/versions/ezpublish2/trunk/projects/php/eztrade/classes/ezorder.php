@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezorder.php,v 1.22 2001/02/07 16:28:59 bf Exp $
+// $Id: ezorder.php,v 1.23 2001/02/09 14:43:00 ce Exp $
 //
 // Definition of eZOrder class
 //
@@ -95,6 +95,7 @@ class eZOrder
 		                         BillingAddressID='$this->BillingAddressID',
 		                         PaymentMethod='$this->PaymentMethod',
 		                         IsExported='$this->IsExported',
+                                 IsActive='$this->IsActive',
 		                         Date=now(),
 		                         ShippingCharge='$this->ShippingCharge'
                                  " );
@@ -126,6 +127,7 @@ class eZOrder
 		                         BillingAddressID='$this->BillingAddressID',
 		                         PaymentMethod='$this->PaymentMethod',
 		                         IsExported='$this->IsExported',
+                                 IsActive='$this->IsActive',
 		                         Date=Date,
 		                         ShippingCharge='$this->ShippingCharge'
                                  WHERE ID='$this->ID'
@@ -187,6 +189,7 @@ class eZOrder
                 $this->BillingAddressID = $cart_array[0][ "BillingAddressID" ];
                 $this->ShippingCharge = $cart_array[0][ "ShippingCharge" ];
                 $this->PaymentMethod = $cart_array[0][ "PaymentMethod" ];
+                $this->IsActive = $cart_array[0][ "IsActive" ];
 
                 $this->IsExported = $cart_array[0][ "IsExported" ];
 
@@ -660,6 +663,37 @@ class eZOrder
        
         return $ret;        
     }
+
+    /*!
+      Set the order active or not.
+    */
+    function setIsActive( $value=false )
+    {
+        if ( $value == true )
+        {
+            $this->IsActive = 1;
+        }
+        else
+        {
+            $this->IsActive = 0;
+        }
+    }
+
+    /*!
+      Check if the order is active or not.
+      Returns true when active.
+    */
+    function isActive()
+    {
+        if ( $this->IsActive == true )
+        {
+            return 1;
+        }
+        else
+        {
+            return 0;
+        }
+    }
     
     /*!
       \private
@@ -681,7 +715,8 @@ class eZOrder
     var $ShippingCharge;
     var $PaymentMethod;
     var $Date;
-
+    var $IsActive;
+    
     var $OrderStatus_;
 
     var $IsExported;

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: checkout.php,v 1.32 2001/02/09 12:54:43 bf Exp $
+// $Id: checkout.php,v 1.33 2001/02/09 14:43:00 ce Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <28-Sep-2000 15:52:08 bf>
@@ -110,12 +110,85 @@ $t->set_block( "checkout_tpl", "billing_address_tpl", "billing_address" );
 $t->set_block( "billing_address_tpl", "billing_option_tpl", "billing_option" );
 $t->set_block( "checkout_tpl", "wish_user_tpl", "wish_user" );
 
-
 if ( $SendOrder == "true" ) 
 {
-    $session->setVariable( "BillingAddressID", $BillingAddressID );
-    $session->setVariable( "ShippingAddressID", $ShippingAddressID );
+    $ShippingCost = $ini->read_var( "eZTradeMain", "ShippingCost" );
+    
+    $locale = new eZLocale( $Language );
+    $currency = new eZCurrency();
+    
+    // create a new order
+    $order = new eZOrder();
+    $user = eZUser::currentUser();
+    $order->setUser( $user );
+
+    if ( $ini->read_var( "eZTradeMain", "ShowBillingAddress" ) != "enabled" )
+    {
+        $billingAddressID = $shippingAddressID;
+    }
+    
+    $shippingAddress = new eZAddress( $ShippingAddressID );
+    $billingAddress = new eZAddress( $BillingAddressID );
+
+    $order->setShippingAddress( $shippingAddress );
+    $order->setBillingAddress( $billingAddress );
+    
+    $order->setShippingCharge( $ShippingCost );
+    $order->setPaymentMethod( $PaymentMethod );
+
+    $order->store();
+
+    $order_id = $order->id();
+
+    // fetch the cart items
+    $items = $cart->items( $CartType );
+
+    foreach( $items as $item )
+    {
+        // set the wishlist item to bought if the cart item is
+        // fetched from a wishlist
+
+//          $wishListItem = $item->wishListItem();
+//          if ( $wishListItem )
+//          {
+//              $wishListItem->setIsBought( true );
+//              $wishListItem->store();
+//          }
+        
+        $product = $item->product();
+        // create a new order item
+        $orderItem = new eZOrderItem();
+        $orderItem->setOrder( $order );
+        $orderItem->setProduct( $product );
+        $orderItem->setCount( $item->count() );
+        $orderItem->setPrice( $product->price() );
+        $orderItem->store();
+        $price = $product->price() * $item->count();
+        $currency->setValue( $price );
+        
+        $optionValues =& $item->optionValues();
+
+        $optionNameLength = 0;
+
+        $optionValues =& $item->optionValues();
+        
+        foreach ( $optionValues as $optionValue )
+        {
+            $option =& $optionValue->option();
+            $value =& $optionValue->optionValue();
+
+            $orderOptionValue = new eZOrderOptionValue();
+            $orderOptionValue->setOrderItem( $orderItem );
+            $orderOptionValue->setOptionName( $option->name() );
+            $orderOptionValue->setValueName( $value->name() );
+            $orderOptionValue->store();
+        }
+    }
+   
+//      $cart->clear();
+
     $session->setVariable( "PaymentMethod", $PaymentMethod );
+    $session->setVariable( "OrderID", $order_id );
 
     Header( "Location: /trade/payment/" );
     exit();

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: payment.php,v 1.6 2001/02/08 10:53:03 bf Exp $
+// $Id: payment.php,v 1.7 2001/02/09 14:43:00 ce Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <02-Feb-2001 16:31:53 bf>
@@ -62,20 +62,16 @@ $cart = $cart->getBySession( $session, "Cart" );
 
 $items = $cart->items();
 
-$ChargeTotal = 0;
-// get the total sum
-foreach( $items as $item )
-{    
-    $product = $item->product();
-    $ChargeTotal = $ChargeTotal + ( $product->price() * $item->count() );
-}
-$ChargeTotal = $ChargeTotal + $ShippingCost;
+$order = new eZOrder( $session->variable( "OrderID" ) );
+
+$ChargeTotal = $order->totalPrice() + $ShippingCost;
 
 $checkout = new eZCheckout();
 $instance =& $checkout->instance();
 
-$billingAddressID = $session->variable( "BillingAddressID" );
-$shippingAddressID = $session->variable( "ShippingAddressID" );
+$billingAddress = $order->billingAddress();
+$shippingAddress = $order->shippingAddress();
+
 $paymentMethod = $session->variable( "PaymentMethod" );
 
 include( $instance->paymentFile( $paymentMethod ) );
@@ -87,31 +83,7 @@ if ( $PaymentSuccess == "true" )
     $locale = new eZLocale( $Language );
     $currency = new eZCurrency();
     
-    // create a new order
-    $order = new eZOrder();
     $user = eZUser::currentUser();
-    $order->setUser( $user );
-
-    $cart = new eZCart();
-    $cart = $cart->getBySession( $session, "Cart" );
-    
-    if ( $ini->read_var( "eZTradeMain", "ShowBillingAddress" ) != "enabled" )
-    {
-        $billingAddressID = $shippingAddressID;
-    }
-    
-    $shippingAddress = new eZAddress( $shippingAddressID );
-    $billingAddress = new eZAddress( $billingAddressID );
-
-    $order->setShippingAddress( $shippingAddress );
-    $order->setBillingAddress( $billingAddress );
-    
-    $order->setShippingCharge( $ShippingCost );
-    $order->setPaymentMethod( $paymentMethod );
-
-    $order->store();
-
-    $order_id = $order->id();
 
     // Setup the template for email
     $mailTemplate = new eZTemplate( "eztrade/user/" . $ini->read_var( "eZTradeMain", "TemplateDir" ),
@@ -132,7 +104,7 @@ if ( $PaymentSuccess == "true" )
     $mailTemplate->set_block( "mail_order_tpl", "shipping_address_tpl", "shipping_address" );
     
     // fetch the cart items
-    $items = $cart->items( $CartType );
+    $items = $order->items( );
 
     // Get the strings for the headers
 
@@ -184,8 +156,6 @@ if ( $PaymentSuccess == "true" )
 
    // print out the addresses
 
-    $billingAddress = $order->billingAddress();
-
     $mailTemplate->set_var( "billing_street1", $billingAddress->street1() );
     $mailTemplate->set_var( "billing_street2", $billingAddress->street2() );
     $mailTemplate->set_var( "billing_zip", $billingAddress->zip() );
@@ -194,13 +164,12 @@ if ( $PaymentSuccess == "true" )
     $country = $billingAddress->country();
     $mailTemplate->set_var( "billing_country", $country->name() );
 
-    if ( $ini->read_var( "eZTradeMain", "BillingAddress" ) == "Enabled" )
+    if ( $ini->read_var( "eZTradeMain", "ShowBillingAddress" ) == "enabled" )
         $mailTemplate->parse( "billing_address", "billing_address_tpl" );
     else
         $mailTemplate->set_var( "billing_address", "" );
 
-    $shippingAddress = $order->shippingAddress();
-
+   
     $mailTemplate->set_var( "shipping_street1", $shippingAddress->street1() );
     $mailTemplate->set_var( "shipping_street2", $shippingAddress->street2() );
     $mailTemplate->set_var( "shipping_zip", $shippingAddress->zip() );
@@ -213,24 +182,8 @@ if ( $PaymentSuccess == "true" )
 
     foreach( $items as $item )
     {
-        // set the wishlist item to bought if the cart item is
-        // fetched from a wishlist
-
-        $wishListItem = $item->wishListItem();
-        if ( $wishListItem )
-        {
-            $wishListItem->setIsBought( true );
-            $wishListItem->store();
-        }
-        
         $product = $item->product();
-        // create a new order item
-        $orderItem = new eZOrderItem();
-        $orderItem->setOrder( $order );
-        $orderItem->setProduct( $product );
-        $orderItem->setCount( $item->count() );
-        $orderItem->setPrice( $product->price() );
-        $orderItem->store();
+
         $price = $product->price() * $item->count();
         $currency->setValue( $price );
 
@@ -262,12 +215,6 @@ if ( $PaymentSuccess == "true" )
         {
             $option =& $optionValue->option();
             $value =& $optionValue->optionValue();
-
-            $orderOptionValue = new eZOrderOptionValue();
-            $orderOptionValue->setOrderItem( $orderItem );
-            $orderOptionValue->setOptionName( $option->name() );
-            $orderOptionValue->setValueName( $value->name() );
-            $orderOptionValue->store();
 
             $optionString = substr( $option->name(), 0, 35 );
             $optionString = str_pad( $optionString, 36, " ", STR_PAD_LEFT );
@@ -302,7 +249,6 @@ if ( $PaymentSuccess == "true" )
     $grandTotalString = substr(  $locale->format( $currency ), 0, 13 );
     $grandTotalString = str_pad( $grandTotalString, 15, " ", STR_PAD_LEFT );
     $mailTemplate->set_var( "product_total", $grandTotalString );
-
    
     $mailTemplate->set_var( "order_number", $order->id() );
 
@@ -330,9 +276,29 @@ if ( $PaymentSuccess == "true" )
 
     $mail->send();
 
+    // get the cart or create it
+    $cart = new eZCart();
+    $cart = $cart->getBySession( $session, "Cart" );
+
+    foreach( $cart->items() as $item )
+    {
+        // set the wishlist item to bought if the cart item is
+        // fetched from a wishlist
+        $wishListItem = $item->wishListItem();
+        if ( $wishListItem )
+        {
+            $wishListItem->setIsBought( true );
+            $wishListItem->store();
+        }
+    }
+
+    $order->setIsActive( true );
+    $order->store();
     $cart->clear();
+
+    $orderID = $order->id();
     
-    Header( "Location: /trade/ordersendt/$order_id/" );
+    Header( "Location: /trade/ordersendt/$orderID/" );
     exit();
 }
 

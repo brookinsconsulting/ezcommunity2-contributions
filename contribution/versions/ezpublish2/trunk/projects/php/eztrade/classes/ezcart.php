@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezcart.php,v 1.10 2001/01/06 16:21:01 bf Exp $
+// $Id: ezcart.php,v 1.11 2001/02/09 14:43:00 ce Exp $
 //
 // Definition of eZCart class
 //
@@ -285,7 +285,8 @@ class eZCart
 
        $this->delete();       
     }
-    
+
+  
     /*!
       \private
       Open the database for read and write. Gets all the database information from site.ini.
