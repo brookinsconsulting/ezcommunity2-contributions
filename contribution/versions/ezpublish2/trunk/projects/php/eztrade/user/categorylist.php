@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: categorylist.php,v 1.7 2001/04/11 14:40:35 jb Exp $
+// $Id: categorylist.php,v 1.8 2001/05/04 14:48:35 jb Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <23-Nov-2000 09:23:42 bf>
@@ -31,6 +31,7 @@ $PureStatic = "false";
 
 unset( $CacheFile );
 
+$GenerateStaticPage = "false";
 if ( $PageCaching == "enabled" )
 {
     include_once( "classes/ezcachefile.php" );
