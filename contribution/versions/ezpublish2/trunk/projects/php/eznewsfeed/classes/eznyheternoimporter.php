@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eznyheternoimporter.php,v 1.3 2000/11/27 09:38:03 bf-cvs Exp $
+// $Id: eznyheternoimporter.php,v 1.4 2000/11/27 11:19:44 bf-cvs Exp $
 //
 // Definition of eZNyhterNOImporter class
 //
@@ -57,13 +57,19 @@ class eZNyheterNOImporter
     */
     function &news( )
     {
-        //ftp://seanexftp@www2.nyheter.no/scan/no/pushnews/seanex
-
         print( $this->Login . "<br>" );
         print( $this->Password . "<br>" );
         
         $return_array = array();
-        $fp = fopen( "/home/bf/nyheter.xml", "r" );
+
+        $site = $this->Site;
+
+        $site = preg_replace( "#(ftp://)(.*)#", "\\1$this->Login:$this->Password@\\2", $site );
+
+        print( $site );
+        
+        $fp = fopen( "$site", "r" );
+        
         $output = fread ( $fp, 100000000 );
         fclose( $fp );
 

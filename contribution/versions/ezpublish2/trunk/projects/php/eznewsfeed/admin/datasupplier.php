@@ -48,7 +48,7 @@ switch ( $url_array[2] )
     
     case "category":
     {
-        if ( $url_array[2]  == "new" )
+        if ( $url_array[3]  == "new" )
         {
             $Action = "New";
         }
@@ -59,10 +59,10 @@ switch ( $url_array[2] )
 
     case "importnews":
     {
-        if ( $url_array[2]  == "fetch" )
+        if ( $url_array[3]  == "fetch" )
         {
             $Action = "Fetch";
-            $SourceSiteID = $url_array[2];            
+            $SourceSiteID = $url_array[4]; 
         }
         
         include( "eznewsfeed/admin/importnews.php" );
