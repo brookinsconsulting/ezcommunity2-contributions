@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezformrenderer.php,v 1.43 2002/01/03 09:42:46 jhe Exp $
+// $Id: ezformrenderer.php,v 1.44 2002/01/03 12:55:53 jhe Exp $
 //
 // eZFormRenderer class
 //
@@ -278,16 +278,20 @@ class eZFormRenderer
                  $elementType == "radiobox_item" )
             {
                 $checked = "checked";
+                if ( $elementType == "checkbox_item" )
+                {
+                    $elementArray = split( ",", $elementValue );
+                }
             }
             else if ( $elementType == "dropdown_item" )
             {
                 $checked = "selected";
             }
 
-            $result = $element->result();
             foreach ( $subItems as $subItem )
             {
-                if ( $subItem->value() == $result )
+                if ( ( $elementType == "checkbox_item" && in_array( $subItem->value(), $elementArray ) ) ||
+                     $subItem->value() == $elementValue )
                     $this->Template->set_var( "selected", $checked );
                 else
                     $this->Template->set_var( "selected", "" );
@@ -584,11 +588,13 @@ class eZFormRenderer
 
             global $$elementName;
             $value = $$elementName;
-            if ( !is_numeric( $value ) )
+            if ( !is_numeric( $value ) && $value != "" )
             {
                 $db->query_single( $qa, "SELECT fv.ID AS ID FROM eZForm_FormElementFixedValueLink as fvl,
                                          eZForm_FormElementFixedValues as fv WHERE
-                                         fvl.FixedValueID=fv.ID AND fv.Value='$value'" );
+                                         fvl.FixedValueID=fv.ID AND
+                                         fvl.ElementID='" . $element->id() . "' AND
+                                         fv.Value='$value'" );
                 $value = $qa[$db->fieldName( "ID" )];
             }
             $conditionArray = $element->getConditions();

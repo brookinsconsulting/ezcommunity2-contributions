@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: pageedit.php,v 1.31 2002/01/03 08:52:46 jhe Exp $
+// $Id: pageedit.php,v 1.32 2002/01/03 12:55:53 jhe Exp $
 //
 // Definition of ||| class
 //
@@ -573,9 +573,6 @@ else
 if ( $element )
 {
     $values =& $element->fixedValues();
-    foreach ( $condArray as $cond )
-    {
-    }
     
     // parse the valid jump elements.
     $elements = $page->pageElements();
