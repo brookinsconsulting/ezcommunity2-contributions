@@ -4,8 +4,13 @@
   suggestlink.php -> foreslår en link
 */
 
+include_once( "class.INIFile.php" );
+$ini = new INIFile( "site.ini" );
+
+$DOC_ROOT = $ini->read_var( "eZLinkMain", "DocumentRoot" );
+
 include_once( "template.inc" );
-require "ezlink/dbsettings.php";
+
 include_once( "ezphputils.php" );
 
 include_once( "ezlink/classes/ezlinkgroup.php" );
@@ -24,7 +29,7 @@ if ( $Action == "suggest" )
         $turl = $url;
         $tkeywords = $keywords;
         $tdescription = $description;
-//      printRedirect( "../index.php?page=" . $DOCUMENTROOT . "suggestlink.php" );
+//      printRedirect( "../index.php?page=" . $DOC_ROOT . "suggestlink.php" );
     }
     else
     {
@@ -38,7 +43,7 @@ if ( $Action == "suggest" )
         if ( $newlink->checkUrl( $url ) == 0 )
         {
             $newlink->store();
-//          printRedirect( "../index.php?page=" . $DOCUMENTROOT . "linklist.php" );
+//          printRedirect( "../index.php?page=" . $DOC_ROOT . "linklist.php" );
         }
         else
         {
@@ -48,18 +53,16 @@ if ( $Action == "suggest" )
             $turl = $url;
             $tkeywords = $keywords;
             $tdescription = $description;
-//          printRedirect( "../index.php?page=" . $DOCUMENTROOT . "suggestlink.php" );
+//          printRedirect( "../index.php?page=" . $DOC_ROOT . "suggestlink.php" );
         }
     }
 }
 
 $t = new Template();
 $t->set_file( array(
-    "suggestlink" => $DOCUMENTROOT . "templates/suggestlink.tpl",
-    "suggest_group_select" => $DOCUMENTROOT . "templates/suggestgroupselect.tpl"
+    "suggestlink" => $DOC_ROOT . "templates/suggestlink.tpl",
+    "suggest_group_select" => $DOC_ROOT . "templates/suggestgroupselect.tpl"
     ));
-
-
 
 $groupselect = new eZLinkGroup();
 $grouplink_array = $groupselect->getAll( );
@@ -94,7 +97,7 @@ $t->set_var( "url", $turl );
 $t->set_var( "keywords", $tkeywords );
 $t->set_var( "description", $tdescription ); 
 
-$t->set_var( "document_root", $DOCUMENTROOT );
+$t->set_var( "document_root", $DOC_ROOT );
 
 $t->pparse( "output", "suggestlink" );
 
