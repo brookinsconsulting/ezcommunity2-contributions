@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: payment.php,v 1.19 2001/03/13 13:48:42 bf Exp $
+// $Id: payment.php,v 1.20 2001/03/14 10:41:49 pkej Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <02-Feb-2001 16:31:53 bf>
@@ -57,6 +57,7 @@ $ini =& INIFile::globalINI();
 $Language = $ini->read_var( "eZTradeMain", "Language" );
 $OrderSenderEmail = $ini->read_var( "eZTradeMain", "OrderSenderEmail" );
 $OrderReceiverEmail = $ini->read_var( "eZTradeMain", "OrderReceiverEmail" );
+$SiteURL =  $ini->read_var( "site", "SiteURL" );
 
 // fetch the cart
 $cart = new eZCart();
@@ -157,6 +158,7 @@ if ( $PaymentSuccess == "true" )
     $mailTemplate->set_var( "product_total_string", $totalString );
     $mailTemplate->set_var( "product_sub_total_string", $subTotalString );
     $mailTemplate->set_var( "product_ship_hand_string", $tshString );
+    $mailTemplate->set_var( "site_url", $SiteURL );
     
     $user = $order->user();
 

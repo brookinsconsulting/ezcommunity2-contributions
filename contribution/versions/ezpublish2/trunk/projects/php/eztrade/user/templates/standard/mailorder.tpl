@@ -1,10 +1,10 @@
 <!-- BEGIN subject_admin_tpl -->
-{intl-mail_subject_admin} yourshop.com
+{intl-mail_subject_admin} {site_url}
 <!-- END subject_admin_tpl -->
 <!-- BEGIN subject_user_tpl -->
-{intl-mail_subject_user} yourshop.com
+{intl-mail_subject_user} {site_url}
 <!-- END subject_user_tpl -->
-http://yourshop.com {intl-headline}
+http://{site_url} {intl-headline}
 
 {intl-order_no}: {order_number}
 
@@ -44,4 +44,4 @@ http://yourshop.com {intl-headline}
 {product_ship_hand_string}{product_ship_hand}
 {product_total_string}{product_total}
 
-{intl-other_instructions_on_web_site} http://yourshop.com
+{intl-other_instructions_on_web_site} http://{site_url}
