@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezimage.php,v 1.5 2000/09/24 11:51:37 bf-cvs Exp $
+// $Id: ezimage.php,v 1.6 2000/09/25 15:10:24 bf-cvs Exp $
 //
 // Definition of eZCompany class
 //
@@ -16,9 +16,51 @@
 //!! eZImageCatalogue
 //! The eZImage class hadles images in the image catalogue.
 /*!
+  Example code:
+  \code
+  // Fetch an uploaded file and store it in the imagecatalogue.
+    $file = new eZImageFile();
 
+    // userfile is the name of the <input ..> in the html form
+    if ( $file->getUploadedFile( "userfile" ) )
+    { 
+        $image = new eZImage();
+        $image->setName( $Name );
+        $image->setCaption( $Caption );
 
-  \sa eZImageVariation eZImageVariationGroup
+        $image->setImage( $file );
+        
+        $image->store();
+    }
+    else
+    {
+        print( $file->name() . " not uploaded successfully" );
+    }
+
+    // Get an image from the database and request a variation from it
+
+    // gets an image from the eZProduct class
+    // can also use code like $mainImage = new eZImage( 2 );
+    // where 2 is the id of the image in the catalogue.
+    $mainImage = $product->mainImage();
+    
+    if ( $mainImage )
+    {
+        $variation = $mainImage->requestImageVariation( 250, 250 );
+
+        // set some template variables
+        $t->set_var( "main_image_uri", "/" . $variation->imagePath() );
+        $t->set_var( "main_image_width", $variation->width() );
+        $t->set_var( "main_image_height", $variation->height() );
+        $t->set_var( "main_image_caption", $mainImage->caption() );
+    }
+    else
+    {
+        $t->set_var( "main_image", "" );    
+    }
+    
+    \endcode
+  \sa eZImageVariation eZImageVariationGroup eZImageFile
 */
 
 include_once( "classes/ezdb.php" );
@@ -89,7 +131,7 @@ class eZImage
 
         $this->State_ = "Coherent";
     }
-
+    
     /*!
       Fetches the object information from the database.
     */
