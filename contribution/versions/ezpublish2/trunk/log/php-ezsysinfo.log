@@ -145,3 +145,14 @@ Maintainer(s) : vl@ez.no
       admin/intl/no_NO/menubox.php.ini
       admin/intl/no_NO/sysinfo.php.ini: fixed no_NO translation
 
+
+Module : ezsysinfo
+Repository path : /home/cvsroot/projects/php/ezsysinfo
+Maintainer(s) : vl@ez.no
+2001-11-16  Gunnstein Lye  <gl@ez.no>
+
+    * admin/intl/fr_FR/hwinfo.php.ini
+      admin/intl/fr_FR/meminfo.php.ini
+      admin/intl/fr_FR/menubox.php.ini
+      admin/intl/fr_FR/sysinfo.php.ini: updated fr_FR for 2.2 final
+

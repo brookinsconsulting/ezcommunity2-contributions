@@ -2124,3 +2124,48 @@ Maintainer(s) : bf@ez.no
 
     * admin/intl/no_NO/attributelist.php.ini: New file.
 
+
+Module : ezarticle
+Repository path : /home/cvsroot/projects/php/ezarticle
+Maintainer(s) : bf@ez.no
+2001-11-16  Gunnstein Lye  <gl@ez.no>
+
+    * admin/intl/fr_FR/articleedit.php.ini
+      admin/intl/fr_FR/articlelist.php.ini
+      admin/intl/fr_FR/articlelog.php.ini
+      admin/intl/fr_FR/articlepreview.php.ini
+      admin/intl/fr_FR/attribute.php.ini
+      admin/intl/fr_FR/attributelist.php.ini
+      admin/intl/fr_FR/categoryedit.php.ini
+      admin/intl/fr_FR/fileedit.php.ini
+      admin/intl/fr_FR/filelist.php.ini
+      admin/intl/fr_FR/imageedit.php.ini
+      admin/intl/fr_FR/imagelist.php.ini
+      admin/intl/fr_FR/imagemap.php.ini
+      admin/intl/fr_FR/mediaedit.php.ini
+      admin/intl/fr_FR/medialist.php.ini
+      admin/intl/fr_FR/menubox.php.ini
+      admin/intl/fr_FR/pendinglist.php.ini
+      admin/intl/fr_FR/pendingmail.php.ini
+      admin/intl/fr_FR/searchform.php.ini
+      admin/intl/fr_FR/topiclist.php.ini
+      admin/intl/fr_FR/typeedit.php.ini
+      admin/intl/fr_FR/typelist.php.ini
+      user/intl/fr_FR/articleedit.php.ini
+      user/intl/fr_FR/articlelinks.php.ini
+      user/intl/fr_FR/articleview.php.ini
+      user/intl/fr_FR/fileedit.php.ini
+      user/intl/fr_FR/filelist.php.ini
+      user/intl/fr_FR/frontpage.php.ini
+      user/intl/fr_FR/imageedit.php.ini
+      user/intl/fr_FR/imagelist.php.ini
+      user/intl/fr_FR/mailtofriend.php.ini
+      user/intl/fr_FR/menubox.php.ini
+      user/intl/fr_FR/menumaker.php.ini
+      user/intl/fr_FR/newsgroup.php.ini
+      user/intl/fr_FR/search.php.ini
+      user/intl/fr_FR/searchform.php.ini
+      user/intl/fr_FR/sendmailtofriend.php.ini
+      user/intl/fr_FR/sitemap.php.ini
+      user/intl/fr_FR/topiclist.php.ini: updated fr_FR for 2.2 final
+

@@ -194,3 +194,11 @@ Maintainer(s) : bf@ez.no
 
     * intl/no_NO/header.php.ini: Language fixes.
 
+
+Module : admin
+Repository path : /home/cvsroot/projects/php/admin
+Maintainer(s) : bf@ez.no
+2001-11-16  Gunnstein Lye  <gl@ez.no>
+
+    * intl/fr_FR/header.php.ini: updated fr_FR for 2.2 final
+

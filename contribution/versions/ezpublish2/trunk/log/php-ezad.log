@@ -215,3 +215,11 @@ Maintainer(s) : br@ez.no
 
     * user/templates/linmag/adlist.tpl: removed adlist.
 
+
+Module : ezad
+Repository path : /home/cvsroot/projects/php/ezad
+Maintainer(s) : br@ez.no
+2001-11-16  Gunnstein Lye  <gl@ez.no>
+
+    * admin/intl/fr_FR/adedit.php.ini: updated fr_FR for 2.2 final
+

@@ -136,3 +136,12 @@ Maintainer(s) : pkej@ez.no
       admin/intl/no_NO/menubox.php.ini
       admin/intl/no_NO/questionedit.php.ini: added translation.
 
+
+Module : ezquiz
+Repository path : /home/cvsroot/projects/php/ezquiz
+Maintainer(s) : pkej@ez.no
+2001-11-16  Gunnstein Lye  <gl@ez.no>
+
+    * user/intl/fr_FR/menubox.php.ini
+      user/intl/fr_FR/quiz.php.ini: updated fr_FR for 2.2 final
+

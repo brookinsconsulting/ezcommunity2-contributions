@@ -443,3 +443,21 @@ Maintainer(s) : fh@ez.no
       user/intl/no_NO/usermessages.php.ini:
     fixed no_NO in ezmail og ezbulkmail
 
+
+Module : ezbulkmail
+Repository path : /home/cvsroot/projects/php/ezbulkmail
+Maintainer(s) : fh@ez.no
+2001-11-16  Gunnstein Lye  <gl@ez.no>
+
+    * admin/intl/fr_FR/categorylist.php.ini
+      admin/intl/fr_FR/menubox.php.ini
+      admin/intl/fr_FR/sendmail.php.ini
+      admin/intl/fr_FR/userlist.php.ini
+      user/intl/fr_FR/bulklist.php.ini
+      user/intl/fr_FR/categoryedit.php.ini
+      user/intl/fr_FR/mailview.php.ini
+      user/intl/fr_FR/menubox.php.ini
+      user/intl/fr_FR/subscriptionlist.php.ini
+      user/intl/fr_FR/subscriptionmail.php.ini
+      user/intl/fr_FR/usermessages.php.ini: updated fr_FR for 2.2 final
+

@@ -108,3 +108,14 @@ Maintainer(s) : bf@ez.no
     * admin/intl/no_NO/messagelist.php.ini
       admin/intl/no_NO/messageview.php.ini: fixed several bugs in no_NO files
 
+
+Module : ezmessage
+Repository path : /home/cvsroot/projects/php/ezmessage
+Maintainer(s) : bf@ez.no
+2001-11-16  Gunnstein Lye  <gl@ez.no>
+
+    * admin/intl/fr_FR/menubox.php.ini
+      admin/intl/fr_FR/messageedit.php.ini
+      admin/intl/fr_FR/messagelist.php.ini
+      admin/intl/fr_FR/messageview.php.ini: updated fr_FR for 2.2 final
+

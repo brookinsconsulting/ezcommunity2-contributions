@@ -83,3 +83,15 @@ Maintainer(s) : bf@ez.no
 
     * classes/ezsession.php: Fixed cookie problem on IE* ;)
 
+
+Module : ezsession
+Repository path : /home/cvsroot/projects/php/ezsession
+Maintainer(s) : bf@ez.no
+2001-11-16  Christoffer Elo  <ce@ez.no>
+
+    * classes/ezsession.php: Added the IE cookie workaround
+
+2001-11-16  Baard Farstad  <bf@ez.no>
+
+    * classes/ezsession.php: FIxed IE cookie bug.
+

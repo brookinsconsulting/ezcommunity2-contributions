@@ -560,3 +560,14 @@ Maintainer(s) : jhe@ez.no
       user/consultationlist.php:
     added support for related consultations (one companys consultations include every related users consultations)
 
+
+Module : ezcontact
+Repository path : /home/cvsroot/projects/php/ezcontact
+Maintainer(s) : jhe@ez.no
+2001-11-16  Gunnstein Lye  <gl@ez.no>
+
+    * admin/intl/fr_FR/companytype.php.ini
+      user/intl/fr_FR/companysearch.php.ini
+      user/intl/fr_FR/personsearch.php.ini
+      user/intl/fr_FR/search.php.ini: updated fr_FR for 2.2 final
+

@@ -140,3 +140,11 @@ Maintainer(s) : vl@ez.no
     * classes/ezurltranslator.php:
     Added a hack so the urltranslator works with php session.
 
+
+Module : ezurltranslator
+Repository path : /home/cvsroot/projects/php/ezurltranslator
+Maintainer(s) : vl@ez.no
+2001-11-16  Gunnstein Lye  <gl@ez.no>
+
+    * admin/intl/fr_FR/menubox.php.ini: updated fr_FR for 2.2 final
+

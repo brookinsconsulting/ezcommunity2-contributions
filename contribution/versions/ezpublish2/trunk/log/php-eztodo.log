@@ -280,3 +280,14 @@ Maintainer(s) : ce@ez.no
       user/intl/no_NO/todomenulist.php.ini
       user/intl/no_NO/todoview.php.ini: Updated norwegian language
 
+
+Module : eztodo
+Repository path : /home/cvsroot/projects/php/eztodo
+Maintainer(s) : ce@ez.no
+2001-11-16  Gunnstein Lye  <gl@ez.no>
+
+    * user/intl/fr_FR/maillog.php.ini
+      user/intl/fr_FR/sendmail.php.ini
+      user/intl/fr_FR/todoedit.php.ini
+      user/intl/fr_FR/todolist.php.ini: updated fr_FR for 2.2 final
+
