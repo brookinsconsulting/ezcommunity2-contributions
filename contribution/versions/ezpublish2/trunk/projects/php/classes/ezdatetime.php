@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezdatetime.php,v 1.22 2001/02/08 16:25:16 gl Exp $
+// $Id: ezdatetime.php,v 1.23 2001/02/16 16:18:19 gl Exp $
 //
 // Definition of eZCompany class
 //
@@ -59,7 +59,7 @@ class eZDateTime
     */
     function eZDateTime( $year=0, $month=0, $day=0, $hour=0, $minute=0, $second=0 )
     {
-        if ( ( $year == 0 )  && ( $month == 0 ) && ( $day == 0 ) && ( $hour == 0 ) && ( $minute == 0 ) && ( $second == 0 ) )
+        if ( ( $year == 0 ) && ( $month == 0 ) && ( $day == 0 ) && ( $hour == 0 ) && ( $minute == 0 ) && ( $second == 0 ) )
         {
             $now = getdate();
             $this->Date = new eZDate( $now[ "year" ], $now[ "mon" ], $now[ "mday" ] );
@@ -219,6 +219,22 @@ class eZDateTime
     function setSecond( $value )
     {
         $this->Time->setSecond( $value );
+    }
+
+    /*!
+      Sets the number of seconds elapsed since midnight.
+    */
+    function setSecondsElapsed( $value )
+    {
+        $this->Time->setSecondsElapsed( $value );
+    }
+
+    /*!
+      Sets the number of seconds elapsed since midnight, user HH MM SS
+    */
+    function setSecondsElapsedHMS( $hour, $minute, $second )
+    {
+        $this->Time->setSecondsElapsedHMS( $hour, $minute, $second );
     }
 
     /*!

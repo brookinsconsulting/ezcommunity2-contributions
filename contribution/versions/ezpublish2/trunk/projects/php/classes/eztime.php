@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: eztime.php,v 1.6 2001/01/22 14:42:59 jb Exp $
+// $Id: eztime.php,v 1.7 2001/02/16 16:18:19 gl Exp $
 //
 // Definition of eZCompany class
 //
@@ -139,9 +139,10 @@ class eZTime
     }
 
     /*!
-      Adds the value of the given eZTime object to the internal time.
+      Adds the value of the given eZTime object to the internal time,
+      and returns the result. Does not change the internal time.
 
-      Returns false if the requested object was not a eZTime object.
+      Returns false if the requested object was not an eZTime object.
     */
     function add( $time )
     {
@@ -151,6 +152,30 @@ class eZTime
             $tmpTime = new eZTime( $this->hour(), $this->minute(), $this->second() );
 
             $secondsElapsed = ( $this->SecondsElapsed + $time->secondsElapsed() ) % 86400;
+            $tmpTime->setSecondsElapsed( $secondsElapsed );
+
+            $ret = $tmpTime;
+        }
+        
+        return $ret;
+    }
+
+    /*!
+      Subtracts the value of the given eZTime object from the internal time,
+      and returns the result. Does not change the internal time.
+
+      Returns false if the requested object was not an eZTime object.
+      If the given time is greater than the internal time, the subtraction will
+      wrap around midnight.
+    */
+    function subtract( $time )
+    {
+        $ret = false;
+        if ( get_class( $time ) == "eztime" )
+        {
+            $tmpTime = new eZTime( $this->hour(), $this->minute(), $this->second() );
+
+            $secondsElapsed = ( ( 86400 + $this->SecondsElapsed ) - $time->secondsElapsed() ) % 86400;
             $tmpTime->setSecondsElapsed( $secondsElapsed );
 
             $ret = $tmpTime;
@@ -187,6 +212,26 @@ class eZTime
                 {
                     $ret = true;
                 }
+            }
+        }
+        return $ret;
+    }
+
+    /*!
+      Returns true if the eZTime object given as argument is
+      equals to the internal values.
+
+      Returns false is the object is not a eZTime object.      
+    */
+    function equals( &$time )
+    {
+        $ret = false;
+
+        if ( get_class( $time ) == "eztime" )
+        {
+            if ( $time->secondsElapsed() == $this->SecondsElapsed )
+            {
+                $ret = true;
             }
         }
         return $ret;
