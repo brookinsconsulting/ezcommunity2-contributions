@@ -24,7 +24,7 @@
 	  <input type="text" name="VatName[]" value="{vat_name}" />
 	</td>
 	<td class="{td_class}">
-	  <input type="text" size="4" name="VatValue[]" value="{vat_value}" />%
+	  <input type="text" size="5" name="VatValue[]" value="{vat_value}" />%
 	</td>
 	<td width="1%" class="{td_class}">
 	  <input type="checkbox" name="VatArrayID[]" value="{vat_id}">
