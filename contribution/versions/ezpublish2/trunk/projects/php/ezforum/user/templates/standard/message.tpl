@@ -93,10 +93,10 @@
 
 <table class="list" width="100%" border="0" cellspacing="0" cellpadding="4">
 <tr>
-	<th width="45%">{intl-reply-topic}:</th>
-    <th width="25%">{intl-reply-author}:</th>
-    <th width="29%"><div align="right">{intl-reply-time}:</div></th>
-    <th width="1%"></th>
+        <th width="45%">{intl-reply-topic}:</th>
+	<th width="25%">{intl-reply-author}:</th>
+	<th width="29%"><div align="right">{intl-reply-time}:</div></th>
+	<th width="1%"></th>
 </tr>
 
     <!-- BEGIN message_item_tpl -->
@@ -126,7 +126,7 @@
     	<td class="{td_class}" align="right">
 	<span class="small">{postingtime}</span>
 	</td>
-    <td class="{td_class}" align="right">
+	<td class="{td_class}" align="right">
 	&nbsp;
         <!-- BEGIN edit_message_item_tpl -->
         <nobr><a href="{www_dir}{index}/forum/messageedit/edit/{message_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezfrm{message_id}-red','','/images/redigerminimrk.gif',1)"><img name="ezfrm{message_id}-red" border="0" src="{www_dir}/images/redigermini.gif" width="16" height="16" align="top" alt="Edit" /></a>&nbsp;<a href="{www_dir}{index}/forum/messageedit/delete/{message_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezfrm{message_id}-slett','','/images/slettminimrk.gif',1)"><img name="ezfrm{message_id}-slett" border="0" src="{www_dir}/images/slettmini.gif" width="16" height="16" align="top" alt="Delete" /></a></nobr>
@@ -134,7 +134,7 @@
     </td>
 
 </tr>
-    <!-- END message_item_tpl -->
+<!-- END message_item_tpl -->
 
 </table>
 </form>

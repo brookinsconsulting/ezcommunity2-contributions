@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: message.php,v 1.29 2001/08/31 14:01:59 jhe Exp $
+// $Id: message.php,v 1.30 2001/09/17 12:27:31 jhe Exp $
 //
 // Created on: <11-Sep-2000 22:10:06 bf>
 //
@@ -202,10 +202,13 @@ foreach ( $messages as $message )
     $t->set_var( "message_id", $message->id() );
 
     $user = $message->user();
-    
+
     if ( $user->id() == 0 )
     {
-        $MessageAuthor = $anonymous;
+        if ( $message->userName() )
+            $MessageAuthor = $message->userName();
+        else
+            $MessageAuthor = $anonymous;
     }
     else
     {
