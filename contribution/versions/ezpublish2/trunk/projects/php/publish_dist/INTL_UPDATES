@@ -6,6 +6,10 @@ change: added user_edit=Some text
 mod: ezarticle/ admin , search.php.ini
 change: added delete=Delete selected articles
 
+mod: eztrade/admin, productedit.php.ini
+change: added
+no_price_groups=No price groups has been defined
+
 ##################### BETA 3 --- PRE 1 #############################################
 mod: ezforum/ admin, forumedit.php.ini
 change: added
