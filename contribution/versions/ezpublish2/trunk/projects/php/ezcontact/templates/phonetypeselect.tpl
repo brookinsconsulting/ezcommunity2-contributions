@@ -1,1 +1,0 @@
-<option {is_selected} value="{phone_type_id}">{phone_type_name}</option>

@@ -1,1 +1,0 @@
-<option {is_selected} value="{person_type_id}">{type}</option>

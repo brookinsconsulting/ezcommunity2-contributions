@@ -1,1 +1,0 @@
-<b>{phone_type}:</b> {phone_number}<br>
