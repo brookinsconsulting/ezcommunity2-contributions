@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: vote.php,v 1.21 2001/08/31 13:13:42 bf Exp $
+// $Id: vote.php,v 1.22 2001/09/09 11:49:45 bf Exp $
 //
 // Created on: <20-Sep-2000 13:32:11 ce>
 //
@@ -98,7 +98,7 @@ else
                 $Voted = false;
             }
 
-            setcookie ( "eZPollVote$PollID", "voted", 0, "/",  "", 0 )
+            setcookie ( "eZPollVote$PollID", "voted", time() + ( 3600 * 24 * 365 ), "/",  "", 0 )
                 or print( "Error: could not set cookie." );
         }
 
