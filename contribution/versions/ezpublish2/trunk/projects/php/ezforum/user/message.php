@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: message.php,v 1.35 2001/10/08 14:01:27 jhe Exp $
+// $Id: message.php,v 1.36 2001/10/10 11:44:24 bf Exp $
 //
 // Created on: <11-Sep-2000 22:10:06 bf>
 //
@@ -218,6 +218,7 @@ foreach ( $messages as $threadmessage )
 
     $author = $threadmessage->user();
 
+
     if ( $author->id() == 0 )
     {
         if ( $threadmessage->userName() )
@@ -227,7 +228,7 @@ foreach ( $messages as $threadmessage )
     }
     else
     {
-        $MessageAuthor = $author->firstName() . " " . $autor->lastName();
+        $MessageAuthor = $author->firstName() . " " . $author->lastName();
     }
     
     $t->set_var( "user", $MessageAuthor );
