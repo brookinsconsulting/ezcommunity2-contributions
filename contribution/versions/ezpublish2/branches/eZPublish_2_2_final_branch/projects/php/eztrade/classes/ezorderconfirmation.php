@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: ezorderconfirmation.php,v 1.1.4.1 2002/04/10 11:49:02 br Exp $
+// $Id: ezorderconfirmation.php,v 1.1.4.2 2002/06/12 13:52:47 br Exp $
 //
 // Definition of eZConfirmation class
 //
@@ -287,6 +287,8 @@ class eZOrderConfirmation
 
         if ( count( $items ) > 0 )
         {
+            $orderItem = 1;
+            $productOptions = array();
             foreach ( $items as $item )
             {
                 $mailTemplate->set_var( "td_class", ( $i % 2 ) == 0 ? "bglight" : "bgdark" );
@@ -315,13 +317,14 @@ class eZOrderConfirmation
 
                 foreach ( $optionValues as $optionValue )
                 {
-                    $productOptions[$productID][$numberOfOptions]["option_id"] = "";
-                    $productOptions[$productID][$numberOfOptions]["option_name"] = trim( $optionValue->valueName() );
-                    $productOptions[$productID][$numberOfOptions]["option_value"] = trim( $optionValue->optionName() ) . ": ";
-                    $productOptions[$productID][$numberOfOptions]["option_price"] = "";
+                    $productOptions[$orderItem][$productID][$numberOfOptions]["option_id"] = "";
+                    $productOptions[$orderItem][$productID][$numberOfOptions]["option_name"] = trim( $optionValue->valueName() );
+                    $productOptions[$orderItem][$productID][$numberOfOptions]["option_value"] = trim( $optionValue->optionName() ) . ": ";
+                    $productOptions[$orderItem][$productID][$numberOfOptions]["option_price"] = "";
 
                     $numberOfOptions++;
                 }
+                $orderItem++;
             }
         }
         else
@@ -374,11 +377,17 @@ class eZOrderConfirmation
 
         if ( count ( $productOptions ) > 0 )
         {
-            foreach( $productOptions as $line )
+            foreach ( $productOptions as $productIDItem )
             {
-                $len_option_name = strlen( $line["option_name"] ) > $len_option_name ? strlen( $line["option_name"] ) : $len_option_name;
-                $len_option_value = strlen( $line["option_value"] ) > $len_option_value ? strlen( $line["option_value"] ) : $len_option_value;
-                $len_option_price = strlen( $line["option_price"] ) > $len_option_price ? strlen( $line["option_price"] ) : $len_option_price;
+                foreach ( $productIDItem as $options )
+                {
+                    foreach( $options as $line )
+                    {
+                        $len_option_name = strlen( $line["option_name"] ) > $len_option_name ? strlen( $line["option_name"] ) : $len_option_name;
+                        $len_option_value = strlen( $line["option_value"] ) > $len_option_value ? strlen( $line["option_value"] ) : $len_option_value;
+                        $len_option_price = strlen( $line["option_price"] ) > $len_option_price ? strlen( $line["option_price"] ) : $len_option_price;
+                    }
+                }
             }
         }
 
@@ -479,9 +488,9 @@ class eZOrderConfirmation
 
             $mailTemplate->set_var( "cart_item_option", "" );
 
-            if( is_array( $productOptions[$productID] ) )
+            if( is_array( $productOptions[$i][$productID] ) )
             {
-                foreach( $productOptions[$productID] as $option )
+                foreach( $productOptions[$i][$productID] as $option )
                 {
                     $mailTemplate->set_var( "option_indent", str_pad( "", $len_option_indent, " ", STR_PAD_LEFT ) );
                     $mailTemplate->set_var( "option_id", str_pad( $option["option_id"], $len_option_id, " ", STR_PAD_LEFT ) );
