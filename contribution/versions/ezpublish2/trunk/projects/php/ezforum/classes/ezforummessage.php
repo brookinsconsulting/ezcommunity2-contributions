@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: ezforummessage.php,v 1.25 2000/07/26 17:03:13 lw-cvs Exp $
+    $Id: ezforummessage.php,v 1.26 2000/07/27 08:11:44 lw-cvs Exp $
 
     Author: Lars Wilhelmsen <lw@ez.no>
     
@@ -35,6 +35,8 @@ class eZforumMessage
 
     function get( $Id )
     {
+        global $PREFIX;
+        
         openDB();
             
         $query_id = mysql_query("SELECT ForumId, Parent, Topic,
