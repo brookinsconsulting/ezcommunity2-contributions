@@ -4,7 +4,7 @@ $ModuleName = "eZ article";
 $DetailedSearchPath = "/article/search/";
 $DetailedSearchVariable = "SearchText";
 $DetailViewPath = "/article/view/";
-$IconPath = "/admin/images/document.gif";
+$IconPath = "/images/document.gif";
 
 include_once( "ezarticle/classes/ezarticle.php" );
 
