@@ -3,7 +3,7 @@
   document.getElementById(objName).style.visibility = 'hidden';
  }
 </script>
- <div id="overDiv" style="position:absolute; visibility:hidden; z-index:1000;"></div>
+<div id="overDiv" style="position: absolute; visibility: hidden; z-index: 1000;"></div>
 <form method="post" action="{www_dir}{index}/groupeventcalendar/dayview/">
  <table border="0" cellspacing="0" cellpadding="0" id="gcalDayViewSortBy">
  <tr>
@@ -191,13 +191,13 @@ onmouseout="return nd();">{all_day_name}</a></td>
 </table></td>
 <td width="95%" valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">
 <!-- BEGIN time_table_tpl -->
-<tr><td style="height: 15px; width:0px; overflow: hidden;"></td>
+<tr><td style="height: 15px; width: 0px; overflow: hidden;"></td>
 <!-- BEGIN fifteen_event_tpl -->
  <td class="{td_class}" valign="top" style=" overflow: hidden;
     background-color: #6699CC; background: url('{www_dir}{index}/ezgroupeventcalendar/user/templates/standard/images/gcalEventTransBg.png') repeat;">
  	<table width="100%" cellspacing="0" cellpadding="0" border="0">
 	<tr>
-		<td width="88%" nowrap valign="top" class="gcalEventTopBar" style="height:15px;">&nbsp;
+		<td width="88%" nowrap valign="top" class="gcalEventTopBar" style="height: 15px;">&nbsp;
 		<a class='gcalDayEventText' href="{www_dir}{index}/groupeventcalendar/eventview/{event_id}/" onmouseover="
 return overlib('<div class=\'olList\'>Name</div>{overlib_event_name}<div class=\'olList\'>Time</div> {event_start} - {event_stop}<div class=\'olList\'>Description </div>{overlib_event_description}');"
 onmouseout="return nd();">{event_name}&nbsp;&nbsp;</a>
@@ -264,7 +264,7 @@ onmouseout="return nd();">&nbsp;{event_name}&nbsp;</a>
 	</td>
 	<!-- END private_event_tpl -->
 	<!-- BEGIN no_event_tpl -->
-	<td valign="top" rowspan="{rowspan_value}" style="height:15px;"></td>
+	<td valign="top" rowspan="{rowspan_value}" style="height: 15px;"></td>
 	<!-- END no_event_tpl -->
 </tr>
 <!-- END time_table_tpl -->
