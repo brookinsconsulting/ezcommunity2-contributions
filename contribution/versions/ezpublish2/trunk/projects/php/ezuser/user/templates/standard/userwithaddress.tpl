@@ -73,6 +73,10 @@
     <!-- BEGIN error_missing_address_tpl -->
     <li>{intl-error_missing_address}</li>
     <!-- END error_missing_address_tpl -->
+
+    <!-- BEGIN error_missing_country_tpl -->
+    <li>{intl-error_missing_country}</li>
+    <!-- END error_missing_country_tpl -->
 </ul>
 
 <hr noshade size="4"/>

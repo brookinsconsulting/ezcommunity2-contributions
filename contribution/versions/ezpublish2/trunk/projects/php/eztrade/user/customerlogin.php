@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: customerlogin.php,v 1.11 2001/03/09 09:02:00 bf Exp $
+// $Id: customerlogin.php,v 1.12 2001/03/26 15:18:50 ce Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <03-Oct-2000 16:45:30 bf>
@@ -51,6 +51,25 @@ if ( $user  )
 //        Header( "Location: /user/address/new/?RedirectURL=/trade/customerlogin/" );
         exit();
 
+    }
+    elseif ( count ( $user->addresses() ) > 0 )
+    {
+        $addresses =& $user->addresses();
+
+        $countryError = false;
+        foreach ( $addresses as $address )
+        {
+            $country =& $address->country();
+            if ( $country->id() == 0 )
+                $countryError = true;
+        }
+
+        if ( $countryError )
+        {
+            $userID = $user->id();
+            eZHTTPTool::header( "Location: /user/userwithaddress/edit/$userID/MissingCountry" );
+            exit();
+        }
     }
 
     eZHTTPTool::header( "Location: /trade/checkout/" );

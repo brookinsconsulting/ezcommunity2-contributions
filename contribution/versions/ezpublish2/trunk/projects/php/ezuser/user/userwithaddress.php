@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: userwithaddress.php,v 1.46 2001/03/22 17:13:26 bf Exp $
+// $Id: userwithaddress.php,v 1.47 2001/03/26 15:18:50 ce Exp $
 //
 //
 // Christoffer A. Elo <ce@ez.no>
@@ -83,6 +83,7 @@ $t->set_block( "errors_item_tpl", "error_address_zip_tpl", "error_address_zip" )
 $t->set_block( "errors_item_tpl", "error_address_place_tpl", "error_address_place" );
 
 $t->set_block( "errors_item_tpl", "error_missing_address_tpl", "error_missing_address" );
+$t->set_block( "errors_item_tpl", "error_missing_country_tpl", "error_missing_country" );
 
 $t->set_block( "user_edit_tpl", "new_user_tpl", "new_user" );
 $t->set_block( "user_edit_tpl", "edit_user_tpl", "edit_user" );
@@ -99,6 +100,7 @@ $t->set_var( "error_email", "" );
 $t->set_var( "error_email_not_valid", "" );
 $t->set_var( "error_password_match", "" );
 $t->set_var( "error_password_too_short", "" );
+$t->set_var( "error_missing_country", "" );
 
 $t->set_var( "error_address_place", "" );
 $t->set_var( "error_address_zip", "" );
@@ -156,6 +158,21 @@ if ( $MissingAddress == true )
 else
 {
     $t->set_var( "error_missing_address", "" );
+    $t->set_var( "action_value", "update" );
+}
+
+// If the user is trying to buy without having a address
+if ( $MissingCountry == true )
+{
+    $t->parse( "error_missing_country", "error_missing_country_tpl" );
+
+    $t->parse( "errors_item", "errors_item_tpl" );
+
+    $t->set_var( "action_value", "update" );
+}
+else
+{
+    $t->set_var( "error_missing_country", "" );
     $t->set_var( "action_value", "update" );
 }
 

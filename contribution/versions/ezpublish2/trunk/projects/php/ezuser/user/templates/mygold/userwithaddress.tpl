@@ -74,6 +74,10 @@
     <!-- BEGIN error_missing_address_tpl -->
     <li>{intl-error_missing_address}
     <!-- END error_missing_address_tpl -->
+
+    <!-- BEGIN error_missing_country_tpl -->
+    <li>{intl-error_missing_country}</li>
+    <!-- END error_missing_country_tpl -->
 </ul>
 
 <hr noshade="noshade" size="1"/>
@@ -125,7 +129,7 @@
 </table>
 
 <!-- BEGIN address_tpl -->
-<hr noshade="noshade" size="1" />
+<hr noshade="noshade" size="1" />
 <h2>{intl-address_number} {address_number} </h2> 
 <!-- BEGIN delete_address_tpl -->
 <input class="okbutton" type="submit" name="DeleteAddressButton{address_id}" value="{intl-delete_this_address}">
