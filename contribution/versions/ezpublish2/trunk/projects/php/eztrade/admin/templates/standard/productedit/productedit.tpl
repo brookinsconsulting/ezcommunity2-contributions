@@ -40,7 +40,9 @@
 <tr>
 	<td colspan="2">
 	<select name="CategoryID">
-        {option_values}
+	<!-- BEGIN value_tpl -->
+	<option value="{option_value}">{option_name}</option>
+	<!-- END value_tpl -->
 	</select>
 	</td>
 </tr>

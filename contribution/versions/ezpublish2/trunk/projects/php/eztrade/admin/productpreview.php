@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: productpreview.php,v 1.2 2000/09/23 11:36:42 bf-cvs Exp $
+// $Id: productpreview.php,v 1.3 2000/10/10 14:23:42 bf-cvs Exp $
 //
 // Definition of eZCompany class
 //
@@ -30,12 +30,13 @@ $t = new eZTemplate( $DOC_ROOT . "/admin/" . $ini->read_var( "eZTradeMain", "Tem
 
 $t->setAllStrings();
 
-$t->set_file( array( "product_preview_page" => "productpreview.tpl",
-                     "image_item" => "imageitem.tpl",
-                     "option_item" => "optionitem.tpl",
+$t->set_file( array( "product_preview_tpl" => "productpreview.tpl",
                       "value_item" => "valueitem.tpl"
                      ) );
 
+$t->set_block( "product_preview_tpl", "image_tpl", "image" );
+$t->set_block( "product_preview_tpl", "option_tpl", "option" );
+$t->set_block( "option_tpl", "value_tpl", "value" );
 
 $product = new eZProduct( $ProductID );
 
@@ -64,7 +65,7 @@ $t->set_var( "description_text", nl2br( $product->description() ) );
 $images = $product->images();
 
 $i=0;
-$t->set_var( "image_list", "" );
+$t->set_var( "image", "" );
 foreach ( $images as $image )
 {
     if ( $image->id() != $mainImageID )
@@ -88,7 +89,7 @@ foreach ( $images as $image )
         $t->set_var( "image_width", $variation->width() );
         $t->set_var( "image_height", $variation->height() );
     
-        $t->parse( "image_list", "image_item", true );
+        $t->parse( "image", "image_tpl", true );
     
         $i++;
     }
@@ -96,13 +97,13 @@ foreach ( $images as $image )
 
 $options = $product->options();
 
-$t->set_var( "option_list", "" );
+$t->set_var( "option", "" );
 foreach ( $options as $option )
 {
     $values = $option->values();
 
     $valueText = "";
-    $t->set_var( "value_list", "" );    
+    $t->set_var( "value", "" );    
     foreach ( $values as $value )
     {
         $valueText .= $value->name() . "\n";
@@ -111,7 +112,7 @@ foreach ( $options as $option )
         $t->set_var( "value_name", $value->name() );
         $t->set_var( "value_id", $value->id() );
         
-        $t->parse( "value_list", "value_item", true );    
+        $t->parse( "value", "value_tpl", true );    
     }
 
     $t->set_var( "option_name", $option->name() );
@@ -119,13 +120,13 @@ foreach ( $options as $option )
     $t->set_var( "option_id", $option->id() );
     $t->set_var( "product_id", $ProductID );
 
-    $t->parse( "option_list", "option_item", true );    
+    $t->parse( "option", "option_tpl", true );    
 }
 
 
 $t->set_var( "product_id", $product->id() );
 
 
-$t->pparse( "output", "product_preview_page" );
+$t->pparse( "output", "product_preview_tpl" );
 
 ?>

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: imagelist.php,v 1.5 2000/09/23 11:36:42 bf-cvs Exp $
+// $Id: imagelist.php,v 1.6 2000/10/10 14:23:42 bf-cvs Exp $
 //
 // Definition of eZCompany class
 //
@@ -33,10 +33,11 @@ $t = new eZTemplate( $DOC_ROOT . "/admin/" . $ini->read_var( "eZTradeMain", "Tem
 $t->setAllStrings();
 
 $t->set_file( array(
-    "image_list_page" => "imagelist.tpl",
-    "image_item" => "imageitem.tpl"
+    "image_list_page_tpl" => "imagelist.tpl"
     ) );
 
+$t->set_block( "image_list_page_tpl", "image_tpl", "image" );
+                
 $product = new eZProduct( $ProductID );
 
 
@@ -89,7 +90,7 @@ foreach ( $images as $image )
     
 //      $t->set_var( "image_url", $image->filePath() );
 
-    $t->parse( "image_list", "image_item", true );
+    $t->parse( "image", "image_tpl", true );
     
     $i++;
 }
@@ -97,6 +98,6 @@ foreach ( $images as $image )
 $t->set_var( "product_id", $product->id() );
 
 
-$t->pparse( "output", "image_list_page" );
+$t->pparse( "output", "image_list_page_tpl" );
 
 ?>

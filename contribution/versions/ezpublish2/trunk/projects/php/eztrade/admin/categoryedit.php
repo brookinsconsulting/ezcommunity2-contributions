@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: categoryedit.php,v 1.2 2000/09/20 15:09:04 bf-cvs Exp $
+// $Id: categoryedit.php,v 1.3 2000/10/10 14:23:42 bf-cvs Exp $
 //
 // Definition of eZCompany class
 //
@@ -73,9 +73,11 @@ $t = new eZTemplate( $DOC_ROOT . "/admin/" . $ini->read_var( "eZTradeMain", "Tem
 
 $t->setAllStrings();
 
-$t->set_file( array( "category_edit_page" => "categoryedit.tpl",
-                      "option_item" => "optionitem.tpl") );
+$t->set_file( array( "category_edit_tpl" => "categoryedit.tpl" ) );
 
+
+$t->set_block( "category_edit_tpl", "value_tpl", "value" );
+               
 $category = new eZProductCategory();
 
 $categoryArray = $category->getAll( );
@@ -103,10 +105,10 @@ foreach ( $categoryArray as $catItem )
         $t->set_var( "option_value", $catItem->id() );
         $t->set_var( "option_name", $catItem->name() );
 
-        $t->parse( "option_values", "option_item", true );
+        $t->parse( "value", "value_tpl", true );
     }
 }
 
-$t->pparse( "output", "category_edit_page" );
+$t->pparse( "output", "category_edit_tpl" );
 
 ?>

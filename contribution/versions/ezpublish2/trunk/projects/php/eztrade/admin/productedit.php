@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: productedit.php,v 1.6 2000/09/23 11:36:42 bf-cvs Exp $
+// $Id: productedit.php,v 1.7 2000/10/10 14:26:46 bf-cvs Exp $
 //
 // Definition of eZCompany class
 //
@@ -182,11 +182,17 @@ if ( $Action == "Delete" )
 $t = new eZTemplate( $DOC_ROOT . "/admin/" . $ini->read_var( "eZTradeMain", "TemplateDir" ) . "/productedit/",
                      $DOC_ROOT . "/admin/intl/", $Language, "productedit.php" );
 
+
+
+
+
+$t->set_file( array( "product_edit_tpl" => "productedit.tpl" ) );
+
+$t->set_block( "product_edit_tpl", "value_tpl", "value" );
+
+
 $t->setAllStrings();
-
-$t->set_file( array( "product_edit_page" => "productedit.tpl",
-                      "option_item" => "optionitem.tpl") );
-
+               
 $t->set_var( "brief_value", "" );
 $t->set_var( "description_value", "" );
 $t->set_var( "name_value", "" );
@@ -233,10 +239,10 @@ foreach ( $categoryArray as $catItem )
     $t->set_var( "option_value", $catItem->id() );
     $t->set_var( "option_name", $catItem->name() );
 
-    $t->parse( "option_values", "option_item", true );    
+    $t->parse( "value", "value_tpl", true );    
 }
 
 
-$t->pparse( "output", "product_edit_page" );
+$t->pparse( "output", "product_edit_tpl" );
 
 ?>

@@ -22,7 +22,9 @@
 	<td>
 	<select name="ParentID">
 	<option value="0">topp</option>
-    {option_values}
+	<!-- BEGIN value_tpl -->
+	<option value="{option_value}">{option_name}</option>
+	<!-- END value_tpl -->
 	</select>
 	</td>
 </tr>

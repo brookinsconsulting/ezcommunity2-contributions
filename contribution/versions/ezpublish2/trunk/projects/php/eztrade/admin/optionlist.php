@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: optionlist.php,v 1.3 2000/09/20 12:14:29 bf-cvs Exp $
+// $Id: optionlist.php,v 1.4 2000/10/10 14:23:42 bf-cvs Exp $
 //
 // Definition of eZCompany class
 //
@@ -33,9 +33,10 @@ $t = new eZTemplate( $DOC_ROOT . "/admin/" . $ini->read_var( "eZTradeMain", "Tem
 $t->setAllStrings();
 
 $t->set_file( array(
-    "option_list_page" => "optionlist.tpl",
-    "option_item" => "optionitem.tpl"
+    "option_list_tpl" => "optionlist.tpl"
     ) );
+
+$t->set_block( "option_list_tpl", "option_tpl", "option" );
 
 $product = new eZProduct( $ProductID );
     
@@ -43,17 +44,23 @@ $t->set_var( "product_name", $product->name() );
 
 $options = $product->options();
 
+$i=0;
 foreach ( $options as $option )
 {
+    if ( ( $i %2 ) == 0 )
+        $t->set_var( "td_class", "bglight" );
+    else
+        $t->set_var( "td_class", "bgdark" );
     $t->set_var( "option_name", $option->name() );
     $t->set_var( "option_id", $option->id() );
     $t->set_var( "product_id", $ProductID );
 
-    $t->parse( "option_list", "option_item", true );    
+    $t->parse( "option", "option_tpl", true );
+    $i++;
 }
 
 $t->set_var( "product_id", $ProductID );
 
-$t->pparse( "output", "option_list_page" );
+$t->pparse( "output", "option_list_tpl" );
 
 ?>
