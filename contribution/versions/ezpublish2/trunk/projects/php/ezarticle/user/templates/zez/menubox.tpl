@@ -6,7 +6,7 @@
 <tr>
 	<td>
 	<a class="menu" href="/article/archive/{articlecategory_id}/">
-	<img src="/images/dot.gif" width="12" heigth="12" border="0">{articlecategory_title}
+	<img src="/images/dot.gif" width="12" heigth="10" border="0">{articlecategory_title}
 	</a>
 	</td>
 </tr>
