@@ -27,12 +27,12 @@
 	<p class="smallbold" align="center"><a href="http://publish.ez.no"><img src="/images/poweredbyezpublish.gif" width="70" height="70" align="center" border="0"></a></p>
 
     <?
-$session = new eZSession();
+$session = eZSession::globalSession();
 
 
 if ( $session->fetch() == false )
 {
-    $session = new eZSession();
+    $session = eZSession::globalSession();
     $session->store();    
 }
 

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: vote.php,v 1.8 2000/12/19 13:52:05 ce Exp $
+// $Id: vote.php,v 1.9 2001/01/21 18:15:51 jb Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <20-Sep-2000 13:32:11 ce>
@@ -36,7 +36,7 @@ include_once( $DOC_ROOT . "/classes/ezvote.php" );
 include_once( $DOC_ROOT . "/classes/ezpollchoice.php" );
 include_once( "ezsession/classes/ezsession.php" );
 
-$session = new eZSession();
+$session = eZSession::globalSession();
 
 if( !$session->fetch() )
     $session->store();

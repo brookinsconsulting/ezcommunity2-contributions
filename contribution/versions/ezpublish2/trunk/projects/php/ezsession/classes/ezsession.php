@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezsession.php,v 1.19 2001/01/19 20:27:44 bf Exp $
+// $Id: ezsession.php,v 1.20 2001/01/21 18:15:51 jb Exp $
 //
 // Definition of eZSession class
 //
@@ -30,7 +30,7 @@
 
   \code
   // Create a new session, store it to the database and set a cookie.
-  $session = new eZSession( );
+  $session = eZSession::globalSession( );
   $session->store();
 
   // get the session from the client
@@ -72,14 +72,6 @@ class eZSession
             {
                 $this->get( $this->ID );
             }
-            else
-            {
-                $this->State_ = "Dirty";
-            }
-        }
-        else
-        {
-            $this->State_ = "New";
         }
     }
 
@@ -88,7 +80,7 @@ class eZSession
     */
     function store()
     {
-        $this->dbInit();
+        $db =& eZDB::globalDatabase();
 
         // set the cookie
         $this->Hash = md5( microTime() );
@@ -110,7 +102,7 @@ class eZSession
         
         if ( !isset( $this->ID ) )
         {
-            $this->Database->query( "INSERT INTO eZSession_Session SET
+            $db->query( "INSERT INTO eZSession_Session SET
                                  Created=now(),
                                  LastAccessed=now(),
                                  SecondLastAccessed=now(),
@@ -119,13 +111,11 @@ class eZSession
 
             $this->ID = mysql_insert_id();
 
-            $this->State_ = "Coherent";
-            
             $this->setVariable( "SessionIP", $remoteIP );
         }
         else
         {
-            $this->Database->query( "UPDATE eZSession_Session SET
+            $db->query( "UPDATE eZSession_Session SET
                                  Created=Created,
                                  SecondLastAccessed=LastAccessed,
                                  LastAccessed=now(),
@@ -133,7 +123,6 @@ class eZSession
                                  WHERE ID='$this->ID'
                                  " );
 
-            $this->State_ = "Coherent";
             $this->setVariable( "SessionIP", $remoteIP );
         }
         
@@ -145,12 +134,12 @@ class eZSession
     */
     function get( $id="" )
     {
-        $this->dbInit();
+        $db =& eZDB::globalDatabase();
         $ret = false;
         
         if ( $id != "" )
         {
-            $this->Database->array_query( $session_array, "SELECT * FROM eZSession_Session WHERE ID='$id'" );
+            $db->array_query( $session_array, "SELECT * FROM eZSession_Session WHERE ID='$id'" );
             if ( count( $session_array ) > 1 )
             {
                 die( "Error: Session's with the same ID was found in the database. This shouldent happen." );
@@ -164,13 +153,8 @@ class eZSession
                 $this->Created = $session_array[0][ "Created" ];
                 
 
-                $this->State_ = "Coherent";
                 $ret = true;
             }
-        }
-        else
-        {
-            $this->State_ = "Dirty";
         }
         return $ret;
     }
@@ -182,7 +166,7 @@ class eZSession
     */
     function fetch( $refresh=true )
     {
-        $this->dbInit();
+        $db =& eZDB::globalDatabase();
         $ret = false;
 
 //          if ( session_is_registered("eZSession") )
@@ -197,7 +181,7 @@ class eZSession
         
         $hash = $GLOBALS["eZSession"];
 
-        $this->Database->array_query( $session_array, "SELECT ID
+        $db->array_query( $session_array, "SELECT ID
                                       FROM eZSession_Session
                                       WHERE Hash='$hash'" );
 
@@ -219,13 +203,10 @@ class eZSession
     */
     function refresh( )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
-       $this->dbInit();
+        $db =& eZDB::globalDatabase();
        
-       // update session
-       $this->Database->query( "UPDATE eZSession_Session SET
+        // update session
+        $db->query( "UPDATE eZSession_Session SET
                                  Created=Created,
                                  SecondLastAccessed=LastAccessed,
                                  LastAccessed=now()
@@ -239,14 +220,14 @@ class eZSession
     */
     function delete()
     {
-        $this->dbInit();
+        $db =& eZDB::globalDatabase();
 
         if ( isset( $this->ID ) )
         {
-            $this->Database->query( "DELETE FROM eZSession_SessionVariable
+            $db->query( "DELETE FROM eZSession_SessionVariable
                                     WHERE SessionID='$this->ID'" );
             
-            $this->Database->query( "DELETE FROM eZSession_Session WHERE ID='$this->ID'" );
+            $db->query( "DELETE FROM eZSession_Session WHERE ID='$this->ID'" );
         }
         
         return true;
@@ -257,9 +238,6 @@ class eZSession
     */
     function id( )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
        return $this->ID;
     }
     
@@ -268,9 +246,6 @@ class eZSession
     */
     function hash( )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-        
        return $this->Hash;
     }
     
@@ -279,9 +254,6 @@ class eZSession
     */
     function lastAccessed( )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
        $dateTime = new eZDateTime();
        $dateTime->setMySQLTimeStamp( $this->LastAccessed );
        
@@ -293,9 +265,6 @@ class eZSession
     */
     function created( )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
        $dateTime = new eZDateTime();
        $dateTime->setMySQLTimeStamp( $this->Created );
        
@@ -307,9 +276,6 @@ class eZSession
     */
     function setHash( $value )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
        $this->Hash = $value;
     }
 
@@ -320,13 +286,10 @@ class eZSession
     */
     function variable( $name )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-       
        $ret = false;
-       $this->dbInit();
+        $db =& eZDB::globalDatabase();
 
-       $this->Database->array_query( $value_array, "SELECT Value FROM eZSession_SessionVariable
+       $db->array_query( $value_array, "SELECT Value FROM eZSession_SessionVariable
                                                     WHERE SessionID='$this->ID' AND Name='$name'" );       
 
        if ( count( $value_array ) == 1 )
@@ -343,13 +306,10 @@ class eZSession
     */    
     function getByVariable( $name )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-       
        $ret = array();
-       $this->dbInit();
+        $db =& eZDB::globalDatabase();
 
-       $this->Database->array_query( $value_array, "SELECT eZSession_Session.ID
+       $db->array_query( $value_array, "SELECT eZSession_Session.ID
                                                     FROM eZSession_Session, eZSession_SessionVariable
                                                     WHERE eZSession_Session.ID=eZSession_SessionVariable.SessionID
                                                     AND eZSession_SessionVariable.Name='AuthenticatedUser'" );
@@ -367,13 +327,10 @@ class eZSession
     */
     function idle( )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-       
-       $this->dbInit();
+        $db =& eZDB::globalDatabase();
 
        $value_array = array();
-       $this->Database->array_query( $value_array, "SELECT ID,UNIX_TIMESTAMP( LastAccessed ) AS LAST, UNIX_TIMESTAMP( now() + 0 ) AS NOW, LastAccessed
+       $db->array_query( $value_array, "SELECT ID,UNIX_TIMESTAMP( LastAccessed ) AS LAST, UNIX_TIMESTAMP( now() + 0 ) AS NOW, LastAccessed
                                                     FROM eZSession_Session WHERE ID='$this->ID'" );
        
        $ret = false;            
@@ -398,23 +355,20 @@ class eZSession
     */
     function setVariable( $name, $value )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-       
-       $this->dbInit();
+        $db =& eZDB::globalDatabase();
 
-       $this->Database->array_query( $value_array, "SELECT ID FROM eZSession_SessionVariable
+       $db->array_query( $value_array, "SELECT ID FROM eZSession_SessionVariable
                                                     WHERE SessionID='$this->ID' AND Name='$name'" );       
        if ( count( $value_array ) == 1 )
        {
            $valueID = $value_array[0]["ID"];
-           $this->Database->query( "UPDATE eZSession_SessionVariable SET
+           $db->query( "UPDATE eZSession_SessionVariable SET
 		                         Value='$value' WHERE ID='$valueID'
                                  " );
        }
        else
        {
-           $this->Database->query( "INSERT INTO eZSession_SessionVariable SET
+           $db->query( "INSERT INTO eZSession_SessionVariable SET
 		                         SessionID='$this->ID',
 		                         Name='$name',
 		                         Value='$value'
@@ -423,16 +377,19 @@ class eZSession
     }
 
     /*!
-      Private function.
-      Open the database for read and write. Gets all the database information from site.ini.
+      \static
+      Returns a reference to the global session object, if it doesn't exists it is initialized.
+      This is safe to call without an object since it does not access member variables.
     */
-    function dbInit()
+    function &globalSession( $id="", $fetch=true )
     {
-        if ( $this->IsConnected == false )
+        $session =& $GLOBALS["eZSessionObject"];
+
+        if ( get_class( $session ) != "ezsession" )
         {
-            $this->Database = eZDB::globalDatabase();
-            $this->IsConnected = true;
+            $session = new eZSession( $id, $fetch );
         }
+        return $session;
     }
 
     var $ID;
@@ -441,15 +398,6 @@ class eZSession
     var $Created;
     var $LastAccessed;
     var $SecondLastAccessed;
-    
-
-    ///  Variable for keeping the database connection.
-    var $Database;
-
-    /// Indicates the state of the object. In regard to database information.
-    var $State_;
-    /// Is true if the object has database connection, false if not.
-    var $IsConnected;
 }
 
 ?>

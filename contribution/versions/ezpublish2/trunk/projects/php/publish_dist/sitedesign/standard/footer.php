@@ -23,12 +23,12 @@
 	<!-- Oppslagstavle fram til hit! -->
 
     <?
-$session = new eZSession();
+$session = eZSession::globalSession();
 
 
 if ( $session->fetch() == false )
 {
-    $session = new eZSession();
+    $session = eZSession::globalSession();
     $session->store();    
 }
 

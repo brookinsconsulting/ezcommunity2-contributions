@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezdb.php,v 1.28 2001/01/18 09:42:42 ce Exp $
+// $Id: ezdb.php,v 1.29 2001/01/21 18:15:50 jb Exp $
 //
 // Definition of eZDB class
 //
@@ -75,7 +75,7 @@ class eZDB
     {
         $result = mysql_query( $sql );
 
-//          eZLog::writeNotice( $sql );
+        eZLog::writeNotice( $sql );
 
         if ( $print )
         {

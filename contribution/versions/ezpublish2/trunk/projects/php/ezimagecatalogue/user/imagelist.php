@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: imagelist.php,v 1.5 2001/01/12 18:52:31 gl Exp $
+// $Id: imagelist.php,v 1.6 2001/01/21 18:15:51 jb Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <10-Dec-2000 16:16:20 bf>
@@ -45,16 +45,16 @@ $t->setAllStrings();
 
 if ( isSet ( $DetailView ) )
 {
-    $session = new eZSession();
+    $session = eZSession::globalSession();
     $session->setVariable( "ImageViewMode", "Detail" );
 }
 if ( isSet ( $NormalView ) )
 {
-    $session = new eZSession();
+    $session = eZSession::globalSession();
     $session->setVariable( "ImageViewMode", "Normal" );
 }
 
-$checkMode = new eZSession();
+$checkMode = eZSession::globalSession();
 
 if ( $checkMode->variable( "ImageViewMode" ) == "Detail" )
 {

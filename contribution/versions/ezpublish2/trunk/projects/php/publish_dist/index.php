@@ -16,7 +16,7 @@ $GlobalSiteIni =& $ini;
 // Design
 include_once( "ezsession/classes/ezsession.php" );
 
-$session = new eZSession();
+$session = eZSession::globalSession();
 
 if ( $session->fetch() == false )
 {
