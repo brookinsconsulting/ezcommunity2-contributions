@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: articleedit.php,v 1.55 2001/03/06 20:36:39 fh Exp $
+// $Id: articleedit.php,v 1.56 2001/03/07 16:21:06 fh Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <18-Oct-2000 15:04:39 bf>
@@ -49,7 +49,7 @@ function notificationMessage( &$article )
     $PublishSite = $ini->read_var( "site", "SiteTitle" );
     $SiteURL = $ini->read_var( "site", "SiteURL" );
 
-    $mailTemplate = new eZTemplate( "ezarticle/admin/" . $ini->read_var( "eZArticleMain", "TemplateDir" ),
+    $mailTemplate = new eZTemplate( "ezarticle/admin/" . $ini->read_var( "eZArticleMain", "AdminTemplateDir" ),
                                     "ezarticle/admin/intl", $ini->read_var( "eZArticleMain", "Language" ), "mailtemplate.php" );
     
     $mailTemplate->set_file( "mailtemplate", "mailtemplate.tpl" );
