@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: payment.php,v 1.71 2001/09/17 09:26:02 pkej Exp $
+// $Id: payment.php,v 1.72 2001/09/17 11:24:47 pkej Exp $
 //
 // Created on: <02-Feb-2001 16:31:53 bf>
 //
@@ -160,12 +160,12 @@ if ( $paymentMethod == true )
 else
 $PaymentSuccess = "true";
 
+$currency = new eZCurrency();
+
 // create an order and empty the cart.
 // only do this if the payment was OK.
 if ( $PaymentSuccess == "true" ) 
 {
-    $locale = new eZLocale( $Language );
-    $currency = new eZCurrency();
     
     // create a new order
     $order = new eZOrder();
@@ -266,10 +266,7 @@ if ( $PaymentSuccess == "true" )
 
     //
     // Send mail confirmation
-    //  
-    $locale = new eZLocale( $Language );
-    $currency = new eZCurrency();
-    
+    //      
     $mailTemplate = new eZTemplate( "eztrade/user/" . $ini->read_var( "eZTradeMain", "TemplateDir" ),
                                     "eztrade/user/intl", $Language, "mailorder.php" );
 
@@ -415,15 +412,9 @@ if ( $PaymentSuccess == "true" )
     $items = $order->items( $OrderType );
 
 
-    $locale = new eZLocale( $Language );
-    $currency = new eZCurrency();
-
     $i = 0;
     $sum = 0.0;
     $totalVAT = 0.0;
-
-    $locale = new eZLocale( $Language );
-    $currency = new eZCurrency();
 
     $numberOfItems = 0;
     $i = 0;
@@ -482,9 +473,6 @@ if ( $PaymentSuccess == "true" )
     $separateBy = 2;
 
     $order->orderTotals( $tax, $total );
-
-    $locale = new eZLocale( $Language );
-    $currency = new eZCurrency();
 
     $mailTemplate->set_var( "empty_cart", "" );
 
