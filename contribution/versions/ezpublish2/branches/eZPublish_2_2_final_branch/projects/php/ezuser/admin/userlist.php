@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: userlist.php,v 1.25.2.2 2002/04/24 07:23:42 bf Exp $
+// $Id: userlist.php,v 1.25.2.3 2002/07/14 14:11:58 kaid Exp $
 //
 // Created on: <20-Sep-2000 13:32:11 ce>
 //
@@ -88,7 +88,7 @@ else if ( $GroupID == 0 )
 else
 {
     $usergroup = new eZUserGroup();
-    $userList = $usergroup->users( $GroupID );
+    $userList = $usergroup->users( $GroupID, $OrderBy );
     $TotalTypes =  count( $userList );
 }
 
