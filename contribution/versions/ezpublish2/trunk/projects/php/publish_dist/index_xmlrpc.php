@@ -352,6 +352,13 @@ function createDateTimeStruct( $datetime )
     return $ret;
 }
 
+function createTreeStruct( $tree, $module, $type )
+{
+    foreach( $tree as $item )
+    {
+    }
+}
+
 function createDateTime( $struct )
 {
     $datetime = new eZDateTime();
