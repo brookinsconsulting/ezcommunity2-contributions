@@ -17,7 +17,6 @@
 <br />
 <table cellpadding="2" cellspacing="0" border="0" width="100%">
 <th class "boxtext" width="20%">{intl-owner}</th>
-<th class "boxtext" width="80%">{intl-recursive}
 <tr>
   <td>
     <select multiple size="5" name="WriteGroupArrayID[]">
@@ -27,12 +26,14 @@
     <!-- END write_group_item_tpl -->
     </select>
   </td>
-  <td>
-    <input type="checkbox" name="Recursive" />
-  </td>
+</tr>
+<tr>
+    <td>
+<div class="boxtext"><input type="checkbox" name="Recursive" /> {intl-recursive}</div>
+    </td>
 </tr>
 </table>
-
+<br />
 <hr noshade size="4"/>
 
 <input class="okbutton" type="submit" value="{intl-ok}">
