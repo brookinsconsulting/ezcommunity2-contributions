@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eznewsitem.php,v 1.14 2000/10/01 13:39:28 pkej-cvs Exp $
+// $Id: eznewsitem.php,v 1.15 2000/10/01 13:57:56 pkej-cvs Exp $
 //
 // Definition of eZNewsItem class
 //
@@ -112,7 +112,6 @@ class eZNewsItem extends eZNewsUtility
       then the first object with that name will be fetched. In other words
       there is no guarantee that you will get what you want using a name.
       
-        \variables
         \in
             \$inData    Either the ID or the Name of the row we want this object
                     to be created from.
@@ -134,7 +133,6 @@ class eZNewsItem extends eZNewsUtility
         
         Fetches the object information from the database.
       
-        \variables
         \in
             \$inData    Either the ID or the Name of the row we want this object
                     to get data from.
@@ -217,7 +215,6 @@ class eZNewsItem extends eZNewsUtility
         used to create information about changes done to
         the object, epsecially automatic changes.
         
-        \variables
         \in
             \$changeText    The information about this type in
                             plaintext.
@@ -631,7 +628,6 @@ class eZNewsItem extends eZNewsUtility
         
         Store this eZNewsItem object and related items.
         
-        \variables
         \out
             \$outID     The ID returned after the insert/update.
         \return
@@ -706,7 +702,6 @@ class eZNewsItem extends eZNewsUtility
     /*!
         This function will return all IDs of the children of this class.
         
-        \variables
         \in
             \$inOrderBy  This is the columnname to order the returned array
                         by.
@@ -788,7 +783,6 @@ class eZNewsItem extends eZNewsUtility
     /*!
         This function will return all IDs of the parents of this class.
         
-        \variables
         \in
             \$inOrderBy  This is the columnname to order the returned array
                         by.
@@ -871,7 +865,6 @@ class eZNewsItem extends eZNewsUtility
     /*!
         Start or stop object logging.
         
-        \variables
         \in
             \$check True enables logging, false disables it.
                     Default is true.
@@ -897,7 +890,6 @@ class eZNewsItem extends eZNewsUtility
     /*!
         Start or stop creator check.
         
-        \variables
         \in
             \$check True enables creator checking, false disables it.
                     Default is true.
@@ -923,7 +915,6 @@ class eZNewsItem extends eZNewsUtility
     /*!
         Should we check out who the creator is?
        
-        \variables
         \return
             Returns true if we should check the
             creator.
@@ -945,7 +936,6 @@ class eZNewsItem extends eZNewsUtility
     /*!
         Check if this object is logging it's changes,
        
-        \variables
         \return
             Returns true if we are logging.
      */
@@ -966,7 +956,6 @@ class eZNewsItem extends eZNewsUtility
     /*!
         Check if the string is a valid change type string.
         
-        \variables
         \in
             $changeType   A change type name.
         \return
@@ -991,7 +980,6 @@ class eZNewsItem extends eZNewsUtility
         Make shure that the object is in a legal state.
         All errors are stored in $this->Errors.
         
-        \variables
         \return
             Returns true if the object passes the check.
      */

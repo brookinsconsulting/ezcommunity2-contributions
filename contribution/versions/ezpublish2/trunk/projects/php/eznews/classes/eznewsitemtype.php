@@ -1,11 +1,11 @@
 <?
 // 
-// $Id: eznewsitemtype.php,v 1.2 2000/09/28 08:27:15 pkej-cvs Exp $
+// $Id: eznewsitemtype.php,v 1.3 2000/10/01 13:57:56 pkej-cvs Exp $
 //
 // Definition of eZNewsItemType class
 //
 // Paul K Egell-Johnsen <pkej@ez.no>
-// Created on: <14-Sep-2000 11:24:00 pkej>
+// Created on: <14-Sep-2000 11:40:37 pkej>
 //
 // Copyright (C) 1999-2000 eZ Systems.  All rights reserved.
 //
@@ -14,7 +14,7 @@
 //
 
 //!! eZNews
-//! eZNewsItemType handles typing of news items.
+//! eZNewsItemType handles change types for the eZNews log.
 /*!
     The eZNewsItemType identifies what different kind of news items that
     can be used in a eZNews system. In addition to the typing info it
@@ -23,301 +23,427 @@
     
     Example of usage:
     \code
-    \endcode
+    // Example of how to include this file.
+    include_once( "eznews/classes/eznewsitemtype.php" );       
+
+    // Example on how to create an empty object:    
+    $ct = new eZNewsItemType();
     
-    \sa
-*/
-
-include_once( "classes/ezdb.php" );
-
-class eZNewsItemType
-{
-    /*!
-      Constructs a new eZNewsItemType object.
-
-      If $id is set the object's values are fetched from the
-      database.
-    */
-    function eZNewsItemType( $id = -1, $fetch = true )
+    // Example on how to check if a change type exists
+    
+    $changeName = "create";
+    
+    $ct = new eZNewsItemType( $changeName, true );
+    
+    if( $ct->isCoherent() )
     {
-        $this->IsConnected = false;
-
-        if ( $id != -1 )
+        echo "The object " . $ct->ID() . " represents the change type: " . $ct->Name();
+        echo " which is equal to $changeName";
+    }
+    
+    // Example on how to create a change type.
+    
+    $changeName = "submit";
+    
+    $ct = new eZNewsItemType( $changeName, true );
+    
+    if( !$ct->isCoherent() )
+    {
+        $ct->setName( $changeName );
+        $ct->setDescription( "The item has been submitted" );
+        $outID = 0;
+        $ct->store( $outID );
+        
+        if( $outID != 0 )
         {
-            $this->ID = $id;
-
-            if ( $fetch == true )
-            {
-                $this->get( $id );
-            }
-            else
-            {
-                $this->State_ = "Dirty";
-            }
+            echo "The new change type: " .  $changeName . " was stored with id $outID<br>";
         }
         else
         {
-            $this->State_ = "New";
+            echo "Hmm shouldn't see this...<br>";
         }
     }
-
-    /*!
-      Fetches the object information from the database based on unique identifiers.
-    */
-    function get( $inID = -1 )
+    else
     {
-        isset( $returnError );
-        
-        $this->dbInit();
+        echo "The change type: " $changeName . " exists with id $outID<br>";
+    }
+    
+    \endcode
+    
+    \sa eZNewsItem
+*/
+/*!TODO
+    Add all examples needed.
+ */
 
-        if( ( $this->State_ != "Altered" && $this->isAlteredCheck != true ) )
+include_once( "eznews/classes/eznewsutility.php" );       
+
+class eZNewsItemType extends eZNewsUtility
+{
+    /*!
+        Constructs a new eZNewsItemType object.
+
+        If $inData is set the object's values are fetched from the
+        database. $inData might be a name or an ID. If it is an object name
+        then the first object with that name will be fetched. In other words
+        there is no guarantee that you will get what you want using a name.
+      
+        \in
+            \$inData    Either the ID or the Name of the row we want
+            \$fetch     Should we fetch the row now, or later
+    */
+    function eZNewsItemType( $inData = "", $fetch = true )
+    {
+        eZNewsUtility::eZNewsUtility( $inData, $fetch );
+    }
+    
+    
+    /*!
+        Update this eZNewsItemType object and related items.
+        
+        \out
+            \ID     The ID returned after the insert/update.
+        \return
+            Returns true if we are successful.
+     */
+    function updateThis( &$ID )
+    {
+        $value = false;
+        
+        $query =
+        "
+            UPDATE
+                eZNews_ItemType
+            SET
+                Name = '%s',
+                eZClass = '%s',
+                eZTable = '%s'
+            WHERE
+                ID = '%s'
+        ";
+        
+        $query = sprintf
+        (
+            $query,
+            $this->Name,
+            $this->eZClass,
+            $this->eZTable,
+            $this->ID
+        );
+        
+        $this->Database->query( $query );
+        $insertID = mysql_insert_id();
+
+        if( $insertID )
         {
-            $query =
-            "
+            $outID = $insertID;
+            $this->ID = $insertID;
+            $value = true;
+        }
+        
+        return $value;
+    }
+    
+    
+    
+    /*!
+        Store this eZNewsItemType object and related items.
+        
+        \out
+            \$outID     The ID returned after the insert/update.
+        \return
+            Returns true if we are successful.
+     */
+    function storeThis( &$outID )
+    {
+        $value = false;
+        
+        $query =
+        "
+            INSERT INTO
+                eZNews_ItemType
+            SET
+                Name = '%s',
+                eZClass = '%s',
+                eZTable = '%s'
+        ";
+        
+        $query = sprintf
+        (
+            $query,
+            $this->Name,
+            $this->eZClass,
+            $this->eZTable
+        );
+        
+        $this->Database->query( $query );
+        $insertID = mysql_insert_id();
+
+        if( $insertID )
+        {
+            $outID = $insertID;
+            $this->ID = $insertID;
+            $value = true;
+        }
+        
+        return $value;
+    }
+    
+    
+    
+    /*!
+        Fetches the object information from the database.
+      
+        \in
+            \$inData    Either the ID or the Name of the row we want this object
+                    to get data from.
+        \out
+            \$outID     An array of all IDs from the result of the query.
+        \return
+            Returns true if only one data item was returned.
+    */
+    function getThis( &$outID, &$inData )
+    {
+        $value = false;
+        $itemTypeArray = array();
+        $outID = array();
+        
+        if( is_numeric( $inData ) )
+        {
+            $query = "
                 SELECT
                     *
                 FROM
                     eZNews_ItemType
-                WHERE
-                    ID='%s'
+                WHERE ID = %s
             ";
-            $query=sprintf( $query, $inID );
-            $this->Database->array_query( $itemTypeArray, $query );
-            $rowsFound = count( $itemTypeArray );
-
-            switch ( $rowsFound )
-            {
-                case (0):
-                    $this->State_ = "Don't Exist";
-                    $returnError = "The row uniquely identified by $value in column $column does not exist";
-                    break;
-                case (1):
-                    $this->ID       = $itemTypeArray[0][ "ID" ];
-                    $this->Name     = $itemTypeArray[0][ "Name" ];
-                    $this->eZTable  = $itemTypeArray[0][ "eZTable" ];
-                    $this->eZClass  = $itemTypeArray[0][ "eZClass" ];
-                    break;
-                default:
-                    die( "Error: News item's with the same  was found in the database. This shouldent happen.<br>" );
-                    break;
-            }
-           
-            $this->State_ = "Coherent";
+            
+            $query = sprintf( $query2, $inData );
         }
         else
         {
-            if ( $this->State_ == "Altered" && $this->isAlteredCheck == true )
-            {
-                $returnError[] = "You have altered this object and not stored the changes. Turn off isAlteredCheck if you don't like this behaviour (default is off)";
-            }
+            $query2 = "
+                SELECT
+                    *
+                FROM
+                    eZNews_ItemType
+                WHERE Name = '%s'
+            ";
+            
+            $query = sprintf( $query2, $inData );
+        }
+
+        $this->Database->array_query( $itemTypeArray, $query );
+        
+        $count = count( $itemTypeArray );
+        
+        #echo "count=: " . $count . "<br>";
+        #echo "item 0 id: " . $itemTypeArray[0][ "ID" ] . "<br>";
+        #echo "item 0 description: " . $itemTypeArray[0][ "Description" ] . "<br>";
+        switch( $count )
+        {
+            case 0:
+                $this->Error[] = "intl-eznews-eznewsitemtype-no-object-found";
+                break;
+            case 1:
+                $outID[] = $itemTypeArray[0][ "ID" ];
+                $this->Name = $itemTypeArray[0][ "Name" ];
+                $this->eZClass = $itemTypeArray[0][ "eZClass" ];
+                $this->eZTable = $itemTypeArray[0][ "eZTable" ];
+                $value = true;
+                break;
+            default:
+                $this->Error[] = "intl-eznews-eznewsitemtype-more-than-one-object-found";
+
+                foreach( $itemTypeArray as $itemType )
+                {
+                    $outID[] = $itemType[ "ID" ];
+                }
+                break;
         }
         
-        return $returnError;
+        return $value;
     }
 
 
-    function exists( $name )
-    {
-        $returnValue = false;
+
+        /*!
+            Returns all the item types found in the database.
         
+        \in
+            \$inOrderBy  This is the columnname to order the returned array
+                        by.
+            \accepts
+                ID - The id of the row in the table
+                Name - Name of item
+                eZClass - The eZClass of this item type.
+                eZTable - The eZTable of this item type.
+                \default is ID
+            \$direction  This is the direction to do the ordering in
+            \accepts
+                asc - ascending order
+                desc - descending order
+                \default is asc
+            \$startAt   This is the result number we want to start at
+                \default is 0
+            \$noOfResults This is the number of results we want.
+                \default is all
+        \out
+            \$returnArray    This is the array of found elements
+        \return
+            Returns false if it fails, the error message from SQL is
+            retained in $this->SQLErrors. Use getSQLErrors() to read
+            the error message.
+                      
+     */
+    function getAll( &$returnArray, $inOrderBy, $direction , $startAt = 0, $noOfResults = "" )
+    {
         $this->dbInit();
+        
+        $returnArray = array();
+        $itemTypeArray = array();
         
         $query =
         "
             SELECT
-                *
+                ID
             FROM
                 eZNews_ItemType
-            WHERE
-                Name = '%s'
+            %s
+            %s
         ";
-
-        $query=sprintf( $query, $name );
+        
+        $orderBy = $this->createOrderBy( $inOrderBy, $direction );
+        $limits = $this->createLimit( $startAt, $noOfResults );
+        
+        $query = sprintf( $query, $orderBy, $limits );
+        
         $this->Database->array_query( $itemTypeArray, $query );
-        $rowsFound = count( $itemTypeArray );
-
-        switch( $rowsFound )
+        
+        for ( $i=0; $i < count( $itemTypeArray ); $i++ )
         {
-            case (1):
-                $this->get( $itemTypeArray[0][ "ID" ] );
-                $returnValue = true;
-                break;
-            default:
-                break;
+            $returnArray[$i] = new eZNewsItemType( $itemTypeArray[$i][ "ID" ], 0 );
         }
-        return $returnValue;
+        
+        if( $returnArray )
+        {
+            $value = true;
+        }
+        
+        return $value;
     }
 
-    function existsClass( $name )
-    {
-        $returnValue = false;
-        
-        $this->dbInit();
-        
-        $query =
-        "
-            SELECT
-                *
-            FROM
-                eZNews_ItemType
-            WHERE
-                eZClass = '%s'
-        ";
 
-        $query=sprintf( $query, $name );
-        $this->Database->array_query( $itemTypeArray, $query );
-        $rowsFound = count( $itemTypeArray );
-
-        switch( $rowsFound )
-        {
-            case (1):
-                $this->get( $itemTypeArray[0][ "ID" ] );
-                $returnValue = true;
-                break;
-            default:
-                break;
-        }
-        return $returnValue;
-    }
 
     /*!
-      Private function.
-      Open the database for read and write. Gets all the database information from site.ini.
+        Sets the eZClass of the object.
+        
+        \in
+            \$inDescription    The new name of this object
+        \return
+            Will always return true.
     */
-    function dbInit()
+    function seteZClass( $ineZClass )
     {
-        if( $this->IsConnected == false )
-        {
-            $this->Database = new eZDB( "site.ini", "eZNewsMain" );
-            $this->IsConnected = true;
-        }
-    }
-    function ID()
-    {
-        return $this->ID;
+        $this->dirtyUpdate();
+        
+        $this->eZClass = $ineZClass;
+        
+        $this->alterState();
+        
+        return true;
     }
     
-    function setName( $value )
-    {
-        if( $this->State_ == "Dirty" )
-        {
-            $this->get( $this->ID );
-        }
+
+
+    /*!
+        Returns the object eZClass.
         
-        $this->Name = $value;
-        
-        if( $this->State_ != "New" )
-        {
-            $this->State_ == "Altered";
-        }
-    }
-    
-    function name()
-    {
-        if( $this->State_ == "Dirty" )
-        {
-            $this->get( $this->ID );
-        }
-        
-        return $this->Name;
-    }
-    function seteZClass( $value )
-    {
-        if( $this->State_ == "Dirty" )
-        {
-            $this->get( $this->ID );
-        }
-        
-        $this->eZClass = $value;
-        
-        if( $this->State_ != "New" )
-        {
-            $this->State_ == "Altered";
-        }
-    }
-    
+        \return
+            Returns the eZClass of the object.
+    */
     function eZClass()
     {
-        if( $this->State_ == "Dirty" )
-        {
-            $this->get( $this->ID );
-        }
+        $this->dirtyUpdate();
         
         return $this->eZClass;
     }
-    function seteZTable( $value )
+
+
+
+    /*!
+        Sets the eZTable of the object.
+        
+        \in
+            \$inDescription    The new name of this object
+        \return
+            Will always return true.
+    */
+    function seteZTable( $ineZTable )
     {
-        if( $this->State_ == "Dirty" )
-        {
-            $this->get( $this->ID );
-        }
+        $this->dirtyUpdate();
         
-        $this->eZTable = $value;
+        $this->eZTable = $ineZTable;
         
-        if( $this->State_ != "New" )
-        {
-            $this->State_ == "Altered";
-        }
+        $this->alterState();
+        
+        return true;
     }
     
+
+
+    /*!
+        Returns the object eZTable.
+        
+        \return
+            Returns the eZTable of the object.
+    */
     function eZTable()
     {
-        if( $this->State_ == "Dirty" )
-        {
-            $this->get( $this->ID );
-        }
+        $this->dirtyUpdate();
         
         return $this->eZTable;
     }
 
-    
-    var $ID;
-    var $Name;
+
+
+    /*!
+        Make shure that the object is in a legal state.
+        All errors are stored in $this->Errors.
+        
+        \return
+            Returns true if the object passes the check.
+     */
+    function invariantCheck()
+    {
+        $value = false;
+        
+        eZNewsUtility::invariantCheck();
+
+        if( empty( $this->Description ) )
+        {
+            $this->Errors[] = "intl-description-required";
+        }
+
+        if( !count( $this->Errors ) )
+        {
+            #echo "errors " . $this->Errors[0] . "<br>";
+            $value = true;
+            $this->State_ = "coherent";
+        }
+        #echo "invariantCheck returns: " . $value . "<br>";
+        return $value;
+    }
+
+
+
+    // The data members
+
+    /// The class name of this item, empty means use parent or n/a.
     var $eZClass;
+    
+    /// The table where this class is stored, empty means use parent or n/a.
     var $eZTable;
-    
-    /// Error variables
-    
-    var $InvariantError = array();
-    
-    /// SQL Queries and such.
-    
-    var $SQL = array(
-        "insert_item" => "INSERT INTO eZNews_ItemType Name='%s', eZClass='eZ%s', eZTable='eZNews_%s'",
-        "get_itemtype" => "SELECT * FROM eZNews_ItemType WHERE %s='%s'",
-        "get_itemtypes" => "SELECT ID FROM eZNews_ItemType %s %s",
-        );
-    
-    var $Columns = array(
-        "id" => "ID",
-        "name" => "Name",
-        "class" => "eZClass",
-        "table" => "eZTable"
-        );
-    
-    var $OrderBy = array(
-        "none" => "",
-        "name" => "ORDER BY Name",
-        "id" => "ORDER BY ID",
-        "class" => "ORDER BY eZClass",
-        "table" => "ORDER BY eZTable",
-        "forward" => "ASC",
-        "reverse" => "DESC",
-        );
-    
-    /// Preferences
-    
-    /// Check altered flag before getting data. Default is false.
-    var $isAlteredCheck = false;
-
-    ///  Variable for keeping the database connection.
-    var $Database;
-
-    /// Indicates the state of the object. In regard to database information.
-    var $State_;
-    /// Is true if the object has a database connection, false if not.
-    var $IsConnected;
-
-}
+};
 
 ?>

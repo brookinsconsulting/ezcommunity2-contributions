@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: eznewschangetype.php,v 1.5 2000/10/01 13:39:28 pkej-cvs Exp $
+// $Id: eznewschangetype.php,v 1.6 2000/10/01 13:57:55 pkej-cvs Exp $
 //
 // Definition of eZNewsChangeType class
 //
@@ -264,30 +264,69 @@ class eZNewsChangeType extends eZNewsUtility
 
 
 
-    /*!
-      Returns all the change types found in the database.
-
-      The change types are returned as an array of eZNewsChangeType objects.
-    */
-    function getAll()
+        /*!
+            Returns all the change types found in the database.
+        
+        \in
+            \$inOrderBy  This is the columnname to order the returned array
+                        by.
+            \accepts
+                ID - The id of the row in the table
+                Name - Name of item
+                Description - The description of this change type.
+                \default is ID
+            \$direction  This is the direction to do the ordering in
+            \accepts
+                asc - ascending order
+                desc - descending order
+                \default is asc
+            \$startAt   This is the result number we want to start at
+                \default is 0
+            \$noOfResults This is the number of results we want.
+                \default is all
+        \out
+            \$returnArray    This is the array of found elements
+        \return
+            Returns false if it fails, the error message from SQL is
+            retained in $this->SQLErrors. Use getSQLErrors() to read
+            the error message.
+                      
+     */
+    function getAll( &$returnArray, $inOrderBy, $direction , $startAt = 0, $noOfResults = ""  )
     {
         $this->dbInit();
         
-        $return_array = array();
-        $changetype_array = array();
+        $returnArray = array();
+        $changeTypeArray = array();
         
-        $query="
-        SELECT ID FROM eZNews_ChangeType ORDER BY Name
+        $query =
+        "
+            SELECT
+                ID
+            FROM
+                eZNews_changeType
+            %s
+            %s
         ";
         
-        $this->Database->array_query( $changetype_array, $query );
+        $orderBy = $this->createOrderBy( $inOrderBy, $direction );
+        $limits = $this->createLimit( $startAt, $noOfResults );
         
-        for ( $i=0; $i<count($changetype_array); $i++ )
+        $query = sprintf( $query, $orderBy, $limits );
+        
+        $this->Database->array_query( $changeTypeArray, $query );
+        
+        for ( $i=0; $i < count( $changeTypeArray ); $i++ )
         {
-            $return_array[$i] = new eZNewsChangeType( $changetype_array[$i]["ID"], 0 );
+            $returnArray[$i] = new eZNewschangeType( $changeTypeArray[$i][ "ID" ], 0 );
         }
         
-        return $return_array;
+        if( $returnArray )
+        {
+            $value = true;
+        }
+        
+        return $value;
     }
 
 
