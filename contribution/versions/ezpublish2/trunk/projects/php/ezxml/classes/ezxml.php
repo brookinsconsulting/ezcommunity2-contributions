@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: ezxml.php,v 1.23 2002/01/04 09:05:54 bf Exp $
+// $Id: ezxml.php,v 1.24 2002/01/04 12:00:57 bf Exp $
 //
 // Definition of eZXML class
 //
@@ -70,13 +70,14 @@ class eZXML
         // strip comments
         $xmlDoc =& eZXML::stripComments( $xmlDoc );
 
+
+        // libxml compatible object creation
         $domDocument = new eZDOMDocument();
         $domDocument->version = "1.0";
 
         $domDocument->root =& $domDocument->children;
-        
         $currentNode =& $domDocument;
-        
+
         $pos = 0;
         $endTagPos = 0;
         while ( $pos < strlen( $xmlDoc ) )
@@ -185,7 +186,7 @@ class eZXML
                         unset( $subNode );
                         $subNode = new eZDOMNode();
                         $subNode->name = "cdata-section";
-                        $subNode->content = $cdataSection;                        
+                        $subNode->content = $cdataSection;
                         $subNode->type = 4;
                         
                         $currentNode->children[] =& $subNode;
@@ -210,53 +211,12 @@ class eZXML
                     {
                         $attributePart =& substr( $tagName, $tagNameEnd, strlen( $tagName ) );
 
+                        // attributes
+                        unset( $attr );
+                        $attr =& eZXML::parseAttributes( $attributePart );
 
-//                        $attributeArray = preg_split ("/\" /", $attributePart );
-                        
-//                        $attributeArray = explode( " ", $attributePart );
-
-                        preg_match_all( "/([a-zA-Z:]+=\".*?\")/i",  $attributePart, $attributeArray );
-
-                        
-                        foreach ( $attributeArray[0] as $attributePart )
-                        {
-                            $attributePart = $attributePart;
-
-                            if ( trim( $attributePart ) != "" && trim( $attributePart ) != "/" )
-                            {
-                                $attributeTmpArray = explode( "=\"", $attributePart );
-
-                                $attributeName = $attributeTmpArray[0];
-
-                                // strip out namespace; nameSpace:Name
-                                $colonPos = strpos( $attributeName, ":" );
-                                
-                                if ( $colonPos > 0 )
-                                    $attributeName = substr( $attributeName, $colonPos + 1, strlen( $attributeName ) );                    
-                                
-                                $attributeValue = $attributeTmpArray[1];
-
-                                // remove " from value part
-                                $attributeValue = substr( $attributeValue, 0, strlen( $attributeValue ) - 1);
-
-                                // start tag
-                                unset( $attrNode );
-                                $attrNode = new eZDOMNode();
-                                $attrNode->name = $attributeName;
-                                $attrNode->type = 2;
-                                $attrNode->content = $attributeValue;
-
-                                unset( $nodeValue );
-                                $nodeValue = new eZDOMNode();
-                                $nodeValue->name = "text";
-                                $nodeValue->type = 3;
-                                $nodeValue->content = $attributeValue;
-                                
-                                $attrNode->children[] =& $nodeValue;
-
-                                $subNode->attributes[] =& $attrNode;
-                            }
-                        }
+                        if ( $attr != false )
+                            $subNode->attributes[] =& $attr;
                     }
 
                     // check it it's a oneliner: <tagname /> or a cdata section
@@ -273,7 +233,6 @@ class eZXML
             }
 
             $pos = strpos( $xmlDoc, "<", $pos + 1 );
-
            
             if ( $pos == false )
             {
@@ -318,7 +277,61 @@ class eZXML
         $str =& preg_replace( "#<\!--.*?-->#s", "", $str );
         return $str;
     }
-    
+
+    /*!
+      \static
+      \private
+      Parses the attributes. Returns false if no attributes in the supplied string is found.
+    */
+    function &parseAttributes( $attributeString )
+    {
+        $ret = false;
+        
+        preg_match_all( "/([a-zA-Z:]+=\".*?\")/i",  $attributeString, $attributeArray );
+
+        foreach ( $attributeArray[0] as $attributePart )
+        {
+            $attributePart = $attributePart;
+
+            if ( trim( $attributePart ) != "" && trim( $attributePart ) != "/" )
+            {
+                $attributeTmpArray = explode( "=\"", $attributePart );
+
+                $attributeName = $attributeTmpArray[0];
+
+                // strip out namespace; nameSpace:Name
+                $colonPos = strpos( $attributeName, ":" );
+                                
+                if ( $colonPos > 0 )
+                    $attributeName = substr( $attributeName, $colonPos + 1, strlen( $attributeName ) );                    
+                                
+                $attributeValue = $attributeTmpArray[1];
+
+                // remove " from value part
+                $attributeValue = substr( $attributeValue, 0, strlen( $attributeValue ) - 1);
+
+                unset( $attrNode );
+                $attrNode = new eZDOMNode();
+                $attrNode->name = $attributeName;
+                $attrNode->type = 2;
+                $attrNode->content = $attributeValue;
+
+                unset( $nodeValue );
+                $nodeValue = new eZDOMNode();
+                $nodeValue->name = "text";
+                $nodeValue->type = 3;
+                $nodeValue->content = $attributeValue;
+                                
+                $attrNode->children[] =& $nodeValue;
+
+                $ret[] =& $attrNode;
+
+            }
+        }
+        print_r( $ret );
+        return $ret;         
+    }
+ 
 }
 
 ?>
