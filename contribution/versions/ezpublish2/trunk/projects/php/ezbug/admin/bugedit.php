@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: bugedit.php,v 1.37 2001/04/27 15:28:39 fh Exp $
+// $Id: bugedit.php,v 1.38 2001/05/02 08:25:24 fh Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <28-Nov-2000 19:45:35 bf>
@@ -62,7 +62,7 @@ if ( isSet ( $Cancel ) )
     }
 }
 
-$t = new eZTemplate( "ezbug/admin/" . $ini->read_var( "eZBugMain", "TemplateDir" ),
+$t = new eZTemplate( "ezbug/admin/" . $ini->read_var( "eZBugMain", "AdminTemplateDir" ),
                      "ezbug/admin/intl", $Language, "bugedit.php" );
 $t->setAllStrings();
 $t->set_var( "site_style", $SiteStyle );
