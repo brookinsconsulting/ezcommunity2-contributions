@@ -1,10 +1,23 @@
-<h1>search</h1>
+<table width="100%" cellspacing="0" cellpadding="0" border="0">
+<tr>
+    <td align="left" valign="bottom">
+        <h1>{intl-head_line}</h1>
+     </td>
+     <td align="right">
+	 <form action="/trade/search/" method="post">
+	       <input type="text" name="Query">
+	       <input type="submit" name="search" value="{intl-search_button}">
+         </form>
+     </td>
+</tr>
+</table>
 
-<form action="/trade/search/" method="post">
-<input type="text" name="Query" size="10" />
-<input type="submit" value="{intl-search_button}" />
-</form>
+<hr noshade size="4" />
 
+<h2>Search for: "{query_string}"</h2>
+<br>
+
+<table width="100%" cellspacing="0" cellpadding="0" border="0">
 <!-- BEGIN product_tpl -->
 <tr>
 	<td>
@@ -28,7 +41,9 @@
     {product_intro_text}
 
 <br>
+	<!-- BEGIN price_tpl -->
 	{product_price}<br>
+	<!-- END price_tpl -->
 
 	</td>
 </tr>
@@ -47,3 +62,5 @@
 {intl-next}
 </a>
 <!-- END next_tpl -->
+
+</table>

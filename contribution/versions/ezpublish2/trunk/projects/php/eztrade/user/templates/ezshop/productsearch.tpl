@@ -41,7 +41,9 @@
     {product_intro_text}
 
 <br>
+	<!-- BEGIN price_tpl -->
 	{product_price}<br>
+	<!-- END price_tpl -->
 
 	</td>
 </tr>
