@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezorder.php,v 1.43 2001/08/07 13:26:40 jhe Exp $
+// $Id: ezorder.php,v 1.44 2001/08/08 12:34:57 jhe Exp $
 //
 // Definition of eZOrder class
 //
@@ -220,21 +220,31 @@ class eZOrder
     */
     function getAll( $offset=0, $limit=40, $OrderBy = "Date" )
     {
-        switch ( $OrderBy )
+        switch ( strtolower( $OrderBy ) )
         {
-            case "No":
+            case "no":
             {
-                $OrderBy = "eZTrade_Order.ID";
+                $OrderBy = "ID";
                 break;
             }
-            case "Created":
+            case "created":
             {
-                $OrderBy = "eZTrade_Order.Date";
+                $OrderBy = "Date";
+                break;
+            }
+            case "modified":
+            {
+                $OrderBy = "Altered";
+                break;
+            }
+            case "status":
+            {
+                $OrderBy = "StatusID";
                 break;
             }
             default:
             {
-                $OrderBy = "eZTrade_Order.Date";
+                $OrderBy = "Date";
                 break;
             }
         }
@@ -244,8 +254,15 @@ class eZOrder
         $order_array = array();
 
         $db->array_query( $order_array,
-                          "SELECT ID FROM eZTrade_Order ORDER BY $OrderBy",
-                          array( "Limit" => $limit, "Offset" => $offset ) );
+                          "SELECT eZTrade_Order.ID as ID,
+                           eZTrade_Order.Date as Date,
+                           max( eZTrade_OrderStatus.Altered ) as Altered,
+                           max( eZTrade_OrderStatus.StatusID ) as StatusID
+                           FROM eZTrade_Order, eZTrade_OrderStatus
+                           WHERE eZTrade_Order.ID = eZTrade_OrderStatus.OrderID
+                           GROUP BY eZTrade_Order.ID, eZTrade_Order.Date
+                           ORDER BY $OrderBy",
+                           array( "Limit" => $limit, "Offset" => $offset ) );
 
         for ( $i = 0; $i < count( $order_array ); $i++ )
         {
@@ -794,7 +811,7 @@ class eZOrder
        {
            $price = $item["PriceIncVAT"];
 
-           $price = $price * $item["Count"];
+//           $price = $price * $item["Count"];
 
            $retPrice += $price;
        }
@@ -818,7 +835,7 @@ class eZOrder
        {
            $price = $item["VATValue"];
 
-           $price = $price * $item["Count"];
+//           $price = $price * $item["Count"];
 
            $retPrice += $price;
        }
@@ -869,6 +886,17 @@ class eZOrder
             $return_array[] = $order[$db->fieldName( "ID" )];
         }
         return $return_array;
+    }
+
+    function soldProducts( $product )
+    {
+        if ( get_class( $product ) == "ezproduct" )
+            $product = $product->ID();
+
+        $db =& eZDB::globalDatabase();
+
+        $db->array_query( $res, "SELECT SUM( Count ) AS C FROM eZTrade_OrderItem WHERE ProductID='$product'" );
+        return $res[0][$db->fieldName( "C" )];
     }
     
     var $ID;

@@ -218,9 +218,7 @@
 	<!-- BEGIN alternative_currency_tpl -->
 	{alt_price}<br />
 	<!-- END alternative_currency_tpl -->
-
 	<!-- END alternative_currency_list_tpl -->
-
 	<!-- END price_tpl -->	
 	</td>
 	<td align="right" valign="top">
@@ -246,6 +244,17 @@
 <!-- END add_to_cart_tpl -->
 
 <!-- BEGIN edit_this_tpl -->
+<table width="100%" cellspacing="0" cellpadding="0" border="0">
+<tr>
+<th>
+  {intl-sold_items}:
+</td>
+<td align="right">
+  {sold_items}
+</td>
+</tr>
+</table>
+<br />
 <hr noshade="noshade" size="4" />
 
 <input class="okbutton" type="submit" value="{intl-edit}" />

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezorderstatus.php,v 1.12 2001/07/31 11:33:11 jhe Exp $
+// $Id: ezorderstatus.php,v 1.13 2001/08/08 12:34:57 jhe Exp $
 //
 // Definition of eZOrderStatus class
 //
@@ -66,39 +66,42 @@ class eZOrderStatus
         $db->begin();
 
         $this->Comment = $db->escapeString( $this->Comment );
-        
-        if ( !isset( $this->ID ) )
+        $timestamp = eZDateTime::timeStamp( true );
+        if ( !isSet( $this->ID ) )
         {
             $db->lock( "eZTrade_OrderStatus" );
             $nextID = $db->nextID( "eZTrade_OrderStatus", "ID" );
             $ret[] = $db->query( "INSERT INTO eZTrade_OrderStatus
-                              ( ID,
-		                        StatusID,
-		                        AdminID,
-		                        Comment,
-		                        OrderID )
-                              VALUES
-                              ( '$nextID',
-		                        '$this->StatusID',
-		                        '$this->AdminID',
-		                        '$this->Comment',
-		                        '$this->OrderID' )" );
+                                 (ID,
+                                  StatusID,
+                                  Altered,
+		                          AdminID,
+		                          Comment,
+		                          OrderID)
+                                 VALUES
+                                 ('$nextID',
+		                          '$this->StatusID',
+                                  '$timestamp',
+		                          '$this->AdminID',
+		                          '$this->Comment',
+		                          '$this->OrderID')" );
             $db->unlock();
 			$this->ID = $nextID;
         }
         else
         {
             $ret[] = $db->query( "UPDATE eZTrade_OrderStatus SET
-		                         StatusID='$this->StatusID',
-		                         AdminID='$this->AdminID',
-		                         Comment='$this->Comment',
-		                         OrderID='$this->OrderID'
-                                 WHERE ID='$this->ID'
+		                          StatusID='$this->StatusID',
+                                  Altered='$timestamp',
+		                          AdminID='$this->AdminID',
+		                          Comment='$this->Comment',
+		                          OrderID='$this->OrderID'
+                                  WHERE ID='$this->ID'
                                  " );
         }
         eZDB::finish( $ret, $db ); 
         return true;
-    }    
+    }
 
     /*!
       Fetches the object information from the database.

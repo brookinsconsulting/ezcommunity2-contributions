@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: productpreview.php,v 1.24 2001/07/20 11:42:01 jakobn Exp $
+// $Id: productpreview.php,v 1.25 2001/08/08 12:34:57 jhe Exp $
 //
 // Created on: <22-Sep-2000 16:13:32 bf>
 //
@@ -28,6 +28,20 @@ include_once( "classes/eztemplate.php" );
 include_once( "classes/ezlocale.php" );
 include_once( "classes/ezcurrency.php" );
 include_once( "classes/eztexttool.php" );
+include_once( "classes/ezmodulelink.php" );
+include_once( "classes/ezlinksection.php" );
+include_once( "classes/ezlinkitem.php" );
+
+include_once( "eztrade/classes/ezproduct.php" );
+include_once( "eztrade/classes/ezproductcategory.php" );
+include_once( "eztrade/classes/ezoption.php" );
+include_once( "eztrade/classes/ezpricegroup.php" );
+include_once( "eztrade/classes/ezproductcurrency.php" );
+include_once( "eztrade/classes/ezorder.php" );
+
+include_once( "ezuser/classes/ezuser.php" );
+
+
 
 $ini =& INIFile::globalINI();
 
@@ -50,18 +64,6 @@ $MainImageHeight = $ini->read_var( "eZTradeMain", "MainImageHeight" );
 
 $SmallImageWidth = $ini->read_var( "eZTradeMain", "SmallImageWidth" );
 $SmallImageHeight = $ini->read_var( "eZTradeMain", "SmallImageHeight" );
-
-
-include_once( "eztrade/classes/ezproduct.php" );
-include_once( "eztrade/classes/ezproductcategory.php" );
-include_once( "eztrade/classes/ezoption.php" );
-include_once( "eztrade/classes/ezpricegroup.php" );
-include_once( "eztrade/classes/ezproductcurrency.php" );
-include_once( "ezuser/classes/ezuser.php" );
-
-include_once( "classes/ezmodulelink.php" );
-include_once( "classes/ezlinksection.php" );
-include_once( "classes/ezlinkitem.php" );
 
 $t = new eZTemplate( "eztrade/admin/". $ini->read_var( "eZTradeMain", "AdminTemplateDir" ),
                      "eztrade/admin/intl/", $Language, "productpreview.php" );
@@ -145,7 +147,7 @@ if ( $CategoryID == "" )
 }
 else
 {
-    $category = new eZProductCategory(  );
+    $category = new eZProductCategory();
     $category->get( $CategoryID );
 }
 
@@ -274,7 +276,7 @@ foreach ( $options as $option )
     }
     else
     {
-        foreach( $headers as $header )
+        foreach ( $headers as $header )
         {
             $t->set_var( "description_header", $header );
             $t->parse( "value_description_header", "value_description_header_tpl", true );
@@ -284,10 +286,10 @@ foreach ( $options as $option )
     foreach ( $values as $value )
     {
         $value_quantity = $value->totalQuantity();
-        if ( $ShowOptionQuantity or (is_bool( $value_quantity ) and !$value_quantity ) or
+        if ( $ShowOptionQuantity or ( is_bool( $value_quantity ) and !$value_quantity ) or
              !$RequireQuantity or ( $RequireQuantity and $value_quantity > 0 ) )
         {
-            if ( (is_bool( $value_quantity ) and !$value_quantity ) or
+            if ( ( is_bool( $value_quantity ) and !$value_quantity ) or
                  !$RequireQuantity or ( $RequireQuantity and $value_quantity > 0 ) )
                 $can_checkout = true;
             $t->set_var( "value_td_class", ( $i % 2 ) == 0 ? "bglight" : "bgdark" );
@@ -304,7 +306,7 @@ foreach ( $options as $option )
             }
             else
             {
-                foreach( $descriptions as $description )
+                foreach ( $descriptions as $description )
                 {
                     $t->set_var( "value_name", $description );
                     $t->parse( "value_description", "value_description_tpl", true );
@@ -387,14 +389,14 @@ foreach ( $options as $option )
 $module_link = new eZModuleLink( "eZTrade", "Product", $product->id() );
 $sections =& $module_link->sections();
 $t->set_var( "section_item", "" );
-foreach( $sections as $section )
+foreach ( $sections as $section )
 {
     $t->set_var( "link_item", "" );
     $t->set_var( "section_name", $section->name() );
     $t->set_var( "section_id", $section->id() );
     $links =& $section->links();
     $i = 0;
-    foreach( $links as $link )
+    foreach ( $links as $link )
     {
         $t->set_var( "td_class", ($i%2) == 0 ? "bglight" : "bgdark" );
         $t->set_var( "link_name", $link->name() );
@@ -439,7 +441,7 @@ if ( $type )
     }
 }
 
-if ( count ( $attributes ) > 0 )
+if ( count( $attributes ) > 0 )
 {
     $t->parse( "attribute_list", "attribute_list_tpl" );
 }
@@ -566,6 +568,10 @@ if ( isset( $func_array ) and is_array( $func_array ) )
         $func( $t, $ProductID );
     }
 }
+
+//sold products
+$t->set_var( "sold_items", eZOrder::soldProducts( $ProductID ) );
+
 $t->parse( "edit_this", "edit_this_tpl" );
 
 $t->pparse( "output", "product_view_tpl" );

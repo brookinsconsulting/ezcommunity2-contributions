@@ -1,5 +1,5 @@
 <!-- orderlist.tpl --> 
-<!-- $Id: orderlist.tpl,v 1.3 2001/08/07 13:26:40 jhe Exp $ -->
+<!-- $Id: orderlist.tpl,v 1.4 2001/08/08 12:34:57 jhe Exp $ -->
 
 <table width="100%" border="0">
 <tr>
@@ -22,9 +22,9 @@
 <table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
 <tr>
 	<th><a href="/trade/orderlist/?OrderBy=No">{intl-nr}:</a></th>
-	<th><a href="/trade/orderlist/?OrderBy=Date">{intl-created}:</a></th>
-	<th>{intl-modified}:</th>
-	<th>{intl-status}:</th>
+	<th><a href="/trade/orderlist/?OrderBy=Created">{intl-created}:</a></th>
+	<th><a href="/trade/orderlist/?OrderBy=Modified">{intl-modified}:</a></th>
+	<th><a href="/trade/orderlist/?OrderBy=Status">{intl-status}:</a></th>
 	<td align="right"><b>{intl-price}:</b></td>
 	<th>&nbsp;</th>
 	<th>&nbsp;</th>

@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: ezmailfunctions.php,v 1.9 2001/07/20 11:18:28 jakobn Exp $
+// $Id: ezmailfunctions.php,v 1.10 2001/08/08 12:34:56 jhe Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -91,17 +91,17 @@ function getDecodedHeader( $headervalue )
 function disectThisPart( $this_part, $part_no, $mbox, $msgnum, &$mail, $level=0 )
 {
     /** Check for disposition parts **/
-	if ($this_part->ifdisposition)
+	if ( $this_part->ifdisposition )
     {
-		if ($this_part->disposition == "ATTACHMENT" || $this_part->disposition == "INLINE" )
+		if ( $this_part->disposition == "ATTACHMENT" || $this_part->disposition == "INLINE" )
         {
             // First see if they sent a filename
 			$att_name = "unknown";
-            for ($lcv = 0; $lcv < count($this_part->parameters); $lcv++)
+            for ( $lcv = 0; $lcv < count( $this_part->parameters ); $lcv++ )
             {
                 $param = $this_part->parameters[$lcv];
 
-                if ($param->attribute == "NAME")
+                if ( $param->attribute == "NAME" )
                 {
                     $att_name = $param->value;
                     break;
@@ -117,7 +117,7 @@ function disectThisPart( $this_part, $part_no, $mbox, $msgnum, &$mail, $level=0 
     else
     {
         /** Not a disposittion part, lets see what this is **/
-		switch ($this_part->type)
+		switch ( $this_part->type )
         {
             /** ooh, its a text part, lets add it to the main body TODO: Unless filename supplied.. attachment in that case..**/
             case TYPETEXT:
@@ -131,16 +131,16 @@ function disectThisPart( $this_part, $part_no, $mbox, $msgnum, &$mail, $level=0 
             case TYPEMULTIPART:
             {
                 $mime_type = "multipart";
-                for ($i = 0; $i < count($this_part->parts); $i++)
+                for ( $i = 0; $i < count( $this_part->parts ); $i++ )
                 {
                     if ( $level != 0 )
                         $part_no = $part_no.".";
                     else
                         $part_no = "";
                 
-                    for ($i = 0; $i < count($this_part->parts); $i++)
+                    for ( $i = 0; $i < count( $this_part->parts ); $i++ )
                     {
-                        disectThisPart($this_part->parts[$i], $part_no.($i + 1), $mbox, $msgnum, $mail, 1);
+                        disectThisPart( $this_part->parts[$i], $part_no.( $i + 1 ), $mbox, $msgnum, $mail, 1 );
                     }
                 }
             }
@@ -161,11 +161,11 @@ function disectThisPart( $this_part, $part_no, $mbox, $msgnum, &$mail, $level=0 
             case TYPEMODEL:
                 $mime_type = "model";
                 $att_name = "unknown";
-                for ($lcv = 0; $lcv < count($this_part->parameters); $lcv++)
+                for ( $lcv = 0; $lcv < count( $this_part->parameters ); $lcv++ )
                 {
                     $param = $this_part->parameters[$lcv];
 
-                    if ($param->attribute == "NAME")
+                    if ( $param->attribute == "NAME" )
                     {
                         $att_name = $param->value;
                         break;

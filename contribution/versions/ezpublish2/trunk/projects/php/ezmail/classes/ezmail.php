@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezmail.php,v 1.36 2001/07/29 23:31:08 kaid Exp $
+// $Id: ezmail.php,v 1.37 2001/08/08 12:34:56 jhe Exp $
 //
 // Definition of eZMail class
 //
@@ -88,12 +88,15 @@ class eZMail
     function delete( $id = -1 )
     {
         $db =& eZDB::globalDatabase();
+        $db->begin();
         if( $id == -1 )
             $id = $this->ID;
         
         // DELETE ALL ATTACHMENTS
-        $db->query( "DELETE FROM eZMail_Mail WHERE ID='$id'" );
-        $db->query( "DELETE FROM eZMail_MailFolderLink WHERE MailID='$id'" );
+        $res[] = $db->query( "DELETE FROM eZMail_Mail WHERE ID='$id'" );
+        $res[] = $db->query( "DELETE FROM eZMail_MailFolderLink WHERE MailID='$id'" );
+
+        eZDB::finish( $res, $db );
         return true;
     }
 
@@ -113,7 +116,7 @@ class eZMail
         $subject = $db->escapeString( $this->Subject );
         $body = $db->escapeString( $this->BodyText );
         $db->begin();
-        if ( !isset( $this->ID ) )
+        if ( !isSet( $this->ID ) )
         {
             $db->lock( "eZMail_Mail" );
             $nextID = $db->nextID( "eZMail_Mail", "ID" );            
@@ -761,23 +764,23 @@ class eZMail
        $db->array_query( $image_array, "SELECT ImageID FROM eZMail_MailImageLink WHERE MailID='$this->ID'" );
  
        for ( $i=0; $i<count($image_array); $i++ )
-       {
+       { 
            $return_array[$i] = new eZImage( $image_array[$i]["ImageID"], false );
-       }
+       } 
        return $return_array;
-    } 
+    }
 
-    /*!
-      \static
-      
-      Returns true if the given account belongs to the given user.
-     */
-    function isOwner( $user, $mailID )
-    {
-        if( get_class( $user ) == "ezuser" )
-            $user = $user->id();
+    /*! 
+      \static 
+       
+      Returns true if the given account belongs to the given user. 
+     */ 
+    function isOwner( $user, $mailID ) 
+    { 
+        if( get_class( $user ) == "ezuser" ) 
+            $user = $user->id(); 
         
-        $db =& eZDB::globalDatabase();
+        $db =& eZDB::globalDatabase(); 
         $db->query_single( $res, "SELECT UserID from eZMail_Mail WHERE ID='$mailID'" );
         if( $res[$db->fieldName("UserID")] == $user )
             return true;

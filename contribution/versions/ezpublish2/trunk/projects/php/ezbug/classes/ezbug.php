@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezbug.php,v 1.29 2001/07/19 12:29:04 jakobn Exp $
+// $Id: ezbug.php,v 1.30 2001/08/08 12:34:55 jhe Exp $
 //
 // Definition of eZBug class
 //
@@ -106,7 +106,7 @@ class eZBug
 
         $db->begin();
         
-        if ( !isset( $this->ID ) )
+        if ( !isSet( $this->ID ) )
         {
             $db->lock( "eZBug_Bug" );
 			$this->ID = $db->nextID( "eZBug_Bug", "ID" );

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: index_admin.php,v 1.14 2001/07/31 19:55:51 kaid Exp $
+// $Id: index_admin.php,v 1.15 2001/08/08 12:34:52 jhe Exp $
 //
 // Created on: <09-Nov-2000 14:52:40 ce>
 //
@@ -216,7 +216,6 @@ if ( $user )
     
         // send the URI to the right decoder
         $page = "ez" . $url_array[1] . "/admin/datasupplier.php";
-
         // set the module logo
         $moduleName =& $url_array[1];
 

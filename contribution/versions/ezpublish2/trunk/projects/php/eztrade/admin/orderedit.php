@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: orderedit.php,v 1.23 2001/08/01 15:15:47 ce Exp $
+// $Id: orderedit.php,v 1.24 2001/08/08 12:34:57 jhe Exp $
 //
 // Created on: <30-Sep-2000 13:03:13 bf>
 //
@@ -64,7 +64,7 @@ if ( $Action == "newstatus" )
     $status->setComment( $StatusComment );
     $status->setOrderID( $OrderID );
 
-    $user = eZUser::currentUser();
+    $user =& eZUser::currentUser();
 
     $status->setAdmin( $user );
     $status->store();            
@@ -133,7 +133,6 @@ if ( $user )
         $emailList = $customer->emailAddress();
         $t->set_var( "customer_email", $emailList[0] );
     }
-
 
     // print out the addresses
     $shippingAddress =& $order->shippingAddress();
@@ -246,13 +245,13 @@ foreach ( $items as $item )
         $priceobj->setValue( $product->price() * $item->count() );
         $priceArray = "";
         $options =& $product->options();
-        if ( count ( $options ) == 1 )
+        if ( count( $options ) == 1 )
         {
             $option = $options[0];
-            if ( get_class ( $option ) == "ezoption" )
+            if ( get_class( $option ) == "ezoption" )
             {
                 $optionValues =& $option->values();
-                if ( count ( $optionValues ) > 1 )
+                if ( count( $optionValues ) > 1 )
                 {
                     $i=0;
                     foreach ( $optionValues as $optionValue )
@@ -261,7 +260,7 @@ foreach ( $items as $item )
                         if ( $ShowPriceGroups and $PriceGroup > 0 )
                         {
                             $priceArray[$i] = eZPriceGroup::correctPrice( $product->id(), $PriceGroup, $option->id(), $optionValue->id() );
-                            if( $priceArray[$i] )
+                            if ( $priceArray[$i] )
                             {
                                 $found_price = true;
                                 $priceArray[$i] = $priceArray[$i];
@@ -315,7 +314,6 @@ foreach ( $items as $item )
         
     $i++;
 }
-
 $shippingCost = $order->shippingCharge();
 $currency->setValue( $shippingCost );
 $t->set_var( "shipping_cost", $locale->format( $currency ) );
@@ -323,7 +321,6 @@ $t->set_var( "shipping_cost", $locale->format( $currency ) );
 $totalVAT = $order->totalVAT();
 $currency->setValue( $totalVAT );
 $t->set_var( "vat_cost", $locale->format( $currency ) );
-
 if ( $order->isVATInc() )
 {
     $sum = $order->totalPriceIncVAT() + $shippingCost;
@@ -336,7 +333,6 @@ else
     $currency->setValue( $sum );
     $t->set_var( "order_sum", $locale->format( $currency ) );
 }
-
 $statusType = new eZOrderStatusType();
 $statusTypeArray = $statusType->getAll();
 foreach ( $statusTypeArray as $status )

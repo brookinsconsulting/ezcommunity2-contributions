@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: orderlist.php,v 1.18 2001/08/07 13:26:40 jhe Exp $
+// $Id: orderlist.php,v 1.19 2001/08/08 12:34:57 jhe Exp $
 //
 // Created on: <30-Sep-2000 13:03:13 bf>
 //
@@ -135,7 +135,7 @@ $i = 0;
 
 foreach ( $orderArray as $order )
 {
-    if ( ( $i %2 ) == 0 )
+    if ( ( $i % 2 ) == 0 )
         $t->set_var( "td_class", "bgdark" );
     else
         $t->set_var( "td_class", "bglight" );
@@ -143,20 +143,15 @@ foreach ( $orderArray as $order )
     $t->set_var( "order_id", $order->id() );
     $status = $order->initialStatus( );
     $dateTime = $status->altered();
-    
     $t->set_var( "order_date", $locale->format( $dateTime ) );
     
     $status = $order->lastStatus( );
     $dateTime = $status->altered();
-    
     $t->set_var( "altered_date", $locale->format( $dateTime ) );
     
     $statusType = $status->type();
-    
     $statusName = preg_replace( "#intl-#", "", $statusType->name() );
-    
     $statusName =  $languageINI->read_var( "strings", $statusName );
-    
     $t->set_var( "order_status", $statusName );
     
     if ( $order->isVATInc() == true )
@@ -170,9 +165,7 @@ foreach ( $orderArray as $order )
 }
 
 $t->set_var( "url_query_string", urlencode( $QueryText ) );
-
 $t->parse( "order_item_list", "order_item_list_tpl" );
-
 $t->pparse( "output", "order_list_tpl" );
 
 ?>

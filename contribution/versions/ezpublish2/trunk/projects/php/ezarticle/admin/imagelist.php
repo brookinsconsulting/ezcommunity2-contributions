@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: imagelist.php,v 1.18 2001/07/19 12:19:21 jakobn Exp $
+// $Id: imagelist.php,v 1.19 2001/08/08 12:34:52 jhe Exp $
 //
 // Created on: <21-Sep-2000 10:32:19 bf>
 //
@@ -40,9 +40,7 @@ $t = new eZTemplate( "ezarticle/admin/" . $ini->read_var( "eZArticleMain", "Admi
 
 $t->setAllStrings();
 
-$t->set_file( array(
-    "image_list_page_tpl" => "imagelist.tpl"
-    ) );
+$t->set_file( "image_list_page_tpl", "imagelist.tpl" );
 
 $t->set_block( "image_list_page_tpl", "no_images_tpl", "no_images" );
 $t->set_block( "image_list_page_tpl", "image_list_tpl", "image_list" );
@@ -61,11 +59,11 @@ $t->set_var( "article_name", $article->name() );
 
 $t->set_var( "site_style", $SiteStyle );
 
-if ( isSet ( $AddImages ) )
+if ( isSet( $AddImages ) )
 {
-    if ( count ( $ImageArrayID ) > 0 )
+    if ( count( $ImageArrayID ) > 0 )
     {
-        foreach( $ImageArrayID as $imageID )
+        foreach ( $ImageArrayID as $imageID )
         {
             $image = new eZImage( $imageID );
             $article->addImage( $image );

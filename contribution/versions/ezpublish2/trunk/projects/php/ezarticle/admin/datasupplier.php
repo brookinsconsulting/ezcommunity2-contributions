@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: datasupplier.php,v 1.49 2001/07/26 08:12:32 bf Exp $
+// $Id: datasupplier.php,v 1.50 2001/08/08 12:34:52 jhe Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -23,7 +23,6 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, US
 //
 
-
 include_once( "classes/ezhttptool.php" );
 include_once( "ezarticle/classes/ezarticle.php" );
 include_once( "ezarticle/classes/ezarticlecategory.php" );
@@ -40,7 +39,6 @@ if( eZPermission::checkPermission( $user, "eZArticle", "ModuleEdit" ) == false )
     eZHTTPTool::header( "Location: /error/403" );
     exit();
 }
-
 
 switch ( $url_array[2] )
 {

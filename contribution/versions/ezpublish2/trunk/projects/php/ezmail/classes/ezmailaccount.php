@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezmailaccount.php,v 1.28 2001/07/20 11:18:28 jakobn Exp $
+// $Id: ezmailaccount.php,v 1.29 2001/08/08 12:34:56 jhe Exp $
 //
 // eZMailAccount class
 //
@@ -159,7 +159,7 @@ class eZMailAccount
             {
                 die( "Error: Mail accounts with the same ID was found in the database. This should not happen." );
             }
-            else if( count( $account_array ) == 1 )
+            else if ( count( $account_array ) == 1 )
             {
 
                 $this->ID =& $account_array[0][ $db->fieldName("ID") ];
@@ -208,7 +208,7 @@ class eZMailAccount
      */
     function setUser( $user )
     {
-        if( get_class( $user ) == "ezuser" )
+        if ( get_class( $user ) == "ezuser" )
             $this->UserID = $user->id();
     }
     
@@ -350,12 +350,12 @@ class eZMailAccount
      */
     function isOwner( $user, $accountID )
     {
-        if( get_class( $user ) == "ezuser" )
+        if ( get_class( $user ) == "ezuser" )
             $user = $user->id();
         
         $db =& eZDB::globalDatabase();
         $db->query_single( $res, "SELECT UserID from eZMail_Account WHERE ID='$accountID'" );
-        if( $res[$db->fieldName("UserID")] == $user )
+        if ( $res[$db->fieldName("UserID")] == $user )
             return true;
         
         return false;
@@ -368,7 +368,7 @@ class eZMailAccount
      */
     function getByUser( $user )
     {
-        if( get_class( $user ) == "ezuser" )
+        if ( get_class( $user ) == "ezuser" )
             $user = $user->id();
         
         $db =& eZDB::globalDatabase();
@@ -378,9 +378,9 @@ class eZMailAccount
  
         $db->array_query( $account_array, "SELECT ID FROM eZMail_Account WHERE UserID='$user'" );
  
-        for ( $i=0; $i < count($account_array); $i++ )
+        for ( $i = 0; $i < count( $account_array ); $i++ )
         {
-            $return_array[$i] = new eZMailAccount( $account_array[$i][$db->fieldName("ID")] );
+            $return_array[$i] = new eZMailAccount( $account_array[$i][$db->fieldName( "ID" )] );
         }
  
         return $return_array; 
@@ -392,10 +392,10 @@ class eZMailAccount
      */
     function checkMail()
     {
-        $user = eZUser::currentUser();
+        $user =& eZUser::currentUser();
         $server = "{" . $this->Server . "/pop3:" .$this->ServerPort ."}";
         $mbox = imap_open( $server, $this->LoginName, $this->Password, OP_HALFOPEN);
-        if( $mbox == false )
+        if ( $mbox == false )
         {
             $errorMsg = rawurlencode( imap_last_error() );
             eZHTTPTool::header( "Location: /error/error?Info=$errorMsg" );
@@ -412,10 +412,10 @@ class eZMailAccount
         $filters = new eZMailFilter();
         
         $num = imap_num_msg( $mbox );         // fetch numbers of all new mails
-        for( $i=1; $i <= $num; $i++ )  // go through each mail in inbox
+        for ( $i = 1; $i <= $num; $i++ )  // go through each mail in inbox
         {
             $headerinfo = imap_header( $mbox, $i );           // fetch mail headers
-            if( !eZMail::isDownloaded( $headerinfo->message_id, $user->id() ) )             // check if allready downloaded
+            if ( !eZMail::isDownloaded( $headerinfo->message_id, $user->id() ) )             // check if allready downloaded
             {
                 $mail = new eZMail();
                 $mail->setOwner( $user );
@@ -434,7 +434,7 @@ class eZMailAccount
                 $inbox->addMail( $mail ); // safety for now while we debug the filters 
                 $filters->runFilters( $mail );
 
-                if( $this->DeleteFromServer == true )
+                if ( $this->DeleteFromServer == true )
                     imap_delete( $mbox, $i );
             }
         }
@@ -444,7 +444,60 @@ class eZMailAccount
         imap_close( $mbox, CL_EXPUNGE );
     }
     
+
+    /*!
+      \Static
+      Gets all new mails, removes from server
+     */
+    function getNewMail( $LoginName, $Password, $ServerName, $ServerPort = 110 )
+    {
+        $server = "{" . $ServerName . "/pop3:" .$ServerPort ."}";
+        $mbox = imap_open( $server, $LoginName, $Password, OP_HALFOPEN );
+        if ( $mbox == false )
+        {
+            $errorMsg = rawurlencode( imap_last_error() );
+            eZHTTPTool::header( "Location: /error/error?Info=$errorMsg" );
+            exit();
+        }
+        $ret_array = array();
+        // get the inbox... we will be adding mail to this.
+//        $inbox = eZMailFolder::getSpecialFolder( INBOX );
+//        $filters = new eZMailFilter();
+
+        // fetch numbers of all new mails
+        $num = imap_num_msg( $mbox );
+
+        // go through each mail in inbox
+        for ( $i = 1; $i <= $num; $i++ )  
+        {
+            // fetch mail headers
+            $headerinfo = imap_header( $mbox, $i );
+            
+            $mail = new eZMail();
+            $mail->setOwner( $user );
+            $mail->setStatus( UNREAD );
+            $mail->setUDate( $headerinfo->udate );
+            
+            getHeaders( $mail, $mbox, $i ); // fetch header information
+            $mail->store(); // to get ID
+            
+            $mailstructure = imap_fetchstructure( $mbox, $i );
+            disectThisPart( $mailstructure, "1", $mbox, $i, $mail );
+            $mail->setSize( $mailstructure->bytes );
+
+            $mail->store();
+            $mail->markAsDownloaded();
+            $ret_array[] = $mail;
+            imap_delete( $mbox, $i );
+        }
+        
+//        $headers = imap_headers( $mbox );
+//        print("<pre>"); print_r( $headers ); print("</pre>" );
+        imap_close( $mbox, CL_EXPUNGE );
+        return $ret_array;
+    }
     
+
     var $ID;
     var $UserID;
     var $Name;
