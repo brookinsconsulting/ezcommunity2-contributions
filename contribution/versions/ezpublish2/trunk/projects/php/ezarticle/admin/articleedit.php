@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: articleedit.php,v 1.13 2000/10/24 19:03:13 bf-cvs Exp $
+// $Id: articleedit.php,v 1.14 2000/10/25 13:46:06 bf-cvs Exp $
 //
 // 
 //
@@ -199,13 +199,13 @@ else
 }
 
 $t->set_var( "article_id", "" );
-$t->set_var( "article_name", $Name );
-$t->set_var( "article_contents_0", $Contents[0] );
-$t->set_var( "article_contents_1", $Contents[1] );
-$t->set_var( "article_contents_2", $Contents[2] );
-$t->set_var( "article_contents_3", $Contents[3] );
-$t->set_var( "author_text", $AuthorText );
-$t->set_var( "link_text", $LinkText );
+$t->set_var( "article_name", stripslashes( $Name ) );
+$t->set_var( "article_contents_0", stripslashes( $Contents[0] ) );
+$t->set_var( "article_contents_1", stripslashes($Contents[1] ) );
+$t->set_var( "article_contents_2", stripslashes($Contents[2] ) );
+$t->set_var( "article_contents_3", stripslashes($Contents[3] ) );
+$t->set_var( "author_text", stripslashes($AuthorText ) );
+$t->set_var( "link_text", stripslashes($LinkText  ));
 
 $t->set_var( "action_value", "insert" );
 

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: messagereply.php,v 1.3 2000/10/24 14:02:03 ce-cvs Exp $
+// $Id: messagereply.php,v 1.4 2000/10/25 13:46:06 bf-cvs Exp $
 //
 // 
 //
@@ -55,7 +55,7 @@ if ( $Action == "insert" )
     $forum_id = $original->forumID();
 
     // send out email notices
-    $forum = new eZForum( $original );
+    $forum = new eZForum( $ReplyID );
     $messages = $forum->messageThreadTree( $reply->threadID() );
 
     $mail = new eZMail();
