@@ -3420,3 +3420,11 @@ Maintainer(s) : bf@ez.no
 
     * classes/ezarticle.php: Fixed correct escaping of article keywords.
 
+
+Module : ezarticle
+Repository path : /home/cvsroot/projects/php/ezarticle
+Maintainer(s) : bf@ez.no
+2002-07-24  Gunnstein Lye  <gl@ez.no>
+
+    * xmlrpc/category.php: added deletecache for current ID
+

@@ -357,3 +357,11 @@ Maintainer(s) : bf@ez.no
     * header.php:
     Added article edit and image category to section charset override.
 
+
+Module : admin
+Repository path : /home/cvsroot/projects/php/admin
+Maintainer(s) : bf@ez.no
+2002-07-24  Baard Farstad  <bf@ez.no>
+
+    * header.php: Fixed bug when editing unassigned images.
+
