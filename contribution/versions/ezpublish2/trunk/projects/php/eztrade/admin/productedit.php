@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: productedit.php,v 1.12 2000/10/24 19:03:13 bf-cvs Exp $
+// $Id: productedit.php,v 1.13 2000/10/28 13:40:09 bf-cvs Exp $
 //
 // Definition of eZCompany class
 //
@@ -19,10 +19,9 @@ include_once( "classes/eztemplate.php" );
 $ini = new INIFIle( "site.ini" );
 
 $Language = $ini->read_var( "eZTradeMain", "Language" );
-$DOC_ROOT = $ini->read_var( "eZTradeMain", "DocumentRoot" );
 
-include_once( $DOC_ROOT . "/classes/ezproduct.php" );
-include_once( $DOC_ROOT . "/classes/ezproductcategory.php" );
+include_once( "eztrade/classes/ezproduct.php" );
+include_once( "eztrade/classes/ezproductcategory.php" );
 
 
 if ( $Action == "Insert" )
@@ -37,6 +36,8 @@ if ( $Action == "Insert" )
     $product->setBrief( strip_tags( $Brief ) );
     $product->setKeywords( strip_tags( $Keywords ) );
     $product->setProductNumber( strip_tags( $ProductNumber ) );
+
+    $product->setExternalLink( strip_tags( $ExternalLink ) );
 
     if ( $ShowPrice == "on" )
     {
@@ -116,6 +117,8 @@ if ( $Action == "Update" )
     $product->setKeywords( strip_tags( $Keywords ) );
     $product->setProductNumber( strip_tags( $ProductNumber  ) );
 
+    $product->setExternalLink( strip_tags( $ExternalLink ) );
+    
     if ( $ShowPrice == "on" )
     {
         $product->setShowPrice( true );
@@ -206,11 +209,8 @@ if ( $Action == "Delete" )
     exit();
 }
 
-$t = new eZTemplate( $DOC_ROOT . "/admin/" . $ini->read_var( "eZTradeMain", "AdminTemplateDir" ) . "/productedit/",
-                     $DOC_ROOT . "/admin/intl/", $Language, "productedit.php" );
-
-
-
+$t = new eZTemplate( "eztrade/admin/" . $ini->read_var( "eZTradeMain", "AdminTemplateDir" ) . "/productedit/",
+                     "eztrade/admin/intl/", $Language, "productedit.php" );
 
 
 $t->set_file( array( "product_edit_tpl" => "productedit.tpl" ) );
@@ -231,7 +231,10 @@ $t->set_var( "showprice_checked", "" );
 $t->set_var( "showproduct_checked", "" );
 $t->set_var( "inherit_options_checked", "" );
 
+$t->set_var( "external_link", "" );
+
 $t->set_var( "action_value", "insert" );
+
 
 // edit
 if ( $Action == "Edit" )
@@ -245,6 +248,9 @@ if ( $Action == "Edit" )
     $t->set_var( "price_value", $product->price() );
     $t->set_var( "brief_value", $product->brief() );
     $t->set_var( "description_value", $product->description() );
+    
+    $t->set_var( "external_link", $product->externalLink() );
+    
     $t->set_var( "action_value", "update" );
     $t->set_var( "product_id", $product->id() );
 

@@ -109,9 +109,18 @@
 </tr>
 </table>
 
-<p class="boxtext">Pris:</p>
-{product_price}
-
+<table width="100%" border="0">
+<tr>
+	<td>
+	<p class="boxtext">{intl-price}:</p>
+	{product_price}
+	</td>
+	<td align="right">
+	<p class="boxtext">{intl-external_link}:</p>
+	<a href="{external_link}" target="_blank">{external_link}</a>
+	</td>
+</tr>
+</table>
 <br /><br />
 
 <hr noshade="noshade" size="4" />

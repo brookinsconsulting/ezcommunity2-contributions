@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezproduct.php,v 1.17 2000/10/24 12:59:08 bf-cvs Exp $
+// $Id: ezproduct.php,v 1.18 2000/10/28 13:40:09 bf-cvs Exp $
 //
 // Definition of eZCompany class
 //
@@ -124,6 +124,7 @@ class eZProduct
                                  ShowPrice='$showPrice',
                                  ShowProduct='$showProduct',
                                  Discontinued='$discontinued',
+                                 ExternalLink='$this->ExternalLink',
                                  InheritOptions='$inheritOptions'
                                  " );
 
@@ -143,6 +144,7 @@ class eZProduct
                                  ShowPrice='$showPrice',
                                  ShowProduct='$showProduct',
                                  Discontinued='$discontinued',
+                                 ExternalLink='$this->ExternalLink',
                                  InheritOptions='$inheritOptions'
                                  WHERE ID='$this->ID'
                                  " );
@@ -176,6 +178,7 @@ class eZProduct
                 $this->Description =& $category_array[0][ "Description" ];
                 $this->Keywords =& $category_array[0][ "Keywords" ];
                 $this->ProductNumber =& $category_array[0][ "ProductNumber" ];
+                $this->ExternalLink =& $category_array[0][ "ExternalLink" ];
                 $this->Price =& $category_array[0][ "Price" ];
 
                 if ( $category_array[0][ "ShowPrice" ] == "true" )                    
@@ -331,9 +334,20 @@ class eZProduct
 
        return $this->ShowProduct;
     }
-    
+
     /*!
-      Returns true if the product should inherit options from the product group.
+      Returns true if the product should be shown. False if not.
+    */
+    function showProduct()
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+       return $this->ShowProduct;
+    }
+
+    /*!
+      Returns true if the product has inherit options.
     */
     function inheritOptions()
     {
@@ -341,6 +355,17 @@ class eZProduct
             $this->get( $this->ID );
 
        return $this->InheritOptions;
+    }
+    
+    /*!
+      Returns the external link to the product.
+    */
+    function externalLink()
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+       return $this->ExternalLink;
     }
     
     /*!
@@ -461,6 +486,17 @@ class eZProduct
        setType( $this->InheritOptions, "integer" );
     }
 
+    /*!
+      Sets the external link.
+    */
+    function setExternalLink( $value )
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+       $this->ExternalLink = $value;
+    }
+    
 
     /*!
       Adds a option to the product.
@@ -814,6 +850,7 @@ class eZProduct
     var $ShowProduct;
     var $Discontinued;
     var $InheritOptions;
+    var $ExternalLink;
     
     ///  Variable for keeping the database connection.
     var $Database;

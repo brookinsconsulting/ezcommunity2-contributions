@@ -18,16 +18,19 @@
 </select>
 
 <p class="boxtext">{intl-keywords}:</p>
-<textarea rows="5" cols="40" name="Keywords">{keywords_value}</textarea>
+<textarea rows="5" cols="40" name="Keywords" wrap="soft">{keywords_value}</textarea>
 <br /><br />
 
 <p class="boxtext">{intl-intro}:</p>
-<textarea rows="5" cols="40" name="Brief">{brief_value}</textarea>
+<textarea rows="5" cols="40" name="Brief" wrap="soft">{brief_value}</textarea>
 <br /><br />
 
 <p class="boxtext">{intl-description}:</p>
-<textarea rows="5" cols="40" name="Description">{description_value}</textarea>
+<textarea rows="5" cols="40" name="Description" wrap="soft">{description_value}</textarea>
 <br /><br />
+
+<p class="boxtext">{intl-external_link}:</p>
+http://<input type="text" size="36" name="ExternalLink" value="{external_link}"/>
 
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>

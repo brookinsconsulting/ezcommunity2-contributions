@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: productsearch.php,v 1.1 2000/10/22 10:33:23 bf-cvs Exp $
+// $Id: productsearch.php,v 1.2 2000/10/28 13:40:10 bf-cvs Exp $
 //
 // 
 //
@@ -29,8 +29,8 @@ include_once( "eztrade/classes/ezcartoptionvalue.php" );
 include_once( "ezsession/classes/ezsession.php" );
 include_once( "ezimagecatalogue/classes/ezimage.php" );
 
-$t = new eZTemplate( "eztrade/" . $ini->read_var( "eZTradeMain", "TemplateDir" ) ,
-                     "eztrade/intl/", $Language, "productsearch.php" );
+$t = new eZTemplate( "eztrade/user/" . $ini->read_var( "eZTradeMain", "TemplateDir" ),
+                     "eztrade/user/intl/", $Language, "productsearch.php" );
 
 $t->setAllStrings();
 
