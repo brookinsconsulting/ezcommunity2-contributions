@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezxmlrpcclient.php,v 1.2 2001/02/06 16:33:07 bf Exp $
+// $Id: ezxmlrpcclient.php,v 1.3 2001/02/15 18:28:14 bf Exp $
 //
 // Definition of eZXMLRPCClient class
 //
@@ -181,8 +181,7 @@ class eZXMLRPCClient
     var $ErrorString;
 
     /// The error number
-    var $ErrorNumber;
-    
+    var $ErrorNumber;    
 }
 
 
