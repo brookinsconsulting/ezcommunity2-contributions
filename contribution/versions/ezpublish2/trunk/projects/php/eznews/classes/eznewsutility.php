@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: eznewsutility.php,v 1.4 2000/10/01 17:41:07 pkej-cvs Exp $
+// $Id: eznewsutility.php,v 1.5 2000/10/01 17:41:53 pkej-cvs Exp $
 //
 // Definition of eZNewsUtility class
 //
@@ -222,7 +222,7 @@ class eZNewsUtility
     
     
     /*!
-        \Private
+        \private
         
         Creates an order by clause.
         
@@ -250,7 +250,7 @@ class eZNewsUtility
 
 
     /*!
-        \Private
+        \private
         
         Creates an limit clause.
         
@@ -279,7 +279,7 @@ class eZNewsUtility
     
     
     /*!
-        \Private
+        \private
         
         Creates IP and port number of accessing browser.
         
@@ -299,7 +299,7 @@ class eZNewsUtility
 
     
     /*!
-        \Private
+        \private
         
         Creates a timestamp for use in a Mysql timestamp field.
         
@@ -315,7 +315,7 @@ class eZNewsUtility
 
     
     /*!
-        \Private
+        \private
         
         Creates an user id.
         
@@ -346,7 +346,7 @@ class eZNewsUtility
 
 
     /*!
-        \Private
+        \private
         
         This function will get the data of this object if the 
         state of the object is dirty.
@@ -369,7 +369,7 @@ class eZNewsUtility
 
    
     /*!
-        \Private
+        \private
         
         This function will change the state of the object based
         on the current state. Only functions which change the
@@ -525,7 +525,7 @@ class eZNewsUtility
 
 
     /*!
-        \Private
+        \private
         
         This function will just check that the object isn't dirty.
         
@@ -768,7 +768,7 @@ class eZNewsUtility
 
 
     /*!
-        \Private
+        \private
       
         Open the database for read and write. Gets all the database information from site.ini.
     */
