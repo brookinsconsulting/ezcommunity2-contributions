@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezbulkmailcategorysettings.php,v 1.2 2001/09/08 12:16:19 ce Exp $
+// $Id: ezbulkmailcategorysettings.php,v 1.3 2001/09/10 10:04:23 ce Exp $
 //
 // Definition of eZBulkMailCategorySettings class
 //
@@ -187,9 +187,9 @@ class eZBulkMailCategorySettings
     function setAddress( $value )
     {
         if ( get_class ( $value ) == "ezbulkmailsubscriptionaddress" )
-            $this->CategoryID = $value->id();
+            $this->AddressID = $value->id();
         elseif ( is_numeric( $value ) )
-            $this->CategoryID = $value;
+            $this->AddressID = $value;
     }
 
     /*!

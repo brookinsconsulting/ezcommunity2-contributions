@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezbulkmailcategory.php,v 1.22 2001/09/08 12:16:19 ce Exp $
+// $Id: ezbulkmailcategory.php,v 1.23 2001/09/10 10:04:23 ce Exp $
 //
 // Definition of eZBulkMailCategory class
 //
@@ -39,6 +39,7 @@ include_once( "classes/ezdb.php" );
 include_once( "ezbulkmail/classes/ezbulkmailsubscriptionaddress.php" );
 include_once( "ezbulkmail/classes/ezbulkmail.php" );
 include_once( "ezbulkmail/classes/ezbulkmailcategorysettings.php" );
+include_once( "ezbulkmail/classes/ezbulkmailusercategorysettings.php" );
 
 class eZBulkMailCategory
 {
@@ -514,11 +515,11 @@ class eZBulkMailCategory
             $user = $address->user();
             $userID = $user->id();
 
-            $db->array_query( $result_array, "SELECT ID FROM eZBulkMail_UserSubscriptionCategorySettings WHERE CategoryID='$categoryID' AND UserID='$userID'" );
+            $db->array_query( $result_array, "SELECT ID FROM eZBulkMail_UserCategorySettings WHERE CategoryID='$categoryID' AND UserID='$userID'" );
             $ret = $result_array[0][$db->fieldName("ID")];
             if ( is_numeric ( $ret ) )
             {
-                $ret = new eZBulkMailCategorySettings( $ret );
+                $ret = new eZBulkMailUserCategorySettings( $ret );
             }
         }
 

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezbulkmailusersubscripter.php,v 1.2 2001/09/08 12:16:19 ce Exp $
+// $Id: ezbulkmailusersubscripter.php,v 1.3 2001/09/10 10:04:23 ce Exp $
 //
 // eZBulkMailUserSubscription class
 //
@@ -132,9 +132,6 @@ class eZBulkMailUserSubscripter
         {
             $db->query( "DELETE FROM eZBulkMail_UserCategoryLink WHERE UserID='$userID'" );
         }
-        print( "DELETE FROM eZBulkMail_UserCategoryLink WHERE UserID='$userID'" );
-
-
     }
 
     /*!
@@ -147,9 +144,9 @@ class eZBulkMailUserSubscripter
         $db->lock( "eZBulkMail_UserSubscriptionCategorySettings" );
         $userID = $this->User->id();
         
-        $res[] = $db->query( "DELETE FROM eZBulkMail_UserSubscriptionCategorySettings WHERE CategoryID='$category'" );
-        $nextID = $db->nextID( "eZBulkMail_UserSubscriptionCategorySettings", "ID" );
-        $res[] = $db->query( "INSERT INTO  eZBulkMail_UserSubscriptionCategorySettings ( ID, CategoryID, UserID, Delay ) VALUES ( '$nextID','$category','$userID','$delay' )" );
+        $res[] = $db->query( "DELETE FROM eZBulkMail_UserCategorySettings WHERE CategoryID='$category'" );
+        $nextID = $db->nextID( "eZBulkMail_UserCategorySettings", "ID" );
+        $res[] = $db->query( "INSERT INTO  eZBulkMail_UserCategorySettings ( ID, CategoryID, UserID, Delay ) VALUES ( '$nextID','$category','$userID','$delay' )" );
 
         $db->unlock();
         if ( in_array( false, $res ) )

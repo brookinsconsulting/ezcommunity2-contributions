@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: subscriptionlist.php,v 1.7 2001/09/08 12:16:19 ce Exp $
+// $Id: subscriptionlist.php,v 1.8 2001/09/10 10:04:23 ce Exp $
 //
 // Created on: <18-Apr-2001 13:36:21 fh>
 //
@@ -105,8 +105,8 @@ foreach ( $categories as $categoryitem )
     $t->set_var( "delay_1", "" );
     $t->set_var( "delay_2", "" );
     $t->set_var( "delay_3", "" );
-    
-    if ( get_class ( $setting ) == "ezbulkmailcategorysettings" )
+
+    if ( ( get_class ( $setting ) == "ezbulkmailcategorysettings" ) || ( get_class ( $setting ) == "ezbulkmailusercategorysettings" ) )
     {
         $delay = $setting->delay();
         if ( $delay == 1 )
