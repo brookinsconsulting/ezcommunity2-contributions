@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: typelist.php,v 1.6 2001/07/19 12:06:56 jakobn Exp $
+// $Id: typelist.php,v 1.6.10.1 2002/06/03 15:03:13 pkej Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -128,6 +128,7 @@ $t->set_var( "item_back_command", $back_command );
 
 $t->set_var( "action", $Action );
 $t->set_var( "type", $ListType );
+$t->set_var( "index_value",  $Index . "/" );
 
 $SearchText = stripslashes( $SearchText );
 $t->set_var( "search_form_text", $SearchText );

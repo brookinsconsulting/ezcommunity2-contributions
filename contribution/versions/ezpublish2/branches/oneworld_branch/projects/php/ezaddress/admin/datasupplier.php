@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: datasupplier.php,v 1.3 2001/07/19 12:06:56 jakobn Exp $
+// $Id: datasupplier.php,v 1.3.10.1 2002/06/03 15:03:13 pkej Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -174,10 +174,13 @@ switch ( $ListType )
     {
         $CountryID = $url_array[4];
         $Action = $url_array[3];
+        $Index = $url_array[5];
         switch ( $Action )
         {
             // intentional fall through
             case "new":
+            {
+            }
             case "edit":
             case "update":
             case "insert":
@@ -190,7 +193,11 @@ switch ( $ListType )
             case "list":
             {
                 if ( is_numeric( $url_array[4] ) )
-                    $Index = $url_array[4];
+                    $ItemParentID = $url_array[4];
+                else
+                    $ItemParentID = 0;
+                if ( is_numeric( $url_array[5] ) )
+                    $Index = $url_array[5];
                 include( "ezaddress/admin/countrylist.php" );
                 break;
             }

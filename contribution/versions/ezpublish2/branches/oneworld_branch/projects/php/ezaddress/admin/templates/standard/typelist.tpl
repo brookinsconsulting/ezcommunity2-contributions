@@ -15,7 +15,7 @@
 </tr>
 </table>
 
-<form method="post" action="{www_dir}{index}{item_new_command}/">
+<form method="post" action="{www_dir}{index}{item_new_command}/{index_value}">
 
 <hr noshade="noshade" size="4" />
 <!-- BEGIN list_item_tpl -->

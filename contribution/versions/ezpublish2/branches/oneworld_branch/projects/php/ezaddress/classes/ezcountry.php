@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezcountry.php,v 1.10 2001/08/01 15:15:47 ce Exp $
+// $Id: ezcountry.php,v 1.10.10.1 2002/06/03 15:03:13 pkej Exp $
 //
 // Definition of eZCountry class
 //
@@ -66,8 +66,8 @@ class eZCountry
             $this->ID = $db->nextID( "eZAddress_Country", "ID" );
 
             $res[] = $db->query( "INSERT INTO eZAddress_Country
-                    ( ID, ISO, Name, HasVAT )
-                    VALUES ( '$this->ID', '$this->ISO', '$name', $this->HasVAT )" );
+                    ( ID, ParentID, ISO, Name, HasVAT )
+                    VALUES ( '$this->ID', '$this->ParentID', '$this->ISO', '$name', $this->HasVAT )" );
             $db->unlock();
         }
         else
@@ -75,6 +75,7 @@ class eZCountry
             $res[] = $db->query( "UPDATE eZAddress_Country
                     SET ISO='$this->ISO',
                     Name='$name',
+                    ParentID='$this->ParentID',
                     HasVAT='$this->HasVAT'
                     WHERE ID='$this->ID'" );            
 
@@ -107,6 +108,7 @@ class eZCountry
         $db =& eZDB::globalDatabase();
         
         $this->ID =& $country_array[ $db->fieldName( "ID" ) ];
+        $this->ParentID =& $country_array[ $db->fieldName( "ParentID" ) ];
         $this->ISO =& $country_array[ $db->fieldName( "ISO" ) ];
         $this->Name =& $country_array[ $db->fieldName( "Name" ) ];
         $this->HasVAT =& $country_array[ $db->fieldName( "HasVAT" ) ];
@@ -135,7 +137,7 @@ class eZCountry
     /*!
       Returns every country as a eZCountry object
     */
-    function &getAll( $as_object = true, $search = "", $offset = 0, $max = -1 )
+    function &getAll( $as_object = true, $search = "", $offset = 0, $max = -1, $parentID = 0 )
     {
         $db =& eZDB::globalDatabase();
 
@@ -161,7 +163,7 @@ class eZCountry
             $select = "ID";
 
         $db->array_query( $country_array, "SELECT $select FROM eZAddress_Country
-                                           WHERE Removed=0 $search_arg
+                                           WHERE Removed=0 AND ParentID=$parentID $search_arg
                                            ORDER BY Name", $limit );
         
         if ( $as_object )
@@ -196,12 +198,137 @@ class eZCountry
         foreach ( $country_array as $country )
         {
             $return_array[] = array( "ID" =>      $country[ $db->fieldName( "ID" ) ],
+                                     "ParentID" =>     $country[ $db->fieldName( "ParentID" ) ],
                                      "ISO" =>     $country[ $db->fieldName( "ISO" ) ],
                                      "Name" =>    $country[ $db->fieldName( "Name" ) ],
                                      "Removed" => $country[ $db->fieldName( "Removed" ) ] );
         }
         return $return_array;
     }
+
+
+
+
+    /*!
+      Returns the countries with the country given as parameter as parent.
+
+      The countries are returned as an array of eZCountry objects.
+    */
+    function &getByParent( $parent, $offset=0, $limit=10,  $asObject=true )
+    {
+        if ( get_class( $parent ) == "ezcountry" )
+        {
+            $db =& eZDB::globalDatabase();
+        
+            $return_array = array();
+            $category_array = array();
+
+            $parentID = $parent->id();
+                 
+            $db->array_query( $category_array, "SELECT ID, Name FROM eZAddress_Country WHERE Removed=0 AND ParentID='$parentID' ORDER BY Name", array( "Limit" => $limit, "Offset" => $offset ) );
+            
+            if ( $asObject == true )
+            {
+                for ( $i = 0; $i < count( $category_array ); $i++ )
+                {
+                    $return_array[$i] = new eZCountry( $category_array[$i][$db->fieldName( "ID" )], 0 );
+                }
+            }
+            else
+            {
+                for ( $i = 0; $i < count( $category_array ); $i++ )
+                {
+                    $return_array[$i] = array( "ID" => $category_array[$i][$db->fieldName( "ID" )], "Name" => $category_array[$i][$db->fieldName( "Name" )] );
+                }
+            }
+            return $return_array;
+        }
+        else
+        {
+            return 0;
+        }
+    }
+
+    /*!
+      Returns the number countries which has the country given as parameter as parent.
+    */
+    function &getChildrenCount( $parent )
+    {
+        $db =& eZDB::globalDatabase();
+        $category_array = array();
+        
+        if ( get_class( $parent ) == "ezcountry" )
+        {
+            $parentID = $parent->id();
+        }
+        else
+        {
+            $parentID = $parent;
+        }
+                 
+            $db->array_query( $category_array, "SELECT COUNT (ID) AS Count FROM eZAddress_Country WHERE Removed=0 AND ParentID=$parentID" );
+            
+            $count = $category_array[0][$db->fieldName( "Count" )];
+            
+            if ( $count == "" )
+            {
+                $count = 0;
+            }
+
+            return $count;
+    }
+
+
+    /*!
+        Retruns a tree of countries.
+      \static
+    */
+    function &getTree( $parentID=0, $maxLevel=0, $level=0, $offset=0, $limit=10, $asObject=true )
+    {
+        $category = new eZCountry( $parentID );
+
+        $categoryList = $category->getByParent( $category, $offset, $limit, true );
+        
+        $tree = array();
+        if ( $maxLevel == $level OR $maxLevel == 0)
+        {
+            $level++;
+            if ( $asObject == true )
+            {
+                foreach ( $categoryList as $category )
+                {
+                    array_push( $tree, array( $return_array[] = new eZCountry( $category->id() ), $level ) );   
+                    if ( $category != 0 )
+                    {
+                        $tree = array_merge( $tree, eZCountry::getTree( $category->id(), $maxLevel, $level, $offset, $limit, $asObject ) );
+                    }
+                }
+            }
+            else
+            {
+                foreach ( $categoryList as $category )
+                {
+                    array_push( $tree, array( "ID" => $category->id() , "Name" => $category->name(), "Level" => $level ) );   
+                    if ( $category != 0 )
+                    {
+                        $tree = array_merge( $tree, eZCountry::getTree( $category->id(), $maxLevel, $level, $offset, $limit, $asObject ) );
+                    }
+                }
+            }
+        }
+        return $tree;
+    }
+
+
+
+
+
+
+
+
+
+
+
     
     /*!
       Sletter adressen med ID == $id;
@@ -224,6 +351,14 @@ class eZCountry
     function id( )
     {
         return $this->ID;
+    }
+    
+    /*!
+      Returns the object ParentID.
+    */
+    function parentID( )
+    {
+        return $this->ParentID;
     }
     
     /*!
@@ -254,6 +389,14 @@ class eZCountry
     }
 
     /*!
+      Sets the ParentID of the country.
+    */
+    function setParentID( $value )
+    {
+       $this->ParentID = $value;
+    }
+    
+    /*!
       Sets the ISO code of the country.
     */
     function setISO( $value )
@@ -282,6 +425,7 @@ class eZCountry
 
   
     var $ID;
+    var $ParentID;
     var $ISO;
     var $Name;
     var $HasVAT;

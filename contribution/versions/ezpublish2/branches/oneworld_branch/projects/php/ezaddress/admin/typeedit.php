@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: typeedit.php,v 1.6 2001/10/17 12:19:26 ce Exp $
+// $Id: typeedit.php,v 1.6.10.1 2002/06/03 15:03:13 pkej Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -78,7 +78,7 @@ if ( isset( $Delete ) and isset( $ItemArrayID ) and isset( $item_types ) )
         $item_type->delete( false );
     }
     include_once( "classes/ezhttptool.php" );
-    eZHTTPTool::header( "Location: $page_path/list" );
+    eZHTTPTool::header( "Location: $page_path/list/$Index/" );
     exit();
 }
 
@@ -86,7 +86,7 @@ if( $Action == "up" )
 {
     $item_type->moveUp();
     include_once( "classes/ezhttptool.php" );
-    eZHTTPTool::header( "Location: $page_path/list" );
+    eZHTTPTool::header( "Location: $page_path/list/$Index/" );
     exit();
 }
 
@@ -94,7 +94,7 @@ if( $Action == "down" )
 {
     $item_type->moveDown();
     include_once( "classes/ezhttptool.php" );
-    eZHTTPTool::header( "Location: $page_path/list" );
+    eZHTTPTool::header( "Location: $page_path/list/$Index/" );
     exit();
 }
 
@@ -125,7 +125,7 @@ if( $Action == "insert" or $Action == "update" )
     }
     $item_type->store();
     include_once( "classes/ezhttptool.php" );
-    eZHTTPTool::header( "Location: $page_path/list" );
+    eZHTTPTool::header( "Location: $page_path/list/$Index/" );
 }
 
 if ( !isset( $typeedit ) )
@@ -217,6 +217,7 @@ $t->parse( "type_edit", "type_edit_tpl", true );
 
 $t->set_var( "form_path", $page_path );
 $t->set_var( "action_value", $action_value );
+$t->set_var( "index_value",  $Index . "/" );
 $t->pparse( "output", "list_page" );
 
 ?>
