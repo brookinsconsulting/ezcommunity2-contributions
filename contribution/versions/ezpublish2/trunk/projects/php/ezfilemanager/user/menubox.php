@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: menubox.php,v 1.5 2001/03/08 10:28:34 fh Exp $
+// $Id: menubox.php,v 1.6 2001/03/08 19:00:41 jb Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <16-Jan-2001 13:23:02 ce>
@@ -24,6 +24,8 @@
 //
 
 include_once( "classes/INIFile.php" );
+include_once( "ezuser/classes/ezpermission.php" );
+include_once( "ezuser/classes/ezobjectpermission.php" );
 
 $ini =& INIFile::globalINI();
 
