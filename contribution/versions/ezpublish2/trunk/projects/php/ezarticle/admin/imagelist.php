@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: imagelist.php,v 1.13 2001/05/15 12:45:04 ce Exp $
+// $Id: imagelist.php,v 1.14 2001/05/16 09:13:14 ce Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <21-Sep-2000 10:32:19 bf>
@@ -52,6 +52,7 @@ $article = new eZArticle( $ArticleID );
 
 $session = new eZSession();
 $session->setVariable( "ImageListReturnTo", $REQUEST_URI );
+$session->setVariable( "SelectImages", "multi" );
 
 $thumbnail = $article->thumbnailImage();
 

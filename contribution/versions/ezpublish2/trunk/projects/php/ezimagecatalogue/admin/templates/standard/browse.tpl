@@ -77,7 +77,8 @@
 
 <hr noshade="noshade" size="4" />
 
-<input type="submit" name="AddImages" value="{intl-add_images}">
+<input type="submit" name="AddImages" value="{intl-add_images}">&nbsp;
+<input type="submit" name="Cancel" value="{intl-cancel}">
 </form>
 
 
