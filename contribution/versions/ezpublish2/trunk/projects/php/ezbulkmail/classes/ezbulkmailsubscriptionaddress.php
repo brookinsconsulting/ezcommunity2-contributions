@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezbulkmailsubscriptionaddress.php,v 1.11 2001/06/28 08:14:53 bf Exp $
+// $Id: ezbulkmailsubscriptionaddress.php,v 1.12 2001/06/29 15:19:14 ce Exp $
 //
 // eZBulkMailSubscriptionAddress class
 //
@@ -48,10 +48,6 @@ class eZBulkMailSubscriptionAddress
         {
             $this->ID = $id;
             $this->get( $this->ID );
-        }
-        else
-        {
-            $this->State_ = "New";
         }
     }
 

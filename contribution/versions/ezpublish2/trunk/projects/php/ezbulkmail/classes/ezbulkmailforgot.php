@@ -60,24 +60,13 @@ class eZBulkMailForgot
       If $id is set the object's values are fetched from the
       database.
     */
-    function eZBulkMailForgot( $id=-1, $fetch=true )
+    function eZBulkMailForgot( $id=-1 )
     {
         $this->IsConnected = false;
         if ( $id != -1 )
         {
             $this->ID = $id;
-            if ( $fetch == true )
-            {
-                $this->get( $this->ID );
-            }
-            else
-            {
-                $this->State_ = "Dirty";
-            }
-        }
-        else
-        {
-            $this->State_ = "New";
+            $this->get( $this->ID );
         }
     }
 
@@ -86,18 +75,26 @@ class eZBulkMailForgot
     */
     function store()
     {
-        $this->dbInit();
+        $db =& eZDB::globalDatabase();
+        $db->begin();
 
         $this->Hash = md5( microTime() );
-        $password = addslashes( $this->Password );
+        $password = $db->escapeStrings( $this->Password );
         
         if ( !isset( $this->ID ) )
         {
-            $this->Database->query( "INSERT INTO eZBulkMail_Forgot SET
-                                 Mail='$this->Mail',
-                                 Password='$password',
-                                 Hash='$this->Hash'" );
-			$this->ID = $this->Database->insertID();
+            $db->lock( "eZBulkMail_Forgot" );
+            $nextID = $db->nextID( "eZBulkMail_Forgot", "ID" );
+
+            $result = $db->query( "INSERT INTO eZBulkMail_Forgot
+                        ( ID, Mail, Password, Hash )
+                        VALUES
+                        ( '$nextID',
+                          '$this->Mail',
+                          '$password',
+                          '$this->Hash' )
+                        " );
+			$this->ID = $nextID;
         }
         else
         {
@@ -107,6 +104,12 @@ class eZBulkMailForgot
                                  Hash='$this->Hash'
                                  WHERE ID='$this->ID'" );
         }
+
+        $db->unlock();
+        if ( $result == false )
+            $db->rollback( );
+        else
+            $db->commit();
     }
 
     /*!
@@ -115,11 +118,16 @@ class eZBulkMailForgot
     */
     function delete()
     {
-        $this->dbInit();
+        $db =& eZDB::globalDatabase();
         
         if ( isset( $this->ID ) )
         {
-            $this->Database->query( "DELETE FROM eZBulkMail_Forgot WHERE ID='$this->ID'" );
+            $db->begin();
+            $result = $db->query( "DELETE FROM eZBulkMail_Forgot WHERE ID='$this->ID'" );
+            if ( $commit == false )
+                $db->rollback( );
+            else
+                $db->commit();
         }
     }
 
@@ -130,31 +138,24 @@ class eZBulkMailForgot
     */
     function get( $id=-1 )
     {
-        $this->dbInit();
+        $db =& eZDB::globalDatabase();
 
         $ret = false;
         if ( $id != "" )
         {
-            $this->Database->array_query( $forgot_array, "SELECT * FROM eZBulkMail_Forgot WHERE ID='$id'" );
+            $db->array_query( $forgot_array, "SELECT * FROM eZBulkMail_Forgot WHERE ID='$id'" );
             if ( count( $forgot_array ) > 1 )
             {
                 die( "Error: User's with the same ID was found in the database. This shouldn't happen." );
             }
             else if( count( $forgot_array ) == 1 )
             {
-                $this->ID = $forgot_array[0]["ID"];
-                $this->Mail = $forgot_array[0]["Mail"];
-                $this->Password = $forgot_array[0][ "Password" ];
-                $this->Time = $forgot_array[0]["Time"];
-                
-                $this->State_ = "Coherent";  
+                $this->ID = $forgot_array[0][$db->fieldName( "ID" )];
+                $this->Mail = $forgot_array[0][$db->fieldName( "Mail" )];
+                $this->Password = $forgot_array[0][$db->fieldName( "Password" )];
+                $this->Time = $forgot_array[0][$db->fieldName( "Time" )];
                 $ret = true;
             }
-        }
-        else
-        {
-            $this->State_ = "Dirty";
-
         }
         return $ret;
     }
@@ -176,7 +177,7 @@ class eZBulkMailForgot
         }
         else if( count( $forgot_array ) == 1 )
         {
-            $id = $forgot_array[0]["ID"];
+            $id = $forgot_array[0][$db->fieldName( "ID" )];
             $return_value = new eZBulkMailForgot( $id );
         }
         else
@@ -195,14 +196,14 @@ class eZBulkMailForgot
     */
     function check( $hash )
     {
-        $this->dbInit();
+        $db = eZDB::globalDatabase();
         $ret = false;
         
-        $this->Database->array_query( $forgot_array, "SELECT ID FROM eZBulkMail_Forgot WHERE Hash='$hash'" );
+        $db->array_query( $forgot_array, "SELECT ID FROM eZBulkMail_Forgot WHERE Hash='$hash'" );
 
         if ( count( $forgot_array ) == 1 )
         {
-            $ret = $forgot_array[0]["ID"];
+            $ret = $forgot_array[0][$db->fieldName( "ID" )];
         }
         return $ret;
     }
@@ -220,9 +221,6 @@ class eZBulkMailForgot
     */
     function mail( )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
        return $this->Mail;
     }
 
@@ -231,9 +229,6 @@ class eZBulkMailForgot
     */
     function setMail( $value )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
        $this->Mail = $value;
     }
 
@@ -242,8 +237,6 @@ class eZBulkMailForgot
      */
     function setPassword( $value )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
        $this->Password = $value;
     }
 
@@ -252,8 +245,6 @@ class eZBulkMailForgot
      */
     function password()
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
         return $this->Password;
     }
     
@@ -262,24 +253,7 @@ class eZBulkMailForgot
     */
     function hash()
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
        return $this->Hash;
-    }
-
-    /*!
-      \private
-      Private function.
-      Open the database for read and write. Gets all the database information from site.ini.
-    */
-    function dbInit( )
-    {
-        if ( $this->IsConnected == false )
-        {
-            $this->Database = eZDB::globalDatabase();
-            $this->IsConnected = true;
-        }
     }
 
     var $Mail;

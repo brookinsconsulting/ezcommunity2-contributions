@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezbulkmail.php,v 1.15 2001/06/29 10:00:36 pkej Exp $
+// $Id: ezbulkmail.php,v 1.16 2001/06/29 15:19:14 ce Exp $
 //
 // eZBulkMail class
 //
@@ -54,10 +54,6 @@ class eZBulkMail
             $this->ID = $id;
             $this->get( $this->ID );
         }
-        else
-        {
-            $this->State_ = "New";
-        }
     }
 
     /*!
@@ -65,26 +61,35 @@ class eZBulkMail
     */
     function store()
     {
-        $this->dbInit();
-        $bodytext = addslashes( $this->BodyText );
-        $subject = addslashes( $this->Subject );
-        $replyto = addslashes( $this->ReplyTo );
+        $db =& eZDB::globalDatabase();
+        $db->begin();
+        $bodytext = $db->escapeString( $this->BodyText );
+        $subject = $db->escapeString( $this->Subject );
+        $replyto = $db->escapeString( $this->ReplyTo );
+        $fromname = $db->escapeString( $this->FromName );
         if ( !isset( $this->ID ) )
         {
-            $this->Database->query( "INSERT INTO eZBulkMail_Mail SET
-		                         UserID='$this->UserID',
-                                 FromField='$this->From',
-                                 FromName='$this->FromName',
-                                 ReplyTo='$replyto',
-                                 Subject='$subject',
-                                 BodyText='$bodytext',
-                                 IsDraft='$this->IsDraft'
-                                 " );
-			$this->ID = $this->Database->insertID();
+            $db->lock( "eZBulkMail_Mail" );
+            $nextID = $db->nextID( "eZBulkMail_Mail", "ID" );
+            
+            $result = $db->query( "INSERT INTO eZBulkMail_Mail
+                                ( ID, UserID, FromField, FromName, ReplyTo, Subject, BodyText, IsDraft )
+                                VALUES
+                                ( '$nextID',
+                                  '$this->UserID',
+                                  '$this->From',
+                                  '$fromname',
+                                  '$replyto
+                                  '$subject',
+                                  '$bodytext',
+                                  '$bodyText
+                                  '$this->IsDraft' )
+                                " );
+			$this->ID = $nextID;
         }
         else
         {
-            $this->Database->query( "UPDATE eZBulkMail_Mail SET
+            $result = $db->query( "UPDATE eZBulkMail_Mail SET
 		                         UserID='$this->UserID',
                                  FromField='$this->From',
                                  FromName='$this->FromName',
@@ -94,7 +99,13 @@ class eZBulkMail
                                  IsDraft='$this->IsDraft'
                                  WHERE ID='$this->ID'" );
         }
-        
+        $db->unlock();
+
+        if ( $result == false )
+            $db->rollback( );
+        else
+            $db->commit();
+
         return true;
     }
 
@@ -105,12 +116,24 @@ class eZBulkMail
     function delete( $id = -1 )
     {
         $db =& eZDB::globalDatabase();
+        $db->begin();
         
         if ( $id==-1 )
             $id = $this->ID;
-            
-        $db->query( "DELETE FROM eZBulkMail_MailCategoryLink WHERE MailID='$id'" );
-        $db->query( "DELETE FROM eZBulkMail_Mail WHERE ID='$id'" );
+
+        $results[] = $db->query( "DELETE FROM eZBulkMail_MailCategoryLink WHERE MailID='$id'" );
+        $results[] = $db->query( "DELETE FROM eZBulkMail_Mail WHERE ID='$id'" );
+
+        $commit = true;
+        foreach(  $results as $result )
+        {
+            if ( $result == false )
+                $commit = false;
+        }
+        if ( $commit == false )
+            $db->rollback( );
+        else
+            $db->commit();
     }
     
     /*!
@@ -118,32 +141,27 @@ class eZBulkMail
     */
     function get( $id=-1 )
     {
-        $this->dbInit();
+        $db =& eZDB::globalDatabase();
+                
         if ( $id != "" )
         {
-            $this->Database->array_query( $mail_array, "SELECT * FROM eZBulkMail_Mail WHERE ID='$id'" );
+            $db->array_query( $mail_array, "SELECT * FROM eZBulkMail_Mail WHERE ID='$id'" );
             if ( count( $mail_array ) > 1 )
             {
                 die( "Error: Category's with the same ID was found in the database. This shouldent happen." );
             }
             else if( count( $mail_array ) == 1 )
             {
-                $this->ID = $mail_array[0][ "ID" ];
-                $this->UserID = $mail_array[0][ "UserID" ];
-                $this->From = $mail_array[0][ "FromField" ];
-                $this->FromName = $mail_array[0][ "FromName" ];
-                $this->ReplyTo = $mail_array[0][ "ReplyTo" ];
-                $this->Subject = $mail_array[0][ "Subject" ];
-                $this->BodyText = $mail_array[0][ "BodyText" ];
-                $this->SentDate = $mail_array[0][ "SentDate" ];
-                $this->IsDraft = $mail_array[0][ "IsDraft" ];
+                $this->ID = $mail_array[0][$db->fieldName( "ID" )];
+                $this->UserID = $mail_array[0][$db->fieldName( "UserID" )];
+                $this->From = $mail_array[0][$db->fieldName( "FromField" )];
+                $this->FromName = $mail_array[0][$db->fieldName( "FromName" )];
+                $this->ReplyTo = $mail_array[0][$db->fieldName( "ReplyTo" )];
+                $this->Subject = $mail_array[0][$db->fieldName( "Subject" )];
+                $this->BodyText = $mail_array[0][$db->fieldName( "BodyText" )];
+                $this->SentDate = $mail_array[0][$db->fieldName( "SentDate" )];
+                $this->IsDraft = $mail_array[0][$db->fieldName( "IsDraft" )];
             }
-                 
-            $this->State_ = "Coherent";
-        }
-        else
-        {
-            $this->State_ = "Dirty";
         }
     }
 
@@ -167,7 +185,7 @@ class eZBulkMail
         
         for ( $i=0; $i<count($mail_array); $i++ )
         {
-            $return_array[$i] = new eZBulkMail( $mail_array[$i]["ID"] );
+            $return_array[$i] = new eZBulkMail( $mail_array[$i][$db->fieldName( "ID" )] );
         }
         
         return $return_array;
@@ -274,7 +292,7 @@ class eZBulkMail
     function date(  )
     {
         $dateTime = new eZDateTime( );
-        $dateTime->setMySQLTimeStamp( $this->SentDate );        
+        $dateTime->setTimeStamp( $this->SentDate );
         
         return $dateTime;
     }
@@ -314,12 +332,32 @@ class eZBulkMail
        $db =& eZDB::globalDatabase();
 
        if( $value == false )
-           $db->query( "DELETE FROM eZBulkMail_MailCategoryLink WHERE MailID='$this->ID'");
+       {
+           $db->begin();
+           $result = $db->query( "DELETE FROM eZBulkMail_MailCategoryLink WHERE MailID='$this->ID'");
+           if ( $result == false )
+               $db->rollback( );
+           else
+               $db->commit();
+       }
        else
        {
            $db->query_single( $result, "SELECT count( * ) AS Count FROM eZBulkMail_MailCategoryLink WHERE CategoryID='$value' AND MailID='$this->ID'" );
-           if( $result["Count"] == 0 )
-               $db->query( "INSERT INTO eZBulkMail_MailCategoryLink SET CategoryID='$value', MailID='$this->ID'" );
+           if( $result[$db->fieldName( "Count" )] == 0 )
+           {
+               $db->begin();
+               $db->lock( "eZBulkMail_MailCategoryLink" );
+               $nextID = $db->nextID( "eZBulkMail_MailCategoryLink", "ID" );
+
+               $result = $db->query( "INSERT INTO eZBulkMail_MailCategoryLink ( ID, CategoryID, MailID ) VALUES ( '$nextID', '$value', '$this->ID' ) " );
+
+               $db->unlock();
+               
+               if ( $result == false )
+                   $db->rollback( );
+               else
+                   $db->commit();
+           }
        }
     }
     
@@ -338,7 +376,7 @@ class eZBulkMail
 
         foreach( $category_array as $arrayItem )
         {
-            $result_array[] = ( $as_object == true ) ? new eZBulkMailCategory( $arrayItem["CategoryID"] ) : $arrayItem["CategoryID"];
+            $result_array[] = ( $as_object == true ) ? new eZBulkMailCategory( $arrayItem[$db->fieldName( "CategoryID" )] ) : $arrayItem[$db->fieldName( "CategoryID" )];
         }
         
         return $result_array;
@@ -352,9 +390,26 @@ class eZBulkMail
     function useTemplate( $templateID )
     {
         $db =& eZDB::globalDatabase();
-        $db->query( "DELETE FROM eZBulkMail_MailTemplateLink WHERE MailID='$this->ID'" );
+        
+        $db->begin();
+        $result = $db->query( "DELETE FROM eZBulkMail_MailTemplateLink WHERE MailID='$this->ID'" );
+        if ( $result == false )
+            $db->rollback( );
+        else
+            $db->commit();
+        
         if( $templateID != false )
-            $db->query( "INSERT INTO eZBulkMail_MailTemplateLink SET MailID='$this->ID', TemplateID='$templateID'" );
+        {
+            $db->begin();
+            $db->lock( "eZBulkMail_MailTemplateLink" );
+            $nextID = $db->nextID( "eZBulkMail_MailTemplateLink", "ID" );
+            $result = $db->query( "INSERT INTO eZBulkMail_MailTemplateLink ( ID, MailID, TemplateID ) VALUES ( '$nextID', '$this->ID', '$templateID' ) " );
+            $db->unlock();
+            if ( $result == false )
+                $db->rollback( );
+            else
+                $db->commit();
+        }
     }
 
     /*!
@@ -368,12 +423,11 @@ class eZBulkMail
         $db->array_query( $template_array, "SELECT TemplateID FROM eZBulkMail_MailTemplateLink WHERE MailID='$this->ID'" );
 
         if( count( $template_array ) > 0 && $as_object == true )
-            return new eZBulkMailTemplate( $template_array[0]["TemplateID"] );
+            return new eZBulkMailTemplate( $template_array[0][$db->fieldName( "TemplateID" )] );
         if( count( $template_array ) > 0 && $as_object == false )
-            return $template_array[0]["TemplateID"];
+            return $template_array[0][$db->fieldName( "TemplateID" )];
         
         return false;
-
     }
 
     /*!
@@ -422,12 +476,19 @@ class eZBulkMail
                 }
             }
             $this->store();
-            /** The mail was sent.. now lets set the timestamp **/
-            $this->Database->query( "UPDATE eZBulkMail_Mail SET SentDate=now() WHERE ID='$this->ID'");
+
+            // The mail was sent.. now lets set the timestamp
+            $db =& eZDB::globalDatabase();
+            $db->begin();
+            $timeStamp =& eZDateTime::timeStamp( true );
+            $result = $db->query( "UPDATE eZBulkMail_Mail SET SentDate='$timestamp' WHERE ID='$this->ID'");
+            if ( $result == false )
+                $db->rollback( );
+            else
+                $db->commit();
         }
     }
 
-    /*** FUNCTIONS THAT HANDLE THE LOGGING **/
     /*!
       \private
       Sets this mail as sent for the address given which is the email address as a text.
@@ -435,7 +496,22 @@ class eZBulkMail
     function addLogEntry( $mail )
     {
         $db = eZDB::globalDatabase();
-        $db->query( "INSERT INTO eZBulkMail_SentLog SET SentDate=now(), Mail='$mail', MailID='$this->ID'" );
+        $db->begin();
+        $db->lock( "eZBulkMail_SentLog" );
+        $nextID = $db->nextID( "eZBulkMail_SentLog", "ID" );
+        $timeStamp =& eZDateTime::timeStamp( true );
+
+        $result = $db->query( "INSERT INTO eZBulkMail_SentLog
+                  ( ID, SentDate, Mail, MailID )
+                  VALUES
+                  ( '$nextID', '$timestamp', '$mail', '$this->ID' )
+                  " );
+
+        $db->unlock();
+        if ( $result == false )
+            $db->rollback( );
+        else
+            $db->commit();
     }
 
     /*!
@@ -445,27 +521,13 @@ class eZBulkMail
     function isSent( $mail )
     {
         $db = eZDB::globalDatabase();
-        $db->query_single( $result, "SELECT Count( ID ) as Count FROM eZBulkMail_SentLog WHERE Mail='$mail' AND MailID='$this->ID'" );
-        if( $result[ "Count" ] > 0 )
+        $db->query_single( $result, "SELECT COUNT( ID ) as Count FROM eZBulkMail_SentLog WHERE Mail='$mail' AND MailID='$this->ID'" );
+        if( $result[$db->fieldName( "Count" )] > 0 )
             return true;
 
         return false;
     }
     
-    /*!
-      \private
-      
-      Open the database for read and write. Gets all the database information from site.ini.
-    */
-    function dbInit()
-    {
-        if ( $this->IsConnected == false )
-        {
-            $this->Database =& eZDB::globalDatabase();
-            $this->IsConnected = true;
-        }
-    }
-
     var $ID;
     var $UserID;
     var $From;

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezbulkmailtemplate.php,v 1.6 2001/06/28 08:14:53 bf Exp $
+// $Id: ezbulkmailtemplate.php,v 1.7 2001/06/29 15:19:14 ce Exp $
 //
 // eZBulkMailTemplate class
 //
@@ -47,10 +47,6 @@ class eZBulkMailTemplate
             $this->ID = $id;
             $this->get( $this->ID );
         }
-        else
-        {
-            $this->State_ = "New";
-        }
     }
 
     /*!
@@ -58,32 +54,41 @@ class eZBulkMailTemplate
     */
     function store()
     {
-        $this->dbInit();
-        $name = addslashes( $this->Name );
-        $header = addslashes( $this->Header );
-        $footer = addslashes( $this->Footer );
-        $description = addslashes( $this->Description );
+        $db =& eZDB::globalDatabase();
+        $db->begin();
+        $name = $db->escapeString( $this->Name );
+        $header = $db->escapeString( $this->Header );
+        $footer = $db->escapeString( $this->Footer );
+        $description = $db->escapeString( $this->Description );
         
         if ( !isset( $this->ID ) )
         {
-            $this->Database->query( "INSERT INTO eZBulkMail_Template SET
-                                 Header='$header',
-                                 Name='$name',
-                                 Footer='$footer',
-                                 Description='$description'
+            $db->query( "INSERT INTO eZBulkMail_Template
+                                  ( ID, Header, Name, Footer, Description )
+                                  VALUES
+                                  ( '$nextID',
+                                    '$header',
+                                    '$name',
+                                    '$footer',
+                                    '$description' )
                                  " );
-			$this->ID = $this->Database->insertID();
+			$this->ID = $nextID;
         }
         else
         {
-            $this->Database->query( "UPDATE eZBulkMail_Template SET
+            $db->query( "UPDATE eZBulkMail_Template SET
                                  Header='$header',
                                  Name='$name',
                                  Footer='$footer',
                                  Description='$description'
                                  WHERE ID='$this->ID'" );
         }
-        return true;
+
+        $db->unlock();
+        if ( $result == false )
+            $db->rollback( );
+        else
+            $db->commit();
     }
 
     /*!
@@ -97,7 +102,13 @@ class eZBulkMailTemplate
         if( $id == -1 )
             $id = $this->ID;
 
-        $db->query( "DELETE FROM eZBulkMail_Template WHERE ID='$this->ID'" );            
+        $db->begin();
+        $result = $db->query( "DELETE FROM eZBulkMail_Template WHERE ID='$this->ID'" );
+        $db->unlock();
+        if ( $result == false )
+            $db->rollback( );
+        else
+            $db->commit();
     }
     
     /*!
@@ -105,28 +116,23 @@ class eZBulkMailTemplate
     */
     function get( $id=-1 )
     {
-        $this->dbInit();
+        $db = eZDB::globalDatabase();
         
         if ( $id != "" )
         {
-            $this->Database->array_query( $template_array, "SELECT * FROM eZBulkMail_Template WHERE ID='$id'" );
+            $db->array_query( $template_array, "SELECT * FROM eZBulkMail_Template WHERE ID='$id'" );
             if ( count( $template_array ) > 1 )
             {
                 die( "Error: Templates with the same ID was found in the database. This shouldent happen." );
             }
             else if( count( $template_array ) == 1 )
             {
-                $this->ID = $template_array[0][ "ID" ];
-                $this->Name = $template_array[0][ "Name" ];
-                $this->Header = $template_array[0][ "Header" ];
-                $this->Footer = $template_array[0][ "Footer" ];
-                $this->Description = $template_array[0]["Description"];
+                $this->ID = $template_array[0][$db->fieldName( "ID" )];
+                $this->Name = $template_array[0][$db->fieldName( "Name" )];
+                $this->Header = $template_array[0][$db->fieldName( "Header" )];
+                $this->Footer = $template_array[0][$db->fieldName( "Footer" )];
+                $this->Description = $template_array[0][$db->fieldName( "Description")];
             }
-            $this->State_ = "Coherent";
-        }
-        else
-        {
-            $this->State_ = "Dirty";
         }
     }
 
@@ -143,8 +149,8 @@ class eZBulkMailTemplate
         
         $db->array_query( $template_array, "SELECT ID FROM eZBulkMail_Template ORDER BY Name" );
         for ( $i=0; $i<count($template_array); $i++ )
-        {
-            $return_array[$i] = new eZBulkMailTemplate( $template_array[$i]["ID"] );
+        { 
+            $return_array[$i] = new eZBulkMailTemplate( $template_array[$i][$db->fieldName( "ID" )] );
         }
         
         return $return_array;
@@ -232,20 +238,6 @@ class eZBulkMailTemplate
         return $this->Header . $message . $this->Footer;
     }
     
-    /*!
-      \private
-      
-      Open the database for read and write. Gets all the database information from site.ini.
-    */
-    function dbInit()
-    {
-        if ( $this->IsConnected == false )
-        {
-            $this->Database = eZDB::globalDatabase();
-            $this->IsConnected = true;
-        }
-    }
-
     var $Header;
     var $Footer;
     var $Name;

@@ -50,10 +50,6 @@ class eZBulkMailCategory
             $this->ID = $id;
             $this->get( $this->ID );
         }
-        else
-        {
-            $this->State_ = "New";
-        }
     }
 
     /*!
@@ -61,27 +57,39 @@ class eZBulkMailCategory
     */
     function store()
     {
-        $this->dbInit();
-        $name = addslashes( $this->Name );
-        $description = addslashes( $this->Description );
+        $db =& eZDB::globalDatabase();
+        $db->begin();
+        $name = $db->escapeString( $this->Name );
+        $description = $db->escapeString( $this->Description );
         if ( !isset( $this->ID ) )
         {
-            $this->Database->query( "INSERT INTO eZBulkMail_Category SET
-		                         Name='$name',
-                                 IsPublic='$this->IsPublic',
-                                 Description='$description'" );
-			$this->ID = $this->Database->insertID();
+            $db->lock( "eZBulkMail_Category" );
+            $nextID = $db->nextID( "eZBulkMail_Category", "ID" );
+
+            $result = $db->query( "INSERT INTO eZBulkMail_Category
+                                ( ID, Name, IsPublic, Description )
+                                VALUES
+                                ( '$nextID',
+                                  '$name',
+                                  '$this->IsPublic',
+                                  '$description'
+                                ) " );
+			$this->ID = $nextID;
         }
         else
         {
-            $this->Database->query( "UPDATE eZBulkMail_Category SET
+            $result = $db->query( "UPDATE eZBulkMail_Category SET
 		                         Name='$name',
                                  IsPublic='$this->IsPublic',
                                  Description='$description'
                                  WHERE ID='$this->ID'" );
         }
-        
-        return true;
+
+        $db->unlock();
+        if ( $result == false )
+            $db->rollback( );
+        else
+            $db->commit();
     }
 
     /*!
@@ -90,13 +98,26 @@ class eZBulkMailCategory
     function delete( $id = -1 )
     {
         $db =& eZDB::globalDatabase();
+        $db->begin();
+
         if( $id == -1 )
             $id = $this->ID;
         
         // delete from BulkMailCategoryLink
-        $db->query( "DELETE FROM eZBulkMail_MailCategoryLink WHERE CategoryID='$id'" );
+        $results[] = $db->query( "DELETE FROM eZBulkMail_MailCategoryLink WHERE CategoryID='$id'" );
         // delete actual group entry
-        $db->query( "DELETE FROM eZBulkMail_Category WHERE ID='$id'" );
+        $results[] = $db->query( "DELETE FROM eZBulkMail_Category WHERE ID='$id'" );
+
+        $commit = true;
+        foreach(  $results as $result )
+        {
+            if ( $result == false )
+                $commit = false;
+        }
+        if ( $commit == false )
+            $db->rollback( );
+        else
+            $db->commit();
      }
     
     /*!
@@ -104,28 +125,22 @@ class eZBulkMailCategory
     */
     function get( $id=-1 )
     {
-        $this->dbInit();
+        $db =& eZDB::globalDatabase();
         
         if ( $id != "" )
         {
-            $this->Database->array_query( $category_array, "SELECT * FROM eZBulkMail_Category WHERE ID='$id'" );
+            $db->array_query( $category_array, "SELECT * FROM eZBulkMail_Category WHERE ID='$id'" );
             if ( count( $category_array ) > 1 )
             {
                 die( "Error: Category's with the same ID was found in the database. This shouldent happen." );
             }
             else if( count( $category_array ) == 1 )
             {
-                $this->ID = $category_array[0][ "ID" ];
-                $this->Name = $category_array[0][ "Name" ];
-                $this->IsPublic = $category_array[0][ "IsPublic" ];
-                $this->Description = $category_array[0][ "Description" ];
+                $this->ID = $category_array[0][$db->fieldName( "ID" )];
+                $this->Name = $category_array[0][$db->fieldName( "Name" )];
+                $this->IsPublic = $category_array[0][$db->fieldName( "IsPublic" )];
+                $this->Description = $category_array[0][$db->fieldName( "Description" )];
             }
-                 
-            $this->State_ = "Coherent";
-        }
-        else
-        {
-            $this->State_ = "Dirty";
         }
     }
 
@@ -142,7 +157,7 @@ class eZBulkMailCategory
 
         $return_value = false;
         if( count( $category_array ) == 1 )
-            $return_value = new eZBulkMailCategory( $category_array[0]["ID"] );
+            $return_value = new eZBulkMailCategory( $category_array[0][$db->fieldName( "ID" )] );
         
         return $return_value;
     }
@@ -161,15 +176,13 @@ class eZBulkMailCategory
         $privateSQL = "";
         if( $withPrivate == false )
             $privateSQL = "WHERE IsPublic='1'";
-            
         
         $db->array_query( $category_array, "SELECT ID FROM eZBulkMail_Category $privateSQL ORDER BY Name" );
         
         for ( $i=0; $i<count($category_array); $i++ )
         {
-            $return_array[$i] = new eZBulkMailCategory( $category_array[$i]["ID"] );
+            $return_array[$i] = new eZBulkMailCategory( $category_array[$i][$db->fieldName("ID" )] );
         }
-        
         return $return_array;
     }
     
@@ -240,9 +253,27 @@ class eZBulkMailCategory
      */
     function addGroupSubscription( $groupID )
     {
+        $db =& eZDB::globalDatabase();
+        $db->begin();
+
         if( get_class( $groupID ) == "ezusergroup" )
             $groupID = $groupID->id();
-        $this->Database->query( "INSERT INTO eZBulkMail_GroupCategoryLink SET CategoryID='$this->ID', GroupID='$groupID'" );
+
+        $db->lock( "eZBulkMail_GroupCategoryLink" );
+        $nextID = $db->nextID( "eZBulkMail_GroupCategoryLink", "ID" );
+        $result = $db->query( "INSERT INTO eZBulkMail_GroupCategoryLink
+                  ( ID, CategoryID, GroupID )
+                  VALUES
+                  ( '$nextID',
+                    '$this->ID',
+                    '$groupID'
+                  ) " );
+
+        $db->unlock();
+        if ( $result == false )
+            $db->rollback( );
+        else
+            $db->commit();
     }
 
     /*!
@@ -250,15 +281,22 @@ class eZBulkMailCategory
      */
     function removeGroupSubscription( $group )
     {
+        $db =& eZDB::globalDatabase();
+        $db->begin();
+
         if( get_class( $group ) == "ezusergroup" )
         {
             $groupID = $group->id();
-            $this->Database->query( "DELETE FROM eZBulkMail_GroupCategoryLink WHERE CategoryID='$this->ID' AND GroupID='$groupID'" );
+            $result = $db->query( "DELETE FROM eZBulkMail_GroupCategoryLink WHERE CategoryID='$this->ID' AND GroupID='$groupID'" );
         }
         else if( $group == true )
         {
-            $this->Database->query( "DELETE FROM eZBulkMail_GroupCategoryLink WHERE CategoryID='$this->ID'" );
+            $result = $db->query( "DELETE FROM eZBulkMail_GroupCategoryLink WHERE CategoryID='$this->ID'" );
         }
+        if ( $result == false )
+            $db->rollback( );
+        else
+            $db->commit();
     }
     
     /*!
@@ -266,12 +304,13 @@ class eZBulkMailCategory
      */
     function groupSubscriptions( $asObjects = true )
     {
+        $db =& eZDB::globalDatabase();
         $final_result = array();
-        $this->Database->array_query( $result_array, "SELECT GroupID FROM eZBulkMail_GroupCategoryLink WHERE CategoryID='$this->ID'" );
+        $db->array_query( $result_array, "SELECT GroupID FROM eZBulkMail_GroupCategoryLink WHERE CategoryID='$this->ID'" );
         if( count( $result_array ) > 0 )
         {
             foreach( $result_array as $result )
-                $final_result[] = $asObjects ? new eZUserGroup( $result[ "GroupID" ] ) : $result[ "GroupID" ];
+                $final_result[] = $asObjects ? new eZUserGroup( $result[$db->fieldName( "GroupID" )] ) : $result[$db->fieldName( "GroupID" )];
         }
         return $final_result;
     }
@@ -283,35 +322,27 @@ class eZBulkMailCategory
     function mail( $offset=0,
                        $limit=50 )
     {
-       $this->dbInit();
+        $db =& eZDB::globalDatabase();
+        
+        $return_array = array();
+        $mail_array = array();
 
-//         $OrderBy = "eZBug_Bug.Published DESC";
-//         switch( $sortMode )
-//         {
-//             case "alpha" :
-//             {
-//                 $OrderBy = "eZBug_Bug.Name ASC";
-//             }
-//             break;
-//         }
-
-       $return_array = array();
-       $mail_array = array();
-
-       $this->Database->array_query( $mail_array, "
+        $db->array_query( $mail_array, "
                 SELECT eZBulkMail_Mail.ID AS MailID
                 FROM eZBulkMail_Mail, eZBulkMail_Category, eZBulkMail_MailCategoryLink
                 WHERE eZBulkMail_MailCategoryLink.MailID = eZBulkMail_Mail.ID
                 AND eZBulkMail_Category.ID = eZBulkMail_MailCategoryLink.CategoryID
                 AND eZBulkMail_Category.ID='$this->ID'
-                GROUP BY eZBulkMail_Mail.ID LIMIT $offset,$limit" );
+                GROUP BY eZBulkMail_Mail.ID",
+                array( "Limit" => $limit,
+                       "Offset" => $offset ) );
  
-       for( $i=0; $i<count($mail_array); $i++ )
-       {
-           $return_array[$i] = new eZBulkMail( $mail_array[$i]["MailID"] );
-       }
+        for( $i=0; $i<count($mail_array); $i++ )
+        {
+            $return_array[$i] = new eZBulkMail( $mail_array[$i][$db->fieldName( "MailID" )] );
+        }
        
-       return $return_array;
+        return $return_array;
     }
 
     /*!
@@ -319,14 +350,14 @@ class eZBulkMailCategory
      */
     function mailCount()
     {
-       $this->dbInit();
+        $db = eZDB::globalDatabase();
 
-       $this->Database->query_single( $result, "
-                SELECT Count( eZBulkMail_Mail.ID ) AS Count
+        $db->query_single( $result, "
+                SELECT COUNT( eZBulkMail_Mail.ID ) AS Count
                 FROM eZBulkMail_Mail, eZBulkMail_MailCategoryLink
                 WHERE eZBulkMail_MailCategoryLink.CategoryID='$this->ID' AND eZBulkMail_Mail.ID=eZBulkMail_MailCategoryLink.MailID" );
        
-       return $result["Count"];
+       return $result[$db->fieldName( "Count" )];
     }
     
     /*!
@@ -344,7 +375,7 @@ class eZBulkMailCategory
 
         for( $i=0; $i<count($subscribe_array); $i++ )
         {
-            $return_array[$i] = $subscribe_array[$i]["EMail"];
+            $return_array[$i] = $subscribe_array[$i][$db->fieldName( "EMail" )];
         }
         return $return_array;
     }
@@ -356,11 +387,11 @@ class eZBulkMailCategory
     {
         $db = eZDB::globalDatabase();
 
-        $db->query_single( $result, "SELECT count( EMail ) as Count FROM eZBulkMail_SubscriptionAddress, eZBulkMail_SubscriptionLink
+        $db->query_single( $result, "SELECT COUNT( EMail ) as Count FROM eZBulkMail_SubscriptionAddress, eZBulkMail_SubscriptionLink
                                              WHERE eZBulkMail_SubscriptionAddress.ID=eZBulkMail_SubscriptionLink.AddressID
                                              AND eZBulkMail_SubscriptionLink.CategoryID='$this->ID'" );
 
-        return $result["Count"];
+        return $result[$db->fieldName( "Count" )];
     }
     
     /*!
@@ -370,14 +401,25 @@ class eZBulkMailCategory
     function setSingleList( $value )
     {
         $db = eZDB::globalDatabase();
-        $db->query( "UPDATE eZBulkMail_Category SET IsSingleCategory='0'" );
+
+        $db->begin();
+        $result = $db->query( "UPDATE eZBulkMail_Category SET IsSingleCategory='0'" );
+        if ( $result == false )
+            $db->rollback( );
+        else
+            $db->commit();
 
         if( $value != false )
         {
             if( get_class( $value ) == "ezbulkmailcategory" )
                 $value = $value->id();
 
-            $db->query( "UPDATE eZBulkMail_Category SET IsSingleCategory='1' WHERE ID='$value'" );
+            $db->begin();
+            $result = $db->query( "UPDATE eZBulkMail_Category SET IsSingleCategory='1' WHERE ID='$value'" );
+            if ( $result == false )
+                $db->rollback( );
+            else
+                $db->commit();
         }
     }
 
@@ -393,24 +435,11 @@ class eZBulkMailCategory
         $db->array_query( $result_array, "SELECT ID from eZBulkMail_Category WHERE IsSingleCategory='1'" );
 
         if( count( $result_array ) > 0 )
-            $return_value = ( $asObject == true ) ? new eZBulkMailCategory( $result_array[0][ "ID" ] ) : $result_array[0]["ID"];
+            $return_value = ( $asObject == true ) ? new eZBulkMailCategory( $result_array[0][$db->fieldName( "ID" )] ) : $result_array[0][$db->fieldName( "ID" )];
 
         return $return_value;
     }
 
-    /*!
-      Private function.
-      Open the database for read and write. Gets all the database information from site.ini.
-    */
-    function dbInit()
-    {
-        if ( $this->IsConnected == false )
-        {
-            $this->Database = eZDB::globaldatabase();
-            $this->IsConnected = true;
-        }
-    }
-    
     var $ID;
     var $Name;
     var $Description;
