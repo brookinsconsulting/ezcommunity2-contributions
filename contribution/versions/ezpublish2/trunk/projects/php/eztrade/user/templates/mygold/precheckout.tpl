@@ -17,7 +17,7 @@ Sie betreten in Kürze den gesicherten Bereich der MyGold.com Webseite. In dem Ih
 </p><p>
 <table border="0" cellspacing="5" cellpadding="0" width="1" align="left">
  <tr>
-  <td background="/sitedesign/mygold/images/no_ssl.gif"><a href="https://www.thawte.com/cgi/server/certdetails.exe?code=DEIMPE1" onclick="window.open('https://www.thawte.com/cgi/server/certdetails.exe?code=DEIMPE1', 'anew', config='height=400,width=450,toolbar=no,menubar=no,scrollbars=yes,resizable=no,location=no,directories=no,status=yes'); return false;" target="new"><img src="/sitedesign/mygold/images/stampger.gif" alt="" border="0" width="142" height="93" /></a></td>
+  <td background="/sitedesign/mygold/images/no_ssl.gif"><a href="https://www.thawte.com/cgi/server/certdetails.exe?code=DEIMPE1" onclick="window.open('https://www.thawte.com/cgi/server/certdetails.exe?code=DEIMPE1', 'anew', config='height=400,width=450,toolbar=no,menubar=no,scrollbars=yes,resizable=no,location=no,directories=no,status=yes'); return false;" target="new"><img src="https://www.mygold.com/sitedesign/mygold/images/stampger.gif" alt="" border="0" width="142" height="93" /></a></td>
  </tr>
  <tr>
   <td class="pictext">Verifizieren Sie unser Zertifikat</td>
@@ -68,7 +68,7 @@ Sie betreten in Kürze den gesicherten Bereich der MyGold.com Webseite. In dem Ih
  und Ihren Einkauf weiterführen. Falls Sie die Testseite gar nicht oder
  schlecht sehen, sollten Sie entweder wir oben beschrieben Ihren Browser updaten
  oder Ihren Einkauf unverschlüsselt weiterführen. Hier können
- Sie Ihren Browser einem <b><a href="/ssltest/" target="new">SSL-Test</a></b>
+ Sie Ihren Browser einem <b><a href="https://www.mygold.com/ssltest/" target="new">SSL-Test</a></b>
  unterziehen.<br />
  <br />
 </p>

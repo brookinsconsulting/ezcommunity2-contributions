@@ -100,20 +100,24 @@
 <br />
 
 {intl-payment_methods_description}:&nbsp;
-
-<select name="PaymentMethod">
-<!-- BEGIN payment_method_tpl -->
-<option value="{payment_method_id}">{payment_method_text}</option>
-<!-- END payment_method_tpl -->
-</select>
-
-<a href="http://www.campaign.paybox.de/banner.php3?merchantPayboxNo=4900011161914"><img src="/images/paybox_logo.gif" />paybox - bezahlen Sie mit Ihrem Handy</a>
-
+<table cellpadding="0" cellspacing="0" border="0">
+  <tr>
+    <td>
+      <select name="PaymentMethod">
+        <!-- BEGIN payment_method_tpl -->
+        <option value="{payment_method_id}">{payment_method_text}</option>
+        <!-- END payment_method_tpl -->
+      </select>
+    </td>
+    <td>&nbsp;</td>
+    <td align="center">
+      <a href="http://www.campaign.paybox.de/banner.php3?merchantPayboxNo=4900011161914"><img src="/images/paybox_logo.gif" border="0" width="110" height="81" alt="paybox - bezahlen mit dem Handy" /></a>
+      <br />paybox - bezahlen Sie mit Ihrem Handy
+    </td>
+  </tr>
+</table>
 <br /><br />
-
 <hr noshade="noshade" size="1" />
-
-
 <input type="hidden" name="ShippingCost" value="{shipping_cost_value}" />
 <input type="hidden" name="ShippingVAT" value="{shipping_vat_value}" />
 <input type="hidden" name="TotalCost" value="{total_cost_value}" />
