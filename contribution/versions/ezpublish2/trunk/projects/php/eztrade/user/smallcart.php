@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: smallcart.php,v 1.13 2001/03/19 10:07:04 bf Exp $
+// $Id: smallcart.php,v 1.14 2001/03/19 16:08:57 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <12-Dec-2000 15:21:10 bf>
@@ -43,6 +43,7 @@ include_once( "eztrade/classes/ezoption.php" );
 include_once( "eztrade/classes/ezoptionvalue.php" );
 include_once( "eztrade/classes/ezproductcategory.php" );
 include_once( "eztrade/classes/ezcart.php" );
+include_once( "eztrade/classes/ezshippingtype.php" );
 include_once( "eztrade/classes/ezcartitem.php" );
 include_once( "eztrade/classes/ezcartoptionvalue.php" );
 include_once( "ezsession/classes/ezsession.php" );
@@ -153,10 +154,21 @@ foreach ( $items as $item )
 }
 
 
+// shipping cost and VAT
+$type = new eZShippingType( );
+$shippingType =& $type->defaultType();
+$shippingCost = $cart->shippingCost( $shippingType );
 
-$currency->setValue( $sum );
+$currency->setValue( $shippingCost );
+$t->set_var( "shipping_sum", $locale->format( $currency ) );
+
+// calculate the vat of the shiping
+$shippingVAT = $cart->shippingVAT( $shippingType );
+
+
+$currency->setValue( $sum + $shippingCost );
 $t->set_var( "cart_sum", $locale->format( $currency ) );
-$currency->setValue( $totalVAT );
+$currency->setValue( $totalVAT  + $shippingVAT);
 $t->set_var( "cart_vat_sum", $locale->format( $currency ) );
 
 

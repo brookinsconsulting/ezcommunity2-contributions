@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezshippingtype.php,v 1.3 2001/03/12 12:17:27 bf Exp $
+// $Id: ezshippingtype.php,v 1.4 2001/03/19 16:08:57 bf Exp $
 //
 // Definition of eZShippingType class
 //
@@ -37,6 +37,7 @@
 
 include_once( "classes/ezdb.php" );
 include_once( "eztrade/classes/ezvattype.php" );
+include_once( "eztrade/classes/ezshippinggroup.php" );
 
 class eZShippingType
 {
@@ -121,7 +122,7 @@ class eZShippingType
         
         for ( $i=0; $i<count($shipping_array); $i++ )
         {
-            $return_array[$i] = new eZShippingType( $shipping_array[$i]["ID"], 0 );
+            $return_array[$i] = new eZShippingType( $shipping_array[$i]["ID"] );
         }
         
         return $return_array;
@@ -159,7 +160,28 @@ class eZShippingType
             return false;
         else
             return true;
-    }    
+    }
+
+    /*!
+      Returns the default shipping type.
+    */
+    function &defaultType()
+    {
+        $db =& eZDB::globalDatabase();
+        
+        $shipping_array = array();
+        
+        $db->array_query( $shipping_array, "SELECT ID FROM eZTrade_ShippingType WHERE IsDefault='1'" );
+
+        $ret = false;
+        if ( count( $shipping_array ) == 1 )
+        {
+            $ret = new eZShippingType( $shipping_array[0]["ID"] );
+        }
+        
+        return $ret;
+    }
+    
 
     /*!
       Returns the object ID to the option. This is the unique ID stored in the database.

@@ -59,6 +59,13 @@
 
 <tr>
 	<td colspan="3">&nbsp;</td>
+	<td align="right" colspan="2"><span class="boxtext">{intl-shipping}:</span></td>
+	<td align="right">
+	{shipping_sum}
+	</td>
+</tr>
+<tr>
+	<td colspan="3">&nbsp;</td>
 	<td align="right" colspan="2"><span class="boxtext">{intl-vat}:</span></td>
 	<td align="right">
 	{cart_vat_sum}
