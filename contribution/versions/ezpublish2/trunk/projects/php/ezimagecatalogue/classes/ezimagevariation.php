@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezimagevariation.php,v 1.17 2001/03/26 19:27:08 bf Exp $
+// $Id: ezimagevariation.php,v 1.18 2001/04/05 14:07:23 bf Exp $
 //
 // Definition of eZImageVariation class
 //
@@ -78,7 +78,8 @@ class eZImageVariation
                                  VariationGroupID='$this->VariationGroupID',
                                  Width='$this->Width',
                                  Height='$this->Height',
-                                 ImagePath='$this->ImagePath'
+                                 ImagePath='$this->ImagePath',
+                                 Modification='$this->Modification'
                                  " );
         
         $this->ID = mysql_insert_id();
@@ -98,7 +99,7 @@ class eZImageVariation
             $this->Database->array_query( $image_variation_array, "SELECT * FROM eZImageCatalogue_ImageVariation WHERE ID='$id'" );
             if ( count( $image_variation_array ) > 1 )
             {
-                die( "Error: ImageVariations's with the same ID was found in the database. This shouldent happen." );
+                print( "Error: ImageVariations's with the same ID was found in the database. This shouldent happen." );
             }
             else if( count( $image_variation_array ) == 1 )
             {
@@ -108,6 +109,7 @@ class eZImageVariation
                 $this->ImagePath =& $image_variation_array[0][ "ImagePath" ];
                 $this->Width =& $image_variation_array[0][ "Width" ];
                 $this->Height =& $image_variation_array[0][ "Height" ];
+                $this->Modification =& $image_variation_array[0][ "Modification" ];
 
                 $this->State_ = "Coherent";
             }
@@ -142,14 +144,17 @@ class eZImageVariation
     /*!
       Fetches the object information from the database.
     */
-    function &getByGroupAndImage( $groupID, $imageID )
+    function &getByGroupAndImage( $groupID, $imageID, $modification )
     {
         $this->dbInit();
         $ret = false;
         
         if ( $groupID != "" )
         {
-            $this->Database->array_query( $image_variation_array, "SELECT * FROM eZImageCatalogue_ImageVariation WHERE VariationGroupID='$groupID' AND ImageID='$imageID'" );
+            $this->Database->array_query( $image_variation_array, "SELECT * FROM eZImageCatalogue_ImageVariation
+            WHERE VariationGroupID='$groupID'
+            AND ImageID='$imageID' AND Modification='$modification'" );
+
             if ( count( $image_variation_array ) > 0 )
             {
                 $this->ID =& $image_variation_array[0][ "ID" ];
@@ -158,10 +163,13 @@ class eZImageVariation
                 $this->ImagePath =& $image_variation_array[0][ "ImagePath" ];
                 $this->Width =& $image_variation_array[0][ "Width" ];
                 $this->Height =& $image_variation_array[0][ "Height" ];
+                $this->Modification =& $image_variation_array[0][ "Modification" ];
+                
 
                 $this->State_ = "Coherent";
                 $ret = true;
             }
+            
             if ( !file_exists( $this->ImagePath ) or !is_file( $this->ImagePath ) )
                 $ret = false;
         }
@@ -178,14 +186,18 @@ class eZImageVariation
 
       False is returned if the variation could not be created.
     */
-    function &requestVariation( &$image, &$variationGroup )
+    function &requestVariation( &$image, &$variationGroup, $convertToGray = false )
     {
         $ret = false;
         if ( ( get_class( $image ) == "ezimage" ) && ( get_class( $variationGroup ) == "ezimagevariationgroup" ) )
         {
             $variation = new eZImageVariation();
+
+            $modification = "";
+            if ( $convertToGray == true )
+                $modification .= "gray";
             
-            if ( $variation->getByGroupAndImage( $variationGroup->id(), $image->id() ) )
+            if ( $variation->getByGroupAndImage( $variationGroup->id(), $image->id(), $modification ) )
             {
                 $ret =& $variation;
             }
@@ -201,13 +213,13 @@ class eZImageVariation
                 $suffix = $info["suffix"];
                 $postfix = $info["dot-suffix"];
                 $imageFile->setType( $info["image-type"] );
+                
+                $dest = "ezimagecatalogue/catalogue/variations/" . $image->id() . "-" . $variationGroup->width() . "x". $variationGroup->height() . $modification . $postfix;
 
-                $dest = "ezimagecatalogue/catalogue/variations/" . $image->id() . "-" . $variationGroup->width() . "x". $variationGroup->height() . $postfix;
-
-                $result = $imageFile->scaleCopy( $dest, $variationGroup->width(), $variationGroup->height() );
+                $result = $imageFile->scaleCopy( $dest, $variationGroup->width(), $variationGroup->height(), $convertToGray );
                 if ( !is_bool( $result ) and $result == "locked" )
                 {
-                    if ( $variation->getByGroupAndImage( $variationGroup->id(), $image->id() ) )
+                    if ( $variation->getByGroupAndImage( $variationGroup->id(), $image->id(), $modification ) )
                     {
                         $ret =& $variation;
                     }
@@ -230,6 +242,7 @@ class eZImageVariation
                     $variation->setImagePath( $dest );
                     $variation->setImageID(  $image->id() );                
                     $variation->setVariationGroupID(  $variationGroup->id() );
+                    $variation->setModification( $modification );
 
                     $variation->store();
 
@@ -352,6 +365,17 @@ class eZImageVariation
 
        $this->Height = $value;
     }
+
+    /*!
+      Sets the image modification information, e.g. grayscale version.
+    */
+    function setModification( $value )
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+       $this->Modification = $value;
+    }
     
     
     /*!
@@ -362,7 +386,7 @@ class eZImageVariation
     {
         if ( $this->IsConnected == false )
         {
-            $this->Database = eZDB::globalDatabase();
+            $this->Database =& eZDB::globalDatabase();
             $this->IsConnected = true;
         }
     }    
@@ -383,6 +407,7 @@ class eZImageVariation
     var $ImagePath;
     var $Width;
     var $Height;
+    var $Modification;
 }
 
 ?>
