@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: searchsupplier.php,v 1.1 2001/10/04 11:19:10 bf Exp $
+// $Id: searchsupplier.php,v 1.2 2001/10/05 17:41:32 br Exp $
 //
 // Created on: <04-Oct-2001 14:13:53 bf>
 //
@@ -35,8 +35,7 @@ include_once( "eztrade/classes/ezproduct.php" );
 $product = new eZProduct();
 
 $SearchResult =& $product->activeProductSearch( $SearchText, $Offset, $Limit );
-$SearchCount = $product->activeProductSearchCount( $Query );
-
+$SearchCount = $product->activeProductSearchCount( $SearchText );
 
 
 ?>
