@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: fileupload.php,v 1.45 2001/11/05 07:07:11 jhe Exp $
+// $Id: fileupload.php,v 1.46 2001/11/06 13:58:32 jhe Exp $
 //
 // Created on: <10-Dec-2000 15:49:57 bf>
 //
@@ -86,7 +86,6 @@ $ini =& INIFile::globalINI();
 
 $Language = $ini->read_var( "eZFileManagerMain", "Language" );
 
-
 $t = new eZTemplate( "ezfilemanager/user/" . $ini->read_var( "eZFileManagerMain", "TemplateDir" ),
                      "ezfilemanager/user/intl/", $Language, "fileupload.php" );
 
@@ -96,7 +95,6 @@ $t->setAllStrings();
 
 $t->set_block( "file_upload_tpl", "value_tpl", "value" );
 $t->set_block( "file_upload_tpl", "errors_tpl", "errors" );
-
 $t->set_block( "file_upload_tpl", "write_group_item_tpl", "write_group_item" );
 $t->set_block( "file_upload_tpl", "read_group_item_tpl", "read_group_item" );
 
@@ -191,7 +189,7 @@ if ( $Action == "Insert" || $Action == "Update" )
     }
 }
  
-if ( $Action == "Insert" && $error == false )
+if ( $Action == "Insert" && !$error )
 {
     $uploadedFile = new eZVirtualFile();
     $uploadedFile->setDescription( $Description );
@@ -201,10 +199,13 @@ if ( $Action == "Insert" && $error == false )
     $uploadedFile->setFile( &$file );
     
     if ( empty( $Name ) )
-        $uploadedFile->setName( $uploadedFile->originalFileName() );
-    else
-        $uploadedFile->setName( $Name );
+        $Name = $uploadedFile->originalFileName();
 
+    $extension = strrchr( $uploadedFile->originalFileName(), "." );
+    if ( strrchr( $Name, "." ) != $extension )
+        $Name .= $extension;
+    
+    $uploadedFile->setName( $Name );
     $uploadedFile->store();
     $FileID = $uploadedFile->id();
     $folder = new eZVirtualFolder( $FolderID );
