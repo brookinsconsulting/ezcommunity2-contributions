@@ -3,6 +3,8 @@ eZ publish changelog:
 
 Changes from 2.2 Alpha to 2.2 Beta 1
 -----------------------------------
+* Added copy of article categories in admin.
+* Added topic list on user site.
 * Added search in eZ imagecatalogue
 * Added support for IP or Cookie based vote checking in eZ poll
 * Added support for custom defined article tags in site.ini
