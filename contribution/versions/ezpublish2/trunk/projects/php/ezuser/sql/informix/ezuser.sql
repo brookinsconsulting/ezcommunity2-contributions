@@ -48,7 +48,7 @@ CREATE TABLE eZUser_Author (
 CREATE TABLE eZUser_Cookie (
   ID int NOT NULL,
   UserID int default 0,
-  Hash varchar(33) default NULL,
+  Hash varchar(40) default NULL,
   Time int NOT NULL,
   PRIMARY KEY (ID)
 );
@@ -57,7 +57,7 @@ CREATE TABLE eZUser_Cookie (
 CREATE TABLE eZUser_Forgot (
   ID int NOT NULL,
   UserID int NOT NULL,
-  Hash varchar(33) default NULL,
+  Hash varchar(40) default NULL,
   Time int NOT NULL,
   PRIMARY KEY (ID)
 );

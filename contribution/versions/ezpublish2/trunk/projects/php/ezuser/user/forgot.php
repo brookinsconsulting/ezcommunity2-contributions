@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: forgot.php,v 1.16 2001/06/27 12:10:12 sascha Exp $
+// $Id: forgot.php,v 1.17 2001/07/06 08:24:46 bf Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <20-Sep-2000 13:32:11 ce>
@@ -37,6 +37,7 @@ $Language = $ini->read_var( "eZUserMain", "Language" );
 $headersInfo = getallheaders();
 
 $languageIni = new INIFIle( "ezuser/user/intl/" . $Language . "/forgot.php.ini", false );
+
 // Get the user.
 if ( $Login )
 {
@@ -59,9 +60,9 @@ if ( $user )
     
     $bodyFooter = $languageIni->read_var( "strings", "body_footer" );                      //SF
     $reminderMailFromAddress = $ini->read_var( "eZUserMain", "ReminderMailFromAddress" );  //SF     
-    
+
     $forgot = new eZForgot();
-    $forgot->get( $user );
+    $forgot->get( $user->id() );
     $forgot->setUserID( $user->id() );
     $userID = $user->id();
     $forgot->store();
@@ -91,10 +92,10 @@ if ( $Action == "change" )
         $change->get( $change->check( $Hash ) );
         $subjectNewPassword = $languageIni->read_var( "strings", "subject_text_password" );
         
-	$reminderMailFromAddress = $ini->read_var( "eZUserMain", "ReminderMailFromAddress" );  //SF     
+        $reminderMailFromAddress = $ini->read_var( "eZUserMain", "ReminderMailFromAddress" );  //SF     
         $bodyFooter = $languageIni->read_var( "strings", "body_footer" );                      //SF
 	
-	$bodyNewPassword = $languageIni->read_var( "strings", "body_text_password" );
+        $bodyNewPassword = $languageIni->read_var( "strings", "body_text_password" );
         $passwordText = $languageIni->read_var( "strings", "password" );
         $userID = $change->userID();
         $user = new eZUser( $userID );
@@ -109,8 +110,8 @@ if ( $Action == "change" )
 	
         $body = ( $bodyNewPassword . "\nhttp://" . $headersInfo["Host"] ."/user/login/.\n" ); //SF
         $body .= ( $passwordText . ": "  .  $password );
-	
-	$body .= ( $bodyFooter );                                                              //SF
+        
+        $body .= ( $bodyFooter );                                                              //SF
 	
         $mail->setBody( $body );
         $mail->send();
@@ -118,6 +119,7 @@ if ( $Action == "change" )
         // Cleanup
         $change->get( $change->check( $Hash ) );
         $change->delete();
+
         eZHTTPTool::header( "Location: /user/generated/" );
     }
 }

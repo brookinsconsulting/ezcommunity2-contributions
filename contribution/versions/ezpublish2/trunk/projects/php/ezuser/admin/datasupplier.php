@@ -1,4 +1,6 @@
 <?
+
+
 include_once( "ezuser/classes/ezpermission.php" );
 include_once( "ezuser/classes/ezuser.php" );
 include_once( "classes/ezhttptool.php" );

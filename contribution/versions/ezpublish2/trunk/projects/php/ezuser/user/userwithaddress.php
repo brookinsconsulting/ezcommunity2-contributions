@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: userwithaddress.php,v 1.61 2001/06/29 15:20:05 ce Exp $
+// $Id: userwithaddress.php,v 1.62 2001/07/06 08:24:46 bf Exp $
 //
 //
 // Christoffer A. Elo <ce@ez.no>
@@ -395,7 +395,9 @@ if ( isset( $OK ) and $error == false )
         // add the address to the user.
         $user_insert->addAddress( $address );
     }
-    eZAddress::setMainAddress( $main_id, $user_insert );
+
+    if ( count( $AddressID ) > 0 )
+        eZAddress::setMainAddress( $main_id, $user_insert );
 
     $user_insert->loginUser( $user_insert );
 

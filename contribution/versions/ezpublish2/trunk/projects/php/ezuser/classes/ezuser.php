@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezuser.php,v 1.76 2001/06/24 15:54:27 bf Exp $
+// $Id: ezuser.php,v 1.77 2001/07/06 08:24:45 bf Exp $
 //
 // Definition of eZUser class
 //
@@ -79,8 +79,10 @@ class eZUser
       If $id is set the object's values are fetched from the
       database.
     */
-    function eZUser( $id=-1, $fetch=true )
+    function eZUser( $id=-1 )
     {
+        $this->InfoSubscription = 0;
+        $this->SimultaneousLogins = 0;
         if ( is_array( $id ) )
         {
             $this->fill( $id );
@@ -88,10 +90,7 @@ class eZUser
         else if ( $id != -1 )
         {
             $this->ID = $id;
-            if ( $fetch == true )
-            {
-                $this->get( $this->ID );
-            }
+            $this->get( $this->ID );
         }
     }
 
@@ -868,8 +867,23 @@ class eZUser
         if ( get_class( $address ) == "ezaddress" )
         {
             $addressID = $address->id();
-            $db->query( "INSERT INTO eZUser_UserAddressLink
-                                SET UserID='$this->ID', AddressID='$addressID'" );   
+            $db->begin( );
+            $db->lock( "eZUser_UserAddressLink" );
+
+            $nextID = $db->nextID( "eZUser_UserAddressLink", "ID" );
+
+            $res = $db->query( "INSERT INTO eZUser_UserAddressLink
+                                ( ID, UserID, AddressID )
+                                VALUES
+                                ( '$nextID', UserID='$this->ID', AddressID='$addressID' )" );
+
+            $db->unlock();
+            
+            if ( $res == false )
+                $db->rollback();
+            else
+                $db->commit();
+            
         }
     }
 
@@ -945,20 +959,34 @@ class eZUser
 
     function setCookieValues()
     {
-        $user = eZUser::currentUser();
+        $user =& eZUser::currentUser();
         $db =& eZDB::globalDatabase();
 
         if ( $user )
         {
+            $db->begin( );
+
+            $db->lock( "eZUser_Cookie" );
+            $nextID = $db->nextID( "eZUser_Cookie", "ID" );
+            
             $userID = $user->id();
             $hash = md5( microTime() );
 
             $db->query( "DELETE FROM eZUser_Cookie WHERE UserID='$userID'" );
-            $db->query( "INSERT INTO eZUser_Cookie SET
+            $res = $db->query( "INSERT INTO eZUser_Cookie ( ID, Hash, UserID )
+                                 VALUES ( '$nextID',
                                Hash='$hash',
-                               UserID='$userID'" );
+                               UserID='$userID')" );
 
             setCookie( "eZUser_AutoCookieLogin", $hash, time()+1209600, "/",  "", 0 );
+
+            $db->unlock();
+            
+            if ( $res == false )
+                $db->rollback( );
+            else
+                $db->commit();
+            
         }
     }
 

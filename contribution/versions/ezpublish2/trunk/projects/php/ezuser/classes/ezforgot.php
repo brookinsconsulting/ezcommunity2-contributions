@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezforgot.php,v 1.10 2001/06/23 10:17:05 bf Exp $
+// $Id: ezforgot.php,v 1.11 2001/07/06 08:24:45 bf Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <20-Sep-2000 13:32:11 ce>
@@ -47,6 +47,7 @@
 */
 
 include_once( "classes/ezdb.php" );
+include_once( "classes/ezdatetime.php" );
 include_once( "ezuser/classes/ezuser.php" );
 include_once( "ezuser/classes/ezusergroup.php" );
 include_once( "ezaddress/classes/ezaddress.php" );
@@ -86,12 +87,15 @@ class eZForgot
             $db->lock( "eZUser_Forgot" );
 
             $nextID = $db->nextID( "eZUser_Forgot", "ID" );
-            
+
+            $timeStamp = eZDateTime::timeStamp( true );
+
             $res = $db->query( "INSERT INTO eZUser_Forgot
-                                 ( ID, UserID, Hash )
+                                 ( ID, UserID, Hash, Time )
                                  VALUES ( '$nextID',
                                           '$this->UserID',
-                                          '$this->Hash' )" );
+                                          '$this->Hash',
+                                          '$timeStamp' )" );
             
 			$this->ID = $nextID;
         }
@@ -130,11 +134,12 @@ class eZForgot
     function get( $id=-1 )
     {
         $db =& eZDB::globalDatabase();
-        
+
         $ret = false;
-        if ( $id != "" )
+        if ( $id != -1 )
         {
             $db->array_query( $forgot_array, "SELECT * FROM eZUser_Forgot WHERE ID='$id'" );
+
             if ( count( $forgot_array ) > 1 )
             {
                 die( "Error: User's with the same ID was found in the database. This shouldent happen." );
@@ -151,7 +156,6 @@ class eZForgot
         return $ret;
     }
 
-    
     /*!
       Chech if hash is true or not.
       Returnes false if unsuccessful.
