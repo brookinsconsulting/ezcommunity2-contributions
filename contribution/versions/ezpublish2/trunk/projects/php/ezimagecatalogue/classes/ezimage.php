@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezimage.php,v 1.75 2001/08/30 12:29:23 ce Exp $
+// $Id: ezimage.php,v 1.76 2001/09/03 10:22:42 bf Exp $
 //
 // Definition of eZImage class
 //
@@ -183,24 +183,28 @@ class eZImage
             $db->commit();
     }
 
+    /*!
+      \static
+      Searches the database for images.
+    */
     function &search( $name, $literal = false )
     {
         $db =& eZDB::globalDatabase();
-        $topic = array();
+        $res = array();
 
-        $query = new eZQuery( array( "Name", "Caption", "Description" ),
+        $query = new eZQuery( array( "Name", "Caption", "Description", "Keywords" ),
                               $name );
         $query->setIsLiteral( $literal );
         $where =& $query->buildQuery();
 
-        $db->array_query( $author_array,
+        $db->array_query( $image_array,
                           "SELECT ID FROM eZImageCatalogue_Image WHERE $where" );
 
-        foreach( $author_array as $author )
+        foreach( $image_array as $image )
         {
-            $topic[] =& new eZImage( $author[$db->fieldName("ID")] );
+            $res[] =& new eZImage( $image[$db->fieldName("ID")] );
         }
-        return $topic;
+        return $res;
     }
 
     /*!

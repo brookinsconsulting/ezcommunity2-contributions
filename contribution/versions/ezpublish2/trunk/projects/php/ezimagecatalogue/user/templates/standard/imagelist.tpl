@@ -2,7 +2,21 @@
 
 <input type="hidden" name="CategoryID" value="{main_category_id}">
 
-<h1>{intl-images}</h1>
+<table width="100%" cellspacing="0" cellpadding="0" border="0">
+<tr>
+	<td valign="bottom">
+	<h1>{intl-images}</h1>
+	</td>
+	
+	</td>
+	<td align="right">
+	<form action="{www_dir}{index}/imagecatalogue/search/" method="post">
+	<input class="searchbox" type="text" name="SearchText" size="10" />	
+	<input class="stdbutton" type="submit" value="{intl-search}" />
+	</form>	
+	</td>
+</tr>
+</table>
 
 <!-- BEGIN current_category_tpl -->
 
@@ -57,7 +71,7 @@
 <!-- BEGIN image_tpl -->
 {begin_tr}
 	<!-- BEGIN read_tpl -->
-	<td align="center" valign="center">
+	<td  align="center" valign="center">
 	<a href="{www_dir}{index}/imagecatalogue/imageview/{image_id}/?RefererURL=/imagecatalogue/image/list/{main_category_id}/"><img src="{www_dir}{image_src}" width="{image_width}" height="{image_height}" border="0" alt="{image_alt}" /></a><div class="pictext">{image_caption}</div>
 	</td>
 	<!-- END read_tpl -->
@@ -75,31 +89,31 @@
 <!-- BEGIN detail_view_tpl -->
 <tr>
 	<!-- BEGIN detail_read_tpl -->
-	<td>
+	<td  >
 	<a href="{www_dir}{index}/imagecatalogue/imageview/{image_id}/?RefererURL=/imagecatalogue/image/list/{main_category_id}/"><img src="{www_dir}{image_src}" width="{image_width}" height="{image_height}" border="0" alt="{image_alt}" /></a>
 	</td>
-	<td><table>
+	<td ><table>
 	<!-- BEGIN image_variation_tpl -->
-	<tr><td>
+	<tr><td class="{td_class}" >
 	<a href="{www_dir}{index}/imagecatalogue/imageview/{image_id}/{variation_id}/?RefererURL=/imagecatalogue/image/list/{main_category_id}/">{variation_width}x{variation_height}</a>
 	</td></tr>
 	<!-- END image_variation_tpl -->
 	</table>
-	<td class="{td_class}">
+	<td >
 	<span class="small">{image_caption}</span>
 	</td>
-	<td class="{td_class}">
+	<td >
 	{image_size}&nbsp;{image_unit}
 	</td>
-	<td class="{td_class}" width="1%">
+	<td width="1%">
 	<a href="{www_dir}{index}/imagecatalogue/download/{image_id}/{original_image_name}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezimg{image_id}-dl','','/ezimagecatalogue/user/{image_dir}/downloadminimrk.gif',1)"><img name="ezimg{image_id}-dl" border="0" src="{www_dir}/ezimagecatalogue/user/{image_dir}/downloadmini.gif" width="16" height="16" align="top" alt="Download" /></a><br />
 	</td>
 	<!-- END detail_read_tpl -->
 	<!-- BEGIN detail_write_tpl -->
-	<td class="{td_class}" width="1%">
+	<td width="1%">
 	<a href="{www_dir}{index}/imagecatalogue/image/edit/{image_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezimg{image_id}-red','','/ezimagecatalogue/user/{image_dir}/redigerminimrk.gif',1)"><img name="ezimg{image_id}-red" border="0" src="{www_dir}/ezimagecatalogue/user/{image_dir}/redigermini.gif" width="16" height="16" align="top" alt="Edit" /></a>
 	</td>
-	<td class="{td_class}" width="1%">
+	<td  width="1%">
 	<input type="checkbox" name="ImageArrayID[]" value="{image_id}">
 	</td>
 	<!-- END detail_write_tpl -->

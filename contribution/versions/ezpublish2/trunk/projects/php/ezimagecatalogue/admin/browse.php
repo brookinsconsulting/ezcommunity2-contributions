@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: browse.php,v 1.8 2001/07/29 23:31:06 kaid Exp $
+// $Id: browse.php,v 1.9 2001/09/03 10:22:42 bf Exp $
 //
 // Christoffer A. Elo
 // Created on: <15-May-2001 15:01:28 ce>
@@ -157,7 +157,7 @@ foreach ( $categoryList as $categoryItem )
     $i++;
 }
 
-if ( count( $categoryList ) > 0 )
+if ( ( count( $categoryList ) > 0 ) &&  !isSet( $SearchText ) )
 {
     $t->parse( "category_list", "category_list_tpl" );
 }
@@ -167,7 +167,15 @@ else
 }
 
 // Print out all the images
-$imageList =& $category->images();
+if ( isSet( $SearchText )  )
+{
+    $imageList =& eZImage::search( $SearchText );
+}
+else
+{
+    $imageList =& $category->images();
+}
+
 
 $selectImages = $session->variable( "SelectImages" );
 if( !$selectImages )

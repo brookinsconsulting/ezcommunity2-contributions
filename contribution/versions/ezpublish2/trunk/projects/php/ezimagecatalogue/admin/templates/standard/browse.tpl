@@ -2,7 +2,23 @@
 
 <input type="hidden" name="CategoryID" value="{main_category_id}">
 
-<h1>{intl-add_images_for} {name}</h1>
+
+<table width="100%" cellspacing="0" cellpadding="0" border="0">
+<tr>
+	<td valign="bottom">
+	<h1>{intl-add_images_for} {name}</h1>
+	</td>
+	
+	</td>
+	<td align="right">
+	<form action="{www_dir}{index}/imagecatalogue/browsesearch/" method="post">
+	<input class="searchbox" type="text" name="SearchText" size="10" />	
+	<input class="stdbutton" type="submit" value="{intl-search}" />
+	</form>	
+	</td>
+</tr>
+</table>
+
 
 <!-- BEGIN current_category_tpl -->
 

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: imagelist.php,v 1.34 2001/08/17 13:35:59 jhe Exp $
+// $Id: imagelist.php,v 1.35 2001/09/03 10:22:42 bf Exp $
 //
 // Created on: <10-Dec-2000 16:16:20 bf>
 //
@@ -199,7 +199,7 @@ foreach ( $categoryList as $categoryItem )
     $i++;
 }
 
-if ( count( $categoryList ) > 0 )
+if ( count( $categoryList ) > 0  &&  !isSet( $SearchText ))
 {
     $t->parse( "category_list", "category_list_tpl" );
 }
@@ -211,13 +211,23 @@ else
 $limit = $ini->read_var( "eZImageCatalogueMain", "ListImagesPerPage" );
 
 // Print out all the images
-$imageList =& $category->images( "time", $Offset, $limit );
+if ( isSet( $SearchText )  )
+{
+    $imageList =& eZImage::search( $SearchText );
+}
+else
+{
+    $imageList =& $category->images( "time", $Offset, $limit );
+}
+
 
 $i = 0;
 $j = 0;
 $counter = 0;
 foreach ( $imageList as $image )
 {
+    ( $i % 2 ) ? $t->set_var( "td_class", "bgdark" ) : $t->set_var( "td_class", "bglight" );
+
     $t->set_var( "end_tr", "" );        
     $t->set_var( "begin_tr", "" );
 

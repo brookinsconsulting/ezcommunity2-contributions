@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: datasupplier.php,v 1.6 2001/07/24 11:49:56 jhe Exp $
+// $Id: datasupplier.php,v 1.7 2001/09/03 10:22:42 bf Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -33,6 +33,12 @@ switch ( $url_array[2] )
     }
     break;
 
+    case "browsesearch":
+    {
+        include( "ezimagecatalogue/admin/browse.php" );
+    }
+    break;
+    
     case "unassigned":
     {
         $Offset = $url_array[3];
