@@ -75,6 +75,7 @@ eztrade
 ezaddress
 ezbug
 ezexample
+ezcalendar
 "
 
 for file in $files
