@@ -21,6 +21,7 @@ Changes from 2.2.8 to 2.2.9
 * Done optimalisation to eZ stats.
 * Fixed bug with read permissions on products in eZ trade.
 * Fixed bug with customtag in table.
+* Fixed bug with invalid content type header sendt with RSS article list
 
 Changes from 2.2.7 to 2.2.8
 ---------------------------
