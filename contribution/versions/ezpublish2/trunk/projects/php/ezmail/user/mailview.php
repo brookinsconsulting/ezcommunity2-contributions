@@ -55,6 +55,7 @@ $t->set_var( "to", htmlspecialchars( $mail->to() ) );
 $t->set_var( "from", htmlspecialchars( $mail->from() ) );
 $t->set_var( "subject", htmlspecialchars( $mail->subject() ) );
 $t->set_var( "mail_body", nl2br( htmlspecialchars( $mail->body() ) ) );
+$t->set_var( "date", date("D M d H:i Y ", $mail->uDate() ) );
 
 if( $mail->cc() != "" )
 {

@@ -17,6 +17,7 @@ CREATE TABLE eZMail_Mail (
   BodyText text,
   IsRead int(1) default '0' NOT NULL,
   Size int(11) default '0',
+  UDate int(15) default '0',
   PRIMARY KEY (ID)
 );
 

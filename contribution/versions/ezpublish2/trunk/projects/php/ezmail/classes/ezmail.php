@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezmail.php,v 1.13 2001/03/27 12:03:54 fh Exp $
+// $Id: ezmail.php,v 1.14 2001/03/27 15:12:45 fh Exp $
 //
 // Definition of eZCompany class
 //
@@ -120,7 +120,8 @@ class eZMail
                                  Subject='$this->Subject',
                                  BodyText='$this->BodyText',
                                  IsRead='$this->IsRead',
-                                 Size='$this->Size'
+                                 Size='$this->Size',
+                                 UDate='$this->UDate'
                                  " );
 
             $this->ID = mysql_insert_id();
@@ -141,7 +142,8 @@ class eZMail
                                  Subject='$this->Subject',
                                  BodyText='$this->BodyText',
                                  IsRead='$this->IsRead',
-                                 Size='$this->Size'
+                                 Size='$this->Size',
+                                 UDate='$this->UDate'
                                  WHERE ID='$this->ID'
                                  " );
 
@@ -182,7 +184,8 @@ class eZMail
                 $this->BodyText = $mail_array[0][ "BodyText" ];
                 $this->IsRead = $mail_array[0][ "IsRead" ];
                 $this->Size = $mail_array[0][ "Size" ];
-
+                $this->UDate = $mail_array[0][ "UDate" ];
+                
                 $this->State_ = "Coherent";
                 $ret = true;
             }
@@ -525,6 +528,27 @@ class eZMail
         $this->Size = $value;
     }
 
+    /*!
+      Returns the date of this mail in unix date format.
+     */
+    function uDate()
+    {
+        if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+        return $this->UDate;
+    }
+
+    /*!
+      Sets the date of this mail in unix date time format.
+     */
+    function setUDate( $value )
+    {
+        if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+        $this->UDate = $value;
+    }
+    
     /*!
       \static
       Splits a list of email addresses into an array where each entry is an email address.
@@ -941,6 +965,7 @@ class eZMail
     var $BodyText;
 
     var $Size;
+    var $UDate;
     // we need a state so we can store if this mail is replyed/forwarded...
     // I suggest
     // 0 - Unread

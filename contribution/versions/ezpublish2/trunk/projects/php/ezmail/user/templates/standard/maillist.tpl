@@ -5,10 +5,10 @@
 <form method="post" action="/mail/folder/{current_folder_id}" enctype="multipart/form-data" >
 <table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
 <tr>
-	<th width="50%">{intl-subject}:</th>
+	<th width="40%">{intl-subject}:</th>
 	<th width="30%">{intl-sender}:</th>
-	<th width="9%">{intl-size}:</th>
-	<th width="10%">{intl-date}:</th>
+	<th width="5%">{intl-size}:</th>
+	<th width="24%">{intl-date}:</th>
 	<th width="1%">&nbsp;</th>
 </tr>
 <!-- BEGIN mail_item_tpl -->

@@ -6,7 +6,7 @@
 
 <p>{intl-to}: {to}</p>
 <p>{intl-from}: {from}</p>
-
+<p>{intl-date}: {date}</p>
 <!-- BEGIN cc_value_tpl -->
 <p>{intl-cc}: {cc}</p>
 <!-- END cc_value_tpl -->

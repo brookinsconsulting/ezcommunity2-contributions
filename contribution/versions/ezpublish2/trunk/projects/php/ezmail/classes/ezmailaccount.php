@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezmailaccount.php,v 1.11 2001/03/27 12:03:54 fh Exp $
+// $Id: ezmailaccount.php,v 1.12 2001/03/27 15:12:45 fh Exp $
 //
 // eZMailAccount class
 //
@@ -429,6 +429,7 @@ class eZMailAccount
                 $mailstructure = imap_fetchstructure( $mbox, $i );
                 disectThisPart( $mailstructure, "1", $mbox, $i, $mail );
                 $mail->setSize( $mailstructure->bytes );
+                $mail->setUDate( $headerinfo->udate );
                 $mail->store();
 
                 $inbox->addMail( $mail );
