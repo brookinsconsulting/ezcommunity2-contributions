@@ -208,6 +208,11 @@ textarea
 	color: #000000;
 }
 
+.pris
+{
+	font-weight: bold;
+}
+
 .error
 {
 	font-size: 14;
@@ -220,7 +225,3 @@ hr
 	color: #640000;
 }
 
-.pris
-{
-	font-weight: bold;
-}
