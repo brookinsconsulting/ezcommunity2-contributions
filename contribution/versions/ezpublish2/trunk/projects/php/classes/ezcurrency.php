@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezcurrency.php,v 1.1 2000/09/08 13:10:33 bf-cvs Exp $
+// $Id: ezcurrency.php,v 1.2 2000/09/25 07:46:22 pkej-cvs Exp $
 //
 // Definition of eZCompany class
 //
@@ -17,7 +17,11 @@
 //!! eZCommon
 //! The eCurrency class provides currency functions.
 /*!
-
+    TODO:
+        Add support for locale
+        Add a function importString(); which returns true
+            if the imported string is a local currency format.
+        Add a function for exporting a localalized currency format.
 */
 
 class eZCurrency
