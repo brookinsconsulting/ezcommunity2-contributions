@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: eznewsflowercategory.php,v 1.1 2000/10/12 12:57:08 pkej-cvs Exp $
+// $Id: eznewsflowercategory.php,v 1.2 2000/10/12 15:09:18 pkej-cvs Exp $
 //
 // Definition of eZNewsFlowerCategory class
 //
@@ -21,5 +21,14 @@ include_once( "eznews/classes/eznewscategory.php" );
 
 class eZNewsFlowerCategory extends eZNewsCategory
 {
+    /*!
+        Constructor. Dummy needed.
+     */
+    function eZNewsFlowerCategory( $inData = "", $fetch = true )
+    {
+        #echo "eZNewsFlowerCategory::eZNewsFlowerCategory( \$inData = $inData, \$fetch = $fetch )<br>\n";
+
+        eZNewsCategory::eZNewsCategory( $inData, $fetch );
+    }
 };
 ?>

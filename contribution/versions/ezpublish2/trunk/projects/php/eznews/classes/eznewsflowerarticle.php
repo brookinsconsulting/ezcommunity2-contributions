@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: eznewsflowerarticle.php,v 1.2 2000/10/12 12:57:08 pkej-cvs Exp $
+// $Id: eznewsflowerarticle.php,v 1.3 2000/10/12 15:09:18 pkej-cvs Exp $
 //
 // Definition of eZNewsFlowerArticle class
 //
@@ -21,6 +21,14 @@ include_once( "eznews/classes/eznewsarticle.php" );
 
 class eZNewsFlowerArticle extends eZNewsArticle
 {
+    /*!
+        Dummy creator, needed...
+     */
+    function eZNewsFlowerArticle( $inData = "", $fetch = true )
+    {
+        #echo "eZNewsFlowerArticle::eZNewsFlowerArticle( \$inData = $inData, \$fetch = $fetch )<br>";
+        eZNewsArticle::eZNewsArticle( $inData, $fetch );
+    }
 };
 
 ?>

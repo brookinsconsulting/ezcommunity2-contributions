@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eznewsitemviewer.php,v 1.12 2000/10/12 14:32:22 pkej-cvs Exp $
+// $Id: eznewsitemviewer.php,v 1.13 2000/10/12 15:09:18 pkej-cvs Exp $
 //
 // Definition of eZNewsItemViewer class
 //
@@ -424,6 +424,8 @@ class eZNewsItemViewer
         $special = $this->IniObject->GlobalIni->read_var( "eZNewsMain", "Customer" );
         if( !strcmp( $special, "true" ) )
         {
+            global $ItemID;
+            $ItemID = $inItemNo;
             $tempItem = new eZNewsItem( $inItemNo );
             $itemType = new eZNewsItemType( $tempItem->itemTypeID() );
 
