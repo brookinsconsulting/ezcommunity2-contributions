@@ -389,7 +389,7 @@ RewriteRule ^/filemanager/filedownload/([^/]+)/(.*)$
 # The lines above should appear on the same line in your
 configuration file!
 
-RewriteRule !\.(gif|css|jpg|png)$ /home/bf/projects/php/publish_dist/index.php
+RewriteRule !\.(gif|css|jpg|png)$ [/your/apache/documentroot]/publish_dist/index.php
 
 ServerAdmin ce@ez.no
 
@@ -398,30 +398,6 @@ DocumentRoot [/your/apache/documentroot]/publish_dist
 ServerName [your.domain.com]
 
 ServerAlias publish
-
-</VirtualHost>
-
-<VirtualHost yourdomain.org> 
-
-<Directory [/your/apache/documentroot/]> 
-
-Options FollowSymLinks Indexes ExecCGI 
-
-AllowOverride None 
-
-</Directory>
-
-RewriteEngine On
-
-RewriteRule !\.(gif|css|jpg|png)$ [/your/apache/documentroot/index.php] 
-
-ServerAdmin [your_mail@domain.no]
-
-DocumentRoot [/your/apache/documentroot/]
-
-ServerName [yourdomain.org]
-
-ServerAlias [www.yourdomain.org]
 
 </VirtualHost>
 
@@ -455,6 +431,46 @@ The format of the "httpd.conf"
 file is covered at http://httpd.apache.org/docs/ for a complete
 understanding of the above information you'll need to read
 that documentation.
+
+The rewrite rules does the following:
+
+RewriteRule ^/filemanager/filedownload/([^/]+)/(.*)$ 
+[/your/apache/documentroot]/publish_dist/ezfilemanager/files/$1
+[T="application/oct-stream",S=1]
+
+This says that everything served from "/filemanager/filedownload/"
+should be redirected to fetch information from "publish_dist/ezfilemanager/files".
+In other words, when people downloads a file from the filemanager,
+the file is served from the directory specified in the second
+part.
+
+The "\^{ }" just after "RewriteRule"
+says that evertything which starts with this, in other words
+it is a start of line marker. When working with an URL that
+is from the root of your site, ie. the part from the first
+slash after your domain name.
+
+The "$" sign is used to mark the end of line, in
+order to remember the full line.
+
+The part "[T="application/oct-stream",S=1]"
+means that everything which is matched shall be of the specific
+mime type ("application/oct-stream",
+ie. binary download). The "S=1"
+part means that if we match this rule, we should skip one
+rule ahead before trying to match again.
+
+The next rewrite rule:
+
+RewriteRule !\.(gif|css|jpg|png)$ [/your/apache/documentroot]/publish_dist/index.php
+
+is found in both sites (admin and user). This means that
+every file, except gif, css, jpg and png (and files matched
+against the previous rule when in the user site) should
+be redirected to the file in the second part, ie. the index.php
+file. The reason for this is that we don't want anyone trying
+to get direct access to anything which might be sensitive,
+or revealing about the site's operation.
 
 If you didn't compile PHP with magic quotes; or other software
 relies on PHP not using magic quotes you can add the following

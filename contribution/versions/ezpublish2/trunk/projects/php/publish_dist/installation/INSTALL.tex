@@ -397,7 +397,7 @@ remove the brackets.
 in your configuration file!}{\scriptsize \par}
 
 \texttt{\scriptsize RewriteRule !\textbackslash{}.(gif|css|jpg|png)\$
-/home/bf/projects/php/publish\_dist/index.php}{\scriptsize \par}
+{[}/your/apache/documentroot{]}/publish\_dist/index.php}{\scriptsize \par}
 
 \texttt{\scriptsize ServerAdmin ce@ez.no}{\scriptsize \par}
 
@@ -406,34 +406,6 @@ in your configuration file!}{\scriptsize \par}
 \texttt{\scriptsize ServerName {[}your.domain.com{]}}{\scriptsize \par}
 
 \texttt{\scriptsize ServerAlias publish}{\scriptsize \par}
-
-\texttt{\scriptsize </VirtualHost>}{\scriptsize \par}
-
-\end{LyXParagraphIndent}
-
-\texttt{\scriptsize <VirtualHost yourdomain.org> }{\scriptsize \par}
-
-\begin{LyXParagraphIndent}{4mm}
-\texttt{\scriptsize <Directory {[}/your/apache/documentroot/{]}> }{\scriptsize \par}
-
-\texttt{\scriptsize Options FollowSymLinks Indexes ExecCGI }{\scriptsize \par}
-
-\texttt{\scriptsize AllowOverride None }{\scriptsize \par}
-
-\texttt{\scriptsize </Directory>}{\scriptsize \par}
-
-\texttt{\scriptsize RewriteEngine On}{\scriptsize \par}
-
-\texttt{\scriptsize RewriteRule !\textbackslash{}.(gif|css|jpg|png)\$
-{[}/your/apache/documentroot/index.php{]} }{\scriptsize \par}
-
-\texttt{\scriptsize ServerAdmin {[}your\_mail@domain.no{]}}{\scriptsize \par}
-
-\texttt{\scriptsize DocumentRoot {[}/your/apache/documentroot/{]}}{\scriptsize \par}
-
-\texttt{\scriptsize ServerName {[}yourdomain.org{]}}{\scriptsize \par}
-
-\texttt{\scriptsize ServerAlias {[}www.yourdomain.org{]}}{\scriptsize \par}
 
 \texttt{\scriptsize </VirtualHost>}{\scriptsize \par}
 
@@ -469,6 +441,44 @@ in your configuration file!}{\scriptsize \par}
 The format of the {}``httpd.conf{}'' file is covered at http://httpd.apache.org/docs/
 for a complete understanding of the above information you'll need
 to read that documentation.
+
+The rewrite rules does the following:
+
+\texttt{\scriptsize RewriteRule \textasciicircum{}/filemanager/filedownload/({[}\textasciicircum{}/{]}+)/(.{*})\$
+}~\\
+\texttt{\scriptsize {[}/your/apache/documentroot{]}/publish\_dist/ezfilemanager/files/\$1}~\\
+\texttt{\scriptsize {[}T=\char`\"{}application/oct-stream\char`\"{},S=1{]}}{\scriptsize \par}
+
+This says that everything served from {}``/filemanager/filedownload/{}''
+should be redirected to fetch information from {}``publish\_dist/ezfilemanager/files{}''.
+In other words, when people downloads a file from the filemanager,
+the file is served from the directory specified in the second part.
+
+The {}``\^{ }{}'' just after {}``RewriteRule{}'' says that evertything
+which starts with this, in other words it is a start of line marker.
+When working with an URL that is from the root of your site, ie. the
+part from the first slash after your domain name.
+
+The {}``\${}'' sign is used to mark the end of line, in order to
+remember the full line.
+
+The part \texttt{\scriptsize {}``{[}T=\char`\"{}application/oct-stream\char`\"{},S=1{]}{}''}
+means that everything which is matched shall be of the specific mime
+type ({}``application/oct-stream{}'', ie. binary download). The
+{}``S=1{}'' part means that if we match this rule, we should skip
+one rule ahead before trying to match again.
+
+The next rewrite rule:
+
+\texttt{\scriptsize RewriteRule !\textbackslash{}.(gif|css|jpg|png)\$
+{[}/your/apache/documentroot{]}/publish\_dist/index.php}{\scriptsize \par}
+
+is found in both sites (admin and user). This means that every file,
+except gif, css, jpg and png (and files matched against the previous
+rule when in the user site) should be redirected to the file in the
+second part, ie. the index.php file. The reason for this is that we
+don't want anyone trying to get direct access to anything which might
+be sensitive, or revealing about the site's operation.
 
 If you didn't compile PHP with magic quotes; or other software relies
 on PHP not using magic quotes you can add the following line into
