@@ -94,9 +94,9 @@
      </table>
      <!-- BEGIN to_country_tpl -->
      <b class="medium">{intl-country}:</b><br />
-     <select class="medium" style="width: 100%" name="ToCountryID[]">
+     <select class="medium" style="width: 100%" name="ToCountryID">
      <!-- BEGIN to_country_option_tpl -->
-     <option {is_selected} value="{country_id}">{country_name}</option>
+     <option {to_is_selected} value="{country_id}">{country_name}</option>
      <!-- END to_country_option_tpl -->
      </select>
     </td>
@@ -139,9 +139,9 @@
      </table>
      <!-- BEGIN from_country_tpl -->
      <b class="medium">{intl-country}:</b><br />
-     <select class="medium" style="width: 100%"  name="FromCountryID[]">
+     <select class="medium" style="width: 100%"  name="FromCountryID">
      <!-- BEGIN from_country_option_tpl -->
-     <option {is_selected} value="{country_id}">{country_name}</option>
+     <option {from_is_selected} value="{country_id}">{country_name}</option>
      <!-- END from_country_option_tpl -->
      </select>
       </td>

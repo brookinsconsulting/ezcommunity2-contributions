@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: voucherinformation.php,v 1.12.4.7 2001/11/08 09:36:54 ce Exp $
+// $Id: voucherinformation.php,v 1.12.4.8 2001/11/12 08:46:25 ce Exp $
 //
 // Created on: <06-Aug-2001 13:02:18 ce>
 //
@@ -153,7 +153,7 @@ if ( ( $product ) and ( isSet( $OK ) and $error == false ) )
         $fromAddress->setStreet2( $FromStreet2 );
         $fromAddress->setZip( $FromZip );
         $fromAddress->setPlace( $FromPlace );
-        $toAddress->setCountry( $FromCountryID );
+        $fromAddress->setCountry( $FromCountryID );
         $fromAddress->store();
         $voucherInfo->setFromAddress( $fromAddress );
     }
@@ -208,12 +208,18 @@ else if ( $product ) // Print out the addresses forms
         $info = new eZVoucherInformation( $VoucherInformationID );
 
         $infoUser =& $info->user();
-        if ( $user->id() != $infoUser->id() )
+
+        if ( !$user )
+            $error = true;
+        elseif ( $user->id() != $infoUser->id() )
+            $error = true;
+
+        if ( $error )
         {
             eZHTTPTool::header( "Location: /error/403/" );
             exit();
         }
-        
+
         $t->set_var( "description", $info->description() );
 
         $t->set_var( "price_range", $info->price() );
@@ -245,7 +251,6 @@ else if ( $product ) // Print out the addresses forms
                 $toCountryID = $toCountry->id();
 
             $fromAddress =& $info->fromAddress();
-
             $t->set_var( "from_name_value", $fromAddress->name() );
             $t->set_var( "from_address_id", $fromAddress->id() );
             $t->set_var( "from_street1_value", $fromAddress->street1() );
@@ -255,7 +260,6 @@ else if ( $product ) // Print out the addresses forms
             $fromCountry =& $fromAddress->country();
             if ( $fromCountry )
                 $fromCountryID = $fromCountry->id();
-
         }
     }
     else
