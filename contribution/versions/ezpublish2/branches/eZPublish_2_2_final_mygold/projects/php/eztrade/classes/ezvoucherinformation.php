@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezvoucherinformation.php,v 1.8.4.2 2001/10/22 12:12:50 ce Exp $
+// $Id: ezvoucherinformation.php,v 1.8.4.3 2001/10/22 12:21:36 ce Exp $
 //
 // eZVoucherInformation class
 //
@@ -92,7 +92,7 @@ class eZVoucherInformation
             $timeStamp =& eZDateTime::timeStamp( true );
 
             $res = $db->query( "INSERT INTO eZTrade_VoucherInformation
-                      ( ID, VoucherID, ToOnlineID, ToAddressID, FromAddressID, Description, PreOrderID, MailMethod, FromName, ToName, FromOnlineID, Price, ProductID )
+                      ( ID, VoucherID, ToOnlineID, ToAddressID, FromAddressID, Description, PreOrderID, MailMethod, FromName, ToName, FromOnlineID, Price )
                       VALUES
                       ( '$nextID',
                         '$this->VoucherID',
@@ -105,8 +105,7 @@ class eZVoucherInformation
                         '$fromName',
                         '$toName',
                         '$this->FromOnlineID',
-                        '$this->Price',
-                        '$this->ProductID'
+                        '$this->Price'
                          )
                      " );
 
@@ -125,8 +124,7 @@ class eZVoucherInformation
                                      FromName='$toName',
                                      ToName='$fromName',
                                      FromOnlineID='$this->FromOnlineID',
-                                     Price='$this->Price',
-                                     ProductID='$this->ProductID'
+                                     Price='$this->Price'
                                      WHERE ID='$this->ID'" );
         }
         $db->unlock();
@@ -202,7 +200,6 @@ class eZVoucherInformation
         $this->FromName =& $value[$db->fieldName( "FromName" )];
         $this->ToName =& $value[$db->fieldName( "ToName" )];
         $this->Price =& $value[$db->fieldName( "Price" )];
-        $this->ProductID =& $value[$db->fieldName( "ProductID" )];
     }
 
     /*!
@@ -409,17 +406,6 @@ class eZVoucherInformation
     }
 
     /*!
-      Sets the product for the voucher smail.
-    */
-    function setProduct( &$value )
-    {
-        if ( get_class ( $value ) == "ezproduct" )
-            $this->ProductID = $value->id();
-        else
-            $this->ProductID = $value;
-    }
-
-    /*!
       Sets the voucher for the voucher smail.
     */
     function setVoucher( &$value )
@@ -497,19 +483,6 @@ class eZVoucherInformation
             $ret = new eZAddress( $this->FromAddressID );
         else
             $ret = $this->FromAddressID;
-
-        return $ret;
-    }
-
-    /*!
-      Returns the product
-    */
-    function &product( $asObject=true )
-    {
-        if ( $asObject )
-            $ret = new eZProduct( $this->ProductID );
-        else
-            $ret = $this->ProductID;
 
         return $ret;
     }
@@ -680,7 +653,6 @@ class eZVoucherInformation
     var $ToName;
     var $FromName;
     var $FromOnlineID;
-    var $ProductID;
 }
 
 ?>
