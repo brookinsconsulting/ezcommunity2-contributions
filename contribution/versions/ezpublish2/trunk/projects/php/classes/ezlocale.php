@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezlocale.php,v 1.27 2001/02/15 13:01:58 gl Exp $
+// $Id: ezlocale.php,v 1.28 2001/02/26 11:57:24 bf Exp $
 //
 // Definition of eZLocale class
 //
@@ -374,6 +374,32 @@ class eZLocale
 
         return $ret;
     }
+
+    /*!
+      Sets the currency symbol.
+    */
+    function setSymbol( $value )
+    {
+        $this->CurrencySymbol = $value;
+    }
+
+    /*!
+      Sets both negative and possitive prefix symbol.
+    */
+    function setPrefixSymbol( $value )
+    {
+        if ( $value == true )
+        {
+            $this->PositivePrefixCurrencySymbol = "yes";
+            $this->NegativePrefixCurrencySymbol = "yes";
+        }
+        else
+        {
+            $this->PositivePrefixCurrencySymbol = "no";
+            $this->NegativePrefixCurrencySymbol = "no";
+        }
+    }
+      
 
     var $PositivePrefixCurrencySymbol;
     var $NegativePrefixCurrencySymbol;

@@ -7,8 +7,6 @@
 
 http://yourshop.com {intl-headline}
 
-{intl-lead_in}
-
 <!-- BEGIN billing_address_tpl -->{intl-billing_address}
 
 {billing_street1}

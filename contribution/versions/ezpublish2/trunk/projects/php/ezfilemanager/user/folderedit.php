@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: folderedit.php,v 1.9 2001/02/14 13:37:14 th Exp $
+// $Id: folderedit.php,v 1.10 2001/02/26 11:57:24 bf Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <08-Jan-2001 11:13:29 ce>
@@ -33,7 +33,7 @@ include_once( "ezuser/classes/ezuser.php" );
 include_once( "ezfilemanager/classes/ezvirtualfile.php" );
 include_once( "ezfilemanager/classes/ezvirtualfolder.php" );
 
-$ini = new INIFIle( "site.ini" );
+$ini =& $GLOBALS["GlobalSiteIni"];
 
 $Language = $ini->read_var( "eZFileManagerMain", "Language" );
 

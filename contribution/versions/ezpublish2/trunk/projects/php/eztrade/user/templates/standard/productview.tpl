@@ -120,6 +120,17 @@
 	<!-- BEGIN price_tpl -->
 	<p class="boxtext">{intl-price}:</p>
 	{product_price}
+
+	<!-- BEGIN alternative_currency_list_tpl -->
+	<p>
+	<b>{intl-alternative_currency}:</b>
+	</p>
+	<!-- BEGIN alternative_currency_tpl -->
+	{alt_price}<br />
+	<!-- END alternative_currency_tpl -->
+
+	<!-- END alternative_currency_list_tpl -->
+
 	<!-- END price_tpl -->	
 	</td>
 	<td align="right">

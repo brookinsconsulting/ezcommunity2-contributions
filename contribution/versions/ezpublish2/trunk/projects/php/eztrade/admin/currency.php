@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: currency.php,v 1.1 2001/02/23 17:20:23 bf Exp $
+// $Id: currency.php,v 1.2 2001/02/26 11:57:24 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <23-Feb-2001 16:27:56 bf>
@@ -85,14 +85,8 @@ $t->set_file( array( "currency_tpl" => "currency.tpl" ) );
 $t->set_block( "currency_tpl", "currency_item_tpl", "currency_item" );
 
 
-$currency = new eZProductCurrency();
-$currency->setName( "CAD" );
-$currency->setSign( "$" );
-$currency->setPrefixSign( false );
-$currency->setValue( 0.2 );
-//$currency->store();
 
-
+$currency = new eZProductCurrency( );
 $currencies =& $currency->getAll();
 
 $i=0;

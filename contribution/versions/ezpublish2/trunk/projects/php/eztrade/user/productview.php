@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: productview.php,v 1.17 2001/02/23 18:45:51 jb Exp $
+// $Id: productview.php,v 1.18 2001/02/26 11:57:24 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <24-Sep-2000 12:20:32 bf>
@@ -46,6 +46,7 @@ include_once( "eztrade/classes/ezproduct.php" );
 include_once( "eztrade/classes/ezproductcategory.php" );
 include_once( "eztrade/classes/ezoption.php" );
 include_once( "eztrade/classes/ezpricegroup.php" );
+include_once( "eztrade/classes/ezproductcurrency.php" );
 
 if ( !isset( $IntlDir ) )
     $IntlDir = "eztrade/user/intl";
@@ -82,6 +83,9 @@ else
 //      ) );
 
 $t->set_block( "product_view_tpl", "price_tpl", "price" );
+$t->set_block( "price_tpl", "alternative_currency_list_tpl", "alternative_currency_list" );
+$t->set_block( "alternative_currency_list_tpl", "alternative_currency_tpl", "alternative_currency" );
+
 $t->set_block( "product_view_tpl", "add_to_cart_tpl", "add_to_cart" );
 
 $t->set_block( "product_view_tpl", "path_tpl", "path" );
@@ -300,7 +304,45 @@ if ( $product->showPrice() == true  )
     {
         $price = new eZCurrency( $product->price() );
     }
+
     $t->set_var( "product_price", $locale->format( $price ) );
+    
+    // show alternative currencies
+
+    $currency = new eZProductCurrency( );
+    $currencies =& $currency->getAll();
+
+    foreach ( $currencies as $currency )
+    {
+        $altPrice = $price;
+        $altPrice->setValue( $price->value() * $currency->value() );
+        
+        $locale->setSymbol( $currency->sign() );
+
+        if ( $currency->prefixSign() )
+        {
+            $locale->setPrefixSymbol( true );
+        }
+        else
+        {
+            $locale->setPrefixSymbol( false );
+        }
+
+        $t->set_var( "alt_price", $locale->format( $altPrice ) );
+
+        $t->parse( "alternative_currency", "alternative_currency_tpl", true );
+    }
+    
+    if ( count( $currencies ) > 0 )
+    {
+        $t->parse( "alternative_currency_list", "alternative_currency_list_tpl" );        
+    }
+    else
+    {
+        $t->set_var( "alternative_currency_list", "" );
+    }
+    
+    
     $t->parse( "price", "price_tpl" );
     $t->parse( "add_to_cart", "add_to_cart_tpl" );
 }
