@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezmail.php,v 1.44.2.2 2001/12/04 16:53:44 jhe Exp $
+// $Id: ezmail.php,v 1.44.2.3 2002/01/04 09:26:57 jhe Exp $
 //
 // Definition of eZMail class
 //
@@ -909,6 +909,12 @@ class eZMail
             $copy->BodyText = $this->BodyText;
             $copy->MessageID = $this->MessageID;
             $copy->References = $this->References;
+            $attachments = $this->files();
+            $copy->store();
+            foreach ( $attachments as $attachment )
+            {
+                $copy->addFile( $attachment );
+            }
         }
         else if ( $copyType == "reply" || $copyType == "replyall" )
         {

@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: datasupplier.php,v 1.22 2001/08/17 08:43:48 jhe Exp $
+// $Id: datasupplier.php,v 1.22.2.1 2002/01/04 09:26:57 jhe Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -29,7 +29,7 @@ include_once( "ezmail/classes/ezmailfolder.php" );
 include_once( "ezuser/classes/ezuser.php" );
 
 $ini =& INIFile::globalINI();
-$GlobalSectionID = $ini->read_var( "eZUserMain", "DefaultSection" );
+$GlobalSectionID = $ini->read_var( "eZMailMain", "DefaultSection" );
 
 switch ( $url_array[2] )
 {

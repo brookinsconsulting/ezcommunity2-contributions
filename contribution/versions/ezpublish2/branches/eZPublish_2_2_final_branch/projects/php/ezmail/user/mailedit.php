@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: mailedit.php,v 1.20 2001/10/08 12:57:27 fh Exp $
+// $Id: mailedit.php,v 1.20.2.1 2002/01/04 09:26:57 jhe Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -67,7 +67,7 @@ if ( isSet( $AddAttachment ) )
     exit();
 }
 
-if( isSet( $DeleteAttachments ) && count( $AttachmentArrayID ) > 0 )
+if ( isSet( $DeleteAttachments ) && count( $AttachmentArrayID ) > 0 )
 {
     foreach ( $AttachmentArrayID as $attachmmentID )
     {
@@ -77,7 +77,7 @@ if( isSet( $DeleteAttachments ) && count( $AttachmentArrayID ) > 0 )
     }
 }
 
-if( isSet( $Save ) )
+if ( isSet( $Save ) )
 {
     $MailID = save_mail();
     if ( isSet( $IDList ) )
@@ -95,14 +95,14 @@ if( isSet( $Save ) )
     $drafts->addMail( $mail );
 }
 
-if( isSet( $Preview ) )
+if ( isSet( $Preview ) )
 {
     $MailID = save_mail();
     eZHTTPTool::header( "Location: /mail/view/$MailID" );
     exit();
 }
 
-if( isSet( $Send ) )
+if ( isSet( $Send ) )
 {
     $MailID = save_mail();
     if ( isSet( $IDList ) )
