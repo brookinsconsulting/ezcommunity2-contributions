@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezarticletool.php,v 1.12.2.4 2002/02/27 09:40:12 bf Exp $
+// $Id: ezarticletool.php,v 1.12.2.5 2002/02/27 14:54:18 master Exp $
 //
 // Definition of eZArticleTool class
 //
@@ -143,6 +143,20 @@ class eZArticleTool
         $PublishSite = $ini->read_var( "site", "SiteTitle" );
         $SiteURL = $ini->read_var( "site", "SiteURL" );
 
+	//EP - different charsets for the MIME mail ----------------------------
+	global $GlobalSectionID;
+	        
+	include_once("ezsitemanager/classes/ezsection.php");
+	
+	$category = $article->categoryDefinition();
+	$GlobalSectionID = $category->sectionID();
+	
+	// init the section ???
+	//$sectionObject =& eZSection::globalSectionObject( $GlobalSectionID );
+	//$sectionObject->setOverrideVariables();
+
+	//EP -------------------------------------------------------------------
+					      
         $mailTemplate = new eZTemplate( "ezarticle/admin/" . $ini->read_var( "eZArticleMain", "AdminTemplateDir" ),
                                         "ezarticle/admin/intl", $ini->read_var( "eZArticleMain", "Language" ), "mailtemplate.php" );
     
