@@ -8,9 +8,10 @@ if ( isset( $Title ) )
 else
 	print( "eZ publish" );
     ?></title>
+
 <link rel="stylesheet" type="text/css" href="/sitedesign/trade/style.css" />
 
-<SCRIPT LANGUAGE="JavaScript1.2">
+<script language="JavaScript1.2">
 <!--//
 
 	function MM_swapImgRestore() 
@@ -40,4 +41,4 @@ else
 	}
 	
 //-->
-</SCRIPT> 
+</script> 

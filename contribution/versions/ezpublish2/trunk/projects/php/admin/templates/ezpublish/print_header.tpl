@@ -3,11 +3,14 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="no" lang="no">
 
 <head>
-<title>eZ publish administrasjon</title>
-<link rel="stylesheet" type="text/css" href="/admin/templates/{site_style}/style.css" />
-<meta http-equiv="Content-Type" content="text/html; charset={charset}"/>
 
-<SCRIPT LANGUAGE="JavaScript1.2">
+<title>eZ publish administrasjon</title>
+
+<link rel="stylesheet" type="text/css" href="/admin/templates/{site_style}/style.css" />
+
+<meta http-equiv="Content-Type" content="text/html; charset={charset}" />
+
+<script language="JavaScript1.2">
 <!--//
 
 	function MM_swapImgRestore() 
@@ -44,13 +47,20 @@
     	}
 	}
 
+	function popup ( url, target ) 
+	{
+	    numbers = "width=500, height=400, left=4, top=4, toolbar=1, statusbar=0, scrollbars=1, resizable=1";
+	    newWin = window.open ( url, target, numbers );
+	    return false;
+	}
 	
 //-->
-</SCRIPT> 
+</script> 
+
 
 </head>
 
-<body bgcolor="#FFFFFF" onLoad="MM_preloadImages('/images/{site_style}/redigerminimrk.gif','/images/{site_style}/slettminimrk.gif','/images/{site_style}/downloadminimrk.gif')">
+<body bgcolor="#FFFFFF" onload="MM_preloadImages('/images/{site_style}/redigerminimrk.gif','/images/{site_style}/slettminimrk.gif','/images/{site_style}/downloadminimrk.gif')">
 
 <table width="100%" cellpadding="0" cellspacing="0" border="0">
 <tr>

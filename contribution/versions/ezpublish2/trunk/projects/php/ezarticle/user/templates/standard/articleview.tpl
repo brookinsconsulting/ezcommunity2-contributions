@@ -46,8 +46,10 @@
 </table>
 <!-- END article_header_tpl -->
 
-
+<p>
 {article_intro}
+</p>
+
 <p>
 {article_body}
 </p>

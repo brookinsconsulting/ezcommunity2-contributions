@@ -9,9 +9,9 @@ else
 	print( "eZ publish" );
     ?></title>
     
-<link rel="stylesheet" type="text/css" href="/sitedesign/standard/style.css">
+<link rel="stylesheet" type="text/css" href="/sitedesign/standard/style.css" />
 
-<SCRIPT LANGUAGE="JavaScript1.2">
+<script language="JavaScript1.2">
 <!--//
 
 	function MM_swapImgRestore() 
@@ -41,5 +41,5 @@ else
 	}
 	
 //-->
-</SCRIPT> 
+</script> 
 

@@ -8,27 +8,10 @@
 
 <hr noshade="noshade" size="4" />
 
-<br />
 
-<table width="100%" cellspacing="0" cellpadding="0" border="0">
-<tr>
-	<td rowspan="2" align="top">
-	<p class="boxtext">{intl-article_name}:</p>
-	<input type="text" name="Name" size="40" value="{article_name}" />
-	</td>
-	<td>
-	<input type="checkbox" name="IsPublished" {article_is_published} />
-	<span class="boxtext">{intl-article_is_published}</span><br />
-	</td>
-</tr>
-<tr>
-	<td>
-	<input type="checkbox" name="Discuss" {discuss_article} />
-	<span class="boxtext">{intl-discuss_article}</span><br />
-	</td>
-</tr>
-</table>
-<br />
+<p class="boxtext">{intl-article_name}:</p>
+<input type="text" name="Name" size="40" value="{article_name}" />
+<br /><br />
 
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
@@ -95,7 +78,7 @@
 </table>
 
 <p class="boxtext">{intl-keywords}:</p>
-<input type="text" name="Keywords" size="40" value="{article_keywords}"></input>
+<input type="text" name="Keywords" size="40" value="{article_keywords}" />
 <br /><br />
 
 <p class="boxtext">{intl-intro}:</p>
@@ -110,8 +93,19 @@
 <input type="text" name="LinkText" size="20" value="{link_text}" />
 <br /><br />
 
-
-
+<table width="100%" cellspacing="0" cellpadding="0" border="0">
+<tr>
+	<td width="50%">
+	<input type="checkbox" name="IsPublished" {article_is_published} />
+	<span class="boxtext">{intl-article_is_published}</span><br />
+	</td>
+	<td width="50%">
+	<input type="checkbox" name="Discuss" {discuss_article} />
+	<span class="boxtext">{intl-discuss_article}</span><br />
+	</td>
+</tr>
+</table>
+<br />
 <hr noshade="noshade" size="4" />
 
 <input class="stdbutton" type="submit" name="Image" value="{intl-pictures}" />
@@ -123,15 +117,16 @@
 <table cellspacing="0" cellpadding="0" border="0">
 <tr>
 	<td>
-	<input  class="okbutton" type="submit" value="{intl-ok}" />
+	<input class="okbutton" type="submit" value="{intl-ok}" />
 	</form>
 	</td>
 	<td>&nbsp;</td>
 	<td>
-	<form method="post" action="/article/articleedit/cancel/{article_id}/" >
-	<input  class="okbutton" type="submit" value="{intl-cancel}" />	
+	<form method="post" action="/article/articleedit/cancel/{article_id}/">
+	<input class="okbutton" type="submit" value="{intl-cancel}" />	
 	</form>
 	</td>
 </tr>
 </table>
+
 

@@ -14,13 +14,13 @@
 		<td width="1%">
 		<a href="{request_uri}">
 		<!-- Ikon: Start -->
-		<img src="/{module_dir}/admin/images/module_icon.gif" width="32" height="32" border="0" align="absmiddle" />
+		<img src="/{module_dir}/admin/images/module_icon.gif" width="32" height="32" border="0" align="absmiddle" alt="{intl-module_name}" />
 		<!-- Ikon: Slutt -->
 		</a>
 		
 		</td>
 		<td width="1%">
-		<img src="/admin/images/{site_style}/1x1.gif" width="6" height="10" border="0" />
+		<img src="/admin/images/{site_style}/1x1.gif" width="6" height="10" border="0" alt="" />
 		</td>
 		<td width="95%">
 		<span class="modulename">		
@@ -28,7 +28,7 @@
 		</span>
 		</td>
 		<td width="1%">
-		<img src="/admin/images/{site_style}/1x1.gif" width="6" height="10" border="0" />
+		<img src="/admin/images/{site_style}/1x1.gif" width="6" height="10" border="0" alt="" />
 		</td>
 		<td width="1%">
 		<a href="{move_down_uri}"><img src="/admin/images/{site_style}/move-down.gif" width="12" height="12" border="0" alt="" /></a><br />
@@ -42,13 +42,13 @@
 	</td>
 </tr>
 <tr>
-    <td class="repeaty" width="1%" valign="bottom"><img src="/admin/images/{site_style}/box-l03closed.gif" width="10" height="10" border="0" /><br /></td>
-    <td class="repeatx" width="98%" background="/admin/images/{site_style}/top-m02.gif" valign="absmiddle" bgcolor="#b5b5b5"><img src="/admin/images/{site_style}/1x1.gif" width="160" height="10" border="0" /><br /></td>
-    <td class="repeaty" width="1%" valign="bottom"><img src="/admin/images/{site_style}/box-r03closed.gif" width="10" height="10" border="0" /><br /></td>
+    <td class="repeaty" width="1%" valign="bottom"><img src="/admin/images/{site_style}/box-l03closed.gif" width="10" height="10" border="0" alt="" /><br /></td>
+    <td class="repeatx" width="98%" background="/admin/images/{site_style}/top-m02.gif" valign="absmiddle" bgcolor="#b5b5b5"><img src="/admin/images/{site_style}/1x1.gif" width="160" height="10" border="0" alt="" /><br /></td>
+    <td class="repeaty" width="1%" valign="bottom"><img src="/admin/images/{site_style}/box-r03closed.gif" width="10" height="10" border="0" alt="" /><br /></td>
 </tr>
 <tr>
 	<td class="tdmini" colspan="3">
-	<img src="/admin/images/{site_style}/1x1.gif" width="1" height="6" border="0" /><br />
+	<img src="/admin/images/{site_style}/1x1.gif" width="1" height="6" border="0" alt="" /><br />
 	</td>
 </tr>
 </table>

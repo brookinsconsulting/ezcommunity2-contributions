@@ -1,6 +1,6 @@
 	<br />
     </td>
-   	<td width="1%" bgcolor="#ffffff"><img src="/images/1x1.gif" width="2" height="1" border="0" alt="0" /></td>
+   	<td width="1%" bgcolor="#ffffff"><img src="/images/1x1.gif" width="2" height="1" border="0" alt="" /></td>
 
 	<td width="1%" bgcolor="#f0f0f0">
 
@@ -77,13 +77,13 @@ if ( $Design == 3 )
 
     <!-- Oppslagstavle fram til hit! -->
 
-	<img src="/images/1x1.gif" width="130" height="20" border="0"><br />
+	<img src="/images/1x1.gif" width="130" height="20" border="0" alt="" /><br />
 	
 	<div align="center">
 	<a target="_blank" href="http://publish.ez.no"><img src="/images/powered-by-ezpublish-100x35-trans-lgrey.gif" width="100" height="35" border="0" alt="Powered by eZ publish" /></a>
 	</div>
 	
-	<img src="/images/1x1.gif" width="130" height="8" border="0"><br />
+	<img src="/images/1x1.gif" width="130" height="8" border="0" alt="" /><br />
 	 
 	</td>
   </tr>

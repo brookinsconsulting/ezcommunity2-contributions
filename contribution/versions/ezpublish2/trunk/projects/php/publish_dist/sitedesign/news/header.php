@@ -1,6 +1,6 @@
 </head>
 
-<body bgcolor="#bc9090" topmargin="6" marginheight="6" leftmargin="6" marginwidth="6"  onLoad="MM_preloadImages('/images/redigerminimrk.gif','/images/slettminimrk.gif','/images/downloadminimrk.gif','/images/addminimrk.gif')">
+<body bgcolor="#bc9090" topmargin="6" marginheight="6" leftmargin="6" marginwidth="6"  onload="MM_preloadImages('/images/redigerminimrk.gif','/images/slettminimrk.gif','/images/downloadminimrk.gif','/images/addminimrk.gif')">
 
 <?
 // Store the statistics with a callback image.
@@ -57,10 +57,10 @@ if ( $StoreStats == "enabled" )
 
 	<!-- Meny end! -->
 	
-	<img src="/images/1x1.gif" width="130" height="8" border="0"><br />
+	<img src="/images/1x1.gif" width="130" height="8" border="0" alt="" /><br />
 	</td>
 
-	<td width="1%" bgcolor="#ffffff"><img src="/images/1x1.gif" width="2" height="1" border="0" alt="0" /></td>
+	<td width="1%" bgcolor="#ffffff"><img src="/images/1x1.gif" width="2" height="1" border="0" alt="" /></td>
     <td width="96%" bgcolor="#ffffff">
 
     <!-- Banner -->
