@@ -60,9 +60,9 @@
 
 <hr noshade size="4"/>
 
-<table cellspacing="0" cellpadding="4" border="0">
+<table cellspacing="0" cellpadding="0" border="0">
 <tr>
-	<td>
+	<td valign="top>
 	<input type="hidden" name="UserID" value="{user_id}" />
 	<input class="okbutton" type="submit" value="OK" />
 	</td>
