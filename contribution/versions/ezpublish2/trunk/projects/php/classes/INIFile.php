@@ -1,6 +1,6 @@
 <?php 
 // 
-// $Id: INIFile.php,v 1.47 2001/10/12 07:09:23 jakobn Exp $
+// $Id: INIFile.php,v 1.48 2001/11/01 11:43:29 bf Exp $
 //
 // Implements a simple INI-file parser
 //
@@ -28,28 +28,12 @@
 //
 
 //!! eZCommon
-//! The INIFile class provides .ini file functions.
+//! NOTE: This file is obsolete. Use ezinifile.php instead.
 /*!
-  The INI file class supports comments which starts with a # and stops at the end of the line,
-  this means that one cannot use these characters in groups, keys or values.
-
-  The INI file can also read MS-DOS text files,
-  which has an extra carriage return to signal an end of line.
-
-  \code
-  include_once( "classes/INIFile.php" );
-  $ini = new INIFile( "site.ini" );
-
-  $PageCaching = $ini->read_var( "eZArticleMain", "PageCaching" );
-
-  $arrayTest = $ini->read_array( "site", "ArrayTest" );
-
-  foreach ( $arrayTest as $test )
-  {
-    print( "test: ->$test<-<br>" );
-  }  
-  \endcode
+  Obsolete.  
 */
+
+include_once( "classes/ezinifile.php" );
 
 class INIFile
 { 
@@ -57,101 +41,13 @@ class INIFile
     /*!
       Constructs a new INIFile object.
     */
-    function INIFile( $inifilename = "", $write = false )
+    function INIFile( $inifilename = "" )
     {
-        include_once( "classes/ezfile.php" );
-        
-        $cachedFile = "classes/cache/" . md5(  eZFile::realpath( $inifilename ) ) . ".php";
-        
-        // check for modifications
-        $cacheTime = eZFile::filemtime( $cachedFile );
-        $origTime = eZFile::filemtime( $inifilename );
-        $overrideTime = eZFile::filemtime( "override/" . $inifilename );
-        $appendTime = eZFile::filemtime( "override/" . $inifilename . ".append" );
-
-        $loadCache = false;
-        if ( eZFile::file_exists( $cachedFile ) )
-        {
-            $loadCache = true;
-            if ( $cacheTime < $origTime )
-                $loadCache = false;
-            if ( eZFile::file_exists( "override/" . $inifilename ) and $cacheTime < $overrideTime )
-                $loadCache = false;
-            if ( eZFile::file_exists( "override/" . $inifilename . ".append" ) and $cacheTime < $appendTime )
-                $loadCache = false;
-        }
-
-        if ( $loadCache )
-        {
-            include( $cachedFile );
-        }
-        else
-        {
-            $this->load_data( $inifilename, $write );
-            // save the data to a cached file
-            $buffer = "";
-            $i = 0;
-            reset( $this->GROUPS );        
-            while ( list( $groupKey, $groupVal ) = each ( $this->GROUPS ) )
-            {
-                reset( $groupVal );
-                while ( list( $key, $val ) = each ( $groupVal ) )
-                {
-                    $tmpVal = str_replace( "\"", "\\\"", $val );
-
-                    $buffer .= "\$Array_" . $i . "[\"$key\"] = \"$tmpVal\";\n";
-                }
-
-                $buffer .= "\$this->GROUPS[\"$groupKey\"] =& \$Array_" . $i . ";\n";
-                $i++;
-            }
-            $buffer = "<?php\n" . $buffer . "\n?>";
-
-            $fp = eZFile::fopen( $cachedFile, "w+" );        
-            fwrite ( $fp, $buffer );
-            fclose( $fp );
-        }
-        
+        $this->INIFileObject = new eZINIFile( $inifilename );
     }
 
-    function load_data( $inifilename = "",$write = true, $useoverride = true )
-    {
-        $this->WRITE_ACCESS = $write;
-        if ( !empty( $inifilename ) )
-        {
-            if ( !eZFile::file_exists( $inifilename ) )
-            { 
-                if ( eZFile::file_exists( $inifilename . ".php") )
-                {
-                    $this->parse( $inifilename . ".php" );
-                }
-                else
-                {
-                    $this->error( "This file ( " . $inifilename . " ) does not exist!" );
-                }
-            }
-            else
-            {
-                $this->parse( $inifilename );
-            }
-        }
-        if ( $useoverride )
-            $this->load_override_data( "override/" . $inifilename );
-    }
-
-    function load_override_data( $inifilename = "" )
-    {
-        $appendfilename = $inifilename . ".append";
-        if ( !empty( $inifilename ) and eZFile::file_exists( $inifilename ) )
-        {
-            $this->parse( $inifilename, false );
-        }
-        else if ( !empty( $appendfilename ) and eZFile::file_exists( $appendfilename ) )
-        {
-            $this->parse( $appendfilename, true );
-        }
-    }
-
+    /*!
+    */
     function file_exists( $inifilename )
     {
         return ( eZFile::file_exists( "override/" . $inifilename . ".append" ) or
@@ -160,63 +56,11 @@ class INIFile
     }
 
     /*!
-      Parses the ini file.
+      
     */
-    function parse( $inifilename, $append = false )
+    function read_group( $group_name )
     {
-        $this->INI_FILE_NAME = $inifilename;
-
-        $fp = eZFile::fopen( $inifilename, $this->WRITE_ACCESS ? "r+" : "r" );
-
-        if ( !isset( $this->CURRENT_GROUP ) or !$append )
-             $this->CURRENT_GROUP = false;
-        if ( !isset( $this->GROUPS ) or !$append )
-             $this->GROUPS = array();
-
-        $contents =& fread( $fp, eZFile::filesize( $inifilename ) );
-
-        // Remove trailing empty lines in the file
-        // This should be the code used, but for some reason it will not work
-        //$contents = eregi_replace( "\n*$", "", $contents );
-
-        // So instead we'll do a hack until the reason for the error is found
-        $contents .= "\n";
-        
-        $ini_data =& split( "\n",$contents );
-
-        while( list( $key, $data ) = each( $ini_data ) )
-        {
-            // Remove MS-DOS Carriage return from end of line
-            $data = ereg_replace( "\r*$", "", $data );
-            $this->parse_data( $data );
-        }
-
-        fclose( $fp );
-    }
-
-    /*!
-      Parses the variable.
-    */
-    function parse_data( $data )
-    {
-        // Remove comments from line
-        if ( preg_match( "/([^#]*)#.*/", $data, $m ) )
-        {
-            $data = $m[1];
-        }
-
-        if( ereg( "^\[([[:alnum:]]+)\]", $data, $out ) )
-        {
-            $this->CURRENT_GROUP = strtolower( $out[1] ); 
-        } 
-        else 
-        {
-            $split_data =& split( "=", $data );
-            
-            if ( !isset( $split_data[1] ) )
-                $split_data[1] = "";
-            $this->GROUPS[ $this->CURRENT_GROUP ][ $split_data[0] ] = $split_data[1]; 
-        }
+        return $this->INIFileObject->readGroup( $group_name );
     }
 
     /*!
@@ -224,113 +68,7 @@ class INIFile
     */
     function save_data() 
     {
-        $fp = eZFile::fopen( $this->INI_FILE_NAME, "w" );
-
-        if ( empty( $fp ) )
-        {
-            $this->Error( "Cannot create file " . $this->INI_FILE_NAME );
-            return false;
-        }
-         
-        $groups = $this->read_groups();
-        $group_cnt = count( $groups );
-
-        for( $i = 0; $i < $group_cnt; $i++ )
-        {
-            $group_name = $groups[ $i ];
-            if ( $i == 0 )
-            {
-                $res = sprintf( "[%s]\n", $group_name );
-            }
-            else
-            {
-                $res = sprintf( "\n[%s]\n",$group_name );
-            }
-            fwrite( $fp, $res );
-
-            $group = $this->read_group( $group_name );
-
-            while( list( $key, $data ) = each( $group ) )
-            {
-                $res = "$key=$data\n";
-                fwrite( $fp, $res );
-            }
-        }
-         
-        fclose( $fp );
-    }
-
-    /*!
-      Returns the number of groups.
-    */
-    function get_group_count()
-    {
-        return count($this->GROUPS);
-    }
-     
-    /*!
-      Returns an array with the names of all the groups.
-    */
-    function read_groups()
-    {
-        $groups = array();
-        for ( reset( $this->GROUPS ); $key = key( $this->GROUPS ); next( $this->GROUPS ) )
-            $groups[] = $key;
-        return $groups;
-    }
-
-    /*!
-      Checks if a group exists.
-    */
-    function group_exists( $group_name )
-    {
-        $group_name = strtolower( $group_name );
-        $group =& $this->GROUPS[ $group_name ];
-        if ( empty( $group ) ) return false;
-        else return true;
-    }
-
-    /*!
-      Returns an associative array of the variables in one group.
-    */
-    function read_group( $group_name )
-    {
-        $group_name = strtolower( $group_name );
-        $group_array =& $this->GROUPS[ $group_name ];
-        if(! empty( $group_array ) )
-            return $group_array;
-        else
-        {
-            $this->Error( "Group " . $group_name . " does not exist" );
-            return false;
-        }
-    }
-     
-    /*!
-      Adds a new group to the ini file.
-    */
-    function add_group( $group_name )
-    {
-        $group_name = strtolower( $group_name );
-        $new_group = $this->GROUPS[ $group_name ];
-        if ( empty( $new_group ) )
-        {
-            $this->GROUPS[ $group_name ] = array();
-        }
-        else
-        {
-            $this->Error( "Group " . $group_name . " exists" );
-        }
-    }
-
-    /*!
-      Clears a group.
-    */
-    function empty_group( $group_name )
-    {
-        $group_name = strtolower( $group_name );
-        unset( $this->GROUPS[ $group_name ] );
-        $this->GROUPS[ $group_name ] = array();
+        $this->INIFileObject->save();
     }
 
     /*!
@@ -338,22 +76,17 @@ class INIFile
     */
     function has_var( $group_name, $var_name )
     {
-        $group_name = strtolower( $group_name );
-        return isset( $this->GROUPS[ $group_name ] ) and isset( $this->GROUPS[ $group_name ][ $var_name ] );
+        $this->INIFileObject->has_var();
     }
-
+    
     /*!
       Reads a variable from a group.
     */
-    function read_var( $group_name, $var_name )
+    function &read_var( $group_name, $var_name )
     {
-        $group_name = strtolower( $group_name );
-        if ( !isset( $this->GROUPS[ $group_name ] ) or !isset( $this->GROUPS[ $group_name ][ $var_name ] ) )
-        {
-            $this->Error( $var_name . " does not exist in " . $group_name );
-            return false;
-        }
-        return $this->GROUPS[ $group_name ][ $var_name ];
+        $var = $this->INIFileObject->readVariable( $group_name, $var_name );
+
+        return $var;
     }
 
     /*!
@@ -362,26 +95,9 @@ class INIFile
 
       The variable is splitted on ; characters.
     */
-    function read_array( $group_name, $var_name )
+    function &read_array( $group_name, $var_name )
     {
-        if ( $this->has_var( $group_name, $var_name ) )
-        {
-            $var_value =& $this->read_var( $group_name, $var_name );
-            if ( $var_value != "" )
-            {
-                $var_array =& explode( ";", $var_value );
-            }
-            else
-            {
-                $var_array = array();
-            }
-            return $var_array;
-        }
-        else
-        {
-            $this->Error( "array " . $var_name . " does not exist in " . $group_name );
-            return false;
-        }
+        return $this->INIFileObject->readVariableArray( $group_name, $var_name );
     }
      
     /*!
@@ -389,18 +105,7 @@ class INIFile
     */
     function set_var( $group_name, $var_name, $var_value )
     {
-        $group_name = strtolower( $group_name );
-        $this->GROUPS[ $group_name ][ $var_name ] = $var_value;
-    }
-
-    /*!
-      Prints the error message.
-    */
-    function error($errmsg)
-    {
-        $this->ERROR = $errmsg;
-        echo  "Error:" . $this->ERROR . "<br>\n";
-        return;
+        return $this->INIFileObject->setVariable( $group_name, $var_name, $var_value );
     }
 
     /*!
@@ -420,12 +125,9 @@ class INIFile
         return $ini;
     }
 
-    var $INI_FILE_NAME = "";
-    var $ERROR = "";
-    var $GROUPS = array();
-    var $CURRENT_GROUP = "";
-    var $WRITE_ACCESS = "";    
-    var $Index = "";
-    var $WWWDir = "";
+    /// INI file object
+    var $INIFileObject;
+
 } 
 ?>
+
