@@ -49,10 +49,6 @@
 <tr>
     <td colspan="2">
         <div class="boxtext">{intl-action}:</div>
-<!--          <input value="Defer" type="radio" name="ActionValueArray[{i}]" checked/>{intl-defer} -->
-<!--          <input value="Accept" type="radio" name="ActionValueArray[{i}]" />{intl-accept} -->
-<!--          <input value="Update" type="radio" name="ActionValueArray[{i}]" />{intl-update_not_accept} -->
-<!--          <input value="Delete" type="radio" name="ActionValueArray[{i}]" />{intl-delete} -->
 	<select name="ActionValueArray[{i}]">
         <option value="Defer" selected/>{intl-defer}</option>
         <option value="Accept">{intl-accept}</option>
