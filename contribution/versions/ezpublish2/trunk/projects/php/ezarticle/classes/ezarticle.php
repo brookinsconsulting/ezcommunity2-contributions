@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezarticle.php,v 1.25 2000/11/05 17:09:33 bf-cvs Exp $
+// $Id: ezarticle.php,v 1.26 2000/11/09 18:15:05 bf-cvs Exp $
 //
 // Definition of eZArticle class
 //
@@ -219,6 +219,7 @@ class eZArticle
         if ( isset( $this->ID ) )
         {
             $this->Database->query( "DELETE FROM eZArticle_ArticleCategoryLink WHERE ArticleID='$this->ID'" );
+            $this->Database->query( "DELETE FROM eZArticle_ArticleCategoryDefinition WHERE ArticleID='$this->ID'" );
             $this->Database->query( "DELETE FROM eZArticle_ArticleImageLink WHERE ArticleID='$this->ID'" );
             $this->Database->query( "DELETE FROM eZArticle_ArticleImageDefinition WHERE ArticleID='$this->ID'" );
             
@@ -779,6 +780,57 @@ class eZArticle
        }
        
        return $return_array;
+    }
+
+    /*!
+      Set's the articles defined category. This is the main category for the article.
+      Additional categories can be added with eZArticleCategory::addArticle();
+    */
+    function setCategoryDefinition( $value )
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+       
+       if ( get_class( $value ) == "ezarticlecategory" )
+       {
+            $this->dbInit();
+
+            $categoryID = $value->id();
+
+            $this->Database->query( "DELETE FROM eZArticle_ArticleCategoryDefinition
+                                     WHERE ArticleID='$this->ID'" );
+            
+            $query = "INSERT INTO
+                           eZArticle_ArticleCategoryDefinition
+                      SET
+                           CategoryID='$categoryID',
+                           ArticleID='$this->ID'";
+            
+            $this->Database->query( $query );
+       }       
+    }
+
+    /*!
+      Returns the article's definition category.
+    */
+    function categoryDefinition( )
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+       
+       $this->dbInit();
+
+       $this->Database->array_query( $res, "SELECT CategoryID FROM
+                                            eZArticle_ArticleCategoryDefinition
+                                            WHERE ArticleID='$this->ID'" );
+
+       $category = false;
+       if ( count( $res ) == 1 )
+       {
+           $category = new eZArticleCategory( $res[0]["CategoryID"] );
+       }
+
+       return $category;
     }
     
     /*!

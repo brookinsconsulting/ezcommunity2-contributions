@@ -27,11 +27,23 @@
 <input type="text" name="AuthorText" size="40" value="{author_text}" />
 
 <p class="boxtext">{intl-category}:</p>
+
 <select name="CategoryID">
 
 <!-- BEGIN value_tpl -->
 <option value="{option_value}" {selected}>{option_name}</option>
 <!-- END value_tpl -->
+
+</select>
+
+<br />
+<p class="boxtext">{intl-additional_category}:</p>
+
+<select multiple name="CategoryArray[]">
+
+<!-- BEGIN multiple_value_tpl -->
+<option value="{option_value}" {multiple_selected}>{option_name}</option>
+<!-- END multiple_value_tpl -->
 
 </select>
 

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: articleedit.php,v 1.22 2000/11/09 15:01:46 bf-cvs Exp $
+// $Id: articleedit.php,v 1.23 2000/11/09 18:15:04 bf-cvs Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <18-Oct-2000 15:04:39 bf>
@@ -34,9 +34,8 @@ include_once( "ezarticle/classes/ezarticlegenerator.php" );
 
 if ( $Action == "Insert" )
 {
-
     $user = eZUser::currentUser();
-    $category = new eZArticleCategory( $CategoryID );
+
         
     $article = new eZArticle( );
     $article->setName( $Name );
@@ -53,8 +52,6 @@ if ( $Action == "Insert" )
     $article->setAuthorText( $AuthorText );
     
     $article->setLinkText( $LinkText );
-
-
     
     // add check for publishing rights here
     if ( $IsPublished == "on" )
@@ -86,10 +83,24 @@ if ( $Action == "Insert" )
         
         $article->store();
     
+
+        // add to categories
+        $category = new eZArticleCategory( $CategoryID );
         $category->addArticle( $article );
 
-        $articleID = $article->id();
+        $article->setCategoryDefinition( $category );
+        
+        foreach ( $CategoryArray as $categoryItem )
+        {
+            if ( $categoryItem != $CategoryID )
+            {
+                $category = new eZArticleCategory( $categoryItem );
+                $category->addArticle( $article );
+            }
+        }
 
+
+        $articleID = $article->id();
 
         // clear the cache files.
         $dir = dir( "ezarticle/cache/" );
@@ -133,7 +144,6 @@ if ( $Action == "Insert" )
         } 
         $dir->close();
         
-
     // add images
         if ( isset( $Image ) )
         {
@@ -153,7 +163,7 @@ if ( $Action == "Insert" )
         $categories = $article->categories();    
         $categoryID = $categories[0]->id();
 
-    
+
         Header( "Location: /article/archive/$categoryID/" );
         exit();
     }
@@ -180,8 +190,6 @@ if ( $Action == "Cancel" )
 
 if ( $Action == "Update" )
 {
-    $category = new eZArticleCategory( $CategoryID );
-    
     $article = new eZArticle( $ArticleID );
     $article->setName( $Name );
 
@@ -274,7 +282,23 @@ if ( $Action == "Update" )
         
     // remove all category references
         $article->removeFromCategories();
+
+        // add to categories
+        $category = new eZArticleCategory( $CategoryID );
         $category->addArticle( $article );
+
+        $article->setCategoryDefinition( $category );
+        
+        foreach ( $CategoryArray as $categoryItem )
+        {
+            if ( $categoryItem != $CategoryID )
+            {
+                $category = new eZArticleCategory( $categoryItem );
+                $category->addArticle( $article );
+            }
+        }
+
+        
 
     // add images
         if ( isset( $Image ) )
@@ -381,6 +405,7 @@ $t->set_file( array(
 
 
 $t->set_block( "article_edit_page_tpl", "value_tpl", "value" );
+$t->set_block( "article_edit_page_tpl", "multiple_value_tpl", "multiple_value" );
 
 $t->set_block( "article_edit_page_tpl", "error_message_tpl", "error_message" );
 
@@ -460,16 +485,31 @@ foreach ( $categoryArray as $catItem )
 {
     if ( $Action == "Edit" )
     {
-        if ( $article->existsInCategory( $catItem ) )
+        $defCat = $article->categoryDefinition( );
+        
+        if ( $article->existsInCategory( $catItem ) &&
+             ( $defCat->id() != $catItem->id() ) )
+        {
+            $t->set_var( "multiple_selected", "selected" );
+        }
+        else
+        {
+            $t->set_var( "multiple_selected", "" );
+        }
+
+        if ( $defCat->id() == $catItem->id() )
         {
             $t->set_var( "selected", "selected" );
         }
         else
+        {
             $t->set_var( "selected", "" );
+        }
     }
     else
     {
         $t->set_var( "selected", "" );
+        $t->set_var( "multiple_selected", "" );
     }    
         
     
@@ -477,6 +517,7 @@ foreach ( $categoryArray as $catItem )
     $t->set_var( "option_name", $catItem->name() );
 
     $t->parse( "value", "value_tpl", true );    
+    $t->parse( "multiple_value", "multiple_value_tpl", true );    
 }
 
 
