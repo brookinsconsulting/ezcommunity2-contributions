@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezobjectpermission.php,v 1.36.2.1 2001/11/21 08:56:10 jhe Exp $
+// $Id: ezobjectpermission.php,v 1.36.2.2 2002/01/04 08:37:54 jhe Exp $
 //
 // Definition of eZObjectPermission class
 //
@@ -291,7 +291,7 @@ class eZObjectPermission
         }
         else
         {
-            print("Duplicate objects in database. Please contact your administrator");
+            print( "Duplicate objects in database. Please contact your administrator" );
             exit();
         }
 
@@ -318,23 +318,29 @@ class eZObjectPermission
             return false;
         }
 
-        $SQLPermission = "";
-        if ( $permission == 'r' )
+        $i = 0;
+        $SQLPermission = "SET ";
+        if ( strstr( $permission, 'r' ) )
         {
-            $SQLPermission = "SET ReadPermission='0'";
+            $SQLPermission = "ReadPermission='0'";
+            $i++;
         }
-        else if ( $permission == 'w' )
+        if ( strstr( $permission, 'w' ) )
         {
-            $SQLPermission = "SET WritePermission='0'";
+            if ( $i > 0 )
+                $SQLPermission .= ", ";
+            $SQLPermission = "WritePermission='0'";
+            $i++;
         }
-        else if ( $permission == 'u' )
+        if ( strstr( $permission, 'u' ) )
         {
-            $SQLPermission = "SET UploadPermission='0'";
+            if ( $i > 0 )
+                $SQLPermission .= ", ";
+            $SQLPermission = "UploadPermission='0'";
+            $i++;
         }
-        else // bogus $permission input.
-        {
+        if ( $i == 0 )
             return false;
-        }
         
         $query = "UPDATE $tableName $SQLPermission WHERE ObjectID='$objectID'";
         $database =& eZDB::globalDatabase();
