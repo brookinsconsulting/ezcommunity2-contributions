@@ -4,6 +4,7 @@
 */
 
 include_once( "classes/INIFile.php" );
+include_once( "ezuser/classes/ezpermission.php" );
 
 $ini = new INIFIle( "site.ini" );
 $Language = $ini->read_var( "eZBugMain", "Language" );
@@ -32,7 +33,15 @@ if ( $Action == "update" )
     $parent = new eZBugModule( $ParentID );
     $module->setParent( $parent );
     $ownerGroup = new eZUserGroup( $OwnerID );
-    $module->setOwnerGroup( $ownerGroup );
+    if( isset( $Recursive ) )
+    {
+        $module->setOwnerGroup( $ownerGroup, true );
+    }
+    else
+    {
+        $module->setOwnerGroup( $ownerGroup, false );
+    }
+
     $module->store();
 
     Header( "Location: /bug/module/list/" );
@@ -122,15 +131,18 @@ if( get_class( $module ) == "ezbugmodule" )
 
 foreach( $groupList as $groupItem )
 {
-    $t->set_var( "module_owner_id", $groupItem->id() );
-    $t->set_var( "module_owner_name", $groupItem->name() );
+//    if( eZPermission::checkPermission( $groupItem , "eZBug", "BugEdit" ) )
+//    {
+        $t->set_var( "module_owner_id", $groupItem->id() );
+        $t->set_var( "module_owner_name", $groupItem->name() );
 
-    if( isset( $ownerGroup ) && $ownerGroup == $groupItem->id() )
-        $t->set_var( "is_selected", "selected" );
-    else
-        $t->set_var( "is_selected", "" );
+        if( isset( $ownerGroup ) && $ownerGroup == $groupItem->id() )
+            $t->set_var( "is_selected", "selected" );
+        else
+            $t->set_var( "is_selected", "" );
     
-    $t->parse( "module_owner", "module_owner_tpl", true );
+        $t->parse( "module_owner", "module_owner_tpl", true );
+//    }
 }
 
 $t->pparse( "output", "moduleedit" );

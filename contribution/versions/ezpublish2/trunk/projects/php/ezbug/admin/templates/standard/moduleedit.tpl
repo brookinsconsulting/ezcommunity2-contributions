@@ -13,16 +13,25 @@
 <option value="{module_parent_id}" {is_selected}>{module_parent_name}</option>
 <!-- END module_item_tpl -->
 </select>
-
-<p class="boxtext">{intl-owner}</p>
-<select name="OwnerID">
-<option value="0">{intl-none}</option>
-<!-- BEGIN module_owner_tpl -->
-<option value="{module_owner_id}" {is_selected}>{module_owner_name}</option>
-<!-- END module_owner_tpl -->
-</select>
-
-<br /><br />
+<br />
+<br />
+<table cellpadding="2" cellspacing="0" border="0" width="100%">
+<th class "boxtext" width="20%">{intl-owner}</th>
+<th class "boxtext" width="80%">{intl-recursive}
+<tr>
+  <td>
+    <select name="OwnerID">
+    <option value="0">{intl-none}</option>
+    <!-- BEGIN module_owner_tpl -->
+    <option value="{module_owner_id}" {is_selected}>{module_owner_name}</option>
+    <!-- END module_owner_tpl -->
+    </select>
+  </td>
+  <td>
+    <input type="checkbox" name="Recursive" />
+  </td>
+</tr>
+</table>
 
 <hr noshade size="4"/>
 
