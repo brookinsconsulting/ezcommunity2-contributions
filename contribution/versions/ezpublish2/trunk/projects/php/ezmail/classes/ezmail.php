@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezmail.php,v 1.44 2001/09/10 14:24:38 fh Exp $
+// $Id: ezmail.php,v 1.45 2001/10/25 10:21:36 fh Exp $
 //
 // Definition of eZMail class
 //
@@ -227,6 +227,7 @@ class eZMail
                 $this->UDate = $mail_array[0][ $db->fieldName("UDate") ];
                 
                 $ret = true;
+                $this->FilesAttached = true;
             }
         }
         return $ret;
@@ -777,6 +778,10 @@ class eZMail
     function files()
     {
        $return_array = array();
+
+       if( !isset( $this->ID ) )
+           return $return_array;
+
        $file_array = array();
        $db =& eZDB::globalDatabase();
        $db->array_query( $file_array, "SELECT FileID FROM eZMail_MailAttachmentLink WHERE MailID='$this->ID'" );
@@ -942,11 +947,15 @@ class eZMail
         if ( $this->FilesAttached == true )
         {
             $files = $this->files();
-            foreach ( $files as $file )
+            if( count( $files ) )
             {
-                $filename = "ezfilemanager/files/" . $file->fileName();
-                $attachment = fread( eZFile::fopen( $filename, "r" ), eZFile::filesize( $filename ) );
-                $this->add_attachment( $attachment, $file->originalFileName(), "image/jpeg" );
+                foreach ( $files as $file )
+                {
+                    echo "Added attachment";
+                    $filename = "ezfilemanager/files/" . $file->fileName();
+                    $attachment = fread( eZFile::fopen( $filename, "r" ), eZFile::filesize( $filename ) );
+                    $this->add_attachment( $attachment, $file->originalFileName(), "image/jpeg" );
+                }
             }
         }
         
