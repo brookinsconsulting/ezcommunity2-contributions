@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezorder.php,v 1.61.8.4 2002/01/28 18:25:54 br Exp $
+// $Id: ezorder.php,v 1.61.8.5 2002/02/01 12:36:47 br Exp $
 //
 // Definition of eZOrder class
 //
@@ -75,6 +75,7 @@ class eZOrder
         $db->begin();
         
         $this->TextPaymentMethod = $db->escapeString( $this->PaymentMethod );
+        $comment = $db->escapeString( $this->Comment );
         
         if ( !isSet( $this->ID ) )
         {
@@ -113,7 +114,7 @@ class eZOrder
 		                           '$this->ShippingCharge',
                                    '$this->PersonID',
                                    '$this->CompanyID',
-                                   '$this->Comment',
+                                   '$comment',
                                    '$this->EDate',
                                    '$this->RefundAmount',  
                                    '$this->Pnutr' ) " );
@@ -149,7 +150,7 @@ class eZOrder
 		                         ShippingCharge='$this->ShippingCharge',
                                  PersonID='$this->PersonID',
                                  CompanyID='$this->CompanyID',
-                                 Comment='$this->Comment',
+                                 Comment='$comment',
                                  EDate='$this->EDate',
                                  RefundAmount='$this->RefundAmount',
                                  Pnutr='$this->Pnutr'
