@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: useredit.php,v 1.14 2001/01/22 14:43:02 jb Exp $
+// $Id: useredit.php,v 1.15 2001/01/23 13:16:58 jb Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <10-Oct-2000 12:52:42 bf>
@@ -29,6 +29,7 @@ include_once( "classes/INIFile.php" );
 include_once( "classes/eztemplate.php" );
 include_once( "classes/ezmail.php" );
 include_once( "classes/ezlog.php" );
+include_once( "classes/ezhttptool.php" );
 
 $ini =& $GLOBALS["GlobalSiteIni"];
 
@@ -85,12 +86,12 @@ if ( $Action == "Insert" )
 
                     if ( isSet( $RedirectURL )  && ( $RedirectURL != "" ) )
                     {
-                        Header( "Location: $RedirectURL" );
+                        eZHTTPTool::header( "Location: $RedirectURL" );
                         exit();
                     }
                     else
                     {
-                        Header( "Location: /" );
+                        eZHTTPTool::header( "Location: /" );
                         exit();
                     }
                 }
@@ -120,7 +121,7 @@ if ( $Action == "Update" )
     $user = eZUser::currentuser();
     if ( !$user )
     {
-        Header( "Location: /" );
+        eZHTTPTool::header( "Location: /" );
         exit();
     }
     
@@ -160,7 +161,7 @@ if ( $Action == "Update" )
     }
     if ( $EmailError == false )
     {
-        Header( "Location: /" );
+        eZHTTPTool::header( "Location: /" );
         exit();
     }
 }
@@ -185,7 +186,7 @@ if ( $Action == "Edit" )
     $user = eZUser::currentuser();
     if ( !$user )
     {
-        Header( "Location: /" );
+        eZHTTPTool::header( "Location: /" );
         exit();
     }
     if ( !$UserID )
@@ -193,7 +194,7 @@ if ( $Action == "Edit" )
         $getUser = eZUser::currentUser();
         if ( !$getUser )
         {
-            Header( "Location: /user/login" );
+            eZHTTPTool::header( "Location: /user/login" );
             exit();
         }
         else

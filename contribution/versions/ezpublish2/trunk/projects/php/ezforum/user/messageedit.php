@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: messageedit.php,v 1.15 2001/01/22 14:43:00 jb Exp $
+// $Id: messageedit.php,v 1.16 2001/01/23 13:16:57 jb Exp $
 //
 // Lars Wilhelmsen <lw@ez.no>
 // Created on: <11-Sep-2000 22:10:06 bf>
@@ -24,6 +24,7 @@
 //
 
 include_once( "classes/INIFile.php" );
+include_once( "classes/ezhttptool.php" );
 
 include_once( "classes/ezlocale.php" );
 include_once( "classes/eztemplate.php" );
@@ -86,7 +87,7 @@ if ( $Action == "insert" )
         $mail->send();
     }    
 
-    Header( "Location: /forum/messagelist/$ForumID/" );
+    eZHTTPTool::header( "Location: /forum/messagelist/$ForumID/" );
 }
 
 $t = new eZTemplate( "ezforum/user/" . $ini->read_var( "eZForumMain", "TemplateDir" ),
@@ -102,12 +103,12 @@ if ( !$user )
 {
     if ( $Action == "new" )
     {
-        Header( "Location: /forum/userlogin/new/$ForumID" );
+        eZHTTPTool::header( "Location: /forum/userlogin/new/$ForumID" );
     }
     
     if ( $Action == "reply" )
     {
-        Header( "Location: /forum/userlogin/reply/$MessageID" );
+        eZHTTPTool::header( "Location: /forum/userlogin/reply/$MessageID" );
     }
 
 }

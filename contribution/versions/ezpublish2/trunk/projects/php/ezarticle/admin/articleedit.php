@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: articleedit.php,v 1.32 2001/01/22 14:42:59 jb Exp $
+// $Id: articleedit.php,v 1.33 2001/01/23 13:16:57 jb Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <18-Oct-2000 15:04:39 bf>
@@ -29,6 +29,7 @@ include_once( "classes/ezlocale.php" );
 include_once( "classes/ezmail.php" );
 
 include_once( "ezuser/classes/ezuser.php" );
+include_once( "classes/ezhttptool.php" );
 
 include_once( "ezarticle/classes/ezarticlecategory.php" );
 include_once( "ezarticle/classes/ezarticle.php" );
@@ -182,21 +183,21 @@ if ( $Action == "Insert" )
         // add images
         if ( isset( $Image ) )
         {
-            Header( "Location: /article/articleedit/imagelist/$articleID/" );
+            eZHTTPTool::header( "Location: /article/articleedit/imagelist/$articleID/" );
             exit();
         }
 
         // add files
         if ( isset( $File ) )
         {
-            Header( "Location: /article/articleedit/filelist/$articleID/" );
+            eZHTTPTool::header( "Location: /article/articleedit/filelist/$articleID/" );
             exit();
         }
         
         // preview
         if ( isset( $Preview ) )
         {
-            Header( "Location: /article/articlepreview/$articleID/" );
+            eZHTTPTool::header( "Location: /article/articlepreview/$articleID/" );
             exit();
         }
 
@@ -205,7 +206,7 @@ if ( $Action == "Insert" )
         $category = $article->categoryDefinition( );
         $categoryID = $category->id();
 
-        Header( "Location: /article/archive/$categoryID/" );
+        eZHTTPTool::header( "Location: /article/archive/$categoryID/" );
         exit();
     }
     else
@@ -223,7 +224,7 @@ if ( $Action == "Cancel" )
     $category = $article->categoryDefinition( );
     $categoryID = $category->id();
 
-    Header( "Location: /article/archive/$categoryID/" );
+    eZHTTPTool::header( "Location: /article/archive/$categoryID/" );
     exit();
 }
 
@@ -371,14 +372,14 @@ if ( $Action == "Update" )
         // add images
         if ( isset( $Image ) )
         {
-            Header( "Location: /article/articleedit/imagelist/$ArticleID/" );
+            eZHTTPTool::header( "Location: /article/articleedit/imagelist/$ArticleID/" );
             exit();
         }
 
         // add files
         if ( isset( $File ) )
         {
-            Header( "Location: /article/articleedit/filelist/$ArticleID/" );
+            eZHTTPTool::header( "Location: /article/articleedit/filelist/$ArticleID/" );
             exit();
         }
         
@@ -386,7 +387,7 @@ if ( $Action == "Update" )
         // preview
         if ( isset( $Preview ) )
         {
-            Header( "Location: /article/articlepreview/$ArticleID/" );
+            eZHTTPTool::header( "Location: /article/articlepreview/$ArticleID/" );
             exit();
         }
 
@@ -394,7 +395,7 @@ if ( $Action == "Update" )
         $category = $article->categoryDefinition( );
         $categoryID = $category->id();
 
-        Header( "Location: /article/archive/$oldCategoryID/" );
+        eZHTTPTool::header( "Location: /article/archive/$oldCategoryID/" );
         exit();
     }
     else
@@ -468,7 +469,7 @@ if ( $Action == "Delete" )
     
     $article->delete();    
     
-    Header( "Location: /article/archive/$categoryID/" );
+    eZHTTPTool::header( "Location: /article/archive/$categoryID/" );
     exit();
 }
 

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: useredit.php,v 1.17 2001/01/22 14:43:02 jb Exp $
+// $Id: useredit.php,v 1.18 2001/01/23 13:16:58 jb Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <20-Sep-2000 13:32:11 ce>
@@ -25,6 +25,7 @@
 
 include_once( "classes/INIFile.php" );
 include_once( "classes/eztemplate.php" );
+include_once( "classes/ezhttptool.php" );
 
 $ini =& $GLOBALS["GlobalSiteIni"];
 
@@ -41,7 +42,7 @@ require( "ezuser/admin/admincheck.php" );
 
 if ( isSet( $Back ) )
 {
-    Header( "Location: /user/userlist/" );
+    eZHTTPTool::header( "Location: /user/userlist/" );
     exit();
 }
 
@@ -90,7 +91,7 @@ if ( $Action == "insert" )
                                     eZLog::writeNotice( "User added to group: $groupname from IP: $REMOTE_ADDR" );     
                                 }
                         }
-                        Header( "Location: /user/userlist/" );
+                        eZHTTPTool::header( "Location: /user/userlist/" );
                         exit();
                     }
                     else
@@ -173,7 +174,7 @@ if ( $Action == "update" )
                                 eZLog::writeNotice( "User added to group: $groupname from IP: $REMOTE_ADDR" );
                             }
                         }
-                        Header( "Location: /user/userlist/" );
+                        eZHTTPTool::header( "Location: /user/userlist/" );
                         exit();
                     }
                     else
@@ -213,7 +214,7 @@ if ( $Action == "delete" )
         $user->delete();
         
         eZLog::writeNotice( "User deleted: $firstname $lastname ($login) $email from IP: $REMOTE_ADDR" );
-        Header( "Location: /user/userlist/" );
+        eZHTTPTool::header( "Location: /user/userlist/" );
         exit();
     }
     else

@@ -4,6 +4,7 @@
 */
 
 include_once( "classes/INIFile.php" );
+include_once( "classes/ezhttptool.php" );
 
 $ini = new INIFIle( "site.ini" );
 $Language = $ini->read_var( "eZContactMain", "Language" );
@@ -32,7 +33,7 @@ if ( $Action == "insert" )
         $type->setDescription( $PersonTypeDescription );
         $type->store();
 
-        Header( "Location: /contact/persontypelist/" );
+        eZHTTPTool::header( "Location: /contact/persontypelist/" );
     }
     else
     {
@@ -53,7 +54,7 @@ if ( $Action == "update" )
         $type->setDescription( $PersonTypeDescription );
         $type->update();
 
-        Header( "Location: /contact/persontypelist/" );
+        eZHTTPTool::header( "Location: /contact/persontypelist/" );
     }
     else
     {
@@ -69,7 +70,7 @@ if ( $Action == "delete" )
         $type = new eZPersonType();
         $type->get( $PID );
         $type->delete( );
-        Header( "Location: /contact/persontypelist/" );
+        eZHTTPTool::header( "Location: /contact/persontypelist/" );
     }
     else
     {

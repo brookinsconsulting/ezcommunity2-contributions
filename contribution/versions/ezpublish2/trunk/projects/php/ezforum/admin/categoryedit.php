@@ -1,5 +1,5 @@
 <?
-// $Id: categoryedit.php,v 1.11 2001/01/22 14:43:00 jb Exp $
+// $Id: categoryedit.php,v 1.12 2001/01/23 13:16:57 jb Exp $
 //
 // Author: Lars Wilhelmsen <lw@ez.no>
 // Created on: Created on: <14-Jul-2000 13:41:35 lw>
@@ -23,6 +23,7 @@
 //
 
 include_once( "classes/INIFile.php" );
+include_once( "classes/ezhttptool.php" );
 
 $ini =& $GLOBALS["GlobalSiteIni"];
 
@@ -57,7 +58,7 @@ if ( $Action == "insert" )
    
             $cat->store();
             eZLog::writeNotice( "Forum category created: $Name from IP: $REMOTE_ADDR" );
-            Header( "Location: /forum/categorylist/" );
+            eZHTTPTool::header( "Location: /forum/categorylist/" );
         }
         else
         {
@@ -67,7 +68,7 @@ if ( $Action == "insert" )
     }
     else
     {
-        Header( "Location: /forum/norights" );
+        eZHTTPTool::header( "Location: /forum/norights" );
         exit();
     }
 }
@@ -87,7 +88,7 @@ if ( $Action == "delete" )
             $categoryName = $cat->name();
             $cat->delete( );
             eZLog::writeNotice( "Forum category deleted: $categoryName from IP: $REMOTE_ADDR" );
-            Header( "Location: /forum/categorylist/" );
+            eZHTTPTool::header( "Location: /forum/categorylist/" );
         }
         else
         {
@@ -97,7 +98,7 @@ if ( $Action == "delete" )
     }
     else
     {
-        Header( "Location: /forum/norights" );
+        eZHTTPTool::header( "Location: /forum/norights" );
         exit();
     }
 }
@@ -120,7 +121,7 @@ if ( $Action == "update" )
             $cat->setDescription( $Description );
             $cat->store();
             eZLog::writeNotice( "Forum category updated: $Name from IP: $REMOTE_ADDR" );
-            Header( "Location: /forum/categorylist/" );
+            eZHTTPTool::header( "Location: /forum/categorylist/" );
         }
         else
         {
@@ -130,7 +131,7 @@ if ( $Action == "update" )
     }
     else
     {
-        Header( "Location: /forum/norights" );
+        eZHTTPTool::header( "Location: /forum/norights" );
         exit();
     }
 }
@@ -153,7 +154,7 @@ if ( $Action == "new" )
 {
     if ( !eZPermission::checkPermission( $user, "eZForum", "CategoryAdd" ) )
     {
-        Header( "Location: /forum/norights" );
+        eZHTTPTool::header( "Location: /forum/norights" );
         exit();
     }
  
@@ -170,7 +171,7 @@ if ( $Action == "edit" )
 
     if ( !eZPermission::checkPermission( $user, "eZForum", "CategoryAdd" ) )
     {
-        Header( "Location: /forum/norights" );
+        eZHTTPTool::header( "Location: /forum/norights" );
         exit();
     }
     else

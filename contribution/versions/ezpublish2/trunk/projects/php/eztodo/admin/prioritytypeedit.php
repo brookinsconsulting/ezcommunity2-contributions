@@ -11,6 +11,7 @@ $DOC_ROOT = $ini->read_var( "eZTodoMain", "DocumentRoot" );
 
 include_once( "classes/eztemplate.php" );
 include_once( "common/ezphputils.php" );
+include_once( "classes/ezhttptool.php" );
 
 include_once( "ezuser/classes/ezuser.php" );
 include_once( "ezuser/classes/ezusergroup.php" );
@@ -25,7 +26,7 @@ if ( $Action == "insert" )
     $type->setName( $Name );
     $type->store();
 
-    Header( "Location: /todo/prioritytypelist/" );
+    eZHTTPTool::header( "Location: /todo/prioritytypelist/" );
 }
 
 // Updates a priority.
@@ -36,7 +37,7 @@ if ( $Action == "update" )
     $type->setName( $Name );
     $type->store();
 
-    Header( "Location: /todo/prioritytypelist/" );
+    eZHTTPTool::header( "Location: /todo/prioritytypelist/" );
     exit();
 }
 
@@ -47,7 +48,7 @@ if ( $Action == "delete" )
     $type->get( $PriorityID );
     $type->delete();
 
-    Header( "Location: /todo/prioritytypelist/" );
+    eZHTTPTool::header( "Location: /todo/prioritytypelist/" );
     exit();
 }
 

@@ -1,5 +1,5 @@
 <?
-// $Id: forumedit.php,v 1.13 2001/01/22 14:43:00 jb Exp $
+// $Id: forumedit.php,v 1.14 2001/01/23 13:16:57 jb Exp $
 //
 // Author: Lars Wilhelmsen <lw@ez.no>
 // Created on: Created on: <14-Jul-2000 13:41:35 lw>
@@ -23,6 +23,7 @@
 //
 
 include_once( "classes/INIFile.php" );
+include_once( "classes/ezhttptool.php" );
 
 $ini =& $GLOBALS["GlobalSiteIni"];
 
@@ -64,7 +65,7 @@ if ( $Action == "insert" )
             
             eZLog::writeNotice( "Forum created: $Name from IP: $REMOTE_ADDR" );                    
 
-            Header( "Location: /forum/forumlist/$CategorySelectID" );
+            eZHTTPTool::header( "Location: /forum/forumlist/$CategorySelectID" );
         }
         else
         {
@@ -75,7 +76,7 @@ if ( $Action == "insert" )
     }
     else
     {
-        Header( "Location: /forum/norights" );
+        eZHTTPTool::header( "Location: /forum/norights" );
     }
 }
 
@@ -112,7 +113,7 @@ if ( $Action == "update" )
             
             eZLog::writeNotice( "Forum updated: $Name from IP: $REMOTE_ADDR" );
                         
-            Header( "Location: /forum/forumlist/$CategorySelectID" );
+            eZHTTPTool::header( "Location: /forum/forumlist/$CategorySelectID" );
         }
         else
         {
@@ -122,7 +123,7 @@ if ( $Action == "update" )
     }
     else
     {
-        Header( "Location: /forum/norights" );
+        eZHTTPTool::header( "Location: /forum/norights" );
     }
 }
 
@@ -139,7 +140,7 @@ if ( $Action == "delete" )
             $forum->delete();
             eZLog::writeNotice( "Forum deleted: $forumName from IP: $REMOTE_ADDR" );
             
-            Header( "Location: /forum/forumlist/" );
+            eZHTTPTool::header( "Location: /forum/forumlist/" );
         }
         else
         {
@@ -149,7 +150,7 @@ if ( $Action == "delete" )
     }
     else
     {
-        Header( "Location: /forum/norights" );
+        eZHTTPTool::header( "Location: /forum/norights" );
     }
 }
 
@@ -175,7 +176,7 @@ if ( $Action == "new" )
 {
     if ( eZPermission::checkPermission( $user, "eZForum", "ForumModifyAdd" ) )
     {
-        Header( "Location: /forum/norights" );
+        eZHTTPTool::header( "Location: /forum/norights" );
     }
 
     $action_value = "insert";
@@ -192,7 +193,7 @@ if ( $Action == "edit" )
 
     if ( !eZPermission::checkPermission( $user, "eZForum", "ForumModify" ) )
     {
-        Header( "Location: /forum/norights" );
+        eZHTTPTool::header( "Location: /forum/norights" );
     }
     else
     {

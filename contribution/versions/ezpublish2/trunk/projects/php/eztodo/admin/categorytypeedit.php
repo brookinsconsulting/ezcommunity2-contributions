@@ -4,6 +4,7 @@
 */
 
 include_once( "classes/INIFile.php" );
+include_once( "classes/ezhttptool.php" );
 
 $ini = new INIFIle( "site.ini" );
 $Language = $ini->read_var( "eZTodoMain", "Language" );
@@ -25,7 +26,7 @@ if ( $Action == "insert" )
     $type->setName( $Name );
     $type->store();
 
-    Header( "Location: /todo/categorytypelist/" );
+    eZHTTPTool::header( "Location: /todo/categorytypelist/" );
     exit();
 }
 
@@ -37,7 +38,7 @@ if ( $Action == "update" )
     $type->setName( $Name );
     $type->store();
 
-    Header( "Location: /todo/categorytypelist/" );
+    eZHTTPTool::header( "Location: /todo/categorytypelist/" );
     exit();
 }
 
@@ -49,7 +50,7 @@ if ( $Action == "delete" )
     $type->get( $CategoryID );
     $type->delete();
 
-    Header( "Location: /todo/categorytypelist/" );
+    eZHTTPTool::header( "Location: /todo/categorytypelist/" );
     exit();
 }
 

@@ -38,7 +38,8 @@ if ( $session->fetch() == false )
 if ( $Design == 1 )
 {
     $session->setVariable( "SiteDesign", "standard" );
-    Header( "Location: $REQUEST_URI" );
+    include_once( "classes/ezhttptool.php" );
+    eZHTTPTool::header( "Location: $REQUEST_URI" );
     exit();
 }
 

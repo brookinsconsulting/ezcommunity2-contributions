@@ -25,6 +25,7 @@
 
 include_once( "classes/INIFile.php" );
 include_once( "classes/eztemplate.php" );
+include_once( "classes/ezhttptool.php" );
 
 $ini =& $GLOBALS["GlobalSiteIni"];
 
@@ -42,7 +43,7 @@ $poll = new eZPoll( $PollID );
 
 if ( $poll->isClosed() )
 {
-    Header( "Location: /poll/result/$PollID" );
+    eZHTTPTool::header( "Location: /poll/result/$PollID" );
     exit();
 }
 

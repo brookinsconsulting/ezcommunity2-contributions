@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: imageedit.php,v 1.6 2001/01/23 12:57:06 jb Exp $
+// $Id: imageedit.php,v 1.7 2001/01/23 13:16:57 jb Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <09-Jan-2001 10:45:44 ce>
@@ -23,9 +23,11 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, US
 //
 
+include_once( "classes/ezhttptool.php" );
+
 if ( isSet ( $NewCategory ) )
 {
-    Header( "Location: /imagecatalogue/category/new" );
+    eZHTTPTool::header( "Location: /imagecatalogue/category/new" );
     exit();
 }
 if ( isSet ( $Cancel ) )
@@ -195,7 +197,7 @@ if ( $Action == "Insert" && $error == false )
     
     if ( !$user )
     {
-        Header( "Location: /" );
+        eZHTTPTool::header( "Location: /" );
         exit();
     }
     

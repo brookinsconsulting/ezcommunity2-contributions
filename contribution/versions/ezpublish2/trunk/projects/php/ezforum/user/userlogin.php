@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: userlogin.php,v 1.7 2001/01/22 14:43:00 jb Exp $
+// $Id: userlogin.php,v 1.8 2001/01/23 13:16:57 jb Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <14-Oct-2000 15:41:17 bf>
@@ -25,6 +25,7 @@
 
 include_once( "classes/INIFile.php" );
 include_once( "classes/eztemplate.php" );
+include_once( "classes/ezhttptool.php" );
 
 $ini =& $GLOBALS["GlobalSiteIni"];
 
@@ -36,22 +37,22 @@ if ( eZUser::currentUser() )
 {
     if ( $Action == "NewSimple" )
     {
-        Header( "Location: /forum/messagesimpleedit/new/$ForumID/?RedirectURL=$RedirectURL" );
+        eZHTTPTool::header( "Location: /forum/messagesimpleedit/new/$ForumID/?RedirectURL=$RedirectURL" );
     }
 
     if ( $Action == "ReplySimple" )
     {
-        Header( "Location: /forum/messagesimplereply/new/$ForumID/$MessageID/?RedirectURL=$RedirectURL" );
+        eZHTTPTool::header( "Location: /forum/messagesimplereply/new/$ForumID/$MessageID/?RedirectURL=$RedirectURL" );
     }
     
     if ( $Action == "new" )
     {
-        Header( "Location: /forum/messageedit/new/$ForumID/" );
+        eZHTTPTool::header( "Location: /forum/messageedit/new/$ForumID/" );
     }
 
     if ( $Action == "reply" )
     {
-        Header( "Location: /forum/reply/reply/$MessageID/" );
+        eZHTTPTool::header( "Location: /forum/reply/reply/$MessageID/" );
     }    
 }
 else

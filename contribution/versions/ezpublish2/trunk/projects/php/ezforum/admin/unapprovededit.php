@@ -1,5 +1,5 @@
 <?
-// $Id: unapprovededit.php,v 1.1 2001/01/22 14:56:46 ce Exp $
+// $Id: unapprovededit.php,v 1.2 2001/01/23 13:16:57 jb Exp $
 //
 // Author: Bård Farstad <bf@ez.no>
 // Created on: <21-Jan-2001 13:34:48 bf>
@@ -23,6 +23,7 @@
 //
 
 include_once( "classes/INIFile.php" );
+include_once( "classes/ezhttptool.php" );
 $ini =& $GLOBALS["GlobalSiteIni"];
 
 $Language = $ini->read_var( "eZForumMain", "Language" );
@@ -103,7 +104,7 @@ for( $i=0; $i < count ( $ActionValueArray ); $i++ )
         $message->delete();
     }
 
-    Header( "Location: /forum/unapprovedlist/" );
+    eZHTTPTool::header( "Location: /forum/unapprovedlist/" );
     exit();
 }
 

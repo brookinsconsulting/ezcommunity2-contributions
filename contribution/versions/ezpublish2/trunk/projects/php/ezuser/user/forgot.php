@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: forgot.php,v 1.11 2001/01/22 14:43:02 jb Exp $
+// $Id: forgot.php,v 1.12 2001/01/23 13:16:58 jb Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <20-Sep-2000 13:32:11 ce>
@@ -27,6 +27,7 @@ require( "ezuser/user/usercheck.php" );
 
 include_once( "classes/INIFile.php" );
 include_once( "classes/eztemplate.php" );
+include_once( "classes/ezhttptool.php" );
 
 include_once( "ezuser/classes/ezforgot.php" );
 include_once( "classes/ezmail.php" );
@@ -64,7 +65,7 @@ if ( $user )
 
     $mailpassword->setBody( $body );
     $mailpassword->send();
-    Header( "Location: /" );
+    eZHTTPTool::header( "Location: /" );
 }
 
 if ( $Action == "change" )
@@ -94,7 +95,7 @@ if ( $Action == "change" )
         // Cleanup
         $change->get( $change->check( $Hash ) );
         $change->delete();
-        Header( "Location: /" );
+        eZHTTPTool::header( "Location: /" );
     }
 }
 

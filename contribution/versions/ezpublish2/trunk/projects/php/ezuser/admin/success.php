@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: success.php,v 1.3 2001/01/22 14:43:02 jb Exp $
+// $Id: success.php,v 1.4 2001/01/23 13:16:58 jb Exp $
 //
 // Definition of eZUser class
 //
@@ -15,6 +15,7 @@
 
 include_once( "classes/INIFile.php" );
 include_once( "classes/eztemplate.php" );
+include_once( "classes/ezhttptool.php" );
 
 $ini =& $GLOBALS["GlobalSiteIni"];
 
@@ -41,11 +42,11 @@ $user = eZUser::currentUser();
 if ( !$user ) 
 {
     print( "Du må logge inn" );
-    Header( "Location: /user/login/" );
+    eZHTTPTool::header( "Location: /user/login/" );
     exit();
 }
 
-Header( "Location: /" );
+eZHTTPTool::header( "Location: /" );
 
 $t->set_var( "first_name", $user->firstName() );
 $t->set_var( "last_name", $user->lastName() );

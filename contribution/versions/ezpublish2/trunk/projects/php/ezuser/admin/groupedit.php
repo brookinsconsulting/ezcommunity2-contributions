@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: groupedit.php,v 1.12 2001/01/22 14:43:02 jb Exp $
+// $Id: groupedit.php,v 1.13 2001/01/23 13:16:58 jb Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <20-Sep-2000 13:32:11 ce>
@@ -25,6 +25,7 @@
 
 include_once( "classes/INIFile.php" );
 include_once( "classes/eztemplate.php" );
+include_once( "classes/ezhttptool.php" );
 
 $ini =& $GLOBALS["GlobalSiteIni"];
 
@@ -39,7 +40,7 @@ require( "ezuser/admin/admincheck.php" );
 
 if ( isSet( $Back ) )
 {
-    Header( "Location: /user/grouplist/" );
+    eZHTTPTool::header( "Location: /user/grouplist/" );
     exit();
 }
 
@@ -79,7 +80,7 @@ if ( $Action == "insert" )
                 $permission->setEnabled( $group, true );
             }
             
-            Header( "Location: /user/grouplist/" );
+            eZHTTPTool::header( "Location: /user/grouplist/" );
             exit();
         }
     }
@@ -99,7 +100,7 @@ if ( $Action == "delete" )
 
         $group->delete();
 
-        Header( "Location: /user/grouplist/" );
+        eZHTTPTool::header( "Location: /user/grouplist/" );
         exit();
     }
     else
@@ -134,7 +135,7 @@ if ( $Action == "update" )
 
         $group->store();
 
-        Header( "Location: /user/grouplist/" );
+        eZHTTPTool::header( "Location: /user/grouplist/" );
         exit();
     }
     else

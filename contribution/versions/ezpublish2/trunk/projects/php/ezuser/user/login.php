@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: login.php,v 1.19 2001/01/22 14:43:02 jb Exp $
+// $Id: login.php,v 1.20 2001/01/23 13:16:58 jb Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <20-Sep-2000 13:32:11 ce>
@@ -26,6 +26,7 @@
 include_once( "classes/INIFile.php" );
 include_once( "classes/eztemplate.php" );
 include_once( "classes/ezlog.php" );
+include_once( "classes/ezhttptool.php" );
 
 $ini = new INIFIle( "site.ini" );
 
@@ -40,7 +41,7 @@ include_once( "ezsession/classes/ezsession.php" );
 
 if ( isSet( $Forgot ) )
 {
-    Header( "Location: /user/forgot/" );
+    eZHTTPTool::header( "Location: /user/forgot/" );
     exit();
 }
 
@@ -48,11 +49,11 @@ if ( isSet( $Register ) )
 {
     if ( $UserWidthAddress == "enabled" )
     {
-        Header( "Location: /user/userwithaddress/new/" );
+        eZHTTPTool::header( "Location: /user/userwithaddress/new/" );
     }
     else
     {
-        Header( "Location: /user/user/new/" );        
+        eZHTTPTool::header( "Location: /user/user/new/" );        
     }
     exit();
 }
@@ -83,7 +84,7 @@ if ( $Action == "login" )
             
             if ( $stringTmp[2] == "norights" )
             {
-                Header( "Location: /" );
+                eZHTTPTool::header( "Location: /" );
                 exit();
             }
             else
@@ -93,13 +94,13 @@ if ( $Action == "login" )
                     $RedirectURL = "/";
                 }
 
-                Header( "Location: $RedirectURL" );
+                eZHTTPTool::header( "Location: $RedirectURL" );
                 exit();
             }
         }
         else
         {
-            Header( "Location: /" );
+            eZHTTPTool::header( "Location: /" );
             exit();
         }
 
@@ -108,7 +109,7 @@ if ( $Action == "login" )
     {
         eZLog::writeWarning( "Bad login: $Username from IP: $REMOTE_ADDR" );
         
-        Header( "Location: /user/norights/?Error=WrongPassword" );
+        eZHTTPTool::header( "Location: /user/norights/?Error=WrongPassword" );
         exit();
     }
     
@@ -120,7 +121,7 @@ else
 if ( $Action == "logout" )
 {
     eZUser::logout();
-    Header( "Location: /" );
+    eZHTTPTool::header( "Location: /" );
 }
 
 $t->set_var( "redirect_url", $RedirectURL );

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: folderedit.php,v 1.4 2001/01/22 14:43:00 jb Exp $
+// $Id: folderedit.php,v 1.5 2001/01/23 13:16:57 jb Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <08-Jan-2001 11:13:29 ce>
@@ -27,6 +27,7 @@
 include_once( "classes/INIFile.php" );
 include_once( "classes/eztemplate.php" );
 include_once( "classes/ezlog.php" );
+include_once( "classes/ezhttptool.php" );
 
 include_once( "ezuser/classes/ezuser.php" );
 include_once( "ezfilemanager/classes/ezvirtualfile.php" );
@@ -165,7 +166,7 @@ if ( $Action == "Insert" && $error == false )
     
     if ( !$user )
     {
-        Header( "Location: /" );
+        eZHTTPTool::header( "Location: /" );
         exit();
     }
     
@@ -177,7 +178,7 @@ if ( $Action == "Insert" && $error == false )
 
     $folder->store();
 
-    Header( "Location: /filemanager/list/$FolderID" );
+    eZHTTPTool::header( "Location: /filemanager/list/$FolderID" );
     exit();
 }
 

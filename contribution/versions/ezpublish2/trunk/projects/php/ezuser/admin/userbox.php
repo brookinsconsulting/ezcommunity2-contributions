@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: userbox.php,v 1.7 2001/01/22 14:43:02 jb Exp $
+// $Id: userbox.php,v 1.8 2001/01/23 13:16:58 jb Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <20-Sep-2000 13:32:11 ce>
@@ -25,6 +25,7 @@
 
 include_once( "classes/INIFile.php" );
 include_once( "classes/eztemplate.php" );
+include_once( "classes/ezhttptool.php" );
 
 $ini =& $GLOBALS["GlobalSiteIni"];
 
@@ -51,7 +52,7 @@ $user = eZUser::currentUser();
 if ( !$user ) 
 {
     print( "Du må logge inn" );
-    Header( "Location: /user/login/" );
+    eZHTTPTool::header( "Location: /user/login/" );
     exit();
 }
 $t->set_var( "first_name", $user->firstName() );

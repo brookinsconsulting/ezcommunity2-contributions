@@ -1,5 +1,5 @@
 <?
-// $Id: todolist.php,v 1.6 2001/01/22 14:43:02 jb Exp $
+// $Id: todolist.php,v 1.7 2001/01/23 13:16:58 jb Exp $
 //
 // Definition of todo list.
 //
@@ -13,6 +13,7 @@
 //
 
 include_once( "classes/INIFile.php" );
+include_once( "classes/ezhttptool.php" );
 
 $ini = new INIFIle( "site.ini" );
 $Language = $ini->read_var( "eZTodoMain", "Language" );
@@ -35,7 +36,7 @@ include_once( "eztodo/classes/ezpriority.php" );
 $user = eZUser::currentUser();
 if ( $user == false )
 {
-    Header( "Location: /" );
+    eZHTTPTool::header( "Location: /" );
     exit();
 }
 

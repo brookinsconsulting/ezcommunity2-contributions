@@ -4,6 +4,7 @@
  */
  
 include_once( "classes/INIFile.php" );
+include_once( "classes/ezhttptool.php" );
 
 $ini = new INIFIle( "site.ini" );
 $Language = $ini->read_var( "eZContactMain", "Language" );
@@ -47,7 +48,7 @@ $user = eZUser::currentUser();
 
 if ( !$user )
 {
-    header( "Location: /user/login" );
+    eZHTTPTool::header( "Location: /user/login" );
     exit();
 }
 

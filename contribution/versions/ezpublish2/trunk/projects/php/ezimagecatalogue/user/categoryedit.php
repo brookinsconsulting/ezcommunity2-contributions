@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: categoryedit.php,v 1.4 2001/01/22 14:43:01 jb Exp $
+// $Id: categoryedit.php,v 1.5 2001/01/23 13:16:57 jb Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <08-Jan-2001 11:13:29 ce>
@@ -27,6 +27,7 @@
 include_once( "classes/INIFile.php" );
 include_once( "classes/eztemplate.php" );
 include_once( "classes/ezlog.php" );
+include_once( "classes/ezhttptool.php" );
 
 include_once( "ezuser/classes/ezuser.php" );
 include_once( "ezimagecatalogue/classes/ezimage.php" );
@@ -166,7 +167,7 @@ if ( $Action == "Insert" && $error == false )
     
     if ( !$user )
     {
-        Header( "Location: /" );
+        eZHTTPTool::header( "Location: /" );
         exit();
     }
     
@@ -178,7 +179,7 @@ if ( $Action == "Insert" && $error == false )
 
     $category->store();
 
-    Header( "Location: /imagecatalogue/image/list/$CategoryID" );
+    eZHTTPTool::header( "Location: /imagecatalogue/image/list/$CategoryID" );
     exit();
 }
 
@@ -195,7 +196,7 @@ if ( $Action == "Update" && $error == false )
     
     if ( !$user )
     {
-        Header( "Location: /" );
+        eZHTTPTool::header( "Location: /" );
         exit();
     }
     
@@ -204,7 +205,7 @@ if ( $Action == "Update" && $error == false )
 
     $category->store();
 
-    Header( "Location: /imagecatalogue/image/list/$CategoryID" );
+    eZHTTPTool::header( "Location: /imagecatalogue/image/list/$CategoryID" );
     exit();
   
 }

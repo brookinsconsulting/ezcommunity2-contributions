@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: vote.php,v 1.11 2001/01/22 14:43:01 jb Exp $
+// $Id: vote.php,v 1.12 2001/01/23 13:16:57 jb Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <20-Sep-2000 13:32:11 ce>
@@ -25,6 +25,7 @@
 
 include_once( "classes/INIFile.php" );
 include_once( "classes/eztemplate.php" );
+include_once( "classes/ezhttptool.php" );
 
 $ini =& $GLOBALS["GlobalSiteIni"];
 
@@ -45,7 +46,7 @@ if( !$session->fetch() )
 $poll = new eZPoll( $PollID );
 if ( $poll->isClosed() )
 {
-    Header( "Location: /poll/result/$PollID" );
+    eZHTTPTool::header( "Location: /poll/result/$PollID" );
     exit();
 }
 
@@ -56,7 +57,7 @@ if ( !$poll->anonymous() )
     $user = eZUser::currentUser();
     if ( !$user )
     {
-        Header( "Location: /user/user/new/" );
+        eZHTTPTool::header( "Location: /user/user/new/" );
         exit();
     }
 }
@@ -105,7 +106,7 @@ if ( !$Voted )
     $vote->store();
 }
 
-Header( "Location: /poll/result/" . $PollID );
+eZHTTPTool::header( "Location: /poll/result/" . $PollID );
 exit();
 
 ?>

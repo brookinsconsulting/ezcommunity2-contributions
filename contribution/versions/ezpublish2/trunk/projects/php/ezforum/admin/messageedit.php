@@ -1,5 +1,5 @@
 <?
-// $Id: messageedit.php,v 1.9 2001/01/22 14:43:00 jb Exp $
+// $Id: messageedit.php,v 1.10 2001/01/23 13:16:57 jb Exp $
 //
 // Author: Lars Wilhelmsen <lw@ez.no>
 // Created on: Created on: <18-Jul-2000 08:56:19 lw>
@@ -23,6 +23,7 @@
 //
 
 include_once( "classes/INIFile.php" );
+include_once( "classes/ezhttptool.php" );
 $ini =& $GLOBALS["GlobalSiteIni"];
 
 $Language = $ini->read_var( "eZForumMain", "Language" );
@@ -63,7 +64,7 @@ if ( $Action == "update" )
 
             $msg->store();
 
-            Header( "Location: /forum/messagelist/$ForumID/" );
+            eZHTTPTool::header( "Location: /forum/messagelist/$ForumID/" );
             exit();
         }
         else
@@ -73,7 +74,7 @@ if ( $Action == "update" )
     }
     else
     {
-        Header( "Location: /forum/norights" );
+        eZHTTPTool::header( "Location: /forum/norights" );
    }
     
 }
@@ -91,7 +92,7 @@ if ( $Action == "delete" )
             $ForumID = $msg->forumID();
             $forum = new eZForum( $ForumID );
             
-            Header( "Location: /forum/messagelist/$ForumID" );
+            eZHTTPTool::header( "Location: /forum/messagelist/$ForumID" );
             exit();
         }
         else
@@ -101,7 +102,7 @@ if ( $Action == "delete" )
     }
     else
     {
-        Header( "Location: /forum/norights" );
+        eZHTTPTool::header( "Location: /forum/norights" );
     }
 }
 
@@ -128,7 +129,7 @@ if ( $Action == "new" )
 {
     if ( !eZPermission::checkPermission( $user, "eZForum", "MessageModifyAdd" ) )
     {
-        Header( "Location: /forum/norights" );
+        eZHTTPTool::header( "Location: /forum/norights" );
     }
 
     $action_value = "insert";
@@ -142,7 +143,7 @@ if ( $Action == "edit" )
 
     if ( !eZPermission::checkPermission( $user, "eZForum", "MessageModify" ) )
     {
-        Header( "Location: /forum/norights" );
+        eZHTTPTool::header( "Location: /forum/norights" );
     }
     else
     {

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: admincheck.php,v 1.7 2001/01/22 14:43:02 jb Exp $
+// $Id: admincheck.php,v 1.8 2001/01/23 13:16:58 jb Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <26-Oct-2000 15:11:17 ce>
@@ -24,6 +24,7 @@
 //
 
 include_once( "ezuser/classes/ezuser.php" );
+include_once( "classes/ezhttptool.php" );
 
 //  $user = new eZUser();
 //  $user = $user->currentUser();
@@ -32,14 +33,14 @@ $user = eZUser::currentUser();
 
 if ( $user == false )
 {
-    Header( "Location: /user/login" );
+    eZHTTPTool::header( "Location: /user/login" );
     exit();
 }
 
 if ( !eZPermission::checkPermission( $user, "eZUser", "AdminLogin" ) )
 {
     eZUser::logout( $user );
-    Header( "Location: /user/login" );
+    eZHTTPTool::header( "Location: /user/login" );
     exit();
 }
 

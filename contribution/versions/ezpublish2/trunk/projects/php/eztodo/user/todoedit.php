@@ -1,5 +1,5 @@
 <?
-// $Id: todoedit.php,v 1.12 2001/01/22 14:43:02 jb Exp $
+// $Id: todoedit.php,v 1.13 2001/01/23 13:16:58 jb Exp $
 //
 // Definition of todo list.
 //
@@ -18,7 +18,7 @@ if ( isSet ( $Delete ) )
 }
 if ( isSet ( $List ) )
 {
-    Header( "Location: /todo" );
+    eZHTTPTool::header( "Location: /todo" );
     exit();
 }
 if ( isSet ( $Edit ) )
@@ -47,6 +47,7 @@ include_once( "classes/ezlocale.php" );
 include_once( "classes/ezdate.php" );
 include_once( "classes/eztime.php" );
 include_once( "classes/ezmail.php" );
+include_once( "classes/ezhttptool.php" );
 
 include_once( "ezuser/classes/ezuser.php" );
 include_once( "ezuser/classes/ezpermission.php" );
@@ -206,7 +207,7 @@ if ( $Action == "insert" && $error == false )
         $mail->send();
     }
     
-    Header( "Location: /todo/todolist" );
+    eZHTTPTool::header( "Location: /todo/todolist" );
     exit();
 }
 
@@ -223,7 +224,7 @@ if ( $Action == "updateStatus" && $error == false )
     }
     $todo->store();
 
-    Header( "Location: /todo/todolist" );
+    eZHTTPTool::header( "Location: /todo/todolist" );
     exit();
 }
 
@@ -277,7 +278,7 @@ if ( $Action == "update" && $error == false )
         $mail->send();
     }
 
-    Header( "Location: /todo/todolist/" );
+    eZHTTPTool::header( "Location: /todo/todolist/" );
     exit();
 }
 
@@ -287,7 +288,7 @@ if ( $Action == "delete" )
     $todo = new eZTodo();
     $todo->get( $TodoID );
     $todo->delete();
-    Header( "Location: /todo/todolist/" );
+    eZHTTPTool::header( "Location: /todo/todolist/" );
     exit();
 }
 

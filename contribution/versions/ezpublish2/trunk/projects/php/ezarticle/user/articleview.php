@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: articleview.php,v 1.25 2001/01/22 14:42:59 jb Exp $
+// $Id: articleview.php,v 1.26 2001/01/23 13:16:57 jb Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <18-Oct-2000 16:34:51 bf>
@@ -23,6 +23,7 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, US
 //
 
+include_once( "classes/ezhttptool.php" );
 include_once( "classes/INIFile.php" );
 include_once( "classes/eztemplate.php" );
 include_once( "classes/ezlocale.php" );
@@ -78,7 +79,7 @@ if ( $article->get( $ArticleID ) )
     }
     else
     {
-        Header( "Location: /404" );
+        eZHTTPTool::header( "Location: /404" );
         exit();
     }
     

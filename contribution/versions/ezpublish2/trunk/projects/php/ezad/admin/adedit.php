@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: adedit.php,v 1.10 2001/01/22 14:42:59 jb Exp $
+// $Id: adedit.php,v 1.11 2001/01/23 13:16:57 jb Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <16-Nov-2000 13:02:32 bf>
@@ -28,6 +28,7 @@ include_once( "classes/eztemplate.php" );
 include_once( "classes/ezlocale.php" );
 include_once( "classes/ezimagefile.php" );
 include_once( "classes/ezlog.php" );
+include_once( "classes/ezhttptool.php" );
 
 include_once( "classes/ezdatetime.php" );
 
@@ -101,7 +102,7 @@ if ( $Action == "Insert" )
     }
     else
     {        
-        Header( "Location: /ad/archive/$CategoryID/" );
+        eZHTTPTool::header( "Location: /ad/archive/$CategoryID/" );
         exit();
     }
     
@@ -161,7 +162,7 @@ if ( $Action == "Update" )
     }
     else
     {        
-        Header( "Location: /ad/archive/$CategoryID/" );
+        eZHTTPTool::header( "Location: /ad/archive/$CategoryID/" );
         exit();
     }
 }
@@ -171,7 +172,7 @@ if ( $Action == "Delete" )
     $ad = new eZAd( $AdID );
     $ad->delete();
     
-    Header( "Location: /ad/archive/$CategoryID/" );
+    eZHTTPTool::header( "Location: /ad/archive/$CategoryID/" );
     exit();    
 }
 

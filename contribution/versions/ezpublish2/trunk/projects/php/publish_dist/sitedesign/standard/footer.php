@@ -23,7 +23,7 @@
 	<!-- Oppslagstavle fram til hit! -->
 
     <?
-$session =& eZSession::globalSession();
+    $session =& eZSession::globalSession();
 
 
 if ( $session->fetch() == false )
@@ -35,7 +35,8 @@ if ( $session->fetch() == false )
 if ( $Design == 2 )
 {
     $session->setVariable( "SiteDesign", "intranet" );
-    Header( "Location: $REQUEST_URI" );
+    include_once( "classes/ezhttptool.php" );
+    eZHTTPTool::header( "Location: $REQUEST_URI" );
     exit();
 }
 

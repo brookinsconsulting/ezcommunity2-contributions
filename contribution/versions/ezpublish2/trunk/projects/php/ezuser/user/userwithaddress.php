@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: userwithaddress.php,v 1.27 2001/01/23 10:57:48 ce Exp $
+// $Id: userwithaddress.php,v 1.28 2001/01/23 13:16:58 jb Exp $
 //
 // 
 //
@@ -28,6 +28,7 @@ require( "ezuser/user/usercheck.php" );
 
 include_once( "classes/INIFile.php" );
 include_once( "classes/eztemplate.php" );
+include_once( "classes/ezhttptool.php" );
 
 $ini = new INIFIle( "site.ini" );
 
@@ -384,10 +385,10 @@ if ( $Action == "Insert" && $error == false )
     
     if ( isSet( $RedirectURL )  && ( $RedirectURL != "" ) )
     {
-        Header( "Location: $RedirectURL" );
+        eZHTTPTool::header( "Location: $RedirectURL" );
         exit();
     }
-    Header( "Location: /" );
+    eZHTTPTool::header( "Location: /" );
     exit();
 }
 
@@ -438,11 +439,11 @@ if ( $Action == "Update" )
 
     if ( isSet( $RedirectURL )  && ( $RedirectURL != "" ) )
     {
-        Header( "Location: $RedirectURL" );
+        eZHTTPTool::header( "Location: $RedirectURL" );
         exit();
     }
     
-    Header( "Location: /" );
+    eZHTTPTool::header( "Location: /" );
     exit();
 }
 
@@ -504,7 +505,7 @@ if ( $Action == "Edit" )
 {
     $user = eZUser::currentUser();
     if ( !$user )
-        Header( "Location: /" );
+        eZHTTPTool::header( "Location: /" );
     
     $UserID = $user->id();
     $user->get( $user->id() );

@@ -1,5 +1,7 @@
 <?
 
+include_once( "classes/ezhttptool.php" );
+
 switch ( $url_array[2] )
 {
     case "archive":
@@ -198,7 +200,7 @@ switch ( $url_array[2] )
         {
             $Action = "Cancel";
             $ArticleID = $url_array[4];
-            Header( "Location: /article/archive/$CategoryID/" );
+            eZHTTPTool::header( "Location: /article/archive/$CategoryID/" );
             exit();
         }        
 

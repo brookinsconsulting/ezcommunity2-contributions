@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: polledit.php,v 1.20 2001/01/22 14:43:01 jb Exp $
+// $Id: polledit.php,v 1.21 2001/01/23 13:16:57 jb Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <21-Sep-2000 10:39:19 ce>
@@ -26,6 +26,7 @@
 
 include_once( "classes/INIFile.php" );
 include_once( "classes/eztemplate.php" );
+include_once( "classes/ezhttptool.php" );
 
 $ini =& $GLOBALS["GlobalSiteIni"];
 
@@ -40,7 +41,7 @@ require( "ezuser/admin/admincheck.php" );
 
 if ( isSet( $Back ) )
 {
-    Header( "Location: /poll/pollist/" );
+    eZHTTPTool::header( "Location: /poll/pollist/" );
     exit();
 }
 
@@ -104,10 +105,10 @@ if ( $Action == "Insert" )
         
         if ( isset ( $Choice ) )
         {
-            Header( "Location: /poll/choiceedit/new/" . $pollID . "/" );
+            eZHTTPTool::header( "Location: /poll/choiceedit/new/" . $pollID . "/" );
             exit();
         }
-        Header( "Location: /poll/pollist/" );
+        eZHTTPTool::header( "Location: /poll/pollist/" );
         exit();
     }
     else
@@ -168,11 +169,11 @@ if ( $Action == "Update" )
     
     if ( isset ( $Choice ) )
     {
-        Header( "Location: /poll/choiceedit/new/" . $PollID . "/" );
+        eZHTTPTool::header( "Location: /poll/choiceedit/new/" . $PollID . "/" );
         exit();
     }
 
-    Header( "Location: /poll/pollist/" );
+    eZHTTPTool::header( "Location: /poll/pollist/" );
     exit();
 }
 
@@ -187,7 +188,7 @@ if ( $Action == "Delete" )
     if ( file_exists("ezpoll/cache/menubox.cache" )  )
         unlink( "ezpoll/cache/menubox.cache" );
     
-    Header( "Location: /poll/pollist/" );
+    eZHTTPTool::header( "Location: /poll/pollist/" );
     exit();
 }
 

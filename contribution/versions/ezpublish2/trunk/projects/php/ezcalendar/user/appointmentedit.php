@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: appointmentedit.php,v 1.19 2001/01/23 09:52:23 gl Exp $
+// $Id: appointmentedit.php,v 1.20 2001/01/23 13:16:57 jb Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <03-Jan-2001 12:47:22 bf>
@@ -23,6 +23,8 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, US
 //
 
+include_once( "classes/ezhttptool.php" );
+
 if ( isSet ( $DeleteAppointments ) )
 {
     $Action = "DeleteAppointment";
@@ -43,7 +45,7 @@ if ( isSet ( $GoDay ) )
     if ( $date->daysInMonth() < $day )
         $day = $date->daysInMonth();
 
-    Header( "Location: /calendar/dayview/$year/$month/$day" );
+    eZHTTPTool::header( "Location: /calendar/dayview/$year/$month/$day" );
     exit();
 }
 else if ( isSet ( $GoMonth ) )
@@ -54,7 +56,7 @@ else if ( isSet ( $GoMonth ) )
     $year = $session->variable( "Year" );
     $month = $session->variable( "Month" );
 
-    Header( "Location: /calendar/monthview/$year/$month" );
+    eZHTTPTool::header( "Location: /calendar/monthview/$year/$month" );
     exit();
 }
 else if ( isSet ( $GoYear ) )
@@ -64,7 +66,7 @@ else if ( isSet ( $GoYear ) )
 
     $year = $session->variable( "Year" );
 
-    Header( "Location: /calendar/yearview/$year" );
+    eZHTTPTool::header( "Location: /calendar/yearview/$year" );
     exit();
 }
 
@@ -98,7 +100,7 @@ if ( $Action == "Insert" || $Action == "Update" )
         $year = $dt->year();
         $month = $dt->month();
         $day = $dt->day();
-        Header( "Location: /calendar/dayview/$year/$month/$day" );
+        eZHTTPTool::header( "Location: /calendar/dayview/$year/$month/$day" );
         exit();
     }
 
@@ -204,7 +206,7 @@ if ( $Action == "Insert" || $Action == "Update" )
             $year = eZTime::addZero( $datetime->year() );
             $month = eZTime::addZero( $datetime->month() );
             $day = eZTime::addZero( $datetime->day() );
-            Header( "Location: /calendar/dayview/$year/$month/$day/" );
+            eZHTTPTool::header( "Location: /calendar/dayview/$year/$month/$day/" );
             exit();
         }
     }
@@ -227,7 +229,7 @@ if ( $Action == "DeleteAppointment" )
     $month = eZTime::addZero( $datetime->month() );
     $day = eZTime::addZero( $datetime->day() );
 
-    Header( "Location: /calendar/dayview/$year/$month/$day/" );
+    eZHTTPTool::header( "Location: /calendar/dayview/$year/$month/$day/" );
     exit();
 
 }

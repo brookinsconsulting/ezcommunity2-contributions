@@ -1,5 +1,5 @@
 <?
-// $Id: linkedit.php,v 1.40 2001/01/22 14:43:01 jb Exp $
+// $Id: linkedit.php,v 1.41 2001/01/23 13:16:57 jb Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <26-Oct-2000 14:58:57 ce>
@@ -27,6 +27,7 @@
 */
 
 include_once( "classes/INIFile.php" );
+include_once( "classes/ezhttptool.php" );
 
 $ini =& $GLOBALS["GlobalSiteIni"];
 $Language = $ini->read_var( "eZLinkMain", "Language" );
@@ -54,7 +55,7 @@ if ( isSet( $Back ) )
     $link->get( $LinkID );
     $LinkGroupID = $link->linkGroupID();
 
-    Header( "Location: /link/group/$LinkGroupID" );
+    eZHTTPTool::header( "Location: /link/group/$LinkGroupID" );
     exit();
 }
 
@@ -129,7 +130,7 @@ if ( $Action == "update" )
             
             $link->update();
             
-            Header( "Location: /link/group/$LinkGroupID" );
+            eZHTTPTool::header( "Location: /link/group/$LinkGroupID" );
             exit();
         }
         else
@@ -139,7 +140,7 @@ if ( $Action == "update" )
     }
     else
     {
-        Header( "Location: /link/norights" );
+        eZHTTPTool::header( "Location: /link/norights" );
     }
 }
 
@@ -155,17 +156,17 @@ if ( $Action == "delete" )
 
         if ( $deletelink->accepted() == "N" )
         {
-            Header( "Location: /link/group/incoming" );
+            eZHTTPTool::header( "Location: /link/group/incoming" );
             exit();
         }
        
-        Header( "Location: /link/group/$LinkGroupID" );
+        eZHTTPTool::header( "Location: /link/group/$LinkGroupID" );
         exit();
         
     }
     else
     {
-        Header( "Location: /link/norights" );
+        eZHTTPTool::header( "Location: /link/norights" );
     }
 }
 
@@ -204,7 +205,7 @@ if ( $Action == "insert" )
             print( $link->title() );
             $link->store();
             
-            Header( "Location: /link/group/$LinkGroupID" );
+            eZHTTPTool::header( "Location: /link/group/$LinkGroupID" );
             exit();
         }
         else
@@ -214,7 +215,7 @@ if ( $Action == "insert" )
     }
     else
     {
-        Header( "Location: /link/norights" );
+        eZHTTPTool::header( "Location: /link/norights" );
     }
 }
 
@@ -249,7 +250,7 @@ if ( $Action == "new" )
 {
     if ( !eZPermission::checkPermission( $user, "eZLink", "LinkAdd" ) )
     {
-        Header( "Location: /link/norights" );
+        eZHTTPTool::header( "Location: /link/norights" );
     }
 
     $action_value = "insert";
@@ -268,7 +269,7 @@ if ( $Action == "edit" )
 
     if ( !eZPermission::checkPermission( $user, "eZLink", "LinkModify" ) )
     {
-        Header( "Location: /link/norights" );
+        eZHTTPTool::header( "Location: /link/norights" );
     }
     else
     {

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: fileupload.php,v 1.9 2001/01/22 14:43:00 jb Exp $
+// $Id: fileupload.php,v 1.10 2001/01/23 13:16:57 jb Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <10-Dec-2000 15:49:57 bf>
@@ -27,6 +27,7 @@ include_once( "classes/INIFile.php" );
 include_once( "classes/eztemplate.php" );
 include_once( "classes/ezlog.php" );
 include_once( "classes/ezfile.php" );
+include_once( "classes/ezhttptool.php" );
 
 include_once( "ezuser/classes/ezuser.php" );
 include_once( "ezfilemanager/classes/ezvirtualfile.php" );
@@ -38,7 +39,7 @@ if ( isSet ( $NewFile ) )
 }
 if ( isSet ( $NewFolder ) )
 {
-    Header( "Location: /filemanager/folder/new/$FolderID" );
+    eZHTTPTool::header( "Location: /filemanager/folder/new/$FolderID" );
     exit();
 }
 if ( isSet( $Delete ) )
@@ -187,7 +188,7 @@ if ( $Action == "Insert" && $error == false )
     
     if ( !$user )
     {
-        Header( "Location: /" );
+        eZHTTPTool::header( "Location: /" );
         exit();
     }
     
@@ -202,7 +203,7 @@ if ( $Action == "Insert" && $error == false )
     $folder->addFile( $uploadedFile );
     
     eZLog::writeNotice( "File added to file manager from IP: $REMOTE_ADDR" );
-    Header( "Location: /filemanager/list/$FolderID/" );
+    eZHTTPTool::header( "Location: /filemanager/list/$FolderID/" );
     exit();
 }
 
@@ -232,7 +233,7 @@ if ( $Action == "Update" && $error == false )
         
 
     eZLog::writeNotice( "File added to file manager from IP: $REMOTE_ADDR" );
-    Header( "Location: /filemanager/list/$FolderID/" );
+    eZHTTPTool::header( "Location: /filemanager/list/$FolderID/" );
     
     exit();
 }
@@ -249,7 +250,7 @@ if ( $Action == "Delete" )
         }
     }
 
-    Header( "Location: /filemanager/list/" );
+    eZHTTPTool::header( "Location: /filemanager/list/" );
     exit();
     
     

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: groupedit.php,v 1.14 2001/01/22 14:42:59 jb Exp $
+// $Id: groupedit.php,v 1.15 2001/01/23 13:16:57 jb Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <18-Sep-2000 14:46:19 bf>
@@ -23,9 +23,11 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, US
 //
 
+include_once( "classes/ezhttptool.php" );
+
 if ( isset( $Cancel ) )
 {
-    Header( "Location: /article/archive/$categoryID/" );
+    eZHTTPTool::header( "Location: /article/archive/$categoryID/" );
     exit();
 }
 
@@ -68,7 +70,7 @@ if ( $Action == "insert" )
 
     $categoryID = $category->id();
 
-    Header( "Location: /article/archive/$categoryID/" );
+    eZHTTPTool::header( "Location: /article/archive/$categoryID/" );
     exit();
 }
 
@@ -104,7 +106,7 @@ if ( $Action == "update" )
 
     $categoryID = $category->id();
 
-    Header( "Location: /article/archive/$ParentID/" );
+    eZHTTPTool::header( "Location: /article/archive/$ParentID/" );
     exit();
 }
 
@@ -119,7 +121,7 @@ if ( $Action == "delete" )
 
     $category->delete();
     
-    Header( "Location: /article/archive/" );
+    eZHTTPTool::header( "Location: /article/archive/" );
     exit();
 }
 

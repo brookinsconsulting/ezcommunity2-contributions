@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: usercheck.php,v 1.4 2001/01/22 14:56:46 ce Exp $
+// $Id: usercheck.php,v 1.5 2001/01/23 13:16:58 jb Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <26-Oct-2000 15:11:17 ce>
@@ -26,6 +26,7 @@
 include_once( "ezuser/classes/ezuser.php" );
 include_once( "ezuser/classes/ezusergroup.php" );
 include_once( "ezuser/classes/ezpermission.php" );
+include_once( "classes/ezhttptool.php" );
 
 $ini =& $GLOBALS["GlobalSiteIni"];
 
@@ -34,14 +35,14 @@ if ( $ini->read_var( "eZUserMain", "RequireUserLogin" ) == "enabled" )
     $user = eZUser::currentUser();
     if ( !$user )
     {
-        Header( "Location: /" );
+        eZHTTPTool::header( "Location: /" );
         exit();
     }
 
     if ( eZPermission::checkPermission( $user, "eZUser", "UserLogin" ) == false )
     {
         eZUser::logout( $user );
-        Header( "Location: /" );
+        eZHTTPTool::header( "Location: /" );
         exit();
     }
 }

@@ -1,5 +1,5 @@
 <?
-// $Id: suggestlink.php,v 1.12 2001/01/22 14:43:01 jb Exp $
+// $Id: suggestlink.php,v 1.13 2001/01/23 13:16:57 jb Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <26-Oct-2000 14:54:13 ce>   
@@ -24,6 +24,7 @@
 
 include_once( "classes/INIFile.php" );
 include_once( "classes/eztemplate.php" );
+include_once( "classes/ezhttptool.php" );
 
 $ini =& $GLOBALS["GlobalSiteIni"];
 
@@ -105,7 +106,7 @@ if ( $Action == "insert" )
         if ( $newlink->checkUrl( $url ) == 0 )
         {
             $newlink->store();
-            Header( "Location: /link/success/" );
+            eZHTTPTool::header( "Location: /link/success/" );
             exit();
         }
         else

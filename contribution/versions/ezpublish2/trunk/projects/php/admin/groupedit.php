@@ -1,6 +1,6 @@
 <?php
 /*!
-    $Id: groupedit.php,v 1.4 2000/09/01 13:28:59 ce-cvs Exp $
+    $Id: groupedit.php,v 1.5 2001/01/23 13:16:57 jb Exp $
 
     Author: Lars Wilhelmsen <lw@ez.no>
     
@@ -11,6 +11,7 @@
 
 include_once( "../classes/ezusergroup.php" );
 include_once( "classes/template.inc" );
+include_once( "classes/ezhttptool.php" );
 
 $t = new Template( "templates/" );
 $t->set_file( Array( "main" => "groupedit.tpl" ) );
@@ -146,7 +147,7 @@ if ( $Action == "Update" )
 
     $group->update();
     
-    Header( "Location: index.php?page=grouplist.php" );    
+    eZHTTPTool::header( "Location: index.php?page=grouplist.php" );    
 }
 
 if ( $Action == "Insert" )
@@ -222,7 +223,7 @@ if ( $Action == "Insert" )
 
     $group->store();
     
-    Header( "Location: index.php?page=grouplist.php" );        
+    eZHTTPTool::header( "Location: index.php?page=grouplist.php" );        
 }
 
 if ( $Action == "Delete" )
@@ -231,7 +232,7 @@ if ( $Action == "Delete" )
 
     $group->delete();
     
-    Header( "Location: index.php?page=grouplist.php" );    
+    eZHTTPTool::header( "Location: index.php?page=grouplist.php" );    
 }
 
 

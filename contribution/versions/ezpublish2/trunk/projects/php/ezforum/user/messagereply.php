@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: messagereply.php,v 1.20 2001/01/22 14:43:00 jb Exp $
+// $Id: messagereply.php,v 1.21 2001/01/23 13:16:57 jb Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <24-Sep-2000 12:20:32 bf>
@@ -24,6 +24,7 @@
 //
 
 include_once( "classes/INIFile.php" );
+include_once( "classes/ezhttptool.php" );
 
 $ini =& $GLOBALS["GlobalSiteIni"];
 
@@ -145,7 +146,7 @@ if ( $Action == "insert" )
         }
     }
 
-    Header( "Location: /forum/messagelist/$forum_id/" );
+    eZHTTPTool::header( "Location: /forum/messagelist/$forum_id/" );
 }
 
 $t = new eZTemplate( "ezforum/user/" . $ini->read_var( "eZForumMain", "TemplateDir" ),
@@ -170,7 +171,7 @@ $user = eZUser::currentUser();
 
 if ( !$user )
 {
-    Header( "Location: /forum/userlogin/reply/$ReplyID" );
+    eZHTTPTool::header( "Location: /forum/userlogin/reply/$ReplyID" );
 }
 
 $t->set_var( "forum_id", $ForumID );

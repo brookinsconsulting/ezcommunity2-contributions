@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: choiceedit.php,v 1.10 2001/01/22 14:43:01 jb Exp $
+// $Id: choiceedit.php,v 1.11 2001/01/23 13:16:57 jb Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <21-Sep-2000 10:39:19 ce>
@@ -25,6 +25,7 @@
 
 include_once( "classes/INIFile.php" );
 include_once( "classes/eztemplate.php" );
+include_once( "classes/ezhttptool.php" );
 
 $ini =& $GLOBALS["GlobalSiteIni"];
 
@@ -45,7 +46,7 @@ if ( $Action == "insert" )
     $choice->setOffset( $Offset );
     $choice->store();
 
-    Header( "Location: /poll/polledit/edit/" . $PollID . "/" );
+    eZHTTPTool::header( "Location: /poll/polledit/edit/" . $PollID . "/" );
     exit();
 }
 
@@ -59,7 +60,7 @@ if ( $Action == "update" )
     $choice->setOffset( $Offset );
     $choice->store();
 
-    Header( "Location: /poll/polledit/edit/" . $PollID );
+    eZHTTPTool::header( "Location: /poll/polledit/edit/" . $PollID );
     exit();
 }
 
@@ -70,7 +71,7 @@ if ( $Action == "delete" )
     $choice->get( $ChoiceID );
     $choice->delete();
 
-    Header( "Location: /poll/polledit/edit/" . $PollID );
+    eZHTTPTool::header( "Location: /poll/polledit/edit/" . $PollID );
     exit();
 }
 

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: messagesimpleedit.php,v 1.7 2001/01/22 14:43:00 jb Exp $
+// $Id: messagesimpleedit.php,v 1.8 2001/01/23 13:16:57 jb Exp $
 //
 // Bård Farstad
 // Created on: <21-Nov-2000 16:04:30 bf>
@@ -25,7 +25,7 @@
 
 if ( isset( $Cancel ) )
 {
-    Header( "Location: $RedirectURL" );
+    eZHTTPTool::header( "Location: $RedirectURL" );
     exit();
 }
 
@@ -38,6 +38,7 @@ include_once( "ezuser/classes/ezuser.php" );
 include_once( "ezforum/classes/ezforummessage.php" );
 include_once( "ezforum/classes/ezforumcategory.php" );
 include_once( "ezforum/classes/ezforum.php" );
+include_once( "classes/ezhttptool.php" );
 
 $ini =& $GLOBALS["GlobalSiteIni"];
 
@@ -87,7 +88,7 @@ if ( $Action == "insert" )
             }
         }    
 
-    Header( "Location: $RedirectURL" );
+    eZHTTPTool::header( "Location: $RedirectURL" );
     exit();
 }
 
@@ -105,13 +106,13 @@ if ( !$user )
 {
     if ( $Action == "new" )
     {
-        Header( "Location: /forum/userlogin/new/$ForumID" );
+        eZHTTPTool::header( "Location: /forum/userlogin/new/$ForumID" );
         exit();
     }
     
     if ( $Action == "reply" )
     {
-        Header( "Location: /forum/userlogin/reply/$MessageID" );
+        eZHTTPTool::header( "Location: /forum/userlogin/reply/$MessageID" );
         exit();
     }
 

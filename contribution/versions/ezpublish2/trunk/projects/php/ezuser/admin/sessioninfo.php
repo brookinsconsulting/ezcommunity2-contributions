@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: sessioninfo.php,v 1.8 2001/01/22 14:43:02 jb Exp $
+// $Id: sessioninfo.php,v 1.9 2001/01/23 13:16:58 jb Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <01-Nov-2000 14:34:30 bf>
@@ -28,6 +28,7 @@ include_once( "classes/eztemplate.php" );
 include_once( "classes/ezlocale.php" );
 include_once( "classes/ezdatetime.php" );
 include_once( "classes/eztime.php" );
+include_once( "classes/ezhttptool.php" );
 
 include_once( "ezuser/classes/ezuser.php" );
 include_once( "ezuser/classes/ezusergroup.php" );
@@ -40,7 +41,7 @@ if ( $Action == "Delete" )
     $session =& eZSession::globalSession( $SessionID );
     $session->delete();
     
-    Header( "Location: /user/sessioninfo/" );
+    eZHTTPTool::header( "Location: /user/sessioninfo/" );
 }
 
 $ini =& $GLOBALS["GlobalSiteIni"];

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: userlogin.php,v 1.5 2001/01/22 14:43:01 jb Exp $
+// $Id: userlogin.php,v 1.6 2001/01/23 13:16:57 jb Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <14-Oct-2000 15:41:17 bf>
@@ -25,6 +25,7 @@
 
 include_once( "classes/INIFile.php" );
 include_once( "classes/eztemplate.php" );
+include_once( "classes/ezhttptool.php" );
 
 include_once( "ezpoll/classes/ezpoll.php" );
 
@@ -40,7 +41,7 @@ if ( !$poll->anonymous() )
 
     if ( eZUser::currentUser() )
     {
-        Header( "Location: /poll/vote/$PollID/$ChoiceID/" );
+        eZHTTPTool::header( "Location: /poll/vote/$PollID/$ChoiceID/" );
     }
     else
     {
@@ -60,7 +61,7 @@ if ( !$poll->anonymous() )
 }
 else
 {
-    Header( "Location: /poll/vote/$PollID/$ChoiceID/" );
+    eZHTTPTool::header( "Location: /poll/vote/$PollID/$ChoiceID/" );
 }
 
 ?>
