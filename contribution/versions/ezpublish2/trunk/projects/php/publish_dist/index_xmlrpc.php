@@ -352,11 +352,22 @@ function createDateTimeStruct( $datetime )
     return $ret;
 }
 
-function createTreeStruct( $tree, $module, $type )
+function &createTreeStruct( $tree, $module, $type )
 {
-    foreach( $tree as $item )
+    $id = $tree["ID"];
+    $name = $tree["Name"];
+    $children = $tree["Children"];
+    $child_arr = array();
+    foreach( $children as $child )
     {
+        $child_arr[] =& createTreeStruct( $child, $module, $type );
     }
+    $item_arr = array( "Location" => createURLStruct( $module, $type, $id ),
+                       "Name" => new eZXMLRPCString( $name ) );
+    if ( count( $child_arr ) > 0 )
+        $item_arr["Children"] = $child_arr;
+    $item = new eZXMLRPCStruct( $item_arr );
+    return $item;
 }
 
 function createDateTime( $struct )
