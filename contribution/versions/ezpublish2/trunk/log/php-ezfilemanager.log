@@ -631,3 +631,11 @@ Maintainer(s) : jhe@ez.no
 
     * user/filelist.php: fixed problem with default section
 
+
+Module : ezfilemanager
+Repository path : /home/cvsroot/projects/php/ezfilemanager
+Maintainer(s) : jhe@ez.no
+2001-12-11  Jo Henrik Endrerud  <jhe@ez.no>
+
+    * user/filedownload.php: fixed bug when opening documents
+

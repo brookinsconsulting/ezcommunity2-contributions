@@ -903,3 +903,16 @@ Maintainer(s) : jhe@ez.no
     * user/messageedit.php
       user/messagereply.php: fixed problems with escaping text in e-mail
 
+
+Module : ezforum
+Repository path : /home/cvsroot/projects/php/ezforum
+Maintainer(s) : jhe@ez.no
+2001-12-11  Bjoern Reiten  <br@ez.no>
+
+    * user/messageedit.php:
+    added referer to reply messages, and return to referer url at the end.
+
+    * user/messageedit.php:
+    Added referer url for replay messages, and redirect to the referer url
+    at the end.
+

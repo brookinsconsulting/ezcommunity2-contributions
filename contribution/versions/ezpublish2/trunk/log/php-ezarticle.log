@@ -2512,3 +2512,13 @@ Maintainer(s) : bf@ez.no
     * user/frontpage.php:
     Fixed bug when the variable $articleList was used before.
 
+
+Module : ezarticle
+Repository path : /home/cvsroot/projects/php/ezarticle
+Maintainer(s) : bf@ez.no
+2001-12-11  Thomas Hellstroem  <th@ez.no>
+
+    * user/articleview.php: Fixed intro in article print
+
+    * user/menubox.php: Fixed menubox
+
