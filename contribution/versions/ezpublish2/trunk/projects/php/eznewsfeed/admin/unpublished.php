@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: unpublished.php,v 1.2 2000/11/29 17:59:28 bf-cvs Exp $
+// $Id: unpublished.php,v 1.3 2000/11/30 10:15:30 bf-cvs Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <29-Nov-2000 18:10:27 bf>
@@ -59,7 +59,7 @@ if ( $Action == "Publish" )
             
             if ( ereg( "headlines,([^,]+)\..*", $entry, $regArray  ) )
             {
-                if ( $regArray[1] == $articleID )
+                if ( $regArray[1] == $CategoryID )
                 {
                     unlink( "eznewsfeed/cache/" . $entry );
                 }
