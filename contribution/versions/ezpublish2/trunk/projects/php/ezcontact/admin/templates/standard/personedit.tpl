@@ -266,15 +266,6 @@
 
 <p>{intl-address_optional}</p>
 
-<p class="boxtext">Image:</p>
-<!-- BEGIN image_item_tpl -->
-<img src="{www_dir}{image_url}" alt="{image_caption}" width="{image_width}" height="{image_height}" />
-<div><input type="checkbox" name="DeleteImage"><span class="p"> Delete image</span><drv /><br />
-<!-- END image_item_tpl -->
-
-<input class="box" size="40" name="ImageFile" type="file" />
-<br /><br />
-
 <hr noshade="noshade" size="4" />
 
 <input class="stdbutton" type="submit" name="DeleteMarked" value="{intl-delete_marked}">

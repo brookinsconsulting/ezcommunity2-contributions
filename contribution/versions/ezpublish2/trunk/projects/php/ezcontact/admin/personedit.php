@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: personedit.php,v 1.60 2001/12/10 09:33:02 jhe Exp $
+// $Id: personedit.php,v 1.61 2002/05/28 13:29:59 jhe Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -639,22 +639,6 @@ if ( !$confirm )
 //              $person->setContact( $ContactID );
             $person->setComment( $Comment );
 
-     // Upload images
-            $file = new eZImageFile();
-            if ( $file->getUploadedFile( "ImageFile" ) )
-            {
-                $image = new eZImage( );
-                $image->setName( "Image" );
-                if ( $image->checkImage( $file ) and $image->setImage( $file ) )
-                {
-                    $image->store();
-                    $person->setImage( $image );
-                }                            
-            }
-            
-            if ( $DeleteImage == "on" )
-                $person->setImage(0);
-
             $person->store();
             
             $person->removeCompanies();
@@ -787,22 +771,6 @@ if ( !$confirm )
                 $BirthDay = 1;
             }
             $Comment = $person->comment();
-            $image =& $person->image();
-            if ( get_class( $image ) == "ezimage" && $image->id() != 0 )
-            {
-                $imageWidth =& $ini->read_var( "eZContactMain", "PersonImageWidth" );
-     	        $imageHeight =& $ini->read_var( "eZContactMain", "PersonImageHeight" );
-                $variation =& $image->requestImageVariation( $imageWidth, $imageHeight );
-                $imageURL = "/" . $variation->imagePath();
-                $imageWidth = $variation->width();
-                $imageHeight = $variation->height();
-                $imageCaption = $image->caption();
-                $t->set_var( "image_width", $imageWidth );	
-                $t->set_var( "image_height", $imageHeight );
-                $t->set_var( "image_url", $imageURL );	
-                $t->set_var( "image_caption", $imageCaption );
-                $t->parse( "image_item", "image_item_tpl" );  
-            }                                           
         }
 
         $addresses = $item->addresses();

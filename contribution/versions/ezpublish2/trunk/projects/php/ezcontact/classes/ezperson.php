@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezperson.php,v 1.65 2001/12/10 09:33:02 jhe Exp $
+// $Id: ezperson.php,v 1.66 2002/05/28 13:29:59 jhe Exp $
 //
 // Definition of eZPerson class
 //
@@ -79,16 +79,14 @@ class eZPerson
                                    LastName,
                                    Comment,
                                    BirthDate,
-                                   ContactTypeID,
-				   ImageID)
+                                   ContactTypeID)
                                   VALUES
                                   ('$this->ID',
                                    '$firstname',
                                    '$lastname',
                                    '$comment',
                                    '$birth',
-                                   '$this->ContactType',
-				   '$this->ImageID')" );
+                                   '$this->ContactType')" );
             $db->unlock();
             $firstname = strtolower( $firstname );
             $lastname = strtolower( $lastname );
@@ -108,8 +106,7 @@ class eZPerson
                                           LastName='$lastname',
 	                                      Comment='$comment',
 	                                      BirthDate=$birth,
-					      ContactTypeID='$this->ContactType',
-					      ImageID='$this->ImageID'
+                					      ContactTypeID='$this->ContactType'
                                           WHERE ID='$this->ID'" );
             $firstname = strtolower( $firstname );
             $lastname = strtolower( $lastname );
@@ -218,7 +215,6 @@ class eZPerson
                 $this->ContactType = $person_array[ 0 ][ $db->fieldName( "ContactTypeID" ) ];
                 $this->BirthDate = $person_array[ 0 ][ $db->fieldName( "BirthDate" ) ];
                 $this->Comment = $person_array[ 0 ][ $db->fieldName( "Comment" ) ];
-                $this->ImageID = $person_array[ 0 ][ $db->fieldName( "ImageID" ) ];
             }
             if ( $this->BirthDate == "NULL" )
                 unset( $this->BirthDate );
@@ -1051,30 +1047,12 @@ class eZPerson
         return $ret;
     }
 
-    function setImage( $value )
-    {
-        if ( get_class( $value ) == "ezimage" )
-            $value = $value->id();
-
-        $this->ImageID = $value;
-    }                                  
-
-    function &image( $AsObject = true )
-    {
-        if ( $AsObject )
-            $image = new eZImage( $this->ImageID );
-        else
-            $image = $this->ImageID;
-        return $image;
-    }             
-
     var $ID;
     var $FirstName;
     var $LastName;
     var $BirthDate;  
     var $ContactType;
     var $Comment;
-    var $ImageID;
 
 };
 
