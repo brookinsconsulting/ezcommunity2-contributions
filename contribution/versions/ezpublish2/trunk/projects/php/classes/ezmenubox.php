@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezmenubox.php,v 1.5 2001/01/24 10:01:26 bf Exp $
+// $Id: ezmenubox.php,v 1.6 2001/01/24 10:29:22 jb Exp $
 //
 // Definition of eZMenuBox class
 //
@@ -68,10 +68,9 @@ class eZMenuBox
 
         $menuStatus =& $preferences->variable( $module_dir . "_status" );
 
-
         if ( $GLOBALS["ToggleMenu"] == $module_dir )
         {
-            if ( $menuStatus == "open" )
+            if ( $menuStatus == "open" || empty( $menuStatus ) )
             {
                 $preferences->setVariable( $module_dir . "_status", "closed" );
             }
@@ -82,21 +81,18 @@ class eZMenuBox
             
             $menuStatus =& $preferences->variable( $module_dir . "_status" );
         }
-        
-        if ( !$menuStatus )
+
+        if ( empty( $menuStatus ) )
         {
             $menuStatus = "open";
         }
 
         $t = new eZTemplate( "templates/" . $SiteStyle,
                              $module_dir . "/$place/intl", $Language, "menubox.php",
-                              $SiteStyle, $module_dir . "/$place", $menuStatus );
-
-        if ( $t->hasCache() )
-        {
-            print $t->cache();
-            return true;
-        }
+                             $SiteStyle, $module_dir . "/$place", $menuStatus );
+        $t->set_file( array(
+            "menu_box_tpl" => "menubox.tpl"
+            ) );
 
         $t->setAllStrings();
 
@@ -105,6 +101,13 @@ class eZMenuBox
             $t->set_file( array(
                 "menu_box_tpl" => "menubox.tpl"
                 ) );
+
+            if ( $t->hasCache() )
+            {
+                $str =& $t->cache();
+                print $str;
+                return $str;
+            }
             
             $t->set_block( "menu_box_tpl", "menu_item_tpl", "menu_item" );
             $t->set_block( "menu_item_tpl", "menu_item_link_tpl", "menu_item_link" );
@@ -166,6 +169,13 @@ class eZMenuBox
                 "menu_box_tpl" => "menubox_closed.tpl"
                 ) );
 
+            if ( $t->hasCache() )
+            {
+                $str =& $t->cache();
+                print $str;
+                return $str;
+            }
+
             $t->set_var( "site_style", $SiteStyle );
             $t->set_var( "module_dir", $module_dir );
             
@@ -174,8 +184,7 @@ class eZMenuBox
             $uri =& eZHTTPTool::addVariable( $uri, "ToggleMenu", $module_dir );
             $t->set_var( "request_uri", $uri );
         }
-        
-        
+
         return $t->storeCache( "output", "menu_box_tpl", $print );
     }
 };
