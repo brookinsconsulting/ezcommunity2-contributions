@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezmailfolder.php,v 1.15 2001/04/03 14:06:11 fh Exp $
+// $Id: ezmailfolder.php,v 1.16 2001/05/02 11:32:13 fh Exp $
 //
 // eZMailFolder class
 //
@@ -411,7 +411,7 @@ class eZMailFolder
     }
 
     
-    /*
+    /*!
       Returns all the mail in the folder. $sortmode can be one of the following:
       subject, sender, date, subjectdec, senderdesc, datedesc.
       $offset and $limit sets how many mail to return in one bunch and where in the list to start.
@@ -440,7 +440,7 @@ class eZMailFolder
         $db =& eZDB::globalDatabase();
         $query = "SELECT Mail.ID FROM eZMail_Mail AS Mail, eZMail_MailFolderLink AS Link
                   WHERE Mail.ID=Link.MailID AND Link.FolderID='$folderID'
-                  ORDER BY Mail.UDate ASC
+                  ORDER BY $orderBySQL
                   LIMIT $offset,$limit";
 
         $mail_array = array();
@@ -454,6 +454,18 @@ class eZMailFolder
         return $return_array;     
     }
 
+    /*!
+      Returns the number of mail in this folder
+     */
+    function mailCount()
+    {
+        $db =& eZDB::globalDatabase();
+        $query = "SELECT Count( Mail.ID ) as Count FROM eZMail_Mail AS Mail, eZMail_MailFolderLink AS Link
+                  WHERE Mail.ID=Link.MailID AND Link.FolderID='$this->ID'";
+        $db->query_single( $result, $query );
+        return $result["Count"];
+    }
+    
     /*!
       Deletes all mail in the folder
      */

@@ -9,6 +9,9 @@ switch( $url_array[2] )
     case "folder" :
     {
         $FolderID = $url_array[3];
+        $Offset = $url_array[4];
+        if( $Offset == "" )
+            $Offset = 0;
 //        if( $FolderID == "" )
 //            $FolderID = get INBOX.
         

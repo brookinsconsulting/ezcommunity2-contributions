@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: maillist.php,v 1.16 2001/03/29 12:27:16 fh Exp $
+// $Id: maillist.php,v 1.17 2001/05/02 11:32:13 fh Exp $
 //
 // Frederik Holljen <fh@ez.no>
 // Created on: <19-Mar-2000 20:25:22 fh>
@@ -33,6 +33,9 @@ include_once( "ezmail/classes/ezmailaccount.php" );
 include_once( "ezmail/classes/ezmail.php" );
 include_once( "ezmail/classes/ezmailfolder.php" );
 
+include_once( "classes/ezlist.php" );
+
+$Limit = 50;
 
 if( isset( $NewFolder ) )
 {
@@ -76,8 +79,9 @@ if( $folder->folderType() == DRAFTS )
 
 $t->set_var( "current_folder_id", $FolderID );
 $t->set_var( "current_folder_name", htmlspecialchars( $folder->name() ) );
-$mail = $folder->mail();
 
+$mail = $folder->mail( "date_desc", $Offset, $Limit );
+$mailCount = $folder->mailCount();
 $i = 0;
 foreach( $mail as $mailItem )
 {
@@ -126,6 +130,8 @@ foreach( $folders as $folderItem )
     $t->set_var( "folder_name", $folderItem->name() );
     $t->parse( "folder_item", "folder_item_tpl", true );
 }
+
+eZList::drawNavigator( $t, $mailCount, $Limit, $Offset, "mail_list_page_tpl" );
 
 $t->pparse( "output", "mail_list_page_tpl" );
 ?>
