@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: index_xmlrpc.php,v 1.30 2001/11/08 15:11:05 jb Exp $
+// $Id: index_xmlrpc.php,v 1.31 2001/11/13 15:20:21 jb Exp $
 //
 // Created on: <09-Nov-2000 14:52:40 ce>
 //
@@ -22,6 +22,7 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, US
 //
+
 
 // Tell PHP where it can find our files.
 if ( file_exists( "sitedir.ini" ) )
@@ -67,6 +68,7 @@ ob_end_clean();
 ob_start();
 
 define( "EZPUBLISH_SERVER_VERSION", 2.2 );
+define( "EZPUBLISH_SERVER_RELEASE", 2 );
 
 // Error codes
 define( "EZERROR_BAD_LOGIN", 1 );
@@ -136,6 +138,7 @@ $server->processRequest();
 function Call( $args )
 {
     $call = $args[0]->value();
+<<<<<<< index_xmlrpc.php
     if ( isset( $call["Version"] ) )
     {
         $version = $call["Version"]->value();
@@ -153,6 +156,30 @@ function Call( $args )
         else
             $ID = 0;
         $GLOBALS["ID"] =& $ID;
+=======
+    if ( isset( $call["Version"] ) )
+    {
+        $version = $call["Version"]->value();
+    }
+    if ( isset( $call["Release"] ) )
+    {
+        $release = $call["Release"]->value();
+    }
+    $GLOBALS["version"] =& $version;
+    $GLOBALS["release"] =& $release;
+    if ( $version < EZPUBLISH_SERVER_VERSION and $release < EZPUBLISH_SERVER_RELEASE )
+    {
+        $REQUEST_URI = $call["URL"]->value();
+        $Module = $REQUEST_URI["Module"]->value();
+        $GLOBALS["Module"] =& $Module;
+        $RequestType = $REQUEST_URI["Type"]->value();
+        $GLOBALS["RequestType"] =& $RequestType;
+        if( isset( $REQUEST_URI["ID"] ) and is_object( $REQUEST_URI["ID"] ) )
+            $ID = $REQUEST_URI["ID"]->value();
+        else
+            $ID = 0;
+        $GLOBALS["ID"] =& $ID;
+>>>>>>> 1.27.6.3
 
         $RefID = false;
         if ( isset( $call["RefID" ] ) and is_object( $call["RefID"] ) )
@@ -202,6 +229,7 @@ function Call( $args )
 
         $session =& $GLOBALS["eZSessionObject"];
         $session = new eZSession();
+<<<<<<< index_xmlrpc.php
 //         if ( isset( $call["LastSession"] ) and !empty( $call["LastSession"]->value() ) )
         if ( isset( $call["LastSession"] )  )
         {
@@ -211,6 +239,18 @@ function Call( $args )
         {
             $hash = md5( microtime() );
         }
+=======
+//         $session =& eZSession::globalSession();
+//         if ( isset( $call["LastSession"] ) and !empty( $call["LastSession"]->value() ) )
+        if ( isset( $call["LastSession"] )  )
+        {
+            $hash = $call["LastSession"]->value();
+        }
+        else
+        {
+            $hash = md5( microtime() );
+        }
+>>>>>>> 1.27.6.3
         $GLOBALS["eZSessionCookie"] = $hash;
 
         if ( !$session->fetch() )
@@ -228,6 +268,7 @@ function Call( $args )
 
         // create the return struct...
         $ret_arr = array( "Version" => new eZXMLRPCDouble( EZPUBLISH_SERVER_VERSION ),
+                          "Release" => new eZXMLRPCInt( EZPUBLISH_SERVER_RELEASE ),
                           "URL" => createURLStruct( $Module, $RequestType, $ID ),
                           "Command" => new eZXMLRPCString( $Command ),
                           "RefID" => $RefID,
@@ -242,6 +283,7 @@ function Call( $args )
     $GLOBALS["eZSessionCookie"] = $hash;
     $session =& $GLOBALS["eZSessionObject"];
     $session = new eZSession();
+//     $session =& eZSession::globalSession();
     if ( !$session->fetch() )
     {
         $session->store();
@@ -377,6 +419,7 @@ function Call( $args )
             {
                 // create the return struct...
                 $ret_arr = array( "Version" => new eZXMLRPCDouble( EZPUBLISH_SERVER_VERSION ),
+                                  "Release" => new eZXMLRPCInt( EZPUBLISH_SERVER_RELEASE ),
                                   "URL" => createURLStruct( $Module, $RequestType, $ID ),
                                   "Command" => new eZXMLRPCString( $Command ),
                                   "RefID" => $RefID,
@@ -571,6 +614,7 @@ function &createErrorMessage( $error_id, $error_msg = false, $error_sub_id = fal
             $error_text = "Client not logged in and no login data available\n";
             break;
         }
+<<<<<<< index_xmlrpc.php
         case EZERROR_NO_PERMISSION:
         {
             if ( $ID > 0 )
@@ -583,6 +627,20 @@ function &createErrorMessage( $error_id, $error_msg = false, $error_sub_id = fal
             $error_text = "Wrong version,\nthis server requires you to have a client higher or equal to " . EZPUBLISH_SERVER_VERSION . ",\nyour version was $version";
             break;
         }
+=======
+        case EZERROR_NO_PERMISSION:
+        {
+            if ( $ID > 0 )
+                $id_text = $ID;
+            $error_text = "User has no permission to access URL \"$Module:/$RequestType/$id_text\"\n";
+            break;
+        }
+        case EZERROR_WRONG_VERSION:
+        {
+            $error_text = "Wrong version,\nthis server requires you to have a client higher or equal to " . EZPUBLISH_SERVER_VERSION . "." . EZPUBLISH_SERVER_RELEASE . ",\nyour version was $version";
+            break;
+        }
+>>>>>>> 1.27.6.3
         case EZERROR_CUSTOM:
         {
             $error_text = $error_msg;
@@ -593,7 +651,11 @@ function &createErrorMessage( $error_id, $error_msg = false, $error_sub_id = fal
             $error_text = "Unknown error";
         }
     }
+<<<<<<< index_xmlrpc.php
     $ret->setVersion( EZPUBLISH_SERVER_VERSION );
+=======
+    $ret->setVersion( EZPUBLISH_SERVER_VERSION, EZPUBLISH_SERVER_RELEASE );
+>>>>>>> 1.27.6.3
     $ret->setError( $error_id, $error_text, $error_sub_id );
 //     eZLog::writeError( "ID: $error_id, SubID: $error_sub_id, Text: $error_text" );
     return $ret;

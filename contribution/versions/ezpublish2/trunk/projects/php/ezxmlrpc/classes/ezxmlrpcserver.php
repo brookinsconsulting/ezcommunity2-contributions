@@ -1,6 +1,6 @@
 <?php
-// 
-// $Id: ezxmlrpcserver.php,v 1.5 2001/11/08 15:11:05 jb Exp $
+//
+// $Id: ezxmlrpcserver.php,v 1.6 2001/11/13 15:20:09 jb Exp $
 //
 // Definition of eZXMLRPCServer class
 //
@@ -32,27 +32,27 @@
   Sample code for a minimal eZ XML-RPC server:
   \code
   ob_start();
-  
+
   // include the server
   include_once( "ezxmlrpc/classes/ezxmlrpcserver.php" );
-  
+
   // include the datatype(s) we need
   include_once( "ezxmlrpc/classes/ezxmlrpcstring.php" );
-  
+
   $server = new eZXMLRPCServer( );
-  
+
   $server->registerFunction( "myFunc" );
-    
+
   // process the server requests
   $server->processRequest();
-  
+
   function myFunc( )
   {
       $tmp = new eZXMLRPCString( "This command was run by xml rpc" );
       return $tmp;
   }
-  
-  ob_end_flush();  
+
+  ob_end_flush();
   \endcode
   \sa eZXMLRPCClient
 */
@@ -80,7 +80,7 @@ include_once( "ezxmlrpc/classes/ezxmlrpcdatetime.php" );
 class eZXMLRPCServer
 {
     /*!
-      
+
     */
     function eZXMLRPCServer(  )
     {
@@ -95,13 +95,13 @@ class eZXMLRPCServer
     function processRequest()
     {
         global $HTTP_SERVER_VARS;
-        
+
         if ( $HTTP_SERVER_VARS["REQUEST_METHOD"] != "POST" )
         {
             print( "Error: this web page does only onderstand POST methods" );
             exit();
         }
-        
+
         $call = new eZXMLRPCCall( );
         $call->decodeStream( $this->RawPostData );
 
@@ -117,9 +117,9 @@ class eZXMLRPCServer
                 {
                     $functionWasFound = true;
 
-                    if ( count( $call->parameterList() ) ==  
+                    if ( count( $call->parameterList() ) ==
                          count( $function->parameters() ) )
-                    {                    
+                    {
                         $result = $func( $call->parameterList() );
                     }
                     else
@@ -142,22 +142,22 @@ class eZXMLRPCServer
         {
             // do the server response
             $response = new eZXMLRPCResponse( );
-            
+
             if ( $functionWasFound == false )
             {
                 $response->setError( 1, "Requested function not found." );
             }
-            
+
             if ( $equalParameterCount == false )
             {
                 $response->setError( 2, "Wrong parameter count for requested function." );
             }
-            
+
             $response->setResult( $result );
-        }            
+        }
 
         $payload =& $response->payload();
-        
+
         Header("Server: eZ xmlrpc server" );
         Header("Content-type: text/xml" );
         Header( "Content-Length: " . strlen( $payload ) );
@@ -188,7 +188,7 @@ class eZXMLRPCServer
 
     /// Contains a list over registered functions
     var $FunctionList;
-    
+
     /// The last method name request
 //      var $MethodName;
 

@@ -1,6 +1,6 @@
 <?php
-// 
-// $Id: ezxmlrpcresponse.php,v 1.18 2001/11/08 15:11:05 jb Exp $
+//
+// $Id: ezxmlrpcresponse.php,v 1.19 2001/11/13 15:20:09 jb Exp $
 //
 // Definition of eZXMLRPCResponse class
 //
@@ -28,7 +28,7 @@
 //!! eZXMLRPC
 //! eZXMLRPCResponse hadles a XML-RPC server response.
 /*!
-  
+
 */
 
 // datatypes
@@ -46,13 +46,13 @@ include_once( "ezxmlrpc/classes/ezxmlrpcstruct.php" );
 class eZXMLRPCResponse
 {
     /*!
-      Creates a new eZXMLRPCResponse object. 
+      Creates a new eZXMLRPCResponse object.
     */
     function eZXMLRPCResponse( )
     {
         $this->Result = 0;
         $this->Error = 0;
-        $this->IsFault = false;        
+        $this->IsFault = false;
     }
 
     /*!
@@ -64,10 +64,10 @@ class eZXMLRPCResponse
     {
         // create a new decoder object
         $decoder = new eZXMLRPCDataTypeDecoder( );
-        
+
         $stream = $this->stripHTTPHeader( $stream );
 
-        // coose XML parser
+        // choose XML parser
         if ( function_exists( "xmltree" ) )
         {
             $domTree =& xmltree( $stream );
@@ -82,12 +82,12 @@ class eZXMLRPCResponse
             $this->setError( EZXMLRPC_NO_DOM_PARSER,
                              "DOM XML parser not found. Server not properly configured.\n" .
                              "Please install either libxml or QDom.\n");
-        }            
+        }
 
         foreach ( $domTree->children as $response )
         {
             if ( $response->name == "methodResponse" )
-            {                
+            {
                 foreach ( $response->children as $params )
                 {
                     if ( $params->name == "params" )
@@ -97,7 +97,7 @@ class eZXMLRPCResponse
                         {
                             if ( $param->name == "param" )
                             {
-                        
+
                                 foreach ( $param->children as $value )
                                 {
                                     if ( $value->name == "value" )
@@ -128,7 +128,7 @@ class eZXMLRPCResponse
         if ( $this->Result == 0 and $this->Error == 0 )
         {
             $this->setError( 3, "Could not decode stream. Server error." );
-        }        
+        }
     }
 
     /*!
@@ -143,6 +143,7 @@ class eZXMLRPCResponse
     }
 
     /*!
+<<<<<<< ezxmlrpcresponse.php
       Sets the version number, it's expected to be a float with a major and minor version.
       Example: 2.2
     */
@@ -152,19 +153,39 @@ class eZXMLRPCResponse
     }
 
     /*!
+=======
+      Sets the version and release number, the version is expected to be a float with a major and minor version,
+      while the release is an integer.
+      Example: setVersion( 2.2, 2 )
+    */
+    function setVersion( $version, $release )
+    {
+        $this->Version = $version;
+        $this->Release = $release;
+    }
+
+
+    /*!
+>>>>>>> 1.15.6.2
       Sets an error message.
     */
     function setError( $faultCode, $faultString, $faultSubCode = false )
     {
         $this->IsFault = true;
         $error = array( "faultCode" => new eZXMLRPCInt( $faultCode ),
+<<<<<<< ezxmlrpcresponse.php
                         "faultString" => new eZXMLRPCString( $faultString ),
                         "version" => new eZXMLRPCDouble( $this->Version ) );
+=======
+                        "faultString" => new eZXMLRPCString( $faultString ),
+                        "version" => new eZXMLRPCDouble( $this->Version ),
+                        "release" => new eZXMLRPCInt( $this->Release ) );
+>>>>>>> 1.15.6.2
         if ( !is_bool( $faultSubCode ) )
             $error["faultSubCode"] = $faultSubCode;
         $this->Error = new eZXMLRPCStruct( $error );
     }
-    
+
     /*!
       Returns the result of the response
 
@@ -210,7 +231,7 @@ class eZXMLRPCResponse
     {
         $start = strpos( $data, "<?xml version=\"1.0\"?>" );
         $data = substr( $data, $start, strlen( $data ) - $start );
-            
+
         return $data;
     }
 
@@ -231,14 +252,14 @@ class eZXMLRPCResponse
 
         if ( $this->IsFault and ( get_class( $this->Error ) == "ezxmlrpcstruct" ) )
         {
-            
+
 //            $error = $this->Result->value();
             $error = $this->Error->value();
 
-            
+
             $ret = $error["faultCode"]->value();
         }
-        
+
         return $ret;
     }
 
@@ -253,14 +274,14 @@ class eZXMLRPCResponse
         {
 //            $error = $this->Result->value();
             $error = $this->Error->value();
-            
+
             $ret = $error["faultString"]->value();
         }
-        
+
         return $ret;
     }
-    
-    
+
+
     /// Contains the result
     var $Result;
 
@@ -269,9 +290,16 @@ class eZXMLRPCResponse
 
     /// Is true if the response is a fault
     var $IsFault;
+<<<<<<< ezxmlrpcresponse.php
 
     /// The version number, is sent on error responses
     var $Version;
+=======
+
+    /// The version and release number, is sent on error responses
+    var $Version;
+    var $Release;
+>>>>>>> 1.15.6.2
 }
 
 ?>
