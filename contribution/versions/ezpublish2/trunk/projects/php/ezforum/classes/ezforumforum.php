@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: ezforumforum.php,v 1.7 2000/08/09 14:12:44 lw-cvs Exp $
+    $Id: ezforumforum.php,v 1.8 2000/08/22 09:45:21 bf-cvs Exp $
 
     Author: Lars Wilhelmsen <lw@ez.no>
     
@@ -22,11 +22,9 @@ class eZforumForum
         
     function get( $Id )
     {
-        global $PREFIX;
+        $this->openDB();
         
-        openDB();
-        
-        $query_id = mysql_query("SELECT CategoryId, Name, Description, Moderated, Private FROM $PREFIX"."ForumTable WHERE Id='$Id'")
+        $query_id = mysql_query("SELECT CategoryId, Name, Description, Moderated, Private FROM ezforum_ForumTable WHERE Id='$Id'")
              or die("eZforumForum::get($Id) failed, dying...");    
             
         $this->Id = $Id;
@@ -44,18 +42,16 @@ class eZforumForum
         
     function getAllForums( $CategoryId = "" )
     {
-        global $PREFIX;
-        
-        openDB();
+        $this->openDB();
         
         if ($CategoryId)
         {
-            $query_id = mysql_query( "SELECT * FROM $PREFIX"."ForumTable WHERE CategoryId='$CategoryId'" )
+            $query_id = mysql_query( "SELECT * FROM ezforum_ForumTable WHERE CategoryId='$CategoryId'" )
                  or die( "getAllForums() near select all." );
         }
         else
         {
-            $query_id = mysql_query( "SELECT * FROM $PREFIX"."ForumTable" )
+            $query_id = mysql_query( "SELECT * FROM ezforum_ForumTable" )
                  or die("getAllForums()");
         }
             
@@ -71,7 +67,7 @@ class eZforumForum
     {
         global $PREFIX;
         
-        openDB();
+        $this->openDB();
             
         $this->CategoryId = addslashes( $this->CategoryId );
         $this->Name = addslashes( $this->Name );
@@ -82,7 +78,7 @@ class eZforumForum
         if ($this->Id)
         {
             //update
-            $query_id = mysql_query("UPDATE $PREFIX"."ForumTable SET CategoryId='$this->CategoryId',
+            $query_id = mysql_query("UPDATE ezforum_ForumTable SET CategoryId='$this->CategoryId',
                                                                Name='$this->Name',
                                                                Description='$this->Description',
                                                                Moderated='$this->Moderated',
@@ -95,7 +91,7 @@ class eZforumForum
         else
         {
                 
-            $query_id = mysql_query("INSERT INTO $PREFIX"."ForumTable(CategoryId,
+            $query_id = mysql_query("INSERT INTO ezforum_ForumTable(CategoryId,
                                                                 Name,
                                                                 Description,
                                                                 Moderated,
@@ -112,11 +108,9 @@ class eZforumForum
         
     function delete($Id)
     {
-        global $PREFIX;
-        
-        openDB();
+        $this->openDB();
             
-        mysql_query("DELETE FROM $PREFIX"."ForumTable WHERE Id='$Id'")
+        mysql_query("DELETE FROM ezforum_ForumTable WHERE Id='$Id'")
             or die("delete()");
     }
         
@@ -169,5 +163,25 @@ class eZforumForum
     {
         $this->Private = $newPrivate;
     }
+
+    /*!
+      Privat funksjon, skal kun brukes ac ezuser klassen.
+      Funksjon for å åpne databasen.
+    */
+    function openDB( )
+    {
+        include_once( "class.INIFile.php" );
+
+        $ini = new INIFile( "site.ini" );
+        
+        $SERVER = $ini->read_var( "site", "Server" );
+        $DATABASE = $ini->read_var( "site", "Database" );
+        $USER = $ini->read_var( "site", "User" );
+        $PWD = $ini->read_var( "site", "Password" );
+        
+        mysql_pconnect( $SERVER, $USER, $PWD ) or die( "Kunne ikke kople til database" );
+        mysql_select_db( $DATABASE ) or die( "Kunne ikke velge database" );
+    }
+    
 }
 ?>

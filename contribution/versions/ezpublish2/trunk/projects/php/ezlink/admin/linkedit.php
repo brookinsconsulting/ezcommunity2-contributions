@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: linkedit.php,v 1.12 2000/08/14 09:52:34 bf-cvs Exp $
+    $Id: linkedit.php,v 1.13 2000/08/22 09:45:21 bf-cvs Exp $
 
     Author: Bård Farstad <bf@ez.no>
     
@@ -23,8 +23,8 @@ include_once( "template.inc" );
 include_once( "ezphputils.php" );
 
 include( "../ezlink/classes/ezlinkgroup.php" );
-include( "../ezlink/classes/ezlink.php";
-include( "../ezlink/classes/ezhit.php";
+include( "../ezlink/classes/ezlink.php" );
+include( "../ezlink/classes/ezhit.php" );
 
 // Oppdatere
 if ( $Action == "update" )
