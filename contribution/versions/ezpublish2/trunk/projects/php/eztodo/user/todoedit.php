@@ -1,5 +1,5 @@
 <?
-// $Id: todoedit.php,v 1.4 2001/01/15 12:03:42 ce Exp $
+// $Id: todoedit.php,v 1.5 2001/01/15 12:59:04 ce Exp $
 //
 // Definition of todo list.
 //
@@ -63,7 +63,9 @@ $t->set_var( "errors", "&nbsp;" );
 $error = false;
 $nameCheck = true;
 $permissionCheck = true;
-$descriptionCheck = true;
+$descriptionCheck = false;
+$userCheck = true;
+
 
 $t->set_block( "errors_tpl", "error_name_tpl", "error_name" );
 $t->set_var( "error_name", "&nbsp;" );
@@ -73,6 +75,9 @@ $t->set_var( "error_description", "&nbsp;" );
 
 $t->set_block( "errors_tpl", "error_permission_tpl", "error_permission" );
 $t->set_var( "error_permission", "&nbsp;" );
+
+$t->set_block( "errors_tpl", "error_user_tpl", "error_user" );
+$t->set_var( "error_user", "&nbsp;" );
 
 
 if ( $Action == "insert" || $Action == "update" )
@@ -102,10 +107,26 @@ if ( $Action == "insert" || $Action == "update" )
         }
     }
 
+    if ( $userCheck && $Action == "update" )
+    {
+        $todo = new eZTodo( $TodoID );
+        
+        if ( ( $todo->userID() == $user->id() ) || ( $todo->ownerID() == $user->id() ) )
+        {
+        }
+        else
+        {
+            $t->parse( "error_user", "error_user_tpl" );
+            $error = true;
+        }
+        
+    }
+    
     if ( $error )
     {
         $t->parse( "errors", "errors_tpl" );
     }
+
 }
 
 

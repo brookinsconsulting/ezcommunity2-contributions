@@ -1,5 +1,5 @@
 <?
-// $Id: todolist.php,v 1.3 2001/01/15 12:03:42 ce Exp $
+// $Id: todolist.php,v 1.4 2001/01/15 12:59:04 ce Exp $
 //
 // Definition of todo list.
 //
@@ -56,23 +56,21 @@ if ( eZPermission::checkPermission( $user, "eZTodo", "ViewOtherUsers" ) )
     {
         if ( $GetByUserID == $currentUserID )
         {
-            $GetByUserID = $user->id();
-            $todo_array = $todo->getByOwnerID( $GetByUserID );
+            $todo_array = $todo->getByUserID( $currentUserID );
         }
         else
         {
-            $todo_array = $todo->getByUserID( $GetByUserID );
+            $todo_array = $todo->getByOthers( $GetByUserID );
         }
     }
     else
     {
-        $todo_array = $todo->getByOwnerID( $currentUserID );
-                    
+        $todo_array = $todo->getByUserID( $currentUserID );
     }
 }
 else
 {
-    $todo_array = $todo->getByOwnerID( $currentUserID );
+    $todo_array = $todo->getByUserID( $currentUserID );
 }
 
 

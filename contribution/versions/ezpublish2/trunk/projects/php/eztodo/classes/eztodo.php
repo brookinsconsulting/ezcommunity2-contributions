@@ -1,5 +1,5 @@
 <?
-// $Id: eztodo.php,v 1.8 2001/01/11 16:52:14 ce Exp $
+// $Id: eztodo.php,v 1.9 2001/01/15 12:59:04 ce Exp $
 //
 // Definition of eZTodo class
 //
@@ -169,11 +169,11 @@ class eZTodo
     }
 
     /*! 
-      Gets all the todo infomasjon from a user, where ID == $id.
+      Gets all the todo infomasjon from a owner, where ID == $id.
       Return the array in $todo_array ordered by name.
       
     */
-    function getByOwnerID( $id )
+    function getByUserID( $id )
     {
         $this->dbInit();
         $todo_array = 0;
@@ -181,7 +181,7 @@ class eZTodo
         $return_array = array();
         $todo_array = array();
 
-        $this->Database->array_query( $todo_array, "SELECT ID FROM eZTodo_Todo WHERE OwnerID='$id' ORDER BY Name");
+        $this->Database->array_query( $todo_array, "SELECT ID FROM eZTodo_Todo WHERE UserID='$id' ORDER BY Name");
        
         for ( $i=0; $i<count($todo_array); $i++ )
         {
@@ -191,11 +191,11 @@ class eZTodo
     }
 
     /*! 
-      Gets all the todo infomasjon from a owner, where ID == $id.
+      Gets all the todo infomasjon from another user, where ID == $id.
       Return the array in $todo_array ordered by name.
       
     */
-    function getByUserID( $id )
+    function getByOthers( $id )
     {
         $this->dbInit();
         $todo_array = 0;
@@ -211,7 +211,6 @@ class eZTodo
         }
         return $return_array;        
     }
-
     
     
     /*!

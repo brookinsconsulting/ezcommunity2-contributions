@@ -18,6 +18,10 @@
     <li>{intl-error_description}
     <!-- END error_description_tpl -->
 
+    <!-- BEGIN error_user_tpl -->
+    <li>{intl-error_user}
+    <!-- END error_user_tpl -->
+
 </ul>
 
 <hr noshade size="4"/>
