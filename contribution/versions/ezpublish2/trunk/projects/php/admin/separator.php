@@ -1,7 +1,17 @@
+<?php
+if ( !$LoginSeparator )
+{
+?>
     </table>
     </td>
+<?php
+}
+?>
+          
 	<td width="99%" valign="top">
 
+
+ 
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
 <tr>
     <td width="1%"><img src="/images/<? echo $SiteStyle; ?>/main-tl.gif" width="26" height="66"></td>

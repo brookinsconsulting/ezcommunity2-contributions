@@ -77,13 +77,13 @@
 </tr>
 
 <tr>
-	<td>
+	<td colspan="2">
 	<input type="hidden" name="Action" value="StoreMainPoll" />
 
 	<input class="okbutton" type="submit" value="Lagre endringer" />
 	</td>
 </form>
-	<td>
+	<td colspan="5">
 	<form method="post" action="/poll/polledit/new/">
 	<input class="okbutton" type="submit" value="{intl-addpoll}" />
 	</form>

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: search.php,v 1.8 2000/10/19 12:26:06 ce-cvs Exp $
+// $Id: search.php,v 1.9 2000/10/22 10:15:52 bf-cvs Exp $
 //
 // 
 //
@@ -23,7 +23,6 @@ $ini = new INIFile( "site.ini" );
 $Language = $ini->read_var( "eZLinkMain", "Language" );
 
 include_once( "classes/eztemplate.php" );
-include_once( "common/ezphputils.php" );
 
 include_once( "ezlink/classes/ezlinkgroup.php" );
 include_once( "ezlink/classes/ezlink.php"  );

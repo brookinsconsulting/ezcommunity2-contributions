@@ -148,6 +148,9 @@ if ( $user )
 }
 else
 {
+    $ModuleLogo = "menu-user.gif";
+    $LoginSeparator = true;
+
     include( "separator.php" );
     
     // parse the URI
