@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: todolist.php,v 1.20 2001/09/06 10:07:22 jhe Exp $
+// $Id: todolist.php,v 1.21 2001/09/13 11:39:08 jhe Exp $
 //
 // Definition of todo list.
 //
@@ -70,7 +70,8 @@ if ( isSet( $Delete ) )
         {
             $todo = new eZTodo( $todoid );
             $due = $todo->due();
-            deleteCache( "default", $Language, $due->year(), addZero( $due->month() ) , addZero( $due->day() ), $user->id() );
+            if ( $due )
+                deleteCache( "default", $Language, $due->year(), addZero( $due->month() ) , addZero( $due->day() ), $user->id() );
             $todo->delete();
         }
     }
