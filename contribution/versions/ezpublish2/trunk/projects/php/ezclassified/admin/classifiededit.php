@@ -39,7 +39,8 @@ if ( $Action == "insert" )
     $position->setUser( $user );
     $position->setDescription( $Description );
     $position->setPrice( $Price );
-    
+
+    $position->setDueDate( $DueDate );
     $position->setPay( $Pay );
     $position->setWorkTime( $WorkTime );
     $position->setDuration( $Duration );
@@ -86,6 +87,7 @@ if ( $Action == "update" )
     $position->setDescription( $Description );
     $position->setPrice( $Price );
 
+    $position->setDueDate( $DueDate );
     $position->setPay( $Pay );
     $position->setWorkTime( $WorkTime );
     $position->setDuration( $Duration );
@@ -98,7 +100,7 @@ if ( $Action == "update" )
 
     $position->store();
 
-    $position->removeCategoryies();
+    $position->removeCategories();
     
     $category_show = false;
     // Add classifed to categories
@@ -171,6 +173,7 @@ if ( $Action == "new" )
     $t->set_var( "classified_description", "" );
     $t->set_var( "classified_pay_edit", "" );
     $t->parse( "classified_pay_edit_def", "classified_pay_edit_def_tpl" );
+    $t->set_var( "classified_duedate", "" );
     $t->set_var( "classified_worktime", "" );
     $t->set_var( "classified_duration", "" );
     $t->set_var( "classified_workplace", "" );
@@ -193,6 +196,7 @@ if ( $Action == "edit" )
     $t->set_var( "classified_pay", $position->pay() );
     $t->set_var( "classified_pay_edit_def", "" );
     $t->parse( "classified_pay_edit", "classified_pay_edit_tpl" );
+    $t->set_var( "classified_duedate", $position->dueDate() );
     $t->set_var( "classified_worktime", $position->WorkTime() );
     $t->set_var( "classified_duration", $position->Duration() );
     $t->set_var( "classified_workplace", $position->WorkPlace() );
@@ -204,7 +208,7 @@ if ( $Action == "edit" )
     $t->set_var( "classified_day", $date->day() );
 
     $t->parse( "delete_button", "delete_button_tpl" );
-    
+
     // Template variabler.
     $Action_value = "update";
     
