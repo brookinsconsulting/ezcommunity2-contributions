@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: buglist.php,v 1.8 2001/02/23 14:23:22 fh Exp $
+// $Id: buglist.php,v 1.9 2001/03/05 11:48:47 fh Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <27-Nov-2000 19:06:23 bf>
@@ -140,7 +140,7 @@ else
 
 
 // bugs
-$bugList = $module->bugs( "time", false, true );
+$bugList = $module->bugs( "time", true, true );
 
 $locale = new eZLocale( $Language );
 $i=0;
