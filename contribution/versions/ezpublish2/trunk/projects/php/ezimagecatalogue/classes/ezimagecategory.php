@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezimagecategory.php,v 1.35 2001/09/12 13:01:39 br Exp $
+// $Id: ezimagecategory.php,v 1.36 2001/09/17 07:48:34 ce Exp $
 //
 // Definition of eZImageCategory class
 //
@@ -260,7 +260,7 @@ class eZImageCategory
         $return_array = array();
         $image_array = array();
 
-        $db->array_query( $image_array, "SELECT ImageID, CategoryID FROM eZImageCatalogue_ImageCategoryLink WHERE CategoryID='$category' ORDER BY ImageID DESC" );
+        $db->array_query( $image_array, "SELECT ImageID, CategoryID FROM eZImageCatalogue_ImageCategoryLink WHERE CategoryID='$category' GROUP BY ImageID ORDER BY ImageID DESC" );
 
         for ( $i = 0; $i < count( $image_array ); $i++ )
         {
