@@ -14,6 +14,18 @@ else
 
 switch ( $url_array[2] )
 {
+    case "search":
+    {
+        switch( $url_array[3] )
+        {
+            case "company":
+            {
+                include( "ezcontact/user/companysearch.php" );
+                break;
+            }
+        }
+        break;
+    }
     case "person":
     {
         switch( $url_array[3] )

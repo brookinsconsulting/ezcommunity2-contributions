@@ -4,7 +4,7 @@
         <h1>{name}</h1>
         </td>
         <td rowspan="2" align="right">
-        <form action="/company/search/" method="post">
+        <form action="/contact/search/company" method="post">
         <input type="text" name="SearchText" size="12" />       
         <input type="submit" value="{intl-search}" />
         </form> 
