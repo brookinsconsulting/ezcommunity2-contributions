@@ -1,16 +1,19 @@
 #!/bin/sh
 # This script will create the publish MySQL database with all the patches applied.
 # by Chris Mason
+
 #vars
 mysqldb='sql/publish_mysql.sql'
 postgresdb='sql/publish_postgresql.sql'
 mysqldata='sql/data_mysql.sql'
 default_dbname='publish'
 
+# delete old files
 modules=`ls -d ez*`
 rm -f $postgresdb
 rm -f $mysqldb
 
+# build sql files for mysql and postgres
 for module in $modules
 do
     if [ -f $module/sql/postgresql/$module.sql ]
@@ -22,6 +25,7 @@ do
 done
 
 
+# Get database name
 echo -n "Name of Database to create [publish]:"
 read DBNAME
 if [ -n "$DBNAME" ]; then
@@ -31,6 +35,7 @@ else
 fi
 echo "Database "$DBNAME" will be created"
 
+# get database type
 echo -n "mysql or postgres [mysql]:"
 read DBTYPE
 if [ -n "$DBTYPE" ]; then
@@ -39,12 +44,16 @@ else
    DBTYPE="mysql"
 fi
 
+# test for postgres, which is not supported yet.
 if [ "$DBTYPE" = "postgres" ]; then
 echo "Sorry, not available yet"
 break
 fi
 
-echo "Database type "$DBTYPE" will be created"
+# Does the user want to add data
+echo -n "Do you want to add data [Y/n]"
+read ADDDATA
+ 
 echo -n 'Mysql root password: '
 read PASS
 if [ -n "$PASS" ]
@@ -64,8 +73,12 @@ then
    mysqladmin -u root -p'$PASS' create $DBNAME
    echo "Adding Tables"
    mysql -u root -p'$PASS' $DBNAME < $mysqldb
-   echo "Adding Data"
-   mysql -u root -p'$PASS' $DBNAME < $mysqldata 
+
+   if [ "$ADDDATA" = "Y" ] || [ "$ADDDATA" = "y" ] || [ "$ADDDATA" = "yes" ] || [ "$ADDDATA" = "YES" ]; then
+      echo "Adding Data"
+      mysql -u root -p'$PASS' $DBNAME < $mysqldata 
+   fi
+
    mysql -u root -p'$PASS' -e"grant all on $DBNAME.* to $DBNAME@localhost identified by '$DBNAME' " 
 else
    echo "Blank Password"
@@ -82,8 +95,12 @@ else
    mysqladmin -u root create $DBNAME
    echo "Adding Tables"
    mysql -u root $DBNAME < $mysqldb
-   echo "Adding Data"
-   mysql -u root $DBNAME < $mysqldata 
+
+   if [ "$ADDDATA" = "Y" ] || [ "$ADDDATA" = "y" ] || [ "$ADDDATA" = "yes" ] || [ "$ADDDATA" = "YES" ]; then
+      echo "Adding Data"
+      mysql -u root $DBNAME < $mysqldata 
+   fi
+
    mysql -u root -e"grant all on $DBNAME.* to $DBNAME@localhost identified by '$DBNAME' "   
 fi
 
