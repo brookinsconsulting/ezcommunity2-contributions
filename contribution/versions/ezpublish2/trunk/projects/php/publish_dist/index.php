@@ -166,10 +166,10 @@ if ( ( $requireUserLogin == "disabled" ) ||
                 $siteDesign = "standard";                
                 break;
         }
-        print( "<b>" . $GlobalSectionID . "</b>" );
+//        print( "<b>" . $GlobalSectionID . "</b>" );
     }
     else
-        print( "<b>Section not set</b>" );
+//        print( "<b>Section not set</b>" );
     $GlobalSiteDesign = $siteDesign;
 
     $meta_page = "ez" . $url_array[1] . "/metasupplier.php";
