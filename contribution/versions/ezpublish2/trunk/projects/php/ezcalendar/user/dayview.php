@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: dayview.php,v 1.13 2001/01/19 14:45:56 gl Exp $
+// $Id: dayview.php,v 1.14 2001/01/21 01:39:32 gl Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <08-Jan-2001 12:48:35 bf>
@@ -50,6 +50,8 @@ $t->set_block( "day_view_page_tpl", "time_table_tpl", "time_table" );
 $t->set_block( "time_table_tpl", "appointment_tpl", "appointment" );
 $t->set_block( "appointment_tpl", "delete_check_tpl", "delete_check" );
 
+
+
 $user = eZUser::currentUser();
 
 $session = new eZSession();
@@ -95,6 +97,8 @@ $t->set_var( "year_number", $Year );
 $t->set_var( "day_number", $Day );
 $t->set_var( "long_date", $Locale->format( $date, false ) );
 
+
+
 $today = new eZDate();
 $tmpDate = new eZDate( $date->year(), $date->month(), $date->day() );
 $tmpAppointment = new eZAppointment();
@@ -102,42 +106,148 @@ $tmpAppointment = new eZAppointment();
 // fetch the appointments for the selected day
 $appointments = $tmpAppointment->getByDate( $tmpDate, $tmpUser, $showPrivate );
 
-$appointmentColumns = array();
-$rowSpanColumns = array();
+//$appointmentColumns = array();
+//$rowSpanColumns = array();
 
 $startTime = new eZTime( 8, 0, 0 );
 $interval = new eZTime( 0, 30, 0 );
 $stopTime = new eZTime( 18, 0, 0 );
-$now = new eZTime();
+
+
 
 // places appointments into columns, creates extra columns as necessary
+$numRows = 0;
+$numCols = 1;
+$tableCellsId = array();
+$tableCellsRowSpan = array();
+$colTaken = array();
+$emptyRows = array();
+$appointmentDone = array();
+$tmpStartTime = new eZTime( $startTime->hour(), $startTime->minute(), $startTime->second() );
+
 foreach ( $appointments as $appointment )
 {
-    $aCount = 0;
-    $foundFreeColumn = false;
-    while ( $foundFreeColumn == false  )
+    $appointmentDone[$appointment->id()] = false;
+}
+
+while ( $tmpStartTime->isGreater( $stopTime ) == true )
+{
+    $numRows++;
+    $tableCellsId[$numRows-1] = array();
+    $tableCellsRowSpan[$numRows-1] = array();
+
+    //print( $tmpStartTime->hour() . ":" . $tmpStartTime->minute() . "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" );
+
+    for ( $col=0; $col<$numCols; $col++ )
     {
-        if ( gettype( $appointmentColumns[$aCount] ) != "array" )
+        if ( $colTaken[$col] > 0 )
         {
-            $appointmentColumns[$aCount] = array();
-            $rowSpanColumns[$aCount] = 0;
+            //print( "colTaken" . $col .": " . $colTaken[$col] . "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" );
+            $tableCellsId[$numRows-1][$col] = -1;
+        }
+    }
+
+    foreach ( $appointments as $appointment )
+    {
+        //print( $appointment->id() . " " );
+
+        if ( $appointmentDone[$appointment->id()] == false &&
+             intersects( $appointment, $tmpStartTime, $tmpStartTime->add( $interval ) ) == true )
+        {
+            //print( "intersects " );
+
+            $foundFreeColumn = false;
+            $col = 0;
+            while ( $foundFreeColumn == false  )
+            {
+                if ( $tableCellsId[$numRows-1][$col] == 0 )
+                {
+                    //print( "colFree: " . $col . " " );
+                    $tableCellsId[$numRows-1][$col] = $appointment->id();
+                    $tableCellsRowSpan[$numRows-1][$col] = appointmentRowSpan( $appointment, $tmpStartTime, $interval );
+                    $colTaken[$col] = $tableCellsRowSpan[$numRows-1][$col];
+                    $appointmentDone[$appointment->id()] = true;
+                    $foundFreeColumn = true;
+
+                    if ( $col >= $numCols )
+                        $emptyRows[$col] = $numRows - 1;
+
+                    if ( $emptyRows[$col] > 0 )
+                    {
+                        $tableCellsId[ $numRows - 1 - $emptyRows[$col] ][$col] = -2;
+                        $tableCellsRowSpan[ $numRows - 1 - $emptyRows[$col] ][$col] = $emptyRows[$col];
+                        $emptyRows[$col] = 0;
+                    }
+                }
+
+                $col++;
+                if ( $col > $numCols )
+                {
+                    $numCols++;
+                }
+            }
+        }
+//        print( "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" );
+    }
+
+//    print( "<br />" );
+
+    for ( $col=0; $col<$numCols; $col++ )
+    {
+        if ( $colTaken[$col] > 0 )
+        {
+            $colTaken[$col]--;
         }
 
-        if ( isFree( $appointmentColumns[$aCount], $appointment ) )
+        if ( $tableCellsId[$numRows-1][$col] == 0 )
         {
-            $foundFreeColumn = true;
-            $appointmentColumns[$aCount][] = $appointment;
+            $emptyRows[$col]++;
         }
+    }
 
-        $aCount++;
+    $tmpStartTime = $tmpStartTime->add( $interval );
+}
+
+//print( "<br />" );
+//print( $numCols );
+//print( "<br />" );
+
+// mark remaining empty spaces as 'empty'
+for ( $col=0; $col<$numCols; $col++ )
+{
+    if ( $emptyRows[$col] > 0 )
+    {
+        $tableCellsId[ $numRows - $emptyRows[$col] ][$col] = -2;
+        $tableCellsRowSpan[ $numRows - $emptyRows[$col] ][$col] = $emptyRows[$col];
+//        print( "final empty - col: " . $col . " emptyRows: " . $emptyRows[$col] . "<br />" );
     }
 }
 
-$numCols = count( $appointmentColumns );
-$emptyDone = false;
-$nowSet = false;
+
+
+// debug entire contents table
+print( "Rows: " . $numRows . "   Cols: " . $numCols . "<br />" );
+print( "<table border=\"1\">" );
+for ( $row=0; $row<$numRows; $row++ )
+{
+    print( "<tr>" );
+    for ( $col=0; $col<$numCols; $col++ )
+    {
+        print( "<td>" . $tableCellsId[$row][$col] . " / " . $tableCellsRowSpan[$row][$col] . "</td>" );
+    }
+    print( "</tr>" );
+}
+print( "</table>" );
+
+
+
 
 // print out the time table
+$emptyDone = false;
+$now = new eZTime();
+$nowSet = false;
+$row = 0;
+
 while ( $startTime->isGreater( $stopTime ) == true )
 {
     $t->set_var( "short_time", $Locale->format( $startTime, true ) );
@@ -146,71 +256,41 @@ while ( $startTime->isGreater( $stopTime ) == true )
     $drawnColumn = array();
     $t->set_var( "appointment", "" );
 
-    for ( $i=0; $i<$numCols; $i++ )
+    for ( $col=0; $col<$numCols; $col++ )
     {
-        $drawnColumn[$i] = false;
+        $appointmentId = $tableCellsId[$row][$col];
 
-        if ( $rowSpanColumns[$i] <= 1 )
+        if ( $appointmentId > 0 )
         {
-            foreach ( $appointmentColumns[$i] as $app )
-            {
-                // draw an appointment cell
-                if ( intersects( $app, $startTime, $startTime->add( $interval ) ) )
-                {
-                    $rowSpanColumns[$i] = appointmentRowSpan( $app, $startTime, $interval );
-                    $t->set_var( "td_class", "bgdark" );
-                    $t->set_var( "rowspan_value", $rowSpanColumns[$i] );
-                    $t->set_var( "appointment_id", $app->id() );
-                    $t->set_var( "appointment_name", $app->name() );
-                    $t->set_var( "appointment_description", $app->description() );
-                    $t->set_var( "edit_button", "Edit" );
-                    $t->parse( "delete_check", "delete_check_tpl" );
+            $appointment = new eZAppointment( $appointmentId );
 
-                    $t->parse( "appointment", "appointment_tpl", true );
-                    $drawnColumn[$i] = true;
-                }
-            }
+            $t->set_var( "td_class", "bgdark" );
+            $t->set_var( "rowspan_value", $tableCellsRowSpan[$row][$col] );
+            $t->set_var( "appointment_id", $appointment->id() );
+            $t->set_var( "appointment_name", $appointment->name() );
+            $t->set_var( "appointment_description", $appointment->description() );
+            $t->set_var( "edit_button", "Edit" );
 
-            // draw an empty cell
-            if ( $drawnColumn[$i] == false )
-            {
-                $rowSpanColumns[$i] = emptyRowSpan( $appointmentColumns[$i], $startTime, $stopTime, $interval );
-                $t->set_var( "td_class", "bglight" );
-                $t->set_var( "rowspan_value", $rowSpanColumns[$i] );
-                $t->set_var( "appointment_id", "" );
-                $t->set_var( "appointment_name", "" );
-                $t->set_var( "appointment_description", "" );
-                $t->set_var( "edit_button", "" );
-                $t->set_var( "delete_check", "" );
-
-                $t->parse( "appointment", "appointment_tpl", true );
-            }
+            $t->parse( "delete_check", "delete_check_tpl" );
+            $t->parse( "appointment", "appointment_tpl", true );
         }
-        else
+
+        else if ( $appointmentId == -2 )
         {
-            $rowSpanColumns[$i]--;
+            $t->set_var( "td_class", "bglight" );
+            $t->set_var( "rowspan_value", $tableCellsRowSpan[$row][$col] );
+            $t->set_var( "appointment_id", "" );
+            $t->set_var( "appointment_name", "" );
+            $t->set_var( "appointment_description", "" );
+            $t->set_var( "edit_button", "" );
+            $t->set_var( "delete_check", "" );
+
+            $t->parse( "appointment", "appointment_tpl", true );
         }
-    }
-
-    // if there are no appointments this day, draw a big empty cell
-    if ( $numCols == 0 && $emptyDone == false )
-    {
-        $emptyArray = array();
-        $rowSpanColumns[$i] = emptyRowSpan( $emptyArray, $startTime, $stopTime, $interval );
-        $t->set_var( "td_class", "bglight" );
-        $t->set_var( "rowspan_value", $rowSpanColumns[$i] );
-        $t->set_var( "appointment_id", "" );
-        $t->set_var( "appointment_name", "" );
-        $t->set_var( "appointment_description", "" );
-        $t->set_var( "edit_button", "" );
-        $t->set_var( "delete_check", "" );
-
-        $t->parse( "appointment", "appointment_tpl", true );
-
-        $emptyDone = true;
     }
 
     $startTime = $startTime->add( $interval );
+    $row++;
 
     $t->set_var( "td_class", "" );
     if ( $date->equals( $today ) && $nowSet == false && $now->isGreater( $startTime ) )
@@ -221,6 +301,12 @@ while ( $startTime->isGreater( $stopTime ) == true )
 
     $t->parse( "time_table", "time_table_tpl", true );
 }
+
+
+
+
+
+
 
 
 // returns the number of rows an appointment covers.
@@ -241,74 +327,79 @@ function appointmentRowSpan( &$appointment, &$startTime, &$interval )
 
 
 // returns the number of empty rows before an appointment.
-function emptyRowSpan( &$appointmentArray, &$startTime, &$stopTime, &$interval )
-{
-    $ret = 0;
-    $tmpTime = new eZTime( $startTime->hour(), $startTime->minute(), $startTime->second() );
-    $foundAppointment = false;
+//  function emptyRowSpan( &$appointmentArray, &$startTime, &$stopTime, &$interval )
+//  {
+//      $ret = 0;
+//      $tmpTime = new eZTime( $startTime->hour(), $startTime->minute(), $startTime->second() );
+//      $foundAppointment = false;
 
-    while ( $foundAppointment == false && $tmpTime->isGreater( $stopTime ) == true )
-    {
-        $tmpTime = $tmpTime->add( $interval );
-        $ret++;
+//      while ( $foundAppointment == false && $tmpTime->isGreater( $stopTime ) == true )
+//      {
+//          $tmpTime = $tmpTime->add( $interval );
+//          $ret++;
 
-        foreach ( $appointmentArray as $app )
-        {
-            if ( intersects( $app, $tmpTime, $tmpTime->add( $interval ) ) )
-            {
-                $foundAppointment = true;
-            }
-        }
-    }
+//          foreach ( $appointmentArray as $app )
+//          {
+//              if ( intersects( $app, $tmpTime, $tmpTime->add( $interval ) ) == true )
+//              {
+//  //                print( "empty span <br />" );
+//                  $foundAppointment = true;
+//              }
+//          }
+//      }
 
-    return $ret;
-}
+//      return $ret;
+//  }
 
 
 // checks if the appointment crashes with other appointments in the array given
-function isFree( &$appointmentArray, &$appointment )
-{
-    $ret = true;
-    foreach( $appointmentArray as $app )
-    {
-        if ( intersects( $appointment, $app->startTime(), $app->stopTime() ) )
-        {
-            $ret = false;
-        }
-    }
-    return $ret;
-}
+//  function isFree( &$appointmentArray, &$appointment )
+//  {
+//  //    print( "isfree " . $appointment->id() . " " . $ret . "<br / >" );
+//      $ret = true;
+//      foreach( $appointmentArray as $app )
+//      {
+//  //        print( "check " . $appointment->id() . " against " . $app->id() . "<br / >" );
+//          $intervalEnd = $app->startTime();
+//          $intervalEnd = $intervalEnd->add( $interval );
+//  //        if ( intersects( $appointment, $app->startTime(), $app->stopTime() ) == true )
+//          if ( intersects( $appointment, $app->startTime(), $intervalEnd ) == true )
+//          {
+//  //            print( "crash " . $appointment->id() . " " . $app->id() . "<br / >" );
+//              $ret = false;
+//          }
+//      }
+//  //    print( "isfree " . $appointment->id() . " " . $ret . "<br / >" );
+//      return $ret;
+//  }
 
 
 // checks if an appointment intersects with a time interval
 function intersects( &$app, &$startTime, &$stopTime )
 {
     $ret = false;
-    $aStart =& $app->startTime();
-    $aStop =& $app->stopTime();
+    $appStartTime =& $app->startTime();
+    $appStopTime =& $app->stopTime();
 
-    if ( $aStart->isGreater( $startTime ) == true &&
-    $startTime->isGreater( $aStop ) == true )
+    // appstart is between start and stop
+    if ( $startTime->isGreater( $appStartTime, true ) == true &&
+         $appStartTime->isGreater( $stopTime ) == true )
     {
+//        print( "intersects [1] " . $app->id() . "<br / >" );
         $ret = true;
     }
-
-    if ( $aStart->isGreater( $stopTime ) == true &&
-    $stopTime->isGreater( $aStop ) == true )
+    // appstop is between start and stop
+    else if ( $startTime->isGreater( $appStopTime ) == true &&
+              $appStopTime->isGreater( $stopTime, true ) == true )
     {
+//        print( "intersects [2] " . $app->id() . "<br / >" );
         $ret = true;
     }
-
-    if ( $startTime->isGreater( $aStart ) == true &&
-    $aStop->isGreater( $stopTime ) == true )
+    // appstart is before start, and appstop is after stop
+    else if ( $appStartTime->isGreater( $startTime ) == true &&
+              $stopTime->isGreater( $appStopTime ) == true )
     {
-        $ret = true;
-    }
-
-    // 
-    if ( $aStart->isGreater( $startTime, true ) == true &&
-    $stopTime->isGreater( $aStop, true ) == true )
-    {
+//        print( "intersects [3] " . $app->id() . "<br / >" );
         $ret = true;
     }
 
@@ -316,6 +407,7 @@ function intersects( &$app, &$startTime, &$stopTime )
 }
 
 
+// set up top prev/next links
 $date->setYear( $Year );
 $date->setMonth( $Month );
 $date->setDay( $Day );
