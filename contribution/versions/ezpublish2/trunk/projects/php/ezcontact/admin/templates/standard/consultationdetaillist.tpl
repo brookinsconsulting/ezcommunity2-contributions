@@ -29,7 +29,7 @@
 	
 //-->
 </SCRIPT> 
-<h1>{intl-consultation_list_headline}</h1>
+<h1>{intl-consultation_list_headline} {contact_name}</h1>
 <hr noshade="noshade" size="4" />
 <br />
 
