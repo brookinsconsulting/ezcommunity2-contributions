@@ -16,6 +16,7 @@ Changes from 2.2 Alpha to 2.2 Beta 1
 * Added support for changing message limit in eZ forum and eZ mail
 * Added Signature in eZMail, fixed Preview button bug.
 * Added auto check mail, show unread mail features in eZMail (user configurable)
+* Added caching in eZ calendar
 
 Changes from 2.1 to 2.2 Alpha
 -----------------------------
