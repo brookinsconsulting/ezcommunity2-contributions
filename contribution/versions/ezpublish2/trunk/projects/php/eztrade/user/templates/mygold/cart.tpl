@@ -11,30 +11,28 @@
 <!-- BEGIN full_cart_tpl -->
 <table class="list" width="100%" cellspacing="0" cellpadding="1" border="0">
   <!-- BEGIN cart_item_list_tpl -->
-  <tr>
-    <th width="1%">&nbsp;</th>
-    <th width="1%"><nobr>{intl-product_number}:</nobr></th>
-    <th align="left"><nobr>&nbsp;{intl-product_name}:</nobr></th>
-    <th class="right" width="1%"><nobr>{intl-product_price}:</nobr></th>
+  <tr align="left">
+    <th width="1%""><nobr>&nbsp;{intl-product_qty}:</nobr></th>
+    <th width="1%"><nobr>&nbsp;&nbsp;{intl-product_number}:</nobr></th>    
+    <th><nobr>&nbsp;&nbsp;{intl-product_name}:</nobr></th>
     <!-- BEGIN header_savings_item_tpl -->
-    <th class="right">{intl-product_savings}:</th>
+    <th class="right">&nbsp;{intl-product_savings}:</th>
     <!-- END header_savings_item_tpl -->
     <!-- BEGIN header_ex_tax_item_tpl -->
-    <th class="right" width="1%"><nobr>{intl-product_total_ex_tax}:</nobr></th>
+    <th width="1%"><nobr>&nbsp;{intl-product_total_ex_tax}:</nobr></th>
     <!-- END header_ex_tax_item_tpl -->
     <!-- BEGIN header_inc_tax_item_tpl -->
-    <th class="right" width="1%"><nobr>{intl-product_total_inc_tax}:</nobr></th>
+    <th width="1%"><nobr>&nbsp;{intl-product_total_inc_tax}:</nobr></th>
     <!-- END header_inc_tax_item_tpl -->
-    <th class="right" width="1%">&nbsp;</th>
+    <th width="1%">&nbsp;</th>
   </tr>
   <!-- BEGIN cart_item_tpl -->
   <tr valign="top">
-    <td class="{td_class}">&nbsp;</td>
-    <td class="{td_class}"><nobr>&nbsp;{product_number}</nobr></td>
-    <td class="{td_class}">
-      &nbsp;<a href="/trade/productview/{product_id}">{product_name}</a><br />
+    <td class="{td_class}" align="center">{product_count}</td>
+    <td class="{td_class}"><nobr>&nbsp;&nbsp;{product_number}</nobr></td>
+    <td class="{td_class}">&nbsp;&nbsp;<a href="/trade/productview/{product_id}">{product_name}</a><br />
       <!-- BEGIN cart_item_option_tpl -->
-      &nbsp;<span class="small">Gr&ouml;&szlig;e {option_value}</span>
+      &nbsp;&nbsp;<span class="small">Gr&ouml;&szlig;e {option_value}</span>
       <!-- BEGIN option_savings_item_tpl -->
       &nbsp;
       <!-- END option_savings_item_tpl -->
@@ -46,36 +44,34 @@
       <!-- END option_ex_tax_item_tpl -->
       <!-- END cart_item_option_tpl -->
     </td>
-    <td class="{td_class}" align="right"><nobr>&nbsp;{product_price}</nobr></td>
     <!-- BEGIN cart_savings_item_tpl -->
-    <td class="{td_class}" align="right">&nbsp;<input type="hidden" name="CartIDArray[]" value="{cart_item_id}" /></td>
+    <td class="{td_class}" align="right">&nbsp;&nbsp;<input type="hidden" name="CartIDArray[]" value="{cart_item_id}" /></td>
     <!-- END cart_savings_item_tpl -->
     <!-- BEGIN cart_ex_tax_item_tpl -->
-    <td class="{td_class}" align="right"><nobr>&nbsp;{product_total_ex_tax}</nobr></td>
+    <td class="{td_class}" align="right"><nobr>{product_total_ex_tax}</nobr></td>
     <!-- END cart_ex_tax_item_tpl -->
     <!-- BEGIN cart_inc_tax_item_tpl -->
-    <td class="{td_class}" align="right"><nobr>&nbsp;{product_total_inc_tax}</nobr></td>
+    <td class="{td_class}" align="right"><nobr>{product_total_inc_tax}</nobr></td>
     <!-- END cart_inc_tax_item_tpl -->
-    <td class="{td_class}"><input type="checkbox" name="CartSelectArray[]" value="{cart_item_id}" /></td>
+    <td class="{td_class}" align="center"><input type="checkbox" name="CartSelectArray[]" value="{cart_item_id}" /></td>
   </tr>
   <!-- BEGIN cart_item_basis_tpl -->
     <!-- {intl-basis_price} {basis_price} -->
     <!-- BEGIN basis_savings_item_tpl -->
-    &nbsp;
+    <!-- -->
     <!-- END basis_savings_item_tpl -->
     <!-- BEGIN basis_inc_tax_item_tpl -->
-    &nbsp;
+    <!-- -->
     <!-- END basis_inc_tax_item_tpl -->
     <!-- BEGIN basis_ex_tax_item_tpl -->
-    &nbsp;
+    <!-- -->
     <!-- END basis_ex_tax_item_tpl -->
   <!-- END cart_item_basis_tpl -->
-
-
   <!-- END cart_item_tpl -->
   <!-- END cart_item_list_tpl -->
+
   <tr>
-    <td colspan="{subtotals_span_size}" align="right">{intl-subtotal}:</th>
+    <td colspan="3" align="right">{intl-subtotal}:</td>
     <!-- BEGIN subtotal_ex_tax_item_tpl -->
     <td align="right"><nobr>{subtotal_ex_tax}</nobr></td>
     <!-- END subtotal_ex_tax_item_tpl -->
@@ -85,7 +81,7 @@
     <td>&nbsp;</td>
   </tr>
   <tr>
-    <td colspan="{subtotals_span_size}" align="right">{intl-shipping}:</th>
+    <td colspan="3" align="right">{intl-shipping}:</td>
     <!-- BEGIN shipping_ex_tax_item_tpl -->
     <td align="right"><nobr>{shipping_ex_tax}</nobr></td>
     <!-- END shipping_ex_tax_item_tpl -->
@@ -95,7 +91,7 @@
     <td>&nbsp;</td>
   </tr>
   <tr>
-    <td colspan="{subtotals_span_size}" align="right">{intl-total}:</th>
+    <td colspan="3" align="right">{intl-total}:</td>
     <!-- BEGIN total_ex_tax_item_tpl -->
     <td align="right"><nobr>{total_ex_tax}</nobr></td>
     <!-- END total_ex_tax_item_tpl -->
@@ -119,7 +115,7 @@
     <td align="right">
       <input class="okbutton" type="submit" name="DeleteSelected" value="{intl-delete_selected}" />
     </td>
-  </td>
+  </tr>
 </table>
 <!-- END full_cart_tpl -->
 
