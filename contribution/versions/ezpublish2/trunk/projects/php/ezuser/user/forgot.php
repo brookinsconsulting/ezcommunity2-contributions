@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: forgot.php,v 1.9 2000/11/21 16:23:11 ce-cvs Exp $
+// $Id: forgot.php,v 1.10 2000/12/21 10:46:54 ce Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <20-Sep-2000 13:32:11 ce>
@@ -31,11 +31,11 @@ include_once( "classes/eztemplate.php" );
 include_once( "ezuser/classes/ezforgot.php" );
 include_once( "classes/ezmail.php" );
 
-$iniSite = new INIFIle( "site.ini" );
-$Language = $iniSite->read_var( "eZUserMain", "Language" );
+$ini =& $GLOBALS["GlobalSiteIni"];
+$Language = $ini->read_var( "eZUserMain", "Language" );
 $headersInfo = getallheaders();
 
-$ini = new INIFIle( "ezuser/user/intl/" . $Language . "/forgot.php.ini", false );
+$languageIni = new INIFIle( "ezuser/user/intl/" . $Language . "/forgot.php.ini", false );
 // Get the user.
 if ( $Login )
 {
@@ -46,8 +46,8 @@ if ( $Login )
 // Store the user with a unic hash and mail the hash variable to the user.
 if ( $user )
 {
-    $subjectText = ( $ini->read_var( "strings", "subject_text" ) . " " . $headersInfo["Host"] );
-    $bodyText = $ini->read_var( "strings", "body_text" );
+    $subjectText = ( $languageIni->read_var( "strings", "subject_text" ) . " " . $headersInfo["Host"] );
+    $bodyText = $languageIni->read_var( "strings", "body_text" );
 
     $forgot = new eZForgot();
     $forgot->get( $user );
@@ -74,9 +74,9 @@ if ( $Action == "change" )
     if ( $change->check( $Hash ) )
     {
         $change->get( $change->check( $Hash ) );
-        $subjectNewPassword = $ini->read_var( "strings", "subject_text_password" );
-        $bodyNewPassword = $ini->read_var( "strings", "body_text_password" );
-        $passwordText = $ini->read_var( "strings", "password" );
+        $subjectNewPassword = $languageIni->read_var( "strings", "subject_text_password" );
+        $bodyNewPassword = $languageIni->read_var( "strings", "body_text_password" );
+        $passwordText = $languageIni->read_var( "strings", "password" );
         $userID = $change->userID();
         $user = new eZUser( $userID );
         $password = substr( md5( microtime() ), 0, 7 );
@@ -99,7 +99,7 @@ if ( $Action == "change" )
 }
 
 // Template
-$t = new eZTemplate( "ezuser/user/" . $iniSite->read_var( "eZUserMain", "TemplateDir" ),
+$t = new eZTemplate( "ezuser/user/" . $ini->read_var( "eZUserMain", "TemplateDir" ),
                      "ezuser/user/intl", $Language, "forgot.php" );
 $t->setAllStrings();
 

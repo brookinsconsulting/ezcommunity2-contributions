@@ -1,6 +1,6 @@
 <?
 //
-// $Id: norights.php,v 1.1 2000/11/02 10:43:00 ce-cvs Exp $
+// $Id: norights.php,v 1.2 2000/12/21 10:46:54 ce Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <26-Oct-2000 14:56:23 ce>
@@ -25,7 +25,7 @@
 
 include_once( "classes/INIFile.php" );
 
-$ini = new INIFile( "site.ini" );
+$ini =& $GLOBALS["GlobalSiteIni"];
 $DOC_ROOT = $ini->read_var( "eZUserMain", "DocumentRoot" );
 $Language = $ini->read_var( "eZUserMain", "Language" );
 $errorIni = new INIFIle( "ezuser/user/intl/" . $Language . "/norights.php.ini", false );
