@@ -94,5 +94,6 @@
         $CategoryID = $ini->read_var( "eZAdMain", "DefaultCategory" );
         $Limit = 1; 
         include( "ezad/user/adlist.php" );
+
         ?>
     </div><br />

@@ -40,20 +40,23 @@
 	</td>
 </tr>
 <!-- BEGIN group_item_tpl -->
-{start_tr}
-        <td class="{td_class}">
+<tr>
+        <td class="{td_class}" width="20%">
 	<!-- BEGIN image_item_tpl -->
-	<p><img src="{image_url}" alt="{image_caption}" width="{image_width}" height="{image_height}" />
-	</p>
+	<a href="/link/group/{linkgroup_id}/">
+	<img src="{image_url}" alt="{image_caption}" width="{image_width}" height="{image_height}" /></a>
 	<!-- END image_item_tpl -->
 	<!-- BEGIN no_image_tpl -->
 	&nbsp;
 	<!-- END no_image_tpl -->
         </td>
-	<td class="{td_class}">
+	<td class="{td_class}" valign="top" width="80%">
 	<b><a href="/link/group/{linkgroup_id}/">{linkgroup_title}</a></b>
+	<p>
+	{linkgroup_description}
+	</p>
 	</td>
-{stop_tr}
+</tr>
 <!-- END group_item_tpl -->
 </table>
 <!-- END group_list_tpl -->

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezad.php,v 1.13 2001/02/23 15:58:21 ce Exp $
+// $Id: ezad.php,v 1.14 2001/02/26 15:17:03 bf Exp $
 //
 // Definition of eZAd class
 //
@@ -169,6 +169,9 @@ class eZAd
 
         if ( isset( $this->ID ) )
         {
+            $this->Database->query( "DELETE FROM eZAd_View WHERE AdID='$this->ID'" );            
+            $this->Database->query( "DELETE FROM eZAd_Click WHERE AdID='$this->ID'" );            
+
             $this->Database->query( "DELETE FROM eZAd_AdCategoryLink WHERE AdID='$this->ID'" );            
             $this->Database->query( "DELETE FROM eZAd_Ad WHERE ID='$this->ID'" );
         }

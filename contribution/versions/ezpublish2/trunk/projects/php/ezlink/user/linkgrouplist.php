@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: linkgrouplist.php,v 1.11 2001/02/23 15:40:42 ce Exp $
+// $Id: linkgrouplist.php,v 1.12 2001/02/26 15:17:04 bf Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <26-Oct-2000 15:02:09 ce>
@@ -96,6 +96,7 @@ else
         $link_group_id = $groupItem->id();
         $t->set_var( "linkgroup_id", $link_group_id );
         $t->set_var( "linkgroup_title", $groupItem->title() );
+        $t->set_var( "linkgroup_description", $groupItem->description() );
         $t->set_var( "linkgroup_parent", $groupItem->parent() );
 
 //          $total_sub_links = $linkGroup->getTotalSubLinks( $link_group_id, $link_group_id );
@@ -104,17 +105,7 @@ else
         $t->set_var( "total_links", $total_sub_links );
         $t->set_var( "new_links", $new_sub_links );
 
-        if ( $i %2 == 0 )
-        {
-            $t->set_var( "start_tr", "<tr>" );
-            $t->set_var( "stop_tr", "" );
-        }
-        else
-        {
-            $t->set_var( "start_tr", "" );
-            $t->set_var( "stop_tr", "</tr>" );            
-        }
-
+ 
         $image =& $groupItem->image();
 
         $t->set_var( "image_item" , "" );

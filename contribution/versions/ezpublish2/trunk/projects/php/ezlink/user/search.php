@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: search.php,v 1.11 2001/01/22 14:43:01 jb Exp $
+// $Id: search.php,v 1.12 2001/02/26 15:17:04 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <15-Sep-2000 14:40:06 bf>
@@ -33,6 +33,7 @@ include_once( "classes/eztemplate.php" );
 include_once( "ezlink/classes/ezlinkgroup.php" );
 include_once( "ezlink/classes/ezlink.php"  );
 include_once( "ezlink/classes/ezhit.php" );
+include_once( "classes/ezhttptool.php" );
 
 //  include_once( "classes/ezquery.php" );
 
@@ -92,11 +93,11 @@ if ( $QueryString != "" )
 {
     $t->set_var( "query_string", $QueryString );
 
-    if ( !isset( $Offset ) )
+    $Offset = eZHTTPTool::getVar( "Offset" );
+    if ( !is_numeric( $Offset ) )
         $Offset = 0;
 
-    if ( !isset( $Limit ) )
-        $Limit = 30;
+    $Limit = 1;
 
     $link_array = $link->getQuery( $QueryString, $Limit, $Offset );    
     $total_count = $link->getQueryCount( $QueryString );
@@ -139,7 +140,7 @@ if ( $QueryString != "" )
                 $t->set_var( "previous", "" );
             }
                 
-            if ( $nextOffs <= $total_count )
+            if ( $nextOffs < $total_count )
             {
                 $t->set_var( "next_offset", $nextOffs  );
                 $t->parse( "next", "next_tpl" );

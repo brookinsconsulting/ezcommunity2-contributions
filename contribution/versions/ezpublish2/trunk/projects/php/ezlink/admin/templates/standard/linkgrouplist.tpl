@@ -82,7 +82,7 @@
 	<b><a href="/link/gotolink/addhit/{link_id}/?Url={link_url}" target="_blank">{link_title}</a></b><br />
 	{link_description}
 	</td>
-        <td bgcolor="{bg_color}">
+        <td class="{td_class}">
 	<!-- BEGIN image_item_tpl -->
 	<img src="{image_url}" alt="{image_caption}" width="{image_width}" height="{image_height}" border="0" />
 	<!-- END image_item_tpl -->
