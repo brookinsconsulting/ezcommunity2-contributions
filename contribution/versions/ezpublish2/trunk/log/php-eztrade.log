@@ -3707,3 +3707,14 @@ Maintainer(s) : ce@ez.no
       classes/ezproductcategory.php:
     Added check of permissions to products in eZTrade.
 
+
+Module : eztrade
+Repository path : /home/cvsroot/projects/php/eztrade
+Maintainer(s) : ce@ez.no
+2004-07-09  Bjoern Reiten  <br@ez.no>
+
+    * admin/productedit.php
+      user/checkout.php:
+    - Fixed bug with vat in checkout and cancel when edit a new product in
+      the admininterface.
+
