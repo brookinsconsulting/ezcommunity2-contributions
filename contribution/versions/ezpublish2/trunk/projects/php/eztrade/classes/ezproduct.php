@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezproduct.php,v 1.63 2001/07/20 11:42:01 jakobn Exp $
+// $Id: ezproduct.php,v 1.64 2001/07/24 07:29:09 ce Exp $
 //
 // Definition of eZProduct class
 //
@@ -69,59 +69,44 @@ class eZProduct
       If $id is set the object's values are fetched from the
       database.
     */
-    function eZProduct( $id="", $fetch=true )
+    function eZProduct( $id="" )
     {
-        $this->IsConnected = false;
-
         if ( $id != "" )
         {
-
             $this->ID = $id;
-            if ( $fetch == true )
-            {
-                
-                $this->get( $this->ID );
-            }
-            else
-            {
-                $this->State_ = "Dirty";
-                
-            }
+            $this->get( $this->ID );
         }
         else
         {
-            $this->State_ = "New";
-            
             // default verdier
             $this->ShowPrice = true;
             $this->ShowProduct = true;
             $this->Discontinued = false;
         }
-
-
     }
-
+    
     /*!
       Stores a product to the database.
     */
     function store()
     {
-        $this->dbInit();
-
+        $db =& eZDB::globalDatabase();
+        $db->begin();
+        
         if ( $this->ShowPrice == true )
-            $showPrice = "true";
+            $showPrice = 1;
         else
-            $showPrice = "false";            
+            $showPrice = 0;            
 
         if ( $this->ShowProduct == true )
-            $showProduct = "true";
+            $showProduct = 1;
         else
-            $showProduct = "false";            
+            $showProduct = 0;            
 
         if ( $this->Discontinued == true )
-            $discontinued = "true";
+            $discontinued = 1;
         else
-            $discontinued = "false";
+            $discontinued = 0;
 
         if ( isset( $this->Price ) and $this->Price != "" and is_numeric( $this->Price ) )
         {
@@ -132,33 +117,43 @@ class eZProduct
             $price = "NULL";
         }
 
+        $name = $db->escapeString( $this->Name );
+        $brief = $db->escapeString( $this->Brief );
+        $description = $db->escapeString( $this->Description );
+        $keywords = $db->escapeString( $this->Keywords );
+        $productNumber = $db->escapeString( $this->ProductNumber );
+
         if ( !isset( $this->ID ) )
         {
-            $this->Database->query( "INSERT INTO eZTrade_Product SET
-		                         Name='$this->Name',
-                                 Brief='$this->Brief',
-                                 Description='$this->Description',
-                                 Keywords='$this->Keywords',
-                                 ProductNumber='$this->ProductNumber',
-                                 Price=$price,
-                                 ShowPrice='$showPrice',
-                                 ShowProduct='$showProduct',
-                                 Discontinued='$discontinued',
-                                 ExternalLink='$this->ExternalLink',
-                                 RemoteID='$this->RemoteID',
-                                 IsHotDeal='$this->IsHotDeal',
-                                 VATTypeID='$this->VATTypeID',
-                                 ProductType='$this->ProductType',
-                                 ShippingGroupID='$this->ShippingGroupID'
-                                 " );
+            $db->lock( "eZTrade_Product" );
+            $nextID = $db->nextID( "eZTrade_Product", "ID" );            
 
-			$this->ID = $this->Database->insertID();
+            $res = $db->query( "INSERT INTO eZTrade_Product
+                                  ( ID, Name, Brief, Description, Keywords, ProductNumber, Price, ShowPrice, ShowProduct, Discontinued, ExternalLink, RemoteID, IsHotDeal, VATTypeID, ProductType, ShippingGroupID )
+                                  VALUES
+                                  ( '$nextID',
+		                            '$this->Name',
+                                    '$this->Brief',
+                                    '$this->Description',
+                                    '$this->Keywords',
+                                    '$this->ProductNumber',
+                                     $price,
+                                    '$showPrice',
+                                    '$showProduct',
+                                    '$discontinued',
+                                    '$this->ExternalLink',
+                                    '$this->RemoteID',
+                                    '$this->IsHotDeal',
+                                    '$this->VATTypeID',
+                                    '$this->ProductType',
+                                    '$this->ShippingGroupID' )
+                                  " );
 
-            $this->State_ = "Coherent";
+			$this->ID = $nextID;
         }
         else
         {
-            $this->Database->query( "UPDATE eZTrade_Product SET
+            $res = $db->query( "UPDATE eZTrade_Product SET
 		                         Name='$this->Name',
                                  Brief='$this->Brief',
                                  Description='$this->Description',
@@ -175,9 +170,13 @@ class eZProduct
                                  ProductType='$this->ProductType'
                                  WHERE ID='$this->ID'
                                  " );
-
-            $this->State_ = "Coherent";
         }
+        $db->unlock();
+    
+        if ( $res == false )
+            $db->rollback( );
+        else
+            $db->commit();
         
         return true;
     }
@@ -187,56 +186,50 @@ class eZProduct
     */
     function get( $id="" )
     {
-        $this->dbInit();
+        $db =& eZDB::globalDatabase();
         $ret = false;
         
         if ( $id != "" )
         {
-            $this->Database->array_query( $category_array, "SELECT * FROM eZTrade_Product WHERE ID='$id'" );
+            $db->array_query( $category_array, "SELECT * FROM eZTrade_Product WHERE ID='$id'" );
             if ( count( $category_array ) > 1 )
             {
                 die( "Error: Category's with the same ID was found in the database. This shouldent happen." );
             }
             else if( count( $category_array ) == 1 )
             {
-                $this->ID =& $category_array[0][ "ID" ];
-                $this->Name =& $category_array[0][ "Name" ];
-                $this->Brief =& $category_array[0][ "Brief" ];
-                $this->Description =& $category_array[0][ "Description" ];
-                $this->Keywords =& $category_array[0][ "Keywords" ];
-                $this->ProductNumber =& $category_array[0][ "ProductNumber" ];
-                $this->ExternalLink =& $category_array[0][ "ExternalLink" ];
-                $this->Price =& $category_array[0][ "Price" ];
-                $this->IsHotDeal =& $category_array[0][ "IsHotDeal" ];
-                $this->RemoteID =& $category_array[0][ "RemoteID" ];
-                $this->VATTypeID =& $category_array[0][ "VATTypeID" ];
-                $this->ShippingGroupID =& $category_array[0][ "ShippingGroupID" ];
-                $this->ProductType =& $category_array[0][ "ProductType" ];
+                $this->ID =& $category_array[0][$db->fieldName( "ID" )];
+                $this->Name =& $category_array[0][$db->fieldName( "Name" )];
+                $this->Brief =& $category_array[0][$db->fieldName( "Brief" )];
+                $this->Description =& $category_array[0][$db->fieldName( "Description" )];
+                $this->Keywords =& $category_array[0][$db->fieldName( "Keywords" )];
+                $this->ProductNumber =& $category_array[0][$db->fieldName( "ProductNumber" )];
+                $this->ExternalLink =& $category_array[0][$db->fieldName( "ExternalLink" )];
+                $this->Price =& $category_array[0][$db->fieldName( "Price" )];
+                $this->IsHotDeal =& $category_array[0][$db->fieldName( "IsHotDeal" )];
+                $this->RemoteID =& $category_array[0][$db->fieldName( "RemoteID" )];
+                $this->VATTypeID =& $category_array[0][$db->fieldName( "VATTypeID" )];
+                $this->ShippingGroupID =& $category_array[0][$db->fieldName( "ShippingGroupID" )];
+                $this->ProductType =& $category_array[0][$db->fieldName( "ProductType" )];
                 if ( $this->Price == "NULL" )
                     unset( $this->Price );
 
-                if ( $category_array[0][ "ShowPrice" ] == "true" )
+                if ( $category_array[0][ "ShowPrice" ] == 1 )
                     $this->ShowPrice = true;
                 else
                     $this->ShowPrice = false;
 
-                if ( $category_array[0][ "ShowProduct" ] == "true" )
+                if ( $category_array[0][ "ShowProduct" ] == 1 )
                     $this->ShowProduct = true;
                 else
                     $this->ShowProduct = false;
 
-                if ( $category_array[0][ "Discontinued" ] == "true" )
+                if ( $category_array[0][ "Discontinued" ] == 1 )
                     $this->Discontinued = true;
                 else
                     $this->Discontinued = false;
-
-                $this->State_ = "Coherent";
                 $ret = true;
             }
-        }
-        else
-        {
-            $this->State_ = "Dirty";
         }
         return $ret;
     }
@@ -247,36 +240,42 @@ class eZProduct
     */
     function delete()
     {
-        $this->dbInit();
+        $db =& eZDB::globalDatabase();
 
         if ( isset( $this->ID ) )
         {
+            $db->begin();
+            $res[] = $db->query( "DELETE FROM eZTrade_ProductTypeLink WHERE ProductID='$this->ID'" );
+            $res[] = $db->query( "DELETE FROM eZTrade_AttributeValue WHERE ProductID='$this->ID'" );
 
-            $this->Database->query( "DELETE FROM eZTrade_ProductTypeLink WHERE ProductID='$this->ID'" );
-            $this->Database->query( "DELETE FROM eZTrade_AttributeValue WHERE ProductID='$this->ID'" );
-
-            $this->Database->query( "DELETE FROM eZTrade_ProductCategoryLink WHERE ProductID='$this->ID'" );
-            $this->Database->query( "DELETE FROM eZTrade_ProductCategoryDefinition WHERE ProductID='$this->ID'" );
+            $res[] = $db->query( "DELETE FROM eZTrade_ProductCategoryLink WHERE ProductID='$this->ID'" );
+            $res[] = $db->query( "DELETE FROM eZTrade_ProductCategoryDefinition WHERE ProductID='$this->ID'" );
             
-            $this->Database->query( "DELETE FROM eZTrade_ProductImageLink WHERE ProductID='$this->ID'" );
-            $this->Database->query( "DELETE FROM eZTrade_ProductImageDefinition WHERE ProductID='$this->ID'" );
+            $res[] = $db->query( "DELETE FROM eZTrade_ProductImageLink WHERE ProductID='$this->ID'" );
+            $res[] = $db->query( "DELETE FROM eZTrade_ProductImageDefinition WHERE ProductID='$this->ID'" );
 
-            $this->Database->array_query( $qry_array, "SELECT QuantityID FROM eZTrade_ProductQuantityDict
+            $db->array_query( $qry_array, "SELECT QuantityID FROM eZTrade_ProductQuantityDict
                                                        WHERE ProductID='$this->ID'" );
             foreach( $qry_array as $row )
             {
-                $id = $row["QuantityID"];
-                $this->Database->query( "DELETE FROM eZTrade_Quantity WHERE ID='$id'" );
+                $id = $row[$db->fieldName( "QuantityID" )];
+                $res[] = $db->query( "DELETE FROM eZTrade_Quantity WHERE ID='$id'" );
             }
-            $this->Database->query( "DELETE FROM eZTrade_ProductQuantityDict WHERE ProductID='$this->ID'" );
+            $res[] = $db->query( "DELETE FROM eZTrade_ProductQuantityDict WHERE ProductID='$this->ID'" );
 
+            
             $options = $this->options();
             foreach ( $options as $option )
             {
                 $option->delete();
             }            
 
-            $this->Database->query( "DELETE FROM eZTrade_Product WHERE ID='$this->ID'" );
+            $res[] = $db->query( "DELETE FROM eZTrade_Product WHERE ID='$this->ID'" );
+
+            if ( in_array( false, $res ) )
+                $db->rollback( );
+            else
+                $db->commit();            
         }
         return true;
     }
@@ -286,12 +285,7 @@ class eZProduct
     */
     function id()
     {
-        if ( $this->State_ == "New" )
-            $ret = 1;
-        else
-            $ret = $this->ID;
-       
-        return $ret;
+        return $this->ID;
     }
 
     /*!
@@ -299,9 +293,6 @@ class eZProduct
     */
     function &name( )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
        return htmlspecialchars( $this->Name );
     }
 
@@ -310,9 +301,6 @@ class eZProduct
     */
     function &remoteID( )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
        return $this->RemoteID;
     }    
 
@@ -320,11 +308,8 @@ class eZProduct
     /*!
       Returns the price of the product.
     */
-    function price( )
+    function &price( )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
        return $this->Price;
     }    
 
@@ -342,11 +327,8 @@ class eZProduct
       If a value is given as argument this value is used for VAT calculation.
       This is used in carts where you have multiple products and prices on options.
     */
-    function priceExVAT( $price="" )
+    function &priceExVAT( $price="" )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
        if ( $price == "" )
        {
            $calcPrice = $this->Price;
@@ -378,11 +360,8 @@ class eZProduct
       If a value is given as argument this value is used for VAT calculation.
       This is used in carts where you have multiple products and prices on options.
     */
-    function vat( $price="" )
+    function &vat( $price="" )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
        if ( $price == "" )
        {
            $calcPrice = $this->Price;
@@ -410,9 +389,6 @@ class eZProduct
     */
     function productType( $price="" )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
        return $this->ProductType;
     }
 
@@ -424,9 +400,6 @@ class eZProduct
     */
     function setProductType( $type=1 )
     {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
         $this->ProductType = $type;
     }
 
@@ -442,17 +415,31 @@ class eZProduct
                           "SELECT Q.ID
                            FROM eZTrade_Quantity AS Q, eZTrade_ProductQuantityDict AS PQD
                            WHERE Q.ID=PQD.QuantityID AND ProductID='$id'" );
-        $db->query( "DELETE FROM eZTrade_ProductQuantityDict WHERE ProductID='$id'" );
+        $db->begin();
+        $res[] = $db->query( "DELETE FROM eZTrade_ProductQuantityDict WHERE ProductID='$id'" );
+        
         foreach( $qry_array as $row )
         {
-            $q_id = $row["ID"];
-            $db->query( "DELETE FROM eZTrade_Quantity WHERE ID='$q_id'" );
+            $q_id = $row[$db->fieldName( "ID" )];
+            $res[] = $db->query( "DELETE FROM eZTrade_Quantity WHERE ID='$q_id'" );
         }
         if ( is_bool( $quantity ) and !$quantity )
             return;
-        $db->query( "INSERT INTO eZTrade_Quantity VALUES('','$quantity')" );
+
+        $db->lock( "eZTrade_Quantity" );
+        
+        $nextQuantityID = $db->nextID( "eZTrade_Quantity", "ID" );
+
+        $res[] = $db->query( "INSERT INTO eZTrade_Quantity ( ID, Quantity ) VALUES ('','$quantity')" );
         $q_id = $db->insertID();
-        $db->query( "INSERT INTO eZTrade_ProductQuantityDict VALUES('$id','$q_id')" );
+        $res[] = $db->query( "INSERT INTO eZTrade_ProductQuantityDict ( ProductID, QuantityID ) VALUES ('$id','$q_id')" );
+
+        $db->unlock();
+
+        if ( in_array( false, $res ) )
+            $db->rollback( );
+        else
+            $db->commit();            
     }
 
     /*!
@@ -474,9 +461,9 @@ class eZProduct
         {
             foreach( $qry_array as $row )
             {
-                if ( $row["Quantity"] == "NULL" )
+                if ( $row[$db->fieldName( "Quantity" )] == "NULL" )
                     return false;
-                $quantity += $row["Quantity"];
+                $quantity += $row[$db->fieldName( "Quantity" )];
             }
         }
         else
@@ -510,25 +497,25 @@ class eZProduct
         if ( is_bool( $quantity ) and !$quantity )
         {
             $db->array_query( $qry_array, "SELECT Name FROM eZTrade_QuantityRange
-                                       WHERE MaxRange=-1 LIMIT 1", 0, 1 );
-            $name = $qry_array[0]["Name"];
+                                       WHERE MaxRange=-1", array( "Limit" => 1 ), 1 );
+            $name = $qry_array[0][$db->fieldName( "Name" )];
         }
         else
         {
             $db->array_query( $qry_array, "SELECT Name FROM eZTrade_QuantityRange
                                        WHERE MaxRange IS NOT NULL AND MaxRange>=$quantity
-                                       ORDER BY MaxRange LIMIT 1", 0, 1 );
+                                       ORDER BY MaxRange", array( "Limit" => 1 ), 1 );
             $name = "";
             if ( count( $qry_array ) == 1 )
             {
-                $name = $qry_array[0]["Name"];
+                $name = $qry_array[0][$db->fieldName( "Name" )];
             }
             else
             {
                 $db->array_query( $qry_array, "SELECT Name FROM eZTrade_QuantityRange
-                                           WHERE MaxRange IS NULL LIMIT 1", 0, 1 );
+                                           WHERE MaxRange IS NULL", array( "Limit" => 1 ), 1 );
                 if ( count( $qry_array ) == 1 )
-                    $name = $qry_array[0]["Name"];
+                    $name = $qry_array[0][$db->fieldName( "Name" )];
                 else
                     $name = $quantity;
             }
@@ -541,9 +528,6 @@ class eZProduct
     */
     function &keywords( )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
        return htmlspecialchars( $this->Keywords );
     }    
 
@@ -552,9 +536,6 @@ class eZProduct
     */
     function &productNumber( )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
        return htmlspecialchars( $this->ProductNumber );
     }    
 
@@ -563,9 +544,6 @@ class eZProduct
     */
     function &brief( )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
        return htmlspecialchars( $this->Brief );
     }    
 
@@ -574,9 +552,6 @@ class eZProduct
     */
     function &description( )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
        return htmlspecialchars( $this->Description );
     }
 
@@ -586,9 +561,6 @@ class eZProduct
     */
     function showPrice()
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
        return $this->ShowPrice;
     }
 
@@ -598,9 +570,6 @@ class eZProduct
     */
     function showProduct()
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
        return $this->ShowProduct;
     }
 
@@ -617,9 +586,6 @@ class eZProduct
     */
     function externalLink()
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
        return htmlspecialchars( $this->ExternalLink );
     }
 
@@ -629,9 +595,6 @@ class eZProduct
     */
     function isHotDeal()
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
        $ret = false;
        if ( $this->IsHotDeal == "true" )
        {
@@ -647,9 +610,6 @@ class eZProduct
     */
     function setName( $value )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
        $this->Name =& $value;        
     }
 
@@ -658,9 +618,6 @@ class eZProduct
     */
     function setRemoteID( $remoteID )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
        $this->RemoteID = $remoteID;        
     }
 
@@ -670,9 +627,6 @@ class eZProduct
     */
     function setBrief( $value )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
        $this->Brief = $value;
     }
 
@@ -681,9 +635,6 @@ class eZProduct
     */
     function setDescription( $value )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
        $this->Description = $value;       
     }
 
@@ -692,9 +643,6 @@ class eZProduct
     */
     function setKeywords( $value )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
        $this->Keywords = $value;
     }
 
@@ -703,9 +651,6 @@ class eZProduct
     */
     function setProductNumber( $value )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
        $this->ProductNumber = $value;
     }
 
@@ -714,9 +659,6 @@ class eZProduct
     */
     function setPrice( $value )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
        $this->Price = $value;
        setType( $this->Price, "double" );
     }
@@ -726,9 +668,6 @@ class eZProduct
     */
     function setShowPrice( $value )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
        $this->ShowPrice = $value;
        setType( $this->ShowPrice, "integer" );
     }
@@ -738,9 +677,6 @@ class eZProduct
     */
     function setShowProduct( $value )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
        $this->ShowProduct = $value;
        setType( $this->ShowProduct, "integer" );
     }
@@ -751,9 +687,6 @@ class eZProduct
     */
     function setDiscontinued( $value )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
        $this->Discontinued = $value;
        setType( $this->Discontinued, "integer" );
     }
@@ -763,9 +696,6 @@ class eZProduct
     */
     function setExternalLink( $value )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
        $this->ExternalLink = $value;
     }
 
@@ -776,9 +706,6 @@ class eZProduct
     */
     function setIsHotDeal( $value )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
        if ( $value == true )
        {
            $this->IsHotDeal = "true";
@@ -787,27 +714,28 @@ class eZProduct
        {
            $this->IsHotDeal = "false";
        }
-        
     }
-      
-    
 
     /*!
       Adds a option to the product.
     */
     function addOption( $value )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-        
         if ( get_class( $value ) == "ezoption" )
         {
-            $this->dbInit();
-
             $optionID = $value->id();
             $value->store();
-            
-            $this->Database->query( "INSERT INTO eZTrade_ProductOptionLink SET ProductID='$this->ID', OptionID='$optionID'" );
+
+            $db =& eZDB::globalDatabase();
+            $db->begin();
+            $db->lock( "eZTrade_ProductOptionLink" );
+            $nextID = $db->nextID( "eZTrade_ProductOptionLink", "ID" );            
+            $res = $db->query( "INSERT INTO eZTrade_ProductOptionLink ( ID, ProductID, OptionID ) VALUES ( '$nextID', '$this->ID', '$optionID'" );
+            $db->unlock();
+            if ( $res == false )
+                $db->rollback( );
+            else
+                $db->commit();
         }
     }
 
@@ -816,19 +744,15 @@ class eZProduct
     */
     function options()
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
-       $this->dbInit();
-       
        $return_array = array();
        $option_array = array();
+       $db =& eZDB::globalDatabase();
        
-       $this->Database->array_query( $option_array, "SELECT OptionID FROM eZTrade_ProductOptionLink WHERE ProductID='$this->ID'" );
+       $db->array_query( $option_array, "SELECT OptionID FROM eZTrade_ProductOptionLink WHERE ProductID='$this->ID'" );
 
        for ( $i=0; $i < count($option_array); $i++ )
        {
-           $return_array[$i] = new eZOption( $option_array[$i]["OptionID"], true );
+           $return_array[$i] = new eZOption( $option_array[$i][$db->fieldName( "OptionID" )], true );
        }
        
        return $return_array;
@@ -839,16 +763,20 @@ class eZProduct
     */
     function addImage( $value )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-        
         if ( get_class( $value ) == "ezimage" )
         {
-            $this->dbInit();
-
             $imageID = $value->id();
-            
-            $this->Database->query( "INSERT INTO eZTrade_ProductImageLink SET ProductID='$this->ID', ImageID='$imageID'" );
+
+            $db =& eZDB::globalDatabase();
+            $db->begin();
+            $db->lock( "eZTrade_ProductImageLink" );
+            $nextID = $db->nextID( "eZTrade_ProductImageLink", "ID" );            
+            $res = $db->query( "INSERT INTO eZTrade_ProductImageLink ( ID, ProductID, ImageID ) VALUES ( '$nextID', '$this->ID', '$imageID'" );
+            $db->unlock();
+            if ( $res == false )
+                $db->rollback( );
+            else
+                $db->commit();
         }
     }
 
@@ -859,18 +787,19 @@ class eZProduct
     */
     function deleteImage( $value )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-        
         if ( get_class( $value ) == "ezimage" )
         {
-            $this->dbInit();
-
             $imageID = $value->id();
 
-            $this->Database->query( "DELETE FROM eZTrade_ProductImageLink WHERE ProductID='$this->ID' AND ImageID='$imageID'" );
-            $this->Database->query( "DELETE FROM eZTrade_ProductImageDefinition WHERE ProductID='$this->ID' AND MainImageID='$imageID'" );
-            $this->Database->query( "DELETE FROM eZTrade_ProductImageDefinition WHERE ProductID='$this->ID' AND ThumbnailImageID='$imageID'" );
+            $db =& eZDB::globalDatabase();
+            $db->begin();
+            $res[] = $db->query( "DELETE FROM eZTrade_ProductImageLink WHERE ProductID='$this->ID' AND ImageID='$imageID'" );
+            $res[] = $db->query( "DELETE FROM eZTrade_ProductImageDefinition WHERE ProductID='$this->ID' AND MainImageID='$imageID'" );
+            $res[] = $db->query( "DELETE FROM eZTrade_ProductImageDefinition WHERE ProductID='$this->ID' AND ThumbnailImageID='$imageID'" );
+            if ( in_array( false, $res ) )
+                $db->rollback( );
+            else
+                $db->commit();            
         }
     }
     
@@ -879,19 +808,15 @@ class eZProduct
     */
     function images()
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
-       $this->dbInit();
-       
        $return_array = array();
        $image_array = array();
-       
-       $this->Database->array_query( $image_array, "SELECT ImageID FROM eZTrade_ProductImageLink WHERE ProductID='$this->ID' ORDER BY Created" );
+
+       $db =& eZDB::globalDatabase();
+       $db->array_query( $image_array, "SELECT ImageID FROM eZTrade_ProductImageLink WHERE ProductID='$this->ID' ORDER BY Created" );
        
        for ( $i=0; $i < count($image_array); $i++ )
        {
-           $return_array[$i] = new eZImage( $image_array[$i]["ImageID"], false );
+           $return_array[$i] = new eZImage( $image_array[$i][$db->fieldName( "ImageID" )], false );
        }
        
        return $return_array;
@@ -904,22 +829,19 @@ class eZProduct
     */
     function setMainImage( $image )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-        
+        $db =& eZDB::globalDatabase();
+        $db->begin();
         if ( get_class( $image ) == "ezimage" )
         {
-            $this->dbInit();
-
             $imageID = $image->id();
 
-            $this->Database->array_query( $res_array, "SELECT COUNT(*) AS Number FROM eZTrade_ProductImageDefinition
+            $db->array_query( $res_array, "SELECT COUNT(*) AS Number FROM eZTrade_ProductImageDefinition
                                                        WHERE
                                                        ProductID='$this->ID'" );
 
-            if ( $res_array[0]["Number"] == "1" )
+            if ( $res_array[0][$db->fieldName( "Number" )] == "1" )
             {            
-                $this->Database->query( "UPDATE eZTrade_ProductImageDefinition
+                $res[] = $db->query( "UPDATE eZTrade_ProductImageDefinition
                                          SET
                                          MainImageID='$imageID'
                                          WHERE
@@ -927,31 +849,37 @@ class eZProduct
             }
             else
             {
-                $this->Database->query( "INSERT INTO eZTrade_ProductImageDefinition
-                                         SET
-                                         ProductID='$this->ID',
-                                         MainImageID='$imageID'" );
+                $db->lock( "eZTrade_ProductImageDefinition" );
+                $nextID = $db->nextID( "eZTrade_ProductImageDefinition", "ID" );            
+                $res[] = $db->query( "INSERT INTO eZTrade_ProductImageDefinition
+                                   ( ID, ProductID, MainImageID )
+                                   VALUES ( '$nextID', '$this->ID', '$imageID' )
+                                   " );
             }
         }
         else if ( $image == false )
         {
-            $this->dbInit();
-
-            $this->Database->array_query( $res_array, "SELECT COUNT(*) AS Number FROM eZTrade_ProductImageDefinition
+            $db->array_query( $res_array, "SELECT COUNT(*) AS Number FROM eZTrade_ProductImageDefinition
                                                        WHERE
                                                        ProductID='$this->ID'" );
 
-            if ( $res_array[0]["Number"] == "1" )
+            if ( $res_array[0][$db->fieldName( "Number" )] == "1" )
             {
-                $this->Database->query( "UPDATE eZTrade_ProductImageDefinition
+                $res[] = $db->query( "UPDATE eZTrade_ProductImageDefinition
                                          SET
                                          MainImageID='0'
                                          WHERE
                                          ProductID='$this->ID'" );
             }
         }
-    }    
+        $db->unlock();
 
+        if ( in_array( false, $res ) )
+            $db->rollback( );
+        else
+            $db->commit();            
+    }    
+    
     /*!
       Sets the thumbnail image for the product.
 
@@ -959,22 +887,20 @@ class eZProduct
     */
     function setThumbnailImage( $image )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-        
+        $db =& eZDB::globalDatabase();
+        $db->begin();
+
         if ( get_class( $image ) == "ezimage" )
         {
-            $this->dbInit();
-
             $imageID = $image->id();
 
-            $this->Database->array_query( $res_array, "SELECT COUNT(*) AS Number FROM eZTrade_ProductImageDefinition
+            $db->array_query( $res_array, "SELECT COUNT(*) AS Number FROM eZTrade_ProductImageDefinition
                                                        WHERE
                                                        ProductID='$this->ID'" );
 
-            if ( $res_array[0]["Number"] == "1" )
+            if ( $res_array[0][$db->fieldName( "Number" )] == "1" )
             {            
-                $this->Database->query( "UPDATE eZTrade_ProductImageDefinition
+                $res[] = $db->query( "UPDATE eZTrade_ProductImageDefinition
                                          SET
                                          ThumbnailImageID='$imageID'
                                          WHERE
@@ -982,29 +908,38 @@ class eZProduct
             }
             else
             {
-                $this->Database->query( "INSERT INTO eZTrade_ProductImageDefinition
-                                         SET
-                                         ProductID='$this->ID',
-                                         ThumbnailImageID='$imageID'" );
+                $db->lock( "eZTrade_ProductImageDefinition" );
+                $nextID = $db->nextID( "eZTrade_ProductImageDefinition", "ID" );            
+
+                $res[] = $db->query( "INSERT INTO eZTrade_ProductImageDefinition
+                                   ( ID, ProductID, ThumbnailImageID )
+                                   VALUES
+                                   ( '$nextID',
+                                     '$this->ID',
+                                     '$imageID' )" ) ;
             }
         }
         else if ( $image == false )
         {
-            $this->dbInit();
-
-            $this->Database->array_query( $res_array, "SELECT COUNT(*) AS Number FROM eZTrade_ProductImageDefinition
+            $db->array_query( $res_array, "SELECT COUNT(*) AS Number FROM eZTrade_ProductImageDefinition
                                                        WHERE
                                                        ProductID='$this->ID'" );
 
-            if ( $res_array[0]["Number"] == "1" )
+            if ( $res_array[0][$db->fieldName( "Number" )] == "1" )
             {
-                $this->Database->query( "UPDATE eZTrade_ProductImageDefinition
+                $res[] = $db->query( "UPDATE eZTrade_ProductImageDefinition
                                          SET
                                          ThumbnailImageID='0'
                                          WHERE
                                          ProductID='$this->ID'" );
             }
         }
+        $db->unlock();
+
+        if ( in_array( false, $res ) )
+            $db->rollback( );
+        else
+            $db->commit();            
     }
 
     /*!
@@ -1014,22 +949,17 @@ class eZProduct
     */
     function mainImage( )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
        $ret = false;
-       $this->dbInit();
-       
-       $this->Database->array_query( $res_array, "SELECT * FROM eZTrade_ProductImageDefinition
+       $res = $db->array_query( $res_array, "SELECT * FROM eZTrade_ProductImageDefinition
                                      WHERE
                                      ProductID='$this->ID'
                                    " );
        
        if ( count( $res_array ) == 1 )
        {
-           if ( $res_array[0]["MainImageID"] != "NULL" )
+           if ( $res_array[0][$db->fieldName( "MainImageID" )] != "NULL" )
            {
-               $ret = new eZImage( $res_array[0]["MainImageID"], false );
+               $ret = new eZImage( $res_array[0][$db->fieldName( "MainImageID" )], false );
            }               
        }
        
@@ -1047,16 +977,16 @@ class eZProduct
        $ret = false;
        $this->dbInit();
        
-       $this->Database->array_query( $res_array, "SELECT * FROM eZTrade_ProductImageDefinition
+       $db->array_query( $res_array, "SELECT * FROM eZTrade_ProductImageDefinition
                                      WHERE
                                      ProductID='$this->ID'
                                    " );
        
        if ( count( $res_array ) == 1 )
        {
-           if ( is_numeric( $res_array[0]["ThumbnailImageID"] ) )
+           if ( is_numeric( $res_array[0][$db->fieldName( "ThumbnailImageID" )] ) )
            {
-               $ret = new eZImage( $res_array[0]["ThumbnailImageID"], false );
+               $ret = new eZImage( $res_array[0][$db->fieldName( "ThumbnailImageID" )], false );
            }               
        }
        
@@ -1076,7 +1006,7 @@ class eZProduct
        $ret = array();
        $this->dbInit();
 
-       $this->Database->array_query( $res_array, "SELECT ID FROM eZTrade_Product
+       $db->array_query( $res_array, "SELECT ID FROM eZTrade_Product
                                      WHERE
                                      ( Name LIKE '%$query%' ) OR
                                      ( Description LIKE '%$query%' ) OR
@@ -1103,7 +1033,7 @@ class eZProduct
        $ret = array();
        $this->dbInit();
 
-       $this->Database->array_query( $res_array, "SELECT count(ID) AS Count FROM eZTrade_Product
+       $db->array_query( $res_array, "SELECT count(ID) AS Count FROM eZTrade_Product
                                      WHERE
                                      ( Name LIKE '%$query%' ) OR
                                      ( Description LIKE '%$query%' ) OR
@@ -1307,7 +1237,7 @@ class eZProduct
        $ret = array();
        $this->dbInit();
 
-       $this->Database->array_query( $res_array, "SELECT ID FROM eZTrade_Product
+       $db->array_query( $res_array, "SELECT ID FROM eZTrade_Product
                                      WHERE
                                      IsHotDeal='true' ORDER BY Name $limit_text" );
 
@@ -1333,7 +1263,7 @@ class eZProduct
        $this->dbInit();
 
        $ret = array();
-       $this->Database->array_query( $category_array, "SELECT * FROM eZTrade_ProductCategoryLink WHERE ProductID='$this->ID'" );
+       $db->array_query( $category_array, "SELECT * FROM eZTrade_ProductCategoryLink WHERE ProductID='$this->ID'" );
 
        if ( $as_object )
        {
@@ -1364,7 +1294,7 @@ class eZProduct
 
        $this->dbInit();
 
-       $this->Database->query( "DELETE FROM eZTrade_ProductCategoryLink WHERE ProductID='$this->ID'" );       
+       $db->query( "DELETE FROM eZTrade_ProductCategoryLink WHERE ProductID='$this->ID'" );       
         
     }
 
@@ -1383,7 +1313,7 @@ class eZProduct
            $this->dbInit();
            $catID = $category->id();
         
-           $this->Database->array_query( $ret_array, "SELECT ID FROM eZTrade_ProductCategoryLink
+           $db->array_query( $ret_array, "SELECT ID FROM eZTrade_ProductCategoryLink
                                     WHERE ProductID='$this->ID' AND CategoryID='$catID'" );
 
            if ( count( $ret_array ) == 1 )
@@ -1409,7 +1339,7 @@ class eZProduct
 
             $categoryID = $value->id();
 
-            $this->Database->query( "DELETE FROM eZTrade_ProductCategoryDefinition
+            $db->query( "DELETE FROM eZTrade_ProductCategoryDefinition
                                      WHERE ProductID='$this->ID'" );
             
             $query = "INSERT INTO
@@ -1418,7 +1348,7 @@ class eZProduct
                            CategoryID='$categoryID',
                            ProductID='$this->ID'";
             
-            $this->Database->query( $query );
+            $db->query( $query );
        }       
     }
 
@@ -1432,7 +1362,7 @@ class eZProduct
        
        $this->dbInit();
 
-       $this->Database->array_query( $res, "SELECT CategoryID FROM
+       $db->array_query( $res, "SELECT CategoryID FROM
                                             eZTrade_ProductCategoryDefinition
                                             WHERE ProductID='$this->ID'" );
 
@@ -1466,10 +1396,10 @@ class eZProduct
 
             $typeID = $type->id();
 
-            $this->Database->query( "DELETE FROM eZTrade_AttributeValue
+            $db->query( "DELETE FROM eZTrade_AttributeValue
                                      WHERE ProductID='$this->ID'" );
             
-            $this->Database->query( "DELETE FROM eZTrade_ProductTypeLink
+            $db->query( "DELETE FROM eZTrade_ProductTypeLink
                                      WHERE ProductID='$this->ID'" );
 
             $query = "INSERT INTO
@@ -1478,7 +1408,7 @@ class eZProduct
                            TypeID='$typeID',
                            ProductID='$this->ID'";
             
-            $this->Database->query( $query );
+            $db->query( $query );
        }       
     }
 
@@ -1492,7 +1422,7 @@ class eZProduct
        
        $this->dbInit();
 
-       $this->Database->array_query( $res, "SELECT TypeID FROM
+       $db->array_query( $res, "SELECT TypeID FROM
                                             eZTrade_ProductTypeLink
                                             WHERE ProductID='$this->ID'" );
 
@@ -1517,10 +1447,10 @@ class eZProduct
        $this->dbInit();
 
        // delete values
-       $this->Database->query( "DELETE FROM eZTrade_AttributeValue
+       $db->query( "DELETE FROM eZTrade_AttributeValue
                                      WHERE ProductID='$this->ID'" );
 
-       $this->Database->query( "DELETE FROM eZTrade_ProductTypeLink
+       $db->query( "DELETE FROM eZTrade_ProductTypeLink
                                      WHERE ProductID='$this->ID'" );
             
     }
@@ -1534,7 +1464,7 @@ class eZProduct
         
         $product = false;
         
-        $this->Database->array_query( $res, "SELECT ID FROM
+        $db->array_query( $res, "SELECT ID FROM
                                             eZTrade_Product
                                             WHERE RemoteID='$id'" );
         
@@ -1556,7 +1486,7 @@ class eZProduct
         
         if ( $id != "" )
         {
-            $this->Database->array_query( $product_array, "SELECT * FROM eZTrade_Product WHERE ID='$id'" );
+            $db->array_query( $product_array, "SELECT * FROM eZTrade_Product WHERE ID='$id'" );
             
             if( count( $product_array ) == 1 )
             {
@@ -1653,7 +1583,7 @@ class eZProduct
     {
         if ( $this->IsConnected == false )
         {            
-            $this->Database =& eZDB::globalDatabase();
+            $db =& eZDB::globalDatabase();
             $this->IsConnected = true;
         }
     }
