@@ -717,3 +717,11 @@ Maintainer(s) : jhe@ez.no
 
     * user/fileupload.php: code standard fixes
 
+
+Module : ezfilemanager
+Repository path : /home/cvsroot/projects/php/ezfilemanager
+Maintainer(s) : jhe@ez.no
+2002-03-06  Jo Henrik Endrerud  <jhe@ez.no>
+
+    * user/filelist.php: removed unused code
+

@@ -3288,3 +3288,12 @@ Maintainer(s) : ce@ez.no
       user/payment.php
       user/productview.php: Fix
 
+
+Module : eztrade
+Repository path : /home/cvsroot/projects/php/eztrade
+Maintainer(s) : ce@ez.no
+2002-03-06  Baard Farstad  <bf@ez.no>
+
+    * classes/ezproduct.php
+      user/productsearch.php: Added ignoring of common words.
+

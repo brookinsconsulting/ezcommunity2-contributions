@@ -943,3 +943,16 @@ Maintainer(s) : br@ez.no
 
     * classes/ezimage.php: Updates design
 
+
+Module : ezimagecatalogue
+Repository path : /home/cvsroot/projects/php/ezimagecatalogue
+Maintainer(s) : br@ez.no
+2002-03-06  Jo Henrik Endrerud  <jhe@ez.no>
+
+    * classes/ezimagecategory.php
+      user/categoryedit.php
+      user/imagelist.php
+      user/imageview.php
+      user/slideshow.php: fixed several section problems
+    code standard fixes
+

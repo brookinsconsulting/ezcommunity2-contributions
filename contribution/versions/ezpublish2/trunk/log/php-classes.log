@@ -691,3 +691,11 @@ Maintainer(s) : bf@ez.no
       ezmysqldb.php
       eztemplate.php: Added a global_section_name template variable.
 
+
+Module : classes
+Repository path : /home/cvsroot/projects/php/classes
+Maintainer(s) : bf@ez.no
+2002-03-06  Christoffer Elo  <ce@ez.no>
+
+    * eztemplate.php: Added a template variable
+
