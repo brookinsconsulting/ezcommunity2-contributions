@@ -24,6 +24,7 @@ classes
 ezurltranslator
 ezbulkmail
 ezform
+ezmediacatalogue
 "
 
 for dir in $dirs
