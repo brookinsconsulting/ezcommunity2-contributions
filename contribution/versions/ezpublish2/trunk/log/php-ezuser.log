@@ -1012,3 +1012,12 @@ Maintainer(s) : bf@ez.no
 
     * user/login.php: *** empty log message ***
 
+
+Module : ezuser
+Repository path : /home/cvsroot/projects/php/ezuser
+Maintainer(s) : bf@ez.no
+2002-02-01  Christoffer Elo  <ce@ez.no>
+
+    * classes/ezuser.php
+      user/userwithaddress.php: Fixed a bug
+

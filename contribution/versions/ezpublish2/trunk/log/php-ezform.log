@@ -1282,3 +1282,11 @@ Maintainer(s) : pkej@ez.no
 
     * admin/exportform.php: fixed bug with tables
 
+
+Module : ezform
+Repository path : /home/cvsroot/projects/php/ezform
+Maintainer(s) : pkej@ez.no
+2002-02-01  Jo Henrik Endrerud  <jhe@ez.no>
+
+    * classes/ezformreportelement.php: fixed bug in list
+

@@ -3108,3 +3108,27 @@ Maintainer(s) : ce@ez.no
 
     * classes/ezcart.php: Fixed a default value for paymentmethod
 
+
+Module : eztrade
+Repository path : /home/cvsroot/projects/php/eztrade
+Maintainer(s) : ce@ez.no
+2002-02-01  Baard Farstad  <bf@ez.no>
+
+    * admin/templates/standard/categorylist.tpl
+      user/productview.php: Fixed link.
+
+2002-02-01  Bjoern Reiten  <br@ez.no>
+
+    * classes/ezorder.php: fixed comment bug.
+
+2002-02-01  Christoffer Elo  <ce@ez.no>
+
+    * user/ordersendt.php
+      user/productlist.php
+      classes/ezcart.php
+      classes/ezproduct.php: fixed a bug
+
+2002-02-01  ceaker  <ceaker@zev.ez.no>
+
+    * user/wishlist.php: *** empty log message ***
+

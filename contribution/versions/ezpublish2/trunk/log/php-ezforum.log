@@ -1015,3 +1015,11 @@ Maintainer(s) : jhe@ez.no
 
     * user/messagesimplelist.php: Fixed design.
 
+
+Module : ezforum
+Repository path : /home/cvsroot/projects/php/ezforum
+Maintainer(s) : jhe@ez.no
+2002-02-01  Thomas Hellstroem  <th@ez.no>
+
+    * user/intl/no_NO/messagesimplelist.php.ini: Layout
+
