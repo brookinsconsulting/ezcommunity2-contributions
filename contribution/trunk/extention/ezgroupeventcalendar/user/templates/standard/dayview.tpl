@@ -1,3 +1,4 @@
+ <div id="overDiv" style="position:absolute; visibility:hidden; z-index:1000;"></div>
 <form method="post" action="{www_dir}{index}/groupeventcalendar/dayview/">
  <table border="0" cellspacing="0" cellpadding="0" id="gcalDayViewSortBy">
  <tr>
@@ -29,11 +30,6 @@
 </tr>
 </table>
 </form>
-<br />
-
-
-<br />
-
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
 
 <tr><td>
@@ -41,7 +37,7 @@
 	<table width="160" border="0" cellspacing="0" cellpadding="0" id="gcalDayViewMonthTable">
 	<tr><td colspan=7 id="gcalDayViewMonthTableHeader" 
     style="height: 12px;
-    background: no-repeat url('{www_dir}{index}/ezgroupeventcalendar/user/templates/standard/images/gcalDayViewMonthTableHeader.png');  
+    background: no-repeat url('{www_dir}{index}/ezgroupeventcalendar/user/templates/standard/images/gcalDayViewMonthTableHeader.png');
     font-size: 2px;"><img src="{www_dir}{index}/ezgroupeventcalendar/user/templates/standard/images/gcalX.png" style="margin-right:7px;"  alt="close"
     onclick="document.getElementById('gcalDayViewMonthTable').style.visibility = 'hidden';" /></td>
 
@@ -58,7 +54,7 @@
 		<tr>
 			<!-- BEGIN day_tpl -->
 			<td class="gcalDayViewMonthTableDay">
-			<a class="gcalDayViewMonthTableDay"href="{www_dir}{index}/groupeventcalendar/dayview/{year_number}/{month_number}/{day_number}/{group_print_id}/">{day_number}</a>
+			<a class="gcalDayViewMonthTableDay" href="{www_dir}{index}/groupeventcalendar/dayview/{year_number}/{month_number}/{day_number}/{group_print_id}/">{day_number}</a>
 			</td>
 			<!-- END day_tpl -->
 
@@ -112,7 +108,7 @@
       </span>
       <span class="gcalSwitchBox" onmouseover="this.className='gcalSwitchBoxSelect'"
       onmouseout="this.className='gcalSwitchBox'"
-      onclick="location.href = '{www_dir}{index}/groupeventcalendar/monthview/{the_year}/{group_print_id}/'">
+      onclick="location.href = '{www_dir}{index}/groupeventcalendar/yearview/{the_year}/{group_print_id}/'">
       {intl-year}
       </span>
       <span class="gcalSwitchBox" onmouseover="this.className='gcalSwitchBoxSelect'"
@@ -145,6 +141,17 @@
 	<!-- END day_links_tpl -->
 <td width="4.5%" class="gcalDayViewTopBar"><a class="gcalSmallLink" href="{www_dir}{index}/groupeventcalendar/dayview/{nd_year_number}/{nd_month_number}/{nd_day_number}/{group_print_id}/"> &gt;&gt; </a></td>
 </tr>
+<!-- BEGIN all_day_event_tpl -->
+<tr>
+<td width="5%" class="gcalDayViewTopBar" style="cursor: default; font-size: 8px;">All Day</td>
+<td width="90%" colspan=7
+onclick="location.href = '{www_dir}{index}/groupeventcalendar/eventview/{all_day_id}/'"
+style="cursor: pointer; background: url('{www_dir}{index}/ezgroupeventcalendar/user/templates/standard/images/gcalAllDayEvent.png') repeat;">
+<a class="gcalAllDay" href="{www_dir}{index}/groupeventcalendar/eventview/{all_day_id}/" 
+onmouseover="return overlib('<div class=\'olWrapAllDay\'><div class=\'olListAllDay\'>Name</div>{all_day_name}<div class=\'olListAllDay\'>Time</div> {all_day_start} - {all_day_stop}<div class=\'olListAllDay\'>Description </div>{all_day_desc}</div>');"
+onmouseout="return nd();">{all_day_name}</a></td>
+<td width="5%" class="gcalDayViewTopBar" style="cursor: default; font-size: 8px;">All Day</td></tr>
+<!-- END all_day_event_tpl -->
 </table>
 
 <table width="100%" border="0" cellspacing="0" cellpadding="0" class="gcalBorder" style="background: url('{www_dir}{index}/ezgroupeventcalendar/user/templates/standard/images/gcalDayViewBg.png') repeat;">
@@ -160,7 +167,9 @@
 	<!-- END new_event_link_tpl -->
 
 	<!-- BEGIN no_new_event_link_tpl -->
-	<td class="{td_class}" width="100%" style="height: 58px; border: 1px solid gray; border-right: 2px solid gray;" >{short_time}</td>
+	<td class="{td_class}" width="100%"
+    style="text-align: center; height: 58px; border: 1px solid gray; border-right: 2px solid gray;  font-size: 10px;
+    background: url('{www_dir}{index}/ezgroupeventcalendar/user/templates/standard/images/gcalShortTimeBg.png') repeat;" >{short_time}</td>
 	<!-- END no_new_event_link_tpl -->
 	</tr>
 <!-- END time_display_tpl -->
@@ -174,7 +183,7 @@
 	<table width="100%" cellspacing="0" cellpadding="0" border="0">
 	<tr>
 		<td width="98%" nowrap valign="top" class="gcalEventTopBar" style="overflow: hidden; height: 15px;">
-		<a class='gcalDayEventText' href="{www_dir}{index}/groupeventcalendar/eventview/{event_id}/">&nbsp;{event_name}&nbsp;</a><br />
+		<a class='gcalDayEventText' href="{www_dir}{index}/groupeventcalendar/eventview/{event_id}/" onmouseover="">&nbsp;{event_name}&nbsp;</a><br />
 
 		</td>
 
@@ -245,5 +254,4 @@ function getMouse(fnEvent, type)
   else
    return divY;
 }
-
 </script>

@@ -1,69 +1,85 @@
-<h1 style="text-align: center;">{month_name} - {current_year_number}</h1>
  <div id="overDiv" style="position:absolute; visibility:hidden; z-index:1000;"></div>
-<table width="100%" border="0" cellspacing="0" cellpadding="0">
- <form method="post" action="{www_dir}{index}/groupeventcalendar/monthview/">
-  <tr>
-    <td colspan="2" align="right">
-	<table border="0" cellspacing="3" cellpadding="3">
-	  <tr>
-            <td align="right" valign="bottom">
-              <input class="stdbutton" type="submit" Name="GetByGroup" value="{intl-show}">
-	    </td>
-	     <td align="right">
-		<div class="gcalBoxText">{intl-type}:</div>
-		<select name="GetByTypeID">
-		<option value="0">{intl-default_type}</option>
-		<!-- BEGIN type_item_tpl -->
-		<option {type_is_selected} value="{type_id}">{type_name}</option>
-		<!-- END type_item_tpl -->
-		</select>
-	    </td>
-	    <td align="right">
-	      <div class="gcalBoxText">{intl-group}:</div>
-		<select name="GetByGroupID">
+<form method="post" action="{www_dir}{index}/groupeventcalendar/monthview/">
+ <table border="0" cellspacing="0" cellpadding="0" id="gcalDayViewSortBy">
+ <tr>
+  <td id="gcalDayViewSortByHeader"><img src="{www_dir}{index}/ezgroupeventcalendar/user/templates/standard/images/gcalX.png" style="margin-right:7px;"  alt="close" onclick="document.getElementById('gcalDayViewSortBy').style.visibility = 'hidden';" />
+ </td>
+ </tr>
+<tr>
+	<td valign="top" style="text-align: center; padding: 5px;">
+		<span>{intl-group}:</span><br />
+		<select class="gcalDayViewSelect" name="GetByGroupID">
 		<option value="0">{intl-default}</option>
 		<!-- BEGIN group_item_tpl -->
 		<option {group_is_selected} value="{group_id}">{group_name}</option>
 		<!-- END group_item_tpl -->
 		</select>
-             </td>
-	  </tr>
-	</table>
-    </td>
-  </tr>
- </form>
-  <tr>
-	<td colspan="2" align="right" style="padding:5px;">
-	<div>
-	  <form action="{www_dir}{index}/groupeventcalendar/eventedit/edit/">
-  	     <input class="stdbutton" type="submit" name="GoDay" value="{intl-day}">
-		<input class="stdbutton" type="submit" name="GoWeek" value="{intl-week}">
-		<input class="stdbutton" type="submit" name="GoMonth" value="{intl-month}">
-		<input class="stdbutton" type="submit" name="GoYear" value="{intl-year}">
-		<input class="stdbutton" type="submit" name="GoToday" value="{intl-today}">
+         <br />
+		<span>{intl-type}:</span><br />
+		<select class="gcalDayViewSelect" name="GetByTypeID">
+		<option value="0">{intl-default_type}</option>
+		<!-- BEGIN type_item_tpl -->
+		<option {type_is_selected} value="{type_id}">{type_name}</option>
+		<!-- END type_item_tpl -->
+		</select><br /><br />
 
-		<!-- BEGIN new_event_form_tpl -->
-		<input class="stdbutton" type="submit" name="GoNew" value="{intl-new_event}">
-		<!-- END new_event_form_tpl -->
-	  </form>
-	</div>
+		<input class="gcalDayViewButton" style="background: url('{www_dir}{index}/ezgroupeventcalendar/user/templates/standard/images/gcalButtonBg.png') repeat;" type="submit" Name="GetByGroup" value="{intl-show}">
 	</td>
-  </tr>
-  <tr>
-	<td align="left" style="padding-top: 10px; padding-bottom: 5px;">
+
+</tr>
+</table>
+</form>
+
+<!--	<td align="left" style="padding-top: 10px; padding-bottom: 5px;">
 	<a class="menu" href="{www_dir}{index}/groupeventcalendar/monthview/{prev_year_number}/{prev_month_number}/">&lt;&lt;</a>&nbsp; <a class="menu" href="{www_dir}{index}/groupeventcalendar/monthview/{prev_year_number}/{prev_month_number}/">{intl-previous_month}</a>
 	</td>
 	<td align="right" style="padding-top: 10px; padding-bottom: 5px;">
 	<a class="menu" href="{www_dir}{index}/groupeventcalendar/monthview/{next_year_number}/{next_month_number}/">{intl-next_month}</a>&nbsp;<a class="menu" href="{www_dir}{index}/groupeventcalendar/monthview/{next_year_number}/{next_month_number}/">&gt;&gt;</a>
+	</td> -->
+
+<!-- BEGIN month_tpl -->
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+	<td align="right" colspan="10" style="padding: 5px;">
+     <span class="gcalSwitchBox" onmouseover="this.className='gcalSwitchBoxSelect'" onmouseout="this.className='gcalSwitchBox'" onclick="document.getElementById('gcalDayViewSortBy').style.visibility = 'visible'; var posx = getMouse(event, 'x'); var posy = getMouse(event, 'y'); document.getElementById('gcalDayViewSortBy').style.left = posx + 'px'; document.getElementById('gcalDayViewSortBy').style.top = posy+ 'px';">
+      Sort By...
+      </span>
+      <span class="gcalSwitchBox" onmouseover="this.className='gcalSwitchBoxSelect'" onmouseout="this.className='gcalSwitchBox'" onclick="location.href = '{www_dir}{index}/groupeventcalendar/dayview/{the_year}/{the_month}/{the_day}/{group_print_id}/'">
+      {intl-day}
+      </span>
+      <span class="gcalSwitchBox" onmouseover="this.className='gcalSwitchBoxSelect'" onmouseout="this.className='gcalSwitchBox'" onclick="location.href = '{www_dir}{index}/groupeventcalendar/weekview/{the_year}/{the_month}/{the_day}/{group_print_id}/'">
+      {intl-week}
+      </span>
+      <span class="gcalSwitchBox" onmouseover="this.className='gcalSwitchBoxSelect'" onmouseout="this.className='gcalSwitchBox'" onclick="location.href = '{www_dir}{index}/groupeventcalendar/monthview/{the_year}/{the_month}/{group_print_id}/'">
+      {intl-month}
+      </span>
+      <span class="gcalSwitchBox" onmouseover="this.className='gcalSwitchBoxSelect'" onmouseout="this.className='gcalSwitchBox'" onclick="location.href = '{www_dir}{index}/groupeventcalendar/monthview/{the_year}/{group_print_id}/'">
+      {intl-year}
+      </span>
+      <span class="gcalSwitchBox" onmouseover="this.className='gcalSwitchBoxSelect'" onmouseout="this.className='gcalSwitchBox'" onclick="location.href = '{www_dir}{index}/groupeventcalendar/dayview/{year_cur}/{month_cur}/{day_cur}/{group_print_id}/'">
+      {intl-today}
+      </span>
+
+ 	 <!-- BEGIN valid_editor_tpl -->
+	<!-- <input class="stdbutton" type="submit" name="GoNew" value="{intl-new_event}">&nbsp;
+	 <input class="stdbutton" type="submit" name="DeleteEvents" value="{intl-delete_events}"> -->
+	<!-- END valid_editor_tpl -->
 	</td>
 </tr>
 </table>
+<table width="100%" border="0" cellspacing="0" cellpadding="2"  style="border: 1px solid gray;">
 
-<!-- BEGIN month_tpl -->
-<table width="100%" border="0" cellspacing="0" cellpadding="2">
+<tr>
+ <td colspan=7 style="height:40px; text-align: center; vertical-align: middle;
+  background: url('{www_dir}{index}/ezgroupeventcalendar/user/templates/standard/images/gcalShortTimeBg.png') repeat;">
+  <a class="gcalMonthViewNext" href="{www_dir}{index}/groupeventcalendar/monthview/{prev_year_number}/{prev_month_number}/">&lt;&lt;</a> &nbsp; &nbsp;
+  <span style="font-size: 20px;">{month_name} - {current_year_number}</span>  &nbsp; &nbsp;
+  <a class="gcalMonthViewNext" href="{www_dir}{index}/groupeventcalendar/monthview/{next_year_number}/{next_month_number}/">&gt;&gt;</a>
+  </td>
+</tr>
 <tr>
 <!-- BEGIN week_day_tpl -->
-	<th width="14%" class='tablehead' style="text-align: center; border: #929292 solid 1px; background-color: #eee;">
+	<th width="14%" class='tablehead' style="text-align: center; background: url('{www_dir}{index}/ezgroupeventcalendar/user/templates/standard/images/gcalMonthViewHeaderBg.png') repeat;">
 	{week_day_name}
 	</th>
 <!-- END week_day_tpl -->
@@ -87,7 +103,7 @@
     </td>
     <td>
      <!-- BEGIN new_event_link_tpl -->
-      <div align="right"><a class="path" href="{www_dir}{index}/groupeventcalendar/eventedit/new/{year_number}/{month_number_p}/{day_number}/">+</a></div>
+      <div align="right"><a class="path" href="{www_dir}{index}/groupeventcalendar/eventedit/new/{year_number}/{month_number}/{day_number}/">+</a></div>
      <!-- END new_event_link_tpl -->
 
      <!-- BEGIN no_new_event_link_tpl -->
@@ -111,10 +127,10 @@
 <!-- BEGIN public_appointment_tpl -->
  <tr valign="top">
    <td width="8"> <!-- <img src="/sitedesign/{sitedesign}/images/dot.gif" border="0" alt="" /> --> </td>
-   <td style="padding-bottom:5px;"><a class="small" href="{www_dir}{index}/groupeventcalendar/eventview/{appointment_id}/"
-onmouseover="return overlib('<div class=\'olList\'>Name</div>{appointment_full_name}<div class=\'olList\'>Time</div> {event_start_time} - {event_stop_time}<div class=\'olList\'>Description </div>{event_description}');"
-  onmouseout="return nd();"
-  ><!--{appointment_group} - -->{appointment_name}</a></td>
+   <td style="padding-bottom:5px;"><a class="gcalMonthViewNames" href="{www_dir}{index}/groupeventcalendar/eventview/{appointment_id}/" onmouseover="
+   return overlib('<div class=\'olList\'>Name</div>{appointment_full_name}<div class=\'olList\'>Time</div> {event_start_time} - {event_stop_time}<div class=\'olList\'>Description </div>{event_description}');" 
+   onmouseout="return nd();">
+   {appointment_name}</a></td>
  <tr>
 <!-- END public_appointment_tpl -->
 </table>
@@ -125,4 +141,31 @@ onmouseover="return overlib('<div class=\'olList\'>Name</div>{appointment_full_n
 <!-- END week_tpl -->
 </table>
 <!-- END month_tpl -->
+<script language="javascript">
+  Drag.init(document.getElementById("gcalDayViewSortBy"));
+divX=0
+divY=0
+function getMouse(fnEvent, type)
+{
+    if(typeof(fnEvent.clientX)=='number' && typeof(fnEvent.clientY)=='number')
+		{
+		divX = fnEvent.clientX
+		divY = fnEvent.clientY
+		}
+	else if(typeof(fnEvent.x)=='number' && typeof(fnEvent.y)=='number')
+		{
+		divX = fnEvent.x
+		divY = fnEvent.y
+		}
+	else
+		{
+		divX = 500
+		divY = 500
+		}
+  if (type == 'x')
+   return divX;
+  else
+   return divY;
+}
 
+</script>

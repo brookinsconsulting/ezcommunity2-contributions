@@ -6,12 +6,12 @@
 
 .bgdark 
 {
-	background-color: #FFFFCC;
+	background-color: #F2f2f2;
 }
 
 .bgcurrent
 {
-	background-color: #CCFFFF;
+	background-color: #f2f9ff;
 }
 
 .bgweekend
@@ -24,12 +24,51 @@
 	color: #ffffff;
 	background-color: #787878;
 }
+a.gcalMonthViewNext
+{
+ font-size:16px;
+ text-decoration: none;
+ margin-bottom: 30px;
+}
+a:hover.gcalMonthViewNext
+{
+color: #6699cc;
+text-decoration: none;
+}
 .gcalBoxText 
 {
 	font-weight: bold;
 	margin-bottom: 4px;
 }
 
+a.gcalMonthViewNames
+{
+ font-weight: bold;
+ font-size: 10px;
+}
+a.gcalMonthViewNamesRecurring
+{
+ font-weight: bold;
+ text-decoration: none;
+ font-size: 10px;
+ color: ;
+}
+
+a.gcalAllDay
+{
+ font-weight: bold;
+ font-size: 10px;
+ margin-left: 10px;
+ text-decoration: none;
+
+}
+.gcalAllDay
+{
+ height: 22px;
+ vertical-align: center;
+ text-align: left;
+ cursor: pointer;
+}
 /* Form Stuff */
 .gcalWrapFrm
 {
@@ -75,11 +114,28 @@ padding: 5px;
 border: 2px dotted black;
 margin-top: 10px;
 }
+.olWrapAllDay
+{
+ background-color: #98D17D;
+ color: #000;
+}
+.olListAllDay
+{
+background-color: #4f5f47;
+font-weight: bold;
+height: 18px;
+color: #fff;
+vertical-align: center;
+}
 .olList
 {
-background-color: #557ca3;
+background-color: #c5d9ec;
 font-weight: bold;
-height: 20px;
+height: 15px;
+vertical-align: middle;
+color: black;
+margin-top: 2px;
+margin-bottom: 2px;
 }
 .gcalSelectFrm
 {
@@ -165,6 +221,7 @@ border-top: 1px solid black;
 }
 a.gcalDayViewMonthTableHeader { text-decoration: none; color: black; font-weight: bold; font-size: 10px; }
 a:hover.gcalDayViewMonthTableHeader { color: #6699cc;  }
+
 .gcalDayViewMonthTableCloseOver { background-color: #ffab02; color: white; cursor: pointer; font-weight: bold; font-variant: small-caps; padding: 5px;
 border-left: 1px solid black;
 border-top: 1px solid black;}

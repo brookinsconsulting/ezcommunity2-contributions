@@ -226,6 +226,7 @@ if( $user )
     $t->set_block( "week_tpl", "day_tpl", "day" );
     $t->set_block( "week_tpl", "empty_day_tpl", "empty_day" );
     $t->set_block( "day_view_page_tpl", "day_links_tpl", "day_links" );
+    $t->set_block( "day_view_page_tpl", "all_day_event_tpl", "all_day_event");
 
     $t->set_var( "sitedesign", $SiteDesign );
 	$t->set_var( "month_number", $Month );
@@ -235,7 +236,7 @@ if( $user )
     $t->set_var( "year_cur", $curYear);
     $t->set_var( "month_cur", $curMonth);
     $t->set_var( "day_cur", $curDay);
-
+    
 	if ( $tmpGroup->id() != 0 )
 	{
 		$t->set_var( "group_print_name", $tmpGroup->name() );
@@ -294,6 +295,7 @@ if( $user )
         $startTime->setMinute( $min );
 
         $startTime->setSecond( 0 );
+      //  Var_Dump::display($startArray);
     }
 
     if ( preg_match( "#(^([0-9]{1,2})[^0-9]{0,1}([0-9]{0,2})$)#", $StopTimeStr, $stopArray ) )
@@ -344,12 +346,20 @@ if( $user )
     $midNight->setSecondsElapsed( 0 );
     $lastInterval = $midNight->subtract( $interval );
     $firstInterval = $midNight->add( $interval );
-
-    foreach ( $events as $event )
+    for ($i=0;$i<sizeof($events); $i++)
     {
-        $appStartTime =& $event->startTime();
-        $appStopTime =& $event->stopTime();
 
+        $appStartTime =& $events[$i]->startTime();
+        $appStopTime =& $events[$i]->stopTime();
+     // adding all_day_event filtering
+        if ($appStartTime == $startTime && $appStopTime == $stopTime
+        || ($appStartTime->hour() . addZero($appStartTime->minute())) < ($startTime->hour() . addZero($startTime->minute()) )
+        && ($appStopTime->hour() . addZero($appStopTime->minute()) > ($appStopTime->hour() . $appStopTime->minute())) )
+        {
+         $allDayEvents[] = $events[$i];
+         unset($events[$i]);
+         continue;
+        }
         if ( $appStartTime->isGreater( $firstInterval ) )
             $startTime = $midNight;
 
@@ -366,7 +376,39 @@ if( $user )
             $stopTime = $stopTime->add( $interval );
         }
     }
-    
+if (isset($allDayEvents))
+{
+ foreach ($allDayEvents as $adEvent)
+ {
+  $t->set_var("all_day_name", $adEvent->name());
+  $adStartTime = $adEvent->startTime();
+  $adStart = addZero($adStartTime->hour()) .':'. addZero($adStartTime->minute());
+  $adStopTime = $adEvent->stopTime();
+  $adStop = addZero($adStopTime->hour()) . ':' . addZero($adStopTime->minute());
+
+  $t->set_var("all_day_id", $adEvent->id());
+  $t->set_var("all_day_start", $adStart);
+  $t->set_var("all_day_stop", $adStop);
+  $t->set_var("all_day_desc", $adEvent->description());
+  $t->set_var("all_day_location", ($adEvent->location()) ? $adEvent->location() : "");
+
+
+  $t->parse("all_day_event", "all_day_event_tpl", true);
+ }
+}
+ else
+ {
+  $t->set_var("all_day_name", "");
+  $t->set_var("all_day_id", "");
+  $t->set_var("all_day_start", "");
+  $t->set_var("all_day_stop", "");
+  $t->set_var("all_day_desc", "");
+  $t->set_var("all_day_location", "");
+  $t->set_var("all_day_type", "");
+  $t->set_var("all_day_priority", "");
+  $t->set_var("all_day_status", "");
+  $t->set_var("all_day_event", "");
+ }
     for ($i=$startTime->hour();$i<=$stopTime->hour();$i++)
  {
   $t->set_var("short_time", $i . ':00');

@@ -128,8 +128,7 @@ $t = new eZTemplate( "ezgroupeventcalendar/user/" . $ini->read_var( "eZGroupEven
                      "ezgroupeventcalendar/user/intl", $Language, "monthview.php",
                      "default", "ezgroupeventcalendar" . "/user", "$Year-$zMonth-$GetByGroupID" . $isMyCalendar );
 
-$t->set_file( "month_view_page_tpl", "monthview.tpl" );
-
+$t->set_file( "month_view_page_tpl", "monthview.tpl" );;
 // group not to include
 $noShowGroup = new eZGroupNoShow();
 
