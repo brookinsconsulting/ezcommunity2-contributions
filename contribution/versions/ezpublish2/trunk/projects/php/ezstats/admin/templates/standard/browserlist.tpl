@@ -19,9 +19,9 @@
 	<th>
 	{intl-page_view_count}:
 	</th>
-	<th>
-	{intl-page_view_percent}:
-	</th>
+	<td align="right">
+	<b>{intl-page_view_percent}:</b>
+	</td>
 </tr>
 <!-- BEGIN browser_tpl -->
 <tr class="{bg_color}">
@@ -31,7 +31,7 @@
 	<td>
 	{page_view_count}
 	</td>
-	<td>
+	<td align="right">
 	{page_view_percent}%
 	</td>
 </tr>
