@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: checkout.php,v 1.17 2000/11/02 19:58:04 bf-cvs Exp $
+// $Id: checkout.php,v 1.18 2000/11/03 10:38:03 bf-cvs Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <28-Sep-2000 15:52:08 bf>
@@ -332,7 +332,7 @@ if ( $SendOrder == "true" )
     $mailBody = $mailTemplate->parse( "dummy", "mail_order_tpl" );
     $mail->setFrom( $OrderSenderEmail );
     
-    $mail->setTo( $user->email() );    
+    $mail->setTo( $user->email() );
     $mail->setSubject( $mailSubjectUser );
     $mail->setBody( $mailBody );
     $mail->send();
@@ -441,7 +441,7 @@ foreach ( $addressArray as $address )
     $country = $address->country();
     $t->set_var( "country", $country->name() );
     
-    $t->parse( "address", "address_tpl", true );
+    $t->parse( "address", "address_tpl"  );
 }
 
 $t->pparse( "output", "checkout_tpl" );

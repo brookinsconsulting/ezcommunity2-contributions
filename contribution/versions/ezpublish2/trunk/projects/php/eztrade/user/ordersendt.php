@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ordersendt.php,v 1.10 2000/11/02 20:26:19 bf-cvs Exp $
+// $Id: ordersendt.php,v 1.11 2000/11/03 10:38:03 bf-cvs Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <06-Oct-2000 14:04:17 bf>
@@ -98,7 +98,7 @@ if ( $user )
         $country = $address->country();
         $t->set_var( "country", $country->name() );
 
-        $t->parse( "address", "address_tpl", true );
+        $t->parse( "address", "address_tpl" );
     }
 
 }
