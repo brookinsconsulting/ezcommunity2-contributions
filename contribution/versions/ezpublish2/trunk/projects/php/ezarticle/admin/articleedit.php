@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: articleedit.php,v 1.18 2000/11/01 06:58:23 bf-cvs Exp $
+// $Id: articleedit.php,v 1.19 2000/11/01 07:53:40 bf-cvs Exp $
 //
 // 
 //
@@ -117,7 +117,7 @@ if ( $Action == "Insert" )
 
                 if ( ereg( "articlelist,(.+)\..*", $entry, $regArray  ) )
                 {
-                    if ( $regArray[1] == $CategoryID )
+                    if ( ( $regArray[1] == $CategoryID ) || ( $regArray[1] == 0 ) )
                     {
                         unlink( "ezarticle/cache/" . $entry );
                     }
@@ -247,7 +247,7 @@ if ( $Action == "Update" )
 
                 if ( ereg( "articlelist,(.+)\..*", $entry, $regArray  ) )
                 {
-                    if ( $regArray[1] == $CategoryID )
+                    if ( ( $regArray[1] == $CategoryID ) || ( $regArray[1] == 0 ) )
                     {
                         unlink( "ezarticle/cache/" . $entry );
                     }
@@ -325,7 +325,7 @@ if ( $Action == "Delete" )
 
             if ( ereg( "articlelist,(.+)\..*", $entry, $regArray  ) )
             {
-                if ( $regArray[1] == $categoryID )
+                if ( ( $regArray[1] == $CategoryID ) || ( $regArray[1] == 0 ) )
                 {
                     unlink( "ezarticle/cache/" . $entry );
                 }
