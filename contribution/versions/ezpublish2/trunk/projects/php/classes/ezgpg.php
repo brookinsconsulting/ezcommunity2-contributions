@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: ezgpg.php,v 1.8 2001/10/10 12:53:11 chrism Exp $
+// $Id: ezgpg.php,v 1.9 2001/10/10 13:54:05 ce Exp $
 //
 // Definition of eZGPG class
 //
@@ -31,6 +31,8 @@
 
 */
 
+include_once( "classes/ezfile.php" );
+
 class eZGPG
 {
     /*!
@@ -48,19 +50,21 @@ class eZGPG
 
       $this->pcmd = "echo '$plaintxt' | ";
       $this->pcmd .= $this->pathtogpg.$this->encryptcommand;
-      $this->pcmd.= " -a -q --no-tty -e --homedir '" . $gnuhome .  "' -u $wwwuser -r$wwwuser";
+      $this->pcmd.= " -a -q --always-trust --no-tty -e --homedir '" . $this->gnuhome .  "' -u $wwwuser -r $keyname";
       $this->pcmd.= " -o/var/www/" . $boundary;
 
-      $pp = popen( $this->pcmd, "w" );
-      fwrite( $pp, $this->body );
-      pclose( $pp );
+      system( $this->pcmd );
+
+//      $pp = popen( $this->pcmd, "w" );
+      //     fwrite( $pp, $this->body );
+      //  pclose( $pp );
 
 
-      $fp = eZFile::fopen( $boundary, r );
-      $this->body = fread( $fp, eZFile::filesize( $boundary ) );
+      $fp = eZFile::fopen( "/var/www/" . $boundary, r );
+      $this->body = fread( $fp, eZFile::filesize( "/var/www/" . $boundary ) );
       fclose( $fp );
 
-      eZFile::unlink( $boundary );
+      eZFile::unlink( "/var/www/" . $boundary );
 
 
    }
@@ -73,7 +77,7 @@ class eZGPG
    var $pcmd;
    var $encryptcommand = "gpg --encrypt --batch";
    var $signcommand = "gpg --sign --batch";
-   var $home="HOME=/var/www";
+   var $home="HOME=/var/www/";
    var $gnuhome="/var/www/.gnupg";
 
 
