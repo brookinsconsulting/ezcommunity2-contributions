@@ -15,3 +15,5 @@ alter table eZTrade_VoucherUsed add OrderID int default 0;
 create table eZTrade_ProductPriceRange( ID int NOT NULL, Min int default 0, Max int default 0, ProductID int default 0 );        
 
 alter table eZTrade_CartItem add PriceRange int default 0;
+
+alter table eZTrade_Product add IncludesVAT int(1) default '0';
