@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: newsedit.php,v 1.3 2000/11/16 18:31:50 bf-cvs Exp $
+// $Id: newsedit.php,v 1.4 2000/11/17 10:05:53 bf-cvs Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <16-Nov-2000 13:02:32 bf>
@@ -82,7 +82,20 @@ $t->set_var( "news_date_value", "" );
 $t->set_var( "news_intro_value", "" );
 $t->set_var( "news_url_value", "" );
 $t->set_var( "news_keywords_value", "" );
+$t->set_var( "news_id", "" );
 
+if ( $Action == "Edit" )
+{
+    $news = new eZNews( $NewsID );
+
+    print( "22". $news->name() );
+    $t->set_var( "news_title_value", $news->name() );
+    $t->set_var( "news_source_value", $news->source() );
+    $t->set_var( "news_intro_value", $news->intro() );
+    $t->set_var( "news_url_value", $news->url() );
+    $t->set_var( "news_keywords_value", $news->keywords() );
+    $t->set_var( "news_id", $news->id() );
+}
 
 // category select
 $category = new eZArticleCategory();

@@ -11,6 +11,7 @@
 <p class="boxtext">{intl-news_date}:</p>
 <input type="text" size="40" name="NewsDate" value="{news_date_value}"/>
 
+<p class="boxtext">{intl-news_category}:</p>
 <select name="CategoryID">
 
 <!-- BEGIN value_tpl -->
@@ -18,7 +19,6 @@
 <!-- END value_tpl -->
 
 </select>
-
 
 <p class="boxtext">{intl-news_intro}:</p>
 <textarea cols="40" rows="5" wrap="soft" name="NewsIntro">{news_intro_value}</textarea>
@@ -35,5 +35,6 @@
 <input type="submit" class="okbutton" value="{intl-ok}">
 <input class="okbutton" type="submit" name="Cancel" value="{intl-cancel}" />
 <input type="hidden" value="{action_value}" name="Action" />
+<input type="hidden" value="{news_id}" name="NewsID" />
 
 </form>

@@ -15,11 +15,23 @@ switch ( $url_array[2] )
 
     case "news":
     {
-        if ( $url_array[2]  == "new" )
+        if ( $url_array[3]  == "new" )
         {
             $Action == "New";
         }
+        else
+        {
+            $arg = $url_array[3];
             
+            setType( $arg, "integer" );
+            if ( $arg != 0 )
+            {
+                $Action == "Edit";
+                $NewsID = $arg;
+                print( "" );
+            }
+        }
+        
         include( "eznewsfeed/admin/newsedit.php" );
     }
     break;
