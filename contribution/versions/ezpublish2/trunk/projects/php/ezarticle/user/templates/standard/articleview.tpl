@@ -1,7 +1,17 @@
 <h2>{article_name}</h2>
-{intl-article_date}: {article_created} <br />
 
-{intl-article_author}: {author_text} <br />
+<br />
+
+<table width="100%" cellspacing="0" cellpadding="0" border="0">
+<tr>
+	<td>
+	<p class="byline">{intl-article_author}: {author_text}</p>
+	</td>
+	<td align="right">
+	<p class="byline">{intl-article_date}: {article_created}</p>
+	</td>
+</tr>
+</table>
 
 <p>
 {article_body}

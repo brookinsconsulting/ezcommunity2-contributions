@@ -1,27 +1,25 @@
-<h1>Artikkel arkiv</h1>
+<h1>Artikkelarkiv</h1>
 
-<hr noshade size="4"/>
-/ <a href="/article/archive/0/">Toppnivå</a> / 
+<hr noshade="noshade" size="4" />
+
+<img src="/ezarticle/images/path-arrow.gif" height="10" width="15" border="0" alt="">
+<a class="path" href="/article/archive/0/">Toppnivå</a>
+
 <!-- BEGIN path_item_tpl -->
-<a href="/article/archive/{category_id}/">{category_name}</a> / 
+<img src="/ezarticle/images/path-slash.gif" height="10" width="20" border="0" alt="">
+<a class="path" href="/article/archive/{category_id}/">{category_name}</a>
 <!-- END path_item_tpl -->
 
-<hr noshade size="4"/>
+<hr noshade="noshade" size="4" />
 
 
 <!-- BEGIN category_list_tpl -->
-<table width="100%" cellspacing="0" cellpadding="0" border="0">
+<table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
 <tr>
-	<tr>
-	<td>
-	Kategori:
-	</td>
-
-	<td>
-	Beskrivelse:
-	</td>
-
+	<th>Kategori:</th>
+	<th>Beskrivelse:</th>
 </tr>
+
 <!-- BEGIN category_item_tpl -->
 <tr>
 	<td class="{td_class}">
@@ -47,10 +45,10 @@
 <!-- BEGIN article_item_tpl -->
 <tr>
 	<td>
-	<h3><a href="/article/articleview/{article_id}/">
-	{article_name}
+	<a href="/article/articleview/{article_id}/">
+	<h2>{article_name}</h2>
 	</a>
-	</h3>
+	
 
 	<!-- BEGIN article_image_tpl -->
 	    <table align="right">
@@ -60,7 +58,7 @@
                         </td>
                 </tr>
                 <tr>
-                         <td>
+                         <td class="pictext">
                          {thumbnail_image_caption}
                          </td>
                 </tr>
@@ -71,7 +69,8 @@
 	<p>
 	{article_intro}
 	</p>
-	<a href="/article/articleview/{article_id}/">
+	<img src="/ezarticle/images/path-arrow.gif" height="10" width="15" border="0" alt="">
+	<a class="path" href="/article/articleview/{article_id}/">
 	{article_link_text}
 	</a>
 	<br />
