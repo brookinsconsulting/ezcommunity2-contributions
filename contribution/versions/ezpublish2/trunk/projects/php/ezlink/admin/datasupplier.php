@@ -97,6 +97,10 @@ switch ( $url_array[2] )
     case "search" :
         include( "ezlink/admin/search.php" );        
         break;
+    case "norights" :
+        include( "ezlink/admin/norights.php" );        
+        break;
+
     default :
         print( "<h1>Sorry, Your link page could not be found. </h1>" );
         break;

@@ -1,6 +1,6 @@
 <?
 /*!
-  $Id: linkedit.php,v 1.27 2000/10/19 14:03:25 ce-cvs Exp $
+  $Id: linkedit.php,v 1.28 2000/10/20 15:43:38 ce-cvs Exp $
 
   Author: Christoffer A. Elo <ce@ez.no>
     
@@ -63,7 +63,7 @@ if ( $Action == "update" )
     }
     else
     {
-        $error_msg = $error->read_var( "strings", "error_norights" );
+        Header( "Location: /link/norights" );
     }
 }
 
@@ -83,7 +83,7 @@ if ( $Action == "delete" )
     }
     else
     {
-        $error_msg = $error->read_var( "strings", "error_norights" );
+        Header( "Location: /link/norights" );
     }
 }
 
@@ -128,7 +128,7 @@ if ( $Action == "insert" )
     }
     else
     {
-        $error_msg = $error->read_var( "strings", "error_norights" );
+        Header( "Location: /link/norights" );
     }
 }
 
@@ -155,7 +155,17 @@ $linkGroupList = $linkselect->getAll();
 // Template variabler
 $message = "Legg til link";
 $submit = "Legg til";
-$action = "insert";
+$action = "update";
+
+if ( $Action == "new" )
+{
+    if ( !eZPermission::checkPermission( $user, "eZLink", "LinkAdd" ) )
+    {
+        Header( "Location: /link/norights" );
+    }
+
+    $action = "insert";
+}
 
 // setter akseptert link som default.
 $yes_selected = "selected";
@@ -164,45 +174,50 @@ $no_selected = "";
 // editere
 if ( $Action == "edit" )
 {
-
-    $editlink = new eZLink();
-    $editlink->get( $LinkID );
-
-    $title = $editlink->Title;
-
-    $LinkGroupID = $editlink->linkGroupID();
-
-    $title = $editlink->title();
-    $description = $editlink->description();
-    $linkgroup = $editlink->linkGroupID();
-    $keywords = $editlink->keyWords();
-    $accepted = $editlink->accepted();
-    $url = $editlink->url();
-
-    $action = "update";
-    $message = "Rediger link";
-    $submit = "Rediger";
-              
-    $ttile = $editlink->title();
-    $tdescription = $editlink->description();
-    $tkeywords = $editlink->keywords();
-    $turl = $editlink->url();
-
-    if ( $editlink->accepted() == "Y" )
-    {
-        $yes_selected = "selected";
-        $no_selected = "";
-
-    }
-    else
-    {
-        $yes_selected = "";
-        $no_selected = "selected";
-    }
-    
     $ini = new INIFIle( "ezlink/admin/intl/" . $Language . "/linkedit.php.ini", false );
     $headline =  $ini->read_var( "strings", "headline_edit" );
 
+    if ( !eZPermission::checkPermission( $user, "eZLink", "LinkModify" ) )
+    {
+        Header( "Location: /link/norights" );
+    }
+    else
+    {
+        $editlink = new eZLink();
+        $editlink->get( $LinkID );
+
+        $title = $editlink->Title;
+
+        $LinkGroupID = $editlink->linkGroupID();
+
+        $title = $editlink->title();
+        $description = $editlink->description();
+        $linkgroup = $editlink->linkGroupID();
+        $keywords = $editlink->keyWords();
+        $accepted = $editlink->accepted();
+        $url = $editlink->url();
+
+        $action = "update";
+        $message = "Rediger link";
+        $submit = "Rediger";
+              
+        $ttile = $editlink->title();
+        $tdescription = $editlink->description();
+        $tkeywords = $editlink->keywords();
+        $turl = $editlink->url();
+
+        if ( $editlink->accepted() == "Y" )
+        {
+            $yes_selected = "selected";
+            $no_selected = "";
+        }
+        else
+        {
+            $yes_selected = "";
+            $no_selected = "selected";
+        }
+   
+    }
 }
     
 // Selector

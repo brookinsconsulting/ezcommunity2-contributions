@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: groupedit.php,v 1.24 2000/10/19 14:03:25 ce-cvs Exp $
+    $Id: groupedit.php,v 1.25 2000/10/20 15:43:38 ce-cvs Exp $
 
     Author: Bård Farstad <bf@ez.no>
     
@@ -51,7 +51,7 @@ if ( $Action == "insert" )
     }
     else
     {
-        $error_msg = $error->read_var( "strings", "error_norights" );
+        $error_msg = $error->read_var( "strings", "error_norights" );Header( "Location: /link/norights" );
     }
 }
 
@@ -69,7 +69,7 @@ if ( $Action == "delete" )
     }
     else
     {
-        $error_msg = $error->read_var( "strings", "error_norights" );
+        Header( "Location: /link/norights" );
     }
 }
 
@@ -95,7 +95,7 @@ if ( $Action == "update" )
     }
     else
     {
-        $error_msg = $error->read_var( "strings", "error_norights" );
+        Header( "Location: /link/norights" );
     }
 }
 
@@ -117,18 +117,27 @@ $groupLinkList = $groupselect->getAll( );
 
 if ( $Action == "new" )
 {
-    $message = "Legg til linkkategori";
-    $submit = "Legg til";
+    if ( !eZPermission::checkPermission( $user, "eZLink", "GroupAdd" ) )
+    {
+        Header( "Location: /link/norights" );
+    }
+
     $action = "insert";
-}
-if ( $Action == "update" )
-{
-    $action = "update";
 }
 
 // Modifing a group.
 if ( $Action == "edit" )
 {
+    $ini = new INIFIle( "ezlink/admin/intl/" . $Language . "/groupedit.php.ini", false );
+    $headline = $ini->read_var( "strings", "headline_edit" );
+
+    if ( !eZPermission::checkPermission( $user, "eZLink", "GroupModify" ) )
+    {
+        Header( "Location: /link/norights" );
+    }
+    else
+    {
+
     $editlinkgroup = new eZLinkGroup();
     $editlinkgroup->get ( $LinkGroupID );
 
@@ -138,9 +147,8 @@ if ( $Action == "edit" )
     $message = "Rediger linkkategori";
     $submit = "Rediger";
     $ttitle = $editlinkgroup->title();
+    }
 
-    $ini = new INIFIle( "ezlink/admin/intl/" . $Language . "/groupedit.php.ini", false );
-    $headline = $ini->read_var( "strings", "headline_edit" );
 }
 
 
