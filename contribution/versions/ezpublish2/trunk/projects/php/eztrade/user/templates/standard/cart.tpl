@@ -19,11 +19,11 @@
 	<th>{intl-product_name}:</th>
 	<th class="right">{intl-product_price}:</th>
 
+	<th class="right">{intl-product_qty}:</th>
+
 	<!-- BEGIN header_savings_item_tpl -->
 	<th class="right">{intl-product_savings}:</th>
 	<!-- END header_savings_item_tpl -->
-
-	<th class="right">{intl-product_qty}:</th>
 
 	<!-- BEGIN header_ex_tax_item_tpl -->
 	<th class="right">{intl-product_total_ex_tax}:</th>
@@ -43,14 +43,14 @@
     <td class="{td_class}"><a href="{www_dir}{index}/trade/productview/{product_id}">{product_name}</a></td>
     <td class="{td_class}" align="right"><nobr>{product_price}</nobr></td>
     
-	<!-- BEGIN cart_savings_item_tpl -->
-    <td class="{td_class}" align="right">&nbsp;</td>
-	<!-- END cart_savings_item_tpl -->
-    
     <td class="{td_class}" align="right">
 	    <input type="hidden" name="CartIDArray[]" value="{cart_item_id}" />
 	    <input size="3" type="text" name="CartCountArray[]" value="{product_count}" />
     </td>
+    
+	<!-- BEGIN cart_savings_item_tpl -->
+    <td class="{td_class}" align="right"><nobr>{product_savings}</nobr></td>
+	<!-- END cart_savings_item_tpl -->
     
 	<!-- BEGIN cart_ex_tax_item_tpl -->
     <td class="{td_class}" align="right"><nobr>{product_total_ex_tax}</nobr></td>

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: checkout.php,v 1.96 2001/10/12 11:42:48 ce Exp $
+// $Id: checkout.php,v 1.97 2001/11/22 12:45:14 pkej Exp $
 //
 // Created on: <28-Sep-2000 15:52:08 bf>
 //
@@ -313,6 +313,13 @@ function turnColumnsOnOff( $rowName )
 
 $items = $cart->items( );
 
+foreach ( $items as $item )
+{
+    if ( $item->correctSavings( false, true, $PricesIncludeVAT ) > 0 )
+    {
+        $ShowSavingsColumn = true;
+    }
+}
 
 foreach ( $items as $item )
 {
@@ -363,6 +370,12 @@ foreach ( $items as $item )
     turnColumnsOnOff( "cart" );
     turnColumnsOnOff( "basis" );
     
+    if ( $ShowSavingsColumn == true )
+    {
+        turnColumnsOnOff( "savings" );
+        $t->set_var( "product_savings", $item->localeSavings( true, true, $PricesIncludeVAT ) );
+    }
+
     if ( $numberOfOptions ==  0 )
     {
         $t->set_var( "cart_item_option", "" );
