@@ -17,7 +17,7 @@
 <br />
 
 <!-- BEGIN logo_view_tpl -->
-<img src="{logo_image_src}" width="{image_width}" height="{image_height}" border="0" alt="{image_alt}" /><br /><br />
+<img src="{logo_image_src}" width="{logo_width}" height="{logo_height}" border="0" alt="{logo_alt}" /><br /><br />
 <!-- END logo_view_tpl -->
 
 <table width="100%" cellpadding="0" cellspacing="0" border="0">

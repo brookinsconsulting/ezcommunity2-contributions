@@ -30,6 +30,14 @@
 <li>{intl-error_online}{error_online_position}</li>
 <!-- END error_online_item_tpl -->
 
+<!-- BEGIN error_logo_item_tpl -->
+<li>{intl-error_logo}</li>
+<!-- END error_logo_item_tpl -->
+
+<!-- BEGIN error_image_item_tpl -->
+<li>{intl-error_image}</li>
+<!-- END error_image_item_tpl -->
+
 </ul>
 
 <hr noshade size="4" />
@@ -245,7 +253,7 @@
 <tr>
     <td>
         <!-- BEGIN logo_item_tpl -->
-        <img src="{logo_image_src}" width="{logo_image_width}" height="{logo_image_height}" border="0" alt="{image_alt}" />
+        <img src="{logo_image_src}" width="{logo_image_width}" height="{logo_image_height}" border="0" alt="{logo_image_alt}" />
 	<input name="DeleteLogo" type="checkbox" />
 	<span class="boxtext">{intl-delete}</span>
         <!-- END logo_item_tpl -->
