@@ -12,11 +12,10 @@
 <br /><br />
 	
 <p class="boxtext">{intl-options}:</p>
-<!--  <textarea rows="5" cols="40" name="OptionValues">{option_values}</textarea> -->
-<!--  <br /><br /> -->
 <table>
 <tr>
 	<th>{intl-value}</th>
+	<th>{intl-main_price}</th>
 	<!-- BEGIN group_item_tpl -->
 	<th>{price_group_name}</th>
 	<!-- END group_item_tpl -->
@@ -26,6 +25,9 @@
 <tr>
 	<td>
 	<input type="text" size="20" name="OptionValue[]" value="{option_value}" />
+	</td>
+	<td>
+	<input type="text" size="8" name="OptionMainPrice[]" value="{main_price_value}" />
 	</td>
 	<!-- BEGIN option_price_item_tpl -->
 	<td>

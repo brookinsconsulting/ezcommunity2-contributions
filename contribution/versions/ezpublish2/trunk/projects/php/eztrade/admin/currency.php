@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: currency.php,v 1.3 2001/02/27 10:46:22 jb Exp $
+// $Id: currency.php,v 1.4 2001/02/28 09:55:05 jb Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <23-Feb-2001 16:27:56 bf>
@@ -97,23 +97,18 @@ $t->set_block( "currency_tpl", "currency_item_tpl", "currency_item" );
 $currency = new eZProductCurrency( );
 $currencies =& $currency->getAll();
 
+$t->set_var( "currency_item", "" );
+
 $i=0;
 foreach ( $currencies as $currency )
 {
-    if ( ( $i % 2 ) == 0 )
-    {
-        $t->set_var( "td_class", "bglight" );
-    }
-    else
-    {
-        $t->set_var( "td_class", "bgdark" );
-    }
-    
+    $t->set_var( "td_class", ( $i % 2 ) == 0 ? "bglight" : "bgdark" );
+
     $t->set_var( "currency_id", $currency->id() );
     $t->set_var( "currency_name", $currency->name() );
     $t->set_var( "currency_sign", $currency->sign() );
     $t->set_var( "currency_value", $currency->value() );
-    
+
     if ( $currency->prefixSign() )
     {
         $t->set_var( "currency_prefixed", "checked" );

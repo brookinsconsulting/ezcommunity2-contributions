@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: productedit.php,v 1.39 2001/02/26 17:56:49 jb Exp $
+// $Id: productedit.php,v 1.40 2001/02/28 09:55:05 jb Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <19-Sep-2000 10:56:05 bf>
@@ -156,7 +156,7 @@ if ( $Action == "Insert" )
     $count = max( count( $PriceGroup ), count( $PriceGroupID ) );
     for ( $i = 0; $i < $count; $i++ )
     {
-        if ( is_numeric( $PriceGroupID[$i] ) )
+        if ( is_numeric( $PriceGroupID[$i] ) and $PriceGroup[$i] != "" )
         {
             eZPriceGroup::addPrice( $product->id(), $PriceGroupID[$i], $PriceGroup[$i] );
         }
@@ -286,7 +286,7 @@ if ( $Action == "Update" )
     $count = max( count( $PriceGroup ), count( $PriceGroupID ) );
     for ( $i = 0; $i < $count; $i++ )
     {
-        if ( is_numeric( $PriceGroupID[$i] ) )
+        if ( is_numeric( $PriceGroupID[$i] ) and $PriceGroup[$i] != "" )
         {
             eZPriceGroup::addPrice( $ProductID, $PriceGroupID[$i], $PriceGroup[$i] );
         }

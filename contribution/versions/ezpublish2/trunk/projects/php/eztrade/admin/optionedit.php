@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: optionedit.php,v 1.9 2001/02/26 17:56:49 jb Exp $
+// $Id: optionedit.php,v 1.10 2001/02/28 09:55:05 jb Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <20-Sep-2000 10:18:33 bf>
@@ -48,6 +48,7 @@ if ( isset( $Delete ) )
     {
         unset( $OptionValue[$del] );
         unset( $OptionPrice[$del] );
+        unset( $OptionMainPrice[$del] );
     }
 }
 
@@ -76,6 +77,7 @@ if ( isset( $OK ) )
         {
             $value = new eZOptionValue();
             $value->setName( $name );
+            $value->setPrice( $OptionMainPrice[$i] );
             $option->addValue( $value );
             $option_price = $OptionPrice[$i];
             eZPriceGroup::removePrices( $ProductID, $option->id(), $value->id() );
@@ -160,10 +162,12 @@ if ( $Action == "Edit" )
     $hiddenArray = "";
     $valueText = "";
     $OptionValue = array();
+    $OptionMainPrice = array();
     $OptionPrice = array();
     foreach ( $values as $value )
     {
         $OptionValue[] = $value->name();
+        $OptionMainPrice[] = $value->price();
         $valueid = $value->id();
         $ValueID[] = $valueid;
         $prices = eZPriceGroup::prices( $ProductID, $OptionID, $value->id() );
@@ -200,6 +204,7 @@ foreach ( $OptionValue as $value )
 {
     $t->set_var( "option_value", $value );
     $t->set_var( "value_index", $index );
+    $t->set_var( "main_price_value", $OptionMainPrice[$index] );
 
     $t->set_var( "option_price_item", "" );
     $option_price = each( $OptionPrice );

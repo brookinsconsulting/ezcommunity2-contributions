@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezoptionvalue.php,v 1.13 2001/02/26 17:36:56 jb Exp $
+// $Id: ezoptionvalue.php,v 1.14 2001/02/28 09:55:28 jb Exp $
 //
 // Definition of eZOptionValue class
 //
@@ -82,11 +82,20 @@ class eZOptionValue
     function store()
     {
         $this->dbInit();
+        if ( $this->Price == "" )
+        {
+            $price = "NULL";
+        }
+        else
+        {
+            $price = "'$this->Price'";
+        }
 
         if ( !isset( $this->ID ) )
         {
             $this->Database->query( "INSERT INTO eZTrade_OptionValue SET
 		                         Name='$this->Name',
+		                         Price=$price,
                                  OptionID='$this->OptionID'" );
 
             $this->ID = mysql_insert_id();
@@ -95,7 +104,9 @@ class eZOptionValue
         {
             $this->Database->query( "UPDATE eZTrade_OptionValue SET
 		                         Name='$this->Name',
-                                 OptionID='$this->OptionID' WHERE ID='$this->ID'" );
+		                         Price=$price,
+                                 OptionID='$this->OptionID'
+                                 WHERE ID='$this->ID'" );
         }
         
         return true;
@@ -119,6 +130,7 @@ class eZOptionValue
             {
                 $this->ID =& $optionValue_array[0][ "ID" ];
                 $this->Name =& $optionValue_array[0][ "Name" ];
+                $this->Price =& $optionValue_array[0][ "Price" ];
                 $this->OptionID =& $optionValue_array[0][ "OptionID" ];
             }                 
             $this->State_ = "Coherent";
@@ -139,7 +151,8 @@ class eZOptionValue
         $return_array = array();
         $optionValue_array = array();
         
-        $this->Database->array_query( $optionValue_array, "SELECT ID FROM eZTrade_OptionValue ORDER BY Name" );
+        $this->Database->array_query( $optionValue_array, "SELECT ID FROM eZTrade_OptionValue
+                                                           ORDER BY Name" );
         
         for ( $i=0; $i < count($optionValue_array); $i++ )            
         {
@@ -191,7 +204,6 @@ class eZOptionValue
         $this->Database->array_query( $option_array, "DELETE FROM eZTrade_ProductPriceLink
                                                       WHERE ValueID='$this->ID'" );
     }
-    
 
     /*!
       Returns the id of the optionvalue.
@@ -214,6 +226,14 @@ class eZOptionValue
     }
 
     /*!
+      Returns the price of the option value.
+    */
+    function price()
+    {
+        return $this->Price;
+    }
+
+    /*!
       Returns the option connected to the value.
     */
     function option()
@@ -228,8 +248,16 @@ class eZOptionValue
     {
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
-        
+
         $this->Name = $value;
+    }
+
+    /*!
+      Sets the price of the option value.
+    */
+    function setPrice( $value )
+    {
+        $this->Price = $value;
     }
 
     /*!
@@ -260,6 +288,7 @@ class eZOptionValue
     
     var $ID;
     var $Name;
+    var $Price;
     var $OptionID;
 
     ///  Variable for keeping the database connection.
