@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: eznewscategory.php,v 1.2 2000/10/10 19:05:23 pkej-cvs Exp $
+// $Id: eznewscategory.php,v 1.3 2000/10/11 10:05:57 pkej-cvs Exp $
 //
 // Definition of eZNewsCategory class
 //
@@ -29,9 +29,9 @@ class eZNewsCategory extends eZNewsItem
     /*!
         Constructor. Nothing special here.
      */
-    function eZNewsCategory( $inData = -1, $fetch = true )
+    function eZNewsCategory( $inData = "", $fetch = true )
     {
-        #echo "eZNewsCategory::eZNewsCategory( inID = $inID, fetch = $fetch )";
+        #echo "eZNewsCategory::eZNewsCategory( \$inData = $inData, \$fetch = $fetch )";
 
         eZNewsItem::eZNewsItem( $inData, $fetch );
     }

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: eznewsarticle.php,v 1.4 2000/10/10 19:05:23 pkej-cvs Exp $
+// $Id: eznewsarticle.php,v 1.5 2000/10/11 10:05:57 pkej-cvs Exp $
 //
 // Definition of eZNewsArticle class
 //
@@ -35,8 +35,9 @@ class eZNewsArticle extends eZNewsItem
     /*!
         Constructor, nothing special here.
      */
-    function eZNewsArticle( $inData = -1, $fetch = true )
+    function eZNewsArticle( $inData = "", $fetch = true )
     {
+        #echo "eZNewsArticle::eZNewsArticle( \$inData = $inData, \$fetch = $fetch )<br>";
         eZNewsItem::eZNewsItem( $inData, $fetch );
     }
 
@@ -55,6 +56,7 @@ class eZNewsArticle extends eZNewsItem
     
     function storeThis( &$outID )
     {
+        #echo "eZNewsArticle::storeThis( \$outID = $outID )<br>";
         $value = false;
         
         eZNewsItem::storeThis( $outID );

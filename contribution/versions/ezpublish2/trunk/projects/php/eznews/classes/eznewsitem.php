@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eznewsitem.php,v 1.26 2000/10/10 19:19:38 pkej-cvs Exp $
+// $Id: eznewsitem.php,v 1.27 2000/10/11 10:05:57 pkej-cvs Exp $
 //
 // Definition of eZNewsItem class
 //
@@ -460,7 +460,7 @@ class eZNewsItem extends eZNewsUtility
      */
     function setParent( $ParentID, $isCanonical = false )
     {
-       #echo "eZNewsItem::setParent( \$ParentID = $ParentID,\$isCanonical = $isCanonical )<br>";
+        #echo "eZNewsItem::setParent( \$ParentID = $ParentID,\$isCanonical = $isCanonical )<br>";
         $value = true;
         
         if( !is_numeric( $this->isCanonical ) && !$this->isDirty() )
@@ -1832,7 +1832,7 @@ class eZNewsItem extends eZNewsUtility
             $count = count( $this->ParentID );
             if( $count == 0 )
             {
-                $this->Errors[] = "intl-canonical-exists-parents-dont";
+                $this->Errors[] = "intl-eznews-eznewsitem-canonical-exists-parents-dont";
             }            
         }
         
@@ -1842,23 +1842,23 @@ class eZNewsItem extends eZNewsUtility
             
             if( $count == 0 )
             {
-                $this->Errors[] = "intl-frontimage-exists-images-dont";
+                $this->Errors[] = "intl-eznews-eznewsitem-frontimage-exists-images-dont";
             }
         }
 
         if( empty( $this->ItemTypeID ) )
         {
-            $this->Errors[] = "intl-itemtypeid-required";
+            $this->Errors[] = "intl-eznews-eznewsitem-itemtypeid-required";
         }
 
         if( $this->CreatedBy == 0 && $this->checkCreator() )
         {
-            $this->Errors[] = "intl-createdby-required";
+            $this->Errors[] = "intl-eznews-eznewsitem-createdby-required";
         }
 
         if( !isset( $this->ChangeTicketID ) && $this->isLogging() )
         {
-            $this->Errors[] = "intl-logitem-required";
+            $this->Errors[] = "intl-eznews-eznewsitem-logitem-required";
         }
 
         if( !count( $this->Errors ) )
@@ -1867,7 +1867,6 @@ class eZNewsItem extends eZNewsUtility
             $value = true;
             $this->State_ = "coherent";
         }
-        #echo "invariantCheck returns: " . $value . "<br>";
         return $value;
     }
     

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: eznewsutility.php,v 1.9 2000/10/10 16:21:54 pkej-cvs Exp $
+// $Id: eznewsutility.php,v 1.10 2000/10/11 10:05:57 pkej-cvs Exp $
 //
 // Definition of eZNewsUtility class
 //
@@ -60,12 +60,14 @@ class eZNewsUtility
     /*!
         Constructs a new eZNewsUtility object.
      */
-    function eZNewsUtility( $inData = -1, $fetch = true )
+    function eZNewsUtility( $inData = "", $fetch = true )
     {
-        #echo "utility constructor: " . $inData . "<br>";
+        #echo "eZNewsUtility::eZNewsUtility( \$inData = $inData, \$fetch = $fetch )<br>";
+        
         $this->dbInit();        
-        $this->State_ = "New";
+        $this->State_ = "new";
         $outID = array();
+        
         if( $inData )
         {
             if( $fetch )
@@ -82,7 +84,7 @@ class eZNewsUtility
                 {
                     $this->Name = $inData;
                 }
-                $this->State_ = "Dirty";        
+                $this->State_ = "dirty";        
             }
         }
     }
@@ -105,7 +107,7 @@ class eZNewsUtility
     */
     function store( &$outID )
     {
-        #echo "eZNewsUtility::store( \$copy = $copy )<br>";
+        #echo "eZNewsUtility::store( \$outID = $outID )<br>";
         $this->dbInit();
         
         $value = false;
@@ -121,7 +123,7 @@ class eZNewsUtility
         // be stored.
         
         $this->invariantCheck();
-        
+
         if( $this->isCoherent() )
         {
             $storeAllowed = true;
@@ -516,7 +518,7 @@ class eZNewsUtility
     {
         $value = false;
         
-        if( $this->State_ == "Altrered" )
+        if( $this->State_ == "altered" )
         {
             $value = true;
         }
@@ -539,7 +541,7 @@ class eZNewsUtility
     {
         $value = false;
         
-        if( $this->State_ == "Dirty" )
+        if( $this->State_ == "dirty" )
         {
             $this->get();
             $value = true;
@@ -807,9 +809,12 @@ class eZNewsUtility
      */
     function printErrors()
     {
-        foreach( $this->Errors as $error )
+        if( $this->Errors )
         {
-            echo $error . "<br>";
+            foreach( $this->Errors as $error )
+            {
+                echo $error . "<br>";
+            }
         }
     }
 
