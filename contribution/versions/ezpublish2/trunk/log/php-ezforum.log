@@ -1103,3 +1103,24 @@ Maintainer(s) : jhe@ez.no
 
     * user/latestmessages.php: Added limit in forum list.
 
+
+Module : ezforum
+Repository path : /home/cvsroot/projects/php/ezforum
+Maintainer(s) : jhe@ez.no
+2002-03-01  Christoffer Elo  <ce@ez.no>
+
+    * classes/ezforum.php
+      user/datasupplier.php
+      user/messageedit.php
+      user/messagepermissions.php:
+    Fixed some relations problems with eZ trade:wq
+
+
+Module : ezforum
+Repository path : /home/cvsroot/projects/php/ezforum
+Maintainer(s) : jhe@ez.no
+2002-03-07  Christoffer Elo  <ce@ez.no>
+
+    * user/messagesimplelist.php
+      user/userlogin.php: Added design for akersmic
+

@@ -1338,3 +1338,11 @@ Maintainer(s) : pkej@ez.no
       admin/formedit.php
       admin/templates/standard/formedit.tpl: Added GPG support.
 
+
+Module : ezform
+Repository path : /home/cvsroot/projects/php/ezform
+Maintainer(s) : pkej@ez.no
+2002-03-07  Christoffer Elo  <ce@ez.no>
+
+    * admin/templates/standard/formrenderer.tpl: Added design for akersmic
+

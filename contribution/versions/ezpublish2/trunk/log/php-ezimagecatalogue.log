@@ -956,3 +956,11 @@ Maintainer(s) : br@ez.no
       user/slideshow.php: fixed several section problems
     code standard fixes
 
+
+Module : ezimagecatalogue
+Repository path : /home/cvsroot/projects/php/ezimagecatalogue
+Maintainer(s) : br@ez.no
+2002-03-07  Christoffer Elo  <ce@ez.no>
+
+    * classes/ezimage.php: Added design for akersmic
+

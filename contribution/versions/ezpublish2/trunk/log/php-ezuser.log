@@ -1066,3 +1066,11 @@ Maintainer(s) : bf@ez.no
       admin/intl/en_GB/menubox.php.ini:
     Added translation for the <title> field
 
+
+Module : ezuser
+Repository path : /home/cvsroot/projects/php/ezuser
+Maintainer(s) : bf@ez.no
+2002-03-07  Christoffer Elo  <ce@ez.no>
+
+    * user/login.php: Added design for akersmic
+

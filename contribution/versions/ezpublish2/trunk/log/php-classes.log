@@ -699,3 +699,11 @@ Maintainer(s) : bf@ez.no
 
     * eztemplate.php: Added a template variable
 
+
+Module : classes
+Repository path : /home/cvsroot/projects/php/classes
+Maintainer(s) : bf@ez.no
+2002-03-07  Christoffer Elo  <ce@ez.no>
+
+    * eztemplate.php: Added design for akersmic
+

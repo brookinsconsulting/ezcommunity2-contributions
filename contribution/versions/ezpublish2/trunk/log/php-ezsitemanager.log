@@ -576,3 +576,11 @@ Maintainer(s) : ce@ez.no
       admin/templatelist.php:
     Replaced file() with eZFile::file() so it can work with nVH
 
+
+Module : ezsitemanager
+Repository path : /home/cvsroot/projects/php/ezsitemanager
+Maintainer(s) : ce@ez.no
+2002-03-07  Christoffer Elo  <ce@ez.no>
+
+    * classes/ezsection.php: Added design for akersmic
+

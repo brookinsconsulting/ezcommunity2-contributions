@@ -3297,3 +3297,19 @@ Maintainer(s) : ce@ez.no
     * classes/ezproduct.php
       user/productsearch.php: Added ignoring of common words.
 
+
+Module : eztrade
+Repository path : /home/cvsroot/projects/php/eztrade
+Maintainer(s) : ce@ez.no
+2002-03-07  Christoffer Elo  <ce@ez.no>
+
+    * classes/ezproductcurrency.php
+      user/Attic/similarproducts.php
+      user/datasupplier.php
+      user/productlist.php
+      user/productview.php
+      admin/currency.php
+      admin/productedit.php
+      classes/ezcart.php
+      classes/ezproduct.php: Added design for akersmic
+

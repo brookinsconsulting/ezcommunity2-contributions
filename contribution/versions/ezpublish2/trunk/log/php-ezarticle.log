@@ -2966,3 +2966,13 @@ Maintainer(s) : bf@ez.no
 
     * classes/eztechgenerator.php: uses now eZ xml instead of libxml.
 
+
+Module : ezarticle
+Repository path : /home/cvsroot/projects/php/ezarticle
+Maintainer(s) : bf@ez.no
+2002-03-07  Christoffer Elo  <ce@ez.no>
+
+    * user/datasupplier.php
+      admin/datasupplier.php
+      classes/ezqdomgenerator.php: Added design for akersmic
+
