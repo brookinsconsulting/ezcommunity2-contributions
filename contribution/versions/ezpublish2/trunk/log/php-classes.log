@@ -847,3 +847,12 @@ Maintainer(s) : bf@ez.no
 
     * ezpublish.php: updated version number.
 
+
+Module : classes
+Repository path : /home/cvsroot/projects/php/classes
+Maintainer(s) : bf@ez.no
+2003-07-22  Vidar Langseid  <vl@ez.no>
+
+    * ezlinkitem.php:
+    - Fixed bug with Article title not beeing escaped when added as link item to a product (productedit)
+

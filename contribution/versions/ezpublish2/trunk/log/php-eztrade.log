@@ -3685,3 +3685,12 @@ Maintainer(s) : ce@ez.no
 
     * classes/ezorder.php: improved mysql 4 support in eZ trade
 
+
+Module : eztrade
+Repository path : /home/cvsroot/projects/php/eztrade
+Maintainer(s) : ce@ez.no
+2003-07-22  Bjoern Reiten  <br@ez.no>
+
+    * admin/productedit.php:
+    fixed bug with read permissions on product in eZ trade.
+

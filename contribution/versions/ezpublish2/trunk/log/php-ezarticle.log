@@ -3689,3 +3689,20 @@ Maintainer(s) : bf@ez.no
 
     * classes/ezarticletool.php: Fixed bug with non-virtualhosts.
 
+
+Module : ezarticle
+Repository path : /home/cvsroot/projects/php/ezarticle
+Maintainer(s) : bf@ez.no
+2003-07-22  Bjoern Reiten  <br@ez.no>
+
+    * classes/ezarticle.php: Fixed bug with pending mail in eZ article
+
+2003-07-22  Vidar Langseid  <vl@ez.no>
+
+    * user/articlelistrss.php:
+    - Fixed bug with invalid content type header sendt with RSS article list
+
+2003-07-22  Bjoern Reiten  <br@ez.no>
+
+    * classes/ezqdomgenerator.php: fixed bug with customtag in table.
+

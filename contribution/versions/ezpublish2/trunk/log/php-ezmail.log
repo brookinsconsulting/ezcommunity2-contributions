@@ -643,3 +643,12 @@ Maintainer(s) : fh@ez.no
 
     * user/search.php: fixed security bug with java script in search.
 
+
+Module : ezmail
+Repository path : /home/cvsroot/projects/php/ezmail
+Maintainer(s) : fh@ez.no
+2003-07-22  Bjoern Reiten  <br@ez.no>
+
+    * classes/ezmail.php:
+    added mimetype to files, when sending attachements with eZ mail.
+

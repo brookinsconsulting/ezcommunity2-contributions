@@ -496,3 +496,12 @@ Maintainer(s) : br@ez.no
     Merged changes done in sql/publish_mysql.sql and sql/publish_postgresql.sql
     into sql files for each module
 
+
+Module : ezstats
+Repository path : /home/cvsroot/projects/php/ezstats
+Maintainer(s) : br@ez.no
+2003-07-22  Bjoern Reiten  <br@ez.no>
+
+    * admin/cron.php
+      sql/mysql/ezstats.sql: added optimalisation to eZ stats.
+
