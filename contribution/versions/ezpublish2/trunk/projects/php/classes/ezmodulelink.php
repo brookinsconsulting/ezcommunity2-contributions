@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezmodulelink.php,v 1.1 2001/03/21 13:38:56 jb Exp $
+// $Id: ezmodulelink.php,v 1.2 2001/05/04 08:40:22 jb Exp $
 //
 // Definition of eZModuleLink class
 //
@@ -26,13 +26,45 @@
 //
 
 //!! 
-//! The class eZModuleLink does
+//! The class eZModuleLink handles remote linkage of sections.
 /*!
+  It can link sections from a remote modules to a specific module and sub type.
+  Each link can have zero or more link items, this makes it possible to create
+  a list of related articles etc..
+
+  The module linkage system assumes that some sql tables has been created for each module/type.
+  The tables are:
+  {Module}_{Type}SectionDict
+  {Module}_LinkSection
+  {Module}_Link
+  where {Module} is the module name and {Type} is the type name which are sent to the constructor.
+
+  The best thing is to use the linklist.php, linkselect.php and linkmove.php
+  found in classes/admin, it has everything setup for simple usage and is properly
+  generalized for simple reuse.
+
+  \code
+  // Sets a module link for eZTrade using Products and with product id 1
+  $link = new eZModuleLink( "eZTrade", "Product", 1 );
+  $sections =& $link->sections();
+  foreach( $sections as $section )
+  {
+  // Do something with section
+  }
+
+  $section = new eZLinkSection( false, "eZTrade" );
+  $section->setName( "Related links" );
+  $section->store();
+  $link->addSection( $section );
+  \endcode
 
 */
 
 class eZModuleLink
 {
+    /*!
+      Initializes the object with the module name, the sub type and the id of the item.
+    */
     function eZModuleLink( $module, $type, $id )
     {
         $this->Module = $module;
@@ -40,6 +72,11 @@ class eZModuleLink
         $this->ID = $id;
     }
 
+    /*!
+      Returns an array of sections belonging the current item.
+      If $as_object is true it is returned with eZLinkSection objects as items,
+      otherwise it is returned with the ID as item.
+    */
     function &sections( $as_object = true )
     {
         $db =& eZDB::globalDatabase();
@@ -59,6 +96,9 @@ class eZModuleLink
         return $ret_array;
     }
 
+    /*!
+      Returns the number of sections the current item has.
+    */
     function sectionCount()
     {
         $db =& eZDB::globalDatabase();
@@ -71,6 +111,10 @@ class eZModuleLink
         return $row["Count"];
     }
 
+    /*!
+      Adds a new section to the current item.
+      $section must be a properly initialized eZLinkSection object.
+    */
     function addSection( $section )
     {
         $db =& eZDB::globalDatabase();
@@ -88,6 +132,10 @@ class eZModuleLink
                          Placement='$placement'" );
     }
 
+    /*!
+      Adds a new section to the current item.
+      $section must be a properly initialized eZLinkSection object and belong to the current item.
+    */
     function removeSection( $section )
     {
         if ( get_class( $section ) == "ezlinksection" )
