@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: eznewsutility.php,v 1.14 2000/10/11 21:14:48 pkej-cvs Exp $
+// $Id: eznewsutility.php,v 1.15 2000/10/13 07:12:43 pkej-cvs Exp $
 //
 // Definition of eZNewsUtility class
 //
@@ -646,6 +646,7 @@ class eZNewsUtility
      */
     function SQLErrors()
     {
+        #echo "eZNewsUtility::SQLErrors()<br />\n";
         $errors = $this->SQLErrors;
         unset( $this->SQLErrors );
         return $errors;
@@ -663,8 +664,9 @@ class eZNewsUtility
         \return
             Returns the ID of the object, or 0;
     */
-    function id()
+    function ID()
     {
+        #echo "eZNewsUtility::ID()<br />\n";
         $value = 0;
         
         if ( $this->State_ != "new" )

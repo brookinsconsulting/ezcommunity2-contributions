@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eznewsitem.php,v 1.33 2000/10/11 21:14:48 pkej-cvs Exp $
+// $Id: eznewsitem.php,v 1.34 2000/10/13 07:12:43 pkej-cvs Exp $
 //
 // Definition of eZNewsItem class
 //
@@ -673,7 +673,7 @@ class eZNewsItem extends eZNewsUtility
         $frontImageQuery =
         "
             INSERT INTO
-                eZNews_ItemImagePreference
+                eZNews_ItemImage
             SET
                 ItemID   = '%s',
                 ImageID  = '%s',
@@ -1268,9 +1268,7 @@ class eZNewsItem extends eZNewsUtility
      */
     function getWidows( &$returnArray, &$maxCount, $inOrderBy = "ID", $direction = "asc" , $startAt = 0, $noOfResults = "" )
     {
-        #echo "getWidows( \&\$returnArray, \$inOrderBy = \"$inOrderBy\", 
-        #\$direction = \"$direction\" , \$startAt = \"$startAt\", \$noOfResults = \"$noOfResults\" )
-        #<br>";
+        #echo "eZnewsItem::getWidows( \&\$returnArray, \$inOrderBy = \"$inOrderBy\", \$direction = \"$direction\" , \$startAt = \"$startAt\", \$noOfResults = \"$noOfResults\" ) <br>";
         $this->dbInit();
         $value = false;
         
@@ -1369,6 +1367,7 @@ class eZNewsItem extends eZNewsUtility
      */
     function getChildren( &$returnArray, &$maxCount, $inOrderBy = "ID", $direction = "asc" , $startAt = 0, $noOfResults = ""  )
     {
+        #echo "eZnewsItem::getChildren( \&\$returnArray, \$inOrderBy = \"$inOrderBy\", \$direction = \"$direction\" , \$startAt = \"$startAt\", \$noOfResults = \"$noOfResults\" ) <br>";
         global $childrenMax;
         
         $this->dbInit();
@@ -1472,6 +1471,7 @@ class eZNewsItem extends eZNewsUtility
      */
     function getChildrenGroups( &$returnArray, &$maxCount, $inOrderBy = "ID", $direction = "asc" , $startAt = 0, $noOfResults = ""  )
     {
+        #echo "eZnewsItem::getChildrenGroups( \&\$returnArray, \$inOrderBy = \"$inOrderBy\", \$direction = \"$direction\" , \$startAt = \"$startAt\", \$noOfResults = \"$noOfResults\" ) <br>";
         $this->dbInit();
         $value = false;
         $continue = false;
@@ -1642,6 +1642,7 @@ class eZNewsItem extends eZNewsUtility
      */
     function getParents( &$returnArray, &$maxCount, $inOrderBy = "ID", $direction = "asc" , $startAt = 0, $noOfResults = ""  )
     {
+        #echo "eZnewsItem::getParents( \&\$returnArray, \$inOrderBy = \"$inOrderBy\", \$direction = \"$direction\" , \$startAt = \"$startAt\", \$noOfResults = \"$noOfResults\" ) <br>";
         $this->dbInit();
         $value = false;
 
@@ -1753,13 +1754,14 @@ class eZNewsItem extends eZNewsUtility
      */
     function getImages( &$returnArray, &$maxCount, $inOrderBy = "ID", $direction = "asc" , $startAt = 0, $noOfResults = ""  )
     {
+        #echo "eZnewsItem::getImages( \&\$returnArray, \$inOrderBy = \"$inOrderBy\", \$direction = \"$direction\" , \$startAt = \"$startAt\", \$noOfResults = \"$noOfResults\" ) <br>";
         $this->dbInit();
         $value = false;
 
         $returnArray = array();
         $itemArray = array();
 
-        $query =
+        $imageCountQuery =
         "
             SELECT
                 count(*)
@@ -1769,14 +1771,14 @@ class eZNewsItem extends eZNewsUtility
                 ItemID = %s
         ";
         
-        $query = sprintf( $query, $this->ID );        
-        $this->Database->array_query( $itemArray, $query );        
-        $maxCount = $itemArray[0][0];
+        $query = sprintf( $imageCountQuery, $this->ID );        
+        $this->Database->array_query( $countArray, $query );        
+        $maxCount = $countArray[0][0];
         
-        $query =
+        $getImagesQuery =
         "
             SELECT
-                ImageID
+                *
             FROM
                 eZNews_ItemImage
             WHERE
@@ -1784,35 +1786,28 @@ class eZNewsItem extends eZNewsUtility
             %s
             %s
         ";
-        
-        $query2 =
-        "
-            SELECT
-                *
-            FROM
-                eZNews_ItemImagePreference
-            WHERE
-                ID   = '%s'
-        ";
 
         #$orderBy = $this->createOrderBy( $inOrderBy, $direction );
         $limits = $this->createLimit( $startAt, $noOfResults );
 
-        $query = sprintf( $query, $this->ID, $orderBy, $limits );
-        $this->Database->array_query( $itemArray, $query );
+        $query = sprintf( $getImagesQuery, $this->ID, $orderBy, $limits );
+        $this->Database->array_query( $imagesArray, $query );
         
-        for( $i = 0; $i < count( $itemArray ); $i++ )
+        $count = count( $imagesArray );
+        
+        unset( $this->ImageID );
+        $this->ImageID = array();
+        
+        for( $i = 0; $i < $count; $i++ )
         {
             include_once( "ezimagecatalogue/classes/ezimage.php" );
-            $returnArray[$i] = new eZImage( $itemArray[$i][ "ImageID" ], 0 );
+            
+            $returnArray[$i] = new eZImage( $imagesArray[$i][ "ImageID" ], 0 );
             $this->ImageID[] = $returnArray[$i];
 
-            $query2 = sprintf( $query2, $returnAray[$i] );
-            $this->Database->array_query( $itemArray, $query2 );
-            
-            if( $preferenceArray[0][ "isFrontImage" ] == 'Y' )
+            if( $imagesArray[$i][ "isFrontImage" ] == 'Y' )
             {
-                $this->isFrontImage = $returnAray[$i];
+                $this->isFrontImage = $imagesArray[$i][ "ImageID" ];
             }
         }
         
@@ -2139,6 +2134,21 @@ class eZNewsItem extends eZNewsUtility
         $this->dirtyUpdate();
         
         return $this->CreatedAt;
+    }
+
+
+
+    /*!
+        Returns the object FrontImageID.
+        
+        \return
+            Returns the isFrontImage of the object.
+    */
+    function getFrontImage()
+    {
+        $this->dirtyUpdate();
+        
+        return $this->isFrontImage;
     }
 
 

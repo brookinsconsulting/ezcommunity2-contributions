@@ -4,14 +4,14 @@
 <tr> 
     <td background="/images/<? echo $SiteStyle; ?>/menu-m.gif">
 
-	<img src="/images/<? echo $SiteStyle; ?>/menu-arrow.gif" width="20" height="10"><a class="menu" href="/news/Begravelse/">Begravelse</a><br>
-	<img src="/images/<? echo $SiteStyle; ?>/menu-arrow.gif" width="20" height="10"><a class="menu" href="/news/Blomster/">Blomster</a><br>
-	<img src="/images/<? echo $SiteStyle; ?>/menu-arrow.gif" width="20" height="10"><a class="menu" href="/news/Buketter/">Buketter</a><br>
-	<img src="/images/<? echo $SiteStyle; ?>/menu-arrow.gif" width="20" height="10"><a class="menu" href="/news/Euro3plast/">Euro3plast</a><br>
-	<img src="/images/<? echo $SiteStyle; ?>/menu-arrow.gif" width="20" height="10"><a class="menu" href="/news/Hageartikler/">Hageartikler</a><br>
-	<img src="/images/<? echo $SiteStyle; ?>/menu-arrow.gif" width="20" height="10"><a class="menu" href="/news/Hagesenter/">Hagesenter</a><br>
-	<img src="/images/<? echo $SiteStyle; ?>/menu-arrow.gif" width="20" height="10"><a class="menu" href="/news/Hundehus/">Hundehus</a><br>
-	<img src="/images/<? echo $SiteStyle; ?>/menu-arrow.gif" width="20" height="10"><a class="menu" href="/news/Planter/">Planter</a><br>
+	<img src="/images/<? echo $SiteStyle; ?>/menu-arrow.gif" width="20" height="10"><a class="menu" href="/news/Begravelse">Begravelse</a><br>
+	<img src="/images/<? echo $SiteStyle; ?>/menu-arrow.gif" width="20" height="10"><a class="menu" href="/news/Blomster">Blomster</a><br>
+	<img src="/images/<? echo $SiteStyle; ?>/menu-arrow.gif" width="20" height="10"><a class="menu" href="/news/Buketter">Buketter</a><br>
+	<img src="/images/<? echo $SiteStyle; ?>/menu-arrow.gif" width="20" height="10"><a class="menu" href="/news/Euro3plast">Euro3plast</a><br>
+	<img src="/images/<? echo $SiteStyle; ?>/menu-arrow.gif" width="20" height="10"><a class="menu" href="/news/Hageartikler">Hageartikler</a><br>
+	<img src="/images/<? echo $SiteStyle; ?>/menu-arrow.gif" width="20" height="10"><a class="menu" href="/news/Hagesenter">Hagesenter</a><br>
+	<img src="/images/<? echo $SiteStyle; ?>/menu-arrow.gif" width="20" height="10"><a class="menu" href="/news/Hundehus">Hundehus</a><br>
+	<img src="/images/<? echo $SiteStyle; ?>/menu-arrow.gif" width="20" height="10"><a class="menu" href="/news/Planter">Planter</a><br>
     <br>
 	<img src="/images/<? echo $SiteStyle; ?>/menu-arrow.gif" width="20" height="10"><a class="menu" href="/news/article?create+child">Legg til artikkel</a><br>
 	</td>
