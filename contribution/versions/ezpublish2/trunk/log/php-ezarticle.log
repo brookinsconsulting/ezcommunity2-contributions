@@ -2750,3 +2750,14 @@ Maintainer(s) : bf@ez.no
     that give  ability create shortcut for the article when you create it.
     feature need to be enabled in site.ini
 
+
+Module : ezarticle
+Repository path : /home/cvsroot/projects/php/ezarticle
+Maintainer(s) : bf@ez.no
+2002-01-30  Christoffer Elo  <ce@ez.no>
+
+    * admin/mediaedit.php
+      admin/medialist.php
+      classes/ezqdomrenderer.php
+      user/articleview.php: Fixes
+

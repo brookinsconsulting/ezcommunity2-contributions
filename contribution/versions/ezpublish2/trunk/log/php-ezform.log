@@ -1259,3 +1259,18 @@ Maintainer(s) : pkej@ez.no
 
     * admin/templates/standard/formrenderer.tpl: fixed birder
 
+
+Module : ezform
+Repository path : /home/cvsroot/projects/php/ezform
+Maintainer(s) : pkej@ez.no
+2002-01-30  Jo Henrik Endrerud  <jhe@ez.no>
+
+    * classes/ezformreportelement.php: fixed bug
+
+    * classes/ezformreportelement.php: added check
+
+    * classes/ezformreportelement.php: fixed bug with list
+
+    * user/intl/en_GB/results.php.ini
+      user/intl/no_NO/results.php.ini: added starts
+

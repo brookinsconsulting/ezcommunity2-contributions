@@ -591,3 +591,11 @@ Maintainer(s) : bf@ez.no
       ezmodulelink.php
       ezmysqldb.php: Fixed some bugs
 
+
+Module : classes
+Repository path : /home/cvsroot/projects/php/classes
+Maintainer(s) : bf@ez.no
+2002-01-30  Christoffer Elo  <ce@ez.no>
+
+    * ezmysqldb.php: Fixes
+

@@ -665,3 +665,11 @@ Maintainer(s) : jhe@ez.no
     * user/fileupload.php
       user/folderedit.php: small speed fixed and code standard compliance
 
+
+Module : ezfilemanager
+Repository path : /home/cvsroot/projects/php/ezfilemanager
+Maintainer(s) : jhe@ez.no
+2002-01-30  Christoffer Elo  <ce@ez.no>
+
+    * user/filelist.php: Fixes
+

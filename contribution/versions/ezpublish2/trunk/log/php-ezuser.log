@@ -982,3 +982,17 @@ Maintainer(s) : bf@ez.no
       user/login.php
       user/userwithaddress.php: Fixed a main address bug
 
+
+Module : ezuser
+Repository path : /home/cvsroot/projects/php/ezuser
+Maintainer(s) : bf@ez.no
+2002-01-30  Christoffer Elo  <ce@ez.no>
+
+    * user/userwithaddress.php:
+    Added bulkmail list to user edit
+
+2002-01-30  Baard Farstad  <bf@ez.no>
+
+    * user/userwithaddress.php:
+    Fixed user registration problem with multiple addresses.
+

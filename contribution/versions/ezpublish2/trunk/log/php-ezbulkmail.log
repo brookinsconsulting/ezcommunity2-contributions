@@ -620,3 +620,20 @@ Maintainer(s) : fh@ez.no
     * user/singlelist.php:
     Remove duplicated delete() call when unsubscribing from the user site
 
+
+Module : ezbulkmail
+Repository path : /home/cvsroot/projects/php/ezbulkmail
+Maintainer(s) : fh@ez.no
+2002-01-30  Christoffer Elo  <ce@ez.no>
+
+    * user/datasupplier.php
+      user/subscriptionlist.php: Added bulkmail
+
+    * admin/intl/no_NO/categoryedit.php.ini
+      admin/intl/no_NO/categorylist.php.ini
+      admin/templates/standard/categoryedit.tpl
+      admin/templates/standard/categorylist.tpl
+      classes/ezbulkmailcategory.php
+      admin/categoryedit.php
+      admin/categorylist.php: Fixes
+

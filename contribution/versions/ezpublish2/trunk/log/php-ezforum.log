@@ -997,3 +997,11 @@ Maintainer(s) : jhe@ez.no
       user/messagesimplelist.php
       user/userlogin.php: Fixed messages appended to products.
 
+
+Module : ezforum
+Repository path : /home/cvsroot/projects/php/ezforum
+Maintainer(s) : jhe@ez.no
+2002-01-30  Christoffer Elo  <ce@ez.no>
+
+    * user/latestmessages.php: Fixes
+

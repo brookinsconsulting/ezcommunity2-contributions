@@ -241,3 +241,23 @@ Maintainer(s) : ce@ez.no
       admin/templates/standard/typelist.tpl:
     fixed missing {www_dir} in templates
 
+
+Module : ezaddress
+Repository path : /home/cvsroot/projects/php/ezaddress
+Maintainer(s) : ce@ez.no
+2001-12-21  Gunnstein Lye  <gl@ez.no>
+
+    * admin/intl/pt_PT/addresstype.php.ini
+      admin/intl/pt_PT/country.php.ini
+      admin/intl/pt_PT/menubox.php.ini
+      admin/intl/pt_PT/onlinetype.php.ini
+      admin/intl/pt_PT/phonetype.php.ini: pt_PT (Portuguese) version 2.2.2
+
+
+Module : ezaddress
+Repository path : /home/cvsroot/projects/php/ezaddress
+Maintainer(s) : ce@ez.no
+2002-01-30  Christoffer Elo  <ce@ez.no>
+
+    * classes/ezaddress.php: Fixed a main address id bug
+

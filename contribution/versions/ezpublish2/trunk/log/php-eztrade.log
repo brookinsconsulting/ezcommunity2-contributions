@@ -3002,3 +3002,67 @@ Maintainer(s) : ce@ez.no
       user/productlist.php
       user/productview.php: SImilar products.
 
+
+Module : eztrade
+Repository path : /home/cvsroot/projects/php/eztrade
+Maintainer(s) : ce@ez.no
+2002-01-30  Bjoern Reiten  <br@ez.no>
+
+    * sql/mysql/Attic/upgrade.sql: New file.
+
+    * sql/mysql/Attic/upgrade.sql: added upgrade file from publish stable.
+
+    * admin/intl/no_NO/orderedit.php.ini
+      admin/templates/standard/orderedit.tpl
+      classes/ezpreorder.php
+      sql/mysql/eztrade.sql
+      admin/orderedit.php:
+    added more logging on payment. This also requires updates
+    in eZTrade_PreOrder.
+
+    * admin/templates/standard/Attic/transaction.tpl: Added transaction file.
+
+    * admin/templates/standard/Attic/transaction.tpl: New file.
+
+2002-01-30  Baard Farstad  <bf@ez.no>
+
+    * user/cart.php: Fixed cart back to shop function.
+
+    * classes/ezproduct.php: Fixed indexing.
+
+    * classes/ezproduct.php: Fixed indexing of :.
+
+    * classes/ezproduct.php: Fixed search.
+
+    * classes/ezproduct.php
+      user/productsearch.php: Fixed escaping of ' in search.
+
+    * classes/ezproduct.php: Fixed indecing of . and -
+
+    * classes/ezproduct.php: Fixed search.
+
+    * classes/ezproduct.php: Fixed indecing of ö and ü.
+
+2002-01-30  Thomas Hellstroem  <th@ez.no>
+
+    * admin/templates/standard/categorylist.tpl: Layout
+
+2002-01-30  Christoffer Elo  <ce@ez.no>
+
+    * classes/ezcart.php
+      classes/ezproduct.php
+      user/checkout.php: Added special logic for the checkout
+
+2002-01-30  Baard Farstad  <bf@ez.no>
+
+    * classes/ezproduct.php
+      user/productsearch.php: Fixed search in recording.
+
+    * classes/ezproduct.php
+      user/productlist.php
+      user/productsearch.php: Fixed newx prev in advanced search.
+
+2002-01-30  Christoffer Elo  <ce@ez.no>
+
+    * user/checkout.php: Fixed a exit()
+
