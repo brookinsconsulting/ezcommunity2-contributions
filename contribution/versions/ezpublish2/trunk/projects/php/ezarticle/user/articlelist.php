@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: articlelist.php,v 1.26 2001/02/08 15:05:17 jb Exp $
+// $Id: articlelist.php,v 1.27 2001/02/13 15:28:28 jb Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <18-Oct-2000 14:41:37 bf>
@@ -148,8 +148,7 @@ else
 if ( !isset( $Offset ) )
     $Offset = 0;
 
-if ( !isset( $Limit ) )
-    $Limit = $UserListLimit;
+$Limit = $UserListLimit;
 
 
 if ( $CategoryID == 0 )
