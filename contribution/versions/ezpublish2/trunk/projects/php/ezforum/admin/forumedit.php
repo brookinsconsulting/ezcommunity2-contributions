@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: forumedit.php,v 1.3 2000/10/20 13:31:31 ce-cvs Exp $
+    $Id: forumedit.php,v 1.4 2000/10/20 15:28:44 ce-cvs Exp $
 
     Author: Lars Wilhelmsen <lw@ez.no>
     
@@ -13,42 +13,91 @@ $ini = new INIFile( "site.ini" );
 
 $DOC_ROOT = $ini->read_var( "eZForumMain", "DocumentRoot" );
 $Language = $ini->read_var( "eZForumMain", "Language" );
+$error = new INIFIle( "ezforum/admin/intl/" . $Language . "/forumedit.php.ini", false );
 
 include_once( "classes/eztemplate.php" );
 include_once( "ezforum/classes/ezforumcategory.php" );
 include_once( "ezforum/classes/ezforum.php" );
 
+require( "ezuser/admin/admincheck.php" );
+
 if ( $Action == "insert" )
 {
-    $forum = new eZForum();
-    $forum->setCategoryId( $CategorySelectID );
-    $forum->setName( $name );
-    $forum->setDescription( $description );
-    
-    $forum->store();
-    Header( "Location: /forum/forumlist/$CategorySelectID" );
+    if ( eZPermission::checkPermission( $user, "eZForum", "ForumAdd" ) )
+    {
+        if ( $Name != "" &&
+        $Description != "" &&
+        $CategorySelectID != "" )
+        {
+            $forum = new eZForum();
+            $forum->setCategoryId( $CategorySelectID );
+            $forum->setName( $Name );
+            $forum->setDescription( $Description );
+            
+            $forum->store();
+            Header( "Location: /forum/forumlist/$CategorySelectID" );
+        }
+        else
+        {
+            $error_msg = $error->read_var( "strings", "error_missingdata" );
+        }
+    }
+    else
+    {
+        Header( "Location: /forum/norights" );
+    }
 }
 
 if ( $Action == "update" )
 {
-    $forum = new eZForum();
-    $forum->get( $ForumID );
-    $forum->setCategoryId( $CategorySelectID );
-    $forum->setName( $name );
-    $forum->setDescription( $description );
+    if ( eZPermission::checkPermission( $user, "eZForum", "ForumModify" ) )
+    {
+        if ( $Name != "" &&
+        $Description != "" &&
+        $CategorySelectID != "" )
+        {
+            $forum = new eZForum();
+            $forum->get( $ForumID );
+            $forum->setCategoryId( $CategorySelectID );
+            $forum->setName( $Name );
+            $forum->setDescription( $Description );
 
-    $forum->store();
-    Header( "Location: /forum/forumlist/$CategorySelectID" );
+            $forum->store();
+            Header( "Location: /forum/forumlist/$CategorySelectID" );
+        }
+        else
+        {
+            $error_msg = $error->read_var( "strings", "error_missingdata" );
+        }
+    }
+    else
+    {
+        Header( "Location: /forum/norights" );
+    }
 }
 
 if ( $Action == "delete" )
 {
-    $forum = new eZForum();
-    $forum->get( $ForumID );
-    $forum->delete();
-
-    $CategoryID = $forum->categoryID();
-    Header( "Location: /forum/forumlist/$CategoryID" );
+    if ( eZPermission::checkPermission( $user, "eZForum", "ForumDelete" ) )
+    {
+        if ( $ForumID != "" )
+        {
+            $forum = new eZForum();
+            $forum->get( $ForumID );
+            $forum->delete();
+            
+            $CategoryID = $forum->categoryID();
+            Header( "Location: /forum/forumlist/$CategoryID" );
+        }
+        else
+        {
+            $error_msg = $error->read_var( "strings", "error_missingdata" );
+        }
+    }
+    else
+    {
+        Header( "Location: /forum/norights" );
+    }
 }
 
 $t = new eZTemplate( "ezforum/admin/" . $ini->read_var( "eZForumMain", "TemplateDir" ),
@@ -60,12 +109,23 @@ $t->set_file( array( "forum_page" => "forumedit.tpl"
 
 $t->set_block( "forum_page", "category_item_tpl", "category_item" );
 
-$t->set_var( "action_value", "insert" );
-
 $ini = new INIFile( "ezforum/admin/" . "intl/" . $Language . "/forumedit.php.ini", false );
 $headline =  $ini->read_var( "strings", "head_line_insert" );
+
 $t->set_var( "forum_name", "" );
 $t->set_var( "forum_description", "" );
+$action_value = "update";
+$t->set_var( "forum_id", $ForumID );
+
+if ( $Action == "new" )
+{
+    if ( !eZPermission::checkPermission( $user, "eZForum", "ForumModify" ) )
+    {
+        Header( "Location: /forum/norights" );
+    }
+
+    $action_value = "insert";
+}
 
 $forum = new eZForum( $ForumID );
 $CategoryID = $forum->categoryID();
@@ -87,17 +147,28 @@ foreach( $categoryList as $categoryItem )
 
 if ( $Action == "edit" )
 {
-    $forum = new eZForum();
-    $forum->get( $ForumID );
-
-    $t->set_var( "forum_name", $forum->name() );
-    $t->set_var( "forum_description", $forum->description() );
-    $t->set_var( "forum_id", $ForumID);
-    $t->set_var( "action_value", "update" );
-
     $ini = new INIFile( "ezforum/admin/" . "intl/" . $Language . "/forumedit.php.ini", false );
     $headline =  $ini->read_var( "strings", "head_line_edit" );
+
+    if ( !eZPermission::checkPermission( $user, "eZForum", "ForumModify" ) )
+    {
+        Header( "Location: /forum/norights" );
+    }
+    else
+    {
+        $forum = new eZForum();
+        $forum->get( $ForumID );
+
+        $t->set_var( "forum_name", $forum->name() );
+        $t->set_var( "forum_description", $forum->description() );
+        $t->set_var( "forum_id", $ForumID);
+        $action_value = "update";
+
+    }
 }
+
+$t->set_var( "action_value", $action_value );
+$t->set_var( "error_msg", $error_msg );
 $t->set_var( "docroot", $DOCROOT );
 $t->set_var( "category_id", $CategoryID );
 

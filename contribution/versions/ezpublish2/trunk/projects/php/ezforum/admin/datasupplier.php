@@ -57,14 +57,13 @@ switch ( $url_array[2] )
     {
         if ( $url_array[3] == "new" )
         {
+            $Action = "new";
             include( "ezforum/admin/forumedit.php" );
         }
 
         if ( $url_array[3] == "insert" )
         {
             $Action = "insert";
-            $CategoryID = $url_array[4];
-            $ForumID = $url_array[5];
             include( "ezforum/admin/forumedit.php" );
         }
 
@@ -94,6 +93,7 @@ switch ( $url_array[2] )
     {
         if ( $url_array[3] == "new" )
         {
+            $Action = "new";
             include( "ezforum/admin/categoryedit.php" );
         }
         if ( $url_array[3] == "insert" )
@@ -125,6 +125,11 @@ switch ( $url_array[2] )
     case "categorylist" :
     {
         include( "ezforum/admin/categorylist.php" );
+    }
+    break;
+    case "norights":
+    {
+        include( "ezforum/admin/norights.php" );
     }
     break;
 

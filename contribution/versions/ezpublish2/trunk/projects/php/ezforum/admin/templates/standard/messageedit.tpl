@@ -18,8 +18,9 @@
 <hr noshade="noshade" size="4" />
 
 <br />
-
+<p class="error">{error_msg}</p>
 <table width="100%" cellpadding="0" cellspacing="0" border="0">
+
 <tr>
 	<td>
 	<p class="boxtext">{intl-topic}</p>

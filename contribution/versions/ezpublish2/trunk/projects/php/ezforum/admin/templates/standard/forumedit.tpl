@@ -46,15 +46,17 @@
 </tr>
 </table>
 
-<form action="/forum/forumedit/{action_value}/{forum_id}/" method="get">
+<form action="/forum/forumedit/{action_value}/{forum_id}/" method="post">
 
 <hr noshade="noshade" size="4" />
 
+<p class="error">{error_msg}</p>
+
 <p class="boxtext">{intl-forumname}</p>
-<input type="text" size="20" name="name" value="{forum_name}">
+<input type="text" size="20" name="Name" value="{forum_name}">
 
 <p class="boxtext">{intl-description}</p>
-<input type="description" size="40" name="description" value="{forum_description}">
+<input type="description" size="40" name="Description" value="{forum_description}">
 
 <p class="boxtext">{intl-category}</p>
 <select name="CategorySelectID">

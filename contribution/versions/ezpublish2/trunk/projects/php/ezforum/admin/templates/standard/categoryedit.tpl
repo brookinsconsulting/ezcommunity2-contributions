@@ -49,8 +49,9 @@
 <form action="/forum/categoryedit/{action_value}/{category_id}/" method="post">
 <input type="hidden" name="page" value="{docroot}/admin/category.php">
 
-
 <hr noshade="noshade" size="4" />
+
+<p class="error">{error_msg}</p><br>
 
 <p class="boxtext">{intl-name}</p><br>
 <input type="text" size="20" value="{category_name}" name="Name">
