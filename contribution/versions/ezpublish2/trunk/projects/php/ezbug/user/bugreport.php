@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: bugreport.php,v 1.14 2001/02/23 13:48:43 fh Exp $
+// $Id: bugreport.php,v 1.15 2001/02/26 16:24:12 fh Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <27-Nov-2000 20:31:00 bf>
@@ -211,17 +211,13 @@ if( isset( $Ok ) ) // here check for errors. and display them if nescacary
 
 if( isset( $InsertFile ) ) 
 {
-    $Action = "";
-//    $BugID = $bug->id();
-    include( "ezbug/user/fileedit.php" );
+    eZHTTPTool::header( "Location: /bug/report/fileedit/new/" . $BugID . "/" );
     exit();
 }
 
 if( isset( $InsertImage ) )
 {
-    $Action = "";
-//    $BugID = $bug->id();
-    include( "ezbug/user/imageedit.php" );
+    eZHTTPTool::header( "Location: /bug/report/imageedit/new/" . $BugID . "/" );
     exit();
 }
 
