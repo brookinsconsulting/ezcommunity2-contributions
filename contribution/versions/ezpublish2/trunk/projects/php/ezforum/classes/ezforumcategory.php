@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: ezforumcategory.php,v 1.1 2000/07/14 12:55:45 lw-cvs Exp $
+    $Id: ezforumcategory.php,v 1.2 2000/07/14 13:07:07 lw-cvs Exp $
 
     Author: Lars Wilhelmsen <lw@ez.no>
     

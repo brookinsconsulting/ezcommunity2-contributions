@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: ezforumforum.php,v 1.2 2000/07/14 13:01:56 lw-cvs Exp $
+    $Id: ezforumforum.php,v 1.3 2000/07/14 13:07:07 lw-cvs Exp $
 
     Author: Lars Wilhelmsen <lw@ez.no>
     
@@ -144,3 +144,22 @@ class eZforumForum
         
     function moderated()
     {
+        return $this->Moderated;
+    }
+        
+    function setModerated($newModerated)
+    {
+        $this->Moderated = $newModerated;
+    }
+        
+    function private()
+    {
+        return $this->Private;
+    }
+        
+    function setPrivate($newPrivate)
+    {
+        $this->Private = $newPrivate;
+    }
+}
+?>
