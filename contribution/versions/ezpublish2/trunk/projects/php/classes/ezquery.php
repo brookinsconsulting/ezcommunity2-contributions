@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezquery.php,v 1.10 2001/07/09 07:18:20 jakobn Exp $
+// $Id: ezquery.php,v 1.11 2001/07/15 16:57:17 bf Exp $
 //
 // Definition of eZQuery class
 //
@@ -64,8 +64,6 @@ class eZQuery
     */
     function buildQuery( )
     {
-        $field = "KeyWords";
-
         $QueryText = $this->QueryText;
         
         $QueryText = trim( $QueryText );
@@ -106,7 +104,7 @@ class eZQuery
             }
         }
 
-        $arrs = array( array( "array" => "normalArray", "item_delim" => "OR", "delim" => "OR", "compare" => "LIKE" ),
+        $arrs = array( array( "array" => "normalArray", "item_delim" => "OR", "delim" => "AND", "compare" => "LIKE" ),
                        array( "array" => "addArray", "item_delim" => "OR", "delim" => "AND", "compare" => "LIKE" ),
                        array( "array" => "subArray", "item_delim" => "AND", "delim" => "AND", "compare" => "NOT LIKE" ) );
 
