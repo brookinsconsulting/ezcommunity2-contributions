@@ -338,7 +338,7 @@ class eZLink
     */
     function dbInit()
     {
-        require "ezlink/dbsettings.php";
+        include( "ezlink/dbsettings.php" );
         mysql_pconnect( $SERVER, $USER, $PWD ) or die( "Kunne ikke kople til database" );
         mysql_select_db( $DATABASE ) or die( "Kunne ikke velge database" );
     }

@@ -1,8 +1,7 @@
 <?
 $SERVER = "localhost";
-$DATABASE = "ezlink";
-$USER = "link";
-$PWD = "linkmaster";
+$DATABASE = "zez";
+$USER = "zez";
+$PWD = "lp0De3";
 $DOCUMENTROOT = "ezlink/";
-
 ?>

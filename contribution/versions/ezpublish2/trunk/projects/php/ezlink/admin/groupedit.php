@@ -5,7 +5,7 @@
 */
 
 include_once( "template.inc" );
-require "ezlink/dbsettings.php";
+include( "../ezlink/dbsettings.php" );
 include_once( "ezphputils.php" );
 
 require "../ezlink/classes/ezlinkgroup.php";

@@ -5,9 +5,8 @@
 */
 
 
-
 include_once( "template.inc" );
-require "ezlink/dbsettings.php";
+include( "../ezlink/dbsettings.php" );
 include_once( "ezphputils.php" );
 
 
@@ -128,9 +127,7 @@ else
         else
         {
             $t->set_var( "bg_color", "#dcdcdc" );
-        }  
-
-
+        }
 
         $t->set_var( "link_id", $link_array[ $i ][ "ID" ] );
         $t->set_var( "link_title", $link_array[ $i ][ "Title" ] );
