@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezdb.php,v 1.32 2001/01/22 14:42:59 jb Exp $
+// $Id: ezdb.php,v 1.33 2001/01/26 13:40:47 jb Exp $
 //
 // Definition of eZDB class
 //
@@ -79,7 +79,6 @@ class eZDB
 
         if ( $print )
         {
-            print( "fokk" );
             print( $sql . "<br>");
         }
         
