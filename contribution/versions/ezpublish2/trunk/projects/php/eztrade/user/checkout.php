@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: checkout.php,v 1.98 2001/11/22 14:27:38 pkej Exp $
+// $Id: checkout.php,v 1.99 2001/11/22 15:48:41 pkej Exp $
 //
 // Created on: <28-Sep-2000 15:52:08 bf>
 //
@@ -78,6 +78,11 @@ include_once( "ezmail/classes/ezmail.php" );
 
 $cart = new eZCart();
 $session =& eZSession::globalSession();
+
+$user = eZUser::currentUser();
+
+if ( get_class( $user ) != "ezuser" )
+    eZHTTPTool::header( "Location: /user/login/" );
 
 // if no session exist create one.
 if ( !$session->fetch() )
@@ -372,8 +377,6 @@ foreach ( $items as $item )
     
     if ( $ShowSavingsColumn == true )
     {
-        turnColumnsOnOff( "savings" );
-
         if ( $item->correctSavings( true, true, $PricesIncludeVAT ) > 0 )
         {
             $t->set_var( "product_savings", $item->localeSavings( true, true, $PricesIncludeVAT ) );
@@ -383,6 +386,10 @@ foreach ( $items as $item )
             $t->set_var( "product_savings", "&nbsp;" );
         }
         $t->parse( "cart_savings_item", "cart_savings_item_tpl" );
+    }
+    else
+    {
+        $t->set_var( "cart_savings_item", "" );
     }
 
     if ( $numberOfOptions ==  0 )
