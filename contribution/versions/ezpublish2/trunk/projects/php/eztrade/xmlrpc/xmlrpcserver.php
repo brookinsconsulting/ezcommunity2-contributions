@@ -70,11 +70,14 @@ function &newOrders( $args )
         // perform search
         $orderArray =& $order->getNew( );
 
+
         foreach ( $orderArray as $orderItem )
         {
+            print_r( $orderItem );
+            
             // set the order item to be exported
 //            $orderItem->setIsExported( true );
-            $orderItem->store();
+//            $orderItem->store();
 
             $datetime =& $orderItem->date();
 
@@ -85,7 +88,7 @@ function &newOrders( $args )
             
             if ( $user )
             {
-                $shippingAddress =& $orderItem->shippingAddress();                
+                $shippingAddress =& $orderItem->shippingAddress();
                 $shippingCountry =& $shippingAddress->country();
 
                 $billingAddress =& $orderItem->billingAddress();
@@ -162,6 +165,8 @@ function &newOrders( $args )
         $tmp = new eZXMLRPCResponse( );
         $tmp->setError( 100, "Authorization failed." );
     }
+
+    print_r( $tmp );
     
     return $tmp;
 }

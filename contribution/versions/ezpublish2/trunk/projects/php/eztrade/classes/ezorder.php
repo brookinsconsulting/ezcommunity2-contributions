@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezorder.php,v 1.29 2001/03/16 09:48:01 bf Exp $
+// $Id: ezorder.php,v 1.30 2001/03/16 10:40:56 bf Exp $
 //
 // Definition of eZOrder class
 //
@@ -52,7 +52,7 @@ class eZOrder
       If $id is set the object's values are fetched from the
       database.
     */
-    function eZOrder( $id="", $fetch=true )
+    function eZOrder( $id="" )
     {
         $this->IsConnected = false;
         $this->IsExported = 0;
@@ -60,15 +60,7 @@ class eZOrder
         if ( $id != "" )
         {
             $this->ID = $id;
-            if ( $fetch == true )
-            {
-                
-                $this->get( $this->ID );
-            }
-            else
-            {
-                $this->State_ = "Dirty";
-            }
+            $this->get( $this->ID );
         }
         else
         {
@@ -245,7 +237,7 @@ class eZOrder
 
         for ( $i=0; $i < count( $order_array ); $i++ )
         {
-            $return_array[$i] = new eZOrder( $order_array[$i][ "ID" ], 0 );
+            $return_array[$i] = new eZOrder( $order_array[$i][ "ID" ] );
         }
 
         return $return_array;
@@ -316,9 +308,6 @@ class eZOrder
     */
     function date(   )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
        $dateTime = new eZDateTime();
        $dateTime->setMySQLTimeStamp( $this->Date );
        
@@ -340,9 +329,6 @@ class eZOrder
     */
     function user()
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
        $ret = false;
        
        $user = new eZUser( );
@@ -357,9 +343,6 @@ class eZOrder
     */
     function shippingCharge()
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
        return $this->ShippingCharge;
     }
 
@@ -368,9 +351,6 @@ class eZOrder
     */
     function shippingVAT()
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
        return $this->ShippingVAT;
     }
     
@@ -379,9 +359,6 @@ class eZOrder
     */
     function shippingAddress()
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
        $shippingAddress = new eZAddress( $this->ShippingAddressID );
        
        return $shippingAddress;
@@ -394,9 +371,6 @@ class eZOrder
     */
     function shippingUser()
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
        // check the owner of the address
        
        $this->dbInit();
@@ -426,9 +400,6 @@ class eZOrder
     */
     function billingAddress()
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
        $billingAddress = new eZAddress( $this->BillingAddressID );
        
        return $billingAddress;
@@ -441,9 +412,6 @@ class eZOrder
     */
     function shippingType()
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
        $ret = false;
        if ( $this->ShippingTypeID > 0 )
        {
@@ -458,9 +426,6 @@ class eZOrder
     */
     function paymentMethod()
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
        return $this->PaymentMethod;
     }
 
@@ -470,9 +435,6 @@ class eZOrder
     */
     function isExported( $value )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
        if ( $this->IsExported == 1 )
            return true;
        else
@@ -484,9 +446,6 @@ class eZOrder
     */
     function setPaymentMethod( $value )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
        $this->PaymentMethod = $value;
     }
     
@@ -496,9 +455,6 @@ class eZOrder
     */
     function setUser( $user )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
        if ( get_class( $user ) == "ezuser" )
        {
            $this->UserID = $user->id();
@@ -510,9 +466,6 @@ class eZOrder
     */
     function setShippingAddress( $shippingAddress )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
        if ( get_class( $shippingAddress ) == "ezaddress" )
        {
            $this->ShippingAddressID = $shippingAddress->id();
@@ -524,9 +477,6 @@ class eZOrder
     */
     function setBillingAddress( $billingAddress )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
        if ( get_class( $billingAddress ) == "ezaddress" )
        {
            $this->BillingAddressID = $billingAddress->id();
@@ -538,10 +488,6 @@ class eZOrder
     */
     function setShippingCharge( $value )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
-       
        $this->ShippingCharge = $value;
 
        setType( $this->ShippingCharge, "double" );       
@@ -552,9 +498,6 @@ class eZOrder
     */
     function setShippingVAT( $value )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-       
        $this->ShippingVAT = $value;
 
        setType( $this->ShippingVAT, "double" );
@@ -565,9 +508,6 @@ class eZOrder
     */
     function setStatus( $type )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
        if ( get_class( $type ) == "ezorderstatustype" )
        {
            $this->OrderStatus_ = $type->id();
@@ -579,9 +519,6 @@ class eZOrder
     */
     function setShippingTypeID( $type )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
        $this->ShippingTypeID = $type;
     }
     
@@ -591,9 +528,6 @@ class eZOrder
     */
     function setIsExported( $value )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
        if ( $value == true )
            $this->IsExported = 1;
        else
@@ -605,9 +539,6 @@ class eZOrder
     */
     function initialStatus( )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
        $statusType = new eZOrderStatusType();
        
        $statusType->getByName( "Initial" );
@@ -628,9 +559,6 @@ class eZOrder
     */
     function lastStatus( )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
        $statusType = new eZOrderStatusType();
        
        $statusType->getByName( "Initial" );
@@ -651,9 +579,6 @@ class eZOrder
     */
     function statusHistory()
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
        $statusType = new eZOrderStatusType();
        
        $statusType->getByName( "Initial" );
@@ -675,9 +600,6 @@ class eZOrder
     */
     function items()
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
        $ret = array();
        
        $this->dbInit();
@@ -706,9 +628,6 @@ class eZOrder
     */
     function totalPrice()
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
        $retPrice = 0;
        $this->dbInit();
 
@@ -733,9 +652,6 @@ class eZOrder
     */
     function mostPopularProduct()
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
        $ret = array();
        $this->dbInit();
 
@@ -763,7 +679,7 @@ class eZOrder
     {
         if ( $this->IsConnected == false )
         {
-            $this->Database = eZDB::globalDatabase();
+            $this->Database =& eZDB::globalDatabase();
             $this->IsConnected = true;
         }
     }

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezxmlrpcclient.php,v 1.9 2001/03/15 18:27:22 ce Exp $
+// $Id: ezxmlrpcclient.php,v 1.10 2001/03/16 10:40:56 bf Exp $
 //
 // Definition of eZXMLRPCClient class
 //
@@ -157,7 +157,11 @@ class eZXMLRPCClient
             {
                 $rawResponse .= $data;
             }
-            print( $rawResponse );
+            
+//            print( "<pre>" );
+//            print( nl2br ( htmlspecialchars( $rawResponse )  ) );
+//            print( "</pre>" );
+            
             // close the socket
             fclose( $fp );
         }
