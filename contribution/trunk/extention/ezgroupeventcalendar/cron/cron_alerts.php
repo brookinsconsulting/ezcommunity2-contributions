@@ -37,9 +37,13 @@ elseif ( ereg( "(.*/)([^\/]+\.php)/?", $PHP_SELF, $regs ) )
     $siteDir = $DOCUMENT_ROOT . $regs[1];
 else
 //	$siteDir = "./";
+
+// required: change $siteDir to match your site root
 $siteDir = "/home/web/ezcommunity.net/html/";
+// $siteDir = "/home/web/beta.ezcommunity/html/";
+
 $serverDateCMD = "/bin/date";
-$serverCalendarCronLog = 'bin/logs/calendar_even_notification_cron.log';
+$serverCalendarCronLog = 'bin/logs/calendar_event_notification_cron.log';
 
 if ( substr( php_uname(), 0, 7) == "Windows" )
     $separator = ";";
