@@ -2,17 +2,24 @@ Short description:
 
 eZ publish is a web based application suite. It delivers functionality
 ranging from publishing of news, web logs and diaries, through web shop
-functionality and forums to intranet functions like contact handling and
-bug reporting.
+functionality like shopping carts and wishlists and forums to intranet
+functions like contact handling and bug reporting.
 
-The software uses caching and other optimisation techniques to speed up
+The software uses caching and other optimization techniques to speed up
 page serving. It handles users, user preferences and user tracking
 through a user database and both cookie-based and non-cookie sessions.
 
-It supports statistics for page views and advertising.
+It supports statistics for page views, links followed and banner ads.
 
-The package lends itself easily to customisation, from changing the look
-and feel, localising the languages to adding new functionality.
+The package lends itself easily to customization, from changing the look
+and feel by changing templates, localizing the languages and other
+internationalization issues to adding new functionality.
+
+The target audience for eZ publish are e-commerce, ASP (Application
+Service Providers), news publishing, intranets, bug reporting, content
+management, discussion boards, FAQ and knowledge handling, file and image
+management, group ware, calendaring, appointments.
+
 
 
 
@@ -29,7 +36,7 @@ functionality:
     * File manager for keeping track of uploaded files
     * Moderated forums for discussions
     * Image manager for keeping track of uploaded images
-    * Link manager which is used to categorise links
+    * Link manager which is used to categorize links
     * News feed importing, fetch news and headlines from other sites and
       incorporate them in your own(1)
     * Poll module for creating user polls.
@@ -84,7 +91,12 @@ For those proficient in programming PHP the source code is available,
 it can be used as a basis for adding new modules and functionality
 tailored to your specific needs.
 
-      
+The target audience for eZ publish are e-commerce, ASP (Application
+Service Providers), news publishing, intranets, bug reporting, content
+management, discussion boards, FAQ and knowledge handling, file and image
+management, group ware, calendaring, appointments.
+
+     
 (1) We do not encourage copyright infringements with this feature. Our
     default templates will not pass these news items as the site's own.
     Ask permission from copyright holder before publishing other site's
