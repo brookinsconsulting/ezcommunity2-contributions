@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: productpreview.php,v 1.9 2000/11/01 09:24:18 ce-cvs Exp $
+// $Id: productpreview.php,v 1.10 2000/11/12 19:41:44 bf-cvs Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <22-Sep-2000 16:13:32 bf>
@@ -43,6 +43,7 @@ $t->set_file( array( "product_preview_tpl" => "productpreview.tpl"
                      ) );
 
 $t->set_block( "product_preview_tpl", "image_tpl", "image" );
+$t->set_block( "product_preview_tpl", "main_image_tpl", "main_image" );
 $t->set_block( "product_preview_tpl", "option_tpl", "option" );
 $t->set_block( "option_tpl", "value_tpl", "value" );
 

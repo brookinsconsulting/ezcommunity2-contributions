@@ -2,6 +2,11 @@
     </td>
  	<td valign="top" rowspan="2" width="1%" bgcolor="#ffffff">
     <?        include( "ezuser/user/userbox.php" ); ?>
+
+
+    <?        include( "eztrade/user/hotdealslist.php" ); ?>
+
+    
 	<img src="/images/1x1.gif" width="100" height="1" border="0"><br />
 
 	</td>

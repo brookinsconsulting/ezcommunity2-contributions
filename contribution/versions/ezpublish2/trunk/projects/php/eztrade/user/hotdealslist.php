@@ -1,9 +1,9 @@
 <?
 // 
-// $Id: hotdealslist.php,v 1.1 2000/11/12 18:19:11 bf-cvs Exp $
+// $Id: hotdealslist.php,v 1.2 2000/11/12 19:41:44 bf-cvs Exp $
 //
 // Bård Farstad <bf@ez.no>
-// Created on: <23-Sep-2000 14:46:20 bf>
+// Created on: <12-Nov-2000 19:34:40 bf>
 //
 // This source file is part of eZ publish, publishing software.
 // Copyright (C) 1999-2000 eZ systems as
@@ -49,12 +49,11 @@ $t->set_block( "product_list_tpl", "product_tpl", "product" );
 
 $t->setAllStrings();
 
-$category = new eZProductCategory(  );
-$category->get( $CategoryID );
+$product = new eZProduct(  );
 
 
 // products
-$productList =& $category->activeProducts();
+$productList =& $product->hotDealProducts();
 
 $locale = new eZLocale( $Language );
 $i=0;
@@ -77,9 +76,8 @@ foreach ( $productList as $product )
         $t->set_var( "price", "" );
     }
     
-
-    
-    $t->set_var( "category_id", $category->id() );
+    $defCat = $product->categoryDefinition();
+    $t->set_var( "category_id", $defCat->id() );
 
     if ( ( $i % 2 ) == 0 )
     {
@@ -105,10 +103,9 @@ else
 
 
 
-
 if ( $GenerateStaticPage == "true" )
 {
-    $cachedFile = "eztrade/cache/productlist," . $CategoryID .".cache";
+    $cachedFile = "eztrade/cache/hotdealslist.cache";
     $fp = fopen ( $cachedFile, "w+");
 
     $output = $t->parse( $target, "product_list_page_tpl" );

@@ -1,5 +1,12 @@
 Changes from version 1.0.1
 -------------------------
+* Fixed some issues with cache coherence
+* Removed broken image on product preview if no image exists.
+* Language updates.
+* Added multiple assignments of products.
+* Added hot deals on products.
+* Added assignment of articles to multiple categories.
+* Fixed deleting of cached printed version, when an article is updated.
 * Added showing of customers email address in Order edit.
 * Fixed internationalization of Order list and Order edit.
 * Added showing of number of users registered

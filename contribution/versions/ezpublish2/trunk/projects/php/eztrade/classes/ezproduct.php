@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezproduct.php,v 1.22 2000/11/12 18:05:29 bf-cvs Exp $
+// $Id: ezproduct.php,v 1.23 2000/11/12 19:41:44 bf-cvs Exp $
 //
 // Definition of eZProduct class
 //
@@ -237,7 +237,8 @@ class eZProduct
         if ( isset( $this->ID ) )
         {
             $this->Database->query( "DELETE FROM eZTrade_ProductCategoryLink WHERE ProductID='$this->ID'" );
-
+            $this->Database->query( "DELETE FROM eZTrade_ProductCategoryDefinition WHERE ProductID='$this->ID'" );
+            
             $this->Database->query( "DELETE FROM eZTrade_ProductImageLink WHERE ProductID='$this->ID'" );
             $this->Database->query( "DELETE FROM eZTrade_ProductImageDefinition WHERE ProductID='$this->ID'" );
 
@@ -825,6 +826,30 @@ class eZProduct
     }
 
     /*!
+      Returns the products set to hot deal.
+    */
+    function &hotDealProducts( )
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+       $ret = array();
+       $this->dbInit();
+
+       $this->Database->array_query( $res_array, "SELECT ID FROM eZTrade_Product
+                                     WHERE
+                                     IsHotDeal='true' ORDER BY Name" );
+
+       foreach ( $res_array as $product )
+       {
+           $ret[] = new eZProduct( $product["ID"] );
+       }
+       
+       return $ret;
+
+    }
+
+    /*!
       Returns the categrories a product is assigned to.
 
       The categories are returned as an array of eZProductCategory objects.
@@ -886,6 +911,57 @@ class eZProduct
            }           
        }
        return $ret;
+    }
+
+    /*!
+      Set's the products defined category. This is the main category for the product.
+      Additional categories can be added with eZProductCategory::addProduct();
+    */
+    function setCategoryDefinition( $value )
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+       
+       if ( get_class( $value ) == "ezproductcategory" )
+       {
+            $this->dbInit();
+
+            $categoryID = $value->id();
+
+            $this->Database->query( "DELETE FROM eZTrade_ProductCategoryDefinition
+                                     WHERE ProductID='$this->ID'" );
+            
+            $query = "INSERT INTO
+                           eZTrade_ProductCategoryDefinition
+                      SET
+                           CategoryID='$categoryID',
+                           ProductID='$this->ID'";
+            
+            $this->Database->query( $query );
+       }       
+    }
+
+    /*!
+      Returns the product's definition category.
+    */
+    function categoryDefinition( )
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+       
+       $this->dbInit();
+
+       $this->Database->array_query( $res, "SELECT CategoryID FROM
+                                            eZTrade_ProductCategoryDefinition
+                                            WHERE ProductID='$this->ID'" );
+
+       $category = false;
+       if ( count( $res ) == 1 )
+       {
+           $category = new eZProductCategory( $res[0]["CategoryID"] );
+       }
+
+       return $category;
     }
     
     /*!

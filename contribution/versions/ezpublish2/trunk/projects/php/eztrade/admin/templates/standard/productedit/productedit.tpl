@@ -11,11 +11,24 @@
 <input type="text" size="40" name="ProductNumber" value="{product_nr_value}"/>
 	
 <p class="boxtext">{intl-category}:</p>
+
 <select name="CategoryID">
 <!-- BEGIN value_tpl -->
 <option value="{option_value}" {selected}>{option_name}</option>
 <!-- END value_tpl -->
 </select>
+
+
+<p class="boxtext">{intl-additional_categories}:</p>
+
+<select multiple name="CategoryArray[]">
+
+<!-- BEGIN multiple_value_tpl -->
+<option value="{option_value}" {multiple_selected}>{option_name}</option>
+<!-- END multiple_value_tpl -->
+
+</select>
+
 
 <p class="boxtext">{intl-keywords}:</p>
 <textarea rows="5" cols="40" name="Keywords" wrap="soft">{keywords_value}</textarea>

@@ -1,8 +1,5 @@
 <?php
 
-//  if ( !isset( $TEST_COOKIE ) )
-//      setcookie ( "TEST_COOKIE", "svada", 0, "/",  "", 0 )
-//      or die( "Error: could not set cookie." );
 header("Expires: Mon, 26 Jul 1997 05:00:00 GMT"); 
 header("Last-Modified: " . gmdate("D, d M Y H:i:s") . "GMT"); 
 header("Cache-Control: no-cache, must-revalidate"); 
@@ -20,10 +17,6 @@ include_once( "ezuser/classes/ezusergroup.php" );
 include_once( "ezuser/classes/ezmodule.php" );
 include_once( "ezuser/classes/ezpermission.php" );
 
-// set session if not already set
-//  $session = new eZSession( );
-//  if ( !$session->fetch() )
-//      $session->store();
 
 $ini = new INIFile( "site.ini" );
 $t = new Template( "." );

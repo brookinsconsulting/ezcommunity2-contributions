@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: productedit.php,v 1.21 2000/11/12 18:05:29 bf-cvs Exp $
+// $Id: productedit.php,v 1.22 2000/11/12 19:41:44 bf-cvs Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <19-Sep-2000 10:56:05 bf>
@@ -89,10 +89,30 @@ if ( $Action == "Insert" )
     
     $product->store();
 
-    // add a product to the category
-    $parentCategory->addProduct( $product );
+    // add a product to the categories
+    $category = new eZProductCategory( $CategoryID );
+    $category->addProduct( $product );
+    
+    $product->setCategoryDefinition( $category );
+    
+    foreach ( $CategoryArray as $categoryItem )
+    {
+        if ( $categoryItem != $CategoryID )
+        {
+            $category = new eZProductCategory( $categoryItem );
+            $category->addProduct( $product );
+        }
+    }
+
 
     $productID = $product->id();
+
+    $categoryArray = $product->categories();
+    $categoryIDArray = array();
+    foreach ( $categoryArray as $cat )
+    {
+        $categoryIDArray[] = $cat->id();
+    }    
 
     // clear the cache files.
     $dir = dir( "eztrade/cache/" );
@@ -108,13 +128,19 @@ if ( $Action == "Insert" )
                 }
             }
 
+            
             if ( ereg( "productlist,(.*)\..*", $entry, $regArray  ) )
             {
-                if ( $regArray[1] == $CategoryID )
+                if ( in_array( $regArray[1], $categoryIDArray )  )
                 {
                     unlink( "eztrade/cache/" . $entry );
                 }
-            }
+            }            
+
+            if ( ereg( "hotdealslist.cache", $entry, $regArray  ) )
+            {
+                unlink( "eztrade/cache/" . $entry );
+            }            
             
         } 
     }
@@ -143,8 +169,8 @@ if ( $Action == "Insert" )
     }
 
     // get the category to redirect to
-    $categories = $product->categories();    
-    $categoryID = $categories[0]->id();
+    $category = $product->categoryDefinition( );
+    $categoryID = $category->id();
     
     Header( "Location: /trade/categorylist/parent/$categoryID" );
     exit();
@@ -210,8 +236,28 @@ if ( $Action == "Update" )
 
     // remove current category assignments and add a product to the category
     $product->removeFromCategories();
-    $parentCategory->addProduct( $product );
 
+    // add a product to the categories
+    $category = new eZProductCategory( $CategoryID );
+    $category->addProduct( $product );
+    
+    $product->setCategoryDefinition( $category );
+    
+    foreach ( $CategoryArray as $categoryItem )
+    {
+        if ( $categoryItem != $CategoryID )
+        {
+            $category = new eZProductCategory( $categoryItem );
+            $category->addProduct( $product );
+        }
+    }
+
+    $categoryArray = $product->categories();
+    $categoryIDArray = array();
+    foreach ( $categoryArray as $cat )
+    {
+        $categoryIDArray[] = $cat->id();
+    }    
 
     // clear the cache files.
     $dir = dir( "eztrade/cache/" );
@@ -229,11 +275,16 @@ if ( $Action == "Update" )
 
             if ( ereg( "productlist,(.*)\..*", $entry, $regArray  ) )
             {
-                if ( $regArray[1] == $CategoryID )
+                if ( in_array( $regArray[1], $categoryIDArray )  )
                 {
                     unlink( "eztrade/cache/" . $entry );
                 }
             }
+
+            if ( ereg( "hotdealslist.cache", $entry, $regArray  ) )
+            {
+                unlink( "eztrade/cache/" . $entry );
+            }            
             
         } 
     }
@@ -262,8 +313,8 @@ if ( $Action == "Update" )
     }
 
     // get the category to redirect to
-    $categories = $product->categories();    
-    $categoryID = $categories[0]->id();
+    $category = $product->categoryDefinition( );
+    $categoryID = $category->id();
     
     Header( "Location: /trade/categorylist/parent/$categoryID" );
     exit();
@@ -274,8 +325,8 @@ if ( $Action == "Cancel" )
     if ( isset( $ProductID ) )
     {
         $product = new eZProduct( $ProductID );
-        $categories = $product->categories();
-        $categoryID = $categories[0]->id();
+        $category = $product->categoryDefinition( );
+        $categoryID = $category->id();
         Header( "Location: /trade/categorylist/parent/$categoryID" );
         exit();
     }
@@ -293,6 +344,14 @@ if ( $Action == "Delete" )
 
     $categories = $product->categories();
 
+    $categoryArray = $product->categories();
+    $categoryIDArray = array();
+    foreach ( $categoryArray as $cat )
+    {
+        $categoryIDArray[] = $cat->id();
+    }    
+    
+
     // clear the cache files.
     $dir = dir( "eztrade/cache/" );
     while( $entry = $dir->read() )
@@ -307,23 +366,28 @@ if ( $Action == "Delete" )
                 }
             }
             
-            foreach ( $categories as $category )
+            if ( ereg( "productlist,(.*)\..*", $entry, $regArray  ) )
             {
-                if ( ereg( "productlist,(.*)\..*", $entry, $regArray  ) )
+                if ( in_array( $regArray[1], $categoryIDArray )  )
                 {
-                    if ( $regArray[1] == $category->id() )
-                    {
-                        unlink( "eztrade/cache/" . $entry );
-                    }
+                    unlink( "eztrade/cache/" . $entry );
                 }
             }
+
+            if ( ereg( "hotdealslist.cache", $entry, $regArray  ) )
+            {
+                unlink( "eztrade/cache/" . $entry );
+            }            
         } 
     }
     $dir->close();
+
+    $category = $product->categoryDefinition( );
+    $categoryID = $category->id();
     
     $product->delete();
     
-    Header( "Location: /trade/categorylist/" );
+    Header( "Location: /trade/categorylist/parent/$categoryID/" );
     exit();
 }
 
@@ -334,6 +398,8 @@ $t = new eZTemplate( "eztrade/admin/" . $ini->read_var( "eZTradeMain", "AdminTem
 $t->set_file( array( "product_edit_tpl" => "productedit.tpl" ) );
 
 $t->set_block( "product_edit_tpl", "value_tpl", "value" );
+$t->set_block( "product_edit_tpl", "multiple_value_tpl", "multiple_value" );
+
 
 
 $t->setAllStrings();
@@ -394,20 +460,50 @@ foreach ( $categoryArray as $catItem )
 {
     if ( $Action == "Edit" )
     {
-        if ( $product->existsInCategory( $catItem ) )
-            $t->set_var( "selected", "selected" );
+        $defCat = $product->categoryDefinition( );
+        
+        if ( $product->existsInCategory( $catItem ) &&
+             ( $defCat->id() != $catItem->id() ) )
+        {
+            $t->set_var( "multiple_selected", "selected" );
+        }
         else
+        {
+            $t->set_var( "multiple_selected", "" );
+        }
+
+        if ( $defCat->id() == $catItem->id() )
+        {
+            $t->set_var( "selected", "selected" );
+        }
+        else
+        {
             $t->set_var( "selected", "" );
+        }
     }
     else
     {
-            $t->set_var( "selected", "" );
-    }
+        $t->set_var( "selected", "" );
+        $t->set_var( "multiple_selected", "" );
+    }    
+    
+//      if ( $Action == "Edit" )
+//      {
+//          if ( $product->existsInCategory( $catItem ) )
+//              $t->set_var( "selected", "selected" );
+//          else
+//              $t->set_var( "selected", "" );
+//      }
+//      else
+//      {
+//              $t->set_var( "selected", "" );
+//      }
     
     $t->set_var( "option_value", $catItem->id() );
     $t->set_var( "option_name", $catItem->name() );
 
-    $t->parse( "value", "value_tpl", true );    
+    $t->parse( "value", "value_tpl", true );
+    $t->parse( "multiple_value", "multiple_value_tpl", true );    
 }
 
 

@@ -1,4 +1,4 @@
-<h1>Produktvisning</h1>
+<h1>{intl-head_line}</h1>
 
 <hr noshade="noshade" size="4" />
 
@@ -16,6 +16,8 @@
 	<td colspan="2">
 
 <br />
+
+<!-- BEGIN main_image_tpl -->	
 <table align="right" cellspacing="0" cellpadding="0" border="0">
 <tr>
 	<td>
@@ -28,6 +30,7 @@
 	</td>
 </tr>
 </table>
+<!-- END main_image_tpl -->
 
 <p>{intro_text}</p>
 
@@ -99,6 +102,6 @@
 
 <hr noshade="noshade" size="4" />
 
-<input class="okbutton" type="submit" value="{intl-back}" />
+<input class="okbutton" type="submit" value="{intl-edit}" />
 </form>
 
