@@ -2716,3 +2716,15 @@ Maintainer(s) : ce@ez.no
       classes/ezproductcategory.php
       user/productlist.php: Changes.
 
+
+Module : eztrade
+Repository path : /home/cvsroot/projects/php/eztrade
+Maintainer(s) : ce@ez.no
+2002-01-15  Baard Farstad  <bf@ez.no>
+
+    * sql/mysql/eztrade.sql
+      user/datasupplier.php
+      user/productlist.php
+      user/productsearch.php
+      classes/ezproduct.php: Added search.
+

@@ -2663,3 +2663,12 @@ Maintainer(s) : bf@ez.no
     * classes/ezqdomgenerator.php
       user/search.php: Fixed section override in search.
 
+
+Module : ezarticle
+Repository path : /home/cvsroot/projects/php/ezarticle
+Maintainer(s) : bf@ez.no
+2002-01-15  Kai Duebbert  <kai@duebbert.de>
+
+    * classes/ezqdomgenerator.php:
+    fixed bug in decodeCustom() when using multiple standards tags in custom tag.
+

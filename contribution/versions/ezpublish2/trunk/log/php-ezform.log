@@ -982,3 +982,20 @@ Maintainer(s) : pkej@ez.no
       user/results.php
       user/templates/standard/results.tpl: several fixes
 
+
+Module : ezform
+Repository path : /home/cvsroot/projects/php/ezform
+Maintainer(s) : pkej@ez.no
+2002-01-15  Jo Henrik Endrerud  <jhe@ez.no>
+
+    * classes/ezformelement.php
+      user/intl/en_GB/results.php.ini
+      user/intl/no_NO/results.php.ini
+      user/results.php
+      user/templates/standard/results.tpl: improved searching
+
+    * user/intl/en_GB/viewresult.php.ini
+      user/intl/no_NO/viewresult.php.ini
+      user/templates/standard/viewresult.tpl
+      user/viewresult.php: fixed printable version
+
