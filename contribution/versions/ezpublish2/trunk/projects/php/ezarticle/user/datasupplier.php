@@ -11,6 +11,13 @@ switch ( $url_array[2] )
     }
     break;
 
+
+    case "search":
+    {
+        include( "ezarticle/user/search.php" );
+    }
+    break;
+
     case "articleheaderlist":
     {
         $CategoryID = $url_array[3];

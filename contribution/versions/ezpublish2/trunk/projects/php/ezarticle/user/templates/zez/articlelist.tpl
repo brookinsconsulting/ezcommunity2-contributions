@@ -1,4 +1,18 @@
-<h1>Latest news</h1>
+<table width="100%" border="0">
+<tr>
+	<td>
+	<h1>Latest news</h1>
+	</td>
+	<td align="right">
+	<form action="/article/search/" method="post">
+	<input type="text" name="SearchText" size="10" />	
+	<input type="submit" value="{intl-search}" />
+	</form>	
+	</td>
+</tr>
+</table>
+
+
 
 <!-- BEGIN path_item_tpl -->
 
