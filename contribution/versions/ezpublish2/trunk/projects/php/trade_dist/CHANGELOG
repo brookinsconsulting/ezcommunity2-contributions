@@ -3,7 +3,15 @@ eZ trade changelog:
 
 Changes from version 1.0.2
 --------------------------
+* Added discussion on articles / news
+* Added session timeout on user groups
+* Added session info, currently loggen in users
+* Added possibility to manually logout users
+* Fixed wishlist
 * Removed debug output from product view template.
+* Lots of bug fixes
+* Template cleanup
+
 
 Changes from version 1.0.1
 --------------------------
