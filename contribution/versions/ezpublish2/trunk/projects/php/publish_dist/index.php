@@ -42,6 +42,18 @@ else
     include( "defaultmetainfo.php" );
 }
 
+// Pre check
+{
+  // send the URI to the right decoder
+    $content_page_pre = "ez" . $url_array[1] . "/user/datasupplier_pre.php";
+}
+
+if ( file_exists( $content_page_pre ) )
+{
+    // the page with the real contents
+    include( $content_page_pre );
+}
+
 // include more html
 if ( $PrintableVersion == "enabled" )
 {

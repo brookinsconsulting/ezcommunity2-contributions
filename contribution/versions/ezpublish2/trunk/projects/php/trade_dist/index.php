@@ -42,8 +42,28 @@ else
     include( "defaultmetainfo.php" );
 }
 
+
+// Pre check
+{
+  // send the URI to the right decoder
+    $content_page_pre = "ez" . $url_array[1] . "/user/datasupplier_pre.php";
+}
+
+if ( file_exists( $content_page_pre ) )
+{
+    // the page with the real contents
+    include( $content_page_pre );
+}
+
 // include more html
-include( "header.php" );
+if ( $PrintableVersion == "enabled" )
+{
+    include( "simpleheader.php" );
+}
+else
+{
+    include( "header.php" );    
+}
 
 // Main contents
 {
@@ -64,7 +84,15 @@ else
 }
 
 // and the html finish
-include( "footer.php" );
+// include more html
+if ( $PrintableVersion == "enabled" )
+{
+    include( "simplefooter.php" );
+}
+else
+{
+    include( "footer.php" );
+}
                     
 ob_end_flush();
 
