@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: ezforummessage.php,v 1.6 2000/07/20 18:50:37 lw Exp $
+    $Id: ezforummessage.php,v 1.7 2000/07/20 19:44:28 lw Exp $
 
     Author: Lars Wilhelmsen <lw@ez.no>
     
@@ -50,6 +50,7 @@ class eZforumMessage
         $this->Id = $Id;
         $this->Topic = $results["Topic"];
         $this->Body = $results["Body"];
+        $this->Parent = $results["Parent"];
         $this->UserId = $results["UserId"];
         $this->PostingTime = $results["PostingTime"];
         $this->EmailNotice = $results["EmailNotice"];
@@ -130,8 +131,9 @@ class eZforumMessage
             mysql_query($query_str)
                 or die("store() near insert");
 	    $temp = array();
-            $this->recursiveEmailNotice( $this->Id, $temp );
-            return mysql_insert_id();
+            $msg_id = mysql_insert_id();
+            $this->recursiveEmailNotice( $msg_id, $msg_id, $temp );
+            return $msg_id; 
         }
     }
         
@@ -235,26 +237,15 @@ class eZforumMessage
 
       $msgId : $message to send a notice about
      */
-    function recursiveEmailNotice( $msgId, &$liste )
+    function recursiveEmailNotice( $startId, $msgId, &$liste )
     {
-        /*
-           check $msgId parent
-               |
-               if NULL quit
-               |
-               if NOT NULL check EmailNotice flag
-                      |
-                      if Y send Notice to the Parent message author
-                      |
-                      if N Ignore - proceed
-               |
-               Continue to Parent == NULL
-         */
-        if ( $this->Id != $msgId) // root of search - do not check current message
+
+     $this->get( $msgId );
+     if ( $this->Id != $startId) // root of search - do not check current message
         {
             if ($this->emailNotice() == 'Y')
             {
-                if( !in_array( $liste, $this->UserId ) )
+                if( !in_array( $this->UserId, $liste ) )
                 {
                     array_push( $liste, $this->UserId );
                     $email = new eZMail();
@@ -272,7 +263,7 @@ class eZforumMessage
         {
             array_push( $liste, $this->UserId );
         }
-        if( $this->Parent != "" ) $this->recursiveEmailNotice( $this->Parent, $liste );
+        if( $this->Parent != "" ) $this->recursiveEmailNotice( $startId, $this->Parent, $liste );
     }
 }
 ?>
