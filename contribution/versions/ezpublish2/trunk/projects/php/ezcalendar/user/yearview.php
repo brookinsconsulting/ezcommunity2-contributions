@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: yearview.php,v 1.1 2001/01/12 17:32:09 gl Exp $
+// $Id: yearview.php,v 1.2 2001/01/12 18:51:35 gl Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <27-Dec-2000 11:29:22 bf>
@@ -29,38 +29,66 @@ include_once( "classes/ezlog.php" );
 
 include_once( "classes/ezdatetime.php" );
 
-$ini = new INIFIle( "site.ini" );
+$ini =& $GLOBALS["GlobalSiteIni"];
 
 $Language = $ini->read_var( "eZCalendarMain", "Language" );
+$locale = new eZLocale( $Language );
 
 $t = new eZTemplate( "ezcalendar/user/" . $ini->read_var( "eZCalendarMain", "TemplateDir" ),
-                     "ezcalendar/user/intl/", $Language, "monthlist.php" );
+                     "ezcalendar/user/intl/", $Language, "yearview.php" );
 
-$t->set_file( "month_list_page_tpl", "monthlist.tpl" );
+$t->set_file( "month_list_page_tpl", "yearview.tpl" );
 
 $t->setAllStrings();
 
 $t->set_block( "month_list_page_tpl", "month_tpl", "month" );
 $t->set_block( "month_tpl", "week_tpl", "week" );
 $t->set_block( "week_tpl", "day_tpl", "day" );
-
-print( "Showing: $Year - $Month <br>" );
+$t->set_block( "week_tpl", "empty_day_tpl", "empty_day" );
 
 $datetime = new eZDateTime( );
 
-$datetime->setYear( $Year );
+if ( $Year != "" )
+{
+    $datetime->setYear( $Year );
+}
+else
+{
+    $Year = $datetime->year();
+}
 
 $t->set_var( "year_number", $Year );
+$t->set_var( "prev_year_number", $Year - 1 );
+$t->set_var( "next_year_number", $Year + 1 );
 
+$i=0;
 for ( $month=1; $month<13; $month++ )
 {
+    if ( ( $i % 3 ) == 0 )
+    {
+        $t->set_var( "begin_tr", "<tr>" );
+        $t->set_var( "end_tr", "" );        
+    }
+    else if ( ( $i % 3 ) == 2 )
+    {
+        $t->set_var( "begin_tr", "" );
+        $t->set_var( "end_tr", "</tr>" );
+    }
+    else
+    {
+        $t->set_var( "begin_tr", "" );
+        $t->set_var( "end_tr", "" );        
+    }
+    
     $datetime->setMonth( $month );
     $t->set_var( "month_number", $month );
+    $t->set_var( "month_name", $locale->monthName( $datetime->monthName(), false ) );
 
     $t->set_var( "week", "" );
     for ( $week=0; $week<6; $week++ )
     {
         $t->set_var( "day", "" );
+        $t->set_var( "empty_day", "" );
         
         for ( $day=1; $day<=7; $day++ )
         {
@@ -77,17 +105,19 @@ for ( $month=1; $month<13; $month++ )
 
                 $t->set_var( "td_class", "bglight" );
                 $t->set_var( "day_number", $currentDay );
+                $t->parse( "day", "day_tpl", true );
             }
             else
             {
                 $t->set_var( "td_class", "bglight" );                
-                $t->set_var( "day_number", "*" );
+                $t->parse( "day", "empty_day_tpl", true );
             }
-            $t->parse( "day", "day_tpl", true );            
         }
         $t->parse( "week", "week_tpl", true );
     }
     $t->parse( "month", "month_tpl", true );
+
+    $i++;
 }
 
 $t->pparse( "output", "month_list_page_tpl" );

@@ -1,5 +1,4 @@
-<h1>{intl-day_view}</h1>
-
+<h1>{intl-appointments}: {intl-day_view}</h1>
 <hr noshade size="4" />
 
 <table width="100%" border="1" cellspacing="0" cellpadding="2" >
