@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: dayview.php,v 1.1 2001/01/09 17:00:07 bf Exp $
+// $Id: dayview.php,v 1.2 2001/01/11 14:23:11 gl Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <08-Jan-2001 12:48:35 bf>
@@ -32,7 +32,7 @@ include_once( "classes/ezdate.php" );
 
 include_once( "ezcalendar/classes/ezappointment.php" );
 
-$ini = new INIFIle( "site.ini" );
+$ini =& $GLOBALS["GlobalSiteIni"];
 
 $Language = $ini->read_var( "eZCalendarMain", "Language" );
 
