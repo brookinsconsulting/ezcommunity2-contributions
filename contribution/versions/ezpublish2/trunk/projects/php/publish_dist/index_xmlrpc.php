@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: index_xmlrpc.php,v 1.32 2001/11/13 16:40:53 jb Exp $
+// $Id: index_xmlrpc.php,v 1.33 2001/11/14 10:34:06 jb Exp $
 //
 // Created on: <09-Nov-2000 14:52:40 ce>
 //
@@ -196,6 +196,26 @@ function Call( $args )
             return createErrorMessage( EZERROR_NO_LOGIN );
         }
 
+        $session =& $GLOBALS["eZSessionObject"];
+        if ( get_class( $session ) != "ezsession" )
+            $session = new eZSession();
+        if ( isset( $call["LastSession"] )  )
+        {
+            $hash = $call["LastSession"]->value();
+            $GLOBALS["eZSessionCookie"] = $hash;
+        }
+        else
+        {
+            $hash = md5( microtime() );
+        }
+
+        if ( !$session->fetch() )
+        {
+            $session->store();
+        }
+        $hash = $session->hash();
+        $GLOBALS["eZSessionCookie"] = $hash;
+
         // we need to login first
         $login = $call["User"]->value();
         $GLOBALS["login"] =& $login;
@@ -207,32 +227,10 @@ function Call( $args )
         if ( !eZPermission::checkPermission( $User, "eZUser", "AdminLogin" ) )
             return createErrorMessage( EZERROR_BAD_LOGIN );
 
-        $session =& $GLOBALS["eZSessionObject"];
-        $session = new eZSession();
-//         $session =& eZSession::globalSession();
-//         if ( isset( $call["LastSession"] ) and !empty( $call["LastSession"]->value() ) )
-        if ( isset( $call["LastSession"] )  )
-        {
-            $hash = $call["LastSession"]->value();
-        }
-        else
-        {
-            $hash = md5( microtime() );
-        }
-        $GLOBALS["eZSessionCookie"] = $hash;
-
-        if ( !$session->fetch() )
-        {
-            $session->store();
-        }
-
         if ( !eZUser::loginUser( $User ) )
             return createErrorMessage( EZERROR_BAD_LOGIN );
-        $hash = $session->hash();
 
         $ReturnData = new eZXMLRPCStruct( array( "Session" => new eZXMLRPCString( $hash ) ) );
-
-//         exit();
 
         // create the return struct...
         $ret_arr = array( "Version" => new eZXMLRPCDouble( EZPUBLISH_SERVER_VERSION ),
@@ -250,8 +248,8 @@ function Call( $args )
     $GLOBALS["hash"] =& $hash;
     $GLOBALS["eZSessionCookie"] = $hash;
     $session =& $GLOBALS["eZSessionObject"];
-    $session = new eZSession();
-//     $session =& eZSession::globalSession();
+    if ( get_class( $session ) != "ezsession" )
+        $session = new eZSession();
     if ( !$session->fetch() )
     {
         $session->store();
@@ -264,18 +262,6 @@ function Call( $args )
 
 //      $User = eZUser::validateUser( $login, $password );
     $User = eZUser::currentUser();
-
-//      if ( get_class( $User ) == "ezuser" )
-//      {
-//          $logged_in = eZUser::loginUser( $User );
-//          $cur = eZUser::currentUser();
-//          $session =& eZSession::globalSession();
-//  //          ob_start();
-//  //          print( $session->variable( "AuthenticatedUser" ) . "\n" );
-//  //          print_r( $cur );
-//  //          eZLog::writeNotice( "user: " . ob_get_contents() );
-//  //          ob_end_flush();
-//      }
 
     $GLOBALS["User"] =& $User;
 
