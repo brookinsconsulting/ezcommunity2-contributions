@@ -1,5 +1,5 @@
 <?
-// $Id: eztodo.php,v 1.17 2001/03/10 13:46:28 bf Exp $
+// $Id: eztodo.php,v 1.18 2001/04/04 11:36:49 wojciechp Exp $
 //
 // Definition of eZTodo class
 //
@@ -174,7 +174,7 @@ class eZTodo
       Return the array in $todo_array ordered by name.
       
     */
-    function getByUserID( $id, $show="All", $categoryID=0 )
+    function getByUserID( $id, $statusID=0, $categoryID=0 )
     {
         $this->dbInit();
         $todo_array = 0;
@@ -182,30 +182,17 @@ class eZTodo
         $return_array = array();
         $todo_array = array();
 
-        switch ( $show )
-        {
-            case "All":
-                $showSql = "";
-            break;
-
-            case "NotDone":
-                $showSql = "AND Status='0'";
-            break;
-
-            case "Done":
-                $showSql = "AND Status='1'";
-            break;
-            
-            default:
-                $showSql = "";
-        }
+	if ( $statusID != 0)
+	{
+	    $showStatus = "AND Status='$statusID'";
+	}
 
         if ( $categoryID != 0 )
         {
             $showCategory = "AND Category='$categoryID'";
         }
 
-        $sql = "SELECT ID FROM eZTodo_Todo WHERE UserID='$id' $showSql $showCategory";
+        $sql = "SELECT ID FROM eZTodo_Todo WHERE UserID='$id' $showStatus $showCategory";
 
         $this->Database->array_query( $todo_array, $sql );
        
@@ -237,6 +224,7 @@ class eZTodo
         return $return_array;        
     }
 
+
     /*!
       Tilte of the todo.
       Returns the name of the todo as a string.
@@ -254,15 +242,22 @@ class eZTodo
       Return the array in $todo_array ordered by name.
       
     */
-    function getByLimit( $id, $limit="5", $status="0" )
+    function getByLimit( $id, $limit="5", $status="0", $except="0")    
     {
         $this->dbInit();
         $todo_array = 0;
 
         $return_array = array();
         $todo_array = array();
-
-        $this->Database->array_query( $todo_array, "SELECT ID FROM eZTodo_Todo WHERE UserID='$id' AND Status='$status' ORDER BY Priority LIMIT 0,$limit");
+	
+	if ($except=="0") 
+	{
+    	    $this->Database->array_query( $todo_array, "SELECT ID FROM eZTodo_Todo WHERE UserID='$id' AND Status='$status' ORDER BY Priority LIMIT 0,$limit");
+	}
+	else
+	{
+    	    $this->Database->array_query( $todo_array, "SELECT ID FROM eZTodo_Todo WHERE UserID='$id' AND Status!='$status' ORDER BY Priority LIMIT 0,$limit");
+	}
 
         for ( $i=0; $i<count($todo_array); $i++ )
         {
@@ -347,6 +342,28 @@ class eZTodo
         if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
         $this->Priority = $value;
+    }
+
+    /*!
+      Tilte of the status.
+      Returns the status of the todo as a string.
+    */
+    function statusID()
+    {
+        if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+        return $this->Status;
+    }
+
+    /*!
+      Sets the status of the todo.
+      The new status of the todo is passed as a paramenter ( $value ).
+     */
+    function setStatusID( $value )
+    {
+        if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+        $this->Status = $value;
     }
 
     /*!
