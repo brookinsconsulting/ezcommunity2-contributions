@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: datasupplier.php,v 1.54 2001/09/08 21:27:50 fh Exp $
+// $Id: datasupplier.php,v 1.55 2001/09/11 21:12:16 fh Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -29,6 +29,7 @@ include_once( "ezarticle/classes/ezarticlecategory.php" );
 include_once( "ezuser/classes/ezuser.php" );
 include_once( "ezuser/classes/ezobjectpermission.php" );
 include_once( "ezuser/classes/ezpermission.php" );
+include_once( "classes/ezdatetime.php" );
 
 #echo " " . $url_array[2] . " " . $url_array[3] . " " . $url_array[4] . " " . $url_array[5];
 #exit();
@@ -108,7 +109,18 @@ switch ( $url_array[2] )
             if( $url_array[3] == "parent" )
             {
                 $SearchText = urldecode( $url_array[4] );
-                $Offset = $url_array[5];
+                if( $url_array[5] != urlencode( "+" ) )
+                    $StartStamp = urldecode( $url_array[5] );
+                if( $url_array[6] != urlencode( "+" ) )
+                    $StopStamp = urldecode( $url_array[6] );
+                if( $url_array[7] != urlencode( "+" ) )
+                    $CategoryArray = explode( "-", urldecode( $url_array[7] ) );
+                if( $url_array[8] != urlencode( "+" ) )
+                    $ContentsWriterID = urldecode( $url_array[8] );
+                if( $url_array[9] != urlencode( "+" ) )
+                    $PhotographerID = urldecode( $url_array[9] );
+                
+                $Offset = $url_array[10];
             }
             include( "ezarticle/admin/search.php" );
         }

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezarticle.php,v 1.162 2001/09/08 21:27:50 fh Exp $
+// $Id: ezarticle.php,v 1.163 2001/09/11 21:12:17 fh Exp $
 //
 // Definition of eZArticle class
 //
@@ -1827,14 +1827,16 @@ class eZArticle
         if ( isSet( $params["FromDate"] ) )
         {
             $fromdate = $params["FromDate"];
-            $date = $fromdate->timeStamp();
-            $dateSQL .= "AND eZArticle_Article.Published >= '$date'";
+            if( get_class( $fromdate ) == "ezdatetime" )
+                $fromdate = $fromdate->timeStamp();
+            $dateSQL .= "AND eZArticle_Article.Published >= '$fromdate'";
         }
         if ( isSet( $params["ToDate"] ) )
         {
             $todate = $params["ToDate"];
-            $date = $todate->timeStamp();
-            $dateSQL .= "AND eZArticle_Article.Published <= '$date'";
+            if( get_class( $todate ) == "ezdatetime" )
+                $todate = $todate->timeStamp();
+            $dateSQL .= "AND eZArticle_Article.Published <= '$todate'";
         }
         if ( isSet( $params["Categories"] ) )
         {
@@ -1975,12 +1977,235 @@ class eZArticle
        
         return $return_array;
     }
+    
+
+/*!
+      Does a search in the article archive.
+      queryText is the text to search for
+      sortMode is the way the result is sorted.
+      fetchnonPublished can be either true or false.
+      offset, limit are self explanatory.
+
+      params is an associative array that can contain the following items
+      FromDate an eZDate object.
+      ToDate an eZDate object.
+      Categories an array of Category ID's
+      Type
+      AuthorID the ID of the author writing the article
+      PhotographerID a photographer that has contributed to the article 
+    */
+    function &searchCount( &$queryText, $fetchNonPublished=true, $params = array() )
+    {
+        $db =& eZDB::globalDatabase();
+
+        $queryText = $db->escapeString( $queryText );
+        
+        // Build the ORDER BY
+        $OrderBy = "eZArticle_ArticleWordLink.Frequency DESC";
+
+        if ( $fetchNonPublished == true )
+        {
+            $fetchText = "";
+        }
+        else
+        {
+            $fetchText = "AND eZArticle_Article.IsPublished = '1'";
+        }
+
+        $user =& eZUser::currentUser();
+
+        // Build the permission
+        $loggedInSQL = "";
+        $groupSQL = "";
+        if ( $user )
+        {
+            $groups = $user->groups( true );
+           
+            $i = 0;
+            foreach ( $groups as $group )
+            {
+                if ( $i == 0 )
+                    $groupSQL .= " eZArticle_ArticlePermission.GroupID=$group OR";
+                else
+                    $groupSQL .= " eZArticle_ArticlePermission.GroupID=$group OR";
+               
+                $i++;
+            }
+            $currentUserID = $user->id();
+            $loggedInSQL = "eZArticle_Article.AuthorID=$currentUserID OR";
+        }
+
+        $query = new eZQuery( "eZArticle_Word.Word", $queryText );
+        $query->setIsLiteral( true );
+        $query->setStopWordColumn(  "eZArticle_Word.Frequency" );        
+        $searchSQL = $query->buildQuery();
+        
+        $dateSQL = "";
+        $catTable = "";
+        $catSQL = "";
+        $typeTables = "";
+        $typeSQL = "";
+        if ( isSet( $params["FromDate"] ) )
+        {
+            $fromdate = $params["FromDate"];
+            if( get_class( $fromdate ) == "ezdatetime" )
+                $fromdate = $fromdate->timeStamp();
+            $dateSQL .= "AND eZArticle_Article.Published >= '$fromdate'";
+        }
+        if ( isSet( $params["ToDate"] ) )
+        {
+            $todate = $params["ToDate"];
+            if( get_class( $todate ) == "ezdatetime" )
+                $todate = $todate->timeStamp();
+            $dateSQL .= "AND eZArticle_Article.Published <= '$todate'";
+        }
+        if ( isSet( $params["Categories"] ) )
+        {
+            $cats = $params["Categories"];
+            $sql = "";
+            $i = 0;
+            foreach( $cats as $cat )
+            {
+                if ( $i > 0 )
+                    $sql .= "OR ";
+                $sql .= "eZArticle_Category.ID = '$cat' ";
+                ++$i;
+            }
+            if ( count( $cats ) > 0 )
+            {
+                $catSQL = "AND ( $sql ) AND eZArticle_Category.ID=eZArticle_ArticleCategoryLink.CategoryID
+                            AND eZArticle_Article.ID=eZArticle_ArticleCategoryLink.ArticleID";
+                $catTable = "eZArticle_Category,";
+            }
+        }
+        if ( isSet( $params["Type"] ) )
+        {
+            $type = $params["Type"];
+            $typeSQL = "AND eZArticle_Attribute.TypeID='$type'
+                        AND eZArticle_Attribute.ID=eZArticle_AttributeValue.AttributeID
+                        AND eZArticle_AttributeValue.ArticleID=eZArticle_Article.ID";
+            $typeTables = "eZArticle_Attribute, eZArticle_AttributeValue, ";
+        }
+        if ( isSet( $params["AuthorID"] ) )
+        {
+            $author = $params["AuthorID"];
+            $authorSQL = "AND eZArticle_Article.ContentsWriterID='$author'";
+        }
+        if ( isSet( $params["PhotographerID"] ) )
+        {
+            $photo = $params["PhotographerID"];
+            $photoSQL = "AND eZImageCatalogue_Image.PhotographerID='$photo'
+                         AND eZImageCatalogue_Image.ID=eZArticle_ArticleImageLink.ImageID
+                         AND eZArticle_Article.ID=eZArticle_ArticleImageLink.ArticleID";
+            $photoTables = "eZArticle_ArticleImageLink, eZImageCatalogue_Image,";
+        }
+
+        // special search for MySQL, mimic subselects ;)
+        if ( $db->isA() == "mysql" )
+        {
+            $queryArray = explode( " ", trim( $queryText ) );
+
+            $db->query( "CREATE TEMPORARY TABLE eZArticle_SearchTemp( ArticleID int )" );
+
+            $count = 1;
+            foreach ( $queryArray as $queryWord )
+            {                
+                $queryWord = trim( $queryWord );
+
+                $searchSQL = " ( eZArticle_Word.Word = '$queryWord' AND eZArticle_Word.Frequency < '0.5' ) ";
+                
+                $queryString = "INSERT INTO eZArticle_SearchTemp ( ArticleID ) SELECT DISTINCT eZArticle_Article.ID AS ArticleID
+                 FROM eZArticle_Article,
+                      eZArticle_ArticleWordLink,
+                      eZArticle_Word,
+                      eZArticle_ArticleCategoryLink,
+                      $catTable
+                      $typeTables
+                      $photoTables
+                      eZArticle_ArticlePermission
+                 WHERE
+                       $searchSQL
+                       $dateSQL
+                       $catSQL
+                       $typeSQL
+                       $authorSQL
+                       $photoSQL
+                       AND
+                       ( eZArticle_Article.ID=eZArticle_ArticleWordLink.ArticleID
+                         AND eZArticle_ArticleWordLink.WordID=eZArticle_Word.ID
+                         AND eZArticle_ArticlePermission.ObjectID=eZArticle_Article.ID
+                         $fetchText
+                         AND eZArticle_ArticleCategoryLink.ArticleID=eZArticle_Article.ID AND
+                          ( $loggedInSQL ($groupSQL eZArticle_ArticlePermission.GroupID='-1')
+                            AND eZArticle_ArticlePermission.ReadPermission='1'
+                          )
+                        )
+                       ORDER BY $OrderBy";
+                
+                $db->query( $queryString );
+
+                // check if this is a stop word
+                $queryString = "SELECT Frequency FROM eZArticle_Word WHERE Word='$queryWord'";
+                
+                $db->query_single( $WordFreq, $queryString, array( "LIMIT" => 1 ) );
+
+                if ( $WordFreq["Frequency"] <= 0.5 )                    
+                    $count += 1;
+            }
+            $count -= 1;
+
+            $queryString = "SELECT Count(*) AS Count FROM eZArticle_SearchTemp";
+            $db->array_query( $article_array, $queryString );
+            
+            $db->query( "DROP  TABLE eZArticle_SearchTemp" );
+        }
+        else
+        {
+            $queryString = "SELECT DISTINCT Count(*) as Count
+                 FROM eZArticle_Article,
+                      eZArticle_ArticleWordLink,
+                      eZArticle_Word,
+                      eZArticle_ArticleCategoryLink,
+                      $catTable
+                      $typeTables
+                      $photoTables
+                      eZArticle_ArticlePermission
+                 WHERE
+                       $searchSQL
+                       $dateSQL
+                       $catSQL
+                       $typeSQL
+                       $authorSQL
+                       $photoSQL
+                       AND
+                       ( eZArticle_Article.ID=eZArticle_ArticleWordLink.ArticleID
+                         AND eZArticle_ArticleWordLink.WordID=eZArticle_Word.ID
+                         AND eZArticle_ArticlePermission.ObjectID=eZArticle_Article.ID
+                         $fetchText
+                         AND eZArticle_ArticleCategoryLink.ArticleID=eZArticle_Article.ID AND
+                          ( $loggedInSQL ($groupSQL eZArticle_ArticlePermission.GroupID='-1')
+                            AND eZArticle_ArticlePermission.ReadPermission='1'
+                          )
+                        )
+                       ORDER BY $OrderBy";
+            $db->array_query( $article_array, $queryString );
+        }
+
+        for ( $i=0; $i < count($article_array); $i++ )
+        {
+            $return_array[$i] = new eZArticle( $article_array[$i][$db->fieldName("ArticleID")], false );
+        }
+
+        return $article_array[0]["Count"];
+    }
 
 
     /*!
       Does a search in the article archive.
+      NOTE: This funcion is obsolete and will be removed in the near future.
+      FJH - 12/9-01
     */
-    function searchCount( $queryText, $fetchNonPublished=true )
+    function searchCountObsolete( $queryText, $fetchNonPublished=true )
     {
         $db =& eZDB::globalDatabase();
        

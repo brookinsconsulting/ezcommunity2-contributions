@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: searchform.php,v 1.1 2001/09/08 20:26:58 fh Exp $
+// $Id: searchform.php,v 1.2 2001/09/11 21:12:16 fh Exp $
 //
 // Created on: <08-Sep-2001 10:32:19 fh>
 //
@@ -72,7 +72,7 @@ foreach ( $treeArray as $catItem )
     if ( eZObjectPermission::hasPermission( $catItem[0]->id(), "article_category", 'w', $user ) == true  ||
          eZArticleCategory::isOwner( eZUser::currentUser(), $catItem[0]->id() ) )
     {    
-        $t->set_var( "option_value", $catItem[0]->id() );
+        $t->set_var( "category_id", $catItem[0]->id() );
         $t->set_var( "option_name", $catItem[0]->name() );
 
         if ( $catItem[1] > 1 )

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: search.php,v 1.12 2001/09/08 21:27:50 fh Exp $
+// $Id: search.php,v 1.13 2001/09/11 21:12:16 fh Exp $
 //
 // Created on: <28-Oct-2000 15:56:58 bf>
 //
@@ -36,6 +36,7 @@ $ini =& INIFile::globalINI();
 $Language = $ini->read_var( "eZArticleMain", "Language" );
 $Limit = $ini->read_var( "eZArticleMain", "AdminListLimit" );
 
+
 if( isset( $Delete ) && count( $ArticleArrayID ) > 0 )
 {
     foreach( $ArticleArrayID as $articleID )
@@ -67,47 +68,67 @@ $t->set_block( "article_item_tpl", "article_is_published_tpl", "article_is_publi
 $t->set_block( "article_item_tpl", "article_not_published_tpl", "article_not_published" );
 $t->set_block( "article_list_page_tpl", "article_delete_tpl", "article_delete" );
 
+// Init url variables - for eZList...
+$t->set_var( "url_start_stamp", urlencode( "+" ) );
+$t->set_var( "url_stop_stamp", urlencode( "+" ) );
+$t->set_var( "url_category_array", urlencode( "+" ) );
+$t->set_var( "url_contentswriter_id", urlencode( "+" ) );
+$t->set_var( "url_photographer_id", urlencode( "+" ) );
+
+if ( checkdate ( $StartMonth, $StartDay, $StartYear ) )
+{
+    $startDate = new eZDateTime( $StartYear,  $StartMonth, $StartDay, $StartHour, $StartMinute, 0 );
+    $StartStamp = $startDate->timeStamp();
+}
+if ( checkdate ( $StopMonth, $StopDay, $StopYear ) )
+{
+    $stopDate = new eZDateTime( $StopYear, $StopMonth, $StopDay, $StopHour, $StopMinute, 0 );
+    $StopStamp = $stopDate->timeStamp();
+}
+
+
 // BUILDING THE SEARCH
+// If url parameters are present when loading page, they are decoded in the datasupplier
 $paramsArray = array();
-$advancedSearch = false;
 if ( $SearchText )
 {
-    if ( checkdate ( $StartMonth, $StartDay, $StartYear ) )
+    if ( isset( $StartStamp ) )
     {
-        $paramsArray["FromDate"] = new eZDateTime( $StartYear,  $StartMonth, $StartDay, $StartHour, $StartMinute, 0 );
-        $advancedSearch = true;
+        $paramsArray["FromDate"] = $StartStamp;
+        $t->set_var( "url_start_stamp", urlencode( $StartStamp ) );
     }
         
-    if ( checkdate ( $StopMonth, $StopDay, $StopYear ) )
+    if ( isset( $StopStamp ) )
     {
-        $paramsArray["StopDate"] = new eZDateTime( $StopYear, $StopMonth, $StopDay, $StopHour, $StopMinute, 0 );
-        $advancedSearch = true;
+        $paramsArray["ToDate"] = $StopStamp;
+        $t->set_var( "url_stop_stamp", urlencode( $StopStamp ) );
     }
 
     if( $ContentsWriterID != 0 )
     {
         $paramsArray["AuthorID"] = $ContentsWriterID;
-        $advancedSearch = true;
+        $t->set_var( "url_contentswriter_id", urlencode( $ContentsWriterID ) );
     }
 
     if( $PhotographerID != 0 )
     {
         $paramsArray["PhotographerID"];
-        $advancedSearch = true;
+        $t->set_var( "url_photographer_id", urlencode( $PhotographerID ) );
     }
 
     if( is_array( $CategoryArray ) && count( $CategoryArray ) > 0 && !in_array( 0, $CategoryArray ) )
     {
         $paramsArray["Categories"] = $CategoryArray;
-        $advancedSearch = true;
+
+        // fix output string for URL
+        $t->set_var( "url_category_array", urlencode( implode( "-", $CategoryArray ) ) );
     }
 
     $article = new eZArticle();
     $articleList = $article->search( $SearchText, "time", true, $Offset, $Limit, $paramsArray );
-
-    if( !$advancedSearch )
-        $totalCount = $article->searchCount( $SearchText, true );
-    
+    $totalCount = $article->searchCount( $SearchText, true, $paramsArray );
+//    $totalCount = $article->searchCount( $SearchText, true );
+    // TODO...TOTALCOUNT...
 
     $t->set_var( "search_text", $SearchText );
     $t->set_var( "url_text", urlencode ( $SearchText ) );
@@ -150,8 +171,7 @@ if ( count ( $articleList ) > 0 )
     }
 }
 
-if( !$advancedSearch )
-    eZList::drawNavigator( $t, $totalCount, $Limit, $Offset, "article_list_page_tpl" );
+eZList::drawNavigator( $t, $totalCount, $Limit, $Offset, "article_list_page_tpl" );
 
 if ( count( $articleList ) > 0 )
 {
