@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: articlelist.php,v 1.47 2001/05/28 14:18:13 bf Exp $
+// $Id: articlelist.php,v 1.48 2001/06/06 12:54:51 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <18-Oct-2000 14:41:37 bf>
@@ -95,6 +95,8 @@ else
     $t->parse( "header_item", "header_item_tpl" );
 }
 
+$SiteTitleAppend = "";
+
 // path
 $pathArray = $category->path();
 
@@ -112,6 +114,8 @@ foreach ( $pathArray as $path )
     {
         $t->set_var( "category_name", $path[1] );
     }
+
+    $SiteTitleAppend .= $path[1] . " - ";
     
     $t->parse( "path_item", "path_item_tpl", true );
 }
@@ -160,7 +164,7 @@ foreach ( $categoryList as $categoryItem )
         $t->set_var( "category_id", $categoryItem->id() );
         
         $t->set_var( "category_name", $categoryItem->name() );
-        
+
         $parent = $categoryItem->parent();
 
         $image =& $categoryItem->image();
@@ -242,7 +246,7 @@ $locale = new eZLocale( $Language );
 $i=0;
 $t->set_var( "article_list", "" );
 
-
+$SiteDescriptionOverride = "";
 foreach ( $articleList as $article )
 {
     // check if user has permission, if not break to next article.
@@ -261,6 +265,8 @@ foreach ( $articleList as $article )
         $t->set_var( "article_id", $article->id() );
         $t->set_var( "article_name", $article->name() );
 
+        $SiteDescriptionOverride .= $article->name() . " ";
+        
         $t->set_var( "author_text", $article->authorText() );
     
         // preview image
@@ -346,7 +352,13 @@ if ( $GenerateStaticPage == "true" and $cachedFile != "" )
 {
     $fp = fopen ( $cachedFile, "w+");
 
-    $output = $t->parse( $target, "article_list_page_tpl" );
+    // add PHP code in the cache file to store variables
+    $output = "<?php\n";
+    $output .= "\$SiteTitleAppend=\"$SiteTitleAppend\";\n";
+    $output .= "\$SiteDescriptionOverride=\"$SiteDescriptionOverride\";\n";    
+    $output .= "?>\n";
+
+    $output .= $t->parse( $target, "article_list_page_tpl" );
     
     // print the output the first time while printing the cache file.
     print( $output );
