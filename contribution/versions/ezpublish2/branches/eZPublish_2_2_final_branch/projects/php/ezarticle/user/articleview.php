@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: articleview.php,v 1.84.2.5 2001/11/17 10:49:14 bf Exp $
+// $Id: articleview.php,v 1.84.2.6 2001/11/28 10:30:34 bf Exp $
 //
 // Created on: <18-Oct-2000 16:34:51 bf>
 //
@@ -43,7 +43,7 @@ $TemplateDir = $ini->read_var( "eZArticleMain", "TemplateDir" );
 $ListImageWidth = $ini->read_var( "eZArticleMain", "ListImageWidth" );
 $ListImageHeight = $ini->read_var( "eZArticleMain", "ListImageHeight" );
 
-if ( !isset( $CategoryID ) )
+if ( !is_numeric( $CategoryID ) )
     $CategoryID = eZArticle::categoryDefinitionStatic( $ArticleID );
 
 if ( $ForceCategoryDefinition == "enabled" )
