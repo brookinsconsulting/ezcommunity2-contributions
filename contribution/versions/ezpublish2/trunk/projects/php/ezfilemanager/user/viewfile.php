@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: viewfile.php,v 1.3 2001/01/26 08:55:48 ce Exp $
+// $Id: viewfile.php,v 1.4 2001/02/14 13:37:14 th Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <04-Jan-2001 16:47:23 ce>
@@ -52,7 +52,6 @@ if ( $FileID != 0 )
     $t->set_var( "file_name", $file->name() );
     $t->set_var( "file_id", $file->id() );
     $t->set_var( "file_description", $file->description() );
-    $t->set_var( "file_name", $file->originalFileName() );
 
     $read = $file->readPermission();
 

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: folderedit.php,v 1.8 2001/01/26 08:55:48 ce Exp $
+// $Id: folderedit.php,v 1.9 2001/02/14 13:37:14 th Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <08-Jan-2001 11:13:29 ce>
@@ -30,18 +30,8 @@ include_once( "classes/ezlog.php" );
 include_once( "classes/ezhttptool.php" );
 
 include_once( "ezuser/classes/ezuser.php" );
-include_once( "ezuser/classes/ezpermission.php" );
 include_once( "ezfilemanager/classes/ezvirtualfile.php" );
 include_once( "ezfilemanager/classes/ezvirtualfolder.php" );
-
-$user = eZUser::currentUser();
-
-if ( ( !$user ) || ( eZPermission::checkPermission( $user, "eZFileManager", "WritePermission" ) == false ) )
-{
-    eZHTTPTool::header( "Location: /" );
-    exit();
-}
-
 
 $ini = new INIFIle( "site.ini" );
 
@@ -90,18 +80,13 @@ if ( $Action == "Insert" || $Action == "Update" )
         $t->set_block( "errors_tpl", "error_write_permission", "error_write" );
         $t->set_var( "error_write", "" );
 
-        if ( $ParentID == 0 )
+        if ( $FolderID == 0 )
         {
-            if ( eZPermission::checkPermission( $user, "eZFileManager", "WriteToRoot"  ) == false )
-            {
-                $t->parse( "error_write", "error_write_permission" );
-                $error = true;
-            }
         }
         else
         {
             $user = eZUser::currentUser();
-            $parentFolder = new eZVirtualFolder( $ParentID );
+            $parentFolder = new eZVirtualFolder( $FolderID );
             
             if ( $parentFolder->checkWritePermission( $user ) == false )
             {
@@ -145,6 +130,7 @@ if ( $Action == "Insert" || $Action == "Update" )
             $t->parse( "error_write_check", "error_write_check_tpl" );
             $error = true;
         }
+
     }
 
     if ( $readCheck )
@@ -167,28 +153,37 @@ if ( $Action == "Insert" || $Action == "Update" )
 }
 
 
-if ( ( $Action == "Insert" || $Action == "Update" ) && $error == false )
+if ( $Action == "Insert" && $error == false )
 {
-    if ( $Action == "Update" )
-        $folder = new eZVirtualFolder( $FolderID );
-    else
-        $folder = new eZVirtualFolder();
-
+    $folder = new eZVirtualFolder();
     $folder->setName( $Name );
     $folder->setDescription( $Description );
 
     $folder->setReadPermission( $Read );
     $folder->setWritePermission( $Write );
     
+    $user = eZUser::currentUser();
+    
+    if ( !$user )
+    {
+        eZHTTPTool::header( "Location: /" );
+        exit();
+    }
+    
     $folder->setUser( $user );
 
-    $parent = new eZVirtualFolder( $ParentID );
+
+    $parent = new eZVirtualFolder( $FolderID );
     $folder->setParent( $parent );
 
     $folder->store();
 
-    eZHTTPTool::header( "Location: /filemanager/list/" . $ParentID );
+    eZHTTPTool::header( "Location: /filemanager/list/$FolderID" );
     exit();
+}
+
+if ( $Action == "Update" && $error == false )
+{
 }
 
 if ( $Action == "Delete" && $error == false )
@@ -206,48 +201,11 @@ if ( $Action == "New" || $error )
 
 if ( $Action == "Edit" )
 {
-    $folder = new eZVirtualFolder( $FolderID );
-
-    $t->set_var( "name_value", $folder->name() );
-    $t->set_var( "folder_id", $folder->id() );
-    $t->set_var( "description_value", $folder->description() );
-
-    $write = $folder->writePermission();
-
-    if ( $write == "User" )
-    {
-        $t->set_var( "user_write_checked", "checked" );
-    }
-    else if ( $write == "Group" )
-    {
-        $t->set_var( "group_write_checked", "checked" );
-    }
-    else if ( $write == "All" )
-    {
-        $t->set_var( "all_write_checked", "checked" );
-    }
-
-    $read = $folder->readPermission();
-
-    if ( $read == "User" )
-    {
-        $t->set_var( "user_read_checked", "checked" );
-    }
-    else if ( $read == "Group" )
-    {
-        $t->set_var( "group_read_checked", "checked" );
-    }
-    else if ( $read == "All" )
-    {
-        $t->set_var( "all_read_checked", "checked" );
-    }
-
-    $t->set_var( "action_value", "update" );
 }
 
 $folder = new eZVirtualFolder() ;
 
-$folderList =& $folder->getTree( );
+$folderList = $folder->getTree( );
 
 if ( count ( $folderList ) == 0 )
 {

@@ -1,3 +1,4 @@
+
 <form method="post" action="/filemanager/folder/{action_value}/{folder_id}" enctype="multipart/form-data">
 <input type="hidden" name="max_file_size" value="30000000">
 
@@ -35,56 +36,42 @@
 
 <!-- END errors_tpl -->
 
-<p class="boxtext">{intl-folder}:</p>
-
-<select name="ParentID">
-<option value="0" {selected}>{option_level}{intl-top_folder}</option>
-<!-- BEGIN value_tpl -->
-<option value="{option_value}" {selected}>{option_level}{option_name}</option>
-<!-- END value_tpl -->
-
-</select>
-
-<br /><br />
-
-<table width="100%" cellspacing="0" cellpadding="0" border="0">
-<tr>
-    <td>
     <p class="boxtext">{intl-folder_name}:</p>
     <input type="text" size="40" name="Name" value="{name_value}"/>
 
+	<p class="boxtext">{intl-folder}:</p>
+	
+	<select name="FolderID">
+	<option value="0" {selected}>{option_level}{intl-top_folder}</option>
+	<!-- BEGIN value_tpl -->
+	<option value="{option_value}" {selected}>{option_level}{option_name}</option>
+	<!-- END value_tpl -->
+	
+	</select>
+	
     <p class="boxtext">{intl-folder_description}:</p>
 	
 	<textarea name="Description" cols="40" rows="5" wrap="soft">{description_value}</textarea>
-	
-    </td>
-</tr>
-<tr>
-    <td>
+
     <br />
     <p class="boxtext">{intl-read_permissions}</p>
     <input type="radio" name="Read" value="User" {user_read_checked} /> {intl-user}
     <input type="radio" name="Read" value="Group" {group_read_checked} />{intl-group}
     <input type="radio" name="Read" value="All" {all_read_checked} /> {intl-all}
     <br /><br />
-    </td>
-</tr>
-<tr>    
-    <td>
+
     <p class="boxtext">{intl-write_permissions}</p>
     <input type="radio" name="Write" value="User" {user_write_checked} /> {intl-user}
     <input type="radio" name="Write" value="Group" {group_write_checked} /> {intl-group}
     <input type="radio" name="Write" value="All" {all_write_checked} /> {intl-all}
     <br /><br />
-    </td>
-</tr>
-</table>
 
 <hr noshade="noshade" size="4" />
 
 <table cellspacing="0" cellpadding="0" border="0">
 <tr>
 	<td>
+	<input type="hidden" name="ArticleID" value="{article_id}" />
 	<input type="hidden" name="Action" value="{action_value}" />
 	<input class="okbutton" type="submit" value="{intl-ok}" />
 

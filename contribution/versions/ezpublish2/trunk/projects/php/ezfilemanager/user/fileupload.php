@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: fileupload.php,v 1.12 2001/01/26 08:55:48 ce Exp $
+// $Id: fileupload.php,v 1.13 2001/02/14 13:37:14 th Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <10-Dec-2000 15:49:57 bf>
@@ -30,23 +30,8 @@ include_once( "classes/ezfile.php" );
 include_once( "classes/ezhttptool.php" );
 
 include_once( "ezuser/classes/ezuser.php" );
-include_once( "ezuser/classes/ezpermission.php" );
 include_once( "ezfilemanager/classes/ezvirtualfile.php" );
 include_once( "ezfilemanager/classes/ezvirtualfolder.php" );
-
-if ( isSet ( $Download ) )
-{
-    eZHTTPTool::header( "Location: /filemanager/download/" . $FileID . "/" . $FileName . "/");
-    exit();
-}
-
-$user = eZUser::currentUser();
-
-if ( ( !$user ) || ( eZPermission::checkPermission( $user, "eZFileManager", "WritePermission" ) == false ) )
-{
-    eZHTTPTool::header( "Location: /" );
-    exit();
-}
 
 if ( isSet ( $NewFile ) )
 {
@@ -76,7 +61,7 @@ $t->setAllStrings();
 
 $t->set_block( "file_upload_tpl", "value_tpl", "value" );
 $t->set_block( "file_upload_tpl", "errors_tpl", "errors" );
-$t->set_var( "errors", "&nbsp" );
+$t->set_var( "errors", "&nbsp;" );
 
 $t->set_var( "name_value", "$Name" );
 $t->set_var( "description_value", "$Description" );
@@ -104,7 +89,7 @@ $writeCheck = true;
 $fileCheck = true;
 
 $t->set_block( "errors_tpl", "error_write_permission", "write_permission" );
-$t->set_var( "write_permission", "&nbsp" );
+$t->set_var( "write_permission", "&nbsp;" );
 
 $t->set_block( "errors_tpl", "error_name_tpl", "error_name" );
 $t->set_var( "error_name", "&nbsp;" );

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: filelist.php,v 1.15 2001/01/30 15:11:04 jb Exp $
+// $Id: filelist.php,v 1.16 2001/02/14 13:37:14 th Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <10-Dec-2000 16:16:20 bf>
@@ -27,9 +27,6 @@ include_once( "classes/INIFile.php" );
 include_once( "classes/eztemplate.php" );
 include_once( "classes/ezlog.php" );
 
-include_once( "ezuser/classes/ezuser.php" );
-include_once( "ezuser/classes/ezpermission.php" );
-
 include_once( "ezfilemanager/classes/ezvirtualfile.php" );
 include_once( "ezfilemanager/classes/ezvirtualfolder.php" );
 
@@ -52,13 +49,10 @@ $t->set_block( "file_list_page_tpl", "current_folder_tpl", "current_folder" );
 $t->set_block( "file_list_page_tpl", "path_item_tpl", "path_item" );
 
 $t->set_block( "file_list_page_tpl", "file_list_tpl", "file_list" );
-
-$t->set_block( "file_list_page_tpl", "write_menu_tpl", "write_menu" );
-
 $t->set_block( "file_list_tpl", "file_tpl", "file" );
 
-$t->set_block( "file_tpl", "file_read_tpl", "file_read" );
-$t->set_block( "file_tpl", "file_write_tpl", "file_write" );
+$t->set_block( "file_tpl", "read_tpl", "read" );
+$t->set_block( "file_tpl", "write_tpl", "write" );
 
 $t->set_block( "file_list_page_tpl", "folder_list_tpl", "folder_list" );
 $t->set_block( "folder_list_tpl", "folder_tpl", "folder" );
@@ -66,7 +60,7 @@ $t->set_block( "folder_list_tpl", "folder_tpl", "folder" );
 $t->set_block( "folder_tpl", "folder_write_tpl", "folder_write" );
 $t->set_block( "folder_tpl", "folder_read_tpl", "folder_read" );
 
-$t->set_var( "write_menu", "" );
+$t->set_var( "read", "" );
 
 $user = eZUser::currentUser();
 
@@ -116,6 +110,21 @@ $folderList =& $folder->getByParent( $folder );
 $i=0;
 foreach ( $folderList as $folderItem )
 {
+//      if ( ( $i % 2 ) == 0 )
+//      {
+//          $t->set_var( "begin_tr", "<tr>" );
+//          $t->set_var( "end_tr", "" );        
+//      }
+//      else if ( ( $i % 4 ) == 3 )
+//      {
+//          $t->set_var( "begin_tr", "" );
+//          $t->set_var( "end_tr", "</tr>" );
+//      }
+//      else
+//      {
+//          $t->set_var( "begin_tr", "" );
+//          $t->set_var( "end_tr", "" );        
+//      }
 
     $t->set_var( "folder_name", $folderItem->name() );
     $t->set_var( "folder_id", $folderItem->id() );
@@ -146,24 +155,6 @@ foreach ( $folderList as $folderItem )
     $i++;
 }
 
-if ( $folder->id() != 0 )
-{
-    $currentWritePermission = $folder->checkWritePermission( $user );
-
-    if ( ( $currentWritePermission == "User" ) || ( $currentWritePermission == "Group" ) || ( $currentWritePermission == "All" ) )
-    {
-        $t->parse( "write_menu", "write_menu_tpl" );
-    }
-}
-else
-{
-
-    if ( eZPermission::checkPermission( $user, "eZFileManager", "WriteToRoot" ) )
-    {
-        $t->parse( "write_menu", "write_menu_tpl" );
-    }
-}
-
 if ( count( $folderList ) > 0 )
 {
     $t->parse( "folder_list", "folder_list_tpl" );
@@ -179,24 +170,50 @@ $fileList =& $folder->files();
 //$i=0;
 foreach ( $fileList as $file )
 {
+//      if ( ( $i % 4 ) == 0 )
+//      {
+//          $t->set_var( "begin_tr", "<tr>" );
+//          $t->set_var( "end_tr", "" );        
+//      }
+//      else if ( ( $i % 4 ) == 3 )
+//      {
+//          $t->set_var( "begin_tr", "" );
+//          $t->set_var( "end_tr", "</tr>" );
+//      }
+//      else
+//      {
+//          $t->set_var( "begin_tr", "" );
+//          $t->set_var( "end_tr", "" );
+        
+//      }
+
     $t->set_var( "file_id", $file->id() );
     $t->set_var( "original_file_name", $file->originalFileName() );
     $t->set_var( "file_name", $file->name() );
     $t->set_var( "file_url", $file->name() );
 
-    $size_short = $file->siFileSize();
-    $t->set_var( "size_unit", $size_short["unit"] );
-    $t->set_var( "file_size", $size_short["size-string"] );
+    $filePath = $file->filePath( true );
+
+    $size = filesize( $filePath );
+
+    if ( $size == 0 )
+    {
+        $t->set_var( "file_size", 0 );
+    }
+    else
+    {
+        $t->set_var( "file_size", $size );
+    }
 
     $writePermission = $file->checkWritePermission( $user );
     $readPermission = $file->checkReadPermission( $user );
 
-    $t->set_var( "file_read", "" );
-    $t->set_var( "file_write", "" );
+    $t->set_var( "read", "" );
+    $t->set_var( "write", "" );
 
     if ( ( $readPermission == "User" ) || ( $readPermission == "Group" ) || ( $readPermission == "All" ) )
     {
-        $t->parse( "file_read", "file_read_tpl" );
+        $t->parse( "read", "read_tpl" );
     }
     else
     {
@@ -204,7 +221,7 @@ foreach ( $fileList as $file )
 
     if ( ( $writePermission == "User" ) || ( $writePermission == "Group" ) || ( $writePermission == "All" ) )
     {
-        $t->parse( "file_write", "file_write_tpl" );
+        $t->parse( "write", "write_tpl" );
     }
     else
     {

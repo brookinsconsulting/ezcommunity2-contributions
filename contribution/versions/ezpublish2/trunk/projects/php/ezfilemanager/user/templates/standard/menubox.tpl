@@ -15,7 +15,7 @@
 	<td width="99%"><a class="menu" href="/filemanager/new/">{intl-new_file}</a></td>
 </tr>
 <tr>
-	<td class="menuspacer">&nbsp;</td>
+	<td colspan="2" class="menuspacer">&nbsp;</td>
 </tr>
 </table>
 

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: filedownload.php,v 1.6 2001/01/28 11:48:29 bf Exp $
+// $Id: filedownload.php,v 1.7 2001/02/14 13:37:14 th Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <10-Dec-2000 16:39:10 bf>
@@ -26,9 +26,6 @@
 // clear what might be in the output buffer and stop the buffer.
 ob_end_clean();
 
-// do not timeout this page
-set_time_limit( 0 );
-
 include_once( "ezfilemanager/classes/ezvirtualfile.php" );
 
 
@@ -41,28 +38,19 @@ $filePath = $file->filePath( true );
 
 $file->addPageView( $GlobalPageView );
 
+
 //  print( $filePath );
 
 //  # the file may be a local file with full path. 
-//  $fileSize = filesize( $filePath );
-//  $fp = fopen( $filePath, "r" );
-//  $content =& fread( $fp, $fileSize );
-//  fclose( $fp );
+$fileSize = filesize( $filePath );
+$fp = fopen( $filePath, "r" );
+$content =& fread( $fp, $fileSize );
 
-//  Header("Content-type: application/oct-stream"); 
-//  Header("Content-length: $fileSize"); 
-//  Header("Content-disposition: attachment; filename=\"$originalFileName\"");
+Header("Content-type: application/oct-stream"); 
+Header("Content-length: $fileSize"); 
+Header("Content-disposition: attachment; filename=\"$originalFileName\"");
 
-
-$filePath = preg_replace( "#.*/(.*)#", "\\1", $filePath );
-
-//  print( $filePath );
-
-Header("Location: /filemanager/filedownload/$filePath/$originalFileName");
-
-
-//  echo( $content );
-
+echo($content);
 exit();
 
 ?> 

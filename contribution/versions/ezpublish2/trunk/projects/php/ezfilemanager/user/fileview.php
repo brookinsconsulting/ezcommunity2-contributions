@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: fileview.php,v 1.6 2001/02/02 15:51:41 fh Exp $
+// $Id: fileview.php,v 1.7 2001/02/14 13:37:14 th Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <04-Jan-2001 16:47:23 ce>
@@ -48,8 +48,6 @@ $t->set_block( "file_view", "view_tpl", "view" );
 $t->set_block( "file_view", "delete_tpl", "delete" );
 $t->set_block( "file_view", "edit_tpl", "edit" );
 $t->set_block( "file_view", "download_tpl", "download" );
-$t->set_block( "file_view", "path_item_tpl", "path_item" );
-
 
 $t->set_var( "delete", "" );
 $t->set_var( "edit", "" );
@@ -58,22 +56,6 @@ $t->set_var( "download", "" );
 if ( $FileID != 0 )
 {
     $file = new eZVirtualFile( $FileID );
-
-   // path
-    $folder = $file->folder();
-    $pathArray = $folder[0]->path();
-
-    $t->set_var( "path_item", "" );
-    foreach ( $pathArray as $path )
-    {
-        $t->set_var( "folder_id", $path[0] );
-
-        $t->set_var( "folder_name", $path[1] );
-    
-        $t->parse( "path_item", "path_item_tpl", true );
-    }
-
-
 
     $t->set_var( "file_name", $file->name() );
     $t->set_var( "file_id", $file->id() );
@@ -90,9 +72,18 @@ if ( $FileID != 0 )
         $t->parse( "edit", "edit_tpl" );
     }
 
-    $size_short = $file->siFileSize();
-    $t->set_var( "size_unit", $size_short["unit"] );
-    $t->set_var( "file_size", $size_short["size-string"] );
+    $filePath =& $file->filePath( true );
+
+    $size = filesize( $filePath );
+    
+    if ( $size == 0 )
+    {
+        $t->set_var( "file_size", 0 );
+    }
+    else
+    {
+        $t->set_var( "file_size", $size );
+    }
 
     $fileOwner = $file->user();
 

@@ -77,21 +77,6 @@ switch ( $url_array[2] )
                 $Action = "Delete";
                 include( "ezfilemanager/user/folderedit.php" );
             }
-            case "edit" :
-            {
-                $FolderID = $url_array[4];
-                $Action = "Edit";
-                include( "ezfilemanager/user/folderedit.php" );
-            }
-            break;
-
-            case "update" :
-            {
-                $FolderID = $url_array[4];
-                $Action = "Update";
-                include( "ezfilemanager/user/folderedit.php" );
-            }
-
             break;
             
             case "insert" :
@@ -100,6 +85,7 @@ switch ( $url_array[2] )
                 include( "ezfilemanager/user/folderedit.php" );
             }
             break;
+
         }
     }
     break;
