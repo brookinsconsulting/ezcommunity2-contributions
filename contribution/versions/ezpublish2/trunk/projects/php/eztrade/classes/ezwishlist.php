@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezwishlist.php,v 1.6 2001/05/05 11:16:05 bf Exp $
+// $Id: ezwishlist.php,v 1.7 2001/07/19 12:44:26 ce Exp $
 //
 // Definition of eZWishList class
 //
@@ -67,28 +67,14 @@ class eZWishList
       If $id is set the object's values are fetched from the
       database.
     */
-    function eZWishList( $id="", $fetch=true )
+    function eZWishList( $id="" )
     {
         $this->IsConnected = false;
 
         if ( $id != "" )
         {
-
             $this->ID = $id;
-            if ( $fetch == true )
-            {
-                
-                $this->get( $this->ID );
-            }
-            else
-            {
-                $this->State_ = "Dirty";
-                
-            }
-        }
-        else
-        {
-            $this->State_ = "New";
+            $this->get( $this->ID );
         }
     }
 
@@ -97,30 +83,37 @@ class eZWishList
     */
     function store()
     {
-        $this->dbInit();
-
-        
+        $db =& eZDB::globalDatabase();
+        $db->begin();
+       
         if ( !isset( $this->ID ) )
         {
-            $this->Database->query( "INSERT INTO eZTrade_WishList SET
-		                         UserID='$this->UserID',
-		                         IsPublic='$this->IsPublic'
-                                 " );
+            $db->lock( "eZTrade_WishList" );
+            $nextID = $db->nextID( "eZTrade_WishList", "ID" );            
 
-			$this->ID = $this->Database->insertID();
-
-            $this->State_ = "Coherent";
+            $res = $db->query( "INSERT INTO eZTrade_WishList
+                                  ( ID, UserID, IsPublic )
+                                  VALUES
+                                  ( '$nextID',
+                                    '$this->UserID',
+                                    '$this->IsPublic' )
+                                  " );
+			$this->ID = $nextID;
         }
         else
         {
-            $this->Database->query( "UPDATE eZTrade_WishList SET
+            $res = $db->query( "UPDATE eZTrade_WishList SET
 		                         UserID='$this->UserID',
 		                         IsPublic='$this->IsPublic'
                                  WHERE ID='$this->ID'
                                  " );
-
-            $this->State_ = "Coherent";
         }
+        $db->unlock();
+    
+        if ( $res == false )
+            $db->rollback( );
+        else
+            $db->commit();
         
         return true;
     }    
@@ -130,29 +123,22 @@ class eZWishList
     */
     function get( $id="" )
     {
-        $this->dbInit();
+        $db =& eZDB::globalDatabase();
         $ret = false;
         
         if ( $id != "" )
         {
-            $this->Database->array_query( $wishlist_array, "SELECT * FROM eZTrade_WishList WHERE ID='$id'" );
+            $db->array_query( $wishlist_array, "SELECT * FROM eZTrade_WishList WHERE ID='$id'" );
             if ( count( $wishlist_array ) > 1 )
             {
                 die( "Error: WishList's with the same ID was found in the database. This shouldent happen." );
             }
             else if( count( $wishlist_array ) == 1 )
             {
-                $this->ID = $wishlist_array[0][ "ID" ];
-                $this->UserID = $wishlist_array[0][ "UserID" ];
-                $this->IsPublic = $wishlist_array[0][ "IsPublic" ];
-
-                $this->State_ = "Coherent";
-                $ret = true;
+                $this->ID = $wishlist_array[0][$db->fieldName( "ID" )];
+                $this->UserID = $wishlist_array[0][$db->fieldName( "UserID" )];
+                $this->IsPublic = $wishlist_array[0][$db->fieldName( "IsPublic" )];
             }
-        }
-        else
-        {
-            $this->State_ = "Dirty";
         }
         return $ret;
     }
@@ -163,19 +149,19 @@ class eZWishList
     */
     function getByUser( $user  )
     {
-        $this->dbInit();
+        $db =& eZDB::globalDatabase();
 
         $ret = false;
         if ( get_class( $user ) == "ezuser" )
         {        
             $sid = $user->id();
-            $this->Database->array_query( $wishlist_array, "SELECT * FROM
+            $db->array_query( $wishlist_array, "SELECT * FROM
                                                     eZTrade_WishList
                                                     WHERE UserID='$sid'" );
 
             if ( count( $wishlist_array ) == 1 )
             {
-                $ret = new eZWishList( $wishlist_array[0]["ID"] );
+                $ret = new eZWishList( $wishlist_array[0][$db->fieldName( "ID" )] );
             }
 
         }
@@ -188,8 +174,9 @@ class eZWishList
     */
     function delete()
     {
-        $this->dbInit();
-
+        $db =& eZDB::globalDatabase();
+        $db->begin();
+        
         $items = $this->items();
 
         if  ( $items )
@@ -201,7 +188,13 @@ class eZWishList
             }
         }
             
-        $this->Database->query( "DELETE FROM eZTrade_WishList WHERE ID='$this->ID'" );
+        $res = $db->query( "DELETE FROM eZTrade_WishList WHERE ID='$this->ID'" );
+
+        if ( $res == false )
+            $db->rollback( );
+        else
+            $db->commit();
+
             
         return true;
     }
@@ -219,9 +212,6 @@ class eZWishList
     */
     function &user()
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
        $user = new eZUser( $this->UserID );
 
        return $user;
@@ -234,9 +224,6 @@ class eZWishList
     */
     function setUser( $user )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-        
         if ( get_class( $user ) == "ezuser" )
         {
             $this->UserID = $user->id();
@@ -248,9 +235,6 @@ class eZWishList
     */
     function setIsPublic( $value )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
        if ( $value == true )
            $this->IsPublic = 1;
        else
@@ -263,9 +247,6 @@ class eZWishList
     */
     function isPublic( )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
        $ret = 0;
        if ( $this->IsPublic == 1 )
        {
@@ -282,14 +263,11 @@ class eZWishList
     */
     function items( )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
        $ret = array();
        
-       $this->dbInit();
+       $db =& eZDB::globalDatabase();
 
-       $this->Database->array_query( $wishlist_array, "SELECT * FROM
+       $db->array_query( $wishlist_array, "SELECT * FROM
                                                     eZTrade_WishListItem
                                                     WHERE WishListID='$this->ID'" );
 
@@ -298,7 +276,7 @@ class eZWishList
            $return_array = array();
            foreach ( $wishlist_array as $item )
            {
-               $return_array[] = new eZWishlistItem( $item["ID"] );               
+               $return_array[] = new eZWishlistItem( $item[$db->fieldName( "ID" )] );               
            }
            $ret = $return_array;
        }
@@ -311,10 +289,8 @@ class eZWishList
     */
     function clear()
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
-       $this->dbInit();
+       $db =& eZDB::globalDatabase();
+       $db->begin();
 
        $items = $this->items();
 
@@ -322,14 +298,18 @@ class eZWishList
        foreach ( $items as $item )
        {
            $itemID = $item->id();
-           $this->Database->query( "DELETE FROM
+           $res[] = $db->query( "DELETE FROM
                                 eZTrade_WishListOptionValue
                                 WHERE WishlistItemID='$itemID'" );
 
-           $this->Database->query( "DELETE FROM
+           $res[] = $db->query( "DELETE FROM
                                 eZTrade_WishListItem
                                 WHERE ID='$itemID'" );
        }
+       if ( in_array( false, $res ) )
+           $db->rollback( );
+       else
+           $db->commit();            
 
        $this->delete();       
     }
@@ -340,14 +320,11 @@ class eZWishList
     */
     function search( $queryText )
     {        
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
        $ret = array();
        
-       $this->dbInit();
-
-       $this->Database->array_query( $wishlist_array,
+       $db =& eZDB::globalDatabase();
+       
+       $db->array_query( $wishlist_array,
        "SELECT eZTrade_WishList.ID AS ID FROM eZTrade_WishList, eZUser_User
         WHERE eZTrade_WishList.UserID=eZUser_User.ID
         AND eZTrade_WishList.IsPublic=1
@@ -358,37 +335,15 @@ class eZWishList
 
        foreach ( $wishlist_array as $item )
        {
-               $ret[] = new eZWishlist( $item["ID"] );
+               $ret[] = new eZWishlist( $item[$db->fieldName( "ID" )] );
        }
 
        return $ret;       
 
     }
     
-    /*!
-      \private
-      Open the database for read and write. Gets all the database information from site.ini.
-    */
-    function dbInit()
-    {
-        if ( $this->IsConnected == false )
-        {
-            $this->Database = eZDB::globalDatabase();
-            $this->IsConnected = true;
-        }
-    }
-
     var $ID;
     var $UserID;
     var $IsPublic;
-    
-    ///  Variable for keeping the database connection.
-    var $Database;
-
-    /// Indicates the state of the object. In regard to database information.
-    var $State_;
-    /// Is true if the object has database connection, false if not.
-    var $IsConnected;
 }
-
 ?>

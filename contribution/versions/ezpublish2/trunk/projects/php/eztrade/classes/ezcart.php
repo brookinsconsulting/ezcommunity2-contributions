@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezcart.php,v 1.17 2001/06/11 09:45:57 descala Exp $
+// $Id: ezcart.php,v 1.18 2001/07/19 12:44:26 ce Exp $
 //
 // Definition of eZCart class
 //
@@ -56,7 +56,6 @@
 */
 
 include_once( "classes/ezdb.php" );
-
 include_once( "eztrade/classes/ezcartitem.php" );
 
 class eZCart
@@ -67,28 +66,12 @@ class eZCart
       If $id is set the object's values are fetched from the
       database.
     */
-    function eZCart( $id="", $fetch=true )
+    function eZCart( $id="" )
     {
-        $this->IsConnected = false;
-
         if ( $id != "" )
         {
-
             $this->ID = $id;
-            if ( $fetch == true )
-            {
-                
-                $this->get( $this->ID );
-            }
-            else
-            {
-                $this->State_ = "Dirty";
-                
-            }
-        }
-        else
-        {
-            $this->State_ = "New";
+            $this->get( $this->ID );
         }
     }
 
@@ -97,29 +80,35 @@ class eZCart
     */
     function store()
     {
-        $this->dbInit();
+        $db =& eZDB::globalDatabase();
+        $db->begin();
 
-        
         if ( !isset( $this->ID ) )
         {
-            $this->Database->query( "INSERT INTO eZTrade_Cart SET
-		                         SessionID='$this->SessionID'
-                                 " );
+            $db->lock( "eZTrade_Cart" );
+            $nextID = $db->nextID( "eZTrade_Cart", "ID" );            
 
-            $this->ID = $this->Database->insertID();
+            $res = $db->query( "INSERT INTO eZTrade_Cart
+                             ( ID, SessionID )
+                             VALUES ( '$nextID', $this->SessionID )
+                             " );
 
-            $this->State_ = "Coherent";
+            $this->ID = $nextID;
         }
         else
         {
-            $this->Database->query( "UPDATE eZTrade_Cart SET
+            $res = $db->query( "UPDATE eZTrade_Cart SET
 		                         SessionID='$this->SessionID'
                                  WHERE ID='$this->ID'
                                  " );
-
-            $this->State_ = "Coherent";
         }
-        
+        $db->unlock();
+    
+        if ( $res == false )
+            $db->rollback( );
+        else
+            $db->commit();
+
         return true;
     }    
 
@@ -128,28 +117,23 @@ class eZCart
     */
     function get( $id="" )
     {
-        $this->dbInit();
+        $db =& eZDB::globalDatabase();
         $ret = false;
         
         if ( $id != "" )
         {
-            $this->Database->array_query( $cart_array, "SELECT * FROM eZTrade_Cart WHERE ID='$id'" );
+            $db->array_query( $cart_array, "SELECT * FROM eZTrade_Cart WHERE ID='$id'" );
             if ( count( $cart_array ) > 1 )
             {
                 die( "Error: Cart's with the same ID was found in the database. This shouldent happen." );
             }
             else if( count( $cart_array ) == 1 )
             {
-                $this->ID = $cart_array[0][ "ID" ];
-                $this->SessionID = $cart_array[0][ "SessionID" ];
+                $this->ID = $cart_array[0][$db->fieldName( "ID" )];
+                $this->SessionID = $cart_array[0][$db->fieldName( "SessionID" )];
 
-                $this->State_ = "Coherent";
                 $ret = true;
             }
-        }
-        else
-        {
-            $this->State_ = "Dirty";
         }
         return $ret;
     }
@@ -160,21 +144,20 @@ class eZCart
     */
     function getBySession( $session  )
     {
-        $this->dbInit();
+        $db =& eZDB::globalDatabase();
 
         $ret = false;
         if ( get_class( $session ) == "ezsession" )
         {        
             $sid = $session->id();
-            $this->Database->array_query( $cart_array, "SELECT * FROM
+            $db->array_query( $cart_array, "SELECT * FROM
                                                     eZTrade_Cart
                                                     WHERE SessionID='$sid'" );
 
             if ( count( $cart_array ) == 1 )
             {
-                $ret = new eZCart( $cart_array[0]["ID"] );
+                $ret = new eZCart( $cart_array[0][$db->fieldName( "ID" )]);
             }
-
         }
         return $ret;
     }
@@ -185,11 +168,12 @@ class eZCart
     */
     function delete()
     {
-        $this->dbInit();
+        $db =& eZDB::globalDatabase();
+        $db->begin();
 
         $items = $this->items();
 
-        if  ( $items )
+        if ( $items )
         {
             $i = 0;
             foreach ( $items as $item )
@@ -198,7 +182,12 @@ class eZCart
             }
         }
             
-        $this->Database->query( "DELETE FROM eZTrade_Cart WHERE ID='$this->ID'" );
+        $res = $db->query( "DELETE FROM eZTrade_Cart WHERE ID='$this->ID'" );
+
+        if ( $res == false )
+            $db->rollback( );
+        else
+            $db->commit();
             
         return true;
     }
@@ -218,9 +207,6 @@ class eZCart
     */
     function setSession( $session )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-        
         if ( get_class( $session ) == "ezsession" )
         {
             $this->SessionID = $session->id();
@@ -234,23 +220,20 @@ class eZCart
     */
     function items( )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
        $ret = array();
        
-       $this->dbInit();
+       $db =& eZDB::globalDatabase();
 
-       $this->Database->array_query( $cart_array, "SELECT * FROM
-                                                    eZTrade_CartItem
-                                                    WHERE CartID='$this->ID'" );
+       $db->array_query( $cart_array, "SELECT * FROM
+                                       eZTrade_CartItem
+                                       WHERE CartID='$this->ID'" );
 
        if ( count( $cart_array ) > 0 )
        {
            $return_array = array();
            foreach ( $cart_array as $item )
            {
-               $return_array[] = new eZCartItem( $item["ID"] );               
+               $return_array[] = new eZCartItem( $item[$db->fieldName( "ID" )] );               
            }
            $ret = $return_array;
        }
@@ -266,9 +249,6 @@ class eZCart
     */
     function shippingCost( $shippingType )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
        $items =& $this->items( );
        $ShippingCostValues = array();
 
@@ -332,9 +312,6 @@ class eZCart
     */
     function shippingVAT( $shippingType )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
        if ( get_class( $shippingType ) == "ezshippingtype" )
        {
            $vatType =& $shippingType->vatType();
@@ -357,53 +334,34 @@ class eZCart
     */
     function clear()
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
-       $this->dbInit();
-
+       $db =& eZDB::globalDatabase();
+       $db->begin();
+       
        $items = $this->items();
 
        // delete the option values and cart items
        foreach ( $items as $item )
        {
            $itemID = $item->id();
-           $this->Database->query( "DELETE FROM
+           $res[] = $db->query( "DELETE FROM
                                 eZTrade_CartOptionValue
                                 WHERE CartItemID='$itemID'" );
 
-           $this->Database->query( "DELETE FROM
+           $res[] = $db->query( "DELETE FROM
                                 eZTrade_CartItem
                                 WHERE ID='$itemID'" );
        }
 
-       $this->delete();       
-    }
+       if ( in_array( false, $res ) )
+           $db->rollback( );
+       else
+           $db->commit();            
 
-  
-    /*!
-      \private
-      Open the database for read and write. Gets all the database information from site.ini.
-    */
-    function dbInit()
-    {
-        if ( $this->IsConnected == false )
-        {
-            $this->Database = eZDB::globalDatabase();
-            $this->IsConnected = true;
-        }
+       $this->delete();       
     }
 
     var $ID;
     var $SessionID;
-    
-    ///  Variable for keeping the database connection.
-    var $Database;
-
-    /// Indicates the state of the object. In regard to database information.
-    var $State_;
-    /// Is true if the object has database connection, false if not.
-    var $IsConnected;
 }
 
 ?>

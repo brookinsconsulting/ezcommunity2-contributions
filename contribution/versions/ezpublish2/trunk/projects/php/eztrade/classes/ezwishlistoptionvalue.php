@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezwishlistoptionvalue.php,v 1.6 2001/05/05 11:16:05 bf Exp $
+// $Id: ezwishlistoptionvalue.php,v 1.7 2001/07/19 12:44:26 ce Exp $
 //
 // Definition of eZWishListOptionValue class
 //
@@ -45,28 +45,15 @@ class eZWishListOptionValue
       If $id is set the object's values are fetched from the
       database.
     */
-    function eZWishListOptionValue( $id="", $fetch=true )
+    function eZWishListOptionValue( $id="" )
     {
-        $this->IsConnected = false;
-
         if ( $id != "" )
         {
-
             $this->ID = $id;
-            if ( $fetch == true )
-            {
-                
-                $this->get( $this->ID );
-            }
-            else
-            {
-                $this->State_ = "Dirty";
-                
-            }
+            $this->get( $this->ID );
         }
         else
         {
-            $this->State_ = "New";
             $this->Count = 1;
         }
     }
@@ -76,30 +63,33 @@ class eZWishListOptionValue
     */
     function store()
     {
-        $this->dbInit();
+        $db =& eZDB::globalDatabase();
+        $db->begin();
         
         if ( !isset( $this->ID ) )
         {
-            $this->Database->query( "INSERT INTO eZTrade_WishListOptionValue SET
-		                         WishListItemID='$this->WishListItemID',
-		                         OptionID='$this->OptionID',
-		                         OptionValueID='$this->OptionValueID'
-                                 " );
+            $db->lock( "eZTrade_WishListOptionValue" );
+            $nextID = $db->nextID( "eZTrade_WishListOptionValue", "ID" );            
 
-			$this->ID = $this->Database->insertID();
+            $res = $db->query( "INSERT INTO eZTrade_WishListOptionValue
+                                  ( ID, WishListItemID, OptionID, OptionValueID )
+                                  VALUES
+                                  ( '$nextID',
+		                            '$this->WishListItemID',
+		                            '$this->OptionID',
+		                            '$this->OptionValueID' )
+                                  " );
 
-            $this->State_ = "Coherent";
+			$this->ID = $nextID;
         }
         else
         {
-            $this->Database->query( "UPDATE eZTrade_WishListOptionValue SET
+            $db->query( "UPDATE eZTrade_WishListOptionValue SET
 		                         WishListItemID='$this->WishListItemID',
 		                         OptionID='$this->OptionID',
 		                         OptionValueID='$this->OptionValueID'
                                  WHERE ID='$this->ID'
                                  " );
-
-            $this->State_ = "Coherent";
         }
         
         return true;
@@ -110,30 +100,25 @@ class eZWishListOptionValue
     */
     function get( $id="" )
     {
-        $this->dbInit();
+        $db =& eZDB::globalDatabase();
         $ret = false;
         
         if ( $id != "" )
         {
-            $this->Database->array_query( $wishlist_array, "SELECT * FROM eZTrade_WishListOptionValue WHERE ID='$id'" );
+            $db->array_query( $wishlist_array, "SELECT * FROM eZTrade_WishListOptionValue WHERE ID='$id'" );
             if ( count( $wishlist_array ) > 1 )
             {
                 die( "Error: Wishlist's with the same ID was found in the database. This shouldent happen." );
             }
             else if( count( $wishlist_array ) == 1 )
             {
-                $this->ID =& $wishlist_array[0][ "ID" ];
-                $this->WishListItemID =& $wishlist_array[0][ "WishListItemID" ];
-                $this->OptionID =& $wishlist_array[0][ "OptionID" ];
-                $this->OptionValueID =& $wishlist_array[0][ "OptionValueID" ];
+                $this->ID =& $wishlist_array[0][$db->fieldName( "ID" )];
+                $this->WishListItemID =& $wishlist_array[0][$db->fieldName( "WishListItemID" )];
+                $this->OptionID =& $wishlist_array[0][$db->fieldName( "OptionID" )];
+                $this->OptionValueID =& $wishlist_array[0][$db->fieldName( "OptionValueID" )];
 
-                $this->State_ = "Coherent";
                 $ret = true;
             }
-        }
-        else
-        {
-            $this->State_ = "Dirty";
         }
         return $ret;
     }
@@ -151,9 +136,6 @@ class eZWishListOptionValue
     */
     function &wishlistItem()
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
        return new eZWishListItem( $this->WishListItemID );
     }
 
@@ -162,9 +144,6 @@ class eZWishListOptionValue
     */
     function &option()
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
        return new eZOption( $this->OptionID );
     }
 
@@ -173,9 +152,6 @@ class eZWishListOptionValue
     */
     function &optionValue()
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
        return new eZOptionValue( $this->OptionValueID );
     }
     
@@ -184,9 +160,6 @@ class eZWishListOptionValue
     */
     function setWishListItem( &$wishlistItem )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
        if ( get_class( $wishlistItem ) == "ezwishlistitem" )
        {
            $this->WishListItemID = $wishlistItem->id();
@@ -198,9 +171,6 @@ class eZWishListOptionValue
     */
     function setOption( &$option )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
        if ( get_class( $option ) == "ezoption" )
        {
            $this->OptionID = $option->id();
@@ -212,40 +182,16 @@ class eZWishListOptionValue
     */
     function setOptionValue( &$optionValue )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
        if ( get_class( $optionValue ) == "ezoptionvalue" )
        {
            $this->OptionValueID = $optionValue->id();
        }
-    }
-    
-    /*!
-      Private function.
-      Open the database for read and write. Gets all the database information from site.ini.
-    */
-    function dbInit()
-    {
-        if ( $this->IsConnected == false )
-        {
-            $this->Database = eZDB::globalDatabase();
-            $this->IsConnected = true;
-        }
     }
 
     var $ID;
     var $WishListItemID;
     var $OptionID;
     var $OptionValueID;
-    
-    ///  Variable for keeping the database connection.
-    var $Database;
-
-    /// Indicates the state of the object. In regard to database information.
-    var $State_;
-    /// Is true if the object has database connection, false if not.
-    var $IsConnected;
 }
 
 ?>

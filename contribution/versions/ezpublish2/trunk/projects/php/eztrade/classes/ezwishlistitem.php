@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezwishlistitem.php,v 1.9 2001/05/05 11:16:05 bf Exp $
+// $Id: ezwishlistitem.php,v 1.10 2001/07/19 12:44:26 ce Exp $
 //
 // Definition of eZWishItem class
 //
@@ -60,26 +60,13 @@ class eZWishListItem
     */
     function eZWishListItem( $id="", $fetch=true )
     {
-        $this->IsConnected = false;
-
         if ( $id != "" )
         {
-
             $this->ID = $id;
-            if ( $fetch == true )
-            {
-                
-                $this->get( $this->ID );
-            }
-            else
-            {
-                $this->State_ = "Dirty";
-                
-            }
+            $this->get( $this->ID );
         }
         else
         {
-            $this->State_ = "New";
             $this->Count = 1;
         }
     }
@@ -89,33 +76,42 @@ class eZWishListItem
     */
     function store()
     {
-        $this->dbInit();
+        $db =& eZDB::globalDatabase();
+        $db->begin();
         
         if ( !isset( $this->ID ) )
         {
-            $this->Database->query( "INSERT INTO eZTrade_WishListItem SET
-		                         ProductID='$this->ProductID',
-		                         WishListID='$this->WishListID',
-		                         Count='$this->Count',
-		                         IsBought='$this->IsBought'
-                                 " );
+            $db->lock( "eZTrade_WishListItem" );
+            $nextID = $db->nextID( "eZTrade_WishListItem", "ID" );            
 
-			$this->ID = $this->Database->insertID();
+            $res = $db->query( "INSERT INTO eZTrade_WishListItem
+                                  ( ID, ProductID, WishListID, Count, IsBought )
+                                  VALUES
+                                  ( '$nextID',
+		                            '$this->ProductID',
+		                            '$this->WishListID',
+ 		                            '$this->Count',
+		                            '$this->IsBought' )
+                                  " );
 
-            $this->State_ = "Coherent";
+			$this->ID = $nextID;
         }
         else
         {
-            $this->Database->query( "UPDATE eZTrade_WishListItem SET
+            $res = $db->query( "UPDATE eZTrade_WishListItem SET
 		                         ProductID='$this->ProductID',
 		                         WishListID='$this->WishListID',
 		                         Count='$this->Count',
 		                         IsBought='$this->IsBought'
                                  WHERE ID='$this->ID'
                                  " );
-
-            $this->State_ = "Coherent";
         }
+        $db->unlock();
+    
+        if ( $res == false )
+            $db->rollback( );
+        else
+            $db->commit();
         
         return true;
     }    
@@ -125,31 +121,25 @@ class eZWishListItem
     */
     function get( $id="" )
     {
-        $this->dbInit();
+        $db =& eZDB::globalDatabase();
         $ret = false;
         
         if ( $id != "" )
         {
-            $this->Database->array_query( $wishlist_array, "SELECT * FROM eZTrade_WishListItem WHERE ID='$id'" );
+            $db->array_query( $wishlist_array, "SELECT * FROM eZTrade_WishListItem WHERE ID='$id'" );
             if ( count( $wishlist_array ) > 1 )
             {
                 die( "Error: Wishlist's with the same ID was found in the database. This shouldent happen." );
             }
             else if( count( $wishlist_array ) == 1 )
             {
-                $this->ID = $wishlist_array[0][ "ID" ];
-                $this->ProductID = $wishlist_array[0][ "ProductID" ];
-                $this->WishListID = $wishlist_array[0][ "WishListID" ];
-                $this->Count = $wishlist_array[0][ "Count" ];
-                $this->IsBought = $wishlist_array[0][ "IsBought" ];
-
-                $this->State_ = "Coherent";
+                $this->ID = $wishlist_array[0][$db->fieldName( "ID" )];
+                $this->ProductID = $wishlist_array[0][$db->fieldName( "ProductID" )];
+                $this->WishListID = $wishlist_array[0][$db->fieldName( "WishListID" )];
+                $this->Count = $wishlist_array[0][$db->fieldName( "Count" )];
+                $this->IsBought = $wishlist_array[0][$db->fieldName( "IsBought" )];
                 $ret = true;
             }
-        }
-        else
-        {
-            $this->State_ = "Dirty";
         }
         return $ret;
     }
@@ -160,12 +150,18 @@ class eZWishListItem
     */
     function delete()
     {
-        $this->dbInit();
-            
-        $this->Database->query( "DELETE FROM eZTrade_WishListOptionValue WHERE WishListItemID='$this->ID'" );
+        $db =& eZDB::globalDatabase();
+        $db->begin();
 
-        $this->Database->query( "DELETE FROM eZTrade_WishListItem WHERE ID='$this->ID'" );
-            
+        $res[] = $db->query( "DELETE FROM eZTrade_WishListOptionValue WHERE WishListItemID='$this->ID'" );
+
+        $res[] = $db->query( "DELETE FROM eZTrade_WishListItem WHERE ID='$this->ID'" );
+
+        if ( in_array( false, $res ) )
+            $db->rollback( );
+        else
+            $db->commit();            
+
         return true;
     }
     
@@ -183,9 +179,6 @@ class eZWishListItem
     */
     function product()
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
        $ret = false;
 
        $prod = new eZProduct( );
@@ -202,9 +195,6 @@ class eZWishListItem
     */
     function wishlist()
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
        $ret = false;
 
        $wishlist = new eZWishlist( );
@@ -221,9 +211,6 @@ class eZWishListItem
     */
     function count( )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-       
        return $this->Count;
     }
 
@@ -232,9 +219,6 @@ class eZWishListItem
     */
     function setProduct( $product )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
        if ( get_class( $product ) == "ezproduct" )
        {
            $this->ProductID = $product->id();
@@ -246,9 +230,6 @@ class eZWishListItem
     */
     function setWishList( $wishlist )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
        if ( get_class( $wishlist ) == "ezwishlist" )
        {
            $this->WishListID = $wishlist->id();
@@ -262,9 +243,6 @@ class eZWishListItem
     */
     function setIsBought( $value )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
        if ( $value == true )
        {
            $this->IsBought = 1;
@@ -280,9 +258,6 @@ class eZWishListItem
     */
     function isBought()
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
        $ret = false;
        
        if ( $this->IsBought == 1 )
@@ -300,20 +275,17 @@ class eZWishListItem
     */
     function optionValues( )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-       
        $return_array = array();
-       $this->dbInit();
+       $db =& eZDB::globalDatabase();
        
-       $this->Database->array_query( $res_array, "SELECT ID FROM eZTrade_WishListOptionValue
+       $db->array_query( $res_array, "SELECT ID FROM eZTrade_WishListOptionValue
                                      WHERE
                                      WishListItemID='$this->ID'
                                    " );
 
        foreach ( $res_array as $item )
        {
-           $return_array[] = new eZWishlistOptionValue( $item["ID"] );
+           $return_array[] = new eZWishlistOptionValue( $item[$db->fieldName( "ID" )] );
        }
        return $return_array;
     }
@@ -323,9 +295,6 @@ class eZWishListItem
     */
     function moveToCart()
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
        // fetch the cart or create one
        $cart = new eZCart();
        $session = new eZSession();
@@ -435,35 +404,12 @@ class eZWishListItem
 
         return $price;        
     }
-        
-    
-    /*!
-      Private function.
-      Open the database for read and write. Gets all the database information from site.ini.
-    */
-    function dbInit()
-    {
-        if ( $this->IsConnected == false )
-        {
-            $this->Database =& eZDB::globalDatabase();
-            $this->IsConnected = true;
-        }
-    }
 
     var $ID;
     var $ProductID;
     var $WishListID;
     var $Count;
     var $IsBought;
-    
-    ///  Variable for keeping the database connection.
-    var $Database;
 
-    /// Indicates the state of the object. In regard to database information.
-    var $State_;
-    /// Is true if the object has database connection, false if not.
-    var $IsConnected;
-    
-}
 
 ?>

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezcartitem.php,v 1.13 2001/06/08 12:24:55 ce Exp $
+// $Id: ezcartitem.php,v 1.14 2001/07/19 12:44:26 ce Exp $
 //
 // Definition of eZCartItem class
 //
@@ -45,7 +45,6 @@
   \sa eZCart
 */
 
-
 include_once( "classes/ezdb.php" );
 include_once( "eztrade/classes/ezcartoptionvalue.php" );
 
@@ -61,10 +60,8 @@ class eZCartItem
       If $id is set the object's values are fetched from the
       database.
     */
-    function eZCartItem( $id="", $fetch=true )
+    function eZCartItem( $id="" )
     {
-        $this->IsConnected = false;
-
         if ( $id != "" )
         {
             $this->ID = $id;
@@ -81,33 +78,43 @@ class eZCartItem
     */
     function store()
     {
-        $this->dbInit();
+        $db =& eZDB::globalDatabase();
+        $db->begin();
         
         if ( !isset( $this->ID ) )
         {
-            $this->Database->query( "INSERT INTO eZTrade_CartItem SET
-		                         ProductID='$this->ProductID',
-		                         CartID='$this->CartID',
-		                         Count='$this->Count',
-		                         WishListItemID='$this->WishListItemID'
-                                 " );
+            $db->lock( "eZTrade_CartItem" );
+            $nextID = $db->nextID( "eZTrade_CartItem", "ID" );            
+            
+            $res = $db->query( "INSERT INTO eZTrade_CartItem
+                      ( ID, ProductID, CartID, Count, WishListItemID )
+                      VALUES
+                      ( '$nextID',
+                        '$this->ProductID',
+                        '$this->CartID',
+                        '$this->Count',
+                        '$this->WishListItemID'
+                      " );
 
-			$this->ID = $this->Database->insertID();
-
-            $this->State_ = "Coherent";
+			$this->ID = $nextID;
         }
         else
         {
-            $this->Database->query( "UPDATE eZTrade_CartItem SET
+            $res = $db->query( "UPDATE eZTrade_CartItem SET
 		                         ProductID='$this->ProductID',
 		                         CartID='$this->CartID',
 		                         Count='$this->Count',
 		                         WishListItemID='$this->WishListItemID'
                                  WHERE ID='$this->ID'
                                  " );
-
-            $this->State_ = "Coherent";
         }
+
+        $db->unlock();
+    
+        if ( $res == false )
+            $db->rollback( );
+        else
+            $db->commit();
         
         return true;
     }    
@@ -117,31 +124,25 @@ class eZCartItem
     */
     function get( $id="" )
     {
-        $this->dbInit();
+        $db =& eZDB::globalDatabase();
         $ret = false;
         
         if ( $id != "" )
         {
-            $this->Database->array_query( $cart_array, "SELECT * FROM eZTrade_CartItem WHERE ID='$id'" );
+            $db->array_query( $cart_array, "SELECT * FROM eZTrade_CartItem WHERE ID='$id'" );
             if ( count( $cart_array ) > 1 )
             {
                 die( "Error: Cart's with the same ID was found in the database. This shouldent happen." );
             }
             else if( count( $cart_array ) == 1 )
             {
-                $this->ID = $cart_array[0][ "ID" ];
-                $this->ProductID = $cart_array[0][ "ProductID" ];
-                $this->CartID = $cart_array[0][ "CartID" ];
-                $this->Count = $cart_array[0][ "Count" ];
-                $this->WishListItemID = $cart_array[0][ "WishListItemID" ];
-
-                $this->State_ = "Coherent";
+                $this->ID = $cart_array[0][$db->fieldName( "ID" )];
+                $this->ProductID = $cart_array[0][$db->fieldName( "ProductID" )];
+                $this->CartID = $cart_array[0][$db->fieldName( "CartID" )];
+                $this->Count = $cart_array[0][$db->fieldName( "Count" )];
+                $this->WishListItemID = $cart_array[0][$db->fieldName( "WishListItemID" )];
                 $ret = true;
             }
-        }
-        else
-        {
-            $this->State_ = "Dirty";
         }
         return $ret;
     }
@@ -152,12 +153,18 @@ class eZCartItem
     */
     function delete()
     {
-        $this->dbInit();
+        $db =& eZDB::globalDatabase();
+        $db->begin();
             
-        $this->Database->query( "DELETE FROM eZTrade_CartOptionValue WHERE CartItemID='$this->ID'" );
+        $res[] = $db->query( "DELETE FROM eZTrade_CartOptionValue WHERE CartItemID='$this->ID'" );
+        
+        $res[] = $db->query( "DELETE FROM eZTrade_CartItem WHERE ID='$this->ID'" );
+        
+        if ( in_array( false, $res ) )
+            $db->rollback( );
+        else
+            $db->commit();            
 
-        $this->Database->query( "DELETE FROM eZTrade_CartItem WHERE ID='$this->ID'" );
-            
         return true;
     }
     
@@ -207,8 +214,7 @@ class eZCartItem
     */
     function count( )
     {
-       
-       return $this->Count;
+        return $this->Count;
     }
 
     /*!
@@ -328,33 +334,20 @@ class eZCartItem
     function &optionValues( )
     {
        $return_array = array();
-       $this->dbInit();
+       $db =& eZDB::globalDatabase();
        
-       $this->Database->array_query( $res_array, "SELECT ID FROM eZTrade_CartOptionValue
+       $db->array_query( $res_array, "SELECT ID FROM eZTrade_CartOptionValue
                                      WHERE
                                      CartItemID='$this->ID'
                                    " );
 
        foreach ( $res_array as $item )
        {
-           $return_array[] = new eZCartOptionValue( $item["ID"] );
+           $return_array[] = new eZCartOptionValue( $item[$db->fieldName( "ID" )] );
        }
        return $return_array;
     }
     
-    /*!
-      Private function.
-      Open the database for read and write. Gets all the database information from site.ini.
-    */
-    function dbInit()
-    {
-        if ( $this->IsConnected == false )
-        {
-            $this->Database =& eZDB::globalDatabase();
-            $this->IsConnected = true;
-        }
-    }
-
     var $ID;
     var $ProductID;
     var $CartID;
@@ -362,15 +355,6 @@ class eZCartItem
 
     /// ID to a wishlist item. Indicates which wishlistitem the cart item comes from. 0 if added from product.
     var $WishListItemID;
-    
-    ///  Variable for keeping the database connection.
-    var $Database;
-
-    /// Indicates the state of the object. In regard to database information.
-    var $State_;
-    /// Is true if the object has database connection, false if not.
-    var $IsConnected;
-    
 }
 
 ?>

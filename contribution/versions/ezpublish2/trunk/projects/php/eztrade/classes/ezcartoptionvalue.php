@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezcartoptionvalue.php,v 1.9 2001/06/08 12:24:55 ce Exp $
+// $Id: ezcartoptionvalue.php,v 1.10 2001/07/19 12:44:26 ce Exp $
 //
 // Definition of eZCartOptionValue class
 //
@@ -46,10 +46,8 @@ class eZCartOptionValue
       If $id is set the object's values are fetched from the
       database.
     */
-    function eZCartOptionValue( $id="", $fetch=true )
+    function eZCartOptionValue( $id="" )
     {
-        $this->IsConnected = false;
-
         if ( $id != "" )
         {
             $this->ID = $id;
@@ -66,28 +64,38 @@ class eZCartOptionValue
     */
     function store()
     {
-        $this->dbInit();
+       $db =& eZDB::globalDatabase();
+       $db->begin();
         
         if ( !isset( $this->ID ) )
         {
-            $this->Database->query( "INSERT INTO eZTrade_CartOptionValue SET
+            $db->lock( "eZTrade_CartOptionValue" );
+            $nextID = $db->nextID( "eZTrade_CartOptionValue", "ID" );            
+
+            $res = $db->query( "INSERT INTO eZTrade_CartOptionValue SET
 		                         CartItemID='$this->CartItemID',
 		                         OptionID='$this->OptionID',
 		                         RemoteID='$this->RemoteID',
 		                         OptionValueID='$this->OptionValueID'
                                  " );
 
-			$this->ID = $this->Database->insertID();
+			$this->ID = $nextID;
         }
         else
         {
-            $this->Database->query( "UPDATE eZTrade_CartOptionValue SET
+            $res = $db->query( "UPDATE eZTrade_CartOptionValue SET
 		                         CartItemID='$this->CartItemID',
 		                         OptionID='$this->OptionID',
 		                         OptionValueID='$this->OptionValueID'
                                  WHERE ID='$this->ID'
                                  " );
         }
+        $db->unlock();
+    
+        if ( $res == false )
+            $db->rollback( );
+        else
+            $db->commit();
         
         return true;
     }    
@@ -97,30 +105,26 @@ class eZCartOptionValue
     */
     function get( $id="" )
     {
-        $this->dbInit();
+        $db =& eZDB::globalDatabase();
         $ret = false;
         
         if ( $id != "" )
         {
-            $this->Database->array_query( $cart_array, "SELECT * FROM eZTrade_CartOptionValue WHERE ID='$id'" );
+            $db->array_query( $cart_array, "SELECT * FROM eZTrade_CartOptionValue WHERE ID='$id'" );
             if ( count( $cart_array ) > 1 )
             {
                 die( "Error: Cart's with the same ID was found in the database. This shouldent happen." );
             }
             else if( count( $cart_array ) == 1 )
             {
-                $this->ID =& $cart_array[0][ "ID" ];
-                $this->CartItemID =& $cart_array[0][ "CartItemID" ];
-                $this->OptionID =& $cart_array[0][ "OptionID" ];
-                $this->RemoteID =& $cart_array[0][ "RemoteID" ];
-                $this->OptionValueID =& $cart_array[0][ "OptionValueID" ];
+                $this->ID =& $cart_array[0][$db->fieldName( "ID" )];
+                $this->CartItemID =& $cart_array[0][$db->fieldName( "CartItemID" )];
+                $this->OptionID =& $cart_array[0][$db->fieldName( "OptionID" )];
+                $this->RemoteID =& $cart_array[0][$db->fieldName( "RemoteID" )];
+                $this->OptionValueID =& $cart_array[0][$db->fieldName( "OptionValueID" )];
 
                 $ret = true;
             }
-        }
-        else
-        {
-            $this->State_ = "Dirty";
         }
         return $ret;
     }
@@ -205,33 +209,12 @@ class eZCartOptionValue
            $this->OptionValueID = $optionValue->id();
        }
     }
-    
-    /*!
-      Private function.
-      Open the database for read and write. Gets all the database information from site.ini.
-    */
-    function dbInit()
-    {
-        if ( $this->IsConnected == false )
-        {
-            $this->Database =& eZDB::globalDatabase();
-            $this->IsConnected = true;
-        }
-    }
 
     var $ID;
     var $CartItemID;
     var $OptionID;
     var $OptionValueID;
     var $RemoteID;
-    
-    ///  Variable for keeping the database connection.
-    var $Database;
-
-    /// Indicates the state of the object. In regard to database information.
-    var $State_;
-    /// Is true if the object has database connection, false if not.
-    var $IsConnected;
 }
 
 ?>
