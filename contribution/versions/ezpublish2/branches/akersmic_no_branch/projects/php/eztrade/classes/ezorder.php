@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezorder.php,v 1.61.8.1 2002/01/18 09:13:25 br Exp $
+// $Id: ezorder.php,v 1.61.8.2 2002/01/21 12:03:24 br Exp $
 //
 // Definition of eZOrder class
 //
@@ -95,7 +95,10 @@ class eZOrder
 		                           ShippingCharge,
                                    PersonID,
                                    CompanyID,
-                                   Comment )
+                                   Comment,
+                                   EDate,
+                                   RefundAmount,
+                                   Pnutr )
                                   VALUES
                                   ('$nextID',
 		                           '$this->UserID',
@@ -110,7 +113,10 @@ class eZOrder
 		                           '$this->ShippingCharge',
                                    '$this->PersonID',
                                    '$this->CompanyID',
-                                   '$this->Comment') " );
+                                   '$this->Comment',
+                                   '$this->EDate',
+                                   '$this->RefundAmount',  
+                                   '$this->Pnutr' ) " );
             $db->unlock();
 			$this->ID = $nextID;
 
@@ -143,7 +149,10 @@ class eZOrder
 		                         ShippingCharge='$this->ShippingCharge',
                                  PersonID='$this->PersonID',
                                  CompanyID='$this->CompanyID',
-                                 Comment='$this->Comment'
+                                 Comment='$this->Comment',
+                                 EDate='$this->EDate',
+                                 RefundAmount='$this->RefundAmount',
+                                 Pnutr='$this->Pnutr'
                                  WHERE ID='$this->ID'
                                  " );
 
@@ -213,6 +222,9 @@ class eZOrder
                 $this->PersonID =& $cart_array[0][$db->fieldName( "PersonID" )];
                 $this->CompanyID =& $cart_array[0][$db->fieldName( "CompanyID" )];
                 $this->Comment =& $cart_array[0][$db->fieldName( "Comment" )];
+                $this->EDate =& $cart_array[0][$db->fieldName( "EDate" )];
+                $this->RefundAmount =& $cart_array[0][$db->fieldName( "RefundAmount" )];
+                $this->Pnutr =& $cart_array[0][$db->fieldName( "Pnutr" )];
                 $ret = true;
             }
         }
@@ -703,6 +715,39 @@ class eZOrder
     {
         return $this->RefundAmount;
     }
+
+    /*!
+      Returns the id for paynet transaction.
+    */
+    function pnutr()
+    {
+        return $this->Pnutr;
+    }
+
+    /*!
+      Returns EDate for paynet transaction.
+    */
+    function eDate()
+    {
+        return $this->EDate;
+    }
+    
+    /*!
+      Set the EDate for the paynet transaction.
+     */
+    function setEDate( $value )
+    {
+        $this->EDate = $value;
+    }
+    
+    /*!
+      Set the Pnutr id for the paynet transaction.
+     */
+    function setPnutr( $value )
+    {
+        $this->Pnutr = $value;
+    }
+
     
     /*!
       Sets the payment method.
@@ -1294,7 +1339,11 @@ class eZOrder
     var $CompanyID;
     var $IsVATInc;
     var $Comment;
+
+    // for paynet
     var $RefundAmount;
+    var $Pnutr;
+    var $EDate;
     
     var $ShippingTypeID;
     var $OrderStatus_;
