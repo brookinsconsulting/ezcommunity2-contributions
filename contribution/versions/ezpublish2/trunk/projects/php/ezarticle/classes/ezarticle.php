@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezarticle.php,v 1.96 2001/06/08 13:42:25 ce Exp $
+// $Id: ezarticle.php,v 1.97 2001/06/15 13:44:42 pkej Exp $
 //
 // Definition of eZArticle class
 //
@@ -1926,6 +1926,65 @@ class eZArticle
                   ";
         
         $db->query( $query );        
+    }
+
+    /*!
+      Adds a form to the article.
+    */
+    function deleteForms()
+    {
+        $db =& eZDB::globalDatabase();
+        
+        $ArticleID = $this->ID;
+
+        $query = "DELETE FROM eZArticle_ArticleFormDict
+                  WHERE ArticleID=$ArticleID
+                  ";
+        $db->query( $query );
+    }
+
+
+    /*!
+      Adds a form to the article.
+    */
+    function addForm( $form )
+    {
+        $db =& eZDB::globalDatabase();
+        
+        if( get_class( $form ) == "ezform" )
+        {
+            $ArticleID = $this->ID;
+            $FormID = $form->id();
+            
+            $query = "INSERT INTO eZArticle_ArticleFormDict
+                      SET ArticleID=$ArticleID, FormID=$FormID
+                      ";
+            $db->query( $query );
+        }        
+    }
+
+    /*!
+      Returns an array of the forms for the current article.
+    */
+    function forms()
+    {
+        $db =& eZDB::globalDatabase();
+        
+        $ArticleID = $this->ID;
+        
+        $return_array = array();
+        
+        $query = "SELECT FormID FROM eZArticle_ArticleFormDict
+                      WHERE ArticleID=$ArticleID
+                      ";
+        
+        $db->array_query( $ret_array, $query );
+        $count = count( $ret_array );
+        for( $i = 0; $i < $count; $i++ )
+        {
+            $return_array[] =& new eZForm( $ret_array[$i]["FormID"] );
+        }
+        return $return_array;
     }
 
     /*!
