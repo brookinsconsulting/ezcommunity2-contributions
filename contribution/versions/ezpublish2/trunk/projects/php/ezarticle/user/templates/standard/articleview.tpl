@@ -88,27 +88,17 @@
 <!-- END attached_file_list_tpl -->
 
 <form method="post" action="/article/mailtofriend/{article_id}">
-<table width="100%" cellpadding="5" cellspacing="0" border="0">
-<tr>
-    <td>
-	<p class="boxtext">{intl-send_to}:</p>
-	<input type="text" class="box" size="5" name="SendTo" value="{send_to}" />*
-	<br /><br />
-    </td>
-</tr>
-<tr>
-    <td>
-	<p class="boxtext">{intl-from_mail}:</p>
-	<input type="text" class="box" size="5" name="From" value="{from}">*
-	<br />
-    </td>
-</tr>
-<tr>
-    <td>
-        <input class="stdbutton" type="submit" value="{intl-send_mail}">
-    </td>
-</tr>
-</table>
+
+<p class="boxtext">{intl-send_to}:</p>
+<input type="text" class="box" size="40" name="SendTo" value="{send_to}" />
+<br /><br />
+
+<p class="boxtext">{intl-from_mail}:</p>
+<input type="text" class="box" size="40" name="From" value="{from}">
+<br /><br />
+
+<input class="stdbutton" type="submit" value="{intl-send_mail}">
+
 </form>
 
 <br clear="all" />

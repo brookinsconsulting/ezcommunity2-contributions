@@ -5,7 +5,7 @@
 <!-- BEGIN first_page_tpl -->
 <form method="post">
 <!-- BEGIN err_msg_tpl -->
-<h1>{intl-errors_occured}:</h1><br />
+<h2>{intl-errors_occured}:</h2><br />
 <!-- END err_msg_tpl -->
 
 <!-- BEGIN err_real_name_tpl -->
