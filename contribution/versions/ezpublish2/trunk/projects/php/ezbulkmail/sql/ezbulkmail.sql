@@ -27,7 +27,7 @@ CREATE TABLE eZBulkMail_Category (
 
 
 #
-# Table structure for table 'eZBulkMail_MailFolderLink'
+# Table structure for table 'eZBulkMail_MailCategoryLink'
 #
 
 DROP TABLE IF EXISTS eZBulkMail_MailCategoryLink;
