@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: todoedit.php,v 1.32 2001/10/12 13:42:20 jhe Exp $
+// $Id: todoedit.php,v 1.32.2.1 2003/01/03 16:12:28 br Exp $
 //
 // Definition of todo list.
 //
@@ -641,7 +641,7 @@ $status = new eZStatus();
 $status_array = $status->getAll();
 
 if ( $Action == "new")
-    $StatusID = 1;
+    $StatusID = $NotDoneID;
 
 for ( $i = 0; $i < count( $status_array ); $i++ )
 {
