@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezuser.php,v 1.1 2000/10/02 15:47:07 ce-cvs Exp $
+// $Id: ezuser.php,v 1.2 2000/10/03 07:13:49 ce-cvs Exp $
 //
 // Definition of eZCompany class
 //
@@ -181,8 +181,6 @@ class eZUser
 
         $this->Database->array_query( $user_array, "SELECT ID FROM eZUser_User ORDER By Login" );
 
-        print( count ( $user_array ) );
-
         for ( $i=0; $i<count ( $user_array ); $i++ )
         {
             $return_array[$i] = new eZUser( $user_array[$i][ "ID" ], 0 );
@@ -210,8 +208,7 @@ class eZUser
         {
             $ret = new eZUser( $user_array[0]["ID"] );
         }
-
-        return $ret;        
+        return $ret;
     }
 
     /*!

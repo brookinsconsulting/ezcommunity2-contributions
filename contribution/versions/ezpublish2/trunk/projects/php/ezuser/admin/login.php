@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: login.php,v 1.1 2000/10/02 15:46:42 ce-cvs Exp $
+// $Id: login.php,v 1.2 2000/10/03 07:13:48 ce-cvs Exp $
 //
 // Definition of eZUser class
 //
@@ -49,26 +49,26 @@ if ( $Action == "login" )
     $user = new eZUser();
     $user = $user->validateUser( $Username, $Password );
 
-    if ( eZPermission::checkPermission( $user, "eZUser", "AdminLogin" ) )
+    if ( !eZPermission::checkPermission( $user, "eZUser", "AdminLogin" ) )
+    {
+        Header( "Location: /" );
+    }
+    if ( !$user )
     {
         print( "Feil passord!" );
-        include( "/user/login/" );
     }
     if ( $user )
     {
         eZUser::loginUser( $user );
         Header( "Location: /user/success/" );
     }
-    else
-    {
-        print( "Feil passord!" );
-        include( "/user/login/" );
-    }
 }
 
 if ( $Action == "logout" )
 {
     eZUser::logout();
+    Header( "Location: /" );
+    exit();
 }
 
 $t->set_var( "action_value", "login" );

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezdb.php,v 1.8 2000/10/02 11:58:14 bf-cvs Exp $
+// $Id: ezdb.php,v 1.9 2000/10/03 07:13:48 ce-cvs Exp $
 //
 // Definition of eZCompany class
 //
@@ -43,10 +43,10 @@ class eZDB
         
         $ini = new INIFile( "site.ini" );
         
-        $this->Server =& $ini->read_var( "eZTradeMain", "Server" );
-        $this->DB =& $ini->read_var( "eZTradeMain", "Database" );
-        $this->User =& $ini->read_var( "eZTradeMain", "User" );
-        $this->Password =& $ini->read_var( "eZTradeMain", "Password" );
+        $this->Server =& $ini->read_var( "site", "Server" );
+        $this->DB =& $ini->read_var( "site", "Database" );
+        $this->User =& $ini->read_var( "site", "User" );
+        $this->Password =& $ini->read_var( "site", "Password" );
         
         mysql_pconnect( $this->Server, $this->User, $this->Password )
             or warn( "Error: could not connect to the database." );

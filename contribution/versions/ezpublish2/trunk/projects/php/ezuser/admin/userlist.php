@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: userlist.php,v 1.1 2000/10/02 15:46:42 ce-cvs Exp $
+// $Id: userlist.php,v 1.2 2000/10/03 07:13:49 ce-cvs Exp $
 //
 // Definition of eZUser class
 //
@@ -36,8 +36,6 @@ $t->set_file( array(
 $user = new eZUser();
 
 $userList = $user->getAll();
-
-print( count( $userList ) );
 
 foreach( $userList as $userItem )
 {

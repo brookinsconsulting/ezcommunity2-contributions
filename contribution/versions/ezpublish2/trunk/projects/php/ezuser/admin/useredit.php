@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: useredit.php,v 1.1 2000/10/02 15:46:42 ce-cvs Exp $
+// $Id: useredit.php,v 1.2 2000/10/03 07:13:48 ce-cvs Exp $
 //
 // Definition of eZUser class
 //
@@ -24,84 +24,122 @@ $DOC_ROOT = $ini->read_var( "eZUserMain", "DocumentRoot" );
 include_once( "ezuser/classes/ezuser.php" );
 include_once( "ezuser/classes/ezusergroup.php" );
 
+$user = eZUser::currentUser();
+if ( !$user )
+{
+    Header( "Location: /user/login" );
+    exit();
+}
+
+if ( !eZPermission::checkPermission( $user, "eZUser", "AdminRead" ) )
+{
+    print( "ikke adminread" );
+}
+
 if ( $Action == "insert" )
 {
-    if ( $Password == $VerifyPassword )
+    if ( eZPermission::checkPermission( $user, "eZUser", "UserAdd" ) )
     {
-        $user = new eZUser();
-        
 
-        if ( !$user->exists( $user->login() ) )
+        if ( $Password == $VerifyPassword )
         {
+            $user = new eZUser();
+
+            if ( !$user->exists( $user->login() ) )
+            {
+                $user->setLogin( $Login );
+                $user->setPassword( $Password );
+                $user->setEmail( $Email );
+                $user->setFirstName( $FirstName );
+                $user->setLastName( $LastName );
+
+                // Add user to groups
+                if ( isset( $GroupArray ) )
+                {
+                    $group = new eZUserGroup();
+                    foreach ( $GroupArray as $GroupID )
+                        {
+                            print $user->id();
+                            $group->get( $GroupID );
+                            $group->adduser( $user->id() );
+                        }
+                }
+                $user->store();
+                // Add user to groups
+                if ( isset( $GroupArray ) )
+                {
+                    $group = new eZUserGroup();
+                    $user->get( $user->id() );
+                    foreach ( $GroupArray as $GroupID )
+                        {
+                            $group->get( $GroupID );
+                            $group->adduser( $user );
+                        }
+                }
+                Header( "Location: /user/userlist/" );
+                exit();
+            }
+            print( "Bruker finnes i databasen" );
+        }
+        print( "Passordene machet ikke" );
+    }
+    else
+    {
+        print( "Du har ikke rettigheter.");
+    }
+}
+
+
+
+if ( $Action == "update" )
+{
+    if ( eZPermission::checkPermission( $user, "eZUser", "UserModify" ) )
+    {
+
+        if ( $Password == $VerifyPassword )
+        {
+            $user = new eZUser();
+            $user->get( $UserID );
+
             $user->setLogin( $Login );
             $user->setPassword( $Password );
             $user->setEmail( $Email );
             $user->setFirstName( $FirstName );
             $user->setLastName( $LastName );
 
-            // Add user to groups
-            if ( isset( $GroupArray ) )
-            {
-                $group = new eZUserGroup();
-                foreach ( $GroupArray as $GroupID )
-                {
-                    print $user->id();
-                    $group->get( $GroupID );
-                    $group->adduser( $user->id() );
-                    
-                }
-            }
             $user->store();
-            // Add user to groups
-            if ( isset( $GroupArray ) )
-            {
-                $group = new eZUserGroup();
-                $user->get( $user->id() );
-                foreach ( $GroupArray as $GroupID )
-                {
-                    $group->get( $GroupID );
-                    $group->adduser( $user );
-                }
-            }
+
             Header( "Location: /user/userlist/" );
             exit();
         }
-        print( "Bruker finnes i databasen" );
+        print( "Passordene machet ikke" );
         die();
     }
-    print( "Passordene machet ikke" );
-    die();
-}
-
-if ( $Action == "update" )
-{
-    if ( $Password == $VerifyPassword )
+    else
     {
-        $user = new eZUser();
-        $user->get( $UserID );
-
-        $user->setLogin( $Login );
-        $user->setPassword( $Password );
-        $user->setEmail( $Email );
-        $user->setFirstName( $FirstName );
-        $user->setLastName( $LastName );
-
-        $user->store();
-
-        Header( "Location: /user/userlist/" );
-        exit();
+        print( "Du har ikke rettigheter.");
     }
-    print( "Passordene machet ikke" );
-    die();
 }
 
 if ( $Action == "delete" )
 {
-    // Not supported yet.
+    if ( eZPermission::checkPermission( $user, "eZUser", "UserDelete" ) )
+    {
+        $user = new eZUser();
+        $user->get( $UserID );
+
+        $user->delete();
+        Header( "Location: /user/userlist/" );
+        exit();
+    }
+    else
+    {
+        print( "Du har ikke rettigheter.");
+    }
 }
 
 $t = new eZTemplate( $DOC_ROOT . "/admin/" . $ini->read_var( "eZUserMain", "TemplateDir" ). "/useredit/",
-                     $DOC_ROOT . "/admin/" . "/intl", $Language, "useredit.php" );
+$DOC_ROOT . "/admin/" . "/intl", $Language, "useredit.php" );
 $t->setAllStrings();
 
 $t->set_file( array(
@@ -115,10 +153,8 @@ $Email = "";
 $Login = "";
 $ActionValue = "insert";
 
-
 $headline = new INIFIle( "ezuser/admin/intl/" . $Language . "/useredit.php.ini", false );
 $t->set_var( "head_line", $headline->read_var( "strings", "head_line_insert" ) );
-
 
 $group = new eZUserGroup();
 
@@ -145,7 +181,6 @@ if ( $Action == "edit" )
     $headline = new INIFIle( "ezuser/admin/intl/" . $Language . "/useredit.php.ini", false );
     $t->set_var( "head_line", $headline->read_var( "strings", "head_line_edit" ) );
 
-
     $ActionValue = "update";
 }
 
@@ -158,6 +193,6 @@ $t->set_var( "verify_password_value", "" );
 $t->set_var( "action_value", $ActionValue );
 $t->set_var( "user_id", $UserID );
 
-
 $t->pparse( "output", "user_edit" );
+
 ?>
