@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: ezforummessage.php,v 1.3 2000/07/14 13:07:07 lw-cvs Exp $
+    $Id: ezforummessage.php,v 1.4 2000/07/20 18:31:36 lw-cvs Exp $
 
     Author: Lars Wilhelmsen <lw@ez.no>
     
@@ -9,6 +9,9 @@
     Copyright (C) 2000 eZ systems. All rights reserved.
 */
 // REQUIRES class eZUser
+include_once( "ezforum/dbsettings.php" );
+include_once( "$DOCROOT/classes/ezmail.php" );
+
 class eZforumMessage
 {
     var $Id;
@@ -18,7 +21,8 @@ class eZforumMessage
     var $Body;
     var $UserId;
     var $PostingTime;
-
+    var $EmailNotice;
+    
     function eZforumMessage($ForumId = 0)
     {
         $this->ForumId = $ForumId;
@@ -36,7 +40,8 @@ class eZforumMessage
         $query_id = mysql_query("SELECT ForumId, Parent, Topic,
                                                           Body,
                                                           UserId,
-                                                          PostingTime
+                                                          PostingTime,
+                                                          EmailNotice
                          FROM MessageTable WHERE Id='$Id'")
              or die("get()");
             
@@ -47,6 +52,7 @@ class eZforumMessage
         $this->Body = $results["Body"];
         $this->UserId = $results["UserId"];
         $this->PostingTime = $results["PostingTime"];
+        $this->EmailNotice = $results["EmailNotice"];
     }
         
     function getHeaders($forum_id,$Parent = "NULL", $startMessage = "0",$maxMessages = "25")
@@ -91,7 +97,7 @@ class eZforumMessage
         $this->Body = addslashes( $this->Body );
         $this->UserId = addslashes( $this->UserId );
         $this->PostingTime = addslashes( $this->PostingTime );
-            
+                    
         if ($this->Id)
         {
             mysql_query("UPDATE MessageTable SET ForumId = '$this->ForumId',
@@ -99,7 +105,8 @@ class eZforumMessage
                                                      Topic = '$this->Topic',
                                                      Body = '$this->Body',
                                                      UserId = '$this->UserId',
-                                                     PostingTime = '$this->PostingTime'
+                                                     PostingTime = '$this->PostingTime',
+                                                     EmailNotice = '$this->EmailNotice'
                              WHERE Id='$this->Id'")
                 or die("store() near update");
                 
@@ -112,10 +119,14 @@ class eZforumMessage
                 $tmp = "'$this->Parent', ";
                 $val = "Parent, ";
             }
-            
-            $query_str = "INSERT INTO MessageTable(ForumId, " . $val . "Topic, Body, UserId)
+
+            if ( $this->EmailNotice == "")
+            {
+                $this->EmailNotice = "N";
+            }
+            $query_str = "INSERT INTO MessageTable(ForumId, " . $val . "Topic, Body, UserId, EmailNotice)
                                          VALUES('$this->ForumId'," . $tmp . " '$this->Topic',
-                                         '$this->Body', '$this->UserId')";
+                                         '$this->Body', '$this->UserId', '$this->EmailNotice')";
             mysql_query($query_str)
                 or die("store() near insert");
             return mysql_insert_id();
@@ -187,7 +198,27 @@ class eZforumMessage
     {
         $this->UserId = $newUserId;
     }
-        
+
+    function emailNotice()
+    {
+        return $this->EmailNotice;
+    }
+
+    function setEmailNotice( $newEmailNotice )
+    {
+        $this->EmailNotice = $newEmailNotice;
+    }
+
+    function enableEmailNotice()
+    {
+        $this->setEmailNotice( "Y" );
+    }
+
+    function disableEmailNotice()
+    {
+        $this->setEmailNotice( "N" );
+    }
+    
     function postingTime()
     {
         $t = $this->PostingTime;
@@ -195,6 +226,47 @@ class eZforumMessage
         $returnTime .= $t[6] . $t[7] . ":" . $t[8] . $t[9] . ":" . $t[10] . $t[11];
         
         return $returnTime;
+    }
+
+    /*!
+      recursiveEmailNotice() : Send a notice by email to users who have requested it.
+
+      $msgId : $message to send a notice about
+     */
+    function recursiveEmailNotice( $msgId, &$liste = array() )
+    {
+        /*
+           check $msgId parent
+               |
+               if NULL quit
+               |
+               if NOT NULL check EmailNotice flag
+                      |
+                      if Y send Notice to the Parent message author
+                      |
+                      if N Ignore - proceed
+               |
+               Continue to Parent == NULL
+         */
+        if ( $this->Id != $msgId) // root of search - do not check current message
+        {
+            if ($this->emailNotice() == 'Y')
+            {
+                if( !in_array( $liste, $this->UserId ) )
+                {
+                    array_push( $liste, $this->UserId );
+                    $email = new eZMail();
+                    $usr = new eZUser();
+                    $usr->get( $this->UserId );
+                    $email->setTo( $usr->email() );
+                    $email->setFrom( "webmaster@" . $SERVER_NAME );
+                    $email->setSubject( $this->Topic );
+                    $email->setBody("Du har fått svar på tiltale.");
+                    $email->send();
+                }    
+            }
+        }
+        if( $this->Parent != "NULL" ) recursiveEmailNotice( $this->Parent, $liste );
     }
 }
 ?>
