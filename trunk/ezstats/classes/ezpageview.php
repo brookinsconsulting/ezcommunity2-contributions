@@ -417,6 +417,16 @@ class eZPageView
         return $pageview_array[0][$db->fieldName( "URI" )];
     }
 
+    /*!
+      Returns the hostname of the requested ip address.
+    */
+    function getHostByAddr( $remoteIP )
+    {
+        $remoteHostName =& gethostbyaddr( $remoteIP );
+        return $remoteHostName;
+    }
+
+
     var $ID;
     var $UserID;
     var $Date;
