@@ -13,7 +13,7 @@
 <input type="text" size="40" name="Description" value="{description_value}"/>
 
 	<!-- BEGIN module_list_header_tpl -->
-	<h3>{module_name}</h3>
+	<p class="checkhead">{module_name}:</p>
 
 	<input type="hidden" name="ModuleArray[]" value="{module_name}">
 
