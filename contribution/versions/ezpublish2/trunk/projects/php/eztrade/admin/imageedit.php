@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: imageedit.php,v 1.3 2000/09/22 12:51:34 bf-cvs Exp $
+// $Id: imageedit.php,v 1.4 2000/09/22 14:37:06 bf-cvs Exp $
 //
 // Definition of eZCompany class
 //
@@ -58,9 +58,43 @@ if ( $Action == "Insert" )
     exit();
 }
 
+if ( $Action == "Update" )
+{
+    $file = new eZImageFile();
+    
+    if ( $file->getUploadedFile( $HTTP_POST_FILES['userfile'] ) )
+    {
+        $product = new eZProduct( $ProductID );
+
+        $oldImage = new eZImage( $ImageID );
+        $product->deleteImage( $oldImage );
+        
+        $image = new eZImage();
+        $image->setName( $Name );
+        $image->setCaption( $Caption );
+
+        $image->setImage( $file );
+        
+        $image->store();
+        
+        $product->addImage( $image );
+    }
+    else
+    {
+        $image = new eZImage( $ImageID );
+        $image->setName( $Name );
+        $image->setCaption( $Caption );
+        $image->store();
+    }
+    
+    header( "Location: /trade/productedit/imagelist/" . $ProductID . "/" );
+    exit();
+}
+
 
 if ( $Action == "Delete" )
 {
+    
     $product = new eZProduct( $ProductID );
     $image = new eZImage( $ImageID );
         
@@ -83,6 +117,17 @@ $t->set_var( "name_value", "" );
 $t->set_var( "caption_value", "" );
 $t->set_var( "action_value", "Insert" );
 $t->set_var( "option_id", "" );
+
+if ( $Action == "Edit" )
+{
+    $product = new eZProduct( $ProductID );
+    $image = new eZImage( $ImageID );
+
+    $t->set_var( "image_id", $image->id() );
+    $t->set_var( "name_value", $image->name() );
+    $t->set_var( "caption_value", $image->caption() );
+    $t->set_var( "action_value", "Update" );
+}
 
 $product = new eZProduct( $ProductID );
     

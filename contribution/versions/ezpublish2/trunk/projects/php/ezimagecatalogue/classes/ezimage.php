@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezimage.php,v 1.3 2000/09/22 12:51:34 bf-cvs Exp $
+// $Id: ezimage.php,v 1.4 2000/09/22 14:37:06 bf-cvs Exp $
 //
 // Definition of eZCompany class
 //
@@ -62,13 +62,28 @@ class eZImage
     {
         $this->dbInit();
 
-        $this->Database->query( "INSERT INTO eZImageCatalogue_Image SET
+        if ( !isset( $this->ID ) )
+        {
+            $this->Database->query( "INSERT INTO eZImageCatalogue_Image SET
                                  Name='$this->Name',
                                  Caption='$this->Caption',
                                  Description='$this->Description',
                                  FileName='$this->FileName',
                                  OriginalFileName='$this->OriginalFileName'
                                  " );
+        }
+        else
+        {
+            $this->Database->query( "UPDATE eZImageCatalogue_Image SET
+                                 Name='$this->Name',
+                                 Caption='$this->Caption',
+                                 Description='$this->Description',
+                                 FileName='$this->FileName',
+                                 OriginalFileName='$this->OriginalFileName'
+                                 WHERE ID='$this->ID'
+                                 " );
+        }
+        
         $this->ID = mysql_insert_id();
 
         $this->State_ = "Coherent";

@@ -1,11 +1,11 @@
 <?
 // 
-// $Id: imagelist.php,v 1.4 2000/09/22 14:37:06 bf-cvs Exp $
+// $Id: productpreview.php,v 1.1 2000/09/22 14:37:06 bf-cvs Exp $
 //
 // Definition of eZCompany class
 //
 // Bård Farstad <bf@ez.no>
-// Created on: <21-Sep-2000 10:32:19 bf>
+// Created on: <22-Sep-2000 16:13:32 bf>
 //
 // Copyright (C) 1999-2000 eZ Systems.  All rights reserved.
 //
@@ -15,31 +15,31 @@
 
 include_once( "classes/INIFile.php" );
 include_once( "classes/eztemplate.php" );
-include_once( "classes/ezlocale.php" );
-include_once( "classes/ezcurrency.php" );
 
 $ini = new INIFIle( "site.ini" );
 
 $Language = $ini->read_var( "eZTradeMain", "Language" );
 $DOC_ROOT = $ini->read_var( "eZTradeMain", "DocumentRoot" );
 
-include_once( $DOC_ROOT . "/classes/ezproductcategory.php" );
 include_once( $DOC_ROOT . "/classes/ezproduct.php" );
-include_once( $DOC_ROOT . "/classes/ezoption.php" );
+include_once( $DOC_ROOT . "/classes/ezproductcategory.php" );
 
-$t = new eZTemplate( $DOC_ROOT . "/admin/" . $ini->read_var( "eZTradeMain", "TemplateDir" ) . "/imagelist/",
-                     $DOC_ROOT . "/admin/intl/", $Language, "imagelist.php" );
+$t = new eZTemplate( $DOC_ROOT . "/admin/" . $ini->read_var( "eZTradeMain", "TemplateDir" ) . "/productpreview/",
+                     $DOC_ROOT . "/admin/intl/", $Language, "productpreview.php" );
 
 $t->setAllStrings();
 
-$t->set_file( array(
-    "image_list_page" => "imagelist.tpl",
-    "image_item" => "imageitem.tpl"
-    ) );
+$t->set_file( array( "product_preview_page" => "productpreview.tpl",
+                      "image_item" => "imageitem.tpl") );
+
 
 $product = new eZProduct( $ProductID );
-    
-$t->set_var( "product_name", $product->name() );
+
+$t->set_var( "title_text", $product->name() );
+$t->set_var( "intro_text", $product->brief() );
+$t->set_var( "description_text", $product->description() );
+
+
 
 $images = $product->images();
 
@@ -63,10 +63,8 @@ foreach ( $images as $image )
     
     $t->set_var( "image_url", "/" .$variation->imagePath() );
     $t->set_var( "image_width", $variation->width() );
-    $t->set_var( "image_height",$variation->height() );
+    $t->set_var( "image_height", $variation->height() );
     
-//      $t->set_var( "image_url", $image->filePath() );
-
     $t->parse( "image_list", "image_item", true );
     
     $i++;
@@ -75,6 +73,6 @@ foreach ( $images as $image )
 $t->set_var( "product_id", $product->id() );
 
 
-$t->pparse( "output", "image_list_page" );
+$t->pparse( "output", "product_preview_page" );
 
 ?>

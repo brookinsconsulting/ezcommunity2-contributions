@@ -3,17 +3,21 @@
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
 	<tr>
-	<td>
-	Bilde:
-	</td>
+	<th>
+	Bildetekst:
+	</th>
 
-	<td>
+	<th>
+	Forhåndsvisning:
+	</th>
+
+	<th>
 	Rediger:
-	</td>
+	</th>
 
-	<td>
+	<th>
 	Slett:
-	</td>
+	</th>
 </tr>
 {image_list}
 </table>

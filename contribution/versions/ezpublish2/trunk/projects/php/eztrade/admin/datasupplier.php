@@ -49,6 +49,12 @@ switch ( $url_array[2] )
     case "productedit" :
         switch ( $url_array[3] )
         {
+            // preview
+            case "productpreview" :
+                $ProductID = $url_array[4];
+                include( "eztrade/admin/productpreview.php" );
+                break;
+            
             // Images
             case "imagelist" :
                 $ProductID = $url_array[4];

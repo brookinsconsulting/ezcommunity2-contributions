@@ -100,7 +100,7 @@
 	<td colspan="2">
 	<input type="submit" name="Image" value="{intl-pictures}" />
 	<input type="submit" name="Option" value="{intl-options}" />
-	<input type="submit" name="" value="{intl-preview}" />
+	<input type="submit" name="Preview" value="{intl-preview}" />
 	</td>
 </tr>
 <tr>

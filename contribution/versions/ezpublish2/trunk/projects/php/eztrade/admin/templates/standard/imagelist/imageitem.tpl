@@ -1,6 +1,8 @@
 <tr>
 	<td class="{td_class}">
 	{image_name}
+	</td>
+	<td class="{td_class}">
 	<img src="{image_url}" width="{image_width}" height="{image_height}" border="2" />
 	</td>
 	<td class="{td_class}">
