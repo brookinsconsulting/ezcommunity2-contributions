@@ -1173,3 +1173,46 @@ Maintainer(s) : pkej@ez.no
     * classes/ezformreportelement.php:
     fixed problem with ascii 160 in database
 
+
+Module : ezform
+Repository path : /home/cvsroot/projects/php/ezform
+Maintainer(s) : pkej@ez.no
+2002-01-25  Jo Henrik Endrerud  <jhe@ez.no>
+
+    * admin/datasupplier.php
+      admin/intl/en_GB/reportoverridetext.php.ini
+      admin/intl/en_GB/reportsetup.php.ini
+      admin/intl/no_NO/reportoverridetext.php.ini
+      admin/intl/no_NO/reportsetup.php.ini
+      admin/reportoverridetext.php
+      admin/reportsetup.php
+      admin/templates/standard/reportoverridetext.tpl
+      admin/templates/standard/reportsetup.tpl
+      classes/ezformrenderer.php
+      classes/ezformreportelement.php: added overriding of text
+
+    * classes/ezformelement.php
+      classes/ezformrenderer.php
+      user/intl/en_GB/results.php.ini
+      user/intl/en_GB/viewreport.php.ini
+      user/intl/no_NO/results.php.ini
+      user/intl/no_NO/viewreport.php.ini
+      user/results.php
+      user/templates/standard/results.tpl
+      user/templates/standard/viewreport.tpl
+      user/viewreport.php: added from-to
+
+    * user/templates/standard/results.tpl
+      user/templates/standard/viewreport.tpl
+      admin/intl/en_GB/reportsetup.php.ini
+      admin/intl/no_NO/reportsetup.php.ini
+      admin/reportsetup.php
+      admin/templates/standard/formrenderer.tpl
+      classes/ezformelement.php
+      classes/ezformrenderer.php
+      classes/ezformreportelement.php
+      user/intl/en_GB/viewreport.php.ini
+      user/intl/no_NO/viewreport.php.ini
+      user/results.php
+      user/viewreport.php: added starts with in search, added min25median75max
+

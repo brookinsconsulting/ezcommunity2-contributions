@@ -2930,3 +2930,17 @@ Maintainer(s) : ce@ez.no
     * user/cart.php
       user/checkout.php: Fixed checkout redirecting.
 
+
+Module : eztrade
+Repository path : /home/cvsroot/projects/php/eztrade
+Maintainer(s) : ce@ez.no
+2002-01-25  Christoffer Elo  <ce@ez.no>
+
+    * admin/productedit.php
+      admin/templates/standard/productedit.tpl:
+    Added a better inferface to select categories for products
+
+    * admin/categoryedit.php
+      admin/categorylist.php
+      admin/templates/standard/categoryedit.tpl: Fixed a parent bug
+
