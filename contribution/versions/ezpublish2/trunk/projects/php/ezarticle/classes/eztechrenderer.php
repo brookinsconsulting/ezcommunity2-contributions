@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eztechrenderer.php,v 1.21 2000/10/30 12:57:33 bf-cvs Exp $
+// $Id: eztechrenderer.php,v 1.22 2000/10/30 21:23:15 bf-cvs Exp $
 //
 // Definition of eZTechRenderer class
 //
@@ -193,7 +193,8 @@ class eZTechRenderer
             foreach ( $xml->root->children as $child )
             {
                 if ( $child->name == "intro" )
-                {                    
+                {
+                    if ( count( $child->children ) > 0 )
                     foreach ( $child->children as $paragraph )
                     {
                         // ordinary text
@@ -245,6 +246,7 @@ class eZTechRenderer
             {
                 $pageContent = "";
                 // loop on the contents of the pages
+                if ( count( $page->children ) > 0 )
                 foreach ( $page->children as $paragraph )
                 {
                     // ordinary text

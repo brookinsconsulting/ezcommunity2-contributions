@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eztechgenerator.php,v 1.18 2000/10/30 12:57:33 bf-cvs Exp $
+// $Id: eztechgenerator.php,v 1.19 2000/10/30 21:23:15 bf-cvs Exp $
 //
 // Definition of eZTechGenerator class
 //
@@ -100,29 +100,27 @@ class eZTechGenerator
 
             if ( ( $numberBeginPHP > 0 ) || ( $numberBeginHTML > 0 ) )
             {
-                $checkString = $tmpPage;
-
                 $resultPage = "";
                 $isInsideHTML = false;
                 $isInsidePHP = false;
-                for ( $i=0; $i<strlen( $checkString ); $i++ )
+                for ( $i=0; $i<strlen( $tmpPage ); $i++ )
                 {    
-                    if ( substr( $checkString, $i - strlen( $startHTMLTag ), strlen( $startHTMLTag ) ) == $startHTMLTag )
+                    if ( substr( $tmpPage, $i - strlen( $startHTMLTag ), strlen( $startHTMLTag ) ) == $startHTMLTag )
                     {
                         $isInsideHTMLTag = true;
                     }
 
-                    if ( substr( $checkString, $i, strlen( $endHTMLTag ) ) == $endHTMLTag )
+                    if ( substr( $tmpPage, $i, strlen( $endHTMLTag ) ) == $endHTMLTag )
                     {
                         $isInsideHTMLTag = false;
                     }
 
-                    if ( substr( $checkString, $i - strlen( $startPHPTag ), strlen( $startPHPTag ) ) == $startPHPTag )
+                    if ( substr( $tmpPage, $i - strlen( $startPHPTag ), strlen( $startPHPTag ) ) == $startPHPTag )
                     {
                         $isInsidePHPTag = true;
                     }
 
-                    if ( substr( $checkString, $i, strlen( $endPHPTag ) ) == $endPHPTag )
+                    if ( substr( $tmpPage, $i, strlen( $endPHPTag ) ) == $endPHPTag )
                     {
                         $isInsidePHPTag = false;
                     }
@@ -155,9 +153,9 @@ class eZTechGenerator
                     }
                 }
 
-                $tmpPage =& $resultPage;
+                $tmpPage = $resultPage;
             }
-            
+
                  // make unknown tags readable.. look-ahead assertion is used ( ?! ) 
             $tmpPage = preg_replace( "/<(?!(page|php|\/|image|cpp|shell|sql|hea|lin|per|bol|ita|und|str|pre|ver|lis|ezhtml|java))/", "&lt;", $tmpPage );
 
@@ -203,6 +201,7 @@ class eZTechGenerator
             {
                 if ( $child->name == "intro" )
                 {
+                    if ( count( $child->children ) > 0 )
                     foreach ( $child->children as $paragraph )
                     {                        
                         // ordinary text
@@ -253,6 +252,7 @@ class eZTechGenerator
             {
                 $pageContent = "";
                 // loop on the contents of the pages
+                if ( count( $page->children ) > 0 )
                 foreach ( $page->children as $paragraph )
                 {
                     // ordinary text
