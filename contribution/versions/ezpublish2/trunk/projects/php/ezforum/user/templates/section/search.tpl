@@ -12,7 +12,8 @@
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
     <td align="left" valign="bottom">
-        <h1>{intl-search} - ({forum_start}-{forum_end}/{forum_total})</h1>
+        <h1>{intl-search}</h1>
+		<div class="boxtext">({forum_start}-{forum_end}/{forum_total})</div>
      </td>
      <td align="right">
 	 <form action="/forum/search/" method="post">
@@ -35,28 +36,29 @@
 <!-- BEGIN search_result_tpl -->
 <table class="list" width="100%" border="0" cellspacing="0" cellpadding="4">
 <tr>
-    <th>{intl-topic}:</th>
+	<th colspan="2">{intl-topic}:</th>
     <th>{intl-author}:</th>
     <th>{intl-time}:</th>
 </tr>
     <!-- BEGIN message_tpl -->
 <tr>
-    	<td class="{td_class}">
+    	<td class="{td_class}" width="1%">
 	<!-- BEGIN new_icon_tpl -->
         <img src="/images/message_new.gif" width="16" height="16" border="0" />&nbsp;
 	<!-- END new_icon_tpl -->
 	<!-- BEGIN old_icon_tpl -->
         <img src="/images/message.gif" width="16" height="16" border="0" />&nbsp;
 	<!-- END old_icon_tpl -->	
+	<td class="{td_class}">
 	<a href="/forum/message/{message_id}/">
 	{message_topic}
 	</a>
 	</td>
     	<td class="{td_class}">
-	{user}
+	<span class="small">{user}</span>
 	</td>
-    	<td class="{td_class}">
-	{postingtime}
+   	<td class="{td_class}">
+	<span class="small">{postingtime}</span>
 	</td>
 </tr>
     <!-- END message_tpl -->
