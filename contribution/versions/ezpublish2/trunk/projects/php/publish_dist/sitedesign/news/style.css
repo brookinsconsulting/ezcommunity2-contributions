@@ -59,7 +59,7 @@ a:hover
 
 .menuhead
 {
-	background: #b43232;
+	background: #864646;
 	font-size: 18px;
 	color: #ffffff;
 	font-weight: normal;
@@ -167,12 +167,12 @@ th
 
 .bglight 
 {
-	background-color: #fff5f5;
+	background-color: #fbf7f7;
 }
 
 .bgdark 
 {
-	background-color: #f6e0e0;
+	background-color: #eee4e4;
 }
 
 .bgcurrent
@@ -182,13 +182,13 @@ th
 
 .bgweekend
 {
-	background-color: #dc8282;
+	background-color: #bc9090;
 }
 
 .bgselect
 {
 	color: #ffffff;
-	background-color: #b43232;
+	background-color: #864646;
 }
 
 form

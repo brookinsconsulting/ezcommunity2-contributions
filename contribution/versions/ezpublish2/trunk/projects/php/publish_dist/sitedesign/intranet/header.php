@@ -1,12 +1,12 @@
 </head>
 
-<body bgcolor="#64b464" topmargin="6" marginheight="6" leftmargin="6" marginwidth="6"  onLoad="MM_preloadImages('/images/redigerminimrk.gif','/images/slettminimrk.gif','/images/downloadminimrk.gif','/images/addminimrk.gif')">
+<body bgcolor="#7ca37c" topmargin="6" marginheight="6" leftmargin="6" marginwidth="6"  onLoad="MM_preloadImages('/images/redigerminimrk.gif','/images/slettminimrk.gif','/images/downloadminimrk.gif','/images/addminimrk.gif')">
 
 <img src="/sitedesign/intranet/images/ezpublish-intranet.gif" height="40" width="690" border="0" alt="" />
 
 <table width="100%" border="0" cellspacing="0" cellpadding="4">
 <tr valign="top">
-    <td width="1%" bgcolor="#efffef">
+    <td width="1%" bgcolor="#f4fbf4">
 	<!-- Meny start! -->
 
 	<table width="100%" cellspacing="0" cellpadding="2" border="0">

@@ -2,7 +2,7 @@
     </td>
    	<td width="1%" bgcolor="#ffffff"><img src="/images/1x1.gif" width="2" height="1" border="0" alt="0" /></td>
 
-	<td width="1%" bgcolor="#efffef">
+	<td width="1%" bgcolor="#f4fbf4">
 	
 	<!-- Oppslagstavle kommer her! -->
     
