@@ -94,3 +94,13 @@ CREATE TABLE eZImageCatalogue_ImageCategoryDefinition (
 CREATE INDEX ImageCatalogue_ImageVariationGroup_VariationGroupID ON  eZImageCatalogue_ImageVariation  (VariationGroupID);
 CREATE INDEX ImageCatalogue_ImageVariationGroup_ImageID  ON  eZImageCatalogue_ImageVariation  (ImageID);
 CREATE INDEX ImageCatalogue_ImageVariationGroup_ModificationID ON  eZImageCatalogue_ImageVariation  (Modification);
+CREATE INDEX eZImageCatalogue_Image_OriginalFileName ON eZImageCatalogue_Image(OriginalFileName);
+CREATE INDEX eZImageCatalogue_ImagePermission_GroupID ON eZImageCatalogue_ImagePermission(GroupID);
+CREATE INDEX eZImageCatalogue_ImagePermission_ObjectID ON eZImageCatalogue_ImagePermission(ObjectID);
+CREATE INDEX eZImageCatalogue_ImagePermission_ReadPermission ON eZImageCatalogue_ImagePermission(ReadPermission);
+CREATE INDEX eZImageCatalogue_CategoryPermission_GroupID ON eZImageCatalogue_CategoryPermission(GroupID);
+CREATE INDEX eZImageCatalogue_CategoryPermission_ObjectID ON eZImageCatalogue_CategoryPermission(ObjectID);
+CREATE INDEX eZImageCatalogue_CategoryPermission_ReadPermission ON eZImageCatalogue_CategoryPermission(ReadPermission);
+
+
+

@@ -99,7 +99,7 @@ INSERT INTO eZUser_Module (ID, Name) VALUES (1,'eZTrade');
 INSERT INTO eZUser_Module (ID, Name) VALUES (2,'eZPoll');
 INSERT INTO eZUser_Module (ID, Name) VALUES (3,'eZUser');
 INSERT INTO eZUser_Module (ID, Name) VALUES (4,'eZTodo');
-INSERT INTO eZUser_Module (ID, Name) VALUES (5,'eZNews');
+INSERT INTO eZUser_Module (ID, Name) VALUES (5,'eZNewsfeed');
 INSERT INTO eZUser_Module (ID, Name) VALUES (6,'eZContact');
 INSERT INTO eZUser_Module (ID, Name) VALUES (7,'eZForum');
 INSERT INTO eZUser_Module (ID, Name) VALUES (8,'eZLink');
@@ -111,6 +111,13 @@ INSERT INTO eZUser_Module (ID, Name) VALUES (13,'eZBulkMail');
 INSERT INTO eZUser_Module (ID, Name) VALUES (14,'eZStats');
 INSERT INTO eZUser_Module (ID, Name) VALUES (15,'eZSysInfo');
 INSERT INTO eZUser_Module (ID, Name) VALUES (16,'eZSiteManager');
+INSERT INTO eZUser_Module (ID, Name) VALUES (17, 'eZMediaCatalogue');
+INSERT INTO eZUser_Module (ID, Name) VALUES (18, 'eZAd');
+INSERT INTO eZUser_Module (ID, Name) VALUES (19, 'eZForm');
+INSERT INTO eZUser_Module (ID, Name) VALUES (20, 'eZURLTranslator');
+INSERT INTO eZUser_Module (ID, Name) VALUES (21, 'eZMessage');
+INSERT INTO eZUser_Module (ID, Name) VALUES (22, 'eZAddress');
+INSERT INTO eZUser_Module (ID, Name) VALUES (23, 'eZCalendar');
 
 
 INSERT INTO eZUser_Permission (ID, ModuleID, Name ) VALUES (1,3,'UserAdd');
@@ -174,6 +181,31 @@ INSERT INTO eZUser_Permission (ID, ModuleID, Name ) VALUES (62,14,'ModuleEdit');
 INSERT INTO eZUser_Permission (ID, ModuleID, Name ) VALUES (63,15,'ModuleEdit');
 INSERT INTO eZUser_Permission (ID, ModuleID, Name ) VALUES (64,12,'WriteToRoot');
 INSERT INTO eZUser_Permission (ID, ModuleID, Name ) VALUES (65,16,'ModuleEdit');
+INSERT INTO eZUser_Permission (ID, ModuleID, Name ) VALUES (66, 17, 'WriteToRoot');
+INSERT INTO eZUser_Permission (ID, ModuleID, Name ) VALUES (69, 21, 'ModuleEdit');
+INSERT INTO eZUser_Permission (ID, ModuleID, Name ) VALUES (68, 21, 'WriteToRoot');
+INSERT INTO eZUser_Permission (ID, ModuleID, Name ) VALUES (70, 9, 'ModuleEdit');
+INSERT INTO eZUser_Permission (ID, ModuleID, Name ) VALUES (71, 13, 'WriteToRoot');
+INSERT INTO eZUser_Permission (ID, ModuleID, Name ) VALUES (72, 16, 'WriteToRoot');
+INSERT INTO eZUser_Permission (ID, ModuleID, Name ) VALUES (73, 1, 'WriteToRoot');
+INSERT INTO eZUser_Permission (ID, ModuleID, Name ) VALUES (74, 14, 'WriteToRoot');
+INSERT INTO eZUser_Permission (ID, ModuleID, Name ) VALUES (75, 18, 'WriteToRoot');
+INSERT INTO eZUser_Permission (ID, ModuleID, Name ) VALUES (76, 18, 'ModuleEdit');
+INSERT INTO eZUser_Permission (ID, ModuleID, Name ) VALUES (77, 19, 'ModuleEdit');
+INSERT INTO eZUser_Permission (ID, ModuleID, Name ) VALUES (78, 19, 'WriteToRoot');
+INSERT INTO eZUser_Permission (ID, ModuleID, Name ) VALUES (79, 20, 'ModuleEdit');
+INSERT INTO eZUser_Permission (ID, ModuleID, Name ) VALUES (80, 20, 'WriteToRoot');
+INSERT INTO eZUser_Permission (ID, ModuleID, Name ) VALUES (81, 2, 'WriteToRoot');
+INSERT INTO eZUser_Permission (ID, ModuleID, Name ) VALUES (82, 8, 'WriteToRoot');
+INSERT INTO eZUser_Permission (ID, ModuleID, Name ) VALUES (85, 11, 'WriteToRoot');
+INSERT INTO eZUser_Permission (ID, ModuleID, Name ) VALUES (86, 4, 'WriteToRoot');
+INSERT INTO eZUser_Permission (ID, ModuleID, Name ) VALUES (87, 5, 'WriteToRoot');
+INSERT INTO eZUser_Permission (ID, ModuleID, Name ) VALUES (88, 7, 'WriteToRoot');
+INSERT INTO eZUser_Permission (ID, ModuleID, Name ) VALUES (89, 6, 'WriteToRoot');
+INSERT INTO eZUser_Permission (ID, ModuleID, Name ) VALUES (90, 22, 'ModuleEdit');
+INSERT INTO eZUser_Permission (ID, ModuleID, Name ) VALUES (91, 22, 'WriteToRoot');
+INSERT INTO eZUser_Permission (ID, ModuleID, Name ) VALUES (92, 23, 'ModuleEdit');
+INSERT INTO eZUser_Permission (ID, ModuleID, Name ) VALUES (93, 23, 'WriteToRoot');
 
 CREATE TABLE eZUser_UserGroupDefinition (
   ID int NOT NULL,

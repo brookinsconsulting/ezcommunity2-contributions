@@ -92,3 +92,10 @@ CREATE TABLE eZStats_Archive_RemoteHost (
   Count int NOT NULL DEFAULT '0',
   PRIMARY KEY (ID)
 );
+
+CREATE INDEX eZStats_Archive_RequestedPageMonth ON eZStats_Archive_RequestedPage (Month);
+CREATE INDEX eZStats_Archive_RequestedPageURI ON eZStats_Archive_RequestedPage (URI);
+CREATE INDEX eZStats_Archive_RefererURLMonth ON eZStats_Archive_RefererURL (Month);
+CREATE INDEX eZStats_Archive_RemoteHostIP ON eZStats_Archive_RemoteHost (IP);
+CREATE INDEX eZStats_Archive_PageViewHour ON eZStats_Archive_PageView (Hour);
+
