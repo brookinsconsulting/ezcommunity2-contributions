@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezproduct.php,v 1.34 2001/02/21 11:25:01 ce Exp $
+// $Id: ezproduct.php,v 1.35 2001/02/21 15:16:32 jb Exp $
 //
 // Definition of eZProduct class
 //
@@ -688,7 +688,7 @@ class eZProduct
        
        $this->Database->array_query( $image_array, "SELECT ImageID FROM eZTrade_ProductImageLink WHERE ProductID='$this->ID' ORDER BY Created" );
        
-       for ( $i=0; $i<count($image_array); $i++ )
+       for ( $i=0; $i < count($image_array); $i++ )
        {
            $return_array[$i] = new eZImage( $image_array[$i]["ImageID"], false );
        }

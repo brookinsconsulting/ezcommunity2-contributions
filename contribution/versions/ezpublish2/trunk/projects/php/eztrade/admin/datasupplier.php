@@ -14,12 +14,12 @@ switch ( $url_array[2] )
         $Action = $url_array[4];
         include( "eztrade/admin/orderedit.php" );
         break;
-        
-    
+
     case "categorylist" :
         if ( ( $url_array[3] == "parent") && ( $url_array[4] != "" ) )
         {
             $ParentID = $url_array[4];
+            $Offset = $url_array[5];
             include( "eztrade/admin/categorylist.php" );
         }
         else
@@ -189,44 +189,46 @@ switch ( $url_array[2] )
                 include( "eztrade/admin/productedit.php" );                
             }
             break;
-                
+
             case "delete" :
                 $Action = "Delete";
                 $ProductID = $url_array[4];
                 include( "eztrade/admin/productedit.php" );
                 break;
-                
+
             default:
                 include( "eztrade/admin/productedit.php" );
                 break;
         }
         break;
-        
+
     case "vattypes" :
     {
         if ( isset( $Add ) )
             $Action = "Add";
-        
+
         if ( isset( $Store ) )
             $Action = "Store";
 
         if ( isset( $Delete ) )
             $Action = "Delete";
-        
-        include( "eztrade/admin/vattypes.php" );        
-    }        
-    break;
-        
-    case "search" :
+
+        include( "eztrade/admin/vattypes.php" );
+        break;
+    }
+
+    case "search":
     {
-        print( "<h1>Product search</h1>" );
-        
-    }        
-    break;
-        
+        $Offset = $url_array[3];
+        if ( isset( $Query ) )
+            $Search = $Query;
+        else
+            $Search = $url_array[4];
+        include( "eztrade/admin/productsearch.php" );
+//          print( "<h1>Product search</h1>" );
+        break;
+    }
 
-
-        
     default :
         print( "<h1>Sorry, Your PRODUCT page could not be found. </h1>" );
         break;

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: productedit.php,v 1.32 2001/02/20 16:12:48 bf Exp $
+// $Id: productedit.php,v 1.33 2001/02/21 15:16:32 jb Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <19-Sep-2000 10:56:05 bf>
@@ -26,6 +26,7 @@
 include_once( "classes/INIFile.php" );
 include_once( "classes/eztemplate.php" );
 include_once( "classes/ezcachefile.php" );
+include_once( "classes/ezhttptool.php" );
 
 function deleteCache( $ProductID, $CategoryID, $CategoryArray )
 {
@@ -58,6 +59,23 @@ include_once( "eztrade/classes/ezproduct.php" );
 include_once( "eztrade/classes/ezproductcategory.php" );
 include_once( "eztrade/classes/ezvattype.php" );
 
+if ( isset( $SubmitPrice ) )
+{
+    for ( $i = 0; $i < count( $ProductEditArrayID ); $i++ )
+    {
+        if ( $Price[$i] != "" and is_numeric( $Price[$i] ) )
+        {
+            $product = new eZProduct( $ProductEditArrayID[$i] );
+            $product->setPrice( $Price[$i] );
+            $product->store();
+        }
+    }
+    if ( isset( $Query ) )
+        eZHTTPTool::header( "Location: /trade/search/$Offset/$Query" );
+    else
+        eZHTTPTool::header( "Location: /trade/categorylist/parent/$CategoryID/$Offset" );
+    exit();
+}
 
 if ( isset ( $DeleteProducts ) )
 {
@@ -339,7 +357,10 @@ if ( $Action == "DeleteProducts" )
         }
     }
 
-    Header( "Location: /trade/categorylist/parent/$categoryID/" );
+    if ( isset( $Query ) )
+        eZHTTPTool::header( "Location: /trade/search/$Offset/$Query" );
+    else
+        eZHTTPTool::header( "Location: /trade/categorylist/parent/$categoryID/$Offset" );
     exit();
 }
 

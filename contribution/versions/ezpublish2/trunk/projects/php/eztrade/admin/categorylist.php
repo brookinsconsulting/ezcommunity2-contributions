@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: categorylist.php,v 1.14 2001/01/25 16:24:41 th Exp $
+// $Id: categorylist.php,v 1.15 2001/02/21 15:16:32 jb Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <13-Sep-2000 14:56:11 bf>
@@ -29,6 +29,7 @@ include_once( "classes/INIFile.php" );
 include_once( "classes/eztemplate.php" );
 include_once( "classes/ezlocale.php" );
 include_once( "classes/ezcurrency.php" );
+include_once( "classes/ezlist.php" );
 
 $ini =& $GlobalSiteIni;
 
@@ -56,7 +57,8 @@ $t->set_block( "category_list_tpl", "category_item_tpl", "category_item" );
 // product
 $t->set_block( "category_list_page_tpl", "product_list_tpl", "product_list" );
 $t->set_block( "product_list_tpl", "product_item_tpl", "product_item" );
-
+$t->set_block( "product_item_tpl", "product_active_item_tpl", "product_active_item" );
+$t->set_block( "product_item_tpl", "product_inactive_item_tpl", "product_inactive_item" );
 
 // move up / down
 $t->set_block( "product_list_tpl", "absolute_placement_header_tpl", "absolute_placement_header" );
@@ -64,7 +66,7 @@ $t->set_block( "product_item_tpl", "absolute_placement_item_tpl", "absolute_plac
 
 $t->set_var( "site_style", $SiteStyle );
 
-$category = new eZProductCategory(  );
+$category = new eZProductCategory();
 $category->get( $ParentID );
 
 // move products  up / down
@@ -75,13 +77,11 @@ if ( $category->sortMode() == "absolute_placement" )
     {
         $category->moveUp( $MoveUp );
     }
-
     if ( is_numeric( $MoveDown ) )
     {
         $category->moveDown( $MoveDown );
     }
 }
-
 
 // path
 $pathArray =& $category->path();
@@ -118,21 +118,25 @@ foreach ( $categoryList as $categoryItem )
     {
         $t->set_var( "td_class", "bgdark" );
     }
-    
     $t->set_var( "category_description", $categoryItem->description() );
 
     $t->parse( "category_item", "category_item_tpl", true );
     $i++;
 }
 
-if ( count( $categoryList ) > 0 )    
+if ( count( $categoryList ) > 0 )
     $t->parse( "category_list", "category_list_tpl" );
 else
     $t->set_var( "category_list", "" );
 
+if ( !isset( $Limit ) or !is_numeric( $Limit ) )
+    $Limit = 10;
+if ( !isset( $Offset ) or !is_numeric( $Offset ) )
+    $Offset = 0;
 
 // products
-$productList =& $category->products( $category->sortMode(), true );
+$TotalTypes =& $category->productCount( $category->sortMode(), true );
+$productList =& $category->products( $category->sortMode(), true, $Offset, $Limit );
 
 $locale = new eZLocale( $Language );
 $i=0;
@@ -149,23 +153,26 @@ else
 
 foreach ( $productList as $product )
 {
+    $t->set_var( "td_class", ( $i % 2 ) == 0 ? "bglight" : "bgdark" );
+
     $t->set_var( "product_name", $product->name() );
 
     $price = new eZCurrency( $product->price() );
-    
-    $t->set_var( "product_price", $locale->format( $price ) );
-    $t->set_var( "product_id", $product->id() );
 
-    $t->set_var( "category_id", $category->id() );
-    
-    if ( ( $i % 2 ) == 0 )
+    $t->set_var( "product_price", $locale->format( $price ) );
+    $t->set_var( "product_active_item", "" );
+    $t->set_var( "product_inactive_item", "" );
+    if ( $product->showProduct() )
     {
-        $t->set_var( "td_class", "bglight" );
+        $t->parse( "product_active_item", "product_active_item_tpl" );
     }
     else
     {
-        $t->set_var( "td_class", "bgdark" );
+        $t->parse( "product_inactive_item", "product_inactive_item_tpl" );
     }
+    $t->set_var( "product_id", $product->id() );
+
+    $t->set_var( "category_id", $category->id() );
 
     if ( $category->sortMode() == "absolute_placement" )
     {
@@ -179,6 +186,10 @@ foreach ( $productList as $product )
     $t->parse( "product_item", "product_item_tpl", true );
     $i++;
 }
+
+$t->set_var( "offset", $Offset );
+
+eZList::drawNavigator( $t, $TotalTypes, $Limit, $Offset, "product_list_tpl" );
 
 if ( count( $productList ) > 0 )    
     $t->parse( "product_list", "product_list_tpl" );

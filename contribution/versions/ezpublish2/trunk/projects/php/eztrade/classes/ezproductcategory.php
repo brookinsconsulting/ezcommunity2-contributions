@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezproductcategory.php,v 1.26 2001/02/21 11:25:01 ce Exp $
+// $Id: ezproductcategory.php,v 1.27 2001/02/21 15:16:32 jb Exp $
 //
 // Definition of eZProductCategory class
 //
@@ -519,15 +519,8 @@ class eZProductCategory
             $prodID = $value->id();
 
             $this->Database->array_query( $qry, "SELECT Placement FROM eZTrade_ProductCategoryLink
-                                                 ORDER BY Placement DESC LIMIT 1" );
-            if ( count( $qry ) == 1 )
-            {
-                $placement = $qry["Placement"] + 1;
-            }
-            else
-            {
-                $placement = 1;
-            }
+                                                 ORDER BY Placement DESC LIMIT 1", 0, 1 );
+            $placement = count( $qry ) == 1 ? $qry[0]["Placement"] + 1 : 1;
 
             $query = "INSERT INTO
                            eZTrade_ProductCategoryLink
@@ -538,6 +531,63 @@ class eZProductCategory
             
             $this->Database->query( $query );
        }
+    }
+
+    /*!
+      Returns the total number of products in a category.
+    */
+    function &productCount( $sortMode="time",
+                        $fetchNonActive=false )
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+       $this->dbInit();
+
+       switch( $sortMode )
+       {
+           case "time" :
+           {
+               $OrderBy = "eZTrade_Product.Published DESC";
+           }
+           break;
+
+           case "alpha" :
+           {
+               $OrderBy = "eZTrade_Product.Name ASC";
+           }
+           break;
+
+           case "alphadesc" :
+           {
+               $OrderBy = "eZTrade_Product.Name DESC";
+           }
+           break;
+
+           case "absolute_placement" :
+           {
+               $OrderBy = "eZTrade_ProductCategoryLink.Placement ASC";
+           }
+           break;
+           
+           default :
+           {
+               $OrderBy = "eZTrade_Product.Published DESC";
+           }
+       }       
+
+       $nonActiveCode = $fetchNonActive ? "" : " eZTrade_Product.ShowProduct='true' AND";
+
+       $this->Database->query_single( $products, "
+                SELECT count( eZTrade_Product.ID ) AS Count
+                FROM eZTrade_Product, eZTrade_ProductCategoryLink
+                WHERE 
+                eZTrade_ProductCategoryLink.ProductID = eZTrade_Product.ID
+                AND
+                $nonActiveCode
+                eZTrade_ProductCategoryLink.CategoryID='$this->ID'" );
+
+       return $products["Count"];
     }
 
     /*!
