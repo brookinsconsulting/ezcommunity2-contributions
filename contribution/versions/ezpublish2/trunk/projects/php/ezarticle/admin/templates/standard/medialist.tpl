@@ -58,9 +58,13 @@
 	<td>
 	<input class="stdbutton" type="submit" name="Browse" value="{intl-browse}" />
 	</td>
+	<td>&nbsp;</td>
+	<td>
+	<input class="stdbutton" type="submit" name="DeleteSelected" value="{intl-delete_selected}" />
+	</td>
 </tr>
 </table>
-
+</form>
 <hr noshade="noshade" size="4" />
 
 <table cellspacing="0" cellpadding="0" border="0">
