@@ -64,21 +64,22 @@
  
 <!-- BEGIN person_item_tpl -->
 <h2>{intl-personal_headline}</h2>
+<p class="boxtext">{intl-required_marked}.</p>
 <br />
 <table width="100%" cellpadding="0" cellspacing="0" border="0">
     <tr>
 	    <td width="50%">
-	    <p class="boxtext">{intl-firstname}:</p>
+	    <p class="boxtext"><span class="redstar">*</span> {intl-firstname}:</p>
 	    <input type="text" size="20" name="FirstName" value="{firstname}"/>
 	    </td>
 	    <td width="50%">
-	    <p class="boxtext">{intl-lastname}:</p>
+	    <p class="boxtext"><span class="redstar">*</span> {intl-lastname}:</p>
 	    <input type="text" size="20" name="LastName" value="{lastname}"/>
 	    </td>
     </tr>
 </table>
 
-<p class="boxtext">{intl-birthday_headline}:</p>
+<p class="boxtext"><span class="redstar">*</span> {intl-birthday_headline}:</p>
 <table width="100%" cellpadding="0" cellspacing="0" border="0">
 <tr>
     <td width="50%" valign="bottom">
@@ -107,15 +108,15 @@
 </tr>
 </table>
 
-<p class="boxtext">{intl-comment_headline}:</p>
-<textarea name="Comment" rows="4" cols="40" wrap="soft">{comment}</textarea>
+<!--- <p class="boxtext">{intl-comment_headline}:</p>
+<textarea name="Comment" rows="4" cols="40" wrap="soft">{comment}</textarea> --->
 <input type="hidden" name="ContactTypeID" value="{cv_contact_type_id}" />
 <input type="hidden" name="UserID" value="{user_id}" />
 <!-- END person_item_tpl -->
 
 <!-- BEGIN address_item_tpl -->
 <h2>{intl-address_headline}</h2>
-<p class="boxtext">{intl-address}:</p>
+<p class="boxtext"><span class="redstar">*</span> {intl-address}:</p>
 <input type="text" size="30" name="Street1" value="{street1}"/><br>
 <input type="text" size="30" name="Street2" value="{street2}"/>
 
@@ -124,11 +125,11 @@
 <table width="100%" cellpadding="0" cellspacing="0" border="0">
 <tr>
 	<td width="50%">
-        <p class="boxtext">{intl-zip}:</p>
+        <p class="boxtext"><span class="redstar">*</span> {intl-zip}:</p>
         <input type="text" size="4" name="Zip" value="{zip}"/>
 	</td>
 	<td width="50%">
-        <p class="boxtext">{intl-place}:</p>
+        <p class="boxtext"><span class="redstar">*</span> {intl-place}:</p>
         <input type="text" size="20" name="Place" value="{place}"/>
 	</td>
 </tr>
@@ -172,7 +173,7 @@
 <tr>
     <td>
         <!-- BEGIN email_item_tpl -->
-        <p class="boxtext">{intl-email}:</p>
+        <p class="boxtext"><span class="redstar">*</span> {intl-email}:</p>
         <input type="text" size="20" name="Online[]" value="{email}"/>
         <input type="hidden" name="URLType[]" value="mailto">
         <input type="hidden" name="OnlineTypeID[]" value="{cv_email_online_type_id}">
@@ -197,7 +198,7 @@
 <table width="100%" cellpadding="0" cellspacing="0" border="0">
 <tr>
     <td width="50%">
-        <p class="boxtext">{intl-user_name}:</p>
+        <p class="boxtext"><span class="redstar">*</span> {intl-user_name}:</p>
         <input type="text" size="20" name="LoginName" value="{user_name}"/>
 		<br /><br />
     </td>
@@ -207,11 +208,11 @@
 </tr>
 <tr>
     <td>
-        <p class="boxtext">{intl-password}:</p>
+        <p class="boxtext"><span class="redstar">*</span> {intl-password}:</p>
         <input type="password" size="15" name="Password" value="{password}"/>
     </td>
     <td>
-        <p class="boxtext">{intl-repeat_password}:</p>
+        <p class="boxtext"><span class="redstar">*</span> {intl-repeat_password}:</p>
         <input type="password" size="15" name="PasswordRepeat" value="{password_repeat}"/>
     </td>
 </tr>

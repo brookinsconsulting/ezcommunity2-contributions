@@ -43,7 +43,7 @@ if( $Action == "new" )
 
 $error = false;
 
-$t = new eZTemplate( "ezcontact/user/" . $ini->read_var( "eZContactMain", "AdminTemplateDir" ),
+$t = new eZTemplate( "ezcontact/user/" . $ini->read_var( "eZContactMain", "TemplateDir" ),
                      "ezcontact/user/intl", $Language, "personedit.php" );
 $t->setAllStrings();
 

@@ -64,6 +64,7 @@
  
 <!-- BEGIN person_item_tpl -->
 <h2>{intl-personal_headline}</h2>
+<p class="boxtext">{intl-required_marked}.</p>
 <br />
 <table width="100%" cellpadding="0" cellspacing="0" border="0">
     <tr>
@@ -86,7 +87,7 @@
         <tr valign="bottom">
             <td>
                 <div class="small">{intl-year}:</div>
-                <input type="text" size="4" name="BirthYear" value="{birthyear}"/>&nbsp;&nbsp;
+                * <input type="text" size="4" name="BirthYear" value="{birthyear}"/>&nbsp;&nbsp;
             </td>
 			<td>&nbsp;</td>
             <td>
