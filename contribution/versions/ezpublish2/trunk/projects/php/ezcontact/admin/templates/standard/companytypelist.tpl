@@ -33,7 +33,32 @@
 <div onLoad="MM_preloadImages('/ezcontact/admin/images/redigerminimrk.gif','/ezcontact/admin/images/slettminimrk.gif')"></div>
 
 <!-- BEGIN list_tpl -->
-<h1>{intl-headline_list}</h1>
+<table width="100%" border="0">
+<tr>
+	<td valign="bottom">
+	    <h1>{intl-headline_list}</h1>
+	</td>
+	<td rowspan="2" align="right">
+	    <form action="/contact/company/search/" method="post">
+	    <table>
+	    <tr>
+	        <td>
+	    	<input type="text" name="SearchText" size="12" />
+		<input type="submit" value="{intl-search}" />
+	    	<input type="hidden" name="SearchCategory" value="{current_id}" />
+	        </td>
+	    </tr>
+	    <tr>
+	        <td>
+		<input type="checkbox" name="CurrentCategory" checked />
+		<span class="boxtext">{intl-only_current_category}</span><br />
+	        </td>
+	    </tr>
+	    </table>
+	    </form>
+	</td>
+</tr>
+</table>
 <!-- END list_tpl -->
 <!-- BEGIN view_tpl -->
 <h1>{intl-headline_view}</h1>
@@ -150,6 +175,11 @@
 	<p>{intl-no_image}</p>
 	<!-- END no_image_tpl -->	
 	</td>
+
+	<td class="{td_class}" width="1%">
+	<a href="/contact/consultation/company/new/{company_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezn{company_id}-red','','/images/redigerminimrk.gif',1)"><img name="ezn{company_id}-red" border="0" src="/images/redigermini.gif" width="16" height="16" align="top"></a>
+	</td>
+
 	<td class="{td_class}" width="1%">
 	<a href="/contact/company/edit/{company_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezc{company_id}-red','','/images/redigerminimrk.gif',1)"><img name="ezc{company_id}-red" border="0" src="/images/redigermini.gif" width="16" height="16" align="top"></a>
 	</td>
