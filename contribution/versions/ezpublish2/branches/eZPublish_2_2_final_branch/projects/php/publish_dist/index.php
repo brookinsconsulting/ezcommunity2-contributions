@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: index.php,v 1.119.2.17 2002/01/08 09:59:34 kaid Exp $
+// $Id: index.php,v 1.119.2.18 2002/03/19 12:33:10 br Exp $
 //
 // Created on: <09-Nov-2000 14:52:40 ce>
 //
@@ -284,7 +284,10 @@ if ( ( $requireUserLogin == "disabled" ) ||
             // the default page to load
             if ( $ini->read_var( "site", "DefaultPage" ) != "disabled" )
             {
-                include( $ini->read_var( "site", "DefaultPage" ) );
+                $REQUEST_URI = $ini->read_var( "site", "DefaultPage" );
+                $url_array = explode( "/", $REQUEST_URI );
+                $content_page = "ez" . $url_array[1] . "/user/datasupplier.php";
+                include( $content_page );
             }
         }
 
