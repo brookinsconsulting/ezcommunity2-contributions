@@ -27,9 +27,9 @@
 </tr>
 <!-- END cart_item_tpl -->
 <tr>
-	<td class="small" colspan="3">{intl-shipping}:</td>
+	<td class="small" colspan="3">{intl-vat}:</td>
 	<td class="small" align="right">
-	{shipping_cost}
+	{cart_vat_sum}
 	</td>
 </tr>
 <tr>
@@ -45,7 +45,7 @@
 <tr>
 	<!-- BEGIN cart_checkout_tpl -->
 	<td colspan="2">
-	<input type="submit" name="DoCheckOut" value="{intl-checkout}" />
+	<input class="stdbutton" type="submit" name="DoCheckOut" value="{intl-checkout}" />
 	</td>
 </tr>
 <tr>

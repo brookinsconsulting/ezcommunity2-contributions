@@ -1,37 +1,27 @@
 <table width="100%" cellspacing="0" cellpadding="2" border="0">
 <tr>
-	<td bgcolor="#c0c0c0">
-	<div class="listheadline"><a class="listheadline">{intl-hot_deals}</a></div>
+	<td bgcolor="#c0c0c0" colspan="{hotdeal_columns}">
+	<div class="listheadline">{intl-hot_deals}</div>
 	</td>
 </tr>
-</table>
-
-<table width="100%" cellspacing="0" cellpadding="2" border="0">
-
+<tr>
+	<td colspan="2"><br /></td>
+</tr>
 <!-- BEGIN product_list_tpl -->
-
 
 <!-- BEGIN product_tpl -->
 {begin_tr}
-	<td valign="top" width="50%">
-	<div class="listproducts"><a class="listproducts" href="/{module}/{module_view}/{product_id}/{category_id}/">{product_name}</a></div>
+	<td class="menutext" valign="top" width="50%">
+
+	<a class="listproducts" href="/trade/productview/{product_id}/{category_id}/">{product_name}</a>
 
 	<!-- BEGIN product_image_tpl -->
-    <table align="right">
-    <tr>
-        <td>
-		<a href="/{module}/{module_view}/{product_id}/{category_id}/"><img src="{thumbnail_image_uri}" border="0" width="{thumbnail_image_width}" height="{thumbnail_image_height}" /></a>
-        </td>
-    </tr>
-    <tr>
-        <td class="pictext">
-        {thumbnail_image_caption}
-        </td>
-    </tr>
-    </table>
-	<!-- END product_image_tpl -->
+	<a href="/trade/productview/{product_id}/{category_id}/">
+	<img src="{product_image_path}" border="0" width="{product_image_width}" height="{product_image_height}" alt="{product_image_caption}"/></a>
+	<!-- END product_image_tpl -->&nbsp;
 
-	<div class="p">{product_intro_text}</div>
+	<br />
+	<span class="p">{product_intro_text}</span>
 
 <!-- BEGIN price_tpl -->
 	<div class="pris">{product_price}</div>

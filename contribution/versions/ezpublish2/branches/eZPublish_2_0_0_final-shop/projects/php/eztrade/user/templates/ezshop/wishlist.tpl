@@ -67,12 +67,6 @@
 		<!-- END wishlist_item_tpl --> 
 		<tr> 
 		  <td colspan="3">&nbsp;</td>
-		  <th colspan="3">{intl-shipping}:</th>
-		  <td align="right"> {shipping_cost} </td>
-		  <td align="right">&nbsp;</td>
-		</tr>
-		<tr> 
-		  <td colspan="3">&nbsp;</td>
 		  <th colspan="3">{intl-total}:</th>
 		  <td align="right"> {wishlist_sum} </td>
 		  <td align="right">&nbsp;</td>

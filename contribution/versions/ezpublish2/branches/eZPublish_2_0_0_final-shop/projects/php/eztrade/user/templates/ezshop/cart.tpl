@@ -5,7 +5,6 @@
 	</td>
 </tr>
 </table>
-<br />
 
 <!-- BEGIN empty_cart_tpl -->
 <h2>{intl-empty_cart}</h2>
@@ -53,15 +52,13 @@
 </tr>
 <!-- END cart_item_tpl -->
 
-<!--
 <tr>
 	<td colspan="2">&nbsp;</td>
-	<th colspan="2">{intl-shipping}:</th>
+	<th colspan="2">{intl-vat}:</th>
 	<td align="right">
-	{shipping_cost}
+	{cart_vat_sum}
 	</td>
 </tr>
--->
 <tr>
 	<td colspan="2">&nbsp;</td>
 	<th colspan="2">{intl-total}:</th>
@@ -70,28 +67,18 @@
 	</td>
 </tr>
 </table>
-
-<p>
-Fraktkostnader kommer i tillegg: Kr. 50,- for programvarepakker.
-Fraktkostnadene for maskinvare kan variere; postens takster vil gjelde.
-For postoppkravsleveranser kommer postens oppkravsgebyr i tillegg.
-Brukerstøtte leveres fraktfritt.
-</p>
-
 <!-- END cart_item_list_tpl -->
 
 <!-- BEGIN cart_checkout_tpl -->
 
-<table border="0">
+<table cellpadding="0" cellspacing="0" border="0">
 <tr>
-
 	<td>
 	<input class="okbutton" type="submit" name="DoCheckOut" value="{intl-checkout}" />
 	</td>
-
+	<td>&nbsp;</td>
 	<td>
 	<input class="okbutton" type="submit" value="{intl-update}" />
-	
 	</td>
 </td>
 </table>

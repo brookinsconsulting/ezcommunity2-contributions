@@ -6,41 +6,49 @@
 </tr>
 </table>
 
-<br />
-
 <h2>{intl-thanks_for_shopping}</h2>
 
 <p>{intl-email_notice}</p>
 
-
-<h2>{intl-customer_info}</h2>
-
-{customer_first_name} {customer_last_name} 
-
+<table width="100%" cellspacing="0" cellpadding="0" border="0">
+<tr>
+	<td>
+	<!-- BEGIN billing_address_tpl -->
+	<p class="boxtext">{intl-billing_address}:</p>
+	{customer_first_name} {customer_last_name} <br />
+	{billing_street1}<br />
+	{billing_street2}<br />
+	{billing_zip} {billing_place}<br />
+	{billing_country}<br />
+	<!-- END billing_address_tpl -->
+	<br />
+	</td>
+	<td>
+	<!-- BEGIN shipping_address_tpl -->
+	<p class="boxtext">{intl-shipping_address}:</p>
+	{shipping_first_name} {shipping_last_name} <br />
+	{shipping_street1}<br />
+	{shipping_street2}<br />
+	{shipping_zip} {shipping_place}<br />
+	{shipping_country}<br />
+	<!-- END shipping_address_tpl -->
+	<br />
+	</td>
+</tr>
+<tr>
+	<td>
+	<p class="boxtext">{intl-payment_method}:</p>
+	<div class="p">{payment_method}</div>
+	</td>
+	<td>
+	<p class="boxtext">{intl-shipping_type}:</p>
+	<div class="p">{shipping_type}</div>
+	</td>
+</tr>
+</table>
 <br />
 
-<!-- BEGIN billing_address_tpl -->
-<h3>{intl-billing_address}:</h3>
-{billing_street1}<br />
-{billing_street2}<br />
-{billing_zip} {billing_place}<br />
-{billing_country}<br />
-<!-- END billing_address_tpl -->
-
-<!-- BEGIN shipping_address_tpl -->
-<h3>{intl-shipping_address}:</h3>
-{shipping_street1}<br />
-{shipping_street2}<br />
-{shipping_zip} {shipping_place}<br />
-{shipping_country}<br />
-<!-- END shipping_address_tpl -->
-
-<br />
-
-<h3>{intl-payment_method}</h3>
-{payment_method}
-
-<h2>{intl-goods_list}</h2>
+<h2>{intl-goods_list}:</h2>
 
 <!-- BEGIN order_item_list_tpl -->
 <table width="100%" cellspacing="0" cellpadding="3" border="0">
@@ -64,8 +72,7 @@
 	</td>
 	<td class="{td_class}">
         <!-- BEGIN order_item_option_tpl -->
-	{option_name}:
-	{option_value}<br>
+	<span class="small">{option_name}: {option_value}</span><br />
         <!-- END order_item_option_tpl -->
 	&nbsp;
 	</td>
@@ -78,12 +85,17 @@
 </tr>
 <!-- END order_item_tpl -->
 <tr>
-	<td colspan="2">&nbsp;</td>
+	<td colspan="3">&nbsp;</td>
 	<td class="boxtext">{intl-shipping_and_handling}:</td>
 	<td align="right">{shipping_cost}</td>
 </tr>
 <tr>
-	<td colspan="2">&nbsp;</td>
+	<td colspan="3">&nbsp;</td>
+	<td class="boxtext">{intl-vat}:</td>
+	<td align="right">{order_vat_sum}</td>
+</tr>
+<tr>
+	<td colspan="3">&nbsp;</td>
 	<td class="boxtext">{intl-total}:</td>
 	<td align="right">{order_sum}</td>
 </tr>

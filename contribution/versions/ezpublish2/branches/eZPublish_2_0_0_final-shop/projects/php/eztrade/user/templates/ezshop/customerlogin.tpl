@@ -6,8 +6,6 @@
 </tr>
 </table>
 
-<br />
-
 <h2>{intl-customer_login}</h2>
 
 <p>{intl-reg_text}</p>

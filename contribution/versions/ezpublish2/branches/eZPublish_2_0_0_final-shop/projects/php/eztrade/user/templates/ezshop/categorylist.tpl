@@ -11,7 +11,7 @@
 </tr>
 <!-- END category_tpl -->
 <tr>
-	<td class="menuspacer">&nbsp;</td>
+	<td colspan="2" class="menuspacer">&nbsp;</td>
 </tr>
 </table>
 

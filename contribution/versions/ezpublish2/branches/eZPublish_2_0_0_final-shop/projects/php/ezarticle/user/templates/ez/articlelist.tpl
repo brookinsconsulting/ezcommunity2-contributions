@@ -8,6 +8,7 @@
 <!-- END header_item_tpl -->
 </table>
 <br />
+
 <!-- BEGIN path_item_tpl -->
 
 <!-- END path_item_tpl -->
@@ -20,17 +21,12 @@
 
 <!-- END category_list_tpl -->
 
+
 <!-- BEGIN article_list_tpl -->
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
-<tr>
-	<tr>
-	<td>
-	</td>
-</tr>
 <!-- BEGIN article_item_tpl -->
 <tr>
 	<td>
-
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
 	<td bgcolor="#c0c0c0">
@@ -38,7 +34,7 @@
 	</td>
 </tr>
 </table>
-	<div class="small"><br />{article_published}</div>
+	<div class="small">( {article_published} )</div>
 
 	<!-- BEGIN article_image_tpl -->
 	    <table align="right">
@@ -68,25 +64,35 @@
 
 
 
-<table width="100%" cellspacing="0" cellpadding="0" border="0">
-<tr>
-	<td>
+<!-- BEGIN type_list_tpl -->
 
-<!-- BEGIN previous_tpl -->
-<a class="path" href="/article/archive/{category_id}/{prev_offset}/">
-&lt;&lt; {intl-prev}
-</a>
-<!-- END previous_tpl -->
-     </td>
-     <td align="right">
+	<!-- BEGIN type_list_previous_tpl -->
+ 
+ 	<!-- END type_list_previous_tpl -->
 
-<!-- BEGIN next_tpl -->
-<a class="path" href="/article/archive/{category_id}/{next_offset}/">
-{intl-next} &gt;&gt;
-</a>
-<!-- END next_tpl -->
-     </td>
-</tr>
-</table>    
+	<!-- BEGIN type_list_previous_inactive_tpl -->
+	
+	<!-- END type_list_previous_inactive_tpl -->
 
+	<!-- BEGIN type_list_item_list_tpl -->
+
+	<!-- BEGIN type_list_item_tpl -->
+
+	<!-- END type_list_item_tpl -->
+
+	<!-- BEGIN type_list_inactive_item_tpl -->
+
+	<!-- END type_list_inactive_item_tpl -->
+
+	<!-- END type_list_item_list_tpl -->
+
+	<!-- BEGIN type_list_next_tpl -->
+
+	<!-- END type_list_next_tpl -->
+
+	<!-- BEGIN type_list_next_inactive_tpl -->
+
+	<!-- END type_list_next_inactive_tpl -->
+
+<!-- END type_list_tpl -->
 

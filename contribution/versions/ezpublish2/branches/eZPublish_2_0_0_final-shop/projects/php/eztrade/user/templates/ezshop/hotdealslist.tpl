@@ -5,34 +5,27 @@
 
 <!-- BEGIN product_list_tpl -->
 
-
 <!-- BEGIN product_tpl -->
 {begin_tr}
-	<td class="menutext" valign="top">
-
+	<td class="menutext">
 	<a class="menutext" href="/trade/productview/{product_id}/{category_id}/"><b>{product_name}</b></a>
-
 	<!-- BEGIN product_image_tpl -->
-	<a href="/trade/productview/{product_id}/{category_id}/">
-	<img src="{product_image_path}" border="0" width="{product_image_width}" height="{product_image_height}" alt="{product_image_caption}" /></a>
-	<!-- END product_image_tpl -->&nbsp;
-
-	<br />
-	<span class="menutext">{product_intro_text}</span>
-
+	<a href="/trade/productview/{product_id}/{category_id}/"><img src="{product_image_path}" border="0" width="{product_image_width}" height="{product_image_height}" alt="{product_image_caption}"/></a>
+	<!-- END product_image_tpl -->
+	<div><span class="menutext">{product_intro_text}</span></div>
 <!-- BEGIN price_tpl -->
-	<div class="pris">{product_price}</div>
+	<span class="pris">{product_price}</span>
 <!-- END price_tpl -->
-
 	</td>
 {end_tr}
 
 <!-- END product_tpl -->
 
 <tr>
-	<td class="menuspacer">&nbsp;</td>
+	<td class="menuspacer" colspan="{hotdeal_columns}">&nbsp;</td>
 </tr>
-</table>
+
 
 <!-- END product_list_tpl -->
 
+</table>

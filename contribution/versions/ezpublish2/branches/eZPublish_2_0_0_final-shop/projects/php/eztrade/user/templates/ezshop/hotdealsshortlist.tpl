@@ -2,19 +2,18 @@
 
 <!-- BEGIN product_list_tpl -->
 
-
 <!-- BEGIN product_tpl -->
 {begin_tr}
-	<td>
+	<td class="menutext">
 
-	<a class="small" href="http://sourceprovider.com/trade/productview/{product_id}/{category_id}/">{product_name}</a><br />
+	<a class="menutext" href="/trade/productview/{product_id}/{category_id}/"><b>{product_name}</b></a>
 
 	<!-- BEGIN product_image_tpl -->
 
-	<!-- END product_image_tpl -->
+	<!-- END product_image_tpl -->&nbsp;
 
 <!-- BEGIN price_tpl -->
-	<div class="small">{product_price}</div>
+	<div class="pris">{product_price}</div>
 <!-- END price_tpl -->
 
 	</td>
@@ -22,6 +21,9 @@
 
 <!-- END product_tpl -->
 
+<tr>
+	<td class="menuspacer">&nbsp;</td>
+</tr>
 </table>
 
 <!-- END product_list_tpl -->
