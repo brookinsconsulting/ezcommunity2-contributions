@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eztechrenderer.php,v 1.52 2001/02/06 14:28:05 bf Exp $
+// $Id: eztechrenderer.php,v 1.53 2001/02/08 13:51:59 th Exp $
 //
 // Definition of eZTechRenderer class
 //
@@ -381,7 +381,7 @@ class eZTechRenderer
             if ( !preg_match( "%^(([a-z]+://)|/|#)%", $href ) )
                 $href = "http://" . $href;
 
-            $pageContent .= "<img align=\"baseline\" src=\"/images/bulletlink.gif\" width=\"50\" height=\"10\" border=\"0\" hspace=\"0\">&nbsp;<a href=\"$href\">" . $text . "</a>";
+            $pageContent .= "<img align=\"baseline\" src=\"/images/bulletlink.gif\" width=\"50\" height=\"10\" border=\"0\" hspace=\"0\">&nbsp;<a class=\"path\" href=\"$href\">" . $text . "</a>";
         }
         
         // ez anchor
