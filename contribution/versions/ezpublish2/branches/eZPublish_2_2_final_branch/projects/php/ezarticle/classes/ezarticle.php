@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: ezarticle.php,v 1.183.2.10 2002/02/22 15:06:30 bf Exp $
+// $Id: ezarticle.php,v 1.183.2.11 2002/02/28 13:28:10 master Exp $
 //
 // Definition of eZArticle class
 //
@@ -1868,6 +1868,7 @@ class eZArticle
         $catSQL = "";
         $typeTables = "";
         $typeSQL = "";
+	$sectionsSQL = "";
 
         // need to check if the category is searchable
         $catDefTable = "eZArticle_ArticleCategoryDefinition,";
@@ -1919,6 +1920,20 @@ class eZArticle
             $author = $params["AuthorID"];
             $authorSQL = "AND eZArticle_Article.ContentsWriterID='$author'";
         }
+	if ( isSet( $params["SectionsList"] ) )
+	{
+	    $sectionsList = $params["SectionsList"];
+	    $sectionsArray = explode( ",", $sectionsList );
+	    if ( is_numeric( $sectionsArray[0] ) )
+	    {
+		$sectionsSQL .= "AND ( eZArticle_Category.SectionID='$sectionsArray[0]'";
+		for ( $i=1; $i<count( $sectionsArray ); $i++ )
+	        {
+		     $sectionsSQL .= " OR eZArticle_Category.SectionID='$sectionsArray[$i]'";
+		}
+		$sectionsSQL .= " ) ";
+            }
+        }
         if ( isSet( $params["PhotographerID"] ) )
         {
             $photo = $params["PhotographerID"];
@@ -1965,6 +1980,7 @@ class eZArticle
                        $typeSQL
                        $authorSQL
                        $photoSQL
+		       $sectionsSQL
                        AND
                        ( eZArticle_Article.ID=eZArticle_ArticleWordLink.ArticleID
                          AND eZArticle_ArticleCategoryDefinition.ArticleID=eZArticle_Article.ID

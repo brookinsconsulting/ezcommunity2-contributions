@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: search.php,v 1.18.2.3 2002/01/11 15:55:38 bf Exp $
+// $Id: search.php,v 1.18.2.4 2002/02/28 13:28:34 master Exp $
 //
 // Created on: <28-Oct-2000 15:56:58 bf>
 //
@@ -34,6 +34,7 @@ include_once( "classes/ezlist.php" );
 
 $Language = $ini->read_var( "eZArticleMain", "Language" );
 $Limit = $ini->read_var( "eZArticleMain", "SearchListLimit" );
+$SearchWithinSections = $ini->read_var( "eZArticleMain", "SearchWithinSections" );
 
 // init the section
 if ( isset ($SectionIDOverride) )
@@ -96,12 +97,24 @@ if ( $SearchText )
         $paramsArray["FromDate"] = $StartStamp;
         $t->set_var( "url_start_stamp", urlencode( $StartStamp ) );
     }
-        
+
     if ( isset( $StopStamp ) )
     {
         $paramsArray["ToDate"] = $StopStamp;
         $t->set_var( "url_stop_stamp", urlencode( $StopStamp ) );
     }
+    
+    if ( $SearchWithinSections == "enabled" )
+    {
+	if ( isset( $SectionsList ) )
+	{
+	    $paramsArray["SectionsList"] = $SectionsList;
+	}
+	else
+	{
+	    $paramsArray["SectionsList"] = "$SectionIDOverride";
+	}
+    }										       
 
     if( $ContentsWriterID != 0 )
     {
