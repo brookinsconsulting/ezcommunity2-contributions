@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezformrenderer.php,v 1.12 2001/10/09 10:49:20 ce Exp $
+// $Id: ezformrenderer.php,v 1.13 2001/10/09 11:18:18 bf Exp $
 //
 // eZFormRenderer class
 //
@@ -350,7 +350,6 @@ class eZFormRenderer
                 $value = $tmpValue;
             }
 
-
             if ( $emailDefaults == true )
             {
                 if ( $element->name() == $this->Template->Ini->read_var( "strings", "subject_label" ) )
@@ -367,7 +366,6 @@ class eZFormRenderer
                 $content .= $element->name() . ":\n " . $value . "\n\n";
             }
         }
-
             
         if ( $emailDefaults == false )
         {
