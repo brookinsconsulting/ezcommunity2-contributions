@@ -2,6 +2,8 @@
 
 <br />
 
+<!-- BEGIN article_header_tpl -->
+
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
 	<td>
@@ -12,6 +14,7 @@
 	</td>
 </tr>
 </table>
+<!-- END article_header_tpl -->
 
 <p>
 {article_body}

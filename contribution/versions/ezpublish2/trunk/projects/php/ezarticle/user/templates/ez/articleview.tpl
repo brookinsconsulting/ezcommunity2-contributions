@@ -1,4 +1,11 @@
-<h1>{article_name}</h1>
+<table width="100%" cellspacing="0" cellpadding="0" border="0">
+<tr>
+	<td bgcolor="#f08c00"  width="100%">
+  
+	<strong class="h1"><img src="images/1x1.gif" width="3" height="1" border="0">{article_name}</strong>
+	</td>
+</tr>
+</table>
 
 <br />
 

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezezrenderer.php,v 1.1 2000/10/26 11:58:14 bf-cvs Exp $
+// $Id: ezezrenderer.php,v 1.2 2000/10/26 15:27:40 bf-cvs Exp $
 //
 // Definition of eZEzRenderer class
 //
@@ -165,7 +165,22 @@ class eZEzRenderer
                     // header
                     if ( $paragraph->name == "header" )
                     {
-                        $pageContent .= "<h3>".  $paragraph->children[0]->content . "</h3>";
+                        $tmpText = "
+                        <table width=\"100%\" cellspacing=\"0\" cellpadding=\"0\" border=\"0\">
+                             <tr>
+                             <td bgcolor=\"#c0c0c0\" width=\"100%\">
+                             
+                             <strong class=\"h2\"><img src=\"images/1x1.gif\" width=\"3\" height=\"1\" border=\"0\">&nbsp;"
+                             .
+                             $paragraph->children[0]->content
+                             .
+                             "
+                             </strong>
+                             </td>
+                         </tr>
+                       </table>";
+                        
+                        $pageContent .= $tmpText;
                     }
 
                     // bold text
