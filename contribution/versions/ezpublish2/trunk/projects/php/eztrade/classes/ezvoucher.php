@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezvoucher.php,v 1.6 2001/09/05 09:32:48 ce Exp $
+// $Id: ezvoucher.php,v 1.7 2001/09/05 12:09:25 ce Exp $
 //
 // eZVoucher class
 //
@@ -36,7 +36,6 @@
 */
 
 include_once( "classes/ezdate.php" );
-include_once( "ezquiz/classes/ezquizquestion.php" );
 	      
 class eZVoucher
 {
