@@ -47,8 +47,6 @@
 <!-- BEGIN form_start_tag_tpl -->
 <form action="{www_dir}{index}/form/form/process/{form_id}/{section_id}/" method="post">
 <h2>{form_name}</h2>
-<hr noshade="noshade" size="4" />
-<br />
 <!-- END form_start_tag_tpl -->
 <!-- BEGIN form_instructions_tpl -->
 <a href="{www_dir}{index}{form_instruction_page}">{intl-instructions}</a>
@@ -81,8 +79,6 @@
 </table>
 
 <!-- BEGIN form_buttons_tpl -->
-<hr noshade="noshade" size="4" />
-
 <table cellspacing="0" cellpadding="0" border="0">
 <tr>
 	<td valign="top">
