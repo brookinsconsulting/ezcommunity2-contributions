@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: messageedit.php,v 1.20 2001/02/24 13:04:48 pkej Exp $
+// $Id: messageedit.php,v 1.21 2001/02/24 13:29:43 pkej Exp $
 //
 // Paul K Egell-Johnsen <pkej@ez.no>
 // Created on: <21-Feb-2001 18:00:00 pkej>
@@ -170,6 +170,14 @@ switch( $Action )
         
         // Just tell the geezers that their posting has been sent or queued for moderation.
         // Also inform of any e-mails sent.
+
+        $doParse = true;
+        $ShowPath = true;
+        $isPreview = false;
+        include_once( "ezforum/user/messagepath.php" );
+
+        $ShowMessage = true;
+        include_once( "ezforum/user/messagebody.php" );
     }
     break;
     
