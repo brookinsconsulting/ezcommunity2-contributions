@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: orderedit.php,v 1.31.8.5 2002/01/30 20:47:04 br Exp $
+// $Id: orderedit.php,v 1.31.8.6 2002/02/02 21:06:40 br Exp $
 //
 // Created on: <30-Sep-2000 13:03:13 bf>
 //
@@ -586,13 +586,7 @@ $pnutr = $preOrder->pnutr();
 
 if ( $pnutr )
 {
-    $edate = $preOrder->edate();
     $t->set_var( "pnutr", $pnutr );
-
-    $t->set_var( "year", $edate->year() );
-    $t->set_var( "month", $edate->month() );
-    $t->set_var( "day", $edate->day() );
-
     $t->parse( "online_payment_verified", "online_payment_verified_tpl" );
 }
 else
