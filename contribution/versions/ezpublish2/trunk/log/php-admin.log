@@ -140,3 +140,14 @@ Maintainer(s) : bf@ez.no
 
     * templates/ezpublish/separator.tpl: Fixed gap in design
 
+
+Module : admin
+Repository path : /home/cvsroot/projects/php/admin
+Maintainer(s) : bf@ez.no
+2001-10-27  Gunnstein Lye  <gl@ez.no>
+
+    * intl/fi_FI/error.ini
+      intl/fi_FI/header.php.ini
+      intl/fi_FI/help_header.php.ini
+      intl/fi_FI/print_header.php.ini: updated fi_FI for 2.2 final
+

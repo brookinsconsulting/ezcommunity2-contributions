@@ -135,3 +135,21 @@ Maintainer(s) : br@ez.no
 
     * admin/intl/no_NO/pageviewlist.php.ini: updated no_NO
 
+
+Module : ezstats
+Repository path : /home/cvsroot/projects/php/ezstats
+Maintainer(s) : br@ez.no
+2001-10-27  Gunnstein Lye  <gl@ez.no>
+
+    * admin/intl/fi_FI/browserlist.php.ini
+      admin/intl/fi_FI/dayreport.php.ini
+      admin/intl/fi_FI/entryexitpages.php.ini
+      admin/intl/fi_FI/menubox.php.ini
+      admin/intl/fi_FI/monthreport.php.ini
+      admin/intl/fi_FI/overview.php.ini
+      admin/intl/fi_FI/pageviewlist.php.ini
+      admin/intl/fi_FI/productreport.php.ini
+      admin/intl/fi_FI/refererlist.php.ini
+      admin/intl/fi_FI/requestpagelist.php.ini
+      admin/intl/fi_FI/visitorlist.php.ini: updated fi_FI for 2.2 final
+

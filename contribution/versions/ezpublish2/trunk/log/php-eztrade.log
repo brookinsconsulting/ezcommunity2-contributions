@@ -1610,3 +1610,67 @@ Maintainer(s) : ce@ez.no
       classes/ezvoucherinformation.php
       user/datasupplier.php: Added design
 
+
+Module : eztrade
+Repository path : /home/cvsroot/projects/php/eztrade
+Maintainer(s) : ce@ez.no
+2001-10-27  Gunnstein Lye  <gl@ez.no>
+
+    * user/intl/fi_FI/orderlist.php.ini
+      user/intl/fi_FI/orderview.php.ini
+      user/intl/fi_FI/smallproductlist.php.ini
+      user/intl/fi_FI/voucher.php.ini
+      user/intl/fi_FI/voucheremail.php.ini
+      user/intl/fi_FI/voucherinformation.php.ini
+      user/intl/fi_FI/voucherview.php.ini
+      admin/intl/fi_FI/attributeedit.php.ini
+      admin/intl/fi_FI/categoryedit.php.ini
+      admin/intl/fi_FI/categorylist.php.ini
+      admin/intl/fi_FI/currency.php.ini
+      admin/intl/fi_FI/customerlist.php.ini
+      admin/intl/fi_FI/customerview.php.ini
+      admin/intl/fi_FI/formlist.php.ini
+      admin/intl/fi_FI/imageedit.php.ini
+      admin/intl/fi_FI/imagelist.php.ini
+      admin/intl/fi_FI/linklist.php.ini
+      admin/intl/fi_FI/linkselect.php.ini
+      admin/intl/fi_FI/menubox.php.ini
+      admin/intl/fi_FI/optionedit.php.ini
+      admin/intl/fi_FI/optionlist.php.ini
+      admin/intl/fi_FI/orderedit.php.ini
+      admin/intl/fi_FI/orderlist.php.ini
+      admin/intl/fi_FI/pricegroupedit.php.ini
+      admin/intl/fi_FI/pricegroups.php.ini
+      admin/intl/fi_FI/productedit.php.ini
+      admin/intl/fi_FI/productpreview.php.ini
+      admin/intl/fi_FI/productsearch.php.ini
+      admin/intl/fi_FI/shippingtypes.php.ini
+      admin/intl/fi_FI/typeedit.php.ini
+      admin/intl/fi_FI/typelist.php.ini
+      admin/intl/fi_FI/voucheredit.php.ini
+      admin/intl/fi_FI/voucherlist.php.ini
+      user/intl/fi_FI/cart.php.ini
+      user/intl/fi_FI/categorylist.php.ini
+      user/intl/fi_FI/checkout.php.ini
+      user/intl/fi_FI/extendedsearch.php.ini
+      user/intl/fi_FI/findwishlist.php.ini
+      user/intl/fi_FI/hotdealslist.php.ini
+      user/intl/fi_FI/mailorder.php.ini
+      user/intl/fi_FI/mastercard.php.ini
+      user/intl/fi_FI/menubox.php.ini
+      user/intl/fi_FI/ordersendt.php.ini
+      user/intl/fi_FI/precheckout.php.ini
+      user/intl/fi_FI/productlist.php.ini
+      user/intl/fi_FI/productsearch.php.ini
+      user/intl/fi_FI/productview.php.ini
+      user/intl/fi_FI/sendwishlist.php.ini
+      user/intl/fi_FI/smallcart.php.ini
+      user/intl/fi_FI/viewwishlist.php.ini
+      user/intl/fi_FI/visa.php.ini
+      user/intl/fi_FI/wishlist.php.ini
+      user/intl/fi_FI/wishlistmail.php.ini: updated fi_FI for 2.2 final
+
+2001-10-27  Thomas Hellstroem  <th@ez.no>
+
+    * user/templates/standard/wishlist.tpl: Layout
+

@@ -58,3 +58,16 @@ Maintainer(s) : pkej@ez.no
       admin/intl/no_NO/questionedit.php.ini
       user/intl/no_NO/menubox.php.ini: updated no_NO
 
+
+Module : ezquiz
+Repository path : /home/cvsroot/projects/php/ezquiz
+Maintainer(s) : pkej@ez.no
+2001-10-27  Gunnstein Lye  <gl@ez.no>
+
+    * admin/intl/fi_FI/gameedit.php.ini
+      admin/intl/fi_FI/gamelist.php.ini
+      admin/intl/fi_FI/menubox.php.ini
+      admin/intl/fi_FI/questionedit.php.ini
+      user/intl/fi_FI/menubox.php.ini
+      user/intl/fi_FI/quiz.php.ini: updated fi_FI for 2.2 final
+

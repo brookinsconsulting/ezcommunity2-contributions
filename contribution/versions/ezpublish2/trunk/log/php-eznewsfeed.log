@@ -91,3 +91,22 @@ Maintainer(s) : vl@ez.no
       user/intl/no_NO/allcategories.php.ini
       user/intl/no_NO/newslist.php.ini: updated no_NO
 
+
+Module : eznewsfeed
+Repository path : /home/cvsroot/projects/php/eznewsfeed
+Maintainer(s) : vl@ez.no
+2001-10-27  Gunnstein Lye  <gl@ez.no>
+
+    * admin/intl/fi_FI/categoryedit.php.ini
+      admin/intl/fi_FI/importnews.php.ini
+      admin/intl/fi_FI/menubox.php.ini
+      admin/intl/fi_FI/newsarchive.php.ini
+      admin/intl/fi_FI/newsedit.php.ini
+      admin/intl/fi_FI/newssearch.php.ini
+      admin/intl/fi_FI/sourcesiteedit.php.ini
+      admin/intl/fi_FI/unpublished.php.ini
+      user/intl/fi_FI/allcategories.php.ini
+      user/intl/fi_FI/headlines.php.ini
+      user/intl/fi_FI/menubox.php.ini
+      user/intl/fi_FI/newslist.php.ini: updated fi_FI for 2.2 final
+

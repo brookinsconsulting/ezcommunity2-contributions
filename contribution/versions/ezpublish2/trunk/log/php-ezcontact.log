@@ -391,3 +391,43 @@ Maintainer(s) : jhe@ez.no
 
     * classes/ezconsultation.php: fixed bug
 
+
+Module : ezcontact
+Repository path : /home/cvsroot/projects/php/ezcontact
+Maintainer(s) : jhe@ez.no
+2001-10-27  Jo Henrik Endrerud  <jhe@ez.no>
+
+    * admin/personedit.php: small bugfix when deleting addresses
+
+    * admin/personedit.php: fixed bug with deleting of addresses
+
+2001-10-27  Thomas Hellstroem  <th@ez.no>
+
+    * admin/templates/standard/companyedit.tpl
+      admin/templates/standard/companyview.tpl
+      admin/templates/standard/consultationview.tpl
+      admin/templates/standard/personlist.tpl: Layout
+
+2001-10-27  Gunnstein Lye  <gl@ez.no>
+
+    * admin/intl/fi_FI/companyedit.php.ini
+      admin/intl/fi_FI/companystats.php.ini
+      admin/intl/fi_FI/companytype.php.ini
+      admin/intl/fi_FI/companyview.php.ini
+      admin/intl/fi_FI/consultationdetaillist.php.ini
+      admin/intl/fi_FI/consultationedit.php.ini
+      admin/intl/fi_FI/consultationlist.php.ini
+      admin/intl/fi_FI/consultationmail.ini
+      admin/intl/fi_FI/consultationtype.php.ini
+      admin/intl/fi_FI/error.php.ini
+      admin/intl/fi_FI/menubox.php.ini
+      admin/intl/fi_FI/nopermission.php.ini
+      admin/intl/fi_FI/personedit.php.ini
+      admin/intl/fi_FI/personview.php.ini
+      admin/intl/fi_FI/projecttype.php.ini
+      user/intl/fi_FI/companysearch.php.ini
+      user/intl/fi_FI/menubox.php.ini
+      user/intl/fi_FI/personsearch.php.ini
+      user/intl/fi_FI/search.php.ini
+      user/intl/fi_FI/urlsupplier.php.ini: updated fi_FI for 2.2 final
+

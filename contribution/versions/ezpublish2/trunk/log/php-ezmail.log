@@ -169,3 +169,22 @@ Maintainer(s) : fh@ez.no
 
     * classes/ezmail.php: fixed search bug
 
+
+Module : ezmail
+Repository path : /home/cvsroot/projects/php/ezmail
+Maintainer(s) : fh@ez.no
+2001-10-27  Gunnstein Lye  <gl@ez.no>
+
+    * user/intl/fi_FI/accountedit.php.ini
+      user/intl/fi_FI/configure.php.ini
+      user/intl/fi_FI/fileedit.php.ini
+      user/intl/fi_FI/filteredit.php.ini
+      user/intl/fi_FI/folderedit.php.ini
+      user/intl/fi_FI/folderlist.php.ini
+      user/intl/fi_FI/link.php.ini
+      user/intl/fi_FI/mailedit.php.ini
+      user/intl/fi_FI/maillist.php.ini
+      user/intl/fi_FI/mailview.php.ini
+      user/intl/fi_FI/menubox.php.ini
+      user/intl/fi_FI/search.php.ini: updated fi_FI for 2.2 final
+

@@ -487,3 +487,29 @@ Maintainer(s) : bf@ez.no
       admin/titlelist.php
       admin/useredit.php: Added titles in user edit.
 
+
+Module : ezuser
+Repository path : /home/cvsroot/projects/php/ezuser
+Maintainer(s) : bf@ez.no
+2001-10-27  Gunnstein Lye  <gl@ez.no>
+
+    * admin/intl/fi_FI/authorlist.php.ini
+      admin/intl/fi_FI/groupedit.php.ini
+      admin/intl/fi_FI/grouplist.php.ini
+      admin/intl/fi_FI/menubox.php.ini
+      admin/intl/fi_FI/passwordchange.php.ini
+      admin/intl/fi_FI/sessioninfo.php.ini
+      admin/intl/fi_FI/settings.php.ini
+      admin/intl/fi_FI/useredit.php.ini
+      admin/intl/fi_FI/userlist.php.ini
+      admin/intl/fi_FI/welcome.php.ini
+      user/intl/fi_FI/addressedit.php.ini
+      user/intl/fi_FI/forgot.php.ini
+      user/intl/fi_FI/forgotmessage.php.ini
+      user/intl/fi_FI/login.php.ini
+      user/intl/fi_FI/missingemailmessage.php.ini
+      user/intl/fi_FI/norights.php.ini
+      user/intl/fi_FI/userbox.php.ini
+      user/intl/fi_FI/useredit.php.ini
+      user/intl/fi_FI/userwithaddress.php.ini: updated fi_FI for 2.2 final
+

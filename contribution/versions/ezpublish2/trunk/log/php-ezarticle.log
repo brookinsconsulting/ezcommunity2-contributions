@@ -1615,3 +1615,54 @@ Maintainer(s) : bf@ez.no
     * xmlrpc/category.php:
     Update: Reply sent by catalogue updates is fixed to sent correct info.
 
+
+Module : ezarticle
+Repository path : /home/cvsroot/projects/php/ezarticle
+Maintainer(s) : bf@ez.no
+2001-10-27  Gunnstein Lye  <gl@ez.no>
+
+    * admin/intl/fi_FI/articleedit.php.ini
+      admin/intl/fi_FI/articlelist.php.ini
+      admin/intl/fi_FI/articlelog.php.ini
+      admin/intl/fi_FI/articlepreview.php.ini
+      admin/intl/fi_FI/attribute.php.ini
+      admin/intl/fi_FI/categoryedit.php.ini
+      admin/intl/fi_FI/filelist.php.ini
+      admin/intl/fi_FI/formlist.php.ini
+      admin/intl/fi_FI/imageedit.php.ini
+      admin/intl/fi_FI/imagelist.php.ini
+      admin/intl/fi_FI/imagemap.php.ini
+      admin/intl/fi_FI/mailtemplate.php.ini
+      admin/intl/fi_FI/mediaedit.php.ini
+      admin/intl/fi_FI/medialist.php.ini
+      admin/intl/fi_FI/menubox.php.ini
+      admin/intl/fi_FI/pendinglist.php.ini
+      admin/intl/fi_FI/pendingmail.php.ini
+      admin/intl/fi_FI/searchform.php.ini
+      admin/intl/fi_FI/topiclist.php.ini
+      admin/intl/fi_FI/typeedit.php.ini
+      admin/intl/fi_FI/typelist.php.ini
+      admin/intl/fi_FI/unpublishedlist.php.ini
+      user/intl/fi_FI/articleedit.php.ini
+      user/intl/fi_FI/articlelinks.php.ini
+      user/intl/fi_FI/articlelist.php.ini
+      user/intl/fi_FI/articleview.php.ini
+      user/intl/fi_FI/fileedit.php.ini
+      user/intl/fi_FI/filelist.php.ini
+      user/intl/fi_FI/frontpage.php.ini
+      user/intl/fi_FI/imageedit.php.ini
+      user/intl/fi_FI/imagelist.php.ini
+      user/intl/fi_FI/index.php.ini
+      user/intl/fi_FI/mailtofriend.php.ini
+      user/intl/fi_FI/menubox.php.ini
+      user/intl/fi_FI/newsgroup.php.ini
+      user/intl/fi_FI/search.php.ini
+      user/intl/fi_FI/searchform.php.ini
+      user/intl/fi_FI/sendmailtofriend.php.ini
+      user/intl/fi_FI/sitemap.php.ini
+      user/intl/fi_FI/topiclist.php.ini: updated fi_FI for 2.2 final
+
+2001-10-27  Jan Borsodi  <jb@ez.no>
+
+    * xmlrpc/article.php: Removed &amp; <=> & fix.
+

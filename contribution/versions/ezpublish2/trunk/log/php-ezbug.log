@@ -230,3 +230,41 @@ Maintainer(s) : vl@ez.no
       user/intl/no_NO/reportsuccess.php.ini
       user/intl/no_NO/search.php.ini: updated no_NO
 
+
+Module : ezbug
+Repository path : /home/cvsroot/projects/php/ezbug
+Maintainer(s) : vl@ez.no
+2001-10-27  Gunnstein Lye  <gl@ez.no>
+
+    * admin/intl/fi_FI/bugedit.php.ini
+      admin/intl/fi_FI/buglist.php.ini
+      admin/intl/fi_FI/bugpreview.php.ini
+      admin/intl/fi_FI/categorylist.php.ini
+      admin/intl/fi_FI/confirmationmail.php.ini
+      admin/intl/fi_FI/mailgotbug.php.ini
+      admin/intl/fi_FI/mailreply.php.ini
+      admin/intl/fi_FI/menubox.php.ini
+      admin/intl/fi_FI/moduleedit.php.ini
+      admin/intl/fi_FI/modulelist.php.ini
+      admin/intl/fi_FI/prioritylist.php.ini
+      admin/intl/fi_FI/search.php.ini
+      admin/intl/fi_FI/statuslist.php.ini
+      admin/intl/fi_FI/unhandledbugs.php.ini
+      user/intl/fi_FI/buglist.php.ini
+      user/intl/fi_FI/bugreport.php.ini
+      user/intl/fi_FI/bugview.php.ini
+      user/intl/fi_FI/fileedit.php.ini
+      user/intl/fi_FI/mailnewbug.php.ini
+      user/intl/fi_FI/menubox.php.ini
+      user/intl/fi_FI/reportsuccess.php.ini
+      user/intl/fi_FI/search.php.ini
+      user/intl/fi_FI/unhandledbugs.php.ini: updated fi_FI for 2.2 final
+
+2001-10-27  Jo Henrik Endrerud  <jhe@ez.no>
+
+    * admin/cron.php
+      admin/intl/en_GB/confirmationmail.php.ini
+      admin/templates/standard/confirmationmail.tpl
+      classes/ezbugsupport.php: added table for support
+    improved support-cron in ezbug
+

@@ -267,3 +267,27 @@ Maintainer(s) : br@ez.no
 
     * classes/ezmeta.php: fixed wrong use of eZFile::fopen()
 
+
+Module : ezlink
+Repository path : /home/cvsroot/projects/php/ezlink
+Maintainer(s) : br@ez.no
+2001-10-27  Gunnstein Lye  <gl@ez.no>
+
+    * admin/intl/fi_FI/attributeedit.php.ini
+      admin/intl/fi_FI/categoryedit.php.ini
+      admin/intl/fi_FI/categorylist.php.ini
+      admin/intl/fi_FI/linkcategorylist.php.ini
+      admin/intl/fi_FI/linkedit.php.ini
+      admin/intl/fi_FI/menubox.php.ini
+      admin/intl/fi_FI/search.php.ini
+      admin/intl/fi_FI/typeedit.php.ini
+      admin/intl/fi_FI/typelist.php.ini
+      admin/intl/fi_FI/unacceptedlist.php.ini
+      user/intl/fi_FI/categorylist.php.ini
+      user/intl/fi_FI/linkcategorylist.php.ini
+      user/intl/fi_FI/linklist.php.ini
+      user/intl/fi_FI/onepagelinklist.php.ini
+      user/intl/fi_FI/search.php.ini
+      user/intl/fi_FI/success.php.ini
+      user/intl/fi_FI/suggestlink.php.ini: updated fi_FI for 2.2 final
+

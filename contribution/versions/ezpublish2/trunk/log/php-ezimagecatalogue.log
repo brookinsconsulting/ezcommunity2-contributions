@@ -558,3 +558,28 @@ Maintainer(s) : br@ez.no
     * xmlrpc/category.php:
     Update: Reply sent by catalogue updates is fixed to sent correct info.
 
+
+Module : ezimagecatalogue
+Repository path : /home/cvsroot/projects/php/ezimagecatalogue
+Maintainer(s) : br@ez.no
+2001-10-27  Jan Borsodi  <jb@ez.no>
+
+    * xmlrpc/categorylist.php: Swapped columns Description and filename.
+    Returned filename contains only the basename, not the path.
+
+2001-10-27  Gunnstein Lye  <gl@ez.no>
+
+    * admin/intl/fi_FI/imagelist.php.ini
+      user/intl/fi_FI/categoryedit.php.ini
+      user/intl/fi_FI/imageedit.php.ini
+      user/intl/fi_FI/imagelist.php.ini
+      user/intl/fi_FI/imageview.php.ini
+      user/intl/fi_FI/menubox.php.ini
+      user/intl/fi_FI/slideshow.php.ini
+      admin/intl/fi_FI/browse.php.ini
+      admin/intl/fi_FI/categoryedit.php.ini
+      admin/intl/fi_FI/imageedit.php.ini
+      admin/intl/fi_FI/imageview.php.ini
+      admin/intl/fi_FI/menubox.php.ini
+      admin/intl/fi_FI/unassigned.php.ini: updated fi_FI for 2.2 final
+

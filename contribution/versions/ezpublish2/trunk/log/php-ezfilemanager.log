@@ -380,3 +380,23 @@ Maintainer(s) : jhe@ez.no
       user/intl/no_NO/folderedit.php.ini
       user/intl/no_NO/search.php.ini: updated no_NO
 
+
+Module : ezfilemanager
+Repository path : /home/cvsroot/projects/php/ezfilemanager
+Maintainer(s) : jhe@ez.no
+2001-10-27  Baard Farstad  <bf@ez.no>
+
+    * admin/intl/en_GB/browse.php.ini: Added translation.
+
+2001-10-27  Gunnstein Lye  <gl@ez.no>
+
+    * admin/intl/fi_FI/browse.php.ini
+      admin/intl/fi_FI/menubox.php.ini
+      admin/intl/fi_FI/unassigned.php.ini
+      user/intl/fi_FI/filelist.php.ini
+      user/intl/fi_FI/fileupload.php.ini
+      user/intl/fi_FI/fileview.php.ini
+      user/intl/fi_FI/folderedit.php.ini
+      user/intl/fi_FI/menubox.php.ini
+      user/intl/fi_FI/search.php.ini: updated fi_FI for 2.2 final
+

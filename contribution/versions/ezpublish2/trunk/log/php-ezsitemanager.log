@@ -329,3 +329,22 @@ Maintainer(s) : vl@ez.no
       admin/intl/no_NO/templateedit.php.ini
       admin/intl/no_NO/templatelist.php.ini: updated no_NO
 
+
+Module : ezsitemanager
+Repository path : /home/cvsroot/projects/php/ezsitemanager
+Maintainer(s) : vl@ez.no
+2001-10-27  Gunnstein Lye  <gl@ez.no>
+
+    * admin/intl/fi_FI/cacheadmin.php.ini
+      admin/intl/fi_FI/fileedit.php.ini
+      admin/intl/fi_FI/filelist.php.ini
+      admin/intl/fi_FI/menubox.php.ini
+      admin/intl/fi_FI/menuedit.php.ini
+      admin/intl/fi_FI/menulist.php.ini
+      admin/intl/fi_FI/sectionedit.php.ini
+      admin/intl/fi_FI/sectionlist.php.ini
+      admin/intl/fi_FI/siteconfig.php.ini
+      admin/intl/fi_FI/sqlquery.php.ini
+      admin/intl/fi_FI/templateedit.php.ini
+      admin/intl/fi_FI/templatelist.php.ini: updated fi_FI for 2.2 final
+

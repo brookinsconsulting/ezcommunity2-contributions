@@ -55,3 +55,14 @@ Maintainer(s) : bf@ez.no
       admin/intl/no_NO/messagelist.php.ini
       admin/intl/no_NO/messageview.php.ini: updated no_NO
 
+
+Module : ezmessage
+Repository path : /home/cvsroot/projects/php/ezmessage
+Maintainer(s) : bf@ez.no
+2001-10-27  Gunnstein Lye  <gl@ez.no>
+
+    * admin/intl/fi_FI/menubox.php.ini
+      admin/intl/fi_FI/messageedit.php.ini
+      admin/intl/fi_FI/messagelist.php.ini
+      admin/intl/fi_FI/messageview.php.ini: updated fi_FI for 2.2 final
+

@@ -302,3 +302,13 @@ Maintainer(s) : bf@ez.no
 
     * ezlocale.php: fixed a npsp
 
+
+Module : classes
+Repository path : /home/cvsroot/projects/php/classes
+Maintainer(s) : bf@ez.no
+2001-10-27  Gunnstein Lye  <gl@ez.no>
+
+    * admin/intl/fi_FI/linklist.php.ini
+      admin/intl/fi_FI/linkselect.php.ini
+      locale/fi_FI.ini: updated fi_FI for 2.2 final
+

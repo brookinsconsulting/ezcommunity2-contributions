@@ -223,3 +223,20 @@ Maintainer(s) : jhe@ez.no
 
     * user/intl/no_NO/appointmentedit.php.ini: updated no_NO
 
+
+Module : ezcalendar
+Repository path : /home/cvsroot/projects/php/ezcalendar
+Maintainer(s) : jhe@ez.no
+2001-10-27  Gunnstein Lye  <gl@ez.no>
+
+    * admin/intl/fi_FI/menubox.php.ini
+      admin/intl/fi_FI/typeedit.php.ini
+      admin/intl/fi_FI/typelist.php.ini
+      user/intl/fi_FI/appointmentedit.php.ini
+      user/intl/fi_FI/appointmentview.php.ini
+      user/intl/fi_FI/dayview.php.ini
+      user/intl/fi_FI/menubox.php.ini
+      user/intl/fi_FI/monthview.php.ini
+      user/intl/fi_FI/trustees.php.ini
+      user/intl/fi_FI/yearview.php.ini: updated fi_FI for 2.2 final
+
