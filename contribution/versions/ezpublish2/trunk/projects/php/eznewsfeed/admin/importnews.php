@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: importnews.php,v 1.3 2000/11/19 12:32:57 bf-cvs Exp $
+// $Id: importnews.php,v 1.4 2000/11/27 10:06:15 bf-cvs Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <16-Nov-2000 13:02:19 bf>
@@ -30,6 +30,22 @@ include_once( "eznewsfeed/classes/ezsourcesite.php" );
 
 include_once( "classes/ezdatetime.php" );
 
+// fetch one site
+if ( $Action == "Fetch" )
+{
+    $site = new eZSourceSite( $SourceSiteID );
+
+    print( "importing news from :" .  $site->url() );
+    
+    $newsImporter = new eZNewsImporter( $site->decoder(),
+                                        $site->url(),
+                                        $site->category(),
+                                        $site->login(),
+                                        $site->password() );
+    $newsImporter->importNews();
+}
+
+// fetch every site
 if ( $Action == "ImportNews" )
 {
     $sourceSite = new eZSourceSite();

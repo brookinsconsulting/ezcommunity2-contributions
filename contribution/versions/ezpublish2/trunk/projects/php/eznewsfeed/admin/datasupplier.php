@@ -17,7 +17,7 @@ switch ( $url_array[2] )
     {
         if ( $url_array[3]  == "edit" )
         {
-            $Action == "Edit";
+            $Action = "Edit";
         }
         
         include( "eznewsfeed/admin/sourcesiteedit.php" );
@@ -28,7 +28,7 @@ switch ( $url_array[2] )
     {
         if ( $url_array[3]  == "new" )
         {
-            $Action == "New";
+            $Action = "New";
         }
         else if ( $url_array[3]  == "edit" )
         {
@@ -50,7 +50,7 @@ switch ( $url_array[2] )
     {
         if ( $url_array[2]  == "new" )
         {
-            $Action == "New";
+            $Action = "New";
         }
             
         include( "eznewsfeed/admin/categoryedit.php" );
@@ -59,6 +59,12 @@ switch ( $url_array[2] )
 
     case "importnews":
     {
+        if ( $url_array[2]  == "fetch" )
+        {
+            $Action = "Fetch";
+            $SourceSiteID = $url_array[2];            
+        }
+        
         include( "eznewsfeed/admin/importnews.php" );
     }
     break;

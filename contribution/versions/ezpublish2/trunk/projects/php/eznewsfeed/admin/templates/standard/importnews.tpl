@@ -49,7 +49,7 @@
 <!-- BEGIN source_site_tpl -->
 <tr>
 	<td class="{td_class}">
-	<a href="/newsfeed/importnews/{source_site_id}/">{source_site_name}</a>&nbsp;
+	<a href="/newsfeed/importnews/fetch/{source_site_id}/">{source_site_name}</a>&nbsp;
 	</td>
 	<td class="{td_class}">
 	{source_site_url}&nbsp;
