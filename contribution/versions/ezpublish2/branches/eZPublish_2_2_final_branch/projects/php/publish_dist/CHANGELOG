@@ -5,6 +5,7 @@ Changes from 2.2.3 to 2.2.4
 ---------------------------
 * Fixed problem with html in eZ forum
 * Fixed bug when changing permissions
+* Fixed bug with deleting of contacts after a search
 
 Changes from 2.2.2 to 2.2.3
 ---------------------------
