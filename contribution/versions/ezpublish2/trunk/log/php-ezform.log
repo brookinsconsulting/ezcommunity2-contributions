@@ -283,3 +283,32 @@ Maintainer(s) : pkej@ez.no
 
     * user/intl/en_GB/form.php.ini: en_GB fix
 
+
+Module : ezform
+Repository path : /home/cvsroot/projects/php/ezform
+Maintainer(s) : pkej@ez.no
+2001-11-01  Jo Henrik Endrerud  <jhe@ez.no>
+
+    * classes/ezform.php
+      classes/ezformelement.php: fixed bug with deleting of fixed values
+
+    * classes/ezform.php
+      classes/ezformelement.php: fixed bug with deleting fixed values
+
+2001-11-01  Vlad Pavlenko  <vlad@epasaule.lv>
+
+    * user/formview.php
+      user/datasupplier.php
+      classes/ezformrenderer.php
+      admin/templates/standard/formrenderer.tpl:
+    section aware patch - preserve section in forms
+
+2001-11-01  Baard Farstad  <bf@ez.no>
+
+    * admin/templates/standard/formedit.tpl: Fixed storing size of lineedit.
+
+    * admin/formedit.php: Fixed setting size of text field.
+
+    * admin/formedit.php
+      admin/templates/standard/formedit.tpl: Fixed setting size of forms.
+

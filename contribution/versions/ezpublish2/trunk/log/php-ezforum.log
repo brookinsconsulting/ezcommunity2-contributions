@@ -616,3 +616,31 @@ Maintainer(s) : jhe@ez.no
       user/messageedit.php
       user/messageform.php: fixed bug with user object
 
+
+Module : ezforum
+Repository path : /home/cvsroot/projects/php/ezforum
+Maintainer(s) : jhe@ez.no
+2001-11-01  Baard Farstad  <bf@ez.no>
+
+    * user/menubox.php: Fixed crash.
+
+2001-11-01  Vlad Pavlenko  <vlad@epasaule.lv>
+
+    * user/menubox.php: ini error
+
+2001-11-01  Jo Henrik Endrerud  <jhe@ez.no>
+
+    * user/messageedit.php
+      user/messageform.php
+      user/templates/standard/mailreply.tpl: fixed bug with moderator e-mail
+
+    * user/menubox.php
+      user/messageedit.php
+      user/messageform.php
+      user/templates/standard/mailreply.tpl:
+    fixed small bug with moderator e-mails
+
+2001-11-01  Baard Farstad  <bf@ez.no>
+
+    * user/menubox.php: Fixed INI file variable.
+

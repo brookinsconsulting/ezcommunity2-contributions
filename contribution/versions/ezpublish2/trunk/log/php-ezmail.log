@@ -207,3 +207,12 @@ Maintainer(s) : fh@ez.no
       user/intl/es_MX/menubox.php.ini
       user/intl/es_MX/search.php.ini: updated es_MX (Mexican Spanish) for 2.2
 
+
+Module : ezmail
+Repository path : /home/cvsroot/projects/php/ezmail
+Maintainer(s) : fh@ez.no
+2001-11-01  Jo Henrik Endrerud  <jhe@ez.no>
+
+    * classes/ezmailaccount.php
+      classes/ezmailfunctions.php: fixed small bugs
+

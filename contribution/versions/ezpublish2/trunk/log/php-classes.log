@@ -323,3 +323,35 @@ Maintainer(s) : bf@ez.no
       admin/intl/es_MX/linkselect.php.ini:
     updated es_MX (Mexican Spanish) for 2.2
 
+
+Module : classes
+Repository path : /home/cvsroot/projects/php/classes
+Maintainer(s) : bf@ez.no
+2001-11-01  Baard Farstad  <bf@ez.no>
+
+    * ezinifile.php
+      INIFile.php: Fixed hasVar() function.
+
+    * ezpublish.php: Fixed version.
+
+    * ezquery.php: Added function for setting stop word frequency.
+
+    * ezquery.php: Fixed setting of stopword frequency,
+
+2001-11-01  Christoffer Elo  <ce@ez.no>
+
+    * admin/linklist.php
+      admin/linkselect.php
+      ezlinkitem.php: Fixed bugs in mediacatalogue
+    Fixed a link bug in eZ trade
+
+2001-11-01  Baard Farstad  <bf@ez.no>
+
+    * INIFile.php
+      ezinifile.php
+      ezmysqldb.php: Added new ini file class with copyright of eZ systems.
+
+2001-11-01  Christoffer Elo  <ce@ez.no>
+
+    * ezmediafile.php: Fixed bugs in media catalogue
+

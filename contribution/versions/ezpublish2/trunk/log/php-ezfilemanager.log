@@ -435,3 +435,11 @@ Maintainer(s) : jhe@ez.no
 
     * admin/cron.php: fixed $user variable to avoid mixups
 
+
+Module : ezfilemanager
+Repository path : /home/cvsroot/projects/php/ezfilemanager
+Maintainer(s) : jhe@ez.no
+2001-11-01  Jo Henrik Endrerud  <jhe@ez.no>
+
+    * admin/cron.php: fixed $user variable to avoid confusion
+

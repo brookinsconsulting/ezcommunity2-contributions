@@ -176,3 +176,19 @@ Maintainer(s) : br@ez.no
       admin/intl/es_MX/yearreport.php.ini:
     updated es_MX (Mexican Spanish) for 2.2
 
+
+Module : ezstats
+Repository path : /home/cvsroot/projects/php/ezstats
+Maintainer(s) : br@ez.no
+2001-11-01  Baard Farstad  <bf@ez.no>
+
+    * user/storestats.php:
+    Added removal of random seed if exists in stats url.
+
+    * classes/ezpageview.php:
+    Fixed correct storing of stats first time a page is visited.
+
+    * classes/ezpageview.php
+      user/storestats.php:
+    FIxed correct storing of stats first time a page is visited.
+

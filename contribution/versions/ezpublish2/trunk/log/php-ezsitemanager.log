@@ -368,3 +368,12 @@ Maintainer(s) : vl@ez.no
       admin/intl/es_MX/templatelist.php.ini:
     updated es_MX (Mexican Spanish) for 2.2
 
+
+Module : ezsitemanager
+Repository path : /home/cvsroot/projects/php/ezsitemanager
+Maintainer(s) : vl@ez.no
+2001-11-01  Baard Farstad  <bf@ez.no>
+
+    * admin/siteconfig.php:
+    Fixed using site.ini.php if site.ini does not exist.
+

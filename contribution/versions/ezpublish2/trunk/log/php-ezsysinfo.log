@@ -99,3 +99,16 @@ Maintainer(s) : vl@ez.no
       admin/intl/es_MX/sysinfo.php.ini:
     updated es_MX (Mexican Spanish) for 2.2
 
+
+Module : ezsysinfo
+Repository path : /home/cvsroot/projects/php/ezsysinfo
+Maintainer(s) : vl@ez.no
+2001-11-01  Christoffer Elo  <ce@ez.no>
+
+    * admin/menubox.php: Removed a menu option
+
+2001-11-01  Sascha Frinken  <sascha@impetex.de>
+
+    * admin/ezinfo.php
+      admin/intl/en_GB/ezinfo.php.ini: Added ezinfo
+

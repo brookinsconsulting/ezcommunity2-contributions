@@ -155,3 +155,51 @@ Maintainer(s) : ce@ez.no
       admin/intl/es_MX/typelist.php.ini:
     updated es_MX (Mexican Spanish) for 2.2
 
+
+Module : ezmediacatalogue
+Repository path : /home/cvsroot/projects/php/ezmediacatalogue
+Maintainer(s) : ce@ez.no
+2001-11-01  Christoffer Elo  <ce@ez.no>
+
+    * admin/templates/standard/browse.tpl: Fixed iconas
+
+    * sql/mysql/ezmediacatalogue.sql
+      sql/postgresql/ezmediacatalogue.sql: Fixed some media bugs
+
+    * admin/mediaview.php: Fix
+
+    * admin/mediaview.php
+      classes/ezmedia.php: Added fix
+
+    * admin/mediaedit.php
+      classes/ezmedia.php
+      classes/ezmediaattribute.php
+      classes/ezmediacategory.php
+      classes/ezmediatype.php: Added fixes
+
+    * classes/ezmediacategory.php
+      classes/ezmediatype.php
+      classes/ezmedia.php
+      classes/ezmediaattribute.php
+      admin/categoryedit.php
+      admin/datasupplier.php
+      admin/medialist.php
+      admin/mediaview.php: Fix
+
+    * classes/ezmedia.php
+      admin/categoryedit.php
+      admin/datasupplier.php
+      admin/mediaedit.php
+      admin/medialist.php
+      admin/mediaview.php: Fixed some bugs in the media upload
+
+    * admin/categoryedit.php
+      admin/datasupplier.php
+      admin/medialist.php
+      admin/mediaview.php
+      admin/templates/standard/medialist.tpl
+      classes/ezmedia.php
+      classes/ezmediaattribute.php
+      classes/ezmediacategory.php
+      classes/ezmediatype.php: Fixed bugs in media catalogue
+

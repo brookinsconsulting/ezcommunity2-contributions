@@ -332,3 +332,17 @@ Maintainer(s) : vl@ez.no
       admin/cron.php
       admin/datasupplier.php: fixed support cronjob
 
+
+Module : ezbug
+Repository path : /home/cvsroot/projects/php/ezbug
+Maintainer(s) : vl@ez.no
+2001-11-01  Vidar Langseid  <vl@ez.no>
+
+    * classes/ezbugcategory.php:
+    Fixed a bug which occured when changing categoryname
+    User got sql error even thought no error occured
+
+    * classes/ezbugcategory.php:
+    Fixed bug when changeing Category name. Use got sql error even thought
+    everything was doing just fine
+

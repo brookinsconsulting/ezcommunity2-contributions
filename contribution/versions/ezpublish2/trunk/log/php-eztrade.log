@@ -1751,3 +1751,28 @@ Maintainer(s) : ce@ez.no
       user/voucherinformation.php: Fixed a bug in the option edit
     Fixed a product type bug in the data SQL
 
+
+Module : eztrade
+Repository path : /home/cvsroot/projects/php/eztrade
+Maintainer(s) : ce@ez.no
+2001-11-01  Paul Kenneth Egell-Johnsen  <pkej@ez.no>
+
+    * classes/ezproduct.php: Added type information about licenses.
+
+2001-11-01  Christoffer Elo  <ce@ez.no>
+
+    * classes/ezcartitem.php:
+    Removed deleteing of vouche when delete a cart item
+
+    * sql/mysql/eztrade.sql
+      sql/postgresql/eztrade.sql
+      user/checkout.php
+      user/productview.php: Fixed some checkout problems
+
+    * admin/customerview.php
+      admin/templates/standard/categorylist.tpl
+      classes/ezproduct.php
+      sql/mysql/eztrade.sql
+      sql/postgresql/eztrade.sql
+      user/wishlist.php: Fixed a bug in quantity with wishlists
+

@@ -481,3 +481,24 @@ Maintainer(s) : jhe@ez.no
       admin/personview.php
       user/consultationlist.php: fixed ini pointer
 
+
+Module : ezcontact
+Repository path : /home/cvsroot/projects/php/ezcontact
+Maintainer(s) : jhe@ez.no
+2001-11-01  Jo Henrik Endrerud  <jhe@ez.no>
+
+    * admin/templates/standard/personlist.tpl
+      user/consultationlist.php
+      admin/companystats.php
+      admin/companytypeedit.php
+      admin/companytypelist.php
+      admin/companyview.php
+      admin/datasupplier.php
+      admin/personlist.php
+      admin/persontypeedit.php
+      admin/personview.php
+      classes/ezconsultation.php
+      admin/consultationedit.php
+      admin/consultationlist.php
+      admin/consultationview.php: fixed various bugs
+

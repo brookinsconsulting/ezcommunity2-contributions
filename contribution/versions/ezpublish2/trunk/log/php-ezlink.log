@@ -346,3 +346,19 @@ Maintainer(s) : br@ez.no
     * classes/ezmeta.php
       user/suggestlink.php: fixed bug with suggestion of links
 
+
+Module : ezlink
+Repository path : /home/cvsroot/projects/php/ezlink
+Maintainer(s) : br@ez.no
+2001-11-01  Bjoern Reiten  <br@ez.no>
+
+    * user/suggestlink.php: Removed Norwegian text hardcoded in suggestlink.
+
+    * user/suggestlink.php: Removed some norwegian text in code.
+
+2001-11-01  Baard Farstad  <bf@ez.no>
+
+    * user/latest.php: Fixed link list.
+
+    * user/latest.php: Fixed old code.
+

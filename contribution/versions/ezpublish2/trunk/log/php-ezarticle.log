@@ -1804,3 +1804,92 @@ Maintainer(s) : bf@ez.no
     * classes/ezarticle.php:
     Fixed SQL bug when an article does not have any keywords.
 
+
+Module : ezarticle
+Repository path : /home/cvsroot/projects/php/ezarticle
+Maintainer(s) : bf@ez.no
+2001-11-01  Baard Farstad  <bf@ez.no>
+
+    * admin/templates/standard/medialist.tpl: Added a missing </form>.
+
+    * admin/templates/standard/medialist.tpl: Added a missing </form>
+
+    * classes/ezqdomrenderer.php:
+    Added possibility to link to originalimage directly.
+
+    * user/articleview.php: Cleanup.
+
+    * admin/articlepreview.php
+      admin/templates/standard/articlepreview.tpl:
+    Added image list of unused images.
+
+    * admin/articlepreview.php
+      admin/templates/standard/articlepreview.tpl:
+    Added image list of unused images in admin.
+
+    * classes/ezarticle.php: Added check for root when publishing article.
+
+    * classes/ezarticle.php: Fixed publishing rights for administrator.
+
+2001-11-01  Vlad Pavlenko  <vlad@epasaule.lv>
+
+    * user/datasupplier.php
+      user/articleview.php:
+    changed caching for better diffs between articleview/static/print
+
+2001-11-01  Christoffer Elo  <ce@ez.no>
+
+    * admin/mediaedit.php
+      admin/templates/standard/medialist.tpl: Fix
+
+2001-11-01  Baard Farstad  <bf@ez.no>
+
+    * classes/ezarticle.php: Stop word frequency setting.
+
+    * classes/ezarticle.php: Fixed user defined stop word frequency.
+
+2001-11-01  Vlad Pavlenko  <vlad@epasaule.lv>
+
+    * user/articleedit.php
+      user/articleheaderlist.php
+      user/frontpage.php: sections
+
+2001-11-01  Baard Farstad  <bf@ez.no>
+
+    * admin/articlelist.php
+      classes/ezarticlecategory.php:
+    Fixed permission setting when copying article categories.
+
+2001-11-01  Vlad Pavlenko  <vlad@epasaule.lv>
+
+    * user/searchform.php
+      user/search.php: sections
+
+2001-11-01  Baard Farstad  <bf@ez.no>
+
+    * admin/articlelist.php
+      classes/ezarticlecategory.php:
+    Fixed copy of article category with permission.
+
+2001-11-01  Vlad Pavlenko  <vlad@epasaule.lv>
+
+    * user/mailtofriend.php
+      user/sitemap.php
+      user/search.php: sections
+
+    * user/frontpage.php: section
+
+    * user/templates/standard/articleheaderlist.tpl
+      user/templates/standard/articlelist.tpl
+      user/templates/standard/articleprint.tpl
+      user/templates/standard/articlestatic.tpl
+      user/templates/standard/articleview.tpl
+      user/templates/standard/frontpage.tpl
+      user/templates/standard/search.tpl
+      user/templates/standard/searchform.tpl: sectionoverride in search forms
+
+2001-11-01  Baard Farstad  <bf@ez.no>
+
+    * user/articlerate.php
+      classes/ezarticlerate.php: Added checking for rate.
+
