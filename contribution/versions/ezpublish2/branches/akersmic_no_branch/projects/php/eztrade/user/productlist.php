@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: productlist.php,v 1.41.8.11 2002/01/28 13:39:14 bf Exp $
+// $Id: productlist.php,v 1.41.8.12 2002/01/29 12:40:23 bf Exp $
 //
 // Created on: <23-Sep-2000 14:46:20 bf>
 //
@@ -256,6 +256,11 @@ else
 {
     $t->set_var( "product_list", "" );
 }
+
+$SimilarCategoryID = 28;
+include_once( "eztrade/user/similarproducts.php" );
+$similarCode = similarProducts( $SimilarCategoryID );
+$t->set_var( "similar_products", $similarCode );
 
 if ( $GenerateStaticPage == "true" )
 {
