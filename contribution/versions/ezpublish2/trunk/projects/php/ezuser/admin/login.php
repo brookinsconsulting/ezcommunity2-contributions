@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: login.php,v 1.24 2001/07/29 23:31:14 kaid Exp $
+// $Id: login.php,v 1.25 2001/07/30 10:37:00 kaid Exp $
 //
 // Created on: <20-Sep-2000 13:32:11 ce>
 //
@@ -79,6 +79,12 @@ if ( $Action == "login" )
                 if ( !isset( $RefererURL ) )
                     $RefererURL = "/";
                 
+                // Show password change dialog, if admin is using default login
+                if ( $Username == "admin" && $Password == "publish" )
+                {
+                    $RefererURL = "/user/passwordchange/";
+                }
+
                 eZHTTPTool::header( "Location: $RefererURL" );
                 exit();
             }
