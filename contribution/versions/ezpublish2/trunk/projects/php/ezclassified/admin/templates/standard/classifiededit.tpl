@@ -155,6 +155,15 @@
 	</td>
 </tr>
 </table>
+<table width="100%" cellpadding="0" cellspacing="0" border="0">
+<tr>
+	<td width="50%">
+	<p class="boxtext">{intl-duedate}:</p>
+	<input type="text" size="20" name="DueDate" value="{classified_duedate}"/>
+	<br /><br />
+	</td>
+</tr>
+</table>
 <br /><br />
 
 <input type="hidden" value="{classified_id}" name="PositionID">
