@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezforum.php,v 1.13 2001/02/12 14:59:45 ce Exp $
+// $Id: ezforum.php,v 1.14 2001/02/20 19:01:55 pkej Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <11-Sep-2000 22:10:06 bf>
@@ -24,7 +24,7 @@
 //
 
 //!! eZForum
-//! The eZForum class handles forum's in the database.
+//! The eZForum class handles forum''s in the database.
 /*!
   
   \sa eZForumMessage \eZForumCategory

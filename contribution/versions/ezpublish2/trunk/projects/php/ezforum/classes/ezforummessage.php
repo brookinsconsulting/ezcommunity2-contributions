@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezforummessage.php,v 1.69 2001/02/20 09:52:35 pkej Exp $
+// $Id: ezforummessage.php,v 1.70 2001/02/20 19:01:55 pkej Exp $
 //
 // Definition of eZCompany class
 //
@@ -657,6 +657,29 @@ class eZForumMessage
         $this->dbInit();
 
         $this->Database->array_query( $message_array, "SELECT ID FROM eZForum_Message WHERE IsApproved='0'" );
+        $ret = array();
+
+        foreach ( $message_array as $message )
+        {
+            $ret[] =& new eZForumMessage( $message["ID"] );
+        }
+        
+        return $ret;
+
+    }
+
+    /*!
+      Get all the messages which is not approved
+    */
+    function getAllTemporary( )
+    {
+        $this->dbInit();
+
+        $ret = array();
+
+        $this->dbInit();
+
+        $this->Database->array_query( $message_array, "SELECT ID FROM eZForum_Message WHERE IsTemporary='1'" );
         $ret = array();
 
         foreach ( $message_array as $message )
