@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eztechgenerator.php,v 1.15 2000/10/28 20:26:06 bf-cvs Exp $
+// $Id: eztechgenerator.php,v 1.16 2000/10/29 10:41:22 bf-cvs Exp $
 //
 // Definition of eZTechGenerator class
 //
@@ -76,36 +76,56 @@ class eZTechGenerator
             // replace all < and >  between <ezhtml> and </ezhtml>
             // and to the same for <php> </php>
             // ok this is a bit slow code, but it works
-            $startTag = "<ezhtml>";
-            $endTag = "</ezhtml>";
+            $startHTMLTag = "<ezhtml>";
+            $endHTMLTag = "</ezhtml>";
 
-            $numberBegin = substr_count( $tmpPage, $startTag );
-            $numEnd = substr_count( $tmpPage, $endTag );
+            $startPHPTag = "<php>";
+            $endPHPTag = "</php>";
+            
+            $numberBegin = substr_count( $tmpPage, $startHTMLTag );
+            $numEnd = substr_count( $tmpPage, $endHTMLTag );
 
             if ( $numberBegin != $numEnd )
             {
-                print( "Unmatched tags, check that you have end tags for all begin tags" );
+                print( "Unmatched ezhtml tags, check that you have end tags for all begin tags" );
+            }
+            
+            $numberBegin = substr_count( $tmpPage, $startPHPTag );
+            $numEnd = substr_count( $tmpPage, $endPHPTag );
+            
+            if ( $numberBegin != $numEnd )
+            {
+                print( "Unmatched PHP tags, check that you have end tags for all begin tags" );
             }
 
             $checkString = $tmpPage;
 
             $resultPage = "";
             $isInsideHTML = false;
+            $isInsidePHP = false;
             for ( $i=0; $i<strlen( $checkString ); $i++ )
             {    
-                if ( substr( $checkString, $i - strlen( $startTag ), strlen( $startTag ) ) == $startTag )
+                if ( substr( $checkString, $i - strlen( $startHTMLTag ), strlen( $startHTMLTag ) ) == $startHTMLTag )
                 {
-                    //        print( "Tag start" . ( $i + strlen( $startTag ) ) . "<br>" );
-                    $isInsideTag = true;
+                    $isInsideHTMLTag = true;
                 }
 
-                if ( substr( $checkString, $i, strlen( $endTag ) ) == $endTag )
+                if ( substr( $checkString, $i, strlen( $endHTMLTag ) ) == $endHTMLTag )
                 {
-                    //        print( "Tag end" . ( $i + strlen( $endTag ) ) . "<br>" );
-                    $isInsideTag = false;
+                    $isInsideHTMLTag = false;
                 }
 
-                if ( $isInsideTag == true )
+                if ( substr( $checkString, $i - strlen( $startPHPTag ), strlen( $startPHPTag ) ) == $startPHPTag )
+                {
+                    $isInsidePHPTag = true;
+                }
+
+                if ( substr( $checkString, $i, strlen( $endPHPTag ) ) == $endPHPTag )
+                {
+                    $isInsidePHPTag = false;
+                }
+                
+                if ( ( $isInsideHTMLTag == true ) ||  ( $isInsidePHPTag == true ) )
                 {
                     switch ( $tmpPage[$i] )
                     {
