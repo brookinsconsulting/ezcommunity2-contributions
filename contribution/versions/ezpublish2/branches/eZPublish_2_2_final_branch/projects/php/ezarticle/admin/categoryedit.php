@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: categoryedit.php,v 1.29 2001/09/11 10:28:13 jhe Exp $
+// $Id: categoryedit.php,v 1.29.2.1 2002/02/18 18:54:01 master Exp $
 //
 // Created on: <18-Sep-2000 14:46:19 bf>
 //
@@ -37,6 +37,9 @@ include_once( "classes/ezcachefile.php" );
 include_once( "ezuser/classes/ezobjectpermission.php" );
 include_once( "ezbulkmail/classes/ezbulkmailcategory.php" );
 include_once( "ezsitemanager/classes/ezsection.php" );
+
+include_once( "ezarticle/classes/ezarticlegenerator.php" );
+include_once( "ezarticle/classes/ezarticlerenderer.php" );
 
 $ini =& INIFile::globalINI();
 
@@ -87,7 +90,23 @@ if ( $Action == "insert" && !$error )
         $category->setParent( $parentCategory );
     }    
 
-    $category->setDescription( $Description );
+    //EP: CategoryDescriptionXML=enabled, description go in XML -------------------
+    if ( $ini->read_var( "eZArticleMain", "CategoryDescriptionXML" ) == "enabled" )
+    {
+
+	$generator = new eZArticleGenerator();
+        $desc1 = array ( $Description, "" );
+
+	$desc2 = $generator->generateXML( $desc1 ); 
+    
+        $category->setDescription( $desc2 );
+    }
+    else
+    {
+	$category->setDescription( $Description );    
+    }
+    //EP --------------------------------------------------------------------------
+    
     $category->setSectionID( $SectionID );
     $category->setEditorGroup( $EditorGroupID );
     $category->setListLimit( $ListLimit );
@@ -214,8 +233,27 @@ if ( $Action == "update" && !$error )
     {
         $category->setParent( 0 );
     }
+
+    //EP: CategoryDescriptionXML=enabled, description go in XML -------------------
+    if ( $ini->read_var( "eZArticleMain", "CategoryDescriptionXML" ) == "enabled" )
+    {
+
+//    $category->setDescription( htmlspecialchars ($Description) );
+//    $category->setDescription( $Description );
     
-    $category->setDescription( $Description );
+        $generator = new eZArticleGenerator();
+	$desc1 = array ( $Description, "" );
+
+        $desc2 = $generator->generateXML( $desc1 ); 
+    
+	$category->setDescription( $desc2 );
+    }
+    else
+    {
+	$category->setDescription( $Description );
+    }
+    //EP --------------------------------------------------------------------------
+    
     $category->setSectionID( $SectionID );
     $category->setEditorGroup( $EditorGroupID );
     $category->setListLimit( $ListLimit );
@@ -377,6 +415,7 @@ $category = new eZArticleCategory();
 $categoryArray = $category->getAll( );
 
 $t->set_var( "description_value", $Description );
+
 $t->set_var( "name_value", $Name );
 $t->set_var( "list_limit_value", $ListLimit );
 $t->set_var( "action_value", "insert" );
@@ -410,7 +449,21 @@ if ( $Action == "edit" )
 
     $t->set_var( "name_value", $category->name() );
     $t->set_var( "list_limit_value", $category->listLimit() ? $category->listLimit() : "" );
-    $t->set_var( "description_value", $category->description() );
+
+    //EP: CategoryDescriptionXML=enabled, description go in XML -------------------------
+    if ( $ini->read_var( "eZArticleMain", "CategoryDescriptionXML" ) == "enabled" )
+    {
+	$generator = new eZArticleGenerator( );
+        $desc1 = $generator->decodeXML( $category->description(false) );
+	$t->set_var( "description_value", $desc1[0]  );
+
+    }
+    else
+    {
+	$t->set_var( "description_value", htmlspecialchars( $category->description() ) );    
+    }
+    //EP --------------------------------------------------------------------------------
+
     $t->set_var( "action_value", "update" );
     $t->set_var( "category_id", $category->id() );
     $parent = $category->parent();

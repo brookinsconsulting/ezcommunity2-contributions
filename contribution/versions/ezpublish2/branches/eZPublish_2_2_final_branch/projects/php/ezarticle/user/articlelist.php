@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: articlelist.php,v 1.81.2.3 2001/12/12 14:09:41 br Exp $
+// $Id: articlelist.php,v 1.81.2.4 2002/02/18 18:53:30 master Exp $
 //
 // Created on: <18-Oct-2000 14:41:37 bf>
 //
@@ -157,7 +157,31 @@ $t->set_var( "section_id", $GlobalSectionID );
 $category = new eZArticleCategory( $CategoryID );
 
 $t->set_var( "current_category_name", $category->name() );
-$t->set_var( "current_category_description", eZTextTool::nl2br( $category->description() ) );
+
+//EP: CategoryDescriptionXML=enabled, description go in XML -------------------
+if ( $ini->read_var( "eZArticleMain", "CategoryDescriptionXML" ) == "enabled" )
+{
+    if ($CategoryID)
+    {
+	include_once( "ezarticle/classes/ezarticlerenderer.php" );
+
+        $article = new eZArticle ();
+	$article->setContents ($category->description(false));
+
+        $renderer = new eZArticleRenderer( $article );
+
+	$t->set_var( "current_category_description", $renderer->renderIntro() );
+    }
+    else
+    {
+	$t->set_var( "current_category_description", "" );
+    }
+}
+else
+{
+    $t->set_var( "current_category_description", eZTextTool::nl2br( $category->description() ) );
+}
+//EP ---------------------------------------------------------------------------
 
 if ( isSet( $NoArticleHeader ) and $NoArticleHeader )
 {
@@ -281,7 +305,24 @@ foreach ( $categoryList as $categoryItem )
         $t->set_var( "td_class", "bgdark" );
     }
 
-    $t->set_var( "category_description", $categoryItem->description() );
+    //EP: CategoryDescriptionXML=enabled, description go in XML -------------------
+    if ( $ini->read_var( "eZArticleMain", "CategoryDescriptionXML" ) == "enabled" )
+    {    
+	include_once( "ezarticle/classes/ezarticlerenderer.php" );
+
+        $article = new eZArticle ();
+	$article->setContents ($categoryItem->description(false));
+
+        $renderer = new eZArticleRenderer( $article );
+    
+        $t->set_var( "category_description", $renderer->renderIntro() );
+    }
+    else
+    {
+	$t->set_var( "category_description", $categoryItem->description() );
+    }
+
+    //EP ---------------------------------------------------------------------------
 
     $t->parse( "category_item", "category_item_tpl", true );
     $i++;

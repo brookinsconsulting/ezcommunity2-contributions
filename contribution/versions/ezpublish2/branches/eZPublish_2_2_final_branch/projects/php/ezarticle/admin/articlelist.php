@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: articlelist.php,v 1.50.2.1 2001/11/01 13:08:38 bf Exp $
+// $Id: articlelist.php,v 1.50.2.2 2002/02/18 18:53:52 master Exp $
 //
 // Created on: <18-Oct-2000 14:41:37 bf>
 //
@@ -84,7 +84,7 @@ if ( isset( $CopyCategories ) )
 
             $newCategory = new eZArticleCategory( );
             $newCategory->setName( "Copy of " . $tmpCategory->name() );            
-            $newCategory->setDescription( $tmpCategory->description() );
+            $newCategory->setDescription( $tmpCategory->description(false) );
             $newCategory->setParent( $tmpCategory->parent( false ) );
             $newCategory->setOwner( eZUser::currentUser() );
 
@@ -264,7 +264,31 @@ if ( $category->sortMode() == "absolute_placement" )
 }
 
 $t->set_var( "current_category_id", $category->id() );
-$t->set_var( "current_category_description", $category->description() );
+
+//EP: CategoryDescriptionXML=enabled, description go in XML -------------------
+if ( $ini->read_var( "eZArticleMain", "CategoryDescriptionXML" ) == "enabled" )
+{
+    if ($CategoryID)
+    {
+	include_once( "ezarticle/classes/ezarticlerenderer.php" );
+    
+        $article = new eZArticle ();
+	$article->setContents ($category->description(false));
+	    
+	$renderer = new eZArticleRenderer( $article );
+		
+        $t->set_var( "current_category_description", $renderer->renderIntro() );
+    }
+    else
+    {
+    $t->set_var( "current_category_description", "" );
+    }
+}
+else
+{
+    $t->set_var( "current_category_description", $category->description() );    
+}	
+//EP --------------------------------------------------------------------------
 
 // path
 $pathArray = $category->path();
@@ -320,7 +344,23 @@ foreach ( $categoryList as $categoryItem )
         $t->set_var( "td_class", "bgdark" );
     }
     
-    $t->set_var( "category_description", $categoryItem->description() );
+    //EP: CategoryDescriptionXML=enabled, description go in XML -------------------
+    if ( $ini->read_var( "eZArticleMain", "CategoryDescriptionXML" ) == "enabled" )
+    {
+	include_once( "ezarticle/classes/ezarticlerenderer.php" );
+       
+        $article = new eZArticle ();
+	$article->setContents ($categoryItem->description(false));
+	       
+        $renderer = new eZArticleRenderer( $article );
+		   
+	$t->set_var( "category_description", $renderer->renderIntro() );
+    }
+    else
+    {
+	$t->set_var( "category_description", $categoryItem->description() );
+    }       
+    //EP --------------------------------------------------------------------------
 
     if( eZObjectPermission::hasPermission( $categoryItem->id(), "article_category", 'w')  ||
         eZArticleCategory::isOwner( eZUser::currentUser(), $categoryItem->id() ) )
