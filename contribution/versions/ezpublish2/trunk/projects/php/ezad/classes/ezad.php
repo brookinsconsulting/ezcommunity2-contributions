@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezad.php,v 1.27 2001/10/01 11:32:24 br Exp $
+// $Id: ezad.php,v 1.28 2001/10/14 14:11:34 br Exp $
 //
 // Definition of eZAd class
 //
@@ -105,6 +105,7 @@ class eZAd
 			$this->ID = $nextID;
 
             $this->addPageView( );
+            $db->unlock();
         }
         else
         {
@@ -122,7 +123,6 @@ class eZAd
                                  " );
         }
 
-        $db->unlock();
     
         if ( $res == false )
             $db->rollback( );
@@ -473,13 +473,13 @@ class eZAd
         $db->begin();
         
         $date = eZDate::timeStamp( true );
+        $db->lock( "eZAd_View" );
             
         $db->array_query( $view_result, "SELECT * FROM
                                          eZAd_View
                                          WHERE AdID='$this->ID'" );        
         if ( count( $view_result ) == 0 )
         {
-            $db->lock( "eZAd_View" );
 
             $nextID = $db->nextID( "eZAd_View", "ID" );
 
@@ -513,7 +513,6 @@ class eZAd
                            '$offs',
                            '$this->ViewPrice',
                            '$timeStamp' )" );
-
         }
         else
         {

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: adedit.php,v 1.22 2001/08/20 14:56:35 br Exp $
+// $Id: adedit.php,v 1.23 2001/10/14 14:11:33 br Exp $
 //
 // Created on: <16-Nov-2000 13:02:32 bf>
 //
@@ -52,6 +52,8 @@ if ( isSet ( $Preview ) )
     }
 }
 
+$adUrl = strtolower( trim( $AdURL ) );
+
 // Get images from the image browse function.
 if ( ( isSet ( $AddImages ) ) and ( is_numeric( $AdID ) ) and ( is_numeric ( $AdID ) ) )
 {
@@ -92,7 +94,19 @@ if ( $Action == "Insert" )
     $ad->setHTMLBanner( $HTMLBanner );    
     
 
-    $ad->setURL( $AdURL );
+    if ( !preg_match( "/^([a-z]+:\/\/)/", $adUrl ) )
+    {
+        if( !preg_match( "/^(ftp\.)/", $adUrl ) )
+            $real_url = "http://" . $adUrl;
+        else
+            $real_url = "ftp://" . $adUrl;
+    }
+    else
+    {
+        $real_url = $adUrl;
+    }
+    
+    $ad->setURL( $real_url );
     
     $ad->setClickPrice( $ClickPrice );
     $ad->setViewPrice( $ViewPrice );
@@ -176,7 +190,19 @@ if ( $Action == "Update" )
 
     $ad->setHTMLBanner( $HTMLBanner );    
     
-    $ad->setURL( $AdURL );
+    if ( !preg_match( "/^([a-z]+:\/\/)/", $adUrl ) )
+    {
+        if( !preg_match( "/^(ftp\.)/", $adUrl ) )
+            $real_url = "http://" . $adUrl;
+        else
+            $real_url = "ftp://" . $adUrl;
+    }
+    else
+    {
+        $real_url = $adUrl;
+    }
+
+    $ad->setURL( $real_url );
 
     $ad->setClickPrice( $ClickPrice );
     $ad->setViewPrice( $ViewPrice );
