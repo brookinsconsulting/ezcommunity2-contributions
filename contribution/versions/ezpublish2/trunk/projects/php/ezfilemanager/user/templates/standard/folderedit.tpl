@@ -44,10 +44,13 @@
 
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
-    <td colspan="2">
+<td>
     <p class="boxtext">{intl-folder_name}:</p>
     <input type="text" class="box" size="40" name="Name" value="{name_value}"/>
-
+</td>
+</tr>
+<tr>
+    <td width="99%">
     <p class="boxtext">{intl-folder}:</p>
     <select name="ParentID">
     <option value="0" {selected}>{intl-top_folder}</option>
@@ -55,12 +58,24 @@
     <option value="{option_value}" {selected}>{option_level}{option_name}</option>
     <!-- END value_tpl -->
     </select>
-
+    </td>
+    <td width="99%">
+    <p class="boxtext">{intl-section_select}:</p>
+    <select name="SectionID">
+    <!-- BEGIN section_item_tpl -->
+    <option value="{section_id}" {section_is_selected}>{section_name}</option>
+    <!-- END section_item_tpl -->
+    </select>
+    </td>
+</tr>
+<tr>
+<td>
     <p class="boxtext">{intl-folder_description}:</p>
     <textarea name="Description" class="box" cols="40" rows="5" wrap="soft">{description_value}</textarea>
 	<br />
 	<br />
-    </td>
+
+</td>
 </tr>
 
 <tr>
@@ -95,6 +110,8 @@
 </tr>
 </table>
 <br />
+
+
 
 <hr noshade="noshade" size="4" />
 

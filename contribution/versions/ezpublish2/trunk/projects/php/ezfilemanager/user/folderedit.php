@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: folderedit.php,v 1.31 2001/09/17 19:53:11 fh Exp $
+// $Id: folderedit.php,v 1.32 2001/09/21 12:51:34 ce Exp $
 //
 // Created on: <08-Jan-2001 11:13:29 ce>
 //
@@ -32,6 +32,8 @@ include_once( "classes/ezhttptool.php" );
 include_once( "ezuser/classes/ezuser.php" );
 include_once( "ezuser/classes/ezpermission.php" );
 include_once( "ezuser/classes/ezobjectpermission.php" );
+
+include_once( "ezsitemanager/classes/ezsection.php" );
 
 include_once( "ezfilemanager/classes/ezvirtualfile.php" );
 include_once( "ezfilemanager/classes/ezvirtualfolder.php" );
@@ -80,6 +82,7 @@ $t->set_block( "folder_edit_tpl", "errors_tpl", "errors" );
 $t->set_block( "folder_edit_tpl", "write_group_item_tpl", "write_group_item" );
 $t->set_block( "folder_edit_tpl", "read_group_item_tpl", "read_group_item" );
 $t->set_block( "folder_edit_tpl", "upload_group_item_tpl", "upload_group_item" );
+$t->set_block( "folder_edit_tpl", "section_item_tpl", "section_item" );
 
 $t->set_var( "errors", "" );
 $t->set_var( "name_value", $Name );
@@ -179,7 +182,7 @@ if ( ( $Action == "Insert" || $Action == "Update" ) && $error == false )
     if ( isSet( $Description ) )
         $folder->setDescription( $Description );
 
-
+    $folder->setSectionID( $SectionID );
     $parent = new eZVirtualFolder( $ParentID );
     $folder->setParent( $parent );
 
@@ -268,6 +271,8 @@ if ( $Action == "Edit" )
     $t->set_var( "folder_id", $folder->id() );
     $t->set_var( "description_value", $folder->description() );
 
+    $sectionID = $folder->sectionID();
+    
     $parent = $folder->parent();
 
     if ( $parent )
@@ -365,6 +370,27 @@ foreach ( $groups as $group )
     }
     $t->parse( "upload_group_item", "upload_group_item_tpl", true );
 }
+
+$sectionList =& eZSection::getAll();
+
+if ( count( $sectionList ) > 0 )
+{
+    foreach ( $sectionList as $section )
+    {
+        $t->set_var( "section_id", $section->id() );
+        $t->set_var( "section_name", $section->name() );
+        
+        if ( $sectionID == $section->id() )
+            $t->set_var( "section_is_selected", "selected" );
+        else
+            $t->set_var( "section_is_selected", "" );
+        
+        $t->parse( "section_item", "section_item_tpl", true );
+    }
+}
+else
+    $t->set_var( "section_item", "" );
+
 
 // Print out all the folders.
 foreach ( $folderList as $folderItem )

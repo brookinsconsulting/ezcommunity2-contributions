@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezvirtualfolder.php,v 1.31 2001/09/17 19:53:11 fh Exp $
+// $Id: ezvirtualfolder.php,v 1.32 2001/09/21 12:51:34 ce Exp $
 //
 // Definition of eZVirtualFolder class
 //
@@ -70,11 +70,12 @@ class eZVirtualFolder
             $db->lock( "eZFileManager_Folder" );
             $nextID = $db->nextID( "eZFileManager_Folder", "ID" );
             $result = $db->query( "INSERT INTO eZFileManager_Folder
-                                   (ID, Name, Description, UserID, ParentID)
+                                   (ID, Name, Description, UserID, SectionID, ParentID)
                                    VALUES ('$nextID',
                                            '$name',
                                            '$description',
                                            '$this->UserID',
+                                           '$this->SectionID',
                                            '$this->ParentID')
                                    " );
             $db->unlock();
@@ -86,9 +87,12 @@ class eZVirtualFolder
 		                           Name='$name',
                                    Description='$description',
                                    UserID='$this->UserID',
+                                   SectionID='$this->SectionID',
                                    ParentID='$this->ParentID'
                                    WHERE ID='$this->ID'", true );
+
         }
+
 
         if ( $result == false )
             $db->rollback( );
@@ -195,6 +199,7 @@ class eZVirtualFolder
                 $this->Description =& $category_array[0][$db->fieldName( "Description" )];
                 $this->ParentID =& $category_array[0][$db->fieldName( "ParentID" )];
                 $this->UserID =& $category_array[0][$db->fieldName( "UserID" )];
+                $this->SectionID =& $category_array[0][$db->fieldName( "SectionID" )];
             }
         }
     }
@@ -431,6 +436,15 @@ class eZVirtualFolder
     }
 
     /*!
+      Sets the section of the folder.
+    */
+    function setSectionID( $value )
+    {
+        $this->SectionID = $value;
+    }
+
+
+    /*!
       Sets the description of the category.
     */
     function setDescription( $value )
@@ -478,6 +492,15 @@ class eZVirtualFolder
             $this->UserID = $userID;
         }
     }
+
+    /*!
+      Returns the Section ID. Returns false if the Folder was not found.
+    */
+    function sectionID( )
+    {
+        return $this->SectionID;
+    }
+
 
     /*!
       Adds a file to the folder.
@@ -583,12 +606,31 @@ class eZVirtualFolder
         }
         return $ret;
     }
+
+    /*!
+      \static
+      Returns the Section ID. Returns false if the Folder was not found.
+    */
+    function sectionIDStatic($categoryID )
+    {
+        $db =& eZDB::globalDatabase();
+        $db->query_single( $res, "SELECT SectionID from eZFileManager_Folder WHERE ID='$folderID'");
+        
+        $sectionID = $res[$db->fieldName("SectionID")];
+
+        if ( $sectionID > 0 )
+            return $sectionID;
+        else
+            return false;
+    }
+
     
     var $ID;
     var $Name;
     var $ParentID;
     var $Description;
     var $UserID;
+    var $SectionID;
 }
 
 ?>
