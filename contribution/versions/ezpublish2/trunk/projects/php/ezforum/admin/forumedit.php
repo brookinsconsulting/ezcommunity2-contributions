@@ -1,5 +1,5 @@
 <?
-// $Id: forumedit.php,v 1.16 2001/02/12 14:59:45 ce Exp $
+// $Id: forumedit.php,v 1.17 2001/02/13 13:34:04 gl Exp $
 //
 // Author: Lars Wilhelmsen <lw@ez.no>
 // Created on: Created on: <14-Jul-2000 13:41:35 lw>
@@ -319,7 +319,7 @@ foreach( $groupList as $group )
     $t->set_var( "group_id", $group->id() );
 
     $t->set_var( "is_selected", "" );
-    if ( get_class( $group ) == "ezusergroup" )
+    if ( get_class( $group ) == "ezusergroup" && get_class( $groupUser ) == "ezusergroup" )
     {
         if ( $groupUser->id() == $group->id() )
             $t->set_var( "is_selected", "selected" );
