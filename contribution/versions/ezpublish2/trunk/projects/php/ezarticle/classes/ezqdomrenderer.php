@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezqdomrenderer.php,v 1.15 2001/07/10 19:07:43 bf Exp $
+// $Id: ezqdomrenderer.php,v 1.16 2001/07/11 09:31:04 bf Exp $
 //
 // Definition of eZQDomRenderer class
 //
@@ -590,7 +590,7 @@ class eZQDomrenderer
                 {
                     if ( $child->name == "text" )
                     {                
-                        $tmpContent .= $child->content;
+                        $tmpContent .= eZTextTool::nl2br( $child->content );
                     }
                     else
                     {
@@ -660,7 +660,7 @@ class eZQDomrenderer
             
             $this->Template->set_var( "href", $href );
             $this->Template->set_var( "link_text", $text );
-            $pageContent =& $this->Template->parse( "link", "link_tpl" );
+            $pageContent =& trim( $this->Template->parse( "link", "link_tpl" ) );
         }
 
 
