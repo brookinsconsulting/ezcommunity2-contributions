@@ -9,7 +9,7 @@
 <!-- END no_forms_item_tpl -->
 
 <!-- BEGIN form_list_tpl -->
-<table cellpadding="0" cellspacing="0" border="0">
+<table width="100%" class="list" cellpadding="4" cellspacing="0" border="0">
 <tr>
 	<th>{intl-form_name}:</th>
 	<th>&nbsp;</th>
@@ -33,21 +33,13 @@
 </table>
 <!-- END form_list_tpl -->
 
-<br/>
+<hr noshade="noshade" size="4" />
+
+<input class="stdbutton" type="submit" name="DeleteSelected" value="{intl-delete_selected_forms}" />
 
 <hr noshade="noshade" size="4" />
 
-<table cellspacing="0" cellpadding="0" border="0">
-<tr>
-	<td valign="top">
-	<input class="okbutton" type="submit" name="OK" value="{intl-ok}" />
-	</td>
-	<td>&nbsp;</td>
-	<td>
-	<input class="okbutton" type="submit" name="DeleteSelected" value="{intl-delete_selected_forms}" />
-	</td>
-</tr>
-</table>
+<input class="okbutton" type="submit" name="OK" value="{intl-ok}" />
 
 </form>
 <!-- BEGIN type_list_tpl -->

@@ -15,7 +15,7 @@
 
 <hr noshade="noshade" size="4" />
 
-<input class="okbutton" type="submit" name="Test" value="{intl-test}" />
+<input class="stdbutton" type="submit" name="Test" value="{intl-test}" />
 
 <hr noshade="noshade" size="4" />
 
