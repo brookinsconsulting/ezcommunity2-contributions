@@ -119,7 +119,8 @@ class eZGroupEvent
 
         if ( !isset( $this->ID ) )
         {
-           $this->Database->query( "INSERT INTO eZGroupEventCalendar_Event SET
+         
+	  $this->Database->query( "INSERT INTO eZGroupEventCalendar_Event SET
                              Name='$Name',
                              Description='$Description',
                              Date='$this->Date',
@@ -149,7 +150,6 @@ class eZGroupEvent
         }
         else
         {
-
 	   $this->Database->query( "UPDATE eZGroupEventCalendar_Event SET
                              Name='$Name',
                              Description='$Description',
@@ -169,7 +169,7 @@ class eZGroupEvent
                              RecurFreq='$this->RecurFreq',
                              RepeatForever='$this->RepeatForever',
                              RepeatTimes='$this->RepeatTimes',
-                             RepeatUntilDate='$this->RepeatUntilDate'			     
+                             RepeatUntilDate='$this->RepeatUntilDate',     
                              RecurFinishDate='$this->RecurFinishDate',                            
                              EMailNotice='$this->EMailNotice',
                              IsPrivate='$this->IsPrivate',
