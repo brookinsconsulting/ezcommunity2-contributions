@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: orderedit.php,v 1.19 2001/07/06 10:43:15 jhe Exp $
+// $Id: orderedit.php,v 1.20 2001/07/16 10:26:13 ce Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <30-Sep-2000 13:03:13 bf>
@@ -253,6 +253,8 @@ foreach ( $items as $item )
 
     $sum += $price;
     $t->set_var( "product_name", $product->name() );
+    $t->set_var( "product_id", $product->id() );
+    $t->set_var( "product_number", $product->productNumber() );
     $t->set_var( "product_price", $locale->format( $currency ) );
 
     $t->set_var( "order_item_count", $item->count() );
