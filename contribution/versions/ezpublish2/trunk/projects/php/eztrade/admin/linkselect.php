@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: linkselect.php,v 1.1 2001/03/21 13:36:26 jb Exp $
+// $Id: linkselect.php,v 1.2 2001/04/30 14:58:47 jb Exp $
 //
 // Jan Borsodi <jb@ez.no>
 // Created on: <16-Mar-2001 15:51:06 amos>
@@ -132,7 +132,12 @@ if ( isset( $DeleteLink ) )
     exit();
 }
 
-if ( isset( $NewSection ) )
+include_once( "classes/ezmodulelink.php" );
+
+$module_link = new eZModuleLink( "eZTrade", "Product", $ProductID );
+$sections =& $module_link->sections();
+
+if ( isset( $NewSection ) or count( $sections ) == 0 )
 {
     include_once( "classes/ezlinksection.php" );
     include_once( "classes/ezmodulelink.php" );
@@ -142,11 +147,15 @@ if ( isset( $NewSection ) )
     $section_name = isset( $ProductSections[$section_count] ) ? $ProductSections[$section_count] : $DefaultSection;
     $section->setName( $section_name );
     $section->store();
+    $SectionID = $section->id();
     $module->addSection( $section );
     $product = new eZProduct( $ProductID );
     deleteCache( $product );
-    eZHTTPTool::header( "Location: /trade/productedit/link/list/$ProductID" );
-    exit();
+    if ( isset( $NewSection ) )
+    {
+        eZHTTPTool::header( "Location: /trade/productedit/link/list/$ProductID" );
+        exit();
+    }
 }
 
 if ( !isset( $ModuleName ) or !isset( $Type ) )
