@@ -1,6 +1,7 @@
+Warning: Remote host denied X11 forwarding.
 <?php
 // 
-// $Id: eztechrenderer.php,v 1.59 2001/03/12 15:58:49 bf Exp $
+// $Id: eztechrenderer.php,v 1.60 2001/03/12 16:04:39 bf Exp $
 //
 // Definition of eZTechRenderer class
 //
@@ -310,7 +311,7 @@ class eZTechRenderer
                 $newArticle = $intro . "\n\n". $pageArray[$pageNumber];
             }
                 
-        }
+        } 
         
         return $newArticle;
     }
@@ -326,7 +327,7 @@ class eZTechRenderer
                 if ( $this->PrevTag != "link" )
                     $paragraph_text[0] = " ";
             }
-            $pageContent .= "<p>" . eZTextTool::nl2br( $paragraph_text ). "</p>";
+            $pageContent .= "<span>" . eZTextTool::nl2br( $paragraph_text ). "</span>";
         }
         return $pageContent;
     }
