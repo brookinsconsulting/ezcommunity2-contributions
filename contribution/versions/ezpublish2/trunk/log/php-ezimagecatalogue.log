@@ -398,3 +398,13 @@ Maintainer(s) : br@ez.no
       user/intl/he_IL/imageview.php.ini
       user/intl/he_IL/menubox.php.ini: Added he_IL (Hebrew) translation
 
+
+Module : ezimagecatalogue
+Repository path : /home/cvsroot/projects/php/ezimagecatalogue
+Maintainer(s) : br@ez.no
+2001-10-04  fh  <fh@zev.ez.no>
+
+    * user/categoryedit.php
+      user/imageedit.php: -upload is upload (no move) in imagecatalogue
+    -fixes and cleanups in filemanager
+

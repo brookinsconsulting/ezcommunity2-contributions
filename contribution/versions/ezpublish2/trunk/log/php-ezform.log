@@ -63,3 +63,12 @@ Maintainer(s) : pkej@ez.no
     A bug in the sendForm() function where the form element names were printed
     at the top of the e-mail and not in front of the data of each element.
 
+
+Module : ezform
+Repository path : /home/cvsroot/projects/php/ezform
+Maintainer(s) : pkej@ez.no
+2001-10-04  Thomas Hellstroem  <th@ez.no>
+
+    * admin/intl/en_GB/form.php.ini
+      user/intl/en_GB/form.php.ini: Added design
+

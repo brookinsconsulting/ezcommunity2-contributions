@@ -973,3 +973,51 @@ Maintainer(s) : ce@ez.no
       classes/ezvattype.php
       user/cart.php: Fixed VAT from other countires
 
+
+Module : eztrade
+Repository path : /home/cvsroot/projects/php/eztrade
+Maintainer(s) : ce@ez.no
+2001-10-04  Baard Farstad  <bf@ez.no>
+
+    * user/smallproductlist.php:
+    Removed permission check.. Need to fix all permission checks in lowlevel SQL.
+
+    * user/smallproductlist.php: Fixed sorting.
+
+2001-10-04  Christoffer Elo  <ce@ez.no>
+
+    * classes/ezproduct.php
+      classes/ezshippingtype.php: fix
+
+    * classes/ezproduct.php
+      classes/ezshippingtype.php: fixc
+
+    * admin/templates/standard/productedit.tpl
+      classes/ezproduct.php
+      classes/ezshippingtype.php: fixed vat
+
+    * user/intl/en_US/smallproductlist.php.ini: fix
+
+2001-10-04  Bjoern Reiten  <br@ez.no>
+
+    * user/payment.php:
+    If no items is found in payment, redirect to /trade/cart.
+
+2001-10-04  Christoffer Elo  <ce@ez.no>
+
+    * admin/customerview.php
+      user/smallproductlist.php: fix
+
+2001-10-04  Baard Farstad  <bf@ez.no>
+
+    * user/searchsupplier.php: Added trade search.
+
+    * user/ordersendt.php: Fixed init variable.
+
+2001-10-04  Christoffer Elo  <ce@ez.no>
+
+    * user/intl/en_GB/smallproductlist.php.ini: added files
+
+    * user/categorylist.php
+      user/smallproductlist.php: Addded small productlist
+

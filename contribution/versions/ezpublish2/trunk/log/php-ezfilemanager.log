@@ -295,3 +295,19 @@ Maintainer(s) : jhe@ez.no
     2. Upload is now true upload only unless you have write access.
     3. Removed a couple of bugs..
 
+
+Module : ezfilemanager
+Repository path : /home/cvsroot/projects/php/ezfilemanager
+Maintainer(s) : jhe@ez.no
+2001-10-04  Christoffer Elo  <ce@ez.no>
+
+    * user/filelist.php: fix
+
+    * user/filelist.php
+      user/menufolderlist.php: Addded small productlist
+
+2001-10-04  fh  <fh@zev.ez.no>
+
+    * user/folderedit.php: -upload is upload (no move) in imagecatalogue
+    -fixes and cleanups in filemanager
+

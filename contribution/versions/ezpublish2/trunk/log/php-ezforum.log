@@ -352,3 +352,11 @@ Maintainer(s) : jhe@ez.no
       user/intl/he_IL/search.php.ini
       user/intl/he_IL/userlogin.php.ini: Added he_IL (Hebrew) translation
 
+
+Module : ezforum
+Repository path : /home/cvsroot/projects/php/ezforum
+Maintainer(s) : jhe@ez.no
+2001-10-04  Baard Farstad  <bf@ez.no>
+
+    * user/messagelist.php: Fixed bug with overwriting the currentuser.
+

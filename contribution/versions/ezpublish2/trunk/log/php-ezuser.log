@@ -264,3 +264,25 @@ Maintainer(s) : bf@ez.no
       user/intl/he_IL/userwithaddress.php.ini:
     Added he_IL (Hebrew) translation
 
+
+Module : ezuser
+Repository path : /home/cvsroot/projects/php/ezuser
+Maintainer(s) : bf@ez.no
+2001-10-04  Baard Farstad  <bf@ez.no>
+
+    * user/datasupplier.php
+      user/templates/standard/userwithaddress.tpl: Section id fix.
+
+    * user/templates/standard/userwithaddress.tpl
+      user/userwithaddress.php: Fixed remembering section id.
+
+2001-10-04  Christoffer Elo  <ce@ez.no>
+
+    * classes/ezobjectpermission.php: Addded small productlist
+
+2001-10-04  fh  <fh@zev.ez.no>
+
+    * admin/useredit.php: Code commented out by accident works...
+
+    * admin/useredit.php: Additional groups are allowed again
+
