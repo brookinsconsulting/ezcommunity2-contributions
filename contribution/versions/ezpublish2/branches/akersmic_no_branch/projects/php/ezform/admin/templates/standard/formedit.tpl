@@ -23,11 +23,23 @@
 
 
 <!-- BEGIN form_item_tpl -->
-<p class="boxtext">{intl-form_name}:</p>
-<input type="text" class="box" size="40" name="formName" value="{form_name}" />
-<br /><br />
 
 <table width="100%" cellpaddning="0" cellspacing="0" border="0">
+<tr>
+    <td>
+    <p class="boxtext">{intl-form_name}:</p>
+    <input type="text" class="box" size="40" name="formName" value="{form_name}" />
+    </td>
+    <td
+    <td>
+    <p class="boxtext">Krypter epost:</p>
+    <input type="checkbox" {encrypt_checked} name="EncryptMail" value="{encrypt_mail}" />
+    </td>
+    <td
+</tr>
+<tr>
+    <td>&nbsp;</td>
+</tr>
 <tr>
     <td>
 	<p class="boxtext">{intl-form_receiver}:</p>

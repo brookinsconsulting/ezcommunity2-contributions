@@ -1,6 +1,6 @@
 <?php
-// 
-// $Id: formedit.php,v 1.10.2.1 2001/11/01 17:01:50 bf Exp $
+//
+// $Id: formedit.php,v 1.10.2.1.4.1 2002/03/04 13:40:16 ce Exp $
 //
 // Created on: <12-Jun-2001 13:07:24 pkej>
 //
@@ -134,7 +134,7 @@ if ( isSet( $OK ) || isSet( $Update ) || isSet( $Preview ) || isSet( $NewElement
         $form->setCompletedPage( $formCompletedPage );
         $form->setInstructionPage( $formInstructionPage );
         $form->setSender( $formSender );
-        
+
         if ( isSet( $formSendAsUser ) )
         {
             $form->setSendAsUser( true );
@@ -143,13 +143,22 @@ if ( isSet( $OK ) || isSet( $Update ) || isSet( $Preview ) || isSet( $NewElement
         {
             $form->setSendAsUser( false );
         }
-        
+
+        if ( isSet( $EncryptMail ) )
+        {
+            $form->setEncryptMail( true );
+        }
+        else
+        {
+            $form->setEncryptMail( false );
+        }
+
         $form->store();
         $FormID = $form->id();
-        
+
         $existingElementCount = $form->numberOfElements();
         $existingElementCount++;
-        
+
         if ( isSet( $NewElement ) )
         {
             $newElementName =& $ini->read_var( "eZFormMain", "DefaultElementName" );
@@ -158,7 +167,7 @@ if ( isSet( $OK ) || isSet( $Update ) || isSet( $Preview ) || isSet( $NewElement
             $element->setName( $newElementName );
             $element->store();
         }
-        
+
         if ( isSet( $element ) )
         {
             $form->addElement( $element );
@@ -166,7 +175,7 @@ if ( isSet( $OK ) || isSet( $Update ) || isSet( $Preview ) || isSet( $NewElement
 
         $elementCount = count( $elementID );
         $elementTypeError = false;
-        
+
         for ( $i = 0; $i < $elementCount; $i++ )
         {
             $element = new eZFormElement( $elementID[$i] );
@@ -339,6 +348,18 @@ if ( $form->isSendAsUser() )
 else
 {
     $t->set_var( "form_send_as_user", "0" );
+    $t->set_var( "checked", "" );
+}
+
+if ( $form->encryptMail() )
+{
+    $t->set_var( "encrypt_mail", "1" );
+    $t->set_var( "encrypt_checked", "checked" );
+}
+else
+{
+    $t->set_var( "form_send_as_user", "0" );
+    $t->set_var( "checked", "" );
 }
 
 $elements = $form->formElements();
@@ -361,7 +382,7 @@ if ( $count > 0 )
         $t->set_var( "element_id", $element->id() );
 
         $t->set_var( "element_size", $element->size() );
-        
+
         if ( $element->isRequired() )
         {
             $t->set_var( "element_required", "checked" );
@@ -404,7 +425,7 @@ if ( $count > 0 )
                 }
                 else
                     $t->set_var( "fixed_values", "" );
-                    
+
                 $t->set_var( "selected", "selected" );
 
                 $t->set_var( "element_nr", $i );
@@ -416,12 +437,12 @@ if ( $count > 0 )
                 else
                     $t->set_var( "break", "" );
             }
-            
+
             $t->set_var( "element_type_id", $type->id() );
             $t->set_var( "element_type_name", $type->name() );
             $t->parse( "typelist_item", "typelist_item_tpl", true );
         }
-        
+
         $t->set_var( "item_move_up", "" );
         $t->set_var( "no_item_move_up", "" );
         $t->set_var( "item_move_down", "" );
@@ -433,12 +454,12 @@ if ( $count > 0 )
         {
             $t->parse( "item_move_up", "item_move_up_tpl" );
         }
-        
+
         if ( isSet( $move_item ) )
         {
             $t->parse( "item_separator", "item_separator_tpl" );
         }
-        
+
         if ( isSet( $move_item ) )
         {
             $t->parse( "item_move_down", "item_move_down_tpl" );
@@ -447,7 +468,7 @@ if ( $count > 0 )
         $t->parse( "element_item", "element_item_tpl", true );
         $i++;
     }
-    
+
     $t->parse( "element_list", "element_list_tpl" );
 }
 
@@ -459,13 +480,13 @@ if ( count( $errorMessages ) > 0 && !isSet( $NewElement ) && !isSet( $DeleteSele
         $t->set_var( "error_message", $errorMessage );
         $t->parse( "error_item", "error_item_tpl", true );
     }
-    
+
     $t->set_var( "form_name", $formName );
     $t->set_var( "form_receiver", $formReceiver );
     $t->set_var( "form_cc", $formCC );
     $t->set_var( "form_completed_page", $formCompletedPage );
     $t->set_var( "form_sender", $formSender );
-    
+
     if ( isSet( $formSendAsUser ) )
     {
         $t->set_var( "checked", "checked" );
