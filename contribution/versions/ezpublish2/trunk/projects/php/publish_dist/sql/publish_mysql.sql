@@ -1000,29 +1000,7 @@ CREATE TABLE eZFileManager_FilePermission (
   WritePermission int(11) default '0',
   PRIMARY KEY (ID)
 ) TYPE=MyISAM;
-
-
-CREATE TABLE eZFileManager_FolderReadGroupLink (
-  ID int(11) NOT NULL,
-  GroupID int(11) default NULL,
-  FolderID int(11) default NULL,
-  PRIMARY KEY (ID)
-) TYPE=MyISAM;
-
-
-CREATE TABLE eZFileManager_FileReadGroupLink (
-  ID int(11) NOT NULL,
-  GroupID int(11) default NULL,
-  FileID int(11) default NULL,
-  PRIMARY KEY (ID)
-) TYPE=MyISAM;
-
-CREATE TABLE eZFileManager_FileWriteGroupLink (
-  ID int(11) NOT NULL,
-  GroupID int(11) default NULL,
-  FileID int(11) default NULL,
-  PRIMARY KEY (ID)
-) TYPE=MyISAM;#
+#
 # Table structure for table 'eZForm_Form'
 #
 
@@ -1499,27 +1477,6 @@ INSERT INTO eZMediaCatalogue_Type VALUES (1,'QuickTime');
 INSERT INTO eZMediaCatalogue_Type VALUES (2,'Windows Media Player');
 INSERT INTO eZMediaCatalogue_Type VALUES (3,'ShockWave Flash');
 
-
-CREATE TABLE eZMessage (
-  ID int(11) NOT NULL auto_increment,
-  UserID int(11) NOT NULL default '0',
-  Subject varchar(255) NOT NULL default '',
-  Description text,
-  PRIMARY KEY (ID)
-) TYPE=MyISAM;
-
-
-
-CREATE TABLE eZMessage_Message (
-  ID int(11) NOT NULL auto_increment,
-  FromUserID int(11) NOT NULL default '0',
-  ToUserID int(11) NOT NULL default '0',
-  Created int(11) NOT NULL,
-  IsRead int(11) NOT NULL default '0',
-  Subject varchar(255) NOT NULL default '',
-  Description text,
-  PRIMARY KEY (ID)
-) TYPE=MyISAM;
 CREATE TABLE eZModule_LinkModuleType (
   ID int NOT NULL,
   Module varchar(40) NOT NULL default '',
@@ -1673,98 +1630,95 @@ INSERT INTO eZSiteManager_Section   ( ID,  Name, Created, Description,  SiteDesi
 
 
 
+#
+# Table structure for table 'eZStats_BrowserType'
+#
+DROP TABLE IF EXISTS eZStats_BrowserType;
 CREATE TABLE eZStats_BrowserType (
-  ID int NOT NULL,
-  BrowserType varchar(250) NOT NULL default '',
+  ID int(11) DEFAULT '0' NOT NULL auto_increment,
+  BrowserType char(250) DEFAULT '' NOT NULL,
   PRIMARY KEY (ID)
 );
 
+#
+# Dumping data for table 'eZStats_BrowserType'
+#
+
+
+
+#
+# Table structure for table 'eZStats_PageView'
+#
+DROP TABLE IF EXISTS eZStats_PageView;
 CREATE TABLE eZStats_PageView (
-  ID int NOT NULL,
-  UserID int NOT NULL default '0',
-  BrowserTypeID int NOT NULL default '0',
-  RemoteHostID int NOT NULL default '0',
-  RefererURLID int NOT NULL default '0',
-  Date int NOT NULL,
-  RequestPageID int NOT NULL default '0',
-  DateValue int NOT NULL,
-  TimeValue int NOT NULL,
+  ID int(11) DEFAULT '0' NOT NULL auto_increment,
+  UserID int(11) DEFAULT '0' NOT NULL,
+  BrowserTypeID int(11) DEFAULT '0' NOT NULL,
+  RemoteHostID int(11) DEFAULT '0' NOT NULL,
+  RefererURLID int(11) DEFAULT '0' NOT NULL,
+  Date timestamp(14),
+  RequestPageID int(11) DEFAULT '0' NOT NULL,
   PRIMARY KEY (ID)
 );
 
+#
+# Dumping data for table 'eZStats_PageView'
+#
+
+
+
+#
+# Table structure for table 'eZStats_RefererURL'
+#
+DROP TABLE IF EXISTS eZStats_RefererURL;
 CREATE TABLE eZStats_RefererURL (
-  ID int NOT NULL,
-  Domain varchar(100) default NULL,
-  URI varchar(200) default NULL,
+  ID int(11) DEFAULT '0' NOT NULL auto_increment,
+  Domain char(100),
+  URI char(200),
   PRIMARY KEY (ID)
 );
 
+#
+# Dumping data for table 'eZStats_RefererURL'
+#
+
+
+
+
+#
+# Table structure for table 'eZStats_RemoteHost'
+#
+DROP TABLE IF EXISTS eZStats_RemoteHost;
 CREATE TABLE eZStats_RemoteHost (
-  ID int NOT NULL,
-  IP varchar(15) default NULL,
-  HostName varchar(150) default NULL,
+  ID int(11) DEFAULT '0' NOT NULL auto_increment,
+  IP char(15),
+  HostName char(150),
   PRIMARY KEY (ID)
 );
 
+#
+# Dumping data for table 'eZStats_RemoteHost'
+#
+
+
+
+
+#
+# Table structure for table 'eZStats_RequestPage'
+#
+DROP TABLE IF EXISTS eZStats_RequestPage;
 CREATE TABLE eZStats_RequestPage (
-  ID int NOT NULL,
-  URI varchar(250) default NULL,
+  ID int(11) DEFAULT '0' NOT NULL auto_increment,
+  URI char(250),
   PRIMARY KEY (ID)
 );
 
-CREATE TABLE eZStats_Archive_RequestedPage (
-  ID int NOT NULL,
-  Month int,
-  URI varchar(250) default NULL,
-  Count int NOT NULL DEFAULT '0',
-  PRIMARY KEY (ID)
-);
+#
+# Dumping data for table 'eZStats_RequestPage'
+#
 
-CREATE TABLE eZStats_Archive_PageView (
-  ID int NOT NULL,
-  Hour int NOT NULL,
-  Count int DEFAULT '0' NOT NULL,
-  PRIMARY KEY (ID)
-);
 
-CREATE TABLE eZStats_Archive_UniqueVisits (
-  ID int NOT NULL,
-  Day int NOT NULL,
-  Count int NOT NULL DEFAULT '0',
-  PRIMARY KEY (ID)
-);
 
-CREATE TABLE eZStats_Archive_BrowserType (
-  ID int NOT NULL,
-  Browser varchar(250) default NULL,
-  Count int NOT NULL DEFAULT '0',
-  PRIMARY KEY (ID)
-);
-
-CREATE TABLE eZStats_Archive_RefererURL (
-  ID int NOT NULL,
-  Month int NOT NULL,
-  Domain varchar(100) default NULL,
-  URI varchar(200) default NULL,
-  Count int  NOT NULL DEFAULT '0',
-  PRIMARY KEY (ID)
-);
-
-CREATE TABLE eZStats_Archive_Users (
-  ID int NOT NULL,
-  UserID int NOT NULL,
-  Month int NOT NULL,
-  Count int DEFAULT '0' NOT NULL,
-  PRIMARY KEY (ID)
-);
-
-CREATE TABLE eZStats_Archive_RemoteHost (
-  ID int NOT NULL,
-  IP varchar(15) default NULL,
-  HostName varchar(150) default NULL,
-  Count int NOT NULL DEFAULT '0',
-  PRIMARY KEY (ID)
-);
 CREATE TABLE eZTodo_Category (
   Description text,
   ID int(11) NOT NULL,
@@ -2283,13 +2237,6 @@ CREATE TABLE eZTrade_WishListOptionValue (
   OptionValueID int(11) default NULL,
   PRIMARY KEY (ID)
 ) TYPE=MyISAM;
-CREATE TABLE eZURLTranslator_URL (
-  ID int NOT NULL,
-  Source varchar(200) default NULL,
-  Dest varchar(200) default NULL,
-  Created int NOT NULL,
-  PRIMARY KEY (ID)
-);
 CREATE TABLE eZUser_User (
   ID int NOT NULL,
   Login varchar(50) NOT NULL default '',

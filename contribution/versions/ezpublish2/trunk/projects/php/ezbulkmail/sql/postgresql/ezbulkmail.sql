@@ -56,7 +56,7 @@ CREATE TABLE eZBulkMail_SubscriptionLink (
 CREATE TABLE eZBulkMail_Template (
   ID int NOT NULL,
   Name varchar(200) default NULL,
-  Description lvarchar default NULL,
+  Description varchar default NULL,
   Header text,
   Footer text,
   PRIMARY KEY (ID)

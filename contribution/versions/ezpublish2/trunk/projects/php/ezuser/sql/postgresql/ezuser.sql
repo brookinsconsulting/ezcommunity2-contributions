@@ -164,6 +164,12 @@ INSERT INTO eZUser_Permission (ID, ModuleID, Name ) VALUES (63,15,'ModuleEdit');
 INSERT INTO eZUser_Permission (ID, ModuleID, Name ) VALUES (64,12,'WriteToRoot');
 INSERT INTO eZUser_Permission (ID, ModuleID, Name ) VALUES (65,16,'ModuleEdit');
 
+CREATE TABLE eZUser_UserGroupDefinition (
+  ID int NOT NULL,
+  UserID int NOT NULL default '0',
+  GroupID int NOT NULL default '0',
+  PRIMARY KEY (ID)
+);
 
 INSERT INTO eZUser_User ( ID,  Login,  Password,  Email,  FirstName,  LastName,  InfoSubscription,  Signature,  SimultaneousLogins,  CookieLogin )  
 VALUES (1,'admin','9b6d0bb3102b87fae57bc4a39149518e','postmaster@yourdomain','admin','user','0','',0,0);

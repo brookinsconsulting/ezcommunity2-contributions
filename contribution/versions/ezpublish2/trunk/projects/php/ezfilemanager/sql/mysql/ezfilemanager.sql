@@ -52,26 +52,3 @@ CREATE TABLE eZFileManager_FilePermission (
   WritePermission int(11) default '0',
   PRIMARY KEY (ID)
 ) TYPE=MyISAM;
-
-
-CREATE TABLE eZFileManager_FolderReadGroupLink (
-  ID int(11) NOT NULL,
-  GroupID int(11) default NULL,
-  FolderID int(11) default NULL,
-  PRIMARY KEY (ID)
-) TYPE=MyISAM;
-
-
-CREATE TABLE eZFileManager_FileReadGroupLink (
-  ID int(11) NOT NULL,
-  GroupID int(11) default NULL,
-  FileID int(11) default NULL,
-  PRIMARY KEY (ID)
-) TYPE=MyISAM;
-
-CREATE TABLE eZFileManager_FileWriteGroupLink (
-  ID int(11) NOT NULL,
-  GroupID int(11) default NULL,
-  FileID int(11) default NULL,
-  PRIMARY KEY (ID)
-) TYPE=MyISAM;

@@ -542,10 +542,10 @@ CREATE TABLE eZArticle_Type (
 );
 
 CREATE TABLE eZArticle_ArticleMediaLink (
-  ID int(11) NOT NULL,
-  ArticleID int(11) NOT NULL default '0',
-  MediaID int(11) NOT NULL default '0',
-  Created int(11) default NULL,
+  ID int NOT NULL,
+  ArticleID int NOT NULL default '0',
+  MediaID int NOT NULL default '0',
+  Created int default NULL,
   PRIMARY KEY (ID)
 );
 
@@ -673,9 +673,7 @@ CREATE TABLE eZBug_Status (
   PRIMARY KEY (ID)
 );
 
-INSERT INTO eZBug_Status VALUES (1,'Fixed');
-
-CREATE TABLE eZBulkMail_Category (
+INSERT INTO eZBug_Status VALUES (1,'Fixed');CREATE TABLE eZBulkMail_Category (
   ID int NOT NULL,
   Name varchar(200) default NULL,
   Description text,
@@ -733,7 +731,7 @@ CREATE TABLE eZBulkMail_SubscriptionLink (
 CREATE TABLE eZBulkMail_Template (
   ID int NOT NULL,
   Name varchar(200) default NULL,
-  Description lvarchar default NULL,
+  Description varchar default NULL,
   Header text,
   Footer text,
   PRIMARY KEY (ID)
@@ -1014,33 +1012,6 @@ CREATE TABLE eZFileManager_FilePermission (
   PRIMARY KEY (ID)
 );
 
-CREATE TABLE eZFileManager_FileReadGroupLink (
-  ID int NOT NULL,
-  GroupID int default NULL,
-  FileID int default NULL,
-  PRIMARY KEY (ID)
-);
-
-CREATE TABLE eZFileManager_FolderReadGroupLink (
-  ID int NOT NULL,
-  GroupID int default NULL,
-  FolderID int default NULL,
-  PRIMARY KEY (ID)
-);
-
-CREATE TABLE eZFileManager_FileReadGroupLink (
-  ID int NOT NULL,
-  GroupID int default NULL,
-  FileID int default NULL,
-  PRIMARY KEY (ID)
-);
-
-CREATE TABLE eZFileManager_FileWriteGroupLink (
-  ID int NOT NULL,
-  GroupID int default NULL,
-  FileID int default NULL,
-  PRIMARY KEY (ID)
-);
 CREATE TABLE eZForm_Form (
   ID int NOT NULL,
   Name varchar(255) default NULL,
@@ -1400,31 +1371,6 @@ CREATE TABLE eZMail_MailContactLink (
   PersonID int,
   CompanyID int,
   PRIMARY KEY (ID)
-);
-
-CREATE TABLE eZMessage (
-  ID int NOT NULL,
-  UserID int NOT NULL default '0',
-  Subject varchar(255) NOT NULL default '',
-  Description text,
-  PRIMARY KEY (ID)
-);
-
-CREATE TABLE eZMessage_Message (
-  ID int NOT NULL,
-  FromUserID int NOT NULL default '0',
-  ToUserID int NOT NULL default '0',
-  Created int NOT NULL,
-  IsRead int NOT NULL default '0',
-  Subject varchar(255) NOT NULL default '',
-  Description text,
-  PRIMARY KEY (ID)
-);
-CREATE TABLE eZModule_LinkModuleType (
-  ID int NOT NULL,
-  Module varchar(40) NOT NULL default '',
-  Type varchar(40) NOT NULL default '',
-  PRIMARY KEY (ID,Module,Type)
 );
 CREATE TABLE eZPoll_MainPoll (
   ID int NOT NULL,
@@ -1814,7 +1760,7 @@ CREATE TABLE eZTrade_OrderItem (
   Count int default NULL,
   Price decimal(10,2) default NULL,
   ProductID int default NULL,
-  PriceIncVAT float(10,2) default NULL,
+  PriceIncVAT decimal(10,2) default NULL,
   VATValue int default NULL,
   ExpiryDate int default NULL,
   PRIMARY KEY (ID)
@@ -1937,14 +1883,6 @@ CREATE TABLE eZTrade_ProductPermission (
   WritePermission int default '0',
   PRIMARY KEY (ID)
 );
-
-CREATE TABLE eZTrade_ProductPermissionLink (
-  ID int NOT NULL default '0',
-  ProductID int NOT NULL default '0',
-  GroupID int NOT NULL default '0',
-  PRIMARY KEY (ID)
-);
-
 
 CREATE TABLE eZTrade_ProductPriceLink (
   ProductID int NOT NULL default '0',
@@ -2109,17 +2047,6 @@ CREATE TABLE eZTrade_WishListOptionValue (
 
 
 CREATE UNIQUE INDEX eZTradeOrderStatusTypeName ON eZTrade_OrderStatusType (Name);
-CREATE UNIQUE INDEX ProductPermissionObjectID ON ProductPermissionObjectID (ObjectID);
-CREATE UNIQUE INDEX ProductPermissionGroupID ON ProductPermissionObjectID (GroupID);
-CREATE UNIQUE INDEX ProductPermissionWritePermission ON ProductPermissionObjectID (WritePermission);
-CREATE UNIQUE INDEX ProductPermissionReadPermission ON ProductPermissionObjectID (ReadPermission);
-CREATE TABLE eZURLTranslator_URL (
-  ID int NOT NULL,
-  Source varchar(200) default NULL,
-  Dest varchar(200) default NULL,
-  Created int NOT NULL,
-  PRIMARY KEY (ID)
-);
 CREATE TABLE eZUser_User (
   ID int NOT NULL,
   Login varchar(50) NOT NULL default '',

@@ -172,7 +172,7 @@ CREATE TABLE eZTrade_OrderItem (
   Count int default NULL,
   Price decimal(10,2) default NULL,
   ProductID int default NULL,
-  PriceIncVAT float(10,2) default NULL,
+  PriceIncVAT decimal(10,2) default NULL,
   VATValue int default NULL,
   ExpiryDate int default NULL,
   PRIMARY KEY (ID)
@@ -295,14 +295,6 @@ CREATE TABLE eZTrade_ProductPermission (
   WritePermission int default '0',
   PRIMARY KEY (ID)
 );
-
-CREATE TABLE eZTrade_ProductPermissionLink (
-  ID int NOT NULL default '0',
-  ProductID int NOT NULL default '0',
-  GroupID int NOT NULL default '0',
-  PRIMARY KEY (ID)
-);
-
 
 CREATE TABLE eZTrade_ProductPriceLink (
   ProductID int NOT NULL default '0',
@@ -467,7 +459,3 @@ CREATE TABLE eZTrade_WishListOptionValue (
 
 
 CREATE UNIQUE INDEX eZTradeOrderStatusTypeName ON eZTrade_OrderStatusType (Name);
-CREATE UNIQUE INDEX ProductPermissionObjectID ON ProductPermissionObjectID (ObjectID);
-CREATE UNIQUE INDEX ProductPermissionGroupID ON ProductPermissionObjectID (GroupID);
-CREATE UNIQUE INDEX ProductPermissionWritePermission ON ProductPermissionObjectID (WritePermission);
-CREATE UNIQUE INDEX ProductPermissionReadPermission ON ProductPermissionObjectID (ReadPermission);

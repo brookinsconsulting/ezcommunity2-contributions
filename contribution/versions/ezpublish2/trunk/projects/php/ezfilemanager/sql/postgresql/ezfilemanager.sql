@@ -53,30 +53,3 @@ CREATE TABLE eZFileManager_FilePermission (
   PRIMARY KEY (ID)
 );
 
-CREATE TABLE eZFileManager_FileReadGroupLink (
-  ID int NOT NULL,
-  GroupID int default NULL,
-  FileID int default NULL,
-  PRIMARY KEY (ID)
-);
-
-CREATE TABLE eZFileManager_FolderReadGroupLink (
-  ID int NOT NULL,
-  GroupID int default NULL,
-  FolderID int default NULL,
-  PRIMARY KEY (ID)
-);
-
-CREATE TABLE eZFileManager_FileReadGroupLink (
-  ID int NOT NULL,
-  GroupID int default NULL,
-  FileID int default NULL,
-  PRIMARY KEY (ID)
-);
-
-CREATE TABLE eZFileManager_FileWriteGroupLink (
-  ID int NOT NULL,
-  GroupID int default NULL,
-  FileID int default NULL,
-  PRIMARY KEY (ID)
-);
