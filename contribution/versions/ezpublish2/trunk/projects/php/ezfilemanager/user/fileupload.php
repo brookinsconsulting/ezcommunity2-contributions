@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: fileupload.php,v 1.24 2001/03/08 20:45:43 fh Exp $
+// $Id: fileupload.php,v 1.25 2001/03/09 08:33:31 ce Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <10-Dec-2000 15:49:57 bf>
@@ -345,6 +345,11 @@ if ( $Action == "Edit" )
     $t->set_var( "name_value", $file->name() );
     $t->set_var( "description_value", $file->description() );
     $t->set_var( "file_id", $file->id() );
+
+    $folder = $file->folder();
+
+    if ( $folder )
+        $FolderID = $folder->id();
 
     $readGroupArrayID =& eZObjectPermission::getGroups( $file->id(), "filemanager_file", "r", false );
     $writeGroupArrayID =& eZObjectPermission::getGroups( $file->id(), "filemanager_file", "w", false );
