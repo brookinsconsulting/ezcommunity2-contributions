@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezbulkmail.php,v 1.16 2001/06/29 15:19:14 ce Exp $
+// $Id: ezbulkmail.php,v 1.17 2001/07/03 11:50:58 br Exp $
 //
 // eZBulkMail class
 //
@@ -79,10 +79,10 @@ class eZBulkMail
                                   '$this->UserID',
                                   '$this->From',
                                   '$fromname',
-                                  '$replyto
+                                  '$replyto',
                                   '$subject',
                                   '$bodytext',
-                                  '$bodyText
+                                  '$bodyText',
                                   '$this->IsDraft' )
                                 " );
 			$this->ID = $nextID;
