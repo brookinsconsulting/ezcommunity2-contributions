@@ -7,6 +7,7 @@
 #
 # Table structure for table 'eZArticle_Article'
 #
+DROP TABLE IF EXISTS eZArticle_Article;
 CREATE TABLE eZArticle_Article (
   ID int(11) DEFAULT '0' NOT NULL auto_increment,
   Name varchar(100),
@@ -32,6 +33,7 @@ INSERT INTO eZArticle_Article VALUES (1,'Demo article','<?xml version=\"1.0\"?><
 #
 # Table structure for table 'eZArticle_ArticleCategoryLink'
 #
+DROP TABLE IF EXISTS eZArticle_ArticleCategoryLink;
 CREATE TABLE eZArticle_ArticleCategoryLink (
   ID int(11) DEFAULT '0' NOT NULL auto_increment,
   ArticleID int(11) DEFAULT '0' NOT NULL,
@@ -48,6 +50,7 @@ INSERT INTO eZArticle_ArticleCategoryLink VALUES (1,1,1);
 #
 # Table structure for table 'eZArticle_ArticleImageDefinition'
 #
+DROP TABLE IF EXISTS eZArticle_ArticleImageDefinition;
 CREATE TABLE eZArticle_ArticleImageDefinition (
   ArticleID int(11) DEFAULT '0' NOT NULL,
   ThumbnailImageID int(11),
@@ -64,6 +67,7 @@ INSERT INTO eZArticle_ArticleImageDefinition VALUES (1,1);
 #
 # Table structure for table 'eZArticle_ArticleImageLink'
 #
+DROP TABLE IF EXISTS eZArticle_ArticleImageLink;
 CREATE TABLE eZArticle_ArticleImageLink (
   ID int(11) DEFAULT '0' NOT NULL auto_increment,
   ArticleID int(11) DEFAULT '0' NOT NULL,
@@ -81,6 +85,7 @@ INSERT INTO eZArticle_ArticleImageLink VALUES (1,1,1,20001101122932);
 #
 # Table structure for table 'eZArticle_Category'
 #
+DROP TABLE IF EXISTS eZArticle_Category;
 CREATE TABLE eZArticle_Category (
   ID int(11) DEFAULT '0' NOT NULL auto_increment,
   Name varchar(100),
@@ -99,6 +104,7 @@ INSERT INTO eZArticle_Category VALUES (1,'News','Here are some news, fresh from 
 #
 # Table structure for table 'eZContact_Address'
 #
+DROP TABLE IF EXISTS eZContact_Address;
 CREATE TABLE eZContact_Address (
   ID int(11) DEFAULT '0' NOT NULL auto_increment,
   Street1 char(50),
@@ -118,6 +124,7 @@ CREATE TABLE eZContact_Address (
 #
 # Table structure for table 'eZContact_Country'
 #
+DROP TABLE IF EXISTS eZContact_Country;
 CREATE TABLE eZContact_Country (
   ID int(11) DEFAULT '0' NOT NULL auto_increment,
   ISO char(2),
@@ -371,6 +378,7 @@ INSERT INTO eZContact_Country VALUES (239,'ZM','Zambia');
 #
 # Table structure for table 'eZForum_Category'
 #
+DROP TABLE IF EXISTS eZForum_Category;
 CREATE TABLE eZForum_Category (
   Name varchar(20),
   Description varchar(40),
@@ -388,6 +396,7 @@ INSERT INTO eZForum_Category VALUES ('Talk center','General talk','N',1);
 #
 # Table structure for table 'eZForum_Forum'
 #
+DROP TABLE IF EXISTS eZForum_Forum;
 CREATE TABLE eZForum_Forum (
   CategoryID int(11) DEFAULT '0' NOT NULL,
   Name varchar(20) DEFAULT '' NOT NULL,
@@ -408,6 +417,7 @@ INSERT INTO eZForum_Forum VALUES (1,'Special talk','Talk about something else he
 #
 # Table structure for table 'eZForum_Message'
 #
+DROP TABLE IF EXISTS eZForum_Message;
 CREATE TABLE eZForum_Message (
   ForumID int(11) DEFAULT '0' NOT NULL,
   Topic varchar(60),
@@ -435,6 +445,7 @@ INSERT INTO eZForum_Message VALUES (2,'RE: First post!','> YES!\r\nhmm',27,3,'N'
 #
 # Table structure for table 'eZImageCatalogue_Image'
 #
+DROP TABLE IF EXISTS eZImageCatalogue_Image;
 CREATE TABLE eZImageCatalogue_Image (
   ID int(11) DEFAULT '0' NOT NULL auto_increment,
   Name varchar(100),
@@ -454,6 +465,7 @@ INSERT INTO eZImageCatalogue_Image VALUES (1,'','caption text','','php0meQsj.jpg
 #
 # Table structure for table 'eZImageCatalogue_ImageVariation'
 #
+DROP TABLE IF EXISTS eZImageCatalogue_ImageVariation;
 CREATE TABLE eZImageCatalogue_ImageVariation (
   ID int(11) DEFAULT '0' NOT NULL auto_increment,
   ImageID int(11),
@@ -475,6 +487,7 @@ INSERT INTO eZImageCatalogue_ImageVariation VALUES (3,1,3,'ezimagecatalogue/cata
 #
 # Table structure for table 'eZImageCatalogue_ImageVariationGroup'
 #
+DROP TABLE IF EXISTS eZImageCatalogue_ImageVariationGroup;
 CREATE TABLE eZImageCatalogue_ImageVariationGroup (
   ID int(11) DEFAULT '0' NOT NULL auto_increment,
   Width int(11),
@@ -493,6 +506,7 @@ INSERT INTO eZImageCatalogue_ImageVariationGroup VALUES (3,300,300);
 #
 # Table structure for table 'eZLink_Hit'
 #
+DROP TABLE IF EXISTS eZLink_Hit;
 CREATE TABLE eZLink_Hit (
   ID int(11) DEFAULT '0' NOT NULL auto_increment,
   Link int(11),
@@ -514,6 +528,7 @@ INSERT INTO eZLink_Hit VALUES (5,1,20001101201636,'10.0.2.3');
 #
 # Table structure for table 'eZLink_Link'
 #
+DROP TABLE IF EXISTS eZLink_Link;
 CREATE TABLE eZLink_Link (
   ID int(11) DEFAULT '0' NOT NULL auto_increment,
   Title varchar(100),
@@ -536,6 +551,7 @@ INSERT INTO eZLink_Link VALUES (1,'eZ systems as','Linux and open source solutio
 #
 # Table structure for table 'eZLink_LinkGroup'
 #
+DROP TABLE IF EXISTS eZLink_LinkGroup;
 CREATE TABLE eZLink_LinkGroup (
   ID int(11) DEFAULT '0' NOT NULL auto_increment,
   Parent int(11) DEFAULT '0',
@@ -553,6 +569,7 @@ INSERT INTO eZLink_LinkGroup VALUES (2,0,'Not so cool links');
 #
 # Table structure for table 'eZPoll_MainPoll'
 #
+DROP TABLE IF EXISTS eZPoll_MainPoll;
 CREATE TABLE eZPoll_MainPoll (
   ID int(11) DEFAULT '0' NOT NULL auto_increment,
   PollID int(11),
@@ -568,6 +585,7 @@ INSERT INTO eZPoll_MainPoll VALUES (1,1);
 #
 # Table structure for table 'eZPoll_Poll'
 #
+DROP TABLE IF EXISTS eZPoll_Poll;
 CREATE TABLE eZPoll_Poll (
   ID int(11) DEFAULT '0' NOT NULL auto_increment,
   Name varchar(100),
@@ -590,6 +608,7 @@ INSERT INTO eZPoll_Poll VALUES (1,'First poll','this is a demo poll',NULL,NULL,'
 #
 # Table structure for table 'eZPoll_PollChoice'
 #
+DROP TABLE IF EXISTS eZPoll_PollChoice;
 CREATE TABLE eZPoll_PollChoice (
   ID int(11) DEFAULT '0' NOT NULL auto_increment,
   PollID int(11),
@@ -608,6 +627,7 @@ INSERT INTO eZPoll_PollChoice VALUES (1,1,'FOo',0);
 #
 # Table structure for table 'eZPoll_Vote'
 #
+DROP TABLE IF EXISTS eZPoll_Vote;
 CREATE TABLE eZPoll_Vote (
   ID int(11) DEFAULT '0' NOT NULL auto_increment,
   PollID int(11),
@@ -625,6 +645,7 @@ CREATE TABLE eZPoll_Vote (
 #
 # Table structure for table 'eZSession_Session'
 #
+DROP TABLE IF EXISTS eZSession_Session;
 CREATE TABLE eZSession_Session (
   ID int(11) DEFAULT '0' NOT NULL auto_increment,
   Hash char(33),
@@ -639,6 +660,7 @@ CREATE TABLE eZSession_Session (
 #
 # Table structure for table 'eZSession_SessionVariable'
 #
+DROP TABLE IF EXISTS eZSession_SessionVariable;
 CREATE TABLE eZSession_SessionVariable (
   ID int(11) DEFAULT '0' NOT NULL auto_increment,
   SessionID int(11),
@@ -655,6 +677,7 @@ CREATE TABLE eZSession_SessionVariable (
 #
 # Table structure for table 'eZUser_Forgot'
 #
+DROP TABLE IF EXISTS eZUser_Forgot;
 CREATE TABLE eZUser_Forgot (
   ID int(11) DEFAULT '0' NOT NULL auto_increment,
   UserID int(11) DEFAULT '0' NOT NULL,
@@ -671,6 +694,7 @@ CREATE TABLE eZUser_Forgot (
 #
 # Table structure for table 'eZUser_Group'
 #
+DROP TABLE IF EXISTS eZUser_Group;
 CREATE TABLE eZUser_Group (
   ID int(11) DEFAULT '0' NOT NULL auto_increment,
   Name varchar(100),
@@ -688,6 +712,7 @@ INSERT INTO eZUser_Group VALUES (1,'Adminitrators','All rights');
 #
 # Table structure for table 'eZUser_GroupPermissionLink'
 #
+DROP TABLE IF EXISTS eZUser_GroupPermissionLink;
 CREATE TABLE eZUser_GroupPermissionLink (
   ID int(11) DEFAULT '0' NOT NULL auto_increment,
   GroupID int(11),
@@ -733,6 +758,7 @@ INSERT INTO eZUser_GroupPermissionLink VALUES (29,1,23,'true');
 #
 # Table structure for table 'eZUser_Module'
 #
+DROP TABLE IF EXISTS eZUser_Module;
 CREATE TABLE eZUser_Module (
   ID int(11) DEFAULT '0' NOT NULL auto_increment,
   Name char(100) DEFAULT '' NOT NULL,
@@ -756,6 +782,7 @@ INSERT INTO eZUser_Module VALUES (8,'eZLink');
 #
 # Table structure for table 'eZUser_Permission'
 #
+DROP TABLE IF EXISTS eZUser_Permission;
 CREATE TABLE eZUser_Permission (
   ID int(11) DEFAULT '0' NOT NULL auto_increment,
   ModuleID int(11),
@@ -793,6 +820,7 @@ INSERT INTO eZUser_Permission VALUES (23,7,'MessageDelete');
 #
 # Table structure for table 'eZUser_User'
 #
+DROP TABLE IF EXISTS eZUser_User;
 CREATE TABLE eZUser_User (
   ID int(11) DEFAULT '0' NOT NULL auto_increment,
   Login char(50) DEFAULT '' NOT NULL,
@@ -814,6 +842,7 @@ INSERT INTO eZUser_User VALUES (27,'admin','0c947f956f7aa781','admin@nospam.com'
 #
 # Table structure for table 'eZUser_UserAddressLink'
 #
+DROP TABLE IF EXISTS eZUser_UserAddressLink;
 CREATE TABLE eZUser_UserAddressLink (
   ID int(11) DEFAULT '0' NOT NULL auto_increment,
   UserID int(11) DEFAULT '0' NOT NULL,
@@ -829,6 +858,7 @@ CREATE TABLE eZUser_UserAddressLink (
 #
 # Table structure for table 'eZUser_UserGroupLink'
 #
+DROP TABLE IF EXISTS eZUser_UserGroupLink;
 CREATE TABLE eZUser_UserGroupLink (
   ID int(11) DEFAULT '0' NOT NULL auto_increment,
   UserID int(11),
