@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezimagefile.php,v 1.4 2000/11/15 16:16:31 bf-cvs Exp $
+// $Id: ezimagefile.php,v 1.5 2001/01/11 11:29:21 ce Exp $
 //
 // Definition of eZCompany class
 //
@@ -97,7 +97,6 @@ class eZImageFile extends eZFile
         $ret = false;
         if ( $this->isImage() )
         {
-        
           $execstr = "convert -geometry \"$width" . "x" . "$height" . ">\" "  . $this->TmpFileName . " " . $dest;
 
 //            print( "<b>" .$execstr."</b>" );
@@ -114,7 +113,7 @@ class eZImageFile extends eZFile
               $ret = false;              
           }
         }
-        
+
         return $ret;
     }
 
