@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezorder.php,v 1.30 2001/03/16 10:40:56 bf Exp $
+// $Id: ezorder.php,v 1.31 2001/03/26 16:19:37 bf Exp $
 //
 // Definition of eZOrder class
 //
@@ -173,16 +173,16 @@ class eZOrder
             }
             else if( count( $cart_array ) == 1 )
             {
-                $this->ID = $cart_array[0][ "ID" ];
-                $this->UserID = $cart_array[0][ "UserID" ];
-                $this->ShippingAddressID = $cart_array[0][ "ShippingAddressID" ];
-                $this->BillingAddressID = $cart_array[0][ "BillingAddressID" ];
-                $this->ShippingCharge = $cart_array[0][ "ShippingCharge" ];
-                $this->ShippingVAT = $cart_array[0][ "ShippingVAT" ];
-                $this->ShippingTypeID = $cart_array[0][ "ShippingTypeID" ];
-                $this->PaymentMethod = $cart_array[0][ "PaymentMethod" ];
-
-                $this->IsExported = $cart_array[0][ "IsExported" ];
+                $this->ID =& $cart_array[0][ "ID" ];
+                $this->UserID =& $cart_array[0][ "UserID" ];
+                $this->ShippingAddressID =& $cart_array[0][ "ShippingAddressID" ];
+                $this->BillingAddressID =& $cart_array[0][ "BillingAddressID" ];
+                $this->ShippingCharge =& $cart_array[0][ "ShippingCharge" ];
+                $this->ShippingVAT =& $cart_array[0][ "ShippingVAT" ];
+                $this->ShippingTypeID =& $cart_array[0][ "ShippingTypeID" ];
+                $this->PaymentMethod =& $cart_array[0][ "PaymentMethod" ];
+                $this->Date =& $cart_array[0][ "Date" ];
+                $this->IsExported =& $cart_array[0][ "IsExported" ];
 
                 $this->State_ = "Coherent";
                 $ret = true;
@@ -309,8 +309,7 @@ class eZOrder
     function date(   )
     {
        $dateTime = new eZDateTime();
-       $dateTime->setMySQLTimeStamp( $this->Date );
-       
+       $dateTime->setMySQLDateTime( $this->Date );
        return $dateTime;
     }    
     
