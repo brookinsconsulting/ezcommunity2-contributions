@@ -1,7 +1,7 @@
 #!/bin/sh
 
 #
-# ezinstaller - version 1.2 - (c) 2001 Kai Dübbert <kai@duebbert.de> - Licence: GPL
+# ezinstaller - version 1.3 - (c) 2001 Kai Dübbert <kai@duebbert.de> - Licence: GPL
 # =================================================================================
 #
 # This shell script will install eZ publish (http://publish.ez.no) on a Linux 
@@ -41,7 +41,7 @@ DEF_URLDIR=/
 ############################################################################
 #Let's go
 #
-echo "ezinstaller.sh - version 1.2 - (c) 2001 Kai Dübbert <kai@duebbert.de>"
+echo "ezinstaller.sh - version 1.3 - (c) 2001 Kai Dübbert <kai@duebbert.de>"
 echo ""
 echo "This tool will help you install eZ publish on your server."
 echo ""
@@ -92,8 +92,12 @@ echo "setup!"
 echo ""
 
 # Hostname
-echo -n "Hostname of your server: "
+DEF_HOSTNAME="$(hostname -f)"
+echo -n "Hostname of your server [$DEF_HOSTNAME]: "
 read C_HOSTNAME
+if [ "$C_HOSTNAME" == "" ]; then
+	C_HOSTNAME=$DEF_HOSTNAME
+fi
 
 # IP-Address
 if [ "$C_INSTALL" == "old" ]; then
@@ -133,7 +137,8 @@ fi
 echo -n "Password for user \"$C_DBUSER\": "
 read C_DBPASS
 
-if [ "$C_INSTALL" == "new" ]; then
+# For old install
+if [ "$C_INSTALL" == "old" ]; then
 	# Owner of Webserver
 	echo -n "Owner of webserver [$DEF_OWNER]: "
 	read C_OWNER
@@ -141,14 +146,15 @@ if [ "$C_INSTALL" == "new" ]; then
 		C_OWNER=$DEF_OWNER
 	fi
 
-	# Group of Webserver
-	echo -n "Group of webserver [$DEF_GROUP]: "
-	read C_GROUP
-	if [ "$C_GROUP" == "" ]; then
-		C_GROUP=$DEF_GROUP
-	fi
 fi
-
+	
+# Group of Webserver
+echo -n "Group of webserver [$DEF_GROUP]: "
+read C_GROUP
+if [ "$C_GROUP" == "" ]; then
+	C_GROUP=$DEF_GROUP
+fi
+	
 # Web directory
 echo -n "Web directory [$DEF_WWWDIR]: "
 read C_WWWDIR
@@ -170,9 +176,22 @@ else
 	fi
 fi
 
-
 # New install: Installdir
 if [ "$C_INSTALL" == "new" ]; then
+	echo "-----------------------------------------------------------------"
+	echo "New install: the url to the web directory"
+	echo -n "URL directory [$DEF_URLDIR]: "
+	read C_URLDIR
+	if [ "$C_URLDIR" == "" ]; then
+		C_URLDIR=$DEF_URLDIR
+	fi
+	# add a slash if needed!
+	if ! echo $C_URLDIR | grep /$ > /dev/null; then
+		C_URLDIR=$C_URLDIR/
+		echo "slash added"
+	fi
+	C_WWWDIR="$C_WWWDIR$C_URLDIR"
+
 	echo "-----------------------------------------------------------------"
 	echo "New install: now I need a directory where you want me"
 	echo "to put the eZ publish files. This should *NOT* be"
@@ -191,18 +210,6 @@ if [ "$C_INSTALL" == "new" ]; then
 	# add a slash if needed!
 	if ! echo $C_INSTDIR | grep /$ > /dev/null; then
 		C_INSTDIR=$C_INSTDIR/
-		echo "slash added"
-	fi
-	echo "-----------------------------------------------------------------"
-	echo "New install: the url to the web directory"
-	echo -n "URL directory [$DEF_URLDIR]: "
-	read C_URLDIR
-	if [ "$C_URLDIR" == "" ]; then
-		C_URLDIR=$DEF_URLDIR
-	fi
-	# add a slash if needed!
-	if ! echo $C_URLDIR | grep /$ > /dev/null; then
-		C_URLDIR=$C_URLDIR/
 		echo "slash added"
 	fi
 else
@@ -318,36 +325,14 @@ fi
 
 
 ############################################################################
-# Move the files
-#
-if [ "$C_INSTALL" == "new" ]; then
-	echo ""
-	echo "#################################################################"
-	echo "Moving the files:"
-	echo "Now I will move the files to the installation dir."
-	echo -n "Moving files... "
-	mv * $C_INSTDIR
-	if [ ! $? == 0 ]; then
-		echo "Moving of files failed! Aborting."
-		exit 1
-	else
-		echo "done."
-	fi
-fi
-
-
-# Move to $C_INSTDIR
-cd $C_INSTDIR
-
-############################################################################
 # Old install: using modfix_secure
 #
 if [ "$C_INSTALL" == "old" ]; then
-	echo -n "Executing $C_INSTDIR/secure_modfix.sh... "
+	echo -n "Executing secure_modfix.sh... "
 	./secure_modfix.sh $C_OWNER $C_GROUP
-	if [ -d $C_INSTDIR/ezimagecatalogue/catalogue ]; then
-		chown -R www-data $C_INSTDIR/ezimagecatalogue/catalogue
-		chgrp -R www-data $C_INSTDIR/ezimagecatalogue/catalogue
+	if [ -d ezimagecatalogue/catalogue ]; then
+		chown -R $C_OWNER ezimagecatalogue/catalogue
+		chgrp -R $C_GROUP ezimagecatalogue/catalogue
 	fi
 	if [ $? == 0 ]; then
 		echo "done."
@@ -355,48 +340,49 @@ if [ "$C_INSTALL" == "old" ]; then
 		echo "FAILED! You might have problems with permissions. Do it yourself."
 	fi
 else
-	echo -n "Creating the needed cache directories and files... "
-	touch $C_INSTDIR/error.log
-	chmod 660 $C_INSTDIR/error.log
+	echo "Creating the needed cache directories and files... "
+	touch error.log
+	chmod 660 error.log
 
 	dirs="
-	$C_INSTDIR/admin/tmp
-	$C_INSTDIR/ezad/admin/cache
-	$C_INSTDIR/ezaddress/admin/cache
-	$C_INSTDIR/ezarticle/admin/cache
-	$C_INSTDIR/ezarticle/cache
-	$C_INSTDIR/ezbug/user/cache
-	$C_INSTDIR/ezbug/admin/cache
-	$C_INSTDIR/ezcalendar/admin/cache
-	$C_INSTDIR/ezcalendar/user/cache
-	$C_INSTDIR/ezcontact/admin/cache
-	$C_INSTDIR/ezexample/admin/cache
-	$C_INSTDIR/ezfilemanager/files
-	$C_INSTDIR/ezforum/admin/cache
-	$C_INSTDIR/ezforum/cache
-	$C_INSTDIR/ezimagecatalogue/catalogue
-	$C_INSTDIR/ezimagecatalogue/catalogue/variations
-	$C_INSTDIR/ezlink/admin/cache
-	$C_INSTDIR/ezlink/cache
-	$C_INSTDIR/eznewsfeed/admin/cache
-	$C_INSTDIR/eznewsfeed/cache
-	$C_INSTDIR/ezpoll/admin/cache
-	$C_INSTDIR/ezpoll/cache
-	$C_INSTDIR/ezstats/admin/cache
-	$C_INSTDIR/eztodo/admin/cache
-	$C_INSTDIR/eztrade/admin/cache
-	$C_INSTDIR/eztrade/cache
-	$C_INSTDIR/ezuser/admin/cache
-	$C_INSTDIR/ezfilemanager/admin/cache
-	$C_INSTDIR/ezimagecatalogue/admin/cache
-	$C_INSTDIR/ezbulkmail/admin/cache
-	$C_INSTDIR/classes/cache
-	$C_INSTDIR/ezsysinfo/admin/cache
-	$C_INSTDIR/ezurltranslator/admin/cache"
+	admin/tmp
+	ezad/admin/cache
+	ezaddress/admin/cache
+	ezarticle/admin/cache
+	ezarticle/cache
+	ezbug/user/cache
+	ezbug/admin/cache
+	ezcalendar/admin/cache
+	ezcalendar/user/cache
+	ezcontact/admin/cache
+	ezexample/admin/cache
+	ezfilemanager/files
+	ezforum/admin/cache
+	ezforum/cache
+	ezimagecatalogue/catalogue
+	ezimagecatalogue/catalogue/variations
+	ezlink/admin/cache
+	ezlink/cache
+	eznewsfeed/admin/cache
+	eznewsfeed/cache
+	ezpoll/admin/cache
+	ezpoll/cache
+	ezstats/admin/cache
+	eztodo/admin/cache
+	eztrade/admin/cache
+	eztrade/cache
+	ezuser/admin/cache
+	ezfilemanager/admin/cache
+	ezimagecatalogue/admin/cache
+	ezbulkmail/admin/cache
+	classes/cache
+	ezsysinfo/admin/cache
+	ezurltranslator/admin/cache"
 
 	for dir in $dirs; do
 		mkdir -p $dir
 		chmod 770 $dir
+		chgrp $C_GROUP $dir
 	done
 	
 fi
@@ -405,15 +391,14 @@ fi
 # Fix the owners and permissions. We don't have to be too picky with the new install.
 #
 if [ "$C_INSTALL" == "new" ]; then
-	chmod 640 $C_INSTDIR/site.ini
-	chgrp -R $C_GROUP $C_INSTDIR
+	chmod 640 site.ini
 fi
 
 
 ############################################################################
 # cleaning and securing the cache
 #
-echo -n "Executing $C_INSTDIR/secure_clearcache.sh... "
+echo -n "Executing secure_clearcache.sh... "
 ./secure_clearcache.sh
 if [ $? == 0 ]; then
 	echo "done."
@@ -421,21 +406,20 @@ else
 	echo "FAILED! You might have problems with caching. Check it yourself."
 fi
 
-
 ############################################################################
 # Moving files to wwwdir
 #
 if [ "$C_INSTALL" == "new" ]; then
 	echo ""
 	echo "#################################################################"
-	echo "Moving the publicly needed files from $C_INSTDIR into $C_WWWDIR... "
+	echo "Moving the publicly needed files to $C_WWWDIR... "
 
 	echo -n "Moving index*.php to $C_WWWDIR... "
-	mv  $C_INSTDIR/index*.php $C_WWWDIR
+	mv  index*.php $C_WWWDIR
 	echo "done."
 
 	echo -n "Moving the ez* image files to $C_WWWDIR... "
-	for i in $C_INSTDIR/ez*; do
+	for i in ez*; do
 		MODULE=`basename $i`
 		for j in admin user; do
 			if [ -d "$i/$j/images" ]; then
@@ -460,36 +444,72 @@ if [ "$C_INSTALL" == "new" ]; then
 		mkdir "$C_WWWDIR/admin"
 	fi
 
-	echo -n "Moving $C_INSTDIR/admin/images to $C_WWWDIR/admin... "
-	mv "$C_INSTDIR/admin/images" "$C_WWWDIR/admin"
+	echo -n "Moving admin/images to $C_WWWDIR/admin... "
+	mv "admin/images" "$C_WWWDIR/admin"
 	echo "done."
 
-	echo -n "Moving $C_INSTDIR/images to $C_WWWDIR... "
-	mv "$C_INSTDIR/images" "$C_WWWDIR"
+	echo -n "Moving images to $C_WWWDIR... "
+	mv "images" "$C_WWWDIR"
 	echo "done."
 
-	echo -n "Moving $C_INSTDIR/admin/templates/*/*.cc to $C_WWWDIR... "
-	if [ ! -d "$C_INSTDIR/admin/templates" ]; then
-		mkdir -p $C_INSTDIR/admin/templates
+	echo -n "Moving admin/templates/*/* to $C_WWWDIR... "
+	if [ ! -d "admin/templates" ]; then
+		mkdir -p admin/templates
 	fi
-	for i in $C_INSTDIR/admin/templates/*; do
-		mkdir $C_INSTDIR/admin/templates/$(basename $i)
-		mv $i/*.css $C_INSTDIR/admin/templates/$(basename $i)
+	for i in admin/templates/*; do
+		if [ ! "$(basename $i)" == "CVS" ]; then
+			mkdir -p admin/templates/$(basename $i)
+			if [ -e $i/*.css ]; then
+				mv $i/*.css admin/templates/$(basename $i)
+			fi
+		fi
 	done
 	echo "done."
 
-	echo -n "Moving $C_INSTDIR/sitedesign/*/*.css to $C_WWWDIR/sitedesign/*... "
-	for i in $C_INSTDIR/sitedesign/*; do
+	echo -n "Moving sitedesign/*/*.css to sitedesign/*... "
+	for i in sitedesign/*; do
 		SDNAME=`basename $i`
-		mkdir -p "$C_WWWDIR/sitedesign/$SDNAME"
-		mv "$i/images" "$C_WWWDIR/sitedesign/$SDNAME"
-		mv $i/*.css "$C_WWWDIR/sitedesign/$SDNAME"
+		if [ ! "$SDNAME" == "CVS" ]; then
+			mkdir -p "$C_WWWDIR/sitedesign/$SDNAME"
+			if [ -e $i/images ]; then
+				mv "$i/images" "$C_WWWDIR/sitedesign/$SDNAME"
+			fi
+			if [ -e $i/*.css ]; then
+				mv $i/*.css "$C_WWWDIR/sitedesign/$SDNAME"
+			fi
+		fi
 	done
 	echo "done."
 
-	echo -n "Moving $C_INSTDIR/sitedir.ini to $C_WWWDIR... "
-	mv "$C_INSTDIR/sitedir.ini" "$C_WWWDIR"
+	echo -n "Moving sitedir.ini to $C_WWWDIR... "
+	mv "sitedir.ini" "$C_WWWDIR"
 	echo "done."
+
+	#
+	# change sitedir.ini
+	#
+	echo -n "Adjusting $C_WWWDIR/sitedir.ini... "
+	sed s:"siteDir = \"\"":"siteDir = \"$C_INSTDIR\"": $C_WWWDIR/sitedir.ini > $C_WWWDIR/sitedir.ini.tmp && mv $C_WWWDIR/sitedir.ini.tmp $C_WWWDIR/sitedir.ini
+	echo "done."
+fi
+
+############################################################################
+# Move the files
+#
+if [ "$C_INSTALL" == "new" ]; then
+	echo ""
+	echo "#################################################################"
+	echo "Moving the files:"
+	echo "Now I will move the files to the installation dir."
+	echo -n "Moving files... "
+	mv * $C_INSTDIR
+	if [ ! $? == 0 ]; then
+		echo "Moving of files failed! Aborting."
+		exit 1
+	else
+		echo "done."
+	fi
+	mv .cvsignore $C_INSTDIR
 
 	# 
 	# Links for ezimagecatalogue!
@@ -503,14 +523,7 @@ if [ "$C_INSTALL" == "new" ]; then
 		echo "done."
 	fi
 
-	#
-	# change sitedir.ini
-	#
-	echo -n "Adjusting $C_WWWDIR/sitedir.ini... "
-	sed s:"siteDir = \"\"":"siteDir = \"$C_INSTDIR\"": $C_WWWDIR/sitedir.ini > $C_WWWDIR/sitedir.ini.tmp && mv $C_WWWDIR/sitedir.ini.tmp $C_WWWDIR/sitedir.ini
-	echo "done."
 fi
-
 
 ############################################################################
 # Now we want to change site.ini
@@ -519,16 +532,14 @@ echo ""
 echo "#################################################################"
 echo "Changing site.ini with our values."
 echo -n "Adjusting site.ini... "
-sed s:SiteURL=ez.no:SiteURL=$C_HOSTNAME: $C_INSTDIR/site.ini > $C_INSTDIR/site.ini.tmp && mv $C_INSTDIR/site.ini.tmp $C_INSTDIR/site.ini
-sed s:'SiteTitle=eZ Systems':SiteTitle=$C_TITLE: $C_INSTDIR/site.ini > $C_INSTDIR/site.ini.tmp && mv $C_INSTDIR/site.ini.tmp $C_INSTDIR/site.ini
-sed s:Server=localhost:Server=$C_DBSERVER: $C_INSTDIR/site.ini > $C_INSTDIR/site.ini.tmp && mv $C_INSTDIR/site.ini.tmp $C_INSTDIR/site.ini
-sed s:Database=publish:Database=$C_DBNAME: $C_INSTDIR/site.ini > $C_INSTDIR/site.ini.tmp && mv $C_INSTDIR/site.ini.tmp $C_INSTDIR/site.ini
-sed s:User=publish:User=$C_DBUSER: $C_INSTDIR/site.ini > $C_INSTDIR/site.ini.tmp && mv $C_INSTDIR/site.ini.tmp $C_INSTDIR/site.ini
-sed s:Password=publish:Password=$C_DBPASS: $C_INSTDIR/site.ini > $C_INSTDIR/site.ini.tmp && mv $C_INSTDIR/site.ini.tmp $C_INSTDIR/site.ini
-echo "done."
+echo -n "SiteURL"; sed s:SiteURL=ez.no:"SiteURL=$C_HOSTNAME": $C_INSTDIR/site.ini > $C_INSTDIR/site.ini.tmp && mv $C_INSTDIR/site.ini.tmp $C_INSTDIR/site.ini
+echo -n " SiteTitle"; sed s:'SiteTitle=eZ Systems':"SiteTitle=$C_TITLE": $C_INSTDIR/site.ini > $C_INSTDIR/site.ini.tmp && mv $C_INSTDIR/site.ini.tmp $C_INSTDIR/site.ini
+echo -n " Server"; sed s:Server=localhost:"Server=$C_DBSERVER": $C_INSTDIR/site.ini > $C_INSTDIR/site.ini.tmp && mv $C_INSTDIR/site.ini.tmp $C_INSTDIR/site.ini
+echo -n " Database"; sed s:Database=publish:"Database=$C_DBNAME": $C_INSTDIR/site.ini > $C_INSTDIR/site.ini.tmp && mv $C_INSTDIR/site.ini.tmp $C_INSTDIR/site.ini
+echo -n " User"; sed s:User=publish:"User=$C_DBUSER": $C_INSTDIR/site.ini > $C_INSTDIR/site.ini.tmp && mv $C_INSTDIR/site.ini.tmp $C_INSTDIR/site.ini
+echo -n " Password"; sed s:Password=publish:"Password=$C_DBPASS": $C_INSTDIR/site.ini > $C_INSTDIR/site.ini.tmp && mv $C_INSTDIR/site.ini.tmp $C_INSTDIR/site.ini
+echo " ...done."
 
-# To lazy to change mv statement
-mv .cvsignore $C_INSTDIR
 
 ############################################################################
 # Try to do the rest for the old install
