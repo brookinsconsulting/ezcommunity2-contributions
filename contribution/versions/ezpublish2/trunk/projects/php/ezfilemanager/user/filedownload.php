@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: filedownload.php,v 1.4 2001/01/22 14:43:00 jb Exp $
+// $Id: filedownload.php,v 1.5 2001/01/25 20:35:13 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <10-Dec-2000 16:39:10 bf>
@@ -25,6 +25,9 @@
 
 // clear what might be in the output buffer and stop the buffer.
 ob_end_clean();
+
+// do not timeout this page
+set_time_limit( 0 );
 
 include_once( "ezfilemanager/classes/ezvirtualfile.php" );
 
