@@ -1,5 +1,5 @@
 <?
-// $Id: linkedit.php,v 1.46 2001/03/06 17:30:23 bf Exp $
+// $Id: linkedit.php,v 1.47 2001/05/29 14:15:04 ce Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <26-Oct-2000 14:58:57 ce>
@@ -63,6 +63,15 @@ if ( isSet( $Back ) )
     exit();
 }
 
+// Get images from the image browse function.
+if ( ( isSet ( $AddImages ) ) and ( is_numeric( $LinkID ) ) and ( is_numeric ( $LinkID ) ) )
+{
+    $image = new eZImage( $ImageID );
+    $link = new eZLink( $LinkID );
+    $link->setImage( $image );
+    $link->update();
+    $Action = "edit";
+}
 
 if ( $GetSite )
 {
@@ -150,8 +159,17 @@ if ( $Action == "update" )
             {
                 $link->deleteImage();
             }
-
-            
+            if ( isSet ( $Browse ) )
+            {
+                $linkID = $link->id();
+                $session = new eZSession();
+                $session->setVariable( "SelectImages", "single" );
+                $session->setVariable( "ImageListReturnTo", "/link/linkedit/edit/$linkID/" );
+                $session->setVariable( "NameInBrowse", $link->title() );
+                eZHTTPTool::header( "Location: /imagecatalogue/browse/" );
+                exit();
+            }
+           
             eZHTTPTool::header( "Location: /link/group/$LinkGroupID" );
             exit();
         }
@@ -258,7 +276,18 @@ if ( $Action == "insert" )
             }
             
             $link->store();
-            
+
+            if ( isSet ( $Browse ) )
+            {
+                $linkID = $link->id();
+                $session = new eZSession();
+                $session->setVariable( "SelectImages", "single" );
+                $session->setVariable( "ImageListReturnTo", "/link/linkedit/edit/$linkID/" );
+                $session->setVariable( "NameInBrowse", $link->title() );
+                eZHTTPTool::header( "Location: /imagecatalogue/browse/" );
+                exit();
+            }
+           
             eZHTTPTool::header( "Location: /link/group/$LinkGroupID" );
             exit();
         }

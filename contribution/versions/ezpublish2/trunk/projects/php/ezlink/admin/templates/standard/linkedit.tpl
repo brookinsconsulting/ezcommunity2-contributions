@@ -70,7 +70,9 @@ http://<input type="text" name="Url" size="40" value="{url}">
 <!-- END no_image_item_tpl -->
 
 <p class="boxtext">{intl-upload_image}:</p>
-<input size="40" name="ImageFile" type="file" /><br /><br />
+<input size="40" name="ImageFile" type="file" />&nbsp;
+<input class="stdbutton" type="submit" name="Browse" value="{intl-browse}" />
+<br /><br />
 
 
 <hr noshade size="4"/>
