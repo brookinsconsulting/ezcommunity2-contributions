@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: login.php,v 1.35 2001/08/13 06:58:07 jhe Exp $
+// $Id: login.php,v 1.35.8.1 2002/01/24 12:50:15 bf Exp $
 //
 // Created on: <20-Sep-2000 13:32:11 ce>
 //
@@ -126,7 +126,7 @@ if ( $Action == "login" )
                     {
                         if ( $RedirectURL == "" )
                         {
-                            $RedirectURL = "/";
+                            $RedirectURL = "/trade/customerlogin/";
                         }
 
                         eZHTTPTool::header( "Location: $RedirectURL" );
@@ -135,7 +135,7 @@ if ( $Action == "login" )
                 }
                 else
                 {
-                    eZHTTPTool::header( "Location: /" );
+                    eZHTTPTool::header( "Location: /trade/customerlogin/" );
                     exit();
                 }
             }
