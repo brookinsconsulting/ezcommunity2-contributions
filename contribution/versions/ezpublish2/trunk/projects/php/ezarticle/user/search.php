@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: search.php,v 1.9 2001/04/26 11:54:05 ce Exp $
+// $Id: search.php,v 1.10 2001/04/26 14:08:31 th Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <28-Oct-2000 15:56:58 bf>
@@ -41,7 +41,7 @@ else
 }
 
 $Language = $ini->read_var( "eZArticleMain", "Language" );
-$Limit = $ini->read_var( "eZArticleMain", "UserListLimit" );
+$Limit = $ini->read_var( "eZArticleMain", "SearchListLimit" );
 
 $t = new eZTemplate( "ezarticle/user/" . $ini->read_var( "eZArticleMain", "TemplateDir" ),
                      "ezarticle/user/intl/", $Language, "search.php" );
