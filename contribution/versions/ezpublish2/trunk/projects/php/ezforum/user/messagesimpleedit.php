@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: messagesimpleedit.php,v 1.3 2000/11/22 13:09:35 bf-cvs Exp $
+// $Id: messagesimpleedit.php,v 1.4 2000/11/23 09:12:51 bf-cvs Exp $
 //
 // Bård Farstad
 // Created on: <21-Nov-2000 16:04:30 bf>
@@ -22,6 +22,12 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, US
 //
+
+if ( isset( $Cancel ) )
+{
+    Header( "Location: $RedirectURL" );
+    exit();
+}
 
 include_once( "classes/INIFile.php" );
 
@@ -82,7 +88,6 @@ if ( $Action == "insert" )
             }
         }    
 
-    print( $RedirectURL );
     Header( "Location: $RedirectURL" );
     exit();
 }

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: messagesimplereply.php,v 1.2 2000/11/22 13:09:35 bf-cvs Exp $
+// $Id: messagesimplereply.php,v 1.3 2000/11/23 09:12:51 bf-cvs Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <24-Sep-2000 12:20:32 bf>
@@ -22,6 +22,13 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, US
 //
+
+
+if ( isset( $Cancel ) )
+{
+    Header( "Location: $RedirectURL" );
+    exit();
+}
 
 include_once( "classes/INIFile.php" );
 
