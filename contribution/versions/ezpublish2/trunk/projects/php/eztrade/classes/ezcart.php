@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezcart.php,v 1.24 2001/08/30 09:57:31 ce Exp $
+// $Id: ezcart.php,v 1.25 2001/09/08 20:21:56 br Exp $
 //
 // Definition of eZCart class
 //
@@ -273,9 +273,9 @@ class eZCart
     */
     function items( )
     {
-       $ret = array();
-       
        $db =& eZDB::globalDatabase();
+
+       $ret = array();
 
        $db->array_query( $cart_array, "SELECT * FROM
                                        eZTrade_CartItem
@@ -285,9 +285,10 @@ class eZCart
        {
            foreach ( $cart_array as $item )
            {
-               $ret[] = new eZCartItem( $item[$db->fieldName( "ID" )] );               
+               $ret[] = new eZCartItem( $item[$db->fieldName( "ID" )] );
            }
        }
+
        if ( $ret )
            return $ret;
        else
@@ -347,30 +348,66 @@ class eZCart
        return $cost;
     }
 
+
+    /*!
+     Obsolete. Use addShippingVAT() or extractShippingVAT() instead.
+    */
+    function shippingVAT( $shippingType )
+    {
+       return $this->extractShippingVAT( $shippingType );
+    }
+
+    
     /*!
       Returns the shipping VAT. That is the VAT value
       of the shipping cost.
 
       The argument must be a eZShippingType object.
     */
-    function shippingVAT( $shippingType )
+    function &extractShippingVAT( $shippingType )
     {
-       if ( get_class( $shippingType ) == "ezshippingtype" )
-       {
-           $vatType =& $shippingType->vatType();
+        $shippingVAT = 0;
+        if( get_class( $shippingType ) == "ezshippingtype" )
+        {
+            $vatType =& $shippingType->vatType();
 
-           $shippingCost = $this->shippingCost( $shippingType );
-       
-           $shippingVAT = 0;
-           if ( $vatType )
-           {
-               $value =& $vatType->value();
-               $shippingVAT = ( $shippingCost / ( $value + 100  ) ) * $value;
-           }
-       }
-       
-       return $shippingVAT;
+            $shippingCost = $this->shippingCost( $shippingType );
+            
+            if ( $vatType )
+            {
+                $value =& $vatType->value();
+                $shippingVAT = ( $shippingCost / ( $value + 100  ) ) * $value;        
+            }
+        }
+        return $shippingVAT;
     }
+
+    
+
+    /*!
+      Returns the VAT value of the product.
+
+      If a value is given as argument this value is used for VAT calculation.
+      This is used in carts where you have multiple products and prices on options.
+    */
+    function &addShippingVAT( $shippingType )
+    {
+        $shippingVAT = 0;
+        if( get_class( $shippingType ) == "ezshippingtype" )
+        {
+            $vatType =& $shippingType->vatType();
+
+            $shippingCost = $this->shippingCost( $shippingType );
+            
+            if ( $vatType )
+            {
+                $value =& $vatType->value();
+                $shippingVAT = ( $shippingCost * $value ) / 100;
+            }
+        }
+        return $shippingVAT;
+    }
+    
 
     /*!
       Empties out the cart.
