@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: datasupplier.php,v 1.10 2001/08/03 08:06:36 bf Exp $
+// $Id: datasupplier.php,v 1.11 2001/12/11 16:32:32 br Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -54,6 +54,7 @@ switch ( $url_array[2] )
         {
             $forum = $poll->forum();
             $ForumID = $forum->id();
+            $RedirectURL = $REQUEST_URI;
             include( "ezforum/user/messagesimplelist.php" );
         }
     }
