@@ -4,15 +4,15 @@
 <h1>{intl-appointment_edit}</h1>
 
 <!-- BEGIN title_error_tpl -->
-<h2 class="error">{intl-title_error}</h2>
+<p class="error">{intl-title_error}</p>
 <!-- END title_error_tpl -->
 
 <!-- BEGIN start_time_error_tpl -->
-<h2 class="error">{intl-start_time_error}</h2>
+<p class="error">{intl-start_time_error}</p>
 <!-- END start_time_error_tpl -->
 
 <!-- BEGIN stop_time_error_tpl -->
-<h2 class="error">{intl-stop_time_error}</h2>
+<p class="error">{intl-stop_time_error}</p>
 <!-- END stop_time_error_tpl -->
 
 <hr noshade="noshade" size="4" />

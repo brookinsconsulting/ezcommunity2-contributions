@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: appointmentedit.php,v 1.18 2001/01/22 16:53:04 gl Exp $
+// $Id: appointmentedit.php,v 1.19 2001/01/23 09:52:23 gl Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <03-Jan-2001 12:47:22 bf>
@@ -151,6 +151,9 @@ if ( $Action == "Insert" || $Action == "Update" )
 //                $min = $min*10;
 
             $startTime->setMinute( $min );
+
+            if ( $startTime->isGreater( $appointment->dayStartTime() ) )
+                $StartTimeError = true;
         }
         else
         {
@@ -171,11 +174,18 @@ if ( $Action == "Insert" || $Action == "Update" )
 //                $min = $min*10;
 
             $stopTime->setMinute( $min );
+
+            $dayStopTime = $appointment->dayStopTime();
+            if ( $dayStopTime->isGreater( $stopTime ) )
+                $StopTimeError = true;
         }
         else
         {
             $StopTimeError = true;
         }
+
+        if ( $stopTime->isGreater( $startTime, true ) )
+            $StopTimeError = true;
 
         $datetime = new eZDateTime( $Year, $Month, $Day,
         $startTime->hour(), $startTime->minute(), 0 );
