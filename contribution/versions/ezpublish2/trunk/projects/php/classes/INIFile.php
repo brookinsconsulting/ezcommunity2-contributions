@@ -1,6 +1,6 @@
 <?php 
 // 
-// $Id: INIFile.php,v 1.42 2001/09/03 18:05:25 kaid Exp $
+// $Id: INIFile.php,v 1.43 2001/09/10 07:36:20 ce Exp $
 //
 // Implements a simple INI-file parser
 //
@@ -352,7 +352,7 @@ class INIFile
         $group = strtolower( $group );
         if ( !isset( $this->GROUPS[$group] ) or !isset( $this->GROUPS[$group][$var_name] ) )
         {
-            $this->Error( "$var_name does not exist in $group");
+            $this->Error( "$var_name does not exist in $group" );
             return false;
         }
         return $this->GROUPS[$group][$var_name];
