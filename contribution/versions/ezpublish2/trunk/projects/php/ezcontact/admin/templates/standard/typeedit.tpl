@@ -22,6 +22,7 @@
 </tr>
 </table>
 
+<br />
 
 <hr noshade="noshade" size="4" />
 
@@ -71,9 +72,9 @@
 
 <p>{intl-confirm_text}</p>
 <p class="boxtext">{intl-confirm_item}:</p>
-{confirm_item}
+<div class="p">{confirm_item}</div>
 <p class="boxtext">{intl-confirm_count}:</p>
-{item_count}
+<div class="p">{item_count}</div>
 <br />
 
 <input type="hidden" name="TypeCount" value="{item_count}">
