@@ -106,7 +106,7 @@ $t->set_var( "item_back_command", $back_command );
 $t->set_var( "action", $Action );
 $t->set_var( "type", $ListType );
 
-$SearchText = ereg_replace( '\\\\"', '"', $SearchText );
+$SearchText = stripslashes( $SearchText );
 $t->set_var( "search_form_text", $SearchText );
 $t->set_var( "search_text", $search_encoded );
 
