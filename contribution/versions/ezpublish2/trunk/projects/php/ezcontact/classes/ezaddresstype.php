@@ -70,7 +70,6 @@ class eZAddressType
     
         return $address_type_array;
     }
-  
 
     /*!
     Setter navnet.
@@ -87,7 +86,15 @@ class eZAddressType
     {
         return $this->Name;
     }
-  
+
+    /*!
+      Returnerer id.
+    */
+    function id(  )
+    {
+        return $this->ID;
+    }
+    
     /*
     Privat: Initiering av database. 
   */

@@ -14,7 +14,7 @@
       document.CompanyEdit.Street1.value = street1;
       document.CompanyEdit.Street2.value = street2;
       document.CompanyEdit.Zip.value = zip;
-      document.CompanyEdit.PhoneType.selectedIndex = addressTypeID;
+      document.CompanyEdit.AddressType.selectedIndex = addressTypeID;
 //      document.CompanyEdit.Zip.value = 'UpdateAddress';
    }
 

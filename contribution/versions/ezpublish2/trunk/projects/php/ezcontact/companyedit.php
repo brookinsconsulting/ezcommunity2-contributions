@@ -11,10 +11,10 @@ require $DOCUMENTROOT . "classes/ezaddresstype.php";
 require $DOCUMENTROOT . "classes/ezsession.php";
 require $DOCUMENTROOT . "classes/ezuser.php";
 require $DOCUMENTROOT . "classes/ezcompanytype.php";
-require $DOCUMENTROOT . "classes/ezcompanyaddressdict.php";
 require $DOCUMENTROOT . "classes/ezphone.php";
 require $DOCUMENTROOT . "classes/ezphonetype.php";
 require $DOCUMENTROOT . "classes/ezcompanyphonedict.php";
+require $DOCUMENTROOT . "classes/ezcompanyaddressdict.php";
 
 if ( $Action == "insert" )
 {
@@ -37,6 +37,7 @@ if ( $Action == "insert" )
     $newAddress->setStreet1( $Street1 );
     $newAddress->setStreet2( $Street2 );
     $newAddress->setZip( $Zip );
+    $newAddress->setAddressType( $AddressType );
     $aid = $newAddress->store();
 
     $dict = new eZCompanyAddressDict( );
@@ -90,6 +91,24 @@ if ( $PhoneAction == "DeletePhone" )
     $phone->delete();
 }
 
+if ( $AddressAction == "AddAddress" )
+{
+    $address = new eZAddress( );
+    $address->setStreet1( $Street1 );
+    $address->setStreet2( $Street2 );
+    $address->setZip( $Zip );
+    $address->setAddressType( $AddressType );
+    $pid = $address->store();
+
+    print( "type:" . $AddressType );
+    
+    $dict = new eZCompanyAddressDict();
+
+    $dict->setCompanyID( $CID );
+    $dict->setAddressID( $pid );
+    $dict->store();
+}
+
 
 // Slette fra company list
 if ( $Action == "delete" )
@@ -112,7 +131,8 @@ $t->set_file( array(
     "company_type_select" => $DOCUMENTROOT . "templates/companytypeselect.tpl",
     "address_type_select" => $DOCUMENTROOT . "templates/addresstypeselect.tpl",
     "phone_type_select" => $DOCUMENTROOT . "templates/phonetypeselect.tpl",
-    "phone_item" => $DOCUMENTROOT . "templates/phoneitem.tpl"
+    "phone_item" => $DOCUMENTROOT . "templates/phoneitem.tpl",
+    "address_item" => $DOCUMENTROOT . "templates/addressitem.tpl"
     ) );
 
 if ( !isset( $Action ) )
@@ -129,41 +149,10 @@ $address_type_array = $addressType->getAll( );
 $phone_type_array = $phoneType->getAll();
 
 $t->set_var( "phone_action_type", "hidden" );
+$t->set_var( "phone_list", "" );
 
-
-// redigering av firma
-if ( $Action == "edit" )
-{
-    $company = new eZCompany();
-    $company->get( $CID );
-
-    $CompanyName = $company->name();
-
-    $phone = new eZPhone( );
-    
-    $dict = new eZCompanyPhoneDict();
-    
-    $dict_array = $dict->getByCompany( $CID );
-
-    for ( $i=0; $i<count( $dict_array ); $i++ )
-    {
-        $phone->get( $dict_array[ $i ][ "PhoneID" ] );
-        $phoneType->get( $phone->type() );
-        
-        $t->set_var( "phone_id", $phone->id() );
-        $t->set_var( "phone_number", $phone->number() );
-        $t->set_var( "phone_type_name", $phoneType->name() );
-
-        $t->set_var( "phone_type_id", $phone_select_dict[ $phoneType->id() ] );
-        
-        $t->parse( "phone_list", "phone_item", true );                
-    }
-
-    $t->set_var( "phone_action", "AddPhone" );
-    $t->set_var( "phone_edit_id", "-1" );
-    $t->set_var( "phone_action_value", "Legg til" );
-    $t->set_var( "phone_action_type", "submit" );
-}
+$t->set_var( "address_action_type", "hidden" );
+$t->set_var( "address_list", "" );
 
 
 // company type selector
@@ -184,10 +173,7 @@ for ( $i=0; $i<count( $company_type_array ); $i++ )
     $t->parse( "company_type", "company_type_select", true );
 }
 
-
-$t->set_var( "first_name", $FirstName );
-$t->set_var( "last_name", $LastName );
-
+$address_select_dict = "";
 // address type selector
 for ( $i=0; $i<count( $address_type_array ); $i++ )
 {
@@ -203,6 +189,8 @@ for ( $i=0; $i<count( $address_type_array ); $i++ )
         $t->set_var( "is_selected", "" );    
     }
   
+    $address_select_dict[ $address_type_array[$i][ "ID" ] ] = $i;
+
     $t->parse( "address_type", "address_type_select", true );
 }
 
@@ -223,14 +211,69 @@ for ( $i=0; $i<count( $phone_type_array ); $i++ )
     }
 
     $phone_select_dict[ $phone_type_array[$i][ "ID" ] ] = $i;
-  
+    
     $t->parse( "phone_type", "phone_type_select", true );
 }
 
+// redigering av firma
+if ( $Action == "edit" )
+{
+    $company = new eZCompany();
+    $company->get( $CID );
 
+    $CompanyName = $company->name();
 
+    $phone = new eZPhone( );
+    
+    $phone_dict = new eZCompanyPhoneDict();
+    
+    $phone_dict_array = $phone_dict->getByCompany( $CID );
 
+    // telefonliste
+    for ( $i=0; $i<count( $phone_dict_array ); $i++ )
+    {
+        $phone->get( $phone_dict_array[ $i ][ "PhoneID" ] );
+        $phoneType->get( $phone->type() );
+        
+        $t->set_var( "phone_id", $phone->id() );
+        $t->set_var( "phone_number", $phone->number() );
+        $t->set_var( "phone_type_name", $phoneType->name() );
 
+        $t->set_var( "phone_type_id", $phone_select_dict[ $phoneType->id() ] );
+        
+        $t->parse( "phone_list", "phone_item", true );                
+    }
+
+    $address = new eZAddress();
+    $address_dict = new eZCompanyAddressDict();
+    $address_dict_array = $address_dict->getByCompany( $CID );
+    
+    // adresseliste
+    for ( $i=0; $i<count( $address_dict_array ); $i++ )
+    {
+        $address->get( $address_dict_array[ $i ][ "AddressID" ] );
+        $addressType->get( $address->addressType() );
+        
+        $t->set_var( "address_id", $address->id() );
+        $t->set_var( "address_street1", $address->street1() );
+        $t->set_var( "address_street2", $address->street2() );
+        $t->set_var( "address_zip", $address->zip() );
+        $t->set_var( "address_type_name", $addressType->name() );
+
+        $t->set_var( "address_type_id", $address_select_dict[ $addressType->id() ] );
+        
+        $t->parse( "address_list", "address_item", true );                
+    }
+    
+    $t->set_var( "address_action", "AddAddress" );    
+    $t->set_var( "address_action_value", "Legg til" );
+    $t->set_var( "address_action_type", "submit" );    
+
+    $t->set_var( "phone_action", "AddPhone" );
+    $t->set_var( "phone_edit_id", "-1" );
+    $t->set_var( "phone_action_value", "Legg til" );
+    $t->set_var( "phone_action_type", "submit" );
+}
 
 $t->set_var( "company_name", $CompanyName );
 

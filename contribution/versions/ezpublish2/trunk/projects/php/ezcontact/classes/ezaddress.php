@@ -16,7 +16,7 @@ class eZAddress
     function store()
     {
         $this->dbInit();
-        query( "INSERT INTO Address set Street1='$this->Street1', Street2='$this->Street2', Zip='$this->Zip, AddressType=$this->AddressType'" );
+        query( "INSERT INTO Address set Street1='$this->Street1', Street2='$this->Street2', Zip='$this->Zip', AddressType='$this->AddressType'" );
         return mysql_insert_id();
     }
 
@@ -48,6 +48,7 @@ class eZAddress
                 $this->Street2 = $address_array[ 0 ][ "Street2" ];
                 $this->Zip = $address_array[ 0 ][ "Zip" ];
                 $this->AddressType = $address_array[ 0 ][ "AddressType" ];
+
             }
         }
     }
@@ -97,6 +98,13 @@ class eZAddress
         $this->AddressType = $value;
     }
 
+    /*!
+      Returnerer  ID.
+    */
+    function id( )
+    {
+        return $this->ID;
+    }
     
     /*!
       Returnerer  street1.
