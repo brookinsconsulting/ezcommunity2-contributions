@@ -1,9 +1,3 @@
-# MySQL dump 7.1
-#
-# Host: localhost    Database: developer
-#--------------------------------------------------------
-# Server version	3.22.32
-
 #
 # Table structure for table 'eZAd_Ad'
 #
@@ -20,12 +14,15 @@ CREATE TABLE eZAd_Ad (
   IsActive enum('true','false'),
   ViewPrice float(10,2),
   ClickPrice float(10,2),
+  HTMLBanner text NOT NULL,
+  UseHTML int(11) DEFAULT '0' NOT NULL,
   PRIMARY KEY (ID)
 );
 
 #
 # Dumping data for table 'eZAd_Ad'
 #
+
 
 #
 # Table structure for table 'eZAd_AdCategoryLink'
@@ -41,6 +38,7 @@ CREATE TABLE eZAd_AdCategoryLink (
 #
 # Dumping data for table 'eZAd_AdCategoryLink'
 #
+
 
 #
 # Table structure for table 'eZAd_Category'
@@ -59,8 +57,6 @@ CREATE TABLE eZAd_Category (
 # Dumping data for table 'eZAd_Category'
 #
 
-INSERT INTO eZAd_Category VALUES (3,'Små bannere','',0,'false');
-INSERT INTO eZAd_Category VALUES (4,'Store bannere','',0,'false');
 
 #
 # Table structure for table 'eZAd_Click'
@@ -75,20 +71,23 @@ CREATE TABLE eZAd_Click (
 );
 
 #
+# Dumping data for table 'eZAd_Click'
+#
+
+
+#
 # Table structure for table 'eZAd_View'
 #
 DROP TABLE IF EXISTS eZAd_View;
 CREATE TABLE eZAd_View (
   ID int(11) DEFAULT '0' NOT NULL auto_increment,
   AdID int(11),
-  PageViewID int(11),
-  ViewPrice float(10,2),
+  Date date,
+  ViewCount int(11) DEFAULT '0' NOT NULL,
+  ViewPrice int(11) DEFAULT '0' NOT NULL,
   PRIMARY KEY (ID)
 );
 
 #
 # Dumping data for table 'eZAd_View'
 #
-
-alter table eZAd_Ad add HTMLBanner text not null;
-alter table eZAd_Ad add UseHTML int not null default 0;

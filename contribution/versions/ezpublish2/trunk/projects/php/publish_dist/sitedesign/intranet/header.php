@@ -47,6 +47,9 @@
     include( "eztodo/user/menubox.php" );
     ?>
 
+    <?
+    include( "ezbug/user/menubox.php" );
+    ?>
 
 	<?
 	include( "ezcontact/user/menubox.php" );

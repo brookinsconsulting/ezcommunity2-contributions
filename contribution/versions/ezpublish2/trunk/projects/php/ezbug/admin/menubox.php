@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: menubox.php,v 1.1 2000/11/28 13:42:23 bf-cvs Exp $
+// $Id: menubox.php,v 1.2 2001/01/25 20:29:19 ce Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <25-Nov-2000 17:53:52 bf>
@@ -23,25 +23,16 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, US
 //
 
-include_once( "classes/INIFile.php" );
-$ini = new INIFile( "site.ini" );
+// Supply $menuItems to get a menubox
 
-$Language = $ini->read_var( "eZBugMain", "Language" );
-
-include_once( "classes/eztemplate.php" );
-
-$t = new eZTemplate( "ezbug/admin/" . $ini->read_var( "eZBugMain", "AdminTemplateDir" ),
-                     "ezbug/admin/intl", $Language, "menubox.php" );
-
-$t->setAllStrings();
-
-$t->set_file( array(
-    "menu_box_tpl" => "menubox.tpl"
-    ) );
-
-$t->set_var( "site_style", $SiteStyle );
-
-$t->pparse( "output", "menu_box_tpl" );
-    
+$menuItems = array(
+    array( "/bug/archive/", "{intl-bug_archive}" ),
+    array( "/bug/unhandled/", "{intl-unhandled_bugs}" ),
+    array( "/bug/edit/new/", "{intl-new_bug}" ),
+    array( "/bug/priority/list/", "{intl-priority_overview}" ),
+    array( "/bug/category/list/", "{intl-category_overview}" ),
+    array( "/bug/module/list/0/", "{intl-module_overview}" ),
+    array( "/bug/status/list/", "{intl-status_overview}" )
+    );
 
 ?>
