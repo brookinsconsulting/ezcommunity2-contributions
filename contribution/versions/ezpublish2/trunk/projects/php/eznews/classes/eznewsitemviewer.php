@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eznewsitemviewer.php,v 1.15 2000/10/13 11:59:02 pkej-cvs Exp $
+// $Id: eznewsitemviewer.php,v 1.16 2000/10/13 13:36:19 pkej-cvs Exp $
 //
 // Definition of eZNewsItemViewer class
 //
@@ -137,7 +137,6 @@ class eZNewsItemViewer
                 
             }
         }
-        
         if( $count == 2 )
         {
             $this->doAdminAction( $this->URLObject->getURLPart( 1 ) );
@@ -375,7 +374,7 @@ class eZNewsItemViewer
             }
         } 
         
-         $this->URLObject->getQueries( $queries, "^create\+this" );
+        $this->URLObject->getQueries( $queries, "^create\+this" );
         $count = count( $queries );
         
         if( $count && $continue )
