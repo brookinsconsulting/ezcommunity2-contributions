@@ -2859,3 +2859,25 @@ Maintainer(s) : bf@ez.no
       admin/articlelist.php
       user/articlelist.php: ability to use XML description
 
+
+Module : ezarticle
+Repository path : /home/cvsroot/projects/php/ezarticle
+Maintainer(s) : bf@ez.no
+2002-02-20  Jo Henrik Endrerud  <jhe@ez.no>
+
+    * admin/articleedit.php
+      classes/ezarticletool.php: fixed bug with bulk mail
+
+    * admin/datasupplier.php: added < before ?php =)
+
+    * classes/ezarticletool.php
+      user/datasupplier.php:
+    small code standard fixes and a small speed improvement
+
+    * admin/articleedit.php
+      admin/datasupplier.php: conding standard fixes
+
+2002-02-20  Christoffer Elo  <ce@ez.no>
+
+    * classes/ezarticle.php: Added a fix for IsPublished
+

@@ -646,3 +646,13 @@ Maintainer(s) : fh@ez.no
     * admin/mailedit.php
       admin/templates/standard/mailedit.tpl: Fixed a getTree
 
+
+Module : ezbulkmail
+Repository path : /home/cvsroot/projects/php/ezbulkmail
+Maintainer(s) : fh@ez.no
+2002-02-20  Jo Henrik Endrerud  <jhe@ez.no>
+
+    * classes/ezbulkmail.php: fixed bug when sending bulk mail
+
+    * classes/ezbulkmail.php: fixed permission bug
+

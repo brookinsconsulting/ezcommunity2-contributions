@@ -910,3 +910,12 @@ Maintainer(s) : br@ez.no
     * user/imagelist.php:
     removed row when user hasn't read permission to the folder
 
+
+Module : ezimagecatalogue
+Repository path : /home/cvsroot/projects/php/ezimagecatalogue
+Maintainer(s) : br@ez.no
+2002-02-20  Baard Farstad  <bf@ez.no>
+
+    * user/imagelist.php:
+    Fixed bug where image edit was shown without the correct permissions
+

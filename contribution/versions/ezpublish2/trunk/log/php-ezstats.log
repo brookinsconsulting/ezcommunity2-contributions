@@ -367,3 +367,13 @@ Maintainer(s) : br@ez.no
 
     * admin/cron.php: bug in query.
 
+
+Module : ezstats
+Repository path : /home/cvsroot/projects/php/ezstats
+Maintainer(s) : br@ez.no
+2002-02-20  Bjoern Reiten  <br@ez.no>
+
+    * classes/ezpageviewquery.php: fixed bug with referers.
+
+    * classes/ezpageviewquery.php: fixed bug in referer.
+
