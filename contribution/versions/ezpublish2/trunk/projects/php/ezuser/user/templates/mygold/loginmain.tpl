@@ -14,7 +14,7 @@
 	    <table>
 	      <tr>
 	        <td>
-		  <form action="/user/login/?RedirectURL={redirect_url}" method="post">
+		  <form action="{www_dir}{index}/user/login/?RedirectURL={redirect_url}" method="post">
 	            <input class="okbutton" type="submit" name="{intl-login}" value="{intl-login}">
 	          </form>
 		</td>
@@ -35,7 +35,7 @@
     <td class="spacer2">&nbsp;</td>
   </tr>
   <tr> 
-    <td class="bgspacer"><img src="/sitedesign/mygold/images/shim.gif" alt="" width="1" height="2" /></td>
+    <td class="bgspacer"><img src="{www_dir}/sitedesign/mygold/images/shim.gif" alt="" width="1" height="2" /></td>
   </tr>
   <tr> 
     <td class="spacer5">&nbsp;</td>

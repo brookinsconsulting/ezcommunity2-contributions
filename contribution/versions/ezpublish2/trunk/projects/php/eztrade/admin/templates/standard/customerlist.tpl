@@ -19,7 +19,7 @@
 <!-- BEGIN customer_item_tpl -->
 <tr>
 	<td class="{td_class}">
-	<a href="/trade/customerview/{customer_id}">{customer_first_name} {customer_last_name}</a>
+	<a href="{www_dir}{index}/trade/customerview/{customer_id}">{customer_first_name} {customer_last_name}</a>
 	</td>
 </tr>
 <!-- END customer_item_tpl -->

@@ -55,13 +55,13 @@
        {used_used}       
        </td>
        <td class="{td_class}">
-       <a href="/trade/customerview/{user_id}/">{user_name}</a>
+       <a href="{www_dir}{index}/trade/customerview/{user_id}/">{user_name}</a>
        </td>
        <td class="{td_class}">
        {used_price}       
        </td>
        <td class="{td_class}">
-       <a href="/trade/orderedit/{voucher_order_id}/">{voucher_order_id}</a>       
+       <a href="{www_dir}{index}/trade/orderedit/{voucher_order_id}/">{voucher_order_id}</a>       
        </td>
 </tr>
 <!-- END used_item_tpl -->

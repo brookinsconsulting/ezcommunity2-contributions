@@ -3,7 +3,7 @@
 <b>{intl-notice}</b>: {intl-only_for_advanced_users}
 <hr noshade="noshade" size="4" />
 
-<form action="/sitemanager/sqladmin/query" method="post">
+<form action="{www_dir}{index}/sitemanager/sqladmin/query" method="post">
 
 <textarea name="QueryText" cols="80" rows="4">{query_text}</textarea><br />
 

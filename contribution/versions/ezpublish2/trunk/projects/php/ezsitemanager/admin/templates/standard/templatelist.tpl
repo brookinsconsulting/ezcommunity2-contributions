@@ -4,5 +4,5 @@
 
 <!-- BEGIN file_item_tpl -->
 <img src="{www_dir}/images/folder.gif" alt="" width="16" height="16" border="0" />
-<a href="{file_href}">{file_name}</a><br />
+<a href="{www_dir}{index}{file_href}">{file_name}</a><br />
 <!-- END file_item_tpl -->

@@ -65,7 +65,7 @@
        {used_price}       
        </td>
        <td class="{td_class}">
-       <a href="/trade/orderview/{voucher_order_id}/">{voucher_order_id}</a>       
+       <a href="{www_dir}{index}/trade/orderview/{voucher_order_id}/">{voucher_order_id}</a>       
        </td>
 </tr>
 <!-- END used_item_tpl -->

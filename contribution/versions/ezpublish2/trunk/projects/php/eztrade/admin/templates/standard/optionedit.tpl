@@ -1,4 +1,4 @@
-<form method="post" action="/trade/productedit/optionedit/">
+<form method="post" action="{www_dir}{index}/trade/productedit/optionedit/">
 
 
 <h1>{intl-option_edit}: {product_name}</h1>

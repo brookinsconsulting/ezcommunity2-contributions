@@ -109,7 +109,7 @@
 <!-- BEGIN order_item_tpl -->
 <tr>
 	<td class="{td_class}" >
-	<a href="/trade/orderedit/{order_id}">{order_id}</a>
+	<a href="{www_dir}{index}/trade/orderedit/{order_id}">{order_id}</a>
 	</td>
 	<td class="{td_class}" >
 	 {order_date}
@@ -193,10 +193,10 @@
        {used_used}       
        </td>
        <td class="{td_class}">
-       <a href="/trade/orderedit/{order_id}/">{order_id}</a>
+       <a href="{www_dir}{index}/trade/orderedit/{order_id}/">{order_id}</a>
        </td>
        <td class="{td_class}">
-       <a href="/trade/voucheredit/{voucher_id}/">{voucher_id}</a>       
+       <a href="{www_dir}{index}/trade/voucheredit/{voucher_id}/">{voucher_id}</a>       
        </td>
        <td align="right" class="{td_class}">
        {used_price}       
