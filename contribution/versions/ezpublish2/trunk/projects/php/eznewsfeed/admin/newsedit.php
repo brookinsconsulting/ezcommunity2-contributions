@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: newsedit.php,v 1.8 2001/01/30 19:05:10 pkej Exp $
+// $Id: newsedit.php,v 1.9 2001/03/13 12:00:51 fh Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <16-Nov-2000 13:02:32 bf>
@@ -34,6 +34,14 @@ include_once( "classes/ezdatetime.php" );
 
 include_once( "eznewsfeed/classes/eznews.php" );
 include_once( "eznewsfeed/classes/eznewscategory.php" );
+include_once( "classes/ezhttptool.php" );
+
+if( isset( $Cancel ) )
+{
+    eZHTTPTool::header( "Location: /newsfeed/archive/" );
+    exit();
+}
+
 
 if ( $Action == "Insert" )
 {
