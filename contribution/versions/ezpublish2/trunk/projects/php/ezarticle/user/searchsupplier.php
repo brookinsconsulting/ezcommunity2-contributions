@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: searchsupplier.php,v 1.3 2001/07/19 12:19:21 jakobn Exp $
+// $Id: searchsupplier.php,v 1.4 2001/10/01 17:48:15 br Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -33,8 +33,8 @@ $IconPath = "/images/document.gif";
 include_once( "ezarticle/classes/ezarticle.php" );
 
 $article = new eZArticle();
-$SearchResult = $article->search( $SearchText, "time", false, 0, $Limit );
-$SearchCount = $article->searchCount( $SearchText, "time", false );
+$SearchResult = $article->search( $SearchText, "time", false, 0, $Limit, array(), $SearchCount );
+// $SearchCount = $article->searchCount( $SearchText, "time", false );
 
 
 
