@@ -60,7 +60,7 @@
 
 </head>
 
-<body bgcolor="#FFFFFF" onload="MM_preloadImages('/images/{site_style}/redigerminimrk.gif','/images/{site_style}/slettminimrk.gif','/images/{site_style}/downloadminimrk.gif')">
+<body bgcolor="#FFFFFF" onload="MM_preloadImages('{www_dir}/images/{site_style}/redigerminimrk.gif','{www_dir}/images/{site_style}/slettminimrk.gif','{www_dir}/images/{site_style}/downloadminimrk.gif')">
 
 <table width="100%" cellpadding="0" cellspacing="0" border="0">
 <tr>
