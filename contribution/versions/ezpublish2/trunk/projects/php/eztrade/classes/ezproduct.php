@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezproduct.php,v 1.111 2001/10/04 14:14:12 ce Exp $
+// $Id: ezproduct.php,v 1.112 2001/10/04 14:21:41 ce Exp $
 //
 // Definition of eZProduct class
 //
@@ -1887,6 +1887,8 @@ class eZProduct
                $country = $mainAddress->country();
                if ( ( get_class ( $country ) == "ezcountry" ) and ( !$country->hasVAT() ) )
                    $useVAT = false;
+               else
+                   $useVAT = true;
            }
        }
 

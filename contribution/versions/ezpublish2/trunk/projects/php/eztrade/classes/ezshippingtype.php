@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezshippingtype.php,v 1.12 2001/10/04 14:14:12 ce Exp $
+// $Id: ezshippingtype.php,v 1.13 2001/10/04 14:21:41 ce Exp $
 //
 // Definition of eZShippingType class
 //
@@ -262,6 +262,8 @@ class eZShippingType
                 $country = $mainAddress->country();
                 if ( ( get_class ( $country ) == "ezcountry" ) and ( !$country->hasVAT() ) )
                     $useVAT = false;
+                else
+                    $useVAT = true;
             }
         }
         
