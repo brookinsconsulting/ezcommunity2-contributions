@@ -12,7 +12,7 @@ eZ trade installation guide
 
 * Apache-1.3.14 (www.apache.org)
 
-* libxml-2.1.1 (www.xmlsoft.org)
+* libxml-2.2.5 (www.xmlsoft.org)
 
 2 PHP install:
 
@@ -43,7 +43,7 @@ The rewrite and php modules needs to be active to use trade.
 3.2 Apache configuration
 
 This is an example of a httpd.conf virtalhost. Remember to change ipaddress,
-domainname mailaddress nad path to refelct your system.
+domainname, mailaddress and path to refelct your system.
 
 NameVirtalHost [yourIPaddress]:80
 
