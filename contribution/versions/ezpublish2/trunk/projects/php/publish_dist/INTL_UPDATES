@@ -183,10 +183,14 @@ qtdom_error=You've failed to install the Qt package properly, please get it from
 convert_error=You've failed to install the ImageMagick package properly, please get it from
 
 #### PRE2 - ##########
-mod; ezcontact/admin companyview.php.ini
+mod: ezcontact/admin companyview.php.ini
 changed: added
 no_company_defined=No company defined with ID
 
-mod; eztrade/admin shippingtypes.php.ini
+mod: eztrade/admin shippingtypes.php.ini
 change: added
 vat_type=VAT type
+
+mod: eztrade/user ordersendt.php.ini
+change: added
+shipping_type=Shipping type

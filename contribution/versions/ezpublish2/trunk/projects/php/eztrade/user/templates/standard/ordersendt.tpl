@@ -7,13 +7,17 @@
 <p>{intl-email_notice}</p>
 
 
-<p class="boxtext">{intl-payment_method}:</p>
-<div class="p">{payment_method}</div>
-
-<br />
-
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
+	<td>
+	<p class="boxtext">{intl-payment_method}:</p>
+	<div class="p">{payment_method}</div>
+	</td>
+	<td>
+	<p class="boxtext">{intl-shipping_type}:</p>
+	<div class="p">{shipping_type}</div>
+	</td>
+</tr>	
 	<td>
 <!-- BEGIN billing_address_tpl -->
 <p class="boxtext">{intl-billing_address}:</p>

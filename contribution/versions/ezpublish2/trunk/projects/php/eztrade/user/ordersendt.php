@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ordersendt.php,v 1.26 2001/03/12 13:35:16 bf Exp $
+// $Id: ordersendt.php,v 1.27 2001/03/13 13:38:08 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <06-Oct-2000 14:04:17 bf>
@@ -202,6 +202,13 @@ $instance =& $checkout->instance();
 $paymentMethod = $instance->paymentName( $order->paymentMethod() );
 
 $t->set_var( "payment_method", $paymentMethod );
+
+$shippingType = $order->shippingType();
+if ( $shippingType )
+{    
+    $t->set_var( "shipping_type", $shippingType->name() );
+}
+
 
 $shippingCost = $order->shippingCharge();
 $shippingVAT = $order->shippingVAT();
