@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: headlines.php,v 1.13 2001/07/02 09:46:14 bf Exp $
+// $Id: headlines.php,v 1.14 2001/07/03 11:42:05 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <30-Nov-2000 14:35:24 bf>
@@ -105,9 +105,9 @@ foreach ( $articleList as $article )
         $imageWidth =& $ini->read_var( "eZArticleMain", "CategoryImageWidth" );
         $imageHeight =& $ini->read_var( "eZArticleMain", "CategoryImageHeight" );
 
-        $variation =& $image->requestImageVariation( $imageWidth, $imageHeight );
+        $variation =& $image;
 
-        $imageURL = "/" . $variation->imagePath();
+        $imageURL = $variation->filePath( );
         $imageWidth =& $variation->width();
         $imageHeight =& $variation->height();
         $imageCaption =& $image->caption();
