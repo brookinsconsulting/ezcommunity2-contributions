@@ -35,3 +35,6 @@ link_type=Link type
 url_type=URL
 browse=Change type
 
+mod: ezuser/admin, sessioninfo.php.ini
+changed: added
+idle=Idle
