@@ -92,8 +92,8 @@
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
 <!-- BEGIN day_view_long_date_header_tpl -->
 <tr>
-	<td id="gcalDayViewLongDateHeader" colspan="10"><span class="gcalDayViewLongDateHeader"><a style="font-size: large; text-decoration: none;" href="{www_dir}{index}/groupeventcalendar/monthview/{year_number}/{month_number}/{group_print_id}/">{long_date}</a></span></td> 
-<tr>
+	<td id="gcalDayViewLongDateHeader" colspan="10"><span class="gcalDayViewLongDateHeader"><a style="font-size: large; text-decoration: none;" href="{www_dir}{index}/groupeventcalendar/monthview/{year_number}/{month_number}/{group_print_id}/">{long_date}</a></span></td>
+</tr><tr>
 	<!-- DUMMY links, love Dylan -->
 	<td width="4.5%" class="gcalDayViewTopBar"><a class="gcalSmallLink" href="{www_dir}{index}/groupeventcalendar/dayview/{pd_year_number}/{pd_month_number}/{pd_day_number}/{group_print_id}/"> &lt;&lt; </a></td>
 	<td width="13%" onmouseover="this.className='gcalDayViewTopBarSelect'" onmouseout="this.className='gcalDayViewTopBar'" class="gcalDayViewTopBar">Monday</td>
@@ -117,23 +117,23 @@
 <!-- BEGIN time_display_tpl -->
 <tr>
 	<!-- BEGIN new_event_link_tpl -->
-	<td class="{td_class}" width="100%" style="height: 60px; border: 1px solid gray; border-right: 2px solid gray;">
-	<a class="path" style="font-size: 12px;" href="{www_dir}{index}/groupeventcalendar/eventedit/new/{year_number}/{month_number}/{day_number}/{start_time}/{group_print_id}/">{short_time}</a>
+	<td class="{td_class}" width="100%" style="text-align: center; height: 60px; border: 1px solid gray; border-right: 2px solid gray;">
+	<a class="path" style="font-size: 10px;" href="{www_dir}{index}/groupeventcalendar/eventedit/new/{year_number}/{month_number}/{day_number}/{start_time}/{group_print_id}/">{short_time}</a>
 	</td>
 	<!-- END new_event_link_tpl -->
 
 	<!-- BEGIN no_new_event_link_tpl -->
-	<td class="{td_class}" width="100%" style="height: 60px; border: 1px solid gray; border-right: 2px solid gray;" >{short_time}</td>
+	<td class="{td_class}" width="100%" style="height: 58px; border: 1px solid gray; border-right: 2px solid gray;" >{short_time}</td>
 	<!-- END no_new_event_link_tpl -->
 	</tr>
 <!-- END time_display_tpl -->
 </table></td>
-<td width="95%" valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0" style=" border: 1px solid black; height: 1440px;">
+<td width="95%" valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">
 <!-- BEGIN time_table_tpl -->
-<tr><td style="height: 13px; width:20px; background-color: black; border-bottom:1px solid white;"> </td>
+<tr><td style="height: 15px; width:0px; overflow: hidden; background-color: black; border-bottom:1px solid white;"></td>
    <!-- BEGIN public_event_tpl -->
-	<td class="{td_class}" valign="top" rowspan="{rowspan_value}" style="height: 100px; overflow: hidden; background-color: #6699CC;">
-	<table width="100%" cellspacing="0" cellpadding="4" border="0" >
+	<td class="{td_class}" valign="top" rowspan="{rowspan_value}" style="border: 1px solid black; overflow: hidden; background-color: #6699CC;">
+	<table width="100%" cellspacing="0" cellpadding="4" border="0">
 	<tr>
 		<td width="98%" valign="top" class="gcalEventTopBar">
 		<a class='gcalDayEventText' href="{www_dir}{index}/groupeventcalendar/eventview/{event_id}/">{event_name}</a><br />
@@ -155,11 +155,11 @@
 		<td width="1%" valign="top" align="right" class="gcalEventTopBar">&nbsp;</td>
 		<!-- END no_delete_check_tpl -->
 	</tr>
-<!--	<tr>
-		<td colspan="3">
-		{event_description}&nbsp;
+	<tr>
+		<td colspan="3"><div style="overflow: hidden; height: {event_div_height}px;">
+		{event_description}                      </div>
 		</td>
-	</tr> -->
+	</tr>
 	</table></div>
 	</td>
 	<!-- END public_event_tpl -->
@@ -169,11 +169,11 @@
 	</td>
 	<!-- END private_event_tpl -->
 	<!-- BEGIN no_event_tpl -->
-	<td valign="top" rowspan="{rowspan_value}" style="height:15px;">&nbsp;</td>
+	<td valign="top" rowspan="{rowspan_value}" style="height:15px;"></td>
 	<!-- END no_event_tpl -->
 </tr>
 <!-- END time_table_tpl -->
 </td></tr>
-</table>
-
+</table></td></tr>
+ </table>
 </form>

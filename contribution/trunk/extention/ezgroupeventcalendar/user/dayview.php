@@ -68,8 +68,8 @@ $SiteDesign = $ini->read_var( "site", "SiteDesign" );
 $Language = $ini->read_var( "eZGroupEventCalendarMain", "Language" );
 $StartTimeStr = $ini->read_var( "eZGroupEventCalendarMain", "DayStartTime" );
 $StopTimeStr = $ini->read_var( "eZGroupEventCalendarMain", "DayStopTime" );
-$IntervalStr = $ini->read_var( "eZGroupEventCalendarMain", "DayInterval" );
-
+//$IntervalStr = $ini->read_var( "eZGroupEventCalendarMain", "DayInterval" );
+$IntervalStr = '00:15';
 $Locale = new eZLocale( $Language );
 
 $user = eZUser::currentUser();
@@ -237,22 +237,7 @@ if( $user )
 		$t->set_var( "group_print_id", $tmpGroup->id() );
 		$t->set_var( "group_print", "" );
 	}
- for ($i=0;$i<24;$i++)
- {
-  $t->set_var("short_time", $i);
 
- if ($editor == true)
- {
- 	$t->parse( "new_event_link", "new_event_link_tpl" );
-	$t->set_var( "no_new_event_link", "" );
- }
- else
- {
-	$t->parse( "no_new_event_link", "no_new_event_link_tpl" );
-	$t->set_var( "new_event_link", "" );
- }
-   $t->parse("time_display", "time_display_tpl", true);
- }
 /*    if( $editor == true && $tmpTime->minute() == '00' )
 	{
 		$t->parse( "new_event_link", "new_event_link_tpl" );
@@ -322,6 +307,8 @@ if( $user )
 
         $interval->setSecond( 0 );
     }
+
+ 
    //  Var_Dump::display($intervalArray);
     // increase schedule span to fit early/late events
     $midNight = new eZTime();
@@ -350,7 +337,23 @@ if( $user )
             $stopTime = $stopTime->add( $interval );
         }
     }
+    
+    for ($i=$startTime->hour();$i<=$stopTime->hour();$i++)
+ {
+  $t->set_var("short_time", $i . ':00');
 
+ if ($editor == true)
+ {
+ 	$t->parse( "new_event_link", "new_event_link_tpl" );
+	$t->set_var( "no_new_event_link", "" );
+ }
+ else
+ {
+	$t->parse( "no_new_event_link", "no_new_event_link_tpl" );
+	$t->set_var( "new_event_link", "" );
+ }
+   $t->parse("time_display", "time_display_tpl", true);
+ }
 
     // places events into columns, creates extra columns as necessary
     $numRows = 0;
@@ -383,7 +386,7 @@ if( $user )
             $nextInterval = $tmpTime->add( $interval );
             if ( $nextInterval->isGreater( $tmpTime ) )
                 $nextInterval = new eZTime( 23, 59 );
-       
+
             // if this event should be inserted into the table now
             if ( $eventDone[$event->id()] == false &&
                  intersects( $event, $tmpTime, $nextInterval ) == true )
@@ -400,6 +403,7 @@ if( $user )
                         $colTaken[$col] = $tableCellsRowSpan[$numRows-1][$col];
                         $eventDone[$event->id()] = true;
                         $foundFreeColumn = true;
+
 
                         // if we created a new column, mark leading empty spaces
                         if ( $col >= $numCols )
@@ -459,8 +463,7 @@ if( $user )
     $row = 0;
     $tmpTime = new eZTime();
     $tmpTime->setSecondsElapsed( $startTime->secondsElapsed() );
-
-    while ( $tmpTime->isGreater( $stopTime ) == true )
+    while ( $tmpTime->isGreater( $stopTime, true ) == true )
     {
     // spectrum : this if block is a way to get the 23rd hour displayed
    //     if ($tmpTime->hour() == 22 && $toggle23) $tmpTime = $tmpTime->add( $interval );
@@ -530,7 +533,7 @@ if( $user )
                     $t->set_var( "event_name", $event->name() );
                     $t->set_var( "event_description", $event->description(false) );
                     $t->set_var( "edit_button", "Edit" );
-
+             $eventDivHeight = getEventHeight( $event );  $t->set_var( "event_div_height", $eventDivHeight );
 					$permission = new eZGroupEditor();
 					if( $event_editor == true )
 					{
@@ -567,12 +570,12 @@ if( $user )
 //        }
 //        if ( !isset($toggle23) )
 //	    $toggle23 = false;
-        if ( $tmpTime > $tmpTime->add( $interval ) )
-            $tmpTime = new eZTime( 23, 59 );
+     //   if ( $tmpTime > $tmpTime->add( $interval ) )
+   //         $tmpTime = new eZTime( 23, 59 );
 	// this elseif block is a hack to get isGreater to display the 23rd hour    
 //        elseif ($stopTime->hour() == 23 && $tmpTime->hour() == 22 && $toggle23 == false)
 //	    $toggle23 = true;
-	else
+//	else
             $tmpTime = $tmpTime->add( $interval );
 
 	$row++;
@@ -827,21 +830,24 @@ function addZero( $value )
     return $ret;
 }
 /*!
-Calculates and returns height of the event div based on the 1px = 1 minute background image.
+Calculates and returns height of the event descrip div based on the 1px = 1 minute background image, and a 16 pix heading.
 */
 function getEventHeight( $event )
 {
-  $dur =& $event->duration(); // returns ezTime
-  $px = $dur->hour() * 60 + $dur->minute();
-  return $px;
+  $ret=0;
+  $dur = $event->duration();
+  $min = $dur->secondsElapsed() / 60;
+  $ret =  ($min + 16) -$min;
+  echo "$ret<br>";
+  return $ret;
 }
 
 /*!
-Calculates and returns event div distance from top 
+Calculates and returns event div distance from top
 */
 function getEventTop( $eStartTime, $tStartTime )
 {
- 
+
 }
 
 /*!
