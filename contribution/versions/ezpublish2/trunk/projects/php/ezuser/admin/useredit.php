@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: useredit.php,v 1.30 2001/09/10 23:00:02 fh Exp $
+// $Id: useredit.php,v 1.31 2001/09/13 13:40:29 bf Exp $
 //
 // Created on: <20-Sep-2000 13:32:11 ce>
 //
@@ -98,24 +98,24 @@ if ( $Action == "insert" )
                         eZLog::writeNotice( "User created: $FirstName $LastName ($Login) $Email $SimultaneousLogins  from IP: $REMOTE_ADDR" );
                         
                         // Add user to groups
-                        if ( isSet( $GroupArray ) )
+                        $GroupArray = array_unique( array_merge( $GroupArray, $MainGroup ) );
+                        $group = new eZUserGroup();
+                        $user->get( $user->id() );
+                        $user->removeGroups();
+                        foreach ( $GroupArray as $GroupID )
                         {
-                            $GroupArray = array_unique( array_merge( $GroupArray, $MainGroup ) );
                             $group = new eZUserGroup();
                             $user->get( $user->id() );
                             $user->removeGroups();
-                            foreach ( $GroupArray as $GroupID )
+                            $group->get( $GroupID );
+                            if ( ( $group->isRoot() && $currentUser->hasRootAccess() ) || !$group->isRoot() )
                             {
-                                $group->get( $GroupID );
-                                if( ( $group->isRoot() && $currentUser->hasRootAccess() ) || !$group->isRoot() )
-                                {
-                                    $group->adduser( $user );
-                                    $groupname = $group->name();
-                                    eZLog::writeNotice( "User added to group: $groupname from IP: $REMOTE_ADDR" );
-                                }
+                                $group->adduser( $user );
+                                $groupname = $group->name();
+                                eZLog::writeNotice( "User added to group: $groupname from IP: $REMOTE_ADDR" );
                             }
                         }
-
+                        
                         $user->setGroupDefinition( $MainGroup );
 
                         eZHTTPTool::header( "Location: /user/userlist/" );
@@ -193,20 +193,22 @@ if ( $Action == "update" )
                         $user->removeGroups();
                         
                         // Add user to groups
-                        if ( isset( $GroupArray ) )
+                        $GroupArray = array_unique( array_merge( $GroupArray, $MainGroup ) );
+                        $group = new eZUserGroup();
+                        $user->get( $user->id() );
+                        $user->removeGroups();
+                        foreach ( $GroupArray as $GroupID )
                         {
-                            $GroupArray = array_unique( array_merge( $GroupArray, $MainGroup ) );
                             $group = new eZUserGroup();
                             $user->get( $user->id() );
                             $user->removeGroups();
-                            foreach ( $GroupArray as $GroupID )
+                            $group->get( $GroupID );
+                            // does not work..
+//                            if ( ( $group->isRoot() && $currentUser->hasRootAccess() ) || !$group->isRoot() )
                             {
-                                $group->get( $GroupID );
-                                if( ( $group->isRoot() && $currentUser->hasRootAccess() ) || !$group->isRoot() )
-                                {
-                                    $group->adduser( $user );
-                                    eZLog::writeNotice( "User added to group: $groupname from IP: $REMOTE_ADDR" );
-                                }
+                                $group->adduser( $user );
+                                $groupname = $group->name();
+                                eZLog::writeNotice( "User added to group: $groupname from IP: $REMOTE_ADDR" );
                             }
                         }
 
