@@ -1,10 +1,10 @@
 <?
 /*!
-    $Id: ezuser.php,v 1.15 2000/07/31 13:08:43 lw-cvs Exp $
+    $Id: ezuser.php,v 1.16 2000/08/03 10:11:43 lw-cvs Exp $
 
     Author: Lars Wilhelmsen <lw@ez.no>
     
-    Created on: Created on: <14-Jul-2000 13:06:48 lw>
+    Created on: <14-Jul-2000 13:06:48 lw>
     
     Copyright (C) 2000 eZ systems. All rights reserved.
 */
