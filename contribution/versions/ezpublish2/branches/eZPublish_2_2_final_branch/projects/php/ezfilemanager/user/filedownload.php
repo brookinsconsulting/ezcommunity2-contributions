@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: filedownload.php,v 1.20.2.5 2003/02/24 09:22:27 br Exp $
+// $Id: filedownload.php,v 1.20.2.6 2003/04/11 13:48:48 br Exp $
 //
 // Created on: <10-Dec-2000 16:39:10 bf>
 //
@@ -81,6 +81,8 @@ $size = eZFile::filesize( "ezfilemanager/files/$filePath" );
 
 $nameParts = explode( ".", $originalFileName );
 $suffix = $nameParts[count( $nameParts ) - 1];
+
+$suffix = strtolower( $suffix );
 
 // clear what might be in the output buffer and stop the buffer.
 ob_end_clean();
