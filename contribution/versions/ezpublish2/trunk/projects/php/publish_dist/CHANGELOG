@@ -3,6 +3,8 @@ eZ publish changelog:
 
 Changes from 2.2 Beta 1 to 2.2 Beta 2
 -----------------------------------
+* Added fulltext search in eZ forum
+* Fixed search on keywords in article
 * Added basic editor for templates in admin.
 * Added customer list and customer details in eZ trade.
 * Added support for multiple keywords in url translator.
