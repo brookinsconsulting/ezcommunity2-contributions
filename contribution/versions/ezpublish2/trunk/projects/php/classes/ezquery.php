@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezquery.php,v 1.1 2000/10/02 16:37:56 pkej-cvs Exp $
+// $Id: ezquery.php,v 1.2 2000/10/02 18:06:15 pkej-cvs Exp $
 //
 // Definition of eZQuery class
 //
@@ -44,7 +44,12 @@ class eZQuery
         $this->URLArray = explode( "/", $REQUEST_URI );
         $this->QueryArray = explode( "&", $QUERY_STRING );
         $this->count = count( $this->QueryArray );
+        
+        #$this->printQueries( "eZQuery pre prune" );
+        
         $this->pruneQueryArray();
+
+        #$this->printQueries( "eZQuery post prune" );        
     }
 
 
@@ -96,6 +101,8 @@ class eZQuery
      */
     function removeRegexpDuplicates( $regexp )
     {
+        #$this->printQueries( "pre removeRegexpDuplicates" );
+        
         $newQueryArray = array();
         $tempQueryArray = $this->QueryArray;
         $currentQuery;
@@ -121,7 +128,10 @@ class eZQuery
         }
         
         $this->QueryArray = $newQueryArray;
+        
+        #$this->printQueries( "post removeRegexpDuplicates" );
     }
+
 
 
     /*!
@@ -135,15 +145,28 @@ class eZQuery
      */
     function getQueries( &$returnArray, $regexp )
     {
-        for( $i = 0; $i < $this->count; $i++ )
-        {
-            $arrayItem = $tempQueryArray[$i];
+        $this->printQueries( "post getQueries" );
+        $value = false;
+        
+        $returnArray = array(); 
 
+        $i = $this->count;
+        for( $i; $i >= 0; $i-- )
+        {
+            $arrayItem = $this->QueryArray[$i];
+            
+            echo "$i $arrayItem <br>";
+            
             if( ereg( $regexp,  $arrayItem ) )
             {
                 $returnArray[] = $arrayItem;
+                $value = true;
             }
-        }        
+        }   
+
+        $this->printQueries( "post getQueries" );
+        
+        return $value;     
     }
     
     
@@ -151,25 +174,65 @@ class eZQuery
     /*!
         This function returns a fully formed query string for use in a url.
         
-        /return
+        \in
+            \$add Add this to the returned string.
+        
+        \return
             Returns the new query string.
      */
-    function createQueryString()
+    function createQueryString( $add )
     {
-        $returnString;
+        $returnString = "";
+        
+        $first = true;
+        
+        #$this->printQueries( "createQueryString" );
         
         foreach( $this->QueryArray as $query )
         {
-            $returnString = $returnString . "&" . $query;
+            if( $first )
+            {
+                $returnString = $query;
+                $first = false;
+            }
+            else
+            {
+                $returnString = $returnString . "&" . $query;
+            }
         }
+                
+        $returnString = $returnString . $add;
         
         return $returnString;
     }
     
     
     
+    /*!
+        This function will print the current queries in the query array.
+        
+        \in
+            \$prefix A string to prefixi each line with.
+     */
+    function printQueries( $prefix )
+    {
+        $this->printCount++;
+        
+        echo "Printing no " . $this->printCount . " called with $prefix<br><blockquote>";
+        
+        $i = 0;
+        foreach( $this->QueryArray as $arrayItem )
+        {
+            echo $i . " " . $arrayItem . "<br>";
+            $i++;
+        }
+        echo "</blockquote><br>\n";
+        
+    }
+    
     var $QueryArray;
     var $URLArray;
     var $NewQuery;
     var $count;
+    var $printCount = 0;
 };
