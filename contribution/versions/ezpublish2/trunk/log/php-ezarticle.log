@@ -3412,3 +3412,11 @@ Maintainer(s) : bf@ez.no
     * xmlrpc/article.php:
     * Articles no longer loose their placement when using the XMLRPC interface
 
+
+Module : ezarticle
+Repository path : /home/cvsroot/projects/php/ezarticle
+Maintainer(s) : bf@ez.no
+2002-07-10  Baard Farstad  <bf@ez.no>
+
+    * classes/ezarticle.php: Fixed correct escaping of article keywords.
+
