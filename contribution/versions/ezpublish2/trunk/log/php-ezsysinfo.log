@@ -112,3 +112,14 @@ Maintainer(s) : vl@ez.no
     * admin/ezinfo.php
       admin/intl/en_GB/ezinfo.php.ini: Added ezinfo
 
+
+Module : ezsysinfo
+Repository path : /home/cvsroot/projects/php/ezsysinfo
+Maintainer(s) : vl@ez.no
+2001-11-05  Gunnstein Lye  <gl@ez.no>
+
+    * admin/intl/en_GB/meminfo.php.ini
+      admin/intl/en_GB/menubox.php.ini
+      admin/intl/en_GB/sysinfo.php.ini
+      admin/intl/en_GB/hwinfo.php.ini: en_GB fixxes
+

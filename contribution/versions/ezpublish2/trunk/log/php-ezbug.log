@@ -346,3 +346,23 @@ Maintainer(s) : vl@ez.no
     Fixed bug when changeing Category name. Use got sql error even thought
     everything was doing just fine
 
+
+Module : ezbug
+Repository path : /home/cvsroot/projects/php/ezbug
+Maintainer(s) : vl@ez.no
+2001-11-05  Gunnstein Lye  <gl@ez.no>
+
+    * admin/intl/en_GB/bugedit.php.ini
+      admin/intl/en_GB/mailgotbug.php.ini
+      admin/intl/en_GB/mailreply.php.ini
+      admin/intl/en_GB/modulelist.php.ini
+      user/intl/en_GB/buglist.php.ini
+      user/intl/en_GB/bugreport.php.ini
+      user/intl/en_GB/bugview.php.ini
+      user/intl/en_GB/fileedit.php.ini
+      user/intl/en_GB/mailnewbug.php.ini
+      user/intl/en_GB/menubox.php.ini
+      user/intl/en_GB/reportsuccess.php.ini
+      user/intl/en_GB/search.php.ini
+      admin/intl/en_GB/supportlist.php.ini: en_GB fixxes
+

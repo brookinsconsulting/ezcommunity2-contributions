@@ -443,3 +443,17 @@ Maintainer(s) : jhe@ez.no
 
     * admin/cron.php: fixed $user variable to avoid confusion
 
+
+Module : ezfilemanager
+Repository path : /home/cvsroot/projects/php/ezfilemanager
+Maintainer(s) : jhe@ez.no
+2001-11-05  Gunnstein Lye  <gl@ez.no>
+
+    * admin/intl/en_GB/browse.php.ini
+      user/intl/en_GB/fileupload.php.ini
+      user/intl/en_GB/folderedit.php.ini: en_GB fixxes
+
+2001-11-05  Jo Henrik Endrerud  <jhe@ez.no>
+
+    * user/fileupload.php: fixed download problem with ie on mac
+

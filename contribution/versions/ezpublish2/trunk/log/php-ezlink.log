@@ -362,3 +362,19 @@ Maintainer(s) : br@ez.no
 
     * user/latest.php: Fixed old code.
 
+
+Module : ezlink
+Repository path : /home/cvsroot/projects/php/ezlink
+Maintainer(s) : br@ez.no
+2001-11-05  Gunnstein Lye  <gl@ez.no>
+
+    * admin/intl/en_GB/linkcategorylist.php.ini
+      admin/intl/en_GB/linkedit.php.ini
+      admin/intl/en_GB/menubox.php.ini
+      admin/intl/en_GB/search.php.ini
+      admin/intl/en_GB/typeedit.php.ini
+      admin/intl/en_GB/unacceptedlist.php.ini
+      user/intl/en_GB/linkcategorylist.php.ini
+      user/intl/en_GB/onepagelinklist.php.ini
+      user/intl/en_GB/suggestlink.php.ini: en_GB fixxes
+

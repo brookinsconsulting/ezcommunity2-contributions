@@ -312,3 +312,12 @@ Maintainer(s) : pkej@ez.no
     * admin/formedit.php
       admin/templates/standard/formedit.tpl: Fixed setting size of forms.
 
+
+Module : ezform
+Repository path : /home/cvsroot/projects/php/ezform
+Maintainer(s) : pkej@ez.no
+2001-11-05  Gunnstein Lye  <gl@ez.no>
+
+    * admin/intl/en_GB/fixedvalues.php.ini
+      admin/intl/en_GB/form.php.ini: en_GB fixxes
+

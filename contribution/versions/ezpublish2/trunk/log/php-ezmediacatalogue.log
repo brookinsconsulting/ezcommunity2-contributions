@@ -211,3 +211,16 @@ Maintainer(s) : ce@ez.no
 
     * admin/mediaedit.php: Removed some debugs
 
+
+Module : ezmediacatalogue
+Repository path : /home/cvsroot/projects/php/ezmediacatalogue
+Maintainer(s) : ce@ez.no
+2001-11-05  Gunnstein Lye  <gl@ez.no>
+
+    * admin/intl/en_GB/browse.php.ini
+      admin/intl/en_GB/categoryedit.php.ini
+      admin/intl/en_GB/mediaedit.php.ini
+      admin/intl/en_GB/medialist.php.ini
+      admin/intl/en_GB/menubox.php.ini
+      admin/intl/en_GB/typeedit.php.ini: en_GB fixxes
+

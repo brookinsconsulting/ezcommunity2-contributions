@@ -377,3 +377,21 @@ Maintainer(s) : vl@ez.no
     * admin/siteconfig.php:
     Fixed using site.ini.php if site.ini does not exist.
 
+
+Module : ezsitemanager
+Repository path : /home/cvsroot/projects/php/ezsitemanager
+Maintainer(s) : vl@ez.no
+2001-11-05  Thomas Hellstroem  <th@ez.no>
+
+    * admin/intl/no_NO/sectionedit.php.ini: Layout
+
+2001-11-05  Gunnstein Lye  <gl@ez.no>
+
+    * admin/intl/en_GB/fileedit.php.ini
+      admin/intl/en_GB/filelist.php.ini
+      admin/intl/en_GB/menuedit.php.ini
+      admin/intl/en_GB/menulist.php.ini
+      admin/intl/en_GB/sectionlist.php.ini
+      admin/intl/en_GB/siteconfig.php.ini
+      admin/intl/en_GB/templateedit.php.ini: en_GB fixxes
+

@@ -370,3 +370,25 @@ Maintainer(s) : fh@ez.no
 
     * user/subscriptionlist.php: Removed some debugs
 
+
+Module : ezbulkmail
+Repository path : /home/cvsroot/projects/php/ezbulkmail
+Maintainer(s) : fh@ez.no
+2001-11-05  Gunnstein Lye  <gl@ez.no>
+
+    * admin/intl/en_GB/categoryedit.php.ini
+      admin/intl/en_GB/categorylist.php.ini
+      admin/intl/en_GB/maillist.php.ini
+      admin/intl/en_GB/mailview.php.ini
+      admin/intl/en_GB/masssubscribe.php.ini
+      admin/intl/en_GB/menubox.php.ini
+      admin/intl/en_GB/sendmail.php.ini
+      admin/intl/en_GB/templateedit.php.ini
+      admin/intl/en_GB/templatelist.php.ini
+      admin/intl/en_GB/userlist.php.ini
+      user/intl/en_GB/mailview.php.ini
+      user/intl/en_GB/menubox.php.ini
+      user/intl/en_GB/subscriptionlist.php.ini
+      user/intl/en_GB/subscriptionmail.php.ini
+      user/intl/en_GB/usermessages.php.ini: en_GB fixxes
+

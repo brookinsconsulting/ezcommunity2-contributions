@@ -95,3 +95,11 @@ Maintainer(s) : vl@ez.no
       admin/intl/es_MX/urledit.php.ini:
     updated es_MX (Mexican Spanish) for 2.2
 
+
+Module : ezurltranslator
+Repository path : /home/cvsroot/projects/php/ezurltranslator
+Maintainer(s) : vl@ez.no
+2001-11-05  Gunnstein Lye  <gl@ez.no>
+
+    * admin/intl/en_GB/menubox.php.ini: en_GB fixxes
+

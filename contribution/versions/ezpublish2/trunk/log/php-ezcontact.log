@@ -502,3 +502,15 @@ Maintainer(s) : jhe@ez.no
       admin/consultationlist.php
       admin/consultationview.php: fixed various bugs
 
+
+Module : ezcontact
+Repository path : /home/cvsroot/projects/php/ezcontact
+Maintainer(s) : jhe@ez.no
+2001-11-05  Gunnstein Lye  <gl@ez.no>
+
+    * admin/intl/en_GB/companytype.php.ini
+      admin/intl/en_GB/consultationdetaillist.php.ini
+      admin/intl/en_GB/consultationmail.ini
+      admin/intl/en_GB/menubox.php.ini
+      admin/intl/en_GB/personedit.php.ini: en_GB fixxes
+

@@ -652,3 +652,14 @@ Maintainer(s) : jhe@ez.no
 
     * admin/unapprovededit.php: fixed bug with rejection of forum messages
 
+
+Module : ezforum
+Repository path : /home/cvsroot/projects/php/ezforum
+Maintainer(s) : jhe@ez.no
+2001-11-05  Gunnstein Lye  <gl@ez.no>
+
+    * admin/intl/en_GB/messagelist.php.ini
+      admin/intl/en_GB/unapprovedlist.php.ini
+      user/intl/en_GB/messagelist.php.ini
+      user/intl/en_GB/noaccess.php.ini: en_GB fixxes
+

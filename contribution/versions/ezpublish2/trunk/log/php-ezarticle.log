@@ -1901,3 +1901,32 @@ Maintainer(s) : bf@ez.no
 
     * xmlrpc/datasupplier.php: Updated with regards to permission checking.
 
+
+Module : ezarticle
+Repository path : /home/cvsroot/projects/php/ezarticle
+Maintainer(s) : bf@ez.no
+2001-11-05  Vlad Pavlenko  <vlad@epasaule.lv>
+
+    * user/articlelist.php
+      user/articleview.php
+      user/frontpage.php: ezLanguageOverride support for
+
+2001-11-05  Thomas Hellstroem  <th@ez.no>
+
+    * user/smallarticlelist.php
+      user/menumaker.php: Fixes
+
+2001-11-05  Gunnstein Lye  <gl@ez.no>
+
+    * admin/intl/en_GB/articleedit.php.ini
+      admin/intl/en_GB/categoryedit.php.ini
+      admin/intl/en_GB/menubox.php.ini
+      admin/intl/en_GB/pendingmail.php.ini
+      admin/intl/en_GB/searchform.php.ini
+      user/intl/en_GB/articleedit.php.ini
+      user/intl/en_GB/newsgroup.php.ini
+      user/intl/en_GB/searchform.php.ini
+      user/intl/en_GB/articlerate.php.ini
+      user/intl/en_GB/ratingmail.php.ini
+      admin/intl/en_GB/ratinglist.php.ini: en_GB fixxes
+

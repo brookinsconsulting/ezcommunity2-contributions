@@ -78,3 +78,13 @@ Maintainer(s) : bf@ez.no
       admin/intl/es_MX/messageview.php.ini:
     updated es_MX (Mexican Spanish) for 2.2
 
+
+Module : ezmessage
+Repository path : /home/cvsroot/projects/php/ezmessage
+Maintainer(s) : bf@ez.no
+2001-11-05  Gunnstein Lye  <gl@ez.no>
+
+    * admin/intl/en_GB/messageedit.php.ini
+      admin/intl/en_GB/messagelist.php.ini
+      admin/intl/en_GB/messageview.php.ini: en_GB fixxes
+

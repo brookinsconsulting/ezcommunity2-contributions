@@ -141,3 +141,26 @@ Maintainer(s) : vl@ez.no
       user/intl/es_MX/headlines.php.ini
       user/intl/es_MX/menubox.php.ini: updated es_MX (Mexican Spanish) for 2.2
 
+
+Module : eznewsfeed
+Repository path : /home/cvsroot/projects/php/eznewsfeed
+Maintainer(s) : vl@ez.no
+2001-11-05  Gunnstein Lye  <gl@ez.no>
+
+    * admin/intl/en_GB/categoryedit.php.ini
+      admin/intl/en_GB/importnews.php.ini
+      admin/intl/en_GB/newsedit.php.ini
+      admin/intl/en_GB/sourcesiteedit.php.ini
+      admin/intl/en_GB/unpublished.php.ini
+      user/intl/en_GB/allcategories.php.ini: en_GB fixxes
+
+2001-11-05  Jo Henrik Endrerud  <jhe@ez.no>
+
+    * sql/postgresql/Attic/eznewfeed.sql
+      sql/postgresql/eznewsfeed.sql: renamed file
+
+    * sql/postgresql/eznewsfeed.sql: New file.
+
+    * sql/postgresql/Attic/eznewfeed.sql
+      sql/postgresql/eznewsfeed.sql: renamed file
+

@@ -223,3 +223,20 @@ Maintainer(s) : ce@ez.no
 
     * sql/mysql/eztodo.sql: Fixed a voucher bug
 
+
+Module : eztodo
+Repository path : /home/cvsroot/projects/php/eztodo
+Maintainer(s) : ce@ez.no
+2001-11-05  Gunnstein Lye  <gl@ez.no>
+
+    * admin/intl/en_GB/categorytypeedit.php.ini
+      admin/intl/en_GB/menubox.php.ini
+      admin/intl/en_GB/prioritytypeedit.php.ini
+      admin/intl/en_GB/statustypeedit.php.ini
+      user/intl/en_GB/maillog.php.ini
+      user/intl/en_GB/sendmail.php.ini
+      user/intl/en_GB/todoedit.php.ini
+      user/intl/en_GB/todolist.php.ini
+      user/intl/en_GB/todomenulist.php.ini
+      user/intl/en_GB/todoview.php.ini: en_GB fixxes
+

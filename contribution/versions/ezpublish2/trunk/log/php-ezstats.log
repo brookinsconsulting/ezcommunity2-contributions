@@ -218,3 +218,20 @@ Maintainer(s) : br@ez.no
       classes/ezpageview.php
       classes/ezpageviewquery.php: Fixed several bugs in ezstats
 
+
+Module : ezstats
+Repository path : /home/cvsroot/projects/php/ezstats
+Maintainer(s) : br@ez.no
+2001-11-05  Baard Farstad  <bf@ez.no>
+
+    * classes/ezpageview.php: Fixed bug first time host is stored.
+
+    * classes/ezpageview.php: Fixed bug storing hostname for the first time.
+
+2001-11-05  Gunnstein Lye  <gl@ez.no>
+
+    * admin/intl/en_GB/pageviewlist.php.ini
+      admin/intl/en_GB/refererlist.php.ini
+      admin/intl/en_GB/requestpagelist.php.ini
+      admin/intl/en_GB/visitorlist.php.ini: en_GB fixxes
+

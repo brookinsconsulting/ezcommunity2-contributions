@@ -555,3 +555,21 @@ Maintainer(s) : bf@ez.no
 
     * user/userwithaddress.php: Fixed a bug in quantity with wishlists
 
+
+Module : ezuser
+Repository path : /home/cvsroot/projects/php/ezuser
+Maintainer(s) : bf@ez.no
+2001-11-05  Gunnstein Lye  <gl@ez.no>
+
+    * admin/intl/en_GB/groupedit.php.ini
+      admin/intl/en_GB/userlist.php.ini
+      admin/intl/en_GB/welcome.php.ini
+      admin/intl/en_GB/menubox.php.ini
+      admin/intl/en_GB/useredit.php.ini: en_GB fixxes
+
+2001-11-05  Jo Henrik Endrerud  <jhe@ez.no>
+
+    * admin/authorlist.php
+      admin/userlist.php:
+    fixed bug with bglight/bgdark in authorlist, fixed coding standard errors
+

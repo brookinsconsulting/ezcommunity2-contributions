@@ -255,3 +255,11 @@ Maintainer(s) : jhe@ez.no
       admin/intl/es_MX/typeedit.php.ini:
     updated es_MX (Mexican Spanish) for 2.2
 
+
+Module : ezcalendar
+Repository path : /home/cvsroot/projects/php/ezcalendar
+Maintainer(s) : jhe@ez.no
+2001-11-05  Gunnstein Lye  <gl@ez.no>
+
+    * user/intl/en_GB/appointmentedit.php.ini: en_GB fixxes
+

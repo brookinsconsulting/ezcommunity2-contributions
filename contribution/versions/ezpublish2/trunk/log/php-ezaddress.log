@@ -162,3 +162,13 @@ Maintainer(s) : ce@ez.no
       admin/intl/es_MX/phonetype.php.ini:
     updated es_MX (Mexican Spanish) for 2.2
 
+
+Module : ezaddress
+Repository path : /home/cvsroot/projects/php/ezaddress
+Maintainer(s) : ce@ez.no
+2001-11-05  Gunnstein Lye  <gl@ez.no>
+
+    * admin/intl/en_GB/addresstype.php.ini
+      admin/intl/en_GB/onlinetype.php.ini
+      admin/intl/en_GB/phonetype.php.ini: en_GB fixxes
+

@@ -616,3 +616,22 @@ Maintainer(s) : br@ez.no
 
     * user/imageedit.php: changed categoryItem in permission check to catItem.
 
+
+Module : ezimagecatalogue
+Repository path : /home/cvsroot/projects/php/ezimagecatalogue
+Maintainer(s) : br@ez.no
+2001-11-05  Gunnstein Lye  <gl@ez.no>
+
+    * admin/intl/en_GB/categoryedit.php.ini
+      admin/intl/en_GB/imageedit.php.ini
+      admin/intl/en_GB/imagelist.php.ini
+      user/intl/en_GB/categoryedit.php.ini
+      user/intl/en_GB/imageedit.php.ini
+      user/intl/en_GB/imagelist.php.ini
+      user/intl/en_GB/slideshow.php.ini: en_GB fixxes
+
+2001-11-05  Jo Henrik Endrerud  <jhe@ez.no>
+
+    * admin/imageedit.php
+      user/imageedit.php: fixed bug with permissions
+

@@ -165,3 +165,11 @@ Maintainer(s) : bf@ez.no
       intl/es_MX/header.php.ini
       intl/es_MX/help_header.php.ini: updated es_MX (Mexican Spanish) for 2.2
 
+
+Module : admin
+Repository path : /home/cvsroot/projects/php/admin
+Maintainer(s) : bf@ez.no
+2001-11-05  Gunnstein Lye  <gl@ez.no>
+
+    * intl/en_GB/header.php.ini: en_GB fixxes
+
