@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: votebox.php,v 1.19 2001/07/29 23:31:09 kaid Exp $
+// $Id: votebox.php,v 1.20 2001/08/03 12:49:23 master Exp $
 //
 // Created on: <20-Sep-2000 13:32:11 ce>
 //
@@ -59,7 +59,8 @@ function createPollMenu( $generateStaticPage = false )
     global $ini;
     global $menuCachedFile;
     global $noItem;
-	global $GlobalSiteDesign;
+    global $GlobalSiteDesign;
+    global $PollID;
 
     $Language = $ini->read_var( "eZPollMain", "Language" );
     
@@ -88,7 +89,10 @@ function createPollMenu( $generateStaticPage = false )
     
     if ( $poll )
     {
-        $PollID = $poll->id();
+	if (! $PollID)
+	{
+	    $PollID = $poll->id();
+	}
         $poll = new eZPoll( $PollID );
 
 
