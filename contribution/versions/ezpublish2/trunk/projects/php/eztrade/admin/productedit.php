@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: productedit.php,v 1.13 2000/10/28 13:40:09 bf-cvs Exp $
+// $Id: productedit.php,v 1.14 2000/10/28 14:31:41 ce-cvs Exp $
 //
 // Definition of eZCompany class
 //
@@ -209,7 +209,7 @@ if ( $Action == "Delete" )
     exit();
 }
 
-$t = new eZTemplate( "eztrade/admin/" . $ini->read_var( "eZTradeMain", "AdminTemplateDir" ) . "/productedit/",
+$t = new eZTemplate( "eztrade/" . $ini->read_var( "eZTradeMain", "AdminTemplateDir" ) . "/productedit/",
                      "eztrade/admin/intl/", $Language, "productedit.php" );
 
 

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: categorylist.php,v 1.8 2000/10/24 19:03:13 bf-cvs Exp $
+// $Id: categorylist.php,v 1.9 2000/10/28 14:31:41 ce-cvs Exp $
 //
 // 
 //
@@ -25,7 +25,7 @@ $Language = $ini->read_var( "eZTradeMain", "Language" );
 include_once( "eztrade/classes/ezproductcategory.php" );
 include_once( "eztrade/classes/ezproduct.php" );
 
-$t = new eZTemplate( "eztrade/admin/" . $ini->read_var( "eZTradeMain", "AdminTemplateDir" ) . "/categorylist/",
+$t = new eZTemplate( "eztrade/" . $ini->read_var( "eZTradeMain", "AdminTemplateDir" ) . "/categorylist/",
                      "eztrade/admin/intl/", $Language, "categorylist.php" );
 
 $t->setAllStrings();

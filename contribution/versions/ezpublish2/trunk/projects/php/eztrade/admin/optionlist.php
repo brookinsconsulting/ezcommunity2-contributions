@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: optionlist.php,v 1.4 2000/10/10 14:23:42 bf-cvs Exp $
+// $Id: optionlist.php,v 1.5 2000/10/28 14:31:41 ce-cvs Exp $
 //
 // Definition of eZCompany class
 //
@@ -27,7 +27,7 @@ include_once( $DOC_ROOT . "/classes/ezproductcategory.php" );
 include_once( $DOC_ROOT . "/classes/ezproduct.php" );
 include_once( $DOC_ROOT . "/classes/ezoption.php" );
 
-$t = new eZTemplate( $DOC_ROOT . "/admin/" . $ini->read_var( "eZTradeMain", "TemplateDir" ) . "/optionlist/",
+$t = new eZTemplate( $DOC_ROOT . $ini->read_var( "eZTradeMain", "AdminTemplateDir" ) . "/optionlist/",
                      $DOC_ROOT . "/admin/intl/", $Language, "optionlist.php" );
 
 $t->setAllStrings();

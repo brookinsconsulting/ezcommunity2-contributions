@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ordersendt.php,v 1.2 2000/10/22 10:46:20 bf-cvs Exp $
+// $Id: ordersendt.php,v 1.3 2000/10/28 14:31:42 ce-cvs Exp $
 //
 // 
 //
@@ -23,6 +23,7 @@ $t->setAllStrings();
 $t->set_file( array(
     "order_sendt_tpl" => "ordersendt.tpl"
     ) );
+
 
 
 $t->pparse( "output", "order_sendt_tpl" );

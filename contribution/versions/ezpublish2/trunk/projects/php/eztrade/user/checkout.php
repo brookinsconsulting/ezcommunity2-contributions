@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: checkout.php,v 1.4 2000/10/27 15:42:02 ce-cvs Exp $
+// $Id: checkout.php,v 1.5 2000/10/28 14:31:42 ce-cvs Exp $
 //
 // 
 //
@@ -89,21 +89,20 @@ if ( $SendOrder == "true" )
 
     // Setup the template for email
     $mailTemplate = new eZTemplate( "eztrade/user/" . $ini->read_var( "eZTradeMain", "TemplateDir" ),
-                                        "eztrade/user/intl", $Language, "checkout.php" );
+                                        "eztrade/user/intl", $Language, "mailorder.php" );
         
     $mailTemplate->set_file( "mail_order_tpl", "mailorder.tpl" );
     $mailTemplate->setAllStrings();
 
     $mailTemplate->set_block( "mail_order_tpl", "order_item_tpl", "order_item" );
+    $mailTemplate->set_block( "order_item_tpl", "option_item_tpl", "option_item" );
     
     // fetch the cart items
     $items = $cart->items( $CartType );
 
-    print( count( $items ) . "<br>" );
     foreach ( $items as $item )
         {
             $product = $item->product();
-
             // create a new order item
             $orderItem = new eZOrderItem();
             $orderItem->setOrder( $order );
@@ -121,6 +120,7 @@ if ( $SendOrder == "true" )
             $optionValues =& $item->optionValues();
 
             $mailTemplate->set_var( "cart_item_option", "" );
+            $mailTemplate->set_var( "option_item", "" );
             foreach ( $optionValues as $optionValue )
                 {
                     $option =& $optionValue->option();
@@ -131,30 +131,28 @@ if ( $SendOrder == "true" )
                     $orderOptionValue->setOptionName( $option->name() );
                     $orderOptionValue->setValueName( $value->name() );
                     $orderOptionValue->store();
-        
-                    print( "&nbsp;&nbsp;" . $option->name() . " " . $value->name() . "<br>");
+
+                    $mailTemplate->set_var( "name", $option->name() );
+                    $mailTemplate->set_var( "value", $value->name() );
+                    $mailTemplate->parse( "option_item", "option_item_tpl", true );
                 }
 
             $mailTemplate->parse( "order_item", "order_item_tpl", true );
         }
-    print( "<pre>" . $mailTemplate->parse( "weg", "mail_order_tpl" ) . "</pre>");
-    
-    die();
 
-// Send a email
-    
-        
-//          $mail = new eZMail();
-//          $mail->setFrom( $OrderSenderEmail );
-//          $mail->setTo( $OrderReceiverEmail );
-//          $mail->setSubject( $newOrder );
-
-        
-    $mail->setBody( "Ny ordre" );
+    // Send E-mail
+    $mail = new eZMail();
+    $mailBody = $mailTemplate->parse( "dummy", "mail_order_tpl" );
+    $mail->setFrom( $OrderSenderEmail );
+    $mail->setTo( $OrderReceiverEmail );
+    $mail->setSubject( $newOrder );
+    $mail->setBody( $mailBody );
+    $mail->send();
+    $mail->setSubject( "en kunde har kjøpt.." );
+    $mail->setTo( "bf@ez.no" );
     $mail->send();
     
-//    $cart->clear();
-
+    $cart->clear();
     Header( "Location: /trade/ordersendt/" );
 }
 
