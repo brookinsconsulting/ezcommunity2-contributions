@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezlist.php,v 1.1 2001/02/06 15:52:53 jb Exp $
+// $Id: ezlist.php,v 1.2 2001/02/06 15:55:20 jb Exp $
 //
 // Definition of eZList class
 //
@@ -25,10 +25,23 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, US
 //
 
-//!! 
-//! The class eZList does
+//!! eZCommon
+//! The class eZList helps in handling listings of various types
 /*!
 
+
+  To create a naviator bare at the bottom of your list you can do:
+  \code
+  $t = new eZTemplate( ... );
+  $ItemCount = Items::totalCount();
+  $Max = 10;
+  $Index = 0;
+  eZList::drawNavigator( $t, $ItemCount, $Max, $Index, "my_template" );
+  \endcode
+*/
+
+/*!TODO
+  Add functions for drawing lists too.
 */
 
 class eZList
