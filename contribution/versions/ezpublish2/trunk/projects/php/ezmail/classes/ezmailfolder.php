@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezmailfolder.php,v 1.24 2001/07/11 08:59:32 fh Exp $
+// $Id: ezmailfolder.php,v 1.25 2001/07/11 11:02:23 fh Exp $
 //
 // eZMailFolder class
 //
@@ -35,6 +35,7 @@
 
 */
 include_once( "ezuser/classes/ezuser.php" );
+include_once( "classes/INIFile.php" );
 
 /* DEFINES */
 define( "USER", 0 );
@@ -491,19 +492,22 @@ class eZMailFolder
         if( $res[$db->fieldName( "ID" )] != "" ) 
             return new eZMailFolder(  $res[$db->fieldName( "ID" )] );
 
+        $ini =& INIFile::globalINI();
+        $Language = $ini->read_var( "eZMailMain", "Language" ); 
+        $folderNameIni = new INIFile( "ezmail/user/intl/" . $Language . "/folderlist.php.ini" );
         switch( $specialType )
         {
             case INBOX :
-                $folderName = "Inbox";
+                $folderName = $folderNameIni->read_var( "strings", "inbox" );
                 break;
             case SENT :
-                $folderName = "Sent";
+                $folderName =  $folderNameIni->read_var( "strings", "sent" );
                 break;
             case DRAFTS :
-                $folderName = "Drafts";
+                $folderName =  $folderNameIni->read_var( "strings", "drafts" );
                 break;
             case TRASH :
-                $folderName = "Trash";
+                $folderName =  $folderNameIni->read_var( "strings", "trash" );
                 break;
             default:
                 return false;
