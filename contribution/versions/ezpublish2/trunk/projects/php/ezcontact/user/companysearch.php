@@ -117,18 +117,15 @@ if( $Action == "advanced" )
     byParent( $ParentID, 0 );
     
     $companyArray = array();
-    
-    foreach( $CategoryArray as $Category )
-    {
-        $companyArray = array_merge( $companyArray, $company->searchByCategory( $Category, $SearchText ) );
-    }
-    
-    $companyArray = array_unique( $companyArray );
-    
     $count = count( $companyArray );
     
-    if( $count > 0 )
+    if( $count )
     {
+        foreach( $CategoryArray as $Category )
+        {
+            $companyArray = array_merge( $companyArray, $company->searchByCategory( $Category, $SearchText ) );
+        }
+        $companyArray = array_unique( $companyArray );
         $results = true;
     }
     
