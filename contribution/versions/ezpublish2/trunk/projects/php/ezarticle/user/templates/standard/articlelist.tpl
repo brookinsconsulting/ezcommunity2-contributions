@@ -2,7 +2,12 @@
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
 	<td valign="bottom">
-	<h1>{intl-head_line} - {current_category_name}</h1>
+<!-- BEGIN latest_headline_tpl -->	
+<h1>{intl-head_line} </h1>
+<!-- END latest_headline_tpl -->	
+<!-- BEGIN category_headline_tpl -->	
+<h1>{current_category_name}</h1>
+<!-- END category_headline_tpl -->
 	</td>
 	<td align="right">
 	<form action="/article/search/" method="post">

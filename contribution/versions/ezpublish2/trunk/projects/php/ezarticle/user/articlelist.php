@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: articlelist.php,v 1.48 2001/06/06 12:54:51 bf Exp $
+// $Id: articlelist.php,v 1.49 2001/06/15 14:53:59 th Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <18-Oct-2000 14:41:37 bf>
@@ -53,6 +53,10 @@ $t->set_file( array(
 
 $t->set_block( "article_list_page_tpl", "header_item_tpl", "header_item" );
 
+// headline
+$t->set_block( "header_item_tpl", "latest_headline_tpl", "latest_headline_item" );
+$t->set_block( "header_item_tpl", "category_headline_tpl", "category_headline_item" );
+
 // path
 $t->set_block( "article_list_page_tpl", "path_item_tpl", "path_item" );
 
@@ -78,6 +82,19 @@ $t->set_block( "article_item_tpl", "read_more_tpl", "read_more" );
 $t->set_block( "article_list_page_tpl", "previous_tpl", "previous" );
 $t->set_block( "article_list_page_tpl", "next_tpl", "next" );
 
+
+// print headline
+if ( $CategoryID == 0 )
+{
+    $t->parse( "latest_headline_item", "latest_headline_tpl" );
+    $t->set_var( "category_headline_item", "" );
+}
+else
+{
+    $t->parse( "category_headline_item", "category_headline_tpl" );
+    $t->set_var( "latest_headline_item", "" );
+}
+	
 // image dir
 $t->set_var( "image_dir", $ImageDir );
 
