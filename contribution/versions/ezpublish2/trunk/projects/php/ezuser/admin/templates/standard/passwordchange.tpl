@@ -8,13 +8,13 @@
 
 <h2>{first_name} {last_name}</h2>
 
-<p class="boxtext">{intl-oldpassword}</p>
+<p class="boxtext">{intl-oldpassword}:</p>
 <input type="password" size="20" name="OldPassword"/>
 
-<p class="boxtext">{intl-newpassword}</p>
+<p class="boxtext">{intl-newpassword}:</p>
 <input type="password" size="20" name="NewPassword"/>
 
-<p class="boxtext">{intl-verifypassword}</p>
+<p class="boxtext">{intl-verifypassword}:</p>
 <input type="password" size="20" name="VerifyPassword"/>
 <br /><br />
 

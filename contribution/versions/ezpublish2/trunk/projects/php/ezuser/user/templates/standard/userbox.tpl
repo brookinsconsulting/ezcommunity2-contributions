@@ -6,7 +6,7 @@
 </tr>
 <tr>
 	<td>
-	<p class="menutext">{intl-userlogin}<br />
+	<p class="menutext">{intl-userlogin}:<br />
 	<span class="small">{first_name} {last_name}</span></p>
 	</td>
 </tr>

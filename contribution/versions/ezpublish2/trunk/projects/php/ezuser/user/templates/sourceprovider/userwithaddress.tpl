@@ -50,7 +50,7 @@
 <input {readonly} type="text" size="20" name="Place" value="{place_value}"/>
 
 <!-- BEGIN country_tpl -->
-<p class="boxtext">{intl-country}</p>
+<p class="boxtext">{intl-country}:</p>
 <select name="CountryID" size="5">
 <!-- BEGIN country_option_tpl -->
 <option value="{country_id}">{country_name}</option>
@@ -65,11 +65,11 @@
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
 	<td>
-	<p class="boxtext">{intl-password}</p>
+	<p class="boxtext">{intl-password}:</p>
 	<input type="password" size="20" name="Password" value="{password_value}"/>
 	</td>
 	<td>
-	<p class="boxtext">{intl-verifypassword}</p>
+	<p class="boxtext">{intl-verifypassword}:</p>
 	<input type="password" size="20" name="VerifyPassword" value="{verify_password_value}"/>
 	</td>
 </tr>

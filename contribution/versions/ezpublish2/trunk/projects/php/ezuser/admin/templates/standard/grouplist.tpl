@@ -39,11 +39,11 @@
 <table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
 <tr>
 	<th>
-	{intl-name}
+	{intl-name}:
 	</th>
 
 	<th>
-	{intl-description}
+	{intl-description}:
 	</th>
 
 	<th>

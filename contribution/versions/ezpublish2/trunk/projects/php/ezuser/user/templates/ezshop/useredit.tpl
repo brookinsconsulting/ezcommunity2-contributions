@@ -25,20 +25,20 @@
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
 	<td>
-	{intl-firstname}
+	{intl-firstname}:
 	<input type="text" size="20" name="FirstName" value="{first_name_value}"/>
 	</td>
 	<td>
-	{intl-lastname}
+	{intl-lastname}:
 	<input type="text" size="20" name="LastName" value="{last_name_value}"/>
 	</td>
 </tr>
 </table>
 
-<p class="boxtext">{intl-login}</p>
+<p class="boxtext">{intl-login}:</p>
 <input type="text" size="20" name="Login" value="{login_value}"/>
 
-<p class="boxtext">{intl-email}</p>
+<p class="boxtext">{intl-email}:</p>
 <input type="text" size="20" name="Email" value="{email_value}"/>
 
 <br /><br />
@@ -46,11 +46,11 @@
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
 	<td>
-	{intl-password}
+	{intl-password}:
 	<input type="password" size="20" name="Password" value="{password_value}"/>
 	</td>
 	<td>
-	{intl-verifypassword}
+	{intl-verifypassword}:
 	<input type="password" size="20" name="VerifyPassword" value="{verify_password_value}"/>
 	</td>
 </tr>

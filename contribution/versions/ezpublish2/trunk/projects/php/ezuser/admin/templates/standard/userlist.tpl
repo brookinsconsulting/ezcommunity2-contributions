@@ -61,16 +61,16 @@
 
 <tr>
 	<th>
-	{intl-name}
+	{intl-name}:
 	</th>
 
 	<th>
-	{intl-email}
+	{intl-email}:
 	</th>
 
 
 	<th>
-	{intl-login}
+	{intl-login}:
 	</th>
 
 	<th>

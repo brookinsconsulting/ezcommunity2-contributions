@@ -6,10 +6,10 @@
 
 <p class="boxtext">{error_msg}</p>
 
-<p class="boxtext">{intl-name}</p>
+<p class="boxtext">{intl-name}:</p>
 <input type="text" size="20" name="Name" value="{name_value}"/>
 
-<p class="boxtext">{intl-description}</p>
+<p class="boxtext">{intl-description}:</p>
 <input type="text" size="40" name="Description" value="{description_value}"/>
 
 	<!-- BEGIN module_list_header_tpl -->

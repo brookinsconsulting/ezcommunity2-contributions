@@ -6,13 +6,13 @@
 </tr>
 <tr>
 	<td class="menutext">
-	<p class="menutext">{intl-username}</p>
+	<p class="menutext">{intl-username}:</p>
 	<input type="text" size="6" name="Username"/>
 	</td>
 </tr>
 <tr>
 	<td class="menutext">
-	<p class="menutext">{intl-password}</p>
+	<p class="menutext">{intl-password}:</p>
 	<input type="password" size="6" name="Password" />
 	</td>
 </tr>
