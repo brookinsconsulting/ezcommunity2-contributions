@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: login.php,v 1.17 2001/01/11 13:51:05 ce Exp $
+// $Id: login.php,v 1.18 2001/01/12 08:43:06 ce Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <20-Sep-2000 13:32:11 ce>
@@ -115,7 +115,6 @@ if ( $Action == "login" )
 }
 else
 {
-    print( "logger ikke inn <br>" );
 }
 
 if ( $Action == "logout" )

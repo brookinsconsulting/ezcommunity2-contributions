@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: imagelist.php,v 1.1 2001/01/10 21:32:37 ce Exp $
+// $Id: imagelist.php,v 1.2 2001/01/12 08:43:06 ce Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <10-Dec-2000 16:16:20 bf>
@@ -32,11 +32,11 @@ include_once( "ezimagecatalogue/classes/ezimagecategory.php" );
 
 $ini =& $GLOBALS["GlobalSiteIni"];
 
-$Language = $ini->read_var( "eZFileManagerMain", "Language" );
+$Language = $ini->read_var( "eZImageCatalogueMain", "Language" );
 
-$ImageDir = $ini->read_var( "eZFileManagerMain", "ImageDir" );
+$ImageDir = $ini->read_var( "eZImageCatalogueMain", "ImageDir" );
 
-$t = new eZTemplate( "ezimagecatalogue/user/" . $ini->read_var( "eZFileManagerMain", "TemplateDir" ),
+$t = new eZTemplate( "ezimagecatalogue/user/" . $ini->read_var( "eZImageCatalogueMain", "TemplateDir" ),
                      "ezimagecatalogue/user/intl/", $Language, "imagelist.php" );
 
 $t->set_file( "image_list_page_tpl", "imagelist.tpl" );
@@ -55,8 +55,6 @@ if ( isSet ( $NormalView ) )
 }
 
 $checkMode = new eZSession();
-
-print( "Mode: " . $checkMode->variable( "ImageViewMode" ) . "<br>");
 
 if ( $checkMode->variable( "ImageViewMode" ) == "Detail" )
 {
@@ -271,28 +269,27 @@ foreach ( $imageList as $image )
     {
     }
 
-    if ( isSet ( $DetailView ) )
-    {
-        $t->set_var( "is_detail_view", "true" );
-        $t->set_var( "detail_button", "" );
-        $t->set_var( "image", "" );
-        
-        $t->parse( "detail_view", "detail_view_tpl", true );
-        $t->parse( "normal_button", "normal_view_button" );
-    }
-    else
-    {
-        $t->set_var( "is_detail_view", "" );
-        $t->set_var( "detail_view", "" );
-        $t->set_var( "normal_button", "" );
-        
-        $t->parse( "image", "image_tpl", true );
-        $t->parse( "detail_button", "detail_view_button" );
-    }
-    
     $i++;
 }
 
+if ( isSet ( $DetailView ) )
+{
+    $t->set_var( "is_detail_view", "true" );
+    $t->set_var( "detail_button", "" );
+    $t->set_var( "image", "" );
+    
+    $t->parse( "detail_view", "detail_view_tpl", true );
+    $t->parse( "normal_button", "normal_view_button" );
+}
+else
+{
+    $t->set_var( "is_detail_view", "" );
+    $t->set_var( "detail_view", "" );
+    $t->set_var( "normal_button", "" );
+    
+    $t->parse( "image", "image_tpl", true );
+    $t->parse( "detail_button", "detail_view_button" );
+}
 
 if ( count( $imageList ) > 0 )
 {

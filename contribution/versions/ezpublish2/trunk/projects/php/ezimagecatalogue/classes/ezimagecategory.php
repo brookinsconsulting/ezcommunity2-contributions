@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezimagecategory.php,v 1.1 2001/01/10 21:32:37 ce Exp $
+// $Id: ezimagecategory.php,v 1.2 2001/01/12 08:43:06 ce Exp $
 //
 // Definition of eZImageCategory class
 //
@@ -35,7 +35,6 @@
 */
 
 include_once( "classes/ezdb.php" );
-
 
 class eZImageCategory
 {
@@ -355,7 +354,7 @@ class eZImageCategory
 
         if ( get_class( $currentUser ) == "ezuser" )
         {
-            $write = eZVirtualFile::writePermission();
+            $write = eZImageCategory::writePermission();
 
             if ( $write == "User" )
             {

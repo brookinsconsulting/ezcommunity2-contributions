@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: imageedit.php,v 1.1 2001/01/10 21:32:37 ce Exp $
+// $Id: imageedit.php,v 1.2 2001/01/12 08:43:06 ce Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <09-Jan-2001 10:45:44 ce>
@@ -22,6 +22,11 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, US
 //
+
+if ( isSet ( $NewCategory ) )
+{
+    Header( "Location: /imagecatalogue/category/new" );
+} 
 
 include_once( "classes/INIFile.php" );
 include_once( "classes/eztemplate.php" );

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: categoryedit.php,v 1.1 2001/01/10 21:32:37 ce Exp $
+// $Id: categoryedit.php,v 1.2 2001/01/12 08:43:06 ce Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <08-Jan-2001 11:13:29 ce>
@@ -35,10 +35,10 @@ include_once( "ezimagecatalogue/classes/ezimagecategory.php" );
 
 $ini = new INIFIle( "site.ini" );
 
-$Language = $ini->read_var( "eZFileManagerMain", "Language" );
+$Language = $ini->read_var( "eZImageCatalogueMain", "Language" );
 
 
-$t = new eZTemplate( "ezimagecatalogue/user/" . $ini->read_var( "eZFileManagerMain", "TemplateDir" ),
+$t = new eZTemplate( "ezimagecatalogue/user/" . $ini->read_var( "eZImageCatalogueMain", "TemplateDir" ),
                      "ezimagecatalogue/user/intl/", $Language, "categoryedit.php" );
 
 $t->set_file( "category_edit_tpl", "categoryedit.tpl" );
@@ -49,8 +49,8 @@ $t->set_block( "category_edit_tpl", "value_tpl", "value" );
 $t->set_block( "category_edit_tpl", "errors_tpl", "errors" );
 
 $t->set_var( "errors", "&nbsp;" );
-$t->set_var( "name_value", "$Name" );
-$t->set_var( "description_value", "$Description" );
+$t->set_var( "category_name", "$Name" );
+$t->set_var( "category_description", "$Description" );
 
 if ( $Read == "User" )
     $t->set_var( "user_read_checked", "checked" );
@@ -79,13 +79,20 @@ if ( $Action == "Insert" || $Action == "Update" )
     {
         $t->set_block( "errors_tpl", "error_write_permission", "error_write" );
         $t->set_var( "error_write", "" );
-        
-        $user = eZUser::currentUser();
-        $parentCategory = new eZImageCategory( $CategoryID );
-        if ( $parentCategory->checkWritePermission( $user ) == false )
+
+        if ( $CategoryID == 0 )
         {
-            $t->parse( "error_write", "error_write_permission" );
-            $error = true;
+            // do something smart here!
+        }
+        else
+        {
+            $user = eZUser::currentUser();
+            $parentCategory = new eZImageCategory( $CategoryID );
+            if ( $parentCategory->checkWritePermission( $user ) == false )
+            {
+                $t->parse( "error_write", "error_write_permission" );
+                $error = true;
+            }
         }
     }
 
@@ -188,6 +195,9 @@ if ( $Action == "New" || $error )
 {
     $t->set_var( "action_value", "insert" );
     $t->set_var( "category_id", "" );
+
+    $t->set_var( "user_read_checked", "checked" );
+    $t->set_var( "user_write_checked", "checked" );
 }
 
 if ( $Action == "Edit" )
@@ -234,6 +244,11 @@ if ( $Action == "Edit" )
 $category = new eZImageCategory() ;
 
 $categoryList = $category->getTree( );
+
+if ( count ( $categoryList ) == 0 )
+{
+    $t->set_var( "value", "" );
+}
 
 foreach ( $categoryList as $categoryItem )
 {
