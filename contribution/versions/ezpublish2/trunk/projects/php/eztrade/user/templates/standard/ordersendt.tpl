@@ -155,12 +155,12 @@
 <!-- END order_item_tpl -->
 <tr>
 	<td colspan="2">&nbsp;</td>
-	<td class="boxtext">{intl-shipping_and_handling}:</td>
+	<td colspan="2" class="boxtext">{intl-shipping_and_handling}:</td>
 	<td align="right">{shipping_cost}</td>
 </tr>
 <tr>
 	<td colspan="2">&nbsp;</td>
-	<td class="boxtext">{intl-total}:</td>
+	<td colspan="2" class="boxtext">{intl-total}:</td>
 	<td align="right">{order_sum}</td>
 </tr>
 </table>

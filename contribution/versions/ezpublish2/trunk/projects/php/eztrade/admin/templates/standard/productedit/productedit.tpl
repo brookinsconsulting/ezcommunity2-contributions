@@ -30,7 +30,8 @@
 <br /><br />
 
 <p class="boxtext">{intl-external_link}:</p>
-http://<input type="text" size="36" name="ExternalLink" value="{external_link}"/>
+http://<input type="text" size="36" name="ExternalLink" value="{external_link}"/><br />
+<br />
 
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>

@@ -1,25 +1,8 @@
-<h1>Bekreft bestilling</h1>
+<form action="/trade/checkout/" method="post">
+
+<h1>{intl-confirm_order}</h1>
 
 <hr noshade="noshade" size="4" />
-
-<select name="PaymentMethod">
-<!-- BEGIN visa_tpl -->
-<option value="1">{intl-charge_my_visa}</option>
-<!-- END visa_tpl -->
-
-<!-- BEGIN mastercard_tpl -->
-<option value="2">{intl-charge_my_mastercard}</option>
-<!-- END mastercard_tpl -->
-
-<!-- BEGIN cod_tpl -->
-<option value="3">{intl-charge_me_at_the_postoffice}</option>
-<!-- END cod_tpl -->
-
-<!-- BEGIN invoice_tpl -->
-<option value="4">{intl-charge_me_by_invoice}</option>
-<!-- END invoice_tpl -->
-</select>
-
 
 <h2>{intl-products_about_to_order}:</h2>
 
@@ -36,7 +19,9 @@
 <!-- BEGIN cart_item_tpl -->
 <tr>
 	<td class="{td_class}">
+	<!-- BEGIN cart_image_tpl -->
 	<img src="{product_image_path}" border="0" width="{product_image_width}" height="{product_image_height}" alt="{product_image_caption}"/>
+	<!-- END cart_image_tpl -->
 	</td>
 	<td class="{td_class}">
 	{product_name}
@@ -46,7 +31,11 @@
 	{option_name}:
 	{option_value}<br>
         <!-- END cart_item_option_tpl -->
-	&nbsp;</td>
+	&nbsp;
+	</td>
+	<td class="{td_class}">
+	{cart_item_count}
+	</td>
 	<td class="{td_class}" align="right">
 	{product_price}
 	</td>
@@ -79,11 +68,38 @@
 {street1} <br />
 {street2}<br />
 {zip} {place}<br />
+{country}<br />
+
 <!-- END address_tpl -->
 
-<form action="/trade/checkout/" method="post">
+
+<br /><br />
+<hr noshade="noshade" size="4" />
+<br />
+
+{intl-payment_methods_description}:
+
+<select name="PaymentMethod">
+<!-- BEGIN visa_tpl -->
+<option value="1">{intl-charge_my_visa}</option>
+<!-- END visa_tpl -->
+
+<!-- BEGIN mastercard_tpl -->
+<option value="2">{intl-charge_my_mastercard}</option>
+<!-- END mastercard_tpl -->
+
+<!-- BEGIN cod_tpl -->
+<option value="3">{intl-charge_me_at_the_postoffice}</option>
+<!-- END cod_tpl -->
+
+<!-- BEGIN invoice_tpl -->
+<option value="4">{intl-charge_me_by_invoice}</option>
+<!-- END invoice_tpl -->
+</select>
+<br /><br />
 
 <hr noshade="noshade" size="4" />
+
 
 <input type="hidden" name="SendOrder" value="true" />
 <input class="okbutton" type="submit" value="Send ordre" />

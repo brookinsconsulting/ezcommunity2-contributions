@@ -43,7 +43,7 @@
 <p class="boxtext">{intl-street2}:</p>
 <input {readonly} type="text" size="20" name="Street2" value="{street2_value}"/>
 
-<p class="boxtext">{intl-zip}.</p>
+<p class="boxtext">{intl-zip}:</p>
 <input {readonly} type="text" size="20" name="Zip" value="{zip_value}"/>
 
 <p class="boxtext">{intl-place}:</p>

@@ -1,26 +1,6 @@
-<h1>{intl-confirm_order}</h1>
-
-<hr noshade="noshade" size="4" />
 <form action="/trade/checkout/" method="post">
-{intl-payment_methods_description}:
 
-<select name="PaymentMethod">
-<!-- BEGIN visa_tpl -->
-<option value="1">{intl-charge_my_visa}</option>
-<!-- END visa_tpl -->
-
-<!-- BEGIN mastercard_tpl -->
-<option value="2">{intl-charge_my_mastercard}</option>
-<!-- END mastercard_tpl -->
-
-<!-- BEGIN cod_tpl -->
-<option value="3">{intl-charge_me_at_the_postoffice}</option>
-<!-- END cod_tpl -->
-
-<!-- BEGIN invoice_tpl -->
-<option value="4">{intl-charge_me_by_invoice}</option>
-<!-- END invoice_tpl -->
-</select>
+<h1>{intl-confirm_order}</h1>
 
 <hr noshade="noshade" size="4" />
 
@@ -93,8 +73,33 @@
 <!-- END address_tpl -->
 
 
+<br /><br />
+<hr noshade="noshade" size="4" />
+<br />
+
+{intl-payment_methods_description}:
+
+<select name="PaymentMethod">
+<!-- BEGIN visa_tpl -->
+<option value="1">{intl-charge_my_visa}</option>
+<!-- END visa_tpl -->
+
+<!-- BEGIN mastercard_tpl -->
+<option value="2">{intl-charge_my_mastercard}</option>
+<!-- END mastercard_tpl -->
+
+<!-- BEGIN cod_tpl -->
+<option value="3">{intl-charge_me_at_the_postoffice}</option>
+<!-- END cod_tpl -->
+
+<!-- BEGIN invoice_tpl -->
+<option value="4">{intl-charge_me_by_invoice}</option>
+<!-- END invoice_tpl -->
+</select>
+<br /><br />
 
 <hr noshade="noshade" size="4" />
+
 
 <input type="hidden" name="SendOrder" value="true" />
 <input class="okbutton" type="submit" value="Send ordre" />
