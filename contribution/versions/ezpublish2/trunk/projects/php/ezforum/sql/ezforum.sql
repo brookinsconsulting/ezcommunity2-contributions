@@ -1,13 +1,6 @@
-# MySQL dump 7.1
-#
-# Host: localhost    Database: publish.ezforum
-#--------------------------------------------------------
-# Server version	3.22.32
-
 #
 # Table structure for table 'eZForum_Category'
 #
-DROP TABLE IF EXISTS eZForum_Category;
 CREATE TABLE eZForum_Category (
   Name varchar(20),
   Description varchar(40),
@@ -25,9 +18,7 @@ INSERT INTO eZForum_Category VALUES ('Talk center','General talk','N',1);
 #
 # Table structure for table 'eZForum_Forum'
 #
-DROP TABLE IF EXISTS eZForum_Forum;
 CREATE TABLE eZForum_Forum (
-  CategoryID int(11) DEFAULT '0' NOT NULL,
   Name varchar(20) DEFAULT '' NOT NULL,
   Description varchar(40),
   Moderated enum('Y','N') DEFAULT 'N',
@@ -40,13 +31,32 @@ CREATE TABLE eZForum_Forum (
 # Dumping data for table 'eZForum_Forum'
 #
 
-INSERT INTO eZForum_Forum VALUES (1,'Discussion','Discuss everything here','','',1);
-INSERT INTO eZForum_Forum VALUES (1,'Special talk','Talk about something else here','','',2);
+INSERT INTO eZForum_Forum VALUES ('Discussion','Discuss everything here','','',1);
+INSERT INTO eZForum_Forum VALUES ('Special talk','Talk about something else here','','',2);
+INSERT INTO eZForum_Forum VALUES ('Demo article','','','',3);
+INSERT INTO eZForum_Forum VALUES ('eZ publish introduct','','','',4);
+INSERT INTO eZForum_Forum VALUES ('About eZ publish','','','',6);
+
+#
+# Table structure for table 'eZForum_ForumCategoryLink'
+#
+CREATE TABLE eZForum_ForumCategoryLink (
+  ID int(11) DEFAULT '0' NOT NULL auto_increment,
+  ForumID int(11) DEFAULT '0' NOT NULL,
+  CategoryID int(11) DEFAULT '0' NOT NULL,
+  PRIMARY KEY (ID)
+);
+
+#
+# Dumping data for table 'eZForum_ForumCategoryLink'
+#
+
+INSERT INTO eZForum_ForumCategoryLink VALUES (1,1,1);
+INSERT INTO eZForum_ForumCategoryLink VALUES (2,2,1);
 
 #
 # Table structure for table 'eZForum_Message'
 #
-DROP TABLE IF EXISTS eZForum_Message;
 CREATE TABLE eZForum_Message (
   ForumID int(11) DEFAULT '0' NOT NULL,
   Topic varchar(60),

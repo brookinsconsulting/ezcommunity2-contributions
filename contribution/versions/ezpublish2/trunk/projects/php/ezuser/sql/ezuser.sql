@@ -1,9 +1,3 @@
-# MySQL dump 7.1
-#
-# Host: localhost    Database: publish.ezuser
-#--------------------------------------------------------
-# Server version	3.22.32
-
 #
 # Table structure for table 'eZUser_Forgot'
 #
@@ -19,7 +13,6 @@ CREATE TABLE eZUser_Forgot (
 #
 # Dumping data for table 'eZUser_Forgot'
 #
-
 
 #
 # Table structure for table 'eZUser_Group'

@@ -1,8 +1,21 @@
-# MySQL dump 7.1
 #
-# Host: localhost    Database: publish.ezimagecatalouge
-#--------------------------------------------------------
-# Server version	3.22.32
+# Table structure for table 'eZImageCatalogue_Category'
+#
+DROP TABLE IF EXISTS eZImageCatalogue_Category;
+CREATE TABLE eZImageCatalogue_Category (
+  ID int(11) DEFAULT '0' NOT NULL auto_increment,
+  Name varchar(100),
+  Description text,
+  ParentID int(11),
+  UserID int(11),
+  WritePermission int(11) DEFAULT '1',
+  ReadPermission int(11) DEFAULT '1',
+  PRIMARY KEY (ID)
+);
+
+#
+# Dumping data for table 'eZImageCatalogue_Category'
+#
 
 #
 # Table structure for table 'eZImageCatalogue_Image'
@@ -15,6 +28,9 @@ CREATE TABLE eZImageCatalogue_Image (
   Description text,
   FileName varchar(100),
   OriginalFileName varchar(100),
+  UserID int(11),
+  WritePermission int(11) DEFAULT '1',
+  ReadPermission int(11) DEFAULT '1',
   PRIMARY KEY (ID)
 );
 
@@ -23,6 +39,21 @@ CREATE TABLE eZImageCatalogue_Image (
 #
 
 INSERT INTO eZImageCatalogue_Image VALUES (1,'','caption text','','php0meQsj.jpg','360_rose.jpg');
+
+#
+# Table structure for table 'eZImageCatalogue_ImageCategoryLink'
+#
+DROP TABLE IF EXISTS eZImageCatalogue_ImageCategoryLink;
+CREATE TABLE eZImageCatalogue_ImageCategoryLink (
+  ID int(11) DEFAULT '0' NOT NULL auto_increment,
+  CategoryID int(11),
+  ImageID int(11),
+  PRIMARY KEY (ID)
+);
+
+#
+# Dumping data for table 'eZImageCatalogue_ImageCategoryLink'
+#
 
 #
 # Table structure for table 'eZImageCatalogue_ImageVariation'

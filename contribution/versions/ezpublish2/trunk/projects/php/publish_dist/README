@@ -28,6 +28,17 @@ ALTER TABLE eZContact_Address ADD AddressTypeID int;
 
 NOTE: To upgrade the database from 1.0.5 and higher run the following SQL commands:
 
+
+NOTE: When upgradeing to 1.0.6, put this new template into ezarticle/user/templates/{your design}/articleview.tpl
+
+<!-- BEGIN attached_file_list_tpl -->
+<h3>{intl-attached_files}:</h3>
+<!-- BEGIN attached_file_tpl -->
+<a href="/filemanager/download/{file_id}/{original_file_name}/">{file_name}</a><br />
+<!-- END attached_file_tpl -->
+
+<!-- END attached_file_list_tpl -->
+
 CREATE TABLE eZArticle_ArticleFileLink (
   ID int(11) DEFAULT '0' NOT NULL auto_increment,
   ArticleID int(11) DEFAULT '0' NOT NULL,
@@ -35,3 +46,9 @@ CREATE TABLE eZArticle_ArticleFileLink (
   Created timestamp(14),
   PRIMARY KEY (ID)
 );
+
+
+CHange from
+RewriteRule     !\.(gif|css|jpg|png) /home/ce/ez/projects/php/ezdeveloper/index.php
+To
+RewriteRule     !\.(gif|css|jpg|png)$ /home/ce/ez/projects/php/ezdeveloper/index.php

@@ -1,9 +1,3 @@
-# MySQL dump 7.1
-#
-# Host: localhost    Database: publish.ezpoll
-#--------------------------------------------------------
-# Server version	3.22.32
-
 #
 # Table structure for table 'eZPoll_MainPoll'
 #

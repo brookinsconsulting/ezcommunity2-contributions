@@ -121,7 +121,7 @@ RewriteEngine On
 
 RewriteRule !
 \backslash 
-.(gif|css|jpg|png) /your/apache/documentroot/index.php 
+.(gif|css|jpg|png)$ /your/apache/documentroot/index.php 
 \layout LyX-Code
 
 ServerAdmin your_mail@domain.no 
@@ -164,7 +164,7 @@ RewriteEngine On
 
 RewriteRule !
 \backslash 
-.(gif|css|jpg|png) /your/apache/documentroot/admin/index.php 
+.(gif|css|jpg|png)$ /your/apache/documentroot/admin/index.php 
 \layout LyX-Code
 
 ServerAdmin your_mail@domain.no 
