@@ -1,11 +1,7 @@
-<hr noshade="noshade" size="4" />
-
-<img src="/ezarticle/user/{image_dir}/path-arrow.gif" height="10" width="15" border="0" alt="">
-<a class="path" href="/article/archive/0/">Toppnivå</a>
+<h1>Latest news</h1>
 
 <!-- BEGIN path_item_tpl -->
-<img src="/ezarticle/user/{image_dir}/path-slash.gif" height="10" width="20" border="0" alt="">
-<a class="path" href="/article/archive/{category_id}/">{category_name}</a>
+
 <!-- END path_item_tpl -->
 
 <hr noshade="noshade" size="4" />
