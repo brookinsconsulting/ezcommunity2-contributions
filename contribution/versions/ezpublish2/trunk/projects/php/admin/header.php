@@ -51,17 +51,17 @@ if ( $user )
 	<td width="1%"><img src="/images/<? echo $SiteStyle; ?>/top-logo.gif" width="300" height="70" border="0"></td>
 	<td width="96%" class="repeatx" background="/images/<? echo $SiteStyle; ?>/top-m.gif">&nbsp;</td>
 	<td width="1%" class="repeatx" background="/images/<? echo $SiteStyle; ?>/top-m.gif" valign="top">
-    <img src="/images/<? echo $SiteStyle; ?>/1x1.gif" width="120" height="16" border="0"><br>
+    <img src="/images/<? echo $SiteStyle; ?>/1x1.gif" width="150" height="16" border="0"><br>
 <?
 if ( $user )
 {        
 ?>
-     <div class="top"><? echo $userLogin ?></div><div class="topusername"><? print( $firstName . " " . $lastName ); ?></div>
+     <div class="top"><? echo $userLogin ?>:</div><div class="topusername"><? print( $firstName . " " . $lastName ); ?></div>
 <?
 }
 ?>
 </td>
-	<td width="1%" class="repeatx" background="/images/<? echo $SiteStyle; ?>/top-m.gif" valign="top"><img src="/images/<? echo $SiteStyle; ?>/1x1.gif" width="120" height="16" border="0"><br />
+	<td width="1%" class="repeatx" background="/images/<? echo $SiteStyle; ?>/top-m.gif" valign="top"><img src="/images/<? echo $SiteStyle; ?>/1x1.gif" width="150" height="16" border="0"><br />
 <?
 if ( $user )
 {        
