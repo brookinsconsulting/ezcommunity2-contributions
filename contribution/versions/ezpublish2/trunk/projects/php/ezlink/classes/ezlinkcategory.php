@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezlinkcategory.php,v 1.12 2001/11/08 13:28:08 br Exp $
+// $Id: ezlinkcategory.php,v 1.13 2002/02/12 13:08:28 br Exp $
 //
 // Definition of eZLinkCategory class
 //
@@ -136,7 +136,7 @@ class eZLinkCategory
     {
         if( get_class( $value ) == "ezlink" )
             $linkID = $value->id();
-        else if (is_nummeric( $value ) )
+        else if ( is_Numeric( $value ) )
             $linkID = $value;
         else
             return false;
