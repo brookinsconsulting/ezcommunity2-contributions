@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezproduct.php,v 1.119.4.2 2001/11/21 15:01:14 ce Exp $
+// $Id: ezproduct.php,v 1.119.4.3 2001/11/22 11:27:49 bf Exp $
 //
 // Definition of eZProduct class
 //
@@ -1448,15 +1448,20 @@ class eZProduct
                 $text = "AND (" . $query->buildQuery()  . ")";
         }
 
+        
         $tables = array();
 
         foreach ( $categoryArrayID as $cat )
         {
             $id = $cat[$db->fieldName( "id" )];
             $table = "eZTrade_ExtendedTemp$id";
+
             $tables[] = $table;
-            $db->query( "CREATE TEMPORARY TABLE $table
+            $db->query( "CREATE TEMPORARY TABLE IF NOT EXISTS $table
                          ( ProductID int(11) NOT NULL, PRIMARY KEY( ProductID ) )" );
+
+            $db->query( "DELETE FROM $table" );
+            
             $cats =& $cat["categories"];
             $catSQL = "";
             $i = 0;
@@ -1468,11 +1473,11 @@ class eZProduct
                 ++$i;
             }
             $db->query( "INSERT INTO $table(ProductID)
-                         SELECT eZTrade_Product.ID FROM eZTrade_Product, eZTrade_ProductCategoryLink
-                         WHERE eZTrade_Product.ID=eZTrade_ProductCategoryLink.ProductID AND ( $catSQL )
-                         GROUP BY eZTrade_Product.ID" );
+                         SELECT eZTrade_ProductCategoryLink.ProductID FROM eZTrade_ProductCategoryLink
+                         WHERE ( $catSQL )
+                         GROUP BY eZTrade_ProductCategoryLink.ProductID" );
         }
-
+        
         reset( $tables );
         list($key,$first_table) = each($tables);
         $i = 0;
@@ -1485,14 +1490,15 @@ class eZProduct
             $table_sql .= "$first_table.ProductID=$table.ProductID";
             $table_from .= ", $table";
             ++$i;
-        }
+        }        
+        
         if ( count( $tables ) > 0 )
             $table_sql = "( $table_sql )";
 
         $queryString = "SELECT eZTrade_Product.ID as PID
-                        FROM eZTrade_Product, eZTrade_ProductCategoryLink $table_from
-                        WHERE $table_sql $price $text AND
-                        eZTrade_Product.ID = $first_table.ProductID GROUP BY PID LIMIT $offset, $limit";
+                        FROM eZTrade_Product  $table_from
+                        WHERE $table_sql AND eZTrade_Product.ID = $first_table.ProductID
+                         GROUP BY PID LIMIT $offset, $limit";
 
         $db->array_query( $res_array, $queryString );
 

@@ -466,6 +466,8 @@ CREATE TABLE eZTrade_WishListOptionValue (
 CREATE INDEX TradeCategory_Name ON eZTrade_Category (Name);
 CREATE INDEX TradeCategory_Parent ON eZTrade_Category (Parent);
 CREATE INDEX TradeProduct_Name ON eZTrade_Product (Name);
+CREATE INDEX TradeProduct_Brief ON eZTrade_Product (Brief);
+CREATE INDEX TradeProduct_Description ON eZTrade_Product (Description);
 CREATE INDEX TradeProduct_Keywords ON eZTrade_Product (Keywords);
 CREATE INDEX TradeProduct_Price ON eZTrade_Product (Price);
 CREATE INDEX TradeProductLink_CategoryID ON eZTrade_ProductCategoryLink (CategoryID);
@@ -475,3 +477,4 @@ CREATE INDEX TradeProductOption_OptionID ON eZTrade_ProductOptionLink (OptionID)
 CREATE INDEX TradeProductOption_OptionValueContent ON  eZTrade_OptionValueContent  (ValueID);
 CREATE INDEX Trade_CartSessionID ON  eZTrade_Cart  (SessionID);
 CREATE INDEX TradeProductDef_ProductID ON eZTrade_ProductCategoryDefinition (ProductID);
+
