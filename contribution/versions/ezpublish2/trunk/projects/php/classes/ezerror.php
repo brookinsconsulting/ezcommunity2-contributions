@@ -1,6 +1,6 @@
 <?php
 /*!
-    $Id: ezerror.php,v 1.2 2000/09/01 13:28:59 ce-cvs Exp $
+    $Id: ezerror.php,v 1.3 2000/09/07 15:44:44 bf-cvs Exp $
 
     Author: Jo Henrik Endrerud <jhe@ez.no>
     
@@ -21,7 +21,7 @@ class eZError
 
     function getError( $message )
     {
-        include_once( "classes/class.INIFile.php" );
+        include_once( "classes/INIFile.php" );
         $ini = new INIFile( $this->Path . "/" . $this->Language . "/error.ini", false );
         return $ini->read_var( "Error", $message );
     }

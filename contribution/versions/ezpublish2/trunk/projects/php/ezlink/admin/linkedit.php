@@ -1,6 +1,6 @@
 <?
 /*!
-  $Id: linkedit.php,v 1.19 2000/09/01 13:29:00 ce-cvs Exp $
+  $Id: linkedit.php,v 1.20 2000/09/07 15:44:44 bf-cvs Exp $
 
   Author: Christoffer A. Elo <ce@ez.no>
     
@@ -13,7 +13,7 @@
   linkedit.php - Redigerer en link.
 */
 
-include_once( "classes/class.INIFile.php" );
+include_once( "classes/INIFile.php" );
 
 $ini = new INIFile( "site.ini" );
 $DOC_ROOT = $ini->read_var( "eZLinkMain", "DocumentRoot" );

@@ -1,5 +1,5 @@
 <?php
-// $Id: ezusergroup.php,v 1.4 2000/09/01 13:28:59 ce-cvs Exp $
+// $Id: ezusergroup.php,v 1.5 2000/09/07 15:44:44 bf-cvs Exp $
 // Lars Wilhelmsen <lw@ez.no>
 // eZ systems <http://www.ez.no/>
 //
@@ -481,7 +481,7 @@ class eZUserGroup
      */
     function verifyCommand( $userID, $cmd )
     {
-        include_once( "classes/class.INIFile.php" );
+        include_once( "classes/INIFile.php" );
 
         $ini = new INIFile( "site.ini" );
         
@@ -530,7 +530,7 @@ class eZUserGroup
     */
     function dbInit()
     {
-        include_once( "classes/class.INIFile.php" );
+        include_once( "classes/INIFile.php" );
 
         $ini = new INIFile( "site.ini" );
         

@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: categorylist.php,v 1.4 2000/09/01 13:29:00 ce-cvs Exp $
+    $Id: categorylist.php,v 1.5 2000/09/07 15:44:44 bf-cvs Exp $
 
     Author: Bård Farstad <bf@ez.no>
     
@@ -13,7 +13,7 @@
   listlink.php viser alle kategorier
 */
 
-include_once( "classes/class.INIFile.php" );
+include_once( "classes/INIFile.php" );
 $ini = new INIFile( "site.ini" );
 
 $DOC_ROOT = $ini->read_var( "eZLinkMain", "DocumentRoot" );

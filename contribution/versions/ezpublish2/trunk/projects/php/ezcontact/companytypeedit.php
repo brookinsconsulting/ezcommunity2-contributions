@@ -3,7 +3,7 @@
   Editerer firma typer.
 */
 
-include_once( "classes/class.INIFile.php" );
+include_once( "classes/INIFile.php" );
 
 $ini = new INIFIle( "site.ini" );
 $Language = $ini->read_var( "eZContactMain", "Language" );

@@ -13,7 +13,7 @@ if ( file_exists( $prePage ) )
 <?php
 
 include_once( "../classes/ezdb.php" );
-include_once( "classes/class.INIFile.php" );
+include_once( "classes/INIFile.php" );
 include_once( "classes/template.inc" );
 include_once( "../classes/ezuser.php" );
 

@@ -3,7 +3,7 @@
   Viser innholdet til en notat.
 */
     
-include_once( "classes/class.INIFile.php" );
+include_once( "classes/INIFile.php" );
 
 $ini = new INIFile( "site.ini" );
 $DOC_ROOT = $ini->read_var( "eZContactMain", "DocumentRoot" );

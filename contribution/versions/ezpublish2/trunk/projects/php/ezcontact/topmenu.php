@@ -4,7 +4,7 @@ include_once( "classes/ezsession.php" );
 include_once( "classes/ezusergroup.php" );
 include_once( "classes/ezuser.php" );
 include_once( "common/ezphputils.php" );
-include_once( "classes/class.INIFile.php" );
+include_once( "classes/INIFile.php" );
 
 // Sjekker rettigheter
 $session = new eZSession();

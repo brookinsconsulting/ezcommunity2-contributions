@@ -117,7 +117,7 @@ class eZPersonType
     */
     function dbInit()
     {
-        include_once( "classes/class.INIFile.php" );
+        include_once( "classes/INIFile.php" );
 
         $ini = new INIFile( "site.ini" );
         

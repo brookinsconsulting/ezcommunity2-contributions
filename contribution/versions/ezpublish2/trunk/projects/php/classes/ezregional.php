@@ -1,5 +1,8 @@
 <?php
 
+//!! eZCommon
+
+
 class eZRegional
 {
   var $Id;           // Id'en for dette landet
