@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezarticle.php,v 1.80 2001/05/07 12:40:33 ce Exp $
+// $Id: ezarticle.php,v 1.81 2001/05/08 07:38:27 fh Exp $
 //
 // Definition of eZArticle class
 //
@@ -1535,6 +1535,7 @@ class eZArticle
                 }
             }
         }
+
         if ( is_numeric( $limit ) and $limit > 0 )
         {
             $limit_text = "LIMIT $offset, $limit";
@@ -1607,23 +1608,22 @@ class eZArticle
         }
         $loggedInSQL = "( $currentUserSQL ( ( $groupSQL P.GroupID='-1' ) AND P.ReadPermission='1') ) AND";
         
-       $query = "SELECT A.ID, A.Name, A.AuthorText AS AuthorName, A.Published,
+/*       $query = "SELECT A.ID, A.Name, A.AuthorText AS AuthorName, A.Published,
                      C.ID AS CategoryID, C.Name AS CategoryName
                      FROM eZArticle_Article AS A LEFT JOIN eZArticle_ArticlePermission AS P ON A.ID=P.ObjectID,
                      eZArticle_Category AS C, eZArticle_ArticleCategoryLink AS ACL
                      WHERE IsPublished='true' AND AuthorID='$authorid' AND $loggedInSQL
                      A.ID=ACL.ArticleID AND C.ID=ACL.CategoryID
-                     GROUP BY A.ID $sort_text $limit_text";
+                     GROUP BY A.ID $sort_text $limit_text"; */
 
+        $query = "SELECT A.ID , A.Name, A.AuthorText as AuthorName, A.Published, C.ID as CategoryID, C.Name as CategoryName
+                     FROM eZArticle_Article AS A, eZArticle_Category as C, eZArticle_ArticleCategoryLink as ACL, eZArticle_ArticlePermission AS P
+                     WHERE A.ID=ACL.ArticleID AND C.ID=ACL.CategoryID AND
+                     IsPublished='true' AND AuthorID='$authorid' AND $loggedInSQL
+                     A.ID=P.ObjectID GROUP BY A.ID $sort_text $limit_text";
 
-    $db =& eZDB::globalDatabase();
-/*        $db->array_query( $qry_array, "SELECT A.ID, A.Name, A.AuthorText AS AuthorName, A.Published,
-                                              C.ID AS CategoryID, C.Name AS CategoryName
-                                       FROM eZArticle_Article AS A, eZArticle_Category AS C, eZArticle_ArticleCategoryLink AS ACL
-                                       WHERE IsPublished='true' AND AuthorID='$authorid' AND
-                                             A.ID=ACL.ArticleID AND C.ID=ACL.CategoryID
-                                             GROUP BY A.ID $sort_text $limit_text" ); */
-    $db->array_query( $qry_array, $query );
+        $db =& eZDB::globalDatabase();
+        $db->array_query( $qry_array, $query );
         return $qry_array;
     }
     
@@ -1665,19 +1665,16 @@ class eZArticle
                      A.ID=ACL.ArticleID AND C.ID=ACL.CategoryID";
                      */
 
-        $query = "SELECT count( A.ID ) AS Count 
+        $query = "SELECT A.ID AS Count 
                      FROM eZArticle_Article AS A,
                      eZArticle_ArticlePermission AS P
                      WHERE IsPublished='true' AND AuthorID='$authorid' AND $loggedInSQL
-                     A.ID=P.ObjectID";
+                     A.ID=P.ObjectID GROUP BY A.ID";
 
+        
         $db =& eZDB::globalDatabase();
-//        $db->query_single( $qry_array, "SELECT count( eZArticle_Article.ID ) AS Count
-//                                        FROM eZArticle_Article, eZArticle_ArticleCategoryLink
-//                                        WHERE IsPublished='true' AND eZArticle_Article.ID=ArticleID
-//                                        AND AuthorID='$authorid'" );
-        $db->query_single( $qry_array, $query );
-        return $qry_array["Count"];
+        $db->array_query( $qry_array, $query );
+        return count( $qry_array );
     }
 
     /*!
