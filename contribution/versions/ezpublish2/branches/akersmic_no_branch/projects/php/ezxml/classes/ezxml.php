@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: ezxml.php,v 1.11 2001/11/19 16:21:56 bf Exp $
+// $Id: ezxml.php,v 1.11.4.1 2002/01/29 12:08:16 bf Exp $
 //
 // Definition of eZXML class
 //
@@ -30,6 +30,7 @@
 /*!
   eZXML will create a DOM tree from well formed XML documents.
 
+
   \code
 
   \endcode
@@ -52,12 +53,16 @@ class eZXML
     /*!
       \static
       Will return an DOM object tree from the well formed XML.
+
+      $params["TrimWhiteSpace"] = false/true : if the XML parser should ignore whitespace between tags.      
     */
-    function domTree( $xmlDoc )  
+    function domTree( $xmlDoc, $params=array() )  
     {
         $TagStack = array();
 
         // get document version
+        // stip the !doctype (xdutoit modification)
+        $xmlDoc =& preg_replace( "%<\!DOCTYPE.*?>%is", "", $xmlDoc );
 
         // strip header
         $xmlDoc =& preg_replace( "#<\?.*?\?>#", "", $xmlDoc );
@@ -65,11 +70,12 @@ class eZXML
         // strip comments
         $xmlDoc =& eZXML::stripComments( $xmlDoc );
 
+
+        // libxml compatible object creation
         $domDocument = new eZDOMDocument();
         $domDocument->version = "1.0";
 
         $domDocument->root =& $domDocument->children;
-        
         $currentNode =& $domDocument;
 
         $pos = 0;
@@ -79,8 +85,6 @@ class eZXML
             $char = $xmlDoc[$pos];
             if ( $char == "<" )
             {
-                // inside a new tag
-
                 // find tag name
                 $endTagPos = strpos( $xmlDoc, ">", $pos );
 
@@ -118,7 +122,7 @@ class eZXML
                     }
                 }
                 else
-                {                    
+                {
                     $firstSpaceEnd = strpos( $tagName, " " );
                     $firstNewlineEnd = strpos( $tagName, "\n" );
 
@@ -159,7 +163,6 @@ class eZXML
 
                     if ( $colonPos > 0 )
                         $justName = substr( $justName, $colonPos + 1, strlen( $justName ) );
-
                     
                     
                     // remove trailing / from the name if exists
@@ -168,70 +171,58 @@ class eZXML
                         $justName = substr( $justName, 0, strlen( $justName ) - 1 );
                     }
 
-                    // start tag
-                    unset( $subNode );
-                    $subNode = new eZDOMNode();
-                    $subNode->name = $justName;
-                    $subNode->type = 1;
 
-                    $currentNode->children[] =& $subNode;
+                    // check for CDATA
+                    $cdataSection = "";
+                    $isCDATASection = false;
+                    $cdataPos = strpos( $xmlDoc, "<![CDATA[", $pos );
+                    if ( $cdataPos == $pos && $pos > 0)
+                    {
+                        $isCDATASection = true;
+                        $endTagPos = strpos( $xmlDoc, "]]>", $cdataPos );
+                        $cdataSection =& substr( $xmlDoc, $cdataPos + 9, $endTagPos - ( $cdataPos + 9 ) );
+
+                        // new CDATA node
+                        unset( $subNode );
+                        $subNode = new eZDOMNode();
+                        $subNode->name = "cdata-section";
+                        $subNode->content = $cdataSection;
+                        $subNode->type = 4;
+                        
+                        $currentNode->children[] =& $subNode;
+
+                        $pos = $endTagPos; 
+                        $endTagPos += 2;
+                        
+                    }
+                    else
+                    {                    
+                        // normal start tag
+                        unset( $subNode );
+                        $subNode = new eZDOMNode();
+                        $subNode->name = $justName;
+                        $subNode->type = 1;
+                        
+                        $currentNode->children[] =& $subNode;
+                    }
 
                     // find attributes
                     if ( $tagNameEnd > 0 )
                     {
                         $attributePart =& substr( $tagName, $tagNameEnd, strlen( $tagName ) );
 
-//                        $attributeArray = preg_split ("/\" /", $attributePart );
-                        
-//                        $attributeArray = explode( " ", $attributePart );
+                        // attributes
+                        unset( $attr );
+                        $attr =& eZXML::parseAttributes( $attributePart );
 
-                        preg_match_all( "/([a-zA-Z:]+=\".*?\")/i",  $attributePart, $attributeArray );
-
-                        foreach ( $attributeArray[0] as $attributePart )
-                        {
-                            $attributePart = $attributePart;
-
-                            if ( trim( $attributePart ) != "" && trim( $attributePart ) != "/" )
-                            {
-                                $attributeTmpArray = explode( "=", $attributePart );
-
-                                $attributeName = $attributeTmpArray[0];
-
-                                // strip out namespace; nameSpace:Name
-                                $colonPos = strpos( $attributeName, ":" );
-                                
-                                if ( $colonPos > 0 )
-                                    $attributeName = substr( $attributeName, $colonPos + 1, strlen( $attributeName ) );                    
-                                
-                                $attributeValue = $attributeTmpArray[1];
-
-                                // remove " from value part
-                                $attributeValue = substr( $attributeValue, 1, strlen( $attributeValue ) - 2);
-
-                                // start tag
-                                unset( $attrNode );
-                                $attrNode = new eZDOMNode();
-                                $attrNode->name = $attributeName;
-                                $attrNode->type = 2;
-                                $attrNode->content = $attributeValue;
-
-                                unset( $nodeValue );
-                                $nodeValue = new eZDOMNode();
-                                $nodeValue->name = "text";
-                                $nodeValue->type = 3;
-                                $nodeValue->content = $attributeValue;
-                                
-                                $attrNode->children[] =& $nodeValue;
-
-                                $subNode->attributes[] =& $attrNode;
-                                
-                            }
-                        }
+                        if ( $attr != false )
+                            $subNode->attributes =& $attr;
                     }
 
-                    // check it it's a oneliner: <tagname />
+                    // check it it's a oneliner: <tagname /> or a cdata section
+                    if ( $isCDATASection == false )
                     if ( $tagName[strlen($tagName) - 1]  != "/" )
-                    {                    
+                    {
                         array_push( $TagStack,
                         array( "TagName" => $justName, "ParentNodeObject" => &$currentNode ) );
 
@@ -242,7 +233,6 @@ class eZXML
             }
 
             $pos = strpos( $xmlDoc, "<", $pos + 1 );
-
            
             if ( $pos == false )
             {
@@ -254,7 +244,10 @@ class eZXML
                 // content tag
                 $tagContent = substr( $xmlDoc, $endTagPos + 1, $pos - ( $endTagPos + 1 ) );
 
-                if ( trim( $tagContent ) != "" )
+				if ( !isset( $params["TrimWhiteSpace"] ) )
+					$params["TrimWhiteSpace"] = false;
+
+                if ( ( ( $params["TrimWhiteSpace"] == true ) and ( trim( $tagContent ) != "" ) ) or ( $params["TrimWhiteSpace"] == false ) )
                 {
                     unset( $subNode );
                     $subNode = new eZDOMNode();
@@ -262,11 +255,11 @@ class eZXML
                     $subNode->type = 3;
 
                     // convert special chars
-                    $tagContent =& str_replace("&amp;", "&", $tagContent );
                     $tagContent =& str_replace("&gt;", ">", $tagContent );
                     $tagContent =& str_replace("&lt;", "<", $tagContent );
                     $tagContent =& str_replace("&apos;", "'", $tagContent );
                     $tagContent =& str_replace("&quot;", '"', $tagContent );
+                    $tagContent =& str_replace("&amp;", "&", $tagContent );
                     
                     $subNode->content = $tagContent;
                     
@@ -284,10 +277,63 @@ class eZXML
     */
     function stripComments( &$str )
     {
-        $str =& preg_replace( "#<\!--.*?-->#", "", $str );
+        $str =& preg_replace( "#<\!--.*?-->#s", "", $str );
         return $str;
     }
-    
+
+    /*!
+      \static
+      \private
+      Parses the attributes. Returns false if no attributes in the supplied string is found.
+    */
+    function &parseAttributes( $attributeString )
+    {
+        $ret = false;
+        
+        preg_match_all( "/([a-zA-Z:]+=\".*?\")/i",  $attributeString, $attributeArray );
+
+        foreach ( $attributeArray[0] as $attributePart )
+        {
+            $attributePart = $attributePart;
+
+            if ( trim( $attributePart ) != "" && trim( $attributePart ) != "/" )
+            {
+                $attributeTmpArray = explode( "=\"", $attributePart );
+
+                $attributeName = $attributeTmpArray[0];
+
+                // strip out namespace; nameSpace:Name
+                $colonPos = strpos( $attributeName, ":" );
+                                
+                if ( $colonPos > 0 )
+                    $attributeName = substr( $attributeName, $colonPos + 1, strlen( $attributeName ) );                    
+                                
+                $attributeValue = $attributeTmpArray[1];
+
+                // remove " from value part
+                $attributeValue = substr( $attributeValue, 0, strlen( $attributeValue ) - 1);
+
+                unset( $attrNode );
+                $attrNode = new eZDOMNode();
+                $attrNode->name = $attributeName;
+                $attrNode->type = 2;
+                $attrNode->content = $attributeValue;
+
+                unset( $nodeValue );
+                $nodeValue = new eZDOMNode();
+                $nodeValue->name = "text";
+                $nodeValue->type = 3;
+                $nodeValue->content = $attributeValue;
+                                
+                $attrNode->children[] =& $nodeValue;
+
+                $ret[] =& $attrNode;
+
+            }
+        }
+        return $ret;         
+    }
+ 
 }
 
 ?>

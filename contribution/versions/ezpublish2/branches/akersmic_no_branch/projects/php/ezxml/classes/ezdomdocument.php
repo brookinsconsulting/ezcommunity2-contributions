@@ -1,10 +1,9 @@
 <?php
 //
-// $Id: ezdomdocument.php,v 1.2 2001/11/19 15:31:06 bf Exp $
+// $Id: ezdomdocument.php,v 1.2.4.1 2002/01/29 12:08:16 bf Exp $
 //
 // Definition of eZDOMDocument class
 //
-// Bård Farstad <bf@ez.no>
 // Created on: <16-Nov-2001 12:18:23 bf>
 //
 // This source file is part of eZ publish, publishing software.
@@ -37,7 +36,25 @@ class eZDOMDocument
     */
     function eZDOMDocument( )
     {
+//        $this->children = array();
     }
+
+    /*!
+      Returns a XML string of the DOM document
+    */
+    function &toString()
+    {
+        $ret = "<?xml version=\"1.0\"?>";
+
+        if ( count( $this->children ) > 0 )
+        foreach ( $this->children as $child )
+        {
+            $ret .= $child->toString();
+        }
+
+        return $ret;        
+    }
+
 
     /// XML version
     var $version;
