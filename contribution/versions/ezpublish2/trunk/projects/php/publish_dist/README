@@ -356,3 +356,21 @@ ALTER TABLE eZContact_Company ADD ContactID int(11) NOT NULL DEFAULT '0';
 UPDATE eZContact_Company SET ContactID=ContactType;
 ALTER table eZContact_Company MODIFY ContactType int(1) NOT NULL DEFAULT '0';
 UPDATE eZContact_Company SET ContactType='1';
+
+# add tables for Images and Files in eZBug
+CREATE TABLE eZBug_BugFileLink (
+  ID int(11) DEFAULT '0' NOT NULL auto_increment,
+  BugID int(11) DEFAULT '0' NOT NULL,
+  FileID int(11) DEFAULT '0' NOT NULL,
+  Created timestamp(14),
+  PRIMARY KEY (ID)
+);
+
+CREATE TABLE eZBug_BugImageLink (
+  ID int(11) DEFAULT '0' NOT NULL auto_increment,
+  BugID int(11) DEFAULT '0' NOT NULL,
+  ImageID int(11) DEFAULT '0' NOT NULL,
+  Created timestamp(14),
+  PRIMARY KEY (ID)
+);
+
