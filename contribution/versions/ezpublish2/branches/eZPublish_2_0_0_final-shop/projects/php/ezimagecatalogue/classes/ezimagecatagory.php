@@ -1,0 +1,2 @@
+print( "wrong file" );
+exit();
