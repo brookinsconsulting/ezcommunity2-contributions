@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezimage.php,v 1.32 2001/03/05 15:41:00 jb Exp $
+// $Id: ezimage.php,v 1.33 2001/03/06 19:00:50 jb Exp $
 //
 // Definition of eZImage class
 //
@@ -429,9 +429,9 @@ class eZImage
     */
     function &fileName()
     {
-       if ( $this->State_ == "Dirty" )
+        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
-        
+
         return $this->FileName;
     }
 
@@ -465,7 +465,8 @@ class eZImage
        {
            $path = "/ezimagecatalogue/catalogue/" .$this->FileName;
        }
-       
+       if ( !file_exists( $path ) )
+           $path = "/ezimagecatalogue/admin/images/failedimage.gif";
        return $path;
     }
 
@@ -839,9 +840,13 @@ class eZImage
     */
     function &width()
     {
-        $size = getimagesize( $this->filePath( true ) );
-        
-        return $size[0];
+        if ( file_exists( $this->filePath( true ) ) )
+        {
+            $size = getimagesize( $this->filePath( true ) );
+            return $size[0];
+        }
+        else
+            return 120;
     }
 
     /*!
@@ -849,9 +854,13 @@ class eZImage
     */
     function &height()
     {
-        $size = getimagesize( $this->filePath( true ) );
-        
-        return $size[1];
+        if ( file_exists( $this->filePath( true ) ) )
+        {
+            $size = getimagesize( $this->filePath( true ) );
+            return $size[1];
+        }
+        else
+            return 40;
     }
 
     /*!
