@@ -2,7 +2,7 @@
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
 	<td align="center">
-	<h3>Denne artikkelen er funnet på: http://{article_url}</h3>
+	<p>Denne artikkelen er funnet på: {article_url}</p><br />
 	</td>
 </tr>
 </table>
