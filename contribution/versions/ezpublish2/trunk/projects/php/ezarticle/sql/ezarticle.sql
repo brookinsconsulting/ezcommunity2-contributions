@@ -145,6 +145,18 @@ CREATE TABLE eZArticle_ArticleImageDefinition (
 );
 
 #
+# Table structure for table 'eZArticle_ArticleImageLink'
+#
+DROP TABLE IF EXISTS eZArticle_ArticleImageLink;
+CREATE TABLE eZArticle_ArticleImageLink (
+  ID int(11) DEFAULT '0' NOT NULL auto_increment,
+  ArticleID int(11) DEFAULT '0' NOT NULL,
+  ImageID int(11) DEFAULT '0' NOT NULL,
+  Created timestamp(14),
+  PRIMARY KEY (ID)
+);
+
+#
 # Dumping data for table 'eZArticle_ArticleImageLink'
 #
 
