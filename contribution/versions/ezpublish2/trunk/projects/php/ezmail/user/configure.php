@@ -40,7 +40,8 @@ if( isset( $Ok ) )
     $accounts = eZMailAccount::getByUser( eZUser::currentUser() );
     foreach( $accounts as $account )
     {
-        if( in_array( $account->id(), $AccountActiveArrayID ) )
+        if( count( $AccountActiveArrayID ) > 0 &&
+            in_array( $account->id(), $AccountActiveArrayID ) )
             $account->setIsActive( true );
         else
             $account->setIsActive( false );

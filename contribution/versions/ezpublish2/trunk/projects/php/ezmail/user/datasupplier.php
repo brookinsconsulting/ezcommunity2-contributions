@@ -93,7 +93,10 @@ switch( $url_array[2] )
         $accounts = eZMailAccount::getByUser( $user->id() );
 
         foreach( $accounts as $account )
-            $account->checkMail();
+        {
+            if( $account->isActive() )
+                $account->checkMail();
+        }
 
         eZHTTPTool::header( "Location: /mail/folderlist/" );
         exit();

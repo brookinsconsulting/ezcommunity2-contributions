@@ -27,7 +27,7 @@
 	{account_folder}
 	</td>
 	<td class="{td_class}">
-	<input type="checkbox" name="AccountActiveArrayID[]" value="{account_id}" {account_active_checked}/>
+	<input type="checkbox" name="AccountActiveArrayID[]" value="{account_id}" {account_active_checked} />
 	</td>
 	<td class="{td_class}">
 	  <a href="/mail/accountedit/{account_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezb{account_id}-red','','/images/{site_style}/redigerminimrk.gif',1)">
