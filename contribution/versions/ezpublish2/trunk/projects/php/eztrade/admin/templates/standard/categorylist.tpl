@@ -30,8 +30,7 @@
 <form method="post" action="/trade/categoryedit/edit/" enctype="multipart/form-data">
 <table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
 <tr>
-	<tr>
-	<th>{intl-category}:</th>
+	<th colspan="2">{intl-category}:</th>
 	<th>{intl-description}:</th>
 
 
@@ -41,7 +40,10 @@
 
 <!-- BEGIN category_item_tpl -->
 <tr>
-	<td width="49%" class="{td_class}">
+	<td width="1%" class="{td_class}">
+	<img src="/admin/images/folder.gif" height="16" width="16" border="0" alt="" align="top" />
+	</td>
+	<td width="48%" class="{td_class}">
 	<a href="/trade/categorylist/parent/{category_id}/">{category_name}</a>
 	</td>
 	<td width="49%" class="{td_class}">
@@ -68,11 +70,10 @@
 <form method="post" action="/trade/productedit/edit/" enctype="multipart/form-data">
 <table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
 <tr>
-	<tr>
-	<th>{intl-product}:</th>
-	<td class="path" align="right">{intl-active}:</td>
-	<td class="path" align="right">{intl-price}:</td>
-	<td class="path" align="right">{intl-new_price}:</td>
+	<th colspan="2">{intl-product}:</th>
+	<th class="right">{intl-active}:</th>
+	<th class="right">{intl-price}:</th>
+	<th class="right">{intl-new_price}:</th>
 	<!-- BEGIN absolute_placement_header_tpl -->
 	<th>&nbsp;</th>
 	<th>&nbsp;</th>
@@ -83,6 +84,9 @@
 </tr>
 <!-- BEGIN product_item_tpl -->
 <tr>
+	<td width="1%" class="{td_class}">
+	<img src="/admin/images/product.gif" height="16" width="16" border="0" alt="" align="top" />
+	</td>
 	<td class="{td_class}">
 	<a href="/trade/productedit/productpreview/{product_id}/">{product_name}</a>
 	<input type="hidden" name="ProductEditArrayID[]" value="{product_id}" />

@@ -35,12 +35,15 @@
 <form method="post" action="/link/groupedit/edit/" enctype="multipart/form-data">
 <table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
 <tr>
-	<td>
+	<td colspan="6">
 	<h2>{categories}</h2>
 	</td>
 </tr>
 <!-- BEGIN group_item_tpl -->
 <tr>
+	<td width="1%" bgcolor="{bg_color}">
+	<img src="/admin/images/folder.gif" height="16" width="16" border="0" alt="" align="top" />
+	</td>
 	<td bgcolor="{bg_color}">
 	<a href="/link/group/{linkgroup_id}/">{linkgroup_title}</a>
 	</td>
@@ -74,11 +77,17 @@
 <form method="post" action="/link/linkedit/edit/" enctype="multipart/form-data">
 <table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
 <tr>
-	<h2>{links} - ({link_start}-{link_end}/{link_total})</h2>
+	<td colspan="6">
+	<h2>{links}</h2>
+	<div class="boxtext">({link_start}-{link_end}/{link_total})</div>
+	</td>
 </tr>
 <!-- BEGIN link_item_tpl -->
 <tr>
-	<td width="98%" class="{td_class}">
+	<td width="1%" class="{td_class}">
+	<img src="/admin/images/link.gif" height="16" width="16" border="0" alt="" align="top" />
+	</td>
+	<td width="97%" class="{td_class}">
 	<b><a href="/link/gotolink/addhit/{link_id}/?Url={link_url}" target="_blank">{link_title}</a></b><br />
 	{link_description}
 	</td>

@@ -34,7 +34,7 @@
 <form method="post" action="/forum/messageedit/edit/" enctype="multipart/form-data">
 <table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
 <tr>
-     <th>{intl-subject}:</th> 
+     <th colspan="2">{intl-subject}:</th> 
      <th>{intl-author}:</th>
      <th>{intl-time}:</th>
      <th>{intl-notice}:</th>
@@ -42,7 +42,10 @@
 </tr>
 <!-- BEGIN message_item_tpl -->
 <tr bgcolor="{color}">
-     <td width="33%" class="{td_class}">
+	<td width="1%" class="{td_class}">
+	<img src="/admin/images/message.gif" height="16" width="16" border="0" alt="" align="top" />
+	</td>
+     <td width="32%" class="{td_class}">
      {spacer}
      <a href="/forum/message/{message_id}">{message_topic}</a>
      </td>

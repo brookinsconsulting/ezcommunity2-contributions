@@ -25,12 +25,15 @@
 
 <table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
 <tr>
-	<th>{intl-name}:</th>
+	<th colspan="2">{intl-name}:</th>
 	<th>{intl-description}:</th>
 </tr>
 
 <!-- BEGIN forum_item_tpl -->
 <tr>
+	<td width="1%" class="{td_class}">
+	<img src="/admin/images/forum.gif" height="16" width="16" border="0" alt="" align="top" />
+	</td>
     <td class={td_class}>
 	<a href="/forum/messagelist/{forum_id}/">{forum_name}</a>
 	</td>

@@ -117,9 +117,9 @@
 <input class="box" type="text" name="LinkText" size="20" value="{link_text}" />
 <br /><br />
 
-<table width="100%" cellspacing="0" cellpadding="0" border="0">
+<table cellspacing="0" cellpadding="0" border="0">
 <tr>
-	<td width="50%" colspan="5">
+	<td colspan="5">
 	<p class="boxtext">{intl-start_date}:</p>
 	</td>
 </tr>
@@ -143,16 +143,16 @@
 </tr>
 <tr>
 	<td>
-	<input type="text" size="2" name="StartDay" value="{start_day}" />&nbsp;
+	<input type="text" size="2" name="StartDay" value="{start_day}" />&nbsp;&nbsp;
 	</td>
 	<td>
-	<input type="text" size="2" name="StartMonth" value="{start_month}" />&nbsp;
+	<input type="text" size="2" name="StartMonth" value="{start_month}" />&nbsp;&nbsp;
 	</td>
 	<td>
-	<input type="text" size="4" name="StartYear" value="{start_year}" />
+	<input type="text" size="4" name="StartYear" value="{start_year}" />&nbsp;&nbsp;
 	</td>
 	<td>
-	<input type="text" size="2" name="StartHour" value="{start_hour}" />
+	<input type="text" size="2" name="StartHour" value="{start_hour}" />&nbsp;&nbsp;
 	</td>
 	<td>
 	<input type="text" size="2" name="StartMinute" value="{start_minute}" />
@@ -160,9 +160,9 @@
 </tr>
 </table>
 
-<table width="100%" cellspacing="0" cellpadding="0" border="0">
+<table cellspacing="0" cellpadding="0" border="0">
 <tr>
-	<td width="50%" colspan="5">
+	<td colspan="5">
 	<br />
 	<p class="boxtext">{intl-stop_date}:</p>
 	</td>
@@ -187,16 +187,16 @@
 </tr>
 </tr>
 	<td>
-	<input type="text" size="2" name="StopDay" value="{stop_day}" />&nbsp;
+	<input type="text" size="2" name="StopDay" value="{stop_day}" />&nbsp;&nbsp;
 	</td>
 	<td>
-	<input type="text" size="2" name="StopMonth" value="{stop_month}" />&nbsp;
+	<input type="text" size="2" name="StopMonth" value="{stop_month}" />&nbsp;&nbsp;
 	</td>
 	<td>
-	<input type="text" size="4" name="StopYear" value="{stop_year}" />
+	<input type="text" size="4" name="StopYear" value="{stop_year}" />&nbsp;&nbsp;
 	</td>
 	<td>
-	<input type="text" size="2" name="StopHour" value="{stop_hour}" />
+	<input type="text" size="2" name="StopHour" value="{stop_hour}" />&nbsp;&nbsp;
 	</td>
 	<td>
 	<input type="text" size="2" name="StopMinute" value="{stop_minute}" />

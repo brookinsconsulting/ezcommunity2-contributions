@@ -89,10 +89,18 @@
     <!-- BEGIN message_item_tpl -->
 <tr>
     	<td class="{td_class}">
-	   {spacer}&nbsp;
-	<a href="/forum/message/{message_id}/">
-	{reply_topic}
-	</a>
+	<table width="100%" cellspacing="0" cellpadding="0" border="0">
+	<tr>
+
+		<td width="1%" valign="top">
+		{spacer}{spacer}
+        <img src="/images/message.gif" width="16" height="16" border="0" alt="Message" />&nbsp;
+		</td>
+		<td width="99%" valign="top">
+		<a class="{link_color}" href="/forum/message/{message_id}/">{reply_topic}</a>
+		</td>
+	</tr>
+	</table>
 	</td>
     	<td class="{td_class}">
 	{user}

@@ -22,12 +22,15 @@
 <form method="post" action="/forum/categoryedit/edit/" enctype="multipart/form-data">
 <table class="list" width="100%" border="0" cellspacing="0" cellpadding="4">
     <tr>
-        <th>{intl-name}:</th>
+        <th colspan="2">{intl-name}:</th>
         <th>{intl-desc}:</th>
         <th colspan="2">&nbsp;</td>
     </tr>
 <!-- BEGIN category_item_tpl -->
 <tr bgcolor="{color}">
+	<td width="1%" class="{td_class}">
+	<img src="/admin/images/folder.gif" height="16" width="16" border="0" alt="" align="top" />
+	</td>
     <td class={td_class}>
     <a href="/forum/forumlist/{category_id}/">{category_name}</a>
     </td>
