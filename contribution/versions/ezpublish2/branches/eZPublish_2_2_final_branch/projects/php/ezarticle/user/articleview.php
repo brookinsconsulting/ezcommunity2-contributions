@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: articleview.php,v 1.84.2.14 2002/11/22 11:15:06 bf Exp $
+// $Id: articleview.php,v 1.84.2.15 2003/05/15 16:25:19 br Exp $
 //
 // Created on: <18-Oct-2000 16:34:51 bf>
 //
@@ -43,8 +43,18 @@ $TemplateDir = $ini->read_var( "eZArticleMain", "TemplateDir" );
 $ListImageWidth = $ini->read_var( "eZArticleMain", "ListImageWidth" );
 $ListImageHeight = $ini->read_var( "eZArticleMain", "ListImageHeight" );
 
+if ( !is_numeric( $ArticleID ) )
+{
+    eZHTTPTool::header( "Location: /error/404" );
+    exit();
+}
+
+if ( !is_numeric( $PageNumber) )
+    $PageNumber = "";
+
 if ( !is_numeric( $CategoryID ) )
     $CategoryID = eZArticle::categoryDefinitionStatic( $ArticleID );
+
 
 if ( $ForceCategoryDefinition == "enabled" )
 {
