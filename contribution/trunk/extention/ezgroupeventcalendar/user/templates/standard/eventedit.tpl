@@ -55,7 +55,7 @@
 <!-- BEGIN group_name_new_tpl -->
 <p class="boxtext">{intl-event_group}:</p>
 <select name="StoreByGroupID">
-<option value="0">Select</option>
+<option value="">Select</option>
 <!-- BEGIN group_item_tpl -->
 <option {group_is_selected} value="{group_member_id}">{group_member_name}</option>
 <!-- END group_item_tpl -->
@@ -95,9 +95,13 @@
 <p class="boxtext">{intl-priority}:</p>
 
 <select name="Priority">
-<option value="0" {0_selected}>{intl-low_priority}</option>
-<option value="1" {1_selected}>{intl-normal_priority}</option>
-<option value="2" {2_selected}>{intl-high_priority}</option>
+
+<option value="4" {0_selected}>{intl-lowest_priority}</option>
+<option value="0" {1_selected}>{intl-low_priority}</option>
+<option value="1" {2_selected}>{intl-normal_priority}</option>
+<option value="3" {3_selected}>{intl-medium_priority}</option>
+<option value="2" {4_selected}>{intl-high_priority}</option>
+<option value="5" {5_selected}>{intl-highest_priority}</option>
 </select>
 
 	</td>
@@ -167,12 +171,7 @@
 		<option value="{start_minute}" {is_start_minute_selected}>{start_minute}</option>
 		<!-- END start_minute_item_tpl -->
 		</select>
-		<i> {intl-minute} </i>
-		<!-- BEGIN start_ampm_radio_tpl -->
-		&nbsp;&nbsp;
-		<input type="radio" name="Start_AM_PM" value="am" {start_am}>&nbsp;&nbsp;am&nbsp;&nbsp;
-		<input type="radio" name="Start_AM_PM" value="pm" {start_pm}>&nbsp;&nbsp;pm
-		<!-- END start_ampm_radio_tpl -->
+		<i>{intl-minute}</i>
 	</td>
 	<td>&nbsp;</td>
 	<td valign="top">
@@ -191,13 +190,23 @@
 		<option value="{stop_minute}" {is_stop_minute_selected}>{stop_minute}</option>
 		<!-- END stop_minute_item_tpl -->
 		</select>
-		<i> {intl-minute} </i>
-		<!-- BEGIN stop_ampm_radio_tpl -->
-		&nbsp;&nbsp;
-		<input type="radio" name="Stop_AM_PM" value="am" {stop_am}>&nbsp;&nbsp;am&nbsp;&nbsp;
-		<input type="radio" name="Stop_AM_PM" value="pm" {stop_pm}>&nbsp;&nbsp;pm
-		<!-- END stop_ampm_radio_tpl -->
+		<i>{intl-minute}</i>
 	</td>
+</tr>
+<tr> 
+	<td>
+		<!-- BEGIN start_ampm_radio_tpl -->
+                <input type="radio" name="Start_AM_PM" value="am" {start_am}>&nbsp;&nbsp;am&nbsp;&nbsp;
+                <input type="radio" name="Start_AM_PM" value="pm" {start_pm}>&nbsp;&nbsp;pm
+                <!-- END start_ampm_radio_tpl -->
+        </td>
+	<td>&nbsp;</td>
+        <td>
+                <!-- BEGIN stop_ampm_radio_tpl -->
+                <input type="radio" name="Stop_AM_PM" value="am" {stop_am}>&nbsp;&nbsp;am&nbsp;&nbsp;
+                <input type="radio" name="Stop_AM_PM" value="pm" {stop_pm}>&nbsp;&nbsp;pm
+                <!-- END stop_ampm_radio_tpl -->
+        </td>
 </tr>
 </table>
 
@@ -294,6 +303,9 @@ function isDayValidForThisMonthAndYear(intDay,intMonth,intYear)
     }
     return true;
 }
+
+
+
 
 // form validation function
 

@@ -59,15 +59,25 @@
 	{event_type}
 	</td>
 	<td>
+        <!-- BEGIN lowest_tpl -->
+        {intl-lowest}
+        <!-- END lowest_tpl -->
 	<!-- BEGIN low_tpl -->
 	{intl-low}
 	<!-- END low_tpl -->
 	<!-- BEGIN normal_tpl -->
 	{intl-normal}
 	<!-- END normal_tpl -->
+        <!-- BEGIN medium_tpl -->
+        {intl-medium}
+        <!-- END medium_tpl -->
 	<!-- BEGIN high_tpl -->
 	{intl-high}
 	<!-- END high_tpl -->
+        <!-- BEGIN highest_tpl -->
+        {intl-highest}
+        <!-- END highest_tpl -->
+
 	</td>
 </tr>
 

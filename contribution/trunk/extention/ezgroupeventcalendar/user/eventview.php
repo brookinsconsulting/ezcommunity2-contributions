@@ -57,9 +57,14 @@ $t->set_block( "event_view_tpl", "group_name_print_tpl", "group_name_print" );
 $t->set_block( "event_view_tpl", "group_event_print_tpl", "group_event_print" );
 $t->set_block( "view_tpl", "public_tpl", "public" );
 $t->set_block( "view_tpl", "private_tpl", "private" );
+
+$t->set_block( "view_tpl", "lowest_tpl", "lowest" );
 $t->set_block( "view_tpl", "low_tpl", "low" );
 $t->set_block( "view_tpl", "normal_tpl", "normal" );
+$t->set_block( "view_tpl", "medium_tpl", "medium" );
 $t->set_block( "view_tpl", "high_tpl", "high" );
+$t->set_block( "view_tpl", "highest_tpl", "highest" );
+
 $t->set_block( "view_tpl", "valid_editor_tpl", "valid_editor" );
 
 $t->set_var( "sitedesign", $SiteDesign );
@@ -69,6 +74,8 @@ $session =& eZSession::globalSession();
 $session->fetch();
 
 $tmpGroup = new eZUserGroup( $session->variable( "ShowOtherCalenderGroups" ) );
+
+// k: die ("test g:" . $session->variable( "ShowOtherCalenderGroups") );
 
 $groupsList   = "-1";
 $showPrivate  = false;
@@ -139,7 +146,6 @@ if( $event )
 
 
 	// Determine editing permissions
-
 		
 	if( $session->variable( "ShowOtherCalenderGroups" ) != 0 && $tmpGroup->id() == $event->groupID() )
 	{
@@ -158,7 +164,7 @@ if ( $showEvent == false )
 	$error = true;
 	$t->set_var( "event_title", "" );
 	$t->set_var( "view", "" );
-    $t->parse( "error", "error_tpl" );
+      $t->parse( "error", "error_tpl" );
 }
 else
 {
@@ -175,10 +181,26 @@ else
     $t->set_var( "event_description", $event->description() );
 
     $groupID = $event->groupID();
-    if ( $groupID != false )
+
+    /*
+    if ( $groupID == false ) {
+    die( " Group ID: " . $groupID );
+    }
+    */
+
+    // kracker : seems the bellow statement treats groupID = 0 as false instead of a numarical 
+    // if ( $groupID != false )
+
+    if ( $groupID != "" )
     {
+      // kracker : if event->groupID() == 0 then it's an all groups event. new
+      if ( $groupID != 0 ){
         $group = new eZUserGroup( $groupID );
         $t->set_var( "event_owner", $group->name() );
+      } else {
+	$t->set_var( "event_owner", "All Groups" );
+      }
+
     }
     else
         $t->set_var( "event_owner", "unknown user" );
@@ -198,23 +220,71 @@ else
     {
         case 0:
         {
-            $t->parse( "low", "low_tpl" );
+            $t->parse( "lowest", "lowest_tpl" );
+
+            $t->set_var( "low", "" );
             $t->set_var( "normal", "" );
+            $t->set_var( "medium", "" );
             $t->set_var( "high", "" );
+	    $t->set_var( "highest", "" );
         }
         break;
         case 1:
         {
-            $t->parse( "normal", "normal_tpl" );
-            $t->set_var( "low", "" );
-            $t->set_var( "high", "" );
-        }
-        break;
+	  $t->parse( "low", "low_tpl" );
+
+	  $t->set_var( "lowest", "" );
+	  $t->set_var( "normal", "" );
+	  $t->set_var( "medium", "" );
+	  $t->set_var( "high", "" );
+	  $t->set_var( "highest", "" );
+
+	}
+	break;
         case 2:
         {
-            $t->parse( "high", "high_tpl" );
+            $t->parse( "normal", "normal_tpl" );
+
             $t->set_var( "low", "" );
+	    $t->set_var( "lowest", "" );
+	    $t->set_var( "medium", "" );
+	    $t->set_var( "high", "" );
+	    $t->set_var( "highest", "" );
+
+        }
+        break;
+        case 3:
+        {
+	  $t->parse( "medium", "medium_tpl" );
+
+	  $t->set_var( "low", "" );
+	  $t->set_var( "lowest", "" );
+	  $t->set_var( "normal", "" );
+	  $t->set_var( "high", "" );
+	  $t->set_var( "highest", "" );
+	}
+        break;
+        case 4:
+        {
+            $t->parse( "high", "high_tpl" );
+
+	    $t->set_var( "low", "" );
+	    $t->set_var( "lowest", "" );
+	    $t->set_var( "normal", "" );
+            $t->set_var( "medium", "" );
+	    $t->set_var( "highest", "" );
+        }
+        break;
+        case 5:
+        {
+            $t->parse( "highest", "high_tpl" );
+
+            $t->set_var( "low", "" );
+            $t->set_var( "lowest", "" );
             $t->set_var( "normal", "" );
+            $t->set_var( "medium", "" );
+            $t->set_var( "high", "" );
+
         }
         break;
     }

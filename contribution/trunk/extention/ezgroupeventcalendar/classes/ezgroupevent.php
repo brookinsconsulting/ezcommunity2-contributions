@@ -258,22 +258,24 @@ class eZGroupEvent
 			}
 			else
 			{
-				$selectGroups = "GroupID='$groupID'";
+			        // kracker : Add Support for Events in All Groups
+			        $selectGroups = "GroupID='$groupID'";
+			        // $selectGroups = "GroupID='$groupID' OR GroupID=0";
 			}
 
 			if ( $showPrivate == false )
 			{
 				$this->Database->array_query( $event_array,
 				"SELECT ID FROM eZGroupEventCalendar_Event
-					WHERE Date LIKE '$stamp%' AND IsPrivate='0' AND $selectGroups ORDER BY Date ASC", true );
+				 WHERE ( Date LIKE '$stamp%' AND IsPrivate='0' AND $selectGroups ) OR ( Date LIKE '$stamp%' AND IsPrivate='0' AND GroupID='0' ) ORDER BY Date ASC", true );
 			}
 			else
 			{
 				$this->Database->array_query( $event_array,
 				"SELECT ID FROM eZGroupEventCalendar_Event
-				WHERE Date LIKE '$stamp%' AND $selectGroups ORDER BY Date ASC" );
+				WHERE ( Date LIKE '$stamp%' AND $selectGroups ) OR ( Date LIKE '$stamp%' AND GroupID='0' ) ORDER BY Date ASC" );
 			}
-
+			//			print(" SELECT ID FROM eZGroupEventCalendar_Event WHERE ( Date LIKE '$stamp%' AND GroupID='$groupID' ) ORDER BY Date ASC <br />");
 			for ( $i=0; $i<count($event_array); $i++ )
 			{
 				$return_array[] = new eZGroupEvent( $event_array[$i]["ID"], 0 );
@@ -329,7 +331,9 @@ class eZGroupEvent
 			}
 			else
 			{
-				$selectGroups = "GroupID='$groupID'";
+			        // kracker : Add Support for Events in All Groups
+			        // $selectGroups = "GroupID='$groupID'";
+			        $selectGroups = "GroupID='$groupID' OR GroupID=0";			  
 			}
 
 			$typeID  = $type->id(); 

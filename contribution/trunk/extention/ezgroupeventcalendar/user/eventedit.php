@@ -25,18 +25,18 @@
 
 include_once( "classes/ezhttptool.php" );
 
+
 $URL = split( "/", $REQUEST_URI );
 
 if( is_numeric( $URL[8] ) )
 	$masterGroupID = $URL[8];
 else
-	$masterGroupID = 0;
+$masterGroupID = 0;
 
 if ( isSet( $DeleteEvents ) )
 {
     $Action = "DeleteEvents";
 }
-
 
 if ( isSet( $GoDay ) )
 {
@@ -253,6 +253,8 @@ if ( $user == true )
 	else
 		$groupsList = $user->groups();
 
+	//	die( "editor:" . $editor );
+
 	if( $Action == "New" )
 	{
 		$Group = $masterGroupID;
@@ -295,6 +297,7 @@ if ( $user == true )
 	}
 }
 
+
 if ( ($Action == "New" || $Action == "Insert" || $Action == "Update" || $Action == "Edit" ) && $groupsList )
 {
 	$groupError = true;
@@ -311,7 +314,8 @@ if ( ($Action == "New" || $Action == "Insert" || $Action == "Update" || $Action 
 
 		if( $Action == "Edit" )
 		{
-			if( $event->groupID() == $groups->id() && $editor == true  )
+		  // kracker: add support for event->groupID == 0 
+			if( $event->groupID() == 0 && $editor == true || $event->groupID() == $groups->id() && $editor == true  )
 			{
 				$groupError = false;
 				break;
@@ -328,7 +332,6 @@ if ( ($Action == "New" || $Action == "Insert" || $Action == "Update" || $Action 
 		}
 	}
 }
-
 
 if ( $event->groupID() )
 	$session->setVariable( "ShowOtherCalenderGroups", $event->groupID() );
@@ -372,7 +375,7 @@ if ( $Action == "DeleteEvents" )
 				{
 					$dump = array_pop( $error );
 					$event->delete();
-					exec("/home/httpd/vhosts/ezpublish2.mcotest.umsystem.edu/publish/secure_clearcache.sh");
+					exec("secure_clearcache.sh");
 					break;
 				}
 			}  
@@ -408,6 +411,7 @@ if ( $Action == "DeleteEvents" )
 // Allowed format for start and stop time:
 // 14 14:30 14:0 1430
 // the : can be replaced with any non number character
+
 if ( ($Action == "Insert" || $Action == "Update")  && $groupError == false )
 {
     if ( isSet( $Cancel ) )
@@ -449,9 +453,11 @@ if ( ($Action == "Insert" || $Action == "Update")  && $groupError == false )
             $TitleError = true;
         }
 
-		if ( $StoreByGroupID != 0 )
+	// kracker : i wanted to reserve 0 for events in all group category
+	//	if ( $StoreByGroupID != 0 )
+	if ( $StoreByGroupID != "" )
         {
-			$group = new eZUserGroup( $StoreByGroupID );
+	    $group = new eZUserGroup( $StoreByGroupID );
             $event->setGroup( $group );
         }
         else
@@ -549,8 +555,14 @@ if ( ($Action == "Insert" || $Action == "Update")  && $groupError == false )
 			}
 		}
 
+	$pStartTimeHour = $startTime->hour();
+	$pStartTimeMinute = addZero( $startTime->minute() );
+
+        $pStopTimeHour = $stopTime->hour();
+        $pStopTimeMinute = addZero( $stopTime->minute() );
+
         $datetime = new eZDateTime( $Year, $Month, $Day );
-        $datetime->setSecondsElapsedHMS( $startTime->hour(), $startTime->minute(), 0 );
+        $datetime->setSecondsElapsedHMS( $pStartTimeHour, $pStartTimeMinute, 0 );
 
         $event->setDateTime( $datetime );
 
@@ -561,16 +573,38 @@ if ( ($Action == "Insert" || $Action == "Update")  && $groupError == false )
         }
         else
         {
+
+	  /*
             $duration = new eZTime( $stopTime->hour() - $startTime->hour(),
                                     $stopTime->minute() - $startTime->minute() );
+	  */
 
+	  // kracker : formant hour, minute, second : the 1.0 release had a major bug related to the above code mssing the ,0 in duration time span
+
+	  $duration = new eZTime( $pStopTimeHour - $pStartTimeHour,
+				  $pStopTimeMinute - $pStartTimeMinute, 0 );
+ 
             $event->setDuration( $duration );
-        }
+	    $adur = $duration->mysqlTime();
+
+	    $aa = $pStopTimeMinute - $pStartTimeMinute;
+
+	    /*
+            print( "dir m: $pStopTimeHour - $pStartTimeHour |  $pStopTimeMinute - $pStartTimeMinute | $aa"  );
+
+	    print( "dir t: " . $adur );
+	    print("<br />Set Start: ". $pStartTimeHour ." : ". $pStartTimeMinute);
+	    print("<br />Set  Stop: ". $pStopTimeHour  ." : ". $pStopTimeMinute);
+
+	    die();
+	    */
+
+       }
 
         if ( $TitleError == false && $GroupInsertError == false && $StartTimeError == false && $StopTimeError == false )
         {
             $event->store();
-			exec("/home/httpd/vhosts/ezpublish2.mcotest.umsystem.edu/publish/secure_clearcache.sh");
+			exec("secure_clearcache.sh");
 
             $year = addZero( $datetime->year() );
             $month = addZero( $datetime->month() );
@@ -594,7 +628,21 @@ if ( ($Action == "Insert" || $Action == "Update")  && $groupError == false )
 
 				// build the group drop down list
 				foreach( $groupsList as $groups )
-				{
+				  {
+
+				    // kracker : Add entry for event to be in all groups
+				    $t->set_var( "group_member_name", "All Groups" );
+				    $t->set_var( "group_member_id", 0 );
+
+				    // if ( $groups->id() == $StoreByGroupID )
+				    if ( $event->groupID() == 0 )
+				      $t->set_var( "group_is_selected", "selected" );
+				    else
+				      $t->set_var( "group_is_selected", "" );
+
+				    $t->parse( "group_item", "group_item_tpl", true );
+
+
 					if( $noShowGroup->groupEntry( $groups->id() ) == false )
 					{
 						$t->set_var( "group_member_name", $groups->name() );
@@ -748,6 +796,15 @@ if ( $Action == "Update" && $groupError == false )
         $t->set_var( "1_selected", "selected" );
     else if ( $Priority == 2 )
         $t->set_var( "2_selected", "selected" );
+    else if ( $Priority == 3 )
+      $t->set_var( "3_selected", "selected" );
+    else if ( $Priority == 4 )
+      $t->set_var( "4_selected", "selected" );
+    else if ( $Priority == 5 )
+      $t->set_var( "5_selected", "selected" );
+    else if ( $Priority == 6 )
+      $t->set_var( "6_selected", "selected" );
+
 
     if ( $IsPrivate == "on" )
         $t->set_var( "is_private", "checked" );
@@ -783,6 +840,18 @@ if ( $Action == "Edit" && $groupError == false )
 	// build the group drop down list
 	$noshow_array = $noShowGroup->getAll();
 	$t->set_var( "group_item", "" );
+
+	// kracker : Add entry for event to be in all groups
+	$t->set_var( "group_member_name", "All Groups" );
+	$t->set_var( "group_member_id", 0 );
+
+	// if ( $groups->id() == $StoreByGroupID )
+	if ( $event->groupID() == 0 )
+	  $t->set_var( "group_is_selected", "selected" );
+	else
+	  $t->set_var( "group_is_selected", "" );
+
+	$t->parse( "group_item", "group_item_tpl", true );
 
 	foreach( $groupsList as $groups )
 	{
@@ -826,6 +895,12 @@ if ( $Action == "Edit" && $groupError == false )
 	$stopTime    =& $event->stopTime();
 	$stopHour    = ( addZero( $stopTime->hour() ) );
 	$stopMinute  = ( addZero( $stopTime->minute() ) );
+
+	// $stopMinute = $stopMinute +1 ;
+	print ( "Echo DT:" . $startHour ." / ". $startMinute );
+        print ( "<br />Echo DT:" . $stopHour ." / ". $stopMinute );
+
+
 
 	if ( preg_match( "#(^([0-9]{1,2})[^0-9]{0,1}([0-9]{0,2})$)#", $StartTimeStr, $dayStartArray ) )
     {
@@ -944,6 +1019,10 @@ if ( $Action == "Edit" && $groupError == false )
     $t->set_var( "0_selected", "" );
     $t->set_var( "1_selected", "" );
     $t->set_var( "2_selected", "" );
+    $t->set_var( "3_selected", "" );
+    $t->set_var( "4_selected", "" );
+    $t->set_var( "5_selected", "" );
+    $t->set_var( "6_selected", "" );
 
     if ( $event->priority() == 0 )
         $t->set_var( "0_selected", "selected" );
@@ -951,6 +1030,15 @@ if ( $Action == "Edit" && $groupError == false )
         $t->set_var( "1_selected", "selected" );
     else if ( $event->priority() == 2 )
         $t->set_var( "2_selected", "selected" );
+    else if ( $event->priority() == 3 )
+      $t->set_var( "3_selected", "selected" );
+    else if ( $event->priority() == 4 )
+      $t->set_var( "4_selected", "selected" );
+    else if ( $event->priority() == 5 )
+      $t->set_var( "5_selected", "selected" );
+    else if ( $event->priority() == 6 )
+      $t->set_var( "6_selected", "selected" );
+
 
     $dt =& $event->dateTime();
 	$today = new eZDate();
@@ -1064,13 +1152,18 @@ if ( $Action == "New" && $groupError == false )
     $t->set_var( "is_private", "" );
     $t->set_var( "start_value", "" );
     $t->set_var( "stop_value", "" );
-	$t->set_var( "is_all_day", "" );
+ 
+    $t->set_var( "is_all_day", "" );
 
     $t->set_var( "0_selected", "" );
     $t->set_var( "1_selected", "" );
     $t->set_var( "2_selected", "" );
+    $t->set_var( "3_selected", "" );
+    $t->set_var( "4_selected", "" );
+    $t->set_var( "5_selected", "" );
+    $t->set_var( "6_selected", "" );
 
-	$priority = $ini->read_var( "eZGroupEventCalendarMain", "Priority" );
+    $priority = $ini->read_var( "eZGroupEventCalendarMain", "Priority" );
 
     if ( $priority== 0 )
         $t->set_var( "0_selected", "selected" );
@@ -1078,6 +1171,15 @@ if ( $Action == "New" && $groupError == false )
         $t->set_var( "1_selected", "selected" );
     else if ( $priority == 2 )
         $t->set_var( "2_selected", "selected" );
+    else if ( $priority == 3 )
+      $t->set_var( "3_selected", "selected" );
+    else if ( $priority == 4 )
+      $t->set_var( "4_selected", "selected" );
+    else if ( $priority == 5 )
+      $t->set_var( "5_selected", "selected" );
+    else if ( $priority == 6 )
+      $t->set_var( "6_selected", "selected" );
+
 
     if ( $Year != 0 )
         $year = $Year;
