@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: payment.php,v 1.84.8.6 2002/03/27 14:33:56 br Exp $
+// $Id: payment.php,v 1.84.8.7 2002/03/27 18:25:17 br Exp $
 //
 // Created on: <02-Feb-2001 16:31:53 bf>
 //
@@ -103,7 +103,7 @@ else
 
 if ( $PaymentSuccess == true )
 {
-    $orderID = $session->variable( $OrderID );
+    $orderID = $session->variable( "OrderID" );
     // set the confirmation 
     $session->setVariable( "OrderConfirmation", $orderID );    
     eZHTTPTool::header( "Location: http://" . $HTTP_HOST . $indexFile . "/trade/confirmation/" );

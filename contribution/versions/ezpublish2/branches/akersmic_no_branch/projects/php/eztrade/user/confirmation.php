@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: confirmation.php,v 1.1.2.2 2002/03/27 17:37:49 br Exp $
+// $Id: confirmation.php,v 1.1.2.3 2002/03/27 18:25:17 br Exp $
 //
 // <Bjørn Reiten> <br@ez.no>
 // Created on: <20-Mar-2002 14:11:34 br>
@@ -37,7 +37,8 @@ $indexFile = $ini->Index;
 
 $orderConfirmation = $session->variable( "OrderConfirmation" ); 
 
-if ( is_Numeric( $orderID ) )
+
+if ( is_Numeric( $orderID ) && $orderConfirmation == $orderID )
 {
     $confirmation = new eZOrderConfirmation( $orderID );
     
@@ -49,6 +50,7 @@ if ( is_Numeric( $orderID ) )
     {
         if ( $result == true )
         {
+            $session->setVariable( "OrderConfirmation", "" );
             eZHTTPTool::header( "Location: http://" . $HTTP_HOST . $indexFile . "/trade/ordersendt/$orderID/" );
             exit();
         }
@@ -63,6 +65,11 @@ if ( is_Numeric( $orderID ) )
         eZHTTPTool::header( "Location: http://" . $HTTP_HOST . $indexFile . "/trade/checkout/" );
         exit();
     }
+}
+else if ( is_Numeric( $orderID ) )
+{
+    eZHTTPTool::header( "Location: http://" . $HTTP_HOST . $indexFile . "/trade/ordersendt/$orderID/" );
+    exit();
 }
 else
 {
