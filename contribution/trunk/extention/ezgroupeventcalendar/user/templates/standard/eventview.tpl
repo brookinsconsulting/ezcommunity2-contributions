@@ -30,7 +30,7 @@
       <a href="{www_dir}{index}/groupeventcalendar/dayview/{year_cur}/{month_cur}/{day_cur}/" style="text-decoration:none; font-weight:normal;font-size:12px;">{intl-today}</a>
       </span>
 
-       
+
 	</td>
     </td>
   </tr>

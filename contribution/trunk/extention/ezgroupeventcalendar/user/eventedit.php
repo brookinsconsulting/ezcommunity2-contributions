@@ -22,6 +22,7 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, US
 //
+
 include("Var_Dump.php");
 Var_Dump::displayInit(
     array(
@@ -46,6 +47,8 @@ Var_Dump::displayInit(
 );
 
 include_once( "classes/ezhttptool.php" );
+
+
 
 $URL = split( "/", $REQUEST_URI );
 
@@ -233,6 +236,7 @@ $t->set_block( "no_error_tpl", "add_file_list_tpl", "add_file_list" );
 
 $t->set_block( "group_name_new_tpl", "group_item_tpl", "group_item" );
 
+$t->set_block ( "no_error_tpl", "top_buttons_tpl", "top_buttons");
 //history bar block
 $t->set_block( "event_edit_tpl", "group_history_tpl", "group_history" );
 $t->set_block( "event_edit_tpl", "edit_history_tpl", "edit_history" );
@@ -242,7 +246,21 @@ $t->set_block( "no_error_tpl", "recur_exceptions_tpl", "recur_exceptions");
 $t->set_var( "sitedesign", $SiteDesign );
 
 $t->set_var( "group_history", "" );
-
+if ("Edit" == $Action)
+{
+ $theDate = $event->dateTime();
+ $curDate = new eZDate();
+ $t->set_var( "the_year", $theDate->year() );
+ $t->set_var( "the_month", addZero($theDate->month()) );
+ $t->set_var( "the_day", addZero($theDate->day()) );
+ $t->set_var( "year_cur", $curDate->year() );
+ $t->set_var( "month_cur", $curDate->month() );
+ $t->set_var( "day_cur", $curDate->day() );
+ $t->parse( "top_buttons", "top_buttons_tpl");
+} else
+{
+ $t->set_var( "top_buttons", "" );
+}
 //print the group name in the history bar if a group is selected
 if( $masterGroupID != 0 )
 {
@@ -297,14 +315,14 @@ $noShowGroup = new eZGroupNoShow();
 $permission = new eZGroupEditor();
 $editor     = false;
 
-if ( $user == true ) 
+if ( $user == true )
 {
 	//if the user has root access, return all the groups else just return the group they are a member of
 	if( $user->hasRootAccess() == true || eZPermission::checkPermission( $user, "eZGroupEventCalendar", "WriteToRoot" ) )
 	{
 		$groups = new eZUserGroup();
 		$groupsList = $groups->getAll( true );
-		
+
 		$editor = true;
 	}
 	else
@@ -347,7 +365,7 @@ if ( $user == true )
 				{
 					$editor = true;
 					$groupID = $Group;
-					break;				
+					break;
 				}
 			}
 		}
