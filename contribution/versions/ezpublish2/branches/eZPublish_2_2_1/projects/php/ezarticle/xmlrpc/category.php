@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: category.php,v 1.14.6.1 2001/11/09 10:02:41 jb Exp $
+// $Id: category.php,v 1.14.6.2 2001/11/11 17:08:40 jb Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -116,12 +116,20 @@ else if( $Command == "storedata" ) // save the category data!
 
         $par =& createPath( $category, "ezarticle", "category", false );
 
+        $parent_category_arr = $parentid == 0 ? array() : array( $parentid );
         $add_categories = array();
         $cur_categories = array();
         $remove_categories = array();
-        $add_categories = array_diff( array( $parent->id() ), $old_category_arr );
-        $remove_categories = array_diff( $old_category_arr, array( $parent->id() ) );
-        $cur_categories = array_intersect( array( $parent->id() ), $old_category_arr );
+        $add_categories = array_diff( $parent_category_arr, $old_category_arr );
+        $remove_categories = array_diff( $old_category_arr, $parent_category_arr );
+        if ( $parentid == 0 and !is_object( $old_category ) )
+        {
+            $cur_categories = array( 0 );
+        }
+        else
+        {
+            array_intersect( $parent_category_arr, $old_category_arr );
+        }
 
         $add_locs =& createURLArray( $add_categories, "ezarticle", "category" );
         $cur_locs =& createURLArray( $cur_categories, "ezarticle", "category" );
