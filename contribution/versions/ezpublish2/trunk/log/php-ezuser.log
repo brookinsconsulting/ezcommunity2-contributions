@@ -1392,3 +1392,13 @@ Maintainer(s) : bf@ez.no
     Added functionality which counts the number of logins a user performs.
     It is also possible to redirect the user to any page at the n-th login.
 
+
+Module : ezuser
+Repository path : /home/cvsroot/projects/php/ezuser
+Maintainer(s) : bf@ez.no
+2002-06-19  Christoffer Elo  <ce@ez.no>
+
+    * user/intl/en_GB/forgotmessage.php.ini
+      user/templates/standard/forgotmessage.tpl:
+    Added better userlogic to the forgot password page
+

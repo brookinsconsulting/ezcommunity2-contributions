@@ -448,3 +448,16 @@ Maintainer(s) : br@ez.no
 
     * admin/cron.php: fixed bgu in cron job
 
+
+Module : ezstats
+Repository path : /home/cvsroot/projects/php/ezstats
+Maintainer(s) : br@ez.no
+2002-06-19  Bjoern Reiten  <br@ez.no>
+
+    * admin/cron.php
+      admin/refererlist.php
+      classes/ezpageviewquery.php:
+    Fixed several bugs with the referer list. It was also a bug with the insert
+    to the eZStats_Archive_RefererURL table where "Language" was missing in
+    cron.php.
+
