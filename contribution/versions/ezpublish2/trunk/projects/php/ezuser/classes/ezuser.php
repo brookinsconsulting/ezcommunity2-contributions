@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezuser.php,v 1.95 2001/09/27 13:23:23 bf Exp $
+// $Id: ezuser.php,v 1.96 2001/10/08 15:20:03 bf Exp $
 //
 // Definition of eZUser class
 //
@@ -946,11 +946,19 @@ class eZUser
     {
         $db =& eZDB::globalDatabase();
         if ( get_class( $address ) == "ezaddress" )
-        {
+        {            
             $addressID = $address->id();
+            $db->begin( );
 
-            $db->query( "DELETE FROM eZUser_UserAddressLink
+            print( "delete" );
+            $res = $db->query( "DELETE FROM eZUser_UserAddressLink
                                 WHERE AddressID='$addressID'" );
+
+            if ( $res == false )
+                $db->rollback();
+            else
+                $db->commit();
+            
             eZAddress::delete( $addressID );
 //              $db->query( "DELETE FROM eZContact_Address
 //                                  WHERE ID='$addressID'" );

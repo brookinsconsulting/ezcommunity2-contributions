@@ -142,6 +142,7 @@
 <span class="check">{intl-delete}</span>
 <!-- END delete_address_tpl -->
 <input type="hidden" name="AddressID[]" value="{address_id}"/>
+<input type="hidden" name="RealAddressID[]" value="{real_address_id}"/>
 
 <p class="boxtext">{intl-street}:</p>
 <input type="text" size="20" name="Street1[]" value="{street1_value}"/><br />
