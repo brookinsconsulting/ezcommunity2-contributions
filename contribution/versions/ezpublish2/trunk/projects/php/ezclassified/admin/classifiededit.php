@@ -11,6 +11,7 @@ $Language = $ini->read_var( "eZClassifiedMain", "Language" );
 include_once( "ezclassified/classes/ezposition.php" );
 include_once( "ezclassified/classes/ezcategory.php" );
 include_once( "ezcontact/classes/ezcompany.php" );
+include_once( "ezcontact/classes/ezperson.php" );
 include_once( "ezcontact/classes/ezonline.php" );
 include_once( "ezcontact/classes/ezaddress.php" );
 
@@ -167,6 +168,8 @@ $t->set_block( "classified_edit", "position_type_item_tpl", "position_type_item"
 $t->set_block( "classified_edit", "initiate_type_item_tpl", "initiate_type_item" );
 $t->set_block( "classified_edit", "classified_pay_edit_tpl", "classified_pay_edit" );
 $t->set_block( "classified_edit", "classified_pay_edit_def_tpl", "classified_pay_edit_def" );
+$t->set_block( "classified_edit", "contact_person_item_tpl", "contact_person_item" );
+$t->set_block( "classified_edit", "no_contact_person_item_tpl", "no_contact_person_item" );
 
 $t->set_block( "classified_edit", "company_view_tpl", "company_view" );
 $t->set_block( "classified_edit", "delete_button_tpl", "delete_button" );
@@ -276,6 +279,61 @@ for( $i=0; $i < count( $categoryTypeList ); $i++ )
     $t->parse( "category_item", "category_item_tpl", true );
 }
 
+// Contact persons
+
+$contactList = getPositionContactPersons( $position->id() );
+
+$t->set_var( "contact_person_item", "" );
+$t->set_var( "no_contact_person_item", "" );
+
+if ( count ( $contactList ) >= 1 )
+{
+    $i = 0;
+    foreach( $contactList as $contactID )
+    {
+        if ( ( $i %2 ) == 0 )
+            $t->set_var( "td_class", "bglight" );
+        else
+            $t->set_var( "td_class", "bgdark" );
+
+        $contactPerson = new eZPerson( $contactID );
+        $company = $position->company();
+        $t->set_var( "contact_person_name", $contactPerson->fullName() );
+        $t->set_var( "contact_person_id", $contactPerson->id() );
+        $t->set_var( "contact_person_title", $contactPerson->title( $company->id() ) );
+        $mail = $contactPerson->emailAddress();
+        if ( $mail )
+        {
+            $t->set_var( "contact_person_mail", $mail );
+        }
+        else
+        {
+            $t->set_var( "contact_person_mail", "&nbsp;" );
+        }
+        $work_phone = $contactPerson->workPhone();
+        if ( $work_phone )
+        {
+            $t->set_var( "contact_person_phone", $work_phone );
+        }
+        else
+            $t->set_var( "contact_person_phone", "&nbsp;" );
+        $fax_phone = $contactPerson->faxPhone();
+        if ( $fax_phone )
+        {
+            $t->set_var( "contact_person_fax", $fax_phone );
+        }
+        else
+            $t->set_var( "contact_person_fax", "&nbsp;" );
+        $t->parse( "contact_person_item", "contact_person_item_tpl", true );
+        ++$i;
+    }
+}
+else
+{
+    $t->parse( "no_contact_person_item", "no_contact_person_item_tpl", true );
+}
+
+
 // Position type selector
 $positionTypeList = getPositionTypes();
 for( $i=0; $i < count( $positionTypeList ); $i++ )
@@ -317,6 +375,8 @@ for( $i=0; $i < count( $initiateTypeList ); $i++ )
     }
     $t->parse( "initiate_type_item", "initiate_type_item_tpl", true );
 }
+
+// Company
 
 if ( $position )
 {
