@@ -7,6 +7,7 @@ require $DOCUMENTROOT . "classes/ezperson.php";
 require $DOCUMENTROOT . "classes/ezpersontype.php";
 require $DOCUMENTROOT . "classes/ezsession.php";
 require $DOCUMENTROOT . "classes/ezuser.php";
+require $DOCUMENTROOT . "classes/ezusergroup.php";
 require $DOCUMENTROOT . "classes/ezcompany.php";
 
 include( $DOCUMENTROOT . "checksession.php" );
@@ -35,6 +36,22 @@ if ( count( $company_array ) == 0 )
 
 for ( $i=0; $i<count( $company_array ); $i++ )
 {
+ // sjekke rettigheter for sletting av firma og person
+  {    
+      $session = new eZSession();
+    
+      if ( !$session->get( $AuthenticatedSession ) )
+      {
+          die( "Du må logge deg på." );    
+      }        
+    
+      $usr = new eZUser();
+      $usr->get( $session->userID() );
+
+      $usrGroup = new eZUserGroup();
+      $usrGroup->get( $usr->group() );
+  }
+    
   if ( ( $i % 2 ) == 0 )
   {
     $t->set_var( "bg_color", "#eeeedd" );
@@ -77,10 +94,32 @@ for ( $i=0; $i<count( $company_array ); $i++ )
           $t->set_var( "first_name", $person_array[$j][ "FirstName" ] );
           $t->set_var( "last_name", $person_array[$j][ "LastName" ] );
           $t->set_var( "document_root", $DOCUMENTROOT );
+
+          // utøve rettigheter
+          if ( $usrGroup->personDelete() == 'Y' )
+          {
+              $t->set_var( "delete_person", "<a href=\"#\" onClick=\"verify( 'Slette kontakt person?', 'index.php?prePage={document_root}personedit.php&Action=delete&PID={person_id}'); return false;\">Slette person</a>" );
+          }
+          else
+          {
+              $t->set_var( "delete_person", "" );
+          }
+          
           
           $t->parse( "person_list", "person_item", true );          
       }
   }
+
+  // utøve rettigheter
+  if ( $usrGroup->companyDelete() == 'Y' )
+  {
+      $t->set_var( "delete_company", "<a href=\"#\" onClick=\"verify( 'Slette firma?', 'index.php?prePage={document_root}companyedit.php&Action=delete&CID={company_id}'); return false;\">Slette firma</a>" );
+  }
+  else
+  {
+      $t->set_var( "delete_company", "" );
+  }
+
   $t->parse( "company_list", "company_item", true );
   $t->set_var( "person_list", "" );
 }

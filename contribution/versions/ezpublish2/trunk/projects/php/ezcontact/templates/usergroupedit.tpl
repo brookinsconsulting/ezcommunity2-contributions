@@ -8,6 +8,12 @@ Beskrivelse:<br>
 
 <h2>Rettigheter</h2>
 
+<input type="checkbox" name="PersonDelete" {person_delete_checked}>
+Sletting av personer.<br>
+
+<input type="checkbox" name="CompanyDelete" {company_delete_checked}>
+Sletting av firma.<br>
+
 <input type="checkbox" name="UserAdmin" {user_checked}>
 Bruker administrasjon.<br>
 

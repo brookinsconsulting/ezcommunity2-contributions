@@ -25,6 +25,16 @@ if ( $Action == "insert" )
   $group->setName( $Name );
   $group->setDescription( $Description );
   
+  if ( $PersonDelete == "on" )    
+  {
+      $group->setPersonDelete( "Y" );    
+  }
+  
+  if ( $CompanyDelete == "on" )    
+  {
+      $group->setCompanyDelete( "Y" );    
+  }
+  
   if ( $UserAdmin == "on" )    
   {
     $group->setUserAdmin( "Y" );    
@@ -67,6 +77,24 @@ if ( $Action == "update" )
   $group->setName( $Name );
   $group->setDescription( $Description );
   
+  if ( $PersonDelete == "on" )    
+  {
+      $group->setPersonDelete( "Y" );    
+  }
+  else
+  {
+      $group->setPersonDelete( "N" );
+  }
+  
+  if ( $CompanyDelete == "on" )    
+  {
+      $group->setCompanyDelete( "Y" );    
+  }
+  else
+  {
+      $group->setCompanyDelete( "N" );
+  }
+
   if ( $UserAdmin == "on" )    
   {
     $group->setUserAdmin( "Y" );    
@@ -176,6 +204,16 @@ else
         $Name = $group->Name();
         $Description = $group->Description();
 
+        if ( $group->personDelete() == "Y" )
+        {
+            $PersonDelete = "checked";
+        }
+        
+        if ( $group->companyDelete() == "Y" )
+        {
+            $CompanyDelete = "checked";
+        }
+
         if ( $group->userAdmin() == "Y" )
         {
             $UserAdmin = "checked";
@@ -211,10 +249,11 @@ else
         $t->set_var( "user_group_id", $UGID  );  
     }
 
-
     $t->set_var( "user_group_name", $Name );
     $t->set_var( "user_group_description", $Description );
 
+    $t->set_var( "person_delete_checked", $PersonDelete );
+    $t->set_var( "company_delete_checked", $CompanyDelete );
     $t->set_var( "user_checked", $UserAdmin );
     $t->set_var( "user_group_checked", $UserGroupAdmin );
     $t->set_var( "person_type_checked", $PersonTypeAdmin );
