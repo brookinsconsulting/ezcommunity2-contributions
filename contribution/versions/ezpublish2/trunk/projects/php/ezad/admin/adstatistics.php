@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: adstatistics.php,v 1.13 2001/07/19 11:56:33 jakobn Exp $
+// $Id: adstatistics.php,v 1.14 2001/10/12 15:54:08 br Exp $
 //
 // Created on: <26-Nov-2000 11:47:03 bf>
 //
@@ -59,23 +59,30 @@ $t->set_var( "ad_description", $ad->description() );
 $t->set_var( "ad_url", $ad->url() );
 $t->set_var( "ad_id", $ad->id() );
 
-$t->set_var( "ad_view_count", $ad->viewCount() );
-$t->set_var( "ad_click_count", $ad->clickCount() );
+$clickCount = $ad->clickCount();
+$t->set_var( "ad_click_count", $clickCount );
 
-$clickRevenue =& $ad->totalClickRevenue();
+if ( $clickCount > 0 )
+    $clickRevenue =& $ad->totalClickRevenue();
+else
+    $clickRevenue="n/a";
 
 $viewRevenue =& $ad->totalViewRevenue();
 
-$t->set_var( "ad_view_revenue", $clickRevenue );
-$t->set_var( "ad_click_revenue", $viewRevenue );
+$t->set_var( "ad_view_revenue", $viewRevenue );
+$t->set_var( "ad_click_revenue", $clickRevenue );
 
-$t->set_var( "ad_total_revenue", $clickRevenue + $viewRevenue );
+$t->set_var( "ad_view_count", $ad->viewCount() );
+
+$revenueTotal = $clickRevenue + $viewRevenue;
+$t->set_var( "ad_total_revenue",  $revenueTotal );
 
 $view_count = $ad->viewCount();
 
 if ( is_numeric( $view_count ) and $view_count != 0 )
 {
-    $t->set_var( "ad_click_percent", ( $ad->clickCount() / $click_count ) * 100 );
+    $value = ( $ad->clickCount() / $view_count ) * 100;
+    $t->set_var( "ad_click_percent", round( $value, 2 ) );
 }
 else
 {
@@ -96,7 +103,7 @@ if ( $ad->useHTML() )
     $t->set_var( "image", "" );
     
     $t->set_var( "html_banner", $ad->htmlBanner() );
-    $t->parse( "html_item", "html_item" );
+    $t->parse( "html_item", "html_item_tpl" );
 
 }    
 else
