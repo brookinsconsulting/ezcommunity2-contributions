@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezformrenderer.php,v 1.27 2001/12/18 16:43:03 pkej Exp $
+// $Id: ezformrenderer.php,v 1.28 2001/12/18 17:18:36 pkej Exp $
 //
 // eZFormRenderer class
 //
@@ -252,6 +252,7 @@ class eZFormRenderer
             if ( $this->Form->instructionPage() != "" )
             {
                 $this->Template->set_var( "form_instruction_page", $this->Form->instructionPage() );
+                $this->Template->set_var( "form_instruction_page_name", $this->Form->instructionPageName() );
                 $this->Template->parse( "form_instructions", "form_instructions_tpl" );
             }
 

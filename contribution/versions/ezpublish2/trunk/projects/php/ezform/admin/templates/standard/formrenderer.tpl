@@ -103,7 +103,7 @@
 <h2>{form_name}</h2>
 <!-- END form_start_tag_tpl -->
 <!-- BEGIN form_instructions_tpl -->
-<a href="{www_dir}{index}{form_instruction_page}">{intl-instructions}</a>
+<a href="{www_dir}{index}{form_instruction_page}">{form_instruction_page_name}</a>
 <!-- END form_instructions_tpl -->
 <input type="hidden" name="formID" value="{form_id}" />
 <input type="hidden" name="mailSubject" value="{form_name}" />

@@ -42,11 +42,11 @@
     <td>
         <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-            <td>
+            <td width="50%">
 	        <label for="{form_receiver}" class="boxtext">{intl-form_receiver}:</label><br />
             <input id="{form_receiver}" type="text" class="halfbox" size="20" name="formReceiver" value="{form_receiver}" />
 	        </td>
-            <td>
+            <td width="50%">
 	        <label for="" class="boxtext">{intl-form_cc}:</label><br />
             <input type="text" class="halfbox" size="20" name="formCC" value="{form_cc}" />
 	        </td>
@@ -82,23 +82,49 @@
 </tr>
 <tr>
     <td valign="middle"><input type="radio" name="hasInstructions" {hasInstructions-yes-checked} value="yes" id="hasInstructions-yes" /></td>
-    <td valign="middle"><label for="hasInstructions-yes" class="boxtext">{intl-yes}, {intl-form_instruction_page}:</label></td>
+    <td valign="middle"><label for="hasInstructions-yes" class="boxtext">{intl-yes}</label></td>
 </tr>
 <tr>
     <td>&nbsp;</td>
     <td>
-    <input type="text" class="halfbox" size="20" name="formInstructionPage" value="{form_instruction_page}" />
+    <table width="100%" cellspacing="0" cellpadding="0" border="0">
+        <tr>
+            <td width="50%" class="boxtext">{intl-form_instruction_page}:</td>
+            <td width="50%" class="boxtext">{intl-form_instruction_page_name}:</td>
+        </tr>
+        <tr>
+            <td>
+            <input type="text" class="halfbox" size="20" name="formInstructionPage" value="{form_instruction_page}" />
+            </td>
+            <td>
+            <input type="text" class="halfbox" size="20" name="formInstructionPageName" value="{form_instruction_page_name}" />
+            </td>
+        </tr>
+    </table>
     </td>
 </tr>
 <!-- BEGIN predefined_instructions_item_tpl -->
 <tr>
     <td valign="middle"><input type="radio" name="hasInstructions" {hasInstructions-predefinend-checked} value="predefined" id="hasInstructions-predefined" /></td>
-    <td valign="middle"><label for="hasInstructions-predefined" class="boxtext">{intl-yes}, {intl-predefined}</label></td>
+    <td valign="middle"><label for="hasInstructions-predefined" class="boxtext">{intl-yes}</label></td>
 </tr>
 <tr>
     <td>&nbsp;</td>
     <td>
-	<span class="boxtext"><a href="{form_predefined_page}">{form_predefined_page}</a></span><br />
+    <table width="100%" cellspacing="0" cellpadding="0" border="0">
+        <tr>
+            <td width="50%" class="boxtext">{intl-Predefined}:</td>
+            <td width="50%" class="boxtext">{intl-form_instruction_page_name}:</td>
+        </tr>
+        <tr>
+            <td>
+	        <span class="boxtext"><a href="{form_predefined_page}">{form_predefined_page}</a></span><br />
+            </td>
+            <td>
+            <input type="text" class="halfbox" size="20" name="formInstructionPageNameB" value="{form_instruction_page_name_b}" />
+            </td>
+        </tr>
+    </table>
     </td>
 </tr>
 <!-- END predefined_instructions_item_tpl -->

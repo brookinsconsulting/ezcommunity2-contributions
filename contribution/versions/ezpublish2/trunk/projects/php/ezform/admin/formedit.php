@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: formedit.php,v 1.23 2001/12/18 15:22:44 pkej Exp $
+// $Id: formedit.php,v 1.24 2001/12/18 17:18:35 pkej Exp $
 //
 // Created on: <12-Jun-2001 13:07:24 pkej>
 //
@@ -204,16 +204,21 @@ if ( isSet( $OK ) || isSet( $Update ) || isSet( $Preview ) )
         if ( $hasInstructions == "yes" )
         {
             $form->setInstructionPage( $formInstructionPage );
+            $form->setInstructionPageName( $formInstructionPageName );
         }
         elseif ( $hasInstructions == "predefined" )
         {
             $formInstructionPage =& $ini->read_var( "eZFormMain", "DefaultInstructionPage" );
             $form->setInstructionPage( $formInstructionPage );
+            $form->setInstructionPageName( $formInstructionPageNameB );
         }
         else
         {
             $formInstructionPage = "";
+            $formInstructionPageName = "";
+            $formInstructionPageNameB = "";
             $form->setInstructionPage( $formInstructionPage );
+            $form->setInstructionPageName( $formInstructionPageName );
         }
 
         if ( $hasCompletion == "yes" )
@@ -288,6 +293,8 @@ $t->set_var( "predefined_completion_item", "" );
 
 $t->set_var( "form_completed_page", "" );
 $t->set_var( "form_instruction_page", "" );
+$t->set_var( "form_instruction_page_name", "" );
+$t->set_var( "form_instruction_page_name_b", "" );
 
 if ( $form->completedPage() )
 {
@@ -347,6 +354,7 @@ if ( $form->instructionPage() != "" )
     else
     {
         $t->set_var( "form_instruction_page", $form->instructionPage() );
+        $t->set_var( "form_instruction_page_name", $form->instructionPageName() );
         $t->set_var( "hasInstructions-yes-checked", "checked" );
         $t->set_var( "hasInstructions-no-checked", "" );
         $t->set_var( "hasInstructions-predefinend-checked", "" );
@@ -363,6 +371,14 @@ else
 if ( $ini->read_var( "eZFormMain", "UseDefaultInstructionPage" ) == "enabled" )
 {
     $t->set_var( "form_predefined_page", $ini->read_var( "eZFormMain", "DefaultInstructionPage" ) );
+    if ( $form->instructionPageName() == "" )
+    {
+        $t->set_var( "form_instruction_page_name_b", $ini->read_var( "eZFormMain", "DefaultInstructionPageName" ) );
+    }
+    else
+    {
+        $t->set_var( "form_instruction_page_name_b", $form->instructionPageName() );
+    }
     $t->parse( "predefined_instructions_item", "predefined_instructions_item_tpl" );
 }
 

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezform.php,v 1.14 2001/12/18 14:11:46 pkej Exp $
+// $Id: ezform.php,v 1.15 2001/12/18 17:18:36 pkej Exp $
 //
 // ezform class
 //
@@ -73,6 +73,7 @@ class eZForm
         $cc =& $db->escapeString( $this->CC );
         $completedPage =& $db->escapeString( $this->CompletedPage );
         $instructionPage =& $db->escapeString( $this->InstructionPage );
+        $instructionPageName =& $db->escapeString( $this->InstructionPageName );
         $sender =& $db->escapeString( $this->Sender );
         $sendAsUser =& $this->SendAsUser;
         $counter =& $this->Counter;
@@ -89,6 +90,7 @@ class eZForm
                             CompletedPage,
                             CC,
                             InstructionPage,
+                            InstructionPageName,
                             Counter,
                             SendAsUser,
                             Sender,
@@ -100,6 +102,7 @@ class eZForm
                             '$completedPage',
                             '$cc',
                             '$instructionPage',
+                            '$instructionPageName',
                             '$counter',
                             '$sendAsUser',
                             '$sender',
@@ -115,6 +118,7 @@ class eZForm
                                     CompletedPage='$completedPage',
                                     CC='$cc',
                                     InstructionPage='$instructionPage',
+                                    InstructionPageName='$instructionPageName',
                                     Counter='$counter',
                                     SendAsUser='$sendAsUser',
                                     Sender='$sender',
@@ -190,6 +194,7 @@ class eZForm
         $this->Receiver =& $formArray[$db->fieldName( "Receiver" )];
         $this->CompletedPage =& $formArray[$db->fieldName( "CompletedPage" )];
         $this->InstructionPage =& $formArray[$db->fieldName( "InstructionPage" )];
+        $this->InstructionPageName =& $formArray[$db->fieldName( "InstructionPageName" )];
         $this->Counter =& $formArray[$db->fieldName( "Counter" )];
         $this->SendAsUser =& $formArray[$db->fieldName( "SendAsUser" )];
         $this->Sender =& $formArray[$db->fieldName( "Sender" )];
@@ -292,6 +297,14 @@ class eZForm
     function &instructionPage()
     {
         return $this->InstructionPage;
+    }
+
+    /*!
+      Returns the instruction page Name of the object.
+    */
+    function &instructionPageName()
+    {
+        return $this->InstructionPageName;
     }
 
     /*!
@@ -416,6 +429,14 @@ class eZForm
     function setInstructionPage( &$value )
     {
         $this->InstructionPage = $value;
+    }
+
+    /*!
+      Sets the instruction page Name for the object.
+    */
+    function setInstructionPageName( &$value )
+    {
+        $this->InstructionPageName = $value;
     }
 
     /*!
@@ -601,6 +622,7 @@ class eZForm
     var $CC;
     var $CompletedPage;
     var $InstructionPage;
+    var $InstructionPageName;
     var $Counter;
     var $SendAsUser;
     var $Sender;
