@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: forum.php,v 1.35 2000/10/11 13:37:29 bf-cvs Exp $
+// $Id: forum.php,v 1.36 2000/10/11 14:17:02 bf-cvs Exp $
 //
 // 
 //
@@ -85,7 +85,6 @@ if ( $reply )
     $msg->store();
 }
 
-
 $locale = new eZLocale( $Language );
 
 $messages = $forum->messages();    
@@ -95,6 +94,8 @@ foreach ( $messages as $message )
     $t->set_var( "topic", $message->topic() );
 
     $t->set_var( "postingtime", $locale->format( $message->postingTime() ) );
+
+    $t->set_var( "message_id", $message->id() );
 
     $user = $message->user();
     

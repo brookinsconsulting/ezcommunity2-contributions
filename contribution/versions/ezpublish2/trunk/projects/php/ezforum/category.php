@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: category.php,v 1.32 2000/10/11 13:37:29 bf-cvs Exp $
+// $Id: category.php,v 1.33 2000/10/11 14:17:02 bf-cvs Exp $
 //
 // 
 //
@@ -47,8 +47,6 @@ $forums = $category->forums( );
 $i=0;
 foreach( $forums as $forum )
 {
-    print( "ID:" .$forum->id() );
-         
     $t->set_var( "forum_id", $forum->id() );
 
     $t->set_var( "name", $forum->name() );    
