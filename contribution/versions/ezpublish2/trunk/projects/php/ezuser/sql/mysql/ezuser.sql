@@ -83,6 +83,12 @@ CREATE TABLE eZUser_Permission (
   PRIMARY KEY (ID)
 );
 
+CREATE TABLE eZUser_Trustees (
+  ID int(11) NOT NULL auto_increment,
+  OwnerID int(11) NOT NULL,
+  UserID int(11) NOT NULL,
+  PRIMARY KEY (ID)
+) TYPE=MyISAM;
 
 INSERT INTO eZUser_Module (ID, Name ) VALUES (1,'eZTrade');
 INSERT INTO eZUser_Module (ID, Name ) VALUES (2,'eZPoll');

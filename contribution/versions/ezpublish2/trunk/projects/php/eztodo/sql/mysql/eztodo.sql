@@ -24,6 +24,7 @@ CREATE TABLE eZTodo_Todo (
   Due int(11),
   Description text,
   Status int(11) DEFAULT '0',
+  IsPublic int(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (ID)
 );
 
