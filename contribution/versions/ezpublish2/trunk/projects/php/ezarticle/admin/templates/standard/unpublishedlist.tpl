@@ -19,7 +19,7 @@
 <!-- BEGIN article_list_tpl -->
 <table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
 <tr>
-	<th>{intl-article}:</th>
+	<th colspan="2">{intl-article}:</th>
 	<th>{intl-published}:</th>
 
 	<th colspan="2">&nbsp;</th>
@@ -28,20 +28,21 @@
 <form method="post" action="/article/unpublished/{current_category_id}/" enctype="multipart/form-data">
 <!-- BEGIN article_item_tpl -->
 <tr>
-	<td width="48%" class="{td_class}">
-	<img src="/admin/images/document.gif" height="16" width="16" border="0" alt="" align="top" />&nbsp;
+	<td width="1%" class="{td_class}">
+	<img src="/admin/images/document.gif" height="16" width="16" border="0" alt="" align="top" />
+	</td>
+	<td width="77%" class="{td_class}">
 	<a href="/article/articlepreview/{article_id}/">
 	{article_name}
 	</a>
 	</td>
-	<td width="48%" class="{td_class}">
+	<td width="18%" class="{td_class}">
 	<!-- BEGIN article_is_published_tpl -->
 	{intl-is_published}
 	<!-- END article_is_published_tpl -->
 	<!-- BEGIN article_not_published_tpl -->
 	{intl-not_published}
 	<!-- END article_not_published_tpl -->
-	&nbsp;
 	</td>
 	<!-- BEGIN article_edit_tpl -->
 	<td width="1%" class="{td_class}">
