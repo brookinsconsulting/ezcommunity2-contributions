@@ -47,9 +47,12 @@ $t->set_block( "company_edit", "online_item_tpl", "online_item" );
 $t->set_var( "online_item", "&nbsp;" );
 $t->set_block( "online_item_tpl", "online_line_tpl", "online_line" );
 $t->set_var( "online_line", "&nbsp;" );
+$t->set_block( "online_line_tpl", "email_line_tpl", "email_line" );
+$t->set_var( "email_line", "" );
+$t->set_block( "online_line_tpl", "url_line_tpl", "url_line" );
+$t->set_var( "url_line", "" );
 $t->set_block( "company_edit", "no_online_item_tpl", "no_online_item" );
-$t->set_var( "no_online_item", "&nbsp;" );
-                                           
+$t->set_var( "no_online_item", "&nbsp;" );                                        
 $t->set_block( "company_edit", "phone_item_tpl", "phone_item" );
 $t->set_var( "phone_item", "&nbsp;" );
 $t->set_block( "phone_item_tpl", "phone_line_tpl", "phone_line" );
@@ -177,6 +180,18 @@ if ( count ( $addressList ) == 1 )
             $t->set_var( "online_type_name", $intl->read_var( "strings", "online_" . $onlineType->name() ) );
             $t->set_var( "online_url_type", $OnlineList[$i]->urlType() );
             $t->set_var( "online_width", 100/$count );
+            
+            if( $OnlineList[$i]->urlType() == "mailto" )
+            {
+                $t->set_var( "url_line", "" );
+                $t->parse( "email_line", "email_line_tpl" );
+            }
+            else
+            {
+                $t->set_var( "email_line", "" );
+                $t->parse( "url_line", "url_line_tpl" );
+            }
+            
             $t->parse( "online_line", "online_line_tpl", true );
         }
         $t->parse( "online_item", "online_item_tpl" );
