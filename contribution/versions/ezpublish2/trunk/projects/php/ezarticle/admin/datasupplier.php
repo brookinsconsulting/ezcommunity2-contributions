@@ -14,6 +14,7 @@ if( eZPermission::checkPermission( $user, "eZArticle", "ModuleEdit" ) == false )
     exit();
 }
 
+
 switch ( $url_array[2] )
 {
     case "topiclist":
@@ -77,6 +78,15 @@ switch ( $url_array[2] )
     }
     break;
 
+    case "articlelog" :
+    {
+        $ArticleID = $url_array[3];
+        if( eZObjectPermission::hasPermission(  $ArticleID, "article_article", 'w' )
+            || eZArticle::isAuthor( $user, $ArticleID ) )
+            include( "ezarticle/admin/articlelog.php" );
+    }
+    break;
+    
 // FIXME: test for writeable categories!!!    
     case "articleedit":
     {
@@ -90,6 +100,7 @@ switch ( $url_array[2] )
             
         switch ( $url_array[3] )
         {
+           
             case "insert" :
             {
                 $Action = "Insert";
@@ -167,6 +178,7 @@ switch ( $url_array[2] )
                     include( "ezarticle/admin/filelist.php" );
             }
             break;
+
             
             case "imageedit" :
             {

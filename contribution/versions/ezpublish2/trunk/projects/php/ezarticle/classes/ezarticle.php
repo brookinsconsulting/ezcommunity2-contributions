@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezarticle.php,v 1.88 2001/06/05 09:32:32 bf Exp $
+// $Id: ezarticle.php,v 1.89 2001/06/05 12:40:49 bf Exp $
 //
 // Definition of eZArticle class
 //
@@ -1656,7 +1656,6 @@ class eZArticle
     */
     function authorArticleCount( $authorid )
     {
-        
         $user = eZUser::currentUser();
         $currentUserSQL = "";
         if ( $user )
@@ -1693,6 +1692,42 @@ class eZArticle
         $db->array_query( $qry_array, $query );
         return count( $qry_array );
     }
+
+    /*!
+      Adds a log message to the article.
+    */
+    function addLog( $message )
+    {
+        $db =& eZDB::globalDatabase();
+
+        $query = "INSERT INTO eZArticle_Log
+                  SET ArticleID='$this->ID',
+                  Created=now(),
+                  Message='$message'
+                  ";
+        
+        $db->query( $query );        
+    }
+
+    /*!
+      Returns an array of the logg messages for the current article.
+
+      The messages are returned as : array( date, message ).
+    */
+    function logMessages( )
+    {
+        $db =& eZDB::globalDatabase();
+
+        $query = "SELECT * FROM  eZArticle_Log
+                  WHERE ArticleID='$this->ID'
+                  ORDER BY Created
+                  ";
+        
+        $db->array_query( $ret_array, $query );
+
+        return $ret_array;
+    }
+        
 
     /*!
       \private

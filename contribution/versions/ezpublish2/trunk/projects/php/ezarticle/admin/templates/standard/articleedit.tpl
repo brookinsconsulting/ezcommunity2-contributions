@@ -108,6 +108,10 @@
 <textarea class="box" name="Contents[]" cols="40" rows="20" wrap="soft">{article_contents_1}</textarea>
 <br /><br />
 
+<p class="boxtext">{intl-log_message}:</p>
+<textarea class="box" name="LogMessage" cols="40" rows="2" wrap="soft"></textarea>
+
+
 <p class="boxtext">{intl-link_text}:</p>
 <input class="box" type="text" name="LinkText" size="20" value="{link_text}" />
 <br /><br />
@@ -130,6 +134,8 @@
 <input class="stdbutton" type="submit" name="Image" value="{intl-pictures}" />
 <input class="stdbutton" type="submit" name="File" value="{intl-files}" />
 <input class="stdbutton" type="submit" name="Preview" value="{intl-preview}" />
+&nbsp;
+<input class="stdbutton" type="submit" name="Log" value="{intl-log_history}" />
 
 <hr noshade="noshade" size="4" />
 

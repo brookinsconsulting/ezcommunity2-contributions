@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eztopic.php,v 1.1 2001/06/01 13:29:49 bf Exp $
+// $Id: eztopic.php,v 1.2 2001/06/05 12:40:49 bf Exp $
 //
 // Definition of eZTopic class
 //
@@ -63,6 +63,7 @@ class eZTopic
         {
             $db->query( "INSERT INTO eZArticle_Topic SET
 		                 Name='$name',
+                         Created=now(),
                          Description='$description'
                        " );
 			$this->ID = $db->insertID();
@@ -71,6 +72,7 @@ class eZTopic
         {
             $db->query( "UPDATE eZArticle_Topic SET
 		                 Name='$name',
+                         Created=Created, 
                          Description='$description'
                         WHERE ID='$this->ID'" );
         }
@@ -134,7 +136,7 @@ class eZTopic
 
 
         $db->array_query( $topic_array, "SELECT ID FROM eZArticle_Topic
-                                        ORDER By Name" );
+                                        ORDER By Created" );
 
         foreach ( $topic_array as $topic )
         {

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: articleedit.php,v 1.85 2001/06/01 13:29:49 bf Exp $
+// $Id: articleedit.php,v 1.86 2001/06/05 12:40:48 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <18-Oct-2000 15:04:39 bf>
@@ -65,7 +65,9 @@ if ( $Action == "Insert" )
     
 
     $generator = new eZArticleGenerator();
-    
+
+    if ( trim( $LogMessage ) != "" )
+        $article->addLog( $LogMessage );
 
     $contents = $generator->generateXML( $Contents );
     $article->setContents( $contents );
@@ -214,6 +216,13 @@ if ( $Action == "Insert" )
             exit();
         }
 
+        // log history
+        if ( isset( $Log ) )
+        {
+            eZHTTPTool::header( "Location: /article/articlelog/$articleID/" );
+            exit();
+        }
+        
 
         // get the category to redirect to
         $category = $article->categoryDefinition( );
@@ -272,6 +281,9 @@ if ( $Action == "Update" )
     $article->setAuthorText( $AuthorText );
     $article->setAuthorEmail( $AuthorEmail );
     $article->setLinkText( $LinkText );
+
+    if ( trim( $LogMessage ) != "" )
+        $article->addLog( $LogMessage );
 
     if ( $Discuss == "on" )
         $article->setDiscuss( true );
@@ -408,6 +420,7 @@ if ( $Action == "Update" )
             exit();
         }
 
+        
         // preview
         if ( isset( $Preview ) )
         {
@@ -415,6 +428,14 @@ if ( $Action == "Update" )
             exit();
         }
 
+        // log history
+        if ( isset( $Log ) )
+        {
+            eZHTTPTool::header( "Location: /article/articlelog/$ArticleID/" );
+            exit();
+        }
+        
+        
         // get the category to redirect to
         $category = $article->categoryDefinition( );
         $categoryID = $category->id();

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: topiclist.php,v 1.1 2001/06/01 13:29:49 bf Exp $
+// $Id: topiclist.php,v 1.2 2001/06/05 12:40:48 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <01-Jun-2001 11:58:53 bf>
@@ -32,8 +32,28 @@ include_once( "ezarticle/classes/eztopic.php" );
 
 if ( isset( $NewTopic ) )
 {
+    $i=0;
+    foreach ( $IDArray as $id )
+    {
+        $topic = new eZTopic( $id );
+        $topic->setDescription( $Description[$i] );
+        $topic->setName( $Name[$i] );
+        $topic->store();
+
+        $i++;
+    }
+
     $topic = new eZTopic( );
     $topic->store();    
+}
+
+if ( isset( $DeleteTopic ) )
+{
+    foreach ( $DeleteIDArray as $id )
+    {
+        $topic = new eZTopic( $id );
+        $topic->delete();
+    }
 }
 
 if ( isset( $Store ) )
@@ -48,7 +68,6 @@ if ( isset( $Store ) )
 
         $i++;
     }
-
 }
 
 $t = new eZTemplate( "ezarticle/admin/" . $ini->read_var( "eZUserMain", "AdminTemplateDir" ),
