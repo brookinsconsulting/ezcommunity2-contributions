@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezobjectpermission.php,v 1.5 2001/02/27 17:03:29 fh Exp $
+// $Id: ezobjectpermission.php,v 1.6 2001/02/27 17:49:49 ce Exp $
 //
 // Definition of eZCompany class
 //
@@ -49,27 +49,8 @@ class eZObjectPermission
       If $id is set the object's values are fetched from the
       database.
     */
-    function eZObjectPermission( $id="", $fetch=true )
+    function eZObjectPermission( )
     {
-        
-        $this->IsConnected = false;
-        if ( $id != "" )
-        {
-            $this->ID = $id;
-            if ( $fetch == true )
-            {
-                $this->get( $this->ID );
-            }
-            else
-            {
-                
-                $this->State_ = "Dirty";
-            }
-        }
-        else
-        {
-            $this->State_ = "New";
-        }
     }
 
     /*
@@ -160,7 +141,7 @@ class eZObjectPermission
         }
         else // bogus group input
         {
-            return;
+            return false;
         }
 
         $SQLPermission = "";
@@ -174,13 +155,13 @@ class eZObjectPermission
         }
         else // bogus $permission input.
         {
-            return;
+            return false;
         }
 
         $tableName = getTableName( $modulTable );
         if( $tableName == "" )
         {
-            return;
+            return false;
         }
 
         $database =& eZDB::globalDatabase();
@@ -213,7 +194,7 @@ class eZObjectPermission
         $tableName = getTableName( $modulTable );
         if( $tableName == "" )
         {
-            return;
+            return false;
         }
 
         $SQLPermission = "";
@@ -227,7 +208,7 @@ class eZObjectPermission
         }
         else // bogus $permission input.
         {
-            return;
+            return false;
         }
         
         $query = "UPDATE $tableName $SQLPermission WHERE ObjectID='$objectID'";
