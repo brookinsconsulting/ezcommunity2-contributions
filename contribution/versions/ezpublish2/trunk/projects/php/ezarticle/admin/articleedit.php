@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: articleedit.php,v 1.25 2000/11/15 18:14:14 bf-cvs Exp $
+// $Id: articleedit.php,v 1.26 2000/11/20 15:29:10 ce-cvs Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <18-Oct-2000 15:04:39 bf>
@@ -89,13 +89,16 @@ if ( $Action == "Insert" )
         $category->addArticle( $article );
 
         $article->setCategoryDefinition( $category );
-        
-        foreach ( $CategoryArray as $categoryItem )
+
+        if ( count( $CategoryArray ) > 0 )
         {
-            if ( $categoryItem != $CategoryID )
+            foreach ( $CategoryArray as $categoryItem )
             {
-                $category = new eZArticleCategory( $categoryItem );
-                $category->addArticle( $article );
+                if ( $categoryItem != $CategoryID )
+                {
+                    $category = new eZArticleCategory( $categoryItem );
+                    $category->addArticle( $article );
+                }
             }
         }
 

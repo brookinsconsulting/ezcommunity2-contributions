@@ -62,9 +62,6 @@ if ( $user )
         if ( $ini->read_var( "site", "eZTrade" ) == "enabled" )
             include( "eztrade/admin/menubox.php" );
 
-        if ( $ini->read_var( "site", "eZNews" ) == "enabled" )
-            include( "eznews/admin/intl/no_NO/menubox.php" );
-
         if ( $ini->read_var( "site", "eZPoll" ) == "enabled" )
             include( "ezpoll/admin/menubox.php" );
 
