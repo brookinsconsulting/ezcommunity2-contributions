@@ -72,8 +72,21 @@
 
 <br />
 
+<form action="/{this_path}/{this_id}?edit+this">
+
 <hr noshade size="4" />
 
+<input class="okbutton" type="submit" value="{intl-edit_this_category}">
+
+<form action="/{this_path}/{this_id}?create+article">
+
+<input class="okbutton" type="submit" value="{intl-create_article}">
+
+</form>
+</form>
+
+
 <a href="/{this_path}/{this_id}?edit+this">{intl-edit_this_category}</a><br />
-<a href="/{this_path}/{this_id}?create+article">{intl-create_article}</a><br />
+<a href="/{this_path}/{this_id}?create+article">{intl-create_article}</a><br /> 
+
 

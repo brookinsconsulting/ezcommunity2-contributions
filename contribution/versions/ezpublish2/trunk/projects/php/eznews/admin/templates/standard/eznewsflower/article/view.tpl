@@ -25,13 +25,24 @@
 {this_price}
 </p>
 
+<form method="post" action="/{this_path}/{this_id}?edit+this">
+
 <hr noshade size="4" />
 
-<br />
+<input class="okbutton" type="submit" value="{intl-edit_this_article}">
+
+<form method="post" action="/{this_path}/{this_id}?delete+this">
+
+<input class="okbutton" type="submit" value="{intl-delete_this_article}">
+
+
+</form>
+</form>
 
 <a href="/{this_path}/{this_canonical_parent_id}">{intl-go_to_parent} {this_canonical_parent_name}</a><br />
 <a href="/{this_path}/{this_id}?edit+this">{intl-edit_this_article}</a><br />
-<a href="/{this_path}/{this_id}?delete+this">{intl-delete_this_article}</a><br />
+<a href="/{this_path}/{this_id}?delete+this">{intl-delete_this_article}</a><br /> 
+
 
 <!-- END article_item_template -->
 

@@ -7,7 +7,7 @@
 
 <!-- BEGIN article_here_template -->
 
-<br />
+<h1>{intl-preview_article}</h1>
 
 <hr noshade size="4" />
 
