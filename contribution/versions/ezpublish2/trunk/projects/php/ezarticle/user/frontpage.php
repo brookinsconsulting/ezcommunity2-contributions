@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: frontpage.php,v 1.27 2001/10/16 16:17:26 ce Exp $
+// $Id: frontpage.php,v 1.28 2001/10/17 15:25:19 bf Exp $
 //
 // Created on: <30-May-2001 14:06:59 bf>
 //
@@ -45,12 +45,6 @@ $ImageDir = $ini->read_var( "eZArticleMain", "ImageDir" );
 $CapitalizeHeadlines = $ini->read_var( "eZArticleMain", "CapitalizeHeadlines" );
 $DefaultLinkText =  $ini->read_var( "eZArticleMain", "DefaultLinkText" );
 $GrayScaleImageList = $ini->read_var( "eZArticleMain", "GrayScaleImageList" );
-
-if ( !isset( $FrontPageCategory )  )
-    $FrontPageCategory = $ini->read_var( "eZArticleMain", "FrontPageCategory" );
-
-$FrontPageAdCategory = $ini->read_var( "eZArticleMain", "FrontPageAdCategory" );
-$FrontPageSettings = $ini->read_var( "eZArticleMain", "FrontPageSettings" );
 
 $t = new eZTemplate( "ezarticle/user/" . $ini->read_var( "eZArticleMain", "TemplateDir" ),
                      "ezarticle/user/intl/", $Language, "frontpage.php" );
