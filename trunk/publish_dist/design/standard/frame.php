@@ -25,7 +25,7 @@ if ( isset( $MetaRedirectLocation ) && isset( $MetaRedirectTimer ) )
 
 ?>
 
-<link rel="stylesheet" type="text/css" href="<? print $GlobalSiteIni->WWWDir; ?>/sitedesign/<? print ($GlobalSiteDesign); ?>/style.css" />
+<link rel="stylesheet" type="text/css" href="<? print $GlobalSiteIni->WWWDir; ?>/design/<? print ($GlobalSiteDesign); ?>/style.css" />
 
 <script language="JavaScript1.2">
 <!--//
@@ -113,30 +113,30 @@ else
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
 <tr>
    <td class="tdmini" width="99%">
-<img src="<? print $GlobalSiteIni->WWWDir; ?>/sitedesign/<? print ($GlobalSiteDesign); ?>/images/ezpublish-yourcontentmadeeasy.gif" height="20" width="290" border="0" alt="" /><br />
+<img src="<? print $GlobalSiteIni->WWWDir; ?>/design/<? print ($GlobalSiteDesign); ?>/images/ezpublish-yourcontentmadeeasy.gif" height="20" width="290" border="0" alt="" /><br />
    </td>
    <td class="tdmini" width="1%" align="right">
 
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
 <tr>
    <td class="tdmini" width="1%">
-   <img src="<? print $GlobalSiteIni->WWWDir; ?>/sitedesign/<? print ($GlobalSiteDesign); ?>/images/tab-mrk-left.gif" height="20" width="20" border="0" alt="" /><br />
+   <img src="<? print $GlobalSiteIni->WWWDir; ?>/design/<? print ($GlobalSiteDesign); ?>/images/tab-mrk-left.gif" height="20" width="20" border="0" alt="" /><br />
    </td>
    <td class="tab" bgcolor="#ffffff" width="23%">&nbsp;&nbsp;<a href="<? print $GlobalSiteIni->WWWDir . $GlobalSiteIni->Index; ?>/section-standard/">Standard</a>&nbsp;&nbsp;</td>
    <td class="tdmini" width="1%">
-   <img src="<? print $GlobalSiteIni->WWWDir; ?>/sitedesign/<? print ($GlobalSiteDesign); ?>/images/tab-mrk-unmrk.gif" height="20" width="20" border="0" alt="" /><br />
+   <img src="<? print $GlobalSiteIni->WWWDir; ?>/design/<? print ($GlobalSiteDesign); ?>/images/tab-mrk-unmrk.gif" height="20" width="20" border="0" alt="" /><br />
    </td>
    <td class="tab" bgcolor="#dcdcdc" width="23%">&nbsp;&nbsp;<a href="<? print $GlobalSiteIni->WWWDir . $GlobalSiteIni->Index; ?>/section-intranet/">Intranet</a>&nbsp;&nbsp;</td>
    <td class="tdmini" width="1%">
-   <img src="<? print $GlobalSiteIni->WWWDir; ?>/sitedesign/<? print ($GlobalSiteDesign); ?>/images/tab-unmrk-unmrk.gif" height="20" width="20" border="0" alt="" /><br />
+   <img src="<? print $GlobalSiteIni->WWWDir; ?>/design/<? print ($GlobalSiteDesign); ?>/images/tab-unmrk-unmrk.gif" height="20" width="20" border="0" alt="" /><br />
    </td>
    <td class="tab" bgcolor="#dcdcdc" width="23%">&nbsp;&nbsp;<a href="<? print $GlobalSiteIni->WWWDir . $GlobalSiteIni->Index; ?>/section-trade/">Trade</a>&nbsp;&nbsp;</td>
    <td class="tdmini" width="1%">
-   <img src="<? print $GlobalSiteIni->WWWDir; ?>/sitedesign/<? print ($GlobalSiteDesign); ?>/images/tab-unmrk-unmrk.gif" height="20" width="20" border="0" alt="" /><br />
+   <img src="<? print $GlobalSiteIni->WWWDir; ?>/design/<? print ($GlobalSiteDesign); ?>/images/tab-unmrk-unmrk.gif" height="20" width="20" border="0" alt="" /><br />
    </td>
    <td class="tab" bgcolor="#dcdcdc" width="23%">&nbsp;&nbsp;<a href="<? print $GlobalSiteIni->WWWDir . $GlobalSiteIni->Index; ?>/section-news/">News</a>&nbsp;&nbsp;</td>
    <td class="tdmini" width="1%">
-   <img src="<? print $GlobalSiteIni->WWWDir; ?>/sitedesign/<? print ($GlobalSiteDesign); ?>/images/tab-unmrk-right.gif" height="20" width="20" border="0" alt="" /><br />
+   <img src="<? print $GlobalSiteIni->WWWDir; ?>/design/<? print ($GlobalSiteDesign); ?>/images/tab-unmrk-right.gif" height="20" width="20" border="0" alt="" /><br />
    </td>
 </tr>
 </table>
@@ -175,7 +175,7 @@ else
    <img src="<? print $GlobalSiteIni->WWWDir; ?>/images/1x1.gif" width="130" height="8" border="0"><br />
    </td>
 
-   <td width="1%" bgcolor="#ffffff"><img src="<? print $GlobalSiteIni->WWWDir; ?>/images/1x1.gif" width="2" height="1" border="0" alt="0" /></td>
+   <td width="1%" bgcolor="#ffffff"><img src="<? print $GlobalSiteIni->WWWDir; ?>/design/base/images/design/1x1.gif" width="2" height="1" border="0" alt="" /></td>
    <td width="96%" bgcolor="#ffffff">
 <!--
     <?
@@ -200,7 +200,7 @@ else
 
     <br />
     </td>
-    <td width="1%" bgcolor="#ffffff"><img src="<? print $GlobalSiteIni->WWWDir; ?>/images/1x1.gif" width="2" height="1" border="0" alt="" /></td>
+    <td width="1%" bgcolor="#ffffff"><img src="<? print $GlobalSiteIni->WWWDir; ?>/design/base/images/design/1x1.gif" width="2" height="1" border="0" alt="" /></td>
 
     <td width="1%" bgcolor="#f0f0f0">
 
@@ -229,15 +229,15 @@ else
 
 <!-- Right menu end -->
 
-   <img src="<? print $GlobalSiteIni->WWWDir; ?>/images/1x1.gif" width="130" height="20" border="0" alt="" /><br />
+   <img src="<? print $GlobalSiteIni->WWWDir; ?>/design/base/images/design/1x1.gif" width="130" height="20" border="0" alt="" /><br />
 
    <div align="center"><a class="path" href="?PrintableVersion=enabled">Printable page</a></div><br />
 
    <div align="center">
-   <a target="_blank" href="http://ez.no/developer"><img src="<? print $GlobalSiteIni->WWWDir; ?>/images/powered-by-ezpublish-100x35-trans-lgrey.gif" width="100" height="35" border="0" alt="Powered by eZ publish" /></a>
+   <a target="_blank" href="http://ez.no/developer"><img src="<? print $GlobalSiteIni->WWWDir; ?>/design/base/images/ezsystems/powered-by-ezpublish-100x35-trans-lgrey.gif" width="100" height="35" border="0" alt="Powered by eZ publish" /></a>
    </div>
 
-   <img src="<? print $GlobalSiteIni->WWWDir; ?>/images/1x1.gif" width="130" height="8" border="0" alt="" /><br />
+   <img src="<? print $GlobalSiteIni->WWWDir; ?>/design/base/images/design/1x1.gif" width="130" height="8" border="0" alt="" /><br />
 
    </td>
 </tr>
