@@ -5,7 +5,6 @@ include_once( "classes/ezdb.php" );
 include_once( "eztrade/classes/ezproduct.php" );
 include_once( "eztrade/classes/ezproductcategory.php" );
 include_once( "eztrade/classes/ezproductattribute.php" );
-
 include_once( "classes/ezfile.php" );
 include_once( "classes/ezlog.php" );
 include_once( "ezimagecatalogue/classes/ezimage.php" );
@@ -17,18 +16,20 @@ include_once( "ezxmlrpc/classes/ezxmlrpcstring.php" );
 include_once( "ezxmlrpc/classes/ezxmlrpcstruct.php" );
 include_once( "ezxmlrpc/classes/ezxmlrpcint.php" );
 include_once( "ezxmlrpc/classes/ezxmlrpcdouble.php" );
-include_once( "ezmail/classes/ezmail.php" );
+include_once( "classes/ezmail.php" );
 
 $ini = new INIFile( "site.ini" );
 $GlobalSiteIni =& $ini;
-$db =& eZDB::globalDatabase();
+$db = eZDB::globalDatabase();
 set_time_limit( 0 );
+
+$bigLog = array();
 
 function assignToCategoies()
 {
+return true;
 //    $client = new eZXMLRPCClient( "www.mygold.com", "/trade/xmlrpcimport/" );
-    $client = new eZXMLRPCClient( "mygold.nox.ez.no", "/trade/xmlrpcimport/" );
-
+//    $client = new eZXMLRPCClient( "mygold.nox.ez.no", "/trade/xmlrpcimport/" );
     $call = new eZXMLRPCCall( );
     $call->setMethodName( "assignToCategoies" );
 
@@ -44,25 +45,6 @@ function assignToCategoies()
     {
         return true;
     }
-
-}
-
-
-$db->array_query( $logArray, "SELECT * FROM Log" );
-
-
-function canAdd( $id=false )
-{
-    global $logArray;
-    if ( is_string ( $id ) )
-    {
-        if ( in_array( $logArray, $id ) )
-        {
-            return false;
-        }
-        $db->query( "INSERT INTO Log set RemoteID='$id'" );
-        return true;
-    }
 }
 
 /*
@@ -70,9 +52,11 @@ function canAdd( $id=false )
  */
 function addProduct( $client, $data = array(), $options = array(), $showPrice = true )
 {
-    $client = new eZXMLRPCClient( "mygold.nox.ez.no", "/trade/xmlrpcimport/" );
-//    $client = new eZXMLRPCClient( "www.mygold.com", "/trade/xmlrpcimport/" );
-
+//    $client = new eZXMLRPCClient( "mygold.nox.ez.no", "/trade/xmlrpcimport/" );
+   $client = new eZXMLRPCClient( "www.mygold.com", "/trade/xmlrpcimport/" );
+//   $client = new eZXMLRPCClient( "mygoldtest.ez.no", "/trade/xmlrpcimport/" );  
+// $client->setLogin( "test" );
+// $client->setPassword( "mygold" );
     $remoteID =& $data["RemoteID"];
     $productNumber =& $data["ProductNumber"];
     $isHotDeal =& $data["Werkstattinfo"];
@@ -131,24 +115,22 @@ function addProduct( $client, $data = array(), $options = array(), $showPrice = 
     // Add a image to the product, if exists.
     $imageFile = new eZFile();
 
-
-//    if ( $imageFile->getFile( "/mnt/bilder/" . $imageName . ".JPG" ) )
-    if ( $imageFile->getFile( "/mnt/bilder/bilde.jpg" ) )
+    unset ( $content );
+print( "/home/upload/bilder/" . $imageName . ".JPG" );
+    if ( $imageFile->getFile( "/home/upload/bilder/" . $imageName . ".JPG" ) )
     {
-
-//        $filePath = "/mnt/bilder/" . $imageName . ".JPG";
-        $filePath = "/mnt/bilder/bilde.jpg";
+        $filePath = "/home/upload/bilder/" . $imageName . ".JPG";
         $fp = fopen( $filePath, "r" );
         $fileSize = filesize( $filePath );
         $content =& fread( $fp, $fileSize );
         fclose( $fp );
-    }
-
-
-
+    }        
+    if ( !$content )
+	return false;
     if ( $imageName )
         $imageName .= ".jpg";
 
+    print( $productName );
     $paramenter = "";
     $paramenter = new eZXMLRPCStruct( array(
                                              //  product type for setting the correct attributes
@@ -219,15 +201,13 @@ function addProduct( $client, $data = array(), $options = array(), $showPrice = 
  * Fetching rings with defined size
  * get all the unique rings
  */
-
 $db->array_query( $ret_array, "SELECT *, CONCAT( Wg, '-', Nummer, '-', Eigentuemer ) AS ProductNumber, CONCAT( Wg, '-', Nummer, '-', Eigentuemer, '-', Global ) AS RemoteID FROM Aktiv
                                WHERE (Wg='B08' OR Wg='R05' OR Wg='D01' OR Wg='R01'
                                OR Wg='D02' OR Wg='R02' OR Wg='D03' OR Wg='R03'
                                OR Wg='T08' OR Wg='R04' OR Wg='R06' OR Wg='R07'
                                OR Wg='K01') AND Groesse != '0' AND Referenz != ''
-                               GROUP BY Referenz
+                               GROUP BY Legierung, Farbe, VKbrutto, Referenz
                                ORDER BY Referenz" );
-
 
 $ringSQLCount = count( $ret_array );
 
@@ -266,8 +246,7 @@ foreach ( $ret_array as $item )
     $show = true;
     
     $j=0;
-
-    $valueCount = 1;
+    $valueCount=1;
     foreach ( $variation_array as $variation )
     {
         $insertOption = true;
@@ -286,12 +265,12 @@ foreach ( $ret_array as $item )
         {
             if ( $variation["Groesse"] != 0 )
             {
-                $options[] = new eZXMLRPCStruct( array ( "ID" => $variation["ProductNumber"],
-                                                         "Groesse" => $variation["Groesse"],
-                                                         "RemoteID" => $variation["RemoteID"] . "-" . $valueCount,
-                                                         "TotalQuentity" => 1,
-                                                         "VKbrutto" => $variation["VKbrutto"] ) );
-                $valueCount++;
+             	$options[] = new eZXMLRPCStruct( array ( "ID" => $variation["ProductNumber"],
+                	                                     "Groesse" => $variation["Groesse"],
+                        	                             "RemoteID" => $variation["RemoteID"] . "-" . $valueCount,
+                                	                     "TotalQuentity" => 1,
+                                        	             "VKbrutto" => $variation["VKbrutto"] ) );
+		$valueCount++;
             }
             $ringVariationArray[] = $j;
             if ( $j != 0 )
@@ -302,16 +281,20 @@ foreach ( $ret_array as $item )
     $ringArray[] = $k;
     $k++;
 
-//    addProduct( $client, $item, $options, $show );
+   addProduct( $client, $item, $options, $show );
+   $addLog[] = array( $item, $options );
 }
 
+
 /*
- * Fetching rings without defined options
+
+ *
+ Fetching rings without defined options
  */
 $db->array_query( $ret_array, "SELECT *, CONCAT( Wg, '-', Nummer, '-', Eigentuemer ) AS ProductNumber, CONCAT( Wg, '-', Nummer, '-', Eigentuemer, '-', Global ) AS RemoteID FROM Aktiv WHERE
                                (Wg='B08' OR Wg='R05' OR Wg='D01' OR Wg='R01' OR Wg='D02' OR Wg='R02' OR Wg='D03' OR Wg='R03'
                                OR Wg='T08' OR Wg='R04' OR Wg='R06' OR Wg='R07' OR Wg='K01') AND Groesse = '0' AND Referenz != ''
-                               GROUP BY Referenz ORDER BY Referenz" );
+                               GROUP BY Legierung, Farbe, VKbrutto, Referenz ORDER BY Referenz" );
 
 $ringStandardSQLCount = count( $ret_array );
 
@@ -369,14 +352,14 @@ foreach ( $ret_array as $item )
                                              "TotalQuentity" => "NULL",
                                              "VKbrutto" => 0 ) );
 
-//   addProduct( $client, $item, $options, true );
 
+    addProduct( $client, $item, $options, true );
+    $addLog[] = array( $item, $options ); 
 
     $ringStandardArray[] = $k;
     
     $k++;
 }
-
 
 /*
  * import chains(halsschmuck and armschmuck) with sizes
@@ -385,13 +368,204 @@ foreach ( $ret_array as $item )
 $db->array_query( $ret_array, "SELECT *, CONCAT( Wg, '-', Nummer, '-', Eigentuemer ) AS ProductNumber, CONCAT( Wg, '-', Nummer, '-', Eigentuemer, '-', Global ) AS RemoteID, SUBSTRING_INDEX( Referenz, '/', -1 ) AS SubString,  CONCAT( Farbe, TRIM( TRAILING SUBSTRING_INDEX( Referenz, '/', -1 )
                                FROM Referenz ) ) AS Ref , LOCATE( '/', Referenz) AS Pos from Aktiv WHERE ( Wg='A01' OR Wg='S01' OR Wg='A02' OR Wg='D04' OR Wg='A03' OR
                                Wg='T01' OR Wg='A07' OR Wg='B02' OR Wg='H01' OR Wg='S02' OR Wg='H02' OR Wg='D05' OR Wg='H03' OR Wg='T02' OR Wg='H04' OR Wg='S04'
-                              OR Wg='H05' OR Wg='S03' OR Wg='S05' OR Wg='H09' OR Wg='10' OR Wg='A05' OR Wg='A04' OR Wg='B01' )  AND Groesse != '0' GROUP BY Ref, Wg HAVING Pos!=0  ORDER BY Ref, Groesse");
+                              OR Wg='H05' OR Wg='S03' OR Wg='S05' OR Wg='H09' OR Wg='10' OR Wg='A05' OR Wg='A04' OR Wg='B01' )  AND Groesse != '0' GROUP BY Legierung, Farbe, VKbrutto, Ref, Wg HAVING Pos!=0  ORDER BY Ref, Groesse");
 
 $chainSQLCount = count( $ret_array );
 
 $k=0;
 foreach ( $ret_array as $item )
 {
+
+//    print( $item["Wg"] . "\n" );
+    // Getting variations
+    $rnr = $item["Ref"];
+
+    $wg = $item["Wg"];
+    $variation_array = array();
+
+    $db->array_query( $variation_array, "SELECT *, CONCAT( Wg, '-', Nummer, '-', Eigentuemer ) AS ProductNumber,
+                                         CONCAT( Wg, '-', Nummer, '-', Eigentuemer, '-', Global ) AS RemoteID,
+                                         CONCAT( Farbe, TRIM( TRAILING SUBSTRING_INDEX( Referenz, '/', -1 ) FROM Referenz ) ) AS Ref
+                                         FROM Aktiv
+                                         WHERE  Wg='$wg' AND Groesse != '0' HAVING Ref = '$rnr' ORDER BY Groesse " );
+
+    $chainVariationSQLCount = count( $ret_array );
+    while ( list($i) = each ( $item ) )
+    {
+        $key = key( $item );
+
+        if ( $item[$key] == "0.00" )
+        {
+            $item[$key] = "";
+        }
+        if ( $item[$key] == ".0" )
+        {
+            $item[$key] = "";
+        }
+        if ( $item[$key] == "0.0" )
+        {
+            $item[$key] = "";
+        }
+    }
+
+    $options = array();
+    $show = true;
+    $j=0;
+
+    foreach ( $variation_array as $variation )
+    {
+        $insertOption = true;
+        if ( count ( $options ) > 0 )
+        {
+            foreach ( $options as $optionItem )
+            {
+                $optionValueStruct = $optionItem->value();
+                if ( $variation["Groesse"] == $optionValueStruct["Groesse"] )
+                {
+                    $insertOption = false;
+                }
+            }
+        }
+        if ( $insertOption )
+        {
+            if ( ( $variation["Groesse"] != 0 ) && ( $variation["VKbrutto"] != 0 ) )
+            {
+	            $options[] = new eZXMLRPCStruct( array ( "ID" => $variation["ProductNumber"],
+        	                                             "Groesse" => $variation["Groesse"],
+                	                                     "RemoteID" => $variation["RemoteID"],
+                        	                             "TotalQuentity" => 1,
+                                	                     "VKbrutto" => $variation["VKbrutto"] ) );
+           }
+            if ( $j != 0 )
+                $show = false;
+            
+            $chainVariationArray[] = $j;
+            $j++;
+        }
+    }
+
+addProduct( $client, $item, $options, $show );
+$addLog[] = array( $item, $options ); 
+
+// if ( $item["Nummer"] == "97" )
+// {
+// addProduct( $client, $item, $options, $show );
+// print_r( $item );
+// exit();
+// }
+
+    $chainArray[] = $k;
+
+    $k++;
+}
+
+/*
+ * import chains(halsschmuck and armschmuck) without sizes.
+ */
+$db->array_query( $ret_array, "SELECT *, CONCAT( Wg, '-', Nummer, '-', Eigentuemer ) AS ProductNumber, CONCAT( Wg, '-', Nummer, '-', Eigentuemer, '-', Global ) AS RemoteID, SUBSTRING_INDEX( Referenz, '/', -1 ) AS SubString,  CONCAT( Farbe, TRIM( TRAILING SUBSTRING_INDEX( Referenz, '/', -1 )
+                               FROM Referenz ) ) AS Ref , LOCATE( '/', Referenz) AS Pos from Aktiv WHERE ( Wg='A01' OR Wg='S01' OR Wg='A02' OR Wg='D04' OR Wg='A03' OR
+                               Wg='T01' OR Wg='A07' OR Wg='B02' OR Wg='H01' OR Wg='S02' OR Wg='H02' OR Wg='D05' OR Wg='H03' OR Wg='T02' OR Wg='H04' OR Wg='S04'
+                              OR Wg='H05' OR Wg='S03' OR Wg='S05' OR Wg='H09' OR Wg='10' OR Wg='A05' OR Wg='A04' OR Wg='B01' )  AND Groesse != '0' GROUP BY Legierung, Farbe, VKbrutto, Ref, Wg HAVING Pos = 0  ORDER BY Ref, Groesse");
+
+$chainSQLCount = count( $ret_array );
+
+$k=0;
+foreach ( $ret_array as $item )
+{
+//    print_r( $variation_array );
+    $chainVariationSQLCount = count( $ret_array );
+    while ( list($i) = each ( $item ) )
+    {
+        $key = key( $item );
+
+        if ( $item[$key] == "0.00" )
+        {
+            $item[$key] = "";
+        }
+        if ( $item[$key] == ".0" )
+        {
+            $item[$key] = "";
+        }
+        if ( $item[$key] == "0.0" )
+        {
+            $item[$key] = "";
+        }
+    }
+    $options = array();
+
+    $options[] = new eZXMLRPCStruct( array ( "ID" => $item["ProductNumber"],
+                                             "Groesse" => $item["Groesse"],
+                                             "RemoteID" => $item["RemoteID"],
+                                             "TotalQuentity" => 1,
+                                             "VKbrutto" => 0 ) );
+
+    addProduct( $client, $item, $options, $show );
+$addLog[] = array( $item, $options ); 
+
+    $chainArray[] = $k;
+}
+
+/*
+ * Fetching ohrschumck
+ */
+
+$query = "SELECT *, CONCAT( Wg, '-', Nummer, '-', Eigentuemer ) AS ProductNumber, CONCAT( Wg, '-', Nummer, '-', Eigentuemer, '-', Global ) AS RemoteID FROM Aktiv WHERE ( Wg='O01' OR Wg='O02' OR Wg='O03' OR Wg='O04' OR Wg='O05' OR Wg='O06' OR Wg='O07' OR Wg='B07' OR Wg='D08' OR Wg='T07' OR Wg='B05' OR Wg='D07' OR Wg='O05' OR Wg='T05' OR Wg='B06' OR Wg='T06' ) AND Groesse = '0' AND Referenz != '' GROUP BY Legierung, Farbe, VKbrutto, Referenz ORDER BY Nummer";
+
+
+$db->array_query( $ret_array, $query );
+$ohnSQLCount = count( $ret_array );
+$k=0;
+foreach ( $ret_array as $item )
+{
+    $options = array();
+    addProduct( $client, $item, $options, true );
+$addLog[] = array( $item, $options ); 
+    $ohrArray[] = $k;
+    $k++;
+}
+
+/*
+ * Fetching Halsschmuck with groesse == 0
+ */
+$db->array_query( $ret_array, "SELECT *, CONCAT( Wg, '-', Nummer, '-', Eigentuemer ) AS ProductNumber,
+                               CONCAT( Wg, '-', Nummer, '-', Eigentuemer, '-', Global ) AS RemoteID
+                               FROM Aktiv
+                               WHERE ( Wg='H06' OR Wg='B03' OR Wg='H07' OR Wg='D06' OR Wg='H08' OR Wg='T03' )
+                               AND Groesse = '0' AND Referenz != ''
+                               GROUP BY Legierung, Farbe, VKbrutto, Referenz ORDER BY Referenz" );
+
+$halsschmuckWithNoSize = count( $ret_array );
+$k=0;
+foreach ( $ret_array as $item )
+{
+    $options = array();
+    addProduct( $client, $item, $options, true );
+$addLog[] = array( $item, $options ); 
+    $noSize[] = $k;
+    $k++;
+}
+
+
+/*
+ * import chains(halsschmuck and armschmuck) with sizes
+ * Fetching the chains with stored sizes
+ */
+$db->array_query( $ret_array, "SELECT *, CONCAT( Wg, '-', Nummer, '-', Eigentuemer ) AS ProductNumber, CONCAT( Wg, '-', Nummer, '-', Eigentuem
+er, '-', Global ) AS RemoteID, SUBSTRING_INDEX( Referenz, '/', -1 ) AS SubString,  CONCAT( Farbe, TRIM( TRAILING SUBSTRING_INDEX( Referenz, '/
+', -1 )
+                               FROM Referenz ) ) AS Ref , LOCATE( '/', Referenz) AS Pos from Aktiv WHERE ( Wg='A01' OR Wg='S01' OR Wg='A02' OR
+ Wg='D04' OR| Wg='A03' OR
+                               Wg='T01' OR Wg='A07' OR Wg='B02' OR Wg='H01' OR Wg='S02' OR Wg='H02' OR Wg='D05' OR Wg='H03' OR Wg='T02' OR Wg=
+'H04' OR Wg='S04'
+                              OR Wg='H05' OR Wg='S03' OR Wg='S05' OR Wg='H09' OR Wg='10' OR Wg='A05' OR Wg='A04' OR Wg='B01' )  AND Groesse !=
+ '0' GROUP BY Legierung, Farbe, VKbrutto, Ref, Wg HAVING Pos!=0  ORDER BY Ref, Groesse");
+
+$chainSQLCount = count( $ret_array );
+
+$k=0;
+foreach ( $ret_array as $item )
+{
+
 //    print( $item["Wg"] . "\n" );
     // Getting variations
     $rnr = $item["Ref"];
@@ -443,134 +617,34 @@ foreach ( $ret_array as $item )
         }
         if ( $insertOption )
         {
-            if ( $variation["Groesse"] != 0 )
+            if ( ( $variation["Groesse"] != 0 ) && ( $variation["VKbrutto"] != 0 ) )
             {
-                $options[] = new eZXMLRPCStruct( array ( "ID" => $variation["ProductNumber"],
-                                                         "Groesse" => $variation["Groesse"],
-                                                         "RemoteID" => $variation["RemoteID"],
-                                                         "TotalQuentity" => 1,
-                                                         "VKbrutto" => $variation["VKbrutto"] ) );
-            }
+                    $options[] = new eZXMLRPCStruct( array ( "ID" => $variation["ProductNumber"],
+                                                             "Groesse" => $variation["Groesse"],
+                                                             "RemoteID" => $variation["RemoteID"],
+                                                             "TotalQuentity" => 1,
+                                                             "VKbrutto" => $variation["VKbrutto"] ) );
+           }
             if ( $j != 0 )
                 $show = false;
-            
+
             $chainVariationArray[] = $j;
             $j++;
         }
     }
 
-    
-//    addProduct( $client, $item, $options, $show );
-
-    $chainArray[] = $k;
-
-    $k++;
-}
-
-
-/*
- * import chains(halsschmuck and armschmuck) without sizes.
- */
-$db->array_query( $ret_array, "SELECT *, CONCAT( Wg, '-', Nummer, '-', Eigentuemer ) AS ProductNumber, CONCAT( Wg, '-', Nummer, '-', Eigentuemer, '-', Global ) AS RemoteID, SUBSTRING_INDEX( Referenz, '/', -1 ) AS SubString,  CONCAT( Farbe, TRIM( TRAILING SUBSTRING_INDEX( Referenz, '/', -1 )
-                               FROM Referenz ) ) AS Ref , LOCATE( '/', Referenz) AS Pos from Aktiv WHERE ( Wg='A01' OR Wg='S01' OR Wg='A02' OR Wg='D04' OR Wg='A03' OR
-                               Wg='T01' OR Wg='A07' OR Wg='B02' OR Wg='H01' OR Wg='S02' OR Wg='H02' OR Wg='D05' OR Wg='H03' OR Wg='T02' OR Wg='H04' OR Wg='S04'
-                              OR Wg='H05' OR Wg='S03' OR Wg='S05' OR Wg='H09' OR Wg='10' OR Wg='A05' OR Wg='A04' OR Wg='B01' )  AND Groesse != '0' GROUP BY Ref, Wg HAVING Pos = 0  ORDER BY Ref, Groesse");
-
-$chainSQLCount = count( $ret_array );
-
-$k=0;
-foreach ( $ret_array as $item )
-{
-//    print_r( $variation_array );
-    $chainVariationSQLCount = count( $ret_array );
-    while ( list($i) = each ( $item ) )
-    {
-        $key = key( $item );
-
-        if ( $item[$key] == "0.00" )
-        {
-            $item[$key] = "";
-        }
-        if ( $item[$key] == ".0" )
-        {
-            $item[$key] = "";
-        }
-        if ( $item[$key] == "0.0" )
-        {
-            $item[$key] = "";
-        }
-    }
-    $options = array();
-
-    print_r( $options );
-    $options[] = new eZXMLRPCStruct( array ( "ID" => $item["ProductNumber"],
-                                             "Groesse" => $item["Groesse"],
-                                             "RemoteID" => $item["RemoteID"],
-                                             "TotalQuentity" => 1,
-                                             "VKbrutto" => 0 ) );
-        print_r( $options );
-
+if ( $item["Nummer"] == "541" )
     addProduct( $client, $item, $options, $show );
 
     $chainArray[] = $k;
 
     $k++;
 }
+
+print( "<pre>" );
+print_r( $addLog );
+
 exit();
-
-$db->array_query( $ret_array, "SELECT *, CONCAT( Wg, '-', Nummer, '-', Eigentuemer ) AS ProductNumber,
-                               CONCAT( Wg, '-', Nummer, '-', Eigentuemer, '-', Global ) AS RemoteID
-                               FROM Aktiv
-                               WHERE ( Wg='B06' )
-                               AND Groesse = '0' AND Referenz != ''
-                               GROUP BY Referenz ORDER BY Nummer" );
-
-/*
- * Fetching ohrschumck
- */
-$db->array_query( $ret_array, "SELECT *, CONCAT( Wg, '-', Nummer, '-', Eigentuemer ) AS ProductNumber,
-                               CONCAT( Wg, '-', Nummer, '-', Eigentuemer, '-', Global ) AS RemoteID
-                               FROM Aktiv
-                               WHERE (Wg='O01' OR Wg='O02' OR Wg='O03' OR Wg='O04' OR Wg='O05' OR Wg='O06' OR Wg='O07' 
-                               OR Wg='B07' OR Wg='D08' OR Wg='T07' OR Wg='B05' OR Wg='D07' OR Wg='O05' OR Wg='T05' OR Wg='B06' OR Wg='T06' )
-                               AND Groesse = '0' AND Referenz != ''
-                               GROUP BY Referenz ORDER BY Referenz" );
-
-$ohnSQLCount = count( $ret_array );
-$k=0;
-foreach ( $ret_array as $item )
-{
-    $options = array();
-    
-    addProduct( $client, $item, $options, true );
-
-    $ohrArray[] = $k;
-    $k++;
-}
-
-/*
- * Fetching Halsschmuck with groesse == 0
- */
-$db->array_query( $ret_array, "SELECT *, CONCAT( Wg, '-', Nummer, '-', Eigentuemer ) AS ProductNumber,
-                               CONCAT( Wg, '-', Nummer, '-', Eigentuemer, '-', Global ) AS RemoteID
-                               FROM Aktiv
-                               WHERE ( Wg='H06' OR Wg='B03' OR Wg='H07' OR Wg='D06' OR Wg='H08' OR Wg='T03' )
-                               AND Groesse = '0' AND Referenz != ''
-                               GROUP BY Referenz ORDER BY Referenz" );
-
-$halsschmuckWithNoSize = count( $ret_array );
-$k=0;
-foreach ( $ret_array as $item )
-{
-    $options = array();
-
-    
-    addProduct( $client, $item, $options, true );
-
-    $noSize[] = $k;
-    $k++;
-}
-
 /*
  * Fetching others.
  */
@@ -652,9 +726,9 @@ print( "Total SQL: ". $totalSQL . "\n" );
 print( "Total insert: ". $total . "\n" );
 print( "Total products: ". $totalProducts . "\n" );
 
-/*
 $mail = new eZMail();
 $mail->setTo( "ce@ez.no" );
+// $mail->setCc( "sf@mygold.com" );
 $mail->setFrom( "mygold@mygold.com" );
 $mail->setSubject( "Aktiv script" );
 
@@ -665,7 +739,6 @@ $body .= ( "Total products: . " . $totalProducts . "\n" );
 $mail->setBody( $body );
 
 $mail->send();
-*/
 
 print_r( $mail );
 ?>

@@ -33,6 +33,14 @@ $server->registerFunction( "insert", array( new eZXMLRPCStruct() ) );
 $server->registerFunction( "assignToCategoies" );
 // $server->registerFunction( "passiv", array( new eZXMLRPCStruct() ) );
 $server->registerFunction( "passiv", new eZXMLRPCArray() );
+$server->registerFunction( "delete", new eZXMLRPCInt() );
+
+function delete( $id )
+{
+
+    $product = new eZProduct( $id );
+    print_r( $product );
+}
 
 $server->processRequest();
 
