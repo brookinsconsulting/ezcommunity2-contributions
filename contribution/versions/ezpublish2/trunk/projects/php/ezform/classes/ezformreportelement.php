@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: ezformreportelement.php,v 1.21 2002/01/29 08:28:18 jhe Exp $
+// $Id: ezformreportelement.php,v 1.22 2002/01/30 10:24:33 jhe Exp $
 //
 // Definition of eZFormReportElement class
 //
@@ -647,7 +647,7 @@ class eZFormReportElement
                                  $resultString
                                  ORDER BY ResultID" );
 
-        for ( $i = 0; $i < count( $res ); $i++ )
+        for ( $i = 0; $i < count( $res ) - 1; $i++ )
         {
             if ( $res[$i]["ElementID"] != $res[$i + 1]["ElementID"] &&
                  $res[$i]["ResultID"] == $res[$i]["ResultID"] )
