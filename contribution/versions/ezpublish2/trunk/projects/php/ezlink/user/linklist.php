@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: linklist.php,v 1.5 2000/10/26 13:08:34 ce-cvs Exp $
+// $Id: linklist.php,v 1.6 2000/10/27 12:02:03 ce-cvs Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <26-Oct-2000 15:02:09 ce>
@@ -57,7 +57,7 @@ $linkGroup_array = $linkGroup->getByParent( $LGID );
 
 if ( count( $linkGroup_array ) == 0 )
 {
-    $t->set_var( "group_list", "<p>Ingen grupper funnet.</p>" );
+    $t->set_var( "group_list", "" );
 }
 else
 {
@@ -120,7 +120,7 @@ if ( count( $link_array ) == 0 )
     }
     else
     {
-    $t->set_var( "link_list", "<p>Ingen linker ble funnet.</p>" );
+    $t->set_var( "link_list", "" );
     }
     
 }
