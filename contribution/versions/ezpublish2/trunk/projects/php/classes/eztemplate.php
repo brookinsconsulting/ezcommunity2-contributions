@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eztemplate.php,v 1.34 2001/03/21 13:45:04 jb Exp $
+// $Id: eztemplate.php,v 1.35 2001/05/07 08:32:57 jb Exp $
 //
 // Definition of eZTemplate class
 //
@@ -133,7 +133,7 @@ class eZTemplate
             {
                 $lang_file = $intl_dir[1] . "/" . $language . "/" . $php_file . ".ini";
                 $this->languageFile[] = $lang_file;
-                if ( file_exists( $lang_file ) )
+                if ( INIFile::file_exists( $lang_file ) )
                 {
                     $this->Ini->load_data( $lang_file, false );
                     $this->TextStrings = array_merge( $this->TextStrings, $this->Ini->read_group( "strings" ) );
@@ -148,7 +148,8 @@ class eZTemplate
         else if ( !is_array( $phpFile ) and !is_array( $intlDir ) )
         {
             $this->languageFile = $intlDir . "/" . $language . "/" . $phpFile . ".ini";
-            if ( file_exists( $this->languageFile ) )
+            $this->Ini = new INIFile();
+            if ( INIFile::file_exists( $this->languageFile ) )
             {
                 $this->Ini = new INIFile( $this->languageFile, false );
                 $this->TextStrings = $this->Ini->read_group( "strings" );
@@ -625,9 +626,17 @@ class eZTemplate
     */
     function &get_var($varname)
     {
+        $err = false;
         if (!is_array($varname))
         {
-            return $this->varvals[$varname];
+            if ( isset( $this->varvals[$varname] ) )
+            {
+                return $this->varvals[$varname];
+            }
+            else
+            {
+                return $err;
+            }
 //              return $this->varkeys[$varname];
         }
         else

@@ -804,7 +804,10 @@ if ( !$confirm )
             if ( isset( $LastName ) )
                 $t->set_var( "lastname", eZTextTool::htmlspecialchars( $LastName ) );
 
-            $companyTypeList = eZCompanyType::getTree( 0, 0, true, $t->get_var( "intl-top_category" ) );
+            $top_name = $t->get_var( "intl-top_category" );
+            if ( !is_string( $top_name ) )
+                $top_name = "";
+            $companyTypeList = eZCompanyType::getTree( 0, 0, true, $top_name );
 
             $categoryList = array();
             $categoryList = eZPerson::companies( $PersonID, false );

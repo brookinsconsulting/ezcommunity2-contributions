@@ -127,9 +127,11 @@ class INIFile
             if ( !file_exists($inifilename) )
             { 
                 $this->error( "This file ($inifilename) does not exist!"); 
-                return;
             }
-            $this->parse($inifilename);
+            else
+            {
+                $this->parse($inifilename);
+            }
         }
         if ( $useoverride )
             $this->load_override_data( "override/" . $inifilename );
@@ -146,6 +148,13 @@ class INIFile
         {
             $this->parse($appendfilename, true );
         }
+    }
+
+    function file_exists( $inifilename )
+    {
+        return ( file_exists( "override/$inifilename.append" ) or
+                 file_exists( "override/$inifilename" ) or
+                 file_exists( $inifilename ) );
     }
 
     /*!
