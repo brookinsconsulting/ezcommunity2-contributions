@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: cart.php,v 1.46 2001/08/30 07:47:03 ce Exp $
+// $Id: cart.php,v 1.47 2001/08/30 09:57:31 ce Exp $
 //
 // Created on: <27-Sep-2000 11:57:49 bf>
 //
@@ -63,10 +63,17 @@ if ( ( $Action == "Refresh" ) || isSet( $DoCheckOut ) )
         $cartItem = new eZCartItem( $cartID );
         $product =& $cartItem->product();
 
-        if ( $product->totalQuantity() < $CartCountArray[$i] )
+        if ( ( $product->totalQuantity() < $CartCountArray[$i] ) and ( $product->totalQuantity() != false ) )
+        {
+            print( "hm" );
             $cartItem->setCount( $product->totalQuantity() );
+        }
         else
+        {
+            print( "blas" );
             $cartItem->setCount( $CartCountArray[$i] );
+        }
+        
         $cartItem->store();
 
         $i++;

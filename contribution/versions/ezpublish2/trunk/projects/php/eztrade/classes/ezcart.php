@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezcart.php,v 1.23 2001/08/21 11:21:41 ce Exp $
+// $Id: ezcart.php,v 1.24 2001/08/30 09:57:31 ce Exp $
 //
 // Definition of eZCart class
 //
@@ -308,6 +308,7 @@ class eZCart
        foreach ( $items as $item )
        {
            $product =& $item->product();
+
            $shippingGroup =& $product->shippingGroup();
            if ( $shippingGroup )
            {
@@ -334,11 +335,6 @@ class eZCart
            }
        }
        $cost += $max;
-//         if ( isset( $max_id ) )
-//         {
-//             print( $max );
-//         }
-
        foreach ( $ShippingCostValues as $value )
        {
            $count = $value["Count"];
@@ -346,13 +342,7 @@ class eZCart
                --$count;
            // Add additional values if any
            $cost += $value["Values"]["AddValue"]*$count;
-//             print( "+ " . $value["Values"]["AddValue"]*$count ."(".$value["Values"]["AddValue"]."*".$count.") " );
        }
-//         print( "= $cost" );
-//         print( "<pre>" );
-//         print_r( $ShippingCostValues );
-//         print( "</pre>" );
-//         exit();
 
        return $cost;
     }

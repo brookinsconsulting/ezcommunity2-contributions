@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: productview.php,v 1.57 2001/08/30 07:47:03 ce Exp $
+// $Id: productview.php,v 1.58 2001/08/30 09:57:31 ce Exp $
 //
 // Created on: <24-Sep-2000 12:20:32 bf>
 //
@@ -216,10 +216,14 @@ $i = 0;
 $t->set_var( "image", "" );
 $t->set_var( "image_list", "" );
 $image_count = 0;
-foreach ( $images as $image )
+
+
+foreach ( $images as $imageArray )
 {
+    $image = $imageArray["Image"];
     if ( $image->id() != $mainImageID )
     {
+
         if ( ( $i % 2 ) == 0 )
         {
             $t->set_var( "td_class", "bglight" );
