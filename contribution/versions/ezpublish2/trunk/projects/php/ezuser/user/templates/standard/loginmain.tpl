@@ -41,6 +41,9 @@
 <!-- BEGIN extra_creation_tpl -->
 {extra_userbox}
 <!-- END extra_creation_tpl -->
+<tr>
+	<td colspan="2" class="menuspacer">&nbsp;</td>
+</tr>
 </table>
 <input type="hidden" name="RedirectURL" value="{redirect_url}">
 </form>

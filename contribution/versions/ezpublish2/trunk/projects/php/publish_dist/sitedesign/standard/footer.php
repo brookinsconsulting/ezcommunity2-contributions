@@ -1,4 +1,4 @@
-
+	<br />
     </td>
    	<td width="1%" bgcolor="#ffffff"><img src="/images/1x1.gif" width="2" height="1" border="0" alt="0" /></td>
 
@@ -69,9 +69,10 @@ if ( $Design == 3 )
 
 
     ?>
-    <a href="<? print( $REQUEST_URI . "?Design=1"); ?>">Intranet site</a><br />
-    <a href="<? print( $REQUEST_URI . "?Design=2"); ?>">E-commerce</a><br />
-    <a href="<? print( $REQUEST_URI . "?Design=3"); ?>">News site</a><br />
+	<h2>Different sitedesigns:</h2>
+    <a href="<? print( $REQUEST_URI . "?Design=1"); ?>"><b>Intranet</b></a><br />
+    <a href="<? print( $REQUEST_URI . "?Design=2"); ?>"><b>E-commerce</b></a><br />
+    <a href="<? print( $REQUEST_URI . "?Design=3"); ?>"><b>News</b></a><br />
     
 	 <img src="/images/1x1.gif" width="130" height="1" border="0"><br />
 	 
