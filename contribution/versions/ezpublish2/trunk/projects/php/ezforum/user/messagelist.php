@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: messagelist.php,v 1.17 2001/03/09 15:41:23 th Exp $
+// $Id: messagelist.php,v 1.18 2001/03/13 10:47:37 th Exp $
 //
 // Lars Wilhelmsen <lw@ez.no>
 // Created on: <11-Sep-2000 22:10:06 bf>
@@ -37,7 +37,6 @@ include_once( "ezforum/classes/ezforum.php" );
 
 $Language = $ini->read_var( "eZForumMain", "Language" );
 $Limit = $ini->read_var( "eZForumMain", "MessageLimit" );
-$Limit=5;
 $t = new eZTemplate( "ezforum/user/" . $ini->read_var( "eZForumMain", "TemplateDir" ),
                      "ezforum/user/intl", $Language, "messagelist.php" );
 
