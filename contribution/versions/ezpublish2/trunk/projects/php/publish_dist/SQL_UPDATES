@@ -450,6 +450,8 @@ ALTER TABLE eZArticle_Category ADD OwnerGroupID int(11) DEFAULT NULL;
 ALTER TABLE eZArticle_Article ADD OwnerGroupID int(11) DEFAULT NULL;
 ALTER TABLE eZArticle_Category ADD ReadPermission int(1) DEFAULT '0';
 ALTER TABLE eZArticle_Article ADD ReadPermission int(1) DEFAULT '0';
+UPDATE eZArticle_Article SET ReadPermission='2';
+UPDATE eZArticle_Category SET ReadPermission='2';
 
 CREATE TABLE eZArticle_CategoryReaderLink (
   ID int(11) DEFAULT '0' NOT NULL auto_increment,
