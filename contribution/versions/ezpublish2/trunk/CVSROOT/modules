@@ -54,6 +54,7 @@ ezmail		projects/php/ezmail
 ezaddress	projects/php/ezaddress
 ezexchange	projects/php/ezexchange
 ezmailgw	projects/php/ezmailgw
+ezmail          projects/php/ezmail
 ezerror		projects/php/ezerror
 
 # Distribution
