@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: messageedit.php,v 1.21 2001/02/24 13:29:43 pkej Exp $
+// $Id: messageedit.php,v 1.22 2001/02/24 13:52:20 pkej Exp $
 //
 // Paul K Egell-Johnsen <pkej@ez.no>
 // Created on: <21-Feb-2001 18:00:00 pkej>
@@ -151,7 +151,7 @@ switch( $Action )
 
         $ShowMessage = true;
         include_once( "ezforum/user/messagebody.php" );
-   }
+    }
     break;
     
     case "completed":
@@ -215,7 +215,8 @@ switch( $Action )
         $msg = new eZForumMessage( $OriginalID );
 
         $CheckMessageID = $OriginalID;
-        $CheckForumID = $msg->forumID();
+        $ForumID = $msg->forumID();
+        $CheckForumID = $ForumID;
         $msg->readLock();
         include( "ezforum/user/messagepermissions.php" );
 
@@ -230,6 +231,35 @@ switch( $Action )
         $msg->writeLock();
         $msg->store();
         $msg->unLock();
+        
+        if( $StartAction == "reply" )
+        {
+            include_once( "ezforum/user/messagereply.php" );
+        }
+        else
+        {
+            if( !is_object( $forum ) )
+            {
+                $forum = new eZForum( $ForumID );
+            }
+
+            // send mail to forum moderator
+            $moderator = $forum->moderator();
+
+            if ( $moderator )
+            {
+                $mail = new eZMail();
+
+                $mail->setSubject( $msg->topic() );
+                $mail->setBody( $msg->body( false ) );
+
+                $mail->setFrom( $moderator->email() );
+                $mail->setTo( $moderator->email() );
+
+                $mail->send();
+            }
+        }
+        
         eZHTTPTool::header( "Location: /forum/messageedit/$ActionValue/$OriginalID?ReplyToID=$ReplyToID&ActionStart=$ActionStart&RedirectURL=$RedirectURL" );
     }
     break;
@@ -442,6 +472,17 @@ switch( $Action )
                         $msg->setForumID( $ForumID );
                         $msg->setParent( $ReplyToID );
                         
+                        $forum = new eZForum( $ForumID );
+                        
+                        if ( $forum->isModerated() )
+                        {
+                            $msg->setIsApproved( false );
+                        }
+                        else
+                        {
+                            $msg->setIsApproved( true );
+                        }
+
                     }
                     break;
                     

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: messagereply.php,v 1.23 2001/02/23 16:05:02 pkej Exp $
+// $Id: messagereply.php,v 1.24 2001/02/24 13:52:20 pkej Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <24-Sep-2000 12:20:32 bf>
@@ -23,62 +23,20 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, US
 //
 
-include_once( "classes/INIFile.php" );
-include_once( "classes/ezhttptool.php" );
-
-$ini =& $GLOBALS["GlobalSiteIni"];
-
-$Language = $ini->read_var( "eZForumMain", "Language" );
-$ReplyPrefix = $ini->read_var( "eZForumMain", "ReplyPrefix" );
-
-include_once( "classes/eztemplate.php" );
-include_once( "classes/ezmail.php" );
-include_once( "classes/eztexttool.php" );
-include_once( "classes/ezlocale.php" );
-
-include_once( "ezuser/classes/ezuser.php" );
-
-include_once( "ezforum/classes/ezforummessage.php");
-include_once( "ezforum/classes/ezforumcategory.php");
-
-if ( $Action == "insert" )
+if ( $StartAction == "reply" )
 {
-    $original = new eZForumMessage( $ReplyID );
-    
-    $reply = new eZForumMessage( );
-
-    $reply->setForumID( $original->forumID() );
-
-    $reply->setTopic( strip_tags( $Topic ) );
-         
-    $reply->setBody( $Body );
-
-    $reply->setParent( $original->id() );
-    
-    $user = eZUser::currentUser();
-    
-    $reply->setUserId( $user->id() );
-
-    if ( $notice )
-        $reply->enableEmailNotice();
-    else
-        $reply->disableEmailNotice();
-
-    $forum_id = $original->forumID();
-    $forum = new eZForum( $forum_id );
-
-    if ( $forum->isModerated() )
+    if( !is_object( $msg )  )
     {
-        $reply->setIsApproved( false );
+        $msg = new eZForumMessage( $MessageID );
     }
-    else
+
+    $ForumID = $msg->forumId();
+
+    if( !is_object( $forum ) )
     {
-        $reply->setIsApproved( true );
+        $forum = new eZForum( $ForumID );
     }
     
-    $reply->store();    
-
-
     // send mail to forum moderator
     $moderator = $forum->moderator();
 
@@ -86,8 +44,8 @@ if ( $Action == "insert" )
     {
         $mail = new eZMail();
 
-        $mail->setSubject( $reply->topic() );
-        $mail->setBody( $reply->body( false ) );
+        $mail->setSubject( $msg->topic() );
+        $mail->setBody( $msg->body( false ) );
 
         $mail->setFrom( $moderator->email() );
         $mail->setTo( $moderator->email() );
@@ -95,11 +53,7 @@ if ( $Action == "insert" )
         $mail->send();
     }
 
-    // send out email notices
-    $forum = new eZForum( $original->forumID() );
-    $messages = $forum->messageThreadTree( $reply->threadID() );
-
-    $mail = new eZMail();
+    $messages = $forum->messageThreadTree( $msg->threadID() );
 
     $mail->setFrom( "noreply@ez.no" );
     
@@ -114,22 +68,26 @@ if ( $Action == "insert" )
     $emailNoticeArray = array();
     foreach ( $messages as $message )
     {
-        if ( $message->id() != $reply->id() )
+        if ( $message->id() != $msg->id() )
         {
-            if ( ( $message->treeID() > $reply->treeID() ) && $message->emailNotice() )
+            if ( ( $message->treeID() > $msg->treeID() ) && $message->emailNotice() )
             {
                 
                 $headersInfo = ( getallheaders() );
-                $mailTemplate->set_var( "arthur", $user->firstName() . " " . $user->lastName() );
-                $mailTemplate->set_var( "postingtime", $locale->format( $message->postingTime() ) );
+                $mailTemplate->set_var( "author", $user->firstName() . " " . $user->lastName() );
+                $mailTemplate->set_var( "posted_at", $locale->format( $message->postingTime() ) );
                 
-                $mailTemplate->set_var( "topic", $reply->topic() );
-                $mailTemplate->set_var( "body", $reply->body( false ) );
-                $mailTemplate->set_var( "link", "http://" . $headersInfo["Host"] . "/forum/message/" . $reply->id() );
+                $subject_line = $mailTemplate->Ini->read_var( "strings", "subject_prepend" );
+                $subject_line = $subject_line . $msg->topic();
+                $subject_line = $subject_line . $mailTemplate->Ini->read_var( "strings", "subject_append" );
+                
+                $mailTemplate->set_var( "topic", $msg->topic() );
+                $mailTemplate->set_var( "body", $msg->body( false ) );
+                $mailTemplate->set_var( "link", "http://" . $headersInfo["Host"] . "/forum/message/" . $msg->id() );
 
                 $bodyText = ( $mailTemplate->parse( "dummy", "mailreply" ) );
 
-                $mail->setSubject( $reply->topic() );
+                $mail->setSubject( $subject_line );
 
                 $user =& $message->user();
 
@@ -145,81 +103,5 @@ if ( $Action == "insert" )
             }
         }
     }
-
-    eZHTTPTool::header( "Location: /forum/messagelist/$forum_id/" );
 }
-
-$t = new eZTemplate( "ezforum/user/" . $ini->read_var( "eZForumMain", "TemplateDir" ),
-                     "ezforum/user/intl", $Language, "messagereply.php" );
-$t->setAllStrings();
-
-$t->set_file( "replymessage", "messagereply.tpl");
-
-$category = new eZForumCategory();
-
-$msg = new eZForumMessage( $ReplyID );
-$ForumID = $msg->forumID();
-$forum = new eZForum( $ForumID );
-
-$group =& $forum->group();
-
-if ( get_class( $group ) == "ezusergroup" )
-{
-    $user = eZUser::currentUser();
-    if ( get_class ( $user ) == "ezuser" )
-    {
-        $groupList =& $user->groups();
-        
-        foreach ( $groupList as $userGroup )
-        {
-            if ( $userGroup->id() == $group->id() )
-            {
-                $readPermission = true;
-                break;
-            }
-        }
-    }
-}
-else
-{
-    $readPermission = true;
-}
-
-$categories = $forum->categories();
-$category = new eZForumCategory( $categories[0]->id() );
-
-$t->set_var( "category_name", $category->name() );
-
-$t->set_var( "forum_name", $forum->name() );
-$user = eZUser::currentUser();
-
-if ( !$user )
-{
-    eZHTTPTool::header( "Location: /forum/userlogin/reply/$ReplyID" );
-}
-
-$t->set_var( "forum_id", $ForumID );
-
-$t->set_var( "msg_id", $msg->id() );
-
-$topic =  stripslashes( $msg->topic() );
-
-if ( !ereg( "^$ReplyPrefix", $topic ) )
-{
-    $topic = $ReplyPrefix . $topic;
-}
-
-$t->set_var( "topic", $topic );
-
-$t->set_var( "user", $user->firstName() . " " . $user->lastName() );
-
-$text = eZTextTool::addPre( $msg->body() );
-
-$t->set_var( "body", $text );
-$t->set_var( "category_id", $CategoryID );
-$t->set_var( "message_id", $ReplyID );
-
-
-if ( $readPermission == true )
-    $t->pparse("output", "replymessage");
 ?>
