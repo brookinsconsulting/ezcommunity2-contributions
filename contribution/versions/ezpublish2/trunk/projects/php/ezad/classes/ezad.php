@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezad.php,v 1.7 2000/12/23 15:10:04 bf Exp $
+// $Id: ezad.php,v 1.8 2001/01/02 18:10:22 ce Exp $
 //
 // Definition of eZAd class
 //
@@ -239,7 +239,7 @@ class eZAd
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
 
-       return $this->View;
+       return $this->ViewPrice;
     }
 
     /*!

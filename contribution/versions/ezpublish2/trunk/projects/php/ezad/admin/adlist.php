@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: adlist.php,v 1.3 2000/11/27 15:34:51 bf-cvs Exp $
+// $Id: adlist.php,v 1.4 2001/01/02 18:10:22 ce Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <22-Nov-2000 21:08:34 bf>
@@ -56,6 +56,9 @@ $t->set_block( "ad_list_page_tpl", "ad_list_tpl", "ad_list" );
 $t->set_block( "ad_list_tpl", "ad_item_tpl", "ad_item" );
 $t->set_block( "ad_item_tpl", "ad_is_active_tpl", "ad_is_active" );
 $t->set_block( "ad_item_tpl", "ad_not_active_tpl", "ad_not_active" );
+$t->set_block( "ad_item_tpl", "image_item_tpl", "image_item" );
+$t->set_block( "ad_item_tpl", "no_image_tpl", "no_image" );
+
 
 $category = new eZAdCategory( $CategoryID );
 
@@ -138,6 +141,25 @@ foreach ( $adList as $ad )
         $t->set_var( "ad_is_active", "" );
         $t->parse( "ad_not_active", "ad_not_active_tpl" );
     }
+
+    $image = $ad->image();
+    if ( get_class ( $image ) == "ezimage" )
+    {
+        $imageURL = $image->filePath();
+
+        $t->set_var( "image_width", $imageWidth );
+        $t->set_var( "image_height", $imageHeight );
+        $t->set_var( "image_url", $imageURL );
+        $t->set_var( "image_caption", $imageCaption );
+        $t->parse( "image_item", "image_item_tpl" );
+        $t->set_var( "no_image", "" );
+    }
+    else
+    {
+        $t->set_var( "image_item", "" );
+        $t->parse( "no_image", "no_image_tpl" );
+    }
+    
 
     if ( ( $i % 2 ) == 0 )
     {

@@ -102,6 +102,7 @@ onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezac{category_id}-sl
 <!-- BEGIN ad_list_tpl -->
 <table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
 <tr>
+	<th>{intl-image}:</th>
 	<th>{intl-ad}:</th>
 	<th>{intl-active}:</th>
 	<th colspan="2">&nbsp;</th>
@@ -109,6 +110,15 @@ onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezac{category_id}-sl
 
 <!-- BEGIN ad_item_tpl -->
 <tr>
+	<td class="{td_class}">
+	<!-- BEGIN image_item_tpl -->
+	<!-- <p class="boxtext">{intl-th_type_current_image}:</p> -->
+	<p><img src="{image_url}" alt="{image_caption}" width="{image_width}" height="{image_height}" /></p>
+	<!-- END image_item_tpl -->
+	<!-- BEGIN no_image_tpl -->
+	<p class="error">{intl-no_image}</p>
+	<!-- END no_image_tpl -->
+	</td>
 	<td class="{td_class}">
 	<a href="/ad/statistics/{ad_id}/">
 	{ad_name}

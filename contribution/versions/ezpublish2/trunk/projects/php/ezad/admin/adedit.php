@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: adedit.php,v 1.6 2000/12/14 17:50:30 ce Exp $
+// $Id: adedit.php,v 1.7 2001/01/02 18:10:22 ce Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <16-Nov-2000 13:02:32 bf>
@@ -33,6 +33,18 @@ include_once( "classes/ezdatetime.php" );
 
 include_once( "ezad/classes/ezad.php" );
 include_once( "ezad/classes/ezadcategory.php" );
+
+if ( isSet ( $Preview ) )
+{
+    if ( is_numeric ( $AdID ) && ( $AdID != 0 ) )
+    {
+        $Action = "Update";
+    }
+    else
+    {
+        $Action = "Insert";
+    }
+}
 
 if ( $Action == "Insert" )
 {
@@ -82,7 +94,7 @@ if ( $Action == "Insert" )
     $category->addAd( $ad );
 
     
-    if ( isset( $Update ) )
+    if ( isset( $Preview ) )
     {
         $Action = "Edit";
         $AdID = $ad->id();
@@ -143,7 +155,7 @@ if ( $Action == "Update" )
     $ad->removeFromCategories();
     $category->addAd( $ad );
     
-    if ( isset( $Update ) )
+    if ( isset( $Preview ) )
     {
         $Action = "Edit";        
     }
@@ -190,6 +202,7 @@ $t->set_var( "ad_url_value", "" );
 $t->set_var( "ad_click_price_value", "" );
 $t->set_var( "ad_view_price_value", "" );
 $t->set_var( "ad_id", "" );
+$t->set_var( "image", "" );
 
 if ( $Action == "Edit" )
 {
@@ -201,8 +214,8 @@ if ( $Action == "Edit" )
     $t->set_var( "ad_id", $ad->id() );
     $t->set_var( "action_value", "Update" );
 
-    $t->set_var( "ad_click_price_value", $ClickPrice );
-    $t->set_var( "ad_view_price_value", $ViewPrice );
+    $t->set_var( "ad_click_price_value", $ad->clickPrice() );
+    $t->set_var( "ad_view_price_value", $ad->viewPrice() );
     
     if ( $ad->isActive() == true )
     {

@@ -41,7 +41,7 @@
 <input type="checkbox" name="IsActive" {ad_is_active} />
 <span class="boxtext">{intl-ad_is_active}</span><br /><br />
 <hr noshade="noshade" size="4" />
-<input type="submit" name="Update" value="{intl-update}" />
+<input type="submit" name="Preview" value="{intl-update}" />
 <hr noshade="noshade" size="4" />
 
 <input type="submit" class="okbutton" value="{intl-ok}" />
