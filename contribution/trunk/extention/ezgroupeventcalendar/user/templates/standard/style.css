@@ -6,17 +6,19 @@
 
 .bgdark 
 {
-	background-color: #FFFFCC;
+	background-color: #E5E5E5;
 }
 
 .bgcurrent
 {
-	background-color: #CCFFFF;
+	background-color: #E1E8F1;
 }
 
 .bgweekend
 {
-	background-color: #FFFFFF;
+/*	background-color: #FFFFFF;
+*/
+      background-color: #eee;
 }
 
 .bgselect
