@@ -1449,7 +1449,7 @@ class eZGroupEvent
 
             $forum->store();
 	    $ini =& INIFile::globalINI();
-	    $linkModules = $ini->read_var( "eZForumMain", "LinkModules" );
+	    $linkModules = $ini->read_var( "eZGroupEventCalendarMain", "LinkModules" );
 	    $module_array = explode(',', $linkModules );
 	    unset ($linkModules);
 	    foreach ( $module_array as $module)
