@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezqdomrenderer.php,v 1.17 2001/07/13 12:02:54 bf Exp $
+// $Id: ezqdomrenderer.php,v 1.18 2001/07/15 16:55:44 bf Exp $
 //
 // Definition of eZQDomRenderer class
 //
@@ -147,7 +147,10 @@ class eZQDomrenderer
         $this->Template->set_block( "articletags_tpl", "image_tpl", "image"  );
         $this->Template->set_block( "image_tpl", "image_link_tpl", "image_link"  );
         $this->Template->set_block( "image_tpl", "ext_link_tpl", "ext_link"  );
-       
+
+        $this->Template->set_block( "image_tpl", "image_text_tpl", "image_text"  );
+
+
         $this->Template->set_block( "articletags_tpl", "image_float_tpl", "image_float" );
         $this->Template->set_block( "image_float_tpl", "image_link_float_tpl", "image_link_float" );
         $this->Template->set_block( "image_float_tpl", "ext_link_float_tpl", "ext_link_float"  );        
@@ -176,7 +179,7 @@ class eZQDomrenderer
     */
     function &renderIntro()
     {
-        $xml =& qdom_tree( $this->Article->contents() );
+        $xml =& xmltree( $this->Article->contents() );
 
         if ( !$xml )
         {
@@ -512,10 +515,19 @@ class eZQDomrenderer
                         $this->Template->parse( "image_link", "image_link_tpl" );
                     }
 
+                    if ( trim( $imageCaption ) == "" )
+                    {
+                        $this->Template->set_var( "image_text", "" );
+                    }
+                    else
+                    {
+                        $this->Template->parse( "image_text", "image_text_tpl" );
+                    }
+                    
                     $pageContent = $this->Template->parse( "image", "image_tpl" );
                 }
                 else
-                {
+                {                    
                     if ( $imageHref != "" )
                     {
                         // convert link
@@ -530,7 +542,7 @@ class eZQDomrenderer
                         $this->Template->set_var( "ext_link_float", "" );
                         $this->Template->parse( "image_link_float", "image_link_float_tpl" );
                     }
-                    
+
                     $pageContent = $this->Template->parse( "image_float", "image_float_tpl" );
                 }
             }

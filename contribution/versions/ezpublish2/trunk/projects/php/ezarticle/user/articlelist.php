@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: articlelist.php,v 1.51 2001/07/05 17:11:31 bf Exp $
+// $Id: articlelist.php,v 1.52 2001/07/15 16:55:45 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <18-Oct-2000 14:41:37 bf>
@@ -48,11 +48,21 @@ $GrayScaleImageList = $ini->read_var( "eZArticleMain", "GrayScaleImageList" );
 $t = new eZTemplate( "ezarticle/user/" . $ini->read_var( "eZArticleMain", "TemplateDir" ),
                      "ezarticle/user/intl/", $Language, "articlelist.php" );
 
+$TemplateDir = $ini->read_var( "eZArticleMain", "TemplateDir" );
 $t->setAllStrings();
 
-$t->set_file( array(
-    "article_list_page_tpl" => "articlelist.tpl"
-    ) );
+// override template for the current category
+$override = "_override_$CategoryID";
+
+
+if ( file_exists( "ezarticle/user/$TemplateDir/articlelist" . $override  . ".tpl" ) )
+{
+    $t->set_file( "article_list_page_tpl", "articlelist" . $override  . ".tpl"  );
+}
+else
+{
+    $t->set_file( "article_list_page_tpl", "articlelist.tpl"  );
+}
 
 $t->set_block( "article_list_page_tpl", "header_item_tpl", "header_item" );
 

@@ -37,11 +37,13 @@
    </a>   
 </td>
 </tr>
+<!-- BEGIN image_text_tpl -->
 <tr>
    <td class="pictext" bgcolor="#eeeeee">
     {caption}
    </td>
 </tr>
+<!-- END image_text_tpl -->
 </table>
 <!-- END image_tpl -->
 
