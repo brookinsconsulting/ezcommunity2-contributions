@@ -4,20 +4,30 @@
 
 <form method="post" action="/mail/filteredit/{current_filter_id}" enctype="multipart/form-data" >
 
+<b>{intl-if} </b>
 <select name="HeaderSelect">
 <!-- BEGIN header_item_tpl -->
 <option value="{header_id}" {is_selected}>{header_name}</option>
 <!-- END header_item_tpl -->
 </select>
-
+<br />
+<br />
 <select name="CheckSelect">
 <!-- BEGIN check_item_tpl -->
 <option value="{check_id}" {is_selected}>{check_name}</option>
 <!-- END check_item_tpl -->
 </select>
+&nbsp;
+<input type="text" size="40" name="Match" value="{match_value}"/>
 
-<p class="boxtext">{intl-matches}:</p>
-<input type="text" size="40" name="Name" value="{match_value}"/>
+<br/><br />
+<b>{intl-move_to} </b>
+<select name="FolderSelectID">
+   <!-- BEGIN folder_item_tpl -->
+   <option value="{folder_id}" {is_selected}>{folder_name}</option>
+   <!-- END folder_item_tpl -->
+</select>
+
 
 <br />
 <hr noshade="noshade" size="4">

@@ -6,6 +6,36 @@ include_once( "ezuser/classes/ezuser.php" );
 include_once( "classes/ezhttptool.php" );
 
 include_once( "ezmail/classes/ezmailfilterrule.php" );
+include_once( "ezmail/classes/ezmailfolder.php" );
+
+if( isset( $Ok ) )
+{
+    if( $FilterID == 0 )
+    {
+        $filter = new eZMailFilterRule();
+        $filter->setOwner( eZUser::currentUser() );
+        $filter->setIsActive( true );
+    }
+    else
+    {
+        $filter = new eZMailFilterRUle( $FilterID );
+    }
+
+    $filter->setHeaderType( $HeaderSelect );
+    $filter->setCheckType( $CheckSelect );
+    $filter->setFolderID( $FolderSelectID );
+    $filter->setMatch( $Match );
+    $filter->store();
+    eZHTTPTool::header( "Location: /mail/config/" );
+    exit();
+}
+
+if( isset( $Cancel ) )
+{
+    eZHTTPTool::header( "Location: /mail/config/" );
+    exit();
+}
+
 
 $ini =& INIFile::globalINI();
 $Language = $ini->read_var( "eZMailMain", "Language" ); 
@@ -20,9 +50,12 @@ $t->set_file( array(
 
 $t->set_block( "filter_edit_page_tpl", "header_item_tpl", "header_item" );
 $t->set_block( "filter_edit_page_tpl", "check_item_tpl", "check_item" );
+$t->set_block( "filter_edit_page_tpl", "folder_item_tpl", "folder_item" );
 $t->set_var( "check_item", "" );
 $t->set_var( "header_item", "" );
 $t->set_var( "match_value", "" );
+$t->set_var( "folder_item", "" );
+$t->set_var( "current_filter_id", "" );
 
 if( $FilterID != 0 ) // someone set us up the bomb
 {
@@ -76,6 +109,15 @@ foreach( array( FILTER_EQUALS, FILTER_NEQUALS, FILTER_CONTAINS, FILTER_NCONTAINS
         $t->set_var( "is_selected", "" );
     $t->parse( "check_item", "check_item_tpl", true );
 } 
+
+$folders = eZMailFolder::getByUser();
+$folders[] = eZMailFolder::getSpecialFolder( TRASH );
+foreach( $folders as $folderItem )
+{
+    $t->set_var( "folder_id", $folderItem->id() );
+    $t->set_var( "folder_name", $folderItem->name() );
+    $t->parse( "folder_item", "folder_item_tpl", true );
+}
 
 $t->pparse( "output", "filter_edit_page_tpl" );
 ?>
