@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezxmlrpcerrorhandler.php,v 1.1 2001/07/05 09:01:03 matta Exp $
+// $Id: ezxmlrpcerrorhandler.php,v 1.2 2001/07/05 09:57:04 matta Exp $
 //
 // Definition of eZXMLRPC Error Handler
 //
@@ -55,7 +55,7 @@ function ezxmlrpcErrorHandler ($errno, $errstr, $errfile, $errline)
 			$ret->setError("666","PHP Error [$errno] $errstr in $errfile on $errline");
 		break;
 		default:
-			//$ret->setError("6661","PHP Error [$errno] $errstr in $errfile on $errline");
+			//$ret->setError("6661","PHP Error [$errno] $errstr in $errfile on line $errline");
 			unset( $ret );
 			return true;
 		break;
