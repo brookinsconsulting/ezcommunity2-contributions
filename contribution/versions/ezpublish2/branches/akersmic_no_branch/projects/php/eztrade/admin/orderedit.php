@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: orderedit.php,v 1.31.8.3 2002/01/23 15:23:29 br Exp $
+// $Id: orderedit.php,v 1.31.8.4 2002/01/28 17:37:37 br Exp $
 //
 // Created on: <30-Sep-2000 13:03:13 bf>
 //
@@ -205,6 +205,7 @@ $t->set_block( "order_edit_tpl", "online_payment_list_tpl", "online_payment_list
 $t->set_block( "online_payment_list_tpl", "online_payment_item_tpl", "online_payment_item" );
 $t->set_block( "order_edit_tpl", "online_payment_pay_tpl", "online_payment_pay" );
 $t->set_block( "order_edit_tpl", "refunded_amount_tpl", "refunded_amount" );
+$t->set_block( "order_edit_tpl", "online_payment_verified_tpl", "online_payment_verified" );
 
 $order = new eZOrder( $OrderID );
 
@@ -579,7 +580,19 @@ if ( count ( $usedVouchers ) > 0 )
 $paidArray = $order->paidAmount();
 $totalPaidAmount = 0;
 
-$pnutr = $order->pnutr();
+$preOrder = new eZPreOrder();
+$preOrder->getByOrderID( $order->id() );
+$pnutr = $preOrder->verified();
+
+if ( $pnutr )
+{
+    $t->set_var( "pnutr", $pnutr );
+    $t->parse( "online_payment_verified", "online_payment_verified_tpl" );
+}
+else
+{
+    $t->set_var( "online_payment_verified", "" );
+}
 
 if ( count( $paidArray ) > 0 && $pnutr )
 {
@@ -603,6 +616,8 @@ if ( count( $paidArray ) > 0 && $pnutr )
         $t->set_var( "hour", $hour < 10 ? "0" . $hour : $hour );
         $t->set_var( "minute", $minute < 10 ? "0" . $minute : $minute );
         $t->set_var( "second", $second < 10 ? "0" . $second : $second );
+
+	$t->set_var( "pnutr", $paid["Pnutr"] );
 
         $t->parse( "online_payment_item", "online_payment_item_tpl", true );
     }
@@ -637,7 +652,7 @@ else
 // print the refunded amount if any.
 if ( $refundAmount > 0 )
 {
-    $currency->setValue( $maxAmount );
+    $currency->setValue( $refundAmount );
     $t->set_var( "refund_amount", $locale->format( $currency ) );
     $t->parse( "refunded_amount", "refunded_amount_tpl" );
 }

@@ -1,5 +1,5 @@
 <!-- orderlist.tpl --> 
-<!-- $Id: orderedit.tpl,v 1.8.8.2 2002/01/22 16:54:43 br Exp $ -->
+<!-- $Id: orderedit.tpl,v 1.8.8.3 2002/01/28 17:37:37 br Exp $ -->
 
 <h1>{intl-head_line} ({order_id})</h1>
 
@@ -53,6 +53,13 @@
 	</td>
 </tr>
 </table>
+
+<!-- BEGIN online_payment_verified_tpl -->
+<p class="boxtext">{intl-transaction_paid}.</p>
+{intl-paynet_pnutr}: {pnutr}
+<br />
+<br />
+<!-- END online_payment_verified_tpl -->
 
 <h2>{intl-productlist}</h2>
 
@@ -300,12 +307,14 @@
   <tr>
      <th>{intl-amount}:</th>
      <th>{intl-moment_time}:</th>
+     <th>{intl-paynet_pnutr}:</th>
   </tr>
   <!-- BEGIN online_payment_item_tpl -->
   <tr>
     <td class="{td_class}">{online_payment}</td>
     <td class="{td_class}">{day}.{month}.{year} - {hour}:{minute}:{second}</td>
-  <tr>
+    <td class="{td_class}">{pnutr}</td>
+  </tr>
   <!-- END online_payment_item_tpl -->
 </table>
 
@@ -337,6 +346,7 @@
 <br />
 
 <h2>{intl-order_status}</h2>
+
 
 <table width="100%">
 <tr>
