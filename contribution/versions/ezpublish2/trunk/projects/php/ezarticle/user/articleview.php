@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: articleview.php,v 1.76 2001/09/11 07:58:25 bf Exp $
+// $Id: articleview.php,v 1.77 2001/09/11 08:31:02 bf Exp $
 //
 // Created on: <18-Oct-2000 16:34:51 bf>
 //
@@ -34,11 +34,6 @@ include_once( "ezarticle/classes/ezarticlerenderer.php" );
 include_once( "ezmail/classes/ezmail.php" );
 
 
-if ( !isset( $CategoryID ) )
-    $CategoryID = eZArticle::categoryDefinitionStatic( $ArticleID );
-
-$GlobalSectionID = eZArticleCategory::sectionIDStatic( $CategoryID );
-
 
 $ini =& INIFile::globalINI();
 
@@ -47,10 +42,15 @@ $ForceCategoryDefinition = $ini->read_var( "eZArticleMain", "ForceCategoryDefini
 $CapitalizeHeadlines = $ini->read_var( "eZArticleMain", "CapitalizeHeadlines" );
 $TemplateDir = $ini->read_var( "eZArticleMain", "TemplateDir" );
 
+if ( !isset( $CategoryID ) )
+    $CategoryID = eZArticle::categoryDefinitionStatic( $ArticleID );
+
 if ( $ForceCategoryDefinition == "enabled" )
 {
     $CategoryID = eZArticle::categoryDefinitionStatic( $ArticleID );
 }
+
+$GlobalSectionID = eZArticleCategory::sectionIDStatic( $CategoryID );
 
 $t = new eZTemplate( "ezarticle/user/" . $TemplateDir,
                      "ezarticle/user/intl/", $Language, "articleview.php" );
