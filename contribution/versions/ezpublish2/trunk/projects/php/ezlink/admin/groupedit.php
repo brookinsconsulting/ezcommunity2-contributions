@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: groupedit.php,v 1.15 2000/09/12 07:54:39 bf-cvs Exp $
+    $Id: groupedit.php,v 1.16 2000/09/14 15:36:09 bf-cvs Exp $
 
     Author: Bård Farstad <bf@ez.no>
     
@@ -35,7 +35,7 @@ if ( $Action == "delete" )
     $deletelinkgroup->get( $LGID );
     $deletelinkgroup->delete();
 
-    Header( "Location: index.php?page=../ezlink/admin/linklist.php" );
+    Header( "Location: /link/" );
 }
 
 // Legg til gruppe
@@ -53,7 +53,8 @@ if ( $Action == "insert" )
     
     $message = "Legg til gruppe";
     $submit = "Legg til";
-    Header( "Location: index.php?page=../ezlink/admin/linklist.php" );    
+//      Header( "Location: index.php?page=../ezlink/admin/linklist.php" );
+    Header( "Location: /link/" );
 }
 
 // Oppdatere

@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: ezsession.php,v 1.7 2000/09/08 13:17:17 bf-cvs Exp $
+    $Id: ezsession.php,v 1.8 2000/09/14 15:36:09 bf-cvs Exp $
 
     Author: Lars Wilhelmsen <lw@ez.no> (Bård Farstad <bf@ez.no>)
     
@@ -40,6 +40,7 @@ class eZSession
         setcookie ( "AuthenticatedSession", $this->Hash, 0, "/",  "", 0 )
             or die( "Feil: kunne ikke sette cookie." );
 
+
         mysql_query( "INSERT INTO SessionTable( sid, usr) VALUES( '$this->Hash', '$this->UserID')" )
             or die("could not insert session into db, dying...");
 
@@ -55,8 +56,8 @@ class eZSession
      */
     function get( $hash )
     {
-
         $ret = 1;
+        
         $this->dbInit();
         if ( $hash != "" )
         {
@@ -71,12 +72,9 @@ class eZSession
                 $this->ID = $session_array[ 0 ][ "id" ];
                 $this->Hash = $session_array[ 0 ][ "sid" ];
                 $this->UserID = $session_array[ 0 ][ "usr" ];
-                $ret = 1;
-            }
-            if (count ( $session_array ) == 1)
-            {
                 $ret = 0;
             }
+            
         }
         return $ret;
     }
@@ -121,7 +119,8 @@ class eZSession
 
     function delete( $hash )
     {
-        global $PREFIX;
+        setcookie ( "AuthenticatedSession", "", 0, "/",  "", 0 )
+            or die( "Feil: kunne ikke sette cookie." );
         
         $this->dbInit();
         mysql_query("DELETE FROM SessionTable WHERE sid='$hash'")

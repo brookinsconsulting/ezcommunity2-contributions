@@ -2,7 +2,7 @@
 <head>
 <title>eZPublish administration</title>
 
-<link rel="stylesheet" type="text/css" href="ez.css">
+<link rel="stylesheet" type="text/css" href="/ez.css">
 
 <script language="JavaScript1.2">
 <!--//
@@ -32,10 +32,10 @@ function verify( msg, url )
             <table width="100%" border="0" cellspacing="0" cellpadding="4">
               <tr>
                 <td> 
-                        <img src="images/topplogo.gif" width="430" height="32" border="0">
+                        <img src="/images/topplogo.gif" width="430" height="32" border="0">
                 </td>
                 <td align="right"> 
-                        <a href="http://www.ez.no" target="_blank"><img src="images/ez-logo.gif" width="160" height="32" border="0"></a>
+                        <a href="http://www.ez.no" target="_blank"><img src="/images/ez-logo.gif" width="160" height="32" border="0"></a>
                 </td>
               </tr>
             </table>
@@ -46,7 +46,7 @@ function verify( msg, url )
   </tr>
 </table>
 
-<img src="images/1x1.gif" width="1" height="8" border="0"><br>
+<img src="/images/1x1.gif" width="1" height="8" border="0"><br>
     
 <table width="100%" border="0" cellspacing="0" cellpadding="4" bgcolor="#000000">
   <tr>

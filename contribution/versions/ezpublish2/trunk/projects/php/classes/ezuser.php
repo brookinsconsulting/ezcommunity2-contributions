@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: ezuser.php,v 1.6 2000/09/13 09:48:49 ce-cvs Exp $
+    $Id: ezuser.php,v 1.7 2000/09/14 15:36:09 bf-cvs Exp $
 
     Author: Lars Wilhelmsen <lw@ez.no>
     
@@ -523,14 +523,12 @@ class eZUser
         return $this->AuthHash;
     }
     function validateUser( $userId, $Passwd )
-    {
-        global $PREFIX;
-        
+    {        
         $this->openDB();
-        $userId = addslashes( $userId );
-        $Passwd = addslashes( $Passwd );
-      
-        $query_id = mysql_query( "SELECT Id FROM $PREFIX"."UserTable WHERE nick_name='$userId' AND passwd=PASSWORD('$Passwd')" )
+//          $userId = addslashes( $userId );
+//          $Passwd = addslashes( $Passwd );
+
+        $query_id = mysql_query( "SELECT Id FROM UserTable WHERE nick_name='$userId' AND passwd=PASSWORD('$Passwd')" )
              or die( "Feil ved henting av bruker!" );
         if ( mysql_num_rows( $query_id ) == 0)
         {
@@ -544,13 +542,11 @@ class eZUser
 
     function resolveUser( $Id )
     {
-        global $PREFIX;
-        
         $this->openDB();
 
         if ( ( $Id ) && ( $Id != 0 ) )
         {
-            $q = mysql_query( "SELECT nick_name, first_name, last_name FROM $PREFIX"."UserTable WHERE Id = $Id " )
+            $q = mysql_query( "SELECT nick_name, first_name, last_name FROM UserTable WHERE Id = $Id " )
                  or die("Could not resolve user name, dying...");
         }
         else
@@ -566,11 +562,10 @@ class eZUser
 
     function getByAuthHash( $AuthHash )
     {
-        global $PREFIX;
         
         $this->openDB();
 
-        $query_id = mysql_query( "SELECT Id FROM $PREFIX"."UserTable WHERE auth_hash='$AuthHash'" )
+        $query_id = mysql_query( "SELECT Id FROM UserTable WHERE auth_hash='$AuthHash'" )
              or die("getByAuthHash() failed, dying...");
 
         if ( mysql_num_rows( $query_id ) == 1)
@@ -591,12 +586,10 @@ class eZUser
     
     function getByEmail( $email )
     {
-        global $PREFIX;
-        
         $this->openDB();
         
-        $query_id = mysql_query("SELECT Id FROM $PREFIX"."UserTable WHERE email='$email'")
-             or die("could not look up email in $PREFIX"."UserTable, dying...");
+        $query_id = mysql_query("SELECT Id FROM UserTable WHERE email='$email'")
+             or die("could not look up email in UserTable, dying...");
 
         if ( mysql_num_rows( $query_id ) == 1)
         {

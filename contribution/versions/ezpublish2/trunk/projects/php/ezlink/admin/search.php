@@ -10,7 +10,7 @@ $ini = new INIFile( "../site.ini" );
 $DOC_ROOT = $ini->read_var( "eZLinkMain", "DocumentRoot" );
 
 include_once( "../classes/eztemplate.php" );
-include_once( "common/ezphputils.php" );
+include_once( "../common/ezphputils.php" );
 
 include( "../ezlink/classes/ezlinkgroup.php" );
 include( "../ezlink/classes/ezlink.php" );
@@ -21,7 +21,7 @@ include( "../ezlink/classes/ezquery.php" );
 $Language = $ini->read_var( "eZLinkMain", "Language" );
 
 // setter template filer
-$t = new eZTemplate( $DOC_ROOT . "/" . $Ini->read_var( "eZLinkMain", "TemplateDir" ), $DOC_ROOT . "/intl", $Language, "search.php" );
+$t = new eZTemplate( $DOC_ROOT . "/" . $ini->read_var( "eZLinkMain", "TemplateDir" ), $DOC_ROOT . "/intl", $Language, "search.php" );
 $t->setAllStrings();
 
 $t->set_file( array(

@@ -1,20 +1,21 @@
 <?php
-include_once( "../classes/ezdb.php" );
-include_once( "../classes/ezuser.php" );
-include_once( "../classes/ezsession.php" );
-include_once( "../common/ezphputils.php" );
+ob_start();
 
+include_once( "classes/ezdb.php" );
+include_once( "classes/ezuser.php" );
+include_once( "classes/ezsession.php" );
 
 $user = new eZUser();
+$tmp = $user->validateUser( $Login, $Password );
 
-$tmp = $user->validateUser( $userid, $passwd);
-
-if ($tmp != 0)
+if ($tmp != 0 )
 {
     $session = new eZSession();
     $session->setUserID( $tmp );
     $session->store();
+    
     Header( "Location: index.php" );
+    exit();
 }
 else
 {
@@ -22,4 +23,5 @@ else
     include( "index.php" );
 }
 
+ob_end_flush();
 ?>

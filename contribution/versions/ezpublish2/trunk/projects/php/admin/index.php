@@ -17,10 +17,6 @@ include_once( "classes/INIFile.php" );
 include_once( "classes/template.inc" );
 include_once( "../classes/ezuser.php" );
 
-
-//include_once( "../ezpublish/settings/dbconnect.php" );
-//include_once( "../dbsettings.php" );
-
 include_once( "../classes/ezsession.php" );
 include_once( "../common/ezphputils.php" );
 
@@ -44,7 +40,7 @@ if( $session->get( $AuthenticatedSession ) == 0 )
         include( "ezforumadmin.php" );
 
     if ( $ini->read_var( "site", "eZLink" ) == "enabled" )
-        include( "ezlinkadmin.php" );
+        include( "ezlink/admin/menubox.php" );
 
     if ( $ini->read_var( "site", "eZContact" ) == "enabled" )
         include( "ezcontactadmin.php" );
@@ -53,7 +49,7 @@ if( $session->get( $AuthenticatedSession ) == 0 )
         include( "eztodoadmin.php" );
 
     if ( $ini->read_var( "site", "eZTrade" ) == "enabled" )
-        include( "../eztrade/admin/eztradeadminmenu.php" );
+        include( "eztrade/admin/menubox.php" );
 
     include( "useradmin.php" );
 
@@ -64,18 +60,34 @@ if( $session->get( $AuthenticatedSession ) == 0 )
     include( "separator.php" );
     
     
-    if( file_exists( $page ) )
+    // parse the URI
+    $page = "";
+    
+    // Remove url parameters
+    ereg( "([^?]+)", $REQUEST_URI, $regs) ;
+
+    $REQUEST_URI = $regs[1];
+    
+    $url_array = explode( "/", $REQUEST_URI );
+
+    // send the URI to the right decoder
+    $page = "ez" . $url_array[1] . "/admin/datasupplier.php";
+
+    if ( file_exists( $page ) )
     {
         include( $page );
     }
     else
     {
+        // Load the default page
         include( "main.php" );
-    }
+    }    
+    
 }
 else
 {
     $t->set_file( "login", "./templates/login.tpl" );
+    
     if( !isset( $message ) )
     {
         $message = "Skriv inn brukernavn og passord!";
