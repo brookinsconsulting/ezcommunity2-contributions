@@ -6,6 +6,29 @@ $UserComments = $ini->read_var( "eZArticleMain", "UserComments" );
 
 switch ( $url_array[2] )
 {
+    case "author":
+    {
+        $Action = $url_array[3];
+        switch( $Action )
+        {
+            case "list":
+            {
+                $SortOrder = $url_array[4];
+                include( "ezarticle/user/authorlist.php" );
+                break;
+            }
+            case "view":
+            {
+                $AuthorID = $url_array[4];
+                $SortOrder = $url_array[5];
+                $Offset = $url_array[6];
+                include( "ezarticle/user/authorview.php" );
+                break;
+            }
+        }
+        break;
+    }
+
     case "archive":
     {
         $CategoryID = $url_array[3];
