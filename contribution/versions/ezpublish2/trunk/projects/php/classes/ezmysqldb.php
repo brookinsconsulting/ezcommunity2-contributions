@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezmysqldb.php,v 1.11 2001/07/18 11:00:43 ce Exp $
+// $Id: ezmysqldb.php,v 1.12 2001/07/18 14:56:47 bf Exp $
 //
 // Definition of eZMySQLDB class
 //
@@ -90,8 +90,7 @@ class eZMySQLDB
         else
         {
             $this->unlock();
-            
-            $this->Error = "<code>" . htmlentities( $sql ) . "</code><br>\n<b>" . htmlentities(mysql_error( $this->Database )) . "</b>\n" ;
+            $this->Error = "<code>" . htmlentities( $sql ) . "</code><br>\n<b>" . htmlentities(mysql_error( $this->database)) . "</b>\n" ;
             if ( $GLOBALS["DEBUG"] == true )
             {
                 print( "<b>MySQL Query Error</b>: " . htmlentities( $sql ) . " error message:" . mysql_errno( $this->Database ) . ": ".mysql_error( $this->Database ) ."<br>" );
