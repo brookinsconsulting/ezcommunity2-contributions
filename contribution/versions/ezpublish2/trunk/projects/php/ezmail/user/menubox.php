@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: menubox.php,v 1.15 2002/04/07 14:27:57 fh Exp $
+// $Id: menubox.php,v 1.16 2002/04/17 20:48:37 fh Exp $
 //
 // Created on: <23-Mar-2001 10:57:04 fh>
 //
@@ -35,6 +35,7 @@ include_once( "classes/ezdb.php" );
 include_once( "ezmail/classes/ezmailfolder.php" );
 include_once( "ezsession/classes/ezpreferences.php" );
 include_once( "ezmail/classes/ezmailaccount.php" );
+include_once( "ezmail/classes/imapfunctions.php" );
 
 $user =& eZUser::currentUser();
 if( $user )
@@ -109,7 +110,6 @@ if( $user )
     $imapAccounts = eZMailAccount::getByUser( $user, IMAP );
     if( count( $imapAccounts ) > 0 )
     {
-//        include_once( "ezmail/classes/imapfunctions.php" );
         include_once( "ezmail/classes/ezimapmailfolder.php" );
         foreach( $imapAccounts as $imapAccount )
         {
@@ -146,6 +146,9 @@ if( $user )
     $t->set_var( "sitedesign", $GlobalSiteDesign );
 
     $t->pparse( "output", "menu_box_tpl" );
+// TODO.. this function really needs to be put somewhere else.. (at the very end of the script..)
+IMAPConnections::closeAll();
+
 }
 
 ?>

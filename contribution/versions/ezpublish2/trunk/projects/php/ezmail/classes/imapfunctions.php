@@ -7,55 +7,120 @@ include_once( "ezmail/classes/ezmailfunctions.php" );
 // a connection once. (what about menubox?!?, several imap accounts?!?)
 // TODO: Create an error handling system.
 
-
 /*!
-  Returns the complete folder tree of an imap account. (folders come in correct order ).
-  / entry
-   ->Name
-   ->FullName
-   ->Level
-  TODO:
-  Don't know if this is working correctly yet as I can't create subfolders on the test account.
-  Returns false if the function did not succeed.
+  Internal class used to keep only one IMAP connection open for each account.
+  This saves a lot of connecting time.
+  This class uses the singleton pattern.
  */
-/*
-function imapGetFolderTree( $account )
+$IMAPConnectionInstance = 0;
+class IMAPConnections
 {
-    echo "Was here";
-    if( get_class( $account ) != "ezmailaccount" )
-        $account = new eZMailAccount( $account );
-
-    $mbox = imapConnect( $account );
-    if( !$mbox ) // connection to server failed.
+    /*!
+      Constructur, initialize
+     */
+    function IMAPConnections()
     {
-        return false;
+        $this->Connections = array();
+        $this->CurrentMailBoxes = array(); // keeps track of what folder each mailbox is in.
+        $this->HostByName = array(); //holds ip's of all hosts.
     }
-        
-    $server = $account->server();
-    $mailBoxes = imap_getmailboxes( $mbox, "{" . $server . "}", "*" );
-//    echo "<pre>"; print_r( $mailBoxes ); echo "</pre>";
 
-    $resultArray = array();
-    if( $mailBoxes  )
+    /*!
+      Returns a valid IMAPConnection object.
+      NOTE: ALWAYS use =& when calling this function... if not you will get a copy
+      and the effect of this class is zeroed out..
+     */
+    function &instance()
     {
-        $i = 0;
-        foreach( $mailBoxes as $mailBox )
+        global $IMAPConnectionInstance;
+        if( get_class( $IMAPConnectionInstance ) != "imapconnections" )
         {
-            $key = explode( "}", $mailBox->name );
-            $resultArray[$i]->Name = $key[1];
-            $resultArray[$i]->FullName = $mailBox->name;
-//            echo "<pre>"; print_r( $resultArray ); echo "</pre>";
-            $i++;
+            $IMAPConnectionInstance = new IMAPConnections();
+        }
+        return $IMAPConnectionInstance;
+    }
+    
+    /*!
+      Returns an open connection to the given account and the given mailbox.
+      If mailbox is not given, the current connection is returned.
+     */
+    function getConnection( $account, $mailbox=-1 )
+    {
+        if( !is_object( $account ) )
+            $account = new eZMailAccount( $account );
+
+        $accountID = $account->id();
+        
+        // check if account is there at all
+        if( !key_exists( $accountID, $this->Connections ) )
+        {
+            // fetch the IP of the host
+            $ip = $this->fetchIP( $account->server() );
+            $userName = $account->loginName();
+            $password = $account->password();
+            $port = $account->serverPort();
+            if( $mailbox == -1 )
+                $mailbox = "INBOX";
+            
+            $serverString = createServerString( $ip, $port, $mailbox );
+            $mbox = @imap_open( $serverString, $userName, $password );
+            $this->Connections[$accountID] = $mbox;
+            $this->CurrentMailboxes[$accountID] = $mailbox;
+            return $mbox;
+        }
+
+        // correct mailbox
+        if( $this->CurrentMailboxes[$accountID] == $mailbox || $mailbox == -1 )
+            return $this->Connections[$accountID];
+
+        // uncorrect mailbox.. change folder
+        $ip = $this->fetchIP( $account->server() );
+        $userName = $account->loginName();
+        $password = $account->password();
+        $port = $account->serverPort();
+        $stream = $this->Connections[$accountID];
+        
+        $serverString = createServerString( $ip, $port, $mailbox );
+        @imap_reopen( $stream, $serverString );
+        return $this->Connections[$accountID];
+    }
+    
+    /*!
+      \static
+      Closes all open connections.
+     */
+    function closeAll()
+    {
+        if( is_object( $IMAPConnectionInstance ) )
+        {
+            foreach( $IMAPConnectionInstance->Connections as $id => $stream )
+            {
+                imap_close( $stream );
+            }
+            // clear members in case someone desides to use it again...
+            $IMAPConnectionInstance->Connections = array();
+            $IMAPConnectionInstance->CurrentMailBoxes = array(); 
         }
     }
-    else
+
+    /*!
+      Fetches the right IP address for any hostname.
+     */
+    function fetchIP( $host )
     {
-        echo "imap_getmailboxes failed: ".imap_last_error()."\n";
+        $host = trim( $host );
+        if( !key_exists( $host, $this->HostByName ) )
+        {
+            $this->HostByName[$host] = gethostbyname( $host );
+        }
+        return $this->HostByName[$host];
     }
-    imapDisconnect( $mbox );
-    return $resultArray;
+
+    var $Connections;
+    var $CurrentMailboxes;
+    var $HostByName;
 }
-*/
+
 
 /*!
   Fetches all mail headers for an imap mailbox.
@@ -67,9 +132,15 @@ function imapGetFolderTree( $account )
   - offset, range
   Returns false if the function did not succeed.
  */
+/*
 function imapGetMailList( $account )
 {
-    $mbox = imapConnect( $account );
+    if( get_class( $account ) != "ezmailaccount" )
+        $account = new eZMailAccount( $account );
+    
+    $connections =& IMAPConnections::instance();
+    $mbox = $connections->getConnection( $account );
+
     if( !$mbox )
     {
         return false;
@@ -96,10 +167,9 @@ function imapGetMailList( $account )
 //        echo "<pre>";print_r( $mailHeader ); echo "</pre>";
     }
 
-    imapDisconnect( $mbox );
     return $mail;
 }
-
+*/
 
 /*!
   Fetch a mail from an imap server. Returns it as an eZMail object.
@@ -107,6 +177,7 @@ function imapGetMailList( $account )
   extra info.
   I propose adding array of structs attachmentsLinks to an eZMail object, only used when receiving imap mail.
 */
+/*
 function imapGetMail( $account, $mailID )
 {
     $mail = new eZMail();
@@ -124,42 +195,28 @@ function imapGetMail( $account, $mailID )
 
     imapDisconnect( $mbox );
 }
+*/
 
-/*!
-  Fetch an attachment of a mail.
- */
-function imapFetchAttachment()
-{
-}
-
-/*!
-  Functions to encode more information into one url position. This allows us to use the same
-  templates for remote and local mail.
- */
-//function encodeFolderID( $accountID, $folderName )
-//{
-//    return rawurlencode( $accountID . "-" . $folderName );
-//}
-
-/*!
-  Returns an array with the 
- */
-//function decodeFolderID( $codedString )
-//{
-//    $elements = explode( "-", $codedString, 2 ); // max 1 split rest is foldername.
-//    return $elements;
-//}
 /*********** INTERAL HELPER FUNCTIONS ******************/
 
-function createServerString( $server, $port, $mailbox )
+function createServerString( $server, $port, $mailbox="" )
 {
     return "{" . "$server:$port" . "}$mailbox";
+}
+
+function createServerStringFromAccount( $account, $mailbox="" )
+{
+    $connections = IMAPConnections::instance();
+    $ip = $connections->fetchIP( $account->server() );
+    $port = $account->serverPort();
+    return "{" . "$ip:$port" . "}$mailbox";
 }
 
 // why on earth does this fail from time to time?!?
 /*!
   Connects to an IMAP server. Returns false in case of an error.
  */
+/*
 function imapConnect( $account, $mailbox = "INBOX" )
 {
     if( get_class( $account ) != "ezmailaccount" )
@@ -172,6 +229,7 @@ function imapConnect( $account, $mailbox = "INBOX" )
     $port = $account->serverPort();
 
     $serverString = createServerString( $server, $port, $mailbox );
+//    echo "Using serverstring: " . $serverString;
     $mbox = @imap_open( $serverString, $userName, $password );
 //    if( $mbox == false )
 //    {
@@ -183,10 +241,5 @@ function imapConnect( $account, $mailbox = "INBOX" )
 
     return $mbox;
 }
-
-function imapDisconnect( $stream )
-{
-    imap_close( $stream );
-}
-
+*/
 ?>

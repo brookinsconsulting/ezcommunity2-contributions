@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezimapmailfolder.php,v 1.11 2002/04/17 10:45:53 fh Exp $
+// $Id: ezimapmailfolder.php,v 1.12 2002/04/17 20:48:37 fh Exp $
 //
 // eZIMAPMailFolder class
 //
@@ -119,19 +119,18 @@ class eZIMAPMailFolder
         if ( get_class( $account ) != "ezmailaccount" ) 
             $account = new eZMailAccount( $account ); 
 
-        $mbox = imapConnect( $account );
-        $server = $account->server();
-//        $mailBoxes = imap_getmailboxes( $mbox, "{" . $server . "}", "*" );
-        $ok = imap_createmailbox( $mbox, imap_utf7_encode( "{" . $server ."}" . $folderName ) );
-//
+        $connections =& IMAPConnections::instance();
+        $mbox = $connections->getConnection( $account );
+
+        $serverString = createServerStringFromAccount( $account, $folderName );
+        $ok = imap_createmailbox( $mbox, imap_utf7_encode( $serverString ) );
+
         if( !$ok )
         {
             echo "imap_createmailbox failed: " . imap_last_error() . "\n";
             exit();
         }
         
-        imapDisconnect( $mbox );
-
         return $ok;
     }
 
@@ -142,15 +141,15 @@ class eZIMAPMailFolder
      */
     function deleteMailBox( $account, $folderName )
     {
-        $mbox = imapConnect( $account );
-        $server = $account->server();
+        $connections =& IMAPConnections::instance();
+        $mbox = $connections->getConnection( $account );
 
-        $ok = imap_deletemailbox( $mbox, imap_utf7_encode( "{" . $server ."}" . $folderName ) );
+        $serverString = createServerStringFromAccount( $account, $folderName );
+        
+        $ok = imap_deletemailbox( $mbox, imap_utf7_encode( $serverString  ) );
         if( !$ok )
             echo "imap_deletemailbox failed: " . imap_last_error() . "\n";
         
-        imapDisconnect( $mbox );
-
         return $ok;
     }
 
@@ -161,16 +160,17 @@ class eZIMAPMailFolder
      */
     function renameMailBox( $account, $oldFolder, $newFolder )
     {
-        $mbox = imapConnect( $account );
-        $server = $account->server();
+        $connections =& IMAPConnections::instance();
+        $mbox = $connections->getConnection( $account );
+
+        $serverStringOld = createServerStringFromAccount( $account, $oldFolder );
+        $serverStringNew = createServerStringFromAccount( $account, $newFolder );
         $ok = imap_renamemailbox( $mbox,
-              imap_utf7_encode( "{" . $server ."}" . $oldFolder ),
-              imap_utf7_encode( "{" . $server ."}" . $newFolder ) );
+              imap_utf7_encode( $serverStringOld ),
+              imap_utf7_encode( $serverStringNew ) );
         if( !$ok )
             echo "imap_renamemailbox failed: " . imap_last_error() . "\n";
         
-        imapDisconnect( $mbox );
-
         return $ok;
     }
 
@@ -198,9 +198,10 @@ class eZIMAPMailFolder
 //                echo "Built mail $mimeMail <BR>";
                 
                 $account = new eZMailAccount( $folderIDData["AccountID"] );
-                $mailboxString = createServerString( $account->server(), $account->serverPort(), $folderIDData["FolderName"] );
+                $mailboxString = createServerStringFromAccount( $account, $foderIDData["FolderName"] );
+                $connections =& IMAPConnections::instance();
+                $mbox = $connections->getConnection( $account, $folderIDData["FolderName"] );
 
-                $mbox = imapConnect( $account, $folderIDData["FolderName"] );
                 imap_append( $mbox, $mailboxString, $mimeMail );
                 if( !$ok )
                 {
@@ -210,8 +211,6 @@ class eZIMAPMailFolder
                 {
                     $mail->delete();
                 }
-                
-                imap_close($mbox);
             }
         }
         else // remote
@@ -230,14 +229,15 @@ class eZIMAPMailFolder
                 {
                     if( $mailIDData["FolderName"] != $folderIDData["FolderName"] ) // not same mailbox
                     {
-                        $mbox = imapConnect( $mailIDData["AccountID"], $mailIDData["FolderName"] );
+                        $acount = new eZMailAccount( $mailIDData["AccountID"] );
+                        $connections =& IMAPConnections::instance();
+                        $mbox = $connections->getConnection( $account, $mailIDData["FolderName"] );
 
                         $ok = imap_mail_move( $mbox, $mailIDData["MailID"], $folderIDData["FolderName"] );
                         if( !$ok )
                             echo "imap_mail_move failed: " . imap_last_error() . "\n";
 
                         imap_expunge( $mbox ); // really delete the mail.
-                        imapDisconnect( $mbox );
                     }
                 }
                 else  // 5. imap to imap not same server
@@ -410,17 +410,20 @@ class eZIMAPMailFolder
      */
     function &getImapTree( $account )
     {
-        $mbox = imapConnect( $account );
+        $connections =& IMAPConnections::instance();
+        $mbox = $connections->getConnection( $account );
+
         $resultArray = array();
         if( !$mbox )
         {
             return false;
         }
             
-        $server = $account->server();
-        $mailBoxes = imap_getmailboxes( $mbox, "{" . $server . "}", "*" );
-//    echo "<pre>"; print_r( $mailBoxes ); echo "</pre>";
-        
+        $ip = $connections->fetchIP( $account->server() );
+        $port = $account->serverPort();
+        $serverString = createServerString( $ip, $port );
+        $mailBoxes = imap_getmailboxes( $mbox, $serverString, "*" );
+
         if( $mailBoxes  )
         {
             $i = 0;
@@ -441,7 +444,6 @@ class eZIMAPMailFolder
             return $resultArray = false;;
         }
 
-        imapDisconnect( $mbox );
         return $resultArray;
     }
 
@@ -499,7 +501,9 @@ class eZIMAPMailFolder
 //            case "size_desc" : $orderBySQL = "Mail.Size DESC"; break;
 //        }
         $account = new eZMailAccount( $this->Account );
-        $mbox = imapConnect( $account, $this->Name );
+        $connections =& IMAPConnections::instance();
+        $mbox = $connections->getConnection( $account, $this->Name );
+
         
         $MC = imap_check( $mbox ); 
         $MN = $MC->Nmsgs; 
@@ -526,7 +530,6 @@ class eZIMAPMailFolder
 //        echo "<pre>";print_r( $mailHeader ); echo "</pre>";
         }
 
-        imapDisconnect( $mbox );
         return $mail;
     }
 

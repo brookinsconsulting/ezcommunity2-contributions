@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezimapmail.php,v 1.6 2002/04/07 14:27:57 fh Exp $
+// $Id: ezimapmail.php,v 1.7 2002/04/17 20:48:37 fh Exp $
 //
 // Definition of eZIMAPMail class
 //
@@ -113,7 +113,12 @@ class eZIMAPMail
      */
     function deleteMail( $account, $folder, $id )
     {
-        $mbox = imapConnect( $account, $folder );
+        if( get_class( $account ) != "ezmailaccount" )
+            $account = new eZMailAccount( $account );
+
+        $connections =& IMAPConnections::instance();
+        $mbox = $connections->getConnection( $account, $folder );
+
 //        $server = $account->server();
         $ok = imap_delete( $mbox, $id );
 
@@ -122,8 +127,6 @@ class eZIMAPMail
 
         imap_expunge( $mbox ); // really delete the mail.
         
-        imapDisconnect( $mbox );
-
         return $ok;
     }
     
@@ -173,7 +176,9 @@ class eZIMAPMail
     function get( $id = "" )
     {
         $account = new eZMailAccount( $this->Account );
-        $mbox = imapConnect( $account, $this->Folder );
+        $connections =& IMAPConnections::instance();
+        $mbox = $connections->getConnection( $account, $this->Folder );
+
 //        $header = imap_header( $mbox, $this->ID );
         
 //        $this->UDate( $header->udate );
@@ -184,8 +189,6 @@ class eZIMAPMail
 //        echo "<pre>";print_r( $this );echo "</pre>";
         
 //    echo imap_body( $mbox, $mailID ); 
-        
-        imapDisconnect( $mbox );
     }
     
     /*!
@@ -702,13 +705,14 @@ class eZIMAPMail
         $folderID = ereg_replace( "#", "/", $folderID );
 //        echo "$accountID, $mailID, $partID, $folderID";
 //        exit();
-        $mbox = imapConnect( $account, $folderID );
+        $connections =& IMAPConnections::instance();
+        $mbox = $connections->getConnection( $account, $folderID );
+
 //        $header = imap_header( $mbox, $this->ID );
         
         $file = decode( $encoding, imap_fetchbody( $mbox, $mailID, $partID ) );
 //        echo "<pre>";print_r( $this );echo "</pre>";
         
-        imapDisconnect( $mbox );
         return $file;
     }
 
