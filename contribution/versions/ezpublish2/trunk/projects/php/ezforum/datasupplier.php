@@ -18,18 +18,19 @@ switch ( $url_array[2] )
                 $forum_id = $url_array[5];
                 include( "ezforum/message.php" );
             }
-            if ( $url_array[4] == "newpost" )
+            else if ( $url_array[4] == "newpost" )
             {
                 $forum_id = $url_array[5];
                 include( "ezforum/newmessage.php" );                
             }
-            if ( $url_array[4] == "replymessage" )
+            else if ( $url_array[4] == "replymessage" )
             {
                 $forum_id = $url_array[5];
                 $category_id = $url_array[5];
                 $reply_id = $url_array[5];
                 include( "ezforum/replymessage.php" );                
             }
+
             else                
             {
                 $forum_id = $url_array[4];
