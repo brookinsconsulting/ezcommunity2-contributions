@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezusergroup.php,v 1.13 2001/01/23 19:56:14 jb Exp $
+// $Id: ezusergroup.php,v 1.14 2001/02/14 11:10:05 fh Exp $
 //
 // Definition of eZCompany class
 //
@@ -229,6 +229,27 @@ class eZUserGroup
         return $return_array;        
     }
     
+    /*!
+      \static
+      Returns true if the user $user is a member of the group $group.
+     */
+    function isMember( $user, $groupID )
+    {
+        if( get_class( $user ) == "ezuser" && $groupID > -1 )
+        {
+            $userList = $this->users( $groupID );
+            if( count( $userlist ) > 0 )
+            {
+                foreach( $userList as $usr )
+                {
+                    if( $user->id() == $usr->id() )
+                        return true;
+                }
+            }
+        }
+        return false;
+    }
+
     /*!
       Returns the object ID to the user group.
     */
