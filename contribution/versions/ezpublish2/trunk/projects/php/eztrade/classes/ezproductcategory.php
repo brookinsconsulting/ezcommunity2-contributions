@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezproductcategory.php,v 1.8 2000/09/14 18:25:41 bf-cvs Exp $
+// $Id: ezproductcategory.php,v 1.9 2000/09/15 12:47:35 bf-cvs Exp $
 //
 // Definition of eZCompany class
 //
@@ -89,7 +89,6 @@ class eZProductCategory
     /*!
       Stores a eZProductGroup object to the database.
 
-      Returns the ID to the stored group.
     */
     function store()
     {
@@ -193,11 +192,12 @@ class eZProductCategory
     */
     function id()
     {
-        $ret = 1;
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
+        if ( $this->State_ == "New" )
+            $ret = 1;
+        else
+            $ret = $this->ID;
        
-        return $this->ID;
+        return $ret;
     }
 
     
@@ -277,7 +277,58 @@ class eZProductCategory
        {
            $this->Parent = $value->id();
        }
-    }     
+    }
+
+
+    /*!
+      Adds a product to the category.
+    */
+    function addProduct( $value )
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+       
+       if ( get_class( $value ) == "ezproduct" )
+       {
+            $this->dbInit();
+
+            $prodID = $value->id();
+            
+            $query = "INSERT INTO
+                           eZTrade_ProductCategoryLink
+                      SET
+                           CategoryID='$this->ID',
+                           ProductID='$prodID'";
+            
+            $this->Database->query( $query );
+       }       
+    }
+
+    /*!
+      Returns every product to a category as a array of eZProduct objects.
+    */
+    function products()
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+       $this->dbInit();
+       
+       $return_array = array();
+       $product_array = array();
+       
+       $this->Database->array_query( $product_array, "SELECT ProductID FROM eZTrade_ProductCategoryLink WHERE ProductID='$this->ID'" );
+
+       print( "bla" );
+       for ( $i=0; $i<count($product_array); $i++ )
+       {
+           print( "bla" );
+           $return_array[$i] = new eZProduct( $product_array[$i]["ProductID"], false );
+       }
+       
+       return $return_array;
+    }
+    
 
     /*!
       Adds a option to the category.

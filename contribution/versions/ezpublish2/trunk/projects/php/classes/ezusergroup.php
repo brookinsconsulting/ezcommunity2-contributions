@@ -1,5 +1,5 @@
 <?php
-// $Id: ezusergroup.php,v 1.6 2000/09/08 13:17:17 bf-cvs Exp $
+// $Id: ezusergroup.php,v 1.7 2000/09/15 12:47:35 bf-cvs Exp $
 // Lars Wilhelmsen <lw@ez.no>
 // eZ systems <http://www.ez.no/>
 //
@@ -35,9 +35,11 @@ class eZUserGroup
     {
         $this->dbInit();
         $query = mysql_query("SELECT * FROM GroupTable WHERE Id='$Id' ")
-             or die( "blah. " ); 
+             or die( "blah. " );
+        
         if( mysql_num_rows( $query ) == 0 )
             die( "No groups defined for this user" );
+        
         $this->ID = mysql_result( $query, 0, "Id" );
         $this->Name = mysql_result( $query, 0, "Name" );
         $this->Description = mysql_result( $query, 0, "Description" );
@@ -510,8 +512,10 @@ class eZUserGroup
                                UserTable.Id='$userID'
                            GROUP BY
                                GroupTable.Id" )
+             
              or die( "ERROR in SQL or command  in eZUserGroup::verifyCommand(), exiting." );
              if ( mysql_result( $query, 0, "rights" ) == "Y" )
+                 
             return true;
         else
             return false;

@@ -3,6 +3,7 @@
 include_once( "../eztrade/classes/ezproductcategory.php" );
 include_once( "../eztrade/classes/ezoption.php" );
 include_once( "../eztrade/classes/ezoptionvalue.php" );
+include_once( "../eztrade/classes/ezproduct.php" );
 
 print "<h1>Testbenk</h1>";
 $category = new eZProductCategory();
@@ -28,7 +29,20 @@ foreach ( $categoryArray as $catItem )
     print( $catItem->name()  . "<br>" . $catItem->description() . "..<br>" );
 }
 
-//  $option = new eZOption();
+$option = new eZOption();
+
+
+$product = new eZProduct();
+$product->setName( "Tannbørste" );
+$product->setBrief( "En liten og hendig tannbørste" );
+$product->setDescription( "Denne tannbørsten er utrolig kraftig. Samtidig som den er liten og miljøvennelig." );
+$product->setProductNumber( "Jordan-A101" );
+$product->setKeywords( "tenner flour hull" );
+$product->setPrice( 21.50 );
+
+//  $product->store();
+
+//  $category->addProduct( $product );
 
 //  $option->setName( "color" );
 //  $option->setDescription( "Bla bla bla" );
@@ -38,11 +52,11 @@ foreach ( $categoryArray as $catItem )
 
 //  $option->get( 2 );
 
-$category->get( 3 );
+//  $category->get( 3 );
 
 // $category->addOption( $option );
 
-$optionArray = $category->options();
+$optionArray = $category->products();
 
 foreach ( $optionArray as $option )
 {

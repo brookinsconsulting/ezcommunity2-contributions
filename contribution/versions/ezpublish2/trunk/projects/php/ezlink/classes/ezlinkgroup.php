@@ -1,18 +1,23 @@
 <?
-/*!
-    $Id: ezlinkgroup.php,v 1.21 2000/09/14 18:04:47 bf-cvs Exp $
-
-    Author: Bård Farstad <bf@ez.no>
-    
-    Created on: 
-    
-    Copyright (C) 2000 eZ systems. All rights reserved.
-*/
+// 
+// $Id: ezlinkgroup.php,v 1.22 2000/09/15 12:47:35 bf-cvs Exp $
+//
+// Definition of eZCompany class
+//
+// Bård Farstad <bf@ez.no>
+// Created on: <15-Sep-2000 14:40:06 bf>
+//
+// Copyright (C) 1999-2000 eZ Systems.  All rights reserved.
+//
+// IMPORTANT NOTE: You may NOT copy this file or any part of it into
+// your own programs or libraries.
+//
 
 //!! eZLink
-//!
+//! The eZLinkGroup class handles URL link groups.
 /*!
 
+  \sa eZLink eZHit eZQuery
 */
 
 class eZLinkGroup

@@ -70,8 +70,17 @@ if( $session->get( $AuthenticatedSession ) == 0 )
     
     $url_array = explode( "/", $REQUEST_URI );
 
+
+    
+    
     // send the URI to the right decoder
     $page = "ez" . $url_array[1] . "/admin/datasupplier.php";
+
+    // handle users
+    if ( $url_array[1] == "user" )
+    {
+        $page = "userlist.php";
+    }
 
     if ( file_exists( $page ) )
     {
@@ -81,8 +90,7 @@ if( $session->get( $AuthenticatedSession ) == 0 )
     {
         // Load the default page
         include( "main.php" );
-    }    
-    
+    }        
 }
 else
 {

@@ -1,23 +1,28 @@
 <?
-/*!
-    $Id: ezlink.php,v 1.23 2000/09/08 13:00:51 bf-cvs Exp $
-
-    Author: Bård Farstad <bf@ez.no>
-    
-    Created on: 
-    
-    Copyright (C) 2000 eZ systems. All rights reserved.
-*/
+// 
+// $Id: ezlink.php,v 1.24 2000/09/15 12:47:35 bf-cvs Exp $
+//
+// Definition of eZCompany class
+//
+// Bård Farstad <bf@ez.no>
+// Created on: <15-Sep-2000 14:40:06 bf>
+//
+// Copyright (C) 1999-2000 eZ Systems.  All rights reserved.
+//
+// IMPORTANT NOTE: You may NOT copy this file or any part of it into
+// your own programs or libraries.
+//
 
 //!! eZLink
-//!
+//! The eZLink class handles URL links.
 /*!
-
+  
+  \sa eZLinkGroup eZHit eZQuery
 */
   
 class eZLink
 {
-    /*
+    /*!
       Constructor
     */
     function eZLink( )
@@ -25,7 +30,7 @@ class eZLink
 
     }
 
-    /*
+    /*!
       Lagrer link i databasen
     */
     function store()
@@ -44,7 +49,7 @@ class eZLink
                 Accepted='$this->Accepted'" );
     }
 
-    /*
+    /*!
       Oppgraderer databasen
     */
     function update()
@@ -59,7 +64,7 @@ class eZLink
                 WHERE ID='$this->ID'" );
     }
 
-    /*
+    /*!
       Sletter linker og tilhørende hits.
     */
     function delete( )
@@ -69,7 +74,7 @@ class eZLink
         query( "DELETE FROM eZLink_Link WHERE ID='$this->ID'" );
     }
 
-    /*
+    /*!
       Henter ut informasjon fra databasen hvor ID=$id
     */
     function get ( $id )
@@ -98,7 +103,7 @@ class eZLink
         }
     }
 
-    /*
+    /*!
       Henter ut en link gruppe med linkgroup=$linkgroup. Henter kun ut akseptere linker.
     */
     function getByGroup( $id )
@@ -111,7 +116,7 @@ class eZLink
         return $link_array;
     }
 
-        /*
+    /*!
       Henter ut alle linkene i gruppe med linkgroup=$linkgroup. 
     */
     function getByGroup( $id )
@@ -124,7 +129,7 @@ class eZLink
         return $link_array;
     }
 
-    /*
+    /*!
       Henter ut alle linkene i gruppe med linkgroup=$linkgroup. 
     */
     function getNotAccepted( )
@@ -137,7 +142,7 @@ class eZLink
         return $link_array;
     }
 
-        /*
+    /*!
       Henter ut de 10 siste linkene med accepted = yes
     */
     function getLastTenDate( $limit, $offset )
@@ -150,7 +155,7 @@ class eZLink
         return $link_array;
     }
 
-    /*
+    /*!
       Henter ut de 10 siste linkene med accepted = yes
     */
     function getLastTen( $limit, $offset )
@@ -163,7 +168,7 @@ class eZLink
         return $link_array;
     }
 
-    /*
+    /*!
       Henter linkene som matcher $query.
     */
     function getQuery( $query, $limit=20, $offset = 0 )
@@ -189,7 +194,7 @@ class eZLink
         return $link_array;
     }
 
-    /*
+    /*!
       Henter ut alt fra Link
     */
     function getAll()
@@ -202,7 +207,7 @@ class eZLink
         return $group_array;
     }
 
-    /*
+    /*!
       Sjekker om urlen eksisterer
     */
     function checkUrl( $url )
@@ -214,7 +219,7 @@ class eZLink
         return count( $url_array );
     }    
 
-    /*
+    /*!
       Setter tittel
     */
     function setTitle( $value )
@@ -222,7 +227,7 @@ class eZLink
         $this->Title = $value;
     }
 
-    /*
+    /*!
       Setter description
     */
     function setDescription( $value )
@@ -230,7 +235,7 @@ class eZLink
         $this->Description = $value;
     }
 
-    /*
+    /*!
       Setter LinkGroup
     */
     function setLinkGroup( $value )
@@ -238,7 +243,7 @@ class eZLink
         $this->LinkGroup = ( $value );
     }
 
-    /*
+    /*!
       Setter KeyWords
     */    
     function setKeyWords( $value )
@@ -246,7 +251,7 @@ class eZLink
         $this->KeyWords = ( $value );
     }
 
-    /*
+    /*!
        Dato på endring
     */
     function setModified( $value )
@@ -254,7 +259,7 @@ class eZLink
         $this->Modified = ( $value );
     }
 
-    /*
+    /*!
       Setter om linken er akseptert
     */
     function setAccepted( $value )
@@ -262,7 +267,7 @@ class eZLink
         $this->Accepted = ( $value );
     }
 
-    /*
+    /*!
       Setter url
     */
     function setUrl( $value )
@@ -270,7 +275,7 @@ class eZLink
         $this->Url = ( $value );
     }
 
-    /*
+    /*!
       Returnerer tittel
     */
     function title()
@@ -279,7 +284,7 @@ class eZLink
     }
 
 
-    /*
+    /*!
       Returnerer description
     */
     function description()
@@ -287,7 +292,7 @@ class eZLink
         return $this->Description;
     }
 
-    /*
+    /*!
       Returnerer linkGroup
     */
     function linkGroup()
@@ -295,7 +300,7 @@ class eZLink
         return $this->LinkGroup;
     }
 
-    /*
+    /*!
       Retunerer keyWord
     */
     function keyWords()
@@ -303,7 +308,7 @@ class eZLink
         return $this->KeyWords;
     }
 
-    /*
+    /*!
       Returnerer Created
     */
     function created()
@@ -311,7 +316,7 @@ class eZLink
         return $this->Created;
     }
 
-    /*
+    /*!
       Returnerer Modified
     */
     function modified()
@@ -319,7 +324,7 @@ class eZLink
         return $this->Modified;
     }
 
-    /*
+    /*!
       Returnerer Accepted
     */
     function accepted()
@@ -327,7 +332,7 @@ class eZLink
         return $this->Accepted;
     }
 
-    /*
+    /*!
       returnerer url
     */
     function url()
@@ -335,7 +340,7 @@ class eZLink
         return $this->Url;
     }
 
-    /*
+    /*!
       Returnerer ID
     */
     function id()
@@ -343,7 +348,7 @@ class eZLink
         return $this->ID;
     }
 
-    /*
+    /*!
       Initiering av database
     */
     function dbInit()

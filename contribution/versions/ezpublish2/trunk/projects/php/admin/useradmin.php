@@ -7,7 +7,7 @@
                     </tr>
                     <tr bgcolor="#C8B4B4"> 
                       <td>
-						<a class="small" href="index.php?page=userlist.php">Brukeroversikt</a><br>
+						<a class="small" href="/user/">Brukeroversikt</a><br>
                         <a class="small" href="index.php?page=useredit.php&Action=New">Ny bruker</a><br>
                         <a class="small" href="index.php?page=grouplist.php">Gruppeoversikt</a><br>
                         <a class="small" href="index.php?page=groupedit.php&Action=New">Ny gruppe</a><br>

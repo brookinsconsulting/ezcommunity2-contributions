@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezlocale.php,v 1.5 2000/09/13 09:48:49 ce-cvs Exp $
+// $Id: ezlocale.php,v 1.6 2000/09/15 12:47:35 bf-cvs Exp $
 //
 // Definition of eZCompany class
 //
@@ -103,15 +103,15 @@ class eZLocale
     function eZLocale( $iso="" )
     {
         $ini = new INIFile( "site.ini", false );
-        $SERVER_ROOT = $ini->read_var( "site", "ServerRoot" );
+//          $SERVER_ROOT = $ini->read_var( "site", "ServerRoot" );
         
-        if ( file_exists( $SERVER_ROOT . "/classes/locale/" . $iso . ".ini" ) )
+        if ( file_exists( "classes/locale/" . $iso . ".ini" ) )
         {
-            $localeIni = new INIFile( $SERVER_ROOT . "/classes/locale/" . $iso . ".ini", false );
+            $localeIni = new INIFile( "classes/locale/" . $iso . ".ini", false );
         }
         else
         {
-            $localeIni = new INIFile( $SERVER_ROOT . "/classes/locale/en_GB.ini", false );
+            $localeIni = new INIFile( "classes/locale/en_GB.ini", false );
         }
 
         $this->CurrencySymbol = $localeIni->read_var( "RegionalSettings", "CurrencySymbol" );
