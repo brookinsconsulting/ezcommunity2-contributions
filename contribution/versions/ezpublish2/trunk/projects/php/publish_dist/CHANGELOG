@@ -9,8 +9,9 @@ Changes from version 2.0 beta 3
 
 Changes from version 2.0 beta 2
 -------------------------------
+* Latest article cache is properly deleted when articles change.
 * Article placement is kept when updating the article.
-* Cache files are properly deleted when a category is newed, updated or deleted.
+* Cache files for article are properly deleted when a category is newed, updated or deleted.
 * Prints URL on top of the page when shown an printer-friendly version of an article.
 * Cache for products has been improved.
 * Products in eZ trade are shown with multiple pages if the list is long, both user and admin.
