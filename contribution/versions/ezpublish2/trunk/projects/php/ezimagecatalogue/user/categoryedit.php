@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: categoryedit.php,v 1.23 2001/09/21 13:26:35 br Exp $
+// $Id: categoryedit.php,v 1.24 2001/09/21 13:30:15 br Exp $
 //
 // Created on: <08-Jan-2001 11:13:29 ce>
 //
@@ -176,7 +176,6 @@ if( ( $Action == "Insert" || $Action == "Update" ) && $error == false )
 
     $category->setName( $Name );
     $category->setDescription( $Description );
-    print ( "<br>...<$SectionID " );
 
     $category->setSectionID( $SectionID );
     
@@ -227,7 +226,6 @@ if ( $Action == "Edit" )
 
     $parent =& $category->parent();
     $sectionID = $category->sectionID();
-    print("<br>SECTIONID: $sectionID" );
     if ( $parent )
         $CurrentCategoryID = $parent->id();
 
@@ -249,7 +247,6 @@ if ( count( $sectionList ) > 0 )
     {
         $t->set_var( "section_id", $section->id() );
         $t->set_var( "section_name", $section->name() );
-        print ( "<br>$sectionID == ". $section->id() );
         if ( $sectionID == $section->id() )
             $t->set_var( "section_is_selected", "selected" );
         else
