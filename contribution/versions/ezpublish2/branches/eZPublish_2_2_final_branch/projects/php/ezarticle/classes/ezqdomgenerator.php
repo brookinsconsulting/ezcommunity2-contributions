@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezqdomgenerator.php,v 1.39.2.8 2003/01/03 16:20:21 br Exp $
+// $Id: ezqdomgenerator.php,v 1.39.2.9 2003/07/22 09:25:13 br Exp $
 //
 // Definition of eZQDomGenerator class
 //
@@ -998,6 +998,7 @@ class eZQDomGenerator
                                     $tmpData .= $this->decodeFile( $contents );
                                     $tmpData .= $this->decodeLink( $contents );
                                     $tmpData .= $this->decodeHr( $contents );
+                                    $tmpData .= $this->decodeCustom( $contents );
                                     $tmpData .= $this->decodeTable( $contents );
                                     $tmpData .= $this->decodeRollOver( $contents );
                                 }                                

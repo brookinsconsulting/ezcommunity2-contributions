@@ -20,6 +20,7 @@ Changes from 2.2.8 to 2.2.9
 * Fixed bug for non virtualhost in articletool.php
 * Done optimalisation to eZ stats.
 * Fixed bug with read permissions on products in eZ trade.
+* Fixed bug with customtag in table.
 
 Changes from 2.2.7 to 2.2.8
 ---------------------------
