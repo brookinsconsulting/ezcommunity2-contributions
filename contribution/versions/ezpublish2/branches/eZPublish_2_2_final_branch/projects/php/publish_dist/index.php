@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: index.php,v 1.119.2.18 2002/03/19 12:33:10 br Exp $
+// $Id: index.php,v 1.119.2.19 2002/03/19 13:39:06 br Exp $
 //
 // Created on: <09-Nov-2000 14:52:40 ce>
 //
@@ -282,7 +282,11 @@ if ( ( $requireUserLogin == "disabled" ) ||
         else
         {
             // the default page to load
-            if ( $ini->read_var( "site", "DefaultPage" ) != "disabled" )
+            if ( file_exists( $ini->read_var( "site", "DefaultPage" ) ) )
+            {
+                include( $ini->read_var( "site", "DefaultPage" ) );
+            }
+            else if ( $ini->read_var( "site", "DefaultPage" ) != "disabled" )
             {
                 $REQUEST_URI = $ini->read_var( "site", "DefaultPage" );
                 $url_array = explode( "/", $REQUEST_URI );
