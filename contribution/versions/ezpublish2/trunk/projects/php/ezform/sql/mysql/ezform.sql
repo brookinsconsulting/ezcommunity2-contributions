@@ -25,7 +25,6 @@ CREATE TABLE eZForm_FormCondition (
 CREATE TABLE eZForm_FormPage (
   ID int(11) NOT NULL,
   Name varchar(255) default NULL,
-  PageNumber int(11) default '0',
   FormID int(11) default '0',
   Placement int(11) default '0',
   PRIMARY KEY (ID)
