@@ -1,22 +1,8 @@
 <?
 //print $REQUEST_URI;
  
-$url_array = explode( "/", $REQUEST_URI );
+    include_once("eznews/classes/eznewscommands.php");
 
-include("eznews/classes/eznewsitem.php");
+    $item=new eZNewsCommand();
 
-
-switch ( $url_array[2] )
-{
-    case "product" :
-        print( "<h1>Product</h1>" );
-        break;
-    case "search" :
-        print( "<h1>Product search</h1>" );
-        break;
-    default :
-        print( "<h1>Sorry, Your news page could not be found. </h1>" );
-        break;
-}
- 
 ?> 
