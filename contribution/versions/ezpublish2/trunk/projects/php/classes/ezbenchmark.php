@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezbenchmark.php,v 1.1 2001/02/07 18:45:24 bf Exp $
+// $Id: ezbenchmark.php,v 1.2 2001/04/03 14:39:30 bf Exp $
 //
 // Definition of eZTextTool class
 //
@@ -30,6 +30,18 @@
 //!! eZCommon
 //! Provied utility functions for http.
 /*!
+
+  \code
+  include_once( "classes/ezbenchmark.php" );
+
+  $bench = new eZBenchmark();
+  $bench->start();
+  
+  // do something here
+
+  $bench->stop();
+  $bench->printResults();
+  \endcode  
 */
 
 class eZBenchmark

@@ -62,7 +62,48 @@ class INIFile
     function INIFile( $inifilename="", $write=false )
     {
         // echo "INIFile::INIFile( \$inifilename = $inifilename,\$write = $write )<br />\n";
-        $this->load_data( $inifilename, $write );
+        // $this->load_data( $inifilename, $write );
+
+        $cachedFile = "classes/cache/" . md5( $inifilename ) . ".php";
+
+
+        // check for modifications
+        $cacheTime = filemtime( $cachedFile );
+        $origTime = filemtime( $inifilename );
+        
+        if ( file_exists( $cachedFile ) and ( $cacheTime > $origTime ) )
+        {        
+            print( "cached<br>" );
+
+            include( $cachedFile );
+        }
+        else
+        {
+            print( "generated<br>" );
+            $this->load_data( $inifilename, $write );
+        
+            // save the data to a cached file
+            $buffer = "";
+            $i = 0;
+            reset( $this->GROUPS );        
+            while ( list( $groupKey, $groupVal ) = each ( $this->GROUPS ) )
+            {
+                reset( $groupVal );
+                while ( list( $key, $val ) = each ( $groupVal ) )
+                {
+                    $buffer .= "\$Array_". $i . "[\"$key\"] = \"$val\";\n";
+                }
+
+                $buffer .= "\$this->GROUPS[\"$groupKey\"] = \$Array_". $i .";\n";
+                $i++;
+            }
+            $buffer = "<?php\n" . $buffer . "\n?>";
+
+            $fp = fopen ( $cachedFile, "w+" );        
+            fwrite ( $fp, $buffer );
+            fclose( $fp );
+        }
+        
     }
 
     function load_data( $inifilename = "",$write = true, $useoverride = true )
@@ -81,7 +122,7 @@ class INIFile
             $this->load_override_data( "override/" . $inifilename );
     }
 
-    function load_override_data( $inifilename="")
+    function load_override_data( $inifilename="" )
     {
         $appendfilename = $inifilename . ".append";
         if ( !empty($inifilename) and file_exists($inifilename) )
