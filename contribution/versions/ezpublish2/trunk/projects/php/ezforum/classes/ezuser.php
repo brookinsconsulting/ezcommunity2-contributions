@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: ezuser.php,v 1.5 2000/07/18 10:19:32 lw Exp $
+    $Id: ezuser.php,v 1.6 2000/07/18 13:40:35 lw-cvs Exp $
 
     Author: Lars Wilhelmsen <lw@ez.no>
     
@@ -562,10 +562,32 @@ class eZUser {
         return $this->sid;
     }
 
-    function getByEmail( $email )
+    function getByAuthHash( $AuthHash )
     {
         openDB();
 
+        $query_id = mysql_query( "SELECT Id FROM UserTable WHERE auth_hash='$AuthHash'" )
+             or die("getByAuthHash() failed, dying...");
+
+        if ( mysql_num_rows( $query_id ) == 1)
+        {
+            $this->get( mysql_result( $query_id, 0, "Id" ) );
+            return 0;
+        }
+        else if ( mysql_num_rows( $query_id ) > 1)
+        {
+            die("getByAuthHash(): Found duplicates, dying...");
+        }
+        else // == 0 . no user found
+        {
+            return 1;
+        }
+        
+    }
+    
+    function getByEmail( $email )
+    {
+        openDB();
         
         $query_id = mysql_query("SELECT Id FROM UserTable WHERE email='$email'")
              or die("could not look up email in UserTable, dying...");
