@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: articleedit.php,v 1.9 2001/02/23 14:25:00 gl Exp $
+// $Id: articleedit.php,v 1.10 2001/02/23 15:29:03 gl Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <18-Oct-2000 15:04:39 bf>
@@ -65,7 +65,7 @@ if ( $Action == "Insert" )
     
     $article->setLinkText( $LinkText );
 
-// DO SOMETHING ABOUT THIS
+// Which group should a user-published article be set to?
 //    $ownerGroup = new eZUserGroup( $OwnerGroupID );
 //    $article->setOwnerGroup( $ownerGroup );
 
