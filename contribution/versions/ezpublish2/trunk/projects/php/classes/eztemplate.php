@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eztemplate.php,v 1.18 2001/01/24 10:13:43 jb Exp $
+// $Id: eztemplate.php,v 1.19 2001/01/24 10:17:05 jb Exp $
 //
 // Definition of eZTemplate class
 //
@@ -246,6 +246,8 @@ class eZTemplate
                 return false;
             }
             $this->file[$handle] = $this->filename($filename);
+            $this->files = array();
+            $this->files[0] = $filename;
         }
         else
         {
@@ -253,6 +255,7 @@ class eZTemplate
             while(list($h, $f) = each($handle))
             {
                 $this->file[$h] = $this->filename($f);
+                $this->files = array();
                 $this->files[] = $f;
             }
         }
