@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezarticle.php,v 1.128 2001/07/19 12:19:21 jakobn Exp $
+// $Id: ezarticle.php,v 1.129 2001/07/19 12:52:48 bf Exp $
 //
 // Definition of eZArticle class
 //
@@ -2299,6 +2299,8 @@ class eZArticle
     function forms( $as_object = true)
     {
         $db =& eZDB::globalDatabase();
+
+        include_once( "ezform/classes/ezform.php" );
         
         $ArticleID = $this->ID;
         

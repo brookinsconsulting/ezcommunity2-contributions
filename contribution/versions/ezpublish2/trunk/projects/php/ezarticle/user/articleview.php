@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: articleview.php,v 1.56 2001/07/19 12:19:21 jakobn Exp $
+// $Id: articleview.php,v 1.57 2001/07/19 12:52:49 bf Exp $
 //
 // Created on: <18-Oct-2000 16:34:51 bf>
 //
@@ -281,7 +281,6 @@ if( $typeCount > 0 )
 
     $t->parse( "attribute_list", "attribute_list_tpl" );
 }
-
 
 
 $files = $article->files();

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezqdomgenerator.php,v 1.15 2001/07/19 12:19:21 jakobn Exp $
+// $Id: ezqdomgenerator.php,v 1.16 2001/07/19 12:52:48 bf Exp $
 //
 // Definition of eZQDomGenerator class
 //
@@ -102,6 +102,8 @@ class eZQDomGenerator
 
         $tmpPage = $this->generateLink( $tmpPage );
 
+        $tmpPage = $this->generateForm( $tmpPage );
+        
 //        $tmpPage = $this->generateModule( $tmpPage );
         
 //        $tmpPage = $this->generateHTML( $tmpPage );
@@ -163,6 +165,17 @@ class eZQDomGenerator
         return $tmpPage;
     }
 
+    /*!
+      \private
+      
+    */
+    function &generateForm( $tmpPage )
+    {
+        $tmpPage = preg_replace( "/(<form\s*?>)/", "<form />", $tmpPage );
+        
+        return $tmpPage;
+    }
+    
     /*!
       \private
       Converts the link tags to valid XML tags.

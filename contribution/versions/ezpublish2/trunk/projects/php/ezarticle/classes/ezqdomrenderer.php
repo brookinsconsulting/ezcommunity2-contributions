@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezqdomrenderer.php,v 1.20 2001/07/19 12:19:21 jakobn Exp $
+// $Id: ezqdomrenderer.php,v 1.21 2001/07/19 12:52:48 bf Exp $
 //
 // Definition of eZQDomRenderer class
 //
@@ -632,6 +632,7 @@ class eZQDomrenderer
             case "factbox" :
             case "quote" :
             case "pre" :
+            case "form" :
             {
                 $tmpContent = "";
                 if ( count( $paragraph->children ) )
@@ -672,9 +673,16 @@ class eZQDomrenderer
                         $this->Template->set_var( "contents", trim( $tmpContent ) );
                         $pageContent = trim( $this->Template->parse( "quote", "quote_tpl" ) );
                     break;
-                    case "pre" :
-                        $this->Template->set_var( "contents", trim( $tmpContent ) );
-                        $pageContent = trim( $this->Template->parse( "pre", "pre_tpl" ) );
+                    case "form" :
+                        include_once( "ezform/classes/ezformrenderer.php" );
+
+                        $forms = $this->Article->forms();
+                        $formRenderer = new eZFormRenderer();
+                        $output = $formRenderer->renderForm(  $forms[0] );
+
+                        $pageContent = $output;
+
+
                     break;
                 }
                 
