@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: frontpage.php,v 1.1 2001/05/30 13:16:02 bf Exp $
+// $Id: frontpage.php,v 1.2 2001/05/30 15:07:12 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <30-May-2001 14:06:59 bf>
@@ -205,6 +205,8 @@ if ( count( $articleList ) > 0 )
 else
     $t->set_var( "article_list", "" );
 
+
+$t->set_var( "article_short_list", "" );
 
 $i = 0;
 // short articles
