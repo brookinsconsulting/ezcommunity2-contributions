@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: extendedsearch.php,v 1.10 2001/03/23 18:57:47 jb Exp $
+// $Id: extendedsearch.php,v 1.11 2001/03/29 12:42:00 ce Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <10-Oct-2000 17:49:05 bf>
@@ -37,6 +37,10 @@ $Language = $ini->read_var( "eZTradeMain", "Language" );
 $ShowPriceGroups = $ini->read_var( "eZTradeMain", "PriceGroupsEnabled" ) == "true";
 $RequireUserLogin = $ini->read_var( "eZTradeMain", "RequireUserLogin" ) == "true";
 $ExtendedSearchCategories = $ini->read_array( "eZTradeMain", "ExtendedSearchCategories" );
+$MaxSearchForProducts = $ini->read_var( "eZTradeMain", "MaxSearchForProducts" );
+
+$SmallImageWidth = $ini->read_var( "eZTradeMain", "SmallImageWidth" );
+$SmallImageHeight = $ini->read_var( "eZTradeMain", "SmallImageHeight" );
 
 include_once( "eztrade/classes/ezproduct.php" );
 include_once( "eztrade/classes/ezproductcategory.php" );
@@ -63,6 +67,7 @@ $t->set_file(  "extended_search_tpl", "extendedsearch.tpl" );
 
 $t->set_block( "extended_search_tpl", "extended_tpl", "product" );
 $t->set_block( "extended_search_tpl", "product_search_list_tpl", "product_search_list" );
+$t->set_block( "extended_search_tpl", "error_max_search_for_products_tpl", "error_max_search_for_products" );
 $t->set_block( "extended_search_tpl", "category_list_tpl", "category_list" );
 $t->set_block( "category_list_tpl", "category_item_tpl", "category_item" );
 
@@ -71,10 +76,10 @@ $t->set_block( "extended_search_tpl", "empty_search_tpl", "empty_search" );
 $t->set_block( "product_search_list_tpl", "image_tpl", "image" );
 $t->set_block( "product_search_list_tpl", "price_tpl", "price" );
 
-
 $t->set_var( "price_lower", "" );
 $t->set_var( "price_higher", "" );
 $t->set_var( "text", "" );
+$t->set_var( "error_max_search_for_products", "" );
 
 $priceRange = explode( "-", $PriceRange );
 //  $PriceLower = !is_numeric( $priceRange[0] ) ? 0 : $priceRange[0];
@@ -192,6 +197,14 @@ if ( $Action == "SearchButton" )
     $t->set_var( "url_main_categories", $mainCategory );
 }
 
+if ( ( $MaxSearchForProducts != 0 ) && ( $MaxSearchForProducts < $totalCount ) )
+{
+    $t->parse( "error_max_search_for_products", "error_max_search_for_products_tpl" );
+    $t->set_var( "product_search_list", "" );
+    $productList = array();
+    $totalCount = 0;
+}
+
 $locale = new eZLocale( $Language );
 $i=0;
 $t->set_var( "product", "" );
@@ -202,9 +215,9 @@ if ( count ( $productList ) > 0 )
     {
         // preview image
         $thumbnailImage = $product->thumbnailImage();
-        if ( 0 )
+        if ( $thumbnailImage )
         {
-            $variation =& $thumbnailImage->requestImageVariation( 150, 150 );
+            $variation =& $thumbnailImage->requestImageVariation( $SmallImageWidth, $SmallImageHeight );
     
             $t->set_var( "thumbnail_image_uri", "/" . $variation->imagePath() );
             $t->set_var( "thumbnail_image_width", $variation->width() );

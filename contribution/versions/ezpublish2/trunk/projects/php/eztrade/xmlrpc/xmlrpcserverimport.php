@@ -1,4 +1,8 @@
 <?
+ob_end_clean();
+ob_start();
+
+chdir( "/home/ce/projects/php/mygold/" );
 include_once( "ezxmlrpc/classes/ezxmlrpcserver.php" );
 include_once( "ezxmlrpc/classes/ezxmlrpcstring.php" );
 include_once( "ezxmlrpc/classes/ezxmlrpcint.php" );
@@ -18,12 +22,16 @@ include_once( "classes/ezfile.php" );
 include_once( "classes/ezimagefile.php" );
 include_once( "classes/ezlog.php" );
 include_once( "classes/INIFile.php" );
+include_once( "classes/ezmail.php" );
 include_once( "ezimagecatalogue/classes/ezimage.php" );
 
+set_time_limit( 0 );
 $server = new eZXMLRPCServer( );
 
 $server->registerFunction( "insert", array( new eZXMLRPCStruct() ) );
 $server->registerFunction( "assignToCategoies" );
+// $server->registerFunction( "passiv", array( new eZXMLRPCStruct() ) );
+$server->registerFunction( "passiv", new eZXMLRPCArray() );
 
 $server->processRequest();
 
@@ -673,6 +681,8 @@ function insert( $args )
     $product->store();
     $productID = $product->id();
 
+    $product->setTotalQuantity( $productTotalQuantity );
+    
     // set hot deal
     if ( $productIsHotDeal )
     {
@@ -680,14 +690,12 @@ function insert( $args )
 
         eZLog::writeNotice( "HotDeal: Added product " . $nummer . " to hotdeal" );
         $product->setIsHotDeal( true );
+        $product->setTotalQuantity( false );
     }
     else
     {
         $product->setIsHotDeal( false );
     }
-
-
-    $product->setTotalQuantity( $productTotalQuantity );
 
     // If the product has options, dont show the price.
     if ( ( $struct["productShowPrice"]->value() == true ) || ( count ( $options ) == 1 ) )
@@ -792,7 +800,6 @@ function insert( $args )
         $product->setPrice( $productPrice );
         $product->store();
 
-        print( "her" );
         $value->setPrice( 0 );
     }
 
@@ -952,6 +959,83 @@ function assignToCategoies( )
     return new eZXMLRPCInt( $categoryID );
 }
 
+function passiv( $bufferArray )
+{
+    $data =& $bufferArray[0];
+
+    $data = $data->value();
+    
+    $db = eZDB::globalDatabase();
+
+    $product = new eZProduct();
+    $optionValue = new eZOptionValue();
+    
+    $db->array_query( $productList, "SELECT ID, RemoteID FROM eZTrade_Product" );
+    $db->array_query( $optionValueList, "SELECT ID, RemoteID FROM eZTrade_OptionValue" );
+    
+    $i = 0;
+
+    foreach ( $data as $buffer )
+    {
+        $buffer = $buffer->value();
+        
+        $buffer = ereg_replace( "\|", "", $buffer );
+        $buffer = trim( $buffer );
+
+        foreach( $productList as $productItem )
+        {
+            $remoteArray = explode( "-", $productItem["RemoteID"] );
+
+            if ( $remoteArray[3] )
+            {
+                if ( $buffer == $remoteArray[3] )
+                {
+                    $product_array[] = $buffer;
+                
+                    $product->get( $productItem["ID"] );
+                    $product->setTotalQuantity( 0 );
+                }
+            }
+        }
+        
+        foreach( $optionValueList as $optionItem )
+        {
+            $remoteArray = explode( "-", $optionItem["RemoteID"] );
+
+            if ( $remoteArray[3] )
+            {
+                if ( $buffer == $remoteArray[3] )
+                {
+                    $option_array[] = $buffer;
+                
+                    $optionValue->get( $optionItem["ID"] );
+                    $optionValue->setTotalQuantity( 0 );
+                }
+            }
+        }
+        $i++;
+    }
+
+    $mail = new eZMail();
+    $mail->setTo( "ce@ez.no" );
+    $mail->setFrom( "mygold@mygold.com" );
+    $mail->setSubject( "passiv script" );
+    
+    $body = ( "Mygold passiv script completed\n" );
+    $body .= ( "\n" );
+    $body .= ( "Total products marked as sold: . " . count( $product_array ) . "\n" );
+    $body .= ( "Total options marked as sold: . " . count( $option_array ) . "\n" );
+
+    $mail->setBody( $body );
+
+    $mail->send();
+
+    return new eZXMLRPCInt( 1 );
+
+}
+
+ob_end_flush();
+exit();
 
 
 ?>

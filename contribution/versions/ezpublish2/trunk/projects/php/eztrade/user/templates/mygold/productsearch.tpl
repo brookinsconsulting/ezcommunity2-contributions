@@ -6,7 +6,7 @@
    		<td align="right">
 			<form action="/trade/search/" method="post">
 	      		<input type="text" name="Query" />
-	      		<input type="submit" name="search" value="{intl-search_button}" />
+	      		<input class="okbutton" type="submit" name="search" value="{intl-search_button}" />
 	        </form>
 	    </td>
 	</tr>
@@ -14,6 +14,11 @@
 <hr noshade size="1" />
 <h2>Ihre Suche nach "{query_string}" ergab:</h2>
 <br />
+
+<!-- BEGIN error_max_search_for_products_tpl -->
+<p class="error">{intl-max_search}</p>
+<!-- END error_max_search_for_products_tpl -->
+
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
 	<!-- BEGIN product_tpl -->
 	<tr>
@@ -89,6 +94,7 @@
 		    </td>
 		    <!-- END type_list_next_tpl -->
 
+		    <!-- BEGIN type_list_next_inactive_tpl -->
 		    <td class="inactive">
 			{intl-next}&nbsp;&gt;&gt;
 		    </td>

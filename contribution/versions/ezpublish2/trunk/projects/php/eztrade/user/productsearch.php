@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: productsearch.php,v 1.15 2001/03/22 08:37:01 ce Exp $
+// $Id: productsearch.php,v 1.16 2001/03/29 12:42:00 ce Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <10-Oct-2000 17:49:05 bf>
@@ -34,6 +34,9 @@ $ini =& INIFile::globalINI();
 $Language = $ini->read_var( "eZTradeMain", "Language" );
 $ShowPriceGroups = $ini->read_var( "eZTradeMain", "PriceGroupsEnabled" ) == "true";
 $RequireUserLogin = $ini->read_var( "eZTradeMain", "RequireUserLogin" ) == "true";
+$MaxSearchForProducts = $ini->read_var( "eZTradeMain", "MaxSearchForProducts" );
+$SmallImageWidth = $ini->read_var( "eZTradeMain", "SmallImageWidth" );
+$SmallImageHeight = $ini->read_var( "eZTradeMain", "SmallImageHeight" );
 
 include_once( "eztrade/classes/ezproduct.php" );
 include_once( "eztrade/classes/ezproductcategory.php" );
@@ -53,6 +56,7 @@ $t->setAllStrings();
 $t->set_file(  "product_search_tpl", "productsearch.tpl" );
 
 $t->set_block( "product_search_tpl", "product_tpl", "product" );
+$t->set_block( "product_search_tpl", "error_max_search_for_products_tpl", "error_max_search_for_products" );
 
 if ( !isset( $ModuleName ) )
     $ModuleName = "trade";
@@ -73,6 +77,7 @@ $t->set_block( "product_tpl", "price_tpl", "price" );
 
 $t->set_var( "next", "" ); 
 $t->set_var( "previous", "" );
+$t->set_var( "error_max_search_for_products", "" );
 
 // products
 $product = new eZProduct();
@@ -93,6 +98,14 @@ $total_count = $product->activeProductSearchCount( $Query );
 
 $t->set_var( "url_text", urlencode( $Query ) );
 
+if ( ( $MaxSearchForProducts != 0 ) && ( $MaxSearchForProducts < $total_count ) )
+{
+    $t->parse( "error_max_search_for_products", "error_max_search_for_products_tpl" );
+    $t->set_var( "product_search_list", "" );
+    $productList = array();
+    $total_count = 0;
+}
+
 $locale = new eZLocale( $Language );
 $i=0;
 $t->set_var( "product", "" );
@@ -102,9 +115,9 @@ if ( isSet( $Query ) )
     {
         // preview image
         $thumbnailImage = $product->thumbnailImage();
-        if ( 0 )
+        if ( $thumbnailImage )
         {
-            $variation =& $thumbnailImage->requestImageVariation( 150, 150 );
+            $variation =& $thumbnailImage->requestImageVariation( $SmallImageWidth, $SmallImageHeight );
     
             $t->set_var( "thumbnail_image_uri", "/" . $variation->imagePath() );
             $t->set_var( "thumbnail_image_width", $variation->width() );

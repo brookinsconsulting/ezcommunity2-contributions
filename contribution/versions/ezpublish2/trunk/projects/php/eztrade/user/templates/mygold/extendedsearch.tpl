@@ -1,5 +1,10 @@
 <h1>{intl-head_line}</h1>
 <hr noshade="noshade" size="1" />
+
+<!-- BEGIN error_max_search_for_products_tpl -->
+<p class="error">{intl-max_search}</p>
+<!-- END error_max_search_for_products_tpl -->
+
 <!-- BEGIN product_search_form_tpl -->
 <form action="/trade/extendedsearch/" method="post">
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
