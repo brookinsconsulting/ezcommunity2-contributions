@@ -261,21 +261,21 @@ switch ( $url_array[2] )
         {
             $CategoryID = $url_array[4];
             $Action = "update";
-            if( eZObjectPermission::hasPermission( $ArticleID, "article_category", 'w' ) )
+            if( eZObjectPermission::hasPermission( $CategoryID, "article_category", 'w' ) )
                 include( "ezarticle/admin/categoryedit.php" );
         }
         if ( $url_array[3] == "delete" )
         {
             $CategoryID = $url_array[4];
             $Action = "delete";
-            if( eZObjectPermission::hasPermission( $ArticleID, "article_category", 'w' ) )
+            if( eZObjectPermission::hasPermission( $CategoryID, "article_category", 'w' ) )
                 include( "ezarticle/admin/categoryedit.php" );
         }
         if ( $url_array[3] == "edit" )
         {
             $CategoryID = $url_array[4];
             $Action = "edit";
-            if( eZObjectPermission::hasPermission( $ArticleID, "article_category", 'w' ) )
+            if( eZObjectPermission::hasPermission( $CategoryID, "article_category", 'w' ) )
                 include( "ezarticle/admin/categoryedit.php" );
         }
 
