@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezobjectpermission.php,v 1.33 2001/09/27 11:35:38 bf Exp $
+// $Id: ezobjectpermission.php,v 1.34 2001/09/28 08:18:53 jhe Exp $
 //
 // Definition of eZObjectPermission class
 //
@@ -72,7 +72,7 @@ class eZObjectPermission
 
       NOTE: If you object has an owner, and this user allways should have rights, you must check this yourself.
      */
-    function hasPermission( $objectID, $moduleTable, $permission, $user=false )
+    function hasPermission( $objectID, $moduleTable, $permission, $user = false )
     {
         if ( get_class( $user ) != "ezuser" )
             $user =& eZUser::currentUser();
@@ -80,7 +80,7 @@ class eZObjectPermission
         if ( is_object( $user ) && $user->hasRootAccess() )
             return true;
 
-        if( $permission != 'u' && $permission != 'w' && $permission != 'r' )
+        if ( $permission != 'u' && $permission != 'w' && $permission != 'r' )
             return false;
         
         $SQLGroups = "GroupID = '-1'";
