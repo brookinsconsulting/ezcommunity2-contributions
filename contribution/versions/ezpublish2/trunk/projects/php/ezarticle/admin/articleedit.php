@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: articleedit.php,v 1.95 2001/07/02 12:43:25 bf Exp $
+// $Id: articleedit.php,v 1.96 2001/07/04 10:38:51 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <18-Oct-2000 15:04:39 bf>
@@ -428,7 +428,7 @@ if ( $Action == "Update" )
         $article->setIsPublished( false );
     }
 
-        
+
     // check if the contents is parseable
     if ( xmltree( $contents ) )
     // TODO add document validation here:
@@ -453,7 +453,8 @@ if ( $Action == "Update" )
 
         $article->setManualKeywords( $Keywords );
 
-        $categoryArray = $article->categories();
+        $categoryArray =& $article->categories();
+        
         // Calculate new and unused categories
         $old_maincategory = $article->categoryDefinition();
         $old_categories =& array_unique( array_merge( $old_maincategory->id(),

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezarticle.php,v 1.110 2001/07/04 08:47:48 jb Exp $
+// $Id: ezarticle.php,v 1.111 2001/07/04 10:38:51 bf Exp $
 //
 // Definition of eZArticle class
 //
@@ -339,6 +339,7 @@ class eZArticle
     function delete()
     {
         $db =& eZDB::globalDatabase();
+        
         if ( isset( $this->ID ) )
         {
             $imageList =& $this->images();
@@ -353,13 +354,24 @@ class eZArticle
             {
 //                $file->delete();
             }
-            $db->query( "DELETE FROM eZArticle_ArticleCategoryLink WHERE ArticleID='$this->ID'" );
-            $db->query( "DELETE FROM eZArticle_ArticleCategoryDefinition WHERE ArticleID='$this->ID'" );
-            $db->query( "DELETE FROM eZArticle_ArticleImageLink WHERE ArticleID='$this->ID'" );
-            $db->query( "DELETE FROM eZArticle_ArticleImageDefinition WHERE ArticleID='$this->ID'" );
-            $db->query( "DELETE FROM eZArticle_ArticlePermission WHERE ObjectID='$this->ID'" );
-            $db->query( "DELETE FROM eZArticle_Article WHERE ID='$this->ID'" );
-            $db->query( "DELETE FROM eZArticle_AttributeValue WHERE ArticleID='$this->ID'" );
+
+            $db->begin();
+
+            $res = array();
+            
+            $res[] = $db->query( "DELETE FROM eZArticle_ArticleCategoryLink WHERE ArticleID='$this->ID'" );
+            $res[] = $db->query( "DELETE FROM eZArticle_ArticleCategoryDefinition WHERE ArticleID='$this->ID'" );
+            $res[] = $db->query( "DELETE FROM eZArticle_ArticleImageLink WHERE ArticleID='$this->ID'" );
+            $res[] = $db->query( "DELETE FROM eZArticle_ArticleImageDefinition WHERE ArticleID='$this->ID'" );
+            $res[] = $db->query( "DELETE FROM eZArticle_ArticlePermission WHERE ObjectID='$this->ID'" );
+            $res[] = $db->query( "DELETE FROM eZArticle_Article WHERE ID='$this->ID'" );
+            $res[] = $db->query( "DELETE FROM eZArticle_AttributeValue WHERE ArticleID='$this->ID'" );
+
+            if ( in_array( false, $res ) )
+                $db->rollback( );
+            else
+                $db->commit();            
+            
         }
         
         return true;
@@ -977,7 +989,6 @@ class eZArticle
                 $db->rollback( );
             else
                 $db->commit();
-            
         }
     }
 
@@ -1623,12 +1634,12 @@ class eZArticle
             $db =& eZDB::globalDatabase();
 
             $categoryID = $value->id();
+      
+            $db->begin( );
 
-            $db->query( "DELETE FROM eZArticle_ArticleCategoryDefinition
+            $res[] = $db->query( "DELETE FROM eZArticle_ArticleCategoryDefinition
                                      WHERE ArticleID='$this->ID'" );
 
-       
-            $db->begin( );
             
             $db->lock( "eZArticle_ArticleCategoryDefinition" );
             $nextID = $db->nextID( "eZArticle_ArticleCategoryDefinition", "ID" );
@@ -1642,12 +1653,11 @@ class eZArticle
                              '$this->ID' )";
             
             
-            $res = $db->query( $query );
-
+            $res[] = $db->query( $query );
 
             $db->unlock();
     
-            if ( $res == false )
+            if ( in_array( false, $res ) )
                 $db->rollback( );
             else
                 $db->commit();            

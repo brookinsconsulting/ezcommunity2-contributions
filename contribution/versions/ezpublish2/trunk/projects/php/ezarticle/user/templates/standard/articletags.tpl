@@ -27,7 +27,12 @@
 <br clear="all"><table width="{image_width}" align="{image_alignment}" border="0" cellspacing="0" cellpadding="4">
 <tr>
 <td>
+   <!-- BEGIN image_link_tpl -->
    <a href="/imagecatalogue/imageview/{image_id}/?RefererURL=/article/{view_mode}/{article_id}/">
+   <!-- END image_link_tpl -->
+   <!-- BEGIN ext_link_tpl -->
+   <a href="{image_href}">
+   <!-- END ext_link_tpl -->
    <img src="{image_url}" border="0" width="{image_width}" height="{image_height}" alt="" />
    </a>   
 </td>
@@ -41,7 +46,12 @@
 <!-- END image_tpl -->
 
 <!-- BEGIN image_float_tpl -->
-<a href="/imagecatalogue/imageview/{image_id}/?RefererURL=/article/{view_mode}/{article_id}/">
+   <!-- BEGIN image_link_tpl -->
+   <a href="/imagecatalogue/imageview/{image_id}/?RefererURL=/article/{view_mode}/{article_id}/">
+   <!-- END image_link_tpl -->
+   <!-- BEGIN ext_link_tpl -->
+   <a href="{image_href}">
+   <!-- END ext_link_tpl -->
 <img src="{image_url}" border="0" width="{image_width}" height="{image_height}" alt="" /></a>   
 <!-- END image_float_tpl -->
 

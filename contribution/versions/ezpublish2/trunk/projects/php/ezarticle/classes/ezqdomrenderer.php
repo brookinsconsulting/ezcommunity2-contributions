@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezqdomrenderer.php,v 1.9 2001/07/03 15:25:03 bf Exp $
+// $Id: ezqdomrenderer.php,v 1.10 2001/07/04 10:38:51 bf Exp $
 //
 // Definition of eZQDomRenderer class
 //
@@ -144,7 +144,12 @@ class eZQDomrenderer
         $this->Template->set_block( "articletags_tpl", "header_6_tpl", "header_6"  );
 
         $this->Template->set_block( "articletags_tpl", "image_tpl", "image"  );
-        $this->Template->set_block( "articletags_tpl", "image_float_tpl", "image_float"  );
+        $this->Template->set_block( "image_tpl", "image_link_tpl", "image_link"  );
+        $this->Template->set_block( "image_tpl", "ext_link_tpl", "ext_link"  );
+       
+        $this->Template->set_block( "articletags_tpl", "image_float_tpl", "image_float" );
+        $this->Template->set_block( "image_float_tpl", "image_link_tpl", "image_link" );
+        $this->Template->set_block( "image_float_tpl", "ext_link_tpl", "ext_link"  );        
 
         $this->Template->set_block( "articletags_tpl", "link_tpl", "link"  );        
         
@@ -152,8 +157,6 @@ class eZQDomrenderer
         $this->Template->set_block( "articletags_tpl", "italic_tpl", "italic"  );
         $this->Template->set_block( "articletags_tpl", "underline_tpl", "underline"  );
         $this->Template->set_block( "articletags_tpl", "strong_tpl", "strong"  );
-
-
         
         $this->Article = $article;
     }
@@ -399,6 +402,12 @@ class eZQDomrenderer
                        $imageSize = $attr->children[0]->content;
                     }
                     break;
+
+                    case "href" :
+                    {
+                       $imageHref = $attr->children[0]->content;
+                    }
+                    break;
                 }
             }
 
@@ -465,6 +474,7 @@ class eZQDomrenderer
                 {
                     $viewMode = "view";
                 }
+
                 
                 $this->Template->set_var( "image_width", $imageWidth );
                 $this->Template->set_var( "image_height", $imageHeight );
@@ -475,6 +485,22 @@ class eZQDomrenderer
                 $this->Template->set_var( "view_mode", $viewMode );
                 $this->Template->set_var( "caption", $imageCaption );
 
+
+                if ( $imageHref != "" )
+                {
+                    // convert link
+                    if ( !preg_match( "%^(([a-z]+://)|/|#)%", $imageHref ) )
+                        $imageHref = "http://" . $imageHref;
+                    $this->Template->set_var( "image_href", $imageHref );
+                    $this->Template->set_var( "image_link", "" );
+                    $this->Template->parse( "ext_link", "ext_link_tpl" );
+                }
+                else
+                {
+                    $this->Template->set_var( "ext_link", "" );
+                    $this->Template->parse( "image_link", "image_link_tpl" );
+                }
+                
                 
                 if ( $imageAlignment != "float"  )
                 {                    
@@ -604,7 +630,6 @@ class eZQDomrenderer
                     break;
                 }
             }
-
 
             if ( !preg_match( "%^(([a-z]+://)|/|#)%", $href ) )
                 $href = "http://" . $href;
