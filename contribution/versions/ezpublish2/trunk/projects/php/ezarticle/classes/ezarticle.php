@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezarticle.php,v 1.133 2001/07/25 14:20:46 ce Exp $
+// $Id: ezarticle.php,v 1.134 2001/08/01 14:50:24 bf Exp $
 //
 // Definition of eZArticle class
 //
@@ -756,7 +756,7 @@ class eZArticle
         $keywords = "";
         foreach ( $contents_array as $word )
         {
-            if ( strlen( $word ) > 3 )
+            if ( strlen( $word ) >= 2 )
             {
                 $keywords .= $word . " ";
             }
