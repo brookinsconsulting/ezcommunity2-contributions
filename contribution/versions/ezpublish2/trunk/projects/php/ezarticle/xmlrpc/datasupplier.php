@@ -5,28 +5,46 @@ if ( $ReturnCatalogues == true )
 }
 else
 {
-    switch ( $URL_ARRAY[1] )
+    switch ( $RequestType )
     {
-        case "categorylist" :
-        {
-            $ID = $URL_ARRAY[2];
-            include( "ezarticle/xmlrpc/categorylist.php" );
-        } break;
-        
-        case "storecategory" :
         case "category" :
         {
-            $ID = $URL_ARRAY[2];
-            $Action = $URL_ARRAY[1];
-            include( "ezarticle/xmlrpc/category.php" );
+            if( $Command == "list" )
+            {
+                include( "ezarticle/xmlrpc/categorylist.php" );
+            }
+            else if( $Command == "retreive" )
+            {
+                $Action == "category";
+                include( "ezarticle/xmlrpc/category.php" );
+            }
+            else if( $Command == "store" )
+            {
+                $Action == "storecategory";
+                include( "ezarticle/xmlrpc/category.php" );
+            }
+            else
+            {
+                // error
+            }
         } break;
-
-        case "storearticle" :
+        
         case "article" :
         {
-            $ID = $URL_ARRAY[2];
-            $Action = $URL_ARRAY[1];
-            include( "ezarticle/xmlrpc/article.php" );
+            if( $Command == "retreive" )
+            {
+                $Action = "article";
+                include( "ezarticle/xmlrpc/article.php" );
+            }
+            else if( $Command == "store" )
+            {
+                $Action = "article";
+                include( "ezarticle/xmlrpc/article.php" );
+            }
+            else
+            {
+                // error
+            }
         }
         break;
         

@@ -14,7 +14,7 @@ if( $Action == "category" ) // Dump category info!
     $writeGroups = eZObjectPermission::getGroups( $ID, "article_category", 'w', false );
     $readGroups = eZObjectPermission::getGroups( $ID, "article_category", 'r', false );
     $category = new eZArticleCategory( $ID );
-    $ReturnData = new eZXMLRPCStruct( array( "ID" => new eZXMLRPCInt( $category->id() ),
+    $ReturnData = new eZXMLRPCStruct( array( "URL" => createURLStruct( "ezarticle", "category", $category->id() ),
                                              "Name" => new eZXMLRPCString( $category->name( false ) ),
                                              "ParentID" => new eZXMLRPCInt( $category->parent( false ) ),
                                              "Description" => new eZXMLRPCString( $category->description( false ) ),
@@ -36,7 +36,6 @@ else if( $Action == "storecategory" ) // save the category data!
     else
         $category = new eZArticleCategory( $ID );
 
-    
     $category->setName( $Data["Name"]->value() );
     $category->setDescription( $Data["Description"]->value() );
     $category->setParent( $Data["ParentID"]->value() );

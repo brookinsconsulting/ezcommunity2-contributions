@@ -12,7 +12,7 @@ if( $Action == "article" ) // return all the data in the category
     $readGroups = eZObjectPermission::getGroups( $ID, "article_article", 'r', false );
     $article = new eZArticle( $ID );
     
-    $ReturnData = new eZXMLRPCStruct( array( "ID" => new eZXMLRPCInt( $article->id() ),
+    $ReturnData = new eZXMLRPCStruct( array( "ID" => createURLStruct( $article->id() ),
                                              "AuthorID" => new eZXMLRPCInt( $article->author( false ) ),
                                              "Name" => new eZXMLRPCString( $article->name( false ) ), // title
                                              "Contents" => new eZXMLRPCString( $article->contents( false ) ),
