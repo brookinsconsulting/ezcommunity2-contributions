@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: adedit.php,v 1.18 2001/04/30 16:04:47 bf Exp $
+// $Id: adedit.php,v 1.19 2001/05/29 14:00:56 ce Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <16-Nov-2000 13:02:32 bf>
@@ -50,6 +50,16 @@ if ( isSet ( $Preview ) )
     {
         $Action = "Insert";
     }
+}
+
+// Get images from the image browse function.
+if ( ( isSet ( $AddImages ) ) and ( is_numeric( $AdID ) ) and ( is_numeric ( $AdID ) ) )
+{
+    $image = new eZImage( $ImageID );
+    $ad = new eZAd( $AdID );
+    $ad->setImage( $image );
+    $ad->store();
+    $Action = "Edit";
 }
 
 if ( $Action == "Insert" )
@@ -111,7 +121,17 @@ if ( $Action == "Insert" )
 
     $category->addAd( $ad );
 
-    
+    if ( isSet ( $Browse ) )
+    {
+        $adID = $ad->id();
+        
+        $session = new eZSession();
+        $session->setVariable( "SelectImages", "single" );
+        $session->setVariable( "ImageListReturnTo", "/ad/ad/edit/$adID/" );
+        $session->setVariable( "NameInBrowse", $ad->name() );
+        eZHTTPTool::header( "Location: /imagecatalogue/browse/" );
+        exit();
+    }
     if ( isset( $Preview ) )
     {
         $Action = "Edit";
@@ -183,7 +203,18 @@ if ( $Action == "Update" )
 
     $ad->removeFromCategories();
     $category->addAd( $ad );
-    
+
+    if ( isSet ( $Browse ) )
+    {
+        $adID = $ad->id();
+        
+        $session = new eZSession();
+        $session->setVariable( "SelectImages", "single" );
+        $session->setVariable( "ImageListReturnTo", "/ad/ad/edit/$adID/" );
+        $session->setVariable( "NameInBrowse", $ad->name() );
+        eZHTTPTool::header( "Location: /imagecatalogue/browse/" );
+        exit();
+    }
     if ( isset( $Preview ) )
     {
         $Action = "Edit";        

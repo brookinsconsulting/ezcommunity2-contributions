@@ -44,7 +44,9 @@
 <!-- BEGIN no_image_item_tpl -->
 
 <!-- END no_image_item_tpl -->
-<input size="40" name="ImageFile" type="file" /><br /><br />
+<input size="40" name="ImageFile" type="file" />&nbsp;
+<input class="stdbutton" type="submit" name="Browse" value="{intl-browse}" />
+<br /><br />
 <hr noshade="noshade" size="4" />
 
 <br />

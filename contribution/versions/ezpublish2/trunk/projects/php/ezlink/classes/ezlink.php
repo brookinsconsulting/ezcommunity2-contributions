@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezlink.php,v 1.50 2001/05/09 16:41:25 ce Exp $
+// $Id: ezlink.php,v 1.51 2001/05/29 14:00:57 ce Exp $
 //
 // Definition of eZLink class
 //
@@ -111,6 +111,8 @@ class eZLink
                 Url='$url',
                 ImageID='$this->ImageID',
                 Accepted='$this->Accepted'" );
+
+        $this->ID = $this->Database->insertID();
     }
 
     /*!

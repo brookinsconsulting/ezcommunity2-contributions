@@ -39,7 +39,8 @@
 
 
 <p class="boxtext">{intl-ad_image}:</p>
-<input size="40" name="AdImage" type="file" />
+<input size="40" name="AdImage" type="file" />&nbsp;
+<input class="stdbutton" type="submit" name="Browse" value="{intl-browse}" />
 
 
 <!-- BEGIN image_tpl -->

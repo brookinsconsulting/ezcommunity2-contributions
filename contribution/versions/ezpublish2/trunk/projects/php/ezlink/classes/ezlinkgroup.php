@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezlinkgroup.php,v 1.52 2001/05/09 16:41:25 ce Exp $
+// $Id: ezlinkgroup.php,v 1.53 2001/05/29 14:00:57 ce Exp $
 //
 // Definition of eZLinkGroup class
 //
@@ -96,6 +96,8 @@ class eZLinkGroup
                 Description='$description',
                 ImageID='$this->ImageID',
                 Parent='$this->Parent'" );
+
+        $this->ID = $this->Database->insertID();
     }
 
     /*!

@@ -1,6 +1,6 @@
 <?
 //
-// $Id: groupedit.php,v 1.45 2001/05/16 08:52:51 ce Exp $
+// $Id: groupedit.php,v 1.46 2001/05/29 14:00:57 ce Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <26-Oct-2000 14:57:28 ce>
@@ -53,6 +53,16 @@ if ( isSet ( $DeleteCategories ) )
     $Action = "DeleteCategories";
 }
 
+// Get images from the image browse function.
+if ( ( isSet ( $AddImages ) ) and ( is_numeric( $LinkGroupID ) ) and ( is_numeric ( $LinkGroupID ) ) )
+{
+    $image = new eZImage( $ImageID );
+    $category = new eZLinkGroup( $LinkGroupID );
+    $category->setImage( $image );
+    $category->update();
+    $Action = "edit";
+}
+
 // Insert a group.
 if ( $Action == "insert" )
 {
@@ -94,6 +104,18 @@ if ( $Action == "insert" )
             }
             
             $group->store();
+
+            if ( isSet ( $Browse ) )
+            {
+                $groupID = $group->id();
+
+                $session = new eZSession();
+                $session->setVariable( "SelectImages", "single" );
+                $session->setVariable( "ImageListReturnTo", "/link/groupedit/edit/$groupID/" );
+                $session->setVariable( "NameInBrowse", $group->title() );
+                eZHTTPTool::header( "Location: /imagecatalogue/browse/" );
+                exit();
+            }
             eZHTTPTool::header( "Location: /link/group/". $ParentCategory );
             exit();
         }
@@ -212,6 +234,17 @@ if ( $Action == "update" )
             if ( $DeleteImage )
             {
                 $group->deleteImage();
+            }
+
+            if ( isSet ( $Browse ) )
+            {
+                $groupID = $group->id();
+                $session = new eZSession();
+                $session->setVariable( "SelectImages", "single" );
+                $session->setVariable( "ImageListReturnTo", "/link/groupedit/edit/$groupID/" );
+                $session->setVariable( "NameInBrowse", $group->title() );
+                eZHTTPTool::header( "Location: /imagecatalogue/browse/" );
+                exit();
             }
 
             eZHTTPTool::header( "Location: /link/group/$ParentCategory" );
