@@ -1,6 +1,6 @@
 
 
-eZ Trade guide
+eZ trade installation guide
 
 1 Dependencies
 
