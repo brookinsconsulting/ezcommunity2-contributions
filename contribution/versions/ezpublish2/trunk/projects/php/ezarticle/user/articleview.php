@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: articleview.php,v 1.61 2001/08/02 16:12:05 kaid Exp $
+// $Id: articleview.php,v 1.62 2001/08/09 10:56:08 bf Exp $
 //
 // Created on: <18-Oct-2000 16:34:51 bf>
 //
@@ -214,7 +214,6 @@ if ( $article->get( $ArticleID ) )
     $pageCount = $article->pageCount();
     if ( $PageNumber > $pageCount )
         $PageNumber = $pageCount;
-
 
     if ( $PageNumber == -1 )
         $articleContents = $renderer->renderPage( -1 );

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezarticle.php,v 1.137 2001/08/06 14:28:22 jhe Exp $
+// $Id: ezarticle.php,v 1.138 2001/08/09 10:56:07 bf Exp $
 //
 // Definition of eZArticle class
 //
@@ -526,9 +526,8 @@ class eZArticle
       Returns the number of pages in the article.
     */
     function &pageCount()
-
     {
-        return $this->PageCount;
+        return substr_count( $this->Contents, "<page>" );
     }
 
     /*!

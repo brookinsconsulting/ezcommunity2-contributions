@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: articlepreview.php,v 1.19 2001/07/19 12:19:20 jakobn Exp $
+// $Id: articlepreview.php,v 1.20 2001/08/09 10:56:07 bf Exp $
 //
 // Created on: <18-Oct-2000 16:34:51 bf>
 //
@@ -73,18 +73,14 @@ $renderer = new eZArticleRenderer( $article );
 $t->set_var( "article_name", $article->name() );
 $t->set_var( "author_text", $article->authorText() );
 
-
-$articleContents = $renderer->renderPage( $PageNumber -1 );
+$articleContents =& $renderer->renderPage( $PageNumber -1 );
         
 $t->set_var( "article_intro", $articleContents[0] );
 $t->set_var( "article_body", $articleContents[1] );
 
 
-
 $t->set_var( "link_text", $article->linkText() );
-
 $t->set_var( "article_id", $article->id() );
-
 
 
 $files = $article->files();

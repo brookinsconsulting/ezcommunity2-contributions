@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezqdomgenerator.php,v 1.21 2001/08/07 13:33:58 virt Exp $
+// $Id: ezqdomgenerator.php,v 1.22 2001/08/09 10:56:08 bf Exp $
 //
 // Definition of eZQDomGenerator class
 //
@@ -168,22 +168,23 @@ class eZQDomGenerator
         return $tmpPage;
     }
 
+    
     function &generateHr( $tmpPage )
     {
         // default horizontal line tag <hr>
-	$tmpPage = preg_replace( "/(<hr\s*?>)/", "<hr />", $tmpPage );
-	return $tmpPage;
+        $tmpPage = preg_replace( "/(<hr\s*?>)/", "<hr />", $tmpPage );
+        return $tmpPage;
     }
 
 
     function &generateTable( $tmpPage )
     {
         // default image tag <media id>
-	$tmpPage = preg_replace( "/(<tstart\s*?>)/", "<tstart />", $tmpPage );
-	$tmpPage = preg_replace( "/(<telem\s*?>)/", "<telem />", $tmpPage );
-	$tmpPage = preg_replace( "/(<trow\s*?>)/", "<trow />", $tmpPage );
-	$tmpPage = preg_replace( "/(<tend\s*?>)/", "<tend />", $tmpPage );
-	return $tmpPage;
+        $tmpPage = preg_replace( "/(<tstart\s*?>)/", "<tstart />", $tmpPage );
+        $tmpPage = preg_replace( "/(<telem\s*?>)/", "<telem />", $tmpPage );
+        $tmpPage = preg_replace( "/(<trow\s*?>)/", "<trow />", $tmpPage );
+        $tmpPage = preg_replace( "/(<tend\s*?>)/", "<tend />", $tmpPage );
+        return $tmpPage;
     }
 
 
@@ -285,16 +286,19 @@ class eZQDomGenerator
             // loop on the pages
             foreach ( $body as $page )
             {
-                $pageContent = "";
+                if ( $page->name == "page" )
+                {
+                    $pageContent = "";
 
-                $pageContent = $this->decodePage( $page );
+                    $pageContent = $this->decodePage( $page );
 
-                if ( $i > 0 )
-                    $bodyContents .=  "<page>" . $pageContent;
-                else
-                    $bodyContents .=  $pageContent;
+                    if ( $i > 0 )
+                        $bodyContents .=  "<page>" . $pageContent;
+                    else
+                        $bodyContents .=  $pageContent;
                     
-                $i++;
+                    $i++;
+                }
             }
 
             if ( $htmlSpecialChars == true )
@@ -623,17 +627,42 @@ class eZQDomGenerator
                 }
                 break;
 
+                case "list" :
                 case "bullet" :
-                {                        
-                    $pageContent .= "<bullet>" . $tmpContent . "</bullet>";
+                {
+                    $itemStr = "";
+                    foreach ( $paragraph->children as $child )
+                    {
+                        if ( $child->name == "li" )
+                        {
+                            $itemStr = "";
+                            foreach ( $child->children as $listItem )
+                            {                                
+                                if ( $listItem->name == "text" )
+                                {
+                                    $itemStr .= $listItem->content;                                
+                                }
+                                else
+                                {
+                                    $itemStr .= $this->decodeStandards( $listItem );
+                                    $itemStr .= $this->decodeLink( $listItem );
+                                    $itemStr .= $this->decodeImage( $listItem );
+                                    $itemStr .= $this->decodeMedia( $listItem );
+                                    $itemStr .= $this->decodeHeader( $listItem );
+                                
+                                }
+                            }
+                            $tmpContent .= "<li>$itemStr</li>\n";
+                        }
+                    }
+
+                    if ( $paragraph->name == "bullet" )                        
+                        $pageContent .= "<bullet>\n" . trim( $tmpContent ) . "</bullet>";
+                    else
+                        $pageContent .= "<list>\n" . trim( $tmpContent ) . "</list>";
                 }
                 break;
 
-                case "list" :
-                {                        
-                    $pageContent .= "<list>" . $tmpContent . "</list>";
-                }
-                break;
                 
                 case "factbox" :
                 {                        
