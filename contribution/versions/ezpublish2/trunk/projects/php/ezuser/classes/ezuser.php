@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezuser.php,v 1.8 2000/10/10 14:07:02 bf-cvs Exp $
+// $Id: ezuser.php,v 1.9 2000/10/13 10:14:42 bf-cvs Exp $
 //
 // Definition of eZCompany class
 //
@@ -400,15 +400,17 @@ class eZUser
         $session = new eZSession();
 
         $ret = false;
-        $session->fetch();
         
-        $user = new eZUser( $session->variable( "AuthenticatedUser" ) );
-        
-        if ( ( $user->id() != 0 ) && ( $user->id() != "" ) )
+        if ( $session->fetch() )
         {
-            $ret = $user;
-        }        
-
+            $user = new eZUser( $session->variable( "AuthenticatedUser" ) );
+            
+            if ( ( $user->id() != 0 ) && ( $user->id() != "" ) )
+            {
+                $ret = $user;
+            }
+        }
+        
         return $ret;
     }
 

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: forum.php,v 1.46 2000/10/13 10:02:28 ce-cvs Exp $
+// $Id: forum.php,v 1.47 2000/10/13 10:14:41 bf-cvs Exp $
 //
 // 
 //
@@ -97,10 +97,7 @@ foreach ( $messages as $message )
     else
         $t->set_var( "td_class", "bgdark" );
     
-//      $level = $message->level();
-
     $level = $message->depth();
-    
     
     if ( $level > 0 )
         $t->set_var( "spacer", str_repeat( "&nbsp;", $level ) );
@@ -108,13 +105,10 @@ foreach ( $messages as $message )
         $t->set_var( "spacer", "" );
     
     $t->set_var( "topic", $message->topic() );
-
     $t->set_var( "postingtime", $locale->format( $message->postingTime() ) );
-
     $t->set_var( "message_id", $message->id() );
 
-    $user = $message->user();
-    
+    $user = $message->user();    
     $t->set_var( "user", $user->firstName() . " " . $user->lastName() );
 
     $t->set_var( "limit", $Limit );
@@ -127,6 +121,22 @@ foreach ( $messages as $message )
     
 $t->set_var( "newmessage", $newmessage );
 
-$t->pparse( "output", "forum_tpl" );
+
+if ( $GenerateStaticPage == "true" )
+{
+    $fp = fopen ( $cachedFile, "w+");
+
+    $output = $t->parse( $target, "forum_tpl" );
+    // print the output the first time while printing the cache file.
+    
+    print( $output );
+    fwrite ( $fp, $output );
+    fclose( $fp );
+}
+else
+{
+    $t->pparse( "output", "forum_tpl" );
+}
+
 
 ?>

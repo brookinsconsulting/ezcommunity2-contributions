@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezsession.php,v 1.3 2000/10/03 09:45:18 bf-cvs Exp $
+// $Id: ezsession.php,v 1.4 2000/10/13 10:14:41 bf-cvs Exp $
 //
 // Definition of eZCompany class
 //
@@ -141,6 +141,8 @@ class eZSession
 
     /*!
       Fetches a session from cookie and database.
+
+      Returnes false if unsuccessful.
     */
     function fetch( )
     {
@@ -169,7 +171,7 @@ class eZSession
         if ( isset( $this->ID ) )
         {
             $this->Database->query( "DELETE FROM eZSession_SessionVariable
-                                    WHERE SessionID='$this->SessionID'" );
+                                    WHERE SessionID='$this->ID'" );
             
             $this->Database->query( "DELETE FROM eZSession_Session WHERE ID='$this->ID'" );
         }

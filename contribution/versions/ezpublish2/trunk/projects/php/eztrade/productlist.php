@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: productlist.php,v 1.8 2000/10/12 09:46:58 bf-cvs Exp $
+// $Id: productlist.php,v 1.9 2000/10/13 10:14:42 bf-cvs Exp $
 //
 // 
 //
@@ -148,7 +148,7 @@ if ( $GenerateStaticPage == "true" )
     $cachedFile = "eztrade/cache/productlist," . $CategoryID .".cache";
     $fp = fopen ( $cachedFile, "w+");
 
-    $output = $t->parse($target, "product_list_page" );
+    $output = $t->parse($target, "product_list_tpl" );
     // print the output the first time while printing the cache file.
     print( $output );
     fwrite ( $fp, $output );

@@ -3,6 +3,8 @@
 
 //  $url_array = explode( "/", $REQUEST_URI );
 
+$PageCaching = $ini->read_var( "eZForumMain", "PageCaching");
+
 switch ( $url_array[2] )
 {
     case "" :
@@ -51,9 +53,38 @@ switch ( $url_array[2] )
             }
             else                
             {
-                $forum_id = $url_array[4];
-                $Action = $url_array[5];
-                include( "ezforum/forum.php" );
+                if ( $PageCaching == "enabled" )
+                {
+                    print( "cached version<br>" );
+                
+                    $forum_id = $url_array[4];
+                    $Action = $url_array[5];
+
+                    $cachedFile = "ezforum/cache/forum," . $forum_id . ".cache";
+                    
+                    if ( file_exists( $cachedFile ) )
+                    {
+                        print( "pure static" );
+                
+                        include( $cachedFile );
+                    }
+                    else
+                    {
+                        print( "first time generated" );                
+                        $GenerateStaticPage = "true";
+                        
+                        include( "ezforum/forum.php" );                        
+                    }            
+                    
+                }
+                else
+                {
+                    print( "uncached  version<br>" );
+                
+                    $forum_id = $url_array[4];
+                    $Action = $url_array[5];
+                    include( "ezforum/forum.php" );
+                }
             }
 
         }
