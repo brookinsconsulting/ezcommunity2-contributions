@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezarticle.php,v 1.54 2001/03/08 10:27:41 pkej Exp $
+// $Id: ezarticle.php,v 1.55 2001/03/08 13:12:36 fh Exp $
 //
 // Definition of eZArticle class
 //
@@ -843,7 +843,7 @@ class eZArticle
     }
 
     /*!
-      Returns the number of articles available.
+      Returns the number of articles available, for the current user.
     */
     function articleCount( $fetchNonPublished=true )
     {
@@ -855,23 +855,49 @@ class eZArticle
        $return_array = array();
        $article_array = array();
 
+
+       $user = eZUser::currentUser();
+        $currentUserSQL = "";
+        if ( $user )
+        {
+            $groups = $user->groups( true );
+
+            $groupSQL = "";
+           
+            $i = 0;
+            foreach ( $groups as $group )
+            {
+                if ( $i == 0 )
+                    $groupSQL .= "P.GroupID=$group OR";
+                else
+                    $groupSQL .= " P.GroupID=$group OR";
+               
+                $i++;
+            }
+            $currentUserID = $user->id();
+            $currentUserSQL = "A.AuthorID=$currentUserID OR";
+        }
+        $loggedInSQL = "( $currentUserSQL ( ( $groupSQL P.GroupID='-1' ) AND P.ReadPermission='1') ) AND";
+
        if ( !$fetchNonPublished )
        {
-           $fetch_text = "AND eZArticle_Article.IsPublished = 'true'";
+           $fetch_text = "AND A.IsPublished = 'true'";
        }
-       $this->Database->array_query( $article_array, "
-                    SELECT eZArticle_Article.ID
-                    FROM eZArticle_Article, eZArticle_Category, eZArticle_ArticleCategoryLink 
-                    WHERE 
-                    eZArticle_ArticleCategoryLink.ArticleID = eZArticle_Article.ID
+       $this->Database->query_single( $article_array, "
+                    SELECT count( DISTINCT A.ID ) AS Count
+                    FROM eZArticle_Article AS A LEFT JOIN eZArticle_ArticlePermission AS P ON A.ID=P.ObjectID,
+                    eZArticle_Category, eZArticle_ArticleCategoryLink 
+                    WHERE
+                    $loggedInSQL
+                    eZArticle_ArticleCategoryLink.ArticleID = A.ID
                     AND
                     eZArticle_Category.ID = eZArticle_ArticleCategoryLink.CategoryID
                     $fetch_text
                     AND
                     eZArticle_Category.ExcludeFromSearch = 'false'
-                    GROUP BY eZArticle_Article.ID" );
+                    GROUP BY A.ID" );
 
-       return count( $article_array );
+       return  $article_array[ "Count" ];
     }
 
     /*!
@@ -887,12 +913,12 @@ class eZArticle
 
        $this->dbInit();
 
-       $OrderBy = "eZArticle_Article.Published DESC";
+       $OrderBy = "A.Published DESC";
        switch( $sortMode )
        {
            case "alpha" :
            {
-               $OrderBy = "eZArticle_Article.Name DESC";
+               $OrderBy = "A.Name DESC";
            }
            break;
        }
@@ -901,37 +927,49 @@ class eZArticle
        $return_array = array();
        $article_array = array();
 
-       if ( $fetchNonPublished == true )
+       $user = eZUser::currentUser();
+        $currentUserSQL = "";
+        if ( $user )
+        {
+            $groups = $user->groups( true );
+
+            $groupSQL = "";
+           
+            $i = 0;
+            foreach ( $groups as $group )
+            {
+                if ( $i == 0 )
+                    $groupSQL .= "P.GroupID=$group OR";
+                else
+                    $groupSQL .= " P.GroupID=$group OR";
+               
+                $i++;
+            }
+            $currentUserID = $user->id();
+            $currentUserSQL = "A.AuthorID=$currentUserID OR";
+        }
+        $loggedInSQL = "( $currentUserSQL ( ( $groupSQL P.GroupID='-1' ) AND P.ReadPermission='1') ) AND";
+
+       if ( !$fetchNonPublished )
        {
-          $this->Database->array_query( $article_array, "
-                    SELECT eZArticle_Article.ID AS ArticleID, eZArticle_Article.Name, eZArticle_Category.ID, eZArticle_Category.Name
-                    FROM eZArticle_Article, eZArticle_Category, eZArticle_ArticleCategoryLink 
-                    WHERE 
-                    eZArticle_ArticleCategoryLink.ArticleID = eZArticle_Article.ID
-                    AND
+           $fetch_text = "AND A.IsPublished = 'true'";
+       }
+
+       $this->Database->array_query( $article_array, "
+                    SELECT A.ID AS ArticleID, A.Name, eZArticle_Category.ID, eZArticle_Category.Name
+                    FROM eZArticle_Article AS A LEFT JOIN eZArticle_ArticlePermission AS P ON A.ID=P.ObjectID,
+                    eZArticle_Category, eZArticle_ArticleCategoryLink 
+                    WHERE
+                    $loggedInSQL
+                    eZArticle_ArticleCategoryLink.ArticleID = A.ID
+                    $fetch_text
+                    AND 
                     eZArticle_Category.ID = eZArticle_ArticleCategoryLink.CategoryID
                     AND
                     eZArticle_Category.ExcludeFromSearch = 'false'
-                    GROUP BY eZArticle_Article.ID ORDER BY $OrderBy
+                    GROUP BY A.ID ORDER BY $OrderBy
                     LIMIT $offset,$limit" );
            
-       }
-       else
-       {
-           $this->Database->array_query( $article_array, "
-                    SELECT eZArticle_Article.ID AS ArticleID, eZArticle_Article.Name, eZArticle_Category.ID, eZArticle_Category.Name
-                    FROM eZArticle_Article, eZArticle_Category, eZArticle_ArticleCategoryLink 
-                    WHERE 
-                    eZArticle_ArticleCategoryLink.ArticleID = eZArticle_Article.ID
-                    AND
-                    eZArticle_Article.IsPublished = 'true'
-                    AND
-                    eZArticle_Category.ID = eZArticle_ArticleCategoryLink.CategoryID
-                    AND
-                    eZArticle_Category.ExcludeFromSearch = 'false'
-                    GROUP BY eZArticle_Article.ID ORDER BY $OrderBy
-                    LIMIT $offset,$limit" );
-       }
 
        for ( $i=0; $i < count($article_array); $i++ )
        {
