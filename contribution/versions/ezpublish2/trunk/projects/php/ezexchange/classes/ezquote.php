@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezquote.php,v 1.6 2001/02/04 13:02:13 jb Exp $
+// $Id: ezquote.php,v 1.7 2001/02/04 13:51:42 jb Exp $
 //
 // Definition of eZQuote class
 //
@@ -35,9 +35,9 @@ include_once( "ezuser/classes/ezuser.php" );
 include_once( "classes/ezdb.php" );
 include_once( "classes/ezquery.php" );
 
-define( "QUOTE_TYPE", 1 );
-define( "RFQ_TYPE", 2 );
-define( "OFFER_TYPE", 3 );
+define( "QUOTE_TYPE", "quote" );
+define( "RFQ_TYPE", "rfq" );
+define( "OFFER_TYPE", "offer" );
 
 define( "QUOTE_ALL_TYPE", 0 );
 define( "QUOTE_PARTIAL_TYPE", 1 );
