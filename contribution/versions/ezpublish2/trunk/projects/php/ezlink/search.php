@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: search.php,v 1.12 2000/08/23 08:43:02 ce-cvs Exp $
+    $Id: search.php,v 1.13 2000/09/01 08:17:10 bf-cvs Exp $
 
     Author: Bård Farstad <bf@ez.no>
     
@@ -30,7 +30,7 @@ $Language= "no_NO";
 require $DOC_ROOT . "classes/ezquery.php";
 
 // setter template filer
-$t = new eZTemplate( $DOC_ROOT . "/" . $Ini->read_var( "eZLinkMain", "TemplateDir" ), $DOC_ROOT . "/intl", $Language, "search.php" );
+$t = new eZTemplate( $DOC_ROOT . "/" . $ini->read_var( "eZLinkMain", "TemplateDir" ), $DOC_ROOT . "/intl", $Language, "search.php" );
 $t->setAllStrings();
 
 $t->set_file( array(
