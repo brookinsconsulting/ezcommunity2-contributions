@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: productview.php,v 1.77.2.7 2002/03/04 12:38:38 ce Exp $
+// $Id: productview.php,v 1.77.2.8 2004/04/06 11:08:44 br Exp $
 //
 // Created on: <24-Sep-2000 12:20:32 bf>
 //
@@ -56,12 +56,23 @@ $PurchaseProduct = $ini->read_var( "eZTradeMain", "PurchaseProduct" ) == "true";
 $PricesIncludeVAT = $ini->read_var( "eZTradeMain", "PricesIncludeVAT" ) == "enabled" ? true : false;
 $locale = new eZLocale( $Language );
 
+if ( is_Numeric( $CategoryID ) )
+    $categoryID = $CategoryID;
+else
+    $categoryID = 0;
 
 $product = new eZProduct( );
 
-if ( !$product->get( $ProductID ) )
+if ( !$product->get( $ProductID, $categoryID ) )
 {
-    eZHTTPTool::header( "Location: /error/404/" );
+    if ( $product->get( $ProductID ) )
+    {
+        eZHTTPTool::header( "Location: /error/403/" );
+    }
+    else
+    {
+        eZHTTPTool::header( "Location: /error/404/" );
+    }
     exit();
 }
 

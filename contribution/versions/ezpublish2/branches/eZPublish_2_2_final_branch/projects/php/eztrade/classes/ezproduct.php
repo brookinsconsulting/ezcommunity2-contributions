@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezproduct.php,v 1.119.2.11 2002/02/04 15:03:37 br Exp $
+// $Id: ezproduct.php,v 1.119.2.12 2004/04/06 11:08:43 br Exp $
 //
 // Definition of eZProduct class
 //
@@ -214,14 +214,24 @@ class eZProduct
     /*!
       Fetches the object information from the database.
     */
-    function get( $id="" )
+    function get( $id="", $categoryID = false )
     {
         $db =& eZDB::globalDatabase();
         $ret = false;
-        
+
         if ( $id != "" )
         {
-            $db->array_query( $category_array, "SELECT * FROM eZTrade_Product WHERE ID='$id'" );
+            $permissionTableSQL = "";
+            $permissionSQL = "";
+            if ( is_Numeric( $categoryID ) )
+            {
+                $permissionSQLArray = eZProductCategory::generatePermissionSQL( false );
+                $permissionTableSQL = $permissionSQLArray["TableSQL"];
+                $permissionSQL = $permissionSQLArray["SQL"];
+            }
+            $query = "SELECT eZTrade_Product.* FROM eZTrade_Product $permissionTableSQL WHERE $permissionSQL  eZTrade_Product.ID='$id'";
+
+            $db->array_query( $category_array, $query );
             if ( count( $category_array ) > 1 )
             {
                 die( "Error: Category's with the same ID was found in the database. This shouldent happen." );
@@ -1735,12 +1745,16 @@ class eZProduct
            $limit_text = "array( \"Limit\" => $limit, \"Offset\" => 0 )";
        }
 
+       $permissionSQLArray = eZProductCategory::generatePermissionSQL( false );
+       $permissionTableSQL = $permissionSQLArray["TableSQL"];
+       $permissionSQL = $permissionSQLArray["SQL"];
+
        $ret = array();
        $db =& eZDB::globalDatabase();
-
-       $db->array_query( $res_array, "SELECT ID FROM eZTrade_Product
+       $query = "SELECT eZTrade_Product.ID FROM eZTrade_Product $permissionTableSQL
                                      WHERE
-                                     IsHotDeal='1' ORDER BY Name", $limit_text );
+                                     $permissionSQL IsHotDeal='1'  ORDER BY Name";
+       $db->array_query( $res_array, $query, $limit_text );
 
        foreach ( $res_array as $product )
        {
@@ -2242,9 +2256,10 @@ class eZProduct
     */
     function &activeProducts( $sortMode="time",
                               $offset=0,
-                              $limit=50 )
+                              $limit=50,
+                              $categoryID=false )
     {
-       return $this->products( $sortMode, false, $offset, $limit );
+       return $this->products( $sortMode, false, $offset, $limit, false, $categoryID );
     }
 
 
@@ -2255,7 +2270,8 @@ class eZProduct
                         $fetchNonActive=false,
                         $offset=0,
                         $limit=50,
-                        $fetchDiscontinued=false )
+                        $fetchDiscontinued=false,
+                        $categoryID=false )
     {
        $db =& eZDB::globalDatabase();
 
@@ -2283,8 +2299,8 @@ class eZProduct
            {
                $OrderBy = "eZTrade_Product.Published DESC";
            }
-       }       
-       
+       }
+
        $return_array = array();
        $product_array = array();
 
@@ -2297,7 +2313,12 @@ class eZProduct
        {
            $groups = array();
        }
-       
+
+       $permissionSQLArray = eZProductCategory::generatePermissionSQL( $categoryID );
+       $permissionTableSQL = $permissionSQLArray["TableSQL"];
+       $permissionSQL = $permissionSQLArray["SQL"];
+
+
        if ( $fetchNonActive  == true )
        {
            $nonActiveCode = "";
@@ -2309,13 +2330,15 @@ class eZProduct
        $discontinuedCode = "";
        if ( !$fetchDiscontinued )
            $discontinuedCode = " eZTrade_Product.Discontinued='0'";
-       $db->array_query( $product_array, "
-                SELECT eZTrade_Product.ID AS ProductID, eZTrade_Product.Name
-                FROM eZTrade_Product
-                WHERE 
+
+       $query = "SELECT eZTrade_Product.ID AS ProductID, eZTrade_Product.Name
+                FROM $permissionTableSQL eZTrade_Product
+                WHERE
                 $nonActiveCode
                 $discontinuedCode
-                ORDER BY $OrderBy", array( "Limit" => $limit, "Offset" => $offset ) );
+                $permissionSQL
+                ORDER BY $OrderBy";
+       $db->array_query( $product_array, $query, array( "Limit" => $limit, "Offset" => $offset ) );
 
        for ( $i = 0; $i < count( $product_array ); $i++ )
        {

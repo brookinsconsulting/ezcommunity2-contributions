@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: categoryedit.php,v 1.23 2001/09/21 09:48:35 bf Exp $
+// $Id: categoryedit.php,v 1.23.2.1 2004/04/06 11:08:43 br Exp $
 //
 // Created on: <18-Sep-2000 14:46:19 bf>
 //
@@ -491,25 +491,50 @@ $group = new eZUserGroup();
 $groupList = $group->getAll();
 
 $t->set_var( "selected", "" );
+
+$writeAllGroupFound = false;
+if ( in_array( "-1", $readGroupsID ) )
+{
+    $t->set_var( "all_selected", "selected=\"selected\"" );
+    $writeAllGroupFound = true;
+}
+else
+{
+    $t->set_var( "all_selected", "" );
+}
+
+$readAllGroupFound = false;
+if ( in_array( "-1", $writeGroupsID ) )
+{
+    $t->set_var( "all_write_selected", "selected=\"selected\"" );
+    $writeAllGroupFound = true;
+}
+else
+{
+    $t->set_var( "all_write_selected", "" );
+}
+
+
+
 foreach( $groupList as $groupItem )
 {
     /* for the group owner selector */
     $t->set_var( "read_id", $groupItem->id() );
     $t->set_var( "read_name", $groupItem->name() );
 
-    if( in_array( $groupItem->id() , $readGroupsID ) )
-        $t->set_var( "selected", "selected" );
+    if( in_array( $groupItem->id() , $readGroupsID ) && $readAllGroupFound == false )
+        $t->set_var( "selected", "selected=\"selected\"" );
     else
         $t->set_var( "selected", "" );
 
     $t->parse( "read_group_item", "read_group_item_tpl", true );
-        
+
     /* for the read access groups selector */
     $t->set_var( "write_id", $groupItem->id() );
     $t->set_var( "write_name", $groupItem->name() );
 
-    if( in_array( $groupItem->id(), $writeGroupsID ) )
-        $t->set_var( "is_selected", "selected" );
+    if( in_array( $groupItem->id(), $writeGroupsID )  && $writeAllGroupFound == false )
+        $t->set_var( "is_selected", "selected=\"selected\"" );
     else
         $t->set_var( "is_selected", "" );
 

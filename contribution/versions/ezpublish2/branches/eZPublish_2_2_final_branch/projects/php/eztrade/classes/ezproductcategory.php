@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezproductcategory.php,v 1.52 2001/10/02 15:52:40 pkej Exp $
+// $Id: ezproductcategory.php,v 1.52.2.1 2004/04/06 11:08:43 br Exp $
 //
 // Definition of eZProductCategory class
 //
@@ -596,9 +596,15 @@ class eZProductCategory
     */
     function &productCount( $sortMode="time",
                             $fetchNonActive=false,
-                            $fetchDiscontinued=false )
+                            $fetchDiscontinued=false,
+                            $categoryID=false)
     {
         $db =& eZDB::globalDatabase();
+
+        if ( $categoryID != false )
+            $catID = $categoryID;
+        else
+            $catID = $this->ID;
 
         switch ( $sortMode )
         {
@@ -607,45 +613,51 @@ class eZProductCategory
                 $OrderBy = "eZTrade_Product.Published DESC";
             }
             break;
-            
+
             case "alpha" :
             {
                 $OrderBy = "eZTrade_Product.Name ASC";
             }
             break;
-            
+
             case "alphadesc" :
             {
                 $OrderBy = "eZTrade_Product.Name DESC";
             }
             break;
-            
+
             case "absolute_placement" :
             {
                 $OrderBy = "eZTrade_ProductCategoryLink.Placement ASC";
             }
             break;
-            
+
             default :
             {
                 $OrderBy = "eZTrade_Product.Published DESC";
             }
-        }       
-        
+        }
+
+       $permissionSQLArray = eZProductCategory::generatePermissionSQL( $catID);
+       $permissionTableSQL = $permissionSQLArray["TableSQL"];
+       $permissionSQL = $permissionSQLArray["SQL"];
+
+
         $nonActiveCode = $fetchNonActive ? "" : " eZTrade_Product.ShowProduct='1' AND";
         $discontinuedCode = "";
         if ( !$fetchDiscontinued )
             $discontinuedCode = " eZTrade_Product.Discontinued='0' AND";
-        
-        $db->query_single( $products, "
-                SELECT COUNT( eZTrade_Product.ID ) AS Count
-                FROM eZTrade_Product, eZTrade_ProductCategoryLink
-                WHERE 
+        $query = "SELECT COUNT( DISTINCT eZTrade_Product.ID ) AS Count
+                FROM eZTrade_Product, eZTrade_ProductCategoryLink $permissionTableSQL
+                WHERE
                 eZTrade_ProductCategoryLink.ProductID = eZTrade_Product.ID
                 AND
                 $nonActiveCode
                 $discontinuedCode
-                eZTrade_ProductCategoryLink.CategoryID='$this->ID'" );
+                $permissionSQL
+                eZTrade_ProductCategoryLink.CategoryID='$this->ID'";
+
+        $db->query_single( $products, $query );
         return $products[$db->fieldName( "Count" )];
     }
 
@@ -691,26 +703,20 @@ class eZProductCategory
                $OrderBy = "eZTrade_ProductCategoryLink.Placement ASC";
            }
            break;
-           
+
            default :
            {
                $OrderBy = "eZTrade_Product.Published DESC";
            }
-       }       
-       
+       }
+
        $return_array = array();
        $product_array = array();
 
-       $user =& eZUser::currentUser();
-       if ( $user )
-       {
-           $groups = $user->groups();
-       }
-       else
-       {
-           $groups = array();
-       }
-       
+
+       $permissionSQLArray = eZProductCategory::generatePermissionSQL( $catID );
+       $permissionTableSQL = $permissionSQLArray["TableSQL"];
+       $permissionSQL = $permissionSQLArray["SQL"];
        if ( $fetchNonActive  == true )
        {
            $nonActiveCode = "";
@@ -720,23 +726,25 @@ class eZProductCategory
            $nonActiveCode = " eZTrade_Product.ShowProduct='1' AND";
        }
        $discontinuedCode = "";
-       
+
        if ( !$fetchDiscontinued )
            $discontinuedCode = " eZTrade_Product.Discontinued='0' AND";
-       $db->array_query( $product_array, "
-                SELECT eZTrade_Product.ID AS ProductID, eZTrade_Product.Name,
+
+       $query = "SELECT DISTINCT eZTrade_Product.ID AS ProductID, eZTrade_Product.Name,
                        eZTrade_Category.ID, eZTrade_Category.Name
                 FROM eZTrade_Product, eZTrade_Category,
-                     eZTrade_ProductCategoryLink
-                WHERE 
+                     eZTrade_ProductCategoryLink $permissionTableSQL
+                WHERE
                 eZTrade_ProductCategoryLink.ProductID = eZTrade_Product.ID
                 AND
                 $nonActiveCode
                 $discontinuedCode
+                $permissionSQL
                 eZTrade_Category.ID = eZTrade_ProductCategoryLink.CategoryID
                 AND
                 eZTrade_Category.ID='$catID'
-                ORDER BY $OrderBy", array( "Limit" => $limit, "Offset" => $offset ) );
+                ORDER BY $OrderBy";
+       $db->array_query( $product_array, $query, array( "Limit" => $limit, "Offset" => $offset ) );
 
        for ( $i = 0; $i < count( $product_array ); $i++ )
        {
@@ -745,15 +753,68 @@ class eZProductCategory
        return $return_array;
     }
 
-    
+    function generatePermissionSQL( $categoryID = false )
+    {
+        $catID = $categoryID;
+
+        $user =& eZUser::currentUser();
+        $hasRootAccess = false;
+        if ( $user )
+        {
+            $groups = $user->groups();
+            $hasRootAccess = $user->hasRootAccess();
+        }
+        else
+        {
+            $groups = array();
+        }
+        $permission = array();
+        if ( $hasRootAccess == false )
+        {
+
+            $productGroupSQL = " (PP.GroupID='-1'";
+            $categoryGroupSQL = " AND (PCP.GroupID='-1'";
+            if ( $user )
+            {
+                $groups =& $user->groups( false );
+                $first = true;
+
+                foreach ( $groups as $group )
+                {
+                    $productGroupSQL .= " OR PP.GroupID='$group'";
+                    $categoryGroupSQL .= " OR PCP.GroupID='$group'";
+                }
+
+                if ( $user->hasRootAccess() )
+                    $usePermission = false;
+            }
+            $productGroupSQL .= ") AND PP.ReadPermission='1'";
+            $categoryGroupSQL .= ") AND PCP.ReadPermission='1'";
+
+            if ( is_numeric( $catID ) && $catID > 0 )
+            {
+                $permission["SQL"] = "$productGroupSQL $categoryGroupSQL AND PP.ObjectID=eZTrade_Product.ID AND PCP.ObjectID='$catID' AND";
+                $permission["TableSQL"] = ", eZTrade_ProductPermission as PP, eZTrade_CategoryPermission as PCP";
+            }
+            else
+            {
+                $permission["SQL"] = "$productGroupSQL AND PP.ObjectID=eZTrade_Product.ID AND";
+                $permission["TableSQL"] = ", eZTrade_ProductPermission as PP";
+            }
+        }
+        return $permission;
+    }
+
+
     /*!
       Returns every active product to a category as a array of eZProduct objects.
     */
     function &activeProducts( $sortMode="time",
                               $offset=0,
-                              $limit=50 )
+                              $limit=50,
+                              $categoryID=false )
     {
-        return $this->products( $sortMode, false, $offset, $limit );
+        return $this->products( $sortMode, false, $offset, $limit, false, $categoryID );
     }
     
 
