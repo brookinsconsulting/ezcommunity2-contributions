@@ -1,6 +1,6 @@
 <?php
-// 
-// $Id: categorylist.php,v 1.12.2.1 2001/11/19 11:29:37 jhe Exp $
+//
+// $Id: categorylist.php,v 1.12.2.1.4.1 2002/01/30 13:04:31 ce Exp $
 //
 // Created on: <18-Apr-2001 10:26:26 fh>
 //
@@ -71,13 +71,17 @@ $t = new eZTemplate( "ezbulkmail/admin/" . $ini->read_var( "eZBulkMailMain", "Ad
 
 $iniLanguage = new INIFile( "ezbulkmail/admin/intl/" . $Language . "/categorylist.php.ini", false );
 
-$locale = new eZLocale( $Language ); 
+$locale = new eZLocale( $Language );
 $t->set_file( "category_list_tpl", "categorylist.tpl" );
 
 $t->setAllStrings();
 $t->set_var( "site_style", $SiteStyle );
 
 $t->set_block( "category_list_tpl", "category_tpl", "category" );
+
+// path
+$t->set_block( "category_list_tpl", "path_item_tpl", "path_item" );
+
 $t->set_block( "category_tpl", "category_item_tpl", "category_item" );
 $t->set_block( "category_list_tpl", "bulkmail_tpl", "bulkmail" );
 $t->set_block( "bulkmail_tpl", "bulkmail_item_tpl", "bulkmail_item" );
@@ -89,6 +93,7 @@ $t->set_var( "bulkmail", "" );
 $t->set_var( "bulkmail_item", "" );
 $t->set_var( "current_category_name", "" );
 $t->set_var( "current_category_id", "" );
+$t->set_var( "path_item", "" );
 
 /** List all the avaliable categories **/
 $singleListCategoryID = eZBulkMailCategory::singleList( false );
@@ -97,7 +102,10 @@ if ( $singleListCategoryID == false )
 else
     $t->set_var( "multi_list_selected", "" );
 
-$categories = eZBulkMailCategory::getAll();
+if ( !isset ( $CategoryID ) )
+    $CategoryID = 0;
+
+$categories = eZBulkMailCategory::getByParent( $CategoryID );
 $i = 0;
 foreach ( $categories as $categoryitem )
 {
@@ -109,10 +117,10 @@ foreach ( $categories as $categoryitem )
         $t->set_var( "category_is_public", $iniLanguage->read_var( "strings", "yes" ) );
     else
         $t->set_var( "category_is_public", $iniLanguage->read_var( "strings", "no" ) );
-                     
-    
+
+
     ( $i % 2 ) ? $t->set_var( "td_class", "bgdark" ) : $t->set_var( "td_class", "bglight" );
-    
+
     $t->parse( "category_item", "category_item_tpl", true );
     $i++;
 
@@ -121,7 +129,7 @@ foreach ( $categories as $categoryitem )
         $t->set_var( "single_list_selected", "selected" );
     else
         $t->set_var( "single_list_selected", "" );
-        
+
     $t->parse( "single_category_item", "single_category_item_tpl", true );
 }
 if( $i > 0 )
@@ -130,6 +138,16 @@ if( $i > 0 )
 if( is_numeric( $CategoryID ) && $CategoryID > 0 )
 {
     $category = new eZBulkMailCategory( $CategoryID );
+
+    // path
+    $pathArray =& $category->path();
+    foreach ( $pathArray as $path )
+    {
+        $t->set_var( "category_id", $path[0] );
+        $t->set_var( "category_name", $path[1] );
+        $t->parse( "path_item", "path_item_tpl", true );
+    }
+
     $t->set_var( "current_category_name", $category->name() );
     $t->set_var( "current_category_id", $category->id() );
     $mail = $category->mail($Offset, 20);
@@ -149,7 +167,7 @@ if( is_numeric( $CategoryID ) && $CategoryID > 0 )
             $t->set_var( "sent_date", $iniLanguage->read_var( "strings", "not_sent" ) );
         }
         ( $i % 2 ) ? $t->set_var( "td_class", "bgdark" ) : $t->set_var( "td_class", "bglight" );
-    
+
         $t->parse( "bulkmail_item", "bulkmail_item_tpl", true );
         $i++;
     }

@@ -1,6 +1,6 @@
 <?php
-// 
-// $Id: filelist.php,v 1.49 2001/10/04 12:02:15 ce Exp $
+//
+// $Id: filelist.php,v 1.49.8.1 2002/01/30 13:04:32 ce Exp $
 //
 // Created on: <10-Dec-2000 16:16:20 bf>
 //
@@ -86,7 +86,7 @@ if ( ($FolderID != 0) && ! eZPermission::checkPermission( $user, "eZUser", "Admi
 {
     // moved out
 }
-$GlobalSectionID = eZVirtualFolder::sectionIDstatic ( $FolderID );    
+$GlobalSectionID = eZVirtualFolder::sectionIDstatic ( $FolderID );
 // init the section
 $sectionObject =& eZSection::globalSectionObject( $GlobalSectionID );
 $sectionObject->setOverrideVariables();
@@ -98,7 +98,7 @@ if ( eZObjectPermission::hasPermission( $folder->id(), "filemanager_folder", "r"
      eZVirtualFolder::isOwner( $user, $folder->id() ) )
 {
     $error = false;
-} 
+}
 
 if ( $FolderID == 0 )
 {
@@ -140,7 +140,7 @@ foreach ( $pathArray as $path )
 {
     $t->set_var( "folder_id", $path[0] );
     $t->set_var( "folder_name", $path[1] );
-    
+
     $t->parse( "path_item", "path_item_tpl", true );
 }
 
@@ -224,7 +224,7 @@ foreach ( $fileList as $file )
     {
         $t->set_var( "read", "" );
     }
-    
+
     if ( ( $user ) &&
         ( eZObjectPermission::hasPermission( $file->id(), "filemanager_file", "w", $user ) )  ||
         ( eZVirtualFile::isOwner( $user, $file->id() )) )
@@ -305,4 +305,3 @@ else
 }
 
 ?>
-

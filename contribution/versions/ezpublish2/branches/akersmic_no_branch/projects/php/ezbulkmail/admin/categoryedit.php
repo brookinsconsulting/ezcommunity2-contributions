@@ -1,6 +1,6 @@
 <?php
-// 
-// $Id: categoryedit.php,v 1.5 2001/07/19 12:36:31 jakobn Exp $
+//
+// $Id: categoryedit.php,v 1.5.8.1 2002/01/30 13:04:31 ce Exp $
 //
 // Created on: <18-Apr-2001 11:15:33 fh>
 //
@@ -49,12 +49,13 @@ if( isset( $Ok ) ) // cancel pressed, redirect to categorylist page...
     }
     $category->setDescription( $Description );
     $category->setName( $Name );
+    $category->setParent( $ParentID );
 
     if( isset( $PublicList ) )
         $category->setIsPublic( true );
     else
         $category->setIsPublic( false );
-    
+
     $category->store();
 
     $category->removeGroupSubscription( true );
@@ -77,6 +78,7 @@ $t->set_file( array(
 
 $t->setAllStrings();
 $t->set_block( "category_edit_tpl", "subscribe_group_item_tpl", "subscribe_group_item" );
+$t->set_block( "category_edit_tpl", "value_tpl", "value" );
 $t->set_var( "site_style", $SiteStyle );
 
 $t->set_var( "category_name", "" );
@@ -101,6 +103,45 @@ if( $CategoryID != 0  )
             $t->set_var( "checked", "" );
     }
 }
+
+$categories =& eZBulkMailCategory::getTree();
+
+foreach ( $categories as $catItem )
+{
+    if ( $CategoryID != $catItem[0]->id() )
+    {
+        $t->set_var( "option_value", $catItem[0]->id() );
+        $t->set_var( "option_name", $catItem[0]->name() );
+
+        if ( $Action == "Edit" )
+        {
+		    if ( $parent )
+			{
+	if ( $catItem[0]->id() == $parent->id() )
+	{
+	$t->set_var( "selected", "selected" );
+	}
+	else
+	{
+		$t->set_var( "selected", "" );
+	}
+			}
+
+        }
+        else
+        {
+            $t->set_var( "selected", "" );
+        }
+
+        if ( $catItem[1] > 0 )
+            $t->set_var( "option_level", str_repeat( "&nbsp;", $catItem[1] ) );
+        else
+            $t->set_var( "option_level", "" );
+
+        $t->parse( "value", "value_tpl", true );
+    }
+}
+
 
 // show all user groups in the list!
 // Print out all the groups.

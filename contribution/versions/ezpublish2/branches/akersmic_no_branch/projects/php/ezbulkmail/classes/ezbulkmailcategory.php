@@ -1,6 +1,6 @@
 <?php
-// 
-// $Id: ezbulkmailcategory.php,v 1.25.2.3 2001/11/19 11:29:38 jhe Exp $
+//
+// $Id: ezbulkmailcategory.php,v 1.25.2.3.4.1 2002/01/30 13:04:32 ce Exp $
 //
 // Definition of eZBulkMailCategory class
 //
@@ -73,12 +73,13 @@ class eZBulkMailCategory
             $nextID = $db->nextID( "eZBulkMail_Category", "ID" );
 
             $result = $db->query( "INSERT INTO eZBulkMail_Category
-                                ( ID, Name, IsPublic, Description )
+                                ( ID, Name, IsPublic, Description, ParentID )
                                 VALUES
                                 ( '$nextID',
                                   '$name',
                                   '$this->IsPublic',
-                                  '$description'
+                                  '$description',
+                                  '$this->ParentID'
                                 ) " );
 			$this->ID = $nextID;
         }
@@ -87,7 +88,8 @@ class eZBulkMailCategory
             $result = $db->query( "UPDATE eZBulkMail_Category SET
 		                         Name='$name',
                                  IsPublic='$this->IsPublic',
-                                 Description='$description'
+                                 Description='$description',
+                                 ParentID='$this->ParentID'
                                  WHERE ID='$this->ID'" );
         }
 
@@ -109,6 +111,12 @@ class eZBulkMailCategory
         if ( $id == -1 )
             $id = $this->ID;
 
+        $categoryList = $this->getByParent( $id );
+        foreach( $categoryList as $category )
+        {
+            $this->delete( $category->id() );
+        }
+
         // delete all mail from this category.
         $bulkmail = eZBulkMailCategory::mail( 0, 0, true, $id );
         foreach( $bulkmail as $mail )
@@ -120,7 +128,7 @@ class eZBulkMailCategory
         $results[] = $db->query( "DELETE FROM eZBulkMail_UserCategoryLink WHERE CategoryID='$id'" );
         // unsubscribe password users.
         $results[] = $db->query( "DELETE FROM eZBulkMail_SubscriptionLink WHERE CategoryID='$id'" );
-        
+
         // delete from BulkMailCategoryLink
         $results[] = $db->query( "DELETE FROM eZBulkMail_MailCategoryLink WHERE CategoryID='$id'" );
         // delete actual group entry
@@ -137,14 +145,14 @@ class eZBulkMailCategory
         else
             $db->commit();
      }
-    
+
     /*!
       Fetches the object information from the database.
     */
     function get( $id=-1 )
     {
         $db =& eZDB::globalDatabase();
-        
+
         if ( $id != "" )
         {
             $db->array_query( $category_array, "SELECT * FROM eZBulkMail_Category WHERE ID='$id'" );
@@ -157,7 +165,7 @@ class eZBulkMailCategory
                 $this->ID = $category_array[0][$db->fieldName( "ID" )];
                 $this->Name = $category_array[0][$db->fieldName( "Name" )];
                 $this->IsPublic = $category_array[0][$db->fieldName( "IsPublic" )];
-                $this->Description = $category_array[0][$db->fieldName( "Description" )];
+                $this->ParentID = $category_array[0][$db->fieldName( "ParentID" )];
             }
         }
     }
@@ -176,10 +184,10 @@ class eZBulkMailCategory
         $return_value = false;
         if ( count( $category_array ) == 1 )
             $return_value = new eZBulkMailCategory( $category_array[0][$db->fieldName( "ID" )] );
-        
+
         return $return_value;
     }
-    
+
     /*!
       Returns all the categories found in the database.
 
@@ -194,16 +202,107 @@ class eZBulkMailCategory
         $privateSQL = "";
         if ( $withPrivate == false )
             $privateSQL = "WHERE IsPublic='1'";
-        
+
         $db->array_query( $category_array, "SELECT ID, Name FROM eZBulkMail_Category $privateSQL ORDER BY Name" );
-        
+
         for ( $i = 0; $i < count( $category_array ); $i++ )
-        { 
+        {
             $return_array[$i] = new eZBulkMailCategory( $category_array[$i][$db->fieldName( "ID" )] );
         }
         return $return_array;
     }
-    
+
+    /*!
+      Returns the categories with the category given as parameter as parent.
+
+      The categories are returned as an array of eZBulkMailCategory objects.
+    */
+    function getByParent( $category, $withPrivate = true )
+    {
+        if ( is_numeric ( $category ) )
+        {
+            $id = $category;
+        }
+        else if ( get_class ( $category ) == "ezbulkmailcategory" )
+        {
+            $id = $category->id();
+        }
+
+        $db =& eZDB::globaldatabase();
+        $return_array = array();
+        $category_array = array();
+
+        $privateSQL = "";
+        if ( $withPrivate == false )
+            $privateSQL = " AND IsPublic='1'";
+
+        $db->array_query( $category_array, "SELECT ID, Name FROM eZBulkMail_Category WHERE ParentID='$id' $privateSQL ORDER BY Name" );
+
+        for ( $i = 0; $i < count( $category_array ); $i++ )
+        {
+            $return_array[$i] = new eZBulkMailCategory( $category_array[$i][$db->fieldName( "ID" )] );
+        }
+        return $return_array;
+    }
+
+    /*!
+      Returns the current path as an array of arrays.
+
+      The array is built up like: array( array( id, name ), array( id, name ) );
+
+      See detailed description for an example of usage.
+    */
+    function &path( $categoryID=0 )
+    {
+        if ( $categoryID == 0 )
+        {
+            $categoryID = $this->ID;
+        }
+
+        $category = new eZBulkMailCategory( $categoryID );
+
+        $path = array();
+
+        $parent = $category->parent();
+        if ( $parent != 0 )
+        {
+            $path = array_merge( $path, $this->path( $parent->id() ) );
+        }
+        else
+        {
+//              array_push( $path, $category->name() );
+        }
+
+        if ( $categoryID != 0 )
+            array_push( $path, array( $category->id(), $category->name() ) );
+
+        return $path;
+    }
+
+    /*!
+      \static
+    */
+    function &getTree( $parentID=0, $level=0 )
+    {
+        $category = new eZBulkMailCategory( $parentID );
+
+        $categoryList = $category->getByParent( $category, true );
+
+        $tree = array();
+        $level++;
+        foreach ( $categoryList as $category )
+        {
+            array_push( $tree, array( $return_array[] = new eZBulkMailCategory( $category->id() ), $level ) );
+            if ( $category != 0 )
+            {
+                $tree = array_merge( $tree, eZBulkMailCategory::getTree( $category->id(), $level ) );
+            }
+        }
+        return $tree;
+    }
+
+
+
     /*!
       Returns the object ID to the category. This is the unique ID stored in the database.
     */
@@ -233,7 +332,23 @@ class eZBulkMailCategory
        else
            return $this->Description;
     }
-    
+
+    /*!
+      Returns the parent category.
+    */
+    function &parent( $asObject = true )
+    {
+        if ( $this->ParentID != 0 )
+        {
+            if ( $asObject )
+                return new eZBulkMailCategory( $this->ParentID );
+            else
+                return $this->ParentID;
+        }
+        else
+            return 0;
+    }
+
     /*!
       Sets the name of the category.
     */
@@ -251,13 +366,28 @@ class eZBulkMailCategory
     }
 
     /*!
+      Sets the parent of the category.
+    */
+    function setParent( &$value )
+    {
+        if ( is_numeric ( $value ) )
+        {
+            $this->ParentID = $value;
+        }
+        else if ( get_class ( $value ) == "ezbulkmailcategory" )
+        {
+            $this->ParentID = $value->id();
+        }
+    }
+
+    /*!
       Sets if this category is public or not. Categories that are public show up on the user side and users can subscribe/unsubscribe themselves..
      */
     function setIsPublic( $value )
     {
         $this->IsPublic = $value;
     }
-    
+
     /*!
       Returns true if this this is a public list
      */
@@ -265,7 +395,7 @@ class eZBulkMailCategory
     {
         return $this->IsPublic;
     }
-    
+
     /*!
       Subscribes a user group to a category
      */
@@ -310,7 +440,7 @@ class eZBulkMailCategory
         else
             $db->commit();
     }
-    
+
     /*!
       Returns all the groups that are subscribed to this category.
       \sa subscriptions
@@ -341,7 +471,7 @@ class eZBulkMailCategory
 
         if( $id == -1 )
             $id = $this->ID;
-        
+
         $return_array = array();
         $mail_array = array();
 
@@ -367,7 +497,7 @@ class eZBulkMailCategory
         {
             $return_array[$i] = new eZBulkMail( $mail_array[$i][$db->fieldName( "MailID" )] );
         }
-       
+
         return $return_array;
     }
 
@@ -382,10 +512,10 @@ class eZBulkMailCategory
                 SELECT COUNT( eZBulkMail_Mail.ID ) AS Count
                 FROM eZBulkMail_Mail, eZBulkMail_MailCategoryLink
                 WHERE eZBulkMail_MailCategoryLink.CategoryID='$this->ID' AND eZBulkMail_Mail.ID=eZBulkMail_MailCategoryLink.MailID" );
-       
+
        return $result[$db->fieldName( "Count" )];
     }
-    
+
     /*!
       Returns an array with all addresses that are subscribed to this category.
       Used if eZUser login is disabled.
@@ -447,7 +577,7 @@ class eZBulkMailCategory
         $db->query_single( $result, "SELECT COUNT( EMail ) as Count FROM eZBulkMail_SubscriptionAddress, eZBulkMail_SubscriptionLink
                                              WHERE eZBulkMail_SubscriptionAddress.ID=eZBulkMail_SubscriptionLink.AddressID
                                              AND eZBulkMail_SubscriptionLink.CategoryID='$this->ID'" );
-        
+
         $count =  $result[$db->fieldName( "Count" )];
         $result_array = array();
         $db->array_query( $result_array, "SELECT GroupID FROM eZBulkMail_GroupCategoryLink WHERE CategoryID='$this->ID'" );
@@ -457,7 +587,7 @@ class eZBulkMailCategory
         }
         return $count;
     }
-    
+
     /*!
       \static
       Sets the category with the ID given to be the current single list. If the argument given is false there will be no single list selected.
@@ -516,7 +646,7 @@ class eZBulkMailCategory
             $categoryID = $category->id();
         else
             $categoryID = $this->ID;
-            
+
         $ret = false;
         if ( get_class ( $address ) == "ezbulkmailsubscriptionaddress" )
         {
@@ -551,7 +681,7 @@ class eZBulkMailCategory
 
     /*!
       \static
-      
+
      */
     function addDelayMail( $address, $category, $delay, $mail )
     {
@@ -566,7 +696,7 @@ class eZBulkMailCategory
             $mailID = $mail->id();
         else
             return false;
-            
+
         $ret = false;
         if ( get_class ( $address ) == "ezbulkmailsubscriptionaddress" )
         {
@@ -631,7 +761,7 @@ class eZBulkMailCategory
         {
             $db =& eZDB::globalDatabase();
             $db->begin();
-            
+
             $userID = $user->id();
             $result = $db->query( "INSERT INTO eZBulkMail_UserCategoryLink
                                    (CategoryID, UserID)
@@ -650,7 +780,8 @@ class eZBulkMailCategory
     var $Name;
     var $Description;
     var $IsPublic;
-    
+    var $ParentID;
+
 }
 
 ?>

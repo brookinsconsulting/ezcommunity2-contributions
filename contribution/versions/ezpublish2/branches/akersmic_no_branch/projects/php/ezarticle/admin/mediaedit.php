@@ -1,6 +1,6 @@
 <?php
-// 
-// $Id: mediaedit.php,v 1.5.2.1 2001/11/01 18:13:26 ce Exp $
+//
+// $Id: mediaedit.php,v 1.5.2.1.4.1 2002/01/30 13:04:31 ce Exp $
 //
 // Created on: <21-Sep-2000 10:32:36 bf>
 //
@@ -68,12 +68,12 @@ if ( isset ( $OK ) )
     $media->setCaption( $Caption );
     $media->setDescription( $Description );
     if ( $file->getUploadedFile( "userfile" ) )
-    { 
+    {
         $media->setMedia( $file );
     }
-        
+
     $media->store();
-    
+
     if ( $TypeID == -1 )
     {
         $media->removeType();
@@ -81,26 +81,26 @@ if ( isset ( $OK ) )
     else
     {
         $media->removeType();
-            
+
         $media->setType( new eZMediaType( $TypeID ) );
-            
+
         $i = 0;
         if ( count( $AttributeValue ) > 0 )
         {
             foreach ( $AttributeValue as $attribute )
             {
                 $att = new eZMediaAttribute( $AttributeID[$i] );
-                    
+
                 $att->setValue( $media, $attribute );
-                        
+
                 $i++;
             }
         }
     }
-    
+
     if ( !is_numeric( $MediaID ) )
         $article->addMedia( $media );
-        
+
     include_once( "classes/ezhttptool.php" );
     eZHTTPTool::header( "Location: /article/articleedit/medialist/" . $ArticleID . "/" );
     exit();
@@ -192,7 +192,7 @@ if ( is_numeric( $MediaID ) )
         $t->set_var( "file_name", "" );
         $t->parse( "no_file_name", "no_file_name_tpl" );
     }
-        
+
 }
 else
 {
@@ -247,14 +247,14 @@ foreach ( $types as $typeItem )
     {
         $t->set_var( "selected", "" );
     }
-    
+
     $t->set_var( "type_id", $typeItem->id( ) );
     $t->set_var( "type_name", $typeItem->name( ) );
-    
+
     $t->parse( "type", "type_tpl", true );
 }
 
-if ( get_class( $mediaType) == "ezmediatype" )    
+if ( get_class( $mediaType) == "ezmediatype" )
 {
     $attributes = $mediaType->attributes();
 
@@ -267,7 +267,7 @@ if ( get_class( $mediaType) == "ezmediatype" )
             $t->set_var( "attribute_value", $attribute->defaultValue() );
         else
             $t->set_var( "attribute_value", $attribute->value( $media ) );
-        
+
         $t->parse( "attribute", "attribute_tpl", true );
     }
 }
@@ -283,7 +283,7 @@ else
 
 
 $article = new eZArticle( $ArticleID );
-    
+
 $t->set_var( "article_name", $article->name() );
 $t->set_var( "article_id", $article->id() );
 

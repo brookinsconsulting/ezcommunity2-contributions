@@ -1,6 +1,6 @@
 <?php
-// 
-// $Id: articleview.php,v 1.84.2.5 2001/11/17 10:49:14 bf Exp $
+//
+// $Id: articleview.php,v 1.84.2.5.4.1 2002/01/30 13:04:31 ce Exp $
 //
 // Created on: <18-Oct-2000 16:34:51 bf>
 //
@@ -87,7 +87,7 @@ else
 {
     if ( isset( $PrintableVersion ) and $PrintableVersion == "enabled" )
     {
-            $t->set_file( "article_view_page_tpl", "articleprint.tpl"  );        
+            $t->set_file( "article_view_page_tpl", "articleprint.tpl"  );
     }
     else
     {
@@ -193,7 +193,7 @@ if ( $article->get( $ArticleID ) )
         $category = $article->categoryDefinition();
     }
     else
-    {    
+    {
         $category = new eZArticleCategory( $CategoryID );
     }
 
@@ -201,7 +201,7 @@ if ( $article->get( $ArticleID ) )
     $image =& $category->image();
 
     $t->set_var( "current_category_image_item", "" );
-        
+
     if ( ( get_class( $image ) == "ezimage" ) && ( $image->id() != 0 ) )
     {
         $imageWidth =& $ini->read_var( "eZArticleMain", "CategoryImageWidth" );
@@ -213,7 +213,7 @@ if ( $article->get( $ArticleID ) )
         $imageWidth =& $variation->width();
         $imageHeight =& $variation->height();
         $imageCaption =& $image->caption();
-            
+
         $t->set_var( "current_category_image_width", $imageWidth );
         $t->set_var( "current_category_image_height", $imageHeight );
         $t->set_var( "current_category_image_url", $imageURL );
@@ -224,14 +224,14 @@ if ( $article->get( $ArticleID ) )
     {
         $t->set_var( "current_category_image_item", "" );
     }
-    
+
     $pathArray =& $category->path();
-    
+
     $t->set_var( "path_item", "" );
     foreach ( $pathArray as $path )
     {
         $t->set_var( "category_id", $path[0] );
-        
+
         if ( $CapitalizeHeadlines == "enabled" )
         {
             include_once( "classes/eztexttool.php" );
@@ -241,11 +241,11 @@ if ( $article->get( $ArticleID ) )
         {
             $t->set_var( "category_name", $path[1] );
         }
-        
+
         $t->parse( "path_item", "path_item_tpl", true );
     }
-    
-    
+
+
     $renderer = new eZArticleRenderer( $article );
 
     if ( $CapitalizeHeadlines == "enabled" )
@@ -267,7 +267,7 @@ if ( $article->get( $ArticleID ) )
         $author = $article->author();
         $t->set_var( "author_email", $author->email() );
     }
-    
+
     $t->set_var( "author_text", $article->authorText() );
     $t->set_var( "author_id", $article->contentsWriter( false ) );
 
@@ -282,19 +282,19 @@ if ( $article->get( $ArticleID ) )
     }
     else
     {
-        $t->set_var( "article_topic", "" );        
+        $t->set_var( "article_topic", "" );
     }
 
     // check if author is "" or starts with -
     $authorText = trim( $article->authorText() );
     if ( $authorText == "" ||
-         $authorText[0] == "-"         
+         $authorText[0] == "-"
          )
     {
-        $ShowHeader = "hide";        
+        $ShowHeader = "hide";
     }
 
-    
+
     $categoryDef =& $article->categoryDefinition();
 
     $t->set_var( "category_definition_name", $categoryDef->name() );
@@ -307,14 +307,14 @@ if ( $article->get( $ArticleID ) )
         $articleContents = $renderer->renderPage( -1 );
     else
         $articleContents = $renderer->renderPage( $PageNumber -1 );
-    
+
     $t->set_var( "article_intro", $articleContents[0] );
 
     if ( $PageNumber == 1 )
            $t->parse( "article_intro", "article_intro_tpl" );
     else
         $t->set_var( "article_intro", "" );
-        
+
     $t->set_var( "article_body", $articleContents[1] );
 
     $t->set_var( "link_text", $article->linkText() );
@@ -336,7 +336,7 @@ if ( $article->get( $ArticleID ) )
 
     $usedImages = $renderer->usedImageList();
     $images =& $article->images();
-    
+
     {
         $i=0;
         foreach ( $images as $imageArray )
@@ -353,7 +353,7 @@ if ( $article->get( $ArticleID ) )
                     $showImage = false;
                 }
             }
-            
+
             if (  $showImage  )
             {
                 if ( ( $i % 2 ) == 0 )
@@ -370,7 +370,7 @@ if ( $article->get( $ArticleID ) )
                 else
                     $t->set_var( "image_caption", $image->caption() );
 
-            
+
                 $t->set_var( "image_id", $image->id() );
                 $t->set_var( "article_id", $ArticleID );
 
@@ -389,9 +389,9 @@ if ( $article->get( $ArticleID ) )
         $t->parse( "image_list", "image_list_tpl", true );
     }
     if ( $i == 0 )
-        $t->set_var( "image_list", "" );    
+        $t->set_var( "image_list", "" );
 
-    
+
 
 }
 else
@@ -435,7 +435,7 @@ if( $typeCount > 0 )
         $attributes = array();
         $attributes = $type->attributes();
         $attributeCount = count( $attributes );
-        
+
         if( $attributeCount > 0 )
         {
             $t->set_var( "type_id", $type->id() );
@@ -514,14 +514,14 @@ if ( $pageCount > 1 && $PageNumber != -1 && ( $PrintableVersion != "enabled" ) )
         }
         else
         {
-            $t->parse( "page_link", "page_link_tpl", true );            
+            $t->parse( "page_link", "page_link_tpl", true );
         }
     }
 }
 else
 {
     $t->set_var( "page_link", "" );
-    
+
 }
 
 
@@ -548,7 +548,7 @@ else
 // previous page link
 if ( ( $PageNumber > 1 ) && ( $PrintableVersion != "enabled" ) )
 {
-    $t->set_var( "prev_page_number", $PageNumber - 1 );    
+    $t->set_var( "prev_page_number", $PageNumber - 1 );
     $t->parse( "prev_page_link", "prev_page_link_tpl" );
 }
 else
@@ -559,7 +559,7 @@ else
 // next page link
 if ( $PageNumber < $pageCount && $PageNumber != -1 && ( $PrintableVersion != "enabled" ) )
 {
-    $t->set_var( "next_page_number", $PageNumber + 1 );    
+    $t->set_var( "next_page_number", $PageNumber + 1 );
     $t->parse( "next_page_link", "next_page_link_tpl" );
 }
 else
@@ -574,7 +574,7 @@ $SiteDescriptionOverride = str_replace( "\"", "", strip_tags( $articleContents[0
 $SiteKeywordsOverride = str_replace( "\"", "", strip_tags( $article->keywords() ) );
 
 if ( isset( $GenerateStaticPage ) && $GenerateStaticPage == "true" )
-{    
+{
     $fp = eZFile::fopen( $cachedFile, "w+");
 
     // add PHP code in the cache file to store variables
@@ -582,12 +582,12 @@ if ( isset( $GenerateStaticPage ) && $GenerateStaticPage == "true" )
     $output .= "\$GlobalSectionID=\"$GlobalSectionID\";\n";
     $output .= "\$SiteTitleAppend=\"$SiteTitleAppend\";\n";
     $output .= "\$SiteDescriptionOverride=\"$SiteDescriptionOverride\";\n";
-    $output .= "\$SiteKeywordsOverride=\"$SiteKeywordsOverride\";\n";    
+    $output .= "\$SiteKeywordsOverride=\"$SiteKeywordsOverride\";\n";
     $output .= "\$eZLanguageOverride=\"$eZLanguageOverride\";\n";
     $output .= "?>\n";
 
     $output .= $t->parse( $target, "article_view_page_tpl" );
-    
+
     // print the output the first time while printing the cache file.
     print( $output );
     fwrite ( $fp, $output );

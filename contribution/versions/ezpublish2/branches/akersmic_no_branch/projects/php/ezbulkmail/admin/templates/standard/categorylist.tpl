@@ -12,6 +12,16 @@
 </select>
 <br /><br />
 
+<img src="{www_dir}/admin/images/{site_style}/path-arrow.gif" height="10" width="12" border="0" alt="0" />
+<a class="path" href="{www_dir}{index}/bulkmail/categorylist/0/">{intl-top}</a>
+
+<!-- BEGIN path_item_tpl -->
+<img src="{www_dir}/admin/images/{site_style}/path-slash.gif" height="10" width="16" border="0" alt="0" />
+<a class="path" href="{www_dir}{index}/bulkmail/categorylist/{category_id}/">{category_name}</a>
+
+<!-- END path_item_tpl -->
+
+
 <!-- BEGIN category_tpl -->
 <table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
 <tr>
