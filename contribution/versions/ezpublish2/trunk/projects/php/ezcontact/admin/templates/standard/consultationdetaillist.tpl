@@ -55,7 +55,7 @@
         <a href="/contact/consultation/view/{consultation_id}">{consultation_short_description}</a>
 	</td>
 	<td>
-        {consultation_status}</a>
+        <a href="/contact/consultation/type/list/{consultation_status_id}">{consultation_status}</a>
 	</td>
 
 	<td width="1%">
@@ -69,4 +69,14 @@
 </tr>
 <!-- END consultation_item_tpl -->
 </table>
+
+<!-- BEGIN new_person_consultation_item_tpl -->
+<form method="post" action="/contact/consultation/person/new/{person_id}">
+<!-- END new_person_consultation_item_tpl -->
+<!-- BEGIN new_company_consultation_item_tpl -->
+<form method="post" action="/contact/consultation/company/new/{company_id}">
+<!-- END new_company_consultation_item_tpl -->
+<input class="okbutton" type="submit" name="New" value="{intl-new_consultation}">
+</form>
+
 <!-- END consultation_table_item_tpl -->
