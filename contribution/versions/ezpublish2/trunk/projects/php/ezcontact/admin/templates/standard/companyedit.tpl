@@ -98,6 +98,7 @@
     <td>
     	<p class="boxtext">{intl-logo}</p>
 	<input size="20" name="image" type="file" />
+	<input type="hidden" name="ImageID" value="{image_id}">
     </td>
     <td>
 	<p class="boxtext">{intl-delete}</p>

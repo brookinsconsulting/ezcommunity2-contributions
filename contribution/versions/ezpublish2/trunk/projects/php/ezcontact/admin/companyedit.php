@@ -91,7 +91,6 @@ if ( $Action == "insert" )
     }
     else
     {
-        exit();
         print( $file->name() . " not uploaded successfully" );
     }
   
@@ -109,7 +108,6 @@ if ( $Action == "insert" )
     }
     else
     {
-        exit();
         print( $file->name() . " not uploaded successfully" );
     }
 
@@ -146,7 +144,6 @@ if ( $Action == "update" )
         }
         else
         {
-            exit();
             print( $file->name() . " not uploaded successfully" );
         }
     }
@@ -158,6 +155,8 @@ if ( $Action == "update" )
         $file = new eZImageFile();
         if ( $file->getUploadedFile( "image" ) )
         {
+            print( "-->" .  $ImageID );
+            die();
             $image = new eZImage( $ImageID );
             $image->setName( "Image" );
             $image->setImage( $file );
@@ -167,12 +166,9 @@ if ( $Action == "update" )
         }
         else
         {
-            exit();
             print( $file->name() . " not uploaded successfully" );
         }
     }
-
-    
 
     // Update or store address
     $addressList = $company->addresses( $CompanyID );
