@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: ezmailfunctions.php,v 1.10 2001/08/08 12:34:56 jhe Exp $
+// $Id: ezmailfunctions.php,v 1.11 2001/11/01 17:46:27 jhe Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -46,7 +46,6 @@ function getHeaders( &$mail, $imap_stream, $msgno )
 //    print( "MessageID: " . getDecodedHeader( $headers->message_id ). "<br>" );
 //    print( "Date: " . getDecodedHeader( $headers->date ) . "<br>" );
 //    print( "ReplyID: " . getDecodedHeader( $headers->in_reply_to ). "<br>" );
-
     $mail->setTo( getDecodedHeader( $headers->toaddress )  );
     $mail->setFrom( getDecodedHeader( $headers->fromaddress ) ); // from NAME
     $mail->setReplyTo( getDecodedHeader( $headers->reply_toaddress ) );

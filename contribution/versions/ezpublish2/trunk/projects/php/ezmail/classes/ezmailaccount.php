@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezmailaccount.php,v 1.31 2001/08/27 10:54:12 jhe Exp $
+// $Id: ezmailaccount.php,v 1.32 2001/11/01 17:46:27 jhe Exp $
 //
 // eZMailAccount class
 //
@@ -61,7 +61,7 @@ class eZMailAccount
     /*!
       constructor
     */
-    function eZMailAccount( $id="" )
+    function eZMailAccount( $id = "" )
     {
         if ( $id != "" )
         {
@@ -451,7 +451,7 @@ class eZMailAccount
      */
     function getNewMail( $LoginName, $Password, $ServerName, $ServerPort = 110 )
     {
-        $server = "{" . $ServerName . "/pop3:" .$ServerPort ."}";
+        $server = "{" . $ServerName . "/pop3:" . $ServerPort . "}";
         $mbox = imap_open( $server, $LoginName, $Password, OP_HALFOPEN );
         if ( $mbox == false )
         {
@@ -466,13 +466,11 @@ class eZMailAccount
 
         // fetch numbers of all new mails
         $num = imap_num_msg( $mbox );
-
         // go through each mail in inbox
-        for ( $i = 1; $i <= $num; $i++ )  
+        for ( $i = 1; $i <= $num; $i++ )
         {
             // fetch mail headers
             $headerinfo = imap_header( $mbox, $i );
-            
             $mail = new eZMail();
             $mail->setOwner( $user );
             $mail->setStatus( UNREAD );
@@ -490,7 +488,6 @@ class eZMailAccount
             $ret_array[] = $mail;
             imap_delete( $mbox, $i );
         }
-        
 //        $headers = imap_headers( $mbox );
 //        print("<pre>"); print_r( $headers ); print("</pre>" );
         imap_close( $mbox, CL_EXPUNGE );
