@@ -12,12 +12,27 @@
 <input type="text" class="box" size="40" name="Name[]" value="{link_name}" />
 <br /><br />
 
-<div class="boxtext">{intl-category}:</div>
-<select name="LinkCategoryID[]">
-<!-- BEGIN category_item_tpl -->
-<option {is_selected} value="{link_category_id}">{option_level}{link_category_name}</option>
-<!-- END category_item_tpl -->
-</select>
+<table width="100%" cellspacing="0" cellpadding="0" border="0">
+<tr>
+    <td align="left" valign="top">
+    <div class="boxtext">{intl-category}:</div>
+    <select name="LinkCategoryID[]">
+    <!-- BEGIN category_item_tpl -->
+        <option value="{link_category_id}" {is_selected}>{option_level}{link_category_name}</option>
+    <!-- END category_item_tpl -->
+    </select>
+    </td align="left" valign="top">
+    <td>
+    <p class="boxtext">{intl-multiple_categories}:</p>
+    <select multiple size="{num_select_categories}" name="CategoryArray[{i}][]">
+    <!-- BEGIN multiple_category_tpl -->
+        <option value="{link_category_id}" {multiple_selected}>&nbsp;{option_level} {link_category_name}</option>
+    <!-- END multiple_category_tpl -->
+    </select>
+    </td>
+</tr>
+</table>
+
 <br /><br />
 
 <a href="http://{link_url}" target="_blank"><div class="boxtext">{intl-url}:</div></a>

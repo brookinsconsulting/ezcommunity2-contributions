@@ -1,5 +1,5 @@
 <?
-// $Id: linkedit.php,v 1.56 2001/06/30 13:41:44 bf Exp $
+// $Id: linkedit.php,v 1.57 2001/07/02 14:40:47 jhe Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <26-Oct-2000 14:58:57 ce>
@@ -35,9 +35,9 @@ $error = new INIFile( "ezuser/admin/intl/" . $Language . "/useredit.php.ini", fa
 
 include_once( "classes/eztemplate.php" );
 
-include( "ezlink/classes/ezlinkcategory.php" );
-include( "ezlink/classes/ezlink.php" );
-include( "ezlink/classes/ezhit.php" );
+include_once( "ezlink/classes/ezlinkcategory.php" );
+include_once( "ezlink/classes/ezlink.php" );
+include_once( "ezlink/classes/ezhit.php" );
 
 include_once( "ezlink/classes/ezlinktype.php" );
 include_once( "ezlink/classes/ezlinkattribute.php" );
@@ -618,8 +618,7 @@ foreach( $linkCategoryList as $linkCategoryItem )
 
     $link_select_dict[ $linkCategoryItem[0]->id() ] = $i;
 
-    if ( is_array($LinkCategoryIDArray ) and  in_array( $linkCategoryItem[0]->id(), $LinkCategoryIDArray )
-         and (  $LinkCategoryID != $linkCategoryItem[0]->id() ) )
+    if ( is_array($LinkCategoryIDArray ) and (  $LinkCategoryID != $linkCategoryItem[0]->id() ) )
     {
         $t->set_var( "multiple_selected", "selected" );
         $i++;

@@ -66,14 +66,6 @@ http://<input type="text" class="halfbox" name="Url" size="40" value="{url}">
 <textarea class="box" rows="5" cols="40" name="Description">{description}</textarea>
 <br />
 
-<p class="boxtext">{intl-accepted}</p>
-<select name="Accepted">
-	<option {no_selected} value="0">{intl-no}</option>
-	<option	{yes_selected} value="1">{intl-yes}</option>
-</select>
-
-<br /><br />
-
 <!-- BEGIN image_item_tpl -->
 <p class="boxtext">{intl-current_image}:</p>
 <img src="{image_url}" alt="{image_caption}" width="{image_width}" height="{image_height}" />
@@ -81,13 +73,8 @@ http://<input type="text" class="halfbox" name="Url" size="40" value="{url}">
 <input type="checkbox" name="DeleteImage" />&nbsp;{intl-delete_image}
 <!-- END image_item_tpl -->
 
-<!-- BEGIN no_image_item_tpl -->
-
-<!-- END no_image_item_tpl -->
-
 <p class="boxtext">{intl-upload_image}:</p>
 <input size="40" name="ImageFile" type="file" />&nbsp;
-<br /><br /><input class="stdbutton" type="submit" name="Browse" value="{intl-browse}" />
 <br /><br />
 
 <select name="TypeID">
@@ -119,11 +106,6 @@ http://<input type="text" class="halfbox" name="Url" size="40" value="{url}">
 <!-- END attribute_tpl -->
 </table>
 <!-- END attribute_list_tpl -->
-
-<br />
-
-<hr noshade size="4" />
-
 
 <hr noshade size="4"/>
 

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezlink.php,v 1.61 2001/06/30 13:41:44 bf Exp $
+// $Id: ezlink.php,v 1.62 2001/07/02 14:40:47 jhe Exp $
 //
 // Definition of eZLink class
 //
@@ -245,13 +245,23 @@ class eZLink
     /*!
       Remove the link and the hits that belongs to the link.
     */
-    function delete( )
+    function delete()
     {
         $db =& eZDB::globalDatabase();
-        $db->query( "DELETE FROM eZLink_Hit WHERE Link='$this->ID'" );        
-        $db->query( "DELETE FROM eZLink_Link WHERE ID='$this->ID'" );
-        $db->query( "DELETE FROM eZLink_TypeLink WHERE LinkID='$this->ID'" );
-        $db->query( "DELETE FROM eZLink_AttributeValue WHERE LinkID='$this->ID'" );
+
+        $db->begin();
+        
+        $res[] = $db->query( "DELETE FROM eZLink_Hit WHERE Link='$this->ID'" );
+        $res[] = $db->query( "DELETE FROM eZLink_Link WHERE ID='$this->ID'" );
+        $res[] = $db->query( "DELETE FROM eZLink_TypeLink WHERE LinkID='$this->ID'" );
+        $res[] = $db->query( "DELETE FROM eZLink_AttributeValue WHERE LinkID='$this->ID'" );
+        $res[] = $db->query( "DELETE FROM eZLink_LinkCategoryDefinition WHERE LinkID='$this->ID'" );
+        $res[] = $db->query( "DELETE FROM eZLink_LinkCategoryLink WHERE LinkID='$this->ID'" );
+
+        if ( in_array( $res, false ) )
+            $db->rollback();
+        else
+            $db->commit();
     }
 
     /*!
@@ -332,7 +342,7 @@ class eZLink
     /*!
       Returns the total numbers of links that is not accepted.
     */
-    function unAcceptedCount(  )
+    function unAcceptedCount()
     {
         $db =& eZDB::globalDatabase();
 
@@ -486,9 +496,9 @@ class eZLink
         $db->query( "DELETE FROM eZLink_LinkCategoryDefinition
                          WHERE LinkID='$this->ID'" );
         
-        $nextID = $db->nextID( "eZLink_LinkCategoryDefinition", "ID");
+        $nextID = $db->nextID( "eZLink_LinkCategoryDefinition", "ID" );
         $db->query( "INSERT INTO eZLink_LinkCategoryDefinition
-                     (ID, LinkID, CategoryID ) VALUES
+                     (ID, LinkID, CategoryID) VALUES
                      ('$nextID','$this->ID','$categoryID')" );
     }
 
@@ -496,7 +506,7 @@ class eZLink
     /*!
       Returns the link's definition category
     */
-    function categoryDefinition( )
+    function categoryDefinition()
     {
         $db =& eZDB::globalDatabase();
 
@@ -706,7 +716,37 @@ class eZLink
         $db->query( "UPDATE eZLink_Link set ImageID='0' WHERE ID='$this->ID'" );
     }
 
+    /*!
+      Returns the categories an link is assigned to.
 
+      The categories are returned as an array of eZLinkCategory objects.
+    */
+    function categories( $as_object = true )
+    {
+        $db =& eZDB::globalDatabase();
+
+        $ret = array();
+        $db->array_query( $category_array, "SELECT * FROM eZLink_LinkCategoryLink WHERE LinkID='$this->ID'" );
+
+        if ( $as_object )
+        {
+            foreach ( $category_array as $category )
+            {
+                $ret[] = new eZLinkCategory( $category[$db->fieldName("LinkID")] );
+            }
+        }
+        else
+        {
+            foreach ( $category_array as $category )
+            {
+                $ret[] = $category[$db->fieldName("LinkID")];
+            }
+        }
+
+        return $ret;
+    }
+    
+    
     var $ID;
     var $Name;
     var $Description;

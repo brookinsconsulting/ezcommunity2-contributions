@@ -1,5 +1,5 @@
 <?
-// $Id: suggestlink.php,v 1.15 2001/07/02 07:29:12 bf Exp $
+// $Id: suggestlink.php,v 1.16 2001/07/02 14:40:47 jhe Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <26-Oct-2000 14:58:57 ce>
@@ -65,6 +65,8 @@ if ( isSet( $Back ) )
     exit();
 }
 
+$Accepted = $ini->read_var( "eZLinkMain", "AcceptSuggestedLinks" );
+
 // Get images from the image browse function.
 if ( ( isSet ( $AddImages ) ) and ( is_numeric( $LinkID ) ) and ( is_numeric ( $LinkID ) ) )
 {
@@ -93,7 +95,7 @@ if ( $GetSite )
         }
         else if( count( $metaList ) == 0 )
         {
-            $inierror = new INIFile( "ezlink/user/" . "/intl/" . $Language . "/suggestlink.php.ini", false );
+            $inierror = new INIFile( "ezlink/user/intl/" . $Language . "/suggestlink.php.ini", false );
             $terror_msg = $inierror->read_var( "strings", "nometa" );
         }
 
@@ -133,7 +135,6 @@ if ( $Action == "update" )
     {
         if ( $Name != "" &&
              $LinkCategoryID != "" &&
-             $Accepted != "" &&
              $Url != "" )
         {
             $link = new eZLink();
@@ -179,8 +180,7 @@ if ( $Action == "update" )
                 eZLinkCategory::addLink( $link, $categoryItem );
             }
 
-            
-            if ( $Accepted == "1" )
+            if ( $Accepted == "1" ) 
                 $link->setAccepted( true );
             else
                 $link->setAccepted( false );
@@ -245,50 +245,6 @@ if ( $Action == "update" )
     }
 }
 
-// Delete a link.
-if ( $Action == "delete" )
-{
-    if ( eZPermission::checkPermission( $user, "eZLink", "LinkDelete" ) )
-    {
-        $deletelink = new eZLink();
-        $deletelink->get( $LinkID );
-        $deletelink->delete();
-
-        if ( $deletelink->accepted() == false )
-        {
-            eZHTTPTool::header( "Location: /link/category/incoming" );
-            exit();
-        }
-    }
-    else
-    {
-        eZHTTPTool::header( "Location: /link/norights" );
-    }
-}
-
-if ( $Action == "DeleteLinks" )
-{
-    if ( count ( $LinkArrayID ) != 0 )
-    {
-        foreach( $LinkArrayID as $LinkID )
-        {
-            $deletelink = new eZLink();
-            $deletelink->get( $LinkID );
-            $deletelink->delete();
-            
-        }
-        if ( $deletelink )
-        {
-            if ( $deletelink->accepted() == false )
-            {
-                eZHTTPTool::header( "Location: /link/category/incoming" );
-                exit();
-            }
-        }
-        eZHTTPTool::header( "Location: /link/category/$LinkCategoryID" );
-        exit();
-    }
-}
 
 // Insert a link.
 if ( $Action == "insert" )
@@ -298,7 +254,6 @@ if ( $Action == "insert" )
     {
         if ( $Name != "" &&
         $LinkCategoryID != "" &&
-        $Accepted != "" &&
         $Url != "" )
         {
             $link = new eZLink();
@@ -360,9 +315,7 @@ if ( $Action == "insert" )
             // Add to categories.
             $cat = new eZLinkCategory( $LinkCategoryID );
             $cat->addLink( $link );
-            
             $link->setCategoryDefinition( $cat );
-            
             if ( count( $CategoryArray ) > 0 )
             {
                 foreach ( $CategoryArray as $categoryItem )
@@ -376,8 +329,7 @@ if ( $Action == "insert" )
             }
 
             $linkID = $link->id();
-            
-            
+
             eZHTTPTool::header( "Location: /link/category/$LinkCategoryID" );
             exit();
         }
@@ -402,9 +354,8 @@ $t->set_file( "link_edit", "suggestlink.tpl" );
 
 $t->set_block( "link_edit", "link_category_tpl", "link_category" );
 
+$t->set_block( "link_edit", "accept_link_tpl", "accept_link" );
 $t->set_block( "link_edit", "image_item_tpl", "image_item" );
-$t->set_block( "link_edit", "no_image_item_tpl", "no_image_item" );
-
 $t->set_block( "link_edit", "multiple_category_tpl", "multiple_category" );
 
 $t->set_block( "link_edit", "type_tpl", "type" );
@@ -413,7 +364,7 @@ $t->set_block( "link_edit", "attribute_list_tpl", "attribute_list" );
 $t->set_block( "attribute_list_tpl", "attribute_tpl", "attribute" );
 
 
-$languageIni = new INIFIle( "ezlink/admin/intl/" . $Language . "/suggestlink.php.ini", false );
+$languageIni = new INIFIle( "ezlink/user/intl/" . $Language . "/suggestlink.php.ini", false );
 $headline = $languageIni->read_var( "strings", "headline_insert" );
 
 $linkselect = new eZLinkCategory();
@@ -426,107 +377,17 @@ $submit = "Legg til";
 
 $action_value = "update";
 
-if ( $Action == "new" )
+if ( !eZPermission::checkPermission( $user, "eZLink", "LinkAdd" ) )
 {
-    if ( !eZPermission::checkPermission( $user, "eZLink", "LinkAdd" ) )
-    {
-        eZHTTPTool::header( "Location: /link/norights" );
-    }
-
-    $action_value = "insert";
-
-    $t->set_var( "image_item", "" );
-    $t->set_var( "no_image_item", "" );
+    eZHTTPTool::header( "Location: /link/norights" );
 }
+
+$action_value = "insert";
+
+$t->set_var( "image_item", "" );
 // set accepted link as default.
 $yes_selected = "selected";
 $no_selected = "";
-
-// editere
-if ( $Action == "edit" )
-{
-
-    $languageIni = new INIFIle( "ezlink/admin/intl/" . $Language . "/suggestlink.php.ini", false );
-    $headline =  $languageIni->read_var( "strings", "headline_edit" );
-
-    if ( !eZPermission::checkPermission( $user, "eZLink", "LinkModify" ) )
-    {
-        eZHTTPTool::header( "Location: /link/norights" );
-    }
-    else
-    {
-        if ( !isSet( $editLink ) )
-        {
-            $editLink = new eZLink();
-            $editLink->get( $LinkID );
-        }
-
-        $name = $editLink->Name;
-
-        $cateDef = $editLink->categoryDefinition();
-        $LinkCategoryID = $cateDef->id();
-        $LinkCategoryIDArray = $editLink->categories( false );
-
-        $name = $editLink->name();
-        $description = $editLink->description();
-        $keywords = $editLink->keyWords();
-        $accepted = $editLink->accepted();
-        $url = $editLink->url();
-
-        $action_value = "update";
-        $message = "Rediger link";
-        $submit = "Rediger";
-              
-        $tname = $editLink->name();
-        $tdescription = $editLink->description();
-        $tkeywords = $editLink->keywords();
-        $turl = $editLink->url();
-
-        $linkType = $editLink->type();
-
-        $image = $editLink->image();
-
-        if ( $image )
-        {
-            $imageWidth =& $ini->read_var( "eZLinkMain", "CategoryImageWidth" );
-            $imageHeight =& $ini->read_var( "eZLinkMain", "CategoryImageHeight" );
-            
-            $variation =& $image->requestImageVariation( $imageWidth, $imageHeight );
-            
-            $imageURL = "/" . $variation->imagePath();
-            $imageWidth = $variation->width();
-            $imageHeight = $variation->height();
-            $imageCaption = $image->caption();
-            
-            $t->set_var( "image_width", $imageWidth );
-            $t->set_var( "image_height", $imageHeight );
-            $t->set_var( "image_url", $imageURL );
-            $t->set_var( "image_caption", $imageCaption );
-            $t->set_var( "no_image", "" );
-            $t->parse( "image_item", "image_item_tpl" );
-
-            $t->set_var( "no_image_item", "" );
-        }
-        else
-        {
-            $t->parse( "no_image_item", "no_image_item_tpl" );
-            $t->set_var( "image_item", "" );
-        }
-        
-        
-
-        if ( $editLink->accepted() == true )
-        {
-            $yes_selected = "selected";
-            $no_selected = "";
-        }
-        else
-        {
-            $yes_selected = "";
-            $no_selected = "selected";
-        }
-    }
-}
 
 if ( $Action == "AttributeList" )
 {
@@ -539,7 +400,6 @@ if ( $Action == "AttributeList" )
     $message = "Rediger link";
     $submit = "Rediger";
     
-    $t->parse( "no_image_item", "no_image_item_tpl" );
     $t->set_var( "image_item", "" );
     
 
@@ -583,7 +443,7 @@ foreach( $linkCategoryList as $linkCategoryItem )
 
     $link_select_dict[ $linkCategoryItem[0]->id() ] = $i;
 
-    if ( is_array($LinkCategoryIDArray ) and  in_array( $linkCategoryItem[0]->id(), $LinkCategoryIDArray )
+    if ( is_array($LinkCategoryIDArray ) and in_array( $linkCategoryItem[0]->id(), $LinkCategoryIDArray )
          and (  $LinkCategoryID != $linkCategoryItem[0]->id() ) )
     {
         $t->set_var( "multiple_selected", "selected" );

@@ -1,6 +1,5 @@
-
 <?
-// $Id: unacceptededit.php,v 1.2 2001/03/09 11:05:35 jb Exp $
+// $Id: unacceptededit.php,v 1.3 2001/07/02 14:40:47 jhe Exp $
 //
 // Author: Bård Farstad <bf@ez.no>
 // Created on: <21-Jan-2001 13:34:48 bf>
@@ -25,26 +24,48 @@
 
 include_once( "classes/ezhttptool.php" );
 include_once( "ezlink/classes/ezlink.php" );
+include_once( "ezlink/classes/ezlinkcategory.php" );
 
 require( "ezuser/admin/admincheck.php" );
 
-for( $i=0; $i < count ( $LinkArrayID ); $i++ )
+for( $i = 0; $i < count( $LinkArrayID ); $i++ )
 {
     unset( $link );
     $link = new eZLink( $LinkArrayID[$i] );
-    $link->setTitle( $Name[$i] );
-    $link->setDescription( $Description[$i] );
-    $link->setLinkGroupID( $LinkGroupID[$i] );
-    $link->setKeyWords( $Keywords[$i] );
-    $link->setAccepted( "N" );
+    $link->setName( $Name[$i] );
+    $link->setCategoryDefinition( $LinkCategoryID[$i] );
+
+    $categoryArray = $link->categories();
+    // Calculate new and unused categories
+    $old_maincategory = $link->categoryDefinition();
+    $old_categories =& array_unique( array_merge( $old_maincategory->id(),
+                                                  $link->categories( false ) ) );
+
+    $new_categories = array_unique( array_merge( $CategoryID, $CategoryArray ) );
+
+    $remove_categories = array_diff( $old_categories, $new_categories );
+    $add_categories = array_diff( $new_categories, $old_categories );
+
+    foreach ( $remove_categories as $category )
+    {
+        eZLinkCategory::removeLink( $link, $category );
+    }
+    foreach ( $add_categories as $category )
+    {
+        eZLinkCategory::addLink( $link, $category );
+    }
+    
     $link->setUrl( $Url[$i] );
+    $link->setKeyWords( $Keywords[$i] );
+    $link->setDescription( $Description[$i] );
+    $link->setAccepted( false );
 
     if ( $ActionValueArray[$i] == "Defer" )
     {
     }
     else if ( $ActionValueArray[$i] == "Accept" )
     {
-        $link->setAccepted( "Y" );
+        $link->setAccepted( true );
         $link->update();
     }
     else if ( $ActionValueArray[$i] == "Delete" )
@@ -56,10 +77,7 @@ for( $i=0; $i < count ( $LinkArrayID ); $i++ )
         $link->update();
     }
 }
-
 eZHTTPTool::header( "Location: /link/unacceptedlist/" );
 exit();
-
-
 
 ?>

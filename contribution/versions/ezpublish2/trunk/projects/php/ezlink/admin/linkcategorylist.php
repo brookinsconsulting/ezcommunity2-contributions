@@ -1,5 +1,5 @@
 <?
-// $Id: linkcategorylist.php,v 1.2 2001/06/30 11:56:31 bf Exp $
+// $Id: linkcategorylist.php,v 1.3 2001/07/02 14:40:47 jhe Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <26-Oct-2000 14:55:24 ce>
@@ -80,7 +80,7 @@ $linkCategory = new eZLinkCategory();
 if( !is_numeric( $LinkCategoryID ) )
     $LinkCategoryID = 0;
     
-$linkCategory->get ( $LinkCategoryID );
+$linkCategory->get( $LinkCategoryID );
 
 // path
 $pathArray = $linkCategory->path();
@@ -89,9 +89,7 @@ $t->set_var( "path_item", "" );
 foreach ( $pathArray as $path )
 {
     $t->set_var( "category_id", $path[0] );
-
     $t->set_var( "category_name", $path[1] );
-    
     $t->parse( "path_item", "path_item_tpl", true );
 }
 
@@ -170,16 +168,16 @@ else
 }
 
 // List all the links in category
-$link = new eZLink();
+$link = new eZLinkCategory();
 if ( $LinkCategoryID == "incoming" )
 {
     $linkList =& $link->links( $Offset, $AdminLimit, true );
-    $linkCount =& $link->links( true );
+    $linkCount =& $link->linkCount( true );
 }
 else
 {
     $linkList =& $linkCategory->links( $Offset, $AdminLimit );
-    $linkCount =& $linkCategory->linkCount( );
+    $linkCount =& $linkCategory->linkCount();
 } 
 
 if ( !$linkList )

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezlinkcategory.php,v 1.2 2001/06/30 11:29:40 bf Exp $
+// $Id: ezlinkcategory.php,v 1.3 2001/07/02 14:40:47 jhe Exp $
 //
 // Definition of eZLinkCategory class
 //
@@ -52,14 +52,14 @@ class eZLinkCategory
     function store()
     {
         $db =& eZDB::globalDatabase();
-
+        
         $name = $db->escapeString( $this->Name );
         $description = $db->escapeString( $this->Description );
-
-        $db->begin( );
-
+        
+        $db->begin();
+        
         $db->lock( "eZLink_Category" );
-
+        
         $nextID = $db->nextID( "eZLink_Category", "ID" );        
         $res = $db->query( "INSERT INTO eZLink_Category
                 ( ID, Parent, Name, ImageID, Description )
@@ -69,11 +69,11 @@ class eZLinkCategory
                   '$name',
                   '$this->ImageID',
                   '$description')" );
-
-        $this->ID = $nextID;
-
+        
         $db->unlock();
-    
+        
+        $this->ID = $nextID;
+        
         if ( $res == false )
             $db->rollback( );
         else
@@ -146,11 +146,11 @@ class eZLinkCategory
         
         $nextID = $db->nextID( "eZLink_LinkCategoryLink", "ID" );
         $db->query( "INSERT INTO eZLink_LinkCategoryLink
-                     ( ID, LinkID, CategoryID )
+                     (ID, LinkID, CategoryID)
                      VALUES
-                     ( '$nextID',
-                       '$linkID',
-                       '$categoryid')" );
+                     ('$nextID',
+                      '$linkID',
+                      '$categoryid')");
     }
     
     /*!
@@ -284,7 +284,7 @@ class eZLinkCategory
     function &getTree( $parentID=0, $level=0 )
     {
         $category = new eZLinkCategory( $parentID );
-
+        
         $categoryList = $category->getByParent( $category, true );
         
         $tree = array();
@@ -297,9 +297,7 @@ class eZLinkCategory
             {
                 $tree = array_merge( $tree, $this->getTree( $category->id(), $level ) );
             }
-            
         }
-
         return $tree;
     }
 
