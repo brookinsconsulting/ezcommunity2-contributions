@@ -56,6 +56,36 @@ $t->set_var( "work_phone", "" );
 $t->set_var( "web", "" );
 $t->set_var( "email", "" );
 
+$person = new eZPerson( $PersonID, true );
+
+if( is_object( $user ) )
+{
+    $UserID = $user->id();
+    
+    if( $UserID > 0 )
+    {
+        $user = $person->user();
+        
+        if( $user[0]->id() != $UserID )
+        {
+            $person = $person->getByUserID( $UserID );
+            $PersonID = $person->id();
+            header( "Location: /contact/person/view/$PersonID" );
+            exit();
+        }
+    }
+    else
+    {
+        header( "Location: /kicked out/" );
+        exit();
+    }
+}
+else
+{
+    header( "Location: /kicked out/" );
+    exit();
+}
+
 /*
     The user wants to view an existing person.
     
@@ -64,7 +94,6 @@ $t->set_var( "email", "" );
 if ( $Action == "view" )
 {
     $Action_value = "view";
-    $person = new eZPerson( $PersonID, true );
     
     $t->set_var( "firstname", $person->firstName() );
     $t->set_var( "lastname", $person->lastName() );
