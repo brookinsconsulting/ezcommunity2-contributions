@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezbugmodule.php,v 1.25 2001/08/09 14:17:42 jhe Exp $
+// $Id: ezbugmodule.php,v 1.26 2001/10/08 14:39:09 fh Exp $
 //
 // Definition of eZBugModule class
 //
@@ -482,19 +482,19 @@ class eZBugModule
         $unhandledSQL = "";
         if ( $countUnhandled == false )
         {
-            $unhandledSQL = "AND eZBug_Bug.IsHandled='true'";
+            $unhandledSQL = "AND eZBug_Bug.IsHandled='1'";
         }
 
         $openSQL = "";
         if ( $excludeClosed == true )
         {
-            $openSQL = "AND eZBug_Bug.IsClosed!='true'";
+            $openSQL = "AND eZBug_Bug.IsClosed!='1'";
         }
         
         $privateSQL = "";
         if( $withPrivate == false )
         {
-            $privateSQL = "AND eZBug_Bug.IsPrivate!='true'";
+            $privateSQL = "AND eZBug_Bug.IsPrivate!='1'";
         }
 
         $query = "

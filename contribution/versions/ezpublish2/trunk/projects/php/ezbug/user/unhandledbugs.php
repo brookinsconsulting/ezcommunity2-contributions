@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: unhandledbugs.php,v 1.2 2001/07/19 12:29:04 jakobn Exp $
+// $Id: unhandledbugs.php,v 1.3 2001/10/08 14:39:09 fh Exp $
 //
 // Created on: <27-Nov-2000 22:18:56 bf>
 //
@@ -33,6 +33,8 @@ include_once( "classes/eztemplate.php" );
 include_once( "classes/INIFile.php" );
 include_once( "ezuser/classes/ezobjectpermission.php" );
 
+$ini =& INIFile::globalINI();
+$Language= $ini->read_var("eZBugMain","Language"); 
 $t = new eZTemplate( "ezbug/user/" . $ini->read_var( "eZBugMain", "TemplateDir" ),
                      "ezbug/user/intl", $Language, "unhandledbugs.php" );
 $errorIni = new INIFIle( "ezbug/user/intl/" . $Language . "/unhandledbugs.php.ini", false );
