@@ -112,10 +112,11 @@
 
 <br />
 
-<span class="boxtext">{intl-price}:</span> 
+<div class="boxtext">{intl-price}:</div> 
 <div class="p">{product_price}</div>
+<br />
 
-<span class="boxtext">{intl-price_ex_vat}:</span> 
+<div class="boxtext">{intl-price_ex_vat}:</div> 
 <div class="p">{product_price_ex_vat}</div>
 
 <br />

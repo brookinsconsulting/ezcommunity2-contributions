@@ -109,7 +109,7 @@
 <tr>
 	<th colspan="2">
 	<br />
-	{option_name}:
+	{option_name}
 	</th>
 </tr>
 <tr>
