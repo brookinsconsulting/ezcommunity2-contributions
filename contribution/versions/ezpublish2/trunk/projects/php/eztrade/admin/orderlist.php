@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: orderlist.php,v 1.3 2000/10/10 14:47:23 bf-cvs Exp $
+// $Id: orderlist.php,v 1.4 2000/10/24 19:03:13 bf-cvs Exp $
 //
 // 
 //
@@ -26,10 +26,9 @@ include_once( "eztrade/classes/ezproductcategory.php" );
 include_once( "eztrade/classes/ezproduct.php" );
 include_once( "eztrade/classes/ezorder.php" );
 
-
 include_once( "eztrade/classes/ezorderstatustype.php" );
 
-$t = new eZTemplate( "eztrade/admin/" . $ini->read_var( "eZTradeMain", "TemplateDir" ) . "/orderlist/",
+$t = new eZTemplate( "eztrade/admin/" . $ini->read_var( "eZTradeMain", "AdminTemplateDir" ) . "/orderlist/",
                      "eztrade/admin/intl/", $Language, "orderlist.php" );
 
 $t->setAllStrings();

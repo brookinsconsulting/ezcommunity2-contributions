@@ -36,11 +36,11 @@
 
 <hr noshade="noshade" size="4" />
 
-<img src="/ezforum/images/path-arrow.gif" height="10" width="15" border="0">
+<img src="/eztrade/images/path-arrow.gif" height="10" width="15" border="0">
 <a class="path" href="/trade/categorylist/parent/0/">Hovedkategori</a>
 
 <!-- BEGIN path_item_tpl -->
-<img src="/ezforum/images/path-slash.gif" height="10" width="20" border="0">
+<img src="/eztrade/images/path-slash.gif" height="10" width="20" border="0">
 <a class="path" href="/trade/categorylist/parent/{category_id}/">{category_name}</a>
 
 <!-- END path_item_tpl -->

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: imageedit.php,v 1.6 2000/09/27 07:08:28 bf-cvs Exp $
+// $Id: imageedit.php,v 1.7 2000/10/24 19:03:13 bf-cvs Exp $
 //
 // Definition of eZCompany class
 //
@@ -119,7 +119,7 @@ if ( $Action == "StoreDef" )
     header( "Location: /trade/productedit/imagelist/" . $ProductID . "/" );
 }
 
-$t = new eZTemplate( $DOC_ROOT . "/admin/" . $ini->read_var( "eZTradeMain", "TemplateDir" ) . "/imageedit/",
+$t = new eZTemplate( $DOC_ROOT . "/admin/" . $ini->read_var( "eZTradeMain", "AdminTemplateDir" ) . "/imageedit/",
                      $DOC_ROOT . "/admin/intl/", $Language, "imageedit.php" );
 
 $t->setAllStrings();

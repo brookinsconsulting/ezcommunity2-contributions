@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: imagelist.php,v 1.6 2000/10/10 14:23:42 bf-cvs Exp $
+// $Id: imagelist.php,v 1.7 2000/10/24 19:03:13 bf-cvs Exp $
 //
 // Definition of eZCompany class
 //
@@ -21,14 +21,13 @@ include_once( "classes/ezcurrency.php" );
 $ini = new INIFIle( "site.ini" );
 
 $Language = $ini->read_var( "eZTradeMain", "Language" );
-$DOC_ROOT = $ini->read_var( "eZTradeMain", "DocumentRoot" );
 
-include_once( $DOC_ROOT . "/classes/ezproductcategory.php" );
-include_once( $DOC_ROOT . "/classes/ezproduct.php" );
-include_once( $DOC_ROOT . "/classes/ezoption.php" );
+include_once( "eztrade/classes/ezproductcategory.php" );
+include_once( "eztrade/classes/ezproduct.php" );
+include_once( "eztrade/classes/ezoption.php" );
 
-$t = new eZTemplate( $DOC_ROOT . "/admin/" . $ini->read_var( "eZTradeMain", "TemplateDir" ) . "/imagelist/",
-                     $DOC_ROOT . "/admin/intl/", $Language, "imagelist.php" );
+$t = new eZTemplate( "eztrade/admin/" . $ini->read_var( "eZTradeMain", "AdminTemplateDir" ) . "/imagelist/",
+                     "eztrade/admin/intl/", $Language, "imagelist.php" );
 
 $t->setAllStrings();
 

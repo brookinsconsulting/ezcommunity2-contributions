@@ -42,13 +42,13 @@
 
 <!-- BEGIN path_tpl -->
 
-<img src="/ezforum/images/path-arrow.gif" height="10" width="15" border="0">
+<img src="/eztrade/images/path-arrow.gif" height="10" width="15" border="0">
 <a class="path" href="/article/archive/0/">Toppnivå</a>
 
 <!-- END path_tpl -->
 
 <!-- BEGIN path_item_tpl -->
-<img src="/ezforum/images/path-slash.gif" height="10" width="20" border="0">
+<img src="/eztrade/images/path-slash.gif" height="10" width="20" border="0">
 <a class="path" href="/article/archive/{category_id}/">{category_name}</a>
 <!-- END path_item_tpl -->
 

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: categoryedit.php,v 1.3 2000/10/10 14:23:42 bf-cvs Exp $
+// $Id: categoryedit.php,v 1.4 2000/10/24 19:03:13 bf-cvs Exp $
 //
 // Definition of eZCompany class
 //
@@ -19,9 +19,8 @@ include_once( "classes/eztemplate.php" );
 $ini = new INIFIle( "site.ini" );
 
 $Language = $ini->read_var( "eZTradeMain", "Language" );
-$DOC_ROOT = $ini->read_var( "eZTradeMain", "DocumentRoot" );
 
-include_once( $DOC_ROOT . "/classes/ezproductcategory.php" );
+include_once( "eztrade/classes/ezproductcategory.php" );
 
 // Direct actions
 if ( $Action == "Insert" )
@@ -68,8 +67,8 @@ if ( $Action == "Delete" )
     exit();
 }
 
-$t = new eZTemplate( $DOC_ROOT . "/admin/" . $ini->read_var( "eZTradeMain", "TemplateDir" ) . "/categoryedit/",
-                     $DOC_ROOT . "/admin/intl/", $Language, "categoryedit.php" );
+$t = new eZTemplate( "eztrade/admin/" . $ini->read_var( "eZTradeMain", "AdminTemplateDir" ) . "/categoryedit/",
+                     "eztrade/admin/intl/", $Language, "categoryedit.php" );
 
 $t->setAllStrings();
 

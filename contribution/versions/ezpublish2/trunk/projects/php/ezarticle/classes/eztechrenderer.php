@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eztechrenderer.php,v 1.9 2000/10/24 12:59:07 bf-cvs Exp $
+// $Id: eztechrenderer.php,v 1.10 2000/10/24 19:03:13 bf-cvs Exp $
 //
 // Definition of eZTechRenderer class
 //
@@ -25,6 +25,16 @@
   Add better syntax highlighting.
 
 */
+
+
+$tmpPage = "<image 1 center big> <image 43 large big>";
+$tmpPage = preg_replace( "/(<image\s+?([^ ]+)\s+?([^ ]+)\s+?([^( |>)]+)([^>]*?)>)/", "<image id=\"\\2\" align=\"\\3\" size=\"\\4\" ></image>", $tmpPage );
+
+print( htmlspecialchars( $tmpPage ) );
+
+            
+
+
 include_once( "classes/eztexttool.php" );
 include_once( "classes/ezlog.php" );
 
@@ -150,42 +160,67 @@ class eZTechRenderer
 
                     // image
                     if ( $paragraph->name == "image" )
-                    { 
-                        $imageID = $paragraph->children[0]->content;
-                        setType( $imageID, "integer" );
-                        
-                        $image = $articleImages[$imageID-1];
-
-                        // add image if a valid image was found, else report an error in the log.
-                        if ( get_class( $image ) == "ezimage" )
+                    {
+                        foreach ( $paragraph->attributes as $imageItem )
                         {
-                            $variation =& $image->requestImageVariation( 250, 250 );
+                            print( $imageItem->name );
+                            switch ( $imageItem->name )
+                            {
 
-                            $imageURL = "/" . $variation->imagePath();
-                            $imageWidth = $variation->width();
-                            $imageHeight = $variation->height();
-                            $imageCaption = $image->caption();
-                                 
-                            $imageTags = "<table width=\"$imageWidth\" align=\"right\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\">
-                                            <tr>
-                                            <td>
-                                                        <img src=\"$imageURL\" border=\"0\" width=\"$imageWidth\" height=\"$imageHeight\" />
-                                                        </td>
-                                                </tr>
-                                                <tr>
-                                                         <td class=\"pictext\">
-                                                         $imageCaption
-                                                         </td>
-                                                </tr>
-                                             </table>";
+                                case "id" :
+                                {
+                                    print( $imageItem->children[0]->content . "<br>" );
+                                }
+                                break;
 
-                            $pageContent .=  $imageTags;
+                                case "align" :
+                                {
+                                    print( $imageItem->children[0]->content . "<br>" );
+                                }
+                                break;
+
+                                case "size" :
+                                {
+                                    print( $imageItem->children[0]->content . "<br>" );
+                                }
+                                break;
+                                
+                            }
+                            
+//                              $imageID = $paragraph->children[0]->content;
+//                              setType( $imageID, "integer" );
+                            
+//                              $image = $articleImages[$imageID-1];
+                            
+//                              // add image if a valid image was found, else report an error in the log.
+//                              if ( get_class( $image ) == "ezimage" )
+//                              {
+//                                  $variation =& $image->requestImageVariation( 250, 250 );
+                                
+//                                  $imageURL = "/" . $variation->imagePath();
+//                                  $imageWidth = $variation->width();
+//                                  $imageHeight = $variation->height();
+//                                  $imageCaption = $image->caption();
+                                
+//                                  $imageTags = "<table width=\"$imageWidth\" align=\"right\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\">
+//                                              <tr>
+//                                              <td>
+//                                                          <img src=\"$imageURL\" border=\"0\" width=\"$imageWidth\" height=\"$imageHeight\" />
+//                                                          </td>
+//                                                  </tr>
+//                                                  <tr>
+//                                                           <td class=\"pictext\">
+//                                                           $imageCaption
+//                                                           </td>
+//                                                  </tr>
+//                                               </table>";
+//                                  $pageContent .=  $imageTags;
+//                          }
+//                          else
+//                          {
+//                              eZLog::writeError( "Image nr: $imageID not found in article: $articleID from IP: $REMOTE_ADDR" );        
+//                          }
                         }
-                        else
-                        {
-                            eZLog::writeError( "Image nr: $imageID not found in article: $articleID from IP: $REMOTE_ADDR" );        
-                        }
-
                     }
                 }
                 $pageArray[] = $pageContent;

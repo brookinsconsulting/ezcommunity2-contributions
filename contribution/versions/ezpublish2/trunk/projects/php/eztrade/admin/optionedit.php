@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: optionedit.php,v 1.4 2000/09/21 12:42:24 bf-cvs Exp $
+// $Id: optionedit.php,v 1.5 2000/10/24 19:03:13 bf-cvs Exp $
 //
 // Definition of eZCompany class
 //
@@ -21,12 +21,11 @@ include_once( "classes/ezcurrency.php" );
 $ini = new INIFIle( "site.ini" );
 
 $Language = $ini->read_var( "eZTradeMain", "Language" );
-$DOC_ROOT = $ini->read_var( "eZTradeMain", "DocumentRoot" );
 
-include_once( $DOC_ROOT . "/classes/ezproductcategory.php" );
-include_once( $DOC_ROOT . "/classes/ezproduct.php" );
-include_once( $DOC_ROOT . "/classes/ezoption.php" );
-include_once( $DOC_ROOT . "/classes/ezoptionvalue.php" );
+include_once( "eztrade/classes/ezproductcategory.php" );
+include_once( "eztrade/classes/ezproduct.php" );
+include_once( "eztrade/classes/ezoption.php" );
+include_once( "eztrade/classes/ezoptionvalue.php" );
 
 $product = new eZProduct( $ProductID );
 
@@ -121,8 +120,8 @@ if ( $Action == "Delete" )
     exit();    
 }
 
-$t = new eZTemplate( $DOC_ROOT . "/admin/" . $ini->read_var( "eZTradeMain", "TemplateDir" ) . "/optionedit/",
-                     $DOC_ROOT . "/admin/intl/", $Language, "optionedit.php" );
+$t = new eZTemplate( "eztrade/admin/" . $ini->read_var( "eZTradeMain", "AdminTemplateDir" ) . "/optionedit/",
+                     "eztrade/admin/intl/", $Language, "optionedit.php" );
 
 $t->setAllStrings();
 

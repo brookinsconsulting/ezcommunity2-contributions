@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezsession.php,v 1.4 2000/10/13 10:14:41 bf-cvs Exp $
+// $Id: ezsession.php,v 1.5 2000/10/24 19:03:13 bf-cvs Exp $
 //
 // Definition of eZCompany class
 //
@@ -82,7 +82,7 @@ class eZSession
         $this->Hash = md5( microTime() );
 
         setcookie ( "eZSession", $this->Hash, 0, "/",  "", 0 )
-            or warn( "Warning: could not set cookie." );        
+            or die( "Error: could not set cookie." );        
         
         if ( !isset( $this->ID ) )
         {

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: articleedit.php,v 1.12 2000/10/24 12:59:07 bf-cvs Exp $
+// $Id: articleedit.php,v 1.13 2000/10/24 19:03:13 bf-cvs Exp $
 //
 // 
 //
@@ -221,10 +221,11 @@ $article = new eZArticle( $ArticleID );
 
 if ( $Action == "Edit" )
 {
-
- 
     $t->set_var( "article_id", $ArticleID );
-    $t->set_var( "article_name", $article->name() );
+
+
+    if ( !isset( $Name ) )
+         $t->set_var( "article_name", $article->name() );
 
     $generator = new eZArticleGenerator();
     
@@ -233,7 +234,10 @@ if ( $Action == "Edit" )
     $i=0;
     foreach ( $contentsArray as $content )
     {
-        $t->set_var( "article_contents_$i", $content );
+        if ( !isset( $Contents[$i] ) )
+        {
+            $t->set_var( "article_contents_$i", $content );
+        }
         $i++;
     }
     
