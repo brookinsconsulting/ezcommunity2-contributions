@@ -17,9 +17,20 @@
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
 	<td>
-
+<table  width="100%" cellspacing="0" cellpadding="0" border="0">
+<tr>
+<td>
 <input type="checkbox" name="ExcludeFromSearch" {exclude_checked} />
 <span class="boxtext">{intl-exclude_from_search}</span><br />
+</td>
+</tr>
+<tr>
+<td>
+<input type="checkbox" name="VisibleInLists" {visibleinlists_checked} />
+<span class="boxtext">{intl-visible_in_lists}</span><br />
+</td>
+</tr>
+</table>
 	</td>
 	<td>
 <p class="boxtext">{intl-list_limit}:</p>

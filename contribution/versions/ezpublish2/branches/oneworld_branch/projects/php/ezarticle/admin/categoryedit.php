@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: categoryedit.php,v 1.29.2.3.2.2 2002/06/03 15:43:33 pkej Exp $
+// $Id: categoryedit.php,v 1.29.2.3.2.3 2002/06/03 15:51:45 pkej Exp $
 //
 // Created on: <18-Sep-2000 14:46:19 bf>
 //
@@ -127,6 +127,15 @@ if ( $Action == "insert" && !$error )
     else
     {
         $category->setExcludeFromSearch( false );
+    }
+
+    if ( $VisibleInLists == "on" )
+    {
+        $category->setVisibleInLists( true );
+    }
+    else
+    {
+        $category->setVisibleInLists( false );
     }
 
     $file = new eZImageFile();
@@ -337,6 +346,15 @@ if ( $Action == "update" && !$error )
         $category->setExcludeFromSearch( false );
     }
 
+    if ( $VisibleInLists == "on" )
+    {
+        $category->setVisibleInLists( true );
+    }
+    else
+    {
+        $category->setVisibleInLists( false );
+    }
+
 
 //    $ownerGroup = new eZUserGroup( $OwnerID );
 //    if ( isset( $Recursive ) )
@@ -506,6 +524,7 @@ $t->set_block( "category_edit_tpl", "section_item_tpl", "section_item" );
 $t->set_block( "category_edit_tpl", "error_permission_tpl", "error_permission" );
 
 $t->set_block( "category_edit_tpl", "image_item_tpl", "image_item" );
+$t->set_var( "visibleinlists_checked", "checked" );
 
 $category = new eZArticleCategory();
 
@@ -599,6 +618,11 @@ if ( $Action == "edit" )
     if ( $category->excludeFromSearch() == true )
     {
         $t->set_var( "exclude_checked", "checked" );
+    }
+
+    if ( $category->visibleInLists() == true )
+    {
+        $t->set_var( "visibleinlists_checked", "checked" );
     }
 
     $writeGroupsID = eZObjectPermission::getGroups( $CategoryID, "article_category", 'w' , false );
