@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezbugmodule.php,v 1.9 2001/02/12 15:27:19 fh Exp $
+// $Id: ezbugmodule.php,v 1.10 2001/02/14 12:49:24 fh Exp $
 //
 // Definition of eZBugModule class
 //
@@ -49,6 +49,7 @@
 
 include_once( "classes/ezdb.php" );
 include_once( "ezbug/classes/ezbug.php" );
+include_once( "ezuser/classes/ezusergroup.php" );
 
 class eZBugModule
 {
@@ -91,7 +92,8 @@ class eZBugModule
             $this->Database->query( "INSERT INTO eZBug_Module SET
 		                         Name='$this->Name',
                                  Description='$this->Description',
-                                 ParentID='$this->ParentID'" );
+                                 ParentID='$this->ParentID',
+                                 OwnerGroupID='$this->OwnerGroupID'" );
             $this->ID = mysql_insert_id();
         }
         else
@@ -99,7 +101,8 @@ class eZBugModule
             $this->Database->query( "UPDATE eZBug_Module SET
 		                         Name='$this->Name',
                                  Description='$this->Description',
-                                 ParentID='$this->ParentID' WHERE ID='$this->ID'" );
+                                 ParentID='$this->ParentID'
+                                 OwnerGroupID='$this->OwnerGroupID' WHERE ID='$this->ID'" );
         }
         
         return true;
@@ -163,6 +166,7 @@ class eZBugModule
                 $this->Name = $module_array[0][ "Name" ];
                 $this->Description = $module_array[0][ "Description" ];
                 $this->ParentID = $module_array[0][ "ParentID" ];
+                $this->OwnerGroupID = $module_array[0][ "OwnerGroupID" ];
             }
                  
             $this->State_ = "Coherent";
@@ -312,6 +316,18 @@ class eZBugModule
        }
     }
 
+    /*!
+      Returns the owner group of this module as an eZOwnerGroup object.
+      If the object doesn't have an owner it returns 0.
+     */
+    function ownerGroup()
+    {
+        if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+        
+        $group = new eZUserGroup( $this->OwnerGroupID );
+        return $group;
+    }
 
     /*!
       Sets the name of the module.
@@ -337,6 +353,7 @@ class eZBugModule
 
     /*!
       Sets the parent module.
+      Parameter must be an eZBugModule object.
     */
     function setParent( $value )
     {
@@ -349,6 +366,21 @@ class eZBugModule
        }
     }
 
+    /*!
+      Sets the owner group of this module.
+      Parameter $newOwner must be an eZUserGroup object.
+     */
+    function setOwnerGroup( $newOwner )
+    {
+        if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+        
+        if( get_class( $newOwner ) == "ezusergroup" )
+        {
+            $this->OwnerGroupID = $newOwner->id();
+        }
+    }
+    
     /*!
       Adds a bug to the module.
     */
@@ -511,7 +543,8 @@ class eZBugModule
     var $Name;
     var $ParentID;
     var $Description;
-
+    var $OwnerGroupID;
+    
     ///  Variable for keeping the database connection.
     var $Database;
 
