@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezimapmail.php,v 1.4 2002/01/20 17:14:06 fh Exp $
+// $Id: ezimapmail.php,v 1.5 2002/02/07 11:06:03 fh Exp $
 //
 // Definition of eZIMAPMail class
 //
@@ -92,6 +92,9 @@ class eZIMAPMail
     function decodeMailID( $codedString )
     {
         $elements = explode( "-", $codedString, 3 ); // max 1 split rest is foldername.
+        $elements["AccountID"] = $elements[0];
+        $elements["MailID"] = $elements[1];
+        $elements["FolderName"] = $elements[2];
         return $elements;
     }
 
@@ -110,7 +113,7 @@ class eZIMAPMail
     function deleteMail( $account, $folder, $id )
     {
         $mbox = imapConnect( $account, $folder );
-        $server = $account->server();
+//        $server = $account->server();
         $ok = imap_delete( $mbox, $id );
 
         if( !$ok )

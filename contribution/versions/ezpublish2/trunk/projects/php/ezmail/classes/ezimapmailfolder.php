@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezimapmailfolder.php,v 1.5 2002/01/20 17:14:06 fh Exp $
+// $Id: ezimapmailfolder.php,v 1.6 2002/02/07 11:06:03 fh Exp $
 //
 // eZIMAPMailFolder class
 //
@@ -76,6 +76,8 @@ class eZIMAPMailFolder
     function decodeFolderID( $codedString )
     {
         $elements = explode( "-", $codedString, 2 ); // max 1 split rest is foldername.
+        $elements["AccountID"] = $elements[0];
+        $elements["FolderName"] = $elements[1];
         return $elements;
     }
 
@@ -152,6 +154,61 @@ class eZIMAPMailFolder
         imapDisconnect( $mbox );
 
         return $ok;
+    }
+
+    /*!
+      \static
+      Move a mail from one mailbox folder to another mailbox folder on the same account.
+     */
+    function moveMail( $mailID, $newFolderID )
+    {
+        // there are lots of different cases for this one..
+        if( is_int( $mailID ) )// local
+        {
+            // 1. local to local
+            if( is_int( $newFolderID ) )
+            {
+                // done in maillist.php right now..
+            }
+            else        // 2. local to imap
+            {
+                // not supported yet.
+            }
+        }
+        else // remote
+        {
+            // 3. imap to local
+            if( is_int( $newFolderID ) )
+            {
+                // not supported yet..
+            }
+            else
+            {
+                $mailIDData = eZImapMail::decodeMailID( $mailID );
+                $folderIDData = eZImapMailFolder::decodeFolderID( $newFolderID );
+                // 4. imap to imap same server
+                if( $mailIDData["AccountID"] == $folderIDData["AccountID"] )
+                {
+                    if( $mailIDData["FolderName"] != $folderIDData["FolderName"] ) // not same mailbox
+                    {
+                        $mbox = imapConnect( $mailIDData["AccountID"], $mailIDData["FolderName"] );
+
+                        $ok = imap_mail_move( $mbox, $mailIDData["MailID"], $folderIDData["FolderName"] );
+                        if( !$ok )
+                            echo "imap_deletemail failed: " . imap_last_error() . "\n";
+
+                        imap_expunge( $mbox ); // really delete the mail.
+                        imapDisconnect( $mbox );
+                    }
+
+                }
+                else  // 5. imap to imap not same server
+                {
+                    // not supported yet
+                }
+            }
+        }
+            
     }
     
     /*!
