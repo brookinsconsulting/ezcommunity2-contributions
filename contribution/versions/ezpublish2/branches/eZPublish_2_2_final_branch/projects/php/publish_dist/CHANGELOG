@@ -3,6 +3,7 @@ eZ publish changelog:
 
 Changes from 2.2.7 to 2.2.8
 ---------------------------
+* Fixed rendering of nexted tables.
 * Fixed problem with search in forum admin interface.
 * Added menufilelist for listing files from a folder in the filemanager in the frame.php
 * Fixed bug when adding/editing ads in "Section edit" if no productcategories 
