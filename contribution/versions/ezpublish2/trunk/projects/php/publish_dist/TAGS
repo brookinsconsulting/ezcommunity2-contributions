@@ -5,6 +5,8 @@
 # cvs tag "tag_name" tags your current version
 # cvs tag -F "tag_name" moves allready existant tags to the newest version
 
+
+eZPublish_2_1_Beta_2		  Beta 2 of upcoming 2.1 version
 eZPublish_2_1_Beta_1		  Beta 1 of upcoming 2.1 version
 eZPublish_2_0_0_final-shop	  Branch: Final 2.0 release, customizations for ez shop.
 eZPublish_2_0_0_final		  Final 2.0 release
