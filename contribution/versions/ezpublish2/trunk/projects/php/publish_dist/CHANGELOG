@@ -1,8 +1,9 @@
 eZ publish changelog:
 ---------------------
  
-Changes from 2.1.0B2 to 2.1.0B2
+Changes from 2.1.0B2 to 2.1.0B3
 -------------------------------
+* Added possibility to set a moderator group in eZ forum
 * Added image browse to eZ article.
 * Optimized eZ forum for speed.
 * Added Icons for new vs old messages in eZ forum.
