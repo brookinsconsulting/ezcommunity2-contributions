@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: ezxml.php,v 1.6 2001/11/19 09:54:51 bf Exp $
+// $Id: ezxml.php,v 1.7 2001/11/19 15:28:10 bf Exp $
 //
 // Definition of eZXML class
 //
@@ -109,8 +109,14 @@ class eZXML
                     }
                 }
                 else
-                {
-                    $tagNameEnd = strpos( $tagName, " " );
+                {                    
+                    $firstSpaceEnd = strpos( $tagName, " " );
+                    $firstNewlineEnd = strpos( $tagName, "\n" );
+
+                    if ( $firstSpaceEnd > 0 and ( $firstSpaceEnd < $firstNewlineEnd ) )
+                        $tagNameEnd = $firstSpaceEnd;
+                    else
+                        $tagNameEnd = $firstNewlineEnd;
 
                     if ( $tagNameEnd > 0 )
                     {
@@ -143,7 +149,7 @@ class eZXML
                         
 //                        $attributeArray = explode( " ", $attributePart );
 
-                        preg_match_all( "/([a-zA-Z]+=\".*?\")/i",  $attributePart, $attributeArray );
+                        preg_match_all( "/([a-zA-Z:]+=\".*?\")/i",  $attributePart, $attributeArray );
 
                         foreach ( $attributeArray[0] as $attributePart )
                         {
