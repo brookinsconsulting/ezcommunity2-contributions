@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezarticle.php,v 1.183.2.5 2002/01/07 11:56:03 bf Exp $
+// $Id: ezarticle.php,v 1.183.2.6 2002/01/07 11:59:35 bf Exp $
 //
 // Definition of eZArticle class
 //
@@ -855,7 +855,6 @@ class eZArticle
         }        
         eZDB::finish( $ret, $db );
 
-        die( "DEBUG STOP");
     }
     
     /*!
