@@ -76,6 +76,9 @@ $t->set_block( "view_tpl", "cancelled_tpl", "cancelled" );
 
 $t->set_block( "view_tpl", "valid_editor_tpl", "valid_editor" );
 
+$t->set_block( "view_tpl", "attached_file_list_tpl", "attached_file_list" );
+$t->set_block( "attached_file_list_tpl", "attached_file_tpl", "attached_file" );
+
 $t->set_var( "sitedesign", $SiteDesign );
 
 $user = eZUser::currentUser();
@@ -334,7 +337,45 @@ else
     }
 
 
-    $t->set_var( "error", "" );
+    // files
+    $files = $event->files();
+
+    if ( count( $files ) > 0 )
+      {
+	$i=0;
+	foreach ( $files as $file )
+	  {
+	    if ( ( $i % 2 ) == 0 )
+	      {
+		$t->set_var( "td_class", "bglight" );
+	      }
+	    else
+	      {
+		$t->set_var( "td_class", "bgdark" );
+	      }
+
+	    $t->set_var( "file_id", $file->id() );
+	    $t->set_var( "original_file_name", $file->fileName() );
+	    $t->set_var( "file_name", $file->name() );
+	    $t->set_var( "file_url", $file->name() );
+	    $t->set_var( "file_description", $file->description() );
+
+	    $size = $file->siFileSize();
+	    $t->set_var( "file_size", $size["size-string"] );
+	    $t->set_var( "file_unit", $size["unit"] );
+
+	    $i++;
+	    $t->parse( "attached_file", "attached_file_tpl", true );
+	  }
+
+	$t->parse( "attached_file_list", "attached_file_list_tpl" );
+      }
+    else
+      $t->set_var( "attached_file_list", "" );
+
+
+
+        $t->set_var( "error", "" );
 	$t->parse( "group_event_print", "group_event_print_tpl" );
 
 	//print or suppress the edit event button
@@ -346,7 +387,7 @@ else
 	// suppress the event view template if error is encountered
 	if ( $error == true )
 		$t->set_var( "view", "" );
-    else
+        else
 		$t->parse( "view", "view_tpl" );
 }
 
