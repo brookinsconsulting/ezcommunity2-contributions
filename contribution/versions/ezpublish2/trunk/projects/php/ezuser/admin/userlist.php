@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: userlist.php,v 1.12 2000/11/10 10:44:41 bf-cvs Exp $
+// $Id: userlist.php,v 1.13 2000/11/12 21:22:35 bf-cvs Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <20-Sep-2000 13:32:11 ce>
@@ -77,10 +77,10 @@ foreach( $userList as $userItem )
     $t->set_var( "email", $userItem->email() );
     $t->set_var( "user_id", $userItem->id() );
 
-    if ( $userItem->infoSubscription( ) == true )
-    {
-        print( $userItem->email() . "<br>" );
-    }
+//      if ( $userItem->infoSubscription( ) == true )
+//      {
+//          print( $userItem->email() . "<br>" );
+//      }
 
     $t->parse( "user_item", "user_item_tpl", true );
     $i++;
