@@ -2,26 +2,24 @@
 
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
-	<td>
+	<th>
 	<h3>{intl-name}</h3>
-	</td>
+	</th>
 
-	<td>
+	<th>
 	<h3>{intl-login}</a></h3>
-	</td>
+	</th>
 
 
-	<td>
+	<th>
 	<h3>{intl-edit}</a></h3>
-	</td>
+	</th>
 
-	<td>
+	<th>
 	<h3>{intl-delete}</a></h3>
-	</td>
+	</th>
 
 
 </tr>
 {user_list}
 </table>
-
-<a href="/user/useredit/new/">{intl-adduser}</a>

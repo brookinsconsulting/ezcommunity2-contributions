@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezuser.php,v 1.3 2000/10/03 10:11:07 ce-cvs Exp $
+// $Id: ezuser.php,v 1.4 2000/10/08 13:07:11 bf-cvs Exp $
 //
 // Definition of eZCompany class
 //
@@ -203,7 +203,6 @@ class eZUser
         $this->Database->array_query( $user_array, "SELECT * FROM eZUser_User
                                                     WHERE Login='$login'
                                                     AND Password=PASSWORD('$password')" );
-        print( count( $user_array ) );
         if ( count( $user_array ) == 1 )
         {
             $ret = new eZUser( $user_array[0]["ID"] );
@@ -397,6 +396,47 @@ class eZUser
 
         return $ret;
     }
+
+    /*!
+      Returns the user groups the current user is a member of.
+
+      The result is returned as an array of eZUserGroup objects.
+    */
+    function groups()
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+       $ret = array();
+       $this->dbInit();
+        
+       $this->Database->array_query( $user_group_array, "SELECT * FROM eZUser_UserGroupLink
+                                                    WHERE UserID='$this->ID'" );
+
+       foreach ( $user_group_array as $group )
+       {
+           $ret[] = new eZUserGroup( $group["GroupID"] );
+       }
+
+       return $ret;
+    }
+
+    /*!
+      Removes the user from every user group.
+    */
+    function removeGroups()
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+       $this->dbInit();
+       
+       $this->Database->query( "DELETE FROM eZUser_UserGroupLink
+                                WHERE UserID='$this->ID'" );
+        
+        
+    }
+      
     
     /*!
       \private

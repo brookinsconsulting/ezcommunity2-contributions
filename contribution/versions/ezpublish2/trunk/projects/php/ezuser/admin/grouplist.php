@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: grouplist.php,v 1.2 2000/10/06 09:59:15 ce-cvs Exp $
+// $Id: grouplist.php,v 1.3 2000/10/08 13:07:11 bf-cvs Exp $
 //
 // Definition of eZUser class
 //
@@ -39,12 +39,20 @@ $group = new eZUserGroup();
 
 $groupList = $group->getAll();
 
+$i=0;
 foreach( $groupList as $groupItem )
 {
+    if ( ( $i %2 ) == 0 )
+        $t->set_var( "td_class", "bglight" );
+    else
+        $t->set_var( "td_class", "bgdark" );
+    
+
     $t->set_var( "group_id", $groupItem->id() );
     $t->set_var( "group_name", $groupItem->name() );
 
     $t->parse( "group_list", "group_item", true );
+    $i++;
 }
 
 $t->pparse( "output", "group_list_page" );

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: login.php,v 1.4 2000/10/03 15:17:28 ce-cvs Exp $
+// $Id: login.php,v 1.5 2000/10/08 13:07:11 bf-cvs Exp $
 //
 // Definition of eZUser class
 //
@@ -34,9 +34,11 @@ $t = new eZTemplate( $DOC_ROOT . "/admin/" .  $ini->read_var( "eZUserMain", "Tem
 $t->setAllStrings();
 
 $t->set_file( array(
-    "login" => "login.tpl"
+    "login_tpl" => "login.tpl"
     ) );
 
+$t->set_block( "login_tpl", "error_message_tpl", "error_message" );
+    
 $session = new eZSession();
 
 // if no session exist create one.
@@ -49,18 +51,24 @@ if ( $Action == "login" )
     $user = new eZUser();
     $user = $user->validateUser( $Username, $Password );
 
-    if ( !eZPermission::checkPermission( $user, "eZUser", "AdminLogin" ) )
-    {
-        print( "Har ikke adminlogin!" );
-    }
-    if ( !$user )
-    {
-        print( "Bruker finnes ikke!" );
-    }
-    if ( $user )
+//      if ( !eZPermission::checkPermission( $user, "eZUser", "AdminLogin" ) )
+//      {
+//  //          print( "Har ikke adminlogin!" );
+//      }
+    
+//      if ( !$user )
+//      {
+//  //          print( "Bruker finnes ikke!" );
+//      }
+    
+    if ( ( $user )  && eZPermission::checkPermission( $user, "eZUser", "AdminLogin" ))
     {
         eZUser::loginUser( $user );
         Header( "Location: /" );
+    }
+    else
+    {
+        $error = true;
     }
 }
 
@@ -71,7 +79,17 @@ if ( $Action == "logout" )
     exit();
 }
 
+if ( $error )
+{
+    $t->parse( "error_message", "error_message_tpl" );
+}
+else
+{
+    $t->set_var( "error_message", "" );
+}
+
+
 $t->set_var( "action_value", "login" );
-$t->pparse( "output", "login" );
+$t->pparse( "output", "login_tpl" );
 
 ?>

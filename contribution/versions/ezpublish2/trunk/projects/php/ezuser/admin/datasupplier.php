@@ -1,5 +1,4 @@
 <?
-$url_array = explode( "/", $REQUEST_URI );
 switch ( $url_array[2] )
 {
     case "login" :
@@ -105,6 +104,12 @@ switch ( $url_array[2] )
             $GroupID = $url_array[4];
             include( "ezuser/admin/groupedit.php" );
         }
+    }
+    break;
+
+    default :
+    {
+        include( "ezuser/admin/login.php" );
     }
     break;
 

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: userlist.php,v 1.3 2000/10/06 09:59:15 ce-cvs Exp $
+// $Id: userlist.php,v 1.4 2000/10/08 13:07:11 bf-cvs Exp $
 //
 // Definition of eZUser class
 //
@@ -39,14 +39,21 @@ $user = new eZUser();
 
 $userList = $user->getAll();
 
+$i=0;
 foreach( $userList as $userItem )
 {
+    if ( ( $i %2 ) == 0 )
+        $t->set_var( "td_class", "bglight" );
+    else
+        $t->set_var( "td_class", "bgdark" );
+    
     $t->set_var( "first_name", $userItem->firstName() );
     $t->set_var( "last_name", $userItem->lastName() );
     $t->set_var( "login_name", $userItem->login() );
     $t->set_var( "user_id", $userItem->id() );
 
     $t->parse( "user_list", "user_item", true );
+    $i++;
 }
 
 $t->pparse( "output", "user_list_page" );

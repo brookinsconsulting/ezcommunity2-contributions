@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: useredit.php,v 1.3 2000/10/06 09:59:15 ce-cvs Exp $
+// $Id: useredit.php,v 1.4 2000/10/08 13:07:11 bf-cvs Exp $
 //
 // Definition of eZUser class
 //
@@ -30,8 +30,7 @@ if ( $Action == "insert" )
 {
     if ( eZPermission::checkPermission( $user, "eZUser", "UserAdd" ) )
     {
-
-        if ( $Password == $VerifyPassword )
+        if ( ( $Password == $VerifyPassword ) && ( strlen( $VerifyPassword ) > 2 ) )
         {
             $user = new eZUser();
 
@@ -43,35 +42,25 @@ if ( $Action == "insert" )
                 $user->setFirstName( $FirstName );
                 $user->setLastName( $LastName );
 
-                // Add user to groups
-                if ( isset( $GroupArray ) )
-                {
-                    $group = new eZUserGroup();
-                    foreach ( $GroupArray as $GroupID )
-                        {
-                            print $user->id();
-                            $group->get( $GroupID );
-                            $group->adduser( $user->id() );
-                        }
-                }
                 $user->store();
+                
                 // Add user to groups
                 if ( isset( $GroupArray ) )
                 {
                     $group = new eZUserGroup();
                     $user->get( $user->id() );
                     foreach ( $GroupArray as $GroupID )
-                        {
-                            $group->get( $GroupID );
-                            $group->adduser( $user );
-                        }
+                    {
+                        $group->get( $GroupID );
+                        $group->adduser( $user );
+                    }
                 }
                 Header( "Location: /user/userlist/" );
                 exit();
             }
             print( "Bruker finnes i databasen" );
         }
-        print( "Passordene machet ikke" );
+        print( "Passordene machet ikke, eller var mindre enn 3 bokstaver" );
     }
     else
     {
@@ -85,25 +74,39 @@ if ( $Action == "update" )
 {
     if ( eZPermission::checkPermission( $user, "eZUser", "UserModify" ) )
     {
+        $user = new eZUser();
+        $user->get( $UserID );
 
-        if ( $Password == $VerifyPassword )
+        $user->setLogin( $Login );
+
+        if ( ( $Password == $VerifyPassword ) && ( strlen( $VerifyPassword ) > 2 ) )
         {
-            $user = new eZUser();
-            $user->get( $UserID );
-
-            $user->setLogin( $Login );
             $user->setPassword( $Password );
-            $user->setEmail( $Email );
-            $user->setFirstName( $FirstName );
-            $user->setLastName( $LastName );
-
-            $user->store();
-
-            Header( "Location: /user/userlist/" );
-            exit();
         }
-        print( "Passordene machet ikke" );
-        die();
+            
+        $user->setEmail( $Email );
+        $user->setFirstName( $FirstName );
+        $user->setLastName( $LastName );
+
+        $user->store();
+
+        // remove user from groups
+        $user->removeGroups();
+            
+        // Add user to groups
+        if ( isset( $GroupArray ) )
+        {
+            $group = new eZUserGroup();
+            $user->get( $user->id() );
+            foreach ( $GroupArray as $GroupID )
+            {
+                $group->get( $GroupID );
+                $group->adduser( $user );
+            }
+        }            
+
+        Header( "Location: /user/userlist/" );
+        exit();
     }
     else
     {
@@ -150,14 +153,8 @@ $group = new eZUserGroup();
 
 $groupList = $group->getAll();
 
-foreach( $groupList as $groupItem )
-{
-    $t->set_var( "group_name", $groupItem->name() );
-    $t->set_var( "group_id", $groupItem->id() );
 
-    $t->parse( "group_item", "group_list", true );
-}
-
+$user = 0;
 if ( $Action == "edit" )
 {
     $user = new eZUser();
@@ -172,6 +169,37 @@ if ( $Action == "edit" )
     $t->set_var( "head_line", $headline->read_var( "strings", "head_line_edit" ) );
 
     $ActionValue = "update";
+}
+
+
+foreach( $groupList as $groupItem )
+{
+    $t->set_var( "group_name", $groupItem->name() );
+    $t->set_var( "group_id", $groupItem->id() );
+
+    // add validation code here. $user->isValid();
+    if ( $user )
+    {
+        $groupArray = $user->groups();
+        $found = false;
+        foreach ( $groupArray as $group )
+        {
+            if ( $group->id() == $groupItem->id() )
+            {
+                $found = true;
+            }
+        }
+        if ( $found  == true )
+            $t->set_var( "selected", "selected" );
+        else
+            $t->set_var( "selected", "" );
+    }
+    else
+    {
+        $t->set_var( "selected", "" );
+    }
+
+    $t->parse( "group_item", "group_list", true );
 }
 
 $t->set_var( "first_name_value", $FirstName );

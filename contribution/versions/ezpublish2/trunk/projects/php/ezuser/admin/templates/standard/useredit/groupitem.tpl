@@ -1,1 +1,1 @@
-<option value="{group_id}">{group_name}</option>
+<option value="{group_id}" {selected}>{group_name}</option>

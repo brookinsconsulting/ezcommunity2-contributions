@@ -2,7 +2,7 @@
 
 ob_start();
 
-include_once( "../classes/ezdb.php" );
+include_once( "classes/ezdb.php" );
 include_once( "classes/INIFile.php" );
 include_once( "classes/template.inc" );
 include_once( "../common/ezphputils.php" );
@@ -90,18 +90,17 @@ if ( $user )
 else
 {
     include( "separator.php" );
-    include( "ezuser/admin/login.php" );
-
+    
     // parse the URI
     $page = "";
-    
+
     // Remove url parameters
     ereg( "([^?]+)", $REQUEST_URI, $regs) ;
 
     $REQUEST_URI = $regs[1];
-    
+
     $url_array = explode( "/", $REQUEST_URI );
-    
+
     // send the URI to the right decoder
     $page = "ezuser/admin/datasupplier.php";
 
@@ -109,6 +108,7 @@ else
     {
         include( $page );
     }
+
 }
 
 // html footer

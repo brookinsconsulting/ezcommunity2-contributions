@@ -1,19 +1,54 @@
 <?
+// 
+// $Id: ezaddress.php,v 1.14 2000/10/08 13:07:10 bf-cvs Exp $
+//
+// Definition of eZAddress class
+//
+// Bård Farstad <bf@ez.no>
+// Created on: <07-Oct-2000 12:34:13 bf>
+//
+// Copyright (C) 1999-2000 eZ Systems.  All rights reserved.
+//
+// IMPORTANT NOTE: You may NOT copy this file or any part of it into
+// your own programs or libraries.
+//
 
 //!! eZContact
 //! eZAddress handles addresses.
 /*!
-
+  
 */
+
+include_once( "classes/ezdb.php" );
 
 class eZAddress
 {
     /*!
-
+      Constructs a new eZAddress object.
     */
-    function eZAddress( )
+    function eZAddress( $id="", $fetch=true )
     {
+        $this->IsConnected = false;
+
+        if ( $id != "" )
+        {
+
+            $this->ID = $id;
+            if ( $fetch == true )
+            {
                 
+                $this->get( $this->ID );
+            }
+            else
+            {
+                $this->State_ = "Dirty";
+                
+            }
+        }
+        else
+        {
+            $this->State_ = "New";
+        }
     }
 
     /*!
@@ -22,17 +57,49 @@ class eZAddress
     function store()
     {
         $this->dbInit();
-        query( "INSERT INTO eZContact_Address set Street1='$this->Street1', Street2='$this->Street2', Zip='$this->Zip', AddressType='$this->AddressType'" );
-        return mysql_insert_id();
+
+        $ret = false;
+        
+        if ( !isset( $this->ID ) )
+        {
+            $this->Database->query( "INSERT INTO eZContact_Address
+                    SET Street1='$this->Street1',
+                    Street2='$this->Street2',
+                    Zip='$this->Zip',
+                    AddressType='$this->AddressType'" );            
+
+            $this->ID = mysql_insert_id();
+
+            $this->State_ = "Coherent";
+            $ret = true;
+        }
+        else
+        {
+            $this->Database->query( "UPDATE eZContact_Address
+                    SET Street1='$this->Street1',
+                    Street2='$this->Street2',
+                    Zip='$this->Zip',
+                    AddressType='$this->AddressType'
+                    WHERE ID='$this->ID'" );            
+
+            $this->State_ = "Coherent";
+            $ret = true;            
+        }        
+
+        
+        return $ret;
     }
 
     /*!
+      NOTE: this function is obsolete.
+      
       Oppdaterer informasjonen som ligger i databasen.
     */  
     function update()
     {
-        $this->dbInit();
-        query( "UPDATE eZContact_Address set Street1='$this->Street1', Street2='$this->Street2', Zip='$this->Zip', AddressType='$this->AddressType' WHERE ID='$this->ID'" );
+        print( "Warning: eZAddress::update, this function is no longer valid. Please reimplement to use the eZAddress::store() function." );
+//          $this->dbInit();
+//          query( "UPDATE eZContact_Address set Street1='$this->Street1', Street2='$this->Street2', Zip='$this->Zip', AddressType='$this->AddressType' WHERE ID='$this->ID'" );
     }
   
     /*!
@@ -50,11 +117,13 @@ class eZAddress
             }
             else if ( count( $address_array ) == 1 )
             {
-                $this->ID = $address_array[ 0 ][ "ID" ];
-                $this->Street1 = $address_array[ 0 ][ "Street1" ];
-                $this->Street2 = $address_array[ 0 ][ "Street2" ];
-                $this->Zip = $address_array[ 0 ][ "Zip" ];
-                $this->AddressType = $address_array[ 0 ][ "AddressType" ];
+                $this->ID =& $address_array[ 0 ][ "ID" ];
+                $this->Street1 =& $address_array[ 0 ][ "Street1" ];
+                $this->Street2 =& $address_array[ 0 ][ "Street2" ];
+                $this->Zip =& $address_array[ 0 ][ "Zip" ];
+                $this->Place =& $address_array[ 0 ][ "Place" ];
+                
+                $this->AddressType =& $address_array[ 0 ][ "AddressType" ];
             }
         }
     }
@@ -67,7 +136,7 @@ class eZAddress
         $this->dbInit();    
         $address_array = 0;
     
-        array_query( $address_array, "SELECT * FROM eZContact_Address" );
+        $this->Database->array_query( $address_array, "SELECT * FROM eZContact_Address" );
     
         return $address_array;
     }
@@ -79,7 +148,7 @@ class eZAddress
     {
         $this->dbInit();
         
-        query( "DELETE FROM eZContact_Address WHERE ID='$this->ID'" );
+        $this->Database->query( "DELETE FROM eZContact_Address WHERE ID='$this->ID'" );
     }    
     
 
@@ -88,6 +157,9 @@ class eZAddress
     */
     function setStreet1( $value )
     {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+        
         $this->Street1 = $value;
     }
 
@@ -96,6 +168,9 @@ class eZAddress
     */
     function setStreet2( $value )
     {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+        
         $this->Street2 = $value;
     }
 
@@ -104,6 +179,9 @@ class eZAddress
     */
     function setZip( $value )
     {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+        
         $this->Zip = $value;
     }
 
@@ -112,11 +190,14 @@ class eZAddress
     */
     function setAddressType( $value )
     {
-        $this->AddressType = $value;
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+       $this->AddressType = $value;
     }
 
     /*!
-      Returnerer  ID.
+      Returns the object ID.
     */
     function id( )
     {
@@ -128,6 +209,9 @@ class eZAddress
     */
     function street1( )
     {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
         return $this->Street1;
     }
 
@@ -136,6 +220,10 @@ class eZAddress
     */
     function street2( )
     {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+        
         return $this->Street2;
     }
 
@@ -144,6 +232,10 @@ class eZAddress
     */
     function zip( )
     {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+        
         return $this->Zip;
     }
 
@@ -152,34 +244,66 @@ class eZAddress
     */
     function addressType(  )
     {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+        
         return $this->AddressType;
     }
+
+    /*!
+      Sets the place value.
+    */
+    function setPlace( $value )
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+       $this->Place = $value;
+    }
+
+    /*!
+     Returns the place.
+    */
+    function place()
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+       return $this->Place;
+    }
+     
   
 
     /*!
-      Privat funksjon, skal kun brukes av ezusergroup klassen.
-      Funksjon for å åpne databasen.
+      \private
+      Open the database.
     */
     function dbInit()
     {
-        include_once( "classes/INIFile.php" );
-
-        $ini = new INIFile( "site.ini" );
-        
-        $SERVER = $ini->read_var( "site", "Server" );
-        $DATABASE = $ini->read_var( "site", "Database" );
-        $USER = $ini->read_var( "site", "User" );
-        $PWD = $ini->read_var( "site", "Password" );
-        
-        mysql_pconnect( $SERVER, $USER, $PWD ) or die( "Kunne ikke kople til database" );
-        mysql_select_db( $DATABASE ) or die( "Kunne ikke velge database" );
+        if ( $this->IsConnected == false )
+        {
+            $this->Database = new eZDB( "site.ini", "site" );
+            $this->IsConnected = true;
+        }
     }
   
     var $ID;
     var $Street1;
     var $Street2;
     var $Zip;
+    var $Place;
+
+    /// Relation to an eZAddressType
     var $AddressType;
+
+    ///  Variable for keeping the database connection.
+    var $Database;
+
+    /// Indicates the state of the object. In regard to database information.
+    var $State_;
+    /// Is true if the object has database connection, false if not.
+    var $IsConnected;
 }
 
 ?>
