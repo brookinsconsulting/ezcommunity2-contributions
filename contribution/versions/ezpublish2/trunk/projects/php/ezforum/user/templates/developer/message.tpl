@@ -15,13 +15,13 @@
 
 <hr noshade="noshade" size="4" />
 
-	<img src="/ezforum/images/path-arrow.gif" height="10" width="15" border="0">
+	<img src="/images/path-arrow.gif" height="10" width="15" border="0">
 	<a class="path" href="/forum/categorylist/">{intl-forum-main}</a>
-	<img src="/ezforum/images/path-slash.gif" height="10" width="20" border="0">
+	<img src="/images/path-slash.gif" height="10" width="20" border="0">
     <a class="path" href="/forum/forumlist/{category_id}/">{category_name}</a>
-	<img src="/ezforum/images/path-slash.gif" height="10" width="20" border="0">
+	<img src="/images/path-slash.gif" height="10" width="20" border="0">
 	<a class="path" href="/forum/messagelist/{forum_id}/">{forum_name}</a>
-	<img src="/ezforum/images/path-slash.gif" height="10" width="20" border="0">	
+	<img src="/images/path-slash.gif" height="10" width="20" border="0">	
     <a class="path" href="/forum/message/{message_id}/">{message_topic}</a>
 
 <hr noshade="noshade" size="4" />

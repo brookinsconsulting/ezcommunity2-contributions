@@ -68,7 +68,9 @@
     <th>{intl-size}:</th>
     <th>&nbsp;</th>
     <th>&nbsp;</th>
-    <th><img src="/ezfilemanager/user/{image_dir}/slettminimrk.gif" border="0" alt="" width="16" height="16" border="0" /></th>
+    <th>&nbsp;
+	<!-- <img src="/ezfilemanager/user/{image_dir}/slettminimrk.gif" border="0" alt="" width="16" height="16" border="0" /> -->
+	</th>
 </tr>
 <!-- BEGIN file_tpl -->
 <tr>
