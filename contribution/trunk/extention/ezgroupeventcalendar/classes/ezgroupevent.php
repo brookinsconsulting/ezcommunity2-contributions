@@ -150,7 +150,7 @@ class eZGroupEvent
         }
         else
         {
-	   $this->Database->query( "UPDATE eZGroupEventCalendar_Event SET
+	$this->Database->query( "UPDATE eZGroupEventCalendar_Event SET
                              Name='$Name',
                              Description='$Description',
                              Date='$this->Date',
@@ -939,6 +939,19 @@ class eZGroupEvent
 
        return $date;
     }
+    
+    /*!
+      Returns the date of the event.
+    */
+    function &getDate()
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+       $date = $this->Date;
+
+       return $date;
+    }
 
     /*!
       Returns the duration of the event as an eZTime object.
@@ -1519,8 +1532,14 @@ class eZGroupEvent
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
        
-       if ($this->RepeatUntilDate != '00000000000000')
-         $ret = $this->RepeatUntilDate;
+       if ($this->RepeatUntilDate != '00000000000000') 
+       {       
+         $year = substr($this->RepeatUntilDate, 0, 4);
+	 $month = substr($this->RepeatUntilDate, 4, 2);
+	 $day = substr($this->RepeatUntilDate, 6, 2);
+	 
+	 $ret = "$year-$month-$day";
+       }
        else
          $ret = false;
        
@@ -1776,7 +1795,7 @@ class eZGroupEvent
     }
     
     /*!
-      Sets the FinishDate to the UntilDate
+      Sets the FinishDate to the UntilDate. UntilDate comes in format yyyy-mm-dd.
     */
     function setFinishDateUntil( $UntilDate )
     {

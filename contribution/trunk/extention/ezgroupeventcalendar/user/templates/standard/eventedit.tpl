@@ -43,7 +43,6 @@
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
 <tr>
 	<td valign="top">
-
 <p class="boxtext">{intl-event_title}:</p>
 <input type="text" size="50" name="Name" value="{name_value}"/>
 
@@ -136,45 +135,15 @@
 </tr>
 </table>
 
-<table width="100%" border="0" cellspacing="0" cellpadding="0">
-<tr>
-	<td valign="top">
-	<p class="boxtext">{intl-event_day}:</p>
+<!-- BEGIN dhtml_form_datetime_select_tpl -->
+<p class="boxtext">{intl-select-date-time}:</p>
 
-	<select name="Day">
-	<option></option>
-	<!-- BEGIN day_tpl -->
-		<option value="{day_id}" {selected}>{day_name}</option>
-	<!-- END day_tpl -->
-	</select>
+<input type="text" name="dateCal" id="sel1" size="22" value='{date_calendar}'><input type="reset" value=" ... " onclick="return showCalendar('sel1', '%Y-%m-%d', '12');">
 
-	</td>
-	<td valign="top">
-	<p class="boxtext">{intl-event_month}:</p>
+<br /><br />
+<a href="" onclick="return showCalendar('sel1', '%Y-%m-%d', '12');">JS GUI Calendar</a>
 
-	<select name="Month">
-	<option></option>
-	<!-- BEGIN month_tpl -->
-		<option value="{month_id}" {selected}>{month_name}</option>
-	<!-- END month_tpl -->
-	</select>
-
-	</td>
-	<td width="40%" valign="top">
-	<p class="boxtext">{intl-event_year}:</p>
-	<!--
-	<input type="text" name="Year" value="{year_value}" />
-	-->
-
-	<select name="Year">
-	   <option></option>
-	<!-- BEGIN year_tpl -->
-		<option value="{year_value}" {is_year_selected}>{year_value}</option>
-	<!-- END year_tpl -->
-	</select>
-	</td>
-</tr>
-</table>
+<!-- END dhtml_form_datetime_select_tpl -->
 
 <br />
 
@@ -240,16 +209,6 @@
 </table>
 <!-- END html_form_datetime_select_tpl -->
 
-<!-- BEGIN dhtml_form_datetime_select_tpl -->
-<p class="boxtext">{intl-select-date-time}:</p>
-
-<input type="text" name="date2" id="sel1" size="22"><input type="reset" value=" ... " onclick="return showCalendar('sel1', '%Y-%m-%d [%I:%M %p]', '12');">
-
-<br /><br />
-<a href="" onclick="return showCalendar('sel1', '%Y-%m-%d [%I:%M %p]', '12');">JS GUI Calendar</a>
-
-<!-- END dhtml_form_datetime_select_tpl -->
-
 
 <!-- start recurring_event stuff -->
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
@@ -295,7 +254,7 @@
  <br />
  <input type="radio" name="RepeatOptions" value="numTimes" {repeat_times} /> {intl-repeat_number} <input type="text" size="10" name="NumberOfTimes" value='{num_times}' />
  <br />
- <input type="radio" name="RepeatOptions" id="untilDate" value="untilDate" [repeat_until] /> {intl-repeat_until} <input type="text" size="20" name="UntilDate" value='{until_date}'/><input type="reset" value=" ... " onclick="return showCalendar('untilDate', '%Y-%m-%d', '12');" />
+ <input type="radio" name="RepeatOptions"  value="untilDate" {repeat_until} /> {intl-repeat_until} <input type="text" size="20" name="UntilDate" value='{until_date}' id="untilDate"><input type="reset" value=" ... " onclick="return showCalendar('untilDate', '%Y-%m-%d', '12');" >
  <br />
  <br />
 {intl-repeat_exceptions} <br />

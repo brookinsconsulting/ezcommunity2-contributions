@@ -330,6 +330,7 @@ if ( $user == true )
 
 if ( ($Action == "New" || $Action == "Insert" || $Action == "Update" || $Action == "Edit" ) && $groupsList )
 {
+
 	$groupError = true;
 	foreach ( $groupsList as $groups )
 	{
@@ -372,6 +373,7 @@ elseif( $masterGroupID != 0 && !isset( $EventID ) )
 // only the specified group member is allowed to edit or delete an event
 if ( $Action == "Edit" && $groupError == true )
 {
+
     $t->set_var( "no_error", "" );
     $t->set_var( "no_user_error", "" );
 
@@ -443,6 +445,10 @@ if ( $Action == "DeleteEvents" )
 
 if ( ($Action == "Insert" || $Action == "Update")  && $groupError == false )
 {
+$dateArr = explode("-", $dateCal);
+$Year = $dateArr[0];
+$Month = $dateArr[1];
+$Day = $dateArr[2];
     if ( isSet( $Cancel ) )
     {
         $event = new eZGroupEvent( $EventID );
@@ -496,7 +502,7 @@ if ( ($Action == "Insert" || $Action == "Update")  && $groupError == false )
 	// kracker : i wanted to reserve 0 for events in all group category
 	//	if ( $StoreByGroupID != 0 )
 	if ( $StoreByGroupID != "" )
-        {
+        { 
 	    $group = new eZUserGroup( $StoreByGroupID );
             $event->setGroup( $group );
         }
@@ -544,7 +550,7 @@ if ( ($Action == "Insert" || $Action == "Update")  && $groupError == false )
 	    $startmin  = $dayStartArray[3];
 	    $stophour  = $dayStopArray[2];
 	    $stopmin   = $dayStopArray[3];
-
+	    
             $startTime->setHour( $starthour );
             $startTime->setMinute( $startmin  );
             $stopTime->setHour( $stophour );
@@ -605,7 +611,6 @@ if ( ($Action == "Insert" || $Action == "Update")  && $groupError == false )
         $datetime->setSecondsElapsedHMS( $pStartTimeHour, $pStartTimeMinute, 0 );
 
         $event->setDateTime( $datetime );
-
 
         if ( $stopTime->isGreater( $startTime, true ) )
         {
@@ -671,11 +676,10 @@ if ( ($Action == "Insert" || $Action == "Update")  && $groupError == false )
         {
             $resultz = $event->store();
             exec("secure_clearcache.sh");
-            $year = addZero( $datetime->year() );
+	    $year = addZero( $datetime->year() );
             $month = addZero( $datetime->month() );
             $day = addZero( $datetime->day() );
             deleteCache( "default", $Language, $year, $month, $day, $groupID );
-
             eZHTTPTool::header( "Location: /groupeventcalendar/dayview/$year/$month/$day/" );
             exit();
         }
@@ -735,6 +739,9 @@ if ( ($Action == "Insert" || $Action == "Update")  && $groupError == false )
                 $t->set_var( "is_private", "checked" );
             else
                 $t->set_var( "is_private", "" );
+/* spectrum : what we need to store this date.
+timestamp
+*/
 
 			$eventStartTime =& $event->startTime();
 			$startHour		= ( addZero( $eventStartTime->hour() ) );
@@ -1211,7 +1218,10 @@ if ( $Action == "Edit" && $groupError == false )
 	$tempYear = addZero( $today->year() );
         //$tempYear = $tmpdate->year();
 	$yearsPrint = $ini->read_var( "eZGroupEventCalendarMain", "YearsPrint" );
+//spectrum : setting new day time in template (ezzzzz....)
+$t->set_var( "date_calendar", "$year-$month-$day");
 
+/*
 	for( $i=1; $i<=$yearsPrint; $i++ )
 	{
 		if( $dt->year() == $tempYear )
@@ -1229,7 +1239,7 @@ if ( $Action == "Edit" && $groupError == false )
 		$tempYear++;
 		$t->parse( "year", "year_tpl", true );
 	}
-
+*/
     if ( $event->isPrivate() )
         $t->set_var( "is_private", "checked" );
     else
@@ -1417,6 +1427,8 @@ if ( $Action == "New" && $groupError == false )
     else
         $day = $today->day();
 
+$t->set_var( "date_calendar", "$year-$month-$day" );	
+	
     $tmpdate = new eZDate( $year, $month, $day );
 
 	$minuteInterval = $ini->read_var( "eZGroupEventCalendarMain", "MinutesSelectInterval" );
@@ -1581,9 +1593,8 @@ foreach ( $categoryList as $category )
   $t->parse( "category_value", "category_value_tpl", true );
 }
 
-
-
 // set day combobox
+/*-- removed by specrum
 $daysInMonth = $tmpdate->daysInMonth();
 //for ( $i=1; $i<=$daysInMonth; $i++ )
 for ( $i=1; $i<=31; $i++ )
@@ -1613,8 +1624,9 @@ for ( $i=1; $i<=31; $i++ )
 
     $t->parse( "day", "day_tpl", true );
 }
-
-// set month combobox
+/*
+// set month combobox /
+/*-- removed by spectrum
 $month = $tmpdate->month();
 for ( $i=1; $i<13; $i++ )
 {
@@ -1644,7 +1656,7 @@ for ( $i=1; $i<13; $i++ )
 
     $t->parse( "month", "month_tpl", true );
 }
-
+*/
 if ( $Action != "Edit" )
 {
     $t->set_var( "year_value", $tmpdate->year() );
