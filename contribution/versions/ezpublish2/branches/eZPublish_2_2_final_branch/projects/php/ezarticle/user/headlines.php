@@ -1,6 +1,6 @@
 <?php
-// 
-// $Id: headlines.php,v 1.18.2.6 2002/08/02 12:10:56 bf Exp $
+//
+// $Id: headlines.php,v 1.18.2.7 2002/08/12 11:22:49 gl Exp $
 //
 // Created on: <30-Nov-2000 14:35:24 bf>
 //
@@ -32,28 +32,6 @@ $ini =& INIFile::globalINI();
 
 $Language = $ini->read_var( "eZArticleMain", "Language" );
 $ImageDir = $ini->read_var( "eZArticleMain", "ImageDir" );
-
-unset( $menuCachedFile );
-// do the caching 
-if ( $PageCaching == "enabled" )
-{
-    $menuCacheFile = new eZCacheFile( "ezarticle/cache",
-                                      array( "menubox_headlines", $GlobalSiteDesign, $CategoryID ),
-                                      "cache", "," );
-
-    if ( $menuCacheFile->exists() )
-    {
-        print( $menuCacheFile->contents() );
-    }
-    else
-    {
-        createHeadlinesMenu( $menuCacheFile );
-    }
-}
-else
-{
-    createHeadlinesMenu();
-}
 
 if ( !function_exists( "createHeadlinesMenu" )  )
 {
@@ -112,7 +90,7 @@ if ( !function_exists( "createHeadlinesMenu" )  )
             else
             {
                 $articleList =& $category->articles( $category->sortMode(), false, true, $HeadlineOffset, $Limit );
-                $articleCount = $category->articleCount( false, true  );    
+                $articleCount = $category->articleCount( false, true  );
             }
 
 
@@ -125,7 +103,7 @@ if ( !function_exists( "createHeadlinesMenu" )  )
             foreach ( $articleList as $article )
             {
                 $t->set_var( "category_id", $CategoryID );
-  
+
                 $t->set_var( "article_id", $article->id() );
                 $t->set_var( "article_name", $article->name() );
 
@@ -135,7 +113,7 @@ if ( !function_exists( "createHeadlinesMenu" )  )
                 $image =& $catDef->image();
 
                 $t->set_var( "current_image_item", "" );
-        
+
                 if ( ( get_class( $image ) == "ezimage" ) && ( $image->id() != 0 ) )
                 {
                     $imageWidth =& $ini->read_var( "eZArticleMain", "CategoryImageWidth" );
@@ -147,7 +125,7 @@ if ( !function_exists( "createHeadlinesMenu" )  )
                     $imageWidth =& $variation->width();
                     $imageHeight =& $variation->height();
                     $imageCaption =& $image->caption();
-            
+
                     $t->set_var( "current_image_width", $imageWidth );
                     $t->set_var( "current_image_height", $imageHeight );
                     $t->set_var( "current_image_url", $imageURL );
@@ -162,7 +140,7 @@ if ( !function_exists( "createHeadlinesMenu" )  )
                 $published =& $article->published();
                 $date =& $published->date();
 
-                $t->set_var( "article_published", $locale->format( $date ) );    
+                $t->set_var( "article_published", $locale->format( $date ) );
 
                 if ( ( $i % 2 ) == 0 )
                 {
@@ -188,7 +166,7 @@ if ( !function_exists( "createHeadlinesMenu" )  )
                 $i++;
             }
 
-            if ( count( $articleList ) > 0 )    
+            if ( count( $articleList ) > 0 )
                 $t->parse( "article_list", "article_list_tpl" );
             else
                 $t->set_var( "article_list", "" );
@@ -203,8 +181,29 @@ if ( !function_exists( "createHeadlinesMenu" )  )
             {
                 $t->pparse( "output", "article_list_page_tpl" );
             }
-    
         }
+}
+
+unset( $menuCachedFile );
+// do the caching
+if ( $PageCaching == "enabled" )
+{
+    $menuCacheFile = new eZCacheFile( "ezarticle/cache",
+                                      array( "menubox_headlines", $GlobalSiteDesign, $CategoryID ),
+                                      "cache", "," );
+
+    if ( $menuCacheFile->exists() )
+    {
+        print( $menuCacheFile->contents() );
+    }
+    else
+    {
+        createHeadlinesMenu( $menuCacheFile );
+    }
+}
+else
+{
+    createHeadlinesMenu();
 }
 
 ?>
