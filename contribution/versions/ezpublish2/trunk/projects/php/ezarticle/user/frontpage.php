@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: frontpage.php,v 1.20 2001/10/08 06:55:46 bf Exp $
+// $Id: frontpage.php,v 1.21 2001/10/10 11:38:27 bf Exp $
 //
 // Created on: <30-May-2001 14:06:59 bf>
 //
@@ -685,7 +685,7 @@ function &renderFrontpageProductDouble( &$t, &$locale, &$product1, &$product2 )
 
     $categoryDefinition = $product2->categoryDefinition();
     $t->set_var( "category_id", $categoryDefinition->id() );
-    
+
     $t->set_var( "product_intro_text", eZTextTool::nl2br( $product2->brief() ) );
 
     if ( $ShowPrice and $product2->showPrice() == true and $product2->hasPrice() )

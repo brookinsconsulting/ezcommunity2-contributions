@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezqdomrenderer.php,v 1.50 2001/09/30 11:53:59 bf Exp $
+// $Id: ezqdomrenderer.php,v 1.51 2001/10/10 11:38:27 bf Exp $
 //
 // Definition of eZQDomRenderer class
 //
@@ -149,7 +149,6 @@ class eZQDomrenderer
         $UsedImageList = array();
         
         $ini =& INIFile::globalINI();
-
 
         $this->Template = new eZTemplate( "ezarticle/user/" . $ini->read_var( "eZArticleMain", "TemplateDir" ),
                      "ezarticle/user/intl/", "en_GB", "articleview.php" );
@@ -372,8 +371,8 @@ class eZQDomrenderer
 
 
                         $this->PrevTag = $paragraph->name;
+                        
                     }
-
                     $pageArray[] = $pageContent;
                 }
             }
@@ -932,6 +931,7 @@ class eZQDomrenderer
                 }
 
                 $this->Template->set_var( "contents", $tmpContent );
+                
                 switch ( $paragraph->name )
                 {    
                     case "bold" :
@@ -977,8 +977,6 @@ class eZQDomrenderer
 
         return $pageContent;
     }
-    
-
 
 
     /*!
@@ -988,7 +986,7 @@ class eZQDomrenderer
     {
         $pageContent = "";
         $tagName = $paragraph->name;
-        
+
         if ( in_array( $tagName, $this->CustomTagsArray ) )
         {
             $tmpContent = "";
@@ -1022,8 +1020,6 @@ class eZQDomrenderer
 
         return $pageContent;
     }
-
-
     
     /*!
       Renders link tags.
