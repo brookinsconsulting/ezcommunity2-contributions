@@ -3,6 +3,7 @@ eZ publish changelog:
  
 Changes from 2.0.0 to 2.1.0B1
 ---------------------------
+* Added modular help system, you can have context sensitive help.
 * Changed the handling of modules in the admin interface, the user can now select
   which modules are active at any time.
 * Fixed a counting bug in eZAd.
