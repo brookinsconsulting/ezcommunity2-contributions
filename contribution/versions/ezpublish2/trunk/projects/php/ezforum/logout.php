@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: logout.php,v 1.1 2000/07/14 12:55:45 lw-cvs Exp $
+    $Id: logout.php,v 1.2 2000/07/14 13:31:20 lw-cvs Exp $
 
     Author: Lars Wilhelmsen <lw@ez.no>
     
@@ -10,14 +10,9 @@
 */
 include( "ezforum/dbsettings.php" );
 include( "ezphputils.php" );
-include( "$DOCROOT/classes/ezsession.php" );
+include( "classes/ezsession.php" );
 
 $session = new eZSession();
 $session->delete( $AuthenticatedSession );
-//setCookie( "AuthenticatedSession", "", time() - 10000);
-
 printRedirect( "index.php?page=$DOCROOT/main.php" );
-//echo "<a href=\"index.php?page=$DOCROOT/main.php\">main</a><br>";
-
-//echo $AuthenticatedSession;
 ?>
