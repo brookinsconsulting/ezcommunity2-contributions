@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: articlelinks.php,v 1.12 2001/04/26 14:06:19 bf Exp $
+// $Id: articlelinks.php,v 1.13 2001/05/21 12:17:39 ce Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <03-Jan-2001 10:47:00 bf>
@@ -28,6 +28,7 @@ $PageCaching =& $ini->read_var( "eZArticleMain", "PageCaching");
 $PureStatic = "false";
 
 unset( $CacheFile );
+unset( $GenerateStaticPage );
 
 if ( $PageCaching == "enabled" )
 {
