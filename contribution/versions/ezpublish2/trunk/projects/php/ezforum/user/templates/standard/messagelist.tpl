@@ -1,3 +1,8 @@
+<!-- BEGIN no_access_tpl -->
+{intl-no_access}
+<!-- END no_access_tpl -->
+
+<!-- BEGIN read_access_tpl -->
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
   <tr>
     <td align="left" valign="bottom">
@@ -150,5 +155,4 @@
 
 <input class="stdbutton" type="submit" value="{intl-new-posting}" />
 </form>
-
-
+<!-- END read_access_tpl -->
