@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: articleedit.php,v 1.17 2001/07/19 12:19:21 jakobn Exp $
+// $Id: articleedit.php,v 1.18 2001/08/03 08:06:36 bf Exp $
 //
 // Created on: <18-Oct-2000 15:04:39 bf>
 //
@@ -66,8 +66,8 @@ if ( $Action == "Insert" )
     $article->store(); // to get ID
     
 // Which group should a user-published article be set to?
-    eZObjectPermission::setPermission( -1, $article->id(), "article_article", 'w' );
-    eZObjectPermission::setPermission( -1, $article->id(), "article_article", 'r' );
+    eZObjectPermission::setPermission( -1, $article->id(), "article_category", 'w' );
+    eZObjectPermission::setPermission( -1, $article->id(), "article_category", 'r' );
 
     // user-submitted articles are never directly published
 

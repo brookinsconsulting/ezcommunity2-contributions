@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: datasupplier.php,v 1.9 2001/07/20 11:22:30 jakobn Exp $
+// $Id: datasupplier.php,v 1.10 2001/08/03 08:06:36 bf Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -48,6 +48,14 @@ switch ( $url_array[2] )
         $Show = $url_array[4];
         $PollID = $url_array[3];
         include( "ezpoll/user/result.php" );
+
+        $poll = new eZPoll( $PollID );
+        if ( $poll->get( $PollID ) )
+        {
+            $forum = $poll->forum();
+            $ForumID = $forum->id();
+            include( "ezforum/user/messagesimplelist.php" );
+        }
     }
     break;
 

@@ -33,3 +33,10 @@ CREATE TABLE eZPoll_Vote (
 );
 
 
+
+CREATE TABLE eZPoll_PollForumLink (
+  ID int NOT NULL,
+  PollID int NOT NULL default '0',
+  ForumID int NOT NULL default '0',
+  PRIMARY KEY (ID)
+);

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezqdomgenerator.php,v 1.18 2001/07/25 14:20:46 ce Exp $
+// $Id: ezqdomgenerator.php,v 1.19 2001/08/03 08:06:35 bf Exp $
 //
 // Definition of eZQDomGenerator class
 //
@@ -99,6 +99,9 @@ class eZQDomGenerator
         // replace & with &amp; to prevent killing the xml parser..
         // is that a bug in the xmltree(); function ? answer to bf@ez.no
         $tmpPage = ereg_replace ( "&", "&amp;", $tmpPage );
+
+        // fix $ problem if used in article:        
+//        $tmpPage = ereg_replace ( "$", "&#36;", $tmpPage );
 
         $tmpPage = $this->generateUnknowns( $tmpPage );        
 

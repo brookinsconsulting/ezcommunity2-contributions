@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezpoll.php,v 1.24 2001/07/20 11:22:30 jakobn Exp $
+// $Id: ezpoll.php,v 1.25 2001/08/03 08:06:36 bf Exp $
 //
 // Definition of eZPoll class
 //
@@ -57,6 +57,7 @@
 */
 
 include_once( "classes/ezdb.php" );
+include_once( "ezforum/classes/ezforum.php" );
 
 class eZPoll
 {
@@ -148,6 +149,7 @@ class eZPoll
     */
     function get( $id=-1 )
     {
+        $ret = false;
         $db =& eZDB::globalDatabase();
 
         if ( $id != -1 )
@@ -161,6 +163,7 @@ class eZPoll
             
             else if ( count( $poll_array ) == 1 )
             {
+                $ret = true;
                 $this->ID = $poll_array[0][$db->fieldName("ID")];
                 $this->Name = $poll_array[0][$db->fieldName("Name")];
                 $this->Description = $poll_array[0][$db->fieldName("Description")];
@@ -170,6 +173,7 @@ class eZPoll
                 $this->ShowResult =  $poll_array[0][$db->fieldName("ShowResult")];
             }
         }
+        return $ret;
     }
 
     /*!
@@ -399,6 +403,55 @@ class eZPoll
     }
     
 
+    /*!
+      Returns the forum for the poll.
+    */
+    function &forum()
+    {
+        $db =& eZDB::globalDatabase();
+
+        $db->array_query( $res, "SELECT ForumID FROM
+                                            eZPoll_PollForumLink
+                                            WHERE PollID='$this->ID'" );
+       
+        $forum = false;
+        if ( count( $res ) == 1 )
+        {
+            $forum = new eZForum( $res[0][$db->fieldName("ForumID")] );
+        }
+        else
+        {
+            $forum = new eZForum();
+            $forum->setName( $db->escapeString( $this->Name ) );
+            $forum->store();
+
+            $forumID = $forum->id();
+
+            $db->begin( );
+    
+            $db->lock( "eZPoll_PollForumLink" );
+
+            $nextID = $db->nextID( "eZPoll_PollForumLink", "ID" );
+            
+            $res = $db->query( "INSERT INTO eZPoll_PollForumLink
+                                ( ID, PollID, ForumID )
+                                VALUES
+                                ( '$nextID', '$this->ID', '$forumID' )" );
+
+            $db->unlock();
+    
+            if ( $res == false )
+                $db->rollback( );
+            else
+                $db->commit();
+            
+
+            $forum = new eZForum( $forumID );
+        }
+
+        return $forum;
+    }
+    
     var $ID;
     var $Name;
     var $Description;
