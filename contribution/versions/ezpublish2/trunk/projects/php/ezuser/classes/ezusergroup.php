@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezusergroup.php,v 1.19 2001/04/05 08:52:44 fh Exp $
+// $Id: ezusergroup.php,v 1.20 2001/04/27 21:47:40 fh Exp $
 //
 // Definition of eZCompany class
 //
@@ -338,6 +338,18 @@ class eZUserGroup
         return $ret;
     }
 
+    /*!
+      Returns the email addresses of the users that are members of this group
+     */
+    function userEmails()
+    {
+        $db =& eZDB::globalDatabase();
+        $mail_array = array();
+        $db->array_query( $mail_array, "SELECT Email from eZUser_UserGroupLink, eZUser_User WHERE eZUser_User.ID=eZUser_UserGroupLink.UserID AND eZUser_UserGroupLink.GroupID='$this->ID'",
+        0, -1, "Email" );
+        return $mail_array;
+    }
+    
     /*!
       Returns the user group name.
     */
