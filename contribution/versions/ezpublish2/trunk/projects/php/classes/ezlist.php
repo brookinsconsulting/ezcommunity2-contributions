@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezlist.php,v 1.12 2001/07/19 11:33:57 jakobn Exp $
+// $Id: ezlist.php,v 1.13 2001/09/13 19:31:25 br Exp $
 //
 // Definition of eZList class
 //
@@ -476,12 +476,33 @@ class eZList
             {
                 $t->parse( $next_inactive, $next_inactive . "_tpl" );
             }
-
             $total = $total_types;
             $page = ($index / ($max_types * 10));
             settype( $page, "integer" );
-            $i = 1;
-            while ( $total > 0 && $i <= 50 )
+
+            $i = ( ( $page * 10 ) + 1) - $max_types;
+            settype( $i, "integer" );
+
+            if($i < 0)
+                $i=1;
+            $item_count = 49;
+            $max = $i + $item_count;
+
+            if( ( $max * $max_types ) > $total_types )
+            {
+                $max = $i + ( ( $total_types - ( $i * $max_types ) ) / $max_types ) + 1;
+                settype( $max, "integer" );
+                if ( $max - $item_count <= 0 )
+                {
+                    $i = 1;
+                }
+                else
+                {
+                    $i = $max - $item_count;
+                }
+            }
+
+            while ( $total > 0 && $i <= $max )
             {
                 $cur_i = $i;
                 $t->set_var( $item, "" );
