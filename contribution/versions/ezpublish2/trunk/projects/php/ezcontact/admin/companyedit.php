@@ -27,35 +27,35 @@ include_once( "ezcontact/classes/ezcompanytype.php" );
 include_once( "classes/ezimagefile.php" );
 include_once( "ezimagecatalogue/classes/ezimage.php" );
 
-if( !eZPermission::checkPermission( $user, "eZContact", "CompanyAdd" ) && $Action == "new" )
-{
-    header( "Location: /error.php?type=500&reason=missingpermission&permission=CompanyAdd&tried=new&module=ezcontact" );
-    exit();
-}
+//  if( !eZPermission::checkPermission( $user, "eZContact", "CompanyAdd" ) && $Action == "new" )
+//  {
+//      header( "Location: /error.php?type=500&reason=missingpermission&permission=CompanyAdd&tried=new&module=ezcontact" );
+//      exit();
+//  }
 
-if( !eZPermission::checkPermission( $user, "eZContact", "CompanyAdd" ) && $Action == "insert" )
-{
-    header( "Location: /error.php?type=500&reason=missingpermission&permission=CompanyAdd&tried=insert&module=ezcontact" );
-    exit();
-}
+//  if( !eZPermission::checkPermission( $user, "eZContact", "CompanyAdd" ) && $Action == "insert" )
+//  {
+//      header( "Location: /error.php?type=500&reason=missingpermission&permission=CompanyAdd&tried=insert&module=ezcontact" );
+//      exit();
+//  }
 
-if( !eZPermission::checkPermission( $user, "eZContact", "CompanyModify" ) && $Action == "update" )
-{
-    header( "Location: /error.php?type=500&reason=missingpermission&permission=CompanyModify&tried=update&module=ezcontact" );
-    exit();
-}
+//  if( !eZPermission::checkPermission( $user, "eZContact", "CompanyModify" ) )
+//  {
+//      header( "Location: /error.php?type=500&reason=missingpermission&permission=CompanyModify&tried=update&module=ezcontact" );
+//      exit();
+//  }
 
-if( !eZPermission::checkPermission( $user, "eZContact", "CompanyModify" ) && $Action == "edit" )
-{
-    header( "Location: /error.php?type=500&reason=missingpermission&permission=CompanyModify&tried=edit&module=ezcontact" );
-    exit();
-}
+//  if( !eZPermission::checkPermission( $user, "eZContact", "CompanyModify" ) && $Action == "edit" )
+//  {
+//      header( "Location: /error.php?type=500&reason=missingpermission&permission=CompanyModify&tried=edit&module=ezcontact" );
+//      exit();
+//  }
 
-if( !eZPermission::checkPermission( $user, "eZContact", "CompanyDelete" ) && $Action == "delete" )
-{
-    header( "Location: /error.php?type=500&reason=missingpermission&permission=CompanyDelete&tried=delete&module=ezcontact" );
-    exit();
-}
+//  if( !eZPermission::checkPermission( $user, "eZContact", "CompanyDelete" ) && $Action == "delete" )
+//  {
+//      header( "Location: /error.php?type=500&reason=missingpermission&permission=CompanyDelete&tried=delete&module=ezcontact" );
+//      exit();
+//  }
 
 if( $Action == "delete" )
 {
@@ -119,7 +119,7 @@ $t->set_var( "address_list", "" );
 
 $error = false;
 
-if( 0 || $Action == "insert" || $Action == "update" )
+if( $Action == "insert" || $Action == "update" )
 {
     if( empty( $Street1 ) || empty( $Place ) || empty( $Zip ) )
     {
@@ -392,6 +392,7 @@ if ( $Action == "new" )
     $t->parse( "fax_item", "fax_item_tpl" );
     $t->parse( "web_item", "web_item_tpl" );
     $t->parse( "email_item", "email_item_tpl" );
+    $t->parse( "logo_add", "logo_add_tpl" );
 }
 
 // Redigering av firma.
@@ -548,15 +549,8 @@ foreach( $companyTypeList as $companyTypeItem )
 
 // Template variabler.
 
-
+$t->set_var( "error", $error );
 $t->set_var( "errors_item", $error );
-$t->set_var( "logo_add}" , "" );
-$t->set_var( "image_add", "" );
-$t->set_var( "image_edit", "" );
-$t->set_var( "logo_edit", "" );
-$t->set_var( "logo_add", "" );
-$t->set_var( "web_item", "" );
-$t->set_var( "email_item", "" );
 
 $t->set_var( "action_value", $Action_value );
 

@@ -124,3 +124,51 @@
 <h3>{intl-headline_no_types}</h3>
 {intl-error_no_types}
 <!-- END no_type_item_tpl -->
+
+<h3>{intl-companylist_headline}</h3>
+<table class="list" width="100%" cellspacing="0" cellpadding="0" border="0">
+<tr>
+	<th>
+	{intl-name}:
+	</th>
+
+	<th>
+	{intl-logo}:
+	</th>
+
+	<th>
+	&nbsp;
+	</th>
+
+	<th>
+	&nbsp;
+	</th>
+
+</tr>
+
+<!-- BEGIN no_companies_tpl -->
+<tr>
+	<td>
+	<p class="error">{intl-no_companies_error}</p>
+	</td>
+</tr>
+<!-- END no_companies_tpl -->
+<!-- BEGIN company_item_tpl -->
+<tr>
+	<td class="{td_class}">
+	{company_name}
+	</td>
+	<td class="{td_class}">
+        <img src="{company_logo_src}" width="{image_width}" height="{image_height}" border="0" alt="{image_alt}" />
+	</td>
+	<td class="{td_class}" width="1%">
+	<a href="/contact/company/edit/{company_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezuser{company_id}-red','','/images/redigerminimrk.gif',1)"><img name="ezuser{company_id}-red" border="0" src="/images/redigermini.gif" width="16" height="16" align="top"></a>
+	</td>
+
+	<td class="{td_class}" width="1%">
+	<a href="/contact/company/delete/{company_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezuser{company_id}-slett','','/images/slettminimrk.gif',1)"><img name="ezuser{company_id}-slett" border="0" src="/images/slettmini.gif" width="16" height="16" align="top"></a>
+	</td>	
+
+</tr>
+<!-- END company_item_tpl -->
+</table>

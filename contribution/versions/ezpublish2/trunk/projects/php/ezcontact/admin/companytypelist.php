@@ -10,6 +10,7 @@ $Language = $ini->read_var( "eZContactMain", "Language" );
 
 include_once( "classes/eztemplate.php" );
 include_once( "ezcontact/classes/ezcompanytype.php" );
+include_once( "ezcontact/classes/ezcompany.php" );
 
 if( empty( $TypeID ) )
 {
@@ -18,6 +19,8 @@ if( empty( $TypeID ) )
 
 $type = new eZCompanyType();
 $type->get( $TypeID );
+
+$company = new eZCompany();
 
 if( !$type->id() && $TypeID != 0 )
 {
@@ -48,6 +51,8 @@ else
     $t->set_block( "type_page", "path_tpl", "path" );
     $t->set_block( "path_tpl", "path_item_tpl", "path_item" );
     $t->set_block( "current_type_tpl", "image_item_tpl", "image_item" );
+    $t->set_block( "type_page", "company_item_tpl", "company_item" );
+    $t->set_block( "type_page", "no_companies_tpl", "no_companies" );
     
     $t->set_var( "image_item", "" );
     
@@ -185,6 +190,30 @@ else
 
             $t->set_var( "type_id", $id );
 
+            $companyList = $company->getByCategory( $id );
+
+            for( $index = 0; $index < count( $companyList ); $index++ )
+            {
+                if ( ( $index %2 ) == 0 )
+                    $t->set_var( "td_class", "bglight" );
+                else
+                    $t->set_var( "td_class", "bgdark" );
+
+                $t->set_var( "company_id", $companyList[$index]->id() );
+                $t->set_var( "company_name", $companyList[$index]->name() );
+                
+                $logoObj = $companyList[$index]->logoImage();
+                
+                if ( get_class ( $logoObj ) == "ezimage" )
+                {
+                    $variationObj = $logoObj->requestImageVariation( 150, 150 );
+            
+                    $t->set_var( "company_logo_src", "/" . $variationObj->imagePath() );
+                }
+                $companyListDone = true;
+            }
+
+
             if( empty( $name ) )
             {
                 $t->set_var( "type_name", "&nbsp;" );
@@ -214,6 +243,17 @@ else
         }
     }
 
+    if ( $companyListDone == true )
+    {
+        $t->set_var( "no_companies", "" );
+        $t->parse( "company_item", "company_item_tpl" );
+    }
+    else
+    {
+        $t->set_var( "company_item", "" );
+        $t->parse( "no_companies", "no_companies_tpl" );
+    }
+
     if( $typesDone == true )
     {
         $t->set_var( "no_type_item", "" );    
@@ -235,6 +275,9 @@ else
         $t->set_var( "category_list", "" );
         $t->parse( "no_category_item", "no_category_item_tpl" );
     }
+
+    
+    
     $t->pparse( "output", "type_page" );
 }
 ?>

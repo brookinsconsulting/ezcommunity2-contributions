@@ -108,7 +108,7 @@
 
 <!-- BEGIN image_add_tpl -->
 	<p class="boxtext">{intl-image}</p>
-	4<input size="40" name="image" type="file" />
+	<input size="40" name="image" type="file" />
 <!-- END image_add_tpl -->
 
 <!-- BEGIN image_edit_tpl -->
