@@ -55,6 +55,7 @@
 <table class="list" width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
 	<th>{intl-person_name}:</th>
+	<th>{intl-state}:</th>
 	<th colspan="2">&nbsp;</th>
 </tr>
 
@@ -62,8 +63,19 @@
 <tr class="{bg_color}">
 	<td>
         <a href="/contact/person/view/{person_id}">{person_lastname}, {person_firstname}&nbsp;</a>
-	
 	</td>
+
+	<!-- BEGIN person_state_tpl -->
+	<td>
+        <a href="/contact/project/person/list/{state_id}">{person_state}</a>
+	</td>
+	<!-- END person_state_tpl -->
+
+	<!-- BEGIN no_person_state_tpl -->
+	<td>
+        <a href="/contact/project/person/list/">{intl-no_state}</a>
+	</td>
+	<!-- END no_person_state_tpl -->
 
 	<td width="1%">
 	<a href="/contact/consultation/person/new/{person_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezn{person_id}-red','','/images/redigerminimrk.gif',1)"><img name="ezn{person_id}-red" border="0" src="/images/redigermini.gif" width="16" height="16" align="top"></a>
