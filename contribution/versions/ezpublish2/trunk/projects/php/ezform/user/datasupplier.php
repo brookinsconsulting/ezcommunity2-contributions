@@ -5,13 +5,14 @@ include_once( "ezmail/classes/ezmail.php" );
 
 $eZFormOperation = $url_array[2];
 $eZFormName = $url_array[3];
+$eZFormAction = $url_array[3];
 
 function &errorPage( $PrimaryName, $PrimaryURL, $type )
 {
     $ini =& $GLOBALS["GlobalSiteIni"];
 
-    $t = new eZTemplate( "ezform/user/" . $ini->read_var( "eZFormMain", "TemplateDir" ),
-                         "ezform/user/intl", $ini->read_var( "eZFormMain", "Language" ), "errors.php" );
+    $t = new eZTemplate( "ezform/admin/" . $ini->read_var( "eZFormMain", "TemplateDir" ),
+                         "ezform/admin/intl", $ini->read_var( "eZFormMain", "Language" ), "errors.php" );
 
     $t->set_file( "page", "errormessage.tpl"  );
     $t->set_var( "primary_url", $PrimaryURL  );
@@ -83,6 +84,28 @@ function formProcess( $value, $key )
 
 switch( $eZFormOperation )
 {
+    case "form":
+    {
+        $FormID = $url_array[4];
+        switch( $eZFormAction )
+        {
+            case "view":
+            case "process":
+            {
+                include( "ezform/user/formview.php" );
+            }
+            break;
+            
+            default:
+            {
+                eZHTTPTool::header( "Location: /error/404" );
+            }
+        }
+        
+        
+    }
+    break;
+    
     case "simpleprocess":
     {
         if( $HTTP_POST_VARS )
@@ -110,7 +133,7 @@ switch( $eZFormOperation )
     
     default:
     {
-        eZHTTPTool::header( "Location: /error/404?Info=" . errorPage( "form_list", "/form/list/", 404 ) );
+        eZHTTPTool::header( "Location: /error/404" );
     }
     break;
 }
