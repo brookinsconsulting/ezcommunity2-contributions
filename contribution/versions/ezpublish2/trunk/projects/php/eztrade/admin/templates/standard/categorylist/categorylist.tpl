@@ -92,7 +92,7 @@
 <!-- END product_item_tpl -->
 </table>
 <hr noshade="noshade" size="4" />
-<input type="submit" Name="DeleteProducts" value="{intl-deleteproducts}">
+<input class="stdbutton" type="submit" Name="DeleteProducts" value="{intl-deleteproducts}">
 </form>
 <!-- END product_list_tpl -->
 

@@ -1,7 +1,7 @@
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
 	<td bgcolor="#f08c00">
-	<div class="headline">Velkommen til eZ shop!</div>
+	<div class="headline">Nyheter fra eZ systems</div>
 	</td>
 </tr>
 </table>
