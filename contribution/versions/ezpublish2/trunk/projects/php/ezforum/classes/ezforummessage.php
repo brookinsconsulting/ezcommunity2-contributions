@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezforummessage.php,v 1.88 2001/05/09 08:28:39 bf Exp $
+// $Id: ezforummessage.php,v 1.89 2001/06/08 11:47:43 bf Exp $
 //
 // Definition of eZCompany class
 //
@@ -468,7 +468,14 @@ class eZForumMessage
        {
             return $this->Topic;
        }  
-        
+    }
+
+    /*!
+      Same as topic()
+    */
+    function name()
+    {
+        return $this->topic();
     }
         
     /*!
@@ -482,6 +489,7 @@ class eZForumMessage
         
         $this->Topic = $newTopic;
     }
+    
         
     /*!
       Returns the body of the forum message.
