@@ -157,6 +157,12 @@ else
 
 $user = eZUser::currentUser();
 
+if ( !$user )
+{
+    header( "Location: /user/login" );
+    exit();
+}
+
 if( ( $Action == "insert" || $Action == "update" ) && $error == false )
 {
     if ( $ConsultationID > 0 )
