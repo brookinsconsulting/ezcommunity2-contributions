@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezperson.php,v 1.34 2001/01/12 17:52:13 jb Exp $
+// $Id: ezperson.php,v 1.35 2001/01/15 14:43:14 jb Exp $
 //
 // Definition of eZPerson class
 //
@@ -36,6 +36,7 @@
 
 include_once( "ezuser/classes/ezuser.php" );
 include_once( "classes/ezdb.php" );
+include_once( "classes/ezquery.php" );
 include_once( "ezcontact/classes/ezaddress.php" );
 include_once( "ezcontact/classes/ezphone.php" );
 include_once( "ezcontact/classes/ezonline.php" );
@@ -211,15 +212,76 @@ class eZPerson
         return $return_item;
     }
     
+    function getAllCount( $search_types = "" )
+    {
+        $this->dbInit();
+
+        if ( empty( $search_types ) )
+        {
+            $qry = "SELECT count( ID ) AS Count FROM eZContact_Person ORDER BY LastName, FirstName";
+            $this->Database->query_single( $persons, $qry );
+            return $persons["Count"];
+        }
+        else
+        {
+            $query = new eZQuery( array( "A.FirstName", "A.LastName",
+                                         "C.Number",
+                                         "E.Street1", "E.Street2", "E.Place", "E.Zip",
+                                         "G.Url" ), $search_types );
+            $qry = "SELECT A.ID FROM
+                    eZContact_Person AS A,
+                    eZContact_PersonPhoneDict as B, eZContact_Phone AS C,
+                    eZContact_PersonAddressDict as D, eZContact_Address AS E,
+                    eZContact_PersonOnlineDict as F, eZContact_Online AS G
+                    WHERE A.ID = B.PersonID AND B.PhoneID = C.ID AND
+                          A.ID = D.PersonID AND D.AddressID = E.ID AND
+                          A.ID = F.PersonID AND F.OnlineID = G.ID AND
+                    (" .
+                    $query->buildQuery() .
+                    ")
+                    GROUP BY A.ID
+                    ORDER BY A.LastName, A.FirstName";
+            $this->Database->array_query( $persons, $qry );
+            return count( $persons );
+        }
+    }
+
     /*!
       Fetches all persons in the database.
     */
-    function getAll( )
+    function getAll( $search_types = "", $limit_index = 0, $limit = 1 )
     {
         $this->dbInit();
         $person_array = 0;
-    
-        $this->Database->array_query( $person_array, "SELECT ID FROM eZContact_Person ORDER BY LastName" );
+
+        if ( empty( $search_types ) )
+        {
+            $qry = "SELECT ID FROM eZContact_Person ORDER BY LastName, FirstName
+                    LIMIT $limit_index, $limit";
+            $this->Database->array_query( $person_array, $qry );
+        }
+        else
+        {
+            $query = new eZQuery( array( "A.FirstName", "A.LastName",
+                                         "C.Number",
+                                         "E.Street1", "E.Street2", "E.Place", "E.Zip",
+                                         "G.Url" ), $search_types );
+            $qry = "SELECT A.ID as ID FROM
+                    eZContact_Person AS A,
+                    eZContact_PersonPhoneDict as B, eZContact_Phone AS C,
+                    eZContact_PersonAddressDict as D, eZContact_Address AS E,
+                    eZContact_PersonOnlineDict as F, eZContact_Online AS G
+                    WHERE A.ID = B.PersonID AND B.PhoneID = C.ID AND
+                          A.ID = D.PersonID AND D.AddressID = E.ID AND
+                          A.ID = F.PersonID AND F.OnlineID = G.ID AND
+                    (" .
+                    $query->buildQuery() .
+                    ")
+                    GROUP BY A.ID
+                    ORDER BY A.LastName, A.FirstName
+                    LIMIT $limit_index, $limit";
+            $this->Database->array_query( $person_array, $qry );
+        }
 
         foreach( $person_array as $personItem )
         {
