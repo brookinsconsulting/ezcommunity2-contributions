@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezcachefile.php,v 1.8 2001/02/14 10:30:37 bf Exp $
+// $Id: ezcachefile.php,v 1.9 2001/02/26 12:31:05 jb Exp $
 //
 // Definition of eZCacheFile class
 //
@@ -156,7 +156,7 @@ class eZCacheFile
     }
 
     /*!
-      Returns the content of the file if it exists and can be read.
+      Stores the content to the cache file and returns it.
     */
     function store( $content )
     {
