@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezmail.php,v 1.29 2001/05/14 14:20:32 fh Exp $
+// $Id: ezmail.php,v 1.30 2001/06/29 09:48:35 pkej Exp $
 //
 // Definition of eZMail class
 //
@@ -991,7 +991,12 @@ class eZMail
         
         $mime = "";
         if( !empty( $this->From ) )
-            $mime .= "From: " . $this->From . "\n";
+        {
+            if( !empty( $this->FromName ) )
+                $mime .= "From: " . $this->FromName . " <" . $this->From . ">\n";
+            else
+                $mime .= "From: "  . $this->From . "\n";
+        }
         if( !empty( $this->Cc ) )
             $mime .= "Cc: " . $this->Cc . "\n";
         if( !empty( $this->Bcc ) )
