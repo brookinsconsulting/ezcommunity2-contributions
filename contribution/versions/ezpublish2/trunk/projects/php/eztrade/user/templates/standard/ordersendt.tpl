@@ -4,6 +4,20 @@
 
 <h2>{intl-thanks_for_shopping}</h2>
 
+<!-- BEGIN license_item_tpl -->
+<h1>{intl-license_verification}</h1>
+<hr noshade="noshade" size="4" />
+<div>{intl-license_information}</div>
+<div>{intl-license_information2}</div><br /><br />
+<form action="{www_dir}{index}/license/license/verify/" method="post">
+<input class="okbutton" type="hidden" name="OrderID" value="{order_id}" />
+<input class="stdbutton" type="submit" name="Verify" value="{intl-verify_licenses}" />
+</form>
+<hr noshade="noshade" size="4" />
+<!-- END license_item_tpl -->
+
+
+
 <p>{intl-email_notice}</p>
 
 
@@ -290,16 +304,5 @@
 
 </table>
 <!-- END tax_specification_tpl -->
-
-<!-- BEGIN license_item_tpl -->
-<h1>{intl-license_verification}</h1>
-<hr noshade="noshade" size="4" />
-<div>{intl-license_information}</div>
-<div>{intl-license_information2}</div><br /><br />
-<form action="{www_dir}{index}/license/license/verify/" method="post">
-<input class="okbutton" type="hidden" name="OrderID" value="{order_id}" />
-<input class="okbutton" type="submit" name="Verify" value="{intl-verify_licenses}" />
-</form>
-<!-- END license_item_tpl -->
 
 <!-- END full_cart_tpl -->

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ordersendt.php,v 1.53 2001/11/12 08:03:47 ce Exp $
+// $Id: ordersendt.php,v 1.54 2001/11/28 14:19:51 pkej Exp $
 //
 // Created on: <06-Oct-2000 14:04:17 bf>
 //
@@ -35,7 +35,10 @@ include_once( "eztrade/classes/ezorder.php" );
 include_once( "eztrade/classes/ezproduct.php" ); 
 include_once( "eztrade/classes/ezcheckout.php" );
 
+include_once( "ezlicense/classes/ezlicenseprogramversion.php" );
+include_once( "ezlicense/classes/ezlicenseprogram.php" );
 include_once( "ezlicense/classes/ezlicensecost.php" );
+include_once( "ezlicense/classes/ezlicense.php" );
 
 $Language = $ini->read_var( "eZTradeMain", "Language" );
 $ShowPriceGroups = $ini->read_var( "eZTradeMain", "PriceGroupsEnabled" ) == "true";
@@ -109,7 +112,7 @@ $t->set_block( "cart_item_basis_tpl", "basis_ex_tax_item_tpl", "basis_ex_tax_ite
 $t->set_block( "full_cart_tpl", "tax_specification_tpl", "tax_specification" );
 $t->set_block( "tax_specification_tpl", "tax_item_tpl", "tax_item" );
 
-$t->set_block( "full_cart_tpl", "license_item_tpl", "license_item" );
+$t->set_block( "order_sendt_tpl", "license_item_tpl", "license_item" );
 $t->set_var( "license_item", "" );
 
 $order = new eZOrder( $OrderID );
@@ -404,6 +407,8 @@ $licenseView = false;
 $numberOfItems = 0;
 $j = 0;
 
+$licenseCost = new eZLicenseCost();
+
 foreach ( $items as $item )
 {
     $t->set_var( "td_class", ( $j % 2 ) == 0 ? "bglight" : "bgdark" );
@@ -423,7 +428,24 @@ foreach ( $items as $item )
 
     if ( $product->productType() == 3 ) // if license
     {
-        $licenseView = true;
+        $inActiveLicenses = eZLicense::inActiveLicensesByOrder( $OrderID );
+        $ActiveLicenses = eZLicense::activeLicensesByOrder( $OrderID );
+
+        $inActiveCount = count( $inActiveLicenses );
+
+        $ActiveCount = count( $ActiveLicenses );
+
+        if ( $ActiveCount > 0 )
+        {
+            if ( $inActiveCount > 0 )
+            {
+               $licenseView = true; 
+            }
+        }
+        else
+        {
+            $licenseView = true;
+        }
     }
 
     $numberOfItems++;
