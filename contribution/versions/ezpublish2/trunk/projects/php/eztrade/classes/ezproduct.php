@@ -1,6 +1,6 @@
 %<?php
 // 
-// $Id: ezproduct.php,v 1.66 2001/07/24 14:14:54 br Exp $
+// $Id: ezproduct.php,v 1.67 2001/07/25 19:11:38 fh Exp $
 //
 // Definition of eZProduct class
 //
@@ -1280,7 +1280,7 @@ class eZProduct
         $db->begin();
         
         $res = $db->query( "DELETE FROM eZTrade_ProductCategoryLink WHERE ProductID='$this->ID'" );
-        $db->finish( $res, $db );
+        eZDB::finish( $res, $db );
         
     }
 
@@ -1337,7 +1337,7 @@ class eZProduct
 
            $res[] = $db->query( $query );
 
-           $db->finish( $res, $db );
+           eZDB::finish( $res, $db );
        }       
     }
 
@@ -1400,7 +1400,7 @@ class eZProduct
                            '$this->ID' )";
 
             $res[] = $db->query( $query );
-            $db->finish( $res, $db );
+            eZDB::finish( $res, $db );
        }       
     }
 
@@ -1439,7 +1439,7 @@ class eZProduct
 
        $res[] = $db->query( "DELETE FROM eZTrade_ProductTypeLink
                                      WHERE ProductID='$this->ID'" );
-       $db->finish( $res, $db );
+       eZDB::finish( $res, $db );
             
     }
 
