@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezlinkcategory.php,v 1.11.2.3 2002/01/11 09:31:56 kaid Exp $
+// $Id: ezlinkcategory.php,v 1.11.2.4 2002/01/11 09:33:44 kaid Exp $
 //
 // Definition of eZLinkCategory class
 //
@@ -535,7 +535,10 @@ class eZLinkCategory
     */
     function parent()
     {
-        return $this->Parent;
+		if ( isset( $this->Parent ) )
+	        return $this->Parent;
+		else
+			return "";
     }
 
     /*!
