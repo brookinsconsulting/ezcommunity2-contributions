@@ -37,6 +37,7 @@ switch ( $url_array[2] )
 
     case "userlist" :
     {
+        $OrderBy = $url_array[3];
         include( "ezuser/admin/userlist.php" );
     }
     break;

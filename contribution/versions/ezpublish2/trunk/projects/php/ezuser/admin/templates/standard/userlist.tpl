@@ -61,16 +61,16 @@
 
 <tr>
 	<th>
-	{intl-name}:
+	<a href="/user/userlist/name">{intl-name}:</a>
 	</th>
 
 	<th>
-	{intl-email}:
+	<a href="/user/userlist/email">{intl-email}:</a>
 	</th>
 
 
 	<th>
-	{intl-login}:
+	<a href="/user/userlist/login">{intl-login}:</a>
 	</th>
 
 	<th>

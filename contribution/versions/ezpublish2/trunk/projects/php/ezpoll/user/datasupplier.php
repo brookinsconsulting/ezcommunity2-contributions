@@ -45,5 +45,10 @@ switch ( $url_array[2] )
     }    
     break;
 
+    case "test":
+    {
+        include( "ezcontact/test.php" );
+    }
+
 }
 ?>

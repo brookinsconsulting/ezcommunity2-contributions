@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezuser.php,v 1.17 2000/11/10 10:44:41 bf-cvs Exp $
+// $Id: ezuser.php,v 1.18 2000/11/14 12:04:00 ce-cvs Exp $
 //
 // Definition of eZCompany class
 //
@@ -199,14 +199,33 @@ class eZUser
     /*!
       Fetches the user id from the database. And returns a array of eZUser objects.
     */
-    function getAll()
+    function getAll( $order="Login" )
     {
         $this->dbInit();
 
+        switch ( $order )
+        {
+            case "name" :
+            {
+                $orderBy = "FirstName";
+            }
+            break;
+            
+            case "email" :
+            {
+                $orderBy = "Email";
+            }
+            break;
+            
+            default :
+                $orderBy = "Login";
+            break;
+        }
+                
         $return_array = array();
         $user_array = array();
 
-        $this->Database->array_query( $user_array, "SELECT ID FROM eZUser_User ORDER By Login" );
+        $this->Database->array_query( $user_array, "SELECT ID FROM eZUser_User ORDER By $orderBy" );
 
         for ( $i=0; $i<count ( $user_array ); $i++ )
         {

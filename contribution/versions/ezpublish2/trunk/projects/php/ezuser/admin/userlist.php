@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: userlist.php,v 1.13 2000/11/12 21:22:35 bf-cvs Exp $
+// $Id: userlist.php,v 1.14 2000/11/14 12:04:00 ce-cvs Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <20-Sep-2000 13:32:11 ce>
@@ -52,7 +52,7 @@ $user = new eZUser();
 
 if ( $GroupID == 0 )
 {
-    $userList = $user->getAll();
+    $userList = $user->getAll( $OrderBy );
 }
 else
 {
