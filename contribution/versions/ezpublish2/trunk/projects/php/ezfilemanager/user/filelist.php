@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: filelist.php,v 1.48 2001/10/04 10:04:54 ce Exp $
+// $Id: filelist.php,v 1.49 2001/10/04 12:02:15 ce Exp $
 //
 // Created on: <10-Dec-2000 16:16:20 bf>
 //
@@ -84,9 +84,9 @@ include_once( "ezsitemanager/classes/ezsection.php" );
 // tempo fix for admin users - maybe in the future must be changed
 if ( ($FolderID != 0) && ! eZPermission::checkPermission( $user, "eZUser", "AdminLogin" ) )
 {
-    $GlobalSectionID = eZVirtualFolder::sectionIDstatic ( $FolderID );
+    // moved out
 }
-    
+$GlobalSectionID = eZVirtualFolder::sectionIDstatic ( $FolderID );    
 // init the section
 $sectionObject =& eZSection::globalSectionObject( $GlobalSectionID );
 $sectionObject->setOverrideVariables();
