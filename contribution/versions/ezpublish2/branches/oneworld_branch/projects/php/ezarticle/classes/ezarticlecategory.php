@@ -1,5 +1,5 @@
 <?php
-// $Id: ezarticlecategory.php,v 1.103.2.5.2.3 2002/06/04 11:33:35 ce Exp $
+// $Id: ezarticlecategory.php,v 1.103.2.5.2.4 2002/06/04 11:34:34 ce Exp $
 //
 // Definition of eZArticleCategory class
 //
@@ -1775,9 +1775,6 @@ class eZArticleCategory
 
         return $result;
     }
-<<<<<<< ezarticlecategory.php
-
-=======
 
    /*!
       Returns true if the category is assigned to the category given
