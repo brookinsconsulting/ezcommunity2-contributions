@@ -31,7 +31,7 @@
 </SCRIPT>
 
 <h1>Brukergrupper</h1>
-<table width="100%" cellspacing="0" cellpadding="0" border="0">
+<table width="100%" cellspacing="0" cellpadding="2" border="0">
 {user_group_list}
 </table>
 <br>

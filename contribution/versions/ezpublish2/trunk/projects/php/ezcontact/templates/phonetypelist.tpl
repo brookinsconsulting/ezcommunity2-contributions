@@ -31,7 +31,7 @@
 </SCRIPT> 
 
 <h1>Kontaktmedier</h1>
-<table width="100%" cellspacing="0" cellpadding="0" border="0">
+<table width="100%" cellspacing="0" cellpadding="2" border="0">
 {phone_type_list}
 </table>
 <br>

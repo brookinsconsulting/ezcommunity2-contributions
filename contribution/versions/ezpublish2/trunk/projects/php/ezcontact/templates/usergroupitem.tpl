@@ -1,6 +1,6 @@
 <tr>
 	<td bgcolor="{bg_color}">
-	{user_group_name}
+	&nbsp;&nbsp;{user_group_name}
 	</td>
 	<td bgcolor="{bg_color}">
 	{user_group_description}
