@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: messagesimplelist.php,v 1.15.8.2 2002/01/31 11:53:14 bf Exp $
+// $Id: messagesimplelist.php,v 1.15.8.3 2002/02/25 08:30:44 ceaker Exp $
 //
 // Created on: <11-Sep-2000 22:10:06 bf>
 //
@@ -79,9 +79,9 @@ else
     foreach ( $messageList as $message )
     {
         if ( ( $i % 2 ) == 0 )
-            $t->set_var( "td_class", "bglight" );
+            $t->set_var( "td_class", "1" );
         else
-            $t->set_var( "td_class", "bgdark" );
+            $t->set_var( "td_class", "2" );
         
         $level = $message->depth();
         
