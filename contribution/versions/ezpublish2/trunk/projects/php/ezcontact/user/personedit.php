@@ -12,11 +12,6 @@ include_once( "classes/eztemplate.php" );
 include_once( "classes/ezmail.php" );
 include_once( "ezcontact/classes/ezperson.php" );
 
-if( is_object( $user ) )
-{
-    $UserID = $user->id();
-}
-
 if( $Action == "delete" )
 {
     $person = new eZPerson();
