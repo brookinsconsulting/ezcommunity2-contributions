@@ -1,0 +1,112 @@
+
+<h1>{intl-bug_view}</h1>
+
+<hr noshade="noshade" size="4">
+<!-- BEGIN path_tpl -->
+
+
+<img src="/images/path-arrow.gif" height="10" width="12" border="0" alt="" />
+
+<a class="path" href="/bug/archive/0/">{intl-top_level}</a>
+
+<!-- END path_tpl -->
+
+<!-- BEGIN path_item_tpl -->
+
+<img src="/images/path-slash.gif" height="10" width="16" border="0" alt="" />
+
+<a class="path" href="/bug/archive/{module_id}/">{module_name}</a>
+<!-- END path_item_tpl -->
+
+<hr noshade="noshade" size="4" />
+
+
+
+<table width="100%" cellspacing="0" cellpadding="0" border="0">
+<tr>
+	<td valign="top" width="100%">
+
+<table cellspacing="0" cellpadding="0" border="0" width="100%">
+<tr>
+	<td>
+	<p class="boxtext">{intl-bug_module}:</p>
+	{module_name}
+	</td>
+
+	<td>
+	<p class="boxtext">{intl-bug_category}:</p>
+	{category_name}
+	</td>
+</tr>
+</table>
+
+
+<p class="boxtext">{intl-bug_date}:</p>
+{bug_date}
+
+<p class="boxtext">{intl-bug_title}:</p>
+<span class="p">{name_value}</span>
+
+<p class="boxtext">{intl-bug_reporter}:</p>
+<table cellspacing="0" cellpadding="0" border="0" width="100%">
+<tr>
+	<td class="bglight">
+	{reporter_name_value}
+	</td>
+</tr>
+</table>
+
+
+<p class="boxtext">{intl-bug_description}:</p>
+<table cellspacing="0" cellpadding="0" border="0" width="100%">
+<tr>
+	<td class="bglight">
+	{description_value}
+	</td>
+</tr>
+</table>
+
+<br />
+
+<table cellspacing="0" cellpadding="0" border="0" width="100%">
+<tr>
+	<td>
+	<p class="boxtext">{intl-assigned_priority}:</p>
+	{priority_name}
+	</td>
+
+	<td>
+	<p class="boxtext">{intl-assigned_status}:</p>
+	{status_name}
+	</td>
+</tr>
+</table>
+
+<br />
+<span class="boxtext">{intl-is_closed}:</span>
+<!-- BEGIN yes_tpl -->
+{intl-yes}
+<!-- END yes_tpl -->
+<!-- BEGIN no_tpl -->
+{intl-no}
+<!-- END no_tpl -->
+
+<br />
+<br />
+<!-- BEGIN log_item_tpl -->
+<b>{log_date}</b>
+<p>
+{log_description}
+</p>
+<!-- END log_item_tpl -->	
+
+</td>
+</tr>
+</table>
+
+
+<hr noshade="noshade" size="4">
+
+
+
+

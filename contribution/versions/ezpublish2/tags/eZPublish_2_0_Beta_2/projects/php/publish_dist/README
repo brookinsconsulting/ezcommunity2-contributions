@@ -1,0 +1,316 @@
+NOTE: To upgrade the database from version 1.0.1 to 1.0.2 
+      run the following SQL commands:
+
+create table eZArticle_ArticleCategoryDefinition( ID int primary key auto_increment, ArticleID int not null, CategoryID int not null ); 
+INSERT INTO eZArticle_ArticleCategoryDefinition ( ArticleID, CategoryID )  SELECT DISTINCT ArticleID, CategoryID from eZArticle_ArticleCategoryLink;  
+
+NOTE: To upgrade the database from 1.0.2 to 1.0.3 and higher 
+      run the following SQL commands:
+ 
+ALTER TABLE eZSession_Session ADD Created timestamp;
+ALTER TABLE eZSession_Session ADD LastAccessed timestamp;
+ALTER TABLE eZSession_Session ADD SecondLastAccessed timestamp;
+
+ALTER TABLE eZUser_Group ADD SessionTimeout int default 60;
+ 
+CREATE TABLE eZArticle_ArticleForumLink( ID int primary key auto_increment, ArticleID int not NULL, ForumID int not NULL );
+
+CREATE TABLE eZForum_ForumCategoryLink( ID int primary key auto_increment, ForumID int not null, CategoryID int not null );
+INSERT INTO eZForum_ForumCategoryLink ( ForumID, CategoryID )  SELECT ID, CategoryID from eZForum_Forum;
+ALTER TABLE eZForum_Forum DROP CategoryID;
+
+NOTE: To upgrade the database from 1.0.3 to 1.0.4 and higher 
+      run the following SQL commands:
+
+ALTER TABLE eZContact_Address DROP AddressType;
+ALTER TABLE eZContact_Address ADD AddressTypeID int;
+
+NOTE: To upgrade the database from 1.0.5 and higher run the following SQL commands:
+
+
+NOTE: Upgrading to 2.0 beta 1 is NOT recommened, please follow the notes if you still want to upgrade. And give feedback when updating.
+
+
+Template updates
+----------------
+Put this new template into ezarticle/user/templates/{your design}/articleview.tpl
+<!-- BEGIN attached_file_list_tpl -->
+<h3>{intl-attached_files}:</h3>
+<!-- BEGIN attached_file_tpl -->
+<a href="/filemanager/download/{file_id}/{original_file_name}/">{file_name}</a><br />
+<!-- END attached_file_tpl -->
+
+<!-- END attached_file_list_tpl -->
+
+
+# A new block template in the wishlist.tpl file:
+
+		  <!-- BEGIN is_bought_tpl -->
+		  {intl-is_bought}
+		  <!-- END is_bought_tpl -->
+
+		  <!-- BEGIN is_not_bought_tpl -->
+		  {intl-is_not_bought}
+		  <!-- END is_not_bought_tpl -->
+
+
+
+Site.ini updates
+-----------------
+SiteURL=yoursite.com
+
+[eZContactMain]
+AdminTemplateDir=templates/standard/
+TemplateDir=templates/standard/
+ImageDir=/images/standard/
+DocumentRoot=./ezcontact/
+Language=en_GB
+CategoryImageWidth=100
+CategoryImageHeight=100
+MaxPersonConsultationList=5
+MaxCompanyConsultationList=5
+MaxPersonList=10
+MaxCountryList=11
+LastConsultations=5
+AddressMinimum=1
+AddressWidth=1
+PhoneMinimum=3
+PhoneWidth=3
+OnlineMinimum=2
+OnlineWidth=3
+
+[eZBugMain]
+AdminTemplateDir=templates/standard/
+TemplateDir=templates/standard/
+ImageDir=images/standard/
+Language=en_GB
+
+[eZAddressMain]
+AdminTemplateDir=templates/standard/
+TemplateDir=templates/standard/
+ImageDir=/images/standard/
+DocumentRoot=./ezaddress/
+Language=en_GB
+MaxCountryList=11
+
+[eZArticleMain]
+ArticleListLimit=5
+AdminListLimit=5
+UserListLimit=5
+PublishNoticeReceiver=bf@ez.no
+PublishNoticeSender=bf@ez.no
+
+[eZImageCatalogueMain]
+ThumbnailViewWidth=150
+ThumbnailViewHight=150
+
+[eZAdMain]
+AdminTemplateDir=templates/standard/
+TemplateDir=templates/standard/
+ImageDir=images/standard/
+Language=en_GB
+
+[eZCalendarMain]
+AdminTemplateDir=templates/standard/
+TemplateDir=templates/standard/
+ImageDir=/images/standard/
+Language=en_GB
+DayStartTime=08:00
+DayStopTime=18:00
+DayInterval=00:30
+
+[eZStatsMain]
+AdminTemplateDir=templates/standard/
+TemplateDir=templates/standard/
+ImageDir=/images/standard/
+Language=en_GB
+
+[eZTodoMain]
+AdminTemplateDir=templates/standard/
+TemplateDir=templates/standard/
+ImageDir=/images/standard/
+Language=en_GB
+DocumentRoot=./eztodo/
+
+[eZFileManagerMain]
+AdminTemplateDir=templates/standard/
+TemplateDir=templates/standard/
+ImageDir=images/standard/
+Language=en_GB
+
+[eZNewsFeedMain]
+AdminTemplateDir=templates/standard/
+TemplateDir=templates/standard/
+ImageDir=images/standard/
+Language=en_GB
+PageCaching=disabled
+
+[eZTradeMain]
+MainImageWidth=300
+MainImageHeight=300
+SmallImageWidth=150
+SmallImageHeight=150
+ThumbnailImageWidth=240
+ThumbnailImageHeight=200
+ShowBillingAddress=enabled
+
+
+Changes this in your httpd configuration
+----------------
+RewriteRule     !\.(gif|css|jpg|png) /yoursite/index.php
+To
+RewriteRule     !\.(gif|css|jpg|png)$ /yoursite/index.php
+
+
+SQL updates
+-----------------
+CREATE TABLE eZArticle_ArticleFileLink (
+  ID int(11) DEFAULT '0' NOT NULL auto_increment,
+  ArticleID int(11) DEFAULT '0' NOT NULL,
+  FileID int(11) DEFAULT '0' NOT NULL,
+  Created timestamp(14),
+  PRIMARY KEY (ID)
+);
+
+#
+# Table structure for table 'eZContact_AddressDefinition'
+#
+DROP TABLE IF EXISTS eZContact_AddressDefinition;
+CREATE TABLE eZContact_AddressDefinition (
+  AddressID int(11),
+  UserID int(11) NOT NULL,
+  PRIMARY KEY (UserID)
+);
+
+create table eZSession_Preferences( ID int primary key auto_increment, UserID int not null, Name char(50), Value char(50) );
+
+#
+# Updates in eZ forum
+#
+alter table eZForum_Forum add ModeratorID int not null;
+alter table eZForum_Forum drop moderated;
+alter table eZForum_Forum add IsModerated int not null default 0;
+
+alter table eZForum_Message add IsApproved int not null default 1;     
+
+# User defined sorting of articles pr category
+alter table eZArticle_Category add SortMode int not null default 1;
+
+# abolute placement of articles
+alter table eZArticle_ArticleCategoryLink add Placement int not null;    
+update eZArticle_ArticleCategoryLink set Placement=ArticleID;  
+
+# User defines sorting of products pr category
+alter table eZTrade_Category add SortMode int not null default 1;   
+
+# Absolute placement of products pr category.
+alter table eZTrade_ProductCategoryLink add Placement int not null;   
+update eZTrade_ProductCategoryLink set Placement=ProductID;       
+
+# Dates for products
+alter table eZTrade_Product add Published timestamp; 
+alter table eZTrade_Product add Altered timestamp;    
+
+# Rigths to image and file:
+insert into eZUser_Module set Name='eZFileManager';
+insert into eZUser_Module set Name='eZImageCatalogue';
+insert into eZUser_Permission set ModuleID='9', Name='WritePermission';
+insert into eZUser_Permission set ModuleID='10', Name='WritePermission';
+insert into eZUser_Permission set Name='WriteToRoot', ModuleID='9';
+insert into eZUser_Permission set Name='WriteToRoot', ModuleID='10';
+
+
+# trade
+ALTER TABLE eZTrade_ProductImageLink add Created timestamp;
+alter table eZTrade_WishList add IsPublic int not null default 0;
+alter table eZTrade_CartItem add WishListItemID int not null default 0;
+alter table eZTrade_WishListItem add IsBought int not null default 0;
+
+# New ordering fields:
+alter table eZTrade_Order drop AddressID; 
+alter table eZTrade_Order add ShippingAddressID int;     
+alter table eZTrade_Order add BillingAddressID int;                       
+
+
+#
+# Table structure for table 'eZTrade_ProductTypeLink'
+#
+DROP TABLE IF EXISTS eZTrade_ProductTypeLink;
+CREATE TABLE eZTrade_ProductTypeLink (
+  ID int(11) DEFAULT '0' NOT NULL auto_increment,
+  ProductID int(11),
+  TypeID int(11),
+  PRIMARY KEY (ID)
+);
+
+#
+# Table structure for table 'eZTrade_Type'
+#
+DROP TABLE IF EXISTS eZTrade_Type;
+CREATE TABLE eZTrade_Type (
+  ID int(11) DEFAULT '0' NOT NULL auto_increment,
+  Name varchar(150),
+  Description text,
+  PRIMARY KEY (ID)
+);
+
+
+#
+# Table structure for table 'eZTrade_Attribute'
+#
+DROP TABLE IF EXISTS eZTrade_Attribute;
+CREATE TABLE eZTrade_Attribute (
+  ID int(11) DEFAULT '0' NOT NULL auto_increment,
+  TypeID int(11),
+  Name char(150),
+  Created timestamp(14),
+  PRIMARY KEY (ID)
+);
+
+#
+# Table structure for table 'eZTrade_AttributeValue'
+#
+DROP TABLE IF EXISTS eZTrade_AttributeValue;
+CREATE TABLE eZTrade_AttributeValue (
+  ID int(11) DEFAULT '0' NOT NULL auto_increment,
+  ProductID int(11),
+  AttributeID int(11),
+  Value char(200),
+  PRIMARY KEY (ID)
+);
+
+
+### BETA 1- BETA 2
+
+alter table eZTrade_Order add IsExported int not null default 0;    
+
+# user table
+alter table eZUser_User add Signature text NOT NULL;   
+
+
+alter table eZLink_LinkGroup add ImageID int;
+
+alter table eZTrade_Order add IsExported int not null default 0;    
+alter table eZTrade_Order add Date datetime;
+
+# eZ stats (speed) update
+# If you're having the site online do the following:
+#
+alter table eZStats_PageView add DateValue date not null;
+alter table eZStats_PageView add TimeValue time not null;
+
+# Then update the eZStats scripts. (copy the new code )
+# Then run the following commands
+Update eZStats_PageView SET Date=Date, DateValue= DATE_FORMAT( Date, "%Y-%m-%d" ) WHERE DateValue='0000-00-00';
+Update eZStats_PageView SET Date=Date, TimeValue=DATE_FORMAT( eZStats_PageView.Date, "%H:%i:%S" ) WHERE TimeValue='00:00:00';
+
+# Index for speed
+alter table eZStats_PageView add index ( DateValue ); 
+alter table eZStats_PageView add index ( TimeValue ); 
+alter table eZStats_PageView add index ( Date );
+
+# Set if order is active or not
+alter table eZTrade_Order add IsActive int default 0;  
+
+# set a group for eZ forum
+alter table eZForum_Forum add GroupID int default 0;
