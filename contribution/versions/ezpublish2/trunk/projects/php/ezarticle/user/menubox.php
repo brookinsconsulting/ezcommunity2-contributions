@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: menubox.php,v 1.24 2001/09/21 14:28:48 jhe Exp $
+// $Id: menubox.php,v 1.25 2001/10/16 09:07:22 bf Exp $
 //
 // 
 //
@@ -78,87 +78,92 @@ else
     createArticleMenu();
 }
 
-function createArticleMenu( $menuCachedFile=false )
-{
-    global $ini;
-    global $Language;
-    global $menuCachedFile;
-    global $GenerateStaticPage;
-	global $GlobalSiteDesign;
-	global $CategoryID;
+
+
+if ( !(function_exists('createArticleMenu') ) )
+{ 
+    function createArticleMenu( $menuCachedFile=false )
+        {
+            global $ini;
+            global $Language;
+            global $menuCachedFile;
+            global $GenerateStaticPage;
+            global $GlobalSiteDesign;
+            global $CategoryID;
 
         
-    include_once( "classes/eztemplate.php" );
+            include_once( "classes/eztemplate.php" );
 
-    include_once( "ezarticle/classes/ezarticlecategory.php" );
-    include_once( "ezarticle/classes/ezarticle.php" );
+            include_once( "ezarticle/classes/ezarticlecategory.php" );
+            include_once( "ezarticle/classes/ezarticle.php" );
 
-    $t = new eZTemplate( "ezarticle/user/" . $ini->read_var( "eZArticleMain", "TemplateDir" ),
-                         "ezarticle/user/intl", $Language, "menubox.php" );
+            $t = new eZTemplate( "ezarticle/user/" . $ini->read_var( "eZArticleMain", "TemplateDir" ),
+                                 "ezarticle/user/intl", $Language, "menubox.php" );
 
-    $t->setAllStrings();
+            $t->setAllStrings();
 
-    $t->set_file( array(
-        "menu_box_tpl" => "menubox.tpl"
-        ) );
+            $t->set_file( array(
+                "menu_box_tpl" => "menubox.tpl"
+                ) );
 
-    $t->set_block( "menu_box_tpl", "article_category_tpl", "article_category" );
-    $t->set_block( "menu_box_tpl", "submit_article_tpl", "submit_article" );
+            $t->set_block( "menu_box_tpl", "article_category_tpl", "article_category" );
+            $t->set_block( "menu_box_tpl", "submit_article_tpl", "submit_article" );
 
-    $t->set_var( "submit_article", "" );
+            $t->set_var( "submit_article", "" );
 
-    $t->set_var( "sitedesign", $GlobalSiteDesign );
+            $t->set_var( "sitedesign", $GlobalSiteDesign );
 
-    // Lister alle kategorier
+            // Lister alle kategorier
 
-    if ( !isset( $CategoryID  ) )
-        $CategoryID = 0;
+            if ( !isset( $CategoryID  ) )
+                $CategoryID = 0;
          
-    $articleCategory = new eZArticleCategory( $CategoryID );
+            $articleCategory = new eZArticleCategory( $CategoryID );
 
-    $articleCategory_array = $articleCategory->getByParent( $articleCategory );
+            $articleCategory_array = $articleCategory->getByParent( $articleCategory );
 
-    $t->set_var( "top_title", $articleCategory->name() );
+            $t->set_var( "top_title", $articleCategory->name() );
 
-    $i = 0;
-    foreach( $articleCategory_array as $categoryItem )
-    {
-        if( eZObjectPermission::hasPermission( $categoryItem->id(), "article_category", 'r' ) )
-        {
-            $t->set_var( "articlecategory_id", $categoryItem->id()  );
-            $t->set_var( "articlecategory_title", $categoryItem->name() );
+            $i = 0;
+            foreach( $articleCategory_array as $categoryItem )
+            {
+                if( eZObjectPermission::hasPermission( $categoryItem->id(), "article_category", 'r' ) )
+                {
+                    $t->set_var( "articlecategory_id", $categoryItem->id()  );
+                    $t->set_var( "articlecategory_title", $categoryItem->name() );
 
-            $t->parse( "article_category", "article_category_tpl", true );
-            $i++;
-        }
-    }
+                    $t->parse( "article_category", "article_category_tpl", true );
+                    $i++;
+                }
+            }
 
-    if( $i == 0 )
-        $t->set_var( "article_category", "" );
-
-
-    // user-submitted articles
-    include_once( "ezuser/classes/ezuser.php" );
-
-    if ( eZUser::currentUser() != false &&
-         $ini->read_var( "eZArticleMain", "UserSubmitArticles" ) == "enabled" )
-    {
-        $t->parse( "submit_article", "submit_article_tpl", true );
-    }
+            if( $i == 0 )
+                $t->set_var( "article_category", "" );
 
 
+            // user-submitted articles
+            include_once( "ezuser/classes/ezuser.php" );
 
-    if ( isset( $menuCacheFile ) and get_class( $menuCacheFile ) == "ezcachefile" )
-    {
-        $output = $t->parse( $target, "menu_box_tpl" );
-        $menuCacheFile->store( $output );
-        print( $output );
-    }
-    else
-    {
-		$t->pparse( "output", "menu_box_tpl" );
-    }
+            if ( eZUser::currentUser() != false &&
+                 $ini->read_var( "eZArticleMain", "UserSubmitArticles" ) == "enabled" )
+            {
+                $t->parse( "submit_article", "submit_article_tpl", true );
+            }
+
+
+
+            if ( isset( $menuCacheFile ) and get_class( $menuCacheFile ) == "ezcachefile" )
+            {
+                $output = $t->parse( $target, "menu_box_tpl" );
+                $menuCacheFile->store( $output );
+                print( $output );
+            }
+            else
+            {
+                $t->pparse( "output", "menu_box_tpl" );
+            }
     
-}
+        }
+} 
 
 ?>
