@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: image.php,v 1.11 2001/09/03 11:07:08 jb Exp $
+// $Id: image.php,v 1.12 2001/09/06 10:02:12 jb Exp $
 //
 // Created on: <14-Jun-2001 13:18:27 amos>
 //
@@ -70,9 +70,9 @@ if( $Command == "data" ) // Dump image info!
                 $user_id = get_class( $user ) == "ezuser" ? $user->id() : 0;
 
                 $ret = array( 
-                    "Name" => new eZXMLRPCString( $image->name() ),
-                    "Caption" => new eZXMLRPCString( $image->caption() ),
-                    "Description" => new eZXMLRPCString( $image->description() ),
+                    "Name" => new eZXMLRPCString( $image->name( false ) ),
+                    "Caption" => new eZXMLRPCString( $image->caption( false ) ),
+                    "Description" => new eZXMLRPCString( $image->description( false ) ),
                     "FileName" => new eZXMLRPCString( $image->fileName() ),
                     "OriginalFileName" => new eZXMLRPCString( $image->originalFileName() ),
                     "FileSize" => new eZXMLRPCInt( $size ),
@@ -209,11 +209,16 @@ else if ( $Command == "search" )
             else
                 continue;
         }
-        $elements[] = new eZXMLRPCStruct( array( "Name" => new eZXMLRPCString( $item->name() ),
-                                                 "CategoryName" => new eZXMLRPCString( $cat->name() ),
+        $itemid = $item->id();
+        $catid = $cat->id();
+        $elements[] = new eZXMLRPCStruct( array( "Name" => new eZXMLRPCString( $item->name( false ) ),
+                                                 "CategoryName" => new eZXMLRPCString( $cat->name( false ) ),
                                                  "Location" => createURLStruct( "ezimagecatalogue", "image", $item->id() ),
                                                  "CategoryLocation" => createURLStruct( "ezimagecatalogue", "category", $cat->id() ),
-                                                 "HasPreview" => new eZXMLRPCBool( true ) ) );
+                                                 "HasPreview" => new eZXMLRPCBool( true ),
+                                                 "WebURL" => new eZXMLRPCString( "/imagecatalogue/imageview/$itemid/" ),
+                                                 "CategoryWebURL" => new eZXMLRPCString( "/imagecatalogue/image/list/$catid/" )
+                                                 ) );
     }
     $ret = array( "Elements" => new eZXMLRPCArray( $elements ) );
     handleSearchData( $ret );

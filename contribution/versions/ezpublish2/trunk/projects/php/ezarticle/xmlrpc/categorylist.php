@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: categorylist.php,v 1.15 2001/08/22 06:11:49 jb Exp $
+// $Id: categorylist.php,v 1.16 2001/09/06 10:01:41 jb Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -73,7 +73,7 @@ if ( $Command == "list" )
     $cat = array();
     if ( $list_categories )
     {
-        $categoryCount = $category->countByParent( $category, true );
+        $categoryCount = $category->countByParent( $category, true, $User );
         $total += $categoryCount;
         if ( $loc_offset < $categoryCount )
         {
@@ -85,7 +85,7 @@ if ( $Command == "list" )
                 $cat[] = new eZXMLRPCStruct( array( "URL" => createURLStruct( "ezarticle",
                                                                               "category",
                                                                               $catItem->id() ),
-                                                    "Name" => new eZXMLRPCString( $catItem->name() )
+                                                    "Name" => new eZXMLRPCString( $catItem->name( false ) )
                                                     )
                                              );
             }
@@ -106,7 +106,7 @@ if ( $Command == "list" )
                 $art[] = new eZXMLRPCStruct( array( "URL" => createURLStruct( "ezarticle",
                                                                               "article",
                                                                               $artItem->id() ),
-                                                    "Name" => new eZXMLRPCString( $artItem->name() )
+                                                    "Name" => new eZXMLRPCString( $artItem->name( false ) )
                                                     )
                                              );
             }
@@ -188,14 +188,17 @@ else if ( $Command == "search" )
     $result =& eZArticleCategory::search( $texts );
     foreach( $result as $item )
     {
+        $itemid = $item->id();
         $catid = $item->parent( false );
         $cat = new eZArticleCategory();
         $cat->get( $catid );
         $element = array();
-        $element["Name"] = new eZXMLRPCString( $item->name() );
-        $element["CategoryName"] = new eZXMLRPCString( $cat->name() );
+        $element["Name"] = new eZXMLRPCString( $item->name( false ) );
+        $element["CategoryName"] = new eZXMLRPCString( $cat->name( false ) );
         $element["Location"] =  createURLStruct( "ezarticle", "category", $item->id() );
         $element["CategoryLocation"] = createURLStruct( "ezarticle", "category", $catid );
+        $element["WebURL"] = new eZXMLRPCString( "/article/archive/$itemid/" );
+        $element["CategoryWebURL"] = new eZXMLRPCString( "/article/archive/$catid/" );
         $elements[] = new eZXMLRPCStruct( $element );
     }
     $ret = array( "Elements" => new eZXMLRPCArray( $elements ) );
@@ -213,7 +216,7 @@ function &categoryTree( $cat )
 //          break;
     }
     $item = array( "ID" => $cat->id(),
-                   "Name" => $cat->name(),
+                   "Name" => $cat->name( false ),
                    "Children" => $child_array );
     return $item;
 }

@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: article.php,v 1.15 2001/08/21 15:11:37 jb Exp $
+// $Id: article.php,v 1.16 2001/09/06 10:01:40 jb Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -376,10 +376,15 @@ else if ( $Command == "search" )
     foreach( $result as $item )
     {
         $cat =& $item->categoryDefinition();
-        $elements[] = new eZXMLRPCStruct( array( "Name" => new eZXMLRPCString( $item->name() ),
-                                                 "CategoryName" => new eZXMLRPCString( $cat->name() ),
+        $itemid = $item->id();
+        $catid = $cat->id();
+        $elements[] = new eZXMLRPCStruct( array( "Name" => new eZXMLRPCString( $item->name( false ) ),
+                                                 "CategoryName" => new eZXMLRPCString( $cat->name( false ) ),
                                                  "Location" => createURLStruct( "ezarticle", "article", $item->id() ),
-                                                 "CategoryLocation" => createURLStruct( "ezarticle", "category", $cat->id() ) ) );
+                                                 "CategoryLocation" => createURLStruct( "ezarticle", "category", $cat->id() ),
+                                                 "WebURL" => new eZXMLRPCString( "/article/articleview/$itemid/1/$catid/" ),
+                                                 "CategoryWebURL" => new eZXMLRPCString( "/article/archive/$catid/" )
+                                                 ) );
     }
     $ret = array( "Elements" => new eZXMLRPCArray( $elements ) );
     handleSearchData( $ret );

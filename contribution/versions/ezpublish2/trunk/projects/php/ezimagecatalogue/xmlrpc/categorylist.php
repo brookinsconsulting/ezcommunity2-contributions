@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: categorylist.php,v 1.4 2001/08/09 11:43:08 jb Exp $
+// $Id: categorylist.php,v 1.5 2001/09/06 10:02:12 jb Exp $
 //
 // Created on: <26-Oct-2000 19:40:18 bf>
 //
@@ -77,7 +77,7 @@ if ( $Command == "list" )
                 $cat[] = new eZXMLRPCStruct( array( "URL" => createURLStruct( "ezimagecatalogue",
                                                                               "category",
                                                                               $catItem->id() ),
-                                                    "Name" => new eZXMLRPCString( $catItem->name() )
+                                                    "Name" => new eZXMLRPCString( $catItem->name( false ) )
                                                     )
                                              );
             }
@@ -98,7 +98,7 @@ if ( $Command == "list" )
                 $art[] = new eZXMLRPCStruct( array( "URL" => createURLStruct( "ezimagecatalogue",
                                                                               "image",
                                                                               $imageItem->id() ),
-                                                    "Name" => new eZXMLRPCString( $imageItem->name() ),
+                                                    "Name" => new eZXMLRPCString( $imageItem->name( false ) ),
                                                     "Thumbnail" => new eZXMLRPCBool( true )
                                                     )
                                              );
@@ -166,10 +166,12 @@ else if ( $Command == "search" )
         $cat = new eZImageCategory();
         $cat->get( $catid );
         $element = array();
-        $element["Name"] = new eZXMLRPCString( $item->name() );
-        $element["CategoryName"] = new eZXMLRPCString( $cat->name() );
+        $element["Name"] = new eZXMLRPCString( $item->name( false ) );
+        $element["CategoryName"] = new eZXMLRPCString( $cat->name( false ) );
         $element["Location"] =  createURLStruct( "ezimagecatalogue", "category", $item->id() );
         $element["CategoryLocation"] = createURLStruct( "ezimagecatalogue", "category", $catid );
+        $element["WebURL"] = new eZXMLRPCString( "/imagecatalogue/imageview/$itemid/" );
+        $element["CategoryWebURL"] = new eZXMLRPCString( "/imagecatalogue/image/list/$catid/" );
         $elements[] = new eZXMLRPCStruct( $element );
     }
     $ret = array( "Elements" => new eZXMLRPCArray( $elements ) );
