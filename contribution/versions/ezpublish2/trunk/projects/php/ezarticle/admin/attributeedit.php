@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: attributeedit.php,v 1.3 2001/06/06 12:24:00 pkej Exp $
+// $Id: attributeedit.php,v 1.4 2001/06/14 17:21:15 pkej Exp $
 //
 // Paul K Egell-Johnsen <pkej@ez.no>
 // Created on: <05-Jun-2001 13:07:24 pkej>
@@ -67,17 +67,13 @@ $t = new eZTemplate( "ezarticle/admin/" . $ini->read_var( "eZArticleMain", "Admi
 $t->setAllStrings();
 
 $t->set_file( array(
-    "arttribute_edit_page_tpl" => "attributeedit.tpl"
+    "attribute_edit_page_tpl" => "attributeedit.tpl"
     ) );
 
-$t->set_block( "arttribute_edit_page_tpl", "type_list_tpl", "type_list" );
-$t->set_block( "type_list_tpl", "type_item_tpl", "type_item" );
-$t->set_block( "arttribute_edit_page_tpl", "no_types_item_tpl", "no_types_item" );
-
-$t->set_block( "arttribute_edit_page_tpl", "attribute_list_tpl", "attribute_list" );
+$t->set_block( "attribute_edit_page_tpl", "attribute_list_tpl", "attribute_list" );
 $t->set_block( "attribute_list_tpl", "attribute_item_tpl", "attribute_item" );
-$t->set_block( "arttribute_edit_page_tpl", "no_attributes_item_tpl", "no_attributes_item" );
-$t->set_block( "arttribute_edit_page_tpl", "no_selected_type_item_tpl", "no_selected_type_item" );
+$t->set_block( "attribute_edit_page_tpl", "no_attributes_item_tpl", "no_attributes_item" );
+$t->set_block( "attribute_edit_page_tpl", "no_selected_type_item_tpl", "no_selected_type_item" );
 
 $ActionValue = "insert";
 
@@ -120,39 +116,14 @@ else
         $t->parse( "no_selected_type_item", "no_selected_type_item_tpl" );
 }
 
-$t->set_var( "selected", "" );
-if( $typeCount > 0 )
-{
-    foreach( $types as $type )
-    {
-        $t->set_var( "type_id", $type->id() );
-        $t->set_var( "type_name", $type->name() );
-        
-        if( $type->id() == $TypeID )
-        {
-            $t->set_var( "selected", "selected" );
-        }
-        
-        $t->parse( "type_item", "type_item_tpl", true );
-    }
-
-
-    $t->parse( "type_list", "type_list_tpl" );
-    $t->set_var( "no_types_item", "" );
-}
-else
-{
-    $t->parse( "no_types_item", "no_types_item_tpl" );
-    $t->set_var( "type_list", "" );
-}
-
 $t->set_var( "this_type_id", $thisType->id() );
+$t->set_var( "type_name", $thisType->name() );
 $t->set_var( "action_value", $ActionValue );
 $t->set_var( "article_name", $article->name() );
 $t->set_var( "article_id", $article->id() );
 
 $t->set_var( "site_style", $SiteStyle );
 
-$t->pparse( "output", "arttribute_edit_page_tpl" );
+$t->pparse( "output", "attribute_edit_page_tpl" );
 
 ?>

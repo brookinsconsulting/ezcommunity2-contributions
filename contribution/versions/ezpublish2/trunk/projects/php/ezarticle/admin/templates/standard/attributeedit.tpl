@@ -2,21 +2,6 @@
 
 <h1>{intl-attributes}: {article_name}</h1>
 
-<hr noshade="noshade" size="4" />
-
-<!-- BEGIN no_types_item_tpl -->
-{intl-no_types}
-<!-- END no_types_item_tpl -->
-
-<!-- BEGIN type_list_tpl -->
-<select name="TypeID">
-<option value="-1">{intl-no_selected_type}</option>
-<!-- BEGIN type_item_tpl -->
-<option value="{type_id}" {selected}>{type_name}</option>
-
-<!-- END type_item_tpl -->
-</select>&nbsp;<input class="stdbutton" type="submit" name="Update" value="{intl-update}" />
-<!-- END type_list_tpl -->
 <input type="hidden" name="ArticleID" value="{article_id}" />
 
 <br/>
@@ -31,7 +16,7 @@
 <!-- END no_selected_type_item_tpl -->
 
 <!-- BEGIN attribute_list_tpl -->
-<h2 class="boxtext">{type_name}d:</h2>
+<h2 class="boxtext">{type_name}:</h2>
 <!-- {type_id} -->
 
 <!-- BEGIN attribute_item_tpl -->

@@ -39,9 +39,25 @@
 
 <table cellspacing="0" cellpadding="0" border="0">
 <tr>
+<!-- BEGIN no_types_select_item_tpl -->
+    <td valign="top">
+{intl-no_types}
+    </td>
+<!-- END no_types_select_item_tpl -->
+<!-- BEGIN type_list_select_tpl -->
+    <td valign="top">
+        <select name="TypeID">
+        <option value="-1">{intl-no_selected_type}</option>
+<!-- BEGIN type_item_select_tpl -->
+        <option value="{type_id}" {selected}>{type_name}</option>
+
+<!-- END type_item_select_tpl -->
+        </select>
+    </td>
 	<td valign="top">
 	<input class="stdbutton" type="submit" name="NewType" value="{intl-add_type}" />
 	</td>
+<!-- END type_list_select_tpl -->
 	<td>&nbsp;</td>
 	<td>
 	<input class="stdbutton" type="submit" name="DeleteSelected" value="{intl-delete_selected}" />

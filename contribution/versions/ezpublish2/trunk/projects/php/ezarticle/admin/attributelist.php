@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: attributelist.php,v 1.2 2001/06/06 12:24:00 pkej Exp $
+// $Id: attributelist.php,v 1.3 2001/06/14 17:21:15 pkej Exp $
 //
 // Paul K Egell-Johnsen <pkej@ez.no>
 // Created on: <05-Jun-2001 13:07:24 pkej>
@@ -32,12 +32,6 @@ include_once( "ezarticle/classes/ezarticleattribute.php" );
 include_once( "ezarticle/classes/ezarticletype.php" );
 include_once( "ezarticle/classes/ezarticletool.php" );
 
-if( isset( $NewType ) )
-{
-    eZHTTPTool::header( "Location: /article/articleedit/attributeedit/new/?ArticleID=$ArticleID" );
-    exit();
-}
-
 $article = new eZArticle( $ArticleID );
 $category = $article->categoryDefinition( );
 $CategoryID = $category->id();
@@ -52,6 +46,18 @@ if( isset( $DeleteSelected ) )
         $article->deleteAttributesByType( $type );
     }
     eZArticleTool::deleteCache( $ArticleID, $CategoryID, $CategoryArray );
+}
+
+if( isset( $NewType ) )
+{
+    $type = new eZArticleType( $TypeID );
+    $attributes = $type->attributes();
+    
+    foreach( $attributes as $attribute )
+    {
+        $attribute->setValue( $article, htmlspecialchars( "" ) );
+    }
+    
 }
 
 $ini =& INIFile::globalINI();
@@ -69,6 +75,9 @@ $t->set_file( array(
 
 $t->set_block( "arttribute_list_page_tpl", "type_list_tpl", "type_list" );
 $t->set_block( "type_list_tpl", "type_item_tpl", "type_item" );
+$t->set_block( "arttribute_list_page_tpl", "type_list_select_tpl", "type_list_select" );
+$t->set_block( "arttribute_list_page_tpl", "no_types_select_item_tpl", "no_types_select_item" );
+$t->set_block( "type_list_select_tpl", "type_item_select_tpl", "type_item_select" );
 $t->set_block( "arttribute_list_page_tpl", "no_types_item_tpl", "no_types_item" );
 
 
@@ -102,6 +111,37 @@ else
     $t->parse( "no_types_item", "no_types_item_tpl" );
     $t->set_var( "type_list", "" );
 }
+
+$types =& eZArticleType::getAll();
+$t->set_var( "selected", "" );
+$t->set_var( "type_id", "" );
+$t->set_var( "type_name", "" );
+
+$typeCount = count( $types );
+
+if( $typeCount > 0 )
+{
+    foreach( $types as $type )
+    {
+        $t->set_var( "type_id", $type->id() );
+        $t->set_var( "type_name", $type->name() );
+        
+        $t->parse( "type_item_select", "type_item_select_tpl", true );
+    }
+
+
+    $t->parse( "type_list_select", "type_list_select_tpl" );
+    $t->set_var( "no_types_select_item", "" );
+}
+else
+{
+    $t->parse( "no_types_select_item", "no_types_select_item_tpl" );
+    $t->set_var( "type_list_select", "" );
+}
+
+$typeCount = count( $types );
+
+
 
 $t->set_var( "article_name", $article->name() );
 $t->set_var( "article_id", $article->id() );

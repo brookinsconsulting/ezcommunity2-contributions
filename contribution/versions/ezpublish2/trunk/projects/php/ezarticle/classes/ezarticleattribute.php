@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezarticleattribute.php,v 1.2 2001/06/06 11:30:08 pkej Exp $
+// $Id: ezarticleattribute.php,v 1.3 2001/06/14 17:21:16 pkej Exp $
 //
 // Definition of eZArticleAttribute class
 //
@@ -310,6 +310,30 @@ class eZArticleAttribute
 
         $listorder = $qry["Placement"];
         $listid = $qry["ID"];
+
+
+
+        $db->query_single( $qry, "SELECT min( Placement ) as Min FROM eZArticle_Attribute
+                                  WHERE TypeID = '$this->TypeID'  ORDER BY Placement ASC LIMIT 1" );
+        $min = $qry["Min"];
+        
+        
+        if( $min == $this->Placement )
+        {
+            $db->query_single( $qry, "SELECT max( Placement ) as Max FROM eZArticle_Attribute
+                                  WHERE TypeID = '$this->TypeID'  ORDER BY Placement ASC LIMIT 1" );
+            
+            $max = $qry["Max"];
+            
+            $db->query_single( $qry, "SELECT ID, Placement FROM eZArticle_Attribute
+                                  WHERE Placement = '$max' AND TypeID = '$this->TypeID'  ORDER BY Placement ASC LIMIT 1" );
+            
+            $listorder = $qry["Placement"];
+            $listid = $qry["ID"];
+        }
+
+
+
         $db->query( "UPDATE eZArticle_Attribute SET Placement='$listorder' WHERE ID='$this->ID'" );
         $db->query( "UPDATE eZArticle_Attribute SET Placement='$this->Placement' WHERE ID='$listid'" );
     }
@@ -326,6 +350,26 @@ class eZArticleAttribute
                                   WHERE Placement>'$this->Placement' AND TypeID = '$this->TypeID'  ORDER BY Placement ASC LIMIT 1" );
         $listorder = $qry["Placement"];
         $listid = $qry["ID"];
+        
+        $db->query_single( $qry, "SELECT max( Placement ) as Max FROM eZArticle_Attribute
+                                  WHERE TypeID = '$this->TypeID'  ORDER BY Placement ASC LIMIT 1" );
+        $max = $qry["Max"];
+        
+        
+        if( $max == $this->Placement )
+        {
+            $db->query_single( $qry, "SELECT min( Placement ) as Min FROM eZArticle_Attribute
+                                  WHERE TypeID = '$this->TypeID'  ORDER BY Placement ASC LIMIT 1" );
+            
+            $min = $qry["Min"];
+            
+            $db->query_single( $qry, "SELECT ID, Placement FROM eZArticle_Attribute
+                                  WHERE Placement = '$min' AND TypeID = '$this->TypeID'  ORDER BY Placement ASC LIMIT 1" );
+            
+            $listorder = $qry["Placement"];
+            $listid = $qry["ID"];
+        }
+        
         $db->query( "UPDATE eZArticle_Attribute SET Placement='$listorder' WHERE ID='$this->ID'" );
         $db->query( "UPDATE eZArticle_Attribute SET Placement='$this->Placement' WHERE ID='$listid'" );
     }

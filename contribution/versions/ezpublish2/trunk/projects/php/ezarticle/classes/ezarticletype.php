@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezarticletype.php,v 1.3 2001/06/06 11:57:16 pkej Exp $
+// $Id: ezarticletype.php,v 1.4 2001/06/14 17:21:16 pkej Exp $
 //
 // Definition of eZArticleType class
 //
@@ -131,12 +131,13 @@ class eZArticleType
     */
     function &getAll()
     {
-        $this->dbInit();
+        $db =& eZDB::globalDatabase();
+
         
         $return_array = array();
         $type_array = array();
         
-        $this->Database->array_query( $type_array, "SELECT ID FROM eZArticle_Type ORDER BY Name" );
+        $db->array_query( $type_array, "SELECT ID FROM eZArticle_Type ORDER BY Name" );
         
         for ( $i=0; $i<count($type_array); $i++ )
         {

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: typeedit.php,v 1.4 2001/06/06 12:53:35 pkej Exp $
+// $Id: typeedit.php,v 1.5 2001/06/14 17:21:15 pkej Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <20-Dec-2000 18:24:06 bf>
@@ -202,31 +202,19 @@ if ( $Action == "edit" )
         $t->set_var( "attribute_name", $attribute->name( ) );
 
        
-        if ( $i > 0 && isset( $move_item ) )
+        if ( isset( $move_item ) )
         {
             $t->parse( "item_move_up", "item_move_up_tpl" );
         }
-        else
-        {
-            $t->parse( "no_item_move_up", "no_item_move_up_tpl" );
-        }
         
-        if ( $i > 0 && $i < $count - 1 && isset( $move_item ) )
+        if ( isset( $move_item ) )
         {
             $t->parse( "item_separator", "item_separator_tpl" );
         }
-        else
-        {
-            $t->parse( "no_item_separator", "no_item_separator_tpl" );
-        }
         
-        if ( $i < $count - 1 && isset( $move_item ) )
+        if ( isset( $move_item ) )
         {
             $t->parse( "item_move_down", "item_move_down_tpl" );
-        }
-        else
-        {
-            $t->parse( "no_item_move_down", "no_item_move_down_tpl" );
         }
         
 		if ( ( $i % 2 ) == 0 )
