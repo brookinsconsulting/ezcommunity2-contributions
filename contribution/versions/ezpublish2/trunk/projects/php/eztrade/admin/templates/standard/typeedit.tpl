@@ -20,6 +20,12 @@
 	{intl-attribute_name}:
 	</th>
 	<th>
+	{intl-unit}:
+	</th>
+	<th>
+	{intl-delete}:
+	</th>
+	<th>
 	{intl-variable}:
 	</th>
 	<th>
@@ -32,6 +38,12 @@
 	<td width="46%">
 	<input type="hidden" name="AttributeID[]" value="{attribute_id}" />
 	<input type="text" name="AttributeName[]" value="{attribute_name}" />
+	</td>
+	<td>
+	<input type="text" size="5" name="Unit[]" value="{attribute_unit}" />
+	</td>
+	<td>
+	<input type="checkbox" name="DeleteAttributes[]" value="{attribute_id}" />
 	</td>
 	<td width="25%">
 	<input {is_1_selected} type="radio" value="1" name="AttributeType[{counter}]" />
@@ -69,7 +81,9 @@
 <br />
 <hr noshade="noshade" size="4" />
 
-<input class="stdbutton" type="submit" name="NewAttribute" value="{intl-new_attribute}" />
+<input class="stdbutton" type="submit" name="NewAttribute" value="{intl-new_attribute}" />&nbsp;
+<input class="stdbutton" type="submit" name="Update" value="{intl-update}" />&nbsp;
+<input class="stdbutton" type="submit" name="DeleteSelected" value="{intl-delete_selected}" />
 
 <hr noshade="noshade" size="4" />
 

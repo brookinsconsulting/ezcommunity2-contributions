@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: typeedit.php,v 1.7 2001/04/04 13:14:51 th Exp $
+// $Id: typeedit.php,v 1.8 2001/04/05 08:38:13 ce Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <20-Dec-2000 18:24:06 bf>
@@ -55,7 +55,7 @@ if ( $Action == "Insert" )
 }
 
 
-if ( $Action == "Update" )
+if ( ( $Action == "Update" ) || ( isset ( $Update ) ) )
 {
     $type = new eZProductType( $TypeID );
     $type->setName( $Name );
@@ -73,6 +73,7 @@ if ( $Action == "Update" )
             $att = new eZProductAttribute( $AttributeID[$i] );
             $att->setName( $attribute );
             $att->setAttributeType( $AttributeType[$i] );
+            $att->setUnit( $Unit[$i] );
             $att->store();            
 
             $i++;
@@ -103,6 +104,19 @@ if( isset( $Ok ) )
 {
     eZHTTPTool::header( "Location: /trade/typelist/" );
     exit();
+}
+
+if ( isset ( $DeleteSelected ) )
+{
+    if ( count ( $DeleteAttributes ) > 0 )
+    {
+        foreach ( $DeleteAttributes as $attID )
+        {
+            $attribute = new eZProductAttribute( $attID );
+            $attribute->delete();
+        }
+    }
+    $Action = "Edit";
 }
 
 
@@ -185,6 +199,7 @@ if ( $Action == "Edit" )
 
         $t->set_var( "attribute_id", $attribute->id( ) );
         $t->set_var( "attribute_name", $attribute->name( ) );
+        $t->set_var( "attribute_unit", $attribute->unit( ) );
 
         $t->set_var( "is_1_selected", "" );
         $t->set_var( "is_2_selected", "" );

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: productview.php,v 1.45 2001/04/04 12:03:42 ce Exp $
+// $Id: productview.php,v 1.46 2001/04/05 08:38:13 ce Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <24-Sep-2000 12:20:32 bf>
@@ -437,6 +437,7 @@ if ( $type )
         $value =& $attributes[$i]->value( $product );
         $t->set_var( "attribute_id", $attributes[$i]->id( ) );
         $t->set_var( "attribute_name", $attributes[$i]->name( ) );
+        $t->set_var( "attribute_unit", $attributes[$i]->unit( ) );
         $t->set_var( "attribute_value", $value );
 
         if ( $attributes[$i]->attributeType() == 1 )

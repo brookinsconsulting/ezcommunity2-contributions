@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezproductattribute.php,v 1.3 2001/04/04 12:03:41 ce Exp $
+// $Id: ezproductattribute.php,v 1.4 2001/04/05 08:38:13 ce Exp $
 //
 // Definition of eZProductAttribute class
 //
@@ -95,6 +95,7 @@ class eZProductAttribute
 		                         TypeID='$this->TypeID',
 		                         AttributeType='$this->AttributeType',
 		                         Placement='$place',
+		                         Unit='$this->Unit',
 		                         Created=now()" );
         
             $this->ID = mysql_insert_id();
@@ -106,6 +107,7 @@ class eZProductAttribute
 		                         Name='$this->Name',
 		                         Created=Created,
 		                         AttributeType='$this->AttributeType',
+		                         Unit='$this->Unit',
 		                         TypeID='$this->TypeID' WHERE ID='$this->ID'" );
 
             $this->State_ = "Coherent";
@@ -136,6 +138,7 @@ class eZProductAttribute
                 $this->TypeID =& $attribute_array[0][ "TypeID" ];
                 $this->AttributeType =& $attribute_array[0][ "AttributeType" ];
                 $this->Placement =& $attribute_array[0][ "Placement" ];
+                $this->Unit =& $attribute_array[0][ "Unit" ];
                 
                 $this->State_ = "Coherent";                
             }
@@ -173,8 +176,9 @@ class eZProductAttribute
     {
         $this->dbInit();
 
-        $this->Database->array_query( $attribute_array, "DELETE FROM eZTrade_AttributeValue WHERE AttributeID='$this->ID'" );
-        $this->Database->array_query( $attribute_array, "DELETE FROM eZTrade_Attribute WHERE ID='$this->ID'" );
+        $this->Database->query( "DELETE FROM eZTrade_AttributeValue WHERE AttributeID='$this->ID'" );
+        
+        $this->Database->query( "DELETE FROM eZTrade_Attribute WHERE ID='$this->ID'" );
     }
 
     /*!
@@ -197,6 +201,17 @@ class eZProductAttribute
             $this->get( $this->ID );
  
         return $this->Name;
+    }
+
+    /*!
+      Returns the measuring unit of the attribute.
+    */
+    function unit()
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+ 
+        return $this->Unit;
     }
 
     /*!
@@ -237,6 +252,17 @@ class eZProductAttribute
             $this->get( $this->ID );
         
         $this->Name = $value;
+    }
+
+    /*!
+      Sets the measuring unit of the attribute.
+    */
+    function setUnit( $value )
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+        
+        $this->Unit = $value;
     }
 
     /*!
@@ -379,6 +405,7 @@ class eZProductAttribute
     var $Name;
     var $AttributeType;
     var $Placement;
+    var $Unit;
 
     ///  Variable for keeping the database connection.
     var $Database;

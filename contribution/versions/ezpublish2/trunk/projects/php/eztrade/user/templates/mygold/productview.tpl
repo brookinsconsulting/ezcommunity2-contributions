@@ -65,7 +65,7 @@
 									<td class="attribute" valign="top"> {attribute_name}:&nbsp; 
 									</td>
 									<td class="attributevalue" align="right" valign="bottom"> 
-										{attribute_value} </td>
+										{attribute_value} {attribute_unit}</td>
 								</tr>
 								<!-- END attribute_value_tpl -->
 								<!-- BEGIN attribute_header_tpl -->
@@ -149,7 +149,6 @@
 	<!-- END quantity_item_tpl -->
 
 	<hr noshade size="1"/>
-	<input class="okbutton" type="submit" name="Back" value="{intl-back}" />
 	<!-- BEGIN add_to_cart_tpl -->
 	<input class="okbutton" type="submit" name="Cart" value="{intl-add_to_cart}" />
 	<input class="okbutton" type="submit" name="WishList" value="{intl-wishlist}" />
