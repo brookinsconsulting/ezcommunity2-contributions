@@ -153,7 +153,7 @@
 	<input class="okbutton" type="submit" name="WishList" value="{intl-wishlist}" />
 	<!-- END add_to_cart_tpl -->
 	<br /><br />
-	<a href="javascript:history.go(back)">{intl-back}</a>
+	<a href="javascript:history.go(-1)">{intl-back}</a>
 	<!-- BEGIN numbered_page_link_tpl -->
 	&nbsp;
 	<!-- END numbered_page_link_tpl -->
