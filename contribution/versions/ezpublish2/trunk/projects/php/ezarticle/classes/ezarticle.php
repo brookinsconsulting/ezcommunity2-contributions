@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezarticle.php,v 1.60 2001/04/06 10:33:55 ce Exp $
+// $Id: ezarticle.php,v 1.61 2001/04/06 10:49:10 bf Exp $
 //
 // Definition of eZArticle class
 //
@@ -1056,6 +1056,8 @@ class eZArticle
                         AND Permission.ObjectID=Article.ID
                         AND Link.ArticleID=Article.ID
                         AND Category.ID=Link.CategoryID
+                        AND Category.ID=Link.CategoryID
+                        AND Category.ExcludeFromSearch = 'false'
                  ORDER BY $OrderBy
                  LIMIT $offset,$limit";
        
