@@ -15,7 +15,7 @@
 	</th>
 
 	<th>
-	{intl-seconds_idle}:
+	{intl-idle}:
 	</th>
 
 
