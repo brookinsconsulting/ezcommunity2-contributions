@@ -62,7 +62,7 @@
 <!-- END consultation_item_tpl -->
 
 
-<br /><br />
+<br />
 
 
 <hr noshade="noshade" size="4" />

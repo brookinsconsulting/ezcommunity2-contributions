@@ -15,9 +15,9 @@
 
 <hr noshade="noshade" size="4" />
 
-<br />
 
 <!-- BEGIN logo_view_tpl -->
+<br />
 <img src="{www_dir}{logo_image_src}" width="{logo_width}" height="{logo_height}" border="0" alt="{logo_alt}" /><br /><br />
 <!-- END logo_view_tpl -->
 
@@ -27,15 +27,16 @@
 	<p class="boxtext">{intl-name_headline}:</p>
 	<div class="p">{name}</div>
 	</td>
-	<td valign="top">
+	<td valign="top" align="right">
 	<p class="boxtext">{intl-company_no}:</p>
 	<div class="p">{company_no}</div>
 	</td>
 </tr>
 </table>
-
+<br />
+<!--
 <h2>{intl-addresses_headline}</h2>
-
+-->
 <table width="100%" cellpadding="0" cellspacing="0" border="0">
 <tr>
 	<!-- BEGIN address_item_tpl -->
@@ -49,14 +50,14 @@
 	<!-- END address_item_tpl -->
 	<!-- BEGIN no_address_item_tpl -->
 	<td>
-	{intl-error_no_addresses}
+	<!-- {intl-error_no_addresses} -->&nbsp;
 	</td>
 	<!-- END no_address_item_tpl -->
 </tr>
 </table>
 
 <!-- BEGIN phone_item_tpl -->
-<h2>{intl-telephone_headline}</h2>
+<!-- <h2>{intl-telephone_headline}</h2> -->
 <table width="100%" cellpadding="0" cellspacing="0" border="0">
 <tr>
     <!-- BEGIN phone_line_tpl -->
@@ -70,12 +71,14 @@
 <!-- END phone_item_tpl -->
 
 <!-- BEGIN no_phone_item_tpl -->
+<!--
 <h2>{intl-telephone_headline}</h2>
 <div class="p">{intl-error_no_phones}</div>
+-->
 <!-- END no_phone_item_tpl -->
 
 <!-- BEGIN online_item_tpl -->
-<h2>{intl-online_headline}</h2>
+<!-- <h2>{intl-online_headline}</h2> -->
 <table width="100%" cellpadding="0" cellspacing="0" border="0">
 <tr>
     <!-- BEGIN online_line_tpl -->
@@ -89,20 +92,22 @@
 <!-- END online_item_tpl -->
 
 <!-- BEGIN no_online_item_tpl -->
+<!--
 <h2>{intl-online_headline}</h2>
 <div class="p">{intl-error_no_onlines}</div>
+-->
 <!-- END no_online_item_tpl -->
 
 <!-- BEGIN no_image_tpl -->
 
 <!-- END no_image_tpl -->
 
-<p class="boxtext">{intl-description}:</p>
+<div class="boxtext">{intl-description}:</div>
 <!-- BEGIN image_view_tpl -->
-<img src="{www_dir}{image_src}" width="{image_width}" height="{image_height}" border="0" alt="{image_alt}" align="right" vspace="2" hspace="6" />
+<img src="{www_dir}{image_src}" width="{image_width}" height="{image_height}" border="0" alt="{image_alt}" align="left" vspace="2" hspace="6" />
 <!-- END image_view_tpl -->
 <div class="p">{description}</div>
-<br />
+<br clear="all" /><br />
 
 <table width="100%" cellpadding="0" cellspacing="0" border="0">
 <tr>
@@ -119,7 +124,7 @@
 	<!-- END contact_item_tpl -->
 
 	<!-- BEGIN status_item_tpl -->
-	<td width="50%">
+	<td width="50%" align="right">
 	<p class="boxtext">{intl-project_status}:</p>
 	<!-- BEGIN project_status_tpl -->
 	{project_status}

@@ -269,13 +269,13 @@
 <tr>
     <td valign="top">
     <p class="boxtext">{intl-file}:</p>
-	<input class="stdbutton" class="halfbox" size="20" name="logo" type="file" />
+	<input class="halfbox" size="20" name="logo" type="file" />
 	<input type="hidden" name="LogoImageID" value="{logo_id}" />
     </td>
 
     <td>
   	<p class="boxtext">{intl-file}:</p>
-	<input class="stdbutton" class="halfbox" size="20" name="image" type="file" />
+	<input class="halfbox" size="20" name="image" type="file" />
 	<input type="hidden" name="CompanyImageID" value="{image_id}" />
     </td>
 <tr>
