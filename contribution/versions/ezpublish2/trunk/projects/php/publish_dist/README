@@ -314,3 +314,10 @@ alter table eZTrade_Order add IsActive int default 0;
 
 # set a group for eZ forum
 alter table eZForum_Forum add GroupID int default 0;
+
+
+
+### BETA 2 - BETA 3
+
+#set a group for eZBugmodule
+alter table eZBug_Module add OwnerGroupID int default 0;
