@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezpreferences.php,v 1.13 2001/07/20 11:25:45 jakobn Exp $
+// $Id: ezpreferences.php,v 1.14 2001/09/04 10:48:49 fh Exp $
 //
 // Definition of eZPreferences class
 //
@@ -28,7 +28,7 @@
 //!! eZSession
 //! eZPreferences handles preferences variables.
 /*!
-  The preferences only works if there is a user logged in.
+  If you call preferences when there is no user logged in, it allways returns 0;
   
   \code
   // include the code
@@ -66,7 +66,6 @@ class eZPreferences
     */
     function eZPreferences( )
     {
-        $this->UserObject =& eZUser::currentUser();        
     }
 
 
@@ -95,10 +94,14 @@ class eZPreferences
     function variable( $name, $group = false )
     {
         $ret = false;
-        if ( get_class( $this->UserObject ) == "ezuser" )
+        $user =& eZUser::currentUser();
+        if( !$user )
+            return 0;
+        
+        if ( get_class( $user ) == "ezuser" )
         {           
             $db =& eZDB::globalDatabase();
-            $userID = $this->UserObject->id();
+            $userID = $user->id();
 
             if ( !is_bool( $group ) )
                 $group_sql = "GroupName='$group'";
@@ -124,7 +127,11 @@ class eZPreferences
     function setVariable( $name, $value, $group = false )
     {
         $ret = false;
-        if ( get_class( $this->UserObject ) == "ezuser" )
+        $user =& eZUser::currentUser();
+        if( !$user )
+            return 0;
+        
+        if ( get_class( $user ) == "ezuser" )
         {
             if ( is_array( $value ) )
             {
@@ -135,7 +142,7 @@ class eZPreferences
             $dbError = false;
             $db->begin( );    
             
-            $userID = $this->UserObject->id();
+            $userID = $user->id();
             
             $name = addslashes( $name );
             $value = addslashes( $value );
@@ -187,9 +194,6 @@ class eZPreferences
 
         return $ret;
     }
-
-    /// copy of the current logged in user 
-    var $UserObject;
 }
 
 ?>
