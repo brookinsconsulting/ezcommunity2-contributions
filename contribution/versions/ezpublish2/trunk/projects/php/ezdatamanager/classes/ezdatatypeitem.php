@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezdatatypeitem.php,v 1.2 2002/02/08 15:31:47 br Exp $
+// $Id: ezdatatypeitem.php,v 1.3 2002/02/09 14:34:36 br Exp $
 //
 // Definition of eZDataTypeItem class
 //
@@ -63,7 +63,7 @@ class eZDataTypeItem
 
         $name = $db->escapeString( $this->Name );
         
-        $db->begin( );
+        $db->begin();
 
         if ( !isSet( $this->ID ) )
         {
@@ -94,7 +94,7 @@ class eZDataTypeItem
         }
 
         $db->unlock();
-    
+
         if ( $res == false )
             $db->rollback();
         else
@@ -154,6 +154,15 @@ class eZDataTypeItem
     }
     
     /*!
+      Returns the item type.
+    */
+    function itemType()
+    {
+        return $this->ItemType;
+    }
+
+
+    /*!
       Sets the name.
     */
     function setName( $value )
@@ -170,14 +179,11 @@ class eZDataTypeItem
     }
 
     /*!
-      
+      Set the ItemType.
     */
-    function setDataType( $type )
+    function setItemType( $value )
     {
-        if ( get_class( $type ) == "ezdatatype" )
-        {
-            $this->DataTypeID = $type->id();                        
-        }
+        $this->ItemType = $value;
     }
     
     /*!
@@ -191,6 +197,45 @@ class eZDataTypeItem
         }
     }
 
+    /*!
+      store the relation to the database.
+    */
+    function setRelation( $relationID )
+    {
+        $db =& eZDB::globalDatabase();
+        
+        $db->array_query( $relation_array, "SELECT ID FROM eZDataManager_RelationDefinition
+                                            WHERE ID='$id' AND DataTypeItemID='" . $this->DataTypeID . "'" );
+
+        if ( count( $relation_array ) == 0 )
+        {
+            $db->lock( "eZDataManager_RelationDefinition" );
+
+            $nextID = $db->nextID( "eZDataManager_RelationDefinition", "ID" );
+           
+            $res = $db->query( "INSERT INTO eZDataManager_RelationDefinition
+                         ( ID, DataTypeItemID, DataTypeRelationID ) VALUES 
+                         ( '$nextID',
+                           '$this->DataTypeID',
+                           '$relationID' )
+                          " );
+            $db->unlock();
+        }
+        else
+        {
+            $res = $db->query( "UPDATE eZDataManager_RelationDefinition SET
+		                 DataTypeItemID='$this->DataTypeID',
+		                 DataTypeRelationID='$relationID'
+                         WHERE ID='" . $relation_array[0][$db->fieldName( "ID" )]  . "'" );
+        }
+        if ( $res == false )
+            $db->rollback();
+        else
+            $db->commit();
+    }
+
+    
+    
     /// the ID for the data type item
     var $ID;
 

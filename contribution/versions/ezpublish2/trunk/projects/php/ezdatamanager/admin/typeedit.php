@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: typeedit.php,v 1.2 2002/02/08 15:31:47 br Exp $
+// $Id: typeedit.php,v 1.3 2002/02/09 14:34:36 br Exp $
 //
 // Created on: <20-Nov-2001 15:04:53 bf>
 //
@@ -31,21 +31,48 @@ include_once( "classes/INIFile.php" );
 include_once( "ezdatamanager/classes/ezdatatype.php" );
 include_once( "ezdatamanager/classes/ezdatatypeitem.php" );
 
-function selectType( &$t, $value )
+function parseType( &$t, $value )
 {
+    $t->set_var( "string", "" );
+    $t->set_var( "relation", "" );
+    $t->set_var( "type_relation_list", "" );
+
     switch ( $value )
     {
-        case "string":
+        case "1":
         {
             $t->set_var( "string", "selected" );
         }
         break;
-        case "relation":
+        case "2":
         {
             $t->set_var( "relation", "selected" );
+            
         }
         break;
     }
+}
+
+function parseRelation( &$t, $relationID )
+{
+    $t->set_var( "type_relation_list", "" );
+    $t->set_var( "type_relation_item", "" );
+    $type = new eZDataType( );
+    $types =& $type->getAll();
+    foreach ( $types as $type )
+    {
+        $t->set_var( "select_type_name", $type->name() );
+        $t->set_var( "select_type_id", $type->id() );
+
+        if ( $type->id() == $relationID )
+            $t->set_var( "selected", "selected" );
+        else
+            $t->set_var( "selected", "" );
+        
+        $t->parse( "type_relation_item", "type_relation_item_tpl", true );
+        $i++;
+    }
+    $t->parse( "type_relation_list", "type_relation_list_tpl" );
 }
 
 
@@ -79,6 +106,17 @@ if ( isset( $Store ) || isset( $NewItem ) || isSet( $Update ) )
         $item = new eZDataTypeItem( $itemID );
         $item->setName( $ItemName[$i] );
         $item->setDataType( $type );
+        $item->setItemType( $EditItemTypeIDArray[$i] );
+
+        // if the type is a relation (item type = 2)
+        if ( $EditItemTypeIDArray[$i] == 2 )
+        {
+            $relationIDString = "TypeRelationID_$itemID";
+//            print( $$relationIDString . ",");
+            $relationID = $$relationIDString;
+            $item->setRelation( $relationID );
+        }
+        
         $item->store();
 
         $i++;
@@ -92,6 +130,7 @@ if ( isset( $Store ) || isset( $NewItem ) || isSet( $Update ) )
         $item = new eZDataTypeItem( );
         $item->setName( "" );
         $item->setDataType( $type );
+        $item->setItemType( $NewItemTypeID );
         $item->store();
 
         eZHTTPTool::header( "Location: /datamanager/typeedit/" . $type->id() );
@@ -114,9 +153,11 @@ $locale = new eZLocale( $Language );
 $t->set_file( "type_edit_tpl", "typeedit.tpl" );
 $t->set_block( "type_edit_tpl", "type_item_list_tpl", "type_item_list" );
 $t->set_block( "type_item_list_tpl", "type_item_tpl", "type_item" );
-
+$t->set_block( "type_item_tpl", "type_relation_list_tpl", "type_relation_list" );
+$t->set_block( "type_relation_list_tpl", "type_relation_item_tpl", "type_relation_item" );
 $t->setAllStrings();
 
+$t->set_var( "type_item", "" );
 $t->set_var( "type_id", "" );
 $t->set_var( "type_name", "" );
 $t->set_var( "type_item_list", "" );
@@ -141,13 +182,17 @@ if ( $TypeID > 0 )
                 $t->set_var( "td_class", "bgdark" );
             }
             
-            $t->set_var( "item_id", $ItemID[$i] );
+            $t->set_var( "item_id", $ItemIDArray[$i] );
             $t->set_var( "item_name", $ItemName[$i] );
 
-            $t->set_var( "string", "" );
-            $t->set_var( "relation", "" );
-            selectType( $t, $EditItemTypeIDArray[$i] );
-            
+            parseType( $t, $EditItemTypeIDArray[$i] );
+
+            if ( $EditItemTypeIDArray[$i] == 2 )
+            {
+                $relationIDString = "TypeRelationID_" . $ItemIDArray[$i];
+                $relationID = $$relationIDString;
+                parseRelation( $t, $relationID );
+            }
             $t->parse( "type_item", "type_item_tpl", true );
         }
     }
@@ -163,6 +208,7 @@ if ( $TypeID > 0 )
         $i = 0;
         foreach ( $items as $item )
         {
+
             if ( ( $i % 2 ) == 0 )
             {
                 $t->set_var( "td_class", "bglight" );
@@ -171,10 +217,20 @@ if ( $TypeID > 0 )
             {
                 $t->set_var( "td_class", "bgdark" );
             }
-            
+
             $t->set_var( "item_id", $item->id() );
             $t->set_var( "item_name", $item->name() );
-            
+
+            $itemTypeID = $item->itemType();
+            parseType( $t, $itemTypeID );
+
+            if ( $EditItemTypeIDArray[$i] == 2 )
+            {
+                $relationIDString = "TypeRelationID_" . $ItemIDArray[$i];
+                $relationID = $$relationIDString;
+                parseRelation( $t, $relationID );
+            }
+           
             $t->parse( "type_item", "type_item_tpl", true );
             $i++;
         }
