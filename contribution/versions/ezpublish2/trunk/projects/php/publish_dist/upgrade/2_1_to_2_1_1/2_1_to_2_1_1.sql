@@ -838,3 +838,14 @@ alter table eZAd_Category add ExcludeFromSearchTmp int default '0';
 update eZAd_Category set ExcludeFromSearchTmp='1' where ExcludeFromSearch='true';
 alter table eZAd_Category drop ExcludeFromSearch;
 alter table eZAd_Category change ExcludeFromSearchTmp ExcludeFromSearch int;
+
+alter table eZAd_Ad drop ViewRule;
+alter table eZAd_Ad drop ViewStartDate;
+alter table eZAd_Ad drop ViewStopDate;
+
+alter table eZAd_View add DateTmp int default '0';
+update eZAd_View set DateTmp= UNIX_TIMESTAMP( Date );
+alter table eZAd_View drop Date;
+alter table eZAd_View change DateTmp Date int;
+
+alter table eZAd_View add ViewOffsetCount int;
