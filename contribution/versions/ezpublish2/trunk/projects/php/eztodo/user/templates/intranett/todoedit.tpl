@@ -3,6 +3,29 @@
 
 <hr noshade size="4"/>
 
+<!-- BEGIN errors_tpl -->
+<h3 class="error">{intl-error_headline}</h3>
+<ul>
+    <!-- BEGIN error_name_tpl -->
+    <li>{intl-error_name}
+    <!-- END error_name_tpl -->
+
+    <!-- BEGIN error_permission_tpl -->
+    <li>{intl-error_permission}
+    <!-- END error_permission_tpl -->
+
+    <!-- BEGIN error_description_tpl -->
+    <li>{intl-error_description}
+    <!-- END error_description_tpl -->
+
+</ul>
+
+<hr noshade size="4"/>
+
+<br />
+<!-- END errors_tpl -->
+
+
 <br>
 
 <table class="layout" width="100%" cellpadding="0" cellspacing="0" border="0">
@@ -52,34 +75,36 @@
 <tr>
 	<td class="br" colspan="2">
 	<p class="boxtext">{intl-desc}</p>
-	<textarea cols="30" rows="10" name="Text">{text}</textarea>
+	<textarea cols="30" rows="10" name="Description">{description}</textarea>
 	<br><br>
 	</td>
 </tr>
 <tr>
 	<td class="br">
-	<p class="boxtext">Done:</p>
+	<p class="boxtext">{intl-status}:</p>
 	<div class="check"><input type="checkbox" name="Done" {done}>&nbsp;</div>
 	</td>
 	<td class="br">
-	<p class="boxtext">Visning:</p>
+	<p class="boxtext">{intl-view_others}:</p>
 	<div class="check"><input type="checkbox" name="Permission" {permission}>&nbsp;</div>
 	</td>
+	<td class="br">
+	<p class="boxtext">{intl-send_mail}:</p>
+	<div class="check"><input type="checkbox" name="SendMail">&nbsp;</div>
+	</td>
+
 </tr>
 </table>
 
 <hr noshade size="4"/>
-
-<input class="okbutton" type="submit" value="{intl-ok}">
-
-</form>
-ndMail">&nbsp;</div>
+<table cellpadding="0" cellspacing="0" border="0">
+<tr>
+        <td>
+	<input class="okbutton" type="submit" value="{intl-ok}">
+	</td>
+        <td>
+	<input class="okbutton" type="submit" name="Delete" value="{intl-cancel}">
 	</td>
 </tr>
 </table>
-
-<hr noshade size="4"/>
-
-<input class="okbutton" type="submit" value="{intl-ok}">
-
 </form>

@@ -1,5 +1,5 @@
 <?
-// $Id: todolist.php,v 1.1 2001/01/11 15:19:30 ce Exp $
+// $Id: todolist.php,v 1.2 2001/01/11 16:52:14 ce Exp $
 //
 // Definition of todo list.
 //
@@ -18,6 +18,8 @@ $ini = new INIFIle( "site.ini" );
 $Language = $ini->read_var( "eZTodoMain", "Language" );
 $DOC_ROOT = $ini->read_var( "eZTodoMain", "DocumentRoot" );
 
+$iniLanguage = new INIFile( "eztodo/user/intl/$Language/todolist.php.ini", false );
+
 include_once( "classes/eztemplate.php" );
 include_once( "classes/ezdatetime.php" );
 include_once( "classes/ezlocale.php" );
@@ -31,11 +33,6 @@ include_once( "eztodo/classes/ezcategory.php" );
 include_once( "eztodo/classes/ezpriority.php" );
 
 $user = eZUser::currentUser();
-if ( !$user )
-{
-    Header( "Location: /user/login" );
-    exit();
-}
 
 $t = new eZTemplate( "eztodo/user/" . $ini->read_var( "eZTodoMain", "TemplateDir" ),
                      "eztodo/user/intl/", $Language, "todolist.php" );
@@ -52,26 +49,33 @@ $t->set_block( "todo_list_page", "no_found_tpl", "no_found" );
 $todo = new eZTodo();
 
 // Check if the user want its own todos or the public todos. This needs the "view-others-todo permission".
-
-//  if ( eZPermission::checkPermission( $user, "eZTodo", "ViewOtherTodo" ) )
-//  {
-if ( $GetByUserID != "" )
+$currentUserID = $user->id();
+if ( eZPermission::checkPermission( $user, "eZTodo", "ViewOtherUsers" ) )
 {
-    if ( $GetByUserID == $user->id() )
+    if ( $GetByUserID != "" )
     {
-        $GetByUserID = $user->id();
-        $todo_array = $todo->getByUserID( $GetByUserID );
+        if ( $GetByUserID == $currentUserID )
+        {
+            $GetByUserID = $user->id();
+            $todo_array = $todo->getByOwnerID( $GetByUserID );
+        }
+        else
+        {
+            $todo_array = $todo->getByUserID( $GetByUserID );
+        }
     }
     else
     {
-        $todo_array = $todo->getByUserID( $GetByUserID );
+        $todo_array = $todo->getByOwnerID( $currentUserID );
+                    
     }
 }
-//}
 else
 {
-    $todo_array = $todo->getByUserID( $user->id() );
+    $todo_array = $todo->getByOwnerID( $currentUserID );
 }
+
+
     
 // User selector.
 $user = new eZUser();
@@ -81,12 +85,12 @@ foreach( $userList as $userItem )
 {
     if ( !isset( $GetByUserID ) )
     {
-        $GetByUserID = $user->id();
+        $GetByUserID = $currentUserID;
     }
     $t->set_var( "user_id", $userItem->id() );
     $t->set_var( "user_firstname", $userItem->firstName() );
     $t->set_var( "user_lastname", $userItem->lastName() );
-        
+
     if ( $GetByUserID == $user->id() )
     {
             
@@ -132,27 +136,35 @@ foreach( $todo_array as $todoItem )
     
     $t->set_var( "todo_id", $todoItem->id() );
     $t->set_var( "todo_name", $todoItem->name() );
-    $t->set_var( "todo_text", $todoItem->text() );
+    $t->set_var( "todo_description", $todoItem->description() );
     $cat = new eZCategory( $todoItem->categoryID() );
     $t->set_var( "todo_category_id", $cat->name() );
     $pri = new eZPriority( $todoItem->priorityID() );
     $t->set_var( "todo_priority_id", $pri->name() );
-//    $t->set_var( "todo_due", $locale->format( $todoItem->due() ) );
     $t->set_var( "todo_userid", $todoItem->userID() );
-    $t->set_var( "todo_permission", $todoItem->permission() );
-    $t->set_var( "todo_date", $locale->format( $todoItem->date() ) );
 
-    if ( $todoItem->done() == "true" )
+    if ( $todoItem->permission() == "Public" )
     {
-        $t->set_var( "done", "checked" );
+        $t->set_var( "todo_permission", $iniLanguage->read_var( "strings", "public" ) );    
     }
     else
     {
-        $t->set_var( "done", "" );
+        $t->set_var( "todo_permission", $iniLanguage->read_var( "strings", "private" ) );    
+    }
+    
+    $t->set_var( "todo_date", $locale->format( $todoItem->date() ) );
+
+    if ( $todoItem->status() == true )
+    {
+        $t->set_var( "status", "checked" );
+    }
+    else
+    {
+        $t->set_var( "status", "" );
     }
 
 
-    $t->set_var( "todo_done", $todoItem->done() );
+    $t->set_var( "todo_status", $todoItem->status() );
     $t->set_var( "no_found", "" );
 
     $t->parse( "todo_item", "todo_item_tpl", true );

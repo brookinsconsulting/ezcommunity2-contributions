@@ -33,7 +33,7 @@
 
 <div onLoad="MM_preloadImages('/eztodo/images/redigerminimrk.gif','/eztodo/images/slettminimrk.gif')"></div>
 
-<h1>To do-oversikt</h1>
+<h1>{intl-todo_overview}</h1>
 
 <hr noshade size="4">
 
@@ -52,12 +52,12 @@
 
 <table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
 <tr>
-	<th>Tittel:</th>
-	<th>Kategori:</th>
-	<th>Gitt dato:</th>
-	<th>Prioritet:</th>
-	<th>Privat:</th>
-	<th>Utført:</th>
+	<th>{intl-name}:</th>
+	<th>{intl-category}:</th>
+	<th>{intl-date}:</th>
+	<th>{intl-priority}:</th>
+	<th>{intl-view}:</th>
+	<th>{intl-status}:</th>
 	<th>&nbsp;</th>
 	<th>&nbsp;</th>
 </tr>
@@ -85,7 +85,7 @@
 	</td>
 
 	<td class="{td_class}">
-	<a href="/todo/todoedit/?Action=done&TodoID={todo_id}&Done={todo_done}">{todo_done}</a>
+	<a href="/todo/todoedit/?Action=status&TodoID={todo_id}&Status={todo_status}">{todo_status}</a>
 	</td>
 
 	<td class="{td_class}">
@@ -108,8 +108,6 @@
 </table>
 
 <hr noshade size="4">
-
-<form action="/todo/todoedit/new"><input class="okbutton" type="submit" value="Ny to do"></form>
- noshade size="4">
-
-<form action="/todo/todoedit/new"><input class="okbutton" type="submit" value="Ny to do"></form>
+<form action="/todo/todoedit/new">
+<input class="okbutton" type="submit" value="{intl-newtodo}">
+</form>

@@ -7,7 +7,6 @@ $ini = new INIFIle( "site.ini" );
 $Language = $ini->read_var( "eZTodoMain", "Language" );
 
 include_once( "classes/eztemplate.php" );
-include_once( "common/ezphputils.php" );
 
 include_once( "ezuser/classes/ezuser.php" );
 include_once( "ezuser/classes/ezusergroup.php" );

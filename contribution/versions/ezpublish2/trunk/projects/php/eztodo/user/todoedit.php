@@ -1,5 +1,5 @@
 <?
-// $Id: todoedit.php,v 1.1 2001/01/11 15:19:30 ce Exp $
+// $Id: todoedit.php,v 1.2 2001/01/11 16:52:14 ce Exp $
 //
 // Definition of todo list.
 //
@@ -12,6 +12,12 @@
 // your own programs or libraries.
 //
 
+if ( isSet ( $Delete ) )
+{
+    Header( "Location: /todo/" );
+    exit();
+}
+
 include_once( "classes/INIFile.php" );
 
 $ini = new INIFIle( "site.ini" );
@@ -19,10 +25,8 @@ $Language = $ini->read_var( "eZTodoMain", "Language" );
 
 $iniLanguage = new INIFile( "eztodo/user/intl/" . $Language . "/todoedit.php.ini", false );
 
-print( $Language );
 include_once( "classes/eztemplate.php" );
 include_once( "classes/ezdatetime.php" );
-include_once( "common/ezphputils.php" );
 include_once( "eztodo/classes/eztodo.php" );
 include_once( "eztodo/classes/ezcategory.php" );
 include_once( "eztodo/classes/ezpriority.php" );
@@ -32,24 +36,86 @@ include_once( "classes/eztime.php" );
 include_once( "classes/ezmail.php" );
 
 include_once( "ezuser/classes/ezuser.php" );
+include_once( "ezuser/classes/ezpermission.php" );
 include_once( "ezuser/classes/ezusergroup.php" );
 
 $locale = new eZLocale( $Language );
 
 $user = eZUser::currentUser();
-if ( !$user )
+
+// Setup template.
+$t = new eZTemplate( "eztodo/user/" . $ini->read_var( "eZTodoMain", "TemplateDir" ),
+                     "eztodo/user/intl", $Language, "todoedit.php" );
+$t->setAllStrings();
+
+$t->set_file( array(
+    "todo_edit_page" => "todoedit.tpl",
+    ) );
+
+$t->set_block( "todo_edit_page", "category_select_tpl", "category_select" );
+$t->set_block( "todo_edit_page", "priority_select_tpl", "priority_select" );
+$t->set_block( "todo_edit_page", "user_item_tpl", "user_item" );
+
+$t->set_block( "todo_edit_page", "errors_tpl", "errors" );
+$t->set_var( "errors", "&nbsp;" );
+
+
+$error = false;
+$nameCheck = true;
+$permissionCheck = true;
+$descriptionCheck = true;
+
+$t->set_block( "errors_tpl", "error_name_tpl", "error_name" );
+$t->set_var( "error_name", "&nbsp;" );
+
+$t->set_block( "errors_tpl", "error_description_tpl", "error_description" );
+$t->set_var( "error_description", "&nbsp;" );
+
+$t->set_block( "errors_tpl", "error_permission_tpl", "error_permission" );
+$t->set_var( "error_permission", "&nbsp;" );
+
+
+if ( $Action == "insert" || $Action == "update" )
 {
-    Header( "Location: /user/login" );
-    exit();
+    if ( $nameCheck )
+    {
+        if ( empty ( $Name ) )
+        {
+            $t->parse( "error_name", "error_name_tpl" );
+            $error = true;
+        }
+    }
+    if ( $descriptionCheck )
+    {
+        if ( empty ( $Description ) )
+        {
+            $t->parse( "error_description", "error_description_tpl" );
+            $error = true;
+        }
+    }
+    if ( $user->id() != $UserID )
+    {
+        if ( eZPermission::checkPermission( $user, "eZTodo", "AddOthers" ) == false )
+        {
+            $t->parse( "error_permission", "error_permission_tpl" );
+            $error = true;
+        }
+    }
+
+    if ( $error )
+    {
+        $t->parse( "errors", "errors_tpl" );
+    }
 }
 
+
 // Save a todo in the database.
-if ( $Action == "insert" )
+if ( $Action == "insert" && $error == false )
 {
     $todo = new eZTodo();
-
+    $GLOBALS["DEBUG"] = true;
     $todo->setName( $Name );
-    $todo->setText( $Text );
+    $todo->setDescription( $Description );
     $todo->setCategoryID( $CategoryID );
     $todo->setPriorityID( $PriorityID );
     $todo->setUserID( $UserID );
@@ -64,18 +130,14 @@ if ( $Action == "insert" )
     {
         $todo->setPermission( "Private" );
     }
-    if ( $Done == "on" )
+    if ( $Status == "on" )
     {
-        $todo->setDone( true );
+        $todo->setStatus( true );
     }
     else
     {
-        $todo->setDone( false );
+        $todo->setStatus( false );
     }
-
-    $Due = ( $Year . $Mnd  . $Day . $Hour . $Minute . "00" );
-
-    $todo->setDue( "" );
 
     $todo->store();
 
@@ -100,7 +162,7 @@ if ( $Action == "insert" )
         $body .= ( $iniIsPublic . ": " . $todo->permission() . "\n" );
         $body .= ( $iniOwner . ": " . ( $owner->firstName() . " " . $owner->lastName() ) . "\n" );
         $body .= "-------------\n";
-        $body .= ( $Text );
+        $body .= ( $Description );
 
         $mail->setSubject( "Todo: " . $Name );
         $mail->setFrom( $user->email() );
@@ -111,27 +173,28 @@ if ( $Action == "insert" )
     }
     
     Header( "Location: /todo/todolist" );
+    exit();
 }
 
 // Update a todo in the database.
-if ( $Action == "update" )
+if ( $Action == "update" && $error == false )
 {
     $todo = new eZTodo();
     $todo->get( $TodoID );
     $todo->setName( $Name );
-    $todo->setText( $Text );
+    $todo->setDescription( $Description );
     $todo->setCategoryID( $CategoryID );
     $todo->setPriorityID( $PriorityID );
     $todo->setDue( "" );
     $todo->setUserID( $UserID );
     $todo->setOwnerID( $OwnerID );
-    if ( $Done == "on" )
+    if ( $Status == "on" )
     {
-        $todo->setDone( true );
+        $todo->setStatus( true );
     }
     else
     {
-        $todo->setDone( false );
+        $todo->setStatus( false );
     }
     if ( $Permission == "on" )
     {
@@ -156,50 +219,38 @@ if ( $Action == "delete" )
     Header( "Location: /todo/todolist/" );
 }
 
-// Mark a todo as done or undone.
-if ( $Action == "done" )
+
+// Mark a todo as status or unstatus.
+if ( $Action == "status" )
 {
     $todo = new eZTodo();
-    if ( $Done == "N" )
+    if ( $Status == "N" )
     {
         $todo->get( $TodoID );
-        $todo->setDone( "Y" );
+        $todo->setStatus( false );
         $todo->update();
         Header( "Location: /todo/todolist/" );
     }
-    if ( $Done == "Y" )
+    if ( $Status == "Y" )
     {
         $todo->get( $TodoID );
-        $todo->setDone( "N" );
+        $todo->setStatus( true );
         $todo->update();
         Header( "Location: /todo/todolist/" );
     }
 }
 
-// Setup template.
-$t = new eZTemplate( "eztodo/user/" . $ini->read_var( "eZTodoMain", "TemplateDir" ),
-                     "eztodo/user/intl", $Language, "todoedit.php" );
-$t->setAllStrings();
-
-$t->set_file( array(
-    "todo_edit_page" => "todoedit.tpl",
-    ) );
-
-$t->set_block( "todo_edit_page", "category_select_tpl", "category_select" );
-$t->set_block( "todo_edit_page", "priority_select_tpl", "priority_select" );
-$t->set_block( "todo_edit_page", "user_item_tpl", "user_item" );
-
-// Template variables.
-//  $submit_text = $initemplate->read_var( "strings", "submitinsert" );
-//  $headline = $initemplate->read_var( "strings", "headlineinsert" );
-$action_value = "insert";
-$name = "";
-$text = "";
-$year = "";
-$mnd = "";
-$day = "";
-$hour = "";
-$min = "";
+if ( $Action == "new" || $error )
+{
+    $action_value = "insert";
+    $name = "";
+    $description = "";
+    $year = "";
+    $mnd = "";
+    $day = "";
+    $hour = "";
+    $min = "";
+}
 
 // default user
 $UserID = $user->id();
@@ -207,7 +258,7 @@ $OwnerID = $user->id();
 
 $datetime = new eZDateTime();
 
-if ( $Action == "new" )
+if ( $Action == "new" || $error )
 {
     $t->set_var( "current_date", $locale->format( $datetime ) );
     $t->set_var( "first_name", $user->firstName() );
@@ -223,13 +274,13 @@ if ( $Action == "edit" )
     $todo = new eZTodo();
     $todo->get( $TodoID );
 
-    if ( $todo->done() == "true" )
+    if ( $todo->status() == true )
     {
-        $Done = "checked";
+        $Status = "checked";
     }
     else
     {
-        $Done = "";
+        $Status = "";
     }
 
     if ( $todo->permission() == "Public" )
@@ -242,7 +293,7 @@ if ( $Action == "edit" )
     }
 //    $todo->due(  $Year . $Mnd . $Hour );
     $name = $todo->name();
-    $text = $todo->text();
+    $description = $todo->description();
     $categoryID = $todo->categoryID();
     $priorityID = $todo->priorityID();
     $userid = $todo->userID();
@@ -254,7 +305,7 @@ if ( $Action == "edit" )
     $t->set_var( "last_name", $owner->lastName() );
     
     $headline = "Rediger todo";
-    $submit_text = "Rediger";
+    $submit_description = "Rediger";
 
     $t->set_var( "todo_id", $TodoID );
     $action_value = "update";
@@ -333,16 +384,16 @@ foreach( $user_array as $userItem )
 // Template variables.
 
 $t->set_var( "todo_id", $TodoID );
-$t->set_var( "submit_text", $submit_text );
+$t->set_var( "submit_description", $submit_description );
 $t->set_var( "head_line", $headline );
 $t->set_var( "name", $name );
-$t->set_var( "text", $text );
+$t->set_var( "description", $description );
 $t->set_var( "year", $year );
 $t->set_var( "mnd", $mnd );
 $t->set_var( "day", $day );
 $t->set_var( "hour", $hour );
 $t->set_var( "min", $min );
-$t->set_var( "done", $Done );
+$t->set_var( "status", $Status );
 $t->set_var( "permission", $Permission );
 
 $t->set_var( "action_value", $action_value );

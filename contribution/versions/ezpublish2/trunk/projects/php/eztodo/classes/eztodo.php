@@ -1,5 +1,5 @@
 <?
-// $Id: eztodo.php,v 1.7 2000/11/20 13:21:17 ce-cvs Exp $
+// $Id: eztodo.php,v 1.8 2001/01/11 16:52:14 ce Exp $
 //
 // Definition of eZTodo class
 //
@@ -60,13 +60,13 @@ class eZTodo
             $this->Database->query( "INSERT INTO eZTodo_Todo SET
                                      ID='$this->ID',
                                      Name='$this->Name',
-                                     Text='$this->Text',
+                                     Description='$this->Description',
                                      Category='$this->Category',
                                      Priority='$this->Priority', 
                                      Due='$this->Due',
                                      UserID='$this->UserID',
                                      OwnerID='$this->OwnerID',
-                                     Done='$this->Done',
+                                     Status='$this->Status',
                                      Date=now(),
                                      Permission='$this->Permission'" );
             $this->ID =  mysql_insert_id();
@@ -77,13 +77,13 @@ class eZTodo
         {
             $this->Database->query( "UPDATE eZTodo_Todo SET
                                      Name='$this->Name',
-                                     Text='$this->Text',
+                                     Description='$this->Description',
                                      Category='$this->Category',
                                      Priority='$this->Priority',
                                      Due='$this->Due',
                                      UserID='$this->UserID',
                                      OwnerID='$this->OwnerID',
-                                     Done='$this->Done',
+                                     Status='$this->Status',
                                      Permission='$this->Permission',
                                      Date=Date
                                      WHERE ID='$this->ID' ");
@@ -126,14 +126,14 @@ class eZTodo
             {
                 $this->ID = $todo_array[0][ "ID" ];
                 $this->Name = $todo_array[0][ "Name" ];
-                $this->Text = $todo_array[0][ "Text" ];
+                $this->Description = $todo_array[0][ "Description" ];
                 $this->Category = $todo_array[0][ "Category" ];
                 $this->Priority = $todo_array[0][ "Priority" ];
                 $this->Due = $todo_array[0][ "Due" ];
                 $this->Date = $todo_array[0][ "Date" ];
                 $this->UserID = $todo_array[0][ "UserID" ];
                 $this->OwnerID = $todo_array[0][ "OwnerID" ];
-                $this->Done = $todo_array[0][ "Done" ];
+                $this->Status = $todo_array[0][ "Status" ];
                 $this->Permission = $todo_array[0][ "Permission" ];
 
                 $ret = true;
@@ -203,7 +203,7 @@ class eZTodo
         $return_array = array();
         $todo_array = array();
 
-        $this->Database->array_query( $todo_array, "SELECT ID FROM eZTodo_Todo WHERE UserID='$id' ORDER BY Name");
+        $this->Database->array_query( $todo_array, "SELECT ID FROM eZTodo_Todo WHERE UserID='$id' AND Permission='Public' ORDER BY Name");
        
         for ( $i=0; $i<count($todo_array); $i++ )
         {
@@ -238,25 +238,25 @@ class eZTodo
     }
 
     /*!
-      Text of the todo.
-      Returns the text of the todo as a string.
+      Description of the todo.
+      Returns the description of the todo as a string.
     */
-    function text()
+    function description()
     {
         if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
-        return $this->Text;
+        return $this->Description;
     }
 
     /*!
-      Sets the text of the todo.
-      The new text of the todo is passed as a paramenter ( $value ).
+      Sets the description of the todo.
+      The new description of the todo is passed as a paramenter ( $value ).
      */
-    function setText( $value )
+    function setDescription( $value )
     {
         if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
-        $this->Text = $value;
+        $this->Description = $value;
     }
 
     /*!
@@ -400,30 +400,27 @@ class eZTodo
     }
     
     /*!
-      Done of the todo.
-      Returns the done of the todo as a string.
+      Status of the todo.
+      Returns the status of the todo as a string.
     */
-    function done()
+    function status()
     {
         if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
-        return $this->Done;
+        
+        return $this->Status;
     }
 
     /*!
-      Sets the done of the todo.
-      The new done of the todo is passed as a paramenter ( $value ).
+      Sets the status of the todo.
+      The new status of the todo is passed as a paramenter ( $value ).
      */
-    function setDone( $value )
+    function setStatus( $value )
     {
         if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
 
-        if ( $value )
-            $this->Done = "true";
-        else
-            $this->Done = "false";
-       
+        $this->Status = $value;
     }
 
 
@@ -477,14 +474,14 @@ class eZTodo
     var $OwnerID;
     var $UserID;
     var $Permission;
-    var $Text;
+    var $Description;
     var $Due;
     var $Date;
     var $Name;
     var $CategoryID;
     var $PriorityID;
     var $ID;
-    var $Done;
+    var $Status;
 
     ///  Variable for keeping the database connection.
     var $Database;
