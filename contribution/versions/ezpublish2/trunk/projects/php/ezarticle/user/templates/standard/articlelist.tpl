@@ -51,6 +51,23 @@
 	{article_name}
 	</a>
 	</h3>
+
+	<!-- BEGIN article_image_tpl -->
+	    <table align="right">
+	        <tr>
+			<td>
+                        <img src="{thumbnail_image_uri}" border="0" width="{thumbnail_image_width}" height="{thumbnail_image_height}" />
+                        </td>
+                </tr>
+                <tr>
+                         <td>
+                         {thumbnail_image_caption}
+                         </td>
+                </tr>
+             </table>
+        <!-- END article_image_tpl -->
+
+
 	<p>
 	{article_intro}
 	</p>

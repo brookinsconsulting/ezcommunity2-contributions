@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: articlelist.php,v 1.2 2000/10/19 11:20:52 bf-cvs Exp $
+// $Id: articlelist.php,v 1.3 2000/10/20 11:35:34 bf-cvs Exp $
 //
 // 
 //
@@ -45,6 +45,9 @@ $t->set_block( "category_list_tpl", "category_item_tpl", "category_item" );
 // product
 $t->set_block( "article_list_page_tpl", "article_list_tpl", "article_list" );
 $t->set_block( "article_list_tpl", "article_item_tpl", "article_item" );
+
+$t->set_block( "article_item_tpl", "article_image_tpl", "article_image" );
+
 
 $category = new eZArticleCategory( $CategoryID );
 
@@ -105,6 +108,24 @@ $i=0;
 $t->set_var( "article_list", "" );
 foreach ( $articleList as $article )
 {
+    // preview image
+    $thumbnailImage = $article->thumbnailImage();
+    if ( $thumbnailImage )
+    {
+        $variation =& $thumbnailImage->requestImageVariation( 150, 150 );
+    
+        $t->set_var( "thumbnail_image_uri", "/" . $variation->imagePath() );
+        $t->set_var( "thumbnail_image_width", $variation->width() );
+        $t->set_var( "thumbnail_image_height", $variation->height() );
+        $t->set_var( "thumbnail_image_caption", $thumbnailImage->caption() );
+
+        $t->parse( "article_image", "article_image_tpl" );
+    }
+    else
+    {
+        $t->set_var( "article_image", "" );    
+    }
+    
     $t->set_var( "article_name", $article->name() );
 
     $t->set_var( "article_id", $article->id() );
