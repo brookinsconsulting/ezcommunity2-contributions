@@ -285,3 +285,21 @@ CREATE TABLE eZTrade_AttributeValue (
 alter table eZTrade_Order add IsExported int not null default 0;    
 
 alter table eZTrade_Order add IsSendt int not null default 1;    
+
+alter table eZTrade_Order add Date datetime;
+
+# eZ stats (speed) update
+# If you're having the site online do the following:
+#
+alter table eZStats_PageView add DateValue date not null;
+alter table eZStats_PageView add TimeValue time not null;
+
+# Then update the eZStats scripts. (copy the new code )
+# Then run the following commands
+Update eZStats_PageView SET Date=Date, DateValue= DATE_FORMAT( Date, "%Y-%m-%d" ) WHERE DateValue='0000-00-00';
+Update eZStats_PageView SET Date=Date, TimeValue=DATE_FORMAT( eZStats_PageView.Date, "%H:%i:%S" ) WHERE TimeValue='00:00:00';
+
+# Index for speed
+alter table eZStats_PageView add index ( DateValue ); 
+alter table eZStats_PageView add index ( TimeValue ); 
+alter table eZStats_PageView add index ( Date );
