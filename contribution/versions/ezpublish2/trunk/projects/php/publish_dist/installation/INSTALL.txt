@@ -38,6 +38,12 @@ Chapter 3 Compile Configuration
         3.1.4 Installation
 Chapter 4 Apache Configuration
     4.1 Dual Virtual Host
+        4.1.1 Configuring Through httpd.conf
+            4.1.1.1 User Side
+            4.1.1.2 Admin Side
+        4.1.2 Configuring Through .htaccess
+            4.1.2.1 User Side
+            4.1.2.2 Admin Side
 Chapter 5 eZ publish Installation
     5.1 Database
     5.2 Program Files
@@ -348,10 +354,11 @@ command:
 Apache Configuration
 
 For the moment we have only one solution for configuring
-apache. There are other methods, and we'll document them
-in the future.
+apache. 
 
 4.1 Dual Virtual Host
+
+4.1.1 Configuring Through httpd.conf
 
 This set up is based on having two different virtual hosts
 for your administration back-end and the main site. The
@@ -367,6 +374,8 @@ is an example of such a host, remember to exchange everything
 within brackets ("["
 and "]") with your preferred and local settings
 and also remove the brackets.
+
+4.1.1.1 User Side
 
 # User site 
 
@@ -400,6 +409,8 @@ ServerName [your.domain.com]
 ServerAlias publish
 
 </VirtualHost>
+
+4.1.1.2 Admin Side
 
 # Admin site 
 
@@ -483,6 +494,39 @@ at all; since the admin module assumes that the url "/"
 is the start of the admin pages. If you do change eZ publish
 code in order to do this anyway; please send the code to
 bf@ez.no for future inclusion.
+
+4.1.2 Configuring Through .htaccess
+
+Instead of using httpd.conf and rewrite rules in the virtual
+hosts, you can also do the rewrite rules in the .htaccess
+filesm directory specific configuration files.
+
+Note: You must set up apache to accept this. You still need
+two domains for this operation!
+
+4.1.2.1 User Side
+
+In your main directory (/path/to/index.php/) create a file
+called ".htaccess" containing the following text: 
+
+* RewriteEngine On
+  RewriteRule ^/filemanager/filedownload/([^/]+)/(.*)$ 
+  /path/to/website/ezfilemanager/files/$1
+  [T="application/oct-stream",S=1]
+  #The lines above should appear on the same line in your
+  configuration file!
+  RewriteRule !\.(gif|css|jpg|png)$ /path/to/website/index.php
+
+4.1.2.2 Admin Side
+
+In your admin subdomain home directory, create a file with
+the following text: 
+
+* RewriteEngine On
+  RewriteRule !\.(gif|css|jpg|png)$ /path/to/website/admin/index.php 
+
+Note the extra "\" in the rewrite rule. Its slightly different
+to the line used in the httpd.conf method.
 
 eZ publish Installation
 

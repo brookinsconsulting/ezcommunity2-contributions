@@ -354,11 +354,13 @@ To install your new PHP package you need to run the following command:
 
 \chapter{Apache Configuration}
 
-For the moment we have only one solution for configuring apache. There
-are other methods, and we'll document them in the future.
+For the moment we have only one solution for configuring apache. 
 
 
 \section{Dual Virtual Host}
+
+
+\subsection{Configuring Through httpd.conf}
 
 This set up is based on having two different virtual hosts for your
 administration back-end and the main site. The main site would typically
@@ -372,6 +374,9 @@ which is the main configuration of Apache. Following is an example
 of such a host, remember to exchange everything within brackets ({}``{[}{}``
 and {}``{]}{}'') with your preferred and local settings and also
 remove the brackets.
+
+
+\subsubsection{User Side}
 
 \begin{LyXParagraphIndent}{2mm}
 \texttt{\scriptsize \# User site }{\scriptsize \par}
@@ -409,6 +414,12 @@ in your configuration file!}{\scriptsize \par}
 
 \texttt{\scriptsize </VirtualHost>}{\scriptsize \par}
 
+\end{LyXParagraphIndent}
+
+
+\subsubsection{Admin Side}
+
+\begin{LyXParagraphIndent}{2mm}
 \texttt{\scriptsize \# Admin site }{\scriptsize \par}
 
 \texttt{\scriptsize <VirtualHost admin.yourdomain.org> }{\scriptsize \par}
@@ -492,6 +503,47 @@ at all; since the admin module assumes that the url {}``/{}'' is
 the start of the admin pages. If you do change eZ publish code in
 order to do this anyway; please send the code to bf@ez.no for future
 inclusion.}
+
+
+\subsection{Configuring Through .htaccess}
+
+Instead of using httpd.conf and rewrite rules in the virtual hosts,
+you can also do the rewrite rules in the .htaccess filesm directory
+specific configuration files.
+
+\emph{Note: You must set up apache to accept this. You still need
+two domains for this operation!}
+
+
+\subsubsection{User Side}
+
+In your main directory (/path/to/index.php/) create a file called
+\char`\"{}.htaccess\char`\"{} containing the following text: 
+
+\begin{itemize}
+\item \texttt{\scriptsize RewriteEngine On}\texttt{\footnotesize }~\\
+\texttt{\scriptsize RewriteRule \textasciicircum{}/filemanager/filedownload/({[}\textasciicircum{}/{]}+)/(.{*})\$
+}~\\
+\texttt{\scriptsize /path/to/website/ezfilemanager/files/\$1}~\\
+\texttt{\scriptsize {[}T=\char`\"{}application/oct-stream\char`\"{},S=1{]}}~\\
+\texttt{\scriptsize \#The lines above should appear on the same line
+in your configuration file!}~\\
+\texttt{\scriptsize RewriteRule !\textbackslash{}.(gif|css|jpg|png)\$
+/path/to/website/index.php}{\scriptsize \par}
+\end{itemize}
+
+\subsubsection{Admin Side}
+
+In your admin subdomain home directory, create a file with the following
+text: 
+
+\begin{itemize}
+\item \texttt{\scriptsize RewriteEngine On}~\\
+\texttt{\scriptsize RewriteRule !\textbackslash{}.(gif|css|jpg|png)\$
+/path/to/website/admin/index.php }{\scriptsize \par}
+\end{itemize}
+Note the extra \char`\"{}\textbackslash{}\char`\"{} in the rewrite
+rule. Its slightly different to the line used in the httpd.conf method.
 
 
 \chapter{eZ publish Installation}
