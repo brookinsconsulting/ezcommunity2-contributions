@@ -1,7 +1,7 @@
 eZ publish changelog:
 ---------------------
  
-Changes from 2.0.0 to 2.0.1
+Changes from 2.0.0 to 2.1.0B1
 ---------------------------
 * Changed the handling of modules in the admin interface, the user can now select
   which modules are active at any time.
