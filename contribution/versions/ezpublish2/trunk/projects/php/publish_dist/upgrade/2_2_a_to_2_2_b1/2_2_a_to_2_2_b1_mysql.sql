@@ -11,3 +11,6 @@ alter table eZForum_Message add UserName varchar(60) default null;
 
 #Languages in sections
 alter table eZSiteManager_Section add Language varchar(5) default NULL;
+
+alter table eZTrade_Option add RemoteID varchar(100);
+alter table eZTrade_CartOptionValue add Count int default 1;
