@@ -1,11 +1,11 @@
 #!/bin/sh
 echo "Creating symbolic links and setting permissions as needed."
-chmod 666 site.ini
-if [ -f "override/site.ini" ]; then
-    chmod 666 override/site.ini
+chmod 666 bin/ini/site.ini
+if [ -f "bin/ini/override/site.ini" ]; then
+    chmod 666 bin/ini/override/site.ini
 fi
-if [ -f "override/site.ini.append" ]; then
-    chmod 666 override/site.ini.append
+if [ -f "bin/ini/override/site.ini.append" ]; then
+    chmod 666 bin/ini/override/site.ini.append
 fi
 
 touch bin/logs/error.log
