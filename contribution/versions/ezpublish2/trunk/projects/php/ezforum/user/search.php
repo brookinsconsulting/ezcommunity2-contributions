@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: search.php,v 1.8 2001/05/09 09:14:29 ce Exp $
+// $Id: search.php,v 1.9 2001/05/09 09:26:02 ce Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <12-Oct-2000 20:33:02 bf>
@@ -52,6 +52,9 @@ $t->set_block( "search_tpl", "message_tpl", "message" );
 $t->set_block( "search_tpl", "empty_result_tpl", "empty_result" );
 $t->set_block( "search_tpl", "search_result_tpl", "search_result" );
 
+$t->set_block( "message_tpl", "new_icon_tpl", "new_icon" );
+$t->set_block( "message_tpl", "old_icon_tpl", "old_icon" );
+
 if( !isset ( $Offset ) )
     $Offset = 0;
 
@@ -85,6 +88,18 @@ if ( $QueryString != "" )
         $t->set_var( "postingtime", $locale->format( $message->postingTime() ) );
 
         $t->set_var( "message_id", $message->id() );
+
+        $messageAge = round( $message->age() / ( 60 * 60 * 24 ) );
+        if ( $messageAge <= $NewMessageLimit )
+        {
+            $t->parse( "new_icon", "new_icon_tpl" );
+            $t->set_var( "old_icon", "" );
+        }
+        else
+        {
+            $t->parse( "old_icon", "old_icon_tpl" );
+            $t->set_var( "new_icon", "" );
+        }
         
         $user = $message->user();
 
