@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: checkout.php,v 1.75 2001/08/24 13:56:00 ce Exp $
+// $Id: checkout.php,v 1.76 2001/08/24 18:01:30 br Exp $
 //
 // Created on: <28-Sep-2000 15:52:08 bf>
 //
@@ -119,6 +119,8 @@ $t->set_block( "cart_item_list_tpl", "vouchers_tpl", "vouchers" );
 $t->set_block( "vouchers_tpl", "voucher_item_tpl", "voucher_item" );
 
 $t->set_var( "show_payment", "" );
+$t->set_var( "price_ex_vat", "" );
+$t->set_var( "price_inc_vat", "" );
 
 if ( isSet( $SendOrder ) ) 
 {
@@ -512,7 +514,7 @@ $can_checkout = true;
 
     $i=1;
     $t->set_var( "vouchers", "" );
-    $t->set_var( "voucher_item_tpl", "" );
+    $t->set_var( "voucher_item", "" );
     foreach( $vouchers as $voucher )
     {
         $voucher = new eZVoucher( $voucher );
