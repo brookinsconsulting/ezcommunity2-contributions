@@ -66,7 +66,6 @@ $StoreStats = $ini->read_var( "eZStatsMain", "StoreStats" );
 
 if ( $StoreStats == "enabled" )
 {
-    print( "storing stats" );
     // do the statistics
     include_once( "ezstats/classes/ezpageview.php" );
 
@@ -85,21 +84,31 @@ $user = eZUser::currentUser();
 
 $requireUserLogin =& $ini->read_var( "eZUserMain", "RequireUserLogin" );
 
+// Remove url parameters
+ereg( "([^?]+)", $REQUEST_URI, $regs );
+$REQUEST_URI = $regs[1];
+
+$url_array = explode( "/", $REQUEST_URI );
+
 
 if ( ( $requireUserLogin == "disabled" ) ||
     ( ( $requireUserLogin == "enabled" )   & ( get_class( $user ) == "ezuser" ) && ( $user->id() != 0 ) ) ) 
 {
 
-    // Remove url parameters
-    ereg( "([^?]+)", $REQUEST_URI, $regs );
+    // do url translation if needed
+    $URLTranslationKeyword = $ini->read_var( "site", "URLTranslationKeyword" );
 
-    $REQUEST_URI = $regs[1];
+    if ( $URLTranslationKeyword == $url_array[1] )
+    {
+        include_once( "ezurltranslator/classes/ezurltranslator.php" );
+        $REQUEST_URI = eZURLTranslator::translate( $REQUEST_URI );
+        $url_array = explode( "/", $REQUEST_URI );
+    }
 
     // if uri == / show article list
     if ( $REQUEST_URI == "/" )
         $REQUEST_URI = "/article/archive/0/";
 
-    $url_array = explode( "/", $REQUEST_URI );
     $meta_page = "ez" . $url_array[1] . "/metasupplier.php";
 
     // include some html
@@ -183,12 +192,6 @@ else
     // parse the URI
     $page = "";
 
-    // Remove url parameters
-    ereg( "([^?]+)", $REQUEST_URI, $regs );
-
-    $REQUEST_URI = $regs[1];
-
-    $url_array = explode( "/", $REQUEST_URI );
 
     // send the URI to the right decoder
     $page = "ezuser/user/datasupplier.php";
