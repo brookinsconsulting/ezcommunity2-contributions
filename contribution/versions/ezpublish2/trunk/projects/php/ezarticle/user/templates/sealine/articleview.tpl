@@ -1,7 +1,7 @@
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
 	<td>
-	<h1>{article_name}</h1>
+	<h1 class="small">{article_name}</h1>
 	</td>
 </tr>
 </table>
