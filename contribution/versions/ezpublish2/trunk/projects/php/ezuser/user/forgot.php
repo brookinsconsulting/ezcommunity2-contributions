@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: forgot.php,v 1.6 2000/10/27 10:51:06 ce-cvs Exp $
+// $Id: forgot.php,v 1.7 2000/10/27 11:53:38 ce-cvs Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <20-Sep-2000 13:32:11 ce>
@@ -82,9 +82,9 @@ if ( $Action == "change" )
         $user->store();
         $mail = new eZMail();
         $mail->setTo( $user->email() );
-        $mail->setSubject( $subjectNewPassword );
+        $mail->setSubject( $subjectNewPassword . " " . $headersInfo["Host"] );
 
-        $body = ( $bodyNewPassword . "\n" );
+        $body = ( $bodyNewPassword . " " . $headersInfo["Host"] .".\n" );
         $body .= ( $passwordText . ": "  .  $password );
         $mail->setBody( $body );
         $mail->send();
