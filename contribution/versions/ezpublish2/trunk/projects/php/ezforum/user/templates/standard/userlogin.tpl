@@ -1,15 +1,29 @@
 <h1>{intl-new_user}</h1>
 
-<a href="/user/user/new/?RedirectURL={redirect_url}">registrer ny bruker </a>
+<hr noshade="noshade" size="4" />
 
-<h1>{intl-user_login}</h1>
+<h2>{intl-user_login}</h2>
 
+<p>{intl-reg_text}</p>
 
 <form method="post" action="/user/login/login/">
-        {intl-username}<br>
-        <input type="text" size="10" name="Username"/><br>
-        {intl-password}<br>
-        <input type="password" size="10" name="Password"/><br>
-        <input type="submit" value="OK" />
-        <input type="hidden" name="RedirectURL" value="{redirect_url}" />
+<p class="boxtext">{intl-username}</p>
+<input type="text" size="20" name="Username"/>
+
+<p class="boxtext">{intl-password}</p>
+<input type="password" size="20" name="Password"/><br />
+<br />
+
+<input class="okbutton" type="submit" value="Logg inn" />
+<input type="hidden" name="RedirectURL" value="{redirect_url}" />
+</form>
+<br />
+
+<h2>{intl-new_user}</h2>
+
+<p>{intl-new_text}</p>
+
+<form method="post" action="/user/user/new/?RedirectURL={redirect_url}">
+<input class="okbutton" class="stdbutton" type="submit" value="Ny bruker" />
+
 </form>

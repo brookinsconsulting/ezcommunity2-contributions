@@ -5,6 +5,7 @@
 
 <h2>{intl-customer_login}</h2>
 
+<p>{intl-reg_text}</p>
 
 <form method="post" action="/user/login/login/">
 <p class="boxtext">{intl-username}</p>
@@ -12,16 +13,19 @@
 
 <p class="boxtext">{intl-password}</p>
 <input type="password" size="20" name="Password"/><br />
+<br />
 
-<input class="okbutton" type="submit" value="OK" />
+<input class="okbutton" type="submit" value="Logg inn" />
 <input type="hidden" name="RedirectURL" value="{redirect_url}" />
 </form>
+<br />
 
 <h2>{intl-new_customer}</h2>
 
-<form method="post" action="/user/userwithaddress/new/?RedirectURL=/trade/customerlogin/">
-<input class="okbutton" class="stdbutton" type="submit" value="Registrer ny bruker" />
+<p>{intl-new_text}</p>
 
-<a href="/user/userwithaddress/new/?RedirectURL=/trade/customerlogin/">registrer ny bruker </a>
+<form method="post" action="/user/userwithaddress/new/?RedirectURL=/trade/customerlogin/">
+<input class="okbutton" class="stdbutton" type="submit" value="Ny bruker" />
+
 </form>
 
