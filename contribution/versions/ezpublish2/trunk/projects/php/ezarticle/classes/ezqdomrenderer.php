@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezqdomrenderer.php,v 1.31 2001/08/21 14:34:57 virt Exp $
+// $Id: ezqdomrenderer.php,v 1.32 2001/08/21 15:13:32 bf Exp $
 //
 // Definition of eZQDomRenderer class
 //
@@ -144,17 +144,27 @@ class eZQDomrenderer
     /*!
       Creates a new eZQDomGenerator object.
     */
-    function eZQDomrenderer( &$article )
-    {
+    function eZQDomrenderer( &$article, $template=false )
+    {        
         $UsedImageList = array();
         
         $ini =& INIFile::globalINI();
 
+
         $this->Template = new eZTemplate( "ezarticle/user/" . $ini->read_var( "eZArticleMain", "TemplateDir" ),
                      "ezarticle/user/intl/", "en_GB", "articleview.php" );
 
-        $this->Template->set_file( "articletags_tpl", "articletags.tpl"  );
+        if ( file_exists( "ezarticle/user/" . $ini->read_var( "eZArticleMain", "TemplateDir" ) . "articletags_$template.tpl" ) )
+        {
+            print( "menu" );
+            $this->Template->set_file( "articletags_tpl", "articletags_$template.tpl"  );
+        }
+        else
+        {
+            $this->Template->set_file( "articletags_tpl", "articletags.tpl"  );
 
+        }
+        
         $this->Template->set_block( "articletags_tpl", "header_1_tpl", "header_1"  );
         $this->Template->set_block( "articletags_tpl", "header_2_tpl", "header_2"  );
         $this->Template->set_block( "articletags_tpl", "header_3_tpl", "header_3"  );

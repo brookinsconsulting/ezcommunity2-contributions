@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezarticlerenderer.php,v 1.11 2001/08/09 14:30:55 bf Exp $
+// $Id: ezarticlerenderer.php,v 1.12 2001/08/21 15:13:32 bf Exp $
 //
 // Definition of eZArticleRenderer class
 //
@@ -33,10 +33,11 @@
 
 class eZArticleRenderer
 {
-    function eZArticleRenderer(  &$article )
+    function eZArticleRenderer(  &$article, $template=false )
     {
         $this->Generator = false;
         $this->Article =& $article;
+        $this->Template = $template;
 
         $contents =& $this->Article->contents();
 
@@ -118,7 +119,7 @@ class eZArticleRenderer
         $generator =& $this->generator();
 //        print( "Using renderer: " . $this->RendererClass . "<br>");
               
-        return $generator->renderPage( $page );
+        return $generator->renderPage( $page, $template );
     }
 
     /*!
@@ -140,7 +141,7 @@ class eZArticleRenderer
         if ( $this->Generator == false )
         {
             include_once( "ezarticle/classes/" . $this->RendererFile );
-            $this->Generator = new $this->RendererClass( $this->Article );
+            $this->Generator = new $this->RendererClass( $this->Article, $this->Template );
         }
 
         return $this->Generator;
@@ -152,6 +153,7 @@ class eZArticleRenderer
     
     var $RendererClass;
     var $RendererFile;
+    var $Template;
 
     var $Article;
 }
