@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: requestpagelist.php,v 1.2 2001/01/22 14:43:01 jb Exp $
+// $Id: requestpagelist.php,v 1.3 2001/02/09 14:39:51 jb Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <07-Jan-2001 16:25:31 bf>
@@ -24,12 +24,13 @@
 //
 
 include_once( "classes/INIFile.php" );
-$ini = new INIFile( "site.ini" );
+$ini =& $GlobalSiteIni;
 
 $Language = $ini->read_var( "eZStatsMain", "Language" );
 
 include_once( "classes/eztemplate.php" );
 include_once( "classes/ezdate.php" );
+include_once( "classes/ezlist.php" );
 
 include_once( "ezstats/classes/ezpageview.php" );
 include_once( "ezstats/classes/ezpageviewquery.php" );
@@ -46,9 +47,17 @@ $t->set_file( array(
 $t->set_block( "request_page_tpl", "request_list_tpl", "request_list" );
 $t->set_block( "request_list_tpl", "request_tpl", "request" );
 
-$query = new eZPageViewQuery();
+if ( !isset( $Offset ) or !is_numeric( $Offset ) )
+    $Offset = 0;
 
-$latest =& $query->topRequests( $ViewLimit );
+$latest =& eZPageViewQuery::topRequests( $ViewLimit, $Offset );
+$ItemCount = eZPageViewQuery::topRequestsCount();
+
+$t->set_var( "item_start", $Offset + 1 );
+$t->set_var( "item_end", $Offset + $ViewLimit );
+$t->set_var( "item_count", $ItemCount );
+$t->set_var( "item_limit", $ViewLimit );
+$t->set_var( "exclude_domain", $ExcludeDomain );
 
 $headers = getallheaders();
 $request_domain = $headers["Host"];
@@ -76,7 +85,7 @@ else
     $t->set_var( "request_list", "" );
 }
 
-
+eZList::drawNavigator( $t, $ItemCount, $ViewLimit, $Offset, "request_list" );
 
 $t->pparse( "output", "request_page_tpl" );
 

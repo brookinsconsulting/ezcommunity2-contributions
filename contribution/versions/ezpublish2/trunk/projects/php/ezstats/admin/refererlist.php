@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: refererlist.php,v 1.3 2001/01/22 14:43:01 jb Exp $
+// $Id: refererlist.php,v 1.4 2001/02/09 14:39:46 jb Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <07-Jan-2001 16:13:21 bf>
@@ -24,12 +24,13 @@
 //
 
 include_once( "classes/INIFile.php" );
-$ini = new INIFile( "site.ini" );
+$ini =& $GlobalSiteIni;
 
 $Language = $ini->read_var( "eZStatsMain", "Language" );
 
 include_once( "classes/eztemplate.php" );
 include_once( "classes/ezdate.php" );
+include_once( "classes/ezlist.php" );
 
 include_once( "ezstats/classes/ezpageview.php" );
 include_once( "ezstats/classes/ezpageviewquery.php" );
@@ -46,10 +47,17 @@ $t->set_file( array(
 $t->set_block( "referer_page_tpl", "referer_list_tpl", "referer_list" );
 $t->set_block( "referer_list_tpl", "referer_tpl", "referer" );
 
-$query = new eZPageViewQuery();
+if ( !isset( $Offset ) or !is_numeric( $Offset ) )
+    $Offset = 0;
 
-$latest =& $query->topReferers( $ViewLimit, $ExcludeDomain );
+$latest =& eZPageViewQuery::topReferers( $ViewLimit, $ExcludeDomain, $Offset );
+$ItemCount = eZPageViewQuery::topReferersCount( $ExcludeDomain );
 
+$t->set_var( "item_start", $Offset + 1 );
+$t->set_var( "item_end", $Offset + $ViewLimit );
+$t->set_var( "item_count", $ItemCount );
+$t->set_var( "item_limit", $ViewLimit );
+$t->set_var( "exclude_domain", $ExcludeDomain );
 
 if ( count( $latest ) > 0 )
 {
@@ -73,7 +81,7 @@ else
 $t->set_var( "view_mode", $ViewMode );
 $t->set_var( "view_limit", $ViewLimit );
 
-
+eZList::drawNavigator( $t, $ItemCount, $ViewLimit, $Offset, "referer_list" );
 
 $t->pparse( "output", "referer_page_tpl" );
 

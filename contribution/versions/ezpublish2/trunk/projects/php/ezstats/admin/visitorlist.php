@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: visitorlist.php,v 1.2 2001/01/22 14:43:01 jb Exp $
+// $Id: visitorlist.php,v 1.3 2001/02/09 14:39:53 jb Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <07-Jan-2001 12:56:58 bf>
@@ -24,12 +24,13 @@
 //
 
 include_once( "classes/INIFile.php" );
-$ini = new INIFile( "site.ini" );
+$ini =& $GlobalSiteIni;
 
 $Language = $ini->read_var( "eZStatsMain", "Language" );
 
 include_once( "classes/eztemplate.php" );
 include_once( "classes/ezdate.php" );
+include_once( "classes/ezlist.php" );
 
 include_once( "ezstats/classes/ezpageview.php" );
 include_once( "ezstats/classes/ezpageviewquery.php" );
@@ -39,16 +40,21 @@ $t = new eZTemplate( "ezstats/admin/" . $ini->read_var( "eZStatsMain", "AdminTem
 
 $t->setAllStrings();
 
-$t->set_file( array(
-    "visitor_page_tpl" => "visitorlist.tpl"
-    ) );
+$t->set_file( "visitor_page_tpl", "visitorlist.tpl" );
 
 $t->set_block( "visitor_page_tpl", "visitor_list_tpl", "visitor_list" );
 $t->set_block( "visitor_list_tpl", "visitor_tpl", "visitor" );
 
-$query = new eZPageViewQuery();
+if ( !isset( $Offset ) or !is_numeric( $Offset ) )
+    $Offset = 0;
 
-$latest =& $query->topVisitors( $ViewLimit );
+$latest =& eZPageViewQuery::topVisitors( $ViewLimit, $Offset );
+$ItemCount = eZPageViewQuery::topVisitorsCount();
+
+$t->set_var( "item_start", $Offset + 1 );
+$t->set_var( "item_end", $Offset + $ViewLimit );
+$t->set_var( "item_count", $ItemCount );
+$t->set_var( "item_limit", $ViewLimit );
 
 if ( count( $latest ) > 0 )
 {
@@ -69,7 +75,7 @@ else
     $t->set_var( "visitor_list", "" );
 }
 
-
+eZList::drawNavigator( $t, $ItemCount, $ViewLimit, $Offset, "visitor_list" );
 
 $t->pparse( "output", "visitor_page_tpl" );
 

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: monthreport.php,v 1.3 2001/01/22 14:43:01 jb Exp $
+// $Id: monthreport.php,v 1.4 2001/02/09 14:39:40 jb Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <07-Jan-2001 14:47:04 bf>
@@ -24,7 +24,7 @@
 //
 
 include_once( "classes/INIFile.php" );
-$ini = new INIFile( "site.ini" );
+$ini =& $GlobalSiteIni;
 
 $Language = $ini->read_var( "eZStatsMain", "Language" );
 
@@ -39,12 +39,39 @@ $t = new eZTemplate( "ezstats/admin/" . $ini->read_var( "eZStatsMain", "AdminTem
 
 $t->setAllStrings();
 
-$t->set_file( array(
-    "month_report_tpl" => "monthreport.tpl"
-    ) );
+$t->set_file( "month_report_tpl", "monthreport.tpl" );
+
+$t->set_block( "month_report_tpl", "month_january_tpl", "month_january" );
+$t->set_block( "month_report_tpl", "month_february_tpl", "month_february" );
+$t->set_block( "month_report_tpl", "month_march_tpl", "month_march" );
+$t->set_block( "month_report_tpl", "month_april_tpl", "month_april" );
+$t->set_block( "month_report_tpl", "month_may_tpl", "month_may" );
+$t->set_block( "month_report_tpl", "month_june_tpl", "month_june" );
+$t->set_block( "month_report_tpl", "month_july_tpl", "month_july" );
+$t->set_block( "month_report_tpl", "month_august_tpl", "month_august" );
+$t->set_block( "month_report_tpl", "month_september_tpl", "month_september" );
+$t->set_block( "month_report_tpl", "month_october_tpl", "month_october" );
+$t->set_block( "month_report_tpl", "month_november_tpl", "month_november" );
+$t->set_block( "month_report_tpl", "month_december_tpl", "month_december" );
 
 $t->set_block( "month_report_tpl", "result_list_tpl", "result_list" );
 $t->set_block( "result_list_tpl", "day_tpl", "day" );
+
+$t->set_block( "day_tpl", "percent_marker_tpl", "percent_marker" );
+$t->set_block( "day_tpl", "no_percent_marker_tpl", "no_percent_marker" );
+
+$t->set_block( "result_list_tpl", "month_tpl", "month" );
+$t->set_block( "month_tpl", "month_previous_tpl", "month_previous" );
+$t->set_block( "month_tpl", "month_previous_inactive_tpl", "month_previous_inactive" );
+$t->set_block( "month_tpl", "month_next_tpl", "month_next" );
+$t->set_block( "month_tpl", "month_next_inactive_tpl", "month_next_inactive" );
+
+if ( !is_numeric( $Year ) || !is_numeric( $Month ) )
+{
+    $cur_date = new eZDate();
+    $Year = $cur_date->year();
+    $Month = $cur_date->month();
+}
 
 $query = new eZPageViewQuery();
 
@@ -61,7 +88,7 @@ if ( count( $monthReport ) > 0 )
         if ( $count > $maxCount )
             $maxCount = $count;
     }
-     
+
     $i=1;
     foreach ( $monthReport["Days"] as $day )
     {
@@ -71,19 +98,41 @@ if ( count( $monthReport ) > 0 )
         $t->set_var( "page_view_count", $count );
         $t->set_var( "current_day", $i );
 
-        $pageViewPercent = ( $count / $totalCount ) * 100;
-        $pageViewPercent = round($pageViewPercent);
+        if ( $totalCount > 0 )
+        {
+            $pageViewPercent = ( $count / $totalCount ) * 100;
+            $pageViewPercent = round($pageViewPercent);
+        }
+        else
+        {
+            $pageViewPercent = 0;
+        }
 
         $newMax = $totalCount - $maxCount;
-        
-        $normalizedPercent = ( $count / $maxCount ) * 100;
-        $normalizedPercent = round($normalizedPercent);        
+
+        if ( $maxCount > 0 )
+        {
+            $normalizedPercent = ( $count / $maxCount ) * 100;
+            $normalizedPercent = round($normalizedPercent);
+        }
+        else
+        {
+            $normalizedPercent = 0;
+        }
 
         $t->set_var( "page_view_percent", $normalizedPercent );
         $t->set_var( "page_view_percent_inverted", 100 - $normalizedPercent );
 
         $t->set_var( "percent_count", $pageViewPercent );
-        
+
+        $t->set_var( "percent_marker", "" );
+        $t->set_var( "no_percent_marker", "" );
+
+        if ( $count == 0 )
+            $t->parse( "no_percent_marker", "no_percent_marker_tpl" );
+        else
+            $t->parse( "percent_marker", "percent_marker_tpl" );
+
         $t->parse( "day", "day_tpl", true );
         $i++;
     }
@@ -97,10 +146,66 @@ else
     $t->set_var( "result_list", "" );
 }
 
-$t->set_var( "this_month", $Month );
+$months = array( 1 => "month_january",
+                 2 => "month_february",
+                 3 => "month_march",
+                 4 => "month_april",
+                 5 => "month_may",
+                 6 => "month_june",
+                 7 => "month_july",
+                 8 => "month_august",
+                 9 => "month_september",
+                 10 => "month_october",
+                 11 => "month_november",
+                 12 => "month_december" );
+
+foreach( $months as $cur_month )
+{
+    $t->set_var( $cur_month, "" );
+}
+
+$t->parse( $months[$Month], $months[$Month] . "_tpl" );
+
+//  $t->set_var( "this_month", $Month );
 $t->set_var( "this_year", $Year );
 
+$NextYear = $Year;
+$PrevYear = $Year;
+$NextMonth = $Month + 1;
+if ( $NextMonth > 12 )
+{
+    $NextYear++;
+    $NextMonth = 1;
+}
+$PrevMonth = $Month - 1;
+if ( $PrevMonth < 1 )
+{
+    $PrevYear--;
+    $PrevMonth = 12;
+}
+$t->set_var( "next_month", $NextMonth );
+$t->set_var( "previous_month", $PrevMonth );
+$t->set_var( "next_year", $NextYear );
+$t->set_var( "previous_year", $PrevYear );
 
+$t->set_var( "month_next_inactive", "" );
+$t->set_var( "month_next", "" );
+$t->set_var( "month_previous", "" );
+$t->set_var( "month_previous_inactive", "" );
+
+$cur_date = new eZDate();
+$next_date = new eZDate( $NextYear, $NextMonth, 1 );
+
+if ( $cur_date->isGreater( $next_date ) )
+    $t->parse( "month_next_inactive", "month_next_inactive_tpl" );
+else
+    $t->parse( "month_next", "month_next_tpl" );
+
+$t->parse( "month_previous", "month_previous_tpl" );
+
+$t->parse( "month", "month_tpl" );
+
+if ( $NextMonth );
 
 $t->pparse( "output", "month_report_tpl" );
 
