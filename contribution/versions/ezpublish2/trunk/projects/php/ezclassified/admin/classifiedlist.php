@@ -11,6 +11,9 @@ include_once( "classes/eztemplate.php" );
 
 include_once( "ezclassified/classes/ezcategory.php" );
 include_once( "ezclassified/classes/ezclassified.php" );
+include_once( "classes/ezlocale.php" );
+
+$locale = new eZLocale( $Language );
 
 $t = new eZTemplate( "ezclassified/admin/" . $ini->read_var( "eZClassifiedMain", "AdminTemplateDir" ),
                      "ezclassified/admin/intl/", $Language, "classifiedlist.php" );
@@ -87,9 +90,14 @@ else
             $t->set_var( "td_class", "bglight" );
         else
             $t->set_var( "td_class", "bgdark" );
-        
-        $t->set_var( "classified_name", $positionList[$i]->name() );
+
+        $t->set_var( "classified_title", $positionList[$i]->title() );
         $t->set_var( "classified_id", $positionList[$i]->id() );
+        $validUntil = $positionList[$i]->validUntil();
+
+        $date = $locale->format( $validUntil );
+
+        $t->set_var( "valid_until", $date );
 
         $company = $positionList[$i]->company();
 
