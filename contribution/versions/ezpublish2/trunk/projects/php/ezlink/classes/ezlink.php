@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezlink.php,v 1.29 2000/10/19 10:49:29 ce-cvs Exp $
+// $Id: ezlink.php,v 1.30 2000/10/19 12:26:25 ce-cvs Exp $
 //
 // Definition of eZCompany class
 //
@@ -103,6 +103,7 @@ class eZLink
         $this->dbInit();
         query( "UPDATE eZLink_Link SET
                 Title='$this->Title',
+                Description='$this->Description',
                 LinkGroup='$this->LinkGroupID',
                 KeyWords='$this->KeyWords',
                 Url='$this->Url',
