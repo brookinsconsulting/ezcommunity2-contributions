@@ -21,11 +21,13 @@
 	<td bgcolor="#ffffff">
 	
 <h1>{person_name}</h1>
-{street1}<br>
-{street2}<br>
-{zip} {place}<br>
-Firma: {company}<br>
-Registrert av: {owner}<br>
+
+{address_info_list}
+<br>
+{phone_info_list}
+<br>
+Firma: <b>{company}</b><br>
+Registrert av: <b>{owner}</b><br>
 Kommentar: <br>
 {comment}<br>
 

@@ -43,8 +43,8 @@ class eZPerson
 
         // sletter alle adresser og relasjoner
 
- $result = mysql_query( "SELECT Address.ID AS 'AID', PersonAddressDict.ID AS 'DID' from Address, PersonAddressDict WHERE Address.ID=PersonAddressDict.AddressID AND PersonAddressDict.PersonID='$this->ID' " )
-      or die( "Kunne ikke slette firma" );
+        $result = mysql_query( "SELECT Address.ID AS 'AID', PersonAddressDict.ID AS 'DID' from Address, PersonAddressDict WHERE Address.ID=PersonAddressDict.AddressID AND PersonAddressDict.PersonID='$this->ID' " )
+             or die( "Kunne ikke slette firma" );
 
         for ( $i=0; $i<mysql_num_rows( $result ); $i++ )
         {
@@ -54,8 +54,8 @@ class eZPerson
             query( "DELETE FROM PersonAddressDict WHERE ID='$did'" );
         }
 
- $result = mysql_query( "SELECT Phone.ID AS 'PID', PersonPhoneDict.ID AS 'DID' from Phone, PersonPhoneDict WHERE Phone.ID=PersonPhoneDict.PhoneID AND PersonPhoneDict.PersonID='$this->ID' " )
-      or die( "Kunne ikke slette firma" );
+        $result = mysql_query( "SELECT Phone.ID AS 'PID', PersonPhoneDict.ID AS 'DID' from Phone, PersonPhoneDict WHERE Phone.ID=PersonPhoneDict.PhoneID AND PersonPhoneDict.PersonID='$this->ID' " )
+             or die( "Kunne ikke slette firma" );
 
         for ( $i=0; $i<mysql_num_rows( $result ); $i++ )
         {
