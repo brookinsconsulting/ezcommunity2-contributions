@@ -10,6 +10,11 @@
 	<a class="small" href="/todo/todoview/{todo_id}">{todo_name}</a>
 	</td>
 </tr>
+<tr>
+	<td class="menuspacer">
+	&nbsp;
+	</td>
+</tr>
 <!-- END todo_item_tpl -->
 <!-- BEGIN no_item_tpl -->
 <tr>

@@ -128,7 +128,7 @@ onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezac{category_id}-sl
 	</td>
 	<td width="1%" class="{td_class}">
 	<a href="#" onClick="verify( '{intl-delete}', '/article/articleedit/delete/{article_id}/'); return false;"
-onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezaa{article_id}-slett','','/ezarticle/admin/images/slettminimrk.gif',1)"><img name="ezaa{article_id}-slett" border="0" src="/ezarticle/admin/images/slettmini.gif" width="16" height="16" align="top"></a>
+onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezaa{article_id}-slett','','/ezarticle/admin/images/slettminimrk.gif',1)"><img name="ezaa{article_id}-slett" border="0" src="/ezarticle/admin/images/slettmini.gif" width="16" height="16" align="top" alt="Slett" /></a>
 
 	</td>
 </tr>
