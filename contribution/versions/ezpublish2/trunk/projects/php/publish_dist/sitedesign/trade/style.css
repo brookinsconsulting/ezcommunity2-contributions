@@ -59,7 +59,7 @@ a:hover
 
 .menuhead
 {
-	background: #2f2f70;
+	background: #4e4e86;
 	font-size: 18px;
 	color: #ffffff;
 	font-weight: normal;
@@ -177,18 +177,18 @@ th
 
 .bgcurrent
 {
-	background-color: #f07800;
+	background-color: #e18c1b;
 }
 
 .bgweekend
 {
-	background-color: #7d7daa;
+	background-color: #8a8ab3;
 }
 
 .bgselect
 {
 	color: #ffffff;
-	background-color: #2f2f70;
+	background-color: #4e4e86;
 }
 
 form
@@ -198,7 +198,7 @@ form
 
 hr
 {
-	color: #2f2f70;
+	color: #4e4e86;
 }
 
 .stdbutton 
