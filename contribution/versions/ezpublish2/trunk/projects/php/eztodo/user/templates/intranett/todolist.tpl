@@ -85,7 +85,7 @@
 	</td>
 
 	<td class="{td_class}">
-	<a href="/todo/todoedit/?Action=status&TodoID={todo_id}&Status={todo_status}">{todo_status}</a>
+	{todo_status}
 	</td>
 
 	<td class="{td_class}">

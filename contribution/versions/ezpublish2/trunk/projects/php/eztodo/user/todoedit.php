@@ -1,5 +1,5 @@
 <?
-// $Id: todoedit.php,v 1.3 2001/01/11 18:00:23 ce Exp $
+// $Id: todoedit.php,v 1.4 2001/01/15 12:03:42 ce Exp $
 //
 // Definition of todo list.
 //
@@ -165,8 +165,8 @@ if ( $Action == "insert" && $error == false )
         $body .= ( $Description );
 
         $mail->setSubject( "Todo: " . $Name );
-        $mail->setFrom( $user->email() );
-        $mail->setTo( $owner->email() );
+        $mail->setFrom( $owner->email() );
+        $mail->setTo( $user->email() );
         $mail->setBody( $body );
 
         $mail->send();
@@ -181,6 +181,11 @@ if ( $Action == "update" && $error == false )
 {
     $todo = new eZTodo();
     $todo->get( $TodoID );
+    if ( $todo->status() == false )
+    {
+        $sendMail = true;
+    }
+    
     $todo->setName( $Name );
     $todo->setDescription( $Description );
     $todo->setCategoryID( $CategoryID );
@@ -204,6 +209,22 @@ if ( $Action == "update" && $error == false )
         $todo->setPermission( "Private" );
     }
     $todo->store();
+
+    if ( ( $sendMail == true ) && ( $todo->status() == true ) && ( $todo->userID() == $todo->ownerID() ) )
+    {
+        $mail = new eZMail();
+        $owner = new eZUser( $todo->ownerID() );
+        $user = new eZUser( $todo->userID() );
+
+        $body = $iniLanguage->read_var( "strings", "mail_completed" );
+
+        $mail->setSubject( $iniLanguage->read_var( "strings", "subject_completed" ) . "Todo: " . $Name );
+        $mail->setFrom( $user->email() );
+        $mail->setTo( $owner->email() );
+        $mail->setBody( $body );
+
+        $mail->send();
+    }
 
     Header( "Location: /todo/todolist/" );
 }

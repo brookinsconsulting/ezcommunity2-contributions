@@ -1,5 +1,5 @@
 <?
-// $Id: todolist.php,v 1.2 2001/01/11 16:52:14 ce Exp $
+// $Id: todolist.php,v 1.3 2001/01/15 12:03:42 ce Exp $
 //
 // Definition of todo list.
 //
@@ -156,15 +156,16 @@ foreach( $todo_array as $todoItem )
 
     if ( $todoItem->status() == true )
     {
-        $t->set_var( "status", "checked" );
+
+        $t->set_var( "todo_status", $iniLanguage->read_var( "strings", "completed" ) );
     }
     else
     {
-        $t->set_var( "status", "" );
+        $t->set_var( "todo_status", $iniLanguage->read_var( "strings", "not_completed" ) );
     }
 
 
-    $t->set_var( "todo_status", $todoItem->status() );
+
     $t->set_var( "no_found", "" );
 
     $t->parse( "todo_item", "todo_item_tpl", true );

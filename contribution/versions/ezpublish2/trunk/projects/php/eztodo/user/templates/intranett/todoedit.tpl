@@ -82,7 +82,7 @@
 <tr>
 	<td class="br">
 	<p class="boxtext">{intl-status}:</p>
-	<div class="check"><input type="checkbox" name="Done" {done}>&nbsp;</div>
+	<div class="check"><input type="checkbox" name="Status" {status}>&nbsp;</div>
 	</td>
 	<td class="br">
 	<p class="boxtext">{intl-view_others}:</p>
