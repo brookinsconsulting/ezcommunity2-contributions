@@ -1413,3 +1413,11 @@ Maintainer(s) : pkej@ez.no
 
     * admin/intl/en_GB/reportsetup.php.ini: lang fixes
 
+
+Module : ezform
+Repository path : /home/cvsroot/projects/php/ezform
+Maintainer(s) : pkej@ez.no
+2003-02-28  Bjoern Reiten  <br@ez.no>
+
+    * classes/ezformrenderer.php: fixed bug, added Language to send form.
+
