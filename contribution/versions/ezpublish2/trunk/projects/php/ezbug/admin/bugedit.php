@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: bugedit.php,v 1.48 2001/10/10 20:18:53 fh Exp $
+// $Id: bugedit.php,v 1.49 2001/10/14 16:49:47 fh Exp $
 //
 // Created on: <28-Nov-2000 19:45:35 bf>
 //
@@ -434,7 +434,7 @@ if ( $Action == "Edit" )
             $t->set_var( "image_number", $i + 1 );
             $t->set_var( "image_id", $image->id() );
             $caption = $image->caption();
-            if( $caption() == "" )
+            if( $caption == "" )
                 $caption = "-";
             
             $t->set_var( "image_name", "<a href=\"".$GlobalSiteIni->WWWDir.$GlobalSiteIni->Index."/imagecatalogue/imageview/" . $image->id()
