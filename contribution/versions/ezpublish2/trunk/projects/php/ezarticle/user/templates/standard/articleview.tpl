@@ -118,4 +118,8 @@
 <!-- BEGIN print_page_link_tpl -->
 | <a class="path" href="/article/articleprint/{article_id}/">{intl-print_page}</a> |
 <!-- END print_page_link_tpl -->
+
+| <a class"path" href="/article/mailtofriend/{article_id}/">{intl-send_mailtofriend}</a> |
+
+
 </div>

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: sitemap.php,v 1.1 2001/06/06 15:00:14 bf Exp $
+// $Id: sitemap.php,v 1.2 2001/06/20 15:30:24 br Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <06-Jun-2001 17:05:38 bf>
@@ -22,6 +22,7 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, US
 //
+// Created on: <11-Jun-2001 11:50:45 br>
 
 include_once( "classes/INIFile.php" );
 include_once( "classes/eztemplate.php" );

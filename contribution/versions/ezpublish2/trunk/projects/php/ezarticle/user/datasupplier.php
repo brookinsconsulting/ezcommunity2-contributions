@@ -13,6 +13,13 @@ $GlobalSectionID = $ini->read_var( "eZArticleMain", "DefaultSection" );
 
 switch ( $url_array[2] )
 {
+    case "mailtofriend":
+    {
+        $ArticleID = $url_array[3];
+        include( "ezarticle/user/mailtofriend.php" );
+    }
+    break;
+
     case "sitemap":
     {
         $CategoryID = $url_array[3];
