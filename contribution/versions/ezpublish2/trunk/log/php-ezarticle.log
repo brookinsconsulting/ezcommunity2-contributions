@@ -3162,3 +3162,12 @@ Maintainer(s) : bf@ez.no
 
     * user/intl/de_MG/articleview.php.ini: Major commit for the mygold project
 
+
+Module : ezarticle
+Repository path : /home/cvsroot/projects/php/ezarticle
+Maintainer(s) : bf@ez.no
+2002-04-19  br  <br@zev.ez.no>
+
+    * admin/templates/standard/articlelist.tpl
+      admin/articlelist.php: Fixed bug with "go to a category" in articlelist.
+
