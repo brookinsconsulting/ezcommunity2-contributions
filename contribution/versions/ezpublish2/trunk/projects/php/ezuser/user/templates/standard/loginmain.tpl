@@ -32,10 +32,15 @@
 	<td width="1%" valign="top"><img src="/images/dot.gif" width="10" height="12" border="0" alt="" /><br /></td>
 	<td width="99%"><a class="menu" href="/user/forgot/">{intl-forgot}</a></td>
 </tr>
+<!-- BEGIN standard_creation_tpl -->
 <tr>
 	<td width="1%" valign="top"><img src="/images/dot.gif" width="10" height="12" border="0" alt="" /><br /></td>
 	<td width="99%"><a class="menu" href="{user_edit_url}">{intl-register}</a></td>
 </tr>
+<!-- END standard_creation_tpl -->
+<!-- BEGIN extra_creation_tpl -->
+{extra_userbox}
+<!-- END extra_creation_tpl -->
 <tr>
 	<td colspan="2" class="menuspacer">&nbsp;</td>
 </tr>

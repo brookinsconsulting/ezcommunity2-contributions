@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: useredit.php,v 1.16 2001/01/23 13:43:54 bf Exp $
+// $Id: useredit.php,v 1.17 2001/02/06 13:27:09 jb Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <10-Oct-2000 12:52:42 bf>
@@ -71,12 +71,29 @@ if ( $Action == "Insert" )
 
                     $user->store();
 
-                    // add user to usergroup
-                    setType( $AnonymousUserGroup, "integer" );
-                
-                    $group = new eZUserGroup( $AnonymousUserGroup );
-                    $group->addUser( $user );
-                
+                    if ( isset( $UserGroups ) )
+                    {
+                        if ( !is_array( $UserGroups ) )
+                            $UserGroups = array( $UserGroups );
+                        if ( $AppendAnon )
+                            $UserGroups[] = $AnonymousUserGroup;
+                        foreach ( $UserGroups as $groupid )
+                        {
+                            // add user to usergroups
+                            setType( $groupid, "integer" );
+
+                            $group = new eZUserGroup( $groupid );
+                            $group->addUser( $user );
+                        }
+                    }
+                    else
+                    {
+                        // add user to usergroup
+                        setType( $AnonymousUserGroup, "integer" );
+
+                        $group = new eZUserGroup( $AnonymousUserGroup );
+                        $group->addUser( $user );
+                    }
 
                     // log in the user
                     $user->loginUser( $user );
@@ -175,9 +192,15 @@ $t->set_file( array(
     "user_edit_tpl" => "useredit.tpl"
     ) );
 
+if ( !isset( $ModuleName ) )
+    $ModuleName = "user";
+if ( !isset( $ModuleUserNew ) )
+    $ModuleUserNew = "user";
 
 $headline = new INIFIle( "ezuser/user/intl/" . $Language . "/useredit.php.ini", false );
 $t->set_var( "head_line", $headline->read_var( "strings", "head_line_insert" ) );
+$t->set_var( "module", $ModuleName );
+$t->set_var( "user_new", $ModuleUserNew );
 
 $actionValue = "insert";
 

@@ -1,4 +1,4 @@
-<form method="post" action="/user/user/{action_value}/{user_id}/">
+<form method="post" action="/{module}/{user_new}/{action_value}/{user_id}/">
 
 <h1>{head_line}</h1>
 

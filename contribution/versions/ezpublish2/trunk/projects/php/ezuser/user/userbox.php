@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: userbox.php,v 1.20 2001/02/02 13:57:03 bf Exp $
+// $Id: userbox.php,v 1.21 2001/02/06 13:27:09 jb Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <20-Sep-2000 13:32:11 ce>
@@ -44,21 +44,51 @@ $user = eZUser::currentUser();
 
 if ( !$user ) 
 {
+    if ( !isset( $IntlDir ) )
+        $IntlDir = "ezuser/user/intl";
+    else if ( is_array( $IntlDir ) )
+        $IntlDir[] = "ezuser/user/intl";
+    if ( !isset( $IniFile ) )
+        $IniFile = "userbox.php";
+    else if ( is_array( $IniFile ) )
+        $IniFile[] = "userbox.php";
+
     $t = new eZTemplate( "ezuser/user/" .  $ini->read_var( "eZUserMain", "TemplateDir" ),
-    "ezuser/user/intl", $Language, "userbox.php" );
+                         $IntlDir, $Language, $IniFile );
     $t->setAllStrings();
 
-    $t->set_file( array(
-        "login" => "loginmain.tpl"
-        ) );
-
-    if ( $UserWithAddress == "enabled" )
+    if ( isset( $template_array ) and isset( $block_array ) )
     {
-        $t->set_var( "user_edit_url", "/user/userwithaddress/new/" );
+        $standard_array = array( "login" => "loginmain.tpl" );
+        $t->set_file( array_merge( $standard_array, $template_array ) );
+        $t->set_file_block( $template_array );
+        $t->parse( $block_array );
     }
     else
     {
-        $t->set_var( "user_edit_url", "/user/user/new/" );
+        $t->set_file( "login", "loginmain.tpl" );
+    }
+    $t->set_block( "login", "standard_creation_tpl", "standard_creation" );
+    $t->set_block( "login", "extra_creation_tpl", "extra_creation" );
+
+    $t->set_var( "standard_creation", "" );
+    $t->set_var( "extra_creation", "" );
+
+    if ( isset( $type_list ) )
+    {
+        $t->parse( "extra_creation", "extra_creation_tpl" );
+    }
+    else
+    {
+        if ( $UserWithAddress == "enabled" )
+        {
+            $t->set_var( "user_edit_url", "/user/userwithaddress/new/" );
+        }
+        else
+        {
+            $t->set_var( "user_edit_url", "/user/user/new/" );
+        }
+        $t->parse( "standard_creation", "standard_creation_tpl" );
     }
 
     if ( preg_match( "#^/user/user/login.*#", $REQUEST_URI  ) )
