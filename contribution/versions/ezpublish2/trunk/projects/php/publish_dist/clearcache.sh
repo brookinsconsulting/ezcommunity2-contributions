@@ -38,7 +38,7 @@ do
 	    rm -f $dir/admin/cache/*.cache
 	fi
 	if [ -d $dir/user/cache/ ]; then
-	    rm -f $dir/admin/cache/*.cache
+	    rm -f $dir/user/cache/*.cache
 	fi
     else
         echo "Creating $dir"
