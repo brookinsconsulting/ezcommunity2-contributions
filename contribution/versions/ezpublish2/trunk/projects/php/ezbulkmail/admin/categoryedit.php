@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: categoryedit.php,v 1.1 2001/04/18 09:35:21 fh Exp $
+// $Id: categoryedit.php,v 1.2 2001/04/18 14:09:01 fh Exp $
 //
 // Frederik Holljen <fh@ez.no>
 // Created on: <18-Apr-2001 11:15:33 fh>
@@ -56,8 +56,6 @@ if( isset( $Ok ) ) // cancel pressed, redirect to categorylist page...
 
 $t = new eZTemplate( "ezbulkmail/admin/" . $ini->read_var( "eZBulkMailMain", "AdminTemplateDir" ),
                      "ezbulkmail/admin/intl", $Language, "categoryedit.php" );
-$errorIni = new INIFIle( "ezbulkmail/admin/intl/" . $Language . "/categoryedit.php.ini", false );
-
 $t->set_file( array(
     "category_edit_tpl" => "categoryedit.tpl"
     ) );

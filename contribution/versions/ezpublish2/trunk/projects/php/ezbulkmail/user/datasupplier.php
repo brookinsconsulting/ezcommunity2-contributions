@@ -3,8 +3,9 @@ include_once( "classes/ezhttptool.php" );
 
 switch ( $url_array[2] )
 {
-    case "categorylist":
+    case "subscriptionlist":
     {
+        include_once( "ezbulkmail/user/subscriptionlist.php" );
     }
     break;
     

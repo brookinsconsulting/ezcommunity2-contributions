@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezbulkmailsubscriptionaddress.php,v 1.2 2001/04/17 12:30:12 fh Exp $
+// $Id: ezbulkmailsubscriptionaddress.php,v 1.3 2001/04/18 14:09:01 fh Exp $
 //
 // eZBulkMailSubscriptionAddress class
 //
@@ -41,7 +41,7 @@ class eZBulkMailSubscriptionAddress
 {
     /*!
     */
-    function eZBulkMail( $id=-1 )
+    function eZBulkMailSubscriptionAddress( $id=-1 )
     {
         $this->IsConnected = false;
         if ( $id != -1 )
@@ -103,17 +103,17 @@ class eZBulkMailSubscriptionAddress
     {
         $this->dbInit();
         
-        if ( $id != "" )
+        if ( $id != "-1" )
         {
-            $this->Database->array_query( $mail_array, "SELECT * FROM eZBulkMail_SubscriptionAddress WHERE ID='$id'" );
-            if ( count( $mail_array ) > 1 )
+            $this->Database->array_query( $address_array, "SELECT * FROM eZBulkMail_SubscriptionAddress WHERE ID='$id'" );
+            if( count( $address_array ) > 1 )
             {
-                die( "Error: Subscription addresses with the same ID was found in the database. This shouldent happen." );
+                die( "Error: Subscription addresses with the same ID was found in the database. This shouldn't happen." );
             }
-            else if( count( $mail_array ) == 1 )
+            else if( count( $address_array ) == 1 )
             {
-                $this->ID = $mail_array[0][ "ID" ];
-                $this->UserID = $mail_array[0][ "Email" ];
+                $this->ID = $address_array[0][ "ID" ];
+                $this->EMail = $address_array[0][ "EMail" ];
             }
                  
             $this->State_ = "Coherent";
@@ -124,6 +124,38 @@ class eZBulkMailSubscriptionAddress
         }
     }
 
+    /*!
+      \static
+      Returns object with the email if it exists. If it does't and the address is valid a new object is created and returned.
+     */
+    function getByEmail( $email )
+    {
+        $db = eZDB::globalDatabase();
+        $email = addslashes( $email );
+        $db->array_query( $address_array, "SELECT ID FROM eZBulkMail_SubscriptionAddress WHERE EMail='$email'" );
+
+        $return_value = false;
+        if( count( $address_array ) > 1 )
+        {
+            die( "Error: Subscription addresses with the same ID was found in the database. This shouldn't happen." );
+        }
+        else if( count( $address_array ) == 1 )
+        {
+            $id = $address_array[0]["ID"];
+            $return_value = new eZBulkMailSubscriptionAddress( $id );
+        }
+        else
+        {
+            $is_valid = new eZBulkMailSubscriptionAddress();
+            if( $is_valid->setEMail( $email ) )
+            {
+                $is_valid->store();
+                $return_value = $is_valid;
+            }
+        }
+        return $return_value;
+    }
+    
     /*!
       Returns the email address of this user.
     */
@@ -152,25 +184,24 @@ class eZBulkMailSubscriptionAddress
      */
     function subscriptions( $asObjects = true )
     {
-        $result_array = array();
+        $final_result = array();
         $this->Database->array_query( $result_array, "SELECT CategoryID FROM eZBulkMail_SubscriptionLink WHERE AddressID='$this->ID'" );
-        if( count( $result ) > 0 )
+        if( count( $result_array ) > 0 )
         {
             foreach( $result_array as $result )
-                $result_array[] = $asObjects ? new eZBulkMailCategory( $result[ "CategoryID" ] ) : $result[ "CategoryID" ];
+                $final_result[] = $asObjects ? new eZBulkMailCategory( $result[ "CategoryID" ] ) : $result[ "CategoryID" ];
         }
+        return $final_result;
     }
 
     /*!
       Subscribes this address to a category.
      */
-    function subscribe( $category )
+    function subscribe( $categoryID )
     {
-        if( get_class( $category )
-        {
-            $categoryID = $category->id();
-            $this->Datebase->query( "INSERT INTO eZBulkMail_SubscriptionLink SET AddressID='$this->ID', CategoryID='$categoryID" );
-        }
+        if( get_class( $categoryID ) == "ezbulkmailcategory" )
+            $categoryID = $categoryID->id();
+        $this->Database->query( "INSERT INTO eZBulkMail_SubscriptionLink SET AddressID='$this->ID', CategoryID='$categoryID'" );
     }
 
     /*!
