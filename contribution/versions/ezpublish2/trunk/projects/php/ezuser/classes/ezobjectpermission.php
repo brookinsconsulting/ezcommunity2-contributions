@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezobjectpermission.php,v 1.12 2001/03/01 15:14:56 fh Exp $
+// $Id: ezobjectpermission.php,v 1.13 2001/03/02 08:34:13 ce Exp $
 //
 // Definition of eZCompany class
 //
@@ -387,6 +387,10 @@ function getTableName( $name )
 
         case "filemanager_file" :
             $ret = "eZFileManager_FilePermission";
+        break;
+
+        case "bug_module" :
+            $ret = "eZBug_ModulePermission";
         break;
 
         default :

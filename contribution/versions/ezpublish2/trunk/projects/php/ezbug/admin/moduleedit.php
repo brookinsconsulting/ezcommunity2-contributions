@@ -5,6 +5,7 @@
 
 include_once( "classes/INIFile.php" );
 include_once( "ezuser/classes/ezpermission.php" );
+include_once( "ezuser/classes/ezobjectpermission.php" );
 
 $ini = new INIFIle( "site.ini" );
 $Language = $ini->read_var( "eZBugMain", "Language" );
@@ -33,9 +34,27 @@ if ( $Action == "update" )
     $parent = new eZBugModule( $ParentID );
     $module->setParent( $parent );
     $ownerGroup = new eZUserGroup( $OwnerID );
+
     if( isset( $Recursive ) )
     {
-        $module->setOwnerGroup( $ownerGroup, true );
+        $recursiveList = $module->getByParent( $module, "name", array() );
+        
+        foreach( $recursiveList as $itemID )
+        {
+            eZObjectPermission::removePermissions( $itemID, "bug_module", "w" );
+            if ( count ( $WriteGroupArrayID ) > 0 )
+            {
+                foreach ( $WriteGroupArrayID as $Write )
+                {
+                    if ( $Write == -1 )
+                        $group = -1;
+                    else
+                        $group = new eZUserGroup( $Write );
+
+                    eZObjectPermission::setPermission( $group, $itemID, "bug_module", "w" );
+                }
+            }
+        }
     }
     else
     {
@@ -69,6 +88,8 @@ $t->set_file( array(
 $t->set_block( "moduleedit", "module_item_tpl", "module_item" );
 $t->set_block( "moduleedit", "module_owner_tpl", "module_owner" );
 
+$t->set_block( "moduleedit", "write_group_item_tpl", "write_group_item" );
+
 if ( $Action == "new" )
 {
     $t->set_var( "module_name", "" );
@@ -83,6 +104,8 @@ if ( $Action == "edit" )
     $parent = $module->parent();
     $t->set_var( "module_name", $module->name() );
     $t->set_var( "module_id", $module->id() );
+
+    $writeGroupArrayID =& eZObjectPermission::getGroups( $module->id(), "bug_module", "w", false );
 
     $t->set_var( "action_value", "update" );
 }
@@ -121,28 +144,36 @@ foreach( $moduleList as $moduleItem )
 
 // group selector
 $group = new eZUserGroup();
-$groupList = $group->getAll();
-$module = new eZBugModule( $ModuleID );
-if( get_class( $module ) == "ezbugmodule" )
-{
-    $owner = $module->ownerGroup();
-    $ownerGroup = $owner->id();
-}
+$groupList =& $user->groups();
 
 foreach( $groupList as $groupItem )
 {
-//    if( eZPermission::checkPermission( $groupItem , "eZBug", "BugEdit" ) )
-//    {
-        $t->set_var( "module_owner_id", $groupItem->id() );
-        $t->set_var( "module_owner_name", $groupItem->name() );
+    $t->set_var( "group_id", $groupItem->id() );
+    $t->set_var( "group_name", $groupItem->name() );
 
-        if( isset( $ownerGroup ) && $ownerGroup == $groupItem->id() )
-            $t->set_var( "is_selected", "selected" );
-        else
-            $t->set_var( "is_selected", "" );
+    $t->set_var( "is_write_selected1", "" );
     
-        $t->parse( "module_owner", "module_owner_tpl", true );
-//    }
+    if ( $writeGroupArrayID )
+    {
+        foreach ( $writeGroupArrayID as $writeGroup )
+        {
+            
+            if ( $writeGroup == $groupItem->id() )
+            {
+                $t->set_var( "is_write_selected1", "selected" );
+            }
+            elseif ( $writeGroup == -1 )
+            {
+                $t->set_var( "write_everybody", "selected" );
+            }
+            else
+            {
+                $t->set_var( "is_write_selected", "" );
+            }
+        }
+    }
+        
+    $t->parse( "write_group_item", "write_group_item_tpl", true );
 }
 
 $t->pparse( "output", "moduleedit" );

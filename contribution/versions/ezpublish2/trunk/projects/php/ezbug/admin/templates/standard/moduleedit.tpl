@@ -20,11 +20,11 @@
 <th class "boxtext" width="80%">{intl-recursive}
 <tr>
   <td>
-    <select name="OwnerID">
+    <select multiple size="5" name="WriteGroupArrayID[]">
     <option value="0">{intl-none}</option>
-    <!-- BEGIN module_owner_tpl -->
-    <option value="{module_owner_id}" {is_selected}>{module_owner_name}</option>
-    <!-- END module_owner_tpl -->
+    <!-- BEGIN write_group_item_tpl -->
+    <option value="{group_id}" {is_write_selected1}>{group_name}</option>
+    <!-- END write_group_item_tpl -->
     </select>
   </td>
   <td>

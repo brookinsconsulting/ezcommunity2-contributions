@@ -529,6 +529,9 @@ create table eZImageCatalogue_CategoryPermission( ID int primary key auto_increm
 create table eZFileManager_FilePermission( ID int primary key auto_increment, ObjectID int, GroupID int, ReadPermission int default 0, WritePermission int default 0 );     
 create table eZFileManager_FolderPermission( ID int primary key auto_increment, ObjectID int, GroupID int, ReadPermission int default 0, WritePermission int default 0 );      
 
+# Permission for eZBug
+create table eZBug_ModulePermission( ID int primary key auto_increment, ObjectID int, GroupID int, ReadPermission int default 0, WritePermission int default 0 );     
+
 # drop old permission stuff in eZArticle
 DROP TABLE IF EXISTS eZArticle_ArticleReaderLink;
 ALTER TABLE eZArticle_Article DROP ReadPermission;

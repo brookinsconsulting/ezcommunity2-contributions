@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: buglist.php,v 1.8 2001/02/14 18:52:36 fh Exp $
+// $Id: buglist.php,v 1.9 2001/03/02 08:34:13 ce Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <04-Dec-2000 11:36:41 bf>
@@ -33,6 +33,7 @@ include_once( "ezbug/classes/ezbug.php" );
 
 include_once( "ezuser/classes/ezuser.php" );
 include_once( "ezuser/classes/ezpermission.php" );
+include_once( "ezuser/classes/ezobjectpermission.php" );
 
 $ini =& $GLOBALS["GlobalSiteIni"];
 
@@ -70,10 +71,12 @@ $t->set_var( "current_module_description", $module->description() );
 
 // check user rights
 $user = eZUser::currentUser();
-$ownerGroup = $module->ownerGroup();
 $gotRights = false;
-if ( eZPermission::checkPermission( $user, "eZBug", "BugEdit" ) && get_class( $ownerGroup ) == "ezusergroup" && $ownerGroup->isMember( $user ) )
+
+if ( eZObjectPermission::hasPermission( $module->id(), "bug_module", "w", $user ) )
+{
     $gotRights = true;
+}
 
 // check if delete was pressed && if the user has rights to delete
 if( isset( $Delete ) && $gotRights == true )
@@ -89,7 +92,6 @@ if( count( $BugArrayID ) > 0 )
 
 }
 
-
 // path
 $pathArray = $module->path();
 
@@ -103,7 +105,7 @@ foreach ( $pathArray as $path )
     $t->parse( "path_item", "path_item_tpl", true );
 }
 
-$moduleList = $module->getByParent( $module, true );
+$moduleList =& $module->getByParent( $module, true );
 
 
 // categories

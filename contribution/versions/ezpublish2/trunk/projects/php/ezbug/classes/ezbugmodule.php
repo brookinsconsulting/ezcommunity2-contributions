@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezbugmodule.php,v 1.15 2001/02/23 16:35:18 gl Exp $
+// $Id: ezbugmodule.php,v 1.16 2001/03/02 08:34:13 ce Exp $
 //
 // Definition of eZBugModule class
 //
@@ -137,6 +137,8 @@ class eZBugModule
                 }
             }
 
+
+            $this->Database->query( "DELETE FROM eZBug_ModulePermission WHERE ObjectID='$this->ID'" );
             
             $this->Database->query( "DELETE FROM eZBug_BugModuleLink WHERE ModuleID='$this->ID'" );
             
@@ -204,41 +206,48 @@ class eZBugModule
 
       The categories are returned as an array of eZBugModule objects.      
     */
-    function getByParent( $parent, $sortby=name )
+    function getByParent( $parent, $sortby=name, $recursive=false )
     {
-        if ( get_class( $parent ) == "ezbugmodule" )
-        {
-            $this->dbInit();
+        $this->dbInit();
         
-            $return_array = array();
-            $module_array = array();
-
-            $parentID = $parent->id();
-
-            $this->Database->array_query( $module_array, "SELECT ID, Name FROM eZBug_Module
+        $return_array = array();
+        $module_array = array();
+        
+        $parentID = $parent->id();
+        
+        $this->Database->array_query( $module_array, "SELECT ID, Name FROM eZBug_Module
                                           WHERE ParentID='$parentID'
                                           ORDER BY Name" );
-
-            for ( $i=0; $i<count($module_array); $i++ )
+        
+        if ( is_array ( $recursive ) )
+        {
+            $recursive[] = $parentID;
+        }
+        
+        for ( $i=0; $i < count ( $module_array); $i++ )
+        {
+            if ( is_array ( $recursive ) )
+            {
+                $mod = new eZBugModule( $module_array[$i]["ID"] );
+                
+                $recursive = $mod->getByParent( $mod, "name", $recursive );
+            }
+            else
             {
                 $return_array[$i] = new eZBugModule( $module_array[$i]["ID"], 0 );
             }
-
+        }
+        
+        if ( !is_array( $recursive ) )
+        {
             return $return_array;
         }
         else
         {
-            return 0;
+            return $recursive;
         }
     }
-
-    /*!
-      Returns the current path as an array of arrays.
-
-      The array is built up like: array( array( id, name ), array( id, name ) );
-
-      See detailed description for an example of usage.
-    */
+    
     function path( $moduleID=0 )
     {
         if ( $moduleID == 0 )
