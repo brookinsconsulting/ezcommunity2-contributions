@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eztechrenderer.php,v 1.25 2000/10/31 22:14:36 bf-cvs Exp $
+// $Id: eztechrenderer.php,v 1.26 2000/11/01 09:25:28 bf-cvs Exp $
 //
 // Definition of eZTechRenderer class
 //
@@ -26,6 +26,9 @@
   <link ez.no text to the link> - anchor
   <mail adresse@domain.tld?subject="subject line" link text> - anchor to email address with subject
   <image 42 align size> - image tag, 42 is the id, alignment (left|center|right), size (small|medium|large)
+
+  <ezanchor anchorname>
+  
   <cpp>
   cpp code
   </cpp>
@@ -285,6 +288,56 @@ class eZTechRenderer
                 $href = "http://" . $href;
             $pageContent .= "<a href=\"$href\">" . $text . "</a>";
         }
+
+        // ez anchor
+        if ( $paragraph->name == "ezanchor" )
+        {
+            foreach ( $paragraph->attributes as $anchorItem )
+                {
+                    switch ( $anchorItem->name )
+                    {
+                        case "href" :
+                        {
+                            $href = $anchorItem->children[0]->content;
+                        }
+                        break;
+                    }
+                }
+                        
+            $pageContent .= "<a name=\"$href\"></a>";
+        }
+
+        // mail
+        if ( $paragraph->name == "mail" )
+        {
+            foreach ( $paragraph->attributes as $mailItem )
+                {
+                    switch ( $mailItem->name )
+                    {
+                        case "to" :
+                        {
+                            $to = $mailItem->children[0]->content;
+                        }
+                        break;
+
+                        case "subject" :
+                        {
+                            $subject = $mailItem->children[0]->content;
+                        }
+                        break;
+
+                        case "text" :
+                        {
+                            $text = $mailItem->children[0]->content;
+                        }
+                        break;
+                    }
+                }
+                        
+            $pageContent .= "<a href=\"mailto:$to?subject=$subject\">$text</a>";
+        }
+        
+        
         return $pageContent;
     }
 

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eztechgenerator.php,v 1.20 2000/10/31 22:14:36 bf-cvs Exp $
+// $Id: eztechgenerator.php,v 1.21 2000/11/01 09:25:28 bf-cvs Exp $
 //
 // Definition of eZTechGenerator class
 //
@@ -92,7 +92,7 @@ class eZTechGenerator
     function &generateUnknowns( $tmpPage )
     {
         // make unknown tags readable.. look-ahead assertion is used ( ?! ) 
-        $tmpPage = preg_replace( "/<(?!(page|php|\/|image|cpp|shell|sql|hea|lin|per|bol|ita|und|str|pre|ver|lis|ezhtml|java))/", "&lt;", $tmpPage );
+        $tmpPage = preg_replace( "/<(?!(page|php|\/|image|cpp|shell|sql|hea|lin|per|bol|ita|und|str|pre|ver|lis|ezhtml|java|ezanchor|mail))/", "&lt;", $tmpPage );
 
         // look-behind assertion is used here (?<!) 
         // the expression must be fixed with eg just use the 3 last letters of the tag
@@ -347,6 +347,8 @@ class eZTechGenerator
         {
             $pageContent .= "<lisp>" . $paragraph->children[0]->content . "</lisp>";
         }
+
+        
         return $pageContent;
     }
 
@@ -414,6 +416,55 @@ class eZTechGenerator
                         
             $pageContent .= "<link $href $text>";
         }
+
+        // mail
+        if ( $paragraph->name == "mail" )
+        {
+            foreach ( $paragraph->attributes as $mailItem )
+                {
+                    switch ( $mailItem->name )
+                    {
+                        case "to" :
+                        {
+                            $to = $mailItem->children[0]->content;
+                        }
+                        break;
+
+                        case "subject" :
+                        {
+                            $subject = $mailItem->children[0]->content;
+                        }
+                        break;
+
+                        case "text" :
+                        {
+                            $text = $mailItem->children[0]->content;
+                        }
+                        break;
+                    }
+                }
+                        
+            $pageContent .= "<mail $to $subject, $text>";
+        }
+
+        // ez anchor
+        if ( $paragraph->name == "ezanchor" )
+        {
+            foreach ( $paragraph->attributes as $anchorItem )
+                {
+                    switch ( $anchorItem->name )
+                    {
+                        case "href" :
+                        {
+                            $href = $anchorItem->children[0]->content;
+                        }
+                        break;
+                    }
+                }
+                        
+            $pageContent .= "<ezanchor $href>";
+        }
+        
         return $pageContent;
     }
 
