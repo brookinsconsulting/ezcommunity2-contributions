@@ -168,7 +168,7 @@ class eZLink
               $query_str .= "  LIMIT $offset,$limit";
         }
         
-         print( $query_str . "<br>" );
+//           print( $query_str . "<br>" );
 
          array_query( $link_array, $query_str );
 
