@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: ezqdomrenderer.php,v 1.55.2.18 2002/07/06 17:46:10 kaid Exp $
+// $Id: ezqdomrenderer.php,v 1.55.2.19 2003/01/03 16:20:21 br Exp $
 //
 // Definition of eZQDomRenderer class
 //
@@ -138,6 +138,7 @@
 
 include_once( "classes/eztexttool.php" );
 include_once( "classes/ezlog.php" );
+include_once( "ezimagecatalogue/classes/ezimage.php" );
 include_once( "ezxml/classes/ezxml.php" );
 
 class eZQDomrenderer
@@ -148,7 +149,8 @@ class eZQDomrenderer
     function eZQDomrenderer( &$article, $template=false )
     {
         $UsedImageList = array();
-
+        $RollOverCount = 0;
+        
         $ini =& INIFile::globalINI();
 
         $this->Template = new eZTemplate( "ezarticle/user/" . $ini->read_var( "eZArticleMain", "TemplateDir" ),
@@ -170,6 +172,8 @@ class eZQDomrenderer
         $this->Template->set_block( "articletags_tpl", "header_4_tpl", "header_4"  );
         $this->Template->set_block( "articletags_tpl", "header_5_tpl", "header_5"  );
         $this->Template->set_block( "articletags_tpl", "header_6_tpl", "header_6"  );
+
+        $this->Template->set_block( "articletags_tpl", "rollover_tpl", "rollover"  );
 
         $this->Template->set_block( "articletags_tpl", "image_tpl", "image"  );
         $this->Template->set_block( "articletags_tpl", "media_tpl", "media"  );
@@ -271,6 +275,7 @@ class eZQDomrenderer
                                     $intro .= $this->renderLink( $paragraph );
                                     $intro .= $this->renderHr( $paragraph );
                                     $intro .= $this->renderTable( $paragraph );
+                                    $intro .= $this->renderRollOver( $paragraph );
 
                                     $this->PrevTag = $paragraph->name;
                                 }
@@ -341,6 +346,7 @@ class eZQDomrenderer
                                     $intro .= $this->renderLink( $paragraph );
                                     $intro .= $this->renderHr( $paragraph );
                                     $intro .= $this->renderTable( $paragraph );
+                                    $intro .= $this->renderRollOver( $paragraph );
 
                                     $this->PrevTag = $paragraph->name;
                                 }
@@ -376,6 +382,7 @@ class eZQDomrenderer
 							$pageContent .= $this->renderLink( $paragraph );
 							$pageContent .= $this->renderHr( $paragraph );
 							$pageContent .= $this->renderTable( $paragraph );
+							$pageContent .= $this->renderRollOver( $paragraph );
 
 
 							$this->PrevTag = $paragraph->name;
@@ -414,6 +421,86 @@ class eZQDomrenderer
         return $returnArray;
     }
 
+    /*!
+      Renders rollover tags.
+    */
+    function &renderRollOver( $paragraph )
+    {
+        $pageContent = "";
+        if ( $paragraph->name == "rollover" )
+        {
+            if  ( count( $paragraph->attributes ) > 0 )
+            {
+                foreach ( $paragraph->attributes as $attr )
+                {
+                    switch ( $attr->name )
+                    {
+                        case "url" :
+                        {
+                            $url = $attr->children[0]->content;
+                        }
+                        break;
+                        
+                        case "imageone" :
+                        {
+                            $imageOneID = $attr->children[0]->content;
+                        }
+                        break;
+                        
+                        case "imagetwo" :
+                        {
+                            $imageTwoID = $attr->children[0]->content;
+                        }
+                        break;
+                        
+                        case "description" :
+                        {
+                            $description = $attr->children[0]->content;
+                        }
+                        break;
+                    }
+                }
+            }
+
+            // get the imagevariations from the images.
+            if ( is_numeric( $imageOneID ) )
+            {
+                $image = new eZImage( $imageOneID );
+                $imageOneWidth = $image->width();
+                $imageOneHeight = $image->height();
+                $variation =& $image->requestImageVariation( $imageOneWidth, $imageOneHeight );
+                $imageOneURL = "/" . $variation->imagePath();
+            }
+
+            if ( is_numeric( $imageTwoID ) )
+            {
+                $image = new eZImage( $imageTwoID );
+                $imageTwoWidth = $image->width();
+                $imageTwoHeight = $image->height();
+                $variation =& $image->requestImageVariation( $imageTwoWidth, $imageOneWidth );
+                $imageTwoURL = "/" . $variation->imagePath();
+            }
+
+            $this->Template->set_var( "url", $url );
+            $this->Template->set_var( "image_one_url", $imageOneURL );
+            $this->Template->set_var( "image_one_width", $imageOneWidth );
+            $this->Template->set_var( "image_one_height", $imageOneHeight );
+            
+            $this->Template->set_var( "image_two_url", $imageTwoURL );
+            $this->Template->set_var( "image_two_width", $imageTwoWidth );
+            $this->Template->set_var( "image_two_height", $imageTwoHeight );
+
+            $this->Template->set_var( "link_text", $description );
+
+            $this->Template->set_var( "rollover_id", ++$this->RollOverCount );
+            
+            $pageContent = $this->Template->parse( "rollover", "rollover_tpl" );
+        }
+
+        return $pageContent;
+    }
+
+    
     /*!
       Renders header tags.
     */
@@ -459,7 +546,6 @@ class eZQDomrenderer
             $this->Template->set_var( "contents", $content );
             $pageContent =& $this->Template->parse( "header_" . $level, "header_" . $level. "_tpl" );
         }
-
         return $pageContent;
     }
 
@@ -551,7 +637,6 @@ class eZQDomrenderer
                 foreach ( $elements as $element )
                 {
                     $elementParts = explode( "|", $element );
-//                    print_r( $elementParts  );
 
                     $imageMapHref = $elementParts[0];
                     if ( !preg_match( "%^(([a-z]+://)|/|#)%", $imageMapHref  ) )
@@ -924,6 +1009,7 @@ class eZQDomrenderer
                                 $content .= $this->renderHeader( $listItem );
                                 $content .= $this->renderHr( $listItem );
                                 $content .= $this->renderTable( $listItem );
+                                $content .= $this->renderRollOver( $listItem );
                             }
 
                         }
@@ -946,6 +1032,7 @@ class eZQDomrenderer
                             $content .= $this->renderHeader( $child );
                             $content .= $this->renderHr( $child );
                             $content .= $this->renderTable( $child );
+                            $content .= $this->renderRollOver( $child );
                         }
                     }
                 }
@@ -1019,6 +1106,7 @@ class eZQDomrenderer
                         $tmpContent .= $this->renderHeader( $child );
                         $tmpContent .= $this->renderHr( $child );
                         $tmpContent .= $this->renderTable( $child );
+                        $tmpContent .= $this->renderRollOver( $child );
                     }
                 }
 
@@ -1108,6 +1196,7 @@ class eZQDomrenderer
                         $tmpContent .= $this->renderHeader( $child );
                         $tmpContent .= $this->renderHr( $child );
                         $tmpContent .= $this->renderTable( $child );
+                        $tmpContent .= $this->renderRollOver( $child );
                     }
                 }
             }
@@ -1474,6 +1563,7 @@ class eZQDomrenderer
                     $tmpContent .= $this->renderHeader( $child );
                     $tmpContent .= $this->renderHr( $child );
                     $tmpContent .= $this->renderTable( $child );
+                    $tmpContent .= $this->renderRollOver( $child );
                 }
             }
         return $tmpContent;
@@ -1489,6 +1579,9 @@ class eZQDomrenderer
 
     /// stores the custom tags array
     var $CustomTagsArray;
+
+    // a counter for rollover.
+    var $RollOverCount;
 }
 
 ?>

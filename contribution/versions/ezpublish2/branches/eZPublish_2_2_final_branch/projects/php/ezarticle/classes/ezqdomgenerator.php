@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezqdomgenerator.php,v 1.39.2.7 2002/07/30 06:55:29 bf Exp $
+// $Id: ezqdomgenerator.php,v 1.39.2.8 2003/01/03 16:20:21 br Exp $
 //
 // Definition of eZQDomGenerator class
 //
@@ -119,6 +119,8 @@ class eZQDomGenerator
         $tmpPage = $this->generateHTML( $tmpPage );
 
         $tmpPage = $this->generateForm( $tmpPage );
+
+        $tmpPage = $this->generateRollOver( $tmpPage );
         
 //        $tmpPage = $this->generateModule( $tmpPage );
 
@@ -167,6 +169,21 @@ class eZQDomGenerator
         return $tmpPage;
     }
 
+    /*!
+      \private
+      Converts an rollover image to XML tags.
+    */
+    function &generateRollOver( $tmpPage )
+    {
+        preg_match( "/<rollover\s+([0-9]+)\s+([0-9]+)\s+([^\s]+)\s+(.+)\s*>/i", $tmpPage, $matchArray );
+        
+        $tmpPage = preg_replace( "/<rollover\s+([0-9]+)\s+([0-9]+)\s+([^\s]+)\s+(.+)\s*>/i",
+                                 "<rollover  url=\"\\3\" imageone=\"\\1\"  imagetwo=\"\\2\" description=\"\\4\" />", $tmpPage );
+        
+        return $tmpPage;
+    }
+
+    
     /*!
       \private
       Converts media tags to XML tags.
@@ -462,6 +479,7 @@ class eZQDomGenerator
                 $value .= $this->decodeHr( $paragraph );
                 $value .= $this->decodeTable( $paragraph );
                 $value .= $this->decodeCustom( $paragraph );
+                $value .= $this->decodeRollOver( $paragraph );
             }
         }
 
@@ -469,6 +487,69 @@ class eZQDomGenerator
     }
 
     /*!
+      Decodes rollover tags
+    */     
+    function &decodeRollOver(  $paragraph )
+    {
+        switch ( $paragraph->name )
+        {
+            case "rollover" :
+            {
+                if ( count( $paragraph->children ) > 0 )
+                {
+                    foreach ( $paragraph->children as $child )
+                    {
+                        if ( $child->name == "#text" or $child->name == "text" )
+                        {
+                            $content = $child->content;
+                        }
+                    }
+                }
+
+                if ( count( $paragraph->attributes ) > 0 )
+                {
+                    foreach ( $paragraph->attributes as $attr )
+                    {
+                        switch ( $attr->name )
+                        {
+                            case "url":
+                            {
+                                $url = $attr->children[0]->content;
+                            }
+                            break;
+
+                            case "imageone":
+                            {
+                                $image1 = $attr->children[0]->content;
+                            }
+                            break;
+
+                            case "imagetwo":
+                            {
+                                $image2 = $attr->children[0]->content;
+                            }
+                            break;
+
+                            case "description":
+                            {
+                                $description = $attr->children[0]->content;
+                            }
+                            break;
+                        }
+                    }
+                }
+
+                
+                
+                $pageContent .= "<rollover $image1 $image2 $url $description>";
+            }
+            break;
+        }        
+        
+        return $pageContent;        
+    }
+
+        /*!
       Decodes header tags
     */     
     function &decodeHeader(  $paragraph )
@@ -510,7 +591,7 @@ class eZQDomGenerator
         
         return $pageContent;        
     }
-    
+
 
     /*!
       \private
@@ -918,6 +999,7 @@ class eZQDomGenerator
                                     $tmpData .= $this->decodeLink( $contents );
                                     $tmpData .= $this->decodeHr( $contents );
                                     $tmpData .= $this->decodeTable( $contents );
+                                    $tmpData .= $this->decodeRollOver( $contents );
                                 }                                
                             }
                             $tdContent .= "<td";
@@ -970,6 +1052,7 @@ class eZQDomGenerator
                     $content .= $this->decodeMedia( $child );
                     $content .= $this->decodeFile( $child );
                     $content .= $this->decodeHeader( $child );
+                    $content .= $this->decodeRollOver( $child );
                 }
                 
                 $tmpContent .=  $content;
@@ -1032,6 +1115,7 @@ class eZQDomGenerator
                                     $itemStr .= $this->decodeMedia( $listItem );
                                     $itemStr .= $this->decodeFile( $listItem );
                                     $itemStr .= $this->decodeHeader( $listItem );
+                                    $itemStr .= $this->decodeRollOver( $listItem );
                                 
                                 }
                             }
@@ -1120,6 +1204,7 @@ class eZQDomGenerator
                         $content .= $this->decodeMedia( $child );
                         $content .= $this->decodeFile( $child );
                         $content .= $this->decodeHeader( $child );
+                        $content .= $this->decodeRollOver( $child );
                     }
                 }
             }

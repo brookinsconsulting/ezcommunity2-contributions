@@ -52,6 +52,11 @@
 </table>
 <!-- END image_tpl -->
 
+<!-- BEGIN rollover_tpl -->
+<!-- variables which are not used: {image_one_width} and {image_one_height} -->
+<a href="{url}" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezrollover_{rollover_id}','','{image_one_url}',1)"><img name="ezrollover_{rollover_id}" border="0" src="{image_two_url}" width="{image_two_width}" height="{image_two_height}" align="top" border="0" alt="{link_text}" /></a>
+<!-- END rollover_tpl -->
+
 <!-- BEGIN image_float_tpl -->
    <!-- BEGIN image_link_float_tpl -->
    <a target="{target}" href="{www_dir}{index}/imagecatalogue/imageview/{image_id}/?RefererURL={referer_url}">
