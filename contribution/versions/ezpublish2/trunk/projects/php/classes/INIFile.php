@@ -47,7 +47,7 @@ class  INIFile
         $this->WRITE_ACCESS = $write;
         if(!empty($inifilename)) 
             if(!file_exists($inifilename)){ 
-                $this->error( "This file does not exist!"); 
+                $this->error( "This file ($inifilename) does not exist!"); 
                 return; 
             } 
         $this->parse($inifilename); 
