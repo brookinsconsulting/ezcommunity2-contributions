@@ -1,5 +1,5 @@
 <?
-// $Id: categoryedit.php,v 1.15 2001/03/01 14:06:25 jb Exp $
+// $Id: categoryedit.php,v 1.16 2001/05/08 12:41:22 ce Exp $
 //
 // Author: Lars Wilhelmsen <lw@ez.no>
 // Created on: Created on: <14-Jul-2000 13:41:35 lw>
@@ -33,6 +33,7 @@ $error = new INIFIle( "ezforum/admin/intl/" . $Language . "/categoryedit.php.ini
 include_once( "classes/ezdb.php" );
 include_once( "classes/eztemplate.php" );
 include_once( "classes/ezlog.php" );
+include_once( "classes/ezcachefile.php" );
 
 include_once( "ezforum/classes/ezforumcategory.php" );
 
@@ -48,11 +49,18 @@ $cat = new eZForumCategory();
 
 if ( $Action == "insert" )
 {
+
     if ( eZPermission::checkPermission( $user, "eZForum", "CategoryAdd" ) )
     {
         // clear the menu cache
-        if ( file_exists( "ezforum/cache/menubox.cache" ) )
-            unlink( "ezforum/cache/menubox.cache" );
+        $files =& eZCacheFile::files( "ezforum/cache/",
+                                      array( "menubox",
+                                             NULL ),
+                                      "cache", "," );
+        foreach( $files as $file )
+        {
+            $file->delete();
+        }
         
         if ( $Name != "" &&
         $Description != "" )
@@ -83,8 +91,14 @@ if ( $Action == "delete" )
     if ( eZPermission::checkPermission( $user, "eZForum", "CategoryDelete" ) )
     {
         // clear the menu cache
-        if ( file_exists( "ezforum/cache/menubox.cache" ) )
-            unlink( "ezforum/cache/menubox.cache" );
+        $files =& eZCacheFile::files( "ezforum/cache/",
+                                      array( "menubox",
+                                             NULL ),
+                                      "cache", "," );
+        foreach( $files as $file )
+        {
+            $file->delete();
+        }
         
         if ( $CategoryID != "" )
         {
@@ -110,6 +124,16 @@ if ( $Action == "delete" )
 
 if ( $Action == "DeleteCategories" )
 {
+    // clear the menu cache
+    $files =& eZCacheFile::files( "ezforum/cache/",
+                                  array( "menubox",
+                                         NULL ),
+                                  "cache", "," );
+    foreach( $files as $file )
+    {
+        $file->delete();
+    }
+
     if ( eZPermission::checkPermission( $user, "eZForum", "CategoryDelete" ) )
     {
         if ( count ( $CategoryArrayID ) != 0 )
@@ -138,8 +162,14 @@ if ( $Action == "update" )
     if ( eZPermission::checkPermission( $user, "eZForum", "CategoryModify" ) )
     {
         // clear the menu cache
-        if ( file_exists( "ezforum/cache/menubox.cache" ) )
-            unlink( "ezforum/cache/menubox.cache" );
+        $files =& eZCacheFile::files( "ezforum/cache/",
+                                      array( "menubox",
+                                             NULL ),
+                                      "cache", "," );
+        foreach( $files as $file )
+        {
+            $file->delete();
+        }
         
         if ( $Name != "" &&
         $Description != "" )
@@ -166,11 +196,11 @@ if ( $Action == "update" )
 }
 
 $t = new eZTemplate( "ezforum/admin/" . $ini->read_var( "eZForumMain", "AdminTemplateDir" ),
-"ezforum/admin/" . "/intl", $Language, "categoryedit.php" );
+                     "ezforum/admin/" . "/intl", $Language, "categoryedit.php" );
 $t->setAllStrings();
 
 $t->set_file( array( "category_page" => "categoryedit.tpl"
-                    ) );
+                     ) );
 
 $t->set_block( "category_page", "category_edit_tpl", "category_edit" );
 

@@ -1,6 +1,6 @@
 <?
 //
-// $Id: groupedit.php,v 1.42 2001/03/06 13:03:31 fh Exp $
+// $Id: groupedit.php,v 1.43 2001/05/08 12:41:22 ce Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <26-Oct-2000 14:57:28 ce>
@@ -36,9 +36,12 @@ $error = new INIFIle( "ezuser/admin/intl/" . $Language . "/useredit.php.ini", fa
 
 include_once( "classes/eztemplate.php" );
 include_once( "classes/ezhttptool.php" );
-include( "ezlink/classes/ezlinkgroup.php" );
-include( "ezlink/classes/ezlink.php" );
-include( "ezlink/classes/ezhit.php" );
+include_once( "classes/ezcachefile.php" );
+
+include_once( "ezlink/classes/ezlinkgroup.php" );
+include_once( "ezlink/classes/ezlink.php" );
+include_once( "ezlink/classes/ezhit.php" );
+
 include_once( "ezimagecatalogue/classes/ezimage.php" );
 include_once( "ezimagecatalogue/classes/ezimagecategory.php" );
 
@@ -53,7 +56,15 @@ if ( isSet ( $DeleteCategories ) )
 // Insert a group.
 if ( $Action == "insert" )
 {
-    unlink( "ezlink/cache/menubox.cache" );
+    // clear the menu cache
+    $files =& eZCacheFile::files( "ezforum/cache/",
+                                  array( "menubox",
+                                         NULL ),
+                                  "cache", "," );
+    foreach( $files as $file )
+    {
+        $file->delete();
+    }
     
     if ( eZPermission::checkPermission( $user, "eZLink", "LinkGroupAdd" ) )
     {
@@ -102,7 +113,15 @@ if ( $Action == "insert" )
 // Delete a group.
 if ( $Action == "delete" )
 {
-    unlink( "ezlink/cache/menubox.cache" );
+    // clear the menu cache
+    $files =& eZCacheFile::files( "ezforum/cache/",
+                                  array( "menubox",
+                                         NULL ),
+                                  "cache", "," );
+    foreach( $files as $file )
+    {
+        $file->delete();
+    }
 
     if ( eZPermission::checkPermission( $user, "eZLink", "LinkGroupDelete" ) )
     {
@@ -121,7 +140,15 @@ if ( $Action == "delete" )
 
 if ( $Action == "DeleteCategories" )
 {
-    unlink( "ezlink/cache/menubox.cache" );
+    // clear the menu cache
+    $files =& eZCacheFile::files( "ezforum/cache/",
+                                  array( "menubox",
+                                         NULL ),
+                                  "cache", "," );
+    foreach( $files as $file )
+    {
+        $file->delete();
+    }
 
     if ( eZPermission::checkPermission( $user, "eZLink", "LinkGroupDelete" ) )
     {
@@ -147,7 +174,15 @@ if ( $Action == "DeleteCategories" )
 // Update a group.
 if ( $Action == "update" )
 {
-    unlink( "ezlink/cache/menubox.cache" );
+    // clear the menu cache
+    $files =& eZCacheFile::files( "ezforum/cache/",
+                                  array( "menubox",
+                                         NULL ),
+                                  "cache", "," );
+    foreach( $files as $file )
+    {
+        $file->delete();
+    }
     
     if ( eZPermission::checkPermission( $user, "eZLink", "LinkGroupModify" ) )
     {
@@ -194,7 +229,7 @@ if ( $Action == "update" )
 }
 
 $t = new eZTemplate( "ezlink/admin/" . $ini->read_var( "eZLinkMain", "AdminTemplateDir" ),
- "ezlink/admin/" . "/intl/", $Language, "groupedit.php" );
+                     "ezlink/admin/" . "/intl/", $Language, "groupedit.php" );
 $t->setAllStrings();
 
 $t->set_file( array(

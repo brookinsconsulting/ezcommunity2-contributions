@@ -1,5 +1,5 @@
 <?
-// $Id: forumedit.php,v 1.25 2001/05/04 12:47:06 ce Exp $
+// $Id: forumedit.php,v 1.26 2001/05/08 12:41:22 ce Exp $
 //
 // Author: Lars Wilhelmsen <lw@ez.no>
 // Created on: Created on: <14-Jul-2000 13:41:35 lw>
@@ -32,6 +32,7 @@ $error = new INIFIle( "ezforum/admin/intl/" . $Language . "/forumedit.php.ini", 
 
 include_once( "classes/eztemplate.php" );
 include_once( "classes/ezlog.php" );
+
 
 include_once( "ezuser/classes/ezusergroup.php" );
 
@@ -299,7 +300,6 @@ if ( $Action == "edit" )
 
     }
 }
-
 
 $category = new eZForumCategory();
 $categoryList = $category->getAll();
