@@ -5,9 +5,9 @@ $url_array = explode( "/", $REQUEST_URI );
 
 switch ( $url_array[2] )
 {
-    case "polllist" :
+    case "pollist" :
     {
-        include( "ezpoll/admin/polllist.php" );
+        include( "ezpoll/admin/pollist.php" );
     }
     break;
 

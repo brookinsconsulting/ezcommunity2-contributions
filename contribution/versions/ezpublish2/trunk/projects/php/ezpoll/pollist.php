@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: polllist.php,v 1.2 2000/09/27 11:41:58 ce-cvs Exp $
+// $Id: pollist.php,v 1.1 2000/10/09 10:24:01 ce-cvs Exp $
 //
 // Definition of eZPoll class
 //
@@ -24,13 +24,13 @@ $DOC_ROOT = $ini->read_var( "eZPollMain", "DocumentRoot" );
 include_once( $DOC_ROOT . "/classes/ezpoll.php" );
 
 
-$t = new eZTemplate( $DOC_ROOT . $ini->read_var( "eZPollMain", "TemplateDir" ) . "/polllist/",
-                     $DOC_ROOT . "/intl/", $Language, "polllist.php" );
+$t = new eZTemplate( $DOC_ROOT . $ini->read_var( "eZPollMain", "TemplateDir" ) . "/pollist/",
+                     $DOC_ROOT . "/intl/", $Language, "pollist.php" );
 
 $t->setAllStrings();
 
 $t->set_file( array(
-    "poll_list_page" => "polllist.tpl",
+    "poll_list_page" => "pollist.tpl",
     "poll_item" => "pollitem.tpl"
     ) );
 

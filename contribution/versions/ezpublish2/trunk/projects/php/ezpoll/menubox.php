@@ -8,16 +8,18 @@
 
 <tr>
 	<td>
-	<a class="menu" href="/poll/polls/">
-    Poll liste
+	<a class="menu" href="/poll/results/">
+	<img src="/images/prikk.gif" width="8" heigth="8" border="0">&nbsp;
+    Resultater
 	</a>
 	</td>
 </tr>
 
 <tr>
 	<td>
-	<a class="menu" href="/poll/result/0/all/">
-    Resultater
-	</a>
-	</td>
+	<a class="menu" href="/poll/polls/">
+	<img src="/images/prikk.gif" width="8" heigth="8" border="0">&nbsp;
+    Poller
+    </a>
+    </td>
 </tr>

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: result.php,v 1.4 2000/10/03 12:28:55 bf-cvs Exp $
+// $Id: result.php,v 1.5 2000/10/09 10:24:01 ce-cvs Exp $
 //
 // Definition of eZPoll class
 //
@@ -26,7 +26,7 @@ include_once( $DOC_ROOT . "/classes/ezvote.php" );
 include_once( $DOC_ROOT . "/classes/ezpollchoice.php" );
 
 
-$t = new eZTemplate( $DOC_ROOT . $ini->read_var( "eZPollMain", "TemplateDir" ) . "/polllist/",
+$t = new eZTemplate( $DOC_ROOT . $ini->read_var( "eZPollMain", "TemplateDir" ) . "/pollist/",
                      $DOC_ROOT . "/intl/", $Language, "result.php" );
 
 $t->setAllStrings();

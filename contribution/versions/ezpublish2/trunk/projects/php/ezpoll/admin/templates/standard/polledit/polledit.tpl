@@ -55,8 +55,12 @@
 	Slette
 	</td>
 </tr>
-{poll_choice_list}
-
+<tr>
+	<td>
+	{nopolls}
+	</td>
+	{poll_choice_list}
+</tr>
 <tr>
 <td>
 <br>
@@ -69,7 +73,7 @@
 	<input type="hidden" name="PollID" value="{poll_id}" />
 	<input type="submit" value="OK" />
 	<input type="submit" name="Choice" value="Nytt svaralternativ">
-	<form method="post" action="/poll/polllist/">
+	<form method="post" action="/poll/pollist/">
 	<input type="submit" name="Back" value="{intl-back}">
 	</form>
 	</td>

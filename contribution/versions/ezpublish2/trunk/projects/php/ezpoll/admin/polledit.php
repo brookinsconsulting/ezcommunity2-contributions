@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: polledit.php,v 1.4 2000/10/06 09:59:31 ce-cvs Exp $
+// $Id: polledit.php,v 1.5 2000/10/09 10:24:02 ce-cvs Exp $
 //
 // Definition of eZPoll class
 //
@@ -57,6 +57,12 @@ if ( $Action == "Insert" )
         $poll->setShowResult ( false );
     }
 
+    if ( !$Description )
+    {
+        $ini = new INIFile( $DOC_ROOT . "/admin/" . "intl/" . $Language . "/polledit.php.ini", false );
+        $Description =  $ini->read_var( "strings", "description_default" );
+    }
+
     $poll->setName( $Name );
     $poll->setDescription( $Description );
     $poll->store();
@@ -67,7 +73,7 @@ if ( $Action == "Insert" )
         Header( "Location: /poll/choiceedit/new/" . $pollID . "/" );
         exit();
     }
-    Header( "Location: /poll/polllist/" );
+    Header( "Location: /poll/pollist/" );
     exit();
 }
 
@@ -113,7 +119,7 @@ if ( $Action == "Update" )
         exit();
     }
 
-    Header( "Location: /poll/polllist/" );
+    Header( "Location: /poll/pollist/" );
     exit();
 }
 
@@ -124,7 +130,7 @@ if ( $Action == "Delete" )
     $poll->get( $PollID );
     $poll->delete();
 
-    Header( "Location: /poll/polllist/" );
+    Header( "Location: /poll/pollist/" );
     exit();
 }
 
@@ -142,7 +148,7 @@ $Name = "";
 $Description = "";
 $IsEnabled = "";
 $IsClosed = "";
-
+$nopolls = "";
 // Edit
 if ( $Action == "Edit" )
 {
@@ -178,6 +184,13 @@ $pollChoice = new eZPollChoice();
 
 $pollChoiceList = $pollChoice->getAll( $PollID );
 
+if ( !$pollChoiceList )
+{
+    $ini = new INIFile( $DOC_ROOT . "/admin/" . "intl/" . $Language . "/polledit.php.ini", false );
+    $nopolls =  $ini->read_var( "strings", "nopolls" );
+    $t->set_var( "poll_choice_list", "" );
+}
+
 foreach( $pollChoiceList as $pollChoiceItem )
 {
     $t->set_var( "choice_id", $pollChoiceItem->id() );
@@ -188,8 +201,6 @@ foreach( $pollChoiceList as $pollChoiceItem )
     $t->parse( "poll_choice_list", "poll_choice_item", true );
 }
 
-
-
 $t->set_var( "poll_id", $PollID );
 $t->set_var( "name_value", $Name );
 $t->set_var( "description_value", $Description );
@@ -199,6 +210,9 @@ $t->set_var( "show_result", $ShowResult );
 
 $t->set_var( "document_root", $DOC_ROOT );
 $t->set_var( "action_value", $Action_value );
+$t->set_var( "nopolls", $nopolls );
+
+
 if ( !isset ( $headline ) )
 {
     $ini = new INIFile( $DOC_ROOT . "/admin/" . "intl/" . $Language . "/polledit.php.ini", false );

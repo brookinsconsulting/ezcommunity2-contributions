@@ -7,7 +7,7 @@ switch ( $url_array[2] )
 {
     case "polls" :
     {
-        include( "ezpoll/polllist.php" );
+        include( "ezpoll/pollist.php" );
     }
     break;
 

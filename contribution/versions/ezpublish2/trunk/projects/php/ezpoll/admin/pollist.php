@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: polllist.php,v 1.4 2000/10/06 09:59:31 ce-cvs Exp $
+// $Id: pollist.php,v 1.1 2000/10/09 10:24:02 ce-cvs Exp $
 //
 // Definition of eZPoll class
 //
@@ -24,21 +24,31 @@ include_once( "ezpoll/classes/ezpoll.php" );
 
 require( "ezuser/admin/admincheck.php" );
 
-$t = new eZTemplate( "ezpoll/admin/" . $ini->read_var( "eZPollMain", "TemplateDir" ) . "/polllist/",
-                     "ezpoll/admin/intl/", $Language, "polllist.php" );
+$t = new eZTemplate( "ezpoll/admin/" . $ini->read_var( "eZPollMain", "TemplateDir" ) . "/pollist/",
+                     "ezpoll/admin/intl/", $Language, "pollist.php" );
 
 $t->setAllStrings();
 
 $t->set_file( array(
-    "poll_list_page" => "polllist.tpl",
+    "poll_list_page" => "pollist.tpl",
     "poll_item" => "pollitem.tpl"
     ) );
+
+$nopolls = "";
 
 $poll = new eZPoll();
 
 $pollList = $poll->getAll( );
 
+if ( !$pollList )
+{
+    $ini = new INIFile( "ezpoll/" . "/admin/" . "intl/" . $Language . "/pollist.php.ini", false );
+    $nopolls =  $ini->read_var( "strings", "nopolls" );
+    $t->set_var( "poll_list", "" );
+}
+
 $mainPoll = $poll->mainPoll();
+
 if ( $mainPoll )
 {
     $mainPollID = $mainPoll->id();
@@ -77,6 +87,8 @@ foreach( $pollList as $pollItem )
     $t->parse( "poll_list", "poll_item", true );
     $i++;
 }
+
+$t->set_var( "nopolls", $nopolls );
 
 $t->pparse( "output", "poll_list_page" );
 ?>
