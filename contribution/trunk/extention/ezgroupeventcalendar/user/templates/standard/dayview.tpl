@@ -1,94 +1,136 @@
-<!-- goooooodbye worthless table, Love Dylan
-<form method="get" action="{www_dir}{index}/search/">
-<table width="100%" cellspacing="0" cellpadding="2" border="0" align="center">
-  <tr>
-   <!-- BEGIN header_item_tpl --\commentbreaklovedylan\>
-    <td align="left"> 
-      <h1>{long_date}</h1>
-    </td>
-    <td align="right" height="19" width="50%"> 
-	&nbsp;
-    </td>
-  </tr>
-</table>
-
-</form>
--->
-
-<br />
-
-<table width="100%" border="0" cellspacing="0" cellpadding="0">
+<form method="post" action="{www_dir}{index}/groupeventcalendar/dayview/">
+ <table border="0" cellspacing="0" cellpadding="0" id="gcalDayViewSortBy">
+ <tr>
+  <td id="gcalDayViewSortByHeader"><img src="{www_dir}{index}/ezgroupeventcalendar/user/templates/standard/images/gcalX.png" style="margin-right:7px;"  alt="close"
+    onclick="document.getElementById('gcalDayViewSortBy').style.visibility = 'hidden';" />
+ </td>
+ </tr>
 <tr>
-	<td valign="top">
-		<form method="post" action="{www_dir}{index}/groupeventcalendar/dayview/">
-		<p class="boxtext">{intl-group}:</p>
-		<select name="GetByGroupID">
+	<td valign="top" style="text-align: center; padding: 5px;">
+		<span>{intl-group}:</span><br />
+		<select class="gcalDayViewSelect" name="GetByGroupID">
 		<option value="0">{intl-default}</option>
 		<!-- BEGIN group_item_tpl -->
 		<option {group_is_selected} value="{group_id}">{group_name}</option>
 		<!-- END group_item_tpl -->
 		</select>
-
-		<p class="boxtext">{intl-type}:</p>
-		<select name="GetByTypeID">
+         <br />
+		<span>{intl-type}:</span><br />
+		<select class="gcalDayViewSelect" name="GetByTypeID">
 		<option value="0">{intl-default_type}</option>
 		<!-- BEGIN type_item_tpl -->
 		<option {type_is_selected} value="{type_id}">{type_name}</option>
 		<!-- END type_item_tpl -->
-		</select>
-		&nbsp;&nbsp;&nbsp;&nbsp;
+		</select><br /><br />
 
-		<input class="stdbutton" type="submit" Name="GetByGroup" value="{intl-show}">
+		<input class="gcalDayViewButton" style="background: url('{www_dir}{index}/ezgroupeventcalendar/user/templates/standard/images/gcalButtonBg.png') repeat;" type="submit" Name="GetByGroup" value="{intl-show}">
 	</td>
-	<td align="center">
-		<a class="menu" href="{www_dir}{index}/groupeventcalendar/dayview/{pm_year_number}/{pm_month_number}/{pm_day_number}/{group_print_id}/">&lt;&lt;&nbsp;</a>
-		<a class="menu" href="{www_dir}{index}/groupeventcalendar/monthview/{year_number}/{month_number}/{group_print_id}/">{month_name}</a>
-		<a class="menu" href="{www_dir}{index}/groupeventcalendar/dayview/{nm_year_number}/{nm_month_number}/{nm_day_number}/{group_print_id}/">&nbsp;&gt;&gt;</a>
 
-		<table width="100" border="1" cellspacing="0" cellpadding="1">
-		<!-- BEGIN week_tpl -->
-		<tr>
-			<!-- BEGIN day_tpl -->
-			<td class="{td_class}">
-			<a class="small" href="{www_dir}{index}/groupeventcalendar/dayview/{year_number}/{month_number}/{day_number}/{group_print_id}/">{day_number}</a>
-			</td>
-			<!-- END day_tpl -->
-
-			<!-- BEGIN empty_day_tpl -->
-			<td class="{td_class}">
-			&nbsp;
-			</td>
-			<!-- END empty_day_tpl -->
-		</tr>
-		<!-- END week_tpl -->
-		</table>
-	</td>
 </tr>
 </table>
 </form>
 <br />
 
+
+<br />
+
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+
+<tr><td>
+
+	<table width="160" border="0" cellspacing="0" cellpadding="0" id="gcalDayViewMonthTable">
+	<tr><td colspan=7 id="gcalDayViewMonthTableHeader" 
+    style="height: 12px;
+    background: no-repeat url('{www_dir}{index}/ezgroupeventcalendar/user/templates/standard/images/gcalDayViewMonthTableHeader.png');  
+    font-size: 2px;"><img src="{www_dir}{index}/ezgroupeventcalendar/user/templates/standard/images/gcalX.png" style="margin-right:7px;"  alt="close"
+    onclick="document.getElementById('gcalDayViewMonthTable').style.visibility = 'hidden';" /></td>
+
+</tr></td></tr>
+    <tr>
+	<td align="center" colspan=7 width="100%" style="background: no-repeat url('{www_dir}{index}/ezgroupeventcalendar/user/templates/standard/images/gcalDayViewMonthTableSubHeader.png');">
+		<a  class="gcalDayViewMonthTableHeader" href="{www_dir}{index}/groupeventcalendar/dayview/{pm_year_number}/{pm_month_number}/{pm_day_number}/{group_print_id}/">&lt;&lt;&nbsp;</a>
+		<a  class="gcalDayViewMonthTableHeader" href="{www_dir}{index}/groupeventcalendar/monthview/{year_number}/{month_number}/{group_print_id}/">{month_name}</a>
+		<a  class="gcalDayViewMonthTableHeader" href="{www_dir}{index}/groupeventcalendar/dayview/{nm_year_number}/{nm_month_number}/{nm_day_number}/{group_print_id}/">&nbsp;&gt;&gt;</a>
+
+	</td>
+</tr>
+        <!-- BEGIN week_tpl -->
+		<tr>
+			<!-- BEGIN day_tpl -->
+			<td class="gcalDayViewMonthTableDay">
+			<a class="gcalDayViewMonthTableDay"href="{www_dir}{index}/groupeventcalendar/dayview/{year_number}/{month_number}/{day_number}/{group_print_id}/">{day_number}</a>
+			</td>
+			<!-- END day_tpl -->
+
+			<!-- BEGIN empty_day_tpl -->
+			<td class="gcalDayViewMonthTableEmpty">
+			&nbsp;
+			</td>
+			<!-- END empty_day_tpl -->
+		</tr>
+		<!-- END week_tpl -->
+
+		</table>
+        </td>
+<td valign="bottom">
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
 <tr>
 	<form method="post" action="{www_dir}{index}/groupeventcalendar/eventedit/edit/">
 	<td align="right" colspan="10" style="padding: 5px;">
-	 <input class="stdbutton" type="submit" name="GoDay" value="{intl-day}">	 
-         <input class="stdbutton" type="submit" name="GoWeek" value="{intl-week}">
-	 <input class="stdbutton" type="submit" name="GoMonth" value="{intl-month}">
-	 <input class="stdbutton" type="submit" name="GoYear" value="{intl-year}">
-	 <input class="stdbutton" type="submit" name="GoToday" value="{intl-today}">
+     <span class="gcalSwitchBox" onmouseover="this.className='gcalSwitchBoxSelect'"
+      onmouseout="this.className='gcalSwitchBox'"
+      onclick="document.getElementById('gcalDayViewSortBy').style.visibility = 'visible';
+      var posx = getMouse(event, 'x');
+      var posy = getMouse(event, 'y');
+      document.getElementById('gcalDayViewSortBy').style.left = posx + 'px';
+      document.getElementById('gcalDayViewSortBy').style.top = posy+ 'px';">
+      Sort By...
+      </span>
+     <span class="gcalSwitchBox" onmouseover="this.className='gcalSwitchBoxSelect'"
+      onmouseout="this.className='gcalSwitchBox'"
+      onclick="document.getElementById('gcalDayViewMonthTable').style.visibility = 'visible';
+      var posx = getMouse(event, 'x');
+      var posy = getMouse(event, 'y');
+      document.getElementById('gcalDayViewMonthTable').style.left = posx + 'px';
+      document.getElementById('gcalDayViewMonthTable').style.top = posy+ 'px';">
+      Show Calendar
+      </span>
+      <span class="gcalSwitchBox" onmouseover="this.className='gcalSwitchBoxSelect'"
+      onmouseout="this.className='gcalSwitchBox'"
+      onclick="location.href = '{www_dir}{index}/groupeventcalendar/dayview/{the_year}/{the_month}/{the_day}/{group_print_id}/'">
+      {intl-day}
+      </span>
+      <span class="gcalSwitchBox" onmouseover="this.className='gcalSwitchBoxSelect'"
+      onmouseout="this.className='gcalSwitchBox'"
+      onclick="location.href = '{www_dir}{index}/groupeventcalendar/weekview/{the_year}/{the_month}/{the_day}/{group_print_id}/'">
+      {intl-week}
+      </span>
+      <span class="gcalSwitchBox" onmouseover="this.className='gcalSwitchBoxSelect'"
+      onmouseout="this.className='gcalSwitchBox'"
+      onclick="location.href = '{www_dir}{index}/groupeventcalendar/monthview/{the_year}/{the_month}/{group_print_id}/'">
+      {intl-month}
+      </span>
+      <span class="gcalSwitchBox" onmouseover="this.className='gcalSwitchBoxSelect'"
+      onmouseout="this.className='gcalSwitchBox'"
+      onclick="location.href = '{www_dir}{index}/groupeventcalendar/monthview/{the_year}/{group_print_id}/'">
+      {intl-year}
+      </span>
+      <span class="gcalSwitchBox" onmouseover="this.className='gcalSwitchBoxSelect'"
+      onmouseout="this.className='gcalSwitchBox'"
+      onclick="location.href = '{www_dir}{index}/groupeventcalendar/dayview/{year_cur}/{month_cur}/{day_cur}/{group_print_id}/'">
+      {intl-today}
+      </span>
 
  	 <!-- BEGIN valid_editor_tpl -->
- 	 <hr noshade size="4" />
-	 <input class="stdbutton" type="submit" name="GoNew" value="{intl-new_event}">&nbsp;
-	 <input class="stdbutton" type="submit" name="DeleteEvents" value="{intl-delete_events}">
+	<!-- <input class="stdbutton" type="submit" name="GoNew" value="{intl-new_event}">&nbsp;
+	 <input class="stdbutton" type="submit" name="DeleteEvents" value="{intl-delete_events}"> -->
 	<!-- END valid_editor_tpl -->
 	</td>
 </tr>
 </table>
-
-<br />
-
+</td>
+</tr>
+</table>
 <table width="100%" border="0" cellspacing="0" cellpadding="0" style="border: 1px solid gray;">
 <!-- BEGIN day_view_long_date_header_tpl -->
 <tr>
@@ -174,3 +216,34 @@
 </table></td></tr>
  </table>
 </form>
+<script language="javascript">
+  var mthDiv = document.getElementById("gcalDayViewMonthTableHeader");
+  var mtDiv   = document.getElementById("gcalDayViewMonthTable");
+  Drag.init(mthDiv, mtDiv);
+  Drag.init(document.getElementById("gcalDayViewSortBy"));
+divX=0
+divY=0
+function getMouse(fnEvent, type)
+{
+    if(typeof(fnEvent.clientX)=='number' && typeof(fnEvent.clientY)=='number')
+		{
+		divX = fnEvent.clientX
+		divY = fnEvent.clientY
+		}
+	else if(typeof(fnEvent.x)=='number' && typeof(fnEvent.y)=='number')
+		{
+		divX = fnEvent.x
+		divY = fnEvent.y
+		}
+	else
+		{
+		divX = 500
+		divY = 500
+		}
+  if (type == 'x')
+   return divX;
+  else
+   return divY;
+}
+
+</script>

@@ -69,8 +69,15 @@ $Language = $ini->read_var( "eZGroupEventCalendarMain", "Language" );
 $StartTimeStr = $ini->read_var( "eZGroupEventCalendarMain", "DayStartTime" );
 $StopTimeStr = $ini->read_var( "eZGroupEventCalendarMain", "DayStopTime" );
 //$IntervalStr = $ini->read_var( "eZGroupEventCalendarMain", "DayInterval" );
-$IntervalStr = '00:15';
+$IntervalStr = '00:15'; // for future refactoring, this doesn't need to be preg'ed
 $Locale = new eZLocale( $Language );
+
+$curDate = new eZDate();
+//die('day ' .$curDate->year().$curDate->month().$curDate->day());
+//Var_Dump::display($curDate);
+$curYear = $curDate->year();
+$curMonth = $curDate->month();
+$curDay = $curDate->day();
 
 $user = eZUser::currentUser();
 $session =& eZSession::globalSession();
@@ -185,7 +192,7 @@ if( $user )
 				elseif( $tmpGroup->id() == 0 )
 				{
 					$editor = true;
-					break;				
+					break;
 				}
 			}
 		}
@@ -225,7 +232,9 @@ if( $user )
     $t->set_var( "year_number", $Year );
     $t->set_var( "day_number", $Day );
     $t->set_var( "long_date", $Locale->format( $date, false ) );
-
+    $t->set_var( "year_cur", $curYear);
+    $t->set_var( "month_cur", $curMonth);
+    $t->set_var( "day_cur", $curDay);
 
 	if ( $tmpGroup->id() != 0 )
 	{
@@ -326,6 +335,9 @@ if( $user )
       $t->set_var("class_name", 'gcalDayViewTopBar');
      $t->parse("day_links","day_links_tpl", true);
     }
+    $t->set_var("the_month", $date->month());
+    $t->set_var("the_day", $date->day());
+    $t->set_var("the_year", $date->year());
    //  Var_Dump::display($intervalArray);
     // increase schedule span to fit early/late events
     $midNight = new eZTime();
@@ -763,7 +775,7 @@ if( $user )
             }
             else
             {
-                $t->set_var( "td_class", "bglight" );                
+                $t->set_var( "td_class", "bglight" );
                 $t->parse( "day", "empty_day_tpl", true );
             }
         }
@@ -856,7 +868,11 @@ function getEventHeight( $event )
   $dur = $event->duration();
   $min = $dur->secondsElapsed() / 60;
   $ret =  $min - 30;
-  echo $event->name() . " $ret<br>";
+  $starttime = $event->startTime();
+  $stoptime = $event->stopTime();
+
+ // if ($starttime->hour() == 0 && $stoptime->hour() == 23 && $starttime->minute() == '00' && $stoptime->minute() == '00')
+  // $ret = $ret + 60;
   return $ret;
 }
 
