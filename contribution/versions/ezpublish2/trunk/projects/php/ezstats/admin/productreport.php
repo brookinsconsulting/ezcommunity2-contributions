@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: productreport.php,v 1.1 2001/01/11 16:17:07 bf Exp $
+// $Id: productreport.php,v 1.2 2001/01/12 16:07:23 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <11-Jan-2001 14:47:56 bf>
@@ -34,6 +34,9 @@ include_once( "classes/ezdate.php" );
 include_once( "ezstats/classes/ezpageview.php" );
 include_once( "ezstats/classes/ezpageviewquery.php" );
 
+include_once( "eztrade/classes/ezproduct.php" );
+include_once( "eztrade/classes/ezorder.php" );
+
 $t = new eZTemplate( "ezstats/admin/" . $ini->read_var( "eZStatsMain", "AdminTemplateDir" ),
                      "ezstats/admin/intl", $Language, "productreport.php" );
 
@@ -43,31 +46,82 @@ $t->set_file( array(
     "product_report_tpl" => "productreport.tpl"
     ) );
 
-$t->set_block( "product_report_tpl", "monst_viewed_product_tpl", "monst_viewed_product" );
+$t->set_block( "product_report_tpl", "most_viewed_product_tpl", "most_viewed_product" );
+$t->set_block( "product_report_tpl", "most_added_to_cart_products_tpl", "most_added_to_cart_products" );
+$t->set_block( "product_report_tpl", "most_bought_products_tpl", "most_bought_products" );
+
 
 $query = new eZPageViewQuery();
 
+$tmpProduct = new eZProduct();
+
+// most viewed products
 $productReport =& $query->topProductRequests( );
 
-
-
+$productArray = array();
 foreach ( $productReport as $product )
 {
-    $productArray[] = 
-    $t->set_var( "product_name", $product["URI"] );
-    $t->set_var( "view_count", $product["Count"] );
-
-    $t->parse( "monst_viewed_product", "monst_viewed_product_tpl", true );
+    if ( preg_match( "#^/trade/productview/(.*?)/#", $product["URI"], $regArray ) )
+    {
+        $idx = $regArray[1];
+        
+        $count = $productArray[$idx]["Count"];
+        
+        $productArray[$idx]["Count"] = $count + $product["Count"];
+        $productArray[$idx]["ID"] = $regArray[1];
+    }
 }
 
+foreach ( $productArray as $productItem )
+{
+    $t->set_var( "product_name", $tmpProduct->productName( $productItem["ID"] ) );
+    $t->set_var( "view_count", $productItem["Count"] );
+
+    $t->parse( "most_viewed_product", "most_viewed_product_tpl", true );
+}
+
+// mostly added to cart
+
+$productReport =& $query->topProductAddToCart( );
+
+$productArray = array();
 foreach ( $productReport as $product )
 {
-    $t->set_var( "product_name", $product["URI"] );
-    $t->set_var( "view_count", $product["Count"] );
-
-    $t->parse( "monst_viewed_product", "monst_viewed_product_tpl", true );
+    if ( preg_match( "#^/trade/cart/add/(.*?)/#", $product["URI"], $regArray ) )
+    {
+        $idx = $regArray[1];
+        
+        $count = $productArray[$idx]["Count"];
+        
+        $productArray[$idx]["Count"] = $count + $product["Count"];
+        $productArray[$idx]["ID"] = $regArray[1];
+    }
 }
 
+foreach ( $productArray as $productItem )
+{
+    $t->set_var( "product_name", $tmpProduct->productName( $productItem["ID"]  ) );
+    $t->set_var( "add_count", $productItem["Count"] );
+
+    $t->parse( "most_added_to_cart_products", "most_added_to_cart_products_tpl", true );
+}
+
+// Most bought product
+
+$order = new eZOrder();
+$productReport =& $order->mostPopularProduct();
+
+foreach ( $productReport as $productItem )
+{
+    $t->set_var( "product_name", $tmpProduct->productName( $productItem["ProductID"]  ) );
+
+    $t->set_var( "buy_count", $productItem["Count"] );
+    $t->set_var( "total_buy_count", $productItem["RealCount"] );
+
+    $t->parse( "most_bought_products", "most_bought_products_tpl", true );
+}
+
+    
 $t->set_var( "this_month", $Month );
 $t->set_var( "this_year", $Year );
 

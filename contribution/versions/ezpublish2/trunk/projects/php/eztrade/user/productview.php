@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: productview.php,v 1.12 2001/01/08 17:29:45 bf Exp $
+// $Id: productview.php,v 1.13 2001/01/12 16:07:23 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <24-Sep-2000 12:20:32 bf>
@@ -27,6 +27,7 @@ include_once( "classes/INIFile.php" );
 include_once( "classes/eztemplate.php" );
 include_once( "classes/ezlocale.php" );
 include_once( "classes/ezcurrency.php" );
+include_once( "classes/eztexttool.php" );
 
 $ini = new INIFIle( "site.ini" );
 

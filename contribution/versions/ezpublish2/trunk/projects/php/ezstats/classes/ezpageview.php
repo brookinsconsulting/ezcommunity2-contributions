@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezpageview.php,v 1.1 2001/01/07 12:31:48 bf Exp $
+// $Id: ezpageview.php,v 1.2 2001/01/12 16:07:23 bf Exp $
 //
 // Definition of eZPageView class
 //
@@ -238,7 +238,6 @@ class eZPageView
                 $this->RefererURLID =& $pageview_array[0][ "RefererURLID" ];
                 $this->RequestPageID =& $pageview_array[0][ "RequestPageID" ];
 
-
                 // fetch the remote IP and domain
                 $this->Database->array_query( $pageview_array,
                 "SELECT IP, HostName FROM eZStats_RemoteHost WHERE ID='$this->RemoteHostID'" );
@@ -326,6 +325,21 @@ class eZPageView
     }
     
 
+    /*!
+      Returns the requested page by request page id.
+    */
+    function requestPageByID( $id )
+    {
+        $this->dbInit();
+        
+        // fetch the requested page
+        $this->Database->array_query( $pageview_array,
+        "SELECT URI FROM eZStats_RequestPage WHERE ID='$id'" );
+        
+        return $pageview_array[0]["URI"];
+    }
+    
+    
     /*!
       \private
       Open the database for read and write. Gets all the database information from site.ini.

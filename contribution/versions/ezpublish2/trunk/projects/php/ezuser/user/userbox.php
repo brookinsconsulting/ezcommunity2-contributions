@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: userbox.php,v 1.17 2001/01/11 13:51:05 ce Exp $
+// $Id: userbox.php,v 1.18 2001/01/12 16:07:23 bf Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <20-Sep-2000 13:32:11 ce>
@@ -61,7 +61,6 @@ if ( !$user )
     {
         $t->set_var( "user_edit_url", "/user/user/new/" );
     }
-
 
     if ( preg_match( "#^/user/user/login.*#", $REQUEST_URI  ) )
     {

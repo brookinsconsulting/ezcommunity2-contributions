@@ -33,7 +33,7 @@
 <!-- wishlist.tpl -->
 
 
-<body onLoad="MM_preloadImages('/eztrade/user/images/slettminimrk.gif')">
+<div onLoad="MM_preloadImages('/eztrade/user/images/slettminimrk.gif')" />
 
 <form action="/trade/wishlist/" method="post">
 
@@ -102,6 +102,5 @@ onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezuser{wishlist_item
 	</td>
 </td>
 </table>
-
 
 </form>

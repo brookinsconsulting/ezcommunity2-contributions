@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: overview.php,v 1.2 2001/01/07 15:56:31 bf Exp $
+// $Id: overview.php,v 1.3 2001/01/12 16:07:23 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <05-Jan-2001 11:23:51 bf>
@@ -57,6 +57,24 @@ $t->set_var( "this_year", $today->year() );
 $t->set_var( "this_month", $today->month() );
 
 $t->set_var( "total_pages_this_month", $pagesThisMonth );
+
+
+$exitPages =& $query->topExitPage();
+
+$exitPageArray = array();
+
+foreach ( $exitPages as $page )
+{
+    $exitPageArray[$page]["Count"] += 1;
+    $exitPageArray[$page]["PageID"] = $page;
+}
+
+$pageView = new eZPageView();
+foreach ( $exitPageArray as $exitPage )
+{
+    print( $exitPage["Count"] . " ". $pageView->requestPageByID( $exitPage["PageID"] ). " <br>" );
+}
+    
 
 $t->pparse( "output", "overview_tpl" );
 

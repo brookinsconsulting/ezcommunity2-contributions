@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: admincheck.php,v 1.5 2000/12/13 11:04:28 bf Exp $
+// $Id: admincheck.php,v 1.6 2001/01/12 16:07:23 bf Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <26-Oct-2000 15:11:17 ce>
@@ -23,9 +23,14 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, US
 //
 
+include_once( "ezuser/classes/ezuser.php" );
+
+//  $user = new eZUser();
+//  $user = $user->currentUser();
+
 $user = eZUser::currentUser();
 
-if ( !$user )
+if ( $user == false )
 {
     Header( "Location: /user/login" );
     exit();
@@ -37,6 +42,7 @@ if ( !eZPermission::checkPermission( $user, "eZUser", "AdminLogin" ) )
     Header( "Location: /user/login" );
     exit();
 }
+
 
 ?>
 

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezorder.php,v 1.14 2001/01/06 16:21:01 bf Exp $
+// $Id: ezorder.php,v 1.15 2001/01/12 16:07:23 bf Exp $
 //
 // Definition of eZOrder class
 //
@@ -517,6 +517,32 @@ class eZOrder
        return $retPrice;       
     }
 
+    /*!
+      Returns the most request bought products.
+    */
+    function mostPopularProduct()
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+       $ret = array();
+       $this->dbInit();
+
+       $this->Database->array_query( $product_array,
+       "SELECT ProductID, Count(ProductID) AS Count, Sum( Count ) AS RealCount
+        FROM eZTrade_OrderItem GROUP BY ProductID
+        ORDER BY RealCount DESC" );
+       
+       foreach ( $product_array as $item )
+       {
+           $ret[] = array( "ProductID" => $item["ProductID"],
+                           "Count" => $item["Count"],
+                           "RealCount" => $item["RealCount"] );
+       }
+       
+        return $ret;        
+    }
+    
     /*!
       \private
       Open the database for read and write. Gets all the database information from site.ini.

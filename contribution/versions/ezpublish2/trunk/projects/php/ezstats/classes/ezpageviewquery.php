@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezpageviewquery.php,v 1.4 2001/01/07 17:44:48 bf Exp $
+// $Id: ezpageviewquery.php,v 1.5 2001/01/12 16:07:23 bf Exp $
 //
 // Definition of eZPageViewQuery class
 //
@@ -153,7 +153,8 @@ class eZPageViewQuery
     /*!
       Returns the visitors which has viewed most pages.
 
-      The files are returned as an assiciative array of array( ID => $id, IP => $ip, HostName => $hostName, Count => $count ).
+      The files are returned as an assiciative array of
+      array( ID => $id, IP => $ip, HostName => $hostName, Count => $count ).
     */
     function &topVisitors( $limit=20 )
     {
@@ -171,9 +172,22 @@ class eZPageViewQuery
         
         for ( $i=0; $i<count($visitor_array); $i++ )
         {
-            $return_array[$i] = array( "ID" => $visitor_array[$i]["ID"],
-                                       "IP" => $visitor_array[$i]["IP"],
-                                       "HostName" => $visitor_array[$i]["HostName"],
+            $id = $visitor_array[$i]["ID"];
+            $ip = $visitor_array[$i]["IP"];
+            $hostName = $visitor_array[$i]["HostName"];
+
+            // check if the domain name is fetched, if not try to fetch it 
+            // and store the result in the table.
+            if ( $hostName = "NULL" )
+            {
+                $hostName =& gethostbyaddr( $ip );
+                $this->Database->query( "UPDATE eZStats_RemoteHost SET HostName='$hostName'
+                                         WHERE ID='$id'" );
+            }            
+            
+            $return_array[$i] = array( "ID" => $id,
+                                       "IP" => $ip,
+                                       "HostName" => $hostName,
                                        "Count" => $visitor_array[$i]["Count"] );
         }
         
@@ -242,6 +256,64 @@ class eZPageViewQuery
         
         return $return_array;
     }
+
+    /*!
+      Returns the most frequent viewed products.
+    */
+    function &topProductRequests( $limit=20 )
+    {
+        $this->dbInit();
+
+        $return_array = array();
+        $visitor_array = array();
+        
+        $this->Database->array_query( $visitor_array,
+        "SELECT count(eZStats_PageView.ID) AS Count, eZStats_RequestPage.ID, eZStats_RequestPage.URI
+         FROM eZStats_PageView, eZStats_RequestPage
+         WHERE eZStats_PageView.RequestPageID=eZStats_RequestPage.ID
+         AND eZStats_RequestPage.URI LIKE '/trade/productview/%'
+         GROUP BY eZStats_RequestPage.ID
+         ORDER BY Count DESC
+         LIMIT 0,$limit" );
+        
+        for ( $i=0; $i<count($visitor_array); $i++ )
+        {
+            $return_array[$i] = array( "ID" => $visitor_array[$i]["ID"],
+                                       "URI" => $visitor_array[$i]["URI"],
+                                       "Count" => $visitor_array[$i]["Count"] );
+        }
+        
+        return $return_array;
+    }
+
+    /*!
+      Returns the most frequent products added to the cart.
+    */
+    function &topProductAddToCart( $limit=20 )
+    {
+        $this->dbInit();
+
+        $return_array = array();
+        $visitor_array = array();
+        
+        $this->Database->array_query( $visitor_array,
+        "SELECT count(eZStats_PageView.ID) AS Count, eZStats_RequestPage.ID, eZStats_RequestPage.URI
+         FROM eZStats_PageView, eZStats_RequestPage
+         WHERE eZStats_PageView.RequestPageID=eZStats_RequestPage.ID
+         AND eZStats_RequestPage.URI LIKE '/trade/cart/add/%'
+         GROUP BY eZStats_RequestPage.ID
+         ORDER BY Count DESC
+         LIMIT 0,$limit" );
+        
+        for ( $i=0; $i<count($visitor_array); $i++ )
+        {
+            $return_array[$i] = array( "ID" => $visitor_array[$i]["ID"],
+                                       "URI" => $visitor_array[$i]["URI"],
+                                       "Count" => $visitor_array[$i]["Count"] );
+        }
+        
+        return $return_array;
+    }
     
     /*!
       Returns the statistics for one month.
@@ -285,6 +357,41 @@ class eZPageViewQuery
         
         return $return_array;
     }
+
+    /*!
+      Returns the top exit 
+    */
+    function &topExitPage( )
+    {
+        $this->dbInit();
+
+        $return_array = array();
+        $visitor_array = array();
+        
+        $this->Database->array_query( $visitor_array,
+        "SELECT Hit.ID, Page.URI, Page.ID AS PageID, Hit.RemoteHostID, Concat( Year(Hit.Date), DayOfYear(Hit.Date)) AS Date
+         FROM eZStats_PageView AS Hit, eZStats_RequestPage AS Page
+         WHERE Hit.RequestPageID=Page.ID
+         ORDER BY Hit.RemoteHostID, Hit.Date ASC" );
+        
+        foreach ( $visitor_array as $visit )
+        {
+//              print( $visit["Date"] . " " .$visit["RemoteHostID"]. " ". $visit["URI"]  . " " . $visit["PageID"]. "<br>" );
+            
+//              $return_array[$visit["Date"]][$visit["RemoteHostID"]] = $visit["PageID"];
+            
+            $idx = $visit["Date"] . $visit["RemoteHostID"];
+            
+            $return_array[$idx] = $visit["PageID"];
+
+        }
+        
+        return $return_array;
+        
+    }
+    
+
+    
     
     /*!
       \private

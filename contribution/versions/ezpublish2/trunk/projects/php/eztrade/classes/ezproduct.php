@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezproduct.php,v 1.27 2001/01/08 17:29:45 bf Exp $
+// $Id: ezproduct.php,v 1.28 2001/01/12 16:07:23 bf Exp $
 //
 // Definition of eZProduct class
 //
@@ -1015,7 +1015,28 @@ class eZProduct
                                      WHERE ProductID='$this->ID'" );
             
     }
-    
+
+
+    /*!
+      Returns the name of the product with the given id.
+    */
+    function productName( $id )
+    {
+        $this->dbInit();
+        $ret = false;
+        
+        if ( $id != "" )
+        {
+            $this->Database->array_query( $product_array, "SELECT * FROM eZTrade_Product WHERE ID='$id'" );
+            
+            if( count( $product_array ) == 1 )
+            {
+                $ret =& $product_array[0][ "Name" ];
+            }
+        }
+        
+        return $ret;
+    }
     
     /*!
       \private

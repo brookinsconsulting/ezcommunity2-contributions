@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eztemplate.php,v 1.13 2000/10/12 15:43:06 bf-cvs Exp $
+// $Id: eztemplate.php,v 1.14 2001/01/12 16:07:23 bf Exp $
 //
 // Definition of eZTemplate class
 //
@@ -21,7 +21,7 @@ include_once( "classes/INIFile.php" );
 /*!
   This class provides functions for using templates with internationalized language.
   Template variables which start with intl- are looked up in the language file and
-  replaced with text in the desired language.
+  replaced with text in the described language.
     
 */
 
