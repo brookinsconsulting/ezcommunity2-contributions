@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezdatetime.php,v 1.11 2000/11/02 17:21:23 bf-cvs Exp $
+// $Id: ezdatetime.php,v 1.12 2000/11/15 14:04:15 bf-cvs Exp $
 //
 // Definition of eZCompany class
 //
@@ -270,6 +270,39 @@ class eZDateTime
         {
             print( "<b>Error:</b> eZDateTime::setMySQLTimeStamp() received wrong MySQL timestamp format." );
         }
+    }
+
+    /*!
+      Returns the MySQL timestamp equivalent to the date and time stored
+      in the object.
+    */
+    function mysqlTimeStamp()
+    {
+        $year = $this->year();
+        
+        $month = $this->addZero( $this->month() );
+        $day = $this->addZero( $this->day() );
+        
+        $hour = $this->addZero( $this->hour() );
+        $minute = $this->addZero( $this->minute() );
+        $second = $this->addZero( $this->second() );                
+
+        return $year . $month . $day . $hour . $minute . $second;
+    }
+
+    /*!
+      \private
+      Adds a "0" infront of the value if it's below 10.
+    */
+    function addZero( $value )
+    {
+        $ret = $value;
+        if ( $ret < 10 )
+        {
+            $ret = "0". $ret;
+        }
+        
+        return $ret;
     }
     
     

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eztechrenderer.php,v 1.38 2000/11/09 15:01:46 bf-cvs Exp $
+// $Id: eztechrenderer.php,v 1.39 2000/11/15 14:04:17 bf-cvs Exp $
 //
 // Definition of eZTechRenderer class
 //
@@ -554,7 +554,8 @@ class eZTechRenderer
         // pre text
         if ( ( $paragraph->name == "pre" ) || ( $paragraph->name == "verbatim" ) )
         {
-            $pageContent .= "\n<pre>" . $paragraph->children[0]->content . "</pre>\n";
+            $pageContent .= "<br clear=\"all\"><p><table width=\"100%\" cellspacing=\"0\" cellpadding=\"4\" border=\"0\"><tr><td bgcolor=\"#f0f0f0\"><pre>" .
+             $paragraph->children[0]->content . "</pre></td></tr></table></p>";
         }
         return $pageContent;
     }
@@ -577,12 +578,15 @@ class eZTechRenderer
 
         // comments
         $string = ereg_replace ( "(//[^\n]+)", "<font color=\"orange\">\\1</font>", $string );
-        $string = ereg_replace ( "(/\*[^\*]+\*/)", "<font color=\"orange\">\\1</font>", $string );
+        
+        $string = preg_replace ( "#(/\*.+?\*/)#ms", "<font color=\"orange\">\\1</font>", $string );
+
+        $string = preg_replace ( "#(\\$.+?)[\s|\;]#", "<font color=\"#00aaaa\">\\1</font>", $string );        
 
         $reservedWords = array( "/(function)/",
                                 "/( as )/",
                                 "/(class )/",
-                                "/( var )/",
+                                "/(var )/",
                                 "/(^var )/",
                                 "/( for)/"
                                 );
