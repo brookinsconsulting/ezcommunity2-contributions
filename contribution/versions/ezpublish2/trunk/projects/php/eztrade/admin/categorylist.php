@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: categorylist.php,v 1.26 2001/08/21 11:21:40 ce Exp $
+// $Id: categorylist.php,v 1.27 2001/08/28 15:56:21 ce Exp $
 //
 // Created on: <13-Sep-2000 14:56:11 bf>
 //
@@ -186,12 +186,56 @@ foreach ( $productList as $product )
     $t->set_var( "product_name", $product->name() );
 
     $t->set_var( "product_price", "" );
+    $t->set_var( "product_price_inc_vat", "" );
     if ( $product->hasPrice() )
     {
         $price = new eZCurrency( $product->price() );
 
+        $priceIncVAT = $product->priceIncVAT();
+        $priceIncVAT = new eZCurrency( $priceIncVAT["Price"] );
+
         $t->set_var( "product_price", $locale->format( $price ) );
+        $t->set_var( "product_price_inc_vat", $locale->format( $priceIncVAT ) );        
     }
+    else
+    {
+        $priceArray = "";
+        $priceArray = "";
+        $options =& $product->options();
+        if ( count( $options ) == 1 )
+        {
+            $option = $options[0];
+            if ( get_class( $option ) == "ezoption" )
+            {
+                $optionValues =& $option->values();
+                if ( count( $optionValues ) > 1 )
+                {
+                    $i=0;
+                    foreach ( $optionValues as $optionValue )
+                    {
+                        $priceArray[$i] = $optionValue->price();
+                        $i++;
+                    }
+                    $high = max( $priceArray );
+                    $low = min( $priceArray );
+
+                    $lowIncVAT = $product->priceIncVAT( $low );
+                    $highIncVAT = $product->priceIncVAT( $high );
+
+                    $highIncVAT = new eZCurrency( $highIncVAT["Price"] );
+                    $lowIncVAT = new eZCurrency( $lowIncVAT["Price"] );
+
+                    $high = new eZCurrency( $high );
+                    $low = new eZCurrency( $low );
+
+                    $t->set_var( "product_price_inc_vat", $locale->format( $lowIncVAT ) . " - " . $locale->format( $highIncVAT ) );
+                    $t->set_var( "product_price", $locale->format( $low ) . " - " . $locale->format( $high ) );
+                }
+            }
+        }
+    }
+
+    
     $t->set_var( "product_active_item", "" );
     $t->set_var( "product_inactive_item", "" );
     if ( $product->showProduct() )

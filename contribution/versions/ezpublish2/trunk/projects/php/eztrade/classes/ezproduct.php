@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezproduct.php,v 1.77 2001/08/27 10:37:53 ce Exp $
+// $Id: ezproduct.php,v 1.78 2001/08/28 15:56:21 ce Exp $
 //
 // Definition of eZProduct class
 //
@@ -417,12 +417,14 @@ class eZProduct
 
 
     /*!
-      Returns the VAT value of the product.
-
-      If a value is given as argument this value is used for VAT calculation.
-      This is used in carts where you have multiple products and prices on options.
+     Obsolete. Use addVAT() or extractVAT() insted.
     */
     function &vat( $price="" )
+    {
+        return $this->extractVAT( $price );
+    }
+    
+    function &extractVAT( $price="" )
     {
        if ( $price == "" )
        {
@@ -439,6 +441,33 @@ class eZProduct
        {
            $value =& $vatType->value();
            $vat = ( $calcPrice / ( $value + 100  ) ) * $value;        
+       }
+       return $vat;
+    }
+
+    /*!
+      Returns the VAT value of the product.
+
+      If a value is given as argument this value is used for VAT calculation.
+      This is used in carts where you have multiple products and prices on options.
+    */
+    function &addVAT( $price="" )
+    {
+       if ( $price == "" )
+       {
+           $calcPrice = $this->Price;
+       }
+       else
+       {
+           $calcPrice = $price;
+       }
+       
+       $vatType =& $this->vatType();
+       $vat = 0;
+       if ( $vatType )
+       {
+           $value =& $vatType->value();
+           $vat = ( $calcPrice * $value ) / 100;
        }
        return $vat;
     }

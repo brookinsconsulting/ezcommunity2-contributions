@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ordersendt.php,v 1.36 2001/08/22 12:06:29 ce Exp $
+// $Id: ordersendt.php,v 1.37 2001/08/28 15:56:21 ce Exp $
 //
 // Created on: <06-Oct-2000 14:04:17 bf>
 //
@@ -336,18 +336,19 @@ $currency->setValue( $shippingCost );
 
 $t->set_var( "shipping_cost", $locale->format( $currency ) );
 
-if ( $ini->read_var( "eZTradeMain", "IncludeVAT" ) == "disabled" )
-{
-    $sum += $shippingCost;
-    $currency->setValue( $sum );
-    $t->set_var( "order_sum", $locale->format( $currency ) );
-}
-else
+if ( $ini->read_var( "eZTradeMain", "PricesIncludeVAT" ) == "enabled" )
 {
     if ( $vat )
         $sum = $sum + $shippingCost + $totalVAT + $shippingVAT;
     else
         $sum = $sum + $shippingCost;
+    $currency->setValue( $sum );
+    $t->set_var( "order_sum", $locale->format( $currency ) );
+
+}
+else
+{
+    $sum += $shippingCost;
     $currency->setValue( $sum );
     $t->set_var( "order_sum", $locale->format( $currency ) );
 }

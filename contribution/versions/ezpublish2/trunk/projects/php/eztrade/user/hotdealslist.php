@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: hotdealslist.php,v 1.19 2001/08/17 13:36:00 jhe Exp $
+// $Id: hotdealslist.php,v 1.20 2001/08/28 15:56:21 ce Exp $
 //
 // Created on: <12-Nov-2000 19:34:40 bf>
 //
@@ -35,6 +35,7 @@ $hotDealColumns  = $ini->read_var( "eZTradeMain", "HotDealColumns" );
 $hotDealImageWidth  = $ini->read_var( "eZTradeMain", "HotDealImageWidth" );
 $hotDealImageHeight  = $ini->read_var( "eZTradeMain", "HotDealImageHeight" );
 $ShowPriceGroups = $ini->read_var( "eZTradeMain", "PriceGroupsEnabled" ) == "true";
+$PricesIncludeVAT = $ini->read_var( "eZTradeMain", "PricesIncludeVAT" );
 
 include_once( "eztrade/classes/ezproduct.php" );
 include_once( "eztrade/classes/ezproductcategory.php" );
@@ -169,17 +170,26 @@ foreach ( $productList as $product )
         if ( $ShowPriceGroups and $PriceGroup > 0 )
         {
             $price = eZPriceGroup::correctPrice( $product->id(), $PriceGroup );
+            $priceIncVAT = $price + $product->addVAT( $price );
             if ( $price )
             {
                 $found_price = true;
                 $price = new eZCurrency( $price );
-            }
+                $priceIncVAT = new eZCurrency( $priceIncVAT );
+             }
         }
         if ( !$found_price )
         {
             $price = new eZCurrency( $product->price() );
+            $priceIncVAT = $product->price() + $product->addVAT( $product->price() );
+            $priceIncVAT = new eZCurrency( $priceIncVAT );
         }
-        $t->set_var( "product_price", $locale->format( $price ) );        
+
+        if ( $PricesIncludeVAT == "enabled" )
+            $t->set_var( "product_price", $locale->format( $priceIncVAT ) );
+        else
+            $t->set_var( "product_price", $locale->format( $price ) );
+
         $t->parse( "price", "price_tpl" );
     }
     else

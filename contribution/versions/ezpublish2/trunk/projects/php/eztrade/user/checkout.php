@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: checkout.php,v 1.76 2001/08/24 18:01:30 br Exp $
+// $Id: checkout.php,v 1.77 2001/08/28 15:56:21 ce Exp $
 //
 // Created on: <28-Sep-2000 15:52:08 bf>
 //
@@ -478,7 +478,7 @@ $can_checkout = true;
 
     // Find the correct price.
     // Check if the site want VAT included or not.
-    if ( $ini->read_var( "eZTradeMain", "IncludeVAT" ) == "disabled" )
+    if ( $ini->read_var( "eZTradeMain", "PricesIncludeVAT" ) == "enabled" )
     {
         $t->set_var( "include_vat", "false" );
         $sum += $shippingCost;

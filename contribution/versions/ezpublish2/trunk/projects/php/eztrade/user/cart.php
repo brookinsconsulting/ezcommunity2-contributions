@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: cart.php,v 1.44 2001/08/27 11:50:56 ce Exp $
+// $Id: cart.php,v 1.45 2001/08/28 15:56:21 ce Exp $
 //
 // Created on: <27-Sep-2000 11:57:49 bf>
 //
@@ -40,6 +40,7 @@ $ShowNamedQuantity = $ini->read_var( "eZTradeMain", "ShowNamedQuantity" ) == "tr
 $ShowPriceGroups = $ini->read_var( "eZTradeMain", "PriceGroupsEnabled" ) == "true";
 $RequireQuantity = $ini->read_var( "eZTradeMain", "RequireQuantity" ) == "true";
 $ShowOptionQuantity = $ini->read_var( "eZTradeMain", "ShowOptionQuantity" ) == "true";
+$PricesIncludeVAT = $ini->read_var( "eZTradeMain", "PricesIncludeVAT" );
 
 include_once( "eztrade/classes/ezproduct.php" );
 include_once( "eztrade/classes/ezoption.php" );
@@ -449,8 +450,15 @@ foreach ( $items as $item )
     $price = $priceobj->value();    
     $currency->setValue( $price );
     $sum = $sum + $price;
-    
-    $totalVAT += $product->vat( $price );
+
+    if ( $PricesIncludeVAT == "enabled" )
+    {
+        $totalVAT += $product->addVAT( $price );
+    }
+    else
+    {
+        $totalVAT += $product->extractVAT( $price );
+    }
 
     $t->set_var( "product_id", $product->id() );
     $t->set_var( "product_name", $product->name() );
@@ -477,19 +485,19 @@ $t->set_var( "shipping_sum", $locale->format( $currency ) );
 // calculate the vat of the shiping
 $shippingVAT = $cart->shippingVAT( $shippingType );
 
-if ( $ini->read_var( "eZTradeMain", "IncludeVAT" ) == "disabled" )
-{
-    $currency->setValue( $sum + $shippingCost );
-    $t->set_var( "cart_sum", $locale->format( $currency ) );
-    $t->set_var( "price_inc_vat", "" );
-    $t->parse( "price_ex_vat", "price_ex_vat_tpl" ); 
-}
-else
+if ( $PricesIncludeVAT == "enabled" )
 {
     $currency->setValue( $sum + $totalVAT + $shippingVAT + $shippingCost );
     $t->set_var( "cart_sum", $locale->format( $currency ) );
     $t->set_var( "price_ex_vat", "" );
     $t->parse( "price_inc_vat", "price_inc_vat_tpl" ); 
+}
+else
+{
+    $currency->setValue( $sum + $shippingCost );
+    $t->set_var( "cart_sum", $locale->format( $currency ) );
+    $t->set_var( "price_inc_vat", "" );
+    $t->parse( "price_ex_vat", "price_ex_vat_tpl" ); 
 }
 
 

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: productlist.php,v 1.27 2001/08/24 07:21:08 ce Exp $
+// $Id: productlist.php,v 1.28 2001/08/28 15:56:21 ce Exp $
 //
 // Created on: <23-Sep-2000 14:46:20 bf>
 //
@@ -37,6 +37,7 @@ $Language = $ini->read_var( "eZTradeMain", "Language" );
 $Limit = $ini->read_var( "eZTradeMain", "ProductLimit" );
 $ShowPriceGroups = $ini->read_var( "eZTradeMain", "PriceGroupsEnabled" ) == "true";
 $RequireUserLogin = $ini->read_var( "eZTradeMain", "RequireUserLogin" ) == "true";
+$PricesIncludeVAT = $ini->read_var( "eZTradeMain", "PricesIncludeVAT" );
 
 $CapitalizeHeadlines = $ini->read_var( "eZArticleMain", "CapitalizeHeadlines" );
 
@@ -179,8 +180,7 @@ foreach ( $productList as $product )
         if ( $ShowPriceGroups and $PriceGroup > 0 )
         {
             $price = eZPriceGroup::correctPrice( $product->id(), $PriceGroup );
-            $priceIncVAT = $product->priceIncVAT( $price );
-            $priceIncVAT = $price + $priceIncVAT[1];
+            $priceIncVAT = $price + $product->addVAT( $price );
             if ( $price )
             {
                 $found_price = true;
@@ -191,11 +191,21 @@ foreach ( $productList as $product )
         if ( !$found_price )
         {
             $price = new eZCurrency( $product->price() );
-            $priceIncVAT = $product->priceIncVAT();
-            $priceIncVAT = new eZCurrency( $priceIncVAT[0] );
+            
+            $priceIncVAT = $product->price() + $product->addVAT( $product->price() );
+            $priceIncVAT = new eZCurrency( $priceIncVAT );
         }
-        $t->set_var( "product_price", $locale->format( $price ) );
-        $t->set_var( "product_price_inc_vat", $locale->format( $priceIncVAT ) );        
+
+        if ( $PricesIncludeVAT == "enabled" )
+        {
+            $t->set_var( "product_price", $locale->format( $priceIncVAT ) );
+        }
+        else
+        {
+            $t->set_var( "product_price", $locale->format( $price ) );
+        }
+
+
         $t->parse( "price", "price_tpl" );
     }
     else
@@ -230,19 +240,34 @@ foreach ( $productList as $product )
                         }
                         $i++;
                     }
-                    $high = new eZCurrency( max( $priceArray ) );
-                    $low = new eZCurrency( min( $priceArray ) );
+                    $high = max( $priceArray );
+                    $low = min( $priceArray );
 
-                    $lowIncVAT = $product->priceIncVAT( $low );
-                    $highIncVAT = $product->priceIncVAT( $high );
+                    if ( $PricesIncludeVAT == "enabled" )
+                    {
+                        $lowIncVAT = $low + $product->addVAT( $low );
+                        $highIncVAT = $high + $product->addVAT( $high );
+                        
+                        $highIncVAT = new eZCurrency( $highIncVAT );
+                        $lowIncVAT = new eZCurrency( $lowIncVAT );
+
+                        $t->set_var( "product_price", $locale->format( $lowIncVAT ) . " - " . $locale->format( $highIncVAT ) );
+                    }
+                    else
+                    {
+                        $high = new eZCurrency( $high );
+                        $low = new eZCurrency( $low );
+
+                        $t->set_var( "product_price", $locale->format( $low ) . " - " . $locale->format( $high ) );
+
+                    }
                     
-                    $t->set_var( "price_inc_vat", $locale->format( $lowIncVAT ) . " - " . $locale->format( $highIncVAT ) );
-                    $t->set_var( "price", $locale->format( $low ) . " - " . $locale->format( $high ) );
+                    $t->parse( "price", "price_tpl" );
                 }
             }
         }
         else
-            $t->set_var( "price", "" );
+            $t->set_var( "product_price", "" );
     }
     
     $t->set_var( "category_id", $category->id() );
