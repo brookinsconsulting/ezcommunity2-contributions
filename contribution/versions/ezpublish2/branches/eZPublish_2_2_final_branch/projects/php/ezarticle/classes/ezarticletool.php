@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezarticletool.php,v 1.12.2.1 2002/02/04 15:51:40 bf Exp $
+// $Id: ezarticletool.php,v 1.12.2.2 2002/02/20 10:37:11 jhe Exp $
 //
 // Definition of eZArticleTool class
 //
@@ -55,7 +55,7 @@ class eZArticleTool
         $files =& eZCacheFile::files( "ezarticle/cache/",
                                       array( array( "articleprint", "articleview", "articlestatic", "static", "view", "print"  ),
                                              $ArticleID, NULL, NULL ), "cache", "," );
-        foreach( $files as $file )
+        foreach ( $files as $file )
         {
             $file->delete();
         }
@@ -65,7 +65,7 @@ class eZArticleTool
                                              array_merge( 0, $CategoryID, $CategoryArray ),
                                              NULL, array( "", NULL ) ),
                                       "cache", "," );
-        foreach( $files as $file )
+        foreach ( $files as $file )
         {
             $file->delete();
         }
@@ -77,7 +77,7 @@ class eZArticleTool
                                              $ArticleID,
                                              NULL ),
                                       "cache", "," );
-        foreach( $files as $file )
+        foreach ( $files as $file )
         {
             $file->delete();
         }
@@ -86,7 +86,7 @@ class eZArticleTool
                                       array( "articleindex",
                                              NULL ),
                                       "cache", "," );
-        foreach( $files as $file )
+        foreach ( $files as $file )
         {
             $file->delete();
         }        
@@ -99,7 +99,7 @@ class eZArticleTool
                                              NULL,
                                              NULL ),
                                       "cache", "," );
-        foreach( $files as $file )
+        foreach ( $files as $file )
         {
             $file->delete();
         }
@@ -109,7 +109,7 @@ class eZArticleTool
                                              NULL,
                                              NULL ),
                                       "cache", "," );
-        foreach( $files as $file )
+        foreach ( $files as $file )
         {
             $file->delete();
         }
@@ -118,7 +118,7 @@ class eZArticleTool
                                       array( "smallarticlelist",
                                              NULL ),
                                       "cache", "," );
-        foreach( $files as $file )
+        foreach ( $files as $file )
         {
             $file->delete();
         }
@@ -128,7 +128,7 @@ class eZArticleTool
                                              NULL,
                                              NULL),
                                       "cache", "," );
-        foreach( $files as $file )
+        foreach ( $files as $file )
         {
             $file->delete();
         }
@@ -156,15 +156,15 @@ class eZArticleTool
         $subjectLine = $mailTemplate->Ini->read_var( "strings", "subject" );
         $subjectLine = $subjectLine . " " . $PublishSite;
 
-        $intro = eZTextTool::linesplit(strip_tags( $renderer->renderIntro( ) ), $PublishNoticePadding, 76 );
+        $intro = eZTextTool::linesplit( strip_tags( $renderer->renderIntro() ), $PublishNoticePadding, 76 );
 
-        $mailTemplate->set_var( "body", "$intro" );
-        $mailTemplate->set_var( "site", "$PublishSite" );
+        $mailTemplate->set_var( "body", $intro );
+        $mailTemplate->set_var( "site", $PublishSite );
         $mailTemplate->set_var( "title", $article->name( false ) );
         $mailTemplate->set_var( "author", $article->authorText( false ) );
-    
+        
         $mailTemplate->set_var( "link", "http://" . $SiteURL . "/article/articleview/" . $article->id() );
-
+        
         $bodyText = $mailTemplate->parse( "dummy", "mailtemplate" );
     
         // send a notice mail
@@ -184,32 +184,30 @@ class eZArticleTool
         $bulkMailCategories = array();
 
         $bulkMailCategory = $articleCategory->bulkMailCategory();
-        if( $bulkMailCategory != false )
+        if ( $bulkMailCategory != false )
             $bulkMailCategories[] = $bulkMailCategory;
 
-        foreach( $articleCategories as $articleCategory )
+        foreach ( $articleCategories as $articleCategory )
         {
             $bulkMailCategory = $articleCategory->bulkMailCategory();
-            if( $bulkMailCategory != false )
+            if ( $bulkMailCategory != false )
                 $bulkMailCategories[] = $bulkMailCategory;
         }
 
         
-        if( count( $bulkMailCategories ) > 0 ) // send a mail to this group
+        if ( count( $bulkMailCategories ) > 0 ) // send a mail to this group
         {
             $bulkmail = new eZBulkMail();
             $bulkmail->setOwner( eZUser::currentUser() );
 
-            $bulkmail->setSender( $PublishNoticeSender  ); // from NAME
+            $bulkmail->setSender( $PublishNoticeSender ); // from NAME
             $bulkmail->setSubject( $subjectLine );
             $bulkmail->setBodyText( $bodyText );
-
             $bulkmail->setIsDraft( false );
-    
-            $bulkmail->store();
+            $bulkmail->store( $article );
 
             $bulkmail->addToCategory( false );
-            foreach( $bulkMailCategories as $bulkMailCategory )
+            foreach ( $bulkMailCategories as $bulkMailCategory )
                 $bulkmail->addToCategory( $bulkMailCategory );
 
             $bulkmail->send();

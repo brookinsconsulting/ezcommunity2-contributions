@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: datasupplier.php,v 1.95.2.7 2002/02/13 10:14:35 bf Exp $
+// $Id: datasupplier.php,v 1.95.2.8 2002/02/20 10:37:11 jhe Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -326,8 +326,7 @@ switch ( $url_array[2] )
             $user = 0;
 
         $article = new eZArticle( $ArticleID );
-        $definition = $article->categoryDefinition( true );
-        $definition = $definition->id();
+        $definition = $article->categoryDefinition( false );
 
         $showComments = false;
         if ( $PageCaching == "enabled" )
