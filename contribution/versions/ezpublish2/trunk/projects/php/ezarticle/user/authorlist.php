@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: authorlist.php,v 1.1 2001/02/16 16:06:17 jb Exp $
+// $Id: authorlist.php,v 1.2 2001/02/16 16:13:44 jb Exp $
 //
 // Jan Borsodi <jb@ez.no>
 // Created on: <16-Feb-2001 14:54:04 amos>
@@ -31,6 +31,7 @@ include_once( "ezarticle/classes/ezarticle.php" );
 $ini =& $GLOBALS["GlobalSiteIni"];
 
 $Language = $ini->read_var( "eZArticleMain", "Language" );
+$Limit = $ini->read_var( "eZArticleMain", "AuthorLimit" );
 
 $t = new eZTemplate( "ezarticle/user/" . $ini->read_var( "eZArticleMain", "TemplateDir" ),
                      "ezarticle/user/intl/", $Language, "authorlist.php" );
@@ -43,7 +44,7 @@ $t->set_block( "author_list_tpl", "author_item_tpl", "author_item" );
 
 if ( !isset( $Offset ) )
     $Offset = 0;
-if ( !isset( $Limit ) )
+if ( !isset( $Limit ) or !is_numeric( $Limit ) )
     $Limit = 5;
 if ( !isset( $SortOrder ) )
     $SortOrder = "name";
