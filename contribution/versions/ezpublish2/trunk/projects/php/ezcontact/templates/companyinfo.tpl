@@ -9,7 +9,7 @@
 <table width="100%" cellspacing="0" cellpadding="3" border="0">
 <tr>
 <td bgcolor="#000000">
-	<table width="100%" cellspacing="0" cellpadding="7" border="0">
+	<table width="100%" cellspacing="0" cellpadding="5" border="0">
 	<tr>
 	<td bgcolor="#ffffff">
 	
@@ -21,7 +21,7 @@
 </tr>
 </table>
 
-<table width="100%" cellspacing="2" cellpadding="0" border="0">
+<table width="100%" cellspacing="4" cellpadding="0" border="0">
 <tr>
 	<td>
 
@@ -62,7 +62,7 @@
 <table width="100%" cellspacing="0" cellpadding="4" border="0">
 <tr>
 	<td bgcolor="#3c3c3c">
-		<font color="#ffffff"><b>&nbsp;Kommentar</b></font>		
+		<font color="#ffffff"><b>Kommentar</b></font>		
 	</td>
 </tr>
 <tr>
