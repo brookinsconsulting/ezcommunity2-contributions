@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: articleedit.php,v 1.24 2001/09/19 11:43:23 bf Exp $
+// $Id: articleedit.php,v 1.24.2.1 2001/11/01 14:13:22 master Exp $
 //
 // Created on: <18-Oct-2000 15:04:39 bf>
 //
@@ -174,6 +174,15 @@ if ( $Action == "Cancel" )
 
 $Language = $ini->read_var( "eZArticleMain", "Language" );
 
+// init the section
+if ( isset ($SectionIDOverride) )
+{
+    include_once( "ezsitemanager/classes/ezsection.php" );
+    
+    $sectionObject =& eZSection::globalSectionObject( $SectionIDOverride );
+    $sectionObject->setOverrideVariables();
+}
+
 $t = new eZTemplate( "ezarticle/user/" . $ini->read_var( "eZArticleMain", "TemplateDir" ),
                      "ezarticle/user/intl/", $Language, "articleedit.php" );
 
@@ -270,6 +279,7 @@ foreach ( $treeArray as $catItem )
     }
 }
 
+if ( isset ($SectionIDOverride) ) $t->set_var( "section_id", $SectionIDOverride );
 
 $t->pparse( "output", "article_edit_page_tpl" );
 
