@@ -133,11 +133,6 @@ switch ( $url_array[2] )
             }
             break;
             
-            default:
-            {
-                eZHTTPTool::header( "Location: /error/404?Info=" . errorPage( "forum_main", "/forum/categorylist/", 404 ) );
-            }
-            break;
         }
         include( "ezforum/user/messageedit.php" );
 
