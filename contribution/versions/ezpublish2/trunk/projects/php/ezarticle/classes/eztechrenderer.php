@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eztechrenderer.php,v 1.15 2000/10/25 18:19:56 bf-cvs Exp $
+// $Id: eztechrenderer.php,v 1.16 2000/10/25 18:44:32 bf-cvs Exp $
 //
 // Definition of eZTechRenderer class
 //
@@ -128,6 +128,7 @@ class eZTechRenderer
                 if ( $child->name == "intro" )
                 {
                     $intro = $child->children[0]->content;
+                    $intro = preg_replace( "#(http://.*?)(\s|\))#", "<a href=\"\\1\">\\1</a>", $intro );                    
                 }
             }
 
@@ -159,6 +160,7 @@ class eZTechRenderer
                 if ( $child->name == "intro" )
                 {
                     $intro = $child->children[0]->content;
+                    $intro = preg_replace( "#(http://.*?)(\s|\))#", "<a href=\"\\1\">\\1</a>", $intro );
                 }
                 
                 if ( $child->name == "body" )

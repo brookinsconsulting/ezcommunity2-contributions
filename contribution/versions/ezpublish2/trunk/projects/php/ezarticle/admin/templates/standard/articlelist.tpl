@@ -57,8 +57,8 @@
 <!-- BEGIN category_list_tpl -->
 <table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
 <tr>
-	<th>Kategori:</td>
-	<th>Beskrivelse:</th>
+	<th>{intl-category}:</td>
+	<th>{intl-description}:</th>
 	<th colspan="2">&nbsp;</th>
 </tr>
 
@@ -87,6 +87,7 @@
 <table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
 <tr>
 	<th>Artikkel:</th>
+	<th>{intl-published}:</th>
 	<th colspan="2">&nbsp;</th>
 </tr>
 
@@ -96,6 +97,15 @@
 	<a href="/article/articlepreview/{article_id}/">
 	{article_name}
 	</a>
+	</td>
+	<td class="{td_class}">
+	<!-- BEGIN article_is_published_tpl -->
+	{intl-is_published}
+	<!-- END article_is_published_tpl -->
+	<!-- BEGIN article_not_published_tpl -->
+	{intl-not_published}
+	<!-- END article_not_published_tpl -->
+	&nbsp;
 	</td>
 	<td width="1%" class="{td_class}">
 	<a href="/article/articleedit/edit/{article_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezaa{article_id}-red','','/ezarticle/images/redigerminimrk.gif',1)"><img name="ezaa{article_id}-red" border="0" src="/ezarticle/images/redigermini.gif" width="16" height="16" align="top"></a>
