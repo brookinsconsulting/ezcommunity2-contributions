@@ -61,7 +61,12 @@ class eZRSSImporter
         $source ="";
         $db =& eZDB::globalDatabase();
         $return_array = array();
-        $fp = fopen( $this->Site, "r" );
+
+	if (!($fp = @fopen($this->Site, "r"))) {
+          include_once( "classes/ezlog.php" );
+	  eZLog::writeWarning( "RSS read failure: ".$this->Site."\n" );
+          return false;
+        }
 
         $output = "";
         while ( !feof ( $fp ) )

@@ -69,7 +69,14 @@ class eZNyheterNOImporter
 
         print( $site );
         
-        $fp = eZFile::fopen( "$site", "r" );
+        // $fp = eZFile::fopen( "$site", "r" );
+	// kracker: untested attempt at adding error protection to import process (original line above)
+
+        if (!($fp = @fopen($site, "r"))) {
+          include_once( "classes/ezlog.php" );
+	  eZLog::writeWarning( "RSS read failure: ".$this->Site."\n" );
+          return false;
+        }
         
         $output = fread ( $fp, 100000000 );
         fclose( $fp );
