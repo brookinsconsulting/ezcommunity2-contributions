@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: logout.php,v 1.4 2000/07/24 14:24:14 lw Exp $
+    $Id: logout.php,v 1.5 2000/07/26 15:05:41 lw-cvs Exp $
 
     Author: Lars Wilhelmsen <lw@ez.no>
     
@@ -9,10 +9,10 @@
     Copyright (C) 2000 eZ systems. All rights reserved.
 */
 include( "ezforum/dbsettings.php" );
-include( "ezphputils.php" );
-include( "$DOCROOT/classes/ezsession.php" );
+include_once( "ezphputils.php" );
+include_once( "$DOCROOT/classes/ezsession.php" );
 
-$session = new eZSession();
-$session->delete( $AuthenticatedSession );
+eZSession::delete( $AuthenticatedSession );
+
 printRedirect( "/index.php?page=$DOCROOT/main.php" );
 ?>

@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: forgotten.php,v 1.1 2000/07/18 09:42:02 lw-cvs Exp $
+    $Id: forgotten.php,v 1.2 2000/07/26 15:05:41 lw-cvs Exp $
 
     Author: Lars Wilhelmsen <lw@ez.no>
     
@@ -9,10 +9,10 @@
     Copyright (C) 2000 eZ systems. All rights reserved.
 */
 include( "ezforum/dbsettings.php" );
-include( "template.inc" );
-include( "$DOCROOT/classes/ezmail.php" );
-include( "$DOCROOT/classes/ezdb.php" );
-include( "$DOCROOT/classes/ezuser.php" );
+include_once( "template.inc" );
+include_once( "$DOCROOT/classes/ezmail.php" );
+include_once( "$DOCROOT/classes/ezdb.php" );
+include_once( "$DOCROOT/classes/ezuser.php" );
 
 $t = new Template( "." );
 $t->set_file(Array( "forgotten" => "$DOCROOT/templates/forgotten.tpl",
@@ -39,5 +39,4 @@ else
 {
     $t->pparse( "output", "forgotten" );
 }
-
 ?>
