@@ -196,15 +196,23 @@
 <input class="stdbutton" type="submit" Name="DeleteProducts" value="{intl-deleteproducts}" />&nbsp;
 </form>
 <!-- END product_list_tpl -->
-<br />
-<form method="post" action="{www_dir}{index}/trade/categoryedit/edit/" enctype="multipart/form-data">
-<input type="hidden" name="CategoryID" value="{main_category_id}" />
-<input class="stdbutton" type="submit" Name="NewCategory" value="Ny kategori" />&nbsp;
-</form>
-<form method="post" action="{www_dir}{index}/trade/productedit/" enctype="multipart/form-data">
-<input type="hidden" name="MainCategoryID" value="{main_category_id}" />
-<input class="stdbutton" type="submit" Name="NewCategory" value="Nytt produkt" />&nbsp;
-</form>
+<hr noshade="noshade" size="4" />
+<table width="1%" cellpadding="0" cellspacing="0" border="0">
+<tr>
+	<td>
+	<form method="post" action="{www_dir}{index}/trade/categoryedit/edit/" enctype="multipart/form-data">
+	<input type="hidden" name="CategoryID" value="{main_category_id}" />
+	<input class="stdbutton" type="submit" Name="NewCategory" value="Ny kategori" />&nbsp;
+	</form>
+	</td>
+	<td>
+	<form method="post" action="{www_dir}{index}/trade/productedit/" enctype="multipart/form-data">
+	<input type="hidden" name="MainCategoryID" value="{main_category_id}" />
+	<input class="stdbutton" type="submit" Name="NewCategory" value="Nytt produkt" />&nbsp;
+	</form>
+	</td>
+</tr>
+</table>
 
 
 
