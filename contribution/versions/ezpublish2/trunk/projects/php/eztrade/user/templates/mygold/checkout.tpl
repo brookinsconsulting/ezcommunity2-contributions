@@ -7,15 +7,16 @@
 <h2>{intl-products_about_to_order}:</h2>
 
 <!-- BEGIN cart_item_list_tpl -->
-<table width="100%" cellspacing="0" cellpadding="2" border="0">
-    <tr align="left">
-	<th>{intl-picture}:</th>
+<table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
+<tr>
+	<th>&nbsp;</th>
 	<th>{intl-product_name}:</th>
 	<th>{intl-options}:</th>
 	<!-- BEGIN product_available_header_tpl -->
-	<th>&nbsp;</th>
+	<th>{intl-product_availability}:</th>
 	<!-- END product_available_header_tpl -->
-	<th align="right">{intl-price}</th>
+	<th>{intl-qty}:</th>
+	<th class="right">&nbsp;&nbsp;{intl-price}:</th>
 </tr>
 
 <!-- BEGIN cart_item_tpl -->
@@ -30,53 +31,85 @@
 	</td>
 	<td class="{td_class}">
         <!-- BEGIN cart_item_option_tpl -->
-	<!-- BEGIN cart_item_option_availability_tpl -->&nbsp;
-	<!-- END cart_item_option_availability_tpl -->
-        <!-- END cart_item_option_tpl -->&nbsp;
+	<span class="small">{option_name}: {option_value}<!-- BEGIN cart_item_option_availability_tpl -->({option_availability})
+<!-- END cart_item_option_availability_tpl --></span><br />
+        <!-- END cart_item_option_tpl -->
+	&nbsp;
 	</td>
 	<!-- BEGIN product_available_item_tpl -->
 	<td class="{td_class}">
-	&nbsp;
+	{product_availability}
 	<!-- BEGIN product_available_item_tpl -->
 	</td>
 	<!-- END product_available_item_tpl -->
+	<td class="{td_class}">
+	{cart_item_count}
+	</td>
 	<td class="{td_class}" align="right">
-	{product_price}
+	<nobr>{product_price}</nobr>
 	</td>
 </tr>
+<!-- BEGIN voucher_information_tpl -->
+<tr>
+        <td colspan="4" width="1%" class="{td_class}" >
+	<p>{intl-send_email}</p>
+	<input type="radio" name="MailType-{product_id}" value="1" checked />
+        </td>
+        <td colspan="2" width="99%" class="{td_class}" >
+	<p>{intl-send_smail}</p>
+	<input type="radio" name="MailType-{product_id}" value="2" />
+        </td>
+	<input type="hidden" name="VoucherIDArray[]" value="{product_id}" />
+</tr>
+<!-- END voucher_information_tpl -->
 <!-- END cart_item_tpl -->
 <tr>
-        <td colspan="2" rowspan="3" valign="top">
-          <p><b>{intl-shipping_method}:</b></p>
-            <select name="ShippingTypeID">
-              <!-- BEGIN shipping_type_tpl -->
-              <option value="{shipping_type_id}" {type_selected}>{shipping_type_name}</option>
-              <!-- END shipping_type_tpl -->
-            </select>&nbsp;
-            <input class="okbutton" type="submit" name="Recalculate" value="{intl-recalculate}" />
-	    <a class="small" href="{www_dir}{index}/article/articlestatic/26/#Versand"><br />Versand-Information</a>
-        </td>
-        <td align="right" colspan="2">
-	{intl-shipping_charges}:
+	<td colspan="3" rowspan="3" valign="top">
+	<div class="boxtext">{intl-shipping_method}:</div>
+	<select name="ShippingTypeID">
+	<!-- BEGIN shipping_type_tpl -->
+	<option value="{shipping_type_id}" {type_selected}>{shipping_type_name}</option>
+	<!-- END shipping_type_tpl -->
+	</select>
+	<input class="stdbutton" type="submit" name="Recalculate" value="{intl-recalculate}" />
 	</td>
+	<td align="right" colspan="2">
+	<span class="boxtext">{intl-shipping_charges}:</span>
+	</td>
+
 	<td align="right">
-	{shipping_cost}
+	<nobr>{shipping_cost}</nobr>
 	</td>
 </tr>
 <tr>
-	<td colspan="2" align="right">{intl-vat}:</td>
+	<td>&nbsp;</td>
+	<td colspan="1" align="right"><span class="boxtext">{intl-vat}:</span></td>
 	<td align="right">
-	{cart_vat_sum}
+	<nobr>{cart_vat_sum}</nobr>
 	</td>
 </tr>
+<!-- BEGIN vouchers_tpl --> 
 <tr>
-	<td colspan="2" align="right">{intl-total_cost_is}:</td>
+        <!-- BEGIN voucher_item_tpl -->
+	<td>&nbsp;</td>
+	<td colspan="1" align="right"><span class="boxtext">{intl-voucher} {number}:</span></td>
 	<td align="right">
-	{cart_sum}
+	<nobr>- {voucher_price}</nobr>
 	</td>
+	<td>
+	<input type="checkbox" name="RemoveVoucherArray[]" value="{number}" />
+	</td>
+
+        <!-- END voucher_item_tpl -->
+</tr>
+<!-- END vouchers_tpl --> 
+<tr>
+	<td colspan="{cart_colspan}" align="right"><span class="boxtext">{intl-total_cost_is}:</span></td>
+	<td align="right"><nobr>{cart_sum}</nobr></td>
 </tr>
 </table>
 <!-- END cart_item_list_tpl -->
+
 <hr noshade="noshade" size="1" />
 <!-- BEGIN billing_address_tpl -->
 <p><b>{intl-billing_to}:</b></p>
@@ -103,6 +136,7 @@
 
 <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr>
+    <!-- BEGIN show_payment_tpl -->
     <td valign="top">
       <b>{intl-payment_methods_description}:</b><br />
       <select name="PaymentMethod">
@@ -111,6 +145,7 @@
         <!-- END payment_method_tpl -->
       </select>
     </td>
+    <!-- END show_payment_tpl -->
     <td width="1%">&nbsp;</td>
     <td>
       <table cellspacing="10">
@@ -136,11 +171,18 @@
     </td>
   </tr>
 </table>  
+
+<!-- BEGIN remove_voucher_tpl -->
+<input class="stdbutton" type="submit" name="RemoveVoucher" value="{intl-remove_voucher}" />
+<!-- END remove_voucher_tpl -->
+
 <br /><br />
 <hr noshade="noshade" size="1" />
+
 <input type="hidden" name="ShippingCost" value="{shipping_cost_value}" />
 <input type="hidden" name="ShippingVAT" value="{shipping_vat_value}" />
 <input type="hidden" name="TotalCost" value="{total_cost_value}" />
+<input type="hidden" name="TotalVAT" value="{total_vat_value}" />
 
 <!-- BEGIN sendorder_item_tpl -->
 <input class="okbutton" type="submit" name="SendOrder" value="&nbsp;{intl-send}&nbsp;" />

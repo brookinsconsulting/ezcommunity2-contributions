@@ -760,7 +760,7 @@ function insert( $args )
     $productID = $product->id();
 
     $product->setTotalQuantity( $productTotalQuantity );
-    
+
     // set hot deal
     if ( $productIsHotDeal )
     {
@@ -785,7 +785,7 @@ function insert( $args )
     // Add options for this product
     if ( count ( $options ) > 0 )
     {
-        $productOptions =& $product->options();
+                $productOptions =& $product->options();
 
         if ( !$update )
         {
@@ -904,7 +904,7 @@ function insert( $args )
     elseif ( count ( $parents ) == 1 )
         $category = addToGroup( $productCategory, $product, $parents[0], $oldDesign, $oldCategoryName, true );
 
-    generateUrlTranslator( $parents[0], $category, $product );
+//     generateUrlTranslator( $parents[0], $category, $product );
     if ( $productPicture )
     {
         if ( is_file( "tmp/" . $productPictureName ) )

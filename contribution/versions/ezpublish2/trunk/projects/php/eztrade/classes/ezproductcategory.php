@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezproductcategory.php,v 1.46 2001/09/03 15:53:29 ce Exp $
+// $Id: ezproductcategory.php,v 1.47 2001/09/05 12:21:54 ce Exp $
 //
 // Definition of eZProductCategory class
 //
@@ -693,7 +693,7 @@ class eZProductCategory
                 AND
                 eZTrade_Category.ID='$this->ID'
                 ORDER BY $OrderBy", array( "Limit" => $limit, "Offset" => $offset ) );
-       
+
        for ( $i = 0; $i < count( $product_array ); $i++ )
        {
            $return_array[$i] = new eZProduct( $product_array[$i][$db->fieldName( "ProductID" )], false );
