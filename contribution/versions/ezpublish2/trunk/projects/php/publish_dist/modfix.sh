@@ -30,6 +30,7 @@ eztodo/admin/cache
 ezuser/admin/cache
 eztrade/admin/cache
 eztrade/cache
+ezcalendar/user/cache
 "
 
 for dir in $dirs
