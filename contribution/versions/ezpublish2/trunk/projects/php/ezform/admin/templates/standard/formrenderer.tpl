@@ -1,5 +1,5 @@
 <!-- BEGIN text_field_item_tpl -->
-<input type="text" name="{field_name}" value="{field_value}" />
+<input type="text" class="box" size="40" name="{field_name}" value="{field_value}" />
 <!-- END text_field_item_tpl -->
 
 <!-- BEGIN text_area_item_tpl -->
@@ -29,19 +29,18 @@
 <input type="hidden" name="mailSubject" value="{form_name}" />
 <input type="hidden" name="redirectTo" value="{form_completed_page}" />
 <!-- BEGIN form_sender_tpl -->
-<div class="boxtext">{intl-form_sender} <input type="text" name="formSender" value="{form_sender}" /></div>
+<p class="boxtext">{intl-form_sender}</p> 
+<input type="text" name="formSender" value="{form_sender}" />
+<br /><br />
+
 <hr noshade="noshade" size="4" />
 <!-- END form_sender_tpl -->
 
-<table cellpadding="0" cellspacing="0" border="0">
 <!-- BEGIN form_item_tpl -->
-<tr>
-    <td class="boxtext">{element_name}</td>
-    <td>&nbsp;</td>
-    <td>{element}</td>
-</tr>
+    <p class="boxtext">{element_name}:</p>
+    {element}
+	<br /><br />
 <!-- END form_item_tpl -->
-</table>
 
 <!-- BEGIN form_buttons_tpl -->
 <hr noshade="noshade" size="4" />

@@ -1,6 +1,6 @@
 <form action="/form/form/{action_value}/{form_id}" method="post">
 
-<h1>{intl-form_edit}: {form_name}</h1>
+<h1>{intl-form_edit}</h1>
 
 <hr noshade="noshade" size="4" />
 
@@ -23,34 +23,45 @@
 
 
 <!-- BEGIN form_item_tpl -->
-<table cellpadding="0" cellspacing="0" border="0">
+<p class="boxtext">{intl-form_name}:</p>
+<input type="text" class="box" size="40" name="formName" value="{form_name}" />
+<br /><br />
+
+<table width="100%" cellpaddning="0" cellspacing="0" border="0">
 <tr>
-    <td class="boxtext">{intl-form_name}: </td><td>&nbsp;</td>
-    <td><input type="text" name="formName" value="{form_name}" /></td>
+    <td>
+	<p class="boxtext">{intl-form_receiver}:</p>
+    <input type="text" class="halfbox" size="20" name="formReceiver" value="{form_receiver}" />
+	</td>
+    <td>
+	<p class="boxtext">{intl-form_cc}:</p>
+    <input type="text" class="halfbox" size="20" name="formCC" value="{form_cc}" />
+	</td>
 </tr>
 <tr>
-    <td class="boxtext">{intl-form_receiver}: </td><td>&nbsp;</td>
-    <td><input type="text" name="formReceiver" value="{form_receiver}" /></td>
+	<td colspan="2"><br /></td>
 </tr>
 <tr>
-    <td class="boxtext">{intl-form_cc}: </td><td>&nbsp;</td>
-    <td><input type="text" name="formCC" value="{form_cc}" /></td>
+    <td>
+	<p class="boxtext">{intl-form_completed_page}:</p>
+    <input type="text" class="halfbox" size="20" name="formCompletedPage" value="{form_completed_page}" />
+	</td>
+    <td>
+	<p class="boxtext">{intl-form_instruction_page}:</p>
+    <input type="text" class="halfbox" size="20" name="formInstructionPage" value="{form_instruction_page}" />
+	</td>
 </tr>
 <tr>
-    <td class="boxtext">{intl-form_completed_page}: </td><td>&nbsp;</td>
-    <td><input type="text" name="formCompletedPage" value="{form_completed_page}" /></td>
+	<td colspan="2"><br /></td>
 </tr>
 <tr>
-    <td class="boxtext">{intl-form_instruction_page}: </td><td>&nbsp;</td>
-    <td><input type="text" name="formInstructionPage" value="{form_instruction_page}" /></td>
-</tr>
-<tr>
-    <td class="boxtext">{intl-form_send_as_user}: </td><td>&nbsp;</td>
-    <td><input type="checkbox" {checked} name="formSendAsUser" value="{form_send_as_user}" /></td>
-</tr>
-<tr>
-    <td class="boxtext">{intl-form_sender}: </td><td>&nbsp;</td>
-    <td><input type="text" name="formSender" value="{form_sender}" /></td>
+    <td>
+	<p class="boxtext">{intl-form_sender}:</p>
+    <input type="text" class="halfbox" size="20" name="formSender" value="{form_sender}" />
+	</td>
+    <td valign="bottom">
+   	<input type="checkbox" {checked} name="formSendAsUser" value="{form_send_as_user}" />&nbsp;<span class="boxtext">{intl-form_send_as_user}</span>
+	</td>
 </tr>
 </table>
 <input type="hidden" name="FormID" value="{form_id}" />
@@ -58,14 +69,12 @@
 
 <br/>
 
-<hr noshade="noshade" size="4" />
-
 <!-- BEGIN no_elements_item_tpl -->
 <div class="error">{intl-no_elements_exist}</div>
 <!-- END no_elements_item_tpl -->
 
 <!-- BEGIN element_list_tpl -->
-<table border="0" cellspacing="0" cellpadding="0">
+<table width="100%" class="list" border="0" cellspacing="0" cellpadding="4">
 	<th>{intl-element_name}:</th>
 	<th>&nbsp;</th>
 	<th>{intl-element_type}:</th>
@@ -74,7 +83,7 @@
 
 <!-- BEGIN element_item_tpl -->
 <tr>
-    <td class="{td_class}"><input type="hidden" name="elementID[]" value="{element_id}"><input type="text" name="elementName[]" value="{element_name}"></td>
+    <td class="{td_class}"><input type="hidden" name="elementID[]" value="{element_id}"><input type="text" class="halfbox" size="20" name="elementName[]" value="{element_name}"></td>
     <td class="{td_class}">&nbsp;</td>
     <td class="{td_class}"><select name="elementTypeID[]">
     <option value="0">{intl-select_type}</option>
@@ -88,13 +97,13 @@
     </td>
     
 <!-- BEGIN item_move_down_tpl -->
-	<td width="1%"class="{td_class}">
+	<td width="1%" class="{td_class}">
         <a href="/form/form/down/{form_id}/?ElementID={element_id}"><img src="/admin/images/move-down.gif" height="12" width="12" border="0" alt="{intl-move_up}" /></a>
     </td>
 <!-- END item_move_down_tpl -->
 
 <!-- BEGIN no_item_move_down_tpl -->
-	<td class="{td_class}" width="1%">&nbsp;</td>
+	<td width="1%" class="{td_class}">&nbsp;</td>
 <!-- END no_item_move_down_tpl -->
 
 <!-- BEGIN item_separator_tpl -->
@@ -105,12 +114,12 @@
 <!-- END no_item_separator_tpl -->
 
 <!-- BEGIN item_move_up_tpl -->
-	<td class="{td_class}" width="1%">
+	<td width="1%" class="{td_class}">
         <a href="/form/form/up/{form_id}/?ElementID={element_id}"><img src="/admin/images/move-up.gif" height="12" width="12" border="0" alt="{intl-move_down}" /></a>
     </td>
 <!-- END item_move_up_tpl -->
 <!-- BEGIN no_item_move_up_tpl -->
-	<td class="{td_class}" width="1%"> &nbsp; </td>
+	<td width="1%" class="{td_class}">&nbsp;</td>
 <!-- END no_item_move_up_tpl -->
     <td class="{td_class}" >
         <input type="checkbox" name="elementDelete[]" value="{element_id}" />
@@ -119,11 +128,12 @@
 <!-- END element_item_tpl -->
 </table>
 <!-- END element_list_tpl -->
+
 <hr noshade="noshade" size="4" />
 
-<input class="okbutton" type="submit" name="NewElement" value="{intl-add_element}" />
-<input class="okbutton" type="submit" name="Update" value="{intl-update}" />
-<input class="okbutton" type="submit" name="DeleteSelected" value="{intl-delete_selected_elements}" />
+<input class="stdbutton" type="submit" name="NewElement" value="{intl-add_element}" />
+<input class="stdbutton" type="submit" name="Update" value="{intl-update}" />
+<input class="stdbutton" type="submit" name="DeleteSelected" value="{intl-delete_selected_elements}" />
 <br/>
 
 <hr noshade="noshade" size="4" />

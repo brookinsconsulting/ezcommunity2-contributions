@@ -2,9 +2,11 @@
 <!-- BEGIN mail_preview_tpl -->
 <!-- END mail_preview_tpl -->
 
-<h1>{intl-form_preview}: {form_name}</h1>
+<h1>{intl-form_preview}</h1>
+
 <hr noshade="noshade" size="4" />
-<br />
+
+<h2>{form_name}</h2>
 
 {error}
 
