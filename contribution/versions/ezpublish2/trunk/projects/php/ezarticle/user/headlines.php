@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: headlines.php,v 1.14 2001/07/03 11:42:05 bf Exp $
+// $Id: headlines.php,v 1.15 2001/07/05 17:11:31 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <30-Nov-2000 14:35:24 bf>
@@ -134,10 +134,12 @@ foreach ( $articleList as $article )
     if ( ( $i % 2 ) == 0 )
     {
         $t->set_var( "td_class", "bglight" );
+        $t->set_var( "td_alt", "1" );
     }
     else
     {
         $t->set_var( "td_class", "bgdark" );
+        $t->set_var( "td_alt", "2" );
     }
 
     if ( $article->linkText() != "" )

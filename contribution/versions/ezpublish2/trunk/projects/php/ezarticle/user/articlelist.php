@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: articlelist.php,v 1.50 2001/06/19 07:47:48 bf Exp $
+// $Id: articlelist.php,v 1.51 2001/07/05 17:11:31 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <18-Oct-2000 14:41:37 bf>
@@ -219,10 +219,12 @@ foreach ( $categoryList as $categoryItem )
         
         if ( ( $i % 2 ) == 0 )
         {
+            $t->set_var( "td_alt", "1" );
             $t->set_var( "td_class", "bglight" );
         }
         else
         {
+            $t->set_var( "td_alt", "2" );
             $t->set_var( "td_class", "bgdark" );
         }
 
@@ -316,10 +318,12 @@ foreach ( $articleList as $article )
 
         if ( ( $i % 2 ) == 0 )
         {
+            $t->set_var( "td_alt", "1" );
             $t->set_var( "td_class", "bglight" );
         }
         else
         {
+            $t->set_var( "td_alt", "2" );
             $t->set_var( "td_class", "bgdark" );
         }
 

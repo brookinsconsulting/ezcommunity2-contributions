@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: articleview.php,v 1.48 2001/07/03 14:33:51 bf Exp $
+// $Id: articleview.php,v 1.49 2001/07/05 17:11:31 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <18-Oct-2000 16:34:51 bf>
@@ -42,10 +42,14 @@ $GlobalSectionID = eZArticleCategory::sectionIDStatic( $CategoryID );
 $ini =& INIFile::globalINI();
 
 $Language = $ini->read_var( "eZArticleMain", "Language" );
-                                                        
+$ForceCategoryDefinition = $ini->read_var( "eZArticleMain", "ForceCategoryDefinition" );
 $CapitalizeHeadlines = $ini->read_var( "eZArticleMain", "CapitalizeHeadlines" );
-
 $TemplateDir = $ini->read_var( "eZArticleMain", "TemplateDir" );
+
+if ( $ForceCategoryDefinition == "enabled" )
+{
+    $CategoryID = eZArticle::categoryDefinitionStatic( $ArticleID );
+}
 
 $t = new eZTemplate( "ezarticle/user/" . $TemplateDir,
                      "ezarticle/user/intl/", $Language, "articleview.php" );
