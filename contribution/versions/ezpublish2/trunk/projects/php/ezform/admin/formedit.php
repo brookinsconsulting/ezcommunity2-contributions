@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: formedit.php,v 1.10 2001/10/17 08:16:45 jhe Exp $
+// $Id: formedit.php,v 1.11 2001/11/01 17:03:30 bf Exp $
 //
 // Created on: <12-Jun-2001 13:07:24 pkej>
 //
@@ -407,6 +407,7 @@ if ( $count > 0 )
                     
                 $t->set_var( "selected", "selected" );
 
+                $t->set_var( "element_nr", $i );
                 if ( $name == "text_field_item" )
                 {
                     $t->parse( "size", "size_tpl" );
