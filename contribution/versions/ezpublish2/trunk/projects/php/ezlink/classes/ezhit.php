@@ -1,8 +1,8 @@
 <?
 // 
-// $Id: ezhit.php,v 1.17 2000/10/26 11:18:03 ce-cvs Exp $
+// $Id: ezhit.php,v 1.18 2000/10/26 13:23:26 ce-cvs Exp $
 //
-// Definition of eZCompany class
+// Definition of eZHit class
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <15-Sep-2000 14:40:06 bf>
