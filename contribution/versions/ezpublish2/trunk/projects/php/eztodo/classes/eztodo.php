@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: eztodo.php,v 1.29 2001/09/06 10:07:22 jhe Exp $
+// $Id: eztodo.php,v 1.30 2001/10/12 12:28:02 jhe Exp $
 //
 // Definition of eZTodo class
 //
@@ -292,7 +292,7 @@ class eZTodo
                 $userid = $user;
             else
                 $userid = $user->id();
-            if ( $currentUser->id() != $userid )
+            if ( $currentUser && $currentUser->id() != $userid )
                 $public_string = "AND IsPublic='1'";
             else
                 $public_string = "";
