@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezformelement.php,v 1.3 2001/07/19 13:03:50 jakobn Exp $
+// $Id: ezformelement.php,v 1.4 2001/08/16 10:00:36 br Exp $
 //
 // ezformelement class
 //
@@ -47,7 +47,7 @@ class eZFormElement
       If $id is set the object's values are fetched from the
       database.
     */
-    function eZFormElement( $id=-1, $fetch=true )
+    function eZFormElement( $id=-1 )
     {
         if ( is_array( $id ) )
         {
@@ -56,10 +56,7 @@ class eZFormElement
         else if ( $id != -1 )
         {
             $this->ID = $id;
-            if ( $fetch == true )
-            {
-                $this->get( $this->ID );
-            }
+            $this->get( $this->ID );
         }
     }
 
@@ -69,8 +66,9 @@ class eZFormElement
     function store()
     {
         $db =& eZDB::globalDatabase();
-
-        $name =& addslashes( $this->Name );
+        $db->begin();
+        
+        $name =& $db->escapeString( $this->Name );
         $required =& $this->Required;
         
         if( get_class( $this->ElementType ) == "ezformelementtype" )
@@ -78,22 +76,27 @@ class eZFormElement
             $elementTypeID =& $this->ElementType->id();
         }
         
-        $setValues = "
-            Name='$name',
-            Required='$required',
-            ElementTypeID='$elementTypeID'
-        ";
-        
         if ( empty( $this->ID ) )
         {
-            $db->query( "INSERT INTO eZForm_FormElement SET $setValues" );
+            $db->lock( "eZForm_FormElement" );
+            $nextID = $db->nextID( "eZForm_FormElement", "ID" );
+            $res[] = $db->query( "INSERT INTO eZForm_FormElement
+                         ( ID, Name, Required, ElementTypeID )
+                         VALUES
+                         ( '$nextID', '$name', '$required', '$elementTypeID' )" );
 
-			$this->ID = $db->insertID();
-        }
+			$this->ID = $nextID;
+}
         elseif ( is_numeric( $this->ID ) )
-        {
-            $db->query( "UPDATE eZForm_FormElement SET $setValues WHERE ID='$this->ID'" );
+        {    
+            $res[] = $db->query( "UPDATE eZForm_FormElement SET
+                                    Name='$name',
+                                    Required='$required',
+                                    ElementTypeID='$elementTypeID'
+                                  WHERE ID='$this->ID'" );
         }
+        
+        eZDB::finish( $res, $db );
         return true;
     }
 
@@ -106,9 +109,12 @@ class eZFormElement
             $elementID = $this->ID;
 
         $db =& eZDB::globalDatabase();
+        $db->begin();
 
-        $db->query( "DELETE FROM eZForm_FormElementDict WHERE ElementID='$elementID'" );
-        $db->query( "DELETE FROM eZForm_FormElement WHERE ID='$elementID'" );
+        $res[] = $db->query( "DELETE FROM eZForm_FormElementDict WHERE ElementID='$elementID'" );
+        $res[] = $db->query( "DELETE FROM eZForm_FormElement WHERE ID='$elementID'" );
+
+        eZDB::finish( $res, $db );
     }
 
     /*!
@@ -143,13 +149,14 @@ class eZFormElement
     */
     function fill( &$formArray )
     {
-        $this->ID =& $formArray[ "ID" ];
-        
         $db = eZDB::globalDatabase();
+
+        $this->ID =& $formArray[$db->fieldName( "ID" )];
         
-        $this->Name =& $formArray[ "Name" ];
-        $this->Required =& $formArray[ "Required" ];
-        $this->ElementType =& new eZFormElementType( $formArray[ "ElementTypeID" ] );
+        
+        $this->Name =& $formArray[$db->fieldName( "Name" )];
+        $this->Required =& $formArray[$db->fieldName( "Required" )];
+        $this->ElementType =& new eZFormElementType( $formArray[$db->fieldName( "ElementTypeID" )] );
     }
 
     /*!
@@ -176,13 +183,13 @@ class eZFormElement
         {
             $db->array_query( $formArray, "SELECT ID
                                            FROM eZForm_FormElement
-                                           ORDER BY Name DESC
-                                           LIMIT $offset, $limit" );
+                                           ORDER BY Name DESC",
+                                           array( "Limit" => $limit, "Offset" => $offset ) );
         }
 
         for ( $i=0; $i < count($formArray); $i++ )
         {
-            $returnArray[$i] = new eZFormElement( $formArray[$i]["ID"] );
+            $returnArray[$i] = new eZFormElement( $formArray[$i][$db->fieldName( "ID" )] );
         }
 
         return $returnArray;
@@ -198,7 +205,7 @@ class eZFormElement
 
         $db->query_single( $result, "SELECT COUNT(ID) as Count
                                      FROM eZForm_FormElement" );
-        $ret = $result["Count"];
+        $ret = $result[$db->fieldName( "Count" )];
         return $ret;
     }
 
@@ -292,7 +299,7 @@ class eZFormElement
 
         for ( $i=0; $i < count($formArray); $i++ )
         {
-            $returnArray[$i] = new eZFormElement( $formArray[$i]["FormID"], true );
+            $returnArray[$i] = new eZFormElement( $formArray[$i][$db->fieldName( "FormID" )], true );
         }
         return $returnArray;
     }
@@ -308,7 +315,7 @@ class eZFormElement
 
         $db->query_single( $result, "SELECT COUNT(ElementID) as Count
                                      FROM eZForm_FormElementDict WHERE ElementID='$this->ID'" );
-        $ret = $result["Count"];
+        $ret = $result[$db->fieldName( "Count" )];
         
         return $ret;
     }
@@ -323,7 +330,7 @@ class eZFormElement
 
         $db->query_single( $result, "SELECT COUNT(ID) as Count
                                      FROM eZForm_FormElementType" );
-        $ret = $result["Count"];
+        $ret = $result[$db->fieldName( "Count" )];
         
         return $ret;
     }
