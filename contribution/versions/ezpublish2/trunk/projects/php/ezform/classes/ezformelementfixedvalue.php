@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezformelementfixedvalues.php,v 1.1 2001/10/09 08:06:02 ce Exp $
+// $Id: ezformelementfixedvalue.php,v 1.1 2001/10/09 09:04:27 ce Exp $
 //
 // ezformelementtype class
 //
@@ -37,7 +37,7 @@
 
 include_once( "ezform/classes/ezform.php" );
 
-class eZFormElementFixedValues
+class eZFormElementFixedValue
 {
 
     /*!
@@ -46,7 +46,7 @@ class eZFormElementFixedValues
       If $id is set the object's values are fetched from the
       database.
     */
-    function eZFormElementFixedValues( $id=-1 )
+    function eZFormElementFixedValue( $id=-1 )
     {
         if ( is_array( $id ) )
         {
@@ -163,7 +163,7 @@ class eZFormElementFixedValues
 
         for ( $i=0; $i < count($formArray); $i++ )
         {
-            $returnArray[$i] = new eZFormElementFixedValues( $formArray[$i][$db->fieldValue( "ID" )] );
+            $returnArray[$i] = new eZFormElementFixedValue( $formArray[$i][$db->fieldValue( "ID" )] );
         }
 
         return $returnArray;

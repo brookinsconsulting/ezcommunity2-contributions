@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: fixedvalues.php,v 1.1 2001/10/09 08:06:02 ce Exp $
+// $Id: fixedvalues.php,v 1.2 2001/10/09 09:04:27 ce Exp $
 //
 // Created on: <12-Jun-2001 13:07:24 pkej>
 //
@@ -31,7 +31,7 @@ include_once( "classes/ezlist.php" );
 include_once( "ezform/classes/ezform.php" );
 include_once( "ezform/classes/ezformelement.php" );
 include_once( "ezform/classes/ezformelementtype.php" );
-include_once( "ezform/classes/ezformelementfixedvalues.php" );
+include_once( "ezform/classes/ezformelementfixedvalue.php" );
 
 $ActionValue = "list";
 $ini =& INIFile::globalINI();
@@ -42,7 +42,7 @@ $element = new eZFormElement( $ElementID );
 
 if( isset( $AddValue ) )
 {
-    $value = new eZFormElementFixedValues();
+    $value = new eZFormElementFixedValue();
     $value->store();
     $element->addValue( $value );
 }
@@ -55,7 +55,7 @@ if( isset( $Store ) || isset ( $AddValue ) || isset ( $DeleteSelected ) || isset
     {
         foreach( $ValueID as $ID )
         {
-            $value = new eZFormElementFixedValues( $ID );
+            $value = new eZFormElementFixedValue( $ID );
             $value->setValue( $Value[$i] );
             $value->store();
             $i++;
@@ -67,7 +67,7 @@ if( isset( $DeleteSelected ) )
 {
     foreach( $ValueDeleteID as $ID )
     {
-        $value = new eZFormElementFixedValues( $ID );
+        $value = new eZFormElementFixedValue( $ID );
         $value->delete();
     }
 }

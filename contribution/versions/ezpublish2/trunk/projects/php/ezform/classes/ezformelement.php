@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezformelement.php,v 1.7 2001/10/09 08:06:02 ce Exp $
+// $Id: ezformelement.php,v 1.8 2001/10/09 09:04:27 ce Exp $
 //
 // ezformelement class
 //
@@ -37,7 +37,7 @@
 
 include_once( "ezform/classes/ezform.php" );
 include_once( "ezform/classes/ezformelementtype.php" );
-include_once( "ezform/classes/ezformelementfixedvalues.php" );
+include_once( "ezform/classes/ezformelementfixedvalue.php" );
 
 class eZFormElement
 {
@@ -371,7 +371,7 @@ class eZFormElement
 
         for ( $i=0; $i < count($formArray); $i++ )
         {
-            $returnArray[$i] = new eZFormElementFixedValues( $formArray[$i][$db->fieldName( "FixedValueID" )], true );
+            $returnArray[$i] = new eZFormElementFixedValue( $formArray[$i][$db->fieldName( "FixedValueID" )], true );
         }
         return $returnArray;
     }
