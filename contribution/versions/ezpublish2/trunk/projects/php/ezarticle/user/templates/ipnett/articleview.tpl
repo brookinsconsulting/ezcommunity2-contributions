@@ -96,11 +96,11 @@
 <br /><br />
 
 <!-- BEGIN numbered_page_link_tpl -->
-| <a class="path" href="/article/articleview/{article_id}/0/">{intl-numbered_page}</a>
+<a class="path" href="/article/articleview/{article_id}/0/">{intl-numbered_page}</a>
 <!-- END numbered_page_link_tpl -->
 
 <!-- BEGIN print_page_link_tpl -->
-| <a class="path" href="/article/articleprint/{article_id}/">{intl-print_page}</a>
+<a class="path" href="/article/articleprint/{article_id}/">{intl-print_page}</a>
 <!-- END print_page_link_tpl -->
-|
+
 </div>

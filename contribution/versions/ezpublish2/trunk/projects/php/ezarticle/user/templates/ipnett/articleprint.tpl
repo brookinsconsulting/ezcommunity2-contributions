@@ -2,7 +2,7 @@
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
 	<td align="center">
-	<h3>{intl-found}: http://{article_url}</h3>
+	<h3>Denne artiklen er funnet på http://{article_url}</h3>
 	</td>
 </tr>
 </table>
@@ -80,30 +80,6 @@
 </table>
 <!-- END attached_file_list_tpl -->
 
-<form method="post" action="/article/mailtofriend/{article_id}">
-<table width="100%" cellpadding="5" cellspacing="0" border="0">
-<tr>
-    <td>
-	<p class="boxtext">{intl-send_to}:</p>
-	<input type="text" class="box" size="5" name="SendTo" value="{send_to}" />*
-	<br /><br />
-    </td>
-</tr>
-<tr>
-    <td>
-	<p class="boxtext">{intl-from_mail}:</p>
-	<input type="text" class="box" size="5" name="From" value="{from}">*
-	<br />
-    </td>
-</tr>
-<tr>
-    <td>
-        <input class="stdbutton" type="submit" value="{intl-send_mail}">
-    </td>
-</tr>
-</table>
-</form>
-
 <br clear="all" />
 
 <div align="center">
@@ -127,13 +103,11 @@
 <br /><br />
 
 <!-- BEGIN numbered_page_link_tpl -->
-| <a class="path" href="/article/articleview/{article_id}/0/">{intl-numbered_page}</a>
+<a class="path" href="/article/articleview/{article_id}/0/">{intl-numbered_page}</a>
 <!-- END numbered_page_link_tpl -->
 
 <!-- BEGIN print_page_link_tpl -->
-| <a class="path" href="/article/articleprint/{article_id}/">{intl-print_page}</a>
+<a class="path" href="/article/articleprint/{article_id}/">{intl-print_page}</a>
 <!-- END print_page_link_tpl -->
-
-| <a class="path" href="/article/mailtofriend/{article_id}/">{intl-send_mailtofriend}</a> |
 
 </div>
