@@ -121,6 +121,6 @@
 
 </form>
 
-<p>[1] {intl-shipping_info}</p>
-<p>[2] {intl-vat_info}</p>
+<p>[1] {intl-shipping_info}<br />
+[2] {intl-vat_info}</p>
 
