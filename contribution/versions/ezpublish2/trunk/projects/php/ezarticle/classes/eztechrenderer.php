@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eztechrenderer.php,v 1.72 2001/08/01 16:15:12 kaid Exp $
+// $Id: eztechrenderer.php,v 1.73 2001/08/09 15:15:29 bf Exp $
 //
 // Definition of eZTechRenderer class
 //
@@ -552,7 +552,10 @@ class eZTechRenderer
             if ( get_class( $image ) == "ezimage" )
             {
                 $ini =& INIFile::globalINI();
-                            
+
+                                // store the relative ID to the image
+                $this->UsedImageList[] = $imageID;
+
                 switch ( $imageSize )
                 {
                     case "small" :
@@ -1170,6 +1173,17 @@ class eZTechRenderer
         
         return $string;
     }
+
+    /*!
+      Returns the relative ID to the images used ( rendered ) in this article
+    */
+    function usedImageList()
+    {
+        return $this->UsedImageList;
+    }
+    
+
+    var $UsedImageList;
     
     var $Article;
     var $PrevTag;
