@@ -1,6 +1,6 @@
 <?
-// 
-// $Id: messageedit.php,v 1.46 2001/05/14 15:31:15 fh Exp $
+//
+// $Id: messageedit.php,v 1.47 2001/05/16 09:12:47 wojciechp Exp $
 //
 // Paul K Egell-Johnsen <pkej@ez.no>
 // Created on: <21-Feb-2001 18:00:00 pkej>
@@ -48,7 +48,7 @@ if( $Action == "preview" )
 {
     $NewMessageTopic = trim( $NewMessageTopic );
     $NewMessageBody = trim( $NewMessageBody );
-    
+
     if( empty( $NewMessageTopic ) || empty( $NewMessageBody ) )
     {
         $Error = true;
@@ -72,7 +72,7 @@ switch( $Action )
         $t->set_var( "errors_item", "" );
     }
     break;
-    
+
     case "delete":
     {
         $t = new eZTemplate( "ezforum/user/" . $ini->read_var( "eZForumMain", "TemplateDir" ),
@@ -98,12 +98,12 @@ switch( $Action )
         $t->set_file( "page", "messagepreview.tpl"  );
     }
     break;
-    
+
     case "completed":
     {
         $t = new eZTemplate( "ezforum/user/" . $ini->read_var( "eZForumMain", "TemplateDir" ),
                              "ezforum/user/intl", $Language, "message.php" );
-        
+
         $t->set_file( "page", "messageposted.tpl"  );
         $t->setAllStrings();
     }
@@ -125,7 +125,7 @@ switch( $Action )
     case "dodelete":
     {
         $msg = new eZForumMessage( $MessageID );
-        
+
         $CheckMessageID = $MessageID;
         $CheckForumID = $msg->forumID();
 
@@ -136,13 +136,13 @@ switch( $Action )
         {
             eZHTTPTool::header( "Location: /error/403?Info=" . errorPage( "forum_main", "/forum/categorylist/", 403 ) );
         }
-        
+
         $msg->delete();
         eZHTTPTool::header( "Location: /forum/messagelist/$CheckForumID" );
-        
+
     }
     break;
-    
+
     case "delete":
     {
         $ActionValue = "dodelete";
@@ -160,7 +160,7 @@ switch( $Action )
         {
             eZHTTPTool::header( "Location: /forum/messageedit/forbidden/?Tried=$Action&TriedMessage=$CheckMessageID&TriedForum=$CheckForumID" );
         }
-        
+
         $doParse = true;
         $ShowPath = true;
         $isPreview = false;
@@ -170,7 +170,7 @@ switch( $Action )
         include_once( "ezforum/user/messagebody.php" );
     }
     break;
-    
+
     case "completed":
     {
         $msg = new eZForumMessage( $MessageID );
@@ -184,7 +184,7 @@ switch( $Action )
         {
             eZHTTPTool::header( "Location: /error/403?Info=" . errorPage( "forum_main", "/forum/categorylist/", 403 ) );
         }
-        
+
         // Just tell the geezers that their posting has been sent or queued for moderation.
         // Also inform of any e-mails sent.
 
@@ -197,7 +197,7 @@ switch( $Action )
         include_once( "ezforum/user/messagebody.php" );
     }
     break;
-    
+
     case "cancel":
     {
        // If PreviewID is set then we need to delete the object.
@@ -206,7 +206,7 @@ switch( $Action )
         // no ifs are neccessary.
         $msg = new eZForumMessage( $PreviewID );
         $msg->delete();
-        
+
         include_once( "classes/ezhttptool.php" );
         if( empty( $RedirectURL ) )
         {
@@ -225,7 +225,7 @@ switch( $Action )
         }
     }
     break;
-    
+
     case "insert":
     {
         $ActionValue = "completed";
@@ -246,7 +246,7 @@ switch( $Action )
         $msg->setIsTemporary( false );
         $msg->store();
 
-       
+
         if( $StartAction == "reply" )
         {
             include_once( "ezforum/user/messagereply.php" );
@@ -260,59 +260,67 @@ switch( $Action )
 
             // send mail to forum moderator
             $moderator = $forum->moderator();
-
-            if ( $moderator )
-            {
-                include_once( "ezmail/classes/ezmail.php" );
-                $mail = new eZMail();
-
-                $locale = new eZLocale( $Language );
-
-                $mailTemplate = new eZTemplate( "ezforum/user/" . $ini->read_var( "eZForumMain", "TemplateDir" ),
-                                                "ezforum/user/intl", $Language, "mailreply.php" );
-
-                $mailTemplate->set_file( "mailreply", "mailreply.tpl" );
-                $mailTemplate->setAllStrings();
-                
-                $headersInfo = ( getallheaders() );
-                
-                $author = $msg->user();
-                
-                if( $author->id() == 0 )
-                {
-                    $mailTemplate->set_var( "author", $ini->read_var( "eZForumMain", "AnonymousPoster" ) );
-                }
-                else
-                {
-                    $mailTemplate->set_var( "author", $author->firstName() . " " . $author->lastName() );
-                }
-                $mailTemplate->set_var( "posted_at", $locale->format( $msg->postingTime() ) );
-
-                $subject_line = $mailTemplate->Ini->read_var( "strings", "moderator_subject" );
-
-                $mailTemplate->set_var( "topic", $msg->topic() );
-                $mailTemplate->set_var( "body", $msg->body( false ) );
-                
-                $mailTemplate->set_var( "forum_name", $forum->name() );
-                $mailTemplate->set_var( "forum_link", "http://"  . $headersInfo["Host"] . "/forum/messagelist/" . $forum->id() );
-                $mailTemplate->set_var( "link_1", "http://" . $headersInfo["Host"] . "/forum/message" . $msg->id() );
-                $mailTemplate->set_var( "link_2", "http://admin." . $headersInfo["Host"] . "/forum/messageedit/edit/" . $msg->id() );
-                $mailTemplate->set_var( "intl-info_message_1", $mailTemplate->Ini->read_var( "strings", "moderator_info_message_1" ) );
-                $mailTemplate->set_var( "intl-info_message_2", $mailTemplate->Ini->read_var( "strings", "moderator_info_message_2" ) );
-                $mailTemplate->set_var( "intl-info_message_3", $mailTemplate->Ini->read_var( "strings", "moderator_info_message_3" ) );
-                $mailTemplate->set_var( "intl-info_message_4", $mailTemplate->Ini->read_var( "strings", "moderator_info_message_4" ) );
-
-                $bodyText = $mailTemplate->parse( "dummy", "mailreply" );
-
-                $mail->setSubject( $subject_line );
-                $mail->setBody( $bodyText );
-
-                $mail->setFrom( $moderator->email() );
-                $mail->setTo( $moderator->email() );
-
-                $mail->send();
-            }
             
+            if ( is_object( $moderator ) )
+            {
+                $moderators = eZUserGroup::users( $moderator->id() );
+
+                if( count( $moderators ) > 0 )
+                {
+                    foreach( $moderators as $moderatorItem )
+                    {
+                        include_once( "ezmail/classes/ezmail.php" );
+                        $mail = new eZMail();
+
+                        $locale = new eZLocale( $Language );
+
+                        $mailTemplate = new eZTemplate( "ezforum/user/" . $ini->read_var( "eZForumMain", "TemplateDir" ),
+                                                       "ezforum/user/intl", $Language, "mailreply.php" );
+
+                        $mailTemplate->set_file( "mailreply", "mailreply.tpl" );
+                        $mailTemplate->setAllStrings();
+
+                        $headersInfo = ( getallheaders() );
+
+                        $author = $msg->user();
+
+                        if( $author->id() == 0 )
+                        {
+                            $mailTemplate->set_var( "author", $ini->read_var( "eZForumMain", "AnonymousPoster" ) );
+                        }
+                        else
+                        {
+                            $mailTemplate->set_var( "author", $author->firstName() . " " . $author->lastName() );
+                        }
+                        $mailTemplate->set_var( "posted_at", $locale->format( $msg->postingTime() ) );
+
+                        $subject_line = $mailTemplate->Ini->read_var( "strings", "moderator_subject" );
+
+                        $mailTemplate->set_var( "topic", $msg->topic() );
+                        $mailTemplate->set_var( "body", $msg->body( false ) );
+
+                        $mailTemplate->set_var( "forum_name", $forum->name() );
+                        $mailTemplate->set_var( "forum_link", "http://"  . $headersInfo["Host"] . "/forum/messagelist/" . $forum->id() );
+                        $mailTemplate->set_var( "link_1", "http://" . $headersInfo["Host"] . "/forum/message" . $msg->id() );
+                        $mailTemplate->set_var( "link_2", "http://admin." . $headersInfo["Host"] . "/forum/messageedit/edit/" . $msg->id() );
+                        $mailTemplate->set_var( "intl-info_message_1", $mailTemplate->Ini->read_var( "strings", "moderator_info_message_1" ) );
+                        $mailTemplate->set_var( "intl-info_message_2", $mailTemplate->Ini->read_var( "strings", "moderator_info_message_2" ) );
+                        $mailTemplate->set_var( "intl-info_message_3", $mailTemplate->Ini->read_var( "strings", "moderator_info_message_3" ) );
+                        $mailTemplate->set_var( "intl-info_message_4", $mailTemplate->Ini->read_var( "strings", "moderator_info_message_4" ) );
+
+                        $bodyText = $mailTemplate->parse( "dummy", "mailreply" );
+
+                        $mail->setSubject( $subject_line );
+                        $mail->setBody( $bodyText );
+
+                        $mail->setFrom( $moderatorItem->email() );
+                        $mail->setTo( $moderatorItem->email() );
+
+                        $mail->send();
+                    }
+                }
+            }
+
             if( $forum->isModerated() )
             {
                 $msg->setIsApproved ( false );
@@ -323,7 +331,7 @@ switch( $Action )
         eZHTTPTool::header( "Location: /forum/messageedit/$ActionValue/$OriginalID?ReplyToID=$ReplyToID&ActionStart=$ActionStart&RedirectURL=$RedirectURL" );
     }
     break;
-    
+
     case "update":
     {
         $ActionValue = "completed";
@@ -339,15 +347,15 @@ switch( $Action )
         {
             eZHTTPTool::header( "Location: /error/403?Info=" . errorPage( "forum_main", "/forum/categorylist/", 403 ) );
         }
-        
+
         $msg->setTopic( $tmpmsg->topic( false ) );
         $msg->setBody( $tmpmsg->body( false ) );
         $msg->setEmailNotice( $tmpmsg->emailNotice() );
-        
+
         $msg->store();
         eZHTTPTool::header( "Location: /forum/messageedit/$ActionValue/$OriginalID?ActionStart=$ActionStart&RedirectURL=$RedirectURL" );
     }
-    
+
     case "new":
     {
         $StartAction = "new";
@@ -386,7 +394,7 @@ switch( $Action )
         include_once( "ezforum/user/messageform.php" );
     }
     break;
-    
+
     case "edit":
     {
         if( !isset( $StartAction ) )
@@ -394,23 +402,23 @@ switch( $Action )
             $StartAction = "edit";
             $EndAction = "update";
         }
-        
+
         unset( $NewMessageAuthor );
         unset( $NewMessagePostedAt );
-        
+
         $msg = new eZForumMessage( $MessageID );
 
         if( $msg->id() >= 1 )
         {
             $ForumID = $msg->forumID();
         }
-        
+
         $ActionValue = "preview";
-        
+
         $CheckMessageID = $MessageID;
         $CheckForumID = $ForumID;
-        
-        
+
+
         include( "ezforum/user/messagepermissions.php" );
 
         if( $MessageEdit == false && $Error == false )
@@ -418,8 +426,8 @@ switch( $Action )
             include_once( "classes/ezhttptool.php" );
             eZHTTPTool::header( "Location: /error/403?Info=" . errorPage( "forum_main", "/forum/categorylist/", 403 ) );
         }
-        
-        
+
+
         $doParse = true;
         $ShowPath = true;
         $isPreview = false;
@@ -432,27 +440,27 @@ switch( $Action )
         $ShowReplyInfo = true;
         $ShowBodyInfo = true;
         include_once( "ezforum/user/messageform.php" );
-        
+
         $doPrint = true;
     }
     break;
-    
+
     case "reply":
     {
         $StartAction = $Action;
         $ActionValue = "preview";
         $EndAction = "insert";
-        
+
         $MessageID = $ReplyToID;
         $NewMessagePostedAt = htmlspecialchars( $ini->read_var( "eZForumMain", "FutureDate" ) );
         $ReplyTags = $ini->read_var( "eZForumMain", "ReplyTags" );
         $ReplyStartTag = $ini->read_var( "eZForumMain", "ReplyStartTag" );
         $ReplyEndTag = $ini->read_var( "eZForumMain", "ReplyEndTag" );
-        
+
         $msg = new eZForumMessage( $MessageID );
         $forum = new eZForum( $msg->forumID() );
         $ForumID = $forum->id();
-        
+
         $CheckMessageID = $MessageID;
         $CheckForumID = $ForumID;
         include( "ezforum/user/messagepermissions.php" );
@@ -476,7 +484,7 @@ switch( $Action )
         $NewMessageTopic = $msg->topic();
 
         $ReplyPrefix = $ini->read_var( "eZForumMain", "ReplyPrefix" );
-        
+
         if ( !ereg( "^$ReplyPrefix", $NewMessageTopic ) )
         {
             $NewMessageTopic = $ReplyPrefix . $NewMessageTopic;
@@ -485,11 +493,11 @@ switch( $Action )
         $doParse = true;
         $ShowMessage = true;
         include_once( "ezforum/user/messagebody.php" );
-        
+
         $ShowPath = true;
         $isPreview = false;
         include_once( "ezforum/user/messagepath.php" );
-        
+
         $ShowMessageForm = true;
         $ShowEmptyMessageForm = false;
         $ShowVisibleMessageForm = true;
@@ -501,9 +509,9 @@ switch( $Action )
         $doPrint = true;
     }
     break;
-    
+
     case "preview":
-    {        
+    {
         $ActionValue = $EndAction;
         if( $Error == false )
         {
@@ -526,9 +534,9 @@ switch( $Action )
                         $ForumID = $tmpmsg->forumID();
                         $msg->setForumID( $ForumID );
                         $msg->setParent( $ReplyToID );
-                        
+
                         $forum = new eZForum( $ForumID );
-                        
+
                         if ( $forum->isModerated() )
                         {
                             $msg->setIsApproved( false );
@@ -539,22 +547,22 @@ switch( $Action )
                         }
                     }
                     break;
-                    
+
                     case "new":
                     {
                         $msg = new eZForumMessage();
                         $msg->setForumID( $ForumID );
                     }
                     break;
-                    
+
                     default:
                     {
                         $msg = new eZForumMessage( $OriginalID );
                     }
                     break;
-                    
+
                 }
-                
+
                 $author = eZUser::currentUser();
 
                 if( is_object( $author ) )
@@ -570,7 +578,7 @@ switch( $Action )
             {
                 $msg = new eZForumMessage( $PreviewID );
             }
-            
+
             if( $NewMessageNotice == "on" )
             {
                 $msg->enableEmailNotice();
@@ -579,7 +587,7 @@ switch( $Action )
             {
                 $msg->disableEmailNotice();
             }
-            
+
             $AllowedTags = $ini->read_var( "eZForumMain", "AllowedTags" );
             $AllowHTML = $ini->read_var( "eZForumMain", "AllowHTML" );
 
@@ -593,7 +601,7 @@ switch( $Action )
                 $msg->setTopic( stripslashes( $NewMessageTopic ) );
                 $msg->setBody( stripslashes( $NewMessageBody ) );
             }
-            
+
             $msg->setIsTemporary( true );
 
             $msg->store();
@@ -607,7 +615,7 @@ switch( $Action )
             {
                 $OriginalID = $MessageID;
             }
-            
+
             $MessageID = $PreviewID;
 
             $CheckMessageID = $msg->id();
@@ -620,14 +628,14 @@ switch( $Action )
                 eZHTTPTool::header( "Location: /error/403?Info=" . errorPage( "forum_main", "/forum/categorylist/", 403 ) );
             }
 
-           
+
             $ShowPath = true;
             $isPreview = false;
             include_once( "ezforum/user/messagepath.php" );
-            
+
             $ShowMessage = true;
             include_once( "ezforum/user/messagebody.php" );
-            
+
             $ShowMessageForm = true;
             $ShowEmptyMessageForm = false;
             $ShowVisibleMessageForm = false;
@@ -635,13 +643,13 @@ switch( $Action )
             $ShowReplyInfo = true;
             $ShowBodyInfo = true;
             include_once( "ezforum/user/messageform.php" );
-            
+
         }
-        
+
         $doPrint = true;
     }
     break;
-    
+
     default:
     {
         include_once( "classes/ezhttptool.php" );
@@ -660,8 +668,9 @@ switch( $Action )
 // print( "RedirectURL = $RedirectURL <br>" );
 // print( "ForumID = $ForumID <br>" );
 
-$t->set_var( "start_action", $StartAction );      
-$t->set_var( "end_action", $EndAction );      
+
+$t->set_var( "start_action", $StartAction );
+$t->set_var( "end_action", $EndAction );
 $t->set_var( "action_value", $ActionValue );
 $t->set_var( "message_id", $MessageID );
 

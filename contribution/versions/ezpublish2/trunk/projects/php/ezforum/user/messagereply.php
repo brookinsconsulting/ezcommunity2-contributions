@@ -1,6 +1,6 @@
 <?php
-// 
-// $Id: messagereply.php,v 1.37 2001/05/14 15:31:15 fh Exp $
+//
+// $Id: messagereply.php,v 1.38 2001/05/16 09:12:47 wojciechp Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <24-Sep-2000 12:20:32 bf>
@@ -38,22 +38,22 @@ if ( $StartAction == "reply" )
     {
         $forum = new eZForum( $ForumID );
     }
-    
+
     // send mail to forum moderator
     $moderator = $forum->moderator();
 
     $mail = new eZMail();
-    
+
     $messages = $forum->messageThreadTree( $msg->threadID() );
 
     $replyAddress = $ini->read_var( "eZForumMain", "ReplyAddress" );
     $mail->setFrom( $replyAddress );
-    
+
     $locale = new eZLocale( $Language );
-    
+
     $mailTemplate = new eZTemplate( "ezforum/user/" . $ini->read_var( "eZForumMain", "TemplateDir" ),
                                     "ezforum/user/intl", $Language, "mailreply.php" );
-    
+
     $mailTemplate->set_file( "mailreply", "mailreply.tpl" );
     $mailTemplate->setAllStrings();
 
@@ -61,45 +61,54 @@ if ( $StartAction == "reply" )
     
     if( is_object( $moderator ) )
     {
-        $author = $msg->user();
-        $headersInfo = ( getallheaders() );
-        
-        if( $author->id() == 0 )
+        $moderators = eZUserGroup::users($moderator->id() );
+
+        if( count( $moderators ) > 0 )
         {
-            $mailTemplate->set_var( "author", $ini->read_var( "eZForumMain", "AnonymousPoster" ) );
+            foreach( $moderators as $moderatorItem )
+            {
+
+                $author = $msg->user();
+                $headersInfo = ( getallheaders() );
+
+                if( $author->id() == 0 )
+                {
+                    $mailTemplate->set_var( "author", $ini->read_var( "eZForumMain", "AnonymousPoster" ) );
+                }
+                else
+                {
+                    $mailTemplate->set_var( "author", $author->firstName() . " " . $author->lastName() );
+                }
+                $mailTemplate->set_var( "posted_at", $locale->format( $msg->postingTime() ) );
+
+                $subject_line = $mailTemplate->Ini->read_var( "strings", "moderator_subject" );
+
+
+                $mailTemplate->set_var( "topic", $msg->topic() );
+                $mailTemplate->set_var( "body", $msg->body( false ) );
+                $mailTemplate->set_var( "forum_name", $forum->name() );
+                $mailTemplate->set_var( "forum_link", "http://"  . $headersInfo["Host"] . "/forum/messagelist/" . $forum->id() );
+                $mailTemplate->set_var( "link_1", "http://" . $headersInfo["Host"] . "/forum/message/" . $msg->id() );
+                $mailTemplate->set_var( "link_2", "http://admin." . $headersInfo["Host"] . "/forum/messageedit/edit/" . $msg->id() );
+                $mailTemplate->set_var( "intl-info_message_1", $mailTemplate->Ini->read_var( "strings", "moderator_info_message_1" ) );
+                $mailTemplate->set_var( "intl-info_message_2", $mailTemplate->Ini->read_var( "strings", "moderator_info_message_2" ) );
+                $mailTemplate->set_var( "intl-info_message_3", $mailTemplate->Ini->read_var( "strings", "moderator_info_message_3" ) );
+                $mailTemplate->set_var( "intl-info_message_4", $mailTemplate->Ini->read_var( "strings", "moderator_info_message_4" ) );
+
+                $bodyText = ( $mailTemplate->parse( "dummy", "mailreply" ) );
+
+                $mail->setSubject( $subject_line );
+                $mail->setBody( $bodyText );
+
+                $mail->setFrom( $moderatorItem->email() );
+                $mail->setTo( $moderatorItem->email() );
+
+                $mail->send();
+                $emailNoticeArray[] = $moderatorItem->id();
+            }
         }
-        else
-        {
-            $mailTemplate->set_var( "author", $author->firstName() . " " . $author->lastName() );
-        }
-        $mailTemplate->set_var( "posted_at", $locale->format( $msg->postingTime() ) );
-
-        $subject_line = $mailTemplate->Ini->read_var( "strings", "moderator_subject" );
-        
-
-        $mailTemplate->set_var( "topic", $msg->topic() );
-        $mailTemplate->set_var( "body", $msg->body( false ) );
-        $mailTemplate->set_var( "forum_name", $forum->name() );
-        $mailTemplate->set_var( "forum_link", "http://"  . $headersInfo["Host"] . "/forum/messagelist/" . $forum->id() );
-        $mailTemplate->set_var( "link_1", "http://" . $headersInfo["Host"] . "/forum/message/" . $msg->id() );
-        $mailTemplate->set_var( "link_2", "http://admin." . $headersInfo["Host"] . "/forum/messageedit/edit/" . $msg->id() );
-        $mailTemplate->set_var( "intl-info_message_1", $mailTemplate->Ini->read_var( "strings", "moderator_info_message_1" ) );
-        $mailTemplate->set_var( "intl-info_message_2", $mailTemplate->Ini->read_var( "strings", "moderator_info_message_2" ) );
-        $mailTemplate->set_var( "intl-info_message_3", $mailTemplate->Ini->read_var( "strings", "moderator_info_message_3" ) );
-        $mailTemplate->set_var( "intl-info_message_4", $mailTemplate->Ini->read_var( "strings", "moderator_info_message_4" ) );
-
-        $bodyText = ( $mailTemplate->parse( "dummy", "mailreply" ) );
-
-        $mail->setSubject( $subject_line );
-        $mail->setBody( $bodyText );
-
-        $mail->setFrom( $moderator->email() );
-        $mail->setTo( $moderator->email() );
-
-        $mail->send();
-        $emailNoticeArray[] = $moderator->id();
     }
-    
+
     foreach( $messages as $message )
     {
         if( $message->id() != $msg->id() )
@@ -110,11 +119,11 @@ if ( $StartAction == "reply" )
                 $headersInfo = ( getallheaders() );
                 $mailTemplate->set_var( "author", $user->firstName() . " " . $user->lastName() );
                 $mailTemplate->set_var( "posted_at", $locale->format( $msg->postingTime() ) );
-                
+
                 $subject_line = $mailTemplate->Ini->read_var( "strings", "subject_prepend" );
                 $subject_line = $subject_line . $message->topic();
                 $subject_line = $subject_line . $mailTemplate->Ini->read_var( "strings", "subject_append" );
-                
+
                 $mailTemplate->set_var( "topic", $msg->topic() );
                 $mailTemplate->set_var( "body", $msg->body( false ) );
                 $mailTemplate->set_var( "forum_name", $forum->name() );
@@ -134,9 +143,9 @@ if ( $StartAction == "reply" )
                 // only send replies to a user once
                 if ( !in_array( $user->id(), $emailNoticeArray ) )
                 {
-                    $mail->send();                
-                    $emailNoticeArray[] = $user->id();                    
-                }                
+                    $mail->send();
+                    $emailNoticeArray[] = $user->id();
+                }
             }
         }
     }
