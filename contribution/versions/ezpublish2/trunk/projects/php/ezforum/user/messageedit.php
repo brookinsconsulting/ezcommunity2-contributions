@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: messageedit.php,v 1.39 2001/03/14 09:28:53 pkej Exp $
+// $Id: messageedit.php,v 1.40 2001/03/14 09:34:07 pkej Exp $
 //
 // Paul K Egell-Johnsen <pkej@ez.no>
 // Created on: <21-Feb-2001 18:00:00 pkej>
@@ -290,7 +290,8 @@ switch( $Action )
                 $mailTemplate->set_var( "topic", $msg->topic() );
                 $mailTemplate->set_var( "body", $msg->body( false ) );
                 
-                $mailTemplate->set_var( "your_link", "http://"  . $headersInfo["Host"] . "/forum/messagelist/" . $forum->id() );
+                $mailTemplate->set_var( "forum_name", $forum->name() );
+                $mailTemplate->set_var( "forum_link", "http://"  . $headersInfo["Host"] . "/forum/messagelist/" . $forum->id() );
                 $mailTemplate->set_var( "link_1", "http://" . $headersInfo["Host"] . "/forum/message" . $msg->id() );
                 $mailTemplate->set_var( "link_2", "http://admin." . $headersInfo["Host"] . "/forum/messageedit/edit/" . $msg->id() );
                 $mailTemplate->set_var( "intl-info_message_1", $mailTemplate->Ini->read_var( "strings", "moderator_info_message_1" ) );

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: messagereply.php,v 1.33 2001/03/14 09:28:53 pkej Exp $
+// $Id: messagereply.php,v 1.34 2001/03/14 09:34:07 pkej Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <24-Sep-2000 12:20:32 bf>
@@ -77,7 +77,8 @@ if ( $StartAction == "reply" )
 
         $mailTemplate->set_var( "topic", $msg->topic() );
         $mailTemplate->set_var( "body", $msg->body( false ) );
-        $mailTemplate->set_var( "your_link", "http://"  . $headersInfo["Host"] . "/forum/messagelist/" . $forum->id() );
+        $mailTemplate->set_var( "forum_name", $forum->name() );
+        $mailTemplate->set_var( "forum_link", "http://"  . $headersInfo["Host"] . "/forum/messagelist/" . $forum->id() );
         $mailTemplate->set_var( "link_1", "http://" . $headersInfo["Host"] . "/forum/message/" . $msg->id() );
         $mailTemplate->set_var( "link_2", "http://admin." . $headersInfo["Host"] . "/forum/messageedit/edit/" . $msg->id() );
         $mailTemplate->set_var( "intl-info_message_1", $mailTemplate->Ini->read_var( "strings", "moderator_info_message_1" ) );
@@ -114,7 +115,8 @@ if ( $StartAction == "reply" )
                 
                 $mailTemplate->set_var( "topic", $msg->topic() );
                 $mailTemplate->set_var( "body", $msg->body( false ) );
-                $mailTemplate->set_var( "your_link", "http://" . $headersInfo["Host"] . "/forum/message/" . $message->id() );
+                $mailTemplate->set_var( "forum_name", $forum->name() );
+                $mailTemplate->set_var( "forum_link", "http://" . $headersInfo["Host"] . "/forum/message/" . $message->id() );
                 $mailTemplate->set_var( "link_1", "http://" . $headersInfo["Host"] . "/forum/message/" . $msg->id() );
                 $mailTemplate->set_var( "link_2", "http://" . $headersInfo["Host"] . "/forum/message/" . $msg->id() );
 
