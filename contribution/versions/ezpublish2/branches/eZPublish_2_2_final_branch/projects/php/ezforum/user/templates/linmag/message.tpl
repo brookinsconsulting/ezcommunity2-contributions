@@ -13,6 +13,11 @@
 </tr>
 </table>
 
+<!-- BEGIN message_error_tpl -->
+<p class="error">{intl-error_no_message}</p>
+<!-- END message_error_tpl -->
+<!-- BEGIN message_body_tpl -->
+
 	<img src="{www_dir}/images/path-arrow.gif" height="10" width="12" border="0" alt="" />
 <!-- BEGIN header_list_tpl -->
 	<a class="path" href="{www_dir}{index}/forum/categorylist/">{intl-forum-main}</a>
@@ -138,4 +143,4 @@
 	</td>
 </tr>
 </table>
-
+<!-- END message_body_tpl -->
