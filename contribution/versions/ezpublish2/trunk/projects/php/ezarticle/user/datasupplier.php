@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: datasupplier.php,v 1.91 2001/10/02 14:03:27 ce Exp $
+// $Id: datasupplier.php,v 1.92 2001/10/08 06:55:46 bf Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -63,11 +63,49 @@ switch ( $url_array[2] )
     case "frontpage":
     {
         if ( isset( $url_array[3] ) )
-            $FrontPageCategory = $url_array[3];
-        if ( isset( $url_array[4] ) )
-            $FrontPageProductCategory = $url_array[4];
+            $GlobalSectionID = $url_array[3];
 
-        include( "ezarticle/user/frontpage.php" );        
+        // if file exists... evrything is ok..
+        // if not.. check permission, then run page if ok
+        $user =& eZUser::currentUser();
+        $groupstr = "";
+        if( get_class( $user ) == "ezuser" )
+        {
+            $groupIDArray =& $user->groups( false );
+            sort( $groupIDArray );
+            $first = true;
+            foreach( $groupIDArray as $groupID )
+                {
+                    $first ? $groupstr .= "$groupID" : $groupstr .= "-$groupID";
+                    $first = false;
+                }
+        }
+        else
+            $user = 0;
+
+        if ( $PageCaching == "enabled" )
+        {
+            include_once( "classes/ezcachefile.php" );
+            $file = new eZCacheFile( "ezarticle/cache/", array( "articlefrontpage", $GlobalSectionID, $groupstr ),
+                                     "cache", "," );
+        
+            $cachedFile = $file->filename( true );
+        
+            if ( $file->exists() )
+            {
+                include( $cachedFile );
+            }
+            else
+            {
+                $GenerateStaticPage = "true";                
+                include( "ezarticle/user/frontpage.php" );
+            }
+        }
+        else 
+        {
+            include( "ezarticle/user/frontpage.php" );
+        }
+
     }
     break;
 
@@ -125,7 +163,7 @@ switch ( $url_array[2] )
         $groupstr = "";
         if( get_class( $user ) == "ezuser" )
         {
-            $groupIDArray = $user->groups( false );
+            $groupIDArray =& $user->groups( false );
             sort( $groupIDArray );
             $first = true;
             foreach( $groupIDArray as $groupID )

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: frontpage.php,v 1.19 2001/10/02 15:52:40 pkej Exp $
+// $Id: frontpage.php,v 1.20 2001/10/08 06:55:46 bf Exp $
 //
 // Created on: <30-May-2001 14:06:59 bf>
 //
@@ -106,14 +106,10 @@ $t->set_var( "ad_column", "" );
 // image dir
 $t->set_var( "image_dir", $ImageDir );
 
-// parse the settings
-// $page_elements = explode( ";", $FrontPageSettings );
-
 $articleCount = 0;
 $productCount = 0;
 $adCount = 0;
 
-$GlobalSectionID = eZArticleCategory::sectionIDStatic( $FrontPageCategory );
 $sectionObject =& eZSection::globalSectionObject( $GlobalSectionID );
 
 $rows =& $sectionObject->frontPageRows();
@@ -158,48 +154,9 @@ if ( is_array ( $rows ) and count ( $rows ) > 0 )
     }
 }
 
-#print_r( $articleList );
-#print_r( $productList );
-
-$category = new eZArticleCategory( $FrontPageCategory );
-$productCategory = new eZProductCategory( $FrontPageProductCategory );
-
 $user =& eZUser::currentUser();
 
-if ( $FrontPageCategory == 0 )
-{
-    // do not set offset for the main page news
-    // always sort by publishing date is the merged category
-    $article = new eZArticle();
-    $articleList =& $article->articles( "time", false, 0, $articleCount );
-    $articleCount = $articleCount;
-}
-else
-{
-    $sectionObject->setOverrideVariables();
-
-    if ( !$articleList )
-    {
-        $articleList =& $category->articles( $category->sortMode(), false, 0, $articleCount );
-    }
-    $articleCount = $articleCount;
-}
-
-if ( $FrontPageProductCategory == 0 )
-{
-    // do not set offset for the main page news
-    // always sort by publishing date is the merged category
-    $product = new eZProduct();
-    if ( !$productList )
-        $productList =& $product->hotDealProducts( $productCount );
-    $productCount = $productCount;
-}
-else if ( $FrontPageProductCategory != -1 )
-{
-    if ( !$productList )
-        $productList =& $productCategory->products( $category->sortMode(), false, true, 0, $productCount );
-    $articleCount = $articleCount;
-}
+$sectionObject->setOverrideVariables();
 
 if ( $adCount > 0 )
 {
@@ -292,24 +249,6 @@ foreach ( $page_elements as $element )
     }
 }
 $t->set_var( "element_list", $pageContents );
-
-
-
-if ( isset( $GenerateStaticPage ) and $GenerateStaticPage == "true" and $cachedFile != "" )
-{
-    $fp = eZFile::fopen( $cachedFile, "w+");
-
-    $output = $t->parse( $target, "article_list_page_tpl" );
-    
-    // print the output the first time while printing the cache file.
-    print( $output );
-    fwrite ( $fp, $output );
-    fclose( $fp );
-}
-else
-{
-    $t->pparse( "output", "article_list_page_tpl" );
-}
 
 
 function &renderFrontpageArticle( &$t, &$locale, &$article )
@@ -547,7 +486,7 @@ function &renderFrontpageArticleDouble( &$t, &$locale, &$article1, &$article2 )
     }
 
     $t->parse( "right_article", "right_article_tpl"  );
-    
+
     return $t->parse( "output", "two_column_article_tpl" );    
 }
 
@@ -813,6 +752,28 @@ function &renderFrontpageProductDouble( &$t, &$locale, &$product1, &$product2 )
 
 
 
+$t->pparse( "output", "article_list_page_tpl" );
+
+// set variables for meta information
+// $SiteTitleAppend = $category->name();
+
+if ( isset( $GenerateStaticPage ) && $GenerateStaticPage == "true" )
+{    
+    $fp = eZFile::fopen( $cachedFile, "w+");
+    
+    // add PHP code in the cache file to store variables
+    $output = "<?php\n";
+    $output .= "\$GlobalSectionID=\"$GlobalSectionID\";\n";
+    $output .= "\$SiteTitleAppend=\"$SiteTitleAppend\";\n";
+    $output .= "\$SiteDescriptionOverride=\"$SiteDescriptionOverride\";\n";    
+    $output .= "?>\n";
+
+    $output .= ob_get_contents();
+
+    // print the output the first time while printing the cache file.
+    fwrite ( $fp, $output );
+    fclose( $fp );
+}
 
 ?>
 
