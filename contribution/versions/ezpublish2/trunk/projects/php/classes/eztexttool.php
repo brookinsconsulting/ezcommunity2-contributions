@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eztexttool.php,v 1.16 2001/04/25 14:08:05 jb Exp $
+// $Id: eztexttool.php,v 1.17 2001/04/27 13:39:55 jb Exp $
 //
 // Definition of eZTextTool class
 //
@@ -169,6 +169,8 @@ class eZTextTool
       The resulting array tree makes it easy to grab variables from the XML tree.
       Each node gets a separate array with each attribute as a key/value pair,
       each child of that node is a key with the node name and the value is the new tree.
+      If $inline_children is set to true then no "children" elements are created,
+      the subnodes will instead be placed directly in the current node.
       Example: <top attrib="test"><one src="test again" /></top>
       Result: Array
       (
@@ -188,10 +190,10 @@ class eZTextTool
       $src = $tree["top"]["children"]["one"]["src"];
       which is quite easier than traversing an xml tree manually.
     */
-    function &parseXML( &$xml )
+    function &parseXML( &$xml, $inline_children = false )
     {
         $msg = array();
-        eZTextTool::parseXMLPart( $xml, $msg );
+        eZTextTool::parseXMLPart( $xml, $msg, $inline_children );
         return $msg;
     }
 
@@ -200,7 +202,7 @@ class eZTextTool
       \private
       Helper function for parseXML.
     */
-    function parseXMLPart( &$xml, &$msg )
+    function parseXMLPart( &$xml, &$msg, $inline_children )
     {
         foreach( $xml->children as $child )
         {
@@ -217,9 +219,16 @@ class eZTextTool
             }
             if ( isset( $child->children ) )
             {
-                $children = array();
-                eZTextTool::parseXMLPart( $child, $children );
-                $part["children"] =& $children;
+                if ( $inline_children )
+                {
+                    eZTextTool::parseXMLPart( $child, $part, $inline_children );
+                }
+                else
+                {
+                    $children = array();
+                    eZTextTool::parseXMLPart( $child, $children, $inline_children );
+                    $part["children"] =& $children;
+                }
             }
             $msg[$child->name] = $part;
         }
