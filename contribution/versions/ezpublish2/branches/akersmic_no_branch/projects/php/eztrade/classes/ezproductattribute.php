@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: ezproductattribute.php,v 1.13.8.2 2002/01/16 10:19:34 ce Exp $
+// $Id: ezproductattribute.php,v 1.13.8.3 2002/01/29 14:17:33 ce Exp $
 //
 // Definition of eZProductAttribute class
 //
@@ -240,7 +240,7 @@ class eZProductAttribute
     /*!
       Sets the name of the attribute.
     */
-    function setName( &$value )
+    function setName( $value )
     {
 	$this->Name = $value;
     }
@@ -278,7 +278,7 @@ class eZProductAttribute
       1 = normal attribute
       2 = header
     */
-    function setAttributeType( &$attributeType )
+    function setAttributeType( $attributeType )
     {
 	if ( $attributeType == 2 )
 	{

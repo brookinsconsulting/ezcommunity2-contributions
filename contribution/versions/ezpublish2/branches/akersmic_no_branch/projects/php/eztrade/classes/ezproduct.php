@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: ezproduct.php,v 1.119.2.1.4.17 2002/01/24 13:48:19 bf Exp $
+// $Id: ezproduct.php,v 1.119.2.1.4.18 2002/01/29 14:17:32 ce Exp $
 //
 // Definition of eZProduct class
 //
@@ -131,6 +131,7 @@ class eZProduct
         $productNumber = $db->escapeString( $this->ProductNumber );
         $contents = $db->escapeString( $this->Contents );
         $artist = $db->escapeString( $this->Artist );
+        $innspilling = $db->escapeString( $this->Innspilling );
 
         if ( !isSet( $this->ID ) )
         {
@@ -179,8 +180,8 @@ class eZProduct
                                     '$timeStamp',
                                     '$this->ExpiryTime',
                                     '$this->IncludesVAT',
-                                    '$this->Artist',
-                                    '$this->Innspilling',
+                                    '$artist',
+                                    '$innspilling',
                                     '$this->TypeID')" );
             $db->unlock();
 			$this->ID = $nextID;
@@ -204,8 +205,8 @@ class eZProduct
                                  Published=Published,
                                  ExpiryTime='$this->ExpiryTime',
                                  IncludesVAT='$this->IncludesVAT',
-                                 Artist='$this->Artist',
-                                 Innspilling='$this->Innspilling',
+                                 Artist='$artist',
+                                 Innspilling='$innspilling',
                                  TypeID='$this->TypeID'
                                  WHERE ID='$this->ID'
                                  " );

@@ -1,5 +1,5 @@
 <?php
-// $Id: ezproductcategory.php,v 1.52.8.5 2002/01/24 16:14:32 bf Exp $
+// $Id: ezproductcategory.php,v 1.52.8.6 2002/01/29 14:17:33 ce Exp $
 //
 // Definition of eZProductCategory class
 //
@@ -305,7 +305,7 @@ class eZProductCategory
             return 0;
         }
     }
-    
+
     /*!
       Returns the categories with the category given as parameter as parent.
 
@@ -524,7 +524,7 @@ class eZProductCategory
     /*!
       Sets the remote ID of the category.
     */
-    function setSectionID( &$value )
+    function setSectionID( $value )
     {
         $this->SectionID = $value;
     }
@@ -868,7 +868,7 @@ class eZProductCategory
 */
        return $product_array;
     }
-    
+
 
     /*!
       Returns every active product to a category as a array of eZProduct objects.
