@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: polledit.php,v 1.23 2001/02/08 17:02:33 fh Exp $
+// $Id: polledit.php,v 1.24 2001/02/08 17:21:11 fh Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <21-Sep-2000 10:39:19 ce>
@@ -180,10 +180,8 @@ if ( $Action == "Update" )
     
     if ( isset ( $Choice ) )
     {
-        //  eZHTTPTool::header( "Location: /poll/choiceedit/new/" . $PollID . "/" );
-        //exit();
         $item = new eZPollChoice();
-        $item->setName( "Language Error" );
+        $item->setName( $errorIni->read_var( "strings", "newitem") );
         $item->setPollID( $PollID );
         $item->store();
     }
