@@ -1,0 +1,235 @@
+#LyX 1.1 created this file. For more info see http://www.lyx.org/
+\lyxformat 2.16
+\textclass article
+\language default
+\inputencoding latin1
+\fontscheme default
+\graphics default
+\paperfontsize default
+\spacing single 
+\papersize Default
+\paperpackage a4
+\use_geometry 0
+\use_amsmath 0
+\paperorientation portrait
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\defskip medskip
+\quotes_language english
+\quotes_times 2
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+
+\layout Title
+
+eZ Trade guide
+\layout Section
+
+Dependencies
+\layout Itemize
+
+MySQL (www.mysql.org)
+\layout Itemize
+
+PHP (www.php.net)
+\layout Itemize
+
+ImageMagick (www.imagemagick.org)
+\layout Itemize
+
+Apache (www.apache.org)
+\layout Itemize
+
+libxml (www.xmlsoft.org)
+\layout Section
+
+PHP install:
+\layout Subsection
+
+Unpack your php-4.0.x.tar.gz package: 
+\layout LyX-Code
+
+# tar zxvf php-4.0.x.tar.gz
+\layout Subsection
+
+Howto configure php 
+\layout LyX-Code
+
+# cd php-4.0.x 
+\layout LyX-Code
+
+# ./configure --with-xml --enable-trans-sid --with-mysql --with-magic-quotes
+ --with-apxs --with-dom
+\layout Subsection
+
+Compile and install the PHP package 
+\layout LyX-Code
+
+# make # make install
+\layout Section
+
+Apache config
+\layout Subsection
+
+Apache modules
+\layout Standard
+
+The rewrite and php modules needs to be active to use trade.
+ 
+\layout Subsection
+
+Apache configuration
+\layout Standard
+
+This is an example of a httpd.conf virtalhost (change trade.org to your own
+ domain).
+\layout LyX-Code
+
+# User site 
+\layout LyX-Code
+
+<VirtualHost trade.org> 
+\layout LyX-Code
+
+  <Directory /home/trade/www> 
+\layout LyX-Code
+
+         Options FollowSymLinks Indexes ExecCGI 
+\layout LyX-Code
+
+         AllowOverride None 
+\layout LyX-Code
+
+\layout LyX-Code
+
+  </Directory> 
+\layout LyX-Code
+
+RewriteEngine On 
+\layout LyX-Code
+
+RewriteRule !
+\backslash 
+.(gif|css|jpg) /home/trade/www/index.php 
+\layout LyX-Code
+
+ServerAdmin your_mail@domain.no 
+\layout LyX-Code
+
+DocumentRoot /home/trade/www
+\layout LyX-Code
+
+ServerName trade.org 
+\layout LyX-Code
+
+ServerAlias www.trade.org 
+\layout LyX-Code
+
+</VirtualHost>
+\layout LyX-Code
+
+\layout LyX-Code
+
+# Admin site 
+\layout LyX-Code
+
+<VirtualHost admin.trade.org> 
+\layout LyX-Code
+
+  <Directory /home/trade/www/admin> 
+\layout LyX-Code
+
+         Options FollowSymLinks Indexes ExecCGI 
+\layout LyX-Code
+
+         AllowOverride None 
+\layout LyX-Code
+
+  </Directory> 
+\layout LyX-Code
+
+RewriteEngine On 
+\layout LyX-Code
+
+RewriteRule !
+\backslash 
+.(gif|css|jpg) /home/trade/www/admin/index.php 
+\layout LyX-Code
+
+ServerAdmin your_mail@domain.no 
+\layout LyX-Code
+
+DocumentRoot /home/trade/admin/www 
+\layout LyX-Code
+
+ServerName admin.trade.org 
+\layout LyX-Code
+
+ServerAlias admin.trade.org 
+\layout LyX-Code
+
+</VirtualHost>
+\layout Section
+
+Install eZ trade
+\layout Subsection
+
+Database install
+\layout Itemize
+
+Create a database, name it trade or whatever you like .
+\layout LyX-Code
+
+# mysqladmin -uroot -p create database trade
+\layout Itemize
+
+Add a trade user in MySQL, to add a user you can use the MySQL client
+\layout LyX-Code
+
+mysql>grant all on trade.* to trade@localhost identified by "secret";
+\layout Itemize
+
+Dump all the sql data from sql/trade.sql into your database
+\layout LyX-Code
+
+# mysql -uroot -p trade < sql/trade.sql
+\layout Subsection
+
+Install the php files
+\layout Itemize
+
+Put all the trade files in your apache documentroot.
+\layout LyX-Code
+
+# cd /path/to/apache/documentroot/ 
+\layout LyX-Code
+
+# tar zxvf /path/to/trade-1.0.tar.gz
+\layout Itemize
+
+Edit site.ini and add all the modules you need, and set the username and
+ password.
+\layout Itemize
+
+Run modfix, this is important.
+ This script will create symbolic links needed and set permissions.
+\layout LyX-Code
+
+# ./modfix.sh
+\layout Itemize
+
+Start konqueror and have fun!
+\layout LyX-Code
+
+# konqueror http://yoursite.com
+\layout Itemize
+
+
+\emph on 
+NOTE!: The default admin username and password will be admin/trade.
+ Remember to change the password!!
+\layout LyX-Code
+
+\the_end
