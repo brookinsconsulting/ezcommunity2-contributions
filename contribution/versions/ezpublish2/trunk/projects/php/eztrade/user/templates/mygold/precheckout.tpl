@@ -68,7 +68,7 @@ Sie betreten in Kürze den gesicherten Bereich der MyGold.com Webseite. In dem Ih
  und Ihren Einkauf weiterführen. Falls Sie die Testseite gar nicht oder
  schlecht sehen, sollten Sie entweder wir oben beschrieben Ihren Browser updaten
  oder Ihren Einkauf unverschlüsselt weiterführen. Hier können
- Sie Ihren Browser einem <b><a href="https://www.mygold.com/ssltest/" target="new">SSL-Test</a></b>
+ Sie Ihren Browser einem <b><a href="https://www.mygold.com/home/ssltest/" target="new">SSL-Test</a></b>
  unterziehen.<br />
  <br />
 </p>
