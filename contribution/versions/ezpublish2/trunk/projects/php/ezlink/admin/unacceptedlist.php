@@ -1,5 +1,5 @@
 <?
-// $Id: unacceptedlist.php,v 1.4 2001/05/09 16:41:24 ce Exp $
+// $Id: unacceptedlist.php,v 1.5 2001/06/30 13:43:48 bf Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <26-Oct-2000 14:55:24 ce>
@@ -31,7 +31,7 @@ $ini =& $GLOBALS["GlobalSiteIni"];
 $Language = $ini->read_var( "eZLinkMain", "Language" );
 $AdminLimit = $ini->read_var( "eZLinkMain", "AdminAcceptLimit" );
 
-include_once( "ezlink/classes/ezlinkgroup.php" );
+include_once( "ezlink/classes/ezlinkcategory.php" );
 include_once( "ezlink/classes/ezlink.php" );
 include_once( "ezlink/classes/ezhit.php" );
 
@@ -62,9 +62,9 @@ $link = new eZLink();
 $linkList =& $link->getNotAccepted( $Offset, $AdminLimit );
 $linkCount = $link->unAcceptedCount();
 
-$category = new eZLinkGroup();
+$category = new eZLinkCategory();
 
-$linkGroupList = $category->getTree();
+$linkCategoryList = $category->getTree();
 
 $t->set_var( "link_count", count( $linkList ) );
 
@@ -74,24 +74,22 @@ foreach( $linkList as $linkItem )
     $t->set_var( "td_class", ( $i %2 ) == 0 ? "bglight" : "bgdark" );
 
     $t->set_var( "link_id", $linkItem->id() );
-    $t->set_var( "link_name", $linkItem->title() );
+    $t->set_var( "link_name", $linkItem->name() );
     $t->set_var( "link_url", $linkItem->url() );
     $t->set_var( "link_description", $linkItem->description() );
-    $t->set_var( "link_category_id", $linkItem->linkGroupID() );
     $t->set_var( "link_keywords", $linkItem->keywords() );
 
-    $linkCategoryID = $linkItem->linkGroupID();
 
     $t->set_var( "category_item", "" );
-    foreach( $linkGroupList as $linkGroupItem )
+    foreach( $linkCategoryList as $linkCategoryItem )
     {
-        $t->set_var("link_group_id", $linkGroupItem[0]->id() );
-        $t->set_var("link_group_title", $linkGroupItem[0]->title() );
+        $t->set_var("link_category_id", $linkCategoryItem[0]->id() );
+        $t->set_var("link_category_name", $linkCategoryItem[0]->name() );
 
-        $t->set_var( "is_selected", $linkCategoryID == $linkGroupItem[0]->id() ? "selected" : "" );
+//        $t->set_var( "is_selected", $linkCategoryID == $linkCategoryItem[0]->id() ? "selected" : "" );
 
-        if ( $linkGroupItem[1] > 0 )
-            $t->set_var( "option_level", str_repeat( "&nbsp;", $linkGroupItem[1] ) );
+        if ( $linkCategoryItem[1] > 0 )
+            $t->set_var( "option_level", str_repeat( "&nbsp;", $linkCategoryItem[1] ) );
         else
             $t->set_var( "option_level", "" );
 
