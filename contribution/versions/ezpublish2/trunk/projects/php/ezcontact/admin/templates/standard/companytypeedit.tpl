@@ -1,34 +1,3 @@
-<SCRIPT LANGUAGE="JavaScript1.2">
-<!--//
-
-	function MM_swapImgRestore() 
-	{
-		var i,x,a=document.MM_sr; for(i=0;a&&i<a.length&&(x=a[i])&&x.oSrc;i++) x.src=x.oSrc;
-	}
-
-	function MM_preloadImages() 
-	{
-		var d=document; if(d.images){ if(!d.MM_p) d.MM_p=new Array();
-		var i,j=d.MM_p.length,a=MM_preloadImages.arguments; for(i=0; i<a.length; i++)
-		if (a[i].indexOf("#")!=0){ d.MM_p[j]=new Image; d.MM_p[j++].src=a[i];}}
-	}
-
-	function MM_findObj(n, d) 
-	{
-		var p,i,x;  if(!d) d=document; if((p=n.indexOf("?"))>0&&parent.frames.length) {
-		d=parent.frames[n.substring(p+1)].document; n=n.substring(0,p);}
-		if(!(x=d[n])&&d.all) x=d.all[n]; for (i=0;!x&&i<d.forms.length;i++) x=d.forms[i][n];
-		for(i=0;!x&&d.layers&&i<d.layers.length;i++) x=MM_findObj(n,d.layers[i].document); return x;
-	}
-
-	function MM_swapImage() 
-	{
-		var i,j=0,x,a=MM_swapImage.arguments; document.MM_sr=new Array; for(i=0;i<(a.length-2);i+=3)
-		if ((x=MM_findObj(a[i]))!=null){document.MM_sr[j++]=x; if(!x.oSrc) x.oSrc=x.src; x.src=a[i+2];}
-	}
-	
-//-->
-</SCRIPT> 
 <h1>{intl-headline_edit}</h1>
 <!-- BEGIN path_tpl -->
 <hr noshade="noshade" size="4" />
@@ -83,11 +52,19 @@
 <!-- END no_image_item_tpl -->
 <input size="40" name="ImageFile" type="file" /><br /><br />
 <hr noshade="noshade" size="4" />
-<input class="okbutton" type="submit" name="{intl-command_ok}" value="{intl-button_ok}" />
-</form>
-<hr noshade="noshade" size="4" />
 
-<form method="post" action="/{intl-module_name}/{intl-command_type}/{intl-command_list}/{parent_id}/">
-<input class="okbutton" type="submit" name="{intl-command_back}" value="{intl-button_back}" />
-</form>
+<table cellspacing="0" cellpadding="0" border="0">
+<tr>
+	<td>
+	<input class="okbutton" type="submit" name="{intl-command_ok}" value="{intl-button_ok}" />
+	</form>
+	</td>
+	<td>&nbsp;</td>
+	<td>
+	<form method="post" action="/{intl-module_name}/{intl-command_type}/{intl-command_list}/{parent_id}/">
+	<input class="okbutton" type="submit" name="{intl-command_back}" value="{intl-button_back}" />
+	</form>
+	</td>
+</tr>
+</table>
 <!-- END current_type_tpl -->

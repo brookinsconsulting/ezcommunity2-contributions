@@ -215,9 +215,11 @@
     </td>
 </tr>
 </table>
-<br />
+
 
 <!-- END password_item_tpl -->
+
+<br />
 
 <hr noshade="noshade" size="4" />
 

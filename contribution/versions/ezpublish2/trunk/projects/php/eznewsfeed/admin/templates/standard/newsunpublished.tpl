@@ -86,11 +86,11 @@
 	{category_description}&nbsp;
 	</td>
 	<td width="1%" class="{td_class}">
-	<a href="/newsfeed/categoryedit/edit/{category_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezac{category_id}-red','','/eznewsfeed/admin/images/redigerminimrk.gif',1)"><img name="ezac{category_id}-red" border="0" src="/eznewsfeed/admin/images/redigermini.gif" width="16" height="16" align="top"></a>
+	<a href="/newsfeed/categoryedit/edit/{category_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('eznf{category_id}-red','','/eznewsfeed/admin/images/redigerminimrk.gif',1)"><img name="eznf{category_id}-red" border="0" src="/eznewsfeed/admin/images/redigermini.gif" width="16" height="16" align="top"></a>
 	</td>
 	<td width="1%" class="{td_class}">
 	<a href="#" onClick="verify( '{intl-delete}', '/newsfeed/categoryedit/delete/{category_id}/'); return false;" 
-onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezac{category_id}-slett','','/eznewsfeed/admin/images/slettminimrk.gif',1)"><img name="ezac{category_id}-slett" border="0" src="/eznewsfeed/admin/images/slettmini.gif" width="16" height="16" align="top"></a>
+onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('eznf{category_id}-slett','','/eznewsfeed/admin/images/slettminimrk.gif',1)"><img name="eznf{category_id}-slett" border="0" src="/eznewsfeed/admin/images/slettmini.gif" width="16" height="16" align="top"></a>
 	</td>
 </tr>
 <!-- END category_item_tpl -->

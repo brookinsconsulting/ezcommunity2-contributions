@@ -62,10 +62,12 @@
 </tr>
 <tr>
 	<td>
+	<br />
 	<p class="boxtext">{intl-password}:</p>
 	<input type="password" size="20" name="Password" value="{password}"/>
 	</td>
 	<td>
+	<br />
 	<p class="boxtext">{intl-repeat_password}:</p>
 	<input type="password" size="20" name="RepeatPassword" value="{repeat_password}"/>
 	</td>
