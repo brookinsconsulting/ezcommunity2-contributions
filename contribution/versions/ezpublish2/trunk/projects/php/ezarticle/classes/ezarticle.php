@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezarticle.php,v 1.178 2001/09/27 15:48:23 bf Exp $
+// $Id: ezarticle.php,v 1.179 2001/10/01 18:19:19 br Exp $
 //
 // Definition of eZArticle class
 //
@@ -3151,7 +3151,6 @@ class eZArticle
         $authorEmail = $author->email();
         $name = $author->name();
 
-        print_r( $author );
         $mailTemplate->set_var( "author", $name . " " . $authorEmail );
         $mailBody = $mailTemplate->parse( "dummy", "pending_mail_tpl" );
         $mail->setBody( $mailBody );
