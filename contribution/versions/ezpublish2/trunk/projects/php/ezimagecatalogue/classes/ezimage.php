@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezimage.php,v 1.8 2000/10/02 10:06:07 pkej-cvs Exp $
+// $Id: ezimage.php,v 1.9 2000/10/02 10:06:49 pkej-cvs Exp $
 //
 // Definition of eZCompany class
 //
@@ -368,7 +368,7 @@ class eZImage
     
     function isCoherent()
     {
-        $value = true;
+        $value = false;
         
         if( $this->State_ == "Coherent" )
         {
