@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezimage.php,v 1.83 2001/09/13 12:47:42 ce Exp $
+// $Id: ezimage.php,v 1.84 2001/09/13 13:56:37 ce Exp $
 //
 // Definition of eZImage class
 //
@@ -1375,7 +1375,7 @@ class eZImage
     /*!
       Returns a random image from a category.
     */
-    function randomImage( $categoryID=0 )
+    function &randomImage( $categoryID=0 )
     {
         $db =& eZDB::globalDatabase();
 
