@@ -74,7 +74,7 @@
 	<p class="boxtext"><a href="/link/gotolink/addhit/{link_id}/?Url={link_url}" target="_blank">{link_name}</a></p>
  	<span class="p">
 	<!-- BEGIN link_image_item_tpl -->
-	<a href="/link/gotolink/addhit/{link_id}/?Url={link_url}"  target="_blank"><img src="{image_url}" alt="{image_caption}" width="{image_width}" height="{image_height}" border="1" align="right" /></a>
+	<a href="/link/gotolink/addhit/{link_id}/?Url={link_url}"  target="_blank"><img src="{image_url}" alt="{image_caption}" width="{image_width}" height="{image_height}" border="0" align="right" /></a>
 	<!-- END link_image_item_tpl -->
 	{link_description}
 	</span><br />
