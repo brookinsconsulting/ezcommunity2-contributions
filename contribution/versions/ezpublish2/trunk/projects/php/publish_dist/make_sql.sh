@@ -1,6 +1,8 @@
 #!/bin/bash
 
 modules=`ls -d ez*`
+rm f sql/publish_postgresql.sql
+rm sql/publish_mysql.sql
 
 for module in $modules
 do
