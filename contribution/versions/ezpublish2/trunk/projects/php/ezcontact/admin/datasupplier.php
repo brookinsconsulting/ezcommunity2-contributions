@@ -6,12 +6,22 @@ switch ( $url_array[2] )
 {
     case "company":
     {
+        $CompanyID = $url_array[4];
+        $Action = $url_array[3];
         switch ( $url_array[3] )
         {
+            // intentional fall through
+            case "new":
+            case "edit":
+            case "update":
+            case "delete":
+            case "insert":
+            {
+                include( "ezcontact/admin/companytypeedit.php" );
+                break;
+            }
             case "list":
             {
-                $TypeID = $url_array[4];
-                $Action = "list";
                 include( "ezcontact/admin/companytypelist.php" );
                 break;
             }
@@ -20,46 +30,8 @@ switch ( $url_array[2] )
                 include( "ezcontact/admin/test.php" );
                 break;
             }
-
-            case "new":
-            {
-                $Action = "new";
-                include( "ezcontact/admin/companyedit.php" );
-                break;
-            }
-            case "insert":
-            {
-                $Action = "insert";
-                include( "ezcontact/admin/companyedit.php" );
-                break;
-            }
-            case "edit":
-            {
-                $Action = "edit";
-                $CompanyID = $url_array[4];
-
-                include( "ezcontact/admin/companyedit.php" );
-                break;
-            }
-
-            case "update":
-            {
-                $Action = "update";
-                $CompanyID = $url_array[4];
-                include( "ezcontact/admin/companyedit.php" );
-                break;
-            }
-            
-            case "delete":
-            {
-                $Action = "delete";
-                $CompanyID = $url_array[4];
-                include( "ezcontact/admin/companyedit.php" );
-                break;
-            }
             case "view":
             {
-                $CompanyID = $url_array[4];
                 include( "ezcontact/admin/companyview.php" );
                 break;
             }
@@ -87,58 +59,30 @@ switch ( $url_array[2] )
 
     case "companytype" :
     {
+        $TypeID = $url_array[4];
+        $Action = $url_array[3];
         switch( $url_array[3] )
         {
+            // intentional fall through
+            case "new":
+            case "edit":
+            case "update":
+            case "delete":
+            case "insert":
+            {
+                include( "ezcontact/admin/companytypeedit.php" );
+                break;
+            }
             case "view":
             {
-                $TypeID = $url_array[4];
-                $Action = "view";
                 include( "ezcontact/admin/companytypelist.php" );
                 break;
             }
             case "list":
             {
-                $TypeID = $url_array[4];
-                $Action = "list";
                 include( "ezcontact/admin/companytypelist.php" );
                 break;
             }
-
-            case "new":
-            {
-                $Action = "new";
-                include( "ezcontact/admin/companytypeedit.php" );
-                break;
-            }
-            case "insert":
-            {
-                $TypeID = $url_array[4];
-                $Action = "insert";
-                include( "ezcontact/admin/companytypeedit.php" );
-                break;
-            }
-            case "edit":
-            {
-                $TypeID = $url_array[4];
-                $Action = "edit";
-                include( "ezcontact/admin/companytypeedit.php" );
-                break;
-            }
-            case "update":
-            {
-                $TypeID = $url_array[4];
-                $Action = "update";
-                include( "ezcontact/admin/companytypeedit.php" );
-                break;
-            }
-            case "delete":
-            {
-                $TypeID = $url_array[4];
-                $Action = "delete";
-                include( "ezcontact/admin/companytypeedit.php" );
-                break;
-            }
-
             default:
             {
                 header( "Location: /contact/error?Type=404&Uri=$REQUEST_URI&Query=$QUERY_STRING&BackUrl=$HTTP_REFERER" );
@@ -149,54 +93,28 @@ switch ( $url_array[2] )
     }
     case "person":
     {
+        $PersonID = $url_array[4];
+        $Action = $url_array[3];
         switch( $url_array[3] )
         {
-            case "list":
-            {
-                $PersonID = $url_array[4];
-                $Action = "list";
-                include( "ezcontact/admin/personlist.php" );
-                break;
-            }
+            // intentional fall through
             case "new":
-            {
-                $Action = "new";
-                include( "ezcontact/admin/personedit.php" );
-                break;
-            }
+            case "edit":
+            case "update":
+            case "delete":
             case "insert":
             {
-                $PersonID = $url_array[4];
-                $Action = "insert";
                 include( "ezcontact/admin/personedit.php" );
+                break;
+            }
+            case "list":
+            {
+                include( "ezcontact/admin/personlist.php" );
                 break;
             }
             case "view":
             {
-                $PersonID = $url_array[4];
-                $Action = "view";
                 include( "ezcontact/admin/personview.php" );
-                break;
-            }
-            case "edit":
-            {
-                $PersonID = $url_array[4];
-                $Action = "edit";
-                include( "ezcontact/admin/personedit.php" );
-                break;
-            }
-            case "update":
-            {
-                $PersonID = $url_array[4];
-                $Action = "update";
-                include( "ezcontact/admin/personedit.php" );
-                break;
-            }
-            case "delete":
-            {
-                $PersonID = $url_array[4];
-                $Action = "delete";
-                include( "ezcontact/admin/persondelete.php" );
                 break;
             }
             default:
@@ -210,54 +128,28 @@ switch ( $url_array[2] )
 
     case "phonetype":
     {
-        switch( $url_array[3] )
+        $PhoneTypeID = $url_array[4];
+        $Action = $url_array[3];
+        switch( $Action )
         {
-            case "list":
-            {
-                $PhoneTypeID = $url_array[4];
-                $Action = "list";
-                include( "ezcontact/admin/phonetypelist.php" );
-                break;
-            }
+            // intentional fall through
             case "new":
-            {
-                $Action = "new";
-                include( "ezcontact/admin/phonetypeedit.php" );
-                break;
-            }
+            case "edit":
+            case "update":
+            case "delete":
             case "insert":
             {
-                $PhoneTypeID = $url_array[4];
-                $Action = "insert";
                 include( "ezcontact/admin/phonetypeedit.php" );
+                break;
+            }
+            case "list":
+            {
+                include( "ezcontact/admin/phonetypelist.php" );
                 break;
             }
             case "view":
             {
-                $PhoneTypeID = $url_array[4];
-                $Action = "view";
                 include( "ezcontact/admin/phonetypeview.php" );
-                break;
-            }
-            case "edit":
-            {
-                $PhoneTypeID = $url_array[4];
-                $Action = "edit";
-                include( "ezcontact/admin/phonetypeedit.php" );
-                break;
-            }
-            case "update":
-            {
-                $PhoneTypeID = $url_array[4];
-                $Action = "update";
-                include( "ezcontact/admin/phonetypeedit.php" );
-                break;
-            }
-            case "delete":
-            {
-                $PhoneTypeID = $url_array[4];
-                $Action = "delete";
-                include( "ezcontact/admin/phonetypeedit.php" );
                 break;
             }
             default:
@@ -271,54 +163,28 @@ switch ( $url_array[2] )
 
     case "addresstype":
     {
+        $AddressTypeID = $url_array[4];
+        $Action = $url_array[3];
         switch( $url_array[3] )
         {
-            case "list":
-            {
-                $AddressTypeID = $url_array[4];
-                $Action = "list";
-                include( "ezcontact/admin/addresstypelist.php" );
-                break;
-            }
+            // intentional fall through
             case "new":
-            {
-                $Action = "new";
-                include( "ezcontact/admin/addresstypeedit.php" );
-                break;
-            }
+            case "edit":
+            case "update":
+            case "delete":
             case "insert":
             {
-                $AddressTypeID = $url_array[4];
-                $Action = "insert";
                 include( "ezcontact/admin/addresstypeedit.php" );
+                break;
+            }
+            case "list":
+            {
+                include( "ezcontact/admin/addresstypelist.php" );
                 break;
             }
             case "view":
             {
-                $AddressTypeID = $url_array[4];
-                $Action = "view";
                 include( "ezcontact/admin/addresstypeview.php" );
-                break;
-            }
-            case "edit":
-            {
-                $AddressTypeID = $url_array[4];
-                $Action = "edit";
-                include( "ezcontact/admin/addresstypeedit.php" );
-                break;
-            }
-            case "update":
-            {
-                $AddressTypeID = $url_array[4];
-                $Action = "update";
-                include( "ezcontact/admin/addresstypeedit.php" );
-                break;
-            }
-            case "delete":
-            {
-                $AddressTypeID = $url_array[4];
-                $Action = "delete";
-                include( "ezcontact/admin/addresstypeedit.php" );
                 break;
             }
             default:
@@ -332,54 +198,29 @@ switch ( $url_array[2] )
     
     case "onlinetype":
     {
-        switch( $url_array[3] )
+        $Action = $url_array[3];
+        $OnlineTypeID = $url_array[4];
+        
+        switch( $Action )
         {
-            case "list":
-            {
-                $OnlineTypeID = $url_array[4];
-                $Action = "list";
-                include( "ezcontact/admin/onlinetypelist.php" );
-                break;
-            }
+            // intentional fall through
             case "new":
-            {
-                $Action = "new";
-                include( "ezcontact/admin/onlinetypeedit.php" );
-                break;
-            }
+            case "edit":
+            case "update":
+            case "delete":
             case "insert":
             {
-                $OnlineTypeID = $url_array[4];
-                $Action = "insert";
                 include( "ezcontact/admin/onlinetypeedit.php" );
+                break;
+            }
+            case "list":
+            {
+                include( "ezcontact/admin/onlinetypelist.php" );
                 break;
             }
             case "view":
             {
-                $OnlineTypeID = $url_array[4];
-                $Action = "view";
                 include( "ezcontact/admin/onlinetypeview.php" );
-                break;
-            }
-            case "edit":
-            {
-                $OnlineTypeID = $url_array[4];
-                $Action = "edit";
-                include( "ezcontact/admin/onlinetypeedit.php" );
-                break;
-            }
-            case "update":
-            {
-                $OnlineTypeID = $url_array[4];
-                $Action = "update";
-                include( "ezcontact/admin/onlinetypeedit.php" );
-                break;
-            }
-            case "delete":
-            {
-                $OnlineTypeID = $url_array[4];
-                $Action = "delete";
-                include( "ezcontact/admin/onlinetypeedit.php" );
                 break;
             }
             default:
