@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: cart.php,v 1.63 2001/09/15 13:53:39 pkej Exp $
+// $Id: cart.php,v 1.64 2001/09/17 09:18:55 ce Exp $
 //
 // Created on: <27-Sep-2000 11:57:49 bf>
 //
@@ -201,7 +201,7 @@ if ( $Action == "AddToBasket" )
         eZHTTPTool::header( "Location: /error/404/" );
         exit();
     }
-    
+
     // check if a product like this is already in the basket.
     // if so-> add the count value.
     $Quantity = $product->totalQuantity();
@@ -276,6 +276,7 @@ if ( $Action == "AddToBasket" )
             $can_add = true;
             if ( !$product->hasQuantity() )
                 $can_add = false;
+
             if ( count( $OptionValueArray ) > 0 )
             {
                 foreach ( $OptionValueArray as $value )

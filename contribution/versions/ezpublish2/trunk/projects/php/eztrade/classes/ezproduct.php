@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezproduct.php,v 1.95 2001/09/15 13:41:11 pkej Exp $
+// $Id: ezproduct.php,v 1.96 2001/09/17 09:18:54 ce Exp $
 //
 // Definition of eZProduct class
 //
@@ -568,7 +568,8 @@ class eZProduct
     function vatPercentage()
     {
         $vatType =& $this->vatType();
-        return $vatType->value();
+        if ( $vatType )
+            return $vatType->value();
     }
 
     /*!
