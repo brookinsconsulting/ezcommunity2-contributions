@@ -1,8 +1,8 @@
-<?
+<?php
 // 
-// $Id: ezquery.php,v 1.3 2000/10/02 19:05:32 pkej-cvs Exp $
+// $Id: ezurl.php,v 1.1 2000/10/11 17:32:07 pkej-cvs Exp $
 //
-// Definition of eZQuery class
+// Definition of eZURL class
 //
 // Paul K Egell-Johnsen <pkej@ez.no>
 // Created on: <02-Okt-2000 18:16:00 pkej>
@@ -14,7 +14,7 @@
 //
 
 //!! eZCommon
-//! eZQuery handles query strings.
+//! eZURL handles query strings.
 /*!
     This class handles QUERY_STRINGS and provides some useful functions
     for keeping these strings in good shape.
@@ -34,23 +34,43 @@
     
  */
  
-class eZQuery
+class eZURL
 {
-    function eZQuery()
+    function eZURL()
     {
         global $QUERY_STRING;
         global $SERVER_NAME;
         global $REQUEST_URI;
             
-        $this->URLArray = explode( "/", $REQUEST_URI );
-        $this->QueryArray = explode( "&", $QUERY_STRING );
-        $this->count = count( $this->QueryArray );
+        $tempURLArray = explode( "/", $REQUEST_URI );
         
-        #$this->printQueries( "eZQuery pre prune" );
+        foreach( $tempURLArray as $url )
+        {
+            if( !empty( $url ) )
+            {
+                $this->URLArray[] = $url;
+            }
+        }
+        
+        $this->URLCount = count( $this->URLArray );
+
+        $tempQueryArray = explode( "&", $QUERY_STRING );
+
+        foreach( $tempQueryArray as $query )
+        {
+            if( !empty( $query ) )
+            {
+                $this->QueryArray[] = $query;
+            }
+        }
+
+        $this->QueryCount = count( $this->QueryArray );
+        
+        #$this->printQueries( "eZURL pre prune" );
         
         $this->pruneQueryArray();
 
-        #$this->printQueries( "eZQuery post prune" );        
+        #$this->printQueries( "eZURL post prune" );        
     }
 
 
@@ -65,11 +85,11 @@ class eZQuery
         $tempQueryArray = $this->QueryArray;
         $currentQuery;
                 
-        for( $i = 0; $i < $this->count; $i++ )
+        for( $i = 0; $i < $this->QueryCount; $i++ )
         {
             $currentQuery = $tempQueryArray[$i];
             
-            for( $j = $i; $j < $this->count; $j++ )
+            for( $j = $i; $j < $this->QueryCount; $j++ )
             {
                 $arrayItem = $tempQueryArray[$j];
                 
@@ -108,14 +128,14 @@ class eZQuery
         $tempQueryArray = $this->QueryArray;
         $currentQuery;
         
-        for( $i = $this->count; $i >= 0; $i-- )
+        for( $i = $this->QueryCount; $i >= 0; $i-- )
         { 
             $currentQuery = $tempQueryArray[$i];
             
             echo "curr: " . $currentQuery . "<br>";
             
-#            for( $j = $this->count; $j > 0; $j-- )
-            for( $j = 0; $j <= $this->count; $j++ )
+#            for( $j = $this->QueryCount; $j > 0; $j-- )
+            for( $j = 0; $j <= $this->QueryCount; $j++ )
             {
                 $arrayItem = $tempQueryArray[$j];
                 
@@ -150,24 +170,24 @@ class eZQuery
     function getQueries( &$returnArray, $regexp )
     {
         #$this->printQueries( "post getQueries" );
+        #echo "the regexp is: $regexp<br>";
         $value = false;
         
         $returnArray = array(); 
 
-        $i = $this->count;
-        
-        #echo $i . "<br>";
+        $i = $this->QueryCount;
         
         for( $i; $i >= 0; $i-- )
         {
             $arrayItem = $this->QueryArray[$i];
             
             #echo " $i $arrayItem <br>";
-            
+            #echo ereg( $regexp,  $arrayItem );
             if( ereg( $regexp,  $arrayItem ) )
             {
                 $returnArray[] = $arrayItem;
                 $value = true;
+                #echo "added to returnArray: $arrayItem <br>";
             }
         }   
 
@@ -248,10 +268,36 @@ class eZQuery
         #echo $no . " " . $this->URLArray[ $no ] . "<br>";
         return $this->URLArray[ $no ];
     }
+
+    
+    /*!
+        This function returns the $no item in the url path.
+        
+        \return
+            Returns a path-level.
+     */
+    function getURLCount( )
+    {
+        #echo $no . " " . $this->URLArray[ $no ] . "<br>";
+        return $this->URLCount;
+    }
+    
+    /*!
+     */
+    function overwriteURL( &$inArray )
+    {
+        $this->URLArray = $inArray;
+    }
     
     var $QueryArray;
-    var $URLArray;
+    var $QueryCount;
+    
     var $NewQuery;
-    var $count;
+    
+    var $URLArray;
+    var $URLCount;
+    
+    /// \static Keeps count of how many times the print function has been called.
     var $printCount = 0;
 };
+?>
