@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: adedit.php,v 1.12 2001/01/23 13:43:54 bf Exp $
+// $Id: adedit.php,v 1.13 2001/02/09 15:48:44 pkej Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <16-Nov-2000 13:02:32 bf>
@@ -205,7 +205,7 @@ $t->set_file( array(
 $t->set_block( "ad_edit_page_tpl", "value_tpl", "value" );
 $t->set_block( "ad_edit_page_tpl", "image_tpl", "image" );
 
-$t->set_var( "action_value", "Insert" );
+$t->set_var( "action_value", "insert" );
 
 $t->set_var( "ad_title_value", "" );
 $t->set_var( "ad_date_value", "" );
@@ -226,7 +226,7 @@ if ( $Action == "Edit" )
     $t->set_var( "ad_description_value", $ad->description() );
     $t->set_var( "ad_url_value", $ad->url() );
     $t->set_var( "ad_id", $ad->id() );
-    $t->set_var( "action_value", "Update" );
+    $t->set_var( "action_value", "update" );
 
     $t->set_var( "ad_click_price_value", $ad->clickPrice() );
     $t->set_var( "ad_view_price_value", $ad->viewPrice() );
