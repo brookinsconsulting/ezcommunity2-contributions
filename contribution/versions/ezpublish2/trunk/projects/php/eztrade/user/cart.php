@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: cart.php,v 1.6 2000/10/31 14:15:30 bf-cvs Exp $
+// $Id: cart.php,v 1.7 2000/10/31 16:32:05 bf-cvs Exp $
 //
 // 
 //
@@ -166,13 +166,17 @@ foreach ( $items as $item )
     
     $image = $product->thumbnailImage();
 
-    $thumbnail =& $image->requestImageVariation( 35, 35 );        
+    if  ( $image )
+    {
+        $thumbnail =& $image->requestImageVariation( 35, 35 );        
 
-    $t->set_var( "product_image_path", "/" . $thumbnail->imagePath() );
-    $t->set_var( "product_image_width", $thumbnail->width() );
-    $t->set_var( "product_image_height", $thumbnail->height() );
-    $t->set_var( "product_image_caption", $image->caption() );
+        $t->set_var( "product_image_path", "/" . $thumbnail->imagePath() );
+        $t->set_var( "product_image_width", $thumbnail->width() );
+        $t->set_var( "product_image_height", $thumbnail->height() );
+        $t->set_var( "product_image_caption", $image->caption() );
 
+    }
+    
     $price = $product->price() * $item->count();
     
     $currency->setValue( $price );
