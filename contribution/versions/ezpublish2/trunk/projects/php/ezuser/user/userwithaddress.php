@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: userwithaddress.php,v 1.63 2001/07/11 07:49:25 bf Exp $
+// $Id: userwithaddress.php,v 1.64 2001/07/11 09:37:50 th Exp $
 //
 //
 // Christoffer A. Elo <ce@ez.no>
@@ -354,9 +354,9 @@ if ( isset( $OK ) and $error == false )
     $user_insert->setSignature( $Signature );
 
     if ( $InfoSubscription == "on" )
-        $user->setInfoSubscription( true );
+        $user_insert->setInfoSubscription( true );
     else
-        $user->setInfoSubscription( false );
+        $user_insert->setInfoSubscription( false );
     
     if ( $AutoCookieLogin == "on" )
         $user_insert->setCookieLogin( true );
@@ -567,6 +567,12 @@ $t->set_var( "first_name_value", $FirstName );
 $t->set_var( "last_name_value", $LastName );
 $t->set_var( "is_cookie_selected", "$cookieCheck" );
 
+if( $user->infoSubscription() == true )
+    $InfoSubscription = "checked";
+else
+    $InfoSubscription = "";
+
+$t->set_var( "info_subscription", $InfoSubscription );
 
 if ( get_class( $user ) == "ezuser" )
     $t->set_var( "readonly", "disabled" );
