@@ -434,12 +434,12 @@ if( $Action == "view" && $viewPermission )
             $t->set_var( "theme-type_class", "bgdark" );
         }
         $i++;
-        
-        $t->set_var( "item_end_period", $course->courseEnd() );
-        $t->set_var( "item_start_period", $course->courseStart() );
-        $t->set_var( "item_place", $course->coursePlace() );
-        $t->set_var( "item_name", $course->courseName() );
-        $t->set_var( "item_id", $course->id() );
+
+        $t->set_var( "course_end_period", $course->courseStop() );
+        $t->set_var( "course_start_period", $course->courseStart() );
+        $t->set_var( "course_place", $course->coursePlace() );
+        $t->set_var( "course_name", $course->courseName() );
+        $t->set_var( "course_id", $course->id() );
         $t->parse( "course_item", "course_item_tpl", true );
 
     }
@@ -475,13 +475,9 @@ if( $Action == "view" && $viewPermission )
         }
         $i++;
         
-        $certificateType = $certificate->certificateType();
-        
         $t->set_var( "certificate_id", $certificate->id() );
         $t->set_var( "certificate_institution", $certificate->institution() );
-        $t->set_var( "certificate_category", $certificate->category() );
-        $t->set_var( "certificate_type", $certificate->type() );
-        $t->set_var( "certificate_description", $certificate->description() );
+        $t->set_var( "certificate_name", $certificate->name() );
         $t->set_var( "certificate_start", $certificate->received() );
         $t->set_var( "certificate_end", $certificate->expires() );
         $t->parse( "certificate_item", "certificate_item_tpl", true );
