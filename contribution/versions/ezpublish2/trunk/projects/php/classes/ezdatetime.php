@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezdatetime.php,v 1.20 2001/01/22 14:42:59 jb Exp $
+// $Id: ezdatetime.php,v 1.21 2001/01/23 16:36:10 gl Exp $
 //
 // Definition of eZCompany class
 //
@@ -41,7 +41,7 @@ include_once( "classes/eztime.php" );
   print( "Date and time:" . $locale->format( $datetime ) . "<br>" );
 
   // print the day and month names in localized format
-  print( "Day:" . $locale->dayName( $datetime->dayName() ) . "<br>" );
+  print( "Day:" . $locale->dayName( $datetime->dayName( $locale->mondayFirst() ) ) . "<br>" );
   print( "Month:" . $locale->monthName( $datetime->monthName() ) . "<br>" );
   \endcode  
   \sa eZDate eZTime eZLocale
@@ -323,18 +323,20 @@ class eZDateTime
 
     /*!
       Returns the day of week. ( 1..7 )
+      If mondayFirst is true, the week starts on Monday, else on Sunday.
     */
-    function dayOfWeek( )
+    function dayOfWeek( $mondayFirst )
     {
-        return $this->Date->dayOfWeek();
+        return $this->Date->dayOfWeek( $mondayFirst );
     }
 
     /*!
       Returns the name of the weekday in three letters.
+      If mondayFirst is true, the week starts on Monday, else on Sunday.
     */
-    function dayName( )
+    function dayName( $mondayFirst )
     {
-        return $this->Date->dayName();
+        return $this->Date->dayName( $mondayFirst );
     }
 
 

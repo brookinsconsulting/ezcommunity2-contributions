@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezdate.php,v 1.15 2001/01/23 16:13:50 gl Exp $
+// $Id: ezdate.php,v 1.16 2001/01/23 16:36:10 gl Exp $
 //
 // Definition of eZCompany class
 //
@@ -158,7 +158,8 @@ class eZDate
     }
 
     /*!
-      Returns the day of week. ( 1..7 ) If mondayFirst is true, the week starts on Monday, else on Sunday.
+      Returns the day of week. ( 1..7 )
+      If mondayFirst is true, the week starts on Monday, else on Sunday.
     */
     function dayOfWeek( $mondayFirst )
     {
@@ -179,6 +180,7 @@ class eZDate
 
     /*!
       Returns the name of the weekday in three letters.
+      If mondayFirst is true, the week starts on Monday, else on Sunday.
     */
     function dayName( $mondayFirst )
     {
@@ -186,7 +188,7 @@ class eZDate
 
         if ( $mondayFirst == true )
         {
-            switch( $this->dayOfWeek() )
+            switch( $this->dayOfWeek( $mondayFirst ) )
             {
                 case 1 :
                 {
@@ -233,7 +235,7 @@ class eZDate
         }
         else
         {
-            switch( $this->dayOfWeek() )
+            switch( $this->dayOfWeek( $mondayFirst ) )
             {
                 case 1 :
                 {

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezlocale.php,v 1.22 2001/01/22 14:42:59 jb Exp $
+// $Id: ezlocale.php,v 1.23 2001/01/23 16:36:10 gl Exp $
 //
 // Definition of eZLocale class
 //
@@ -168,10 +168,10 @@ class eZLocale
                 $date =& str_replace( "%d", "" . $obj->day() . "", $date );
 
                 // D - day of the week, textual, 3 letters; i.e. "Fri"
-                $date =& str_replace( "%D", "" . $this->dayName( $obj->dayName() ) . "", $date );
+                $date =& str_replace( "%D", "" . $this->dayName( $obj->dayName( $this->mondayFirst() ) ) . "", $date );
 
                 // E - day of the week, textual, long; i.e. "Friday"
-                $date =& str_replace( "%E", "" . $this->dayName( $obj->dayName(), false ) . "", $date );
+                $date =& str_replace( "%E", "" . $this->dayName( $obj->dayName( $this->mondayFirst() ), false ) . "", $date );
 
                 // F - month, textual, long; i.e. "January"
                 $date =& str_replace( "%F", "" . $this->monthName( $obj->monthName(), false ) . "", $date );
@@ -227,10 +227,10 @@ class eZLocale
                 $date =& str_replace( "%d", "" . $obj->day() . "", $date );
 
                 // D - day of the week, textual, 3 letters; i.e. "Fri"
-                $date =& str_replace( "%D", "" . $this->dayName( $obj->dayName() ) . "", $date );
+                $date =& str_replace( "%D", "" . $this->dayName( $obj->dayName( $this->mondayFirst() ) ) . "", $date );
 
                 // E - day of the week, textual, long; i.e. "Friday"
-                $date =& str_replace( "%E", "" . $this->dayName( $obj->dayName(), false ) . "", $date );
+                $date =& str_replace( "%E", "" . $this->dayName( $obj->dayName( $this->mondayFirst() ), false ) . "", $date );
 
                 // F - month, textual, long; i.e. "January"
                 $date =& str_replace( "%F", "" . $this->monthName( $obj->monthName(), false ) . "", $date );
