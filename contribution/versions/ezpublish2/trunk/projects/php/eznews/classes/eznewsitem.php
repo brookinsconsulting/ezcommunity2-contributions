@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: eznewsitem.php,v 1.8 2000/09/28 09:14:09 pkej-cvs Exp $
+// $Id: eznewsitem.php,v 1.9 2000/09/28 09:29:59 pkej-cvs Exp $
 //
 // Definition of eZNewsItem class
 //
@@ -448,7 +448,10 @@ class eZNewsItem
             $this->Database->array_query( $itemArray, $query );
             $rowsFound = count( $itemArray );
             
-            printArray( $itemArray );
+            if( $GLOBAL["NEWSDEBUG"] == true )
+            {
+                printArray( $itemArray );
+            }
             
             switch ( $rowsFound )
             {
@@ -1358,7 +1361,7 @@ class eZNewsItem
     function objectInfo()
     {
         $output;
-        if( $this->checkInvariant() == true || true )
+        if( ( $this->checkInvariant() == true ) || true )
         {
             $output = sprintf("<TR><TD WIDTH=5%%>%s</TD><TD>%s</TD><TD WIDTH=5%%>%s</TD><TD WIDTH=5%%>%s</TD><TD WIDTH=10%%>%s</TD><TD WIDTH=10%%>%s</TD><TD WIDTH=3%%>%s</TD></TR>",
                     $this->ID,
@@ -1408,8 +1411,11 @@ class eZNewsItem
     */
     function dbInit()
     {
+        if( $GLOBAL["NEWSDEBUG"] == true )
+        {
             echo "eZNewsItem::dbInit(  ) <br>\n";
             echo "isConnected is: " . $this->IsConnected . "<br>";
+        }
         if( $this->IsConnected == false )
         {
             $this->Database = new eZDB( "site.ini", "eZNewsMain" );

@@ -344,9 +344,9 @@ EOD;
                         
         foreach( $categories as $category )
         {
-            $category->objectHeader();
-            $category->objectInfo();
-            $category->objectFooter();
+            echo $category->objectHeader();
+            echo $category->objectInfo();
+            echo $category->objectFooter();
             
             $t->set_var( "ID", $category->ID() );
             $t->set_var( "Name", $category->Name() );
@@ -358,6 +358,8 @@ EOD;
             {
                 $t->set_var( "Selected", "" );
             }
+            
+            
             $t->parse( "categories", "category", true );
         }
     }
