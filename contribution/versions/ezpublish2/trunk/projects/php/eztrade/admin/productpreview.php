@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: productpreview.php,v 1.15 2001/03/11 12:59:04 bf Exp $
+// $Id: productpreview.php,v 1.16 2001/03/14 10:36:29 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <22-Sep-2000 16:13:32 bf>
@@ -116,6 +116,7 @@ foreach ( $images as $image )
 $options = $product->options();
 
 $t->set_var( "option", "" );
+$valuePrice = new eZCurrency(  );
 foreach ( $options as $option )
 {
     $values = $option->values();
@@ -128,8 +129,9 @@ foreach ( $options as $option )
         
         $id = $value->id();
 
+        $valuePrice->setValue( $value->price() );
         $descriptions =& $value->descriptions();
-        $t->set_var( "value_name", $descriptions[0] );
+        $t->set_var( "value_name", $descriptions[0] . " " . $locale->format( $valuePrice ) );
         $t->set_var( "value_id", $value->id() );
         
         $t->parse( "value", "value_tpl", true );    
@@ -168,7 +170,6 @@ else
 {
     $t->set_var( "attribute_list", "" );
 }
-
 
 
 $t->set_var( "product_number", $product->productNumber() );
