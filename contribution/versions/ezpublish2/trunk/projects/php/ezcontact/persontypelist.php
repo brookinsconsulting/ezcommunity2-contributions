@@ -24,7 +24,7 @@ $t->set_file( array(
 $persontype = new eZPersonType();
 $persontype_array = $persontype->getAll();
 
-for ( $i=0; $i<count( $person_array ); $i++ )
+for ( $i=0; $i<count( $persontype_array ); $i++ )
 {
     if ( ( $i % 2 ) == 0 )
     {
