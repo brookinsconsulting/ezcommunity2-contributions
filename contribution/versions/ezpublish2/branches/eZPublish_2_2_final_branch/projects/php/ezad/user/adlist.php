@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: adlist.php,v 1.21.2.1 2001/10/30 19:30:23 master Exp $
+// $Id: adlist.php,v 1.21.2.2 2002/02/27 16:51:16 master Exp $
 //
 // Created on: <25-Nov-2000 15:44:37 bf>
 //
@@ -68,7 +68,8 @@ foreach ( $adList as $ad )
     else
     {
 
-	if ( strpos( $ad->URL, "http://" ) === 0 )
+	//EP: check if it is external or internal banner --------------------
+	if ( preg_match( "/^([a-z]+:\/\/)/", $ad->URL() ) )
 	{
 	    print( "<a target=\"_blank\" href=\"".$GlobalSiteIni->WWWDir.$GlobalSiteIni->Index."/ad/goto/$adID/\">" );
 	}
@@ -76,6 +77,7 @@ foreach ( $adList as $ad )
 	{
 	    print( "<a href=\"".$GlobalSiteIni->WWWDir.$GlobalSiteIni->Index."/ad/goto/$adID/\">" );
 	}
+	//EP ----------------------------------------------------------------
 							
 	print ("<img src=\"".$GlobalSiteIni->WWWDir."$imgSRC\" width=\"$imgWidth\" height=\"$imgHeight\" border=\"0\" alt=\"\" /></a><br />" );
 

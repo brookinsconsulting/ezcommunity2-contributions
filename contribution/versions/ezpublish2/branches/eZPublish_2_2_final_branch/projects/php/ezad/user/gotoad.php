@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: gotoad.php,v 1.6 2001/07/19 11:56:33 jakobn Exp $
+// $Id: gotoad.php,v 1.6.2.1 2002/02/27 16:51:29 master Exp $
 //
 // Created on: <25-Nov-2000 16:26:08 bf>
 //
@@ -48,6 +48,14 @@ $click->setPrice( $ad->clickPrice() );
 $click->store();
 
 $gotoURL = $ad->url();
+
+//EP: check if it is external or internal banner --------------------
+if ( !preg_match( "/^([a-z]+:\/\/)/", $gotoURL ) )
+{
+    $gotoURL = $GlobalSiteIni->WWWDir.$GlobalSiteIni->Index.$gotoURL;
+}
+//EP ----------------------------------------------------------------
+
 Header( "Location: $gotoURL" );
 exit();
 

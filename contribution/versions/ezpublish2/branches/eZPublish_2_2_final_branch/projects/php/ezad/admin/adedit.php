@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: adedit.php,v 1.23.2.1 2001/11/23 09:36:42 br Exp $
+// $Id: adedit.php,v 1.23.2.2 2002/02/27 16:53:26 master Exp $
 //
 // Created on: <16-Nov-2000 13:02:32 bf>
 //
@@ -93,18 +93,19 @@ if ( $Action == "Insert" )
 
     $ad->setHTMLBanner( $HTMLBanner );    
     
-
-    if ( !preg_match( "/^([a-z]+:\/\/)/", $adUrl ) )
-    {
-        if( !preg_match( "/^(ftp\.)/", $adUrl ) )
-            $real_url = "http://" . $adUrl;
-        else
-            $real_url = "ftp://" . $adUrl;
-    }
-    else
-    {
-        $real_url = $adUrl;
-    }
+// Why we cant make internal banners without http:// ? -- EP ---
+//    if ( !preg_match( "/^([a-z]+:\/\/)/", $adUrl ) )
+//    {
+//        if( !preg_match( "/^(ftp\.)/", $adUrl ) )
+//            $real_url = "http://" . $adUrl;
+//        else
+//            $real_url = "ftp://" . $adUrl;
+//    }
+//    else
+//    {
+//        $real_url = $adUrl;
+//    }
+    $real_url = $adUrl;
     
     $ad->setURL( $real_url );
     
@@ -190,17 +191,19 @@ if ( $Action == "Update" )
 
     $ad->setHTMLBanner( $HTMLBanner );    
     
-    if ( !preg_match( "/^([a-z]+:\/\/)/", $adUrl ) )
-    {
-        if( !preg_match( "/^(ftp\.)/", $adUrl ) )
-            $real_url = "http://" . $adUrl;
-        else
-            $real_url = "ftp://" . $adUrl;
-    }
-    else
-    {
-        $real_url = $adUrl;
-    }
+//    if ( !preg_match( "/^([a-z]+:\/\/)/", $adUrl ) )
+//    {
+//        if( !preg_match( "/^(ftp\.)/", $adUrl ) )
+//            $real_url = "http://" . $adUrl;
+//        else
+//            $real_url = "ftp://" . $adUrl;
+//    }
+//    else
+//    {
+//        $real_url = $adUrl;
+//    }
+
+    $real_url = $adUrl;
 
     $ad->setURL( $real_url );
 
