@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: productview.php,v 1.77.4.5 2001/11/21 14:08:34 sascha Exp $
+// $Id: productview.php,v 1.77.4.6 2001/11/22 10:12:30 sascha Exp $
 //
 // Created on: <24-Sep-2000 12:20:32 bf>
 //
@@ -444,7 +444,6 @@ foreach ( $options as $option )
 
 if ( !$product->hasQuantity( $RequireQuantity ) )
     $can_checkout = false;
-
 // $can_checkout = $product->showPrice();
 
 
@@ -697,7 +696,9 @@ else
     $t->parse( "no_add_to_cart", "no_add_to_cart_tpl" );    //SF
 
 if ( ( $PurchaseProduct and !$product->discontinued() and $can_checkout ) and $useVoucher )
+{
     $t->parse( "voucher_buttons", "voucher_buttons_tpl" );
+}
 
 if ( $PrintableVersion == "enabled" )
 {

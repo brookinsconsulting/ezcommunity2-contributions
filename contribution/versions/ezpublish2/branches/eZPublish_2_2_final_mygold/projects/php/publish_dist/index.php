@@ -114,7 +114,6 @@ if ( $StoreStats == "enabled" )
     $GlobalPageView = new eZPageView();
     $GlobalPageView->store();
 }
-
 // parse the URI
 $meta_page = "";
 $content_page = "";

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: orderlist.php,v 1.2.4.2 2001/10/25 09:50:03 sascha Exp $
+// $Id: orderlist.php,v 1.2.4.3 2001/11/22 10:12:30 sascha Exp $
 //
 // Created on: <21-Sep-2001 17:41:07 ce>
 //
@@ -60,7 +60,7 @@ $t->set_var( "site_style", $SiteStyle );
 $t->set_var( "query_string", $QueryText );
 
 if ( !isSet( $OrderBy ) )
-    $OrderBy = "Date";
+    $OrderBy = "ID";
 if ( !isSet( $Limit ) )
     $Limit = 20;
 

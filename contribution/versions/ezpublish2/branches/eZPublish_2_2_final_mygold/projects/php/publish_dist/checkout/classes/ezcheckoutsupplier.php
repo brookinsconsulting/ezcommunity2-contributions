@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezcheckoutsupplier.php,v 1.1.2.2 2001/11/22 09:58:30 ce Exp $
+// $Id: ezcheckoutsupplier.php,v 1.1.2.3 2001/11/22 10:12:29 sascha Exp $
 //
 // Definition of eZCheckoutSupplier class
 //
@@ -43,7 +43,7 @@ class eZCheckoutSupplier
                                        array( "ID" => 3, "Text" => "Bankeinzug", "RequireSSL" => "disabled", "WorkWithVoucher" => true ),
                                        array( "ID" => 4, "Text" => "Nachnahme", "RequireSSL" => "disabled", "WorkWithVoucher" => true ),
                                        array( "ID" => 5, "Text" => "Paybox", "RequireSSL" => "disabled", "WorkWithVoucher" => true ),
-                                       array( "ID" => 6, "Text" => "Voucher", "RequireSSL" => "disabled", "WorkWithVoucher" => true ) );
+                                       array( "ID" => 6, "Text" => "Gutschein", "RequireSSL" => "disabled", "WorkWithVoucher" => true ) );
         
 //        $this->PaymentMethods = array( array( "ID" => 4, "Text" => "Nachnahme" )
 //                                       );

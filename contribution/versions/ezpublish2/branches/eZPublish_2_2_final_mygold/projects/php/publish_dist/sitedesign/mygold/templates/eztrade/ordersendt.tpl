@@ -57,24 +57,31 @@
 <table class="list" width="100%" cellspacing="0" cellpadding="4" border="0"><!-- BEGIN cart_item_list_tpl -->
   <tr>
     <th>&nbsp;</th>
+    <th align="right">{intl-product_qty}:</th>    
     <th>{intl-product_number}:</th>
     <th>{intl-product_name}:</th>
-    <th align="right">{intl-product_price}:</th>
+    <th align="right"><nobr>{intl-product_price}</nobr><br /><nobr>{intl-inc_tax}</nobr></th>
     <!-- BEGIN header_savings_item_tpl -->
     <th align="right">{intl-product_savings}:</th>
     <!-- END header_savings_item_tpl -->
-    <th align="right">{intl-product_qty}:</th>
     <!-- BEGIN header_ex_tax_item_tpl -->
-    <th align="right">{intl-product_total_ex_tax}:</th>
+    <th align="right"><nobr>{intl-product_total}</nobr><br /><nobr>{intl-ex_tax}</nobr></th>
     <!-- END header_ex_tax_item_tpl -->
     <!-- BEGIN header_inc_tax_item_tpl -->
-    <th align="right">{intl-product_total_inc_tax}:</th>
+    <th align="right"><nobr>{intl-product_total}</nobr><br /><nobr>{intl-inc_tax}</nobr></th>
     <!-- END header_inc_tax_item_tpl -->
     <th align="right">&nbsp;</th>
   </tr>
   <!-- BEGIN cart_item_tpl -->
   <tr>
     <td class="{td_class}">&nbsp;</td>
+    <td class="{td_class}" align="right">{product_count}
+	    <!--
+        <input type="hidden" name="CartIDArray[]" value="{cart_item_id}" />
+	    <input size="3" type="text" name="CartCountArray[]" value="{product_count}" />
+        -->
+    </td>
+
     <td class="{td_class}">{product_number}</td>
     <td class="{td_class}"><a href="{www_dir}{index}/trade/productview/{product_id}">{product_name}</a></td>
     <td class="{td_class}" align="right"><nobr>{product_price}</nobr></td>
@@ -83,12 +90,6 @@
     <td class="{td_class}" align="right">&nbsp;</td>
 	<!-- END cart_savings_item_tpl -->
     
-    <td class="{td_class}" align="right">{product_count}
-	    <!--
-        <input type="hidden" name="CartIDArray[]" value="{cart_item_id}" />
-	    <input size="3" type="text" name="CartCountArray[]" value="{product_count}" />
-        -->
-    </td>
     
 	<!-- BEGIN cart_ex_tax_item_tpl -->
     <td class="{td_class}" align="right"><nobr>{product_total_ex_tax}</nobr></td>
@@ -211,19 +212,19 @@
 	<th>{intl-voucher_number}:</th>
 
 	<!-- BEGIN voucher_used_header_ex_tax_item_tpl -->
-	<th align="right">{intl-voucher_used_ex_tax}:</th>
+	<th align="right"><nobr>{intl-voucher_used}</nobr><br /><nobr>{intl-ex_tax}</nobr></th>
 	<!-- END voucher_used_header_ex_tax_item_tpl -->
 
 	<!-- BEGIN voucher_used_header_inc_tax_item_tpl -->
-	<th align="right">{intl-voucher_used_inc_tax}:</th>
+	<th align="right"><nobr>{intl-voucher_used}</nobr><br /><nobr>{intl-inc_tax}</nobr></th>
 	<!-- END voucher_used_header_inc_tax_item_tpl -->
 
 	<!-- BEGIN voucher_left_header_ex_tax_item_tpl -->
-	<th align="right">{intl-voucher_left_ex_tax}:</th>
+	<th align="right"><nobr>{intl-voucher_left}</nobr><br /><nobr>{intl-ex_tax}</nobr></th>
 	<!-- END voucher_left_header_ex_tax_item_tpl -->
 
 	<!-- BEGIN voucher_left_header_inc_tax_item_tpl -->
-	<th align="right">{intl-voucher_left_inc_tax}:</th>
+	<th align="right"><nobr>{intl-voucher_left}</nobr><br /><nobr>{intl-inc_tax}</nobr></th>
 	<!-- END voucher_left_header_inc_tax_item_tpl -->
 
 </tr>

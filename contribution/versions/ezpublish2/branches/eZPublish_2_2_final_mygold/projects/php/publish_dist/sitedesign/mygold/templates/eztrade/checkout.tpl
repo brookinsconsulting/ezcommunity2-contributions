@@ -9,6 +9,10 @@ function checkForm()
     {
         alert("Leider bietet die Post keine Lieferung per Express als Nachnahme an. \nBitte wählen Sie eine andere Zahlart oder Liefermethode aus.");
     }
+    if (  Ship.options[Ship.selectedIndex].value == "2" & Pay.options[Pay.selectedIndex].value == "4" ) 
+    {
+        alert("Auf Grund von Prüfmechanismen können per Bankeinzug (ELV) bezahlte Bestellungen nicht per Express verschickt werden! \nBitte wählen Sie eine andere Zahlart oder Liefermethode aus.");    
+    }
 }
 // --> <! ]]>
 </script>
@@ -119,8 +123,8 @@ function checkForm()
   <tr>
     <td colspan="2" align="right">
     <td align="right" class="borderleft">{intl-voucher} {number}:</td>
-    <td align="right" class="bordermid"><nobr>- {voucher_price_ex_vat}</nobr>&nbsp;</td>
-    <td align="right" class="bordermid"><nobr>- {voucher_price_inc_vat}</nobr>&nbsp;</td>
+    <td align="right" class="bordermid"><nobr>-&nbsp;{voucher_price_ex_vat}</nobr>&nbsp;</td>
+    <td align="right" class="bordermid"><nobr>-&nbsp;{voucher_price_inc_vat}</nobr>&nbsp;</td>
     <td align="center" class="borderright"><input type="checkbox" name="RemoveVoucherArray[]" value="{number}" /></td>
   </tr>
   <!-- END voucher_item_tpl -->
@@ -209,6 +213,10 @@ function checkForm()
 	     <a href="http://www.eurocard.de" target="new"><img src="/sitedesign/mygold/images/eurocard_logo.gif" alt="" width="53" height="40" border="0" /></a>
 	     <br />Euro- Mastercard
 	   </td>
+	   <td class="small" valign="top" width="25%">
+	     <img src="/sitedesign/mygold/images/elv_logo.gif" alt="" width="40" height="40" border="0" />
+	     <br />Bankeinzug (ELV)
+	   </td>
 	 </tr>
        </table>
     </td>
@@ -216,7 +224,9 @@ function checkForm()
 <!-- END show_payment_tpl -->
 <br /><br />
 <ul>
-  <li>Nachnahmelieferung per Express ist nicht m&ouml;glich!</li>
+  <li>Bezahlung per Bankeinzug nur bis zu einem Betrag von 400,- DM!</li>
+  <li>Auf Grund von Pr&uuml;fmechanismen k&ouml;nnen per Bankeinzug (ELV) bezahlte Bestellungen nicht per Express verschickt werden!</li>
+  <li>Nachnahmelieferung per Express bietet die Post leider nicht an und ist daher nicht m&ouml;glich!</li>
 </ul>
 
 <!-- BEGIN remove_voucher_tpl -->

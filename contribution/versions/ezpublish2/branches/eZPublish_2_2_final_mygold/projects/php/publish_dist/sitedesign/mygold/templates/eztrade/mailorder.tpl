@@ -42,8 +42,6 @@
 {intl-total}{total_ex_tax}{total_inc_tax}
 {equal_line}
 
-
-
 <!-- BEGIN tax_specification_tpl -->
 {intl-tax_basis}{intl-tax_percentage}{intl-tax}
 {tax_hyphen_line}<!-- BEGIN tax_item_tpl -->
@@ -54,3 +52,17 @@
 {tax_equal_line}
 <!-- END tax_specification_tpl -->
 <!-- END full_cart_tpl -->
+
+
+{intl-other_instructions_on_web_site} http://www.mygold.com
+--------------------------------------------------------------------------------------
+MyGold.com - Impetex GmbH  
+Marktstr. 24             
+D-83646 Bad Tölz
+Tel: +49 (8041) 794330
+Fax: +49 (8041) 70932
+info@mygold.com
+--------------------------------------------------------------------------------------
+
+   
+   

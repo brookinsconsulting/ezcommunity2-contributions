@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: payment.php,v 1.84.4.3 2001/11/12 08:19:38 sascha Exp $
+// $Id: payment.php,v 1.84.4.4 2001/11/22 10:12:30 sascha Exp $
 //
 // Created on: <02-Feb-2001 16:31:53 bf>
 //
@@ -746,7 +746,10 @@ if ( $PaymentSuccess == "true" )
     $paymentMethod = $instance->paymentName( $order->paymentMethod() );
 
     $mailTemplate->set_var( "payment_method", $paymentMethod );
-
+    
+    
+	
+    
     $mailTemplate->set_var( "comment", $order->comment() );
 
     $shippingType = $order->shippingType();
@@ -807,6 +810,7 @@ if ( $PaymentSuccess == "true" )
 		$mail->setBody( $mailBody );
 	}
     
+    $mailSubject = $order->id() ." - ". $mailSubject;
     $mail->setSubject( $mailSubject );
     $mail->setTo( $OrderReceiverEmail );
     $mail->setFrom( $user->email() );

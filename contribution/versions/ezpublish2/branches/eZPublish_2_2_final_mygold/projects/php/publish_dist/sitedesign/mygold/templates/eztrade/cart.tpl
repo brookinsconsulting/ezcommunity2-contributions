@@ -15,7 +15,7 @@
     <th width="1%"><nobr>&nbsp;{intl-product_qty}:</nobr></th>
     <th width="1%"><nobr>&nbsp;&nbsp;{intl-product_number}:</nobr></th>    
     <th><nobr>&nbsp;&nbsp;{intl-product_name}:</nobr></th>
-    <th width="1%" align="center"><nobr>{intl-single_price}</nobr><br /><nobr>{intl-product_total_ex_tax}</nobr></th>    
+    <th width="1%" align="center"><nobr>{intl-single_price}</nobr><br /><nobr>{intl-product_total_inc_tax}</nobr></th>    
     <!-- BEGIN header_savings_item_tpl -->
     <th class="right">&nbsp;{intl-product_savings}:</th>
     <!-- END header_savings_item_tpl -->

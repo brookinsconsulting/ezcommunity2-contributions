@@ -5,16 +5,17 @@
 // set the site title
 
 $SiteTitle = $ini->read_var( "site", "SiteTitle" );
+$SiteTitleLong = $ini->read_var( "site", "SiteTitleLong" );
+$SiteDescription = $ini->read_var( "site", "SiteDescription" );
 
 if ( isset( $SiteTitleAppend ) )
     print( $SiteTitle . " - " . $SiteTitleAppend );
 else
-    print( $SiteTitle );
+    print( $SiteTitleLong );
 
 ?></title>
 
 <?php
-
 // check if we need a http-equiv refresh
 if ( isset( $MetaRedirectLocation ) && isset( $MetaRedirectTimer ) )
 {
@@ -23,7 +24,7 @@ if ( isset( $MetaRedirectLocation ) && isset( $MetaRedirectTimer ) )
 
 ?>
 
-<link rel="stylesheet" type="text/css" href="<? print $wwwDir; ?>/sitedesign/<? print ($GlobalSiteDesign); ?>/style.css" />
+<link rel="stylesheet" type="text/css" href="/sitedesign/mygold/style.css" />
 <script language="JavaScript1.2" type="text/javascript">
 <!--//
 
@@ -61,21 +62,23 @@ if ( isset( $MetaRedirectLocation ) && isset( $MetaRedirectTimer ) )
 // set the content meta information
 if ( isset( $SiteDescriptionOverride ) )
 {
-    print( $SiteDescriptionOverride );
+    print( $SiteDescriptionOverride ." " );
+
 }
-else
+if ( isset( $SiteTitleAppend ) )
 {
-    $SiteDescription = $ini->read_var( "site", "SiteDescription" );
-    print( $SiteDescription );
+    print( $SiteTitleAppend ." " );
+
 }
+print( $SiteDescription );
+
 
 ?>" />
 
-<meta name="description" content="MyGold.com - Gold, Schmuck und Geschenke zu fairen Preisen. Hier finden Sie Ringe, Ketten, Ohrringe, Armreifen, Diamanten, Gold, Goldschmuck und mehr"/>
 <meta name="MSSmartTagsPreventParsing" content="TRUE" />
 <meta name="author" content="MyGold.com"/>
 <meta name="copyright" content="MyGold.com &copy; 2001"/>
-<meta name="keywords" content="Schmuck, Gold, Goldschmuck, Ringe, Armband, Halskette, Fusskette, Armkette, Ohrring, Diamant, Brillant, Topas Amethist, Perlen, Collier, Memoire, Soltär, Blautopas, Rubin, Preise, günstig, Geschenk, Geschenkidee, MyGold, Impetex, Silber, Angebot, Shop, Gutschein, Wunschzettel, Zirkonia, Ketten, Safir, Schmuck, Webshop, Geschenke, Gutschein, Ohrringe, Halsketten, Ringe, Diamanten"/>
+<meta name="keywords" content="<?php if ( isset( $SiteTitleAppend ) ) print( $SiteTitleAppend. ", " ); ?>Schmuck, Gold, Goldschmuck, Ringe, Armband, Halskette, Fusskette, Armkette, Ohrring, Diamant, Brillant, Topas Amethist, Perlen, Collier, Memoire, Soltär, Blautopas, Rubin, Preise, günstig, Geschenk, Geschenkidee, MyGold, Impetex, Silber, Angebot, Shop, Gutschein, Wunschzettel, Zirkonia, Ketten, Safir, Schmuck, Webshop, Geschenke, Gutschein, Ohrringe, Halsketten, Ringe, Diamanten"/>
 <meta name="page-topic" content="Branche Produkt"/>
 <meta name="page-type" content="Produktinfo"/>
 <meta name="audience" content="Alle"/>
@@ -88,32 +91,34 @@ else
 <body>
 <table border="0" cellspacing="0" cellpadding="0" width="100%" bgcolor="#FFFFF">
   <tr>
-    <td rowspan="2" align="center" valign="middle" width="18%" bgcolor="#DDDDDD"><img src="/sitedesign/mygold/images/pic.jpg" alt="MyGold.com - Geschenke, Golschmuck, Gold, Schmuck zu fairen Preisen." width="110" height="80" /></td>
+    <td rowspan="2" align="center" valign="middle" width="18%" bgcolor="#DDDDDD"><a href="/"><img src="/sitedesign/mygold/images/pic.jpg" alt="MyGold.com - Geschenke, Golschmuck, Gold, Schmuck zu fairen Preisen." width="110" height="80" border="0" /></a></td>
     <td width="1%" class="spacer" bgcolor="#DDDDDD">&nbsp;</td>
     <td class="bg1000" align="center" width="60%">
       <table width="100%" border="0" cellspacing="0" cellpadding="0" align="right">
         <tr>
           <td align="center" valign="middle" width="99%">
-	    <table width="100%" border="0" cellspacing="0" cellpadding="0">
-	      <tr>
-	        <td align="left" valign="bottom"><img src="/sitedesign/mygold/images/mygold.gif" alt="MyGold.com - Gold is our Business!" width="218" height="58" /></td>
-	        <td align="center" valign="bottom" bgcolor="#FFFFFF" class="bgshim" rowspan="2">
-	          <span class="small">
-	            <a  href="/">Home</a> | 
-		    <a href="/trade/cart/">Warenkorb</a> | 
-		    <a href="/trade/wishlist/">Wunschzettel</a>  | 
-		    <a href="/article/archive/10/">News</a>
-		  </span>
-	        </td>
-	      </tr>
-	      <tr>
-                <td align="left" valign="bottom"><h4>Goldschmuck und Geschenke zu fairen Preisen.</h4></td>
+	        <table width="100%" border="0" cellspacing="0" cellpadding="0">
+              <tr> 
+                <td align="left" valign="bottom"><a href="/"><img src="/sitedesign/mygold/images/mygold.gif" alt="MyGold.com - Gold is our Business!" width="218" height="58" border="0" /></a></td>
+                <td align="center" valign="middle" bgcolor="#FFFFFF" class="bgshim"> 
+                  <h1 class="head">Ein MyGold Geschenkgutschein 
+                    <br />
+                    das ideale Weihnachtsgeschenk!</h1>
+                </td>
               </tr>
-	      <tr> 
-	        <td align="left" valign="bottom"><img src="/sitedesign/mygold/images/shim.gif" alt="" width="1" height="5" /></td>
-	        <td class="bgshim" align="center" valign="bottom"><img src="/sitedesign/mygold/images/shim.gif" alt="" width="1" height="5" /></td>
-	      </tr>
-	    </table>
+              <tr> 
+                <td align="left" valign="bottom">
+                  <h4>Goldschmuck und Geschenke zu fairen Preisen.</h4>
+                </td>
+                <td align="center" valign="bottom" bgcolor="#FFFFFF" class="bgshim"><span class="small"> 
+                  <a href="/trade/cart/">Warenkorb</a> | <a href="/schmuck/gutschein/">Gutschein</a> 
+                  | <a href="/trade/wishlist/">Wunschzettel</a> | <a href="/article/archive/10/">News</a></span></td>
+              </tr>
+              <tr> 
+                <td align="left" valign="bottom"><img src="/sitedesign/mygold/images/shim.gif" alt="" width="1" height="5" /></td>
+                <td class="bgshim" align="center" valign="bottom"><img src="/sitedesign/mygold/images/shim.gif" alt="" width="1" height="5" /></td>
+              </tr>
+            </table>
 	  </td>
 	  <td width="1%" class="bgspacer30"><img src="/sitedesign/mygold/images/shim.gif" alt="" width="30" height="85" /></td>
 	</tr>
@@ -257,6 +262,7 @@ if ( isset( $Design ) and $Design == 3 )
       <a href="http://www.campaign.paybox.de/banner.php3?merchantPayboxNo=4900011161914" target="neu"><img src="/sitedesign/mygold/images/paybox_s.gif" alt="" width="36" height="26" hspace="1" border="0" /></a> 
       <a href="http://www.visa.de" target="neu"><img src="/sitedesign/mygold/images/visa_s.gif" alt="" width="42" height="26" hspace="1" border="0" /></a> 
       <a href="http://www.eurocard.de/" target="neu"><img src="/sitedesign/mygold/images/euro_s.gif" alt="" width="37" height="26" hspace="1" border="0" /></a> 
+      <img src="/sitedesign/mygold/images/elv_s.gif" alt="" width="26" height="26" hspace="1" border="0" />
     </td>
   </tr>
 </table>
