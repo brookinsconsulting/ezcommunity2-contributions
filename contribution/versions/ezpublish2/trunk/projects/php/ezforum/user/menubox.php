@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: menubox.php,v 1.10 2001/05/08 12:40:35 bf Exp $
+// $Id: menubox.php,v 1.11 2001/05/08 12:46:38 bf Exp $
 //
 // Lars Wilhelmsen <lw@ez.no>
 // Created on: <11-Sep-2000 22:10:06 bf>
@@ -51,7 +51,6 @@ if ( $PageCaching == "enabled" )
 }
 else
 {
-    $GenerateStaticPage = false;    
     createPage();
 }
 

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: menubox.php,v 1.10 2001/04/25 13:47:34 ce Exp $
+// $Id: menubox.php,v 1.11 2001/05/08 12:46:38 bf Exp $
 //
 // 
 //
@@ -36,29 +36,28 @@ unset( $menuCachedFile );
 // do the caching 
 if ( $PageCaching == "enabled" )
 {
-    $menuCachedFile = "ezlink/cache/menubox," . $groupstr . ",". $GlobalSiteDesign .".cache";
-                    
-    if ( file_exists( $menuCachedFile ) )
+    $menuCacheFile = new eZCacheFile( "ezlink/cache",
+                                      array( "menubox", $GlobalSiteDesign ),
+                                      "cache", "," );
+
+    if ( $menuCacheFile->exists() )
     {
-        include( $menuCachedFile );
+        print( $menuCacheFile->contents() );
     }
     else
     {
-        $GenerateStaticPage = true;
-        createLinkMenu();
-    }            
+        createLinkMenu( $menuCacheFile );
+    }
 }
 else
 {
-    $GenerateStaticPage = false;
     createLinkMenu();
 }
 
-function createLinkMenu()
+function createLinkMenu( $menuCacheFile=false )
 {
     global $ini;
     global $Language;
-    global $GenerateStaticPage;
     global $menuCachedFile;
 	global $GlobalSiteDesign;
     
@@ -107,24 +106,16 @@ function createLinkMenu()
     }
     $t->set_var( "linkgroup_id", $LGID );
                        
-//      $t->pparse( "output", "link_group_list" );
+    $t->set_var( "sitedesign", $GlobalSiteDesign );
 
-
-    if ( $GenerateStaticPage == true )
+    if ( get_class( $menuCacheFile ) == "ezcachefile" )
     {
-        $fp = fopen ( $menuCachedFile, "w+");
-
         $output = $t->parse( $target, "menu_box_tpl" );
-        // print the output the first time while printing the cache file.
-    
+        $menuCacheFile->store( $output );
         print( $output );
-        fwrite ( $fp, $output );
-        fclose( $fp );
     }
     else
     {
-        $t->set_var( "sitedesign", $GlobalSiteDesign );
-        
 		$t->pparse( "output", "menu_box_tpl" );
     }
 }
