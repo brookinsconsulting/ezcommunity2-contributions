@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: index.php,v 1.6 2001/09/06 17:29:50 bf Exp $
+// $Id: index.php,v 1.7 2001/09/06 17:31:08 bf Exp $
 //
 // Created on: <27-Apr-2001 10:15:40 amos>
 //
@@ -50,7 +50,7 @@ $t->set_var( "index_item", "" );
 
 $letterArray =& eZArticle::keywordFirstLetters();
 
-if (  strLen( $CurrentIndex )  != 1  )
+if (  !in_array( $CurrentIndex, $letterArray ) )
 {
     $CurrentIndex = $letterArray[0];
 }
