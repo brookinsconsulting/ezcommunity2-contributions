@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: maillist.php,v 1.24 2001/10/03 08:44:34 fh Exp $
+// $Id: maillist.php,v 1.25 2001/12/18 12:32:42 fh Exp $
 //
 // Created on: <19-Mar-2000 20:25:22 fh>
 //
@@ -77,6 +77,9 @@ $Language = $ini->read_var( "eZMailMain", "Language" );
 $t = new eZTemplate( "ezmail/user/" . $ini->read_var( "eZMailMain", "TemplateDir" ),
                      "ezmail/user/intl/", $Language, "maillist.php" );
 $t->setAllStrings();
+
+// we are in local mode!!!
+$t->set_var( "mode", "local" );
 
 $t->set_file( "mail_list_page_tpl", "maillist.tpl" );
 
@@ -166,7 +169,7 @@ if ( isSet( $SortMethod ) ) // the sorting method has changed..
 }
 
 $t->set_var( "current_folder_id", $FolderID );
-$t->set_var( "current_folder_name", htmlspecialchars( $folder->name() ) );
+$t->set_var( "current_folder_name",  $folder->name() );
 
 $sort = $preferences->variable( "MailSortMethod");
 $mail = $folder->mail( $sort, $Offset, $NumMessages );
@@ -175,8 +178,8 @@ $i = 0;
 foreach ( $mail as $mailItem )
 {
     $t->set_var( "mail_id", $mailItem->id() );
-    $t->set_var( "mail_subject", htmlspecialchars( $mailItem->subject() ), "-" );
-    $t->set_var( "mail_sender", htmlspecialchars( $mailItem->sender() ) );
+    $t->set_var( "mail_subject", $mailItem->subject() , "-" );
+    $t->set_var( "mail_sender",  $mailItem->sender() );
 
     switch ( $mailItem->status() )
     {

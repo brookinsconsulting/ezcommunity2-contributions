@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: mailview.php,v 1.21 2001/10/14 16:20:00 fh Exp $
+// $Id: mailview.php,v 1.22 2001/12/18 12:32:42 fh Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -139,26 +139,26 @@ if ( $mail->status() == UNREAD )
     $mail->setStatus( READ, true );
 $t->set_var( "current_mail_id", $MailID );
 
-$t->set_var( "to", htmlspecialchars( $mail->to() ) );
-$t->set_var( "from", htmlspecialchars( $mail->from() ) );
-$t->set_var( "subject", htmlspecialchars( $mail->subject() ) );
+$t->set_var( "to", $mail->to() );
+$t->set_var( "from", $mail->from() );
+$t->set_var( "subject", $mail->subject() );
 
 if ( $ini->read_var( "eZMailMain", "HTMLMail" ) == "enabled" )
-    $t->set_var( "mail_body", nl2br( ( $mail->body() ) ) );
+    $t->set_var( "mail_body", nl2br( ( $mail->body( false ) ) ) );
 else
-    $t->set_var( "mail_body", nl2br( htmlspecialchars( $mail->body() ) ) );
+    $t->set_var( "mail_body", $mail->body() );
 
 $t->set_var( "date", date("D M d H:i Y ", $mail->uDate() ) );
 
 if ( $mail->cc() != "" )
 {
-    $t->set_var( "cc", htmlspecialchars( $mail->cc() ) );
+    $t->set_var( "cc", $mail->cc() );
     $t->parse( "cc_value", "cc_value_tpl", false );
 }
 
 if ( $mail->bcc() != "" )
 {
-    $t->set_var( "bcc", htmlspecialchars( $mail->bcc() ) );
+    $t->set_var( "bcc", $mail->bcc() );
     $t->parse( "bcc_value", "bcc_value_tpl", false );
 }
 
