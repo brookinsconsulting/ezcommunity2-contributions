@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: typeedit.php,v 1.3 2001/06/06 12:40:43 pkej Exp $
+// $Id: typeedit.php,v 1.4 2001/06/06 12:53:35 pkej Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <20-Dec-2000 18:24:06 bf>
@@ -42,7 +42,7 @@ $move_item = true;
 include_once( "ezarticle/classes/ezarticletype.php" );
 include_once( "ezarticle/classes/ezarticleattribute.php" );
 
-if( isset( $OK ) || isset( $NewAttribute ) )
+if( isset( $Ok ) || isset( $NewAttribute ) )
 {
     if( is_numeric( $TypeID ) )
     {
@@ -67,6 +67,7 @@ if( isset( $OK ) || isset( $NewAttribute ) )
         {
             $att = new eZArticleAttribute( $AttributeID[$i] );
             $att->setName( htmlspecialchars( $attribute ) );
+            $att->setType( $type );
             $att->store();            
 
             $i++;
