@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: productview.php,v 1.23 2001/02/28 10:20:22 jb Exp $
+// $Id: productview.php,v 1.24 2001/02/28 10:48:24 jb Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <24-Sep-2000 12:20:32 bf>
@@ -33,6 +33,7 @@ $ini =& $GLOBALS["GlobalSiteIni"];
 
 $Language = $ini->read_var( "eZTradeMain", "Language" );
 $ShowPriceGroups = $ini->read_var( "eZTradeMain", "PriceGroupsEnabled" ) == "true";
+$RequireUserLogin = $ini->read_var( "eZTradeMain", "RequireUserLogin" ) == "true";
 $locale = new eZLocale( $Language );
 
 $CapitalizeHeadlines = $ini->read_var( "eZArticleMain", "CapitalizeHeadlines" );
@@ -48,6 +49,9 @@ include_once( "eztrade/classes/ezproductcategory.php" );
 include_once( "eztrade/classes/ezoption.php" );
 include_once( "eztrade/classes/ezpricegroup.php" );
 include_once( "eztrade/classes/ezproductcurrency.php" );
+include_once( "ezuser/classes/ezuser.php" );
+
+$user = eZUser::currentUser();
 
 if ( !isset( $IntlDir ) )
     $IntlDir = "eztrade/user/intl";
@@ -227,7 +231,7 @@ foreach ( $options as $option )
         $t->set_var( "value_id", $value->id() );
         
         $t->set_var( "value_price", "" );
-        if ( $ShowPrice and $product->showPrice() == true  )
+        if ( ( !$RequireUserLogin or get_class( $user ) == "ezuser"  ) and $ShowPrice and $product->showPrice() == true  )
         {
             $found_price = false;
             if ( $ShowPriceGroups and $PriceGroup > 0 )
