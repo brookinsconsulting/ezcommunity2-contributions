@@ -1,5 +1,14 @@
 <?
 //print $REQUEST_URI;
+include_once( "classes/ezhttptool.php" );
+include_once( "ezuser/classes/ezpermission.php" );
+
+$user = eZUser::currentUser();
+if( eZPermission::checkPermission( $user, "eZTrade", "ModuleEdit" ) == false )
+{
+    eZHTTPTool::header( "Location: /error/403" );
+    exit();
+}
 
 $url_array = explode( "/", $REQUEST_URI );
 

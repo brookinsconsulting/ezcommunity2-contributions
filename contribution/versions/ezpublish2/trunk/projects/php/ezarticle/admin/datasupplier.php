@@ -5,8 +5,14 @@ include_once( "ezarticle/classes/ezarticle.php" );
 include_once( "ezarticle/classes/ezarticlecategory.php" );
 include_once( "ezuser/classes/ezuser.php" );
 include_once( "ezuser/classes/ezobjectpermission.php" );
+include_once( "ezuser/classes/ezpermission.php" );
 
 $user = eZUser::currentUser();
+if( eZPermission::checkPermission( $user, "eZArticle", "ModuleEdit" ) == false )
+{
+    eZHTTPTool::header( "Location: /error/403" );
+    exit();
+}
 
 switch ( $url_array[2] )
 {

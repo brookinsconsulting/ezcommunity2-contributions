@@ -1,5 +1,13 @@
 <?
 include_once( "classes/ezhttptool.php" );
+include_once( "ezuser/classes/ezpermission.php" );
+
+$user = eZUser::currentUser();
+if( eZPermission::checkPermission( $user, "eZBulkMail", "ModuleEdit" ) == false )
+{
+    eZHTTPTool::header( "Location: /error/403" );
+    exit();
+}
 
 switch ( $url_array[2] )
 {

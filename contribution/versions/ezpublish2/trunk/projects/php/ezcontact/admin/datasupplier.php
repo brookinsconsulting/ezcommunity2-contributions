@@ -1,5 +1,14 @@
 <?
 include_once( "classes/ezuritool.php" );
+include_once( "ezuser/classes/ezpermission.php" );
+include_once( "classes/ezhttptool.php" );
+
+$user = eZUser::currentUser();
+if( eZPermission::checkPermission( $user, "eZContact", "ModuleEdit" ) == false )
+{
+    eZHTTPTool::header( "Location: /error/403" );
+    exit();
+}
 
 $url_array = eZURITool::split( $REQUEST_URI );
 $ListType = $url_array[2];

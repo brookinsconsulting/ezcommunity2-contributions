@@ -1,6 +1,16 @@
 <?
 // $url_array = explode( "/", $REQUEST_URI );
 
+$user = eZUser::currentUser();
+include_once( "ezuser/classes/ezpermission.php" );
+include_once( "classes/ezhttptool.php" );
+
+if( eZPermission::checkPermission( $user, "eZLink", "ModuleEdit" ) == false )
+{
+    eZHTTPTool::header( "Location: /error/403" );
+    exit();
+}
+
 switch ( $url_array[2] )
 {
     case "" :

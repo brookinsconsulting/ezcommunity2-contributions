@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezpermission.php,v 1.11 2001/05/04 09:58:09 fh Exp $
+// $Id: ezpermission.php,v 1.12 2001/05/04 11:47:26 fh Exp $
 //
 // Definition of eZCompany class
 //
@@ -425,6 +425,9 @@ class eZPermission
         $module = new eZModule();
         $module = $module->exists( $moduleName );
 
+        if( $user->hasRootAccess() )
+            return true;
+        
         $ret = false;
 
         if ( $module )
@@ -459,7 +462,7 @@ class eZPermission
 
                     foreach ( $groupArray as $group )
                     {
-                        if ( $permission->isEnabled( $group ) || $group->isRoot() )
+                        if ( $permission->isEnabled( $group ) )
                         {
                             $ret = true;
                             break;
