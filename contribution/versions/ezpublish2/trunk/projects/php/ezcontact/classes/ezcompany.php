@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezcompany.php,v 1.49 2001/01/09 15:19:37 jb Exp $
+// $Id: ezcompany.php,v 1.50 2001/01/11 21:44:11 jb Exp $
 //
 // Definition of eZProduct class
 //
@@ -183,14 +183,14 @@ class eZCompany
     }
 
     /*
-      Returns all the company found in the database.
+      Returns all the companies found in the database.
       
       The company are returned as an array of eZCompany objects.
     */
     function getByCategory( $categoryID )
     {
         $this->dbInit();
-        
+
         $company_array = array();
         $return_array = array();
 
@@ -203,10 +203,10 @@ class eZCompany
             {
                 $return_array[] = new eZCompany( $companyItem["CompanyID"] );
             }
-       
+
         return $return_array;
     }
-    
+
     /*
       Search the company database in a single category, using query as the search string in company name.
     */
