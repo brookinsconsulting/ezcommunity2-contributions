@@ -1,9 +1,5 @@
 <?php
 
-//  if ( !isset( $TEST_COOKIE ) )
-//      setcookie ( "TEST_COOKIE", "svada", 0, "/",  "", 0 )
-//      or die( "Error: could not set cookie." );
-
 header("Expires: Mon, 26 Jul 1997 05:00:00 GMT"); 
 header("Last-Modified: " . gmdate("D, d M Y H:i:s") . "GMT"); 
 header("Cache-Control: no-cache, must-revalidate"); 
