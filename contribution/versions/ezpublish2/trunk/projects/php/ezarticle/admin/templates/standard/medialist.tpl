@@ -25,7 +25,7 @@
 	{media_number}
 	</td>
 	<td width="94%" class="{td_class}">
-	{media_name}
+	<a href="/mediacatalogue/mediaview/{media_id}/?RefererURL=/article/articleedit/medialist/{article_id}/">{media_name}</a>
 	</td>
 	<td width="94%" class="{td_class}">
 	{media_caption}
@@ -65,19 +65,10 @@
 
 <table cellspacing="0" cellpadding="0" border="0">
 <tr>
-	<td valign="top">
-	<input class="okbutton" type="submit" value="{intl-ok}" />
-	</form>
-	</td>
-	<td>&nbsp;</td>
 	<td>
 	<form action="/article/articleedit/edit/{article_id}/" method="post">
-	<input class="okbutton" type="submit" value="{intl-abort}" />
+	<input class="okbutton" type="submit" value="{intl-back}" />
 	</form>
-	</td>
-	<td>&nbsp;</td>
-	<td>
-	</td>
 </tr>
 </table>
 

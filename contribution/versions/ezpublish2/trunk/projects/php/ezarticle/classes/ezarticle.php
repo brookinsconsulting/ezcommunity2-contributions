@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezarticle.php,v 1.132 2001/07/25 12:29:54 ce Exp $
+// $Id: ezarticle.php,v 1.133 2001/07/25 14:20:46 ce Exp $
 //
 // Definition of eZArticle class
 //
@@ -65,6 +65,8 @@ include_once( "ezuser/classes/ezauthor.php" );
 
 include_once( "ezimagecatalogue/classes/ezimage.php" );
 include_once( "ezfilemanager/classes/ezvirtualfile.php" );
+
+include_once( "ezmediacatalogue/classes/ezmedia.php" );
 
 include_once( "ezforum/classes/ezforum.php" );
 include_once( "ezarticle/classes/ezarticlecategory.php" );

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezqdomgenerator.php,v 1.17 2001/07/19 13:02:55 bf Exp $
+// $Id: ezqdomgenerator.php,v 1.18 2001/07/25 14:20:46 ce Exp $
 //
 // Definition of eZQDomGenerator class
 //
@@ -91,6 +91,8 @@ class eZQDomGenerator
     {
         $tmpPage = $this->generateImage( $tmpPage );
 
+        $tmpPage = $this->generateMedia( $tmpPage );
+
         $tmpPage = $this->generateHeader( $tmpPage );
 
         
@@ -151,7 +153,18 @@ class eZQDomGenerator
         
         return $tmpPage;
     }
-    
+
+    /*!
+      \private
+      Converts image tags to XML tags.
+    */
+    function &generateMedia( $tmpPage )
+    {
+        // default image tag <media id>
+        $tmpPage = preg_replace( "/(<media\s+?([0-9]+?)\s*?>)/", "<media id=\"\\2\"  />", $tmpPage );
+        return $tmpPage;
+    }
+        
     /*!
       \private
       
@@ -284,6 +297,7 @@ class eZQDomGenerator
                 $value .= $this->decodeStandards( $paragraph );
                 $value .= $this->decodeHeader( $paragraph );
                 $value .= $this->decodeImage( $paragraph );
+                $value .= $this->decodeMedia( $paragraph );
                 $value .= $this->decodeLink( $paragraph );
             }
         }
@@ -381,6 +395,32 @@ class eZQDomGenerator
         return $pageContent;
     }
 
+    /*!
+      \private
+      
+    */
+    function &decodeMedia( $paragraph )
+    {
+        // media 
+        if ( $paragraph->name == "media" )
+        {
+            foreach ( $paragraph->attributes as $mediaItem )
+                {
+                    switch ( $mediaItem->name )
+                    {
+                        case "id" :
+                        {
+                            $mediaID = $mediaItem->children[0]->content;
+                        }
+                        break;
+                    }
+                }
+                        
+            $pageContent = "<media $mediaID>";
+        }
+        return $pageContent;
+    }
+    
     /*!
       \private
     */
@@ -486,6 +526,7 @@ class eZQDomGenerator
                     $content = $this->decodeStandards( $child );
                     $content .= $this->decodeLink( $child );
                     $content .= $this->decodeImage( $child );
+                    $content .= $this->decodeMedia( $child );
                     $content .= $this->decodeHeader( $child );
                 }
                 

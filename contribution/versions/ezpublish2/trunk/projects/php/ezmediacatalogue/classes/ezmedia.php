@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezmedia.php,v 1.1 2001/07/24 15:42:35 ce Exp $
+// $Id: ezmedia.php,v 1.2 2001/07/25 14:20:46 ce Exp $
 //
 // Definition of eZMedia class
 //
@@ -1222,6 +1222,19 @@ class eZMedia
         $db->query( "DELETE FROM eZMediaCatalogue_TypeLink WHERE MediaID='$this->ID'" );
             
     }
+
+    function &attributeString( )
+    {
+        $type =& $this->type();
+        $attributes = $type->attributes();
+    
+        foreach( $attributes as $attribute )
+        {
+            $attString .= " " . $attribute->name() . "=\"" . $attribute->value( $this ) . "\"";
+        }
+        return $attString;
+    }
+
     
     var $ID;
     var $Name;

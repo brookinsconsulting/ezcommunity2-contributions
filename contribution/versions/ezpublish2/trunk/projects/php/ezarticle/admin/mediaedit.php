@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: mediaedit.php,v 1.1 2001/07/25 12:32:20 ce Exp $
+// $Id: mediaedit.php,v 1.2 2001/07/25 14:20:46 ce Exp $
 //
 // Created on: <21-Sep-2000 10:32:36 bf>
 //
@@ -121,14 +121,17 @@ $t->set_file( array(
 
 
 $t->set_block( "media_edit_page", "media_tpl", "media" );
-
 $t->set_block( "media_edit_page", "type_tpl", "type" );
-
 $t->set_block( "media_edit_page", "file_name_tpl", "file_name" );
 $t->set_block( "media_edit_page", "no_file_name_tpl", "no_file_name" );
-
 $t->set_block( "media_edit_page", "attribute_list_tpl", "attribute_list" );
 $t->set_block( "attribute_list_tpl", "attribute_tpl", "attribute" );
+
+$t->set_var( "media_unit", "" );
+$t->set_var( "no_file_name", "" );
+$t->set_var( "file_name", "" );
+$t->set_var( "media_size", "" );
+$t->set_var( "media_id", "" );
 
 //default values
 if ( is_numeric( $MediaID ) )

@@ -126,3 +126,7 @@
 </pre>
 <!-- END pre_tpl -->
 
+<!-- BEGIN media_tpl -->
+<embed src="{media_uri}" {attribute_string} />
+<!-- END media_tpl -->
+

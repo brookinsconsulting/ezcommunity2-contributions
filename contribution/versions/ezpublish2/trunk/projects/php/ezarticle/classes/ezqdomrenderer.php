@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezqdomrenderer.php,v 1.22 2001/07/19 13:02:55 bf Exp $
+// $Id: ezqdomrenderer.php,v 1.23 2001/07/25 14:20:46 ce Exp $
 //
 // Definition of eZQDomRenderer class
 //
@@ -145,6 +145,7 @@ class eZQDomrenderer
         $this->Template->set_block( "articletags_tpl", "header_6_tpl", "header_6"  );
 
         $this->Template->set_block( "articletags_tpl", "image_tpl", "image"  );
+        $this->Template->set_block( "articletags_tpl", "media_tpl", "media"  );
         $this->Template->set_block( "image_tpl", "image_link_tpl", "image_link"  );
         $this->Template->set_block( "image_tpl", "ext_link_tpl", "ext_link"  );
 
@@ -252,6 +253,7 @@ class eZQDomrenderer
 
             $this->PrevTag = "";
             $articleImages =& $this->Article->images();
+            $articleMedia =& $this->Article->media();
             $articleID = $this->Article->id();
             
             foreach ( $xml->children as $child )
@@ -269,6 +271,7 @@ class eZQDomrenderer
                                     $intro .= $this->renderPlain( $paragraph );
                                     $intro .= $this->renderStandards( $paragraph );
                                     $intro .= $this->renderImage( $paragraph );
+                                    $intro .= $this->renderMedia( $paragraph );
                                     $intro .= $this->renderLink( $paragraph );
                                     
                                     $this->PrevTag = $paragraph->name;
@@ -297,6 +300,7 @@ class eZQDomrenderer
                     $pageContent .= $this->renderStandards( $paragraph );
                     $pageContent .= $this->renderPlain( $paragraph );
                     $pageContent .= $this->renderImage( $paragraph );
+                    $pageContent .= $this->renderMedia( $paragraph );
                     $pageContent .= $this->renderLink( $paragraph );
                     
 //                      $pageContent = $this->renderCode( $pageContent, $paragraph );
@@ -551,6 +555,62 @@ class eZQDomrenderer
 
         return $pageContent;
     }
+
+        /*!
+      Renders media tags.
+    */
+    function &renderMedia( $paragraph )
+    {
+        $pageContent = "";
+        if ( $paragraph->name == "media" )
+        {
+            $articleMedia = $this->Article->media();
+            $articleID = $this->Article->id();
+
+            $level = 1;
+            if  ( count( $paragraph->attributes ) > 0 )
+            foreach ( $paragraph->attributes as $attr )
+            {
+                switch ( $attr->name )
+                {
+                    case "id" :
+                    {
+                       $mediaID = $attr->children[0]->content;
+                    }
+                    break;
+                }
+            }
+
+            setType( $mediaID, "integer" );
+
+            $media = $articleMedia[$mediaID-1];
+
+            // add media if a valid media was found, else report an error in the log.
+            if ( get_class( $media ) == "ezmedia" )
+            {
+                $ini =& INIFile::globalINI();
+
+                $mediaURL = $media->mediaPath();
+
+                $mediaCaption = $media->caption();
+                $mediaID = $media->id();
+
+                $attributeString =& $media->attributeString();
+
+                $this->Template->set_var( "media_id", $mediaID );
+                $this->Template->set_var( "media_uri", $mediaURL );
+                $this->Template->set_var( "article_id", $articleID );
+                $this->Template->set_var( "caption", $mediaCaption );
+                $this->Template->set_var( "attribute_string", $attributeString );
+
+                $pageContent = $this->Template->parse( "media", "media_tpl" );
+
+            }
+        }
+        return $pageContent;
+    }
+
+
     
     function &renderPlain( $paragraph )
     {
@@ -590,6 +650,7 @@ class eZQDomrenderer
                         $content .= $this->renderStandards( $child );
                         $content .= $this->renderLink( $child );                        
                         $content .= $this->renderImage( $child );
+                        $content .= $this->renderMedia( $child );
                         $content .= $this->renderHeader( $child );
                     }
 
@@ -647,6 +708,7 @@ class eZQDomrenderer
                         $tmpContent .= $this->renderStandards( $child );
                         $tmpContent .= $this->renderLink( $child );
                         $tmpContent .= $this->renderImage( $child );
+                        $tmpContent .= $this->renderMedia( $media );
                         $tmpContent .= $this->renderHeader( $child );
                     }
                 }

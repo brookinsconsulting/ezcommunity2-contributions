@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: mediaview.php,v 1.2 2001/07/25 08:05:26 ce Exp $
+// $Id: mediaview.php,v 1.3 2001/07/25 14:20:46 ce Exp $
 //
 // Created on: <24-Jul-2001 17:08:10 ce>
 //
@@ -43,7 +43,7 @@ $t->set_file( "media_view_tpl", "mediaview.tpl" );
 
 $t->setAllStrings();
 
-$user = eZUser::currentUser();
+$user =& eZUser::currentUser();
 
 $media = new eZMedia( $MediaID );
 
@@ -59,14 +59,7 @@ $t->set_var( "media_caption", $media->caption() );
 $t->set_var( "media_name", $media->name() );
 $t->set_var( "media_description", $media->description() );
 
-$type = $media->type();
-
-$attributes = $type->attributes();
-
-foreach( $attributes as $attribute )
-{
-    $attString .= " " . $attribute->name() . "=\"" . $attribute->value( $media ) . "\"";
-}
+$attString =& $media->attributeString();
 
 $t->set_var( "attributes", $attString );
 $t->set_var( "referer_url", $RefererURL );
