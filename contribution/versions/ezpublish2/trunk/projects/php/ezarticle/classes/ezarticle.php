@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezarticle.php,v 1.49 2001/03/04 15:00:28 fh Exp $
+// $Id: ezarticle.php,v 1.50 2001/03/05 09:24:08 fh Exp $
 //
 // Definition of eZArticle class
 //
@@ -783,17 +783,46 @@ class eZArticle
            $fetchText = "";
        }
 
+       // this code works. do not EDIT !! :)
+       $user = eZUser::currentUser();
+
+       $loggedInSQL = "";
+       if ( $user )
+       {
+           $groups = $user->groups( true );
+
+           $groupSQL = "";
+           
+           $i = 0;
+           foreach ( $groups as $group )
+           {
+               if ( $i == 0 )
+                   $groupSQL .= " Permission.GroupID=$group OR";
+               else
+                   $groupSQL .= " Permission.GroupID=$group OR";
+               
+               $i++;
+           }
+           $currentUserID = $user->id();
+           $loggedInSQL = "eZArticle_Article.AuthorID=$currentUserID OR";
+       }
+
+       
        $return_array = array();
        $article_array = array();
 
        $this->Database->array_query( $article_array,
                     "SELECT eZArticle_Article.ID AS ArticleID, eZArticle_Article.Name, eZArticle_Category.ID, eZArticle_Category.Name
-                    FROM eZArticle_Article, eZArticle_Category, eZArticle_ArticleCategoryLink 
+                    FROM eZArticle_Article LEFT JOIN eZArticle_ArticlePermission AS Permission
+                    ON eZArticle_Article.ID=Permission.ObjectID,
+                    eZArticle_Category, eZArticle_ArticleCategoryLink 
                     WHERE 
                     ( 
                     eZArticle_Article.Name LIKE '%$queryText%' OR
                     eZArticle_Article.Keywords LIKE '%$queryText%'
                     )
+                    AND
+                    ( $loggedInSQL ($groupSQL Permission.GroupID='-1') AND Permission.ReadPermission='1' )
                     AND
                     eZArticle_ArticleCategoryLink.ArticleID = eZArticle_Article.ID
                     AND
