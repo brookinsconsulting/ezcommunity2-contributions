@@ -1,23 +1,21 @@
-<table width="100%" border="0">
+<table width="100%" cellpadding="0" cellspacing="0" border="0">
 <tr>
 	<td valign="bottom">
 	<h1>{intl-bug_archive}<!-- - {current_module_name}--></h1>
 	</td>
-	<td rowspan="2" align="right">
+	<td align="right">
 	<form action="/bug/search/" method="post">
 	<input type="text" name="SearchText" size="12" />	
 	<input class="stdbutton" type="submit" value="{intl-search}" />
 	</form>	
 	</td>
 </tr>
-<tr>
-	<td>{current_module_description}</td>
-</tr>
 </table>
+
+<form method="post" action="/bug/archive/{current_module_id}" enctype="multipart/form-data">
 
 <hr noshade="noshade" size="4" />
 
-<form method="post" action="/bug/archive/{current_module_id}" enctype="multipart/form-data">
 <!-- BEGIN path_tpl -->
 
 
@@ -35,6 +33,8 @@
 <!-- END path_item_tpl -->
 
 <hr noshade="noshade" size="4" />
+
+<div class="p">{current_module_description}</div>
 
 <!-- BEGIN module_list_tpl -->
 <table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
