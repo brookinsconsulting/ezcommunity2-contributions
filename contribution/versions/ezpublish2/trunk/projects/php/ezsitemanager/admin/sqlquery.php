@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: sqlquery.php,v 1.4 2001/10/08 18:33:09 master Exp $
+// $Id: sqlquery.php,v 1.5 2001/10/09 07:43:14 bf Exp $
 //
 // Created on: <26-Sep-2001 19:23:56 bf>
 //
@@ -36,7 +36,6 @@
 //- export the result to a comma separated file to open in excel etc.
 //- show errors in a friendly way ( both mysql and postgresql ) not a high pri.
 //
-
 
 include_once( "classes/ezdb.php" );
 

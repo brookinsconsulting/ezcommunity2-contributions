@@ -5,12 +5,14 @@
 
 <form action="{www_dir}{index}/sitemanager/sqladmin/query" method="post">
 
-{query_text2}&nbsp;<input class="okbutton" type="submit" name="Run2" value="{intl-run2}" /> 
+{query_text2}&nbsp;<input type="submit" name="Run2" value="{intl-run2}" /> 
 <br />
 
 <textarea name="QueryText" cols="80" rows="4">{query_text}</textarea><br />
 
-<input class="okbutton" type="submit" name="Run" value="{intl-run}" />&nbsp;<input class="okbutton" type="submit" name="Export" value="{intl-export}" />
+<input type="submit" name="Export" value="{intl-save_query}" />
+<hr noshade="noshade" size="4" />
+<input class="okbutton" type="submit" name="Run" value="{intl-run}" />&nbsp;
 
 <hr noshade="noshade" size="4" />
 
