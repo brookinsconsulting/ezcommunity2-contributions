@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: tableedit.php,v 1.8 2001/12/19 13:44:58 jhe Exp $
+// $Id: tableedit.php,v 1.9 2001/12/19 14:34:22 pkej Exp $
 //
 // Created on: <13-Dec-2001 10:51:41 jhe>
 //
@@ -138,6 +138,8 @@ $elementTemplate->set_block( "element_item_tpl", "table_edit_tpl", "table_edit" 
 $elementTemplate->set_block( "element_item_tpl", "size_tpl", "size" );
 $elementTemplate->set_block( "element_item_tpl", "table_size_tpl", "table_size" );
 $elementTemplate->set_block( "element_item_tpl", "break_tpl", "break" );
+$elementTemplate->set_block( "element_item_tpl", "text_block_edit_tpl", "text_block_edit" );
+$elementTemplate->set_block( "element_item_tpl", "numerical_edit_tpl", "numerical_edit" );
 
 $move_item = true;
 $elementTemplate->set_block( "element_item_tpl", "item_move_up_tpl", "item_move_up" );
@@ -235,6 +237,26 @@ for ( $row = 0; $row < $table->rows(); $row++ )
                 {
                     $elementTemplate->set_var( "fixed_values", "" );
                 }
+
+                if ( $name == "text_block_item" )
+                {
+                    $elementTemplate->parse( "text_block_edit", "text_block_edit_tpl" );
+                }
+                else
+                {
+                    $elementTemplate->set_var( "text_block_edit", "" );
+                }
+                
+                if ( $name == "numerical_integer_item" ||
+                     $name == "numerical_float_item" )
+                {
+                    $elementTemplate->parse( "numerical_edit", "numerical_edit_tpl" );
+                }
+                else
+                {
+                    $elementTemplate->set_var( "numerical_edit", "" );
+                }
+
                 
                 $elementTemplate->set_var( "selected", "selected" );
 
