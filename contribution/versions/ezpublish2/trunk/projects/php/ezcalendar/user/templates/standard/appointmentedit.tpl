@@ -109,4 +109,3 @@
 <input type="hidden" name="AppointmentID" value="{appointment_id}" />
 </form>
 
-

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: appointmentedit.php,v 1.10 2001/01/18 14:55:20 gl Exp $
+// $Id: appointmentedit.php,v 1.11 2001/01/18 17:10:47 gl Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <03-Jan-2001 12:47:22 bf>
@@ -58,7 +58,7 @@ include_once( "ezcalendar/classes/ezappointmenttype.php" );
 $ini =& $GLOBALS["GlobalSiteIni"];
 
 $Language = $ini->read_var( "eZCalendarMain", "Language" );
-$locale = new eZLocale( $Language );
+$Locale = new eZLocale( $Language );
 
 
 // Allowed format for start and stop time:
@@ -67,6 +67,18 @@ $locale = new eZLocale( $Language );
 
 if ( $Action == "Insert" || $Action == "Update" )
 {
+    if ( isSet ( $Cancel ) )
+    {
+        print( "Cancel<br />" );
+        $app = new eZAppointment( $AppointmentID );
+        $dt = $app->dateTime();
+        $year = $dt->year();
+        $month = $dt->month();
+        $day = $dt->day();
+        Header( "Location: /calendar/dayview/$year/$month/$day" );
+        exit();
+    }
+
     $user = eZUser::currentUser();
     if ( $user )
     {
@@ -365,7 +377,7 @@ for ( $i=1; $i<13; $i++ )
 
     $tmpdate->setMonth( $i );
     $t->set_var( "month_id", $i );
-    $t->set_var( "month_name", $locale->monthName( $tmpdate->monthName() ) );
+    $t->set_var( "month_name", $Locale->monthName( $tmpdate->monthName() ) );
 
     $t->parse( "month", "month_tpl", true );
 }
