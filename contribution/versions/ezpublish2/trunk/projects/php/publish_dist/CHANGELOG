@@ -3,6 +3,8 @@ eZ publish changelog:
  
 Changes from 2.1.0B2 to 2.1.0B2
 -------------------------------
+* Added buttons so the user can toggle the threading in eZ forum.
+* Added more file details in article view.
 * Bugfix: you can now have more than 2 digits on prices in eZ trade.
 * Added site map in article admin
 * Added range checking on article id edit/preview in admin
