@@ -69,18 +69,7 @@
 	<div class="small">( {article_published} )</div>
 
 	<!-- BEGIN left_article_image_tpl -->
-	    <table width="1%" align="left">
-	        <tr>
-			<td>
-			<a href="{www_dir}{index}/article/articleview/{article_id}/1/{category_id}/"><img src="{www_dir}{thumbnail_image_uri}" border="0" width="{thumbnail_image_width}" height="{thumbnail_image_height}" /></a>
-            </td>
-                </tr>
-                <tr>
-                         <td class="pictext">
-                         {thumbnail_image_caption}
-                         </td>
-                </tr>
-             </table>
+			<a href="{www_dir}{index}/article/articleview/{article_id}/1/{category_id}/"><img src="{www_dir}{thumbnail_image_uri}" border="0" width="{thumbnail_image_width}" height="{thumbnail_image_height}" align="left" vspace="10" hspace="4" /></a>
         <!-- END left_article_image_tpl -->
 
 
@@ -104,18 +93,7 @@
 	<div class="small">( {article_published} )</div>
 
 	<!-- BEGIN right_article_image_tpl -->
-	    <table width="1%" align="right">
-	        <tr>
-			<td>
-			<a href="{www_dir}{index}/article/articleview/{article_id}/1/{category_id}/"><img src="{www_dir}{thumbnail_image_uri}" border="0" width="{thumbnail_image_width}" height="{thumbnail_image_height}" /></a>
-            </td>
-                </tr>
-                <tr>
-                         <td class="pictext">
-                         {thumbnail_image_caption}
-                         </td>
-                </tr>
-             </table>
+			<a href="{www_dir}{index}/article/articleview/{article_id}/1/{category_id}/"><img src="{www_dir}{thumbnail_image_uri}" border="0" width="{thumbnail_image_width}" height="{thumbnail_image_height}" align="right" vspace="10" hspace="4" /></a>
         <!-- END right_article_image_tpl -->
 
 	<div class="spacer"><div class="p">{article_intro}</div></div>
