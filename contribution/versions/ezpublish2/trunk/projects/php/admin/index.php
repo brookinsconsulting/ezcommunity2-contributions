@@ -1,9 +1,9 @@
 <?php
 
-//  header("Expires: Mon, 26 Jul 1997 05:00:00 GMT"); 
-//  header("Last-Modified: " . gmdate("D, d M Y H:i:s") . "GMT"); 
-//  header("Cache-Control: no-cache, must-revalidate"); 
-//  header("Pragma: no-cache");
+header("Expires: Mon, 26 Jul 1997 05:00:00 GMT"); 
+header("Last-Modified: " . gmdate("D, d M Y H:i:s") . "GMT"); 
+header("Cache-Control: no-cache, must-revalidate"); 
+header("Pragma: no-cache");
 
 ob_start();
 
@@ -64,6 +64,9 @@ if ( $user )
 
         if ( $ini->read_var( "site", "eZPoll" ) == "enabled" )
             include( "ezpoll/admin/menubox.php" );
+
+        if ( $ini->read_var( "site", "eZBug" ) == "enabled" )
+            include( "ezbug/admin/menubox.php" );
 
         if ( $ini->read_var( "site", "eZAd" ) == "enabled" )
             include( "ezad/admin/menubox.php" );
