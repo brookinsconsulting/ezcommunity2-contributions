@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezurltranslator.php,v 1.10 2001/10/02 09:26:48 vl Exp $
+// $Id: ezurltranslator.php,v 1.10.4.1 2001/10/26 10:30:05 ce Exp $
 //
 // Definition of eZURLTranslator class
 //
@@ -54,16 +54,16 @@ class eZURLTranslator
     {
         $ret = "/error/404";
 
-	// Hack to delete a trailing slash
-	$url = preg_replace("'/$'", "", $url);
+        // Hack to delete a trailing slash
+        $url = preg_replace("'/$'", "", $url);
        
         $db =& eZDB::globalDatabase(); 
-
+        
         $db->array_query( $url_array,
-            "SELECT Dest FROM eZURLTranslator_URL
+        "SELECT Dest FROM eZURLTranslator_URL
              WHERE Source='$url'" );
-	
-	$url = preg_replace("'/$'", "", $url);
+
+        $url = preg_replace("'/$'", "", $url);
 
         if ( count( $url_array ) > 0 )
         {                
