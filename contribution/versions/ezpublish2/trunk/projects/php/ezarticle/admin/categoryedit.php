@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: categoryedit.php,v 1.6 2001/02/28 16:39:08 fh Exp $
+// $Id: categoryedit.php,v 1.7 2001/03/01 13:28:07 fh Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <18-Sep-2000 14:46:19 bf>
@@ -263,7 +263,8 @@ if ( $Action == "DeleteCategories" )
             $categories[] = $ID;
             $category = new eZArticleCategory( $ID );
             $categories[] = $category->parent( false );
-            $category->delete();
+            if( eZObjectPermission::hasPermission( $ID , "article_category", 'w' ) )
+                $category->delete();
         }
         $categories = array_unique( $categories );
         $files =& eZCacheFile::files( "ezarticle/cache/",

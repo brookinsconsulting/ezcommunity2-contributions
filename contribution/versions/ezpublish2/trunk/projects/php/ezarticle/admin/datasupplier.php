@@ -275,8 +275,7 @@ switch ( $url_array[2] )
         {
             $CategoryID = $url_array[4];
             $Action = "edit";
-            if( eZObjectPermission::hasPermission( $CategoryID, "article_category", 'w' ) )
-                include( "ezarticle/admin/categoryedit.php" );
+            include( "ezarticle/admin/categoryedit.php" );
         }
 
     }
