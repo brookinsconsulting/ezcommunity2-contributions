@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezformrenderer.php,v 1.65 2002/01/28 09:45:30 jhe Exp $
+// $Id: ezformrenderer.php,v 1.66 2002/01/28 13:04:52 jhe Exp $
 //
 // eZFormRenderer class
 //
@@ -451,9 +451,6 @@ class eZFormRenderer
             }
             
             $result_count = count( $qa );
-        }
-        else
-        {
         }
         
         $elementCounter = 0;
