@@ -6,6 +6,17 @@ switch ( $url_array[2] )
         include( "ezuser/admin/welcome.php" );
     }
     break;
+
+    case "sessioninfo" :
+    {
+        if ( $url_array[3] == "delete" )
+        {
+            $Action = "Delete";
+            $SessionID = $url_array[4];
+        }
+        include( "ezuser/admin/sessioninfo.php" );
+    }
+    break;
     
     case "login" :
     {

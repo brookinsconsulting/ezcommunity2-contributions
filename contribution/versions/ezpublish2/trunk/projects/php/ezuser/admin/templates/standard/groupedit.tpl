@@ -12,6 +12,9 @@
 <p class="boxtext">{intl-description}:</p>
 <input type="text" size="40" name="Description" value="{description_value}"/>
 
+<p class="boxtext">{intl-session_timeout}:</p>
+<input type="text" size="40" name="SessionTimeout" value="{session_timeout_value}"/>
+
 	<!-- BEGIN module_list_header_tpl -->
 	<p class="checkhead">{module_name}:</p>
 

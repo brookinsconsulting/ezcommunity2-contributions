@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezsession.php,v 1.10 2000/11/19 09:41:03 bf-cvs Exp $
+// $Id: ezsession.php,v 1.11 2000/11/19 14:42:35 bf-cvs Exp $
 //
 // Definition of eZSession class
 //
@@ -292,22 +292,48 @@ class eZSession
     }
 
     /*!
-      Returns an array of values 
-    */
-    function variable( $name )
+      Returns an array of session ID's session variable name==$name.
+      
+    */    
+    function getByVariable( $name )
     {
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
        
-       $ret = false;
+       $ret = array();
        $this->dbInit();
 
-       $this->Database->array_query( $value_array, "SELECT Value FROM eZSession_SessionVariable
-                                                    WHERE SessionID='$this->ID' AND Name='$name'" );       
+       $this->Database->array_query( $value_array, "SELECT eZSession_Session.ID
+                                                    FROM eZSession_Session, eZSession_SessionVariable
+                                                    WHERE eZSession_Session.ID=eZSession_SessionVariable.SessionID
+                                                    AND eZSession_SessionVariable.Name='AuthenticatedUser'" );
 
+       foreach ( $value_array as $value )
+       {
+           $ret[] =& $value["ID"];
+       }
+
+       return $ret;
+    }
+    
+    /*!
+      Returns true if the session is not older than the number of minutes given as argument.
+    */
+    function isValid( $timeout )
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+       
+       $this->dbInit();
+
+       $timeout = $timeout . "00";
+       $value_array = array();
+       $this->Database->array_query( $value_array, "SELECT ID FROM eZSession_Session WHERE ID='$this->ID'
+                                                    AND ( ( now()-eZSession_Session.LastAccessed ) < $timeout )" );
+       $ret = false;            
        if ( count( $value_array ) == 1 )
        {
-           $ret = $value_array[0]["Value"];
+           $ret = true;
        }
 
        return $ret;

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezusergroup.php,v 1.5 2000/10/31 07:35:57 ce-cvs Exp $
+// $Id: ezusergroup.php,v 1.6 2000/11/19 14:42:35 bf-cvs Exp $
 //
 // Definition of eZCompany class
 //
@@ -102,14 +102,16 @@ class eZUserGroup
         {
             $this->Database->query( "INSERT INTO eZUser_Group SET
                                  Name='$this->Name',
-                                 Description='$this->Description'" );
+                                 Description='$this->Description',
+                                 SessionTimeout='$this->SessionTimeout'" );
             $this->ID = mysql_insert_id();
         }
         else
         {
             $this->Database->query( "UPDATE eZUser_Group SET
                                  Name='$this->Name',
-                                 Description='$this->Description'
+                                 Description='$this->Description',
+                                 SessionTimeout='$this->SessionTimeout'
                                  WHERE ID='$this->ID'" );            
         }
         
@@ -154,6 +156,7 @@ class eZUserGroup
                 $this->ID = $user_group_array[0][ "ID" ];
                 $this->Name = $user_group_array[0][ "Name" ];
                 $this->Description = $user_group_array[0][ "Description" ];
+                $this->SessionTimeout = $user_group_array[0][ "SessionTimeout" ];
             }
                  
             $this->State_ = "Coherent";
@@ -266,6 +269,17 @@ class eZUserGroup
     }
 
     /*!
+      Returns the session timeout value in minutes.
+    */
+    function sessionTimeout()
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+        
+        return $this->SessionTimeout;
+    }
+    
+    /*!
       Sets the name of the user group.
     */
     function setName( $value )
@@ -287,6 +301,19 @@ class eZUserGroup
        $this->Description = $value;
     }
 
+    /*!
+      Sets the session timeout value, the value is in minutes.
+    */
+    function setSessionTimeout( $value )
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+       $this->SessionTimeout = $value;
+       
+       setType( $this->SessionTimeout, "integer" );
+    }
+    
     /*!
       Adds a user to the current user group.
 
@@ -333,6 +360,7 @@ class eZUserGroup
     var $ID;
     var $Name;
     var $Description;
+    var $SessionTimeout;
         
     ///  Variable for keeping the database connection.
     var $Database;

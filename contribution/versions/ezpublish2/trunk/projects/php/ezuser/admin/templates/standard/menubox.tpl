@@ -7,6 +7,7 @@
     <img src="/images/{site_style}/menu-arrow.gif" width="20" height="10"><a class="menu" href="/user/grouplist/">{intl-grouplist}</a><br>
     <img src="/images/{site_style}/menu-arrow.gif" width="20" height="10"><a class="menu" href="/user/useredit/new/">{intl-newuser}</a><br>
     <img src="/images/{site_style}/menu-arrow.gif" width="20" height="10"><a class="menu" href="/user/groupedit/new/">{intl-newgroup}</a><br>
+    <img src="/images/{site_style}/menu-arrow.gif" width="20" height="10"><a class="menu" href="/user/sessioninfo/">{intl-session_info}</a><br>
 	</td>
 </tr>
 <tr>

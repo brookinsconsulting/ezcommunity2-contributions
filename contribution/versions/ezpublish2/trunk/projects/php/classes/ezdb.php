@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezdb.php,v 1.12 2000/11/02 17:21:23 bf-cvs Exp $
+// $Id: ezdb.php,v 1.13 2000/11/19 14:42:35 bf-cvs Exp $
 //
 // Definition of eZDB class
 //
@@ -67,7 +67,7 @@ class eZDB
             or print( "Error: could not connect to the database." );;
     }
 
-    /*
+    /*!
       Execute a query on the global MySQL database link.  If it returns an error,
       the script is halted and the attempted SQL query and MySQL error message are printed.
     */
@@ -82,7 +82,7 @@ class eZDB
         exit();
     }
 
-    /*
+    /*!
       Executes a SELECT query that returns multiple rows and puts the results into the passed
       array as an indexed associative array.  The array is cleared first.  The results start with
       the array start at 0, and the number of results can be found with the count() function.
@@ -93,7 +93,7 @@ class eZDB
         $result =& $this->query( $sql );
 
         if ( count( $result ) > 0 )
-        { 
+        {
             for($i = 0; $i < mysql_num_rows( $result ); $i++ )
                 $array[$i] =& mysql_fetch_array( $result );
         }
@@ -115,11 +115,13 @@ class eZDB
         }
     }
 
-    // Member variables:
-    
+    /// the server to connect to
     var $Server;
+    /// the database to use
     var $DB;
+    /// the username to use
     var $User;
+    /// the password to use
     var $Password;
 }
 

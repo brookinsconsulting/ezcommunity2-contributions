@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezuser.php,v 1.18 2000/11/14 12:04:00 ce-cvs Exp $
+// $Id: ezuser.php,v 1.19 2000/11/19 14:42:35 bf-cvs Exp $
 //
 // Definition of eZCompany class
 //
@@ -484,7 +484,8 @@ class eZUser
 
     /*!
       \static
-      Returns the current logged on user as a eZUser object.
+      Returns the current logged on user as a eZUser object. If the user's session timeout
+      has timedout the user is logged out.
 
       False is returned if unseccessful.
     */
@@ -495,12 +496,54 @@ class eZUser
         $ret = false;
         
         if ( $session->fetch() )
-        {
+        {            
             $user = new eZUser( $session->variable( "AuthenticatedUser" ) );
-            
-            if ( ( $user->id() != 0 ) && ( $user->id() != "" ) )
+
+            if ( $session->isValid( $user->timeoutValue() ) == false )
             {
-                $ret = $user;
+//                  $user->logout( );
+            }
+            else
+            {            
+                if ( ( $user->id() != 0 ) && ( $user->id() != "" ) )
+                {
+                    $ret = $user;
+                }
+            }
+        }
+        
+        return $ret;
+    }
+
+
+    /*!
+      \static
+      Returns the currently logged in users with sessions. It is returned as an
+      array of eZUser and eZSession objects.
+    */
+    function currentUsers()
+    {
+        $session = new eZSession();
+
+        $ret = array();
+
+        $sessionIDArray =& $session->getByVariable( "AuthenticatedUser" );
+
+        foreach ( $sessionIDArray as $sessionID )
+        {
+            $session = new eZSession( $sessionID );
+
+            $user = new eZUser( $session->variable( "AuthenticatedUser" ) );
+
+            if ( $session->isValid( $user->timeoutValue() ) == false )
+            {
+            }
+            else
+            {
+                if ( ( $user->id() != 0 ) && ( $user->id() != "" ) )
+                {
+                    $ret[] = array( $user, $session );
+                }
             }
         }
         
@@ -582,6 +625,35 @@ class eZUser
        foreach ( $address_array as $address )
        {
            $ret[] = new eZAddress( $address["AddressID"] );
+       }
+
+       return $ret;
+    }
+
+    /*!
+      Returns the timeout for the user. If the user is not a member of any user groups the timeout
+      is set to 0. If the user is a member of several user groups, the fastest timeout is returned.
+    */
+    function timeoutValue()
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+       $ret = 0;
+       
+       $this->dbInit();
+
+       $this->Database->array_query( $timeout_array, "SELECT eZUser_Group.SessionTimeout
+                                                      FROM eZUser_User, eZUser_UserGroupLink, eZUser_Group
+                                                      WHERE eZUser_User.ID=eZUser_UserGroupLink.UserID
+                                                      AND eZUser_Group.ID=eZUser_UserGroupLink.GroupID
+                                                      AND eZUser_User.ID=25
+                                                      ORDER BY eZUser_Group.SessionTimeout ASC
+                                                      LIMIT 1" );
+
+       if ( count( $timeout_array ) == 1 )
+       {
+           $ret = $timeout_array[0]["SessionTimeout"];
        }
 
        return $ret;

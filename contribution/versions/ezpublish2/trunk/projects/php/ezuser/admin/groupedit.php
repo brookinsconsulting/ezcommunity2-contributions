@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: groupedit.php,v 1.8 2000/10/26 13:13:46 ce-cvs Exp $
+// $Id: groupedit.php,v 1.9 2000/11/19 14:42:35 bf-cvs Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <20-Sep-2000 13:32:11 ce>
@@ -51,6 +51,7 @@ if ( $Action == "insert" )
             $group = new eZUserGroup();
             $group->setName( $Name );
             $group->setDescription( $Description );
+            $group->setSessionTimeout( $SessionTimeout );
 
             $permission = new eZPermission(); 
 
@@ -61,15 +62,16 @@ if ( $Action == "insert" )
             $permissionList = $permission->getAll();
 
             foreach( $permissionList as $permissionItem )
-                {
-                    $permissionItem->setEnabled( $group, false );
-                }
+            {
+                $permissionItem->setEnabled( $group, false );
+            }
     
             foreach( $PermissionArray as $PermissionID )
-                {
-                    $permission->get( $PermissionID );
-                    $permission->setEnabled( $group, true );
-                }
+            {
+                $permission->get( $PermissionID );
+                $permission->setEnabled( $group, true );
+            }
+            
             Header( "Location: /user/grouplist/" );
             exit();
         }
@@ -108,6 +110,7 @@ if ( $Action == "update" )
         $group->get( $GroupID );
         $group->setName( $Name );
         $group->setDescription( $Description );
+        $group->setSessionTimeout( $SessionTimeout );
 
         $permissionList = $permission->getAll();
 
@@ -163,7 +166,8 @@ if ( $Action == "edit" )
     $group->get( $GroupID );
 
     $Name = $group->Name();
-    $Description = $group->Description();
+    $Description = $group->description();
+    $SessionTimeout = $group->sessionTimeout();    
     $ActionValue = "update";
 
     $headline = new INIFIle( "ezuser/admin/intl/" . $Language . "/groupedit.php.ini", false );
@@ -207,6 +211,7 @@ foreach ( $moduleList as $moduleItem )
 $t->set_var( "error_msg", $error_msg );
 $t->set_var( "name_value", $Name );
 $t->set_var( "description_value", $Description );
+$t->set_var( "session_timeout_value", $SessionTimeout );
 $t->set_var( "action_value", $ActionValue );
 
 $t->set_var( "group_id", $GroupID );
