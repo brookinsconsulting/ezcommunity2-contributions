@@ -14,7 +14,6 @@ if( $Command == "list" ) // Return a list of users and their ID's
                                               )
                                        );
     }
-    $ReturnData = new eZXMLRPCArray( $groups );
     $ReturnData = new eZXMLRPCStruct( array( "Catalogues" => new eZXMLRPCArray(),
                                          "Elements" => $groups,
                                          "Path" => new eZXMLRPCArray() ) ); // array starting with top level catalogue, ending with parent.

@@ -13,6 +13,12 @@ if( $Action == "data" ) // Dump category info!
 {
     $writeGroups = eZObjectPermission::getGroups( $ID, "article_category", 'w', false );
     $readGroups = eZObjectPermission::getGroups( $ID, "article_category", 'r', false );
+
+    foreach( $readGroups as $group )
+        $rgp[] = new eZXMLRPCInt( $group );
+    foreach( $writeGroups as $group )
+        $wgp[] = new eZXMLRPCInt( $group );
+
     $category = new eZArticleCategory( $ID );
     $ReturnData = new eZXMLRPCStruct( array( "Location" => createURLStruct( "ezarticle", "category", $category->id() ),
                                              "Name" => new eZXMLRPCString( $category->name( false ) ),
@@ -23,8 +29,9 @@ if( $Action == "data" ) // Dump category info!
                                              "OwnerID" => new eZXMLRPCInt( $category->owner( false ) ),
                                              "SectionID" => new eZXMLRPCInt( $category->sectionIDStatic( $ID ) ),
                                              "ImageID" => new eZXMLRPCInt( $category->image( false ) ),
-                                             "ReadGroups" => new eZXMLRPCArray( $readGroups ),
-                                             "WriteGroups" => new eZXMLRPCArray( $writeGroups )
+                                             "BulkMailID" => new eZXMLRPCInt( $category->bulkMailCategory(false ) ),
+                                             "ReadGroups" => new eZXMLRPCArray( $rgp ),
+                                             "WriteGroups" => new eZXMLRPCArray( $wgp )
                                              )
                                       );
 }

@@ -1,15 +1,17 @@
 <?
+
 if ( $ReturnCatalogues == true )
 {
-//    $Catalogues[] = new eZXMLRPCString( "categorylist" );
+//    $Catalogues[] = new eZXMLRPCString( "users" );
+//    $Catalogues[] = new eZXMLRPCString( "groups" );
 }
 else
 {
     switch ( $RequestType )
     {
-        case "category" :
+        case "section" :
         {
-            include( "ezbulkmail/xmlrpc/category.php" );
+            include( "ezsitemanager/xmlrpc/section.php" );
         } break;
         
         default :
@@ -19,5 +21,4 @@ else
         } break;
     }
 }
-
 ?>
