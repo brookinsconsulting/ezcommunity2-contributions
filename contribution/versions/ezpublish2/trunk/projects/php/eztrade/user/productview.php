@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: productview.php,v 1.19 2001/02/26 12:30:08 jb Exp $
+// $Id: productview.php,v 1.20 2001/02/26 17:56:07 jb Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <24-Sep-2000 12:20:32 bf>
@@ -33,6 +33,7 @@ $ini =& $GLOBALS["GlobalSiteIni"];
 
 $Language = $ini->read_var( "eZTradeMain", "Language" );
 $ShowPriceGroups = $ini->read_var( "eZTradeMain", "PriceGroupsEnabled" ) == "true";
+$locale = new eZLocale( $Language );
 
 $CapitalizeHeadlines = $ini->read_var( "eZArticleMain", "CapitalizeHeadlines" );
 
@@ -92,7 +93,9 @@ $t->set_block( "product_view_tpl", "path_tpl", "path" );
 $t->set_block( "product_view_tpl", "image_tpl", "image" );
 $t->set_block( "product_view_tpl", "main_image_tpl", "main_image" );
 $t->set_block( "product_view_tpl", "option_tpl", "option" );
+$t->set_block( "option_tpl", "value_price_header_tpl", "value_price_header" );
 $t->set_block( "option_tpl", "value_tpl", "value" );
+$t->set_block( "value_tpl", "value_price_item_tpl", "value_price_item_tpl" );
 $t->set_block( "product_view_tpl", "external_link_tpl", "external_link" );
 
 $t->set_block( "product_view_tpl", "attribute_list_tpl", "attribute_list" );
@@ -205,6 +208,9 @@ $options = $product->options();
 
 $t->set_var( "option", "" );
 
+$t->set_var( "value_price_header", "" );
+if ( $ShowPrice and $product->showPrice() == true  )
+    $t->parse( "value_price_header", "value_price_header_tpl" );
 foreach ( $options as $option )
 {
     $values = $option->values();
@@ -219,6 +225,30 @@ foreach ( $options as $option )
         $t->set_var( "value_name", $value->name() );
         $t->set_var( "value_id", $value->id() );
         
+        $t->set_var( "value_price", "" );
+        if ( $ShowPrice and $product->showPrice() == true  )
+        {
+            $found_price = false;
+            if ( $ShowPriceGroups and $PriceGroup > 0 )
+            {
+                $price = eZPriceGroup::correctPrice( $product->id(), $PriceGroup,
+                                                     $option->id(), $value->id() );
+                if ( $price )
+                {
+                    $found_price = true;
+                    $price = new eZCurrency( $price );
+                }
+            }
+            if ( !$found_price )
+            {
+                $price = new eZCurrency( $product->price() );
+            }
+
+            $t->set_var( "value_price", $locale->format( $price ) );
+
+            $t->parse( "value_price_item", "value_price_item_tpl" );
+        }
+
         $t->parse( "value", "value_tpl", true );    
     }
 
@@ -283,8 +313,6 @@ else
 {
     $t->set_var( "external_link", "" );
 }
-
-$locale = new eZLocale( $Language );
 
 $t->set_var( "product_number", $product->productNumber() );
 
