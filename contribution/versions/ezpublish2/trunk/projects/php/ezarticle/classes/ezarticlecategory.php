@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezarticlecategory.php,v 1.54 2001/04/07 14:16:48 bf Exp $
+// $Id: ezarticlecategory.php,v 1.55 2001/04/07 14:25:29 bf Exp $
 //
 // Definition of eZArticleCategory class
 //
@@ -841,7 +841,7 @@ class eZArticleCategory
 
        }
     
-       $query = "SELECT count( Article.ID ) AS Count 
+       $query = "SELECT count( DISTINCT Article.ID ) AS Count 
                   FROM eZArticle_Article AS Article,
                        eZArticle_ArticleCategoryLink as Link,
                        eZArticle_ArticlePermission AS Permission
