@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezfreetradeimport.php,v 1.3 2001/07/29 23:31:11 kaid Exp $
+// $Id: ezfreetradeimport.php,v 1.4 2001/07/30 07:45:46 br Exp $
 //
 // ezfreetradeimport class
 //
@@ -53,7 +53,7 @@ class eZFreeTradeImport
     {
         set_time_limit( 0 );
         $categories =& $this->getCategoriesFromImport();
-        $db = eZDB::globalDatabase();
+        $db =& eZDB::globalDatabase();
 
         if ( is_array ( $categories ) )
         {

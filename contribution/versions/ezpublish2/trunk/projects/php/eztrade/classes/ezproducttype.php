@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezproducttype.php,v 1.8 2001/07/30 07:11:55 br Exp $
+// $Id: ezproducttype.php,v 1.9 2001/07/30 07:45:46 br Exp $
 //
 // Definition of eZProductType class
 //
@@ -61,7 +61,7 @@ class eZProductType
     */
     function store()
     {
-        $db = eZDB::globalDatabase();
+        $db =& eZDB::globalDatabase();
         $db->begin();
 
         $this->Name = $db->escapeString( $this->Name );
@@ -98,7 +98,7 @@ class eZProductType
     */
     function get( $id=-1 )
     {
-        $db = eZDB::globalDatabase();
+        $db =& eZDB::globalDatabase();
 
         $ret = false;
         if ( $id != -1  )
@@ -127,7 +127,7 @@ class eZProductType
     */
     function &getAll()
     {
-        $db = eZDB::globalDatabase();
+        $db =& eZDB::globalDatabase();
         
         $return_array = array();
         $type_array = array();
@@ -147,7 +147,7 @@ class eZProductType
     */
     function delete()
     {
-        $db = eZDB::globalDatabase();
+        $db =& eZDB::globalDatabase();
         $db->begin();
         
         // delete all attributes and values
@@ -209,7 +209,7 @@ class eZProductType
     */
     function attributes( )
     {
-       $db = eZDB::globalDatabase();
+       $db =& eZDB::globalDatabase();
        
        $return_array = array();
        $attribute_array = array();

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezorderoptionvalue.php,v 1.11 2001/07/30 07:11:55 br Exp $
+// $Id: ezorderoptionvalue.php,v 1.12 2001/07/30 07:45:46 br Exp $
 //
 // Definition of eZOrderOptionValue class
 //
@@ -59,7 +59,7 @@ class eZOrderOptionValue
     */
     function store()
     {
-        $db = eZDB::globalDatabase();
+        $db =& eZDB::globalDatabase();
         $db->begin();
         
         $this->OptionName = $db->escapeString( $this->OptionName );
@@ -104,7 +104,7 @@ class eZOrderOptionValue
     */
     function get( $id="" )
     {
-        $db = eZDB::globalDatabase();
+        $db =& eZDB::globalDatabase();
         $ret = false;
         
         if ( $id != "" )

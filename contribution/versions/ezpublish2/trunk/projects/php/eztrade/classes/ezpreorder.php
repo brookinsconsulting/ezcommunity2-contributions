@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezpreorder.php,v 1.7 2001/07/30 07:11:55 br Exp $
+// $Id: ezpreorder.php,v 1.8 2001/07/30 07:45:46 br Exp $
 //
 // Definition of eZPreOrder class
 //
@@ -63,7 +63,7 @@ class eZPreOrder
     */
     function store()
     {
-        $db = eZDB::globaldatabase();
+        $db =& eZDB::globaldatabase();
         $db->begin();
         if ( !isset( $this->ID ) )
         {
@@ -97,7 +97,7 @@ class eZPreOrder
     */
     function delete()
     {
-        $db = eZDB::globaldatabase();
+        $db =& eZDB::globaldatabase();
         $db->begin();
         
         $ret[] = $db->query( "DELETE FROM eZTrade_PreOrder WHERE ID='$this->ID'" );
@@ -113,7 +113,7 @@ class eZPreOrder
     */
     function get( $id="" )
     {
-        $db = eZDB::globaldatabase();
+        $db =& eZDB::globaldatabase();
         $ret = false;
         
         if ( $id != "" )
@@ -141,7 +141,7 @@ class eZPreOrder
     */
     function getByOrderID( $orderID )
     {
-        $db = eZDB::globaldatabase();
+        $db =& eZDB::globaldatabase();
         $ret = false;
         
         if ( $orderID != "" )

@@ -1,6 +1,6 @@
 %<?php
 // 
-// $Id: ezproduct.php,v 1.68 2001/07/30 07:11:55 br Exp $
+// $Id: ezproduct.php,v 1.69 2001/07/30 07:45:46 br Exp $
 //
 // Definition of eZProduct class
 //
@@ -1295,7 +1295,7 @@ class eZProduct
        $ret = false;
        if ( get_class( $category ) == "ezproductcategory" )
        {
-           $db = eZDB::globalDatabase();
+           $db =& eZDB::globalDatabase();
            $catID = $category->id();
         
            $db->array_query( $ret_array, "SELECT ID FROM eZTrade_ProductCategoryLink

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezorderitem.php,v 1.14 2001/07/30 07:11:55 br Exp $
+// $Id: ezorderitem.php,v 1.15 2001/07/30 07:45:46 br Exp $
 //
 // Definition of eZOrderItem class
 //
@@ -60,7 +60,7 @@ class eZOrderItem
     */
     function store()
     {
-        $db = eZBD::globalDatabase();
+        $db =& eZDB::globalDatabase();
         $db->begin();
         if ( !isset( $this->ID ) )
         {
@@ -103,7 +103,7 @@ class eZOrderItem
     */
     function get( $id="" )
     {
-        $db = eZBD::globalDatabase();
+        $db =& eZDB::globalDatabase();
         $ret = false;
         
         if ( $id != "" )
@@ -132,7 +132,7 @@ class eZOrderItem
     */
     function delete()
     {
-        $db = eZBD::globalDatabase();
+        $db =& eZDB::globalDatabase();
         $db->begin();
 
         $ret[] = $db->query( "DELETE FROM eZTrade_OrderOptionValue WHERE OrderItemID='$this->ID'" );
@@ -181,7 +181,7 @@ class eZOrderItem
      */
     function optionValues( )
     {
-        $db = eZBD::globalDatabase();
+        $db =& eZDB::globalDatabase();
 
         $return_array = array();
        

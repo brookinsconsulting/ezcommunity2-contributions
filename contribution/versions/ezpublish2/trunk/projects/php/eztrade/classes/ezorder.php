@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezorder.php,v 1.37 2001/07/30 07:11:55 br Exp $
+// $Id: ezorder.php,v 1.38 2001/07/30 07:45:46 br Exp $
 //
 // Definition of eZOrder class
 //
@@ -69,7 +69,7 @@ class eZOrder
     */
     function store()
     {
-        $db = eZDB::globalDatabase();
+        $db =& eZDB::globalDatabase();
         $db->begin();
         
         $this->TextPaymentMethod = $db->escapeString( $this->PaymentMethod );
@@ -146,7 +146,7 @@ class eZOrder
     */
     function delete()
     {
-        $db = eZDB::globalDatabase();
+        $db =& eZDB::globalDatabase();
 
         $items = $this->items();
 
@@ -175,7 +175,7 @@ class eZOrder
     */
     function get( $id="" )
     {
-        $db = eZDB::globalDatabase();
+        $db =& eZDB::globalDatabase();
 
         $ret = false;
         
@@ -212,7 +212,7 @@ class eZOrder
     */
     function getAll( $offset=0, $limit=40 )
     {
-        $db = eZDB::globalDatabase();
+        $db =& eZDB::globalDatabase();
 
         $return_array = array();
         $order_array = array();
@@ -234,7 +234,7 @@ class eZOrder
     */
     function getNew( )
     {
-        $db = eZDB::globalDatabase();
+        $db =& eZDB::globalDatabase();
 
         $return_array = array();
         $order_array = array();
@@ -258,7 +258,7 @@ class eZOrder
     */
     function search( $queryText, $offset=0, $limit=20 )
     {
-        $db = eZDB::globalDatabase();
+        $db =& eZDB::globalDatabase();
 
         $return_array = array();
         $order_array = array();
@@ -281,7 +281,7 @@ class eZOrder
     */
     function getSearchCount( $queryText )
     {
-        $db = eZDB::globalDatabase();
+        $db =& eZDB::globalDatabase();
 
         $db->array_query( $order_array, "SELECT count(ID) as Count
                                                      FROM eZTrade_Order
@@ -301,7 +301,7 @@ class eZOrder
     */
     function getTotalCount()
     {
-        $db = eZDB::globalDatabase();
+        $db =& eZDB::globalDatabase();
 
         $db->array_query( $order_array, "SELECT count(ID) as Count
                                                      FROM eZTrade_Order" );
@@ -384,7 +384,7 @@ class eZOrder
     {
        // check the owner of the address
         
-        $db = eZDB::globalDatabase();
+        $db =& eZDB::globalDatabase();
        
         $address_array = array();
         
@@ -550,7 +550,7 @@ class eZOrder
     */
     function initialStatus( )
     {
-        $db = eZDB::globalDatabase();
+        $db =& eZDB::globalDatabase();
         $statusType = new eZOrderStatusType();
        
         $statusType->getByName( "Initial" );
@@ -571,7 +571,7 @@ class eZOrder
     */
     function lastStatus( )
     {
-        $db = eZDB::globalDatabase();
+        $db =& eZDB::globalDatabase();
         $statusType = new eZOrderStatusType();
         
         $statusType->getByName( "Initial" );
@@ -592,7 +592,7 @@ class eZOrder
     */
     function statusHistory()
     {
-        $db = eZDB::globalDatabase();
+        $db =& eZDB::globalDatabase();
 
         $statusType = new eZOrderStatusType();
         
@@ -617,7 +617,7 @@ class eZOrder
     {
         $ret = array();
        
-        $db = eZDB::globalDatabase();
+        $db =& eZDB::globalDatabase();
 
         $dbarray_query( $order_array, "SELECT * FROM
                                        eZTrade_OrderItem
@@ -644,7 +644,7 @@ class eZOrder
     function totalPrice( $user = false )
     {
         $retPrice = 0;
-        $db = eZDB::globalDatabase();
+        $db =& eZDB::globalDatabase();
         
         $db->array_query( $order_item_array, "SELECT Price, Count FROM
                                               eZTrade_OrderItem
@@ -665,7 +665,7 @@ class eZOrder
     */
     function mostPopularProduct()
     {
-        $db = eZDB::globalDatabase();
+        $db =& eZDB::globalDatabase();
         $ret = array();
 
         $db->array_query( $product_array,
