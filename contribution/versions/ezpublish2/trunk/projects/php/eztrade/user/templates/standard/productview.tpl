@@ -13,6 +13,8 @@
 </tr>
 </table>
 
+<hr noshade size="4"/>
+
 <img src="/images/path-arrow.gif" height="10" width="12" border="0" alt="" />
 <a class="path" href="/{module}/{module_list}/0/">{intl-top}</a>
 

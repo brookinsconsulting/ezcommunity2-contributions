@@ -23,7 +23,7 @@
 	</td>
 	<td valign="top">
 	<p class="boxtext">{intl-additional_categories}:</p>
-	<select multiple name="CategoryArray[]">
+	<select multiple size="5" name="CategoryArray[]">
 	<!-- BEGIN multiple_value_tpl -->
 	<option value="{option_value}" {multiple_selected}>{option_level}{option_name}</option>
 	<!-- END multiple_value_tpl -->
