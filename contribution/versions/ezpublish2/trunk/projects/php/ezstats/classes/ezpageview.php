@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezpageview.php,v 1.18 2001/11/02 06:55:59 br Exp $
+// $Id: ezpageview.php,v 1.19 2001/11/05 13:02:59 bf Exp $
 //
 // Definition of eZPageView class
 //
@@ -91,7 +91,7 @@ class eZPageView
                                     ( ID, BrowserType )
                                     VALUES ( '$nextID', '$userAgent' )" );
                 
-				$this->ID = $nextID;
+				$this->BrowserTypeID = $nextID;
             }
             else
             {
@@ -128,7 +128,7 @@ class eZPageView
                                              '$remoteHostName' )
                                     " );
 
-				$this->ID = $nextID;
+				$this->RemoteHostID = $nextID;
             }
             else
             {
@@ -175,7 +175,7 @@ class eZPageView
                                    '$refererDomain',
                                     '$refererURI' )
                           " );                
-				$this->ID = $nextID;
+				$this->RefererURLID = $nextID;
             }
             else
             {
