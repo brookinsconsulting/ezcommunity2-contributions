@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: datasupplier.php,v 1.25 2001/09/27 11:48:27 br Exp $
+// $Id: datasupplier.php,v 1.25.2.1 2002/04/29 13:36:02 fh Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -37,6 +37,7 @@ function writeAtAll()
 {
     $user =& eZUser::currentUser();
     if( eZObjectPermission::getObjects( "imagecatalogue_category", 'w', true ) < 1
+        && eZObjectPermission::getObjects( "imagecatalogue_category", 'u', true ) < 1
         && !eZPermission::checkPermission( $user, "eZImageCatalogue", "WriteToRoot" ) )
     {
         $text = "You do not have write permission to any categories";
