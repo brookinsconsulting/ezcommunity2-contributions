@@ -23,9 +23,6 @@
 <p class="boxtext">{intl-name}:</p>
 <input type="text" name="Title" size="40" value="{category_name}">
 
-<p class="boxtext">{intl-description}:</p>
-<textarea cols="40" rows="4" name="Description">{category_description}</textarea>
-
 <p class="boxtext">{intl-where}:</p>
 <select name="ParentCategory">
 <option value="0">{intl-topcat}</option>
@@ -33,6 +30,9 @@
 <option {is_selected} value="{grouplink_id}">{option_level}{grouplink_title}</option>
 <!-- END parent_category_tpl -->
 </select>
+
+<p class="boxtext">{intl-description}:</p>
+<textarea cols="40" rows="4" name="Description">{category_description}</textarea>
 
 <!-- BEGIN image_item_tpl -->
 <p class="boxtext">{intl-th_type_current_image}:</p>
