@@ -1,5 +1,5 @@
 #
-# $Id: eznews.sql,v 1.8 2000/10/10 15:01:35 pkej-cvs Exp $
+# $Id: eznews.sql,v 1.9 2000/10/10 19:05:23 pkej-cvs Exp $
 #
 # eZNews database schema.
 #
@@ -72,6 +72,7 @@ INSERT INTO eZNews_ChangeType (Description, Name) VALUES ('The item has been tra
 INSERT INTO eZNews_ChangeType (Description, Name) VALUES ('The item has been updated',       'update'   );
 INSERT INTO eZNews_ChangeType (Description, Name) VALUES ('The item has been copied',        'copy'   );
 INSERT INTO eZNews_ChangeType (Description, Name) VALUES ('The item is a temporary item',       'temporary'   );
+INSERT INTO eZNews_ChangeType (Description, Name) VALUES ('The item is an administrative item',       'administrate'   );
 
 
 # This table keeps track of all items in the hiearcy,
@@ -134,18 +135,6 @@ CREATE TABLE eZNews_Item
 #INSERT INTO eZNews_Item (ItemTypeID, Name, CreationIP, Status) SELECT DISTINCT Type.ID,  'Summer Olympics 2000',  'local', CT.ID FROM eZNews_ChangeType AS CT, eZNews_ItemType AS Type WHERE CT.Name = 'publish' AND Type.Name = 'category';
 #INSERT INTO eZNews_Item (ItemTypeID, Name, CreationIP, Status) SELECT DISTINCT Type.ID,  'Winter Olympics 2002',  'local', CT.ID FROM eZNews_ChangeType AS CT, eZNews_ItemType AS Type WHERE CT.Name = 'publish' AND Type.Name = 'category';
 #INSERT INTO eZNews_Item (ItemTypeID, Name, CreationIP, Status) SELECT DISTINCT Type.ID,  'Technology',  'local', CT.ID FROM eZNews_ChangeType AS CT, eZNews_ItemType AS Type WHERE CT.Name = 'publish' AND Type.Name = 'category';
-
-DROP TABLE eZNews_ItemTemporary;
-
-CREATE TABLE eZNews_ItemTemporary
-(
-    ID          int(11) NOT NULL REFERENCES eZNews_Item(ID),
-    SavedAt     timestamp DEFAULT 'now()' NOT NULL,
-    
-    PRIMARY KEY (ID)
-);
-
-
 
 
 
@@ -222,6 +211,7 @@ CREATE TABLE eZNews_ItemLog
 );
 
 
+
 DROP TABLE eZNews_ItemFile;
 
 CREATE TABLE eZNews_ItemFile
@@ -235,18 +225,6 @@ CREATE TABLE eZNews_ItemFile
 );
 
 
-DROP TABLE eZNews_ItemFilePreference;
-
-CREATE TABLE eZNews_ItemFilePreference
-(
-    ID              int(11) NOT NULL REFERENCES eZNews_ItemFile(ID),
-
-    # Is this image the main thumbnail? (Ie. front page image.)
-    isFrontImage    enum('Y','N') DEFAULT 'N' NOT NULL,
-
-    PRIMARY KEY (ID)
-);
-
 
 DROP TABLE eZNews_ItemImage;
 
@@ -255,18 +233,6 @@ CREATE TABLE eZNews_ItemImage
     ID      int(11) DEFAULT '0' NOT NULL AUTO_INCREMENT,
     ItemID  int(11) NOT NULL REFERENCES eZNews_Item(ID),
     ImageID int(11) NOT NULL REFERENCES eZImageCatalogue_Image(ID),
-
-    PRIMARY KEY (ItemID, ImageID),
-    KEY (ID)
-);
-
-
-DROP TABLE eZNews_ItemImagePreference;
-
-CREATE TABLE eZNews_ItemImagePreference
-(
-    ID              int(11) NOT NULL REFERENCES eZNews_ItemImage(ID),
-
     # Is this image the main thumbnail? (Ie. front page image.)
     isFrontImage    enum('Y','N') DEFAULT 'N' NOT NULL,
     
@@ -284,8 +250,10 @@ CREATE TABLE eZNews_ItemImagePreference
     # for the thumbnail image.
     ThumbImageHeight  int(11) DEFAULT '0',
 
-    PRIMARY KEY (ID)
+    PRIMARY KEY (ItemID, ImageID),
+    KEY (ID)
 );
+
 
 
 DROP TABLE eZNews_Article;
@@ -303,19 +271,6 @@ CREATE TABLE eZNews_Article
     # in the log
     AuthorText      varchar(255) NOT NULL,
 
-    # When MySQL 3.23.23 or higher is stable, use next line
-    # FULLTEXT (Meta, Story),
-
-    PRIMARY KEY(ID),
-    KEY (AuthorText)
-);
-
-DROP TABLE eZNews_ArticlePreference;
-
-CREATE TABLE eZNews_ArticlePreference
-(
-    ID              int(11) NOT NULL REFERENCES eZNews_Article(ID),
-
     # Does this entry accept links from readers?
     AcceptLinks     enum('Y','N') DEFAULT 'N' NOT NULL,
 
@@ -327,8 +282,14 @@ CREATE TABLE eZNews_ArticlePreference
     MetaClass       varchar(255),
     StoryClass      varchar(255),
 
-    PRIMARY KEY(ID)
+    # When MySQL 3.23.23 or higher is stable, use next line
+    # FULLTEXT (Meta, Story),
+
+    PRIMARY KEY(ID),
+    KEY (AuthorText)
 );
+
+
 
 
 DROP TABLE eZNews_ChangeTicket;
@@ -367,6 +328,26 @@ CREATE TABLE eZNews_Category
     # important desicions about categorization.
     PrivateDescriptionID    int(11) REFERENCES eZNews_Article(ID),
 
+    # Does this entry sub categories?
+    AcceptSubcategories     enum('Y','N') DEFAULT 'Y' NOT NULL,
+
+    # Does this entry have a picture to identify it?
+    hasImage                enum('Y','N') DEFAULT 'N' NOT NULL,
+    ImageID                 int(11) NOT NULL REFERENCES eZImageCatalogue_Image(ID),
+
+    # How is this category ordered (ie. listed, shown)? Hmm, how do we implement these?
+    OrderedBy               enum('value','manual', 'date', 'author', 'popularity') DEFAULT 'value' NOT NULL,
+    Direction               enum('forward', 'reverse') DEFAULT 'forward' NOT NULL,
+    
+    # Propagation. Which headlines are moved upwards, how far upwards, and why.
+    PropagateUp             enum('N', 'Y') DEFAULT 'Y' NOT NULL,
+    
+    # How many items do we propagate?
+    PropagateNoItems        int(11) DEFAULT '1' NOT NULL,
+    
+    # Propagation rules, same as OrderedBy and Direction.
+    PropagatedBy            enum('value','manual', 'date', 'author', 'popularity') DEFAULT 'value' NOT NULL,
+    PropagationDirection    enum('forward', 'reverse') DEFAULT 'forward' NOT NULL,
     PRIMARY KEY(ID)
 );
 
@@ -425,38 +406,6 @@ INSERT INTO eZNews_Category (ID, PublicDescriptionID, PrivateDescriptionID ) SEL
 INSERT INTO eZNews_Category (ID, PublicDescriptionID, PrivateDescriptionID ) SELECT DISTINCT ID,  '0', '0' FROM eZNews_Item AS Item WHERE Item.Name = 'Begravelse';
 INSERT INTO eZNews_Category (ID, PublicDescriptionID, PrivateDescriptionID ) SELECT DISTINCT ID,  '0', '0' FROM eZNews_Item AS Item WHERE Item.Name = 'Euro3Plast';
 INSERT INTO eZNews_Category (ID, PublicDescriptionID, PrivateDescriptionID ) SELECT DISTINCT ID,  '0', '0' FROM eZNews_Item AS Item WHERE Item.Name = 'Hundehus';
-
-
-DROP TABLE eZNews_CategoryPreference;
-
-CREATE TABLE eZNews_CategoryPreference
-(
-    ID                      int(11) NOT NULL REFERENCES eZNews_Category(ID),
-
-    # Does this entry sub categories?
-    AcceptSubcategories     enum('Y','N') DEFAULT 'Y' NOT NULL,
-
-    # Does this entry have a picture to identify it?
-    hasImage                enum('Y','N') DEFAULT 'N' NOT NULL,
-    ImageURL                varchar(255),
-
-    # How is this category ordered (ie. listed, shown)? Hmm, how do we implement these?
-    OrderedBy               enum('value','manual', 'date', 'author', 'popularity') DEFAULT 'value' NOT NULL,
-    Direction               enum('forward', 'reverse') DEFAULT 'forward' NOT NULL,
-    
-    # Propagation. Which headlines are moved upwards, how far upwards, and why.
-    PropagateUp             enum('N', 'Y') DEFAULT 'Y' NOT NULL,
-    
-    # How many items do we propagate?
-    PropagateNoItems        int(11) DEFAULT '1' NOT NULL,
-    
-    # Propagation rules, same as OrderedBy and Direction.
-    PropagatedBy            enum('value','manual', 'date', 'author', 'popularity') DEFAULT 'value' NOT NULL,
-    PropagationDirection    enum('forward', 'reverse') DEFAULT 'forward' NOT NULL,
-    
-
-    PRIMARY KEY(ID)
-);
 
 
 DROP TABLE eZNews_ItemPosition;

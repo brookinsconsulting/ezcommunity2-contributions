@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: eznewscategory.php,v 1.1 2000/09/28 08:27:14 pkej-cvs Exp $
+// $Id: eznewscategory.php,v 1.2 2000/10/10 19:05:23 pkej-cvs Exp $
 //
 // Definition of eZNewsCategory class
 //
@@ -18,6 +18,7 @@
 //!! eZNews
 //! eZNewsCategory handles eZNews categories.
 /*!
+    This class is used for creating categories in the hiearchy of stories/articles.
  */
  
 include_once( "classes/ezdb.php" );
@@ -25,50 +26,134 @@ include_once( "eznews/classes/eznewsitem.php" );
 
 class eZNewsCategory extends eZNewsItem
 {
-    function eZNewsCategory( $inID=-1, $fetch=true )
+    /*!
+        Constructor. Nothing special here.
+     */
+    function eZNewsCategory( $inData = -1, $fetch = true )
     {
-        if( $GLOBAL["NEWSDEBUG"] == true )
-        {
-            echo "eZNewsCategory::eZNewsCategory( inID = $inID, fetch = $fetch )";
-        }
+        #echo "eZNewsCategory::eZNewsCategory( inID = $inID, fetch = $fetch )";
 
-        eZNewsItem::eZNewsItem( $inID, $fetch );
+        eZNewsItem::eZNewsItem( $inData, $fetch );
     }
     
-    function store( $update = 'create' )
-    {
-        eZNewsItem::store();
-        
-        $query =
-        "
-            INSERT INTO
-                eZNews_Article
-            SET
-                ID                      = '%s',
-                PublicDescriptionID     = '%s',
-                PrivateDescriptionID    = '%s'
-        ";
-        
-        $query = sprintf( $query, $this->ID, $this->PublicDescriptionID, $this->PrivateDescriptionID );
-        
-        $this->Database->query( $query );
-    }
     
-    function get( $inID=-1 )
+    
+    /*!
+        \private
+        
+        Stores a eZNewsCategory object in the database.
+      
+        \out
+            \$outID The ID of the stored object.
+        \return
+            Returns true if the object is stored.
+    */
+    function storeThis( &$outID )
     {
-        if( $GLOBAL["NEWSDEBUG"] == true )
+        #echo "eZNewsCategory::storeThis( \$outID=$outID )<br>";
+        $value = false;
+        
+        eZNewsItem::storeThis( $outID );
+        
+        if( $outID )
         {
-            echo "eZNewsCategory::get( inID = $inID ), State_ = " . $this->State_ . " <br>";
-        }
-        unset( $returnError );
-        $returnError = array();
-        unset( $categoryArray );
-        $categoryArray = array();
+            $query =
+            "
+                INSERT INTO
+                    eZNews_Category
+                SET
+                    ID                   = '%s',
+                    PublicDescriptionID  = '%s',
+                    PrivateDescriptionID = '%s'
+            ";
 
-        if( $this->State_ != "Coherent" && $inID != -1)
-        {
-            $this->dbInit();
+            $query = sprintf
+            (
+                $query,
+                $this->ID,
+                $this->PublicDescriptionID,
+                $this->PrivateDescriptionID
+            );
+
+            $this->Database->query( $query );
             
+            $value = true;
+        }
+        
+        return $value;
+    }
+    
+    
+    
+    /*!
+        \private
+        Updates the data in the database with the objects current data.
+        
+        \out
+            \$outID The ID of the updated row.
+        \return
+            Returns true when the object is stored.
+     */
+    function updateThis( &$outID )
+    {
+        #echo "eZNewsCategory::updateThis( \$outID=$outID )<br>";
+    
+        $value = false;
+        
+        eZNewsItem::updateThis( $outID );
+        
+        if( $outID )
+        {
+            $query =
+            "
+                UPDATE
+                    eZNews_Category
+                SET
+                    PublicDescriptionID  = '%s',
+                    PrivateDescriptionID = '%s'
+                WHERE
+                    ID = %s
+            ";
+
+            $query = sprintf
+            (
+                $query,
+                $this->PublicDescriptionID,
+                $this->PrivateDescriptionID,
+                $this->ID
+            );
+
+            $this->Database->query( $query );
+            
+            $value = true;
+        }
+        
+        return $value;
+    }
+    
+    
+    
+    /*!
+        This function gets this objects data from the database.
+        
+        \in
+            \$inData The name, or ID, of the object to fetch data about.
+        \out
+            \$outID The ID of the fetched object.
+        \return
+            Returns true if the data has been fetched.
+     */
+    function getThis( &$outID, $inData )
+    {
+        #echo "eZNewsCategory::getThis( \$outID=$outID, \$inData=$inData )<br>";
+        $value = false;
+        
+        eZNewsItem::getThis( $outID, $inData );
+        
+        $thisID = $outID[0];
+        
+        if( $thisID )
+        {
             $query =
             "
                 SELECT
@@ -78,290 +163,115 @@ class eZNewsCategory extends eZNewsItem
                 WHERE
                     ID = '%s'
             ";
-            
-            $query=sprintf( $query, $inID );
-            $this->Database->array_query( $categoryArray, $query );
-            $rowsFound = count( $categoryArray );
+
+            $query = sprintf( $query, $thisID );            
+            $this->Database->array_query( $articleArray, $query );
+            $rowsFound = count( $articleArray );
+
             switch ( $rowsFound )
             {
                 case (0):
-                    $this->State_ = "Don't Exist";
+                    die( "Error: Article item don't exist, the ID $thisID wasn't found in the database. This shouldn't happen." );
                     break;
                 case (1):
-                    $this->ID                   = $categoryArray[0][ "ID" ];
-                    $this->PublicDescriptionID  = $categoryArray[0][ "PublicDescriptionID" ];
-                    $this->PrivateDescriptionID = $categoryArray[0][ "PrivateDescriptionID" ];
-                    $returnError                = eZNewsItem::get( $this->ID );
+                    $this->PublicDescriptionID  = $articleArray[0][ "PublicDescriptionID" ];
+                    $this->PrivateDescriptionID = $articleArray[0][ "PrivateDescriptionID" ];
+                    $value = true;
                     break;
                 default:
-                    die( "Error: Category item's with the same ID was found in the database. This shouldent happen." );
+                    die( "Error: Article items with the same ID, $thisID, was found in the database. This shouldn't happen." );
                     break;
             }
-            
+        }
         
-        }
-        else if( $this->State_ = -1 )
-        {
-            $this->State_ = "Dirty";
-            $returnError[] = "State changed";
-        }
-
-        return $returnError;
+        return $value;
     }
     
-    function getAllChildrenCategories( $inOrderBy = "name", $direction = "forward", $fetch=true )
-    {
-        $this->dbInit();
-        
-        $returnArray = array();
-        $itemArray = array();
-        
-        $query =
-        "
-            SELECT
-                Item.ID AS ID,
-                Item.Name AS Name
-            FROM
-                eZNews_Hiearchy AS Hier,
-                eZNews_Item AS Item,
-                eZNews_ItemType AS Type
-            WHERE
-                Item.ItemTypeID = Type.ID
-            AND
-                Type.Name = 'Category'
-            AND
-                Hier.ParentID = '%s'
-            AND
-                Item.ID = Hier.ItemID
-            %s
-        ";
-        $orderBy = $this->createOrderBy( $inOrderBy, $direction );
-        
-        $query=sprintf( $query, $this->ID, $orderBy );
-
-        $this->Database->array_query( $itemArray, $query );
-        
-        for( $i = 0; $i < count( $itemArray ); $i++ )
-        {
-            $returnArray[$i] = new eZNewsCategory( $itemArray[$i][ "ID" ], $fetch );
-       }
-        
-        return $returnArray;
-    }
-
-    function getAllParentCategories( $orderBy = "name", $direction = "forward", $fetch = true )
-    {
-        $this->dbInit();
-        
-        $returnArray = array();
-        $itemArray = array();
-
-        $query =
-        "
-            SELECT
-                Item.ID AS ID,
-                Item.Name AS Name
-            FROM
-                eZNews_Hiearchy AS Hier,
-                eZNews_Item AS Item,
-                eZNews_ItemType AS Type
-            WHERE
-                Item.ItemTypeID = Type.ID
-            AND
-                Type.Name = 'Category'
-            AND
-                Hier.ItemID = '%s'
-            AND
-                Item.ID = Hier.ParentID
-            %s
-        ";
-        
-        $orderBy = $this->createOrderBy( $inOrderBy, $direction );
-
-        $query=sprintf( $query, $this->ID, $orderBy );
-        $this->Database->array_query( $itemArray, $query );
-        for( $i = 0; $i < count( $itemArray ); $i++ )
-        {
-            $returnArray[$i] = new eZNewsCategory( $itemArray[$i][ "ID" ], $fetch );
-        }
-        
-        return $returnArray;
-    }
-        
-    function makeRoot( $type="Root", $fetch = true )
-    {
-        $returnError;
-        
-        if( $this->State_ != "Altered" )
-        {
-            $queryResults = array();
-            $this->dbInit();
-
-            $query =
-            "
-                SELECT
-                    Item.ID AS ID,
-                    Item.Name AS Name
-                FROM
-                    eZNews_Item AS Item,
-                    eZNews_ItemType AS Type
-                WHERE
-                    Item.Name='%s'
-                AND
-                    Type.Name = 'Category'
-                AND
-                    Type.ID = Item.ItemTypeID
-            ";
-            
-            $query=sprintf( $query, $type );
-
-            $this->Database->array_query( $queryResults, $query );
-            $this->ID = $queryResults[0][ "ID" ];
-            $this->get( $this->ID, true );
-            
-        }
-        
-        return $returnError;
-    }
     
-    function getCanonicalParentCategories( $inOrderBy = "name", $direction = "forward", $fetch = true )
-    {
-        $this->dbInit();
-        
-        $i = 0;
-        $count = 1;
-        $id = $this->ID;
-        
-        $orderBy = $this->createOrderBy( $inOrderBy, $direction );
-            
-        while( $count == 1 )
-        {
-            $query =
-            "
-                SELECT
-                    Item.ID AS ID,
-                    Item.Name AS Name
-                FROM
-                    eZNews_Hiearchy AS Hier,
-                    eZNews_Item AS Item
-                WHERE
-                    Item.ID = Hier.ParentID
-                AND
-                    Hier.ItemID = '%s'
-                AND
-                    Hier.isCanonical = 'Y'
-                %s
-            ";
-            
-            $query=sprintf( $query, $id, $this->OrderBy[ "$orderBy" ], $this->OrderBy[ "$direction" ]);
-            $this->Database->array_query( $newsitemArray, $query );
-            $count=count( $newsitemArray );
-            
-            if( $count == 1 )
-            {            
-                $returnArray[$i] = new eZNewsCategory( $newsitemArray[0][ "ID" ], $fetch );
-                $id = $newsitemArray[0][ "ID" ];
-            }
-            $i++;
-        }
-        return $returnArray;
-    }
-    
-    function template(  )
-    {
-        empty( $returnError );
-        
-        return $returnError;
-    }
     
     /*!
-      Sets the news item ID of the public description of this category.
-    */
+        Sets the PublicDescriptionID text field.
+     */
     function setPublicDescriptionID( $value )
     {
-        if( $this->State_ == "Dirty" )
-        {
-            $this->get( $this->ID );
-        }
+        $this->dirtyUpdate();
         
         $this->PublicDescriptionID = $value;
+
+        $this->alterState();
         
-        if( $this->State_ != "New" )
-        {
-            $this->State_ == "Altered";
-        }
+        return true;
     }
 
-    /*!
-      Sets the news item ID of the private description of this category.
-    */
-    function setPrivateDescriptionID( $value )
-    {
-        if( $this->State_ == "Dirty" )
-        {
-            $this->get( $this->ID );
-        }
-        
-        $this->PrivateDescriptionID = $value;
-        
-        if( $this->State_ != "New" )
-        {
-            $this->State_ == "Altered";
-        }
-    }
+
     
     /*!
-      Returns the  news item ID of the public description of this category.
-    */
+        Gets the PublicDescriptionID field. 
+     */
     function publicDescriptionID()
     {
-        if( $this->State_ == "Dirty" )
-        {
-            $this->get( $this->ID );
-        }
+        $this->dirtyUpdate();
         
         return $this->PublicDescriptionID;
     }
     
+    
+    
     /*!
-      Returns the  news item ID of the private description of this category.
-    */
+        Sets the PrivateDescriptionID text field.
+     */
+    function setPrivateDescriptionID( $value )
+    {
+        $this->dirtyUpdate();
+        
+        $this->PrivateDescriptionID = $value;
+
+        $this->alterState();
+        
+        return true;
+    }
+
+
+    
+    /*!
+        Gets the PrivateDescriptionID field. 
+     */
     function privateDescriptionID()
     {
-        if( $this->State_ == "Dirty" )
-        {
-            $this->get( $this->ID );
-        }
+        $this->dirtyUpdate();
         
         return $this->PrivateDescriptionID;
     }
     
-    function checkInvariant()
+    
+    
+    /*!
+        Invariant check for this object. Makes sure that the object is
+        in a legal state.
+        
+        \return
+            Returns true if the check passed.
+     */
+    function invariantCheck()
     {
-        $returnValue=false;
-        unset( $this->InvariantError ); 
-               
-        if( !isset( $this->PublicDescriptionID ) )
-        {
-            $this->InvariantError[]="Object is missing: PublicDescriptionID";
-        }
+        $value=false;
         
-        if( !isset( $this->PrivateDescriptionID ) )
-        {
-            $this->InvariantError[]="Object is missing: PrivateDescriptionID";
-        }
+        eZNewsItem::invariantCheck();
 
-        eZNewsItem::checkInvariant();
-        
-        if( !isset( $this->InvariantError ) )
+        if( !count( $this->Errors ) )
         {
-            $returnValue = true;
+            $value = true;
         }
-        
-        return $returnValue;        
+        #$this->printErrors();
+        return $value;        
     }
     
+    
+    /*  This is the public information about this category. */
     var $PublicDescriptionID = 0;
+    
+    /*  This is the private information about this categoyr.
+        Used to give instructions, etc. to the administrators. */
     var $PrivateDescriptionID = 0;
     
 };

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: eznewsarticle.php,v 1.3 2000/10/10 16:21:54 pkej-cvs Exp $
+// $Id: eznewsarticle.php,v 1.4 2000/10/10 19:05:23 pkej-cvs Exp $
 //
 // Definition of eZNewsArticle class
 //
@@ -32,18 +32,25 @@ include_once( "eznews/classes/eznewsitem.php" );
 class eZNewsArticle extends eZNewsItem
 {
 
+    /*!
+        Constructor, nothing special here.
+     */
     function eZNewsArticle( $inData = -1, $fetch = true )
     {
         eZNewsItem::eZNewsItem( $inData, $fetch );
     }
-    
-    /*!
-      Stores a eZNewsArticle object into the database.
 
-      Returns the ID of the stored Article item.
+
+
+    /*!
+        \private
+        
+        Stores a eZNewsArticle object in the database.
       
-      $update can be any of the command names of the items in the
-      eZNews_ChangeType;
+        \out
+            \$outID The ID of the stored object.
+        \return
+            Returns true if the object is stored.
     */
     
     function storeThis( &$outID )
@@ -86,6 +93,15 @@ class eZNewsArticle extends eZNewsItem
     
     
     
+    /*!
+        \private
+        Updates the data in the database with the objects current data.
+        
+        \out
+            \$outID The ID of the updated row.
+        \return
+            Returns true when the object is stored.
+     */
     function updateThis( &$outID )
     {
         #echo "eZNewsArticle::updateThis( \$outID=$outID )<br>";
@@ -127,7 +143,19 @@ class eZNewsArticle extends eZNewsItem
         return $value;
     }
 
-    function getThis( &$outID, &$inData )
+
+    
+    /*!
+        This function gets this objects data from the database.
+        
+        \in
+            \$inData The name, or ID, of the object to fetch data about.
+        \out
+            \$outID The ID of the fetched object.
+        \return
+            Returns true if the data has been fetched.
+     */
+    function getThis( &$outID, $inData )
     {
         #echo "eZNewsArticle::getThis( \$outID=$outID, \$inData=$inData )<br>";
         $value = false;
@@ -275,6 +303,10 @@ class eZNewsArticle extends eZNewsItem
         return $this->Story;
     }
     
+    
+    /*!
+        Sets the link text.
+     */
     function setLinkText( $value )
     {
         $this->dirtyUpdate();
@@ -284,6 +316,11 @@ class eZNewsArticle extends eZNewsItem
         $this->alterState();        
     }
     
+    
+    
+    /*!
+        Gets the link text.
+     */
     function linkText()
     {
         $this->dirtyUpdate();
@@ -291,6 +328,15 @@ class eZNewsArticle extends eZNewsItem
         return $this->LinkText;
     }
     
+    
+    
+    /*!
+        Invariant check for this object. Makes sure that the object is
+        in a legal state.
+        
+        \return
+            Returns true if the check passed.
+     */
     function invariantCheck()
     {
         $value=false;
@@ -318,8 +364,14 @@ class eZNewsArticle extends eZNewsItem
     /*  This is the plain text version of the authors name,
         it is used in order to facilitate multiple authors etc. */
     var $AuthorText;
+    
+    /*  This is the meta information about this article. */
     var $Meta = '';
+    
+    /*  This is the story of the article. Will often be XML data. */
     var $Story;
+    
+    /*  This is the 'read more' text to go from the lead in to the story */
     var $LinkText = '';
 }
 
