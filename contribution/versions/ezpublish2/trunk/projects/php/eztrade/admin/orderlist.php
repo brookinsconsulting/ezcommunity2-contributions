@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: orderlist.php,v 1.17 2001/08/01 15:15:47 ce Exp $
+// $Id: orderlist.php,v 1.18 2001/08/07 13:26:40 jhe Exp $
 //
 // Created on: <30-Sep-2000 13:03:13 bf>
 //
@@ -37,7 +37,7 @@ include_once( "eztrade/classes/ezorder.php" );
 
 include_once( "eztrade/classes/ezorderstatustype.php" );
 
-if( isset( $Delete ) && count( $OrderArrayID ) > 0 )
+if( isSet( $Delete ) && count( $OrderArrayID ) > 0 )
 {
     foreach( $OrderArrayID as $orderid )
     {
@@ -49,13 +49,11 @@ if( isset( $Delete ) && count( $OrderArrayID ) > 0 )
 $t = new eZTemplate( "eztrade/admin/" . $ini->read_var( "eZTradeMain", "AdminTemplateDir" ),
                      "eztrade/admin/intl/", $Language, "orderlist.php" );
 
-$languageINI = new INIFIle( "eztrade/admin/intl/" . $Language . "/orderlist.php.ini", false );
+$languageINI = new INIFile( "eztrade/admin/intl/" . $Language . "/orderlist.php.ini", false );
 
 $t->setAllStrings();
 
-$t->set_file( array(
-    "order_list_tpl" => "orderlist.tpl",
-    ) );
+$t->set_file( "order_list_tpl", "orderlist.tpl" );
 
 $t->set_block( "order_list_tpl", "order_item_list_tpl", "order_item_list" );
 $t->set_block( "order_item_list_tpl", "order_item_tpl", "order_item" );
@@ -76,11 +74,13 @@ $t->set_var( "query_string", $QueryText );
 $t->set_var( "previous", "" );
 $t->set_var( "next", "" );
 
+if ( !isSet( $OrderBy ) )
+    $OrderBy = "Date";
 
-if ( !isset( $Offset ) )
+if ( !isSet( $Offset ) )
     $Offset = 0;
 
-if ( !isset( $Limit ) )
+if ( !isSet( $Limit ) )
     $Limit = 15;
 
 $t->set_var( "current_offset", $Offset );
@@ -88,7 +88,7 @@ $t->set_var( "current_offset", $Offset );
 $order = new eZOrder();
 
 // perform search
-if ( isset( $QueryText ) )
+if ( isSet( $QueryText ) )
 {
     print( "Search for: ". $QueryText );
     $orderArray = $order->search( $QueryText, $Offset, $Limit );
@@ -96,10 +96,9 @@ if ( isset( $QueryText ) )
 }
 else
 {
-    $orderArray = $order->getAll( $Offset, $Limit );
+    $orderArray = $order->getAll( $Offset, $Limit, $OrderBy );
     $total_count = $order->getTotalCount( );
 }
-
 
 $prevOffs = $Offset - $Limit;
 $nextOffs = $Offset + $Limit;
@@ -132,7 +131,7 @@ if ( !$orderArray )
 
 $locale = new eZLocale( $Language );
 $currency = new eZCurrency();
-$i=0;
+$i = 0;
 
 foreach ( $orderArray as $order )
 {

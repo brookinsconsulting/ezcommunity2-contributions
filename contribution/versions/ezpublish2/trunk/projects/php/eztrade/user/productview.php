@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: productview.php,v 1.52 2001/08/06 14:28:23 jhe Exp $
+// $Id: productview.php,v 1.53 2001/08/07 13:26:40 jhe Exp $
 //
 // Created on: <24-Sep-2000 12:20:32 bf>
 //
@@ -55,6 +55,7 @@ include_once( "eztrade/classes/ezproductcategory.php" );
 include_once( "eztrade/classes/ezoption.php" );
 include_once( "eztrade/classes/ezpricegroup.php" );
 include_once( "eztrade/classes/ezproductcurrency.php" );
+include_once( "eztrade/classes/ezproductpermission.php" );
 include_once( "ezuser/classes/ezuser.php" );
 
 include_once( "classes/ezmodulelink.php" );
@@ -476,7 +477,7 @@ if ( $type )
     }
 }
 
-if ( count ( $attributes ) > 0 )
+if ( count( $attributes ) > 0 )
 {
     $t->parse( "attribute_list", "attribute_list_tpl" );
 }

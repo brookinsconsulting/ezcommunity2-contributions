@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: personview.php,v 1.19 2001/07/20 12:01:50 jakobn Exp $
+// $Id: personview.php,v 1.20 2001/08/07 13:26:40 jhe Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -31,11 +31,14 @@ include_once( "classes/INIFile.php" );
 
 $ini = new INIFIle( "site.ini" );
 $Language = $ini->read_var( "eZContactMain", "Language" );
+$SiteURL = $ini->read_var( "Site", "SiteURL" );
+$AdminSiteURL = $ini->read_var( "Site", "AdminSiteURL" );
 
 include_once( "classes/eztemplate.php" );
 include_once( "classes/ezlocale.php" );
 include_once( "classes/ezdate.php" );
 include_once( "classes/eztexttool.php" );
+include_once( "classes/ezcurrency.php" );
 
 include_once( "ezcontact/classes/ezperson.php" );
 include_once( "ezaddress/classes/ezaddress.php" );
@@ -46,6 +49,8 @@ include_once( "ezaddress/classes/ezonline.php" );
 include_once( "ezaddress/classes/ezonlinetype.php" );
 include_once( "ezcontact/classes/ezprojecttype.php" );
 include_once( "ezcontact/classes/ezconsultation.php" );
+
+include_once( "eztrade/classes/ezorder.php" );
 
 include_once( "ezuser/classes/ezusergroup.php" );
 include_once( "ezuser/classes/ezpermission.php" );
@@ -72,9 +77,7 @@ $t = new eZTemplate( "ezcontact/admin/" . $ini->read_var( "eZContactMain", "Admi
 $intl = new INIFile( "ezcontact/admin/intl/$Language/personview.php.ini", false );
 $t->setAllStrings();
 
-$t->set_file( array(                    
-    "person_view" => "personview.tpl"
-    ) );
+$t->set_file( "person_view", "personview.tpl" );
 $t->set_block( "person_view", "birth_item_tpl", "birth_item" );
 $t->set_block( "person_view", "no_birth_item_tpl", "no_birth_item" );
 
@@ -99,6 +102,9 @@ $t->set_block( "person_view", "no_project_status_tpl", "no_project_status" );
 
 $t->set_block( "person_view", "consultation_table_item_tpl", "consultation_table_item" );
 $t->set_block( "consultation_table_item_tpl", "consultation_item_tpl", "consultation_item" );
+
+$t->set_block( "person_view", "order_table_item_tpl", "order_table_item" );
+$t->set_block( "order_table_item_tpl", "order_item_tpl", "order_item" );
 
 $t->set_block( "person_view", "consultation_buttons_tpl", "consultation_buttons" );
 
@@ -276,7 +282,7 @@ if ( $Action == "view" )
     // List companies this person is related to
     $t->set_var( "company_item", "" );
     $companies = $person->companies();
-    foreach( $companies as $company )
+    foreach ( $companies as $company )
     {
         $t->set_var( "company_id", $company->id() );
         $t->set_var( "company_name", eZTextTool::htmlspecialchars( $company->name() ) );
@@ -369,6 +375,57 @@ if ( $Action == "view" )
         $t->set_var( "consultation_buttons", "" );
     }
 }
+
+// Order list
+if ( get_class( $user ) == "ezuser" and eZPermission::checkPermission( $user, "eZContact", "buy" ) )
+{
+    $max = $ini->read_var( "eZContactMain", "MaxCompanyConsultationList" );
+    $orders = eZOrder::getByContact( $CompanyID, false, 0, $max );
+    
+    $locale = new eZLocale( $Language );
+    $i = 0;
+    $currency = new eZCurrency();
+    $languageINI = new INIFile( "eztrade/admin/intl/" . $Language . "/orderlist.php.ini", false );
+    $t->set_var( "admin_dir", $AdminSiteURL );
+    foreach ( $orders as $order )
+    {
+        $t->set_var( "bg_color", ( $i % 2 ) == 0 ? "bglight" : "bgdark" );
+        
+        $t->set_var( "order_id", $order->id() );
+        $t->set_var( "order_date", $locale->format( $order->date() ) );
+        
+        $status = $order->initialStatus( );
+        $dateTime = $status->altered();
+        
+        $status = $order->lastStatus( );
+        
+        $statusType = $status->type();
+        $statusName = preg_replace( "#intl-#", "", $statusType->name() );
+        $statusName =  $languageINI->read_var( "strings", $statusName );
+        
+        $t->set_var( "order_status", $statusName );
+        
+        if ( $order->isVATInc() == true )
+            $currency->setValue( $order->totalPriceIncVAT() + $order->shippingCharge());
+        else
+            $currency->setValue( $order->totalPrice() + $order->shippingCharge() );
+        $t->set_var( "order_price", $locale->format( $currency ) );
+        
+        $t->parse( "order_item", "order_item_tpl", true );
+        $i++;
+    }
+}
+
+if ( get_class( $user ) == "ezuser" and eZPermission::checkPermission( $user, "eZContact", "buy" ) and count( $orders ) > 0 )
+{
+    $t->parse( "order_table_item", "order_table_item_tpl", true );
+}
+else
+{
+    $t->set_var( "order_table_item", "" );
+}
+
+
 
 $t->set_var( "action_value", $Action_value );
 

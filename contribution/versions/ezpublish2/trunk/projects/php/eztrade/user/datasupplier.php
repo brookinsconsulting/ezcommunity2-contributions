@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: datasupplier.php,v 1.40 2001/07/20 11:42:02 jakobn Exp $
+// $Id: datasupplier.php,v 1.41 2001/08/07 13:26:40 jhe Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -46,6 +46,10 @@ if ( !$ShowPrice )
 $ini =& INIFile::globalINI();
 $GlobalSectionID = $ini->read_var( "site", "DefaultSection" );
 
+$user =& eZUser::currentUser();
+$groupIDArray =& $user->groups( true );
+sort( $groupIDArray );
+
 switch ( $url_array[2] )
 {
     case "productlist" :
@@ -58,7 +62,7 @@ switch ( $url_array[2] )
         {
             include_once( "classes/ezcachefile.php" );
             $CacheFile = new eZCacheFile( "eztrade/cache/",
-                                          array( "productlist", $CategoryID, $Offset, $PriceGroup ),
+                                          array_merge( "productlist", $groupIDArray, $Offset, $PriceGroup ),
                                           "cache", "," );
             if ( $CacheFile->exists() )
             {
@@ -86,7 +90,7 @@ switch ( $url_array[2] )
 
             include_once( "classes/ezcachefile.php" );
             $CacheFile = new eZCacheFile( "eztrade/cache/",
-                                          array( "productview", $ProductID, $CategoryID, $PriceGroup ),
+                                          array_merge( "productview", $ProductID, $groupIDArray, $PriceGroup ),
                                           "cache", "," );
             if ( $CacheFile->exists() )
             {
@@ -117,7 +121,7 @@ switch ( $url_array[2] )
 
             include_once( "classes/ezcachefile.php" );
             $CacheFile = new eZCacheFile( "eztrade/cache/",
-                                          array( "productprint", $ProductID, $CategoryID, $PriceGroup ),
+                                          array_merge( "productprint", $ProductID, $groupIDArray, $PriceGroup ),
                                           "cache", "," );
             if ( $CacheFile->exists() )
             {

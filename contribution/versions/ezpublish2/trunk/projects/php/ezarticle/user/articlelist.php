@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: articlelist.php,v 1.57 2001/08/07 08:22:24 bf Exp $
+// $Id: articlelist.php,v 1.58 2001/08/07 13:26:39 jhe Exp $
 //
 // Created on: <18-Oct-2000 14:41:37 bf>
 //
@@ -183,7 +183,7 @@ else
 
 
 // categories
-$i=0;
+$i = 0;
 $t->set_var( "category_list", "" );
 foreach ( $categoryList as $categoryItem )
 {
@@ -251,7 +251,7 @@ else
 
 
 // set the offset/limit
-if ( !isset( $Offset ) or !is_numeric( $Offset ) )
+if ( !isSet( $Offset ) or !is_numeric( $Offset ) )
     $Offset = 0;
 
 $Limit = $UserListLimit;
@@ -274,7 +274,7 @@ else
 $t->set_var( "category_current_id", $CategoryID );
 
 $locale = new eZLocale( $Language );
-$i=0;
+$i = 0;
 $t->set_var( "article_list", "" );
 
 $SiteDescriptionOverride = "";
@@ -283,7 +283,7 @@ foreach ( $articleList as $article )
     // check if user has permission, if not break to next article.
     $aid = $article->id();
     if( eZObjectPermission::hasPermission( $aid, "article_article", 'r' )  ||
-         eZArticle::isAuthor( eZUser::currentUser(), $article->id() ) )
+        eZArticle::isAuthor( eZUser::currentUser(), $article->id() ) )
     {
         $categoryDef =& $article->categoryDefinition();
         if ( $CategoryID == 0 )
@@ -384,7 +384,7 @@ else
     $t->set_var( "article_list", "" );
 
 
-if ( isset( $GenerateStaticPage ) and $GenerateStaticPage == "true" and $cachedFile != "" )
+if ( isSet( $GenerateStaticPage ) and $GenerateStaticPage == "true" and $cachedFile != "" )
 {
     $fp = eZFile::fopen( $cachedFile, "w+");
 
@@ -407,6 +407,4 @@ else
     $t->pparse( "output", "article_list_page_tpl" );
 }
 
-
 ?>
-

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezorder.php,v 1.42 2001/08/03 14:08:19 jhe Exp $
+// $Id: ezorder.php,v 1.43 2001/08/07 13:26:40 jhe Exp $
 //
 // Definition of eZOrder class
 //
@@ -81,33 +81,33 @@ class eZOrder
             $db->lock( "eZTrade_Order" );
             $nextID = $db->nextID( "eZTrade_Order", "ID" );
             $ret[] = $db->query( "INSERT INTO eZTrade_Order
-                                  ( ID,
-	     	                        UserID,
-		                            ShippingAddressID,
-		                            BillingAddressID,
-		                            PaymentMethod,
-		                            IsExported,
-                                    ShippingVAT,
-                                    ShippingTypeID,
-		                            Date,
-		                            IsVATInc,
-		                            ShippingCharge,
-                                    PersonID,
-                                    CompanyID )
+                                  (ID,
+	     	                       UserID,
+		                           ShippingAddressID,
+		                           BillingAddressID,
+		                           PaymentMethod,
+		                           IsExported,
+                                   ShippingVAT,
+                                   ShippingTypeID,
+		                           Date,
+		                           IsVATInc,
+		                           ShippingCharge,
+                                   PersonID,
+                                   CompanyID)
                                   VALUES
-                                  ( '$nextID',
-		                            '$this->UserID',
-		                            '$this->ShippingAddressID',
-		                            '$this->BillingAddressID',
-		                            '$this->PaymentMethod',
-		                            '$this->IsExported',
-                                    '$this->ShippingVAT',
-                                    '$this->ShippingTypeID',
-		                            '$timeStamp',
-                                    '$this->IsVATInc',
-		                            '$this->ShippingCharge',
-                                    '$this->PersonID',
-                                    '$this->CompanyID' )" );
+                                  ('$nextID',
+		                           '$this->UserID',
+		                           '$this->ShippingAddressID',
+		                           '$this->BillingAddressID',
+		                           '$this->PaymentMethod',
+		                           '$this->IsExported',
+                                   '$this->ShippingVAT',
+                                   '$this->ShippingTypeID',
+		                           '$timeStamp',
+                                   '$this->IsVATInc',
+		                           '$this->ShippingCharge',
+                                   '$this->PersonID',
+                                   '$this->CompanyID')" );
             $db->unlock();
 			$this->ID = $nextID;
 
@@ -125,7 +125,6 @@ class eZOrder
             
             $status->setAdmin( $user );
             $status->store();            
-
         }
         else
         {
@@ -219,16 +218,34 @@ class eZOrder
 
       Note: Default limit is 40.
     */
-    function getAll( $offset=0, $limit=40 )
+    function getAll( $offset=0, $limit=40, $OrderBy = "Date" )
     {
+        switch ( $OrderBy )
+        {
+            case "No":
+            {
+                $OrderBy = "eZTrade_Order.ID";
+                break;
+            }
+            case "Created":
+            {
+                $OrderBy = "eZTrade_Order.Date";
+                break;
+            }
+            default:
+            {
+                $OrderBy = "eZTrade_Order.Date";
+                break;
+            }
+        }
         $db =& eZDB::globalDatabase();
 
         $return_array = array();
         $order_array = array();
 
         $db->array_query( $order_array,
-        "SELECT ID FROM eZTrade_Order",
-        array( "Limit" => $limit, "Offset" => $offset ) );
+                          "SELECT ID FROM eZTrade_Order ORDER BY $OrderBy",
+                          array( "Limit" => $limit, "Offset" => $offset ) );
 
         for ( $i = 0; $i < count( $order_array ); $i++ )
         {
@@ -238,10 +255,34 @@ class eZOrder
         return $return_array;
     }
 
+    function getByContact( $contact, $is_person = true, $offset = 0, $limit = 40 )
+    {
+        $db =& eZDB::globalDatabase();
+        
+        $return_array = array();
+        $order_array = array();
+
+        if ( $is_person )
+            $condition = "PersonID";
+        else
+            $condition = "CompanyID";
+        
+        $db->array_query( $order_array,
+                          "SELECT ID FROM eZTrade_Order WHERE $condition='$contact'",
+                          array( "Limit" => $limit, "Offset" => $offset ) );
+
+        for ( $i = 0; $i < count( $order_array ); $i++ )
+        {
+            $return_array[$i] = new eZOrder( $order_array[$i][$db->fieldName( "ID" )], 0 );
+        }
+
+        return $return_array;
+    }
+    
     /*!
       Fetches new orders, orders which is not exported.
     */
-    function getNew( )
+    function getNew()
     {
         $db =& eZDB::globalDatabase();
 

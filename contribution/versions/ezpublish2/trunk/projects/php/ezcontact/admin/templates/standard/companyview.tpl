@@ -232,6 +232,33 @@
 
 <!-- END consultation_table_item_tpl -->
 
+<!-- BEGIN order_table_item_tpl -->
+<h2>{intl-sales_headline}</h2>
+
+<table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
+<tr>
+	<th>{intl-order_date}:</th>
+	<th>{intl-order_status}:</th>
+	<th>{intl-order_price}:</th>
+</tr>
+
+<!-- BEGIN order_item_tpl -->
+<tr class="{bg_color}">
+	<td>
+        <a href="http://{admin_dir}/trade/orderedit/{order_id}/">{order_date}</a>
+	</td>
+	<td>
+        <a href="http://{admin_dir}/trade/orderedit/{order_id}/">{order_status}</a>
+	</td>
+	<td>
+        <a href="http://{admin_dir}/trade/orderedit/{order_id}/">{order_price}</a>
+	</td>
+</tr>
+<!-- END order_item_tpl -->
+</table>
+
+<!-- END order_table_item_tpl -->
+
 <br />
 <form method="post" action="{www_dir}{index}/contact/company/edit/{company_id}/">
 

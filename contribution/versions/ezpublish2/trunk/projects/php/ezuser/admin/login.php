@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: login.php,v 1.26 2001/08/02 16:16:16 kaid Exp $
+// $Id: login.php,v 1.27 2001/08/07 13:26:40 jhe Exp $
 //
 // Created on: <20-Sep-2000 13:32:11 ce>
 //
@@ -76,7 +76,7 @@ if ( $Action == "login" )
                 eZLog::writeNotice( "Admin login: $Username from IP: $REMOTE_ADDR" );
 
                 eZUser::loginUser( $user );
-                if ( !isset( $RefererURL ) )
+                if ( !isSet( $RefererURL ) )
                     $RefererURL = "/";
                 
                 // Show password change dialog, if admin is using default login

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: productlist.php,v 1.24 2001/08/06 14:28:23 jhe Exp $
+// $Id: productlist.php,v 1.25 2001/08/07 13:26:40 jhe Exp $
 //
 // Created on: <23-Sep-2000 14:46:20 bf>
 //
@@ -53,9 +53,9 @@ $t = new eZTemplate( "eztrade/user/" . $ini->read_var( "eZTradeMain", "TemplateD
 $t->set_file( "product_list_page_tpl", "productlist.tpl" );
 
 $t->set_block( "product_list_page_tpl", "price_tpl", "price" );
-
 $t->set_block( "product_list_page_tpl", "path_tpl", "path" );
 $t->set_block( "product_list_page_tpl", "product_list_tpl", "product_list" );
+
 $t->set_block( "product_list_tpl", "product_tpl", "product" );
 $t->set_block( "product_tpl", "product_image_tpl", "product_image" );
 
@@ -123,6 +123,7 @@ foreach ( $categoryList as $categoryItem )
     $t->parse( "category", "category_tpl", true );
     $i++;
 }
+
 if ( count( $categoryList ) == 0 )
 {
     $t->set_var( "category_list", "" );
@@ -195,13 +196,13 @@ foreach ( $productList as $product )
         $priceArray = "";
         $priceArray = "";
         $options =& $product->options();
-        if ( count ( $options ) == 1 )
+        if ( count( $options ) == 1 )
         {
             $option = $options[0];
-            if ( get_class ( $option ) == "ezoption" )
+            if ( get_class( $option ) == "ezoption" )
             {
                 $optionValues =& $option->values();
-                if ( count ( $optionValues ) > 1 )
+                if ( count( $optionValues ) > 1 )
                 {
                     $i=0;
                     foreach ( $optionValues as $optionValue )
@@ -261,8 +262,9 @@ eZList::drawNavigator( $t, $TotalTypes, $Limit, $Offset, "product_list_page_tpl"
 
 if ( $GenerateStaticPage == "true" )
 {
-//      $cache = new eZCacheFile( "eztrade/cache/", array( "productlist", $CategoryID, $Offset, $PriceGroup ),
-//                                "cache", "," );
+    $CategoryArray =& $user->groups( true );
+    $cache = new eZCacheFile( "eztrade/cache/", array( "productlist", $CategoryArray, $Offset, $PriceGroup ),
+                              "cache", "," );
     $output = $t->parse( $target, "product_list_page_tpl" );
     print( $output );
     $CacheFile->store( $output );
