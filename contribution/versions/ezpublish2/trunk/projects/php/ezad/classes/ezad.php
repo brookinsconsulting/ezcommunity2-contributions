@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezad.php,v 1.15 2001/03/02 14:20:46 ce Exp $
+// $Id: ezad.php,v 1.16 2001/04/05 09:02:37 fh Exp $
 //
 // Definition of eZAd class
 //
@@ -71,21 +71,25 @@ class eZAd
     function store()
     {
         $this->dbInit();
-
+        $name = addslashes( $this->Name );
+        $description = addslashes( $this->Description );
+        $url = addslashes( $this->URL );
+        $htmlbanner = addslashes( $this->HTMLBanner );
+        
         if ( !isset( $this->ID ) )
         {
             $this->Database->query( "INSERT INTO eZAd_Ad SET
-		                         Name='$this->Name',
-		                         Description='$this->Description',
+		                         Name='$name',
+		                         Description='$description',
                                  ImageID='$this->ImageID',
                                  IsActive='$this->IsActive',
-                                 URL='$this->URL',
+                                 URL='$url',
                                  ViewStartDate='$this->ViewStartDate',
                                  ViewStopDate='$this->ViewStopDate',
                                  ClickPrice='$this->ClickPrice',
                                  ViewPrice='$this->ViewPrice',
                                  ViewRule='$this->ViewRule',
-                                 HTMLBanner='$this->HTMLBanner',
+                                 HTMLBanner='$htmlbanner',
                                  UseHTML='$this->UseHTML'
                                  " );
 
@@ -96,17 +100,17 @@ class eZAd
         else
         {
             $this->Database->query( "UPDATE eZAd_Ad SET
-		                         Name='$this->Name',
-		                         Description='$this->Description',
+		                         Name='$name',
+		                         Description='$description',
                                  ImageID='$this->ImageID',
                                  IsActive='$this->IsActive',
-                                 URL='$this->URL',
+                                 URL='$url',
                                  ViewStartDate='$this->ViewStartDate',
                                  ViewStopDate='$this->ViewStopDate',
                                  ClickPrice='$this->ClickPrice',
                                  ViewPrice='$this->ViewPrice',
                                  ViewRule='$this->ViewRule',
-                                 HTMLBanner='$this->HTMLBanner',
+                                 HTMLBanner='$htmlbanner',
                                  UseHTML='$this->UseHTML'
                                  WHERE ID='$this->ID'
                                  " );

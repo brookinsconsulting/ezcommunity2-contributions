@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezadcategory.php,v 1.16 2001/02/17 13:09:00 bf Exp $
+// $Id: ezadcategory.php,v 1.17 2001/04/05 09:02:37 fh Exp $
 //
 // Definition of eZAdCategory class
 //
@@ -74,20 +74,22 @@ class eZAdCategory
     function store()
     {
         $this->dbInit();
-
+        $name = addslashes( $this->Name );
+        $description = addslashes( $this->Description );
+        
         if ( !isset( $this->ID ) )
         {
             $this->Database->query( "INSERT INTO eZAd_Category SET
-		                         Name='$this->Name',
-                                 Description='$this->Description',
+		                         Name='$name',
+                                 Description='$description',
                                  ParentID='$this->ParentID'" );
             $this->ID = mysql_insert_id();
         }
         else
         {
             $this->Database->query( "UPDATE eZAd_Category SET
-		                         Name='$this->Name',
-                                 Description='$this->Description',
+		                         Name='$name',
+                                 Description='$description',
                                  ParentID='$this->ParentID' WHERE ID='$this->ID'" );
         }
         
@@ -267,22 +269,26 @@ class eZAdCategory
     /*!
       Returns the name of the category.
     */
-    function name()
+    function name( $html = true )
     {
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
         
+       if( $html )
+           return htmlspecialchars( $this->Name );
         return $this->Name;
     }
 
     /*!
       Returns the group description.
     */
-    function description()
+    function description( $html = true )
     {
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
         
+       if( $html )
+           return htmlspecialchars( $this->Description );
         return $this->Description;
     }
     
