@@ -1182,10 +1182,10 @@ CREATE TABLE eZContact_CompanyView (
 
 
 #
-# Table structure for table 'eZContact_ConsulationCompanyDict'
+# Table structure for table 'eZContact_ConsultationCompanyDict'
 #
 
-CREATE TABLE eZContact_ConsulationCompanyDict (
+CREATE TABLE eZContact_ConsultationCompanyDict (
   ConsultationID int(11) NOT NULL default '0',
   CompanyID int(11) NOT NULL default '0',
   PRIMARY KEY (ConsultationID,CompanyID)
