@@ -114,3 +114,11 @@ change: added
 new_consultation=New consultation with company
 edit_person=Edit company/category information
 delete_person=Delete company/category
+
+mod: eztodo/user todolist.php.ini
+change: added
+show=Show
+show_all=Show all
+show_not_done=Show not done
+show_done=Show done
+category_all=All categories
