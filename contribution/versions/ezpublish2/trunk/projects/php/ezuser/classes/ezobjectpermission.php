@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezobjectpermission.php,v 1.2 2001/02/27 15:25:50 fh Exp $
+// $Id: ezobjectpermission.php,v 1.3 2001/02/27 16:54:07 fh Exp $
 //
 // Definition of eZCompany class
 //
@@ -79,16 +79,18 @@ class eZObjectPermission
       $modulTable is the nickname of the table where the permission is found. The nicknames can be found in site.ini
       $permission either 'r' for readpermission or 'w' for writepermission.
       $user (of type eZUser )is the user you want to check permissions for. Default is currentUser.
+
+      NOTE: If you object has an owner, and this user allways should have rights, you must check this yourself.
      */
-    function hasPermission( $objectID, &$modulTable, $permission, $user=false )
+    function hasPermission( $objectID, $modulTable, $permission, $user=false )
     {
         if( $user == false )
         {
             $user = eZUser::currentUser();
         }
 
-        $SQLGroups = "GroupID = '-1'"
-        if( getclass( $user ) == "ezuser" )
+        $SQLGroups = "GroupID = '-1'";
+        if( get_class( $user ) == "ezuser" )
         {
             $groups =& $user->groups( true );
             $first = true;
@@ -100,13 +102,13 @@ class eZObjectPermission
                 }
                 else
                 {
-                    $SQLGroups = "OR GroupID='$groupItem'";
+                    $SQLGroups .= "OR GroupID='$groupItem'";
                 }
                 $first = false;
             }
         }
 
-        $tableName = getTabelName( $modulTable );
+        $tableName = getTableName( $modulTable );
         if( $tableName == "" )
         {
             return false;
@@ -123,7 +125,7 @@ class eZObjectPermission
             $SQLWrite = "AND WritePermission='1'";
         }
 
-        $query = "SELECT COUNT( ID ) FROM $tableName WHERE ObjectID='$objectID' AND ( $SQLGroups ) $SQLRead $SQLWrite";
+        $query = "SELECT count( ID ) as ID FROM $tableName WHERE ObjectID='$objectID' AND ( $SQLGroups ) $SQLRead $SQLWrite";
         $database =& eZDB::globalDatabase();
 
         $database->query_single( $res, $query );
@@ -141,9 +143,9 @@ class eZObjectPermission
       $modulTable is the nickname of the table where the permission is found. The nicknames can be found in site.ini
       $permission either 'r' for readpermission or 'w' for writepermission.
     */
-    function setPermission( $group, $objectID, &$modulTable, $permission  )
+    function setPermission( $group, $objectID, $modulTable, $permission  )
     {
-        if( getclass( $group ) == "ezusergroup" )
+        if( get_class( $group ) == "ezusergroup" )
         {
             $groupID = $group->id();
         }
@@ -170,59 +172,87 @@ class eZObjectPermission
             return;
         }
 
-        $tableName = getTabelName( $modulTable );
+        $tableName = getTableName( $modulTable );
         if( $tableName == "" )
         {
             return;
         }
 
         $database =& eZDB::globalDatabase();
-        $queryexists = "SELECT COUNT( ID ) WHERE ObjectID='$objectID' AND GroupID='$groupID'";
+        $queryexists = "SELECT count( ID ) as ID FROM $tableName WHERE ObjectID='$objectID' AND GroupID='$groupID'";
         $database->query_single( $res, $queryexists );
 
-        if( $res[ "ID " ] == 0 )
+        if( $res[ "ID" ] == 0 )
         {
-            $query = "INSERT INTO $tableName $SQL ObjectID='$objectID', GroupID='$groupID'";
-            $database->query_single( $res, $query );
+            $query = "INSERT INTO $tableName $SQLPermission, ObjectID='$objectID', GroupID='$groupID'";
+            $database->query( $query );
         }
         else if( $res[ "ID" ] == 1 )
         {
             $query = "UPDATE $tableName $SQLPermission WHERE ObjectID='$objectID' AND GroupID='$groupID'";
-            $database->query_single( $res, $query );
+            $database->query( $query );
         }
         else
         {
             print("Duplicate objects in database. Please contact your administrator");
             exit();
         }
-        
-        
-    }
-    
-     /*
-      \static
-      \private
-      Returns table names.
-     */
-    function getTabelName( $name )
-    {
-        $ret = "";
-        switch( $name )
-        {
-            case "article_article" :
-                $ret = "eZArticle_ArticlePermission";
-            break;
-            case "article_category" :
-                $ret = "eZArticle_CategoryPermission";
-            break;
-            default :
-                $ret = "";
-            break;
-        }
-        return $ret;
     }
 
+    /*!
+      Removes all permissions of a given type on an object.
+     */
+    function removePermissions( $objectID, $modulTable, $permission )
+    {
+        $tableName = getTableName( $modulTable );
+        if( $tableName == "" )
+        {
+            return;
+        }
+
+        $SQLPermission = "";
+        if( $permission == 'r' )
+        {
+            $SQLPermission = "SET ReadPermission='0'";
+        }
+        else if( $permission == 'w' )
+        {
+            $SQLPermission = "SET WritePermission='0'";
+        }
+        else // bogus $permission input.
+        {
+            return;
+        }
+        
+        $query = "UPDATE $tableName $SQLPermission WHERE ObjectID='$objectID'";
+        $database =& eZDB::globalDatabase();
+        $database->query( $query );
+    }
 
 }
+
+    
+/*
+  Returns table names.
+ */
+function getTableName( $name )
+{
+    $ret = "";
+    switch( $name )
+    {
+        case "article_article" :
+            $ret = "eZArticle_ArticlePermission";
+        break;
+        case "article_category" :
+            $ret = "eZArticle_CategoryPermission";
+        break;
+        default :
+            $ret = "";
+        break;
+    }
+    return $ret;
+}
+
+
 
 ?>
