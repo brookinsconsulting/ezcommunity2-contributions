@@ -5,20 +5,20 @@ switch ( $url_array[2] )
 {
     case "" :
     {
-        include( "ezlink/admin/linklist.php" );
+        include( "ezlink/admin/linkgrouplist.php" );
     }
     break;
     case "link" :
     {
         $LID = $url_array[3];
-        include( "ezlink/admin/linklist.php" );
+        include( "ezlink/admin/linkgrouplist.php" );
     }
     break;
 
     case "group" :
     {
         $LinkGroupID = $url_array[3];
-        include( "ezlink/admin/linklist.php" );
+        include( "ezlink/admin/linkgrouplist.php" );
     }
     break;
     

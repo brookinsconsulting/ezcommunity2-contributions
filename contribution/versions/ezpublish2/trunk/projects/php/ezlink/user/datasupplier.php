@@ -32,9 +32,9 @@ switch ( $url_array[2] )
         {
             print( "cached version<br>" );
             
-            $LGID = $url_array[3];
+            $LinkGroupID = $url_array[3];
 
-            $cachedFile = "ezlink/cache/linklist," .$LGID .".cache";
+            $cachedFile = "ezlink/cache/linklist," .$LinkGroupID .".cache";
             
             if ( file_exists( $cachedFile ) )
             {
@@ -52,8 +52,8 @@ switch ( $url_array[2] )
         {
             print( "uncached version" );
 
-            $LGID = $url_array[3];
-            include( "ezlink/user/linklist.php" );
+            $LinkGroupID = $url_array[3];
+            include( "ezlink/user/linkgrouplist.php" );
         }
         
     }

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezlinkgroup.php,v 1.34 2000/10/26 13:23:26 ce-cvs Exp $
+// $Id: ezlinkgroup.php,v 1.35 2000/10/30 13:05:43 ce-cvs Exp $
 //
 // Definition of eZLinkGroup class
 //
@@ -135,23 +135,34 @@ class eZLinkGroup
     /*!
       Rekursiv funksjon, skriver ut hele pathen til gruppen.
     */
-    function printPath( $id, $url )
+    function path( $groupID=0 )
     {
-        $lg = new eZLinkGroup();
-        $lg->get( $id );
-
-        $path = "";
-
-        if ( $lg->parent() != 0 )
+        if ( $groupID == 0 )
         {
-            $path .= $this->printPath( $lg->parent(),  $url );
+            $groupID = $this->ID;
+        }
+        
+        $group = new eZLinkGroup( $groupID );
+        
+        $path = array();
+        
+        $parent = $group->parent();
+        
+        if ( $parent != 0 )
+        {
+            $path = array_merge( $path, $this->path( $parent->id() ) );
         }
         else
         {
-            $path .= "<img src=\"/ezlink/images/path-arrow.gif\" border=\"0\" height=\"10\" width=\"15\"> <a class=\"path\" href=\"/link/group/0\">" . "Kategorier" . "</a>";
+//              array_push( $path, $category->name() );
         }
-        $path .= " <img src=\"/ezlink/images/path-slash.gif\" border=\"0\" height=\"10\" width=\"20\"> <a class=\"path\" href=\"/link/group/$id\">" . $lg->title() . "</a>";
+
+        if ( $groupID != 0 )
+            array_push( $path, array( $group->id(), $group->title() ) );                                
+        
         return $path;
+
+        
     }
 
 
