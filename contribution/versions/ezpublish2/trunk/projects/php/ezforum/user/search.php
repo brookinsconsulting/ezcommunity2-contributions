@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: search.php,v 1.15 2001/09/25 10:56:42 jhe Exp $
+// $Id: search.php,v 1.16 2001/09/25 15:11:36 bf Exp $
 //
 // Created on: <12-Oct-2000 20:33:02 bf>
 //
@@ -68,8 +68,8 @@ if ( $QueryString != "" )
     $forum = new eZForum();
     
     // do a search in all forums
-    $messages = $forum->search( $QueryString, $Offset, $Limit );
-    $total_count = $forum->getQueryCount( $QueryString );
+    $messages = $forum->search( $QueryString, $Offset, $Limit, $total_count );
+
     $locale = new eZLocale( $Language );
 
     $level = 0;

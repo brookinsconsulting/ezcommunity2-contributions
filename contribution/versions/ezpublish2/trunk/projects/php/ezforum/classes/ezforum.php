@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: ezforum.php,v 1.49 2001/09/25 10:56:42 jhe Exp $
+// $Id: ezforum.php,v 1.50 2001/09/25 15:11:36 bf Exp $
 //
 // Created on: <11-Sep-2000 22:10:06 bf>
 //
@@ -218,23 +218,93 @@ class eZForum
     /*!
       Returns the messages in every forum matching the query string.
     */
-    function &search( $query, $offset, $limit )
+    function &search( $queryText, $offset, $limit, &$SearchTotalCount, $params = array() )
     {
         $db =& eZDB::globalDatabase();
-        $query = $db->escapeString( $query );
-        $query = new eZQuery( array( "Topic", "Body" ), $query );
-        $query->setPartialCompare( true );
-        $query_str = "SELECT ID, PostingTime FROM eZForum_Message WHERE (" .
-             $query->buildQuery()  .
-             ") GROUP BY ID, PostingTime ORDER BY PostingTime";
 
-        $db->array_query( $message_array, $query_str, array( "Limit" => $limit, "Offset" => $offset ) );
-        $ret = array();
+        $queryText = $db->escapeString( $queryText );
         
-        foreach ( $message_array as $message )
+        $query = new eZQuery( "eZForum_Word.Word", $queryText );
+        $query->setIsLiteral( true );
+        $query->setStopWordColumn(  "eZForum_Word.Frequency" );        
+        $searchSQL = $query->buildQuery();
+        
+        // special search for MySQL, mimic subselects ;)
+        if ( $db->isA() == "mysql" )
         {
-            $ret[] = new eZForumMessage( $message[$db->fieldName( "ID" )] );
+            $queryArray = explode( " ", trim( $queryText ) );
+
+            $db->query( "CREATE TEMPORARY TABLE eZForum_SearchTemp( MessageID int )" );
+
+            $count = 1;
+            foreach ( $queryArray as $queryWord )
+            {                
+                $queryWord = trim( $queryWord );
+
+                $searchSQL = " ( eZForum_Word.Word = '$queryWord' AND eZForum_Word.Frequency < '0.5' ) ";
+                
+                $queryString = "INSERT INTO eZForum_SearchTemp ( MessageID ) SELECT DISTINCT eZForum_Message.ID AS MessageID
+                 FROM eZForum_Message,
+                      eZForum_MessageWordLink,
+                      eZForum_Word
+                 WHERE
+                        $searchSQL AND
+                        ( eZForum_Message.ID=eZForum_MessageWordLink.MessageID
+                         AND eZForum_MessageWordLink.WordID=eZForum_Word.ID )
+                       ORDER BY eZForum_MessageWordLink.Frequency";
+
+                $db->query( $queryString );
+
+                // check if this is a stop word
+                $queryString = "SELECT Frequency FROM eZForum_Word WHERE Word='$queryWord'";
+                
+                $db->query_single( $WordFreq, $queryString, array( "LIMIT" => 1 ) );
+
+                if ( $WordFreq["Frequency"] <= 0.5 )                    
+                    $count += 1;
+            }
+            $count -= 1;
+
+            $queryString = "SELECT MessageID, Count(*) AS Count FROM eZForum_SearchTemp GROUP BY MessageID HAVING Count='$count'";
+
+            
+            $db->array_query( $message_array, $queryString );
+            
+//            $db->array_query( $message_array, $queryString, array( "Limit" => $limit, "Offset" => $offset ) );
+
+            $db->query( "DROP  TABLE eZForum_SearchTemp" );
+
+            $SearchTotalCount = count( $message_array );
+            $message_array =& array_slice( $message_array, $offset, $limit );            
         }
+        else
+        {
+            $queryString = "SELECT DISTINCT eZForum_Message.ID AS MessageID
+                 FROM eZForum_Message,
+                      eZForum_MessageWordLink,
+                      eZForum_Word
+                 WHERE
+                       $searchSQL
+                       AND
+                       ( eZForum_Message.ID=eZForum_MessageWordLink.MessageID
+                         AND eZForum_MessageWordLink.WordID=eZForum_Word.ID
+                       )
+                        ORDER BY eZForum_MessageWordLink.Frequency";
+
+            $db->array_query( $message_array, $queryString, array( "Limit" => $limit, "Offset" => $offset ) );
+
+            $db->array_query( $message_array, $queryString );
+            
+            $SearchTotalCount = count( $message_array );
+            $message_array =& array_slice( $message_array, $offset, $limit );
+        }
+
+        for ( $i=0; $i < count($message_array); $i++ )
+        {
+            $return_array[$i] = new eZForumMessage( $message_array[$i][$db->fieldName("MessageID")], false );
+        }
+       
+        return $return_array;        
         
         return $ret;
     }
