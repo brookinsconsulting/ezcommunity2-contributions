@@ -17,18 +17,18 @@
 	<td colspan="1" valign="top" align="left">
 	<table class="list" width="100%" cellspacing="0" cellpadding="0" border="1">
 	<tr>
-		<td>
+		<th>
 		{intl-expire_date}
-		</td>
-		<td>2
+		</th>
+		<th>
 		{intl-type}
-		</td>
-		<td>
+		</th>
+		<th>
 		{intl-quantity}
-		</td>
-		<td>
+		</th>
+		<th>
 		{intl-price}
-		</td>
+		</th>
 	</tr>
 	<!-- BEGIN quote_item_tpl -->
 	<tr>
@@ -65,18 +65,18 @@
 	<td colspan="1" valign="top" align="right">
 	<table class="list" width="100%" cellspacing="0" cellpadding="0" border="1">
 	<tr>
-		<td>
+		<th>
 		{intl-price}
-		</td>
-		<td>
+		</th>
+		<th>
 		{intl-quantity}
-		</td>
-		<td>
+		</th>
+		<th>
 		{intl-type}
-		</td>
-		<td>
+		</th>
+		<th>
 		{intl-expire_date}
-		</td>
+		</th>
 	</tr>
 	<!-- BEGIN offer_item_tpl -->
 	<tr>
