@@ -311,3 +311,16 @@ Maintainer(s) : jhe@ez.no
     * user/folderedit.php: -upload is upload (no move) in imagecatalogue
     -fixes and cleanups in filemanager
 
+
+Module : ezfilemanager
+Repository path : /home/cvsroot/projects/php/ezfilemanager
+Maintainer(s) : jhe@ez.no
+2001-10-09  fh  <fh@zev.ez.no>
+
+    * sql/informix/ezfilemanager.sql: SQL fixes..
+
+    * user/fileupload.php
+      user/folderedit.php
+      user/templates/standard/folderedit.tpl:
+    Bugfixes... Module should be ready for release.
+

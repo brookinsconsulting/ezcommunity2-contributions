@@ -72,3 +72,73 @@ Maintainer(s) : pkej@ez.no
     * admin/intl/en_GB/form.php.ini
       user/intl/en_GB/form.php.ini: Added design
 
+
+Module : ezform
+Repository path : /home/cvsroot/projects/php/ezform
+Maintainer(s) : pkej@ez.no
+2001-10-09  Baard Farstad  <bf@ez.no>
+
+    * classes/ezformrenderer.php: Fixed setvar bug.
+
+2001-10-09  Christoffer Elo  <ce@ez.no>
+
+    * admin/intl/no_NO/fixedvalues.php.ini
+      admin/intl/no_NO/form.php.ini: Added norwegian language
+
+2001-10-09  Baard Farstad  <bf@ez.no>
+
+    * classes/ezformrenderer.php: Removed debug.
+
+2001-10-09  Christoffer Elo  <ce@ez.no>
+
+    * admin/templates/standard/formrenderer.tpl: Fixed a bug
+
+2001-10-09  Baard Farstad  <bf@ez.no>
+
+    * admin/templates/standard/formrenderer.tpl: FIxed template crash.
+
+2001-10-09  Christoffer Elo  <ce@ez.no>
+
+    * admin/formedit.php
+      admin/intl/en_GB/form.php.ini
+      admin/templates/standard/formedit.tpl
+      admin/templates/standard/formrenderer.tpl
+      classes/ezformrenderer.php: addded radiobox and checkbox
+
+2001-10-09  Baard Farstad  <bf@ez.no>
+
+    * classes/ezformrenderer.php: Fixed mail sending with single items.
+
+    * admin/templates/standard/formrenderer.tpl
+      classes/ezformrenderer.php: Fixed rendering multiple selects in mail.
+
+    * admin/formedit.php
+      admin/templates/standard/formrenderer.tpl
+      classes/ezformrenderer.php:
+    Added multiple select and dropdown rendering.
+
+2001-10-09  Christoffer Elo  <ce@ez.no>
+
+    * admin/templates/standard/formedit.tpl: Fixed a html bug
+
+    * admin/formedit.php: Added fixedvalues to dropdown item
+
+    * admin/fixedvalues.php
+      classes/Attic/ezformelementfixedvalues.php
+      classes/ezformelement.php
+      classes/ezformelementfixedvalue.php: fixed a name bug
+
+    * sql/mysql/ezform.sql
+      sql/postgresql/ezform.sql: Fixed SQL schemas
+
+    * admin/datasupplier.php
+      admin/fixedvalues.php
+      admin/formedit.php
+      admin/intl/en_GB/fixedvalues.php.ini
+      admin/intl/en_GB/form.php.ini
+      admin/templates/standard/fixedvalues.tpl
+      admin/templates/standard/formedit.tpl
+      classes/Attic/ezformelementfixedvalues.php
+      classes/ezformelement.php
+      classes/ezformelementtype.php: Added fixed values in form
+

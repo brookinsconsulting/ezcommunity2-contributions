@@ -378,3 +378,12 @@ Maintainer(s) : jhe@ez.no
 
     * sql/mysql/ezforum.sql: Added indeces.
 
+
+Module : ezforum
+Repository path : /home/cvsroot/projects/php/ezforum
+Maintainer(s) : jhe@ez.no
+2001-10-09  Jo Henrik Endrerud  <jhe@ez.no>
+
+    * classes/ezforum.php
+      user/searchsupplier.php: fixed new standard for searching
+

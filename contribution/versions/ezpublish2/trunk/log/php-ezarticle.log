@@ -1178,3 +1178,19 @@ Maintainer(s) : bf@ez.no
     * user/datasupplier.php
       user/frontpage.php: Added article cache on frontpage.
 
+
+Module : ezarticle
+Repository path : /home/cvsroot/projects/php/ezarticle
+Maintainer(s) : bf@ez.no
+2001-10-09  Baard Farstad  <bf@ez.no>
+
+    * user/templates/standard/frontpage.tpl: Added product template.
+
+2001-10-09  Jo Henrik Endrerud  <jhe@ez.no>
+
+    * user/searchsupplier.php: fixed new standard for searching
+
+2001-10-09  Thomas Hellstroem  <th@ez.no>
+
+    * admin/templates/standard/categoryedit.tpl: Layout
+

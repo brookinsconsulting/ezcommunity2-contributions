@@ -57,3 +57,14 @@ Maintainer(s) : bf@ez.no
       intl/he_IL/help_header.php.ini
       intl/he_IL/print_header.php.ini: Added he_IL (Hebrew) translation
 
+
+Module : admin
+Repository path : /home/cvsroot/projects/php/admin
+Maintainer(s) : bf@ez.no
+2001-10-09  Thomas Hellstroem  <th@ez.no>
+
+    * images/button-cart-ro.gif
+      images/button-cart.gif
+      images/button-folder-ro.gif
+      images/button-folder.gif: New buttons
+

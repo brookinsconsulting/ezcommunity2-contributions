@@ -164,3 +164,18 @@ Maintainer(s) : vl@ez.no
 
     * admin/sqlquery.php: some new features - row count, preferences
 
+
+Module : ezsitemanager
+Repository path : /home/cvsroot/projects/php/ezsitemanager
+Maintainer(s) : vl@ez.no
+2001-10-09  Christoffer Elo  <ce@ez.no>
+
+    * sql/mysql/ezsitemanager.sql
+      sql/postgresql/ezsitemanager.sql: Fixed SQL schemas
+
+2001-10-09  Baard Farstad  <bf@ez.no>
+
+    * admin/intl/en_GB/sqlquery.php.ini
+      admin/sqlquery.php
+      admin/templates/standard/sqlquery.tpl: Did some translations.
+

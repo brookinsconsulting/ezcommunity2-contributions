@@ -1065,3 +1065,36 @@ Maintainer(s) : ce@ez.no
     * sql/mysql/eztrade.sql
       user/productlist.php: Added indeces.
 
+
+Module : eztrade
+Repository path : /home/cvsroot/projects/php/eztrade
+Maintainer(s) : ce@ez.no
+2001-10-09  Sascha Frinken  <sascha@impetex.de>
+
+    * user/categorylist.php
+      user/intl/de_DE/productview.php.ini
+      user/intl/de_MG/checkout.php.ini
+      user/productlist.php
+      user/templates/mygold/cart.tpl
+      user/templates/mygold/checkout.tpl
+      user/templates/mygold/voucherinformation.tpl: Added mygold design
+
+2001-10-09  Jo Henrik Endrerud  <jhe@ez.no>
+
+    * user/searchsupplier.php: fixed new standard for searching
+
+2001-10-09  Thomas Hellstroem  <th@ez.no>
+
+    * admin/templates/standard/customerview.tpl: Layout
+
+2001-10-09  Christoffer Elo  <ce@ez.no>
+
+    * sql/postgresql/eztrade.sql
+      sql/mysql/eztrade.sql: Fixed SQL schemas
+
+    * admin/productsearch.php
+      admin/templates/standard/productsearch.tpl
+      classes/ezvoucherinformation.php
+      user/templates/standard/voucherinformation.tpl
+      user/voucherinformation.php: Added fixed values in form
+

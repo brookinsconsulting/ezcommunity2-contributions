@@ -321,3 +321,13 @@ Maintainer(s) : bf@ez.no
 
     * user/intl/de_DE/userwithaddress.php.ini: Typos
 
+
+Module : ezuser
+Repository path : /home/cvsroot/projects/php/ezuser
+Maintainer(s) : bf@ez.no
+2001-10-09  Baard Farstad  <bf@ez.no>
+
+    * admin/templates/standard/userlist.tpl
+      admin/userlist.php
+      classes/ezuser.php: Fixed showing several users.
+

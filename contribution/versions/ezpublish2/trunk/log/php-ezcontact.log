@@ -248,3 +248,21 @@ Maintainer(s) : jhe@ez.no
       sql/mysql/ezcontact.sql
       admin/companytypeedit.php: several bugfixes
 
+
+Module : ezcontact
+Repository path : /home/cvsroot/projects/php/ezcontact
+Maintainer(s) : jhe@ez.no
+2001-10-09  Jo Henrik Endrerud  <jhe@ez.no>
+
+    * classes/ezcompany.php
+      classes/ezperson.php: fixed search for online address and phone no
+
+2001-10-09  Thomas Hellstroem  <th@ez.no>
+
+    * admin/templates/standard/companytypelist.tpl
+      admin/templates/standard/personlist.tpl: Added new buttongfx
+
+2001-10-09  Jo Henrik Endrerud  <jhe@ez.no>
+
+    * user/searchsupplier.php: fixed global search for contact
+
