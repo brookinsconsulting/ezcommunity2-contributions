@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: articleedit.php,v 1.1 2000/10/19 10:43:28 bf-cvs Exp $
+// $Id: articleedit.php,v 1.2 2000/10/19 18:03:40 bf-cvs Exp $
 //
 // 
 //
@@ -46,6 +46,32 @@ if ( $Action == "Insert" )
     exit();
 }
 
+if ( $Action == "Update" )
+{
+    $category = new eZArticleCategory( $CategoryID );
+    
+    $article = new eZArticle( $ArticleID );
+    $article->setName( $Name );
+
+    $generator = new eZArticleGenerator();
+    
+    $article->setContents( $generator->generateXML( $Contents ) );
+    
+    $article->setAuthorText( $AuthorText );
+    
+    $article->setLinkText( $LinkText );
+
+    $article->store();
+
+    // remove all category references
+    $article->removeFromCategories();
+    $category->addArticle( $article );
+
+    Header( "Location: /article/archive/$CategoryID/" );
+    exit();
+}
+
+
 if ( $Action == "Delete" )
 {
     $article = new eZArticle( $ArticleID );
@@ -70,13 +96,41 @@ $t->set_file( array(
 
 $t->set_block( "article_edit_page_tpl", "value_tpl", "value" );
 
+$t->set_var( "article_id", "" );
 $t->set_var( "article_name", "" );
-$t->set_var( "article_contents", "" );
+$t->set_var( "article_contents_0", "" );
+$t->set_var( "article_contents_1", "" );
 $t->set_var( "author_text", "" );
 $t->set_var( "link_text", "" );
 
 $t->set_var( "action_value", "insert" );
 
+if ( $Action == "Edit" )
+{
+    print( "Editing aritcle" . $ArticleID );
+
+    $article = new eZArticle( $ArticleID );
+
+    $t->set_var( "article_id", $ArticleID );
+    $t->set_var( "article_name", $article->name() );
+
+    $generator = new eZArticleGenerator();
+    
+    $contentsArray = $generator->decodeXML( $article->contents() );
+    
+    $i=0;
+    foreach ( $contentsArray as $content )
+    {
+        $t->set_var( "article_contents_$i", $content );
+        $i++;
+    }
+    
+    $t->set_var( "author_text", $article->authorText() );
+    $t->set_var( "link_text", $article->linkText() );
+    
+    $t->set_var( "action_value", "update" );
+    
+}
 
 // category select
 $category = new eZArticleCategory();
@@ -86,9 +140,9 @@ foreach ( $categoryArray as $catItem )
 {
     if ( $Action == "Edit" )
     {
-        if ( $product->existsInCategory( $catItem ) )
-            $t->set_var( "selected", "selected" );
-        else
+//          if ( $product->existsInCategory( $catItem ) )
+//              $t->set_var( "selected", "selected" );
+//          else
             $t->set_var( "selected", "" );
     }
     else

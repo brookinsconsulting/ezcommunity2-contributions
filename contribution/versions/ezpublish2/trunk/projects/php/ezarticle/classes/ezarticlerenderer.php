@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezarticlerenderer.php,v 1.1 2000/10/19 10:43:29 bf-cvs Exp $
+// $Id: ezarticlerenderer.php,v 1.2 2000/10/19 18:03:40 bf-cvs Exp $
 //
 // Definition of eZArticleRenderer class
 //
@@ -26,11 +26,11 @@ class eZArticleRenderer
     {
         $this->Article =& $article;
 
-        $xml = xmltree( $this->Article->contents() );
+        $xml =& xmltree( $this->Article->contents() );
         
         if ( $xml->root->children[0]->name == "generator" )
         {
-            $generator = $xml->root->children[0]->children[0]->content;
+            $generator =& $xml->root->children[0]->children[0]->content;
 
             switch ( $generator )
             {
@@ -86,8 +86,6 @@ class eZArticleRenderer
         $generator = new $this->RendererClass( $this->Article );
 
         print( "Using rederer: " . $this->RendererClass . "<br>");
-
-        
               
         return $generator->renderPage( $page );
     }

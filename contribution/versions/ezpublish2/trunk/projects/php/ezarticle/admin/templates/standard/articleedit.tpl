@@ -1,6 +1,6 @@
 <h1>{intl-head_line}</h1>
 
-<form method="post" action="/article/articleedit/{action_value}/" >
+<form method="post" action="/article/articleedit/{action_value}/{article_id}/" >
 
 {intl-article_name}:<br />
 <input type="text" name="Name" size="20" value="{article_name}" /><br />
@@ -18,10 +18,10 @@
 </select> <br />
 
 {intl-intro}:<br />
-<textarea name="Contents[]" cols="20" rows="5">{article_contents}</textarea><br />
+<textarea name="Contents[]" cols="20" rows="5">{article_contents_0}</textarea><br />
 
 {intl-contents}:<br />
-<textarea name="Contents[]" cols="20" rows="10">{article_contents}</textarea>
+<textarea name="Contents[]" cols="20" rows="10">{article_contents_1}</textarea>
 
 
 <br />

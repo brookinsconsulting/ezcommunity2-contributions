@@ -24,6 +24,38 @@ switch ( $url_array[2] )
     }
     break;
 
+    
+    case "articleedit":
+    {
+        if ( $url_array[3] == "insert" )
+            $Action = "Insert";
+
+        if ( $url_array[3] == "update" )
+        {
+            $Action = "Update";
+            $ArticleID = $url_array[4];            
+        }
+        
+        if ( $url_array[3] == "new" )
+            $Action = "New";
+
+        if ( $url_array[3] == "edit" )
+        {
+            $Action = "Edit";
+            $ArticleID = $url_array[4];
+        }
+
+        if ( $url_array[3] == "delete" )
+        {
+            $Action = "Delete";
+            $ArticleID = $url_array[4];
+        }
+
+        include( "ezarticle/admin/articleedit.php" );
+    }
+    break;
+
+
     case "categoryedit":
     {
         if ( $url_array[3] == "insert" )
@@ -57,33 +89,7 @@ switch ( $url_array[2] )
 
     }
     break;
-    
-    
-    case "articleedit":
-    {
-        if ( $url_array[3] == "insert" )
-            $Action = "Insert";
-
-        if ( $url_array[3] == "new" )
-            $Action = "New";
-
-        if ( $url_array[3] == "edit" )
-        {
-            $Action = "Edit";
-            $ArticleID = $url_array[4];
-        }
-
-        if ( $url_array[3] == "delete" )
-        {
-            $Action = "Delete";
-            $ArticleID = $url_array[4];
-        }
         
-        
-
-        include( "ezarticle/admin/articleedit.php" );
-    }
-    break;
 }
 
 ?>

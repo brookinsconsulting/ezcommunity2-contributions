@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eztechrenderer.php,v 1.1 2000/10/19 10:43:29 bf-cvs Exp $
+// $Id: eztechrenderer.php,v 1.2 2000/10/19 18:03:40 bf-cvs Exp $
 //
 // Definition of eZTechRenderer class
 //
@@ -88,11 +88,6 @@ class eZTechRenderer
                     $intro = $child->children[0]->content;
                 }
                 
-                if ( $child->name == "page" )
-                {
-                    $body = $child->children[0]->content;                    
-                }
-
                 if ( $child->name == "body" )
                 {
                     $body = $child->children;
@@ -130,6 +125,39 @@ class eZTechRenderer
         return $newArticle;
     }
 
+
+    /*!
+      Returns the XHTML contents of the introduction of the article.
+    */
+    function &renderIntro()
+    {
+        $xml = xmltree( $this->Article->contents() );
+
+        if ( !$xml )
+        {
+            print( "<br /><b>Error: eZTechRenderer::docodeXML() could not decode XML</b><br />" );
+        }
+        else
+        {
+            $into = "";
+            $body = "";
+            
+            $i=0;
+            foreach ( $xml->root->children as $child )
+            {
+                if ( $child->name == "intro" )
+                {
+                    $intro = $child->children[0]->content;
+                }
+            }
+
+            $newArticle = eZTextTool::nl2br( $intro );
+        }
+        
+        return $newArticle;
+    }
+
+    
     /*!
       Returns a php highlighted string.
     */

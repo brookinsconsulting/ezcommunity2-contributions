@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezarticlegenerator.php,v 1.1 2000/10/19 10:43:29 bf-cvs Exp $
+// $Id: ezarticlegenerator.php,v 1.2 2000/10/19 18:03:40 bf-cvs Exp $
 //
 // Definition of eZArticleGenerator class
 //
@@ -54,7 +54,7 @@ class eZArticleGenerator
     }
 
     /*!
-      This function will parse the contents and return valid
+      This function will parse the contents array and return valid
       XML data for insertion in the database.
     */
     function &generateXML( &$contents )
@@ -64,6 +64,48 @@ class eZArticleGenerator
         $generator = new $this->GeneratorClass( $contents );
               
         return $generator->generateXML();        
+    }
+    
+    /*!
+      This function will return an array containing the original state
+      of the article so it can be used in a edit form.
+    */
+    function &decodeXML( &$contents )
+    {
+        $xml =& xmltree( $contents );
+        
+        if ( $xml->root->children[0]->name == "generator" )
+        {
+            $generator =& $xml->root->children[0]->children[0]->content;
+
+            switch ( $generator )
+            {
+                case "tech" :
+                {
+                    $this->GeneratorFile = "eztechgenerator.php";
+                    $this->GeneratorClass = "eZTechGenerator";
+                }
+                break;
+
+                case "simple" :
+                {
+                    $this->GeneratorFile = "ezsimplegenerator.php";
+                    $this->GeneratorClass = "eZSimpleGenerator";
+                }
+                break;
+            }
+        }
+        else
+        {
+            print( "<b>Error: eZArticleGenerator::decodeXML()  could not find generator in XML chunk.</b>" );
+        }
+
+        include_once( "ezarticle/classes/" . $this->GeneratorFile );
+
+        $generator = new $this->GeneratorClass( $contents );
+              
+        return $generator->decodeXML();        
+        
     }
         
     var $GeneratorClass;

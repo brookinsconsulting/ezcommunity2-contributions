@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezarticle.php,v 1.2 2000/10/19 12:10:16 bf-cvs Exp $
+// $Id: ezarticle.php,v 1.3 2000/10/19 18:03:40 bf-cvs Exp $
 //
 // Definition of eZArticle class
 //
@@ -106,8 +106,8 @@ class eZArticle
                                  Contents='$this->Contents',
                                  AuthorText='$this->AuthorText',
                                  LinkText='$this->LinkText',
-                                 AuthorID='$this->AuthorID'
-                                 Modified=now(),
+                                 AuthorID='$this->AuthorID',
+                                 Modified=now()
                                  WHERE ID='$this->ID'
                                  " );
 
@@ -294,6 +294,22 @@ class eZArticle
            $this->AuthorID = $uset->id();
        }
     }
+
+
+    /*!
+      Removes every category assignments from the current article.
+    */
+    function removeFromCategories()
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+       $this->dbInit();
+
+       $this->Database->query( "DELETE FROM eZArticle_ArticleCategoryLink WHERE ArticleID='$this->ID'" );       
+        
+    }
+
     
     
     /*!

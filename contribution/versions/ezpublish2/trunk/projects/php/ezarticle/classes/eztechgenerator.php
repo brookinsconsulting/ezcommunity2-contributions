@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eztechgenerator.php,v 1.1 2000/10/19 10:43:29 bf-cvs Exp $
+// $Id: eztechgenerator.php,v 1.2 2000/10/19 18:03:40 bf-cvs Exp $
 //
 // Definition of eZTechGenerator class
 //
@@ -60,6 +60,76 @@ class eZTechGenerator
         $newContents .= "<body>" . $body . "</body></article>";
 
         return $newContents;
+    }
+
+    /*!
+      Decodes the xml chunk and returns the original array to the article. 
+    */
+    function &decodeXML()
+    {
+        $contentsArray = array();
+        
+        $xml = xmltree( $this->Contents );
+
+        if ( !$xml )
+        {
+            print( "<br /><b>Error: eZTechRenderer::docodeXML() could not decode XML</b><br />" );
+        }
+        else
+        {
+            $into = "";
+            $body = "";
+            
+            foreach ( $xml->root->children as $child )
+            {
+                if ( $child->name == "intro" )
+                {
+                    $intro = $child->children[0]->content;
+                }
+                
+
+                if ( $child->name == "body" )
+                {
+                    $body = $child->children;
+                }
+            }
+
+            $contentsArray[] = $intro;
+
+            $bodyContents = "";
+            $i=0;
+            // loop on the pages
+            foreach ( $body as $page )
+            {
+                $pageContent = "";
+                // loop on the contents of the pages
+                foreach ( $page->children as $paragraph )
+                {
+                    // ordinary text
+                    if ( $paragraph->name == "text" )
+                    {
+                        $pageContent .= $paragraph->content;
+                    }
+
+                    // php code 
+                    if ( $paragraph->name == "php" )
+                    {
+                        $pageContent .= "<php>" . $paragraph->children[0]->content . "</php>";
+                    }
+                }
+
+                if ( $i > 0 )
+                    $bodyContents .=  "<page>" . $pageContent;
+                else
+                    $bodyContents .=  $pageContent;
+                    
+                $i++;
+            }
+
+            $contentsArray[] = $bodyContents;
+        }
+
+        return $contentsArray;
     }
 
     var $Contents;
