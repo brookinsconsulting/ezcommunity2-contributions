@@ -14,8 +14,9 @@ include_once( "ezcontact/classes/ezperson.php" );
 
 $error = false;
 
-$t = new eZTemplate( "ezcontact/user/" . $ini->read_var( "eZContactMain", "AdminTemplateDir" ),
-                     "ezcontact/user/intl", $Language, "personedit.php" );
+$t = new eZTemplate( "ezcontact/admin/" . $ini->read_var( "eZContactMain", "AdminTemplateDir" ),
+                     "ezcontact/admin/intl", $Language, "personedit.php" );
+$intl = new INIFile( "ezcontact/admin/intl/$Language/personedit.php.ini", false );
 $t->setAllStrings();
 
 $t->set_file( array(                    
@@ -94,8 +95,12 @@ if ( $Action == "view" )
         {
             $t->set_var( "phone_id", $phoneList[$i]->id() );
             $t->set_var( "phone", $phoneList[$i]->number() );
-            $t->set_var( "phone_type_id", $phoneList[$i]->phoneTypeID() );
-            $t->set_var( "phone_type_name", $phoneList[$i]->phoneTypeID() );
+
+            $phoneType = $phoneList[$i]->phoneType();
+
+            $t->set_var( "phone_type_id", $phoneType->id() );
+            $t->set_var( "phone_type_name", $intl->read_var( "strings", "phone_" . $phoneType->name() ) );
+
             $t->parse( "phone_line", "phone_line_tpl", true );
         }
         $t->parse( "phone_item", "phone_item_tpl" );
@@ -110,7 +115,9 @@ if ( $Action == "view" )
 
     // Address list
     $addressList = $person->addresses( $person->id() );
-    if( count ( $addressList ) == 1 )
+    $count = count( $addressList );
+    
+    if( $count != 0 )
     {
         foreach( $addressList as $addressItem )
         {
@@ -120,8 +127,13 @@ if ( $Action == "view" )
             $t->set_var( "zip", $addressItem->zip() );
             $t->set_var( "place", $addressItem->place() );
             
+            $addressType = $addressItem->addressType();
+
+            $t->set_var( "address_type_id", $addressType->id() );
+            $t->set_var( "address_type_name", $intl->read_var( "strings", "address_" . $addressType->name() ) );
+            
             $t->set_var( "script_name", "personedit.php" );
-            $t->parse( "address_line", "address_line_tpl" );
+            $t->parse( "address_line", "address_line_tpl", true );
 
         }
         $t->parse( "address_item", "address_item_tpl" );
@@ -143,8 +155,14 @@ if ( $Action == "view" )
             $t->set_var( "online_id", $OnlineList[$i]->id() );
             $t->set_var( "online", $OnlineList[$i]->URL() );
             $t->set_var( "online_url_type", $OnlineList[$i]->URLType() );
-            $t->set_var( "online_type_id", $OnlineList[$i]->onlineTypeID() );
-            $t->parse( "online_line", "online_line_tpl" );
+            
+            $onlineType = $OnlineList[$i]->onlineType();
+
+            $t->set_var( "online_type_id", $onlineType->id() );
+            $t->set_var( "online_type_name", $intl->read_var( "strings", "online_" . $onlineType->name() ) );
+            $t->set_var( "online_url_type", $OnlineList[$i]->urlType() );
+            
+            $t->parse( "online_line", "online_line_tpl", true );
         }
         $t->parse( "online_item", "online_item_tpl" );
         $t->set_var( "no_online_item", "" );            

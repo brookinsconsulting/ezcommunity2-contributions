@@ -2,11 +2,10 @@
 include_once( "classes/INIFile.php" );
 $ini = new INIFIle( "site.ini" );
 $Language = $ini->read_var( "eZContactMain", "Language" );
-$DOC_ROOT = $ini->read_var( "eZContactMain", "DocumentRoot" );
 
 include_once( "classes/eztemplate.php" );
 
-$t = new eZTemplate( $DOC_ROOT . "/admin/" . $ini->read_var( "eZContactMain", "TemplateDir" ),  $DOC_ROOT . "/admin/intl", $Language, "personlist.php" );
+$t = new eZTemplate( "ezcontact/admin/" . $ini->read_var( "eZContactMain", "AdminTemplateDir" ),  "ezcontact/admin/intl", $Language, "personedit.php" );
 $t->setAllStrings();
 
 include_once( "ezcontact/classes/ezperson.php" );
