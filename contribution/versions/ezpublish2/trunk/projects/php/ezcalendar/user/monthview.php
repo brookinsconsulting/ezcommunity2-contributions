@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: monthview.php,v 1.10 2001/01/18 15:42:03 gl Exp $
+// $Id: monthview.php,v 1.11 2001/01/19 10:55:34 gl Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <27-Dec-2000 14:09:56 bf>
@@ -92,6 +92,9 @@ else
     $Month = $date->month();
 }
 
+$session->setVariable( "Year", $Year );
+$session->setVariable( "Month", $Month );
+
 $t->set_var( "month_name", $Locale->monthName( $date->monthName(), false ) );
 $t->set_var( "month_number", $Month );
 $t->set_var( "year_number", $Year );
@@ -151,7 +154,7 @@ for ( $week=0; $week<6; $week++ )
                     $t->parse( "appointment", "appointment_tpl", true );
                 }
 
-                if ( $tmpDate->month() == $today->month() && $currentDay == $today->day() )
+                if ( $tmpDate->equals( $today ) )
                     $t->set_var( "td_class", "bgcurrent" );
                 else if ( $day > 5 )
                     $t->set_var( "td_class", "bgweekend" );

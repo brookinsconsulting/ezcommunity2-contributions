@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: dayview.php,v 1.11 2001/01/18 14:55:20 gl Exp $
+// $Id: dayview.php,v 1.12 2001/01/19 10:55:34 gl Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <08-Jan-2001 12:48:35 bf>
@@ -85,11 +85,16 @@ else
     $Day = $datetime->day();
 }
 
+$session->setVariable( "Year", $Year );
+$session->setVariable( "Month", $Month );
+$session->setVariable( "Day", $Day );
+
 $t->set_var( "month_number", $Month );
 $t->set_var( "year_number", $Year );
 $t->set_var( "day_number", $Day );
 $t->set_var( "long_date", $Locale->format( $datetime->date(), false ) );
 
+$today = new eZDate();
 $tmpDate = new eZDate();
 $tmpAppointment = new eZAppointment();
 
@@ -211,7 +216,7 @@ while ( $startTime->isGreater( $stopTime ) == true )
     $startTime = $startTime->add( $interval );
 
     $t->set_var( "td_class", "" );
-    if ( $nowSet == false && $now->isGreater( $startTime ) )
+    if ( $datetime->dateEquals( $today ) && $nowSet == false && $now->isGreater( $startTime ) )
     {
         $t->set_var( "td_class", "bgcurrent" );
         $nowSet = true;

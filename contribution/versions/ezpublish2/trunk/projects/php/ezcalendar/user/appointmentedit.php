@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: appointmentedit.php,v 1.12 2001/01/18 18:39:44 gl Exp $
+// $Id: appointmentedit.php,v 1.13 2001/01/19 10:55:34 gl Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <03-Jan-2001 12:47:22 bf>
@@ -30,17 +30,41 @@ if ( isSet ( $DeleteAppointments ) )
 
 if ( isSet ( $GoDay ) )
 {
-    Header( "Location: /calendar/dayview/$CurrentYear/$CurrentMonth/$CurrentDay" );
+    include_once( "classes/ezdate.php" );
+
+    $session = new eZSession();
+    $session->fetch();
+
+    $year = $session->variable( "Year" );
+    $month = $session->variable( "Month" );
+    $day = $session->variable( "Day" );
+
+    $date = new eZDate( $year, $month, $day );
+    if ( $date->daysInMonth() < $day )
+        $day = $date->daysInMonth();
+
+    Header( "Location: /calendar/dayview/$year/$month/$day" );
     exit();
 }
 else if ( isSet ( $GoMonth ) )
 {
-    Header( "Location: /calendar/monthview/$CurrentYear/$CurrentMonth" );
+    $session = new eZSession();
+    $session->fetch();
+
+    $year = $session->variable( "Year" );
+    $month = $session->variable( "Month" );
+
+    Header( "Location: /calendar/monthview/$year/$month" );
     exit();
 }
 else if ( isSet ( $GoYear ) )
 {
-    Header( "Location: /calendar/yearview/$CurrentYear" );
+    $session = new eZSession();
+    $session->fetch();
+
+    $year = $session->variable( "Year" );
+
+    Header( "Location: /calendar/yearview/$year" );
     exit();
 }
 

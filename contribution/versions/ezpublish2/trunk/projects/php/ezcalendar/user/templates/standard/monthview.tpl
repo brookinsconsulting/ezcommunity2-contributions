@@ -71,9 +71,5 @@
 <input type="submit" name="GoDay" value="{intl-day}">
 <input type="submit" name="GoMonth" value="{intl-month}">
 <input type="submit" name="GoYear" value="{intl-year}">
-
-<input type="hidden" name="CurrentYear" value="{year_number}" />
-<input type="hidden" name="CurrentMonth" value="{month_number}" />
-<input type="hidden" name="CurrentDay" value="{day_number}" />
 </form>
 
