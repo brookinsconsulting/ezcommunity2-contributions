@@ -1,12 +1,11 @@
 <h1>{current_category_name}</h1>
 
 
-
-<p>
-{current_category_description}
-</p>
-
 <hr noshade="noshade" size="4" />
+
+<p><b>
+{current_category_description}
+</b></p>
 
 <!-- BEGIN path_item_tpl -->
 
