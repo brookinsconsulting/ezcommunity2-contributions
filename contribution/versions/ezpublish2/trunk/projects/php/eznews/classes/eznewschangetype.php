@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: eznewschangetype.php,v 1.9 2000/10/01 17:36:21 pkej-cvs Exp $
+// $Id: eznewschangetype.php,v 1.10 2000/10/10 15:01:35 pkej-cvs Exp $
 //
 // Definition of eZNewsChangeType class
 //
@@ -102,6 +102,7 @@ class eZNewsChangeType extends eZNewsUtility
     */
     function eZNewsChangeType( $inData = "", $fetch = true )
     {
+        #echo "change type constructor $inData<br>";
         eZNewsUtility::eZNewsUtility( $inData, $fetch );
     }
     
@@ -211,6 +212,8 @@ class eZNewsChangeType extends eZNewsUtility
         $value = false;
         $changeTypeArray = array();
         $outID = array();
+        
+        #echo "getthis ct: " . $inData . "<br>";
         
         if( is_numeric( $inData ) )
         {

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: eznewsitemtype.php,v 1.6 2000/10/01 17:36:21 pkej-cvs Exp $
+// $Id: eznewsitemtype.php,v 1.7 2000/10/10 15:01:35 pkej-cvs Exp $
 //
 // Definition of eZNewsItemType class
 //
@@ -218,11 +218,11 @@ class eZNewsItemType extends eZNewsUtility
                 WHERE ID = %s
             ";
             
-            $query = sprintf( $query2, $inData );
+            $query = sprintf( $query, $inData );
         }
         else
         {
-            $query2 = "
+            $query = "
                 SELECT
                     *
                 FROM
@@ -230,11 +230,10 @@ class eZNewsItemType extends eZNewsUtility
                 WHERE Name = '%s'
             ";
             
-            $query = sprintf( $query2, $inData );
+            $query = sprintf( $query, $inData );
         }
 
         $this->Database->array_query( $itemTypeArray, $query );
-        
         $count = count( $itemTypeArray );
         
         #echo "count=: " . $count . "<br>";
@@ -336,6 +335,76 @@ class eZNewsItemType extends eZNewsUtility
 
 
 
+        /*!
+            Returns all the item types found in the database which is a child of the type inserted.
+        
+        \in
+            \$type This is the parent you want to find items by.
+            \$inOrderBy  This is the columnname to order the returned array
+                        by.
+            \accepts
+                ID - The id of the row in the table
+                Name - Name of item
+                eZClass - The eZClass of this item type.
+                eZTable - The eZTable of this item type.
+                \default is ID
+            \$direction  This is the direction to do the ordering in
+            \accepts
+                asc - ascending order
+                desc - descending order
+                \default is asc
+            \$startAt   This is the result number we want to start at
+                \default is 0
+            \$noOfResults This is the number of results we want.
+                \default is all
+        \out
+            \$returnArray    This is the array of found elements
+        \return
+            Returns false if it fails, the error message from SQL is
+            retained in $this->SQLErrors. Use getSQLErrors() to read
+            the error message.
+                      
+     */
+    function getAllByType( &$returnArray, $type, $inOrderBy = "ID", $direction = "asc", $startAt = 0, $noOfResults = "" )
+    {
+        $this->dbInit();
+        
+        $returnArray = array();
+        $itemTypeArray = array();
+        
+        $item = new eZNewsItemType( $type );
+        
+        $query =
+        "
+            SELECT
+                ID
+            FROM
+                eZNews_ItemType
+            WHERE
+                ParentID = %s
+            %s
+            %s
+        ";
+        
+        $orderBy = $this->createOrderBy( $inOrderBy, $direction );
+        $limits = $this->createLimit( $startAt, $noOfResults );
+        
+        $query = sprintf( $query, $item->ID(), $orderBy, $limits );
+        
+        $this->Database->array_query( $itemTypeArray, $query );
+        
+        for ( $i=0; $i < count( $itemTypeArray ); $i++ )
+        {
+            $returnArray[$i] = new eZNewsItemType( $itemTypeArray[$i][ "ID" ], 0 );
+        }
+        
+        if( $returnArray )
+        {
+            $value = true;
+        }
+        
+        return $value;
+    }
     /*!
         Sets the eZClass of the object.
         

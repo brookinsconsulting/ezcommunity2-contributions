@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: eznewsutility.php,v 1.7 2000/10/02 19:07:02 pkej-cvs Exp $
+// $Id: eznewsutility.php,v 1.8 2000/10/10 15:01:35 pkej-cvs Exp $
 //
 // Definition of eZNewsUtility class
 //
@@ -53,7 +53,7 @@
  */
 
 include_once( "classes/ezdb.php" );
-include_once( "classes/ezsession.php" );
+include_once( "ezsession/classes/ezsession.php" );
 
 class eZNewsUtility
 {
@@ -62,7 +62,7 @@ class eZNewsUtility
      */
     function eZNewsUtility( $inData = -1, $fetch = true )
     {
-        
+        #echo "utility constructor: " . $inData . "<br>";
         $this->dbInit();        
         $this->State_ = "New";
         $outID = array();
@@ -123,7 +123,7 @@ class eZNewsUtility
         // be stored.
         
         $this->invariantCheck();
-         
+        
         if( $this->isCoherent() )
         {
             $storeAllowed = true;
@@ -133,7 +133,7 @@ class eZNewsUtility
         {
             if( $this->hasChanged() )
             {
-                $stored = $this->updateThis( $outID );
+                $stored = $this->updateThis( $this->ID );
             }
             else
             {
@@ -173,6 +173,7 @@ class eZNewsUtility
         $value = false;
         $getting = false;
         
+        #echo "get utility: " . $inData . "<br>";
         
         // First we just make sure that we have some info on what
         // we should get.

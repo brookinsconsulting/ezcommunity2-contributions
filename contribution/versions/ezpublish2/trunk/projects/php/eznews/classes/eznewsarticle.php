@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: eznewsarticle.php,v 1.1 2000/09/28 08:27:14 pkej-cvs Exp $
+// $Id: eznewsarticle.php,v 1.2 2000/10/10 15:01:35 pkej-cvs Exp $
 //
 // Definition of eZNewsArticle class
 //
@@ -32,30 +32,9 @@ include_once( "eznews/classes/eznewsitem.php" );
 class eZNewsArticle extends eZNewsItem
 {
 
-    function eZNewsArticle( $inID = -1, $fetch = true )
+    function eZNewsArticle( $inData = -1, $fetch = true )
     {
-        if( $GLOBAL["NEWSDEBUG"] == true )
-        {
-            echo "eZNewsArticle( $inID, $fetch ) <br>\n";
-        }
-        
-        $this->eZNewsItem( $inID, $fetch );
-        
-        $query =
-        "
-            SELECT
-                *
-            FROM
-               eZNews_ItemType
-            WHERE
-                eZClass = '%s'
-        ";
-        
-        $query = sprintf( $query, "eZNewsArticle" );
-        $this->Database->query( $query );
-        $rowsFound = count( $newscategory_array );
-        
-        $this->ItemTypeID = $rowsFound[0][ "ID" ];
+        eZNewsItem::eZNewsItem( $inData, $fetch );
     }
     
     /*!
@@ -67,63 +46,98 @@ class eZNewsArticle extends eZNewsItem
       eZNews_ChangeType;
     */
     
-    function store( $update = 'create' )
+    function storeThis( &$outID )
     {
-        if( $GLOBAL["NEWSDEBUG"] == true )
+        $value = false;
+        
+        eZNewsItem::storeThis( $outID );
+        
+        if( $outID )
         {
-            echo "eZNewsArticle->store( $update ) <br>\n";
-        }
-        $errorMessage = eZNewsItem::store( $update );
-        
-        if( is_array( $errorMessage ) )
-        {
-            if( $errorMessage[0] != "We didn't find an authenticated session. Value stored is default." && count( $errorMessage ) != 1 )
-            {
-                #echo "errors errors.";
-            }
-        }
-        
-        $query =
-        "
-            INSERT INTO
-                eZNews_Article
-            SET
-                ID          = '%s',
-                AuthorText  = '%s',
-                Meta        = '%s',
-                Story       = '%s',
-                LinkText    = '%s'
-        ";
-        
-        $query = sprintf( $query, $this->ID, $this->AuthorText, $this->Meta, $this->Story, $this->LinkText );
-        
-        $this->Database->query( $query );
-    }
-    
-    function getParent( $inID = -1 )
-    {
-        return eZNewsItem::get( $inID );
-    }
-    
-    function get( $inID = -1 )
-    {
-        $returnError[] = $this->getThis( $inID );
-        $returnError[] = $this->getParent( $inID );
-        
-        return $returnError;
-    }
-    
-    function getThis( $inID = -1 )
-    {
-        unset( $returnError );
-        $returnError = array();
-        unset( $articleArray );
-        $articleArray = array();
-        
-        if( $this->State_ != "Coherent" && $inID != -1)
-        {
-            $this->dbInit();
+            $query =
+            "
+                INSERT INTO
+                    eZNews_Article
+                SET
+                    ID          = '%s',
+                    AuthorText  = '%s',
+                    Meta        = '%s',
+                    Story       = '%s',
+                    LinkText    = '%s'
+            ";
+
+            $query = sprintf
+            (
+                $query,
+                $this->ID,
+                $this->AuthorText,
+                $this->Meta,
+                $this->Story,
+                $this->LinkText
+            );
+
+            $this->Database->query( $query );
             
+            $value = true;
+        }
+        
+        return $value;
+    }
+    
+    
+    
+    function updateThis( &$outID )
+    {
+        #echo "eZNewsArticle::updateThis( \$outID=$outID )<br>";
+    
+        $value = false;
+        
+        eZNewsItem::updateThis( $outID );
+        
+        if( $outID )
+        {
+            $query =
+            "
+                UPDATE
+                    eZNews_Article
+                SET
+                    AuthorText  = '%s',
+                    Meta        = '%s',
+                    Story       = '%s',
+                    LinkText    = '%s'
+                WHERE
+                    ID = %s
+            ";
+
+            $query = sprintf
+            (
+                $query,
+                $this->AuthorText,
+                $this->Meta,
+                $this->Story,
+                $this->LinkText,
+                $this->ID
+            );
+
+            $this->Database->query( $query );
+            
+            $value = true;
+        }
+        
+        return $value;
+    }
+
+    function getThis( &$outID, &$inData )
+    {
+        #echo "eZNewsArticle::getThis( \$outID=$outID, \$inData=$inData )<br>";
+        $value = false;
+        
+        eZNewsItem::getThis( $outID, $inData );
+        
+        $thisID = $outID[0];
+        
+        if( $thisID )
+        {
             $query =
             "
                 SELECT
@@ -133,37 +147,30 @@ class eZNewsArticle extends eZNewsItem
                 WHERE
                     ID = '%s'
             ";
-            
-            $query=sprintf( $query, $inID );
+
+            $query = sprintf( $query, $thisID );            
             $this->Database->array_query( $articleArray, $query );
             $rowsFound = count( $articleArray );
 
             switch ( $rowsFound )
             {
                 case (0):
-                    $this->State_ = "Don't Exist";
+                    die( "Error: Article item don't exist, the ID $thisID wasn't found in the database. This shouldn't happen." );
                     break;
                 case (1):
-                    $this->ID           = $articleArray[0][ "ID" ];
                     $this->AuthorText   = $articleArray[0][ "AuthorText" ];
                     $this->Meta         = $articleArray[0][ "Meta" ];
                     $this->Story        = $articleArray[0][ "Story" ];
                     $this->LinkText     = $articleArray[0][ "LinkText" ];
+                    $value = true;
                     break;
                 default:
-                    die( "Error: Article item's with the same ID was found in the database. This shouldent happen." );
+                    die( "Error: Article items with the same ID, $thisID, was found in the database. This shouldn't happen." );
                     break;
             }
-            
+        }
         
-        }
-        else if( $this->State_ = -1 )
-        {
-            $this->State_ = "Dirty";
-            $returnError[] = "State changed";
-        }
-
-        return $returnError;
+        return $value;
     }
 
 
@@ -177,17 +184,13 @@ class eZNewsArticle extends eZNewsItem
      */
     function setAuthorText( $value )
     {
-        if( $this->State_ == "Dirty" )
-        {
-            $this->get( $this->ID );
-        }
+        $this->dirtyUpdate();
         
         $this->AuthorText = $value;
+
+        $this->alterState();
         
-        if( $this->State_ != "New" )
-        {
-            $this->State_ == "Altered";
-        }
+        return true;
     }
 
 
@@ -197,10 +200,7 @@ class eZNewsArticle extends eZNewsItem
      */
     function authorText()
     {
-        if( $this->State_ == "Dirty" )
-        {
-            $this->get( $this->ID );
-        }
+        $this->dirtyUpdate();
         
         return $this->AuthorText;
     }
@@ -212,17 +212,13 @@ class eZNewsArticle extends eZNewsItem
      */
     function setMeta( $value )
     {
-        if( $this->State_ == "Dirty" )
-        {
-            $this->get( $this->ID );
-        }
+        $this->dirtyUpdate();
         
         $this->Meta = $value;
+
+        $this->alterState();
         
-        if( $this->State_ != "New" )
-        {
-            $this->State_ == "Altered";
-        }
+        return true;
     }
 
 
@@ -232,10 +228,7 @@ class eZNewsArticle extends eZNewsItem
      */
     function meta()
     {
-        if( $this->State_ == "Dirty" )
-        {
-            $this->get( $this->ID );
-        }
+        $this->dirtyUpdate();
         
         return $this->Meta;
     }
@@ -247,17 +240,13 @@ class eZNewsArticle extends eZNewsItem
      */
     function setStory( $value )
     {
-        if( $this->State_ == "Dirty" )
-        {
-            $this->get( $this->ID );
-        }
+        $this->dirtyUpdate();
         
         $this->Story = $value;
         
-        if( $this->State_ != "New" )
-        {
-            $this->State_ == "Altered";
-        }
+        $this->alterState();
+        
+        return true;
     }
 
 
@@ -267,80 +256,49 @@ class eZNewsArticle extends eZNewsItem
      */
     function story()
     {
-        if( $this->State_ == "Dirty" )
-        {
-            $this->get( $this->ID );
-        }
+        $this->dirtyUpdate();
         
         return $this->Story;
     }
     
     function setLinkText( $value )
     {
-        if( $this->State_ == "Dirty" )
-        {
-            $this->get( $this->ID );
-        }
+        $this->dirtyUpdate();
         
         $this->LinkText = $value;
-        
-        if( $this->State_ != "New" )
-        {
-            $this->State_ == "Altered";
-        }
+
+        $this->alterState();        
     }
     
     function linkText()
     {
-        if( $this->State_ == "Dirty" )
-        {
-            $this->get( $this->ID );
-        }
+        $this->dirtyUpdate();
         
         return $this->LinkText;
     }
     
     function checkInvariant()
     {
-        $returnValue=false;
-        unset( $this->InvariantError ); 
+        $value=false;
+        
+        eZNewsItem::invariantCheck();
                
         if( !isset( $this->Story ) )
         {
-            $this->InvariantError[]="Object is missing: Story";
+            $this->Errors[]="Object is missing: Story";
         }
         
         if( !isset( $this->AuthorTex ) )
         {
-            $this->InvariantError[]="Object is missing: AuthorTex";
+            $this->Errors[]="Object is missing: AuthorTex";
         }
 
-        eZNewsItem::checkInvariant();
-        
-        if( !isset( $this->InvariantError ) )
+        if( !count( $this->Errors ) )
         {
-            $returnValue = true;
+            $value = true;
         }
         
-        return $returnValue;        
-    }
-    
-    function editVariables( $template )
-    {
-        if( $this->State_ == "Coherent" )
-        {
-            $template->set_var( "eZNewsArticle_ID", $this->ID );
-            $template->set_var( "eZNewsArticle_ItemTypeID", $this->ItemTypeID );
-            $template->set_var( "eZNewsArticle_Status", $this->Status );
-            $template->set_var( "eZNewsArticle_CreatedBy", $this->CreatedBy );
-            $template->set_var( "eZNewsArticle_CreatedAt", $this->CreatedAt );
-            $template->set_var( "eZNewsArticle_CreationIP", $this->CreationIP );
-            $template->set_var( "eZNewsArticle_Name", htmlspecialchars( $this->Name ) );
-            $template->set_var( "eZNewsArticle_AuthorText", htmlspecialchars( $this->AuthorText ) );
-            $template->set_var( "eZNewsArticle_Meta", htmlspecialchars( $this->AuthorText ) );
-            $template->set_var( "eZNewsArticle_Story", htmlspecialchars( $this->AuthorText ) );
-            $template->set_var( "eZNewsArticle_LinkText", htmlspecialchars( $this->AuthorText ) );
-        }
+        return $value;        
     }
     
     /*  This is the plain text version of the authors name,

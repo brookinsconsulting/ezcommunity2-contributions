@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eznewsitem.php,v 1.22 2000/10/02 19:07:02 pkej-cvs Exp $
+// $Id: eznewsitem.php,v 1.23 2000/10/10 15:01:35 pkej-cvs Exp $
 //
 // Definition of eZNewsItem class
 //
@@ -85,7 +85,7 @@
     \sa eZNewsUtility eZNewsArticle eZNewsCategory eZNewsItemType eZNewsChangeType
  */
 /*!TODO
-    getThis() must also  fetch info about referenced objects.
+    delete must do its job.
     
     createLogItem() must do its job ;)
     
@@ -94,8 +94,6 @@
     updateThis(), needs to be implemented, togheter with cascading updates
     of dependant tables.
 
-    Change getSubItemCounts to work more properly.
-    
     Add more configuration.
 
     Better documentation.
@@ -103,10 +101,6 @@
     New examples.
     
     Add logging
-    
-    Add functions for removing items.
-    
-    Add functions for getting only dependant data.
     
  */
  
@@ -182,7 +176,7 @@ class eZNewsItem extends eZNewsUtility
                     *
                 FROM
                     eZNews_Item
-                WHERE Name = %s
+                WHERE Name = '%s'
             ";
             
             $query = sprintf( $query, $inData );
@@ -198,6 +192,7 @@ class eZNewsItem extends eZNewsUtility
                 break;
             case 1:
                 $outID[] = $itemArray[0][ "ID" ];
+                $this->ID = $itemArray[0][ "ID" ];
                 $this->Name = $itemArray[0][ "Name" ];
                 $this->ItemTypeID = $itemArray[0][ "ItemTypeID" ];
                 $this->Status = $itemArray[0][ "Status" ];
@@ -206,7 +201,10 @@ class eZNewsItem extends eZNewsUtility
                 $this->CreastionIP = $itemArray[0][ "CreastionIP" ];
 
                 // fetch more info.
-
+                $this->getImages( $returnArray, $maxCount, $inOrderBy, $direction, $startAt, $noOfResults );
+                #$this->getFiles( $returnArray, $maxCount, $inOrderBy, $direction, $startAt, $noOfResults );
+                $this->getParents( $returnArray, $maxCount, $inOrderBy, $direction, $startAt, $noOfResults );
+                $this->getChildren( $returnArray, $maxCount, $inOrderBy, $direction, $startAt, $noOfResults );
                 $value = true;
                 break;
             default:
@@ -294,7 +292,7 @@ class eZNewsItem extends eZNewsUtility
         \return
             Returns true if an reference is made.
      */
-    function addImage( $ImageID,  $isFrontImage = false )
+    function setImage( $ImageID,  $isFrontImage = false )
     {
         $value = true;
         
@@ -347,6 +345,11 @@ class eZNewsItem extends eZNewsUtility
         return $value;
     }
     
+    function removeImage( $ImageID )
+    {
+        $value = false;
+        return $value;
+    }
     
     
     /*!
@@ -362,7 +365,7 @@ class eZNewsItem extends eZNewsUtility
         \return
             Returns true if an reference is made.
      */
-    function addFile( $FileID )
+    function setFile( $FileID )
     {
         $value = true;
         if( !$this->isDirty() )
@@ -400,7 +403,7 @@ class eZNewsItem extends eZNewsUtility
         \return
             Returns true if an reference is made.
      */
-    function addLog( $ChangeTicketID )
+    function setLog( $ChangeTicketID )
     {
         $value = true;
         if( !$this->isDirty() )
@@ -453,8 +456,9 @@ class eZNewsItem extends eZNewsUtility
         \return
             Returns true if an reference is made.
      */
-    function addParent( $ParentID, $isCanonical = false )
+    function setParent( $ParentID, $isCanonical = false )
     {
+        #echo "eZNewsItem::setParent( \$ParentID = $ParentID,\$isCanonical = $isCanonical )<br>";
         $value = true;
         
         if( !is_numeric( $this->isCanonical ) && !$this->isDirty() )
@@ -528,7 +532,7 @@ class eZNewsItem extends eZNewsUtility
         $query2 =
         "
             INSERT INTO
-                eZNews_ItemImagePreferences
+                eZNews_ItemImagePreference
             SET
                 ItemID   = '%s',
                 isFrontImage  = 'Y'
@@ -557,6 +561,35 @@ class eZNewsItem extends eZNewsUtility
             }
             
         }
+    }
+    
+
+    
+    /*!
+        \private
+        
+        Updates the image data.
+        
+        Updates the relationship between this object and it's images.
+        
+        Note: This function will not DELETE the images, merely remove
+        the relationship between this item and the image.
+     */
+    function updateImages()
+    {
+        $query =
+        "
+            DELETE FROM
+                eZNews_ItemImage
+            WHERE
+                ItemID   = '%s'
+        ";
+
+        $query = sprintf( $query, $this->ID );
+        
+        $this->Database->query( $query );
+        
+        $this->storeImages();
     }
     
 
@@ -597,6 +630,32 @@ class eZNewsItem extends eZNewsUtility
     /*!
         \private
         
+        Updates the log
+         
+        Update the relationship between this object and it's logs.
+     */
+    function updateLogs()
+    {
+        $query =
+        "
+            DELETE FROM
+                eZNews_ItemLog
+            WHERE
+                ItemID   = '%s'
+        ";
+        
+        $query = sprintf( $query, $this->ID );
+        
+        $this->Database->query( $query );
+        
+        $this->storeLogs();
+    }
+
+
+
+    /*!
+        \private
+        
         Store the relationship between this object and its files.
      */
     function storeFiles()
@@ -621,6 +680,33 @@ class eZNewsItem extends eZNewsUtility
 
             $this->Database->query( $query );
         }
+    }
+
+
+
+    /*!
+        \private
+        
+        Update the relationship between this object and its files.
+        
+        Note: This function will not DELETE the files, just remove
+        the relationship between this item and the files.
+     */
+    function updateFiles()
+    {
+        $query =
+        "
+            DELETE FROM
+                eZNews_ItemFile
+            WHERE
+                ItemID   = '%s'
+        ";
+        
+        $query = sprintf( $query, $this->ID );
+
+        $this->Database->query( $query );
+        
+        $this->storeFiles();
     }
 
 
@@ -683,6 +769,33 @@ class eZNewsItem extends eZNewsUtility
 
 
     /*!
+        \private
+        
+        Update the relationship between this object and its parents.
+     */
+    function updateParents()
+    {
+        $this->dbInit();
+
+        $query =
+        "
+            DELETE FROM
+                eZNews_Hierachy
+            WHERE
+                ItemID = %s
+        ";
+       
+        $query = sprintf ( $query, $this->ID );
+        
+        $this->Database->query( $query );
+        
+        $this->storeParents();
+
+    }
+
+
+
+    /*!
         Private funciton
         
         Store this eZNewsItem object and related items.
@@ -695,7 +808,7 @@ class eZNewsItem extends eZNewsUtility
      */
     function storeThis( &$outID )
     {
-        #echo "eZNewsItem::storeThis( \$outID, \$copy = $copy )<br>";
+        #echo "eZNewsItem::storeThis( \$outID )<br>";
         
         $value = false;
         
@@ -752,6 +865,103 @@ class eZNewsItem extends eZNewsUtility
         return $value;
     }
     
+
+
+
+    /*!
+        Private funciton
+        
+        Update this eZNewsItem object and related items.
+        
+        \out
+            \$outID     The ID returned after the insert/update.
+            
+        \return
+            Returns true if we are successful.
+     */
+    function updateThis( &$outID )
+    {
+        #echo "eZNewsItem::updateThis( \$outID )<br>";
+        
+        $value = false;
+        
+        $query =
+        "
+            UPDATE
+                eZNews_Item
+            SET
+                ItemTypeID = '%s',
+                Name       = '%s',
+                Status     = '%s',
+                CreatedBy  = '%s',
+                CreatedAt  = '%s',
+                CreationIP = '%s'
+            WHERE
+                ID = '%s'
+        ";
+        
+        $query = sprintf
+        (
+            $query,
+            $this->ItemTypeID,
+            $this->Name,
+            $this->Status,
+            $this->CreatedBy,
+            $this->CreatedAt,
+            $this->CreationIP,
+            $this->ID
+        );
+
+        $this->Database->query( $query );
+        $insertID = mysql_insert_id();
+        #echo "insertid " . $insertID . "<br>";
+        if( $insertID )
+        {
+            $outID = $insertID;
+            $this->ID = $insertID;
+            $stored = true;
+        }
+        
+        if( $stored )
+        {
+            $this->updateParents();
+            $this->updateFiles();
+            $this->updateImages();
+            $this->createLogItem( "intl-eznews-eznewsitem-store-created", "change" );
+            $this->updateLogs();
+        }
+        
+        if( $stored )
+        {
+            $this->hasChanged = false;
+            $this->makeCoherent();
+            $value = true;
+        }
+        
+        return $value;
+    }
+    
+    
+    
+    /*!
+        Deletes an item from the database.
+        
+        \return
+            Returns true if the item exists and has been deleted.
+     */
+    function delete()
+    {
+        $value = false;
+        $this->dbInit();
+
+        if ( isset( $this->ID ) )
+        {
+            
+        }
+        
+        return $value;
+    }
+    
     /*!
         This function will return all IDs of the items in the db which doesn't have a parent.
         
@@ -780,6 +990,7 @@ class eZNewsItem extends eZNewsUtility
                 \default is all
         \out
             \$returnArray    This is the array of found elements
+            \$maxCount      The maximum number of items by this query. Needed to know max if limit is used.
 
         \return
             Returns false if it fails, the error message from SQL is
@@ -795,6 +1006,24 @@ class eZNewsItem extends eZNewsUtility
         $returnArray = array();
         $itemArray = array();
         
+        $query =
+        "
+            SELECT
+                count(*)
+            FROM
+                eZNews_Item
+            LEFT JOIN
+                eZNews_Hiearchy
+            ON
+                eZNews_Item.ID = eZNews_Hiearchy.ItemID
+            WHERE
+                eZNews_Hiearchy.ItemID IS NULL
+        ";
+        
+        $this->Database->array_query( $itemArray, $query );        
+        $maxCount = $itemArray[0][0];
+
+
         $query =
         "
             SELECT
@@ -857,13 +1086,14 @@ class eZNewsItem extends eZNewsUtility
                 \default is all
         \out
             \$returnArray    This is the array of found elements
+            \$maxCount      The maximum number of items by this query. Needed to know max if limit is used.
         \return
             Returns false if it fails, the error message from SQL is
             retained in $this->SQLErrors. Use getSQLErrors() to read
             the error message.
                       
      */
-    function getWidows( &$returnArray, $inOrderBy = "ID", $direction = "asc" , $startAt = 0, $noOfResults = "" )
+    function getWidows( &$returnArray, &$maxCount, $inOrderBy = "ID", $direction = "asc" , $startAt = 0, $noOfResults = "" )
     {
         #echo "getWidows( \&\$returnArray, \$inOrderBy = \"$inOrderBy\", 
         #\$direction = \"$direction\" , \$startAt = \"$startAt\", \$noOfResults = \"$noOfResults\" )
@@ -873,7 +1103,25 @@ class eZNewsItem extends eZNewsUtility
         
         $returnArray = array();
         $itemArray = array();
+
+        $query =
+        "
+            SELECT
+                count(*)
+            FROM
+                eZNews_Item
+            LEFT JOIN
+                eZNews_Hiearchy
+            ON
+                eZNews_Item.ID = eZNews_Hiearchy.ParentID
+            WHERE
+                eZNews_Hiearchy.ParentID IS NULL
+        ";
         
+        $this->Database->array_query( $itemArray, $query );        
+        $maxCount = $itemArray[0][0];
+        
+
         $query =
         "
             SELECT
@@ -936,14 +1184,17 @@ class eZNewsItem extends eZNewsUtility
                 \default is all
         \out
             \$returnArray    This is the array of found elements
+            \$maxCount      The maximum number of items by this query. Needed to know max if limit is used.
         \return
             Returns false if it fails, the error message from SQL is
             retained in $this->SQLErrors. Use getSQLErrors() to read
             the error message.
                       
      */
-    function getChildren( &$returnArray, $inOrderBy = "ID", $direction = "asc" , $startAt = 0, $noOfResults = ""  )
+    function getChildren( &$returnArray, &$maxCount, $inOrderBy = "ID", $direction = "asc" , $startAt = 0, $noOfResults = ""  )
     {
+        global $childrenMax;
+        
         $this->dbInit();
         $value = false;
         
@@ -953,12 +1204,7 @@ class eZNewsItem extends eZNewsUtility
         $query =
         "
             SELECT
-                Item.ID AS ID,
-                Item.Name AS Name,
-                Item.CreatedAt AS CreatedAt,
-                Item.CreatedBy AS CreatedBy,
-                Item.CreationIP AS CreationIP,
-                Item.Status AS Status
+                count(*)
             FROM
                 eZNews_Item AS Item,
                 eZNews_Hiearchy AS Hier
@@ -966,6 +1212,36 @@ class eZNewsItem extends eZNewsUtility
                 Hier.ParentID = '%s'
             AND
                 Hier.ItemID = Item.ID
+            AND
+                Item.Status != '%s'
+            AND
+                Item.Status != '%s'
+        ";
+        
+        include_once( "eznews/classes/eznewschangetype.php" );
+        $temporaryID = new eZNewsChangeType( "temporary", true );
+        $deleteID = new eZNewsChangeType( "delete", true );
+        
+        $query = sprintf( $query, $this->ID, $temporaryID->ID(), $deleteID->ID() );        
+        $this->Database->array_query( $itemArray, $query );        
+        $maxCount = $itemArray[0][0];
+        
+        $query =
+        "
+            SELECT
+                Item.*,
+                Hier.isCanonical
+            FROM
+                eZNews_Item AS Item,
+                eZNews_Hiearchy AS Hier
+            WHERE
+                Hier.ParentID = '%s'
+            AND
+                Hier.ItemID = Item.ID
+            AND
+                Item.Status != '%s'
+            AND
+                Item.Status != '%s'
             %s
             %s
         ";
@@ -973,13 +1249,19 @@ class eZNewsItem extends eZNewsUtility
         $orderBy = $this->createOrderBy( $inOrderBy, $direction );
         $limits = $this->createLimit( $startAt, $noOfResults );
         
-        $query = sprintf( $query, $this->ID, $orderBy, $limits );
+        $query = sprintf( $query, $this->ID, $temporaryID->ID(), $deleteID->ID(), $orderBy, $limits );
         
         $this->Database->array_query( $itemArray, $query );
         
         for( $i = 0; $i != count( $itemArray ); $i++ )
         {   
             $returnArray[$i] = new eZNewsItem( $itemArray[$i][ "ID" ], 0 );
+            $this->ParentID[$i] = $itemArray[$i][ "ID" ];
+            
+            if( $itemArray[$i][ "isCanonical" ] == 'Y' )
+            {
+                $this->isCanonical = $itemArray[$i][ "isCanonical" ];
+            }
         }
         
         if( $returnArray )
@@ -1018,14 +1300,16 @@ class eZNewsItem extends eZNewsUtility
         \out
             \$returnArray    This is the array of arrays of found elements. The first level is keyed
                              by the item types of it's children. The item "Types" in the first level
-                             is an array of all the types returned.
+                             is an array of all the types returned. For each type there is a count
+                             column.
+            \$maxCount      The maximum number of items by this query. Needed to know max if limit is used.
         \return
             Returns false if it fails, the error message from SQL is
             retained in $this->SQLErrors. Use getSQLErrors() to read
             the error message.
                       
      */
-    function getChildrenGroups( &$returnArray, $inOrderBy = "ID", $direction = "asc" , $startAt = 0, $noOfResults = ""  )
+    function getChildrenGroups( &$returnArray, &$maxCount, $inOrderBy = "ID", $direction = "asc" , $startAt = 0, $noOfResults = ""  )
     {
         $this->dbInit();
         $value = false;
@@ -1035,6 +1319,37 @@ class eZNewsItem extends eZNewsUtility
         $categoryArray = array();
         $itemArray = array();
         
+        $query =
+        "
+            SELECT
+                count(*)
+            FROM
+                eZNews_Item AS Item,
+                eZNews_Hiearchy AS Hier,
+                eZNews_ItemType AS Type
+            WHERE
+                Type.eZClass LIKE 'eZNews%%' 
+            AND
+                Type.ID = Item.ItemTypeID
+            AND
+                Hier.ParentID = %s
+            AND
+                Item.ID = Hier.ItemID 
+            AND
+                Item.Status != '%s'
+            AND
+                Item.Status != '%s'
+            GROUP BY Type.Name
+        ";
+        
+        include_once( "eznews/classes/eznewschangetype.php" );
+        $temporaryID = new eZNewsChangeType( "temporary", true );
+        $deleteID = new eZNewsChangeType( "delete", true );
+        
+        $query = sprintf( $query, $this->ID, $temporaryID->ID(), $deleteID->ID() );        
+        $this->Database->array_query( $itemArray, $query );        
+        $maxCount = $itemArray[0][0];
+
         $query =
         "
             SELECT
@@ -1051,10 +1366,14 @@ class eZNewsItem extends eZNewsUtility
                 Hier.ParentID = %s
             AND
                 Item.ID = Hier.ItemID 
+            AND
+                Item.Status != '%s'
+            AND
+                Item.Status != '%s'
             GROUP BY Type.Name
         ";
 
-        $query = sprintf( $query, $this->ID );
+        $query = sprintf( $query, $this->ID, $temporaryID->ID(), $deleteID->ID() );
 
         $this->Database->array_query( $categoryArray, $query );
          
@@ -1064,6 +1383,38 @@ class eZNewsItem extends eZNewsUtility
             $typeName = $categoryArray[$i][ "Name" ];
             $returnArray[ "Types" ][] = $typeName;
             $returnArray[ $typeName ] = array();
+
+            $query =
+            "
+                SELECT
+                    count(*)
+                FROM
+                    eZNews_Item AS Item,
+                    eZNews_Hiearchy AS Hier,
+                    eZNews_ItemType AS Type
+                WHERE
+                    Type.Name LIKE '%s'
+                AND
+                    Type.eZClass LIKE 'eZNews%%' 
+                AND
+                    Type.ID = Item.ItemTypeID
+                AND
+                    Hier.ParentID = %s
+                AND
+                    Item.ID = Hier.ItemID
+                AND
+                    Item.Status != '%s'
+                AND
+                    Item.Status != '%s'
+            ";
+
+            include_once( "eznews/classes/eznewschangetype.php" );
+            $temporaryID = new eZNewsChangeType( "temporary", true );
+            $deleteID = new eZNewsChangeType( "delete", true );
+        
+            $query = sprintf( $query, $typeName, $this->ID, $temporaryID->ID(), $deleteID->ID() );        
+            $this->Database->array_query( $itemArray, $query );        
+            $returnArray[ $typeName ][ "count" ] = $itemArray[0][ "count" ];
 
             $query =
             "
@@ -1083,13 +1434,21 @@ class eZNewsItem extends eZNewsUtility
                     Hier.ParentID = %s
                 AND
                     Item.ID = Hier.ItemID
+                AND
+                    Item.Status != '%s'
+                AND
+                    Item.Status != '%s'
                 %s
                 %s
             ";
             $orderBy = $this->createOrderBy( $inOrderBy, $direction );
             $limits = $this->createLimit( $startAt, $noOfResults );
         
-            $query = sprintf( $query, $typeName, $this->ID, $orderBy, $limits );
+            include_once( "eznews/classes/eznewschangetype.php" );
+            $temporaryID = new eZNewsChangeType( "temporary", true );
+            $deleteID = new eZNewsChangeType( "delete", true );
+        
+            $query = sprintf( $query, $typeName, $this->ID, $temporaryID->ID(), $deleteID->ID(), $orderBy, $limits );
             
             $this->Database->array_query( $itemArray, $query );   
             
@@ -1138,30 +1497,25 @@ class eZNewsItem extends eZNewsUtility
                 \default is all
         \out
             \$returnArray    This is the array of found elements
+            \$maxCount      The maximum number of items by this query. Needed to know max if limit is used.
         \return
             Returns false if it fails, the error message from SQL is
             retained in $this->SQLErrors. Use getSQLErrors() to read
             the error message.
                       
      */
-    function getParents( &$returnArray, $inOrderBy = "ID", $direction = "asc" , $startAt = 0, $noOfResults = ""  )
+    function getParents( &$returnArray, &$maxCount, $inOrderBy = "ID", $direction = "asc" , $startAt = 0, $noOfResults = ""  )
     {
         $this->dbInit();
         $value = false;
-        
+
         $returnArray = array();
         $itemArray = array();
-        
+
         $query =
         "
             SELECT
-                Item.ID AS ID,
-                Item.ItemTypeID AS ItemTypeID,
-                Item.Name AS Name,
-                Item.CreatedAt AS CreatedAt,
-                Item.CreatedBy AS CreatedBy,
-                Item.CreationIP AS CreationIP,
-                Item.Status AS Status
+                count(*)
             FROM
                 eZNews_Item AS Item,
                 eZNews_Hiearchy AS Hier
@@ -1169,21 +1523,165 @@ class eZNewsItem extends eZNewsUtility
                 Hier.ItemID = '%s'
             AND
                 Hier.ParentID = Item.ID
+            AND
+                Item.Status != '%s'
+            AND
+                Item.Status != '%s'
+        ";
+        
+        include_once( "eznews/classes/eznewschangetype.php" );
+        $temporaryID = new eZNewsChangeType( "temporary", true );
+        $deleteID = new eZNewsChangeType( "delete", true );
+        
+        $query = sprintf( $query, $this->ID, $temporaryID->ID(), $deleteID->ID() );
+
+        $this->Database->array_query( $itemArray, $query );        
+        $maxCount = $itemArray[0][0];
+        
+        $query =
+        "
+            SELECT
+                Item.*,
+                Hier.isCanonical
+            FROM
+                eZNews_Item AS Item,
+                eZNews_Hiearchy AS Hier
+            WHERE
+                Hier.ItemID = '%s'
+            AND
+                Hier.ParentID = Item.ID
+            AND
+                Item.Status != '%s'
+            AND
+                Item.Status != '%s'
             %s
             %s
         ";
         
         $orderBy = $this->createOrderBy( $inOrderBy, $direction );
         $limits = $this->createLimit( $startAt, $noOfResults );
-echo $this->ID . "<br>";
-        $query = sprintf( $query, $this->ID, $orderBy, $limits );
-        
-echo $query . "<br>";
+
+        $query = sprintf( $query, $this->ID, $temporaryID->ID(), $deleteID->ID(), $orderBy, $limits );
+        #echo "$query<br>id: " . $this->ID . "<br>name: " . $this->Name . "<br>";
+
         $this->Database->array_query( $itemArray, $query );
         
         for( $i = 0; $i < count( $itemArray ); $i++ )
         {   
             $returnArray[$i] = new eZNewsItem( $itemArray[$i][ "ID" ], 0 );
+            $this->ParentID[$i] = $itemArray[$i][ "ID" ];
+            
+            if( $itemArray[$i][ "isCanonical" ] == 'Y' )
+            {
+                $this->isCanonical = $itemArray[$i][ "isCanonical" ];
+            }
+        }
+        
+        if( $returnArray )
+        {
+            $value = true;
+        }
+        
+        return $value;
+    }
+
+
+
+    /*!
+        This function will return all IDs of the images associated with his item.
+        
+        \in
+            \$inOrderBy  This is the columnname to order the returned array
+                        by.
+            \accepts
+                ID - The id of the row in the table
+                Name - Name of item
+                CreatedAt - SQL timestamp
+                CreatedBy - eZUser.ID
+                CreationIP - ip / port
+                Status  - eZNews_ChangeType.ID
+                \default is ID
+            \$direction  This is the direction to do the ordering in
+            \accepts
+                asc - ascending order
+                desc - descending order
+                \default is asc
+            \$startAt   This is the result number we want to start at
+                \default is 0
+            \$noOfResults This is the number of results we want.
+                \default is all
+        \out
+            \$returnArray    This is the array of found elements
+            \$maxCount      The maximum number of items by this query. Needed to know max if limit is used.
+        \return
+            Returns false if it fails, the error message from SQL is
+            retained in $this->SQLErrors. Use getSQLErrors() to read
+            the error message.
+                      
+     */
+    function getImages( &$returnArray, &$maxCount, $inOrderBy = "ID", $direction = "asc" , $startAt = 0, $noOfResults = ""  )
+    {
+        $this->dbInit();
+        $value = false;
+
+        $returnArray = array();
+        $itemArray = array();
+
+        $query =
+        "
+            SELECT
+                count(*)
+            FROM
+                eZNews_ItemImage
+            WHERE
+                ItemID = %s
+        ";
+        
+        $query = sprintf( $query, $this->ID );        
+        $this->Database->array_query( $itemArray, $query );        
+        $maxCount = $itemArray[0][0];
+        
+        $query =
+        "
+            SELECT
+                ImageID
+            FROM
+                eZNews_ItemImage
+            WHERE
+                ItemID = %s
+            %s
+            %s
+        ";
+        
+        $query2 =
+        "
+            SELECT
+                *
+            FROM
+                eZNews_ItemImagePreference
+            WHERE
+                ID   = '%s'
+        ";
+
+        #$orderBy = $this->createOrderBy( $inOrderBy, $direction );
+        $limits = $this->createLimit( $startAt, $noOfResults );
+
+        $query = sprintf( $query, $this->ID, $orderBy, $limits );
+        $this->Database->array_query( $itemArray, $query );
+        
+        for( $i = 0; $i < count( $itemArray ); $i++ )
+        {
+            include_once( "ezimagecatalogue/classes/ezimage.php" );
+            $returnArray[$i] = new eZImage( $itemArray[$i][ "ImageID" ], 0 );
+            $this->ImageID[] = $returnArray[$i];
+
+            $query2 = sprintf( $query2, $returnAray[$i] );
+            $this->Database->array_query( $itemArray, $query2 );
+            
+            if( $preferenceArray[0][ "isFrontImage" ] == 'Y' )
+            {
+                $this->isFrontImage = $returnAray[$i];
+            }
         }
         
         if( $returnArray )
@@ -1383,7 +1881,7 @@ echo $query . "<br>";
      */
     function makeCoherent()
     {
-        if( eZUtility::makeCoherent() )
+        if( eZNewsUtility::makeCoherent() )
         {
         
         // do as invariant check
@@ -1455,7 +1953,7 @@ echo $query . "<br>";
         {
             $this->dirtyUpdate();
         
-            $this->ChangeTypeID = $it->ID();
+            $this->ItemTypeID = $it->ID();
         
             $this->alterState();
         
@@ -1473,11 +1971,26 @@ echo $query . "<br>";
         \return
             Returns the ItemTypeID of the object.
     */
-    function changeItemTypeID()
+    function getItemTypeID()
+    {
+        $this->dirtyUpdate();
+        echo $this->ItemTypeID . "        buahdklfjaøl<br>";
+        return $this->ItemTypeID;
+    }
+
+
+
+    /*!
+        Returns the object CreatedAt.
+        
+        \return
+            Returns the CreatedAt of the object.
+    */
+    function getCreatedAt()
     {
         $this->dirtyUpdate();
         
-        return $this->ItemTypeID;
+        return $this->CreatedAt;
     }
 
 
@@ -1490,10 +2003,11 @@ echo $query . "<br>";
         \return
             Will return true if the Status was changed.
     */
-    function setStatus( $inStatus )
+    function setStatus( $inItemTypeID )
     {
         $value = false;
         
+        #echo "set status: $inStatus <br>";
         include_once( "eznews/classes/eznewschangetype.php" );
         $ct = new eZNewsChangeType( $inItemTypeID, true );
 
@@ -1574,6 +2088,6 @@ echo $query . "<br>";
     var $checkCreator = true;
     
     
-    
+
 };
 ?> 

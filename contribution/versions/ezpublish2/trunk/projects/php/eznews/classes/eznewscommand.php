@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: eznewscommand.php,v 1.8 2000/10/02 19:07:02 pkej-cvs Exp $
+// $Id: eznewscommand.php,v 1.9 2000/10/10 15:01:35 pkej-cvs Exp $
 //
 // Definition of eZNewsCommand class
 //
@@ -45,9 +45,8 @@ class eZNewsCommand
 {
     function eZNewsCommand()
     {
-        include_once( "classes/INIFile.php" );
-        include_once( "classes/eztemplate.php" );
         include_once( "classes/ezquery.php" );
+        include_once( "classes/INIFile.php" );        
 
         $this->Ini = new INIFile( "site.ini" );
         $this->Query = new eZQuery();
@@ -63,21 +62,18 @@ class eZNewsCommand
         $this->Customer = $this->Ini->read_var( "eZNewsMain", "Customer" );
         $this->Adminsite = $this->Ini->read_var( "eZNewsAdmin", "Adminsite" );
 
+        include_once( "eznews/classes/eznewsitemviewer.php" );  
+        
         if( ereg( $this->Adminsite, $SERVER_NAME ) || ereg( $this->Adminsite, $REQUEST_URI ) )
         {
-            if( is_numeric( $this->Query->getURLPart( 2 ) ) )
-            {
-                include_once( "eznews/classes/eznewsitem.php" );  
-                $this->AI = new eZNewsItem( 2 );
-            }
-            else
-            {
-                $this->doAdmin();
-            }
+            $this->AI = new eZNewsItemViewer( $this->Ini, $this->Query, "admin" );
         }
         else
         {        
-            if( $this->Customer == "true" )
+            include_once( "eznews/classes/eznewsitemviewer.php" );  
+            $this->AI = new eZNewsItemViewer( $this->Ini, $this->Query, "normal" );
+
+            if( $this->Customer == "false" )
             {
                 $this->CustomerName = $this->Ini->read_var( "eZNewsCustomer", "Name" );
                 $CustomerClass = $this->Ini->read_var( "eZNewsCustomer", "Class" );
