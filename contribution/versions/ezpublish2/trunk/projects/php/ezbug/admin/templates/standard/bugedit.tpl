@@ -74,7 +74,7 @@
 </tr>
 </table>
 
-<input type="text" name="CurrentOwnerID" value="{current_owner_id}" />
+<input type="hidden" name="CurrentOwnerID" value="{current_owner_id}" />
 <p class="boxtext">{intl-owner}</p>
 <select name="OwnerID">
 <option value="-1"> {intl-none}</option>

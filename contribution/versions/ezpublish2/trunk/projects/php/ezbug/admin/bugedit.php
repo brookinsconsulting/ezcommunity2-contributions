@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: bugedit.php,v 1.16 2001/02/15 20:43:03 fh Exp $
+// $Id: bugedit.php,v 1.17 2001/02/16 09:39:06 fh Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <28-Nov-2000 19:45:35 bf>
@@ -95,7 +95,12 @@ if ( $Action == "Update" )
             
             $priority = new eZBugPriority( $PriorityID );
             $status = new eZBugStatus( $StatusID );
-            $owner = new eZUser( $OwnerID );
+
+            if( $OwnerID != -1 )
+                $owner = new eZUser( $OwnerID );
+            else
+                $owner = NULL;
+            
             $bug = new eZBug( $BugID );
             
             $bug->setIsHandled( true );
@@ -135,8 +140,7 @@ if ( $Action == "Update" )
             // check if the owner has changed
             if( get_class( $owner ) == "ezuser" && $OwnerID != $CurrentOwnerID )
             {
-                print("Owner has changed, we should send a mail");
-                exit();
+                sendAssignedMail( $bug, $owner->email(), $ini, $Language );
             }
             
             if ( $MailReporter == "on" )
@@ -395,33 +399,44 @@ $t->pparse( "output", "bug_edit_tpl" );
   The code could just as well be pasted right in where function call is, but to keep
   things a little bit simpler, ive put it in here.
  */
-function sendAssignedMail( $bug )
+function sendAssignedMail( $bug, $userEmail, $ini, $Language )
 {
-/*    $mail = new eZMail();
-    $mail->setFrom( $user->email() );
+    $module = $bug->module();
+    $user = $bug->user();
+    if( $user )
+        $reporter = $user->namedEmail();
+    else
+        $reporter = $bug->userEmail();
 
-    $locale = new eZLocale( $Language );
+    $mail = new eZMail();
+    $mail->setFrom( $user->email() );
     
     $mailTemplate = new eZTemplate( "ezbug/admin/" . $ini->read_var( "eZBugMain", "AdminTemplateDir" ),
-                                    "ezbug/admin/intl", $Language, "mailreply.php" );
-            
+                                    "ezbug/admin/intl", $Language, "mailgotbug.php" );
     $headerInfo = ( getallheaders() );
 
-    $mailTemplate->set_file( "mailreply", "mailreply.tpl" );
+    $mailTemplate->set_file( "mailgotbug", "mailgotbug.tpl" );
     $mailTemplate->setAllStrings();
 
     $host = preg_replace( "/^admin\./", "", $headerInfo["Host"] );
             
     $mailTemplate->set_var( "bug_url", "http://" . $host . "/bug/bugview/" . $bug->id() );
-    $mailTemplate->set_var( "log_message", $LogMessage );
     $mailTemplate->set_var( "bug_id", $bug->id() );
-            
-    $bodyText = ( $mailTemplate->parse( "dummy", "mailreply" ) );
-    $mail->setSubject( $bug->name() );
-    $mail->setTo( $reporter_email );
+    $mailTemplate->set_var( "bug_title", $bug->name() );
+    $mailTemplate->set_var( "bug_module", $module->name() );
+    $mailTemplate->set_var( "bug_reporter", $reporter );
+    $mailTemplate->set_var( "bug_description", $bug->description() );
+    
+    $languageIni = new INIFile( "ezbug/admin/" . "intl/" . $Language . "/mailgotbug.php.ini", false );
+    $msg =  $languageIni->read_var( "strings", "assigned_to_you" );
+
+    $mail->setSubject( "[". $msg ."][" . $bug->id() ."] " . $bug->name() );
+
+    $bodyText = ( $mailTemplate->parse( "dummy", "mailgotbug" ) );
     $mail->setBody( $bodyText );
 
-    $mail->send();*/
+    $mail->setTo( $userEmail  );
+    $mail->send();
 }
 
 ?>
