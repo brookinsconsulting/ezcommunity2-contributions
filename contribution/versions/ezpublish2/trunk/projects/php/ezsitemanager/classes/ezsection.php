@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezsection.php,v 1.12 2001/09/21 12:23:08 bf Exp $
+// $Id: ezsection.php,v 1.13 2001/10/02 14:03:27 ce Exp $
 //
 // ezsection class
 //
@@ -37,6 +37,8 @@
 
 include_once( "classes/ezdb.php" );
 include_once( "classes/ezdatetime.php" );
+
+include_once( "ezsitemanager/classes/ezsectionfrontpage.php" );
 	      
 class eZSection
 {
@@ -351,6 +353,60 @@ class eZSection
         }
     }
 
+    function &settingNames()
+    {
+        $db =& eZDB::globalDatabase();
+                
+        $db->array_query( $section_array, "SELECT ID, Name
+                                           FROM eZSiteManager_SectionFrontPageSetting" );
+
+        return $section_array;
+    }
+
+    function &frontPageRows()
+    {
+        $db =& eZDB::globalDatabase();
+
+        $returnArray = array();
+        
+        $db->array_query( $rows, "SELECT eZSiteManager_SectionFrontPageRow.ID as ID FROM eZSiteManager_SectionFrontPageRowLink, eZSiteManager_SectionFrontPageRow
+                                           WHERE eZSiteManager_SectionFrontPageRowLink.SectionID='$this->ID' AND eZSiteManager_SectionFrontPageRowLink.FrontPageID = eZSiteManager_SectionFrontPageRow.ID ORDER BY eZSiteManager_SectionFrontPageRow.Placement DESC" );
+
+        foreach( $rows as $row )
+        {
+            $returnArray[] = new eZSectionFrontPage( $row["ID"] );
+        }
+
+        return $returnArray;
+    }
+
+    function addFrontPageRow( $rowID )
+    {
+        if ( get_class ( $rowID ) == "ezsectionfrontpage" )
+            $rowID = $rowID->id();
+        $db =& eZDB::globalDatabase();
+        $db->begin( );
+
+        $db->lock( "eZSiteManager_SectionFrontPageRowLink" );
+        
+        $nextID = $db->nextID( "eZSiteManager_SectionFrontPageRowLink", "ID" );
+        
+        $timeStamp = eZDateTime::timeStamp( true );
+
+        $res[] = $db->query( "INSERT INTO eZSiteManager_SectionFrontPageRowLink
+                                     ( ID,  SectionID, FrontPageID )
+                                     VALUES
+                                     ( '$nextID',
+                                       '$this->ID',
+                                       '$rowID'
+                                        )" );
+        
+        $db->unlock();
+        if ( in_array( false, $res ) )
+            $db->rollback( );
+        else
+            $db->commit();
+    }
 
     var $ID;
     var $Name;

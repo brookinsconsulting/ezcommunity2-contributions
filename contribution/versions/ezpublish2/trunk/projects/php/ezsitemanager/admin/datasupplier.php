@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: datasupplier.php,v 1.9 2001/09/27 09:46:41 ce Exp $
+// $Id: datasupplier.php,v 1.10 2001/10/02 14:03:27 ce Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -113,6 +113,7 @@ switch ( $url_array[2] )
     
     case "section":
     {
+
         switch ( $url_array[3] )
         {
             case "list":
@@ -122,13 +123,26 @@ switch ( $url_array[2] )
                 include( "ezsitemanager/admin/sectionlist.php" );
             }
             break;
-            
+
+
+
             case "edit":
             case "new":
             case "delete":
             case "update":
             case "insert":
             {
+                if ( $url_array[5] == "up" )
+                {
+                    $RowID = $url_array[6];
+                    $Action = "up";
+                }
+                if ( $url_array[5] == "down" )
+                {
+                    $RowID = $url_array[6];
+                    $Action = "down";
+                }
+                
                 if ( is_numeric( $url_array[4] ) )
                     $SectionID = $url_array[4];
                 include ( "ezsitemanager/admin/sectionedit.php" );

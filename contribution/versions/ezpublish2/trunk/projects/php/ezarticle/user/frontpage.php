@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: frontpage.php,v 1.15 2001/10/02 09:19:49 ce Exp $
+// $Id: frontpage.php,v 1.16 2001/10/02 14:03:27 ce Exp $
 //
 // Created on: <30-May-2001 14:06:59 bf>
 //
@@ -107,23 +107,51 @@ $t->set_var( "ad_column", "" );
 $t->set_var( "image_dir", $ImageDir );
 
 // parse the settings
-$page_elements = explode( ";", $FrontPageSettings );
+// $page_elements = explode( ";", $FrontPageSettings );
+
 $articleCount = 0;
 $productCount = 0;
 $adCount = 0;
-foreach ( $page_elements as $element )    
+
+$GlobalSectionID = eZArticleCategory::sectionIDStatic( $FrontPageCategory );
+$sectionObject =& eZSection::globalSectionObject( $GlobalSectionID );
+
+$rows =& $sectionObject->frontPageRows();
+
+$page_element = array();
+
+if ( is_array ( $rows ) and count ( $rows ) > 0 )
 {
-    if( $element == "1column" || $element == "2column" || $element == "1short" )
-        $articleCount++;
-    if ( $element == "ad"  )
-        $adCount++;
-    if ( $element == "1columnProduct" || $element =="2columnProduct" )
+    foreach ( $rows as $row )    
     {
-        $productCount++;
-        if ( $element == "2columnProduct" )
-            $productCount++;
+        $value = $row->settingByID( $row->settingID() );
+        if( $value == "1column" || $value == "2column" || $value == "1short" )
+        {
+            if ( $value == "2column" )
+            {
+                $articleList =& array_merge( $articleList, eZArticleCategory::articles( "time", false, true, $offsetArray[$row->categoryID()], 2, $row->categoryID() ) );
+                $offsetArray[$row->categoryID()] = $offsetArray[$row->categoryID()] + 2;
+            }
+            else
+            {
+                $articleList =& array_merge( $articleList, eZArticleCategory::articles( "time", false, true, $offsetArray[$row->categoryID()], 1, $row->categoryID() ) );
+                $offsetArray[$row->categoryID()] = $offsetArray[$row->categoryID()] + 1;
+            }
+            
+            if ( $value == "ad"  )
+                $adCount++;
+            if ( $value == "1columnProduct" || $value =="2columnProduct" )
+            {
+                if ( $value == "2columnProduct" )
+                    $productCount++;
+                $productCount++;
+            }
+        }
+
+        $page_elements[] = $value;
     }
 }
+
 
 $category = new eZArticleCategory( $FrontPageCategory );
 $productCategory = new eZProductCategory( $FrontPageProductCategory );
@@ -140,13 +168,10 @@ if ( $FrontPageCategory == 0 )
 }
 else
 {
-    $GlobalSectionID = eZArticleCategory::sectionIDStatic( $FrontPageCategory );
-
-    // init the section
-    $sectionObject =& eZSection::globalSectionObject( $GlobalSectionID );
     $sectionObject->setOverrideVariables();
-    
-    $articleList =& $category->articles( $category->sortMode(), false, true, 0, $articleCount );
+
+    if ( !$articleList )
+        $articleList =& $category->articles( $category->sortMode(), false, true, 0, $articleCount );
     $articleCount = $articleCount;
 }
 
@@ -158,7 +183,7 @@ if ( $FrontPageProductCategory == 0 )
     $productList =& $product->hotDealProducts( $productCount );
     $productCount = $productCount;
 }
-else
+else if ( $FrontPageProductCategory != -1 )
 {
     $productList =& $productCategory->products( $category->sortMode(), false, true, 0, $productCount );
     $articleCount = $articleCount;

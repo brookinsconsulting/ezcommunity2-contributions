@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: sectionedit.php,v 1.8 2001/08/30 06:12:46 virt Exp $
+// $Id: sectionedit.php,v 1.9 2001/10/02 14:03:27 ce Exp $
 //
 // Created on: <10-May-2001 16:17:29 ce>
 //
@@ -28,6 +28,9 @@ include_once( "classes/eztemplate.php" );
 include_once( "classes/ezhttptool.php" );
 
 include_once( "ezsitemanager/classes/ezsection.php" );
+include_once( "ezsitemanager/classes/ezsectionfrontpage.php" );
+
+include_once( "ezarticle/classes/ezarticlecategory.php" );
 
 if ( isSet ( $OK ) )
 {
@@ -45,6 +48,7 @@ if ( isSet ( $Cancel ) )
 
 $ini =& INIFile::globalINI();
 $Language = $ini->read_var( "eZSiteManagerMain", "Language" );
+$move_item = true;
 
 $t = new eZTemplate( "ezsitemanager/admin/" . $ini->read_var( "eZSiteManagerMain", "AdminTemplateDir" ),
                      "ezsitemanager/admin/" . "/intl", $Language, "sectionedit.php" );
@@ -54,13 +58,65 @@ $t->set_file( array(
     "section_edit_page" => "sectionedit.tpl"
       ) );
 
+
+$t->set_block( "section_edit_page", "setting_list_tpl", "setting_list" );
+$t->set_block( "setting_list_tpl", "setting_item_tpl", "setting_item" );
+$t->set_block( "setting_item_tpl", "settings_tpl", "settings" );
+$t->set_block( "setting_item_tpl", "article_category_list_tpl", "article_category_list" );
+$t->set_block( "article_category_list_tpl", "article_category_item_tpl", "article_category_item" );
+
+$t->set_block( "setting_item_tpl", "item_move_up_tpl", "item_move_up" );
+$t->set_block( "setting_item_tpl", "item_separator_tpl", "item_separator" );
+$t->set_block( "setting_item_tpl", "item_move_down_tpl", "item_move_down" );
+$t->set_block( "setting_item_tpl", "no_item_move_up_tpl", "no_item_move_up" );
+$t->set_block( "setting_item_tpl", "no_item_separator_tpl", "no_item_separator" );
+$t->set_block( "setting_item_tpl", "no_item_move_down_tpl", "no_item_move_down" );
+
+
 $t->set_var( "section_name", "$Name" );
 $t->set_var( "section_sitedesign", "$SiteDesign" );
 $t->set_var( "section_templatestyle", "$TemplateStyle" );
 $t->set_var( "section_description", "$Description" );
 $t->set_var( "section_language", "$SecLanguage" );
+$t->set_var( "setting_list", "" );
 
 $warning = true;
+
+if ( isSet ( $AddRow ) )
+    $Action = "Update";
+
+if ( isSet ( $Store ) )
+    $Action = "Update";
+
+if ( isSet ( $DeleteRows ) )
+{
+    $Action = "Update";
+
+    if ( count ( $RowDeleteArrayID ) > 0 )
+    {
+        foreach( $RowDeleteArrayID as $RowID )
+            eZSectionFrontPage::delete( $RowID );
+    }
+}
+
+if ( $Action == "up" )
+{
+    $row = new eZSectionFrontPage( $RowID );
+    $row->moveUp();
+
+    include_once( "classes/ezhttptool.php" );
+    eZHTTPTool::header( "Location: /sitemanager/section/edit/$SectionID" );
+    exit();
+}
+
+if ( $Action == "down" )
+{
+    $row = new eZSectionFrontPage( $RowID );
+    $row->moveDown();
+    include_once( "classes/ezhttptool.php" );
+    eZHTTPTool::header( "Location: /sitemanager/section/edit/$SectionID" );
+    exit();
+}
 
 if ( ( $Action == "Insert" ) || ( $Action == "Update" ) && ( $user ) )
 {
@@ -87,9 +143,32 @@ if ( ( $Action == "Insert" ) || ( $Action == "Update" ) && ( $user ) )
     $section->store();
 
 
-    eZHTTPTool::header( "Location: /sitemanager/section/list/" );
-    exit();
+    if ( isSet ( $Store ) )
+    {
+        $i=0;
+        foreach( $RowArrayID as $RowID )
+        {
+            $pageRow = new eZSectionFrontPage( $RowID );
+            $pageRow->setCategoryID( $CategoryID[$i] );
+            $pageRow->setSettingID( $SettingID[$i] );
+            $pageRow->store();
+            $i++;
+        }
+    }
+
+    if ( isSet ( $AddRow ) )
+    {
+        $pageRow = new eZSectionFrontPage();
+        $pageRow->store();
+        $section->addFrontPageRow( $pageRow );
+    }
+    else if ( !$DeleteRows and !$Store )
+    {
+        eZHTTPTool::header( "Location: /sitemanager/section/list/" );
+        exit();
+    }
 }
+
 
 if ( $Action == "Delete" )
 {
@@ -114,6 +193,124 @@ if ( is_numeric( $SectionID ) )
     $t->set_var( "section_sitedesign", $section->siteDesign() );
     $t->set_var( "section_language", $section->language() );
     $t->set_var( "section_templatestyle", $section->templateStyle() );
+}
+
+
+$rows = $section->frontPageRows();
+$settingNames =& eZSectionFrontPage::settingNames();
+if ( count ( $rows ) > 0 )
+{
+    $tree = new eZArticleCategory();
+    $treeArray =& $tree->getTree();            
+    
+    $i=0;
+    $count = count ( $rows );
+    foreach ( $rows as $row )
+    {
+        $t->set_var( "item_move_up", "" );
+        $t->set_var( "no_item_move_up", "" );
+        $t->set_var( "item_move_down", "" );
+        $t->set_var( "no_item_move_down", "" );
+        $t->set_var( "item_separator", "" );
+        $t->set_var( "no_item_separator", "" );
+
+        if ( ( $i %2 ) == 0 )
+            $t->set_var( "td_class", "bglight" );
+        else
+            $t->set_var( "td_class", "bgdark" );
+
+        $t->set_var( "row_id", $row->id() );
+
+        $settingName = $row->settingByID( $row->settingID() );
+
+        $t->set_var( "article_category_list", "" );
+        $t->set_var( "article_category_item", "" );
+        switch( $settingName )
+        {
+            case "1column":
+            case "2column":
+            {
+                if ( count ( $treeArray ) > 0 )
+                {
+                    foreach ( $treeArray as $catItem )
+                    {
+                        $t->set_var( "option_value", $catItem[0]->id() );
+                        $t->set_var( "option_name", $catItem[0]->name() );
+
+                        if ( $catItem[0]->id() == $row->categoryID() )
+                            $t->set_var( "selected", "selected" );
+                        else
+                            $t->set_var( "selected", "" );
+                        
+                        if ( $catItem[1] > 1 )
+                            $t->set_var( "option_level", str_repeat( "&nbsp;&nbsp;", $catItem[1] ) );
+                        else
+                            $t->set_var( "option_level", "" );
+                        
+                        $t->parse( "article_category_item", "article_category_item_tpl", true );    
+                    }
+                    $t->parse( "article_category_list", "article_category_list_tpl" );    
+                }
+            }
+            
+        }
+
+        $t->set_var( "settings", "" );
+        foreach ( $settingNames as $name )
+        {
+            $t->set_var( "setting_name", $name["Name"] );
+            $t->set_var( "setting_id", $name["ID"] );
+            
+            if ( $row->settingID() == $name["ID"] )
+                $t->set_var( "selected", "selected" );
+            else
+                $t->set_var( "selected", "" );
+            
+            $t->parse( "settings", "settings_tpl", true );
+        }
+
+        if ( $i > 0 && isset( $move_item ) )
+        {
+            $t->parse( "item_move_up", "item_move_up_tpl" );
+        }
+        else
+        {
+            $t->parse( "no_item_move_up", "no_item_move_up_tpl" );
+        }
+        
+        if ( $i > 0 && $i < $count - 1 && isset( $move_item ) )
+        {
+            $t->parse( "item_separator", "item_separator_tpl" );
+        }
+        else
+        {
+            $t->parse( "no_item_separator", "no_item_separator_tpl" );
+        }
+        
+        if ( $i < $count - 1 && isset( $move_item ) )
+        {
+            $t->parse( "item_move_down", "item_move_down_tpl" );
+        }
+        else
+        {
+            $t->parse( "no_item_move_down", "no_item_move_down_tpl" );
+        }
+        
+		if ( ( $i % 2 ) == 0 )
+	    {
+	        $t->set_var( "td_class", "bglight" );
+	    }
+	    else
+	    {
+	        $t->set_var( "td_class", "bgdark" );
+	    }
+	    $t->set_var( "counter", $i );
+
+        
+        $t->parse( "setting_item", "setting_item_tpl", true );
+        $i++;
+    }
+    $t->parse( "setting_list", "setting_list_tpl" );
 }
 
 $t->pparse( "output", "section_edit_page" );

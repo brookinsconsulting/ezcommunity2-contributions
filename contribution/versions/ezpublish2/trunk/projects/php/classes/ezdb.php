@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezdb.php,v 1.49 2001/07/30 13:22:36 bf Exp $
+// $Id: ezdb.php,v 1.50 2001/10/02 14:03:27 ce Exp $
 //
 // Definition of eZDB class
 //
@@ -186,7 +186,7 @@ class eZDB
       \static
       This function rollbacks if the array supplied contains any false values, else it commits.
      */
-    function finish( $resultArray, $db )
+    function finish( &$resultArray, &$db )
     {
         $db->unlock();
         if ( in_array( false, $resultArray ) )

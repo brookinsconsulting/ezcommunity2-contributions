@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezarticlecategory.php,v 1.101 2001/09/27 13:31:17 bf Exp $
+// $Id: ezarticlecategory.php,v 1.102 2001/10/02 14:03:27 ce Exp $
 //
 // Definition of eZArticleCategory class
 //
@@ -1056,9 +1056,19 @@ class eZArticleCategory
                         $fetchAll=true,
                         $fetchPublished=true,
                         $offset=0,
-                        $limit=50 )
+                        $limit=50,
+                        $categoryID=0 )
     {
+
+        if ( $categoryID != 0 )
+            $catID = $categoryID;
+        else
+            $catID = $this->ID;
+        
         $db =& eZDB::globalDatabase();
+
+        if ( $offset == false )
+            $offset = 0;
 
        switch ( $sortMode )
        {
@@ -1168,7 +1178,7 @@ class eZArticleCategory
                   WHERE 
                         $permissionSQL
                         $publishedSQL
-                        Link.CategoryID='$this->ID'
+                        Link.CategoryID='$catID'
                         AND Permission.ObjectID=Article.ID
                         AND Link.ArticleID=Article.ID
                         AND Definition.ArticleID=Article.ID
