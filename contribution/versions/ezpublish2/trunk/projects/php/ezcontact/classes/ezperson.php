@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezperson.php,v 1.64 2001/10/23 13:30:50 jhe Exp $
+// $Id: ezperson.php,v 1.65 2001/12/10 09:33:02 jhe Exp $
 //
 // Definition of eZPerson class
 //
@@ -34,6 +34,7 @@
 include_once( "ezuser/classes/ezuser.php" );
 include_once( "classes/ezdb.php" );
 include_once( "classes/ezquery.php" );
+include_once( "ezimagecatalogue/classes/ezimage.php" );
 include_once( "ezaddress/classes/ezaddress.php" );
 include_once( "ezaddress/classes/ezphone.php" );
 include_once( "ezaddress/classes/ezonline.php" );
@@ -78,14 +79,16 @@ class eZPerson
                                    LastName,
                                    Comment,
                                    BirthDate,
-                                   ContactTypeID)
+                                   ContactTypeID,
+				   ImageID)
                                   VALUES
                                   ('$this->ID',
                                    '$firstname',
                                    '$lastname',
                                    '$comment',
                                    '$birth',
-                                   '$this->ContactType')" );
+                                   '$this->ContactType',
+				   '$this->ImageID')" );
             $db->unlock();
             $firstname = strtolower( $firstname );
             $lastname = strtolower( $lastname );
@@ -105,7 +108,8 @@ class eZPerson
                                           LastName='$lastname',
 	                                      Comment='$comment',
 	                                      BirthDate=$birth,
-                                          ContactTypeID='$this->ContactType'
+					      ContactTypeID='$this->ContactType',
+					      ImageID='$this->ImageID'
                                           WHERE ID='$this->ID'" );
             $firstname = strtolower( $firstname );
             $lastname = strtolower( $lastname );
@@ -214,6 +218,7 @@ class eZPerson
                 $this->ContactType = $person_array[ 0 ][ $db->fieldName( "ContactTypeID" ) ];
                 $this->BirthDate = $person_array[ 0 ][ $db->fieldName( "BirthDate" ) ];
                 $this->Comment = $person_array[ 0 ][ $db->fieldName( "Comment" ) ];
+                $this->ImageID = $person_array[ 0 ][ $db->fieldName( "ImageID" ) ];
             }
             if ( $this->BirthDate == "NULL" )
                 unset( $this->BirthDate );
@@ -1046,12 +1051,31 @@ class eZPerson
         return $ret;
     }
 
+    function setImage( $value )
+    {
+        if ( get_class( $value ) == "ezimage" )
+            $value = $value->id();
+
+        $this->ImageID = $value;
+    }                                  
+
+    function &image( $AsObject = true )
+    {
+        if ( $AsObject )
+            $image = new eZImage( $this->ImageID );
+        else
+            $image = $this->ImageID;
+        return $image;
+    }             
+
     var $ID;
     var $FirstName;
     var $LastName;
     var $BirthDate;  
     var $ContactType;
     var $Comment;
+    var $ImageID;
+
 };
 
 ?>

@@ -128,6 +128,7 @@ CREATE TABLE eZContact_Person (
   BirthDate int,
   Comment text,
   ContactTypeID int,
+  ImageID int default NULL,
   PRIMARY KEY (ID)
 ) TYPE=MyISAM;
 

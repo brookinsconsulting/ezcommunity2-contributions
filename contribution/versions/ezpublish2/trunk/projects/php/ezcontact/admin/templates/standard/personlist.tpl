@@ -99,6 +99,12 @@
 	</td>
 	<!-- END no_person_state_tpl -->
 
+        <!-- BEGIN image_item_tpl -->
+        <td class="{td_class}">
+        <img src="{www_dir}{image_url}" alt="{image_caption}" width="{image_width}" height="{image_height}" />
+        </td>
+        <!-- END image_item_tpl --> 
+
 	<!-- BEGIN person_buy_button_tpl -->
 	<td class="{td_class}" width="1%">
 	<a href="{www_dir}{index}/contact/person/buy/{person_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezb{person_id}-red','','/admin/images/button-cart-ro.gif',1)"><img name="ezb{person_id}-red" border="0" src="{www_dir}/admin/images/button-cart.gif" width="16" height="16" align="top" alt="Buy" /></a>

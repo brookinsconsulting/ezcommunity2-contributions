@@ -16,6 +16,10 @@
 
 <br />
 
+<!-- BEGIN image_item_tpl -->
+<img src="{www_dir}{image_url}" alt="{image_caption}" width="{image_width}" height="{image_height}" />
+<!-- END image_item_tpl --> 
+
 <table width="100%" cellpadding="0" cellspacing="0" border="0">
 <tr>
 	<td>

@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: personlist.php,v 1.19 2001/11/01 12:15:04 jhe Exp $
+// $Id: personlist.php,v 1.20 2001/12/10 09:33:02 jhe Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -71,6 +71,7 @@ $t->set_block( "person_table_tpl", "person_item_tpl", "person_item" );
 
 $t->set_block( "person_item_tpl", "person_state_tpl", "person_state" );
 $t->set_block( "person_item_tpl", "no_person_state_tpl", "no_person_state" );
+$t->set_block( "person_item_tpl", "image_item_tpl", "image_item" );
 $t->set_block( "person_item_tpl", "person_view_button_tpl", "person_view_button" );
 $t->set_block( "person_item_tpl", "no_person_view_button_tpl", "no_person_view_button" );
 $t->set_block( "person_item_tpl", "person_buy_button_tpl", "person_buy_button" );
@@ -218,10 +219,30 @@ else
         }
         $t->set_var( "person_firstname", $persons[$i]->firstName() );
         $t->set_var( "person_lastname", $persons[$i]->lastName() );
-        $t->parse( "person_item", "person_item_tpl", true );
-    
-    }
 
+        $image =& $persons[$i]->image();
+        if ( get_class( $image ) == "ezimage" && $image->id() != 0 )
+        {
+            $imageWidth =& $ini->read_var( "eZContactMain", "PersonlistImageWidth" );
+            $imageHeight =& $ini->read_var( "eZContactMain", "PersonlistImageHeight" );
+            $variation =& $image->requestImageVariation( $imageWidth, $imageHeight );
+            $imageURL = "/" . $variation->imagePath();
+            $imageWidth = $variation->width();
+            $imageHeight = $variation->height();
+            $imageCaption = $image->caption();
+            $t->set_var( "image_width", $imageWidth );
+            $t->set_var( "image_height", $imageHeight );
+            $t->set_var( "image_url", $imageURL );
+            $t->set_var( "image_caption", $imageCaption );         
+            $t->parse( "image_item", "image_item_tpl" );
+        }
+        else
+        {
+            $t->parse( "image_item", "" );     
+        }
+        $t->parse( "person_item", "person_item_tpl", true );
+    }
+    
     $t->parse( "person_table", "person_table_tpl" );
 }
 

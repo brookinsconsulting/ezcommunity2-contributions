@@ -125,6 +125,7 @@ CREATE TABLE eZContact_Person (
   BirthDate int,
   Comment text,
   ContactTypeID int,
+  ImageID int NOT NULL,
   PRIMARY KEY (ID)
 );
 

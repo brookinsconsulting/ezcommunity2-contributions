@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: personedit.php,v 1.59 2001/10/30 12:50:45 jhe Exp $
+// $Id: personedit.php,v 1.60 2001/12/10 09:33:02 jhe Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -43,7 +43,6 @@ include_once( "ezcontact/classes/ezprojecttype.php" );
 include_once( "ezmail/classes/ezmail.php" );
 include_once( "ezuser/classes/ezusergroup.php" );
 include_once( "ezuser/classes/ezpermission.php" );
-
 
 // deletes the dayview cache file for a given day
 function deleteCache( $siteStyle )
@@ -246,6 +245,7 @@ $t->set_file( "person_edit", $template_file );
 
 $t->set_block( "person_edit", "edit_tpl", "edit_item" );
 $t->set_block( "person_edit", "confirm_tpl", "confirm_item" );
+$t->set_block( "person_edit", "image_item_tpl", "image_item" );
 
 if ( $CompanyEdit )
 {
@@ -638,14 +638,31 @@ if ( !$confirm )
             }
 //              $person->setContact( $ContactID );
             $person->setComment( $Comment );
-            $person->store();
 
+     // Upload images
+            $file = new eZImageFile();
+            if ( $file->getUploadedFile( "ImageFile" ) )
+            {
+                $image = new eZImage( );
+                $image->setName( "Image" );
+                if ( $image->checkImage( $file ) and $image->setImage( $file ) )
+                {
+                    $image->store();
+                    $person->setImage( $image );
+                }                            
+            }
+            
+            if ( $DeleteImage == "on" )
+                $person->setImage(0);
+
+            $person->store();
+            
             $person->removeCompanies();
             for ( $i = 0; $i < count( $CompanyID ); $i++ )
             {
                 eZCompany::addPerson( $person->id(), $CompanyID[$i] );
             }
-
+            
             $item_id = $person->id();
             $PersonID = $item_id;
             $item_cat_id = "";
@@ -770,6 +787,22 @@ if ( !$confirm )
                 $BirthDay = 1;
             }
             $Comment = $person->comment();
+            $image =& $person->image();
+            if ( get_class( $image ) == "ezimage" && $image->id() != 0 )
+            {
+                $imageWidth =& $ini->read_var( "eZContactMain", "PersonImageWidth" );
+     	        $imageHeight =& $ini->read_var( "eZContactMain", "PersonImageHeight" );
+                $variation =& $image->requestImageVariation( $imageWidth, $imageHeight );
+                $imageURL = "/" . $variation->imagePath();
+                $imageWidth = $variation->width();
+                $imageHeight = $variation->height();
+                $imageCaption = $image->caption();
+                $t->set_var( "image_width", $imageWidth );	
+                $t->set_var( "image_height", $imageHeight );
+                $t->set_var( "image_url", $imageURL );	
+                $t->set_var( "image_caption", $imageCaption );
+                $t->parse( "image_item", "image_item_tpl" );  
+            }                                           
         }
 
         $addresses = $item->addresses();
@@ -957,9 +990,7 @@ if ( !$confirm )
                 $var_name =& $birth_array[1];
 
             $t->set_var( $var_name, "selected" );
-
             $t->set_var( "birthyear", $BirthYear );
-
             $t->set_var( "comment", $Comment );
 
             $t->parse( "person_item", "person_item_tpl" );
@@ -1322,3 +1353,4 @@ if ( !$confirm )
 $t->pparse( "output", "person_edit" );
 
 ?>
+

@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: personview.php,v 1.28 2001/11/08 11:45:36 jhe Exp $
+// $Id: personview.php,v 1.29 2001/12/10 09:33:02 jhe Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -95,6 +95,7 @@ $t->set_block( "person_view", "no_phone_item_tpl", "no_phone_item" );
 $t->set_block( "person_view", "online_item_tpl", "online_item" );
 $t->set_block( "online_item_tpl", "online_line_tpl", "online_line" );
 $t->set_block( "person_view", "no_online_item_tpl", "no_online_item" );
+$t->set_block( "person_view", "image_item_tpl", "image_item" );
 
 //  $t->set_block( "person_view", "contact_person_tpl", "contact_person" );
 //  $t->set_block( "person_view", "no_contact_person_tpl", "no_contact_person" );
@@ -326,6 +327,27 @@ if ( $Action == "view" )
         $t->parse( "no_project_status", "no_project_status_tpl" );
     }
 
+    $image =& $person->image();
+    if ( get_class( $image ) == "ezimage" && $image->id() != 0 )
+    {
+        $imageWidth =& $ini->read_var( "eZContactMain", "PersonImageWidth" );
+        $imageHeight =& $ini->read_var( "eZContactMain", "PersonImageHeight" );
+        $variation =& $image->requestImageVariation( $imageWidth, $imageHeight );
+        $imageURL = "/" . $variation->imagePath();
+        $imageWidth = $variation->width();
+        $imageHeight = $variation->height();
+        $imageCaption = $image->caption();          
+        $t->set_var( "image_width", $imageWidth );
+        $t->set_var( "image_height", $imageHeight );
+        $t->set_var( "image_url", $imageURL );
+        $t->set_var( "image_caption", $imageCaption );
+        $t->parse( "image_item", "image_item_tpl" );
+    }
+    else
+    {
+        $t->parse( "image_item", "" );
+    }
+
     // Consultation list
     $user =& eZUser::currentUser();
     if ( eZPermission::checkPermission( $user, "eZContact", "consultation" ) )
@@ -470,7 +492,6 @@ foreach ( $emails as $email )
     $t->parse( "mail_item", "mail_item_tpl", true );
     $i++;
 }
-
 if ( get_class( $user ) == "ezuser" and count( $emails ) > 0 )
 {
     $t->parse( "mail_table_item", "mail_table_item_tpl", true );
