@@ -1,8 +1,15 @@
+<table width="100%" border="0" cellspacing="0" cellpadding="0" bgcolor="#f08c00">
+<tr>
+    <td class="tdmini"><img src="/images/1x1.gif" width="1" height="38"></td>
+</tr>
+<tr>
+	<td class="toppathbottom"><img src="/images/1x1.gif" width="1" height="2"><br /></td>
+</tr>	
+</table>
+
 <form method="post" action="/{module}/{user_new}/{action_value}/{user_id}/">
 
 <h1>{head_line}</h1>
-
-<hr noshade="noshade" size="4" />
 
 <!-- BEGIN required_fields_error_tpl -->
 <h3 class="error" >{intl-required_fields_error}</h3>
@@ -66,8 +73,6 @@
 <br />
 <div class="p"><input {info_subscription} type="checkbox" name="InfoSubscription" />&nbsp;{intl-infosubscription}</div>
 <br />
-
-<hr noshade="noshade" size="4" />
 
 <table cellspacing="0" cellpadding="0" border="0">
 <tr>

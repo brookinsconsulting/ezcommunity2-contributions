@@ -16,7 +16,7 @@
 </tr>
 <tr>
 	<td>
-	<div class="rightmenu">
+	<div class="rightmenutext">
 	{first_name} {last_name}
 	</div>
 	</td>

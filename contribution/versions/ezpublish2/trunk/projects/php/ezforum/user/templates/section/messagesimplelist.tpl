@@ -1,7 +1,5 @@
 <h2>{intl-headline}</h2>
 
-<hr noshade size="4" />
-
 <!-- BEGIN message_list_tpl -->
 <table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
 <tr>
@@ -92,8 +90,6 @@
 </tr>
 </table>
 <!-- END type_list_tpl -->
-
-<hr noshade size="4" />
 
 <form action="/forum/userlogin/newsimple/{forum_id}">
 <input class="stdbutton" type="submit" value="{intl-new-posting}" />

@@ -1,6 +1,6 @@
-<h1>{intl-posted_headline}</h1>
-
 {message_path_file}
+
+<h1>{intl-posted_headline}</h1>
 
 <br />
 

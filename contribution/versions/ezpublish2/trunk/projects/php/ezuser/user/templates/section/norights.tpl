@@ -1,11 +1,12 @@
-<table width="100%" cellspacing="0" cellpadding="0" border="0">
+<table width="100%" border="0" cellspacing="0" cellpadding="0" bgcolor="#f08c00">
 <tr>
-    <td align="left" valign="bottom">
-        <h1>{intl-headline}</h1>
-     </td>
+    <td class="tdmini"><img src="/images/1x1.gif" width="1" height="38"></td>
 </tr>
+<tr>
+	<td class="toppathbottom"><img src="/images/1x1.gif" width="1" height="2"><br /></td>
+</tr>	
 </table>
 
-<hr noshade="noshade" size="4" />
+<h1>{intl-headline}</h1>
 
 <p class="error">{error_msg}</p>

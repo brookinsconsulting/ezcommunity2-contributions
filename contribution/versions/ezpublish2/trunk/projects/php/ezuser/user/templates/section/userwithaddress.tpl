@@ -1,3 +1,12 @@
+<table width="100%" border="0" cellspacing="0" cellpadding="0" bgcolor="#f08c00">
+<tr>
+    <td class="tdmini"><img src="/images/1x1.gif" width="1" height="38"></td>
+</tr>
+<tr>
+	<td class="toppathbottom"><img src="/images/1x1.gif" width="1" height="2"><br /></td>
+</tr>	
+</table>
+
 <form method="post" action="/user/userwithaddress/{action_value}/{user_id}/">
 <!-- BEGIN new_user_tpl -->
 <h1>{intl-head_line}</h1>
@@ -6,16 +15,12 @@
 <h1>{intl-edit_head_line}</h1>
 <!-- END edit_user_tpl -->
 
-<hr noshade="noshade" size="4" />
-
 <!-- BEGIN info_item_tpl -->
 <ul>
     <!-- BEGIN info_updated_tpl -->
     <li>{intl-info_update_user}</li>
     <!-- END info_updated_tpl -->
 </ul>
-
-<hr noshade size="4"/>
 
 <!-- END info_item_tpl -->
 
@@ -79,7 +84,6 @@
     <!-- END error_missing_country_tpl -->
 </ul>
 
-<hr noshade size="4"/>
 <!-- END errors_item_tpl -->
 
 <!-- BEGIN edit_user_info_tpl -->
@@ -165,13 +169,11 @@
 <br /><br />
 
 <!-- BEGIN address_actions_tpl -->
-<hr noshade="noshade" size="4" />
 
 <input class="stdbutton" type="submit" value="{intl-new_address}" name="NewAddress" />
 <input class="stdbutton" type="submit" value="{intl-delete_address}" name="DeleteAddress" />
 <!-- END address_actions_tpl -->
 
-<hr noshade="noshade" size="4" />
 
 
 <input type="hidden" name="UserID" value="{user_id}" />

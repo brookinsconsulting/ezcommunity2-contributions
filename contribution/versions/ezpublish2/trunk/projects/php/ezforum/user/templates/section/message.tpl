@@ -61,8 +61,6 @@
 
 <br />
 
-
-<hr noshade="noshade" size="4" />
 <table border="0" cellspacing="0" cellpadding="0">
 <tr>
 <td>
@@ -141,8 +139,6 @@
 
 </table>
 </form>
-
-<hr noshade="noshade" size="4" />
 
 <table border="0" cellspacing="0" cellpadding="0">
 <tr>

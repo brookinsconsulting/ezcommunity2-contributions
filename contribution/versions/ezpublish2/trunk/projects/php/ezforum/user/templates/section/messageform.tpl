@@ -32,4 +32,3 @@
 
 <br />
 
-<hr noshade size="4" />

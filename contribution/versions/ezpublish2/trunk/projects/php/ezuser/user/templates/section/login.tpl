@@ -1,10 +1,15 @@
+<table width="100%" border="0" cellspacing="0" cellpadding="0" bgcolor="#f08c00">
+<tr>
+    <td class="tdmini"><img src="/images/1x1.gif" width="1" height="38"></td>
+</tr>
+<tr>
+	<td class="toppathbottom"><img src="/images/1x1.gif" width="1" height="2"><br /></td>
+</tr>	
+</table>
+
 <form method="post" action="/user/login/login/">
 
 <h1>{intl-head_line}</h1>
-
-<hr noshade="noshade" size="4">
-
-<br />
 
 <p class="boxtext">{intl-username}:</p>
 <input tabindex="1" type="text" size="6" name="Username"/>
@@ -14,7 +19,6 @@
 <input tabindex="2" type="password" size="6" name="Password" />
 <br />
 <br />
-<hr noshade="noshade" size="4">
 
 <!-- BEGIN buttons_tpl -->
 <table cellspacing="0" cellpadding="0" border="0">
@@ -29,19 +33,9 @@
 </tr>
 </table>
 
-<hr noshade="noshade" size="4">
 <!-- END buttons_tpl -->
+<input tabindex="3" class="okbutton" type="submit" value="{intl-ok}">
 
-<table cellspacing="0" cellpadding="0" border="0">
-<tr>
-	<td class="menuspacer">&nbsp;</td>
-</tr>
-
-<tr>
-	<td>
-	<input tabindex="3" class="okbutton" type="submit" value="{intl-ok}">
-	</td>
-</tr>
 <input type="hidden" name="RedirectURL" value="{redirect_url}">
-</table>
+
 </form>

@@ -7,9 +7,7 @@
 </tr>	
 </table>
 
-<h1>{intl-login_page_title}</h1>
-
-<p>{intl-explanation}</p>
+<h1>{intl-new_user}</h1>
 
 <h2>{intl-user_login}</h2>
 

@@ -36,7 +36,7 @@
 <tr>
 	<td>
 	<div class="rightmenu">
-	<input class="stdbutton" type="submit" value="{intl-ok}">
+	<input class="stdbutton" type="submit" value="Log in">
 	</div>
 	</td>
 </tr>

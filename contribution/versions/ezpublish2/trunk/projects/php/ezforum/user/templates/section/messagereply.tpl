@@ -57,8 +57,6 @@
 <input type="checkbox" name="notice"> {intl-email_notice}
 <br /><br />
 
-<hr noshade="noshade" size="4" />
-
 <table cellspacing="0" cellpadding="0" border="0">
 <tr>
 	<td valign="top">
