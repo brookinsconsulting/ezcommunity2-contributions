@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezconsultationtype.php,v 1.3 2001/01/22 14:43:00 jb Exp $
+// $Id: ezconsultationtype.php,v 1.4 2001/01/30 11:17:42 bf Exp $
 //
 // Definition of eZConsultationType class
 //
@@ -22,7 +22,7 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, US
 //
 
-//!! eZConsultationType
+//!! eZContact
 //! eZConsultationType handles consultation types.
 /*!
 

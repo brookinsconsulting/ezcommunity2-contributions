@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezforummessage.php,v 1.66 2001/01/26 09:30:18 bf Exp $
+// $Id: ezforummessage.php,v 1.67 2001/01/30 11:17:42 bf Exp $
 //
 // Definition of eZCompany class
 //
@@ -167,13 +167,8 @@ class eZForumMessage
                 else
                 {
                     print( "<b>ERROR:</b> eZForumMessage::store() parent not found in database.<br /> \n" );
-                }
-                
-                
-                
+                }                
             }
-            
-
             $this->State_ = "Coherent";
         }
         else
@@ -562,10 +557,8 @@ class eZForumMessage
     }
 
     
-    
-
     /*!
-      
+      Returns the number of messages.
     */      
     function countMessages( $ID )
     {
@@ -618,7 +611,7 @@ class eZForumMessage
     }
 
     /*!
-      Get all the messages thats not approved
+      Get all the messages which is not approved
     */
     function getAllNotApproved( )
     {
@@ -639,10 +632,6 @@ class eZForumMessage
         return $ret;
 
     }
-
-    /*!
-    */
-//      SELECT Message.ID, Message.Topic FROM eZForum_Forum AS Forum, eZForum_Message AS Message WHERE Forum.ModeratorID='27' AND Message.ForumID=Forum.ID AND Message.IsApproved='0';          
 
     /*!
       \private

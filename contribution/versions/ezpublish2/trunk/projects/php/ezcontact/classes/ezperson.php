@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezperson.php,v 1.41 2001/01/25 17:11:34 jb Exp $
+// $Id: ezperson.php,v 1.42 2001/01/30 11:17:42 bf Exp $
 //
 // Definition of eZPerson class
 //
@@ -25,13 +25,10 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, US
 //
 
-//!! eZPerson
+//!! eZContact
 //! eZPerson handles a persons belonging in contacts information.
-
-//!! eZPerson
-//!
 /*!
-  Denne klassen håndterer personer i eZ contact. Disse lagres og hentes ut fra databasen.
+ This class handles persons in the eZ contact database.
 */
 
 include_once( "ezuser/classes/ezuser.php" );

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezcompany.php,v 1.59 2001/01/26 11:18:52 jb Exp $
+// $Id: ezcompany.php,v 1.60 2001/01/30 11:17:42 bf Exp $
 //
 // Definition of eZProduct class
 //
@@ -25,7 +25,7 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, US
 //
 
-//!! eZCompany
+//!! eZContact
 //! eZCompany handles company information.
 /*!
 

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezconsultation.php,v 1.7 2001/01/25 00:20:27 jb Exp $
+// $Id: ezconsultation.php,v 1.8 2001/01/30 11:17:42 bf Exp $
 //
 // Definition of eZConsultation class
 //
@@ -22,7 +22,7 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, US
 //
 
-//!! eZConsultation
+//!! eZContact
 //! eZConsultation handles consultations with contact persons and companies.
 /*!
 
