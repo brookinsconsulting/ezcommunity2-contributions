@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezimagevariation.php,v 1.14 2001/03/07 09:55:18 jb Exp $
+// $Id: ezimagevariation.php,v 1.15 2001/03/07 14:51:19 jb Exp $
 //
 // Definition of eZImageVariation class
 //
@@ -195,42 +195,16 @@ class eZImageVariation
             }
             else
             {
+                if ( !$image->fileExists( true ) )
+                    return eZImageVariation::createErrorImage();
                 $imageFile = new eZImageFile();
                 $imageFile->getFile( $image->filePath( true ) );
                 $imageFile->setType( "image/jpeg" );
 
-                $suffix = "";
-                if ( ereg( "\\.([a-z]+)$", $image->originalFileName(), $regs ) )
-                {
-                    // We got a suffix, make it lowercase and store it
-                    $suffix = strtolower( $regs[1] );
-                }
-
-                $postfix = "";
-                // Preserve jpg's
-                if ( $suffix == "jpg" || $suffix == "jpeg" )
-                {
-                    $postfix = ".jpg";
-                    $imageFile->setType( "image/jpeg" );
-                }
-                // Preserve gif's
-                else if ( $suffix == "gif" )
-                {
-                    $postfix = ".gif";
-                    $imageFile->setType( "image/gif" );
-                }
-                // Preserve png's
-                else if ( $suffix == "png" )
-                {
-                    $postfix = ".png";
-                    $imageFile->setType( "image/png" );
-                }
-                else
-                {
-                    // Unkown, use jpeg
-                    $postfix = ".jpg";
-                    $imageFile->setType( "image/jpeg" );
-                }
+                $info = eZImageFile::information( $image->originalFileName(), true );
+                $suffix = $info["suffix"];
+                $postfix = $info["dot-suffix"];
+                $imageFile->setType( $info["image-type"] );
 
                 $dest = "ezimagecatalogue/catalogue/variations/" . $image->id() . "-" . $variationGroup->width() . "x". $variationGroup->height() . $postfix;
 

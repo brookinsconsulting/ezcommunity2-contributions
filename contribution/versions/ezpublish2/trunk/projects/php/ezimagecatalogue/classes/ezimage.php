@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezimage.php,v 1.33 2001/03/06 19:00:50 jb Exp $
+// $Id: ezimage.php,v 1.34 2001/03/07 14:51:19 jb Exp $
 //
 // Definition of eZImage class
 //
@@ -446,6 +446,18 @@ class eZImage
         return $this->OriginalFileName;
     }
     
+    function &fileExists( $relative=false )
+    {
+       if ( $relative == true )
+       {
+           $path = "ezimagecatalogue/catalogue/" .$this->FileName;
+       }
+       else
+       {
+           $path = "/ezimagecatalogue/catalogue/" .$this->FileName;
+       }
+       return file_exists( $path );
+    }
     /*!
       Returns the path and filename to the original image.
 
@@ -670,31 +682,9 @@ class eZImage
            if ( !file_exists( $tmpname ) )
                return false;
 
-           $suffix = "";
-           if ( ereg( "\\.([a-z]+)$", $this->OriginalFileName, $regs ) )
-           {
-               // We got a suffix, make it lowercase and store it
-               $suffix = strtolower( $regs[1] );
-           }
-
-           $postfix = "";
-           // Preserve jpg's
-           if ( $suffix == "jpg" || $suffix == "jpeg" )
-           {
-               $postfix = ".jpg";
-           }
-           // Preserve gif's
-           else if ( $suffix == "gif" )
-           {
-               $postfix = ".gif";
-           }
-           // Preserve png's
-           else if ( $suffix == "png" )
-           {
-               $postfix = ".png";
-           }
-
-           // the path to the catalogue
+           $info = eZImageFile::information( $this->OriginalFileName );
+           $suffix = $info["suffix"];
+           $postfix = $info["dot-suffix"];
 
            if ( $postfix != "" )
            {
