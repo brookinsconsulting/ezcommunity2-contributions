@@ -9,19 +9,18 @@
 <!-- END article_url_item_tpl -->
 
 
-
-<table width="100%" border="0" cellspacing="0" cellpadding="0" bgcolor="#f08c00">
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
 <tr>
-    <td class="toppath" width="1"><img src="/images/1x1.gif" width="1" height="38"></td>
-	<td class="toppath" align="left" class="path" width="100%">
+    <td class="tdminipath" width="1%"><img src="/images/1x1.gif" width="1" height="38"></td>
+	<td class="tdminipath" align="left" class="path" width="99%">
 	<!-- BEGIN path_item_tpl -->	
-	<b>/</b>
+	<img src="/sitedesign/designsection1/images/path-arrow-top.gif" width="12" height="10" border="0" alt="" />
 	<a class="toppath" href="/article/archive/{category_id}/">{category_name}</a> 
 	<!-- END path_item_tpl -->
 	</td>
 </tr>
 <tr>
-	<td class="toppathbottom" width="160" colspan="2"><img src="/images/1x1.gif" width="160" height="1"></td>
+	<td class="toppathbottom" colspan="2"><img src="/images/1x1.gif" width="1" height="2"><br /></td>
 </tr>	
 </table>
 
@@ -49,6 +48,16 @@
 <p>
 {article_body}
 </p>
+
+<!-- BEGIN attribute_list_tpl -->
+<!-- BEGIN type_item_tpl -->
+<h2>{type_name}</h2>
+<!-- BEGIN attribute_item_tpl -->
+<p class="boxtext">{attribute_name}:</p>
+<span class="p">{attribute_value}</span><br />
+<!-- END attribute_item_tpl -->
+<!-- END type_item_tpl -->
+<!-- END attribute_list_tpl -->
 
 <!-- BEGIN attached_file_list_tpl -->
 <p class="boxtext">{intl-attached_files}:</p>

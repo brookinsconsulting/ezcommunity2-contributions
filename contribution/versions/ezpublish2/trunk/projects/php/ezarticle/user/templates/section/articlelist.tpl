@@ -2,40 +2,51 @@
 
 <!-- END header_item_tpl -->
 
-
-<table width="100%" border="0" cellspacing="0" cellpadding="0" bgcolor="#f08c00">
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
 <tr>
-    <td class="toppath" width="1"><img src="/images/1x1.gif" width="1" height="38"></td>
-	<td class="toppath" align="left" class="path" width="100%">
+    <td class="tdminipath" width="1%"><img src="/images/1x1.gif" width="1" height="38"></td>
+	<td class="tdminipath" align="left" class="path" width="99%">
 	<!-- BEGIN path_item_tpl -->	
-	<b>/</b>
+	<img src="/sitedesign/designsection1/images/path-arrow-top.gif" width="12" height="10" border="0" alt="" />
 	<a class="toppath" href="/article/archive/{category_id}/">{category_name}</a> 
 	<!-- END path_item_tpl -->
 	</td>
 </tr>
 <tr>
-	<td class="toppathbottom" width="160" colspan="2"><img src="/images/1x1.gif" width="160" height="1"></td>
+	<td class="toppathbottom" colspan="2"><img src="/images/1x1.gif" width="1" height="2"><br /></td>
 </tr>	
 </table>
 
-
-
-<div class="spacer"><div class="p">{current_category_description}</div></div>
+<div class="spacer">
+<!-- BEGIN current_image_item_tpl -->
+<img src="{current_image_url}" alt="{current_image_caption}" width="{current_image_width}" height="{current_image_height}" border="0" />
+<!-- END current_image_item_tpl -->
+<div class="p">{current_category_description}</div>
+</div>
 
 <!-- BEGIN category_list_tpl -->
 <table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
 <tr>
+        <th>&nbsp;</th>
 	<th>{intl-category}:</th>
 	<th>{intl-description}:</th>
 </tr>
 
 <!-- BEGIN category_item_tpl -->
 <tr>
-	<td class="{td_class}">
-	<a href="/article/archive/{category_id}/">{category_name}</a>&nbsp;
+	<td class="{td_class}" width="1%" valign="top">
+	<!-- BEGIN image_item_tpl -->
+	<img src="{image_url}" alt="{image_caption}" width="{image_width}" height="{image_height}" border="0" />
+	<!-- END image_item_tpl -->
+	<!-- BEGIN no_image_tpl -->
+	
+	<!-- END no_image_tpl -->
+        </td>
+	<td width="49%" class="{td_class}" valign="top">
+	<a href="/article/archive/{category_id}/">{category_name}</a>
 	</td>
-	<td class="{td_class}">
-	{category_description}&nbsp;
+	<td width="50%" class="{td_class}" valign="top">
+	{category_description}
 	</td>
 </tr>
 <!-- END category_item_tpl -->
@@ -69,9 +80,12 @@
 
 
 	<div class="spacer"><div class="p">{article_intro}</div></div>
-	<img src="/images/path-arrow.gif" height="10" width="12" border="0" alt="" />
+
+        <!-- BEGIN read_more_tpl -->
+	<img src="/images/path-arrow.gif" height="10" width="8" border="0" alt="" />
 	<a class="path" href="/article/articleview/{article_id}/1/{category_id}/">{article_link_text}</a>
 	<br /><br />
+        <!-- END read_more_tpl -->
 	</td>
 </tr>
 <!-- END article_item_tpl -->

@@ -1,24 +1,19 @@
-<h1>{intl-author_info}</h1>
-
-<hr noshade="noshade" size="4" />
-
-<br />
-
-<table width="100%" cellspacing="0" cellpadding="0" border="0">
+<table width="100%" border="0" cellspacing="0" cellpadding="0" bgcolor="#f08c00">
 <tr>
-	<td>
-	<p class="boxtext">{intl-author_name}:</p>
-	<a href="mailto:{author_mail}">{author_firstname} {author_lastname}</a>
-	</td>
+    <td class="tdmini"><img src="/images/1x1.gif" width="1" height="38"></td>
 </tr>
+<tr>
+	<td class="toppathbottom"><img src="/images/1x1.gif" width="1" height="2"><br /></td>
+</tr>	
 </table>
+
+
+<h1>{intl-author_info}</h1>
 
 <p>{intl-article_info}</p>
 
-<br />
-
-<h1>{intl-head_line}{author_firstname} {author_lastname} ({article_start}-{article_end}/{article_count})</h1>
-<hr noshade="noshade" size="4" />
+<h2>{intl-head_line}{author_firstname} {author_lastname}</h2>
+<div class="boxtext">({article_start}-{article_end}/{article_count})</div>
 
 <table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
 <tr>

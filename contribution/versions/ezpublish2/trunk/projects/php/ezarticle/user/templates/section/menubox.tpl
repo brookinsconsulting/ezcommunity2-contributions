@@ -1,28 +1,34 @@
 <table width="100%" cellspacing="0" cellpadding="2" border="0">
 <tr>
 	<td>
-	<img src="/sitedesign/{sitedesign}/images/articles.gif" width="128" height="17"><br />
-	<img src="/images/1x1.gif" width="1" height="5"><br />
+	<img src="/sitedesign/{sitedesign}/images/articles.gif" width="128" height="20"><br />
 	</td>
 </tr>
 <tr>
-	<td width="100%">
+	<td>
 	<div class="leftmenu">
-	<a href="/article/articleedit/new/">Dette er en lengre tekst!</a>
+	<a href="/article/frontpage">{intl-latest}</a>
 	</div>
 	</td>
 </tr>
 <tr>
-	<td width="100%">
+	<td>
 	<div class="leftmenu">
-	<a href="/article/articleedit/new/">eZ publish</a>
+	<a href="/article/articleheaderlist/0/">{intl-archive}</a>
 	</div>
 	</td>
 </tr>
 <tr>
-	<td width="100%">
+	<td>
 	<div class="leftmenu">
-	<a href="/article/articleedit/new/">Translation</a>
+	<a href="/article/author/list">{intl-authors}</a>
+	</div>
+	</td>
+</tr>
+<tr>
+	<td>
+	<div class="leftmenu">
+	<a href="/article/index">{intl-index}</a>
 	</div>
 	</td>
 </tr>
@@ -37,6 +43,14 @@
 </tr>
 <!-- END submit_article_tpl -->
 
+<tr>
+	<td class="menuspacer">&nbsp;</td>
+</tr>
+<tr>
+	<td>
+	<img src="/sitedesign/{sitedesign}/images/categories.gif" width="128" height="20"><br />
+	</td>
+</tr>
 
 <!-- BEGIN article_category_tpl -->
 <tr>

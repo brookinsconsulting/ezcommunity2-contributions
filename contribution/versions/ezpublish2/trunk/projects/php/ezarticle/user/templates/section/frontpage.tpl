@@ -1,13 +1,9 @@
-<table width="100%" border="0" cellspacing="0" cellpadding="0">
+<table width="100%" border="0" cellspacing="0" cellpadding="0" bgcolor="#f08c00">
 <tr>
-    <td class="toppath" width="1"><img src="/images/1x1.gif" width="1" height="38"></td>
-	<td class="toppath" align="left" class="path" width="100%">
-	<b>/</b>
-	<a class="toppath" href="/article/archive/0/">{intl-top_level}</a>
-	</td>
+    <td class="tdmini"><img src="/images/1x1.gif" width="1" height="38"></td>
 </tr>
 <tr>
-	<td class="toppathbottom" width="160" colspan="2"><img src="/images/1x1.gif" width="160" height="1"></td>
+	<td class="toppathbottom"><img src="/images/1x1.gif" width="1" height="2"><br /></td>
 </tr>	
 </table>
 
@@ -40,7 +36,7 @@
 	<div class="spacer"><div class="p">{article_intro}</div></div>
 
         <!-- BEGIN read_more_tpl -->
-	<img src="/images/path-arrow.gif" height="10" width="12" border="0" alt="" />
+	<img src="/images/path-arrow.gif" height="10" width="8" border="0" alt="" />
 	<a class="path" href="/article/articleview/{article_id}/1/{category_id}/">{article_link_text}</a>
 	<br /><br />
         <!-- END read_more_tpl -->
@@ -79,7 +75,7 @@
 	<div class="spacer"><div class="p">{article_intro}</div></div>
 
         <!-- BEGIN article_short_read_more_tpl -->
-	<img src="/images/path-arrow.gif" height="10" width="12" border="0" alt="" />
+	<img src="/images/path-arrow.gif" height="10" width="8" border="0" alt="" />
 	<a class="path" href="/article/articleview/{article_id}/1/{category_id}/">{article_link_text}</a>
 	<br /><br />
         <!-- END article_short_read_more_tpl -->

@@ -2,8 +2,7 @@
 <table width="100%" cellspacing="0" cellpadding="2" border="0">
 <tr>
 	<td>
-	<img src="/sitedesign/designsection1/images/articles-dummy.gif" width="122" height="17"><br />
-	<img src="/images/1x1.gif" width="1" height="5"><br />
+	<img src="/sitedesign/designsection1/images/login.gif" width="122" height="20"><br />
 	</td>
 </tr>
 <tr>

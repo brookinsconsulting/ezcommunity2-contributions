@@ -59,7 +59,7 @@
 <h2>{type_name}</h2>
 <!-- BEGIN attribute_item_tpl -->
 <p class="boxtext">{attribute_name}:</p>
-{attribute_value}
+<span class="p">{attribute_value}</span><br />
 <!-- END attribute_item_tpl -->
 <!-- END type_item_tpl -->
 <!-- END attribute_list_tpl -->
