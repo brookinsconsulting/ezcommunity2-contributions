@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: forum.php,v 1.14 2000/08/08 13:41:20 lw-cvs Exp $
+    $Id: forum.php,v 1.15 2000/08/09 09:49:24 lw-cvs Exp $
 
     Author: Lars Wilhelmsen <lw@ez.no>
     
@@ -22,6 +22,7 @@ $t->set_file(Array("forum" => "forum.tpl",
              );
 
 $t->set_var( "docroot", $DOCROOT );
+echo $category_id . "sådetså";
 $t->set_var( "category_id", $category_id );
 
 //actions
