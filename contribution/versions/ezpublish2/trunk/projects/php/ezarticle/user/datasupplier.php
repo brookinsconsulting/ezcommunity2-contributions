@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: datasupplier.php,v 1.81 2001/09/06 17:25:16 bf Exp $
+// $Id: datasupplier.php,v 1.82 2001/09/07 12:12:00 bf Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -294,7 +294,7 @@ switch ( $url_array[2] )
         }
 
         /* Should there be permissions here? */
-        if  ( ( isset( $PrintableVersion ) && $PrintableVersion != "enabled" ) && ( $UserComments == "enabled" ) )
+        if  ( ( $PrintableVersion != "enabled" ) && ( $UserComments == "enabled" ) )
         {
             $RedirectURL = "/article/view/$ArticleID/$PageNumber/";
             $article = new eZArticle( $ArticleID );
