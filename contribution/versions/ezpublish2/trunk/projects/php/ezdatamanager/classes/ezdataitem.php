@@ -1,0 +1,295 @@
+<?php
+// 
+// $Id: ezdataitem.php,v 1.1 2001/11/21 14:49:02 bf Exp $
+//
+// Definition of eZDataItem class
+//
+// Bård Farstad <bf@ez.no>
+// Created on: <20-Nov-2001 18:12:34 bf>
+//
+// This source file is part of eZ publish, publishing software.
+// Copyright (C) 1999-2000 eZ systems as
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, US
+//
+
+//!! eZDataManager
+//! eZDataItem
+/*!
+  \sa eZDataTypeItem eZDataItem
+*/
+
+include_once( "ezdatamanager/classes/ezdatatypeitem.php" );
+
+class eZDataItem
+{
+    /*!
+    */
+    function eZDataItem( $id=-1 )
+    {
+        if ( $id != -1 )
+        {
+            $this->ID = $id;
+            $this->get( $this->ID );
+        }
+    }
+    
+    /*!
+      Stores or updates a new data type to the database.
+    */
+    function store()
+    {
+        $db =& eZDB::globalDatabase();
+
+        $name = $db->escapeString( $this->Name );
+        
+        $db->begin( );
+
+        if ( !isSet( $this->ID ) )
+        {
+            $db->lock( "eZDataManager_Item" );
+
+            $nextID = $db->nextID( "eZDataManager_Item", "ID" );
+            
+            $res = $db->query( "INSERT INTO eZDataManager_Item
+                         ( ID, DataTypeID, Name ) VALUES 
+                         ( '$nextID',
+                           '$this->DataTypeID',
+		                   '$name' )
+                          " );
+        
+			$this->ID = $nextID;
+        }
+        else
+        {
+            $res = $db->query( "UPDATE eZDataManager_Item SET
+		                 Name='$name',
+                         DataTypeID='$this->DataTypeID'
+                         WHERE ID='$this->ID'" );
+        }
+
+        $db->unlock();
+    
+        if ( $res == false )
+            $db->rollback();
+        else
+            $db->commit();
+        
+        return true;
+    }
+
+    /*!
+      Fetches the data type from the database.
+    */
+    function get( $id = -1 )
+    {
+        $db =& eZDB::globalDatabase();
+        
+        if ( $id != -1 )
+        {
+            $db->array_query( $type_array, "SELECT * FROM eZDataManager_Item WHERE ID='$id'" );
+            
+            if ( count( $type_array ) > 1 )
+            {
+                die( "Error: Data items with the same ID was found in the database. " );
+            }
+            else if ( count( $type_array ) == 1 )
+            {
+                $this->ID =& $type_array[0][$db->fieldName( "ID" )];
+                $this->Name =& $type_array[0][$db->fieldName( "Name" )];
+                $this->DataTypeID =& $type_array[0][$db->fieldName( "DataTypeID" )];
+            }
+        }
+    }
+
+    /*!
+      Deletes a data type with all items from the database.
+    */
+    function delete()
+    {
+        $db =& eZDB::globalDatabase();
+
+        $db->begin( );
+
+        $res = $db->query( "DELETE FROM eZDataManager_ItemValue WHERE ItemID='$this->ID'" );        
+        $res = $db->query( "DELETE FROM eZDataManager_Item WHERE ID='$this->ID'" );        
+
+        if ( $res == false )
+            $db->rollback( );
+        else
+            $db->commit();        
+    }
+    
+    
+    /*!
+      Returns the object id
+    */
+    function id( )
+    {
+        return $this->ID;
+    }
+    
+    /*!
+      Sets the name.
+    */
+    function setName( $value )
+    {
+        $this->Name = $value;
+    }
+
+    /*!
+      Returns the name
+    */
+    function name( )
+    {
+        return $this->Name;
+    }
+
+    /*!
+      Sets the data type
+    */
+    function setDataType( $type )
+    {
+        if ( get_class( $type ) == "ezdatatype" )
+        {
+            $this->DataTypeID = $type->id();                        
+        }
+    }
+
+    /*!
+      Returns the datatype as a eZDataType object.
+    */
+    function &dataType()
+    {
+        $type = new eZDataType( $this->DataTypeID );
+        return $type;
+    }
+
+    /*!
+      Sets a value for the given data type item
+    */
+    function setItemValue( $typeItem, $value )
+    {
+        if ( get_class( $typeItem ) == "ezdatatypeitem" )
+        {         
+            // get old value id if exists
+            $db =& eZDB::globalDatabase();
+            $typeItemID = $typeItem->id();
+        
+            $db->array_query( $value_array, "SELECT ID
+                                                FROM eZDataManager_ItemValue
+                                                WHERE ItemID='$this->ID'
+                                                AND DataTypeItemID='$typeItemID'" );
+
+            $value =& $db->escapeString( $value );
+
+            $db->begin( );
+            
+            if ( count( $value_array ) > 0 )
+            {
+                $valueID = $value_array[0][$db->fieldName( "ID" )];
+
+                $res = $db->query( "UPDATE eZDataManager_ItemValue SET
+		                 Value='$value'
+                         WHERE ID='$valueID'" );
+                
+            }
+            else
+            {
+                $db->lock( "eZDataManager_ItemValue" );
+
+                $nextID = $db->nextID( "eZDataManager_ItemValue", "ID" );
+            
+                $res = $db->query( "INSERT INTO eZDataManager_ItemValue
+                         ( ID, DataTypeItemID, Value, ItemID ) VALUES 
+                         ( '$nextID',
+                           '$typeItemID',
+		                   '$value',
+                           '$this->ID' )
+                          " );
+            }
+        
+            $db->unlock();
+            
+            if ( $res == false )
+                $db->rollback();
+            else
+                $db->commit();
+        }
+    }
+
+    /*!
+      Returns the value for the given data type. Returns false if no value is found.
+    */
+    function itemValue( $typeItem )
+    {
+        $db =& eZDB::globalDatabase();
+        $typeItemID = $typeItem->id();
+        
+        $db->array_query( $value_array, "SELECT Value
+                                                FROM eZDataManager_ItemValue
+                                                WHERE ItemID='$this->ID'
+                                                AND DataTypeItemID='$typeItemID'" );
+
+        $value = false;
+        if ( count( $value_array ) > 0 )
+        {
+            $value = $value_array[0][$db->fieldName( "Value" )];
+        }
+        
+        return $value;
+    }
+    
+    /*!
+      \static
+      Returns all data items which matches the search.
+    */
+    function &search( $searchText )
+    {
+        $db =& eZDB::globalDatabase();
+
+        $searchText = trim( $db->escapeString( $searchText ) );
+        
+        $return_array = array();
+        $item_array = array();
+        
+        $db->array_query( $item_array, "SELECT Item.ID FROM eZDataManager_Item AS Item, eZDataManager_ItemValue AS Value
+                                        WHERE Item.ID=Value.ItemID
+                                        AND (
+                                             Value.Value LIKE '%$searchText%'
+                                             OR Item.Name LIKE '%$searchText%'
+                                         ) 
+                                        GROUP BY Item.ID 
+                                        ORDER BY Name" );
+        
+        for ( $i = 0; $i < count( $item_array ); $i++ )
+        { 
+            $return_array[$i] = new eZDataItem( $item_array[$i][$db->fieldName( "ID" )], 0 );
+        }
+        
+        return $return_array;
+    }
+
+	/// the ID for the data item
+    var $ID;
+
+    /// the name of the data item
+    var $Name;
+
+    /// the datatype for this item
+    var $DataTypeID;
+}
+
+?>
