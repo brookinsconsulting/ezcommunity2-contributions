@@ -17,7 +17,7 @@
 <!-- BEGIN path_tpl -->
 
 
-<img src="{www_dir}/admin/images/{site_style}/path-arrow.gif" height="10" width="12" border="0">
+<img src="{www_dir}/design/admin/images/{site_style}/path-arrow.gif" height="10" width="12" border="0">
 
 <a class="path" href="{www_dir}{index}/ad/archive/0/">{intl-topcategory}</a>
 
@@ -25,7 +25,7 @@
 
 <!-- BEGIN path_item_tpl -->
 
-<img src="{www_dir}/admin/images/{site_style}/path-slash.gif" height="10" width="16" border="0">
+<img src="{www_dir}/design/admin/images/{site_style}/path-slash.gif" height="10" width="16" border="0">
 
 <a class="path" href="{www_dir}{index}/ad/archive/{category_id}/">{category_name}</a>
 <!-- END path_item_tpl -->
@@ -52,7 +52,7 @@
 	{category_description}&nbsp;
 	</td>
 	<td width="1%" class="{td_class}">
-	<a href="{www_dir}{index}/ad/category/edit/{category_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezac{category_id}-red','','{www_dir}/admin/images/{site_style}/redigerminimrk.gif',1)"><img name="ezac{category_id}-red" border="0" src="{www_dir}/admin/images/{site_style}/redigermini.gif" width="16" height="16" align="top" alt="Edit" /></a>
+	<a href="{www_dir}{index}/ad/category/edit/{category_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezac{category_id}-red','','{www_dir}/design/admin/images/{site_style}/redigerminimrk.gif',1)"><img name="ezac{category_id}-red" border="0" src="{www_dir}/design/admin/images/{site_style}/redigermini.gif" width="16" height="16" align="top" alt="Edit" /></a>
 	</td>
 	<td class="{td_class}" width="1%" align="center">
 	<input type="checkbox" name="CategoryArrayID[]" value="{category_id}">
@@ -108,7 +108,7 @@
 	&nbsp;
 	</td>
 	<td width="1%" class="{td_class}">
-	<a href="{www_dir}{index}/ad/ad/edit/{ad_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezaa{ad_id}-red','','{www_dir}/admin/images/{site_style}/redigerminimrk.gif',1)"><img name="ezaa{ad_id}-red" border="0" src="{www_dir}/admin/images/{site_style}/redigermini.gif" width="16" height="16" align="top" alt="Edit" /></a>
+	<a href="{www_dir}{index}/ad/ad/edit/{ad_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezaa{ad_id}-red','','{www_dir}/design/admin/images/{site_style}/redigerminimrk.gif',1)"><img name="ezaa{ad_id}-red" border="0" src="{www_dir}/design/admin/images/{site_style}/redigermini.gif" width="16" height="16" align="top" alt="Edit" /></a>
 	</td>
 	<td class="{td_class}" width="1%" align="center">
 	<input type="checkbox" name="AdArrayID[]" value="{ad_id}">
