@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezimagecategory.php,v 1.38 2001/09/21 14:28:49 jhe Exp $
+// $Id: ezimagecategory.php,v 1.39 2001/09/22 12:02:28 master Exp $
 //
 // Definition of eZImageCategory class
 //
@@ -973,7 +973,18 @@ class eZImageCategory
         return $this->SectionID;
     }
 
-
+    function sectionIDStatic( $categoryID )
+    {
+	$db =& eZDB::globalDatabase();
+        $db->query_single( $res, "SELECT SectionID from eZImageCatalogue_Category WHERE ID='$categoryID'");
+	           
+	$sectionID = $res[$db->fieldName("SectionID")];
+			               
+	if ( $sectionID > 0 )
+	    return $sectionID;
+	else
+	    return false;
+    }
     
     var $ID;
     var $Name;
