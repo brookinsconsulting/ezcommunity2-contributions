@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezcompany.php,v 1.58 2001/01/25 19:16:12 jb Exp $
+// $Id: ezcompany.php,v 1.59 2001/01/26 11:18:52 jb Exp $
 //
 // Definition of eZProduct class
 //
@@ -61,7 +61,7 @@ class eZCompany
     */
     function eZCompany( $id="-1", $fetch=true )
     {
-        if ( $id != -1 )
+        if ( is_numeric( $id ) and $id != -1 )
         {
             $this->ID = $id;
             if ( $fetch == true )
@@ -78,7 +78,7 @@ class eZCompany
     {
         $db =& eZDB::globalDatabase();
 
-        if ( !isSet( $this->ID ) )
+        if ( !isset( $this->ID ) or !is_numeric( $this->ID ) )
         {
         
             $db->query( "INSERT INTO eZContact_Company set Name='$this->Name',
