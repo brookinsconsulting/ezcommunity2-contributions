@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezuseradditional.php,v 1.2 2001/11/20 16:11:58 ce Exp $
+// $Id: ezuseradditional.php,v 1.3 2001/11/20 16:47:55 ce Exp $
 //
 // Definition of eZCompany class
 //
@@ -279,7 +279,7 @@ class eZUserAdditional
            {
                $res = $db->query( "UPDATE eZUser_AdditionalValue
                                    SET Value='$value'
-                                   WHERE ID='$id')" );
+                                   WHERE ID='$id'" );
                if ( $res == false )
                    $dbError = true;
                $ret = true;

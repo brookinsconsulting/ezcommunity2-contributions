@@ -135,16 +135,35 @@
 </tr>
 </table>
 
+<br /><br />
+
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
-<!-- BEGIN additional_item_tpl -->
+<!-- BEGIN additional_text_item_tpl -->
 <tr>
 	<td>
 	<p class="boxtext">{additional_name}:</p>
-	<input type="text" size="20" name="AdditionalValue[]" value="{additional_value}"/>
-	<input type="hidden"name="AdditionalArrayID[]" value="{additional_id}"/>
+	<input type="text" size="20" name="AdditionalValue[{index}]" value="{additional_value}"/>
+	<input type="hidden"name="AdditionalArrayID[{index}]" value="{additional_id}"/>
 	</td>
 </tr>
-<!-- END additional_item_tpl -->
+<tr>
+        <td>&nbsp;</td>
+</tr>
+<!-- END additional_text_item_tpl -->
+<!-- BEGIN additional_radio_item_tpl -->
+<tr>
+	<td>
+	<p class="boxtext">{additional_name}:</p>
+	<!-- BEGIN fixed_values_tpl -->
+	{value}: <input type="radio" size="20" name="AdditionalValue[{index}]" value="{value_id}"/>&nbsp;
+	<!-- END fixed_values_tpl -->
+	<input type="hidden"name="AdditionalArrayID[{index}]" value="{additional_id}"/>
+	</td>
+</tr>
+<tr>
+        <td>&nbsp;</td>
+</tr>
+<!-- END additional_radio_item_tpl -->
 </table>
 
 
