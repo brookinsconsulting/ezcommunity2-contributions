@@ -3,15 +3,21 @@
 </tr>
 <tr> 
     <td class="repeaty" background="/images/{site_style}/menu-m.gif">
-    <img src="/images/{site_style}/menu-arrow.gif" width="20" height="10"><a class="menu" href="/contact/companytype/list/">{intl-companytypelist}</a><br>
+    <img src="/images/{site_style}/menu-arrow.gif" width="20" height="10"><a class="menu" href="/contact/companycategory/list/">{intl-companytypelist}</a><br>
     <img src="/images/{site_style}/menu-arrow.gif" width="20" height="10"><a class="menu" href="/contact/person/list/">{intl-personlist}</a><br>
     <img src="/images/{site_style}/menu-arrow.gif" width="20" height="10"><a class="menu" href="/contact/company/new/">{intl-companyadd}</a><br>
     <img src="/images/{site_style}/menu-arrow.gif" width="20" height="10"><a class="menu" href="/contact/person/new/">{intl-personadd}</a><br>
-    <img src="/images/{site_style}/menu-arrow.gif" width="20" height="10"><a class="menu" href="/contact/companytype/new/">{intl-companytypeadd}</a><br>
+    <img src="/images/{site_style}/menu-arrow.gif" width="20" height="10"><a class="menu" href="/contact/companycategory/new/">{intl-companytypeadd}</a><br>
     <img src="/images/{site_style}/menu-arrow.gif" width="20" height="10"><a class="menu" href="/contact/phonetype/list/">{intl-phonetypelist}</a><br>
-    <img src="/images/{site_style}/menu-arrow.gif" width="20" height="10"><a class="menu" href="/contact/phonetype/new/">{intl-phonetypeadd}</a><br>
     <img src="/images/{site_style}/menu-arrow.gif" width="20" height="10"><a class="menu" href="/contact/addresstype/list/">{intl-addresstypelist}</a><br>
+    <img src="/images/{site_style}/menu-arrow.gif" width="20" height="10"><a class="menu" href="/contact/onlinetype/list/">{intl-onlinetypelist}</a><br>
+    <img src="/images/{site_style}/menu-arrow.gif" width="20" height="10"><a class="menu" href="/contact/phonetype/new/">{intl-phonetypeadd}</a><br>
     <img src="/images/{site_style}/menu-arrow.gif" width="20" height="10"><a class="menu" href="/contact/addresstype/new/">{intl-addresstypeadd}</a><br>
+    <img src="/images/{site_style}/menu-arrow.gif" width="20" height="10"><a class="menu" href="/contact/onlinetype/new/">{intl-onlinetypeadd}</a><br>
+    <img src="/images/{site_style}/menu-arrow.gif" width="20" height="10"><a class="menu" href="/contact/consultation/list/">{intl-consultationlist}</a><br>
+    <img src="/images/{site_style}/menu-arrow.gif" width="20" height="10"><a class="menu" href="/contact/consultationtype/list/">{intl-consultationtypelist}</a><br>
+    <img src="/images/{site_style}/menu-arrow.gif" width="20" height="10"><a class="menu" href="/contact/consultation/new/">{intl-newconsultation}</a><br>
+    <img src="/images/{site_style}/menu-arrow.gif" width="20" height="10"><a class="menu" href="/contact/consultationtype/new/">{intl-newconsultationtype}</a><br>
 	</td>
 </tr>
 <tr>
