@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: ezproduct.php,v 1.119.2.1.4.6 2002/01/17 12:41:48 bf Exp $
+// $Id: ezproduct.php,v 1.119.2.1.4.7 2002/01/18 11:40:37 bf Exp $
 //
 // Definition of eZProduct class
 //
@@ -226,6 +226,19 @@ class eZProduct
         $tmpContents = str_replace ("</page>", " ", $tmpContents );
         
         $contents = strtolower( strip_tags( $tmpContents ) ) . " " . $this->Name;
+
+        // fetch all attributes
+        $type = $this->type();
+        if ( $type )
+        {
+            $attributes =& $type->attributes();
+            foreach ( $attributes as $attribute )
+            {
+                $value =& $attribute->value( $this );
+                $contents .= " " . $value;
+            }
+        }
+        
         $contents = str_replace ("\n", "", $contents );
         $contents = str_replace ("\r", "", $contents );
         $contents = str_replace ("(", " ", $contents );
@@ -244,18 +257,6 @@ class eZProduct
         $contents = str_replace ("|", " ", $contents );
         $contents = str_replace ("qdom", " ", $contents );
         $contents = str_replace ("tech", " ", $contents );
-
-        // fetch all attributes
-        $type = $this->type();
-        if ( $type )
-        {
-            $attributes =& $type->attributes();
-            foreach ( $attributes as $attribute )
-            {
-                $value =& $attribute->value( $this );
-                $contents .= " " . $value;
-            }
-        }
 
         // strip &quot; combinations
         $contents = preg_replace("(&.+?;)", " ", $contents );
@@ -1592,6 +1593,9 @@ class eZProduct
         $queryText = $db->escapeString( $queryText );
 
         $productTypeID = $params["ProductType"];
+        $musicType = $params["MusicType"];
+        $searchType = $params["SearchType"];
+        $albumTitle = $params["AlbumTitle"];
 
         if ( !is_numeric( $productTypeID ) )
             $productTypeID = 0;
@@ -1640,42 +1644,77 @@ class eZProduct
             {                
                 $queryWord = trim( $queryWord );
 
-                $searchSQL = " ( eZTrade_Word.Word = '$queryWord'  ) ";
-                
-
-                if ( $productTypeID != 0 )
+                switch ( $searchType )
                 {
-                    $typeTables = ",
+                    case "AdvancedMusic" :
+                    {
+                        $OrderBy = "eZTrade_Product.Name DESC";
+                        if ( $musicType != 0 )
+                        {
+                            $attributeValueTables = ", eZTrade_AttributeValue ";
+                            $attributeSQL = " AND  eZTrade_AttributeValue.ProductID=eZTrade_Product.ID ";
+                        }
+
+                        if ( $albumTitle != "" )
+                        {
+                            $albumSQL = " AND eZTrade_Product.Name LIKE '%$albumTitle%' ";
+                        }
+
+                        $queryString = "INSERT INTO eZTrade_SearchTemp ( ProductID ) SELECT DISTINCT eZTrade_Product.ID AS ProductID
+                 FROM eZTrade_Product,
+                      eZTrade_ProductTypeLink
+                      $attributeValueTables
+                 WHERE
+                         eZTrade_Product.ID=eZTrade_ProductTypeLink.ProductID
+                         AND
+                         eZTrade_ProductTypeLink.TypeID='1'
+                         $attributeSQL
+                         $albumSQL
+                       ORDER BY $OrderBy";
+                        
+                    }break;
+
+                    default:
+                    {
+                     
+                        $searchSQL = " ( eZTrade_Word.Word = '$queryWord'  )  AND ";
+
+                        if ( $productTypeID != 0 )
+                        {
+                            $typeTables = ",
                       eZTrade_ProductTypeLink,
                       eZTrade_Type";
                     
-                    $typeSQL = "                         AND
+                            $typeSQL = "                         AND
                          eZTrade_Product.ID=eZTrade_ProductTypeLink.ProductID
                          AND
                          eZTrade_ProductTypeLink.TypeID=eZTrade_Type.ID
                          AND
                          eZTrade_Type.ID='$productTypeID'";
-                }
-                else
-                {
-                    $typeTables = "";
-                    $typeSQL = "";
-                }
+                        }
+                        else
+                        {
+                            $typeTables = "";
+                            $typeSQL = "";
+                        }
 
-                $queryString = "INSERT INTO eZTrade_SearchTemp ( ProductID ) SELECT DISTINCT eZTrade_Product.ID AS ProductID
+                        $queryString = "INSERT INTO eZTrade_SearchTemp ( ProductID ) SELECT DISTINCT eZTrade_Product.ID AS ProductID
                  FROM eZTrade_Product,
                       eZTrade_ProductWordLink,
                       eZTrade_Word
                       $typeTables
                  WHERE
                        $searchSQL
-                       AND
                        ( eZTrade_Product.ID=eZTrade_ProductWordLink.ProductID
                          AND
                          eZTrade_ProductWordLink.WordID=eZTrade_Word.ID
                          $typeSQL
                         )
                        ORDER BY $OrderBy";
+
+                        
+                    }break;
+                }
 
                 $db->query( $queryString );
 
