@@ -25,6 +25,7 @@ Changes from 2.2.3 to 2.2.4
 * Fixed bug with attributes in eZ link
 * Fixed demo data in eZ newsfeed
 * Fixed xml bug in techrenderer.
+* Fixed bug with unpublished articles in categories excluded from search
 
 Changes from 2.2.2 to 2.2.3
 ---------------------------
