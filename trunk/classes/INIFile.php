@@ -38,7 +38,7 @@
 
   \code
   include_once( "classes/INIFile.php" );
-  $ini = new INIFile( "site.ini" );
+  $ini = new INIFile( "bin/ini/site.ini" );
 
   $PageCaching = $ini->read_var( "eZArticleMain", "PageCaching" );
 
@@ -66,8 +66,8 @@ class INIFile
         // check for modifications
         $cacheTime = eZFile::filemtime( $cachedFile );
         $origTime = eZFile::filemtime( $inifilename );
-        $overrideTime = eZFile::filemtime( "override/" . $inifilename );
-        $appendTime = eZFile::filemtime( "override/" . $inifilename . ".append" );
+        $overrideTime = eZFile::filemtime( "bin/ini/override/" . $inifilename );
+        $appendTime = eZFile::filemtime( "bin/ini/override/" . $inifilename . ".append" );
 
         $loadCache = false;
         if ( eZFile::file_exists( $cachedFile ) )
@@ -75,9 +75,9 @@ class INIFile
             $loadCache = true;
             if ( $cacheTime < $origTime )
                 $loadCache = false;
-            if ( eZFile::file_exists( "override/" . $inifilename ) and $cacheTime < $overrideTime )
+            if ( eZFile::file_exists( "bin/ini/override/" . $inifilename ) and $cacheTime < $overrideTime )
                 $loadCache = false;
-            if ( eZFile::file_exists( "override/" . $inifilename . ".append" ) and $cacheTime < $appendTime )
+            if ( eZFile::file_exists( "bin/ini/override/" . $inifilename . ".append" ) and $cacheTime < $appendTime )
                 $loadCache = false;
         }
 
@@ -136,7 +136,7 @@ class INIFile
             }
         }
         if ( $useoverride )
-            $this->load_override_data( "override/" . $inifilename );
+            $this->load_override_data( "bin/ini/override/" . $inifilename );
     }
 
     function load_override_data( $inifilename = "" )
@@ -154,8 +154,8 @@ class INIFile
 
     function file_exists( $inifilename )
     {
-        return ( eZFile::file_exists( "override/" . $inifilename . ".append" ) or
-                 eZFile::file_exists( "override/" . $inifilename ) or
+        return ( eZFile::file_exists( "bin/ini/override/" . $inifilename . ".append" ) or
+                 eZFile::file_exists( "bin/ini/override/" . $inifilename ) or
                  eZFile::file_exists( $inifilename ) );
     }
 
@@ -438,7 +438,7 @@ class INIFile
       loaded from the site.ini file. This can be overidden by supplying $type and $file.
       If the ini-file object does not exist it is created before returning.
     */
-    function &globalINI( $type = "SiteIni", $file = "site.ini" )
+    function &globalINI( $type = "SiteIni", $file = "bin/ini/site.ini" )
     {
         $ini =& $GLOBALS["INI_$type"];
 
@@ -446,6 +446,8 @@ class INIFile
         {
             $ini = new INIFile( $file );
         }
+
+	//	print("$file");die();
         return $ini;
     }
 
@@ -456,6 +458,6 @@ class INIFile
     var $WRITE_ACCESS = "";    
     var $Index = "";
     var $WWWDir = "";
-	var $SiteDir = "";
+    var $SiteDir = "";
 } 
 ?>
