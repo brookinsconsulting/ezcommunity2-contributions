@@ -25,11 +25,7 @@ if ( isset( $MetaRedirectLocation ) && isset( $MetaRedirectTimer ) )
 
 ?>
 
-<<<<<<< frame.php
-<link rel="stylesheet" type="text/css" href="/sitedesign/<? print ($GlobalSiteDesign); ?>/style.css" />
-=======
 <link rel="stylesheet" type="text/css" href="<? print $wwwDir; ?>/sitedesign/<? print ($GlobalSiteDesign); ?>/style.css" />
->>>>>>> 1.2
 
 <script language="JavaScript1.2">
 <!--//
@@ -87,11 +83,7 @@ else
 
 <body bgcolor="#b5b5b5" topmargin="6" marginheight="6" leftmargin="6" marginwidth="6"  onload="MM_preloadImages('<? print $wwwDir; ?>/images/redigerminimrk.gif','<? print $wwwDir; ?>/images/slettminimrk.gif','<? print $wwwDir; ?>/images/downloadminimrk.gif','<? print $wwwDir; ?>/images/addminimrk.gif')">
 
-<<<<<<< frame.php
-<img src="/sitedesign/<? print ($GlobalSiteDesign); ?>/images/ezpublish-standard.gif" height="40" width="610" border="0" alt="" />
-=======
 <img src="<? print $wwwDir; ?>/sitedesign/<? print ($GlobalSiteDesign); ?>/images/ezpublish-standard.gif" height="40" width="610" border="0" alt="" />
->>>>>>> 1.2
 
 
 <table width="100%" border="0" cellspacing="0" cellpadding="4">
@@ -138,24 +130,13 @@ else
     include( "ezarticle/user/articlelinks.php" );
    ?>
 
-<<<<<<< frame.php
-   <!-- Left menu end -->
-=======
    <!-- Left menu end -->
 
    <img src="<? print $wwwDir; ?>/images/1x1.gif" width="130" height="8" border="0"><br />
    </td>
->>>>>>> 1.2
 
-<<<<<<< frame.php
-   <img src="/images/1x1.gif" width="130" height="8" border="0"><br />
-   </td>
-
-   <td width="1%" bgcolor="#ffffff"><img src="/images/1x1.gif" width="2" height="1" border="0" alt="0" /></td>
-=======
    <td width="1%" bgcolor="#ffffff"><img src="<? print $wwwDir; ?>/images/1x1.gif" width="2" height="1" border="0" alt="0" /></td>
->>>>>>> 1.2
-    <td width="96%" bgcolor="#ffffff">
+   <td width="96%" bgcolor="#ffffff">
 
     <!-- Banner start -->
 
@@ -170,11 +151,7 @@ else
 
    <br />
     </td>
-<<<<<<< frame.php
-      <td width="1%" bgcolor="#ffffff"><img src="/images/1x1.gif" width="2" height="1" border="0" alt="" /></td>
-=======
       <td width="1%" bgcolor="#ffffff"><img src="<? print $wwwDir; ?>/images/1x1.gif" width="2" height="1" border="0" alt="" /></td>
->>>>>>> 1.2
 
    <td width="1%" bgcolor="#f0f0f0">
 
@@ -250,25 +227,6 @@ if ( $Design == 3 )
 
 
     ?>
-<<<<<<< frame.php
-
-   <h2>Alternative sitedesigns:</h2>
-    <a href="<? print( $REQUEST_URI . "?Design=1"); ?>"><b>Intranet</b></a><br />
-    <a href="<? print( $REQUEST_URI . "?Design=2"); ?>"><b>Trade</b></a><br />
-    <a href="<? print( $REQUEST_URI . "?Design=3"); ?>"><b>News</b></a><br />
-
-      <!-- Right menu end -->
-
-   <img src="/images/1x1.gif" width="130" height="20" border="0" alt="" /><br />
-
-   <div align="center">
-   <a target="_blank" href="http://publish.ez.no"><img src="/images/powered-by-ezpublish-100x35-trans-lgrey.gif" width="100" height="35" border="0" alt="Powered by eZ publish" /></a>
-   </div>
-
-   <img src="/images/1x1.gif" width="130" height="8" border="0" alt="" /><br />
-
-   </td>
-=======
 
    <h2>Alternative sitedesigns:</h2>
     <a href="<? print( $wwwDir . $index . $REQUEST_URI . "?Design=1"); ?>"><b>Intranet</b></a><br />
@@ -286,7 +244,6 @@ if ( $Design == 3 )
    <img src="<? print $wwwDir; ?>/images/1x1.gif" width="130" height="8" border="0" alt="" /><br />
 
    </td>
->>>>>>> 1.2
   </tr>
 </table>
 
@@ -300,13 +257,8 @@ $StoreStats = $ini->read_var( "eZStatsMain", "StoreStats" );
 if ( $StoreStats == "enabled" )
 {
     // callback for storing the stats
-<<<<<<< frame.php
-    $imgSrc = "/stats/store" . $REQUEST_URI . "1x1.gif";
-    print( "<img src=\"$imgSrc\" height=\"1\" width=\"1\" border=\"0\" alt=\"\" />" );
-=======
     $imgSrc = $wwwDir . "/stats/store" . $REQUEST_URI . "1x1.gif";
     print( "<img src=\"$imgSrc\" height=\"1\" width=\"1\" border=\"0\" alt=\"\" />" );
->>>>>>> 1.2
 }
 
 ?>
