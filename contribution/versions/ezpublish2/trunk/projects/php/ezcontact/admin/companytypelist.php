@@ -234,7 +234,6 @@ else
     {
         for( $index = 0; $index < count( $companyList ); $index++ )
         {
-            print( "engangbare?");
             if ( ( $index %2 ) == 0 )
                 $t->set_var( "td_class", "bglight" );
             else
