@@ -68,6 +68,15 @@ Step 4: Add these lines to the head of your sitedesign frame, in the html head s
 <script type="text/javascript" src="/ezgroupeventcalendar/user/templates/standard/overlib/overlib.js"></script>
 <script type="text/javascript" src="/ezgroupeventcalendar/user/templates/standard/dom-drag.js"></script>
 
+<!-- eZGroupEventCalendar:jscalendar style dependancies -->
+<link rel="alternate stylesheet" type="text/css" media="all" href="/ezgroupeventcalendar/user/templates/standard/jscalendar/calendar-system.css" title="system" />
+
+<!-- eZGroupEventCalendar:jscalendar script dependancies -->
+  <script type="text/javascript" src="/ezgroupeventcalendar/user/templates/standard/jscalendar/calendar.js"></script>
+  <script type="text/javascript" src="/ezgroupeventcalendar/user/templates/standard/jscalendar/calendar-setup.js"></script>
+  <script type="text/javascript" src="/ezgroupeventcalendar/user/templates/standard/jscalendar/lang/calendar-en.js"></script>
+  <script type="text/javascript" src="/ezgroupeventcalendar/user/templates/standard/jscalendar/calendar-setup-instance.js"></script>
+
 Step 5: To access the Group Event Calendar the URL is as follows 
         http://YourWebsiteUrl/groupeventcalendar/monthview/
 
