@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: articleedit.php,v 1.6 2001/02/23 12:37:13 gl Exp $
+// $Id: articleedit.php,v 1.7 2001/02/23 12:39:00 gl Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <18-Oct-2000 15:04:39 bf>
@@ -181,12 +181,8 @@ $t->set_var( "article_id", $article->id() );
 $tree = new eZArticleCategory();
 $treeArray = $tree->getTree();
 
-print( "<br />Cat " . $CategoryID . "<br />" );
-
 foreach ( $treeArray as $catItem )
 {
-    print( $catItem[0]->id() . "<br />" );
-
     $t->set_var( "selected", "" );
 
     if ( $CategoryID == $catItem[0]->id() )
