@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: productlist.php,v 1.36 2001/09/21 14:28:49 jhe Exp $
+// $Id: productlist.php,v 1.37 2001/09/21 14:31:50 bf Exp $
 //
 // Created on: <23-Sep-2000 14:46:20 bf>
 //
@@ -38,7 +38,10 @@ include_once( "eztrade/classes/ezpricegroup.php" );
 // sections
 include_once( "ezsitemanager/classes/ezsection.php" );
 
-$GlobalSectionID = eZProductCategory::sectionIDStatic( $CategoryID );
+if ( $CategoryID != 0 )
+{
+    $GlobalSectionID = eZProductCategory::sectionIDStatic( $CategoryID );
+}
 
 // init the section
 $sectionObject =& eZSection::globalSectionObject( $GlobalSectionID );

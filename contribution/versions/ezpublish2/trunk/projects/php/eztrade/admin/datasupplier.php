@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: datasupplier.php,v 1.39 2001/09/07 09:54:44 ce Exp $
+// $Id: datasupplier.php,v 1.40 2001/09/21 14:31:49 bf Exp $
 //
 // Created on: <21-Sep-2000 10:32:36 bf>
 //
@@ -53,6 +53,26 @@ switch ( $url_array[2] )
         $Action = $url_array[4];
         include( "eztrade/admin/orderedit.php" );
         break;
+
+    case "customerlist" :
+    {
+        if ( $url_array[3] != "" )
+            $Offset = $url_array[3];
+        else
+            $Offset = 0;
+        
+        include( "eztrade/admin/customerlist.php" );
+    }
+    break;
+
+    case "customerview" :
+    {
+        $CustomerID = $url_array[3];
+        
+        include( "eztrade/admin/customerview.php" );
+    }
+    break;
+    
 
     case "categorylist" :
 

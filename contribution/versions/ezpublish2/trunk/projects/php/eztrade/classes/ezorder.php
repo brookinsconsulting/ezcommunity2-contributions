@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezorder.php,v 1.52 2001/09/17 13:23:00 ce Exp $
+// $Id: ezorder.php,v 1.53 2001/09/21 14:31:50 bf Exp $
 //
 // Definition of eZOrder class
 //
@@ -872,6 +872,9 @@ class eZOrder
         return $ret;        
     }
 
+    /*!
+      
+    */
     function expiringOrders( $startdate, $time = 86400 )
     {
         if ( get_class( $startdate ) == "ezdate" || get_class( $startdate ) == "ezdatetime" )
@@ -904,7 +907,7 @@ class eZOrder
         return $res[0][$db->fieldName( "C" )];
     }
 
-    /*
+    /*!
         This function calculates the totals of the order contents.
         
         
@@ -954,6 +957,30 @@ class eZOrder
         $total["tax"] = $total["subtax"] + $total["shiptax"];
     }
 
+    /*!
+      \static
+      Returns all the users which has created an order.
+
+      The users are returned as an array of eZUser objects.
+    */
+    function customers()
+    {
+        $db =& eZDB::globalDatabase();
+
+        $return_array = array();
+        $user_array = array();
+
+        $db->array_query( $user_array, "SELECT eZTrade_Order.UserID, eZUser_User.FirstName FROM eZTrade_Order, eZUser_User
+                                        WHERE eZTrade_Order.UserID=eZUser_User.ID
+                                        GROUP BY eZTrade_Order.UserID ORDER BY eZUser_User.FirstName " );
+
+        for ( $i = 0; $i < count( $user_array ); $i++ )
+        {
+            $return_array[$i] = new eZUser( $user_array[$i][$db->fieldName("UserID")] );
+        }
+
+        return $return_array;
+    }
     
     var $ID;
     var $UserID;
