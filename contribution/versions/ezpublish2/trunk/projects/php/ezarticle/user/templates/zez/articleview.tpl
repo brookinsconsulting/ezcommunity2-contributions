@@ -28,7 +28,7 @@
 <!-- END page_link_tpl -->
 
 <!-- BEGIN current_page_link_tpl -->
-| {page_number}
+| < {page_number} >
 <!-- END current_page_link_tpl -->
 
 
