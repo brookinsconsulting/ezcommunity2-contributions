@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: eztime.php,v 1.4 2001/01/09 17:00:07 bf Exp $
+// $Id: eztime.php,v 1.5 2001/01/12 14:25:36 gl Exp $
 //
 // Definition of eZCompany class
 //
@@ -32,15 +32,11 @@ class eZTime
         if ( ( $hour == 0 )  && ( $minute == 0 ) && ( $second == 0 ) )
         {
             $now = getdate();
-            $this->setHour( $now["hours"] );
-            $this->setMinute( $now["minutes"] );
-            $this->setSecond( $now["seconds"] );
+            $this->setSecondsElapsedHMS( $now["hours"], $now["minutes"], $now["seconds"] );
         }
         else
         {
-            $this->setHour( $hour );
-            $this->setMinute( $minute );
-            $this->setSecond( $second ); 
+            $this->setSecondsElapsedHMS( $hour, $minute, $second ); 
         }
     }
 
@@ -49,7 +45,17 @@ class eZTime
     */
     function hour()
     {
-        return $this->Hour;
+        $value = $this->SecondsElapsed;
+
+        $second = $value % 60;
+        $value = ( $value - $second ) / 60;
+
+        $minute = $value % 60;
+        $value = ( $value - $minute ) / 60;
+
+        $hour = $value % 24;
+
+        return $hour;
     }
 
     /*!
@@ -57,7 +63,14 @@ class eZTime
     */
     function minute()
     {
-        return $this->Minute;
+        $value = $this->SecondsElapsed;
+
+        $second = $value % 60;
+        $value = ( $value - $second ) / 60;
+
+        $minute = $value % 60;
+
+        return $minute;
     }
 
     /*!
@@ -65,7 +78,19 @@ class eZTime
     */
     function second()
     {
-        return $this->Second;
+        $value = $this->SecondsElapsed;
+
+        $second = $value % 60;
+
+        return $second;
+    }
+
+    /*!
+      Returns the number of seconds elapsed since midnight.
+    */
+    function secondsElapsed()
+    {
+        return $this->SecondsElapsed;
     }
 
     /*!
@@ -73,8 +98,8 @@ class eZTime
     */
     function setHour( $value )
     {
-        $this->Hour = $value;
-        setType( $this->Hour, "integer" );
+        $this->SecondsElapsed = ( ( $value * 3600 ) + ( $this->minute() * 60 ) + $this->second() );
+        setType( $this->SecondsElapsed, "integer" );
     }
 
     /*!
@@ -82,8 +107,8 @@ class eZTime
     */
     function setMinute( $value )
     {
-        $this->Minute = $value;
-        setType( $this->Minute, "integer" );
+        $this->SecondsElapsed = ( ( $this->hour() * 3600 ) + ( $value * 60 ) + $this->second() );
+        setType( $this->SecondsElapsed, "integer" );
     }
     
     /*!
@@ -91,8 +116,26 @@ class eZTime
     */
     function setSecond( $value )
     {
-        $this->Second = $value;
-        setType( $this->Second, "integer" );
+        $this->SecondsElapsed = ( ( $this->hour() * 3600 ) + ( $this->minute() * 60 ) + $value );
+        setType( $this->SecondsElapsed, "integer" );
+    }
+
+    /*!
+      Sets the number of seconds elapsed since midnight.
+    */
+    function setSecondsElapsed( $value )
+    {
+        $this->SecondsElapsed = $value;
+        setType( $this->SecondsElapsed, "integer" );
+    }
+
+    /*!
+      Sets the number of seconds elapsed since midnight.
+    */
+    function setSecondsElapsedHMS( $hour, $minute, $second )
+    {
+        $this->SecondsElapsed = ( ( $hour * 3600 ) + ( $minute * 60 ) + $second );
+        setType( $this->SecondsElapsed, "integer" );
     }
 
     /*!
@@ -107,18 +150,9 @@ class eZTime
         {
             $tmpTime = new eZTime( $this->hour(), $this->minute(), $this->second() );
 
-            $second = ( $this->second() + $time->second() ) % 60;
-            
-            $minute = ( ( ( $this->minute() + $time->minute() ) +
-                 ( ( $this->second() + $time->second() ) / 60 ) ) % 60 );
-            
-            $hour = $this->hour() + $time->hour() +  ( ( ( $this->minute() + $time->minute() ) +
-                 ( ( $this->second() + $time->second() ) / 60 ) ) / 60 );
+            $secondsElapsed = ( $this->SecondsElapsed + $time->secondsElapsed() ) % 86400;
+            $tmpTime->setSecondsElapsed( $secondsElapsed );
 
-            $tmpTime->setHour( $hour );
-            $tmpTime->setMinute( $minute );
-            $tmpTime->setSecond( $second );
-            
             $ret = $tmpTime;
         }
         
@@ -137,40 +171,27 @@ class eZTime
     function isGreater( &$time, $equal=false )
     {
         $ret = false;
+
         if ( get_class( $time ) == "eztime" )
         {
-            if ( $time->hour() > $this->hour() )
+            if ( $equal == false )
             {
-                $ret = true;
-            }
-            else if ( $time->hour() == $this->hour() )
-            {
-                if ( $time->minute() > $this->minute() )
+                if ( $time->secondsElapsed() > $this->SecondsElapsed )
                 {
                     $ret = true;
                 }
-                else if ( $time->minute() == $this->minute() )
+            }
+            else
+            {
+                if ( $time->secondsElapsed() >= $this->SecondsElapsed )
                 {
-                    if ( $equal == false )
-                    {
-                        if ( $time->second() > $this->minute() )
-                        {
-                            $ret = true;
-                        }
-                    }
-                    else
-                    {                        
-                        if ( $time->second() >= $this->minute() )
-                        {
-                            $ret = true;
-                        }
-                    }                    
+                    $ret = true;
                 }
             }
         }
         return $ret;
     }
-    
+
     /*!
       Sets the time according to the MySQL time given as a
       parameter. If the value is invalid an error message is
@@ -180,9 +201,7 @@ class eZTime
     {
         if ( ereg( "([0-9]{2}):([0-9]{2}):([0-9]{2})", $value, $valueArray ) )
         {
-            $this->setHour( $valueArray[1] );
-            $this->setMinute( $valueArray[2] );
-            $this->setSecond( $valueArray[3] );
+            $this->setSecondsElapsedHMS( $valueArray[1], $valueArray[2], $valueArray[3] );
         }
         else
         {
@@ -191,7 +210,7 @@ class eZTime
     }
 
     /*!
-      Returns the MySQL times equivalent to the  time stored
+      Returns the MySQL times equivalent to the time stored
       in the object.
     */
     function mysqlTime()
@@ -205,7 +224,7 @@ class eZTime
 
     /*!
       \private
-      Adds a "0" infront of the value if it's below 10.
+      Adds a "0" in front of the value if it's below 10.
     */
     function addZero( $value )
     {
@@ -218,8 +237,6 @@ class eZTime
         return $ret;
     }
 
-    var $Hour;
-    var $Minute;
-    var $Second;
+    var $SecondsElapsed;
 }
 

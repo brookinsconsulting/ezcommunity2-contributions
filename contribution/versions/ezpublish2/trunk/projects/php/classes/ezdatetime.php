@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezdatetime.php,v 1.15 2001/01/09 17:00:07 bf Exp $
+// $Id: ezdatetime.php,v 1.16 2001/01/12 14:25:36 gl Exp $
 //
 // Definition of eZCompany class
 //
@@ -25,6 +25,7 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, US
 //
 
+include_once( "classes/eztime.php" );
 
 //!! eZCommon
 //! The eZDateTime class provides date and functions.
@@ -59,18 +60,14 @@ class eZDateTime
             $this->Year = $now[ "year" ];
             $this->Month = $now[ "mon" ];
             $this->Day = $now[ "mday" ];
-            $this->Hour = $now[ "hours" ];
-            $this->Minute = $now[ "minutes" ];
-            $this->Second = $now[ "seconds" ];
+            $this->Time = new eZTime( $now[ "hours" ], $now[ "minutes" ], $now[ "seconds" ] );
         }
         else
         {        
             $this->setYear( $year );
             $this->setMonth( $month );
             $this->setDay( $day );
-            $this->setHour( $hour );
-            $this->setMinute( $minute );
-            $this->setSecond( $second );
+            $this->Time = new eZTime( $hour, $minute, $second );
         }
     }
 
@@ -103,7 +100,7 @@ class eZDateTime
     */
     function hour()
     {
-        return $this->Hour;
+        return $this->Time->hour();
     }
 
     /*!
@@ -111,7 +108,7 @@ class eZDateTime
     */
     function minute()
     {
-        return $this->Minute;
+        return $this->Time->minute();
     }
 
 
@@ -120,7 +117,7 @@ class eZDateTime
     */
     function second()
     {
-        return $this->Second;
+        return $this->Time->second();
     }
 
     
@@ -129,54 +126,53 @@ class eZDateTime
     */
     function mySQLDateTime( )
     {
-        if ( $this->Month < "10" )
+        if ( $this->month() < "10" )
         {
-            $month = ( "0" . $this->Month() );
+            $month = ( "0" . $this->month() );
         }
         else
         {
-            $month = $this->Month();
+            $month = $this->month();
         }
         
-        if ( $this->Day < "10" )
+        if ( $this->day() < "10" )
         {
-            $day = ( "0" . $this->Day() );
+            $day = ( "0" . $this->day() );
         }
         else
         {
-            $day = $this->Day();
+            $day = $this->day();
         }
 
-        if ( $this->Hour < "10" )
+        if ( $this->hour() < "10" )
         {
-            $hour = ( "0" . $this->Hour() );
+            $hour = ( "0" . $this->hour() );
         }
         else
         {
-            $hour = $this->Hour();
+            $hour = $this->hour();
         }
 
-        if ( $this->Minute < "10" )
+        if ( $this->minute() < "10" )
         {
-            $minute = ( "0" . $this->Minute() );
+            $minute = ( "0" . $this->minute() );
         }
         else
         {
-            $minute = $this->Minute();
+            $minute = $this->minute();
         }
 
-        if ( $this->Second < "10" )
+        if ( $this->second() < "10" )
         {
-            $second = ( "0" . $this->Second() );
+            $second = ( "0" . $this->second() );
         }
         else
         {
-            $second = $this->Second();
+            $second = $this->second();
         }
-        $current = ( $this->Year . "-" .  $month . "-" . $day . " " .  $hour . ":" . $minute . ":" . $second );
+        $current = ( $this->year() . "-" .  $month . "-" . $day . " " .  $hour . ":" . $minute . ":" . $second );
         return $current;
     }
-      
 
     /*!
       Sets the year value.
@@ -210,8 +206,7 @@ class eZDateTime
     */
     function setHour( $value )
     {
-        $this->Hour = $value;
-        setType( $this->Hour, "integer" );
+        $this->Time->setHour( $value );
     }
 
     /*!
@@ -219,8 +214,7 @@ class eZDateTime
     */
     function setMinute( $value )
     {
-        $this->Minute = $value;
-        setType( $this->Minute, "integer" );
+        $this->Time->setMinute( $value );
     }
 
     /*!
@@ -228,20 +222,28 @@ class eZDateTime
     */
     function setSecond( $value )
     {
-        $this->Second = $value;
-        setType( $this->Second, "integer" );
+        $this->Time->setSecond( $value );
     }
 
     /*!
       Returns the date component of the date time object
-      as a eZDate object.
+      as an eZDate object.
     */
     function &date()
     {
         include_once( "classes/ezdate.php" );
 
         $date = new eZDate( $this->year(), $this->month(), $this->day() );
-        return $date;        
+        return $date;
+    }
+    
+    /*!
+      Returns the time component of the date time object
+      as an eZTime object.
+    */
+    function &time()
+    {
+        return $Time;
     }
     
     /*!
@@ -489,14 +491,12 @@ class eZDateTime
     {
         return checkdate( $this->month(), $this->day(), $this->year() );
     }
-    
-    
-    
+
+
     var $Year;
     var $Month;
     var $Day;
-    var $Hour;
-    var $Minute;
-    var $Second;
+
+    var $Time;
 }
 ?>
