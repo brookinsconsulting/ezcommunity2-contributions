@@ -33,7 +33,7 @@
     <!-- BEGIN message_item_tpl -->
     <tr>
     	<td class="{td_class}">
-	   {spacer}
+	   {spacer}{spacer}
 		<a href="/forum/message/{message_id}/">
 		{topic}
 		</a>

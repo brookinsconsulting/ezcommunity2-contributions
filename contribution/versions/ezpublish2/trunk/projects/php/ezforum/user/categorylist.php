@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: categorylist.php,v 1.1 2000/10/18 11:56:07 ce-cvs Exp $
+// $Id: categorylist.php,v 1.2 2000/10/27 10:19:57 ce-cvs Exp $
 //
 // Definition of || class
 //
@@ -46,12 +46,12 @@ $category = new eZForumCategory();
 $categoryList = $category->getAllCategories();
 if ( !$categoryList )
 {
-    $ini = new INIFile( "ezforum/intl/" . $Language . "/categorylist.php.ini", false );
+    $ini = new INIFile( "ezforum/user/intl/" . $Language . "/categorylist.php.ini", false );
     $noitem =  $ini->read_var( "strings", "noitem" );
 
     $t->set_var( "next", "" );
     $t->set_var( "previous", "" );
-    $t->set_var( "category", $noitem );
+    $t->set_var( "category_item", $noitem );
 }
 else
 {

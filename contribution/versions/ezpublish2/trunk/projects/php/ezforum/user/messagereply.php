@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: messagereply.php,v 1.7 2000/10/27 08:57:12 bf-cvs Exp $
+// $Id: messagereply.php,v 1.8 2000/10/27 10:19:57 ce-cvs Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <24-Sep-2000 12:20:32 bf>
@@ -31,6 +31,7 @@ include_once( "common/ezphputils.php" );
 include_once( "classes/eztemplate.php" );
 include_once( "classes/ezmail.php" );
 include_once( "classes/eztexttool.php" );
+include_once( "classes/ezlocale.php" );
 
 include_once( "ezuser/classes/ezuser.php" );
 
@@ -71,18 +72,36 @@ if ( $Action == "insert" )
 
     $mail->setFrom( "noreply@ez.no" );
     
-    $mail->setSubject( "reply" );
-
+    $locale = new eZLocale( $Language );
+    
+    $mailTemplate = new eZTemplate( "ezforum/user/" . $ini->read_var( "eZForumMain", "TemplateDir" ),
+                                    "ezforum/user/intl", $Language, "mailreply.php" );
+    
+    $mailTemplate->set_file( "mailreply", "mailreply.tpl" );
+    $mailTemplate->setAllStrings();
+    
     foreach ( $messages as $message )
     {
         if ( $message->id() != $reply->id() )
         {
             if ( ( $message->treeID() > $reply->treeID() ) && $message->emailNotice() )
             {
-                $user =& $message->user();
+                $headersInfo = ( getallheaders() );
+                $mailTemplate->set_var( "arthur", $user->firstName() . " " . $user->lastName() );
+                $mailTemplate->set_var( "postingtime", $locale->format( $message->postingTime() ) );
                 
+                $mailTemplate->set_var( "topic", $reply->topic() );
+                $mailTemplate->set_var( "body", $reply->body() );
+                $mailTemplate->set_var( "link", "http://" . $headersInfo["Host"] . "forum/message/" . $reply->id() );
+
+                $bodyText = ( $mailTemplate->parse( "dummy", "mailreply" ) );
+
+                $mail->setSubject( $reply->topic() );
+
+                $user =& $message->user();
+
                 $mail->setTo( $user->email() );
-                $mail->setBody(  $reply->body() . "" . $user->email() );
+                $mail->setBody( $bodyText );
                 
                 $mail->send();
             }
@@ -139,6 +158,11 @@ $t->set_var( "category_name", $category->name() );
 
 $t->set_var( "forum_name", $forum->name() );
 $user = eZUser::currentUser();
+
+if ( !$user )
+{
+    Header( "Location: /forum/userlogin/reply/$ReplyID" );
+}
 
 $t->set_var( "forum_id", $ForumID );
 
