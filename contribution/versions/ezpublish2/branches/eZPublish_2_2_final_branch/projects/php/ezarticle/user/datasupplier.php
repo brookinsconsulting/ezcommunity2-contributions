@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: datasupplier.php,v 1.95.2.1 2001/10/31 14:53:49 master Exp $
+// $Id: datasupplier.php,v 1.95.2.2 2001/11/01 18:24:57 master Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -336,7 +336,7 @@ switch ( $url_array[2] )
 
         if ( $PageCaching == "enabled" )
         {
-            $cachedFile = "ezarticle/cache/articleview," . $ArticleID . ",". $PageNumber . "," . $CategoryID . "," . $groupstr  .".cache";
+            $cachedFile = "ezarticle/cache/articleview," . $ArticleID . ",". $PageNumber . "," . $CategoryID . "," . $PrintableVersion . "," . $groupstr  .".cache";
             if ( eZFile::file_exists( $cachedFile ) )
             {
                 include( $cachedFile );
@@ -385,7 +385,7 @@ switch ( $url_array[2] )
         $StaticRendering = true;
         $ArticleID = $url_array[3];
         $PageNumber= $url_array[4];
-
+        $CategoryID = $url_array[5];	
         
         if ( !isset( $PageNumber ) || ( $PageNumber == "" ) || ( $PageNumber < 1 ) )
             $PageNumber= 1;

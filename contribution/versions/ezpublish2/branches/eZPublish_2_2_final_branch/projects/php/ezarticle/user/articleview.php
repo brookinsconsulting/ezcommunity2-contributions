@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: articleview.php,v 1.84.2.1 2001/11/01 18:21:45 master Exp $
+// $Id: articleview.php,v 1.84.2.2 2001/11/01 18:22:12 master Exp $
 //
 // Created on: <18-Oct-2000 16:34:51 bf>
 //
@@ -22,12 +22,6 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, US
 //
-
-print "pv=$PrintableVersion";
-
-print "<pre>";
-print_r ($url_array);
-print "</pre>";
 
 include_once( "classes/ezhttptool.php" );
 include_once( "classes/INIFile.php" );
