@@ -4,20 +4,27 @@
 
 <form method="post" action="/bulkmail/preview/{current_mail_id}" enctype="multipart/form-data" >
 
-<p>{intl-category}: {category}</p>
+<p class="boxtext">{intl-subject}:</p>
+<div class="p">{subject}</div>
 
-<p>{intl-from}: {from}</p>
+<p class="boxtext">{intl-category}:</p>
+<div class="p">{category}</div>
 
-<p>{intl-subject}: {subject}</p>
-<table width="100%">
+<p class="boxtext">{intl-from}:</p>
+<div class="p">{from}</div>
+<br />
+
+<table width="100%" cellpadding="4" cellspacing="0" border="0">
 <tr>
-  <td class="bgdark">
+  <td class="bglight">
   {mail_body}
   </td>
 <tr>
 </table>
+<br />
 
 <hr noshade="noshade" size="4" />
+
 <table cellspace="0" cellpadding="0" border="0">
 <tr>
   <!-- BEGIN send_button_tpl -->
