@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: userwithaddress.php,v 1.33 2001/02/08 13:07:12 ce Exp $
+// $Id: userwithaddress.php,v 1.34 2001/02/08 16:25:18 ce Exp $
 //
 //
 // Christoffer A. Elo <ce@ez.no>
@@ -356,7 +356,7 @@ if ( $Action == "Insert" && $error == false )
     $user->setLastName( $LastName );
     $user->setSignature( $Signature );
 
-    $user->store();
+//    $user->store();
 
     // add user to usergroup
     setType( $AnonymousUserGroup, "integer" );
@@ -369,12 +369,18 @@ if ( $Action == "Insert" && $error == false )
     $address->setStreet2( $Street2[0] );
     $address->setZip( $Zip[0] );
     $address->setPlace( $Place[0] );
-    
+
     if ( isset( $CountryID ) )
     {
         $country = new eZCountry( $CountryID[0] );
         $address->setCountry( $country );
-       
+    }
+    else
+    {
+        $CountryID = $ini->read_var( "eZUserMain", "DefaultCountry" );
+        $country = new eZCountry( $CountryID );
+        $address->setCountry( $country );
+                
     }
     
     $address->store();
@@ -439,6 +445,14 @@ if ( $Action == "Update" )
             $country = new eZCountry( $CountryID[$i] );
             $address->setCountry( $country );
         }
+        else
+        {
+            $CountryID = $ini->read_var( "eZUserMain", "DefaultCountry" );
+            $country = new eZCountry( $CountryID );
+            $address->setCountry( $country );
+            
+        }
+
                 
         $address->store();
 
