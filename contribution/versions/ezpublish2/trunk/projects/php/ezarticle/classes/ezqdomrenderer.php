@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezqdomrenderer.php,v 1.40 2001/09/03 09:54:34 bf Exp $
+// $Id: ezqdomrenderer.php,v 1.41 2001/09/06 09:26:29 bf Exp $
 //
 // Definition of eZQDomRenderer class
 //
@@ -480,6 +480,12 @@ class eZQDomrenderer
                        $imageHref = $attr->children[0]->content;
                     }
                     break;
+
+                    case "caption" :
+                    {
+                       $imageCaptionOverride = trim( $attr->children[0]->content );
+                    }
+                    break;
                 }
             }
 
@@ -546,7 +552,24 @@ class eZQDomrenderer
 
                 $imageWidth = $variation->width();
                 $imageHeight = $variation->height();
-                $imageCaption = $image->caption();
+
+
+                if ( $imageCaptionOverride != "" )
+                {
+                    $imageCaption = $imageCaptionOverride;
+                }
+                else
+                {
+                    if ( $imageCaptionOverride == "_blank" )
+                    {                    
+                        $imageCaption = "";
+                    }
+                    else
+                    {
+                        $imageCaption = $image->caption();                                                
+                    }
+                }
+                
                 $imageID = $image->id();
 
                 $viewMode = $GLOBALS["ViewMode"];

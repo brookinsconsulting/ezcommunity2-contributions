@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezqdomgenerator.php,v 1.28 2001/08/31 11:32:43 bf Exp $
+// $Id: ezqdomgenerator.php,v 1.29 2001/09/06 09:26:29 bf Exp $
 //
 // Definition of eZQDomGenerator class
 //
@@ -428,10 +428,16 @@ class eZQDomGenerator
                             $imageHref = $imageItem->children[0]->content;
                         }
                         break;
+
+                        case "caption" :
+                        {
+                            $imageCaptionOverride = trim( $imageItem->children[0]->content );
+                        }
+                        break;
                         
                     }
                 }
-
+            
                             if (
 				$imageSize != "small"  &&
                                 $imageSize != "medium" &&
@@ -441,8 +447,16 @@ class eZQDomGenerator
                             {
                         	$imageSize = "medium";
                             }
-            
-            $pageContent = "<image $imageID $imageAlignment $imageSize $imageHref>";
+
+            if ( $imageCaptionOverride != "" )
+            {
+                $pageContent = "<image id=\"$imageID\" align=\"$imageAlignment\" size=\"$imageSize\"  href=\"$imageHref\" caption=\"$imageCaptionOverride\" />";
+            }
+            else
+            {
+                $pageContent = "<image $imageID $imageAlignment $imageSize $imageHref>";
+            }                            
+
         }
         return $pageContent;
     }
