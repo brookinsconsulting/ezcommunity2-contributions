@@ -14,8 +14,8 @@
 
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
   <tr>
-	<td><p class="boxtext">({forum_start}-{forum_end}/{forum_total})</p></td>
-	<td align="right" valign="middle">
+    <td><p class="boxtext">({forum_start}-{forum_end}/{forum_total})</p></td>
+    <td align="right" valign="middle">
 	<form action="{www_dir}{index}/forum/messagelist/{forum_id}/parent/{offset}" method="post">
 	<span class="boxtext">{intl-show}:&nbsp;</span><select name="ForumMessages">
 	<!-- BEGIN messages_element_tpl -->
@@ -24,18 +24,18 @@
 	</select>
 	<input class="stdbutton" type="submit" value="{intl-update}" />
 	</form>
-	</td>
-     <td align="right">
-     <form action="{www_dir}{index}/forum/messagelist/{forum_id}/" method="post">
-           <!-- BEGIN hide_threads_tpl -->
-           <input class="stdbutton" type="submit" name="HideThreads" value="{intl-hide_threads}" />
-           <!-- END hide_threads_tpl -->
-           <!-- BEGIN show_threads_tpl -->
-           <input class="stdbutton" type="submit" name="ShowThreads" value="{intl-show_threads}" />
-           <!-- END show_threads_tpl -->
-     </form>
-     </td>
-</tr>
+    </td>
+    <td align="right">
+    <form action="{www_dir}{index}/forum/messagelist/{forum_id}/" method="post">
+        <!-- BEGIN hide_threads_tpl -->
+        <input class="stdbutton" type="submit" name="HideThreads" value="{intl-hide_threads}" />
+        <!-- END hide_threads_tpl -->
+        <!-- BEGIN show_threads_tpl -->
+        <input class="stdbutton" type="submit" name="ShowThreads" value="{intl-show_threads}" />
+        <!-- END show_threads_tpl -->
+    </form>
+    </td>
+  </tr>
 </table>
 
 <hr noshade size="4" />
@@ -70,7 +70,6 @@
 	<tr>
 		<td width="1%">
 		<nobr>
-		{spacer}{spacer}
 		<!-- BEGIN new_icon_tpl -->
                 <img src="{www_dir}/images/message_new.gif" width="16" height="16" border="0" alt="New message" />
 		<!-- END new_icon_tpl -->
@@ -80,7 +79,7 @@
 		</nobr>
 		</td>
 		<td width="99%">
-        &nbsp;<a href="{www_dir}{index}/forum/message/{message_id}/">{topic}</a>&nbsp;&nbsp;<span class="small">{count_replies}</span>
+        &nbsp;{spacer}{spacer}<a href="{www_dir}{index}/forum/message/{message_id}/">{topic}</a>&nbsp;&nbsp;<span class="small">{count_replies}</span>
         </td>
 	</tr>
 	</table>
