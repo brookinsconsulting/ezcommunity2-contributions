@@ -768,3 +768,16 @@ Maintainer(s) : jhe@ez.no
 
     * user/fileview.php: fixed templatebug with fileview.
 
+
+Module : ezfilemanager
+Repository path : /home/cvsroot/projects/php/ezfilemanager
+Maintainer(s) : jhe@ez.no
+2002-09-02  Baard Farstad  <bf@ez.no>
+
+    * user/Attic/menufilelist.php
+      user/templates/standard/Attic/menufilelist.tpl:
+    Added menufilelist for filemanager.
+
+    * user/Attic/menufilelist.php
+      user/templates/standard/Attic/menufilelist.tpl: New file.
+
