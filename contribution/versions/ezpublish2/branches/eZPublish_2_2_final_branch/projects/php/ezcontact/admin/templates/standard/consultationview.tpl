@@ -62,26 +62,24 @@
 <!-- END consultation_item_tpl -->
 
 
-<br /><br />
+<br />
 
 
 <hr noshade="noshade" size="4" />
 
 <table cellpadding="0" cellspacing="0" border="0">
 <tr>
-<!-- BEGIN consultation_edit_button_tpl -->
     <td>
         <form method="post" action="{www_dir}{index}/contact/consultation/edit/{consultation_id}/" enctype="multipart/form-data">
 	<input class="okbutton" type="submit" value="{intl-edit}" />
 	</form>
-    </td>
-<!-- END consultation_edit_button_tpl -->
-    <td>&nbsp;</td>
+	</td>
+	<td>&nbsp;</td>
 	<td>
 	<form method="post" action="{www_dir}{index}/contact/consultation/list/">
 	<input class="okbutton" type="submit" name="Back" value="{intl-back}">
 	</form>
-    </td>
+	</td>
 </tr>
 </table>
 

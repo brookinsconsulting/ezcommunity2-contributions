@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: consultationlist.php,v 1.14.2.4 2002/05/08 10:39:02 jhe Exp $
+// $Id: consultationlist.php,v 1.14.2.5 2002/05/14 11:17:04 jhe Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -25,7 +25,7 @@
 
 include_once( "classes/INIFile.php" );
 include_once( "classes/ezhttptool.php" );
-
+$ini =& INIFile::globalINI();
 $Language = $ini->read_var( "eZContactMain", "Language" );
 
 include_once( "classes/eztemplate.php" );
@@ -71,18 +71,12 @@ if ( isSet( $ConsultationList ) )
 {
     $t->set_block( "consultation_page", "no_consultations_item_tpl", "no_consultations_item" );
     $t->set_block( "consultation_page", "consultation_table_item_tpl", "consultation_table_item" );
-
     $t->set_block( "consultation_table_item_tpl", "consultation_item_tpl", "consultation_item" );
-    $t->set_block( "consultation_item_tpl", "consultation_item_edit_tpl", "consultation_item_edit" );
-    $t->set_block( "consultation_item_edit_tpl", "consultation_item_edit_shown_tpl", "consultation_item_edit_shown" );
-    $t->set_block( "consultation_item_edit_tpl", "consultation_item_edit_empty_tpl", "consultation_item_edit_empty" );
 
     $t->set_block( "consultation_table_item_tpl", "new_company_consultation_item_tpl", "new_company_consultation_item" );
     $t->set_block( "consultation_table_item_tpl", "new_person_consultation_item_tpl", "new_person_consultation_item" );
 
     $t->set_var( "consultation_item", "" );
-    $t->set_var( "consultation_item_edit_shown", "" );
-    $t->set_var( "consultation_item_edit_empty", "" );
     $t->set_var( "no_consultations_item", "" );
     $t->set_var( "consultation_table_item", "" );
 }
@@ -132,9 +126,20 @@ if ( isSet( $ConsultationList ) )
     if ( isSet( $CompanyID ) )
     {
         if ( $ini->read_var( "eZContactMain", "ShowAllConsultations" ) == "enabled" )
-            $consultations = eZConsultation::findConsultationsByContact( $CompanyID, -1, $OrderBy, false );
+        {
+            if ( $ini->read_var( "eZContactMain", "ShowRelatedConsultations" ) == "enabled" )
+                $consultations = eZConsultation::findConsultationsByContact( $CompanyID, -1, $OrderBy, false, 0, -1, true );
+            else
+                $consultations = eZConsultation::findConsultationsByContact( $CompanyID, -1, $OrderBy, false );
+        }
         else
-            $consultations = eZConsultation::findConsultationsByContact( $CompanyID, $user->id(), $OrderBy, false );
+        {
+            if ( $ini->read_var( "eZContactMain", "ShowRelatedConsultations" ) == "enabled" )
+                $consultations = eZConsultation::findConsultationsByContact( $CompanyID, $user->id(), $OrderBy, false, 0, -1, true );
+            else
+                $consultations = eZConsultation::findConsultationsByContact( $CompanyID, $user->id(), $OrderBy, false );
+        }
+        
         $t->set_var( "consultation_type", "company" );
         $t->set_var( "company_id", $CompanyID  );
         $company = new eZCompany( $CompanyID );
@@ -143,9 +148,20 @@ if ( isSet( $ConsultationList ) )
     else if ( isSet( $PersonID ) )
     {
         if ( $ini->read_var( "eZContactMain", "ShowAllConsultations" ) == "enabled" )
-            $consultations = eZConsultation::findConsultationsByContact( $PersonID, -1, $OrderBy, true );
+        {
+            if ( $ini->read_var( "eZContactMain", "ShowRelatedConsultations" ) == "enabled" )
+                $consultations = eZConsultation::findConsultationsByContact( $PersonID, -1, $OrderBy, true, 0, -1, true );
+            else
+                $consultations = eZConsultation::findConsultationsByContact( $PersonID, -1, $OrderBy, true );
+        }
         else
-            $consultations = eZConsultation::findConsultationsByContact( $PersonID, $user->id(), $OrderBy, true );
+        {
+            if ( $ini->read_var( "eZContactMain", "ShowRelatedConsultations" ) == "enabled" )
+                $consultations = eZConsultation::findConsultationsByContact( $PersonID, $user->id(), $OrderBy, true, 0, -1, true );
+            else
+                $consultations = eZConsultation::findConsultationsByContact( $PersonID, $user->id(), $OrderBy, true );
+        }
+        
         $t->set_var( "consultation_type", "person" );
         $t->set_var( "person_id", $PersonID  );
         $person = new eZPerson( $PersonID );
@@ -170,12 +186,6 @@ if ( isSet( $ConsultationList ) )
         $t->set_var( "consultation_short_description", $consultation->shortDescription() );
         $t->set_var( "consultation_status_id", $consultation->state() );
         $t->set_var( "consultation_status", eZConsultation::stateName( $consultation->state() ) );
-
-        if ( !$consultation->systemMessage() )
-            $t->parse( "consultation_item_edit", "consultation_item_edit_shown_tpl" );
-        else
-            $t->parse( "consultation_item_edit", "consultation_item_edit_empty_tpl" );
-        
         $t->parse( "consultation_item", "consultation_item_tpl", true );
         $i++;
     }

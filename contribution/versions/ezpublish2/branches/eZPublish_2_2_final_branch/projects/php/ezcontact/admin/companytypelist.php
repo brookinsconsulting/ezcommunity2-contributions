@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: companytypelist.php,v 1.33.2.2 2001/11/01 12:16:25 jhe Exp $
+// $Id: companytypelist.php,v 1.33.2.3 2002/05/14 11:17:04 jhe Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //

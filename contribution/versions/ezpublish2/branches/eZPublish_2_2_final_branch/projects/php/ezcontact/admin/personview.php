@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: personview.php,v 1.25.2.2 2001/11/01 12:16:25 jhe Exp $
+// $Id: personview.php,v 1.25.2.3 2002/05/14 11:17:04 jhe Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -95,6 +95,7 @@ $t->set_block( "person_view", "no_phone_item_tpl", "no_phone_item" );
 $t->set_block( "person_view", "online_item_tpl", "online_item" );
 $t->set_block( "online_item_tpl", "online_line_tpl", "online_line" );
 $t->set_block( "person_view", "no_online_item_tpl", "no_online_item" );
+$t->set_block( "person_view", "image_item_tpl", "image_item" );
 
 //  $t->set_block( "person_view", "contact_person_tpl", "contact_person" );
 //  $t->set_block( "person_view", "no_contact_person_tpl", "no_contact_person" );
@@ -326,16 +327,46 @@ if ( $Action == "view" )
         $t->parse( "no_project_status", "no_project_status_tpl" );
     }
 
+    $image =& $person->image();
+    if ( get_class( $image ) == "ezimage" && $image->id() != 0 )
+    {
+        $imageWidth =& $ini->read_var( "eZContactMain", "PersonImageWidth" );
+        $imageHeight =& $ini->read_var( "eZContactMain", "PersonImageHeight" );
+        $variation =& $image->requestImageVariation( $imageWidth, $imageHeight );
+        $imageURL = "/" . $variation->imagePath();
+        $imageWidth = $variation->width();
+        $imageHeight = $variation->height();
+        $imageCaption = $image->caption();          
+        $t->set_var( "image_width", $imageWidth );
+        $t->set_var( "image_height", $imageHeight );
+        $t->set_var( "image_url", $imageURL );
+        $t->set_var( "image_caption", $imageCaption );
+        $t->parse( "image_item", "image_item_tpl" );
+    }
+    else
+    {
+        $t->parse( "image_item", "" );
+    }
+
     // Consultation list
     $user =& eZUser::currentUser();
     if ( eZPermission::checkPermission( $user, "eZContact", "consultation" ) )
     {
         $max = $ini->read_var( "eZContactMain", "MaxPersonConsultationList" );
-        $showAll = $ini->read_var( "eZContactMain", "ShowAllConsultations" ) == "enabled";
-        if ( $showAll )
-            $consultations = eZConsultation::findConsultationsByContact( $PersonID, -1, "Date", true, 0, $max );
+        if ( $ini->read_var( "eZContactMain", "ShowAllConsultations" ) == "enabled" )
+        {
+            if ( $ini->read_var( "eZContactMain", "ShowRelatedConsultations" ) == "enabled" )
+                $consultations = eZConsultation::findConsultationsByContact( $PersonID, -1, "Date", true, 0, $max, true );
+            else
+                $consultations = eZConsultation::findConsultationsByContact( $PersonID, -1, "Date", true, 0, $max );
+        }
         else
-            $consultations = eZConsultation::findConsultationsByContact( $PersonID, $user->id(), "Date", true, 0, $max );
+        {
+            if ( $ini->read_var( "eZContactMain", "ShowRelatedConsultations" ) == "enabled" )
+                $consultations = eZConsultation::findConsultationsByContact( $PersonID, $user->id(), "Date", true, 0, $max, true );
+            else
+                $consultations = eZConsultation::findConsultationsByContact( $PersonID, $user->id(), "Date", true, 0, $max );
+        }
 
         $t->set_var( "consultation_type", "person" );
         $t->set_var( "person_id", $PersonID  );
@@ -427,8 +458,8 @@ if ( get_class( $user ) == "ezuser" and eZPermission::checkPermission( $user, "e
     }
 }
 
-if ( get_class( $user ) == "ezuser" and
-     eZPermission::checkPermission( $user, "eZContact", "buy" ) and
+if ( get_class( $user ) == "ezuser" &&
+     eZPermission::checkPermission( $user, "eZContact", "buy" ) &&
      count( $orders ) > 0 )
 {
     $t->parse( "order_table_item", "order_table_item_tpl", true );
@@ -461,7 +492,6 @@ foreach ( $emails as $email )
     $t->parse( "mail_item", "mail_item_tpl", true );
     $i++;
 }
-
 if ( get_class( $user ) == "ezuser" and count( $emails ) > 0 )
 {
     $t->parse( "mail_table_item", "mail_table_item_tpl", true );

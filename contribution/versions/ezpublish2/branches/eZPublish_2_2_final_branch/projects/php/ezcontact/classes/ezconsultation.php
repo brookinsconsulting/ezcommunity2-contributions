@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezconsultation.php,v 1.27.2.2 2002/05/08 10:39:02 jhe Exp $
+// $Id: ezconsultation.php,v 1.27.2.3 2002/05/14 11:17:05 jhe Exp $
 //
 // Definition of eZConsultation class
 //
@@ -88,15 +88,14 @@ class eZConsultation
             $db->lock( "eZContact_Consultation" );
             $this->ID = $db->nextID( "eZContact_Consultation", "ID" );
             $res[] = $db->query( "INSERT INTO eZContact_Consultation
-                                  (ID, ShortDesc, Description, StateID, EmailNotifications, Date, SystemMessage)
+                                  (ID, ShortDesc, Description, StateID, EmailNotifications, Date)
                                   VALUES
                                   ('$this->ID',
                                    '$shortdesc',
                                    '$description',
                                    '$this->State',
                                    '$emailnotice',
-	                               '$date',
-                                   '$this->systemMessage')" );
+	                               '$date')" );
             $db->unlock();
         }
         else
@@ -106,8 +105,7 @@ class eZConsultation
                                         Description='$description',
                                         StateID='$this->State',
                                         EmailNotifications='$this->EmailNotice',
-                                        Date='$date',
-                                        SystemMessage='$this->systemMessage'
+                                        Date='$date'
                                         WHERE ID='$this->ID'" );
         }
         eZDB::finish( $res, $db );
@@ -157,7 +155,6 @@ class eZConsultation
             $this->Description = $consult_array[$db->fieldName( "Description" )];
             $this->State = $consult_array[$db->fieldName( "StateID" )];
             $this->EmailNotice = $consult_array[$db->fieldName( "EmailNotifications" )];
-            $this->SystemMessage = $consult_array[$db->fieldName( "SystemMessage" )];
             $this->Date = new eZDate();
             $this->Date->setTimeStamp( $consult_array[$db->fieldName( "Date" )] );
 
@@ -190,13 +187,9 @@ class eZConsultation
         $this->State = $state;
     }
 
-    function setSystemMessage( $value )
-    {
-        $this->SystemMessage = $value ? 1 : 0;
-    }
-
     /*!
-      Adds a new group to the consultation, you can either use the group id or a eZUserGroup object.
+      Adds a new group to the consultation,
+      you can either use the group id or a eZUserGroup object.
     */
     function addGroup( $group )
     {
@@ -287,20 +280,17 @@ class eZConsultation
     }
 
     /*!
-      Returns the state of the consultation, this usually tells if the consultation is under negotiation, closing or similar.
+      Returns the state of the consultation,
+      this usually tells if the consultation is under negotiation, closing or similar.
     */
     function state()
     {
         return $this->State;
     }
 
-    function systemMessage()
-    {
-        return $this->SystemMessage == 1 ? true : false;
-    }
-
     /*!
-      Returns an array with eZUserGroup objects, these groups are used for sending an email reply.
+      Returns an array with eZUserGroup objects,
+      these groups are used for sending an email reply.
     */
     function groupList()
     {
@@ -342,7 +332,8 @@ class eZConsultation
     }
 
     /*!
-      Returns the string with email notifications, this is an unparsed form, use emailList() to get them parsed.
+      Returns the string with email notifications,
+      this is an unparsed form, use emailList() to get them parsed.
     */
     function emails()
     {
@@ -350,7 +341,8 @@ class eZConsultation
     }
 
     /*!
-      Returns an array with eZNotification objects, this array is built from both the groupList() and the emailList().
+      Returns an array with eZNotification objects,
+      this array is built from both the groupList() and the emailList().
     */
     function notificators()
     {
@@ -479,8 +471,7 @@ class eZConsultation
                                        $userString
                                        CPUD.ConsultationID = C.ID AND
                                        C.Date>='" . $startTime->timeStamp() . "' AND
-                                       C.Date<'" . $endTime->timeStamp() . "'",
-                                       $limit );
+                                       C.Date<'" . $endTime->timeStamp() . "'" );
         $ret_array = array();
         foreach ( $qry_array as $qry )
         {
@@ -494,8 +485,7 @@ class eZConsultation
                                        $userString2
                                        CPCD.ConsultationID = C.ID AND
                                        C.Date>='" . $startTime->timeStamp() . "' AND
-                                       C.Date<'" . $endTime->timeStamp() . "'",
-                                       $limit );
+                                       C.Date<'" . $endTime->timeStamp() . "'" );
         foreach ( $qry_array as $qry )
         {
             $ret_array[] = new eZConsultation( $qry[$db->fieldName( "ConsultationID" )] );
@@ -507,7 +497,7 @@ class eZConsultation
       \static
       Finds all consultations on a specific contact person or company.
     */
-    function findConsultationsByContact( $contact, $user, $OrderBy = "ID", $is_person = true, $index = 0, $max = -1 )
+    function findConsultationsByContact( $contact, $user, $OrderBy = "ID", $is_person = true, $index = 0, $max = -1, $relations = false )
     {
         if ( get_class( $user ) == "ezuser" )
             $user = $user->id();
@@ -551,7 +541,8 @@ class eZConsultation
                 $OrderBy = "ORDER BY C.Date DESC";
                 break;
         }
-        
+
+        $relationString = "";
         $qry_array = array();
         $db =& eZDB::globalDatabase();
         if ( $is_person )
@@ -559,26 +550,69 @@ class eZConsultation
             $db->array_query( $qry_array, "SELECT CPUD.ConsultationID
                                            FROM
                                            eZContact_ConsultationPersonUserDict AS CPUD,
-                                           eZContact_Consultation AS C
+                                           eZContact_Consultation AS C,
+                                           eZContact_ConsultationType AS CT
                                            WHERE
                                            CPUD.PersonID='$contact' AND
+                                           (C.StateID = CT.ID OR C.StateID = 0) AND
                                            $userString
                                            CPUD.ConsultationID = C.ID
                                            $OrderBy", $limit );
+            if ( $relations )
+            {
+                $companyArray = eZCompany::persons( $contact, false );
+                foreach ( $companyArray as $companyID )
+                {
+                    $relationString .= "CPCD.CompanyID='$companyID' AND ";
+                }
+                $db->array_query( $qry_array2, "SELECT CPCD.ConsultationID
+                                                FROM
+                                                eZContact_ConsultationCompanyUserDict AS CPCD,
+                                                eZContact_Consultation AS C,
+                                                eZContact_ConsultationType AS CT
+                                                WHERE
+                                                $relationString
+                                                (C.StateID = CT.ID OR C.StateID = 0) AND
+                                                $userString2
+                                                CPCD.ConsultationID = C.ID
+                                                $OrderBy", $limit );
+                $qry_array = array_merge( $qry_array, $qry_array2 );
+            }
         }
         else
         {
             $db->array_query( $qry_array, "SELECT CPCD.ConsultationID
                                            FROM
                                            eZContact_ConsultationCompanyUserDict AS CPCD,
-                                           eZContact_Consultation AS C
+                                           eZContact_Consultation AS C,
+                                           eZContact_ConsultationType AS CT
                                            WHERE
                                            CPCD.CompanyID='$contact' AND
+                                           (C.StateID = CT.ID OR C.StateID = 0) AND
                                            $userString2
                                            CPCD.ConsultationID = C.ID
                                            $OrderBy", $limit );
+            if ( $relations )
+            {
+                $personArray = eZCompany::persons( $contact, false );
+                foreach ( $personArray as $personID )
+                {
+                    $relationString .= "CPUD.PersonID='$personID' AND ";
+                }
+                $db->array_query( $qry_array2, "SELECT CPUD.ConsultationID
+                                                FROM
+                                                eZContact_ConsultationPersonUserDict AS CPUD,
+                                                eZContact_Consultation AS C,
+                                                eZContact_ConsultationType AS CT
+                                                WHERE
+                                                $relationString
+                                                (C.StateID = CT.ID OR C.StateID = 0) AND
+                                                $userString
+                                                CPUD.ConsultationID = C.ID
+                                                $OrderBy", $limit );
+                $qry_array = array_merge( $qry_array, $qry_array2 );
+            }
         }
-        
         $ret_array = array();
         foreach ( $qry_array as $qry )
         {
@@ -813,7 +847,6 @@ class eZConsultation
     var $State;
     var $Date;
     var $EmailNotice;
-    var $SystemMessage;
 }
 
 ?>

@@ -16,6 +16,10 @@
 
 <br />
 
+<!-- BEGIN image_item_tpl -->
+<img src="{www_dir}{image_url}" alt="{image_caption}" width="{image_width}" height="{image_height}" />
+<!-- END image_item_tpl --> 
+
 <table width="100%" cellpadding="0" cellspacing="0" border="0">
 <tr>
 	<td>
@@ -35,7 +39,7 @@
 </tr>
 </table>
 
-<h2>{intl-companies}</h2>
+<p class="boxtext">{intl-companies}</p>
 
 <!-- BEGIN company_item_tpl -->
 
@@ -49,7 +53,7 @@
 <br />
 
 <!-- BEGIN address_item_tpl -->
-<h2>{intl-addresses_headline}</h2>
+<p class="boxtext">{intl-addresses_headline}</p>
 <br />
 <table width="100%" cellpadding="2" cellspacing="0" border="0">
 <tr>
@@ -66,12 +70,12 @@
 </table>
 <!-- END address_item_tpl -->
 <!-- BEGIN no_address_item_tpl -->
-<h2>{intl-addresses_headline}</h2>
+<p class="boxtext">{intl-addresses_headline}</p>
 <p>{intl-error_no_addresses}</p>
 <!-- END no_address_item_tpl -->
 
 
-<h2>{intl-telephone_headline}</h2>
+<p class="boxtext">{intl-telephone_headline}</p>
 <!-- BEGIN phone_item_tpl -->
 <br />
 <table width="100%" cellpadding="2" cellspacing="0" border="0">
@@ -91,7 +95,7 @@
 <!-- END no_phone_item_tpl -->
 
 
-<h2>{intl-online_headline}</h2>
+<p class="boxtext">{intl-online_headline}</p>
 <!-- BEGIN online_item_tpl -->
 <br />
 <table width="100%" cellpadding="2" cellspacing="0" border="0">
@@ -148,11 +152,11 @@
 	</td>
 
 	<td width="1%">
-	<a href="{www_dir}{index}/contact/consultation/edit/{consultation_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezc{consultation_id}-red','','{www_dir}/admin/images/redigerminimrk.gif',1)"><img name="ezc{consultation_id}-red" border="0" src="{www_dir}/admin/images/redigermini.gif" width="16" height="16" align="top" alt="Edit" /></a>
+	<a href="{www_dir}{index}/contact/consultation/edit/{consultation_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezc{consultation_id}-red','','/admin/images/redigerminimrk.gif',1)"><img name="ezc{consultation_id}-red" border="0" src="{www_dir}/admin/images/redigermini.gif" width="16" height="16" align="top" alt="Edit" /></a>
 	</td>
 
 	<td width="1%">
-	<a href="{www_dir}{index}/contact/consultation/delete/{consultation_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezc{consultation_id}-slett','','{www_dir}/admin/images/slettminimrk.gif',1)"><img name="ezc{consultation_id}-slett" border="0" src="{www_dir}/admin/images/slettmini.gif" width="16" height="16" align="top" alt="Delete" /></a>
+	<a href="{www_dir}{index}/contact/consultation/delete/{consultation_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezc{consultation_id}-slett','','/admin/images/slettminimrk.gif',1)"><img name="ezc{consultation_id}-slett" border="0" src="{www_dir}/admin/images/slettmini.gif" width="16" height="16" align="top" alt="Delete" /></a>
 	</td>	
 
 </tr>
