@@ -757,8 +757,8 @@ INSERT INTO eZFileManager_Folder VALUES (1,'FIle archive','FIles for the people!
 # Dumping data for table 'eZFileManager_FolderPermission'
 #
 
-INSERT INTO eZFileManager_FolderPermission VALUES (1,1,-1,1,0,0);
-INSERT INTO eZFileManager_FolderPermission VALUES (2,1,1,0,1,1);
+INSERT INTO eZFileManager_FolderPermission VALUES (1,1,-1,1,0,0,0);
+INSERT INTO eZFileManager_FolderPermission VALUES (2,1,1,0,1,1,0);
 
 #
 # Dumping data for table 'eZForm_Form'
