@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: ezproduct.php,v 1.119.2.1.4.23 2002/01/30 13:52:20 bf Exp $
+// $Id: ezproduct.php,v 1.119.2.1.4.24 2002/01/30 14:13:25 bf Exp $
 //
 // Definition of eZProduct class
 //
@@ -256,9 +256,9 @@ class eZProduct
         $contents = str_replace ("(", " ", $contents );
         $contents = str_replace (")", " ", $contents );
         $contents = str_replace (",", " ", $contents );
-        $contents = str_replace (".", " ", $contents );
+//        $contents = str_replace (".", " ", $contents );
         $contents = str_replace ("/", " ", $contents );
-        $contents = str_replace ("-", " ", $contents );
+//        $contents = str_replace ("-", " ", $contents );
         $contents = str_replace ("_", " ", $contents );
         $contents = str_replace ("\"", " ", $contents );
         $contents = str_replace ("'", " ", $contents );
@@ -281,14 +281,18 @@ class eZProduct
         $norwegianWordArray = array();
         foreach ( $contents_array as $word )
         {
-            if ( is_numeric( strpos( $word, "ø" ) ) ||
+            if (
+                 is_numeric( strpos( $word, "." ) ) ||
+                 is_numeric( strpos( $word, "-" ) ) ||
+                 is_numeric( strpos( $word, "ø" ) ) ||
                  is_numeric( strpos( $word, "å" ) ) ||
                  is_numeric( strpos( $word, "ö" ) ) ||
                  is_numeric( strpos( $word, "ü" ) ) ||
                  is_numeric( strpos( $word, "æ" ) ) )
             {
                 $nWord = $word;
-                $nWord = str_replace( "ø","o", $nWord );
+                $nWord = str_replace( ".","", $nWord );
+                $nWord = str_replace( "-","", $nWord );
                 $nWord = str_replace( "ö","o", $nWord );
                 $nWord = str_replace( "ü","u", $nWord );
                 $nWord = str_replace( "å","a", $nWord );
@@ -329,7 +333,7 @@ class eZProduct
 
         foreach ( $contents_array as $word )
         {
-            if ( strlen( $word ) >= 2 )
+            if ( strlen( $word ) >= 1 )
             {
                 $indexWord = $word;
 
