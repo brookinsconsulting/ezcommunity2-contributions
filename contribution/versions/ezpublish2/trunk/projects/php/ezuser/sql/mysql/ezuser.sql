@@ -87,6 +87,13 @@ CREATE TABLE eZUser_Trustees (
   PRIMARY KEY (ID)
 ) TYPE=MyISAM;
 
+CREATE TABLE eZUser_UserShippingLink (
+  ID int(11) NOT NULL default '0',
+  UserID int(11) default '0',
+  AddressID int(11) default '0',
+  PRIMARY KEY  (ID)
+) TYPE=MyISAM;
+
 INSERT INTO eZUser_Module (ID, Name) VALUES (1,'eZTrade');
 INSERT INTO eZUser_Module (ID, Name) VALUES (2,'eZPoll');
 INSERT INTO eZUser_Module (ID, Name) VALUES (3,'eZUser');
