@@ -1,8 +1,8 @@
 <?php
 //
-// $Id: mailview.php,v 1.22 2001/12/18 12:32:42 fh Exp $
+// $Id: mailview.php,v 1.23 2001/12/19 15:30:11 fh Exp $
 //
-// Created on: <23-Oct-2000 17:53:46 bf>
+// Created on: <23-Oct-2000 17:53:46 fh>
 //
 // This source file is part of eZ publish, publishing software.
 //
@@ -28,11 +28,13 @@ include_once( "classes/eztemplate.php" );
 include_once( "classes/ezlocale.php" );
 include_once( "classes/ezhttptool.php" );
 include_once( "ezmail/classes/ezmail.php" );
+include_once( "ezmail/classes/ezimapmail.php" );
 include_once( "ezmail/classes/ezmailfolder.php" );
 include_once( "ezuser/classes/ezuser.php" );
 include_once( "ezsession/classes/ezpreferences.php" );
 
 // Check if this really is your mail we are talking about here..
+// TODO: This is different for IMAP and NORMAL
 if ( !eZMail::isOwner( eZUser::currentUser(), $MailID ) )
 {
     eZHTTPTool::header( "Location: /error/403/" );
@@ -134,7 +136,15 @@ $t->set_var( "inserted_attachments", "" );
 $t->set_var( "cc_value", "" );
 $t->set_var( "bcc_value", "" );
 
-$mail = new eZMail( $MailID );
+if( $AccountType == "local" )
+{
+    $mail = new eZMail( $MailID );
+}
+else
+{
+    $mail = new eZIMAPMail( $MailID );
+}
+
 if ( $mail->status() == UNREAD )
     $mail->setStatus( READ, true );
 $t->set_var( "current_mail_id", $MailID );

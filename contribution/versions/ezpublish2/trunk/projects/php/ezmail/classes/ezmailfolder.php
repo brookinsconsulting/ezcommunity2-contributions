@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezmailfolder.php,v 1.31 2001/12/18 12:32:07 fh Exp $
+// $Id: ezmailfolder.php,v 1.32 2001/12/19 15:30:11 fh Exp $
 //
 // eZMailFolder class
 //
@@ -36,13 +36,7 @@
 */
 include_once( "ezuser/classes/ezuser.php" );
 include_once( "classes/INIFile.php" );
-
-/* DEFINES */
-define( "USER", 0 );
-define( "INBOX", 1 );
-define( "DRAFTS", 2 );
-define( "SENT", 3 );
-define( "TRASH", 4 );
+include_once( "ezmail/classes/ezmaildefines.php" );
 
 class eZMailFolder
 {

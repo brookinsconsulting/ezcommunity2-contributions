@@ -122,19 +122,19 @@ function imapFetchAttachment()
   Functions to encode more information into one url position. This allows us to use the same
   templates for remote and local mail.
  */
-function encodeFolderID( $accountID, $folderName )
-{
-    return rawurlencode( $accountID . "-" . $folderName );
-}
+//function encodeFolderID( $accountID, $folderName )
+//{
+//    return rawurlencode( $accountID . "-" . $folderName );
+//}
 
 /*!
   Returns an array with the 
  */
-function decodeFolderID( $codedString )
-{
-    $elements = explode( "-", $codedString, 2 ); // max 1 split rest is foldername.
-    return $elements;
-}
+//function decodeFolderID( $codedString )
+//{
+//    $elements = explode( "-", $codedString, 2 ); // max 1 split rest is foldername.
+//    return $elements;
+//}
 /*********** INTERAL HELPER FUNCTIONS ******************/
 
 function createServerString( $server, $port )

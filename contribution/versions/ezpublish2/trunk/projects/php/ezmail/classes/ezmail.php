@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezmail.php,v 1.49 2001/12/18 12:32:07 fh Exp $
+// $Id: ezmail.php,v 1.50 2001/12/19 15:30:11 fh Exp $
 //
 // Definition of eZMail class
 //
@@ -44,13 +44,8 @@
 include_once( "ezmail/classes/ezmailfolder.php" );
 include_once( "ezfilemanager/classes/ezvirtualfile.php" );
 include_once( "ezimagecatalogue/classes/ezimage.php" );
+include_once( "ezmail/classes/ezmaildefines.php" );
 
-/* DEFINES */
-define( "UNREAD", 0 );
-define( "READ", 1 );
-define( "REPLIED", 2 );
-define( "FORWARDED", 3 );
-define( "MAIL_SENT", 4 );
 
 class eZMail
 {

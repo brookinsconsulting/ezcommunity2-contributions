@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezimapmailfolder.php,v 1.1 2001/12/18 20:07:02 fh Exp $
+// $Id: ezimapmailfolder.php,v 1.2 2001/12/19 15:30:11 fh Exp $
 //
 // eZIMAPMailFolder class
 //
@@ -37,14 +37,9 @@
 include_once( "ezuser/classes/ezuser.php" );
 include_once( "classes/INIFile.php" );
 include_once( "ezmail/classes/ezmailaccount.php" );
+include_once( "ezmail/classes/ezimapmail.php" );
 include_once( "ezmail/classes/imapfunctions.php" );
-
-/* DEFINES TODO, these are now defined twice */
-//define( "USER", 0 );
-//define( "INBOX", 1 );
-//define( "DRAFTS", 2 );
-//define( "SENT", 3 );
-//define( "TRASH", 4 );
+include_once( "ezmail/classes/ezmaildefines.php" );
 
 class eZIMAPMailFolder
 {
@@ -53,7 +48,7 @@ class eZIMAPMailFolder
     */
     function eZIMAPMailFolder( $id )
     {
-        $elements = decodeFolderID( $id );
+        $elements = $this->decodeFolderID( $id );
         $this->Account = new eZMailAccount( $elements[0] );
         $this->Name = $elements[1];
     }
@@ -113,7 +108,7 @@ class eZIMAPMailFolder
     function id()
     {
 //        return $this->ID;
-        return encodeFolderID();
+        return $this->encodeFolderID();
     }
 
    /*!
@@ -294,7 +289,8 @@ class eZIMAPMailFolder
       $offset and $limit sets how many mail to return in one bunch and where in the list to start.
       Static if the folderID is supplied.
 
-
+      This one only fetches the mail header for now. You need to use get() on the mail to get
+      the complete message.
       Fetches all mail headers for an imap mailbox.
       Fetches data from INBOX for now.
       
@@ -325,7 +321,9 @@ class eZIMAPMailFolder
         $overview = imap_fetch_overview( $mbox, "1:$MN", 0 );
         foreach( $overview as $mailHeader )
         {
-            $mailItem = new eZMail();
+            $mailItem = new eZIMAPMail();
+            $mailItem->setAccount( $this->Account );
+            $mailItem->setMailNr( $mailHeader->msgno );
             $mailItem->setSize( $mailHeader->size );
             $mailItem->setSubject( $mailHeader->subject );
             $mailItem->setFrom( $mailHeader->from );

@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: datasupplier.php,v 1.24 2001/12/18 20:07:02 fh Exp $
+// $Id: datasupplier.php,v 1.25 2001/12/19 15:30:11 fh Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -58,7 +58,8 @@ switch ( $url_array[2] )
 
     case "view" :
     {
-        $MailID = $url_array[3];
+        $AccountType = $url_array[3];
+        $MailID = $url_array[4];
         include( "ezmail/user/mailview.php" );
     }
     break;
