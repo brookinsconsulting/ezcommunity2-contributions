@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: consultationlist.php,v 1.12 2001/09/05 11:57:07 jhe Exp $
+// $Id: consultationlist.php,v 1.13 2001/09/13 07:31:00 jhe Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -71,7 +71,10 @@ if ( get_class( $user ) == "ezuser" and
     $t->set_var( "consultation_item", "" );
     $t->set_var( "last_consultations_item", "" );
 
-    $consultations = eZConsultation::findLatestConsultations( $user->id(), $max );
+    if ( $ini->read_var( "eZContactMain", "ShowAllConsultations" ) == "enabled" )
+        $consultations = eZConsultation::findLatestConsultations( -1, $max );
+    else
+        $consultations = eZConsultation::findLatestConsultations( $user->id(), $max );
 
     foreach ( $consultations as $consultation )
     {

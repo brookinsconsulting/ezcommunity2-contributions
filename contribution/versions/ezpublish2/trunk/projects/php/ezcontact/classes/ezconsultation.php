@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezconsultation.php,v 1.24 2001/09/05 11:57:07 jhe Exp $
+// $Id: ezconsultation.php,v 1.25 2001/09/13 07:30:59 jhe Exp $
 //
 // Definition of eZConsultation class
 //
@@ -297,7 +297,7 @@ class eZConsultation
         $ret_array = array();
         foreach ( $qry_array as $qry )
         {
-            $ret_array[] = new eZUserGroup( $qry[ $db->fieldName( "GroupID" ) ] );
+            $ret_array[] = new eZUserGroup( $qry[$db->fieldName( "GroupID" )] );
         }
         return $ret_array;
     }
@@ -314,7 +314,7 @@ class eZConsultation
         $ret_array = array();
         foreach ( $qry_array as $qry )
         {
-            $ret_array[] = $qry[ $db->fieldName( "GroupID" ) ];
+            $ret_array[] = $qry[$db->fieldName( "GroupID" )];
         }
         return $ret_array;
     }
@@ -393,14 +393,19 @@ class eZConsultation
     {
         if ( get_class( $user ) == "ezuser" )
             $user = $user->id();
+        if ( $user == -1 )
+            $userString = "";
+        else
+            $userString = "WHERE UserID='$user'";
+            
         $db =& eZDB::globalDatabase();
         $db->array_query( $qry_array, "SELECT CompanyID FROM eZContact_ConsultationCompanyUserDict
-                                       WHERE UserID='$user'
+                                       $userString
                                        GROUP BY CompanyID" );
         $ret_array = array();
         foreach ( $qry_array as $qry )
         {
-            $ret_array[] = new eZCompany( $qry[ $db->fieldName( "CompanyID" ) ] );
+            $ret_array[] = new eZCompany( $qry[$db->fieldName( "CompanyID" )] );
         }
         return $ret_array;
     }
@@ -413,15 +418,20 @@ class eZConsultation
     {
         if ( get_class( $user ) == "ezuser" )
             $user = $user->id();
+        if ( $user == -1 )
+            $userString = "WHERE UserID='$user'";
+        else
+            $userString = "";
+        
         $qry_array = array();
         $db =& eZDB::globalDatabase();
         $db->array_query( $qry_array, "SELECT PersonID FROM eZContact_ConsultationPersonUserDict
-                                       WHERE UserID='$user'
+                                       $userString
                                        GROUP BY PersonID" );
         $ret_array = array();
         foreach ( $qry_array as $qry )
         {
-            $ret_array[] = new eZPerson( $qry[ $db->fieldName( "PersonID" ) ] );
+            $ret_array[] = new eZPerson( $qry[$db->fieldName( "PersonID" )] );
         }
         return $ret_array;
     }
@@ -435,6 +445,17 @@ class eZConsultation
         if ( get_class( $user ) == "ezuser" )
             $user = $user->id();
 
+        if ( $user == -1 )
+        {
+            $userString = "";
+            $userString2 = "";
+        }
+        else
+        {
+            $userString = "CPUD.UserID='$user' AND ";
+            $userString2 = "CPCD.UserID='$user' AND ";
+        }
+            
         $qry_array = array();
         $db =& eZDB::globalDatabase();
         $db->array_query( $qry_array, "SELECT CPUD.ConsultationID
@@ -442,7 +463,7 @@ class eZConsultation
                                        eZContact_ConsultationPersonUserDict AS CPUD,
                                        eZContact_Consultation AS C
                                        WHERE
-                                       CPUD.UserID='$user' AND
+                                       $userString
                                        CPUD.ConsultationID = C.ID AND
                                        C.Date>='" . $startTime->timeStamp() . "' AND
                                        C.Date<'" . $endTime->timeStamp() . "'",
@@ -450,21 +471,21 @@ class eZConsultation
         $ret_array = array();
         foreach ( $qry_array as $qry )
         {
-            $ret_array[] = new eZConsultation( $qry[ $db->fieldName( "ConsultationID" ) ] );
+            $ret_array[] = new eZConsultation( $qry[$db->fieldName( "ConsultationID" )] );
         }
         $db->array_query( $qry_array, "SELECT CPCD.ConsultationID
                                        FROM
                                        eZContact_ConsultationCompanyUserDict AS CPCD,
                                        eZContact_Consultation AS C
                                        WHERE
-                                       CPCD.UserID='$user' AND
+                                       $userString2
                                        CPCD.ConsultationID = C.ID AND
                                        C.Date>='" . $startTime->timeStamp() . "' AND
                                        C.Date<'" . $endTime->timeStamp() . "'",
                                        $limit );
         foreach ( $qry_array as $qry )
         {
-            $ret_array[] = new eZConsultation( $qry[ $db->fieldName( "ConsultationID" ) ] );
+            $ret_array[] = new eZConsultation( $qry[$db->fieldName( "ConsultationID" )] );
         }
         return $ret_array;
     }
@@ -486,6 +507,17 @@ class eZConsultation
             $limit = array();
         }
 
+        if ( $user == -1 )
+        {
+            $userString = "";
+            $userString2 = "";
+        }
+        else
+        {
+            $userString = "CPUD.UserID='$user' AND ";
+            $userString2 = "CPCD.UserID='$user' AND ";
+        }
+            
         switch ( strtolower( $OrderBy ) )
         {
             case "description":
@@ -518,7 +550,7 @@ class eZConsultation
                                            eZContact_ConsultationType AS CT
                                            WHERE
                                            CPUD.PersonID='$contact' AND
-                                           CPUD.UserID='$user' AND
+                                           $userString
                                            CPUD.ConsultationID = C.ID AND
                                            CT.ID=C.StateID
                                            $OrderBy", $limit );
@@ -532,7 +564,7 @@ class eZConsultation
                                            eZContact_ConsultationType AS CT
                                            WHERE
                                            CPCD.CompanyID='$contact' AND
-                                           CPCD.UserID='$user' AND
+                                           $userString2
                                            CPCD.ConsultationID = C.ID AND
                                            CT.ID=C.StateID
                                            $OrderBy", $limit );
@@ -540,7 +572,7 @@ class eZConsultation
         $ret_array = array();
         foreach ( $qry_array as $qry )
         {
-            $ret_array[] = new eZConsultation( $qry[ $db->fieldName( "ConsultationID" ) ] );
+            $ret_array[] = new eZConsultation( $qry[$db->fieldName( "ConsultationID" )] );
         }
         return $ret_array;
     }
@@ -552,7 +584,21 @@ class eZConsultation
     function findLatestConsultations( $user, $max )
     {
         if ( get_class( $user ) == "ezuser" )
+        {
             $user = $user->id();
+            $userString = "CPUD.UserID='$user' AND ";
+            $userString2 = "CPCD.UserID='$user' AND ";
+        }
+        else if ( $user == -1 )
+        {
+            $userString = "";
+            $userString2 = "";
+        }
+        else
+        {
+            $userString = "CPUD.UserID='$user' AND ";
+            $userString2 = "CPCD.UserID='$user' AND ";
+        }
         $qry_array = array();
         $db =& eZDB::globalDatabase();
         $db->array_query( $qry_array, "SELECT C.Date, C.ID
@@ -560,7 +606,7 @@ class eZConsultation
                                        eZContact_ConsultationPersonUserDict AS CPUD,
                                        eZContact_Consultation AS C
                                        WHERE
-                                       CPUD.UserID='$user' AND
+                                       $userString
                                        CPUD.ConsultationID = C.ID
                                        ORDER BY C.Date DESC, C.ID DESC",
                                        array( "Limit" => $max ) );
@@ -569,7 +615,7 @@ class eZConsultation
                                               eZContact_ConsultationCompanyUserDict AS CPCD,
                                               eZContact_Consultation AS C
                                               WHERE
-                                              CPCD.UserID='$user' AND
+                                              $userString2
                                               CPCD.ConsultationID = C.ID
                                               ORDER BY C.Date DESC, C.ID DESC",
                                               array( "Limit" => $max ) );
@@ -578,7 +624,7 @@ class eZConsultation
         $qry_array = array_slice( $qry_array, 0, $max );
         foreach ( $qry_array as $qry )
         {
-            $ret_array[] = new eZConsultation( $qry[ $db->fieldName( "ID" ) ] );
+            $ret_array[] = new eZConsultation( $qry[$db->fieldName( "ID" )] );
         }
         return $ret_array;
     }
@@ -589,10 +635,14 @@ class eZConsultation
     {
         if ( get_class( $user ) == "ezuser" )
             $user = $user->id();
+        if ( $user == -1 )
+            $userString = "";
+        else
+            $userString = "AND UserID='$user'";
         $db =& eZDB::globalDatabase();
         $db->query_single( $qry, "SELECT count( ConsultationID ) as Count FROM eZContact_ConsultationCompanyUserDict
-                                  WHERE CompanyID='$company' AND UserID='$user'" );
-        return $qry[ $db->fieldName( "Count" ) ];
+                                  WHERE CompanyID='$company' $userString" );
+        return $qry[$db->fieldName( "Count" )];
     }
 
     /*!
@@ -601,10 +651,14 @@ class eZConsultation
     {
         if ( get_class( $user ) == "ezuser" )
             $user = $user->id();
+        if ( $user == -1 )
+            $userString = "";
+        else
+            $userString = "AND UserID='$user'";
         $db =& eZDB::globalDatabase();
         $db->query_single( $qry, "SELECT count( ConsultationID ) as Count FROM eZContact_ConsultationPersonUserDict
-                                  WHERE PersonID='$person' AND UserID='$user'" );
-        return $qry[ $db->fieldName( "Count" ) ];
+                                  WHERE PersonID='$person' $userString" );
+        return $qry[$db->fieldName( "Count" )];
     }
 
     /*!
@@ -618,7 +672,7 @@ class eZConsultation
                                        WHERE ConsultationID='$this->ID' AND UserID='$user'" );
         if ( count( $qry_array ) == 1 )
         {
-            return $qry_array[0][ $db->fieldName( "CompanyID" ) ];
+            return $qry_array[0][$db->fieldName( "CompanyID" )];
         }
         else
         {
@@ -637,7 +691,7 @@ class eZConsultation
                                        WHERE ConsultationID='$this->ID' AND UserID='$user'" );
         if ( count( $qry_array ) == 1 )
         {
-            return $qry_array[0][ $db->fieldName( "PersonID" ) ];
+            return $qry_array[0][$db->fieldName( "PersonID" )];
         }
         else
         {
@@ -709,7 +763,7 @@ class eZConsultation
     {
         $db =& eZDB::globalDatabase();
         $db->query_single( $state_row, "SELECT Name FROM eZContact_ConsultationType WHERE ID='$state'" );
-        return $state_row[ $db->fieldName( "Name" ) ];
+        return $state_row[$db->fieldName( "Name" )];
     }
 
     var $ID;

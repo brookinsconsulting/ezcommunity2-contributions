@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: appointmentedit.php,v 1.48 2001/09/05 08:16:06 jhe Exp $
+// $Id: appointmentedit.php,v 1.49 2001/09/13 07:30:59 jhe Exp $
 //
 // Created on: <03-Jan-2001 12:47:22 bf>
 //
@@ -197,9 +197,9 @@ if ( $Action == "DeleteAppointment" )
     {
         foreach ( $AppointmentArrayID as $ID )
         {
+            $appointment = new eZAppointment( $ID );
             if ( $appointment->userID() == $userID )
             {
-                $appointment = new eZAppointment( $ID );
                 $datetime = $appointment->dateTime();
                 $appointment->delete();
 
