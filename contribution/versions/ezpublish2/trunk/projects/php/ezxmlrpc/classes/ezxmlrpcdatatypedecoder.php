@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezxmlrpcdatatypedecoder.php,v 1.4 2001/05/15 08:39:10 bf Exp $
+// $Id: ezxmlrpcdatatypedecoder.php,v 1.5 2001/05/15 13:21:09 bf Exp $
 //
 // Definition of eZXMLRPCDataTypeDecoder class
 //
@@ -227,6 +227,7 @@ class eZXMLRPCDataTypeDecoder
     function decodeArray( $type )
     {
         $array = array();
+        if ( count( $type->children )  > 0)
         foreach ( $type->children as $data )
         {
             if ( $data->name == "data" )
