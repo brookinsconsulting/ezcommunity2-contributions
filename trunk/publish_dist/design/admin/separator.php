@@ -35,7 +35,7 @@ $Language = $ini->read_var( "eZ" . ucfirst( $moduleName ) . "Main", "Language" )
 
 include_once( "classes/eztemplate.php" );
 
-$t = new eZTemplate( "admin/templates/" . $SiteStyle,
+$t = new eZTemplate( "design/admin/templates/" . $SiteStyle,
                      "ez" . $moduleName . "/admin/intl/", $Language, "menubox.php" );
 
 
