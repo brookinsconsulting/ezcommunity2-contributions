@@ -7,11 +7,11 @@ include_once( "classes/INIFile.php" );
 include_once( "classes/template.inc" );
 include_once( "../common/ezphputils.php" );
 
+include_once( "ezsession/classes/ezsession.php" );
 include_once( "ezuser/classes/ezuser.php" );
 include_once( "ezuser/classes/ezusergroup.php" );
 include_once( "ezuser/classes/ezmodule.php" );
 include_once( "ezuser/classes/ezpermission.php" );
-include_once( "ezsession/classes/ezsession.php" );
 
 $ini = new INIFile( "../site.ini" );
 $t = new Template( "." );
