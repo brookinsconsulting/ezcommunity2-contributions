@@ -1,5 +1,5 @@
 <?php
-// $Id: forumedit.php,v 1.30 2001/09/24 11:53:43 jhe Exp $
+// $Id: forumedit.php,v 1.31 2001/09/24 14:03:59 jhe Exp $
 //
 // Created on: Created on: <14-Jul-2000 13:41:35 lw>
 //
@@ -202,9 +202,9 @@ if ( $Action == "delete" )
 
 if ( $Action == "DeleteForums" )
 {
-    if ( count ( $ForumArrayID ) != 0 )
+    if ( count( $ForumArrayID ) != 0 )
     {
-        foreach( $ForumArrayID as $ForumID )
+        foreach ( $ForumArrayID as $ForumID )
         {
             $forum = new eZForum( $ForumID );
             $forumName = $forum->name();
@@ -304,7 +304,7 @@ if ( $Action == "edit" )
 
 $category = new eZForumCategory();
 $categoryList = $category->getAll();
-foreach( $categoryList as $categoryItem )
+foreach ( $categoryList as $categoryItem )
 {
     $t->set_var( "category_id", $categoryItem->id() );
     $t->set_var( "category_name", $categoryItem->name() );
@@ -355,8 +355,8 @@ if ( $moderator == 0 )
 
 $t->parse( "moderator_item", "moderator_item_tpl", true );
 
-foreach( $groupList as $groupItem )
-//foreach( $userList as $userItem )
+foreach ( $groupList as $groupItem )
+//foreach ( $userList as $userItem )
 {
     $t->set_var( "user_id", $groupItem->id() );
     $t->set_var( "user_name", $groupItem->name() ); //change variable names?
@@ -390,7 +390,7 @@ foreach( $groupList as $groupItem )
 $group = new eZUserGroup();
 $groupList =& $group->getAll();
 
-foreach( $groupList as $group )
+foreach ( $groupList as $group )
 {
     $t->set_var( "group_name", $group->name() );
     $t->set_var( "group_id", $group->id() );

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezforumcategory.php,v 1.42 2001/09/24 11:53:43 jhe Exp $
+// $Id: ezforumcategory.php,v 1.43 2001/09/24 14:03:59 jhe Exp $
 //
 // Definition of eZForumCategory class
 //
@@ -236,7 +236,7 @@ class eZForumCategory
         $db->array_query( $category_array, "SELECT ID FROM eZForum_Category" );
 
         $ret = array();
-        foreach( $category_array as $category )
+        foreach ( $category_array as $category )
         {
             $ret[] = new eZForumCategory( $category[$db->fieldName("ID")] );
         }

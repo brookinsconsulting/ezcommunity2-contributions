@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: categorylist.php,v 1.8 2001/07/19 13:17:55 jakobn Exp $
+// $Id: categorylist.php,v 1.9 2001/09/24 14:03:59 jhe Exp $
 //
 // Christoffer A. Elo
 // Created on: <17-Oct-2000 13:50:26 ce>
@@ -55,7 +55,7 @@ if ( !$categoryList )
 else
 {
     $i=0;
-    foreach( $categoryList as $categoryItem )
+    foreach ( $categoryList as $categoryItem )
     {
         if ( ( $i %2 ) == 0 )
             $t->set_var( "td_class", "bgdark" );

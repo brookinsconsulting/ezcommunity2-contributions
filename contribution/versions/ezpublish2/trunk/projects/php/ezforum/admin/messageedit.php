@@ -1,5 +1,5 @@
 <?php
-// $Id: messageedit.php,v 1.16 2001/09/24 11:53:43 jhe Exp $
+// $Id: messageedit.php,v 1.17 2001/09/24 14:03:59 jhe Exp $
 //
 // Created on: Created on: <18-Jul-2000 08:56:19 lw>
 //
@@ -114,9 +114,9 @@ if ( $Action == "delete" )
 
 if ( $Action == "DeleteMessages" )
 {
-    if ( count ( $MessageArrayID ) != 0 )
+    if ( count( $MessageArrayID ) != 0 )
     {
-        foreach( $MessageArrayID as $MessageID )
+        foreach ( $MessageArrayID as $MessageID )
         {
             $message = new eZForumMessage( $MessageID );
             $forumID = $message->forumID();

@@ -1,5 +1,5 @@
 <?php
-// $Id: unapprovededit.php,v 1.10 2001/09/21 14:28:48 jhe Exp $
+// $Id: unapprovededit.php,v 1.11 2001/09/24 14:03:59 jhe Exp $
 //
 // Created on: <21-Jan-2001 13:34:48 bf>
 //
@@ -41,7 +41,7 @@ require( "ezuser/admin/admincheck.php" );
 
 $message = new eZForumMessage();
 
-for ( $i = 0; $i < count ( $ActionValueArray ); $i++ )
+for ( $i = 0; $i < count( $ActionValueArray ); $i++ )
 {
     $message = new eZForumMessage( $MessageID[$i] );
 

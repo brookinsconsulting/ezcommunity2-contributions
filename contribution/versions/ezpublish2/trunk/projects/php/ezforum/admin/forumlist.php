@@ -1,5 +1,5 @@
 <?php
-// $Id: forumlist.php,v 1.13 2001/07/19 13:17:54 jakobn Exp $
+// $Id: forumlist.php,v 1.14 2001/09/24 14:03:59 jhe Exp $
 //
 // Created on: Created on: <18-Jul-2000 08:56:19 lw>
 //
@@ -65,8 +65,8 @@ if ( !$forumList )
 }
 else
 {
-    $i=0;
-    foreach( $forumList as $forumItem )
+    $i = 0;
+    foreach ( $forumList as $forumItem )
         {
             if ( ( $i %2 ) == 0 )
                 $t->set_var( "td_class", "bgdark" );
