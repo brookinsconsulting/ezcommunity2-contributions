@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: gameedit.php,v 1.10.2.1 2001/12/06 10:19:29 jhe Exp $
+// $Id: gameedit.php,v 1.10.2.2 2002/02/12 13:12:23 pkej Exp $
 //
 // Created on: <22-May-2001 13:44:13 ce>
 //
@@ -143,8 +143,15 @@ if ( ( $Action == "Insert" ) )
         $error = true;
     }
 
-    $startDate = new eZDate( $StartYear, $StartMonth, $StartDay );
-    $stopDate = new eZDate( $StopYear, $StopMonth, $StopDay );
+    $startDate = new eZDate();
+    $startDate->setMonth( $StartMonth );
+    $startDate->setDay( $StartDay );
+    $startDate->setYear( $StartYear );
+
+    $stopDate = new eZDate();
+    $stopDate->setMonth( $StopMonth );
+    $stopDate->setDay( $StopDay );
+    $stopDate->setYear( $StopYear );
 
     if ( $checkDate )
     {

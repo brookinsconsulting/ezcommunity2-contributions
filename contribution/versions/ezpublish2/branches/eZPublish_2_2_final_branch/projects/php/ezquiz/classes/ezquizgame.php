@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezquizgame.php,v 1.16.2.2 2002/02/12 13:05:40 pkej Exp $
+// $Id: ezquizgame.php,v 1.16.2.3 2002/02/12 13:12:23 pkej Exp $
 //
 // ezquizgame class
 //
@@ -72,8 +72,8 @@ class eZQuizGame
         $db->begin();
         $name =& $db->escapeString( $this->Name );
         $description =& $db->escapeString( $this->Description );
-        $startDate =& $this->StartDate->timeStamp();
-        $stopDate =& $this->StopDate->timeStamp();
+        $startDate =& $this->StartDate->mySQLDate();
+        $stopDate =& $this->StopDate->mySQLDate();
         
         if ( !isset( $this->ID ) )
         {
