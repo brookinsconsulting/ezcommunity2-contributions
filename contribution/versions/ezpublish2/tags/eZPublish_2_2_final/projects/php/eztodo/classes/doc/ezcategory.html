@@ -1,0 +1,166 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN"><html>
+<head>
+<title>Generated PHP documentation &copy; eZ systems as 2000</title>
+<style type="text/css">
+<!--
+
+td.header {
+    color : #eeeeee;
+    background-color : #446688;
+}
+
+td.tableHeader {
+    color : #eeeeee;
+    background-color : #7799aa;
+}
+
+td.classLinkLight {
+    background-color : #eeeeee;
+}
+
+td.classLinkDark {
+    background-color : #dddddd;
+}
+
+td.classDescription {
+    background-color : #eeeeee;
+}
+
+td.sourceListing {
+    background-color : #416141;
+    color : #de9562;
+    font-family: courier, monospace;
+}
+
+p.functionName {
+    background-color : #ffffff;
+    font-size : 14pt;	
+    font-weight : bold;
+    font-face : verdana, arial, helvetica;
+}
+
+p.functionAbs {
+    background-color : #ddeeee;
+}
+
+span.comment {
+    background-color : #315031;
+    color : #ffce20;
+    font-weight : none;
+}
+
+span.reservedWord {
+    background-color : #416141;
+    color : #83b6de;
+}
+
+span.specialChar {
+    background-color : #416141;
+    color : #e6be52;
+}
+
+span.variable {
+    background-color : #416141;
+    color : #00ffff;
+}
+
+p.functionDesc {
+    background-color : #eeeeee;
+}
+
+p.functionIndex
+{
+    background-color : #ffffff;
+}
+
+.light
+{
+    color : #eeeeee;
+}
+
+
+h3.fn, span.fn 
+{ 
+    margin-left: 1cm; 
+    text-indent: -1cm; 
+}
+
+a:link 
+{ 
+text-decoration: none; 
+}
+
+body 
+{ 
+  font-face: verdana, arial, helvetica; 
+  background: white; 
+  color: black; 
+}
+-->
+</style>
+</head>
+<body>
+<table width="100%" border="0" cellspacing="0" cellpadding="5">
+<tr>
+	<td class="header">
+	<table width="100%" border="0" cellspacing="0" cellpadding="0">
+	<tr>
+		<td>
+		<h1>eZ phpdoc - Class reference</h1>
+		</td>
+		<td valign="top" align="right">
+		<a class="light" href="index.html">Class list</a> | 
+		<a class="light" href="annotated.html">Annotated class list</a> |
+		<a class="light" href="function.html">Function list</a> |
+		<a class="light" href="structure.html">Structure</a>
+		</td>
+	</tr>
+	</table>
+	</td>
+</tr><tr><td><center><h1>eZTodo::eZCategory class reference</h1></center></td></tr><tr><td> The eZCategory handles the category informasjon. <a href="#999999">[more]</a></td></tr><tr><td>The source file: <a href="ezcategory.src.html">[view the source]</a></td></tr><tr><td><h1>Members</h1><ul><li><a href="#0">eZCategory( $id=-1, $fetch=1 )
+</a></li><li><a href="#1">store()
+</a></li><li><a href="#2">delete()
+</a></li><li><a href="#3">update()
+</a></li><li><a href="#4">get( $id )
+</a></li><li><a href="#5">getAll()
+</a></li><li><a href="#6">title()
+</a></li><li><a href="#7">setTitle( $value )
+</a></li><li><a href="#8">description()
+</a></li><li><a href="#9">setDescription( $value )
+</a></li><li><a href="#10">id()
+</a></li><li><a href="#11">dbInit()
+</a></li></tr></td></ul><tr><td><hr noshade size="2"><a name="#999999"></a><h2>Detailed Description</h2></td></tr><tr><td class="classDescription">Handles the category informasjon stored in the database. All the todo's are grouped in to categorys.
+</td></tr><tr><td><hr noshade size="2"><h2>Member Function Documentation</h2></td></tr><tr><td><a name="0"></a><p class="functionName">eZCategory::eZCategory( $id=-1, $fetch=1 )
+</p></td></tr><tr><td><p class="functionAbs">     eZCategory</p></td></tr><tr><td><p class="functionDesc">eZCategory Constructor.
+</p></td></tr><tr><td><a name="1"></a><p class="functionName">eZCategory::store()
+</p></td></tr><tr><td><p class="functionAbs">     store</p></td></tr><tr><td><p class="functionDesc">Stores the category object to the database.
+Returnes the ID to the eZCategory object if the store is a success.
+</p></td></tr><tr><td><a name="2"></a><p class="functionName">eZCategory::delete()
+</p></td></tr><tr><td><p class="functionAbs">     delete</p></td></tr><tr><td><p class="functionDesc">Deletes the category object in the database.
+</p></td></tr><tr><td><a name="3"></a><p class="functionName">eZCategory::update()
+</p></td></tr><tr><td><p class="functionAbs">     update</p></td></tr><tr><td><p class="functionDesc">Update the category object in the database.
+</p></td></tr><tr><td><a name="4"></a><p class="functionName">eZCategory::get( $id )
+</p></td></tr><tr><td><p class="functionAbs">     get</p></td></tr><tr><td><p class="functionDesc">Gets a category object from the database, where ID == $id
+</p></td></tr><tr><td><a name="5"></a><p class="functionName">eZCategory::getAll()
+</p></td></tr><tr><td><p class="functionAbs">     getAll</p></td></tr><tr><td><p class="functionDesc">Gets all the category informasjon from the database.
+Returns the array in $cateogry_array ordered by title.
+</p></td></tr><tr><td><a name="6"></a><p class="functionName">eZCategory::title()
+</p></td></tr><tr><td><p class="functionAbs">      title</p></td></tr><tr><td><p class="functionDesc">Tilte of the category.
+Returns the title of the category as a string.
+</p></td></tr><tr><td><a name="7"></a><p class="functionName">eZCategory::setTitle( $value )
+</p></td></tr><tr><td><p class="functionAbs">     setTitle</p></td></tr><tr><td><p class="functionDesc">Sets the title of the category.
+The new title of the category is passed as a paramenter ( $value ).
+</p></td></tr><tr><td><a name="8"></a><p class="functionName">eZCategory::description()
+</p></td></tr><tr><td><p class="functionAbs">     description</p></td></tr><tr><td><p class="functionDesc">Description of the category.
+Returns the description of the category as a string.
+</p></td></tr><tr><td><a name="9"></a><p class="functionName">eZCategory::setDescription( $value )
+</p></td></tr><tr><td><p class="functionAbs">     setDescription</p></td></tr><tr><td><p class="functionDesc">Sets the description of the category.
+The new description of the category is passed as a paramenter ( $value ).
+</p></td></tr><tr><td><a name="10"></a><p class="functionName">eZCategory::id()
+</p></td></tr><tr><td><p class="functionAbs">     id</p></td></tr><tr><td><p class="functionDesc">Id of the priority.
+Returns the id of the category as a string.
+</p></td></tr><tr><td><a name="11"></a><p class="functionName">eZCategory::dbInit()
+</p></td></tr><tr><td><p class="functionAbs">     dbInit</p></td></tr><tr><td><p class="functionDesc">Private function.
+Open the database for read and write. Gets all the database informasjon from site.ini.
+</p></td></tr></table></body>
+</html>

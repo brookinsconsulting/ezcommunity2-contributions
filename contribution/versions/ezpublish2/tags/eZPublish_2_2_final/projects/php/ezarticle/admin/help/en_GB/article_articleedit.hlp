@@ -1,0 +1,157 @@
+<h2>Article edit</h2>
+
+<p>This is the help file for the eZ article page Article edit. 
+It will show the different tags you can use in the article
+<bold>Note:</bold> All tags can be changed in the template.
+</p>
+
+<h2>Basic formatting tags</h2>
+
+<p>
+All these tags can have subtags except for the header tag.
+</p>
+
+<h3>&lt;header level> &lt;/header></h3>
+<p>
+Will show a header with level from 1-5. Level can be left out and will default to 1 which is largest.
+</p>
+
+
+<h3>&lt;bold> &lt;/bold></h3>
+<p>
+Will show <b>bold</b> text.
+</p>
+
+<h3>&lt;italic> &lt;/italic></h3>
+<p>
+Will show <i>italic</i> text.
+</p>
+
+<h3>&lt;underline> &lt;/underline></h3>
+<p>
+Will show <u>underlined</u> text.
+</p>
+
+<h3>&lt;strike> &lt;/strike></h3>
+<p>
+Will show <s>strike</s> text.
+</p>
+
+<h3>&lt;strong> &lt;/strong></h3>
+<p>
+Will show <strong>strong</strong> text.
+</p>
+
+<h3>&lt;strong> &lt;/strong></h3>
+<p>
+Will show <strong>strong</strong> text.
+</p>
+
+<h3>&lt;pre> &lt;/pre></h3>
+<p>
+Will show pre defined text.
+</p>
+
+<h3>&lt;quote> &lt;/quote></h3>
+<p>
+Will show block quoted text.
+</p>
+
+<h3>&lt;factbox> &lt;/factbox></h3>
+<p>
+Will show a box in the right which can have subtags.
+</p>
+
+<h3>&lt;bullet> &lt;/bullet></h3>
+<p>
+Will show a bullet list.
+</p>
+
+<h3>&lt;list> &lt;/list></h3>
+<p>
+Will show a ordered list.
+</p>
+
+<h2>Image tags</h2>
+You can place images at any posistion in the article. Image tags are entered in a 
+simple format and are then converted to XML before storage. If you want to use the 
+advanced image tags you must write in XML. 
+
+<h3>&lt;image id></h3>
+<p>
+This is the simplest version of the tag which will show the image with number "id" 
+as a centered medium sized image.
+</p>
+
+<h3>&lt;image id align size link></h3>
+<p>
+This version of the tag will let you specify the align and size of the image. 
+Available align are: left, right, center and float. Available sizes are: small, 
+medium, large and original. You can also specify a link to go to 
+when you click on the image, this is optional.
+</p>
+
+<h3>&lt;image id align size></h3>
+<p>
+This version of the tag will let you specify the align and size of the image. 
+Available align are: left, right, center and float. Available sizes are: small, 
+medium, large and original.
+</p>
+
+<h3>&lt;image id="id" align="align" size="size" caption="caption" href="href" target="target"></h3>
+<p>
+If you specify the XML version of this tag you can specify a custom caption, 
+target for the href, url and the href url. 
+If the caption variable is "_blank" it will not show a caption. All these extra
+values are optional.
+</p>
+
+<h2>Hyper tags</h2>
+
+<h3>&lt;link href text></h3>
+<p>
+You can create a link with a description with this tag.
+</p>
+
+<h3>&lt;mail addr subject, text></h3>
+<p>
+This tag will create a mailto: tag for easier sending of e-mails.
+</p>
+
+
+<h2>Object tags</h2>
+
+<h3>&lt;file id></h3>
+<p>
+Will show a link to an attached file.
+</p>
+
+<h3>&lt;media id></h3>
+<p>
+Will place a media object in the article.
+</p>
+
+<h3>&lt;form></h3>
+<p>
+Will place the selected form in the article.
+</p>
+
+<h2>Advanced tags</h2>
+
+<h3>&lt;html> &lt;/html></h3>
+<p>
+Will show embedded html in the article. <bold>Note:</bold> it's not recommended to use
+this tag as it limits the possibility to export the article to other formats. One
+should rather create a new custom tag.
+</p>
+
+
+<h3>&lt;table width border>&lt;tr>&lt;td> cell data &lt;/td>&lt;/tr>&lt;/table></h3>
+<p>
+Will render a table.
+</p>
+
+
+
+
+
