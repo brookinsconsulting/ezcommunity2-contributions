@@ -26,7 +26,9 @@
 	<th valign="bottom">{intl-value_header}:</th>
 	<!-- BEGIN value_description_item_tpl -->
 	<td>
+	<!-- BEGIN value_description_item_checkbox_tpl -->
 	<div class="check"><input type="checkbox" name="OptionDescriptionDelete[]" value="{value_description_index}" />{intl-delete}</div>
+	<!-- END value_description_item_checkbox_tpl -->
 	<input type="text" size="8" name="OptionValueDescription[{value_description_index}]" value="{option_description_value}" />
 	</td>
 	<!-- END value_description_item_tpl -->
@@ -72,9 +74,11 @@
 	<input class="stdbutton" type="submit" name="NewValue" value="{intl-new_value}" />	
 	</td>
 	<td>&nbsp;</td>
+	<!-- BEGIN new_description_tpl -->
 	<td>
 	<input class="stdbutton" type="submit" name="NewDescription" value="{intl-new_description}" />	
 	</td>
+	<!-- END new_description_tpl -->
 </tr>
 </table>
 
