@@ -1,4 +1,4 @@
-<meta name="author" content="eZ systems"/>
-<meta name="copyright" content="eZ systems &copy; 2000"/>
-<meta name="description" content="zez.org is a page dedicated to all kinds of computer programming."/>
-<meta name="keywords" content="IT, data, computer, PC, network, server, programming, code, hacking, software, database, open source, unix, linux, BSD, apache, C++, PHP, HTML, XML, java, javascript, python, perl, MySQL, SQL, OOA, OOD, OOP, nerd"/>
+<meta name="author" content="eZ systems" />
+<meta name="copyright" content="eZ systems &copy; 2001" />
+<meta name="description" content="eZ publish - the web application suite" />
+<meta name="keywords" content="IT, data, computer, web, internet, PC, network, server, programming, publishing, portal, intranet, e-commerce, e-trade, software, database, open source, unix, linux, apache, PHP, HTML, XML, MySQL, Skien, Grenland, Telemark, Norway" />
