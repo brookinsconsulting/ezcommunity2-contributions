@@ -158,12 +158,15 @@ switch ( $url_array[2] )
                 if ( !isset( $CompanyID ) and isset( $url_array[4] ) and is_numeric( $url_array[4] ) )
                     $CompanyID = $url_array[4];
                 $PersonOffset = $url_array[5];
+                include_once( "ezcontact/classes/ezcompany.php" );
+                eZCompany::addViewHit( $CompanyID );
                 include( "ezcontact/admin/companyview.php" );
                 break;
             }
             case "list":
             {
                 $TypeID = $url_array[4];
+                $ShowStats = false;
                 include( "ezcontact/admin/companytypelist.php" );
                 break;
             }
