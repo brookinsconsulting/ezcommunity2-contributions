@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezpageviewquery.php,v 1.21.2.4 2002/05/06 13:31:37 br Exp $
+// $Id: ezpageviewquery.php,v 1.21.2.5 2002/05/06 14:03:04 br Exp $
 //
 // Definition of eZPageViewQuery class
 //
@@ -128,7 +128,7 @@ class eZPageViewQuery
             if ( $month < 10 )
                 $month = "0" . $month;
 
-            $dateStamp = new eZDateTime( $year, $month );
+            $dateStamp = new eZDateTime( $year, $month, 1 );
 
             if ( $month == 12 )
                 $endDate = new eZDateTime( $year + 1, 1, 1, 0, 0, 0 );
@@ -142,7 +142,6 @@ class eZPageViewQuery
             "' AND Date < '" . $endDate->timeStamp() . "'");
             
             $ret = $pageview_array[0][$db->fieldName( "Count" )];
-
             $db->array_query( $pageview_array,
             "SELECT SUM(Count) AS Count
              FROM eZStats_Archive_PageView
