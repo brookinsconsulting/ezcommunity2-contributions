@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: productedit.php,v 1.65 2001/09/28 11:02:39 ce Exp $
+// $Id: productedit.php,v 1.66 2001/09/28 11:14:36 ce Exp $
 //
 // Created on: <19-Sep-2000 10:56:05 bf>
 //
@@ -194,8 +194,11 @@ if ( $Action == "Update"  or $Action == "Insert" )
         if ( $product->productType() == 2 )
         {
             $range =& $product->priceRange();
+            if ( !$range )
+                $range = new eZProductPriceRange();
             $range->setMin( $MinPrice );
             $range->setMax( $MaxPrice );
+            $range->setProduct( $product );
             $range->store();
         }
 
