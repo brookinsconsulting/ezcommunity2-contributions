@@ -33,7 +33,7 @@ include_once( "ezfilemanager/classes/ezvirtualfile.php" );
 include_once( "ezuser/classes/ezobjectpermission.php" );
 
 $ini =& INIFile::globalINI();
-$Language = $ini->read_var( "eGroupEventCalnedarMain", "Language" );
+$Language = $ini->read_var( "eZGroupEventCalendarMain", "Language" );
 
 //include_once( "ezgroupeventcalendar/classes/ezgroupeventcategory.php" );
 include_once( "ezgroupeventcalendar/classes/ezgroupevent.php" );
