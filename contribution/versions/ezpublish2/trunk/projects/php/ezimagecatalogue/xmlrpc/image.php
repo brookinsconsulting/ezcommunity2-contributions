@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: image.php,v 1.1 2001/06/27 13:54:22 jb Exp $
+// $Id: image.php,v 1.2 2001/06/28 10:31:50 jb Exp $
 //
 // Jan Borsodi <jb@ez.no>
 // Created on: <14-Jun-2001 13:18:27 amos>
@@ -55,35 +55,41 @@ if( $Command == "data" ) // Dump image info!
             $wgp[] = new eZXMLRPCInt( $group );
 
         $image = new eZImage( $ID );
-        $variation =& $image->requestImageVariation( $width, $height );
-        $size = 0;
-        if ( $image->fileExists( true ) )
+        $variation = $image->requestImageVariation( $width, $height, false, true );
+        if ( !is_bool( $variation ) )
         {
-            $imagePath =& $image->filePath( true );
-            $size = filesize( $imagePath );
-        }
-        $user = $image->user();
-        $user_id = get_class( $user ) == "ezuser" ? $user->id() : 0;
+            $size = 0;
+            if ( $image->fileExists( true ) )
+            {
+                $imagePath =& $image->filePath( true );
+                $size = filesize( $imagePath );
+                $user = $image->user();
+                $user_id = get_class( $user ) == "ezuser" ? $user->id() : 0;
 
-        $ret = array( 
-            "Name" => new eZXMLRPCString( $image->name() ),
-            "Caption" => new eZXMLRPCString( $image->caption() ),
-            "Description" => new eZXMLRPCString( $image->description() ),
-            "FileName" => new eZXMLRPCString( $image->fileName() ),
-            "OriginalFileName" => new eZXMLRPCString( $image->originalFileName() ),
-            "FileSize" => new eZXMLRPCInt( $size ),
-            "UserID" => new eZXMLRPCInt( $user_id ),
-            "ReadGroups" => new eZXMLRPCArray( $rgp ),
-            "WriteGroups" => new eZXMLRPCArray( $wgp ),
-            "WebURL" => new eZXMLRPCString( "/" . $variation->imagePath() ),
-            "Size" => createSizeStruct( $variation->width(), $variation->height() )
-            );
-        $ReturnData = new eZXMLRPCStruct( $ret );
+                $ret = array( 
+                    "Name" => new eZXMLRPCString( $image->name() ),
+                    "Caption" => new eZXMLRPCString( $image->caption() ),
+                    "Description" => new eZXMLRPCString( $image->description() ),
+                    "FileName" => new eZXMLRPCString( $image->fileName() ),
+                    "OriginalFileName" => new eZXMLRPCString( $image->originalFileName() ),
+                    "FileSize" => new eZXMLRPCInt( $size ),
+                    "UserID" => new eZXMLRPCInt( $user_id ),
+                    "ReadGroups" => new eZXMLRPCArray( $rgp ),
+                    "WriteGroups" => new eZXMLRPCArray( $wgp ),
+                    "WebURL" => new eZXMLRPCString( "/" . $variation->imagePath() ),
+                    "Size" => createSizeStruct( $variation->width(), $variation->height() )
+                    );
+                $ReturnData = new eZXMLRPCStruct( $ret );
+            }
+            else
+                $Error = createErrorMessage( EZERROR_CUSTOM, "Image $ID does not exist on disk" );
+        }
+        else
+            $Error = createErrorMessage( EZERROR_CUSTOM, "Couldn't convert image $ID" );
     }
     else
     {
-        $Error = new eZXMLRPCResponse( );
-        $Error->setError( 3, "Missing width and height in image request" );
+        $Error = createErrorMessage( EZERROR_CUSTOM, "Missing width and height in image request" );
     }
 }
 
