@@ -74,6 +74,10 @@ ezdatamanager	projects/php/ezdatamanager
 publish_dist    projects/php/publish_dist &ezsession &ezuser &ezarticle &classes &ezimagecatalogue &ezpoll &ezcontact &ezforum &ezlink &admin &eztodo &ezad &eznewsfeed &ezbug &ezstats &eztrade &ezcalendar &ezaddress &ezfilemanager &ezerror &ezmail &ezbulkmail &ezmodule &ezsysinfo &ezurltranslator &ezform &ezsitemanager &ezquiz  &ezmessage &ezsearch &ezmediacatalogue &ezxmlrpc &ezxml
 trade_dist      projects/php/trade_dist &ezsession &ezuser &eztrade &ezarticle &classes &ezimagecatalogue &ezcontact &admin &ezmodule
 
+# sites
+ezsystems	projects/php/ezsystems &ezsession &ezuser &ezarticle &classes &ezimagecatalogue &ezpoll &ezcontact &ezforum &ezlink &admin &eztodo &ezad &eznewsfeed &ezbug &ezstats &eztrade &ezcalendar &ezaddress &ezfilemanager &ezerror &ezmail &ezbulkmail &ezmodule &ezsysinfo &ezurltranslator &ezform &ezsitemanager &ezquiz  &ezmessage &ezsearch &ezmediacatalogue &ezxmlrpc &ezxml
+
+
 # site alias
 zez_modules  &ezsession &eztrade &ezarticle &classes &ezimagecatalogue &ezpoll &ezcontact &ezforum &ezlink &admin &ezmodule  
 no_ez_modules &ezsession &ezuser &eztrade &ezarticle &classes &ezimagecatalogue &ezcontact &admin &ezmodule
