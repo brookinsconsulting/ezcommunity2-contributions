@@ -193,3 +193,12 @@ Maintainer(s) : bf@ez.no
 
     * ezcachefile.php: Fixed close file problem.
 
+
+Module : classes
+Repository path : /home/cvsroot/projects/php/classes
+Maintainer(s) : bf@ez.no
+2001-10-08  Kai Duebbert  <kai@duebbert.de>
+
+    * ezfile.php:
+    fixed wrong use of eZFile::file_exists() instead of file_exists(). fixes bug.
+

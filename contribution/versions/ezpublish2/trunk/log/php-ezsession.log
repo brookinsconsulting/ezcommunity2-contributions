@@ -34,3 +34,11 @@ Maintainer(s) : bf@ez.no
 
     * classes/ezsession.php: Altererd cookie timeout to 40 days.
 
+
+Module : ezsession
+Repository path : /home/cvsroot/projects/php/ezsession
+Maintainer(s) : bf@ez.no
+2001-10-08  Baard Farstad  <bf@ez.no>
+
+    * sql/mysql/ezsession.sql: Added indeces.
+

@@ -1054,3 +1054,14 @@ Maintainer(s) : ce@ez.no
       user/precheckout.php
       user/searchsupplier.php: Fixed a path.
 
+
+Module : eztrade
+Repository path : /home/cvsroot/projects/php/eztrade
+Maintainer(s) : ce@ez.no
+2001-10-08  Baard Farstad  <bf@ez.no>
+
+    * user/productview.php: Updated section info,
+
+    * sql/mysql/eztrade.sql
+      user/productlist.php: Added indeces.
+

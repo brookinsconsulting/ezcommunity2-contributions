@@ -178,3 +178,13 @@ Maintainer(s) : jhe@ez.no
       user/intl/he_IL/monthview.php.ini
       user/intl/he_IL/yearview.php.ini: Added he_IL (Hebrew) translation
 
+
+Module : ezcalendar
+Repository path : /home/cvsroot/projects/php/ezcalendar
+Maintainer(s) : jhe@ez.no
+2001-10-08  Jo Henrik Endrerud  <jhe@ez.no>
+
+    * user/appointmentview.php
+      user/dayview.php
+      user/monthview.php: fixed $user bugs
+

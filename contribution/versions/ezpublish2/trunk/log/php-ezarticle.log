@@ -1167,3 +1167,14 @@ Maintainer(s) : bf@ez.no
     * classes/Attic/ezflowergenerator.php
       classes/Attic/ezflowerrenderer.php: Removed obsolete classes.
 
+
+Module : ezarticle
+Repository path : /home/cvsroot/projects/php/ezarticle
+Maintainer(s) : bf@ez.no
+2001-10-08  Baard Farstad  <bf@ez.no>
+
+    * sql/mysql/ezarticle.sql: Added indeces.
+
+    * user/datasupplier.php
+      user/frontpage.php: Added article cache on frontpage.
+

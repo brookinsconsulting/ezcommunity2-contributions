@@ -432,3 +432,16 @@ Maintainer(s) : br@ez.no
 
     * admin/categoryedit.php: Added correct template dir
 
+
+Module : ezimagecatalogue
+Repository path : /home/cvsroot/projects/php/ezimagecatalogue
+Maintainer(s) : br@ez.no
+2001-10-08  Kai Duebbert  <kai@duebbert.de>
+
+    * classes/ezimage.php:
+    fixed wrong use of eZFile::file_exists() instead of file_exists(). fixes bug.
+
+2001-10-08  Baard Farstad  <bf@ez.no>
+
+    * sql/mysql/ezimagecatalogue.sql: Added indeces.
+

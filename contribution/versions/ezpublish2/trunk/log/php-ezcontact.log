@@ -235,3 +235,16 @@ Maintainer(s) : jhe@ez.no
       admin/intl/he_IL/personview.php.ini
       admin/intl/he_IL/projecttype.php.ini: Added he_IL (Hebrew) translation
 
+
+Module : ezcontact
+Repository path : /home/cvsroot/projects/php/ezcontact
+Maintainer(s) : jhe@ez.no
+2001-10-08  Jo Henrik Endrerud  <jhe@ez.no>
+
+    * admin/consultationview.php
+      admin/personedit.php
+      classes/ezcompany.php
+      classes/ezperson.php
+      sql/mysql/ezcontact.sql
+      admin/companytypeedit.php: several bugfixes
+

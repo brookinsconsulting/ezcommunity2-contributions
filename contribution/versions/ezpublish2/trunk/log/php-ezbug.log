@@ -118,3 +118,13 @@ Maintainer(s) : vl@ez.no
       user/intl/he_IL/search.php.ini
       user/intl/he_IL/unhandledbugs.php.ini: Added he_IL (Hebrew) translation
 
+
+Module : ezbug
+Repository path : /home/cvsroot/projects/php/ezbug
+Maintainer(s) : vl@ez.no
+2001-10-08  fh  <fh@zev.ez.no>
+
+    * classes/ezbugmodule.php
+      user/unhandledbugs.php:
+    Fixed bool->int bug. ('false' and 'true' don't exist anymore.
+

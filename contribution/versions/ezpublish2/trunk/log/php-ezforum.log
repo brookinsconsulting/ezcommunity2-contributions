@@ -360,3 +360,21 @@ Maintainer(s) : jhe@ez.no
 
     * user/messagelist.php: Fixed bug with overwriting the currentuser.
 
+
+Module : ezforum
+Repository path : /home/cvsroot/projects/php/ezforum
+Maintainer(s) : jhe@ez.no
+2001-10-08  Baard Farstad  <bf@ez.no>
+
+    * sql/mysql/ezforum.sql: Fixed sql-
+
+2001-10-08  Jo Henrik Endrerud  <jhe@ez.no>
+
+    * user/message.php
+      user/messagelist.php
+      user/messagereply.php: fixed security bug (user variable)
+
+2001-10-08  Baard Farstad  <bf@ez.no>
+
+    * sql/mysql/ezforum.sql: Added indeces.
+

@@ -72,3 +72,11 @@ Maintainer(s) : fh@ez.no
       user/maillist.php
       user/mailview.php: Permissions check fixes..
 
+
+Module : ezmail
+Repository path : /home/cvsroot/projects/php/ezmail
+Maintainer(s) : fh@ez.no
+2001-10-08  fh  <fh@zev.ez.no>
+
+    * user/mailedit.php: permission fix
+

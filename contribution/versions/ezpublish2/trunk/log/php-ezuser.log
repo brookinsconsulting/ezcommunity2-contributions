@@ -302,3 +302,22 @@ Maintainer(s) : bf@ez.no
 
     * sql/mysql/ezuser.sql: Updated indeces.
 
+
+Module : ezuser
+Repository path : /home/cvsroot/projects/php/ezuser
+Maintainer(s) : bf@ez.no
+2001-10-08  Baard Farstad  <bf@ez.no>
+
+    * classes/ezuser.php
+      user/templates/standard/userwithaddress.tpl
+      user/userwithaddress.php:
+    Fixed not changing id when editing a user address.
+
+2001-10-08  Jo Henrik Endrerud  <jhe@ez.no>
+
+    * classes/ezusergroup.php: fixed small sql bug in users()
+
+2001-10-08  fh  <fh@zev.ez.no>
+
+    * user/intl/de_DE/userwithaddress.php.ini: Typos
+
