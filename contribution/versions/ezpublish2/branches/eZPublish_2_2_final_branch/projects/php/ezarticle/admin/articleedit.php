@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: articleedit.php,v 1.116.2.6 2002/02/27 14:10:21 master Exp $
+// $Id: articleedit.php,v 1.116.2.7 2002/03/25 17:03:44 jhe Exp $
 //
 // Created on: <18-Oct-2000 15:04:39 bf>
 //
@@ -88,6 +88,7 @@ if ( $Action == "Cancel" )
 // update an existing article in the database
 if ( $Action == "Update" || ( $Action == "Insert" ) )
 {
+    $sendNotification = false;
     $article = new eZArticle( );
 
     if ( ( $Action == "Insert" ) or ( $article->get( $ArticleID ) == true ) )
@@ -279,7 +280,7 @@ if ( $Action == "Update" || ( $Action == "Insert" ) )
                 // check if the article is published now
                 if ( $article->isPublished() == false )
                 {
-                    eZArticleTool::notificationMessage( $article );
+                    $sendNotification = true;
                 }
 
                 $article->setIsPublished( true );
@@ -306,6 +307,9 @@ if ( $Action == "Update" || ( $Action == "Insert" ) )
 
             $article->store();
             $ArticleID = $article->id();
+
+            if ( $sendNotification )
+                eZArticleTool::notificationMessage( $article );
 
             // Go to insert item..
             if ( isset( $AddItem ) )
