@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezxmlrpccall.php,v 1.2 2001/01/25 14:03:39 bf Exp $
+// $Id: ezxmlrpccall.php,v 1.3 2001/02/11 18:01:33 bf Exp $
 //
 // Definition of eZXMLRPCCall class
 //
@@ -93,6 +93,20 @@ class eZXMLRPCCall
             {
                 $this->ParameterList[] = $value;
                 $ret = true;
+            }
+            break;
+
+            case "ezxmlrpcbase64" :
+            {
+               $this->ParameterList[] = $value;
+               $ret = true;
+            }
+            break;
+
+            case "ezxmlrpcboolean" :
+            {
+               $this->ParameterList[] = $value;
+               $ret = true;
             }
             break;
             
