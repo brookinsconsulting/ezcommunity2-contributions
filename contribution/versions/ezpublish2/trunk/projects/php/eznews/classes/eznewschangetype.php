@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: eznewschangetype.php,v 1.10 2000/10/10 15:01:35 pkej-cvs Exp $
+// $Id: eznewschangetype.php,v 1.11 2000/10/11 15:34:08 pkej-cvs Exp $
 //
 // Definition of eZNewsChangeType class
 //
@@ -102,7 +102,7 @@ class eZNewsChangeType extends eZNewsUtility
     */
     function eZNewsChangeType( $inData = "", $fetch = true )
     {
-        #echo "change type constructor $inData<br>";
+        #echo "eZNewsChangeType::eZNewsChangeType( \$inData = $inData \$fetch = $fetch )<br>";
         eZNewsUtility::eZNewsUtility( $inData, $fetch );
     }
     
@@ -117,6 +117,7 @@ class eZNewsChangeType extends eZNewsUtility
      */
     function updateThis( &$ID )
     {
+        #echo "eZNewsChangeType::updateThis( \$ID = $ID )<br>";
         $value = false;
         
         $query =
@@ -209,11 +210,10 @@ class eZNewsChangeType extends eZNewsUtility
     */
     function getThis( &$outID, &$inData )
     {
+        #echo "eZNewsChangeType::getThis( \$outID = $outID \$inData = $inData )<br>";
         $value = false;
         $changeTypeArray = array();
         $outID = array();
-        
-        #echo "getthis ct: " . $inData . "<br>";
         
         if( is_numeric( $inData ) )
         {
@@ -225,7 +225,7 @@ class eZNewsChangeType extends eZNewsUtility
                 WHERE ID = %s
             ";
             
-            $query = sprintf( $query2, $inData );
+            $query = sprintf( $query, $inData );
         }
         else
         {
@@ -391,23 +391,14 @@ class eZNewsChangeType extends eZNewsUtility
      */
     function invariantCheck()
     {
-        $value = false;
-        
-        eZNewsUtility::invariantCheck();
+        #echo "eZNewsChangeType::invariantCheck()<br>";
 
         if( empty( $this->Description ) )
         {
-            $this->Errors[] = "intl-description-required";
+            $this->Errors[] = "intl-eznews-eznewschangetype-description-required";
         }
 
-        if( !count( $this->Errors ) )
-        {
-            #echo "errors " . $this->Errors[0] . "<br>";
-            $value = true;
-            $this->State_ = "coherent";
-        }
-        #echo "invariantCheck returns: " . $value . "<br>";
-        return $value;
+        return eZNewsUtility::invariantCheck();
     }
 
 

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eznewsitem.php,v 1.28 2000/10/11 12:07:59 pkej-cvs Exp $
+// $Id: eznewsitem.php,v 1.29 2000/10/11 15:34:08 pkej-cvs Exp $
 //
 // Definition of eZNewsItem class
 //
@@ -107,6 +107,8 @@
  */
  
 include_once( "eznews/classes/eznewsutility.php" );       
+include_once( "eznews/classes/eznewschangetype.php" );       
+include_once( "eznews/classes/eznewschangeticket.php" );
 
 class eZNewsItem extends eZNewsUtility
 {
@@ -125,15 +127,56 @@ class eZNewsItem extends eZNewsUtility
     */
     function eZNewsItem( $inData = "", $fetch = true )
     {
+        #echo "eZNewsItem::eZNewsItem( \$inData = $inData \$fetch = $fetch )<br>";
+        
         $this->CreatedAt = $this->createTimeStamp();
         $this->CreationIP = $this->createIP();
-        $this->CreatedBy = $this->createCreatedBy();
+        $this->createCreatedBy();
+        $this->Name = $this->CreatedAt;
         
         eZNewsUtility::eZNewsUtility( $inData, $fetch );
+        
+        if( !strcmp( $this->State_, "new" ) )
+        {
+            $this->createLogItem( $this->ID . ": " . $this->Name . " created", "create" );
+        }
     }
 
 
     
+    /*!
+        \private
+        
+        Creates an user id.
+        
+        This function returns the current user.
+        
+        NOTE: Unimplemented at the moment, pending session
+        management.
+        
+        We need to store session data indefinetly
+        if we have to save session id for the user.
+        Ie. never loose contact with session.
+        
+        \return
+            Returns zero if there is no authenticated user or
+            it will return the User ID of an authenticated user.
+     */
+    function createCreatedBy( )
+    {
+        $value = false;
+
+        if( $this->checkCreator() )
+        {
+            $user = eZUser::currentUser();
+            $this->CreatedBy = $user->ID();
+            $value = true;
+        }
+        
+        return $value;
+    }
+
+
     /*!
         \private
         
@@ -243,6 +286,8 @@ class eZNewsItem extends eZNewsUtility
      */
     function createLogItem( $changeText, $changeType  )
     {
+        #echo "eZNewsItem::createLogItem( \$changeText = $changeText \$changeType = $changeType )<br>";
+        
         $value = false;
         $doIt = false;
         
@@ -257,16 +302,28 @@ class eZNewsItem extends eZNewsUtility
             {
                 $doIt = true;
             }
-
-            $creator = $this->createCreatedBy();
             
             if( $doIt )
             {
-                // do or stuff...
+                $user = eZUser::currentUser();
+                $creator = $user->ID();
+            
+                $ticket = new eZNewsChangeTicket();
+                $type = new eZNewsChangeType( $changeType );
+                
+                $ticket->setChangeTypeID( $type->ID() );
+                $ticket->setName( $changeText );
+                $ticket->setChangedBy( $creator );
+                $ticket->setChangedAt( $this->createTimeStamp() );
+                $ticket->setChangeIP( $this->createIP() );
+                $ticket->store( $outID );
+
+                $this->setLog( $outID );
+                
+                $this->Status = $type->ID();
                 $value = true;
             }
         }
-        
         return $value;
     }
 
@@ -407,6 +464,7 @@ class eZNewsItem extends eZNewsUtility
      */
     function setLog( $ChangeTicketID )
     {
+        #echo "eZNewsItem::setLog( \$ChangeTicketID = $ChangeTicketID )<br>";
         $value = true;
         if( !$this->isDirty() )
         {
@@ -418,8 +476,7 @@ class eZNewsItem extends eZNewsUtility
                     $this->Errors[] = "intl-eznews-eznewsitem-log-reference-exists";
                 }
             }
-            $include_once( "eznews/classes/eznewschangeticket.php" );
-
+            
             $ct = new eZNewsChangeTicket( $ChangeTicketID, true );
     
             if( $ct->isCoherent() == false )
@@ -430,15 +487,89 @@ class eZNewsItem extends eZNewsUtility
 
             if( $value == true )
             {
-                $this->LogID[] = $ChangeTicketID;            
+                $this->ChangeTicketID[] = $ChangeTicketID;
                 $this->alterState();
             }
         }
+        
+        #$this->printLogs();
+        
         return $value;
     }
 
 
+
+    /*!
+        Prints all the log item ids of this item.
+     */
+    function printLogs()
+    {
+        if( $this->ChangeTicketID )
+        {
+            echo "Log items belonging to: " . $this->ID . " " . $this->Name . "<br>";
+            foreach( $this->ChangeTicketID as $id )
+            {
+                echo "$id <br>";
+            }
+        }
+    }
+
+
+
+    /*!
+        Prints all the parent ids of this item.
+     */
+    function printParents()
+    {
+        echo "eZNewsItem::printParents()<br>";
+        if( $this->ParentID )
+        {
+            echo "Parent items belonging to: " . $this->ID . " " . $this->Name . "<br>";
+            foreach( $this->ParentID as $id )
+            {
+                echo "$id <br>";
+            }
+        }
+    }
+
+
+
+    /*!
+        Prints all the file ids of this item.
+     */
+    function printFiles()
+    {
+        echo "eZNewsItem::printFiles()<br>";
+        if( $this->FileID )
+        {
+            echo "File items belonging to: " . $this->ID . " " . $this->Name . "<br>";
+            foreach( $this->FileID as $id )
+            {
+                echo "$id <br>";
+            }
+        }
+    }
     
+
+
+    /*!
+        Prints all the image ids of this item.
+     */
+    function printImages()
+    {
+        echo "eZNewsItem::printImages()<br>";
+        if( $this->ImageID )
+        {
+            echo "Image items belonging to: " . $this->ID . " " . $this->Name . "<br>";
+            foreach( $this->ImageID as $id )
+            {
+                echo "$id <br>";
+            }
+        }
+    }
+    
+
+
     /*!
         Creates the relationship between this object and its parent.
         
@@ -460,10 +591,10 @@ class eZNewsItem extends eZNewsUtility
      */
     function setParent( $ParentID, $isCanonical = false )
     {
-        #echo "eZNewsItem::setParent( \$ParentID = $ParentID,\$isCanonical = $isCanonical )<br>";
+        #echo "eZNewsItem::setParent( \$ParentID = $ParentID, \$isCanonical = $isCanonical )<br>";
         $value = true;
         
-        if( !is_numeric( $this->isCanonical ) && !$this->isDirty() )
+        if( !$this->isDirty() )
         {
             foreach( $this->ParentID as $existingParent )
             {
@@ -506,6 +637,9 @@ class eZNewsItem extends eZNewsUtility
             }
         }
         
+        #$this->printParents();
+        #$this->printErrors();
+        
         return $value;
     }
     
@@ -522,45 +656,48 @@ class eZNewsItem extends eZNewsUtility
     {
         $this->dbInit();
 
-        $query =
+        $nonFrontImageQuery =
         "
             INSERT INTO
                 eZNews_ItemImage
             SET
                 ItemID   = '%s',
-                ImageID  = '%s'
+                ImageID  = '%s',
+                isFrontImage = 'N'
         ";
 
-        $query2 =
+        $frontImageQuery =
         "
             INSERT INTO
                 eZNews_ItemImagePreference
             SET
                 ItemID   = '%s',
+                ImageID  = '%s',
                 isFrontImage  = 'Y'
         ";
 
         foreach( $this->ImageID as $ImageID )
         {
-            $query = sprintf
-            (
-                $query,
-                $this->ID,
-                $ImageID
-            );
-
-            $this->Database->query( $query );
-            
             if( $this->isFrontImage == $ImageID )
             {
                 $query = sprintf
                 (
-                    $query2,
-                    $this->ID
-                );
-                
-                $this->Database->query( $query );
+                    $frontImageQuery,
+                    $this->ID,
+                    $ImageID
+                );                
             }
+            else
+            {
+                $query = sprintf
+                (
+                    $nonFrontImageQuery,
+                    $this->ID,
+                    $ImageID
+                );
+            }
+            
+            $this->Database->query( $query );
             
         }
     }
@@ -605,7 +742,11 @@ class eZNewsItem extends eZNewsUtility
      */
     function storeLogs()
     {
-        $query =
+        #echo "eZNewsItem::storeLogs()<br>";
+        
+        #$this->printLogs();
+
+        $changeTicketQuery =
         "
             INSERT INTO
                 eZNews_ItemLog
@@ -613,14 +754,14 @@ class eZNewsItem extends eZNewsUtility
                 ItemID   = '%s',
                 ChangeTicketID  = '%s'
         ";
-        
-        foreach( $this->ChangeTicketID as $ChangeTicketID )
+
+        foreach( $this->ChangeTicketID as $CTID )
         {
             $query = sprintf
             (
-                $query,
+                $changeTicketQuery,
                 $this->ID,
-                $this->$ChangeTicketID
+                $CTID
             );
 
             $this->Database->query( $query );
@@ -638,6 +779,7 @@ class eZNewsItem extends eZNewsUtility
      */
     function updateLogs()
     {
+        echo "eZNewsItem::updateLogs()<br>";
         $query =
         "
             DELETE FROM
@@ -662,7 +804,7 @@ class eZNewsItem extends eZNewsUtility
      */
     function storeFiles()
     {
-        $query =
+        $fileQuery =
         "
             INSERT INTO
                 eZNews_ItemFile
@@ -675,7 +817,7 @@ class eZNewsItem extends eZNewsUtility
         {
             $query = sprintf
             (
-                $query,
+                $fileQuery,
                 $this->ID,
                 $FileID
             );
@@ -720,9 +862,10 @@ class eZNewsItem extends eZNewsUtility
      */
     function storeParents()
     {
+        #echo "eZNewsItem::storeParents()<br>";
         $this->dbInit();
 
-        $query =
+        $nonCanonicalQuery =
         "
             INSERT INTO
                 eZNews_Hiearchy
@@ -732,7 +875,7 @@ class eZNewsItem extends eZNewsUtility
                 isCanonical = 'N'
         ";
 
-        $query2 =
+        $canonicalQuery =
         "
             INSERT INTO
                 eZNews_Hiearchy
@@ -749,7 +892,7 @@ class eZNewsItem extends eZNewsUtility
             {
                 $query = sprintf
                 (
-                    $query2,
+                    $canonicalQuery,
                     $this->ID,
                     $ParentID
                 );
@@ -758,7 +901,7 @@ class eZNewsItem extends eZNewsUtility
             {
                 $query = sprintf
                 (
-                    $query,
+                    $nonCanonicalQuery,
                     $this->ID,
                     $ParentID
                 );
@@ -853,7 +996,7 @@ class eZNewsItem extends eZNewsUtility
             $this->storeParents();
             $this->storeFiles();
             $this->storeImages();
-            $this->createLogItem( "intl-eznews-eznewsitem-store-created", "create" );
+            $this->createLogItem( $this->ID . ": Was stored", $this->Status );
             $this->storeLogs();
         }
         
@@ -929,7 +1072,7 @@ class eZNewsItem extends eZNewsUtility
             $this->updateParents();
             $this->updateFiles();
             $this->updateImages();
-            $this->createLogItem( "intl-eznews-eznewsitem-store-created", "change" );
+            $this->createLogItem( $this->ID . ": Was stored", $this->Status );
             $this->updateLogs();
         }
         
@@ -958,7 +1101,10 @@ class eZNewsItem extends eZNewsUtility
 
         if ( isset( $this->ID ) )
         {
-            
+            if( $this->isLogging() )
+            {
+                $this->createLogItem( $this->ID . ": Item was deleted", "delete" );
+            }
         }
         
         return $value;
@@ -1754,13 +1900,15 @@ class eZNewsItem extends eZNewsUtility
         \return
             Returns true if this is a change type.
      */
-    function isChangeType( &$changeType )
+    function isChangeType( $changeType )
     {
-        include_once( "eznews/classes/eznewschangetype.php" );       
+        #echo "eZNewsItem::isChangeType( \$changeType = $changeType )<br>";
 
         $value = false;
         
-        $changeType = new eZNewsChangeType( $changeType, $fetch );
+        $changeType = new eZNewsChangeType( $changeType, true );
+
+        $changeType->invariantCheck();
         
         $value = $changeType->isCoherent();
         
@@ -1778,11 +1926,7 @@ class eZNewsItem extends eZNewsUtility
      */
     function invariantCheck()
     {
-        $value = false;
-        
-        eZNewsUtility::invariantCheck();
-        
-        if( is_numeric( $this->isCanonical ) )
+        if( $this->isCanonical != 0 )
         {
             $count = count( $this->ParentID );
             if( $count == 0 )
@@ -1791,7 +1935,7 @@ class eZNewsItem extends eZNewsUtility
             }            
         }
         
-        if( is_numeric( $this->isFrontImage ) )
+        if( $this->isFrontImage != 0 )
         {
             $count = count( $this->ImageID );
             
@@ -1816,13 +1960,7 @@ class eZNewsItem extends eZNewsUtility
             $this->Errors[] = "intl-eznews-eznewsitem-logitem-required";
         }
 
-        if( !count( $this->Errors ) )
-        {
-            #echo "errors " . $this->Errors[0] . "<br>";
-            $value = true;
-            $this->State_ = "coherent";
-        }
-        return $value;
+        return eZNewsUtility::invariantCheck();
     }
     
     
@@ -1870,7 +2008,13 @@ class eZNewsItem extends eZNewsUtility
     {
         $this->dirtyUpdate();
         
+        $oldCreatedAt = $this->CreatedAt;
         $this->CreatedAt = $inCreatedAt;
+
+        if( $this->isLogging() )
+        {
+            $this->createLogItem( $this->ID . ": Creation date changed from $oldCreatedAt to $inCreatedAt", $this->Status );
+        }
         
         $this->alterState();
         
@@ -1908,11 +2052,17 @@ class eZNewsItem extends eZNewsUtility
         
         include_once( "eznews/classes/eznewsitemtype.php" );
         $it = new eZNewsItemType( $inItemTypeID, true );
+        $itold = new eZNewsItemType( $this->ItemTypeID, true );
 
         if( $it->isCoherent() )
         {
             $this->dirtyUpdate();
         
+            if( $this->isLogging() )
+            {
+                $this->createLogItem( $this->ID . ": Item Type changed from " . $itold->Name() . "(" . $itold->ID()  .")" . " to " . $it->Name() . "(" . $it->ID()  .")", $this->Status );
+            }
+            
             $this->ItemTypeID = $it->ID();
         
             $this->alterState();
@@ -1983,13 +2133,20 @@ class eZNewsItem extends eZNewsUtility
         #echo "set status: $inStatus <br>";
         include_once( "eznews/classes/eznewschangetype.php" );
         $ct = new eZNewsChangeType( $inItemTypeID, true );
+        $ctold = new eZNewsChangeType( $this->Status, true );
 
         if( $ct->isCoherent() )
         {
             $this->dirtyUpdate();
         
-            $this->Status = $ct->ID();
-        
+            if( $this->isLogging )
+            {
+                $this->createLogItem( $this->ID . ": Status changed from " . $ctold->Name() . "(" . $ctold->ID()  .")" . " to " . $ct->Name() . "(" . $ct->ID()  .")", $inItemTypeID );
+            }
+            else
+            {
+                $this->Status = $ct->ID();
+            }
             $this->alterState();
         
             $value = true;
@@ -1998,8 +2155,49 @@ class eZNewsItem extends eZNewsUtility
         return $value;
     }
     
+    /*!
+        Enables logging on name changes.
+        
+        \in
+            \$inName    The new name of this item.
+        \return
+            Returns true if the name was changed.
+     */
+    function setName( $inName )
+    {
+        $oldname = $this->name();
+        
+        $value = eZNewsUtility::setName( $inName );
+        
+        if( $this->isLogging() && $value )
+        {
+            $this->createLogItem( $this->ID . ": Name changed from $oldname to $inName", $this->Status );
+        }
+        
+        return $value;
+    }
 
-
+    /*!
+        Enables logging on id changes.
+        
+        \in
+            \$inID    The new id of this item.
+        \return
+            Returns true if the id was changed.
+     */
+    function setID( $inID )
+    {
+        $oldid = $this->ID();
+        
+        $value = eZNewsUtility::setID( $inID );
+        
+        if( $this->isLogging() && $value )
+        {
+            $this->createLogItem( $this->ID . "(was " . $oldid . "): ID changed from $oldid to $inID", $this->Status );
+        }
+        
+        return $value;
+    }
     /*!
         Returns the object Status.
         

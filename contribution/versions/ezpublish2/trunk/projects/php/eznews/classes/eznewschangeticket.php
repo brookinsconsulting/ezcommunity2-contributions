@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: eznewschangeticket.php,v 1.2 2000/10/01 17:36:21 pkej-cvs Exp $
+// $Id: eznewschangeticket.php,v 1.3 2000/10/11 15:34:08 pkej-cvs Exp $
 //
 // Definition of eZNewsChangeTicket class
 //
@@ -95,6 +95,7 @@ class eZNewsChangeTicket extends eZNewsUtility
     */
     function eZNewsChangeTicket( $inData = "", $fetch = true )
     {
+        #echo "eZNewsChangeTicket::eZNewsChangeTicket( \$inData = $inData, \$fetch = $fetch )<br>";
         eZNewsUtility::eZNewsUtility( $inData, $fetch );
     }
     
@@ -107,8 +108,9 @@ class eZNewsChangeTicket extends eZNewsUtility
         \return
             Returns true if we are successful.
      */
-    function updateThis( &$ID )
+    function updateThis( &$outID )
     {
+        #echo "eZNewsChangeTicket::updateThis( \$outID = $outID )<br>";
         $value = false;
         
         $query =
@@ -163,6 +165,7 @@ class eZNewsChangeTicket extends eZNewsUtility
      */
     function storeThis( &$outID )
     {
+        #echo "eZNewsChangeTicket::storeThis( \$outID = $outID )<br>";
         $value = false;
         
         $query =
@@ -171,9 +174,9 @@ class eZNewsChangeTicket extends eZNewsUtility
                 eZNews_ChangeTicket
             SET
                 Name = '%s',
-                ChangeInfo = %s,
-                ChangeTypeID = %s,
-                ChangedBy = %s,
+                ChangeInfo = '%s',
+                ChangeTypeID = '%s',
+                ChangedBy = '%s',
                 ChangedAt = '%s',
                 ChangeIP = '%s'
         ";
@@ -185,7 +188,7 @@ class eZNewsChangeTicket extends eZNewsUtility
             $this->ChangeInfo,
             $this->ChangeTypeID,
             $this->ChangedBy,
-            $this->ChangeIP,
+            $this->ChangedAt,
             $this->ChangeIP
         );
         
@@ -215,8 +218,9 @@ class eZNewsChangeTicket extends eZNewsUtility
         \return
             Returns true if only one data change ticket was returned.
     */
-    function getThis( &$outID, &$inData )
+    function getThis( &$outID, $inData )
     {
+        #echo "eZNewsChangeTicket::getThis( \$outID = $outID, \$inData = $inData)<br>";
         $value = false;
         $changeTicketArray = array();
         $outID = array();
@@ -231,7 +235,7 @@ class eZNewsChangeTicket extends eZNewsUtility
                 WHERE ID = %s
             ";
             
-            $query = sprintf( $query2, $inData );
+            $query = sprintf( $query, $inData );
         }
         else
         {
@@ -250,9 +254,6 @@ class eZNewsChangeTicket extends eZNewsUtility
         
         $count = count( $changeTicketArray );
         
-        #echo "count=: " . $count . "<br>";
-        #echo "change ticket 0 id: " . $changeTicketArray[0][ "ID" ] . "<br>";
-        #echo "change ticket 0 description: " . $changeTicketArray[0][ "Description" ] . "<br>";
         switch( $count )
         {
             case 0:
@@ -472,7 +473,7 @@ class eZNewsChangeTicket extends eZNewsUtility
         $value = false;
         
         include_once( "eznews/classes/eznewschangetype.php" );
-        
+
         $ct = new eZNewsChangeType( $inChangeTypeID, true );
 
         if( $ct->isCoherent() )
@@ -652,33 +653,22 @@ class eZNewsChangeTicket extends eZNewsUtility
      */
     function invariantCheck()
     {
-        $value = false;
-        
-        eZNewsUtility::invariantCheck();
-        
         if( !isset( $this->ChangeInfo ) && $this->requireArticle() )
         {
-            $this->Errors[] = "intl-logitem-required";
+            $this->Errors[] = "intl-eznews-eznewschangeticket-logitem-required";
         }
 
         if( empty( $this->ChangeTypeID ) )
         {
-            $this->Errors[] = "intl-itemtypeid-required";
+            $this->Errors[] = "intl-eznews-eznewschangeticket-itemtypeid-required";
         }
 
-        if( $this->CreatedBy == 0 && $this->checkCreator() )
+        if( $this->ChangedBy == 0 && $this->checkCreator() )
         {
-            $this->Errors[] = "intl-createdby-required";
+            $this->Errors[] = "intl-eznews-eznewschangeticket-changedby-required";
         }
 
-        if( !count( $this->Errors ) )
-        {
-            #echo "errors " . $this->Errors[0] . "<br>";
-            $value = true;
-            $this->State_ = "coherent";
-        }
-        #echo "invariantCheck returns: " . $value . "<br>";
-        return $value;
+        return eZNewsUtility::invariantCheck();
     }
 
 
@@ -705,7 +695,7 @@ class eZNewsChangeTicket extends eZNewsUtility
     // Object preferences
 
     /// Is an detailed info about the change needed?
-    var $isArticleRequired = true;
+    var $isArticleRequired = false;
        
     /// Check creator id
     var $checkCreator = true;

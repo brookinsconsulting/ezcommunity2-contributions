@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: eznewsutility.php,v 1.10 2000/10/11 10:05:57 pkej-cvs Exp $
+// $Id: eznewsutility.php,v 1.11 2000/10/11 15:34:08 pkej-cvs Exp $
 //
 // Definition of eZNewsUtility class
 //
@@ -67,7 +67,7 @@ class eZNewsUtility
         $this->dbInit();        
         $this->State_ = "new";
         $outID = array();
-        
+
         if( $inData )
         {
             if( $fetch )
@@ -238,6 +238,7 @@ class eZNewsUtility
      */
     function createOrderBy( $inOrderBy, $direction )
     {
+        #echo "eZNewsUtility::createOrderBy( \$inOrderBy = $inOrderBy \$direction = $direction )<br>";
         unset( $returnString );
         
         if( !empty( $inOrderBy ) )
@@ -311,6 +312,7 @@ class eZNewsUtility
      */
     function createTimeStamp( )
     {
+        #echo "eZNewsUtility::createTimeStamp()<br>";
         return gmdate( "YmdHis", time());
     }
 
@@ -319,45 +321,13 @@ class eZNewsUtility
     /*!
         \private
         
-        Creates an user id.
-        
-        This function returns the current user.
-        
-        NOTE: Unimplemented at the moment, pending session
-        management.
-        
-        We need to store session data indefinetly
-        if we have to save session id for the user.
-        Ie. never loose contact with session.
-        
-        \return
-            Returns zero if there is no authenticated user or
-            it will return the User ID of an authenticated user.
-     */
-    function createCreatedBy( )
-    {
-        $value = false;
-
-        if( $this->checkCreator() )
-        {
-            $user = eZUser::currentUser();
-            $this->CreatedBy = $user->ID();
-            $value = true;
-        }
-        
-        return $value;
-    }
-
-
-    /*!
-        \private
-        
         This function will get the data of this object if the 
         state of the object is dirty.
      */
     function dirtyUpdate()
     {
-        if( $this->State_ == "dirty" )
+        #echo "eZNewsUtility::dirtyUpdate()<br>";
+        if( !strcmp( $this->State_, "dirty" ) )
         {
             if( is_numeric( $this->ID ) )
             {
@@ -384,6 +354,7 @@ class eZNewsUtility
      */
     function alterState()
     {
+        #echo "eZNewsUtility::alterState()<br>";
         $value = false;
         
         switch( $this->State_ )
@@ -421,6 +392,7 @@ class eZNewsUtility
      */
     function hasChanged()
     {
+        #echo "eZNewsUtility::hasChanged()<br>";
         $value = false;
         
         if( $this->hasChanged == true )
@@ -444,9 +416,10 @@ class eZNewsUtility
      */
     function isNew()
     {
+        #echo "eZNewsUtility::isNew()<br>";
         $value = false;
         
-        if( $this->State_ == "new" )
+        if( !strcmp( $this->State_, "new" ) )
         {
             $value = true;
         }
@@ -470,7 +443,7 @@ class eZNewsUtility
     {
         $value = false;
         
-        if( $this->State_ == "dirty" )
+        if( !strcmp( $this->State_, "dirty" ) )
         {
             $value = true;
         }
@@ -494,12 +467,13 @@ class eZNewsUtility
     {
         $value = false;
 
-        if( $this->State_ == "coherent" )
+        if( !strcmp( $this->State_, "coherent" ) )
         {
             $value = true;
         }
         
-        #echo "isCoherent returns: " . $value . "<br>";
+        #echo "isCoherent returns: $value<br>";
+        
         return $value;
     }
 
@@ -518,7 +492,7 @@ class eZNewsUtility
     {
         $value = false;
         
-        if( $this->State_ == "altered" )
+        if( !strcmp( $this->State_, "altered" ) )
         {
             $value = true;
         }
@@ -541,7 +515,7 @@ class eZNewsUtility
     {
         $value = false;
         
-        if( $this->State_ == "dirty" )
+        if( !strcmp( $this->State_, "dirty" ) )
         {
             $this->get();
             $value = true;
@@ -706,11 +680,11 @@ class eZNewsUtility
     {
         $value = 0;
         
-        if( ( $this->State_ == "coherent" ) || ( $this->State_ == "new" ) )
+        if( ( !strcmp( $this->State_, "coherent" ) ) || ( !strcmp( $this->State_, "new" ) ) )
         {
             $this->ID = $inID;
             $value = true;
-            $this->State_ == "dirty";
+            $this->State_ = "dirty";
             $this->hasChanged = false;
         }
        
@@ -727,6 +701,7 @@ class eZNewsUtility
     */
     function name()
     {
+        #echo "eZNewsUtility::name()<br>";
         $this->dirtyUpdate();
         
         return $this->Name;
@@ -744,6 +719,7 @@ class eZNewsUtility
     */
     function setName( $inName )
     {
+        #echo "eZNewsUtility::setName( \$inName = $inName )<br>";
         $this->dirtyUpdate();
         
         $this->Name = $inName;
@@ -786,19 +762,22 @@ class eZNewsUtility
      */
     function invariantCheck()
     {
+        #echo "eZNewsUtility::invariantCheck()<br>";
         $value = false;
 
         if( empty( $this->Name ) )
         {
-            $this->Errors[] = "intl-name-required";
+            $this->Errors[] = "intl-eznews-eznewsutility-name-required";
         }
 
         if( !count( $this->Errors ) )
         {
-            #echo "errors " . $this->Errors[0] . "<br>";
             $value = true;
             $this->State_ = "coherent";
         }
+        
+        #$this->printErrors();
+        
         return $value;
     }
 
@@ -809,6 +788,7 @@ class eZNewsUtility
      */
     function printErrors()
     {
+        echo "eZNewsUtility::printErrors()<br>";
         if( $this->Errors )
         {
             foreach( $this->Errors as $error )
