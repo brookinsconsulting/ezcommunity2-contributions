@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: frontpage.php,v 1.28.2.10 2002/02/15 18:03:43 master Exp $
+// $Id: frontpage.php,v 1.28.2.11 2002/02/27 18:41:01 master Exp $
 //
 // Created on: <30-May-2001 14:06:59 bf>
 //
@@ -46,6 +46,7 @@ $ImageDir = $ini->read_var( "eZArticleMain", "ImageDir" );
 $CapitalizeHeadlines = $ini->read_var( "eZArticleMain", "CapitalizeHeadlines" );
 $DefaultLinkText =  $ini->read_var( "eZArticleMain", "DefaultLinkText" );
 $GrayScaleImageList = $ini->read_var( "eZArticleMain", "GrayScaleImageList" );
+
 
 $sectionObject =& eZSection::globalSectionObject( $GlobalSectionID );
 $sectionObject->setOverrideVariables();
@@ -116,8 +117,6 @@ $t->set_var( "image_dir", $ImageDir );
 $articleCount = 0;
 $productCount = 0;
 $adCount = 0;
-
-//$sectionObject =& eZSection::globalSectionObject( $GlobalSectionID );
 
 // section
 $t->set_var( "section_id", $GlobalSectionID );
@@ -206,10 +205,13 @@ $articleOffset = 0;
 $productOffset = 0;
 $adOffset = 0;
 $pageContents = "";
+$counter = -1;
 // render the page elements
 if ( count( $page_elements ) > 0 )
 foreach ( $page_elements as $element )    
 {
+    $counter++;	
+
     switch ( $element )
     {
         case "1column":
@@ -274,6 +276,7 @@ foreach ( $page_elements as $element )
             $productOffset++;
         }break;
 
+
     }
 }
 $t->set_var( "element_list", $pageContents );
@@ -281,18 +284,20 @@ $t->set_var( "element_list", $pageContents );
 
 function &renderFrontpageArticle( &$t, &$locale, &$article )
 {
-    global $ini, $CategoryID,$GrayScaleImageList;
+    global $ini, $counter, $rows, $GrayScaleImageList;
 	
     $DefaultLinkText =  $ini->read_var( "eZArticleMain", "DefaultLinkText" );
     
     $aid = $article->id();
 
-    if ( $CategoryID == 0 )
-    {
-        $category =& $article->categoryDefinition();
-        $CategoryID = $category->id();
-    }
-        
+    $CategoryID = $rows[$counter]->CategoryID;
+
+//    if ( $CategoryID == 0 )
+//    {
+//        $category =& $article->categoryDefinition();
+//        $CategoryID = $category->id();
+//    }
+    
     $t->set_var( "category_id", $CategoryID );
     
     $t->set_var( "article_id", $article->id() );
@@ -372,19 +377,18 @@ function &renderFrontpageArticle( &$t, &$locale, &$article )
 
 function &renderFrontpageArticleDouble( &$t, &$locale, &$article1, &$article2 )
 {
-    global $ini, $CategoryID, $GrayScaleImageList;
+    global $ini, $counter, $rows, $GrayScaleImageList;
     $aid = $article1->id();
 	
     $DefaultLinkText =  $ini->read_var( "eZArticleMain", "DefaultLinkText" );
 	
-//    $category =& $article1->categoryDefinition();
-//    $CategoryID = $category->id();
-
-    if ( $CategoryID == 0 )                  
-    {                                        
-	$category =& $article1->categoryDefinition();
-	$CategoryID = $category->id();
-    }
+    $CategoryID = $rows[$counter]->CategoryID;
+    
+//    if ( $CategoryID == 0 )                  
+//    {                            
+//	$category =& $article1->categoryDefinition();
+//	$CategoryID = $category->id();
+//    }
 
     $t->set_var( "category_id", $CategoryID );
     
@@ -430,8 +434,8 @@ function &renderFrontpageArticleDouble( &$t, &$locale, &$article1, &$article2 )
     
 
     $t->set_var( "article_published", $locale->format( $published ) );
-    
 
+    
     $renderer = new eZArticleRenderer( $article1 );
     $t->set_var( "article_intro", $renderer->renderIntro(  ) );
 
@@ -460,12 +464,11 @@ function &renderFrontpageArticleDouble( &$t, &$locale, &$article1, &$article2 )
     $t->parse( "left_article", "left_article_tpl"  );
     $aid = $article2->id();
     
-    if ( $CategoryID == 0 )
-    {
-        $category =& $articl21->categoryDefinition();
-        $CategoryID = $category->id();
-    }
-
+//    if ( $CategoryID == 0 )
+//    {
+//        $category =& $article2->categoryDefinition();
+//        $CategoryID = $category->id();
+//    }
 //    $category =& $article2->categoryDefinition();
 //    $CategoryID = $category->id();
         
@@ -547,17 +550,19 @@ function &renderFrontpageArticleDouble( &$t, &$locale, &$article1, &$article2 )
 
 function &renderShortSingleArticle( &$t, &$locale, &$article )
 {
-    global $ini, $CategoryID, $GrayScaleImageList;
+    global $ini, $counter, $rows, $GrayScaleImageList;
 
     $aid = $article->id();
 	
-	$DefaultLinkText =  $ini->read_var( "eZArticleMain", "DefaultLinkText" );
+    $DefaultLinkText =  $ini->read_var( "eZArticleMain", "DefaultLinkText" );
 	
-    if ( $CategoryID == 0 )
-    {
-        $category =& $article->categoryDefinition();
-        $CategoryID = $category->id();
-    }
+//    if ( $CategoryID == 0 )
+//    {
+//	$category =& $article->categoryDefinition();
+//	$CategoryID = $category->id();
+//    }
+
+    $CategoryID = $rows[$counter]->CategoryID;
         
     $t->set_var( "category_id", $CategoryID );
     
