@@ -45,7 +45,7 @@
         <a href="{www_dir}{index}/contact/consultation/view/{consultation_id}">{consultation_short_description}</a>
 	</td>
 	<td>
-        <a href="{www_dir}{index}/contact/consultation/type/list/{consultation_status_id}">{consultation_status}</a>
+        <a href="{www_dir}{index}/contact/consultation/view/{consultation_status_id}">{consultation_status}</a>
 	</td>
 
 	<td width="1%">
@@ -53,7 +53,6 @@
 	</td>
 
 	<td width="1%">
-<!--  	<a href="{www_dir}{index}/contact/consultation/delete/{consultation_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezc{consultation_id}-slett','','/admin/images/slettminimrk.gif',1)"><img name="ezc{consultation_id}-slett" border="0" src="{www_dir}/admin/images/slettmini.gif" width="16" height="16" align="top"></a> -->
 	<input type="checkbox" name="ConsultationList[]" value="{consultation_id}">
 	</td>	
 

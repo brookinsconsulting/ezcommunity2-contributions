@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: personview.php,v 1.23 2001/09/17 14:25:38 jhe Exp $
+// $Id: personview.php,v 1.24 2001/09/19 09:47:47 jhe Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -171,7 +171,7 @@ if ( $Action == "view" )
     $count = count( $phoneList );
     if ( $count != 0 )
     {
-        for ( $i=0; $i < $count; $i++ )
+        for ( $i = 0; $i < $count; $i++ )
         {
             $t->set_var( "phone_id", $phoneList[$i]->id() );
             $t->set_var( "phone", eZTextTool::htmlspecialchars( $phoneList[$i]->number() ) );
@@ -235,7 +235,7 @@ if ( $Action == "view" )
     $count = count( $OnlineList );
     if ( $count != 0)
     {
-        for ( $i=0; $i < count ( $OnlineList ); $i++ )
+        for ( $i = 0; $i < count( $OnlineList ); $i++ )
         {
             $onlineType = $OnlineList[$i]->onlineType();
 
@@ -403,7 +403,7 @@ if ( get_class( $user ) == "ezuser" and eZPermission::checkPermission( $user, "e
         $status = $order->initialStatus( );
         $dateTime = $status->altered();
         
-        $status = $order->lastStatus( );
+        $status = $order->lastStatus();
         
         $statusType = $status->type();
         $statusName = preg_replace( "#intl-#", "", $statusType->name() );
@@ -422,7 +422,9 @@ if ( get_class( $user ) == "ezuser" and eZPermission::checkPermission( $user, "e
     }
 }
 
-if ( get_class( $user ) == "ezuser" and eZPermission::checkPermission( $user, "eZContact", "buy" ) and count( $orders ) > 0 )
+if ( get_class( $user ) == "ezuser" and
+     eZPermission::checkPermission( $user, "eZContact", "buy" ) and
+     count( $orders ) > 0 )
 {
     $t->parse( "order_table_item", "order_table_item_tpl", true );
 }
