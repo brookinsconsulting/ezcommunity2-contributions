@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: forum.php,v 1.12 2000/07/25 10:55:37 lw-cvs Exp $
+    $Id: forum.php,v 1.13 2000/07/25 10:57:01 lw Exp $
 
     Author: Lars Wilhelmsen <lw@ez.no>
     
@@ -11,6 +11,7 @@
 include( "ezforum/dbsettings.php" );
 include( "ezphputils.php" );
 include( "template.inc" );
+include( "$DOCROOT/classes/ezdb.php" );
 include( "$DOCROOT/classes/ezuser.php" );
 include( "$DOCROOT/classes/ezforummessage.php" );
 include( "$DOCROOT/classes/ezsession.php" );
