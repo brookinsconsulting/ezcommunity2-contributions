@@ -4,10 +4,25 @@ $PageCaching = $ini->read_var( "eZForumMain", "PageCaching");
 
 switch ( $url_array[2] )
 {
+
     case "" :
         include( "ezforum/main.php" );
         break;
 
+    case "categorylist":
+    {
+        include( "ezforum/user/categorylist.php" );
+    }
+    break;
+
+        
+    case "forumlist":
+    {
+        $CategoryID = $url_array[3];
+        include( "ezforum/user/forumlist.php" );
+    }
+    break;
+        
     case "search" :
         include( "ezforum/search.php" );
         break;
@@ -28,7 +43,7 @@ switch ( $url_array[2] )
     }    
     break;
     
-    case "categorylist":
+    case "categorylist_old":
     {
         include( "ezforum/categorylist.php" );
     }
