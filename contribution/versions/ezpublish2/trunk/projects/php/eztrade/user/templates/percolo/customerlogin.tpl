@@ -20,7 +20,7 @@
 
 <p>{intl-new_text}</p>
 
-<form method="post" action="/user/userwithaddress/new/?RedirectURL=/trade/customerlogin/">
+<form method="post" action="/user/userwithaddress/new/?RedirectURL={redirect_url}">
 
 
 <input class="okbutton" class="stdbutton" type="submit" value="{intl-newuser}" />

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: customerlogin.php,v 1.15 2001/05/10 08:56:16 ce Exp $
+// $Id: customerlogin.php,v 1.16 2001/05/29 15:04:39 pkej Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <03-Oct-2000 16:45:30 bf>
@@ -87,7 +87,7 @@ else
         ) );
 
     if ( isset( $RedirectURL ) && ( $RedirectURL != "" ) )
-    {         
+    {      
         $t->set_var( "redirect_url", $RedirectURL );
     }
     else
