@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eznewsitemviewer.php,v 1.6 2000/10/12 10:56:18 pkej-cvs Exp $
+// $Id: eznewsitemviewer.php,v 1.7 2000/10/12 11:38:41 pkej-cvs Exp $
 //
 // Definition of eZNewsItemViewer class
 //
@@ -12,7 +12,13 @@
 // IMPORTANT NOTE: You may NOT copy this file or any part of it into
 // your own programs or libraries.
 //
+//!! eZNews
+//! eZNewsItemViewer handles the kind of info the user sees.
 /*!
+    This class will be called first when getting into the eZNews system.
+    This class will based on the url query decide which other creators/viewers
+    are called. It will also do some editing stuff, but only if we're on the
+    edit site.
 
     Example URLs:
     \code
