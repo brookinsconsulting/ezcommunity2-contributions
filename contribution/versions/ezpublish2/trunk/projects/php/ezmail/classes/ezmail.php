@@ -1,10 +1,10 @@
 <?
 // 
-// $Id: ezmail.php,v 1.18 2001/03/29 13:03:24 fh Exp $
+// $Id: ezmail.php,v 1.19 2001/03/29 16:40:44 fh Exp $
 //
-// Definition of eZCompany class
+// Definition of eZMail class
 //
-// Bård Farstad <fh@ez.no>
+// Frederik Holljen <fh@ez.no>
 // Created on: <15-Mar-2001 20:40:06 fh>
 //
 // This source file is part of eZ publish, publishing software.
@@ -26,8 +26,7 @@
 //
 
 
-//!! eZCommon
-//! The eZMail class is a wrapper class for the mail() function in php.
+//!! eZMail
 /*!
 Example code:
 \code

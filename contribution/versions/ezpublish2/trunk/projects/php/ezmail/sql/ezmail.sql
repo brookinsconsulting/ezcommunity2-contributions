@@ -32,7 +32,7 @@ CREATE TABLE eZMail_Account (
   LoginName varchar(100),
   Password varchar(50),
   Server varchar(150),
-  ServerPort int(5) defaul '0',
+  ServerPort int(5) default '0',
   DeleteFromServer int(1) default '1',
   ServerType int(2), 
   IsActive int(1) default '0' NOT NULL,
@@ -86,3 +86,21 @@ CREATE TABLE eZMail_MailImageLink (
   ImageID int(11) NOT NULL default '0',
   PRIMARY KEY (MailID,ImageID)
 ) TYPE=MyISAM;
+
+
+#
+# Table structure for table 'eZMail_FilterRule'
+#
+
+DROP TABLE IF EXISTS eZMail_FilterRule;
+CREATE TABLE eZMail_FilterRule (
+  ID int(11) default '0' NOT NULL auto_increment,
+  UserID int(11) NOT NULL default '0',
+  FolderID int(11) NOT NULL default '0',
+  HeaderType int(2) default '0',
+  CheckType int(2) default '0',
+  MatchValue varchar(200),
+  IsActive int(1) default '0',
+  PRIMARY KEY (ID)
+) TYPE=MyISAM;
+
