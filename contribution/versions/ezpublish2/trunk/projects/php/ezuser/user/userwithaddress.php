@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: userwithaddress.php,v 1.75 2001/10/17 07:17:03 ce Exp $
+// $Id: userwithaddress.php,v 1.76 2001/10/26 12:30:50 bf Exp $
 //
 // Created on: <10-ct-2000 12:52:42 bf>
 //
@@ -41,6 +41,7 @@ $AutoCookieLogin = eZHTTPTool::getVar( "AutoCookieLogin" );
 $session =& eZSession::globalSession();
 
 include_once( "ezuser/classes/ezuser.php" );
+include_once( "ezuser/classes/eztitle.php" );
 include_once( "ezuser/classes/ezusergroup.php" );
 include_once( "ezaddress/classes/ezaddress.php" );
 include_once( "ezaddress/classes/ezcountry.php" );
@@ -53,6 +54,7 @@ $t->setAllStrings();
 
 $t->set_file( "user_edit_tpl", "userwithaddress.tpl" );
 
+$t->set_block( "user_edit_tpl", "title_item_tpl", "title_item" );
 $t->set_block( "user_edit_tpl", "required_fields_error_tpl", "required_fields_error" );
 $t->set_block( "user_edit_tpl", "user_exists_error_tpl", "user_exists_error" );
 $t->set_block( "user_edit_tpl", "password_error_tpl", "password_error" );
@@ -363,6 +365,7 @@ if ( isSet( $OK ) and $error == false )
     $user_insert->setLastName( $LastName );
     $user_insert->setSignature( $Signature );
 
+    
     if ( $InfoSubscription == "on" )
         $user_insert->setInfoSubscription( true );
     else
@@ -375,6 +378,13 @@ if ( isSet( $OK ) and $error == false )
 
     $user_insert->store();
 
+    // set title
+    $title = new eZTitle( );
+    if ( $title->get( $TitleID ) )
+    {
+        $user_insert->setTitle( $title );
+    }
+    
     // add user to usergroup
     setType( $AnonymousUserGroup, "integer" );
     $group = new eZUserGroup( $AnonymousUserGroup );
@@ -499,6 +509,8 @@ if ( get_class( $user ) == "ezuser" )
     if ( !isSet( $LastName ) )
          $LastName = $user->LastName();
 
+    $CurrentTitleID = $user->title( false );
+    
     $cookieCheck = "";
     if ( $user->cookieLogin() == true )
     {
@@ -623,6 +635,23 @@ $t->set_var( "address", "" );
 
 if ( $SelectCountry == "enabled" )
     $countryList =& eZCountry::getAllArray();
+
+// show titles
+$title = new eZTitle();
+$titleArray =& $title->getAll();
+
+foreach ( $titleArray as $title )
+{
+    if ( $title->id() == $CurrentTitleID )
+        $t->set_var( "title_checked", "checked" );
+    else
+        $t->set_var( "title_checked", "" );
+        
+    $t->set_var( "title_id", $title->id() );
+    $t->set_var( "title_name", $title->name() );
+    
+    $t->parse( "title_item", "title_item_tpl", true );
+}
 
 // Make sure the MainAddressID is set to something sensible
 $deleted = false;

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: useredit.php,v 1.34 2001/10/05 09:42:43 bf Exp $
+// $Id: useredit.php,v 1.35 2001/10/26 12:30:49 bf Exp $
 //
 // Created on: <20-Sep-2000 13:32:11 ce>
 //
@@ -35,6 +35,7 @@ $error = new INIFIle( "ezuser/admin/intl/" . $Language . "/useredit.php.ini", fa
 include_once( "ezmail/classes/ezmail.php" );
 include_once( "classes/ezlog.php" );
 include_once( "ezuser/classes/ezuser.php" );
+include_once( "ezuser/classes/eztitle.php" );
 include_once( "ezuser/classes/ezusergroup.php" );
 
 require( "ezuser/admin/admincheck.php" );
@@ -95,6 +96,14 @@ if ( $Action == "insert" )
                             $user->setInfoSubscription( false );
                         
                         $user->store();
+
+                        // set title
+                        $title = new eZTitle( );
+                        if ( $title->get( $TitleID ) )
+                        {
+                            $user->setTitle( $title );
+                        }
+                        
                         eZLog::writeNotice( "User created: $FirstName $LastName ($Login) $Email $SimultaneousLogins  from IP: $REMOTE_ADDR" );
                         
                         // Add user to groups
@@ -187,6 +196,14 @@ if ( $Action == "update" )
                         }
                             
                         $user->store();
+
+                        // set title
+                        $title = new eZTitle( );
+                        if ( $title->get( $TitleID ) )
+                        {
+                            $user->setTitle( $title );
+                        }
+                        
                         eZLog::writeNotice( "User updated: $FirstName $LastName ($Login) $Email from IP: $REMOTE_ADDR" );
 
                         // Remove user from groups
@@ -305,6 +322,7 @@ $t->set_file( array(
     "user_edit" => "useredit.tpl"
      ) );
 
+$t->set_block( "user_edit", "title_item_tpl", "title_item" );
 $t->set_block( "user_edit", "main_group_item_tpl", "main_group_item" );
 $t->set_block( "user_edit", "group_item_tpl", "group_item" );
 
@@ -350,12 +368,16 @@ if ( $Action == "edit" )
     $Login = $user->login();
     $Signature = $user->signature();
     $SimultaneousLogins = $user->simultaneousLogins();
+
+    $currentTitleID = $user->title( false );
     
     $headline = new INIFile( "ezuser/admin/intl/" . $Language . "/useredit.php.ini", false );
     $t->set_var( "head_line", $headline->read_var( "strings", "head_line_edit" ) );
 
     $t->set_var( "read_only", "readonly=readonly" );
 
+
+    
     $ActionValue = "update";
 }
 else // either new or failed edit... must put htmlspecialchars on stuff we got from form.
@@ -367,6 +389,24 @@ else // either new or failed edit... must put htmlspecialchars on stuff we got f
     $Email = htmlspecialchars( $Email );
     $user =& eZUser::currentUser();
 }
+
+// show titles
+$title = new eZTitle();
+$titleArray =& $title->getAll();
+
+foreach ( $titleArray as $title )
+{
+    if ( $title->id() == $currentTitleID )
+        $t->set_var( "title_checked", "checked" );
+    else
+        $t->set_var( "title_checked", "" );
+        
+    $t->set_var( "title_id", $title->id() );
+    $t->set_var( "title_name", $title->name() );
+    
+    $t->parse( "title_item", "title_item_tpl", true );
+}
+
 
 $mainGroup = $user->groupDefinition();
 $groupArray = $user->groups();

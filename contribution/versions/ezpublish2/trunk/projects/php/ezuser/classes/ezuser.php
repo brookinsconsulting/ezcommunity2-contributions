@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezuser.php,v 1.100 2001/10/16 11:05:53 bf Exp $
+// $Id: ezuser.php,v 1.101 2001/10/26 12:30:50 bf Exp $
 //
 // Definition of eZUser class
 //
@@ -1224,6 +1224,73 @@ class eZUser
             $return_array[$i] = new eZUser( $user_array[$i][$db->fieldName("ID")] );
         }
         return $return_array;
+    }
+
+    /*!
+      Sets the title for the current user.
+     */
+    function setTitle( $title )
+    {
+        if ( get_class( $title ) == "eztitle" )
+        {
+            $db =& eZDB::globalDatabase();
+            
+            $titleID = $title->id();
+            
+            $db->begin( );
+
+            $db->lock( "eZUser_UserTitleLink" );
+            
+            $res[] = $db->query( "DELETE FROM eZUser_UserTitleLink
+                                     WHERE UserID='$this->ID'" );
+            
+
+            $nextID = $db->nextID( "eZUser_UserTitleLink", "ID" );
+
+            $query = "INSERT INTO
+                           eZUser_UserTitleLink
+                           ( ID, TitleID, UserID )
+                      VALUES
+                           ( '$nextID', 
+                             '$titleID',
+                             '$this->ID' )";
+            
+            
+            $res[] = $db->query( $query );
+
+            $db->unlock();
+    
+            if ( in_array( false, $res ) )
+                $db->rollback( );
+            else
+                $db->commit();            
+        }
+    }
+
+    /*!
+      Returns the title object for the current user.
+      false is returned if no title is found.
+    */
+    function title( $as_object = true )
+    {
+        $db =& eZDB::globalDatabase();        
+
+        $db->array_query( $res, "SELECT TitleID FROM
+                                 eZUser_UserTitleLink
+                                 WHERE UserID='$this->ID'" );
+
+        $title = false;        
+        if ( count( $res ) == 1 )
+        {
+            $id = $res[0][$db->fieldName("TitleID")];
+            $title = $as_object ? new eZTitle( $id ) : $id;
+        }
+        else
+        {
+            // no title defined, it is a legal situation so no error
+        }
+
+        return $title;
     }
     
     var $ID;

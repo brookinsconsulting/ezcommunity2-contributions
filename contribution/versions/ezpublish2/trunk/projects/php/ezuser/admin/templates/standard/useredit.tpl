@@ -8,6 +8,14 @@
 
 <table width="100%" cellpadding="0" cellspacing="0" border="0">
 <tr>
+	<td width="100%" colspan="2">
+	<p class="boxtext">{intl-title}:</p>
+        <!-- BEGIN title_item_tpl -->
+	<input type="radio" name="TitleID" {title_checked} value="{title_id}"/>{title_name}
+        <!-- END title_item_tpl -->
+	</td>
+</tr>
+<tr>
 	<td width="50%">
 	<p class="boxtext">{intl-firstname}:</p>
 	<input type="text" class="halfbox" size="20" name="FirstName" value="{first_name_value}"/>
