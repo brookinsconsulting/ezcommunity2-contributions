@@ -7,35 +7,35 @@
 <tr>
 	<tr>
 	<td>
-	<h3>{intl-poll}</h3>
+	<h3>{intl-poll}:</h3>
 	</td>
 
 	<td>
-	<h3>{intl-description}</h3>
+	<h3>{intl-description}:</h3>
 	</td>
 
 	<td>
-	<h3>{intl-anonymous}</h3>
-	</td>
-
-	<td
-	<h3>{intl-enabled}</h3>
+	<h3>{intl-anonymous}:</h3>
 	</td>
 
 	<td>
-	<h3>{intl-closed}</h3>
+	<h3>{intl-enabled}:</h3>
 	</td>
 
 	<td>
-	<h3>Hoved poll</h3>
+	<h3>{intl-closed}:</h3>
 	</td>
 
 	<td>
-	<h3>{intl-edit}</h3>
+	<h3>{intl-main}:</h3>
 	</td>
 
 	<td>
-	<h3>{intl-delete}</h3>
+	<h3>{intl-edit}:</h3>
+	</td>
+
+	<td>
+	<h3>{intl-delete}:</h3>
 	</td>
 
 
@@ -82,7 +82,7 @@
 <tr>
 	<td>
 	<input type="hidden" name="Action" value="StoreMainPoll">
-	<input type="submit" value="Lagre endringer" />
+	<input type="submit" value="{intl-savechanges}" />
 	</td>
 <tr>
 
