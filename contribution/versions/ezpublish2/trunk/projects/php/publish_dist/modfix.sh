@@ -47,6 +47,7 @@ ezfilemanager/admin/cache
 ezimagecatalogue/admin/cache
 ezbulkmail/admin/cache
 classes/cache
+ezsysinfo/admin/cache
 "
 
 for dir in $dirs
