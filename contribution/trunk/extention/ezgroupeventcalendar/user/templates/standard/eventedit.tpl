@@ -1,4 +1,4 @@
-\<table width="100%" cellspacing="0" cellpadding="2" border="0" align="center">
+<table width="100%" cellspacing="0" cellpadding="2" border="0" align="center">
   <tr>
    <!-- BEGIN header_item_tpl -->
     <td align="left"> 
