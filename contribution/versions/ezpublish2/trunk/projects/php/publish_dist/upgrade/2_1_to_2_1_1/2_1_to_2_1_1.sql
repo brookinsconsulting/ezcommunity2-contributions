@@ -815,6 +815,8 @@ CREATE TABLE eZUser_UserGroupDefinition (
   PRIMARY KEY (ID)
 );
 
+alter table eZSiteManager_Section add TemplateStyle varchar(255);
+
 CREATE TABLE eZMail_MailContactLink (
   ID int NOT NULL,
   MailID int NOT NULL default '0',
@@ -822,3 +824,5 @@ CREATE TABLE eZMail_MailContactLink (
   CompanyID int,
   PRIMARY KEY (ID)
 );
+
+ALTER TABLE eZArticle_ArticleImageLink ADD Placement int not null default 0;
