@@ -59,7 +59,7 @@
 	<div class="small">( {article_published} )</div>
 
 	<!-- BEGIN article_image_tpl -->
-	    <table align="right">
+	    <table width="1%" align="right">
 	        <tr>
 			<td>
 			<a href="/article/articleview/{article_id}/1/{category_id}/"><img src="{thumbnail_image_uri}" border="0" width="{thumbnail_image_width}" height="{thumbnail_image_height}" /></a>

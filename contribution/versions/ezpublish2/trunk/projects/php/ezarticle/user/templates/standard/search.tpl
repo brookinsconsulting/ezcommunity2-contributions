@@ -2,7 +2,7 @@
 <tr>
 	<td valign="bottom">
 	<td>
-	<h1>{intl-head_line}: "{search_text}"</h1>
+	<h1>{intl-head_line}</h1>
 	</td>
 	<td align="right">
 	<form action="/article/search/" method="post">
@@ -13,11 +13,9 @@
 </tr>
 </table>
 
-<p>
-{current_category_description}
-</p>
-
 <hr noshade="noshade" size="4" />
+
+<h2>&quot;{search_text}&quot;</h2>
 
 <!-- BEGIN article_list_tpl -->
 <table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
@@ -32,13 +30,13 @@
 
 <!-- BEGIN article_item_tpl -->
 <tr>
-	<td>
+	<td class="{td_class}">
 	<a href="/article/articleview/{article_id}/">
 	{article_name}
 	</a>
 	</td>
-	<td align="right">
-	{article_published}
+	<td align="right" class="{td_class}">
+	<span class="small">{article_published}</span>
 	</td>
 </tr>
 <!-- END article_item_tpl -->
