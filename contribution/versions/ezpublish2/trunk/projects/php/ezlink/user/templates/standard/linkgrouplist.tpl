@@ -45,7 +45,7 @@
 <!-- BEGIN link_list_tpl -->
 <tr>
 	<td bgcolor="{bg_color}">
-	<a href="/link/gotolink/addhit/{link_id}/{link_url}/"  target="_blank">{link_title}</a><br />
+	<a href="/link/gotolink/addhit/{link_id}/?Url={link_url}"  target="_blank">{link_title}</a><br />
         {link_description}
 	</td>
 	<td bgcolor="{bg_color}" width="80" align="right">

@@ -6,7 +6,6 @@ switch ( $url_array[2] )
     {
         $Action = $url_array[3];
         $LinkID = $url_array[4];
-        $Url = $url_array[5];
         include( "ezlink/user/gotolink.php" );
     }
     break;
