@@ -40,5 +40,5 @@ alter table eZAd_View change ViewPrice ViewPrice float(10,2) default 0;
 alter table eZLink_Link change KeyWords KeyWords text;
 
 
-alter table ezform_formelement add Break int default 0;
-alter table ezform_formelement add Size int default 0;
+alter table eZForm_FormElement add Break int default 0;
+alter table eZForm_FormElement add Size int default 0;
