@@ -376,3 +376,35 @@ Maintainer(s) : ce@ez.no
       admin/templates/standard/statustypelist.tpl:
     fixed missing {www_dir} in templates
 
+
+Module : eztodo
+Repository path : /home/cvsroot/projects/php/eztodo
+Maintainer(s) : ce@ez.no
+2001-12-21  Gunnstein Lye  <gl@ez.no>
+
+    * admin/intl/pt_PT/categorytypeedit.php.ini
+      admin/intl/pt_PT/categorytypelist.php.ini
+      admin/intl/pt_PT/menubox.php.ini
+      admin/intl/pt_PT/prioritytypeedit.php.ini
+      admin/intl/pt_PT/prioritytypelist.php.ini
+      admin/intl/pt_PT/statustypeedit.php.ini
+      admin/intl/pt_PT/statustypelist.php.ini
+      user/intl/pt_PT/maillog.php.ini
+      user/intl/pt_PT/menubox.php.ini
+      user/intl/pt_PT/sendmail.php.ini
+      user/intl/pt_PT/todoedit.php.ini
+      user/intl/pt_PT/todolist.php.ini
+      user/intl/pt_PT/todomenulist.php.ini
+      user/intl/pt_PT/todoview.php.ini: pt_PT (Portuguese) version 2.2.2
+
+
+Module : eztodo
+Repository path : /home/cvsroot/projects/php/eztodo
+Maintainer(s) : ce@ez.no
+2002-04-15  gl  <gl@zev.ez.no>
+
+    * user/intl/no_NO/maillog.php.ini
+      user/intl/no_NO/sendmail.php.ini
+      user/intl/no_NO/todoview.php.ini
+      admin/intl/no_NO/statustypelist.php.ini: updated no_NO for 2.2.4
+

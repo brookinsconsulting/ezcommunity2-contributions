@@ -1377,3 +1377,14 @@ Maintainer(s) : pkej@ez.no
       admin/templates/standard/formrenderer.tpl:
     Major commit from the online akersmic version.
 
+
+Module : ezform
+Repository path : /home/cvsroot/projects/php/ezform
+Maintainer(s) : pkej@ez.no
+2002-04-15  gl  <gl@zev.ez.no>
+
+    * admin/intl/no_NO/fixedvalues.php.ini
+      admin/intl/no_NO/form.php.ini
+      admin/intl/no_NO/menubox.php.ini
+      user/intl/no_NO/form.php.ini: updated no_NO for 2.2.4
+

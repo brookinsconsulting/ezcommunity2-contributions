@@ -377,3 +377,11 @@ Maintainer(s) : br@ez.no
 
     * classes/ezpageviewquery.php: fixed bug in referer.
 
+
+Module : ezstats
+Repository path : /home/cvsroot/projects/php/ezstats
+Maintainer(s) : br@ez.no
+2002-04-15  gl  <gl@zev.ez.no>
+
+    * admin/intl/no_NO/pageviewlist.php.ini: updated no_NO for 2.2.4
+

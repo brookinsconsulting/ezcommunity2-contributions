@@ -269,3 +269,13 @@ Maintainer(s) : ce@ez.no
 
     * classes/ezaddress.php: Fixed a return bug
 
+
+Module : ezaddress
+Repository path : /home/cvsroot/projects/php/ezaddress
+Maintainer(s) : ce@ez.no
+2002-04-15  gl  <gl@zev.ez.no>
+
+    * admin/intl/no_NO/addresstype.php.ini
+      admin/intl/no_NO/menubox.php.ini
+      admin/intl/no_NO/onlinetype.php.ini: updated no_NO for 2.2.4
+

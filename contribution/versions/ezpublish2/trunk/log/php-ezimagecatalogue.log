@@ -976,3 +976,20 @@ Maintainer(s) : br@ez.no
 
     * classes/ezimage.php: Added hasMap() function.
 
+
+Module : ezimagecatalogue
+Repository path : /home/cvsroot/projects/php/ezimagecatalogue
+Maintainer(s) : br@ez.no
+2002-04-15  gl  <gl@zev.ez.no>
+
+    * admin/intl/no_NO/categoryedit.php.ini
+      admin/intl/no_NO/imageedit.php.ini
+      admin/intl/no_NO/imagelist.php.ini
+      admin/intl/no_NO/menubox.php.ini
+      user/intl/no_NO/categoryedit.php.ini
+      user/intl/no_NO/imageedit.php.ini: updated no_NO for 2.2.4
+
+2002-04-15  jhe  <jhe@zev.ez.no>
+
+    * user/imagelist.php: removed template variable when empty list
+

@@ -362,3 +362,19 @@ Maintainer(s) : ce@ez.no
 
     * classes/ezmedia.php: coding standard fixes
 
+
+Module : ezmediacatalogue
+Repository path : /home/cvsroot/projects/php/ezmediacatalogue
+Maintainer(s) : ce@ez.no
+2002-04-15  gl  <gl@zev.ez.no>
+
+    * admin/intl/no_NO/attributeedit.php.ini
+      admin/intl/no_NO/browse.php.ini
+      admin/intl/no_NO/categoryedit.php.ini
+      admin/intl/no_NO/mediaedit.php.ini
+      admin/intl/no_NO/medialist.php.ini
+      admin/intl/no_NO/mediaview.php.ini
+      admin/intl/no_NO/menubox.php.ini
+      admin/intl/no_NO/typeedit.php.ini
+      admin/intl/no_NO/typelist.php.ini: updated no_NO for 2.2.4
+

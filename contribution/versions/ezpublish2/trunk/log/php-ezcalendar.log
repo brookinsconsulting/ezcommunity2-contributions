@@ -389,3 +389,12 @@ Maintainer(s) : jhe@ez.no
     * admin/typeedit.php
       admin/typelist.php: fixed wrong use of header and ini file
 
+
+Module : ezcalendar
+Repository path : /home/cvsroot/projects/php/ezcalendar
+Maintainer(s) : jhe@ez.no
+2002-04-15  gl  <gl@zev.ez.no>
+
+    * admin/intl/no_NO/menubox.php.ini
+      admin/intl/no_NO/typeedit.php.ini: updated no_NO for 2.2.4
+

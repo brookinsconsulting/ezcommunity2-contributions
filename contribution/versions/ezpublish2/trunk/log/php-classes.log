@@ -741,3 +741,12 @@ Maintainer(s) : bf@ez.no
       ezmysqldb.php
       eztemplate.php: Major commit from the online akersmic version.
 
+
+Module : classes
+Repository path : /home/cvsroot/projects/php/classes
+Maintainer(s) : bf@ez.no
+2002-04-15  gl  <gl@zev.ez.no>
+
+    * admin/intl/no_NO/linklist.php.ini
+      admin/intl/no_NO/linkselect.php.ini: updated no_NO for 2.2.4
+

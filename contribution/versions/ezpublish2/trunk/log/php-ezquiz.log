@@ -245,3 +245,16 @@ Maintainer(s) : pkej@ez.no
 
     * sql/mysql/ezquiz.sql: fixed eZQuiz_Game (changed date to int)
 
+
+Module : ezquiz
+Repository path : /home/cvsroot/projects/php/ezquiz
+Maintainer(s) : pkej@ez.no
+2002-04-15  gl  <gl@zev.ez.no>
+
+    * admin/intl/no_NO/gamelist.php.ini
+      admin/intl/no_NO/menubox.php.ini
+      admin/intl/no_NO/questionedit.php.ini
+      user/intl/no_NO/menubox.php.ini
+      user/intl/no_NO/quiz.php.ini
+      admin/intl/no_NO/gameedit.php.ini: updated no_NO for 2.2.4
+

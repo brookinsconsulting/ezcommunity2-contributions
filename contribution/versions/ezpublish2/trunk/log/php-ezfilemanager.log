@@ -734,3 +734,17 @@ Maintainer(s) : jhe@ez.no
     * user/filedownload.php:
     fixed problem with binary files on windows servers
 
+
+Module : ezfilemanager
+Repository path : /home/cvsroot/projects/php/ezfilemanager
+Maintainer(s) : jhe@ez.no
+2002-04-15  gl  <gl@zev.ez.no>
+
+    * user/intl/no_NO/fileupload.php.ini
+      user/intl/no_NO/folderedit.php.ini
+      admin/intl/no_NO/browse.php.ini: updated no_NO for 2.2.4
+
+2002-04-15  jhe  <jhe@zev.ez.no>
+
+    * user/filelist.php: removed template variable when empty list
+

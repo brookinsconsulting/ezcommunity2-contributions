@@ -3058,3 +3058,47 @@ Maintainer(s) : bf@ez.no
 
     * classes/ezqdomrenderer.php: Added rendering of image map.
 
+
+Module : ezarticle
+Repository path : /home/cvsroot/projects/php/ezarticle
+Maintainer(s) : bf@ez.no
+2002-04-15  gl  <gl@zev.ez.no>
+
+    * admin/intl/no_NO/articleedit.php.ini
+      admin/intl/no_NO/articlelist.php.ini
+      admin/intl/no_NO/articlelog.php.ini
+      admin/intl/no_NO/articlepreview.php.ini
+      admin/intl/no_NO/attribute.php.ini
+      admin/intl/no_NO/categoryedit.php.ini
+      admin/intl/no_NO/filelist.php.ini
+      admin/intl/no_NO/imageedit.php.ini
+      admin/intl/no_NO/imagelist.php.ini
+      admin/intl/no_NO/imagemap.php.ini
+      admin/intl/no_NO/mediaedit.php.ini
+      admin/intl/no_NO/medialist.php.ini
+      admin/intl/no_NO/menubox.php.ini
+      admin/intl/no_NO/pendinglist.php.ini
+      admin/intl/no_NO/searchform.php.ini
+      admin/intl/no_NO/sitemap.php.ini
+      admin/intl/no_NO/topiclist.php.ini
+      admin/intl/no_NO/typeedit.php.ini
+      admin/intl/no_NO/typelist.php.ini
+      user/intl/no_NO/articleedit.php.ini
+      user/intl/no_NO/articlelinks.php.ini
+      user/intl/no_NO/articleview.php.ini
+      user/intl/no_NO/authorlist.php.ini
+      user/intl/no_NO/authorview.php.ini
+      user/intl/no_NO/filelist.php.ini
+      user/intl/no_NO/frontpage.php.ini
+      user/intl/no_NO/imagelist.php.ini
+      user/intl/no_NO/mailtofriend.php.ini
+      user/intl/no_NO/menubox.php.ini
+      user/intl/no_NO/search.php.ini
+      user/intl/no_NO/searchform.php.ini
+      user/intl/no_NO/sitemap.php.ini
+      user/intl/no_NO/topiclist.php.ini: updated no_NO for 2.2.4
+
+2002-04-15  jhe  <jhe@zev.ez.no>
+
+    * classes/ezarticle.php: fixed bug with author article count
+

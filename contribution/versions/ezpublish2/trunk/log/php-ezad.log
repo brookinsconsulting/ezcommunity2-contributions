@@ -309,3 +309,13 @@ Maintainer(s) : br@ez.no
       user/adlist.php:
     internal/external banners support (using http:// or ftp:// start)
 
+
+Module : ezad
+Repository path : /home/cvsroot/projects/php/ezad
+Maintainer(s) : br@ez.no
+2002-04-15  gl  <gl@zev.ez.no>
+
+    * admin/intl/no_NO/adedit.php.ini
+      admin/intl/no_NO/adlist.php.ini
+      admin/intl/no_NO/adstatistics.php.ini: updated no_NO for 2.2.4
+

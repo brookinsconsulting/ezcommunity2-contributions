@@ -3444,3 +3444,40 @@ Maintainer(s) : ce@ez.no
 
     * user/productsearch.php: Added more search functions.
 
+
+Module : eztrade
+Repository path : /home/cvsroot/projects/php/eztrade
+Maintainer(s) : ce@ez.no
+2002-04-15  gl  <gl@zev.ez.no>
+
+    * admin/intl/no_NO/categorylist.php.ini
+      admin/intl/no_NO/currency.php.ini
+      admin/intl/no_NO/customerview.php.ini
+      admin/intl/no_NO/imageedit.php.ini
+      admin/intl/no_NO/linklist.php.ini
+      admin/intl/no_NO/linkselect.php.ini
+      admin/intl/no_NO/orderedit.php.ini
+      admin/intl/no_NO/productedit.php.ini
+      admin/intl/no_NO/productpreview.php.ini
+      admin/intl/no_NO/voucheredit.php.ini
+      admin/intl/no_NO/voucherlist.php.ini
+      user/intl/no_NO/checkout.php.ini
+      user/intl/no_NO/extendedsearch.php.ini
+      user/intl/no_NO/orderlist.php.ini
+      user/intl/no_NO/ordersendt.php.ini
+      user/intl/no_NO/orderview.php.ini
+      user/intl/no_NO/productview.php.ini
+      user/intl/no_NO/sendwishlist.php.ini
+      user/intl/no_NO/voucher.php.ini
+      user/intl/no_NO/voucheremail.php.ini
+      user/intl/no_NO/voucherinformation.php.ini
+      user/intl/no_NO/voucherview.php.ini
+      user/intl/no_NO/wishlist.php.ini
+      user/intl/no_NO/wishlistmail.php.ini: updated no_NO for 2.2.4
+
+2002-04-15  bf  <bf@zev.ez.no>
+
+    * user/productsearch.php: Added better search.
+
+    * classes/ezproduct.php: Added more search options.
+

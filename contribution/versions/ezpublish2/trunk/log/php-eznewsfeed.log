@@ -388,3 +388,14 @@ Maintainer(s) : br@ez.no
       classes/ezrdfimporter.php
       classes/ezrssimporter.php: use fgets instead of fread.
 
+
+Module : eznewsfeed
+Repository path : /home/cvsroot/projects/php/eznewsfeed
+Maintainer(s) : br@ez.no
+2002-04-15  gl  <gl@zev.ez.no>
+
+    * admin/intl/no_NO/newsarchive.php.ini
+      admin/intl/no_NO/newsedit.php.ini
+      admin/intl/no_NO/sourcesiteedit.php.ini
+      admin/intl/no_NO/unpublished.php.ini: updated no_NO for 2.2.4
+

@@ -592,3 +592,18 @@ Maintainer(s) : ce@ez.no
 
     * classes/ezsection.php: Major commit from the online akersmic version.
 
+
+Module : ezsitemanager
+Repository path : /home/cvsroot/projects/php/ezsitemanager
+Maintainer(s) : ce@ez.no
+2002-04-15  gl  <gl@zev.ez.no>
+
+    * admin/intl/no_NO/menubox.php.ini
+      admin/intl/no_NO/menuedit.php.ini
+      admin/intl/no_NO/menulist.php.ini
+      admin/intl/no_NO/sectionedit.php.ini
+      admin/intl/no_NO/siteconfig.php.ini
+      admin/intl/no_NO/sqlquery.php.ini
+      admin/intl/no_NO/templateedit.php.ini
+      admin/intl/no_NO/templatelist.php.ini: updated no_NO for 2.2.4
+

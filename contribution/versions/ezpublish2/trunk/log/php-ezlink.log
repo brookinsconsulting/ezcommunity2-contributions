@@ -707,3 +707,27 @@ Maintainer(s) : br@ez.no
       sql/postgresql/ezlink.sql:
     updated url to be text. (can now have more than 100 characters)
 
+
+Module : ezlink
+Repository path : /home/cvsroot/projects/php/ezlink
+Maintainer(s) : br@ez.no
+2002-04-15  gl  <gl@zev.ez.no>
+
+    * admin/intl/no_NO/menubox.php.ini
+      admin/intl/no_NO/search.php.ini
+      admin/intl/no_NO/typeedit.php.ini
+      admin/intl/no_NO/typelist.php.ini
+      admin/intl/no_NO/unacceptedlist.php.ini
+      user/intl/no_NO/categorylist.php.ini
+      user/intl/no_NO/linkcategorylist.php.ini
+      user/intl/no_NO/linklist.php.ini
+      user/intl/no_NO/onepagelinklist.php.ini
+      user/intl/no_NO/search.php.ini
+      user/intl/no_NO/success.php.ini
+      user/intl/no_NO/suggestlink.php.ini
+      admin/intl/no_NO/attributeedit.php.ini
+      admin/intl/no_NO/categoryedit.php.ini
+      admin/intl/no_NO/categorylist.php.ini
+      admin/intl/no_NO/linkcategorylist.php.ini
+      admin/intl/no_NO/linkedit.php.ini: updated no_NO for 2.2.4
+

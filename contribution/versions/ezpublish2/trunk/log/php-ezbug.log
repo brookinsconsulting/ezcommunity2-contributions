@@ -667,3 +667,21 @@ Maintainer(s) : jhe@ez.no
 
     * admin/cron.php: fixed bug with shitty subjects
 
+
+Module : ezbug
+Repository path : /home/cvsroot/projects/php/ezbug
+Maintainer(s) : jhe@ez.no
+2002-04-15  gl  <gl@zev.ez.no>
+
+    * admin/intl/no_NO/bugedit.php.ini
+      admin/intl/no_NO/buglist.php.ini
+      admin/intl/no_NO/confirmationmail.php.ini
+      admin/intl/no_NO/mailgotbug.php.ini
+      admin/intl/no_NO/mailreply.php.ini
+      admin/intl/no_NO/moduleedit.php.ini
+      admin/intl/no_NO/modulelist.php.ini
+      user/intl/no_NO/buglist.php.ini
+      user/intl/no_NO/bugreport.php.ini
+      user/intl/no_NO/bugview.php.ini
+      user/intl/no_NO/reportsuccess.php.ini: updated no_NO for 2.2.4
+

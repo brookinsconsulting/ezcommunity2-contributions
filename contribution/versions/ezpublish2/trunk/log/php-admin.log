@@ -318,3 +318,12 @@ Maintainer(s) : bf@ez.no
 
     * intl/no_NO/header.php.ini: fixa engelsk orddeling
 
+
+Module : admin
+Repository path : /home/cvsroot/projects/php/admin
+Maintainer(s) : bf@ez.no
+2002-04-15  gl  <gl@zev.ez.no>
+
+    * intl/no_NO/header.php.ini
+      intl/no_NO/print_header.php.ini: updated no_NO for 2.2.4
+

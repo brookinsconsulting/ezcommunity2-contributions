@@ -1156,3 +1156,18 @@ Maintainer(s) : jhe@ez.no
       user/messagesimplelist.php:
     Major commit from the online akersmic version.
 
+
+Module : ezforum
+Repository path : /home/cvsroot/projects/php/ezforum
+Maintainer(s) : jhe@ez.no
+2002-04-15  gl  <gl@zev.ez.no>
+
+    * admin/intl/no_NO/categoryedit.php.ini
+      admin/intl/no_NO/forumedit.php.ini
+      admin/intl/no_NO/mailreject.php.ini
+      admin/intl/no_NO/message.php.ini
+      admin/intl/no_NO/messageedit.php.ini
+      user/intl/no_NO/mailreply.php.ini
+      user/intl/no_NO/message.php.ini
+      user/intl/no_NO/noaccess.php.ini: updated no_NO for 2.2.4
+

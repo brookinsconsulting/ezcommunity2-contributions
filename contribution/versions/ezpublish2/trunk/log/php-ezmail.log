@@ -585,3 +585,18 @@ Maintainer(s) : fh@ez.no
     1. Creating subdirs in imap folders
     2. Creating folders with spaces in them.
 
+
+Module : ezmail
+Repository path : /home/cvsroot/projects/php/ezmail
+Maintainer(s) : fh@ez.no
+2002-04-15  gl  <gl@zev.ez.no>
+
+    * user/intl/no_NO/configure.php.ini
+      user/intl/no_NO/filteredit.php.ini
+      user/intl/no_NO/folderlist.php.ini
+      user/intl/no_NO/link.php.ini
+      user/intl/no_NO/mailedit.php.ini
+      user/intl/no_NO/mailview.php.ini
+      user/intl/no_NO/menubox.php.ini
+      user/intl/no_NO/search.php.ini: updated no_NO for 2.2.4
+

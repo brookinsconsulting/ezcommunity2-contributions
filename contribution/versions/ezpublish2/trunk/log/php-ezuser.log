@@ -1118,3 +1118,24 @@ Maintainer(s) : bf@ez.no
     * classes/ezuser.php
       user/login.php: Major commit from the online akersmic version.
 
+
+Module : ezuser
+Repository path : /home/cvsroot/projects/php/ezuser
+Maintainer(s) : bf@ez.no
+2002-04-15  gl  <gl@zev.ez.no>
+
+    * user/intl/no_NO/addressedit.php.ini
+      user/intl/no_NO/forgot.php.ini
+      user/intl/no_NO/forgotmessage.php.ini
+      user/intl/no_NO/missingemailmessage.php.ini
+      user/intl/no_NO/useredit.php.ini
+      user/intl/no_NO/userwithaddress.php.ini
+      admin/intl/no_NO/authorlist.php.ini
+      admin/intl/no_NO/groupedit.php.ini
+      admin/intl/no_NO/menubox.php.ini
+      admin/intl/no_NO/sessioninfo.php.ini
+      admin/intl/no_NO/settings.php.ini
+      admin/intl/no_NO/useredit.php.ini
+      admin/intl/no_NO/userlist.php.ini
+      admin/intl/no_NO/welcome.php.ini: updated no_NO for 2.2.4
+

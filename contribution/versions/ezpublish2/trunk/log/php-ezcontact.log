@@ -757,3 +757,20 @@ Maintainer(s) : jhe@ez.no
 
     * admin/personedit.php: fixed bug with adding and removing addresses
 
+
+Module : ezcontact
+Repository path : /home/cvsroot/projects/php/ezcontact
+Maintainer(s) : jhe@ez.no
+2002-04-15  gl  <gl@zev.ez.no>
+
+    * user/intl/no_NO/companysearch.php.ini
+      user/intl/no_NO/personsearch.php.ini
+      user/intl/no_NO/search.php.ini
+      admin/intl/no_NO/companyedit.php.ini
+      admin/intl/no_NO/companytype.php.ini
+      admin/intl/no_NO/companyview.php.ini
+      admin/intl/no_NO/consultationedit.php.ini
+      admin/intl/no_NO/menubox.php.ini
+      admin/intl/no_NO/personedit.php.ini
+      admin/intl/no_NO/personview.php.ini: updated no_NO for 2.2.4
+

@@ -182,3 +182,24 @@ Maintainer(s) : vl@ez.no
       admin/intl/se_SE/netinfo.php.ini
       admin/intl/se_SE/sysinfo.php.ini: se_SE swedish 2.2.1
 
+
+Module : ezsysinfo
+Repository path : /home/cvsroot/projects/php/ezsysinfo
+Maintainer(s) : vl@ez.no
+2001-12-21  Gunnstein Lye  <gl@ez.no>
+
+    * admin/intl/pt_PT/fileinfo.php.ini
+      admin/intl/pt_PT/hwinfo.php.ini
+      admin/intl/pt_PT/meminfo.php.ini
+      admin/intl/pt_PT/menubox.php.ini
+      admin/intl/pt_PT/netinfo.php.ini
+      admin/intl/pt_PT/sysinfo.php.ini: pt_PT (Portuguese) version 2.2.2
+
+
+Module : ezsysinfo
+Repository path : /home/cvsroot/projects/php/ezsysinfo
+Maintainer(s) : vl@ez.no
+2002-04-15  gl  <gl@zev.ez.no>
+
+    * admin/intl/no_NO/menubox.php.ini: updated no_NO for 2.2.4
+
