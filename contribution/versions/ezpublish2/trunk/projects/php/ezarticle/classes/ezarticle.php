@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezarticle.php,v 1.155 2001/08/27 11:50:55 ce Exp $
+// $Id: ezarticle.php,v 1.156 2001/09/04 08:07:03 pkej Exp $
 //
 // Definition of eZArticle class
 //
@@ -712,9 +712,11 @@ class eZArticle
     */
     function setKeywords( $keywords )
     {
-        // remove newlines        
-        $keywords = str_replace ("\n", "", $keywords );
-        $keywords = str_replace ("\r", "", $keywords );
+        // replace newlines with space        
+        $keywords = str_replace ("\n\r", " ", $keywords );
+        $keywords = str_replace ("\r\n", " ", $keywords );
+        $keywords = str_replace ("\n", " ", $keywords );
+        $keywords = str_replace ("\r", " ", $keywords );
         $this->Keywords = $keywords;        
     }
     
@@ -835,7 +837,7 @@ class eZArticle
     /*!
       Sets the manual keywords to an article. Theese words are used in the search.
     */
-    function setManualKeywords( $keywords )
+    function setManualKeywords( $keywords, $toLower = true )
     {
         if ( !is_array( $keywords ) )
         {
@@ -843,7 +845,14 @@ class eZArticle
             $keywords = array();
             foreach( $words as $word )
             {
-                $keyword = strtolower( trim( $word ) );
+                if( $toLower )
+                {
+                    $keyword = strtolower( trim( $word ) );
+                }
+                else
+                {
+                    $keyword = trim( $word );
+                }
                 if ( $keyword != "" )
                     $keywords[] = $keyword;
             }
