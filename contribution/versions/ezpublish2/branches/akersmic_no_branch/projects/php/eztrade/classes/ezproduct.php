@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: ezproduct.php,v 1.119.2.1.4.24 2002/01/30 14:13:25 bf Exp $
+// $Id: ezproduct.php,v 1.119.2.1.4.25 2002/01/30 14:35:21 bf Exp $
 //
 // Definition of eZProduct class
 //
@@ -251,13 +251,20 @@ class eZProduct
         }
 
 
+        
         $contents = str_replace ("\n", "", $contents );
         $contents = str_replace ("\r", "", $contents );
         $contents = str_replace ("(", " ", $contents );
         $contents = str_replace (")", " ", $contents );
         $contents = str_replace (",", " ", $contents );
+
+        // split and copy words with / . and -
+        $contents = preg_replace ("#(([^\s]+)/([^\s]+))#", "\\1 \\2 \\3", $contents );
+        $contents = preg_replace ("#(([^\s]+).([^\s]+))#", "\\1 \\2 \\3", $contents );
+        $contents = preg_replace ("#(([^\s]+)-([^\s]+))#", "\\1 \\2 \\3", $contents );
+        
 //        $contents = str_replace (".", " ", $contents );
-        $contents = str_replace ("/", " ", $contents );
+//        $contents = str_replace ("/", " ", $contents );
 //        $contents = str_replace ("-", " ", $contents );
         $contents = str_replace ("_", " ", $contents );
         $contents = str_replace ("\"", " ", $contents );
@@ -284,6 +291,7 @@ class eZProduct
             if (
                  is_numeric( strpos( $word, "." ) ) ||
                  is_numeric( strpos( $word, "-" ) ) ||
+                 is_numeric( strpos( $word, "/" ) ) ||
                  is_numeric( strpos( $word, "ø" ) ) ||
                  is_numeric( strpos( $word, "å" ) ) ||
                  is_numeric( strpos( $word, "ö" ) ) ||
@@ -293,6 +301,7 @@ class eZProduct
                 $nWord = $word;
                 $nWord = str_replace( ".","", $nWord );
                 $nWord = str_replace( "-","", $nWord );
+                $nWord = str_replace( "/","", $nWord );
                 $nWord = str_replace( "ö","o", $nWord );
                 $nWord = str_replace( "ü","u", $nWord );
                 $nWord = str_replace( "å","a", $nWord );
@@ -304,6 +313,7 @@ class eZProduct
         }
         $contents_array = array_merge( $contents_array, $norwegianWordArray );
 
+        
         $totalWordCount = count( $contents_array );
         $wordCount = array_count_values( $contents_array );
 
