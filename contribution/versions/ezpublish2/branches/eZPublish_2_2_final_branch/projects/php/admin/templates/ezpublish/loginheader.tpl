@@ -3,7 +3,7 @@
 
 <head>
 
-<title>eZ publish administration</title>
+<title>{intl-title}</title>
 
 <link rel="stylesheet" type="text/css" href="{www_dir}/admin/templates/{site_style}/style.css" />
 

@@ -1,6 +1,6 @@
 <?php
-// 
-// $Id: groupedit.php,v 1.23 2001/09/10 23:00:01 fh Exp $
+//
+// $Id: groupedit.php,v 1.23.2.1 2002/03/04 13:14:49 ce Exp $
 //
 // Created on: <20-Sep-2000 13:32:11 ce>
 //
@@ -45,16 +45,16 @@ if ( isSet( $DeleteGroups ) and isSet( $GroupArrayID ) )
     $hasRoot = $user->hasRootAccess();
     foreach ( $GroupArrayID as $groupid )
     {
-        if( $hasRoot )
-        {
-            eZUserGroup::delete( $groupid );
-        }
-        else
-        {
-            $group = new eZUserGroup( $groupid );
-            if( !$group->isRoot() )
-                eZUserGroup::delete( $groupid );
-        }
+	if( $hasRoot )
+	{
+	    eZUserGroup::delete( $groupid );
+	}
+	else
+	{
+	    $group = new eZUserGroup( $groupid );
+	    if( !$group->isRoot() )
+		eZUserGroup::delete( $groupid );
+	}
     }
     eZHTTPTool::header( "Location: /user/grouplist" );
     exit();
@@ -74,9 +74,9 @@ if( isset( $GroupID ) )
     $editGroup = new eZUserGroup( $GroupID );
     if( !$user->hasRootAccess() && $editGroup->isRoot() )
     {
-        $info = urlencode( "Can't edit a group with root priveliges." );
-        eZHTTPTool::header( "Location: /error/403?Info=$info" );
-        exit();
+	$info = urlencode( "Can't edit a group with root priveliges." );
+	eZHTTPTool::header( "Location: /error/403?Info=$info" );
+	exit();
     }
 }
 
@@ -84,50 +84,53 @@ if ( $Action == "insert" )
 {
     if ( eZPermission::checkPermission( $user, "eZUser", "GroupAdd" ) )
     {
-        if ( $Name == "" || $Description == "" )
+	if ( $Name == "" || $Description == "" )
+	{
+	    $error = new INIFile( "ezuser/admin/intl/" . $Language . "/groupedit.php.ini", false );
+	    $error_msg =  $error->read_var( "strings", "error_msg" );
+	}
+	else
+	{
+	    $group = new eZUserGroup();
+	    $group->setName( $Name );
+	    $group->setDescription( $Description );
+	    $group->setSessionTimeout( $SessionTimeout );
+	    $group->setGroupURL( $GroupURL );
+
+	    if ( isSet( $IsRoot ) && $user->hasRootAccess() )
+		$group->setIsRoot( true );
+	    else
+		$group->setIsRoot( false );
+	    $permission = new eZPermission();
+
+	    $group->store();
+
+	    $group->get( $group->id() );
+
+	    $permissionList = $permission->getAll();
+
+	    foreach ( $permissionList as $permissionItem )
+	    {
+		$permissionItem->setEnabled( $group, false );
+	    }
+
+        if ( count ( $PermissionArray ) > 0 )
         {
-            $error = new INIFile( "ezuser/admin/intl/" . $Language . "/groupedit.php.ini", false );
-            $error_msg =  $error->read_var( "strings", "error_msg" );
-        }
-        else
-        {
-            $group = new eZUserGroup();
-            $group->setName( $Name );
-            $group->setDescription( $Description );
-            $group->setSessionTimeout( $SessionTimeout );
-            $group->setGroupURL( $GroupURL );
-            
-            if ( isSet( $IsRoot ) && $user->hasRootAccess() )
-                $group->setIsRoot( true );
-            else
-                $group->setIsRoot( false );
-            $permission = new eZPermission(); 
-
-            $group->store();
-
-            $group->get( $group->id() );
-
-            $permissionList = $permission->getAll();
-
-            foreach ( $permissionList as $permissionItem )
-            {
-                $permissionItem->setEnabled( $group, false );
-            }
-    
             foreach ( $PermissionArray as $PermissionID )
             {
                 $permission->get( $PermissionID );
                 $permission->setEnabled( $group, true );
             }
-
-            eZHTTPTool::header( "Location: /user/grouplist/" );
-            exit();
         }
+
+	    eZHTTPTool::header( "Location: /user/grouplist/" );
+	    exit();
+	}
     }
     else
     {
-        eZHTTPTool::header( "Location: /error/403/" );
-        exit();
+	eZHTTPTool::header( "Location: /error/403/" );
+	exit();
     }
 }
 
@@ -136,59 +139,59 @@ if ( $Action == "delete" )
     if ( eZPermission::checkPermission( $user, "eZUser", "GroupDelete" ) )
     {
 
-        $group = new eZUserGroup();
-        $group->get( $GroupID );
+	$group = new eZUserGroup();
+	$group->get( $GroupID );
 
-        $group->delete();
+	$group->delete();
 
-        eZHTTPTool::header( "Location: /user/grouplist/" );
-        exit();
+	eZHTTPTool::header( "Location: /user/grouplist/" );
+	exit();
     }
     else
     {
-        print( "No rights.");
+	print( "No rights.");
     }
 }
- 
+
 if ( $Action == "update" )
 {
     if ( eZPermission::checkPermission( $user, "eZUser", "GroupModify" ) )
     {
-        $permission = new eZPermission();
-        $group = new eZUserGroup();
-        $group->get( $GroupID );
-        $group->setName( $Name );
-        $group->setGroupURL( $GroupURL );
-        $group->setDescription( $Description );
-        $group->setSessionTimeout( $SessionTimeout );
+	$permission = new eZPermission();
+	$group = new eZUserGroup();
+	$group->get( $GroupID );
+	$group->setName( $Name );
+	$group->setGroupURL( $GroupURL );
+	$group->setDescription( $Description );
+	$group->setSessionTimeout( $SessionTimeout );
 
-        if ( isSet( $IsRoot ) && $user->hasRootAccess() )
-            $group->setIsRoot( true );
-        else
-            $group->setIsRoot( false );
+	if ( isSet( $IsRoot ) && $user->hasRootAccess() )
+	    $group->setIsRoot( true );
+	else
+	    $group->setIsRoot( false );
 
-        $permissionList = $permission->getAll();
+	$permissionList = $permission->getAll();
 
-        foreach ( $permissionList as $permissionItem )
-        {
-            $permissionItem->setEnabled( $group, false );
-        }
-    
-        foreach ( $PermissionArray as $PermissionID )
-        {
-            $permission->get( $PermissionID );
-            $permission->setEnabled( $group, true );
-        }
+	foreach ( $permissionList as $permissionItem )
+	{
+	    $permissionItem->setEnabled( $group, false );
+	}
 
-        $group->store();
-        
-        eZHTTPTool::header( "Location: /user/grouplist/" );
-        exit();
+	foreach ( $PermissionArray as $PermissionID )
+	{
+	    $permission->get( $PermissionID );
+	    $permission->setEnabled( $group, true );
+	}
+
+	$group->store();
+
+	eZHTTPTool::header( "Location: /user/grouplist/" );
+	exit();
     }
     else
     {
-        eZHTTPTool::header( "Location: /error/403/" );
-        exit();
+	eZHTTPTool::header( "Location: /error/403/" );
+	exit();
     }
 }
 
@@ -211,7 +214,7 @@ if ( $Action == "new" )
     $Name = "";
     $Description = "";
     $GroupURL = "";
-} 
+}
 $ActionValue = "insert";
 
 // Edit
@@ -247,23 +250,23 @@ foreach ( $moduleList as $moduleItem )
 
     foreach ( $permissionList as $permissionItem )
     {
-        $t->set_var( "permission_name", $permissionItem->name() );
-        $t->set_var( "permission_id", $permissionItem->id() );
-        
-        if ( $permissionItem->isEnabled( $group ) )
-        {
-            $t->set_var( "is_enabled", "checked" );
-        }
-        else
-        {
-            $t->set_var( "is_enabled", "" );
-        }
-        
-        $t->parse( "permission_item", "permission_list_tpl", true );
+	$t->set_var( "permission_name", $permissionItem->name() );
+	$t->set_var( "permission_id", $permissionItem->id() );
+
+	if ( $permissionItem->isEnabled( $group ) )
+	{
+	    $t->set_var( "is_enabled", "checked" );
+	}
+	else
+	{
+	    $t->set_var( "is_enabled", "" );
+	}
+
+	$t->parse( "permission_item", "permission_list_tpl", true );
     }
 
     if ( count( $permissionList ) > 0 )
-        $t->parse( "module_header", "module_list_header_tpl", true );
+	$t->parse( "module_header", "module_list_header_tpl", true );
 }
 
 $t->set_var( "error_msg", $error_msg );

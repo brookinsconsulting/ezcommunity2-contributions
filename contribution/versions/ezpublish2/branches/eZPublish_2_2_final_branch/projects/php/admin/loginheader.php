@@ -1,6 +1,6 @@
 <?php
-// 
-// $Id: loginheader.php,v 1.8 2001/10/12 09:22:00 master Exp $
+//
+// $Id: loginheader.php,v 1.8.2.1 2002/03/04 13:15:21 ce Exp $
 //
 // Created on: <23-Jan-2001 16:06:07 bf>
 //
@@ -35,7 +35,6 @@ $iso = $Locale->languageISO();
 
 $t = new eZTemplate( "admin/templates/" . $SiteStyle,
                      "ezuser/admin/intl/", $Language, "menubox.php" );
-
 $t->set_file( array(
     "header_tpl" => "loginheader.tpl"
     ) );
@@ -51,10 +50,9 @@ $t->set_var( "module_name", $moduleName );
 $t->set_var( "charset", $iso );
 
 $t->setAllStrings();
-
 $t->set_var( "ezpublish_version", eZPublish::version() );
 
 $t->pparse( "output", "header_tpl" );
-    
+
 
 ?>
