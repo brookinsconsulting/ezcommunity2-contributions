@@ -151,6 +151,7 @@
 	<td>
 	<form action="{www_dir}{index}/forum/userlogin/new/{forum_id}">
   	<input class="stdbutton" type="submit" value="{intl-new-posting}" />
+        </form>
 	</td>
 </tr>
 </table>
