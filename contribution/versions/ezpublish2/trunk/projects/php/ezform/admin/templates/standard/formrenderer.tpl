@@ -66,11 +66,20 @@
 <tr>
 <!-- BEGIN form_item_tpl -->
 	<td {colspan} class="{td_class}" >
+	<table width="100%">
+	<tr>
+	<td width="90">
 	<p class="boxtext">
 	{element_name}:
 	</p>
-	{element}<br /><br />
 	</td>
+	<td>
+	{element}<br />
+	</td>
+	</tr>
+	</table>
+	</td>
+
 <!-- BEGIN break_tpl -->
 </tr>
 <tr>
