@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezlocale.php,v 1.16 2001/01/07 12:35:46 bf Exp $
+// $Id: ezlocale.php,v 1.17 2001/01/12 16:25:12 gl Exp $
 //
 // Definition of eZLocale class
 //
@@ -118,24 +118,24 @@ class eZLocale
 
         if ( file_exists( "classes/locale/" . $iso . ".ini" ) )
         {
-            $localeIni = new INIFile( "classes/locale/" . $iso . ".ini", false );
+            $this->$LocaleIni = new INIFile( "classes/locale/" . $iso . ".ini", false );
         }
         else
         {
-            $localeIni = new INIFile( "classes/locale/en_GB.ini", false );
+            $this->$LocaleIni = new INIFile( "classes/locale/en_GB.ini", false );
         }
 
-        $this->CurrencySymbol =& $localeIni->read_var( "RegionalSettings", "CurrencySymbol" );
-        $this->DecimalSymbol =& $localeIni->read_var( "RegionalSettings", "DecimalSymbol" );
-        $this->ThousandsSymbol =& $localeIni->read_var( "RegionalSettings", "ThousandsSymbol" );
-        $this->FractDigits =& $localeIni->read_var( "RegionalSettings", "FractDigits" );
+        $this->CurrencySymbol =& $this->$LocaleIni->read_var( "RegionalSettings", "CurrencySymbol" );
+        $this->DecimalSymbol =& $this->$LocaleIni->read_var( "RegionalSettings", "DecimalSymbol" );
+        $this->ThousandsSymbol =& $this->$LocaleIni->read_var( "RegionalSettings", "ThousandsSymbol" );
+        $this->FractDigits =& $this->$LocaleIni->read_var( "RegionalSettings", "FractDigits" );
 
-        $this->PositivePrefixCurrencySymbol =& $localeIni->read_var( "RegionalSettings", "PositivePrefixCurrencySymbol" );
-        $this->NegativePrefixCurrencySymbol =& $localeIni->read_var( "RegionalSettings", "NegativePrefixCurrencySymbol" );
+        $this->PositivePrefixCurrencySymbol =& $this->$LocaleIni->read_var( "RegionalSettings", "PositivePrefixCurrencySymbol" );
+        $this->NegativePrefixCurrencySymbol =& $this->$LocaleIni->read_var( "RegionalSettings", "NegativePrefixCurrencySymbol" );
         
-        $this->TimeFormat =& $localeIni->read_var( "RegionalSettings", "TimeFormat" );
-        $this->DateFormat =& $localeIni->read_var( "RegionalSettings", "DateFormat" );
-        $this->ShortDateFormat =& $localeIni->read_var( "RegionalSettings", "ShortDateFormat" );
+        $this->TimeFormat =& $this->$LocaleIni->read_var( "RegionalSettings", "TimeFormat" );
+        $this->DateFormat =& $this->$LocaleIni->read_var( "RegionalSettings", "DateFormat" );
+        $this->ShortDateFormat =& $this->$LocaleIni->read_var( "RegionalSettings", "ShortDateFormat" );
     }
 
     /*!
@@ -284,6 +284,48 @@ class eZLocale
         return $returnString;
     }
 
+    /*!
+      Returns the day name, translated to the local language.
+
+      If isShort is set to false then the complete version of the name is used,
+      otherwise a three letter version is used.
+    */
+    function &dayName( $day, $isShort=true )
+    {
+        $returnString = "<b>Locale error</b>: unknown day name";
+
+        if ( $isShort )
+        {
+            $returnString =& $this->$LocaleIni->read_var( "RegionalSettings", $day );
+        }
+        else
+        {
+            $returnString =& $this->$LocaleIni->read_var( "RegionalSettings", "long" . $day );
+        }
+        return $returnString;
+    }
+
+    /*!
+      Returns the month name, translated to the local language.
+
+      If isShort is set to false then the complete version of the name is used,
+      otherwise a three letter version is used.
+    */
+    function &monthName( $month, $isShort=true )
+    {
+        $returnString = "<b>Locale error</b>: unknown month name";
+
+        if ( $isShort )
+        {
+            $returnString =& $this->$LocaleIni->read_var( "RegionalSettings", $month );
+        }
+        else
+        {
+            $returnString =& $this->$LocaleIni->read_var( "RegionalSettings", "long" . $month );
+        }
+        return $returnString;
+    }
+
     var $PositivePrefixCurrencySymbol;
     var $NegativePrefixCurrencySymbol;
 
@@ -294,6 +336,8 @@ class eZLocale
     var $TimeFormat;
     var $DateFormat;
     var $ShortDateFormat;
+
+    var $LocaleIni;
 }
 
 

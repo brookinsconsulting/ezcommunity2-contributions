@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezdate.php,v 1.9 2001/01/11 22:09:49 jb Exp $
+// $Id: ezdate.php,v 1.10 2001/01/12 16:25:12 gl Exp $
 //
 // Definition of eZCompany class
 //
@@ -153,10 +153,169 @@ class eZDate
     function daysInMonth( )
     {
         $lastday = mktime( 2, 0, 0, $this->Month + 1, 0, $this->Year );
-        
-        return strftime(  "%d", $lastday );
-    }    
-        
+
+        return strftime( "%d", $lastday );
+    }
+
+    /*!
+      Returns the day of week. ( 1..7 )
+    */
+    function dayOfWeek( )
+    {
+        $weekday = date ( "w", mktime ( 2, 0, 0, $this->month(), $this->day(), $this->year() ) );
+
+        if ( $weekday == 0 )
+            $weekday = 7;
+        return $weekday;
+    }
+
+    /*!
+      Returns the name of the weekday in three letters.
+    */
+    function dayName( )
+    {
+        $day = "unknown";
+
+        switch( $this->dayOfWeek() )
+        {
+            case 1 :
+            {
+                $day = "mon";
+            }
+            break;
+
+            case 2 :
+            {
+                $day = "tue";
+            }
+            break;
+
+            case 3 :
+            {
+                $day = "wed";
+            }
+            break;
+
+            case 4 :
+            {
+                $day = "thu";
+            }
+            break;
+
+            case 5 :
+            {
+                $day = "fri";
+            }
+            break;
+
+            case 6 :
+            {
+                $day = "sat";
+            }
+            break;
+
+            case 7 :
+            {
+                $day = "sun";
+            }
+            break;
+        }
+        return $day;
+    }
+
+    /*!
+      Returns the name of the month in three letters.
+    */
+    function monthName( )
+    {
+        $month = "unknown";
+
+        switch( $this->month() )
+        {
+            case 1 :
+            {
+                $month = "jan";
+            }
+            break;
+
+            case 2 :
+            {
+                $month = "feb";
+            }
+            break;
+
+            case 3 :
+            {
+                $month = "mar";
+            }
+            break;
+
+            case 4 :
+            {
+                $month = "apr";
+            }
+            break;
+
+            case 5 :
+            {
+                $month = "may";
+            }
+            break;
+
+            case 6 :
+            {
+                $month = "jun";
+            }
+            break;
+
+            case 7 :
+            {
+                $month = "jul";
+            }
+            break;
+
+            case 8 :
+            {
+                $month = "aug";
+            }
+            break;
+
+            case 9 :
+            {
+                $month = "sep";
+            }
+            break;
+
+            case 10 :
+            {
+                $month = "oct";
+            }
+            break;
+
+            case 11 :
+            {
+                $month = "nov";
+            }
+            break;
+
+            case 12 :
+            {
+                $month = "dec";
+            }
+            break;
+        }
+        return $month;
+    }
+
+    /*!
+      Returns true if the current date is valid.
+    */
+    function isValid()
+    {
+        return checkdate( $this->month(), $this->day(), $this->year() );
+    }
+
+
     var $Year;
     var $Month;
     var $Day;

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezdatetime.php,v 1.16 2001/01/12 14:25:36 gl Exp $
+// $Id: ezdatetime.php,v 1.17 2001/01/12 16:25:12 gl Exp $
 //
 // Definition of eZCompany class
 //
@@ -25,6 +25,7 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, US
 //
 
+include_once( "classes/ezdate.php" );
 include_once( "classes/eztime.php" );
 
 //!! eZCommon
@@ -38,6 +39,10 @@ include_once( "classes/eztime.php" );
 
   // print the date and time in localized format
   print( "Date and time:" . $locale->format( $datetime ) . "<br>" );
+
+  // print the day and month names in localized format
+  print( "Day:" . $locale->dayName( $datetime->dayName() ) . "<br>" );
+  print( "Month:" . $locale->monthName( $datetime->monthName() ) . "<br>" );
   \endcode  
   \sa eZDate eZTime eZLocale
 */
@@ -57,16 +62,12 @@ class eZDateTime
         if ( ( $year == 0 )  && ( $month == 0 ) && ( $day == 0 ) && ( $hour == 0 ) && ( $minute == 0 ) && ( $second == 0 ) )
         {
             $now = getdate();
-            $this->Year = $now[ "year" ];
-            $this->Month = $now[ "mon" ];
-            $this->Day = $now[ "mday" ];
+            $this->Date = new eZDate( $now[ "year" ], $now[ "mon" ], $now[ "mday" ] );
             $this->Time = new eZTime( $now[ "hours" ], $now[ "minutes" ], $now[ "seconds" ] );
         }
         else
         {        
-            $this->setYear( $year );
-            $this->setMonth( $month );
-            $this->setDay( $day );
+            $this->Date = new eZDate( $year, $month, $day );
             $this->Time = new eZTime( $hour, $minute, $second );
         }
     }
@@ -76,7 +77,7 @@ class eZDateTime
     */
     function year()
     {
-        return $this->Year;
+        return $this->Date->year();
     }
 
     /*!
@@ -84,7 +85,7 @@ class eZDateTime
     */
     function month()
     {
-        return $this->Month;
+        return $this->Date->month();
     }
 
     /*!
@@ -92,7 +93,7 @@ class eZDateTime
     */
     function day()
     {
-        return $this->Day;
+        return $this->Date->day();
     }
 
     /*!
@@ -111,7 +112,6 @@ class eZDateTime
         return $this->Time->minute();
     }
 
-
     /*!
       Returns the seconds.
     */
@@ -120,7 +120,6 @@ class eZDateTime
         return $this->Time->second();
     }
 
-    
     /*!
       Get the current datetime in MySQL format.
     */
@@ -179,8 +178,7 @@ class eZDateTime
     */
     function setYear( $value )
     {
-        $this->Year = $value;
-        setType( $this->Year, "integer" );
+        $this->Date->setYear( $value );
     }
 
     /*!
@@ -188,8 +186,7 @@ class eZDateTime
     */
     function setMonth( $value )
     {
-        $this->Month = $value;
-        setType( $this->Month, "integer" );
+        $this->Date->setMonth( $value );
     }
 
     /*!
@@ -197,8 +194,7 @@ class eZDateTime
     */
     function setDay( $value )
     {
-        $this->Day = $value;
-        setType( $this->Day, "integer" );
+        $this->Date->setDay( $value );
     }
 
     /*!
@@ -231,10 +227,7 @@ class eZDateTime
     */
     function &date()
     {
-        include_once( "classes/ezdate.php" );
-
-        $date = new eZDate( $this->year(), $this->month(), $this->day() );
-        return $date;
+        return $Date;
     }
     
     /*!
@@ -325,10 +318,7 @@ class eZDateTime
     */
     function daysInMonth( )
     {
-        $lastday = mktime( 2, 0, 0, $this->Month + 1, 0, $this->Year );
-
-        
-        return strftime(  "%d", $lastday );
+        return $this->Date->daysInMonth();
     }
 
     /*!
@@ -336,11 +326,7 @@ class eZDateTime
     */
     function dayOfWeek( )
     {
-        $weekday = date ( "w", mktime ( 2, 0, 0, $this->month(), $this->day(), $this->year() ) );
-
-        if ( $weekday == 0 )
-            $weekday = 7;
-        return $weekday;
+        return $this->Date->dayOfWeek();
     }
 
     /*!
@@ -348,53 +334,7 @@ class eZDateTime
     */
     function dayName( )
     {
-        $day = "unknown";
-
-        switch( $this->dayOfWeek() )
-        {
-            case 1 :
-            {
-                $day = "mon";
-            }
-            break;
-
-            case 2 :
-            {
-                $day = "tue";
-            }
-            break;
-
-            case 3 :
-            {
-                $day = "wed";
-            }
-            break;
-
-            case 4 :
-            {
-                $day = "thu";
-            }
-            break;
-
-            case 5 :
-            {
-                $day = "fri";
-            }
-            break;
-
-            case 6 :
-            {
-                $day = "sat";
-            }
-            break;
-
-            case 7 :
-            {
-                $day = "sun";
-            }
-            break;
-        }
-        return $day;
+        return $this->Date->dayName();
     }
 
 
@@ -403,100 +343,20 @@ class eZDateTime
     */
     function monthName( )
     {
-        $month = "unknown";
-
-        switch( $this->month() )
-        {
-            case 1 :
-            {
-                $month = "jan";
-            }
-            break;
-
-            case 2 :
-            {
-                $month = "feb";
-            }
-            break;
-
-            case 3 :
-            {
-                $month = "mar";
-            }
-            break;
-
-            case 4 :
-            {
-                $month = "apr";
-            }
-            break;
-
-            case 5 :
-            {
-                $month = "may";
-            }
-            break;
-
-            case 6 :
-            {
-                $month = "jun";
-            }
-            break;
-
-            case 7 :
-            {
-                $month = "jul";
-            }
-            break;
-
-            case 8 :
-            {
-                $month = "aug";
-            }
-            break;
-
-            case 9 :
-            {
-                $month = "sep";
-            }
-            break;
-
-            case 10 :
-            {
-                $month = "oct";
-            }
-            break;
-
-            case 11 :
-            {
-                $month = "nov";
-            }
-            break;
-
-            case 12 :
-            {
-                $month = "dec";
-            }
-            break;
-        }
-        return $month;
+        return $this->Date->monthName();
     }
-    
-    
 
     /*!
       Returns true if the current date is valid.
     */
     function isValid()
     {
-        return checkdate( $this->month(), $this->day(), $this->year() );
+        return $this->Date->isValid();
     }
 
 
-    var $Year;
-    var $Month;
-    var $Day;
-
+    var $Date;
     var $Time;
+
 }
 ?>
