@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: datasupplier.php,v 1.11.2.1 2001/12/06 10:19:29 jhe Exp $
+// $Id: datasupplier.php,v 1.11.2.2 2002/03/06 08:56:33 jhe Exp $
 //
 // Created on: <28-May-2001 11:24:41 pkej>
 //
@@ -81,9 +81,9 @@ switch ( $url_array[2] )
             {
                 $GameID = $url_array[4];
                 
-                $user =&  eZUser::currentUser();
+                $user =& eZUser::currentUser();
                 
-                if( get_class( $user ) != "ezuser" )
+                if ( get_class( $user ) != "ezuser" )
                 {
                    eZHTTPTool::header( "Location: /user/login?RedirectURL=" . urlencode( "/quiz/game/play/$GameID" ) );
                 }

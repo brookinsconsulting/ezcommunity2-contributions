@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: quizplay.php,v 1.12.2.1 2001/12/06 10:19:29 jhe Exp $
+// $Id: quizplay.php,v 1.12.2.2 2002/03/06 08:56:33 jhe Exp $
 //
 // Created on: <28-May-2001 11:24:41 pkej>
 //
@@ -249,7 +249,6 @@ elseif ( empty( $error ) )
         // finished game.
     }
 }
-
 
 if ( $error )
 {

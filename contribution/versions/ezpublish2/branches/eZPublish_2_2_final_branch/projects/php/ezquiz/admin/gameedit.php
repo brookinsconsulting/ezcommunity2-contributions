@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: gameedit.php,v 1.10.2.2 2002/02/12 13:12:23 pkej Exp $
+// $Id: gameedit.php,v 1.10.2.3 2002/03/06 08:56:33 jhe Exp $
 //
 // Created on: <22-May-2001 13:44:13 ce>
 //
@@ -31,32 +31,32 @@ include_once( "classes/ezdate.php" );
 include_once( "ezquiz/classes/ezquizgame.php" );
 include_once( "ezquiz/classes/ezquiztool.php" );
 
-if ( isSet ( $OK ) )
+if ( isSet( $OK ) )
 {
     $Action = "Insert";
 }
 
-if ( isSet ( $Delete ) )
+if ( isSet( $Delete ) )
 {
     $Action = "Delete";
 }
 
-if ( isSet ( $NewQuestion ) )
+if ( isSet( $NewQuestion ) )
 {
     $Action = "Insert";
 }
 
-if ( isSet ( $Cancel ) )
+if ( isSet( $Cancel ) )
 {
     eZHTTPTool::header( "Location: /quiz/game/list/" );
     exit();
 }
 
-if ( isSet ( $DeleteQuestions ) )
+if ( isSet( $DeleteQuestions ) )
 {
-    if ( count ( $DeleteQuestionArray ) > 0 )
+    if ( count( $DeleteQuestionArray ) > 0 )
     {
-        foreach( $DeleteQuestionArray as $Quest )
+        foreach ( $DeleteQuestionArray as $Quest )
         {
             $quest = new eZQuizQuestion( $Quest );
             $quest->delete();
@@ -68,12 +68,10 @@ $ini =& INIFile::globalINI();
 $Language = $ini->read_var( "eZQuizMain", "Language" );
 
 $t = new eZTemplate( "ezquiz/admin/" . $ini->read_var( "eZQuizMain", "AdminTemplateDir" ),
-                     "ezquiz/admin/" . "/intl", $Language, "gameedit.php" );
+                     "ezquiz/admin/intl", $Language, "gameedit.php" );
 $t->setAllStrings();
 
-$t->set_file( array(
-    "game_edit_page" => "gameedit.tpl"
-      ) );
+$t->set_file( "game_edit_page", "gameedit.tpl" );
 
 $t->set_block( "game_edit_page", "question_list_tpl", "question_list" );
 $t->set_block( "question_list_tpl", "question_item_tpl", "question_item" );
@@ -107,9 +105,9 @@ $t->set_var( "error_question", "" );
 
 $error = false;
 $checkDate = true;
-if ( ( $Action == "Insert" ) )
+if ( $Action == "Insert" )
 {
-    if ( $GameID > 0 && !isset( $NewQuestion ) )
+    if ( $GameID > 0 && !isSet( $NewQuestion ) )
     {
         $game = new  eZQuizGame( $GameID );
         
@@ -120,7 +118,7 @@ if ( ( $Action == "Insert" ) )
         }
         unset( $game );
     }
-    elseif ( isset( $OK ) )
+    elseif ( isSet( $OK ) )
     {
         $t->parse( "error_question", "error_question_tpl" );
         $error = true;
@@ -240,16 +238,14 @@ if ( ( $Action == "Insert" ) )
                 }
             }
         }
-
     }
 }
-
 
 
 if ( ( $Action == "Insert" ) && ( $error == false ) )
 {
     if ( is_numeric( $GameID ) )
-        $game = new eZQuizGame( $GameID);
+        $game = new eZQuizGame( $GameID );
     else
         $game = new eZQuizGame();
 

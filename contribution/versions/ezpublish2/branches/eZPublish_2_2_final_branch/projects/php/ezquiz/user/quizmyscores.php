@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: quizmyscores.php,v 1.2 2001/07/20 11:24:09 jakobn Exp $
+// $Id: quizmyscores.php,v 1.2.2.1 2002/03/06 08:56:33 jhe Exp $
 //
 // Created on: <28-May-2001 11:24:41 pkej>
 //
@@ -46,13 +46,11 @@ $ScoreCurrent = $ini->read_var( "eZQuizMain", "ScoreCurrent" );
 $t = new eZTemplate( "ezquiz/user/" . $ini->read_var( "eZQuizMain", "TemplateDir" ),
                      "ezquiz/user/intl/", $Language, "quiz.php" );
 
-$intl = new INIFIle( "ezquiz/user/intl/". $Language . "/quiz.php.ini" );
+$intl = new INIFile( "ezquiz/user/intl/". $Language . "/quiz.php.ini" );
 
 $t->setAllStrings();
 
-$t->set_file( array(
-    "score_page_tpl" => "quizmyscores.tpl"
-    ) );
+$t->set_file( "score_page_tpl", "quizmyscores.tpl" );
 
 $t->set_block( "score_page_tpl", "error_item_tpl", "error_item" );
 $t->set_block( "score_page_tpl", "logged_in_user_item_tpl", "logged_in_user_item" );
@@ -70,9 +68,9 @@ $t->set_var( "game_item", "" );
 
 $printScores = false;
 
-$user =&  eZUser::currentUser();
+$user =& eZUser::currentUser();
 
-if( get_class( $user ) == "ezuser" )
+if ( get_class( $user ) == "ezuser" )
 {
     $UserID = $user->id();
     
@@ -93,14 +91,13 @@ if( get_class( $user ) == "ezuser" )
     $lastColor = "bgdark";
     $position = $Offset + 1;
     $locale = new eZLocale( $Language );
-    if( $scoreCount > 0 )
+    if ( $scoreCount > 0 )
     {
         $printScores = true;
     }
     else
     {
         // Is there a game?
-
         $t->parse( "no_scores_item", "no_scores_item_tpl" );
     }
 }
@@ -109,18 +106,18 @@ else
     $error = "login";
 }
 
-if( $printScores == true )
+if ( $printScores == true )
 {
-    foreach( $scores as $score )
+    foreach ( $scores as $score )
     {
 
         $currentScore = $score->totalScore();
 
-        if( $currentScore == $last && $position != ( $Offset + 1 ) )
+        if ( $currentScore == $last && $position != ( $Offset + 1 ) )
         {
             $t->set_var( "score_position", "&nbsp;" );
 
-            if( $lastColor == "bglight" || $i = 0 )
+            if ( $lastColor == "bglight" || $i = 0 )
             {
                 $t->set_var( "td_class", "bglight" );
             }
@@ -132,7 +129,7 @@ if( $printScores == true )
         else
         {
             $t->set_var( "score_position", $position );
-            if( $lastColor == "bglight" )
+            if ( $lastColor == "bglight" )
             {
                 $t->set_var( "td_class", "bgdark" );
                 $lastColor = "bgdark";
@@ -165,9 +162,9 @@ if( $printScores == true )
 
 eZList::drawNavigator( $t, $scoreCount, $Limit, $Offset, "score_page_tpl" );
 
-if( $error )
+if ( $error )
 {
-    switch( $error )
+    switch ( $error )
     {
         case "login":
         {

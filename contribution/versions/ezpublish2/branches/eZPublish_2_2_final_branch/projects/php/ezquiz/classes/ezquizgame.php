@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezquizgame.php,v 1.16.2.3 2002/02/12 13:12:23 pkej Exp $
+// $Id: ezquizgame.php,v 1.16.2.4 2002/03/06 08:56:33 jhe Exp $
 //
 // ezquizgame class
 //
@@ -72,8 +72,8 @@ class eZQuizGame
         $db->begin();
         $name =& $db->escapeString( $this->Name );
         $description =& $db->escapeString( $this->Description );
-        $startDate =& $this->StartDate->mySQLDate();
-        $stopDate =& $this->StopDate->mySQLDate();
+        $startDate =& $this->StartDate->timeStamp();
+        $stopDate =& $this->StopDate->timeStamp();
         
         if ( !isset( $this->ID ) )
         {
@@ -159,9 +159,9 @@ class eZQuizGame
         $this->Name =& $quizArray[$db->fieldName( "Name" )];
         $this->Description =& $quizArray[$db->fieldName( "Description" )];
         $this->StartDate = new eZDate();
-        $this->StartDate->setMySQLDate( $quizArray[$db->fieldName( "StartDate" )] );
+        $this->StartDate->setTimeStamp( $quizArray[$db->fieldName( "StartDate" )] );
         $this->StopDate = new eZDate();
-        $this->StopDate->setMySQLDate( $quizArray[$db->fieldName( "StopDate" )] );
+        $this->StopDate->setTimeStamp( $quizArray[$db->fieldName( "StopDate" )] );
     }
 
     /*!
@@ -516,7 +516,7 @@ class eZQuizGame
 
         for ( $i = 0; $i < count( $quizArray ); $i++ )
         {
-            $returnArray[$i] = new eZQuizGame( $quizArray[$i][$db->fieldName( "ID" )] );
+            $returnArray[$i] = new eZQuizGame( $quizArray[$i] );
         }
         
         return $returnArray;
@@ -535,14 +535,14 @@ class eZQuizGame
         $startDate = $inStartDate->timeStamp();
         $stopDate = $inStopDate->timeStamp();
 
-        $db->array_query( $quizArray, "SELECT ID FROM eZQuiz_Game
+        $db->array_query( $quizArray, "SELECT * FROM eZQuiz_Game
                                        WHERE StopDate >= '$startDate' AND StopDate <= '$stopDate'
                                        ORDER BY StartDate" );
         $ret = $result[$db->fieldName( "Count" )];
 
         for ( $i = 0; $i < count( $quizArray ); $i++ )
         {
-            $returnArray[$i] = new eZQuizGame( $quizArray[$i][$db->fieldName( "ID" )] );
+            $returnArray[$i] = new eZQuizGame( $quizArray[$i] );
         }
         
         return $returnArray;
@@ -568,7 +568,7 @@ class eZQuizGame
 
         for ( $i = 0; $i < count( $quizArray ); $i++ )
         {
-            $returnArray[$i] = new eZQuizGame( $quizArray[$i][$db->fieldName( "ID" )] );
+            $returnArray[$i] = new eZQuizGame( $quizArray[$i] );
         }
         
         return $returnArray;

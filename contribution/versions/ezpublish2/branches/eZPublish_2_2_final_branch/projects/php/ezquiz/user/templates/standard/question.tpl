@@ -5,7 +5,6 @@
 <h2 class="error">{intl-error}</h2>
 <p class="error">{error_message}</p>
 <!-- END error_item_tpl -->
-
 <!-- BEGIN high_score_item_tpl -->
 <p>{players} {intl-earlier_played}.</p>
 <p>{intl-high_score_item_1} {high_score} {intl-high_score_item_2} {scorer}<!-- {scorer_id} --></p>
