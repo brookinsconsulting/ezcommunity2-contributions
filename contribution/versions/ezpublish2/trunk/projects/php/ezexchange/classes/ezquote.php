@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezquote.php,v 1.5 2001/02/03 22:10:42 jb Exp $
+// $Id: ezquote.php,v 1.6 2001/02/04 13:02:13 jb Exp $
 //
 // Definition of eZQuote class
 //
@@ -66,11 +66,13 @@ class eZQuote
             $price = -$price;
         else if ( $this->QuoteState == "rfq" )
             $price = "NULL";
+        if ( is_numeric( $price ) )
+            $price = "'$price'";
         $common_set = "eZExchange_Quote set
                        Date='$date',
                        ExpireDate=ADDDATE( CURDATE(), INTERVAL '$this->ExpireDays' DAY),
 	                   Quantity='$this->Quantity',
-	                   Price='$price',
+	                   Price=$price,
                        Type='$this->Type'";
         if( !isSet( $this->ID ) )
         {
