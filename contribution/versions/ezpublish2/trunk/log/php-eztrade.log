@@ -3661,3 +3661,11 @@ Maintainer(s) : ce@ez.no
 
     * classes/ezorder.php: fixed initial status.
 
+
+Module : eztrade
+Repository path : /home/cvsroot/projects/php/eztrade
+Maintainer(s) : ce@ez.no
+2002-11-21  Vidar Langseid  <vl@ez.no>
+
+    * user/productlist.php: Fixed cache bug
+

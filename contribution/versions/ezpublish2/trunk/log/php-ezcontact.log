@@ -869,3 +869,15 @@ Maintainer(s) : jhe@ez.no
 
     * admin/personlist.php: removed image for persons
 
+
+Module : ezcontact
+Repository path : /home/cvsroot/projects/php/ezcontact
+Maintainer(s) : jhe@ez.no
+2002-11-21  Jo Henrik Endrerud  <jhe@ez.no>
+
+    * admin/personview.php: fixed setvar bug
+
+    * admin/personview.php
+      admin/personedit.php
+      admin/personlist.php: removed image
+
