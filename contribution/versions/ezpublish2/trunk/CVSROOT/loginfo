@@ -32,6 +32,7 @@ projects/php/[a-zA-Z_]+/templates/.+ (echo "Change from" `id -un`; echo %s; date
 projects/php/admin/.+ (echo "Change from" `id -un`; echo %s; date; cat; echo) >> $CVSROOT/php-admin-log
 projects/php/classes/.+ (echo "Change from" `id -un`; echo %s; date; cat; echo) >> $CVSROOT/php-classes-log
 projects/php/ezad/.+ (echo "Change from" `id -un`; echo %s; date; cat; echo) >> $CVSROOT/php-ezad-log
+projects/php/ezaddress/.+ (echo "Change from" `id -un`; echo %s; date; cat; echo) >> $CVSROOT/php-ezaddress-log
 projects/php/ezarticle/.+ (echo "Change from" `id -un`; echo %s; date; cat; echo) >> $CVSROOT/php-ezarticle-log
 projects/php/ezbug/.+ (echo "Change from" `id -un`; echo %s; date; cat; echo) >> $CVSROOT/php-ezbug-log
 projects/php/ezcalendar/.+ (echo "Change from" `id -un`; echo %s; date; cat; echo) >> $CVSROOT/php-ezcalendar-log
