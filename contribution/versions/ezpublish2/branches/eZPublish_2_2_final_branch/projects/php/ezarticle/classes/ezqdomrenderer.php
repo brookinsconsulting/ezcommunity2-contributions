@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezqdomrenderer.php,v 1.55.2.8 2002/01/07 09:21:16 jhe Exp $
+// $Id: ezqdomrenderer.php,v 1.55.2.9 2002/01/10 17:44:33 kaid Exp $
 //
 // Definition of eZQDomRenderer class
 //
@@ -813,7 +813,7 @@ class eZQDomrenderer
         if ( $paragraph->name == "#text" || $paragraph->name == "text" )
         {
             $paragraph_text = $paragraph->content;
-            if ( $paragraph_text[0] == "\n" )
+            if ( $paragraph_text != "" and $paragraph_text[0] == "\n" )
             {
                 if ( $this->PrevTag != "link" )
                     $paragraph_text[0] = " ";

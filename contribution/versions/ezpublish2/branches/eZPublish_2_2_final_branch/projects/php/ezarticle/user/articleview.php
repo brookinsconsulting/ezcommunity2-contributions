@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: articleview.php,v 1.84.2.8 2001/12/11 13:39:54 th Exp $
+// $Id: articleview.php,v 1.84.2.9 2002/01/10 17:44:34 kaid Exp $
 //
 // Created on: <18-Oct-2000 16:34:51 bf>
 //
@@ -536,7 +536,7 @@ else
 }
 
 // printable version link
-if ( ( $PrintableVersion != "enabled" ) && ( $StaticRendering != true )  )
+if ( ( !isset( $PrintableVersion ) or $PrintableVersion != "enabled" ) && ( !isset( $StaticRendering ) or $StaticRendering != true )  )
 {
     $t->parse( "print_page_link", "print_page_link_tpl" );
 }
