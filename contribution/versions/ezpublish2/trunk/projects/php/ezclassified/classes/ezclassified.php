@@ -1,8 +1,8 @@
 <?
 // 
-// $Id: ezclassified.php,v 1.12 2000/12/14 17:50:30 ce Exp $
+// $Id: ezclassified.php,v 1.13 2000/12/20 18:59:01 jb Exp $
 //
-// Definition of eZProduct class
+// Definition of eZClassified class
 //
 // <real-name><<email-name>>
 // Created on: <09-Nov-2000 14:52:40 ce>
@@ -32,7 +32,7 @@
   Example code:
   \code
   $company = new eZClassified();
-  $company->setName( "Company name" );
+  $company->setTitle( "Coder" );
   $company->store();
 
   \endcode
@@ -87,7 +87,7 @@ class eZClassified
         {
         
             $this->Database->query( "INSERT INTO eZClassified_Classified SET
-                                                  Name='$this->Name',
+                                                  Title='$this->Title',
 	                                              Description='$this->Description',
 	                                              UserID='$this->UserID',
 	                                              Price='$this->Price',
@@ -104,7 +104,7 @@ class eZClassified
         else
         {
             $this->Database->query( "UPDATE eZClassified_Classified SET
-                                                  Name='$this->Name',
+                                                  Title='$this->Title',
 	                                              Description='$this->Description',
 	                                              UserID='$this->UserID',
 	                                              Price='$this->Price',
@@ -132,6 +132,11 @@ class eZClassified
         {
             $this->Database->query( "DELETE FROM eZClassified_ClassifiedCategoryLink WHERE ClassifiedID='$this->ID'" );
             $this->Database->query( "DELETE FROM eZClassified_ClassifiedCompanyLink WHERE ClassifiedID='$this->ID'" );
+
+            // Temporary fix to deal with deleting the company/classified relation,
+            // will be moved to eZClassified_ClassifiedCompanyLink later.
+//              $this->Database->query( "DELETE FROM eZContact_CompanyClassifiedDict WHERE ClassifiedID='$this->ID'" );
+
             $this->Database->query( "DELETE FROM eZClassified_Classified WHERE ID='$this->ID'" );
             $this->Database->query( "DELETE FROM eZClassified_Position WHERE ID='$this->ID'" );
         }
@@ -157,7 +162,7 @@ class eZClassified
             else if ( count( $classified_array ) == 1 )
             {
                 $this->ID = $classified_array[0]["ID"];
-                $this->Name = $classified_array[0]["Name"];
+                $this->Title = $classified_array[0]["Title"];
                 $this->Description = $classified_array[0]["Description"];
                 $this->UserID = $classified_array[0]["UserID"];
                 $this->Price = $classified_array[0]["Price"];
@@ -189,7 +194,7 @@ class eZClassified
         $classified_array = array();
         $return_array = array();
     
-        $this->Database->array_query( $classified_array, "SELECT ID FROM eZClassified_Classified ORDER BY Name" );
+        $this->Database->array_query( $classified_array, "SELECT ID FROM eZClassified_Classified ORDER BY Title" );
 
         foreach( $classified_array as $classifiedItem )
         {
@@ -206,7 +211,7 @@ class eZClassified
     function getByCategory( $categoryID )
     {
         $this->dbInit();
-        
+
         $classified_array = array();
         $return_array = array();
     
@@ -287,7 +292,7 @@ class eZClassified
         $classified_array = array();
         $return_array = array();
         
-        $query = "SELECT ID FROM eZClassified_Classified WHERE Name LIKE '%%$query%%' ORDER BY Name";
+        $query = "SELECT ID FROM eZClassified_Classified WHERE Title LIKE '%%$query%%' ORDER BY Title";
 
         $this->Database->array_query( $classified_array, $query );
 
@@ -299,7 +304,7 @@ class eZClassified
     }
 
     /*
-      Search the classified database in a single category, using query as the search string in classified name.
+      Search the classified database in a single category, using query as the search string in classified title.
     */
     function searchByCategory( $categoryID, $query )
     {
@@ -316,12 +321,12 @@ class eZClassified
                     eZClassified_ClassifiedCategoryLink as Dict,
                     eZClassified_Classified as Comp
                 WHERE
-                    Comp.Name LIKE '%$query%'
+                    Comp.Title LIKE '%$query%'
                 AND
                     Dict.CategoryID = '$categoryID'
                 AND
                     Comp.ID = Dict.ClassifiedID
-                ORDER BY Name";
+                ORDER BY Title";
             $this->Database->array_query( $classified_array, $query );
             foreach( $classified_array as $classifiedItem )
             {
@@ -347,7 +352,9 @@ class eZClassified
         {
             $companyID = $company->id();
 
-            $this->Database->query( "INSERT INTO eZContact_CompanyClassifiedDict
+//              $this->Database->query( "INSERT INTO eZContact_CompanyClassifiedDict
+//                                       SET CompanyID='$companyID', ClassifiedID='$this->ID'" );
+            $this->Database->query( "INSERT INTO eZClassified_ClassifiedCompanyLink
                                      SET CompanyID='$companyID', ClassifiedID='$this->ID'" );
             $ret = true;
         }
@@ -366,17 +373,29 @@ class eZClassified
        $this->dbInit();
 
 
-       $this->Database->array_query( $res_array, "SELECT CompanyID FROM eZContact_CompanyClassifiedDict
+//         $this->Database->array_query( $res_array, "SELECT CompanyID FROM eZContact_CompanyClassifiedDict
+//                                       WHERE
+//                                       ClassifiedID='$this->ID'
+//                                     " );
+       $this->Database->array_query( $res_array, "SELECT CompanyID FROM eZClassified_ClassifiedCompanyLink
                                      WHERE
                                      ClassifiedID='$this->ID'
                                    " );
 
-       if ( count( $res_array ) == 1 )
+       if ( count( $res_array ) < 1 )
+       {
+           die( "Error in eZClassified::company(): No company with ID=" . $this->ID . " was found. " );
+       }
+       else if ( count( $res_array ) == 1 )
        {
            if ( $res_array[0]["CompanyID"] != "NULL" )
            {
                $ret = new eZCompany( $res_array[0]["CompanyID"], false );
-           }               
+           }
+       }
+       else
+       {
+           die( "Error in eZClassified::company(): More than one company with the same id was found. " );
        }
        
        return $ret;
@@ -392,7 +411,9 @@ class eZClassified
 
        $this->dbInit();
                                     
-       $this->Database->query( "DELETE FROM eZContact_CompanyClassifiedDict
+//         $this->Database->query( "DELETE FROM eZContact_CompanyClassifiedDict
+//                                  WHERE ClassifiedID='$this->ID'" );
+       $this->Database->query( "DELETE FROM eZClassified_ClassifiedCompanyLink
                                 WHERE ClassifiedID='$this->ID'" );
 
     }
@@ -402,12 +423,12 @@ class eZClassified
     */
     function removeCategoryies()
     {
-       if ( $this->State_ == "Dirty" )
+        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
 
-       $this->dbInit();
-       
-       $this->Database->query( "DELETE FROM eZClassified_ClassifiedCategoryLink
+        $this->dbInit();
+
+        $this->Database->query( "DELETE FROM eZClassified_ClassifiedCategoryLink
                                 WHERE ClassifiedID='$this->ID'" );
     }
 
@@ -418,7 +439,7 @@ class eZClassified
     {
         if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
-        
+
         $return_array = array();
         $this->dbInit();
 
@@ -437,14 +458,14 @@ class eZClassified
    
 
     /*!
-      Sets the name of the company.
+      Sets the title of the advertisement.
     */
-    function setName( $value )
+    function setTitle( $value )
     {
         if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
 
-        $this->Name = $value;
+        $this->Title = $value;
     }
 
     /*!
@@ -507,12 +528,12 @@ class eZClassified
     /*!
       Returnerer firmanavn.
     */
-    function name()
+    function title()
     {
         if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
 
-        return $this->Name;
+        return $this->Title;
     }
 
     /*!
@@ -582,7 +603,7 @@ class eZClassified
     }
 
     var $ID;
-    var $Name;
+    var $Title;
     var $Description;
     var $UserID;
     var $Price;
