@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezdate.php,v 1.14 2001/01/23 16:08:55 gl Exp $
+// $Id: ezdate.php,v 1.15 2001/01/23 16:13:50 gl Exp $
 //
 // Definition of eZCompany class
 //
@@ -180,11 +180,11 @@ class eZDate
     /*!
       Returns the name of the weekday in three letters.
     */
-    function dayName( )
+    function dayName( $mondayFirst )
     {
         $day = "unknown";
 
-        if ( $this->Locale->mondayFirst() == true )
+        if ( $mondayFirst == true )
         {
             switch( $this->dayOfWeek() )
             {
