@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: imageedit.php,v 1.12 2001/02/06 16:34:43 jb Exp $
+// $Id: imageedit.php,v 1.13 2001/02/23 12:34:08 fh Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <09-Jan-2001 10:45:44 ce>
@@ -55,7 +55,11 @@ if ( isSet ( $DeleteImages ) )
     $Action = "DeleteImages";
 }
 
-
+if( isset( $DeleteCategories ) )
+{
+    $Action = "DeleteCategories";
+}
+    
 include_once( "classes/INIFile.php" );
 include_once( "classes/eztemplate.php" );
 include_once( "classes/ezlog.php" );
@@ -271,6 +275,23 @@ if ( $Action == "DeleteImages" )
         }
     }
     
+    include_once( "classes/ezhttptool.php" );
+    eZHTTPTool::header( "Location: /imagecatalogue/image/list/" . $CurrentCategoryID . "/" );
+    exit();    
+}
+
+// Delete a categorie
+if( $Action == "DeleteCategories" )
+{
+    if( count( $CategoryArrayID ) > 0 )
+    {
+        foreach( $CategoryArrayID as $categoryID )
+        {
+            $category = new eZImageCategory( $categoryID );
+            $category->delete();
+        }
+    }
+
     include_once( "classes/ezhttptool.php" );
     eZHTTPTool::header( "Location: /imagecatalogue/image/list/" . $CurrentCategoryID . "/" );
     exit();    

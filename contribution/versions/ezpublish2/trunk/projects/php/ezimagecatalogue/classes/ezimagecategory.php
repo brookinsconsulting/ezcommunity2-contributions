@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezimagecategory.php,v 1.6 2001/02/02 14:07:06 ce Exp $
+// $Id: ezimagecategory.php,v 1.7 2001/02/23 12:34:08 fh Exp $
 //
 // Definition of eZImageCategory class
 //
@@ -99,7 +99,7 @@ class eZImageCategory
     }
 
     /*!
-      Deletes a eZArticleGroup object from the database.
+      Deletes a eZImageCategory object from the database.
     */
     function delete( $catID=-1 )
     {
@@ -116,9 +116,9 @@ class eZImageCategory
             $this->delete( $category->id() );
         }
 
-        foreach ( $this->files() as $file )
+        foreach ( $this->images() as $image )
         {
-            $file->delete();
+            $image->delete();
         }
 
         $categoryID = $category->id();

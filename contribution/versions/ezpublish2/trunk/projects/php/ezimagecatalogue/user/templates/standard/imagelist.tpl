@@ -43,7 +43,7 @@
 	<a href="/imagecatalogue/category/edit/{category_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezim{category_id}-red','','/images/redigerminimrk.gif',1)"><img name="ezim{category_id}-red" border="0" src="/images/redigermini.gif" width="16" height="16" align="top"></a>
 	</td>
 	<td width="1%">
-	<a href="/imagecatalogue/category/delete/{category_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezim{category_id}-slett','','/images/slettminimrk.gif',1)"><img name="ezim{category_id}-slett" border="0" src="/images/slettmini.gif" width="16" height="16" align="top"></a>
+	<input type="checkbox" name="CategoryArrayID[]" value="{category_id}" />
 	</td>
         <!-- END category_write_tpl -->
 </tr>
