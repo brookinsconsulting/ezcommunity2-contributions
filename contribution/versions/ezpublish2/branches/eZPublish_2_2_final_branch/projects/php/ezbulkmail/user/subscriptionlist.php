@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: subscriptionlist.php,v 1.10.2.1 2001/10/30 18:11:38 fh Exp $
+// $Id: subscriptionlist.php,v 1.10.2.2 2001/11/02 08:23:41 ce Exp $
 //
 // Created on: <18-Apr-2001 13:36:21 fh>
 //
@@ -50,7 +50,6 @@ else
     $subscriptionaddress = eZBulkMailSubscriptionAddress::getByEmail( $session->variable( "BulkMailAddress" ) );
     if( is_object( $subscriptionaddress ) == false )
     {
-        print_r( $subscriptionaddress );
         eZHTTPTool::header( "Location: /bulkmail/login" );
         exit();
     }
