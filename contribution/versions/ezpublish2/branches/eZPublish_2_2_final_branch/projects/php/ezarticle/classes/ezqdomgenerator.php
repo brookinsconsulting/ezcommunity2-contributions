@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezqdomgenerator.php,v 1.39.2.1 2001/11/17 10:49:13 bf Exp $
+// $Id: ezqdomgenerator.php,v 1.39.2.2 2001/11/19 12:21:37 bf Exp $
 //
 // Definition of eZQDomGenerator class
 //
@@ -116,11 +116,12 @@ class eZQDomGenerator
 
         $tmpPage = $this->generateLink( $tmpPage );
 
+        $tmpPage = $this->generateHTML( $tmpPage );
+
         $tmpPage = $this->generateForm( $tmpPage );
         
 //        $tmpPage = $this->generateModule( $tmpPage );
 
-        $tmpPage = $this->generateHTML( $tmpPage );
 
         return $tmpPage;
     }
