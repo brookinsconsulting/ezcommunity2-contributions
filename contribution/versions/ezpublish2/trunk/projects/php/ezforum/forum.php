@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: forum.php,v 1.37 2000/10/11 14:58:38 bf-cvs Exp $
+// $Id: forum.php,v 1.38 2000/10/11 15:04:55 bf-cvs Exp $
 //
 // 
 //
@@ -47,7 +47,7 @@ $t->set_var( "forum_name", $forum->name() );
 
 
 
-// make to $Action .. elo?
+// make to $Action .. elo!
 
 $msg = new eZForumMessage( $forum_id );
 
