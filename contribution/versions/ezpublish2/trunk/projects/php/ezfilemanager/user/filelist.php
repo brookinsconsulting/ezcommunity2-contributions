@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: filelist.php,v 1.31 2001/03/12 10:21:32 fh Exp $
+// $Id: filelist.php,v 1.32 2001/04/24 14:57:37 fh Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <10-Dec-2000 16:16:20 bf>
@@ -118,7 +118,7 @@ foreach ( $pathArray as $path )
 
 $folderList =& $folder->getByParent( $folder );
 
-$i=0;
+$i = 0;
 $deleteFolders = false;
 foreach ( $folderList as $folderItem )
 {
@@ -128,11 +128,13 @@ foreach ( $folderList as $folderItem )
     $t->set_var( "folder_read", "" );
     $t->set_var( "folder_write", "" );
 
+    ( $i % 2 ) ? $t->set_var( "td_class", "bgdark" ) : $t->set_var( "td_class", "bglight" );
     if ( eZObjectPermission::hasPermission( $folderItem->id(), "filemanager_folder", "r", $user ) ||
          eZVirtualFolder::isOwner( $user, $folderItem->id()) )
      
     {
         $t->parse( "folder_read", "folder_read_tpl" );
+        $i++;
     }
 
     if( ( eZObjectPermission::hasPermission( $folderItem->id(), "filemanager_folder", "w", $user ) ) ||
@@ -143,7 +145,6 @@ foreach ( $folderList as $folderItem )
     }
 
     $t->parse( "folder", "folder_tpl", true );
-    $i++;
 }
 
 
@@ -160,7 +161,6 @@ else
 
 $fileList =& $folder->files();
 
-//$i=0;
 $deleteFiles = false;
 foreach ( $fileList as $file )
 {
@@ -178,11 +178,13 @@ foreach ( $fileList as $file )
 
     $t->set_var( "file_read", "" );
     $t->set_var( "file_write", "" );
+    ( $i % 2 ) ? $t->set_var( "td_class", "bgdark" ) : $t->set_var( "td_class", "bglight" );
 
     if ( eZObjectPermission::hasPermission( $file->id(), "filemanager_file", "r", $user ) ||
          eZVirtualFile::isOwner( $user ,$file->id() ) )
     {
         $t->parse( "read", "read_tpl" );
+        $i++;
     }
     else
     {
@@ -203,7 +205,6 @@ foreach ( $fileList as $file )
 
     $t->parse( "file", "file_tpl", true );
     
-    $i++;
 }
 
 if ( count( $fileList ) > 0 )

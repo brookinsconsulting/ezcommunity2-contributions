@@ -38,10 +38,10 @@
 <!-- BEGIN folder_tpl -->
 <tr>
         <!-- BEGIN folder_read_tpl -->
-	<td width="1%" valign="top">
+	<td class="{td_class}" width="1%" valign="top">
 	<img src="/images/folder.gif" alt="" width="16" height="16" border="0" />
 	</td>
-	<td width="98%" valign="top">
+	<td class="{td_class}" width="98%" valign="top">
 	<a href="/filemanager/list/{folder_id}/">{folder_name}</a><br />
 	</td>
         <!-- END folder_read_tpl -->
@@ -49,7 +49,7 @@
 	<td class="{td_class}" width="1%" valign="top">
 	<a href="/filemanager/folder/edit/{folder_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezf{folder_id}-red','','/images/redigerminimrk.gif',1)"><img name="ezf{folder_id}-red" border="0" src="/images/redigermini.gif" width="16" height="16" align="top" alt="Edit" /></a><br />
 	</td>
-	<td width="1%" valign="top">
+	<td class="{td_class}" width="1%" valign="top">
 	<input type="checkbox" name="FolderArrayID[]" value="{folder_id}">
 	</td>
         <!-- END folder_write_tpl -->
