@@ -23,8 +23,9 @@ Chapter 2 Pre-requisites
         2.3.1 Systems Using RPM
     2.4 FreeBSD
     2.5 IRIX
-    2.6 Other Systems
-    2.7 Installation of Required Software
+    2.6 RAQ 3
+    2.7 Other Systems
+    2.8 Installation of Required Software
 Chapter 3 Compile Configuration
     3.1 PHP
         3.1.1 Unpacking
@@ -48,6 +49,7 @@ Chapter 5 eZ publish Installation
     5.1 Database
     5.2 Program Files
 Chapter 6 Now What?
+Chapter 7 Installing on RAQ 3
 
 
 
@@ -160,35 +162,36 @@ If you need to know where you can find the different files
 from that package you can follow up on the previous command
 with the following "rpm -ql <rpm name>".
 RPM name is one of the returned names from the previous
-command, example: 
+command, example:
 
-# pkej@vogol:/etc/httpd > rpm -qa | grep libxml
 
-libxml-1.8.7-80
+    # pkej@vogol:/etc/httpd > rpm -qa | grep libxml
 
-libxmld-1.8.7-80
+    libxml-1.8.7-80
 
-# pkej@vogol:/etc/httpd > rpm -ql libxml-1.8.7-80
+    libxmld-1.8.7-80
 
-/usr/bin/xml-config
+    # pkej@vogol:/etc/httpd > rpm -ql libxml-1.8.7-80
 
-/usr/lib/libxml.so.1
+    /usr/bin/xml-config
 
-/usr/lib/libxml.so.1.8.7
+    /usr/lib/libxml.so.1
 
-/usr/share/doc/packages/libxml
+    /usr/lib/libxml.so.1.8.7
 
-/usr/share/doc/packages/libxml/AUTHORS
+    /usr/share/doc/packages/libxml
 
-/usr/share/doc/packages/libxml/COPYING
+    /usr/share/doc/packages/libxml/AUTHORS
 
-/usr/share/doc/packages/libxml/COPYING.LIB
+    /usr/share/doc/packages/libxml/COPYING
 
-/usr/share/doc/packages/libxml/NEWS
+    /usr/share/doc/packages/libxml/COPYING.LIB
 
-/usr/share/doc/packages/libxml/README
+    /usr/share/doc/packages/libxml/NEWS
 
-/usr/share/doc/packages/libxml/TODO
+    /usr/share/doc/packages/libxml/README
+
+    /usr/share/doc/packages/libxml/TODO
 
 2.4 FreeBSD
 
@@ -207,7 +210,13 @@ list to find the packages you're interested in. Double click
 on the tabs to the left to get information about where specific
 files are installed.
 
-2.6 Other Systems
+2.6 RAQ 3
+
+There is a separate chapter at the end of this manual describing
+installation on a RAQ 3 server. It was kindly provided by
+Chris Mason, 
+
+2.7 Other Systems
 
 On other systems you should read the documentation for that
 system to learn how to find out what software is already
@@ -223,7 +232,7 @@ computer. Therefore we urge you to learn how to use the
 proper installation features of your system to find the
 software already installed.
 
-2.7 Installation of Required Software
+2.8 Installation of Required Software
 
 If you've found pre-compiled versions of all the software
 packaged for use with an installation tool, you just have
@@ -251,12 +260,15 @@ After you have downloaded PHP you need to unpack it somewhere
 where you can compile and configure the software. To unpack
 run the command:
 
-* # tar zxvf php-4.0.x.tar.gz
+
+    # tar zxvf php-4.0.x.tar.gz
+
 
 Where the x is the version of php you've downloaded. Then
 you need to move into the directory you extracted php into:
 
-* # cd php-4.0.x
+
+    # cd php-4.0.x
 
 3.1.2 Configuration
 
@@ -329,27 +341,32 @@ program with the apropriate configuration directives which
 we discussed in the preceeding sections, for an apache module
 you'd do the following:
 
-* # ./configure --enable-trans-sid --with-mysql --with-magic-quotes
-  --with-apxs --with-dom --with-qtdom
+
+   # ./configure --enable-trans-sid --with-mysql --with-magic-quotes
+    --with-apxs --with-dom --with-qtdom
+
 
 Remember that to compile a script/cgi version you'd need
 to change that line to:
 
-* # ./configure --enable-trans-sid --with-mysql --with-magic-quotes
-  --with-dom --with-qtdom
+
+    # ./configure --enable-trans-sid --with-mysql --with-magic-quotes
+    --with-dom --with-qtdom
 
 3.1.3 Compilation
 
 To compile you need to run the command "make":
 
-* make
+
+    # make
 
 3.1.4 Installation
 
 To install your new PHP package you need to run the following
 command:
 
-* make install
+
+    # make install
 
 Apache Configuration
 
@@ -377,66 +394,70 @@ and also remove the brackets.
 
 4.1.1.1 User Side
 
-# User site 
+    # User site
 
-<VirtualHost [your.domain.com]>
+    <VirtualHost [your.domain.com]>
 
-<Directory [/your/apache/documentroot/publish_dist]>
+      <Directory [/your/apache/documentroot/publish_dist]>
 
-Options FollowSymLinks Indexes ExecCGI
+        Options FollowSymLinks Indexes ExecCGI
 
-AllowOverride None
+        AllowOverride None
 
-</Directory>
+      </Directory>
 
-RewriteEngine On
+      RewriteEngine On
 
-RewriteRule ^/filemanager/filedownload/([^/]+)/(.*)$ 
-[/your/apache/documentroot]/publish_dist/ezfilemanager/files/$1
-[T="application/oct-stream",S=1]
+      RewriteRule ^/filemanager/filedownload/([^/]+)/(.*)$
 
-# The lines above should appear on the same line in your
-configuration file!
+      [/your/apache/documentroot]/publish_dist/ezfilemanager/files/$1
 
-RewriteRule !\.(gif|css|jpg|png)$ [/your/apache/documentroot]/publish_dist/index.php
+      [T="application/oct-stream",S=1]
 
-ServerAdmin ce@ez.no
+      # The lines above should appear on the same
 
-DocumentRoot [/your/apache/documentroot]/publish_dist
+      # line in your configuration file!
 
-ServerName [your.domain.com]
+      RewriteRule !\.(gif|css|jpg|png)$ [/your/apache/documentroot]/publish_dist/index.php
 
-ServerAlias publish
+      ServerAdmin ce@ez.no
 
-</VirtualHost>
+      DocumentRoot [/your/apache/documentroot]/publish_dist
+
+      ServerName [your.domain.com]
+
+      ServerAlias publish
+
+    </VirtualHost>
 
 4.1.1.2 Admin Side
 
-# Admin site 
+  # Admin site 
 
-<VirtualHost admin.yourdomain.org> 
+  <VirtualHost admin.yourdomain.org>
 
-<Directory [/your/apache/documentroot/admin]> 
+    <Directory [/your/apache/documentroot/admin]>
 
-Options FollowSymLinks Indexes ExecCGI 
+      Options FollowSymLinks Indexes ExecCGI
 
-AllowOverride None 
+      AllowOverride None
 
-</Directory> 
+    </Directory>
 
-RewriteEngine On 
+    RewriteEngine On
 
-RewriteRule !\.(gif|css|jpg|png)$ [/your/apache/documentroot/admin/index.php]
+    RewriteRule !\.(gif|css|jpg|png)$ [/your/apache/documentroot/admin/index.php]
 
-ServerAdmin [your_mail@domain.no]
+    ServerAdmin [your_mail@domain.no]
 
-DocumentRoot [/your/apache/documentroot/admin]
+    DocumentRoot [/your/apache/documentroot/admin]
 
-ServerName [admin.yourdomain.org]
+    ServerName [admin.yourdomain.org]
 
-ServerAlias [admin.yourdomain.org]
+    ServerAlias [admin.yourdomain.org]
 
-</VirtualHost>
+  </VirtualHost>
+
 
 The format of the "httpd.conf"
 file is covered at http://httpd.apache.org/docs/ for a complete
@@ -445,9 +466,13 @@ that documentation.
 
 The rewrite rules does the following:
 
-RewriteRule ^/filemanager/filedownload/([^/]+)/(.*)$ 
-[/your/apache/documentroot]/publish_dist/ezfilemanager/files/$1
-[T="application/oct-stream",S=1]
+
+    RewriteRule ^/filemanager/filedownload/([^/]+)/(.*)$
+
+    [/your/apache/documentroot]/publish_dist/ezfilemanager/files/$1
+
+    [T="application/oct-stream",S=1]
+
 
 This says that everything served from "/filemanager/filedownload/"
 should be redirected to fetch information from "publish_dist/ezfilemanager/files".
@@ -473,7 +498,9 @@ rule ahead before trying to match again.
 
 The next rewrite rule:
 
-RewriteRule !\.(gif|css|jpg|png)$ [/your/apache/documentroot]/publish_dist/index.php
+
+    RewriteRule !\.(gif|css|jpg|png)$ [/your/apache/documentroot]/publish_dist/index.php
+
 
 is found in both sites (admin and user). This means that
 every file, except gif, css, jpg and png (and files matched
@@ -487,7 +514,9 @@ If you didn't compile PHP with magic quotes; or other software
 relies on PHP not using magic quotes you can add the following
 line into each virtual host section:
 
-* php_value magic_quotes_gpc 1
+
+    php_value magic_quotes_gpc 1
+
 
 NOTE: It isn't possible to use the form http://mysite.com/admin
 at all; since the admin module assumes that the url "/"
@@ -507,23 +536,33 @@ two domains for this operation!
 4.1.2.1 User Side
 
 In your main directory (/path/to/index.php/) create a file
-called ".htaccess" containing the following text: 
+called ".htaccess" containing the following text:
 
-* RewriteEngine On
-  RewriteRule ^/filemanager/filedownload/([^/]+)/(.*)$ 
-  /path/to/website/ezfilemanager/files/$1
-  [T="application/oct-stream",S=1]
-  #The lines above should appear on the same line in your
-  configuration file!
-  RewriteRule !\.(gif|css|jpg|png)$ /path/to/website/index.php
+
+    RewriteEngine On
+
+    RewriteRule ^/filemanager/filedownload/([^/]+)/(.*)$
+
+    /path/to/website/ezfilemanager/files/$1
+
+    [T="application/oct-stream",S=1]
+
+    # The lines above should appear on the same
+
+    # line in your configuration file!
+
+    RewriteRule !\.(gif|css|jpg|png)$ /path/to/website/index.php
 
 4.1.2.2 Admin Side
 
 In your admin subdomain home directory, create a file with
-the following text: 
+the following text:
 
-* RewriteEngine On
-  RewriteRule !\.(gif|css|jpg|png)$ /path/to/website/admin/index.php 
+
+    RewriteEngine On
+
+    RewriteRule !\.(gif|css|jpg|png)$ /path/to/website/admin/index.php
+
 
 Note the extra "\" in the rewrite rule. Its slightly different
 to the line used in the httpd.conf method.
@@ -536,18 +575,24 @@ Now you need to create a database in MySQL, the default name
 we use is publish, but you can change that to whatever pleases
 you.
 
-* # mysql -uroot -p publish < sql/publish.sql
+
+    # mysql -uroot -p publish < sql/publish.sql
+
 
 Add a publish user in MySQL. To add a user you can use the
 MySQL client to log on to mysql and then create the user:
 
-* # mysql>grant all on publish.* to publish@localhost identified
-  by "secret";
+
+    # mysql>grant all on publish.* to publish@localhost
+
+    identified by "secret";
+
 
 where secret is your password. Then you need to add the default
-eZ publish data into your newly created database: 
+eZ publish data into your newly created database:
 
-* # mysql -uroot -p publish < sql/publish.sql
+
+    # mysql -uroot -p publish < sql/publish.sql
 
 5.2 Program Files
 
@@ -555,21 +600,27 @@ The next step is to install the eZ publish package in your
 document root directory. First you need to unpack the software
 in a temporary directory:
 
-* # cd /tmp
 
-* # tar zxvf /path/to/ezpublish-2.0.tar.gz
+    # cd /tmp
+
+    # tar zxvf /path/to/ezpublish-2.0.tar.gz
+
 
 The next step is to move the files to your document root:
 
-* # mv /tmp/publish_dist /your/apache/documentroot
+
+    # mv /tmp/publish_dist /your/apache/documentroot
+
 
 When all this is done you need to tell eZ publish a little
 about the site you're running. You'll need to edit the "site.ini"
 file which you will find in the document root:
 
-* # cd /your/apache/documentroot
 
-* # vi site.ini
+    # cd /your/apache/documentroot
+
+    # vi site.ini
+
 
 Instead of vi you can use your preferred text editor. You'll
 need to add information about the username, hostname and
@@ -581,7 +632,8 @@ Guide".
 The next important step is to run the script modfix. This
 script will create symbolic links needed and set permissions.
 
-* # ./modfix.sh
+
+    # ./modfix.sh
 
 Now What?
 
@@ -606,3 +658,327 @@ community building as well as programming, or you can visit
 http://developer.ez.no for updates, articles about eZ publish
 and how to work with it, as well as keeping abreast of new
 developments.
+
+Installing on RAQ 3<chptr: raq 3>
+
+Installing ezPublish on raq3 without messing up the GUI or
+voiding the warranty.
+
+First, add the domain into the DNS, but do not create a virtual
+site.
+
+Log in by telnet (install SSH unless you are desperate to
+get hacked).
+
+Put the publish files in the directory you want to use, I
+used /home/sites/extrasites/mysite/web
+
+Install mysql 3.23 or later by rpm, there is one out there.
+MySQL (http://www.mysql.com) version 3.23 or later if you
+want to compile
+
+Now you need to create a database in MySQL, the default name
+we use is publish, but you can change that to whatever pleases
+you.
+
+
+    # mysql -uroot -p publish < sql/publish.sql
+
+
+Add a publish user in MySQL. To add a user you can use the
+MySQL client to log on to mysql and then create the user:
+
+
+    # mysql>grant all on publish.* to publish@localhost
+
+    identified by "secret";
+
+
+where secret is your password. Then you need to add the default
+eZ publish data into your newly created database:
+
+
+    # mysql -uroot -p publish < sql/publish.sql
+
+
+Then get:
+
+* http://www.freesoftware.com/pub/infozip/zlib/ (zlib.tar.gz)
+
+* http://www.boutell.com/gd (gd-1.8.4.tar.gz)
+
+* ftp://ftp.uu.net/graphics/jpeg/jpegsrc.v6b.tar.gz (jpegsrc.v6b.tar.gz)
+
+* http://www.php.net (php-4.0.4pl1.tar.gz)
+
+Delete all gd.h files on your system. You can find them using:
+
+
+    # find / -name gd.h
+
+
+If there are more than one, then delete all of them.
+
+Now add the following line to the /etc/ld.so.conf file:
+
+
+    /usr/local/lib
+
+
+Save the file, and run:
+
+
+    # /sbin/ldconfig
+
+
+This was an important part, because Apache needs this dir
+to find the correct modules.
+
+Extract the zlib archive:
+
+
+    # tar -zxvf zlib.tar.gz # cd zlib-1.1.3
+
+
+And install it:
+
+
+    # ./configure --shared 
+
+    # make 
+
+    # make install
+
+
+Now install the JPEG-6b, doing the following:
+
+
+    # tar -zxvf jpegsrc.v6b.tar.gz
+
+    # cd jpeg-6b
+
+    # ./configure --enable-shared
+
+    # make
+
+    # make install
+
+
+Install the PNG library
+
+
+    # wget http://www.libpng.org/pub/png/src/libpng-1.0.9.tar.gz
+
+
+Then compile the package.
+
+Get Imagemagick ImageMagick (http://www.imagemagick.org/)
+newest version Download and then:
+
+
+    # tar -zxvf Imagemagick-xxx
+
+    # cd Imagemagick-xxx
+
+    # ./configure
+
+    # make
+
+    # make install
+
+
+Then go one directory back, and extract the GD archive using:
+
+
+    # tar -zxvf gd-xxx
+
+    # cd gd-xxx
+
+
+Now edit the Makefile (using vi or pico) and check which
+modules you want. I removed the Freetype Library (-DHAVE_LIBFREETYPE
+/ -lfreetype). After making the changes save the file and
+go back to the shell. Now compile GD:
+
+
+    # make 
+
+    # make install
+
+
+If this is giving any errors, just remove the modules you
+don't have (but don't remove the JPEG lib - we need that
+one ! :)) )
+
+Now go back one dir, and extract PHP4:
+
+
+    # tar -zxvf php-4.0.4pl1.tar.gz
+
+    # cd php-4.0.4pl1
+
+
+First remove any cache:
+
+
+    # rm config.cache
+
+    # make clean
+
+    #./configure --with-xml --with-mysql \
+
+    --with-apxs=/usr/sbin/apxs \
+
+    --with-system-regex \
+
+    --with-zlib \
+
+    --enable-safe-mode \
+
+    --with-gdbm \
+
+    --enable-sysvsem \
+
+    --with-ftp \
+
+    --with-config-file-path=/etc/httpd/conf/ \
+
+    --enable-magic-quotes \
+
+    --with-exec-dir=/usr/sbin/httpd \
+
+    --with-dom \
+
+    --enable-trans-sid
+
+    # make
+
+    # make install
+
+
+run /sbin/ldconfig again.
+
+Apache: (Your milage may vary, be wary of paths)
+
+edit /etc/httpd/conf/httpd.conf and add the Loadmodules lines
+like this: 
+
+
+    # Extra Modules
+
+    LoadModule php_module modules/mod_php.so
+
+    LoadModule php3_module modules/libphp3.so
+
+    LoadModule perl_module /usr/lib/apache/libperl.so
+
+    LoadModule php4_module /usr/lib/apache/libphp4.so
+
+    LoadModule php4_module lib/apache/libphp4.so
+
+
+# Reconstruction of the complete module list from all available
+modules
+
+# (static and shared ones) to achieve correct module execution
+order.
+
+# [WHENEVER YOU CHANGE THE LOADMODULE SECTION ABOVE UPDATE
+THIS, TOO]
+
+
+    ClearModuleList
+
+    # Extra Modules
+
+    AddModule mod_php.c
+
+    AddModule mod_php3.c
+
+    AddModule mod_perl.c
+
+    AddModule mod_php4.c
+
+
+Add the second line below line below the rewrite stuff, above
+the <Virtualhost> directives.
+
+NameVirtualHost 216.97.67.4 Include /etc/httpd/conf/extrasites.conf
+<VirtualHost 216.97.67.4>
+
+create this include file and in it put the apache vitual
+server directives for your site.
+
+For example:
+
+
+    # User site
+
+    <VirtualHost yourIP>
+
+      ServerName [yourdomain.org]
+
+      ServerAlias [www.yourdomain.org]
+
+      <Directory [/your/site/root/]>
+
+        Options FollowSymLinks Indexes ExecCGI
+
+        AllowOverride None
+
+      </Directory>
+
+      RewriteEngine On
+
+      RewriteRule !\.(gif|css|jpg|png)$ [/your/site/root/index.php]
+
+      ServerAdmin [your_mail@domain.no]
+
+      DocumentRoot [/your/site/root/]
+
+    </VirtualHost>
+
+
+    # Admin site
+
+    <VirtualHost admin.yourdomain.org>
+
+      <Directory [/your/site/root/admin]>
+
+        Options FollowSymLinks Indexes ExecCGI
+
+        AllowOverride None
+
+      </Directory>
+
+      RewriteEngine On
+
+      RewriteRule !\.(gif|css|jpg|png)$ [/your/site/root/admin/index.php]
+
+      ServerAdmin [your_mail@domain.no]
+
+      DocumentRoot [/your/site/root/admin]
+
+      ServerName [admin.yourdomain.org]
+
+      ServerAlias [admin.yourdomain.org]
+
+    </VirtualHost>
+
+
+restart apache:
+
+
+    # /etc/rc.d/init.d/httpd stop
+
+
+wait a few seconds then
+
+
+    # /etc/rc.d/init.d/httpd start
+
+
+Then chown httpd.httpd * on both the domain and admin.domain
+directories to get it to work.
+
+If all is well, your site should work.

@@ -1,6 +1,6 @@
 %% LyX 1.1 created this file.  For more info, see http://www.lyx.org/.
 %% Do not edit unless you really know what you are doing.
-\documentclass[10pt,oneside,british]{book}
+\documentclass[10pt,oneside,english,british]{book}
 \usepackage{times}
 \usepackage[T1]{fontenc}
 \usepackage[latin1]{inputenc}
@@ -18,16 +18,6 @@
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%% LyX specific LaTeX commands.
 \providecommand{\LyX}{L\kern-.1667em\lower.25em\hbox{Y}\kern-.125emX\@}
-\newenvironment{LyXParagraphIndent}[1]%
-{
-  \begin{list}{}{%
-    \setlength\topsep{0pt}%
-    \addtolength{\leftmargin}{#1}
-    \setlength\parsep{0pt plus 1pt}%
-  }
-  \item[]
-}
-{\end{list}}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%% User specified LaTeX commands.
 \renewcommand{\headrulewidth}{0.4pt}
@@ -37,6 +27,10 @@
 \chead{}
 
 \makeatother
+\AtBeginDocument{
+  \renewcommand{\labelitemiv}{}
+}
+
 \begin{document}
 
 \title{eZ publish Installation Guide}
@@ -152,39 +146,37 @@ following command (RPM based systems {}``rpm -qa | grep <name of
 program/library>{}''. If you need to know where you can find the
 different files from that package you can follow up on the previous
 command with the following {}``rpm -ql <rpm name>{}''. RPM name
-is one of the returned names from the previous command, example: 
+is one of the returned names from the previous command, example:\\
 
-\begin{LyXParagraphIndent}{5mm}
-\medskip{}
-\texttt{\# pkej@vogol:/etc/httpd > rpm -qa | grep libxml}
 
-\texttt{libxml-1.8.7-80}
+\texttt{\footnotesize ~~~~\# pkej@vogol:/etc/httpd > rpm -qa |
+grep libxml}{\footnotesize \par}
 
-\texttt{libxmld-1.8.7-80}
+\texttt{\footnotesize ~~~~libxml-1.8.7-80}{\footnotesize \par}
 
-\texttt{\# pkej@vogol:/etc/httpd > rpm -ql libxml-1.8.7-80}
+\texttt{\footnotesize ~~~~libxmld-1.8.7-80}{\footnotesize \par}
 
-\texttt{/usr/bin/xml-config}
+\texttt{\footnotesize ~~~~\# pkej@vogol:/etc/httpd > rpm -ql libxml-1.8.7-80}{\footnotesize \par}
 
-\texttt{/usr/lib/libxml.so.1}
+\texttt{\footnotesize ~~~~/usr/bin/xml-config}{\footnotesize \par}
 
-\texttt{/usr/lib/libxml.so.1.8.7}
+\texttt{\footnotesize ~~~~/usr/lib/libxml.so.1}{\footnotesize \par}
 
-\texttt{/usr/share/doc/packages/libxml}
+\texttt{\footnotesize ~~~~/usr/lib/libxml.so.1.8.7}{\footnotesize \par}
 
-\texttt{/usr/share/doc/packages/libxml/AUTHORS}
+\texttt{\footnotesize ~~~~/usr/share/doc/packages/libxml}{\footnotesize \par}
 
-\texttt{/usr/share/doc/packages/libxml/COPYING}
+\texttt{\footnotesize ~~~~/usr/share/doc/packages/libxml/AUTHORS}{\footnotesize \par}
 
-\texttt{/usr/share/doc/packages/libxml/COPYING.LIB}
+\texttt{\footnotesize ~~~~/usr/share/doc/packages/libxml/COPYING}{\footnotesize \par}
 
-\texttt{/usr/share/doc/packages/libxml/NEWS}
+\texttt{\footnotesize ~~~~/usr/share/doc/packages/libxml/COPYING.LIB}{\footnotesize \par}
 
-\texttt{/usr/share/doc/packages/libxml/README}
+\texttt{\footnotesize ~~~~/usr/share/doc/packages/libxml/NEWS}{\footnotesize \par}
 
-\texttt{/usr/share/doc/packages/libxml/TODO}
+\texttt{\footnotesize ~~~~/usr/share/doc/packages/libxml/README}{\footnotesize \par}
 
-\end{LyXParagraphIndent}
+\texttt{\footnotesize ~~~~/usr/share/doc/packages/libxml/TODO}{\footnotesize \par}
 
 
 \section{FreeBSD}
@@ -203,6 +195,12 @@ By accessing the software manager (you must be root) you can get a
 list of installed software, scroll or search that list to find the
 packages you're interested in. Double click on the tabs to the left
 to get information about where specific files are installed.
+
+
+\section{RAQ 3}
+
+There is a separate chapter at the end of this manual describing installation
+on a RAQ 3 server. It was kindly provided by Chris Mason, 
 
 
 \section{Other Systems}
@@ -245,17 +243,18 @@ compilation of PHP to use the other software.
 \subsection{Unpacking}
 
 After you have downloaded PHP you need to unpack it somewhere where
-you can compile and configure the software. To unpack run the command:
+you can compile and configure the software. To unpack run the command:\\
 
-\begin{itemize}
-\item \texttt{\# tar zxvf php-4.0.x.tar.gz}
-\end{itemize}
+
+\texttt{\footnotesize ~~~~\# tar zxvf php-4.0.x.tar.gz}~\\
+{\footnotesize \par}
+
 Where the x is the version of php you've downloaded. Then you need
-to move into the directory you extracted php into:
+to move into the directory you extracted php into:\\
 
-\begin{itemize}
-\item \texttt{\# cd php-4.0.x}
-\end{itemize}
+
+\texttt{\footnotesize ~~~~\# cd php-4.0.x}{\footnotesize \par}
+
 
 \subsection{Configuration}
 
@@ -322,35 +321,39 @@ to learn how you configure for the web server you will be using.
 
 Now you just have to run the {}``./configure{}'' program with the
 apropriate configuration directives which we discussed in the preceeding
-sections, for an apache module you'd do the following:
+sections, for an apache module you'd do the following:\\
 
-\begin{itemize}
-\item \texttt{\# ./configure -{}-enable-trans-sid -{}-with-mysql -{}-with-magic-quotes
--{}-with-apxs -{}-with-dom -{}-with-qtdom}
-\end{itemize}
+
+\texttt{\footnotesize ~~~\# ./configure -{}-enable-trans-sid -{}-with-mysql
+-{}-with-magic-quotes}~\\
+\texttt{\footnotesize ~~~~-{}-with-apxs} {\selectlanguage{english}}\texttt{\footnotesize -{}-with-dom
+-{}-with-qtdom}~\\
+{\footnotesize \par}
+
 Remember that to compile a script/cgi version you'd need to change
-that line to:
+that line to:\\
 
-\begin{itemize}
-\item \texttt{\# ./configure -{}-enable-trans-sid -{}-with-mysql -{}-with-magic-quotes
--{}-with-dom -{}-with-qtdom}
-\end{itemize}
+
+\texttt{\footnotesize ~~~~\# ./configure -{}-enable-trans-sid
+-{}-with-mysql -{}-with-magic-quotes}~\\
+\texttt{\footnotesize ~~~~-{}-with-dom -{}-with-qtdom}{\footnotesize \par}
+
 
 \subsection{Compilation}
 
-To compile you need to run the command {}``make{}'':
+To compile you need to run the command {}``make{}'':\\
 
-\begin{itemize}
-\item \texttt{make}
-\end{itemize}
+
+\texttt{\footnotesize ~~~~\# make}{\footnotesize \par}
+
 
 \subsection{Installation}
 
-To install your new PHP package you need to run the following command:
+To install your new PHP package you need to run the following command:\\
 
-\begin{itemize}
-\item \texttt{make install}
-\end{itemize}
+
+\texttt{\footnotesize ~~~~\# make install}{\footnotesize \par}
+
 
 \chapter{Apache Configuration}
 
@@ -378,87 +381,87 @@ remove the brackets.
 
 \subsubsection{User Side}
 
-\begin{LyXParagraphIndent}{2mm}
-\texttt{\scriptsize \# User site }{\scriptsize \par}
+\texttt{\scriptsize ~~~~\# User site}{\scriptsize \par}
 
-\texttt{\scriptsize <VirtualHost {[}your.domain.com{]}>}{\scriptsize \par}
+\texttt{\scriptsize ~~~~<VirtualHost~{[}your.domain.com{]}>}{\scriptsize \par}
 
-\texttt{\scriptsize <Directory {[}/your/apache/documentroot/publish\_dist{]}>}{\scriptsize \par}
+\texttt{\scriptsize ~~~~~~<Directory~{[}/your/apache/documentroot/publish\_dist{]}>}{\scriptsize \par}
 
-\texttt{\scriptsize Options FollowSymLinks Indexes ExecCGI}{\scriptsize \par}
+\texttt{\scriptsize ~~~~~~~~Options~FollowSymLinks~Indexes~ExecCGI}{\scriptsize \par}
 
-\texttt{\scriptsize AllowOverride None}{\scriptsize \par}
+\texttt{\scriptsize ~~~~~~~~AllowOverride None}{\scriptsize \par}
 
-\texttt{\scriptsize </Directory>}{\scriptsize \par}
+\texttt{\scriptsize ~~~~~~</Directory>}{\scriptsize \par}
 
-\texttt{\scriptsize RewriteEngine On}{\scriptsize \par}
+\texttt{\scriptsize ~~~~~~RewriteEngine On}{\scriptsize \par}
 
-\texttt{\scriptsize RewriteRule \textasciicircum{}/filemanager/filedownload/({[}\textasciicircum{}/{]}+)/(.{*})\$
-}~\\
-\texttt{\scriptsize {[}/your/apache/documentroot{]}/publish\_dist/ezfilemanager/files/\$1}~\\
-\texttt{\scriptsize {[}T=\char`\"{}application/oct-stream\char`\"{},S=1{]}}{\scriptsize \par}
+\texttt{\scriptsize ~~~~~~RewriteRule~\textasciicircum{}/filemanager/filedownload/({[}\textasciicircum{}/{]}+)/(.{*})\$}{\scriptsize \par}
 
-\texttt{\scriptsize \# The lines above should appear on the same line
-in your configuration file!}{\scriptsize \par}
+\texttt{\scriptsize ~~~~~~{[}/your/apache/documentroot{]}/publish\_dist/ezfilemanager/files/\$1}{\scriptsize \par}
 
-\texttt{\scriptsize RewriteRule !\textbackslash{}.(gif|css|jpg|png)\$
+\texttt{\scriptsize ~~~~~~{[}T=\char`\"{}application/oct-stream\char`\"{},S=1{]}}{\scriptsize \par}
+
+\texttt{\scriptsize ~~~~~~\#~The~lines~above~should~appear~on~the~same}{\scriptsize \par}
+
+\texttt{\scriptsize ~~~~~~\#~line~in~your~configuration~file!}{\scriptsize \par}
+
+\texttt{\scriptsize ~~~~~~RewriteRule !\textbackslash{}.(gif|css|jpg|png)\$
 {[}/your/apache/documentroot{]}/publish\_dist/index.php}{\scriptsize \par}
 
-\texttt{\scriptsize ServerAdmin ce@ez.no}{\scriptsize \par}
+\texttt{\scriptsize ~~~~~~ServerAdmin ce@ez.no}{\scriptsize \par}
 
-\texttt{\scriptsize DocumentRoot {[}/your/apache/documentroot{]}/publish\_dist}{\scriptsize \par}
+\texttt{\scriptsize ~~~~~~DocumentRoot {[}/your/apache/documentroot{]}/publish\_dist}{\scriptsize \par}
 
-\texttt{\scriptsize ServerName {[}your.domain.com{]}}{\scriptsize \par}
+\texttt{\scriptsize ~~~~~~ServerName {[}your.domain.com{]}}{\scriptsize \par}
 
-\texttt{\scriptsize ServerAlias publish}{\scriptsize \par}
+\texttt{\scriptsize ~~~~~~ServerAlias publish}{\scriptsize \par}
 
-\texttt{\scriptsize </VirtualHost>}{\scriptsize \par}
-
-\end{LyXParagraphIndent}
+\texttt{\scriptsize ~~~~</VirtualHost>}{\scriptsize \par}
 
 
 \subsubsection{Admin Side}
 
-\begin{LyXParagraphIndent}{2mm}
-\texttt{\scriptsize \# Admin site }{\scriptsize \par}
+\texttt{\footnotesize ~~\# Admin site }{\footnotesize \par}
 
-\texttt{\scriptsize <VirtualHost admin.yourdomain.org> }{\scriptsize \par}
+\texttt{\footnotesize ~~<VirtualHost admin.yourdomain.org>}{\footnotesize \par}
 
-\texttt{\scriptsize <Directory {[}/your/apache/documentroot/admin{]}> }{\scriptsize \par}
+\texttt{\footnotesize ~~~~<Directory {[}/your/apache/documentroot/admin{]}>}{\footnotesize \par}
 
-\texttt{\scriptsize Options FollowSymLinks Indexes ExecCGI }{\scriptsize \par}
+\texttt{\footnotesize ~~~~~~Options FollowSymLinks Indexes ExecCGI}{\footnotesize \par}
 
-\texttt{\scriptsize AllowOverride None }{\scriptsize \par}
+\texttt{\footnotesize ~~~~~~AllowOverride None}{\footnotesize \par}
 
-\texttt{\scriptsize </Directory> }{\scriptsize \par}
+\texttt{\footnotesize ~~~~</Directory>}{\footnotesize \par}
 
-\texttt{\scriptsize RewriteEngine On }{\scriptsize \par}
+\texttt{\footnotesize ~~~~RewriteEngine On}{\footnotesize \par}
 
-\texttt{\scriptsize RewriteRule !\textbackslash{}.(gif|css|jpg|png)\$
-{[}/your/apache/documentroot/admin/index.php{]}}{\scriptsize \par}
+\texttt{\footnotesize ~~~~RewriteRule !\textbackslash{}.(gif|css|jpg|png)\$
+{[}/your/apache/documentroot/admin/index.php{]}}{\footnotesize \par}
 
-\texttt{\scriptsize ServerAdmin {[}your\_mail@domain.no{]}}{\scriptsize \par}
+\texttt{\footnotesize ~~~~ServerAdmin {[}your\_mail@domain.no{]}}{\footnotesize \par}
 
-\texttt{\scriptsize DocumentRoot {[}/your/apache/documentroot/admin{]}}{\scriptsize \par}
+\texttt{\footnotesize ~~~~DocumentRoot {[}/your/apache/documentroot/admin{]}}{\footnotesize \par}
 
-\texttt{\scriptsize ServerName {[}admin.yourdomain.org{]}}{\scriptsize \par}
+\texttt{\footnotesize ~~~~ServerName {[}admin.yourdomain.org{]}}{\footnotesize \par}
 
-\texttt{\scriptsize ServerAlias {[}admin.yourdomain.org{]}}{\scriptsize \par}
+\texttt{\footnotesize ~~~~ServerAlias {[}admin.yourdomain.org{]}}{\footnotesize \par}
 
-\texttt{\scriptsize </VirtualHost>}{\scriptsize \par}
-
-\end{LyXParagraphIndent}
+\texttt{\footnotesize ~~</VirtualHost>}~\\
+{\footnotesize \par}
 
 The format of the {}``httpd.conf{}'' file is covered at http://httpd.apache.org/docs/
 for a complete understanding of the above information you'll need
 to read that documentation.
 
-The rewrite rules does the following:
+The rewrite rules does the following:\\
 
-\texttt{\scriptsize RewriteRule \textasciicircum{}/filemanager/filedownload/({[}\textasciicircum{}/{]}+)/(.{*})\$
-}~\\
-\texttt{\scriptsize {[}/your/apache/documentroot{]}/publish\_dist/ezfilemanager/files/\$1}~\\
-\texttt{\scriptsize {[}T=\char`\"{}application/oct-stream\char`\"{},S=1{]}}{\scriptsize \par}
+
+\texttt{\footnotesize ~~~~RewriteRule \textasciicircum{}/filemanager/filedownload/({[}\textasciicircum{}/{]}+)/(.{*})\$}{\footnotesize \par}
+
+\texttt{\footnotesize ~~~~{[}/your/apache/documentroot{]}/publish\_dist/ezfilemanager/files/\$1}{\footnotesize \par}
+
+\texttt{\footnotesize ~~~~{[}T=\char`\"{}application/oct-stream\char`\"{},S=1{]}}~\\
+{\footnotesize \par}
 
 This says that everything served from {}``/filemanager/filedownload/{}''
 should be redirected to fetch information from {}``publish\_dist/ezfilemanager/files{}''.
@@ -479,10 +482,12 @@ type ({}``application/oct-stream{}'', ie. binary download). The
 {}``S=1{}'' part means that if we match this rule, we should skip
 one rule ahead before trying to match again.
 
-The next rewrite rule:
+The next rewrite rule:\\
 
-\texttt{\scriptsize RewriteRule !\textbackslash{}.(gif|css|jpg|png)\$
-{[}/your/apache/documentroot{]}/publish\_dist/index.php}{\scriptsize \par}
+
+\texttt{\footnotesize ~~~~RewriteRule !\textbackslash{}.(gif|css|jpg|png)\$
+{[}/your/apache/documentroot{]}/publish\_dist/index.php}~\\
+{\footnotesize \par}
 
 is found in both sites (admin and user). This means that every file,
 except gif, css, jpg and png (and files matched against the previous
@@ -493,11 +498,12 @@ be sensitive, or revealing about the site's operation.
 
 If you didn't compile PHP with magic quotes; or other software relies
 on PHP not using magic quotes you can add the following line into
-each virtual host section:
+each virtual host section:\\
 
-\begin{itemize}
-\item \texttt{php\_value magic\_quotes\_gpc 1}
-\end{itemize}
+
+\texttt{\footnotesize ~~~~php\_value magic\_quotes\_gpc 1}~\\
+{\footnotesize \par}
+
 \emph{NOTE: It isn't possible to use the form http://mysite.com/admin
 at all; since the admin module assumes that the url {}``/{}'' is
 the start of the admin pages. If you do change eZ publish code in
@@ -518,30 +524,38 @@ two domains for this operation!}
 \subsubsection{User Side}
 
 In your main directory (/path/to/index.php/) create a file called
-\char`\"{}.htaccess\char`\"{} containing the following text: 
+\char`\"{}.htaccess\char`\"{} containing the following text:\\
 
-\begin{itemize}
-\item \texttt{\scriptsize RewriteEngine On}\texttt{\footnotesize }~\\
-\texttt{\scriptsize RewriteRule \textasciicircum{}/filemanager/filedownload/({[}\textasciicircum{}/{]}+)/(.{*})\$
-}~\\
-\texttt{\scriptsize /path/to/website/ezfilemanager/files/\$1}~\\
-\texttt{\scriptsize {[}T=\char`\"{}application/oct-stream\char`\"{},S=1{]}}~\\
-\texttt{\scriptsize \#The lines above should appear on the same line
-in your configuration file!}~\\
-\texttt{\scriptsize RewriteRule !\textbackslash{}.(gif|css|jpg|png)\$
-/path/to/website/index.php}{\scriptsize \par}
-\end{itemize}
+
+\texttt{\footnotesize ~~~~RewriteEngine On}{\footnotesize \par}
+
+\texttt{\footnotesize ~~~~RewriteRule \textasciicircum{}/filemanager/filedownload/({[}\textasciicircum{}/{]}+)/(.{*})\$}{\footnotesize \par}
+
+\texttt{\footnotesize ~~~~/path/to/website/ezfilemanager/files/\$1}{\footnotesize \par}
+
+\texttt{\footnotesize ~~~~{[}T=\char`\"{}application/oct-stream\char`\"{},S=1{]}}{\footnotesize \par}
+
+\texttt{\footnotesize ~~~~\# The lines above should appear on
+the same}{\footnotesize \par}
+
+\texttt{\footnotesize ~~~~\# line in your configuration file!}{\footnotesize \par}
+
+\texttt{\footnotesize ~~~~RewriteRule !\textbackslash{}.(gif|css|jpg|png)\$
+/path/to/website/index.php}{\footnotesize \par}
+
 
 \subsubsection{Admin Side}
 
 In your admin subdomain home directory, create a file with the following
-text: 
+text:\\
 
-\begin{itemize}
-\item \texttt{\scriptsize RewriteEngine On}~\\
-\texttt{\scriptsize RewriteRule !\textbackslash{}.(gif|css|jpg|png)\$
-/path/to/website/admin/index.php }{\scriptsize \par}
-\end{itemize}
+
+\texttt{\footnotesize ~~~~RewriteEngine On}{\footnotesize \par}
+
+\texttt{\footnotesize ~~~~RewriteRule !\textbackslash{}.(gif|css|jpg|png)\$
+/path/to/website/admin/index.php}~\\
+{\footnotesize \par}
+
 Note the extra \char`\"{}\textbackslash{}\char`\"{} in the rewrite
 rule. Its slightly different to the line used in the httpd.conf method.
 
@@ -552,59 +566,68 @@ rule. Its slightly different to the line used in the httpd.conf method.
 \section{Database}
 
 Now you need to create a database in MySQL, the default name we use
-is publish, but you can change that to whatever pleases you.
+is publish, but you can change that to whatever pleases you.\\
 
-\begin{itemize}
-\item \texttt{\# mysql -uroot -p publish < sql/publish.sql}
-\end{itemize}
+
+\texttt{\footnotesize ~~~~\# mysql -uroot -p publish < sql/publish.sql}~\\
+{\footnotesize \par}
+
 Add a publish user in MySQL. To add a user you can use the MySQL client
-to log on to mysql and then create the user:
+to log on to mysql and then create the user:\\
 
-\begin{itemize}
-\item \texttt{\# mysql>grant all on publish.{*} to publish@localhost identified
-by \char`\"{}secret\char`\"{};}
-\end{itemize}
+
+\texttt{\footnotesize ~~~~\# mysql>grant all on publish.{*} to
+publish@localhost}{\footnotesize \par}
+
+\texttt{\footnotesize ~~~~identified by \char`\"{}secret\char`\"{};}\texttt{}~\\
+
+
 where secret is your password. Then you need to add the default eZ
-publish data into your newly created database: 
+publish data into your newly created database:\\
 
-\begin{itemize}
-\item \texttt{\# mysql -uroot -p publish < sql/publish.sql}
-\end{itemize}
+
+\texttt{\footnotesize ~~~~\# mysql -uroot -p publish < sql/publish.sql}{\footnotesize \par}
+
 
 \section{Program Files}
 
 The next step is to install the eZ publish package in your document
 root directory. First you need to unpack the software in a temporary
-directory:
+directory:\\
 
-\begin{itemize}
-\item \texttt{\# cd /tmp}
-\item \texttt{\# tar zxvf /path/to/ezpublish-2.0.tar.gz}
-\end{itemize}
-The next step is to move the files to your document root:
 
-\begin{itemize}
-\item \texttt{\# mv /tmp/publish\_dist /your/apache/documentroot}
-\end{itemize}
+\texttt{\footnotesize ~~~~\# cd /tmp}{\footnotesize \par}
+
+\texttt{\footnotesize ~~~~\# tar zxvf /path/to/ezpublish-2.0.tar.gz}~\\
+{\footnotesize \par}
+
+The next step is to move the files to your document root:\\
+
+
+\texttt{\footnotesize ~~~~\# mv /tmp/publish\_dist /your/apache/documentroot}~\\
+{\footnotesize \par}
+
 When all this is done you need to tell eZ publish a little about the
 site you're running. You'll need to edit the {}``site.ini{}'' file
-which you will find in the document root:
+which you will find in the document root:\\
 
-\begin{itemize}
-\item \texttt{\# cd /your/apache/documentroot}
-\item \texttt{\# vi site.ini}
-\end{itemize}
+
+\texttt{\footnotesize ~~~~\# cd /your/apache/documentroot}{\footnotesize \par}
+
+\texttt{\footnotesize ~~~~\# vi site.ini}~\\
+{\footnotesize \par}
+
 Instead of vi you can use your preferred text editor. You'll need
 to add information about the username, hostname and password of your
 database. More information on what you can do with {}``site.ini{}''
 can be found in the {}``eZ publish Customisation Guide{}''.
 
 The next important step is to run the script modfix. This script will
-create symbolic links needed and set permissions.
+create symbolic links needed and set permissions.\\
 
-\begin{itemize}
-\item \texttt{\# ./modfix.sh}
-\end{itemize}
+
+\texttt{\footnotesize ~~~~\# ./modfix.sh}{\footnotesize \par}
+
 
 \chapter{Now What?}
 
@@ -626,4 +649,324 @@ head over to http://zez.org/ for articles about community building
 as well as programming, or you can visit http://developer.ez.no for
 updates, articles about eZ publish and how to work with it, as well
 as keeping abreast of new developments.
+
+
+\chapter{Installing on RAQ 3\label{chptr: raq 3}}
+
+\emph{Installing ezPublish on raq3 without messing up the GUI or voiding
+the warranty.}
+
+First, add the domain into the DNS, but do not create a virtual site.
+
+Log in by telnet (install SSH unless you are desperate to get hacked).
+
+Put the publish files in the directory you want to use, I used /home/sites/extrasites/mysite/web
+
+Install mysql 3.23 or later by rpm, there is one out there. MySQL
+(http://www.mysql.com) version 3.23 or later if you want to compile
+
+Now you need to create a database in MySQL, the default name we use
+is publish, but you can change that to whatever pleases you.\\
+
+
+\texttt{\footnotesize ~~~~\# mysql -uroot -p publish < sql/publish.sql}~\\
+{\footnotesize \par}
+
+Add a publish user in MySQL. To add a user you can use the MySQL client
+to log on to mysql and then create the user:\\
+
+
+\texttt{\footnotesize ~~~~\# mysql>grant all on publish.{*} to
+publish@localhost}{\footnotesize \par}
+
+\texttt{\footnotesize ~~~~identified by \char`\"{}secret\char`\"{};}~\\
+{\footnotesize \par}
+
+where secret is your password. Then you need to add the default eZ
+publish data into your newly created database:\\
+
+
+\texttt{\footnotesize ~~~~\# mysql -uroot -p publish < sql/publish.sql}~\\
+{\footnotesize \par}
+
+Then get:
+
+\begin{itemize}
+\item http://www.freesoftware.com/pub/infozip/zlib/ (zlib.tar.gz)
+\item http://www.boutell.com/gd (gd-1.8.4.tar.gz)
+\item ftp://ftp.uu.net/graphics/jpeg/jpegsrc.v6b.tar.gz (jpegsrc.v6b.tar.gz)
+\item http://www.php.net (php-4.0.4pl1.tar.gz)
+\end{itemize}
+Delete all gd.h files on your system. You can find them using:\\
+
+
+\texttt{\footnotesize ~~~~\# find / -name gd.h}~\\
+{\footnotesize \par}
+
+If there are more than one, then delete all of them.
+
+Now add the following line to the /etc/ld.so.conf file:\\
+
+
+\texttt{\footnotesize ~~~~/usr/local/lib}~\\
+{\footnotesize \par}
+
+Save the file, and run:\\
+
+
+\texttt{\footnotesize ~~~~\# /sbin/ldconfig}~\\
+{\footnotesize \par}
+
+This was an important part, because Apache needs this dir to find
+the correct modules.
+
+Extract the zlib archive:\\
+
+
+\texttt{\footnotesize ~~~~\# tar -zxvf zlib.tar.gz \# cd zlib-1.1.3}~\\
+{\footnotesize \par}
+
+And install it:\\
+
+
+\texttt{\footnotesize ~~~~\# ./configure -{}-shared} {\selectlanguage{english}}
+
+\texttt{\footnotesize ~~~~\# make }{\footnotesize \par}
+
+\texttt{\footnotesize ~~~~\# make install}~\\
+{\footnotesize \par}
+
+Now install the JPEG-6b, doing the following:\\
+
+
+\texttt{\footnotesize ~~~~\# tar -zxvf jpegsrc.v6b.tar.gz}{\footnotesize \par}
+
+\texttt{\footnotesize ~~~~\# cd jpeg-6b}{\footnotesize \par}
+
+\texttt{\footnotesize ~~~~\# ./configure -{}-enable-shared}{\footnotesize \par}
+
+\texttt{\footnotesize ~~~~\# make}{\footnotesize \par}
+
+\texttt{\footnotesize ~~~~\# make install}~\\
+{\footnotesize \par}
+
+Install the PNG library\\
+
+
+\texttt{\footnotesize ~~~~\# wget http://www.libpng.org/pub/png/src/libpng-1.0.9.tar.gz}~\\
+{\footnotesize \par}
+
+Then compile the package.
+
+Get Imagemagick ImageMagick (http://www.imagemagick.org/) newest version
+Download and then:\\
+
+
+\texttt{\footnotesize ~~~~\# tar -zxvf Imagemagick-xxx}{\footnotesize \par}
+
+\texttt{\footnotesize ~~~~\# cd Imagemagick-xxx}{\footnotesize \par}
+
+\texttt{\footnotesize ~~~~\# ./configure}{\footnotesize \par}
+
+\texttt{\footnotesize ~~~~\# make}{\footnotesize \par}
+
+\texttt{\footnotesize ~~~~\# make install}~\\
+{\footnotesize \par}
+
+Then go one directory back, and extract the GD archive using:\\
+
+
+\texttt{\footnotesize ~~~~\# tar -zxvf gd-xxx}{\footnotesize \par}
+
+\texttt{\footnotesize ~~~~\# cd gd-xxx}~\\
+{\footnotesize \par}
+
+Now edit the Makefile (using vi or pico) and check which modules you
+want. I removed the Freetype Library (-DHAVE\_LIBFREETYPE / -lfreetype).
+After making the changes save the file and go back to the shell. Now
+compile GD:\\
+
+
+\texttt{\footnotesize ~~~~\# make} {\selectlanguage{english}\texttt{\footnotesize }}{\footnotesize \par}
+
+\texttt{\footnotesize ~~~~\# make install}\texttt{\small }~\\
+{\small \par}
+
+If this is giving any errors, just remove the modules you don't have
+(but don't remove the JPEG lib - we need that one ! :)) )
+
+Now go back one dir, and extract PHP4:\\
+
+
+\texttt{\footnotesize ~~~~}\texttt{\small \# tar -zxvf php-4.0.4pl1.tar.gz}{\small \par}
+
+\texttt{\footnotesize ~~~~}\texttt{\small \# cd php-4.0.4pl1}~\\
+{\small \par}
+
+First remove any cache:\\
+
+
+\texttt{\footnotesize ~~~~\# rm config.cache}{\footnotesize \par}
+
+\texttt{\footnotesize ~~~~\# make clean}{\footnotesize \par}
+
+\texttt{\footnotesize ~~~~\#./configure -{}-with-xml -{}-with-mysql
+\textbackslash{}}{\footnotesize \par}
+
+\texttt{\footnotesize ~~~~-{}-with-apxs=/usr/sbin/apxs \textbackslash{}}{\footnotesize \par}
+
+\texttt{\footnotesize ~~~~-{}-with-system-regex \textbackslash{}}{\footnotesize \par}
+
+\texttt{\footnotesize ~~~~-{}-with-zlib \textbackslash{}}{\footnotesize \par}
+
+\texttt{\footnotesize ~~~~-{}-enable-safe-mode \textbackslash{}}{\footnotesize \par}
+
+\texttt{\footnotesize ~~~~-{}-with-gdbm \textbackslash{}}{\footnotesize \par}
+
+\texttt{\footnotesize ~~~~-{}-enable-sysvsem \textbackslash{}}{\footnotesize \par}
+
+\texttt{\footnotesize ~~~~-{}-with-ftp \textbackslash{}}{\footnotesize \par}
+
+\texttt{\footnotesize ~~~~-{}-with-config-file-path=/etc/httpd/conf/
+\textbackslash{}}{\footnotesize \par}
+
+\texttt{\footnotesize ~~~~-{}-enable-magic-quotes \textbackslash{}}{\footnotesize \par}
+
+\texttt{\footnotesize ~~~~-{}-with-exec-dir=/usr/sbin/httpd \textbackslash{}}{\footnotesize \par}
+
+\texttt{\footnotesize ~~~~-{}-with-dom \textbackslash{}}{\footnotesize \par}
+
+\texttt{\footnotesize ~~~~-{}-enable-trans-sid}{\footnotesize \par}
+
+\texttt{\footnotesize ~~~~\# make}{\footnotesize \par}
+
+\texttt{\footnotesize ~~~~\# make install}~\\
+{\footnotesize \par}
+
+run /sbin/ldconfig again.
+
+Apache: (Your milage may vary, be wary of paths)
+
+edit /etc/httpd/conf/httpd.conf and add the Loadmodules lines like
+this: {\selectlanguage{english}}\\
+
+
+\texttt{\footnotesize ~~~~\# Extra Modules}{\footnotesize \par}
+
+\texttt{\footnotesize ~~~~LoadModule php\_module modules/mod\_php.so}{\footnotesize \par}
+
+\texttt{\footnotesize ~~~~LoadModule php3\_module modules/libphp3.so}{\footnotesize \par}
+
+\texttt{\footnotesize ~~~~LoadModule perl\_module /usr/lib/apache/libperl.so}{\footnotesize \par}
+
+\texttt{\footnotesize ~~~~LoadModule php4\_module /usr/lib/apache/libphp4.so}{\footnotesize \par}
+
+\texttt{\footnotesize ~~~~LoadModule php4\_module lib/apache/libphp4.so}~\\
+{\footnotesize \par}
+
+\# Reconstruction of the complete module list from all available modules
+
+\# (static and shared ones) to achieve correct module execution order.
+
+\# {[}WHENEVER YOU CHANGE THE LOADMODULE SECTION ABOVE UPDATE THIS,
+TOO{]}\\
+
+
+\texttt{\footnotesize ~~~~ClearModuleList}{\footnotesize \par}
+
+\texttt{\footnotesize ~~~~\# Extra Modules}{\footnotesize \par}
+
+\texttt{\footnotesize ~~~~AddModule mod\_php.c}{\footnotesize \par}
+
+\texttt{\footnotesize ~~~~AddModule mod\_php3.c}{\footnotesize \par}
+
+\texttt{\footnotesize ~~~~AddModule mod\_perl.c}{\footnotesize \par}
+
+\texttt{\footnotesize ~~~~AddModule mod\_php4.c}\texttt{\small }~\\
+{\small \par}
+
+Add the second line below line below the rewrite stuff, above the
+<Virtualhost> directives.
+
+NameVirtualHost 216.97.67.4 Include /etc/httpd/conf/extrasites.conf
+<VirtualHost 216.97.67.4>
+
+create this include file and in it put the apache vitual server directives
+for your site.
+
+For example:\\
+
+
+\texttt{\footnotesize ~~~~\# User site}{\footnotesize \par}
+
+\texttt{\footnotesize ~~~~<VirtualHost yourIP>}{\footnotesize \par}
+
+\texttt{\footnotesize ~~~~~~ServerName {[}yourdomain.org{]}}{\footnotesize \par}
+
+\texttt{\footnotesize ~~~~~~ServerAlias {[}www.yourdomain.org{]}}{\footnotesize \par}
+
+\texttt{\footnotesize ~~~~~~<Directory {[}/your/site/root/{]}>}{\footnotesize \par}
+
+\texttt{\footnotesize ~~~~~~~~Options~FollowSymLinks~Indexes~ExecCGI}{\footnotesize \par}
+
+\texttt{\footnotesize ~~~~~~~~AllowOverride~None}{\footnotesize \par}
+
+\texttt{\footnotesize ~~~~~~</Directory>}{\footnotesize \par}
+
+\texttt{\footnotesize ~~~~~~RewriteEngine On}{\footnotesize \par}
+
+\texttt{\footnotesize ~~~~~~RewriteRule !\textbackslash{}.(gif|css|jpg|png)\$
+{[}/your/site/root/index.php{]}}{\footnotesize \par}
+
+\texttt{\footnotesize ~~~~~~ServerAdmin {[}your\_mail@domain.no{]}}{\footnotesize \par}
+
+\texttt{\footnotesize ~~~~~~DocumentRoot {[}/your/site/root/{]}}{\footnotesize \par}
+
+\texttt{\footnotesize ~~~~</VirtualHost>}~\\
+{\footnotesize \par}
+
+\texttt{\footnotesize ~~~~\# Admin site}{\footnotesize \par}
+
+\texttt{\footnotesize ~~~~<VirtualHost admin.yourdomain.org>}{\footnotesize \par}
+
+\texttt{\footnotesize ~~~~~~<Directory {[}/your/site/root/admin{]}>}{\footnotesize \par}
+
+\texttt{\footnotesize ~~~~~~~~Options~FollowSymLinks~Indexes~ExecCGI}{\footnotesize \par}
+
+\texttt{\footnotesize ~~~~~~~~AllowOverride None}{\footnotesize \par}
+
+\texttt{\footnotesize ~~~~~~</Directory>}{\footnotesize \par}
+
+\texttt{\footnotesize ~~~~~~RewriteEngine On}{\footnotesize \par}
+
+\texttt{\footnotesize ~~~~~~RewriteRule !\textbackslash{}.(gif|css|jpg|png)\$
+{[}/your/site/root/admin/index.php{]}}{\footnotesize \par}
+
+\texttt{\footnotesize ~~~~~~ServerAdmin {[}your\_mail@domain.no{]}}{\footnotesize \par}
+
+\texttt{\footnotesize ~~~~~~DocumentRoot {[}/your/site/root/admin{]}}{\footnotesize \par}
+
+\texttt{\footnotesize ~~~~~~ServerName {[}admin.yourdomain.org{]}}{\footnotesize \par}
+
+\texttt{\footnotesize ~~~~~~ServerAlias {[}admin.yourdomain.org{]}}{\footnotesize \par}
+
+\texttt{\footnotesize ~~~~</VirtualHost>}~\\
+{\footnotesize \par}
+
+restart apache:\\
+
+
+\texttt{\footnotesize ~~~~\# /etc/rc.d/init.d/httpd stop}~\\
+{\footnotesize \par}
+
+wait a few seconds then\\
+
+
+\texttt{\footnotesize ~~~~\# /etc/rc.d/init.d/httpd start}~\\
+{\footnotesize \par}
+
+Then chown httpd.httpd {*} on both the domain and admin.domain directories
+to get it to work.
+
+If all is well, your site should work.
 \end{document}
