@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: productlist.php,v 1.10 2001/01/29 17:16:39 jb Exp $
+// $Id: productlist.php,v 1.11 2001/02/07 16:28:59 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <23-Sep-2000 14:46:20 bf>
@@ -118,7 +118,6 @@ foreach ( $categoryList as $categoryItem )
     {
         $t->set_var( "td_class", "bgdark" );
     }
-
     
     $t->parse( "category", "category_tpl", true );
     $i++;

@@ -168,7 +168,6 @@ switch ( $url_array[2] )
 
     case "payment" :
     {
-        $PaymentType = $url_array[3];
         include( "eztrade/user/payment.php" );
     }
         break;

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: payment.php,v 1.4 2001/02/07 10:08:25 ce Exp $
+// $Id: payment.php,v 1.5 2001/02/07 16:28:59 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <02-Feb-2001 16:31:53 bf>
@@ -23,8 +23,13 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, US
 //
 
+
 unset( $PaymentSuccess );
 
+include_once( "classes/INIFile.php" );
+include_once( "classes/eztemplate.php" );
+include_once( "classes/ezlocale.php" );
+include_once( "classes/ezcurrency.php" );
 
 include_once( "ezuser/classes/ezuser.php" );
 include_once( "eztrade/classes/ezproduct.php" );
@@ -38,27 +43,44 @@ include_once( "eztrade/classes/ezorderitem.php" );
 include_once( "eztrade/classes/ezorderoptionvalue.php" );
 include_once( "eztrade/classes/ezwishlist.php" );
 
+
 include_once( "eztrade/classes/ezcheckout.php" );
 
 include_once( "ezsession/classes/ezsession.php" );
 include_once( "ezuser/classes/ezuser.php" );
-
 include_once( "classes/ezmail.php" );
 
-include_once( "eztrade/classes/ezcheckout.php" );
-include_once( "eztrade/classes/ezorder.php" );
-include_once( "eztrade/classes/ezcart.php" );
+$ini =& $GLOBALS["GlobalSiteIni"];
+
+$Language = $ini->read_var( "eZTradeMain", "Language" );
+$OrderSenderEmail = $ini->read_var( "eZTradeMain", "OrderSenderEmail" );
+$OrderReceiverEmail = $ini->read_var( "eZTradeMain", "OrderReceiverEmail" );
+$ShippingCost = $ini->read_var( "eZTradeMain", "ShippingCost" );
+
+
+// fetch the cart
+$cart = new eZCart();
+$cart = $cart->getBySession( $session, "Cart" );
+
+$items = $cart->items();
+
+$ChargeTotal = 0;
+// get the total sum
+foreach( $items as $item )
+{    
+    $product = $item->product();
+    $ChargeTotal = $ChargeTotal + ( $product->price() * $item->count() );
+}
+$ChargeTotal = $ChargeTotal + $ShippingCost;
 
 $checkout = new eZCheckout();
 $instance =& $checkout->instance();
 
-include( $instance->paymentFile( $PaymentType ) );
-
 $billingAddressID = $session->variable( "BillingAddressID" );
 $shippingAddressID = $session->variable( "ShippingAddressID" );
+$paymentMethod = $session->variable( "PaymentMethod" );
 
-print( $billingAddressID ."<br>" );
-print( $shippingAddressID );
+include( $instance->paymentFile( $paymentMethod ) );
 
 // create an order and empty the cart.
 // only do this if the payment was OK.
@@ -87,7 +109,7 @@ if ( $PaymentSuccess == "true" )
     $order->setBillingAddress( $billingAddress );
     
     $order->setShippingCharge( $ShippingCost );
-    $order->setPaymentMethod( $PaymentMethod );
+    $order->setPaymentMethod( $paymentMethod );
 
     $order->store();
 
@@ -313,6 +335,7 @@ if ( $PaymentSuccess == "true" )
     $cart->clear();
     
     Header( "Location: /trade/ordersendt/$order_id/" );
+    exit();
 }
 
 ?>

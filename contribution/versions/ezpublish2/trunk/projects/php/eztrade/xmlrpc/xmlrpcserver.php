@@ -2,6 +2,9 @@
 ob_end_clean();
 ob_start();
 
+include_once( "classes/INIFile.php" );
+include_once( "classes/ezlocale.php" );
+
 // eZ trade classes
 include_once( "eztrade/classes/ezproductcategory.php" );
 include_once( "eztrade/classes/ezproduct.php" );
@@ -17,6 +20,9 @@ include_once( "ezxmlrpc/classes/ezxmlrpcint.php" );
 include_once( "ezxmlrpc/classes/ezxmlrpcdouble.php" );
 include_once( "ezxmlrpc/classes/ezxmlrpcarray.php" );
 include_once( "ezxmlrpc/classes/ezxmlrpcresponse.php" );
+
+// for payment information
+include_once( "eztrade/classes/ezcheckout.php" );
 
 
 $VersionNumber = "Pre release 1.0";
@@ -44,6 +50,11 @@ function &newOrders( $args )
 {
     if ( $args[0]->value() == "bf" && $args[1]->value() == "mofser" )
     {
+        $ini = new INIFile( "site.ini" );
+
+        $Language = $ini->read_var( "eZTradeMain", "Language" );
+        $locale = new eZLocale( $Language );
+
         $orders = array();
 
         // fetch all new orders
@@ -57,8 +68,13 @@ function &newOrders( $args )
             // set the order item to be exported
             $orderItem->setIsExported( true );
             $orderItem->store();
+
+            $datetime =& $orderItem->date();
+
+            $date = $datetime->date();
             
             $user =& $orderItem->user();
+            
             if ( $user )
             {
                 $shippingAddress =& $orderItem->shippingAddress();                
@@ -66,6 +82,11 @@ function &newOrders( $args )
 
                 $billingAddress =& $orderItem->billingAddress();
                 $billingCountry =& $billingAddress->country();
+
+
+                $checkout = new eZCheckout();
+                $instance =& $checkout->instance();                
+                $paymentMethod = $instance->paymentName( $orderItem->paymentMethod() );
 
                 $itemArray = array();
 
@@ -88,6 +109,8 @@ function &newOrders( $args )
                 $orders[] = new eZXMLRPCStruct(
                     array(
                         "OrderID" => new eZXMLRPCInt( $orderItem->id() ),
+                        "PaymentMethod" => new eZXMLRPCString( $paymentMethod ),
+                        "Date" => new eZXMLRPCString( $locale->format( $date ) ),
                         "ShippingCharge" => new eZXMLRPCDouble( $orderItem->shippingCharge() ),
                         "FirstName" => new eZXMLRPCString( $user->firstName() ),
                         "LastName" => new eZXMLRPCString( $user->lastName()  ),

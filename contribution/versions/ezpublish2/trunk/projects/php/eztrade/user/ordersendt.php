@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ordersendt.php,v 1.16 2001/02/06 16:50:05 bf Exp $
+// $Id: ordersendt.php,v 1.17 2001/02/07 16:28:59 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <06-Oct-2000 14:04:17 bf>
@@ -29,6 +29,7 @@ include_once( "classes/ezlocale.php" );
 include_once( "classes/ezcurrency.php" ); 
 include_once( "eztrade/classes/ezorder.php" ); 
 include_once( "eztrade/classes/ezproduct.php" ); 
+
 
 $Language = $ini->read_var( "eZTradeMain", "Language" );
 
@@ -79,7 +80,7 @@ if ( $user )
 //      // this is now an active 
 //      $order->setIsSendt( true );
 //      $order->store();
-    
+
     $t->set_var( "customer_first_name", $user->firstName() );
     $t->set_var( "customer_last_name", $user->lastName() );
 
