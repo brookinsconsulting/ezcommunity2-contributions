@@ -7,6 +7,42 @@ else
 {
     switch ( $RequestType )
     {
+        case "type" :
+        {
+            switch( $Command )
+            {
+                case "list":
+                {
+                    include( "ezarticle/xmlrpc/typelist.php" );
+                    break;
+                }
+                case "data":
+                case "storedata":
+                case "delete":
+                {
+                    include( "ezarticle/xmlrpc/type.php" );
+                    break;
+                }
+            }
+        } break;
+        case "topic" :
+        {
+            switch( $Command )
+            {
+                case "list":
+                {
+                    include( "ezarticle/xmlrpc/topiclist.php" );
+                    break;
+                }
+                case "data":
+                case "storedata":
+                {
+                    include( "ezarticle/xmlrpc/topic.php" );
+                    break;
+                }
+            }
+        } break;
+
         case "category" :
         {
             switch( $Command )
@@ -27,23 +63,21 @@ else
                     $Error = true;
             }
         } break;
-
         case "article" :
         {
             switch( $Command )
             {
-                case "retreive":
-                case "store":
+                case "data":
+                case "storedata":
+                case "delete":
                 {
-                    $Action = "article";
                     include( "ezarticle/xmlrpc/article.php" );
                     break;
                 }
                 default:
                     $Error = true;
             }
-        }
-        break;
+        } break;
         
         default :
         {
