@@ -13,7 +13,7 @@
 	<font color="#e00000"><b>&gt;</b></font>
 	</td>
 	<td width="99%" bgcolor="#ffffff">
-	<a href="{www_dir}{index}{head_line_url}" class="menutext">{head_line}</a><br />
+	<a href="{www_dir}{index}{head_line_url}" class="newsmenu">{head_line}</a><br />
 <!--	<span class="menutext">({head_line_origin}, {head_line_date})</span>  -->
 	</td>
 </tr>

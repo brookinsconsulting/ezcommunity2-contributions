@@ -1,7 +1,7 @@
 <!-- BEGIN empty_cart_tpl -->
-<table width="100%" cellspacing="0" cellpadding="2" border="0">
+<table width="100%" cellspacing="5" cellpadding="1" border="0">
 <tr>
-	<td class="menusubhead">{intl-cart}:</td>
+	<td class="menubold">{intl-cart}:</td>
 </tr>
 <tr>
 	<td class="menutext">{intl-empty_cart}</td>
@@ -12,9 +12,9 @@
 
 <form action="{www_dir}{index}/trade/cart/" method="post">
 <!-- BEGIN cart_item_list_tpl -->
-<table width="100%" cellspacing="0" cellpadding="2" border="0">
+<table width="100%" cellspacing="5" cellpadding="1" border="0">
 <tr>
-	<td colspan="4" class="menusubhead">{intl-cart}:</td>
+	<td colspan="4" class="menubold">{intl-cart}:</td>
 </tr>
 
 <!-- BEGIN cart_item_tpl -->
