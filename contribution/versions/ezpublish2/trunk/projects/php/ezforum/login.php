@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: login.php,v 1.11 2000/09/07 15:44:44 bf-cvs Exp $
+    $Id: login.php,v 1.12 2000/10/17 13:44:44 ce-cvs Exp $
 
     Author: Lars Wilhelmsen <lw@ez.no>
     
@@ -9,14 +9,11 @@
     Copyright (C) 2000 eZ systems. All rights reserved.
 */
 
-include_once( "classes/INIFile.php" );
-
-$ini = new INIFile( "../site.ini" ); // get language settings
-$DOC_ROOT = $ini->read_var( "eZForumMain", "DocumentRoot" );
-
+include( "ezforum/dbsettings.php" );
 include( "ezphputils.php" );
-include_once( "../classes/ezuser.php" );
-include_once( "../classes/ezsession.php" );
+include_once( $DOCROOT . "/classes/ezdb.php" );
+include_once( $DOCROOT . "/classes/ezuser.php" );
+include_once( $DOCROOT . "/classes/ezsession.php" );
 
 $user = new eZUser( );
 
@@ -29,13 +26,11 @@ if ( $login )
         $session->setUserID( $tmp );
         $session->store();
 
-        Header( "Location: ../index.php?page=$DOC_ROOT/main.php" );
-//        printRedirect( "/index.php?page=$DOC_ROOT/main.php" );
+        printRedirect( "/index.php?page=$DOCROOT/main.php" );
     }
     else
     {
-        Header( "Location: ../index.php?page=$DOC_ROOT/main.php&login=failed" );        
-//        printRedirect( "/index.php?page=$DOC_ROOT/main.php&login=failed" );
+        printRedirect( "/index.php?page=$DOCROOT/main.php&login=failed" );
     }
 }
 ?>

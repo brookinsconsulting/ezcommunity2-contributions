@@ -1,76 +1,34 @@
 <?
-// 
-// $Id: categorylist.php,v 1.14 2000/10/17 11:53:52 ce-cvs Exp $
-//
-// Definition of || class
-//
-// <real-name> <<mail-name>>
-// Created on: <17-Oct-2000 13:50:26 ce>
-//
-// This source file is part of eZ publish, publishing software.
-// Copyright (C) 1999-2000 eZ systems as
-//
-// This program is free software; you can redistribute it and/or
-// modify it under the terms of the GNU General Public License
-// as published by the Free Software Foundation; either version 2
-// of the License, or (at your option) any later version.
-//
-// This program is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-// GNU General Public License for more details.
-//
-// You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, US
-//
+/*!
+    $Id: categorylist.php,v 1.15 2000/10/17 13:44:44 ce-cvs Exp $
 
-include_once( "classes/INIFile.php" );
-$ini = new INIFile( "site.ini" );
-
-$DOC_ROOT = $ini->read_var( "eZForumMain", "DocumentRoot" );
-$Language = $ini->read_var( "eZForumMain", "Language" );
-
-include_once( "classes/eztemplate.php" );
-include_once( "classes/ezdb.php" );
-include_once( "ezforum/classes/ezforumcategory.php" );
-
-$t = new eZTemplate( "ezforum/" . $ini->read_var( "eZForumMain", "TemplateDir" ),
-                     "ezforum/intl", $Language, "categorylist.php" );
-$t->setAllStrings();
-
-$t->set_file( Array( "categorylist_tpl" => "categorylist.tpl" ) );
-
-$t->set_block( "categorylist_tpl", "category_tpl", "category" );
-
-$category = new eZForumCategory();
-$categories = $category->getAllCategories();
-
-if ( !$categories )
-{
-    $ini = new INIFile( "ezforum/intl/" . $Language . "/categorylist.php.ini", false );
-    $noitem =  $ini->read_var( "strings", "noitem" );
-
-    $t->set_var( "category", $noitem );
-}
-else
-{
-    $i=0;
-    foreach( $categories as $categoryItem )
-        {
-            if ( ( $i %2 ) == 0 )
-                $t->set_var( "td_class", "bgdark" );
-            else
-                $t->set_var( "td_class", "bglight" );
-
-            $t->set_var("id", $categoryItem->id() );
-            $t->set_var("name", $categoryItem->name() );
-            $t->set_var("description", $categoryItem->description() );
-            $i++;
+    Author: Lars Wilhelmsen <lw@ez.no>
     
-            $t->parse( "category", "category_tpl", true);
-        }
-} 
+    Created on: Created on: <18-Jul-2000 08:56:19 lw>
+    
+    Copyright (C) 2000 eZ systems. All rights reserved.
+*/
+include_once( "ezforum/dbsettings.php" );
+include_once( "template.inc" );
+include_once( "$DOCROOT/classes/ezdb.php" );
+include_once( "$DOCROOT/classes/ezforumcategory.php" );
 
-$t->pparse( "output", "categorylist_tpl" );
+$t = new Template( "." );
+$t->set_file( Array( "list" => "$DOCROOT/templates/categorylist.tpl",
+                     "elements" => "$DOCROOT/templates/categorylist-elements.tpl"
+                     )
+              );
+
+$t->set_var( "docroot", $DOCROOT);
+
+$categories = eZforumCategory::getAllCategories();
+
+for ($i = 0; $i < count( $categories ); $i++ )
+{
+    $t->set_var("id", $categories[$i]["Id"] );
+    $t->set_var("name", $categories[$i]["Name"] );
+
+    $t->parse( "categories", "elements", true);
+}
+$t->pparse( "output", "list" );
 ?>

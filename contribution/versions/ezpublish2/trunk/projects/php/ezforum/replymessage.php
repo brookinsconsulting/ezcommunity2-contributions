@@ -1,148 +1,52 @@
-<?php
-// 
-// $Id: replymessage.php,v 1.18 2000/10/15 13:04:57 bf-cvs Exp $
-//
-// 
-//
-// Bård Farstad <bf@ez.no>
-// Created on: <24-Sep-2000 12:20:32 bf>
-//
-// Copyright (C) 1999-2000 eZ Systems.  All rights reserved.
-//
-// IMPORTANT NOTE: You may NOT copy this file or any part of it into
-// your own programs or libraries.
-//
+<?
+/*!
+    $Id: replymessage.php,v 1.19 2000/10/17 13:44:44 ce-cvs Exp $
 
-include_once( "classes/INIFile.php" );
-
-$ini = new INIFile( "site.ini" ); // get language settings
-
-include_once( "common/ezphputils.php" );
-include_once( "classes/eztemplate.php" );
-include_once( "classes/ezmail.php" );
-include_once( "ezuser/classes/ezuser.php" );
-
-include_once( "ezforum/classes/ezforummessage.php");
-include_once( "ezforum/classes/ezforumcategory.php");
-
-
-print( $Action );
-if ( $Action == "Insert" )
-{
-    $original = new eZForumMessage( $ReplyID );
+    Author: Lars Wilhelmsen <lw@ez.no>
     
-    $reply = new eZForumMessage( );
-
-    $reply->setForumID( $original->forumID() );
-
-    $reply->setTopic( $Topic );
-    $reply->setBody( $Body );
-
-    $reply->setParent( $original->id() );
+    Created on: <14-Jul-2000 12:49:25 lw>
     
-    $user = eZUser::currentUser();
+    Copyright (C) 2000 eZ systems. All rights reserved.
+*/
+include( "ezforum/dbsettings.php" );
+include_once( "ezphputils.php" );
+include_once( "template.inc" );
+include_once( "$DOCROOT/classes/ezdb.php" );
+include_once( "$DOCROOT/classes/ezforummessage.php");
+include_once( "$DOCROOT/classes/ezsession.php" );
+include_once( "$DOCROOT/classes/ezuser.php" );
 
-    
-    $reply->setUserId( $user->id() );
-
-    if ( $notice )
-        $reply->enableEmailNotice();
-    else
-        $reply->disableEmailNotice();
-
-    $reply->store();
-
-    $forum_id = $original->forumID();
-
-    // send out email notices
-    $forum = new eZForumForum( $forum_id );
-    $messages = $forum->messageThreadTree( $reply->threadID() );
-
-    $mail = new eZMail();
-
-    $mail->setFrom( "noreply@ez.no" );
-    
-    $mail->setSubject( "reply" );
-    
-   
-    foreach ( $messages as $message )
-    {
-        if ( $message->id() != $reply->id() )
-        {
-            if ( ( $message->treeID() > $reply->treeID() ) && $message->emailNotice() )
-            {
-                $user =& $message->user();
-                
-                $mail->setTo( $user->email() );
-                $mail->setBody(  $reply->body() . "" . $user->email() );
-                
-                $mail->send();
-            }
-        }
-    }    
-
-
-    // clear the cache files.
-
-    $dir = dir( "ezforum/cache/" );
-    $files = array();
-    while( $entry = $dir->read() )
-    { 
-        if ( $entry != "." && $entry != ".." )
-        { 
-            $files[] = $entry; 
-            $numfiles++; 
-        } 
-    } 
-    $dir->close();
-
-    foreach( $files as $file )
-    {
-        if ( ereg( "forum,([^,]+),.*", $file, $regArray  ) )
-        {
-            if ( $regArray[1] == $forum_id )
-            {
-                unlink( "ezforum/cache/" . $file );
-            }
-        }
-    }
-
-    // add deleting of every message in the thread
-    unlink( "ezforum/cache/message," . $ReplyID . ".cache" );
-    
-    Header( "Location: /forum/category/forum/$forum_id/" );
-
-}
-
+$msg = new eZforumMessage;
 $t = new Template(".");
 
-$t->set_file("replymessage","ezforum/templates/replymessage.tpl");
+$t->set_file("replymessage","$DOCROOT/templates/replymessage.tpl");
 
-$t->set_var( "category_id", $category_id );
+$t->set_var( "docroot", $DOCROOT);
+$t->set_var( "category_id", $category_id);
 
+$msg->get( $reply_id );
+    
+if ($AuthenticatedSession)
+{
+    $session = new eZSession();
+    $session->get( $AuthenticatedSession );
+    $UserID = $session->UserID();
+}
+else
+{
+    $UserId = 0;
+}
 
-$category = new eZForumCategory();
+$info = eZforumCategory::categoryForumInfo($forum_id);
+$infoString = $info["CategoryName"] . "::" . $info["ForumName"];
 
-
-// chech for login..
-
-// add path
-
-$msg = new eZForumMessage( $ReplyID );
-
-$user = eZUser::currentUser();
-
-$t->set_var( "forum_id", $forum_id );
-$t->set_var( "msg_id", $msg->id() );
-$t->set_var( "info",  $infoString);
-
-$t->set_var( "topic", ("SV: " . stripslashes( $msg->topic() ) ) );
-
-$t->set_var( "user", $user->firstName() . " " . $user->lastName() );
-
+$t->set_var("forum_id", $forum_id );
+$t->set_var("msg_id", $msg->id() );
+$t->set_var("info",  $infoString);
+$t->set_var("topic", ("SV: " . stripslashes( $msg->topic() ) ) );
+$t->set_var("user", eZUser::resolveUser( $msg->userId() ) );
 $t->set_var("body", nl2br( stripslashes( $msg->body() ) ) );
-
-//  $t->set_var("replier", $user->resolveUser( $UserID ) );
+$t->set_var("replier", eZUser::resolveUser( $UserID ) );
 
 $t->pparse("output", "replymessage");
 ?>
