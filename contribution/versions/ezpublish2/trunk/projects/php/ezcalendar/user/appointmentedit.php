@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: appointmentedit.php,v 1.54 2001/09/19 06:31:39 jhe Exp $
+// $Id: appointmentedit.php,v 1.55 2001/09/19 09:52:54 jhe Exp $
 //
 // Created on: <03-Jan-2001 12:47:22 bf>
 //
@@ -123,9 +123,9 @@ else
     $app = new eZAppointment( $AppointmentID );
 
 if ( isSet( $TrusteeUser ) && count( $TrusteeUser ) > 0 )
-    $session->setVariable( "ShowOtherCalenderUsers", $TrusteeUser[0] );
+    $session->setVariable( "ShowOtherCalendarUsers", $TrusteeUser[0] );
 else
-    $session->setVariable( "ShowOtherCalenderUsers", $userID );
+    $session->setVariable( "ShowOtherCalendarUsers", $userID );
 
 $t = new eZTemplate( "ezcalendar/user/" . $ini->read_var( "eZCalendarMain", "TemplateDir" ),
                      "ezcalendar/user/intl/", $Language, "appointmentedit.php" );
@@ -178,7 +178,7 @@ if ( get_class( $app ) != "ezappointment" )
 
 // only the appointment owner or a trustee is allowed to edit or delete an appointment
 if ( $Action == "Edit" &&
-     ( !in_array( $userID, eZUser::trustees( $app->userID() ) )  &&
+     ( !in_array( $userID, eZUser::trustees( $app->userID() ) ) &&
        $app->userID() != $userID ) )
 {
     $t->set_var( "no_error", "" );
@@ -198,7 +198,9 @@ if ( $Action == "DeleteAppointment" )
         foreach ( $AppointmentArrayID as $ID )
         {
             $appointment = new eZAppointment( $ID );
-            if ( $appointment->userID() == $userID )
+            $appUser = new eZUser( $appointment->userID() );
+            if ( ( $appUser->ID() == $userID ) ||
+                 in_array( $userID, $appUser->getByTrustee() ) )
             {
                 $datetime = $appointment->dateTime();
                 $appointment->delete();
@@ -224,7 +226,6 @@ if ( $Action == "DeleteAppointment" )
     
     eZHTTPTool::header( "Location: /calendar/dayview/$year/$month/$day/" );
     exit();
-
 }
 
 // Allowed format for start and stop time:
@@ -395,7 +396,6 @@ if ( $Action == "Insert" || $Action == "Update" )
                                  addZero( $beginDate->month() ),
                                  addZero( $beginDate->day() ), $userID );
                 }
-                die();
             }
             else
             {
@@ -446,7 +446,9 @@ if ( $Action == "Insert" || $Action == "Update" )
         $t->set_var( "own_user_id", $userID );
         $t->set_var( "own_user_name", $user->name() );
         $t->set_var( "trustee_user_name", "" );
-        
+        $t->set_var( "action_value", $Action );
+        $t->set_var( "appointment_id", $AppointmentID );
+
         $trusteeArray = $user->getByTrustee( -1, true );
         foreach ( $trusteeArray as $trustee )
         {
@@ -593,7 +595,9 @@ if ( $StartTimeError )
     $t->set_var( "appointment_id", "new" );
 }
 else
+{
     $t->set_var( "start_time_error", "" );
+}
 
 if ( $StopTimeError )
 {
@@ -602,8 +606,9 @@ if ( $StopTimeError )
     $t->set_var( "appointment_id", "new" );
 }
 else
+{
     $t->set_var( "stop_time_error", "" );
-
+}
 
 $today = new eZDate();
 $tmpdate = new eZDate( $Year, $Month, $Day );
@@ -643,6 +648,7 @@ if ( $Action == "New" )
         $t->set_var( "user_name", "" );
         
         $trusteeArray = $user->getByTrustee( -1, true );
+
         foreach ( $trusteeArray as $trustee )
         {
             $t->set_var( "user_id", $trustee->ID() );
@@ -693,13 +699,18 @@ if ( $Action == "New" )
             $t->set_var( "own_user_name", $user->name() );
             $t->set_var( "own_selected", "" );
             $t->set_var( "user_name", "" );
-            
+            $sessionUser = $session->variable( "ShowOtherCalendarUsers" );
+            print $sessionUser;
+            die();
             $trusteeArray = $user->getByTrustee( -1, true );
             foreach ( $trusteeArray as $trustee )
             {
                 $t->set_var( "user_id", $trustee->ID() );
                 $t->set_var( "user_name", $trustee->name() );
-                $t->set_var( "selected", "" );
+                if ( isSet( $StartTime ) && $sessionUser == $trustee->id() )
+                    $t->set_var( "selected", "selected" );
+                else
+                    $t->set_var( "selected", "" );
                 $t->parse( "trustee_user_name", "trustee_user_name_tpl", true );
             }
         }
@@ -802,7 +813,6 @@ if ( $UserError == false )
 // deletes the dayview cache file for a given day
 function deleteCache( $siteStyle, $language, $year, $month, $day, $userID )
 {
-    print "$siteStyle-$language-$year-$month-$day-$userID<br>";
     @eZFile::unlink( "ezcalendar/user/cache/dayview.tpl-$siteStyle-$language-$year-$month-$day-$userID.cache" );
     @eZFile::unlink( "ezcalendar/user/cache/monthview.tpl-$siteStyle-$language-$year-$month-$userID.cache" );
     @eZFile::unlink( "ezcalendar/user/cache/dayview.tpl-$siteStyle-$language-$year-$month-$day-$userID-private.cache" );
