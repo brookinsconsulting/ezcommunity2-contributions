@@ -23,14 +23,23 @@ switch( $url_array[2] )
     break;
 
     case "folderedit" :
-        {
-            $FolderID = $url_array[3];
-            if( $FolderID == "" )
-                $FolderID = 0;
-            include( "ezmail/user/folderedit.php" );
-        }
+    {
+        $FolderID = $url_array[3];
+        if( $FolderID == "" )
+            $FolderID = 0;
+        include( "ezmail/user/folderedit.php" );
+    }
     break;
 
+    case "mailedit" :
+    {
+        $MailID = $url_array[3];
+        if( $MailID == "" )
+            $MailID = 0;
+        include( "ezmail/user/mailedit.php" );
+    }
+    break;
+    
     case "config" :
     {
         include( "ezmail/user/configure.php" );
