@@ -37,7 +37,7 @@
 	  <input type="text" size="6" name="CurrencyValue[]" value="{currency_value}" />
 	</td>
 	<td class="{td_class}">
-	  <input type="checkbox" name="DeleteID[]" {checked} value="{currency_id}" />
+	  <input type="checkbox" name="DeleteID[]" value="{currency_id}" />
 	</td>
 
 </tr>
