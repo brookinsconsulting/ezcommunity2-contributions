@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezvirtualfile.php,v 1.30 2001/05/29 11:59:20 ce Exp $
+// $Id: ezvirtualfile.php,v 1.31 2001/06/27 11:48:09 ce Exp $
 //
 // Definition of eZVirtualFile class
 //
@@ -42,30 +42,15 @@ class eZVirtualfile
     /*!
       Constructs a new eZVirtualfile object.
     */
-    function eZVirtualfile( $id="", $fetch=true )
+    function eZVirtualfile( $id="" )
     {
         $this->IsConnected = false;
 
         if ( $id != "" )
         {
-
             $this->ID = $id;
-            if ( $fetch == true )
-            {
-                
-                $this->get( $this->ID );
-            }
-            else
-            {
-                $this->State_ = "Dirty";
-                
-            }
+            $this->get( $this->ID );
         }
-        else
-        {
-            $this->State_ = "New";
-        }
-
     }
 
     /*!
@@ -73,27 +58,33 @@ class eZVirtualfile
     */
     function store()
     {
-        $this->dbInit();
-
-        $name = addslashes( $this->Name );
-        $description = addslashes( $this->Description );
-        $filename = addslashes( $this->FileName );
-        $originalfilename = addslashes( $this->OriginalFileName );
+        $db =& eZDB::globalDatabase();
+        $db->begin();
+        $name = $db->escapeString( $this->Name );
+        $description = $db->escapeString( $this->Description );
+        $filename = $db->escapeString( $this->FileName );
+        $originalfilename = $db->escapeString( $this->OriginalFileName );
         
         if ( !isset( $this->ID ) )
         {
-            $this->Database->query( "INSERT INTO eZFileManager_File SET
-                                 Name='$name',
-                                 Description='$description',
-                                 FileName='$filename',
-                                 OriginalFileName='$originalfilename',
-                                 UserID='$this->UserID'
-                                 " );
-			$this->ID = $this->Database->insertID();
+            $db->lock( "eZFileManager_File" );
+            $nextID = $db->nextID( "eZFileManager_File", "ID" );
+            
+            $result = $db->query( "INSERT INTO eZFileManager_File
+                                  ( ID, Name, Description, FileName, OriginalFileName, UserID )
+                                  VALUES ( '$nextID',
+                                           '$name',
+                                           '$description',
+                                           '$filename',
+                                           '$originalfilename',
+                                           '$this->UserID' )
+                                  " );
+			$this->ID = $nextID;
+
         }
         else
         {
-            $this->Database->query( "UPDATE eZFileManager_File SET
+            $result = $db->query( "UPDATE eZFileManager_File SET
                                  Name='$name',
                                  Description='$description',
                                  FileName='$filename',
@@ -101,8 +92,13 @@ class eZVirtualfile
                                  WHERE ID='$this->ID'
                                  " );
         }
-        
-        $this->State_ = "Coherent";
+
+        $db->unlock();
+
+        if ( $result == false )
+            $db->rollback( );
+        else
+            $db->commit();
     }
 
     /*!
@@ -111,21 +107,34 @@ class eZVirtualfile
     function delete()
     {
         // Delete from the database
-        $this->dbInit();
+        $db =& eZDB::globalDatabase();
         
         if ( isset( $this->ID ) )
         {
             $this->removeWritePermissions();
             $this->removeReadPermissions();
-
-            $this->Database->query( "DELETE FROM eZFileManager_File WHERE ID='$this->ID'" );
-            $this->Database->query( "DELETE FROM eZFileManager_FileFolderLink WHERE FileID='$this->ID'" );
             
-            $this->Database->query( "DELETE FROM eZFileManager_FilePermission WHERE ObjectID='$this->ID'" );
-        }
+            $db->begin();
 
+            $results[] = $db->query( "DELETE FROM eZFileManager_File WHERE ID='$this->ID'" );
+            $results[] = $db->query( "DELETE FROM eZFileManager_FileFolderLink WHERE FileID='$this->ID'" );
+            
+            $results[] = $db->query( "DELETE FROM eZFileManager_FilePermission WHERE ObjectID='$this->ID'" );
+
+            $commit = true;
+            foreach(  $results as $result )
+            {
+                if ( $result == false )
+                    $commit = false;
+            }
+            if ( $commit == false )
+                $db->rollback( );
+            else
+                $db->commit();
+        }
+        
         // Delete from the filesystem
-        if ( file_exists ( $this->filePath( true ) ) )
+        if ( ( file_exists ( $this->filePath( true ) ) ) && $commit )
         {
             unlink( $this->filePath( true ) );
         }
@@ -136,12 +145,12 @@ class eZVirtualfile
     */
     function get( $id="" )
     {
-        $this->dbInit();
+        $db =& eZDB::globalDatabase();
 
         $ret = false;
         if ( $id != "" )
         {
-            $this->Database->array_query( $virtualfile_array, "SELECT * FROM eZFileManager_File WHERE ID='$id'" );
+            $db->array_query( $virtualfile_array, "SELECT * FROM eZFileManager_File WHERE ID='$id'" );
 
             if ( count( $virtualfile_array ) > 1 )
             {
@@ -149,32 +158,15 @@ class eZVirtualfile
             }
             else if( count( $virtualfile_array ) == 1 )
             {
-                $this->ID =& $virtualfile_array[0][ "ID" ];
-                $this->Name =& $virtualfile_array[0][ "Name" ];
-                $this->Description =& $virtualfile_array[0][ "Description" ];
-                $this->FileName =& $virtualfile_array[0][ "FileName" ];
-                $this->OriginalFileName =& $virtualfile_array[0][ "OriginalFileName" ];
-                $this->UserID =& $virtualfile_array[0][ "UserID" ];
-
-                $this->State_ = "Coherent";
+                $this->ID =& $virtualfile_array[0][$db->fieldName( "ID" )];
+                $this->Name =& $virtualfile_array[0][$db->fieldName( "Name" )];
+                $this->Description =& $virtualfile_array[0][$db->fieldName( "Description" )];
+                $this->FileName =& $virtualfile_array[0][$db->fieldName( "FileName" )];
+                $this->OriginalFileName =& $virtualfile_array[0][$db->fieldName( "OriginalFileName" )];
+                $this->UserID =& $virtualfile_array[0][$db->fieldName( "UserID" )];
                 $ret = true;
-
-            }
-            else if( count( $virtualfile_array ) < 1 )
-            {
-                $this->State_ = "Dirty";
-            }
-            if( count( $virtualfile_array ) == 0 )
-            {
-                $this->ID = 0;
-                $this->State_ = "New";
             }
         }
-        else
-        {
-            $this->State_ = "Dirty";
-        }
-
         return $ret;
     }
 
@@ -186,16 +178,16 @@ class eZVirtualfile
     */
     function &getAll()
     {
-        $this->dbInit();
+        $db =& eZDB::globalDatabase();
         
         $return_array = array();
         $category_array = array();
         
-        $this->Database->array_query( $category_array, "SELECT ID FROM eZFileManager_File ORDER BY Name" );
+        $db->array_query( $category_array, "SELECT ID FROM eZFileManager_File ORDER BY Name" );
         
         for ( $i=0; $i<count($category_array); $i++ )
         {
-            $return_array[$i] = new eZVirtualFile( $category_array[$i]["ID"], 0 );
+            $return_array[$i] = new eZVirtualFile( $category_array[$i][$db->fieldName("ID")], 0 );
         }
         
         return $return_array;
@@ -213,18 +205,19 @@ class eZVirtualfile
 
         $query = new eZQuery( array( "Name", "Description", "OriginalFileName" ), $queryText );
 
-        $queryString = ( "SELECT ID
-                        FROM eZFileManager_File
+        $queryString = ( "SELECT ID FROM eZFileManager_File
                         WHERE (" . $query->buildQuery() . ")
-                        ORDER By Name
-                        LIMIT $offset, $limit" );
+                        ORDER By Name" );
+
+        $limit = array( "Limit" => $limit,
+                        "Offset" => $offset );
 
 
-        $db->array_query( $fileArray, $queryString );
+        $db->array_query( $fileArray, $queryString, $limit );
 
         foreach ( $fileArray as $file )
         {
-            $returnArray[] = new eZVirtualFile( $file["ID"] );
+            $returnArray[] = new eZVirtualFile( $file[$db->fieldName( "ID" )] );
         }
         return $returnArray;
     }
@@ -244,7 +237,7 @@ class eZVirtualfile
                         WHERE (" . $query->buildQuery() . ")" );
 
         $db->query_single( $result, $queryString );
-        $ret = $result["Count"];
+        $ret = $result[$db->fieldName("Count")];
         return $ret;
     }
 
@@ -265,7 +258,7 @@ class eZVirtualfile
 
         foreach( $fileArray as $file )
         {
-            $returnArray[] = new eZVirtualFile( $file["ID"] );
+            $returnArray[] = new eZVirtualFile( $file[$db->fieldName( "ID" )] );
         }
         return $returnArray;
     }
@@ -276,26 +269,18 @@ class eZVirtualfile
     */
     function id()
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-        
         return $this->ID;
     }
-
-    
     
     /*!
       Returns the name of the virtual file.
     */
     function &name( $html = true )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
-       if( $html )
-           return htmlspecialchars( $this->Name );
-       else
-           return $this->Name;
+        if( $html )
+            return htmlspecialchars( $this->Name );
+        else
+            return $this->Name;
     }
 
     /*!
@@ -303,13 +288,10 @@ class eZVirtualfile
     */
     function &description( $html = true )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
-       if( $html )
-           return htmlspecialchars( $this->Description );
-       else
-           return $this->Description;
+        if( $html )
+            return htmlspecialchars( $this->Description );
+        else
+            return $this->Description;
     }    
 
     /*!
@@ -317,9 +299,6 @@ class eZVirtualfile
     */
     function &fileName()
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-        
         return $this->FileName;
     }
 
@@ -328,9 +307,6 @@ class eZVirtualfile
     */
     function &originalFileName()
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-        
         return $this->OriginalFileName;
     }
 
@@ -340,9 +316,6 @@ class eZVirtualfile
     */
     function &user()
     {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
         if ( $this->UserID != 0 )
         {
             $ret = new eZUser( $this->UserID );
@@ -362,9 +335,9 @@ class eZVirtualfile
         if( get_class( $user ) != "ezuser" )
             return false;
         
-        $database =& eZDB::globalDatabase();
-        $database->query_single( $res, "SELECT UserID from eZFileManager_File WHERE ID='$file'");
-        $userID = $res[ "UserID" ];
+        $db =& eZDB::globalDatabase();
+        $dadb->query_single( $res, "SELECT UserID from eZFileManager_File WHERE ID='$file'");
+        $userID = $res[$db->fieldName( "UserID" )];
         if(  $userID == $user->id() )
             return true;
 
@@ -380,19 +353,16 @@ class eZVirtualfile
     */
     function &filePath( $relative=false )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
-       if ( $relative == true )
-       {
-           $path = "ezfilemanager/files/" . $this->FileName;
-       }
-       else
-       {
-           $path = "/ezfilemanager/files/" . $this->FileName;
-       }
+        if ( $relative == true )
+        {
+            $path = "ezfilemanager/files/" . $this->FileName;
+        }
+        else
+        {
+            $path = "/ezfilemanager/files/" . $this->FileName;
+        }
        
-       return $path;
+        return $path;
     }
 
     /*!
@@ -403,6 +373,13 @@ class eZVirtualfile
     {
         $filepath =& $this->filePath( true );
         $size = filesize( $filepath );
+
+        print( "path: " . $filepath . "<br>");
+        print( "direkte: " . filesize( "ezfilemanager/files/phphjhrHe" ) . "<br>");
+        print( "fra var: ". $filepath . filesize( $filepath ) . "<br>");
+
+//        print( filesize ( "ezfilemanager/files/phphjhrHe" ) );
+
         return $size;
     }
 
@@ -426,9 +403,6 @@ class eZVirtualfile
     */
     function setName( $value )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-        
         $this->Name = $value;
     }
 
@@ -437,9 +411,6 @@ class eZVirtualfile
     */
     function setDescription( $value )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-        
         $this->Description = $value;
     }
 
@@ -448,9 +419,6 @@ class eZVirtualfile
     */
     function setOriginalFileName( $value )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-        
         $this->OriginalFileName = $value;
     }
 
@@ -459,9 +427,6 @@ class eZVirtualfile
     */
     function setUser( &$user )
     {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
         if ( get_class( $user ) == "ezuser" )
         {
             $userID = $user->id();
@@ -474,88 +439,61 @@ class eZVirtualfile
       Makes a copy of the file and stores the file in the file manager.
       
     */
-    function setfile( &$file )
+    function setFile( &$file )
     {
-       if ( $this->State_ == "Dirty" )
-           $this->get( $this->ID );
-        
-       if ( get_class( $file ) == "ezfile" )
-       {
-           print( "storing virtualfile" );
+        if ( get_class( $file ) == "ezfile" )
+        {
+            print( "storing virtualfile" );
 
-           $this->OriginalFileName = $file->name();
+            $this->OriginalFileName = $file->name();
 
-           $suffix = "";
-           if ( ereg( "\\.([a-z]+)$", $this->OriginalFileName, $regs ) )
-           {
-               // We got a suffix, make it lowercase and store it
-               $suffix = strtolower( $regs[1] );
-           }
+            $suffix = "";
+            if ( ereg( "\\.([a-z]+)$", $this->OriginalFileName, $regs ) )
+            {
+                // We got a suffix, make it lowercase and store it
+                $suffix = strtolower( $regs[1] );
+            }
 
-           // the path to the catalogue
+            // the path to the catalogue
 
-           // Copy the file since we support it directly
-           $file->copy( "ezfilemanager/files/" . basename( $file->tmpName() ) . $postfix );
+            // Copy the file since we support it directly
+            $file->copy( "ezfilemanager/files/" . basename( $file->tmpName() ) . $postfix );
 
-           $this->FileName = basename( $file->tmpName() ) . $postfix;
+            $this->FileName = basename( $file->tmpName() ) . $postfix;
 
-           $name = $file->name();
+            $name = $file->name();
            
-           $this->OriginalFileName =& $name;
-       }
+            $this->OriginalFileName =& $name;
+        }
     }
     
-    /*!
-        Checks if the object is in the coherent state. This check can be applied
-        after a get to check if the object data really exists.
-        
-    */
-
-    function isCoherent()
-    {
-        $value = false;
-        
-        if ( $this->State_ == "Coherent" )
-        {
-            $value = true;
-        }
-        
-        return $value;
-    }
-
     /*!
       Retuns the folder for this eZVirtualFile object.
     */
     function &folder()
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
+        $db =& eZDB::globalDatabase();
+        $result = array();
 
-       $this->dbInit();
-       $result = array();
-
-       $query = ( "SELECT FolderID FROM eZFileManager_FileFolderLink WHERE FileID='$this->ID'" );
-       $this->Database->array_query( $result, $query );
-
-       foreach ( $result as $folder )
-       {
-           return new eZVirtualFolder( $folder["FolderID"] );
-       }
+        $query = ( "SELECT FolderID FROM eZFileManager_FileFolderLink WHERE FileID='$this->ID'" );
+        $db->array_query( $result, $query );
+        
+        foreach ( $result as $folder )
+        {
+            return new eZVirtualFolder( $folder[$db->fieldName( "FolderID" )] );
+        }
     }
-
+    
 
     /*!
       Removes the file from every folders.
     */
     function removeFolders()
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
+        $db =& eZDB::globalDatabase();
 
-       $this->dbInit();
-
-       $query = ( "DELETE FROM eZFileManager_FileFolderLink WHERE FileID='$this->ID'" );
-       $this->Database->query( $query );
+        $query = ( "DELETE FROM eZFileManager_FileFolderLink WHERE FileID='$this->ID'" );
+        $db->query( $query );
     }
 
     /*!
@@ -563,39 +501,48 @@ class eZVirtualfile
     */
     function addPageView( $pageView )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
+        if ( get_class( $pageView ) == "ezpageview" )
+        {
+            $db =& eZDB::globalDatabase();
 
-       if ( get_class( $pageView ) == "ezpageview" )
-       {
-           $this->dbInit();
+            $pageViewID = $pageView->id();
 
-           $pageViewID = $pageView->id();
+            $db->lock( "eZFileManager_FilePageViewLink" );
+            $nextID = $db->nextID( "eZFileManager_FilePageViewLink", "ID" );
 
-           $this->Database->query( "LOCK TABLES eZFileManager_FilePageViewLink WRITE" );
-           
-           $query = ( "INSERT INTO eZFileManager_FilePageViewLink
-           SET PageViewID='$pageViewID', FileID='$this->ID' " );
-           
-           $this->Database->query( $query );
+            $query = ( "INSERT INTO eZFileManager_FilePageViewLink
+                       ( ID, PageViewID, FileID )
+                       VALUES ( '$nextID', '$this->ID', '$pageViewID' ) " );
 
-           $this->Database->query( "UNLOCK TABLES" );
-       }
+            $result = $db->query( $query );
+
+            if ( $result == false )
+                $db->rollback( );
+            else
+                $db->commit();
+        }
     }
 
-        /*!
+    /*!
       Adds read permission to the user.
     */
     function addReadPermission( $value )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-       
-       $this->dbInit();
-       
-       $query = "INSERT INTO eZFileManager_FileReadGroupLink SET FileID='$this->ID', GroupID='$value'";
-            
-       $this->Database->query( $query );
+        $db =& eZDB::globalDatabase();
+        
+        $db->lock( "eZFileManager_FileReadGroupLink" );
+        $nextID = $db->nextID( "eZFileManager_FileReadGroupLink", "ID" );
+        
+        $query = "INSERT INTO eZFileManager_FileReadGroupLink
+                 ( ID, FileID, GroupID )
+                 VALUES ( '$nextID', '$this->ID', '$value' )";
+        
+        $result = $db->query( $query );
+        
+        if ( $result == false )
+            $db->rollback( );
+        else
+            $db->commit();
     }
 
     /*!
@@ -603,14 +550,21 @@ class eZVirtualfile
     */
     function addWritePermission( $value )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
+        $db =& eZDB::globalDatabase();
        
-       $this->dbInit();
-       
-       $query = "INSERT INTO eZFileManager_FileWriteGroupLink SET FileID='$this->ID', GroupID='$value'";
-            
-       $this->Database->query( $query );
+        $db->lock( "eZFileManager_FileWriteGroupLink" );
+        $nextID = $db->nextID( "eZFileManager_FileWriteGroupLink", "ID" );
+        
+        $query = "INSERT INTO eZFileManager_FileWriteGroupLink
+                 ( ID, FileID, GroupID )
+                 VALUES ( '$nextID', '$this->ID', '$value' )";
+        
+        $result = $db->query( $query );
+        
+        if ( $result == false )
+            $db->rollback( );
+        else
+            $db->commit();
     }
 
     /*!
@@ -619,46 +573,43 @@ class eZVirtualfile
     */
     function hasReadPermissions( $user=false )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
+        $db =& eZDB::globalDatabase();
 
-       $this->dbInit();
+        $db->array_query( $userArrayID, "SELECT UserID FROM eZFileManager_File WHERE ID='$this->ID'" );
 
-       $this->Database->array_query( $userArrayID, "SELECT UserID FROM eZFileManager_File WHERE ID='$this->ID'" );
+        if ( $user )
+        {
+            if ( $userArrayID[0][$db->fieldName( "UserID" )] == $user->id() )
+            {
+                return true;
+            }
+            $groups = $user->groups();
+        }
 
-       if ( $user )
-       {
-           if ( $userArrayID[0]["UserID"] == $user->id() )
-           {
-               return true;
-           }
-           $groups = $user->groups();
-       }
+        $db->array_query( $readPermissions, "SELECT GroupID FROM eZFileManager_FileReadGroupLink WHERE FileID='$this->ID'" );
 
-       $this->Database->array_query( $readPermissions, "SELECT GroupID FROM eZFileManager_FileReadGroupLink WHERE FileID='$this->ID'" );
-
-       for ( $i=0; $i < count ( $readPermissions ); $i++ )
-       {
-           if ( $readPermissions[$i]["GroupID"] == 0 )
-           {
-               return true;
-           }
-           else
-           {
-               if ( count ( $groups ) > 0 )
-               {
-                   foreach ( $groups as $group )
-                   {
-                       if ( $group->id() == $readPermissions[$i]["GroupID"] )
-                       {
-                           return true;
-                       }
-                   }
-               }
-           }
-       }
+        for ( $i=0; $i < count ( $readPermissions ); $i++ )
+        {
+            if ( $readPermissions[$i][$db->fieldName( "GroupID" )] == 0 )
+            {
+                return true;
+            }
+            else
+            {
+                if ( count ( $groups ) > 0 )
+                {
+                    foreach ( $groups as $group )
+                    {
+                        if ( $group->id() == $readPermissions[$i][$db->fieldName( "GroupID" )] )
+                        {
+                            return true;
+                        }
+                    }
+                }
+            }
+        }
        
-       return false;
+        return false;
     }
 
     /*!
@@ -667,47 +618,43 @@ class eZVirtualfile
     */
     function hasWritePermissions( $user=false )
     {
+        $db =& eZDB::globalDatabase();
 
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
+        $db->array_query( $userArrayID, "SELECT UserID FROM eZFileManager_File WHERE ID='$this->ID'" );
 
-       $this->dbInit();
-
-       $this->Database->array_query( $userArrayID, "SELECT UserID FROM eZFileManager_File WHERE ID='$this->ID'" );
-
-       if ( $user )
-       {
-           if ( $userArrayID[0]["UserID"] == $user->id() )
-           {
-               return true;
-           }
-           $groups = $user->groups();
-       }
+        if ( $user )
+        {
+            if ( $userArrayID[0][$db->fieldName( "UserID" )] == $user->id() )
+            {
+                return true;
+            }
+            $groups = $user->groups();
+        }
        
-       $this->Database->array_query( $writePermissions, "SELECT GroupID FROM eZFileManager_FileWriteGroupLink WHERE FileID='$this->ID'" );
+        $db->array_query( $writePermissions, "SELECT GroupID FROM eZFileManager_FileWriteGroupLink WHERE FileID='$this->ID'" );
 
-       for ( $i=0; $i < count ( $writePermissions ); $i++ )
-       {
-           if ( $writePermissions[$i]["GroupID"] == 0 )
-           {
-               return true;
-           }
-           else
-           {
-               if ( count ( $groups ) > 0 )
-               {
-                   foreach ( $groups as $group )
-                   {
-                       if ( $group->id() == $writePermissions[$i]["GroupID"] )
-                       {
-                           return true;
-                       }
-                   }
-               }
-           }
-       }
+        for ( $i=0; $i < count ( $writePermissions ); $i++ )
+        {
+            if ( $writePermissions[$i][$db->fieldName( "GroupID" )] == 0 )
+            {
+                return true;
+            }
+            else
+            {
+                if ( count ( $groups ) > 0 )
+                {
+                    foreach ( $groups as $group )
+                    {
+                        if ( $group->id() == $writePermissions[$i][$db->fieldName( "GroupID" )] )
+                        {
+                            return true;
+                        }
+                    }
+                }
+            }
+        }
        
-       return false;
+        return false;
     }
 
     /*!
@@ -716,12 +663,14 @@ class eZVirtualfile
     */
     function removeReadPermissions()
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
+        $db =& eZDB::globalDatabase();
 
-       $this->dbInit();
-
-       $this->Database->query( "DELETE FROM eZFileManager_FileReadGroupLink WHERE FileID='$this->ID'" );
+        $db->begin();
+        $result = $db->query( "DELETE FROM eZFileManager_FileReadGroupLink WHERE FileID='$this->ID'" );
+        if ( $result == false )
+            $db->rollback( );
+        else
+            $db->commit();
     }
 
 
@@ -731,12 +680,14 @@ class eZVirtualfile
     */
     function removeWritePermissions()
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
+        $db =& eZDB::globalDatabase();
 
-       $this->dbInit();
-
-       $this->Database->query( "DELETE FROM eZFileManager_FileWriteGroupLink WHERE FileID='$this->ID'" );
+        $db->begin();
+        $result = $db->query( "DELETE FROM eZFileManager_FileWriteGroupLink WHERE FileID='$this->ID'" );
+        if ( $result == false )
+            $db->rollback( );
+        else
+            $db->commit();
     }
 
     /*!
@@ -745,28 +696,25 @@ class eZVirtualfile
     */
     function readPermissions( )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
+        $db =& eZDB::globalDatabase();
 
-       $this->dbInit();
+        $readPermissions = array();
+        $ret = false;
 
-       $readPermissions = array();
-       $ret = false;
-
-       $this->Database->array_query( $readPermissions, "SELECT GroupID FROM eZFileManager_FileReadGroupLink WHERE FileID='$this->ID'" );
+        $db->array_query( $readPermissions, "SELECT GroupID FROM eZFileManager_FileReadGroupLink WHERE FileID='$this->ID'" );
 
       
-       for ( $i=0; $i < count ( $readPermissions ); $i++ )
-       {
-           if ( $readPermissions[$i]["GroupID"] == 0 )
-           {
-               $ret[] = "Everybody";
-           }
+        for ( $i=0; $i < count ( $readPermissions ); $i++ )
+        {
+            if ( $readPermissions[$i][$db->fieldName( "GroupID" )] == 0 )
+            {
+                $ret[] = "Everybody";
+            }
           
-           $ret[] = new eZUserGroup( $readPermissions[$i]["GroupID"] );
-       }
+            $ret[] = new eZUserGroup( $readPermissions[$i][$db->fieldName( "GroupID" )] );
+        }
 
-       return $ret;
+        return $ret;
     }
 
     /*!
@@ -775,45 +723,27 @@ class eZVirtualfile
     */
     function writePermissions( )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
+        $db =& eZDB::globalDatabase();
 
-       $this->dbInit();
+        $writePermissions = array();
+        $ret = false;
 
-       $writePermissions = array();
-       $ret = false;
-
-       $this->Database->array_query( $writePermissions, "SELECT GroupID FROM eZFileManager_FileWriteGroupLink WHERE FileID='$this->ID'" );
+        $db->array_query( $writePermissions, "SELECT GroupID FROM eZFileManager_FileWriteGroupLink WHERE FileID='$this->ID'" );
 
       
-       for ( $i=0; $i < count ( $writePermissions ); $i++ )
-       {
-           if ( $writePermissions[$i]["GroupID"] == 0 )
-           {
-               $ret[] = "Everybody";
-           }
-          
-           $ret[] = new eZUserGroup( $writePermissions[$i]["GroupID"] );
-       }
-
-       return $ret;
-    }
-
-
-    
-    /*!
-      \private
-      Open the database for read and write. Gets all the database information from site.ini.
-    */
-    function dbInit()
-    {
-        if ( $this->IsConnected == false )
+        for ( $i=0; $i < count ( $writePermissions ); $i++ )
         {
-            $this->Database = eZDB::globalDatabase();
-            $this->IsConnected = true;
+            if ( $writePermissions[$i][$db->fieldName( "GroupID" )] == 0 )
+            {
+                $ret[] = "Everybody";
+            }
+          
+            $ret[] = new eZUserGroup( $writePermissions[$i][$db->fieldName( "GroupID" )] );
         }
-    }
 
+        return $ret;
+    }
+    
     var $ID;
     var $Name;
     var $Caption;
