@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: menumaker.php,v 1.4 2001/09/07 13:16:27 br Exp $
+// $Id: menumaker.php,v 1.5 2001/10/11 14:53:50 br Exp $
 //
 // Definition of ||| class
 //
@@ -66,10 +66,11 @@ function menuMaker()
 
     $t->set_var( "menu_box", "" );
     $t->set_var( "menu_header", "" );
+    $t->set_var( "menu_category", "" );
     
     if ( !isset( $CategoryID  ) )
     {
-    $category_id = 0;
+        $category_id = 0;
     }
     else
     {
