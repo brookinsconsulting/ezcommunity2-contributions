@@ -8,6 +8,6 @@
 	<p class="menuspacer">&nbsp;</p>
 	<input type="submit" value="OK" />
 	<p class="menuspacer">&nbsp;</p>
-	<a class="menutext" href="/user/userwithaddress/">Ny bruker</a>
+	<a class="menutext" href="/user/userwithaddress/">New user</a>
 	</form>
 

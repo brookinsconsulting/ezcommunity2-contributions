@@ -1,3 +1,5 @@
+<h1>News</h1>
+
 <!-- BEGIN path_item_tpl -->
 
 <!-- END path_item_tpl -->

@@ -1,3 +1,5 @@
+
+
 <!-- BEGIN path_tpl -->
 
 <!-- END path_tpl -->
@@ -21,15 +23,20 @@
 <!-- END category_tpl -->
 
 </table>
-<hr noshade size="4"/>
+
+
 
 <!-- END category_list_tpl -->
+
 
 
 <!-- BEGIN product_list_tpl -->
 
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
+	<td>
+	<h1>Products</h1>
+	</td>
      <td align="right">
 	 <form action="/trade/search/" method="post">
 	       <input type="text" name="Query">
@@ -38,6 +45,9 @@
      </td>
 </tr>
 </table>
+
+<hr noshade size="4" />
+
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
 
 <!-- BEGIN product_tpl -->
