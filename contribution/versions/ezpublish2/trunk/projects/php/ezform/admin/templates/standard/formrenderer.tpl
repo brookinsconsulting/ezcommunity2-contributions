@@ -64,22 +64,25 @@
 <br /><br />
 
 <!-- END form_sender_tpl -->
+
 <table width="100%" cellpadding="0" cellspacing="0" border="0">
 <tr>
-	<td>
 <!-- BEGIN form_item_tpl -->
-<p class="boxtext">
-{element_name}:
-</p>
-{element}
+	<td {colspan} >
+	<p class="boxtext">
+	{element_name}:
+	</p>
+	{element}
+	</td>
 <!-- BEGIN break_tpl -->
-	</td>
-	<td>
+</tr>
+<tr>
 <!-- END break_tpl -->
+
 <!-- END form_item_tpl -->
-	</td>
 </tr>
 </table>
+
 <!-- BEGIN form_buttons_tpl -->
 <hr noshade="noshade" size="4" />
 

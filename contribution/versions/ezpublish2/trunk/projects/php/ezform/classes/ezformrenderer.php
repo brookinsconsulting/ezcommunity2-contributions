@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezformrenderer.php,v 1.16 2001/10/16 13:41:01 ce Exp $
+// $Id: ezformrenderer.php,v 1.17 2001/10/17 14:34:21 bf Exp $
 //
 // eZFormRenderer class
 //
@@ -205,16 +205,50 @@ class eZFormRenderer
                 $this->Template->parse( "form_instructions", "form_instructions_tpl" );
             }
 
+            $maxBreakCount = 1;
+            $breakCount = 1;
+            $lastBreaked = true;
+            // count the max number of unbreaked elements
+            foreach( $elements as $element )
+            {
+                $eType = $element->elementType();
+                
+                if ( $element->isBreaking() or ( $eType->name() != "text_field_item" ) )
+                {
+                    $lastBreaked = true;
+                    $breakCount = 1;
+                }
+                else
+                {
+                    $lastBreaked = false;
+                }
+
+                if ( $lastBreaked == false )
+                {
+                    $breakCount++;
+                    $maxBreakCount = max( $maxBreakCount, $breakCount );
+                }                
+            }
+            
             foreach( $elements as $element )
             {
                 $elementCounter++;
 
+                $eType = $element->elementType();
 
                 $output = $this->renderElement( $element );
 
                 $this->Template->set_var( "element", $output );
                 $this->Template->set_var( "element_name", $element->name() );
-                if ( $element->isBreaking() )
+
+
+                if ( $eType->name() != "text_field_item" )
+                    $this->Template->set_var( "colspan", " colspan=\"$maxBreakCount\"" );
+                else
+                    $this->Template->set_var( "colspan", " colspan=\"1\"" );
+
+                
+                if ( ( $eType->name() != "text_field_item" ) or $element->isBreaking() )
                 {
                     $this->Template->parse( "break", "break_tpl" );
                 }
