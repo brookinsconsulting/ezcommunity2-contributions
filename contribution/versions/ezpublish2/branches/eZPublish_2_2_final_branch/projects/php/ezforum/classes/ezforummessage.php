@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezforummessage.php,v 1.104.2.1 2001/10/31 09:21:55 jhe Exp $
+// $Id: ezforummessage.php,v 1.104.2.2 2001/11/29 10:37:07 jhe Exp $
 //
 // Definition of eZForumMessage class
 //
@@ -595,11 +595,11 @@ class eZForumMessage
     {
        if ( $htmlchars )
        {
-            return htmlspecialchars( $this->Body );
+            return $this->Body;
        }
        else
        {
-            return $this->Body;
+            return htmlspecialchars( $this->Body );
        }
     }
 
