@@ -27,6 +27,8 @@
 </p>
 
 
+<br />
+
 <!-- BEGIN prev_page_link_tpl -->
 <a class="path" href="/article/articleview/{article_id}/{prev_page_number}/">&lt;&lt; {intl-prev_page}</a>
 <!-- END prev_page_link_tpl -->
@@ -43,3 +45,8 @@
 <!-- BEGIN next_page_link_tpl -->
 | <a class="path" href="/article/articleview/{article_id}/{next_page_number}/">{intl-next_page} &gt;&gt;</a>
 <!-- END next_page_link_tpl -->
+
+<!-- BEGIN print_page_link_tpl -->
+<!-- | <a class="path" href="/article/articleprint/{article_id}/">{intl-print_page}</a> | -->
+<!-- END print_page_link_tpl -->
+
