@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezformrenderer.php,v 1.8 2001/10/01 11:52:17 pkej Exp $
+// $Id: ezformrenderer.php,v 1.9 2001/10/09 09:50:55 bf Exp $
 //
 // eZFormRenderer class
 //
@@ -69,6 +69,10 @@ class eZFormRenderer
             ) );
         $this->Template->set_block( "form_renderer_page_tpl", "text_field_item_tpl", "text_field_item" );
         $this->Template->set_block( "form_renderer_page_tpl", "text_area_item_tpl", "text_area_item" );
+        $this->Template->set_block( "form_renderer_page_tpl", "multiple_select_item_tpl", "multiple_select_item" );
+        $this->Template->set_block( "multiple_select_item_tpl", "sub_item_tpl", "sub_item" );
+        $this->Template->set_block( "form_renderer_page_tpl", "dropdown_item_tpl", "dropdown_item" );
+        $this->Template->set_block( "dropdown_item_tpl", "sub_item_tpl", "sub_item" );
         $this->Template->set_block( "form_renderer_page_tpl", "form_list_tpl", "form_list" );
         $this->Template->set_block( "form_list_tpl", "form_item_tpl", "form_item" );
         $this->Template->set_block( "form_list_tpl", "form_start_tag_tpl", "form_start_tag" );
@@ -159,6 +163,16 @@ class eZFormRenderer
             {
                 $elementCounter++;
 
+
+                $subItems =& $element->fixedValues();
+                $this->Template->set_var( "sub_item", "" );
+
+                foreach ( $subItems as $subItem )
+                {
+                    $this->Template->set_var( "sub_value", $subItem->value() );
+                    $this->Template->parse( "sub_item", "sub_item_tpl", true );
+                }                
+
                 $output = $this->renderElement( $element );
 
                 $this->Template->set_var( "element", $output );
@@ -235,7 +249,7 @@ class eZFormRenderer
             }
         }
         
-        foreach( $elements as $element )
+        foreach ( $elements as $element )
         {
             $elementName = "eZFormElement_" . $element->id();
 
@@ -254,10 +268,10 @@ class eZFormRenderer
 
         }
 
-        if( count( $errorMessages ) > 0 )
+        if ( count( $errorMessages ) > 0 )
         {
             $i = 0;
-            foreach( $errorMessages as $errorMessage )
+            foreach ( $errorMessages as $errorMessage )
             {
                 $errorMessage = $this->Template->Ini->read_var( "strings", $errorMessage );
                 $this->Template->set_var( "error_message", $errorMessage );
@@ -290,7 +304,7 @@ class eZFormRenderer
         
         $emailDefaults = false;
         
-        if( $ini->read_var( "eZFormMain", "CreateEmailDefaults" ) == "enabled" )
+        if ( $ini->read_var( "eZFormMain", "CreateEmailDefaults" ) == "enabled" )
         {
             $emailDefaults = true;
         }
@@ -308,25 +322,31 @@ class eZFormRenderer
             global $$elementName;
             $value = $$elementName;
 
-            if( $emailDefaults == true )
+            print_r( $value );
+
+                
+
+            if ( $emailDefaults == true )
             {
-                if( $element->name() == $this->Template->Ini->read_var( "strings", "subject_label" ) )
+                if ( $element->name() == $this->Template->Ini->read_var( "strings", "subject_label" ) )
                 {
                     $mail->setSubject( $value );
                 }
                 else
                 {
-                    $content = $element->name() . ": " . $content . "\n\n" . $value;
+                    $content = $element->name() . ": " . $content . "\n" . $value . "\n\n";
                 }
             }
             else
             {
-                $content = $element->name() . ": " . $content . "\n\n" . $value;
+                $content = $element->name() . ": " . $content . "\n" . $value . "\n\n";
             }
         }
+
+            die();
         
             
-        if( $emailDefaults == false )
+        if ( $emailDefaults == false )
         {
             $mail->setSubject( $form->name() );
         }

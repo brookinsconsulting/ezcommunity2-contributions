@@ -6,6 +6,23 @@
 <textarea class="box" name="{field_name}" cols="40" rows="5" wrap="soft">{field_value}</textarea>
 <!-- END text_area_item_tpl -->
 
+<!-- BEGIN multiple_select_item_tpl -->
+<select name="{field_name}" multiple="multiple" >
+<!-- BEGIN sub_item_tpl -->
+<option value="{sub_value}">{sub_value}</option>
+<!-- END sub_item_tpl -->
+</select>
+<!-- END multiple_select_item_tpl -->
+
+<!-- BEGIN dropdown_item_tpl -->
+<select name="{field_name}">
+<!-- BEGIN sub_item_tpl -->
+<option value="{sub_value}">{sub_value}</option>
+<!-- END sub_item_tpl -->
+</select>
+<!-- END dropdown_item_tpl -->
+
+
 <!-- BEGIN error_list_tpl -->
 <h2 class="error">{intl-error}</h2>
 <!-- BEGIN error_item_tpl -->

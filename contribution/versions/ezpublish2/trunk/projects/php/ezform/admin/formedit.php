@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: formedit.php,v 1.5 2001/10/09 09:38:09 ce Exp $
+// $Id: formedit.php,v 1.6 2001/10/09 09:50:55 bf Exp $
 //
 // Created on: <12-Jun-2001 13:07:24 pkej>
 //
@@ -249,6 +249,9 @@ $t->set_var( "element_item", "" );
 $t->set_var( "typelist_item", "" );
 $t->set_var( "error_list", "" );
 $t->set_var( "checked", "" );
+
+$t->set_var( "form_completed_page", "" );
+$t->set_var( "form_instruction_page", "" );
 
 if( $form->completedPage() )
 {
