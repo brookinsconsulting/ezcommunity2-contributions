@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: articleview.php,v 1.1 2000/10/19 11:14:21 bf-cvs Exp $
+// $Id: articleview.php,v 1.2 2000/10/20 14:39:07 bf-cvs Exp $
 //
 // 
 //
@@ -47,6 +47,22 @@ $t->set_var( "article_body", $renderer->renderPage( $PageNumber ) );
 
 $t->set_var( "link_text", $article->linkText() );
 
-$t->pparse( "output", "article_view_page_tpl" );
+
+if ( $GenerateStaticPage == "true" )
+{
+    $fp = fopen ( $cachedFile, "w+");
+
+    $output = $t->parse($target, "article_view_page_tpl" );
+    
+    // print the output the first time while printing the cache file.
+    print( $output );
+    fwrite ( $fp, $output );
+    fclose( $fp );
+}
+else
+{
+    $t->pparse( "output", "article_view_page_tpl" );
+}
+
 
 ?>

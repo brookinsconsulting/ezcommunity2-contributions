@@ -19,8 +19,35 @@ switch ( $url_array[2] )
         
         if ( !isset( $PageNumber ) || ( $PageNumber == "" ) )
             $PageNumber= 0;
+        
+        if ( $PageCaching == "enabled" )
+        {
+            print( "cached version<br>" );
+        
+            $CategoryID = $url_array[3];
 
-        include( "ezarticle/user/articleview.php" );
+            $cachedFile = "ezarticle/cache/articleview," . $ArticleID . ",". $PageNumber .".cache";
+            if ( file_exists( $cachedFile ) )
+            {
+                print( "pure static<br>" );
+                
+                include( $cachedFile );
+            }
+            else
+            {
+                print( "first time generated<br>" );                
+                $GenerateStaticPage = "true";
+                
+                include( "ezarticle/user/articleview.php" );
+            }            
+        }
+        else
+        {
+            print( "uncached version" );
+            
+
+            include( "ezarticle/user/articleview.php" );
+        }
     }
     break;
     

@@ -91,7 +91,7 @@
 <!-- BEGIN product_item_tpl -->
 <tr>
 	<td class="{td_class}">
-	{product_name}
+	<a href="/trade/productedit/productpreview/{product_id}/">{product_name}</a>
 	</td>
 	<td class="{td_class}" align="right">
 	{product_price}
