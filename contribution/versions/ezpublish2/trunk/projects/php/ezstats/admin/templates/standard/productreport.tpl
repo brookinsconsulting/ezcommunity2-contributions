@@ -2,6 +2,8 @@
 
 <hr noshade size="4" />
 
+{month}
+
 <h2>{intl-most_viewed_products}:</h2>
 
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
@@ -14,7 +16,7 @@
 	</th>
 </tr>
 <!-- BEGIN most_viewed_product_tpl -->
-<tr>
+<tr class="{bg_color}">
 	<td>
 	{product_name}
 	</td>
@@ -38,7 +40,7 @@
 	</th>
 </tr>
 <!-- BEGIN most_added_to_cart_products_tpl -->
-<tr>
+<tr class="{bg_color}">
 	<td>
 	{product_name}
 	</td>
@@ -62,7 +64,7 @@
 	</th>
 </tr>
 <!-- BEGIN most_added_to_wishlist_products_tpl -->
-<tr>
+<tr class="{bg_color}">
 	<td>
 	{product_name}
 	</td>
@@ -89,7 +91,7 @@
 	</th>
 </tr>
 <!-- BEGIN most_bought_products_tpl -->
-<tr>
+<tr class="{bg_color}">
 	<td>
 	{product_name}
 	</td>
@@ -101,6 +103,39 @@
 	</td>
 </tr>
 <!-- END most_bought_products_tpl -->
+
+<!-- BEGIN month_tpl -->
+<table>
+<tr>
+	<!-- BEGIN month_previous_tpl -->
+	<td>
+	<a href="/stats/productreport/{previous_year}/{previous_month}">{intl-previous}</a>
+	</td>
+	<!-- END month_previous_tpl -->
+	
+	<!-- BEGIN month_previous_inactive_tpl -->
+	<td>
+	{intl-previous}
+	</td>
+	<!-- END month_previous_inactive_tpl -->
+
+	<!-- BEGIN month_next_tpl -->
+	<td>
+	<a href="/stats/productreport/{next_year}/{next_month}">{intl-next}</a>
+	</td>
+	<!-- END month_next_tpl -->
+
+	<!-- BEGIN month_next_inactive_tpl -->
+	<td>
+	{intl-next}
+	</td>
+	<!-- END month_next_inactive_tpl -->
+
+</tr>
+</table>
+<!-- END month_tpl -->
+	</td>
+</tr>
 
 </table>
 <hr noshade size="4" />

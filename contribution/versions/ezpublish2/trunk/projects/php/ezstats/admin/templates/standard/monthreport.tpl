@@ -125,6 +125,9 @@
 	</td>
 	<!-- END month_next_inactive_tpl -->
 
+	<td>
+	<a href="/stats/yearreport/{this_year}">{intl-year_report}</a>
+	</td>
 </tr>
 </table>
 <!-- END month_tpl -->

@@ -120,6 +120,13 @@
 	</td>
 	<!-- END day_next_inactive_tpl -->
 
+	<td>
+	<a href="/stats/monthreport/{this_year}/{this_month}">{intl-month_report}</a>
+	</td>
+
+	<td>
+	<a href="/stats/yearreport/{this_year}">{intl-year_report}</a>
+	</td>
 </tr>
 </table>
 <!-- END day_tpl -->
