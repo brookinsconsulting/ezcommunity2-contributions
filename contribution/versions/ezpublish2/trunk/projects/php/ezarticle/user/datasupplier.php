@@ -104,7 +104,6 @@ switch ( $url_array[2] )
             $CategoryID = 0;
 
         include( "ezarticle/user/articleheaderlist.php" );
-       
     }
     break;
     
@@ -261,10 +260,23 @@ switch ( $url_array[2] )
     case "rssheadlines":
     {
         include( "ezarticle/user/articlelistrss.php" );
-
     }
     break;
-    
+
+    case "articleedit":
+    {
+        switch ( $url_array[3] )
+        {
+            case "new" :
+            {
+                $Action = "New";
+                include( "ezarticle/user/userarticleedit.php" );
+                break;
+            }
+        }
+    }
+    break;
+
 }
 
 ?>

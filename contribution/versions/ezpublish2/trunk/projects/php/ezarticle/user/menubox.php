@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: menubox.php,v 1.5 2001/01/22 14:42:59 jb Exp $
+// $Id: menubox.php,v 1.6 2001/02/23 09:57:20 gl Exp $
 //
 // 
 //
@@ -74,6 +74,9 @@ function createArticleMenu()
         ) );
 
     $t->set_block( "menu_box_tpl", "article_category_tpl", "article_category" );
+    $t->set_block( "menu_box_tpl", "submit_article_tpl", "submit_article" );
+
+    $t->set_var( "submit_article", "" );
 
 // Lister alle kategorier
     
@@ -94,12 +97,20 @@ function createArticleMenu()
             $t->set_var( "articlecategory_title", $categoryItem->name() );
             
             $t->parse( "article_category", "article_category_tpl", true );
-            
         }
     }
     $t->set_var( "articlecategory_id", $LGID );
-                       
-//      $t->pparse( "output", "article_category_list" );
+
+
+    // user-submitted articles
+    include_once( "ezuser/classes/ezuser.php" );
+
+    if ( eZUser::currentUser() != false &&
+         $ini->read_var( "eZArticleMain", "UserSubmitArticles" ) == "enabled" )
+    {
+        $t->parse( "submit_article", "submit_article_tpl", true );
+    }
+
 
     if ( $GenerateStaticPage == "true" )
     {
