@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: refererlist.php,v 1.9 2001/08/24 11:46:14 br Exp $
+// $Id: refererlist.php,v 1.10 2001/09/24 17:55:13 br Exp $
 //
 // Created on: <07-Jan-2001 16:13:21 bf>
 //
@@ -75,6 +75,7 @@ if ( count( $latest ) > 0 )
         $i++;
     }
 
+    eZList::drawNavigator( $t, $ItemCount, $ViewLimit, $Offset, "referer_list_tpl" );
     $t->parse( "referer_list", "referer_list_tpl" );
 }
 else
@@ -85,7 +86,6 @@ else
 $t->set_var( "view_mode", $ViewMode );
 $t->set_var( "view_limit", $ViewLimit );
 
-eZList::drawNavigator( $t, $ItemCount, $ViewLimit, $Offset, "referer_list_tpl" );
 
 $t->pparse( "output", "referer_page_tpl" );
 
