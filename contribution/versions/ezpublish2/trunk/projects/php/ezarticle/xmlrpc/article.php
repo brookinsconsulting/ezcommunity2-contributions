@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: article.php,v 1.18 2001/09/26 14:24:13 jb Exp $
+// $Id: article.php,v 1.19 2001/09/27 08:53:46 jb Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -395,7 +395,8 @@ else if ( $Command == "search" )
         if ( isset( $par["PhotographerID"] ) )
             $params["PhotographerID"] = $par["PhotographerID"]->value();
     }
-    $result =& $article->search( $text, "alpha", true, 0, -1, $params );
+    $search_count = 0;
+    $result =& $article->search( $text, "alpha", true, 0, -1, $params, $search_count );
     foreach( $result as $item )
     {
         $cat =& $item->categoryDefinition();
