@@ -142,6 +142,44 @@ print( "<h1>This is an eZ publish example page </h1>" );
 ?>
 </php>
 
+Then you need to include the files in the datasupplier, first admin:
+
+<php>
+switch ( $url_array[2] )
+{
+    case "page":
+    {
+        include( "ezexample/admin/page.php" );
+    }
+    break;
+
+    default :
+    {
+        // go to default module page or show an error message
+        print( "Error: your page request was not found" );
+    }
+}
+</php>
+
+Then for the user page:
+
+<php>
+switch ( $url_array[2] )
+{
+    case "page":
+    {
+        include( "ezexample/user/page.php" );
+    }
+    break;
+
+    default :
+    {
+        // go to default module page or show an error message
+        print( "Error: your page request was not found" );
+    }
+}
+</php>
+
 Voilá, you're done, your first module for eZ publish is finished. You should now be able to point your browser to the admin site and see the menu box as the last menu box on your site. If you want to access the menu from the public part of your site, all  you have to do is add "/example/page" to the sites URL.
 
 If you want to give people permanent access to your new module you need to insert the apropriate url into the design of the public site. That is left as an exercise for you.
