@@ -3,12 +3,11 @@
 switch ( $url_array[2] )
 {
 
-    // montlist => yearview
-    case "monthlist" :
+    case "yearview" :
     {
         $Year = $url_array[3];
-        
-        include( "ezcalendar/user/monthlist.php" );
+
+        include( "ezcalendar/user/yearview.php" );
     }
     break;
 
@@ -16,6 +15,7 @@ switch ( $url_array[2] )
     {
         $Year = $url_array[3];
         $Month = $url_array[4];
+
         include( "ezcalendar/user/monthview.php" );
     }
     break;
@@ -25,7 +25,7 @@ switch ( $url_array[2] )
         $Year = $url_array[3];
         $Month = $url_array[4];
         $Day = $url_array[5];
-        
+
         include( "ezcalendar/user/dayview.php" );
     }
     break;

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: monthlist.php,v 1.1 2001/01/07 18:39:54 bf Exp $
+// $Id: yearview.php,v 1.1 2001/01/12 17:32:09 gl Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <27-Dec-2000 11:29:22 bf>
