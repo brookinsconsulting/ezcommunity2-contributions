@@ -1,5 +1,5 @@
 #
-# $Id: eznews.sql,v 1.11 2000/10/11 21:14:48 pkej-cvs Exp $
+# $Id: eznews.sql,v 1.12 2000/10/12 08:45:48 pkej-cvs Exp $
 #
 # eZNews database schema.
 #
@@ -31,8 +31,8 @@ INSERT INTO eZNews_ItemType (ID, ParentID, Name, eZClass, eZTable) VALUES ('4', 
 INSERT INTO eZNews_ItemType (ID, ParentID, Name, eZClass, eZTable) VALUES ('5', '2', 'article',  'eZNewsArticle',  'eZNews_Article');
 INSERT INTO eZNews_ItemType (ID, ParentID, Name, eZClass, eZTable) VALUES ('6', '4', 'product',  'eZNewsArticleProduct',  '');
 INSERT INTO eZNews_ItemType (ID, ParentID, Name, eZClass, eZTable) VALUES ('7', '4', 'nitf',  'eZNewsArticleNITF',  'eZNews_ArticleNITF');
-INSERT INTO eZNews_ItemType (ID, ParentID, Name, eZClass, eZTable) VALUES ('8', '3', 'flowercategory',  'eZNewsCategory',  'eZNews_Category');
-INSERT INTO eZNews_ItemType (ID, ParentID, Name, eZClass, eZTable) VALUES ('9', '3', 'flowerarticle',  'eZNewsArticle',  'eZNews_Article');
+INSERT INTO eZNews_ItemType (ID, ParentID, Name, eZClass, eZTable) VALUES ('8', '3', 'flowercategory',  'eZNewsFlowerCategory',  'eZNews_Category');
+INSERT INTO eZNews_ItemType (ID, ParentID, Name, eZClass, eZTable) VALUES ('9', '3', 'flowerarticle',  'eZNewsFlowerArticle',  'eZNews_Article');
 
 
 #Future extensions follow
