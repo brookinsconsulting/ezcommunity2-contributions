@@ -15,6 +15,7 @@ TwelveHourSelect=enabled
 MinutesSelectInterval=15
 UserComments=enabled
 TruncateTitle=enabled
+TruncateTitleSize=20
 LinkModules=eZGroupEventCalendar:1000
 YearsPrint=19
 
@@ -59,6 +60,11 @@ Limit=50
 # UserComments            The option to enable users to login and create comments on an event
 #
 # TruncateTitle           The option to truncate event title text in calendar views
+# TruncateTitleSize       The size (of characters) which a title must be less than in order 
+#			  to avoid being truncated (visualy) in monthview
+#
+# LinkModules		  The eZForum ID of the forum created by the Admin for the eZ Calendar 
+#			  Event Coments. Example Syntax it accepts is (ModuleName:ID) ie: eZGroupEventCalendar:1000 
 
 
 #

@@ -56,6 +56,7 @@ Step 3: Add the following lines to your eZ publish's site.ini file and modify th
 	MinutesSelectInterval=15
 	UserComments=enabled
 	TruncateTitle=enabled
+	TruncateTitleSize=20
 	LinkModules=eZGroupEventCalendar:1000
 	YearsPrint=19
 
