@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezbulkmailforgot.php,v 1.10.2.1 2001/10/31 11:31:48 fh Exp $
+// $Id: ezbulkmailforgot.php,v 1.10.2.2 2001/12/07 15:38:28 br Exp $
 //
 // Created on: <20-Apr-2001 13:32:11 fh>
 //
@@ -95,6 +95,7 @@ class eZBulkMailForgot
                           '$this->Hash' )
                         " );
 			$this->ID = $nextID;
+            $db->unlock();
         }
         else
         {
@@ -105,7 +106,6 @@ class eZBulkMailForgot
                                  WHERE ID='$this->ID'" );
         }
 
-        $db->unlock();
         if ( $result == false )
             $db->rollback( );
         else
@@ -124,7 +124,7 @@ class eZBulkMailForgot
         {
             $db->begin();
             $result = $db->query( "DELETE FROM eZBulkMail_Forgot WHERE ID='$this->ID'" );
-            if ( $commit == false )
+            if ( $result == false )
                 $db->rollback( );
             else
                 $db->commit();

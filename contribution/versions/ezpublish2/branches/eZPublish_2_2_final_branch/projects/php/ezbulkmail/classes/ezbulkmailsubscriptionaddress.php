@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezbulkmailsubscriptionaddress.php,v 1.20.2.1 2001/10/30 18:11:38 fh Exp $
+// $Id: ezbulkmailsubscriptionaddress.php,v 1.20.2.2 2001/12/07 15:38:28 br Exp $
 //
 // eZBulkMailSubscriptionAddress class
 //
@@ -147,7 +147,7 @@ class eZBulkMailSubscriptionAddress
     function getByEmail( $email )
     {
         $db =& eZDB::globalDatabase();
-        $email = addslashes( $email );
+        $email = $db->escapeString( $email );
         $db->array_query( $address_array, "SELECT ID FROM eZBulkMail_SubscriptionAddress WHERE EMail='$email'" );
 
         
