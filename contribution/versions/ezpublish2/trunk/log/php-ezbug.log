@@ -406,3 +406,11 @@ Maintainer(s) : vl@ez.no
       classes/ezbugsupport.php
       classes/ezbugsupportcategory.php: much improved support system
 
+
+Module : ezbug
+Repository path : /home/cvsroot/projects/php/ezbug
+Maintainer(s) : vl@ez.no
+2001-11-07  Jo Henrik Endrerud  <jhe@ez.no>
+
+    * user/datasupplier.php: added cron job
+

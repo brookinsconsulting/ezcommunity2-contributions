@@ -368,3 +368,11 @@ Maintainer(s) : bf@ez.no
     * ezdb.php: updated table for support
     improved ezdb::finish method
 
+
+Module : classes
+Repository path : /home/cvsroot/projects/php/classes
+Maintainer(s) : bf@ez.no
+2001-11-07  Baard Farstad  <bf@ez.no>
+
+    * INIFile.php: Added parameter to function.
+

@@ -108,3 +108,17 @@ Maintainer(s) : pkej@ez.no
       user/intl/de_DE/menubox.php.ini
       user/intl/de_DE/quiz.php.ini: de_DE update for 2.2.1
 
+
+Module : ezquiz
+Repository path : /home/cvsroot/projects/php/ezquiz
+Maintainer(s) : pkej@ez.no
+2001-11-07  Jo Henrik Endrerud  <jhe@ez.no>
+
+    * admin/templates/standard/gameedit.tpl: added www_dir in link
+
+    * admin/templates/standard/gameedit.tpl: fixed www_dir in link
+
+    * admin/intl/en_GB/gamelist.php.ini: added next and previous strings
+
+    * admin/intl/en_GB/gamelist.php.ini: added next and previous
+

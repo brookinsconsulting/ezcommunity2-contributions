@@ -240,3 +240,11 @@ Maintainer(s) : ce@ez.no
       admin/intl/de_DE/typeedit.php.ini
       admin/intl/de_DE/typelist.php.ini: de_DE update for 2.2.1
 
+
+Module : ezmediacatalogue
+Repository path : /home/cvsroot/projects/php/ezmediacatalogue
+Maintainer(s) : ce@ez.no
+2001-11-07  Christoffer Elo  <ce@ez.no>
+
+    * admin/templates/standard/medialist.tpl: Fixed a template  error
+
