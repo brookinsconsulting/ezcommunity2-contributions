@@ -14,18 +14,35 @@
 <p class="boxtext">{intl-options}:</p>
 <table table cellspacing="0" cellpadding="4" border="0">
 <tr>
-	<th>{intl-value}:</th>
+	<th>&nbsp;</th>
+	<th colspan="{value_count}">{intl-value_description}:</th>
 	<th>{intl-main_price}:</th>
 	<!-- BEGIN group_item_tpl -->
 	<th>{price_group_name}:</th>
 	<!-- END group_item_tpl -->
 	<th>&nbsp;</th>
 </tr>
+<tr>
+	<th valign="bottom">{intl-value_header}:</th>
+	<!-- BEGIN value_description_item_tpl -->
+	<td>
+	<div class="check"><input type="checkbox" name="OptionDescriptionDelete[]" value="{value_description_index}" />{intl-delete}</div>
+	<input type="text" size="10" name="OptionValueDescription[{value_description_index}]" value="{option_description_value}" />
+	</td>
+	<!-- END value_description_item_tpl -->
+	<td>&nbsp;</td>
+	<td colspan="{group_count}">&nbsp;</td>
+</tr>
 	<!-- BEGIN option_item_tpl -->
 <tr>
+	<th>
+	{intl-value} {value_pos}:
+	</th>
+	<!-- BEGIN value_item_tpl -->
 	<td>
-	<input type="text" size="20" name="OptionValue[]" value="{option_value}" />
+	<input type="text" size="10" name="OptionValue[{value_index}][]" value="{option_value}" />
 	</td>
+	<!-- END value_item_tpl -->
 	<td>
 	<input type="text" size="8" name="OptionMainPrice[]" value="{main_price_value}" />
 	</td>
@@ -48,10 +65,15 @@
 	<input class="stdbutton" type="submit" name="NewValue" value="{intl-new_value}" />	
 	</td>
 	<td>
+	<input class="stdbutton" type="submit" name="NewDescription" value="{intl-new_description}" />	
+	</td>
+	<td>
 	<input class="stdbutton" type="submit" name="Delete" value="{intl-delete_value}" />	
 	</td>
 </tr>
 </table>
+
+<input type="hidden" name="ValueCount" value="{value_count}" />
 
 <hr noshade="noshade" size="4" />
 
