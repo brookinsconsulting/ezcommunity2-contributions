@@ -9,10 +9,12 @@ Changes from version 2.0 beta 2
 * Unhadled bugs informs user of module they belong to.
 * Auto redirect URL hackers in bugs to default page.
 * Added banner ads in templates
+* Documentation updated
 * Removed some status/type admin pages, added buttons in listings instead
 * Changed over to use mass update forms for category types and similar short lists with litle information
 * Deletion isn't done on an item to item basis, but with a checkboxes for each item then delete checked
 * Added proper deletion checks; now there are fewer cases where something belonging to objects in use can be deleted
+* Continued updating files/modules to use standard functionality and methods of doing stuff
 * Removed unsued files and clutter
 * Quite a few language fixes
 * Fixed bugs
@@ -24,7 +26,20 @@ Changes from version 2.0 beta 1
 * Top referers and read pages working in stats
 * Yearly, daily and monthly reports in stats
 * Entry/exit pages analysed by stats
+* Cleaned up decoders in eZ news feed, will list themselves in a box for easy selection
+* Checkout is improved in trade
+* Limit items in hot deals list/columarization functionality added
+* Trade has some SSL mode fixes
+* Added XML-RPC interface to trade
+* Moved to specific caching code in a class, which improves reliability
+* INI files can now use comments and also accets CRs as well as LFs for return (ie. msdos editors)
+* Articles and products can be ordered in their categories
+* More lists supports paging (next/prev buttons)
+* Added local article modules and new article tags.
+* Added class for e-mail sending; works with lists of addresses.
+* Charsets used in headers are read from configuration file
 * Bugs shows date and who commited them
+* Continued updating files/modules to use standard functionality and methods of doing stuff
 * Small article list
 * Added mass delete functionality
 * Quite a few language fixes
