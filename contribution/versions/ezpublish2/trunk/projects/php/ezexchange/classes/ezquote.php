@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezquote.php,v 1.3 2001/02/03 18:28:17 jb Exp $
+// $Id: ezquote.php,v 1.4 2001/02/03 18:53:57 jb Exp $
 //
 // Definition of eZQuote class
 //
@@ -56,7 +56,7 @@ class eZQuote
 
     function store()
     {
-        $db = eZDB::globalDatabase();
+        $db =& eZDB::globalDatabase();
         $date = $this->Date->mySQLDate();
         $price = $this->Price;
         if ( $this->QuoteState == "offer" )
@@ -86,7 +86,7 @@ class eZQuote
 
     function delete( $id = false )
     {
-        $db = eZDB::globalDatabase();
+        $db =& eZDB::globalDatabase();
 
         if ( !$id )
             $id = $this->ID;
@@ -102,7 +102,7 @@ class eZQuote
 
     function get( $id )
     {
-        $db = eZDB::globalDatabase();
+        $db =& eZDB::globalDatabase();
         if( $id != "" )
         {
             $db->query_single( $exchange_array, "SELECT ID, Date,
@@ -142,7 +142,7 @@ class eZQuote
 
     function addToUser( $productid, $quoteid = false )
     {
-        $db = eZDB::globalDatabase();
+        $db =& eZDB::globalDatabase();
         $user =& eZUser::currentUser();
         $userid = $user->id();
         $db->query( "INSERT INTO eZExchange_UserProductQuoteDict SET
@@ -241,7 +241,7 @@ class eZQuote
 
     function getQuote( $productid, $type, $as_object = true )
     {
-        $db = eZDB::globalDatabase();
+        $db =& eZDB::globalDatabase();
 
         switch( $type )
         {
@@ -299,7 +299,7 @@ class eZQuote
 
     function getQuotes( $productid, $type, $as_object = true, $limit = false )
     {
-        $db = eZDB::globalDatabase();
+        $db =& eZDB::globalDatabase();
 
         $minor_sort = "Q.Quantity, Q.Type, Q.ExpireDate";
         switch( $type )
@@ -365,7 +365,7 @@ class eZQuote
 
     function bestPriced( $productid, $type, $as_object = true )
     {
-        $db = eZDB::globalDatabase();
+        $db =& eZDB::globalDatabase();
 
         switch( $type )
         {
@@ -395,6 +395,8 @@ class eZQuote
                                        WHERE UPQD.ProductID='$productid' AND Q.ExpireDate >= CURDATE()
                                          AND UPQD.QuoteID=Q.ID AND Q.Price $cond
                                        GROUP BY Q.Price $order LIMIT 1" );
+        if ( count( $qry ) == 0 )
+            return false;
         if ( $as_object )
         {
             $ret = new eZQuote( $qry[0]["ID"] );
@@ -408,7 +410,7 @@ class eZQuote
 
     function getTotalQuantity( $productid, $price )
     {
-        $db = eZDB::globalDatabase();
+        $db =& eZDB::globalDatabase();
 
         $db->query_single( $qry_array, "SELECT sum( Q.Quantity ) AS Quantity
                                         FROM eZExchange_UserProductQuoteDict AS UPQD,
@@ -420,7 +422,7 @@ class eZQuote
 
     function getTotalUsers( $productid, $price )
     {
-        $db = eZDB::globalDatabase();
+        $db =& eZDB::globalDatabase();
 
         $db->query_single( $qry_array, "SELECT count( Q.Quantity ) AS Count
                                         FROM eZExchange_UserProductQuoteDict AS UPQD,
