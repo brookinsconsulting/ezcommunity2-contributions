@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: monthview.php,v 1.20 2001/01/27 22:13:58 gl Exp $
+// $Id: monthview.php,v 1.21 2001/03/05 13:30:17 gl Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <27-Dec-2000 14:09:56 bf>
@@ -216,6 +216,9 @@ else
                     // prevous month
                     if ( ( $currentDay <= $date->daysInMonth() ) )
                     {
+                        $t->set_var( "public_appointment", "" );
+                        $t->set_var( "private_appointment", "" );
+
                         if ( $date->month() == 1 )
                         {
                             $prevNextDate->setYear( $date->year() - 1 );
@@ -236,6 +239,9 @@ else
                     else
                     {
                         // next month
+                        $t->set_var( "public_appointment", "" );
+                        $t->set_var( "private_appointment", "" );
+
                         if ( $date->month() == 12 )
                         {
                             $prevNextDate->setYear( $date->year() + 1 );
