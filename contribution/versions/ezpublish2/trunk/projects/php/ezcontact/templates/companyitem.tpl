@@ -15,7 +15,8 @@
 	</td>
 	
 	<td bgcolor="{bg_color}">
-		{delete_company}
+<a href="#" onClick="verify( 'Slette kontaktfirma?', 'index.php?page=./ezcontact/companyedit.php&Action=delete&CID=15'); return false;" onMouseOut="MM_swapImgRestore(); MM_swapImage('firma15-se','','./ezcontact/images/firmamini.gif',1)" onMouseOver="MM_swapImage('firma15-se','','./ezcontact/images/firmaminimrk.gif',1); MM_swapImage('firma15-slett','','./ezcontact/images/slettminimrk.gif',1)"><img name="firma15-slett" border="0" src="./ezcontact/images/slettmini.gif" width="16" height="16" align="top"></a>
+
 	</td>
 </tr>
 

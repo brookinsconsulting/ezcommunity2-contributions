@@ -1,4 +1,4 @@
-<form method="post" action="index.php?prePage={document_root}useredit.php">
+<form method="post" action="index.php?page={document_root}useredit.php">
 <h1>{intl-headline}</h1>
 
 <p>{intl-usergroup}<br>
