@@ -47,6 +47,38 @@
 <textarea name="Description" cols="40" rows="8" wrap="soft">{description_value}</textarea>
 <br /><br />
 
+<!-- inserted files -->
+Avaliable patches:
+<table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
+<tr>
+	<th>{intl-file_id}:</th>
+	<th>{intl-file_name}:</th>
+	<th>&nbsp;</th>
+	<th>&nbsp;</th>
+</tr>
+
+<!-- BEGIN file_tpl -->
+<tr>
+	<td width="1%" class="{td_class}">
+	{file_number}
+	</td>
+	<td width="97%" class="{td_class}">
+	{file_name}
+	</td>
+	<td width="1%" class="{td_class}">
+	<a href="/bug/report/fileedit/edit/{file_id}/{bug_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('eztp{file_number}-red','','/images/{site_style}/redigerminimrk.gif',1)"><img name="eztp{file_number}-red" border="0" src="/images/{site_style}/redigermini.gif" width="16" height="16" align="top" border="0" alt="Edit" /></a>
+	</td>
+	<td width="1%" class="{td_class}">
+	<input type="checkbox" name="FileArrayID[]" value="{file_id}" />
+	</td>
+</tr>
+<!-- END file_tpl -->
+
+</table>
+<!-- inserted Images -->
+
+
+
 <hr noshade="noshade" size="4">
 <table cellspacing="0" cellpadding="0" border="0">
 <tr>

@@ -84,20 +84,20 @@ switch ( $url_array[2] )
             
             case "fileedit" :
             {
-                if( $url_array[4] == "New")
+                if( $url_array[4] == "new")
                 {
                     $Action = "New";
                     $BugID = $url_array[5];
                     include( "ezbug/user/fileedit.php" );
                 }
-                else if( $url_array[4] == "Edit" )
+                else if( $url_array[4] == "edit" )
                 {
                     $Action = "Edit";
                     $BugID = $url_array[6];
                     $FileID = $url_array[5];
                     include( "ezbug/user/fileedit.php" );
                 }
-                if( $url_array[4] == "Delete" )
+                else if( $url_array[4] == "delete" )
                 {
                     $Action = "Delete";
                     $BugID = $url_array[6];

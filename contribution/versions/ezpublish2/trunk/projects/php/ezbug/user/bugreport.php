@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: bugreport.php,v 1.9 2001/02/19 13:43:43 fh Exp $
+// $Id: bugreport.php,v 1.10 2001/02/19 16:42:24 fh Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <27-Nov-2000 20:31:00 bf>
@@ -40,6 +40,7 @@ include_once( "ezbug/classes/ezbugmodule.php" );
 $t = new eZTemplate( "ezbug/user/" . $ini->read_var( "eZBugMain", "TemplateDir" ),
                      "ezbug/user/intl", $Language, "bugreport.php" );
 $t->setAllStrings();
+$t->set_var( "site_style", $SiteStyle );
 
 $t->set_file( array(
     "bug_report_tpl" => "bugreport.tpl"
@@ -50,7 +51,7 @@ $t->set_block( "bug_report_tpl", "category_item_tpl", "category_item" );
 $t->set_block( "bug_report_tpl", "email_address_tpl", "email_address" );
 $t->set_block( "bug_report_tpl", "all_fields_error_tpl", "all_fields_error" );
 $t->set_block( "bug_report_tpl", "email_error_tpl", "email_error" );
-
+$t->set_block( "bug_report_tpl", "file_tpl", "file" );
 
 // new inserts new bug
 // update, updates the bug with new values.
@@ -71,7 +72,7 @@ if( $Action == "New" )
         $bug->setName( $Name );
         $bug->setDescription( $Description );
         
-        if ( $user )
+        if( $user )
         {
             $bug->setUser( $user );
             
@@ -86,7 +87,7 @@ if( $Action == "New" )
         }
         else
         {
-            if ( $bug->setUserEmail( $Email ) )
+            if( $bug->setUserEmail( $Email ) )
             {
                 $bug->setIsHandled( false );
                 $bug->store();
@@ -197,6 +198,8 @@ $catName = "";
 $modName = "";
 $t->set_var( "description_value", "" );
 $t->set_var( "title_value", "" );
+$t->set_var( "file", "" );
+
 if( $Action == "Edit" ) // load values from database
 {
     $bug = new eZBug( $BugID );
@@ -210,6 +213,31 @@ if( $Action == "Edit" ) // load values from database
 
     $t->set_var( "description_value", $bug->description() );
     $t->set_var( "title_value", $bug->name() );
+
+
+// get the files
+    $files = $bug->files();
+    $i = 0;
+    foreach( $files as $file )
+    {
+        if ( ( $i % 2 ) == 0 )
+        {
+            $t->set_var( "td_class", "bglight" );
+        }
+        else
+        {
+            $t->set_var( "td_class", "bgdark" );
+        }
+
+        $t->set_var( "file_number", $i + 1 );
+        $t->set_var( "file_id", $file->id() );
+        
+        $t->set_var( "file_name", "<a href=\"/filemanager/download/" . $file->id() . "/" . $file->originalFileName() . "\">" . $file->name() . "</a>" );
+    
+        $t->parse( "file", "file_tpl", true );
+    
+        $i++;
+    }
 }
 
 // if any errors are set, lets display them to the user.

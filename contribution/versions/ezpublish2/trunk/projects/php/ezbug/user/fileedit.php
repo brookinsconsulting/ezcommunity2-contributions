@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: fileedit.php,v 1.1 2001/02/16 19:23:42 fh Exp $
+// $Id: fileedit.php,v 1.2 2001/02/19 16:42:24 fh Exp $
 //
 // Frederik Holljen <fh@ez.no>
 // Created on: <16-Feb-2001 14:33:48 fh>
@@ -96,7 +96,7 @@ if ( $Action == "Update" )
 //      }
     
     include_once( "classes/ezhttptool.php" );
-    eZHTTPTool::header( "Location: /article/articleedit/filelist/" . $ArticleID . "/" );
+    eZHTTPTool::header( "Location: /bug/report/edit/" . $BugID . "/" );
     exit();
 }
 
@@ -109,9 +109,10 @@ if ( $Action == "Delete" )
     $bug->deleteFile( $file );
     
     include_once( "classes/ezhttptool.php" );
-    eZHTTPTool::header( "Location: /article/articleedit/filelist/" . $ArticleID . "/" );
+    eZHTTPTool::header( "Location: /bug/edit/" . $BugID . "/" );
     exit();    
 }
+
 
 $t = new eZTemplate( "ezbug/user/" . $ini->read_var( "eZBugMain", "TemplateDir" ),
                      "ezbug/user/intl", $Language, "fileedit.php" );
@@ -135,7 +136,7 @@ if ( $Action == "Edit" )
     $bug = new eZBug( $BugID );
     $file = new eZVirtualFile( $FileID );
 
-    $t->set_var( "article_name", $article->name() );
+    $t->set_var( "bug_name", $bug->name() );
 
     $t->set_var( "file_id", $file->id() );
     $t->set_var( "name_value", $file->name() );
