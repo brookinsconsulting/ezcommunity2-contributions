@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezarticlecategory.php,v 1.37 2001/02/26 20:20:47 bf Exp $
+// $Id: ezarticlecategory.php,v 1.38 2001/02/26 20:46:12 bf Exp $
 //
 // Definition of eZArticleCategory class
 //
@@ -987,8 +987,6 @@ class eZArticleCategory
        AND Category.ID=Link.CategoryID 
        $excludedCode " );       
        
-
-       print_r( $article_array );
        
        return $article_array[0]["Count"];
     }

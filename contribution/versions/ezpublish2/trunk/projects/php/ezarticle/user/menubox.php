@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: menubox.php,v 1.8 2001/02/23 15:08:30 fh Exp $
+// $Id: menubox.php,v 1.9 2001/02/26 20:46:12 bf Exp $
 //
 // 
 //
@@ -101,14 +101,14 @@ function createArticleMenu()
     $i = 0;
     foreach( $articleCategory_array as $categoryItem )
     {
-        if( eZArticleCategory::hasReadPermission( eZUser::currentUser(), $categoryItem->id() ) )
-            break;
+        if ( eZArticleCategory::hasReadPermission( eZUser::currentUser(), $categoryItem->id() ) )
+        {
+            $t->set_var( "articlecategory_id", $categoryItem->id()  );
+            $t->set_var( "articlecategory_title", $categoryItem->name() );
             
-        $t->set_var( "articlecategory_id", $categoryItem->id()  );
-        $t->set_var( "articlecategory_title", $categoryItem->name() );
-            
-        $t->parse( "article_category", "article_category_tpl", true );
-        $i++;
+            $t->parse( "article_category", "article_category_tpl", true );
+            $i++;
+        }
     }
     if( $i == 0 )
         $t->set_var( "category_list", "" );
