@@ -7,6 +7,9 @@ change: added user_edit=Some text
 
 #### PRE2 - 2.0 Final ####################
 
+mod: ezcontact/admin, menubox.php.ini
+change: changed projecttypelist and constultationtypelist to say "types" instead of "type list"
+
 mod: eztrade/admin, shippingtypes.php.ini
 change: added
 shipping_type=Shipping Type

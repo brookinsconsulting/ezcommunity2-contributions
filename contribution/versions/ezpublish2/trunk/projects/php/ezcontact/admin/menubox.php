@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: menubox.php,v 1.6 2001/02/19 15:36:47 jb Exp $
+// $Id: menubox.php,v 1.7 2001/03/13 16:53:58 fh Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <23-Oct-2000 17:53:46 bf>
@@ -31,7 +31,8 @@ $menuItems = array(
     array( "/contact/consultation/list/", "{intl-consultationlist}" ),
     array( "/contact/company/new/", "{intl-companyadd}" ),
     array( "/contact/person/new/", "{intl-personadd}" ),
-    array( "/contact/setup/", "{intl-setup}" )
+    array( "/contact/projecttype/list/", "{intl-projecttypelist}" ),
+    array( "/contact/consultationtype/list/", "{intl-consultationtypelist}" )
     );
 
 ?>
