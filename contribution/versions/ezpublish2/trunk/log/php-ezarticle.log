@@ -3445,3 +3445,12 @@ Maintainer(s) : bf@ez.no
 
     * xmlrpc/article.php: fix for DE bug 1487: Keywords not saved with article
 
+
+Module : ezarticle
+Repository path : /home/cvsroot/projects/php/ezarticle
+Maintainer(s) : bf@ez.no
+2002-08-01  Gunnstein Lye  <gl@ez.no>
+
+    * xmlrpc/article.php:
+    send over created and modified dates for DE to display them
+
