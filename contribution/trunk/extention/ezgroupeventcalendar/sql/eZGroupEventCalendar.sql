@@ -44,7 +44,7 @@ CREATE TABLE eZGroupEventCalendar_EventCategory (
 );
 
 #
-# Dumping data for table 'ezGroupEventCalendar_Event
+# Dumping data for table 'ezGroupEventCalendar_Event'
 #
 
 INSERT INTO eZGroupEventCalendar_EventCategory VALUES (1,0,'Personal Events','Personal');
@@ -93,7 +93,7 @@ INSERT INTO eZGroupEventCalendar_EventType VALUES (7,4,'Client Meeting','Client 
 INSERT INTO eZGroupEventCalendar_EventType VALUES (8,0,'We are not always quite so serious, get your groove on . . . have fun.','Fun');
 
 DROP TABLE IF EXISTS eZGroupEventCalendar_GroupEditor;
-#'
+#
 # Table structure for table 'eZGroupEventCalendar_GroupEditor'
 #
 CREATE TABLE eZGroupEventCalendar_GroupEditor (
