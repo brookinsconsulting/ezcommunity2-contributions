@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: mediaedit.php,v 1.4 2001/07/29 23:30:58 kaid Exp $
+// $Id: mediaedit.php,v 1.5 2001/09/08 12:17:54 fh Exp $
 //
 // Created on: <21-Sep-2000 10:32:36 bf>
 //
@@ -31,6 +31,7 @@ include_once( "classes/ezmediafile.php" );
 
 include_once( "ezmediacatalogue/classes/ezmedia.php" );
 include_once( "ezmediacatalogue/classes/ezmediatype.php" );
+include_once( "ezuser/classes/ezauthor.php" );
 
 $ini =& INIFile::globalINI();
 $Language = $ini->read_var( "eZArticleMain", "Language" );
@@ -47,6 +48,22 @@ if ( isset ( $OK ) )
         $media = new eZMedia( $MediaID );
     else
         $media = new eZMedia( );
+
+    if ( trim( $NewCreatorName ) != "" &&
+         trim( $NewCreatorEmail ) != ""
+         )
+    {
+        $author = new eZAuthor( );
+        $author->setName( $NewCreatorName );
+        $author->setEmail( $NewCreatorEmail );
+        $author->store();
+        $media->setPhotographer( $author );
+    }
+    else
+    {
+        $media->setPhotographer( $PhotoID );
+    }
+
     $media->setName( $Name );
     $media->setCaption( $Caption );
     $media->setDescription( $Description );
@@ -125,6 +142,7 @@ $t->set_block( "media_edit_page", "type_tpl", "type" );
 $t->set_block( "media_edit_page", "file_name_tpl", "file_name" );
 $t->set_block( "media_edit_page", "no_file_name_tpl", "no_file_name" );
 $t->set_block( "media_edit_page", "attribute_list_tpl", "attribute_list" );
+$t->set_block( "media_edit_page", "photographer_item_tpl", "photographer_item" );
 $t->set_block( "attribute_list_tpl", "attribute_tpl", "attribute" );
 
 $t->set_var( "media_unit", "" );
@@ -145,6 +163,9 @@ if ( is_numeric( $MediaID ) )
     $t->set_var( "decription_value", $media->description() );
     $t->set_var( "action_value", "Update" );
     $mediaType = $media->type();
+
+    $photographer = $media->photographer();
+    $PhotographerID = $photographer->id();
 
     if ( $media->fileExists( true ) )
     {
@@ -182,6 +203,24 @@ else
     $t->set_var( "option_id", "" );
     $t->set_var( "media", "" );
 }
+
+
+    $author = new eZAuthor();
+    $authorArray = $author->getAll();
+    foreach ( $authorArray as $author )
+    {
+        if ( $PhotographerID == $author->id() )
+        {
+            $t->set_var( "selected", "selected" );
+        }
+        else
+        {
+            $t->set_var( "selected", "" );
+        }
+        $t->set_var( "photo_id", $author->id() );
+        $t->set_var( "photo_name", $author->name() );
+        $t->parse( "photographer_item", "photographer_item_tpl", true );
+    }
 
 
 // Print out all the types.
