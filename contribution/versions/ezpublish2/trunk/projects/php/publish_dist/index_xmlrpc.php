@@ -62,18 +62,26 @@ function Call( $args )
     {
         eZLog::writeNotice( "XML-RPC logged in." );
         $version = $call["Version"]->value();
+
+        // decode URL
         $REQUEST_URI = $call["URL"]->value();
+        $Module = $REQUEST_URI["Module"]->value();
+        $RequestType = $REQUEST_URI["Type"]->value();
+        if( is_object( $REQUEST_URI["ID"] ) )
+            $ID = $REQUEST_URI["ID"]->value();
+        else
+            $ID = 0;
+        
+        $Data = $call["Data"]->value();
+        $Command = $call["Command"]->value();
 
-        $REQUEST_ARRAY = explode( ":", $REQUEST_URI );
-
-        $URL_ARRAY = explode( "/", $REQUEST_ARRAY[1] );    
         $ReturnData = array();
 
-        $datasupplier = $REQUEST_ARRAY[0] . "/xmlrpc/datasupplier.php";
+        $datasupplier = $Module . "/xmlrpc/datasupplier.php";
         // check for module implementation        
-        if ( file_exists( $datasupplier )  || $REQUEST_URI == "ezpublish:/modules" )
+        if ( file_exists( $datasupplier )  || ( $Module == "ezpublish" && $RequestType == "modules" ) )
         {
-            if ( $REQUEST_URI == "ezpublish:/modules" )
+            if ( $Module == "ezpublish" && $RequestType == "modules" )
             {
                 // return the modules in the system
                 $dir = dir( "." );
@@ -95,7 +103,7 @@ function Call( $args )
                     }
                 }
 
-                eZLog::writeNotice( "XML-RPC returning modules. $REQUEST_URI" );
+                eZLog::writeNotice( "XML-RPC returning modules." );
                 $ReturnData = $modules;
 
             }
@@ -106,9 +114,10 @@ function Call( $args )
 
             }
 
-
+            // create the return struct...
             $ret = new eZXMLRPCStruct( array( "Version" => new eZXMLRPCDouble( EZPUBLISH_SERVER_VERSION ),
-                                              "URL" => new eZXMLRPCString( $REQUEST_URI ),
+                                              "URL" => createURLStruct( $Module, $RequestType, $ID ),
+                                              "Command" => new eZXMLRPCString( $Command ),
                                               "Data" => $ReturnData
                                               ) );
             
@@ -135,6 +144,23 @@ function Call( $args )
     }
 }
 
+function createURLStruct( $module, $type , $id = 0 )
+{
+    if( $id != 0 )
+    {
+        $ret = new eZXMLRPCStruct( array( "ID" => new eZXMLRPCInt( $id ),
+                                          "Type" => new eZXMLRPCString( $type ),
+                                          "Module" => new eZXMLRPCString( $module ) )
+                            );
+    }
+    else
+    {
+        $ret = new eZXMLRPCStruct( array( "Type" => new eZXMLRPCString( $type ),
+                                          "Module" => new eZXMLRPCString( $module ) )
+                            );
+    }
+    return $ret;
+}
 
 ob_end_flush();
 exit();
