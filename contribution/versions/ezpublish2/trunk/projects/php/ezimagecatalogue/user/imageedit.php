@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: imageedit.php,v 1.42 2001/09/07 14:44:37 fh Exp $
+// $Id: imageedit.php,v 1.43 2001/09/07 18:39:18 fh Exp $
 //
 // Created on: <09-Jan-2001 10:45:44 ce>
 //
@@ -442,6 +442,7 @@ if ( $Action == "New" || $error )
 
     $author = new eZAuthor();
     $authorArray = $author->getAll();
+    $t->set_var( "selected", "" );
     foreach ( $authorArray as $author )
     {
         $t->set_var( "photo_id", $author->id() );
