@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezproduct.php,v 1.6 2000/09/23 11:36:42 bf-cvs Exp $
+// $Id: ezproduct.php,v 1.7 2000/09/24 11:51:37 bf-cvs Exp $
 //
 // Definition of eZCompany class
 //
@@ -36,6 +36,7 @@
 */
 
 include_once( "classes/ezdb.php" );
+
 include_once( "ezimagecatalogue/classes/ezimage.php" );
 
 class eZProduct

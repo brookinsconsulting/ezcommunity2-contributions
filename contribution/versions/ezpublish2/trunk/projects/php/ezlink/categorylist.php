@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: categorylist.php,v 1.6 2000/09/14 18:04:47 bf-cvs Exp $
+    $Id: categorylist.php,v 1.7 2000/09/24 11:51:37 bf-cvs Exp $
 
     Author: Bård Farstad <bf@ez.no>
     
@@ -29,7 +29,7 @@ $Language = "no_NO";
 
 // setter template filer
 
-$t = new eZTemplate( $DOC_ROOT . "/" . $Ini->read_var( "eZLinkMain", "TemplateDir" ), $DOC_ROOT . "/intl", $Language, "categorylist.php" );
+$t = new eZTemplate( $DOC_ROOT . "/" . $ini->read_var( "eZLinkMain", "TemplateDir" ), $DOC_ROOT . "/intl", $Language, "categorylist.php" );
 $t->setAllStrings();
 
 

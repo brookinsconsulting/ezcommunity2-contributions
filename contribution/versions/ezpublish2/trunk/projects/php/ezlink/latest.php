@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: latest.php,v 1.5 2000/09/07 15:44:44 bf-cvs Exp $
+    $Id: latest.php,v 1.6 2000/09/24 11:51:37 bf-cvs Exp $
 
     Author: Bård Farstad <bf@ez.no>
     
@@ -25,7 +25,7 @@ include_once( "ezlink/classes/ezhit.php" );
 $Language = "no_NO";
 
 
-$t = new eZTemplate( $DOC_ROOT . "/" . $Ini->read_var( "eZLinkMain", "TemplateDir" ), $DOC_ROOT . "/intl", $Language, "linklist.php" );
+$t = new eZTemplate( $DOC_ROOT . "/" . $ini->read_var( "eZLinkMain", "TemplateDir" ), $DOC_ROOT . "/intl", $Language, "linklist.php" );
 $t->setAllStrings();
 
 $t->set_file( array(

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezproductcategory.php,v 1.11 2000/09/20 12:14:30 bf-cvs Exp $
+// $Id: ezproductcategory.php,v 1.12 2000/09/24 11:51:37 bf-cvs Exp $
 //
 // Definition of eZCompany class
 //
@@ -49,6 +49,22 @@
 
   // Add a option to the category
   $category->addOption( $option );
+  
+  $pathArray = $category->path();
+
+  // Get the current path of a category
+  $pathArray = $category->path();
+
+  // print the number of levels in the path
+  print( count( $pathArray ) );
+
+  // print out the path with slashes if you use $path[0] you get
+  // the id of the path
+  foreach ( $pathArray as $path )
+  {
+    print( $path[1] . " / " );    
+  }
+  
   \endcode
 
   \sa eZProduct eZOption eZOptionValue
@@ -210,6 +226,40 @@ class eZProductCategory
         {
             return 0;
         }
+    }
+
+    /*!
+      Returns the current path as an array of arrays.
+
+      The array is built up like: array( array( id, name ), array( id, name ) );
+
+      See detailed description for an example of usage.
+    */
+    function path( $categoryID=0 )
+    {
+        if ( $categoryID == 0 )
+        {
+            $categoryID = $this->ID;
+        }
+            
+        $category = new eZProductCategory( $categoryID );
+
+        $path = array();
+
+        $parent = $category->parent();
+        if ( $parent != 0 )
+        {
+            $path = array_merge( $path, $this->path( $parent->id() ) );
+        }
+        else
+        {
+//              array_push( $path, $category->name() );
+        }
+
+        if ( $categoryID != 0 )
+            array_push( $path, array( $category->id(), $category->name() ) );                                
+        
+        return $path;
     }
     
     /*!

@@ -19,6 +19,14 @@
 </tr>
 <tr>
 	<td>
+	<a class="small" href="/trade/productlist/">
+	<img src="/images/prikk.gif" width="8" heigth="8" border="0">&nbsp;
+    Product list
+	</a>
+	</td>
+</tr>
+<tr>
+	<td>
 	<a class="small" href="/trade/search/">
 	<img src="/images/prikk.gif" width="8" heigth="8" border="0">&nbsp;
     Search

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezimage.php,v 1.4 2000/09/22 14:37:06 bf-cvs Exp $
+// $Id: ezimage.php,v 1.5 2000/09/24 11:51:37 bf-cvs Exp $
 //
 // Definition of eZCompany class
 //
@@ -22,6 +22,7 @@
 */
 
 include_once( "classes/ezdb.php" );
+
 include_once( "ezimagecatalogue/classes/ezimagevariation.php" );
 include_once( "ezimagecatalogue/classes/ezimagevariationgroup.php" );
 
