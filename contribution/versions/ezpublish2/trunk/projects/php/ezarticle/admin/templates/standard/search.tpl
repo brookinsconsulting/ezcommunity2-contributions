@@ -46,9 +46,11 @@
 </tr>
 </table>
 
+<!--
 <p>
 {current_category_description}
 </p>
+-->
 
 <hr noshade="noshade" size="4" />
 

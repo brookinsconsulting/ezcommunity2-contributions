@@ -9,10 +9,9 @@
 <!-- BEGIN news_item_tpl -->
 <tr>
 	<td valign="top">
-	<a href="{news_url}/"><span class="h1">{news_name}</span></a><br />
+	<a href="{news_url}/"><div class="h2">{news_name}</div></a>
 	<span class="small">( {news_origin} - {news_date} )</span>
-	<br />
-	<p>{news_intro}</p>
+	<p class="newslist">{news_intro}</p>
 	<img src="/images/path-arrow.gif" height="10" width="15" border="0" alt=""><a class="path" href="{news_url}">{intl-read_more}</a>
 	</td>
 </tr>
