@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: articleedit.php,v 1.72 2001/04/26 14:06:18 bf Exp $
+// $Id: articleedit.php,v 1.73 2001/04/26 15:18:12 jb Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <18-Oct-2000 15:04:39 bf>
@@ -259,11 +259,11 @@ if ( $Action == "Insert" )
         }
 
         $article->setKeywords( $keywords );
+        $article->setShortContent( $ShortContent );
         
         $article->store();
 
         $article->setManualKeywords( $Keywords );
-    
 
         // add to categories
         $category = new eZArticleCategory( $CategoryID );
@@ -451,6 +451,7 @@ if ( $Action == "Update" )
         }
 
         $article->setKeywords( $keywords );
+        $article->setShortContent( $ShortContent );
 
         $article->store();
 
@@ -594,6 +595,7 @@ $t->set_var( "article_is_published", "" );
 $t->set_var( "article_id", "" );
 $t->set_var( "article_name", stripslashes( $Name ) );
 $t->set_var( "article_keywords", stripslashes( $Keywords ) );
+$t->set_var( "article_short_content", stripslashes( $ShortContent ) );
 $t->set_var( "article_contents_0", stripslashes( $Contents[0] ) );
 $t->set_var( "article_contents_1", stripslashes($Contents[1] ) );
 $t->set_var( "article_contents_2", stripslashes($Contents[2] ) );
@@ -658,7 +660,8 @@ if ( $Action == "Edit" )
         $i++;
     }
     $t->set_var( "article_keywords", $article->manualKeywords() );
-    
+    $t->set_var( "article_short_content", $article->shortContent() );
+
     $t->set_var( "author_text", $article->authorText() );
     $t->set_var( "link_text", $article->linkText() );
 
