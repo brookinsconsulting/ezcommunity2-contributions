@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezquizscore.php,v 1.4 2001/05/30 13:52:57 pkej Exp $
+// $Id: ezquizscore.php,v 1.5 2001/05/31 11:33:24 pkej Exp $
 //
 // eZQuizScore class
 //
@@ -195,9 +195,9 @@ class eZQuizScore
     }
 
     /*!
-      Returns all the categories found in the database.
+      Returns all the scores found in the database.
 
-      The categories are returned as an array of eZQuizScore objects.
+      The scores are returned as an array of eZQuizScore objects.
     */
     function getAll( $offset=0, $limit=20)
     {
@@ -206,9 +206,8 @@ class eZQuizScore
         $returnArray = array();
         $scoreArray = array();
         
-        $db->array_query( $scoreArray, "SELECT ID
-                                           FROM eZQuiz_Score
-                                           " );
+        $db->array_query( $scoreArray, "SELECT ID FROM eZQuiz_Score
+                    DESC LIMIT $offset, $limit" );
         
         for ( $i=0; $i < count($scoreArray); $i++ )
         {
@@ -388,6 +387,101 @@ class eZQuizScore
         return $returnObject;
     }
    
+    /*!
+      Returns all the scores found in the database for one game.
+
+      The scores are returned as an array of eZQuizScore objects.
+    */
+    function getAllByGame( &$game, $offset=0, $limit=20 )
+    {
+        $db =& eZDB::globalDatabase();
+        
+        $returnArray = array();
+        $scoreArray = array();
+
+        if ( get_class ( $game ) == "ezquizgame" )
+            $gameID = $game->id();
+        
+        $db->array_query( $scoreArray, "SELECT ID FROM eZQuiz_Score
+                    WHERE GameID='$gameID' AND FinishedGame=1 ORDER BY TotalScore
+                    DESC LIMIT $offset, $limit" );
+
+        for ( $i=0; $i < count($scoreArray); $i++ )
+        {
+            $returnArray[$i] = new eZQuizScore( $scoreArray[$i]["ID"] );
+        }
+        
+        return $returnArray;
+    }
+
+ 
+    /*!
+      Returns the number of players of one game.
+    */
+    function countAllByGame( &$game )
+    {
+        $db =& eZDB::globalDatabase();
+        
+        $scoreArray = array();
+
+        if ( get_class ( $game ) == "ezquizgame" )
+            $gameID = $game->id();
+        
+        $db->array_query( $scoreArray, "SELECT count(ID) as Count FROM eZQuiz_Score
+                    WHERE GameID='$gameID' AND FinishedGame=1" );
+        
+        $ret = $scoreArray[0]["Count"];
+        
+        return $ret;
+    }
+
+    /*!
+      Returns all the scores found in the database for one user.
+
+      The scores are returned as an array of eZQuizScore objects.
+    */
+    function getAllByUser( &$user, $offset=0, $limit=20 )
+    {
+        $db =& eZDB::globalDatabase();
+        
+        $returnArray = array();
+        $scoreArray = array();
+
+        if ( get_class ( $user ) == "ezuser" )
+            $userID = $user->id();
+        
+        $db->array_query( $scoreArray, "SELECT ID FROM eZQuiz_Score
+                    WHERE UserID='$userID' AND FinishedGame=1 ORDER BY TotalScore
+                    DESC LIMIT $offset, $limit" );
+        
+        for ( $i=0; $i < count($scoreArray); $i++ )
+        {
+            $returnArray[$i] = new eZQuizScore( $scoreArray[$i]["ID"] );
+        }
+        
+        return $returnArray;
+    }
+
+    /*!
+      Returns the count of games this user has participated in.
+    */
+    function countAllByUser( &$user )
+    {
+        $db =& eZDB::globalDatabase();
+        
+        $scoreArray = array();
+
+        if ( get_class ( $user ) == "ezuser" )
+            $userID = $user->id();
+        
+        $db->array_query( $scoreArray, "SELECT count(ID) AS Count FROM eZQuiz_Score
+                    WHERE UserID='$userID' AND FinishedGame=1" );
+        
+        $ret = $scoreArray[0]["Count"];
+        
+        return $ret;
+    }
+
 
     var $ID;
     var $User;

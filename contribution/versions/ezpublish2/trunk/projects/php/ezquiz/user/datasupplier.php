@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: datasupplier.php,v 1.4 2001/05/30 14:37:22 pkej Exp $
+// $Id: datasupplier.php,v 1.5 2001/05/31 11:33:24 pkej Exp $
 //
 // Paul K Egell-Johnsen <pkej@ez.no>
 // Created on: <28-May-2001 11:24:41 pkej>
@@ -78,7 +78,7 @@ switch ( $url_array[2] )
             {
                 $Offset = $url_array[4];
                 
-                if  ( !is_numeric( $Offset ) )
+                if ( !is_numeric( $Offset ) )
                 {
                     $Offset = 0;
                 }
@@ -108,6 +108,14 @@ switch ( $url_array[2] )
             
             case "scores":
             {
+                $Offset = $url_array[5];
+                
+                if ( !is_numeric( $Offset ) )
+                {
+                    $Offset = 0;
+                }
+                $GameID = $url_array[4];
+                include( "ezquiz/user/quizscores.php" );
             }
             break;
             
@@ -164,11 +172,6 @@ switch ( $url_array[2] )
                 }
             }
             break;
-            
-            case "instructions":
-            {
-            }
-            break;
         }
         break;
     }
@@ -191,12 +194,7 @@ switch ( $url_array[2] )
             }
             break;
             
-            case "open":
-            {
-            }
-            break;
-            
-            case "closed":
+            case "played":
             {
             }
             break;

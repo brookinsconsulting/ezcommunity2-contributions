@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezquizgame.php,v 1.12 2001/05/30 14:37:22 pkej Exp $
+// $Id: ezquizgame.php,v 1.13 2001/05/31 11:33:24 pkej Exp $
 //
 // ezquizgame class
 //
@@ -286,6 +286,50 @@ class eZQuizGame
     }
 
     /*!
+      Returns true if the game is closed!
+    */
+    function isClosed()
+    {
+        $db =& eZDB::globalDatabase();
+
+        $ret = false;
+        $quizArray = array();
+
+        $db->array_query( $quizArray, "SELECT ID FROM eZQuiz_Game
+                                       WHERE StopDate < now() AND ID = '$this->ID'" );
+
+        $ret = $quizArray[0]["ID"];
+        
+        if( $ret == $this->ID )
+        {
+            $ret = true;
+        }
+        return $ret;
+    }
+
+    /*!
+      Returns true if the game is in the future!
+    */
+    function isFutureGame()
+    {
+        $db =& eZDB::globalDatabase();
+
+        $ret = false;
+        $quizArray = array();
+
+        $db->array_query( $quizArray, "SELECT ID FROM eZQuiz_Game
+                                       WHERE StartDate > now() AND ID = '$this->ID'" );
+
+        $ret = $quizArray[0]["ID"];
+
+        if( $ret == $this->ID )
+        {
+            $ret = true;
+        }
+        return $ret;
+    }
+
+    /*!
       Returns every questions to this quiz game
       The questions is returned as an array of eZQuizQuestion objects.
     */
@@ -295,11 +339,11 @@ class eZQuizGame
         $db =& eZDB::globalDatabase();
         $db->array_query( $questionArray, "SELECT ID FROM eZQuiz_Question WHERE GameID='$this->ID'" );
 
-       for ( $i=0; $i < count($questionArray); $i++ )
-       {
-           $returnArray[$i] = new eZQuizQuestion( $questionArray[$i]["ID"], true );
-       }
-       return $returnArray;
+        for ( $i=0; $i < count($questionArray); $i++ )
+        {
+            $returnArray[$i] = new eZQuizQuestion( $questionArray[$i]["ID"], true );
+        }
+        return $returnArray;
     }
 
     /*!
