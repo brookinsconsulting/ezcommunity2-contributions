@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: importnews.php,v 1.5 2000/12/11 15:56:43 ce Exp $
+// $Id: importnews.php,v 1.6 2001/01/02 12:26:53 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <16-Nov-2000 13:02:19 bf>
@@ -41,7 +41,8 @@ if ( $Action == "Fetch" )
                                         $site->url(),
                                         $site->category(),
                                         $site->login(),
-                                        $site->password() );
+                                        $site->password(),
+                                        $site->autoPublish() );
     $newsImporter->importNews();
 }
 
@@ -59,7 +60,8 @@ if ( $Action == "ImportNews" )
                                             $site->url(),
                                             $site->category(),
                                             $site->login(),
-                                            $site->password() );
+                                            $site->password(),
+                                            $site->autoPublish() );
         $newsImporter->importNews();
     }    
 }

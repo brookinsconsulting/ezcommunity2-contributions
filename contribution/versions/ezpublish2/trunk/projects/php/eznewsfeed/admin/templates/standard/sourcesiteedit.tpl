@@ -22,6 +22,9 @@
 <p class="boxtext">{intl-source_site_isactive}:</p>
 <input {source_site_isactive_value} type="checkbox" name="SourceSiteIsActive" />
 
+<p class="boxtext">{intl-source_auto_publish}:</p>
+<input {source_site_auto_publish_value} type="checkbox" name="SourceSiteAutoPublish" />
+
 
 <p class="boxtext">{intl-source_site_category}:</p>
 <select name="CategoryID">

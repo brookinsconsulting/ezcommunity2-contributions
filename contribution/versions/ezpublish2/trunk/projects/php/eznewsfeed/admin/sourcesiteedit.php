@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: sourcesiteedit.php,v 1.3 2000/12/06 14:56:04 ce-cvs Exp $
+// $Id: sourcesiteedit.php,v 1.4 2001/01/02 12:26:54 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <26-Nov-2000 17:55:31 bf>
@@ -58,6 +58,16 @@ if ( $Action == "Insert" )
         $sourcesite->setIsActive( "false" );
     }
 
+
+    if ( $SourceSiteAutoPublish == "on" )
+    {
+        $sourcesite->setAutoPublish( true );
+    }
+    else
+    {
+        $sourcesite->setAutoPublish( false );
+    }
+    
     $sourcesite->store();
 
     Header( "Location: /newsfeed/importnews/" );
@@ -86,6 +96,15 @@ if ( $Action == "Update" )
         $sourcesite->setIsActive( "false" );
     }
 
+    if ( $SourceSiteAutoPublish == "on" )
+    {
+        $sourcesite->setAutoPublish( true );
+    }
+    else
+    {
+        $sourcesite->setAutoPublish( false );
+    }
+    
     $sourcesite->store();
 
     Header( "Location: /newsfeed/importnews/" );
@@ -151,6 +170,15 @@ if ( $Action == "Edit" )
     {
         $t->set_var( "source_site_isactive_value", "" );
     }  
+
+    if ( $sourcesite->autoPublish() == true )
+    {
+        $t->set_var( "source_site_auto_publish_value", "checked" );
+    }
+    else
+    {
+        $t->set_var( "source_site_auto_publish_value", "" );
+    }  
 }
 
 // category select
@@ -163,7 +191,6 @@ foreach ( $categoryArray as $catItem )
     {
         if ( $categoryID == $catItem->id() )
         {
-            print( "yep" );
             $t->set_var( "selected", "selected" );
         }
         else

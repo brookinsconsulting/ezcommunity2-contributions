@@ -59,7 +59,7 @@
 
 <img src="/eznewsfeed/admin/images/path-arrow.gif" height="10" width="15" border="0">
 
-<a class="path" href="/newsfeed/archive/0/">{intl-top_category}</a>
+<a class="path" href="/newsfeed/unpublished/0/">{intl-top_category}</a>
 
 <!-- END path_tpl -->
 
@@ -67,7 +67,7 @@
 
 <img src="/eznewsfeed/admin/images/path-slash.gif" height="10" width="20" border="0">
 
-<a class="path" href="/newsfeed/archive/{category_id}/">{category_name}</a>
+<a class="path" href="/newsfeed/unpublished/{category_id}/">{category_name}</a>
 <!-- END path_item_tpl -->
 
 <hr noshade="noshade" size="4" />

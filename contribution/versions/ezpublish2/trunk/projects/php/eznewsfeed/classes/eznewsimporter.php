@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eznewsimporter.php,v 1.4 2000/12/13 16:48:09 bf Exp $
+// $Id: eznewsimporter.php,v 1.5 2001/01/02 12:26:54 bf Exp $
 //
 // Definition of eZNewsImporter class
 //
@@ -47,12 +47,14 @@ class eZNewsImporter
       Create a new importer with the given decoder and site. Login and
       password are default not used.
     */
-    function eZNewsImporter( $decoder, $site, $category,  $login="", $password="" )
+    function eZNewsImporter( $decoder, $site, $category,  $login="", $password="", $autoPublish=false )
     {
         $this->Site = $site;
         $this->Decoder = $decoder;
         $this->Login = $login;
         $this->Password = $password;
+        $this->AutoPublish = $autoPublish;
+        
         if ( get_class( $category ) == "eznewscategory" )
         {
             $this->CategoryID = $category->id();
@@ -81,6 +83,15 @@ class eZNewsImporter
                 {
                     if ( $newsItem->store() == true )
                     {
+                        if ( $this->AutoPublish == true )
+                        {
+                            $newsItem->setIsPublished( true );
+                        }
+                        else
+                        {
+                            $newsItem->setIsPublished( false );
+                        }
+                            
                         $category->addNews( $newsItem );
                         print( "storing: -" .$newsItem->name() . "<br>");
                     }
@@ -112,7 +123,7 @@ class eZNewsImporter
                     }
                 }
             }
-            break;            
+            break;
         }
     }
 
@@ -121,4 +132,5 @@ class eZNewsImporter
     var $Login;
     var $Password;
     var $CategoryID;
+    var $AutoPublish;
 }

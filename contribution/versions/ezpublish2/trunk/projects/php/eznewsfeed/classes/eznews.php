@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eznews.php,v 1.10 2000/12/13 16:48:09 bf Exp $
+// $Id: eznews.php,v 1.11 2001/01/02 12:26:54 bf Exp $
 //
 // Definition of eZNews class
 //
@@ -140,11 +140,11 @@ class eZNews
             $this->Database->array_query( $res, "SELECT ID FROM eZNewsFeed_News WHERE IsPublished='false' AND ID='$this->ID'" );
             
             if ( ( count( $res ) > 0 ) && ( $this->IsPublished == "true" ) )
-            {                
+            {
                 $this->Database->query( "UPDATE eZNewsFeed_News SET
 		                         Name='$this->Name',
                                  Intro='$this->Intro',
-                                 IsPublished='$this->IsPublished',
+                                 IsPublished='true',
                                  PublishingDate=now(),
                                  OriginalPublishingDate='$this->OriginalPublishingDate',
                                  KeyWords='$this->KeyWords',

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: unpublished.php,v 1.6 2000/12/13 16:48:09 bf Exp $
+// $Id: unpublished.php,v 1.7 2001/01/02 12:26:54 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <29-Nov-2000 18:10:27 bf>
@@ -40,10 +40,14 @@ if ( $Action == "Publish" )
 {
     if ( count( $NewsPublishIDArray ) > 0 )
     {
+        
         foreach ( $NewsPublishIDArray as $newsID )
         {
             $news = new eZNews( $newsID );
+            $news->setName( addSlashes( $news->name() ) );
+            $news->setIntro( addSlashes( $news->intro() ) );
             $news->setIsPublished( true );
+            
             $news->store();
         }
     }

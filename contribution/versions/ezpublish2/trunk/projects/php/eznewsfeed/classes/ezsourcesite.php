@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezsourcesite.php,v 1.3 2000/12/06 14:56:05 ce-cvs Exp $
+// $Id: ezsourcesite.php,v 1.4 2001/01/02 12:26:54 bf Exp $
 //
 // Definition of eZSourceSite class
 //
@@ -92,7 +92,8 @@ class eZSourceSite
                                  Password='$this->Password',
                                  CategoryID='$this->CategoryID',
                                  IsActive='$this->IsActive',
-                                 Decoder='$this->Decoder'
+                                 Decoder='$this->Decoder',
+                                 AutoPublish='$this->AutoPublish'
                                  " );
 
             $this->ID = mysql_insert_id();
@@ -110,7 +111,8 @@ class eZSourceSite
                                  Password='$this->Password',
                                  CategoryID='$this->CategoryID',
                                  Decoder='$this->Decoder',
-                                 IsActive='$this->IsActive'
+                                 IsActive='$this->IsActive',
+                                 AutoPublish='$this->AutoPublish'
                                  WHERE ID='$this->ID'
                                  " );
 
@@ -146,6 +148,7 @@ class eZSourceSite
                 $this->CategoryID =& $news_array[0][ "CategoryID" ];
                 $this->Decoder =& $news_array[0][ "Decoder" ];
                 $this->IsActive =& $news_array[0][ "IsActive" ];
+                $this->AutoPublish =& $news_array[0][ "AutoPublish" ];
 
                 $this->State_ = "Coherent";
                 $ret = true;
@@ -365,6 +368,41 @@ class eZSourceSite
        $this->IsActive = $value;
 
     }
+
+    /*!
+      Sets the source to automatically publish new fetched news or not.
+    */
+    function setAutoPublish( $value )
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+        
+        if ( $value == true )
+        {
+            $this->AutoPublish = 1;
+        }
+        else
+        {
+            $this->AutoPublish = 0;
+        }
+    }
+
+    /*!
+      Returns true if the news from this site is automatically
+      published.
+    */
+    function autoPublish()
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+       if ( $this->AutoPublish == 1 )
+           $ret = true;
+       else
+           $ret = false;
+       
+       return $ret;
+    }
     
     
     /*!      
@@ -388,6 +426,9 @@ class eZSourceSite
     var $CategoryID;
     var $Decoder;
     var $IsActive;
+    
+    /// bool represented as an int. For automatically publishing of articles.
+    var $AutoPublish;
     
     ///  Variable for keeping the database connection.
     var $Database;
