@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezpermission.php,v 1.7 2001/01/25 19:08:20 ce Exp $
+// $Id: ezpermission.php,v 1.8 2001/02/19 13:41:11 jb Exp $
 //
 // Definition of eZCompany class
 //
@@ -226,10 +226,12 @@ class eZPermission
         $return_array = array();
         $permission_array = array();
 
-            $this->Database->array_query( $permission_array, "SELECT ID FROM eZUser_Permission WHERE ModuleID='$moduleID'" );
+            $this->Database->array_query( $permission_array, "SELECT ID FROM eZUser_Permission
+                                                              WHERE ModuleID='$moduleID'
+                                                              ORDER BY Name" );
 
 
-            for ( $i=0; $i<count( $permission_array ); $i++ )
+            for ( $i=0; $i < count( $permission_array ); $i++ )
             {
                 $return_array[$i] = new eZPermission( $permission_array[$i][ "ID" ], 0 );
             }
@@ -250,7 +252,7 @@ class eZPermission
 
         $this->Database->array_query( $permission_array, "SELECT ID FROM eZUser_Permission" );
 
-        for ( $i=0; $i<count( $permission_array ); $i++ )
+        for ( $i=0; $i < count( $permission_array ); $i++ )
         {
             $return_array[$i] = new eZPermission( $permission_array[$i][ "ID" ], 0 );
         }
