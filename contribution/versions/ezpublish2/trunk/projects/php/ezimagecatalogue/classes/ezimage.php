@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezimage.php,v 1.86 2001/09/28 08:05:59 br Exp $
+// $Id: ezimage.php,v 1.87 2001/10/08 16:59:33 kaid Exp $
 //
 // Definition of eZImage class
 //
@@ -852,7 +852,7 @@ class eZImage
        if ( get_class( $file ) == "ezimagefile" )
        {
            $name = $file->tmpName();
-           if ( !eZFile::file_exists( $name ) or !is_file( $name ) )
+           if ( !file_exists( $name ) or !is_file( $name ) )
                return false;
            return true;
        }
@@ -870,7 +870,7 @@ class eZImage
        {
            $this->OriginalFileName = $file->name();
            $tmpname = $file->tmpName();
-           if ( !eZFile::file_exists( $tmpname ) or !is_file( $tmpname ) )
+           if ( !file_exists( $tmpname ) or !is_file( $tmpname ) )
                return false;
 
            $info = eZImageFile::information( $this->OriginalFileName );

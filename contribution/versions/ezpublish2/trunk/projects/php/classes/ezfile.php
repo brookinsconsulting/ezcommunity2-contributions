@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezfile.php,v 1.18 2001/08/28 07:46:32 kaid Exp $
+// $Id: ezfile.php,v 1.19 2001/10/08 16:59:33 kaid Exp $
 //
 // Definition of eZCompany class
 //
@@ -90,7 +90,7 @@ class eZFile
         $this->FileName = $fileName;
         $tmpfileName = tempnam( "/tmp", "att" );
         $this->TmpFileName = $tmpfileName;
-        $fh = eZFile::fopen( $tmpfileName, 'wb' );
+        $fh = fopen( $tmpfileName, 'wb' );
         fwrite( $fh, $data );
         fclose( $fh );
     }
