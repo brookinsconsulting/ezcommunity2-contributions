@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eznewsflowerarticleviewer.php,v 1.5 2000/10/16 11:55:55 pkej-cvs Exp $
+// $Id: eznewsflowerarticleviewer.php,v 1.6 2000/10/16 12:01:38 pkej-cvs Exp $
 //
 // Definition of eZNewsFlowerArticleViewer class
 //
@@ -248,6 +248,12 @@ class eZNewsFlowerArticleViewer extends eZNewsViewer
             $this->Item->setStatus( "publish" );
 
             $this->Item->store( $outID );
+
+            global $QUERY_STRING;
+            $QUERY_STRING = "";
+            
+            $adminObject = new eZNewsAdmin( "site.ini" );
+            $value = $adminObject->doItem( $this->Item->getIsCanonical() );
         }
 
         if( $this->URLObject->getQueries( $queries, "edit\+this" ) && empty( $form_abort )  && empty( $form_publish ) && empty( $form_submit ) )
