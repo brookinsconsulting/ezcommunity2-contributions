@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: messageedit.php,v 1.32 2001/03/05 10:43:14 pkej Exp $
+// $Id: messageedit.php,v 1.33 2001/03/06 12:43:45 pkej Exp $
 //
 // Paul K Egell-Johnsen <pkej@ez.no>
 // Created on: <21-Feb-2001 18:00:00 pkej>
@@ -134,6 +134,7 @@ switch( $Action )
         }
         
         $msg->delete();
+        eZHTTPTool::header( "Location: /forum/messagelist/$CheckForumID" );
         
     }
     break;
