@@ -49,6 +49,9 @@ $t->setAllStrings();
 $t->set_file( array(                    
     "person_view" => "personview.tpl"
     ) );
+$t->set_block( "person_view", "birth_item_tpl", "birth_item" );
+$t->set_block( "person_view", "no_birth_item_tpl", "no_birth_item" );
+
 $t->set_block( "person_view", "address_item_tpl", "address_item" );
 $t->set_block( "address_item_tpl", "address_line_tpl", "address_line" );
 $t->set_block( "person_view", "no_address_item_tpl", "no_address_item" );
@@ -97,23 +100,32 @@ $t->set_var( "email", "" );
 
 /*
     The user wants to view an existing person.
-    
     We present a page with the info.
- */
+*/
+
 if ( $Action == "view" )
 {
     $Action_value = "view";
     $person = new eZPerson( $PersonID, true );
-    
+
     $t->set_var( "firstname", $person->firstName() );
     $t->set_var( "lastname", $person->lastName() );
 
-    $Birth = new eZDate();
-    $Birth->setMySQLDate( $person->birthDate() );
+    $t->set_var( "birth_item", "" );
+    $t->set_var( "no_birth_item", "" );
+    if ( $person->hasBirthDate() )
+    {
+        $Birth = new eZDate();
+        $Birth->setMySQLDate( $person->birthDate() );
 
-    $locale = new eZLocale( $Language );
-    $t->set_var( "birthdate", $locale->format( $Birth ) );
-    
+        $locale = new eZLocale( $Language );
+        $t->set_var( "birthdate", $locale->format( $Birth ) );
+        $t->parse( "birth_item", "birth_item_tpl" );
+    }
+    else
+    {
+        $t->parse( "no_birth_item", "no_birth_item_tpl" );
+    }
     $t->set_var( "description", $person->comment() );
 
     // Telephone list
@@ -158,12 +170,14 @@ if ( $Action == "view" )
             $t->set_var( "zip", $addressItem->zip() );
             $t->set_var( "place", $addressItem->place() );
             $country = $addressItem->country();
-            $t->set_var( "country", $country->name() );
+            if ( get_class( $country ) == "ezcountry" )
+                $t->set_var( "country", $country->name() );
+            else
+                $t->set_var( "country", "" );
 
             $addressType = $addressItem->addressType();
 
             $t->set_var( "address_type_id", $addressType->id() );
-//              $t->set_var( "address_type_name", $intl->read_var( "strings", "address_" . $addressType->name() ) );
             $t->set_var( "address_type_name", $addressType->name() );
             
             $t->set_var( "script_name", "personedit.php" );
@@ -267,7 +281,7 @@ if ( $Action == "view" )
 
     // Consultation list
     $user = eZUser::currentUser();
-    if ( get_class( $user ) == "ezuser" )
+    if ( eZPermission::checkPermission( $user, "eZContact", "consultation" ) )
     {
         $max = $ini->read_var( "eZContactMain", "MaxPersonConsultationList" );
         $consultations = eZConsultation::findConsultationsByContact( $PersonID, $user->id(), true, 0, $max );
@@ -298,7 +312,8 @@ if ( $Action == "view" )
         }
     }
 
-    if ( get_class( $user ) == "ezuser" and count( $consultations ) > 0 )
+    if ( eZPermission::checkPermission( $user, "eZContact", "consultation" )
+         and count( $consultations ) > 0 )
     {
         $t->parse( "consultation_table_item", "consultation_table_item_tpl", true );
     }
@@ -307,7 +322,7 @@ if ( $Action == "view" )
         $t->set_var( "consultation_table_item", "" );
     }
 
-    if ( get_class( $user ) == "ezuser" )
+    if ( eZPermission::checkPermission( $user, "eZContact", "consultation" ) )
     {
         $t->parse( "consultation_buttons", "consultation_buttons_tpl" );
     }

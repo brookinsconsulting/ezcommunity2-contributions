@@ -150,8 +150,11 @@ if ( count ( $addressList ) != 0 )
         $addressType = $addressItem->addressType();
         $t->set_var( "address_type_name", $addressType->name() );
         $country = $addressItem->country();
-        $t->set_var( "country", $country->name() );
-        
+        if ( get_class( $country ) == "ezcountry" )
+            $t->set_var( "country", $country->name() );
+        else
+            $t->set_var( "country", "" );
+
         $t->set_var( "script_name", "companyedit.php" );
 
         $t->parse( "address_item", "address_item_tpl", true );
@@ -279,7 +282,7 @@ else
 
 // Consultation list
 $user = eZUser::currentUser();
-if ( get_class( $user ) == "ezuser" )
+if ( eZPermission::checkPermission( $user, "eZContact", "consultation" ) )
 {
     $max = $ini->read_var( "eZContactMain", "MaxCompanyConsultationList" );
     $consultations = eZConsultation::findConsultationsByContact( $CompanyID, $user->id(), false, 0, $max );
@@ -310,7 +313,7 @@ if ( get_class( $user ) == "ezuser" )
     }
 }
 
-if ( get_class( $user ) == "ezuser" and count( $consultations ) > 0 )
+if ( eZPermission::checkPermission( $user, "eZContact", "consultation" ) and count( $consultations ) > 0 )
 {
     $t->parse( "consultation_table_item", "consultation_table_item_tpl", true );
 }
@@ -319,7 +322,7 @@ else
     $t->set_var( "consultation_table_item", "" );
 }
 
-if ( get_class( $user ) == "ezuser" )
+if ( eZPermission::checkPermission( $user, "eZContact", "consultation" ) )
 {
     $t->parse( "consultation_buttons", "consultation_buttons_tpl" );
 }

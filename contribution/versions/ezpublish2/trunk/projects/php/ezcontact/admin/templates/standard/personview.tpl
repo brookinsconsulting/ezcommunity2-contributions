@@ -25,7 +25,12 @@
 
 	<td>
 	<p class="boxtext">{intl-birthday_headline}: </p>
+	<!-- BEGIN birth_item_tpl -->
 	<span class="p">{birthdate}</span>
+	<!-- END birth_item_tpl -->
+	<!-- BEGIN no_birth_item_tpl -->
+	<span class="p">{intl-no_birthday}</span>
+	<!-- END no_birth_item_tpl -->
 	</td>
 </tr>
 </table>

@@ -43,6 +43,8 @@
 </ul>
 <!-- END errors_tpl -->
 
+<p>{intl-address_optional}</p>
+
 <!-- BEGIN person_item_tpl -->
 <h2>{intl-personal_headline}</h2>
 <p>{intl-general_information}</p>
@@ -144,6 +146,7 @@
 	<td colspan="2">
         <p class="boxtext">{intl-country}:</p>
         <select size="4" name="Country[]" value="{zip}"/>
+	    <option value="-1" {no_country_selected}>{intl-no_country}</option>
 	    <!-- BEGIN country_item_select_tpl -->
 	    <option value="{type_id}" {selected}>{type_name}</option>
 	    <!-- END country_item_select_tpl -->
@@ -152,11 +155,6 @@
 </tr>
 <!-- END address_item_tpl -->
 <!-- END address_table_item_tpl -->
-<tr>
-	<td>
-	<p>{intl-address_optional}</p>
-	</td>
-</tr>
 </table>
 
 <h2>{intl-telephone_headline}</h2>

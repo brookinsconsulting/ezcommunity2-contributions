@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezperson.php,v 1.43 2001/02/15 18:03:54 jb Exp $
+// $Id: ezperson.php,v 1.44 2001/02/19 15:17:21 jb Exp $
 //
 // Definition of eZPerson class
 //
@@ -72,14 +72,16 @@ class eZPerson
     function store()
     {
         $db = eZDB::globalDatabase();
+        $birth = "NULL";
+        if ( isset( $this->BirthDate ) and $this->BirthDate == "" )
+            $birth = "'$this->BirthDate'";
         if( !isSet( $this->ID ) )
         {
-        
             $db->query( "INSERT INTO eZContact_Person set
                                                     FirstName='$this->FirstName',
                                                     LastName='$this->LastName',
 	                                                Comment='$this->Comment',
-	                                                BirthDate='$this->BirthDate',
+	                                                BirthDate=$birth,
                                                     ContactTypeID='$this->ContactType'" );
             $this->ID = mysql_insert_id();            
             $this->State_ = "Coherent";
@@ -90,7 +92,7 @@ class eZPerson
                                                     FirstName='$this->FirstName',
                                                     LastName='$this->LastName',
 	                                                Comment='$this->Comment',
-	                                                BirthDate='$this->BirthDate',
+	                                                BirthDate=$birth,
                                                     ContactTypeID='$this->ContactType'
                                                     WHERE ID='$this->ID'" );
             $this->State_ = "Coherent";
@@ -183,6 +185,8 @@ class eZPerson
                 $this->BirthDate = $person_array[ 0 ][ "BirthDate" ];
                 $this->Comment = $person_array[ 0 ][ "Comment" ];
             }
+            if ( $this->BirthDate == "NULL" )
+                unset( $this->BirthDate );
         }
     }
 
@@ -764,7 +768,14 @@ class eZPerson
 
         $this->BirthDate = $value;
     }
-  
+
+    /*!
+        Sets the person to have no birthday
+    */
+    function setNoBirthDay()
+    {
+        unset( $this->BirthDate );
+    }
   
     /*!
       Returns the ID of the person.
@@ -891,6 +902,14 @@ class eZPerson
             $this->get( $this->ID );
 
         return $this->BirthDate;
+    }
+
+    /*!
+      Returns true if a birthday is present.
+    */
+    function hasBirthDate()
+    {
+        return isset( $this->BirthDate );
     }
 
     var $ID;

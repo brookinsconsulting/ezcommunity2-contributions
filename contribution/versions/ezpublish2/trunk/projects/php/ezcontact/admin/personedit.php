@@ -327,11 +327,14 @@ if ( !$confirm )
                 $error = true;
             }
 
-            $birth = new eZDate( $BirthYear, $BirthMonth, $BirthDay );
-            if( !$birth->isValid() )
+            if ( $BirthYear != "" )
             {
-                $t->parse( "error_birthdate_item", "error_birthdate_item_tpl" );
-                $error = true;
+                $birth = new eZDate( $BirthYear, $BirthMonth, $BirthDay );
+                if( !$birth->isValid() )
+                {
+                    $t->parse( "error_birthdate_item", "error_birthdate_item_tpl" );
+                    $error = true;
+                }
             }
         }
     
@@ -352,7 +355,8 @@ if ( !$confirm )
             }
             else
             {
-                if ( $Street1[$i] != "" || $Street2[$i] != "" || $Place[$i] != "" || $Country[$i] != "" )
+                if ( $Street1[$i] != "" || $Street2[$i] != "" || $Place[$i] != "" ||
+                   ( $Country[$i] != -1 and $Country[$i] != "" ) )
                 {
                     $t->set_var( "error_address_position", $i + 1 );
                     $t->parse( "error_address_item", "error_address_item_tpl", true );
@@ -494,8 +498,15 @@ if ( !$confirm )
             $person->setFirstName( $FirstName );
             $person->setLastName( $LastName );
 
-            $Birth = new eZDate( $BirthYear, $BirthMonth, $BirthDay );
-            $person->setBirthDay( $Birth->mySQLDate() );
+            if ( $BirthYear != "" )
+            {
+                $Birth = new eZDate( $BirthYear, $BirthMonth, $BirthDay );
+                $person->setBirthDay( $Birth->mySQLDate() );
+            }
+            else
+            {
+                $person->setNoBirthDay();
+            }
 //              $person->setContact( $ContactID );
             $person->setComment( $Comment );
             $person->store();
@@ -602,11 +613,20 @@ if ( !$confirm )
 
             $FirstName = $person->firstName();
             $LastName = $person->lastName();
-            $Birth = new eZDate();
-            $Birth->setMySQLDate( $person->birthDate() );
-            $BirthYear = $Birth->year();
-            $BirthMonth = $Birth->month();
-            $BirthDay = $Birth->day();
+            if ( $person->hasBirthDate() )
+            {
+                $Birth = new eZDate();
+                $Birth->setMySQLDate( $person->birthDate() );
+                $BirthYear = $Birth->year();
+                $BirthMonth = $Birth->month();
+                $BirthDay = $Birth->day();
+            }
+            else
+            {
+                $BirthYear = "";
+                $BirthMonth = 1;
+                $BirthDay = 1;
+            }
             $Comment = $person->comment();
         }
 
@@ -621,7 +641,10 @@ if ( !$confirm )
             $Zip[] = $address->zip();
             $Place[] = $address->place();
             $country = $address->country();
-            $Country[] = $country->id();
+            if ( $country )
+                $Country[] = $country->id();
+            else
+                $Country[] = -1;
             $i++;
         }
 
@@ -729,7 +752,7 @@ if ( !$confirm )
                 $t->set_var( "day_id", $i );
                 $t->set_var( "day_value", $i );
                 $t->set_var( "selected", "" );
-                if ( $BirthDay == $i )
+                if ( ( $BirthDay == "" and $i == 1 ) or $BirthDay == $i )
                     $t->set_var( "selected", "selected" );
                 $t->parse( "day_item", "day_item_tpl", true );
             }
@@ -838,12 +861,15 @@ if ( !$confirm )
                     $t->parse( "address_item_select", "address_item_select_tpl", true );
                 }
                 $t->set_var( "country_item_select", "" );
+                $t->set_var( "no_country_selected", "" );
                 foreach( $countries as $country )
                 {
                     $t->set_var( "type_id", $country["ID"] );
                     $t->set_var( "type_name", $country["Name"] );
                     $t->set_var( "selected", "" );
-                    if ( $country["ID"] == $Country[$i] )
+                    if ( $Country[$i] == -1 )
+                        $t->set_var( "no_country_selected", "selected" );
+                    else if ( $country["ID"] == $Country[$i] )
                         $t->set_var( "selected", "selected" );
                     $t->parse( "country_item_select", "country_item_select_tpl", true );
                 }
@@ -980,7 +1006,7 @@ if ( !$confirm )
             else if ( $ContactGroupID < 1 )
             {
                 $users = array();
-                if ( is_numeric( $ContactID ) )
+                if ( is_numeric( $ContactID ) and $ContactID > 0 )
                 {
                     if ( $ContactType == "ezperson" )
                         $user = new eZPerson( $ContactID );
