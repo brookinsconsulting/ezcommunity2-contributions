@@ -43,7 +43,7 @@ Firmanavn:<br>
 
 
 Kommentar:<br>
-<textarea rows="5" name="Comment">{comment}</textarea><br>
+<textarea rows="5" name="Comment">{company_comment}</textarea><br>
 
 
 <input type="hidden" name="Insert" value="TRUE">

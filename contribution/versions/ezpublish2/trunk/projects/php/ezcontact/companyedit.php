@@ -209,23 +209,6 @@ $t->set_var( "address_action_type", "hidden" );
 $t->set_var( "address_list", "" );
 
 
-// company type selector
-for ( $i=0; $i<count( $company_type_array ); $i++ )
-{
-    $t->set_var( "company_type_id", $company_type_array[$i][ "ID" ] );
-    $t->set_var( "company_type_name", $company_type_array[$i][ "Name" ] );
-  
-    if ( $CompanyType == $company_type_array[$i][ "ID" ] )
-    {
-        $t->set_var( "is_selected", "selected" );
-    }
-    else
-    {
-        $t->set_var( "is_selected", "" );    
-    }
-  
-    $t->parse( "company_type", "company_type_select", true );
-}
 
 $address_select_dict = "";
 // address type selector
@@ -274,8 +257,10 @@ if ( $Action == "edit" )
 {
     $company = new eZCompany();
     $company->get( $CID );
-
+    
     $CompanyName = $company->name();
+    $Comment = $company->comment();
+    $CompanyType = $company->contactType();
 
     $phone = new eZPhone( );
     
@@ -338,9 +323,30 @@ if ( $Action == "edit" )
     $t->set_var( "phone_action_type", "submit" );
 }
 
+
+// company type selector må være UNDER edit fordi at rett firmatype
+// skal bli satt..
+// 
+for ( $i=0; $i<count( $company_type_array ); $i++ )
+{
+    $t->set_var( "company_type_id", $company_type_array[$i][ "ID" ] );
+    $t->set_var( "company_type_name", $company_type_array[$i][ "Name" ] );
+  
+    if ( $CompanyType == $company_type_array[$i][ "ID" ] )
+    {
+        $t->set_var( "is_selected", "selected" );
+    }
+    else
+    {
+        $t->set_var( "is_selected", "" );    
+    }
+  
+    $t->parse( "company_type", "company_type_select", true );
+}
+
 $t->set_var( "company_name", $CompanyName );
 
-$t->set_var( "comment", $Comment );
+$t->set_var( "company_comment", $Comment );
 
 $t->set_var( "street_1", $Street1 );
 $t->set_var( "street_2", $Street2 );

@@ -66,6 +66,7 @@ class eZCompany
                 $this->Name = $company_array[ 0 ][ "Name" ];
                 $this->Comment = $company_array[ 0 ][ "Comment" ];
                 $this->Owner = $company_array[ 0 ][ "Owner" ];        
+                $this->ContactType = $company_array[ 0 ][ "ContactType" ];        
             }
         }
     }
