@@ -17,6 +17,9 @@
       <?
           include( "eztodo/user/todomenulist.php" );
       ?>
+     <?
+         include( "ezcontact/user/consultationlist.php" );
+     ?>
         
 	<hr noshade="noshade" size="4" />
 
