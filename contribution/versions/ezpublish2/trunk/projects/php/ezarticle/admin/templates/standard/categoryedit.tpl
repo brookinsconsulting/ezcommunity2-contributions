@@ -30,7 +30,7 @@
     <input class="okbutton" type="submit" value="OK" />
 	</form>
 	</td>
-	<td>&nbsp;</td'
+	<td>&nbsp;</td>
 	<td>
 	Avbrytknapp
 	</td>

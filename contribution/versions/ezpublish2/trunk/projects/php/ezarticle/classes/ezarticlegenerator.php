@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezarticlegenerator.php,v 1.3 2000/10/20 15:42:26 bf-cvs Exp $
+// $Id: ezarticlegenerator.php,v 1.4 2000/10/23 14:33:19 bf-cvs Exp $
 //
 // Definition of eZArticleGenerator class
 //
@@ -34,13 +34,21 @@ class eZArticleGenerator
             $Generator = $ini->read_var( "eZArticleMain", "Generator" );
             $generatorType = $Generator;
         }
-        
+
+
         switch ( $generatorType )
-        {
+        {            
             case "tech" :
             {
                 $this->GeneratorFile = "eztechgenerator.php";
                 $this->GeneratorClass = "eZTechGenerator";
+            }
+            break;
+
+            case "flower" :
+            {
+                $this->GeneratorFile = "ezflowergenerator.php";
+                $this->GeneratorClass = "eZFlowerGenerator";
             }
             break;
             
@@ -64,7 +72,8 @@ class eZArticleGenerator
         $generator = new $this->GeneratorClass( $contents );
 
         $ret =& $generator->generateXML();
-             
+
+        print( $this->GeneratorClass );
         $this->PageCount = $generator->pageCount();
              
         return $ret;
@@ -97,6 +106,13 @@ class eZArticleGenerator
                 {
                     $this->GeneratorFile = "eztechgenerator.php";
                     $this->GeneratorClass = "eZTechGenerator";
+                }
+                break;
+
+                case "flower" :
+                {
+                    $this->GeneratorFile = "ezflowergenerator.php";
+                    $this->GeneratorClass = "eZFlowerGenerator";
                 }
                 break;
 

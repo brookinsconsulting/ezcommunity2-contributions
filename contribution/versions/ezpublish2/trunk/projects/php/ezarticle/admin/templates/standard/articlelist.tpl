@@ -32,12 +32,20 @@
 
 <div onLoad="MM_preloadImages('../ezarticle/images/redigerminimrk.gif','../ezarticle/images/slettminimrk.gif')"></div>
 
-<h1>Artikkelarkiv</h1>
+<h1>{intl-head_line} - {current_category_name}</h1>
+
+<p>
+{current_category_description}
+</p>
 
 <hr noshade="noshade" size="4" />
 
+<!-- BEGIN path_tpl -->
+
 <img src="/ezforum/images/path-arrow.gif" height="10" width="15" border="0">
 <a class="path" href="/article/archive/0/">Toppnivå</a>
+
+<!-- END path_tpl -->
 
 <!-- BEGIN path_item_tpl -->
 <img src="/ezforum/images/path-slash.gif" height="10" width="20" border="0">

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezsimplegenerator.php,v 1.1 2000/10/19 10:43:29 bf-cvs Exp $
+// $Id: ezsimplegenerator.php,v 1.2 2000/10/23 14:33:19 bf-cvs Exp $
 //
 // Definition of eZSimpleGenerator class
 //
@@ -49,6 +49,14 @@ class eZSimpleGenerator
         $newContents .= "<body>" . strip_tags( $this->Contents[1] ) . "</body></article>";
 
         return $newContents;
+    }
+
+    /*!
+      Returns the page count.
+    */
+    function pageCount()
+    {
+        return 1;
     }
 
     var $Contents;

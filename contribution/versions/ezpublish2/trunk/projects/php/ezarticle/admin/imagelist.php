@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: imagelist.php,v 1.2 2000/10/22 13:24:49 bf-cvs Exp $
+// $Id: imagelist.php,v 1.3 2000/10/23 14:33:19 bf-cvs Exp $
 //
 // Definition of eZCompany class
 //
@@ -26,7 +26,7 @@ include_once( "ezarticle/classes/ezarticlecategory.php" );
 include_once( "ezarticle/classes/ezarticle.php" );
 
 
-$t = new eZTemplate( "ezarticle/admin/" . $ini->read_var( "eZArticleMain", "TemplateDir" ),
+$t = new eZTemplate( "ezarticle/admin/" . $ini->read_var( "eZArticleMain", "AdminTemplateDir" ),
                      "ezarticle/admin/intl/", $Language, "imagelist.php" );
 
 $t->setAllStrings();

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: articleedit.php,v 1.9 2000/10/23 09:18:24 bf-cvs Exp $
+// $Id: articleedit.php,v 1.10 2000/10/23 14:33:19 bf-cvs Exp $
 //
 // 
 //
@@ -148,7 +148,7 @@ $ini = new INIFIle( "site.ini" );
 
 $Language = $ini->read_var( "eZArticleMain", "Language" );
 
-$t = new eZTemplate( "ezarticle/admin/" . $ini->read_var( "eZArticleMain", "TemplateDir" ),
+$t = new eZTemplate( "ezarticle/admin/" . $ini->read_var( "eZArticleMain", "AdminTemplateDir" ),
                      "ezarticle/admin/intl/", $Language, "articleedit.php" );
 
 $t->setAllStrings();

@@ -4,7 +4,6 @@
 <!-- END article_image_template -->
 
 
-
 <!-- BEGIN article_here_template -->
 
 <br />

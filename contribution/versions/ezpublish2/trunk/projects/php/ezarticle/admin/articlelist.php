@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: articlelist.php,v 1.1 2000/10/19 10:43:28 bf-cvs Exp $
+// $Id: articlelist.php,v 1.2 2000/10/23 14:33:19 bf-cvs Exp $
 //
 // 
 //
@@ -24,7 +24,7 @@ $ini = new INIFIle( "site.ini" );
 
 $Language = $ini->read_var( "eZArticleMain", "Language" );
 
-$t = new eZTemplate( "ezarticle/admin/" . $ini->read_var( "eZArticleMain", "TemplateDir" ),
+$t = new eZTemplate( "ezarticle/admin/" . $ini->read_var( "eZArticleMain", "AdminTemplateDir" ),
                      "ezarticle/admin/intl/", $Language, "articlelist.php" );
 
 $t->setAllStrings();
@@ -45,6 +45,9 @@ $t->set_block( "article_list_page_tpl", "article_list_tpl", "article_list" );
 $t->set_block( "article_list_tpl", "article_item_tpl", "article_item" );
 
 $category = new eZArticleCategory( $CategoryID );
+
+$t->set_var( "current_category_name", $category->name() );
+$t->set_var( "current_category_description", $category->description() );
 
 // path
 $pathArray = $category->path();

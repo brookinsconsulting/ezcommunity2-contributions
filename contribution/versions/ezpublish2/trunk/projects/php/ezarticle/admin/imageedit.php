@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: imageedit.php,v 1.5 2000/10/22 13:10:40 bf-cvs Exp $
+// $Id: imageedit.php,v 1.6 2000/10/23 14:33:19 bf-cvs Exp $
 //
 // Definition of eZCompany class
 //
@@ -125,7 +125,7 @@ if ( $Action == "StoreDef" )
     exit();
 }
 
-$t = new eZTemplate( "ezarticle/admin/" . $ini->read_var( "eZArticleMain", "TemplateDir" ),
+$t = new eZTemplate( "ezarticle/admin/" . $ini->read_var( "eZArticleMain", "AdminTemplateDir" ),
                      "ezarticle/admin/intl/", $Language, "imageedit.php" );
 
 $t->setAllStrings();
