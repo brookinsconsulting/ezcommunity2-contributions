@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: userwithaddress.php,v 1.54 2001/05/25 13:36:14 ce Exp $
+// $Id: userwithaddress.php,v 1.55 2001/05/25 13:50:37 ce Exp $
 //
 //
 // Christoffer A. Elo <ce@ez.no>
@@ -340,7 +340,6 @@ if ( isset( $OK ) and $error == false )
     $user_insert->setLastName( $LastName );
     $user_insert->setSignature( $Signature );
 
-
     if ( $AutoCookieLogin == "on" )
         $user_insert->setCookieLogin( true );
     else
@@ -422,6 +421,10 @@ if ( count( $info_array ) > 0 )
 }
 
 $t->set_var( "readonly", "" );
+$cookieCheck = "";
+
+if ( get_class( $user_insert ) == "ezuser" )
+    $user = $user_insert;
 
 // Fill in variables which are not set for current user,
 // this is done the first the page loads
@@ -440,9 +443,14 @@ if ( get_class( $user ) == "ezuser" )
 
     $cookieCheck = "";
     if ( $user->cookieLogin() == true )
+    {
+        print( "shejkka" );
         $cookieCheck = "checked";
+    }
     else
-        $cookieCheck = "";
+    {
+        print( "ikke shejkka" );
+    }
     
     if ( !isset( $AddressID ) )
     {
@@ -536,6 +544,8 @@ $t->set_var( "email_value", $Email );
 
 $t->set_var( "first_name_value", $FirstName );
 $t->set_var( "last_name_value", $LastName );
+$t->set_var( "is_cookie_selected", "$cookieCheck" );
+
 
 if ( get_class( $user ) == "ezuser" )
     $t->set_var( "readonly", "disabled" );

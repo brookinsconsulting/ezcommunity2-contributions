@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezuser.php,v 1.68 2001/05/16 15:16:11 bf Exp $
+// $Id: ezuser.php,v 1.69 2001/05/25 13:50:37 ce Exp $
 //
 // Definition of eZUser class
 //
@@ -466,7 +466,6 @@ class eZUser
         $ret = false;
         if ( $this->CookieLogin == 1 )
             $ret = true;
-
         return $ret;
     }
 
