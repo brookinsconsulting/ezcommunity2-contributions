@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ordersendt.php,v 1.25 2001/03/12 13:30:50 bf Exp $
+// $Id: ordersendt.php,v 1.26 2001/03/12 13:35:16 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <06-Oct-2000 14:04:17 bf>
@@ -167,7 +167,7 @@ foreach ( $items as $item )
 
     $sum += $price;
 
-    $totalVAT += $product->vat() * $item->count();
+    $totalVAT += $product->vat( $price ) * $item->count();
     
     $t->set_var( "product_name", $product->name() );
     $t->set_var( "product_price", $locale->format( $currency ) );
