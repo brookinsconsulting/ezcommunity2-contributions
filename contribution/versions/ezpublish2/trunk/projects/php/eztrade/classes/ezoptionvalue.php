@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezoptionvalue.php,v 1.1 2000/09/12 13:53:10 bf-cvs Exp $
+// $Id: ezoptionvalue.php,v 1.2 2000/09/13 09:45:25 bf-cvs Exp $
 //
 // Definition of eZCompany class
 //
@@ -14,14 +14,160 @@
 //
 
 //!! eZTrade
-//!
+//! Handles product option values.
 /*!
 
+  Example:
+  \code
+  // Create a new eZOptionValue object and store it to the database
+  $value = new eZOptionValue();
+  $value->setName( "Red" );
+  $value->store();
+
+  // Fetch a value from the database, and print out the contents.
+  $value->get( 2 );
+
+  print( $value->name() );
+    
+  \endcode
+  \sa eZProductCategory eZOption
 */
+
+include_once( "classes/ezdb.php" );
 
 class eZOptionValue
 {
+    /*!
+      Constructs a new eZOptionValue object.
+    */
+    function eZOptionValue( $id=-1, $fetch=true )
+    {
+        $IsConnected = false;
+        if ( $id != -1 )
+        {
+            $this->ID = $id;
+            if ( $fetch == true )
+            {
+                $this->get( $this->ID );
+            }
+            else
+            {
+                $this->State_ = "Dirty";
+            }
+        }
+        else
+        {
+            $this->State_ = "New";
+        }
+    }
 
+    /*!
+      Stores a eZOptionValue object to the database.
+    */
+    function store()
+    {
+        $this->dbInit();
+
+        $this->Database->query( "INSERT INTO eZTrade_OptionValue SET
+		                         Name='$this->Name'" );
+        
+        return mysql_insert_id();
+    }
+
+    /*!
+      Fetches the option object values from the database.
+    */
+    function get( $id=-1 )
+    {
+        $this->dbInit();
+        
+        if ( $id != "" )
+        {
+            $this->Database->array_query( $optionValue_array, "SELECT * FROM eZTrade_OptionValue WHERE ID='$id'" );
+            if ( count( $optionValue_array ) > 1 )
+            {
+                die( "Error: OptionValue's with the same ID was found in the database. This shouldent happen." );
+            }
+            else if( count( $optionValue_array ) == 1 )
+            {
+                $this->ID = $optionValue_array[0][ "ID" ];
+                $this->Name = $optionValue_array[0][ "Name" ];
+                $this->Description = $optionValue_array[0][ "Description" ];
+            }                 
+            $this->State_ = "Coherent";
+        }
+        else
+        {
+            $this->State_ = "Dirty";
+        }
+    }
+
+    /*!
+      Returns every optionValue stored in the database.
+    */
+    function getAll()
+    {
+        $this->dbInit();
+        
+        $return_array = array();
+        $optionValue_array = array();
+        
+        $this->Database->array_query( $optionValue_array, "SELECT ID FROM eZTrade_OptionValue ORDER BY Name" );
+        
+        for ( $i=0; $i<count($optionValue_array); $i++ )
+        {
+            $return_array[$i] = new eZOptionValue( $optionValue_array[$i]["ID"], 0 );
+        }
+        
+        return $return_array;
+    }
+
+    /*!
+      Returns the name of the option.
+    */
+    function name()
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+        
+        return $this->Name;
+    }
+    
+    /*!
+      Sets the name of the option.
+    */
+    function setName( $value )
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+        
+        $this->Name = $value;
+    }
+    
+    /*!
+      Private function.
+      
+      Open the database for read and write. Gets all the database information from site.ini.
+    */
+    function dbInit()
+    {
+        if ( $IsConnected == false )
+        {
+            $this->Database = new eZDB( "site.ini", "eZTradeMain" );
+            $IsConnected = true;
+        }
+    }
+    
+    var $ID;
+    var $Name;
+
+    ///  Variable for keeping the database connection.
+    var $Database;
+
+    /// Indicates the state of the object. In regard to database information.
+    var $State_;
+    /// Is true if the object has database connection, false if not.
+    var $IsConnected;
 }
 
 ?>
