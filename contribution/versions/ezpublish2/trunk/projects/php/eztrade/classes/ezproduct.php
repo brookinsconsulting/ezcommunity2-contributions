@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezproduct.php,v 1.96 2001/09/17 09:18:54 ce Exp $
+// $Id: ezproduct.php,v 1.97 2001/09/17 13:23:00 ce Exp $
 //
 // Definition of eZProduct class
 //
@@ -1900,7 +1900,7 @@ class eZProduct
         if ( is_numeric ( $priceRange["ID"] ) )
             $ret = new eZProductPriceRange( $priceRange["ID"] );
         else
-            $ret = false;
+            $ret = new eZProductPriceRange();
 
         return $ret;
     }

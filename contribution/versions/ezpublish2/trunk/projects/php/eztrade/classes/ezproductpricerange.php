@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezproductpricerange.php,v 1.1 2001/09/10 12:39:28 ce Exp $
+// $Id: ezproductpricerange.php,v 1.2 2001/09/17 13:23:00 ce Exp $
 //
 // eZProductPricerange class
 //
@@ -72,8 +72,7 @@ class eZProductPriceRange
     {
         $db =& eZDB::globalDatabase();
         $db->begin();
-        
-       
+
         if ( !isset( $this->ID ) )
         {
             $db->lock( "eZTrade_ProductPriceRange" );

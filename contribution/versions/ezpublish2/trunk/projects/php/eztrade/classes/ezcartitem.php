@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezcartitem.php,v 1.23 2001/09/15 15:53:01 pkej Exp $
+// $Id: ezcartitem.php,v 1.24 2001/09/17 13:23:00 ce Exp $
 //
 // Definition of eZCartItem class
 //
@@ -85,13 +85,14 @@ class eZCartItem
             $nextID = $db->nextID( "eZTrade_CartItem", "ID" );            
             
             $res = $db->query( "INSERT INTO eZTrade_CartItem
-                      ( ID, ProductID, CartID, Count, WishListItemID, PriceRange )
+                      ( ID, ProductID, CartID, Count, WishListItemID, MailMethod, PriceRange )
                       VALUES
                       ( '$nextID',
                         '$this->ProductID',
                         '$this->CartID',
                         '$this->Count',
                         '$this->WishListItemID',
+                        '$this->MailMethod',
                         '$this->PriceRange' )
                       " );
 
@@ -106,6 +107,7 @@ class eZCartItem
 		                         CartID='$this->CartID',
 		                         Count='$this->Count',
 		                         WishListItemID='$this->WishListItemID',
+                                 MailMethod='$this->MailMethod',
                                  PriceRange='$this->PriceRange'
                                  WHERE ID='$this->ID'
                                  " );
@@ -142,6 +144,7 @@ class eZCartItem
                 $this->Count = $cart_array[0][$db->fieldName( "Count" )];
                 $this->WishListItemID = $cart_array[0][$db->fieldName( "WishListItemID" )];
                 $this->PriceRange = $cart_array[0][$db->fieldName( "PriceRange" )];
+                $this->MailMethod = $cart_array[0][$db->fieldName( "MailMethod" )];
                 $ret = true;
             }
         }
@@ -216,6 +219,16 @@ class eZCartItem
     function count( )
     {
         return $this->Count;
+    }
+
+    /*!
+      Returns the mailmethod.
+      1 = email
+      2 = smail
+    */
+    function mailMethod( )
+    {
+        return $this->MailMethod;
     }
 
     /*!
@@ -398,7 +411,17 @@ class eZCartItem
     }
 
     /*!
+      Sets the mailmethod of products.
+    */
+    function setMailMethod( $value )
+    {
+       $this->MailMethod = $value;
+    }
+
+    /*!
       Sets the price range.
+      1 = email
+      2 = smail
     */
     function setPriceRange( $value )
     {
@@ -458,6 +481,7 @@ class eZCartItem
     var $ProductID;
     var $CartID;
     var $Count;
+    var $MailMethod=0;
     var $PriceRange=false;
     
     /// ID to a wishlist item. Indicates which wishlistitem the cart item comes from. 0 if added from product.
