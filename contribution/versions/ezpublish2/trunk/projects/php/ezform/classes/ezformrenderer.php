@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezformrenderer.php,v 1.17 2001/10/17 14:34:21 bf Exp $
+// $Id: ezformrenderer.php,v 1.18 2001/10/19 12:14:18 bf Exp $
 //
 // eZFormRenderer class
 //
@@ -229,7 +229,8 @@ class eZFormRenderer
                     $maxBreakCount = max( $maxBreakCount, $breakCount );
                 }                
             }
-            
+
+            $i = 0;
             foreach( $elements as $element )
             {
                 $elementCounter++;
@@ -247,15 +248,27 @@ class eZFormRenderer
                 else
                     $this->Template->set_var( "colspan", " colspan=\"1\"" );
 
+                if ( ( $i % 2 ) == 0 )
+                {
+                    $this->Template->set_var( "td_class", "bglight" );
+                }
+                else
+                {
+                    $this->Template->set_var( "td_class", "bgdark" );
+                }
+                
                 
                 if ( ( $eType->name() != "text_field_item" ) or $element->isBreaking() )
                 {
                     $this->Template->parse( "break", "break_tpl" );
+                    $i++;
                 }
                 else
                 {
                     $this->Template->set_var( "break", "" );
                 }
+
+                
                 $this->Template->parse( "form_item", "form_item_tpl", true );
             }
 

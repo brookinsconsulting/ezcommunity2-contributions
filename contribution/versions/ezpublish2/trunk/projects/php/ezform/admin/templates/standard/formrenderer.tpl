@@ -65,7 +65,7 @@
 <table width="100%" cellpadding="0" cellspacing="0" border="0">
 <tr>
 <!-- BEGIN form_item_tpl -->
-	<td {colspan} >
+	<td {colspan} class="{td_class}" >
 	<p class="boxtext">
 	{element_name}:
 	</p>
