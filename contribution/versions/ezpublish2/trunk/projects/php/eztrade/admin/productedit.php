@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: productedit.php,v 1.58 2001/08/21 11:21:40 ce Exp $
+// $Id: productedit.php,v 1.59 2001/08/29 14:31:58 bf Exp $
 //
 // Created on: <19-Sep-2000 10:56:05 bf>
 //
@@ -78,6 +78,9 @@ include_once( "eztrade/classes/ezproductcategory.php" );
 include_once( "eztrade/classes/ezvattype.php" );
 include_once( "eztrade/classes/ezshippinggroup.php" );
 
+// must have to generate XML
+include_once( "ezarticle/classes/ezarticlegenerator.php" );
+
 if ( isSet( $SubmitPrice ) )
 {
     for ( $i = 0; $i < count( $ProductEditArrayID ); $i++ )
@@ -110,8 +113,14 @@ if ( $Action == "Insert" )
 
     $product = new eZProduct();
     $product->setName( $Name );
-    $product->setDescription( $Description );
-    $product->setBrief(  $Brief );
+
+    $generator = new eZArticleGenerator();
+    $contents =& $generator->generateXML( $Contents );
+    $product->setContents( $contents );
+    
+//    $product->setDescription( $Description );
+//    $product->setBrief(  $Brief );
+    
     $product->setKeywords( $Keywords );
     $product->setProductNumber( $ProductNumber );
 
@@ -318,8 +327,14 @@ if ( $Action == "Update" )
     $product->get( $ProductID );
     $was_hotdeal = $product->isHotDeal();
     $product->setName( $Name );
-    $product->setDescription( $Description );
-    $product->setBrief( $Brief );
+
+    $generator = new eZArticleGenerator();
+    $contents =& $generator->generateXML( $Contents );
+    $product->setContents( $contents );
+    
+//    $product->setDescription( $Description );
+//    $product->setBrief( $Brief );
+    
     $product->setKeywords( $Keywords  );
     $product->setProductNumber( $ProductNumber );
     $product->setExternalLink( $ExternalLink );
@@ -635,10 +650,13 @@ if ( $Action == "Edit" )
     $t->set_var( "keywords_value", $product->keywords() );
     $t->set_var( "product_nr_value", $product->productNumber() );
     $t->set_var( "price_value", $product->price() );
-    $t->set_var( "brief_value", $product->brief() );
-    $t->set_var( "description_value", $product->description() );
     $t->set_var( "expiry_value", $product->expiryTime() ? $product->expiryTime() : "" );
     $t->set_var( "external_link", $product->externalLink() );
+
+    $generator = new eZArticleGenerator();
+    $contentsArray =& $generator->decodeXML( $product->contents() );
+    $t->set_var( "brief_value", $contentsArray[0] );
+    $t->set_var( "description_value", $contentsArray[1] );
     
     $t->set_var( "action_value", "update" );
     $t->set_var( "product_id", $product->id() );

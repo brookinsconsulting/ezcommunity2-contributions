@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: imagelist.php,v 1.15 2001/08/27 08:12:58 ce Exp $
+// $Id: imagelist.php,v 1.16 2001/08/29 14:31:58 bf Exp $
 //
 // Created on: <21-Sep-2000 10:32:19 bf>
 //
@@ -87,8 +87,11 @@ else
 
     $i=0;
     $t->set_var( "image", "" );
-    foreach ( $images as $image )
+    foreach ( $images as $imageArray )
     {
+        $image = $imageArray["Image"];
+        $placement = $imageArray["Placement"];
+        
         if ( ( $i % 2 ) == 0 )
         {
             $t->set_var( "td_class", "bglight" );
@@ -116,7 +119,7 @@ else
             }
         }
 
-        $t->set_var( "image_number", $i + 1 );
+        $t->set_var( "image_number", $placement );
 
         $t->set_var( "image_name", $image->caption() );
         $t->set_var( "image_id", $image->id() );

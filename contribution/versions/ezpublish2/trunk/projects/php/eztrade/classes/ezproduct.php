@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezproduct.php,v 1.78 2001/08/28 15:56:21 ce Exp $
+// $Id: ezproduct.php,v 1.79 2001/08/29 14:31:58 bf Exp $
 //
 // Definition of eZProduct class
 //
@@ -124,6 +124,7 @@ class eZProduct
         $description = $db->escapeString( $this->Description );
         $keywords = $db->escapeString( $this->Keywords );
         $productNumber = $db->escapeString( $this->ProductNumber );
+        $contents = $db->escapeString( $this->Contents );
         
         if ( !isSet( $this->ID ) )
         {
@@ -134,8 +135,7 @@ class eZProduct
             $res = $db->query( "INSERT INTO eZTrade_Product
                                 ( ID,
                                   Name,
-                                  Brief,
-                                  Description,
+                                  Contents,
                                   Keywords,
                                   ProductNumber,
                                   Price,
@@ -153,8 +153,7 @@ class eZProduct
                                   VALUES
                                   ( '$nextID',
 		                            '$this->Name',
-                                    '$this->Brief',
-                                    '$this->Description',
+                                    '$contents',
                                     '$this->Keywords',
                                     '$this->ProductNumber',
                                      $price,
@@ -176,8 +175,7 @@ class eZProduct
         {
             $res = $db->query( "UPDATE eZTrade_Product SET
 		                         Name='$this->Name',
-                                 Brief='$this->Brief',
-                                 Description='$this->Description',
+                                 Contents='$this->Contents',
                                  Keywords='$this->Keywords',
                                  ProductNumber='$this->ProductNumber',
                                  Price=$price,
@@ -224,8 +222,7 @@ class eZProduct
             {
                 $this->ID =& $category_array[0][$db->fieldName( "ID" )];
                 $this->Name =& $category_array[0][$db->fieldName( "Name" )];
-                $this->Brief =& $category_array[0][$db->fieldName( "Brief" )];
-                $this->Description =& $category_array[0][$db->fieldName( "Description" )];
+                $this->Contents =& $category_array[0][$db->fieldName( "Contents" )];
                 $this->Keywords =& $category_array[0][$db->fieldName( "Keywords" )];
                 $this->ProductNumber =& $category_array[0][$db->fieldName( "ProductNumber" )];
                 $this->ExternalLink =& $category_array[0][$db->fieldName( "ExternalLink" )];
@@ -641,23 +638,44 @@ class eZProduct
     */
     function &productNumber( )
     {
-       return htmlspecialchars( $this->ProductNumber );
+        return htmlspecialchars( $this->ProductNumber );
+    }    
+
+    /*!
+      Returns the XML contents of the product.
+    */
+    function &contents( )
+    {
+        return $this->Contents;
     }    
 
     /*!
       Returns the introduction to the product.
+
+      This introduction is rendered from the XML contents. If you want to
+      use another configuration you must render this from the Contents field
+      manualli with the eZArticleRenderer class.
     */
     function &brief( )
     {
-       return htmlspecialchars( $this->Brief );
+        include_once( "ezarticle/classes/ezarticlerenderer.php" );
+        $renderer = new eZArticleRenderer( $this );
+        $articleContents = $renderer->renderPage( 0 );
+        
+        return $articleContents[0];
     }    
-
+    
     /*!
       Returns the description of the product.
     */
     function &description( )
     {
-       return htmlspecialchars( $this->Description );
+        include_once( "ezarticle/classes/ezarticlerenderer.php" );
+        $renderer = new eZArticleRenderer( $this );
+        $articleContents = $renderer->renderPage( 0 );
+
+
+        return $articleContents[1];
     }
 
     /*!
@@ -666,7 +684,7 @@ class eZProduct
     */
     function showPrice()
     {
-       return $this->ShowPrice;
+        return $this->ShowPrice;
     }
 
 
@@ -675,7 +693,7 @@ class eZProduct
     */
     function showProduct()
     {
-       return $this->ShowProduct;
+        return $this->ShowProduct;
     }
 
     /*!
@@ -726,23 +744,14 @@ class eZProduct
        $this->RemoteID = $remoteID;        
     }
 
-
     /*!
-      Sets the brief description of the product.
+      Sets the XML contents of the product.
     */
-    function setBrief( $value )
+    function setContents( $value )
     {
-       $this->Brief = $value;
+        $this->Contents = $value;
     }
-
-    /*!
-      Sets the product description.
-    */
-    function setDescription( $value )
-    {
-       $this->Description = $value;       
-    }
-
+    
     /*!
       Sets the keywords.
     */
@@ -876,8 +885,9 @@ class eZProduct
             $db =& eZDB::globalDatabase();
             $db->begin();
             $db->lock( "eZTrade_ProductImageLink" );
-            $nextID = $db->nextID( "eZTrade_ProductImageLink", "ID" );            
-            $res = $db->query( "INSERT INTO eZTrade_ProductImageLink ( ID, ProductID, ImageID ) VALUES ( '$nextID', '$this->ID', '$imageID' )" );
+            $nextID = $db->nextID( "eZTrade_ProductImageLink", "ID" );
+            $timeStamp = eZDateTime::timeStamp( true );
+            $res = $db->query( "INSERT INTO eZTrade_ProductImageLink ( ID, ProductID, ImageID, Created ) VALUES ( '$nextID', '$this->ID', '$imageID', '$timeStamp' )" );
             $db->unlock();
             if ( $res == false )
                 $db->rollback( );
@@ -912,20 +922,38 @@ class eZProduct
     /*!
       Returns every image to a product as a array of eZImage objects.
     */
-    function images()
+    function &images()
     {
-       $return_array = array();
-       $image_array = array();
+        $return_array = array();
+        $image_array = array();
 
-       $db =& eZDB::globalDatabase();
-       $db->array_query( $image_array, "SELECT ImageID FROM eZTrade_ProductImageLink WHERE ProductID='$this->ID' ORDER BY Created" );
-       
-       for ( $i=0; $i < count($image_array); $i++ )
-       {
-           $return_array[$i] = new eZImage( $image_array[$i][$db->fieldName( "ImageID" )], false );
-       }
-       
-       return $return_array;
+        $db =& eZDB::globalDatabase();
+        $db->array_query( $image_array, "SELECT ID, ImageID, Placement FROM eZTrade_ProductImageLink WHERE ProductID='$this->ID' ORDER BY Created" );
+
+        // convert the database if placement is not set
+        if ( count( $image_array ) > 0 )
+        {
+            if ( $image_array[0][$db->fieldName("Placement")] == "0" )
+            {
+                $placement=1;                
+                for ( $i=0; $i < count($image_array); $i++ )
+                {
+                    $imageLinkID = $image_array[$i][$db->fieldName("ID")];                    
+                    $db->query( "UPDATE eZTrade_ProductImageLink SET Placement='$placement' WHERE ID='$imageLinkID'" );
+
+                    $image_array[$i][$db->fieldName("Placement")] = $placement;
+                    $placement++;
+                }
+            }
+        }
+        
+        for ( $i=0; $i < count($image_array); $i++ )
+        {
+            $return_array[$i]["Image"] = new eZImage( $image_array[$i][$db->fieldName("ImageID")] );
+            $return_array[$i]["Placement"] = $image_array[$i][$db->fieldName("Placement")];         
+        }
+
+        return $return_array;
     }
 
     /*!
@@ -1655,6 +1683,9 @@ class eZProduct
     
     var $ID;
     var $Name;
+    
+    // XML of the product information.
+    var $Contents;
     var $Brief;
     var $Description;
     var $Keywords;

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: productpreview.php,v 1.25 2001/08/08 12:34:57 jhe Exp $
+// $Id: productpreview.php,v 1.26 2001/08/29 14:31:58 bf Exp $
 //
 // Created on: <22-Sep-2000 16:13:32 bf>
 //
@@ -40,8 +40,6 @@ include_once( "eztrade/classes/ezproductcurrency.php" );
 include_once( "eztrade/classes/ezorder.php" );
 
 include_once( "ezuser/classes/ezuser.php" );
-
-
 
 $ini =& INIFile::globalINI();
 
@@ -193,7 +191,7 @@ else
     $t->set_var( "title_text", $product->name() );
 } 
 $t->set_var( "intro_text", $product->brief() );
-$t->set_var( "description_text", eZTextTool::nl2br( $product->description() ) );
+$t->set_var( "description_text", $product->description() );
 
 $images = $product->images();
 
@@ -201,8 +199,9 @@ $i=0;
 $t->set_var( "image", "" );
 $t->set_var( "image_list", "" );
 $image_count = 0;
-foreach ( $images as $image )
+foreach ( $images as $imageArray )
 {
+    $image =& $imageArray["Image"];
     if ( $image->id() != $mainImageID )
     {
         if ( ( $i % 2 ) == 0 )
@@ -217,7 +216,7 @@ foreach ( $images as $image )
         $t->set_var( "image_name", $image->name() );
 
         $t->set_var( "image_title", $image->name() );
-        $t->set_var( "image_caption", eZTextTool::nl2br( $image->caption() ) );
+        $t->set_var( "image_caption", $image->caption() );
         $t->set_var( "image_id", $image->id() );
         $t->set_var( "product_id", $ProductID );
 
