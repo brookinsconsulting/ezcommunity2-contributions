@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: messagelist.php,v 1.48 2001/10/08 14:01:27 jhe Exp $
+// $Id: messagelist.php,v 1.49 2001/10/11 07:35:50 ce Exp $
 //
 // Created on: <11-Sep-2000 22:10:06 bf>
 //
@@ -44,7 +44,8 @@ $NewMessageLimit = $ini->read_var( "eZForumMain", "NewMessageLimit" );
 $t = new eZTemplate( "ezforum/user/" . $ini->read_var( "eZForumMain", "TemplateDir" ),
                      "ezforum/user/intl", $Language, "messagelist.php" );
 
-$t->set_file( "messagelist", "messagelist.tpl" );
+$t->set_file( array( "messagelist" => "messagelist.tpl",
+                     "no_access" => "noaccess.tpl" );
 
 $t->set_block( "messagelist", "message_item_tpl", "message_item" );
 $t->set_block( "message_item_tpl", "edit_message_item_tpl", "edit_message_item" );
@@ -307,5 +308,7 @@ $t->set_var( "forum_name", $forum->name() );
 
 if ( $readPermission == true )
     $t->pparse( "output", "messagelist" );
-
+if ( $readPermission == false )
+    $t->pparse( "output", "no_access" );
+    
 ?>
