@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: payment.php,v 1.16 2001/03/11 13:33:29 bf Exp $
+// $Id: payment.php,v 1.17 2001/03/12 10:34:38 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <02-Feb-2001 16:31:53 bf>
@@ -80,6 +80,8 @@ $billingAddress = $order->billingAddress();
 $shippingAddress = $order->shippingAddress();
 
 $paymentMethod = $session->variable( "PaymentMethod" );
+
+print( $paymentMethod );
 
 include( $instance->paymentFile( $paymentMethod ) );
 
@@ -199,7 +201,7 @@ if ( $PaymentSuccess == "true" )
     {
         $product = $item->product();
 
-        $price = $product->price();
+        $price = $item->price();
         $currency->setValue( $price );
 
         $mailTemplate->set_var( "debug", $debug );

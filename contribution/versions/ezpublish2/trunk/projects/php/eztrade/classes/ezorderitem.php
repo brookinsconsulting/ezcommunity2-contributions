@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezorderitem.php,v 1.9 2001/01/06 16:21:01 bf Exp $
+// $Id: ezorderitem.php,v 1.10 2001/03/12 10:34:38 bf Exp $
 //
 // Definition of eZOrderItem class
 //
@@ -172,6 +172,17 @@ class eZOrderItem
        return $this->Count;
     }
 
+    /*!
+      Returns the price of the order item.
+    */
+    function price( )
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+       return $this->Price;
+    }
+    
     /*!
       Returns the product.
     */

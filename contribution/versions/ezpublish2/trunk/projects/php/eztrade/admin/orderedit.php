@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: orderedit.php,v 1.14 2001/03/01 14:06:26 jb Exp $
+// $Id: orderedit.php,v 1.15 2001/03/12 10:34:38 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <30-Sep-2000 13:03:13 bf>
@@ -171,7 +171,7 @@ foreach ( $items as $item )
         $t->set_var( "product_image_caption", $image->caption() );
     }
         
-    $price = $product->price() * $item->count();
+    $price = $item->price() * $item->count();
     $currency->setValue( $price );
 
     $sum += $price;
@@ -246,11 +246,6 @@ foreach ( $historyArray as $status )
     $t->parse( "order_status_history", "order_status_history_tpl", true );
     $i++;
 }
-
-$t->set_var( "visa", "" );
-$t->set_var( "mastercard", "" );
-$t->set_var( "cod", "" );
-$t->set_var( "invoice", "" );
 
 
 $checkout = new eZCheckout();

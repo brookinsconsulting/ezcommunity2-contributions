@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ordersendt.php,v 1.23 2001/03/09 09:02:00 bf Exp $
+// $Id: ordersendt.php,v 1.24 2001/03/12 10:34:38 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <06-Oct-2000 14:04:17 bf>
@@ -162,7 +162,7 @@ foreach ( $items as $item )
         $t->set_var( "order_image", "" );
     }
     
-    $price = $product->price() * $item->count();
+    $price = $item->price() * $item->count();
     $currency->setValue( $price );
 
     $sum += $price;
@@ -205,6 +205,7 @@ $t->set_var( "payment_method", $paymentMethod );
 
 $shippingCost = $order->shippingCharge();
 $currency->setValue( $shippingCost );
+
 $t->set_var( "shipping_cost", $locale->format( $currency ) );
 
 $sum += $shippingCost;

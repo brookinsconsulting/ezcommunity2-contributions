@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: checkout.php,v 1.44 2001/03/11 13:33:29 bf Exp $
+// $Id: checkout.php,v 1.45 2001/03/12 10:34:38 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <28-Sep-2000 15:52:08 bf>
@@ -138,7 +138,7 @@ if ( isset( $SendOrder ) )
     $order->setShippingAddress( $shippingAddress );
     $order->setBillingAddress( $billingAddress );
 
-    
+
     $order->setShippingCharge( eZHTTPTool::getVar( "ShippingCost", true ) );
     $order->setPaymentMethod( $PaymentMethod );
 
@@ -151,33 +151,20 @@ if ( isset( $SendOrder ) )
 
     foreach( $items as $item )
     {
-        // set the wishlist item to bought if the cart item is
-        // fetched from a wishlist
-
-//          $wishListItem = $item->wishListItem();
-//          if ( $wishListItem )
-//          {
-//              $wishListItem->setIsBought( true );
-//              $wishListItem->store();
-//          }
-        
         $product = $item->product();
+
+        // product price
+        $price = $item->price( false );
+        
         // create a new order item
         $orderItem = new eZOrderItem();
         $orderItem->setOrder( $order );
         $orderItem->setProduct( $product );
         $orderItem->setCount( $item->count() );
-        $orderItem->setPrice( $product->price() );
+        $orderItem->setPrice( $price );
         $orderItem->store();
-
-
-        // product price
-        $price = $item->price();    
-        $currency->setValue( $price );
         
         $optionValues =& $item->optionValues();
-
-        $optionNameLength = 0;
 
         $optionValues =& $item->optionValues();
         
@@ -191,10 +178,10 @@ if ( isset( $SendOrder ) )
 
             $descriptions =&$value->descriptions();
             
-            $orderOptionValue->setOptionName( $descriptions[0] );
-
+            $orderOptionValue->setOptionName( $option->name() );
+            $orderOptionValue->setValueName( $descriptions[0] );
             // fix
-//            $orderOptionValue->setValueName( $value->name() );
+
             
             $orderOptionValue->store();
         }
@@ -361,7 +348,8 @@ foreach ( $types as $type )
 
 
     $shippingCost = $cart->shippingCost( $currentShippingType );
-
+    $t->set_var( "shipping_cost_value", $shippingCost );
+    
     $currency->setValue( $shippingCost );
     $t->set_var( "shipping_cost", $locale->format( $currency ) );
 

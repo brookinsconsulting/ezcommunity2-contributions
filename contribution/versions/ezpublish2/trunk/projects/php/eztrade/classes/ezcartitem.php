@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezcartitem.php,v 1.9 2001/03/11 12:59:04 bf Exp $
+// $Id: ezcartitem.php,v 1.10 2001/03/12 10:34:38 bf Exp $
 //
 // Definition of eZCartItem class
 //
@@ -213,9 +213,9 @@ class eZCartItem
     /*!
       Returns the price of the cart item.
 
-      Options and count is calculated.
+      Options and count is calculated if not disabled.
     */
-    function price()
+    function price( $calcCount=true )
     {
         $optionValues =& $this->optionValues();
         $product =& $this->product();
@@ -250,7 +250,14 @@ class eZCartItem
             $optionPrice += $price;
         }
 
-        $price = ( $product->price() + $optionPrice )  * $this->count();
+        if ( $calcCount == true )
+        {
+            $price = ( $product->price() + $optionPrice )  * $this->count();
+        }
+        else
+        {
+            $price = ( $product->price() + $optionPrice );
+        }            
 
         return $price;        
     }

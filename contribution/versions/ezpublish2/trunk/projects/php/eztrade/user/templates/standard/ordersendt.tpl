@@ -7,6 +7,8 @@
 <p>{intl-email_notice}</p>
 
 
+<b>{intl-payment_method}</b>:
+{payment_method}
 
 
 <br />
