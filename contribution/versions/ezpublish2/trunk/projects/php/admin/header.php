@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: header.php,v 1.39 2001/10/12 10:52:58 sascha Exp $
+// $Id: header.php,v 1.40 2001/10/17 14:55:26 virt Exp $
 //
 // Created on: <23-Jan-2001 16:06:07 bf>
 //
@@ -34,7 +34,7 @@ include_once( "classes/ezpublish.php" );
 $ini =& INIFile::globalINI();
 $Language =& $ini->read_var( "eZUserMain", "Language" );
 $Locale = new eZLocale( $Language );
-$iso = $Locale->languageISO();
+//$iso = $Locale->languageISO();
 //$site_modules = $ini->read_array( "site", "EnabledModules" );
 $site_modules = eZModuleHandler::all();
 include_once( "ezmodule/classes/ezmodulehandler.php" );
@@ -42,6 +42,31 @@ include_once( "ezmodule/classes/ezmodulehandler.php" );
 $ModuleTab = eZModuleHandler::activeTab();
 
 include_once( "ezsession/classes/ezpreferences.php" );
+
+$session =& eZSession::globalSession();
+
+if ( $session->fetch() == false )
+{
+    $session =& eZSession::globalSession();
+    $session->store();
+}
+
+if ( isset( $page_charset ) )
+{
+    $session->setVariable( "charsetLanguage", $page_charset );
+}
+
+$charsetLanguage =& $session->variable( "charsetLanguage" );
+
+if ( $charsetLanguage == "" )
+{
+    $charsetLanguage =& $ini->read_var( "eZUserMain", "Language" );
+}
+	
+$charsetLocale = new eZLocale( $charsetLanguage );
+$iso = $charsetLocale->languageISO();
+
+
 $preferences = new eZPreferences();
 $modules =& eZModuleHandler::active();
 // $modules =& $preferences->variableArray( "EnabledModules" );
@@ -58,6 +83,9 @@ $t->set_block( "header_tpl", "module_list_tpl", "module_list" );
 $t->set_block( "module_list_tpl", "module_item_tpl", "module_item" );
 $t->set_block( "module_list_tpl", "module_control_tpl", "module_control" );
 $t->set_block( "header_tpl", "menu_tpl", "menu_item" );
+$t->set_block( "header_tpl", "charset_switch_tpl", "charset_switch" );
+$t->set_block( "charset_switch_tpl", "charset_switch_item_tpl", "charset_switch_item" ); 
+
 
 $SiteURL =& $ini->read_var( "site", "SiteURL" );
 
@@ -74,6 +102,42 @@ else
     $t->set_var( "last_name", "" );
 }
 
+$uri = $GLOBALS["REQUEST_URI"];
+
+$t->set_var( "charset_switch", "" );
+
+// The following is the charset switch - to view languages with different charsets 
+
+$CharsetSwitch =& $ini->read_var( "site", "CharsetSwitch" );
+
+if ( $CharsetSwitch == "enabled" )
+{
+
+    $charsets =& $ini->read_var( "site", "Charsets" );
+    $charsets_array = explode( ";", $charsets );
+
+    foreach ( $charsets_array as $charset_item )
+    {
+        $charset_item_array = explode( "-", $charset_item );
+        $t->set_var( "charset_submit_url", $uri );
+	$t->set_var( "charset_code", $charset_item_array[0] );
+	$t->set_var( "charset_description", $charset_item_array[1] );
+	if ( $charset_item_array[0] == $charsetLanguage )
+	{
+	    $t->set_var( "charset_selected", "selected" );
+	}
+	else
+	{
+	    $t->set_var( "charset_selected", "" );
+	}
+	if ( $charset_item_array[0] != "" )
+	{
+	    $t->parse( "charset_switch_item", "charset_switch_item_tpl", true );
+        }
+    }
+    $t->parse( "charset_switch", "charset_switch_tpl" );
+}
+
 
 $t->set_var( "site_url", $SiteURL );
 
@@ -86,7 +150,7 @@ $t->set_var( "charset", $iso );
 $t->set_var( "module_list", "" );
 $t->set_var( "module_item", "" );
 $t->set_var( "module_control", "" );
-$uri = $GLOBALS["REQUEST_URI"];
+
 $t->set_var( "ref_url", $uri );
 
 if ( $ModuleTab == true )

@@ -52,6 +52,11 @@
 	    newWin = window.open ( url, target, numbers );
 	    return false;
 	}
+	
+	function SwitchCharset()
+	{
+	    CharsetSwitch.submit();
+	}
 
 	
 //-->
@@ -76,24 +81,35 @@
 	<td width="1%" class="tdmini">
 	<a href="http://developer.ez.no" target="_vblank"><img src="{www_dir}/admin/images/{site_style}/top-ezpublishlogo.gif" width="200" height="40" border="0" alt="" /></a><br />
 	</td>
-	<td width="91%">
-	<img src="{www_dir}/admin/images/1x1.gif" width="20" height="10" border="0" alt="" />
+	<td width="1%"><img src="{www_dir}/admin/images/1x1.gif" width="20" height="10" border="0" alt="" /></td>
+	<td width="91%" valign="top">
+	<form action="{charset_submit_url}" method="post" name="CharsetSwitch">
+	<!-- BEGIN charset_switch_tpl -->
+	<select name="page_charset" onchange="SwitchCharset()">
+            <!-- BEGIN charset_switch_item_tpl --> 
+	    <option value="{charset_code}" {charset_selected}>{charset_description}</option>
+	    <!-- END charset_switch_item_tpl -->
+        </select>
+        <input type="submit" class="stdbutton" value="Set" />
+        <!-- END charset_switch_tpl -->
+	</form>
+	<td width="1%"><img src="{www_dir}/admin/images/1x1.gif" width="20" height="10" border="0" alt="" /></td>						
 	</td>
 	<td width="1%">
 	<span class="top">{intl-ezpublish_version}:</span><br />
 	<span class="topusername">{ezpublish_version}</span><br />
-	<img src="{www_dir}/admin/images/1x1.gif" width="120" height="10" border="0" alt="" /><br />
+	<img src="{www_dir}/admin/images/1x1.gif" width="100" height="10" border="0" alt="" /><br />
 	</td>	
 	<td width="1%">
 	<span class="top">{intl-site_url}:</span><br />
 	<span class="topusername">{site_url}</span><br />
-	<img src="{www_dir}/admin/images/1x1.gif" width="120" height="10" border="0" alt="" /><br />
+	<img src="{www_dir}/admin/images/1x1.gif" width="100" height="10" border="0" alt="" /><br />
 	</td>
 	<td width="1%"><img src="{www_dir}/admin/images/1x1.gif" width="20" height="10" border="0" alt="" /></td>
 	<td width="1%">
 	<span class="top">{intl-user_name}:</span><br />
 	<span class="topusername">{first_name}&nbsp;{last_name}</span><br />
-	<img src="{www_dir}/admin/images/1x1.gif" width="120" height="10" border="0" alt="" /><br />
+	<img src="{www_dir}/admin/images/1x1.gif" width="100" height="10" border="0" alt="" /><br />
 	</td>
 	<td width="1%"><img src="{www_dir}/admin/images/1x1.gif" width="20" height="10" border="0" alt="" /></td>
 	<td width="1%" valign="top">
