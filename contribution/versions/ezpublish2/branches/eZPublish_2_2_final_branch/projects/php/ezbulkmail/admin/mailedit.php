@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: mailedit.php,v 1.9 2001/08/17 13:35:58 jhe Exp $
+// $Id: mailedit.php,v 1.9.2.1 2003/06/03 06:49:02 jhe Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -34,31 +34,31 @@ include_once( "ezuser/classes/ezuser.php" );
 include_once( "classes/ezhttptool.php" );
 
 
-if( isset( $Cancel ) )
+if ( isset( $Cancel ) )
 {
     eZHTTPTool::header( "Location: /bulkmail/mailedit" );
     exit();
 }
 
-if( isset( $Preview ) )
+if ( isset( $Preview ) )
 {
     $MailID = save_mail();
-    if( !isset( $error ) )
+    if ( !isset( $error ) )
     {
         eZHTTPTool::header( "Location: /bulkmail/preview/$MailID" );
         exit();
     }
 }
 
-if( isset( $Save ) )
+if ( isset( $Save ) )
 {
     $MailID = save_mail();
 }
 
-if( isset( $Send ) )
+if ( isset( $Send ) )
 {
     $MailID = save_mail();
-    if( !isset( $error ) )
+    if ( !isset( $error ) )
     {
         eZHTTPTool::header( "Location: /bulkmail/send/$MailID" );
         exit();
@@ -66,7 +66,7 @@ if( isset( $Send ) )
 }
 
 $ini =& INIFile::globalINI();
-$Language = $ini->read_var( "eZBulkMailMain", "Language" ); 
+$Language = $ini->read_var( "eZBulkMailMain", "Language" );
 
 $t = new eZTemplate( "ezbulkmail/admin/" . $ini->read_var( "eZBulkMailMain", "AdminTemplateDir" ),
                      "ezbulkmail/admin/intl/", $Language, "mailedit.php" );
@@ -91,13 +91,13 @@ $t->set_var( "mail_body", "" );
 $t->set_var( "current_mail_id", "" );
 
 /** New mail, lets insert some default values **/
-if( $MailID == 0 )
+if ( $MailID == 0 )
 {
     // put signature stuff here...
 }
 $useDefaults = $ini->read_var( "eZBulkMailMain", "UseBulkmailSenderDefaults" );
 
-if( $useDefaults == "enabled" && empty( $From ) && empty( $FromName ) )
+if ( $useDefaults == "enabled" && empty( $From ) && empty( $FromName ) )
 {
     $t->set_var( "from_value", $ini->read_var( "eZBulkMailMain", "BulkmailSenderAddress" ) );
     $t->set_var( "from_name_value", $ini->read_var( "eZBulkMailMain", "BulkmailSenderName" ) );
@@ -105,18 +105,25 @@ if( $useDefaults == "enabled" && empty( $From ) && empty( $FromName ) )
 else
 {
     $user =& eZUser::currentUser();
-    $t->set_var( "from_value", $user->email() );
-    $t->set_var( "from_name_value", $user->name() );
+    if ( empty( $From ) )
+        $t->set_var( "from_value", $user->email() );
+    else
+        $t->set_var( "from_value", $From );
+
+    if ( empty( $FromName ) )
+        $t->set_var( "from_name_value", $user->name() );
+    else
+        $t->set_var( "from_name_value", $FromName );
 }
 $categoryArrayID = array();
 /** We are editing an allready existent mail... lets insert it's values **/
-if( $MailID != 0 ) 
+if ( $MailID != 0 ) 
 {
     $t->set_var( "current_mail_id", $MailID );
-    
+
     $mail = new eZBulkMail( $MailID );
 
-    if( $mail->sender() != "" )
+    if ( $mail->sender() != "" )
         $t->set_var( "from_value",  $mail->sender() );
     $t->set_var( "subject_value", $mail->subject() );
     $t->set_var( "mail_body", $mail->body() );
@@ -127,25 +134,25 @@ if( $MailID != 0 )
 
 /** Inserting values in the drop down boxes... **/
 $categories = eZBulkMailCategory::getAll();
-foreach( $categories as $category )
+foreach ( $categories as $category )
 {
     $t->set_var( "category_id", $category->id() );
     $t->set_var( "category_name", $category->name() );
 
-    if( in_array( $category->id(), $categoryArrayID ) )
+    if ( in_array( $category->id(), $categoryArrayID ) )
         $t->set_var( "multiple_selected", "selected" );
     else
         $t->set_var( "multiple_selected", "" );
-        
+
     $t->parse( "multiple_value", "multiple_value_tpl", true );
 }
 $templates = eZBulkMailTemplate::getAll();
-foreach( $templates as $template )
+foreach ( $templates as $template )
 {
     $t->set_var( "template_id", $template->id() );
     $t->set_var( "template_name", $template->name() );
     $t->set_var( "selected", "" );
-    if( $templateID == $template->id() )
+    if ( $templateID == $template->id() )
         $t->set_var( "selected", "selected" );
     else
         $t->set_var( "selected", "" );
