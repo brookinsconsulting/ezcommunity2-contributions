@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: article.php,v 1.20.2.8 2002/06/10 12:01:49 bf Exp $
+// $Id: article.php,v 1.20.2.9 2002/07/08 09:24:10 jb Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -193,22 +193,6 @@ else if( $Command == "storedata" )
         $article->setCategoryDefinition( $cat );
     }
 
-    if ( isset( $Data["Categories"] ) )
-    {
-        $cats =& $Data["Categories"]->value();
-        $article->removeFromCategories();
-        foreach( $cats as $cat )
-        {
-            $cat = $cat->value();
-            eZArticleCategory::addArticle( $article, $cat );
-        }
-        if ( isset( $Data["Category"] ) )
-        {
-            $cat = $Data["Category"]->value();
-            eZArticleCategory::addArticle( $article, $cat );
-        }
-    }
-
     $add_locs = array();
     $cur_locs = array();
     $old_locs = array();
@@ -225,6 +209,22 @@ else if( $Command == "storedata" )
         $remove_categories = array_diff( $old_cats, $cats );
         $add_categories = array_diff( $cats, $old_cats );
         $cur_categories = array_intersect( $old_cats, $cats );
+    }
+
+    if ( isset( $Data["Categories"] ) )
+    {
+        foreach( $remove_categories as $cat )
+        {
+            eZArticleCategory::removeArticle( $article, $cat );
+        }
+        foreach( $add_categories as $cat )
+        {
+            eZArticleCategory::addArticle( $article, $cat );
+        }
+    }
+
+    if ( isset( $Data["Category" ] ) && isset( $Data["Categories"] ) )
+    {
         $add_locs =& createURLArray( $add_categories, "ezarticle", "category" );
         $cur_locs =& createURLArray( $cur_categories, "ezarticle", "category" );
         $old_locs =& createURLArray( $remove_categories, "ezarticle", "category" );
