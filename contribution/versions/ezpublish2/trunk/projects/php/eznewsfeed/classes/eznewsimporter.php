@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eznewsimporter.php,v 1.7 2001/01/02 15:38:36 bf Exp $
+// $Id: eznewsimporter.php,v 1.8 2001/01/03 10:24:37 bf Exp $
 //
 // Definition of eZNewsImporter class
 //
@@ -117,7 +117,6 @@ class eZNewsImporter
                     {
                         if ( $this->AutoPublish == true )
                         {
-                            print( "publishing" );
                             $newsItem->setIsPublished( true );
                         }
                         else
