@@ -43,6 +43,9 @@ if ( $user )
 //      if ( $ini->read_var( "site", "eZPublish" ) == "enabled" )
 //          include( "ezpublishadmin.php" );
 
+    if ( $ini->read_var( "site", "eZArticle" ) == "enabled" )
+        include( "ezarticle/admin/menubox.php" );
+    
     if ( $ini->read_var( "site", "eZForum" ) == "enabled" )
         include( "ezforum/admin/menubox.php" );
 
