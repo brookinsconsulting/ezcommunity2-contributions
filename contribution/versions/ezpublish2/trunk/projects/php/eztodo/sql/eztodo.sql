@@ -59,3 +59,20 @@ CREATE TABLE eZTodo_Todo (
 
 INSERT INTO eZTodo_Todo VALUES (2,1,'Private',1,27,27,'This is a test Todo',20010116142211,00000000000000,'Please add this feature.',1);
 
+#
+# Table structure for table 'eZTodo_Status'
+#
+DROP TABLE IF EXISTS eZTodo_Status;
+CREATE TABLE eZTodo_Status (
+  Description text,
+  ID int(11) DEFAULT '0' NOT NULL auto_increment,
+  Name varchar(30),
+  PRIMARY KEY (ID)
+);
+
+#
+# Dumping data for table 'eZTodo_Category'
+#
+
+INSERT INTO eZTodo_Status VALUES (NULL,1,'Not done');
+INSERT INTO eZTodo_Status VALUES (NULL,2,'Done');

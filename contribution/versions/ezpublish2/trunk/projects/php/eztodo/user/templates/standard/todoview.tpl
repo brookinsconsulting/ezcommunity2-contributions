@@ -49,11 +49,14 @@
 	</td>
 </tr>
 <tr>
-	<td>
+	<td >
 	<br />
 	<p class="boxtext">{intl-status}:</p>
+	<!-- BEGIN status_select_tpl -->
 	{todo_status}
+	<!-- END status_select_tpl -->
 	</td>
+	
 	<td >
 	<br />
 	<p class="boxtext">{intl-view_others}:</p>
@@ -65,7 +68,7 @@
 
 <!-- BEGIN mark_as_done -->
 <hr noshade size="4"/>
-<input class="stdbutton" type="submit" Name="Done" value="{intl-mark_as_done}">
+<!--<input class="stdbutton" type="submit" Name="Done" value="{intl-mark_as_done}">-->
 <!-- END mark_as_done -->
 
 <hr noshade size="4"/>

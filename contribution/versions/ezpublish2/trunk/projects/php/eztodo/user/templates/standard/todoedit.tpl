@@ -87,13 +87,20 @@
 
 <table width="100%" cellpadding="0" cellspacing="0" border="0">
 <tr>
-	<td width="33%">
-	<div class="check"><input type="checkbox" name="Status" {status}>&nbsp;{intl-status}</div>
+	<td width="50%">
+	<p class="boxtext">{intl-status}:</p>
+	<select name="StatusID">
+	<!-- BEGIN status_select_tpl -->
+	<option {is_selected} value="{status_id}">{status_name}</option>
+	<!-- END status_select_tpl -->
+	</select>
+	<br><br>
 	</td>
-	<td width="33%">
+
+	<td width="25%">
 	<div class="check"><input type="checkbox" name="Permission" {permission}>&nbsp;{intl-view_others}</div>
 	</td>
-	<td width="34%">
+	<td width="25%">
 	<div class="check"><input type="checkbox" name="SendMail">&nbsp;{intl-send_mail}</div>
 	</td>
 

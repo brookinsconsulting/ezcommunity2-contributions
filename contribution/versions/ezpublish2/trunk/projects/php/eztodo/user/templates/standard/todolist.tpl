@@ -49,11 +49,21 @@
 
 <br /><br />
 
+<!--
 <select name="Show">
 <option {all_selected} value="All">{intl-show_all}</option>
 <option {not_done_selected} value="NotDone">{intl-show_not_done}</option>
 <option {done_selected} value="Done">{intl-show_done}</option>
 </select>
+-->
+<select name="StatusTodoID">
+<option {is_selected} value="0">{intl-status_all}</option>
+<!-- BEGIN status_item_tpl -->
+<option {is_selected} value="{status_id}">{status_name}</option>
+<!-- END status_item_tpl -->
+</select>
+
+
 &nbsp;
 <select name="CategoryTodoID">
 <option {is_selected} value="0">{intl-category_all}</option>
