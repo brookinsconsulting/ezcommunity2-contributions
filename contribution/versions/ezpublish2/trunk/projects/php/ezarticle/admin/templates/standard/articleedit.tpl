@@ -57,7 +57,7 @@
 	<td align="top">
 	<br />
 	<p class="boxtext">{intl-groups}:</p>
-	<select name="GroupArray[]" multiple>
+	<select name="GroupArray[]" size="3" multiple>
 	<option value="0" {all_selected}>{intl-all}</option>
 	<!-- BEGIN group_item_tpl -->
 	<option value="{group_id}" {selected}>{group_name}</option>
@@ -67,7 +67,7 @@
 	<td>
 	<br />
 	<p class="boxtext">{intl-groups_write}:</p>
-	<select name="WriteGroupArray[]" multiple>
+	<select name="WriteGroupArray[]" size="3" multiple>
 	<option value="0" {all_write_selected}>{intl-all}</option>
 	<!-- BEGIN category_owner_tpl -->
 	<option value="{module_owner_id}" {is_selected}>{module_owner_name}</option>
