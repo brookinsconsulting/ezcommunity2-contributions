@@ -29,7 +29,7 @@
 <!-- BEGIN article_item_tpl -->
 <tr>
 	<td width="48%" class="{td_class}">
-	<img src="/ezarticle/admin/images/document.gif" height="16" width="16" border="0" alt="" />&nbsp;
+	<img src="/admin/images/document.gif" height="16" width="16" border="0" alt="" align="top" />&nbsp;
 	<a href="/article/articlepreview/{article_id}/">
 	{article_name}
 	</a>
