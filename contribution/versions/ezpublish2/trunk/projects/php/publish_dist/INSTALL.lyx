@@ -89,7 +89,7 @@ Apache configuration
 \layout Standard
 
 This is an example of a httpd.conf virtalhost.
- Remember to change ipaddress, domainname mailaddress nad path to refelct
+ Remember to change ipaddress, domainname, mailaddress and path to refelct
  your system.
 \layout LyX-Code
 

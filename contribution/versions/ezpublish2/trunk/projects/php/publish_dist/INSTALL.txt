@@ -43,7 +43,7 @@ The rewrite and php modules needs to be active to use publish.
 3.2 Apache configuration
 
 This is an example of a httpd.conf virtalhost. Remember to change ipaddress,
-domainname mailaddress nad path to refelct your system.
+domainname, mailaddress and path to refelct your system.
 
 NameVirtaulHost[yourIPaddress]:80
 
