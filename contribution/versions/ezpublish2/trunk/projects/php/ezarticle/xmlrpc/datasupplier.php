@@ -13,19 +13,9 @@ else
             {
                 include( "ezarticle/xmlrpc/categorylist.php" );
             }
-            else if( $Command == "data" )
+            else 
             {
-                $Action = "data";
                 include( "ezarticle/xmlrpc/category.php" );
-            }
-            else if( $Command == "store" )
-            {
-                $Action = "storecategory";
-                include( "ezarticle/xmlrpc/category.php" );
-            }
-            else
-            {
-                // error
             }
         } break;
         

@@ -9,7 +9,7 @@ include_once( "ezxmlrpc/classes/ezxmlrpcint.php" );
 
 // TODO: check permissions!!
 
-if( $Action == "data" ) // Dump category info!
+if( $Command == "data" ) // Dump category info!
 {
     $writeGroups = eZObjectPermission::getGroups( $ID, "article_category", 'w', false );
     $readGroups = eZObjectPermission::getGroups( $ID, "article_category", 'r', false );
@@ -35,9 +35,11 @@ if( $Action == "data" ) // Dump category info!
                                              )
                                       );
 }
-else if( $Action == "storedata" ) // save the category data!
+else if( $Command == "storedata" ) // save the category data!
 {
+
     $ID = $Data["ID"]->value();
+    
     if( $ID == 0 )
         $category = new eZArticleCategory();
     else
@@ -45,12 +47,15 @@ else if( $Action == "storedata" ) // save the category data!
 
     $category->setName( $Data["Name"]->value() );
     $category->setDescription( $Data["Description"]->value() );
-    $category->setParent( $Data["ParentID"]->value() );
+
+//    $category->setParent( $Data["ParentID"]->value() );
     $category->setExcludeFromSearch( $Data["ExcludeFromSearch"]->value() );
+    
+    $category->setBulkMailCategory( $Data["BulkMailID"]->value() );
     $category->setSortMode( $Data["SortMode"]->value() );
     $category->setOwner( $Data["OwnerID"]->value() );
     $category->setSectionID( $Data["SectionID"]->value() );
-    $category->setImage( $Data["ImageID"]->value() );
+//    $category->setImage( $Data["ImageID"]->value() );
     $category->store();
     $ID = $category->id();
 
@@ -58,7 +63,11 @@ else if( $Action == "storedata" ) // save the category data!
     eZObjectPermission::removePermissions( $ID, "article_category", 'r' );
     $readGroups = $Data["ReadGroups"]->value();
     foreach( $readGroups as $readGroup )
+    {
+        echo  "Am here";
         eZObjectPermission::setPermission( $readGroup->value(), $ID, "article_category", 'r' );
+    }
+    eZLog::writeNotice( "Outa here" );
 
 
     eZObjectPermission::removePermissions( $ID, "article_category", 'w' );
