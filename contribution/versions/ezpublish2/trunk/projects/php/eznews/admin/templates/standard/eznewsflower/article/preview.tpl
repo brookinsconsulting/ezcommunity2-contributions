@@ -34,6 +34,7 @@
 	<form method="post" action="/{this_path}/{this_id}?edit+this">
 	<input class="okbutton" type="submit" value="{intl-edit}">
 	<input class="okbutton" name="form_publish" type="submit" value="{intl-publish}">
+	</form>
 	</td>
 	<td>
 	&nbsp;
@@ -45,7 +46,7 @@
 
 <!-- BEGIN go_to_parent_template -->
 	<td>
-	<form action="/{this_path}/{this_canonical_parent_id}">
+	<form method="post" action="/{this_path}/{this_canonical_parent_id}">
 	<input class="okbutton" type="submit" name="form_abort" value="{intl-abort}">
 	</form>
 	</td>
