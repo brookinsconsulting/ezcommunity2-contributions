@@ -156,7 +156,7 @@ class eZAddress
     */
     function dbInit()
     {
-        require "ezcontact_ce/dbsettings.php";
+        require "ezcontact/dbsettings.php";
         mysql_pconnect( $SERVER, $USER, $PWD ) or die( "Kunne ikke kople til database" );
         mysql_select_db( $DATABASE ) or die( "Kunne ikke velge database" );
     }
