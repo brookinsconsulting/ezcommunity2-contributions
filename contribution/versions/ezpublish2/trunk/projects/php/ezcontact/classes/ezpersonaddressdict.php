@@ -27,10 +27,8 @@ class eZPersonAddressDict
     function getByPerson( $id )
     {
         $this->dbInit();    
-        $address_array = 0;
-    
+
         array_query( $address_array, "SELECT * FROM PersonAddressDict WHERE PersonID='$id'" );
-    
         return $address_array;
     }
 
