@@ -484,7 +484,7 @@ if( $user )
                     $t->set_var( "rowspan_value", $tableCellsRowSpan[$row][$col] );
                     $t->set_var( "event_id", $event->id() );
                     $t->set_var( "event_name", $event->name() );
-                    $t->set_var( "event_description", $event->description() );
+                    $t->set_var( "event_description", $event->description(false) );
                     $t->set_var( "edit_button", "Edit" );
 
 					$permission = new eZGroupEditor();

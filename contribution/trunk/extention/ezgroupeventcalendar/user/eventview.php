@@ -181,7 +181,7 @@ else
     $t->set_var( "event_date", $locale->format( $datetime->date() ) );
     $t->set_var( "event_starttime", $locale->format( $event->startTime(), true ) );
     $t->set_var( "event_stoptime", $locale->format( $event->stopTime(), true ) );
-    $t->set_var( "event_description", $event->description() );
+    $t->set_var( "event_description", $event->description(false) );
 
     $groupID = $event->groupID();
 
