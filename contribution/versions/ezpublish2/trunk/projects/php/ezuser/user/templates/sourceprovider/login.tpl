@@ -1,3 +1,4 @@
+
 	
 	<form method="post" action="/user/login/login/">
 	<p class="menutext">{intl-username}</p>
@@ -7,3 +8,4 @@
 	<p class="menuspacer">&nbsp;</p>
 	<input type="submit" value="OK" />
 	</form>
+<a class="menutext" href="/user/userwithaddress/">Ny bruker</a>
