@@ -221,6 +221,15 @@ switch ( $url_array[2] )
 
     case "shippingtypes" :
     {
+        if ( isset( $AddType ) )
+            $Action = "AddType";
+
+        if ( isset( $AddGroup ) )
+            $Action = "AddGroup";
+
+        if ( isset( $Store ) )
+            $Action = "Store";
+        
         include( "eztrade/admin/shippingtypes.php" );
     }        
     break;
