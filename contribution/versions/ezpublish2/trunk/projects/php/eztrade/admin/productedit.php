@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: productedit.php,v 1.30 2001/02/19 13:23:50 bf Exp $
+// $Id: productedit.php,v 1.31 2001/02/19 13:57:03 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <19-Sep-2000 10:56:05 bf>
@@ -56,6 +56,8 @@ $Language = $ini->read_var( "eZTradeMain", "Language" );
 
 include_once( "eztrade/classes/ezproduct.php" );
 include_once( "eztrade/classes/ezproductcategory.php" );
+include_once( "eztrade/classes/ezvattype.php" );
+
 
 if ( isset ( $DeleteProducts ) )
 {
@@ -365,7 +367,7 @@ if ( $Action == "Delete" )
     exit();
 }
 
-$t = new eZTemplate( "eztrade/admin/" . $ini->read_var( "eZTradeMain", "AdminTemplateDir" ) . "/productedit/",
+$t = new eZTemplate( "eztrade/admin/" . $ini->read_var( "eZTradeMain", "AdminTemplateDir" ),
                      "eztrade/admin/intl/", $Language, "productedit.php" );
 
 
@@ -373,6 +375,8 @@ $t->set_file( array( "product_edit_tpl" => "productedit.tpl" ) );
 
 $t->set_block( "product_edit_tpl", "value_tpl", "value" );
 $t->set_block( "product_edit_tpl", "multiple_value_tpl", "multiple_value" );
+
+$t->set_block( "product_edit_tpl", "vat_select_tpl", "vat_select" );
 
 
 
@@ -480,6 +484,22 @@ foreach ( $categoryArray as $catItem )
     $t->parse( "value", "value_tpl", true );
     $t->parse( "multiple_value", "multiple_value_tpl", true );    
 }
+
+// show the VAT values
+
+$vat = new eZVATType();
+$vatTypes = $vat->getAll();
+
+foreach ( $vatTypes as $type )
+{
+    $t->set_var( "vat_id", $type->id() );
+    $t->set_var( "vat_name", $type->name() . " (" . $type->value() . ")%" );
+
+    $t->parse( "vat_select", "vat_select_tpl", true );
+}
+
+
+
 
 
 $t->pparse( "output", "product_edit_tpl" );
