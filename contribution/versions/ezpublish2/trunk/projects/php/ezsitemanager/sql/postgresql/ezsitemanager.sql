@@ -9,4 +9,4 @@ CREATE TABLE eZSiteManager_Section (
   PRIMARY KEY (ID)
 );
 
-INSERT INTO eZSiteManager_Section   ( ID,  Name, Created, Description,  SiteDesign ) VALUES ( 1, 'Standard Section', 1, NULL, 'standard' );
+INSERT INTO eZSiteManager_Section   ( ID,  Name, Created, Description,  SiteDesign, TemplateStyle ) VALUES ( 1, 'Standard Section', 1, NULL, 'standard', NULL );
