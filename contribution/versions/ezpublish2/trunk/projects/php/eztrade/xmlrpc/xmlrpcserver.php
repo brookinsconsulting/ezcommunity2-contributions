@@ -112,8 +112,8 @@ function &newOrders( $args )
                     {
                         $optionArray[] = new eZXMLRPCStruct( array( "OptionName" => new eZXMLRPCString( $optionValue->optionName() ),
                                                                     "OptionValue" => new eZXMLRPCString( $optionValue->valueName() ),
-                                                                    "OptionValueRemoteID" => new eZXMLRPCString( $optionValue->remoteID() ))
-                                                              );
+                                                                    "OptionValueRemoteID" => new eZXMLRPCString( $optionValue->remoteID() ) )
+                                                             );
                     }
                     
                     
@@ -122,8 +122,8 @@ function &newOrders( $args )
                                                               "ProductNumber" => new eZXMLRPCInt( $product->productNumber() ),
                                                               "Name" => new eZXMLRPCString( $product->name() ),
                                                               "Count" => new eZXMLRPCInt( $item->count() ),
-                                                              "Price" => new eZXMLRPCDouble( ( $item->count() * $product->price() ) ),
-                                                              "TotalPrice" => new eZXMLRPCDouble( ($product->price() ) ),
+                                                              "Price" => new eZXMLRPCDouble( ( $item->price() / $item->count() ) ),
+                                                              "TotalPrice" => new eZXMLRPCDouble( ($item->price() ) ),
                                                               "Options" => new eZXMLRPCArray( $optionArray )
                                                               ) );
                 }

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: payment.php,v 1.40 2001/03/27 13:49:42 ce Exp $
+// $Id: payment.php,v 1.41 2001/03/27 17:07:23 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <02-Feb-2001 16:31:53 bf>
@@ -202,7 +202,7 @@ if ( $PaymentSuccess == "true" )
             $orderOptionValue->setOrderItem( $orderItem );
 
             $orderOptionValue->setRemoteID( $optionValue->remoteID() );
-
+ 
             $descriptions =& $value->descriptions();
             
             $orderOptionValue->setOptionName( $option->name() );
@@ -465,6 +465,7 @@ if ( $PaymentSuccess == "true" )
     
     $mail->setSubject( $mailSubject );
     $mail->setTo( $OrderReceiverEmail );
+    $mail->setFrom( $user->email() );
 
     $mail->send();
 
