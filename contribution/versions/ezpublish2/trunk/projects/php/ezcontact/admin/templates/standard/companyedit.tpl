@@ -77,10 +77,9 @@
 <!-- END email_item_tpl -->
 
 
-
 <!-- BEGIN logo_add_tpl -->
 	<p class="boxtext">{intl-logo}</p>
-	<input size="40" name="userfile" type="file" />
+	<input size="40" name="CompanyLogo" type="file" />
 <!-- END logo_add_tpl -->
 
 <!-- BEGIN image_add_tpl -->

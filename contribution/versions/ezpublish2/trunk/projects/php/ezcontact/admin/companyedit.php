@@ -68,9 +68,8 @@ if ( $Action == "insert" )
     }
 
     // Upload images
-
     $file = new eZImageFile();
-    if ( $file->getUploadedFile( $userfile ) )
+    if ( $file->getUploadedFile( "CompanyLogo" ) )
     {
         $logo = new eZImage();
         $logo->setName( "Logo" );
@@ -85,6 +84,7 @@ if ( $Action == "insert" )
     {
         print( $file->name() . " not uploaded successfully" );
     }
+
     
 //      if ( isSet ( $CompanyImage ) )
 //      {
