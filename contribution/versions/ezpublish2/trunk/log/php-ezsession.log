@@ -122,3 +122,11 @@ Maintainer(s) : bf@ez.no
 
     * classes/ezsession.php: Added sorting of session list.
 
+
+Module : ezsession
+Repository path : /home/cvsroot/projects/php/ezsession
+Maintainer(s) : bf@ez.no
+2003-05-16  Bjoern Reiten  <br@ez.no>
+
+    * classes/ezsession.php: Fixed sequrity bug with hash values.
+

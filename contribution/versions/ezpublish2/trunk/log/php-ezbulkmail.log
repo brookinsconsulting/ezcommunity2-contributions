@@ -744,3 +744,11 @@ Maintainer(s) : fh@ez.no
     * user/singlelist.php:
     Fix for wrong from and fromname in singlelist subscription
 
+
+Module : ezbulkmail
+Repository path : /home/cvsroot/projects/php/ezbulkmail
+Maintainer(s) : fh@ez.no
+2003-05-16  Bjoern Reiten  <br@ez.no>
+
+    * classes/ezbulkmailforgot.php: Fixed sequrity bug with hash values.
+
