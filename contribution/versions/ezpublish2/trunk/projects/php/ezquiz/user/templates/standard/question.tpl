@@ -2,8 +2,8 @@
 
 <hr noshade="noshade" size="4" />
 <!-- BEGIN error_item_tpl -->
-<p>{intl-error}</p>
-<p>{error_message}</p>
+<h2 class="error">{intl-error}</h2>
+<p class="error">{error_message}</p>
 <!-- END error_item_tpl -->
 
 <!-- BEGIN high_score_item_tpl -->
