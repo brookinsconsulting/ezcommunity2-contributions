@@ -604,3 +604,15 @@ Maintainer(s) : br@ez.no
       user/intl/es_MX/slideshow.php.ini:
     updated es_MX (Mexican Spanish) for 2.2
 
+
+Module : ezimagecatalogue
+Repository path : /home/cvsroot/projects/php/ezimagecatalogue
+Maintainer(s) : br@ez.no
+2001-11-02  Jan Borsodi  <jb@ez.no>
+
+    * xmlrpc/datasupplier.php: Updated with regards to permission checking.
+
+2001-11-02  Bjoern Reiten  <br@ez.no>
+
+    * user/imageedit.php: changed categoryItem in permission check to catItem.
+

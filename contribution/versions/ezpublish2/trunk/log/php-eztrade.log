@@ -1776,3 +1776,26 @@ Maintainer(s) : ce@ez.no
       sql/postgresql/eztrade.sql
       user/wishlist.php: Fixed a bug in quantity with wishlists
 
+
+Module : eztrade
+Repository path : /home/cvsroot/projects/php/eztrade
+Maintainer(s) : ce@ez.no
+2001-11-02  Paul Kenneth Egell-Johnsen  <pkej@ez.no>
+
+    * user/intl/en_GB/ordersendt.php.ini
+      user/intl/en_GB/productview.php.ini
+      user/ordersendt.php
+      user/payment.php
+      user/templates/standard/ordersendt.tpl
+      user/templates/standard/productview.tpl
+      admin/datasupplier.php
+      admin/productedit.php
+      admin/templates/standard/productedit.tpl
+      classes/ezproduct.php: Fixed a few things.
+
+2001-11-02  Christoffer Elo  <ce@ez.no>
+
+    * sql/mysql/eztrade.sql
+      sql/postgresql/eztrade.sql
+      user/productview.php: Fixed a voucher bug
+

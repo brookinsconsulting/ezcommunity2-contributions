@@ -644,3 +644,11 @@ Maintainer(s) : jhe@ez.no
 
     * user/menubox.php: Fixed INI file variable.
 
+
+Module : ezforum
+Repository path : /home/cvsroot/projects/php/ezforum
+Maintainer(s) : jhe@ez.no
+2001-11-02  Jo Henrik Endrerud  <jhe@ez.no>
+
+    * admin/unapprovededit.php: fixed bug with rejection of forum messages
+

@@ -192,3 +192,29 @@ Maintainer(s) : br@ez.no
       user/storestats.php:
     FIxed correct storing of stats first time a page is visited.
 
+
+Module : ezstats
+Repository path : /home/cvsroot/projects/php/ezstats
+Maintainer(s) : br@ez.no
+2001-11-02  Christoffer Elo  <ce@ez.no>
+
+    * classes/ezpageviewquery.php: Fixed a stats bug
+
+2001-11-02  Bjoern Reiten  <br@ez.no>
+
+    * admin/browserlist.php
+      admin/cron.php
+      admin/pageviewlist.php
+      admin/refererlist.php
+      admin/visitorlist.php
+      classes/ezpageview.php
+      classes/ezpageviewquery.php: Fixed several bugs in eZTrade.
+
+    * admin/browserlist.php
+      admin/cron.php
+      admin/pageviewlist.php
+      admin/refererlist.php
+      admin/visitorlist.php
+      classes/ezpageview.php
+      classes/ezpageviewquery.php: Fixed several bugs in ezstats
+

@@ -1893,3 +1893,11 @@ Maintainer(s) : bf@ez.no
     * user/articlerate.php
       classes/ezarticlerate.php: Added checking for rate.
 
+
+Module : ezarticle
+Repository path : /home/cvsroot/projects/php/ezarticle
+Maintainer(s) : bf@ez.no
+2001-11-02  Jan Borsodi  <jb@ez.no>
+
+    * xmlrpc/datasupplier.php: Updated with regards to permission checking.
+

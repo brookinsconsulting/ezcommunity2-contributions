@@ -362,3 +362,11 @@ Maintainer(s) : fh@ez.no
       user/intl/en_GB/bulklist.php.ini
       user/intl/en_GB/usermessages.php.ini: Language fixes.
 
+
+Module : ezbulkmail
+Repository path : /home/cvsroot/projects/php/ezbulkmail
+Maintainer(s) : fh@ez.no
+2001-11-02  Christoffer Elo  <ce@ez.no>
+
+    * user/subscriptionlist.php: Removed some debugs
+

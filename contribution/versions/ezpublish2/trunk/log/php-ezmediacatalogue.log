@@ -203,3 +203,11 @@ Maintainer(s) : ce@ez.no
       classes/ezmediacategory.php
       classes/ezmediatype.php: Fixed bugs in media catalogue
 
+
+Module : ezmediacatalogue
+Repository path : /home/cvsroot/projects/php/ezmediacatalogue
+Maintainer(s) : ce@ez.no
+2001-11-02  Christoffer Elo  <ce@ez.no>
+
+    * admin/mediaedit.php: Removed some debugs
+

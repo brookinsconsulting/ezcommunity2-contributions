@@ -215,3 +215,11 @@ Maintainer(s) : ce@ez.no
       user/intl/es_MX/todoview.php.ini:
     updated es_MX (Mexican Spanish) for 2.2
 
+
+Module : eztodo
+Repository path : /home/cvsroot/projects/php/eztodo
+Maintainer(s) : ce@ez.no
+2001-11-02  Christoffer Elo  <ce@ez.no>
+
+    * sql/mysql/eztodo.sql: Fixed a voucher bug
+
