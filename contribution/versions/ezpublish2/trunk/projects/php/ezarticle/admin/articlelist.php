@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: articlelist.php,v 1.21 2001/03/06 09:48:41 fh Exp $
+// $Id: articlelist.php,v 1.22 2001/03/09 14:09:18 fh Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <18-Oct-2000 14:41:37 bf>
@@ -118,6 +118,7 @@ $t->set_block( "article_list_page_tpl", "path_item_tpl", "path_item" );
 // category
 $t->set_block( "article_list_page_tpl", "category_list_tpl", "category_list" );
 $t->set_block( "category_list_tpl", "category_item_tpl", "category_item" );
+$t->set_block( "category_item_tpl", "category_edit_tpl", "category_edit" );
 
 // article
 $t->set_block( "article_list_page_tpl", "article_list_tpl", "article_list" );
@@ -129,7 +130,7 @@ $t->set_block( "article_item_tpl", "article_not_published_tpl", "article_not_pub
 // move up / down
 $t->set_block( "article_list_tpl", "absolute_placement_header_tpl", "absolute_placement_header" );
 $t->set_block( "article_item_tpl", "absolute_placement_item_tpl", "absolute_placement_item" );
-
+$t->set_block( "article_item_tpl", "article_edit_tpl", "article_edit" );
 
 // prev/next
 $t->set_block( "article_list_page_tpl", "previous_tpl", "previous" );
@@ -183,7 +184,8 @@ $i=0;
 $t->set_var( "category_list", "" );
 foreach ( $categoryList as $categoryItem )
 {
-    if( eZObjectPermission::hasPermission( $categoryItem->id(), "article_category", 'r' ) )
+    if( eZObjectPermission::hasPermission( $categoryItem->id(), "article_category", 'r' ) ||
+        eZArticleCategory::isOwner( eZUser::currentUser(), $categoryItem->id() ) )
     {
         $t->set_var( "category_id", $categoryItem->id() );
 
@@ -202,6 +204,12 @@ foreach ( $categoryList as $categoryItem )
     
         $t->set_var( "category_description", $categoryItem->description() );
 
+        if( eZObjectPermission::hasPermission( $categoryItem->id(), "article_category", 'w')  ||
+            eZArticleCategory::isOwner( eZUser::currentUser(), $categoryItem->id() ) )
+            $t->parse( "category_edit", "category_edit_tpl", false );
+        else
+            $t->set_var( "category_edit", "" );
+        
         $t->parse( "category_item", "category_item_tpl", true );
         $i++;
     }
@@ -238,7 +246,8 @@ else
 
 foreach ( $articleList as $article )
 {
-    if( eZObjectPermission::hasPermission( $article->id(), "article_article", 'r' ) )
+    if( eZObjectPermission::hasPermission( $article->id(), "article_article", 'r' ) ||
+        eZArticle::isAuthor( eZUser::currentUser(), $article->id() ) )
     {
         if ( $article->name() == "" )
             $t->set_var( "article_name", "&nbsp;" );
@@ -275,7 +284,13 @@ foreach ( $articleList as $article )
         {
             $t->set_var( "absolute_placement_item", "" );
         }
-    
+
+        if( eZObjectPermission::hasPermission( $article->id(), "article_article", 'w') ||
+            eZArticle::isAuthor( eZUser::currentUser(), $article->id() ) )
+            $t->parse( "article_edit", "article_edit_tpl", false );
+        else
+            $t->set_var( "article_edit", "" );
+
 
         $t->parse( "article_item", "article_item_tpl", true );
         $i++;
