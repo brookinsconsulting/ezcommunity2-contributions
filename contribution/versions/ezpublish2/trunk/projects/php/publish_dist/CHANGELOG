@@ -1,6 +1,10 @@
 eZ publish changelog:
 ---------------------
 
+Changes from version 2.0 beta 3
+-------------------------------
+
+
 Changes from version 2.0 beta 2
 -------------------------------
 * Made it possible to connect eZContact Persons to Companies as well as normal users.
@@ -13,6 +17,7 @@ Changes from version 2.0 beta 2
 * Unhadled bugs informs user of module they belong to.
 * Auto redirect URL hackers in bugs to default page.
 * Added banner ads in templates
+* Fixed some permissions in eZ forum
 * Documentation updated
 * Removed some status/type admin pages, added buttons in listings instead
 * Changed over to use mass update forms for category types and similar short lists with litle information
