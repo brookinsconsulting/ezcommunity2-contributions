@@ -9,3 +9,6 @@ delete_consultations=Delete consultations
 
 mod: ezbulkmail/admin categorylist.php.ini
 change: added next, previous
+
+mod: ezmail/user maillist.php.ini
+change: added next, previous
