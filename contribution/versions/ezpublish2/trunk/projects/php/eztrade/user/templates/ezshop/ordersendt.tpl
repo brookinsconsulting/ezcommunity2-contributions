@@ -9,7 +9,7 @@
 
 <!-- BEGIN visa_tpl -->
 <pre>
-{intl-mastercard_manual_confirmation}:
+{intl-visa_manual_confirmation}:
 
 {intl-print_out_this_page}.
 
