@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: singlelist.php,v 1.5 2001/07/19 12:36:31 jakobn Exp $
+// $Id: singlelist.php,v 1.6 2002/01/11 11:19:23 vl Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -45,7 +45,7 @@ if( isset( $Hash ) && is_object( $category ) )
             $subscriptionaddress = eZBulkMailSubscriptionAddress::getByEmail( $change->mail() );
             if( $subscriptionaddress != false )
             {
-                $subscriptionaddress->delete();
+//                $subscriptionaddress->delete();
                 $change->delete();
                 $unsubscribed="";
                 include( "ezbulkmail/user/usermessages.php" );
