@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: userwithaddress.php,v 1.21 2001/01/19 10:41:12 ce Exp $
+// $Id: userwithaddress.php,v 1.22 2001/01/19 11:00:52 ce Exp $
 //
 // 
 //
@@ -73,6 +73,13 @@ $t->set_block( "errors_item_tpl", "error_email_not_valid_tpl", "error_email_not_
 $t->set_block( "errors_item_tpl", "error_password_match_tpl", "error_password_match" );
 $t->set_block( "errors_item_tpl", "error_password_too_short_tpl", "error_password_too_short" );
 
+$t->set_block( "errors_item_tpl", "error_address_street1_tpl", "error_address_street1" );
+$t->set_block( "errors_item_tpl", "error_address_street2_tpl", "error_address_street2" );
+$t->set_block( "errors_item_tpl", "error_address_zip_tpl", "error_address_zip" );
+$t->set_block( "errors_item_tpl", "error_address_place_tpl", "error_address_place" );
+
+$t->set_block( "errors_item_tpl", "error_missing_address_tpl", "error_missing_address" );
+
 $t->set_var( "error_login", "" );
 $t->set_var( "error_login_exists", "" );
 $t->set_var( "error_first_name", "" );
@@ -81,6 +88,11 @@ $t->set_var( "error_email", "" );
 $t->set_var( "error_email_not_valid", "" );
 $t->set_var( "error_password_match", "" );
 $t->set_var( "error_password_too_short", "" );
+
+$t->set_var( "error_address_place", "" );
+$t->set_var( "error_address_zip", "" );
+$t->set_var( "error_address_street1", "" );
+$t->set_var( "error_address_street2", "" );
 
 $t->set_var( "first_name_value", "$FirstName" );
 $t->set_var( "last_name_value", "$LastName" );
@@ -92,18 +104,9 @@ $t->set_var( "verify_password_value", "$VerifyPassword" );
 // Check if there are addresses
 if ( count ( $AddressID ) != 0 )
 {
-    $t->set_block( "errors_item_tpl", "error_address_street1_tpl", "error_address_street1" );
-    $t->set_block( "errors_item_tpl", "error_address_street2_tpl", "error_address_street2" );
-    $t->set_block( "errors_item_tpl", "error_address_zip_tpl", "error_address_zip" );
-    $t->set_block( "errors_item_tpl", "error_address_place_tpl", "error_address_place" );
-
-    $t->set_var( "error_address_place", "" );
-    $t->set_var( "error_address_zip", "" );
-    $t->set_var( "error_address_street1", "" );
-    $t->set_var( "error_address_street2", "" );
-
     for ( $i=0; $i < count ( $AddressID ); $i++ )
     {
+        print( "what" );
         $t->set_var( "address_number", "$i" );
         $t->set_var( "address_id", "$AddressID[$i]" );
         $t->set_var( "street1_value", "$Street1[$i]" );
@@ -160,8 +163,22 @@ $street2Check = true;
 $zipCheck = true;
 $placeCheck = true;
 
+if ( $MissingAddress == true )
+{
+    $t->parse( "error_missing_address", "error_missing_address_tpl" );
+
+    $t->parse( "errors_item", "errors_item_tpl" );
+
+    $t->set_var( "action_value", "update" );
+    $Action = "Edit";
+}
+else
+{
+    $t->set_var( "error_missing_address", "" );
+}
+
 // Check for errors when inserting, updating and inserting a new address
-if ( $Action == "Insert" || $Action == "Update" || isSet ( $NewAddress ) )
+if ( ( $Action == "Insert" || $Action == "Update" || isSet ( $NewAddress ) ) && $DeleteAddress == false )
 {
 
     if ( $loginCheck && $Action == "insert" )
@@ -459,15 +476,6 @@ if ( $Action == "New" )
     }
     
     $t->set_var( "action_value", "insert" );
-}
-
-if ( $MissingAddress == true )
-{
-    $t->parse( "missing_address_error", "missing_address_error_tpl" );
-}
-else
-{
-    $t->set_var( "missing_address_error", "" );
 }
 
 if ( $Action == "Edit" )

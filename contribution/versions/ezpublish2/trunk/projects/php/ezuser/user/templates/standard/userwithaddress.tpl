@@ -54,6 +54,10 @@
     <!-- BEGIN error_address_place_tpl -->
     <li>{intl-error_place}
     <!-- END error_address_place_tpl -->
+
+    <!-- BEGIN error_missing_address_tpl -->
+    <li>{intl-error_missing_address}
+    <!-- END error_missing_address_tpl -->
 </ul>
 
 <hr noshade size="4"/>
