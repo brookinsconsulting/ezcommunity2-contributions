@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: formview.php,v 1.2 2001/07/19 13:03:50 jakobn Exp $
+// $Id: formview.php,v 1.2.2.1 2001/11/01 17:08:21 master Exp $
 //
 // Created on: <12-Jun-2001 13:07:24 pkej>
 //
@@ -62,6 +62,15 @@ if( !( $form->id() > 0 ) )
 $errorMessages = array();
 
 $Language = $ini->read_var( "eZFormMain", "Language" );
+
+// init the section
+if ( isset ($SectionIDOverride) )
+{
+    include_once( "ezsitemanager/classes/ezsection.php" );
+    
+    $sectionObject =& eZSection::globalSectionObject( $SectionIDOverride );
+    $sectionObject->setOverrideVariables();
+}
 
 $t = new eZTemplate( "ezform/user/" . $ini->read_var( "eZFormMain", "AdminTemplateDir" ),
                      "ezform/user/intl/", $Language, "form.php" );

@@ -45,7 +45,7 @@
 
 <!-- BEGIN form_list_tpl -->
 <!-- BEGIN form_start_tag_tpl -->
-<form action="{www_dir}{index}/form/form/process/{form_id}/" method="post">
+<form action="{www_dir}{index}/form/form/process/{form_id}/{section_id}/" method="post">
 <h2>{form_name}</h2>
 <hr noshade="noshade" size="4" />
 <br />
@@ -97,3 +97,5 @@
 <!-- END form_end_tag_tpl -->
 
 <!-- END form_list_tpl -->
+
+ADMIN REMOVE

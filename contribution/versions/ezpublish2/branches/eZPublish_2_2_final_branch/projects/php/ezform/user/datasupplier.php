@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: datasupplier.php,v 1.6 2001/09/05 14:47:28 th Exp $
+// $Id: datasupplier.php,v 1.6.2.1 2001/11/01 17:08:11 master Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -33,7 +33,9 @@ $eZFormAction = $url_array[3];
 
 function &errorPage( $PrimaryName, $PrimaryURL, $type )
 {
-    $ini =& $GLOBALS["GlobalSiteIni"];
+//    $ini =& $GLOBALS["GlobalSiteIni"];
+    $ini =& INIFile::globalINI();
+    
 
     $t = new eZTemplate( "ezform/admin/" . $ini->read_var( "eZFormMain", "TemplateDir" ),
                          "ezform/admin/intl", $ini->read_var( "eZFormMain", "Language" ), "errors.php" );
@@ -111,6 +113,8 @@ switch( $eZFormOperation )
     case "form":
     {
         $FormID = $url_array[4];
+	$SectionIDOverride = $url_array[5];
+
         switch( $eZFormAction )
         {
             case "view":

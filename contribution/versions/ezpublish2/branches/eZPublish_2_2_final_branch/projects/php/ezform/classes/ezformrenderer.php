@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezformrenderer.php,v 1.17 2001/10/17 14:34:21 bf Exp $
+// $Id: ezformrenderer.php,v 1.17.2.1 2001/11/01 17:07:53 master Exp $
 //
 // eZFormRenderer class
 //
@@ -44,6 +44,7 @@ include_once( "ezform/classes/ezformelementtype.php" );
 include_once( "ezmail/classes/ezmail.php" );
 include_once( "ezuser/classes/ezuser.php" );
 
+
 class eZFormRenderer
 {
 
@@ -73,7 +74,6 @@ class eZFormRenderer
         $this->Template->set_block( "multiple_select_item_tpl", "multiple_select_item_sub_item_tpl", "multiple_select_item_sub_item" );
         $this->Template->set_block( "form_renderer_page_tpl", "dropdown_item_tpl", "dropdown_item" );
         $this->Template->set_block( "dropdown_item_tpl", "dropdown_item_sub_item_tpl", "dropdown_item_sub_item" );
-
 
         
         $this->Template->set_block( "form_renderer_page_tpl", "radiobox_item_tpl", "radiobox_item" );
@@ -105,6 +105,18 @@ class eZFormRenderer
         $this->Template->set_var( "text_field_item", "" );
         $this->Template->set_var( "text_area_item", "" );
         $this->Template->set_var( "form_instructions", "" );
+
+	global $GlobalSectionID, $SectionIDOverride;
+
+	if ( isset ($SectionIDOverride))
+	{
+	    $this->Template->set_var( "section_id", $SectionIDOverride );
+	}
+	else
+	{
+	    $this->Template->set_var( "section_id", $GlobalSectionID );
+	}
+
     }
     
     /*!
