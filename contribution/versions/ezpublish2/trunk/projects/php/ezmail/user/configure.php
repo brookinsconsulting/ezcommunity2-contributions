@@ -7,6 +7,7 @@ include_once( "classes/ezhttptool.php" );
 
 include_once( "ezmail/classes/ezmailaccount.php" );
 include_once( "ezmail/classes/ezmailfolder.php" );
+include_once( "ezmail/classes/ezmailfilterrule.php" );
 
 if( isset( $NewAccount ) )
 {
@@ -48,7 +49,9 @@ $t->set_file( array(
 
 $t->set_var( "site_style", $SiteStyle );
 $t->set_block( "mail_configure_page_tpl", "account_item_tpl", "account_item" );
+$t->set_block( "mail_configure_page_tpl", "filter_item_tpl", "filter_item" );
 $t->set_var( "account_item", "" );
+$t->set_var( "filter_item" ,"" );
 
 
 $user = eZUser::currentUser();
@@ -64,6 +67,14 @@ foreach( $accounts as $account )
     $t->parse( "account_item", "account_item_tpl", true );
 }
 
+$filters = eZMailFilterRule::getByUser( $user->id() );
+foreach( $filters as $filter )
+{
+    $t->set_var( "filter_id", $filter->id() );
+    $t->set_var( "filter_name", $filter->match() );
+    ( $i % 2 ) ? $t->set_var( "td_class", "bgdark" ) : $t->set_var( "td_class", "bglight" );
+    $t->parse( "filter_item", "filter_item_tpl", true );
+}
 
 $t->pparse( "output", "mail_configure_page_tpl" );
 ?>

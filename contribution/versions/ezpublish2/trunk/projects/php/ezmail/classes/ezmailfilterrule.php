@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezmailfilterrule.php,v 1.2 2001/03/29 19:12:28 fh Exp $
+// $Id: ezmailfilterrule.php,v 1.3 2001/03/29 20:17:47 fh Exp $
 //
 // eZMailFilterRule class
 //
@@ -29,7 +29,8 @@
 //!! eZMailFilterRule
 //! eZMailFilterRule documentation.
 /*!
-
+  To check mail use the eZMailFilter class.
+  Interaction with this class should only be nescasarry if you want to change a filter rule.
   Example code:
   \code
   \endcode
@@ -362,7 +363,10 @@ define( "FILTER_REGEXP", 4 );
                 foreach( $searchArray as $searchItem )
                 {
                     if( $searchItem == $this->Match )
-                        ;
+                    {
+                        $this->doFilter( $mail );
+                        return true;
+                    }
                 }
             }
             break;
@@ -494,7 +498,14 @@ define( "FILTER_REGEXP", 4 );
         $folder = eZMailFolder( $this->FolderID );
 
         if( get_class( $folder ) == "ezmailfolder" )
+        {
             $folder->addMail( $mail );
+        }
+        else
+        {
+            $inbox = eZMailFolder::getSpecialFolder( INBOX );
+            $inbox->addMail( $mail );
+        }
     }
     
    /*!
@@ -521,6 +532,51 @@ define( "FILTER_REGEXP", 4 );
     
     var $FolderID;
     var $IsActive;
+}
+
+//!! eZMailFilter
+//! eZMailFilter documentation.
+/*!
+  Does the filtering of a users mail. If no filters apply the mail is put into the inbox.
+  Example code:
+  \code
+  $filter = new eZMailFilter();
+  $filter->runFilters( $mail );
+  \endcode
+
+*/
+
+class eZMailFilter
+{
+    function eZMailFilter( $userID = false )
+    {
+        if( $userID = false )
+        {
+            $user = eZUser::currentUser();
+            $userID = $user->id();
+        }
+        $this->Filters = eZMailFilterRule::getByUser( $userID );
+        $this->Inbox = eZMailFolder::getSpecialFolder( INBOX );
+        $this->numFilters = count( $this->Filters );
+    }
+
+    function runFilters( &$mail )
+    {
+        $i=0;
+        $res = false;
+        do
+        {
+            $res = $this->Filters[$i]->applyFilter( $mail );
+            $i++;
+        }while( $i < $NumFilters && $res == false );
+
+        if( $res == false )
+            $this->Inbox->addMail( $mail );
+    }
+
+    var $NumFilters;
+    var $Filters;
+    var $Inbox;
 }
 
 ?>

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezmailaccount.php,v 1.17 2001/03/29 13:03:24 fh Exp $
+// $Id: ezmailaccount.php,v 1.18 2001/03/29 20:17:47 fh Exp $
 //
 // eZMailAccount class
 //
@@ -51,6 +51,7 @@
 
 include_once( "ezmail/classes/ezmail.php" );
 include_once( "ezmail/classes/ezmailfunctions.php" );
+include_once( "ezmail/classes/ezmailfilterrule.php" );
 
 class eZMailAccount
 {
@@ -475,6 +476,7 @@ class eZMailAccount
 
         // get the inbox... we will be adding mail to this.
         $inbox = eZMailFolder::getSpecialFolder( INBOX );
+        $filters = new eZMailFilter();
         
         $num = imap_num_msg( $mbox );         // fetch numbers of all new mails
         for( $i=1; $i <= $num; $i++ )  // go through each mail in inbox
@@ -496,7 +498,8 @@ class eZMailAccount
 
                 $mail->store();
 
-                $inbox->addMail( $mail );
+//                $inbox->addMail( $mail );
+                $filters->runFilters( $mail );
 
                 if( $this->DeleteFromServer == true )
                     imap_delete( $mbox, $i );

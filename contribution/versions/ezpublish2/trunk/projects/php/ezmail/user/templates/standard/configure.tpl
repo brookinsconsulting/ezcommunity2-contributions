@@ -40,6 +40,33 @@
 </tr>
 <!-- END account_item_tpl -->
 </table>
+<br />
+<br />
+
+<h2>{intl-filters_setup}:</h2>
+<hr noshade="noshade" size="4">
+<table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
+<tr>
+	<th width="98%">{intl-name}:</th>
+	<th width="1%">&nbsp;</th>
+	<th width="1%">&nbsp;</th>
+</tr>
+<!-- BEGIN filter_item_tpl -->
+<tr>
+	<td class="{td_class}">
+	{filter_name}
+	</td>
+	<td class="{td_class}">
+	  <a href="/mail/filteredit/{filter_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezb{filter_id}-red','','/images/{site_style}/redigerminimrk.gif',1)">
+           <img name="ezb{filter_id}-red" border="0" src="/images/{site_style}/redigermini.gif" width="16" height="16" align="top" alt="Edit" />
+          </a>
+	</td>	
+	<td class="{td_class}">
+	<input type="checkbox" name="FiltertArrayID[]" value="{filter_id}" />
+	</td>
+</tr>
+<!-- END filter_item_tpl -->
+</table>
 
 <hr noshade="noshade" size="4">
 
