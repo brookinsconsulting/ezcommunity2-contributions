@@ -43,6 +43,7 @@ CREATE TABLE eZLink_Category (
   Name varchar(100) default NULL,
   ImageID int NOT NULL,
   Description lvarchar,
+  SectionID int default '1',
   PRIMARY KEY (ID)
 );
 
