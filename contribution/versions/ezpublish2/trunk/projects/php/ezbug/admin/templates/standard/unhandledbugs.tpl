@@ -5,9 +5,9 @@
 <table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
 <tr>
 	<th width="5%">{intl-bug_id}:</th>
-	<th width="30%">{intl-bug_name}:</th>
-	<th width="30%">{intl-bug_module_name}:</th>
-	<th width="34%">{intl-bug_submiter}:</th>
+	<th width="44%">{intl-bug_name}:</th>
+	<th width="20%">{intl-bug_module_name}:</th>
+	<th width="30%">{intl-bug_submiter}:</th>
 	<th width="1%">&nbsp;</th>
 </tr>
 <!-- BEGIN bug_tpl -->
