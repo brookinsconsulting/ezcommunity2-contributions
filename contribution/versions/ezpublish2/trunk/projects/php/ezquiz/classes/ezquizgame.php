@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezquizgame.php,v 1.2 2001/05/28 09:27:07 pkej Exp $
+// $Id: ezquizgame.php,v 1.3 2001/05/28 13:39:01 pkej Exp $
 //
 // ezquizgame class
 //
@@ -281,6 +281,78 @@ class eZQuizGame
        }
        return $returnArray;
     }
+
+    /*!
+      Returns a specific question based on the placement (number)
+      The question is returned as eZQuizQuestion objects.
+    */
+    function question( $placement )
+    {
+        $returnArray = array();
+        $db =& eZDB::globalDatabase();
+        $db->array_query( $questionArray, "SELECT ID FROM eZQuiz_Question WHERE GameID='$this->ID' AND Placement='$placement'" );
+
+       for ( $i=0; $i < count($questionArray); $i++ )
+       {
+           $returnArray[$i] = new eZQuizQuestion( $questionArray[$i]["ID"], true );
+       }
+       return $returnArray;
+    }
+    
+    
+
+    /*!
+      Returns the number of questions to this quiz game
+    */
+    function numberOfQuestions()
+    {
+        $db =& eZDB::globalDatabase();
+        $ret = false;
+
+        $db->query_single( $result, "SELECT COUNT(ID) as Count
+                                     FROM eZQuiz_Question WHERE GameID='$this->ID'" );
+        $ret = $result["Count"];
+        return $ret;
+    }
+    
+    /*!
+      Returns the number of players for this quiz game
+    */
+    function numberOfPlayers()
+    {
+        $db =& eZDB::globalDatabase();
+        $ret = false;
+
+        $db->query_single( $result, "SELECT COUNT(ID) as Count
+                                     FROM eZQuiz_Score WHERE GameID='$this->ID'" );
+        $ret = $result["Count"];
+        return $ret;
+    }
+    
+    /*!
+      Returns all the open games
+    */
+    function openGames( $offset = 0, $limit = 20 )
+    {
+        $db =& eZDB::globalDatabase();
+
+        $returnArray = array();
+        $quizArray = array();
+
+        $db->array_query( $quizArray, "SELECT ID FROM eZQuiz_Game
+                                       WHERE StartDate <= now() AND StopDate <= now()
+                                       ORDER BY StartDate DESC LIMIT $offset, $limit" );
+        $ret = $result["Count"];
+
+        for ( $i=0; $i < count($quizArray); $i++ )
+        {
+            $returnArray[$i] = new eZQuizGame( $quizArray[$i]["ID"] );
+        }
+        
+        return $returnArray;
+    }
+    
+    
     
 
     var $ID;

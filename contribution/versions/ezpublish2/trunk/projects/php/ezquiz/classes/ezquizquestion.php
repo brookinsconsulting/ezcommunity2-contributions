@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezquizquestion.php,v 1.1 2001/05/25 12:54:42 ce Exp $
+// $Id: ezquizquestion.php,v 1.2 2001/05/28 13:39:01 pkej Exp $
 //
 // eZQuizQuestion class
 //
@@ -71,17 +71,12 @@ class eZQuizQuestion
     {
         $db =& eZDB::globalDatabase();
 
-        $db->array_query( $placeArray, "SELECT Placement FROM eZQuiz_Question" );
-
-        if ( count ( $placeArray ) > 0 )
-        {
-            $place = max( $placeArray );
-            $place = $place["Placement"];
-            $place++;
-        }
-        
         $name =& addslashes( $this->Name );
         $gameID = $this->Game->id();
+
+        $db->query_single( $result, "SELECT MAX(Placement)+1 FROM eZQuiz_Question WHERE GameID='$gameID' " );
+
+        $place = $result[0];
 
         if ( !isset( $this->ID ) )
         {
