@@ -9,7 +9,7 @@
     <img src="/sitedesign/news/images/newssitelogo.gif" border="0" /></a>
 	</td>
 	<td bgcolor="#ffffff" align="right">
-	<h2>eZ publish v2.0 Beta 2</h2>
+	<h2>eZ publish v2.0 Beta 3</h2>
 	</td>
 </tr>
 </table>
