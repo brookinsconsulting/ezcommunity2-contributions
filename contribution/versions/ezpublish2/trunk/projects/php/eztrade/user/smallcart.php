@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: smallcart.php,v 1.28 2001/09/14 12:29:11 ce Exp $
+// $Id: smallcart.php,v 1.29 2001/09/14 13:21:20 pkej Exp $
 //
 // Created on: <12-Dec-2000 15:21:10 bf>
 //
@@ -38,7 +38,7 @@ $ShowQuantity = $ini->read_var( "eZTradeMain", "ShowQuantity" ) == "true";
 $ShowPriceGroups = $ini->read_var( "eZTradeMain", "PriceGroupsEnabled" ) == "true";
 $ShowNamedQuantity = $ini->read_var( "eZTradeMain", "ShowNamedQuantity" ) == "true";
 $ShowOptionQuantity = $ini->read_var( "eZTradeMain", "ShowOptionQuantity" ) == "true";
-$PricesIncludeVAT = $ini->read_var( "eZTradeMain", "PricesIncludeVAT" );
+$PricesIncludeVAT = $ini->read_var( "eZTradeMain", "PricesIncludeVAT" ) == "enabled" ? true : false;
 
 include_once( "eztrade/classes/ezproduct.php" );
 include_once( "eztrade/classes/ezoption.php" );
@@ -119,57 +119,11 @@ foreach ( $items as $item )
         if ( ( !$RequireUserLogin or get_class( $user ) == "ezuser" ) and
              $ShowPrice and $product->showPrice() == true and $product->hasPrice() )
         {
-            $found_price = false;
-            if ( $ShowPriceGroups and $PriceGroup > 0 )
-            {
-                $price = eZPriceGroup::correctPrice( $product->id(), $PriceGroup );
-                if ( $price )
-                {
-                    if ( $PricesIncludeVAT == "enabled" )
-                    {
-                        $totalVAT = $product->addVAT( $price );
-                        $price += $totalVAT;
-                    }
-                    else
-                    {
-                        $totalVAT = $product->extractVAT( $price );
-                        $price = $item->price( true, true );
-                    }
-                    
-                    $found_price = true;
-                }
-            }
-            if ( !$found_price )
-            {
-                if ( $PricesIncludeVAT == "enabled" )
-                {
-                    $totalVAT = $product->addVAT( $product->price() );
-                    $price = $item->price( true, true ) + $totalVAT;
-                }
-                else
-                {
-                    $totalVAT = $product->extractVAT( $product->price() );
-                    $price = $item->price( true, true );
-                }
-            }
-            $currency->setValue( $price );
-            $t->set_var( "product_price", $locale->format( $currency ) );        
+            $t->set_var( "product_price", $item->localePrice( true, true, $Language, $user, $PricesIncludeVAT ) );        
         }
         else
         {
-
-            if ( $PricesIncludeVAT == "enabled" )
-            {
-                $totalVAT = $product->addVAT( $item->price( true, true ) );
-                $price = $item->price( true, true ) + $totalVAT;
-            }
-            else
-            {
-                $totalVAT = $product->extractVAT( $item->price( true, true ) );
-                $price = $item->price( true, true );
-            }
-            $currency->setValue( $price );
-            $t->set_var( "product_price", $locale->format( $currency ) );        
+           $t->set_var( "product_price", $item->localePrice( true, true, $Language, $user, $PricesIncludeVAT ) );        
         }
         
         // product price
@@ -182,8 +136,6 @@ foreach ( $items as $item )
         $t->set_var( "product_name", $product->name() );
         
         $t->set_var( "cart_item_count", $item->count() );
-        
-//        $t->set_var( "product_price", $locale->format( $currency ) );
         
         $optionValues =& $item->optionValues();
         $Quantity = $product->totalQuantity();
@@ -220,20 +172,18 @@ foreach ( $items as $item )
 
 
 // shipping cost and VAT
-$type = new eZShippingType( );
-$shippingType =& $type->defaultType();
-$shippingCost = $cart->shippingCost( $shippingType );
+$cart->cartTotals( $tax, $total, $user );
 
-$currency->setValue( $shippingCost );
+$locale = new eZLocale( $inLanguage );
+$currency = new eZCurrency();
+
+$currency->setValue( $total["shipinctax"] );
 $t->set_var( "shipping_sum", $locale->format( $currency ) );
 
-// calculate the vat of the shiping
-$shippingVAT = $cart->shippingVAT( $shippingType );
-
-$currency->setValue( $sum + $shippingCost );
+$currency->setValue( $total["inctax"] );
 $t->set_var( "cart_sum", $locale->format( $currency ) );
 
-$currency->setValue( $totalVAT  + $shippingVAT);
+$currency->setValue( $total["tax"] );
 $t->set_var( "cart_vat_sum", $locale->format( $currency ) );
 
 
