@@ -31,6 +31,7 @@ CREATE TABLE eZFileManager_Folder (
   ParentID int(11) DEFAULT '0' NOT NULL,
   ReadPermission int(11) DEFAULT '1',
   WritePermission int(11) DEFAULT '1',
+  SectionID int(11) DEFAULT '1',
   UserID int(11),
   PRIMARY KEY (ID)
 );

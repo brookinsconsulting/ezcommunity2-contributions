@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: folderedit.php,v 1.34 2001/09/28 08:03:17 jhe Exp $
+// $Id: folderedit.php,v 1.35 2001/09/28 13:23:39 ce Exp $
 //
 // Created on: <08-Jan-2001 11:13:29 ce>
 //
@@ -236,6 +236,8 @@ if ( ( $Action == "Insert" || $Action == "Update" ) && $error == false )
             $fileItem->store();
         }
     }
+
+
     eZHTTPTool::header( "Location: /filemanager/list/" . $ParentID );
     exit();
 }
