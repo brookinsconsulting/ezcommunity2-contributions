@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: article.php,v 1.13 2001/08/08 13:34:21 jb Exp $
+// $Id: article.php,v 1.14 2001/08/21 10:30:35 jb Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -113,7 +113,12 @@ else if( $Command == "storedata" )
     $article->setManualKeywords( $Data["ManualKeyWords"]->value() );
     $article->setDiscuss( $Data["Discuss"]->value() );
     $article->setIsPublished( $Data["IsPublished"]->value() );
-    $thumbImage = new eZImage( $Data["Thumbnail"]->value() );
+    if ( $Data["Thumbnail"]->value() > 0 )
+    {
+        $thumbImage = new eZImage( $Data["Thumbnail"]->value() );
+    }
+    else
+        $thumbImage = false;
     $article->setThumbnailImage( $thumbImage );
     $article->setTopic( $Data["Topic"]->value() );
 
@@ -130,6 +135,11 @@ else if( $Command == "storedata" )
 
     $article->store();
     $ID = $article->id();
+
+    if ( isset( $Data["LogMessage"] ) )
+    {
+        $article->addLog( $Data["LogMessage"]->value(), $User );
+    }
 
     if ( isset( $Data["Category"] ) )
     {
