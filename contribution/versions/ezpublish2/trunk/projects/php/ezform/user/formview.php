@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: formview.php,v 1.8 2001/12/20 09:10:06 jhe Exp $
+// $Id: formview.php,v 1.9 2001/12/21 11:57:33 jhe Exp $
 //
 // Created on: <12-Jun-2001 13:07:24 pkej>
 //
@@ -37,7 +37,7 @@ $ini =& INIFile::globalINI();
 
 $page_array = explode( ":", $pageList );
 
-if ( isset( $Cancel ) )
+if ( isSet( $Cancel ) )
 {
     if ( !empty( $redirectTo ) )
     {
@@ -63,10 +63,10 @@ $t->set_block( "form_view_page_tpl", "mail_preview_tpl", "mail_preview" );
 
 $renderer =& new eZFormRenderer( $form );
 $form = new eZForm( $FormID );
+$currentPage = $page_array[count( $page_array ) - 1];
 
 if ( isSet( $Next ) )
 {
-    $currentPage = $page_array[count( $page_array ) - 1];
     $output =& $renderer->verifyPage( $currentPage );
     if ( $output == "" )
     {
@@ -87,6 +87,7 @@ if ( isSet( $Next ) )
             {
                 $form->deleteResult();
             }
+
             if ( $form->completedPage() != "" )
             {
                 eZHTTPTool::header( "Location: " . $form->completedPage() );
@@ -139,7 +140,7 @@ $t->set_var( "form", $output );
 
 if ( isSet( $OK ) )
 {
-    $output =& $renderer->verifyPage();
+    $output =& $renderer->verifyPage( $currentPage );
     if ( $output == "" )
     {
         if ( $form->receiver() != "" )

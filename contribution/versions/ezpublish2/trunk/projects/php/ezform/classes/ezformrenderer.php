@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezformrenderer.php,v 1.34 2001/12/20 09:10:05 jhe Exp $
+// $Id: ezformrenderer.php,v 1.35 2001/12/21 11:57:33 jhe Exp $
 //
 // eZFormRenderer class
 //
@@ -143,7 +143,7 @@ class eZFormRenderer
 
         global $GlobalSectionID, $SectionIDOverride;
 
-        if ( isset( $SectionIDOverride ) )
+        if ( isSet( $SectionIDOverride ) )
         {
             $this->Template->set_var( "section_id", $SectionIDOverride );
         }
@@ -413,7 +413,7 @@ class eZFormRenderer
                             else
                                 $this->Template->set_var( "colspan", "" );
                             
-                            $output = $this->renderElement( $tableElements[$i], false, false );
+                            $output = $this->renderElement( $tableElements[$i], true, false );
                             
                             $this->Template->set_var( "element", $output );
                             
@@ -590,7 +590,6 @@ class eZFormRenderer
         $this->Form = new eZForm( $FormID );
         $page = new eZFormPage( $page );
         $elements = $page->pageElements();
-
         if ( $this->Form->isSendAsUser() )
         {
             if ( isSet( $formSender ) )
@@ -607,16 +606,19 @@ class eZFormRenderer
                 $errorMessagesAdditionalInfo[] = "";
             }
         }
-        
+
         foreach ( $elements as $element )
         {
             $elementName = "eZFormElement_" . $element->id();
-
+            $elementType = $element->elementType();
             global $$elementName;
             
             $value = $$elementName;
             if ( $element->isRequired() == true )
             {
+                if ( $elementType->name() == "user_email_item" )
+                    $value = $formSender;
+                
                 if ( empty( $value ) )
                 {
                     $errorMessages[] = "required_field";
@@ -624,21 +626,23 @@ class eZFormRenderer
                 }
             }
             
-            if ( $element->name() == "numerical_integer_item" )
+            if ( $elementType->name() == "numerical_integer_item" )
             {
-                if ( !empty( $value ) && !is_integer( $value ) )
+                $numElement = new eZFormElementNumerical( $element->id() );
+                if ( !$numElement->validNumber( $value ) )
                 {
-                     $errorMessages[] = "integer_field";
-                     $errorMessagesAdditionalInfo[] = "\"" .  $element->name() . "\"" ;
+                    $errorMessages[] = "integer_field";
+                    $errorMessagesAdditionalInfo[] = "\"" .  $element->name() . "\"" ;
                 }
             }
 
-            if ( $element->name() == "numerical_float_item" )
+            if ( $elementType->name() == "numerical_float_item" )
             {
-                if ( !empty( $value ) && !is_float( $value ) )
+                $numElement = new eZFormElementNumerical( $element->id() );
+                if ( !$numElement->validNumber( $value ) )
                 {
-                     $errorMessages[] = "float_field";
-                     $errorMessagesAdditionalInfo[] = "\"" .  $element->name() . "\"" ;
+                    $errorMessages[] = "float_field";
+                    $errorMessagesAdditionalInfo[] = "\"" .  $element->name() . "\"" ;
                 }
             }
         }
@@ -692,37 +696,82 @@ class eZFormRenderer
         
         foreach ( $elements as $element )
         {
-            $elementName = "eZFormElement_" . $element->id();
-
-            global $$elementName;
-            $value = $$elementName;
-
-
-            // convert array to multiple textlines.
-            $tmpValue = "";
-            if ( is_array( $value ) )
+            $elementType = $element->elementType();
+            if ( $elementType->name() == "table_item" )
             {
-                foreach ( $value as $v )
+                $table = new eZFormTable( $element->id() );
+                $tableElements = $table->tableElements();
+                foreach ( $tableElements as $te )
                 {
-                    $tmpValue .=  $v . "\n";
+                    $elementName = "eZFormElement_" . $te->id();
+
+                    global $$elementName;
+                    $value = $$elementName;
+                    
+                
+                    // convert array to multiple textlines.
+                    $tmpValue = "";
+                    if ( is_array( $value ) )
+                    {
+                        foreach ( $value as $v )
+                        {
+                            $tmpValue .=  $v . "\n";
+                        }
+                        $value = $tmpValue;
+                    }
+                    
+                    if ( $emailDefaults == true )
+                    {
+                        if ( $te->name() == $this->Template->Ini->read_var( "strings", "subject_label" ) )
+                        {
+                            $mail->setSubject( $value );
+                        }
+                        else
+                        {
+                            $content .= $te->name() . ":\n " . $value . "\n\n";
+                        }
+                    }
+                    else
+                    {
+                        $content .= $te->name() . ":\n " . $value . "\n\n";
+                    }
                 }
-                $value = $tmpValue;
-            }
 
-            if ( $emailDefaults == true )
+            }
+            else
             {
-                if ( $element->name() == $this->Template->Ini->read_var( "strings", "subject_label" ) )
+                $elementName = "eZFormElement_" . $element->id();
+
+                global $$elementName;
+                $value = $$elementName;
+                
+                
+                // convert array to multiple textlines.
+                $tmpValue = "";
+                if ( is_array( $value ) )
                 {
-                    $mail->setSubject( $value );
+                    foreach ( $value as $v )
+                    {
+                        $tmpValue .=  $v . "\n";
+                    }
+                    $value = $tmpValue;
+                }
+                
+                if ( $emailDefaults == true )
+                {
+                    if ( $element->name() == $this->Template->Ini->read_var( "strings", "subject_label" ) )
+                    {
+                        $mail->setSubject( $value );
+                    }
+                    else
+                    {
+                        $content .= $element->name() . ":\n " . $value . "\n\n";
+                    }
                 }
                 else
                 {
                     $content .= $element->name() . ":\n " . $value . "\n\n";
                 }
-            }
-            else
-            {
-                $content .= $element->name() . ":\n " . $value . "\n\n";
             }
         }
 

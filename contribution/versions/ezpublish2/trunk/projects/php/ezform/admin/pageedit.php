@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: pageedit.php,v 1.23 2001/12/20 12:37:34 jhe Exp $
+// $Id: pageedit.php,v 1.24 2001/12/21 11:57:33 jhe Exp $
 //
 // Definition of ||| class
 //
@@ -178,22 +178,26 @@ $errorMessages = array();
 if ( isSet( $OK ) || isSet( $Update ) || isSet( $NewElement ) )
 {
     $page->setName( $pageName );
-    
-    $existingElementCount = $page->numberOfElements();
-    $existingElementCount++;
-    
-    if ( isSet( $NewElement ) )
+
+    if ( isSet( $Update ) || isSet( $NewElement ) )
     {
-        $newElementName =& $ini->read_var( "eZFormMain", "DefaultElementName" );
-        $newElementName = $newElementName . " " . $existingElementCount;
-        $element = new eZFormElement();
-        $element->setName( $newElementName );
-        $element->store();
-    }
+        $existingElementCount = $page->numberOfElements();
+        $existingElementCount++;
         
-    if ( isSet( $element ) )
-    {
-        $page->addElement( $element );
+        if ( isSet( $NewElement ) )
+        {
+            $newElementName =& $ini->read_var( "eZFormMain", "DefaultElementName" );
+            $newElementName = $newElementName . " " . $existingElementCount;
+            $element = new eZFormElement();
+            $element->setName( $newElementName );
+            $element->store();
+        }
+        
+        if ( isSet( $element ) )
+        {
+            $page->addElement( $element );
+        }
+        
     }
 
     $elementCount = count( $elementID );
@@ -248,8 +252,10 @@ if ( isSet( $OK ) || isSet( $Update ) || isSet( $NewElement ) )
             $table->store();
         }
     }
-
-    // store the page jumps.
+    
+    
+    
+// store the page jumps.
     $elementID = $ElementChoiceID[0];
     $element = new eZFormElement( $elementID );
     $values =& $element->fixedValues();
@@ -260,7 +266,7 @@ if ( isSet( $OK ) || isSet( $Update ) || isSet( $NewElement ) )
     {
         if ( count( $ElementRange ) > 0 )
         {
-            $i=0;
+            $i = 0;
             $element->removeCondition();
             foreach ( $ElementRange as $range )
             {
@@ -290,8 +296,7 @@ if ( isSet( $OK ) || isSet( $Update ) || isSet( $NewElement ) )
     
     if ( isSet( $OK ) && count( $errorMessages ) == 0 )
     {
-        $page->store();
-        eZHTTPTool::header( "Location: /form/form/edit/$FormID" );
+        eZHTTPTool::header( "Location: /form/form/edit/$FormID/" );
         exit();
     }
     
@@ -525,7 +530,10 @@ if ( $element )
     {
         foreach ( $elements as $pageElement )
         {
-            $elementType =& $pageElement->elementType();
+            if ( get_class( $pageElement ) == "ezformelementtype" )
+                $elementType =& $pageElement->elementType();
+            else
+                $elementType = $pageElement;
             $name = $elementType->name();
             
             if ( $name == "multiple_select_item" ||

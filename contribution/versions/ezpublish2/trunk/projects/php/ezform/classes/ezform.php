@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezform.php,v 1.17 2001/12/19 13:44:58 jhe Exp $
+// $Id: ezform.php,v 1.18 2001/12/21 11:57:33 jhe Exp $
 //
 // ezform class
 //
@@ -640,16 +640,17 @@ class eZForm
 
         $qa = array();
         $ret = array();
+        $db =& eZDB::globalDatabase();
         $db->begin();
         $db->array_query( $qa, "SELECT ID FROM eZForm_FormResults
                                 WHERE UserHash='$hash'" );
         foreach ( $qa as $q )
         {
-            $ret = $db->query( "DELETE FROM eZForm_FormElementResult WHERE
+            $ret[] = $db->query( "DELETE FROM eZForm_FormElementResult WHERE
                                 ResultID='" . $q[$db->fieldName( "ID" )] . "'" );
         }
         
-        $ret[] = $db->query( "DELETE eZForm_FormResults
+        $ret[] = $db->query( "DELETE FROM eZForm_FormResults
                               WHERE UserHash='$hash'" );
         eZDB::finish( $ret, $db );
     }

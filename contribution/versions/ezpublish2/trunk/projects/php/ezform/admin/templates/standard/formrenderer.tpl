@@ -1,6 +1,6 @@
 <!-- BEGIN user_email_item_tpl -->
 {header_line}
-<input type="text" class="box" name="formSender" value="{form_sender}" />
+<input type="text" {element_size} name="formSender" value="{form_sender}" />
 <!-- END user_email_item_tpl -->
 
 <!-- BEGIN header_tpl -->
@@ -38,20 +38,19 @@
 <!-- END empty_item_tpl -->
 
 <!-- BEGIN numerical_float_item_tpl -->
-<p class="boxtext">{element_name}:
+{header_line}
 <!-- BEGIN numerical_float_range_tpl -->
-<span class="boxtext">({intl-numerical_float_item}, {intl-range}: {min_value} - {max_value})</span>
+
 <!-- END numerical_float_range_tpl -->
 </p>
 <input type="text" {element_size} name="{field_name}" value="{field_value}" />
 <!-- END numerical_float_item_tpl -->
 
 <!-- BEGIN numerical_integer_item_tpl -->
-<p class="boxtext">{element_name}:
+{header_line}
 <!-- BEGIN numerical_integer_range_tpl -->
-<span class="boxtext">({intl-numerical_integer_item}, {intl-range}: {min_value} - {max_value})</span>
+
 <!-- END numerical_integer_range_tpl -->
-</p>
 <input type="text" {element_size} name="{field_name}" value="{field_value}" />
 <!-- END numerical_integer_item_tpl -->
 
@@ -93,7 +92,7 @@
 <!-- END checkbox_item_tpl -->
 
 <!-- BEGIN table_item_tpl -->
-<table cellspacing="0" cellpadding="0" border="0">
+<table cellspacing="3" cellpadding="3" border="1">
 <!-- BEGIN table_item_sub_item_tpl -->
 <tr>
 <!-- BEGIN table_item_cell_tpl -->

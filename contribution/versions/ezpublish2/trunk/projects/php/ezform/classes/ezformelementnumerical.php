@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezformelementnumerical.php,v 1.1 2001/12/18 16:32:47 pkej Exp $
+// $Id: ezformelementnumerical.php,v 1.2 2001/12/21 11:57:33 jhe Exp $
 //
 // ezformelementtype class
 //
@@ -227,6 +227,14 @@ class eZFormElementNumerical
     function setMaxValue( &$text )
     {
        $this->MaxValue = $text;
+    }
+
+    function validNumber( $value )
+    {
+        if ( $value >= $this->MinValue && $value <= $this->MaxValue )
+            return true;
+        else
+            return false;
     }
     
     var $ID;
