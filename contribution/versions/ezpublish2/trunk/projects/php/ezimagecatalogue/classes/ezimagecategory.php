@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezimagecategory.php,v 1.41 2001/09/24 10:49:49 jb Exp $
+// $Id: ezimagecategory.php,v 1.42 2001/09/26 14:22:15 jb Exp $
 //
 // Definition of eZImageCategory class
 //
@@ -176,7 +176,7 @@ class eZImageCategory
 
         foreach ( $categoryList as $category )
         {
-            $this->delete( $category->id() );
+            $category->delete();
         }
 
         foreach ( $this->images() as $image )
