@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezqdomgenerator.php,v 1.27 2001/08/29 06:55:24 master Exp $
+// $Id: ezqdomgenerator.php,v 1.28 2001/08/31 11:32:43 bf Exp $
 //
 // Definition of eZQDomGenerator class
 //
@@ -46,6 +46,13 @@ class eZQDomGenerator
         $this->Level = 0;
         $this->PageCount = 0;
         $this->Contents = $contents;
+
+        // user defined tags
+        $ini =& INIFile::globalINI();
+
+        $customTags = $ini->read_var( "eZArticleMain", "CustomTags" );
+
+        $this->CustomTagsArray = explode( ";", $customTags );        
     }
 
     /*!
@@ -97,13 +104,13 @@ class eZQDomGenerator
 
         $tmpPage = $this->generateHr( $tmpPage );
 	
-	$tmpPage = $this->generateTable( $tmpPage );
+        $tmpPage = $this->generateTable( $tmpPage );
 	
         // replace & with &amp; to prevent killing the xml parser..
         // is that a bug in the xmltree(); function ? answer to bf@ez.no
         $tmpPage = ereg_replace ( "&", "&amp;", $tmpPage );
 
-        $tmpPage = $this->generateUnknowns( $tmpPage );        
+        $tmpPage = $this->generateUnknowns( $tmpPage );
 
         $tmpPage = $this->generateLink( $tmpPage );
 
@@ -333,6 +340,7 @@ class eZQDomGenerator
                 $value .= $this->decodeLink( $paragraph );
                 $value .= $this->decodeHr( $paragraph );
                 $value .= $this->decodeTable( $paragraph );
+                $value .= $this->decodeCustom( $paragraph );
             }
         }
 
@@ -569,23 +577,23 @@ class eZQDomGenerator
         if ( $paragraph->name == "table" )
         {
 	
-	    if  ( count( $paragraph->attributes ) > 0 )
-	    foreach ( $paragraph->attributes as $attr )
-	    {
-	        switch ( $attr->name )
+            if  ( count( $paragraph->attributes ) > 0 )
+                foreach ( $paragraph->attributes as $attr )
                 {
-		    case "width" :
-		    {
-		        $tableWidth = $attr->children[0]->content;
-		    }
-		    break;
-		    case "border" :
-		    {
-		        $tableBorder = $attr->children[0]->content;
-		    }
-		    break;
-		}
-	    }
+                    switch ( $attr->name )
+                    {
+                        case "width" :
+                        {
+                            $tableWidth = $attr->children[0]->content;
+                        }
+                        break;
+                        case "border" :
+                        {
+                            $tableBorder = $attr->children[0]->content;
+                        }
+                        break;
+                    }
+                }
 	
             $tmpContent = "";
             foreach ( $paragraph->children as $row )
@@ -598,31 +606,31 @@ class eZQDomGenerator
                         if ( $data->name == "td" )
                         {
 			
-			    $tdWidth="";
-			    $tdColspan="";
-			    $tdRowspan="";
-			    if  ( count( $data->attributes ) > 0 )
-	                    foreach ( $data->attributes as $attr )
-	                    {
-	                        switch ( $attr->name )
+                            $tdWidth="";
+                            $tdColspan="";
+                            $tdRowspan="";
+                            if  ( count( $data->attributes ) > 0 )
+                                foreach ( $data->attributes as $attr )
                                 {
-		                    case "width" :
-		                    {
-		                        $tdWidth = $attr->children[0]->content;
-		                    }
-		                    break;
-		                    case "colspan" :
-		                    {
-		                        $tdColspan = $attr->children[0]->content;
-		                    }
-		                    break;
-				    case "rowspan" :
-		                    {
-		                        $tdRowspan = $attr->children[0]->content;
-		                    }
-		                    break;
-		                }
-	                    }
+                                    switch ( $attr->name )
+                                    {
+                                        case "width" :
+                                        {
+                                            $tdWidth = $attr->children[0]->content;
+                                        }
+                                        break;
+                                        case "colspan" :
+                                        {
+                                            $tdColspan = $attr->children[0]->content;
+                                        }
+                                        break;
+                                        case "rowspan" :
+                                        {
+                                            $tdRowspan = $attr->children[0]->content;
+                                        }
+                                        break;
+                                    }
+                                }
 
                             $tmpData = "";
                             foreach ( $data->children as $contents )
@@ -643,10 +651,10 @@ class eZQDomGenerator
                                 }                                
                             }
                             $tdContent .= "<td";
-			    if ( $tdWidth!="" ) $tdContent .= " $tdWidth";
-			    if ( $tdColspan!="" ) $tdContent .= " $tdColspan";
-			    if ( $tdRowspan!="" ) $tdContent .= " $tdRowspan";
-			    $tdContent .= ">$tmpData</td>";
+                            if ( $tdWidth!="" ) $tdContent .= " $tdWidth";
+                            if ( $tdColspan!="" ) $tdContent .= " $tdColspan";
+                            if ( $tdRowspan!="" ) $tdContent .= " $tdRowspan";
+                            $tdContent .= ">$tmpData</td>";
                             
                         }
                     }
@@ -656,9 +664,9 @@ class eZQDomGenerator
             }
             
             $pageContent = "<table";
-	    if ( $tableWidth != "" ) $pageContent .= " $tableWidth";
-	    if ( $tableBorder != "" ) $pageContent .= " $tableBorder";
-	    $pageContent .= ">\n$tmpContent</table>"; 
+            if ( $tableWidth != "" ) $pageContent .= " $tableWidth";
+            if ( $tableBorder != "" ) $pageContent .= " $tableBorder";
+            $pageContent .= ">\n$tmpContent</table>"; 
         }
         
         
@@ -685,6 +693,7 @@ class eZQDomGenerator
                 else
                 {
                     $content = $this->decodeStandards( $child );
+                    $content .= $this->decodeCustom( $child );
                     $content .= $this->decodeLink( $child );
                     $content .= $this->decodeImage( $child );
                     $content .= $this->decodeTable( $child );
@@ -740,6 +749,7 @@ class eZQDomGenerator
                                 else
                                 {
                                     $itemStr .= $this->decodeStandards( $listItem );
+                                    $itemStr .= $this->decodeCustom( $listItem );
                                     $itemStr .= $this->decodeLink( $listItem );
                                     $itemStr .= $this->decodeImage( $listItem );
                                     $itemStr .= $this->decodeMedia( $listItem );
@@ -796,6 +806,44 @@ class eZQDomGenerator
         return $pageContent;
     }
 
+    /*!
+      \private
+      Decodes the custom tags.
+    */
+    function &decodeCustom(  $paragraph )
+    {
+        $pageContent = "";
+        $tagName = $paragraph->name;
+        
+        if ( in_array( $tagName, $this->CustomTagsArray ) )
+        {
+            $content = "";
+            if ( count( $paragraph->children ) )
+            {
+                foreach ( $paragraph->children as $child )
+                {
+                    if ( $child->name == "text" )
+                    {                
+                        $content .= eZTextTool::nl2br( $child->content );
+                    }
+                    else
+                    {
+                        $content = $this->decodeStandards( $child );
+                        $content .= $this->decodeCustom( $child );
+                        $content .= $this->decodeLink( $child );
+                        $content .= $this->decodeImage( $child );
+                        $content .= $this->decodeTable( $child );
+                        $content .= $this->decodeMedia( $child );
+                        $content .= $this->decodeHeader( $child );
+                    }
+                }
+            }
+
+            $pageContent = "<$tagName>" . $content ."</$tagName>";
+        }
+
+        return $pageContent;
+    }
 
     /*!
       Returns the number of pages found in the article.
@@ -807,6 +855,8 @@ class eZQDomGenerator
 
     var $Contents;
     var $PageCount;
+
+    var $CustomTagsArray;
 }
 
 

@@ -161,3 +161,7 @@
 </tr>
 </table>
 <!-- END table_tpl -->
+
+<!-- BEGIN logo_tpl -->
+<a href="developer.ez.no">eZ publish</a>{contents}
+<!-- END logo_tpl -->

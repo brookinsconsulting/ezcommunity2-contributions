@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezqdomrenderer.php,v 1.38 2001/08/30 08:01:18 bf Exp $
+// $Id: ezqdomrenderer.php,v 1.39 2001/08/31 11:32:43 bf Exp $
 //
 // Definition of eZQDomRenderer class
 //
@@ -175,14 +175,14 @@ class eZQDomrenderer
         $this->Template->set_block( "articletags_tpl", "media_tpl", "media"  );
         $this->Template->set_block( "image_tpl", "image_link_tpl", "image_link"  );
         $this->Template->set_block( "image_tpl", "ext_link_tpl", "ext_link"  );
-	$this->Template->set_block( "image_tpl", "no_link_tpl", "no_link"  );
+        $this->Template->set_block( "image_tpl", "no_link_tpl", "no_link"  );
 	
         $this->Template->set_block( "image_tpl", "image_text_tpl", "image_text"  );
 
         $this->Template->set_block( "articletags_tpl", "image_float_tpl", "image_float" );
         $this->Template->set_block( "image_float_tpl", "image_link_float_tpl", "image_link_float" );
         $this->Template->set_block( "image_float_tpl", "ext_link_float_tpl", "ext_link_float"  );        
-	$this->Template->set_block( "image_float_tpl", "no_link_float_tpl", "no_link_float"  );
+        $this->Template->set_block( "image_float_tpl", "no_link_float_tpl", "no_link_float"  );
 
         $this->Template->set_block( "articletags_tpl", "link_tpl", "link"  );        
         
@@ -207,6 +207,16 @@ class eZQDomrenderer
         $this->Template->set_block( "articletags_tpl", "table_tpl", "table"  );
         $this->Template->set_block( "table_tpl", "tr_tpl", "tr"  );
         $this->Template->set_block( "tr_tpl", "td_tpl", "td"  );
+
+        // user defined tags
+        $customTags = $ini->read_var( "eZArticleMain", "CustomTags" );
+
+        $this->CustomTagsArray = explode( ";", $customTags );
+
+        foreach ( $this->CustomTagsArray as $tag )
+        {
+            $this->Template->set_block( "articletags_tpl", $tag . "_tpl", "$tag"  );
+        }
         
         $this->Article = $article;
     }
@@ -245,6 +255,7 @@ class eZQDomrenderer
                                 {
                                     $intro .= $this->renderPlain( $paragraph );
                                     $intro .= $this->renderStandards( $paragraph );
+                                    $intro .= $this->renderCustom( $paragraph );
                                     $intro .= $this->renderImage( $paragraph );
                                     $intro .= $this->renderHeader( $paragraph );
                                     $intro .= $this->renderMedia( $paragraph );
@@ -310,6 +321,7 @@ class eZQDomrenderer
                                     $intro .= $this->renderHeader( $paragraph );
                                     $intro .= $this->renderPlain( $paragraph );
                                     $intro .= $this->renderStandards( $paragraph );
+                                    $intro .= $this->renderCustom( $paragraph );
                                     $intro .= $this->renderImage( $paragraph );
                                     $intro .= $this->renderMedia( $paragraph );
                                     $intro .= $this->renderLink( $paragraph );
@@ -342,6 +354,7 @@ class eZQDomrenderer
                     {
                         $pageContent .= $this->renderHeader( $paragraph );
                         $pageContent .= $this->renderStandards( $paragraph );
+                        $pageContent .= $this->renderCustom( $paragraph );
                         $pageContent .= $this->renderPlain( $paragraph );
                         $pageContent .= $this->renderImage( $paragraph );
                         $pageContent .= $this->renderMedia( $paragraph );
@@ -695,8 +708,10 @@ class eZQDomrenderer
         }
         return $pageContent;
     }
-    
 
+    /*!
+      Renders the standard tags like bold, italic ...
+    */
     function &renderStandards( $paragraph )
     {
         $pageContent = "";
@@ -724,6 +739,7 @@ class eZQDomrenderer
                             else
                             {
                                 $content .= $this->renderStandards( $listItem );
+                                $content .= $this->renderCustom( $listItem );
                                 $content .= $this->renderLink( $listItem );                        
                                 $content .= $this->renderImage( $listItem );
                                 $content .= $this->renderMedia( $listItem );
@@ -744,6 +760,7 @@ class eZQDomrenderer
                         else
                         {
                             $content .= $this->renderStandards( $child );
+                            $content .= $this->renderCustom( $child );
                             $content .= $this->renderLink( $child );                        
                             $content .= $this->renderImage( $child );
                             $content .= $this->renderMedia( $child );
@@ -752,7 +769,6 @@ class eZQDomrenderer
                             $content .= $this->renderTable( $child );
                         }
                     }
-
                 }
 
                 // compatible with old style bullet lists where \n was the
@@ -810,6 +826,7 @@ class eZQDomrenderer
                     else
                     {
                         $tmpContent .= $this->renderStandards( $child );
+                        $tmpContent .= $this->renderCustom( $child );
                         $tmpContent .= $this->renderLink( $child );
                         $tmpContent .= $this->renderImage( $child );
                         $tmpContent .= $this->renderMedia( $media );
@@ -845,6 +862,7 @@ class eZQDomrenderer
                         $pageContent = trim( $this->Template->parse( "quote", "quote_tpl" ) );
                     break;
                     case "form" :
+                    {
                         include_once( "ezform/classes/ezformrenderer.php" );
 
                         $forms = $this->Article->forms();
@@ -855,18 +873,62 @@ class eZQDomrenderer
                             
                             $pageContent = $output;
                         }
-
-
+                    }
                     break;
                 }
                 
             }break;
-
         }
 
         return $pageContent;
-    }    
+    }
+    
 
+
+
+    /*!
+      Renders custom tags.
+    */
+    function &renderCustom( $paragraph )
+    {
+        $pageContent = "";
+        $tagName = $paragraph->name;
+        
+        if ( in_array( $tagName, $this->CustomTagsArray ) )
+        {
+            $tmpContent = "";
+            if ( count( $paragraph->children ) )
+            {
+                foreach ( $paragraph->children as $child )
+                {
+                    if ( $child->name == "text" )
+                    {                
+                        $tmpContent .= eZTextTool::nl2br( $child->content );
+                    }
+                    else
+                    {
+                        $tmpContent .= $this->renderStandards( $child );
+                        $tmpContent .= $this->renderCustom( $child );
+                        $tmpContent .= $this->renderLink( $child );
+                        $tmpContent .= $this->renderImage( $child );
+                        $tmpContent .= $this->renderMedia( $media );
+                        $tmpContent .= $this->renderHeader( $child );
+                        $tmpContent .= $this->renderHr( $child );
+                        $tmpContent .= $this->renderTable( $child );
+                    }
+                }
+            }
+
+            $this->Template->set_var( "contents", $tmpContent );
+            
+            $pageContent = trim( $this->Template->parse( "$tagName", $tagName ."_tpl" ) );
+        }
+
+        return $pageContent;
+    }
+
+
+    
     /*!
       Renders link tags.
     */
@@ -1080,6 +1142,7 @@ class eZQDomrenderer
                 else
                 {
                     $tmpContent .= $this->renderStandards( $child );
+                    $tmpContent .= $this->renderCustom( $child );
                     $tmpContent .= $this->renderLink( $child );
                     $tmpContent .= $this->renderImage( $child );
                     $tmpContent .= $this->renderMedia( $media );
@@ -1095,6 +1158,9 @@ class eZQDomrenderer
     var $Article;
     var $PrevTag;
     var $Template;
+
+    /// stores the custom tags array
+    var $CustomTagsArray;
 }
 
 ?>
