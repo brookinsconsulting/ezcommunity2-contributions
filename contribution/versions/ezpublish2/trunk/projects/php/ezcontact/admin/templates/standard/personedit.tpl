@@ -61,7 +61,7 @@
 
 </ul>
 <!-- END errors_tpl -->
- 
+
 <!-- BEGIN person_item_tpl -->
 <h2>{intl-personal_headline}</h2>
 <table width="100%" cellpadding="0" cellspacing="0" border="0">
@@ -217,10 +217,10 @@
 
 <br />
 
-<hr noshade="noshade" size="4" />
+<!--  <hr noshade="noshade" size="4" /> -->
 
-<input class="stdbutton" name="addcv" type="submit" value="{intl-add_cv}" />
-<input class="stdbutton" name="addimage" type="submit" value="{intl-add_image}" />
+<!--  <input class="stdbutton" name="addcv" type="submit" value="{intl-add_cv}" /> -->
+<!--  <input class="stdbutton" name="addimage" type="submit" value="{intl-add_image}" /> -->
 
 <hr noshade="noshade" size="4" />
 
