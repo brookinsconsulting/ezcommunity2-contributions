@@ -251,7 +251,7 @@
 <input class="okbutton" type="submit" value="{intl-edit}" />
 <!-- END edit_this_tpl -->
 
-<br /><br />
+<br />
 
 <!-- BEGIN numbered_page_link_tpl -->
 <div align="center"><a class="path" href="/{module}/{module_view}/{product_id}/0/">| {intl-numbered_page} |</a></div>

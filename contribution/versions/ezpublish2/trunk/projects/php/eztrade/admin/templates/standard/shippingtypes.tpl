@@ -31,6 +31,9 @@
 	<br /><br />
 
 	</td>
+	<td>
+	&nbsp;
+	</td>
  	<!-- END type_item_tpl -->
 <tr>
 <tr>
@@ -45,15 +48,16 @@
         {intl-additional}:
     </th>
     <!-- END header_item_tpl -->
+	<td colspan="2">
+	&nbsp;
+	</td>
 </tr>
 <!-- BEGIN group_item_tpl -->
 <tr>
-	<th class="{td_class}">
+	<td class="{td_class}">
 	 <input type="hidden" name="GroupID[]" value="{group_id}" />
 	 <input type="text" size="15" name="GroupName[]" value="{shipping_group_name}" />
-	 <input type="checkbox" name="DeleteGroup[]" value="{group_id}" />
-
-	</th>
+	</td>
        <!-- BEGIN type_group_item_tpl -->
 	<td class="{td_class}">
 	  <input type="hidden" name="ValueGroupID[]" value="{value_group_id}" />
@@ -65,6 +69,9 @@
 	  <input type="text" size="6" name="AddValue[]" value="{add_value}" />
 	</td>
        <!-- END type_group_item_tpl -->
+	<td class="{td_class}" colspan="2">
+	 <input type="checkbox" name="DeleteGroup[]" value="{group_id}" />
+	</td>
 </tr>
 <!-- END group_item_tpl -->
 </table>

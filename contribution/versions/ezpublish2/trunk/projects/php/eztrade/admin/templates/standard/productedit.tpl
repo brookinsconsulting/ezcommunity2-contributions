@@ -5,10 +5,10 @@
 <hr noshade="noshade" size="4" />
 
 <p class="boxtext">{intl-name}:</p>
-<input type="text" size="40" name="Name" value="{name_value}"/>
+<input class="box" type="text" size="40" name="Name" value="{name_value}"/>
 
 <p class="boxtext">{intl-product_number}:</p>
-<input type="text" size="40" name="ProductNumber" value="{product_nr_value}"/>
+<input class="box" type="text" size="40" name="ProductNumber" value="{product_nr_value}"/>
 <br /><br />
 
 <table width="100%" cellpadding="0" cellspacing="0" border="0">
@@ -34,16 +34,15 @@
 <br />
 
 <p class="boxtext">{intl-keywords}:</p>
-<input name="Keywords" size="40" value="{keywords_value}" />
-
+<input class="box" name="Keywords" size="40" value="{keywords_value}" />
 <br /><br />
 
 <p class="boxtext">{intl-intro}:</p>
-<textarea rows="5" cols="40" name="Brief" wrap="soft">{brief_value}</textarea>
+<textarea class="box" rows="5" cols="40" name="Brief" wrap="soft">{brief_value}</textarea>
 <br /><br />
 
 <p class="boxtext">{intl-description}:</p>
-<textarea rows="15" cols="40" name="Description" wrap="soft">{description_value}</textarea>
+<textarea class="box" rows="15" cols="40" name="Description" wrap="soft">{description_value}</textarea>
 <br /><br />
 
 <p class="boxtext">{intl-external_link}:</p>
@@ -90,16 +89,16 @@ http://<input type="text" size="36" name="ExternalLink" value="{external_link}"/
 </tr>
 <tr>
 	<td valign="top">
-	<div class="check"><input type="checkbox" name="ShowPrice" {showprice_checked} />&nbsp;{intl-has_price}</div>
+	<div class="check"><input type="checkbox" name="ShowPrice" {showprice_checked} />&nbsp;<span class="boxtext">{intl-has_price}</span></div>
 	</td>
 	<td valign="top">
-	<div class="check"><input type="checkbox" name="Active" {showproduct_checked} />&nbsp;{intl-active}</div>
+	<div class="check"><input type="checkbox" name="Active" {showproduct_checked} />&nbsp;<span class="boxtext">{intl-active}</span></div>
 	</td>
 	<td valign="top">
-	<div class="check"><input type="checkbox" name="IsHotDeal" {is_hot_deal_checked} />{intl-is_hot_deal}</div>
+	<div class="check"><input type="checkbox" name="IsHotDeal" {is_hot_deal_checked} />&nbsp;<span class="boxtext">{intl-is_hot_deal}</span></div>
 	</td>
 	<td valign="top">
-	<div class="check"><input type="checkbox" name="Discontinued" {discontinued_checked} />{intl-discontinued}</div>
+	<div class="check"><input type="checkbox" name="Discontinued" {discontinued_checked} /><span class="boxtext">{intl-discontinued}</span></div>
 	</td>
 
 </tr>
@@ -145,19 +144,15 @@ http://<input type="text" size="36" name="ExternalLink" value="{external_link}"/
 
 <hr noshade="noshade" size="4" />
 
-<table cellpadding="0" cellspacing="0" border="0">
-<tr>
-	<td>
+<div class="divider">
 	<input type="hidden" name="ProductID" value="{product_id}" />
 	<input class="okbutton" type="submit" value="{intl-ok}" />
+</div>
 	</form>
-	</td>
-	<td>&nbsp;</td>
-	<td>
+
+<div class="divider">
 	<form method="post" action="/trade/productedit/cancel/">
 	<input type="hidden" name="ProductID" value="{product_id}" />
 	<input class="okbutton" type="submit" value="{intl-cancel}" />
 	</form>
-	</td>
-</tr>
-</table>
+</div>
