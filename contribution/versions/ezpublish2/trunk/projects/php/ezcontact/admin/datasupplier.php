@@ -1,7 +1,10 @@
 <?
 //print $REQUEST_URI;
 
-$url_array = explode( "/", $REQUEST_URI );
+include_once( "classes/ezuritool.php" );
+
+//  $url_array = explode( "/", $REQUEST_URI );
+$url_array = eZURITool::split( $REQUEST_URI );
 switch ( $url_array[2] )
 {
     case "company":
@@ -12,6 +15,12 @@ switch ( $url_array[2] )
         {
             // intentional fall through
             case "new":
+            {
+                $NewCompanyCategory = $url_array[4];
+                unset( $CompanyID );
+                include( "ezcontact/admin/companyedit.php" );
+                break;
+            }
             case "edit":
             case "update":
             case "delete":
@@ -55,6 +64,12 @@ switch ( $url_array[2] )
         {
             // intentional fall through
             case "new":
+            {
+                $NewParentID = $url_array[4];
+                unset( $TypeID );
+                include( "ezcontact/admin/companytypeedit.php" );
+                break;
+            }
             case "edit":
             case "update":
             case "delete":
@@ -106,8 +121,7 @@ switch ( $url_array[2] )
                 if ( count( $url_array ) >= 5 && !isset( $SearchText ) )
                 {
                     $SearchText = $url_array[5];
-                    $SearchText = preg_replace( "/[+]/", " ", $SearchText );
-                    $SearchText = preg_replace( "/[%2b]/i", "+", $SearchText );
+                    $SearchText = eZURITool::decode( $SearchText );
                 }
                 include( "ezcontact/admin/personlist.php" );
                 break;
