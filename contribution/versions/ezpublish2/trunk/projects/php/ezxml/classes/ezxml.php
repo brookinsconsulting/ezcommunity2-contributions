@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: ezxml.php,v 1.16 2001/12/10 14:18:24 br Exp $
+// $Id: ezxml.php,v 1.17 2001/12/10 15:49:43 bf Exp $
 //
 // Definition of eZXML class
 //
@@ -75,7 +75,7 @@ class eZXML
         $domDocument->root =& $domDocument->children;
         
         $currentNode =& $domDocument;
-
+        
         $pos = 0;
         $endTagPos = 0;
         while ( $pos < strlen( $xmlDoc ) )
@@ -83,8 +83,6 @@ class eZXML
             $char = $xmlDoc[$pos];
             if ( $char == "<" )
             {
-                // inside a new tag
-
                 // find tag name
                 $endTagPos = strpos( $xmlDoc, ">", $pos );
 
@@ -122,7 +120,7 @@ class eZXML
                     }
                 }
                 else
-                {                    
+                {
                     $firstSpaceEnd = strpos( $tagName, " " );
                     $firstNewlineEnd = strpos( $tagName, "\n" );
 
@@ -172,13 +170,40 @@ class eZXML
                         $justName = substr( $justName, 0, strlen( $justName ) - 1 );
                     }
 
-                    // start tag
-                    unset( $subNode );
-                    $subNode = new eZDOMNode();
-                    $subNode->name = $justName;
-                    $subNode->type = 1;
 
-                    $currentNode->children[] =& $subNode;
+
+                    // check for CDATA
+                    $cdataSection = "";
+                    $isCDATASection = false;
+                    $cdataPos = strpos( $xmlDoc, "<![CDATA[", $pos );
+                    if ( $cdataPos == $pos )
+                    {
+                        print( "cdata<br>" );
+                        $isCDATASection = true;
+                        $endTagPos = strpos( $xmlDoc, "]]>", $cdataPos );
+                        $cdataSection =& substr( $xmlDoc, $cdataPos + 9, $endTagPos - ( $cdataPos + 9 ) );
+
+                        // new CDATA node
+                        unset( $subNode );
+                        $subNode = new eZDOMNode();
+                        $subNode->name = " cdata-section";
+                        $subNode->content = $cdataSection;                        
+                        $subNode->type = 4;
+                        
+                        $currentNode->children[] =& $subNode;
+                        
+                        $endTagPos += 2;
+                    }
+                    else
+                    {                    
+                        // normal start tag
+                        unset( $subNode );
+                        $subNode = new eZDOMNode();
+                        $subNode->name = $justName;
+                        $subNode->type = 1;
+                        
+                        $currentNode->children[] =& $subNode;
+                    }
 
                     // find attributes
                     if ( $tagNameEnd > 0 )
@@ -228,14 +253,16 @@ class eZXML
                                 $attrNode->children[] =& $nodeValue;
 
                                 $subNode->attributes[] =& $attrNode;
-                                
                             }
                         }
                     }
-
-                    // check it it's a oneliner: <tagname />
+                    
+                    // check it it's a oneliner: <tagname /> or a cdata section
+                    if ( $isCDATASection == false )
                     if ( $tagName[strlen($tagName) - 1]  != "/" )
-                    {                    
+                    {
+                        print( "push: " .$justName . "<br>" );
+
                         array_push( $TagStack,
                         array( "TagName" => $justName, "ParentNodeObject" => &$currentNode ) );
 
