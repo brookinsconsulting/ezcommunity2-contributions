@@ -8,7 +8,7 @@ $GlobalSiteIni =& $ini;
 // fetch the latest newsheadlines.
 include_once( "classes/ezmail.php" );
 
-include( "eznewsfeed/admin/newsfetchcron.php" );
+include( "eznewsfeed/admin/cron.php" );
 
 $mail = new eZMail();
 $mail->setSubject( "cron job done" );
