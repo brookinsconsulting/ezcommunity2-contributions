@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: eznewsitemtype.php,v 1.3 2000/10/01 13:57:56 pkej-cvs Exp $
+// $Id: eznewsitemtype.php,v 1.4 2000/10/01 14:01:01 pkej-cvs Exp $
 //
 // Definition of eZNewsItemType class
 //
@@ -14,7 +14,7 @@
 //
 
 //!! eZNews
-//! eZNewsItemType handles change types for the eZNews log.
+//! eZNewsItemType handles item types for the eZNews log.
 /*!
     The eZNewsItemType identifies what different kind of news items that
     can be used in a eZNews system. In addition to the typing info it
@@ -27,36 +27,36 @@
     include_once( "eznews/classes/eznewsitemtype.php" );       
 
     // Example on how to create an empty object:    
-    $ct = new eZNewsItemType();
+    $it = new eZNewsItemType();
     
-    // Example on how to check if a change type exists
+    // Example on how to check if a item type exists
     
-    $changeName = "create";
+    $itemName = "create";
     
-    $ct = new eZNewsItemType( $changeName, true );
+    $it = new eZNewsItemType( $itemName, true );
     
-    if( $ct->isCoherent() )
+    if( $it->isCoherent() )
     {
-        echo "The object " . $ct->ID() . " represents the change type: " . $ct->Name();
-        echo " which is equal to $changeName";
+        echo "The object " . $it->ID() . " represents the item type: " . $it->Name();
+        echo " which is equal to $itemName";
     }
     
-    // Example on how to create a change type.
+    // Example on how to create a item type.
     
-    $changeName = "submit";
+    $itemName = "submit";
     
-    $ct = new eZNewsItemType( $changeName, true );
+    $it = new eZNewsItemType( $itemName, true );
     
-    if( !$ct->isCoherent() )
+    if( !$it->isCoherent() )
     {
-        $ct->setName( $changeName );
-        $ct->setDescription( "The item has been submitted" );
+        $it->setName( $itemName );
+        $it->setDescription( "The item has been submitted" );
         $outID = 0;
-        $ct->store( $outID );
+        $it->store( $outID );
         
         if( $outID != 0 )
         {
-            echo "The new change type: " .  $changeName . " was stored with id $outID<br>";
+            echo "The new item type: " .  $itemName . " was stored with id $outID<br>";
         }
         else
         {
@@ -65,12 +65,12 @@
     }
     else
     {
-        echo "The change type: " $changeName . " exists with id $outID<br>";
+        echo "The item type: " $itemName . " exists with id $outID<br>";
     }
     
     \endcode
     
-    \sa eZNewsItem
+    \sa eZNewsUtility eZNewsItem
 */
 /*!TODO
     Add all examples needed.

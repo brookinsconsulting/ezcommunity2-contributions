@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eznewsitem.php,v 1.15 2000/10/01 13:57:56 pkej-cvs Exp $
+// $Id: eznewsitem.php,v 1.16 2000/10/01 14:01:00 pkej-cvs Exp $
 //
 // Definition of eZNewsItem class
 //
@@ -78,7 +78,7 @@
        
     \endcode
 
-    \sa eZNewsArticle, eZNewsCategory
+    \sa eZNewsUtility eZNewsArticle eZNewsCategory eZNewsItemType eZNewsChangeType
  */
 /*!TODO
     getThis() must also  fetch info about referenced objects.

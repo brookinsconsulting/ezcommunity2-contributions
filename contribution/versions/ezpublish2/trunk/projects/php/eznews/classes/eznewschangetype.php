@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: eznewschangetype.php,v 1.6 2000/10/01 13:57:55 pkej-cvs Exp $
+// $Id: eznewschangetype.php,v 1.7 2000/10/01 14:01:00 pkej-cvs Exp $
 //
 // Definition of eZNewsChangeType class
 //
@@ -72,7 +72,7 @@
     
     \endcode
     
-    \sa eZNewsItem
+    \sa eZNewsUtility eZNewsItem
 */
 /*!TODO
     Add all examples needed.
