@@ -1,11 +1,21 @@
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+	<td width="1%" class="tdmini" bgcolor="#465da1" align="left" valign="top"><img src="/images/box-tl.gif" width="4" height="4" border="0" alt="" /><br /></td>
+	<td width="98%" bgcolor="#465da1" class="tdminipath" rowspan="3" valign="middle"><div class="smallpath"><span class="smallbold">Brukerinfo</span> | {intl-edit_headline}</div></td>
+	<td width="1%" class="tdmini" bgcolor="#465da1" align="right" valign="top"><img src="/images/box-tr.gif" width="4" height="4" border="0" alt="" /><br /></td>
+</tr>
+<tr>
+	<td width="1%" class="tdmini" bgcolor="#465da1"><img src="/images/1x1.gif" width="1" height="1" border="0" alt="" /><br /></td>
+	<td width="1%" class="tdmini" bgcolor="#465da1"><img src="/images/1x1.gif" width="1" height="1" border="0" alt="" /><br /></td>
+</tr>
+<tr>
+	<td width="1%" class="tdmini" bgcolor="#465da1" align="left" valign="bottom"><img src="/images/box-bl.gif" width="4" height="4" /><br /></td>
+	<td width="1%" class="tdmini" bgcolor="#465da1" align="right" valign="bottom"><img src="/images/box-br.gif" width="4" height="4" /><br /></td>
+</tr>
+</table>
+
 <form method="post" action="/contact/person/{action_value}/{person_id}/" enctype="multipart/form-data">
 <input type="hidden" name="max_file_size" value="3000000">
-
-<h1>{intl-edit_headline}</h1>
-
-<hr noshade="noshade" size="4" />
-
-<br />
 
 <!-- BEGIN errors_tpl -->
 <h3 class="error">{intl-error_headline}</h3>
@@ -230,7 +240,7 @@
 <table cellpadding="0" cellspacing="0" border="0">
 <tr>
     <td>
-	<input class="stdbutton" name="AddCV" type="submit" value="{intl-ok}" />
+	<input class="okbutton" name="AddCV" type="submit" value="{intl-ok}" />
 	</form>
 	</td>
 	<td>&nbsp;</td>
