@@ -9,21 +9,20 @@
 	</td>
   </tr>
   <tr> 
-    <td valign="bottom" background="/images/meny-background.gif">
+    <td valign="bottom">
 	<img src="/images/1x1.gif" width="170" height="1"><br />
 	  <table width="165" border="0" cellspacing="0" cellpadding="0">
-        <tr>
-          <td bgcolor="#ffffff" colspan="2"><img src="/images/meny-customer.gif" width="145" height="45"></td>
-        </tr>
         <tr> 
-          <td class="menutext" width="99%" background="/images/meny-customerbg.gif" align="center">
+          <td class="menutext" width="99%" align="center">
 
 		  	<?        include( "ezuser/user/userbox.php" ); ?>
 			
 		  </td>
         </tr>
         <tr>
-          <td colspan="2" bgcolor="#ffffff"><a href="/trade/cart/"><img src="/images/meny-viewshoppingcart.gif" width="145" height="60" border="0"></a></td>
+          <td colspan="2" bgcolor="#ffffff"><a href="/trade/cart/">
+          YOUR CART
+          </a></td>
         </tr>
 		</form>
       </table>
