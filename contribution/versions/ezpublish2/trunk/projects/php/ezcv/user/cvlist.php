@@ -105,6 +105,11 @@ else
             }
             $PersonID = $person->id();
         }
+        else
+        {
+            if( $Action == "view" )
+            header( "Location: /contact/person/edit" );
+        }
     }
 }
 
