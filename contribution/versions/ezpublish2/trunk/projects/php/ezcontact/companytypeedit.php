@@ -47,8 +47,6 @@ if ( $Action == "edit" )
   $t->set_var( "companytype_id", $CID );
 
   $t->set_var( "head_line", "Rediger firma type" );
-  print ( "tj0" );
-  print ( $CompanyTypeName );
 }
 
 // Oppdatere
@@ -56,8 +54,8 @@ if ( $Action == "update" )
 {
   $type = new eZCompanyType();
   $type->get( $CID );
-
-  $type->setName( $CompanyName );
+  
+  $type->setName( $CompanyTypeName );
   $type->setDescription( $CompanyTypeDescription );
   $type->update(); 
 }

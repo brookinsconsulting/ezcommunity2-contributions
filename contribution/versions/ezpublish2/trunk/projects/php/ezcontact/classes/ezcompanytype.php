@@ -17,13 +17,10 @@ class eZCompanyType
     {
         $this->dbInit();
 
-        print( $this->ID );
-
         query( "UPDATE CompanyType set Name='$this->Name', Description='$this->Description' WHERE ID='$this->ID'" );
     }
 
-
-/*!
+    /*!
       Lagrer informasjonen til databasen.
     */
     function store()
@@ -49,7 +46,7 @@ class eZCompanyType
             {
                 $this->ID = $company_type_array[ 0 ][ "ID" ];
                 $this->Name = $company_type_array[ 0 ][ "Name" ];
-                $this->Description = $company_type_array[ 0 ][ "Name" ];
+                $this->Description = $company_type_array[ 0 ][ "Description" ];
             }
         }
     }
@@ -81,29 +78,26 @@ class eZCompanyType
     function setDescription( $value )
     {
         $this->Description = $value;
-        
     }
 
   
     /*!
-    Returnerer navnet.
-  */
+      Returnerer navnet.
+    */
     function name( )
     {
         return $this->Name;
     }
   
     /*!
-    Returnerer kommentaren.
-  */
+      Returnerer kommentaren.
+    */
     function description( )
     {
         return $this->Description;
-    }    
-
-
-
-/*!
+    }
+    
+    /*!
       Privat: Initiering av database. 
     */
     function dbInit()
@@ -115,7 +109,7 @@ class eZCompanyType
 
     var $ID;
     var $Name;
-    var $Cescription;
+    var $Description;
 }
 
 ?>
