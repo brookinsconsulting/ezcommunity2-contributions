@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: messageedit.php,v 1.10 2000/12/19 13:52:04 ce Exp $
+// $Id: messageedit.php,v 1.11 2000/12/23 15:10:04 bf Exp $
 //
 // Lars Wilhelmsen <lw@ez.no>
 // Created on: <11-Sep-2000 22:10:06 bf>
@@ -44,7 +44,7 @@ if ( $Action == "insert" )
 
     $message->setForumID( $ForumID );
     $message->setTopic( strip_tags( $Topic ) );
-    $message->setBody( strip_tags( $Body, "<b>,<i>,<u>,<font>" ) );
+    $message->setBody( $Body );
 
     $user = eZUser::currentUser();
 

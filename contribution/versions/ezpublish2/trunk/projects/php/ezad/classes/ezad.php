@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezad.php,v 1.6 2000/12/01 10:01:47 bf-cvs Exp $
+// $Id: ezad.php,v 1.7 2000/12/23 15:10:04 bf Exp $
 //
 // Definition of eZAd class
 //
@@ -94,7 +94,6 @@ class eZAd
                                  ViewStopDate='$this->ViewStopDate',
                                  ClickPrice='$this->ClickPrice',
                                  ViewPrice='$this->ViewPrice',
-                                 ViewStopDate='$this->ViewStopDate',
                                  ViewRule='$this->ViewRule'
                                  " );
 

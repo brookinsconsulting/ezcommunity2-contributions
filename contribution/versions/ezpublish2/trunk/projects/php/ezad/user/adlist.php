@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: adlist.php,v 1.8 2000/12/01 10:01:47 bf-cvs Exp $
+// $Id: adlist.php,v 1.9 2000/12/23 15:10:04 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <25-Nov-2000 15:44:37 bf>
@@ -24,20 +24,25 @@
 //
 
 
-// NOTE: this page does not use templates due to speed.
+// NOTE: this page does not use templates due to speed 
+// and because we cannot cache the contents of this page.
+
 include_once( "ezuser/classes/ezuser.php" );
 
 include_once( "ezad/classes/ezad.php" );
 include_once( "ezad/classes/ezadcategory.php" );
-include_once( "ezad/classes/ezadview.php" );
+//  include_once( "ezad/classes/ezadview.php" );
 
 $category = new eZAdCategory( $CategoryID );
 
 // fetch the user if any
 $user =& eZUser::currentUser();
 
+if ( !isset( $Limit ) )
+    $Limit = 1;
+    
 // ads
-$adList =& $category->ads( "time" );
+$adList =& $category->ads( "time", false, 0, $Limit );
 
 foreach ( $adList as $ad )
 {
@@ -49,18 +54,17 @@ foreach ( $adList as $ad )
     if ( $image )
     {
         $imgSRC =& $image->filePath();
-
         $imgWidth =& $image->width();
         $imgHeight =& $image->height();
     }
 
-    // store the view statistics
-    $view = new eZAdView();
-    $view->setAd( $ad );
-    $view->setUser( $user );
-    $view->setVisitorIP( $REMOTE_ADDR );
-    $view->setPrice( $ad->viewPrice() );
-    $view->store();
+//      // store the view statistics
+//      $view = new eZAdView();
+//      $view->setAd( $ad );
+//      $view->setUser( $user );
+//      $view->setVisitorIP( $REMOTE_ADDR );
+//      $view->setPrice( $ad->viewPrice() );
+//      $view->store();
 
 	print( "<a target=\"_blank\" href=\"/ad/goto/$adID/\"><img src=\"$imgSRC\" width=\"$imgWidth\" height=\"$imgHeight\" border=\"0\" alt=\"\" /></a><br />" );
 }

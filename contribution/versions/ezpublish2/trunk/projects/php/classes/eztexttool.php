@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eztexttool.php,v 1.10 2000/12/01 06:31:38 bf-cvs Exp $
+// $Id: eztexttool.php,v 1.11 2000/12/23 15:10:04 bf Exp $
 //
 // Definition of eZTextTool class
 //
@@ -63,6 +63,7 @@ class eZTextTool
     */
     function &addPre( $string, $char=">" )
     {
+        $string =& wordwrap( $string, 60, "\n" );
         return preg_replace( "#^#m", "$char ", $string );
     }
 

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: messagereply.php,v 1.16 2000/12/19 13:52:04 ce Exp $
+// $Id: messagereply.php,v 1.17 2000/12/23 15:10:04 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <24-Sep-2000 12:20:32 bf>
@@ -49,10 +49,10 @@ if ( $Action == "insert" )
     $reply->setForumID( $original->forumID() );
 
     $reply->setTopic( strip_tags( $Topic ) );
-    $Body = ereg_replace ( "(<)", "&lt;", $Body );
-    $Body = ereg_replace ( "(>)", "&gt;", $Body );
+//      $Body = ereg_replace ( "(<)", "&lt;", $Body );
+//      $Body = ereg_replace ( "(>)", "&gt;", $Body );
          
-    $reply->setBody( strip_tags( $Body, "<b>,<i>,<u>,<font>" ) );
+    $reply->setBody( $Body );
 
     $reply->setParent( $original->id() );
     
@@ -113,37 +113,7 @@ if ( $Action == "insert" )
         }
     }    
 
-
-    // clear the cache files.
-
-    $dir = dir( "ezforum/cache/" );
-    $files = array();
-    while( $entry = $dir->read() )
-    { 
-        if ( $entry != "." && $entry != ".." )
-        { 
-            $files[] = $entry; 
-            $numfiles++; 
-        } 
-    } 
-    $dir->close();
-
-    foreach( $files as $file )
-    {
-        if ( ereg( "forum,([^,]+),.*", $file, $regArray  ) )
-        {
-            if ( $regArray[1] == $forum_id )
-            {
-                unlink( "ezforum/cache/" . $file );
-            }
-        }
-    }
-
-    // add deleting of every message in the thread
-    unlink( "ezforum/cache/message," . $ReplyID . ".cache" );
-    
     Header( "Location: /forum/messagelist/$forum_id/" );
-
 }
 
 $t = new eZTemplate( "ezforum/user/" . $ini->read_var( "eZForumMain", "TemplateDir" ),

@@ -9,6 +9,12 @@ switch ( $url_array[2] )
         include( "ezad/user/gotoad.php" );
     }
     break;
+
+    case "show" :
+    {
+        include( "ezad/user/showbanner.php" );
+    }
+    break;
 }
 
 ?>
