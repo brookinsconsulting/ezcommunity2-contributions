@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: imagelist.php,v 1.39 2001/09/06 11:21:22 br Exp $
+// $Id: imagelist.php,v 1.40 2001/09/07 12:16:21 ce Exp $
 //
 // Created on: <10-Dec-2000 16:16:20 bf>
 //
@@ -232,6 +232,8 @@ else
 $i = 0;
 $j = 0;
 $counter = 0;
+
+
 foreach ( $imageList as $image )
 {
     ( $i % 2 ) ? $t->set_var( "td_class", "bgdark" ) : $t->set_var( "td_class", "bglight" );
@@ -292,10 +294,8 @@ foreach ( $imageList as $image )
     $t->set_var( "detail_read", "" );
     $can_read = false;
     $can_write = false;
-    if ( eZObjectPermission::hasPermission( $image->id(), "imagecatalogue_image", "r", $user ) ||
-         eZImage::isOwner( $user, $image->id() ) )
-    {
-        $variationList = $image->variations();
+
+    $variationList = $image->variations();
 
         for ( $i = 0; $i < count( $variationList ); $i++ )
         {
@@ -330,7 +330,7 @@ foreach ( $imageList as $image )
             $t->parse( "read", "read_tpl" );
         }
         $j++;
-    }
+    
 
     // Check if user have write permission
     if ( ( $user ) &&
