@@ -1,6 +1,6 @@
 <?php
-// 
-// $Id: ezforummessage.php,v 1.104.2.1 2001/10/31 09:21:55 jhe Exp $
+//
+// $Id: ezforummessage.php,v 1.104.2.1.4.1 2002/02/15 13:05:48 ce Exp $
 //
 // Definition of eZForumMessage class
 //
@@ -46,9 +46,9 @@ class eZForumMessage
     {
         $this->IsApproved = true;
         $this->IsTemporary = false;
-        
+
         $this->ParentID = 0;
-        
+
         if ( $id != "" )
         {
             $this->get( $id );
@@ -70,8 +70,8 @@ class eZForumMessage
                 $db->lock( "eZForum_Message" );
                 $nextID = $db->nextID( "eZForum_Message", "ID" );
 
-                $timeStamp =& eZDateTime::timeStamp( true );            
-                
+                $timeStamp =& eZDateTime::timeStamp( true );
+
                 // find the biggest treeID
                 $db->array_query( $result, "SELECT TreeID FROM eZForum_Message ORDER BY TreeID DESC", array( "Limit" => 1 ) );
 
@@ -101,7 +101,7 @@ class eZForumMessage
                 $topic = $db->escapeString( $this->Topic );
                 $body = $db->escapeString( $this->Body );
 
-                $res = $db->query( "INSERT INTO eZForum_Message 
+                $res = $db->query( "INSERT INTO eZForum_Message
 		                         ( ID,
                                    ForumID,
                                    Topic,
@@ -130,7 +130,7 @@ class eZForumMessage
                                    '$this->IsApproved',
                                    '$this->IsTemporary',
                                    '$timeStamp',
-                                   '$this->UserName' )       
+                                   '$this->UserName' )
                                  " );
 
 				$this->ID = $nextID;
@@ -148,8 +148,8 @@ class eZForumMessage
                     $db->lock( "eZForum_Message" );
                     $nextID = $db->nextID( "eZForum_Message", "ID" );
 
-                    $timeStamp =& eZDateTime::timeStamp( true );            
-                    
+                    $timeStamp =& eZDateTime::timeStamp( true );
+
                     $parentID = $result[0][$db->fieldName( "TreeID" )];
                     $this->TreeID =  $parentID;
 
@@ -157,15 +157,15 @@ class eZForumMessage
 
                     $d = $result[0][$db->fieldName( "Depth" )];
                     setType( $d, "integer" );
-                    
+
                     $this->Depth = $d + 1;
-                    
+
                     // update the whole tree''s ThreeID.
                     $db->query( "UPDATE eZForum_Message SET TreeID=( TreeID + 1 ), PostingTime=PostingTime WHERE TreeID >= $parentID" );
 
                     $bodySlash = $db->escapeString( $this->Body );
                     $topicSlash = $db->escapeString( $this->Topic );
-                    
+
                     $res = $db->query( "INSERT INTO eZForum_Message
 		                         ( ID,
                                    ForumID,
@@ -202,14 +202,14 @@ class eZForumMessage
                 else
                 {
                     print( "<b>ERROR:</b> eZForumMessage::store() parent not found in database.<br /> \n" );
-                }                
+                }
             }
         }
         else
         {
             $bodySlash = $db->escapeString( $this->Body );
             $topicSlash = $db->escapeString( $this->Topic );
-            
+
             $res = $db->query( "UPDATE eZForum_Message SET
 		                         ForumID='$this->ForumID',
 		                         Topic='$topicSlash',
@@ -226,7 +226,18 @@ class eZForumMessage
         }
 
         $db->unlock();
-    
+
+        include_once( "classes/ezcachefile.php" );
+        // Find the product id so we can delete the ID, a dirty hack=)
+        $db->query_single( $product, "SELECT ProductID FROM eZTrade_ProductForumLink WHERE ForumID='$this->ParentID'");
+                $files = eZCacheFile::files( "eztrade/cache/", array( "productview",
+                                                                      $product["ProductID"] ),
+                                             "cache", "," );
+        foreach ( $files as $file )
+        {
+            $file->delete();
+        }
+
         if ( $res == false )
             $db->rollback( );
         else
@@ -248,7 +259,7 @@ class eZForumMessage
         $db->query( "DELETE FROM eZForum_Message WHERE ID='$this->ID'" );
         return true;
     }
-    
+
 
     /*!
       Clones this eZForumMessage object.
@@ -269,8 +280,8 @@ class eZForumMessage
         $ret = false;
         if ( $id != "" )
         {
-            $timeStamp =& eZDateTime::timeStamp( true );            
-            
+            $timeStamp =& eZDateTime::timeStamp( true );
+
             $db->array_query( $message_array, "SELECT *,
                              ( $timeStamp  - PostingTime ) AS Age
                               FROM eZForum_Message WHERE ID='$id'" );
@@ -320,17 +331,17 @@ class eZForumMessage
 
         $db->array_query( $message_array, "SELECT ID FROM
                                            eZForum_Message" );
-                                                     
+
         $ret = array();
 
         foreach ( $message_array as $message )
         {
             $ret[] =& new eZForumMessage( $message[$db->fieldName( "ID" )] );
         }
-        
+
         return $ret;
     }
-    
+
 
     /*!
       \private
@@ -340,7 +351,7 @@ class eZForumMessage
     {
         // generate keywords
         $tmpContents = $this->Body;
-        
+
         $contents = strtolower( strip_tags( $tmpContents ) ) . " " . $this->Topic;
         $contents = str_replace ("\n", "", $contents );
         $contents = str_replace ("\r", "", $contents );
@@ -368,12 +379,12 @@ class eZForumMessage
         $contents = preg_replace("(\s+)", " ", $contents );
 
         $contents_array =& split( " ", $contents );
-       
+
         $totalWordCount = count( $contents_array );
         $wordCount = array_count_values( $contents_array );
 
         $contents_array = array_unique( $contents_array );
-        
+
         $keywords = "";
         foreach ( $contents_array as $word )
         {
@@ -392,8 +403,8 @@ class eZForumMessage
 
         // get total number of messages
         $db->array_query( $message_array, "SELECT COUNT(*) AS Count FROM eZForum_Message" );
-        $messageCount = $message_array[0][$db->fieldName( "Count" )];        
-        
+        $messageCount = $message_array[0][$db->fieldName( "Count" )];
+
         foreach ( $contents_array as $word )
         {
             if ( strlen( $word ) >= 2 )
@@ -408,13 +419,13 @@ class eZForumMessage
                 $count = $wordCount[$indexWord];
 
                 $freq = ( $count / $totalWordCount );
-                
+
                 $query = "SELECT ID FROM eZForum_Word
                       WHERE Word='$indexWord'";
 
                 $db->array_query( $word_array, $query );
 
-               
+
                 if ( count( $word_array ) == 1 )
                 {
                     // word exists create reference
@@ -429,8 +440,8 @@ class eZForumMessage
 
                     // update word frequency
                     $ret[] = $db->query( "UPDATE  eZForum_Word SET Frequency='$wordFreq' WHERE ID='$wordID'" );
-                    
-                
+
+
                     $ret[] = $db->query( "INSERT INTO eZForum_MessageWordLink ( MessageID, WordID, Frequency ) VALUES
                                       ( '$this->ID',
                                         '$wordID',
@@ -456,32 +467,32 @@ class eZForumMessage
                                       ( '$this->ID',
                                         '$nextID',
                                         '$freq' )" );
-                
+
                 }
             }
         }
         eZDB::finish( $ret, $db );
     }
-    
+
     /*!
       Returns the object id.
-    */      
+    */
     function id()
     {
         return $this->ID;
     }
-        
+
     /*!
       Returns the forum id.
-    */      
+    */
     function forumID()
     {
         return $this->ForumID;
     }
-    
+
     /*!
-      
-    */      
+
+    */
     function setForumID( $newForumID )
     {
         $this->ForumID = $newForumID;
@@ -489,19 +500,19 @@ class eZForumMessage
 
     /*!
       Sets the message to be approved or not.
-    */      
+    */
     function setIsApproved( $value )
     {
        if ( $value == true )
            $this->IsApproved = 1;
        else
-           $this->IsApproved = 0;           
+           $this->IsApproved = 0;
     }
 
 
     /*!
       Sets the message to be temporary or not.
-    */      
+    */
     function setIsTemporary( $value )
     {
        if ( $value == true )
@@ -521,7 +532,7 @@ class eZForumMessage
        else
            return false;
     }
-    
+
     /*!
       Returns true if the message is a temporary item.
     */
@@ -532,33 +543,33 @@ class eZForumMessage
        else
            return false;
     }
-    
+
     /*!
       Returns the parent message.
 
       If the message is a top level message false is returned.
-    */      
+    */
     function &parent()
     {
        $ret = false;
 
        if ( $this->ParentID != 0 )
            $ret = new eZForumMessage( $this->ParentID );
-        
+
        return $ret;
     }
-    
+
     /*!
-      
-    */      
+
+    */
     function setParent( $newParent )
     {
-        $this->ParentID = $newParent;    
+        $this->ParentID = $newParent;
     }
 
     /*!
       Returns the topic of the message.
-    */      
+    */
     function &topic( $htmlchars = true )
     {
        if ( $htmlchars == true )
@@ -568,7 +579,7 @@ class eZForumMessage
        else
        {
             return $this->Topic;
-       }  
+       }
     }
 
     /*!
@@ -578,19 +589,19 @@ class eZForumMessage
     {
         return $this->topic();
     }
-        
+
     /*!
       Sets the message topic.
-    */      
+    */
     function setTopic( &$newTopic )
     {
         $this->Topic = $newTopic;
     }
-    
-        
+
+
     /*!
       Returns the body of the forum message.
-    */      
+    */
     function &body( $htmlchars = true )
     {
        if ( $htmlchars )
@@ -605,15 +616,15 @@ class eZForumMessage
 
     /*!
       Sets the body contents.
-    */      
+    */
     function setBody( &$newBody )
     {
         $this->Body = $newBody;
     }
-    
+
     /*!
       Returns the user id.
-    */      
+    */
     function userID()
     {
         return $this->UserID;
@@ -627,22 +638,22 @@ class eZForumMessage
         else
             return false;
     }
-    
+
     /*!
       Returns the number of seconds since the message was posted.
-    */      
+    */
     function age()
     {
         return $this->Age;
     }
-    
+
     /*!
       Returns the user as a eZUser object.
-    */      
+    */
     function &user()
     {
        $owner =& new eZUser( $this->UserID );
-        
+
        return $owner;
     }
 
@@ -650,10 +661,10 @@ class eZForumMessage
     {
         $this->UserName = $username;
     }
-    
+
     /*!
       Sets the user id.
-    */      
+    */
     function setUserID( $newUserID )
     {
         $this->UserID = $newUserID;
@@ -661,19 +672,19 @@ class eZForumMessage
 
     /*!
       Returns true if the poster should receive email notice.
-    */      
+    */
     function emailNotice()
     {
        $ret = false;
        if ( $this->EmailNotice == 1 )
            $ret = true;
-       
+
        return $ret;
     }
 
     /*!
       Set to true if the po
-    */      
+    */
     function setEmailNotice( $newEmailNotice )
     {
         if ( $newEmailNotice == true )
@@ -692,7 +703,7 @@ class eZForumMessage
 
     /*!
       Enabled email notice.
-    */      
+    */
     function enableEmailNotice()
     {
         $this->setEmailNotice( 1 );
@@ -700,7 +711,7 @@ class eZForumMessage
 
     /*!
       Disables email notice.
-    */      
+    */
     function disableEmailNotice()
     {
         $this->setEmailNotice( 0 );
@@ -715,7 +726,7 @@ class eZForumMessage
        $dateTime = new eZDateTime();
 
        $dateTime->setTimeStamp( $this->PostingTime );
-       
+
        return $dateTime;
     }
 
@@ -756,10 +767,10 @@ class eZForumMessage
         return $message_array[0][$db->fieldName( "Count" )];
     }
 
-    
+
     /*!
       Returns the number of messages.
-    */      
+    */
     function countMessages( $ID )
     {
         $db =& eZDB::globalDatabase();
@@ -769,26 +780,26 @@ class eZForumMessage
                            FROM eZForum_Message
                            WHERE ForumID='$ID'
                            AND Parent IS NULL AND IsTemporary='0'" );
-        
+
         return $message_array[0][$db->fieldName( "Messages" )];
     }
-    
+
     /*!
 
-     */      
+     */
     function countReplies( $ID )
     {
         $db =& eZDB::globalDatabase();
-         
+
         $db->array_query( $message_array,
         "SELECT COUNT(ID) AS Replies FROM eZForum_Message WHERE Parent='$ID' AND IsTemporary='0'" );
-         
+
         return $message_array[0][$db->fieldName( "Replies" )];
     }
 
     /*!
       Returns the first message in a thread as a eZForumMessage object.
-      
+
       *warning* This function is recursive!
      */
     function threadTop( &$msg )
@@ -796,7 +807,7 @@ class eZForumMessage
         $db =& eZDB::globalDatabase();
 
         $ret = 0;
-        
+
         if ( $msg->parent() != 0 )
         {
             $parent =& $msg->parent();
@@ -806,7 +817,7 @@ class eZForumMessage
         {
             $ret = $msg;
         }
-        
+
         return $ret;
     }
 
@@ -827,18 +838,18 @@ class eZForumMessage
         {
             $ret[] =& new eZForumMessage( $message[$db->fieldName( "ID" )] );
         }
-        
+
         return $ret;
     }
 
     /*!
       Returns the number of unapproved messages.
-    */      
+    */
     function unApprovedCount( )
     {
         $db =& eZDB::globalDatabase();
-        
-        $db->array_query( $message_array, "SELECT COUNT(ID) as Count FROM eZForum_Message WHERE IsApproved='0' AND IsTemporary='0'" );        
+
+        $db->array_query( $message_array, "SELECT COUNT(ID) as Count FROM eZForum_Message WHERE IsApproved='0' AND IsTemporary='0'" );
 
         return $message_array[0][$db->fieldName( "Count" )];
     }
@@ -859,7 +870,7 @@ class eZForumMessage
         {
             $ret[] =& new eZForumMessage( $message[$db->fieldName( "ID" )] );
         }
-        
+
         return $ret;
     }
 
@@ -886,7 +897,7 @@ class eZForumMessage
             }
         }
         $query_string .= ")";
-        
+
         $ret = array();
 
         $db->array_query( $message_array, "SELECT m.ID as ID, m.ForumID, m.Topic, m.PostingTime, m.IsApproved,
@@ -901,7 +912,7 @@ class eZForumMessage
 
         return $message_array;
     }
-    
+
     var $ID;
     var $ForumID;
     var $ParentID;
@@ -913,7 +924,7 @@ class eZForumMessage
     var $IsApproved;
     var $IsTemporary;
     var $UserName;
-    
+
     /// Number of seconds since the message was posted
     var $Age;
 

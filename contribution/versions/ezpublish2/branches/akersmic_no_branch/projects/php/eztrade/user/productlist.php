@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: productlist.php,v 1.41.8.16 2002/02/04 11:02:13 ceaker Exp $
+// $Id: productlist.php,v 1.41.8.17 2002/02/15 13:05:49 ce Exp $
 //
 // Created on: <23-Sep-2000 14:46:20 bf>
 //
@@ -257,7 +257,7 @@ else
     $t->set_var( "product_list", "" );
 }
 
-if ( count ( $productList == 0 ) and count ( $categoryList == 0 ) )
+if ( ( count ( $productList ) == 0 ) and count ( $categoryList ) == 0 )
 {
     eZList::drawNavigator( $t, 0, 0, 0, "product_list_page_tpl" );
 }

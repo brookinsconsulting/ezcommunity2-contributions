@@ -1,6 +1,6 @@
 <?php
-// 
-// $Id: orderlist.php,v 1.2 2001/10/12 12:11:39 ce Exp $
+//
+// $Id: orderlist.php,v 1.2.8.1 2002/02/15 13:05:49 ce Exp $
 //
 // Created on: <21-Sep-2001 17:41:07 ce>
 //
@@ -97,7 +97,7 @@ foreach ( $orderArray as $order )
         $t->set_var( "td_class", "bgdark" );
     else
         $t->set_var( "td_class", "bglight" );
-    
+
     $t->set_var( "order_id", $order->id() );
 
     $status = $order->initialStatus( );
@@ -115,11 +115,11 @@ foreach ( $orderArray as $order )
     }
     else
         $t->set_var( "order_status", "" );
-        
+
     $currency->setValue( $order->totalPrice() );
 
     $t->set_var( "order_price", $locale->format( $currency ) );
-    
+
     $t->parse( "order_item", "order_item_tpl", true );
     $i++;
 }

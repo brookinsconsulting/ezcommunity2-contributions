@@ -14,6 +14,7 @@
 <table width="100%" cellpadding="0" cellspacing="0" border="0">
 	<th>{intl-category}:</th>
 	<th>Hovedkategori:</th>
+	<th>Fjern kategori:</th>
 	<!-- BEGIN selected_category_item_tpl -->
 	<tr> 
 	    <td width="30%">
@@ -21,8 +22,11 @@
 	    <input type="hidden" name="SelectedCategories[]" value="{category_id}" />
 	    <input type="hidden" name="CategoryArray[]" value="{category_id}" />
 	    </td>
-	    <td width="70%">
+	    <td width="30%">
 	    <input type="radio" {is_checked} name="MainCategoryID" value="{category_id}" />
+	    </td>
+	    <td width="40%">
+	    <input type="checkbox"  name="RemoveCategory[]" value="{category_id}" />
 	    </td>
 	</tr>
 	<!-- END selected_category_item_tpl -->
@@ -30,6 +34,10 @@
 	<tr><td>&nbsp;</td></tr>
 	<td>
 	    <input class="stdbutton" type="submit" name="Browse" value="{intl-browse}" />
+	</td>
+	<td>&nbsp;</td>
+	<td>
+	    <input class="stdbutton" type="submit" name="RemoveCategories" value="Fjern kategorier" />
 	</td>
 	</tr>
 </tr>

@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: messageedit.php,v 1.58.2.4.4.1 2002/01/24 10:46:57 bf Exp $
+// $Id: messageedit.php,v 1.58.2.4.4.2 2002/02/15 13:05:48 ce Exp $
 //
 // Created on: <21-Feb-2001 18:00:00 pkej>
 //
@@ -84,7 +84,7 @@ switch ( $Action )
         $t->set_file( "page", "messagedelete.tpl"  );
     }
     break;
-    
+
     case "preview":
     {
         $t = new eZTemplate( "ezforum/user/" . $ini->read_var( "eZForumMain", "TemplateDir" ),
@@ -261,7 +261,7 @@ switch ( $Action )
 
             // send mail to forum moderator
             $moderator = $forum->moderator();
-            
+
             if ( is_object( $moderator ) )
             {
                 $moderators =& eZUserGroup::users( $moderator->id() );
@@ -302,7 +302,7 @@ switch ( $Action )
 
                         $mailTemplate->set_var( "topic", $msg->topic( false ) );
                         $mailTemplate->set_var( "body", $msg->body( false ) );
-                        
+
                         $mailTemplate->set_var( "forum_name", $forum->name() );
                         $mailTemplate->set_var( "forum_link", "http://"  . $headersInfo["Host"] . "/forum/messagelist/" . $forum->id() );
 
@@ -496,7 +496,7 @@ switch ( $Action )
         }
 
         $user =& eZUser::currentUser();
-        
+
         $NewMessageTopic = $msg->topic();
 
         $ReplyPrefix = $ini->read_var( "eZForumMain", "ReplyPrefix" );
@@ -513,7 +513,7 @@ switch ( $Action )
         $ShowPath = true;
         $isPreview = false;
         include_once( "ezforum/user/messagepath.php" );
-        
+
         $ShowMessageForm = true;
         $ShowEmptyMessageForm = false;
         $ShowVisibleMessageForm = true;

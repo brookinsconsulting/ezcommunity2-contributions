@@ -1,6 +1,6 @@
 <?php
-// 
-// $Id: ezlist.php,v 1.15 2001/09/14 11:00:57 br Exp $
+//
+// $Id: ezlist.php,v 1.15.8.1 2002/02/15 13:05:48 ce Exp $
 //
 // Definition of eZList class
 //
@@ -345,7 +345,7 @@ class eZList
             $t->parse( "line_item", "line_item_tpl", true );
 
             $i++;
-        } 
+        }
 
         if( $count < 1 )
         {
@@ -394,7 +394,7 @@ class eZList
           type_list: The block containing the whole navigator HTML
     */
     function &drawNavigator( &$t, $total_types, $max_types, $index, $parent = false,
-    	                     $variables = false )
+	                     $variables = false )
     {
         if ( is_array( $variables ) )
         {

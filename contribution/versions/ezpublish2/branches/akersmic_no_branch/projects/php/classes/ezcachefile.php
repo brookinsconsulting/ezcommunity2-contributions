@@ -1,6 +1,6 @@
 <?php
-// 
-// $Id: ezcachefile.php,v 1.14 2001/10/06 11:41:49 bf Exp $
+//
+// $Id: ezcachefile.php,v 1.14.8.1 2002/02/15 13:05:48 ce Exp $
 //
 // Definition of eZCacheFile class
 //
@@ -40,7 +40,7 @@ include_once( "classes/ezdatetime.php" );
   }
   else
       print $file->contents();
-      
+
 
 */
 
@@ -158,7 +158,7 @@ class eZCacheFile
     /*!
       Stores the content to the cache file and returns it.
     */
-    function store( $content )
+    function &store( &$content )
     {
         $file = eZFile::fopen( $this->filename( true ), "w" );
         if ( $file )

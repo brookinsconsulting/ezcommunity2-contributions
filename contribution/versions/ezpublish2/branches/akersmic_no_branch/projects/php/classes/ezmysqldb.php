@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: ezmysqldb.php,v 1.26.8.3 2002/01/30 13:04:31 ce Exp $
+// $Id: ezmysqldb.php,v 1.26.8.4 2002/02/15 13:05:48 ce Exp $
 //
 // Definition of eZMySQLDB class
 //
@@ -85,7 +85,7 @@ class eZMySQLDB
     */
     function &query( $sql, $print=false )
     {
-/*
+        /*
         include_once( "classes/ezbenchmark.php" );
 
         $bench = new eZBenchmark();
@@ -94,7 +94,7 @@ class eZMySQLDB
         $result =& mysql_query( $sql, $this->Database );
 
         $bench->stop();
-        if ( $bench->elapsed() > 0.00 )
+        if ( $bench->elapsed() > 0.50 )
         {
             $bench->printResults( );
             print( "\n" );
@@ -103,7 +103,7 @@ class eZMySQLDB
 //            $GLOBALS["DDD"] .= $sql . "<br>";
 //            $GLOBALS["DDD"] .= $bench->printResults( true ) . "<br>";
         }
-*/
+        */
 
         $result =& mysql_query( $sql, $this->Database );
 

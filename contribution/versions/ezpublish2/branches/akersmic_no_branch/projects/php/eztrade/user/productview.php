@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: productview.php,v 1.77.2.2.4.9 2002/02/05 15:30:55 ce Exp $
+// $Id: productview.php,v 1.77.2.2.4.10 2002/02/15 13:05:49 ce Exp $
 //
 // Created on: <24-Sep-2000 12:20:32 bf>
 //
@@ -61,6 +61,31 @@ $locale = new eZLocale( $Language );
 
 
 $product = new eZProduct( $ProductID );
+switch( $product->typeID() )
+{
+    case 1;
+    {
+        $SimilarCategoryID = 134;
+    }
+    break;
+    case 2;
+    {
+        $SimilarCategoryID = 135;
+    }
+    break;
+    case 5;
+    {
+        $SimilarCategoryID = 13331;
+    }
+    break;
+    case 4;
+    {
+        $SimilarCategoryID = 13370;
+    }
+    break;
+    default:
+        $SimilarCategoryID = 134;
+}
 
 if ( $CategoryID == "" )
 {
@@ -430,7 +455,6 @@ if ( count( $attribute_value_array ) > 0 )
         {
             $t->parse( "attribute", "attribute_value_tpl", true );
         }
-
     }
 }
 
@@ -516,8 +540,6 @@ if ( isSet( $func_array ) and is_array( $func_array ) )
 $SiteTitleAppend = $product->name();
 $SiteDescriptionOverride = str_replace( "\"", "", strip_tags( $product->brief() ) );
 $SiteKeywordsOverride = str_replace( "\"", "", strip_tags( $product->keywords() ) );
-
-$SimilarCategoryID = 28;
 
 if ( $GenerateStaticPage == "true" && !$useVoucher )
 {

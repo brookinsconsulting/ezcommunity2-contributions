@@ -1,6 +1,6 @@
 <?php
-// 
-// $Id: orderedit.php,v 1.31.8.6 2002/02/02 21:06:40 br Exp $
+//
+// $Id: orderedit.php,v 1.31.8.7 2002/02/15 13:05:48 ce Exp $
 //
 // Created on: <30-Sep-2000 13:03:13 bf>
 //
@@ -64,7 +64,7 @@ include_once( "eztrade/classes/ezorderstatustype.php" );
 if ( $Action == "newstatus" )
 {
     $status = new eZOrderStatus();
-    
+
     // store the status
     $statusType = new eZOrderStatusType( $StatusID );
 
@@ -109,10 +109,10 @@ else if ( $Action == "payment" )
         {
             $session->setVariable( "OrderPaymentAmount", $maxAmount );
             $session->setVariable( "OrderPaymentMode", "refund" );
-            
+
             Header( "Location: /trade/transaction/$OrderID/" );
             exit();
-        }        
+        }
         else if ( $PaymentAmount <= $maxAmount )
         {
             $session->setVariable( "OrderPaymentAmount", $PaymentAmount );
@@ -137,7 +137,7 @@ else if ( $Action == "delete" )
 {
     $order = new eZOrder( $OrderID );
     $order->delete();
-    
+
     Header( "Location: /trade/orderlist/" );
     exit();
 }
@@ -218,7 +218,7 @@ if ( $user )
     if ( $order->personID() == 0 && $order->companyID() == 0 )
     {
         $t->set_var( "customer_email", $user->email() );
-        $t->set_var( "customer_id", $user->id() );    
+        $t->set_var( "customer_id", $user->id() );
         $t->set_var( "customer_first_name", $user->firstName() );
         $t->set_var( "customer_last_name", $user->lastName() );
     }
@@ -261,13 +261,13 @@ if ( $user )
     $t->set_var( "shipping_place", $shippingAddress->place() );
 
     if ( $order->personID() == 0 && $order->companyID() == 0 )
-    {    
+    {
         $shippingUser = $order->shippingUser();
 
         if ( $shippingUser )
         {
             $t->set_var( "shipping_first_name", $shippingUser->firstName() );
-            $t->set_var( "shipping_last_name", $shippingUser->lastName() );   
+            $t->set_var( "shipping_last_name", $shippingUser->lastName() );
         }
     }
     else
@@ -301,7 +301,7 @@ if ( $user )
     $t->set_var( "billing_street2", $billingAddress->street2() );
     $t->set_var( "billing_zip", $billingAddress->zip() );
     $t->set_var( "billing_place", $billingAddress->place() );
-    
+
     $PriceGroup = eZPriceGroup::correctPriceGroup( $user->groups( false ) );
 
     $country = $billingAddress->country();
@@ -364,12 +364,12 @@ $j = 0;
 foreach ( $items as $item )
 {
     $t->set_var( "td_class", ( $j % 2 ) == 0 ? "bglight" : "bgdark" );
-    $j++;  
+    $j++;
     $t->set_var( "cart_item_id", $item->id() );
     $product =& $item->product();
     $vatPercentage = $product->vatPercentage();
     $productHasVAT = $product->priceIncVAT();
-    
+
     $t->set_var( "product_id", $product->id() );
     $t->set_var( "product_name", $product->name() );
     $t->set_var( "product_number", $product->productNumber() );
@@ -381,7 +381,7 @@ foreach ( $items as $item )
     $numberOfItems++;
 
     $numberOfOptions = 0;
-    
+
     $optionValues =& $item->optionValues();
 
     $t->set_var( "cart_item_option", "" );
@@ -390,18 +390,18 @@ foreach ( $items as $item )
     foreach ( $optionValues as $optionValue )
     {
         turnColumnsOnOff( "option" );
-    
+
         $t->set_var( "option_id", "" );
         $t->set_var( "option_name", $optionValue->valueName() );
         $t->set_var( "option_value", $optionValue->optionName() );
         $t->set_var( "option_price", "" );
         $t->parse( "cart_item_option", "cart_item_option_tpl", true );
-        
+
         $numberOfOptions++;
     }
     turnColumnsOnOff( "cart" );
     turnColumnsOnOff( "basis" );
-    
+
     if ( $numberOfOptions ==  0 )
     {
         $t->set_var( "cart_item_option", "" );
@@ -434,7 +434,7 @@ turnColumnsOnOff( "header" );
 
 if ( $ShowCart == true )
 {
-    
+
     $order->orderTotals( $tax, $total );
 
     $t->set_var( "empty_cart", "" );
@@ -444,26 +444,26 @@ if ( $ShowCart == true )
 
     $currency->setValue( $total["subextax"] );
     $t->set_var( "subtotal_ex_tax", $locale->format( $currency ) );
-    
+
     $currency->setValue( $total["inctax"] );
     $t->set_var( "total_inc_tax", $locale->format( $currency ) );
 
     $currency->setValue( $total["extax"] );
     $t->set_var( "total_ex_tax", $locale->format( $currency ) );
-    
+
     $currency->setValue( $total["shipinctax"] );
     $t->set_var( "shipping_inc_tax", $locale->format( $currency ) );
 
     $currency->setValue( $total["shipextax"] );
     $t->set_var( "shipping_ex_tax", $locale->format( $currency ) );
-    
+
     if ( $ShowSavingsColumn == false )
     {
         $ColSpanSizeTotals--;
     }
-    
+
     $SubTotalsColumns = $ColSpanSizeTotals;
-    
+
     if ( $ShowExTaxColumn == true )
     {
         if ( $ShowExTaxTotal == true or $ShowIncTaxColumn == false )
@@ -500,16 +500,16 @@ if ( $ShowCart == true )
         $t->set_var( "subtotal_inc_tax_item", "" );
         $t->set_var( "shipping_inc_tax_item", "" );
     }
-    
+
     if ( $ShowIncTaxColumn and $ShowExTaxColumn and $ShowExTaxTotal )
     {
         $t->set_var( "subtotals_span_size", $SubTotalsColumns - 1 );
     }
     else
     {
-        $t->set_var( "subtotals_span_size", $ColSpanSizeTotals  );        
+        $t->set_var( "subtotals_span_size", $ColSpanSizeTotals  );
     }
-    
+
     $t->set_var( "totals_span_size", $ColSpanSizeTotals );
     $t->parse( "cart_item_list", "cart_item_list_tpl" );
     $t->parse( "full_cart", "full_cart_tpl" );
@@ -522,11 +522,11 @@ if ( $ShowCart == true )
     foreach( $tax as $taxGroup )
     {
         $t->set_var( "td_class", ( $j % 2 ) == 0 ? "bglight" : "bgdark" );
-        $j++;  
-        $currency->setValue( $taxGroup["basis"] );    
+        $j++;
+        $currency->setValue( $taxGroup["basis"] );
         $t->set_var( "sub_tax_basis", $locale->format( $currency ) );
 
-        $currency->setValue( $taxGroup["tax"] );    
+        $currency->setValue( $taxGroup["tax"] );
         $t->set_var( "sub_tax", $locale->format( $currency ) );
 
         $t->set_var( "sub_tax_percentage", $taxGroup["percentage"] );
@@ -548,7 +548,7 @@ if ( count ( $usedVouchers ) > 0 )
     foreach ( $usedVouchers as $voucherUsed )
     {
         $t->set_var( "td_class", ( $j % 2 ) == 0 ? "bglight" : "bgdark" );
-        $j++;  
+        $j++;
 
         $voucher =& $voucherUsed->voucher();
         $t->set_var( "voucher_number", $voucher->keyNumber() );
@@ -568,7 +568,7 @@ if ( count ( $usedVouchers ) > 0 )
         turnColumnsOnOff( "voucher_used" );
         turnColumnsOnOff( "voucher_left" );
         $t->parse( "voucher_item", "voucher_item_tpl", true );
-        
+
     }
     $t->parse( "voucher_item_list", "voucher_item_list_tpl" );
 }
@@ -641,7 +641,7 @@ if ( $maxAmount > 0 && $pnutr )
     $t->set_var( "lowest_amount", $locale->format( $currency ) );
     $currency->setValue( $maxAmount );
     $t->set_var( "highest_amount", $locale->format( $currency ) );
-    
+
     $t->parse( "online_payment_pay", "online_payment_pay_tpl" );
 }
 else
@@ -668,7 +668,7 @@ foreach ( $statusTypeArray as $status )
 {
     $statusName = preg_replace( "#intl-#", "", $status->name() );
     $statusName =  $languageINI->read_var( "strings", $statusName );
-    
+
     $t->set_var( "option_name", $statusName );
     $t->set_var( "option_id", $status->id() );
     $t->parse( "order_status_option", "order_status_option_tpl", true );
@@ -685,13 +685,13 @@ foreach ( $historyArray as $status )
         $t->set_var( "td_class", "bgdark" );
 
     $admin =  $status->admin();
-    
+
     $statusType = $status->type();
 
     $statusName = preg_replace( "#intl-#", "", $statusType->name() );
     $statusName =  $languageINI->read_var( "strings", $statusName );
-    
-    
+
+
     $t->set_var( "status_date", $locale->format( $status->altered() ) );
     $t->set_var( "status_name", $statusName );
     $t->set_var( "status_comment", $status->comment() );
@@ -711,7 +711,7 @@ $shippingType = $order->shippingType();
 
 $t->set_var( "shipping_method", "" );
 if ( $shippingType )
-{    
+{
     $t->set_var( "shipping_method", $shippingType->name() );
 }
 

@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: ezproduct.php,v 1.119.2.1.4.31 2002/02/04 20:40:34 br Exp $
+// $Id: ezproduct.php,v 1.119.2.1.4.32 2002/02/15 13:05:49 ce Exp $
 //
 // Definition of eZProduct class
 //
@@ -2347,6 +2347,14 @@ class eZProduct
     /*!
       Returns the product's type.
     */
+    function typeID( )
+    {
+        return $this->TypeID;
+    }
+
+    /*!
+      Returns the product's type.
+    */
     function typeOld( )
     {
        $db =& eZDB::globalDatabase();
@@ -2811,8 +2819,8 @@ class eZProduct
         {
             $forum = new eZForum();
             $forum->setName( $db->escapeString( $this->Name ) );
-            $forum->setIsModerated( true );         
-            $forum->setModerator( 1 );         
+            $forum->setIsModerated( true );
+            $forum->setModerator( 1 );
             $forum->store();
 
             $forumID = $forum->id();

@@ -21,7 +21,7 @@
 	<option value="{option_value}" {selected}>{option_level}{option_name}</option>
 	<!-- END value_tpl -->
 	</select>
-	
+        -->	
 	</td>
   	<td width="50%">
 	<p class="boxtext">{intl-sort_mode}:</p>
@@ -33,7 +33,7 @@
 	<option {4_selected} value="4">{intl-absolute_placement}</option>
 
 	</select>
-        -->
+
         {parent_name}
         <input type="hidden" name="CategoryID" value="{category_id}" />
         <input type="hidden" name="ParentID" value="{parent_id}" />

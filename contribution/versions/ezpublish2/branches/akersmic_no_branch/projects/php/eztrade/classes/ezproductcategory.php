@@ -1,5 +1,5 @@
 <?php
-// $Id: ezproductcategory.php,v 1.52.8.6 2002/01/29 14:17:33 ce Exp $
+// $Id: ezproductcategory.php,v 1.52.8.7 2002/02/15 13:05:49 ce Exp $
 //
 // Definition of eZProductCategory class
 //
@@ -94,11 +94,11 @@ class eZProductCategory
     */
     function eZProductCategory( $id = -1 )
     {
-        if ( $id != -1 )
-        {
-            $this->ID = $id;
-            $this->get( $this->ID );
-        }
+	if ( $id != -1 )
+	{
+	    $this->ID = $id;
+	    $this->get( $this->ID );
+	}
     }
 
     /*!
@@ -106,53 +106,53 @@ class eZProductCategory
     */
     function store()
     {
-        $db =& eZDB::globalDatabase();
-        $db->begin();
+	$db =& eZDB::globalDatabase();
+	$db->begin();
 
-        $name = $db->escapeString( $this->Name );
-        $description = $db->escapeString( $this->Description );
-        $remoteID = $db->escapeString( $this->RemoteID );
+	$name = $db->escapeString( $this->Name );
+	$description = $db->escapeString( $this->Description );
+	$remoteID = $db->escapeString( $this->RemoteID );
 
-        if ( $this->ID == false )
-        {
+	if ( $this->ID == false )
+	{
 
-            $db->lock( "eZTrade_Category" );
-            $nextID = $db->nextID( "eZTrade_Category", "ID" );
+	    $db->lock( "eZTrade_Category" );
+	    $nextID = $db->nextID( "eZTrade_Category", "ID" );
 
-            $res = $db->query( "INSERT INTO eZTrade_Category
-                                ( ID, Name, Description, SortMode, RemoteID, ImageID, SectionID, Parent )
-                                VALUES
-                                ( '$nextID',
-                                  '$name',
-                                  '$description',
-                                  '$this->SortMode',
-                                  '$remoteID',
-                                  '$this->ImageID',
-                                  '$this->SectionID',
-                                  '$this->Parent' )
-                                " );
+	    $res = $db->query( "INSERT INTO eZTrade_Category
+				( ID, Name, Description, SortMode, RemoteID, ImageID, SectionID, Parent )
+				VALUES
+				( '$nextID',
+				  '$name',
+				  '$description',
+				  '$this->SortMode',
+				  '$remoteID',
+				  '$this->ImageID',
+				  '$this->SectionID',
+				  '$this->Parent' )
+				" );
 
-            $db->unlock();
+	    $db->unlock();
 			$this->ID = $nextID;
-        }
-        else
-        {
-            $res = $db->query( "UPDATE eZTrade_Category SET
-		                         Name='$name',
-                                 Description='$description',
-                                 SortMode='$this->SortMode',
-                                 RemoteID='$this->RemoteID',
-                                 ImageID='$this->ImageID',
-                                 SectionID='$this->SectionID',
-                                 Parent='$this->Parent' WHERE ID='$this->ID'" );
-        }
+	}
+	else
+	{
+	    $res = $db->query( "UPDATE eZTrade_Category SET
+					 Name='$name',
+				 Description='$description',
+				 SortMode='$this->SortMode',
+				 RemoteID='$this->RemoteID',
+				 ImageID='$this->ImageID',
+				 SectionID='$this->SectionID',
+				 Parent='$this->Parent' WHERE ID='$this->ID'" );
+	}
 
-        if ( $res == false )
-            $db->rollback( );
-        else
-            $db->commit();
+	if ( $res == false )
+	    $db->rollback( );
+	else
+	    $db->commit();
 
-        return true;
+	return true;
     }
 
     /*!
@@ -161,40 +161,40 @@ class eZProductCategory
     */
     function delete( $catID=-1 )
     {
-        $db =& eZDB::globalDatabase();
+	$db =& eZDB::globalDatabase();
 
-        if ( $catID == -1 )
-            $catID = $this->ID;
+	if ( $catID == -1 )
+	    $catID = $this->ID;
 
-        $category = new eZProductCategory( $catID );
+	$category = new eZProductCategory( $catID );
 
-        $categoryList = $category->getByParent( $category );
+	$categoryList = $category->getByParent( $category );
 
-        foreach ( $categoryList as $categoryItem )
-        {
-            $this->delete( $categoryItem->id() );
-        }
+	foreach ( $categoryList as $categoryItem )
+	{
+	    $this->delete( $categoryItem->id() );
+	}
 
-        $categoryID = $category->id();
+	$categoryID = $category->id();
 
-        foreach( $this->products() as $product )
-        {
-            $categoryDefinition = $product->categoryDefinition();
+	foreach( $this->products() as $product )
+	{
+	    $categoryDefinition = $product->categoryDefinition();
 
-            if ( $categoryDefinition->id() == $category->id() )
-            {
-                $db->query( "DELETE FROM eZTrade__ProductCategoryDefinition WHERE CategoryID='$categoryID'" );
-                $db->query( "DELETE FROM eZTrade_ProductCategoryLink WHERE CategoryID='$categoryID'" );
+	    if ( $categoryDefinition->id() == $category->id() )
+	    {
+		$db->query( "DELETE FROM eZTrade__ProductCategoryDefinition WHERE CategoryID='$categoryID'" );
+		$db->query( "DELETE FROM eZTrade_ProductCategoryLink WHERE CategoryID='$categoryID'" );
 
-                $product->delete();
-            }
-            else
-            {
-                $db->query( "DELETE FROM eZTrade_ProductCategoryLink WHERE CategoryID='$categoryID'" );
-            }
-        }
+		$product->delete();
+	    }
+	    else
+	    {
+		$db->query( "DELETE FROM eZTrade_ProductCategoryLink WHERE CategoryID='$categoryID'" );
+	    }
+	}
 
-        $db->query( "DELETE FROM eZTrade_Category WHERE ID='$categoryID'" );
+	$db->query( "DELETE FROM eZTrade_Category WHERE ID='$categoryID'" );
     }
 
     /*!
@@ -202,30 +202,30 @@ class eZProductCategory
     */
     function get( $id=-1 )
     {
-        $db =& eZDB::globalDatabase();
+	$db =& eZDB::globalDatabase();
 
-        $ret = false;
-        if ( $id != "" )
-        {
-            $db->array_query( $category_array, "SELECT * FROM eZTrade_Category WHERE ID='$id'" );
-            if ( count( $category_array ) > 1 )
-            {
-                die( "Error: Category's with the same ID was found in the database. This shouldent happen." );
-            }
-            else if ( count( $category_array ) == 1 )
-            {
-                $this->ID =& $category_array[0][$db->fieldName( "ID" )];
-                $this->Name =& $category_array[0][$db->fieldName( "Name" )];
-                $this->Description =& $category_array[0][$db->fieldName( "Description" )];
-                $this->Parent =& $category_array[0][$db->fieldName( "Parent" )];
-                $this->SortMode =& $category_array[0][$db->fieldName( "SortMode" )];
-                $this->RemoteID =& $category_array[0][$db->fieldName( "RemoteID" )];
-                $this->ImageID =& $category_array[0][$db->fieldName( "ImageID" )];
-                $this->SectionID =& $category_array[0][$db->fieldName( "SectionID" )];
-                $ret = true;
-            }
-        }
-        return $ret;
+	$ret = false;
+	if ( $id != "" )
+	{
+	    $db->array_query( $category_array, "SELECT * FROM eZTrade_Category WHERE ID='$id'" );
+	    if ( count( $category_array ) > 1 )
+	    {
+		die( "Error: Category's with the same ID was found in the database. This shouldent happen." );
+	    }
+	    else if ( count( $category_array ) == 1 )
+	    {
+		$this->ID =& $category_array[0][$db->fieldName( "ID" )];
+		$this->Name =& $category_array[0][$db->fieldName( "Name" )];
+		$this->Description =& $category_array[0][$db->fieldName( "Description" )];
+		$this->Parent =& $category_array[0][$db->fieldName( "Parent" )];
+		$this->SortMode =& $category_array[0][$db->fieldName( "SortMode" )];
+		$this->RemoteID =& $category_array[0][$db->fieldName( "RemoteID" )];
+		$this->ImageID =& $category_array[0][$db->fieldName( "ImageID" )];
+		$this->SectionID =& $category_array[0][$db->fieldName( "SectionID" )];
+		$ret = true;
+	    }
+	}
+	return $ret;
     }
 
     /*!
@@ -235,19 +235,19 @@ class eZProductCategory
     */
     function &getAll()
     {
-        $db =& eZDB::globalDatabase();
+	$db =& eZDB::globalDatabase();
 
-        $return_array = array();
-        $category_array = array();
+	$return_array = array();
+	$category_array = array();
 
-        $db->array_query( $category_array, "SELECT ID FROM eZTrade_Category ORDER BY Name" );
+	$db->array_query( $category_array, "SELECT ID FROM eZTrade_Category ORDER BY Name" );
 
-        for ( $i=0; $i < count($category_array); $i++ )
-        {
-            $return_array[$i] = new eZProductCategory( $category_array[$i][$db->fieldName( "ID" )], 0 );
-        }
+	for ( $i=0; $i < count($category_array); $i++ )
+	{
+	    $return_array[$i] = new eZProductCategory( $category_array[$i][$db->fieldName( "ID" )], 0 );
+	}
 
-        return $return_array;
+	return $return_array;
     }
 
     /*!
@@ -257,28 +257,28 @@ class eZProductCategory
     */
     function &getByParent( $parent, $sortby=name, $limit=20, $offset=0 )
     {
-        if ( get_class( $parent ) == "ezproductcategory" )
-        {
-            $db =& eZDB::globalDatabase();
+	if ( get_class( $parent ) == "ezproductcategory" )
+	{
+	    $db =& eZDB::globalDatabase();
 
-            $return_array = array();
-            $category_array = array();
+	    $return_array = array();
+	    $category_array = array();
 
-            $parentID = $parent->id();
+	    $parentID = $parent->id();
 
-            $db->array_query( $category_array, "SELECT ID, Name FROM eZTrade_Category WHERE Parent='$parentID' ORDER BY Name", array( "Limit" => $limit, "Offset" => $offset ) );
+	    $db->array_query( $category_array, "SELECT ID, Name FROM eZTrade_Category WHERE Parent='$parentID' ORDER BY Name", array( "Limit" => $limit, "Offset" => $offset ) );
 
-            for ( $i = 0; $i < count( $category_array ); $i++ )
-            {
-                $return_array[$i] = new eZProductCategory( $category_array[$i][$db->fieldName( "ID" )], 0 );
-            }
+	    for ( $i = 0; $i < count( $category_array ); $i++ )
+	    {
+		$return_array[$i] = new eZProductCategory( $category_array[$i][$db->fieldName( "ID" )], 0 );
+	    }
 
-            return $return_array;
-        }
-        else
-        {
-            return 0;
-        }
+	    return $return_array;
+	}
+	else
+	{
+	    return 0;
+	}
     }
 
     /*!
@@ -287,23 +287,23 @@ class eZProductCategory
     */
     function &getByParentAsID( $parent, $sortby=name, $limit=20, $offset=0 )
     {
-        if ( get_class( $parent ) == "ezproductcategory" )
-        {
-            $db =& eZDB::globalDatabase();
+	if ( get_class( $parent ) == "ezproductcategory" )
+	{
+	    $db =& eZDB::globalDatabase();
 
-            $return_array = array();
-            $category_array = array();
+	    $return_array = array();
+	    $category_array = array();
 
-            $parentID = $parent->id();
+	    $parentID = $parent->id();
 
-            $db->array_query( $category_array, "SELECT ID, Name FROM eZTrade_Category WHERE Parent='$parentID' ORDER BY Name", array( "Limit" => $limit, "Offset" => $offset ) );
+	    $db->array_query( $category_array, "SELECT ID, Name FROM eZTrade_Category WHERE Parent='$parentID' ORDER BY Name", array( "Limit" => $limit, "Offset" => $offset ) );
 
-            return $category_array;
-        }
-        else
-        {
-            return 0;
-        }
+	    return $category_array;
+	}
+	else
+	{
+	    return 0;
+	}
     }
 
     /*!
@@ -313,20 +313,20 @@ class eZProductCategory
     */
     function countByParent( $parent )
     {
-        if ( get_class( $parent ) == "ezproductcategory" )
-        {
-            $db =& eZDB::globalDatabase();
+	if ( get_class( $parent ) == "ezproductcategory" )
+	{
+	    $db =& eZDB::globalDatabase();
 
-            $parentID = $parent->id();
+	    $parentID = $parent->id();
 
-            $db->query_single( $count, "SELECT COUNT(ID) as Count FROM eZTrade_Category WHERE Parent='$parentID'" );
+	    $db->query_single( $count, "SELECT COUNT(ID) as Count FROM eZTrade_Category WHERE Parent='$parentID'" );
 
-            return $count["Count"];
-        }
-        else
-        {
-            return 0;
-        }
+	    return $count["Count"];
+	}
+	else
+	{
+	    return 0;
+	}
     }
 
     /*!
@@ -338,29 +338,29 @@ class eZProductCategory
     */
     function &path( $categoryID=0 )
     {
-        if ( $categoryID == 0 )
-        {
-            $categoryID = $this->ID;
-        }
+	if ( $categoryID == 0 )
+	{
+	    $categoryID = $this->ID;
+	}
 
-        $category = new eZProductCategory( $categoryID );
+	$category = new eZProductCategory( $categoryID );
 
-        $path = array();
+	$path = array();
 
-        $parent = $category->parent();
-        if ( $parent != 0 )
-        {
-            $path = array_merge( $path, $this->path( $parent->id() ) );
-        }
-        else
-        {
+	$parent = $category->parent();
+	if ( $parent != 0 )
+	{
+	    $path = array_merge( $path, $this->path( $parent->id() ) );
+	}
+	else
+	{
 //              array_push( $path, $category->name() );
-        }
+	}
 
-        if ( $categoryID != 0 )
-            array_push( $path, array( $category->id(), $category->name() ) );
+	if ( $categoryID != 0 )
+	    array_push( $path, array( $category->id(), $category->name() ) );
 
-        return $path;
+	return $path;
     }
 
     /*!
@@ -368,21 +368,21 @@ class eZProductCategory
     */
     function &getTree( $parentID=0, $level=0 )
     {
-        $category = new eZProductCategory( $parentID );
+	$category = new eZProductCategory( $parentID );
 
-        $categoryList = $category->getByParent( $category, true );
+	$categoryList = $category->getByParent( $category, true );
 
-        $tree = array();
-        $level++;
-        foreach ( $categoryList as $category )
-        {
-            array_push( $tree, array( $return_array[] = new eZProductCategory( $category->id() ), $level ) );
-            if ( $category != 0 )
-            {
-                $tree = array_merge( $tree, eZProductCategory::getTree( $category->id(), $level ) );
-            }
-        }
-        return $tree;
+	$tree = array();
+	$level++;
+	foreach ( $categoryList as $category )
+	{
+	    array_push( $tree, array( $return_array[] = new eZProductCategory( $category->id() ), $level ) );
+	    if ( $category != 0 )
+	    {
+		$tree = array_merge( $tree, eZProductCategory::getTree( $category->id(), $level ) );
+	    }
+	}
+	return $tree;
     }
 
 
@@ -391,8 +391,8 @@ class eZProductCategory
     */
     function id()
     {
-        $ret = $this->ID;
-        return $ret;
+	$ret = $this->ID;
+	return $ret;
     }
 
 
@@ -401,7 +401,7 @@ class eZProductCategory
     */
     function &name()
     {
-        return htmlspecialchars( $this->Name );
+	return htmlspecialchars( $this->Name );
     }
 
     /*!
@@ -409,7 +409,7 @@ class eZProductCategory
     */
     function remoteID()
     {
-        return $this->RemoteID;
+	return $this->RemoteID;
     }
 
     /*!
@@ -417,7 +417,7 @@ class eZProductCategory
     */
     function sectionID()
     {
-        return $this->SectionID;
+	return $this->SectionID;
     }
 
     /*!
@@ -426,15 +426,15 @@ class eZProductCategory
     */
     function sectionIDStatic( $categoryID )
     {
-        $db =& eZDB::globalDatabase();
-        $db->query_single( $res, "SELECT SectionID from eZTrade_Category WHERE ID='$categoryID'");
+	$db =& eZDB::globalDatabase();
+	$db->query_single( $res, "SELECT SectionID from eZTrade_Category WHERE ID='$categoryID'");
 
-        $sectionID = $res[$db->fieldName("SectionID")];
+	$sectionID = $res[$db->fieldName("SectionID")];
 
-        if ( $sectionID > 0 )
-            return $sectionID;
-        else
-            return false;
+	if ( $sectionID > 0 )
+	    return $sectionID;
+	else
+	    return false;
     }
 
     /*!
@@ -442,7 +442,7 @@ class eZProductCategory
     */
     function &description()
     {
-        return htmlspecialchars( $this->Description );
+	return htmlspecialchars( $this->Description );
     }
 
     /*!
@@ -452,11 +452,11 @@ class eZProductCategory
     {
        if ( $this->Parent != 0 )
        {
-           return new eZProductCategory( $this->Parent );
+	   return new eZProductCategory( $this->Parent );
        }
        else
        {
-           return 0;
+	   return 0;
        }
     }
 
@@ -472,34 +472,34 @@ class eZProductCategory
     {
        switch( $this->SortMode )
        {
-           case 1 :
-           {
-               $SortMode = "time";
-           }
-           break;
+	   case 1 :
+	   {
+	       $SortMode = "time";
+	   }
+	   break;
 
-           case 2 :
-           {
-               $SortMode = "alpha";
-           }
-           break;
+	   case 2 :
+	   {
+	       $SortMode = "alpha";
+	   }
+	   break;
 
-           case 3 :
-           {
-               $SortMode = "alphadesc";
-           }
-           break;
+	   case 3 :
+	   {
+	       $SortMode = "alphadesc";
+	   }
+	   break;
 
-           case 4 :
-           {
-               $SortMode = "absolute_placement";
-           }
-           break;
+	   case 4 :
+	   {
+	       $SortMode = "absolute_placement";
+	   }
+	   break;
 
-           default :
-           {
-               $SortMode = "time";
-           }
+	   default :
+	   {
+	       $SortMode = "alpha";
+	   }
        }
 
        return $SortMode;
@@ -510,7 +510,7 @@ class eZProductCategory
     */
     function setName( &$value )
     {
-        $this->Name = $value;
+	$this->Name = $value;
     }
 
     /*!
@@ -518,7 +518,7 @@ class eZProductCategory
     */
     function setRemoteID( &$value )
     {
-        $this->RemoteID = $value;
+	$this->RemoteID = $value;
     }
 
     /*!
@@ -526,7 +526,7 @@ class eZProductCategory
     */
     function setSectionID( $value )
     {
-        $this->SectionID = $value;
+	$this->SectionID = $value;
     }
 
     /*!
@@ -534,7 +534,7 @@ class eZProductCategory
     */
     function setDescription( &$value )
     {
-        $this->Description = $value;
+	$this->Description = $value;
     }
 
     /*!
@@ -544,11 +544,11 @@ class eZProductCategory
     {
        if ( get_class( $value ) == "ezproductcategory" )
        {
-           $this->Parent = $value->id();
+	   $this->Parent = $value->id();
        }
        else
        {
-           $this->Parent = $value;
+	   $this->Parent = $value;
        }
     }
 
@@ -572,39 +572,44 @@ class eZProductCategory
     */
     function addProduct( &$value, $categoryid = false )
     {
-        if ( get_class( $value ) == "ezproduct" )
-            $prodID = $value->id();
-        else if ( is_numeric( $value ) )
-            $prodID = $value;
-        else
-            return false;
+	if ( get_class( $value ) == "ezproduct" )
+	    $prodID = $value->id();
+	else if ( is_numeric( $value ) )
+	    $prodID = $value;
+	else
+	    return false;
 
-        if ( !$categoryid )
-            $categoryid = $this->ID;
+	if ( !$categoryid )
+	    $categoryid = $this->ID;
 
-        $db =& eZDB::globalDatabase();
+	$db =& eZDB::globalDatabase();
 
-        $db->array_query( $qry, "SELECT Placement FROM eZTrade_ProductCategoryLink
-                                             ORDER BY Placement DESC", array( "Limit" => 1 ) );
-        $placement = count( $qry ) == 1 ? $qry[0][$db->fieldName( "Placement" )] + 1 : 1;
+	$db->array_query( $qry, "SELECT Placement FROM eZTrade_ProductCategoryLink
+					     ORDER BY Placement DESC", array( "Limit" => 1 ) );
+	$placement = count( $qry ) == 1 ? $qry[0][$db->fieldName( "Placement" )] + 1 : 1;
 
+	$db->query_single( $check, "SELECT ID FROM eZTrade_ProductCategoryLink
+					     WHERE ProductID='$prodID' AND CategoryID='$categoryid'" );
 
-        $db->begin();
-        $db->lock( "eZTrade_ProductCategoryLink" );
-        $nextID = $db->nextID( "eZTrade_ProductCategoryLink", "ID" );
+	if ( !$check )
+	{
+	    $db->begin();
+	    $db->lock( "eZTrade_ProductCategoryLink" );
+	    $nextID = $db->nextID( "eZTrade_ProductCategoryLink", "ID" );
 
-        $query = ( "INSERT INTO eZTrade_ProductCategoryLink
-                    (ID, CategoryID, ProductID, Placement)
-                    VALUES ('$nextID', '$categoryid', '$prodID', '$placement')" );
+	    $query = ( "INSERT INTO eZTrade_ProductCategoryLink
+		    (ID, CategoryID, ProductID, Placement)
+		    VALUES ('$nextID', '$categoryid', '$prodID', '$placement')" );
 
-        $res = $db->query( $query );
+	    $res = $db->query( $query );
 
-        $db->unlock();
+	    $db->unlock();
 
-        if ( $res == false )
-            $db->rollback( );
-        else
-            $db->commit();
+	    if ( $res == false )
+		$db->rollback( );
+	    else
+		$db->commit();
+	}
     }
 
     /*!
@@ -614,135 +619,135 @@ class eZProductCategory
     */
     function removeProduct( &$value, $categoryid = false )
     {
-        if ( get_class( $value ) == "ezproduct" )
-            $prodID = $value->id();
-        else if ( is_numeric( $value ) )
-            $prodID = $value;
-        else
-            return false;
+	if ( get_class( $value ) == "ezproduct" )
+	    $prodID = $value->id();
+	else if ( is_numeric( $value ) )
+	    $prodID = $value;
+	else
+	    return false;
 
-        if ( !$categoryid )
-            $categoryid = $this->ID;
+	if ( !$categoryid )
+	    $categoryid = $this->ID;
 
-        $db =& eZDB::globalDatabase();
-        $db->begin();
+	$db =& eZDB::globalDatabase();
+	$db->begin();
 
-        $query = "DELETE FROM eZTrade_ProductCategoryLink
-                  WHERE CategoryID='$categoryid' AND
-                        ProductID='$prodID'";
-        $res = $db->query( $query );
+	$query = "DELETE FROM eZTrade_ProductCategoryLink
+		  WHERE CategoryID='$categoryid' AND
+			ProductID='$prodID'";
+	$res = $db->query( $query );
 
-        if ( $res == false )
-            $db->rollback( );
-        else
-            $db->commit();
+	if ( $res == false )
+	    $db->rollback( );
+	else
+	    $db->commit();
     }
 
     /*!
       Returns the total number of products in a category.
     */
     function &productCount( $sortMode="time",
-                            $fetchNonActive=false,
-                            $fetchDiscontinued=false )
+			    $fetchNonActive=false,
+			    $fetchDiscontinued=false )
     {
-        $db =& eZDB::globalDatabase();
+	$db =& eZDB::globalDatabase();
 
-        switch ( $sortMode )
-        {
-            case "time" :
-            {
-                $OrderBy = "eZTrade_Product.Published DESC";
-            }
-            break;
+	switch ( $sortMode )
+	{
+	    case "time" :
+	    {
+		$OrderBy = "eZTrade_Product.Published DESC";
+	    }
+	    break;
 
-            case "alpha" :
-            {
-                $OrderBy = "eZTrade_Product.Name ASC";
-            }
-            break;
+	    case "alpha" :
+	    {
+		$OrderBy = "eZTrade_Product.Name ASC";
+	    }
+	    break;
 
-            case "alphadesc" :
-            {
-                $OrderBy = "eZTrade_Product.Name DESC";
-            }
-            break;
+	    case "alphadesc" :
+	    {
+		$OrderBy = "eZTrade_Product.Name DESC";
+	    }
+	    break;
 
-            case "absolute_placement" :
-            {
-                $OrderBy = "eZTrade_ProductCategoryLink.Placement ASC";
-            }
-            break;
+	    case "absolute_placement" :
+	    {
+		$OrderBy = "eZTrade_ProductCategoryLink.Placement ASC";
+	    }
+	    break;
 
-            default :
-            {
-                $OrderBy = "eZTrade_Product.Published DESC";
-            }
-        }
+	    default :
+	    {
+		$OrderBy = "eZTrade_Product.Published DESC";
+	    }
+	}
 
-        $nonActiveCode = $fetchNonActive ? "" : " eZTrade_Product.ShowProduct='1' AND";
-        $discontinuedCode = "";
-        if ( !$fetchDiscontinued )
-            $discontinuedCode = " eZTrade_Product.Discontinued='0' AND";
+	$nonActiveCode = $fetchNonActive ? "" : " eZTrade_Product.ShowProduct='1' AND";
+	$discontinuedCode = "";
+	if ( !$fetchDiscontinued )
+	    $discontinuedCode = " eZTrade_Product.Discontinued='0' AND";
 
-        $db->query_single( $products, "
-                SELECT COUNT( eZTrade_Product.ID ) AS Count
-                FROM eZTrade_Product, eZTrade_ProductCategoryLink
-                WHERE
-                eZTrade_ProductCategoryLink.ProductID = eZTrade_Product.ID
-                AND
-                $nonActiveCode
-                $discontinuedCode
-                eZTrade_ProductCategoryLink.CategoryID='$this->ID'" );
-        return $products[$db->fieldName( "Count" )];
+	$db->query_single( $products, "
+		SELECT COUNT( eZTrade_Product.ID ) AS Count
+		FROM eZTrade_Product, eZTrade_ProductCategoryLink
+		WHERE
+		eZTrade_ProductCategoryLink.ProductID = eZTrade_Product.ID
+		AND
+		$nonActiveCode
+		$discontinuedCode
+		eZTrade_ProductCategoryLink.CategoryID='$this->ID'" );
+	return $products[$db->fieldName( "Count" )];
     }
 
     /*!
       Returns every product to a category as a array of eZProduct objects.
     */
     function &products( $sortMode="time",
-                        $fetchNonActive=false,
-                        $offset=0,
-                        $limit=50,
-                        $fetchDiscontinued=false,
-                        $categoryID=0 )
+			$fetchNonActive=false,
+			$offset=0,
+			$limit=50,
+			$fetchDiscontinued=false,
+			$categoryID=0 )
     {
-        if ( $categoryID != 0 )
-            $catID = $categoryID;
-        else
-            $catID = $this->ID;
+	if ( $categoryID != 0 )
+	    $catID = $categoryID;
+	else
+	    $catID = $this->ID;
 
        $db =& eZDB::globalDatabase();
 
        switch( $sortMode )
        {
-           case "time" :
-           {
-               $OrderBy = "eZTrade_Product.Published DESC";
-           }
-           break;
+	   case "time" :
+	   {
+	       $OrderBy = "eZTrade_Product.Published DESC";
+	   }
+	   break;
 
-           case "alpha" :
-           {
-               $OrderBy = "eZTrade_Product.Name ASC";
-           }
-           break;
+	   case "alpha" :
+	   {
+	       $OrderBy = "eZTrade_Product.Name ASC";
+	   }
+	   break;
 
-           case "alphadesc" :
-           {
-               $OrderBy = "eZTrade_Product.Name DESC";
-           }
-           break;
+	   case "alphadesc" :
+	   {
+	       $OrderBy = "eZTrade_Product.Name DESC";
+	   }
+	   break;
 
-           case "absolute_placement" :
-           {
-               $OrderBy = "eZTrade_ProductCategoryLink.Placement ASC";
-           }
-           break;
+	   case "absolute_placement" :
+	   {
+	       $OrderBy = "eZTrade_ProductCategoryLink.Placement ASC";
+	   }
+	   break;
 
-           default :
-           {
-               $OrderBy = "eZTrade_Product.Published DESC";
-           }
+	   default :
+	   {
+	       $OrderBy = "eZTrade_Product.Published DESC";
+	   }
        }
 
        $return_array = array();
@@ -750,34 +755,34 @@ class eZProductCategory
 
        if ( $fetchNonActive  == true )
        {
-           $nonActiveCode = "";
+	   $nonActiveCode = "";
        }
        else
        {
-           $nonActiveCode = " eZTrade_Product.ShowProduct='1' AND";
+	   $nonActiveCode = " eZTrade_Product.ShowProduct='1' AND";
        }
        $discontinuedCode = "";
 
        if ( !$fetchDiscontinued )
-           $discontinuedCode = " eZTrade_Product.Discontinued='0' AND";
+	   $discontinuedCode = " eZTrade_Product.Discontinued='0' AND";
        $db->array_query( $product_array, "
-                SELECT eZTrade_Product.ID AS ProductID, eZTrade_Product.Name,
-                       eZTrade_Category.ID, eZTrade_Category.Name
-                FROM eZTrade_Product, eZTrade_Category,
-                     eZTrade_ProductCategoryLink
-                WHERE
-                eZTrade_ProductCategoryLink.ProductID = eZTrade_Product.ID
-                AND
-                $nonActiveCode
-                $discontinuedCode
-                eZTrade_Category.ID = eZTrade_ProductCategoryLink.CategoryID
-                AND
-                eZTrade_Category.ID='$catID'
-                ORDER BY $OrderBy", array( "Limit" => $limit, "Offset" => $offset ) );
+		SELECT eZTrade_Product.ID AS ProductID, eZTrade_Product.Name,
+		       eZTrade_Category.ID, eZTrade_Category.Name
+		FROM eZTrade_Product, eZTrade_Category,
+		     eZTrade_ProductCategoryLink
+		WHERE
+		eZTrade_ProductCategoryLink.ProductID = eZTrade_Product.ID
+		AND
+		$nonActiveCode
+		$discontinuedCode
+		eZTrade_Category.ID = eZTrade_ProductCategoryLink.CategoryID
+		AND
+		eZTrade_Category.ID='$catID'
+		ORDER BY $OrderBy", array( "Limit" => $limit, "Offset" => $offset ) );
 
        for ( $i = 0; $i < count( $product_array ); $i++ )
        {
-           $return_array[$i] = new eZProduct( $product_array[$i][$db->fieldName( "ProductID" )], false );
+	   $return_array[$i] = new eZProduct( $product_array[$i][$db->fieldName( "ProductID" )], false );
        }
        return $return_array;
     }
@@ -786,49 +791,49 @@ class eZProductCategory
       Returns every product to a category as a array of eZProduct objects.
     */
     function &productsAsArray( $sortMode="time",
-                        $fetchNonActive=false,
-                        $offset=0,
-                        $limit=50,
-                        $fetchDiscontinued=false,
-                        $categoryID=0 )
+			$fetchNonActive=false,
+			$offset=0,
+			$limit=50,
+			$fetchDiscontinued=false,
+			$categoryID=0 )
     {
-        if ( $categoryID != 0 )
-            $catID = $categoryID;
-        else
-            $catID = $this->ID;
+	if ( $categoryID != 0 )
+	    $catID = $categoryID;
+	else
+	    $catID = $this->ID;
 
        $db =& eZDB::globalDatabase();
 
        switch( $sortMode )
        {
-           case "time" :
-           {
-               $OrderBy = "eZTrade_Product.Published DESC";
-           }
-           break;
+	   case "time" :
+	   {
+	       $OrderBy = "eZTrade_Product.Published DESC";
+	   }
+	   break;
 
-           case "alpha" :
-           {
-               $OrderBy = "eZTrade_Product.Name ASC";
-           }
-           break;
+	   case "alpha" :
+	   {
+	       $OrderBy = "eZTrade_Product.Name ASC";
+	   }
+	   break;
 
-           case "alphadesc" :
-           {
-               $OrderBy = "eZTrade_Product.Name DESC";
-           }
-           break;
+	   case "alphadesc" :
+	   {
+	       $OrderBy = "eZTrade_Product.Name DESC";
+	   }
+	   break;
 
-           case "absolute_placement" :
-           {
-               $OrderBy = "eZTrade_ProductCategoryLink.Placement ASC";
-           }
-           break;
+	   case "absolute_placement" :
+	   {
+	       $OrderBy = "eZTrade_ProductCategoryLink.Placement ASC";
+	   }
+	   break;
 
-           default :
-           {
-               $OrderBy = "eZTrade_Product.Published DESC";
-           }
+	   default :
+	   {
+	       $OrderBy = "eZTrade_Product.Published DESC";
+	   }
        }
 
        $return_array = array();
@@ -836,34 +841,34 @@ class eZProductCategory
 
        if ( $fetchNonActive  == true )
        {
-           $nonActiveCode = "";
+	   $nonActiveCode = "";
        }
        else
        {
-           $nonActiveCode = " eZTrade_Product.ShowProduct='1' AND";
+	   $nonActiveCode = " eZTrade_Product.ShowProduct='1' AND";
        }
        $discontinuedCode = "";
 
        if ( !$fetchDiscontinued )
-           $discontinuedCode = " eZTrade_Product.Discontinued='0' AND";
+	   $discontinuedCode = " eZTrade_Product.Discontinued='0' AND";
        $db->array_query( $product_array, "
-                SELECT eZTrade_Product.ID AS ID, eZTrade_Product.Name, eZTrade_Product.Price AS Price,
-                       eZTrade_Category.ID as CatID, eZTrade_Category.Name as CatName
-                FROM eZTrade_Product, eZTrade_Category,
-                     eZTrade_ProductCategoryLink
-                WHERE
-                eZTrade_ProductCategoryLink.ProductID = eZTrade_Product.ID
-                AND
-                $nonActiveCode
-                $discontinuedCode
-                eZTrade_Category.ID = eZTrade_ProductCategoryLink.CategoryID
-                AND
-                eZTrade_Category.ID='$catID'
-                ORDER BY $OrderBy", array( "Limit" => $limit, "Offset" => $offset ) );
+		SELECT eZTrade_Product.ID AS ID, eZTrade_Product.Name, eZTrade_Product.Price AS Price,
+		       eZTrade_Category.ID as CatID, eZTrade_Category.Name as CatName
+		FROM eZTrade_Product, eZTrade_Category,
+		     eZTrade_ProductCategoryLink
+		WHERE
+		eZTrade_ProductCategoryLink.ProductID = eZTrade_Product.ID
+		AND
+		$nonActiveCode
+		$discontinuedCode
+		eZTrade_Category.ID = eZTrade_ProductCategoryLink.CategoryID
+		AND
+		eZTrade_Category.ID='$catID'
+		ORDER BY $OrderBy", array( "Limit" => $limit, "Offset" => $offset ) );
 
 /*       for ( $i = 0; $i < count( $product_array ); $i++ )
        {
-           $return_array[$i] = new eZProduct( $product_array[$i][$db->fieldName( "ProductID" )], false );
+	   $return_array[$i] = new eZProduct( $product_array[$i][$db->fieldName( "ProductID" )], false );
        }
 */
        return $product_array;
@@ -874,10 +879,10 @@ class eZProductCategory
       Returns every active product to a category as a array of eZProduct objects.
     */
     function &activeProducts( $sortMode="time",
-                              $offset=0,
-                              $limit=50 )
+			      $offset=0,
+			      $limit=50 )
     {
-        return $this->products( $sortMode, false, $offset, $limit );
+	return $this->products( $sortMode, false, $offset, $limit );
     }
 
 
@@ -886,31 +891,31 @@ class eZProductCategory
     */
     function addOption( $value )
     {
-        if ( get_class( $value ) == "ezoption" )
-        {
-            $db =& eZDB::globalDatabase();
-            $db->begin();
+	if ( get_class( $value ) == "ezoption" )
+	{
+	    $db =& eZDB::globalDatabase();
+	    $db->begin();
 
-            $optionID = $value->id();
-            $value->store();
+	    $optionID = $value->id();
+	    $value->store();
 
-            $db->lock( "eZTrade_CategoryOptionLink" );
-            $nextID = $db->nextID( "eZTrade_CategoryOptionLink", "ID" );
+	    $db->lock( "eZTrade_CategoryOptionLink" );
+	    $nextID = $db->nextID( "eZTrade_CategoryOptionLink", "ID" );
 
-            $res = $db->query( "INSERT INTO eZTrade_CategoryOptionLink
-                             ( ID, CategoryID, OptionID )
-                             VALUES
-                             ( '$nextID',
-                               '$this->ID',
-                               '$optionID' )
-                             " );
-            $db->unlock();
+	    $res = $db->query( "INSERT INTO eZTrade_CategoryOptionLink
+			     ( ID, CategoryID, OptionID )
+			     VALUES
+			     ( '$nextID',
+			       '$this->ID',
+			       '$optionID' )
+			     " );
+	    $db->unlock();
 
-            if ( $res == false )
-                $db->rollback( );
-            else
-                $db->commit();
-        }
+	    if ( $res == false )
+		$db->rollback( );
+	    else
+		$db->commit();
+	}
     }
 
     /*!
@@ -918,7 +923,7 @@ class eZProductCategory
     */
     function &options()
     {
-        $db =& eZDB::globalDatabase();
+	$db =& eZDB::globalDatabase();
 
        $return_array = array();
        $option_array = array();
@@ -927,7 +932,7 @@ class eZProductCategory
 
        for ( $i=0; $i < count($option_array); $i++ )
        {
-           $return_array[$i] = new eZOption( $option_array[$i][$db->fieldName( "OptionID" )], false );
+	   $return_array[$i] = new eZOption( $option_array[$i][$db->fieldName( "OptionID" )], false );
        }
 
        return $return_array;
@@ -941,32 +946,32 @@ class eZProductCategory
        $db =& eZDB::globalDatabase();
 
        $db->query_single( $qry, "SELECT * FROM eZTrade_ProductCategoryLink
-                                  WHERE ProductID='$id' AND CategoryID='$this->ID'" );
+				  WHERE ProductID='$id' AND CategoryID='$this->ID'" );
 
        if ( is_numeric( $qry[$db->fieldName( "ID" )] ) )
        {
-           $linkID = $qry[$db->fieldName( "ID" )];
+	   $linkID = $qry[$db->fieldName( "ID" )];
 
-           $placement = $qry[$db->fieldName( "Placement" )];
+	   $placement = $qry[$db->fieldName( "Placement" )];
 
-           $db->query_single( $qry, "SELECT ID, Placement FROM eZTrade_ProductCategoryLink
-                                    WHERE Placement<'$placement' AND
-                                    eZTrade_ProductCategoryLink.CategoryID='$this->ID'
-                                    ORDER BY Placement DESC", array( "Limit" => 1 ) );
+	   $db->query_single( $qry, "SELECT ID, Placement FROM eZTrade_ProductCategoryLink
+				    WHERE Placement<'$placement' AND
+				    eZTrade_ProductCategoryLink.CategoryID='$this->ID'
+				    ORDER BY Placement DESC", array( "Limit" => 1 ) );
 
-           $newPlacement = $qry[$db->fieldName( "Placement" )];
-           $listid = $qry[$db->fieldName( "ID" )];
+	   $newPlacement = $qry[$db->fieldName( "Placement" )];
+	   $listid = $qry[$db->fieldName( "ID" )];
 
-           if ( is_numeric( $listid ) )
-           {
-               $db->begin();
-               $res[] = $db->query( "UPDATE eZTrade_ProductCategoryLink SET Placement='$placement' WHERE ID='$listid'" );
-               $res[] = $db->query( "UPDATE eZTrade_ProductCategoryLink SET Placement='$newPlacement' WHERE ID='$linkID'" );
-               if ( in_array( false, $res ) )
-                   $db->rollback( );
-               else
-                   $db->commit();
-           }
+	   if ( is_numeric( $listid ) )
+	   {
+	       $db->begin();
+	       $res[] = $db->query( "UPDATE eZTrade_ProductCategoryLink SET Placement='$placement' WHERE ID='$listid'" );
+	       $res[] = $db->query( "UPDATE eZTrade_ProductCategoryLink SET Placement='$newPlacement' WHERE ID='$linkID'" );
+	       if ( in_array( false, $res ) )
+		   $db->rollback( );
+	       else
+		   $db->commit();
+	   }
        }
     }
 
@@ -978,30 +983,30 @@ class eZProductCategory
        $db =& eZDB::globalDatabase();
 
        $db->query_single( $qry, "SELECT * FROM eZTrade_ProductCategoryLink
-                                  WHERE ProductID='$id' AND CategoryID='$this->ID'" );
+				  WHERE ProductID='$id' AND CategoryID='$this->ID'" );
 
        if ( is_numeric( $qry[$db->fieldName( "ID" )] ) )
        {
-           $linkID = $qry[$db->fieldName( "ID" )];
+	   $linkID = $qry[$db->fieldName( "ID" )];
 
-           $placement = $qry[$db->fieldName( "Placement" )];
+	   $placement = $qry[$db->fieldName( "Placement" )];
 
-           $db->query_single( $qry_2, "SELECT ID, Placement FROM eZTrade_ProductCategoryLink
-                                    WHERE Placement>'$placement' AND eZTrade_ProductCategoryLink.CategoryID='$this->ID' ORDER BY Placement ASC", array( "Limit" => 1 ) );
+	   $db->query_single( $qry_2, "SELECT ID, Placement FROM eZTrade_ProductCategoryLink
+				    WHERE Placement>'$placement' AND eZTrade_ProductCategoryLink.CategoryID='$this->ID' ORDER BY Placement ASC", array( "Limit" => 1 ) );
 
-           $newPlacement = $qry_2[$db->fieldName("Placement" )];
-           $listid = $qry_2[$db->fieldName("ID" )];
+	   $newPlacement = $qry_2[$db->fieldName("Placement" )];
+	   $listid = $qry_2[$db->fieldName("ID" )];
 
-           if ( is_numeric( $listid ) )
-           {
-               $db->begin();
-               $res[] = $db->query( "UPDATE eZTrade_ProductCategoryLink SET Placement='$placement' WHERE ID='$listid'" );
-               $res[] = $db->query( "UPDATE eZTrade_ProductCategoryLink SET Placement='$newPlacement' WHERE ID='$linkID'" );
-               if ( in_array( false, $res ) )
-                   $db->rollback( );
-               else
-                   $db->commit();
-           }
+	   if ( is_numeric( $listid ) )
+	   {
+	       $db->begin();
+	       $res[] = $db->query( "UPDATE eZTrade_ProductCategoryLink SET Placement='$placement' WHERE ID='$listid'" );
+	       $res[] = $db->query( "UPDATE eZTrade_ProductCategoryLink SET Placement='$newPlacement' WHERE ID='$linkID'" );
+	       if ( in_array( false, $res ) )
+		   $db->rollback( );
+	       else
+		   $db->commit();
+	   }
        }
     }
 
@@ -1011,28 +1016,28 @@ class eZProductCategory
     */
     function getByRemoteID( $id, $parent=false )
     {
-        $db =& eZDB::globalDatabase();
+	$db =& eZDB::globalDatabase();
 
-        $category = false;
+	$category = false;
 
-        if ( $parent )
-        {
-            $db->array_query( $res, "SELECT ID FROM
-                                            eZTrade_Category
-                                            WHERE Parent='$parent' AND RemoteID='$id'" );
+	if ( $parent )
+	{
+	    $db->array_query( $res, "SELECT ID FROM
+					    eZTrade_Category
+					    WHERE Parent='$parent' AND RemoteID='$id'" );
 
-        }
-        else
-        {
-            $db->array_query( $res, "SELECT ID FROM
-                                            eZTrade_Category
-                                            WHERE RemoteID='$id'" );
+	}
+	else
+	{
+	    $db->array_query( $res, "SELECT ID FROM
+					    eZTrade_Category
+					    WHERE RemoteID='$id'" );
 
-        }
+	}
 
        if ( count( $res ) == 1 )
        {
-           $category = new eZProductCategory( $res[0][$db->fieldName( "ID" )] );
+	   $category = new eZProductCategory( $res[0][$db->fieldName( "ID" )] );
        }
 
        return $category;
@@ -1043,19 +1048,19 @@ class eZProductCategory
     */
     function &getSubCategoryByName( $name )
     {
-        $db =& eZDB::globalDatabase();
+	$db =& eZDB::globalDatabase();
 
-        $name = $db->escapeString( $name );
+	$name = $db->escapeString( $name );
 
-        $category = false;
+	$category = false;
 
-        $db->array_query( $res, "SELECT ID FROM
-                                    eZTrade_Category
-                                           WHERE Parent='$this->ID' AND Name='$name' " );
+	$db->array_query( $res, "SELECT ID FROM
+				    eZTrade_Category
+					   WHERE Parent='$this->ID' AND Name='$name' " );
 
        if ( count( $res ) == 1 )
        {
-           $category = new eZProductCategory( $res[0][$db->fieldName( "ID" )] );
+	   $category = new eZProductCategory( $res[0][$db->fieldName( "ID" )] );
        }
 
        return $category;
@@ -1066,14 +1071,14 @@ class eZProductCategory
     */
     function clone( )
     {
-        if ( is_object ( $this ) )
-        {
-            $clone = $this;
-            $clone->ID = false;
-            return $clone;
-        }
-        else
-            return false;
+	if ( is_object ( $this ) )
+	{
+	    $clone = $this;
+	    $clone->ID = false;
+	    return $clone;
+	}
+	else
+	    return false;
     }
 
 
@@ -1090,7 +1095,7 @@ class eZProductCategory
     function setImage( $value )
     {
        if ( get_class( $value ) == "ezimage" )
-           $value = $value->id();
+	   $value = $value->id();
 
        $this->ImageID = $value;
     }
@@ -1100,12 +1105,12 @@ class eZProductCategory
     */
     function &image( $AsObject = true )
     {
-        if ( $AsObject )
-            $image = new eZImage( $this->ImageID );
-        else
-            $image = $this->ImageID;
+	if ( $AsObject )
+	    $image = new eZImage( $this->ImageID );
+	else
+	    $image = $this->ImageID;
 
-        return $image;
+	return $image;
     }
 
     var $ID;

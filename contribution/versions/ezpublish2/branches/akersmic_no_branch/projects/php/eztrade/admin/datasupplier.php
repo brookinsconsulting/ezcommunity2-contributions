@@ -1,6 +1,6 @@
 <?php
-// 
-// $Id: datasupplier.php,v 1.42.8.2 2002/01/22 16:54:43 br Exp $
+//
+// $Id: datasupplier.php,v 1.42.8.3 2002/02/15 13:05:48 ce Exp $
 //
 // Created on: <21-Sep-2000 10:32:36 bf>
 //
@@ -44,7 +44,7 @@ switch ( $url_array[2] )
             $Offset = $url_array[3];
         else
             $Offset = 0;
-        
+
         include( "eztrade/admin/orderlist.php" );
     }
     break;
@@ -68,7 +68,7 @@ switch ( $url_array[2] )
             $Offset = $url_array[3];
         else
             $Offset = 0;
-        
+
         include( "eztrade/admin/customerlist.php" );
     }
     break;
@@ -76,11 +76,11 @@ switch ( $url_array[2] )
     case "customerview" :
     {
         $CustomerID = $url_array[3];
-        
+
         include( "eztrade/admin/customerview.php" );
     }
     break;
-    
+
 
     case "categorylist" :
 
@@ -175,24 +175,24 @@ switch ( $url_array[2] )
         else if ( ( $url_array[3] == "edit") )
         {
             $Action = "Edit";
-            $CategoryID = $url_array[4];            
+            $CategoryID = $url_array[4];
             include( "eztrade/admin/categoryedit.php" );
         }
         else if ( ( $url_array[3] == "update") )
         {
             $Action = "Update";
             include( "eztrade/admin/categoryedit.php" );
-        }        
+        }
         else if ( ( $url_array[3] == "delete") )
         {
             $Action = "Delete";
             $CategoryID = $url_array[4];
             include( "eztrade/admin/categoryedit.php" );
-        }        
+        }
         else
         {
             include( "eztrade/admin/categoryedit.php" );
-        }        
+        }
         break;
     }
     break;
@@ -208,7 +208,7 @@ switch ( $url_array[2] )
                 $ProductID = $url_array[4];
                 include( "eztrade/admin/productpreview.php" );
                 break;
-            
+
             // Images
             case "imagelist" :
                 $ProductID = $url_array[4];
@@ -232,7 +232,7 @@ switch ( $url_array[2] )
                 {
                     $Action = "Delete";
                     $ImageID = $url_array[5];
-                    $ProductID = $url_array[6];                    
+                    $ProductID = $url_array[6];
                     include( "eztrade/admin/imageedit.php" );
                 }
                 else if ( $url_array[4] == "new" )
@@ -250,11 +250,11 @@ switch ( $url_array[2] )
                 }
                 else
                 {
-                    include( "eztrade/admin/imageedit.php" );                    
-                }                
-                
+                    include( "eztrade/admin/imageedit.php" );
+                }
+
                 break;
-                
+
             // Options
             case "optionlist" :
                 $ProductID = $url_array[4];
@@ -275,7 +275,7 @@ switch ( $url_array[2] )
             }
             break;
 
-                
+
             case "link" :
             {
                 $ItemID = $url_array[5];
@@ -305,7 +305,7 @@ switch ( $url_array[2] )
                     {
                         eZProductTool::deleteCache( $ProductID );
                     }
-                
+
                 switch( $url_array[4] )
                 {
                     case "list":
@@ -367,7 +367,7 @@ switch ( $url_array[2] )
                 {
                     $Action = "Delete";
                     $OptionID = $url_array[5];
-                    $ProductID = $url_array[6];                    
+                    $ProductID = $url_array[6];
                     include( "eztrade/admin/optionedit.php" );
                 }
                 else if ( $url_array[4] == "new" )
@@ -378,18 +378,18 @@ switch ( $url_array[2] )
                 }
                 else
                 {
-                    include( "eztrade/admin/optionedit.php" );                    
-                }                
-                
+                    include( "eztrade/admin/optionedit.php" );
+                }
+
                 break;
-                
+
             case "insert" :
                 $Action = "Insert";
                 include( "eztrade/admin/productedit.php" );
                 break;
             case "edit" :
                 $Action = "Edit";
-                $ProductID = $url_array[4];            
+                $ProductID = $url_array[4];
                 include( "eztrade/admin/productedit.php" );
                 break;
             case "update" :
@@ -400,7 +400,7 @@ switch ( $url_array[2] )
             case "cancel" :
             {
                 $Action = "Cancel";
-                include( "eztrade/admin/productedit.php" );                
+                include( "eztrade/admin/productedit.php" );
             }
             break;
 
@@ -431,9 +431,9 @@ switch ( $url_array[2] )
 
         if ( isset( $Delete ) )
             $Action = "Delete";
-        
-        include( "eztrade/admin/vattypes.php" );        
-    }        
+
+        include( "eztrade/admin/vattypes.php" );
+    }
     break;
 
     case "shippingtypes" :
@@ -449,11 +449,11 @@ switch ( $url_array[2] )
 
         if ( isset( $Delete ) )
             $Action = "DeleteSelected";
-        
-        
+
+
         include( "eztrade/admin/shippingtypes.php" );
         break;
-    }        
+    }
 
     case "pricegroups":
     {
@@ -498,12 +498,12 @@ switch ( $url_array[2] )
 
         if ( isset( $Delete ) )
             $Action = "DeleteSelected";
-        
-        
+
+
         include( "eztrade/admin/currency.php" );
         break;
     }
-    
+
     default :
     {
         eZHTTPTool::header( "Location: /error/404" );

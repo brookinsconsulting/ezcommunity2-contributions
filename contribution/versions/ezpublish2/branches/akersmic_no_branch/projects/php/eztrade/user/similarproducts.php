@@ -15,12 +15,10 @@ function &similarProducts( $SimilarCategoryID )
 
     if ( $SimilarCacheFile->exists() )
     {
-        print( "bruker" );
         return $SimilarCacheFile->contents();
     }
     else
     {
-        print( "lager cache" );
         global $ini, $IntlDir, $Language;
         $IntlDir = "no_NO";
         $t = new eZTemplate( "eztrade/user/" . $ini->read_var( "eZTradeMain", "TemplateDir" ),

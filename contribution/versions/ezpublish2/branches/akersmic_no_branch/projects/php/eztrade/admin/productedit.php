@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: productedit.php,v 1.69.2.1.4.5 2002/01/25 14:54:49 ce Exp $
+// $Id: productedit.php,v 1.69.2.1.4.6 2002/02/15 13:05:48 ce Exp $
 //
 // Created on: <19-Sep-2000 10:56:05 bf>
 //
@@ -33,6 +33,7 @@ include_once( "eztrade/classes/ezproductpermission.php" );
 include_once( "eztrade/classes/ezproductpricerange.php" );
 
 include_once( "ezxml/classes/ezxml.php" );
+
 
 function deleteCache( $ProductID, $CategoryID, $CategoryArray, $Hotdeal )
 {
@@ -77,6 +78,13 @@ function deleteCache( $ProductID, $CategoryID, $CategoryArray, $Hotdeal )
         $file->delete();
     }
 
+    $files = eZCacheFile::files( "eztrade/cache/similar/", array( "sp",
+                                                                  array_merge( $CategoryID, $CategoryArray ) ),
+                                 "cache", "," );
+    foreach( $files as $file )
+    {
+        $file->delete();
+    }
 }
 
 $ini =& INIFile::globalINI();
@@ -124,7 +132,12 @@ if ( isSet( $DeleteProducts ) )
     $Action = "DeleteProducts";
 }
 
-if ( $Action == "Update" or $Action == "Insert" )
+if ( isSet( $RemoveCategories ) )
+{
+    $Action = "RemoveCategories";
+}
+
+if ( $Action == "Update" or $Action == "Insert" or $Action == "RemoveCategories" )
 {
     $parentCategory = new eZProductCategory();
     $parentCategory->get( $CategoryID );
@@ -290,19 +303,13 @@ if ( $Action == "Update" or $Action == "Insert" )
 
             $new_categories = array_unique( array_merge( $MainCategoryID, $CategoryArray ) );
 
-            $remove_categories = array_diff( $old_categories, $new_categories );
+//            $remove_categories = array_diff( $old_categories, $new_categories );
             $add_categories = array_diff( $new_categories, $old_categories );
-
-            foreach ( $remove_categories as $categoryItem )
-            {
-                eZProductCategory::removeProduct( $product, $categoryItem );
-            }
         }
         else
         {
             $add_categories = array_unique( array_merge( $MainCategoryID, $CategoryArray ) );
         }
-
 
         // add a product to the categories
         $category = new eZProductCategory( $MainCategoryID );
@@ -313,8 +320,17 @@ if ( $Action == "Update" or $Action == "Insert" )
             eZProductCategory::addProduct( $product, $categoryItem );
         }
 
+        if ( count ( $RemoveCategory ) > 0 )
+        {
+            foreach ( $RemoveCategory as $categoryItem )
+            {
+                eZProductCategory::removeProduct( $product, $categoryItem );
+            }
+            $SelectedCategories = array_diff( $SelectedCategories, $RemoveCategory );
+        }
+
         // clear the cache files.
-        deleteCache( $ProductID, $CategoryID, $old_categories, $was_hotdeal or $product->isHotDeal() );
+        deleteCache( $ProductID, $CategoryID, $add_categories, $was_hotdeal or $product->isHotDeal() );
 
         if ( isSet ( $Browse ) )
         {
@@ -383,9 +399,15 @@ if ( $Action == "Update" or $Action == "Insert" )
         // get the category to redirect to
         $category = $product->categoryDefinition();
         $categoryID = $category->id();
-
-        eZHTTPTool::header( "Location: /trade/categorylist/parent/$categoryID" );
-        exit();
+        if ( $Action == "RemoveCategories" )
+        {
+            $Action = "Edit";
+        }
+        else
+        {
+            eZHTTPTool::header( "Location: /trade/categorylist/parent/$categoryID" );
+            exit();
+        }
     }
     else
     {

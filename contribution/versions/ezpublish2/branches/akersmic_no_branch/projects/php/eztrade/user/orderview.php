@@ -1,6 +1,6 @@
 <?php
-// 
-// $Id: orderview.php,v 1.2 2001/10/16 09:21:05 ce Exp $
+//
+// $Id: orderview.php,v 1.2.8.1 2002/02/15 13:05:49 ce Exp $
 //
 // Created on: <30-Sep-2000 13:03:13 bf>
 //
@@ -80,7 +80,7 @@ if ( !$user )
     exit();
 
 }
-    
+
 
 // get the customer
 if ( !$order->isOwner( eZUser::currentUser() ) )
@@ -95,7 +95,7 @@ if ( $localUser )
 {
     if ( $order->personID() == 0 && $order->companyID() == 0 )
     {
-        $t->set_var( "customer_email", $localUser->email() );    
+        $t->set_var( "customer_email", $localUser->email() );
         $t->set_var( "customer_first_name", $localUser->firstName() );
         $t->set_var( "customer_last_name", $localUser->lastName() );
     }
@@ -126,13 +126,13 @@ if ( $localUser )
     $t->set_var( "shipping_place", $shippingAddress->place() );
 
     if ( $order->personID() == 0 && $order->companyID() == 0 )
-    {    
+    {
         $shippingUser = $order->shippingUser();
 
         if ( $shippingUser )
         {
             $t->set_var( "shipping_first_name", $shippingUser->firstName() );
-            $t->set_var( "shipping_last_name", $shippingUser->lastName() );   
+            $t->set_var( "shipping_last_name", $shippingUser->lastName() );
         }
     }
     else
@@ -195,11 +195,11 @@ foreach ( $items as $item )
     $product =& $item->product();
 
     $image = $product->thumbnailImage();
-    
+
     if ( $image )
     {
         $thumbnail =& $image->requestImageVariation( 35, 35 );
-        
+
         $t->set_var( "product_image_path", "/" . $thumbnail->imagePath() );
         $t->set_var( "product_image_width", $thumbnail->width() );
         $t->set_var( "product_image_height", $thumbnail->height() );
@@ -217,7 +217,7 @@ foreach ( $items as $item )
     $t->set_var( "product_price", $locale->format( $currency ) );
 
     $t->set_var( "order_item_count", $item->count() );
-    
+
     if ( ( $i % 2 ) == 0 )
         $t->set_var( "td_class", "bglight" );
     else
@@ -230,11 +230,11 @@ foreach ( $items as $item )
     {
         $t->set_var( "option_name", $optionValue->optionName() );
         $t->set_var( "option_value", $optionValue->valueName() );
-            
+
         $t->parse( "order_item_option", "order_item_option_tpl", true );
     }
     $t->parse( "order_item", "order_item_tpl", true );
-        
+
     $i++;
 }
 $shippingCost = $order->shippingCharge();
@@ -268,7 +268,7 @@ $shippingType = $order->shippingType();
 
 $t->set_var( "shipping_method", "" );
 if ( $shippingType )
-{    
+{
     $t->set_var( "shipping_method", $shippingType->name() );
 }
 
