@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezuser.php,v 1.100.2.1 2001/11/21 08:56:10 jhe Exp $
+// $Id: ezuser.php,v 1.100.2.2 2001/12/04 18:53:07 br Exp $
 //
 // Definition of eZUser class
 //
@@ -958,7 +958,6 @@ class eZUser
             $addressID = $address->id();
             $db->begin( );
 
-            print( "delete" );
             $res = $db->query( "DELETE FROM eZUser_UserAddressLink
                                 WHERE AddressID='$addressID'" );
 
