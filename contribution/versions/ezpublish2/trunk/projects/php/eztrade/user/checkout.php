@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: checkout.php,v 1.24 2001/01/23 10:57:48 ce Exp $
+// $Id: checkout.php,v 1.25 2001/01/28 12:17:19 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <28-Sep-2000 15:52:08 bf>
@@ -28,7 +28,7 @@ include_once( "classes/eztemplate.php" );
 include_once( "classes/ezlocale.php" );
 include_once( "classes/ezcurrency.php" );
 
-$ini = new INIFIle( "site.ini" );
+$ini =& $GLOBALS["GlobalSiteIni"];
 
 $Language = $ini->read_var( "eZTradeMain", "Language" );
 $OrderSenderEmail = $ini->read_var( "eZTradeMain", "OrderSenderEmail" );
@@ -56,7 +56,6 @@ include_once( "ezsession/classes/ezsession.php" );
 include_once( "ezuser/classes/ezuser.php" );
 
 include_once( "classes/ezmail.php" );
-
 
 $cart = new eZCart();
 $session = new eZSession();
@@ -175,8 +174,15 @@ if ( $SendOrder == "true" )
     $mailTemplate->set_file( "mail_order_tpl", "mailorder.tpl" );
     $mailTemplate->setAllStrings();
 
+    // subject
+    $mailTemplate->set_block( "mail_order_tpl", "subject_admin_tpl", "subject_admin" );
+    $mailTemplate->set_block( "mail_order_tpl", "subject_user_tpl", "subject_user" );    
+    
     $mailTemplate->set_block( "mail_order_tpl", "order_item_tpl", "order_item" );
     $mailTemplate->set_block( "order_item_tpl", "option_item_tpl", "option_item" );
+
+    $mailTemplate->set_block( "mail_order_tpl", "billing_address_tpl", "billing_address" );
+    $mailTemplate->set_block( "mail_order_tpl", "shipping_address_tpl", "shipping_address" );
     
     // fetch the cart items
     $items = $cart->items( $CartType );
@@ -226,45 +232,37 @@ if ( $SendOrder == "true" )
     
     $user = $order->user();
 
-    print( $user );
-    
-    $mailTemplate->set_var( "user_first_name", $user->firstName() );
-    $mailTemplate->set_var( "user_last_name", $user->lastName() );
+    $mailTemplate->set_var( "customer_first_name", $user->firstName() );
+    $mailTemplate->set_var( "customer_last_name", $user->lastName() );
 
-    $shippingAddress = $order->shippingAddress();
+   // print out the addresses
+
     $billingAddress = $order->billingAddress();
 
-    $mailTemplate->set_var( "shipping_user_street", "" );
-    $mailTemplate->set_var( "shipping_user_street2", "" );
-    $mailTemplate->set_var( "shipping_user_city", "" );
-    $mailTemplate->set_var( "shipping_user_zip", "" );
+    $mailTemplate->set_var( "billing_street1", $billingAddress->street1() );
+    $mailTemplate->set_var( "billing_street2", $billingAddress->street2() );
+    $mailTemplate->set_var( "billing_zip", $billingAddress->zip() );
+    $mailTemplate->set_var( "billing_place", $billingAddress->place() );
+    
+    $country = $billingAddress->country();
+    $mailTemplate->set_var( "billing_country", $country->name() );
 
-    $mailTemplate->set_var( "shipping_user_country", "" );
+    if ( $ini->read_var( "eZTradeMain", "BillingAddress" ) == "Enabled" )
+        $mailTemplate->parse( "billing_address", "billing_address_tpl" );
+    else
+        $mailTemplate->set_var( "billing_address", "" );
 
-    $mailTemplate->set_var( "billing_user_street", "" );
-    $mailTemplate->set_var( "billing_user_street2", "" );
-    $mailTemplate->set_var( "billing_user_city", "" );
-    $mailTemplate->set_var( "billing_user_zip", "" );
+    $shippingAddress = $order->shippingAddress();
 
-    $mailTemplate->set_var( "billing_user_country", "" );
-
-    // Select correct later PKEJ
-    $mailTemplate->set_var( "shipping_user_street", $shippingAddress->street1() );
-    $mailTemplate->set_var( "shipping_user_street2", $shippingAddress->street2() );
-    $mailTemplate->set_var( "shipping_user_city", $shippingAddress->place() );
-    $mailTemplate->set_var( "shipping_user_zip", $shippingAddress->zip() );
-
-    $shippingCountry = $shippingAddress->country();
-
-    $mailTemplate->set_var( "billing_user_street", $billingAddress->street1() );
-    $mailTemplate->set_var( "billing_user_street2", $billingAddress->street2() );
-    $mailTemplate->set_var( "billing_user_city", $billingAddress->place() );
-    $mailTemplate->set_var( "billing_user_zip", $billingAddress->zip() );
-
-    $billingCountry = $billingAddress->country();
-
-    $mailTemplate->set_var( "billing_user_country", $shippingCountry->name() );
-    $mailTemplate->set_var( "shipping_user_country", $billingCountry->name() );
+    $mailTemplate->set_var( "shipping_street1", $shippingAddress->street1() );
+    $mailTemplate->set_var( "shipping_street2", $shippingAddress->street2() );
+    $mailTemplate->set_var( "shipping_zip", $shippingAddress->zip() );
+    $mailTemplate->set_var( "shipping_place", $shippingAddress->place() );
+    
+    $country = $shippingAddress->country();
+    $mailTemplate->set_var( "shipping_country", $country->name() );
+    
+    $mailTemplate->parse( "shipping_address", "shipping_address_tpl" );
 
     foreach( $items as $item )
     {
@@ -357,15 +355,24 @@ if ( $SendOrder == "true" )
     $grandTotalString = substr(  $locale->format( $currency ), 0, 13 );
     $grandTotalString = str_pad( $grandTotalString, 15, " ", STR_PAD_LEFT );
     $mailTemplate->set_var( "product_total", $grandTotalString );
-    
+
+   
     $mailTemplate->set_var( "order_number", $order->id() );
+
+    // get the subjects
+    $mailSubjectUser = $mailTemplate->parse( "subject_user", "subject_user_tpl" );
+    $mailTemplate->set_var( "subject_user", "" );
+
+    $mailSubjectAdmin = $mailTemplate->parse( "subject_admin", "subject_admin_tpl" );
+    $mailTemplate->set_var( "subject_admin", "" );
+    
     
     // Send E-mail    
     $mail = new eZMail();
     $mailToAdmin = $ini->read_var( "eZTradeMain", "mailToAdmin" );
     
-    $mailSubjectAdmin = $mailTemplateIni->read_var( "strings", "mail_subject_admin" );
-    $mailSubjectUser = $mailTemplateIni->read_var( "strings", "mail_subject_user" );
+//      $mailSubjectAdmin = $mailTemplateIni->read_var( "strings", "mail_subject_admin" );
+//      $mailSubjectUser = $mailTemplateIni->read_var( "strings", "mail_subject_user" );
 
     $mailBody = $mailTemplate->parse( "dummy", "mail_order_tpl" );
     $mail->setFrom( $OrderSenderEmail );
