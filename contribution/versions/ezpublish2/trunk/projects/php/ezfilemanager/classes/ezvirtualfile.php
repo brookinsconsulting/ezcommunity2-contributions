@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezvirtualfile.php,v 1.20 2001/03/08 10:43:52 fh Exp $
+// $Id: ezvirtualfile.php,v 1.21 2001/03/08 11:22:34 jb Exp $
 //
 // Definition of eZVirtualFile class
 //
@@ -35,6 +35,7 @@
  */
 
 include_once( "classes/ezdb.php" );
+include_once( "classes/ezfile.php" );
 
 class eZVirtualfile
 {
@@ -327,39 +328,16 @@ class eZVirtualfile
     /*!
       Returns the size of the file in a shortened form useful for printing to the user,
       the returned value is an array with the filesize, the size as a shortened string
-      and the unit. The keys used for fetching the various are:
+      and the unit. The keys used for fetching the various items in the array are:
       "size" - The full file size
-      "size-string" - The shortened file size
-      "unit" - The unit for the shortened size.
+      "size-string" - The shortened file size as a string
+      "unit" - The unit for the shortened size, either B, KB, MB or GB
     */
 
     function &siFileSize()
     {
         $size = $this->fileSize();
-        $units = array( "GB" => 10737741824,
-                        "MB" => 1048576,
-                        "KB" => 1024,
-                        "B" => 0 );
-        $decimals = 0;
-        $shortsize = $size;
-        while( list($unit_key,$val) = each( $units ) )
-        {
-            if ( $size >= $val )
-            {
-                $unit = $unit_key;
-                if ( $val > 0 )
-                {
-                    $decimals = 2;
-                    $shortsize = $size / $val;
-                }
-                break;
-            }
-        }
-        $shortsize = number_format( ( $shortsize ), $decimals);
-        $size = array( "size" => $size,
-                       "size-string" => $shortsize,
-                       "unit" => $unit );
-        return $size;
+        return eZFile::siFileSize( $size );
     }
 
     /*!
