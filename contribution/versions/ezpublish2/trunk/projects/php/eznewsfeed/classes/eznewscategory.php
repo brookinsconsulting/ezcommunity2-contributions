@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: eznewscategory.php,v 1.9 2000/12/13 16:48:09 bf Exp $
+// $Id: eznewscategory.php,v 1.10 2001/04/04 16:47:25 fh Exp $
 //
 // Definition of eZNewsCategory class
 //
@@ -72,20 +72,22 @@ class eZNewsCategory
     function store()
     {
         $this->dbInit();
+        $name = addslashes( $this->Name );
+        $description = addslashes( $this->Description );
 
         if ( !isset( $this->ID ) )
         {
             $this->Database->query( "INSERT INTO eZNewsFeed_Category SET
-		                         Name='$this->Name',
-                                 Description='$this->Description',
+		                         Name='$name',
+                                 Description='$description',
                                  ParentID='$this->ParentID'" );
             $this->ID = mysql_insert_id();
         }
         else
         {
             $this->Database->query( "UPDATE eZNewsFeed_Category SET
-		                         Name='$this->Name',
-                                 Description='$this->Description',
+		                         Name='$name',
+                                 Description='$description',
                                  ParentID='$this->ParentID' WHERE ID='$this->ID'" );
         }
         

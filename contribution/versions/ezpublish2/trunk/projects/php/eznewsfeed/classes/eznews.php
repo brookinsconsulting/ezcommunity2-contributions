@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eznews.php,v 1.11 2001/01/02 12:26:54 bf Exp $
+// $Id: eznews.php,v 1.12 2001/04/04 16:47:25 fh Exp $
 //
 // Definition of eZNews class
 //
@@ -103,27 +103,33 @@ class eZNews
     {
         $this->dbInit();
 
+        $name = addslashes( $this->Name );
+        $into = addslashes( $this->Intro );
+        $url = addslashes( $this->URL );
+        $keywords = addslashes( $this->KeyWords );
+        $origin = addslashes( $this->Origin );
+        
         $ret = false;
         if ( !isset( $this->ID ) )
         {
             // check if the news is already stored.
             $this->Database->array_query( $ret, "SELECT ID FROM eZNewsFeed_News WHERE
-		                         Name='$this->Name' AND
-                                 Intro='$this->Intro' AND
-                                 URL='$this->URL'
+		                         Name='$name' AND
+                                 Intro='$intro' AND
+                                 URL='$url'
                                  " );
             
             if ( count( $ret ) == 0 )
             {
                 $this->Database->query( "INSERT INTO eZNewsFeed_News SET
-		                         Name='$this->Name',
-                                 Intro='$this->Intro',
+		                         Name='$name',
+                                 Intro='$intro',
                                  IsPublished='$this->IsPublished',
                                  PublishingDate=now(),
                                  OriginalPublishingDate='$this->OriginalPublishingDate',
-                                 KeyWords='$this->KeyWords',
+                                 KeyWords='$keywords',
                                  Origin='$this->Origin',
-                                 URL='$this->URL'
+                                 URL='$url'
                                  " );
 
                 $this->ID = mysql_insert_id();
@@ -142,28 +148,28 @@ class eZNews
             if ( ( count( $res ) > 0 ) && ( $this->IsPublished == "true" ) )
             {
                 $this->Database->query( "UPDATE eZNewsFeed_News SET
-		                         Name='$this->Name',
-                                 Intro='$this->Intro',
+		                         Name='$name',
+                                 Intro='$intro',
                                  IsPublished='true',
                                  PublishingDate=now(),
                                  OriginalPublishingDate='$this->OriginalPublishingDate',
-                                 KeyWords='$this->KeyWords',
-                                 Origin='$this->Origin',
-                                 URL='$this->URL'
+                                 KeyWords='$keywords',
+                                 Origin='$origin',
+                                 URL='$url'
                                  WHERE ID='$this->ID'
                                  " );
             }
             else
             {
                 $this->Database->query( "UPDATE eZNewsFeed_News SET
-		                         Name='$this->Name',
-                                 Intro='$this->Intro',
+		                         Name='$name',
+                                 Intro='$intro',
                                  IsPublished='$this->IsPublished',
                                  PublishingDate=PublishingDate,
                                  OriginalPublishingDate='$this->OriginalPublishingDate',
-                                 KeyWords='$this->KeyWords',
-                                 Origin='$this->Origin',
-                                 URL='$this->URL'
+                                 KeyWords='$keywords',
+                                 Origin='$origin',
+                                 URL='$url'
                                  WHERE ID='$this->ID'
                                  " );
             }

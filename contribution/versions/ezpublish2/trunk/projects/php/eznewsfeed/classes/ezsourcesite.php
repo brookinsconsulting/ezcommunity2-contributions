@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezsourcesite.php,v 1.4 2001/01/02 12:26:54 bf Exp $
+// $Id: ezsourcesite.php,v 1.5 2001/04/04 16:47:25 fh Exp $
 //
 // Definition of eZSourceSite class
 //
@@ -81,15 +81,19 @@ class eZSourceSite
     function store()
     {
         $this->dbInit();
-
+        $name = addslashes( $this->Name );
+        $login = addslashes( $this->Login );
+        $password = addslashes( $this->Password );
+        $url = addslashes( $this->URL );
+                
         $ret = false;
         if ( !isset( $this->ID ) )
         {
             $this->Database->query( "INSERT INTO eZNewsFeed_SourceSite SET
-		                         Name='$this->Name',
-                                 URL='$this->URL',
-                                 Login='$this->Login',
-                                 Password='$this->Password',
+		                         Name='$name',
+                                 URL='$url',
+                                 Login='$login',
+                                 Password='$password',
                                  CategoryID='$this->CategoryID',
                                  IsActive='$this->IsActive',
                                  Decoder='$this->Decoder',
@@ -105,10 +109,10 @@ class eZSourceSite
         else
         {
             $this->Database->query( "UPDATE eZNewsFeed_SourceSite SET
-		                         Name='$this->Name',
-                                 URL='$this->URL',
-                                 Login='$this->Login',
-                                 Password='$this->Password',
+		                         Name='$name',
+                                 URL='$url',
+                                 Login='$login',
+                                 Password='$password',
                                  CategoryID='$this->CategoryID',
                                  Decoder='$this->Decoder',
                                  IsActive='$this->IsActive',
