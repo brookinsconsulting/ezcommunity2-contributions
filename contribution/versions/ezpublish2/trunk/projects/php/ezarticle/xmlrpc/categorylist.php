@@ -30,6 +30,14 @@ foreach( $articleList as $artItem )
 
 $path =& $category->path();
 $par = array();
+if ( $category->id() != 0 )
+{
+    $par[] = createURLStruct( "ezarticle", "category", 0 );
+}
+else
+{
+    $par[] = createURLStruct( "ezarticle", "" );
+}
 foreach( $path as $item )
 {
     $par[] = createURLStruct( "ezarticle", "category", $item[0] );
@@ -37,5 +45,5 @@ foreach( $path as $item )
 
 $ReturnData = new eZXMLRPCStruct( array( "Catalogues" => $cat,
                                          "Elements" => $art,
-                                         "Parents" => $par ) );
+                                         "Path" => $par ) ); // array starting with top level catalogue, ending with parent.
 ?>
