@@ -73,13 +73,10 @@ class INIFile
         
         if ( file_exists( $cachedFile ) and ( $cacheTime > $origTime ) )
         {        
-            print( "cached<br>" );
-
             include( $cachedFile );
         }
         else
         {
-            print( "generated<br>" );
             $this->load_data( $inifilename, $write );
         
             // save the data to a cached file
