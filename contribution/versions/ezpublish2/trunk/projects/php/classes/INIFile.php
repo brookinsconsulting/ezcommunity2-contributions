@@ -93,26 +93,35 @@ class INIFile
         while( list($key, $data) = each($ini_data) ) 
         { 
             $this->parse_data($data); 
-        } 
-         
+        }
+
         fclose( $fp ); 
     } 
 
     /*!
       Parses the variabled.
     */
-    function parse_data( $data ) 
-    { 
+    function parse_data( $data )
+    {
+        // Remove comments from line
+        if ( preg_match( "/([^#]*)#.*/", $data, $m ) )
+        {
+            $data = $m[1];
+        }
+        // Remove MS-DOS Carriage return from end of line
+        if ( ord( $data[strlen($data) - 1] ) == 13 )
+            $data = substr( $data, 0, strlen($data) - 1 );
+
         if( ereg( "\[([[:alnum:]]+)\]",$data,$out) ) 
         { 
             $this->CURRENT_GROUP=$out[1]; 
         } 
         else 
-        { 
+        {
             $split_data =& split( "=", $data); 
             $this->GROUPS[$this->CURRENT_GROUP][$split_data[0]]=$split_data[1]; 
         } 
-    } 
+    }
 
     /*!
       Saves the ini file.
