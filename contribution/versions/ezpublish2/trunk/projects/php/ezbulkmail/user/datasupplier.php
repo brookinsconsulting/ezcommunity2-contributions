@@ -24,13 +24,35 @@ switch ( $url_array[2] )
     }
     break;
 
+    case "singlelist" :
+    {
+        include_once( "ezbulkmail/user/singlelist.php" );
+    }
+    break;
+
+    case "singlelistsubscribe" :
+    {
+        $Subscribe = "yes";
+        $Hash = $url_array[3];
+        include_once( "ezbulkmail/user/singlelist.php" );
+    }
+    break;
+    
+    case "singlelistunsubscribe" :
+    {
+        $UnSubscribe = "yes";
+        $Hash = $url_array[3];
+        include_once( "ezbulkmail/user/singlelist.php" );
+    }
+    break;
+    
     case "successfull" :
     {
         $mailConfirm = "";
         include_once( "ezbulkmail/user/usermessages.php" );
     }
     break;
-    
+
     default:
     {
         eZHTTPTool::header( "Location: /error/404" );

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezbulkmailsubscriptionaddress.php,v 1.4 2001/04/24 12:19:03 fh Exp $
+// $Id: ezbulkmailsubscriptionaddress.php,v 1.5 2001/04/26 13:34:13 fh Exp $
 //
 // eZBulkMailSubscriptionAddress class
 //
@@ -156,6 +156,31 @@ class eZBulkMailSubscriptionAddress
                 $is_valid->store();
                 $return_value = $is_valid;
             }
+        }
+        return $return_value;
+    }
+
+    /*!
+      Returns true if the address exists. False if not.
+     */
+    function addressExists( $email )
+    {
+        $db = eZDB::globalDatabase();
+        $email = addslashes( $email );
+        $db->array_query( $address_array, "SELECT ID FROM eZBulkMail_SubscriptionAddress WHERE EMail='$email'" );
+
+        $return_value = false;
+        if( count( $address_array ) > 1 )
+        {
+            die( "Error: Subscription addresses with the same ID was found in the database. This shouldn't happen." );
+        }
+        else if( count( $address_array ) == 1 )
+        {
+            $return_value = true;
+        }
+        else
+        {
+            $return_value = false;
         }
         return $return_value;
     }

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: menubox.php,v 1.1 2001/04/20 13:11:55 fh Exp $
+// $Id: menubox.php,v 1.2 2001/04/26 13:34:13 fh Exp $
 //
 // Frederik Holljen <fh@ez.no>
 // Created on: <23-Mar-2001 10:57:04 fh>
@@ -26,9 +26,8 @@
 include_once( "classes/INIFile.php" );
 
 $ini =& $GLOBALS["GlobalSiteIni"];
-
-$Language = $ini->read_var( "eZMailMain", "Language" );
-
+$Language = $ini->read_var( "eZBulkMailMain", "Language" );
+$SingleListLogon = $ini->read_var( "eZBulkMailMain", "SingleListLogon" );
     
 include_once( "classes/eztemplate.php" );
 include_once( "classes/ezdb.php" );
@@ -38,12 +37,24 @@ $t = new eZTemplate( "ezbulkmail/user/" . $ini->read_var( "eZBulkMailMain", "Tem
 
 $t->setAllStrings();
 $t->set_var( "sitedesign", $GlobalSiteDesign );    
+
 $t->set_file( array(
     "menu_box_tpl" => "menubox.tpl"
     ) );
 
+$t->set_block( "menu_box_tpl", "normal_list_tpl", "normal_list" );
+$t->set_block( "menu_box_tpl", "single_list_tpl", "single_list" );
+$t->set_var( "normal_list", "" );
+$t->set_var( "single_list", "" );
+
+if( $SingleListLogon == false )
+{
+    $t->parse( "normal_list", "normal_list_tpl" );
+}
+else
+{
+    $t->parse( "single_list", "single_list_tpl" );
+} 
 
 $t->pparse( "output", "menu_box_tpl" );
-
-
 ?>

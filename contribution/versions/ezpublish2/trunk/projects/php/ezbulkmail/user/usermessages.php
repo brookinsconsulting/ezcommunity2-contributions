@@ -33,22 +33,33 @@ $t = new eZTemplate( "ezbulkmail/user/" . $ini->read_var( "eZBulkMailMain", "Tem
 
 $t->setAllStrings();
 $t->set_file( array( "message" => "usermessages.tpl" ) );
+$languageIni = new INIFIle( "ezbulkmail/user/intl/" . $Language . "/usermessages.php.ini", false );
 
-$t->set_block( "message", "mail_sent_tpl", "mail_sent" );
-$t->set_block( "message", "address_confirmed_tpl", "address_confirmed" );
 
 if( isset( $mailConfirm ) )
 {
-    $t->set_var( "address_confirmed", "" );
-    $t->parse( "mail_sent", "mail_sent_tpl", false );
+    $t->set_var( "header", $languageIni->read_var( "strings", "mail_sent_header" ) );
+    $t->set_var( "body",  $languageIni->read_var( "strings", "mail_sent_message" ) );
 }
 if( isset( $unsuccessfull ) )
 {
-    $t->set_var( "mail_sent", "" );
-    $t->set_var( "generated_password", "" );
-    $t->parse( "user_not_exists", "user_not_exists_tpl", false );
+    $t->set_var( "header", "" );
+    $t->set_var( "body", "" );
 }
-                 
-
+if( isset( $unsubscribemail ) )
+{
+    $t->set_var( "header", $languageIni->read_var( "strings", "unsubscribe_mail_header" ) );
+    $t->set_var( "body", $languageIni->read_var( "strings", "unsubscribe_mail_message" ) );
+}
+if( isset( $unsubscribed ) )
+{
+    $t->set_var( "header", $languageIni->read_var( "strings", "unsubscribed_header" ) );
+    $t->set_var( "body", $languageIni->read_var( "strings", "unsubscribed_message" ) );
+}
+if( isset( $subscribed ) )
+{
+    $t->set_var( "header", $languageIni->read_var( "strings", "subscribed_header" ) );
+    $t->set_var( "body", $languageIni->read_var( "strings", "subscribed_message" ) );
+}
 $t->pparse( "output", "message" );
 ?>
