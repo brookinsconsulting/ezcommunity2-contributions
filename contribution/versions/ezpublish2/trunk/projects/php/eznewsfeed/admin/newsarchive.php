@@ -1,12 +1,12 @@
 <?php
 // 
-// $Id: newsarchive.php,v 1.14 2001/03/05 13:46:03 fh Exp $
+// $Id: newsarchive.php,v 1.15 2001/07/20 11:21:41 jakobn Exp $
 //
-// Bård Farstad <bf@ez.no>
 // Created on: <13-Nov-2000 16:56:48 bf>
 //
 // This source file is part of eZ publish, publishing software.
-// Copyright (C) 1999-2000 eZ systems as
+//
+// Copyright (C) 1999-2001 eZ Systems.  All rights reserved.
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License

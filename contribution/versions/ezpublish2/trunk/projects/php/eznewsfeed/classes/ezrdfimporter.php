@@ -1,14 +1,14 @@
 <?php
 // 
-// $Id: ezrdfimporter.php,v 1.9 2001/07/18 07:36:47 br Exp $
+// $Id: ezrdfimporter.php,v 1.10 2001/07/20 11:21:41 jakobn Exp $
 //
 // Definition of ezrdfimporter class
 //
-// Bård Farstad <bf@ez.no>
 // Created on: <13-Nov-2000 17:07:56 bf>
 //
 // This source file is part of eZ publish, publishing software.
-// Copyright (C) 1999-2000 eZ systems as
+//
+// Copyright (C) 1999-2001 eZ Systems.  All rights reserved.
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License
