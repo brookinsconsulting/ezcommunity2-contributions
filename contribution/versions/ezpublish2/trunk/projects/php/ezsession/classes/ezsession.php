@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezsession.php,v 1.49 2001/07/03 13:31:01 bf Exp $
+// $Id: ezsession.php,v 1.50 2001/07/09 11:39:16 bf Exp $
 //
 // Definition of eZSession class
 //
@@ -460,6 +460,8 @@ class eZSession
 
         $dbError = false;
         $db->begin( );
+
+        $value = $db->escapeString( $value );
     
         // lock the table
         $db->lock( "eZSession_SessionVariable" );
@@ -485,7 +487,7 @@ class eZSession
         if ( count( $value_array ) == 1 )
         {
             $valueID = $value_array[0][$db->fieldName("ID")];
-            $db->query( "UPDATE eZSession_SessionVariable SET
+            $res = $db->query( "UPDATE eZSession_SessionVariable SET
 		                         Value='$value' WHERE ID='$valueID'
                                  " );
         }
@@ -528,7 +530,6 @@ class eZSession
     function &globalSession( $id="", $fetch=true )
     {
         $session =& $GLOBALS["eZSessionObject"];
-
         if ( get_class( $session ) != "ezsession" )
         {
             $session = new eZSession();

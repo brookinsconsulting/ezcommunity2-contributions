@@ -28,7 +28,7 @@ CREATE TABLE eZForum_ForumCategoryLink (
 
 CREATE TABLE eZForum_Message (
   ForumID int NOT NULL,
-  Topic varchar(60) default NULL,
+  Topic varchar(100) default NULL,
   Body lvarchar,
   UserID int default NULL,
   Parent int default NULL,
@@ -43,3 +43,11 @@ CREATE TABLE eZForum_Message (
   PRIMARY KEY (ID)
 );
 
+
+CREATE INDEX  ForumMessageTopic ON eZForum_Message (Topic);
+CREATE INDEX  ForumMessageTreeID ON eZForum_Message (TreeID);
+CREATE INDEX  ForumMessageThreadID ON eZForum_Message (ThreadID);
+CREATE INDEX  ForumMessageDepth ON eZForum_Message (Depth);
+CREATE INDEX  ForumMessageIsApproved ON eZForum_Message (IsApproved);
+CREATE INDEX  ForumMessageParent ON eZForum_Message (Parent);
+CREATE INDEX  ForumMessageForumID ON eZForum_Message (ForumID);
