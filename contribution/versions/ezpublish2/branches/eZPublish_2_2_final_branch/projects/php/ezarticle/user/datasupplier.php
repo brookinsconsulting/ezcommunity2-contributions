@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: datasupplier.php,v 1.95.2.3 2002/01/04 14:51:11 bf Exp $
+// $Id: datasupplier.php,v 1.95.2.4 2002/01/07 12:29:45 bf Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -334,10 +334,8 @@ switch ( $url_array[2] )
         $definition = $article->categoryDefinition( true );
         $definition = $definition->id();
 
-
         if ( $PageCaching == "enabled" )
-        {
-                
+        {            
             $cachedFile = "ezarticle/cache/articleview," . $ArticleID . ",". $PageNumber . "," . $CategoryID . "," . $PrintableVersion . "," . $groupstr  .".cache";
             if ( eZFile::file_exists( $cachedFile ) )
             {
