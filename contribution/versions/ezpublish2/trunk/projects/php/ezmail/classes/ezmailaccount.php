@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezmailaccount.php,v 1.3 2001/03/20 20:51:03 fh Exp $
+// $Id: ezmailaccount.php,v 1.4 2001/03/21 16:28:41 fh Exp $
 //
 // eZMailAccount class
 //
@@ -35,6 +35,7 @@
 */
 
 include_once( "ezmail/classes/ezmail.php" );
+include_once( "ezmail/classes/ezmailfunctions.php" );
 
 class eZMailAccount
 {
@@ -372,11 +373,10 @@ class eZMailAccount
         for( $i=1; $i <= $num; $i++ )  // go through each mail in inbox
         {
             $headerinfo = imap_header( $mbox, $i );           // fetch mail headers
-            // check if allready downloaded
-            if( !eZMail::isDownloaded( $headerinfo->message_id, $user->id() ) )
+            if( !eZMail::isDownloaded( $headerinfo->message_id, $user->id() ) )             // check if allready downloaded
             {
-                // mail is not downloaded... do your thing!!!
-                print("Fetch it" );
+                $mail = new eZMail();
+                getHeaders( $mail, $mbox, $i ); // fetch header information
             }
             
         }
