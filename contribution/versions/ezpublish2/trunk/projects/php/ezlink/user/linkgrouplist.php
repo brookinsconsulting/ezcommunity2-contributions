@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: linkgrouplist.php,v 1.12 2001/02/26 15:17:04 bf Exp $
+// $Id: linkgrouplist.php,v 1.13 2001/03/05 14:27:05 ce Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <26-Oct-2000 15:02:09 ce>
@@ -106,11 +106,11 @@ else
         $t->set_var( "new_links", $new_sub_links );
 
  
-        $image =& $groupItem->image();
+        $image = $groupItem->image();
 
         $t->set_var( "image_item" , "" );
         
-        if ( $image->id() != 0 )
+        if ( $image )
         {
             $imageWidth =& $ini->read_var( "eZLinkMain", "CategoryImageWidth" );
             $imageHeight =& $ini->read_var( "eZLinkMain", "CategoryImageHeight" );

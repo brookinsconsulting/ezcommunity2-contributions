@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezlinkgroup.php,v 1.49 2001/02/23 15:23:56 ce Exp $
+// $Id: ezlinkgroup.php,v 1.50 2001/03/05 14:27:05 ce Exp $
 //
 // Definition of eZLinkGroup class
 //
@@ -422,9 +422,13 @@ class eZLinkGroup
         if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
 
-        $image = new eZImage( $this->ImageID );
-
-        return $image;
+        $ret = false;
+        if ( $this->ImageID != 0 )
+        {
+            $ret = new eZImage( $this->ImageID );
+        }
+        
+        return $ret;
     }
 
     /*!

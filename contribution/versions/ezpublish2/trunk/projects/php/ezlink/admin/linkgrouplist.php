@@ -1,5 +1,5 @@
 <?
-// $Id: linkgrouplist.php,v 1.16 2001/02/26 15:17:03 bf Exp $
+// $Id: linkgrouplist.php,v 1.17 2001/03/05 14:27:05 ce Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <26-Oct-2000 14:55:24 ce>
@@ -125,9 +125,12 @@ else
         $t->set_var( "document_root", $DOC_ROOT );
 
         $image =& $linkGroupItem->image();
+
+        $t->set_var( "image_item", "" );
         
-        if ( $image->id() != 0 )
+        if ( $image )
         {
+            print( "en" );
             $imageWidth =& $ini->read_var( "eZLinkMain", "CategoryImageWidth" );
             $imageHeight =& $ini->read_var( "eZLinkMain", "CategoryImageHeight" );
             
@@ -148,6 +151,7 @@ else
         else
         {
             $t->parse( "no_image", "no_image_tpl" );
+            $t->set_var( "image_item", "" );
         }
         
         $categories = $languageIni->read_var( "strings", "categories" );
