@@ -26,6 +26,15 @@ class eZCompany
     
   }
 
+    /*
+      Sletter kontakt firma i databasen.
+    */
+    function delete()
+    {
+        $this->dbInit();
+        query( " DELETE FROM Company WHERE ID='$this->ID'" );
+    }
+
   /*!
     Oppdaterer informasjonen som ligger i databasen.
   */

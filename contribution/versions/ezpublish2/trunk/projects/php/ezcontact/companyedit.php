@@ -51,6 +51,16 @@ if ( $Action == "insert" )
   
 }
 
+// Slette fra company list
+if ( $Action == "delete" )
+{
+    $deleteCompany = new eZCompany();
+    $deleteCompany->get( $CID );
+    $deleteCompany->delete();
+
+    printRedirect( "../index.php?page=" . $DOCUMENTROOT . "contactlist.php" );
+}
+
 // sjekke session
 {
   include( $DOCUMENTROOT . "checksession.php" );
