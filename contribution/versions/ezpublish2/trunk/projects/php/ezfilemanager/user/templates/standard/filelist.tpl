@@ -80,6 +80,8 @@
 	<td class="{td_class}" width="95%">
 	<a href="/filemanager/fileview/{file_id}/">{original_file_name}</a><br />
 	</td>
+	<td class="{td_class}" width="80%">
+	{file_description}&nbsp;
 	<td class="{td_class}" width="1%">
 	{file_size}&nbsp;{file_unit}
 	</td>

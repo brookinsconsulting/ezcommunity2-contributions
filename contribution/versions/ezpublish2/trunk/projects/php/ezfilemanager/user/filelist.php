@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: filelist.php,v 1.23 2001/03/01 14:06:25 jb Exp $
+// $Id: filelist.php,v 1.24 2001/03/02 10:07:38 ce Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <10-Dec-2000 16:16:20 bf>
@@ -163,6 +163,7 @@ foreach ( $fileList as $file )
     $t->set_var( "original_file_name", $file->originalFileName() );
     $t->set_var( "file_name", $file->name() );
     $t->set_var( "file_url", $file->name() );
+    $t->set_var( "file_description", $file->description() );
 
     $filePath = $file->filePath( true );
 
