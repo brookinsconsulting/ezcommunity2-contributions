@@ -82,6 +82,16 @@ CREATE TABLE eZGroupEventCalendar_EventType (
    PRIMARY KEY (ID)
 );
 
+
+INSERT INTO eZGroupEventCalendar_EventType VALUES (1,0,'General Event Type','General');
+INSERT INTO eZGroupEventCalendar_EventType VALUES (2,0,'Calendar Event Type','Calendar');
+INSERT INTO eZGroupEventCalendar_EventType VALUES (3,4,'Web Work Event Type','Web Work');
+INSERT INTO eZGroupEventCalendar_EventType VALUES (4,0,'Office Work Event Type','Office Work');
+INSERT INTO eZGroupEventCalendar_EventType VALUES (5,4,'Staff Meeting Event Type','Staff Meeting');
+INSERT INTO eZGroupEventCalendar_EventType VALUES (6,4,'Meeting','Meeting');
+INSERT INTO eZGroupEventCalendar_EventType VALUES (7,4,'Client Meeting','Client Meeting');
+INSERT INTO eZGroupEventCalendar_EventType VALUES (8,0,'We are not always quite so serious, get your groove on . . . have fun.','Fun');
+
 DROP TABLE IF EXISTS eZGroupEventCalendar_GroupEditor;
 #'
 # Table structure for table 'eZGroupEventCalendar_GroupEditor'
