@@ -820,3 +820,11 @@ Maintainer(s) : jhe@ez.no
 
     * user/messagepath.php: fixed small bug in coding syntax
 
+
+Module : ezforum
+Repository path : /home/cvsroot/projects/php/ezforum
+Maintainer(s) : jhe@ez.no
+2001-11-29  Jo Henrik Endrerud  <jhe@ez.no>
+
+    * classes/ezforummessage.php: fixed htmlspecialchars bug
+

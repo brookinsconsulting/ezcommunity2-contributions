@@ -2395,3 +2395,23 @@ Maintainer(s) : ce@ez.no
       user/templates/standard/ordersendt.tpl:
     Moved the license button up. ADded better checking.
 
+
+Module : eztrade
+Repository path : /home/cvsroot/projects/php/eztrade
+Maintainer(s) : ce@ez.no
+2001-11-29  Paul Kenneth Egell-Johnsen  <pkej@ez.no>
+
+    * classes/ezorder.php:
+    Added function getAllBetweenTimestamps which is needed when performing
+    periodical work.
+
+2001-11-29  Baard Farstad  <bf@ez.no>
+
+    * classes/ezoptionvalue.php
+      classes/ezpricegroup.php
+      user/productview.php: Fixed showing correct price.
+
+2001-11-29  Christoffer Elo  <ce@ez.no>
+
+    * user/precheckout.php: Added PHPSESSION to the checkout
+
