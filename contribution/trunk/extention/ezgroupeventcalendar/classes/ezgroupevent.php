@@ -1107,6 +1107,7 @@ class eZGroupEvent
             $this->IsConnected = true;
         }
     }
+
     /*!  
       Public function.  	 
       Email Notice to all Members of an Group the Event is Acociated with (including all) 	 
@@ -1123,27 +1124,35 @@ class eZGroupEvent
      */ 	 
   	 
     $ret = false;  	 
+    include_once( "classes/INIFile.php" );
+    $ini =& $GLOBALS["GlobalSiteIni"];
+    // site variables
+    $siteName = $ini->read_var( "site", "SiteURL" ); 
+    $siteAdministrator = $ini->read_var( "eZUserMain", "ReminderMailFromAddress" );
+
     $db =& eZDB::globalDatabase(); 	 
     $event_array =& new eZGroupEvent(); 	 
 
     $eventIteration = 0;
     $eventName = $this->name();
+
     if ( $debug )
     print("\n## Begin Event: $eventName  ##############################\n\n");
 
      	 
     $current_date = new eZDate(); 	 
     $current_date_stamp = $current_date->timeStamp(); 	 
-    $current_date_human = $current_date->month() ." / ". $current_date->day() ." / ". $current_date->year();
+    $current_date_human = laddZero($current_date->month()) ." / ". laddZero($current_date->day()) ." / ". laddZero($current_date->year());
+
     if ( $debug )
-    print( "current date: ". $current_date_human ."\n" ); 
+      print( "current date: ". $current_date_human ."\n" ); 
 
 
     $future_date = new eZDate(); 	 
     $future_date->move(0,0,-7); 	 
     $future_date_stamp = $future_date->timeStamp(); 	 
-    $future_date_human = $future_date->month() ." / ". $future_date->day() ." / ". $future_date->year();
-    //    print( "future date: ". $future_date_human ."\n"); 	 
+    $future_date_human = laddZero($future_date->month()) ." / ". laddZero($future_date->day()) ." / ". laddZero($future_date->year());
+    // print( "future date: ". $future_date_human ."\n"); 	 
 
     /*
     $event_date = new eZDateTime();
@@ -1158,9 +1167,10 @@ class eZGroupEvent
 
     $zDate = $this->dateTime();
     $event_date = $zDate;
-    $event_date_human = $zDate->month() ." / ". $zDate->day() ." / ". $zDate->year();
+    $event_date_human = laddZero($zDate->month()) ." / ". laddZero($zDate->day()) ." / ". laddZero($zDate->year());
+
     if ( $debug )
-    print( "event date: ". $event_date_human ."\n");
+      print( "event date: ". $event_date_human ."\n");
 
     /*
     $event_date = new eZDate();
@@ -1174,13 +1184,13 @@ class eZGroupEvent
 
 
     $event_date_time = $this->startTime();
-    $event_date_time_human = $event_date_time->hour() .":". $event_date_time->minute() .":". $event_date_time->second();
+    $event_date_time_human = laddZero($event_date_time->hour()) .":". laddZero($event_date_time->minute()) .":". laddZero($event_date_time->second());
 
     if ( $debug )
-    print("event Date: $event_date_human\nevent Time: $event_date_time_human \n\n");
+      print("event Date: $event_date_human\nevent Time: $event_date_time_human \n\n");
 
     if ( $debug )
-    print("Iteration: ". $eventIteration ."\n\n");
+      print("Iteration: ". $eventIteration ."\n\n");
 
     // $date_gt = $current_date->isGreater($future_date); 	
     // $date_gt = $event_date_time->isGreater($current_date); 	 
@@ -1213,30 +1223,32 @@ class eZGroupEvent
 	    $eventGroupUserList = $eventGroup->users($eventGroupID);
 
 	    if ( $debug )
-	    print("group (static) : $this->GroupID  --> $eventGroupID\n");
+	      print("group (static) : $this->GroupID  --> $eventGroupID\n");
 
 
             foreach( $eventGroupUserList as $user ) {
-	      $userEmail = $user->email();        
-
-	      $siteName = "eZCommunity.net"; 
-	      $siteAdministrator = "Blank@blank.net"; //siteINIAdminEmail();
+	      $userNotificationPreference = $user->infoSubscription();
+	      if ($userNotificationPreference){
+		$userEmail = $user->email();        
+		$userName = $user->name();
+		// build email	      
+		$mailBody = "Greetings $userName,\n\nThe $siteName Calendar event $eventName is occuring today at: ". $event_date_human ." ". $event_date_time_human ."\n\n". "You have opted to recive this email notification via your user account settings. This email notication is provided by the $siteName's Calendar System and is not spam.";
+		$mailSubject = $siteName ." : Calendar : Event Notification ";
 	      
-	      $mailBody = "Your event is comming out . . . ";
-	      $mailSubject = $SiteName ." : Calendar : Event Notification : ". $event_date_human ." ". $event_date_time_human;
+		$mail = new eZMail();
+		$mail->to($userEmail);
+		$mail->from($siteAdministrator);
+		$mail->subject($mailSubject3);
+		$mail->body($mailBody);
 	      
-	      $mail = new eZMail();
-	      $mail->to($userEmail);
-	      $mail->from($siteAdministrator);
-	      $mail->subject($mailSubject3);
-	      $mail->body($mailBody);
-	      
-	      // send mail
-	      // $mail->send();
+		// send mail
+		if (!$debug )
+		  $mail->send();
 
-	      if ( $debug )
-	      print("Virtual Email: Sent To: $userEmail \n\n####################################### \n");
-
+		if ( $debug )
+		  print("$userEmail\n$mailSubject\n\n$mailBody");
+		  //print("Virtual Email: Sent To: $userEmail \n\n####################################### \n");
+	      }
 	    }
 	}else {
           $eventGroup = new eZUserGroup();
@@ -1248,7 +1260,7 @@ class eZGroupEvent
 	    $eventGroupUserList = $group->users($cGroupID);
 
 	    if ( $debug )
-	    print("group (all): $cGroupID  --> $eventGroupID \n");
+	      print("group (all): $cGroupID  --> $eventGroupID \n");
 	    
 	    // foreach user print notice
 	    foreach( $eventGroupUserList as $user ) {
@@ -1272,32 +1284,35 @@ class eZGroupEvent
 	  // foreach user print notice      
 	  // foreach( $eventGroupUserList as $user ) {
 	  foreach( $userObjectList as $user ) {
-	    $userEmail = $user->email();        
-	    
-	    // build mail
-	    $siteName = "eZCommunity.net"; 
-	    $siteAdministrator = "Blank@blank.net"; //siteINIAdminEmail();
-	    
-	    $mailBody = "Your event is comming out . . . ";
-	    $mailSubject = $SiteName ." : Calendar : Event Notification : ". $event_date_human ." ". $event_date_time_human;
-	    
-	    $mail = new eZMail();
-	    $mail->to($userEmail);
-	    $mail->from($siteAdministrator);
-	    $mail->subject($mailSubject3);
-	    $mail->body($mailBody);
-	    
-	    // send mail
-	    // $mail->send();
+	    $userNotificationPreference = $user->infoSubscription();
+	    if ($userNotificationPreference){
+	      $userEmail = $user->email();        
+	      $userName = $user->name();
 
-	    if ( $debug )
-	    print("\nVirtual Email: Sent To: $userEmail \n############################## \n");
+	      // build mail
+	      $mailBody = "Greetings $userName,\n\nThe $siteName Calendar event \"$eventName\" is occuring today at ". $event_date_human ." ". $event_date_time_human ."\n\n". "You have opted to recive this email notification via your user account settings.\nThis email notication is provided by the $siteName's Calendar System and is not spam.";
+	      $mailSubject = $siteName ." : Calendar : Event Notification : $eventName";
+	    
+	      $mail = new eZMail();
+	      $mail->to($userEmail);
+	      $mail->from($siteAdministrator);
+	      $mail->subject($mailSubject3);
+	      $mail->body($mailBody);
+	    
+	      // send mail
+	      if (!$debug )
+		$mail->send();
+
+	      if ( $debug )
+		print("$siteAdministrator\n\n$userEmail\n$mailSubject\n\n$mailBody");
+	        //print("\nVirtual Email: Sent To: $userEmail \n############################## \n");
+	    }
 	  }
 	}
     
 
 	if ( $debug )
-	print("\n## End $eventName ############################################ \n");
+	  print("\n## End $eventName ############################################ \n");
         $eventIteration++;
 
     /*
