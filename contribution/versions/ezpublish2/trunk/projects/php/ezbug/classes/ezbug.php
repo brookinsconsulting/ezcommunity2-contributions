@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezbug.php,v 1.2 2000/11/29 16:51:37 bf-cvs Exp $
+// $Id: ezbug.php,v 1.3 2000/12/03 14:37:13 bf-cvs Exp $
 //
 // Definition of eZBug class
 //
@@ -111,6 +111,7 @@ class eZBug
 		                         Name='$this->Name',
                                  Description='$this->Description',
                                  IsHandled='$this->IsHandled',
+                                 IsClosed='$this->IsClosed',
                                  UserID='$this->UserID'" );
             $this->ID = mysql_insert_id();
         }
@@ -120,6 +121,7 @@ class eZBug
 		                         Name='$this->Name',
                                  Description='$this->Description',
                                  IsHandled='$this->IsHandled',
+                                 IsClosed='$this->IsClosed',
                                  Created='Created',
                                  UserID='$this->UserID'
                                  WHERE ID='$this->ID'" );
@@ -168,6 +170,7 @@ class eZBug
                 $this->UserID = $module_array[0][ "UserID" ];
                 $this->Created = $module_array[0][ "Created" ];
                 $this->IsHandled = $module_array[0][ "IsHandled" ];
+                $this->IsClosed = $module_array[0][ "IsClosed" ];
             }
                  
             $this->State_ = "Coherent";
@@ -292,6 +295,22 @@ class eZBug
     }
 
     /*!
+      Returns true if the bug is closed false if not.
+    */
+    function isClosed()
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+       $ret = false;
+       if ( $this->IsClosed == "true" )
+       {
+           $ret = true;
+       }
+       return $ret;
+    }
+    
+    /*!
       Returns the user as a eZUser object.
     */
     function &user()
@@ -345,6 +364,24 @@ class eZBug
     }
 
     /*!
+     Sets the bug to closed or not. 
+    */
+    function setIsCLosed( $value )
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+       if ( $value == true )
+       {
+           $this->IsClosed = "true";
+       }
+       else
+       {
+           $this->IsClosed = "false";           
+       }
+    }
+    
+    /*!
       Sets the user whom reported the bug.
     */
     function setUser( $user )
@@ -375,6 +412,7 @@ class eZBug
     var $Name;
     var $Description;
     var $IsHandled;
+    var $IsClosed;
     var $Created;
     var $UserID;
     

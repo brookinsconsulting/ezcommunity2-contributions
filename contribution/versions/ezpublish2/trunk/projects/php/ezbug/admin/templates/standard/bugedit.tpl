@@ -30,10 +30,10 @@
 </table>
 
 <p class="boxtext">{intl-bug_title}:</p>
-<input type="text" size="40" name="Name" value="{name_value}" />
+{name_value}
 
 <p class="boxtext">{intl-bug_description}:</p>
-<textarea name="Description" cols="40" rows="5" wrap="soft">{description_value}</textarea>
+{description_value}
 <br />
 
 <table cellspacing="0" cellpadding="0" border="0">
@@ -58,6 +58,9 @@
 </tr>
 </table>
 
+<input type="checkbox" name="IsClosed" {is_closed} />
+<span class="boxtext">{intl-is_closed}</span><br />
+
 <br />
 
 <p class="boxtext">{intl-log_message}:</p>
@@ -80,7 +83,7 @@
 
 <hr noshade="noshade" size="4">
 
-<input type="submit" value="{intl-update}">
+<input type="submit" name="Update" value="{intl-update}">
 
 <hr noshade="noshade" size="4">
 

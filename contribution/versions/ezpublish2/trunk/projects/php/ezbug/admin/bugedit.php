@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: bugedit.php,v 1.2 2000/11/30 09:21:38 bf-cvs Exp $
+// $Id: bugedit.php,v 1.3 2000/12/03 14:37:12 bf-cvs Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <28-Nov-2000 19:45:35 bf>
@@ -68,6 +68,11 @@ if ( $Action == "Insert" )
         $bug->setDescription( $Description );
         $bug->setUser( $user );
         $bug->setIsHandled( false );
+        if ( $IsClosed == 'on' )
+            $bug->setIsClosed( true );
+        else
+            $bug->setIsClosed( false );
+            
         $bug->store();
         Header( "Location: /bug/archive/" );
         exit();
@@ -88,16 +93,29 @@ if ( $Action == "Update" )
         $bug->setDescription( $Description );
         $bug->setUser( $user );
         $bug->setIsHandled( true );
+        
+        if ( $IsClosed == 'on' )
+            $bug->setIsClosed( true );
+        else
+            $bug->setIsClosed( false );
+        
         $bug->store();
 
         $log = new eZBugLog();
         $log->setDescription( $LogMessage );
         $log->setUser( $user );
         $log->setBug( $bug );
-        $log->store();        
-        
-        Header( "Location: /bug/archive/" );
-        exit();
+        $log->store();
+
+        if ( !isset( $Update ) )
+        {
+            Header( "Location: /bug/archive/" );
+            exit();
+        }
+        else
+        {
+            $Action = "Edit";
+        }
     }
 }
 
