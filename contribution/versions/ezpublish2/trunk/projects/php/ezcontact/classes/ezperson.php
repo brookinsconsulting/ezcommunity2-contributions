@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezperson.php,v 1.26 2000/11/16 18:55:36 pkej-cvs Exp $
+// $Id: ezperson.php,v 1.27 2000/11/23 10:19:56 pkej-cvs Exp $
 //
 // Definition of eZPerson class
 //
@@ -219,7 +219,7 @@ class eZPerson
 
         foreach( $person_array as $personItem )
         {
-            $return_array[] = new eZCompany( $personItem["ID"] );
+            $return_array[] = new eZPerson( $personItem["ID"] );
         }
         return $return_array;
     }
@@ -236,7 +236,7 @@ class eZPerson
     
         foreach( $person_array as $personItem )
         {
-            $return_array[] = new eZCompany( $personItem["ID"] );
+            $return_array[] = new eZPerson( $personItem["ID"] );
         }
         return $return_array;
     }
