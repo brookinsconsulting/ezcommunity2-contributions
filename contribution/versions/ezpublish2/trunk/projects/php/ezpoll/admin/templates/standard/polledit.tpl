@@ -65,7 +65,7 @@
 <table cellspacing="0" cellpadding="0" border="0">
 <tr>
 	<td>
-	<input class="okbutton" type="submit" value="{intl-ok}" />
+	<input class="okbutton" name="Ok" type="submit" value="{intl-ok}" />
 	</td>
 	<td>&nbsp;</td>
 	<td>

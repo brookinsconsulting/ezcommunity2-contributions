@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: polledit.php,v 1.24 2001/02/08 17:21:11 fh Exp $
+// $Id: polledit.php,v 1.25 2001/02/26 14:51:39 fh Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <21-Sep-2000 10:39:19 ce>
@@ -97,25 +97,47 @@ if ( $Action == "Insert" )
         $poll->setDescription( $Description );
         $poll->store();
         
-        $pollID = $poll->id();
+        $PollID = $poll->id();
         
         // clear the menu cache
         if ( file_exists("ezpoll/cache/menubox.cache" )  )
             unlink( "ezpoll/cache/menubox.cache" );
         
-        if ( isset ( $Choice ) )
+        if ( isset( $Choice ) == true  )
         {
-            eZHTTPTool::header( "Location: /poll/choiceedit/new/" . $pollID . "/" );
+            $Action = "Edit";
+        }
+        else
+        {
+            eZHTTPTool::header( "Location: /poll/pollist/" );
             exit();
         }
-        eZHTTPTool::header( "Location: /poll/pollist/" );
-        exit();
     }
     else
     {
         $errorMsg = $errorIni->read_var( "strings", "noname" );
     }
 }
+
+if ( isset ( $Choice ) )
+{
+    $item = new eZPollChoice();
+    $item->setName( $errorIni->read_var( "strings", "newitem") );
+    $item->setPollID( $PollID );
+    $item->store();
+}
+if( isset( $DeleteChoice ) )
+{
+    if( count( $PollArrayID ) > 0 )
+    {
+        foreach( $PollArrayID as $itemIndex )
+        {
+            $item = new eZPollChoice( $PollChoiceID[$itemIndex] );
+            $item->delete();
+        }
+    }
+}
+
 
 // Update
 if ( $Action == "Update" )
@@ -177,24 +199,11 @@ if ( $Action == "Update" )
     // clear the menu cache
     if ( file_exists("ezpoll/cache/menubox.cache" )  )
         unlink( "ezpoll/cache/menubox.cache" );
-    
-    if ( isset ( $Choice ) )
+
+    if( isset( $Ok ) )
     {
-        $item = new eZPollChoice();
-        $item->setName( $errorIni->read_var( "strings", "newitem") );
-        $item->setPollID( $PollID );
-        $item->store();
-    }
-    if( isset( $DeleteChoice ) )
-    {
-        if( count( $PollArrayID ) > 0 )
-        {
-            foreach( $PollArrayID as $itemIndex )
-            {
-                $item = new eZPollChoice( $PollChoiceID[$itemIndex] );
-                $item->delete();
-            }
-        }
+        eZHTTPTool::header( "Location: /poll/pollist/" );
+        exit();
     }
 
     eZHTTPTool::header( "Location: /poll/polledit/edit/$PollID" );
