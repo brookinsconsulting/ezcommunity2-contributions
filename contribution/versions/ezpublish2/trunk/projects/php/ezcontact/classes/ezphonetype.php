@@ -64,14 +64,33 @@ class eZPhoneType
 
     /*
       \static
+      Henter antall telefontyper som er lagret i databasen.
+    */
+    function getAllCount()
+    {
+        $db =& eZDB::globalDatabase();
+
+        $db->query_single( $phone_type_array,
+                          "SELECT Count( ID ) AS Count FROM eZContact_PhoneType" );
+
+        return $phone_type_array["Count"];
+    }
+
+    /*
+      \static
       Henter ut alle telefontypene lagret i databasen.
     */
-    function getAll( $as_object = true )
+    function getAll( $as_object = true, $offset = 0, $max = -1 )
     {
         $db =& eZDB::globalDatabase();
 
         $phone_type_edit = array();
         $return_array = array();
+
+        if ( $max >= 0 && is_numeric( $offset ) && is_numeric( $max ) )
+        {
+            $limit = "LIMIT $offset, $max";
+        }
 
         if ( $as_object )
             $select = "*";
@@ -79,7 +98,8 @@ class eZPhoneType
             $select = "ID";
 
         $db->array_query( $phone_type_array,
-                          "SELECT $select FROM eZContact_PhoneType ORDER BY ListOrder" );
+                          "SELECT $select FROM eZContact_PhoneType ORDER BY ListOrder
+                          $limit" );
 
         if ( $as_object )
         {
