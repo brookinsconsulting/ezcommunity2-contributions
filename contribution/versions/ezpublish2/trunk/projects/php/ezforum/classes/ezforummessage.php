@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezforummessage.php,v 1.68 2001/02/12 14:59:45 ce Exp $
+// $Id: ezforummessage.php,v 1.69 2001/02/20 09:52:35 pkej Exp $
 //
 // Definition of eZCompany class
 //
@@ -48,6 +48,7 @@ class eZForumMessage
         $this->IsConnected = false;
 
         $this->IsApproved = true;
+        $this->IsTemporary = false;
         
         $this->ParentID = 0;
         
@@ -119,6 +120,7 @@ class eZForumMessage
 		                         Depth='$this->Depth',
 		                         EmailNotice='$this->EmailNotice',
 		                         IsApproved='$this->IsApproved',
+		                         IsTemporary='$this->IsTemporary',
                                  PostingTime=now()
        
                                  " );
@@ -145,7 +147,7 @@ class eZForumMessage
                     
                     $this->Depth = $d + 1;
                     
-                    // update the whole tree's ThreeID.
+                    // update the whole tree''s ThreeID.
                     $this->Database->query( "UPDATE eZForum_Message SET TreeID=(TreeID +1 ), PostingTime=PostingTime WHERE TreeID >= $parentID" );
 
                     $this->Database->query( "INSERT INTO eZForum_Message SET
@@ -159,6 +161,7 @@ class eZForumMessage
 		                         Depth='$this->Depth',
 		                         EmailNotice='$this->EmailNotice',
 		                         IsApproved='$this->IsApproved',
+		                         IsTemporary='$this->IsTemporary',
                                  PostingTime=now()
                                  " );
 
@@ -181,6 +184,7 @@ class eZForumMessage
 		                         Parent='$this->ParentID',
 		                         EmailNotice='$this->EmailNotice',
 		                         IsApproved='$this->IsApproved',
+		                         IsTemporary='$this->IsTemporary',
                                  PostingTime=PostingTime
                                  WHERE ID='$this->ID'
                                  " );
@@ -231,7 +235,8 @@ class eZForumMessage
                 $this->EmailNotice =& $message_array[0][ "EmailNotice" ];
 
                 $this->IsApproved =& $message_array[0][ "IsApproved" ];
-                
+                $this->IsTemporary =& $message_array[0][ "IsTemporary" ];
+
                 $this->ThreadID =& $message_array[0][ "ThreadID" ];
                 $this->TreeID =& $message_array[0][ "TreeID" ];                
                 $this->Depth =& $message_array[0][ "Depth" ];
@@ -319,6 +324,21 @@ class eZForumMessage
 
 
     /*!
+      Sets the message to be temporary or not.
+    */      
+    function setIsTemporary( $value )
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+       if ( $value == true )
+           $this->IsTemporary = 1;
+       else
+           $this->IsTemporary = 0;           
+    }
+
+
+    /*!
       Returns true if the message is approved.
     */
     function isApproved()
@@ -327,6 +347,21 @@ class eZForumMessage
             $this->get( $this->ID );
 
        if ( $this->IsApproved == 1 )
+           return true;
+       else
+           return false;
+           
+    }
+    
+    /*!
+      Returns true if the message is a temporary item.
+    */
+    function isTemporary()
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+       if ( $this->IsTemporary == 1 )
            return true;
        else
            return false;
@@ -655,6 +690,7 @@ class eZForumMessage
     var $PostingTime;
     var $EmailNotice;
     var $IsApproved;
+    var $IsTemporary;
 
     /// indicates the position in the tree.
     var $TreeID;
