@@ -111,6 +111,8 @@ switch ( $url_array[2] )
                 if( eZObjectPermission::hasPermission( $ArticleID, "article_article", 'w' )
                     || eZArticle::isAuthor( $user, $ArticleID ) )
                     include( "ezarticle/admin/articleedit.php" );
+                else
+                    print("Not allowed");
             }
             break;
 

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezarticle.php,v 1.51 2001/03/05 12:16:08 fh Exp $
+// $Id: ezarticle.php,v 1.52 2001/03/06 09:48:41 fh Exp $
 //
 // Definition of eZArticle class
 //
@@ -227,8 +227,8 @@ class eZArticle
             $this->Database->query( "DELETE FROM eZArticle_ArticleCategoryDefinition WHERE ArticleID='$this->ID'" );
             $this->Database->query( "DELETE FROM eZArticle_ArticleImageLink WHERE ArticleID='$this->ID'" );
             $this->Database->query( "DELETE FROM eZArticle_ArticleImageDefinition WHERE ArticleID='$this->ID'" );
-            $this->Database->query( "DELETE FROM eZArticle_ArticleReaderLink WHERE ArticleID='$this->ID'" );
-
+            $this->Database->query( "DELETE FROM eZArticle_ArticlePermission WHERE ObjectID='$this->ID'" );
+            
             $this->Database->query( "DELETE FROM eZArticle_Article WHERE ID='$this->ID'" );
         }
         

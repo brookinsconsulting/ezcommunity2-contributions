@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: categoryedit.php,v 1.10 2001/03/04 15:00:28 fh Exp $
+// $Id: categoryedit.php,v 1.11 2001/03/06 09:48:41 fh Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <18-Sep-2000 14:46:19 bf>
@@ -31,10 +31,12 @@ if ( isset( $Cancel ) )
     exit();
 }
 
+/* Can possibly be deleted FJH
 if ( isset ( $DeleteCategories ) )
 {
     $Action = "DeleteCategories";
 }
+*/
 
 include_once( "classes/INIFile.php" );
 include_once( "classes/eztemplate.php" );
@@ -247,6 +249,7 @@ if ( $Action == "delete" )
     exit();
 }
 
+/* Can possibly be deleted! FJH
 if ( $Action == "DeleteCategories" )
 {
     if ( count ( $CategoryArrayID ) != 0 )
@@ -277,7 +280,7 @@ if ( $Action == "DeleteCategories" )
     eZHTTPTool::header( "Location: /article/archive/" );
     exit();
 }
-
+*/
 
 $t = new eZTemplate( "ezarticle/admin/" . $ini->read_var( "eZArticleMain", "AdminTemplateDir" ),
                      "ezarticle/admin/intl/", $Language, "categoryedit.php" );

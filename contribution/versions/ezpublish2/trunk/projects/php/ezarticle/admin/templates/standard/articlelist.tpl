@@ -34,7 +34,7 @@
 <div class="spacer"><div class="p">{current_category_description}</div></div>
 
 <!-- BEGIN category_list_tpl -->
-<form method="post" action="/article/categoryedit/edit/" enctype="multipart/form-data">
+<form method="post" action="/article/archive/{category_id}/" enctype="multipart/form-data">
 
 <table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
 <tr>
@@ -70,7 +70,7 @@
 
 
 <!-- BEGIN article_list_tpl -->
-<form method="post" action="/article/articleedit/edit/" enctype="multipart/form-data">
+<form method="post" action="/article/archive/{category_id}/" enctype="multipart/form-data">
 
 <table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
 <tr>

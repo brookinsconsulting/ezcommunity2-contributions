@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: articleedit.php,v 1.51 2001/03/04 15:00:28 fh Exp $
+// $Id: articleedit.php,v 1.52 2001/03/06 09:48:41 fh Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <18-Oct-2000 15:04:39 bf>
@@ -119,11 +119,12 @@ function deleteCache( $ArticleID, $CategoryID, $CategoryArray )
     }
 }
 
+/* Can possibly be deleted!
 if ( isset ( $DeleteArticles ) )
 {
     $Action = "DeleteArticles";
 }
-
+*/
 $ini =& INIFile::globalINI();
 
 // insert a new article in the database
@@ -477,6 +478,7 @@ if ( $Action == "Update" )
     }
 }
 
+/*  Can possibly be deleted FJH
 if ( $Action == "DeleteArticles" )
 {
     if ( count ( $ArticleArrayID ) != 0 )
@@ -507,6 +509,7 @@ if ( $Action == "DeleteArticles" )
     eZHTTPTool::header( "Location: /article/archive/$categoryID/" );
     exit();    
 }
+*/
 
 $Language = $ini->read_var( "eZArticleMain", "Language" );
 
