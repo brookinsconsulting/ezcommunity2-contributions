@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: forum.php,v 1.14 2000/07/25 14:33:54 bf-cvs Exp $
+    $Id: forum.php,v 1.15 2000/07/26 07:01:22 bf-cvs Exp $
 
     Author: Lars Wilhelmsen <lw@ez.no>
     
@@ -46,11 +46,15 @@ function printHeaderTree( $forum_id, $parent_id, $level = 0 )
         $t->set_var( "replies", $replies );
 
         // legger på kode for å vise "gren" ikon
-        if ( $replies == 0 )
+
+        $spacer = "";
+        $spacer = "<img src=\"". $DOCROOT ."/images/trans.gif\" border=\"0\" height=\"21\" width=\"5\" >";
+
+        if ( ( $replies == 0 ) )
         {
             if ( $level == 1 )
             {            
-                $spacer = "<img hspace=\"0\" vspace=\"0\" src=\"". $DOCROOT ."/images/n.gif\" border=\"0\">";
+                $spacer .= "<img src=\"". $DOCROOT ."/images/n.gif\" border=\"0\" height=\"21\" width=\"9\" >";
             }
             else
             {
@@ -64,8 +68,13 @@ function printHeaderTree( $forum_id, $parent_id, $level = 0 )
                     $imgtype = "t";                    
                 }
 
-                $spacer = "<img hspace=\"0\" vspace=\"0\" src=\"". $DOCROOT ."/images/trans.gif\" height=\"21\" width=\"" . ( ($level-1)*12 ) ."\" border=\"0\">"
-                     . "<img hspace=\"0\" vspace=\"0\" src=\"". $DOCROOT ."/images/" . $imgtype . ".gif\"  height=\"21\" width=\"12\" border=\"0\">";
+                if ( $level > 2 )
+                  $spacer .= "<img  src=\"". $DOCROOT ."/images/trans.gif\" height=\"21\" width=\"" . ( ($level-2)*12 ) ."\" border=\"0\">";
+                
+                $spacer .= "<img  src=\"". $DOCROOT ."/images/" . $imgtype . ".gif\"  height=\"21\" width=\"12\" border=\"0\">";
+
+                $spacer .= "<img  src=\"". $DOCROOT ."/images/c.gif\" border=\"0\" height=\"21\" width=\"9\" >";
+                
             }
             
         }
@@ -73,18 +82,21 @@ function printHeaderTree( $forum_id, $parent_id, $level = 0 )
         {
             if ( $level > 1 )
             {
-                $spacer = "<img hspace=\"0\" vspace=\"0\"  src=\"". $DOCROOT ."/images/trans.gif\" width=\"" . ( ($level-2)*12 ) ."\" border=\"0\">" .
-                     "<img hspace=\"0\" vspace=\"0\" height=\"21\" width=\"12\" src=\"". $DOCROOT ."/images/l.gif\" border=\"0\">" .
-                     "<img hspace=\"0\" vspace=\"0\" height=\"21\" width=\"9\" src=\"". $DOCROOT ."/images/m.gif\" border=\"0\">";
+                if ( $level > 2 )
+                    $spacer .= "<img   src=\"". $DOCROOT ."/images/trans.gif\" width=\"" . ( ($level-2)*12 ) ."\" border=\"0\">";
+                
+                $spacer .= "<img  height=\"21\" width=\"12\" src=\"". $DOCROOT ."/images/l.gif\" border=\"0\">";
+                $spacer .= "<img  height=\"21\" width=\"9\" src=\"". $DOCROOT ."/images/m.gif\" border=\"0\">";
             }
             else
             {
-                $spacer = "<img hspace=\"0\" vspace=\"0\"  src=\"". $DOCROOT ."/images/m.gif\" border=\"0\">";
+                $spacer .= "<img  height=\"21\" width=\"9\" src=\"". $DOCROOT ."/images/m.gif\" border=\"0\">";
             }
         }
+        
 
-
-        $t->set_var( "topic", $spacer . " $level " . $Topic );        
+        $t->set_var( "tree_icon", $spacer );                    
+        $t->set_var( "topic", "&nbsp;" . $Topic );        
         $t->set_var( "user", $User );
         $t->set_var( "postingtime", $PostingTime );
         $t->set_var( "link",$link );
