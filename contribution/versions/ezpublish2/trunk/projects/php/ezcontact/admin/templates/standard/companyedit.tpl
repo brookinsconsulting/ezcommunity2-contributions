@@ -159,7 +159,7 @@
 	<h2>{intl-logo}</h2>
 <!-- BEGIN logo_add_tpl -->
 	<p class="boxtext">{intl-logo}:</p>
-	<input size="40" name="logo" type="file" />
+	<input size="20" name="logo" type="file" />
 <!-- END logo_add_tpl -->
 
 <!-- BEGIN logo_edit_tpl -->
@@ -187,7 +187,7 @@
 
 <!-- BEGIN image_add_tpl -->
 	<p class="boxtext">{intl-image}:</p>
-	<input size="40" name="image" type="file" />
+	<input size="20" name="image" type="file" />
 <!-- END image_add_tpl -->
 
 <!-- BEGIN image_edit_tpl -->
