@@ -105,16 +105,30 @@ if ( $user )
                         $moved_module = true;
                         break;
                     }
+                    else
+                    {
+                        $module_item = array_shift( $modules );
+                        $modules = array_merge( $modules, $module_item );
+                        $moved_module = true;
+                        break;
+                    }
                 }
                 else if ( $GLOBALS["MoveDown"] == $module_low )
                 {
                     $pos = $i;
-                    if ( $i < count( $modules ) )
+                    if ( $i < count( $modules ) - 1 )
                     {
                         $pos_below = $i + 1;
                         $module_below = $modules[$pos_below];
                         $modules[$pos_below] = $module;
                         $modules[$pos] = $module_below;
+                        $moved_module = true;
+                        break;
+                    }
+                    else
+                    {
+                        $module_item = array_pop( $modules );
+                        $modules = array_merge( $module_item, $modules );
                         $moved_module = true;
                         break;
                     }
