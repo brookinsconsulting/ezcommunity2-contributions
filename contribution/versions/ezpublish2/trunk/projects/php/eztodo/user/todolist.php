@@ -1,5 +1,5 @@
 <?
-// $Id: todolist.php,v 1.12 2001/03/05 14:06:23 ce Exp $
+// $Id: todolist.php,v 1.13 2001/03/13 14:47:59 fh Exp $
 //
 // Definition of todo list.
 //
@@ -32,6 +32,21 @@ include_once( "ezuser/classes/ezpermission.php" );
 include_once( "eztodo/classes/eztodo.php" );
 include_once( "eztodo/classes/ezcategory.php" );
 include_once( "eztodo/classes/ezpriority.php" );
+
+if( isset( $New ) )
+{
+    eZHTTPTool::header( "Location: /todo/todoedit/new" );
+    exit();
+}
+
+if( isset( $Delete ) )
+{
+    foreach( $DeleteArrayID as $todoid )
+    {
+        $todo = new eZTodo( $todoid);
+        $todo->delete();
+    }
+}
 
 $user = eZUser::currentUser();
 if ( $user == false )
