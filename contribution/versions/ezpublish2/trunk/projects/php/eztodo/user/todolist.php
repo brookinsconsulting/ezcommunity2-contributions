@@ -1,5 +1,5 @@
 <?
-// $Id: todolist.php,v 1.9 2001/02/23 17:58:32 bf Exp $
+// $Id: todolist.php,v 1.10 2001/02/27 17:47:16 ce Exp $
 //
 // Definition of todo list.
 //
@@ -36,7 +36,7 @@ include_once( "eztodo/classes/ezpriority.php" );
 $user = eZUser::currentUser();
 if ( $user == false )
 {
-    eZHTTPTool::header( "Location: /" );
+    eZHTTPTool::header( "Location: /error/403/" );
     exit();
 }
 
@@ -50,7 +50,38 @@ $t->set_file( array(
 $t->set_block( "todo_list_page", "todo_item_tpl", "todo_item" );
 $t->set_block( "todo_list_page", "user_item_tpl", "user_item" );
 $t->set_block( "todo_list_page", "no_found_tpl", "no_found" );
+$t->set_block( "todo_list_page", "category_item_tpl", "category_item" );
 
+if ( isSet ( $ShowButton ) )
+{
+    if ( $Show == "All" )
+    {
+        $session->setVariable( "ShowTodo", "All" );
+    }
+    if ( $Show == "NotDone" )
+    {
+        $session->setVariable( "ShowTodo", "NotDone" );
+    }
+    if ( $Show == "Done" )
+    {
+        $session->setVariable( "ShowTodo", "Done" );
+    }
+    
+    $session->setVariable( "TodoCategory", $CategoryID );
+}
+
+if ( $session->variable( "TodoCategory" ) == false )
+{
+    $session->setVariable( "TodoCategory", false );
+}
+
+if ( $session->variable( "ShowTodo" ) == false )
+{
+    $session->setVariable( "ShowTodo", "All" );
+}
+
+$showCategory = $session->variable( "TodoCategory" );
+$showTodo = $session->variable( "ShowTodo" );
 
 $todo = new eZTodo();
 
@@ -62,30 +93,25 @@ if ( eZPermission::checkPermission( $user, "eZTodo", "ViewOtherUsers" ) )
     {
         if ( $GetByUserID == $currentUserID )
         {
-            $todo_array = $todo->getByUserID( $currentUserID );
+            $todo_array = $todo->getByUserID( $currentUserID, $showTodo, $showCategory );
         }
         else
         {
-            $todo_array = $todo->getByOthers( $GetByUserID );
+            $todo_array = $todo->getByOthers( $GetByUserID, $showTodo, $showCategory );
         }
     }
     else
     {
-        $todo_array = $todo->getByUserID( $currentUserID );
+        $todo_array = $todo->getByUserID( $currentUserID, $showTodo, $showCategory );
     }
 }
 else
 {
-    $todo_array = $todo->getByUserID( $currentUserID );
+    $todo_array = $todo->getByUserID( $currentUserID, $showTodo, $showCategory );
 }
 
 $showID = $session->variable( "ShowTodoID" );
 
-//if ( isSet( "SortBy" ) )
-//{
-    
-//}
-    
 // User selector.
 $user = new eZUser();
 $userList = $user->getAll();
@@ -179,6 +205,26 @@ foreach( $todo_array as $todoItem )
 
     $t->parse( "todo_item", "todo_item_tpl", true );
     $i++;
+}
+
+$category = new eZCategory();
+$categoryList =& $category->getAll();
+
+foreach ( $categoryList as $category )
+{
+    $t->set_var( "category_name", $category->name() );
+    $t->set_var( "category_id", $category->id() );
+
+    if ( $category->id() == $session->variable( "TodoCategory" ) )
+    {
+        $t->set_var( "is_selected", "selected" );
+    }
+    else
+    {
+        $t->set_var( "is_selected", "" );
+    }
+
+    $t->parse( "category_item", "category_item_tpl", true );
 }
 
 $t->pparse( "output", "todo_list_page" );

@@ -1,5 +1,5 @@
 <?
-// $Id: eztodo.php,v 1.15 2001/01/22 14:43:02 jb Exp $
+// $Id: eztodo.php,v 1.16 2001/02/27 17:47:15 ce Exp $
 //
 // Definition of eZTodo class
 //
@@ -174,7 +174,7 @@ class eZTodo
       Return the array in $todo_array ordered by name.
       
     */
-    function getByUserID( $id )
+    function getByUserID( $id, $show="All", $categoryID=0 )
     {
         $this->dbInit();
         $todo_array = 0;
@@ -182,7 +182,32 @@ class eZTodo
         $return_array = array();
         $todo_array = array();
 
-        $this->Database->array_query( $todo_array, "SELECT ID FROM eZTodo_Todo WHERE UserID='$id' ORDER BY Priority");
+        switch ( $show )
+        {
+            case "All":
+                $showSql = "";
+            break;
+
+            case "NotDone":
+                $showSql = "AND Status='0'";
+            break;
+
+            case "Done":
+                $showSql = "AND Status='1'";
+            break;
+            
+            default:
+                $showSql = "";
+        }
+
+        if ( $categoryID != 0 )
+        {
+            $showCategory = "AND Category='$categoryID'";
+        }
+
+        $sql = "SELECT ID FROM eZTodo_Todo WHERE UserID='$id' $showSql $showCategory";
+
+        $this->Database->array_query( $todo_array, $sql );
        
         for ( $i=0; $i<count($todo_array); $i++ )
         {
