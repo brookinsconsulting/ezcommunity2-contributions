@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: search.php,v 1.17 2001/10/16 13:44:57 jhe Exp $
+// $Id: search.php,v 1.17.2.1 2002/01/04 14:50:05 kaid Exp $
 //
 // Created on: <15-Sep-2000 14:40:06 bf>
 //
@@ -52,13 +52,16 @@ $t->set_block( "search_list", "search_result_tpl", "search_result" );
 $t->set_block( "search_list", "previous_tpl", "previous" );
 $t->set_block( "search_list", "next_tpl", "next" );
 
-if ( !$Offset )
+if ( !isset( $Offset ) )
     $Offset = 0;
 
 $link = new eZLink();
 
 $t->set_var( "query_string", "" );
 $t->set_var( "search_result", "" );
+
+if ( isset( $SearchText ) and !isset( $QueryString ) )
+    $QueryString = $SearchText;
 
 if ( $QueryString != "" )
 {
