@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: filelist.php,v 1.49.2.4 2002/02/14 10:02:15 jhe Exp $
+// $Id: filelist.php,v 1.49.2.5 2002/03/04 09:07:30 bf Exp $
 //
 // Created on: <10-Dec-2000 16:16:20 bf>
 //
@@ -287,8 +287,8 @@ if ( $FolderID == 0 )
 {
     if ( eZPermission::checkPermission( eZUser::currentUser(), "eZFileManager", "WriteToRoot" ) )
         $t->parse( "write_menu", "write_menu_tpl" );
-    else
-        $t->parse( "write_menu", "" );
+//    else
+//        $t->parse( "write_menu", "" );
 }
 else if ( $user &&
           ( eZObjectPermission::hasPermission( $FolderID, "filemanager_folder", 'w' ) ||
