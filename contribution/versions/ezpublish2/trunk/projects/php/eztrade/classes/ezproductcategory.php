@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezproductcategory.php,v 1.18 2001/01/06 16:21:01 bf Exp $
+// $Id: ezproductcategory.php,v 1.19 2001/01/20 15:24:56 bf Exp $
 //
 // Definition of eZProductCategory class
 //
@@ -410,13 +410,13 @@ class eZProductCategory
                            ProductID='$prodID'";
             
             $this->Database->query( $query );
-       }       
+       }
     }
 
     /*!
       Returns every product to a category as a array of eZProduct objects.
     */
-    function products()
+    function &products()
     {
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
@@ -426,7 +426,9 @@ class eZProductCategory
        $return_array = array();
        $product_array = array();
        
-       $this->Database->array_query( $product_array, "SELECT ProductID FROM eZTrade_ProductCategoryLink WHERE CategoryID='$this->ID'" );
+       $this->Database->array_query( $product_array, "SELECT ProductID
+                                                      FROM eZTrade_ProductCategoryLink
+                                                      WHERE CategoryID='$this->ID'" );
 
        for ( $i=0; $i<count($product_array); $i++ )
        {
@@ -439,7 +441,7 @@ class eZProductCategory
     /*!
       Returns every active product to a category as a array of eZProduct objects.
     */
-    function activeProducts()
+    function &activeProducts()
     {
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
@@ -485,7 +487,7 @@ class eZProductCategory
     /*!
       Returns every option to a category as a array of eZOption objects.
     */
-    function options()
+    function &options()
     {
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );

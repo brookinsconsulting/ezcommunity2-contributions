@@ -29,6 +29,7 @@ switch ( $url_array[2] )
         }
 
         break;
+        
     case "productview" :
         if ( $PageCaching == "enabled" )
         {
