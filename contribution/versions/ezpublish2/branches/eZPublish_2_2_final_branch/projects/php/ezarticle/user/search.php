@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: search.php,v 1.18 2001/10/01 13:16:11 kaid Exp $
+// $Id: search.php,v 1.18.2.1 2001/11/01 12:58:21 master Exp $
 //
 // Created on: <28-Oct-2000 15:56:58 bf>
 //
@@ -23,6 +23,7 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, US
 //
 
+
 include_once( "classes/INIFile.php" );
 include_once( "classes/eztemplate.php" );
 include_once( "classes/ezlocale.php" );
@@ -33,6 +34,15 @@ include_once( "classes/ezlist.php" );
 
 $Language = $ini->read_var( "eZArticleMain", "Language" );
 $Limit = $ini->read_var( "eZArticleMain", "SearchListLimit" );
+
+// init the section
+if ( isset ($SectionIDOverride) )
+{
+    include_once( "ezsitemanager/classes/ezsection.php" );
+
+    $sectionObject =& eZSection::globalSectionObject( $SectionIDOverride );
+    $sectionObject->setOverrideVariables();
+}
 
 $t = new eZTemplate( "ezarticle/user/" . $ini->read_var( "eZArticleMain", "TemplateDir" ),
                      "ezarticle/user/intl/", $Language, "search.php" );

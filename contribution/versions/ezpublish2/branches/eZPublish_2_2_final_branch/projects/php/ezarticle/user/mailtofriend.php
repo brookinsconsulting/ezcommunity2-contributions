@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: mailtofriend.php,v 1.6.2.2 2001/10/31 14:52:28 master Exp $
+// $Id: mailtofriend.php,v 1.6.2.3 2001/11/01 13:00:03 master Exp $
 //
 // Created on: <18-Jun-2001 16:37:47 br>
 //
@@ -30,12 +30,9 @@ include_once( "ezmail/classes/ezmail.php" );
 include_once( "ezarticle/classes/ezarticle.php" );
 include_once( "ezarticle/classes/ezarticlerenderer.php" );
 
-
 $ini =& INIFile::globalINI();
 $Language = $ini->read_var( "eZArticleMain", "Language" );
 $Sender = $ini->read_var( "ezArticleMain", "MailToFriendSender" );
-$tpl = new eZTemplate( "ezarticle/user/" . $ini->read_var( "eZArticleMain", "TemplateDir" ),
-                       "ezarticle/user/" . "intl", $Language, "mailtofriend.php" );
 
 // sections
 include_once( "ezsitemanager/classes/ezsection.php" );
@@ -51,6 +48,9 @@ if ( ($CategoryID != 0) )
 // init the section
 $sectionObject =& eZSection::globalSectionObject( $GlobalSectionID );
 $sectionObject->setOverrideVariables();
+
+$tpl = new eZTemplate( "ezarticle/user/" . $ini->read_var( "eZArticleMain", "TemplateDir" ),
+                       "ezarticle/user/" . "intl", $Language, "mailtofriend.php" );
 
 $tpl->set_file( "mailtofriend_tpl" ,"mailtofriend.tpl" );
 $tpl->setAllStrings();

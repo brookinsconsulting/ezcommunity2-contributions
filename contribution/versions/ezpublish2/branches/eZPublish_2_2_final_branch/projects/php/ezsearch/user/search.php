@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: search.php,v 1.8 2001/10/10 11:36:07 jhe Exp $
+// $Id: search.php,v 1.8.2.1 2001/11/01 13:01:24 master Exp $
 //
 // Created on: <08-Jun-2001 13:10:36 bf>
 //
@@ -33,6 +33,15 @@ $Language = $ini->read_var( "eZSearchMain", "Language" );
 $SearchModules = $ini->read_var( "eZSearchMain", "SearchModules" );
 
 $moduleArray = explode( ";", $SearchModules );
+
+// init the section
+if ( isset ($SectionIDOverride) )
+{
+    include_once( "ezsitemanager/classes/ezsection.php" );
+    
+    $sectionObject =& eZSection::globalSectionObject( $SectionIDOverride );
+    $sectionObject->setOverrideVariables();
+}
 
 $t = new eZTemplate( "ezsearch/user/" . $ini->read_var( "eZSearchMain", "TemplateDir" ),
                      "ezsearch/user/intl/", $Language, "search.php" );

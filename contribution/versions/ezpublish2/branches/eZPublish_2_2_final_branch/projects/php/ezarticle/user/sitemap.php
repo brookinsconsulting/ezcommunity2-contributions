@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: sitemap.php,v 1.9.2.1 2001/10/30 19:34:45 master Exp $
+// $Id: sitemap.php,v 1.9.2.2 2001/11/01 12:58:32 master Exp $
 //
 // Created on: <06-Jun-2001 17:05:38 bf>
 //
@@ -38,10 +38,11 @@ include_once( "ezarticle/classes/ezarticle.php" );
 include_once( "ezarticle/classes/ezarticlegenerator.php" );
 include_once( "ezarticle/classes/ezarticlerenderer.php" );
 
+$Language = $ini->read_var( "eZArticleMain", "Language" );
+
 // sections
 include_once( "ezsitemanager/classes/ezsection.php" );
 
-// tempo fix for admin users - maybe in the future must be changed
 if ( ($CategoryID != 0) )
 {
     $GlobalSectionID = eZArticleCategory::sectionIDstatic ( $CategoryID );
@@ -50,8 +51,6 @@ if ( ($CategoryID != 0) )
 // init the section
 $sectionObject =& eZSection::globalSectionObject( $GlobalSectionID );
 $sectionObject->setOverrideVariables();
-
-$Language = $ini->read_var( "eZArticleMain", "Language" );
 
 $t = new eZTemplate( "ezarticle/user/" . $ini->read_var( "eZArticleMain", "TemplateDir" ),
                      "ezarticle/user/intl/", $Language, "sitemap.php" );
