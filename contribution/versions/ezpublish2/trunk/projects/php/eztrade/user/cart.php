@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: cart.php,v 1.47 2001/08/30 09:57:31 ce Exp $
+// $Id: cart.php,v 1.48 2001/08/30 10:26:23 br Exp $
 //
 // Created on: <27-Sep-2000 11:57:49 bf>
 //
@@ -65,12 +65,10 @@ if ( ( $Action == "Refresh" ) || isSet( $DoCheckOut ) )
 
         if ( ( $product->totalQuantity() < $CartCountArray[$i] ) and ( $product->totalQuantity() != false ) )
         {
-            print( "hm" );
             $cartItem->setCount( $product->totalQuantity() );
         }
         else
         {
-            print( "blas" );
             $cartItem->setCount( $CartCountArray[$i] );
         }
         
