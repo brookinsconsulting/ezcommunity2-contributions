@@ -93,7 +93,7 @@
 
 	<!-- Meny end! -->
 	
-	<img src="/images/1x1.gif" width="130" height="1" border="0"><br />
+	<img src="/images/1x1.gif" width="130" height="8" border="0"><br />
 	</td>
 
 	<td width="1%" bgcolor="#ffffff"><img src="/images/1x1.gif" width="2" height="1" border="0" alt="0" /></td>

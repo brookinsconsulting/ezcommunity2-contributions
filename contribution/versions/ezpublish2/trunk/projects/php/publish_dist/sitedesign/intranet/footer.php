@@ -92,14 +92,14 @@ if ( $Design == 3 )
 
 
 ?>
-	<h2>Different sitedesigns:</h2>
+	<h2>Alternative sitedesigns:</h2>
     <a href="<? print( $REQUEST_URI . "?Design=1"); ?>"><b>Portal</b></a><br />
     <a href="<? print( $REQUEST_URI . "?Design=2"); ?>"><b>E-commerce</b></a><br />
     <a href="<? print( $REQUEST_URI . "?Design=3"); ?>"><b>News</b></a><br />
-    
+
     <!-- Oppslagstavle fram til hit! -->
 	
-	<img src="/images/1x1.gif" width="130" height="1" border="0"><br />
+	<img src="/images/1x1.gif" width="130" height="8" border="0"><br />
 
 	</td>
   </tr>
