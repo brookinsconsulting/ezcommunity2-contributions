@@ -1,6 +1,6 @@
 <h1>{intl-head_line}</h1>
 
-<hr noshade="noshade" size="4">
+<hr noshade="noshade" size="4" />
 
 <br />
 
@@ -19,7 +19,7 @@
 		<!-- {choice_number}: --> <b>{choice_name}</b> {choice_percent}%
 		</td>
 		<td align="right">
-		{choice_vote} stemmer
+		{choice_vote} {intl-votes}
 		</td>
 	</tr>
 	<tr>
@@ -51,8 +51,12 @@
 </tr>
 </table>
 
+<br />
 <form method="post" action="/poll/polls">
-<input type="submit" value="{intl-more}">
+
+<hr noshade="noshade" size="4">
+
+<input class="stdbutton" type="submit" value="{intl-more}">
 </form>
 
 <!-- END result_list_tpl -->

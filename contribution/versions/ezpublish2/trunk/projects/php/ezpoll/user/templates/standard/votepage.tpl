@@ -10,7 +10,7 @@
 	<td width="1%">
 	<input type="radio" value="{choice_id}" name="ChoiceID">
 	</td>
-	<td width="99%" class="small">
+	<td width="99%">
 	{choice_name}
 	</td>
 </tr>
@@ -21,23 +21,16 @@
 <hr noshade="noshade" size="4">
 <table cellspacing="0" cellpadding="2" border="0">
 <tr>
-	<td>
+	<td valign="top">
 	<input type="hidden" name="PollID" value="{poll_id}" />
-	<input type="submit" value="{intl-vote}" />
+	<input class="okbutton" type="submit" value="{intl-vote}" />
 	</td>
 	<td>&nbsp;</td>
 	</form>
 
 	<td>
 	<form action="/poll/result/{poll_id}">
-	<input type="submit" value="{intl-result}">
-	</form>
-	</td>
-	<td>&nbsp;</td>
-
-	<td>
-	<form action="/poll/polls">
-	<input type="submit" value="{intl-polls}">
+	<input class="okbutton" type="submit" value="{intl-result}">
 	</form>
 	</td>
 </tr>
