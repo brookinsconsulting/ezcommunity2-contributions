@@ -160,14 +160,26 @@ if ( ( $requireUserLogin == "disabled" ) ||
     print( $buffer );
 
     // set the sitedesign from the section
-    include_once( "ezsitemanager/classes/ezsection.php" );
-    print( eZSection::siteDesign( $GlobalSectionID ) );
-    
-    $siteDesign = eZSection::siteDesign( $GlobalSectionID );
-    $GlobalSiteDesign = $siteDesign;
-    
-    $meta_page = "ez" . $url_array[1] . "/metasupplier.php";
+    if ( $ini->read_var( "site", "Sections" ) == "enabled" )
+    {
+        if ( !is_numeric( $GlobalSectionID ) )
+        {
+            $GlobalSectionID = $ini->read_var( "site", "DefaultSection" );
+        }
+                 
+        include_once( "ezsitemanager/classes/ezsection.php" );
 
+        if ( $DEBUG == true )
+        {
+            print( eZSection::siteDesign( $GlobalSectionID ) );
+        }
+        
+        $siteDesign = eZSection::siteDesign( $GlobalSectionID );
+        $GlobalSiteDesign = $siteDesign;
+    }
+        
+    $meta_page = "ez" . $url_array[1] . "/metasupplier.php";
+        
     // include some html
     $Title = $ini->read_var( "site", "SiteTitle" );
     include( "sitedesign/$siteDesign/preamble.php" );
@@ -199,10 +211,8 @@ if ( ( $requireUserLogin == "disabled" ) ||
     // Main contents
     print( $MainContents );
     
-
-    
-// and the html finish
-// include more html
+    // and the html finish
+    // include more html
     if ( $PrintableVersion == "enabled" )
     {
         include( "sitedesign/$siteDesign/simplefooter.php" );
