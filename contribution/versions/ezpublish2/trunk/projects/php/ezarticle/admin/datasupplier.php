@@ -328,14 +328,56 @@ switch ( $url_array[2] )
     }
     break;
 
-    case "sitemap";
+    case "sitemap":
     {
         include( "ezarticle/admin/sitemap.php" );
     }
     break;    
 
+    case "type":
+    {
+        switch( $url_array[3] )
+        {
+            case "list":
+            {
+                    include( "ezarticle/admin/typelist.php" );
+            }
+            break;
+            
+            case "new":
+            case "edit":
+            case "insert":
+            case "update":
+            case "delete":
+            case "up":
+            case "down":
+            {
+                if( !isset( $Action ) )
+                    $Action = $url_array[3];
+                if( is_numeric( $TypeID ) )
+                {
+                    $ActionValue = "update";
+                }
+                else
+                {
+                    $TypeID = $url_array[4];
+                }
+                
+                if( !is_array( $AttributeID ) )
+                {
+                    $AttributeID = $url_array[5];
+                }
+                include( "ezarticle/admin/typeedit.php" );
+            }
+            break;
+        }
+    }
+    break;
+
     default :
     {
+        echo $url_array[2] . " " . $url_array[3] . " ";
+        exit();
         eZHTTPTool::header( "Location: /error/404" );
         exit();
     }
