@@ -2,7 +2,7 @@
 <hr noshade size="4" />
 
 	<h2>{year_number}</h2>
-
+<br />
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
 	<td>
@@ -13,7 +13,6 @@
 	</td>
 </tr>
 </table>
-<br />
 
 <table width="100%" cellspacing="10">
 {begin_tr}
@@ -52,9 +51,9 @@
 
 <hr noshade size="4" />
 
-<input type="submit" name="GoDay" value="{intl-day}">
-<input type="submit" name="GoMonth" value="{intl-month}">
-<input type="submit" name="GoYear" value="{intl-year}">
-<input type="submit" name="GoToday" value="{intl-today}">
+<input class="stdbutton" type="submit" name="GoDay" value="{intl-day}">
+<input class="stdbutton" type="submit" name="GoMonth" value="{intl-month}">
+<input class="stdbutton" type="submit" name="GoYear" value="{intl-year}">
+<input class="stdbutton" type="submit" name="GoToday" value="{intl-today}">
 </form>
 

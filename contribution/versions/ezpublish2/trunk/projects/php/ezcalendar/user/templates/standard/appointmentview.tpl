@@ -108,9 +108,9 @@
 <!-- END view_tpl -->
 
 <form action="/calendar/appointmentedit/edit/">
-<input type="submit" name="GoDay" value="{intl-day}">
-<input type="submit" name="GoMonth" value="{intl-month}">
-<input type="submit" name="GoYear" value="{intl-year}">
-<input type="submit" name="GoToday" value="{intl-today}">
+<input class="stdbutton" type="submit" name="GoDay" value="{intl-day}">
+<input class="stdbutton" type="submit" name="GoMonth" value="{intl-month}">
+<input class="stdbutton" type="submit" name="GoYear" value="{intl-year}">
+<input class="stdbutton" type="submit" name="GoToday" value="{intl-today}">
 </form>
 

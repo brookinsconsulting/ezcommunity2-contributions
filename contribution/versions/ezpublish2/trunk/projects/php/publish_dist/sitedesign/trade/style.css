@@ -167,12 +167,12 @@ th
 
 .bglight 
 {
-	background-color: #f0f0f0;
+	background-color: #f5f5ff;
 }
 
 .bgdark 
 {
-	background-color: #dcdcdc;
+	background-color: #e2e2f5;
 }
 
 .bgcurrent
@@ -182,13 +182,13 @@ th
 
 .bgweekend
 {
-	background-color: #a0a0a0;
+	background-color: #7878d2;
 }
 
 .bgselect
 {
 	color: #ffffff;
-	background-color: #787878;
+	background-color: #2828aa;
 }
 
 form

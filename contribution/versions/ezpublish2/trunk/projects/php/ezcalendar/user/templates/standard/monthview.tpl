@@ -2,6 +2,8 @@
 <h1>{intl-appointments}: {intl-month_view}</h1>
 <hr noshade size="4" />
 
+<h2>{month_name} {year_number}</h2>
+
 <form method="post" action="/calendar/monthview/">
 <p class="boxtext">{intl-user}:</p>
 <select name="GetByUserID">
@@ -10,13 +12,13 @@
 <!-- END user_item_tpl -->
 </select>
 
-<input type="submit" Name="GetByUser" value="{intl-show}">
+<input class="stdbutton" type="submit" Name="GetByUser" value="{intl-show}">
 
 </form>
+<br />
 
 <!-- BEGIN month_tpl -->
 
-<h2>{month_name} {year_number}</h2>
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
 <tr>
 	<td>
@@ -74,9 +76,9 @@
 
 <hr noshade size="4" />
 
-<input type="submit" name="GoDay" value="{intl-day}">
-<input type="submit" name="GoMonth" value="{intl-month}">
-<input type="submit" name="GoYear" value="{intl-year}">
-<input type="submit" name="GoToday" value="{intl-today}">
+<input class="stdbutton" type="submit" name="GoDay" value="{intl-day}">
+<input class="stdbutton" type="submit" name="GoMonth" value="{intl-month}">
+<input class="stdbutton" type="submit" name="GoYear" value="{intl-year}">
+<input class="stdbutton" type="submit" name="GoToday" value="{intl-today}">
 </form>
 
