@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: personedit.php,v 1.57.2.7 2002/05/14 11:17:04 jhe Exp $
+// $Id: personedit.php,v 1.57.2.8 2002/11/21 08:49:51 jhe Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -787,7 +787,7 @@ if ( !$confirm )
                 $BirthDay = 1;
             }
             $Comment = $person->comment();
-            $image =& $person->image();
+/*            $image =& $person->image();
             if ( get_class( $image ) == "ezimage" && $image->id() != 0 )
             {
                 $imageWidth =& $ini->read_var( "eZContactMain", "PersonImageWidth" );
@@ -802,7 +802,7 @@ if ( !$confirm )
                 $t->set_var( "image_url", $imageURL );	
                 $t->set_var( "image_caption", $imageCaption );
                 $t->parse( "image_item", "image_item_tpl" );  
-            }                                           
+            }*/
         }
 
         $addresses = $item->addresses();

@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: personview.php,v 1.25.2.3 2002/05/14 11:17:04 jhe Exp $
+// $Id: personview.php,v 1.25.2.4 2002/11/21 08:52:13 jhe Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -327,7 +327,7 @@ if ( $Action == "view" )
         $t->parse( "no_project_status", "no_project_status_tpl" );
     }
 
-    $image =& $person->image();
+/*    $image =& $person->image();
     if ( get_class( $image ) == "ezimage" && $image->id() != 0 )
     {
         $imageWidth =& $ini->read_var( "eZContactMain", "PersonImageWidth" );
@@ -343,7 +343,7 @@ if ( $Action == "view" )
         $t->set_var( "image_caption", $imageCaption );
         $t->parse( "image_item", "image_item_tpl" );
     }
-    else
+    else*/
     {
         $t->parse( "image_item", "" );
     }
