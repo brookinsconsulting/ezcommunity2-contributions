@@ -1,5 +1,5 @@
 <?
-// $Id: todoedit.php,v 1.13 2001/01/23 13:16:58 jb Exp $
+// $Id: todoedit.php,v 1.14 2001/01/26 12:00:42 ce Exp $
 //
 // Definition of todo list.
 //
@@ -56,6 +56,12 @@ include_once( "ezuser/classes/ezusergroup.php" );
 $locale = new eZLocale( $Language );
 
 $user = eZUser::currentUser();
+
+if ( !$user )
+{
+    eZHTTPTool::header( "Location: /" );
+    exit();
+}
 
 // Setup template.
 $t = new eZTemplate( "eztodo/user/" . $ini->read_var( "eZTodoMain", "TemplateDir" ),
