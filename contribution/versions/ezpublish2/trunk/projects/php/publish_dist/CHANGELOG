@@ -1,0 +1,8 @@
+Changes from version 1.0
+------------------------
+* Added printable version of the articles
+* Fixed broken search in links
+* Fixed broken search in article admin
+* Disabled the possibility to set an unactive poll to 
+  main poll.
+* Fixed editing of user addresses, if enabled.
