@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezfile.php,v 1.17 2001/08/14 14:12:15 jhe Exp $
+// $Id: ezfile.php,v 1.18 2001/08/28 07:46:32 kaid Exp $
 //
 // Definition of eZCompany class
 //
@@ -343,6 +343,19 @@ class eZFile
         }
 
         return is_dir( $dir );
+    }
+    
+    /*!
+      Same as realpath(), but prepends $siteDir if $filename not empty.
+    */
+    function realpath( $filename )
+    {
+        if ( file_exists( "sitedir.ini" ) && $filename != "" )
+        {
+            include( "sitedir.ini" );
+            $filename = $siteDir . $filename;
+        }
+        return realpath( $filename );
     }
     
     var $FileName;
