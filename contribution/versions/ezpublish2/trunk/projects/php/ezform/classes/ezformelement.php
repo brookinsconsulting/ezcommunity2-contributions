@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezformelement.php,v 1.26 2002/01/03 08:51:33 jhe Exp $
+// $Id: ezformelement.php,v 1.27 2002/01/07 12:00:24 jhe Exp $
 //
 // ezformelement class
 //
@@ -537,12 +537,22 @@ class eZFormElement
         if ( get_class( $this->ElementType ) == "ezformelementtype" )
         {
             if ( $this->ElementType->name() == "multiple_select_item" ||
+                 $this->ElementType->name() == "dropdown_item" )
+            {
+                $orderString = "ORDER BY fv.Value";
+            }
+            else
+            {
+                $orderString = "";
+            }
+            
+            if ( $this->ElementType->name() == "multiple_select_item" ||
                  $this->ElementType->name() == "dropdown_item" ||
                  $this->ElementType->name() == "checkbox_item" ||
                  $this->ElementType->name() == "radiobox_item" )
             {
                 $db->array_query( $formArray, "SELECT fv.ID, fv.Value FROM eZForm_FormElementFixedValues as fv, eZForm_FormElementFixedValueLink as fvl
-                                               WHERE fv.ID=fvl.FixedValueID AND fvl.ElementID='$this->ID' ORDER BY fv.Value" );
+                                               WHERE fv.ID=fvl.FixedValueID AND fvl.ElementID='$this->ID' $orderString" );
                 
                 for ( $i = 0; $i < count( $formArray ); $i++ )
                 {
