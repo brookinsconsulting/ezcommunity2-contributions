@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: category.php,v 1.11 2000/08/08 13:41:20 lw-cvs Exp $
+    $Id: category.php,v 1.12 2000/08/09 10:59:18 jhe-cvs Exp $
 
     Author: Lars Wilhelmsen <lw@ez.no>
     
@@ -11,7 +11,7 @@
 include( "ezforum/dbsettings.php" );
 include_once( "ezphputils.php" );
 include_once( "template.inc" );
-include_once( "$DOCROOT/classes/ezdb.php" );
+include_once( "../classes/ezdb.php" );
 include_once( "$DOCROOT/classes/ezforumcategory.php" );
   
 $cat = new eZforumCategory();

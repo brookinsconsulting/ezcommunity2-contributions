@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: message.php,v 1.10 2000/08/08 09:44:29 lw-cvs Exp $
+    $Id: message.php,v 1.11 2000/08/09 10:59:18 jhe-cvs Exp $
 
     Author: Lars Wilhelmsen <lw@ez.no>
     
@@ -21,10 +21,10 @@ $Language = $ini->read_var( "MAIN", "Language" );
 $t = new eZTemplate( "$DOCROOT/admin/templates", "$DOCROOT/intl", $Language, "forum.php" );
 $t->setAllStrings();
 
-$t->set_file(Array( "messages" => "message.tpl",
-                    "elements" => "message-elements.tpl",
-                    "navigation" => "navigation.tpl",
-                    "navigation-bottom" => "navigation-bottom.tpl" ) );
+$t->set_file( Array( "messages" => "message.tpl",
+                     "elements" => "message-elements.tpl",
+                     "navigation" => "navigation.tpl",
+                     "navigation-bottom" => "navigation-bottom.tpl" ) );
 
 $t->set_var( "docroot", $DOCROOT );
 $t->set_var( "category_id", $category_id );
