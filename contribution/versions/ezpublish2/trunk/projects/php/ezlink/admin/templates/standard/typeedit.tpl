@@ -45,7 +45,7 @@
 <!-- BEGIN no_item_move_up_tpl -->
 	<td width="1%"> &nbsp; </td>
 <!-- END no_item_move_up_tpl -->
-	<td>
+	<td align="right">
 	<input type="checkbox" name="DeleteAttributes[]" value="{attribute_id}" />
 	</td>
 </tr>

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezlink.php,v 1.62 2001/07/02 14:40:47 jhe Exp $
+// $Id: ezlink.php,v 1.63 2001/07/03 12:11:07 jhe Exp $
 //
 // Definition of eZLink class
 //
@@ -139,38 +139,36 @@ class eZLink
         if ( get_class( $type ) == "ezlinktype" )
         {
             $db =& eZDB::globalDatabase();
-
+            
             $db->begin();
             
             $typeID = $type->id();
-
-            $db->lock( "eZLink_TypeLink" );
-
-            $nextID = $db->nextID( "eZLink_TypeLink", "ID" );
-            
             
             $res[] = $db->query( "DELETE FROM eZLink_AttributeValue
                                      WHERE LinkID='$this->ID'" );
-            
             $res[] = $db->query( "DELETE FROM eZLink_TypeLink
                                      WHERE LinkID='$this->ID'" );
             
+            $db->lock( "eZLink_TypeLink" );
+            
+            $nextID = $db->nextID( "eZLink_TypeLink", "ID" );
+            
             $query = "INSERT INTO eZLink_TypeLink
-                      ( ID,  TypeID, LinkID )
+                      (ID, TypeID, LinkID)
                       VALUES
-                      ( '$nextID',
-                         '$typeID',
-                         '$this->ID' )";
+                      ('$nextID',
+                       '$typeID',
+                       '$this->ID')";
             
             $res[] = $db->query( $query );
-
+            
             $db->unlock();
             
             if ( in_array( false, $res ) )
-                $db->rollback( );
+                $db->rollback();
             else
                 $db->commit();
-
+            
         }
     }
 
@@ -536,6 +534,7 @@ class eZLink
         $db =& eZDB::globalDatabase();
 
         $ret = array();
+        $category_array = array();
         $db->array_query( $category_array, "SELECT * FROM eZLink_LinkCategoryLink
                                        WHERE LinkID='$this->ID'" );
         if ( $as_object )
@@ -708,47 +707,16 @@ class eZLink
         $db->array_query( $result, "SELECT ImageID FROM eZLink_Link WHERE ID='$this->ID'" );
 
         foreach ( $result as $item )
-        {
-            $image = new eZImage( $item[$db->fieldName("ImageID")] );
-            $image->delete();
-        }
-        
-        $db->query( "UPDATE eZLink_Link set ImageID='0' WHERE ID='$this->ID'" );
-    }
-
-    /*!
-      Returns the categories an link is assigned to.
-
-      The categories are returned as an array of eZLinkCategory objects.
-    */
-    function categories( $as_object = true )
-    {
-        $db =& eZDB::globalDatabase();
-
-        $ret = array();
-        $db->array_query( $category_array, "SELECT * FROM eZLink_LinkCategoryLink WHERE LinkID='$this->ID'" );
-
-        if ( $as_object )
-        {
-            foreach ( $category_array as $category )
-            {
-                $ret[] = new eZLinkCategory( $category[$db->fieldName("LinkID")] );
-            }
-        }
-        else
-        {
-            foreach ( $category_array as $category )
-            {
-                $ret[] = $category[$db->fieldName("LinkID")];
-            }
-        }
-
-        return $ret;
-    }
-    
-    
-    var $ID;
-    var $Name;
+        { 
+            $image = new eZImage( $item[$db->fieldName("ImageID")] ); 
+            $image->delete(); 
+        } 
+         
+        $db->query( "UPDATE eZLink_Link set ImageID='0' WHERE ID='$this->ID'" ); 
+    } 
+ 
+    var $ID; 
+    var $Name; 
     var $Description;
     var $KeyWords;
     var $Created;

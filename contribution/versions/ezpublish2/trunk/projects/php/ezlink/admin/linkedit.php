@@ -1,5 +1,5 @@
 <?
-// $Id: linkedit.php,v 1.57 2001/07/02 14:40:47 jhe Exp $
+// $Id: linkedit.php,v 1.58 2001/07/03 12:11:07 jhe Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <26-Oct-2000 14:58:57 ce>
@@ -145,25 +145,14 @@ if ( $Action == "update" )
             $link->setKeyWords( $Keywords );
             $link->setUrl( $Url );
             
-            $link->setCategoryDefinition( $LinkCategoryID );
-            
             // Calculate new and unused categories
             
             $old_maincategory = $link->categoryDefinition();
             $old_categories =& array_unique( array_merge( $old_maincategory->id(),
-            $link->categories( false ) ) );
-            
-            $new_categories = array_unique( array_merge( $CategoryID, $CategoryArray ) );
-            
+                                                          $link->categories( false ) ) );
+            $new_categories = array_unique( array_merge( $LinkCategoryID, $CategoryArray ) );
             $remove_categories = array_diff( $old_categories, $new_categories );
             $add_categories = array_diff( $new_categories, $old_categories );
-            
-            $categoryIDArray = array();
-            
-            foreach ( $categoryArray as $cat )
-            {
-                $categoryIDArray[] = $cat->id();
-            }
             
             foreach ( $remove_categories as $categoryItem )
             {
@@ -173,13 +162,11 @@ if ( $Action == "update" )
             // add to categories
             $category = new eZLinkCategory( $LinkCategoryID );
             $link->setCategoryDefinition( $category );
-            $category->addLink( $link );
             
             foreach ( $add_categories as $categoryItem )
             {
                 eZLinkCategory::addLink( $link, $categoryItem );
             }
-
             
             if ( $Accepted == "1" )
                 $link->setAccepted( true );
@@ -191,7 +178,7 @@ if ( $Action == "update" )
             $file = new eZImageFile();
             if ( $file->getUploadedFile( "ImageFile" ) )
             {
-                $image = new eZImage( );
+                $image = new eZImage();
                 $image->setName( "LinkImage" );
                 $image->setImage( $file );
                 
@@ -548,7 +535,6 @@ if ( $Action == "edit" )
             $t->set_var( "image_item", "" );
         }
         
-        
 
         if ( $editLink->accepted() == true )
         {
@@ -577,6 +563,8 @@ if ( $Action == "AttributeList" )
     $t->parse( "no_image_item", "no_image_item_tpl" );
     $t->set_var( "image_item", "" );
     
+    $LinkCategoryIDArray = $CategoryArray;
+
 
     if ( $Accepted == true )
     {
@@ -597,6 +585,7 @@ $link_select_dict = "";
 $catCount = count( $linkCategoryList );
 $t->set_var( "num_select_categories", min( $catCount, 10 ) );
 $i = 0;
+
 foreach( $linkCategoryList as $linkCategoryItem )
 {
     $t->set_var("link_category_id", $linkCategoryItem[0]->id() );
@@ -617,8 +606,7 @@ foreach( $linkCategoryList as $linkCategoryItem )
         $t->set_var( "option_level", "" );
 
     $link_select_dict[ $linkCategoryItem[0]->id() ] = $i;
-
-    if ( is_array($LinkCategoryIDArray ) and (  $LinkCategoryID != $linkCategoryItem[0]->id() ) )
+    if ( in_array( $linkCategoryItem[0]->id(), $LinkCategoryIDArray ) and (  $LinkCategoryID != $linkCategoryItem[0]->id() ) )
     {
         $t->set_var( "multiple_selected", "selected" );
         $i++;

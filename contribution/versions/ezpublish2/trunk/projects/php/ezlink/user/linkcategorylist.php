@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: linkcategorylist.php,v 1.3 2001/07/02 07:18:51 bf Exp $
+// $Id: linkcategorylist.php,v 1.4 2001/07/03 12:11:07 jhe Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <26-Oct-2000 15:02:09 ce>
@@ -42,9 +42,7 @@ $t = new eZTemplate( "ezlink/user/" . $ini->read_var( "eZLinkMain", "TemplateDir
 
 $t->setAllStrings();
 
-$t->set_file( array(
-    "link_page_tpl" => "linkcategorylist.tpl"
-    ) );
+$t->set_file( "link_page_tpl", "linkcategorylist.tpl" );
 
 $t->set_block( "link_page_tpl", "category_list_tpl", "category_list" );
 $t->set_block( "category_list_tpl", "category_item_tpl", "category_item" );
@@ -64,7 +62,7 @@ if ( !$Offset )
 
 // List all the categories
 $linkCategory = new eZLinkCategory();
-$linkCategory->get ( $LinkCategoryID );
+$linkCategory->get( $LinkCategoryID );
 
 // Path
 $pathArray = $linkCategory->path();
@@ -73,9 +71,7 @@ $t->set_var( "path_item", "" );
 foreach ( $pathArray as $path )
 {
     $t->set_var( "category_id", $path[0] );
-
     $t->set_var( "category_name", $path[1] );
-    
     $t->parse( "path_item", "path_item_tpl", true );
 }
 
@@ -88,7 +84,7 @@ if ( count( $linkCategory_array ) == 0 )
 }
 else
 {
-    $i=0;
+    $i = 0;
     foreach( $linkCategory_array as $categoryItem )
     {
         $t->set_var( "td_class", ( $i % 2 ) == 0 ? "bglight" : "bgdark"  );
@@ -142,7 +138,6 @@ else
 // List all the links in the category
 $links = $linkCategory->links( $Offset, $UserLimit );
 $linkCount = $linkCategory->linkCount();
-
 if ( count( $links ) == 0 )
 {
     if ( $LinkCategoryID == 0 )

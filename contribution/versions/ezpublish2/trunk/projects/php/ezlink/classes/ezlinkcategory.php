@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezlinkcategory.php,v 1.3 2001/07/02 14:40:47 jhe Exp $
+// $Id: ezlinkcategory.php,v 1.4 2001/07/03 12:11:07 jhe Exp $
 //
 // Definition of eZLinkCategory class
 //
@@ -326,7 +326,6 @@ class eZLinkCategory
                                $fetchUnAccepted
                            ORDER BY eZLink_Link.Name",
                            array( "Limit" => $limit, "Offset" => $offset ) );
-        
         foreach( $linkArray as $link )
         {
             $returnArray[] = new eZLink( $link[$db->fieldName("ID")] );

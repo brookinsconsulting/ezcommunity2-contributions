@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezlinkattribute.php,v 1.1 2001/06/30 11:29:40 bf Exp $
+// $Id: ezlinkattribute.php,v 1.2 2001/07/03 12:11:07 jhe Exp $
 //
 // Definition of eZLinkAttribute class
 //
@@ -148,8 +148,7 @@ class eZLinkAttribute
         $db =& eZDB::globalDatabase();
 
         $db->query( "DELETE FROM eZLink_AttributeValue WHERE AttributeID='$this->ID'" );
-        
-        $tdb->query( "DELETE FROM eZLink_Attribute WHERE ID='$this->ID'" );
+        $db->query( "DELETE FROM eZLink_Attribute WHERE ID='$this->ID'" );
     }
 
     /*!
