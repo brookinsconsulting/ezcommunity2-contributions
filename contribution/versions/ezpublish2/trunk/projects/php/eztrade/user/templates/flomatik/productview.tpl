@@ -118,9 +118,11 @@
 <table width="100%" cellpadding="2" cellspacing="0" border="0">
 	<!-- BEGIN value_price_header_tpl -->
 	<tr>
+		<!-- BEGIN value_description_header_tpl -->
 		<th>
-		Art. Nr:
+		{description_header}:
 		</th>
+		<!-- END value_description_header_tpl -->
 		<!-- BEGIN value_price_header_item_tpl -->
 		<th>
 		Price:
@@ -136,9 +138,11 @@
 	<!-- END value_price_header_tpl -->
 	<tr>
 	<!-- BEGIN value_tpl -->
+	<!-- BEGIN value_description_tpl -->
 	<td class="{value_td_class}">
 	{value_name}&nbsp;&nbsp;
 	</td>
+	<!-- END value_description_tpl -->
 	<!-- BEGIN value_price_item_tpl -->
 	<td class="{value_td_class}">
 	{value_price}

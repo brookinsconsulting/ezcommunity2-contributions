@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: productview.php,v 1.29 2001/03/01 14:06:26 jb Exp $
+// $Id: productview.php,v 1.30 2001/03/02 15:51:33 jb Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <24-Sep-2000 12:20:32 bf>
@@ -34,6 +34,7 @@ $ini =& INIFile::globalINI();
 $Language = $ini->read_var( "eZTradeMain", "Language" );
 $ShowPriceGroups = $ini->read_var( "eZTradeMain", "PriceGroupsEnabled" ) == "true";
 $RequireUserLogin = $ini->read_var( "eZTradeMain", "RequireUserLogin" ) == "true";
+$SimpleOptionHeaders = $ini->read_var( "eZTradeMain", "SimpleOptionHeaders" ) == "true";
 $locale = new eZLocale( $Language );
 
 $CapitalizeHeadlines = $ini->read_var( "eZArticleMain", "CapitalizeHeadlines" );
@@ -100,9 +101,11 @@ $t->set_block( "image_list_tpl", "image_tpl", "image" );
 $t->set_block( "product_view_tpl", "main_image_tpl", "main_image" );
 $t->set_block( "product_view_tpl", "option_tpl", "option" );
 $t->set_block( "option_tpl", "value_price_header_tpl", "value_price_header" );
+$t->set_block( "value_price_header_tpl", "value_description_header_tpl", "value_description_header" );
 $t->set_block( "value_price_header_tpl", "value_price_header_item_tpl", "value_price_header_item" );
 $t->set_block( "value_price_header_tpl", "value_currency_header_item_tpl", "value_currency_header_item" );
 $t->set_block( "option_tpl", "value_tpl", "value" );
+$t->set_block( "value_tpl", "value_description_tpl", "value_description" );
 $t->set_block( "value_tpl", "value_price_item_tpl", "value_price_item" );
 $t->set_block( "value_tpl", "value_price_currency_list_tpl", "value_price_currency_list" );
 $t->set_block( "value_price_currency_list_tpl", "value_price_currency_item_tpl", "value_price_currency_item" );
@@ -246,18 +249,46 @@ foreach ( $options as $option )
 {
     $values = $option->values();
 
-    $valueText = "";
     $t->set_var( "value", "" );    
     $i = 0;
+    $headers = $option->descriptionHeaders();
+    $t->set_var( "value_description_header", "" );
+    if ( $SimpleOptionHeaders )
+    {
+        $t->set_var( "description_header", $headers[0] );
+        $t->parse( "value_description_header", "value_description_header_tpl" );
+    }
+    else
+    {
+        foreach( $headers as $header )
+        {
+            $t->set_var( "description_header", $header );
+            $t->parse( "value_description_header", "value_description_header_tpl", true );
+        }
+    }
+
     foreach ( $values as $value )
     {
         $t->set_var( "value_td_class", ( $i % 2 ) == 0 ? "bglight" : "bgdark" );
-        $valueText .= $value->name() . "\n";
         $id = $value->id();
-        
-        $t->set_var( "value_name", $value->name() );
+
+        $descriptions = $value->descriptions();
+        $t->set_var( "value_description", "" );
+        if ( $SimpleOptionHeaders )
+        {
+            $t->set_var( "value_name", $descriptions[0] );
+            $t->parse( "value_description", "value_description_tpl" );
+        }
+        else
+        {
+            foreach( $descriptions as $description )
+            {
+                $t->set_var( "value_name", $description );
+                $t->parse( "value_description", "value_description_tpl", true );
+            }
+        }
         $t->set_var( "value_id", $value->id() );
-        
+
         $t->set_var( "value_price", "" );
         $t->set_var( "value_price_item", "" );
         $t->set_var( "value_price_currency_list", "" );        
