@@ -81,16 +81,20 @@
 <h2>{intl-companies}</h2>
 <table class="list" width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
-	<th>{intl-name}:</th>
+	<th>{intl-title}:</th>
 	<th>{intl-company}:</th>
+	<th>{intl-valid_until}:</th>
 </tr>
 <!-- BEGIN classified_item_tpl -->
 <tr>
 	<td class="{td_class}">
-	<a href="/classified/view/{classified_id}/">{classified_name}</a>
+	<a href="/classified/view/{classified_id}/">{classified_title}</a>
 	</td>
 	<td class="{td_class}">
 	{company_name}
+	</td>
+	<td class="{td_class}">
+	{valid_until}
 	</td>
 
 	<td class="{td_class}" width="1%">
