@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eznewsitem.php,v 1.27 2000/10/11 10:05:57 pkej-cvs Exp $
+// $Id: eznewsitem.php,v 1.28 2000/10/11 12:07:59 pkej-cvs Exp $
 //
 // Definition of eZNewsItem class
 //
@@ -1164,6 +1164,9 @@ class eZNewsItem extends eZNewsUtility
     /*!
         This function will return all IDs of the children of this class.
         
+        Note: Even deleted items will be returned. It is the client's job to sort
+        out those items actually shown to the user.
+        
         \in
             \$inOrderBy  This is the columnname to order the returned array
                         by.
@@ -1214,17 +1217,9 @@ class eZNewsItem extends eZNewsUtility
                 Hier.ParentID = '%s'
             AND
                 Hier.ItemID = Item.ID
-            AND
-                Item.Status != '%s'
-            AND
-                Item.Status != '%s'
         ";
         
-        include_once( "eznews/classes/eznewschangetype.php" );
-        $temporaryID = new eZNewsChangeType( "temporary", true );
-        $deleteID = new eZNewsChangeType( "delete", true );
-        
-        $query = sprintf( $query, $this->ID, $temporaryID->ID(), $deleteID->ID() );        
+        $query = sprintf( $query, $this->ID );        
         $this->Database->array_query( $itemArray, $query );        
         $maxCount = $itemArray[0][0];
         
@@ -1240,18 +1235,12 @@ class eZNewsItem extends eZNewsUtility
                 Hier.ParentID = '%s'
             AND
                 Hier.ItemID = Item.ID
-            AND
-                Item.Status != '%s'
-            AND
-                Item.Status != '%s'
             %s
             %s
         ";
 
-        $orderBy = $this->createOrderBy( $inOrderBy, $direction );
-        $limits = $this->createLimit( $startAt, $noOfResults );
         
-        $query = sprintf( $query, $this->ID, $temporaryID->ID(), $deleteID->ID(), $orderBy, $limits );
+        $query = sprintf( $query, $this->ID, $orderBy, $limits );
         
         $this->Database->array_query( $itemArray, $query );
         
@@ -1274,7 +1263,10 @@ class eZNewsItem extends eZNewsUtility
     
     /*!
         This function will return an array of items with an array of children of that type.
-        
+
+        Note: Even deleted items will be returned. It is the client's job to sort
+        out those items actually shown to the user.
+                
         \in
             \$inOrderBy  This is the columnname to order the returned array
                         by.
@@ -1333,18 +1325,10 @@ class eZNewsItem extends eZNewsUtility
                 Hier.ParentID = %s
             AND
                 Item.ID = Hier.ItemID 
-            AND
-                Item.Status != '%s'
-            AND
-                Item.Status != '%s'
             GROUP BY Type.Name
         ";
         
-        include_once( "eznews/classes/eznewschangetype.php" );
-        $temporaryID = new eZNewsChangeType( "temporary", true );
-        $deleteID = new eZNewsChangeType( "delete", true );
-        
-        $query = sprintf( $query, $this->ID, $temporaryID->ID(), $deleteID->ID() );        
+        $query = sprintf( $query, $this->ID );        
         $this->Database->array_query( $itemArray, $query );        
         $maxCount = $itemArray[0][0];
 
@@ -1364,14 +1348,10 @@ class eZNewsItem extends eZNewsUtility
                 Hier.ParentID = %s
             AND
                 Item.ID = Hier.ItemID 
-            AND
-                Item.Status != '%s'
-            AND
-                Item.Status != '%s'
             GROUP BY Type.Name
         ";
 
-        $query = sprintf( $query, $this->ID, $temporaryID->ID(), $deleteID->ID() );
+        $query = sprintf( $query, $this->ID );
 
         $this->Database->array_query( $categoryArray, $query );
          
@@ -1400,17 +1380,9 @@ class eZNewsItem extends eZNewsUtility
                     Hier.ParentID = %s
                 AND
                     Item.ID = Hier.ItemID
-                AND
-                    Item.Status != '%s'
-                AND
-                    Item.Status != '%s'
             ";
-
-            include_once( "eznews/classes/eznewschangetype.php" );
-            $temporaryID = new eZNewsChangeType( "temporary", true );
-            $deleteID = new eZNewsChangeType( "delete", true );
-        
-            $query = sprintf( $query, $typeName, $this->ID, $temporaryID->ID(), $deleteID->ID() );        
+       
+            $query = sprintf( $query, $typeName, $this->ID );        
             $this->Database->array_query( $itemArray, $query );        
             $returnArray[ $typeName ][ "count" ] = $itemArray[0][ "count" ];
 
@@ -1432,21 +1404,13 @@ class eZNewsItem extends eZNewsUtility
                     Hier.ParentID = %s
                 AND
                     Item.ID = Hier.ItemID
-                AND
-                    Item.Status != '%s'
-                AND
-                    Item.Status != '%s'
                 %s
                 %s
             ";
             $orderBy = $this->createOrderBy( $inOrderBy, $direction );
             $limits = $this->createLimit( $startAt, $noOfResults );
-        
-            include_once( "eznews/classes/eznewschangetype.php" );
-            $temporaryID = new eZNewsChangeType( "temporary", true );
-            $deleteID = new eZNewsChangeType( "delete", true );
-        
-            $query = sprintf( $query, $typeName, $this->ID, $temporaryID->ID(), $deleteID->ID(), $orderBy, $limits );
+                
+            $query = sprintf( $query, $typeName, $this->ID, $orderBy, $limits );
             
             $this->Database->array_query( $itemArray, $query );   
             
@@ -1472,6 +1436,9 @@ class eZNewsItem extends eZNewsUtility
     
     /*!
         This function will return all IDs of the parents of this class.
+        
+        Note: Even deleted items will be returned. It is the client's job to sort
+        out those items actually shown to the user.
         
         \in
             \$inOrderBy  This is the columnname to order the returned array
@@ -1521,17 +1488,9 @@ class eZNewsItem extends eZNewsUtility
                 Hier.ItemID = '%s'
             AND
                 Hier.ParentID = Item.ID
-            AND
-                Item.Status != '%s'
-            AND
-                Item.Status != '%s'
         ";
         
-        include_once( "eznews/classes/eznewschangetype.php" );
-        $temporaryID = new eZNewsChangeType( "temporary", true );
-        $deleteID = new eZNewsChangeType( "delete", true );
-        
-        $query = sprintf( $query, $this->ID, $temporaryID->ID(), $deleteID->ID() );
+        $query = sprintf( $query, $this->ID );
 
         $this->Database->array_query( $itemArray, $query );        
         $maxCount = $itemArray[0][0];
@@ -1548,10 +1507,6 @@ class eZNewsItem extends eZNewsUtility
                 Hier.ItemID = '%s'
             AND
                 Hier.ParentID = Item.ID
-            AND
-                Item.Status != '%s'
-            AND
-                Item.Status != '%s'
             %s
             %s
         ";
@@ -1559,7 +1514,7 @@ class eZNewsItem extends eZNewsUtility
         $orderBy = $this->createOrderBy( $inOrderBy, $direction );
         $limits = $this->createLimit( $startAt, $noOfResults );
 
-        $query = sprintf( $query, $this->ID, $temporaryID->ID(), $deleteID->ID(), $orderBy, $limits );
+        $query = sprintf( $query, $this->ID, $orderBy, $limits );
         #echo "$query<br>id: " . $this->ID . "<br>name: " . $this->Name . "<br>";
 
         $this->Database->array_query( $itemArray, $query );
@@ -1579,7 +1534,7 @@ class eZNewsItem extends eZNewsUtility
             
             if( $itemArray[$i][ "isCanonical" ] == 'Y' )
             {
-                $this->isCanonical = $itemArray[$i][ "isCanonical" ];
+                $this->isCanonical = $itemArray[$i][ "ID" ];
             }
         }
         
@@ -2078,10 +2033,10 @@ class eZNewsItem extends eZNewsUtility
     var $CreationIP = 0;
     
     /// The ID of the canonical parent.
-    var $isCanonical;
+    var $isCanonical = 0;
     
     /// The ID of the front image.
-    var $isFrontImage;
+    var $isFrontImage = 0;
     
     /// All Image IDs
     var $ImageID = array();
