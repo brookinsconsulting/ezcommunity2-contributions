@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezarticle.php,v 1.50 2001/03/05 09:24:08 fh Exp $
+// $Id: ezarticle.php,v 1.51 2001/03/05 12:16:08 fh Exp $
 //
 // Definition of eZArticle class
 //
@@ -292,12 +292,15 @@ class eZArticle
     /*!
       Returns the author as a eZUser object.
     */
-    function &author()
+    function &author( $as_object = true )
     {
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
 
-       $author = new eZUser( $this->AuthorID );
+       if( $as_object )
+           $author = new eZUser( $this->AuthorID );
+       else
+           $author = $this->AuthorID;
        return $author;
     }
 

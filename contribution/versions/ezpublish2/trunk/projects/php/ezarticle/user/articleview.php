@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: articleview.php,v 1.29 2001/03/01 14:06:25 jb Exp $
+// $Id: articleview.php,v 1.30 2001/03/05 12:16:09 fh Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <18-Oct-2000 16:34:51 bf>
@@ -105,7 +105,8 @@ if ( $article->get( $ArticleID ) )
     }
 
     $t->set_var( "author_text", $article->authorText() );
-
+    $t->set_var( "author_id", $article->author( false ) );
+    
     $categoryDef =& $article->categoryDefinition();
 
     $t->set_var( "category_definition_name", $categoryDef->name() );

@@ -23,7 +23,7 @@
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
 	<td>
-	<p class="byline">{intl-article_author}: {author_text}</p>
+	<p class="byline">{intl-article_author}: <a href="/article/author/view/{author_id}">{author_text}</a></p>
 	</td>
 	<td align="right">
 	<p class="byline">{intl-article_date}: {article_created}</p>
