@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezmailfolder.php,v 1.2 2001/03/24 13:17:21 fh Exp $
+// $Id: ezmailfolder.php,v 1.3 2001/03/24 18:08:43 fh Exp $
 //
 // eZMailFolder class
 //
@@ -357,7 +357,7 @@ class eZMailFolder
             $this->get( $this->ID );
 
         
-        $query = "SELECT ID FROM eZMail_Mail AS Mail, eZMail_MailFolderLink AS Link
+        $query = "SELECT Mail.ID FROM eZMail_Mail AS Mail, eZMail_MailFolderLink AS Link
                   WHERE Mail.ID=Link.MailID AND Link.FolderID='$this->ID'
                   ORDER BY Mail.Subject ASC
                   LIMIT $offset,$limit";
@@ -365,10 +365,9 @@ class eZMailFolder
         $mail_array = array();
         $return_array = array();
         $this->Database->array_query( $mail_array, $query );  
-        
         for ( $i=0; $i < count($mail_array); $i++ )
         {
-            $return_array[$i] = new eZMail( $article_array[$i]["ID"], false );
+            $return_array[$i] = new eZMail( $mail_array[$i]["ID"] );
         }
 
         return $return_array;     

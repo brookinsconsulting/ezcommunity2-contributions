@@ -5,10 +5,21 @@ switch( $url_array[2] )
 {
     case "folder" :
     {
+        $FolderID = $url_array[3];
+//        if( $FolderID == "" )
+//            $FolderID = get INBOX.
+        
         include( "ezmail/user/maillist.php" );
     }
     break;
 
+    case "view" :
+    {
+        $MailID = $url_array[3];
+        include( "ezmail/user/mailview.php" );
+    }
+    break;
+    
     default:
     {
         eZHTTPTool::header( "Location: /error/404/" );

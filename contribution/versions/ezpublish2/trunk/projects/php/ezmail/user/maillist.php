@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: maillist.php,v 1.3 2001/03/24 13:17:21 fh Exp $
+// $Id: maillist.php,v 1.4 2001/03/24 18:08:43 fh Exp $
 //
 // Frederik Holljen <fh@ez.no>
 // Created on: <19-Mar-2000 20:25:22 fh>
@@ -29,6 +29,8 @@ include_once( "classes/ezlocale.php" );
 include_once( "ezuser/classes/ezuser.php" );
 
 include_once( "ezmail/classes/ezmailaccount.php" );
+include_once( "ezmail/classes/ezmail.php" );
+include_once( "ezmail/classes/ezmailfolder.php" );
 
 $user = eZUser::currentUser();
 $accounts = eZMailAccount::getByUser( $user->id() );
@@ -62,9 +64,28 @@ $t->set_file( array(
     "mail_list_page_tpl" => "maillist.tpl"
     ) );
 
-$t->set_block( "mail_list_page_tpl", "mail_item_tpl", "mail_item_tpl" );
+$t->set_block( "mail_list_page_tpl", "mail_item_tpl", "mail_item" );
+$t->set_block( "mail_list_page_tpl", "folder_item_tpl", "folder_item" );
+
+$folder = new eZMailFolder( $FolderID );
+$t->set_var( "current_folder_id", $FolderID );
+$mail = $folder->mail();
+
+$i = 0;
+foreach( $mail as $mailItem )
+{
+    $t->set_var( "mail_id", $mailItem->id() );
+    $t->set_var( "mail_subject", htmlspecialchars( $mailItem->subject() ) );
+    $t->set_var( "mail_sender", htmlspecialchars( $mailItem->sender() ) );
+    $t->set_var( "mail_size" ,"" );
+    $t->set_var( "mail_date", "" );
+    
+    $t->parse( "mail_item", "mail_item_tpl", true );
+
+    ( $i % 2 ) ? $t->set_var( "td_class", "bgdark" ) : $t->set_var( "td_class", "bglight" );
+    $i++;
+}
 
 
 $t->pparse( "output", "mail_list_page_tpl" );
-
 ?>

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezmailaccount.php,v 1.6 2001/03/24 10:50:33 fh Exp $
+// $Id: ezmailaccount.php,v 1.7 2001/03/24 18:08:43 fh Exp $
 //
 // eZMailAccount class
 //
@@ -374,6 +374,9 @@ class eZMailAccount
 //        echo "<pre>"; print_r( $struct ); echo "</pre>";
 //        exit;
 
+        // get the inbox... we will be adding mail to this.
+        $inbox = eZMailFolder::getSpecialFolder( INBOX );
+        
         $num = imap_num_msg( $mbox );         // fetch numbers of all new mails
         for( $i=1; $i <= $num; $i++ )  // go through each mail in inbox
         {
@@ -386,6 +389,8 @@ class eZMailAccount
                 $mailstructure = imap_fetchstructure( $mbox, $i );
                 disectThisPart( $mailstructure, "1", $mbox, $i, $mail );
                 $mail->store();
+
+                $inbox->addMail( $mail );
             }
             
         }
