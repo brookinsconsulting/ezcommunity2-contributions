@@ -3,15 +3,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="no" lang="no">
 
 <head>
+	<title>{intl-header}</title>
+	<link rel="stylesheet" type="text/css" href="{www_dir}/admin/templates/{site_style}/style.css" />
+	<meta http-equiv="Content-Type" content="text/html; charset={charset}" />
 
-<title>{intl-header}</title>
-
-<link rel="stylesheet" type="text/css" href="{www_dir}/admin/templates/{site_style}/style.css" />
-
-<meta http-equiv="Content-Type" content="text/html; charset={charset}" />
-
-<script language="JavaScript1.2">
-<!--//
+	<script language="JavaScript1.2">
+	<!--//
 
 	function MM_swapImgRestore() 
 	{
@@ -54,10 +51,8 @@
 	    return false;
 	}
 	
-//-->
-</script> 
-
-
+	//-->
+	</script> 
 </head>
 
 <body bgcolor="#FFFFFF" onload="MM_preloadImages('{www_dir}/images/{site_style}/redigerminimrk.gif','{www_dir}/images/{site_style}/slettminimrk.gif','{www_dir}/images/{site_style}/downloadminimrk.gif')">
