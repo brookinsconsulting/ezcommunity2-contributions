@@ -1,34 +1,40 @@
 <?
-/*!
-    $Id: ezforumcategory.php,v 1.13 2000/09/14 18:19:40 bf-cvs Exp $
+// 
+// $Id: ezforumcategory.php,v 1.14 2000/09/15 13:47:28 bf-cvs Exp $
+//
+// Definition of eZCompany class
+//
+// Lars Wilhelmsen <lw@ez.no>
+// Created on: <11-Sep-2000 22:10:06 bf>
+//
+// Copyright (C) 1999-2000 eZ Systems.  All rights reserved.
+//
+// IMPORTANT NOTE: You may NOT copy this file or any part of it into
+// your own programs or libraries.
+//
 
-    Author: Lars Wilhelmsen <lw@ez.no>
-    
-    Created on: Created on: <14-Jul-2000 13:01:24 lw>
-    
-    Copyright (C) 2000 eZ systems. All rights reserved.
-*/
-//include_once( "ezforum/dbsettings.php" );
 //include_once( "$DOCROOT/classes/ezdb.php" );
 
 //!! eZForum
-//!
+//! The eZForumCategory class handles forum categories.
 /*!
   
+  \sa eZForumForum
 */
 
-class eZforumCategory
+class eZForumCategory
 {
-    var $Id;
-    var $Name;
-    var $Description;
-    var $Private;
-        
+    /*!
+      
+    */
     function newCategory()
     {
         unset( $this->Id );
     }
         
+    /*!
+      
+    */
     function get( $Id )
     {
         $this->openDB();
@@ -45,6 +51,9 @@ class eZforumCategory
         }
     }
         
+    /*!
+      
+    */
     function getAllCategories()
     {
         $this->openDB();
@@ -59,6 +68,9 @@ class eZforumCategory
         return $returnArray;
     }
         
+    /*!
+      
+    */
     function store()
     {
         $this->openDB();
@@ -84,6 +96,9 @@ class eZforumCategory
         }
     }
         
+    /*!
+      
+    */
     function delete($Id)
     {
         $this->openDB();
@@ -92,41 +107,65 @@ class eZforumCategory
             or die("delete($Id)");
     }
         
+    /*!
+      
+    */
     function id()
     {
         return $this->Id;
     }
         
+    /*!
+      
+    */
     function setName($newName)
     {
         $this->Name = $newName;
     }
 
+    /*!
+      
+    */
     function name()
     {
         return $this->Name;
     }
         
+    /*!
+      
+    */
     function setDescription($newDescription)
     {
         $this->Description = $newDescription;
     }
         
+    /*!
+      
+    */
     function description()
     {
         return $this->Description;
     }
         
+    /*!
+      
+    */
     function setPrivate($newPrivate)
     {
         $this->Private = $newPrivate;
     }
         
+    /*!
+      
+    */
     function private()
     {
         return $this->Private;
     }
 
+    /*!
+      
+    */
     function categoryForumInfo($Id)
     {
         $this->openDB();
@@ -160,5 +199,9 @@ class eZforumCategory
         mysql_select_db( $DATABASE ) or die( "Kunne ikke velge database" );
     }
     
+    var $Id;
+    var $Name;
+    var $Description;
+    var $Private;
 }
 ?>

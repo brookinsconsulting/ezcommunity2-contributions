@@ -1,44 +1,49 @@
 <?
-/*!
-    $Id: ezforummessage.php,v 1.39 2000/09/14 12:44:17 bf-cvs Exp $
+// 
+// $Id: ezforummessage.php,v 1.40 2000/09/15 13:47:28 bf-cvs Exp $
+//
+// Definition of eZCompany class
+//
+// Lars Wilhelmsen <lw@ez.no>
+// Created on: <11-Sep-2000 22:10:06 bf>
+//
+// Copyright (C) 1999-2000 eZ Systems.  All rights reserved.
+//
+// IMPORTANT NOTE: You may NOT copy this file or any part of it into
+// your own programs or libraries.
+//
 
-    Author: Lars Wilhelmsen <lw@ez.no>
-    
-    Created on: Created on: <14-Jul-2000 13:05:29 lw>
-    
-    Copyright (C) 2000 eZ systems. All rights reserved.
-*/
 // REQUIRES class eZUser
 //  include( "ezforum/dbsettings.php" );
 //  include_once( "$DOCROOT/classes/ezmail.php" );
 
 //!! eZForum
-//!
+//! The eZForumMessage handles a forum message in the database.
 /*!
   
 */
 
 class eZForumMessage
 {
-    var $Id;
-    var $ForumId;
-    var $Parent;
-    var $Topic;
-    var $Body;
-    var $UserId;
-    var $PostingTime;
-    var $EmailNotice;
-    
+    /*!
+      
+    */
     function eZForumMessage($ForumId = 0)
     {
         $this->ForumId = $ForumId;
     }
 
+    /*!
+      
+    */
     function newMessage()
     {
         unset($Id);
     }
 
+    /*!
+      
+    */
     function get( $Id )
     {
         $this->openDB();
@@ -64,10 +69,13 @@ class eZForumMessage
         $this->EmailNotice = $results["EmailNotice"];
     }
         
+    /*!
+      
+    */
     function getAllHeaders( $forum_id )
     {
 
-    $this->openDB();
+        $this->openDB();
 
         $query_string = "SELECT Id,Topic, Body, UserId, Parent, EmailNotice, 
                  DATE_FORMAT(PostingTime,'%k:%i:%s %e/%c/%y') AS PostingTimeFormated
@@ -82,6 +90,9 @@ class eZForumMessage
         return $resultArray;
     }
     
+    /*!
+      
+    */
     function getHeaders($forum_id,$Parent = "NULL", $startMessage = "0",$maxMessages = "25")
     {
         $usr = new eZUser;
@@ -114,6 +125,9 @@ class eZForumMessage
         return $resultArray;
     }
 
+    /*!
+      Stores the object to the database.
+    */
     function store()
     {
         $this->openDB();
@@ -164,6 +178,9 @@ class eZForumMessage
         }
     }
         
+    /*!
+      Deletes a forummessage from the database.
+    */
     function delete($Id)
     {
         $this->openDB();
@@ -172,6 +189,9 @@ class eZForumMessage
             or die("delete()");    
     }
         
+    /*!
+      Searches the forum and returnes the result.
+    */
     function search( $criteria )
     {
         $this->openDB();
@@ -184,82 +204,130 @@ class eZForumMessage
 
         return $resultArray;
     }
-    
+
+    /*!
+      
+    */      
     function id()
     {
         return $this->Id;
     }
         
+    /*!
+      
+    */      
     function forumId()
     {
         return $this->ForumId;
     }
     
+    /*!
+      
+    */      
     function setForumId( $newForumId )
     {
         $this->ForumId = $newForumId;
     }
     
+    /*!
+      
+    */      
     function parent()
     {
         return $this->Parent;
     }
     
+    /*!
+      
+    */      
     function setParent($newParent)
     {
         $this->Parent = $newParent;    
     }
 
+    /*!
+      
+    */      
     function topic()
     {   
         return $this->Topic;
     }
         
+    /*!
+      
+    */      
     function setTopic( $newTopic )
     {
         $this->Topic = $newTopic;
     }
         
+    /*!
+      
+    */      
     function body()
     {
         return $this->Body;
     }
 
+    /*!
+      
+    */      
     function setBody( $newBody )
     {
         $this->Body = $newBody;
     }
     
+    /*!
+      
+    */      
     function userID()
     {
         return $this->UserId;
     }
         
+    /*!
+      
+    */      
     function setUserId( $newUserId )
     {
         $this->UserId = $newUserId;
     }
 
+    /*!
+      
+    */      
     function emailNotice()
     {
         return $this->EmailNotice;
     }
 
+    /*!
+      
+    */      
     function setEmailNotice( $newEmailNotice )
     {
         $this->EmailNotice = $newEmailNotice;
     }
 
+    /*!
+      
+    */      
     function enableEmailNotice()
     {
         $this->setEmailNotice( "Y" );
     }
 
+    /*!
+      
+    */      
     function disableEmailNotice()
     {
         $this->setEmailNotice( "N" );
     }
     
+    /*!
+      
+    */      
     function formatTime( $t )
     {
         $returnTime = $t[4] . $t[5] ."/". $t[2] . $t[3] ."/20". $t[0] . $t[1] . " ";
@@ -268,6 +336,9 @@ class eZForumMessage
         return $returnTime;
     }
 
+    /*!
+      
+    */      
     function postingTime()
     {
         return $this->formatTime( $this->PostingTime );
@@ -308,6 +379,9 @@ class eZForumMessage
         if( $this->Parent != "" ) $this->recursiveEmailNotice( $startId, $this->Parent, $liste );
     }
 
+    /*!
+      
+    */      
     function countMessages( $Id )
     {
         $this->openDB();
@@ -321,6 +395,9 @@ class eZForumMessage
         return mysql_result($query_id,0,"Messages");
     }
     
+    /*!
+      
+    */      
     function countReplies( $Id )
     {
         $this->openDB();
@@ -331,7 +408,7 @@ class eZForumMessage
         return mysql_result($query_id,0,"replies");
     }
 
-    /*
+    /*!
       getTopMessage
       
       Gets the top message of a thread.
@@ -358,7 +435,7 @@ class eZForumMessage
         return $ret_id;
     }
 
-    /*
+    /*!
       Denne funksjonen printer ut alle headerene og viser dem som et tre.
       Den returnerer rader i en tabell, hva den printer ut er avhengig
       av templates.
@@ -477,6 +554,14 @@ class eZForumMessage
         mysql_select_db( $DATABASE ) or die( "Kunne ikke velge database" );
     }
     
-    
+
+    var $Id;
+    var $ForumId;
+    var $Parent;
+    var $Topic;
+    var $Body;
+    var $UserId;
+    var $PostingTime;
+    var $EmailNotice;
 }
 ?>

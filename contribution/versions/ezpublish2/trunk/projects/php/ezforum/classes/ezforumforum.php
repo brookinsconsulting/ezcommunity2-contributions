@@ -1,31 +1,33 @@
 <?
-/*!
-    $Id: ezforumforum.php,v 1.12 2000/09/08 13:10:05 bf-cvs Exp $
+// 
+// $Id: ezforumforum.php,v 1.13 2000/09/15 13:47:28 bf-cvs Exp $
+//
+// Definition of eZCompany class
+//
+// Lars Wilhelmsen <lw@ez.no>
+// Created on: <11-Sep-2000 22:10:06 bf>
+//
+// Copyright (C) 1999-2000 eZ Systems.  All rights reserved.
+//
+// IMPORTANT NOTE: You may NOT copy this file or any part of it into
+// your own programs or libraries.
+//
 
-    Author: Lars Wilhelmsen <lw@ez.no>
-    
-    Created on: Created on: <14-Jul-2000 13:02:57 lw>
-    
-    Copyright (C) 2000 eZ systems. All rights reserved.
-*/
 //include("ezforum/dbsettings.php");
 //include_once("$DOCROOT/classes/ezdb.php");
 
 //!! eZForum
-//!
+//! The eZForumForum class handles forum's in the database.
 /*!
   
+  \sa eZForumMessage \eZForumCategory
 */
 
-class eZforumForum
+class eZForumForum
 {
-    var $Id;
-    var $CategoryId;
-    var $Name;
-    var $Description;
-    var $Moderated;
-    var $Private;
-        
+    /*!
+      
+    */
     function get( $Id )
     {
         $this->openDB();
@@ -41,11 +43,17 @@ class eZforumForum
         $this->Private = mysql_result($query_id,0,"Private");
     }
         
+    /*!
+      
+    */
     function newForum()
     {
         unset($this->Id);
     }
         
+    /*!
+      
+    */
     function getAllForums( $CategoryId = "" )
     {
         $this->openDB();
@@ -69,6 +77,9 @@ class eZforumForum
         return $resultArray;
     }
         
+    /*!
+      
+    */
     function store()
     {
         global $PREFIX;
@@ -112,6 +123,9 @@ class eZforumForum
         }            
     }
         
+    /*!
+      
+    */
     function delete($Id)
     {
         $this->openDB();
@@ -120,56 +134,89 @@ class eZforumForum
             or die("delete()");
     }
     
+    /*!
+      
+    */
     function id()
     {
         return $this->Id;
     }
         
+    /*!
+      
+    */
     function categoryId()
     {
         return $this->CategoryId;
     }
         
+    /*!
+      
+    */
     function setCategoryId($newCategoryId)
     {
         $this->CategoryId = $newCategoryId;
     }
         
+    /*!
+      
+    */
     function name()
     {
         return $this->Name;
     }
         
+    /*!
+      
+    */
     function setName($newName)
     {
         $this->Name = $newName;
     }
         
+    /*!
+      
+    */
     function description()
     {
         return $this->Description;
     }
         
+    /*!
+      
+    */
     function setDescription($newDescription)
     {
         $this->Description = $newDescription;
     }
         
+    /*!
+      
+    */
     function moderated()
     {
         return $this->Moderated;
     }
         
+    /*!
+      
+    */
     function setModerated($newModerated)
     {
         $this->Moderated = $newModerated;
     }
         
+    /*!
+      
+    */
     function private()
     {
         return $this->Private;
     }
         
+    /*!
+      
+    */
     function setPrivate($newPrivate)
     {
         $this->Private = $newPrivate;
@@ -193,6 +240,12 @@ class eZforumForum
         mysql_pconnect( $SERVER, $USER, $PWD ) or die( "Kunne ikke kople til database" );
         mysql_select_db( $DATABASE ) or die( "Kunne ikke velge database" );
     }
-    
+
+    var $Id;
+    var $CategoryId;
+    var $Name;
+    var $Description;
+    var $Moderated;
+    var $Private;
 }
 ?>
