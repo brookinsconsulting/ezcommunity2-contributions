@@ -32,7 +32,7 @@
 
 <div onLoad="MM_preloadImages('../images/redigerminimrk.gif','../images/slettminimrk.gif')"></div>
 
-<h1>{intl-head_line}</h1>
+<h1>{intl-head_line} - ( {user_count} )</h1>
 
 <hr noshade size="4">
 

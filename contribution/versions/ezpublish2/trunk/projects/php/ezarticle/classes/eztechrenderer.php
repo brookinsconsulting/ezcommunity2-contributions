@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eztechrenderer.php,v 1.37 2000/11/07 12:37:35 bf-cvs Exp $
+// $Id: eztechrenderer.php,v 1.38 2000/11/09 15:01:46 bf-cvs Exp $
 //
 // Definition of eZTechRenderer class
 //
@@ -596,7 +596,7 @@ class eZTechRenderer
 
         // indenting
         
-        $string = "<p><table width=\"100%\" cellspacing=\"0\" cellpadding=\"4\" border=\"0\"><tr><td bgcolor=\"#f0f0f0\"><pre>" .
+        $string = "<br clear=\"all\"><p><table width=\"100%\" cellspacing=\"0\" cellpadding=\"4\" border=\"0\"><tr><td bgcolor=\"#f0f0f0\"><pre>" .
              $string . "</pre></td></tr></table></p>";
         
         return $string;
@@ -654,7 +654,7 @@ class eZTechRenderer
         // some special characters
         $string = ereg_replace ( "([;,])", "<font color=\"red\">\\1</font>", $string );
         
-        $string = "<p><table width=\"100%\" cellspacing=\"0\" cellpadding=\"4\" border=\"0\"><tr><td bgcolor=\"#f0f0f0\"><pre>" .
+        $string = "<br clear=\"all\"><p><table width=\"100%\" cellspacing=\"0\" cellpadding=\"4\" border=\"0\"><tr><td bgcolor=\"#f0f0f0\"><pre>" .
              $string . "</pre></td></tr></table></p>";
         
         return $string;
@@ -697,7 +697,7 @@ class eZTechRenderer
         // newlines
 //        $string = ereg_replace ( "\n", "<br />\n newline", $string );
 
-        $string = "<p><table width=\"100%\" cellspacing=\"0\" cellpadding=\"4\" border=\"0\"><tr><td bgcolor=\"#f0f0f0\"><pre>" .
+        $string = "<br clear=\"all\"><p><table width=\"100%\" cellspacing=\"0\" cellpadding=\"4\" border=\"0\"><tr><td bgcolor=\"#f0f0f0\"><pre>" .
              $string . "</pre></td></tr></table></p>";
         
         return $string;
@@ -725,7 +725,7 @@ class eZTechRenderer
         $string = ereg_replace ( "([;,]|\]|\[)", "<font color=\"red\">\\1</font>", $string );
 
         
-        $string = "<p><table width=\"100%\" cellspacing=\"0\" cellpadding=\"4\" border=\"0\"><tr><td bgcolor=\"#f0f0f0\"><pre>" .
+        $string = "<br clear=\"all\"><p><table width=\"100%\" cellspacing=\"0\" cellpadding=\"4\" border=\"0\"><tr><td bgcolor=\"#f0f0f0\"><pre>" .
              $string . "</pre></td></tr></table></p>";
         
         return $string;
@@ -766,7 +766,7 @@ class eZTechRenderer
         // indenting
         $string = preg_replace( "/^( )+/m", "&nbsp;", $string );
         
-        $string = "<p><table width=\"100%\" cellspacing=\"0\" cellpadding=\"4\" border=\"0\"><tr><td bgcolor=\"#f0f0f0\"><pre>" .
+        $string = "<br clear=\"all\"><p><table width=\"100%\" cellspacing=\"0\" cellpadding=\"4\" border=\"0\"><tr><td bgcolor=\"#f0f0f0\"><pre>" .
              $string . "</pre></td></tr></table></p>";
         
         return $string;
@@ -872,7 +872,7 @@ class eZTechRenderer
                 ++$index;
             }
         }
-        $string = "<p><table width=\"100%\" cellspacing=\"0\" cellpadding=\"4\" border=\"0\"><tr><td bgcolor=\"#f0f0f0\"><pre>" .
+        $string = "<br clear=\"all\"><p><table width=\"100%\" cellspacing=\"0\" cellpadding=\"4\" border=\"0\"><tr><td bgcolor=\"#f0f0f0\"><pre>" .
              $tmpstring . "</pre></td></tr></table></p>";
 
         return $string;
@@ -953,7 +953,7 @@ class eZTechRenderer
         // newlines
 //        $string = ereg_replace ( "\n", "<br />\n newline", $string );
 
-        $string = "<p><table width=\"100%\" cellspacing=\"0\" cellpadding=\"4\" border=\"0\"><tr><td bgcolor=\"#f0f0f0\"><pre>" .
+        $string = "<br clear=\"all\"><p><table width=\"100%\" cellspacing=\"0\" cellpadding=\"4\" border=\"0\"><tr><td bgcolor=\"#f0f0f0\"><pre>" .
              $string . "</pre></td></tr></table></p>";
         
         return $string;
@@ -969,7 +969,7 @@ class eZTechRenderer
 
         $string = preg_replace( "#(&lt;.*?&gt;)#", "<font color=\"blue\">\\1</font>", $string );
         
-        $string = "<p><table width=\"100%\" cellspacing=\"0\" cellpadding=\"4\" border=\"0\"><tr><td bgcolor=\"#f0f0f0\"><pre>" .
+        $string = "<br clear=\"all\"><p><table width=\"100%\" cellspacing=\"0\" cellpadding=\"4\" border=\"0\"><tr><td bgcolor=\"#f0f0f0\"><pre>" .
              $string . "</pre></td></tr></table></p>";
         
         return $string;

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: messagereply.php,v 1.9 2000/11/01 19:07:19 bf-cvs Exp $
+// $Id: messagereply.php,v 1.10 2000/11/09 15:01:46 bf-cvs Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <24-Sep-2000 12:20:32 bf>
@@ -48,8 +48,8 @@ if ( $Action == "insert" )
 
     $reply->setForumID( $original->forumID() );
 
-    $reply->setTopic( $Topic );
-    $reply->setBody( $Body );
+    $message->setTopic( strip_tags( $Topic ) );
+    $message->setBody( strip_tags( $Body, "<b>,<i>,<u>,<font>" ) );
 
     $reply->setParent( $original->id() );
     

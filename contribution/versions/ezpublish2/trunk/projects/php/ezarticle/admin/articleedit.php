@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: articleedit.php,v 1.21 2000/11/01 11:44:53 ce-cvs Exp $
+// $Id: articleedit.php,v 1.22 2000/11/09 15:01:46 bf-cvs Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <18-Oct-2000 15:04:39 bf>
@@ -98,6 +98,14 @@ if ( $Action == "Insert" )
         { 
             if ( $entry != "." && $entry != ".." )
             { 
+                if ( ereg( "articleprint,([^,]+),.*", $entry, $regArray  ) )
+                {
+                    if ( $regArray[1] == $articleID )
+                    {
+                        unlink( "ezarticle/cache/" . $entry );
+                    }
+                }
+
                 if ( ereg( "articleview,([^,]+),.*", $entry, $regArray  ) )
                 {
                     if ( $regArray[1] == $articleID )
@@ -227,8 +235,17 @@ if ( $Action == "Update" )
         while( $entry = $dir->read() )
         { 
             if ( $entry != "." && $entry != ".." )
-            { 
-                if ( ereg( "articleview,([^,]+),.*", $entry, $regArray  ) )
+            {
+                if ( ereg( "articleprint,([^,]+),.*", $entry, $regArray ) )
+                {
+                    if ( $regArray[1] == $ArticleID )
+                    {
+                        print( "deleting" );
+                        unlink( "ezarticle/cache/" . $entry );
+                    }
+                }
+                
+                if ( ereg( "articleview,([^,]+),.*", $entry, $regArray ) )
                 {
                     if ( $regArray[1] == $ArticleID )
                     {
@@ -305,7 +322,15 @@ if ( $Action == "Delete" )
     while( $entry = $dir->read() )
     { 
         if ( $entry != "." && $entry != ".." )
-        { 
+        {
+            if ( ereg( "articleprint,([^,]+),.*", $entry, $regArray  ) )
+            {
+                if ( $regArray[1] == $articleID )
+                {
+                    unlink( "ezarticle/cache/" . $entry );
+                }
+            }
+            
             if ( ereg( "articleview,([^,]+),.*", $entry, $regArray  ) )
             {
                 if ( $regArray[1] == $articleID )

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: userlist.php,v 1.10 2000/10/26 13:13:46 ce-cvs Exp $
+// $Id: userlist.php,v 1.11 2000/11/09 15:01:46 bf-cvs Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <20-Sep-2000 13:32:11 ce>
@@ -60,6 +60,8 @@ else
     $userList = $usergroup->users( $GroupID );
 }
 
+$t->set_var( "user_count", count( $userList ) );
+
 
 $i=0;
 foreach( $userList as $userItem )
@@ -81,6 +83,7 @@ foreach( $userList as $userItem )
 
 $group = new eZUserGroup();
 $groupList = $group->getAll();
+
 
 foreach( $groupList as $groupItem )
 {
