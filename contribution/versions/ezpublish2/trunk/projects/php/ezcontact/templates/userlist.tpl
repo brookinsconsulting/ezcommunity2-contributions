@@ -35,4 +35,4 @@
 {user_list}
 </table>
 <br>
-<a href="index.php4?page={document_root}useredit.php4">{intl-newuser}</a>
+<a href="index.php?page={document_root}useredit.php">{intl-newuser}</a>

@@ -1,4 +1,4 @@
-<form action=index.php4?page=user-delete.php4 method=post>
+<form action=index.php?page=user-delete.php method=post>
 
 <h1>Sletting av bruker</h1>
 

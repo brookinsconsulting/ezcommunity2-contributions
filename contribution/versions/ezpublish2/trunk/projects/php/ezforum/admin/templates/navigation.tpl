@@ -5,8 +5,8 @@
 	      </td>
              <td bgcolor="#f0f0f0" align="center">
                <br>
-               <form action="index.php4" method="post">
-               <input type="hidden" name="page" value="{docroot}/main.php4">
+               <form action="index.php" method="post">
+               <input type="hidden" name="page" value="{docroot}/main.php">
                <input type="text" name="criteria">
 			   <input type="submit" name="search" value="{intl-search}">
               </form>

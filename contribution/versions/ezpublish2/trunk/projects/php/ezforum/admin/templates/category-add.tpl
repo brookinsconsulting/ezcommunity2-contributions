@@ -1,5 +1,5 @@
-<form action="index.php4" method="post">
-    <input type="hidden" name="page" value="{docroot}/admin/category.php4">
+<form action="index.php" method="post">
+    <input type="hidden" name="page" value="{docroot}/admin/category.php">
     <h1>Legg til ny kategori</h1>
 
 <table width="100%" border="0" cellspacing="0" cellpadding="4">

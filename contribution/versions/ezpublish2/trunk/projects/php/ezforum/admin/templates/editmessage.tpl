@@ -1,6 +1,6 @@
 {navigation-bar}
-<form action="index.php4" method="post">
-    <input type="hidden" name="page" value="{docroot}/admin/message.php4">
+<form action="index.php" method="post">
+    <input type="hidden" name="page" value="{docroot}/admin/message.php">
     <input type="hidden" name="category_id" value="{category_id}">
     <input type="hidden" name="message_id" value="{message_id}">
     <table  width="85%" border="0" cellspacing="0" cellpadding="4">

@@ -1,6 +1,6 @@
 <h1>Brukeradministrasjon</h1>
 
-<form name="form" action="index.php4?page=useredit.php4" method="post" onsubmit="return validate_form(this)">
+<form name="form" action="index.php?page=useredit.php" method="post" onsubmit="return validate_form(this)">
 
 <table width="100%" cellspacing="0" cellpadding="4" border="0">
 <tr>

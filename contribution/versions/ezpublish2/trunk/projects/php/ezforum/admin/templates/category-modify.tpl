@@ -1,5 +1,5 @@
-<form action="index.php4" method="post">
-    <input type="hidden" name="page" value="{docroot}/admin/category.php4">
+<form action="index.php" method="post">
+    <input type="hidden" name="page" value="{docroot}/admin/category.php">
     <input type="hidden" name="category_id" value="{category_id}">
     <h1>Endre kategori</h1>
 

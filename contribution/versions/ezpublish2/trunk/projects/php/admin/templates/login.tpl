@@ -2,7 +2,7 @@
 
 <h3>{text}</h3>
 
-<form action="login.php4" method=post>
+<form action="login.php" method=post>
 
 <p>Brukernavn:<br>
 <input type="text" name="userid"><br>

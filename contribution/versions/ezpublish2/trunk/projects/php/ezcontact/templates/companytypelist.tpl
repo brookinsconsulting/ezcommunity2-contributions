@@ -35,4 +35,4 @@
 {companytype_list}
 </table>
 <br>
-<a href="index.php4?page={document_root}companytypeedit.php4&CID={companytype_id}">{intl-newfirm}</a>
+<a href="index.php?page={document_root}companytypeedit.php&CID={companytype_id}">{intl-newfirm}</a>

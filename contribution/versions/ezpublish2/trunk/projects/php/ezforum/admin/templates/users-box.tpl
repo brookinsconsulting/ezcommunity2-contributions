@@ -1,5 +1,5 @@
-<form action="index.php4" method="post">
-<input type="hidden" name="page" value="{docroot}/admin/users.php4">
+<form action="index.php" method="post">
+<input type="hidden" name="page" value="{docroot}/admin/users.php">
 <input type="hidden" name="UserId" value="{userid}">
 <table cellspacing="0" cellpadding="4" border="0">
   <tr>

@@ -1,4 +1,4 @@
-<form method="post" action="index.php4?prePage={document_root}noteedit.php4">
+<form method="post" action="index.php?prePage={document_root}noteedit.php">
 
 <h1>{intl-headline}</h1>
 <p>{intl-title}<br>

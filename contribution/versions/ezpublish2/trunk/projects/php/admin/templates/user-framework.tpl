@@ -51,9 +51,9 @@
 <br>
 {prevnext}
 
-<!-- <a href="index.php4?page=user2.php4&new=1">[Ny bruker]</a>
+<!-- <a href="index.php?page=user2.php&new=1">[Ny bruker]</a>
 <input type=submit value="Ny bruker" name=new>
 </form>
 
-<a href="index.php4">[Tilbake]</a> -->
+<a href="index.php">[Tilbake]</a> -->
 

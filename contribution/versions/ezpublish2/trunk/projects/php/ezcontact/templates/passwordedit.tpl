@@ -1,4 +1,4 @@
-<form method="post" action="index.php4?page={document_root}passwordedit.php4">
+<form method="post" action="index.php?page={document_root}passwordedit.php">
 <h1>{intl-headline}</h1>
 
 <p>{intl-password}<br>

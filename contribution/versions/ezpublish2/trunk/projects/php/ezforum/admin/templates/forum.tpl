@@ -46,4 +46,4 @@
    {forums}
 </table>
 <br>
-<a href="index.php4?page={docroot}/admin/category.php4">[Tilbake]</a>
+<a href="index.php?page={docroot}/admin/category.php">[Tilbake]</a>

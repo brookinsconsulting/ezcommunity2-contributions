@@ -1,5 +1,5 @@
-<form action="index.php4" method="get">
-<input type="hidden" name="page" value="{docroot}/admin/forum.php4">
+<form action="index.php" method="get">
+<input type="hidden" name="page" value="{docroot}/admin/forum.php">
 <input type="hidden" name="forum_id" value="{forum_id}">
 <input type="hidden" name="category_id" value="{category_id}">
 
@@ -28,8 +28,8 @@
 	<td><input type="submit" name="modify" value="Endre"></td>
 	<td align="right">
 	</form>
-	<form action="index.php4" method="post">
-	<input type="hidden" name="page" value="{docroot}/admin/forum.php4">
+	<form action="index.php" method="post">
+	<input type="hidden" name="page" value="{docroot}/admin/forum.php">
 	<input type="hidden" name="category_id" value="{category_id}">
 	<input type="submit" name="addbox" value="Legg til nytt forum">
 	</td>

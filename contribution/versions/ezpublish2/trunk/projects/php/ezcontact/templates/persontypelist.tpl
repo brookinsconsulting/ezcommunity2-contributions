@@ -35,4 +35,4 @@
 {persontype_list}
 </table>
 <br>
-<a href="index.php4?page={document_root}persontypeedit.php4&PID={persontype_id}">{intl-newperson}</a>
+<a href="index.php?page={document_root}persontypeedit.php&PID={persontype_id}">{intl-newperson}</a>

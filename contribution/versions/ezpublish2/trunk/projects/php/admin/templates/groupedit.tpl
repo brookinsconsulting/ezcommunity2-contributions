@@ -1,6 +1,6 @@
 <h1>Brukergrupperedigering</h1>
 
-<form action="index.php4?page=groupedit.php4" method="post">
+<form action="index.php?page=groupedit.php" method="post">
 
 <table width="100%" cellspacing="0" cellpadding="4" border="0">
 <tr>

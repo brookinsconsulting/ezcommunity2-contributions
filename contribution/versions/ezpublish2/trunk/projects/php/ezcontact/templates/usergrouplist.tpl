@@ -35,4 +35,4 @@
 {user_group_list}
 </table>
 <br>
-<a href="index.php4?page={document_root}usergroupedit.php4">{intl-newgroup}</a>
+<a href="index.php?page={document_root}usergroupedit.php">{intl-newgroup}</a>

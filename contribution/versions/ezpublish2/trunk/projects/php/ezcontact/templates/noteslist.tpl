@@ -70,4 +70,4 @@
 {notes}
 </table>
 <br>
-<a href="index.php4?page={document_root}noteedit.php4">{intl-newnote}</a>
+<a href="index.php?page={document_root}noteedit.php">{intl-newnote}</a>
