@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: checkout.php,v 1.96.2.2.4.6 2002/01/30 13:02:09 ce Exp $
+// $Id: checkout.php,v 1.96.2.2.4.7 2002/01/31 12:08:09 ce Exp $
 //
 // Created on: <28-Sep-2000 15:52:08 bf>
 //
@@ -731,6 +731,8 @@ $payment = true;
 // the total cost of the payment
 $t->set_var( "total_cost_value", $total["inctax"] );
 $t->set_var( "total_vat_value", $totalVAT );
+
+$t->set_var( "comment", "$Comment" );
 
 // A check should be done in the code above for qty.
 $can_checkout = true;
