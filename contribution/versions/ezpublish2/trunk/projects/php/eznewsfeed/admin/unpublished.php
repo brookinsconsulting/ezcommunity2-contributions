@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: unpublished.php,v 1.5 2000/12/03 16:22:15 th-cvs Exp $
+// $Id: unpublished.php,v 1.6 2000/12/13 16:48:09 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <29-Nov-2000 18:10:27 bf>
@@ -29,6 +29,12 @@ include_once( "eznewsfeed/classes/eznewsimporter.php" );
 
 include_once( "classes/ezdatetime.php" );
 include_once( "classes/ezlocale.php" );
+
+if ( isset( $Publish ) )
+    $Action = "Publish";
+
+if ( isset( $Delete ) )
+    $Action = "Delete";
 
 if ( $Action == "Publish" )
 {
@@ -69,6 +75,19 @@ if ( $Action == "Publish" )
     $dir->close();
 }
 
+
+if ( $Action == "Delete" )
+{
+    if ( count( $NewsDeleteIDArray ) > 0 )
+    {
+        foreach ( $NewsDeleteIDArray as $newsID )
+        {
+            $news = new eZNews( $newsID );
+            $news->delete();
+        }
+    }
+}
+
 $ini = new INIFIle( "site.ini" );
 
 $Language = $ini->read_var( "eZNewsFeedMain", "Language" );
@@ -92,6 +111,9 @@ $t->set_block( "category_list_tpl", "category_item_tpl", "category_item" );
 // news
 $t->set_block( "news_unpublished_page_tpl", "news_list_tpl", "news_list" );
 $t->set_block( "news_list_tpl", "news_item_tpl", "news_item" );
+
+$t->set_block( "news_unpublished_page_tpl", "previous_tpl", "previous" );
+$t->set_block( "news_unpublished_page_tpl", "next_tpl", "next" );
 
 $category = new eZNewsCategory( $CategoryID );
 
@@ -148,8 +170,17 @@ else
     $t->set_var( "category_list", "" );
 
 
+if ( !isSet( $Limit ) )
+    $Limit = 20;
+if ( !isSet( $Offset ) )
+    $Offset = 0;
+
+
 // news
-$newsList =& $category->newsList( "time", "only", 0, 15 );
+$newsList =& $category->newsList( "time", "only", $Offset, $Limit );
+$newsListCount = $category->newsListCount( "time", "only" );
+
+//  print( "news count: " . $newsListCount );
 
 $locale = new eZLocale( $Language );
 $i=0;
@@ -172,6 +203,13 @@ foreach ( $newsList as $news )
         $t->set_var( "td_class", "bgdark" );
     }
 
+    $t->set_var( "news_origin", $news->origin() );
+
+    $published = $news->originalPublishingDate();
+    $date =& $published->date();            
+    $t->set_var( "news_date", $locale->format( $date ) );
+
+
     $t->parse( "news_item", "news_item_tpl", true );
     $i++;
 }
@@ -180,6 +218,30 @@ if ( count( $newsList ) > 0 )
     $t->parse( "news_list", "news_list_tpl" );
 else
     $t->set_var( "news_list", "" );
+
+
+$prevOffs = $Offset - $Limit;
+$nextOffs = $Offset + $Limit;
+        
+if ( $prevOffs >= 0 )
+{
+    $t->set_var( "prev_offset", $prevOffs  );
+    $t->parse( "previous", "previous_tpl" );
+}
+else
+{
+    $t->set_var( "previous", "" );
+}
+        
+if ( $nextOffs <= $newsListCount )
+{
+    $t->set_var( "next_offset", $nextOffs  );
+    $t->parse( "next", "next_tpl" );
+}
+else
+{
+    $t->set_var( "next", "" );
+}
 
 
 $t->pparse( "output", "news_unpublished_page_tpl" );

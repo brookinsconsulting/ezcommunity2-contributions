@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: newsarchive.php,v 1.10 2000/12/13 00:26:48 bf Exp $
+// $Id: newsarchive.php,v 1.11 2000/12/13 16:48:09 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <13-Nov-2000 16:56:48 bf>
@@ -58,6 +58,9 @@ $t->set_block( "news_list_tpl", "news_item_tpl", "news_item" );
 $t->set_block( "news_item_tpl", "news_is_published_tpl", "news_is_published" );
 $t->set_block( "news_item_tpl", "news_not_published_tpl", "news_not_published" );
 
+$t->set_block( "news_archive_page_tpl", "previous_tpl", "previous" );
+$t->set_block( "news_archive_page_tpl", "next_tpl", "next" );
+
 $category = new eZNewsCategory( $CategoryID );
 
 $t->set_var( "current_category_id", $category->id() );
@@ -77,7 +80,7 @@ foreach ( $pathArray as $path )
     $t->parse( "path_item", "path_item_tpl", true );
 }
 
-$categoryList = $category->getByParent( $category, true );
+$categoryList =& $category->getByParent( $category, true );
 
 
 // categories
@@ -113,14 +116,21 @@ else
     $t->set_var( "category_list", "" );
 
 
+if ( !isSet( $Limit ) )
+    $Limit = 20;
+if ( !isSet( $Offset ) )
+    $Offset = 0;
+
 // news
 if ( $ShowUnPublished = "no" )
 {
-    $newsList =& $category->newsList( "time", "no" );
+    $newsList =& $category->newsList( "time", "no", $Offset, $Limit );
+    $newsListCount = $category->newsListCount( "time", "no" );    
 }
 else
 {
-    $newsList =& $category->newsList( "time", "only" );
+    $newsList =& $category->newsList( "time", "only", $Offset, $Limit );
+    $newsListCount = $category->newsListCount( "time", "only" );
 }
 
 $locale = new eZLocale( $Language );
@@ -169,6 +179,32 @@ if ( count( $newsList ) > 0 )
     $t->parse( "news_list", "news_list_tpl" );
 else
     $t->set_var( "news_list", "" );
+
+
+$prevOffs = $Offset - $Limit;
+$nextOffs = $Offset + $Limit;
+        
+if ( $prevOffs >= 0 )
+{
+    $t->set_var( "prev_offset", $prevOffs  );
+    $t->parse( "previous", "previous_tpl" );
+}
+else
+{
+    $t->set_var( "previous", "" );
+}
+        
+if ( $nextOffs <= $newsListCount )
+{
+    $t->set_var( "next_offset", $nextOffs  );
+    $t->parse( "next", "next_tpl" );
+}
+else
+{
+    $t->set_var( "next", "" );
+}
+
+
 
 $t->pparse( "output", "news_archive_page_tpl" );
 

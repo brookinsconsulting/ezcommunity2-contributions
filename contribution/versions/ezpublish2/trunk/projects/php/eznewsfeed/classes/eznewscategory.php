@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: eznewscategory.php,v 1.8 2000/12/08 16:44:57 ce-cvs Exp $
+// $Id: eznewscategory.php,v 1.9 2000/12/13 16:48:09 bf Exp $
 //
 // Definition of eZNewsCategory class
 //
@@ -440,6 +440,79 @@ class eZNewsCategory
        }
        
        return $return_array;
+    }
+
+
+    /*!
+      Returns the number of news in a category.
+
+      If $fetchNonPublished is set to "yes" the news which is not published is
+      also counted.
+
+      If $fetchNonPublished is set to "no" the news which is not published is not
+      counted.
+
+      If $fetchNonPublished is set to "only" only the news which is not published
+      are are.
+    */
+    function &newsListCount( $sortMode="time",
+                       $fetchNonPublished="no" )
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+       $this->dbInit();
+
+       $return_array = array();
+       $news_array = array();
+
+
+       if ( $fetchNonPublished  == "yes" )
+       {
+           $this->Database->array_query( $news_array, "
+                SELECT count( eZNewsFeed_News.ID ) AS Count
+                FROM eZNewsFeed_News, eZNewsFeed_Category, eZNewsFeed_NewsCategoryLink
+                WHERE 
+                eZNewsFeed_NewsCategoryLink.NewsID = eZNewsFeed_News.ID
+                AND
+                eZNewsFeed_Category.ID = eZNewsFeed_NewsCategoryLink.CategoryID
+                AND
+                eZNewsFeed_Category.ID='$this->ID'" );
+       }
+
+       if ( $fetchNonPublished  == "no" )
+       {
+           $this->Database->array_query( $news_array, "
+                SELECT count( eZNewsFeed_News.ID ) AS Count
+                FROM eZNewsFeed_News, eZNewsFeed_Category, eZNewsFeed_NewsCategoryLink
+                WHERE 
+                eZNewsFeed_NewsCategoryLink.NewsID = eZNewsFeed_News.ID
+                AND
+                eZNewsFeed_News.IsPublished = 'true'
+                AND
+                eZNewsFeed_Category.ID = eZNewsFeed_NewsCategoryLink.CategoryID
+                AND
+                eZNewsFeed_Category.ID='$this->ID'" );
+       }
+
+       if ( $fetchNonPublished  == "only" )
+       {
+           $this->Database->array_query( $news_array, "
+                SELECT count( eZNewsFeed_News.ID ) AS Count
+                FROM eZNewsFeed_News, eZNewsFeed_Category, eZNewsFeed_NewsCategoryLink
+                WHERE 
+                eZNewsFeed_NewsCategoryLink.NewsID = eZNewsFeed_News.ID
+                AND
+                eZNewsFeed_News.IsPublished = 'false'
+                AND
+                eZNewsFeed_Category.ID = eZNewsFeed_NewsCategoryLink.CategoryID
+                AND
+                eZNewsFeed_Category.ID='$this->ID'
+                " );
+       }
+       
+       
+       return $news_array[0]["Count"];
     }
     
     /*!

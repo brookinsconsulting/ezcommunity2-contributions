@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eznews.php,v 1.9 2000/11/29 11:15:27 bf-cvs Exp $
+// $Id: eznews.php,v 1.10 2000/12/13 16:48:09 bf Exp $
 //
 // Definition of eZNews class
 //
@@ -498,9 +498,10 @@ class eZNews
     }
 
     /*!
-      Does a search in the news archive.
+      Does a search in the news archive and returns the result as an array
+      of eZNews objects.
     */
-    function search( $queryText, $fetchNonPublished=false, $offset=0,$limit=10 )
+    function &search( $queryText, $fetchNonPublished=false, $offset=0, $limit=20 )
     {
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
@@ -536,6 +537,42 @@ class eZNews
        }
        
        return $return_array;
+    }
+
+    /*!
+      Does a search in the news archive and returns the number of hits.
+    */
+    function &searchCount( $queryText, $fetchNonPublished=false )
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+       $this->dbInit();
+
+       if ( $fetchNonPublished == true )
+       {
+           $fetchText = "eZNewsFeed_News.IsPublished = 'true' AND";
+       }
+       else
+       {           
+           $fetchText = "";
+       }
+
+       $return_array = array();
+       $news_array = array();
+
+       $this->Database->array_query( $news_array,
+                    "SELECT count( eZNewsFeed_News.ID ) AS Count
+                    FROM eZNewsFeed_News
+                    WHERE 
+                    ( 
+                    eZNewsFeed_News.Name LIKE '%$queryText%' OR
+                    eZNewsFeed_News.Intro LIKE '%$queryText%'
+                    )
+                    " );
+ 
+       
+       return $news_array[0]["Count"];
     }
     
     /*!

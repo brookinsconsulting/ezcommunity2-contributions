@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: newsedit.php,v 1.6 2000/11/19 11:10:02 bf-cvs Exp $
+// $Id: newsedit.php,v 1.7 2000/12/13 16:48:09 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <16-Nov-2000 13:02:32 bf>
@@ -26,6 +26,7 @@
 include_once( "classes/INIFile.php" );
 include_once( "classes/eztemplate.php" );
 include_once( "classes/ezlocale.php" );
+include_once( "classes/ezdatetime.php" );
 
 include_once( "eznewsfeed/classes/eznews.php" );
 
@@ -55,13 +56,49 @@ if ( $Action == "Insert" )
     $news->setKeywords( $NewsKeywords );
     $news->setOrigin( $NewsSource );
     $news->setURL( $NewsURL );
-    $dateTime = new eZDateTime( 2000, 11, 13, 14, 0, 15 );
+    
+    $dateTime = new eZDateTime( $Year, $Month, $Day, $Hour, $Second, $Minute );
     $news->setOriginalPublishingDate( $dateTime );
 
     $news->store();
 
     $category->addNews( $news );
-    Header( "Location: /newsfeed/archive/$CategoryID/" );
+
+    // delete the cache
+    $dir = dir( "eznewsfeed/cache/" );
+    $files = array();
+    while( $entry = $dir->read() )
+    { 
+        if ( $entry != "." && $entry != ".." )
+        {
+            if ( ereg( "latestnews,([^,]+)\..*", $entry, $regArray  ) )
+            {
+                if ( $regArray[1] == $CategoryID )
+                {
+                    unlink( "eznewsfeed/cache/" . $entry );
+                }
+            }
+            
+            if ( ereg( "headlines,([^,]+)\..*", $entry, $regArray  ) )
+            {
+                if ( $regArray[1] == $CategoryID )
+                {
+                    unlink( "eznewsfeed/cache/" . $entry );
+                }
+            }
+        }
+    } 
+    $dir->close();
+    
+    if ( $news->isPublished() == true )
+    {
+        Header( "Location: /newsfeed/archive/$CategoryID/" );
+    }
+    else
+    {
+        Header( "Location: /newsfeed/unpublished/$CategoryID/" );        
+    }
+
     exit();
 }
 
@@ -82,17 +119,98 @@ if ( $Action == "Update" )
     {
         $news->setIsPublished( false );
     }
+    
 
     $news->setKeywords( $NewsKeywords );
     $news->setOrigin( $NewsSource );
     $news->setURL( $NewsURL );
-    $dateTime = new eZDateTime( 2000, 11, 13, 14, 0, 15 );
+    
+    $dateTime = new eZDateTime( $Year, $Month, $Day, $Hour, $Second, $Minute );
     $news->setOriginalPublishingDate( $dateTime );
 
     $news->store();
 
     $news->removeFromCategories();
     $category->addNews( $news );
+
+    // delete the cache
+    $dir = dir( "eznewsfeed/cache/" );
+    $files = array();
+    while( $entry = $dir->read() )
+    { 
+        if ( $entry != "." && $entry != ".." )
+        {
+            if ( ereg( "latestnews,([^,]+)\..*", $entry, $regArray  ) )
+            {
+                if ( ( $regArray[1] == $CategoryID ) ||
+                     ( $regArray[1] == $OldCategoryID ) )
+                {
+                    unlink( "eznewsfeed/cache/" . $entry );
+                }
+            }
+            
+            if ( ereg( "headlines,([^,]+)\..*", $entry, $regArray  ) )
+            {
+                if ( ( $regArray[1] == $CategoryID ) ||
+                     ( $regArray[1] == $OldCategoryID ) )
+                {
+                    unlink( "eznewsfeed/cache/" . $entry );
+                }
+            }
+        }
+    } 
+    $dir->close();
+
+    if ( $news->isPublished() == true )
+    {
+        Header( "Location: /newsfeed/archive/$CategoryID/" );
+    }
+    else
+    {
+        Header( "Location: /newsfeed/unpublished/$CategoryID/" );        
+    }
+    exit();
+}
+
+
+if ( $Action == "Delete" )
+{
+    $news = new eZNews( $NewsID );
+
+    $cats = $news->categories();
+    $defCat = $cats[0];
+
+    $CategoryID = $defCat->id();
+
+    // delete the cache
+    $dir = dir( "eznewsfeed/cache/" );
+    $files = array();
+    while( $entry = $dir->read() )
+    { 
+        if ( $entry != "." && $entry != ".." )
+        {
+            if ( ereg( "latestnews,([^,]+)\..*", $entry, $regArray  ) )
+            {
+                if ( $regArray[1] == $CategoryID )
+                {
+                    unlink( "eznewsfeed/cache/" . $entry );
+                }
+            }
+            
+            if ( ereg( "headlines,([^,]+)\..*", $entry, $regArray  ) )
+            {
+                if ( $regArray[1] == $CategoryID )
+                {
+                    unlink( "eznewsfeed/cache/" . $entry );
+                }
+            }
+        }
+    } 
+    $dir->close();
+    
+
+    $news->delete();
+    
     Header( "Location: /newsfeed/archive/$CategoryID/" );
     exit();
 }
@@ -118,7 +236,16 @@ $t->set_var( "action_value", "Insert" );
 
 $t->set_var( "news_title_value", "" );
 $t->set_var( "news_source_value", "" );
-$t->set_var( "news_date_value", "" );
+
+$today = new eZDateTime();
+{
+    $t->set_var( "news_year_value", $today->year() );
+    $t->set_var( "news_month_value", $today->month() );
+    $t->set_var( "news_day_value", $today->day() );
+    $t->set_var( "news_hour_value", $today->hour() );
+    $t->set_var( "news_minute_value", $today->minute() );
+    $t->set_var( "news_second_value", $today->second() );
+}
 $t->set_var( "news_intro_value", "" );
 $t->set_var( "news_url_value", "" );
 $t->set_var( "news_keywords_value", "" );
@@ -128,6 +255,15 @@ if ( $Action == "Edit" )
 {
     $news = new eZNews( $NewsID );
 
+    $published = $news->originalPublishingDate();
+
+    $t->set_var( "news_year_value", $published->year() );
+    $t->set_var( "news_month_value", $published->month() );
+    $t->set_var( "news_day_value", $published->day() );
+    $t->set_var( "news_hour_value", $published->hour() );
+    $t->set_var( "news_minute_value", $published->minute() );
+    $t->set_var( "news_second_value", $published->second() );
+    
     $t->set_var( "news_title_value", $news->name() );
     $t->set_var( "news_source_value", $news->origin() );
     $t->set_var( "news_intro_value", $news->intro() );
@@ -135,6 +271,7 @@ if ( $Action == "Edit" )
     $t->set_var( "news_keywords_value", $news->keywords() );
     $t->set_var( "news_id", $news->id() );
     $t->set_var( "action_value", "Update" );
+
 
     if ( $news->isPublished() == true )
     {
@@ -145,10 +282,9 @@ if ( $Action == "Edit" )
         $t->set_var( "news_is_published", "" );
     }
     
-
     $cats = $news->categories();
-
     $defCat = $cats[0];
+    $t->set_var( "old_category_id", $defCat->id() );
 }
 
 // category select

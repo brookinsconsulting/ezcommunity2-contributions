@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezrdfimporter.php,v 1.4 2000/11/19 12:32:58 bf-cvs Exp $
+// $Id: ezrdfimporter.php,v 1.5 2000/12/13 16:48:09 bf Exp $
 //
 // Definition of ezrdfimporter class
 //
@@ -63,7 +63,7 @@ class eZRDFImporter
         fclose( $fp );
 
         $doc = qdom_tree( $output );
-
+        if ( count( $doc->children ) > 0 )
         foreach ( $doc->children as $child )
         {
             if ( $child->name == "rss" )

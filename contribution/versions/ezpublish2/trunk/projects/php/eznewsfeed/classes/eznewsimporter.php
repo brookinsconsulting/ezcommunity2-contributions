@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eznewsimporter.php,v 1.3 2000/11/19 12:32:58 bf-cvs Exp $
+// $Id: eznewsimporter.php,v 1.4 2000/12/13 16:48:09 bf Exp $
 //
 // Definition of eZNewsImporter class
 //
@@ -66,8 +66,8 @@ class eZNewsImporter
     {
         $category = new eZNewsCategory( $this->CategoryID );
         
-        switch ( $this->Decoder )
-        {
+          switch ( $this->Decoder )
+          {
             case "nyheter.no" :
             {
                 include_once( "eznewsfeed/classes/eznyheternoimporter.php" );

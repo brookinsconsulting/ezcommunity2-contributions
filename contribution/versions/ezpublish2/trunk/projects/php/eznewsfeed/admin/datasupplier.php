@@ -20,6 +20,12 @@ switch ( $url_array[2] )
         if  ( !isset( $CategoryID ) || ( $CategoryID == "" ) )
             $CategoryID = 0;
 
+        if ( $url_array[4] == "delete" )
+        {
+            $Action = "Delete";
+            $NewsDeleteIDArray = array( $url_array[5] );
+        }
+
         $ShowUnPublished = "only";
         include( "eznewsfeed/admin/unpublished.php" );
     }
@@ -71,6 +77,18 @@ switch ( $url_array[2] )
                 $NewsID = $arg;
             }
         }
+        else if ( $url_array[3]  == "delete" )
+        {
+            $arg = $url_array[4];
+            
+            setType( $arg, "integer" );
+            if ( $arg != 0 )
+            {
+                $Action = "Delete";
+                $NewsID = $arg;
+            }
+        }
+
         
         include( "eznewsfeed/admin/newsedit.php" );
     }
@@ -109,6 +127,12 @@ switch ( $url_array[2] )
         }
         
         include( "eznewsfeed/admin/importnews.php" );
+    }
+    break;
+
+    case "search":
+    {
+        include( "eznewsfeed/admin/newssearch.php" );
     }
     break;
     

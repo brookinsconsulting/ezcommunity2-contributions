@@ -106,6 +106,8 @@ onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezac{category_id}-sl
 <table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
 <tr>
 	<th>{intl-news}:</th>
+	<th>{intl-news_origin}:</th>
+	<th>{intl-news_date}:</th>
 	<th>{intl-publish}:</th>
 	<th>{intl-delete}:</th>
 	<th colspan="2">&nbsp;</th>
@@ -114,23 +116,31 @@ onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezac{category_id}-sl
 <!-- BEGIN news_item_tpl -->
 <tr>
 	<td class="{td_class}">
-	<a href="/newsfeed/news/{news_id}/">
+	<a href="/newsfeed/news/edit/{news_id}/">
 	{news_name}
 	</a>
 	</td>
+
+	<td class="{td_class}">
+	{news_origin}&nbsp;
+	</td>
+	<td class="{td_class}">
+	{news_date}&nbsp;
+	</td>
+
 	<td class="{td_class}">
 	<input type="checkbox" name="NewsPublishIDArray[]" value="{news_id}" />
 	</td>
 
 	<td class="{td_class}">
-	<input color="red" type="checkbox" name="NewsPublishIDArray[]" value="{news_id}" />
+	<input type="checkbox" name="NewsDeleteIDArray[]" value="{news_id}" />
 	</td>
 
 	<td width="1%" class="{td_class}">
 	<a href="/newsfeed/news/edit/{news_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezaa{news_id}-red','','/eznewsfeed/admin/images/redigerminimrk.gif',1)"><img name="ezaa{news_id}-red" border="0" src="/eznewsfeed/admin/images/redigermini.gif" width="16" height="16" align="top"></a>
 	</td>
 	<td width="1%" class="{td_class}">
-	<a href="#" onClick="verify( '{intl-delete}', '/newsfeed/news/delete/{news_id}/'); return false;"
+	<a href="#" onClick="verify( '{intl-delete}', '/newsfeed/unpublished/{current_category_id}/delete/{news_id}/'); return false;"
 onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezaa{news_id}-slett','','/eznewsfeed/admin/images/slettminimrk.gif',1)"><img name="ezaa{news_id}-slett" border="0" src="/eznewsfeed/admin/images/slettmini.gif" width="16" height="16" align="top"></a>
 
 	</td>
@@ -140,11 +150,35 @@ onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezaa{news_id}-slett'
 </table>
 <!-- END news_list_tpl -->
 
+
+<table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
+<tr>
+	<td width="50%">
+<!-- BEGIN previous_tpl -->
+<a href="/newsfeed/unpublished/{current_category_id}/?Offset={prev_offset}">
+{intl-prev}
+</a>
+<!-- END previous_tpl -->
+
+     </td>
+     <td width="50%" align="right">
+
+<!-- BEGIN next_tpl -->
+<a href="/newsfeed/unpublished/{current_category_id}/?Offset={next_offset}">
+{intl-next}
+</a>
+<!-- END next_tpl -->
+     </td>
+</tr>
+</table>
+
+
 <hr noshade="noshade" size="4" />
 
-<input type="submit" class="okbutton" value="{intl-publish_marked}" />
+<input type="submit" class="okbutton" name="Publish" value="{intl-publish_marked}" />
 
-<input type="hidden" name="Action" value="Publish" />
+<input type="submit" class="okbutton" name="Delete" value="{intl-delete_marked}" />
+
 <input type="hidden" name="CategoryID" value="{current_category_id}" />
 
 </form>
