@@ -33,6 +33,9 @@ if ( $Action == "insert" )
     $newCompany->setOwner( $usr->id() );
     $cid = $newCompany->store();
 
+    $CID = $cid;
+    $Action = "edit";
+
     //
     // Adresse og telefonnummer funker ikke med oppretting
     // pga at det er ulike forms.. adresser og telefonnummer

@@ -57,7 +57,10 @@ if ( $Action == "insert" )
   }
   $newPerson->setOwner( $usr->id() );
   $pid = $newPerson->store();
-    
+
+    $PID = $pid;
+    $Action = "edit";
+  
 //    $newAddress = new eZAddress();
 //    $newAddress->setStreet1( $Street1 );
 //    $newAddress->setStreet2( $Street2 );

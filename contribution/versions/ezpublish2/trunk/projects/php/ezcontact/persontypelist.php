@@ -1,5 +1,4 @@
 <?
-print ( "blah" );
 include  "template.inc";
 require "ezphputils.php";
 require "ezcontact/dbsettings.php";

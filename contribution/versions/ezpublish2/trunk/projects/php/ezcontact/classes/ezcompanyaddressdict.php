@@ -66,7 +66,7 @@ class eZCompanyAddressDict
         
         query( "DELETE FROM CompanyAddressDict WHERE ID='$this->ID'" );
     }    
-    
+
     /*
       Setter CompanyID variablen.
     */
