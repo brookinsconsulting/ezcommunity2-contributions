@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezproduct.php,v 1.127 2001/11/26 20:01:14 br Exp $
+// $Id: ezproduct.php,v 1.128 2002/02/04 15:18:18 br Exp $
 //
 // Definition of eZProduct class
 //
@@ -1882,24 +1882,22 @@ class eZProduct
     */
     function setType( $type )
     {
-       if ( get_class( $type ) == "ezproducttype" )
-       {
+        if ( get_class( $type ) == "ezproducttype" )
+        {
             $db =& eZDB::globalDatabase();
             $db->begin();
 
             $typeID = $type->id();
-
+            $db->array_query( $typeArray, "SELECT ID FROM eZTrade_ProductTypeLink WHERE ProductID='$this->ID'" );
             
             $res[] = $db->query( "DELETE FROM eZTrade_AttributeValue
                                      WHERE ProductID='$this->ID'" );
             
-            $res[] = $db->query( "DELETE FROM eZTrade_ProductTypeLink
-                                     WHERE ProductID='$this->ID'" );
-
-            
-            $db->lock( "eZTrade_ProductTypeLink" );
-            $nextID = $db->nextID( "eZTrade_ProductTypeLink", "ID" );
-            $query = "INSERT INTO eZTrade_ProductTypeLink
+            if ( count( $typeArray ) == 0 )
+            {
+                $db->lock( "eZTrade_ProductTypeLink" );
+                $nextID = $db->nextID( "eZTrade_ProductTypeLink", "ID" );
+                $query = "INSERT INTO eZTrade_ProductTypeLink
                          ( ID,
                            TypeID,
                            ProductID )
@@ -1907,10 +1905,19 @@ class eZProduct
                          ( '$nextID',
                            '$typeID',
                            '$this->ID' )";
-            $db->unlock();
-            $res[] = $db->query( $query );
+                $db->unlock();
+                $res[] = $db->query( $query );
+            }
+            else
+            {
+                $res[] = $db->query( "UPDATE eZTrade_ProductTypeLink SET
+                                TypeID='$typeID',
+                                ProductID='$this->ID'
+                                WHERE ID='" . $typeArray[0][$db->fieldName( "ID" )] . "'" );
+            }
+            
             eZDB::finish( $res, $db );
-       }       
+        }       
     }
 
     /*!
