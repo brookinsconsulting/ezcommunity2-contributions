@@ -323,4 +323,9 @@ a.gcalSmallLink:hover	{ color: #000099; text-decoration: underline; }
 #gcalDayViewLongDateHeader { border: 1px solid gray; padding: 10px; text-align:center; background-color: #d0c9f4;}
 .gcalDayViewLongDateHeader { font-weight: bold; font-size: 130%; }
 .gcalDayViewBorder 	   { border: 1px solid #3b3030; }
+
+#gcalRecurringFormWrap	   { display: none; }
+#gcalRecurringWeekly	   { display: none; }
+#gcalRecurringMonthly      { display: none; }
+#gcalRecurringYearly       { display: none; }
 /* Hellstrøm 24.8.2001 */

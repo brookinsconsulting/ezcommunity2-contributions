@@ -36,7 +36,7 @@
 <p class="error">{intl-stop_time_error}</p>
 <!-- END stop_time_error_tpl -->
 
-<form method="post" onSubmit="return formCheck(this)" action="/groupeventcalendar/eventedit/{action_value}/{event_id}/">
+<form method="post" onSubmit="return formCheck(this)" name="EventEdit" action="/groupeventcalendar/eventedit/{action_value}/{event_id}/">
 
 <br />
 
@@ -128,21 +128,10 @@
   <option value="1" {1_status_selected}>{intl-confirmed_status}</option>
   <option value="2" {2_status_selected}>{intl-cancelled_status}</option>
 </select>
-
+[ in development | not tested ]
 	</td>
 </tr>
 </table>
-<br />
-
-<br />
-
-<br />
-
-<br />
-
-<br />
-
-
 
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
 <tr>
@@ -244,13 +233,130 @@
         </td>
 </tr>
 </table>
+<!-- start recurring_event stuff -->
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+	<td><p class="boxtext">{intl-recurring_event}:</p></td>
+</tr>
+<tr><select name="Start_Hour" onChange="resetAllDayCheck();">
+	<td valign="top">
+		<input {is_recurring} type="checkbox" name="IsRecurring" onChange="toggleRecurringEventForm()" />&nbsp;<span class="check">{intl-make_recurring}</span>
+	</td>
+</tr>
+</table>
+<div id="gcalRecurringFormWrap">
+ Repeat Every <input type="text" size="4" name="RecurFreq" value="{recur_freq}" /> 
+ <select name="RecurType" onChange="toggleRecurTypeLayer();">
+   <option value="rtDay" {rtselect_day}>Day</option>
+   <option value="rtWeek" {rtselect_week}>Week</option>
+   <option value="rtMonth" {rtselect_month}>Month</option>
+   <option value="rtYear" {rtselect_year}>Year</option>
+ </select>
+ 
+ <div id="gcalRecurringWeekly">
+  <span class="check">{intl-mon}</span>&nbsp;<input {recurring_daily_monday} type="checkbox" name="RecurringDailyMon" />
+  <span class="check">{intl-tue}</span>&nbsp;<input {recurring_daily_tuesday} type="checkbox" name="RecurringDailyTue" />
+  <span class="check">{intl-wed}</span>&nbsp;<input {recurring_daily_tuesday} type="checkbox" name="RecurringDailyWed" />
+  <span class="check">{intl-thu}</span>&nbsp;<input {recurring_daily_tuesday} type="checkbox" name="RecurringDailyThu" />
+  <span class="check">{intl-fri}</span>&nbsp;<input {recurring_daily_tuesday} type="checkbox" name="RecurringDailyFri" />
+  <span class="check">{intl-sat}</span>&nbsp;<input {recurring_daily_tuesday} type="checkbox" name="RecurringDailySat" />
+  <span class="check">{intl-sun}</span>&nbsp;<input {recurring_daily_tuesday} type="checkbox" name="RecurringDailySun" />
+ </div>
+ <div id="gcalRecurringMonthly">
+   <input type="radio" name="recurType" value="daily" {start_daily} />&nbsp;&nbsp;
+   On the {today_date} of the month.
+   <br />
+   <input type="radio" name="recurType" value="strdayname" {start_StrDayName} />&nbsp;&nbsp;
+   {week_number_str} {today_day_name} of the month.
+   <br />
+   <input type="radio" name="recurType" value="numdayname" {start_NumDayName} />&nbsp;&nbsp;
+   {day_number_str} {today_day_name} of the month.
+ </div>
+ <br /><br />
+ <input type="radio" name="repeatOptions" value="forever" /> Forever
+ <br />
+ <input type="radio" name="repeatOptions" value="" /> Number of Times <input type="text" size="10" name="numberOfTimes" />
+ <br />
+ <input type="radio" name="repeatOptions" value="" /> Until Date <input type="text" size="20" name="untilDate" />
+ <br />
+ <br />
+ Exceptions<br />
+ <a href="#">Add</a> <a href="#">Remove</a><br /><br />
+ <input type="text" size=7 name="untilDate" /> <br /><br />
+ <select name="select" size=5 multiple>
+ <option>08/19/1983</option>
+ </select>
+</div>
+<!-- End recurring event stuff -->
 
 <br />
 <script language="JavaScript">
 <!--hide this script from non-javascript-enabled browsers
+toggleRecurTypeLayer();
+toggleRecurringEventForm();
+function toggleRecurTypeLayer() {
+var frm = document.forms.EventEdit;
+if ( frm.IsRecurring.checked == true ) { 
+ hideDiv('gcalRecurringWeekly', 'gcalRecurringMonthly');
+ var field = document.EventEdit.RecurType
+ var option = field.options[field.selectedIndex].value;
+ if (option == "rtWeek") { showDiv('gcalRecurringWeekly') }
+ else if (option == "rtMonth") { showDiv('gcalRecurringMonthly') }
+ }
+}
 
+function hideDiv() {
+var arga = hideDiv.arguments;
+var argb = arga.length;
+
+if (document.getElementById) {
+	 for (var i=0; i < argb; i++) {
+		 document.getElementById(arga[i]).style.display = "none";
+	 }
+  }
+else if (document.all) {
+	for (var i=0; i < argb; i++) {
+document.all[arga[i]].style.display = "none";
+	 }
+  }
+else if (document.layers) {
+	for (var i=0; i < argb; i++) {
+document.layers[arga[i]].display = "none";
+	 }
+  }
+}
+
+function showDiv() {
+var arga = showDiv.arguments;
+var argb = arga.length;
+
+if (document.getElementById) {
+			for (var i=0; i < argb; i++) {
+document.getElementById(arga[i]).style.display = "block";
+	 }
+  }
+else if (document.all) {
+			for (var i=0; i < argb; i++) {
+document.all[arga[i]].style.display = "block";	
+	 }
+  }
+else if (document.layers) {
+		for (var i=0; i < argb; i++) {
+document.layers[arga[i]].display = "block";
+	 }
+  }
+}
+
+function toggleRecurringEventForm() {
+    var field = document.forms.EventEdit;
+    if ( field.IsRecurring.checked == true ) {
+        showDiv('gcalRecurringFormWrap');
+	} else {
+	hideDiv('gcalRecurringFormWrap');
+    }
+}
 function resetAllDayCheck() {
-    var field = document.forms[1];
+    var field = document.forms.EventEdit;
     if ( field.IsAllDay.checked == true ) {
 	if (! isEmpty(field.Start_Hour.selectedIndex) || ! isEmpty(field.Start_Minute.selectedIndex) || ! isEmpty(field.Stop_Hour.selectedIndex) || ! isEmpty(field.Stop_Minute.selectedIndex)) {
             if ( confirm( "By selecting a specific time frame, you cannot have All Day Event selected.  Are you sure you wish to specify a time frame?  If yes press OK, if now press CANCEL" ) ) {
@@ -268,7 +374,7 @@ function resetAllDayCheck() {
 }
 
 function resetTimeSelect() {
-    var field = document.forms[1];
+    var field = document.forms.EventEdit;
     if (! isEmpty(field.Start_Hour.selectedIndex) || ! isEmpty(field.Start_Minute.selectedIndex) || ! isEmpty(field.Stop_Hour.selectedIndex) || ! isEmpty(field.Stop_Minute.selectedIndex)) {
         if ( field.IsAllDay.checked == true ) {
 	    if ( confirm( "By selecting All Day Event, you cannot specify a time frame.  Are you sure you wish to select All Day Event?  If yes press OK, if now press CANCEL" ) ) {
