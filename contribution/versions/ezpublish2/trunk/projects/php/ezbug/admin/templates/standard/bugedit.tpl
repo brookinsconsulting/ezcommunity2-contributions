@@ -62,6 +62,7 @@
 	<option value="{priority_id}" {selected}>{priority_name}</option>
 	<!-- END priority_item_tpl -->
 	</select>
+	<br /><br />
 	</td>
 	<td width="50%">
 	<p class="boxtext">{intl-assigned_status}:</p>
@@ -70,19 +71,28 @@
 	<option value="{status_id}" {selected}>{status_name}</option>
 	<!-- END status_item_tpl -->
 	</select>
+	<br /><br />
+	</td>
+</tr>
+<tr>
+	<td>
+	<input type="hidden" name="CurrentOwnerID" value="{current_owner_id}" />
+	<p class="boxtext">{intl-owner}:</p>
+	<select name="OwnerID">
+	<option value="-1"> {intl-none}</option>
+	<!-- BEGIN owner_item_tpl -->
+	<option value="{owner_id}" {selected}>{owner_login}</option>
+	<!-- END owner_item_tpl -->
+	</select>
+	<br />
+	</td>
+	<td>
+	<input type="checkbox" name="IsPrivate" {is_private} />
+	<span class="check">{intl-is_private}</span><br />
 	</td>
 </tr>
 </table>
 
-<input type="hidden" name="CurrentOwnerID" value="{current_owner_id}" />
-<p class="boxtext">{intl-owner}:</p>
-<select name="OwnerID">
-<option value="-1"> {intl-none}</option>
-<!-- BEGIN owner_item_tpl -->
-<option value="{owner_id}" {selected}>{owner_login}</option>
-<!-- END owner_item_tpl -->
-</select>
-<br />
 <br />
 
 <!-- BEGIN file_headers_tpl -->
@@ -143,6 +153,13 @@
 </table>
 <!-- END image_headers_tpl -->
 
+<!-- BEGIN log_item_tpl -->
+<p class="boxtext">{log_date}</p>
+<div class="p">{log_description}</div>
+<!-- END log_item_tpl -->	
+
+<br />
+
 <p class="boxtext">{intl-log_message}:</p>
 <textarea name="LogMessage" cols="40" rows="5" wrap="soft"></textarea>
 <br>
@@ -151,26 +168,8 @@
 
 <br />
 
-
-	<!-- BEGIN log_item_tpl -->
-	<p class="boxtext">{log_date}</p>
-	<div class="p">{log_description}</div>
-	<!-- END log_item_tpl -->	
-
-<br />
-
-<table width="100%" cellspacing="0" cellpadding="0" border="0">
-<tr>
-	<td>
-	<input type="checkbox" name="IsClosed" {is_closed} />
-	<span class="check">{intl-is_closed}</span><br />
-	</td>
-	<td>
-	<input type="checkbox" name="IsPrivate" {is_private} />
-	<span class="check">{intl-is_private}</span><br />
-	</td>
-</tr>
-</table>
+<input type="checkbox" name="IsClosed" {is_closed} />
+<span class="check">{intl-is_closed}</span><br />
 
 <br />
 
