@@ -2,7 +2,7 @@
 // Version information
 if ( $VersionQuery == "show" )
 {
-    print( "eZ publish v1.0.3" );
+    print( "eZ publish v1.0.4 pre" );
     exit();
 }
 
