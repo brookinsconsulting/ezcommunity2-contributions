@@ -1,14 +1,14 @@
 <?php
 // 
-// $Id: ezmodulehandler.php,v 1.4 2001/05/07 08:46:59 fh Exp $
+// $Id: ezmodulehandler.php,v 1.5 2001/07/20 11:20:31 jakobn Exp $
 //
 // Definition of eZModuleHandler class
 //
-// Jan Borsodi <jb@ez.no>
 // Created on: <18-Apr-2001 13:23:01 amos>
 //
 // This source file is part of eZ publish, publishing software.
-// Copyright (C) 1999-2000 eZ systems as
+//
+// Copyright (C) 1999-2001 eZ Systems.  All rights reserved.
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License

@@ -1,12 +1,12 @@
 <?php
 // 
-// $Id: activate.php,v 1.5 2001/06/29 07:08:39 bf Exp $
+// $Id: activate.php,v 1.6 2001/07/20 11:20:31 jakobn Exp $
 //
-// Jan Borsodi <jb@ez.no>
 // Created on: <11-Apr-2001 15:07:58 amos>
 //
 // This source file is part of eZ publish, publishing software.
-// Copyright (C) 1999-2000 eZ systems as
+//
+// Copyright (C) 1999-2001 eZ Systems.  All rights reserved.
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License
