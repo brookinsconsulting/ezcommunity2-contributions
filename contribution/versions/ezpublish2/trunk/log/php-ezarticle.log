@@ -2654,3 +2654,12 @@ Maintainer(s) : bf@ez.no
     * user/articleview.php
       classes/ezqdomrenderer.php: small fixes
 
+
+Module : ezarticle
+Repository path : /home/cvsroot/projects/php/ezarticle
+Maintainer(s) : bf@ez.no
+2002-01-11  Baard Farstad  <bf@ez.no>
+
+    * classes/ezqdomgenerator.php
+      user/search.php: Fixed section override in search.
+

@@ -590,3 +590,33 @@ Maintainer(s) : fh@ez.no
       user/templates/vig/subscriptionlogin.tpl
       user/templates/vig/usermessages.tpl: removed templatefiles
 
+
+Module : ezbulkmail
+Repository path : /home/cvsroot/projects/php/ezbulkmail
+Maintainer(s) : fh@ez.no
+2001-12-21  Gunnstein Lye  <gl@ez.no>
+
+    * admin/intl/pt_PT/categoryedit.php.ini
+      admin/intl/pt_PT/categorylist.php.ini
+      admin/intl/pt_PT/mailedit.php.ini
+      admin/intl/pt_PT/maillist.php.ini
+      admin/intl/pt_PT/mailview.php.ini
+      admin/intl/pt_PT/masssubscribe.php.ini
+      admin/intl/pt_PT/menubox.php.ini
+      admin/intl/pt_PT/sendmail.php.ini
+      admin/intl/pt_PT/templateedit.php.ini
+      admin/intl/pt_PT/templatelist.php.ini
+      user/intl/pt_PT/menubox.php.ini
+      user/intl/pt_PT/subscriptionlist.php.ini
+      user/intl/pt_PT/subscriptionlogin.php.ini
+      user/intl/pt_PT/usermessages.php.ini: pt_PT (Portuguese) version 2.2.2
+
+
+Module : ezbulkmail
+Repository path : /home/cvsroot/projects/php/ezbulkmail
+Maintainer(s) : fh@ez.no
+2002-01-11  Vidar Langseid  <vl@ez.no>
+
+    * user/singlelist.php:
+    Remove duplicated delete() call when unsubscribing from the user site
+

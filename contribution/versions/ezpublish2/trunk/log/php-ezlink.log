@@ -672,3 +672,13 @@ Maintainer(s) : br@ez.no
 
     * user/datasupplier.php: test variables
 
+
+Module : ezlink
+Repository path : /home/cvsroot/projects/php/ezlink
+Maintainer(s) : br@ez.no
+2002-01-11  Kai Duebbert  <kai@duebbert.de>
+
+    * classes/ezlinkcategory.php: small fix
+
+    * classes/ezlinkcategory.php: small fixes
+

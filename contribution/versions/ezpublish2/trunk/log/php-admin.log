@@ -235,3 +235,23 @@ Maintainer(s) : bf@ez.no
       intl/hr_HR/help_header.php.ini
       intl/hr_HR/print_header.php.ini: Croatian (hr_HR) for 2.2.2
 
+
+Module : admin
+Repository path : /home/cvsroot/projects/php/admin
+Maintainer(s) : bf@ez.no
+2001-12-21  Gunnstein Lye  <gl@ez.no>
+
+    * intl/pt_PT/error.ini
+      intl/pt_PT/header.php.ini
+      intl/pt_PT/help_header.php.ini: pt_PT (Portuguese) version 2.2.2
+
+
+Module : admin
+Repository path : /home/cvsroot/projects/php/admin
+Maintainer(s) : bf@ez.no
+2002-01-11  Kai Duebbert  <kai@duebbert.de>
+
+    * templates/ezpublish/header.tpl
+      templates/ezpublish/loginheader.tpl
+      templates/ezpublish/print_header.tpl: fixed missing www_dir
+

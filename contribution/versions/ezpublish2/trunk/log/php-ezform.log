@@ -929,3 +929,32 @@ Maintainer(s) : pkej@ez.no
 
     * admin/exportform.php: reports now includes table fileds
 
+
+Module : ezform
+Repository path : /home/cvsroot/projects/php/ezform
+Maintainer(s) : pkej@ez.no
+2002-01-11  Jo Henrik Endrerud  <jhe@ez.no>
+
+    * classes/ezformelement.php: major speed improvement
+
+    * user/datasupplier.php
+      user/formlist.php
+      user/formview.php
+      user/intl/en_GB/formlist.php.ini
+      user/intl/en_GB/results.php.ini
+      user/intl/en_GB/viewresult.php.ini
+      user/intl/no_NO/formlist.php.ini
+      user/intl/no_NO/results.php.ini
+      user/intl/no_NO/viewresult.php.ini
+      user/results.php
+      user/templates/standard/formlist.tpl
+      user/templates/standard/formresults.tpl
+      user/templates/standard/results.tpl
+      user/templates/standard/viewresult.tpl
+      user/viewresult.php
+      admin/formlist.php
+      classes/ezform.php
+      classes/ezformelement.php
+      classes/ezformpage.php
+      classes/ezformrenderer.php: made reporting of forms
+
