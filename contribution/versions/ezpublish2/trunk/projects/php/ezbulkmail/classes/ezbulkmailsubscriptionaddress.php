@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezbulkmailsubscriptionaddress.php,v 1.16 2001/08/16 13:57:04 jhe Exp $
+// $Id: ezbulkmailsubscriptionaddress.php,v 1.17 2001/08/17 13:35:58 jhe Exp $
 //
 // eZBulkMailSubscriptionAddress class
 //
@@ -179,7 +179,7 @@ class eZBulkMailSubscriptionAddress
      */
     function addressExists( $email )
     {
-        $db = eZDB::globalDatabase();
+        $db =& eZDB::globalDatabase();
         $email = addslashes( $email );
         $db->array_query( $address_array, "SELECT ID FROM eZBulkMail_SubscriptionAddress WHERE EMail='$email'" );
 
@@ -270,7 +270,7 @@ class eZBulkMailSubscriptionAddress
         if( get_class( $categoryID ) == "ezbulkmailcategory" )
             $categoryID = $categoryID->id();
 
-        $db = eZDB::globalDatabase();
+        $db =& eZDB::globalDatabase();
         $db->begin();
         $db->lock( "eZBulkMail_SubscriptionLink" );
         $db->array_query( $check, "SELECT AddressID

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: buglist.php,v 1.10 2001/07/19 12:29:04 jakobn Exp $
+// $Id: buglist.php,v 1.11 2001/08/17 13:35:58 jhe Exp $
 //
 // Created on: <04-Dec-2000 11:36:41 bf>
 //
@@ -70,7 +70,7 @@ $t->set_var( "current_module_name", $module->name() );
 $t->set_var( "current_module_description", $module->description() );
 
 // check user rights
-$user = eZUser::currentUser();
+$user =& eZUser::currentUser();
 $gotRights = false;
 
 if ( eZObjectPermission::hasPermission( $module->id(), "bug_module", "w", $user ) )

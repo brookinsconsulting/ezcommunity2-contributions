@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: datasupplier.php,v 1.21 2001/07/19 12:29:04 jakobn Exp $
+// $Id: datasupplier.php,v 1.22 2001/08/17 13:35:58 jhe Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -35,7 +35,7 @@ $GlobalSectionID = $ini->read_var( "eZBugMain", "DefaultSection" );
 
 function hasPermission( $bugID )
 {
-    $user = eZUser::currentUser();
+    $user =& eZUser::currentUser();
     $bug = new eZBug( $bugID );
     $module = $bug->module();
     if ( get_class( $module ) == "ezbugmodule" && eZObjectPermission::hasPermission( $module->id(), "bug_module", "w" ) )

@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: configure.php,v 1.8 2001/07/20 11:18:28 jakobn Exp $
+// $Id: configure.php,v 1.9 2001/08/17 13:35:59 jhe Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -92,7 +92,7 @@ $t->set_var( "account_item", "" );
 $t->set_var( "filter_item" ,"" );
 
 
-$user = eZUser::currentUser();
+$user =& eZUser::currentUser();
 $accounts = eZMailAccount::getByUser( $user->id() );
 foreach( $accounts as $account )
 {

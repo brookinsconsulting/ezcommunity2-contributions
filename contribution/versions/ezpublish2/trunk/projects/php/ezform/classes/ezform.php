@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezform.php,v 1.4 2001/08/16 10:00:36 br Exp $
+// $Id: ezform.php,v 1.5 2001/08/17 13:35:59 jhe Exp $
 //
 // ezform class
 //
@@ -502,7 +502,7 @@ class eZForm
     {
         if( get_class( $object ) == "ezformelement" )
         {
-            $db = eZDB::globalDatabase();
+            $db =& eZDB::globalDatabase();
 
             $formID = $this->id();
             $elementID = $object->id();
@@ -556,7 +556,7 @@ class eZForm
     {
         if( get_class( $object ) == "ezformelement" )
         {
-            $db = eZDB::globalDatabase();
+            $db =& eZDB::globalDatabase();
             $db->begin();
             
             $formID = $this->id();

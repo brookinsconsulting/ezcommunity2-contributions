@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: consultationview.php,v 1.8 2001/07/20 12:01:50 jakobn Exp $
+// $Id: consultationview.php,v 1.9 2001/08/17 13:35:59 jhe Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -37,7 +37,7 @@ $Language = $ini->read_var( "eZContactMain", "Language" );
 include_once( "ezuser/classes/ezusergroup.php" );
 include_once( "ezuser/classes/ezpermission.php" );
 
-$user = eZUser::currentUser();
+$user =& eZUser::currentUser();
 if ( get_class( $user ) != "ezuser" )
 {
     include_once( "classes/ezhttptool.php" );
@@ -87,7 +87,7 @@ $t->set_var( "group_notice_name", "" );
 
 $t->set_var( "state_id", "" );
 
-$user = eZUser::currentUser();
+$user =& eZUser::currentUser();
 
 if ( !$user )
 {

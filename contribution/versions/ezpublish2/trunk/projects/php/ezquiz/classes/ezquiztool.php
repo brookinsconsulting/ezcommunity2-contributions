@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezquiztool.php,v 1.6 2001/07/20 11:24:09 jakobn Exp $
+// $Id: ezquiztool.php,v 1.7 2001/08/17 13:36:00 jhe Exp $
 //
 // Created on: <28-May-2001 11:24:41 pkej>
 //
@@ -40,7 +40,7 @@ class eZQuizTool
     */
     function deleteCache()
     {
-        $user = eZUser::currentUser();
+        $user =& eZUser::currentUser();
 
         $files =& eZCacheFile::files( "ezquiz/cache/",
                                       array( "quizlist", "quizfuture", "quizpast", "quizopen", "quizscore", "quizscores", NULL ), "cache", "," );

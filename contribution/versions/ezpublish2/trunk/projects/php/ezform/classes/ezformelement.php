@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezformelement.php,v 1.4 2001/08/16 10:00:36 br Exp $
+// $Id: ezformelement.php,v 1.5 2001/08/17 13:35:59 jhe Exp $
 //
 // ezformelement class
 //
@@ -149,7 +149,7 @@ class eZFormElement
     */
     function fill( &$formArray )
     {
-        $db = eZDB::globalDatabase();
+        $db =& eZDB::globalDatabase();
 
         $this->ID =& $formArray[$db->fieldName( "ID" )];
         

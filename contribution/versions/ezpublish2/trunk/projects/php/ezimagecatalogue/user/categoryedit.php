@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: categoryedit.php,v 1.19 2001/07/20 11:06:38 jakobn Exp $
+// $Id: categoryedit.php,v 1.20 2001/08/17 13:35:59 jhe Exp $
 //
 // Created on: <08-Jan-2001 11:13:29 ce>
 //
@@ -42,7 +42,7 @@ if ( isSet ( $Cancel ) )
     exit();
 }
 
-$user = eZUser::currentUser();
+$user =& eZUser::currentUser();
 
 if ( !$user )
 {

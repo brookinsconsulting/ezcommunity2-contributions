@@ -1,5 +1,5 @@
 <?php
-// $Id: todolist.php,v 1.17 2001/07/20 11:36:07 jakobn Exp $
+// $Id: todolist.php,v 1.18 2001/08/17 13:36:00 jhe Exp $
 //
 // Definition of todo list.
 //
@@ -65,7 +65,7 @@ if( isset( $Delete ) )
     }
 }
 
-$user = eZUser::currentUser();
+$user =& eZUser::currentUser();
 if ( $user == false )
 {
     eZHTTPTool::header( "Location: /error/403/" );

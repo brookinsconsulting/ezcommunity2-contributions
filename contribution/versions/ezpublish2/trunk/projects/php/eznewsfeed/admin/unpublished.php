@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: unpublished.php,v 1.13 2001/07/29 23:31:08 kaid Exp $
+// $Id: unpublished.php,v 1.14 2001/08/17 13:36:00 jhe Exp $
 //
 // Created on: <29-Nov-2000 18:10:27 bf>
 //
@@ -31,7 +31,7 @@ include_once( "classes/ezdatetime.php" );
 include_once( "classes/ezlocale.php" );
 include_once( "classes/ezdb.php" );
 
-$db = eZDB::globalDatabase();
+$db =& eZDB::globalDatabase();
 if ( isset( $Publish ) )
     $Action = "Publish";
 

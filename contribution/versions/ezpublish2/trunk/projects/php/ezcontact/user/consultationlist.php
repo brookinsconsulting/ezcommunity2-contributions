@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: consultationlist.php,v 1.10 2001/07/29 23:31:03 kaid Exp $
+// $Id: consultationlist.php,v 1.11 2001/08/17 13:35:59 jhe Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -27,7 +27,7 @@ include_once( "ezuser/classes/ezuser.php" );
 include_once( "ezuser/classes/ezusergroup.php" );
 include_once( "ezuser/classes/ezpermission.php" );
 
-$user = eZUser::currentUser();
+$user =& eZUser::currentUser();
 if ( get_class( $user ) == "ezuser" and
      eZPermission::checkPermission( $user, "eZContact", "Consultation" ) )
 {

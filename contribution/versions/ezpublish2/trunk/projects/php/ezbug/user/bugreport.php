@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: bugreport.php,v 1.27 2001/07/29 23:31:02 kaid Exp $
+// $Id: bugreport.php,v 1.28 2001/08/17 13:35:58 jhe Exp $
 //
 // Created on: <27-Nov-2000 20:31:00 bf>
 //
@@ -84,7 +84,7 @@ if( $Action == "New" )
     $category->addBug( $bug );
     $module->addBug( $bug );
 
-    $user = eZUser::currentUser();
+    $user =& eZUser::currentUser();
     if( $user )
         $bug->setUser( $user );
     else
@@ -115,7 +115,7 @@ if( $Action == "Update" )
     $category->addBug( $bug );
     $module->addBug( $bug );
 
-    $user = eZUser::currentUser();
+    $user =& eZUser::currentUser();
     if( $user )
         $bug->setUser( $user );
     else
@@ -137,7 +137,7 @@ if( $Action == "Update" )
 /* bug is now allways saved... lets check what the user really wanted to do..*/
 if( isset( $Ok ) ) // here check for errors. and display them if nescacary
 {
-    $user = eZUser::currentUser();
+    $user =& eZUser::currentUser();
     if( ( $Name != "" ) && ( $Description != "" ) )
     {
         if ( $user )
@@ -229,7 +229,7 @@ if( $Action == "Edit" ) // load values from database
     if( $category )
         $catName = $category->name();
 
-    $user = eZUser::currentUser();
+    $user =& eZUser::currentUser();
     if( !$user )
         $t->set_var( "usr_email", $bug->userEmail() );
 
@@ -335,7 +335,7 @@ $category = new eZBugCategory();
 $module = new eZBugModule();
 
 // show email address field if the user is not logged in
-$user = eZUser::currentUser();
+$user =& eZUser::currentUser();
 
 if ( $user )
 {

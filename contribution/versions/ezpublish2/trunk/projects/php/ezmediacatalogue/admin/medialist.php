@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: medialist.php,v 1.4 2001/07/29 23:31:08 kaid Exp $
+// $Id: medialist.php,v 1.5 2001/08/17 13:36:00 jhe Exp $
 //
 // Created on: <24-Jul-2001 11:36:48 ce>
 //
@@ -50,7 +50,7 @@ $t->set_file( "media_list_page_tpl", "medialist.tpl" );
 
 $t->setAllStrings();
 
-$user = eZUser::currentUser();
+$user =& eZUser::currentUser();
 
 $t->set_block( "media_list_page_tpl", "current_category_tpl", "current_category" );
 

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezbulkmailcategory.php,v 1.17 2001/08/13 12:31:09 ce Exp $
+// $Id: ezbulkmailcategory.php,v 1.18 2001/08/17 13:35:58 jhe Exp $
 //
 // Definition of eZBulkMailCategory class
 //
@@ -153,7 +153,7 @@ class eZBulkMailCategory
     */
     function getByName( $name )
     {
-        $db = eZDB::globaldatabase();
+        $db =& eZDB::globaldatabase();
         $category_array = array();
 
         $name =& $db->escapeString( $name );
@@ -173,7 +173,7 @@ class eZBulkMailCategory
     */
     function getAll( $withPrivate = true )
     {
-        $db = eZDB::globaldatabase();
+        $db =& eZDB::globaldatabase();
         $return_array = array();
         $category_array = array();
 

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezbulkmail.php,v 1.21 2001/08/13 12:31:09 ce Exp $
+// $Id: ezbulkmail.php,v 1.22 2001/08/17 13:35:58 jhe Exp $
 //
 // eZBulkMail class
 //
@@ -762,7 +762,7 @@ class eZBulkMail
     */
     function addLogEntry( $mail )
     {
-        $db = eZDB::globalDatabase();
+        $db =& eZDB::globalDatabase();
         $db->begin();
         $db->lock( "eZBulkMail_SentLog" );
         $nextID = $db->nextID( "eZBulkMail_SentLog", "ID" );
@@ -787,7 +787,7 @@ class eZBulkMail
      */
     function isSent( $mail )
     {
-        $db = eZDB::globalDatabase();
+        $db =& eZDB::globalDatabase();
         $db->query_single( $result, "SELECT COUNT( ID ) as Count FROM eZBulkMail_SentLog WHERE Mail='$mail' AND MailID='$this->ID'" );
         if( $result[$db->fieldName( "Count" )] > 0 )
             return true;

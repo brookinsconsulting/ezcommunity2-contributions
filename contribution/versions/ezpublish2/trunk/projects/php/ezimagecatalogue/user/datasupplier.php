@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: datasupplier.php,v 1.20 2001/07/20 11:06:38 jakobn Exp $
+// $Id: datasupplier.php,v 1.21 2001/08/17 13:35:59 jhe Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -35,7 +35,7 @@ $GlobalSectionID = $ini->read_var( "eZImageCatalogueMain", "DefaultSection" );
 
 function writeAtAll()
 {
-    $user = eZUser::currentUser();
+    $user =& eZUser::currentUser();
     if( eZObjectPermission::getObjects( "imagecatalogue_category", 'w', true ) < 1
         && !eZPermission::checkPermission( $user, "eZImageCatalogue", "WriteToRoot" ) )
     {
@@ -47,7 +47,7 @@ function writeAtAll()
     return true;
 }
 
-$user = eZUser::currentUser();
+$user =& eZUser::currentUser();
 switch ( $url_array[2] )
 {
     case "imageview" :

@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: wishlist.php,v 1.18 2001/07/20 11:42:02 jakobn Exp $
+// $Id: wishlist.php,v 1.19 2001/08/17 13:36:01 jhe Exp $
 //
 // Created on: <21-Oct-2000 18:09:45 bf>
 //
@@ -60,7 +60,7 @@ if ( !$session->fetch() )
 
 
 // your own wishlist
-$user = eZUser::currentUser();
+$user =& eZUser::currentUser();
 
 if ( !$user )
 {

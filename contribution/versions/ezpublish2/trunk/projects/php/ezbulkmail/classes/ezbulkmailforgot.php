@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezbulkmailforgot.php,v 1.9 2001/07/19 12:36:31 jakobn Exp $
+// $Id: ezbulkmailforgot.php,v 1.10 2001/08/17 13:35:58 jhe Exp $
 //
 // Created on: <20-Apr-2001 13:32:11 fh>
 //
@@ -166,7 +166,7 @@ class eZBulkMailForgot
      */
     function getByEmail( $email )
     {
-        $db = eZDB::globalDatabase();
+        $db =& eZDB::globalDatabase();
         $email = addslashes( $email );
         $db->array_query( $forgot_array, "SELECT ID FROM eZBulkMail_Forgot WHERE Mail='$email'" );
 
@@ -196,7 +196,7 @@ class eZBulkMailForgot
     */
     function check( $hash )
     {
-        $db = eZDB::globalDatabase();
+        $db =& eZDB::globalDatabase();
         $ret = false;
         
         $db->array_query( $forgot_array, "SELECT ID FROM eZBulkMail_Forgot WHERE Hash='$hash'" );

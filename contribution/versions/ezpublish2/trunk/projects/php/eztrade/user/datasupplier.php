@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: datasupplier.php,v 1.42 2001/08/15 06:56:47 ce Exp $
+// $Id: datasupplier.php,v 1.43 2001/08/17 13:36:00 jhe Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -30,7 +30,7 @@ $PageCaching = $ini->read_var( "eZTradeMain", "PageCaching");
 include_once( "ezuser/classes/ezuser.php" );
 include_once( "eztrade/classes/ezpricegroup.php" );
 include_once( "classes/ezhttptool.php" );
-$user = eZUser::currentUser();
+$user =& eZUser::currentUser();
 
 $RequireUser = $ini->read_var( "eZTradeMain", "RequireUserLogin" ) == "enabled" ? true : false;
 $ShowPrice = $RequireUser ? get_class( $user ) == "ezuser" : true;

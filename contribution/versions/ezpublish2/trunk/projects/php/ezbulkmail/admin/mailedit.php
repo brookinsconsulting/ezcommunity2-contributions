@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: mailedit.php,v 1.8 2001/07/19 12:36:31 jakobn Exp $
+// $Id: mailedit.php,v 1.9 2001/08/17 13:35:58 jhe Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -104,7 +104,7 @@ if( $useDefaults == "enabled" && empty( $From ) && empty( $FromName ) )
 }
 else
 {
-    $user = eZUser::currentUser();
+    $user =& eZUser::currentUser();
     $t->set_var( "from_value", $user->email() );
     $t->set_var( "from_name_value", $user->name() );
 }

@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: viewwishlist.php,v 1.7 2001/07/20 11:42:02 jakobn Exp $
+// $Id: viewwishlist.php,v 1.8 2001/08/17 13:36:01 jhe Exp $
 //
 // Created on: <21-Oct-2000 18:09:45 bf>
 //
@@ -60,7 +60,7 @@ if ( $Action == "MoveToCart" )
         // only delete if the user owns the wishlist
         $tmpWishlist = $wishListItem->wishlist();
         $tmpUser = $tmpWishlist->user();
-        $curUser = eZUser::currentUser();
+        $curUser =& eZUser::currentUser();
 
         if ( $curUser && ( $tmpUser->id() == $curUser->id() ) )
         {        

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: filedownload.php,v 1.16 2001/07/29 23:31:03 kaid Exp $
+// $Id: filedownload.php,v 1.17 2001/08/17 13:35:59 jhe Exp $
 //
 // Created on: <10-Dec-2000 16:39:10 bf>
 //
@@ -31,7 +31,7 @@ include_once( "ezfilemanager/classes/ezvirtualfile.php" );
 include_once( "ezuser/classes/ezuser.php" );
 include_once( "ezuser/classes/ezobjectpermission.php" );
 
-$user = eZUser::currentUser();
+$user =& eZUser::currentUser();
 
 $file = new eZVirtualFile( $FileID );
 

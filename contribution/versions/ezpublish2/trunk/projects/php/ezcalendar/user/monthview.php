@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: monthview.php,v 1.28 2001/07/30 06:51:46 jhe Exp $
+// $Id: monthview.php,v 1.29 2001/08/17 13:35:58 jhe Exp $
 //
 // Created on: <27-Dec-2000 14:09:56 bf>
 //
@@ -40,7 +40,7 @@ $ini =& $GLOBALS["GlobalSiteIni"];
 $Language = $ini->read_var( "eZCalendarMain", "Language" );
 $Locale = new eZLocale( $Language );
 
-$user = eZUser::currentUser();
+$user =& eZUser::currentUser();
 $session =& eZSession::globalSession();
 $session->fetch();
 

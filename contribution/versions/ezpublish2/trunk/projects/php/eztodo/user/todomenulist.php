@@ -1,5 +1,5 @@
 <?php
-// $Id: todomenulist.php,v 1.8 2001/07/20 11:36:07 jakobn Exp $
+// $Id: todomenulist.php,v 1.9 2001/08/17 13:36:00 jhe Exp $
 //
 // Definition of todo list.
 //
@@ -40,7 +40,7 @@ include_once( "ezuser/classes/ezuser.php" );
 
 include_once( "eztodo/classes/eztodo.php" );
 
-$user = eZUser::currentUser();
+$user =& eZUser::currentUser();
 
 $t = new eZTemplate( "eztodo/user/" . $ini->read_var( "eZTodoMain", "TemplateDir" ),
                      "eztodo/user/intl/", $Language, "todomenulist.php" );

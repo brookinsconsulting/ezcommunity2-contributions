@@ -1,10 +1,10 @@
 <?php
 //
-// $Id: vote.php,v 1.19 2001/07/29 23:31:09 kaid Exp $
+// $Id: vote.php,v 1.20 2001/08/17 13:36:00 jhe Exp $
 //
-// $Id: vote.php,v 1.19 2001/07/29 23:31:09 kaid Exp $
+// $Id: vote.php,v 1.20 2001/08/17 13:36:00 jhe Exp $
 //
-// $Id: vote.php,v 1.19 2001/07/29 23:31:09 kaid Exp $
+// $Id: vote.php,v 1.20 2001/08/17 13:36:00 jhe Exp $
 //
 // Created on: <20-Sep-2000 13:32:11 ce>
 //
@@ -60,7 +60,7 @@ if ( $poll->isClosed() )
 $poll = new eZPoll( $PollID );
 if ( !$poll->anonymous() )
 {
-    $pollUser = eZUser::currentUser();
+    $pollUser =& eZUser::currentUser();
     if ( !$pollUser )
     {
         eZHTTPTool::header( "Location: /user/user/new/" );

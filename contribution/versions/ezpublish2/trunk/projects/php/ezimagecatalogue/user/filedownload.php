@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: filedownload.php,v 1.5 2001/07/29 23:31:07 kaid Exp $
+// $Id: filedownload.php,v 1.6 2001/08/17 13:35:59 jhe Exp $
 //
 // Created on: <10-Dec-2000 16:39:10 bf>
 //
@@ -35,7 +35,7 @@ $fileName = $file->name();
 $originalFileName = $file->originalFileName();
 $filePath = $file->filePath( true );
 
-$user = eZUser::currentUser();
+$user =& eZUser::currentUser();
 $image = new eZImage( $ImageID );
 if ( eZObjectPermission::hasPermission( $image->id(), "imagecatalogue_image", "r", $user ) == false )
 {

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: userbox.php,v 1.29 2001/08/01 16:29:52 kaid Exp $
+// $Id: userbox.php,v 1.30 2001/08/17 13:36:01 jhe Exp $
 //
 // Created on: <20-Sep-2000 13:32:11 ce>
 //
@@ -39,7 +39,7 @@ include_once( "ezuser/classes/ezmodule.php" );
 include_once( "ezuser/classes/ezpermission.php" );
 include_once( "ezsession/classes/ezsession.php" );
 
-$user = eZUser::currentUser();
+$user =& eZUser::currentUser();
 
 if ( !$user ) 
 {

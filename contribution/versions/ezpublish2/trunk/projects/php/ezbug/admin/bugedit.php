@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: bugedit.php,v 1.44 2001/08/09 14:17:41 jhe Exp $
+// $Id: bugedit.php,v 1.45 2001/08/17 13:35:58 jhe Exp $
 //
 // Created on: <28-Nov-2000 19:45:35 bf>
 //
@@ -117,7 +117,7 @@ if ( $Action == "Insert" )
 
 if ( $Action == "Update" )
 {
-    $user = eZUser::currentUser();
+    $user =& eZUser::currentUser();
 
     if ( $user )
     {

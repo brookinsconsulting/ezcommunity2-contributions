@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: datasupplier.php,v 1.3 2001/07/26 11:23:52 ce Exp $
+// $Id: datasupplier.php,v 1.4 2001/08/17 13:36:00 jhe Exp $
 //
 // Created on: <24-Jul-2001 10:59:19 ce>
 //
@@ -34,7 +34,7 @@ $GlobalSectionID = $ini->read_var( "eZMediaCatalogueMain", "DefaultSection" );
 
 function writeAtAll()
 {
-    $user = eZUser::currentUser();
+    $user =& eZUser::currentUser();
     if( eZObjectPermission::getObjects( "mediacatalogue_category", 'w', true ) < 1
         && !eZPermission::checkPermission( $user, "eZMediaCatalogue", "WriteToRoot" ) )
     {
@@ -46,7 +46,7 @@ function writeAtAll()
     return true;
 }
 
-$user = eZUser::currentUser();
+$user =& eZUser::currentUser();
 switch ( $url_array[2] )
 {
     case "browse":

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: categoryedit.php,v 1.1 2001/07/24 15:42:35 ce Exp $
+// $Id: categoryedit.php,v 1.2 2001/08/17 13:36:00 jhe Exp $
 //
 // Created on: <24-Jul-2001 10:31:09 ce>
 //
@@ -35,13 +35,13 @@ include_once( "ezuser/classes/ezobjectpermission.php" );
 
 include_once( "ezmediacatalogue/classes/ezmediacategory.php" );
 
-if ( isSet ( $Cancel ) )
+if ( isSet( $Cancel ) )
 {
     eZHTTPTool::header( "Location: /mediacatalogue/media/list/" );
     exit();
 }
 
-$user = eZUser::currentUser();
+$user =& eZUser::currentUser();
 
 if ( !$user )
 {

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: fileview.php,v 1.13 2001/07/19 13:01:02 jakobn Exp $
+// $Id: fileview.php,v 1.14 2001/08/17 13:35:59 jhe Exp $
 //
 // Created on: <04-Jan-2001 16:47:23 ce>
 //
@@ -69,7 +69,7 @@ if ( $FileID != 0 )
     $t->set_var( "file_id", $file->id() );
     $t->set_var( "file_description", $file->description() );
 
-    $user = eZUser::currentUser();
+    $user =& eZUser::currentUser();
 
     if ( eZObjectPermission::hasPermission( $file->id(), "filemanager_file", "r", $user ) )
     {

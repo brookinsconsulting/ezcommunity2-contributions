@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezarticletool.php,v 1.10 2001/07/19 12:19:21 jakobn Exp $
+// $Id: ezarticletool.php,v 1.11 2001/08/17 13:35:58 jhe Exp $
 //
 // Definition of eZArticleTool class
 //
@@ -50,7 +50,7 @@ class eZArticleTool
     */
     function deleteCache( $ArticleID, $CategoryID, $CategoryArray )
     {
-        $user = eZUser::currentUser();
+        $user =& eZUser::currentUser();
 
         $files =& eZCacheFile::files( "ezarticle/cache/",
                                       array( array( "articleprint", "articleview", "articlestatic", "static", "view", "print"  ),

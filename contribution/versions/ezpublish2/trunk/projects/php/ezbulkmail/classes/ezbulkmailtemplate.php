@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezbulkmailtemplate.php,v 1.10 2001/08/16 13:57:04 jhe Exp $
+// $Id: ezbulkmailtemplate.php,v 1.11 2001/08/17 13:35:58 jhe Exp $
 //
 // eZBulkMailTemplate class
 //
@@ -143,7 +143,7 @@ class eZBulkMailTemplate
     */
     function getAll()
     {
-        $db = eZDB::globaldatabase();
+        $db =& eZDB::globaldatabase();
         $return_array = array();
         $template_array = array();
         

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: messageform.php,v 1.10 2001/07/19 13:17:55 jakobn Exp $
+// $Id: messageform.php,v 1.11 2001/08/17 13:35:59 jhe Exp $
 //
 // Created on: <21-Feb-2001 18:00:00 pkej>
 //
@@ -145,7 +145,7 @@ if( $ShowMessageForm )
         {
             if( !is_object( $author ) )
             {
-                $author = eZUser::currentUser();
+                $author =& eZUser::currentUser();
             }
         }
 

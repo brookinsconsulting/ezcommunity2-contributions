@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: appointmentedit.php,v 1.40 2001/07/29 23:31:02 kaid Exp $
+// $Id: appointmentedit.php,v 1.41 2001/08/17 13:35:58 jhe Exp $
 //
 // Created on: <03-Jan-2001 12:47:22 bf>
 //
@@ -108,7 +108,7 @@ if ( isSet( $TrusteeUser ) )
 else
 {
 }
-$user = eZUser::currentUser();
+$user =& eZUser::currentUser();
 
 if ( $user == false )
     $userID = false;
@@ -237,7 +237,7 @@ if ( $Action == "Insert" || $Action == "Update" )
     if ( !isSet( $trusteduser ) )
         $trusteduser = new eZUser( $TrusteeUser );
     if ( !isSet( $user ) )
-        $user = eZUser::currentUser();
+        $user =& eZUser::currentUser();
     if ( $user->ID() == $user->ID() ||
          in_array( $user->ID(), $trusteduser->getByTrustee() ) )
     {

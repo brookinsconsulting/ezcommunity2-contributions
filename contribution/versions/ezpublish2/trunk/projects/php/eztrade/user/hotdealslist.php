@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: hotdealslist.php,v 1.18 2001/07/20 11:42:02 jakobn Exp $
+// $Id: hotdealslist.php,v 1.19 2001/08/17 13:36:00 jhe Exp $
 //
 // Created on: <12-Nov-2000 19:34:40 bf>
 //
@@ -42,7 +42,7 @@ include_once( "eztrade/classes/ezproductcategory.php" );
 include_once( "ezuser/classes/ezuser.php" );
 include_once( "eztrade/classes/ezpricegroup.php" );
 
-$user = eZUser::currentUser();
+$user =& eZUser::currentUser();
 
 $RequireUser = $ini->read_var( "eZTradeMain", "RequireUserLogin" ) == "enabled" ? true : false;
 $ShowPrice = $RequireUser ? get_class( $user ) == "ezuser" : true;

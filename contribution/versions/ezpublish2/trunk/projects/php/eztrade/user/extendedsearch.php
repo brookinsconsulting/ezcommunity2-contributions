@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: extendedsearch.php,v 1.12 2001/07/20 11:42:02 jakobn Exp $
+// $Id: extendedsearch.php,v 1.13 2001/08/17 13:36:00 jhe Exp $
 //
 // Created on: <10-Oct-2000 17:49:05 bf>
 //
@@ -55,7 +55,7 @@ if ( isSet ( $SearchButton ) )
     $Action = "SearchButton";
 }
 
-$user = eZUser::currentUser();
+$user =& eZUser::currentUser();
 
 $t = new eZTemplate( "eztrade/user/" . $ini->read_var( "eZTradeMain", "TemplateDir" ) ,
                      "eztrade/user/intl/", $Language, "extendedsearch.php" );

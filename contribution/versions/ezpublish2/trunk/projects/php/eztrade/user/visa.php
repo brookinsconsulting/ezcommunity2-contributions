@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: visa.php,v 1.6 2001/07/20 11:42:02 jakobn Exp $
+// $Id: visa.php,v 1.7 2001/08/17 13:36:01 jhe Exp $
 //
 // Created on: <08-Feb-2001 14:11:48 ce>
 //
@@ -52,7 +52,7 @@ $t->setAllStrings();
 
 // $ChargeTotal is the value to charge the customer with
 
-$user = eZUser::currentUser();
+$user =& eZUser::currentUser();
 
 $t->set_var( "f", $ini->read_var( "eZCCMain", "PID" ) );
 $t->set_var( "l", $ini->read_var( "eZCCMain", "Language" ) );

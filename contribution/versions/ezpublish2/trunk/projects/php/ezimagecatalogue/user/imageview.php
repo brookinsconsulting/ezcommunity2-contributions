@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: imageview.php,v 1.16 2001/07/20 11:06:39 jakobn Exp $
+// $Id: imageview.php,v 1.17 2001/08/17 13:35:59 jhe Exp $
 //
 // Created on: <26-Oct-2000 19:40:18 bf>
 //
@@ -47,7 +47,7 @@ $t->set_file( "image_view_tpl", "imageview.tpl" );
 
 $t->setAllStrings();
 
-$user = eZUser::currentUser();
+$user =& eZUser::currentUser();
 
 $image = new eZImage( $ImageID );
 

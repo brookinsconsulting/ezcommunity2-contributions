@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: success.php,v 1.6 2001/07/20 11:45:40 jakobn Exp $
+// $Id: success.php,v 1.7 2001/08/17 13:36:01 jhe Exp $
 //
 // Definition of eZUser class
 //
@@ -49,7 +49,7 @@ $t->set_file( array(
     "login" => "succsess.tpl"
     ) );
 
-$user = eZUser::currentUser();
+$user =& eZUser::currentUser();
 if ( !$user ) 
 {
     print( "Du må logge inn" );

@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: datasupplier.php,v 1.14 2001/07/19 12:36:31 jakobn Exp $
+// $Id: datasupplier.php,v 1.15 2001/08/17 13:35:58 jhe Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -26,7 +26,7 @@
 include_once( "classes/ezhttptool.php" );
 include_once( "ezuser/classes/ezpermission.php" );
 
-$user = eZUser::currentUser();
+$user =& eZUser::currentUser();
 if( eZPermission::checkPermission( $user, "eZBulkMail", "ModuleEdit" ) == false )
 {
     eZHTTPTool::header( "Location: /error/403" );

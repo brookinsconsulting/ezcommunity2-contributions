@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: userbox.php,v 1.10 2001/07/20 11:45:40 jakobn Exp $
+// $Id: userbox.php,v 1.11 2001/08/17 13:36:01 jhe Exp $
 //
 // Created on: <20-Sep-2000 13:32:11 ce>
 //
@@ -47,7 +47,7 @@ $t->set_file( array(
     "userbox" => "userbox.tpl"
     ) );
 
-$user = eZUser::currentUser();
+$user =& eZUser::currentUser();
 if ( !$user ) 
 {
     print( "Du må logge inn" );

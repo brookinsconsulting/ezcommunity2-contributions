@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: unassigned.php,v 1.6 2001/07/29 23:31:06 kaid Exp $
+// $Id: unassigned.php,v 1.7 2001/08/17 13:35:59 jhe Exp $
 //
 // Created on: <26-Oct-2000 19:40:18 bf>
 //
@@ -46,7 +46,7 @@ $t->set_file( "image_list_page_tpl", "unassigned.tpl" );
 
 $t->setAllStrings();
 
-$user = eZUser::currentUser();
+$user =& eZUser::currentUser();
 
 $t->set_block( "image_list_page_tpl", "image_list_tpl", "image_list" );
 $t->set_block( "image_list_page_tpl", "prev_link_tpl", "prev_link" );

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: authorview.php,v 1.9 2001/07/19 12:19:21 jakobn Exp $
+// $Id: authorview.php,v 1.10 2001/08/17 13:35:58 jhe Exp $
 //
 // Created on: <16-Feb-2001 15:36:13 amos>
 //
@@ -71,7 +71,7 @@ $t->set_var( "sort", $SortOrder );
 
 $t->set_var( "article_item", "" );
 
-$db = eZDB::globalDatabase();
+$db =& eZDB::globalDatabase();
 $i = 0;
 $dateTime = new eZDateTime();
 foreach( $articles as $article )

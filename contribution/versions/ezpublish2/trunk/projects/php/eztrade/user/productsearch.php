@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: productsearch.php,v 1.18 2001/07/20 11:42:02 jakobn Exp $
+// $Id: productsearch.php,v 1.19 2001/08/17 13:36:00 jhe Exp $
 //
 // Created on: <10-Oct-2000 17:49:05 bf>
 //
@@ -46,7 +46,7 @@ include_once( "ezsession/classes/ezsession.php" );
 include_once( "ezimagecatalogue/classes/ezimage.php" );
 include_once( "classes/ezlist.php" );
 
-$user = eZUser::currentUser();
+$user =& eZUser::currentUser();
 
 $t = new eZTemplate( "eztrade/user/" . $ini->read_var( "eZTradeMain", "TemplateDir" ) ,
                      "eztrade/user/intl/", $Language, "productsearch.php" );

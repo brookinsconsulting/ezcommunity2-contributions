@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: messageedit.php,v 1.4 2001/07/20 11:19:36 jakobn Exp $
+// $Id: messageedit.php,v 1.5 2001/08/17 13:36:00 jhe Exp $
 //
 // Created on: <05-Jun-2001 17:19:01 bf>
 //
@@ -61,7 +61,7 @@ if ( isset( $SendMessage ) )
             $toUser = eZUser::getUser( $user );
             $message->setToUser( $toUser );
 
-            $fromUser = eZUser::currentUser();
+            $fromUser =& eZUser::currentUser();
             $message->setFromUser( $fromUser );
 
             $message->store();

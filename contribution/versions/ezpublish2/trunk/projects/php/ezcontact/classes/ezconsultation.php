@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezconsultation.php,v 1.21 2001/07/23 14:54:24 jhe Exp $
+// $Id: ezconsultation.php,v 1.22 2001/08/17 13:35:59 jhe Exp $
 //
 // Definition of eZConsultation class
 //
@@ -415,7 +415,7 @@ class eZConsultation
         if ( get_class( $user ) == "ezuser" )
             $user = $user->id();
         $qry_array = array();
-        $db = eZDB::globalDatabase();
+        $db =& eZDB::globalDatabase();
         $db->array_query( $qry_array, "SELECT PersonID FROM eZContact_ConsultationPersonUserDict
                                        WHERE UserID='$user'
                                        GROUP BY PersonID" );

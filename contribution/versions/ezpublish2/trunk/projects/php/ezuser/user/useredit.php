@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: useredit.php,v 1.23 2001/07/20 11:45:40 jakobn Exp $
+// $Id: useredit.php,v 1.24 2001/08/17 13:36:01 jhe Exp $
 //
 // Created on: <10-Oct-2000 12:52:42 bf>
 //
@@ -135,7 +135,7 @@ if ( $Action == "Insert" )
 
 if ( $Action == "Update" )
 {
-    $user = eZUser::currentuser();
+    $user =& eZUser::currentuser();
     if ( !$user )
     {
         eZHTTPTool::header( "Location: /" );

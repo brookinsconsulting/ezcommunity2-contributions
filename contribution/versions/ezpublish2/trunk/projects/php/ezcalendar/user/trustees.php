@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: trustees.php,v 1.1 2001/07/27 13:05:57 jhe Exp $
+// $Id: trustees.php,v 1.2 2001/08/17 13:35:58 jhe Exp $
 //
 // Created on: <26-Jul-2001 14:26:26 jhe>
 //
@@ -32,7 +32,7 @@ $ini =& $GLOBALS[ "GlobalSiteIni" ];
 $Language = $ini->read_var( "eZCalendarMain", "Language" );
 $locale = new eZLocale( $Language );
 
-$user = eZUser::currentUser();
+$user =& eZUser::currentUser();
 $session =& eZSession::globalSession();
 $session->fetch();
 if ( $Action == "edit" )

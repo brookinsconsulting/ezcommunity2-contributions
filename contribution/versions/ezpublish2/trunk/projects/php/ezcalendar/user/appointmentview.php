@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: appointmentview.php,v 1.12 2001/07/30 06:51:46 jhe Exp $
+// $Id: appointmentview.php,v 1.13 2001/08/17 13:35:58 jhe Exp $
 //
 // Created on: <08-Jan-2001 11:53:05 bf>
 //
@@ -55,7 +55,7 @@ $t->set_block( "view_tpl", "low_tpl", "low" );
 $t->set_block( "view_tpl", "normal_tpl", "normal" );
 $t->set_block( "view_tpl", "high_tpl", "high" );
 
-$user = eZUser::currentUser();
+$user =& eZUser::currentUser();
 $session =& eZSession::globalSession();
 $session->fetch();
 

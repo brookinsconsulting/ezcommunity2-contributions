@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: messageedit.php,v 1.51 2001/07/19 13:17:55 jakobn Exp $
+// $Id: messageedit.php,v 1.52 2001/08/17 13:35:59 jhe Exp $
 //
 // Created on: <21-Feb-2001 18:00:00 pkej>
 //
@@ -266,7 +266,7 @@ switch( $Action )
             
             if ( is_object( $moderator ) )
             {
-                $moderators = eZUserGroup::users( $moderator->id() );
+                $moderators =& eZUserGroup::users( $moderator->id() );
 
                 if( count( $moderators ) > 0 )
                 {
@@ -566,7 +566,7 @@ switch( $Action )
 
                 }
 
-                $author = eZUser::currentUser();
+                $author =& eZUser::currentUser();
 
                 if( is_object( $author ) )
                 {

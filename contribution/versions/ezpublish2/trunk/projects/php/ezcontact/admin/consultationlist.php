@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: consultationlist.php,v 1.11 2001/07/20 12:01:50 jakobn Exp $
+// $Id: consultationlist.php,v 1.12 2001/08/17 13:35:58 jhe Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -34,7 +34,7 @@ include_once( "classes/eztemplate.php" );
 include_once( "ezuser/classes/ezusergroup.php" );
 include_once( "ezuser/classes/ezpermission.php" );
 
-$user = eZUser::currentUser();
+$user =& eZUser::currentUser();
 if ( get_class( $user ) != "ezuser" )
 {
     include_once( "classes/ezhttptool.php" );
@@ -102,7 +102,7 @@ else
     $t->set_var( "person_table_item", "" );
 }
 
-$user = eZUser::currentUser();
+$user =& eZUser::currentUser();
 
 if ( !$user )
 {

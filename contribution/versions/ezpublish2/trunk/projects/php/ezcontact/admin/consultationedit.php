@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: consultationedit.php,v 1.21 2001/07/29 23:31:02 kaid Exp $
+// $Id: consultationedit.php,v 1.22 2001/08/17 13:35:58 jhe Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -56,7 +56,7 @@ function addZero( $value )
     return $ret;
 }
 
-$user = eZUser::currentUser();
+$user =& eZUser::currentUser();
 if ( get_class( $user ) != "ezuser" )
 {
     include_once( "classes/ezhttptool.php" );
@@ -261,7 +261,7 @@ else
     $Action = "formdata";
 }
 
-$user = eZUser::currentUser();
+$user =& eZUser::currentUser();
 
 if ( !$user )
 {

@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: todoedit.php,v 1.26 2001/07/29 23:31:10 kaid Exp $
+// $Id: todoedit.php,v 1.27 2001/08/17 13:36:00 jhe Exp $
 //
 // Definition of todo list.
 //
@@ -98,7 +98,7 @@ include_once( "ezuser/classes/ezusergroup.php" );
 
 $locale = new eZLocale( $Language );
 
-$user = eZUser::currentUser();
+$user =& eZUser::currentUser();
 $redirect = true;
 
 if ( isSet( $AddLog ) )

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: articleedit.php,v 1.20 2001/08/16 11:08:11 bf Exp $
+// $Id: articleedit.php,v 1.21 2001/08/17 13:35:58 jhe Exp $
 //
 // Created on: <18-Oct-2000 15:04:39 bf>
 //
@@ -167,7 +167,7 @@ $t->set_var( "action_value", "insert" );
 
 if ( $Action == "New" )
 {
-    $user = eZUser::currentUser();
+    $user =& eZUser::currentUser();
     $t->set_var( "author_text", $user->firstName() . " " . $user->lastName());    
 }
 

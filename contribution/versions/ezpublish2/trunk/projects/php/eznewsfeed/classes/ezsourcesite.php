@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezsourcesite.php,v 1.9 2001/07/20 11:21:41 jakobn Exp $
+// $Id: ezsourcesite.php,v 1.10 2001/08/17 13:36:00 jhe Exp $
 //
 // Definition of eZSourceSite class
 //
@@ -64,7 +64,7 @@ class eZSourceSite
     */
     function store()
     {
-        $db = eZDB::globalDatabase();
+        $db =& eZDB::globalDatabase();
         $db->begin();
         
         $name = $db->escapeString( $this->Name );
@@ -123,7 +123,7 @@ class eZSourceSite
     */
     function get( $id="" )
     {
-        $db = eZDB::globalDatabase();
+        $db =& eZDB::globalDatabase();
         $ret = false;
         
         if ( $id != "" )
@@ -156,7 +156,7 @@ class eZSourceSite
     */
     function delete( $id = -1 )
     {
-        $db = eZDB::globalDatabase();
+        $db =& eZDB::globalDatabase();
         if( $id == -1 )
             $id = $this->ID;
         
@@ -174,7 +174,7 @@ class eZSourceSite
     */
     function getAll()
     {
-        $db = eZDB::globalDatabase();
+        $db =& eZDB::globalDatabase();
         
         $return_array = array();
         $source_site_array = array();

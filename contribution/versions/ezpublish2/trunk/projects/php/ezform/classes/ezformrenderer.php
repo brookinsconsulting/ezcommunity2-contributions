@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezformrenderer.php,v 1.3 2001/07/19 13:03:50 jakobn Exp $
+// $Id: ezformrenderer.php,v 1.4 2001/08/17 13:35:59 jhe Exp $
 //
 // eZFormRenderer class
 //
@@ -169,7 +169,7 @@ class eZFormRenderer
             
             if( $form->isSendAsUser() )
             {
-                if( $user = eZUser::currentUser() )
+                if( $user =& eZUser::currentUser() )
                 {
                     $this->Template->set_var( "form_sender", $user->eMail() );
                 }

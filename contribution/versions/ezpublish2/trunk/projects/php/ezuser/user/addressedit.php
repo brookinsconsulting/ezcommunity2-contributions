@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: addressedit.php,v 1.8 2001/07/20 11:45:40 jakobn Exp $
+// $Id: addressedit.php,v 1.9 2001/08/17 13:36:01 jhe Exp $
 //
 // Created on: <06-Nov-2000 16:55:56 bf>
 //
@@ -48,7 +48,7 @@ if ( $Action == "Insert" )
     $Zip != "" &&
     $Place != "" )
     {
-        $user = eZUser::currentUser();
+        $user =& eZUser::currentUser();
 
         if ( $user )
         {
@@ -171,7 +171,7 @@ if ( $Action == "Update" )
 
 if ( $Action == "Edit" )
 {
-    $user = eZUser::currentUser();
+    $user =& eZUser::currentUser();
     if ( !$user )
         eZHTTPTool::header( "Location: /" );
     $UserID = $user->id();

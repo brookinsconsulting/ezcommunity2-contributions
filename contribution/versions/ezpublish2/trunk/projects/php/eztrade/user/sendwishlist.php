@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: sendwishlist.php,v 1.6 2001/07/20 11:42:02 jakobn Exp $
+// $Id: sendwishlist.php,v 1.7 2001/08/17 13:36:00 jhe Exp $
 //
 // Created on: <15-Jan-2001 14:17:36 bf>
 //
@@ -48,7 +48,7 @@ if ( !$session->fetch() )
     $session->store();
 }
 
-$user = eZUser::currentUser();
+$user =& eZUser::currentUser();
 
 if ( !$user )
 {

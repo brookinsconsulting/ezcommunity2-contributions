@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezpageview.php,v 1.15 2001/07/20 11:28:54 jakobn Exp $
+// $Id: ezpageview.php,v 1.16 2001/08/17 13:36:00 jhe Exp $
 //
 // Definition of eZPageView class
 //
@@ -224,7 +224,7 @@ class eZPageView
             else
                 $db->commit();
 
-            $user = eZUser::currentUser();
+            $user =& eZUser::currentUser();
             if ( $user )
             {                
                 $this->UserID = $user->id();

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezwishlistitem.php,v 1.13 2001/07/31 11:33:11 jhe Exp $
+// $Id: ezwishlistitem.php,v 1.14 2001/08/17 13:36:00 jhe Exp $
 //
 // Definition of eZWishItem class
 //
@@ -304,7 +304,7 @@ class eZWishListItem
            $session->store();
        }
 
-       $user = eZUser::currentUser();
+       $user =& eZUser::currentUser();
 
        $cart = $cart->getBySession( $session );
        

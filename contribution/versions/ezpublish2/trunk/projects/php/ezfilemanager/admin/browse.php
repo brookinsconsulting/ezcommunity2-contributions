@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: browse.php,v 1.2 2001/07/19 13:01:02 jakobn Exp $
+// $Id: browse.php,v 1.3 2001/08/17 13:35:59 jhe Exp $
 //
 // Created on: <29-May-2001 14:58:11 ce>
 //
@@ -65,7 +65,7 @@ $t->set_block( "folder_tpl", "folder_read_tpl", "folder_read" );
 
 $t->set_var( "read", "" );
 
-$user = eZUser::currentUser();
+$user =& eZUser::currentUser();
 
 $folder = new eZVirtualFolder( $FolderID );
 

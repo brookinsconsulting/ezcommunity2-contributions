@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: smallcart.php,v 1.21 2001/08/01 15:15:48 ce Exp $
+// $Id: smallcart.php,v 1.22 2001/08/17 13:36:00 jhe Exp $
 //
 // Created on: <12-Dec-2000 15:21:10 bf>
 //
@@ -58,7 +58,7 @@ if ( !$session->fetch() )
     $session->store();
 }
 
-$user = eZUser::currentUser();
+$user =& eZUser::currentUser();
 
 $cart = $cart->getBySession( $session );
 

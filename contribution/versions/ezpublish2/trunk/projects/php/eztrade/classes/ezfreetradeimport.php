@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezfreetradeimport.php,v 1.5 2001/07/30 09:46:48 ce Exp $
+// $Id: ezfreetradeimport.php,v 1.6 2001/08/17 13:36:00 jhe Exp $
 //
 // ezfreetradeimport class
 //
@@ -38,7 +38,7 @@ class eZFreeTradeImport
     {
         set_time_limit( 0 );
         $categories = $this->getCategoriesFromImport();
-        $db = eZDB::globalDatabase();
+        $db =& eZDB::globalDatabase();
 
         if ( is_array ( $categories ) )
         {
@@ -89,7 +89,7 @@ class eZFreeTradeImport
         set_time_limit( 0 );
         $categories = $this->getItemsFromImport();
 
-        $db = eZDB::globalDatabase();
+        $db =& eZDB::globalDatabase();
         if ( is_array ( $categories ) )
         {
             foreach( $categories as $category )
@@ -120,7 +120,7 @@ class eZFreeTradeImport
         set_time_limit( 0 );
         $products = $this->getProductsFromImport();
 
-        $db = eZDB::globalDatabase();
+        $db =& eZDB::globalDatabase();
         if ( is_array ( $products ) )
         {
             $i=0;
@@ -243,7 +243,7 @@ class eZFreeTradeImport
 
         if ( is_numeric( $id ) )
         {
-            $db = eZDB::globalDatabase();
+            $db =& eZDB::globalDatabase();
             $db->array_query( $RemoteIDFromProductID, "SELECT RemoteID FROM eZTrade_Product WHERE ID='$id'" );
 
             $remoteID = $RemoteIDFromProductID[0][0];

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: authorlist.php,v 1.6 2001/07/19 12:19:21 jakobn Exp $
+// $Id: authorlist.php,v 1.7 2001/08/17 13:35:58 jhe Exp $
 //
 // Created on: <16-Feb-2001 14:54:04 amos>
 //
@@ -51,7 +51,7 @@ if ( !isset( $SortOrder ) )
 
 $authors =& eZArticle::authorList( $Offset, $Limit, $SortOrder );
 
-$db = eZDB::globalDatabase();
+$db =& eZDB::globalDatabase();
 
 $t->set_var( "author_item", "" );
 $i = 0;

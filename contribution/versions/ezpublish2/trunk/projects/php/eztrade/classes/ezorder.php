@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezorder.php,v 1.45 2001/08/10 12:15:26 jhe Exp $
+// $Id: ezorder.php,v 1.46 2001/08/17 13:36:00 jhe Exp $
 //
 // Definition of eZOrder class
 //
@@ -120,7 +120,7 @@ class eZOrder
 
             $status->setOrderID( $this->ID );
 
-//              $user = eZUser::currentUser();
+//              $user =& eZUser::currentUser();
 //              print( $user->id() );
             
             $status->setAdmin( $user );

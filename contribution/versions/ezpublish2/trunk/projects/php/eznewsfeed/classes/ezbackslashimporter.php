@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezbackslashimporter.php,v 1.8 2001/08/14 07:49:02 br Exp $
+// $Id: ezbackslashimporter.php,v 1.9 2001/08/17 13:36:00 jhe Exp $
 //
 // Definition of ezbackslashimporter class
 //
@@ -57,7 +57,7 @@ class eZBackslashImporter
     */
     function &news( )
     {
-        $db = eZDB::globalDatabase();
+        $db =& eZDB::globalDatabase();
         $return_array = array();
         $fp = eZFile::fopen( $this->Site, "r" );
         $output = fread ( $fp, 100000000 );

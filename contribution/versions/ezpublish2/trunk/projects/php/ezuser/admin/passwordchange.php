@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: passwordchange.php,v 1.13 2001/07/20 11:45:40 jakobn Exp $
+// $Id: passwordchange.php,v 1.14 2001/08/17 13:36:01 jhe Exp $
 //
 // Created on: <20-Sep-2000 13:32:11 ce>
 //
@@ -54,7 +54,7 @@ $t->set_file( array(
     "change" => "passwordchange.tpl"
     ) );
 
-$user = eZUser::currentUser();
+$user =& eZUser::currentUser();
 if ( !$user ) 
 {
     eZHTTPTool::header( "Location: /user/login/" );

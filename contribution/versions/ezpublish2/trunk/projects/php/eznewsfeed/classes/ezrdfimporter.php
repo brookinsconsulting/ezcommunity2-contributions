@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezrdfimporter.php,v 1.12 2001/08/14 07:49:02 br Exp $
+// $Id: ezrdfimporter.php,v 1.13 2001/08/17 13:36:00 jhe Exp $
 //
 // Definition of ezrdfimporter class
 //
@@ -57,7 +57,7 @@ class eZRDFImporter
     */
     function &news( )
     {
-        $db = eZDB::globalDatabase();
+        $db =& eZDB::globalDatabase();
         $return_array = array();
         $fp = eZFile::fopen( $this->Site, "r" );
         $output = fread ( $fp, 10000000 );

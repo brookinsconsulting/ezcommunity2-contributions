@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: welcome.php,v 1.10 2001/07/20 11:45:40 jakobn Exp $
+// $Id: welcome.php,v 1.11 2001/08/17 13:36:01 jhe Exp $
 //
 // Created on: <13-Nov-2000 10:57:15 bf>
 //
@@ -58,7 +58,7 @@ $t->set_var( "libxml_error", "" );
 $t->set_var( "qtdom_error", "" );
 $t->set_var( "convert_error", "" );
 
-$user = eZUser::currentUser();
+$user =& eZUser::currentUser();
 
 if ( $user )
 {

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezvirtualfolder.php,v 1.27 2001/08/03 07:13:17 jhe Exp $
+// $Id: ezvirtualfolder.php,v 1.28 2001/08/17 13:35:59 jhe Exp $
 //
 // Definition of eZVirtualFolder class
 //
@@ -314,7 +314,7 @@ class eZVirtualFolder
     
     function &getTree( $parentID = 0, $level = 0 )
     {
-        $user = eZUser::currentUser();
+        $user =& eZUser::currentUser();
         
         $category = new eZVirtualFolder( $parentID );
 

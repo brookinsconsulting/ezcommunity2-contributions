@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: dayview.php,v 1.40 2001/07/20 11:57:16 jakobn Exp $
+// $Id: dayview.php,v 1.41 2001/08/17 13:35:58 jhe Exp $
 //
 // Created on: <08-Jan-2001 12:48:35 bf>
 //
@@ -42,7 +42,7 @@ $IntervalStr = $ini->read_var( "eZCalendarMain", "DayInterval" );
 
 $Locale = new eZLocale( $Language );
 
-$user = eZUser::currentUser();
+$user =& eZUser::currentUser();
 $session =& eZSession::globalSession();
 $session->fetch();
 

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: imagelist.php,v 1.33 2001/07/29 23:31:07 kaid Exp $
+// $Id: imagelist.php,v 1.34 2001/08/17 13:35:59 jhe Exp $
 //
 // Created on: <10-Dec-2000 16:16:20 bf>
 //
@@ -49,7 +49,7 @@ $t->set_file( "image_list_page_tpl", "imagelist.tpl" );
 
 $t->setAllStrings();
 
-$user = eZUser::currentUser();
+$user =& eZUser::currentUser();
 
 // Set detail or normal mode
 if ( isSet ( $DetailView ) )

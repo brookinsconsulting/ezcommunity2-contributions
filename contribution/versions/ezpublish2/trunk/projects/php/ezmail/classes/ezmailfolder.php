@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezmailfolder.php,v 1.28 2001/08/16 13:57:04 jhe Exp $
+// $Id: ezmailfolder.php,v 1.29 2001/08/17 13:35:59 jhe Exp $
 //
 // eZMailFolder class
 //
@@ -327,7 +327,7 @@ class eZMailFolder
     function getByUser( $user = false, $withSpecialFolders=false, $parentFolder = -1 )
     {
         if ( get_class( $user ) != "ezuser" )
-            $user = eZUser::currentUser();
+            $user =& eZUser::currentUser();
 
         $noSpecial = "";
         if ( $withSpecialFolders == false )
@@ -341,7 +341,7 @@ class eZMailFolder
         $return_array = array();
         $res = array();
         $userid = $user->id();
-        $database = eZDB::globalDatabase();
+        $database =& eZDB::globalDatabase();
         $query = "SELECT ID FROM eZMail_Folder WHERE UserID='$userid' $noSpecial $parentFolderSQL";
         $database->array_query( $res, $query );
 
@@ -483,7 +483,7 @@ class eZMailFolder
         if ( $userid == 0 )
             return false;
 
-        $db = eZDB::globalDatabase();
+        $db =& eZDB::globalDatabase();
         $db->query_single( $res, "SELECT ID FROM eZMail_Folder WHERE FolderType='$specialType' AND UserID='$userid'" );
 
 //        echo $res[$db->fieldName( "ID" )];

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: menubox.php,v 1.5 2001/08/01 16:22:23 kaid Exp $
+// $Id: menubox.php,v 1.6 2001/08/17 13:36:00 jhe Exp $
 //
 // Created on: <17-Oct-2000 12:16:07 bf>
 //
@@ -78,7 +78,7 @@ function createQuizMenu()
         
         $t->parse( "my_quiz_item", "my_quiz_item_tpl" );
         $userMenuUp = true;
-        $user = eZUser::currentUser();
+        $user =& eZUser::currentUser();
     }
     
     if( true )

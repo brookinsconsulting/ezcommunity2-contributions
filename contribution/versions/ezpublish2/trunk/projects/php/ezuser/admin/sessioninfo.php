@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: sessioninfo.php,v 1.12 2001/07/20 11:45:40 jakobn Exp $
+// $Id: sessioninfo.php,v 1.13 2001/08/17 13:36:01 jhe Exp $
 //
 // Created on: <01-Nov-2000 14:34:30 bf>
 //
@@ -65,7 +65,7 @@ $t->set_block( "user_list_page", "group_item_tpl", "group_item" );
 
 $user = new eZUser();
 
-$userSessionList = eZUser::currentUsers();
+$userSessionList =& eZUser::currentUsers();
 
 $t->set_var( "user_count", count( $userSessionList ) );
 

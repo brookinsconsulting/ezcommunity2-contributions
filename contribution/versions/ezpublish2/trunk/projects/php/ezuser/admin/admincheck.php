@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: admincheck.php,v 1.9 2001/07/20 11:45:39 jakobn Exp $
+// $Id: admincheck.php,v 1.10 2001/08/17 13:36:01 jhe Exp $
 //
 // Created on: <26-Oct-2000 15:11:17 ce>
 //
@@ -29,7 +29,7 @@ include_once( "classes/ezhttptool.php" );
 //  $user = new eZUser();
 //  $user = $user->currentUser();
 
-$user = eZUser::currentUser();
+$user =& eZUser::currentUser();
 
 if ( $user == false )
 {

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezmailfilterrule.php,v 1.15 2001/08/16 13:57:04 jhe Exp $
+// $Id: ezmailfilterrule.php,v 1.16 2001/08/17 13:35:59 jhe Exp $
 //
 // eZMailFilterRule class
 //
@@ -493,7 +493,7 @@ class eZMailFilter
     {
         if( $userID == false )
         {
-            $user = eZUser::currentUser();
+            $user =& eZUser::currentUser();
             $userID = $user->id();
         }
         $this->Filters = eZMailFilterRule::getByUser( $userID );

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: settings.php,v 1.5 2001/07/20 11:45:40 jakobn Exp $
+// $Id: settings.php,v 1.6 2001/08/17 13:36:01 jhe Exp $
 //
 // Created on: <11-Apr-2001 16:53:40 amos>
 //
@@ -68,7 +68,7 @@ $t->set_block( "settings", "module_tab_item_tpl", "module_tab_item" );
 
 $t->set_var( "ref_url", $url );
 
-$user = eZUser::currentUser();
+$user =& eZUser::currentUser();
 if ( !$user ) 
 {
     eZHTTPTool::header( "Location: /user/login/" );
