@@ -1,7 +1,7 @@
 <h1>{intl-category_list}</h1>
 
 <hr noshade="noshade" size="4">
-<form action="/bulkmail/categorylist">
+<form action="/bulkmail/categorylist" method="post">
 <!-- BEGIN category_tpl -->
 <table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
 <tr>
@@ -25,7 +25,7 @@
 	<td class="{td_class}">
 	<a href="/bulkmail/categoryedit/{category_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezb{category_id}-red','','/admin/images/{site_style}/redigerminimrk.gif',1)"><img name="ezb{category_id}-red" border="0" src="/admin/images/{site_style}/redigermini.gif" width="16" height="16" align="top" alt="Edit" /></a>
 	</td>
-	<td class="{td_class}"><input type="checkbox" name="CategoryArrayID[]" /></td>
+	<td class="{td_class}"><input type="checkbox" name="CategoryArrayID[]" value="{category_id}" /></td>
 </tr>
 <!-- END category_item_tpl -->
 </table>
@@ -48,7 +48,7 @@
 	<td class="{td_class}">
 	{sent_date}
 	</td>
-	<td class="{td_class}"><input type="checkbox" name="CategoryArrayID[]" /></td>
+	<td class="{td_class}"><input type="checkbox" name="CategoryArrayID[]" value="{bulkmail_id}" /></td>
 </tr>
 <!-- END bulkmail_item_tpl -->
 </table>

@@ -12,7 +12,7 @@ switch ( $url_array[2] )
     case "categoryedit" :
     {
         $CategoryID = $url_array[3];
-        if( !is_int( $CategoryID ) )
+        if( !is_numeric( $CategoryID ) )
             $CategoryID = 0;
         include_once( "ezbulkmail/admin/categoryedit.php" );
     }

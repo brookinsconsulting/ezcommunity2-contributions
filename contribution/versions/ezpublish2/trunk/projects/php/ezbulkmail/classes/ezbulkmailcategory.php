@@ -83,22 +83,17 @@ class eZBulkMailCategory
 
     /*!
       Deletes a eZBulkMail object from the database.
-
     */
-    function delete()
+    function delete( $id = -1 )
     {
-        $this->dbInit();
-
-        if ( isset( $this->ID ) )
-        {
-            // delete from BulkMailCategoryLink
-            $this->Database->query( "DELETE FROM eZBulkMail_MailCategoryLink WHERE CategoryID='$this->ID'" );
-            // delete actual group entry
-            $this->Database->query( "DELETE FROM eZBulkMail_Category WHERE ID='$this->ID'" );            
-        }
-        
-        return true;
-    }
+        $db = eZDB::globalDatabase();
+        if( $id == -1 )
+            $id = $this->ID;
+        // delete from BulkMailCategoryLink
+        $db->query( "DELETE FROM eZBulkMail_MailCategoryLink WHERE CategoryID='$id'" );
+        // delete actual group entry
+        $db->query( "DELETE FROM eZBulkMail_Category WHERE ID='$id'" );            
+     }
     
     /*!
       Fetches the object information from the database.
@@ -136,16 +131,15 @@ class eZBulkMailCategory
     */
     function getAll()
     {
-        $this->dbInit();
-        
+        $db = eZDB::globaldatabase();
         $return_array = array();
         $category_array = array();
         
-        $this->Database->array_query( $category_array, "SELECT ID FROM eZBulkMail_Category ORDER BY Name" );
+        $db->array_query( $category_array, "SELECT ID FROM eZBulkMail_Category ORDER BY Name" );
         
         for ( $i=0; $i<count($category_array); $i++ )
         {
-            $return_array[$i] = new eZBulkMailCategory( $category_array[$i]["ID"], 0 );
+            $return_array[$i] = new eZBulkMailCategory( $category_array[$i]["ID"] );
         }
         
         return $return_array;
@@ -266,7 +260,7 @@ class eZBulkMailCategory
     {
         if ( $this->IsConnected == false )
         {
-            $this->Database = new eZDB( "site.ini", "site" );
+            $this->Database = eZDB::globaldatabase();
             $this->IsConnected = true;
         }
     }

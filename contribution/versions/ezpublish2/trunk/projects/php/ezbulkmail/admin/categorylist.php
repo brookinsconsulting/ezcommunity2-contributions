@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: categorylist.php,v 1.1 2001/04/18 08:56:31 fh Exp $
+// $Id: categorylist.php,v 1.2 2001/04/18 11:06:58 fh Exp $
 //
 // Frederik Holljen <fh@ez.no>
 // Created on: <18-Apr-2001 10:26:26 fh>
@@ -23,10 +23,25 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, US
 //
 
+include_once( "ezbulkmail/classes/ezbulkmailcategory.php" );
 include_once( "ezuser/classes/ezuser.php" );
-
+include_once( "classes/ezhttptool.php" );
 include_once( "classes/eztemplate.php" );
 include_once( "classes/INIFile.php" );
+
+if( isset( $New ) )
+{
+    eZHTTPTool::header( "Location: /bulkmail/categoryedit/0" );
+    exit();
+}
+
+if( isset( $Delete ) )
+{
+    foreach( $CategoryArrayID as $categoryID )
+    {
+        eZBulkMailCategory::delete( $categoryID );
+    }
+}
 
 $t = new eZTemplate( "ezbulkmail/admin/" . $ini->read_var( "eZBulkMailMain", "AdminTemplateDir" ),
                      "ezbulkmail/admin/intl", $Language, "categorylist.php" );
@@ -44,7 +59,26 @@ $t->set_block( "category_tpl", "category_item_tpl", "category_item" );
 $t->set_block( "category_list_tpl", "bulkmail_tpl", "bulkmail" );
 $t->set_block( "bulkmail_tpl", "bulkmail_item_tpl", "bulkmail_item" );
 $t->set_var( "category", "" );
+$t->set_var( "category_item", "" );
 $t->set_var( "bulkmail", "" );
+$t->set_var( "bulkmail_item", "" );
+
+/** List all the avaliable categories **/
+$categories = eZBulkMailCategory::getAll();
+$i = 0;
+foreach( $categories as $categoryitem )
+{
+    $t->set_var( "category_name", $categoryitem->name() );
+    $t->set_var( "category_description", $categoryitem->description() );
+    $t->set_var( "subscription_count", "0" );
+    $t->set_var( "category_id", $categoryitem->id() );
+    ( $i % 2 ) ? $t->set_var( "td_class", "bgdark" ) : $t->set_var( "td_class", "bglight" );
+    
+    $t->parse( "category_item", "category_item_tpl", true );
+    $i++;
+}
+if( $i > 0 )
+    $t->parse( "category", "category_tpl" );
 
 $t->pparse( "output", "category_list_tpl" );
 ?>
