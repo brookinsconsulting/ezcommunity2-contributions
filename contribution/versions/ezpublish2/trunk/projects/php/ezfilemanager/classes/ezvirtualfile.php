@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezvirtualfile.php,v 1.10 2001/01/22 14:43:00 jb Exp $
+// $Id: ezvirtualfile.php,v 1.11 2001/01/25 13:21:29 ce Exp $
 //
 // Definition of eZVirtualFile class
 //
@@ -173,7 +173,7 @@ class eZVirtualfile
 
       The files are returned as an array of eZVirtualFile objects.
     */
-    function getAll()
+    function &getAll()
     {
         $this->dbInit();
         
@@ -199,7 +199,7 @@ class eZVirtualfile
       All - if the file can be read by everybody
       False - if the user don't have access
     */
-    function checkReadPermission( $currentUser )
+    function &checkReadPermission( &$currentUser )
     {
         $ret = false;
 
@@ -229,7 +229,7 @@ class eZVirtualfile
                     foreach( $currentGroups as $Groups )
                     {
                         $user = new eZUser( $this->UserID );
-                        $userGroups = $user->groups();
+                        $userGroups =& $user->groups();
                             
                         foreach( $userGroups as $userGroup )
                         {
@@ -264,7 +264,7 @@ class eZVirtualfile
       All - if the file can be write by everybody
       False - if the user don't have access
     */
-    function checkWritePermission( $currentUser )
+    function checkWritePermission( &$currentUser )
     {
         $ret = false;
 
@@ -294,7 +294,7 @@ class eZVirtualfile
                     foreach( $currentGroups as $Groups )
                     {
                         $user = new eZUser( $this->UserID );
-                        $userGroups = $user->groups();
+                        $userGroups =& $user->groups();
                             
                         foreach( $userGroups as $userGroup )
                         {
@@ -335,7 +335,7 @@ class eZVirtualfile
     /*!
       Returns the name of the virtual file.
     */
-    function name()
+    function &name()
     {
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
@@ -346,7 +346,7 @@ class eZVirtualfile
     /*!
       Returns the description of the virtual file.
     */
-    function description()
+    function &description()
     {
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
@@ -357,7 +357,7 @@ class eZVirtualfile
     /*!
       Returns the filename of the virtual file.
     */
-    function fileName()
+    function &fileName()
     {
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
@@ -368,7 +368,7 @@ class eZVirtualfile
     /*!
       Returns the original file name of the virtual file.
     */
-    function originalFileName()
+    function &originalFileName()
     {
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
@@ -379,7 +379,7 @@ class eZVirtualfile
     /*!
       Returns the writePermission permission of the virtual file.
     */
-    function writePermission()
+    function &writePermission()
     {
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
@@ -414,7 +414,7 @@ class eZVirtualfile
     /*!
       Returns the read permission of the virtual file.
     */
-    function readPermission()
+    function &readPermission()
     {
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
@@ -449,7 +449,7 @@ class eZVirtualfile
     /*!
       Returns a eZUser object.
     */
-    function user()
+    function &user()
     {
         if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
@@ -602,7 +602,7 @@ class eZVirtualfile
     /*!
       Sets the user of the file.
     */
-    function setUser( $user )
+    function setUser( &$user )
     {
         if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: useredit.php,v 1.18 2001/01/23 13:16:58 jb Exp $
+// $Id: useredit.php,v 1.19 2001/01/25 13:21:29 ce Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <20-Sep-2000 13:32:11 ce>
@@ -39,6 +39,11 @@ include_once( "ezuser/classes/ezuser.php" );
 include_once( "ezuser/classes/ezusergroup.php" );
 
 require( "ezuser/admin/admincheck.php" );
+
+if ( isSet ( $DeleteUsers ) )
+{
+    $Action = "DeleteUsers";
+}
 
 if ( isSet( $Back ) )
 {
@@ -220,6 +225,26 @@ if ( $Action == "delete" )
     else
     {
         $error_msg = $error->read_var( "strings", "error_norights" );
+    }
+}
+
+if ( $Action == "DeleteUsers" )
+{
+    if ( count ( $UserArrayID ) != 0 )
+    {
+        foreach( $UserArrayID as $UserID )
+        {
+            $user = new eZUser( $UserID );
+            $firstName = $user->firstName();
+            $lastName = $user->lastName();
+            $email = $user->email();
+            $login = $user->login();
+            $user->delete();
+            
+            eZLog::writeNotice( "User deleted: $firstname $lastname ($login) $email from IP: $REMOTE_ADDR" );
+        }
+        eZHTTPTool::header( "Location: /user/userlist/" );
+        exit();
     }
 }
 

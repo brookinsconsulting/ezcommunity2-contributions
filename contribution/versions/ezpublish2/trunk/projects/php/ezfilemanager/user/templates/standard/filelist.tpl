@@ -74,7 +74,7 @@
 </tr>
 <!-- BEGIN file_tpl -->
 <tr>
-	<!-- BEGIN read_tpl -->
+	<!-- BEGIN file_read_tpl -->
 	<td class="{td_class}" width="1%">
 	<img src="/images/file.gif" border="0" alt="" width="16" height="16" border="0" />
 	</td>
@@ -87,21 +87,22 @@
 	<td class="{td_class}" width="1%">
 	<a href="/filemanager/download/{file_id}/{original_file_name}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezf{file_id}-dl','','/ezfilemanager/user/{image_dir}/downloadminimrk.gif',1)"><img name="ezf{file_id}-dl" border="0" src="/ezfilemanager/user/{image_dir}/downloadmini.gif" width="16" height="16" align="top"></a>
 	</td>
-	<!-- END read_tpl -->
-	<!-- BEGIN write_tpl -->
+	<!-- END file_read_tpl -->
+	<!-- BEGIN file_write_tpl -->
 	<td class="{td_class}" width="1%">
 	<a href="/filemanager/edit/{file_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezf{file_id}-red','','/ezfilemanager/user/{image_dir}/redigerminimrk.gif',1)"><img name="ezf{file_id}-red" border="0" src="/ezfilemanager/user/{image_dir}/redigermini.gif" width="16" height="16" align="top"></a><br />
 	</td>
 	<td class="{td_class}" width="1%" align="center">
 	<input type="checkbox" name="FileArrayID[]" value="{file_id}">
 	</td>
-	<!-- END write_tpl -->
+	<!-- END file_write_tpl -->
 </tr>
 <!-- END file_tpl -->
 </table>
 <!-- END file_list_tpl -->
 
 <hr noshade="noshade" size="4" />
+<!-- BEGIN write_menu_tpl -->
 <table cellspacing="0" cellpadding="0" border="0">
 <tr>
     <td>
@@ -118,4 +119,5 @@
 	</td>
 </tr>
 </table>
+<!-- END write_menu_tpl -->
 </form>

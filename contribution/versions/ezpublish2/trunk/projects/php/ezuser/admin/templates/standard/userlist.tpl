@@ -37,14 +37,9 @@
 <hr noshade size="4">
 
 <table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
-
-
-
 <tr>
 	<td>
-
 	<form method="post" action="/user/userlist/{sort_order}">
-
 	<select name="GroupID">
 	<option value="0">{intl-all}</option>
 	<!-- BEGIN group_item_tpl -->
@@ -52,10 +47,7 @@
 	<!-- END group_item_tpl -->
 	</select>
 	<input class="stdbutton" type="submit" value="{intl-show}">
-
 	</form>
-
-
 	</td>
 </tr>
 
@@ -67,7 +59,6 @@
 	<th>
 	<a href="/user/userlist/email/{current_group_id}">{intl-email}:</a>
 	</th>
-
 
 	<th>
 	<a href="/user/userlist/login/{current_group_id}">{intl-login}:</a>
@@ -82,6 +73,7 @@
 	</th>
 
 </tr>
+<form method="post" action="/user/useredit/edit/" enctype="multipart/form-data">
 <!-- BEGIN user_item_tpl -->
 <tr>
 	<td class="{td_class}">
@@ -100,11 +92,15 @@
 	<a href="/user/useredit/edit/{user_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezuser{user_id}-red','','/images/redigerminimrk.gif',1)"><img name="ezuser{user_id}-red" border="0" src="/images/redigermini.gif" width="16" height="16" align="top"></a>
 	</td>
 
-	<td class="{td_class}" width="1%">
-	<a href="#" onClick="verify( '{intl-delete}', '/user/useredit/delete/{user_id}/'); return false;"
-onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezuser{user_id}-slett','','/images/slettminimrk.gif',1)"><img name="ezuser{user_id}-slett" border="0" src="/images/slettmini.gif" width="16" height="16" align="top"></a>
-	</td>	
+	<td class="{td_class}" width="1%" align="center">
+	<input type="checkbox" name="UserArrayID[]" value="{user_id}">
+	</td>
 </tr>
 <!-- END user_item_tpl -->
-
+<tr>
+        <td>
+	<input type="submit" Name="DeleteUsers" value="{intl-delete_users}">
+	</td>
+</tr>
+</form>
 </table>

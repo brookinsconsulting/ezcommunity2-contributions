@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezvirtualfolder.php,v 1.7 2001/01/22 14:43:00 jb Exp $
+// $Id: ezvirtualfolder.php,v 1.8 2001/01/25 13:21:29 ce Exp $
 //
 // Definition of eZVirtualFolder class
 //
@@ -166,7 +166,7 @@ class eZVirtualFolder
 
       The categories are returned as an array of eZVirtualFolder objects.
     */
-    function getAll()
+    function &getAll()
     {
         $this->dbInit();
         
@@ -191,7 +191,7 @@ class eZVirtualFolder
 
       The categories are returned as an array of eZVirtualFolder objects.      
     */
-    function getByParent( $parent  )
+    function &getByParent( $parent  )
     {
         if ( get_class( $parent ) == "ezvirtualfolder" )
         {
@@ -226,7 +226,7 @@ class eZVirtualFolder
 
       See detailed description for an example of usage.
     */
-    function path( $categoryID=0 )
+    function &path( $categoryID=0 )
     {
         if ( $categoryID == 0 )
         {
@@ -254,7 +254,7 @@ class eZVirtualFolder
         return $path;
     }
 
-    function getTree( $parentID=0, $level=0 )
+    function &getTree( $parentID=0, $level=0 )
     {
         $category = new eZVirtualFolder( $parentID );
 
@@ -285,7 +285,7 @@ class eZVirtualFolder
       All - if the file can be read by everybody
       False - if the user don't have access
     */
-    function checkReadPermission( $currentUser )
+    function &checkReadPermission( &$currentUser )
     {
         $ret = false;
 
@@ -315,7 +315,7 @@ class eZVirtualFolder
                     foreach( $currentGroups as $Groups )
                     {
                         $user = new eZUser( $this->UserID );
-                        $userGroups = $user->groups();
+                        $userGroups =& $user->groups();
                             
                         foreach( $userGroups as $userGroup )
                         {
@@ -350,7 +350,7 @@ class eZVirtualFolder
       All - if the file can be write by everybody
       False - if the user don't have access
     */
-    function checkWritePermission( $currentUser )
+    function checkWritePermission( &$currentUser )
     {
         $ret = false;
 
@@ -380,7 +380,7 @@ class eZVirtualFolder
                     foreach( $currentGroups as $Groups )
                     {
                         $user = new eZUser( $this->UserID );
-                        $userGroups = $user->groups();
+                        $userGroups =& $user->groups();
                             
                         foreach( $userGroups as $userGroup )
                         {
@@ -418,7 +418,7 @@ class eZVirtualFolder
     /*!
       Returns the name of the category.
     */
-    function name()
+    function &name()
     {
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
@@ -429,7 +429,7 @@ class eZVirtualFolder
     /*!
       Returns the group description.
     */
-    function description()
+    function &description()
     {
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
@@ -440,7 +440,7 @@ class eZVirtualFolder
     /*!
       Returns the parent if one exist. If not 0 is returned.
     */
-    function parent()
+    function &parent()
     {
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
@@ -458,7 +458,7 @@ class eZVirtualFolder
     /*!
       Returns the writePermission permission of the virtual folder.
     */
-    function writePermission()
+    function &writePermission()
     {
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
@@ -493,7 +493,7 @@ class eZVirtualFolder
     /*!
       Returns the read permission of the virtual folder.
     */
-    function readPermission()
+    function &readPermission()
     {
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
@@ -528,7 +528,7 @@ class eZVirtualFolder
     /*!
       Returns a eZUser object.
     */
-    function user()
+    function &user()
     {
         if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
@@ -680,7 +680,7 @@ class eZVirtualFolder
     /*!
       Sets the user of the file.
     */
-    function setUser( $user )
+    function setUser( &$user )
     {
         if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
@@ -696,7 +696,7 @@ class eZVirtualFolder
     /*!
       Adds a file to the folder.
     */
-    function addFile( $value )
+    function addFile( &$value )
     {
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
@@ -721,7 +721,7 @@ class eZVirtualFolder
       Returns every files in a folder as a array of eZVirtualFile objects.
 
     */
-    function files( $sortMode="time",
+    function &files( $sortMode="time",
                        $offset=0,
                        $limit=50 )
     {

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: folderedit.php,v 1.5 2001/01/23 13:16:57 jb Exp $
+// $Id: folderedit.php,v 1.6 2001/01/25 13:21:29 ce Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <08-Jan-2001 11:13:29 ce>
@@ -30,6 +30,7 @@ include_once( "classes/ezlog.php" );
 include_once( "classes/ezhttptool.php" );
 
 include_once( "ezuser/classes/ezuser.php" );
+include_once( "ezuser/classes/ezpermission.php" );
 include_once( "ezfilemanager/classes/ezvirtualfile.php" );
 include_once( "ezfilemanager/classes/ezvirtualfolder.php" );
 
@@ -82,6 +83,11 @@ if ( $Action == "Insert" || $Action == "Update" )
 
         if ( $FolderID == 0 )
         {
+            if ( eZPermission::checkPermission( $user, "eZFileManager", "WriteToRoot"  ) == false )
+            {
+                $t->parse( "error_write", "error_write_permission" );
+                $error = true;
+            }
         }
         else
         {
@@ -130,7 +136,6 @@ if ( $Action == "Insert" || $Action == "Update" )
             $t->parse( "error_write_check", "error_write_check_tpl" );
             $error = true;
         }
-
     }
 
     if ( $readCheck )
@@ -171,7 +176,6 @@ if ( $Action == "Insert" && $error == false )
     }
     
     $folder->setUser( $user );
-
 
     $parent = new eZVirtualFolder( $FolderID );
     $folder->setParent( $parent );
