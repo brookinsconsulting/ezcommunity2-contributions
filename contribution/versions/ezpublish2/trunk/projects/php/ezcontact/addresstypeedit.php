@@ -50,7 +50,7 @@ if ( $Action == "update" )
   $type = new eZAddressType();
   $type->get( $AID );
   $type->setName( $AddressTypeName );
-  $type->update(); 
+  $type->update();
 }
 
 $t->set_var( "document_root", $DOCUMENTROOT );
