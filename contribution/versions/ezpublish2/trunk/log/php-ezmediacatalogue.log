@@ -259,3 +259,11 @@ Maintainer(s) : ce@ez.no
       admin/intl/no_NO/menubox.php.ini
       admin/intl/no_NO/typeedit.php.ini: fixed several bugs in no_NO files
 
+
+Module : ezmediacatalogue
+Repository path : /home/cvsroot/projects/php/ezmediacatalogue
+Maintainer(s) : ce@ez.no
+2001-11-12  Christoffer Elo  <ce@ez.no>
+
+    * admin/templates/standard/browse.tpl: Fixed a tempalte bug
+

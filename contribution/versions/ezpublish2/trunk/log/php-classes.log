@@ -389,3 +389,16 @@ Maintainer(s) : bf@ez.no
 
     * eztemplate.php: Fixed storing $100 correctly.
 
+
+Module : classes
+Repository path : /home/cvsroot/projects/php/classes
+Maintainer(s) : bf@ez.no
+2001-11-12  Christoffer Elo  <ce@ez.no>
+
+    * admin/linkselect.php
+      templates/standard/typelist.tpl
+      admin/linklist.php
+      ezlinkitem.php
+      ezmediafile.php: Fixed a SQL bug in the typelist.
+    Added wmf to ezmediafile
+

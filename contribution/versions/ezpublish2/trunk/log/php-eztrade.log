@@ -1911,3 +1911,39 @@ Maintainer(s) : ce@ez.no
     * user/voucherinformation.php
       user/voucherview.php: Fixed county bug
 
+
+Module : eztrade
+Repository path : /home/cvsroot/projects/php/eztrade
+Maintainer(s) : ce@ez.no
+2001-11-12  Christoffer Elo  <ce@ez.no>
+
+    * user/productview.php:
+    when someone will create a voucher, he must be logged inn
+
+    * user/voucherinformation.php: Added selected country
+
+2001-11-12  Sascha Frinken  <sascha@impetex.de>
+
+    * user/datasupplier.php
+      user/intl/de_MG/voucherinformation.php.ini
+      user/payment.php
+      xmlrpc/xmlrpcserver.php: Added desgin fixes
+
+2001-11-12  Christoffer Elo  <ce@ez.no>
+
+    * user/templates/standard/ordersendt.tpl
+      user/templates/standard/productview.tpl
+      user/templates/standard/voucherinformation.tpl
+      user/templates/standard/wishlist.tpl
+      admin/customerview.php
+      admin/optionedit.php
+      admin/templates/standard/optionedit.tpl
+      admin/voucheredit.php
+      classes/ezvoucher.php
+      classes/ezvoucherinformation.php
+      user/datasupplier.php
+      user/ordersendt.php
+      user/payment.php
+      user/voucherinformation.php
+      user/wishlist.php: Added voucher features
+

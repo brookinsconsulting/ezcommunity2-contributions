@@ -610,3 +610,16 @@ Maintainer(s) : bf@ez.no
     * admin/templates/standard/welcome.tpl
       admin/welcome.php: Fixed prefix on external link in system check.
 
+
+Module : ezuser
+Repository path : /home/cvsroot/projects/php/ezuser
+Maintainer(s) : bf@ez.no
+2001-11-12  Sascha Frinken  <sascha@impetex.de>
+
+    * user/templates/mygold/loginmain.tpl: Added desgin fixes
+
+2001-11-12  Christoffer Elo  <ce@ez.no>
+
+    * user/userwithaddress.php:
+    Fixed a bug when someone tries to delete a adderss
+

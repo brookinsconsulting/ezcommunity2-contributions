@@ -256,3 +256,11 @@ Maintainer(s) : br@ez.no
 
     * admin/intl/no_NO/pageviewlist.php.ini: fixed several bugs in no_NO files
 
+
+Module : ezstats
+Repository path : /home/cvsroot/projects/php/ezstats
+Maintainer(s) : br@ez.no
+2001-11-12  Sascha Frinken  <sascha@impetex.de>
+
+    * classes/ezpageview.php: Added desgin fixes
+

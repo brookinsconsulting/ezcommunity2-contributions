@@ -131,3 +131,12 @@ Maintainer(s) : vl@ez.no
     * classes/ezurltranslator.php:
     if a urlkeyword is defined in site.ini but not in admin, the url will be treated as a normal ez publish url
 
+
+Module : ezurltranslator
+Repository path : /home/cvsroot/projects/php/ezurltranslator
+Maintainer(s) : vl@ez.no
+2001-11-12  Christoffer Elo  <ce@ez.no>
+
+    * classes/ezurltranslator.php:
+    Added a hack so the urltranslator works with php session.
+

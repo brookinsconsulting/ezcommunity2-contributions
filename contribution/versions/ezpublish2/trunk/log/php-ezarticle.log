@@ -2052,3 +2052,20 @@ Maintainer(s) : bf@ez.no
     Bugfix: Whenever a category in the root is renamed the update info sends
     correct information back ie the current category list is no longer empty.
 
+
+Module : ezarticle
+Repository path : /home/cvsroot/projects/php/ezarticle
+Maintainer(s) : bf@ez.no
+2001-11-12  Christoffer Elo  <ce@ez.no>
+
+    * admin/templates/standard/medialist.tpl: Fixed a template bug
+
+    * user/articlelist.php
+      user/templates/standard/articlelist.tpl
+      admin/articleedit.php
+      admin/intl/en_GB/articleedit.php.ini
+      admin/mediaedit.php
+      admin/templates/standard/articleedit.tpl
+      admin/templates/standard/medialist.tpl
+      classes/ezarticle.php: Added linkurl to articles
+
