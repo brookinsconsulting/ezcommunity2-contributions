@@ -132,7 +132,7 @@ onFocus="this.className='gcalTextFocusFrm'"
 <!-- BEGIN dhtml_form_datetime_select_tpl -->
 <p class="boxtext">{intl-select-date-time}:</p>
 
-<input class="gcalCalTextFrm" type="text" name="dateCal" id="sel1" size="22" value='{date_calendar}' readonly><input class="gcalSubmitFrm" style="height: 25px; border-left: 0px;" type="reset" value=" ... " onclick="return showCalendar('sel1', '%Y-%m-%d', '12');"
+<input class="gcalCalTextFrm" type="text" name="dateCal" id="sel1" size="22" value='{date_calendar}' readonly><input class="gcalSubmitFrm" style="height: 25px; border-left: 0px;" type="reset" value=" ... " onclick="return showCalendar('sel1', '%Y-%m-%d');"
 onmouseout="this.className='gcalSubmitFrm'"
 onmouseover="this.className='gcalSubmitOverFrm'">
 <!-- END dhtml_form_datetime_select_tpl -->
@@ -256,16 +256,16 @@ onmouseover="this.className='gcalSubmitOverFrm'">
  <input type="radio" name="RepeatOptions"  value="untilDate" {repeat_until} /> {intl-repeat_until} <input class="gcalCalTextFrm" type="text" size="20" name="UntilDate" value='{until_date}' id="untilDate" readonly><input class="gcalSubmitFrm" style="height: 25px; border-left: 0px;" type="reset" value=" ... " 
 onmouseout="this.className='gcalSubmitFrm'"
 onmouseover="this.className='gcalSubmitOverFrm'"
- onclick="return showCalendar('untilDate', '%Y-%m-%d', '12');" >
+ onclick="return showCalendar('untilDate', '%Y-%m-%d');" >
  </div>
  <div class="gcalGroupBoxFrm">
 {intl-repeat_exceptions} <br />
- <a onclick='addToList()' style="font-size: 9px;">{intl-repeat_exception_add}</a> 
- <a onclick='removeFromList("ExceptSelect")' style="font-size: 9px;">{intl-repeat_exception_remove}</a><br /><br />
+ <a onclick='addToList()' style="font-size: 9px;" class="gcalSubmitFrm">{intl-repeat_exception_add}</a> 
+ <a onclick='removeFromList("ExceptSelect")' style="font-size: 9px;" class="gcalSubmitFrm">{intl-repeat_exception_remove}</a><br /><br />
  <input type="text" class="gcalCalTextFrm" size=12 name="RecurExceptions" id="RecurExceptions" readonly /><input class="gcalSubmitFrm" style="height: 25px; border-left: 0px;" type="reset" value=" ... " 
  onmouseout="this.className='gcalSubmitFrm'"
  onmouseover="this.className='gcalSubmitOverFrm'" 
- onclick="return showCalendar('RecurExceptions', '%Y-%m-%d', '12');" > <br /><br />
+ onclick="return showCalendar('RecurExceptions', '%Y-%m-%d');" > <br /><br />
  <select name="ExceptSelect[]" size=4 style="border: 2px solid black; outline:none; margin: 5px; width: 100px;" id="ExceptSelect" multiple>
 <!-- BEGIN recur_exceptions_tpl --> 
 {recur_exceptions}
