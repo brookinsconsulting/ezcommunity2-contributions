@@ -156,6 +156,7 @@ if ( $user )
             exit;
         }
 
+        // draw modules
         foreach ( $modules as $module )
         {
             if ( !empty( $module ) )

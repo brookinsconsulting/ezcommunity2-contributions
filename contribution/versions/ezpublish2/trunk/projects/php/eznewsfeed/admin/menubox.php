@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: menubox.php,v 1.3 2001/01/25 19:23:52 bf Exp $
+// $Id: menubox.php,v 1.4 2001/01/28 10:57:13 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <23-Oct-2000 17:53:46 bf>
@@ -33,7 +33,6 @@ $menuItems = array(
     array( "/newsfeed/importnews/", "{intl-import_news}" ),
     array( "/newsfeed/sourcesite/new/", "{intl-newsourcesite}" )
     );
-
 
 ?>
 
