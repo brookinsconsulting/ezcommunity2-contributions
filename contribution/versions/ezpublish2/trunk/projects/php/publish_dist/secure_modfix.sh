@@ -3,7 +3,7 @@
 if [ "$1" = "" ] || [ "$2" = "" ] || [ `whoami` !=  "root" ] 
 then
 echo "Must be run as root"
-echo "Usage: cachefix_secure.sh web_admin_user apache_user_group"
+echo "Usage: secure_modfix web_admin_user apache_user_group"
 exit 0
 fi
 
