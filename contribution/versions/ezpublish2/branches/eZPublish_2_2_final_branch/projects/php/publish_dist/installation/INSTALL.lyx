@@ -1385,6 +1385,15 @@ AllowOverride None
 RewriteEngine On
 \layout Standard
 
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+
+\layout Standard
+
 
 \family typewriter 
 \size scriptsize 
@@ -1393,8 +1402,9 @@ RewriteEngine On
 \SpecialChar ~
 \SpecialChar ~
 \SpecialChar ~
+\SpecialChar ~
 RewriteRule .*/ezmediacatalogue/catalogue/(.*)$ /your/docroot/ezmediacatalogue/cat
-alogue/$1 [T="application/oct-stream",S=4]
+alogue/$1 [T="application/oct-stream",L]
 \layout Standard
 
 
@@ -1408,7 +1418,7 @@ alogue/$1 [T="application/oct-stream",S=4]
 \SpecialChar ~
 RewriteRule ^/stats/store/(.*).gif$\SpecialChar ~
  /your/docroot/ezstats/user/storestats.php
- [S=3]
+ [L]
 \layout Standard
 
 
@@ -1422,7 +1432,7 @@ RewriteRule ^/stats/store/(.*).gif$\SpecialChar ~
 \SpecialChar ~
 RewriteRule ^/filemanager/filedownload/([^/]+)/(.*)$\SpecialChar ~
  /your/docroot/ezfilemanager/
-files/$1 [T="application/oct-stream",S=2]
+files/$1 [T="application/oct-stream",L]
 \layout Standard
 
 
@@ -1434,9 +1444,7 @@ files/$1 [T="application/oct-stream",S=2]
 \SpecialChar ~
 \SpecialChar ~
 \SpecialChar ~
-RewriteRule ^/mediacatalogue/catalogue/(.*)$\SpecialChar ~
- /your/docroot/ezmediacatalogue/catal
-ogue/$1 [T="application/oct-stream",S=1]
+RewriteRule ^/xmlrpc.*$ /your/docroot/index_xmlrpc.php [L]
 \layout Standard
 
 
@@ -1588,7 +1596,7 @@ RewriteEngine On
 \SpecialChar ~
 \SpecialChar ~
 RewriteRule .*/ezmediacatalogue/catalogue/(.*)$ /your/docroot/ezmediacatalogue/cat
-alogue/$1 [T="application/oct-stream",S=1]
+alogue/$1 [T="application/oct-stream",L]
 \layout Standard
 
 
@@ -1734,7 +1742,7 @@ The rewrite rules for eZ publish do the following:
 \SpecialChar ~
 \SpecialChar ~
 RewriteRule .*/ezmediacatalogue/catalogue/(.*)$ /your/docroot/ezmediacatalogue/cat
-alogue/$1 [T="application/oct-stream",S=4]
+alogue/$1 [T="application/oct-stream",L]
 \layout Standard
 
 This rewrite rule states that every URLs containing the string 
@@ -1823,7 +1831,7 @@ An result of this rewrite rule is that a file in the mediacatalog will be
 \SpecialChar ~
 RewriteRule ^/stats/store/(.*).gif$\SpecialChar ~
  /your/docroot/ezstats/user/storestats.php
- [S=3]
+ [L]
 \newline 
 
 \layout Standard
@@ -1851,7 +1859,7 @@ This says that everything served from
 \SpecialChar ~
 RewriteRule ^/filemanager/filedownload/([^/]+)/(.*)$\SpecialChar ~
  /your/docroot/ezfilemanager/
-files/$1 [T="application/oct-stream",S=2]
+files/$1 [T="application/oct-stream",L]
 \newline 
 
 \layout Standard
@@ -1918,7 +1926,7 @@ The part
 \begin_inset Quotes eld
 \end_inset 
 
-[T="application/oct-stream",S=2]
+[T="application/oct-stream",L]
 \begin_inset Quotes erd
 \end_inset 
 
@@ -1940,14 +1948,33 @@ application/oct-stream
 \begin_inset Quotes eld
 \end_inset 
 
-S=1
+,L
 \begin_inset Quotes erd
 \end_inset 
 
- part means that if we match this rule, we should skip one rule ahead before
- trying to match again.
+ part means stop the rewrite process and don't apply any more rewrite rules
+ if this rewrite rule matches .
 \newline 
 
+\layout Standard
+
+
+\family typewriter 
+\size scriptsize 
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+RewriteRule ^/xmlrpc.*$ /your/docroot/index_xmlrpc.php [L]
+\layout Standard
+
+This rewrite rule is required if you want to connect to your eZ publish
+ site with eZ publish Desktop Edition.
+ eZ publish Desktop Edition is a GUI client for Linux and Windows.
+ With this application you can edit articles in a WYSIWYG environment, no
+ need to remember the different tags.
 \layout Standard
 
 The last rewrite rule
@@ -2519,6 +2546,46 @@ updates
 .
  Run the files needed to update your version to the current.
  You need to apply all the updates for every version since your version.
+\layout Subsection
+
+Setting up the cronjob job
+\layout Standard
+
+eZ publish has a crontab script.
+\layout Standard
+
+In order to edit your crontab, type :
+\layout Standard
+
+
+\family typewriter 
+\size scriptsize 
+$ crontab -e
+\layout Standard
+
+You will then be editing a file in a text editor (which editor is dependend
+ on your system configuration).
+ In this file add the following line
+\layout Standard
+
+
+\family typewriter 
+\size scriptsize 
+0 23 * * * cd /your/docroot; /usr/bin/php cron.php
+\layout Standard
+
+Now, save and exit the text editor
+\layout Standard
+
+Please replace 
+\begin_inset Quotes eld
+\end_inset 
+
+/your/docroot
+\begin_inset Quotes erd
+\end_inset 
+
+ with your real document root.
 \layout Section
 
 Now What?
@@ -3726,7 +3793,7 @@ RewriteEngine On
 \SpecialChar ~
 RewriteRule ^/stats/store/(.*).gif$\SpecialChar ~
  /your/site/root/ezstats/user/storestats.php
- [S=3]
+ [L]
 \layout Standard
 
 
@@ -3743,7 +3810,7 @@ RewriteRule ^/stats/store/(.*).gif$\SpecialChar ~
 \SpecialChar ~
 RewriteRule ^/filemanager/filedownload/([^/]+)/(.*)$\SpecialChar ~
  /your/site/root/ezfilemanage
-r/files/$1 [T="application/oct-stream",S=2]
+r/files/$1 [T="application/oct-stream",L]
 \layout Standard
 
 
@@ -3754,8 +3821,23 @@ r/files/$1 [T="application/oct-stream",S=2]
 \SpecialChar ~
 \SpecialChar ~
 \SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
 RewriteRule .*/ezmediacatalogue/catalogue/(.*)$ /your/docroot/ezmediacatalogue/cat
-alogue/$1 [T="application/oct-stream",S=1]
+alogue/$1 [T="application/oct-stream",L]
+\layout Standard
+
+
+\family typewriter 
+\size scriptsize 
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+RewriteRule ^/xmlrpc.*$ /your/docroot/index_xmlrpc.php [L]
 \layout Standard
 
 
@@ -3910,10 +3992,26 @@ RewriteEngine On
 \SpecialChar ~
 RewriteRule ^/filemanager/filedownload/([^/]+)/(.*)$\SpecialChar ~
  /your/site/root/ezfilemanage
-r/files/$1 [T="application/oct-stream",S=1]
+r/files/$1 [T="application/oct-stream",L]
 \size footnotesize 
 
 \newline 
+
+\size scriptsize 
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+RewriteRule .*/ezmediacatalogue/catalogue/(.*)$ /your/docroot/ezmediacatalogue/cat
+alogue/$1 [T="application/oct-stream",L]
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
 \SpecialChar ~
 \SpecialChar ~
 \SpecialChar ~

@@ -607,17 +607,19 @@ online tool.
 
 \texttt{\scriptsize ~~~~~~RewriteEngine On}{\scriptsize \par}
 
-\texttt{\scriptsize ~~~~~RewriteRule .{*}/ezmediacatalogue/catalogue/(.{*})\$
-/your/docroot/ezmediacatalogue/catalogue/\$1 {[}T=\char`\"{}application/oct-stream\char`\"{},S=4{]}}{\scriptsize \par}
+~~~~~~
+
+\texttt{\scriptsize ~~~~~~RewriteRule .{*}/ezmediacatalogue/catalogue/(.{*})\$
+/your/docroot/ezmediacatalogue/catalogue/\$1 {[}T=\char`\"{}application/oct-stream\char`\"{},L{]}}{\scriptsize \par}
 
 \texttt{\scriptsize ~~~~~~RewriteRule \textasciicircum{}/stats/store/(.{*}).gif\$~
-/your/docroot/ezstats/user/storestats.php {[}S=3{]}}{\scriptsize \par}
+/your/docroot/ezstats/user/storestats.php {[}L{]}}{\scriptsize \par}
 
 \texttt{\scriptsize ~~~~~~RewriteRule \textasciicircum{}/filemanager/filedownload/({[}\textasciicircum{}/{]}+)/(.{*})\$~
-/your/docroot/ezfilemanager/files/\$1 {[}T=\char`\"{}application/oct-stream\char`\"{},S=2{]}}{\scriptsize \par}
+/your/docroot/ezfilemanager/files/\$1 {[}T=\char`\"{}application/oct-stream\char`\"{},L{]}}{\scriptsize \par}
 
-\texttt{\scriptsize ~~~~~~RewriteRule \textasciicircum{}/mediacatalogue/catalogue/(.{*})\$~
-/your/docroot/ezmediacatalogue/catalogue/\$1 {[}T=\char`\"{}application/oct-stream\char`\"{},S=1{]}}{\scriptsize \par}
+\texttt{\scriptsize ~~~~~~RewriteRule \textasciicircum{}/xmlrpc.{*}\$
+/your/docroot/index\_xmlrpc.php {[}L{]}}{\scriptsize \par}
 
 \texttt{\scriptsize ~~~~~~RewriteRule !\textbackslash{}.(gif|css|jpg|png|jar)\$
 /your/docroot/index.php}{\scriptsize \par}
@@ -648,7 +650,7 @@ online tool.
 \texttt{\footnotesize ~~~~}\texttt{\scriptsize RewriteEngine On}{\scriptsize \par}
 
 \texttt{\scriptsize ~~~~RewriteRule .{*}/ezmediacatalogue/catalogue/(.{*})\$
-/your/docroot/ezmediacatalogue/catalogue/\$1 {[}T=\char`\"{}application/oct-stream\char`\"{},S=1{]}}{\scriptsize \par}
+/your/docroot/ezmediacatalogue/catalogue/\$1 {[}T=\char`\"{}application/oct-stream\char`\"{},L{]}}{\scriptsize \par}
 
 \texttt{\footnotesize ~~~~}\texttt{\scriptsize RewriteRule !\textbackslash{}.(gif|css|jpg|png|jar)
 /your/docroot/index\_admin.php}{\scriptsize \par}
@@ -695,7 +697,7 @@ can be written in this general form:
 The rewrite rules for eZ publish do the following:\\
 \\
 \texttt{\footnotesize ~~~~~RewriteRule .{*}/ezmediacatalogue/catalogue/(.{*})\$
-/your/docroot/ezmediacatalogue/catalogue/\$1 {[}T=\char`\"{}application/oct-stream\char`\"{},S=4{]}}{\footnotesize \par}
+/your/docroot/ezmediacatalogue/catalogue/\$1 {[}T=\char`\"{}application/oct-stream\char`\"{},L{]}}{\footnotesize \par}
 
 This rewrite rule states that every URLs containing the string {}``\texttt{\footnotesize /ezmediacatalogue/catalogue/}''
 shall be served from {}``\texttt{\footnotesize /your/docroot/ezmediacatalogue/catalogue/}''.
@@ -715,7 +717,7 @@ This will be fixed in a later version of eZ publish.\\
 
 
 \texttt{\scriptsize ~~~~~~RewriteRule \textasciicircum{}/stats/store/(.{*}).gif\$~
-/your/docroot/ezstats/user/storestats.php {[}S=3{]}}~\\
+/your/docroot/ezstats/user/storestats.php {[}L{]}}~\\
 {\scriptsize \par}
 
 This says that everything served from {}``/stats/store/'' should
@@ -723,7 +725,7 @@ be served by the storestats.php script. This is used by the statistical
 module
 
 \texttt{\scriptsize ~~~~~~RewriteRule \textasciicircum{}/filemanager/filedownload/({[}\textasciicircum{}/{]}+)/(.{*})\$~
-/your/docroot/ezfilemanager/files/\$1 {[}T=\char`\"{}application/oct-stream\char`\"{},S=2{]}}~\\
+/your/docroot/ezfilemanager/files/\$1 {[}T=\char`\"{}application/oct-stream\char`\"{},L{]}}~\\
 {\scriptsize \par}
 
 This says that everything served from {}``/filemanager/filedownload/''
@@ -739,12 +741,21 @@ part from the first slash after your domain name.
 The {}``\$'' sign is used to mark the end of line, in order to remember
 the full line.
 
-The part \texttt{\scriptsize {}``{[}T=\char`\"{}application/oct-stream\char`\"{},S=2{]}''}
+The part \texttt{\scriptsize {}``{[}T=\char`\"{}application/oct-stream\char`\"{},L{]}''}
 means that everything which is matched shall be of the specific mime
-type ({}``application/oct-stream'', ie. binary download). The {}``S=1''
-part means that if we match this rule, we should skip one rule ahead
-before trying to match again.\\
+type ({}``application/oct-stream'', ie. binary download). The {}``,L''
+part means stop the rewrite process and don't apply any more rewrite
+rules if this rewrite rule matches .\\
 
+
+\texttt{\scriptsize ~~~~~~RewriteRule \textasciicircum{}/xmlrpc.{*}\$
+/your/docroot/index\_xmlrpc.php {[}L{]}}{\scriptsize \par}
+
+This rewrite rule is required if you want to connect to your eZ publish
+site with eZ publish Desktop Edition. eZ publish Desktop Edition is
+a GUI client for Linux and Windows. With this application you can
+edit articles in a WYSIWYG environment, no need to remember the different
+tags.
 
 The last rewrite rule
 
@@ -978,6 +989,26 @@ of eZ publish. There should be several files ending with {}``.sql''
 in the directory {}``updates''. Run the files needed to update your
 version to the current. You need to apply all the updates for every
 version since your version.
+
+
+\subsection{Setting up the cronjob job}
+
+eZ publish has a crontab script.
+
+In order to edit your crontab, type :
+
+\texttt{\scriptsize \$ crontab -e}{\scriptsize \par}
+
+You will then be editing a file in a text editor (which editor is
+dependend on your system configuration). In this file add the following
+line
+
+\texttt{\scriptsize 0 23 {*} {*} {*} cd /your/docroot; /usr/bin/php
+cron.php}{\scriptsize \par}
+
+Now, save and exit the text editor
+
+Please replace {}``/your/docroot'' with your real document root.
 
 
 \section{Now What?}
@@ -1371,14 +1402,17 @@ For example:\\
 
 \texttt{\footnotesize ~}\texttt{\scriptsize ~~~~~~RewriteRule
 \textasciicircum{}/stats/store/(.{*}).gif\$~ /your/site/root/ezstats/user/storestats.php
-{[}S=3{]}}{\scriptsize \par}
+{[}L{]}}{\scriptsize \par}
 
 \texttt{\footnotesize ~}\texttt{\scriptsize ~~~~~~RewriteRule
 \textasciicircum{}/filemanager/filedownload/({[}\textasciicircum{}/{]}+)/(.{*})\$~
-/your/site/root/ezfilemanager/files/\$1 {[}T=\char`\"{}application/oct-stream\char`\"{},S=2{]}}{\scriptsize \par}
+/your/site/root/ezfilemanager/files/\$1 {[}T=\char`\"{}application/oct-stream\char`\"{},L{]}}{\scriptsize \par}
 
-\texttt{\scriptsize ~~~~~RewriteRule .{*}/ezmediacatalogue/catalogue/(.{*})\$
-/your/docroot/ezmediacatalogue/catalogue/\$1 {[}T=\char`\"{}application/oct-stream\char`\"{},S=1{]}}{\scriptsize \par}
+\texttt{\scriptsize ~~~~~~~RewriteRule .{*}/ezmediacatalogue/catalogue/(.{*})\$
+/your/docroot/ezmediacatalogue/catalogue/\$1 {[}T=\char`\"{}application/oct-stream\char`\"{},L{]}}{\scriptsize \par}
+
+\texttt{\scriptsize ~~~~~~~RewriteRule \textasciicircum{}/xmlrpc.{*}\$
+/your/docroot/index\_xmlrpc.php {[}L{]}}{\scriptsize \par}
 
 \texttt{\footnotesize ~}\texttt{\scriptsize ~~~~~~RewriteRule
 !\textbackslash{}.(gif|css|jpg|png|jar)\$ /your/site/root/index.php}{\scriptsize \par}
@@ -1406,7 +1440,10 @@ For example:\\
 
 \texttt{\footnotesize ~}\texttt{\scriptsize ~~~~~~RewriteRule
 \textasciicircum{}/filemanager/filedownload/({[}\textasciicircum{}/{]}+)/(.{*})\$~
-/your/site/root/ezfilemanager/files/\$1 {[}T=\char`\"{}application/oct-stream\char`\"{},S=1{]}}\texttt{\footnotesize }~\\
+/your/site/root/ezfilemanager/files/\$1 {[}T=\char`\"{}application/oct-stream\char`\"{},L{]}}\texttt{\footnotesize }~\\
+\texttt{\scriptsize ~~~~~~~RewriteRule .{*}/ezmediacatalogue/catalogue/(.{*})\$
+/your/docroot/ezmediacatalogue/catalogue/\$1 {[}T=\char`\"{}application/oct-stream\char`\"{},L{]}}{\scriptsize \par}
+
 \texttt{\footnotesize ~~~~~~}\texttt{\scriptsize RewriteRule
 !\textbackslash{}.(gif|css|jpg|png|jar) /your/site/root/index\_admin.php}{\scriptsize \par}
 
