@@ -958,3 +958,27 @@ Maintainer(s) : pkej@ez.no
       classes/ezformpage.php
       classes/ezformrenderer.php: made reporting of forms
 
+
+Module : ezform
+Repository path : /home/cvsroot/projects/php/ezform
+Maintainer(s) : pkej@ez.no
+2002-01-14  Jo Henrik Endrerud  <jhe@ez.no>
+
+    * admin/templates/standard/formrenderer.tpl
+      classes/ezformrenderer.php: fixed nicer result
+
+    * admin/formedit.php
+      admin/intl/en_GB/form.php.ini
+      admin/intl/en_GB/pageedit.php.ini
+      admin/intl/no_NO/form.php.ini
+      admin/pageedit.php
+      admin/tableedit.php
+      admin/templates/standard/elementlist.tpl
+      admin/templates/standard/formedit.tpl
+      classes/ezform.php
+      classes/ezformelement.php
+      classes/ezformrenderer.php
+      sql/mysql/ezform.sql
+      user/results.php
+      user/templates/standard/results.tpl: several fixes
+

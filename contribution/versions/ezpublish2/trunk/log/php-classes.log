@@ -581,3 +581,13 @@ Maintainer(s) : bf@ez.no
 
     * eztemplate.php: fixed useless variable assigning
 
+
+Module : classes
+Repository path : /home/cvsroot/projects/php/classes
+Maintainer(s) : bf@ez.no
+2002-01-14  Christoffer Elo  <ce@ez.no>
+
+    * ezlinkitem.php
+      ezmodulelink.php
+      ezmysqldb.php: Fixed some bugs
+

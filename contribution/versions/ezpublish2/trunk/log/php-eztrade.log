@@ -2676,3 +2676,43 @@ Maintainer(s) : ce@ez.no
       admin/categoryedit.php:
     Added new product and new category in the productlist.
 
+
+Module : eztrade
+Repository path : /home/cvsroot/projects/php/eztrade
+Maintainer(s) : ce@ez.no
+2002-01-14  Baard Farstad  <bf@ez.no>
+
+    * user/productlist.php: Fixed navigation list.
+
+    * classes/ezproductcategory.php
+      user/productlist.php: Optimized for speed.
+
+2002-01-14  Christoffer Elo  <ce@ez.no>
+
+    * admin/Attic/categorybrowse.php
+      admin/intl/no_NO/Attic/categorybrowse.php.ini
+      admin/templates/standard/Attic/categorybrowse.tpl:
+    Added the files for the category browse
+
+    * admin/Attic/categorybrowse.php
+      admin/intl/no_NO/Attic/categorybrowse.php.ini
+      admin/templates/standard/Attic/categorybrowse.tpl: New file.
+
+    * admin/templates/standard/categorylist.tpl
+      admin/templates/standard/productedit.tpl
+      classes/ezproduct.php
+      classes/ezproductcategory.php
+      user/productlist.php
+      user/templates/standard/productlist.tpl
+      admin/categoryedit.php
+      admin/categorylist.php
+      admin/datasupplier.php
+      admin/productedit.php: Added naviagtion list on categories
+
+2002-01-14  Baard Farstad  <bf@ez.no>
+
+    * admin/productedit.php
+      admin/templates/standard/productedit.tpl
+      classes/ezproductcategory.php
+      user/productlist.php: Changes.
+
