@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezezrenderer.php,v 1.7 2000/10/29 17:31:08 bf-cvs Exp $
+// $Id: ezezrenderer.php,v 1.8 2000/10/30 11:33:07 bf-cvs Exp $
 //
 // Definition of eZEzRenderer class
 //
@@ -25,6 +25,8 @@
   </header>
   <link ez.no text to the link> - anchor
   <image 42 align size> - image tag, 42 is the id, alignment (left|center|right), size (small|medium|large)
+
+  <ezanchor anchorname>
 
   <bold>
   bold text
@@ -59,16 +61,13 @@
 
 */
 
-//  $tmpPage = "<image 1 center big> <image 43 large large>";
-//  $tmpPage = preg_replace( "/(<image\s+?([^ ]+)\s+?([^ ]+)\s+?([^( |>)]+)([^>]*?)>)/", "<image id=\"\\2\" align=\"\\3\" size=\"\\4\" />", $tmpPage );
 
-//  $tmpPage = "<link ez.no ez systems> <link ez.no ez systems>";
-//  $tmpPage = preg_replace( "#(<link\s+?([^ ]+)\s+?([^>]+)>)#", "<link href=\"\\2\" text=\"\\3\" />", $tmpPage );
+//  $tmpPage = "<ezanchor anchor>";
 
-//  $tmpPage = preg_replace( "#(?<!(age|php|age|cpp|ell|sql|der))>#", "&gt;", $tmpPage );
-//  $tmpPage = preg_replace( "#/&gt;#", "/>", $tmpPage );
+//  $tmpPage = preg_replace( "#<ezanchor\s+?(.*?)>#", "<a href=\"\\1\"></a>", $tmpPage );
 
 //  print( htmlspecialchars( $tmpPage ) );
+
 
 include_once( "classes/eztexttool.php" );
 include_once( "classes/ezlog.php" );
@@ -235,8 +234,15 @@ class eZEzRenderer
                                 break;
                             }
                         }
-                        
-                        $pageContent .= "<a href=\"http://$href\">" . $text . "</a>";
+
+                        if ( ( $href[0] == "/" ) || ( $href[0] == "#" ) )
+                        {                        
+                            $pageContent .= "<a href=\"$href\">" . $text . "</a>";
+                        }
+                        else
+                        {
+                            $pageContent .= "<a href=\"http://$href\">" . $text . "</a>";
+                        }
                     }
 
                     // ezlink
@@ -261,8 +267,7 @@ class eZEzRenderer
                             }
                         }
 
-
-                        if ( $href[0] == "/" )
+                        if ( ( $href[0] == "/" ) || ( $href[0] == "#" ) )
                         {
                             $pageContent .= "
                                        <img align=\"baseline\" src=\"/images/pil-space.gif\" width=\"50\" height=\"10\" border=\"0\" hspace=\"0\"><a href=\"$href\">"
@@ -276,7 +281,25 @@ class eZEzRenderer
 
                         }
                     }
-                    
+
+
+                    // ez anchor
+                    if ( $paragraph->name == "ezanchor" )
+                    {
+                        foreach ( $paragraph->attributes as $anchorItem )
+                        {
+                            switch ( $anchorItem->name )
+                            {
+                                case "href" :
+                                {
+                                    $href = $anchorItem->children[0]->content;
+                                }
+                                break;
+                            }
+                        }
+                        
+                        $pageContent .= "<a name=\"$href\">ba </a>";
+                    }                    
 
                     // image
                     if ( $paragraph->name == "image" )

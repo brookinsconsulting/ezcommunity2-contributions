@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezezgenerator.php,v 1.2 2000/10/26 16:58:55 bf-cvs Exp $
+// $Id: ezezgenerator.php,v 1.3 2000/10/30 11:33:07 bf-cvs Exp $
 //
 // Definition of eZEzGenerator class
 //
@@ -68,14 +68,16 @@ class eZEzGenerator
 
             // same as above for <ezlink ez.no ez systems> a design difference.
             $tmpPage = preg_replace( "#(<ezlink\s+?([^ ]+)\s+?([^>]+)>)#", "<ezlink href=\"\\2\" text=\"\\3\" />", $tmpPage );
-            
+
+            // convert <ezanchor anchor> to <ezanchor href="anchor" />
+            $tmpPage = preg_replace( "#<ezanchor\s+?(.*?)>#", "<ezanchor href=\"\\1\" />", $tmpPage );
             
             // replace & with &amp; to prevent killing the xml parser..
             // is that a bug in the xmltree(); function ? answer to bf@ez.no
             $tmpPage = ereg_replace ( "&", "&amp;", $tmpPage );
             
             // make unknown tags readable.. look-ahead assertion is used ( ?! ) 
-            $tmpPage = preg_replace( "/<(?!(page|php|\/|image|hea|lin|bol|ita|und|str|pre|ver|lis|ezlink))/", "&lt;", $tmpPage );
+            $tmpPage = preg_replace( "/<(?!(page|php|\/|image|hea|lin|bol|ita|und|str|pre|ver|lis|ezlink|ezanchor))/", "&lt;", $tmpPage );
 
             // look-behind assertion is used here (?<!) 
             // the expression must be fixed with eg just use the 3 last letters of the tag
@@ -218,6 +220,7 @@ class eZEzGenerator
                         $pageContent .= "<link $href $text>";
                     }
 
+
                     // ezlink 
                     if ( $paragraph->name == "ezlink" )
                     {
@@ -244,7 +247,25 @@ class eZEzGenerator
                         
                         $pageContent .= "<ezlink $href $text>";
                     }
-                    
+
+                    // ez anchor
+                    if ( $paragraph->name == "ezanchor" )
+                    {
+                        foreach ( $paragraph->attributes as $anchorItem )
+                        {
+                            switch ( $anchorItem->name )
+                            {
+                                case "href" :
+                                {
+                                    $href = $anchorItem->children[0]->content;
+                                }
+                                break;
+                            }
+                        }
+                        
+                        $pageContent .= "<ezanchor $href>";
+                    }
+
                     
                     // bold text
                     if ( $paragraph->name == "bold" )
