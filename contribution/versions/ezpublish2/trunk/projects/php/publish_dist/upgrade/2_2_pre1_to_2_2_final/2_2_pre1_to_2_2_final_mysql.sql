@@ -30,3 +30,4 @@ CREATE TABLE eZBulkMail_SentLog (
 ) TYPE=MyISAM;
 
 alter table eZAd_View change ViewPrice ViewPrice float(10,2) default 0;
+alter table eZLink_Link change KeyWords KeyWords text;
