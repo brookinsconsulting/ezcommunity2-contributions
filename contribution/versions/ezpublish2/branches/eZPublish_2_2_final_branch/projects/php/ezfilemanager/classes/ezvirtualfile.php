@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezvirtualfile.php,v 1.52 2001/10/17 12:06:47 ce Exp $
+// $Id: ezvirtualfile.php,v 1.52.2.1 2001/11/15 18:02:37 ce Exp $
 //
 // Definition of eZVirtualFile class
 //
@@ -469,6 +469,11 @@ class eZVirtualfile
     {
         if ( get_class( $file ) == "ezfile" )
         {
+            if ( eZFile::file_exists( $this->filePath( true ) ) )
+            {
+                eZFile::unlink( $this->filePath( true ) );
+            }
+
             $this->OriginalFileName = $file->name();
 
             $suffix = "";
