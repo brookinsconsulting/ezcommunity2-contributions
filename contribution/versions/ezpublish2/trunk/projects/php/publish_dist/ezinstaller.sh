@@ -247,6 +247,11 @@ if [ "$C_TITLE" = "" ]; then
 	C_TITLE=$DEF_TITLE
 fi
 
+# TODO
+echo "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
+echo "WARNING: ezinstaller can only install a mysql database at the moment!"
+echo "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
+
 # DB server
 echo -n "Database server [$DEF_DBSERVER]: "
 read C_DBSERVER
