@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: personedit.php,v 1.57 2001/10/12 12:27:35 jhe Exp $
+// $Id: personedit.php,v 1.58 2001/10/27 14:31:10 jhe Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -48,10 +48,10 @@ include_once( "ezuser/classes/ezpermission.php" );
 // deletes the dayview cache file for a given day
 function deleteCache( $siteStyle )
 {
-    unlink_wild( "./ezcalendar/user/cache/", "monthview.tpl-$siteStyle-*" );
+    unlinkWild( "./ezcalendar/user/cache/", "monthview.tpl-$siteStyle-*" );
 }
 
-function unlink_wild( $dir, $rege )
+function unlinkWild( $dir, $rege )
 {
     $d = eZFile::dir( $dir );
     while ( $f = $d->read() )
@@ -665,16 +665,19 @@ if ( !$confirm )
             if ( $Street1[$i] != "" && $Place[$i] != "" &&
                  $Country[$i] != "" && $AddressTypeID != "" )
             {
-                $address = new eZAddress( false, true );
-                $address->setStreet1( $Street1[$i] );
-                $address->setStreet2( $Street2[$i] );
-                $address->setZip( $Zip[$i] );
-                $address->setPlace( $Place[$i] );
-                $address->setAddressType( $AddressTypeID[$i] );
-                $address->setCountry( $Country[$i] );
-                $address->store();
-
-                $item->addAddress( $address );
+                if ( !in_array( $i + 1, $AddressID ) && $AddressTypeID[$i] != "" )
+                {
+                    $address = new eZAddress( false, true );
+                    $address->setStreet1( $Street1[$i] );
+                    $address->setStreet2( $Street2[$i] );
+                    $address->setZip( $Zip[$i] );
+                    $address->setPlace( $Place[$i] );
+                    $address->setAddressType( $AddressTypeID[$i] );
+                    $address->setCountry( $Country[$i] );
+                    $address->store();
+                    
+                    $item->addAddress( $address );
+                }
             }
         }
 
