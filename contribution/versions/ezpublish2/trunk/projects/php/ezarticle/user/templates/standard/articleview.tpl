@@ -56,7 +56,7 @@
 <!-- END page_link_tpl -->
 
 <!-- BEGIN current_page_link_tpl -->
-| < {page_number} >
+| <span class="p"> &lt;&nbsp;{page_number}&nbsp;&gt; </span>
 <!-- END current_page_link_tpl -->
 
 
