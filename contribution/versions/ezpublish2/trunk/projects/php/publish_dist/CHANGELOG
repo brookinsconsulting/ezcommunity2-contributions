@@ -9,6 +9,7 @@ Changes from version 2.0 beta 2 to version 2.0 beta 3
 * Added alternative currency to eZ trade
 * Added VAT handling in eZ trade
 * Added images to link groups and links
+* Added user posting of articles
 * Latest article cache is properly deleted when articles change.
 * Article placement is kept when updating the article.
 * Cache files for article are properly deleted when a category is newed, updated or deleted.
@@ -30,15 +31,15 @@ Changes from version 2.0 beta 2 to version 2.0 beta 3
 * Unhadled bugs informs user of module they belong to.
 * Auto redirect URL hackers in bugs to default page.
 * Added banner ads in templates
-* eZ forum
-* Unified system, now all postings/editing are done through the same forms
-* Preview of postings
-* No duplicates possible (visually, they exist as temporary objects, temporaries might be duplicated in one case only).
-* Deletion of temporaries missing.
-* Probably no spamming possible.
-* Permission checks for all operations w/regards to posting
-* Added user side delete (no menu, yet).
-* Anonymous posting has been prepared.
+* eZ forum Added possibility to select HTML/non-html posting from the ini-file.
+* eZ forum Unified system, now all postings/editing are done through the same forms
+* eZ forum Preview of postings
+* eZ forum No duplicates possible (visually, they exist as temporary objects, temporaries might be duplicated in one case only).
+* eZ forum Deletion of temporaries missing.
+* eZ forum Probably no spamming possible.
+* eZ forum Permission checks for all operations w/regards to posting
+* eZ forum Added user side delete (no menu, yet).
+* eZ forum Anonymous posting has been prepared.
 * Cleaned up templates.
 * Documentation updated
 * Removed some status/type admin pages, added buttons in listings instead
