@@ -1,6 +1,6 @@
 <?
 /*!
-  $Id: linkedit.php,v 1.24 2000/10/10 11:41:59 ce-cvs Exp $
+  $Id: linkedit.php,v 1.25 2000/10/19 12:26:06 ce-cvs Exp $
 
   Author: Christoffer A. Elo <ce@ez.no>
     
@@ -18,6 +18,7 @@ include_once( "classes/INIFile.php" );
 $ini = new INIFile( "site.ini" );
 $DOC_ROOT = $ini->read_var( "eZLinkMain", "DocumentRoot" );
 $Language = $ini->read_var( "eZLinkMain", "Language" );
+$error = new INIFIle( "ezuser/admin/intl/" . $Language . "/useredit.php.ini", false );
 
 include_once( "../classes/eztemplate.php" );
 include_once( "../common/ezphputils.php" );
@@ -28,71 +29,112 @@ include( "ezlink/classes/ezhit.php" );
 
 require( "ezuser/admin/admincheck.php" );
 
-// Oppdatere
+// Update a link.
 if ( $Action == "update" )
 {
-    $updatelink = new eZLink();
-
-    $updatelink->get( $LID );
-
-    $updatelink->setTitle( $title );
-    $updatelink->setDescription( $description );
-    $updatelink->setLinkGroup( $linkgroup );
-    $updatelink->setKeyWords( $keywords );
-    $updatelink->setAccepted( $accepted );
-    $updatelink->setUrl( $url );
-    
-    $updatelink->update();
-
-    Header( "Location: /link/group/" . $linkgroup );
-}
-
-// Slette link
-if ( $Action == "delete" )
-{
-    $deletelink = new eZLink();
-    $deletelink->get( $LID );
-    $deletelink->delete();
-
-    if ( $LGID == incoming )
+    if ( eZPermission::checkPermission( $user, "eZLink", "LinkModify" ) )
     {
-        Header( "Location: /link/group/incoming" );
+        if ( $Title != "" &&
+        $Description != "" &&
+        $LinkGroupID != "" &&
+        $Keywords != "" &&
+        $Accepted != "" &&
+        $Url != "" )
+        {
+            $link = new eZLink();
+            $link->get( $LinkID );
+            
+            $link->setTitle( $Title );
+            $link->setDescription( $Description );
+            $link->setLinkGroupID( $LinkGroupID );
+            $link->setKeyWords( $Keywords );
+            $link->setAccepted( $Accepted );
+            $link->setUrl( $Url );
+            
+            $link->update();
+            
+            Header( "Location: /link/group/$LinkGroupID" );
+            exit();
+        }
+        else
+        {
+            $error_msg = $error->read_var( "strings", "error_missingdata" );
+        }
     }
     else
     {
-        Header( "Location: /link/group/" );
+        $error_msg = $error->read_var( "strings", "error_norights" );
     }
 }
 
-// Legge til link
+// Delete a link.
+if ( $Action == "delete" )
+{
+    if ( eZPermission::checkPermission( $user, "eZLink", "LinkDelete" ) )
+    {
+
+        $deletelink = new eZLink();
+        $deletelink->get( $LinkID );
+        $deletelink->delete();
+        
+        Header( "Location: /link/group/$LinkGroupID" );
+        exit();
+        
+    }
+    else
+    {
+        $error_msg = $error->read_var( "strings", "error_norights" );
+    }
+}
+
+
+// Insert a link.
 if ( $Action == "insert" )
 {
-    $newlink = new eZLink();
+    if ( eZPermission::checkPermission( $user, "eZLink", "LinkAdd") )
+    {
+        if ( $Title != "" &&
+        $Description != "" &&
+        $LinkGroupID != "" &&
+        $Keywords != "" &&
+        $Accepted != "" &&
+        $Url != "" )
+        {
+            $link = new eZLink();
+            
+            $link->setTitle( $Title );
+            $link->setDescription( $Description );
+            $link->setLinkGroupID( $LinkGroupID );
+            $link->setKeyWords( $Keywords );
+            $link->setAccepted( $Accepted );
+            $link->setUrl( $Url );
 
-    $newlink->setTitle( $title );
-    $newlink->setDescription( $description );
-    $newlink->setLinkGroup( $linkgroup );
-    $newlink->setKeyWords( $keywords );
-    $newlink->setAccepted( $accepted );
-    $newlink->setUrl( $url );
-
-
-    $ttile = "";
-    $turl = "";
-    $tkeywords = "";
-    $tdescription = "";
+            $ttile = "";
+            $turl = "";
+            $tkeywords = "";
+            $tdescription = "";
     
-    $message = "Legg til ny link";
-    $submit = "Legg til";
-//    print ( "akseptert: " . $accepted );
-    $newlink->store();
-
-    Header( "Location: index.php?page=../ezlink/admin/linklist.php" );
+            $message = "Legg til ny link";
+            $submit = "Legg til";
+            $link->store();
+            
+            Header( "Location: /link/group/$LinkGroupID" );
+            exit();
+        }
+        else
+        {
+            $error_msg = $error->read_var( "strings", "error_missingdata" );
+        }
+    }
+    else
+    {
+        $error_msg = $error->read_var( "strings", "error_norights" );
+    }
 }
 
 // Sette template filer.
 
-$t = new eZTemplate( $DOC_ROOT . "/admin/" . $ini->read_var( "eZLinkMain", "TemplateDir" ). "/linkedit/",
+$t = new eZTemplate( $DOC_ROOT . "/admin/" . $ini->read_var( "eZLinkMain", "TemplateDir" ),
 $DOC_ROOT . "/admin/" . "/intl", $Language, "linkedit.php" );
 $t->setAllStrings();
 
@@ -105,7 +147,7 @@ $t->set_file( array(
 $t->set_block( "link_edit", "link_group_tpl", "link_group" );
 
 $linkselect = new eZLinkGroup();
-$link_array = $linkselect->getAll();
+$linkGroupList = $linkselect->getAll();
 
 // Template variabler
 $message = "Legg til link";
@@ -121,15 +163,15 @@ if ( $Action == "edit" )
 {
 
     $editlink = new eZLink();
-    $editlink->get( $LID );
+    $editlink->get( $LinkID );
 
     $title = $editlink->Title;
 
-    $LGID = $editlink->linkGroup();
+    $LinkGroupID = $editlink->linkGroupID();
 
     $title = $editlink->title();
     $description = $editlink->description();
-    $linkgroup = $editlink->linkGroup();
+    $linkgroup = $editlink->linkGroupID();
     $keywords = $editlink->keyWords();
     $accepted = $editlink->accepted();
     $url = $editlink->url();
@@ -160,12 +202,12 @@ if ( $Action == "edit" )
 // Selector
 $link_select_dict = "";
 
-for ( $i=0; $i<count( $link_array ); $i++ )
+foreach( $linkGroupList as $linkGroupItem )
 {
-    $t->set_var("link_id", $link_array[ $i ][ "ID" ] );
-    $t->set_var("link_title", $link_array[ $i ][ "Title" ] );
+    $t->set_var("link_group_id", $linkGroupItem->id() );
+    $t->set_var("link_group_title", $linkGroupItem->title() );
 
-    if ( $LGID == $link_array[ $i ][ "ID" ] )
+    if ( $LinkGroupID == $linkGroupItem->id() )
     {
         $t->set_var( "is_selected", "selected" );
     }
@@ -174,7 +216,7 @@ for ( $i=0; $i<count( $link_array ); $i++ )
         $t->set_var( "is_selected", "" );
     }
 
-    $link_select_dict[ $link_array[ $i ][ "ID" ] ] = $i;
+    $link_select_dict[ $linkGroupItem->id() ] = $i;
 
     $t->parse( "link_group", "link_group_tpl", true );
 }
@@ -195,9 +237,10 @@ $t->set_var( "description", $tdescription );
 // $t->set_var( "accepted", $taccepted );
 
 
+$t->set_var( "error_msg", $error_msg );
 $t->set_var( "document_root", $DOC_ROOT );
 
-$t->set_var( "link_id", $LID );
+$t->set_var( "link_id", $LinkID );
 $t->pparse( "output", "link_edit" );
 
 ?>

@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: groupedit.php,v 1.22 2000/10/19 10:49:29 ce-cvs Exp $
+    $Id: groupedit.php,v 1.23 2000/10/19 12:26:06 ce-cvs Exp $
 
     Author: Bård Farstad <bf@ez.no>
     
@@ -17,14 +17,13 @@ include_once( "classes/INIFile.php" );
 $ini = new INIFile( "site.ini" );
 
 $DOC_ROOT = $ini->read_var( "eZLinkMain", "DocumentRoot" );
+$Language = $ini->read_var( "eZLinkMain", "Language" );
+$error = new INIFIle( "ezuser/admin/intl/" . $Language . "/useredit.php.ini", false );
 
 include_once( "classes/eztemplate.php" );
-
 include( "ezlink/classes/ezlinkgroup.php" );
 include( "ezlink/classes/ezlink.php" );
 include( "ezlink/classes/ezhit.php" );
-
-$Language = $ini->read_var( "eZLinkMain", "Language" );
 
 require( "ezuser/admin/admincheck.php" );
 
@@ -34,9 +33,8 @@ if ( $Action == "insert" )
     if ( eZPermission::checkPermission( $user, "eZLink", "GroupAdd" ) )
     {
         if ( $Title != "" &&
-        $ParentCategory != "" && )
+        $ParentCategory != "" )
         {
-
             $group = new eZLinkGroup();
             
             $group->setTitle( $Title );
@@ -57,15 +55,14 @@ if ( $Action == "insert" )
     }
 }
 
-// Slett
+// Delete a group.
 if ( $Action == "delete" )
 {
-    if ( eZPermission::checkPermission( $user, "eZLink", "GroupAdd" ) )
+    if ( eZPermission::checkPermission( $user, "eZLink", "GroupDelete" ) )
     {
-
-        $deletelinkgroup = new eZLinkGroup();
-        $deletelinkgroup->get( $LinkGroupID );
-        $deletelinkgroup->delete();
+        $group = new eZLinkGroup();
+        $group->get( $LinkGroupID );
+        $group->delete();
 
         Header( "Location: /link/group/" );
         exit();
@@ -76,18 +73,33 @@ if ( $Action == "delete" )
     }
 }
 
-// Oppdatere
+// Update a group.
 if ( $Action == "update" )
 {
-    $updatelinkgroup = new eZLinkGroup();
-    $updatelinkgroup->get ( $LinkGroupID );
-    $updatelinkgroup->setTitle ( $title );
-    $updatelinkgroup->update();
-    Header( "Location: /link/group/" );    
+    if ( eZPermission::checkPermission( $user, "eZLink", "GroupModify" ) )
+    {
+        if ( $Title != "" &&
+        $ParentCategory != "" )
+        {
+            $group = new eZLinkGroup();
+            $group->get ( $LinkGroupID );
+            $group->setTitle ( $Title );
+            $group->update();
+            Header( "Location: /link/group/" );
+            exit();
+        }
+        else
+        {
+            $error_msg = $error->read_var( "strings", "error_missingdata" );
+        }
+    }
+    else
+    {
+        $error_msg = $error->read_var( "strings", "error_norights" );
+    }
 }
 
-// Sette template filer
-$t = new eZTemplate( $DOC_ROOT . "/admin/" . $ini->read_var( "eZLinkMain", "TemplateDir" ). "/groupedit",
+$t = new eZTemplate( $DOC_ROOT . "/admin/" . $ini->read_var( "eZLinkMain", "TemplateDir" ),
 $DOC_ROOT . "/admin/" . "/intl/", $Language, "groupedit.php" );
 $t->setAllStrings();
 
@@ -98,13 +110,20 @@ $t->set_file( array(
 $t->set_block( "group_edit", "parent_category_tpl", "parent_category" );
 
 $groupselect = new eZLinkGroup();
-$grouplink_array = $groupselect->getAll( );
+$groupLinkList = $groupselect->getAll( );
 
+if ( $Action == "new" )
+{
     $message = "Legg til linkkategori";
     $submit = "Legg til";
     $action = "insert";
+}
+if ( $Action == "update" )
+{
+    $action = "update";
+}
 
-// Redigering av gruppe
+// Modifing a group.
 if ( $Action == "edit" )
 {
     $editlinkgroup = new eZLinkGroup();
@@ -122,13 +141,13 @@ if ( $Action == "edit" )
 
 // Selecter
 $group_select_dict = "";
-for ( $i=0; $i<count( $grouplink_array ); $i++ )
+foreach( $groupLinkList as $groupLinkItem )
 {
-    $t->set_var( "grouplink_id", $grouplink_array[ $i ][ "ID" ] );
-    $t->set_var( "grouplink_title", $grouplink_array[ $i ][ "Title" ] );
-    $t->set_var( "grouplink_parent", $grouplink_array[ $i ][ "Parent" ] );
+    $t->set_var( "grouplink_id", $groupLinkItem->id() );
+    $t->set_var( "grouplink_title", $groupLinkItem->title() );
+    $t->set_var( "grouplink_parent", $groupLinkItem->parent() );
 
-    if ( $GroupLink == $grouplink_array[ $i ][ "ID" ] )
+    if ( $GroupLink == $groupLinkItem->id() )
     {
         $t->set_var( "is_selected", "selected" );
     }
@@ -137,7 +156,7 @@ for ( $i=0; $i<count( $grouplink_array ); $i++ )
         $t->set_var( "is_selected", "" );
     }
 
-    $group_select_dict[ $grouplink_array[$i][ "ID" ] ] = $i;
+    $group_select_dict[ $groupLinkItem->id() ] = $i;
 
     $t->parse( "parent_category", "parent_category_tpl", true );
 }
@@ -147,6 +166,7 @@ $t->set_var( "action_value", $action );
 $t->set_var( "message", $message );
 
 $t->set_var( "title", $ttitle );
+$t->set_var( "error_msg", $error_msg );
 
 $t->set_var( "document_root", $DOC_ROOT );
 

@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: linklist.php,v 1.27 2000/10/19 10:49:29 ce-cvs Exp $
+    $Id: linklist.php,v 1.28 2000/10/19 12:26:06 ce-cvs Exp $
 
     Author: Bård Farstad <bf@ez.no>
     
@@ -121,16 +121,13 @@ else
     $linkList = $link->getByGroup( $LinkGroupID );
 } 
 
+$i=0;
 foreach( $linkList as $linkItem )
 {
-    if ( ( ( $i / 2 ) % 2 ) == 0 )
-    {
-        $t->set_var( "bg_color", "#f0f0f0" );
-    }
+    if ( ( $i %2 ) == 0 )
+        $t->set_var( "td_class", "bglight" );
     else
-    {
-        $t->set_var( "bg_color", "#dcdcdc" );
-    }
+        $t->set_var( "td_class", "bgdark" );
 
     $t->set_var( "link_id", $linkItem->id() );
     $t->set_var( "link_title", $linkItem->title() );
@@ -149,7 +146,9 @@ foreach( $linkList as $linkItem )
     $t->set_var( "document_root", $DOC_ROOT );
 
     $t->parse( "link_list", "link_list_tpl", true );
+    $i++;
 }
+
 if ( !$linkList )
 {
        $noitem = new INIFIle( "ezlink/admin/intl/" . $Language . "/grouplist.php.ini", false );

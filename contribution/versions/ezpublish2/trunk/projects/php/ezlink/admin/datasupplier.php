@@ -26,6 +26,7 @@ switch ( $url_array[2] )
     {
         if ( $url_array[3] == "new" )
         {
+            $Action = "new";
             include( "ezlink/admin/linkedit.php" );
         }
         else if ( $url_array[3] == "insert" )
@@ -60,6 +61,7 @@ switch ( $url_array[2] )
     {
         if ( $url_array[3] == "new" )
         {
+            $Action = "new";
             include( "ezlink/admin/groupedit.php" );
         }
         else if ( $url_array[3] == "insert" )
