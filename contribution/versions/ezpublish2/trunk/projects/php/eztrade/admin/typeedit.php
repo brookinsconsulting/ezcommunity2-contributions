@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: typeedit.php,v 1.6 2001/04/04 12:03:41 ce Exp $
+// $Id: typeedit.php,v 1.7 2001/04/04 13:14:51 th Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <20-Dec-2000 18:24:06 bf>
@@ -222,7 +222,15 @@ if ( $Action == "Edit" )
             $t->parse( "no_item_move_down", "no_item_move_down_tpl" );
         }
         
-        $t->set_var( "counter", $i );
+		if ( ( $i % 2 ) == 0 )
+	    {
+	        $t->set_var( "td_class", "bglight" );
+	    }
+	    else
+	    {
+	        $t->set_var( "td_class", "bgdark" );
+	    }
+	    $t->set_var( "counter", $i );
         $t->parse( "attribute", "attribute_tpl", true );
         $i++;
     }

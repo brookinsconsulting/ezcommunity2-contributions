@@ -14,18 +14,29 @@
 
 
 <!-- BEGIN attribute_list_tpl -->
-<table width="100%" cellspacing="0" cellpadding="2" border="0">
+<table width="100%" cellspacing="0" cellpadding="4" border="0">
 <tr>
 	<th>
 	{intl-attribute_name}:
 	</th>
+	<th>
+	{intl-variable}:
+	</th>
+	<th>
+	{intl-header}:
+	</th>
+	<th colspan="4">&nbsp;</th>
 </tr>
 <!-- BEGIN attribute_tpl -->
-<tr>
-	<td>
+<tr class="{td_class}">
+	<td width="46%">
 	<input type="hidden" name="AttributeID[]" value="{attribute_id}" />
 	<input type="text" name="AttributeName[]" value="{attribute_name}" />
+	</td>
+	<td width="25%">
 	<input {is_1_selected} type="radio" value="1" name="AttributeType[{counter}]" />
+	</td>
+	<td width="25%">
 	<input {is_2_selected} type="radio" value="2" name="AttributeType[{counter}]" />
 	</td>
 <!-- BEGIN item_move_down_tpl -->
