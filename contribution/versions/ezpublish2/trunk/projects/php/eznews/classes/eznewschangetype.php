@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: eznewschangetype.php,v 1.1 2000/09/14 10:29:28 pkej-cvs Exp $
+// $Id: eznewschangetype.php,v 1.2 2000/09/14 10:36:51 pkej-cvs Exp $
 //
 // Definition of eZNewsChangeType class
 //
@@ -100,7 +100,7 @@ class eZNewsChangeType
             
             if ( count( $changetype_array ) > 1 )
             {
-                die( "Error: Chamge type's with the same ID was found in the database. This shouldent happen." );
+                die( "Error: Change type's with the same ID was found in the database. This shouldn't happen." );
             }
             else if( count( $changetype_array ) == 1 )
             {
@@ -115,6 +115,8 @@ class eZNewsChangeType
             $this->State_ = "Dirty";
         }
     }
+
+
 
     /*!
       Returns all the change types found in the database.
@@ -158,7 +160,8 @@ class eZNewsChangeType
         return $returnValue;
     }
 
-    
+
+
     /*!
       Returns the name of the change type.
     */
@@ -169,7 +172,9 @@ class eZNewsChangeType
         
         return $this->Name;
     }
-    
+
+
+
     /*!
       Sets the name of the change type.
     */
@@ -180,7 +185,9 @@ class eZNewsChangeType
         
         $this->Name = $value;
     }
-    
+
+
+
     /*!
       Private function.
       Open the database for read and write. Gets all the database information from site.ini.
