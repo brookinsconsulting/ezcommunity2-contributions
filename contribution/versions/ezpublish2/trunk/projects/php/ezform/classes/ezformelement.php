@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezformelement.php,v 1.25 2002/01/03 07:58:53 jhe Exp $
+// $Id: ezformelement.php,v 1.26 2002/01/03 08:51:33 jhe Exp $
 //
 // ezformelement class
 //
@@ -434,7 +434,7 @@ class eZFormElement
     }
 
 
-    function getConditionMaxByPage( $min=0, $max=0 )
+    function getConditionMaxByPage( $min = 0, $max = 0 )
     {
         $db =& eZDB::globalDatabase();
         $db->begin();
