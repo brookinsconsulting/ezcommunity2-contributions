@@ -2,7 +2,7 @@
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
 	<td valign="bottom">
-	<h1>{intl-head_line} - {current_category_name}</h1>
+	<h1>{intl-head_line} <!-- {current_category_name} --></h1>
 	</td>
 	<td align="right">
 	<form action="/article/search/" method="post">
