@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezproduct.php,v 1.103 2001/09/26 11:12:20 pkej Exp $
+// $Id: ezproduct.php,v 1.104 2001/09/27 07:53:30 ce Exp $
 //
 // Definition of eZProduct class
 //
@@ -155,10 +155,10 @@ class eZProduct
                                   IncludesVAT )
                                   VALUES
                                   ( '$nextID',
-		                            '$this->Name',
+		                            '$name',
                                     '$contents',
-                                    '$this->Keywords',
-                                    '$this->ProductNumber',
+                                    '$keywords',
+                                    '$productNumber',
                                      $price,
                                     '$showPrice',
                                     '$showProduct',
@@ -178,10 +178,10 @@ class eZProduct
         else
         {
             $res = $db->query( "UPDATE eZTrade_Product SET
-		                         Name='$this->Name',
-                                 Contents='$this->Contents',
-                                 Keywords='$this->Keywords',
-                                 ProductNumber='$this->ProductNumber',
+		                         Name='$name',
+                                 Contents='$contents',
+                                 Keywords='$keywords',
+                                 ProductNumber='$productNumber',
                                  Price=$price,
                                  ShowPrice='$showPrice',
                                  ShowProduct='$showProduct',

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: voucherinformation.php,v 1.7 2001/09/21 09:53:02 ce Exp $
+// $Id: voucherinformation.php,v 1.8 2001/09/27 07:53:31 ce Exp $
 //
 // Created on: <06-Aug-2001 13:02:18 ce>
 //
@@ -56,6 +56,8 @@ $t->set_block( "voucher_tpl", "smail_tpl", "smail" );
 setType( $PriceRange, "integer" );
 
 $t->set_var( "email_var", "" );
+$t->set_var( "to_name", "" );
+$t->set_var( "from_name", "" );
 $t->set_var( "smail_var", "" );
 $t->set_var( "email_text", "" );
 $t->set_var( "smail_text", "" );
@@ -66,6 +68,8 @@ $t->set_var( "street2_value", "" );
 $t->set_var( "zip_value", "" );
 $t->set_var( "place_value", "" );
 $t->set_var( "country_name", "" );
+$t->set_var( "smail", "" );
+$t->set_var( "email", "" );
 
 $user =& eZUser::currentUser();
 
@@ -95,6 +99,8 @@ if ( $product && isSet( $OK ) )
     }
 
     $voucherInfo->setMailMethod( $MailMethod );
+    $voucherInfo->setFromName( $FromName );
+    $voucherInfo->setToName( $ToName );
     
     $voucherInfo->setDescription( $Description );
 

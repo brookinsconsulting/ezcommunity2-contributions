@@ -276,7 +276,7 @@
 	<!-- BEGIN mail_method_tpl -->
 	<td>
 	<p class="boxtext">{intl-mail_method}:</p>
-	{intl-email}: <input type="radio" value="1" name="MailMethod" />&nbsp;
+	{intl-email}: <input type="radio" value="1" name="MailMethod" checked />&nbsp;
 	{intl-smail}: <input type="radio" value="2" name="MailMethod" />
 	</td>
 	<!-- END mail_method_tpl -->
@@ -298,6 +298,12 @@
 
 <input class="okbutton" type="submit" name="WishList" value="{intl-wishlist}" />
 <!-- END add_to_cart_tpl -->
+
+<!-- BEGIN voucher_buttons_tpl -->
+<hr noshade="noshade" size="4" />
+<input class="okbutton" type="submit" name="Voucher" value="{intl-next}" />
+
+<!-- END voucher_buttons_tpl -->
 
 <br /><br />
 

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: productview.php,v 1.67 2001/09/21 09:58:05 bf Exp $
+// $Id: productview.php,v 1.68 2001/09/27 07:53:30 ce Exp $
 //
 // Created on: <24-Sep-2000 12:20:32 bf>
 //
@@ -126,6 +126,7 @@ $t->set_block( "alternative_currency_list_tpl", "alternative_currency_tpl", "alt
 
 $t->set_block( "product_view_tpl", "quantity_item_tpl", "quantity_item" );
 $t->set_block( "product_view_tpl", "add_to_cart_tpl", "add_to_cart" );
+$t->set_block( "product_view_tpl", "voucher_buttons_tpl", "voucher_buttons" );
 $t->set_block( "product_view_tpl", "path_tpl", "path" );
 $t->set_block( "product_view_tpl", "image_list_tpl", "image_list" );
 
@@ -232,10 +233,12 @@ $t->set_var( "description_text", $product->description() );
 
 if ( $product->productType() == 2 )
 {
+    $useVoucher = true;
     $t->set_var( "action_url", "voucherinformation" );
 }
 else
 {
+    $useVoucher = false;
     $t->set_var( "action_url", "cart/add" );
 }
 
@@ -663,8 +666,10 @@ else
     }
 }
 
-if ( $PurchaseProduct and !$product->discontinued() and $can_checkout )
+if ( ( $PurchaseProduct and !$product->discontinued() and $can_checkout ) and !$useVoucher )
     $t->parse( "add_to_cart", "add_to_cart_tpl" );
+if ( ( $PurchaseProduct and !$product->discontinued() and $can_checkout ) and $useVoucher )
+    $t->parse( "voucher_buttons", "voucher_buttons_tpl" );
 
 if ( $PrintableVersion == "enabled" )
 {

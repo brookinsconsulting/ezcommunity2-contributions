@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezvoucherinformation.php,v 1.1 2001/09/21 09:59:05 ce Exp $
+// $Id: ezvoucherinformation.php,v 1.2 2001/09/27 07:53:30 ce Exp $
 //
 // eZVoucherInformation class
 //
@@ -79,17 +79,18 @@ class eZVoucherInformation
         $db =& eZDB::globalDatabase();
         $db->begin();
         
-        $description =& addslashes( $this->Description );
-        
+        $description =& $db->escapeString( $this->Description );
+        $toName =& $db->escapeString( $this->ToName );
+        $fromName =& $db->escapeString( $this->FromName );
+
         if ( !isset( $this->ID ) )
         {
             $db->lock( "eZTrade_VoucherInformation" );
             $nextID = $db->nextID( "eZTrade_VoucherInformation", "ID" );            
             $timeStamp =& eZDateTime::timeStamp( true );
-            $password = md5( $this->Password );
 
             $res = $db->query( "INSERT INTO eZTrade_VoucherInformation
-                      ( ID, VoucherID, OnlineID, AddressID, Description, PreOrderID, MailMethod, Price )
+                      ( ID, VoucherID, OnlineID, AddressID, Description, PreOrderID, MailMethod, FromName, ToName, Price )
                       VALUES
                       ( '$nextID',
                         '$this->VoucherID',
@@ -98,6 +99,8 @@ class eZVoucherInformation
                         '$description',
                         '$this->PreOrderID',
                         '$this->MailMethod',
+                        '$fromName',
+                        '$toName',
                         '$this->Price'
                          )
                      " );
@@ -110,9 +113,11 @@ class eZVoucherInformation
                                      VoucherID='$this->VoucherID',
                                      OnlineID='$this->OnlineID',
                                      AddressID='$this->AddressID',
-                                     Description='$this->Description',
+                                     Description='$description',
                                      PreOrderID='$this->PreOrderID',
                                      MailMethod='$this->MailMethod',
+                                     FromName='$toName',
+                                     ToName='$fromName',
                                      Price='$this->Price'
                                      WHERE ID='$this->ID'" );
         }
@@ -177,14 +182,15 @@ class eZVoucherInformation
     */
     function fill( &$value )
     {
-        $this->ID =& $value[ "ID" ];
-        $this->Description =& $value[ "Description" ];
-        $this->OnlineID =& $value[ "OnlineID" ];
-        $this->AddressID =& $value[ "AddressID" ];
-        $this->VoucherID =& $value[ "VoucherID" ];
-        $this->PreOrderID =& $value[ "PreOrderID" ];
-        $this->MailMethod =& $value[ "MailMethod" ];
-        $this->Price =& $value[ "Price" ];
+        $db =& eZDB::globalDatabase();
+        $this->ID =& $value[$db->fieldName( "ID" )];
+        $this->Description =& $value[$db->fieldName( "Description" )];
+        $this->OnlineID =& $value[$db->fieldName( "OnlineID" )];
+        $this->AddressID =& $value[$db->fieldName( "AddressID" )];
+        $this->VoucherID =& $value[$db->fieldName( "VoucherID" )];
+        $this->PreOrderID =& $value[$db->fieldName( "PreOrderID" )];
+        $this->MailMethod =& $value[$db->fieldName( "MailMethod" )];
+        $this->Price =& $value[$db->fieldName( "Price" )];
     }
 
     /*!
@@ -199,21 +205,11 @@ class eZVoucherInformation
         $returnArray = array();
         $quizArray = array();
 
-        if ( $limit == false )
-        {
-            $db->array_query( $quizArray, "SELECT ID
+        $db->array_query( $quizArray, "SELECT ID
                                            FROM eZTrade_VoucherInformation
-                                           ORDER BY StartDate DESC
-                                           " );
-
-        }
-        else
-        {
-            $db->array_query( $quizArray, "SELECT ID
-                                           FROM eZTrade_VoucherInformation
-                                           ORDER BY StartDate DESC
-                                           LIMIT $offset, $limit" );
-        }
+                                           ORDER BY StartDate DESC",
+        array( "Limit" => $limit,
+               "Offset" => $offset  ) );
 
         for ( $i=0; $i < count($quizArray); $i++ )
         {
@@ -270,6 +266,22 @@ class eZVoucherInformation
     }
 
     /*!
+      Returns the to name of the voucher smail.
+    */
+    function &toName()
+    {
+        return $this->ToName;
+    }
+
+    /*!
+      Returns the from name of the voucher smail.
+    */
+    function &fromName()
+    {
+        return $this->FromName;
+    }
+
+    /*!
       Returns the correct price of the product based on the logged in user, and the
       VAT status and use.
     */
@@ -322,6 +334,22 @@ class eZVoucherInformation
     function setPrice( &$value )
     {
         $this->Price = $value;
+    }
+    
+    /*!
+      Sets the to name.
+    */
+    function setToName( &$value )
+    {
+        $this->ToName = $value;
+    }
+
+    /*!
+      Sets the from name.
+    */
+    function setFromName( &$value )
+    {
+        $this->FromName = $value;
     }
 
     /*!
@@ -469,7 +497,8 @@ class eZVoucherInformation
         $mail = new eZMail();
         
         $t->set_var( "description", $this->description() );
-        $t->set_var( "from_name", $fromUser->firstName() . " " . $fromUser->lastName() );
+        $t->set_var( "from_name", $this->fromName() );
+        $t->set_var( "to_name", $this->toName() );
         $t->set_var( "key_number", $voucher->keyNumber() );
         
         $mailAddress = $this->online();
@@ -488,6 +517,8 @@ class eZVoucherInformation
     var $VoucherID;
     var $MailMethod;
     var $Price;
+    var $ToName;
+    var $FromName;
 }
 
 ?>

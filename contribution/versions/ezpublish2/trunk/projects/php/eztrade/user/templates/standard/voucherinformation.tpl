@@ -9,11 +9,27 @@
 
 <!-- BEGIN email_tpl -->
 <tr>
-<th>{intl-email}</th>
+<th>{intl-to_name}</th>
+</tr>
+<tr>
+      <td>
+      <input type="text" name="ToName" value="{to_name}" />
+      </td>
+</tr>
+<tr>
+<th>{intl-to_email}</th>
 </tr>
 <tr>
       <td>
       <input type="text" name="Email" value="{email_var}" />
+      </td>
+</tr>
+<tr>
+<th>{intl-from_name}</th>
+</tr>
+<tr>
+      <td>
+      <input type="text" name="FromName" value="{from_name}" />
       </td>
 </tr>
 <th>{intl-text}</th>
