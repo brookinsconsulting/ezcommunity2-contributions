@@ -26,12 +26,24 @@
 
 <hr noshade="noshade" size="4" />
 
+<form action="{www_dir}{index}/form/results/delete/{form_id}/" method="post">
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
 <!-- BEGIN result_tpl -->
 <tr>
         <td class="{td_class}">
 	<a href="{www_dir}{index}/form/results/{form_id}/{result_id}/">{title}</a>
         </td>
+<!-- BEGIN edit_fields_tpl -->
+	<td width="1%" class="{td_class}">
+	<a href="{www_dir}{index}/form/results/edit/{form_id}/{result_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezac{result_id}-red','','{www_dir}/admin/images/{site_style}/redigerminimrk.gif',1)"><img name="ezac{result_id}-red" border="0" src="{www_dir}/admin/images/{site_style}/redigermini.gif" width="16" height="16" align="top"></a>
+	</td>
+	<td class="{td_class}" width="1%" align="center">
+	<input type="checkbox" name="DeleteArrayID[]" value="{result_id}" />
+	</td>
+<!-- END edit_fields_tpl -->
 </tr>
 <!-- END result_tpl -->
 </table>
+<hr noshade="noshade" size="4" />
+<input class="stdbutton" type="submit" name="Delete" value="{intl-delete}" />
+</form>

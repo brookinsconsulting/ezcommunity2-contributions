@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: results.php,v 1.3 2002/01/15 09:15:40 jhe Exp $
+// $Id: results.php,v 1.4 2002/01/17 08:19:33 jhe Exp $
 //
 // Created on: <10-Jan-2002 08:58:22 jhe>
 //
@@ -38,6 +38,7 @@ $t->set_file( "form_results_tpl", "results.tpl" );
 
 $t->set_block( "form_results_tpl", "element_tpl", "element" );
 $t->set_block( "form_results_tpl", "result_tpl", "result" );
+$t->set_block( "result_tpl", "edit_fields_tpl", "edit_fields" );
 
 $form = new eZForm( $FormID );
 $elements = $form->formElements();
@@ -45,7 +46,12 @@ $elementList = array();
 
 $t->set_var( "form_name", $form->name() );
 $t->set_var( "form_id", $FormID );
+$t->set_var( "site_style", $SiteStyle );
+
 $t->set_var( "result", "" );
+$t->set_var( "edit_fields", "" );
+
+$user =& eZUser::currentUser();
 
 foreach ( $elements as $element )
 {
@@ -156,11 +162,20 @@ else
 
 $i = 0;
 
+if ( $user && $user->hasRootAccess() )
+    $rootAccess = true;
+else
+    $rootAccess = false;
+
 foreach ( $results as $result )
 {
     $t->set_var( "td_class", $i % 2 == 0 ? "bglight" : "bgdark" );
     $t->set_var( "result_id", $result );
     $t->set_var( "title", eZFormElement::getResult( $result, $form->titleField() ) );
+
+    if ( $rootAccess )
+        $t->parse( "edit_fields", "edit_fields_tpl" );
+    
     $t->parse( "result", "result_tpl", true );
     $i++;
 }

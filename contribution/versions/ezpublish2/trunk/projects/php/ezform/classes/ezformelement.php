@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezformelement.php,v 1.33 2002/01/15 09:15:40 jhe Exp $
+// $Id: ezformelement.php,v 1.34 2002/01/17 08:19:33 jhe Exp $
 //
 // ezformelement class
 //
@@ -87,7 +87,7 @@ class eZFormElement
                          ( ID, Name, Required, Size, Break, ElementTypeID, Hide )
                          VALUES
                          ( '$nextID', '$name', '$required', '$size', '$this->Break', '$elementTypeID', '$hide' )" );
-
+            $db->unlock();
 			$this->ID = $nextID;
 
 
@@ -533,6 +533,7 @@ class eZFormElement
                          ( ID, ElementID, PageID, Min, Max )
                          VALUES
                          ( '$nextID', '$this->ID', '$page_id', '$min', '$max' )" );
+        $db->unlock();
         eZDB::finish( $res, $db );               
     }
 
@@ -554,7 +555,8 @@ class eZFormElement
                          ( ID, ElementID, FixedValueID )
                          VALUES
                          ( '$nextID', '$this->ID', '$value' )" );
-        
+
+        $db->unlock();
         eZDB::finish( $res, $db );
         return true;
     }
@@ -765,37 +767,44 @@ class eZFormElement
             return false;
     }
 
-    function setResult( $value, $hash = -1 )
+    function setResult( $value, $hash = -1, $result = false )
     {
         $session =& eZSession::globalSession();
-        if ( $hash == -1 )
+        if ( $hash == -1 && !$result )
             $hash = $session->hash();
         $res = array();
-        $result = array();
         $db =& eZDB::globalDatabase();
         $db->begin();
-        $db->array_query( $result, "SELECT ID FROM eZForm_FormResults
-                                     WHERE UserHash='$hash'" );
-        if ( count( $result ) == 1 )
+        if ( $result )
         {
-            $resultID = $result[0][$db->fieldName( "ID" )];
+            $resultID = $hash;
         }
         else
         {
-            $db->lock( "eZForm_FormResults" );
-            $resultID = $db->nextID( "eZForm_FormResults", "ID" );
-            $res[] = $db->query( "INSERT INTO eZForm_FormResults (ID, UserHash, IsRegistered)
-                                  VALUES
-                                  ('$resultID', '$hash', '0')" );
-            $db->unlock();
+            $resultArray = array();
+            $db->array_query( $resultArray, "SELECT ID FROM eZForm_FormResults
+                                        WHERE UserHash='$hash'" );
+            if ( count( $resultArray ) == 1 )
+            {
+                $resultID = $resultArray[0][$db->fieldName( "ID" )];
+            }
+            else
+            {
+                $db->lock( "eZForm_FormResults" );
+                $resultID = $db->nextID( "eZForm_FormResults", "ID" );
+                $res[] = $db->query( "INSERT INTO eZForm_FormResults (ID, UserHash, IsRegistered)
+                                      VALUES
+                                      ('$resultID', '$hash', '0')" );
+                $db->unlock();
+            }
         }
+
         $resultArray = array();
         $db->array_query( $resultArray, "SELECT ID FROM eZForm_FormElementResult
                           WHERE ElementID='$this->ID' AND ResultID='$resultID'" );
-
         if ( count( $resultArray ) == 0 )
         {
-            $db->lock( "eZForm_FormElementResult", "ID" );
+            $db->lock( "eZForm_FormElementResult" );
             $nextID = $db->nextID( "eZForm_FormElementResult", "ID" );
             $res[] = $db->query( "INSERT INTO eZForm_FormElementResult
                                   (ID, ElementID, ResultID, Result)
@@ -824,4 +833,3 @@ class eZFormElement
 
 
 ?>
-                  

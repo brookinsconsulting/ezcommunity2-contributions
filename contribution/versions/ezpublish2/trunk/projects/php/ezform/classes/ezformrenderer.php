@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezformrenderer.php,v 1.49 2002/01/14 17:39:36 jhe Exp $
+// $Id: ezformrenderer.php,v 1.50 2002/01/17 08:19:33 jhe Exp $
 //
 // eZFormRenderer class
 //
@@ -104,6 +104,7 @@ class eZFormRenderer
         $this->Template->set_block( "form_list_tpl", "form_item_tpl", "form_item" );
         $this->Template->set_block( "form_item_tpl", "break_tpl", "break" );
         $this->Template->set_block( "form_list_tpl", "form_start_tag_tpl", "form_start_tag" );
+        $this->Template->set_block( "form_list_tpl", "form_edit_start_tag_tpl", "form_edit_start_tag" );
         $this->Template->set_block( "form_list_tpl", "form_end_tag_tpl", "form_end_tag" );
         $this->Template->set_block( "form_list_tpl", "form_buttons_tpl", "form_buttons" );
         $this->Template->set_block( "form_buttons_tpl", "previous_button_tpl", "previous_button" );
@@ -117,6 +118,7 @@ class eZFormRenderer
         $this->Template->set_var( "error_list", "" );
         $this->Template->set_var( "error_item", "" );
         $this->Template->set_var( "form_start_tag", "" );
+        $this->Template->set_var( "form_edit_start_tag", "" );
         $this->Template->set_var( "form_sender", "" );
         $this->Template->set_var( "form_end_tag", "" );
         $this->Template->set_var( "form_buttons", "" );
@@ -160,7 +162,7 @@ class eZFormRenderer
     /*!
         Renders the element which are given as an argument based on its type.
      */
-    function &renderElement( $element, $setSize = true, $header = true, $result = false )
+    function &renderElement( $element, $setSize = true, $header = true, $result = false, $resultID )
     {
         $output = "";
         if ( get_class( $element ) == "ezformelement" )
@@ -200,9 +202,9 @@ class eZFormRenderer
 
             if ( !( isSet( $elementValue ) && $elementValue != "" ) )
             {
-                if ( $result )
+                if ( $resultID )
                 {
-                    $elementValue = $element->result( -1, $result );
+                    $elementValue = $element->result( -1, $resultID );
                     if ( $elementValue == "" )
                         $elementValue = "&nbsp;";
                 }
@@ -317,7 +319,7 @@ class eZFormRenderer
     /*!
       Renders form for viewing of results
     */
-    function &renderResult( $resultID )
+    function &renderResult( $resultID, $result = true )
     {
         $elements = $this->Form->formElements();
         $elementCounter = 0;
@@ -401,7 +403,7 @@ class eZFormRenderer
                             else
                                 $this->Template->set_var( "colspan", "" );
                             
-                            $output = $this->renderElement( $tableElements[$i], true, false, $resultID );
+                            $output = $this->renderElement( $tableElements[$i], true, false, $result, $resultID );
                             
                             $this->Template->set_var( "element", $output );
                             
@@ -433,7 +435,7 @@ class eZFormRenderer
                 }
                 else
                 {
-                    $output = $this->renderElement( $element, true, true, $resultID );
+                    $output = $this->renderElement( $element, true, true, $result, $resultID );
                     
                     $this->Template->set_var( "element", $output );
                     
@@ -454,6 +456,16 @@ class eZFormRenderer
                 }
             }
         }
+
+        if ( !$result )
+        {
+            $this->Template->set_var( "result_id", $resultID );
+            $this->Template->parse( "form_edit_start_tag", "form_edit_start_tag_tpl" );
+            $this->Template->parse( "form_end_tag", "form_end_tag_tpl" );
+            $this->Template->parse( "ok_button", "ok_button_tpl" );
+            $this->Template->parse( "form_buttons", "form_buttons_tpl" );
+        }
+        
         $output = $this->Template->parse( $target, "form_list_tpl" );
         
         return $output;
@@ -462,7 +474,7 @@ class eZFormRenderer
     /*!
         Renders a form
      */
-    function &renderForm( $form = "", $addFormTags = true, $addButtons = true )
+    function &renderForm( $form = "", $addFormTags = true, $addButtons = true, $resultID = false )
     {
         global $pageList;
         $output = "";
@@ -569,7 +581,7 @@ class eZFormRenderer
                             else
                                 $this->Template->set_var( "colspan", "" );
                             
-                            $output = $this->renderElement( $tableElements[$i], true, false );
+                            $output = $this->renderElement( $tableElements[$i], true, false, false, $resultID );
                             
                             $this->Template->set_var( "element", $output );
                             
@@ -602,7 +614,7 @@ class eZFormRenderer
                 }
                 else
                 {
-                    $output = $this->renderElement( $element );
+                    $output = $this->renderElement( $element, true, true, false, $resultID );
                     
                     $this->Template->set_var( "element", $output );
 
@@ -670,12 +682,16 @@ class eZFormRenderer
         return $output;
     }
 
-    function storePage( $page )
+    function storePage( $page, $result = false )
     {
         $page = new eZFormPage( $page );
         $elements = $page->pageElements();
+        print "<pre>";
+        $i = 0;
         foreach ( $elements as $element )
         {
+            $i++;
+            print_r( $element );
             $elementType = $element->elementType();
             if ( $elementType->name() == "table_item" )
             {
@@ -687,7 +703,12 @@ class eZFormRenderer
                     global $$elementName;
                     $value = $$elementName;
                     if ( isSet( $value ) && $value != "" )
-                        $tableElement->setResult( $value );
+                    {
+                        if ( $result )
+                            $tableElement->setResult( $value, $result, true );
+                        else
+                            $tableElement->setResult( $value );
+                    }
                 }
             }
             else
@@ -709,8 +730,15 @@ class eZFormRenderer
                         $i++;
                     }
                 }
-                if ( isSet( $value ) && $value != "" )
-                    $element->setResult( $value );
+                if ( isSet( $value ) )
+                {
+                    if ( $result )
+                    {
+                        $element->setResult( $value, $result, true );
+                    }
+                    else
+                        $element->setResult( $value );
+                }
             }
         }
     }

@@ -122,6 +122,10 @@
 <form action="{www_dir}{index}/form/form/process/{form_id}/{section_id}/" method="post">
 <h2>{form_name}</h2>
 <!-- END form_start_tag_tpl -->
+<!-- BEGIN form_edit_start_tag_tpl -->
+<form action="{www_dir}{index}/form/results/store/{form_id}/{result_id}/" method="post">
+<h2>{form_name}</h2>
+<!-- END form_edit_start_tag_tpl -->
 <!-- BEGIN form_instructions_tpl -->
 <a href="{www_dir}{index}{form_instruction_page}">{form_instruction_page_name}</a>
 <!-- END form_instructions_tpl -->

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezform.php,v 1.21 2002/01/14 13:37:44 jhe Exp $
+// $Id: ezform.php,v 1.22 2002/01/17 08:19:33 jhe Exp $
 //
 // ezform class
 //
@@ -468,6 +468,19 @@ class eZForm
         $db->query_single( $pages, "SELECT Count(ID) as Count FROM eZForm_FormPage WHERE FormID='$this->ID'" );
         return $pages[$db->fieldName( "Count" )];
     }
+
+    function pageList( $as_object = true )
+    {
+        $pages = array();
+        $returnArray = array();
+        $db =& eZDB::globalDatabase();
+        $db->array_query( $pages, "SELECT * FROM eZForm_FormPage WHERE FormID='$this->ID'" );
+        foreach ( $pages as $page )
+        {
+            $returnArray[] = $as_object ? new eZFormPage( $page ) : $page[$db->fieldName( "ID" )];
+        }
+        return $returnArray;
+    }
     
     /*!
       Returns every form element of this form.
@@ -492,6 +505,10 @@ class eZForm
         return $returnArray;
     }
 
+    function deleteResults()
+    {
+        $db =& eZDB::globalDatabase();
+    }
 
     function &formPage( $page = -1, $as_object = true )
     {

@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: datasupplier.php,v 1.8 2002/01/11 09:13:59 jhe Exp $
+// $Id: datasupplier.php,v 1.9 2002/01/17 08:19:33 jhe Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -161,11 +161,11 @@ switch ( $eZFormOperation )
 
     case "results":
     {
-        $FormID = $url_array[3];
-        if ( is_numeric( $FormID ) )
+        if ( $url_array[3] > 0 )
         {
+            $FormID = $url_array[3];
             $ResultID = $url_array[4];
-            if ( is_numeric( $ResultID ) )
+            if ( $ResultID > 0 )
             {
                 include( "ezform/user/viewresult.php" );
             }
@@ -184,7 +184,17 @@ switch ( $eZFormOperation )
             }
             else
             {
-                include( "ezform/user/formlist.php" );
+                $Action = $url_array[3];
+                $FormID = $url_array[4];
+                $ResultID = $url_array[5];
+                if ( $Action == "edit" || $Action == "delete" || $Action == "store" )
+                {
+                    include( "ezform/user/formedit.php" );
+                }
+                else
+                {
+                    include( "ezform/user/formlist.php" );
+                }
             }
         }
     }
