@@ -13,6 +13,12 @@ $GlobalSectionID = $ini->read_var( "site", "DefaultSection" );
 
 switch ( $url_array[2] )
 {
+    case "frontpage":
+    {
+        include( "ezarticle/user/frontpage.php" );        
+    }
+    break;
+    
     case "author":
     {
         $Action = $url_array[3];
