@@ -40,7 +40,7 @@ Kontakt person type:
 {person_type}
 </select>
 <br>
-Ansatt i firma:
+Ansatt i firma:'
 <br>
 <select name="CompanyID">
 {company_type}
@@ -82,8 +82,7 @@ Postnummer:<br>
 <input type="hidden" name="AddressAction" value="{address_action}">
 <input type="hidden" name="PID" value="{person_id}">
 <input type="hidden" name="AddressID" value="{address_id}">
-
-<input type="submit"  name="AddressSubmit" value="{address_action_value}">
+<input type="{address_action_type}"  name="AddressSubmit" value="{address_action_value}">
 
 	<center>
 	<table width="80%" cellspacing="0" cellpadding="3" border="0">
