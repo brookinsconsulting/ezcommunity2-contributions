@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: userwithaddress.php,v 1.30 2001/01/25 19:16:13 jb Exp $
+// $Id: userwithaddress.php,v 1.31 2001/01/29 11:14:57 ce Exp $
 //
 // 
 //
@@ -50,7 +50,6 @@ $t->setAllStrings();
 $t->set_file( array(        
     "user_edit_tpl" => "userwithaddress.tpl"
     ) );
-
 
 $t->set_block( "user_edit_tpl", "required_fields_error_tpl", "required_fields_error" );
 $t->set_block( "user_edit_tpl", "user_exists_error_tpl", "user_exists_error" );
@@ -352,13 +351,11 @@ if ( $Action == "Insert" && $error == false )
 
     $user->store();
 
-    
     // add user to usergroup
     setType( $AnonymousUserGroup, "integer" );
     
     $group = new eZUserGroup( $AnonymousUserGroup );
     $group->addUser( $user );
-    
     
     $address = new eZAddress();
     $address->setStreet1( $Street1[0] );
@@ -375,7 +372,6 @@ if ( $Action == "Insert" && $error == false )
     
     $address->store();
 
-    
     // add the address to the user.
     $user->addAddress( $address );
 

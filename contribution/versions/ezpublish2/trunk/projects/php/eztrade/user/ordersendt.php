@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ordersendt.php,v 1.13 2001/01/23 10:57:48 ce Exp $
+// $Id: ordersendt.php,v 1.14 2001/01/29 11:15:07 ce Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <06-Oct-2000 14:04:17 bf>
@@ -97,7 +97,7 @@ if ( $user )
     $country = $billingAddress->country();
     $t->set_var( "billing_country", $country->name() );
 
-    if ( $ini->read_var( "eZTradeMain", "BillingAddress" ) == "Enabled" )
+    if ( $ini->read_var( "eZTradeMain", "ShowBillingAddress" ) == "enabled" )
         $t->parse( "billing_address", "billing_address_tpl" );
     else
         $t->set_var( "billing_address", "" );
