@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: monthview.php,v 1.35 2001/09/14 12:21:33 jhe Exp $
+// $Id: monthview.php,v 1.36 2001/09/17 10:26:54 jhe Exp $
 //
 // Created on: <27-Dec-2000 14:09:56 bf>
 //
@@ -135,8 +135,8 @@ $t->set_file( "month_view_page_tpl", "monthview.tpl" );
     { 
         $t->set_var( "day", "" );
 
-        if ( ( ( $week * 7 ) - $firstDay + 1 ) < ( $date->daysInMonth()  ) )
-        {        
+        if ( ( ( $week * 7 ) - $firstDay + 1 ) < ( $date->daysInMonth() ) )
+        {
             $date->setDay( 1 );
             $firstDay = $date->dayOfWeek( $Locale->mondayFirst() );
 
@@ -246,9 +246,9 @@ $t->set_file( "month_view_page_tpl", "monthview.tpl" );
                         }
 
                         $prevNextDate->setDay( $prevNextDate->daysInMonth() - $firstDay + $day + 1 );
-                        $t->set_var( "day_number", $prevNextDate->day() );
-                        $t->set_var( "month_number", $prevNextDate->month() );
-                        $t->set_var( "year_number", $prevNextDate->year() );
+                        $t->set_var( "prev_day_number", $prevNextDate->day() );
+                        $t->set_var( "prev_month_number", $prevNextDate->month() );
+                        $t->set_var( "prev_year_number", $prevNextDate->year() );
 
                         $t->set_var( "appointment", "" );
                     }
@@ -273,9 +273,9 @@ $t->set_file( "month_view_page_tpl", "monthview.tpl" );
                             $tmp = 7;
 
                         $prevNextDate->setDay( ( 7 - $tmp - 6 ) + $day );
-                        $t->set_var( "day_number", $prevNextDate->day() );
-                        $t->set_var( "month_number", $prevNextDate->month() );
-                        $t->set_var( "year_number", $prevNextDate->year() );
+                        $t->set_var( "next_day_number", $prevNextDate->day() );
+                        $t->set_var( "next_month_number", $prevNextDate->month() );
+                        $t->set_var( "next_year_number", $prevNextDate->year() );
 
                         $t->set_var( "appointment", "" );
                     }

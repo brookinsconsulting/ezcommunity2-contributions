@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: dayview.php,v 1.45 2001/09/14 12:21:33 jhe Exp $
+// $Id: dayview.php,v 1.46 2001/09/17 10:26:54 jhe Exp $
 //
 // Created on: <08-Jan-2001 12:48:35 bf>
 //
@@ -59,7 +59,6 @@ else
     $userID = $session->variable( "ShowOtherCalendarUsers" );
 
 $tmpUser = new eZUser( $userID );
-
 $date = new eZDate();
 
 if ( $Year != "" && $Month != "" && $Day != "" )
@@ -100,11 +99,11 @@ $t = new eZTemplate( "ezcalendar/user/" . $ini->read_var( "eZCalendarMain", "Tem
 
 $t->set_file( "day_view_page_tpl", "dayview.tpl" );
 
-//if ( $t->hasCache() )
+if ( $t->hasCache() )
 {
-//    print( $t->cache() );
+    print( $t->cache() );
 }
-//else
+else
 {
     $t->setAllStrings();
 
@@ -199,16 +198,16 @@ $t->set_file( "day_view_page_tpl", "dayview.tpl" );
         }
     }
 
-    foreach ( $appointments as $appointment )
+    for ( $i = 0; $i < count( $appointments ); $i++ )
     {
-        if ( $appointment->allDay() )
+        if ( $appointments[$i]->allDay() )
         {
             $dateTime = new eZDateTime( $date->year(), $date->month(), $date->day() );
             $dateTime->setSecondsElapsed( $startTime->secondsElapsed() );
-            $appointment->setDateTime( $dateTime );
+            $appointments[$i]->setDateTime( $dateTime );
 
-            $appointment->setDuration( $stopTime->secondsElapsed() - $startTime->secondsElapsed() );
-            $appointment->store();
+            $appointments[$i]->setDuration( $stopTime->secondsElapsed() - $startTime->secondsElapsed() );
+            $appointments[$i]->store();
         }
     }
 

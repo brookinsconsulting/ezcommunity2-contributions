@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: appointmentedit.php,v 1.51 2001/09/17 07:52:25 jhe Exp $
+// $Id: appointmentedit.php,v 1.52 2001/09/17 10:26:54 jhe Exp $
 //
 // Created on: <03-Jan-2001 12:47:22 bf>
 //
@@ -805,7 +805,6 @@ if ( $UserError == false )
 // deletes the dayview cache file for a given day
 function deleteCache( $siteStyle, $language, $year, $month, $day, $userID )
 {
-    print "$siteStyle, $language, $year, $month, $day, $userID <br>";
     @eZFile::unlink( "ezcalendar/user/cache/dayview.tpl-$siteStyle-$language-$year-$month-$day-$userID.cache" );
     @eZFile::unlink( "ezcalendar/user/cache/monthview.tpl-$siteStyle-$language-$year-$month-$userID.cache" );
     @eZFile::unlink( "ezcalendar/user/cache/dayview.tpl-$siteStyle-$language-$year-$month-$day-$userID-private.cache" );
