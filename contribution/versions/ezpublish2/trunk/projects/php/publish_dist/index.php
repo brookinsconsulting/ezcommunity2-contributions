@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: index.php,v 1.117 2001/10/16 14:02:44 bf Exp $
+// $Id: index.php,v 1.118 2001/10/17 15:13:01 bf Exp $
 //
 // Created on: <09-Nov-2000 14:52:40 ce>
 //
@@ -115,19 +115,7 @@ $session =& eZSession::globalSession();
 //
 unset( $siteDesign );
 unset( $GlobalSiteDesign );
-if ( $session->fetch() == false )
-{
-    $siteDesign =& $ini->read_var( "site", "SiteDesign" );
-}
-else
-{
-    $siteDesign =& $session->variable( "SiteDesign" );
-
-    if ( $siteDesign == "" )
-    {
-        $siteDesign =& $ini->read_var( "site", "SiteDesign" );
-    }
-}
+$siteDesign =& $ini->read_var( "site", "SiteDesign" );
 
 // Store the site design in a global variable
 $GlobalSiteDesign = $siteDesign;
