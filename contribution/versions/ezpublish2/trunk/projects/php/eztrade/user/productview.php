@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: productview.php,v 1.33 2001/03/08 18:43:48 jb Exp $
+// $Id: productview.php,v 1.34 2001/03/12 16:12:42 ce Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <24-Sep-2000 12:20:32 bf>
@@ -305,6 +305,7 @@ foreach ( $options as $option )
                 if ( $price )
                 {
                     $found_price = true;
+
                     $price = new eZCurrency( $price );
                 }
             }
@@ -313,8 +314,11 @@ foreach ( $options as $option )
                 $price = new eZCurrency( $value->price() );
             }
 
-            $t->set_var( "value_price", $locale->format( $price ) );
-
+            if ( $price->value() == 0 )
+                $t->set_var( "value_price", "" );
+            else
+                $t->set_var( "value_price", $locale->format( $price ) );
+            
             $t->parse( "value_price_item", "value_price_item_tpl" );
 
             $t->set_var( "value_price_currency_item", "" );
