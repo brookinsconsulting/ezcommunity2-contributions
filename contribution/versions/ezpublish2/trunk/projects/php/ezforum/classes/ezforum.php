@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezforum.php,v 1.27 2001/05/07 10:18:34 ce Exp $
+// $Id: ezforum.php,v 1.28 2001/05/08 08:03:27 ce Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <11-Sep-2000 22:10:06 bf>
@@ -319,19 +319,26 @@ class eZForum
        }
 
        if ( $showReplies )
-           $showReplies = "";
-       else
-           $showReplies = " AND Depth='0' ";
-       
-       $db->array_query( $message_array, "SELECT ID, Topic, UserID, PostingTime, Depth FROM
+       {
+           $db->array_query( $message_array, "SELECT ID, Topic, UserID, PostingTime, Depth FROM
                                           eZForum_Message
                                           WHERE ForumID='$this->ID'
                                           AND IsTemporary='0'
                                           $approvedCode
-                                          $showReplies
                                           ORDER BY TreeID
                                           DESC LIMIT $offset,$limit" );
-
+       }
+       else
+       {
+           $db->array_query( $message_array, "SELECT COUNT(ThreadID) as Count, ID, Topic, UserID, PostingTime, Depth FROM
+                                          eZForum_Message
+                                          WHERE ForumID='$this->ID'
+                                          AND IsTemporary='0'
+                                          $approvedCode
+                                          GROUP BY ThreadID
+                                          ORDER BY TreeID
+                                          DESC LIMIT $offset,$limit" );
+       }
        return $message_array;
     }
     

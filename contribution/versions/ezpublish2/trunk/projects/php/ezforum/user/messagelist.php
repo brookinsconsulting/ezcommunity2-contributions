@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: messagelist.php,v 1.22 2001/05/07 10:18:34 ce Exp $
+// $Id: messagelist.php,v 1.23 2001/05/08 08:03:27 ce Exp $
 //
 // Lars Wilhelmsen <lw@ez.no>
 // Created on: <11-Sep-2000 22:10:06 bf>
@@ -147,7 +147,7 @@ else
         else
         {
             $t->set_var( "spacer", "" );
-            $t->set_var( "count_replies", "(" . eZForumMessage::countReplies( $message["ID"] ) . ")" );
+            $t->set_var( "count_replies", "(" . $message["Count"] . ")" );
         }
 
         if ( $user->id() == 0 )
