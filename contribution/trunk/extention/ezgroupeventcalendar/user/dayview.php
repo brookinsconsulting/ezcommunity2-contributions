@@ -415,7 +415,8 @@ if (isset($allDayEvents))
     for ($i=$startTime->hour();$i<=$stopTime->hour();$i++)
  {
   $t->set_var("short_time", $i . ':00');
-
+  $dispHour = addZero($i);
+  $t->set_var("display_start_time", $dispHour . '00');
  if ($editor == true)
  {
  	$t->parse( "new_event_link", "new_event_link_tpl" );
@@ -621,7 +622,6 @@ if (isset($allDayEvents))
                     $t->set_var( "event_stop", $evStopTime );
                     $evStopStr = $evStop->hour()  . addZero( $evStop->minute() );
 	                $evStartStr = $evStart->hour()  . addZero( $evStart->minute() );
-                     echo "Doing $evStopStr - $evStartStr<br>";
                      // fix for 15 min stop times that end on another hour
                      if (substr($evStopStr, 1, 2) == '00')
                      {
@@ -630,7 +630,6 @@ if (isset($allDayEvents))
                      settype($evStopStr, "integer");
                      settype($evStartStr, "integer");
                      $res = ($evStopStr - $evStartStr);
-                     echo "It equals " . $res . "<br>";
 					if ($evStopStr - $evStartStr == 15)
 			        {
 

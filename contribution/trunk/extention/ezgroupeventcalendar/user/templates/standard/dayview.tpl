@@ -162,7 +162,7 @@ onmouseout="return nd();">{all_day_name}</a></td>
 <tr>
 	<!-- BEGIN new_event_link_tpl -->
 	<td class="{td_class}" width="100%" style="text-align: center; height: 60px; border: 1px solid gray; border-right: 2px solid gray; background: url('{www_dir}{index}/ezgroupeventcalendar/user/templates/standard/images/gcalShortTimeBg.png') repeat;">
-	<a class="path" style="font-size: 10px;" href="{www_dir}{index}/groupeventcalendar/eventedit/new/{year_number}/{month_number}/{day_number}/{start_time}/{group_print_id}/">{short_time}</a>
+	<a class="path" style="font-size: 10px;" href="{www_dir}{index}/groupeventcalendar/eventedit/new/{year_number}/{month_number}/{day_number}/{display_start_time}/{group_print_id}/">{short_time}</a>
 	</td>
 	<!-- END new_event_link_tpl -->
 
