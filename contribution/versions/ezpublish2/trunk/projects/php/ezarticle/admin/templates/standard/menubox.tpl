@@ -5,9 +5,9 @@
 </tr>
 <tr> 
     <td class="repeaty" background="/images/{site_style}/menu-m.gif">
-	<img src="/images/{site_style}/menu-arrow.gif" width="20" height="10"><a class="menu" href="/article/archive/">Artikkelarkiv</a><br>
-	<img src="/images/{site_style}/menu-arrow.gif" width="20" height="10"><a class="menu" href="/article/categoryedit/new/">Ny kategori</a><br>
-    <img src="/images/{site_style}/menu-arrow.gif" width="20" height="10"><a class="menu" href="/article/articleedit/new/">Ny artikkel</a><br>
+	<img src="/images/{site_style}/menu-arrow.gif" width="20" height="10"><a class="menu" href="/article/archive/">{intl-archive}</a><br>
+	<img src="/images/{site_style}/menu-arrow.gif" width="20" height="10"><a class="menu" href="/article/categoryedit/new/">{intl-new_category}</a><br>
+    <img src="/images/{site_style}/menu-arrow.gif" width="20" height="10"><a class="menu" href="/article/articleedit/new/">{intl-new_article}</a><br>
     </td>
 </tr>
 <tr>

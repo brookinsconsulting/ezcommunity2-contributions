@@ -34,16 +34,16 @@
 
 <form action="/article/articleedit/imageedit/storedef/{article_id}/" method="post">
 
-<h1>Bilder: {article_name}</h1>
+<h1>{intl-images}: {article_name}</h1>
 
 <hr noshade="noshade" size="4" />
 
 <table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
 <tr>
-	<th>Nr:</th>
-	<th>Bildetekst:</th>
-	<th>Forhåndsvisning:</th>
-	<th>Minibilde:</th>
+	<th>{intl-image_id}:</th>
+	<th>{intl-image_caption}:</th>
+	<th>{intl-image_preview}:</th>
+	<th>{intl-image_mini}:</th>
 	<th>&nbsp;</th>
 	<th>&nbsp;</th>
 </tr>
@@ -77,20 +77,20 @@
 
 <hr noshade="noshade" size="4" />
 
-<input class="stdbutton" type="submit" name="NewImage"value="nytt bilde" />
+<input class="stdbutton" type="submit" name="NewImage"value="{intl-image_upload}nytt bilde" />
 
 <hr noshade="noshade" size="4" />
 
 <table cellspacing="0" cellpadding="0" border="0">
 <tr>
 	<td valign="top">
-	<input class="okbutton" type="submit" value="OK" />
+	<input class="okbutton" type="submit" value="{intl-ok}" />
 	</form>
 	</td>
 	<td>&nbsp;</td>
 	<td>
 	<form action="/article/articleedit/edit/{article_id}/" method="post">
-	<input class="okbutton" type="submit" value="Avbryt" />
+	<input class="okbutton" type="submit" value="{intl-abort}" />
 	</form>
 	</td>
 	<td>&nbsp;</td>

@@ -22,7 +22,7 @@
 
 <p class="boxtext">{intl-place}:</p>
 <select name="ParentID">
-<option value="0">topp</option>
+<option value="0">{intl-categoryroot}</option>
 
 <!-- BEGIN value_tpl -->
 <option value="{option_value}">{option_name}</option>

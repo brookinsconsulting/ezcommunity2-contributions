@@ -57,7 +57,7 @@
 
 <img src="/ezarticle/admin/images/path-arrow.gif" height="10" width="15" border="0">
 
-<a class="path" href="/article/archive/0/">Toppnivå</a>
+<a class="path" href="/article/archive/0/">{intl-topcategory}</a>
 
 <!-- END path_tpl -->
 
@@ -103,7 +103,7 @@ onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezac{category_id}-sl
 <!-- BEGIN article_list_tpl -->
 <table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
 <tr>
-	<th>Artikkel:</th>
+	<th>{intl-article}:</th>
 	<th>{intl-published}:</th>
 	<th colspan="2">&nbsp;</th>
 </tr>

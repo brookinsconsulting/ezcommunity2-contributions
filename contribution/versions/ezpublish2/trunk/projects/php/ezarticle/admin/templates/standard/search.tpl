@@ -55,7 +55,7 @@
 <!-- BEGIN article_list_tpl -->
 <table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
 <tr>
-	<th>Artikkel:</th>
+	<th>{intl-article}:</th>
 	<th>{intl-published}:</th>
 	<th colspan="2">&nbsp;</th>
 </tr>
