@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezuser.php,v 1.93 2001/09/21 14:28:49 jhe Exp $
+// $Id: ezuser.php,v 1.94 2001/09/21 15:25:28 bf Exp $
 //
 // Definition of eZUser class
 //
@@ -857,7 +857,7 @@ class eZUser
 
         foreach ( $user_group_array as $group )
         {
-            $IDOnly ? $ret[] = $group[$db->fieldName( "GroupID" )] : $ret[] = new eZUserGroup( $group[$db->fieldName( "GroupID" )] );
+            !$as_object ? $ret[] = $group[$db->fieldName( "GroupID" )] : $ret[] = new eZUserGroup( $group[$db->fieldName( "GroupID" )] );
         }
 
         return $ret;
