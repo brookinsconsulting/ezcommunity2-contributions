@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezimagevariation.php,v 1.29 2001/07/20 11:06:38 jakobn Exp $
+// $Id: ezimagevariation.php,v 1.30 2001/07/25 10:37:38 jb Exp $
 //
 // Definition of eZImageVariation class
 //
@@ -346,7 +346,7 @@ class eZImageVariation
     function createErrorImage()
     {
         $imageVar = new eZImageVariation();
-        $imageVar->setImagePath( "/ezimagecatalogue/admin/images/failedimage.gif" );
+        $imageVar->setImagePath( "ezimagecatalogue/admin/images/failedimage.gif" );
         $imageVar->ImageID = -1;
         $imageVar->setWidth( 120 );
         $imageVar->setHeight( 40 );
