@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eztemplate.php,v 1.20 2001/01/24 10:17:53 jb Exp $
+// $Id: eztemplate.php,v 1.21 2001/01/24 10:45:48 jb Exp $
 //
 // Definition of eZTemplate class
 //
@@ -13,7 +13,6 @@
 // your own programs or libraries.
 //
 
-//  include_once( "classes/template.inc" );
 include_once( "classes/INIFile.php" );
 
 //!! eZCommon
@@ -25,7 +24,6 @@ include_once( "classes/INIFile.php" );
     
 */
 
-//  class eZTemplate extends Template
 class eZTemplate
 {
 
@@ -297,18 +295,22 @@ class eZTemplate
     {
         if (!is_array($varname))
         {
-            $var = "{".$varname."}";
-            $this->varkeys[$varname] =& $value;
-            $this->varvals[$var] =& $value;
+            $this->varkeys[$varname] =& preg_quote("/{".$varname."}/");
+            $this->varvals[$varname] =& $value;
+//              $var = "{".$varname."}";
+//              $this->varkeys[$varname] =& $value;
+//              $this->varvals[$var] =& $value;
         }
         else
         {
             reset($varname);
             while(list($k, $v) = each($varname))
             {
-                $var = "{".$k."}";
-                $this->varkeys[$k] =& $v;
-                $this->varvals[$var] =& $v;
+                $this->varkeys[$k] =& preg_quote("/{".$k."}/");
+                $this->varvals[$k] =& $v;
+//                  $var = "{".$k."}";
+//                  $this->varkeys[$k] =& $v;
+//                  $this->varvals[$var] =& $v;
             }
         }
     }
@@ -325,7 +327,8 @@ class eZTemplate
         }
 
         $str = $this->get_var($handle);
-        $str =& strtr( $str, $this->varvals );
+        $str =& preg_replace( $this->varkeys, $this->varvals, $str);
+//          $str =& strtr( $str, $this->varvals );
         return $str;
     }
   
@@ -382,7 +385,15 @@ class eZTemplate
    */
     function &get_vars()
     {
-        return $this->varkeys;
+        reset($this->varkeys);
+        while(list($k, $v) = each($this->varkeys))
+            while(list($k, $v) = each($this->varkeys))
+            {
+                $result[$k] = $v;
+            }
+    
+        return $result;
+//          return $this->varkeys;
     }
 
     /* public: get_var(string varname)
@@ -395,14 +406,16 @@ class eZTemplate
     {
         if (!is_array($varname))
         {
-            return $this->varkeys[$varname];
+            return $this->varvals[$varname];
+//              return $this->varkeys[$varname];
         }
         else
         {
             reset($varname);
             while(list($k, $v) = each($varname))
             {
-                $result[$k] =& $this->varkeys[$k];
+                $result[$k] =& $this->varvals[$k];
+//                  $result[$k] =& $this->varkeys[$k];
             }
             return $result;
         }
@@ -427,8 +440,8 @@ class eZTemplate
         reset($m);
         while(list($k, $v) = each($m))
         {
-            if (!isset($this->varkeys[$v]))
-                $result[$v] = $v;
+          if (!isset($this->varkeys[$v]))
+              $result[$v] = $v;
         }
     
         if (count($result))
@@ -502,8 +515,10 @@ class eZTemplate
    */
     function loadfile($handle)
     {
-        if (isset($this->varkeys[$handle]) and !empty($this->varkeys[$handle]))
+        if (isset($this->varkeys[$handle]) and !empty($this->varvals[$handle]))
             return true;
+//          if (isset($this->varkeys[$handle]) and !empty($this->varkeys[$handle]))
+//              return true;
 
         if (!isset($this->file[$handle]))
         {
