@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: menubox.php,v 1.14 2001/01/23 17:45:54 jb Exp $
+// $Id: menubox.php,v 1.15 2001/03/13 16:40:10 th Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <23-Oct-2000 17:53:46 bf>
@@ -26,8 +26,8 @@
 // Supply $menuItems to get a menubox
 
 $menuItems = array(
-    array( "/forum/categorylist/", "{intl-categorylist}" ),
     array( "/forum/unapprovedlist/", "{intl-unapproved_list}" ),
+    array( "/forum/categorylist/", "{intl-categorylist}" ),
     array( "/forum/categoryedit/new/", "{intl-newcategory}" ),
     array( "/forum/forumedit/new/", "{intl-newforum}" )
     );

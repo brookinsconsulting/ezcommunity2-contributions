@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: menubox.php,v 1.21 2001/03/13 15:30:47 th Exp $
+// $Id: menubox.php,v 1.22 2001/03/13 16:40:10 th Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <23-Oct-2000 17:53:46 bf>
@@ -26,16 +26,16 @@
 // Supply $menuItems to get a menubox
 
 $menuItems = array(
+    array( "/trade/orderlist/", "{intl-orderlist}" ),
     array( "/trade/categorylist/", "{intl-categorylist}" ),
-    array( "/trade/categoryedit/", "{intl-newcategory}" ),
-    array( "/trade/productedit/", "{intl-newproduct}" ),
     array( "/trade/typelist/", "{intl-typelist}" ),
-    array( "/trade/typeedit/", "{intl-newtype}" ),
     array( "/trade/vattypes/", "{intl-vattypes}" ),
     array( "/trade/shippingtypes/", "{intl-shippingtypes}" ),
     array( "/trade/currency/", "{intl-currency}" ),
     array( "/trade/pricegroups/list", "{intl-pricegroups}" ),
-    array( "/trade/orderlist/", "{intl-orderlist}" )
+    array( "/trade/categoryedit/", "{intl-newcategory}" ),
+    array( "/trade/typeedit/", "{intl-newtype}" ),
+    array( "/trade/productedit/", "{intl-newproduct}" )
     );
 
 ?>
