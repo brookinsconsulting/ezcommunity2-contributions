@@ -19,12 +19,12 @@
 <tr>
 	<td>
 	<div class="h1">Seanex.no er ute på nettet!</div>
-	<p>
+	<div class="p">
 	Egen boks for PR for Seanex.no. Denne kan fylles med hva som helst, men gjerne fisk.
 	Egen boks for PR for Seanex.no. Denne kan fylles med hva som helst, men gjerne fisk.
 	Egen boks for PR for Seanex.no. Denne kan fylles med hva som helst, men gjerne fisk.
 	Egen boks for PR for Seanex.no. Denne kan fylles med hva som helst, men gjerne fisk.
-	</p>
+	</div>
 	</td>
 </tr>
 </table>
@@ -75,9 +75,8 @@
 {endtr}
 <!-- END news_item_tpl -->
 </table>
-<br />
 
-<table width="100%" cellspacing="0" cellpadding="4" border="0">
+<!-- <table width="100%" cellspacing="0" cellpadding="4" border="0"> -->
 
 <!-- BEGIN short_news_item_tpl -->
 <tr>
@@ -90,7 +89,7 @@
 <tr>
 <!-- END short_news_item_tpl -->
 
-</table>
+<!-- </table> -->
 <!-- END news_list_tpl -->
 
 <!--
