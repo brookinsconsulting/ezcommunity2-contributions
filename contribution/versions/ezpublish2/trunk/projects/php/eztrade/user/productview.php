@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: productview.php,v 1.43 2001/03/26 18:35:47 jb Exp $
+// $Id: productview.php,v 1.44 2001/03/27 09:53:55 jb Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <24-Sep-2000 12:20:32 bf>
@@ -39,6 +39,7 @@ $ShowQuantity = $ini->read_var( "eZTradeMain", "ShowQuantity" ) == "true";
 $ShowNamedQuantity = $ini->read_var( "eZTradeMain", "ShowNamedQuantity" ) == "true";
 $RequireQuantity = $ini->read_var( "eZTradeMain", "RequireQuantity" ) == "true";
 $ShowOptionQuantity = $ini->read_var( "eZTradeMain", "ShowOptionQuantity" ) == "true";
+$PurchaseProduct = $ini->read_var( "eZTradeMain", "PurchaseProduct" ) == "true";
 $locale = new eZLocale( $Language );
 
 $CapitalizeHeadlines = $ini->read_var( "eZArticleMain", "CapitalizeHeadlines" );
@@ -550,7 +551,7 @@ if ( ( !$RequireUserLogin or get_class( $user ) == "ezuser"  ) and
     $t->parse( "price", "price_tpl" );
 }
 
-if ( !$product->discontinued() and
+if ( $PurchaseProduct and !$product->discontinued() and
    ( $can_checkout or !$RequireQuantity or ( $RequireQuantity and $Quantity > 0 ) ) )
     $t->parse( "add_to_cart", "add_to_cart_tpl" );
 
