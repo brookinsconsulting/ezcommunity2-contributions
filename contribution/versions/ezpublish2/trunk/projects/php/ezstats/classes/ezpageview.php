@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezpageview.php,v 1.10 2001/05/04 16:37:26 descala Exp $
+// $Id: ezpageview.php,v 1.11 2001/05/14 12:47:50 bf Exp $
 //
 // Definition of eZPageView class
 //
@@ -77,6 +77,7 @@ class eZPageView
             // lock
             $db->query( "LOCK TABLES eZStats_BrowserType WRITE" );
 
+            $userAgent = addslashes( $userAgent );
             $db->array_query( $browser_type_array,
             "SELECT ID FROM eZStats_BrowserType
              WHERE BrowserType='$userAgent'" );
@@ -146,6 +147,8 @@ class eZPageView
             }
 
             $db->query( "LOCK TABLES eZStats_RefererURL WRITE" );
+
+            $refererURI = addslashes( $refererURI );
             
             $db->array_query( $referer_url_array,
             "SELECT ID FROM eZStats_RefererURL
