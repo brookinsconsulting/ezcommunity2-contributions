@@ -11,7 +11,7 @@ CREATE TABLE eZLink_Link (
   Name varchar(100) default NULL,
   Description text,
   LinkGroup int default NULL,
-  KeyWords varchar(100) default NULL,
+  KeyWords text default NULL,
   Modified int NOT NULL,
   Accepted int,
   Created int default NULL,
