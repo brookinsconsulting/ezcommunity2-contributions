@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: wishlist.php,v 1.20.4.2 2001/10/29 08:28:01 ce Exp $
+// $Id: wishlist.php,v 1.20.4.3 2001/11/21 14:08:34 sascha Exp $
 //
 // Created on: <21-Oct-2000 18:09:45 bf>
 //
@@ -60,6 +60,7 @@ $GLOBALS["DEBUG"] = true;
 $wishlist = new eZWishlist();
 $session = new eZSession();
 
+
 // Set some variables to defaults.
 $ShowWishlist = false;
 $ShowSavingsColumn = false;
@@ -83,12 +84,14 @@ if ( !$user )
 $wishlist = $wishlist->getByUser( $user );
 
 
+
 if ( !$wishlist )
 {
     $wishlist = new eZWishlist();
     $wishlist->setUser( $user );
 
     $wishlist->store();
+    
 }
 
 if ( $Action == "AddToBasket" )
@@ -561,6 +564,7 @@ turnColumnsOnOff( "header" );
 if ( $ShowWishlist == true )
 {
     $wishlist->wishListTotals( $tax, $total );
+    
 
     $locale = new eZLocale( $Language );
     $currency = new eZCurrency();
@@ -657,7 +661,8 @@ if ( $ShowWishlist == true )
 else
 {
     $t->parse( "empty_wishlist", "empty_wishlist_tpl" );    
-    $t->parse( "wishlist_checkout", "wishlist_checkout_tpl" );    
+    $t->set_var("wishlist_checkout", "");
+//    $t->parse( "wishlist_checkout", "wishlist_checkout_tpl" );    
     $t->set_var( "full_cart", "" );
     $t->set_var( "tax_specification", "" );
     $t->set_var( "tax_item", "" );

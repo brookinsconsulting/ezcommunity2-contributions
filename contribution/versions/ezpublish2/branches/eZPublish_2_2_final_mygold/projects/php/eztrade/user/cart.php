@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: cart.php,v 1.71.4.3 2001/11/19 12:13:23 ce Exp $
+// $Id: cart.php,v 1.71.4.4 2001/11/21 14:08:33 sascha Exp $
 //
 // Created on: <27-Sep-2000 11:57:49 bf>
 //
@@ -294,7 +294,6 @@ if ( $Action == "AddToBasket" )
 
                 $cartItem->setProduct( $product );
                 $cartItem->setCart( $cart );
-
                 $voucherInformationID = $session->variable( "VoucherInformationID" );
 
                 $session->setVariable( "VoucherInformationID", 0 );

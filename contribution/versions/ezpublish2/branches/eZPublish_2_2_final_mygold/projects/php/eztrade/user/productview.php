@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: productview.php,v 1.77.4.4 2001/11/19 09:55:24 ce Exp $
+// $Id: productview.php,v 1.77.4.5 2001/11/21 14:08:34 sascha Exp $
 //
 // Created on: <24-Sep-2000 12:20:32 bf>
 //
@@ -149,6 +149,7 @@ $t->set_block( "alternative_currency_list_tpl", "alternative_currency_tpl", "alt
 
 $t->set_block( "product_view_tpl", "quantity_item_tpl", "quantity_item" );
 $t->set_block( "product_view_tpl", "add_to_cart_tpl", "add_to_cart" );
+$t->set_block( "product_view_tpl", "no_add_to_cart_tpl", "no_add_to_cart" ); //SF
 $t->set_block( "product_view_tpl", "voucher_buttons_tpl", "voucher_buttons" );
 $t->set_block( "product_view_tpl", "path_tpl", "path" );
 $t->set_block( "product_view_tpl", "image_list_tpl", "image_list" );
@@ -568,6 +569,7 @@ if ( $ShowQuantity and $product->hasPrice() )
 
 $t->set_var( "price", "" );
 $t->set_var( "add_to_cart", "" );
+$t->set_var( "no_add_to_cart", "" );
 $t->set_var( "voucher_buttons", "" );
 
 
@@ -691,6 +693,9 @@ else
 
 if ( ( $PurchaseProduct and !$product->discontinued() and $can_checkout ) and !$useVoucher )
     $t->parse( "add_to_cart", "add_to_cart_tpl" );
+else
+    $t->parse( "no_add_to_cart", "no_add_to_cart_tpl" );    //SF
+
 if ( ( $PurchaseProduct and !$product->discontinued() and $can_checkout ) and $useVoucher )
     $t->parse( "voucher_buttons", "voucher_buttons_tpl" );
 

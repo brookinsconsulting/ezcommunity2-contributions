@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: voucherinformation.php,v 1.12.4.10 2001/11/19 12:23:18 ce Exp $
+// $Id: voucherinformation.php,v 1.12.4.11 2001/11/21 14:08:34 sascha Exp $
 //
 // Created on: <06-Aug-2001 13:02:18 ce>
 //
@@ -99,6 +99,7 @@ $t->set_var( "missing_fields", "" );
 $t->set_var( "price_to_high", "" );
 $t->set_var( "price_to_low", "" );
 $t->set_var( "too_many_letters", "" );
+$t->set_var( "text_limit", $ini->read_var( "eZTradeMain", "MaxVoucherDescription" ) ); // SF
 $error = false;
 
 $product = new eZProduct( $ProductID );
@@ -120,10 +121,11 @@ if ( isSet ( $OK ) )
 
     if ( $MailMethod == 2 )
     {
-        if ( strlen ( $Description ) > $ini->read_var( "eZTradeMain", "MaxVoucherDescription" ) )
+        if ( ( $text_size = strlen ( $Description ) ) > $ini->read_var( "eZTradeMain", "MaxVoucherDescription" ) )
         {
             $error = true;
             $t->parse( "too_many_letters", "too_many_letters_tpl" );
+	    $t->set_var( "text_size", $text_size );
         }
         if ( $ToName == "" or $ToStreet1 == "" or $ToZip == "" or $ToPlace == "" )
         {
