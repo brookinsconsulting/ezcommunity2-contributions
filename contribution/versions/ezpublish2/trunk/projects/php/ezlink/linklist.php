@@ -44,7 +44,7 @@ else
         $t->set_var( "linkgroup_title", $linkGroup_array[ $i ][ "Title" ] );
         $t->set_var( "linkgroup_parent", $linkGroup_array[ $i ][ "Parent" ] );
 
-        $total_sub_links = $linkGroup->getTotalSubLinks( $linkGroup_array[ $i ][ "ID" ] );
+        $total_sub_links = $linkGroup->getTotalSubLinks( $linkGroup_array[ $i ][ "ID" ], $linkGroup_array[ $i ][ "ID" ] );
         
         $t->set_var( "total_links", $total_sub_links );
         $t->set_var( "new_links", "X" );
@@ -107,7 +107,10 @@ else
         $t->set_var( "link_accepted", $link_array[ $i ][ "Accepted" ] );
         $t->set_var( "link_url", $link_array[ $i ][ "Url" ] );
 
-        
+        $hit = new eZHit();
+        $hits = $hit->getLinkHits( $link_array[ $i ][ "ID" ] );
+
+        $t->set_var( "link_hits", $hits );
 
         $t->set_var( "document_root", $DOCUMENTROOT );
 
