@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: message.php,v 1.11 2000/08/09 10:59:18 jhe-cvs Exp $
+    $Id: message.php,v 1.12 2000/08/09 14:12:44 lw-cvs Exp $
 
     Author: Lars Wilhelmsen <lw@ez.no>
     
@@ -10,10 +10,10 @@
 */
 include( "ezforum/dbsettings.php" );
 include_once( "class.INIFile.php" );
-include_once( "$DOCROOT/classes/ezdb.php" );
 include_once( "$DOCROOT/classes/ezforummessage.php" );
-include_once( "$DOCROOT/classes/ezuser.php" );
 include_once( "$DOCROOT/classes/eztemplate.php" );
+include_once( "../classes/ezusergroup.php" );
+include_once( "../classes/ezsession.php" );
 
 $ini = new INIFile( "../ezforum.ini" ); // get language settings
 $Language = $ini->read_var( "MAIN", "Language" );
@@ -32,8 +32,22 @@ $t->set_var( "forum_id", $forum_id );
 
 $t->parse( "navigation-bar", "navigation" );
 
+
+if ( $session->get( $AuthenticatedSession ) != 0 )
+{
+    // fail  - reason: user not logged in.
+    die( "your not logged in.. (redirect to login page)" );
+}
+
+
 if ( $modifymessage )
 {
+    if ( !eZUserGroup::verifyCommand( $session->userID(), "eZForum_DeleteMessage" ) )
+    {
+        die( "Insufficient user rights to add forum, dying..." );
+        exit;
+    }
+
     $msg = new eZforumMessage;
     $msg->get( $message_id );
     $msg->setTopic( $topic );
@@ -48,6 +62,12 @@ if ( $modifymessage )
 
 if ( $deletemessage )
 {
+    if ( !eZUserGroup::verifyCommand( $session->userID(), "eZForum_DeleteMessage" ) )
+    {
+        die( "Insufficient user rights to add forum, dying..." );
+        exit;
+    }
+
     eZforumMessage::delete( $message_id );
 }
 

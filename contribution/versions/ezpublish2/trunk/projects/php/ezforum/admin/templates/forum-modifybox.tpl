@@ -1,6 +1,6 @@
-<form action="index.php4" method="post">
+<form action="index.php4" method="get">
 <input type="hidden" name="page" value="{docroot}/admin/forum.php4">
-<input type="hidden" name="forum_id" value="{forum_id}>"
+<input type="hidden" name="forum_id" value="{forum_id}">
 <input type="hidden" name="category_id" value="{category_id}">
 <table cellspacing="0" cellpadding="0" border="0">
 <tr>

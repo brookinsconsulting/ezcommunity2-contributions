@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: forum.php,v 1.15 2000/08/09 09:49:24 lw-cvs Exp $
+    $Id: forum.php,v 1.16 2000/08/09 14:12:44 lw-cvs Exp $
 
     Author: Lars Wilhelmsen <lw@ez.no>
     
@@ -12,6 +12,10 @@ include( "ezforum/dbsettings.php" );
 include_once( "template.inc" );
 include_once( "$DOCROOT/classes/ezforumcategory.php" );
 include_once( "$DOCROOT/classes/ezforumforum.php" );
+include_once( "../classes/ezusergroup.php" );
+include_once( "../classes/ezsession.php" );
+
+$session = new eZSession;
 
 $t = new Template( "$DOCROOT/admin/templates" );
 $t->set_file(Array("forum" => "forum.tpl",
@@ -22,12 +26,24 @@ $t->set_file(Array("forum" => "forum.tpl",
              );
 
 $t->set_var( "docroot", $DOCROOT );
-echo $category_id . "sådetså";
+
 $t->set_var( "category_id", $category_id );
 
-//actions
+if ( $session->get( $AuthenticatedSession ) != 0 )
+{
+    // fail  - reason: user not logged in.
+    die( "your not logged in.. (redirect to login page)" );
+}
+
+//actions (submit buttons)
 if ( $add )
 {
+    if ( !eZUserGroup::verifyCommand( $session->userID, "eZForum_AddForum" ) )
+    {
+        die( "Insufficient user rights to add forum, dying..." );
+        exit;
+    }
+
     $forum = new eZforumForum;
     $forum->newForum();
     $forum->setCategoryId( $category_id );
@@ -49,7 +65,13 @@ if ( $add )
 
 if ( $modify )
 {
-    $forum = new eZforumForum;
+    if ( !eZUserGroup::verifyCommand( $session->userID(), "eZForum_DeleteForum" ) )
+    {
+        die( "Insufficient user rights to modify forum, dying..." );
+        exit;
+    }
+    
+    $forum = new eZforumForum();
     $forum->get( $forum_id );
     $forum->setName( $name );
     $forum->setDescription( $description );
@@ -69,6 +91,12 @@ if ( $modify )
 
 if ( $delete )
 {
+    if ( !eZUserGroup::verifyCommand( $session->userID(), "eZForum_DeleteForum" ) )
+    {
+        die( "Insufficient user rights to delete forum, dying..." );
+        exit;
+    }
+
     $forum = new eZforumForum;
     $forum->delete( $forum_id );
 }
