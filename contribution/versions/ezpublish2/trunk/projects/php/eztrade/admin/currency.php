@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: currency.php,v 1.5 2001/03/01 14:06:26 jb Exp $
+// $Id: currency.php,v 1.6 2001/03/05 12:31:51 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <23-Feb-2001 16:27:56 bf>
@@ -43,7 +43,7 @@ if ( $Action == "Store" )
     {
         $str = "CurrencyPrefix_" . $id;
         $prefixArray = $$str;
-        
+
         $currency = new eZProductCurrency( $id );
         $currency->setName( $CurrencyName[$i] );
         $currency->setSign( $CurrencySign[$i] );

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezproductcurrency.php,v 1.1 2001/02/23 17:20:23 bf Exp $
+// $Id: ezproductcurrency.php,v 1.2 2001/03/05 12:31:51 bf Exp $
 //
 // Definition of eZProductCurrency class
 //
@@ -159,7 +159,7 @@ class eZProductCurrency
     */
     function value()
     {
-        return $this->Value;
+        return number_format( $this->Value, 4, ".", "" );
     }
 
     /*!
@@ -194,6 +194,8 @@ class eZProductCurrency
     */
     function setValue( $value )
     {
+        $newValue = number_format( $value, 4, ".", "" );
+        $value = (double) $newValue;
         $this->Value = $value;
     }
 
