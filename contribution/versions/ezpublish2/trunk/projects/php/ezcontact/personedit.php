@@ -101,7 +101,7 @@ if ( $PhoneAction == "UpdatePhone" )
 }
 
 // Slette telefon
-if ( $PhoneAction == "deletePhone" )
+if ( $PhoneAction == "DeletePhone" )
 {
     $phone = new eZPhone();
     $phone->get( $PhoneID );
