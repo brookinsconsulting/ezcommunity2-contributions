@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eztechrenderer.php,v 1.7 2000/10/21 19:33:11 bf-cvs Exp $
+// $Id: eztechrenderer.php,v 1.8 2000/10/22 13:48:09 bf-cvs Exp $
 //
 // Definition of eZTechRenderer class
 //
@@ -263,10 +263,9 @@ class eZTechRenderer
 
         $string = preg_replace( "/( [0-9]+)/", "<font color=\"green\">\\1</font>", $string );
 
-        
         $string = preg_replace( "/(\$[a-zA-Z0-9]+)/", "<font color=\"#00ffff\">\\1</font>", $string );
              
-        $string = "<pre>" . $string . "</pre>";
+        $string = "<p>" . $string . "</p>";
         return $string;
     }
 
