@@ -107,12 +107,6 @@
 
 <table width="100%" cellpadding="0" cellspacing="0" border="0">
 <tr>
-	<th colspan="2">
-	<br />
-	{option_name}
-	</th>
-</tr>
-<tr>
 	<td>
 
 <table width="100%" cellpadding="2" cellspacing="0" border="0">
@@ -163,11 +157,6 @@
 	<!-- END value_tpl -->
 </table>
 
-	</td>
-</tr>
-<tr>
-	<td>
-	{option_description}
 	</td>
 </tr>
 </table>
