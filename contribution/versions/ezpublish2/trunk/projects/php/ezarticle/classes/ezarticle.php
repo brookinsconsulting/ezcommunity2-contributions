@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezarticle.php,v 1.53 2001/03/06 10:34:40 fh Exp $
+// $Id: ezarticle.php,v 1.54 2001/03/08 10:27:41 pkej Exp $
 //
 // Definition of eZArticle class
 //
@@ -1026,7 +1026,7 @@ class eZArticle
        else
        {
            $forum = new eZForum();
-           $forum->setName( $this->Name );
+           $forum->setName( addslashes( $this->Name ) );
            $forum->store();
 
            $forumID = $forum->id();
