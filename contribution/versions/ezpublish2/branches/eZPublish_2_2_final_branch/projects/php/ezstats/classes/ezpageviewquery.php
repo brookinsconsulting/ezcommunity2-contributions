@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezpageviewquery.php,v 1.21.2.2 2001/11/02 08:40:50 ce Exp $
+// $Id: ezpageviewquery.php,v 1.21.2.3 2002/02/20 15:08:48 br Exp $
 //
 // Definition of eZPageViewQuery class
 //
@@ -278,7 +278,7 @@ class eZPageViewQuery
       Returns the referers which are most frequent.
 
       The files are returned as an assiciative array of
-      array( ID => $id, Domain => $domain, URI => $uri, Count => $count ).
+      array( Domain => $domain, URI => $uri, Count => $count ).
     */
     function &topReferers( $limit = 40, $excludeDomain = "", $offset = 0 )
     {
@@ -295,18 +295,18 @@ class eZPageViewQuery
         }
 
         $db->array_query( $visitor_array,
-        "SELECT eZStats_Archive_RemoteHost.Count, eZStats_Archive_RefererURL.Domain, eZStats_Archive_RefererURL.URI
-         FROM eZStats_Archive_RefererURL, eZStats_Archive_RemoteHost
-         $searc_text
-         GROUP BY Domain, URI, Count 
-         ORDER BY Count DESC",
-        array( "Limit" => $limit,
-               "Offset" => $offset ) );
-        
+        "SELECT sum( eZStats_Archive_RemoteHost.Count ) as Count, eZStats_Archive_RefererURL.Domain,
+                     eZStats_Archive_RefererURL.URI
+                FROM eZStats_Archive_RefererURL, eZStats_Archive_RemoteHost
+                $searc_text
+                GROUP BY Domain, URI
+                ORDER BY Count DESC",
+              array( "Limit" => $limit,
+                     "Offset" => $offset ) );
+
         for ( $i=0; $i < count($visitor_array); $i++ )
         {
-            $return_array[$i] = array( "ID" => $visitor_array[$i][$db->fieldName( "ID" )],
-                                       "Domain" => $visitor_array[$i][$db->fieldName( "Domain" )],
+            $return_array[$i] = array( "Domain" => $visitor_array[$i][$db->fieldName( "Domain" )],
                                        "URI" => $visitor_array[$i][$db->fieldName( "URI" )],
                                        "Count" => $visitor_array[$i][$db->fieldName( "Count" )] );
         }
@@ -328,12 +328,11 @@ class eZPageViewQuery
         }
 
         $db->array_query( $visitor_array,
-        "SELECT count(eZStats_Archive_RefererURL.ID) AS Count
-         FROM eZStats_Archive_RefererURL, eZStats_Archive_RemoteHost
-         $search_text
-         GROUP BY eZStats_Archive_RefererURL.ID" );
-        
-        return count( $visitor_array );
+        "SELECT count( eZStats_Archive_RemoteHost.ID ) as ID
+                FROM eZStats_Archive_RefererURL, eZStats_Archive_RemoteHost
+                $searc_text
+                GROUP BY Domain, URI" );
+        return $visitor_array[$db->fieldName( "ID" )];
     }
 
     /*!
