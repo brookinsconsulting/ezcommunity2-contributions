@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezconsultation.php,v 1.8 2001/01/30 11:17:42 bf Exp $
+// $Id: ezconsultation.php,v 1.9 2001/02/15 18:30:02 jb Exp $
 //
 // Definition of eZConsultation class
 //
@@ -608,6 +608,24 @@ class eZConsultation
         $db = eZDB::globalDatabase();
         $db->query( "INSERT INTO eZContact_ConsultationCompanyUserDict
                      SET ConsultationID='$this->ID', CompanyID='$company', UserID='$user'" );
+    }
+
+    /*!
+     */
+    function removeConsultationFromPerson( $person, $user )
+    {
+        $db = eZDB::globalDatabase();
+        $db->query( "DELETE FROM eZContact_ConsultationPersonUserDict
+                     WHERE ConsultationID='$this->ID' AND PersonID='$person' AND UserID='$user'" );
+    }
+
+    /*!
+     */
+    function removeConsultationFromCompany( $company, $user )
+    {
+        $db = eZDB::globalDatabase();
+        $db->query( "DELETE FROM eZContact_ConsultationCompanyUserDict
+                     WHERE ConsultationID='$this->ID' AND CompanyID='$company' AND UserID='$user'" );
     }
 
     /*!

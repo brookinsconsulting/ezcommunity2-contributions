@@ -138,6 +138,8 @@
 
 <hr noshade="noshade" size="4" />
 
+<input type="hidden" name="ConsultationID" value="{consultation_id}" />
+
 <table cellpadding="0" cellspacing="0" border="0">
 <tr>
     <td>

@@ -169,9 +169,13 @@ if ( !$user )
 if( ( $Action == "insert" || $Action == "update" ) && $error == false )
 {
     if ( $ConsultationID > 0 )
+    {
         $consultation = new eZConsultation( $ConsultationID );
+    }
     else
+    {
         $consultation = new eZConsultation();
+    }
     $consultation->setShortDescription( $ShortDescription );
     $consultation->setDescription( $Description );
     $consultation->setDate( new eZDateTime() );
@@ -183,12 +187,14 @@ if( ( $Action == "insert" || $Action == "update" ) && $error == false )
     {
         $contact_type = "company";
         $contact_id = $CompanyContact;
+        $consultation->removeConsultationFromCompany( $CompanyContact, $user->id() );
         $consultation->addConsultationToCompany( $CompanyContact, $user->id() );
     }
     else if ( isset( $PersonContact ) )
     {
         $contact_type = "person";
         $contact_id = $PersonContact;
+        $consultation->removeConsultationFromPerson( $PersonContact, $user->id() );
         $consultation->addConsultationToPerson( $PersonContact, $user->id() );
     }
 
