@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: orderedit.php,v 1.31.8.2 2002/01/22 16:54:43 br Exp $
+// $Id: orderedit.php,v 1.31.8.3 2002/01/23 15:23:29 br Exp $
 //
 // Created on: <30-Sep-2000 13:03:13 bf>
 //
@@ -637,7 +637,7 @@ else
 // print the refunded amount if any.
 if ( $refundAmount > 0 )
 {
-    $currency->setValue( $refundAmount );
+    $currency->setValue( $maxAmount );
     $t->set_var( "refund_amount", $locale->format( $currency ) );
     $t->parse( "refunded_amount", "refunded_amount_tpl" );
 }
