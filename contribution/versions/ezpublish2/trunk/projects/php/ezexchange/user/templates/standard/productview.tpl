@@ -1,7 +1,7 @@
 <table class="list" width="100%" cellspacing="0" cellpadding="0" border="1">
 <tr>
-	<td colspan="2" align="center">
-	<h2>{intl-quotes}</h2>
+	<td colspan="2" align="center" class="menuhead">
+	{intl-quotes}
 	</td>
 </tr>
 <tr>
@@ -20,7 +20,7 @@
 		<td>
 		{intl-expire_date}
 		</td>
-		<td>
+		<td>2
 		{intl-type}
 		</td>
 		<td>
