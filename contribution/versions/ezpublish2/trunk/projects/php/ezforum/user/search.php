@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: search.php,v 1.16 2001/09/25 15:11:36 bf Exp $
+// $Id: search.php,v 1.17 2001/09/27 15:22:51 bf Exp $
 //
 // Created on: <12-Oct-2000 20:33:02 bf>
 //
@@ -75,6 +75,7 @@ if ( $QueryString != "" )
     $level = 0;
     $i = 0;
 
+    if ( count( $messages ) > 0 )
     foreach ( $messages as $message )
     {
         if ( ( $i % 2 ) == 0 )
