@@ -46,6 +46,8 @@ ezuser
 ezsession
 ezcontact
 ezstats
+eztodo
+eznewsfeed
 "
 
 for file in $files
