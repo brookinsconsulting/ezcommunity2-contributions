@@ -11,7 +11,7 @@
 %DVIPSWebPage: (www.radicaleye.com)
 %DVIPSCommandLine: dvips -t a4 -o INSTALL.ps INSTALL.dvi
 %DVIPSParameters: dpi=600, compressed
-%DVIPSSource:  TeX output 2001.10.09:1208
+%DVIPSSource:  TeX output 2001.10.11:1532
 %%BeginProcSet: texc.pro
 %!
 /TeXDict 300 dict def TeXDict begin/N{def}def/B{bind def}N/S{exch}N/X{S
@@ -335,11 +335,11 @@ rf /Fp 105[ 42 1[ 37 37 10[ 28 11[ 17 1[ 37 42 42 60
 21 28 21 47 42 28 28 28 2[ 42 42 34 28 29[ 46 46 2[{
 TeXBase1Encoding ReEncodeFont} 93 83.022 /Times-Roman
 rf /Fq 139[ 28 1[ 33 2[ 50 6[ 50 2[ 44 1[ 44 50 18[ 72
-21[ 50 6[ 50 50 50 48[{ TeXBase1Encoding ReEncodeFont} 12
-99.6264 /Times-Roman rf /Fr 138[ 72 40 56 2[ 72 72 72
-1[ 40 2[ 40 72 2[ 64 72 1[ 72 64 6[ 88 16[ 48 1[ 104
-20[ 72 3[ 36 46[{ TeXBase1Encoding ReEncodeFont} 18 143.462
-/Times-Roman rf end
+28[ 50 50 50 48[{ TeXBase1Encoding ReEncodeFont} 11 99.6264
+/Times-Roman rf /Fr 138[ 72 40 56 2[ 72 72 72 1[ 40 2[ 40
+72 2[ 64 72 1[ 72 64 6[ 88 16[ 48 1[ 104 20[ 72 3[ 36
+46[{ TeXBase1Encoding ReEncodeFont} 18 143.462 /Times-Roman
+rf end
 %%EndProlog
 %%BeginSetup
 %%Feature: *Resolution 600dpi
@@ -771,7 +771,7 @@ end
 @endspecial 591 2998 a
  currentpoint currentpoint translate 1 1.06113 div 1 1.06113 div scale
 neg exch neg exch translate
- 591 2998 a Fq 1564 3264 a(9th) 24
+ 591 2998 a Fq 1539 3264 a(11th) 24
 b(October) h(2001) p 90 rotate dyy eop
 %%Page: 1 2
 1 1 bop 150 138 a
@@ -2582,30 +2582,32 @@ Fp 41 w(Access) h(to) g(cron) f(jobs) h(\(Only) f(needed) g(if) h(you) f
 (impor) n(ted) f(from) g(other) f(sites.\)) p Fi 275
 1359 a(\017) p Fp 41 w(Access) h(to) h(Apach) n(e') -5
 b(s) 21 b(modules) p Fi 275 1516 a(\017) p Fp 41 w(Access) f(to) h(a) f
-(MySQL) g(database) p Fi 275 1673 a(\017) p Fp 41 w(Y) -9
-b(ou) 19 b(might) h(also) g(need) g(the) g(pri) n(vile) o(g) n(e) g(to)
-h(add) e(ne) n(w) h(libraries) g(to) h(you) n(r) g(system.) 150
-1853 y(Y) -9 b(ou) 19 b(might) g(also) h(use) g(other) f(web) h(serv) o
-(ers) f(than) h(apach) n(e,) g(b) n(ut) g(then) f(you') -6
-b(re) 20 b(on) g(you) n(r) g(o) n(wn) f(since) h(we) g(ha) n(v) o(en') m
-(t) g(tested) g(eZ) 150 1953 y(publish) k(on) h(other) f(con\002gu) n
-(rations.) 40 b(If) 25 b(you) f(do) h(try) g(anoth) n(er) h(web) f
-(serv) o(er) -5 b(,) 27 b(please) e(k) o(eep) g(a) g(log) g(of) g(what)
-g(you) f(do) h(and) 150 2052 y(submit) 20 b(it) h(to) f(us) h(\(pk) m
-(ej@ez.no\)) f(for) f(inclusion) h(in) g(futur) n(e) h(v) o(ersion) n
-(s) g(of) f(this) h(manu) n(al.) p Fh 150 2306 a(2.1.2) 99
-b(Needed) 26 b(Softwar) n(e) p Fp 150 2482 a(Y) -9 b(ou) 15
-b(also) i(need) e(to) h(do) n(wnlo) n(ad) g(and) g(install) g(the) g
-(follo) n(wing) f(packa) n(ges,) i(if) g(the) o(y) e(aren') m(t) i
-(presen) n(t) g(on) f(you) n(r) g(system) h(alread) n(y:) p
-Fi 275 2662 a(\017) p Fp 41 w(MySQL) 23 b(\(http://www) -5
-b(.) n(mysql.co) n(m\)) 24 b(v) o(ersion) e(3.23) h(or) g(later) -5
-b(.) 36 b(\(eZ) 24 b(pub) n(lish) h(requ) n(ires) f(MySQL) g(for) f
-(storage) g(of) 358 2762 y(its) e(data.\)) p Fi 275 2919
-a(\017) p Fp 41 w(libXml2) f(\(http://x) n(mlsoft.or) o(g) n(/#Do) n
-(wn) n(loads\)) h(v) o(er) n(sion) g(2.4.1) f(is) i(recom) n(mended) e
-(b) n(ut) h(v) o(ersio) n(ns) h(as) g(old) e(as) i(2.2.) n(9) 358
-3019 y(is) k(kno) l(wn) f(to) h(w) o(ork.) 39 b(\(Needed) 24
+(MySQL) g(or) g(PostgreSQL) g(database) p Fi 275 1673
+a(\017) p Fp 41 w(Y) -9 b(ou) 19 b(might) h(also) g(need) g(the) g(pri)
+n(vile) o(g) n(e) g(to) h(add) e(ne) n(w) h(libraries) g(to) h(you) n
+(r) g(system.) 150 1853 y(Y) -9 b(ou) 19 b(might) g(also) h(use) g
+(other) f(web) h(serv) o(ers) f(than) h(apach) n(e,) g(b) n(ut) g(then)
+f(you') -6 b(re) 20 b(on) g(you) n(r) g(o) n(wn) f(since) h(we) g(ha) n
+(v) o(en') m(t) g(tested) g(eZ) 150 1953 y(publish) k(on) h(other) f
+(con\002gu) n(rations.) 40 b(If) 25 b(you) f(do) h(try) g(anoth) n(er) h
+(web) f(serv) o(er) -5 b(,) 27 b(please) e(k) o(eep) g(a) g(log) g(of) g
+(what) g(you) f(do) h(and) 150 2052 y(submit) 20 b(it) h(to) f(us) h
+(\(pk) m(ej@ez.no\)) f(for) f(inclusion) h(in) g(futur) n(e) h(v) o
+(ersion) n(s) g(of) f(this) h(manu) n(al.) p Fh 150 2306
+a(2.1.2) 99 b(Needed) 26 b(Softwar) n(e) p Fp 150 2482
+a(Y) -9 b(ou) 15 b(also) i(need) e(to) h(do) n(wnlo) n(ad) g(and) g
+(install) g(the) g(follo) n(wing) f(packa) n(ges,) i(if) g(the) o(y) e
+(aren') m(t) i(presen) n(t) g(on) f(you) n(r) g(system) h(alread) n(y:)
+p Fi 275 2662 a(\017) p Fp 41 w(A) 23 b(database.) 33
+b(Curren) n(tly) -5 b(,) 23 b(eZ) g(publish) f(supppo) n(rts) i(MySQL) e
+(\(http://www) -5 b(.m) n(ysql.com) n(\)) 23 b(v) o(ersion) f(3.23) g
+(or) g(later) 358 2762 y(and) d(PostgreSQL) h(\(http://www) -5
+b(.) n(postgresq) n(l.or) o(g) n(\)) 21 b(v) o(er) n(sion) g(7.1) n(.3)
+f(or) g(later) -5 b(.) p Fi 275 2919 a(\017) p Fp 41
+w(libXml2) 20 b(\(http://x) n(mlsoft.or) o(g) n(/#Do) n(wn) n(loads\)) h
+(v) o(er) n(sion) g(2.4.1) f(is) i(recom) n(mended) e(b) n(ut) h(v) o
+(ersio) n(ns) h(as) g(old) e(as) i(2.2.) n(9) 358 3019
+y(is) k(kno) l(wn) f(to) h(w) o(ork.) 39 b(\(Needed) 24
 b(by) h(eZ) g(article.) 41 b(If) 25 b(you) f(wish) i(to) f(use) h(the) f
 (def) o(au) n(lt) h(article) g(rend) n(erer) f(you) f(need) 358
 3118 y(libXml2) 19 b(installed.) 25 b(Y) -9 b(ou) 20
@@ -6505,57 +6507,57 @@ neg exch neg exch translate
 333 a(where) 22 b(secret) h(is) g(your) f(passw) o(ord.) 31
 b(Then) 22 b(you) g(need) g(to) h(add) f(the) h(def) o(au) n(lt) g(eZ) g
 (publish) f(data) g(into) h(you) n(r) g(ne) n(wly) f(created) 150
-432 y(database:) p Fk 309 630 a(#) 40 b(mysql) f(-uroot) g(-p) h
+432 y(database:) p Fk 309 628 a(#) 40 b(mysql) f(-uroot) g(-p) h
 (publish) f(<) g(sql/publish_) n(mysql.sql) p Fn 150
-864 a(Adding) 22 b(Pr) o(e-De\002ned) f(Data) p Fp 82
+860 a(Adding) 22 b(Pr) o(e-De\002ned) f(Data) p Fp 82
 w(If) h(you) e(w) o(ant) i(to) g(add) f(the) h(pre-d) n(e\002ned) f
 (data) h(of) g(the) f(distrib) n(ution) g(you) g(shou) n(ldn') o(t) g
-(add) 150 963 y(an) o(y) e(data) h(manually) f(to) i(the) f(site) h
+(add) 150 959 y(an) o(y) e(data) h(manually) f(to) i(the) f(site) h
 (befo) n(re) g(e) o(x) o(e) n(cuting) f(these) g(comma) n(nds.) 150
-1082 y(First) h(we) g(need) e(to) h(add) g(\002les) h(and) f(images) g
+1076 y(First) h(we) g(need) e(to) h(add) g(\002les) h(and) f(images) g
 (which) f(are) i(need) n(ed) f(by) g(the) g(database.) p
-Fk 309 1279 a(#) 40 b(tar) g(zpxvf) f(data.tar) n(.gz) p
-Fp 150 1476 a(Then) 19 b(we) i(need) e(to) i(run) e(\223mod\002x) n
+Fk 309 1272 a(#) 40 b(tar) g(zpxvf) f(data.tar) n(.gz) p
+Fp 150 1468 a(Then) 19 b(we) i(need) e(to) i(run) e(\223mod\002x) n
 (.sh\224) i(to) f(mak) o(e) g(sure) g(that) g(e) n(v) o(ery) n(thing) f
-(is) j(read) n(able.) p Fk 309 1674 a(#) 40 b(./modfix.sh) p
-Fp 150 1871 a(Then) 19 b(we) i(need) e(to) i(send) f(the) g(SQL) g
-(data) h(into) e(the) i(databa) n(se:) p Fk 309 2068
+(is) j(read) n(able.) p Fk 309 1664 a(#) 40 b(./modfix.sh) p
+Fp 150 1860 a(Then) 19 b(we) i(need) e(to) i(send) f(the) g(SQL) g
+(data) h(into) e(the) i(databa) n(se:) p Fk 309 2055
 a(#) 40 b(mysql) f(-upublish) g(-ppublish) f(publish) h(<) h(sql/data_)
-n(mysql.sql) p Fp 150 2266 a(Finally) 20 b(we) h(run) e(clearcach) n(e)
-p Fe 1005 2235 a(4) p Fp 1059 2266 a(to) i(mak) o(e) e(sure) h(that) h
+n(mysql.sql) p Fp 150 2251 a(Finally) 20 b(we) h(run) e(clearcach) n(e)
+p Fe 1005 2221 a(4) p Fp 1059 2251 a(to) i(mak) o(e) e(sure) h(that) h
 (e) n(v) o(er) n(ything) e(presented) g(is) i(cached) e(correctly:) p
-Fk 309 2463 a(#) 40 b(./clearcach) n(e.sh) p Fn 150 2697
+Fk 309 2447 a(#) 40 b(./clearcach) n(e.sh) p Fn 150 2679
 a(2.4.2) n(.2) 82 b(P) n(ostgr) o(eSQ) n(L) 21 b(con\002guratio) n(n) p
-Fp 150 2872 a(Impo) n(rtant) f(note) g(re) o(ga) n(rding) f(PostgreSQL)
-h(suppo) n(rt) h(in) f(eZ) g(publish:) 150 2990 y(PostgreSQL) g(has) g
+Fp 150 2852 a(Impo) n(rtant) f(note) g(re) o(ga) n(rding) f(PostgreSQL)
+h(suppo) n(rt) h(in) f(eZ) g(publish:) 150 2969 y(PostgreSQL) g(has) g
 (one) g(limitation) f(which) h(is) h(not) f(good) f(for) g(eZ) i(pub) n
-(lish:) 150 3108 y(#de\002ne) e(N) m(AMED) m(A) -9 b(T) h(ALE) n(N) 21
-b(32) 150 3227 y(This) f(is) h(the) g(max) e(length) h(of) g(inden) n
-(ti\002ers) h(used) f(in) g(the) g(database,) g(table) g(names,) g
-(colum) n(n) g(names) g(etc..) 150 3345 y(eZ) g(publish) g(uses) g
-(names) g(which) g(sometimes) g(are) g(long) n(er) m(,) g(e.g:) 25
-b(eZImag) n(eCatalogue_) n(ImageV) -9 b(a) n(riationGro) n(up) 150
-3464 y(Theref) n(ore) 20 b(you) f(need) h(to) g(recomp) n(ile) h
+(lish:) 150 3086 y(Max) f(length) f(of) h(indenti\002er) n(s) i(used) d
+(in) i(the) f(database,) f(table) h(names,) g(column) f(names) h(etc) g
+(is) h(def) o(ault) f(set) h(to) f(32.) 150 3202 y(eZ) g(publish) g
+(uses) g(names) g(which) g(sometimes) g(are) g(long) n(er) m(,) g(e.g:)
+25 b(eZImag) n(eCatalogue_) n(ImageV) -9 b(a) n(riationGro) n(up) 150
+3319 y(Theref) n(ore) 20 b(you) f(need) h(to) g(recomp) n(ile) h
 (PostgreSQL) f(to) g(suppo) n(rt) h(a) f(lar) o(ger) f(v) n(alue) h(by)
-f(altering:) 358 3634 y(#de) n(\002ne) i(N) m(AMED) m(A) -9
-b(T) f(ALEN) 21 b(64) 150 3805 y(in) f(the) h(\002le) f(:) 26
-b(postgres_) n(e) o(xt.h) p Fn 150 4039 a(2.4.2) n(.3) 82
-b(First) 21 b(time) f(installation) g(\(P) n(ostg) n(r) o(eSQL\)) p
-Fp 150 4214 a(Login) f(as) i(user) f(postgre) n(s) p
-Fk 309 4312 a(#) 40 b(su) g(-) f(postgres) p Fp 150 4509
-a(Create) 20 b(a) h(database) p Fk 309 4606 a($) 40 b(createdb) f
-(publish) p Fp 150 4804 a(Create) 20 b(a) h(dabase) f(user) p
-Fk 309 4901 a($) 40 b(createuser) e(publish) h(-W) p
-Fp 150 5099 a(Create) 20 b(tables) p Fk 309 5196 a($) 40
+f(altering:) 358 3482 y(#de) n(\002ne) i(N) m(AMED) m(A) -9
+b(T) f(ALEN) 21 b(64) 150 3644 y(in) f(the) h(\002le) f(:) 26
+b(src/include/p) n(ostgres_e) o(x) n(t.h) p Fn 150 3875
+a(2.4.2) n(.3) 82 b(First) 21 b(time) f(installation) g(\(P) n(ostg) n
+(r) o(eSQL\)) p Fp 150 4048 a(Login) f(as) i(user) f(postgre) n(s) p
+Fk 309 4144 a(#) 40 b(su) g(-) f(postgres) p Fp 150 4340
+a(Create) 20 b(a) h(database) p Fk 309 4436 a($) 40 b(createdb) f
+(publish) p Fp 150 4632 a(Create) 20 b(a) h(dabase) f(user) p
+Fk 309 4728 a($) 40 b(createuser) e(publish) h(-W) p
+Fp 150 4924 a(Create) 20 b(tables) p Fk 309 5021 a($) 40
 b(psql) f(-Upublish) g(<sql/data_) n(mysql.sql) p Fp
-150 5394 a(Y) -9 b(ou) 20 b(also) h(need) f(to) h(enable) f(PostgreSQL)
+150 5216 a(Y) -9 b(ou) 20 b(also) h(need) f(to) h(enable) f(PostgreSQL)
 g(in) h(site.ini.) 27 b(Change) 20 b(the\224) h(DatabaseI) n(mplemen) n
-(tation\224) g(con\002g) n(uration) f(so) h(it) 150 5493
-y(reads:) p 150 5534 1410 4 v Fg 240 5589 a(4) p Ff 270
-5613 a(A) 16 b(ne) n(w) i(featur) r(e) f(in) g(eZ) g(publish) h(2.2) e
-(is) h(the) h(possibil) r(ity) g(of) e(cle) r(aring) i(the) g(cache) h
-(from) d(the) i(admin) g(site) p 150 5723 3525 4 v Fp
-1871 5823 a(15) p 90 rotate dyy eop
+(tation\224) g(con\002g) n(uration) f(so) h(it) 150 5316
+y(reads:) 358 5478 y(DatabaseI) n(mplemen) n(tation=po) n(stgresql) p
+150 5534 1410 4 v Fg 240 5589 a(4) p Ff 270 5613 a(A) 16
+b(ne) n(w) i(featur) r(e) f(in) g(eZ) g(publish) h(2.2) e(is) h(the) h
+(possibil) r(ity) g(of) e(cle) r(aring) i(the) g(cache) h(from) d(the) i
+(admin) g(site) p 150 5723 3525 4 v Fp 1871 5823 a(15) p
+90 rotate dyy eop
 %%Page: 16 17
 16 16 bop 150 138 a
  currentpoint currentpoint translate 0.42603 0.42603 scale neg exch
@@ -6921,90 +6923,89 @@ end
 @endspecial 150 138 a
  currentpoint currentpoint translate 1 0.42603 div 1 0.42603 div scale
 neg exch neg exch translate
- 150 138 a 150 172 3525 4 v Fp 358
-333 a(DatabaseI) n(mplemen) n(tation=po) n(stgresql) p
-Fn 150 574 a(2.4.2) n(.4) 82 b(Updating) 20 b(the) h(Installatio) n(n) p
-Fp 150 752 a(This) h(section) g(is) g(for) g(users) g(who) f(are) h
+ 150 138 a 150 172 3525 4 v Fn 150
+333 a(2.4.2) n(.4) 82 b(Updating) 20 b(the) h(Installatio) n(n) p
+Fp 150 513 a(This) h(section) g(is) g(for) g(users) g(who) f(are) h
 (upd) n(ating) g(from) f(a) h(pre) n(v) n(ious) g(v) o(ersion) f(of) h
 (eZ) g(pub) n(lish.) 31 b(Ther) n(e) 23 b(shou) n(ld) f(be) g(se) n(v) o
-(eral) 150 852 y(\002les) 31 b(ending) e(with) h(\223.sql\224) g(in) h
+(eral) 150 613 y(\002les) 31 b(ending) e(with) h(\223.sql\224) g(in) h
 (the) f(directo) n(ry) g(\223upda) n(tes\224.) 56 b(Run) 30
 b(the) g(\002les) h(needed) e(to) h(update) f(your) g(v) o(ersion) g
-(to) i(the) 150 952 y(curren) n(t.) 26 b(Y) -9 b(ou) 19
+(to) i(the) 150 712 y(curren) n(t.) 26 b(Y) -9 b(ou) 19
 b(need) h(to) g(apply) f(all) i(the) f(updates) g(for) f(e) n(v) o(ery)
 g(v) o(ersion) g(since) h(your) f(v) o(ersion) n(.) p
-Fl 150 1252 a(2.5) 119 b(No) o(w) 30 b(What?) p Fp 150
-1460 a(After) 25 b(installing) g(eZ) g(pub) n(lish) h(you) e(can) h
+Fl 150 1018 a(2.5) 119 b(No) o(w) 30 b(What?) p Fp 150
+1228 a(After) 25 b(installing) g(eZ) g(pub) n(lish) h(you) e(can) h
 (test) h(your) e(site) i(throu) n(gh) f(the) g(URL) p
 Fk 26 w(http://ww) n(w.yoursite.com) n(/) p Fp 26 w(and) f(you) 150
-1560 y(can) j(administrate) g(you) n(r) h(site) h(fro) n(m) f(the) g
+1328 y(can) j(administrate) g(you) n(r) h(site) h(fro) n(m) f(the) g
 (URL) p Fk 28 w(http://a) n(dmin.yoursite.) n(com/) p
 Fp(,) h(of) f(cour) n(se,) i(if) e(you) e(did) i(an) o(y) n(thing) 150
-1660 y(dif) n(fer) n(ent) 21 b(the) f(names) g(of) g(the) g(admin) f
+1427 y(dif) n(fer) n(ent) 21 b(the) f(names) g(of) g(the) g(admin) f
 (and) h(the) g(pub) n(lic) h(site) g(might) f(be) g(dif) n(fer) n(ent.)
-p Fb 150 1782 a(NO) m(TE:) p Fp 21 w(The) g(def) o(ault) g(user) h
+p Fb 150 1552 a(NO) m(TE:) p Fp 21 w(The) g(def) o(ault) g(user) h
 (name) f(and) g(passw) o(ord) g(for) g(you) n(r) h(site) h(will) f(be) g
 (admin) n(/publish.) 26 b(Remembe) n(r) 21 b(to) g(chang) n(e) h(the)
-150 1882 y(passw) o(ord.) 150 2004 y(The) i(ne) o(xt) g(manu) n(al) h
+150 1651 y(passw) o(ord.) 150 1776 y(The) i(ne) o(xt) g(manu) n(al) h
 (you) f(should) f(read) h(is) i(the) e(\223eZ) h(pub) n(lish) g
 (Customisation) f(Guide\224,) h(it) g(tells) g(you) f(ho) n(w) g(to) g
-(con\002gu) n(re) 150 2103 y(the) c(softw) o(are) f(to) h(use) f(the) h
+(con\002gu) n(re) 150 1876 y(the) c(softw) o(are) f(to) h(use) f(the) h
 (functio) n(nality) g(you) e(w) o(ant,) i(as) g(well) g(as) h(ho) n(w) e
 (you) g(chan) n(ge) h(the) g(templa) n(tes) h(to) f(suit) g(you) n(r) g
-(needs.) 150 2226 y(When) 27 b(you') -6 b(re) 28 b(\002nished) f(with) g
+(needs.) 150 2000 y(When) 27 b(you') -6 b(re) 28 b(\002nished) f(with) g
 (the) h(design) f(and) g(the) g(initial) h(testing) f(you) g(can) g
 (head) g(o) o(v) o(e) n(r) h(to) p Fk 27 w(http://zez.or) n(g/) p
-Fp 28 w(for) 150 2325 y(articles) 20 b(about) f(commun) n(ity) h(b) n
+Fp 28 w(for) 150 2100 y(articles) 20 b(about) f(commun) n(ity) h(b) n
 (uilding) f(as) i(well) f(as) h(prog) n(ramming) n(,) f(or) g(you) f
 (can) h(visit) p Fk 21 w(http://dev) n(eloper.ez.no) p
-Fp 19 w(for) 150 2425 y(upda) n(tes,) f(articles) e(about) g(eZ) g
+Fp 19 w(for) 150 2199 y(upda) n(tes,) f(articles) e(about) g(eZ) g
 (publish) f(and) h(ho) n(w) g(to) g(w) o(ork) g(with) g(it,) i(as) f
 (well) g(as) g(k) o(eep) n(ing) f(abreast) g(of) g(ne) n(w) g(de) n(v) o
-(elo) n(pments.) p Fh 150 2683 a(2.5.1) 99 b(P) n(ost) 24
-b(Install) h(Checklist) p Fp 254 2861 a(1.) 41 b(Does) 20
-b(Apache) f(run?) 254 3023 y(2.) 41 b(Does) 20 b(PHP) h(run/w) o(o) n
-(rk) f(as) h(an) f(Apache) g(mod) n(ule?) 254 3184 y(3.) 41
-b(Does) 20 b(MySQL) g(run) n(?) 254 3345 y(4.) 41 b(Can) 20
+(elo) n(pments.) p Fh 150 2462 a(2.5.1) 99 b(P) n(ost) 24
+b(Install) h(Checklist) p Fp 254 2643 a(1.) 41 b(Does) 20
+b(Apache) f(run?) 254 2809 y(2.) 41 b(Does) 20 b(PHP) h(run/w) o(o) n
+(rk) f(as) h(an) f(Apache) g(mod) n(ule?) 254 2975 y(3.) 41
+b(Does) 20 b(MySQL) g(run) n(?) 254 3141 y(4.) 41 b(Can) 20
 b(you) f(access) i(your) e(virtual) h(hosts) g(at) h(all?) 254
-3507 y(5.) 41 b(Does) 20 b(the) g(user) g(site) h(w) o(ork?) 254
-3668 y(6.) 41 b(Does) 20 b(the) g(admin) f(site) j(w) o(ork) n(?) 254
-3830 y(7.) 41 b(Consider) 22 b(this:) 31 b(all) 23 b(eZ) g(pub) n(lish)
+3307 y(5.) 41 b(Does) 20 b(the) g(user) g(site) h(w) o(ork?) 254
+3473 y(6.) 41 b(Does) 20 b(the) g(admin) f(site) j(w) o(ork) n(?) 254
+3639 y(7.) 41 b(Consider) 22 b(this:) 31 b(all) 23 b(eZ) g(pub) n(lish)
 h(sites) g(has) f(an) f(admin) g(site,) i(perhap) n(s) g(you) e(should)
-f(call) j(the) e(admin) g(host) h(some-) 358 3929 y(thing) c(dif) n
-(fer) n(ent) i(than) e(admin?) 254 4091 y(8.) 41 b(Check) 19
+f(call) j(the) e(admin) g(host) h(some-) 358 3738 y(thing) c(dif) n
+(fer) n(ent) i(than) e(admin?) 254 3904 y(8.) 41 b(Check) 19
 b(that) g(you') -6 b(v) o(e) 19 b(do) n(wnlo) n(aded) g(and) g(read) g
 (the) g(con\002gu) n(ration) g(manu) n(al.) 26 b(A) 19
 b(quick) g(tip) h(is) g(to) f(read) g(throug) n(h) h(the) 358
-4190 y(\002le) g(\223site.ini\224) h(and) e(change) g(an) o(y) h(e-ma) n
+4004 y(\002le) g(\223site.ini\224) h(and) e(change) g(an) o(y) h(e-ma) n
 (il) h(addresses,) f(passw) o(ords) g(etc.) 25 b(to) 20
-b(\002t) h(your) e(o) n(wn) h(choices.) 254 4352 y(9.) 41
+b(\002t) h(your) e(o) n(wn) h(choices.) 254 4170 y(9.) 41
 b(Log) 15 b(in) i(on) f(you) n(r) h(admin) f(site) h(\() p
 Fk(http://) n(admin.yoursite) n(.com/) p Fp(\).) 23 b(Y) -9
 b(ou) 16 b(will) h(be) g(presente) n(d) g(with) g(a) f(page) g(which)
-358 4451 y(will) g(list) h(an) o(y) f(install) g(prob) n(lems.) 24
+358 4270 y(will) g(list) h(an) o(y) f(install) g(prob) n(lems.) 24
 b(If) 16 b(an) o(y) f(proble) n(ms) i(appear) e(read) g(the) h(error) f
 (message) h(presented) f(and) g(follo) n(w) g(an) o(y) 358
-4551 y(instructio) n(ns.) 29 b(If) 21 b(that) h(f) o(ails,) g(read) f
+4369 y(instructio) n(ns.) 29 b(If) 21 b(that) h(f) o(ails,) g(read) f
 (the) g(F) -6 b(A) h(Q.) 22 b(Then) f(go) g(to) p Fk
 21 w(http://devel) n(oper.ez.no) p Fp 21 w(and) g(search) g(the) g
-(foru) n(m) 358 4650 y(for) c(an) o(yo) n(ne) i(who) f(ha) n(v) o(e) g
+(foru) n(m) 358 4469 y(for) c(an) o(yo) n(ne) i(who) f(ha) n(v) o(e) g
 (had) f(the) i(same) f(proble) n(m.) 25 b(Also) 19 b(check) e(the) i(b)
 n(ug) f(list) h(for) f(an) o(y) f(open) h(b) n(ugs) g(co) o(v) m(ering)
-g(you) n(r) 358 4750 y(pro) n(blem.) 25 b(Finally) 20
+g(you) n(r) 358 4569 y(pro) n(blem.) 25 b(Finally) 20
 b(you) f(should) g(re) o(gister) h(to) g(the) g(mailing) g(list) h(and)
-f(try) g(asking) f(for) h(help) f(there.) 212 4911 y(10.) 41
+f(try) g(asking) f(for) h(help) f(there.) 212 4735 y(10.) 41
 b(If) 19 b(e) n(v) o(er) n(ything) f(is) i(okay) f(go) g(to) g(the) g
 (\223user\224) g(modu) n(le) h(and) f(chang) n(e) h(the) f(e-mail) g
 (addre) n(ss) i(of) e(the) g(site) h(administrato) n(r) 358
-5011 y(immed) n(iatly) -5 b(.) 212 5172 y(11.) 41 b(Chang) n(e) 21
+4834 y(immed) n(iatly) -5 b(.) 212 5000 y(11.) 41 b(Chang) n(e) 21
 b(the) f(passw) o(ord) g(of) g(the) g(admin) n(istration) g(user) g(to)
 h(someth) n(ing) f(only) g(you) f(kno) n(w) -7 b(.) 212
-5334 y(12.) 41 b(Start) 29 b(bro) l(wsing) g(the) f(public) g(part) h
+5166 y(12.) 41 b(Start) 29 b(bro) l(wsing) g(the) f(public) g(part) h
 (of) f(your) f(site,) 32 b(just) d(to) g(check) f(that) h(e) n(v) o(e) n
 (rything) f(is) h(w) o(orking) n(;) 34 b(some) 28 b(of) h(the) 358
-5433 y(articles) 20 b(supplied) f(as) i(def) o(ault) f(will) h(info) n
+5266 y(articles) 20 b(supplied) f(as) i(def) o(ault) f(will) h(info) n
 (rm) f(you) g(abo) n(ut) h(featur) n(es) g(of) f(the) g(softw) o(are.)
-212 5595 y(13.) 41 b(Check) 19 b(that) i(Imag) n(eMagick) f(is) h(w) o
+212 5432 y(13.) 41 b(Check) 19 b(that) i(Imag) n(eMagick) f(is) h(w) o
 (ork) n(ing.) k(T) m(ry) 20 b(to) g(upload) f(an) h(image) g(to) g
 (your) f(site.) p 150 5723 V 1871 5823 a(16) p 90 rotate
 dyy eop
@@ -9512,18 +9513,18 @@ b(.) p Fi 275 4401 a(\017) p Fp 41 w(A) 20 b(suppor) n(ted) g
 (database:) p Fn 457 4567 a(\226) p Fp 41 w(MySQL) g(\() p
 Fd(http://) n(www.mysql.c) n(om) p Fp(\)) g(v) o(ersion) f(3.23) g(or) h
 (later) p Fn 457 4690 a(\226) p Fp 41 w(PostgreSQL) g(\() p
-Fd(http:/) n(/www.postgr) n(esql.org) p Fp(\)) 150 4865
-y(The) g(follo) n(win) n(g) g(softw) o(are) g(is) h(optiona) n(l,) g(b)
-n(ut) f(requir) n(ed) h(for) e(some) h(modu) n(les) h(of) f(eZ) g
-(publish:) p Fi 275 5041 a(\017) p Fp 41 w(libQdo) n(m) 36
-b(\() p Fd(http:/) n(/www.troll) n(tech.com) p Fp(\)) f(is) h(a) g
-(part) f(of) g(QT) -6 b(,) 36 b(you) e(need) h(v) o(ersion) f(2.2.3) g
-(or) h(later) -5 b(.) 358 5141 y(\(Need) n(ed) 30 b(by) f(eZ) h(ne) n
-(ws) f(feed') -5 b(s) 30 b(parser) n(s.) 54 b(If) 29
-b(you) g(wish) h(to) g(includ) n(e) g(headline) n(s) h(from) d(e) o
-(xtern) n(al) i(sites) h(\(e) o(xam) n(-) 358 5240 y(ple) 20
-b(de) n(v) o(elo) n(per) -5 b(.ez.no) 19 b(or) i(slashdot.o) n(r) o
-(g\)) f(then) g(you) g(need) h(this) g(installed.) 27
+Fd(http:/) n(/www.postgr) n(esql.org) p Fp(\)) f(v) o(ersion) g(7.1.3) g
+(or) h(later) 150 4865 y(The) g(follo) n(win) n(g) g(softw) o(are) g
+(is) h(optiona) n(l,) g(b) n(ut) f(requir) n(ed) h(for) e(some) h(modu)
+n(les) h(of) f(eZ) g(publish:) p Fi 275 5041 a(\017) p
+Fp 41 w(libQdo) n(m) 36 b(\() p Fd(http:/) n(/www.troll) n(tech.com) p
+Fp(\)) f(is) h(a) g(part) f(of) g(QT) -6 b(,) 36 b(you) e(need) h(v) o
+(ersion) f(2.2.3) g(or) h(later) -5 b(.) 358 5141 y(\(Need) n(ed) 30
+b(by) f(eZ) h(ne) n(ws) f(feed') -5 b(s) 30 b(parser) n(s.) 54
+b(If) 29 b(you) g(wish) h(to) g(includ) n(e) g(headline) n(s) h(from) d
+(e) o(xtern) n(al) i(sites) h(\(e) o(xam) n(-) 358 5240
+y(ple) 20 b(de) n(v) o(elo) n(per) -5 b(.ez.no) 19 b(or) i(slashdot.o) n
+(r) o(g\)) f(then) g(you) g(need) h(this) g(installed.) 27
 b(Y) -9 b(ou) 20 b(can) g(create) h(you) n(r) h(o) n(wn) e(parsers) g
 (if) 358 5340 y(you) f(don) n(') o(t) h(w) o(ant) h(to) f(use) g(the) h
 (def) o(au) n(lt.\)) p Fi 275 5495 a(\017) p Fp 41 w(Imag) n(eMagick) 32

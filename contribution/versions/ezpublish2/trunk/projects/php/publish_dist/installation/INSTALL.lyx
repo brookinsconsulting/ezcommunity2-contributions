@@ -330,7 +330,7 @@ Access to cron jobs (Only needed if you want to use the eZ news feed module
 Access to Apache's modules
 \layout Itemize
 
-Access to a MySQL database
+Access to a MySQL or PostgreSQL database
 \layout Itemize
 
 You might also need the privilege to add new libraries to your system.
@@ -349,8 +349,9 @@ You also need to download and install the following packages, if they aren't
  present on your system already:
 \layout Itemize
 
-MySQL (http://www.mysql.com) version 3.23 or later.
- (eZ publish requires MySQL for storage of its data.)
+A database.
+ Currently, eZ publish suppports MySQL (http://www.mysql.com) version 3.23
+ or later and PostgreSQL (http://www.postgresql.org) version 7.1.3 or later.
 \layout Itemize
 
 libXml2 (http://xmlsoft.org/#Downloads) version 2.4.1 is recommended but versions
@@ -2518,11 +2519,8 @@ Important note regarding PostgreSQL support in eZ publish:
 PostgreSQL has one limitation which is not good for eZ publish:
 \layout Standard
 
-#define NAMEDATALEN 32
-\layout Standard
-
-This is the max length of indentifiers used in the database, table names,
- column names etc..
+Max length of indentifiers used in the database, table names, column names
+ etc is default set to 32.
 \layout Standard
 
 eZ publish uses names which sometimes are longer, e.g: eZImageCatalogue_ImageVari
@@ -2536,7 +2534,7 @@ Therefore you need to recompile PostgreSQL to support a larger value by
 #define NAMEDATALEN 64
 \layout Standard
 
-in the file : postgres_ext.h
+in the file : src/include/postgres_ext.h
 \layout Subsubsection
 
 First time installation (PostgreSQL)
@@ -4547,7 +4545,7 @@ PostgreSQL (
 
 \end_inset 
 
-)
+) version 7.1.3 or later
 \end_deeper 
 \layout Standard
 

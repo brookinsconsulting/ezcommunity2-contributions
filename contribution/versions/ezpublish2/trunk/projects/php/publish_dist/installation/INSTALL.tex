@@ -175,7 +175,7 @@ and sometimes for maintenance.)
 \item Access to cron jobs (Only needed if you want to use the eZ news feed
 module for regular updates of headlines imported from other sites.)
 \item Access to Apache's modules
-\item Access to a MySQL database
+\item Access to a MySQL or PostgreSQL database
 \item You might also need the privilege to add new libraries to your system.
 \end{itemize}
 You might also use other web servers than apache, but then you're
@@ -191,8 +191,9 @@ You also need to download and install the following packages, if they
 aren't present on your system already:
 
 \begin{itemize}
-\item MySQL (http://www.mysql.com) version 3.23 or later. (eZ publish requires
-MySQL for storage of its data.)
+\item A database. Currently, eZ publish suppports MySQL (http://www.mysql.com)
+version 3.23 or later and PostgreSQL (http://www.postgresql.org) version
+7.1.3 or later.
 \item libXml2 (http://xmlsoft.org/\#Downloads) version 2.4.1 is recommended
 but versions as old as 2.2.9 is known to work. (Needed by eZ article.
 If you wish to use the default article renderer you need libXml2 installed.
@@ -945,10 +946,8 @@ Important note regarding PostgreSQL support in eZ publish:
 
 PostgreSQL has one limitation which is not good for eZ publish:
 
-\#define NAMEDATALEN 32
-
-This is the max length of indentifiers used in the database, table
-names, column names etc..
+Max length of indentifiers used in the database, table names, column
+names etc is default set to 32.
 
 eZ publish uses names which sometimes are longer, e.g: eZImageCatalogue\_ImageVariationGroup
 
@@ -958,7 +957,7 @@ by altering:
 \begin{verse}
 \#define NAMEDATALEN 64
 \end{verse}
-in the file : postgres\_ext.h
+in the file : src/include/postgres\_ext.h
 
 
 \subsubsection{First time installation (PostgreSQL)}
@@ -1565,7 +1564,7 @@ have permissions to use it:
 
 \begin{itemize}
 \item MySQL (\url{http://www.mysql.com}) version 3.23 or later
-\item PostgreSQL (\url{http://www.postgresql.org})
+\item PostgreSQL (\url{http://www.postgresql.org}) version 7.1.3 or later
 \end{itemize}
 \end{itemize}
 The following software is optional, but required for some modules

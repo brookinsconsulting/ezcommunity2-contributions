@@ -192,7 +192,7 @@ to have the following privileges on your system:
 
 * Access to Apache's modules
 
-* Access to a MySQL database
+* Access to a MySQL or PostgreSQL database
 
 * You might also need the privilege to add new libraries
   to your system.
@@ -208,8 +208,9 @@ for inclusion in future versions of this manual.
 You also need to download and install the following packages,
 if they aren't present on your system already:
 
-* MySQL (http://www.mysql.com) version 3.23 or later. (eZ
-  publish requires MySQL for storage of its data.)
+* A database. Currently, eZ publish suppports MySQL (http://www.mysql.com)
+  version 3.23 or later and PostgreSQL (http://www.postgresql.org)
+  version 7.1.3 or later.
 
 * libXml2 (http://xmlsoft.org/#Downloads) version 2.4.1 is
   recommended but versions as old as 2.2.9 is known to work.
@@ -966,10 +967,8 @@ Important note regarding PostgreSQL support in eZ publish:
 
 PostgreSQL has one limitation which is not good for eZ publish:
 
-#define NAMEDATALEN 32
-
-This is the max length of indentifiers used in the database,
-table names, column names etc..
+Max length of indentifiers used in the database, table names,
+column names etc is default set to 32.
 
 eZ publish uses names which sometimes are longer, e.g: eZImageCatalogue_ImageVariationGroup
 
@@ -978,7 +977,7 @@ value by altering:
 
 #define NAMEDATALEN 64
 
-in the file : postgres_ext.h
+in the file : src/include/postgres_ext.h
 
 2.4.2.3 First time installation (PostgreSQL)
 
@@ -1603,6 +1602,7 @@ you must have permissions to use it:
     or later
 
   * PostgreSQL ([http://www.postgresql.org])
+    version 7.1.3 or later
 
 The following software is optional, but required for some
 modules of eZ publish:
