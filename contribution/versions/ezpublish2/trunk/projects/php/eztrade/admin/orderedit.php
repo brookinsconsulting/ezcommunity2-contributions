@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: orderedit.php,v 1.18 2001/07/06 08:34:55 jhe Exp $
+// $Id: orderedit.php,v 1.19 2001/07/06 10:43:15 jhe Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <30-Sep-2000 13:03:13 bf>
@@ -45,6 +45,7 @@ include_once( "eztrade/classes/ezproductcategory.php" );
 include_once( "eztrade/classes/ezproduct.php" );
 include_once( "eztrade/classes/ezorder.php" );
 include_once( "eztrade/classes/ezcheckout.php" );
+include_once( "eztrade/classes/ezpricegroup.php" );
 
 include_once( "eztrade/classes/ezorderstatustype.php" );
 
@@ -108,6 +109,7 @@ $order = new eZOrder( $OrderID );
 
 $user = $order->user();
 
+
 if ( $user )
 {
     $t->set_var( "customer_email", $user->email() );    
@@ -146,6 +148,8 @@ if ( $user )
     $t->set_var( "billing_zip", $billingAddress->zip() );
     $t->set_var( "billing_place", $billingAddress->place() );
     
+    $PriceGroup = eZPriceGroup::correctPriceGroup( $user->groups( true ) );
+
     $country = $billingAddress->country();
     if( is_object( $country ) )
     {
@@ -155,7 +159,6 @@ if ( $user )
     {
         $t->set_var( "billing_country", "" );
     }
-    
 }
 
 
@@ -164,12 +167,12 @@ $items = $order->items( $OrderType );
 
 $locale = new eZLocale( $Language );
 $currency = new eZCurrency();
-    
+
 $i = 0;
 $sum = 0.0;
 foreach ( $items as $item )
 {
-    $product = $item->product();
+    $product =& $item->product();
 
     $image = $product->thumbnailImage();
     
@@ -183,11 +186,8 @@ foreach ( $items as $item )
         $t->set_var( "product_image_caption", $image->caption() );
     }
 
-
-
-
     $priceobj = new eZCurrency();
-
+    
     if ( $product->showPrice() == true and $product->hasPrice() )
     {
         $found_price = false;
@@ -208,7 +208,7 @@ foreach ( $items as $item )
     }
     else
     {
-        $priceobj->setValue( 2 );
+        $priceobj->setValue( $product->price() * $item->count() );
         $priceArray = "";
         $options =& $product->options();
         if ( count ( $options ) == 1 )
@@ -240,8 +240,6 @@ foreach ( $items as $item )
                     }
                     $high = new eZCurrency( max( $priceArray ) );
                     $low = new eZCurrency( min( $priceArray ) );
-
-                    $t->set_var( "product_price", $locale->format( $low ) . " - " . $locale->format( $high ) );
                 }
             }
         }
@@ -251,11 +249,6 @@ foreach ( $items as $item )
     
     $price = $priceobj->value();    
 
-
-    
-    
-        
-//    $price = $item->price() * $item->count();
     $currency->setValue( $price );
 
     $sum += $price;

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: orderlist.php,v 1.14 2001/03/23 12:05:43 pkej Exp $
+// $Id: orderlist.php,v 1.15 2001/07/06 10:43:16 jhe Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <30-Sep-2000 13:03:13 bf>
@@ -133,35 +133,35 @@ if ( !$orderArray )
 $locale = new eZLocale( $Language );
 $currency = new eZCurrency();
 $i=0;
+
 foreach ( $orderArray as $order )
 {
-    if (( $i %2 ) == 0 )
+    if ( ( $i %2 ) == 0 )
         $t->set_var( "td_class", "bgdark" );
     else
         $t->set_var( "td_class", "bglight" );
-        
+    
     $t->set_var( "order_id", $order->id() );
     $status = $order->initialStatus( );
     $dateTime = $status->altered();
     
     $t->set_var( "order_date", $locale->format( $dateTime ) );
-
+    
     $status = $order->lastStatus( );
     $dateTime = $status->altered();
     
     $t->set_var( "altered_date", $locale->format( $dateTime ) );
-
+    
     $statusType = $status->type();
-
+    
     $statusName = preg_replace( "#intl-#", "", $statusType->name() );
     
     $statusName =  $languageINI->read_var( "strings", $statusName );
     
     $t->set_var( "order_status", $statusName );
-
+    
     $currency->setValue( $order->totalPrice() + $order->shippingCharge() );
     $t->set_var( "order_price", $locale->format( $currency ) );
-    
     
     $t->parse( "order_item", "order_item_tpl", true );
     $i++;
