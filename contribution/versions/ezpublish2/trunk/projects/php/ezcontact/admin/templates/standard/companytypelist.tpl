@@ -188,13 +188,13 @@
 
 	<!-- BEGIN company_buy_button_tpl -->
 	<td class="{td_class}" width="1%">
-	<a href="{www_dir}{index}/contact/company/buy/{company_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezb{company_id}-red','','/admin/images/addminimrk.gif',1)"><img name="ezb{company_id}-red" border="0" src="{www_dir}/admin/images/addmini.gif" width="16" height="16" align="top" alt="Buy" /></a>
+	<a href="{www_dir}{index}/contact/company/buy/{company_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezb{company_id}-red','','/admin/images/button-cart-ro.gif',1)"><img name="ezb{company_id}-red" border="0" src="{www_dir}/admin/images/button-cart.gif" width="16" height="16" align="top" alt="Buy" /></a>
 	</td>
 	<!-- END company_buy_button_tpl -->
 
 	<!-- BEGIN company_folder_button_tpl -->
 	<td class="{td_class}" width="1%">
-	<a href="{www_dir}{index}/contact/company/folder/{company_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezf{company_id}-red','','/admin/images/addminimrk.gif',1)"><img name="ezf{company_id}-red" border="0" src="{www_dir}/admin/images/addmini.gif" width="16" height="16" align="top" alt="Folder" /></a>
+	<a href="{www_dir}{index}/contact/company/folder/{company_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezf{company_id}-red','','/admin/images/button-folder-ro.gif',1)"><img name="ezf{company_id}-red" border="0" src="{www_dir}/admin/images/button-folder.gif" width="16" height="16" align="top" alt="Folder" /></a>
 	</td>
 	<!-- END company_folder_button_tpl -->
 

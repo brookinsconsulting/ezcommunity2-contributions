@@ -101,13 +101,13 @@
 
 	<!-- BEGIN person_buy_button_tpl -->
 	<td class="{td_class}" width="1%">
-	<a href="{www_dir}{index}/contact/person/buy/{person_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezb{person_id}-red','','/admin/images/addminimrk.gif',1)"><img name="ezb{person_id}-red" border="0" src="{www_dir}/admin/images/addmini.gif" width="16" height="16" align="top" alt="Buy" /></a>
+	<a href="{www_dir}{index}/contact/person/buy/{person_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezb{person_id}-red','','/admin/images/button-cart-ro.gif',1)"><img name="ezb{person_id}-red" border="0" src="{www_dir}/admin/images/button-cart.gif" width="16" height="16" align="top" alt="Buy" /></a>
 	</td>
 	<!-- END person_buy_button_tpl -->
 
 	<!-- BEGIN person_folder_button_tpl -->
 	<td class="{td_class}" width="1%">
-	<a href="{www_dir}{index}/contact/person/folder/{person_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezf{person_id}-red','','/admin/images/addminimrk.gif',1)"><img name="ezf{person_id}-red" border="0" src="{www_dir}/admin/images/addmini.gif" width="16" height="16" align="top" alt="Folder" /></a>
+	<a href="{www_dir}{index}/contact/person/folder/{person_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezf{person_id}-red','','/admin/images/button-folder-ro.gif',1)"><img name="ezf{person_id}-red" border="0" src="{www_dir}/admin/images/button-folder.gif" width="16" height="16" align="top" alt="Folder" /></a>
 	</td>
 	<!-- END person_folder_button_tpl -->
 
