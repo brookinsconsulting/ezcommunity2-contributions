@@ -102,7 +102,7 @@ ServerAlias admin.publish.org
 
 * Create a database, name it publish or whatever you like .
 
-# mysqladmin -uroot -p create database publish
+# mysqladmin -uroot -p create publish
 
 * Add a publish user in MySQL, to add a user you can use the MySQL
   client

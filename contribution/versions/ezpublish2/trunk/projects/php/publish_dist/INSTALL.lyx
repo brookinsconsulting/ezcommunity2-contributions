@@ -185,7 +185,7 @@ Database install
 Create a database, name it publish or whatever you like .
 \layout LyX-Code
 
-# mysqladmin -uroot -p create database publish
+# mysqladmin -uroot -p create publish
 \layout Itemize
 
 Add a publish user in MySQL, to add a user you can use the MySQL client
