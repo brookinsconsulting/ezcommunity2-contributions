@@ -3,10 +3,10 @@
 		<img src="/{document_root}images/1x1.gif" width="11" height="18" border="0"></td>
 
 	<td bgcolor="{person_bg_color}">
-		<a href="/contact/personinfo/?PID={person_id}" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('{first_name}{last_name}-se','','/{document_root}images/personminimrk.gif',1)">
 			<img src="/{document_root}images/1x1.gif" width="6" height="18" border="0">
 			<img name="{first_name}{last_name}-se" border="0" src="/{document_root}images/personmini.gif" width="16" height="16">
 			<img src="/{document_root}images/1x1.gif" width="4" height="18"  border="0">
+		<a href="/contact/personinfo/?PID={person_id}" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('{first_name}{last_name}-se','','/{document_root}images/personminimrk.gif',1)">
 			{first_name} {last_name}
 		</a>
 	</td>

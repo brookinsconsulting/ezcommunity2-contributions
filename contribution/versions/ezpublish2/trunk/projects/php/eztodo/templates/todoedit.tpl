@@ -1,61 +1,71 @@
 <form method="post" action="/todo/todoedit/">
 <h1>{head_line}</h1>
 
-<p>
-{intl-title}<br>
-<input type="text" name="Title" value="{title}">
-</p>
+<hr noshade size="4"/>
 
-<p>
-{intl-desc}<br>
-<textarea cols="25" rows="5" name="Text">{text}</textarea>
-</p>
+<br>
 
-<p>
-{intl-cat}<br>
-<select name="CategoryID">
-{category_select}
-</select>
-</p>
-
-
-<p>
-{intl-pri}<br>
-<select name="PriorityID">
-{priority_select}
-</select>
-</p>
-
-{intl-date}<br>
-<p>
-Klokke:<input size="2" type="text" name="Hour" value="{hour}">:<input size="2" type="text" name="Minute" value="{hour}">
-Dato:<input size="2" type="text" name="Mnd" value="{mnd}">-<input size="2" type="text" name="Day" value="{day}">
-År:<input size="4" type="text" name="Year" value="2000">
-</p>
-
-<p>
-{intl-user}<br>
-<select name="UserID">
-{user_select}
-</select>
-</p>
-
-<p>
-{intl-owner}<br>
-<select name="OwnerID">
-{owner_select}
-</select>
-</p>
-
-
-{intl-public}<input type="checkbox" name="Permission" {permission}><br>
-{intl-status}<input type="checkbox" name="Status" {status}><br>
-
-
-
+<table width="100%" cellpadding="0" cellspacing="0" border="0">
+<tr>
+	<td class="br" colspan="2">
+	<p class="boxtext">{intl-title}</p>
+	<input type="text" size="30" name="Title" value="{title}">
+	</td>
+</tr>
+<tr>
+	<td class="br">
+	<p class="boxtext">{intl-user}</p>
+	<select name="UserID">{user_select}</select>
+	</td>
+	<td class="br">
+	<p class="boxtext">{intl-owner}</p>
+	<select name="OwnerID">{owner_select}</select>
+	</td>
+</tr>
+<tr>
+	<td class="br">
+	<p class=boxtext>{intl-date}</p>
+	<span class="small">Klokkeslett:</span> <input size="2" type="text" name="Hour" value="{hour}">:<input size="2" type="text" name="Minute" value="{hour}">&nbsp;
+	<span class="small">Dato:</span> <input size="2" type="text" name="Mnd" value="{mnd}">-<input size="2" type="text" name="Day" value="{day}">&nbsp;
+	<span class="small">År:</span> <input size="4" type="text" name="Year" value="2000">&nbsp;
+	</td>
+	<td class="br">
+	<p class="boxtext">Gitt dato:</p>xx.xx.2000
+	</td>
+</tr>
+<tr>
+	<td class="br">
+	<p class="boxtext">{intl-cat}</p>
+	<select name="CategoryID">{category_select}</select>
+	</td>
+	<td class="br">
+	<p class="boxtext">{intl-pri}</p>
+	<select name="PriorityID">{priority_select}</select>
+	</td>
+</tr>
+<tr>
+	<td class="br" colspan="2">
+	<p class="boxtext">{intl-desc}</p>
+	<textarea cols="30" rows="10" name="Text">{text}</textarea>
+	</td>
+</tr>
+<tr>
+	<td>
+	<p class="boxtext">Status:</p>
+	<div class="check"><input type="checkbox" name="Status" {status}>&nbsp;{intl-status}</div>
+	</td>
+	<td>
+	<p class="boxtext">Visning:</p>
+	<div class="check"><input type="checkbox" name="Permission" {permission}>&nbsp;{intl-private}</div>
+	</td>
+</tr>
+</table>
 
 <input type="hidden" name="TodoID" value="{todo_id}">
 <input type="hidden" name="Action" value="{action_value}">
-<input type="submit" value="{submit_text}">
+
+<hr noshade size="4"/>
+
+<input class="okbutton" type="submit" value="{submit_text}">
 
 </form>
