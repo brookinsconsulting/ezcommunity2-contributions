@@ -36,8 +36,8 @@
 
 <!-- BEGIN attribute_item_tpl -->
 <p class="boxtext">{attribute_name}:</p>
-<div class="box">{attribute_value}</div>
-<!-- {attribute_id}" -->
+<textarea class="box" name="AttributeValue[]" cols="40" rows="5" wrap="soft">{attribute_value}</textarea>
+<input type="hidden" name="AttributeID[]" value="{attribute_id}">
 <br /><br />
 <!-- END attribute_item_tpl -->
 <!-- END attribute_list_tpl -->
