@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezaddresstype.php,v 1.8 2001/07/19 12:06:56 jakobn Exp $
+// $Id: ezaddresstype.php,v 1.9 2001/10/18 12:02:24 ce Exp $
 //
 // Definition of eZAddressType class
 //
@@ -38,7 +38,7 @@
 
   \endcode
 
-  \sa eZPhoneType
+  \sa eZAddress eZCompany eZPerson eZAddress eZPhone eZOnline
 */
 
 class eZAddressType

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezonlinetype.php,v 1.9 2001/08/17 12:29:17 jhe Exp $
+// $Id: ezonlinetype.php,v 1.10 2001/10/18 12:02:24 ce Exp $
 //
 // Definition of eZOnline class
 //
@@ -46,7 +46,7 @@
 class eZOnlineType
 {
     /*!
-      Constructs a new eZAddressType object.
+      Constructs a new eZOnlineTye object.
 
       If $id is set the object's values are fetched from the
       database.
@@ -292,22 +292,10 @@ class eZOnlineType
     function &count()
     {
         $db =& eZDB::globalDatabase();
-//          $db->array_query( $person_qry,  "SELECT count( Pe.ID ) as Count
-//                                           FROM eZContact_Person AS Pe, eZContact_PersonOnlineDict AS POD,
-//                                                eZAddress_Online AS Online, eZAddress_OnlineType AS OT
-//                                           WHERE Pe.ID = POD.PersonID AND POD.OnlineID = Online.ID AND Online.OnlineTypeID = OT.ID AND OnlineTypeID='$this->ID'" );
-//          $db->array_query( $company_qry, "SELECT count( Co.ID ) as Count
-//                                           FROM eZContact_Company AS Co, eZContact_CompanyOnlineDict AS COD,
-//                                                eZAddress_Online AS Online, eZAddress_OnlineType AS OT
-//                                           WHERE Co.ID = COD.CompanyID AND COD.OnlineID = Online.ID AND Online.OnlineTypeID = OT.ID AND OnlineTypeID='$this->ID'" );
         $db->array_query( $qry, "SELECT count( Online.ID ) as Count
                                  FROM eZAddress_Online AS Online, eZAddress_OnlineType AS OT
                                  WHERE Online.OnlineTypeID = OT.ID AND OnlineTypeID='$this->ID'" );
         $cnt = 0;
-//          if ( count( $company_qry ) > 0 )
-//              $cnt += $company_qry[0]["Count"];
-//          if ( count( $person_qry ) > 0 )
-//              $cnt += $person_qry[0]["Count"];
         if ( count( $qry ) > 0 )
             $cnt += $qry[0][ $db->fieldName( "Count" ) ];
         return $cnt;

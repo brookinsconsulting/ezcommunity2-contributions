@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezonline.php,v 1.9 2001/08/16 13:57:04 jhe Exp $
+// $Id: ezonline.php,v 1.10 2001/10/18 12:02:24 ce Exp $
 //
 // Definition of eZOnline class
 //
@@ -58,7 +58,7 @@ class eZOnline
     }
 
     /*!
-      Stores a eZOnline
+      Stores a eZOnline object to the database.
     */  
     function store()
     {
@@ -94,7 +94,7 @@ class eZOnline
     }
 
     /*!
-      Deletes the online where id = $this->ID
+      Deletes the an eZOnline object where id = $this->ID
     */
     function delete( $id = false )
     {
@@ -118,7 +118,7 @@ class eZOnline
             $db->array_query( $online_array, "SELECT * FROM eZAddress_Online WHERE ID='$id'" );
             if ( count( $online_array ) > 1 )
             {
-                die( "Feil: Flere onlineer med samme ID funnet i database, dette skal ikke være mulig. " );
+                die( "Error: Onlines's with the same ID was found in the database. This shouldent happen." );
             }
             else if ( count( $online_array ) == 1 )
             {

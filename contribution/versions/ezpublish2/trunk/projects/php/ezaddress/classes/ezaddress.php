@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: ezaddress.php,v 1.19 2001/10/15 06:22:26 ce Exp $
+// $Id: ezaddress.php,v 1.20 2001/10/18 12:02:24 ce Exp $
 //
 // Definition of eZAddress class
 //
@@ -28,8 +28,21 @@
 //!! eZAddress
 //! eZAddress handles addresses.
 /*!
-  NOTE: this class defaults to Norwegian country is none is
-  set.
+  
+  Example code:
+  \code
+  $address = new eZAddress(); // Create a new object.
+  $address->setStreet1( "Street 1" );
+  $address->setStreet2( "Street 2" );
+  $address->setZip( "2348" );
+  $address->setPlace( "Skien" );
+  $address->setPlace( "Skien" );
+  $address->setCountry( $country );
+  $address->setAddressType( $addressType );
+  $address->setMainAddress( $user );
+  $address->store(); // Stores the object to the database
+  \endcode
+  \sa eZAddressType eZCompany eZPerson eZAddress eZPhone eZOnline
 */
 
 include_once( "classes/ezdb.php" );
@@ -135,7 +148,10 @@ class eZAddress
     }
 
     /*!
-      Henter ut alle adressene lagret i databasen.
+      Returns all the adddresses found in the database.
+
+      The categories are returned as an array of eZAddress objects.
+
     */
     function getAll( )
     {
@@ -148,7 +164,7 @@ class eZAddress
     }
 
     /*!
-      Sletter adressen med ID == $id;
+      Delete this object from the database.
      */
     function delete( $id = false )
     {
@@ -182,7 +198,7 @@ class eZAddress
     }
     
     /*!
-      Setter  street1.
+      Sets street1 of this eZAddress object.
     */
     function setStreet1( $value )
     {
@@ -190,7 +206,7 @@ class eZAddress
     }
 
     /*!
-      Setter  street2.
+      Sets street2 of this eZAddress object.
     */
     function setStreet2( $value )
     {
@@ -198,7 +214,7 @@ class eZAddress
     }
 
     /*!
-      Sets the name.
+      Sets the name of this eZAddress object.
     */
     function setName( $value )
     {
@@ -206,7 +222,7 @@ class eZAddress
     }
 
     /*!
-      Setter postkode.
+      Sets the zip code for this eZAddress object.
     */
     function setZip( $value )
     {
@@ -214,7 +230,8 @@ class eZAddress
     }
 
     /*!
-      Setter adressetype.
+      Sets the address type for this eZAddress object.
+      The parameter can be the ID for the eZAddressType object a the eZAddressType object.
     */
     function setAddressType( $value )
     {
@@ -230,23 +247,9 @@ class eZAddress
     }
 
     /*!
-      Setter adressetype.
-    */
-    function setAddressTypeID( $value )
-    {
-        if( is_numeric( $value ) )
-        {
-            $this->AddressTypeID = $value;
-        }
-        
-        if( get_class( $value ) == "ezaddresstype" )
-        {
-            $this->AddressTypeID = $value->id();
-        }
-    }
-
-    /*!
       Sets the main address
+      The paramenter can be the ID for the eZAddress object or a eZAddress object.
+      If the eZUser object already has a eZAddress object as a main address, the address will be updated.
     */
     function setMainAddress( $mainAddress, $user )
     {
@@ -285,7 +288,8 @@ class eZAddress
     }
     
     /*!
-      Returns the main address
+      Returns the main address as an eZAddress object.
+      The paramenter can be the ID for the eZUser object or a eZUser object.
     */
     function mainAddress( $user )
     {
@@ -310,7 +314,7 @@ class eZAddress
     }
 
     /*!
-      Returns the object ID.
+      Returns the ID eZAddress object.
     */
     function id()
     {
@@ -318,7 +322,7 @@ class eZAddress
     }
     
     /*!
-      Returnerer  street1.
+      Returns street1 for this eZAddress object.
     */
     function street1( )
     {
@@ -326,7 +330,7 @@ class eZAddress
     }
 
     /*!
-      Returnerer  street2.
+      Returns street2 for this eZAddress object.
     */
     function street2( )
     {
@@ -334,7 +338,7 @@ class eZAddress
     }
 
     /*!
-      Returns the name.
+      Returns name for this eZAddress object.
     */
     function name( )
     {
@@ -342,7 +346,7 @@ class eZAddress
     }
 
     /*!
-      Returnerer postkode.
+      Returns zip for this eZAddress object.
     */
     function zip( )
     {
@@ -350,15 +354,18 @@ class eZAddress
     }
 
     /*!
-      Returnerer adressetype id.
+      Returns addressTypeID for this eZAddress object.
     */
-    function addressTypeID()
+    function addressTypeID( $asObject=false )
     {
-        return $this->AddressTypeID;
+        if ( $asObject )
+            return new eZAddress( $this->AddressTypeID );
+        else
+            return $this->AddressTypeID;
     }
 
     /*!
-      Returnerer adressetype.
+      Returns address type as an eZAddressType object.
     */
     function addressType()
     {
@@ -367,7 +374,7 @@ class eZAddress
     }
 
     /*!
-      Sets the place value.
+      Returns place for this eZAddress object.
     */
     function setPlace( $value )
     {
@@ -390,7 +397,7 @@ class eZAddress
     }
 
     /*!
-     Returns the place.
+      Returns place for this eZAddress object.
     */
     function place()
     {

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezphone.php,v 1.6 2001/07/19 12:06:56 jakobn Exp $
+// $Id: ezphone.php,v 1.7 2001/10/18 12:02:24 ce Exp $
 //
 // Definition of eZAddressType class
 //
@@ -29,6 +29,15 @@
 //!
 /*!
 
+  Example code:
+  \code
+  // create a new phone type and set some variables.
+  $phone = new eZPhone();
+  $phone->setNumber( "35544435" );
+  $phone->setPhoneType( $phoneType ); 
+  $phone->store();
+  \endcode
+  \sa eZPhoneType eZCompany eZPerson eZAddress eZPhone eZAddress
 */
 
 include_once( "classes/ezdb.php" );
@@ -36,8 +45,8 @@ include_once( "ezaddress/classes/ezphonetype.php" );
 
 class eZPhone
 {
-    /*
-
+    /*!
+      Constructs a new eZPhone object.
     */
     function eZPhone( $id = "" )
     {
@@ -48,9 +57,9 @@ class eZPhone
         }
     }
 
-    /*
-      Lagrer et telefonnummer link i databasen.      
-    */
+    /*!
+      Stores a eZPhone object to the database.
+    */  
     function store()
     {
         $db =& eZDB::globalDatabase();
@@ -80,8 +89,8 @@ class eZPhone
         return $ret;
     }
 
-    /*
-      Sletter.
+    /*!
+      Deletes the an eZPhone object where id = $this->ID
     */
     function delete( $id = false )
     {
@@ -92,8 +101,8 @@ class eZPhone
         eZDB::finish( $res, $db );
     }
     
-    /*
-      Henter ut telefonnummer med ID == $id
+    /*!
+      Fetches an phone with object id==$id;
     */  
     function get( $id )
     {
@@ -103,22 +112,28 @@ class eZPhone
             $db->array_query( $phone_array, "SELECT * FROM eZAddress_Phone WHERE ID='$id'" );
             if ( count( $phone_array ) > 1 )
             {
-                die( "Feil: Flere telefonnummer med samme ID funnet i database, dette skal ikke være mulig. " );
+                die( "Error: Phones's with the same ID was found in the database. This shouldent happen." );
             }
             else if ( count( $phone_array ) == 1 )
             {
-                $this->ID = $phone_array[ 0 ][ $db->fieldName( "ID" ) ];
-                $this->Number = $phone_array[ 0 ][ $db->fieldName( "Number" ) ];
-                $this->PhoneTypeID = $phone_array[ 0 ][ $db->fieldName( "PhoneTypeID" ) ];
+                $this->ID =& $phone_array[0][ $db->fieldName( "ID" ) ];
+                $this->Number =& $phone_array[0][ $db->fieldName( "Number" ) ];
+                $this->PhoneTypeID =& $phone_array[0][ $db->fieldName( "PhoneTypeID" ) ];
             }
         }
     }
 
-    function setNumber( $value )
+    /*!
+      Sets the number of the object.
+    */
+    function setNumber( &$value )
     {
         $this->Number = $value;
     }
 
+    /*!
+      Sets the PhoneTypeID of the object.
+    */
     function setPhoneTypeID( $value )
     {
         if( is_numeric( $value ) )
@@ -132,6 +147,9 @@ class eZPhone
         }
     }
 
+    /*!
+      Sets the PhoneType object of the object.
+    */
     function setPhoneType( $value )
     {
         if( is_numeric( $value ) )
@@ -145,27 +163,42 @@ class eZPhone
         }
     }
 
+    /*!
+      Sets the ID of the object.
+    */
     function setID( $value )
     {
         $this->ID = $value;
     }
-    
-    function number( )
+
+    /*!
+      Returns the number of the object.
+    */
+    function &number( )
     {
         return $this->Number;
     }
 
-    function phoneTypeID( )
+    /*!
+      Returns the phoneTypeID of the object.
+    */
+    function &phoneTypeID( )
     {
         return $this->PhoneTypeID;
     }
-    
-    function phoneType( )
+
+    /*!
+      Returns the phoneType of the object.
+    */
+    function &phoneType( )
     {
         $phoneType = new eZPhoneType( $this->PhoneTypeID );
         return $phoneType;
     }
-    
+
+    /*!
+      Returns the ID of the object.
+    */
     function id( )
     {
         return $this->ID;
