@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: welcome.php,v 1.13 2001/11/08 09:57:13 bf Exp $
+// $Id: welcome.php,v 1.14 2001/11/08 10:15:31 bf Exp $
 //
 // Created on: <13-Nov-2000 10:57:15 bf>
 //
@@ -67,7 +67,7 @@ if ( $user )
 
 if ( $ini->read_var( "site", "CheckDependence" ) == "enabled" )
 {
-    if ( function_exists( "1xmltree" ) == false )
+    if ( function_exists( "xmltree" ) == false )
     {
         $t->set_var( "libxml_location", "http://xmlsoft.org/#Downloads" );
         $t->parse( "libxml_error", "libxml_error_tpl" );
