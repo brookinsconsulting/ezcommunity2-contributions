@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: articleview.php,v 1.50 2001/07/05 17:24:01 br Exp $
+// $Id: articleview.php,v 1.51 2001/07/06 08:52:03 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <18-Oct-2000 16:34:51 bf>
@@ -75,10 +75,17 @@ if ( $StaticPage == true )
 }
 else
 {
-    if ( file_exists( "ezarticle/user/$TemplateDir/articleview" . $override  . ".tpl" ) )
-        $t->set_file( "article_view_page_tpl", "articleview" . $override  . ".tpl"  );
+    if ( $PrintableVersion == "enabled" )
+    {
+            $t->set_file( "article_view_page_tpl", "articleprint.tpl"  );        
+    }
     else
-        $t->set_file( "article_view_page_tpl", "articleview.tpl"  );
+    {
+        if ( file_exists( "ezarticle/user/$TemplateDir/articleview" . $override  . ".tpl" ) )
+            $t->set_file( "article_view_page_tpl", "articleview" . $override  . ".tpl"  );
+        else
+            $t->set_file( "article_view_page_tpl", "articleview.tpl"  );
+    }
 }
 
 // path
