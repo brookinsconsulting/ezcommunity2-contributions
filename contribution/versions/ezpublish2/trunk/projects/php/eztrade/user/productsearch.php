@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: productsearch.php,v 1.19 2001/08/17 13:36:00 jhe Exp $
+// $Id: productsearch.php,v 1.20 2001/09/27 12:00:00 ce Exp $
 //
 // Created on: <10-Oct-2000 17:49:05 bf>
 //
@@ -37,6 +37,7 @@ $RequireUserLogin = $ini->read_var( "eZTradeMain", "RequireUserLogin" ) == "true
 $MaxSearchForProducts = $ini->read_var( "eZTradeMain", "MaxSearchForProducts" );
 $SmallImageWidth = $ini->read_var( "eZTradeMain", "SmallImageWidth" );
 $SmallImageHeight = $ini->read_var( "eZTradeMain", "SmallImageHeight" );
+$PricesIncludeVAT = $ini->read_var( "eZTradeMain", "PricesIncludeVAT" ) == "enabled" ? true : false;
 
 include_once( "eztrade/classes/ezproduct.php" );
 include_once( "eztrade/classes/ezproductcategory.php" );
@@ -136,31 +137,52 @@ if ( isSet( $Query ) && ( count ( $productList ) > 0 ) )
 
         $t->set_var( "product_name", $product->name() );
 
-        if ( ( !$RequireUserLogin or get_class( $user ) == "ezuser"  ) and
-             $ShowPrice and $product->showPrice() == true and $product->hasPrice() )
+        if ( $ShowPrice and $product->showPrice() == true and $product->hasPrice() )
         {
-            $found_price = false;
-            if ( $ShowPriceGroups and $PriceGroup > 0 )
+            $t->set_var( "product_price", $product->localePrice( $PricesIncludeVAT ) );
+            $priceRange = $product->correctPriceRange( $PricesIncludeVAT );
+            
+            if ( ( empty( $priceRange["min"] ) and empty( $priceRange["max"] ) ) and !($product->correctPrice( $PricesIncludeVAT ) > 0) )
             {
-                $price = eZPriceGroup::correctPrice( $product->id(), $PriceGroup );
-                if ( $price )
-                {
-                    $found_price = true;
-                    $price = new eZCurrency( $price );
-                }
+                $t->set_var( "product_price", "" );
             }
-            if ( !$found_price )
-            {
-                $price = new eZCurrency( $product->price() );
-            }
-            $t->set_var( "product_price", $locale->format( $price ) );
+            $t->parse( "price", "price_tpl" );
+        }
+        else if( $product->showPrice() == false )
+        {
+            $t->set_var( "product_price", "" );
             $t->parse( "price", "price_tpl" );
         }
         else
         {
-            $t->set_var( "price", "" );
+            $priceArray = "";
+            $options =& $product->options();
+            if ( count( $options ) == 1 )
+            {
+                $option = $options[0];
+                if ( get_class( $option ) == "ezoption" )
+                {
+                    $optionValues =& $option->values();
+                    if ( count( $optionValues ) > 1 )
+                    {
+                        $i=0;
+                        foreach ( $optionValues as $optionValue )
+                        {
+                            $priceArray[$i] = $optionValue->localePrice( $PricesIncludeVAT, $product );
+                            $i++;
+                        }
+                        $high = max( $priceArray );
+                        $low = min( $priceArray );
+                        
+                        $t->set_var( "product_price", $low . " - " . $high );
+                        
+                        $t->parse( "price", "price_tpl" );
+                    }
+                }
+            }
+            else
+                $t->set_var( "price", "" );
         }
-        
         
         $t->set_var( "product_intro_text", $product->brief() );
         $t->set_var( "product_id", $product->id() );

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: productlist.php,v 1.37 2001/09/21 14:31:50 bf Exp $
+// $Id: productlist.php,v 1.38 2001/09/27 12:00:00 ce Exp $
 //
 // Created on: <23-Sep-2000 14:46:20 bf>
 //
@@ -190,8 +190,7 @@ foreach ( $productList as $product )
 
     $t->set_var( "product_intro_text", eZTextTool::nl2br( $product->brief() ) );
 
-    if ( ( !$RequireUserLogin or get_class( $user ) == "ezuser"  ) and
-         $ShowPrice and $product->showPrice() == true )
+    if ( $ShowPrice and $product->showPrice() == true and $product->hasPrice() )
     {
         $t->set_var( "product_price", $product->localePrice( $PricesIncludeVAT ) );
         $priceRange = $product->correctPriceRange( $PricesIncludeVAT );
@@ -210,7 +209,6 @@ foreach ( $productList as $product )
     else
     {
         $priceArray = "";
-        $priceArray = "";
         $options =& $product->options();
         if ( count( $options ) == 1 )
         {
@@ -223,43 +221,13 @@ foreach ( $productList as $product )
                     $i=0;
                     foreach ( $optionValues as $optionValue )
                     {
-                        $found_price = false;
-                        if ( $ShowPriceGroups and $PriceGroup > 0 )
-                        {
-                            $priceArray[$i] = eZPriceGroup::correctPrice( $product->id(), $PriceGroup, $option->id(), $optionValue->id() );
-                            if( $priceArray[$i] )
-                            {
-                                $found_price = true;
-                                $priceArray[$i] = $priceArray[$i];
-                            }
-                        }
-                        if ( !$found_price )
-                        {
-                            $priceArray[$i] = $optionValue->price();
-                        }
+                        $priceArray[$i] = $optionValue->localePrice( $PricesIncludeVAT, $product );
                         $i++;
                     }
                     $high = max( $priceArray );
                     $low = min( $priceArray );
-
-                    if ( $PricesIncludeVAT == "enabled" )
-                    {
-                        $lowIncVAT = $low + $product->addVAT( $low );
-                        $highIncVAT = $high + $product->addVAT( $high );
-                        
-                        $highIncVAT = new eZCurrency( $highIncVAT );
-                        $lowIncVAT = new eZCurrency( $lowIncVAT );
-
-                        $t->set_var( "product_price", $locale->format( $lowIncVAT ) . " - " . $locale->format( $highIncVAT ) );
-                    }
-                    else
-                    {
-                        $high = new eZCurrency( $high );
-                        $low = new eZCurrency( $low );
-
-                        $t->set_var( "product_price", $locale->format( $low ) . " - " . $locale->format( $high ) );
-
-                    }
+                    
+                    $t->set_var( "product_price", $low . " - " . $high );
                     
                     $t->parse( "price", "price_tpl" );
                 }

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: productview.php,v 1.68 2001/09/27 07:53:30 ce Exp $
+// $Id: productview.php,v 1.69 2001/09/27 12:00:00 ce Exp $
 //
 // Created on: <24-Sep-2000 12:20:32 bf>
 //
@@ -31,16 +31,16 @@ include_once( "classes/eztexttool.php" );
 
 $ini =& INIFile::globalINI();
 
-$Language = $ini->read_var( "eZTradeMain", "Language" );
-$ShowPriceGroups = $ini->read_var( "eZTradeMain", "PriceGroupsEnabled" );
-$RequireUserLogin = $ini->read_var( "eZTradeMain", "RequireUserLogin" );
-$SimpleOptionHeaders = $ini->read_var( "eZTradeMain", "SimpleOptionHeaders" );
-$ShowQuantity = $ini->read_var( "eZTradeMain", "ShowQuantity" );
-$ShowNamedQuantity = $ini->read_var( "eZTradeMain", "ShowNamedQuantity" );
-$RequireQuantity = $ini->read_var( "eZTradeMain", "RequireQuantity" );
-$ShowOptionQuantity = $ini->read_var( "eZTradeMain", "ShowOptionQuantity" );
-$PurchaseProduct = $ini->read_var( "eZTradeMain", "PurchaseProduct" );
-$PricesIncludeVAT = $ini->read_var( "eZTradeMain", "PricesIncludeVAT" );
+$Language = $ini->read_var( "eZTradeMain", "Language" ) == "true";
+$ShowPriceGroups = $ini->read_var( "eZTradeMain", "PriceGroupsEnabled" ) == "true";
+$RequireUserLogin = $ini->read_var( "eZTradeMain", "RequireUserLogin" ) == "true";
+$SimpleOptionHeaders = $ini->read_var( "eZTradeMain", "SimpleOptionHeaders" ) == "true";
+$ShowQuantity = $ini->read_var( "eZTradeMain", "ShowQuantity" ) == "true";
+$ShowNamedQuantity = $ini->read_var( "eZTradeMain", "ShowNamedQuantity" ) == "true";
+$RequireQuantity = $ini->read_var( "eZTradeMain", "RequireQuantity" ) == "true" ;
+$ShowOptionQuantity = $ini->read_var( "eZTradeMain", "ShowOptionQuantity" ) == "true";
+$PurchaseProduct = $ini->read_var( "eZTradeMain", "PurchaseProduct" ) == "true";
+$PricesIncludeVAT = $ini->read_var( "eZTradeMain", "PricesIncludeVAT" ) == "enabled" ? true : false;
 $locale = new eZLocale( $Language );
 
 $CapitalizeHeadlines = $ini->read_var( "eZArticleMain", "CapitalizeHeadlines" );
@@ -364,8 +364,7 @@ foreach ( $options as $option )
             $t->set_var( "value_price", "" );
             $t->set_var( "value_price_item", "" );
             $t->set_var( "value_price_currency_list", "" );
-            if ( ( !$RequireUserLogin or get_class( $user ) == "ezuser"  ) and
-                 $ShowPrice and $product->showPrice() == true  )
+            if ( $ShowPrice and $product->showPrice() == true  )
             {
 
                 $price = new eZCurrency( $value->correctPrice( $PricesIncludeVAT, $product ) );
@@ -545,12 +544,12 @@ if ( $ShowQuantity and $product->hasPrice() )
 
 $t->set_var( "price", "" );
 $t->set_var( "add_to_cart", "" );
+$t->set_var( "voucher_buttons", "" );
 
 
-if ( ( !$RequireUserLogin or get_class( $user ) == "ezuser"  ) and
-     $ShowPrice and $product->showPrice() == true and $product->hasPrice()  )
+
+if ( $ShowPrice and $product->showPrice() == true and $product->hasPrice()  )
 {
-
     $t->set_var( "product_price", $product->localePrice( $PricesIncludeVAT ) );
 
     $price = new eZCurrency( $product->correctPrice( $PricesIncludeVAT ) );
