@@ -1,14 +1,30 @@
 <?
-/*
-  Edit a category type.
-*/
+// 
+// $Id: categorytypeedit.php,v 1.4 2001/02/09 14:48:20 pkej Exp $
+//
+// Christoffer A. Elo <ce@ez.no>
+// Created on: <18-Oct-2000 15:04:39 bf>
+//
+// This source file is part of eZ publish, publishing software.
+// Copyright (C) 1999-2001 eZ systems as
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, US
+//
 
 include_once( "classes/INIFile.php" );
 include_once( "classes/ezhttptool.php" );
-
-$ini = new INIFIle( "site.ini" );
-$Language = $ini->read_var( "eZTodoMain", "Language" );
-
 include_once( "classes/eztemplate.php" );
 
 include_once( "ezuser/classes/ezuser.php" );
@@ -18,6 +34,9 @@ include_once( "ezuser/classes/ezpermission.php" );
 
 include_once( "eztodo/classes/ezcategory.php" );
 
+$ini =& $GLOBALS["GlobalSiteIni"];
+$Language = $ini->read_var( "eZTodoMain", "Language" );
+$DOC_ROOT = $ini->read_var( "eZTodoMain", "DocumentRoot" );
 
 if ( $Action == "insert" )
 {
@@ -56,15 +75,12 @@ if ( $Action == "delete" )
 
 $t = new eZTemplate( "eztodo/admin/" . $ini->read_var( "eZTodoMain", "AdminTemplateDir" ),
                      "eztodo/admin/intl", $Language, "categorytypeedit.php" );
-$t->setAllStrings();
-
 $t->set_file( array(
     "categorytypeedit" => "categorytypeedit.tpl"
     ) );
 
-$ini = new INIFIle( "eztodo/intl/" . $Language . "/categorytypeedit.php.ini", false );
-$headline = $ini->read_var( "strings", "head_line_insert" );
-$submittext = $ini->read_var( "strings", "submit_text_insert" );
+$t->setAllStrings();
+
 $t->set_var( "action_value", "insert" );
 
 // Edit a category.
@@ -72,10 +88,6 @@ if ( $Action == "edit" )
 {
     $type = new eZCategory();
     $type->get( $CategoryID );
-
-    $ini = new INIFIle( "eztodo/intl/" . $Language . "/categorytypeedit.php.ini", false );
-    $headline = $ini->read_var( "strings", "head_line_edit" );
-    $submittext = $ini->read_var( "strings", "submit_text_edit" );
 
     $CategoryName = $type->name();
 
@@ -93,8 +105,7 @@ if ( $Action == "edit" )
 }
 
 $t->set_var( "category_type_name", $CategoryName );
-$t->set_var( "head_line", $headline );
-$t->set_var( "submit_text", $submittext );
+$t->set_var( "document_root", $DOC_ROOT );
 
 $t->pparse( "output", "categorytypeedit" );
 ?>
