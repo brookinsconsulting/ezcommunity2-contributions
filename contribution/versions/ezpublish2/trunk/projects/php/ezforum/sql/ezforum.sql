@@ -75,6 +75,7 @@ CREATE TABLE eZForum_Message (
   Depth int(11),
   ID int(11) DEFAULT '0' NOT NULL auto_increment,
   IsApproved int(11) DEFAULT '1' NOT NULL,
+  IsTemporary int(1) DEFAULT '0' NOT NULL,
   PRIMARY KEY (ID)
 );
 
