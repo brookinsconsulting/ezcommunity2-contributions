@@ -49,6 +49,9 @@ if( $session->get( $AuthenticatedSession ) == 0 )
     if ( $ini->read_var( "site", "eZContact" ) == "enabled" )
         include( "ezcontactadmin.php" );
 
+    if ( $Ini->read_var( "site", "eZTodo" ) == "enabled" )
+        include( "eztodoadmin.php" );
+
     if ( $ini->read_var( "site", "eZTrade" ) == "enabled" )
         include( "../eztrade/admin/eztradeadminmenu.php" );
 

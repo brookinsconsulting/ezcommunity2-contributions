@@ -109,6 +109,7 @@ if( $session->get( $AuthenticatedSession ) == 0 )
         {
             $deleteCompany = new eZCompany();
             $deleteCompany->get( $CID );
+            print( "tjo" . $CID );
             $deleteCompany->delete();
 
             Header( "Location: index.php?page=" . $DOC_ROOT . "contactlist.php" );

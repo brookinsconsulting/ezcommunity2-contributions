@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezdatetime.php,v 1.6 2000/09/13 11:19:49 bf-cvs Exp $
+// $Id: ezdatetime.php,v 1.7 2000/09/14 14:43:15 ce-cvs Exp $
 //
 // Definition of eZCompany class
 //
@@ -108,6 +108,61 @@ class eZDateTime
         return $this->Second;
     }
 
+    
+    /*!
+      Get the current datetime in MySQL format.
+    */
+    function mySQLDateTime( )
+    {
+        if ( $this->Month < "10" )
+        {
+            $month = ( "0" . $this->Month() );
+        }
+        else
+        {
+            $month = $this->Month();
+        }
+        
+        if ( $this->Day < "10" )
+        {
+            $day = ( "0" . $this->Day() );
+        }
+        else
+        {
+            $day = $this->Day();
+        }
+
+        if ( $this->Hour < "10" )
+        {
+            $hour = ( "0" . $this->Hour() );
+        }
+        else
+        {
+            $hour = $this->Hour();
+        }
+
+        if ( $this->Minute < "10" )
+        {
+            $minute = ( "0" . $this->Minute() );
+        }
+        else
+        {
+            $minute = $this->Minute();
+        }
+
+        if ( $this->Second < "10" )
+        {
+            $second = ( "0" . $this->Second() );
+        }
+        else
+        {
+            $second = $this->Second();
+        }
+        $current = ( $this->Year . "-" .  $month . "-" . $day . " " .  $hour . ":" . $minute . ":" . $second );
+        return $current;
+    }
+      
+
     /*!
       Sets the year value.
     */
@@ -160,14 +215,6 @@ class eZDateTime
     {
         $this->Second = $value;
         setType( $this->Second, "integer" );
-    }
-
-    /*!
-      Returns all the values for this option.
-    */
-    function values( )
-    {
-        return 
     }
     
     /*!
