@@ -62,9 +62,9 @@
 <table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
 <!-- BEGIN image_tpl -->
 <tr>
-	<td width="1%" class="{td_class}">
-	<img src="{www_dir}{image_url}" width="{image_width}" height="{image_height}" border="2" />
-	{image_caption}
+	<td width="1%" class="{td_class}" valign="top">
+	<img src="{www_dir}{image_url}" width="{image_width}" height="{image_height}" border="2" align="left" />
+	<span class="pictext">{image_caption}</span>
 	</td>
 </tr>
 <!-- END image_tpl -->
@@ -105,6 +105,7 @@
 </table>
 <!-- END attached_file_list_tpl -->
 
+<br clear="all" />
 <form method="post" action="{www_dir}{index}/article/mailtofriend/{article_id}">
 
 <p class="boxtext">{intl-send_to}:</p>

@@ -268,10 +268,6 @@
 <table cellspacing="0" cellpadding="0" border="0">
 <tr>
     <td>
-        <input class="stdbutton" type="submit" name="Preview" value="{intl-preview}" />
-    <td>
-    <td>&nbsp;&nbsp;&nbsp;</td>
-    <td>
         <select name="ItemToAdd">
         <option value="Image">{intl-pictures}</option>
         <option value="Media">{intl-media}</option>
@@ -283,6 +279,10 @@
     <td>
         <input class="stdbutton" type="submit" name="AddItem" value="{intl-add_item}" />
     </td>
+    <td>&nbsp;&nbsp;&nbsp;</td>
+    <td>
+        <input class="stdbutton" type="submit" name="Preview" value="{intl-preview}" />
+    <td>
 <tr>
 </table>
 <hr noshade="noshade" size="4" />

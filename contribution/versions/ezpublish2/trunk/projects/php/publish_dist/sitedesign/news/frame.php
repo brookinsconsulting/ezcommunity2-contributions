@@ -100,9 +100,10 @@ else
     <!-- Banner end-->
 		
 	<!-- Main content view start -->
-     <?
-     print( $MainContents );
-     ?> 
+
+    <?
+    print( $MainContents );
+    ?> 
 
 	<!-- Main content view end -->
 	
@@ -118,10 +119,10 @@ else
     include( "ezuser/user/userbox.php" );
 	?>
 
-    <?
-    $CategoryID=3;
-    include( "ezarticle/user/headlines.php" );
-    ?>
+	<?
+	$CategoryID = 1;
+	include( "eznewsfeed/user/headlines.php" );
+	?>
     
     <?
     include( "ezpoll/user/votebox.php" );

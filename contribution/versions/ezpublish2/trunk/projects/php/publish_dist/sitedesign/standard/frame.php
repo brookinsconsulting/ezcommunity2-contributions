@@ -75,10 +75,9 @@ else
 }
 
 ?>" />
+
 <meta name="MSSmartTagsPreventParsing" content="TRUE">
 <meta name="keywords" content="IT, data, computer, web, internet, PC, network, server, programming, publishing, portal, intranet, e-commerce, e-trade, software, database, open source, unix, linux, apache, PHP, HTML, XML, MySQL, Skien, Grenland, Telemark, Norway" />
-
-
 
 </head>
 
@@ -95,19 +94,6 @@ else
    <?
     $CategoryID = 0;
    include( "ezarticle/user/menubox.php" );
-   ?>
-
-   <?
-// include( "eznewsfeed/user/menubox.php" );
-   ?>
-
-   <?
-    $CategoryID = 1;
- include( "eznewsfeed/user/headlines.php" );
-   ?>
-
-   <?
-// include( "ezmail/user/menubox.php" );
    ?>
 
    <?
@@ -143,37 +129,46 @@ else
 
     <!-- Banner end-->
 
-   <!-- Main content view start -->
-     <?
-     print( $MainContents );
-     ?>
+<!-- Main content view start -->
 
-   <!-- Main content view end -->
-
-   <br />
-    </td>
-      <td width="1%" bgcolor="#ffffff"><img src="<? print $wwwDir; ?>/images/1x1.gif" width="2" height="1" border="0" alt="" /></td>
-
-   <td width="1%" bgcolor="#f0f0f0">
-
-      <!-- Right menu start -->
-
-    <?
-    include( "ezuser/user/userbox.php" );
+   <?
+   print( $MainContents );
    ?>
 
+<!-- Main content view end -->
+
+    <br />
+    </td>
+    <td width="1%" bgcolor="#ffffff"><img src="<? print $wwwDir; ?>/images/1x1.gif" width="2" height="1" border="0" alt="" /></td>
+
+    <td width="1%" bgcolor="#f0f0f0">
+
+    <!-- Right menu start -->
+
     <?
-   $CategoryID = 1;
-    // include( "ezarticle/user/smallarticlelist.php" );
-include( "ezarticle/user/headlines.php" );
+    $NoAddress = true;
+	include( "ezuser/user/userbox.php" );
     ?>
 
+    <?
+    // a short list of articles from the given category
+    // shows $Limit number starting from offset $Offset    
+    $CategoryID=1;
+    $Offset=1;
+    $Limit=1;
+    include( "ezarticle/user/smallarticlelist.php" );
+    ?>
+
+    <?
+    $CategoryID = 1;
+	include( "ezarticle/user/headlines.php" );
+    ?>
 
     <?
     include( "ezpoll/user/votebox.php" );
     ?>
 
-   <hr noshade="noshade" size="4" />
+    <hr noshade="noshade" size="4" />
 
     <?
     $session =& eZSession::globalSession();
@@ -226,7 +221,7 @@ if ( isset( $Design ) and $Design == 3 )
 
     ?>
 
-   <h2>Alternative sitedesigns:</h2>
+    <h2>Alternative sitedesigns:</h2>
     <a href="<? print( $wwwDir . $index . $REQUEST_URI . "?Design=1"); ?>"><b>Intranet</b></a><br />
     <a href="<? print( $wwwDir . $index . $REQUEST_URI . "?Design=2"); ?>"><b>Trade</b></a><br />
     <a href="<? print( $wwwDir . $index . $REQUEST_URI . "?Design=3"); ?>"><b>News</b></a><br />
@@ -242,7 +237,7 @@ if ( isset( $Design ) and $Design == 3 )
    <img src="<? print $wwwDir; ?>/images/1x1.gif" width="130" height="8" border="0" alt="" /><br />
 
    </td>
-  </tr>
+</tr>
 </table>
 
 <?

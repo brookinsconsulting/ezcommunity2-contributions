@@ -147,17 +147,7 @@ else
 
     <?
     include( "ezcalendar/user/menubox.php" );
-    ?>
-
-    <?
-    // a short list of articles from the given category
-    // shows $Limit number starting from offset $Offset    
-    $CategoryID=5;
-    $Offset=0;
-    $Limit=1;
-    include( "ezarticle/user/smallarticlelist.php" );
-    ?>
-    
+    ?>  
 
     <?
     include( "ezquiz/user/menubox.php" );
