@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: messagepermissions.php,v 1.1 2001/02/23 16:05:02 pkej Exp $
+// $Id: messagepermissions.php,v 1.2 2001/03/05 12:06:48 pkej Exp $
 //
 // Paul K Egell-Johnsen <pkej@ez.no>
 // Created on: <21-Feb-2001 18:00:00 pkej>
@@ -140,7 +140,7 @@ if( $CheckForumPost && $ForumRead )
     }
     else
     {
-        if( $ForumRead == true )
+        if( $ForumRead == true && $UserID != 0 )
         {
             $ForumPost = true;
         }
