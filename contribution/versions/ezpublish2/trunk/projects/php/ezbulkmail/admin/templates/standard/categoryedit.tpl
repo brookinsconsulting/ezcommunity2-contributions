@@ -5,10 +5,10 @@
 <form action="/bulkmail/categoryedit/{category_id}" method="post">
 
 <p class="boxtext">{intl-name}:</p>
-<input type="text" name="Name" value="{category_name}">
+<input type="text" class="box" size="40" name="Name" value="{category_name}">
 <br>
 <p class="boxtext">{intl-description}:</p>
-<textarea name="Description" cols="40" rows="3" wrap="soft">{description}</textarea>
+<textarea name="Description" class="box" cols="40" rows="3" wrap="soft">{description}</textarea>
 
 <p class="boxtext">{intl-subscribed_usergroups}:</p>
 <select multiple size="5" name="SubscriptionGroupsArrayID[]">
@@ -18,9 +18,7 @@
 </select>
 
 <br /><br />
-<input type="checkbox" name="PublicList" value="true" {checked} />&nbsp;{intl-public_list}
-
-
+<input type="checkbox" name="PublicList" value="true" {checked} />&nbsp;<span class="boxtext">{intl-public_list}</span><br /><br />
 
 <hr noshade="noshade" size="4">
 <table cellspacing="0" cellpadding="0" border="0">

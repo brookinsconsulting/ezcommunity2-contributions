@@ -10,7 +10,7 @@
 <form method="post" action="/bulkmail/mailedit/{current_mail_id}" enctype="multipart/form-data" >
 
 <p class="boxtext">{intl-subject}:</p>
-<input type="text" size="40" name="Subject" value="{subject_value}"/>
+<input type="text" class="box" size="40" name="Subject" value="{subject_value}"/>
 
 <br /><br />
 
@@ -40,10 +40,10 @@
 <br /><br />
 
 <p class="boxtext">{intl-from}:</p>
-<input type="text" size="40" name="From" value="{from_value}"/>
+<input type="text" class="box" size="40" name="From" value="{from_value}"/>
 
 <p class="boxtext">{intl-body}:</p>
-<textarea name="MailBody" cols="40" rows="20" wrap="soft">{mail_body}</textarea>
+<textarea name="MailBody" class="box" cols="40" rows="20" wrap="soft">{mail_body}</textarea>
 <br /><br />
 
 <hr noshade="noshade" size="4" />

@@ -45,6 +45,9 @@
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
     <td colspan="2">
+    <p class="boxtext">{intl-folder_name}:</p>
+    <input type="text" class="box" size="40" name="Name" value="{name_value}"/>
+
     <p class="boxtext">{intl-folder}:</p>
     <select name="ParentID">
     <option value="0" {selected}>{intl-top_folder}</option>
@@ -53,11 +56,8 @@
     <!-- END value_tpl -->
     </select>
 
-    <p class="boxtext">{intl-folder_name}:</p>
-    <input type="text" size="40" name="Name" value="{name_value}"/>
-
     <p class="boxtext">{intl-folder_description}:</p>
-    <textarea name="Description" cols="40" rows="5" wrap="soft">{description_value}</textarea>
+    <textarea name="Description" class="box" cols="40" rows="5" wrap="soft">{description_value}</textarea>
 	<br />
 	<br />
     </td>

@@ -70,7 +70,7 @@
 
 <hr noshade="noshade" size="4" />
 
-<input type="submit" name="AddImages" value="{intl-add_images}">
+<input class="stdbutton" type="submit" name="AddImages" value="{intl-add_images}">
 </form>
 
 

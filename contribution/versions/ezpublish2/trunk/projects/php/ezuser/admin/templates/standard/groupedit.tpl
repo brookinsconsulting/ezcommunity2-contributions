@@ -7,11 +7,11 @@
 <p class="boxtext">{error_msg}</p>
 
 <p class="boxtext">{intl-name}:</p>
-<input type="text" size="20" name="Name" value="{name_value}" />
+<input type="text" class="box" size="40" name="Name" value="{name_value}" />
 
 
 <p class="boxtext">{intl-description}:</p>
-<textarea cols="40" rows="4" name="Description">{description_value}</textarea>
+<textarea class="box" cols="40" rows="4" name="Description">{description_value}</textarea>
 
 <br /><br />
 <input type="checkbox" name="IsRoot"  value="HasRoot" {root_checked} /><span class="boxtext">&nbsp;{intl-root_permission}</span><br>

@@ -46,7 +46,7 @@
 	<!-- END image_tpl -->
 
 <p class="boxtext">{intl-imagetitle}:</p>
-<input type="text" size="40" name="Name" value="{name_value}"/>
+<input type="text" class="box" size="40" name="Name" value="{name_value}"/>
 
 <p class="boxtext">{intl-category}:</p>
 
@@ -57,13 +57,13 @@
 </select>
 
 <p class="boxtext">{intl-imagefile}:</p>
-<input size="40" name="userfile" type="file" />
+<input size="40" class="box" name="userfile" type="file" />
 
 <p class="boxtext">{intl-imagecaption}:</p>
-<input type="text" size="40" name="Caption" value="{caption_value}"/>
+<input type="text" size="40" class="box" name="Caption" value="{caption_value}"/>
 
 <p class="boxtext">{intl-description}:</p>
-<textarea name="Description" cols="40" rows="5" wrap="soft">{image_description}</textarea>
+<textarea name="Description" class="box" cols="40" rows="5" wrap="soft">{image_description}</textarea>
 
 <br /><br />
 

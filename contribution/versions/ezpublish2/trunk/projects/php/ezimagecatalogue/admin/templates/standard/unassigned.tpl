@@ -15,11 +15,11 @@
 	<td valign="top">
 	<a href="/imagecatalogue/imageview/{image_id}/?RefererURL=/imagecatalogue/unassigned/"><img src="{image_src}" width="{image_width}" height="{image_height}" border="0" alt="{image_alt}" /></a>
 	</td>
-	<td class="{td_class}" valign="top">
+	<td class="{td_class}">
 	{image_size}&nbsp;{image_unit}
 	</td>
 
-	<td class="{td_class}" valign="top">
+	<td class="{td_class}">
 	<select name="CategoryArrayID[]">
 	<option	value="-1">{intl-do_not_update}</option>
 	<!-- BEGIN value_tpl -->
@@ -28,10 +28,10 @@
 	</select>
 	</td>
 
-	<td class="{td_class}" width="1%" valign="top">
+	<td class="{td_class}" width="1%">
 	<a href="/imagecatalogue/image/edit/{image_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezimg{image_id}-red','','/ezimagecatalogue/user/{image_dir}/redigerminimrk.gif',1)"><img name="ezimg{image_id}-red" border="0" src="/ezimagecatalogue/user/{image_dir}/redigermini.gif" width="16" height="16" align="top" alt="Edit" /></a>
 	</td>
-	<td class="{td_class}" width="1%" valign="top">
+	<td class="{td_class}" width="1%">
 	<input type="hidden" name="ImageArrayID[]" value="{image_id}">
 	</td>
 	<!-- END detail_read_tpl -->
@@ -42,7 +42,8 @@
 
 <hr noshade="noshade" size="4" />
 
-<input type="submit" name="Update" value="{intl-update}">&nbsp;
+<input class="stdbutton" type="submit" name="Update" value="{intl-update}">
+
 </form>
 
 

@@ -10,33 +10,33 @@
 <tr>
 	<td width="50%">
 	<p class="boxtext">{intl-firstname}:</p>
-	<input type="text" size="20" name="FirstName" value="{first_name_value}"/>
+	<input type="text" class="halfbox" size="20" name="FirstName" value="{first_name_value}"/>
 	<br /><br />
 	</td>
 	<td>
 	<p class="boxtext">{intl-lastname}:</p>
-	<input type="text" size="20" name="LastName" value="{last_name_value}"/>
+	<input type="text" class="halfbox" size="20" name="LastName" value="{last_name_value}"/>
 	<br /><br />
 	</td>
 </tr>
 <tr>
 	<td colspan="2">
 	<p class="boxtext">{intl-email}:</p>
-	<input type="text" size="40" name="Email" value="{email_value}"/>
+	<input type="text" class="box" size="40" name="Email" value="{email_value}"/>
 	<br /><br />
 	</td>
 </tr>
 <tr>
 	<td colspan="2">
 	<p class="boxtext">{intl-login}:</p>
-	<input type="text" {read_only} size="20" name="Login" value="{login_value}"/>
+	<input type="text" class="halfbox" {read_only} size="20" name="Login" value="{login_value}"/>
 	<br /><br />
 	</td>
 </tr>
 <tr>
 	<td colspan="2">
 	<p class="boxtext">{intl-signature}:</p>
-	<textarea name="Signature" cols="40" rows="9" wrap="soft">{signature}</textarea>
+	<textarea name="Signature" class="box" cols="40" rows="9" wrap="soft">{signature}</textarea>
 	<br /><br />
 	</td>
 </tr>
@@ -54,12 +54,12 @@
 <tr>
 	<td>
 	<p class="boxtext">{intl-password}:</p>
-	<input type="password" size="20" name="Password" value="{password_value}"/>
+	<input type="password" class="halfbox" size="20" name="Password" value="{password_value}"/>
 	<br /><br />
 	</td>
 	<td>
 	<p class="boxtext">{intl-verifypassword}:</p>
-	<input type="password" size="20" name="VerifyPassword" value="{verify_password_value}"/>
+	<input type="password" class="halfbox" size="20" name="VerifyPassword" value="{verify_password_value}"/>
 	<br /><br />
 	</td>
 </tr>

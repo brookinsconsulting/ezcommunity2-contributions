@@ -13,7 +13,7 @@
 <tr>
 	<td valign="top">
 	<p class="boxtext">{intl-name}:</p>
-	<input type="text" size="40" name="ItemName" value="{item_name}"/><br>
+	<input type="text" class="box" size="40" name="ItemName" value="{item_name}"/><br>
 	</td>
 	<td rowspan="2">&nbsp;</td>
 	<td rowspan="2">
@@ -28,7 +28,7 @@
 <tr>
 	<td valign="top">
 	<p class="boxtext">{intl-prefix}:</p>
-	<input type="text" size="40" name="Prefix" value="{prefix}"/>
+	<input type="text" class="box" size="40" name="Prefix" value="{prefix}"/>
 	</td>
 </tr>
 </table>

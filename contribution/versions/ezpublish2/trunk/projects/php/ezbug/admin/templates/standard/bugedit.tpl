@@ -165,7 +165,7 @@
 <br />
 
 <p class="boxtext">{intl-log_message}:</p>
-<textarea name="LogMessage" cols="40" rows="5" wrap="soft"></textarea>
+<textarea name="LogMessage" class="box" cols="40" rows="5" wrap="soft"></textarea>
 <br>
 <input type="checkbox" name="MailReporter" checked />
 <span class="check">{intl-mail_bug_reporter}</span><br />

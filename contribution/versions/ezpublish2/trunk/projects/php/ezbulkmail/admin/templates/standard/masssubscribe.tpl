@@ -52,7 +52,7 @@
 <tr>
 	<td>
 	<p class="boxtext">{intl-addresses}:</p>
-	<textarea name="Addresses" rows="20" cols="30">{addresses}</textarea>
+	<textarea name="Addresses" class="box" rows="20" cols="40">{addresses}</textarea>
 	</td>
 </tr>
 <tr>

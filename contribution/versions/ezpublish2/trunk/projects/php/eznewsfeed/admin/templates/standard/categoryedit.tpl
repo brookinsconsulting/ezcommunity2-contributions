@@ -5,10 +5,10 @@
 <hr noshade="noshade" size="4" />
 
 <p class="boxtext">{intl-category_name}:</p>
-<input type="text" size="40" name="CategoryName" value="{category_name_value}"/>
+<input type="text" class="box" size="40" name="CategoryName" value="{category_name_value}"/>
 
 <p class="boxtext">{intl-category_description}:</p>
-<textarea cols="40" rows="5" wrap="soft" name="CategoryDescription">{category_description_value}</textarea>
+<textarea class="box" cols="40" rows="5" wrap="soft" name="CategoryDescription">{category_description_value}</textarea>
 <br /><br />
 
 <hr noshade="noshade" size="4" />

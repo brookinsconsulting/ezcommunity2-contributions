@@ -39,7 +39,7 @@
 <!-- END errors_tpl -->
 
 <p class="boxtext">{intl-category_name}:</p>
-<input type="text" size="40" name="Name" value="{category_name}"/>
+<input type="text" size="40" class="box" name="Name" value="{category_name}"/>
 
 
 <p class="boxtext">{intl-category}:</p>
@@ -56,7 +56,7 @@
 
 <p class="boxtext">{intl-category_description}:</p>
 
-<textarea name="Description" cols="40" rows="5" wrap="soft">{category_description}</textarea>
+<textarea name="Description" class="box" cols="40" rows="5" wrap="soft">{category_description}</textarea>
 <br />
 <br />
 	

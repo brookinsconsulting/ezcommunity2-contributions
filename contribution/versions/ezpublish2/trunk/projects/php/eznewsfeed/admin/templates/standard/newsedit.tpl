@@ -5,21 +5,7 @@
 <hr noshade="noshade" size="4" />
 
 <p class="boxtext">{intl-news_title}:</p>
-<input type="text" size="40" name="NewsTitle" value="{news_title_value}" />
-
-<p class="boxtext">{intl-news_source}:</p>
-<input type="text" size="40" name="NewsSource" value="{news_source_value}" />
-
-<p class="boxtext">{intl-news_date}:</p>
-<input type="text" size="4" name="Year" value="{news_year_value}" />
-<input type="text" size="2" name="Month" value="{news_month_value}" />
-<input type="text" size="2" name="Day" value="{news_day_value}" />
--
-<input type="text" size="2" name="Hour" value="{news_hour_value}" />
-<input type="text" size="2" name="Minute" value="{news_minute_value}" />
-<input type="text" size="2" name="Second" value="{news_second_value}" />
-
-
+<input type="text" class="box" size="40" name="NewsTitle" value="{news_title_value}" />
 
 <p class="boxtext">{intl-news_category}:</p>
 <select name="CategoryID">
@@ -30,11 +16,23 @@
 
 </select>
 
+<p class="boxtext">{intl-news_source}:</p>
+<input type="text" class="box" size="40" name="NewsSource" value="{news_source_value}" />
+
+<p class="boxtext">{intl-news_date}:</p>
+<input type="text" size="4" name="Year" value="{news_year_value}" />
+<input type="text" size="2" name="Month" value="{news_month_value}" />
+<input type="text" size="2" name="Day" value="{news_day_value}" />
+-
+<input type="text" size="2" name="Hour" value="{news_hour_value}" />
+<input type="text" size="2" name="Minute" value="{news_minute_value}" />
+<input type="text" size="2" name="Second" value="{news_second_value}" />
+
 <p class="boxtext">{intl-news_intro}:</p>
-<textarea cols="40" rows="5" wrap="soft" name="NewsIntro">{news_intro_value}</textarea>
+<textarea class="box" cols="40" rows="5" wrap="soft" name="NewsIntro">{news_intro_value}</textarea>
 
 <p class="boxtext">{intl-news_url}: <a target="_blank" href="{news_url_value}">{news_url_value} </a></p> 
-<input type="text" size="40" name="NewsURL" value="{news_url_value}"/>
+<input class="box" type="text" size="40" name="NewsURL" value="{news_url_value}"/>
 
 <!--
 <p class="boxtext">{intl-news_keywords}:</p>

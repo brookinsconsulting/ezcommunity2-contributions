@@ -16,7 +16,7 @@
 <tr>
 	<td>
 	<p class="boxtext">{intl-name}:</p>
-	<input type="text" size="40" name="ItemName" value="{item_name}"/><br>
+	<input type="text" class="box" size="40" name="ItemName" value="{item_name}"/><br>
 	</td>
 	{extra_type_input}
 </tr>

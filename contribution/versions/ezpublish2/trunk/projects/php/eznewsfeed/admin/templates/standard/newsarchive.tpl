@@ -81,13 +81,13 @@
 	<td class="{td_class}">
 	<a href="/newsfeed/news/{news_id}/">
 	{news_name}
-	</a>&nbsp;
+	</a>
 	</td>
 	<td class="{td_class}">
-	{news_origin}&nbsp;
+	{news_origin}
 	</td>
 	<td class="{td_class}">
-	{news_date}&nbsp;
+	{news_date}
 	</td>
 	<td class="{td_class}">
 	<!-- BEGIN news_is_published_tpl -->
@@ -96,7 +96,6 @@
 	<!-- BEGIN news_not_published_tpl -->
 	{intl-not_published}
 	<!-- END news_not_published_tpl -->
-	&nbsp;
 	</td>
 	<td width="1%" class="{td_class}">
 	<a href="/newsfeed/news/edit/{news_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezaa{news_id}-red','','/admin/images/{site_style}/redigerminimrk.gif',1)"><img name="ezaa{news_id}-red" border="0" src="/admin/images/{site_style}/redigermini.gif" width="16" height="16" align="top" alt="Edit" /></a>
