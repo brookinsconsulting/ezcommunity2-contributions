@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezproduct.php,v 1.47 2001/03/15 19:41:36 ce Exp $
+// $Id: ezproduct.php,v 1.48 2001/03/15 19:44:20 bf Exp $
 //
 // Definition of eZProduct class
 //
@@ -1052,6 +1052,174 @@ class eZProduct
        
        return $res_array[0]["Count"];
     }
+
+    /*!
+      Search through the products.
+
+      Returns the products as an array of eZProducts objects.
+    */
+    function extendedSearch( $priceLower, $priceHigher, $text, $offset=0, $limit=10, $categoryArrayID=array() )
+    {
+        if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+        $this->dbInit();
+
+        $products = array();
+
+        if ( count ( $categoryArrayID ) > 0 )
+        {
+            foreach( $categoryArrayID as $categoryID )
+            {
+                if ( $i == 0 )
+                    $catID = "eZTrade_ProductCategoryLink.CategoryID='$categoryID'";
+                else
+                    $catID .= " OR eZTrade_ProductCategoryLink.CategoryID='$categoryID'";
+            }
+        }
+        
+        if ( $priceLower || $priceHigher )
+        {
+            if ( ( is_numeric( $priceLower ) ) || ( is_numeric ( $priceHigher ) ) )
+            {
+                if ( $priceLower )
+                {
+                    $price = "";
+                    if ( $catID )
+                    {
+                        $price = " AND";
+                    }
+                    $price .= " Price > $priceLower";
+                }
+                if ( $priceHigher )
+                {
+                    $price = "";
+                    if ( $catID )
+                    {
+                        $price = " AND";
+                    }
+                    $price .= " Price < $priceHigher";
+                }
+                if ( $priceHigher && $priceLower )
+                {
+                    $price = "";
+                    if ( $catID )
+                    {
+                        $price = " AND";
+                    }
+                    $price .= " Price > $priceLower AND Price < $priceHigher";
+                }
+            }
+        }
+        
+        if ( $text != "" )
+        {
+            $query = new eZQuery( array( "Name", "Keywords", "Description" ), $text );
+            if ( $price || $catID )
+                $text = "AND (" . $query->buildQuery()  . ")";
+            else
+                $text = "(" . $query->buildQuery()  . ")";
+        }
+
+        if ( $catID || $price || $text )
+        {
+            $queryString = "SELECT DISTINCT eZTrade_ProductCategoryLink.ProductID as PID
+                        FROM eZTrade_Product, eZTrade_ProductCategoryLink
+                        WHERE $catID $price $text AND eZTrade_Product.ID = eZTrade_ProductCategoryLink.ProductID LIMIT $offset, $limit";
+        }               
+
+        $this->Database->array_query( $res_array, $queryString );
+
+        if ( count ( $res_array ) > 0 )
+        {
+            foreach( $res_array as $productItem )
+            {
+                $products[] = new eZProduct( $productItem["PID"] );
+            }
+        }
+
+        return $products;
+    }
+
+
+    /*!
+      Search through the products and returns the count.
+    */
+    function extendedSearchCount( $priceLower, $priceHigher, $text, $categoryArrayID=array() )
+    {
+        if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+        $this->dbInit();
+
+        $products = array();
+
+        if ( count ( $categoryArrayID ) > 0 )
+        {
+            foreach( $categoryArrayID as $categoryID )
+            {
+                if ( $i == 0 )
+                    $catID = "eZTrade_ProductCategoryLink.CategoryID='$categoryID'";
+                else
+                    $catID .= " OR eZTrade_ProductCategoryLink.CategoryID='$categoryID'";
+            }
+        }
+        
+        if ( $priceLower || $priceHigher )
+        {
+            if ( ( is_numeric( $priceLower ) ) || ( is_numeric ( $priceHigher ) ) )
+            {
+                if ( $priceLower )
+                {
+                    $price = "";
+                    if ( $catID )
+                    {
+                        $price = " AND";
+                    }
+                    $price .= " Price > $priceLower";
+                }
+                if ( $priceHigher )
+                {
+                    $price = "";
+                    if ( $catID )
+                    {
+                        $price = " AND";
+                    }
+                    $price .= " Price < $priceHigher";
+                }
+                if ( $priceHigher && $priceLower )
+                {
+                    $price = "";
+                    if ( $catID )
+                    {
+                        $price = " AND";
+                    }
+                    $price .= " Price > $priceLower AND Price < $priceHigher";
+                }
+            }
+        }
+        
+        if ( $text != "" )
+        {
+            $query = new eZQuery( array( "Name", "Keywords", "Description" ), $text );
+            if ( $price || $catID )
+                $text = "AND (" . $query->buildQuery()  . ")";
+            else
+                $text = "(" . $query->buildQuery()  . ")";
+        }
+
+        if ( $catID || $price || $text )
+        {
+            $queryString = "SELECT count(DISTINCT eZTrade_ProductCategoryLink.ProductID) as PID
+                        FROM eZTrade_Product, eZTrade_ProductCategoryLink
+                        WHERE $catID $price $text AND eZTrade_Product.ID = eZTrade_ProductCategoryLink.ProductID";
+        }
+
+        $this->Database->array_query( $res_array, $queryString );
+
+        return $res_array[0]["Count"];
+    }
+   
     
     /*!
       Returns the products set to hot deal.
