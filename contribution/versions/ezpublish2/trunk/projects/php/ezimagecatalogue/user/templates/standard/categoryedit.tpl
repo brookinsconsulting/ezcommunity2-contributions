@@ -42,7 +42,7 @@
 <select name="ParentID">
 <option value="0" {selected}>{intl-root_level}</option>
 <!-- BEGIN value_tpl -->
-<option value="{option_value}" {selected}>{option_level}{option_name}</option>
+<option value="{option_value}" {is_selected}>{option_level}{option_name}</option>
 <!-- END value_tpl -->
 
 </select>

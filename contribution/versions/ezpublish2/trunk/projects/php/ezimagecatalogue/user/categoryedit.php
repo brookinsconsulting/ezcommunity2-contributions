@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: categoryedit.php,v 1.7 2001/01/26 09:25:01 ce Exp $
+// $Id: categoryedit.php,v 1.8 2001/01/29 10:36:57 ce Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <08-Jan-2001 11:13:29 ce>
@@ -33,7 +33,14 @@ include_once( "ezuser/classes/ezuser.php" );
 include_once( "ezuser/classes/ezpermission.php" );
 include_once( "ezimagecatalogue/classes/ezimage.php" );
 include_once( "ezimagecatalogue/classes/ezimagecategory.php" );
-               
+
+if ( isSet ( $Cancel ) )
+{
+    
+    eZHTTPTool::header( "Location: /imagecatalogue/image/list/" );
+    exit();
+}
+
 $user = eZUser::currentUser();
 
 if ( ( !$user ) || ( eZPermission::checkPermission( $user, "eZImageCatalogue", "WritePermission" ) == false ) )
@@ -192,7 +199,7 @@ if ( $Action == "Insert" && $error == false )
 
     $category->store();
 
-    eZHTTPTool::header( "Location: /imagecatalogue/image/list/$CategoryID" );
+    eZHTTPTool::header( "Location: /imagecatalogue/image/list/$ParentID" );
     exit();
 }
 
@@ -299,19 +306,19 @@ foreach ( $categoryList as $categoryItem )
     else
         $t->set_var( "option_level", "" );
 
-    $t->set_var( "selected", "" );
-    
-    if ( $category && !$CategoryID )
-    {
-        $CategoryID = $category->id();
-    }
+    $t->set_var( "is_selected", "" );
 
-    if ( $CategoryID )
+    if ( $CurrentCategoryID != 0 )
     {
-        if ( $categoryItem[0]->id() == $CategoryID )
+        if ( $categoryItem[0]->id() == $CurrentCategoryID )
         {
-            $t->set_var( "selected", "selected" );
+            $t->set_var( "is_selected", "selected" );
         }
+        else
+        {
+            $t->set_var( "is_selected", "" );
+        }
+        
     }
     
     $t->parse( "value", "value_tpl", true );

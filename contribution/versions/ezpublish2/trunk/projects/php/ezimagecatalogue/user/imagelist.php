@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: imagelist.php,v 1.11 2001/01/26 10:39:34 ce Exp $
+// $Id: imagelist.php,v 1.12 2001/01/29 10:36:57 ce Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <10-Dec-2000 16:16:20 bf>
@@ -97,6 +97,8 @@ $t->set_block( "category_tpl", "category_read_tpl", "category_read" );
 
 $t->set_var( "read", "" );
 $t->set_var( "write_menu", "" );
+
+
 
 
 $user = eZUser::currentUser();
@@ -329,10 +331,9 @@ else
     $t->set_var( "image_list", "" );
 }
 
-
 $t->set_var( "image_dir", $ImageDir );
-$t->set_var( "main_category_id", $CategoryID );
 
+$t->set_var( "main_category_id", $CategoryID );
 
 if ( $error == false )
     $t->pparse( "output", "image_list_page_tpl" );

@@ -1,5 +1,4 @@
 <?
-
 switch ( $url_array[2] )
 {
     case "imageview" :
@@ -23,10 +22,12 @@ switch ( $url_array[2] )
 
             case "new" :
             {
+                unset( $CategoryID );
                 $Action = "New";
                 include( "ezimagecatalogue/user/imageedit.php" );
             }
             break;
+            
             case "Insert" :
             {
                 $Action = "Insert";
@@ -59,7 +60,6 @@ switch ( $url_array[2] )
         include( "ezimagecatalogue/user/filedownload.php" );
     }
     break;
-
     
     case "category" :
     {
@@ -68,7 +68,8 @@ switch ( $url_array[2] )
            
             case "new" :
             {
-                $CategoryID = $url_array[4];
+                unset( $CategoryID );
+                $CurrentCategoryID = $url_array[4];
                 $Action = "New";
                 include( "ezimagecatalogue/user/categoryedit.php" );
             }
@@ -101,7 +102,5 @@ switch ( $url_array[2] )
         }
     }
     break;
-    
-
 }
 ?>

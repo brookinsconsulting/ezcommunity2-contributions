@@ -99,11 +99,11 @@
 <!-- BEGIN write_menu_tpl -->
 <tr>
         <td>
+	<input type="hidden" name="CurrentCategoryID" value="{main_category_id}">
 	<input type="submit" name="NewImage" value="{intl-new_image}">
 	</td>
         <td>
 	<input type="submit" name="NewCategory" value="{intl-new_category}">
-	<input type="hidden" name="CategoryID" value="{main_category_id}">
 	</td>
         <td>
 	<input type="submit" name="Delete" value="{intl-delete}">

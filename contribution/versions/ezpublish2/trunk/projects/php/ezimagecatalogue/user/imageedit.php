@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: imageedit.php,v 1.8 2001/01/25 19:08:20 ce Exp $
+// $Id: imageedit.php,v 1.9 2001/01/29 10:36:57 ce Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <09-Jan-2001 10:45:44 ce>
@@ -29,6 +29,8 @@ include_once( "ezuser/classes/ezpermission.php" );
 
 $user = eZUser::currentUser();
 
+$CategoryID = eZHTTPTool::getVar( "CategoryID" );
+
 if ( ( !$user ) || ( eZPermission::checkPermission( $user, "eZImageCatalogue", "WritePermission" ) == false ) )
 {
     eZHTTPTool::header( "Location: /" );
@@ -37,13 +39,13 @@ if ( ( !$user ) || ( eZPermission::checkPermission( $user, "eZImageCatalogue", "
 
 if ( isSet ( $NewCategory ) )
 {
-    eZHTTPTool::header( "Location: /imagecatalogue/category/new" );
+    eZHTTPTool::header( "Location: /imagecatalogue/category/new/" . $CurrentCategoryID );
     exit();
 }
+
 if ( isSet ( $Cancel ) )
 {
-    include_once( "classes/ezhttptool.php" );
-    eZHTTPTool::header( "Location: /imagecatalogue/image/list/" . $CategoryID . "/" );
+    eZHTTPTool::header( "Location: /imagecatalogue/image/list/" . $MainCategoryID . "/" );
     exit();
 }
 
@@ -80,6 +82,7 @@ $t->set_var( "name_value", "$Name" );
 $t->set_var( "image_description", "$Description" );
 $t->set_var( "caption_value", "$Caption" );
 
+
 if ( $Read == "User" )
     $t->set_var( "user_read_checked", "checked" );
 if ( $Read == "Group" )
@@ -94,7 +97,6 @@ if ( $Write == "Group" )
 if ( $Write == "All" )
     $t->set_var( "all_write_checked", "checked" );
 
-
 $error = false;
 $nameCheck = true;
 $captionCheck = true;
@@ -102,9 +104,6 @@ $descriptionCheck = true;
 $fileCheck = true;
 $writeCheck = true;
 $readCheck = true;
-
-//  $t->set_block( "errors_tpl", "error_write_permission", "write_permission" );
-//  $t->set_var( "write_permission", "&nbsp" );
 
 $t->set_block( "errors_tpl", "error_name_tpl", "error_name" );
 $t->set_var( "error_name", "&nbsp;" );
@@ -124,6 +123,7 @@ $t->set_var( "error_file_upload", "&nbsp" );
 $t->set_block( "errors_tpl", "error_description_tpl", "error_description" );
 $t->set_var( "error_description", "&nbsp;" );
 
+// Check for errors when inserting or updating.
 if ( $Action == "Insert" || $Action == "Update" )
 {
     if ( $nameCheck )
@@ -179,11 +179,15 @@ if ( $Action == "Insert" || $Action == "Update" )
         
         if ( $file->getUploadedFile( "userfile" ) )
         {
+            $fileOK = true;
         }
         else
         {
-            $error = true;
-            $t->parse( "error_file_upload", "error_file_upload_tpl" );
+            if ( $Action == "Insert" )
+            {
+                $error = true;
+                $t->parse( "error_file_upload", "error_file_upload_tpl" );
+            }
         }
 
     }
@@ -194,6 +198,7 @@ if ( $Action == "Insert" || $Action == "Update" )
     }
 }
 
+// Insert if error == false
 if ( $Action == "Insert" && $error == false )
 {
     $image = new eZImage();
@@ -202,66 +207,45 @@ if ( $Action == "Insert" && $error == false )
     $image->setDescription( $Description );
     $image->setReadPermission( $Read );
     $image->setWritePermission( $Write );
-    
-    $user = eZUser::currentUser();
-    
-    if ( !$user )
-    {
-        eZHTTPTool::header( "Location: /" );
-        exit();
-    }
-    
     $image->setUser( $user );
 
     $image->setImage( $file );
-        
+
     $image->store();
 
     $category = new eZImageCategory( $CategoryID );
     
     $category->addImage( $image );
 
-    
     eZLog::writeNotice( "Picture added to catalogue: $image->name() from IP: $REMOTE_ADDR" );
 
-    include_once( "classes/ezhttptool.php" );
     eZHTTPTool::header( "Location: /imagecatalogue/image/list/" . $CategoryID . "/" );
     exit();
 }
 
+// Update if error == false
 if ( $Action == "Update" && $error == false )
 {
-    $file = new eZImageFile();
-    
-    if ( $file->getUploadedFile( "userfile" ) )
-    {
+    $image = new eZImage( $ImageID );
+    $image->setName( $Name );
+    $image->setCaption( $Caption );
+    $image->store();
 
-        $oldImage = new eZImage( $ImageID );
-        $article->deleteImage( $oldImage );
-        
-        $image = new eZImage();
-        $image->setName( $Name );
-        $image->setCaption( $Caption );
+    $image->setDescription( $Description );
+    $image->setReadPermission( $Read );
+    $image->setWritePermission( $Write );
 
+    if ( $fileOK )
         $image->setImage( $file );
-        
-        $image->store();
-        
-    }
-    else
-    {
-        $image = new eZImage( $ImageID );
-        $image->setName( $Name );
-        $image->setCaption( $Caption );
-        $image->store();
-    }
     
+    $image->store();
+        
     include_once( "classes/ezhttptool.php" );
-    eZHTTPTool::header( "Location: /imagecatalogue/image/list/" . $CategoryID . "/" );
+    eZHTTPTool::header( "Location: /imagecatalogue/image/list/" . $MainCategoryID . "/" );
     exit();
 }
 
-
+// Delete a image
 if ( $Action == "Delete" )
 {
     $image = new eZImage( $ImageID );
@@ -269,10 +253,11 @@ if ( $Action == "Delete" )
     $article->deleteImage( $image );
     
     include_once( "classes/ezhttptool.php" );
-    eZHTTPTool::header( "Location: /imagecatalogue/image/list/" . $CategoryID . "/" );
+    eZHTTPTool::header( "Location: /imagecatalogue/image/list/" . $MainCategoryID . "/" );
     exit();    
 }
 
+// Set the default values to null
 if ( $Action == "New" || $error )
 {
     $t->set_var( "name_value", "" );
@@ -286,6 +271,7 @@ if ( $Action == "New" || $error )
     $t->set_var( "image_id", "" );
 }
 
+// Sets the values to the current image
 if ( $Action == "Edit" )
 {
     $image = new eZImage( $ImageID );
@@ -343,6 +329,7 @@ $category = new eZImageCategory() ;
 
 $categoryList = $category->getTree( );
 
+// Make a category list
 foreach ( $categoryList as $categoryItem )
 {
     $t->set_var( "option_name", $categoryItem[0]->name() );
@@ -354,15 +341,20 @@ foreach ( $categoryList as $categoryItem )
         $t->set_var( "option_level", "" );
 
     $t->set_var( "selected", "" );
-    
-    if ( $category && !$CategoryID )
+
+    // Get the current category when makeing a new image
+    if ( $CurrentCategoryID )
     {
-        $CategoryID = $category->id();
+        if ( $categoryItem[0]->id() == $CurrentCategoryID )
+        {
+            $t->set_var( "selected", "selected" );
+        }
     }
 
+    // Get the rigth category when updating
     if ( $CategoryID )
     {
-        if ( $categoryItem[0]->id() == $CategoryID )
+        if ( $categoryItem[0]->id() == $CurrentCategoryID )
         {
             $t->set_var( "selected", "selected" );
         }
