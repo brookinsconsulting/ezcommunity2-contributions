@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezuser.php,v 1.97 2001/10/09 14:15:35 bf Exp $
+// $Id: ezuser.php,v 1.98 2001/10/11 09:28:18 ce Exp $
 //
 // Definition of eZUser class
 //
@@ -1036,7 +1036,8 @@ class eZUser
 
         if ( $as_object )
         {
-            $ret = new eZAddress( $address_array[0][$db->fieldName( "AddressID" )] );
+            if ( $address_array[0][$db->fieldName( "AddressID" )] != 0 )
+                $ret = new eZAddress( $address_array[0][$db->fieldName( "AddressID" )] );
         }
         else
         {
