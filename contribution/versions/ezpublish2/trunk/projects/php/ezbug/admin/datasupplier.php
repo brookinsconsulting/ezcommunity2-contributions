@@ -68,6 +68,59 @@ switch ( $url_array[2] )
     }
     break;
 
+    case "category" :
+    {
+        switch( $url_array[3] )
+        {
+            case "list":
+            {
+                include( "ezbug/admin/categorylist.php" );
+            }
+            break;
+
+            case "new":
+            {
+                $Action = "new";
+                include( "ezbug/admin/categoryedit.php" );
+            }
+            break;
+
+            case "insert":
+            {
+                $Action = "insert";
+                include( "ezbug/admin/categoryedit.php" );
+            }
+            break;
+
+            case "edit":
+            {
+                $Action = "edit";
+                $CategoryID = $url_array[4];
+                include( "ezbug/admin/categoryedit.php" );
+            }
+            break;
+
+            case "update":
+            {
+                $Action = "update";
+                $CategoryID = $url_array[4];
+                include( "ezbug/admin/categoryedit.php" );
+            }
+            break;
+
+            case "delete":
+            {
+                $Action = "delete";
+                $CategoryID = $url_array[4];
+                include( "ezbug/admin/categoryedit.php" );
+            }
+            break;
+
+        }
+    }
+    break;
+
+    
     case "edit" :
     {
         if ( $url_array[3] == "new" )
