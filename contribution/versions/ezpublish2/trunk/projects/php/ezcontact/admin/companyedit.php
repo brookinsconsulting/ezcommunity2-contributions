@@ -227,7 +227,7 @@ if ( $Action == "insert" )
 
     // Add to user object
     $company->addAddress( $address );
-    header( "Location: /contact/companytype/list/" );
+    header( "Location: /contact/company/list/" );
     exit();
 }
 

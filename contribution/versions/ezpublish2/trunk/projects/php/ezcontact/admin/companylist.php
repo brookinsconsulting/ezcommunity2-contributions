@@ -46,7 +46,7 @@ foreach ( $pathArray as $path )
 
     $t->set_var( "category_name", $path[1] );
     
-//    $t->parse( "path_item", "path_item_tpl", true );
+    $t->parse( "path_item", "path_item_tpl", true );
 }
 
 // Categorylist
@@ -58,14 +58,21 @@ if ( count ( $companyTypeList ) == 0 )
 }
 else
 {
+    $i=0;
     foreach( $companyTypeList as $companyTypeItem )
     {
+        if ( ( $i %2 ) == 0 )
+            $t->set_var( "td_class", "bglight" );
+        else
+            $t->set_var( "td_class", "bgdark" );
+                
         $t->set_var( "category_id", $companyTypeItem->id() );
         $t->set_var( "category_parent_id", $companyTypeItem->parentID() );
         $t->set_var( "category_name", $companyTypeItem->name() );
         
         $t->set_var( "categories", "Kategorier" );
-        
+
+        $i++;
         $t->parse( "category_item", "category_item_tpl", true );
     }
     $t->parse( "category_list", "category_list_tpl", true );
@@ -81,9 +88,14 @@ if ( count( $companyList ) == 0 )
 }
 else
 {
-    $color_count = 0;
+    $i = 0;
     foreach( $companyList as $companyItem )
     {
+        if ( ( $i %2 ) == 0 )
+            $t->set_var( "td_class", "bglight" );
+        else
+            $t->set_var( "td_class", "bgdark" );
+
         if ( ( $color_count % 2 ) == 0 )
         {
             $t->set_var( "bg_color", "#F0F0F0" );
@@ -97,7 +109,7 @@ else
         $t->set_var( "company_id", $companyID );
         $t->set_var( "company_name", $companyItem->name() );
         
-        $color_count++;
+        $i++;
 
         $t->set_var( "companys", "Firmaer" );
         $t->set_var( "error", "" );
