@@ -3,7 +3,7 @@
 <!-- BEGIN top_category_tpl -->
 <tr>
 	<td class="menuhead" bgcolor="#323296">
-	<a class="menuhead"href="/trade/productlist/{category_id}/">{category_name}</a>&nbsp;
+	<a class="menuhead"href="/trade/productlist/{top_category_id}/">{top_category_name}</a>&nbsp;
 	</td>
 </tr>
 <tr>

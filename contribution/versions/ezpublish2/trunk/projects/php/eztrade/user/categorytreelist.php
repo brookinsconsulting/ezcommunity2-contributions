@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: categorytreelist.php,v 1.1 2000/12/12 15:23:13 bf Exp $
+// $Id: categorytreelist.php,v 1.2 2000/12/12 15:54:23 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <12-Dec-2000 14:43:08 bf>
@@ -56,11 +56,12 @@ $categoryList =& $category->getByParent( $category );
 // categories
 foreach ( $categoryList as $categoryItem )
 {
-    $t->set_var( "category_id", $categoryItem->id() );
-    $t->set_var( "category_name", $categoryItem->name() );
-    $t->parse( "top_category", "top_category_tpl", true );
+    $t->set_var( "top_category_id", $categoryItem->id() );
+    $t->set_var( "top_category_name", $categoryItem->name() );
 
     $subItemList =& $category->getByParent( $categoryItem );
+
+    $t->set_var( "level_1_category", "" );
     
     // sub categories
     foreach ( $subItemList as $categoryItem )
@@ -69,6 +70,7 @@ foreach ( $categoryList as $categoryItem )
         $t->set_var( "category_name", $categoryItem->name() );
         $t->parse( "level_1_category", "level_1_category_tpl", true );
     }
+    $t->parse( "top_category", "top_category_tpl", true );    
 }
 
 if ( count( $categoryList ) == 0 )
