@@ -29,7 +29,7 @@
 
 <h1>{message}</h1>
 
-<table width="100%">
+<table width="100%" border="2">
 <tr>
 	<td valign="top"  bgcolor="#ddeedd">
 
@@ -64,7 +64,7 @@ Kommentar:<br>
 	</td>
 	<td valign="top"  bgcolor="#ddeeee">
 
-<form method="post" action="index.php4?page={document_root}personedit.php4">
+<form method="post"  name="CompanyAddressEdit" action="index.php4?page={document_root}personedit.php4">
 
 Adresse type:
 <br>
@@ -81,6 +81,7 @@ Postnummer:<br>
 
 <input type="hidden" name="AddressAction" value="{address_action}">
 <input type="hidden" name="PID" value="{person_id}">
+<input type="hidden" name="AddressID" value="{address_id}">
 
 <input type="submit"  name="AddressSubmit" value="{address_action_value}">
 
@@ -122,7 +123,6 @@ Telefon:<br>
 <input type="hidden" name="PID" value="{person_id}">
 <input type="hidden" name="Action" value="edit">
 
-<input type="submit" value="{submit_text}">
 
 </form>
 

@@ -114,7 +114,6 @@ if ( $PhoneAction == "DeletePhone" )
 // legge til adresse
 if ( $AddressAction == "AddAddress" )
 {
-    print( "ny adresse" );
     $address = new eZAddress( );
     $address->setStreet1( $Street1 );
     $address->setStreet2( $Street2 );
@@ -129,10 +128,21 @@ if ( $AddressAction == "AddAddress" )
     $dict->store();
 }
 
+// legge til adresse
+if ( $AddressAction == "UpdateAddress" )
+{
+    $address = new eZAddress( );
+    $address->get( $AddressID );
+    $address->setStreet1( $Street1 );
+    $address->setStreet2( $Street2 );
+    $address->setZip( $Zip );    
+    $address->setAddressType( $AddressType );
+    $address->update();
+}
+
 // slette adresse
 if ( $AddressAction == "DeleteAddress" )
 {
-    print( "sletter adresse" );
     $address = new eZAddress( );
     $address->get( $AddressID );
 
