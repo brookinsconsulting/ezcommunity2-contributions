@@ -70,7 +70,7 @@
 <!-- END multiple_select_item_tpl -->
 
 <!-- BEGIN dropdown_item_tpl -->
-<p class="boxtext">{element_name}:</p>
+{header_line}
 <select name="{field_name}">
 <!-- BEGIN dropdown_item_sub_item_tpl -->
 <option value="{sub_value}" {selected}>{sub_value}</option>
@@ -79,14 +79,14 @@
 <!-- END dropdown_item_tpl -->
 
 <!-- BEGIN radiobox_item_tpl -->
-<p class="boxtext">{element_name}:</p>
+{header_line}
 <!-- BEGIN radiobox_item_sub_item_tpl -->
 {sub_value}: <input type="radio" value="{sub_value}" name="{field_name}" {selected} />
 <!-- END radiobox_item_sub_item_tpl -->
 <!-- END radiobox_item_tpl -->
 
 <!-- BEGIN checkbox_item_tpl -->
-<p class="boxtext">{element_name}:</p>
+{header_line}
 <!-- BEGIN checkbox_item_sub_item_tpl -->
 {sub_value}: <input type="checkbox" value="{sub_value}" name="{field_name}[]" {selected} />
 <!-- END checkbox_item_sub_item_tpl -->
