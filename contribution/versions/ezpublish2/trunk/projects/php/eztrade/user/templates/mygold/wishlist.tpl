@@ -93,11 +93,9 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%">
     <tr>
         <td>
-	<!--
 	        <input class="okbutton" type="submit" value="{intl-send_wishlist}" />
 				<input type="hidden" name="Action" value="Refresh" />
-				-->
-			</td>
+	</td>
 
     </tr>
     <tr>
