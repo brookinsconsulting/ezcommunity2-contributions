@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: articleedit.php,v 1.6 2000/10/20 13:31:24 bf-cvs Exp $
+// $Id: articleedit.php,v 1.7 2000/10/20 15:42:26 bf-cvs Exp $
 //
 // 
 //
@@ -32,6 +32,8 @@ if ( $Action == "Insert" )
     $generator = new eZArticleGenerator();
     
     $article->setContents( $generator->generateXML( $Contents ) );
+
+    $article->setPageCount( $generator->pageCount() );
     
     $article->setAuthorText( $AuthorText );
     
@@ -66,6 +68,8 @@ if ( $Action == "Update" )
     $generator = new eZArticleGenerator();
     
     $article->setContents( $generator->generateXML( $Contents ) );
+
+    $article->setPageCount( $generator->pageCount() );
     
     $article->setAuthorText( $AuthorText );
     

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezarticle.php,v 1.6 2000/10/20 13:31:24 bf-cvs Exp $
+// $Id: ezarticle.php,v 1.7 2000/10/20 15:42:26 bf-cvs Exp $
 //
 // Definition of eZArticle class
 //
@@ -93,6 +93,7 @@ class eZArticle
                                  AuthorText='$this->AuthorText',
                                  AuthorID='$this->AuthorID',
                                  LinkText='$this->LinkText',
+                                 PageCount='$this->PageCount',
                                  Modified=now(),
                                  Created=now()
                                  " );
@@ -108,6 +109,7 @@ class eZArticle
                                  Contents='$this->Contents',
                                  AuthorText='$this->AuthorText',
                                  LinkText='$this->LinkText',
+                                 PageCount='$this->PageCount',
                                  AuthorID='$this->AuthorID',
                                  Modified=now()
                                  WHERE ID='$this->ID'
@@ -144,6 +146,7 @@ class eZArticle
                 $this->LinkText =& $article_array[0][ "LinkText" ];
                 $this->Modified =& $article_array[0][ "Modified" ];
                 $this->Created =& $article_array[0][ "Created" ];
+                $this->PageCount =& $article_array[0][ "PageCount" ];
 
                 $this->State_ = "Coherent";
                 $ret = true;
@@ -240,6 +243,17 @@ class eZArticle
     }
 
     /*!
+      Returns the number of pages in the article.
+    */
+    function &pageCount()
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+       return $this->PageCount;
+    }
+    
+    /*!
       Sets the article name.
     */
     function setName( $value )
@@ -297,6 +311,17 @@ class eZArticle
        }
     }
 
+    /*!
+      Sets the number of pages in the article.
+    */
+    function setPageCount( $value )
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+       $this->PageCount = $value;
+    }
+    
 
     /*!
       Removes every category assignments from the current article.
@@ -489,6 +514,9 @@ class eZArticle
     var $Modified;
     var $Created;
 
+    // variable for storing the number of pages in the article.
+    var $PageCount;
+    
     
     ///  Variable for keeping the database connection.
     var $Database;

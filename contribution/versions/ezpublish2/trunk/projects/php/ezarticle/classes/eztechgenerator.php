@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eztechgenerator.php,v 1.4 2000/10/20 12:48:17 bf-cvs Exp $
+// $Id: eztechgenerator.php,v 1.5 2000/10/20 15:42:26 bf-cvs Exp $
 //
 // Definition of eZTechGenerator class
 //
@@ -34,6 +34,7 @@ class eZTechGenerator
     */
     function eZTechGenerator( &$contents )
     {
+        $this->PageCount = 0;
         $this->Contents = $contents;
     }
 
@@ -65,6 +66,10 @@ class eZTechGenerator
             $body .= "<page>" . $tmpPage  . "</page>";        
 
         }
+
+
+        $this->PageCount = count( $pages );
+
         
         $newContents .= "<body>" . $body . "</body></article>";
 
@@ -147,7 +152,16 @@ class eZTechGenerator
         return $contentsArray;
     }
 
+    /*!
+      Returns the number of pages found in the article.
+    */
+    function pageCount( )
+    {
+        return $this->PageCount;
+    }    
+
     var $Contents;
+    var $PageCount;
 }
 
 ?>
