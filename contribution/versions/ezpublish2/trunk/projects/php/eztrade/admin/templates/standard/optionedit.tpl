@@ -5,10 +5,10 @@
 <hr noshade="noshade" size="4" />
 
 <p class="boxtext">{intl-title}:</p>
-<input type="text" size="40" name="OptionName" value="{name_value}"/>
+<input type="text" size="40" class="box" name="OptionName" value="{name_value}"/>
 	
 <p class="boxtext">{intl-description}:</p>
-<textarea rows="5" cols="40" name="Description">{description_value}</textarea>
+<textarea rows="5" cols="40" class="box" name="Description">{description_value}</textarea>
 <br /><br />
 	
 <h2>{intl-options}</h2>
@@ -43,12 +43,12 @@
 	<!-- BEGIN option_item_tpl -->
 <tr>
 	<th>
-	{intl-value} {value_pos}: {option_value_id}
+	{intl-value} {value_pos}:<!-- {option_value_id} -->
 	<input type="hidden" name="OptionValueID[{value_index}]" value="{option_value_id}" />
 	</th>
 	<!-- BEGIN value_item_tpl -->
 	<td>
-	<input type="text" size="8" name="OptionValue[{value_index}][]" value="{option_value}" />
+	<input type="text" size="20" class="halfbox" name="OptionValue[{value_index}][]" value="{option_value}" />
 	</td>
 	<!-- END value_item_tpl -->
 	<td>
