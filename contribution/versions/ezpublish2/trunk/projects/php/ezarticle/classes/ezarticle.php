@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezarticle.php,v 1.129 2001/07/19 12:52:48 bf Exp $
+// $Id: ezarticle.php,v 1.130 2001/07/25 10:34:45 jb Exp $
 //
 // Definition of eZArticle class
 //
@@ -1539,7 +1539,7 @@ class eZArticle
     /*!
       Does a search in the article archive.
     */
-    function &search( &$queryText, $sortMode=time, $fetchNonPublished=true, $offset=0, $limit=10 )
+    function &search( &$queryText, $sortMode=time, $fetchNonPublished=true, $offset=0, $limit=10, $params = array() )
     {
         $db =& eZDB::globalDatabase();
 
@@ -1555,7 +1555,7 @@ class eZArticle
             }
             break;
         }
-       
+
         if ( $fetchNonPublished == true )
         {
             $fetchText = "";
@@ -1594,16 +1594,80 @@ class eZArticle
         $query = new eZQuery( "eZArticle_Word.Word", $queryText );
         $query->setIsLiteral( true );
         $searchSQL = $query->buildQuery();
-        
+        $dateSQL = "";
+        $catTable = "";
+        $catSQL = "";
+        $typeTables = "";
+        $typeSQL = "";
+        if ( isset( $params["FromDate"] ) )
+        {
+            $fromdate = $params["FromDate"];
+            $date = $fromdate->timeStamp();
+            $dateSQL .= "AND eZArticle_Article.Published >= '$date'";
+        }
+        if ( isset( $params["ToDate"] ) )
+        {
+            $todate = $params["ToDate"];
+            $date = $todate->timeStamp();
+            $dateSQL .= "AND eZArticle_Article.Published <= '$date'";
+        }
+        if ( isset( $params["Categories"] ) )
+        {
+            $cats = $params["Categories"];
+            $sql = "";
+            $i = 0;
+            foreach( $cats as $cat )
+            {
+                if ( $i > 0 )
+                    $sql .= "OR ";
+                $sql .= "eZArticle_Category.ID = '$cat' ";
+                ++$i;
+            }
+            if ( count( $cats ) > 0 )
+            {
+                $catSQL = "AND ( $sql ) AND eZArticle_Category.ID=eZArticle_ArticleCategoryLink.CategoryID
+                            AND eZArticle_Article.ID=eZArticle_ArticleCategoryLink.ArticleID";
+                $catTable = "eZArticle_Category,";
+            }
+        }
+        if ( isset( $params["Type"] ) )
+        {
+            $type = $params["Type"];
+            $typeSQL = "AND eZArticle_Attribute.TypeID='$type'
+                        AND eZArticle_Attribute.ID=eZArticle_AttributeValue.AttributeID
+                        AND eZArticle_AttributeValue.ArticleID=eZArticle_Article.ID";
+            $typeTables = "eZArticle_Attribute, eZArticle_AttributeValue, ";
+        }
+        if ( isset( $params["AuthorID"] ) )
+        {
+            $author = $params["AuthorID"];
+            $authorSQL = "AND eZArticle_Article.ContentsWriterID='$author'";
+        }
+        if ( isset( $params["PhotographerID"] ) )
+        {
+            $photo = $params["PhotographerID"];
+            $photoSQL = "AND eZImageCatalogue_Image.PhotographerID='$photo'
+                         AND eZImageCatalogue_Image.ID=eZArticle_ArticleImageLink.ImageID
+                         AND eZArticle_Article.ID=eZArticle_ArticleImageLink.ArticleID";
+            $photoTables = "eZArticle_ArticleImageLink, eZImageCatalogue_Image,";
+        }
 
         $queryString = "SELECT DISTINCT eZArticle_Article.ID AS ArticleID, eZArticle_Article.Published, eZArticle_Article.Name
                  FROM eZArticle_Article,
                       eZArticle_ArticleWordLink,
                       eZArticle_Word,
                       eZArticle_ArticleCategoryLink,
+                      $catTable
+                      $typeTables
+                      $photoTables
                       eZArticle_ArticlePermission
                  WHERE
-                       $searchSQL                      
+                       $searchSQL
+                       $dateSQL
+                       $catSQL
+                       $typeSQL
+                       $authorSQL
+                       $photoSQL
                        AND
                        ( eZArticle_Article.ID=eZArticle_ArticleWordLink.ArticleID
                          AND eZArticle_ArticleWordLink.WordID=eZArticle_Word.ID
@@ -1616,7 +1680,9 @@ class eZArticle
                         )            
                        ORDER BY $OrderBy";
 
-        
+//          $qry = preg_replace( "/\n/m", "", $queryString );
+        $qry = $queryString;
+        print( $qry ."\n" );
         $db->array_query( $article_array, $queryString, array( "Limit" => $limit, "Offset" => $offset ) );        
 
         for ( $i=0; $i < count($article_array); $i++ )
