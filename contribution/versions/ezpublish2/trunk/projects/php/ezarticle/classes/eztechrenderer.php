@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eztechrenderer.php,v 1.66 2001/04/26 12:54:00 th Exp $
+// $Id: eztechrenderer.php,v 1.67 2001/04/26 14:06:19 bf Exp $
 //
 // Definition of eZTechRenderer class
 //
@@ -138,7 +138,8 @@ class eZTechRenderer
     function &renderIntro()
     {
 //          print( "<pre>" );
-        $xml =& xmltree( $this->Article->contents() );
+        
+        $xml = xmltree( $this->Article->contents() );
 
 //          print_r( $xml );
         
@@ -208,7 +209,7 @@ class eZTechRenderer
     {
         $xml =& xmltree( $this->Article->contents() );
 
-//          $xml =& qdom_tree( $this->Article->contents() );
+//        $xml =& qdom_tree( $this->Article->contents() );
         
         if ( !$xml )
         {

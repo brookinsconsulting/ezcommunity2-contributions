@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: articleedit.php,v 1.71 2001/04/25 13:48:01 fh Exp $
+// $Id: articleedit.php,v 1.72 2001/04/26 14:06:18 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <18-Oct-2000 15:04:39 bf>
@@ -140,9 +140,11 @@ function deleteCache( $ArticleID, $CategoryID, $CategoryArray )
         $file->delete();
     }
 
+
     $files =& eZCacheFile::files( "ezarticle/cache/",
                                  array( "articlelinklist",
                                         array_merge( 0, $CategoryID, $CategoryArray ),
+                                        $ArticleID,
                                         NULL ),
                                   "cache", "," );
     foreach( $files as $file )
@@ -436,7 +438,6 @@ if ( $Action == "Update" )
     // TODO add document validation here:
 //    if ( true )
     {
-
         // generate keywords
         $contents = strip_tags( $contents );
         $contents = ereg_replace( "#\n#", "", $contents );

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: articlelinks.php,v 1.11 2001/04/23 15:28:19 th Exp $
+// $Id: articlelinks.php,v 1.12 2001/04/26 14:06:19 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <03-Jan-2001 10:47:00 bf>
@@ -33,7 +33,7 @@ if ( $PageCaching == "enabled" )
 {
     include_once( "classes/ezcachefile.php" );
     $CacheFile = new eZCacheFile( "ezarticle/cache/",
-                                  array( "articlelinklist", $CategoryID , $GlobalSiteDesign ),
+                                  array( "articlelinklist", $CategoryID, $url_array[3], $GlobalSiteDesign ),
                                   "cache", "," );
     if ( $CacheFile->exists() )
     {
