@@ -1,6 +1,7 @@
+
 <?php
 //
-// $Id: xmlrpcserver.php,v 1.20 2001/07/20 11:42:02 jakobn Exp $
+// $Id: xmlrpcserver.php,v 1.20.4.1 2001/11/08 14:36:54 ce Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -61,6 +62,7 @@ $server = new eZXMLRPCServer( );
 // register functions
 $server->registerFunction( "version" );
 $server->registerFunction( "newOrders", array( new eZXMLRPCString(), new eZXMLRPCString() ) );
+$server->registerFunction( "vouchers", array( new eZXMLRPCString(), new eZXMLRPCString() ) );
 
 // process the server requests
 $server->processRequest();
@@ -191,6 +193,37 @@ function &newOrders( $args )
     }
 
     return $tmp;
+}
+
+
+function &vouchers( $args )
+{
+    $user = new eZUser();
+    $user = $user->validateUser( $args[0]->value(), $args[1]->value() );
+    $return = eZXMLRPCBool( false );
+    
+    if ( ( get_class( $user ) == "ezuser" ) and eZPermission::checkPermission( $user, "eZUser", "AdminLogin" ) )
+    {
+        
+        $files = eZFile::dir( "vouchers/" );
+        
+        while( $file = $files->read() )
+        {
+            if ( preg_match( "/\.tex$/", $file ) )
+            {
+                $filePath = "vouchers/" . $file;
+                $fp = fopen( $filePath, "r" );
+                $fileSize = filesize( $filePath );
+                $content =& fread( $fp, $fileSize );
+                fclose( $fp );
+                
+                $contents[] = new eZXMLRPCBase64( $content );
+            }
+        }
+        
+        $return = new eZXMLRPCArray( $contents );
+    }
+    return $return;
 }
 
 ob_end_flush();
