@@ -1,5 +1,5 @@
 <h1 class="small"><span class="h1bigger">B </span>R U K T E&nbsp;&nbsp; <span class="h1bigger">B </span>Å T E R</h1>
-
+ 
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
 <tr>
 	<td class="tdmini" width="1%" background="/images/gyldenlinje-strekk.gif"><img src="/images/gyldenlinje-venstre.gif" width="8" height="4" border="0" /><br /></td>
@@ -39,24 +39,25 @@
 
 <!-- BEGIN product_list_tpl -->
 
-<table width="100%" cellspacing="0" cellpadding="2" border="0">
+<table width="100%" cellspacing="0" cellpadding="0" border="0">
 
 <!-- BEGIN product_tpl -->
 <tr>
-	<td valign="top">
+	<td width="1%" valign="top" align="left">
 <!-- BEGIN product_image_tpl -->
-	<a href="/trade/productview/{product_id}/{category_id}/">
-        <img src="{thumbnail_image_uri}" border="0" width="{thumbnail_image_width}" height="{thumbnail_image_height}" />
-	</a>
+	<a href="/trade/productview/{product_id}/{category_id}/"><img src="{thumbnail_image_uri}" border="0" width="{thumbnail_image_width}" height="{thumbnail_image_height}" /></a>
+	<img src="/images/path-arrow.gif" height="10" width="15" border="0" alt=""><a class="path" href="/trade/productview/{product_id}/{category_id}/">Les mer</a>
+	<br /><img src="/images/1x1.gif" height="8" width="1" border="0" alt="" /><br />
 <!-- END product_image_tpl -->
 	</td>
-	<td valign="top">
-	<a href="/trade/productview/{product_id}/{category_id}/">{product_name}</a>
+	<td width="1%"><img src="/images/1x1.gif" height="1" width="12" border="0" alt="" /><br /></td>
+	<td width="98%" valign="top">
+	<a class="productlisthead" href="/trade/productview/{product_id}/{category_id}/">{product_name}</a>
 
-	<p>{product_intro_text}</p>
+	<div class="p">{product_intro_text}</div>
 
 <!-- BEGIN price_tpl -->
-<p class="pris">{product_price}</p>
+<div class="pris">{product_price}</div>
 <!-- END price_tpl -->
 
      	</td>
@@ -67,3 +68,5 @@
 
 <!-- END product_list_tpl -->
 
+
+ 

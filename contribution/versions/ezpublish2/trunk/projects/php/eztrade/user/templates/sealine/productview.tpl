@@ -39,9 +39,9 @@
 <table width="100%" cellspacing="0" cellpadding="2" border="0">
 <!-- BEGIN attribute_tpl -->
 {begin_tr}
-	<td>
+	<th>
 	{attribute_name} : 
-	</td>
+	</th>
 	<td>
 	{attribute_value}
 	</td>
@@ -78,11 +78,10 @@
 	</td>
 </tr>
 </table>
-<br />
 
 <br clear="all" />
 
-<table width="100%" cellspacing="0" cellpadding="7">
+<table width="100%" cellspacing="0" cellpadding="0" border="0">
 
 <!-- BEGIN image_tpl -->
 <tr>
@@ -91,15 +90,18 @@
 <table cellspacing="0" cellpadding="0" border="0">
 <tr>
 	<td valign="top">
-	{image_name}<br />
-	<a href="/imagecatalogue/imageview/{image_id}/?RefererURL=/trade/productview/{product_id}/">
-	<img src="{image_url}" border="0" alt="{image_caption}" width="{image_width}" height="{image_height}"/></a>
+	<div class="feature">{image_name}</div>
 	</td>
+	<td colspan="2">&nbsp;</td>
+</tr>
+<tr>
+	<td>
+	<a href="/imagecatalogue/imageview/{image_id}/?RefererURL=/trade/productview/{product_id}/">
+	<img src="{image_url}" border="0" alt="{image_caption}" width="{image_width}" height="{image_height}" /></a>
+	</td>
+	<td><img src="/images/1x1.gif" height="1" width="12" border="0" alt="" /></td>
 	<td valign="top">
-
-	<p>
 	{image_caption}
-	</p>
 	</td>
 </tr>
 </table>
@@ -152,5 +154,7 @@
 
 <!-- END add_to_cart_tpl -->
 
-
+ 
 </form>
+
+ 
