@@ -1,6 +1,6 @@
 <?php 
 // 
-// $Id: INIFile.php,v 1.44 2001/09/27 15:26:04 jakobn Exp $
+// $Id: INIFile.php,v 1.45 2001/09/27 16:22:31 jakobn Exp $
 //
 // Implements a simple INI-file parser
 //
@@ -176,7 +176,11 @@ class INIFile
         $contents =& fread( $fp, eZFile::filesize( $inifilename ) );
 
         // Remove trailing empty lines in the file
-        $contents = eregi_replace( "\n*$", "", $contents );
+        // This should be the code used, but for some reason it will not work
+        //$contents = eregi_replace( "\n*$", "", $contents );
+
+        // So instead we'll do a hack until the reason for the error is found
+        $contents .= "\n";
         
         $ini_data =& split( "\n",$contents );
 
