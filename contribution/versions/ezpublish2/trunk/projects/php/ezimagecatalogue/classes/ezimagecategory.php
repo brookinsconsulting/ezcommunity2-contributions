@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezimagecategory.php,v 1.22 2001/06/27 14:17:37 pkej Exp $
+// $Id: ezimagecategory.php,v 1.23 2001/06/27 14:28:42 pkej Exp $
 //
 // Definition of eZImageCategory class
 //
@@ -280,7 +280,7 @@ class eZImageCategory
     {
         $db =& eZDB::globalDatabase();
         
-        $topic =& new eZArticleCategory();
+        $topic =& new eZImageCategory();
         
         $name = $db->escapeString( $name );
 
