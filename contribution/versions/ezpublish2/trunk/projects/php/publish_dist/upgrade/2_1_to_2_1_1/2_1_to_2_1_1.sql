@@ -87,11 +87,30 @@ CREATE TABLE eZQuiz_Score (
   GameID int(11) default '0',
   UserID int(11) default '0',
   TotalScore int(11) default '0',
+  LastQuestion int(11) default '0',
+  FinishedGame int(1) default '1',
   PRIMARY KEY (ID)
 ) TYPE=MyISAM;
 
 #
 # Dumping data for table 'eZQuiz_Score'
+#
+
+#
+# Table structure for table 'eZQuiz_AllTimeScore'
+#
+
+DROP TABLE IF EXISTS eZQuiz_AllTimeScore;
+CREATE TABLE eZQuiz_Score (
+  ID int(11) NOT NULL auto_increment,
+  UserID int(11) default '0',
+  TotalScore int(11) default '0',
+  GamesPlayed int(11) default '0',
+  PRIMARY KEY (ID)
+) TYPE=MyISAM;
+
+#
+# Dumping data for table 'eZQuiz_AllTimeScore'
 #
 
 
