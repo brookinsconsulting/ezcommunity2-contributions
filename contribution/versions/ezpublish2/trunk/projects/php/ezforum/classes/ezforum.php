@@ -1,6 +1,6 @@
 <?
 //
-// $Id: ezforum.php,v 1.38 2001/07/03 13:20:56 bf Exp $
+// $Id: ezforum.php,v 1.39 2001/07/06 08:48:48 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <11-Sep-2000 22:10:06 bf>
@@ -595,12 +595,12 @@ class eZForum
                                           WHERE ForumID='$this->ID'
                                           AND IsTemporary='0'
                                           $unapprovedSQL
-                                          GROUP BY ID, ThreadID" );
+                                          " );
        }
        else
        {
            $db->array_query( $message_array, "SELECT ID FROM eZForum_Message
-                                          WHERE ForumID='$this->ID'
+                                          WHERE ForumID='$this->ID'  AND Depth='0'
                                           AND IsTemporary='0' $unapprovedSQL" );
        }
 

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: message.php,v 1.23 2001/05/09 08:57:06 ce Exp $
+// $Id: message.php,v 1.24 2001/07/06 08:48:49 bf Exp $
 //
 // Lars Wilhelmsen <lw@ez.no>
 // Created on: <11-Sep-2000 22:10:06 bf>
@@ -150,9 +150,15 @@ foreach ( $messages as $message )
 {
     $t->set_var( "edit_message_item", "" );
     if ( ( $i % 2 ) == 0 )
+    {
         $t->set_var( "td_class", "bglight" );
+        $t->set_var( "td_alt", "1" );
+    }
     else
+    {
+        $t->set_var( "td_alt", "2" );
         $t->set_var( "td_class", "bgdark" );
+    }
     
     $level = $message->depth();
 
@@ -172,6 +178,7 @@ foreach ( $messages as $message )
         $t->set_var( "spacer", "" );
     
     $t->set_var( "reply_topic", $message->topic() );
+    $t->set_var( "reply_body", $message->body() );
 
     $messageAge = round( $message->age() / ( 60 * 60 * 24 ) );
     if ( $messageAge <= $NewMessageLimit )

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: messagelist.php,v 1.33 2001/07/03 10:24:39 bf Exp $
+// $Id: messagelist.php,v 1.34 2001/07/06 08:48:49 bf Exp $
 //
 // Lars Wilhelmsen <lw@ez.no>
 // Created on: <11-Sep-2000 22:10:06 bf>
@@ -133,7 +133,7 @@ if ( $showThreads == "Hide" )
     $t->set_var( "hide_threads", "" );
     $t->parse( "show_threads", "show_threads_tpl" );
     $messageList =& $forum->messageTreeArray( $Offset, $UserLimit, false, false );
-    $messageCount =& $forum->messageCount( false, true );
+    $messageCount =& $forum->messageCount( false, false );
 }
 elseif ( $showThreads == "Show" )
 {

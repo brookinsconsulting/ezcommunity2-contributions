@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: latestmessages.php,v 1.3 2001/07/03 11:37:56 bf Exp $
+// $Id: latestmessages.php,v 1.4 2001/07/06 08:48:49 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <02-Jul-2001 11:45:17 bf>
@@ -46,7 +46,7 @@ $t->setAllStrings();
 
 $user =& eZUser::currentUser();
 $db =& eZDB::globalDatabase();
-$messages =& eZForumMessage::lastMessages( 10 );
+$messages =& eZForumMessage::lastMessages( 5 );
 
 $i=0;
 foreach ( $messages as $message )
