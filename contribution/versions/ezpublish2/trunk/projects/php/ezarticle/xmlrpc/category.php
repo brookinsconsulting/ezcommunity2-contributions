@@ -11,6 +11,7 @@ include_once( "ezxmlrpc/classes/ezxmlrpcint.php" );
 
 if( $Command == "data" ) // Dump category info!
 {
+//      usleep( 5000000 );
     $writeGroups = eZObjectPermission::getGroups( $ID, "article_category", 'w', false );
     $readGroups = eZObjectPermission::getGroups( $ID, "article_category", 'r', false );
 
