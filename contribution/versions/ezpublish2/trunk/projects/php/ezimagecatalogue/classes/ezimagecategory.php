@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezimagecategory.php,v 1.34 2001/09/12 12:46:08 br Exp $
+// $Id: ezimagecategory.php,v 1.35 2001/09/12 13:01:39 br Exp $
 //
 // Definition of eZImageCategory class
 //
@@ -582,7 +582,6 @@ class eZImageCategory
        $query = "INSERT INTO eZImageCatalogue_ImageCategoryLink ( ID, CategoryID, ImageID )
                  VALUES ( '$nextID', '$categoryid', '$imageID' )";
 
-       print( $query );
        $res = $db->query( $query );
 
        $db->unlock();
