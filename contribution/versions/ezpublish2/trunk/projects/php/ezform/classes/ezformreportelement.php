@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: ezformreportelement.php,v 1.20 2002/01/28 19:28:22 jhe Exp $
+// $Id: ezformreportelement.php,v 1.21 2002/01/29 08:28:18 jhe Exp $
 //
 // Definition of eZFormReportElement class
 //
@@ -642,7 +642,8 @@ class eZFormReportElement
         $reference = $this->reference();
         $db->array_query( $res, "SELECT Result, ResultID, ElementID FROM eZForm_FormElementResult
                                  WHERE (eZForm_FormElementResult.ElementID='" . $element->id() . "' OR
-                                 eZForm_FormElementResult.ElementID='" . $reference->id() . "')
+                                 eZForm_FormElementResult.ElementID='" . $reference->id() . "') AND
+                                 eZForm_FormElementResult.Result != ''
                                  $resultString
                                  ORDER BY ResultID" );
 
