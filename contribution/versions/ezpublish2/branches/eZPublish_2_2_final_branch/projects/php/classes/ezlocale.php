@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezlocale.php,v 1.42.2.2 2002/02/06 13:40:13 jhe Exp $
+// $Id: ezlocale.php,v 1.42.2.3 2002/02/06 13:43:20 jhe Exp $
 //
 // Definition of eZLocale class
 //
@@ -482,7 +482,7 @@ class eZLocale
     {
         if ( is_numeric( $value ) )
         {
-            if ( $value == float( $value ) )
+            if ( $value == round( $value ) )
                 $value =& number_format( $value, 0, $this->DecimalSymbol, $this->ThousandsSymbol );
             else
                 $value =& number_format( $value, $this->FractDigits, $this->DecimalSymbol, $this->ThousandsSymbol );

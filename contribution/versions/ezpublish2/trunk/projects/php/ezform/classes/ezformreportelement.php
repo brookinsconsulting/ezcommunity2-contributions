@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: ezformreportelement.php,v 1.27 2002/02/06 13:36:43 jhe Exp $
+// $Id: ezformreportelement.php,v 1.28 2002/02/06 13:40:57 jhe Exp $
 //
 // Definition of eZFormReportElement class
 //
@@ -320,14 +320,15 @@ class eZFormReportElement
             $locale = new eZLocale( $language );
             foreach ( $res as $result )
             {
-                if ( ( $element->ElementType->name() == "numerical_float_item" ||
-                       $element->ElementType->name() == "numerical_integer_item" ) &&
-                     is_numeric( $result[$db->fieldName( "Result" )] ) )
+                if ( $element->ElementType->name() == "numerical_float_item" ||
+                     $element->ElementType->name() == "numerical_integer_item" )
                 {
                     $t->set_var( "result", $locale->formatNumber( $result[$db->fieldName( "Result" )] ) );
                 }
                 else
+                {
                     $t->set_var( "result", $result[$db->fieldName( "Result" )] );
+                }
                     
                 $t->set_var( "count", $result[$db->fieldName( "Count" )] );
                 $t->parse( "frequency_element", "frequency_element_tpl", true );
