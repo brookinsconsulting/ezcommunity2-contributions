@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: dayview.php,v 1.3 2001/01/15 13:54:28 gl Exp $
+// $Id: dayview.php,v 1.4 2001/01/15 14:13:01 gl Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <08-Jan-2001 12:48:35 bf>
@@ -140,10 +140,9 @@ while ( $startTime->isGreater( $stopTime ) == true )
 
             if ( $drawnColumn[$i] == false )
             {
-//                $rowSpanColumns[$i] = emptyRowSpan( $startTime, $interval );
+                $rowSpanColumns[$i] = emptyRowSpan( $appointmentColumns[$i], $startTime, $interval );
                 $t->set_var( "td_class", "bglight" );
-//                $t->set_var( "rowspan_value", $rowSpanColumns[$i] );
-                $t->set_var( "rowspan_value", "0" );
+                $t->set_var( "rowspan_value", $rowSpanColumns[$i] );
                 $t->set_var( "appointment_id", "" );
                 $t->set_var( "appointment_name", "" );
 
@@ -180,16 +179,25 @@ function appointmentRowSpan( &$appointment, &$startTime, &$interval )
 
 
 // returns the number of empty rows before an appointment.
-function emptyRowSpan( &$startTime, &$interval )
+function emptyRowSpan( $appointmentArray, &$startTime, &$interval )
 {
     $ret = 0;
     $tmpTime = new eZTime( $startTime->hour(), $startTime->minute(), $startTime->second() );
+    $foundAppointment = false;
 
-//      while ( $tmpTime->isGreater( $aStop ) )
-//      {
-//          $tmpTime = $tmpTime->add( $interval );
-//          $ret++;
-//      }
+    while ( $foundAppointment == false )
+    {
+        $tmpTime = $tmpTime->add( $interval );
+        $ret++;
+
+        foreach ( $appointmentArray as $app )
+        {
+            if ( intersects( $app, $tmpTime, $tmpTime->add( $interval ) ) )
+            {
+                $foundAppointment = true;
+            }
+        }
+    }
 
     return $ret;
 }
@@ -204,12 +212,7 @@ function isFree( &$appointmentArray, &$appointment )
         if ( intersects( $appointment, $app->startTime(), $app->stopTime() ) )
         {
             $ret = false;
-//              print( "inter" . $appointment->id() . " " . $app->id() . "<br>" );
         }
-//        else
-//        {
-//              print( "not inter" . $appointment->id() . " " . $app->id() . "<br>" );
-//        }
     }
     return $ret;
 }
