@@ -1,0 +1,98 @@
+<?
+// 
+// $Id: appointmentedit.php,v 1.1 2001/01/07 18:39:54 bf Exp $
+//
+// Bård Farstad <bf@ez.no>
+// Created on: <03-Jan-2001 12:47:22 bf>
+//
+// This source file is part of eZ publish, publishing software.
+// Copyright (C) 1999-2000 eZ systems as
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, US
+//
+
+
+include_once( "classes/INIFile.php" );
+include_once( "classes/eztemplate.php" );
+include_once( "classes/ezlog.php" );
+include_once( "classes/ezdatetime.php" );
+
+include_once( "ezcalendar/classes/ezappointment.php" );
+
+$appointment = new eZAppointment();
+$appointment->setName( "Date" );
+$appointment->setDescription( "Med Cladia Schifer" );
+
+
+$ini = new INIFIle( "site.ini" );
+
+$Language = $ini->read_var( "eZCalendarMain", "Language" );
+
+
+$t = new eZTemplate( "ezcalendar/user/" . $ini->read_var( "eZCalendarMain", "TemplateDir" ),
+                     "ezcalendar/user/intl/", $Language, "appointmentedit.php" );
+
+$t->set_file( "appointment_edit_tpl", "appointmentedit.tpl" );
+
+$t->setAllStrings();
+
+$t->set_block( "appointment_edit_tpl", "month_tpl", "month" );
+$t->set_block( "appointment_edit_tpl", "day_tpl", "day" );
+
+$t->set_var( "action_value", "Insert" );
+$t->set_var( "name_value", "" );
+$t->set_var( "description_value", "" );
+
+$dateTime = new eZDateTime();
+$today = new eZDateTime();
+for ( $i=1; $i<13; $i++ )
+{
+    if ( $today->month() == $i )
+        $t->set_var( "selected", "selected" );
+    else
+        $t->set_var( "selected", "" );
+    
+    $dateTime->setMonth( $i );
+    $t->set_var( "month_id", $i );
+    $t->set_var( "month_name", $dateTime->monthName() );
+
+    $t->parse( "month", "month_tpl", true );
+}
+
+for ( $i=1; $i<32; $i++ )
+{
+    if ( $today->day() == $i )
+        $t->set_var( "selected", "selected" );
+    else
+        $t->set_var( "selected", "" );
+    
+    $t->set_var( "day_id", $i );
+    $t->set_var( "day_name", $i );
+
+    $t->parse( "day", "day_tpl", true );
+}
+
+$t->set_var( "hour_value", $today->hour() );
+$t->set_var( "minute_value", $today->minute() );
+
+$t->set_var( "duration_value", 30 );
+
+
+
+$t->set_var( "year_value", $dateTime->year() );
+
+$t->pparse( "output", "appointment_edit_tpl" );
+
+?>
