@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: articleedit.php,v 1.109 2001/08/17 08:45:58 ce Exp $
+// $Id: articleedit.php,v 1.110 2001/08/17 10:28:21 ce Exp $
 //
 // Created on: <18-Oct-2000 15:04:39 bf>
 //
@@ -436,6 +436,8 @@ if ( $Action == "New" )
     $article = new eZArticle( );
 }
 
+$t->set_var( "author_information", "" );
+$t->set_var( "author_pending_information", "" );
 $t->set_var( "publish_dates", "" );
 $t->set_var( "article_pending", "" );
 if ( $Action == "Edit" )
