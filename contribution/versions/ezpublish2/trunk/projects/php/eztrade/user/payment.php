@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: payment.php,v 1.10 2001/02/15 10:42:26 bf Exp $
+// $Id: payment.php,v 1.11 2001/02/26 09:52:31 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <02-Feb-2001 16:31:53 bf>
@@ -54,7 +54,6 @@ $ini =& $GLOBALS["GlobalSiteIni"];
 $Language = $ini->read_var( "eZTradeMain", "Language" );
 $OrderSenderEmail = $ini->read_var( "eZTradeMain", "OrderSenderEmail" );
 $OrderReceiverEmail = $ini->read_var( "eZTradeMain", "OrderReceiverEmail" );
-$ShippingCost = $ini->read_var( "eZTradeMain", "ShippingCost" );
 
 // fetch the cart
 $cart = new eZCart();
@@ -62,7 +61,7 @@ $cart = $cart->getBySession( $session, "Cart" );
 
 if ( !$cart )
 {
-    header ("Location: /trade/cart/" );
+    header("Location: /trade/cart/" );
 }
 
 $items = $cart->items();

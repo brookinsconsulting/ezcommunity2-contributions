@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: userwithaddress.php,v 1.42 2001/02/23 18:47:21 jb Exp $
+// $Id: userwithaddress.php,v 1.43 2001/02/26 09:52:31 bf Exp $
 //
 //
 // Christoffer A. Elo <ce@ez.no>
@@ -29,7 +29,7 @@ include_once( "classes/INIFile.php" );
 include_once( "classes/eztemplate.php" );
 include_once( "classes/ezhttptool.php" );
 
-$ini = new INIFIle( "site.ini" );
+$ini =& $GLOBALS["GlobalSiteIni"];
 
 $Language = $ini->read_var( "eZUserMain", "Language" );
 $SelectCountry = $ini->read_var( "eZUserMain", "SelectCountry" );
@@ -441,7 +441,10 @@ if ( get_class( $user ) == "ezuser" )
             if ( !isset( $CountryID[$i] ) )
             {
                 $country = $address->country();
-                $CountryID[$i] = $country->id();
+                if ( $country )
+                {
+                    $CountryID[$i] = $country->id();
+                }
             }
             ++$i;
         }
