@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: groupedit.php,v 1.18 2001/05/04 08:20:45 fh Exp $
+// $Id: groupedit.php,v 1.19 2001/06/23 10:17:05 bf Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <20-Sep-2000 13:32:11 ce>
@@ -61,7 +61,7 @@ if ( $Action == "insert" )
     {
         if ( $Name == "" || $Description == "" )
         {
-            $error = new INIFIle( "ezuser/admin/intl/" . $Language . "/groupedit.php.ini", false );
+            $error = new INIFile( "ezuser/admin/intl/" . $Language . "/groupedit.php.ini", false );
             $error_msg =  $error->read_var( "strings", "error_msg" );
         }
         else
@@ -93,14 +93,15 @@ if ( $Action == "insert" )
                 $permission->get( $PermissionID );
                 $permission->setEnabled( $group, true );
             }
-            
+
             eZHTTPTool::header( "Location: /user/grouplist/" );
             exit();
         }
     }
     else
     {
-        print( "Du har ikke rettigheter til å legge til brukere.");
+        eZHTTPTool::header( "Location: /error/403/" );
+        exit();
     }
 }
 
@@ -153,13 +154,14 @@ if ( $Action == "update" )
             }
 
         $group->store();
-
+        
         eZHTTPTool::header( "Location: /user/grouplist/" );
         exit();
     }
     else
     {
-        print( "Du har ikke rettigheter.");
+        eZHTTPTool::header( "Location: /error/403/" );
+        exit();
     }
 }
 

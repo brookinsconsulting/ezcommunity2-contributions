@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezauthor.php,v 1.2 2001/06/12 14:32:33 ce Exp $
+// $Id: ezauthor.php,v 1.3 2001/06/23 10:17:05 bf Exp $
 //
 // Definition of eZAuthor class
 //
@@ -53,28 +53,48 @@ class eZAuthor
     */
     function store()
     {
+        $ret = false;
         $db =& eZDB::globalDatabase();
 
+        $dbError = false;
+        $db->begin( );
+
+        
         $name = addslashes( $this->Name );
         $email = addslashes( $this->EMail );
 
         if ( !isset( $this->ID ) )
         {
-            $db->query( "INSERT INTO eZUser_Author SET
-		                 Name='$name',
-                         EMail='$email'
-                       " );
-			$this->ID = $db->insertID();
+            $db->lock( "eZUser_Author" );
+
+            $nextID = $db->nextID( "eZUser_Author", "ID" );
+            
+            $res = $db->query( "INSERT INTO eZUser_Author
+                         ( ID, Name, EMail )
+                         VALUES 
+		                 ( '$nextID', '$name', '$email' )" );
+            
+			$this->ID = $nextID;
         }
         else
         {
-            $db->query( "UPDATE eZUser_Author SET
+            $res = $db->query( "UPDATE eZUser_Author SET
 		                 Name='$name',
                          EMail='$email'
                         WHERE ID='$this->ID'" );
         }
 
-        return true;
+        $db->unlock();
+    
+        if ( $dbError == true )
+            $db->rollback( );
+        else
+        {
+            $db->commit();
+            $ret = true;
+        }
+
+        return $ret;
     }
 
     /*!
@@ -111,9 +131,9 @@ class eZAuthor
             $db->array_query( $author_array, "SELECT * FROM eZUser_Author WHERE ID='$id'" );
             if( count( $author_array ) == 1 )
             {
-                $this->ID =& $author_array[0][ "ID" ];
-                $this->Name =& $author_array[0][ "Name" ];
-                $this->EMail =& $author_array[0][ "EMail" ];
+                $this->ID =& $author_array[0][$db->fieldName("ID")];
+                $this->Name =& $author_array[0][$db->fieldName("Name")];
+                $this->EMail =& $author_array[0][$db->fieldName("EMail")];
                 $ret = true;
             }
             elseif( count( $author_array ) == 1 )

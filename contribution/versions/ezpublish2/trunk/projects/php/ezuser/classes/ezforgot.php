@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezforgot.php,v 1.9 2001/05/21 06:33:14 ce Exp $
+// $Id: ezforgot.php,v 1.10 2001/06/23 10:17:05 bf Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <20-Sep-2000 13:32:11 ce>
@@ -60,24 +60,12 @@ class eZForgot
       If $id is set the object's values are fetched from the
       database.
     */
-    function eZForgot( $id=-1, $fetch=true )
+    function eZForgot( $id=-1 )
     {
-        $this->IsConnected = false;
         if ( $id != -1 )
         {
             $this->ID = $id;
-            if ( $fetch == true )
-            {
-                $this->get( $this->ID );
-            }
-            else
-            {
-                $this->State_ = "Dirty";
-            }
-        }
-        else
-        {
-            $this->State_ = "New";
+            $this->get( $this->ID );
         }
     }
 
@@ -86,17 +74,35 @@ class eZForgot
     */
     function store()
     {
-        $this->dbInit();
+        $db =& eZDB::globalDatabase();
 
         $this->Hash = md5( microTime() );
+
+        $dbError = false;
+        $db->begin( );        
         
         if ( !isset( $this->ID ) )
         {
-            $this->Database->query( "INSERT INTO eZUser_Forgot SET
-                                 UserID='$this->UserID',
-                                 Hash='$this->Hash'" );
-			$this->ID = $this->Database->insertID();
+            $db->lock( "eZUser_Forgot" );
+
+            $nextID = $db->nextID( "eZUser_Forgot", "ID" );
+            
+            $res = $db->query( "INSERT INTO eZUser_Forgot
+                                 ( ID, UserID, Hash )
+                                 VALUES ( '$nextID',
+                                          '$this->UserID',
+                                          '$this->Hash' )" );
+            
+			$this->ID = $nextID;
         }
+
+        $db->unlock();
+        
+        if ( $res == false )
+            $db->rollback();
+        else
+            $db->commit();
+        
         return true;
     }
 
@@ -106,11 +112,11 @@ class eZForgot
     */
     function delete()
     {
-        $this->dbInit();
+        $db =& eZDB::globalDatabase();
 
         if ( isset( $this->ID ) )
         {
-            $this->Database->query( "DELETE FROM eZUser_Forgot WHERE ID='$this->ID'" );
+            $db->query( "DELETE FROM eZUser_Forgot WHERE ID='$this->ID'" );
         }
         
         return true;
@@ -123,30 +129,24 @@ class eZForgot
     */
     function get( $id=-1 )
     {
-        $this->dbInit();
-
+        $db =& eZDB::globalDatabase();
+        
         $ret = false;
         if ( $id != "" )
         {
-            $this->Database->array_query( $forgot_array, "SELECT * FROM eZUser_Forgot WHERE ID='$id'" );
+            $db->array_query( $forgot_array, "SELECT * FROM eZUser_Forgot WHERE ID='$id'" );
             if ( count( $forgot_array ) > 1 )
             {
                 die( "Error: User's with the same ID was found in the database. This shouldent happen." );
             }
-            else if( count( $forgot_array ) == 1 )
+            else if ( count( $forgot_array ) == 1 )
             {
-                $this->ID = $forgot_array[0]["ID"];
-                $this->Time = $forgot_array[0]["Time"];
-                $this->UserID = $forgot_array[0]["UserID"];
+                $this->ID = $forgot_array[0][$db->fieldName("ID")];
+                $this->Time = $forgot_array[0][$db->fieldName("Time")];
+                $this->UserID = $forgot_array[0][$db->fieldName("UserID")];
 
-                $this->State_ = "Coherent";  
                 $ret = true;
             }
-        }
-        else
-        {
-            $this->State_ = "Dirty";
-
         }
         return $ret;
     }
@@ -158,14 +158,14 @@ class eZForgot
     */
     function check( $hash )
     {
-        $this->dbInit();
+        $db =& eZDB::globalDatabase();
         $ret = false;
         
-        $this->Database->array_query( $forgot_array, "SELECT ID FROM eZUser_Forgot WHERE Hash='$hash'" );
+        $db->array_query( $forgot_array, "SELECT ID FROM eZUser_Forgot WHERE Hash='$hash'" );
 
         if ( count( $forgot_array ) == 1 )
         {
-            $ret = $forgot_array[0]["ID"];
+            $ret = $forgot_array[0][$db->fieldName("ID")];
         }
         return $ret;
     }
@@ -183,9 +183,6 @@ class eZForgot
     */
     function userID( )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
        return $this->UserID;
     }
 
@@ -194,9 +191,6 @@ class eZForgot
     */
     function setUserID( $value )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
        $this->UserID = $value;
     }
 
@@ -205,39 +199,11 @@ class eZForgot
     */
     function hash()
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
        return $this->Hash;
-    }
-
-
-
-    /*!
-      \private
-      Private function.
-      Open the database for read and write. Gets all the database information from site.ini.
-    */
-    function dbInit( )
-    {
-        if ( $this->IsConnected == false )
-        {
-            $this->Database = eZDB::globalDatabase();
-            $this->IsConnected = true;
-        }
     }
 
     var $UserID;
     var $ID;
     var $Hash;
-
-    ///  Variable for keeping the database connection.
-    var $Database;
-
-    /// Indicates the state of the object. In regard to database information.
-    var $State_;
-    /// Is true if the object has database connection, false if not.
-    var $IsConnected;
-
 }
 ?>

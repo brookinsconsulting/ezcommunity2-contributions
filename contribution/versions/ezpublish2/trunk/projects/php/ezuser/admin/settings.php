@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: settings.php,v 1.3 2001/04/26 15:16:14 jb Exp $
+// $Id: settings.php,v 1.4 2001/06/23 10:17:05 bf Exp $
 //
 // Jan Borsodi <jb@ez.no>
 // Created on: <11-Apr-2001 16:53:40 amos>
@@ -79,6 +79,7 @@ if ( $Action == "update" )
 {
     $preferences->setVariable( "SingleModule", $SingleModule != "" ? "enabled" : "disabled" );
     $preferences->setVariable( "ModuleTab", $ModuleTabBar != "" ? "enabled" : "disabled" );
+
     eZHTTPTool::header( "Location: $url" );
     exit();
 }

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezobjectpermission.php,v 1.16 2001/05/05 11:16:05 bf Exp $
+// $Id: ezobjectpermission.php,v 1.17 2001/06/23 10:17:05 bf Exp $
 //
 // Definition of eZObjectPermission class
 //
@@ -76,7 +76,7 @@ class eZObjectPermission
     {
         if( get_class( $user ) != "ezuser" )
         {
-            $user = eZUser::currentUser();
+            $user =& eZUser::currentUser();
         }
 
         if( is_object( $user ) && $user->hasRootAccess() )
@@ -127,7 +127,7 @@ class eZObjectPermission
 
         $database->query_single( $res, $query );
 
-        if( $res[ "ID" ] != 0 )
+        if( $res[$db->fieldName("ID")] != 0 )
             return true;
 
         return false;
@@ -159,11 +159,11 @@ class eZObjectPermission
         $SQLPermission = "";
         if( $permission == 'r' )
         {
-            $SQLPermission = "SET ReadPermission='1'";
+            $SQLPermission = "ReadPermission";
         }
         else if( $permission == 'w' )
         {
-            $SQLPermission = "SET WritePermission='1'";
+            $SQLPermission = "WritePermission";
         }
         else // bogus $permission input.
         {
@@ -176,25 +176,45 @@ class eZObjectPermission
             return false;
         }
 
-        $database =& eZDB::globalDatabase();
-        $queryexists = "SELECT count( ID ) as ID FROM $tableName WHERE ObjectID='$objectID' AND GroupID='$groupID'";
-        $database->query_single( $res, $queryexists );
+        $db =& eZDB::globalDatabase();
+        $dbError = false;
+        $db->begin( );
 
-        if( $res[ "ID" ] == 0 )
+        $queryexists = "SELECT count( ID ) AS ID FROM $tableName WHERE ObjectID='$objectID' AND GroupID='$groupID'";
+        $db->query_single( $res, $queryexists );
+
+        if( $res[$db->fieldName("ID")] == 0 )
         {
-            $query = "INSERT INTO $tableName $SQLPermission, ObjectID='$objectID', GroupID='$groupID'";
-            $database->query( $query );
+            $db->lock( $tableName );
+
+            $nextID = $db->nextID( $tableName, "ID" );
+
+            $query = "INSERT INTO $tableName ( ID, $SQLPermission, ObjectID, GroupID )
+                      VALUES
+                      ( '$nextID', '1', '$objectID', '$groupID' )";
+            
+            $res = $db->query( $query );
         }
-        else if( $res[ "ID" ] == 1 )
+        else if ( $res[$db->fieldName("ID")] == 1 )
         {
-            $query = "UPDATE $tableName $SQLPermission WHERE ObjectID='$objectID' AND GroupID='$groupID'";
-            $database->query( $query );
+            $query = "UPDATE $tableName SET $SQLPermission='1' WHERE ObjectID='$objectID' AND GroupID='$groupID'";
+            $res = $db->query( $query );
         }
         else
         {
             print("Duplicate objects in database. Please contact your administrator");
             exit();
         }
+
+        $db->unlock();
+
+        if ( $res == false )
+            $dbError = true;
+        
+        if ( $dbError == true )
+            $db->rollback( );
+        else
+            $db->commit();        
     }
 
     /*!
@@ -259,21 +279,21 @@ class eZObjectPermission
         }
         
         $query = "SELECT GroupID FROM $tableName WHERE ObjectID='$objectID' AND $SQLPermission";
-        $database =& eZDB::globalDatabase();
-        $database->array_query( $res, $query );
+        $db =& eZDB::globalDatabase();
+        $db->array_query( $res, $query );
         
         if( count( $res ) > 0 )
         {
             $i = 0;
             foreach( $res as $groupID )
             {
-                if( $groupID["GroupID"]  == -1 )
+                if( $groupID[$db->fieldName("GroupID")]  == -1 )
                 {
                     $res = array();
                     $res[0] = -1;
                     return $res;
                 }
-                $GroupReturn ? $ret[$i] = new eZUserGroup( $groupID["GroupID"] ) : $ret[$i] = $groupID["GroupID"];
+                $GroupReturn ? $ret[$i] = new eZUserGroup( $groupID[$db->fieldName("GroupID")] ) : $ret[$i] = $groupID[$db->fieldName("GroupID")];
                 $i++;
             }
         }
@@ -344,17 +364,17 @@ class eZObjectPermission
             return $ret;
         }
 
-        $database =& eZDB::globalDatabase();
+        $db =& eZDB::globalDatabase();
         if ( get_class( $user ) == "ezuser" and $user->hasRootAccess() )
             $query =  "SELECT $SQLReturn FROM $tableName";
         else
             $query = "SELECT $SQLReturn FROM $tableName WHERE ( $SQLGroups ) AND $SQLPermission";
             
         
-        $database->array_query( $res, $query );
+        $db->array_query( $res, $query );
         if( $count == true )
         {
-            return $res[0]["ObjectID"];
+            return $res[0][$db->fieldName("ObjectID")];
         }
         else
         {
@@ -363,7 +383,7 @@ class eZObjectPermission
                 $i = 0;
                 foreach( $res as $groupID )
                 {
-                    $ret[$i] = $groupID["ObjectID"];
+                    $ret[$i] = $groupID[$db->fieldName("ObjectID")];
                     $i++;
                 }
             }

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezusergroup.php,v 1.24 2001/05/05 11:16:05 bf Exp $
+// $Id: ezusergroup.php,v 1.25 2001/06/23 10:17:05 bf Exp $
 //
 // Definition of eZCompany class
 //
@@ -92,17 +92,26 @@ class eZUserGroup
     function store()
     {
         $db =& eZDB::globalDatabase();
+
+        $dbError = false;
+        $db->begin( );
+        
         $name = addslashes( $this->Name );
         $description = addslashes( $this->Description );
              
         if ( !isset( $this->ID ) )
         {
-            $db->query( "INSERT INTO eZUser_Group SET
-                                 Name='$name',
-                                 Description='$description',
-                                 SessionTimeout='$this->SessionTimeout',
-                                 IsRoot='$this->IsRoot'" );
-			$this->ID = $db->insertID();
+            $db->lock( "eZUser_Group" );
+
+            $nextID = $db->nextID( "eZUser_Group", "ID" );
+
+            $db->query( "INSERT INTO eZUser_Group
+                         ( ID, Name, Description, SessionTimeout, IsRoot )
+                         VALUES
+                         ( '$nextID', '$name', '$description', '$this->SessionTimeout', '$this->IsRoot' )" );
+
+            $this->ID = $nextID;
+
         }
         else
         {
@@ -113,6 +122,13 @@ class eZUserGroup
                                  IsRoot='$this->IsRoot'
                                  WHERE ID='$this->ID'" );            
         }
+
+        $db->unlock();
+        
+        if ( $dbError == true )
+            $db->rollback( );
+        else
+            $db->commit();
         
         return true;
     }
@@ -130,9 +146,7 @@ class eZUserGroup
         if ( isset( $id ) )
         {
             $db->query( "DELETE FROM eZUser_UserGroupLink WHERE GroupID='$id'" );
-
             $db->query( "DELETE FROM eZUser_GroupPermissionLink WHERE GroupID='$id'" );
-
             $db->query( "DELETE FROM eZUser_Group WHERE ID='$id'" );
         }
         
@@ -161,11 +175,13 @@ class eZUserGroup
     */
     function fill( &$user_group_array )
     {
-        $this->ID = $user_group_array[ "ID" ];
-        $this->Name = $user_group_array[ "Name" ];
-        $this->Description = $user_group_array[ "Description" ];
-        $this->SessionTimeout = $user_group_array[ "SessionTimeout" ];
-        $this->IsRoot = $user_group_array["IsRoot"];
+        $db =& eZDB::globalDatabase();
+        
+        $this->ID = $user_group_array[$db->fieldName("ID")];
+        $this->Name = $user_group_array[$db->fieldName("Name")];
+        $this->Description = $user_group_array[$db->fieldName("Description")];
+        $this->SessionTimeout = $user_group_array[$db->fieldName("SessionTimeout")];
+        $this->IsRoot = $user_group_array[$db->fieldName("IsRoot")];
     }
 
     /*!
@@ -198,7 +214,7 @@ class eZUserGroup
         {
             for ( $i=0; $i < count ( $group_array ); $i++ )
             {
-                $return_array[$i] =& $group_array[ "ID" ];
+                $return_array[$i] =& $group_array[$db->fieldName("ID")];
             }
         }
 
@@ -228,7 +244,7 @@ class eZUserGroup
 
             for ( $i=0; $i<count ( $group_array ); $i++ )
             {
-                $return_array[$i] = new eZUserGroup( $group_array[$i][ "GroupID" ], 0 );
+                $return_array[$i] = new eZUserGroup( $group_array[$i][$db->fieldName("GroupID")], 0 );
             }
         }
         return $return_array;        
@@ -247,7 +263,7 @@ class eZUserGroup
             {
                 foreach( $userList as $usr )
                 {
-                    if( $user->id() == $usr->id() )
+                    if ( $user->id() == $usr->id() )
                         return true;
                 }
             }
@@ -328,14 +344,15 @@ class eZUserGroup
         $query = new eZQuery( array( "U.FirstName", "U.LastName",
                                      "U.Login", "U.Email" ), $search );
 
-        $db->array_query( $user_array, "SELECT DISTINCT UGL.UserID FROM eZUser_UserGroupLink AS UGL,
+        $db->array_query( $user_array, "SELECT  UGL.UserID FROM eZUser_UserGroupLink AS UGL,
                                                                eZUser_User AS U
                                                    WHERE ( $userSQL ) AND UGL.UserID=U.ID
                                                    AND ( " . $query->buildQuery() . " )
+
                                                    ORDER By $orderBy" );
         foreach ( $user_array as $user )
         {
-            $ret[] = new eZUser( $user["UserID"] );
+            $ret[] = new eZUser( $user[$db->fieldName("UserID")] );
         }
         
         return $ret;
@@ -437,16 +454,32 @@ class eZUserGroup
        {
            $db =& eZDB::globalDatabase();
 
+           $dbError = false;
+           $db->begin( );
+
            $userID = $user->id();
+
+           $nextID = $db->nextID( "eZUser_UserGroupLink", "ID" );
 
 //             if ( $this->ID > 1 )
            {
-               $db->query( "INSERT INTO eZUser_UserGroupLink
-                                    SET
-                                    UserID='$userID',
-                                    GroupID='$this->ID'" );
+               $res = $db->query( "INSERT INTO eZUser_UserGroupLink
+                            ( ID, UserID, GroupID )
+                            VALUES
+                            ( '$nextID', '$userID', '$this->ID' )" );
+
+               if ( $res == false )
+                   $dbError = true;
                $ret = true;
            }
+           
+           $db->unlock();
+    
+           if ( $dbError == true )
+               $db->rollback( );
+           else
+               $db->commit();
+           
        }
        return $ret;
     }

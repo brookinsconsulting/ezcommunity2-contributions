@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezuser.php,v 1.73 2001/06/21 09:16:00 ce Exp $
+// $Id: ezuser.php,v 1.74 2001/06/23 10:17:05 bf Exp $
 //
 // Definition of eZUser class
 //
@@ -102,7 +102,9 @@ class eZUser
     {
         $db =& eZDB::globalDatabase();
 
-        $password = addslashes( $this->Password );
+        $dbError = false;
+        $db->begin( );
+
         $email = addslashes( $this->Email );
         $firstname = addslashes( $this->FirstName );
         $lastname = addslashes( $this->LastName );
@@ -111,8 +113,16 @@ class eZUser
 
         if ( !isset( $this->ID ) )
         {
-            $db->query( "INSERT INTO eZUser_User SET
-		                 Login='$login',
+            $db->lock( "eZUser_User" );
+
+            $nextID = $db->nextID( "eZUser_User", "ID" );
+            
+            // backwards compatible passwords
+            if ( $db->isA == "mysql" )
+            {
+                $db->query( "INSERT INTO eZUser_User SET
+                                 ID='$nextID',
+                                 Login='$login',
                                  Password=PASSWORD('$password'),
                                  Email='$email',
                                  InfoSubscription='$this->InfoSubscription',
@@ -121,7 +131,28 @@ class eZUser
                                  Signature='$signature',
                                  CookieLogin='$this->CookieLogin',
 				                 SimultaneousLogins='$this->SimultaneousLogins'" );
-			$this->ID = $db->insertID();
+                $this->ID = $nextID;
+            }
+            else
+            {
+                $password = md5( $this->Password );
+
+                $db->query( "INSERT INTO eZUser_User
+                ( ID, Login, Password, Email, InfoSubscription, FirstName, LastName, Signature, CookieLogin, SimultaneousLogins )
+                VALUES
+		        ( '$nextID',
+                  '$login',
+                  '$password',
+                  '$email',
+                  '$this->InfoSubscription',
+                  '$firstname',
+                  '$lastname',
+                  '$signature',
+                  '$this->CookieLogin',
+				  '$this->SimultaneousLogins')" );
+                
+                $this->ID = $nextID;
+            }
 
         }
         else
@@ -140,12 +171,30 @@ class eZUser
             // update password if set.
             if ( isset( $this->Password ) )
             {
-                $db->query( "UPDATE eZUser_User SET
+                // backwards compatible passwords
+                if ( $db->isA == "mysql" )
+                {                
+                    $db->query( "UPDATE eZUser_User SET
                                  Password=PASSWORD('$password')
                                  WHERE ID='$this->ID'" );
-            }
-            
+                }
+                else
+                {
+                    $password = md5( $this->Password );
+
+                    $db->query( "UPDATE eZUser_User SET
+                                 Password='$password'
+                                 WHERE ID='$this->ID'" );
+                }
+            }            
         }
+
+        $db->unlock();
+    
+        if ( $dbError == true )
+            $db->rollback( );
+        else
+            $db->commit();
 
         return true;
     }
@@ -181,14 +230,14 @@ class eZUser
         $ret = false;
         if ( $id != "" )
         {
-            $db->array_query( $user_array, "SELECT * FROM eZUser_User WHERE ID='$id'",
-                              0, 1 );
-            if( count( $user_array ) == 1 )
+            $db->array_query( $user_array, "SELECT * FROM eZUser_User WHERE ID='$id'", 0, 1 );
+
+            if ( count( $user_array ) == 1 )
             {
                 $this->fill( $user_array[0] );
                 $ret = true;
             }
-            elseif( count( $user_array ) == 1 )
+            elseif ( count( $user_array ) == 1 )
             {
                 $this->ID = 0;
             }
@@ -201,15 +250,17 @@ class eZUser
     */
     function fill( &$user_array )
     {
-        $this->ID =& $user_array[ "ID" ];
-        $this->Login =& $user_array[ "Login" ];
-        $this->Email =& $user_array[ "Email" ];
-        $this->InfoSubscription =& $user_array[ "InfoSubscription" ];
-        $this->FirstName =& $user_array[ "FirstName" ];
-        $this->LastName =& $user_array[ "LastName" ];
-        $this->Signature =& $user_array[ "Signature" ];
-        $this->CookieLogin =& $user_array[ "CookieLogin" ];
-        $this->SimultaneousLogins =& $user_array[ "SimultaneousLogins" ];
+        $db =& eZDB::globalDatabase();
+
+        $this->ID =& $user_array[$db->fieldName("ID")];
+        $this->Login =& $user_array[$db->fieldName("Login")];
+        $this->Email =& $user_array[$db->fieldName("Email")];
+        $this->InfoSubscription =& $user_array[$db->fieldName("InfoSubscription")];
+        $this->FirstName =& $user_array[$db->fieldName("FirstName")];
+        $this->LastName =& $user_array[$db->fieldName("LastName")];
+        $this->Signature =& $user_array[$db->fieldName("Signature")];
+        $this->CookieLogin =& $user_array[$db->fieldName("CookieLogin")];
+        $this->SimultaneousLogins =& $user_array[$db->fieldName("SimultaneousLogins")];
     }
 
     /*!
@@ -225,7 +276,7 @@ class eZUser
         $db->query_single( $user_array, "SELECT count( ID ) AS Count FROM eZUser_User
                                          WHERE " . $query->buildQuery() );
 
-        return $user_array["Count"];
+        return $user_array[$db->fieldName("Count")];
     }
 
     /*!
@@ -280,17 +331,14 @@ class eZUser
         else
             $select = "ID";
 
-        if ( $max >= 0 )
-        {
-            $limit = "LIMIT $index, $max";
-        }
-
         $query = new eZQuery( array( "FirstName", "LastName",
                                      "Login", "Email" ), $search );
 
         $db->array_query( $user_array, "SELECT $select FROM eZUser_User
                                         WHERE " . $query->buildQuery() . "
-                                        ORDER By $orderBy $limit" );
+                                        ORDER By $orderBy",
+        array( "Limit" => $max,
+               "Offset" => $index ) );
 
         if ( $as_object )
         {
@@ -303,7 +351,7 @@ class eZUser
         {
             foreach ( $user_array as $user )
             {
-                $return_array[] = $user[ "ID" ];
+                $return_array[] = $user[$db->fieldName("ID")];
             }
         }
         return $return_array;
@@ -323,7 +371,7 @@ class eZUser
                                                     WHERE Login='$login'" );
         if ( count( $user_array ) == 1 )
         {
-            $ret = new eZUser( $user_array[0]["ID"] );
+            $ret = new eZUser( $user_array[0][$db->fieldName("ID")] );
         }
         return $ret;
     }
@@ -337,13 +385,25 @@ class eZUser
     {
         $db =& eZDB::globalDatabase();
         $ret = false;
-        
-        $db->array_query( $user_array, "SELECT * FROM eZUser_User
+
+        if ( $db->isA() == "mysql" )
+        {
+            $db->array_query( $user_array, "SELECT * FROM eZUser_User
                                                     WHERE Login='$login'
                                                     AND Password=PASSWORD('$password')" );
+        }
+        else
+        {
+            $password = md5( $password );
+
+            $db->array_query( $user_array, "SELECT * FROM eZUser_User
+                                                    WHERE Login='$login'
+                                                    AND Password='$password'" );            
+        }
+        
         if ( count( $user_array ) == 1 )
         {
-            $ret = new eZUser( $user_array[0]["ID"] );
+            $ret = new eZUser( $user_array[0][$db->fieldName("ID")] );
         }
         return $ret;
     }
@@ -364,7 +424,7 @@ class eZUser
 
         if ( count( $user_array ) == 1 )
         {
-            $ret = new eZUser( $user_array[0]["ID"] );
+            $ret = new eZUser( $user_array[0][$db->fieldName("ID")] );
         }
 
         return $ret;        
@@ -404,7 +464,7 @@ class eZUser
     {
        $ret = false;
        
-       if ( $this->InfoSubscription == "true" )
+       if ( $this->InfoSubscription == 1 )
        {
            $ret = true;
        }
@@ -519,11 +579,11 @@ class eZUser
     {
        if ( $value == true )
        {
-           $this->InfoSubscription = "true";
+           $this->InfoSubscription = 1;
        }
        else
        {
-           $this->InfoSubscription = "false";
+           $this->InfoSubscription = 0;
        }
     }
 
@@ -605,7 +665,7 @@ class eZUser
             $db->array_query( $userArray, "SELECT UserID FROM eZUser_Cookie WHERE Hash='$hash'" );
             if ( count ( $userArray ) == 1 )
             {
-                $user = new eZUser( $userArray[0]["UserID"] );
+                $user = new eZUser( $userArray[0][$db->fieldName("UserID")] );
                 if ( $user )
                 {
                     eZUser::loginUser( $user );
@@ -618,7 +678,7 @@ class eZUser
 
     function clearAutoCookieLogin()
     {
-        $user = eZUser::currentUser();
+        $user =& eZUser::currentUser();
         $db =& eZDB::globalDatabase();
 
         setCookie( "eZUser_AutoCookieLogin", "", 0, "/",  "", 0 );
@@ -654,7 +714,7 @@ class eZUser
 
       False is returned if unseccessful.
     */
-    function currentUser()
+    function &currentUser()
     {
         $user =& $GLOBALS["eZCurrentUserObject"];
 
@@ -766,7 +826,7 @@ class eZUser
 
         foreach ( $user_group_array as $group )
         {
-            $IDOnly ? $ret[] = $group["GroupID"]:$ret[] = new eZUserGroup( $group["GroupID"] );
+            $IDOnly ? $ret[] = $group[$db->fieldName("GroupID")]:$ret[] = new eZUserGroup( $group[$db->fieldName("GroupID")] );
         }
 
         return $ret;
@@ -782,7 +842,7 @@ class eZUser
                                                     WHERE eZUser_UserGroupLink.UserID='$this->ID'
                                                     AND eZUser_Group.ID=eZUser_UserGroupLink.GroupID
                                                     AND eZUser_Group.IsRoot='1'" );
-        if( $result["Count"] > 0 )
+        if( $result[$db->fieldName("Count")] > 0 )
             return true;
         return false;
     }
@@ -869,14 +929,14 @@ class eZUser
         {
             foreach ( $address_array as $address )
             {
-                $ret[] = new eZAddress( $address["AddressID"] );
+                $ret[] = new eZAddress( $address[$db->fieldName("AddressID")] );
             }
         }
         else
         {
             foreach ( $address_array as $address )
             {
-                $ret[] = $address["AddressID"];
+                $ret[] = $address[$db->fieldName("AddressID")];
             }
         }
 
@@ -920,11 +980,12 @@ class eZUser
                                                       AND eZUser_Group.ID=eZUser_UserGroupLink.GroupID
                                                       AND eZUser_User.ID='$this->ID'
                                                       ORDER BY eZUser_Group.SessionTimeout ASC
-                                                      LIMIT 1" );
+                                                      ",
+        array( "Limit" => "1" ) );
 
        if ( count( $timeout_array ) == 1 )
        {
-           $ret = $timeout_array[0]["SessionTimeout"];
+           $ret = $timeout_array[0][$db->fieldName("SessionTimeout")];
            $this->StoredTimeout = $ret;
        }
 
@@ -953,13 +1014,12 @@ class eZUser
         $query = "SELECT ID FROM eZUser_User WHERE
                   Login LIKE '%$queryText%' OR Email LIKE '%$queryText%'
                   OR FirstName LIKE '$queryText' OR LastName LIKE '%$queryText%'
-                  GROUP BY ID
                   ORDER BY $orderBy";
 
         $db->array_query( $user_array, $query );
         for ( $i=0; $i < count($user_array); $i++ )
         {
-            $return_array[$i] = new eZUser( $user_array[$i]["ID"] );
+            $return_array[$i] = new eZUser( $user_array[$i][$db->fieldName("ID")] );
         }
 
         return $return_array;

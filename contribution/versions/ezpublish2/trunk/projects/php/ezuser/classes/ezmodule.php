@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezmodule.php,v 1.8 2001/05/15 13:18:46 bf Exp $
+// $Id: ezmodule.php,v 1.9 2001/06/23 10:17:05 bf Exp $
 //
 // Definition of eZCompany class
 //
@@ -57,24 +57,12 @@ class eZModule
       If $id is set the object's values are fetched from the
       database.
     */
-    function eZModule( $id="", $fetch=true )
+    function eZModule( $id=""  )
     {
-        $this->IsConnected = false;
         if ( $id != "" )
         {
             $this->ID = $id;
-            if ( $fetch == true )
-            {
-                $this->get( $this->ID );
-            }
-            else
-            {
-                $this->State_ = "Dirty";
-            }
-        }
-        else
-        {
-            $this->State_ = "New";
+            $this->get( $this->ID );
         }
     }
 
@@ -85,20 +73,43 @@ class eZModule
     */
     function store()
     {
-        $this->dbInit();
+        $db =& eZDB::globalDatabase();
+
+        $dbError = false;
+        $db->begin( );
+        
         $name = addslashes( $this->Name );
+        
         if ( !isset( $this->ID ) )
         {
-            $this->Database->query( "INSERT INTO eZUser_Module SET
-                                     Name='$name'" );
+            $db->lock( "eZUser_Module" );
+
+            $nextID = $db->nextID( "eZUser_Module", "ID" );
+            
+            $res = $this->Database->query( "INSERT INTO eZUser_Module
+                                     ( ID, Name )
+                                     VALUES
+                                     ( '$nextID', '$name' )" );
+            
 			$this->ID = $this->Database->insertID();
         }
         else
         {
-            $this->Database->query( "UPDATE eZUser_Module SET
+            $res = $this->Database->query( "UPDATE eZUser_Module SET
                                      Name='$name'
                                      WHERE ID='$this->ID'" );
         }
+        
+
+        $db->unlock();
+
+        if ( $res == false )
+            $dbError = true;
+        
+        if ( $dbError == true )
+            $db->rollback( );
+        else
+            $db->commit();
         
         return true;
     }
@@ -109,12 +120,20 @@ class eZModule
     */
     function delete()
     {
-        $this->dbInit();
+        $db =& eZDB::globalDatabase();
 
+        $db->begin( );
+        
         if ( isset( $this->ID ) )
         {
-            $this->Database->query( "DELETE FROM eZUser_Module WHERE ID='$this->ID'" );
+            $res = $db->query( "DELETE FROM eZUser_Module WHERE ID='$this->ID'" );
         }
+
+        if ( $res == false )
+            $db->rollback( );
+        else
+            $db->commit();
+        
         
         return true;
     }
@@ -124,29 +143,24 @@ class eZModule
     */
     function get( $id=-1 )
     {
-        $this->dbInit();
+        $db =& eZDB::globalDatabase();
 
         $ret = false;
         if ( $id != "" )
         {
-            $this->Database->array_query( $module_array, "SELECT * FROM eZUser_Module WHERE ID='$id'" );
+            $db->array_query( $module_array, "SELECT * FROM eZUser_Module WHERE ID='$id'" );
             if ( count( $module_array ) > 1 )
             {
                 die( "Error: Module's with the same ID was found in the database. This shouldent happen." );
             }
             else if( count( $module_array ) == 1 )
             {
-                $this->ID = $module_array[0][ "ID" ];
-                $this->Name = $module_array[0][ "Name" ];
+                $this->ID = $module_array[0][$db->fieldName("ID")];
+                $this->Name = $module_array[0][$db->fieldName("Name")];
                 $ret = true;
             }
-
-            $this->State_ = "Coherent";
         }
-        else
-        {
-            $this->State_ = "Dirty";
-        }
+        
         return $ret;
     }
 
@@ -155,16 +169,16 @@ class eZModule
     */
     function getAll()
     {
-        $this->dbInit();
+        $db =& eZDB::globalDatabase();
 
         $return_array = array();
         $module_array = array();
 
-        $this->Database->array_query( $module_array, "SELECT ID FROM eZUser_Module ORDER By Name" );
+        $db->array_query( $module_array, "SELECT ID FROM eZUser_Module ORDER By Name" );
 
         for ( $i=0; $i<count ( $module_array ); $i++ )
         {
-            $return_array[$i] = new eZModule( $module_array[$i][ "ID" ], 0 );
+            $return_array[$i] = new eZModule( $module_array[$i][$db->fieldName("ID")], 0 );
         }
 
         return $return_array;
@@ -177,15 +191,16 @@ class eZModule
     */
     function exists( $name )
     {
-        $this->dbInit();
+        $db =& eZDB::globalDatabase();
+        
         $ret = false;
         
-        $this->Database->array_query( $user_array, "SELECT * FROM eZUser_Module
+        $db->array_query( $user_array, "SELECT * FROM eZUser_Module
                                                     WHERE Name='$name'" );
 
         if ( count( $user_array ) == 1 )
         {
-            $ret = new eZUser( $user_array[0]["ID"] );
+            $ret = new eZUser( $user_array[0][$db->fieldName("ID")] );
         }
 
         return $ret;        
@@ -204,9 +219,6 @@ class eZModule
     */
     function name()
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
        return $this->Name;
        
     }
@@ -216,36 +228,14 @@ class eZModule
     */
     function setName( $value )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
        $this->Name = $value;
     }        
 
-
-    /*!
-      Private function.
-      Open the database for read and write. Gets all the database information from site.ini.
-    */
-    function dbInit( )
-    {
-        if ( $this->IsConnected == false )
-        {
-            $this->Database = eZDB::globalDatabase();
-            $this->IsConnected = true;
-        }
-    }
-
     var $ID;
     var $Name;
-    
-    ///  Variable for keeping the database connection.
-    var $Database;
 
     /// Indicates the state of the object. In regard to database information.
     var $State_;
-    /// Is true if the object has database connection, false if not.
-    var $IsConnected;
 }
 
 ?>
