@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: bugedit.php,v 1.49 2001/10/14 16:49:47 fh Exp $
+// $Id: bugedit.php,v 1.50 2001/10/14 17:00:06 fh Exp $
 //
 // Created on: <28-Nov-2000 19:45:35 bf>
 //
@@ -600,7 +600,8 @@ function sendAssignedMail( $bug, $userEmail, $ini, $Language )
         $reporter = $bug->userEmail();
 
     $mail = new eZMail();
-    $mail->setFrom( $user->email() );
+    $from = $ini->read_var( "eZBugMain", "MailReplyToAddress" );
+    $mail->setFrom( $from );
     
     $mailTemplate = new eZTemplate( "ezbug/admin/" . $ini->read_var( "eZBugMain", "AdminTemplateDir" ),
                                     "ezbug/admin/intl", $Language, "mailgotbug.php" );
