@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezmysqldb.php,v 1.9 2001/07/18 08:37:45 bf Exp $
+// $Id: ezmysqldb.php,v 1.10 2001/07/18 10:55:41 ce Exp $
 //
 // Definition of eZMySQLDB class
 //
@@ -35,24 +35,24 @@ class eZMySQLDB
 {
     function eZMySQLDB( $server, $db, $user, $password  )
     {
-        $ret = @mysql_pconnect( $server, $user, $password );
+        $this->Database = @mysql_pconnect( $server, $user, $password );
 
-        if ( $ret == false )
+        if ( $this->Database == false )
         {
             if ( $GLOBALS["DEBUG"] == true )
             {
-                print( "<b>MySQL Error</b>: " . mysql_errno() . ": ".mysql_error()."<br>" );
+                print( "<b>MySQL Error</b>: " . mysql_errno( $this->Database ) . ": ".mysql_error( $this->Database )."<br>" );
             }
         }
 
         
-        $ret = @mysql_select_db( $db );
+        $this->Database = @mysql_select_db( $db );
              
-        if ( !$ret )
+        if ( !$this->Database )
         {
             if ( $GLOBALS["DEBUG"] == true )
             {
-                print( "<b>MySQL Error</b>: " . mysql_errno() . ": ".mysql_error()."<br>" );
+                print( "<b>MySQL Error</b>: " . mysql_errno( $this->Database ) . ": ".mysql_error( $this->Database )."<br>" );
             }
         }
     }
@@ -71,7 +71,7 @@ class eZMySQLDB
     */
     function &query( $sql, $print=false )
     {
-        $result =& mysql_query( $sql );
+        $result =& mysql_query( $sql, $this->Database );
 
 //          eZLog::writeNotice( $sql );
 
@@ -91,10 +91,10 @@ class eZMySQLDB
         {
             $this->unlock();
             
-            $this->Error = "<code>" . htmlentities( $sql ) . "</code><br>\n<b>" . htmlentities(mysql_error()) . "</b>\n" ;
+            $this->Error = "<code>" . htmlentities( $sql ) . "</code><br>\n<b>" . htmlentities(mysql_error( $this->Database )) . "</b>\n" ;
             if ( $GLOBALS["DEBUG"] == true )
             {
-                print( "<b>MySQL Query Error</b>: " . htmlentities( $sql ) . " error message:" . mysql_errno() . ": ".mysql_error() ."<br>" );
+                print( "<b>MySQL Query Error</b>: " . htmlentities( $sql ) . " error message:" . mysql_errno( $this->Database ) . ": ".mysql_error( $this->Database ) ."<br>" );
             }
             return false;
         }
@@ -265,7 +265,7 @@ class eZMySQLDB
     */
     function nextID( $table, $field="ID" )
     {
-        $result = mysql_query( "SELECT $field FROM $table Order BY $field DESC LIMIT 1" );
+        $result = mysql_query( "SELECT $field FROM $table Order BY $field DESC LIMIT 1", $this->Database );
 
         $id = 1;
         if ( $result )
@@ -304,7 +304,7 @@ class eZMySQLDB
     */
     function close()
     {
-        mysql_close();
+        mysql_close( $this->Database );
     }
 
     /*
@@ -313,8 +313,12 @@ class eZMySQLDB
     function insertID()
     {
         print( "insertid is obsolete" );
-        return mysql_insert_id();
+        return mysql_insert_id( $this->Database );
     }
+
+    var $Database;
+    var $Error;
+    
 }
 
 
