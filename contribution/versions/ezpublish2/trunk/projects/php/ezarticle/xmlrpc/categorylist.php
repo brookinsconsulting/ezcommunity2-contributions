@@ -3,29 +3,51 @@
 include_once( "ezarticle/classes/ezarticlecategory.php" );
 include_once( "ezarticle/classes/ezarticle.php" );
 
-$category = new eZArticleCategory( $ID );
-
-$categoryList =& $category->getByParent( $category, true, "placement" );
-
-$cat = array();
-foreach ( $categoryList as $catItem )
+$list_categories = false;
+$list_articles = false;
+if ( is_object( $Data["ListType"] ) )
 {
-    $cat[] = new eZXMLRPCStruct( array( "URL" => createURLStruct( "ezarticle", "category", $catItem->id() ),
-                                        "Name" => new eZXMLRPCString( $catItem->name() )
-                                        )
-                                 );
-    
+    $ListType = $Data["ListType"]->value();
+    if ( is_object( $ListType["Catalogues"] ) )
+        $list_categories = true;
+    if ( is_object( $ListType["Elements"] ) )
+        $list_articles = true;
 }
 
-
-$articleList =& $category->articles( "alpha", true, true, 0, 100000 );
-$art = array();
-foreach( $articleList as $artItem )
+if ( !$list_categories and !$list_articles )
 {
-    $art[] = new eZXMLRPCStruct( array( "URL" => createURLStruct( "ezarticle", "article", $artItem->id() ),
-                                        "Name" => new eZXMLRPCString( $artItem->name() )
-                                        )
-                                 );
+    $list_categories = true;
+    $list_articles = true;
+}
+
+$category = new eZArticleCategory( $ID );
+
+$cat = array();
+if ( $list_categories )
+{
+    $categoryList =& $category->getByParent( $category, true, "placement" );
+
+    foreach ( $categoryList as $catItem )
+    {
+        $cat[] = new eZXMLRPCStruct( array( "URL" => createURLStruct( "ezarticle", "category", $catItem->id() ),
+                                            "Name" => new eZXMLRPCString( $catItem->name() )
+                                            )
+                                     );
+    
+    }
+}
+
+$art = array();
+if ( $list_articles )
+{
+    $articleList =& $category->articles( "alpha", true, true, 0, 100000 );
+    foreach( $articleList as $artItem )
+    {
+        $art[] = new eZXMLRPCStruct( array( "URL" => createURLStruct( "ezarticle", "article", $artItem->id() ),
+                                            "Name" => new eZXMLRPCString( $artItem->name() )
+                                            )
+                                     );
+    }
 }
 
 $path =& $category->path();
