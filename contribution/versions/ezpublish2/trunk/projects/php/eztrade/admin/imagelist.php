@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: imagelist.php,v 1.4 2000/09/22 14:37:06 bf-cvs Exp $
+// $Id: imagelist.php,v 1.5 2000/09/23 11:36:42 bf-cvs Exp $
 //
 // Definition of eZCompany class
 //
@@ -38,7 +38,11 @@ $t->set_file( array(
     ) );
 
 $product = new eZProduct( $ProductID );
-    
+
+
+$main = $product->mainImage();
+$thumbnail = $product->thumbnailImage();
+
 $t->set_var( "product_name", $product->name() );
 
 $images = $product->images();
@@ -53,6 +57,24 @@ foreach ( $images as $image )
     else
     {
         $t->set_var( "td_class", "bgdark" );
+    }
+
+    $t->set_var( "main_image_checked", "" );
+    if ( $main != 0 )
+    {
+        if ( $main->id() == $image->id() )
+        {
+            $t->set_var( "main_image_checked", "checked" );
+        }
+    }
+
+    $t->set_var( "thumbnail_image_checked", "" );
+    if ( $thumbnail != 0 )
+    {
+        if ( $thumbnail->id() == $image->id() )
+        {
+            $t->set_var( "thumbnail_image_checked", "checked" );
+        }
     }
     
     $t->set_var( "image_name", $image->caption() );

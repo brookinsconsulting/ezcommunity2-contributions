@@ -81,6 +81,12 @@ switch ( $url_array[2] )
                     $ProductID = $url_array[5];
                     include( "eztrade/admin/imageedit.php" );
                 }
+                else if ( $url_array[4] == "storedef" )
+                {
+                    $Action = "StoreDef";
+                    $ProductID = $url_array[5];
+                    include( "eztrade/admin/imageedit.php" );
+                }
                 else
                 {
                     include( "eztrade/admin/imageedit.php" );                    

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: imageedit.php,v 1.4 2000/09/22 14:37:06 bf-cvs Exp $
+// $Id: imageedit.php,v 1.5 2000/09/23 11:36:42 bf-cvs Exp $
 //
 // Definition of eZCompany class
 //
@@ -94,12 +94,28 @@ if ( $Action == "Update" )
 
 if ( $Action == "Delete" )
 {
-    
     $product = new eZProduct( $ProductID );
     $image = new eZImage( $ImageID );
         
     $product->deleteImage( $image );
     
+    header( "Location: /trade/productedit/imagelist/" . $ProductID . "/" );
+}
+
+// store the image definition
+if ( $Action == "StoreDef" )
+{
+    print( $ThumbnailImageID );
+    print( $MainImageID );
+    
+    $product = new eZProduct( $ProductID );
+
+    $thumbnail = new eZImage( $ThumbnailImageID );
+    $main = new eZImage( $MainImageID );
+
+    $product->setMainImage( $main );
+    $product->setThumbnailImage( $thumbnail );    
+
     header( "Location: /trade/productedit/imagelist/" . $ProductID . "/" );
 }
 

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezproduct.php,v 1.5 2000/09/21 15:47:57 bf-cvs Exp $
+// $Id: ezproduct.php,v 1.6 2000/09/23 11:36:42 bf-cvs Exp $
 //
 // Definition of eZCompany class
 //
@@ -239,7 +239,7 @@ class eZProduct
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
 
-       return $this->Name;
+       return htmlspecialchars( $this->Name );
     }    
 
     /*!
@@ -261,7 +261,7 @@ class eZProduct
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
 
-       return $this->Keywords;
+       return htmlspecialchars( $this->Keywords );
     }    
 
     /*!
@@ -272,7 +272,7 @@ class eZProduct
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
 
-       return $this->ProductNumber;
+       return htmlspecialchars( $this->ProductNumber );
     }    
 
     /*!
@@ -283,7 +283,7 @@ class eZProduct
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
 
-       return $this->Brief;
+       return htmlspecialchars( $this->Brief );
     }    
 
     /*!
@@ -294,7 +294,7 @@ class eZProduct
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
 
-       return $this->Description;
+       return htmlspecialchars( $this->Description );
     }
 
     /*!
@@ -419,7 +419,7 @@ class eZProduct
             $this->get( $this->ID );
 
        $this->ShowProduct = $value;
-       setType( $this->ShowProduct, "bool" );
+       setType( $this->ShowProduct, "integer" );
     }
     
     /*!
@@ -432,7 +432,7 @@ class eZProduct
             $this->get( $this->ID );
 
        $this->ShowProduct = $value;
-       setType( $this->ShowProduct, "bool" );
+       setType( $this->ShowProduct, "integer" );
     }
 
     /*!
@@ -446,7 +446,7 @@ class eZProduct
             $this->get( $this->ID );
 
        $this->InheritOptions = $value;
-       setType( $this->InheritOptions, "bool" );
+       setType( $this->InheritOptions, "integer" );
     }
 
 
@@ -553,6 +553,140 @@ class eZProduct
        return $return_array;
     }
 
+    /*!
+      Sets the main image for the product.
+
+      The argument must be a eZImage object.
+    */
+    function setMainImage( $image )
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+        
+        if ( get_class( $image ) == "ezimage" )
+        {
+            $this->dbInit();
+
+            $imageID = $image->id();
+
+            $this->Database->array_query( $res_array, "SELECT COUNT(*) AS Number FROM eZTrade_ProductImageDefinition
+                                     WHERE
+                                     ProductID='$this->ID'
+                                   " );
+
+            if ( $res_array[0]["Number"] == "1" )
+            {            
+                $this->Database->query( "UPDATE eZTrade_ProductImageDefinition
+                                     SET
+                                     MainImageID='$imageID'
+                                     WHERE
+                                     ProductID='$this->ID'" );
+            }
+            else
+            {
+                $this->Database->query( "INSERT INTO eZTrade_ProductImageDefinition
+                                     SET
+                                     ProductID='$this->ID',
+                                     MainImageID='$imageID'" );
+            }
+        }
+    }    
+
+    /*!
+      Sets the thumbnail image for the product.
+
+      The argument must be a eZImage object.
+    */
+    function setThumbnailImage( $image )
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+        
+        if ( get_class( $image ) == "ezimage" )
+        {
+            $this->dbInit();
+
+            $imageID = $image->id();
+
+            $this->Database->array_query( $res_array, "SELECT COUNT(*) AS Number FROM eZTrade_ProductImageDefinition
+                                     WHERE
+                                     ProductID='$this->ID'
+                                   " );
+
+            if ( $res_array[0]["Number"] == "1" )
+            {            
+                $this->Database->query( "UPDATE eZTrade_ProductImageDefinition
+                                     SET
+                                     ThumbnailImageID='$imageID'
+                                     WHERE
+                                     ProductID='$this->ID'" );
+            }
+            else
+            {
+                $this->Database->query( "INSERT INTO eZTrade_ProductImageDefinition
+                                     SET
+                                     ProductID='$this->ID',
+                                     ThumbnailImageID='$imageID'" );
+            }
+        }
+    }
+
+    /*!
+      Returns the main image of the product as a eZImage object.
+
+      false (0) is returned if no main image is found.
+    */
+    function mainImage( )
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+       $ret = false;
+       $this->dbInit();
+       
+       $this->Database->array_query( $res_array, "SELECT * FROM eZTrade_ProductImageDefinition
+                                     WHERE
+                                     ProductID='$this->ID'
+                                   " );
+       
+       if ( count( $res_array ) == 1 )
+       {
+           if ( $res_array[0]["MainImageID"] != "NULL" )
+           {
+               $ret = new eZImage( $res_array[0]["MainImageID"], false );
+           }               
+       }
+       
+       return $ret;
+    }
+
+    /*!
+      Returns the thumbnail image of the product as a eZImage object.
+    */
+    function thumbnailImage( )
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+       $ret = false;
+       $this->dbInit();
+       
+       $this->Database->array_query( $res_array, "SELECT * FROM eZTrade_ProductImageDefinition
+                                     WHERE
+                                     ProductID='$this->ID'
+                                   " );
+       
+       if ( count( $res_array ) == 1 )
+       {
+           if ( $res_array[0]["ThumbnailImageID"] != "NULL" )
+           {
+               $ret = new eZImage( $res_array[0]["ThumbnailImageID"], false );
+           }               
+       }
+       
+       return $ret;
+       
+    }
     
     
     /*!

@@ -1,14 +1,23 @@
 <h1>Bilder til {product_name}</h1>
 
+<form action="/trade/productedit/imageedit/storedef/{product_id}/" method="post">
+
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
-	<tr>
 	<th>
 	Bildetekst:
 	</th>
 
 	<th>
 	Forhåndsvisning:
+	</th>
+
+	<th>
+	Hovedbilde:
+	</th>
+
+	<th>
+	Minibilde:
 	</th>
 
 	<th>
@@ -23,6 +32,10 @@
 </table>
 
 <br/>
+
+<input type="submit" value="lagre endringer" />
+
+</form>
 
 <form action="/trade/productedit/imageedit/new/{product_id}/" method="post">
 

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: productedit.php,v 1.5 2000/09/22 14:37:06 bf-cvs Exp $
+// $Id: productedit.php,v 1.6 2000/09/23 11:36:42 bf-cvs Exp $
 //
 // Definition of eZCompany class
 //
@@ -32,11 +32,11 @@ if ( $Action == "Insert" )
 
 
     $product = new eZProduct();
-    $product->setName( $Name );
-    $product->setDescription( $Description );
-    $product->setBrief( $Brief );
-    $product->setKeywords( $Keywords );
-    $product->setProductNumber( $ProductNumber );
+    $product->setName( strip_tags( $Name ) );
+    $product->setDescription( strip_tags( $Description ) );
+    $product->setBrief( strip_tags( $Brief ) );
+    $product->setKeywords( strip_tags( $Keywords ) );
+    $product->setProductNumber( strip_tags( $ProductNumber ) );
 
     if ( $ShowPrice == "on" )
     {
@@ -105,11 +105,11 @@ if ( $Action == "Update" )
 
     $product = new eZProduct();
     $product->get( $ProductID );
-    $product->setName( $Name );
-    $product->setDescription( $Description );
-    $product->setBrief( $Brief );
-    $product->setKeywords( $Keywords );
-    $product->setProductNumber( $ProductNumber );
+    $product->setName( strip_tags( $Name ) );
+    $product->setDescription( strip_tags( $Description ) );
+    $product->setBrief( strip_tags( $Brief ) );
+    $product->setKeywords( strip_tags( $Keywords ) );
+    $product->setProductNumber( strip_tags( $ProductNumber  ) );
 
     if ( $ShowPrice == "on" )
     {
@@ -144,7 +144,6 @@ if ( $Action == "Update" )
 
     $productID = $product->id();
 
-    
     // add options
     if ( isset( $Option ) )
     {
@@ -193,9 +192,10 @@ $t->set_var( "description_value", "" );
 $t->set_var( "name_value", "" );
 $t->set_var( "keywords_value", "" );
 $t->set_var( "product_nr_value", "" );
+$t->set_var( "price_value", "" );
 
 $t->set_var( "showprice_checked", "" );
-$t->set_var( "active_checked", "" );
+$t->set_var( "showproduct_checked", "" );
 $t->set_var( "inherit_options_checked", "" );
 
 $t->set_var( "action_value", "insert" );
