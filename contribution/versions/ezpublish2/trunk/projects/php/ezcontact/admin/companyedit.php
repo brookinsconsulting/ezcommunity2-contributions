@@ -1,4 +1,4 @@
-<?
+2<?
 /*
   Editere firma.
 */
@@ -589,6 +589,10 @@ if ( $Action == "edit" )
         $variation = $logoImage->requestImageVariation( 150, 150 );
         
         $t->set_var( "logo_image_src", "/" . $variation->imagePath() );
+
+        $t->set_var( "logo_image_width", $variation->width() );
+        $t->set_var( "logo_image_height", $variation->height() );
+
         $t->set_var( "logo_name", $logoImage->name() );
         $t->set_var( "logo_id", $logoImage->id() );
         
@@ -610,6 +614,9 @@ if ( $Action == "edit" )
         $variation = $companyImage->requestImageVariation( 150, 150 );
         
         $t->set_var( "image_src", "/" . $variation->imagePath() );
+        $t->set_var( "image_width", $variation->width() );
+        $t->set_var( "image_height", $variation->height() );
+
         $t->set_var( "image_name", $companyImage->name() );
         $t->set_var( "image_id", $companyImage->id() );
         
