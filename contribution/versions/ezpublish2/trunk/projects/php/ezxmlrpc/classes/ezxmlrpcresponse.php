@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezxmlrpcresponse.php,v 1.13 2001/04/06 09:10:30 bf Exp $
+// $Id: ezxmlrpcresponse.php,v 1.14 2001/07/04 14:25:27 jb Exp $
 //
 // Definition of eZXMLRPCResponse class
 //
@@ -131,13 +131,14 @@ class eZXMLRPCResponse
     /*!
       Sets an error message.
     */
-    function setError( $faultCode, $faultString )
+    function setError( $faultCode, $faultString, $faultSubCode = false )
     {
         $this->IsFault = true;
-        $this->Error = new eZXMLRPCStruct( array( "faultCode" => new eZXMLRPCInt( $faultCode ),
-                                                  "faultString" => new eZXMLRPCString( $faultString ),
-                                                  )
-                                           );
+        $error = array( "faultCode" => new eZXMLRPCInt( $faultCode ),
+                        "faultString" => new eZXMLRPCString( $faultString ) );
+        if ( !is_bool( $faultSubCode ) )
+            $error["faultSubCode"] = $faultSubCode;
+        $this->Error = new eZXMLRPCStruct( $error );
     }
     
     /*!
