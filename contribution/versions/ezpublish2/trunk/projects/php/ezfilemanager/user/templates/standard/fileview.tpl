@@ -1,4 +1,17 @@
-<h1>{intl-file_view}</h1>
+<table width="100%" border="0">
+<tr>
+	<td>
+	<h1>{intl-file_view}</h1>
+	</td>
+	<td align="right">
+	<form action="{www_dir}{index}/filemanager/search/" method="post">
+	<input type="text" name="SearchText" size="12" />	
+	<input class="stdbutton" type="submit" value="{intl-search}" />
+	</form>	
+	</td>
+</tr>
+</table>
+
 
 <hr noshade="noshade" size="4" />
 
