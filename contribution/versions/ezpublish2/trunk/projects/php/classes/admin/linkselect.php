@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: linkselect.php,v 1.3 2001/05/03 17:01:49 jb Exp $
+// $Id: linkselect.php,v 1.4 2001/05/04 10:09:54 jb Exp $
 //
 // Jan Borsodi <jb@ez.no>
 // Created on: <30-Apr-2001 18:33:53 amos>
@@ -22,6 +22,8 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, US
 //
+
+// ** Please see the linklist.php for variables to set before including this file. **
 
 include_once( "classes/ezhttptool.php" );
 include_once( "classes/ezcachefile.php" );

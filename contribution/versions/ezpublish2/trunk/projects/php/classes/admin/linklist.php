@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: linklist.php,v 1.3 2001/05/03 16:54:21 jb Exp $
+// $Id: linklist.php,v 1.4 2001/05/04 10:09:54 jb Exp $
 //
 // Jan Borsodi <jb@ez.no>
 // Created on: <30-Apr-2001 18:50:47 amos>
@@ -22,6 +22,36 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, US
 //
+
+// To use the general link list you need to initialize some variables before
+// including this file. The variables are:
+//
+//  $INIGroup = The group name of the module in the site.ini file, eg. "eZTradeMain"
+//  $DefaultSectionsName = site.ini item name which contains the default sections names, eg. "ProductLinkSections"
+//  $PreferencesSetting = Preferences variable name which contains the type selection, eg. "ProductLinkType"
+//  $ClientModuleName = Name of the module in use, eg. "eZTrade"
+//  $ClientModuleType = Name of the module sub type in use, eg. "Product"
+//  $root = Helper variable for the url list, not used by linklist, eg. "/trade/productedit"
+//  $URLS = Array of urls which are used in navigating the link pages.
+//  Must contain these keys (values are examples only),
+//  the values must always contain the same amount of % items as in the examples, and in the same order.
+//  array( "back" => "$root/edit/%s",
+//         "linklist" => "$root/link/list/%s",
+//         "linkmoveup" => "$root/link/moveup/link/%d/%d/%d",
+//         "linkmovedown" => "$root/link/movedown/link/%d/%d/%d",
+//         "sectionmoveup" => "$root/link/moveup/section/%d/%d",
+//         "sectionmovedown" => "$root/link/movedown/section/%d/%d",
+//         "linkselect" => "$root/link/select/%s/%s/%s/%s/%s/0/%s",
+//         "linkselect_basic" => "$root/link/select/",
+//         "linkselect_std" => "$root/link/select/%s/%s/%s/%s/%s",
+//         "urledit" => "$root/link/select/%s/%s/%s/%s",
+//         "linkedit" => "$root/link/select/%s/%s/%s/0/0/%s" );
+//  $Funcs = Array of functions to call, currently only "delete" is used.
+//  eg. array( "delete" => "deleteCacheHelper" );
+// Variables which you may set to use a different template and/or intl file.
+//  $ClientRoot = The root of the module, default is "classes/", eg. "eztrade/admin/"
+//  $ClientIntlDir = The intl dir of the module, default is "classes/admin/intl/", eg. "eztrade/admin/intl/"
+
 
 include_once( "classes/INIFile.php" );
 include_once( "classes/eztemplate.php" );

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: linkmove.php,v 1.1 2001/05/03 16:54:21 jb Exp $
+// $Id: linkmove.php,v 1.2 2001/05/04 10:09:54 jb Exp $
 //
 // Jan Borsodi <jb@ez.no>
 // Created on: <03-May-2001 17:57:46 amos>
@@ -23,6 +23,7 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, US
 //
 
+// ** Please see the linklist.php for variables to set before including this file. **
 
 include_once( "classes/ezhttptool.php" );
 
