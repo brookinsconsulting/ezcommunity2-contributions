@@ -107,11 +107,20 @@ class eZCompanyType
     }
     
     /*!
-      Privat: Initiering av database. 
+      Privat funksjon, skal kun brukes av ezusergroup klassen.
+      Funksjon for å åpne databasen.
     */
     function dbInit()
     {
-        require "ezcontact/dbsettings.php";
+        include_once( "class.INIFile.php" );
+
+        $ini = new INIFile( "site.ini" );
+        
+        $SERVER = $ini->read_var( "site", "Server" );
+        $DATABASE = $ini->read_var( "site", "Database" );
+        $USER = $ini->read_var( "site", "User" );
+        $PWD = $ini->read_var( "site", "Password" );
+        
         mysql_pconnect( $SERVER, $USER, $PWD ) or die( "Kunne ikke kople til database" );
         mysql_select_db( $DATABASE ) or die( "Kunne ikke velge database" );
     }
