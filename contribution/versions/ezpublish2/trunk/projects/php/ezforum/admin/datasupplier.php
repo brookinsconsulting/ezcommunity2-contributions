@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: datasupplier.php,v 1.14 2001/08/17 13:35:59 jhe Exp $
+// $Id: datasupplier.php,v 1.15 2001/09/24 11:53:43 jhe Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -31,7 +31,7 @@ $url_array = explode( "/", $REQUEST_URI );
 include_once( "ezuser/classes/ezpermission.php" );
 include_once( "classes/ezhttptool.php" );
 $user =& eZUser::currentUser();
-if( eZPermission::checkPermission( $user, "eZForum", "ModuleEdit" ) == false )
+if ( eZPermission::checkPermission( $user, "eZForum", "ModuleEdit" ) == false )
 {
     eZHTTPTool::header( "Location: /error/403" );
     exit();

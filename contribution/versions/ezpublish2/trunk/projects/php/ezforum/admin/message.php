@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: message.php,v 1.33 2001/07/29 23:31:04 kaid Exp $
+// $Id: message.php,v 1.34 2001/09/24 11:53:43 jhe Exp $
 //
 // Created on: <11-Sep-2000 22:10:06 bf>
 //
@@ -53,7 +53,7 @@ $forum = new eZForum( $message->forumID() );
 
 $categories = $forum->categories();
 
-if( is_object( $categories[0] ) )
+if ( is_object( $categories[0] ) )
 {
     $category = new eZForumCategory( $categories[0]->id() );
     $t->set_var( "category_id", $category->id( ) );

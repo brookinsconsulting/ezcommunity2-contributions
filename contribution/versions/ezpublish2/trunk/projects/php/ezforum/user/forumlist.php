@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: forumlist.php,v 1.16 2001/09/21 12:17:54 bf Exp $
+// $Id: forumlist.php,v 1.17 2001/09/24 11:53:43 jhe Exp $
 //
 // Created on: <11-Sep-2000 22:10:06 bf>
 //
@@ -121,11 +121,11 @@ foreach ( $forumList as $forum )
     $i++;
 }
 
-if( $j == 0 && $i > 0 )
+if ( $j == 0 && $i > 0 )
 {
     $t->set_var( "view_forums", $t->Ini->read_var( "strings", "no_forums_for_you" ) );
 }
-elseif( $j == 0 && $i == 0 )
+else if ( $j == 0 && $i == 0 )
 {
     $t->set_var( "view_forums", $t->Ini->read_var( "strings", "no_forums" ) );
 }

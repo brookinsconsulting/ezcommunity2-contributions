@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: search.php,v 1.10 2001/07/19 13:17:54 jakobn Exp $
+// $Id: search.php,v 1.11 2001/09/24 11:53:43 jhe Exp $
 //
 // Created on: <12-Oct-2000 20:33:02 bf>
 //
@@ -53,7 +53,7 @@ $t->set_block( "search_tpl", "next_tpl", "next" );
 $t->set_var( "site_style", $SiteStyle );
 
 
-if( !isset ( $Offset ) )
+if ( !isset ( $Offset ) )
     $Offset = 0;
 
 $t->set_var( "url_text", "" );
@@ -91,7 +91,7 @@ if ( $QueryString != "" )
         
         $user = $message->user();
         
-        if( $user->id() != 0 )
+        if ( $user->id() != 0 )
         {
             $t->set_var( "user", $user->firstName() . " " . $user->lastName() );
         }

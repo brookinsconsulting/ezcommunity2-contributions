@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: messagepath.php,v 1.4 2001/07/19 13:17:55 jakobn Exp $
+// $Id: messagepath.php,v 1.5 2001/09/24 11:53:43 jhe Exp $
 //
 // Created on: <21-Feb-2001 18:00:00 pkej>
 //
@@ -23,7 +23,7 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, US
 //
 
-if( $ShowPath == true )
+if ( $ShowPath == true )
 {
     $t->set_file( "message_path", "messagepath.tpl"  );
     $t->set_block( "message_path", "article_message_tpl", "article_message_item" );
@@ -36,7 +36,7 @@ if( $ShowPath == true )
     $t->set_var( "forum_message_item", "" );
     $t->set_var( "forum_topic_item", "" );
 
-    if( !is_object( $msg )  )
+    if ( !is_object( $msg )  )
     {
         $msg = new eZForumMessage( $MessageID );
     }
@@ -48,11 +48,11 @@ if( $ShowPath == true )
     $ForumName = $forum->name();
     $categories = $forum->categories();
     
-    if( is_object( $categories[0] ) )
+    if ( is_object( $categories[0] ) )
     {
         $ForumCategory = new eZForumCategory( $categories[0]->id() );
         $ForumCategoryID = $ForumCategory->id();
-        if( empty( $ForumCategoryName ) || $MessagePathOverride == true )
+        if ( empty( $ForumCategoryName ) || $MessagePathOverride == true )
         {
             $ForumCategoryName = $ForumCategory->name();
         }
@@ -86,9 +86,9 @@ if( $ShowPath == true )
     $t->set_var( "forum_message_item", "" );
     $t->set_var( "forum_topic_item", "" );
 
-    if( $isArticle == true )
+    if ( $isArticle == true )
     {
-        if( $isPreview == false )
+        if ( $isPreview == false )
         {
             $t->parse( "article_topic_item", "article_topic_tpl" );
         }
@@ -96,14 +96,14 @@ if( $ShowPath == true )
     }
     else
     {
-        if( $isPreview == false )
+        if ( $isPreview == false )
         {
             $t->parse( "forum_topic_item", "forum_topic_tpl" );
         }
         $t->parse( "forum_message_item", "forum_message_tpl" );
     }
 
-    if( $doPrint == true )
+    if ( $doPrint == true )
     {
         $t->pparse( "message_path_file", "message_path" );
     }

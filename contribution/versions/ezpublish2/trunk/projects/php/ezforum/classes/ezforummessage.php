@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezforummessage.php,v 1.100 2001/09/21 14:28:48 jhe Exp $
+// $Id: ezforummessage.php,v 1.101 2001/09/24 11:53:43 jhe Exp $
 //
 // Definition of eZForumMessage class
 //
@@ -97,9 +97,10 @@ class eZForumMessage
                 else
                 {
                     $this->ThreadID = 0;
-                }                
+                }
                 $topic = $db->escapeString( $this->Topic );
                 $body = $db->escapeString( $this->Body );
+
                 $res = $db->query( "INSERT INTO eZForum_Message 
 		                         ( ID,
                                    ForumID,
@@ -422,9 +423,9 @@ class eZForumMessage
     /*!
       Returns the topic of the message.
     */      
-    function &topic( $htmlchars=true )
+    function &topic( $htmlchars = true )
     {
-       if( $htmlchars == true )
+       if ( $htmlchars == true )
        {
             return htmlspecialchars( $this->Topic );
        }
@@ -454,16 +455,16 @@ class eZForumMessage
     /*!
       Returns the body of the forum message.
     */      
-    function &body( $htmlchars=true )
+    function &body( $htmlchars = true )
     {
-       if ( $htmlchars == true )
+       if ( $htmlchars )
        {
-            return  htmlspecialchars( $this->Body );
+            return $this->Body;
        }
        else
        {
-            return $this->Body;
-       }  
+            return htmlspecialchars( $this->Body );
+       }
     }
 
     /*!

@@ -1,5 +1,5 @@
 <?php
-// $Id: messagelist.php,v 1.18 2001/07/19 13:17:54 jakobn Exp $
+// $Id: messagelist.php,v 1.19 2001/09/24 11:53:43 jhe Exp $
 //
 // Created on: Created on: <18-Jul-2000 08:56:19 lw>
 //
@@ -101,7 +101,7 @@ else
             $t->set_var( "message_id", $message->id() );
 
             $user = $message->user();
-            if( $user->id() != 0 )
+            if ( $user->id() != 0 )
             {
                 $t->set_var( "message_user", $user->firstName() . " " . $user->lastName() );
             }
@@ -109,7 +109,7 @@ else
             {
                 $t->set_var( "message_user", $AnonymousPoster );
             }
-            if( $message->emailNotice() == "Y" )
+            if ( $message->emailNotice() == "Y" )
                 $t->set_var( "emailnotice", $true );
             else
                 $t->set_var( "emailnotice", $false );

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: userlogin.php,v 1.13 2001/07/19 13:17:55 jakobn Exp $
+// $Id: userlogin.php,v 1.14 2001/09/24 11:53:43 jhe Exp $
 //
 // Created on: <14-Oct-2000 15:41:17 bf>
 //
@@ -35,7 +35,7 @@ include_once( "ezuser/classes/ezuser.php" );
 
 if ( eZUser::currentUser() )
 {
-    if( isset( $RedirectURL ) )
+    if ( isset( $RedirectURL ) )
     {
         $AdditionalURLInfo="?RedirectURL=$RedirectURL";
     }
@@ -75,7 +75,7 @@ else
     $Anonymous == false;
     
     
-    switch( $Action )
+    switch ( $Action )
     {
         case "new":
         {
@@ -86,7 +86,7 @@ else
            
             include( "ezforum/user/messagepermissions.php" );
             
-            if( $ForumPost == true )
+            if ( $ForumPost == true )
             {
                 eZHTTPTool::header( "Location: /forum/messageedit/new/$ForumID/$AdditionalURLInfo" );
             }
@@ -103,23 +103,21 @@ else
 
             include( "ezforum/user/messagepermissions.php" );
             
-            if( $ForumPost == true )
+            if ( $ForumPost == true )
             {
                 eZHTTPTool::header( "Location: /forum/messageedit/reply/$ReplyToID/$AdditionalURLInfo" );
             }
         }
     }
     
-    if( $Anonymous == false )
+    if ( $Anonymous == false )
     {
         $t = new eZTemplate( "ezforum/user/" . $ini->read_var( "eZForumMain", "TemplateDir" ),
                              "ezforum/user/intl/", $Language, "userlogin.php" );
 
         $t->setAllStrings();
 
-        $t->set_file( array(
-            "user_login_tpl" => "userlogin.tpl"
-            ) );
+        $t->set_file( "user_login_tpl", "userlogin.tpl" );
 
         if ( $Action == "newsimple" )
         {

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: messagepermissions.php,v 1.6 2001/08/28 16:51:26 jhe Exp $
+// $Id: messagepermissions.php,v 1.7 2001/09/24 11:53:43 jhe Exp $
 //
 // Created on: <21-Feb-2001 18:00:00 pkej>
 //
@@ -210,7 +210,7 @@ if ( $CheckMessageDelete && $MessageEdit )
 
 
 
-// if( true )
+// if ( true )
 // {
 //     include_once( "classes/eztexttool.php" );
 //     echo "UserID = " . $UserID . "<br />\n";

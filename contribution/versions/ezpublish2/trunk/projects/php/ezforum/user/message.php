@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: message.php,v 1.33 2001/09/21 14:28:48 jhe Exp $
+// $Id: message.php,v 1.34 2001/09/24 11:53:43 jhe Exp $
 //
 // Created on: <11-Sep-2000 22:10:06 bf>
 //
@@ -28,6 +28,7 @@ include_once( "classes/INIFile.php" );
 $ini =& INIFile::globalINI();
 $Language = $ini->read_var( "eZForumMain", "Language" );
 $NewMessageLimit = $ini->read_var( "eZForumMain", "NewMessageLimit" );
+$AllowHTML = $ini->read_var( "eZForumMain", "AllowHTML" );
 
 include_once( "classes/ezlocale.php" );
 include_once( "classes/eztexttool.php" );
@@ -136,7 +137,10 @@ $t->set_var( "topic", $message->topic() );
 $time = $message->postingTime();
 $t->set_var( "main-postingtime", $locale->format( $time  ));
 
-$t->set_var( "body", eZTextTool::nl2br( $message->body( true ) ) );
+if ( $AllowHTML == "enabled" )
+    $t->set_var( "body", eZTextTool::nl2br( $message->body( true ) ) );
+else
+    $t->set_var( "body", eZTextTool::nl2br( $message->body( false ) ) );
 
 $t->set_var( "reply_id", $message->id() );
 $t->set_var( "forum_id", $forum->id() );
@@ -229,9 +233,9 @@ foreach ( $messages as $threadmessage )
     $t->set_var( "user", $MessageAuthor );
 
     /*
-    if( get_class( $viewer ) == "ezuser" )
+    if ( get_class( $viewer ) == "ezuser" )
     {
-        if( ( $viewer->id() == $threadmessage->userId() ) && ( eZForumMessage::countReplies( $threadmessage->id() ) == 0 ) )
+        if ( ( $viewer->id() == $threadmessage->userId() ) && ( eZForumMessage::countReplies( $threadmessage->id() ) == 0 ) )
         {
             $t->parse( "edit_message_item", "edit_message_item_tpl" );
         }

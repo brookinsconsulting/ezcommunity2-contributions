@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: messagebody.php,v 1.8 2001/08/31 14:01:59 jhe Exp $
+// $Id: messagebody.php,v 1.9 2001/09/24 11:53:43 jhe Exp $
 //
 // Created on: <21-Feb-2001 18:00:00 pkej>
 //
@@ -23,7 +23,6 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, US
 //
 
-
 include_once( "classes/INIFile.php" );
 include_once( "classes/ezlocale.php" );
 
@@ -31,29 +30,29 @@ $ini =& $GLOBALS["GlobalSiteIni"];
 $Language = $ini->read_var( "eZCalendarMain", "Language" );
 $Locale = new eZLocale( $Language );
 
-if ( $ShowMessage == true )
+if ( $ShowMessage )
 {
     include_once( "classes/eztexttool.php" );
     $AllowedTags = $ini->read_var( "eZForumMain", "AllowedTags" );
     $AllowHTML = $ini->read_var( "eZForumMain", "AllowHTML" );
     
-    $t->set_file( "body", "messagebody.tpl"  );
+    $t->set_file( "body", "messagebody.tpl" );
     
     $msg = new eZForumMessage( $MessageID );
     $MessageTopic = $msg->topic();
-   
     if ( $AllowHTML == "enabled" )
     {
-        $MessageBody = $msg->body( false );
+        $MessageBody = $msg->body( true );
     }
     else
     {
-        $MessageBody = eZTextTool::nl2br( stripslashes( $msg->body( true ) ) );
+        $MessageBody = eZTextTool::nl2br( $msg->body( false ) );
     }
-    $author = new eZUser ( $msg->userID() );
+    
+    $author = new eZUser( $msg->userID() );
     
     $MessageNotice = $msg->emailNotice();
-
+    
     if ( isSet( $NewMessageAuthor ) )
     {
         if ( $msg->userName() )
@@ -124,8 +123,7 @@ if ( $ShowMessage == true )
     $t->set_var( "message_author", $MessageAuthor );
     $t->set_var( "message_id", $MessageID );
     $t->set_var( "message_notice", $MessageNotice );
-
-    if( $doPrint == true )
+    if ( $doPrint == true )
     {
         $t->pparse( "message_body_file", "body" );
     }

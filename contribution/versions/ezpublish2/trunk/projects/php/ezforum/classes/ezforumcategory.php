@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezforumcategory.php,v 1.41 2001/09/21 12:17:54 bf Exp $
+// $Id: ezforumcategory.php,v 1.42 2001/09/24 11:53:43 jhe Exp $
 //
 // Definition of eZForumCategory class
 //
@@ -137,7 +137,7 @@ class eZForumCategory
             {
                 die( "Error: Category's with the same ID was found in the database. This shouldent happen." );
             }
-            else if( count( $category_array ) == 1 )
+            else if ( count( $category_array ) == 1 )
             {
                 $this->ID = $category_array[0][$db->fieldName( "ID" )];
                 $this->Name = $category_array[0][$db->fieldName( "Name" )];

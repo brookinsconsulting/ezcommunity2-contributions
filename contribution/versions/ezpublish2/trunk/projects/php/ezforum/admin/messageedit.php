@@ -1,5 +1,5 @@
 <?php
-// $Id: messageedit.php,v 1.15 2001/07/19 13:17:54 jakobn Exp $
+// $Id: messageedit.php,v 1.16 2001/09/24 11:53:43 jhe Exp $
 //
 // Created on: Created on: <18-Jul-2000 08:56:19 lw>
 //
@@ -124,7 +124,7 @@ if ( $Action == "DeleteMessages" )
 
         }
         
-        if( empty( $RefererURL ) )
+        if ( empty( $RefererURL ) )
         {
             eZHTTPTool::header( "Location: /forum/messagelist/$forumID" );
             exit();

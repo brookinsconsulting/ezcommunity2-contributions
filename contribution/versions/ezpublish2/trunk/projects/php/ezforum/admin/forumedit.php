@@ -1,5 +1,5 @@
 <?php
-// $Id: forumedit.php,v 1.29 2001/07/19 13:17:54 jakobn Exp $
+// $Id: forumedit.php,v 1.30 2001/09/24 11:53:43 jhe Exp $
 //
 // Created on: Created on: <14-Jul-2000 13:41:35 lw>
 //
@@ -339,7 +339,7 @@ $t->set_var( "user_name", $noModeratorString );
 
 $t->set_var( "is_selected", "" );
 
-if( $forum )
+if ( $forum )
 {
     $moderator = $forum->moderator();
 }
@@ -348,7 +348,7 @@ else
     $moderator = 0;
 }
 
-if( $moderator == 0 )
+if ( $moderator == 0 )
 {
     $t->set_var( "is_selected", "selected" );
 }
@@ -361,9 +361,9 @@ foreach( $groupList as $groupItem )
     $t->set_var( "user_id", $groupItem->id() );
     $t->set_var( "user_name", $groupItem->name() ); //change variable names?
 
-    if( $Action == "edit" )
+    if ( $Action == "edit" )
     {
-        if( $moderator )
+        if ( $moderator )
         {
             if ( $moderator->id() == $groupItem->id() )
             {

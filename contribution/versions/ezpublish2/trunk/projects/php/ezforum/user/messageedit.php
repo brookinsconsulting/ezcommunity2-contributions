@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: messageedit.php,v 1.56 2001/09/21 14:28:48 jhe Exp $
+// $Id: messageedit.php,v 1.57 2001/09/24 11:53:43 jhe Exp $
 //
 // Created on: <21-Feb-2001 18:00:00 pkej>
 //
@@ -182,7 +182,7 @@ switch ( $Action )
         include( "ezforum/user/messagepermissions.php" );
 
         include_once( "classes/ezhttptool.php" );
-        if( $MessageEdit == false )
+        if ( $MessageEdit == false )
         {
             eZHTTPTool::header( "Location: /error/403?Info=" . errorPage( "forum_main", "/forum/categorylist/", 403 ) );
         }
@@ -603,13 +603,13 @@ switch ( $Action )
 
             if ( $AllowHTML == "enabled" )
             {
-                $msg->setTopic( stripslashes( strip_tags( $NewMessageTopic ) ) );
-                $msg->setBody( stripslashes( strip_tags( $NewMessageBody, $AllowedTags ) ) );
+                $msg->setTopic( strip_tags( $NewMessageTopic ) );
+                $msg->setBody( strip_tags( $NewMessageBody, $AllowedTags ) );
             }
             else
             {
-                $msg->setTopic( stripslashes( $NewMessageTopic ) );
-                $msg->setBody( stripslashes( $NewMessageBody ) );
+                $msg->setTopic( $NewMessageTopic );
+                $msg->setBody( $NewMessageBody );
             }
 
             $msg->setIsTemporary( true );
@@ -638,7 +638,6 @@ switch ( $Action )
                 eZHTTPTool::header( "Location: /error/403?Info=" . errorPage( "forum_main", "/forum/categorylist/", 403 ) );
             }
 
-
             $ShowPath = true;
             $isPreview = false;
             include_once( "ezforum/user/messagepath.php" );
@@ -653,7 +652,6 @@ switch ( $Action )
             $ShowReplyInfo = true;
             $ShowBodyInfo = true;
             include_once( "ezforum/user/messageform.php" );
-
         }
 
         $doPrint = true;

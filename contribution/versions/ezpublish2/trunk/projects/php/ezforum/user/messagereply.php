@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: messagereply.php,v 1.42 2001/09/21 14:28:49 jhe Exp $
+// $Id: messagereply.php,v 1.43 2001/09/24 11:53:43 jhe Exp $
 //
 // Created on: <24-Sep-2000 12:20:32 bf>
 //
@@ -60,7 +60,7 @@ if ( $StartAction == "reply" )
 
     $emailNoticeArray = array();
 
-    if( is_object( $moderator ) )
+    if ( is_object( $moderator ) )
     {
         $moderators = eZUserGroup::users($moderator->id() );
 
@@ -72,7 +72,7 @@ if ( $StartAction == "reply" )
                 $author = $msg->user();
                 $headersInfo = ( getallheaders() );
 
-                if( $author->id() == 0 )
+                if ( $author->id() == 0 )
                 {
                     $mailTemplate->set_var( "author", $ini->read_var( "eZForumMain", "AnonymousPoster" ) );
                 }

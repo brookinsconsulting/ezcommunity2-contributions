@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: messageform.php,v 1.15 2001/09/21 14:28:48 jhe Exp $
+// $Id: messageform.php,v 1.16 2001/09/24 11:53:43 jhe Exp $
 //
 // Created on: <21-Feb-2001 18:00:00 pkej>
 //
@@ -24,6 +24,7 @@
 //
 
 include_once( "classes/ezlocale.php" );
+$AllowHTML = $ini->read_var( "eZForumMain", "AllowHTML" );
 
 if ( $ShowMessageForm )
 {
@@ -40,7 +41,7 @@ if ( $ShowMessageForm )
         $t->set_var( "message_body_info_item", "" );
         $t->set_var( "message_reply_info_item", "" );
         $t->set_var( "message_notice_checkbox", "" );
-
+        
         $t->set_var( "headline", $t->Ini->read_var( "strings", $Action . "_headline" ) );
     }
     
@@ -99,7 +100,7 @@ if ( $ShowMessageForm )
         
         if ( isSet( $NewMessageTopic ) )
         {
-            $MessageTopic = stripslashes( $NewMessageTopic );
+            $MessageTopic = $NewMessageTopic;
         }
         else
         {
@@ -108,11 +109,19 @@ if ( $ShowMessageForm )
         
         if ( isSet( $NewMessageBody ) )
         {
-            $MessageBody = stripslashes( $NewMessageBody );
+            $MessageBody = $NewMessageBody;
         }
         else
         {
-            $MessageBody = $msg->body( true );
+            if ( $AllowHTML == "enabled" )
+            {
+                die();
+                $MessageBody = $msg->body( true );
+            }
+            else
+            {
+                $MessageBody = $msg->body( false );
+            }
         }
 
         $MessageNotice = $msg->emailNotice();
@@ -203,13 +212,14 @@ if ( $ShowMessageForm )
         break;
     }
     $quote = chr( 34 );
-    $MessageTopic = ereg_replace( $quote, "&#034;",$MessageTopic); 
-
+    $MessageTopic = ereg_replace( $quote, "&#034;", $MessageTopic ); 
+    $MessageBody = ereg_replace( $quote, "&#034;", $MessageBody );
+    
     include_once( "classes/eztexttool.php" );
 
-    $t->set_var( "message_topic", eztexttool::htmlspecialchars( $MessageTopic ) );
+    $t->set_var( "message_topic", $MessageTopic );
     $t->set_var( "new_message_topic", $MessageTopic );
-    $t->set_var( "message_body", htmlspecialchars( $MessageBody ) );
+    $t->set_var( "message_body", $MessageBody );
     $t->set_var( "new_message_body", $MessageBody );
     $t->set_var( "message_posted_at", $MessagePostedAt );
     $t->set_var( "message_author", $MessageAuthor );
