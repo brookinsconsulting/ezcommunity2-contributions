@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: userwithaddress.php,v 1.19 2001/01/19 09:29:30 ce Exp $
+// $Id: userwithaddress.php,v 1.20 2001/01/19 10:26:35 ce Exp $
 //
 // 
 //
@@ -178,7 +178,6 @@ if ( $Action == "Insert" || $Action == "Update" || isSet ( $NewAddress ) )
     {
         if( empty( $Email ) )
         {
-            print( "mail" );
             $t->parse( "error_email", "error_email_tpl" );
             $error = true;
         }
@@ -186,7 +185,6 @@ if ( $Action == "Insert" || $Action == "Update" || isSet ( $NewAddress ) )
         {
             if( eZMail::validate( $Email ) == false )
             {
-                print( "validae" );
                 $t->parse( "error_email_not_valid", "error_email_not_valid_tpl" );
                 $error = true;
             }
@@ -197,14 +195,12 @@ if ( $Action == "Insert" || $Action == "Update" || isSet ( $NewAddress ) )
     {
         if ( $Password != $VerifyPassword )
         {
-            print( "passowrd" );
             $t->parse( "error_passwword_match", "error_pasword_match_tpl" );
             $error = true;
             
         }
         if ( strlen( $VerifyPassword ) < 2 )
         {
-            print( "passoord_lenge" );
             $t->parse( "error_passwword_too_short", "error_pasword_too_short_tpl" );
             $error = true;
         }
@@ -240,16 +236,22 @@ if ( $Action == "Insert" || $Action == "Update" || isSet ( $NewAddress ) )
 
     if( $error == true )
     {
-        print( "error" );
         $t->parse( "errors_item", "errors_item_tpl" );
-        $Action = "New";
+
+        if ( $user )
+        {
+            $Action = "Edit";
+        }
+        else
+        {
+            $Action = "New";
+        }
     }
 }
 
 // Add a new address
 if ( isset( $NewAddress ) && $error == false )
 {
-    print( "legger til ny addrss<br>" );
     $address = new eZAddress();
     $country = new eZCountry( $CountryID );    
     $address->setCountry( 0 );    
@@ -277,6 +279,7 @@ if ( isset( $DeleteAddress ) )
 
 if ( $Action == "Insert" && $error == false )
 {
+    $user = new eZUser();
     $user->setLogin( $Login );
     $user->setPassword( $Password );
     $user->setEmail( $Email );
@@ -300,9 +303,9 @@ if ( $Action == "Insert" && $error == false )
     
     if ( isset( $CountryID ) )
     {
-        $country = new eZCountry( $CountryID );
+        $country = new eZCountry( $CountryID[0] );
         $address->setCountry( $country );
-        
+       
     }
     
     $address->store();
@@ -323,10 +326,10 @@ if ( $Action == "Insert" && $error == false )
 
 if ( $Action == "Update" )
 {
-    $user = new eZUser();
-    $user->get( $UserID );
-
-    $user->setPassword( $Password );
+    $user = eZUser::currentUser();
+ 
+    if ( $Password != "dummy" )
+        $user->setPassword( $Password );
     
     $user->setEmail( $Email );
     $user->setFirstName( $FirstName );
@@ -452,8 +455,16 @@ if ( $Action == "Edit" )
     $LastName = $user->LastName(  );
 
     $t->set_var( "login_value", $Login );
-    $t->set_var( "password_value", $Password );
-    $t->set_var( "verify_password_value", $VerifyPassword );
+    if ( $Password == "" )
+        $t->set_var( "password_value", "dummy" );
+    else
+        $t->set_var( "password_value", $Password );
+
+    if ( $VerifyPassword == "" )
+        $t->set_var( "verify_password_value", "dummy" );
+    else
+        $t->set_var( "verify_password_value", $VerifyPassword );
+    
     $t->set_var( "email_value", $Email );
 
     $t->set_var( "first_name_value", $FirstName );
@@ -475,7 +486,6 @@ if ( $Action == "Edit" )
         $Zip = $address->zip();
         $Place = $address->place();
 
-        print( $address );
         $t->set_var( "address_id", $address->id() );
             
         $t->set_var( "street1_value", $Street1 );
