@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: gameedit.php,v 1.3 2001/05/28 12:06:52 ce Exp $
+// $Id: gameedit.php,v 1.4 2001/05/28 13:40:28 pkej Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <22-May-2001 13:44:13 ce>
@@ -26,8 +26,10 @@
 include_once( "classes/INIFile.php" );
 include_once( "classes/eztemplate.php" );
 include_once( "classes/ezhttptool.php" );
+include_once( "classes/ezdate.php" );
 
 include_once( "ezquiz/classes/ezquizgame.php" );
+include_once( "ezquiz/classes/ezquiztool.php" );
 
 if ( isSet ( $OK ) )
 {
@@ -104,6 +106,8 @@ if ( ( $Action == "Insert" ) || ( $Action == "Update" ) && ( $user ) )
 
     $game->store();
 
+    eZQuizTool::deleteCache();
+
     if ( count ( $QuestionArrayID ) > 0 )
     {
         for( $i=0; $i < count ( $QuestionArrayID ); $i++ )
@@ -121,6 +125,8 @@ if ( ( $Action == "Insert" ) || ( $Action == "Update" ) && ( $user ) )
         eZHTTPTool::header( "Location: /quiz/game/list/" );
         exit();
     }
+    
+    
 }
 
 if ( $Action == "Delete" )
@@ -131,6 +137,8 @@ if ( $Action == "Delete" )
         {
             $game = new eZQuizGame( $GameID );
             $game->delete();
+            eZQuizTool::deleteCache();
+
         }
     }
     eZHTTPTool::header( "Location: /quiz/game/list/" );
