@@ -1,7 +1,7 @@
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
     <td align="left" valign="bottom">
-        <h1>{intl-head_line}</h1>
+        <h1>Søkeresultat</h1>
      </td>
      <td align="right">
 	 <form action="/trade/search/" method="post">
@@ -14,7 +14,7 @@
 
 <hr noshade size="4" />
 
-<h2>Search for: "{query_string}"</h2>
+<h2>Søk etter: "{query_string}"</h2>
 <br>
 
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
@@ -37,12 +37,11 @@
     </tr>
     </table>
     <!-- END image_tpl -->
-
+	<p>
     {product_intro_text}
-
-<br>
+	</p>
 	<!-- BEGIN price_tpl -->
-	{product_price}<br>
+	<div class="pris">{product_price}</div>
 	<!-- END price_tpl -->
 
 	</td>

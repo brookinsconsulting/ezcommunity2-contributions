@@ -3,6 +3,9 @@
 		<td class="menuhead" bgcolor="#323296">Kunde</td>
 	</tr>
 	<tr>
+		<td class="menuspacer">&nbsp;</td>
+	</tr>
+	<tr>
 		<td>
 		<form method="post" action="/user/login/logout/">
 		<p class="smalltitle">Innlogget kunde:</p>

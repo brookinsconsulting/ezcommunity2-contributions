@@ -3,6 +3,9 @@
 		<td class="menuhead" bgcolor="#323296">{intl-head_line}</td>
 	</tr>
 	<tr>
+		<td class="menuspacer">&nbsp;</td>
+	</tr>
+	<tr>
 		<td>
 		<form method="post" action="/user/login/login/">
 		<p class="smalltitle">{intl-username}:</p>
@@ -43,4 +46,4 @@
 	</tr>
 	
 	</table>
-	
+	<br />	
