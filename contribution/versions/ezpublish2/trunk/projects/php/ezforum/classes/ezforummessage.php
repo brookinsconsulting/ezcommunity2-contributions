@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: ezforummessage.php,v 1.5 2000/07/20 18:36:55 lw-cvs Exp $
+    $Id: ezforummessage.php,v 1.6 2000/07/20 18:50:37 lw Exp $
 
     Author: Lars Wilhelmsen <lw@ez.no>
     
@@ -129,7 +129,8 @@ class eZforumMessage
                                          '$this->Body', '$this->UserId', '$this->EmailNotice')";
             mysql_query($query_str)
                 or die("store() near insert");
-            $this->recursiveEmailNotice( $this->Id );
+	    $temp = array();
+            $this->recursiveEmailNotice( $this->Id, $temp );
             return mysql_insert_id();
         }
     }
@@ -234,7 +235,7 @@ class eZforumMessage
 
       $msgId : $message to send a notice about
      */
-    function recursiveEmailNotice( $msgId, &$liste = array() )
+    function recursiveEmailNotice( $msgId, &$liste )
     {
         /*
            check $msgId parent
@@ -271,7 +272,7 @@ class eZforumMessage
         {
             array_push( $liste, $this->UserId );
         }
-        if( $this->Parent != "" ) recursiveEmailNotice( $this->Parent, $liste );
+        if( $this->Parent != "" ) $this->recursiveEmailNotice( $this->Parent, $liste );
     }
 }
 ?>
