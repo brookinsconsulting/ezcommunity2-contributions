@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezqdomrenderer.php,v 1.55.2.9 2002/01/10 17:44:33 kaid Exp $
+// $Id: ezqdomrenderer.php,v 1.55.2.10 2002/01/16 10:33:17 kaid Exp $
 //
 // Definition of eZQDomRenderer class
 //
@@ -1342,7 +1342,7 @@ class eZQDomrenderer
                             $tdWidth = "";
                             $tdColspan = 1;
                             $tdRowspan = 1;
-                            if  ( count( $data->attributes ) > 0 )
+                            if  ( isset( $data->attributes ) and count( $data->attributes ) > 0 )
                                 foreach ( $data->attributes as $attr )
                                 {
                                     switch ( $attr->name )
@@ -1390,12 +1390,15 @@ class eZQDomrenderer
      */
     function &renderChildren( $paragraph )
     {
+		$tmpContent = "";
         // render children
         if ( count( $paragraph->children ) )
             foreach ( $paragraph->children as $child )
             {
                 if ( $child->name == "text" )
                 {                
+					if ( !isset( $child->content ) )
+						$child->content = "";
                     $tmpContent .= eZTextTool::nl2br( $child->content, $this->BrOverride );
                 }
                 else
