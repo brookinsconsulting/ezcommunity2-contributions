@@ -122,16 +122,21 @@
 <table border="0">
 <tr>
 	<td valign="top">
+	<!-- BEGIN publish_dates_tpl -->
+
 	<!-- BEGIN published_tpl -->
 	<b>{intl-published}:</b> {published_date}
 	<!-- END published_tpl -->
 	<!-- BEGIN un_published_tpl -->
 	<b>{intl-un_published}</b>
 	<!-- END un_published_tpl -->
-<br />	
+	<br />	
 
 	<b>{intl-created}:</b> {created_date}<br />
 	<b>{intl-modified}:</b> {modified_date}<br />
+
+	<!-- END publish_dates_tpl -->
+
 	</td>
 	<td valign="top">
 

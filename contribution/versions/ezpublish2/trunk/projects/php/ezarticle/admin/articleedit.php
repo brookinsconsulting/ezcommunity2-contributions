@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: articleedit.php,v 1.100 2001/07/09 20:01:13 bf Exp $
+// $Id: articleedit.php,v 1.101 2001/07/10 16:45:47 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <18-Oct-2000 15:04:39 bf>
@@ -92,12 +92,13 @@ if ( $Action == "Update" ||  ( $Action == "Insert" ) )
     if ( ( $Action == "Insert" ) or ( $article->get( $ArticleID ) == true ) )
     {
         if ( $Action == "Insert" )
+        {
             $article = new eZArticle( );
+            $user =& eZUser::currentUser();
+            $article->setAuthor( $user );            
+        }
 
         $article->setName( $Name );
-
-        $oldCategory = $article->categoryDefinition();
-        $oldCategoryID = $oldCategory->id();
 
         $author = new eZAuthor( $ContentsWriterID );
         $article->setContentsWriter( $author );
@@ -111,6 +112,8 @@ if ( $Action == "Update" ||  ( $Action == "Insert" ) )
 
         $article->setContents( $contents  );
         $article->setPageCount( $generator->pageCount() );
+
+
         $article->setAuthorText( $AuthorText );
         $article->setAuthorEmail( $AuthorEmail );
         $article->setLinkText( $LinkText );
@@ -247,6 +250,10 @@ if ( $Action == "Update" ||  ( $Action == "Insert" ) )
 
 
             $article->store();
+            $ArticleID = $article->id();
+            // add to categories
+            $category = new eZArticleCategory( $CategoryID );
+            $article->setCategoryDefinition( $category );
 
             $article->setManualKeywords( $Keywords );
 
@@ -382,8 +389,10 @@ $t->set_block( "article_edit_page_tpl", "multiple_value_tpl", "multiple_value" )
 $t->set_block( "article_edit_page_tpl", "category_owner_tpl", "category_owner" );
 $t->set_block( "article_edit_page_tpl", "group_item_tpl", "group_item" );
 
-$t->set_block( "article_edit_page_tpl", "published_tpl", "published" );
-$t->set_block( "article_edit_page_tpl", "un_published_tpl", "un_published" );
+$t->set_block( "article_edit_page_tpl", "publish_dates_tpl", "publish_dates" );
+
+$t->set_block( "publish_dates_tpl", "published_tpl", "published" );
+$t->set_block( "publish_dates_tpl", "un_published_tpl", "un_published" );
 
 $t->set_block( "article_edit_page_tpl", "error_message_tpl", "error_message" );
 
@@ -431,11 +440,12 @@ $readGroupsID = array();
 
 if ( $Action == "New" )
 {
-    $user = eZUser::currentUser();
+    $user =& eZUser::currentUser();
     $t->set_var( "author_text", $user->firstName() . " " . $user->lastName());
     $article = new eZArticle( );
 }
 
+$t->set_var( "publish_dates", "" );
 if ( $Action == "Edit" )
 {
     $article = new eZArticle( );
@@ -561,7 +571,8 @@ if ( $Action == "Edit" )
         $t->parse( "un_published", "un_published_tpl" );
         $t->set_var( "published", "" );
     }
-    
+
+    $t->parse( "publish_dates", "publish_dates_tpl" );
     
 }
 
