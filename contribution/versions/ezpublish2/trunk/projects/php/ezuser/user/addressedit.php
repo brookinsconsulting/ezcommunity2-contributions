@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: addressedit.php,v 1.1 2000/11/06 16:00:34 bf-cvs Exp $
+// $Id: addressedit.php,v 1.2 2000/11/07 08:28:17 bf-cvs Exp $
 //
 // 
 //
@@ -39,35 +39,16 @@ include_once( "ezcontact/classes/ezcountry.php" );
 if ( $Action == "Insert" )
 {
     // check for valid data
-    if ( $Login != "" &&
-    $Email != "" &&
-    $FirstName != "" &&
-    $LastName != "" &&
+    if ( 
     $Street1 != "" &&
     $Zip != "" &&
     $Place != "" )
     {
-        $user = new eZUser();
+        $user = eZUser::currentUser();
 
         if ( !$user->exists( $Login ) )
         {
-            if ( ( $Password == $VerifyPassword ) && ( strlen( $VerifyPassword ) > 2 ) )
             {
-                $user->setLogin( $Login );
-                $user->setPassword( $Password );
-                $user->setEmail( $Email );
-                $user->setFirstName( $FirstName );
-                $user->setLastName( $LastName );
-
-                $user->store();
-
-                // add user to usergroup
-                setType( $AnonymousUserGroup, "integer" );
-                
-                $group = new eZUserGroup( $AnonymousUserGroup );
-                $group->addUser( $user );
-                
-
                 $address = new eZAddress();
                 $address->setStreet1( $Street1 );
                 $address->setStreet2( $Street2 );
@@ -85,8 +66,6 @@ if ( $Action == "Insert" )
 
                 // add the address to the user.
                 $user->addAddress( $address );
-
-                $user->loginUser( $user );
 
                 if ( isset( $RedirectURL ) )
                 {
@@ -177,12 +156,12 @@ if ( $Action == "Update" )
 
 
 $t = new eZTemplate( "ezuser/user/" . $ini->read_var( "eZTradeMain", "TemplateDir" ),
-                     "ezuser/user/intl/", $Language, "userwithaddress.php" );
+                     "ezuser/user/intl/", $Language, "addressedit.php" );
 
 $t->setAllStrings();
 
 $t->set_file( array(        
-    "user_edit_tpl" => "userwithaddress.tpl"
+    "user_edit_tpl" => "addressedit.tpl"
     ) );
 
 $t->set_var( "readonly", "" );
