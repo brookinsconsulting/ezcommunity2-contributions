@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezlink.php,v 1.47 2001/04/05 08:23:07 fh Exp $
+// $Id: ezlink.php,v 1.48 2001/04/22 15:13:21 bf Exp $
 //
 // Definition of eZLink class
 //
@@ -120,6 +120,12 @@ class eZLink
     {
         $GLOBALS["DEBUG"] = true;
         $this->dbInit();
+
+        $description = addslashes( $this->Description );
+        $title = addslashes( $this->Title );
+        $url = addslashes( $this->Url );
+        $keywords = addslashes( $this->KeyWords );
+        
         $this->Database->query( "UPDATE eZLink_Link SET
                 Title='$title',
                 Description='$description',
