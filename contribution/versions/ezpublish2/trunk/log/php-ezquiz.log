@@ -20,3 +20,15 @@ Maintainer(s) : pkej@ez.no
     * sql/mysql/ezquiz.sql
       sql/postgresql/ezquiz.sql: updated sql scheemes, ready for release
 
+
+Module : ezquiz
+Repository path : /home/cvsroot/projects/php/ezquiz
+Maintainer(s) : pkej@ez.no
+2001-10-15  fh  <fh@zev.ez.no>
+
+    * user/quizplay.php: Fix language bug.
+
+2001-10-15  Christoffer Elo  <ce@ez.no>
+
+    * sql/postgresql/ezquiz.sql: Fixed postgres bugs.
+

@@ -70,3 +70,11 @@ Maintainer(s) : ce@ez.no
       sql/postgresql/ezmediacatalogue.sql:
     updated sql scheemes, ready for release
 
+
+Module : ezmediacatalogue
+Repository path : /home/cvsroot/projects/php/ezmediacatalogue
+Maintainer(s) : ce@ez.no
+2001-10-15  Jo Henrik Endrerud  <jhe@ez.no>
+
+    * catalogue/dummy.cache: added catalogue directory with dummy.cache file
+

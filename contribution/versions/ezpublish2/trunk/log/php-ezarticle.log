@@ -1264,3 +1264,37 @@ Maintainer(s) : bf@ez.no
     * user/frontpage.php
       user/templates/linmag/frontpage.tpl: Fixed support for ads.
 
+
+Module : ezarticle
+Repository path : /home/cvsroot/projects/php/ezarticle
+Maintainer(s) : bf@ez.no
+2001-10-15  Jo Henrik Endrerud  <jhe@ez.no>
+
+    * classes/ezarticlegenerator.php
+      classes/ezarticlerenderer.php:
+    fixed problem with articles > 12000 characters (will be able to read generator tag even if the article is very large)
+
+2001-10-15  Christoffer Elo  <ce@ez.no>
+
+    * classes/ezarticlecategory.php: Fixed postgres bugs.
+
+2001-10-15  Jo Henrik Endrerud  <jhe@ez.no>
+
+    * admin/imagemap.php
+      admin/templates/standard/imagemap.tpl
+      classes/ezarticle.php
+      classes/ezimagemap.php
+      user/articleview.php:
+    * forums are deleted when the article owning it are deleted
+    * publishing date are now shown correctly in articleview (was problem with locale)
+
+2001-10-15  Baard Farstad  <bf@ez.no>
+
+    * classes/ezqdomrenderer.php
+      user/templates/standard/articletags.tpl
+      classes/ezqdomgenerator.php: Added support for <strike> tag.
+
+2001-10-15  Christoffer Elo  <ce@ez.no>
+
+    * sql/postgresql/ezarticle.sql: Removed "#" from PostgreSQL file.
+

@@ -249,3 +249,23 @@ Maintainer(s) : bf@ez.no
 
     It is possible to make this regexp more advanced, but this will do it for now, I think!
 
+
+Module : classes
+Repository path : /home/cvsroot/projects/php/classes
+Maintainer(s) : bf@ez.no
+2001-10-15  Christoffer Elo  <ce@ez.no>
+
+    * admin/linkselect.php
+      ezlinkitem.php
+      ezlinksection.php
+      ezmodulelink.php
+      ezpostgresqldb.php: Fixed postgres bugs.
+
+2001-10-15  fh  <fh@zev.ez.no>
+
+    * ezfile.php: Fix for tmpdir bug
+
+2001-10-15  Christoffer Elo  <ce@ez.no>
+
+    * ezpostgresqldb.php: Runs a query only if the connection is up.
+

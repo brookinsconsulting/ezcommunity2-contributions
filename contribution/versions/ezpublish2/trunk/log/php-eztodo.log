@@ -119,3 +119,11 @@ Maintainer(s) : ce@ez.no
 
     * classes/eztodo.php: fixed bug if user is not logged in
 
+
+Module : eztodo
+Repository path : /home/cvsroot/projects/php/eztodo
+Maintainer(s) : ce@ez.no
+2001-10-15  Christoffer Elo  <ce@ez.no>
+
+    * sql/postgresql/eztodo.sql: Fixed postgres bugs.
+

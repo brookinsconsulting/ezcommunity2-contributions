@@ -456,3 +456,11 @@ Maintainer(s) : jhe@ez.no
     * classes/ezforummessage.php
       user/messageedit.php: fixed bug with slashs
 
+
+Module : ezforum
+Repository path : /home/cvsroot/projects/php/ezforum
+Maintainer(s) : jhe@ez.no
+2001-10-15  Gunnstein Lye  <gl@ez.no>
+
+    * user/intl/en_GB/mailreply.php.ini: changed space to &nbsp;
+

@@ -68,3 +68,11 @@ Maintainer(s) : ce@ez.no
 
     * classes/ezaddress.php: Added a default ID value
 
+
+Module : ezaddress
+Repository path : /home/cvsroot/projects/php/ezaddress
+Maintainer(s) : ce@ez.no
+2001-10-15  Christoffer Elo  <ce@ez.no>
+
+    * classes/ezaddress.php: Fixed postgres bugs.
+

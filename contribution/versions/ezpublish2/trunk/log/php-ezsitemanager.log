@@ -230,3 +230,21 @@ Maintainer(s) : vl@ez.no
 
     * admin/sectionedit.php: added choices for ads and 1short.
 
+
+Module : ezsitemanager
+Repository path : /home/cvsroot/projects/php/ezsitemanager
+Maintainer(s) : vl@ez.no
+2001-10-15  Baard Farstad  <bf@ez.no>
+
+    * classes/ezsection.php: Removed debug.
+
+    * admin/sectionedit.php
+      classes/ezsection.php: Fixed storing of uppercase names in sitemanager.
+
+2001-10-15  Vidar Langseid  <vl@ez.no>
+
+    * sql/mysql/ezsitemanager.sql
+      sql/postgresql/ezsitemanager.sql:
+    Updates sql schemes.
+    Added tables eZSiteManager_Menu and eZSiteManager_MenuType
+

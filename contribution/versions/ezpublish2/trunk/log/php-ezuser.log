@@ -357,3 +357,17 @@ Maintainer(s) : bf@ez.no
     * classes/ezuser.php:
     If mainaddress id == 0, then return false insted of a empty object.
 
+
+Module : ezuser
+Repository path : /home/cvsroot/projects/php/ezuser
+Maintainer(s) : bf@ez.no
+2001-10-15  fh  <fh@zev.ez.no>
+
+    * user/userbox.php:
+    Don't redirect to the "forgot password" screen on login. This leads to
+    strange things...
+
+2001-10-15  Christoffer Elo  <ce@ez.no>
+
+    * sql/postgresql/ezuser.sql: Fixed postgres bugs.
+

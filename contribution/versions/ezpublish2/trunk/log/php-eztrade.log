@@ -1194,3 +1194,25 @@ Maintainer(s) : ce@ez.no
 
     * user/productview.php: Don't show the value option price if its 0
 
+
+Module : eztrade
+Repository path : /home/cvsroot/projects/php/eztrade
+Maintainer(s) : ce@ez.no
+2001-10-15  Christoffer Elo  <ce@ez.no>
+
+    * classes/ezorder.php
+      classes/ezproduct.php
+      classes/ezproductcurrency.php
+      classes/ezproductpricerange.php
+      admin/categorylist.php
+      admin/customerlist.php
+      admin/datasupplier.php
+      admin/optionedit.php
+      admin/templates/standard/attributeedit.tpl
+      classes/ezoptionvalue.php
+      sql/postgresql/eztrade.sql
+      user/intl/en_GB/mailorder.php.ini
+      user/intl/no_NO/mailorder.php.ini
+      user/payment.php
+      user/templates/standard/mailorder.tpl: Fixed postgres bugs.
+
