@@ -7,7 +7,7 @@
 //   
 //  Description:  
 //    I just wondered how to save simple parameters not in a database but in a file 
-//  So starting every time from scratch isn't comfortable and I decided to write this 
+//  So starting every time from scratch isn''t comfortable and I decided to write this 
 //  small unit for working with ini like files 
 //  Some  Examples:  
 //     
@@ -43,7 +43,8 @@ class  INIFile
     var $WRITE_ACCESS = ""; 
      
     function INIFile( $inifilename="", $write=true )
-    { 
+    {
+        #echo "INIFile::INIFile( \$inifilename = $inifilename,\$write = $write )<br />\n";
         $this->WRITE_ACCESS = $write;
         if(!empty($inifilename)) 
             if(!file_exists($inifilename)){ 
@@ -58,7 +59,7 @@ class  INIFile
      
     function parse($inifilename) 
     { 
-        $this->INI_FILE_NAME = $inifilename; 
+        $this->INI_FILE_NAME = $inifilename;
         if( $this->WRITE_ACCESS )
             $fp = fopen($inifilename, "r+" ); 
         else

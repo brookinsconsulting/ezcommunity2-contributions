@@ -58,8 +58,8 @@ if ( $user )
     if ( $ini->read_var( "site", "eZTrade" ) == "enabled" )
         include( "eztrade/admin/menubox.php" );
 
-    if ( $ini->read_var( "site", "eZPoll" ) == "enabled" )
-        include( "ezpoll/admin/menubox.php" );
+    if ( $ini->read_var( "site", "eZNews" ) == "enabled" )
+        include( "eznews/admin/intl/no_NO/menubox.php" );
 
     if ( $ini->read_var( "site", "eZUser" ) == "enabled" )
         include( "ezuser/admin/menubox.php" );
@@ -81,6 +81,19 @@ if ( $user )
     
     // send the URI to the right decoder
     $page = "ez" . $url_array[1] . "/admin/datasupplier.php";
+
+//      // handle users
+//      if ( $url_array[1] == "user" )
+//      {
+//          if ( $url_array[2] == "logout" )
+//          {
+//              $page = "logout.php";
+//          }
+//          else
+//          {
+//              $page = "userlist.php";
+//          }
+//      }
 
     if ( file_exists( $page ) )
     {
