@@ -748,3 +748,11 @@ Maintainer(s) : br@ez.no
 
     * classes/ezlink.php: Added escapeString to some variables
 
+
+Module : ezlink
+Repository path : /home/cvsroot/projects/php/ezlink
+Maintainer(s) : br@ez.no
+2003-02-26  Bjoern Reiten  <br@ez.no>
+
+    * classes/ezlink.php: fixed bug: id() was declared twice.
+
