@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: singlelist.php,v 1.5.2.1 2001/10/31 11:31:49 fh Exp $
+// $Id: singlelist.php,v 1.5.2.2 2002/09/03 09:10:28 fh Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -91,7 +91,8 @@ if( isset( $SubscribeButton ) )
             $mailconfirmation = new eZMail();
             $mailconfirmation->setTo( $Email );
             $mailconfirmation->setSubject( $subjectText );
-
+            $mailconfirmation->setFrom( $ini->read_var( "eZBulkMailMain", "BulkmailSenderAddress" ) );
+            $mailconfirmation->setFromName( $ini->read_var( "eZBulkMailMain", "BulkMailSenderName" ) );
             $body = ( $bodyText . "\n");
             $body .= ( "http://" . $headersInfo["Host"] . "/bulkmail/singlelistsubscribe/" . $forgot->Hash() );
 
@@ -126,6 +127,8 @@ if( isset( $UnSubscribeButton ) )
         $mailconfirmation = new eZMail();
         $mailconfirmation->setTo( $Email );
         $mailconfirmation->setSubject( $subjectText );
+        $mailconfirmation->setFrom( $ini->read_var( "eZBulkMailMain", "BulkmailSenderAddress" ) );
+        $mailconfirmation->setFromName( $ini->read_var( "eZBulkMailMain", "BulkMailSenderName" ) );
 
         $body = ( $bodyText . "\n");
         $body .= ( "http://" . $headersInfo["Host"] . "/bulkmail/singlelistunsubscribe/" . $forgot->Hash() );
