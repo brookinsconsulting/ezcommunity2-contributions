@@ -16,6 +16,58 @@ switch ( $url_array[2] )
     }
     break;
 
+    case "priority" :
+    {
+        switch( $url_array[3] )
+        {
+            case "list":
+            {
+                include( "ezbug/admin/prioritylist.php" );
+            }
+            break;
+
+            case "new":
+            {
+                $Action = "new";
+                include( "ezbug/admin/priorityedit.php" );
+            }
+            break;
+
+            case "insert":
+            {
+                $Action = "insert";
+                include( "ezbug/admin/priorityedit.php" );
+            }
+            break;
+
+            case "edit":
+            {
+                $Action = "edit";
+                $PriorityID = $url_array[4];
+                include( "ezbug/admin/priorityedit.php" );
+            }
+            break;
+
+            case "update":
+            {
+                $Action = "update";
+                $PriorityID = $url_array[4];
+                include( "ezbug/admin/priorityedit.php" );
+            }
+            break;
+
+            case "delete":
+            {
+                $Action = "delete";
+                $PriorityID = $url_array[4];
+                include( "ezbug/admin/priorityedit.php" );
+            }
+            break;
+
+        }
+    }
+    break;
+
     case "edit" :
     {
         if ( $url_array[3] == "new" )
