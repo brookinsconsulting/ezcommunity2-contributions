@@ -1,5 +1,5 @@
 <?
-// $Id: todolist.php,v 1.15 2001/04/30 14:33:41 ce Exp $
+// $Id: todolist.php,v 1.16 2001/05/21 08:22:08 ce Exp $
 //
 // Definition of todo list.
 //
@@ -44,10 +44,13 @@ if( isset( $New ) )
 
 if( isset( $Delete ) )
 {
-    foreach( $DeleteArrayID as $todoid )
+    if ( count ( $DeleteArrayID ) > 0 )
     {
-        $todo = new eZTodo( $todoid );
-        $todo->delete();
+        foreach( $DeleteArrayID as $todoid )
+        {
+            $todo = new eZTodo( $todoid );
+            $todo->delete();
+        }
     }
 }
 
