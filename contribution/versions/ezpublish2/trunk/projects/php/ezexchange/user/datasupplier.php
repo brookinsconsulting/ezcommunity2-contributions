@@ -38,6 +38,16 @@ switch ( $ListType )
             case "rfq":
             {
                 $ProductID = $url_array[4];
+                $CategoryID = $url_array[5];
+                include( "ezexchange/user/quoteedit.php" );
+                break;
+            }
+            case "request":
+            {
+                if ( !isset( $QuoteID ) )
+                    $QuoteID = $url_array[6];
+                $ProductID = $url_array[4];
+                $CategoryID = $url_array[5];
                 include( "ezexchange/user/quoteedit.php" );
                 break;
             }

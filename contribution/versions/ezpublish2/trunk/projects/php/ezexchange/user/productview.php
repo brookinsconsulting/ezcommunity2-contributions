@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: productview.php,v 1.4 2001/02/02 21:13:46 gl Exp $
+// $Id: productview.php,v 1.5 2001/02/03 18:30:27 jb Exp $
 //
 // Definition of productview class
 //
@@ -40,140 +40,9 @@ function listQuotes( &$t, &$product_id )
     $rfqs = eZQuote::getAllRFQs( $product_id, true );
     $offers = eZQuote::getAllOffers( $product_id, true );
 
-    $t->set_block( "quote_item_tpl", "quote_all_type_tpl", "quote_all_type" );
-    $t->set_block( "quote_item_tpl", "quote_any_type_tpl", "quote_any_type" );
-    $t->set_block( "offer_item_tpl", "offer_all_type_tpl", "offer_all_type" );
-    $t->set_block( "offer_item_tpl", "offer_any_type_tpl", "offer_any_type" );
-
-    $t->set_var( "quote_item", "" );
-    $t->set_var( "offer_item", "" );
-
-    foreach( $rfqs as $rfq )
-    {
-        // RFQ'er skal listes over quotes
-    }
-    foreach( $quotes as $quote )
-    {
-        $t->set_var( "quote_all_type", "" );
-        $t->set_var( "quote_any_type", "" );
-
-        $price = new eZCurrency( $quote->price() );
-        $t->set_var( "quote_price", $locale->format( $price ) );
-        $t->set_var( "quote_quantity", $quote->quantity() );
-        $date = $quote->expireDate();
-        $t->set_var( "quote_expire_date", $locale->format( $date ) );
-        $type = $quote->type();
-        if ( $type == 0 )
-            $t->parse( "quote_all_type", "quote_all_type_tpl", true );
-        else
-            $t->parse( "quote_any_type", "quote_any_type_tpl", true );
-
-        $t->parse( "quote_item", "quote_item_tpl", true );
-    }
-    foreach( $offers as $offer )
-    {
-        $t->set_var( "offer_all_type", "" );
-        $t->set_var( "offer_any_type", "" );
-
-        $price = new eZCurrency( $offer->price() );
-        $t->set_var( "offer_price", $locale->format( $price ) );
-        $t->set_var( "offer_quantity", $offer->quantity() );
-        $date = $offer->expireDate();
-        $t->set_var( "offer_expire_date", $locale->format( $date ) );
-        $type = $offer->type();
-        if ( $type == 0 )
-            $t->parse( "offer_all_type", "offer_all_type_tpl", true );
-        else
-            $t->parse( "offer_any_type", "offer_any_type_tpl", true );
-
-        $t->parse( "offer_item", "offer_item_tpl", true );
-    }
-
-
-
-    $t->set_block( "your_quote_item_tpl", "your_quote_item_content_tpl", "your_quote_item_content" );
-    $t->set_block( "your_quote_item_content_tpl", "your_quote_all_type_tpl", "your_quote_all_type" );
-    $t->set_block( "your_quote_item_content_tpl", "your_quote_any_type_tpl", "your_quote_any_type" );
-
-    $t->set_block( "your_offer_item_tpl", "your_offer_item_content_tpl", "your_offer_item_content" );
-    $t->set_block( "your_offer_item_content_tpl", "your_offer_all_type_tpl", "your_offer_all_type" );
-    $t->set_block( "your_offer_item_content_tpl", "your_offer_any_type_tpl", "your_offer_any_type" );
-
-    $t->set_var( "your_quote_item", "" );
-    $t->set_var( "no_quote_item", "" );
-    $t->set_var( "your_offer_item", "" );
-    $t->set_var( "no_offer_item", "" );
-
-    $t->set_var( "your_quote_all_type", "" );
-    $t->set_var( "your_quote_any_type", "" );
-    $t->set_var( "your_offer_all_type", "" );
-    $t->set_var( "your_offer_any_type", "" );
-
     $quote = eZQuote::getUserQuote( $product_id, true );
     $rfq = eZQuote::getUserRFQ( $product_id, true );
     $offer = eZQuote::getUserOffer( $product_id, true );
-
-    if ( get_class( $quote ) == "ezquote" )
-    {
-        $price = new eZCurrency( $quote->price() );
-        $t->set_var( "quote_price", $locale->format( $price ) );
-        $t->set_var( "quote_quantity", $quote->quantity() );
-        $date = $quote->expireDate();
-        $t->set_var( "quote_expire_date", $locale->format( $date ) );
-        $type = $quote->type();
-        if ( $type == 0 )
-            $t->parse( "your_quote_all_type", "your_quote_all_type_tpl", true );
-        else
-            $t->parse( "your_quote_any_type", "your_quote_any_type_tpl", true );
-
-        $t->parse( "your_quote_item_content", "your_quote_item_content_tpl" );
-        $t->parse( "your_quote_item", "your_quote_item_tpl" );
-    }
-    else if ( get_class( $rfq ) == "ezquote" )
-    {
-        $t->set_var( "quote_price", "RFQ" );
-        $t->set_var( "quote_quantity", $rfq->quantity() );
-        $date = $rfq->expireDate();
-        $t->set_var( "quote_expire_date", $locale->format( $date ) );
-        $type = $rfq->type();
-        if ( $type == 0 )
-            $t->parse( "your_quote_all_type", "your_quote_all_type_tpl", true );
-        else
-            $t->parse( "your_quote_any_type", "your_quote_any_type_tpl", true );
-
-        $t->parse( "your_quote_item_content", "your_quote_item_content_tpl" );
-        $t->parse( "your_quote_item", "your_quote_item_tpl" );
-    }
-    else
-    {
-        $t->parse( "no_quote_item", "no_quote_item_tpl" );
-    }
-
-    if ( get_class( $offer ) == "ezquote" )
-    {
-        $price = new eZCurrency( $offer->price() );
-        $t->set_var( "offer_price", $locale->format( $price ) );
-        $t->set_var( "offer_quantity", $offer->quantity() );
-        $date = $offer->expireDate();
-        $t->set_var( "offer_expire_date", $locale->format( $date ) );
-        $type = $offer->type();
-        if ( $type == 0 )
-            $t->parse( "your_offer_all_type", "your_offer_all_type_tpl", true );
-        else
-            $t->parse( "your_offer_any_type", "your_offer_any_type_tpl", true );
-
-        $t->parse( "your_offer_item_content", "your_offer_item_content_tpl" );
-        $t->parse( "your_offer_item", "your_offer_item_tpl" );
-    }
-    else
-    {
-        $t->parse( "no_offer_item", "no_offer_item_tpl" );
-    }
-
-    $t->set_var( "do_quote_item", "" );
-    $t->set_var( "no_do_quote_item", "" );
-    $t->set_var( "do_offer_item", "" );
-    $t->set_var( "no_do_offer_item", "" );
 
     $user = eZUser::currentUser();
 
@@ -185,15 +54,137 @@ function listQuotes( &$t, &$product_id )
     if ( eZPermission::checkPermission( $user, "eZExchange", "SellGoods" ) )
         $can_sell = true;
 
+    $t->set_var( "quote_item", "" );
+    $t->set_var( "offer_item", "" );
+
+    $t->set_var( "full_offer_item", "" );
+    $t->parse( "empty_offer_item", "empty_offer_item_tpl" );
+    $t->set_var( "real_quote_item", "" );
+    // List RFQs
+    foreach( $rfqs as $cur_rfq )
+    {
+        $t->set_var( "quote_all_type", "" );
+        $t->set_var( "quote_any_type", "" );
+        $t->set_var( "rfq_quote_item", "" );
+        $t->set_var( "rfq_linked_quote_item", "" );
+
+        $own_item = false;
+        if ( get_class( $rfq ) == "ezquote" and $cur_rfq->id() == $rfq->id() )
+            $own_item = true;
+
+        if ( $own_item )
+            $t->set_var( "quote_current", "class=\"bgdark\"" );
+        else
+            $t->set_var( "quote_current", "" );
+
+        $t->set_var( "quote_quantity", $cur_rfq->quantity() );
+        $date = $cur_rfq->expireDate();
+        $t->set_var( "quote_expire_date", $locale->format( $date ) );
+        $type = $cur_rfq->type();
+        if ( $type == 0 )
+            $t->parse( "quote_all_type", "quote_all_type_tpl", true );
+        else
+            $t->parse( "quote_any_type", "quote_any_type_tpl", true );
+
+        if ( $can_sell && !$own_item )
+        {
+            $t->set_var( "rfq_id", $cur_rfq->id() );
+            $t->parse( "rfq_linked_quote_item", "rfq_linked_quote_item_tpl" );
+        }
+        else
+            $t->parse( "rfq_quote_item", "rfq_quote_item_tpl" );
+
+        $t->parse( "quote_item", "quote_item_tpl", true );
+        $t->parse( "offer_item", "offer_item_tpl", true );
+    }
+    $t->set_var( "rfq_quote_item", "" );
+    $t->set_Var( "rfq_linked_quote_item", "" );
+    $t->parse( "real_quote_item", "real_quote_item_tpl" );
+    // List Quotes
+    foreach( $quotes as $cur_quote )
+    {
+        $t->set_var( "quote_all_type", "" );
+        $t->set_var( "quote_any_type", "" );
+
+        if ( get_class( $quote ) == "ezquote" and $cur_quote->id() == $quote->id() )
+            $t->set_var( "quote_current", "class=\"bgdark\"" );
+        else
+            $t->set_var( "quote_current", "" );
+
+        $price = new eZCurrency( $cur_quote->price() );
+        $t->set_var( "quote_price", $locale->format( $price ) );
+        $t->set_var( "quote_quantity", $cur_quote->quantity() );
+        $date = $cur_quote->expireDate();
+        $t->set_var( "quote_expire_date", $locale->format( $date ) );
+        $type = $cur_quote->type();
+        if ( $type == 0 )
+            $t->parse( "quote_all_type", "quote_all_type_tpl", true );
+        else
+            $t->parse( "quote_any_type", "quote_any_type_tpl", true );
+
+        $t->parse( "quote_item", "quote_item_tpl", true );
+    }
+    $t->set_var( "empty_offer_item", "" );
+    // List offers
+    foreach( $offers as $cur_offer )
+    {
+        $t->set_var( "offer_all_type", "" );
+        $t->set_var( "offer_any_type", "" );
+
+        if ( get_class( $offer ) == "ezquote" and $cur_offer->id() == $offer->id() )
+            $t->set_var( "offer_current", "class=\"bgdark\"" );
+        else
+            $t->set_var( "offer_current", "" );
+
+        $price = new eZCurrency( $cur_offer->price() );
+        $t->set_var( "offer_price", $locale->format( $price ) );
+        $t->set_var( "offer_quantity", $cur_offer->quantity() );
+        $date = $cur_offer->expireDate();
+        $t->set_var( "offer_expire_date", $locale->format( $date ) );
+        $type = $cur_offer->type();
+        if ( $type == 0 )
+            $t->parse( "offer_all_type", "offer_all_type_tpl", true );
+        else
+            $t->parse( "offer_any_type", "offer_any_type_tpl", true );
+
+        $t->parse( "full_offer_item", "full_offer_item_tpl" );
+        $t->parse( "offer_item", "offer_item_tpl", true );
+    }
+
+    $t->set_var( "do_quote_item", "" );
+    $t->set_var( "no_do_quote_item", "" );
+    $t->set_var( "do_offer_item", "" );
+    $t->set_var( "no_do_offer_item", "" );
+
+    $t->set_var( "do_edit_quote_item", "" );
+    $t->set_var( "do_new_quote_item", "" );
+    $t->set_var( "do_edit_offer_item", "" );
+    $t->set_var( "do_new_offer_item", "" );
     if ( $can_buy )
+    {
+        if ( get_class( $quote ) == "ezquote" || get_class( $rfq ) == "ezquote" )
+            $t->parse( "do_edit_quote_item", "do_edit_quote_item_tpl" );
+        else
+            $t->parse( "do_new_quote_item", "do_new_quote_item_tpl" );
         $t->parse( "do_quote_item", "do_quote_item_tpl" );
+    }
     else
+    {
         $t->parse( "no_do_quote_item", "no_do_quote_item_tpl" );
+    }
 
     if ( $can_sell )
+    {
+        if ( get_class( $offer ) == "ezquote" )
+            $t->parse( "do_edit_offer_item", "do_edit_offer_item_tpl" );
+        else
+            $t->parse( "do_new_offer_item", "do_new_offer_item_tpl" );
         $t->parse( "do_offer_item", "do_offer_item_tpl" );
+    }
     else
+    {
         $t->parse( "no_do_offer_item", "no_do_offer_item_tpl" );
+    }
 }
 
 
@@ -212,17 +203,26 @@ $template_array = array( "extra_productview_tpl" =>
 $variable_array = array( "extra_product_info" => "extra_productview_tpl" );
 
 $block_array = array( array( "extra_productview_tpl", "quote_item_tpl", "quote_item" ),
+                      array( "quote_item_tpl", "real_quote_item_tpl", "real_quote_item" ),
+                      array( "quote_item_tpl", "rfq_quote_item_tpl", "rfq_quote_item" ),
+                      array( "quote_item_tpl", "rfq_linked_quote_item_tpl", "rfq_linked_quote_item" ),
                       array( "extra_productview_tpl", "offer_item_tpl", "offer_item" ),
+                      array( "offer_item_tpl", "full_offer_item_tpl", "full_offer_item" ),
+                      array( "offer_item_tpl", "empty_offer_item_tpl", "empty_offer_item" ),
 
-                      array( "extra_productview_tpl", "your_quote_item_tpl", "your_quote_item" ),
-                      array( "extra_productview_tpl", "no_quote_item_tpl", "no_quote_item" ),
-                      array( "extra_productview_tpl", "your_offer_item_tpl", "your_offer_item" ),
-                      array( "extra_productview_tpl", "no_offer_item_tpl", "no_offer_item" ),
+                      array( "quote_item_tpl", "quote_all_type_tpl", "quote_all_type" ),
+                      array( "quote_item_tpl", "quote_any_type_tpl", "quote_any_type" ),
+                      array( "full_offer_item_tpl", "offer_all_type_tpl", "offer_all_type" ),
+                      array( "full_offer_item_tpl", "offer_any_type_tpl", "offer_any_type" ),
 
                       array( "extra_productview_tpl", "do_quote_item_tpl", "do_quote_item" ),
                       array( "extra_productview_tpl", "no_do_quote_item_tpl", "no_do_quote_item" ),
                       array( "extra_productview_tpl", "do_offer_item_tpl", "do_offer_item" ),
-                      array( "extra_productview_tpl", "no_do_offer_item_tpl", "no_do_offer_item" )
+                      array( "extra_productview_tpl", "no_do_offer_item_tpl", "no_do_offer_item" ),
+                      array( "do_quote_item_tpl", "do_edit_quote_item_tpl", "do_edit_quote_item" ),
+                      array( "do_quote_item_tpl", "do_new_quote_item_tpl", "do_new_quote_item" ),
+                      array( "do_offer_item_tpl", "do_edit_offer_item_tpl", "do_edit_offer_item" ),
+                      array( "do_offer_item_tpl", "do_new_offer_item_tpl", "do_new_offer_item" ),
                       );
 $func_array = array( "listQuotes" );
 
