@@ -1,7 +1,7 @@
+DROP TABLE IF EXISTS eZGroupEventCalendar_Event;
 #
 # Table structure for table 'eZGroupEventCalendar_Event'
 #
-
 CREATE TABLE eZGroupEventCalendar_Event (
    ID int(11) NOT NULL auto_increment,
    GroupID int(11) DEFAULT '0' NOT NULL,
@@ -13,27 +13,30 @@ CREATE TABLE eZGroupEventCalendar_Event (
    Name varchar(255),
    Description text,
    Url text default NULL,
-   Location varchar(255) default NULL,
    Status int(11) DEFAULT '1' NOT NULL,
    EventAlarmNotice int(11) DEFAULT '0' NOT NULL,
    EventCategoryID int(11) DEFAULT '0' NOT NULL,
    Priority int(11) DEFAULT '1' NOT NULL,
    IsRecurring int default '0',
-   RecurringDay int default NULL,
-   RecurringMonth int default NULL,
-   RecurringYear int default NULL,
+   RecurFreq int default NULL,
+   RecurType varchar(255) default NULL,
+   RecurDay varchar(255) default NULL,
+   RecurMonthly varchar(255) default NULL,
+   RecurMonthlyType varchar(32) default NULL,
+   RecurMonthlyTypeInfo varchar(64) default NULL,
+   Location int default NULL,
    RepeatForever int(11) DEFAULT '0' NOT NULL,
    RepeatTimes int(11) DEFAULT '0' NOT NULL,
-   RepeatUntilDate timestamp(14) default NULL,
-   RepeatExceptionsDates text default NULL,
+   RepeatUntilDate timestamp(14),
+   RecurExceptions text default NULL,
+   EventAttachedFilesID int(11) DEFAULT '0' NOT NULL,
+   EventCommentsID int(11) DEFAULT '0' NOT NULL,
    PRIMARY KEY (ID)
 );
-
-
+DROP TABLE IF EXISTS eZGroupEventCalendar_EventCategory;
 #
 # Table structure for table 'eZGroupEventCalendar_EventCategory'
 #
-
 CREATE TABLE eZGroupEventCalendar_EventCategory (
    ID int(11) NOT NULL auto_increment,
    ParentID int(11) DEFAULT '0' NOT NULL,
@@ -42,10 +45,10 @@ CREATE TABLE eZGroupEventCalendar_EventCategory (
    PRIMARY KEY (ID)
 );
 
+DROP TABLE IF EXISTS eZGroupEventCalendar_EventType;
 #
 # Table structure for table 'eZGroupEventCalendar_EventType'
 #
-
 CREATE TABLE eZGroupEventCalendar_EventType (
    ID int(11) NOT NULL auto_increment,
    ParentID int(11) DEFAULT '0' NOT NULL,
@@ -54,10 +57,10 @@ CREATE TABLE eZGroupEventCalendar_EventType (
    PRIMARY KEY (ID)
 );
 
-#
+DROP TABLE IF EXISTS eZGroupEventCalendar_GroupEditor;
+#'
 # Table structure for table 'eZGroupEventCalendar_GroupEditor'
 #
-
 CREATE TABLE eZGroupEventCalendar_GroupEditor (
    ID int(11) NOT NULL auto_increment,
    UserID int(11),
@@ -67,16 +70,17 @@ CREATE TABLE eZGroupEventCalendar_GroupEditor (
    KEY ID_2 (ID)
 );
 
+DROP TABLE IF EXISTS eZGroupEventCalendar_GroupNoShow;
 #
 # Table structure for table 'eZGroupEventCalendar_GroupNoShow'
 #
-
 CREATE TABLE eZGroupEventCalendar_GroupNoShow (
    ID int(11) NOT NULL auto_increment,
    GroupID int(11) DEFAULT '0' NOT NULL,
    PRIMARY KEY (ID)
 );
 
+DROP TABLE IF EXISTS eZGroupEventCalendar_EventForumLink;
 #
 # Table structure for table 'eZGroupEventCalendar_EventForumLink'
 #
@@ -93,6 +97,33 @@ CREATE TABLE `eZGroupEventCalendar_EventForumLink` (
 #
 
 INSERT INTO eZUser_Module (Name) VALUES ('eZGroupEventCalendar');
+
+#
+# Dumping data for table 'ezGroupEventCalendar_Event
+#
+
+INSERT INTO eZGroupEventCalendar_EventCategory VALUES (1,0,'Personal Events','Personal');
+INSERT INTO eZGroupEventCalendar_EventCategory VALUES (2,1,'Birthdays Events','Birthdays');
+INSERT INTO eZGroupEventCalendar_EventCategory VALUES (3,1,'Vacation Event','Vacation');
+INSERT INTO eZGroupEventCalendar_EventCategory VALUES (4,1,'Travel Event','Travel');
+INSERT INTO eZGroupEventCalendar_EventCategory VALUES (5,0,'Business Event','Business');
+INSERT INTO eZGroupEventCalendar_EventCategory VALUES (6,5,'Business Calls','Calls');
+INSERT INTO eZGroupEventCalendar_EventCategory VALUES (7,5,'Clients Events','Clients');
+INSERT INTO eZGroupEventCalendar_EventCategory VALUES (7,5,'Clients Events','Clients');
+INSERT INTO eZGroupEventCalendar_EventCategory VALUES (8,5,'Competition Events','Competition');
+INSERT INTO eZGroupEventCalendar_EventCategory VALUES (9,5,'Customer Events','Customer');
+INSERT INTO eZGroupEventCalendar_EventCategory VALUES (10,5,'Favorites Events','Favorites');
+INSERT INTO eZGroupEventCalendar_EventCategory VALUES (11,5,'Follow up Events','Follow up');
+INSERT INTO eZGroupEventCalendar_EventCategory VALUES (12,5,'Gifts Events','Gifts');
+INSERT INTO eZGroupEventCalendar_EventCategory VALUES (13,5,'Holidays Events','Holidays');
+INSERT INTO eZGroupEventCalendar_EventCategory VALUES (14,5,'Ideas Events','Ideas');
+INSERT INTO eZGroupEventCalendar_EventCategory VALUES (15,5,'Issues Events','Issues');
+INSERT INTO eZGroupEventCalendar_EventCategory VALUES (16,5,'Miscellaneous Events','Miscellaneous');
+INSERT INTO eZGroupEventCalendar_EventCategory VALUES (17,5,'Projects Events','Projects');
+INSERT INTO eZGroupEventCalendar_EventCategory VALUES (18,5,'Public Holiday Events','Public Holiday');
+INSERT INTO eZGroupEventCalendar_EventCategory VALUES (19,5,'Status Events','Status');
+INSERT INTO eZGroupEventCalendar_EventCategory VALUES (20,5,'Suppliers Events','Suppliers');
+INSERT INTO eZGroupEventCalendar_EventCategory VALUES (21,5,'Travel Events','Travel');
 
 #
 # Dumping data for table 'eZUser_Permission'
