@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezbulkmail.php,v 1.13 2001/05/05 11:16:03 bf Exp $
+// $Id: ezbulkmail.php,v 1.14 2001/06/29 09:57:00 pkej Exp $
 //
 // eZBulkMail class
 //
@@ -74,6 +74,7 @@ class eZBulkMail
             $this->Database->query( "INSERT INTO eZBulkMail_Mail SET
 		                         UserID='$this->UserID',
                                  FromField='$this->From',
+                                 FromName='$this->FromName',
                                  ReplyTo='$replyto',
                                  Subject='$subject',
                                  BodyText='$bodytext',
@@ -86,6 +87,7 @@ class eZBulkMail
             $this->Database->query( "UPDATE eZBulkMail_Mail SET
 		                         UserID='$this->UserID',
                                  FromField='$this->From',
+                                 FromName='$this->FromName',
                                  ReplyTo='$replyto',
                                  Subject='$subject',
                                  BodyText='$bodytext',
@@ -129,6 +131,7 @@ class eZBulkMail
                 $this->ID = $mail_array[0][ "ID" ];
                 $this->UserID = $mail_array[0][ "UserID" ];
                 $this->From = $mail_array[0][ "FromField" ];
+                $this->FromName = $mail_array[0][ "FromName" ];
                 $this->ReplyTo = $mail_array[0][ "ReplyTo" ];
                 $this->Subject = $mail_array[0][ "Subject" ];
                 $this->BodyText = $mail_array[0][ "BodyText" ];
@@ -192,6 +195,22 @@ class eZBulkMail
     function setSender( $newSender )
     {
         $this->From = $newSender;
+    }
+
+    /*!
+      Returns the sender's name.
+    */
+    function fromName()
+    {
+        return $this->FromName;
+    }
+
+    /*!
+      Sets the sender's name.      
+    */
+    function setSender( $newSender )
+    {
+        $this->FromName = $newSender;
     }
 
     /*!
@@ -378,6 +397,7 @@ class eZBulkMail
             $mail->setBodyText( $this->BodyText );
             $mail->setSubject( $this->Subject );
             $mail->setSender( $this->From );
+            $mail->setFromName( $this->FromName );
             // get subscribers from groups
             $subscribers = array();
 
@@ -393,6 +413,7 @@ class eZBulkMail
             
             foreach( $subscribers as $subscriber )
             {
+                set_time_limit( 5 );
                 if( !$this->isSent( $subscriber ) )
                 {
                     $mail->setTo( $subscriber );
@@ -448,6 +469,7 @@ class eZBulkMail
     var $ID;
     var $UserID;
     var $From;
+    var $FromName;
     var $ReplyTo;
     var $Subject;
     var $BodyText;
