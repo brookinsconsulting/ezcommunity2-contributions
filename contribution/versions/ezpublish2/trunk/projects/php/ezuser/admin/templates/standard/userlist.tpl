@@ -99,7 +99,7 @@
 
 	<!-- BEGIN type_list_inactive_item_tpl -->
 	<td>
-	&nbsp;&lt;{type_item_name}&gt;&nbsp;|
+	&nbsp;&lt;&nbsp;{type_item_name}&nbsp;&gt;&nbsp;|
 	</td>
 	<!-- END type_list_inactive_item_tpl -->
 

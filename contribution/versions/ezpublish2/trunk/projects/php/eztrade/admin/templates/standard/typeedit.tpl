@@ -32,13 +32,17 @@
 </table>
 <!-- END attribute_list_tpl -->
 
+<br />
 <hr noshade="noshade" size="4" />
 
-<input type="submit" name="UpdateValues" value="{intl-update}" />
+<input class="stdbutton" type="submit" name="UpdateValues" value="{intl-update}" />
 
-<input type="submit" name="NewAttribute" value="{intl-new_attribute}" />
+<input class="stdbutton" type="submit" name="NewAttribute" value="{intl-new_attribute}" />
 
 <hr noshade="noshade" size="4" />
+
+<input type="hidden" name="TypeID" value="{type_id}" />
+<input type="hidden" name="Action" value="{action_value}" />
 
 <table cellpadding="0" cellspacing="0" border="0">
 <tr>
@@ -51,8 +55,5 @@
 	</td>
 </tr>
 </table>
-
-<input type="hidden" name="TypeID" value="{type_id}" />
-<input type="hidden" name="Action" value="{action_value}" />
 
 </form>

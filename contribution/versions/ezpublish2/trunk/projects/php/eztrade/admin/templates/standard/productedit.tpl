@@ -49,7 +49,10 @@ http://<input type="text" size="36" name="ExternalLink" value="{external_link}"/
 
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
-	<td width="20%"  valign="top">
+	<td>
+	<div class="check"><input type="checkbox" name="ShowPrice" {showprice_checked} />&nbsp;{intl-has_price}</div>
+	</td>
+	<td valign="top">
 	<p class="boxtext">{intl-price}:</p>
 	<input type="text" size="10" name="Price" value="{price_value}" />
 	<br /><br />
@@ -65,10 +68,6 @@ http://<input type="text" size="36" name="ExternalLink" value="{external_link}"/
 	</select>
 	</td>
 
-	<td>
-	<div class="check"><input type="checkbox" name="ShowPrice" {showprice_checked} />&nbsp;{intl-has_price}</div>
-	<br />
-	</td>
 </tr>
 <tr>
 	<td>

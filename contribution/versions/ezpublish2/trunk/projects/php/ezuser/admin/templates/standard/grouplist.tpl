@@ -40,6 +40,7 @@
 	<td>
 	<input class="stdbutton" type="submit" name="New" value="{intl-new_group}">
 	</td>
+	<td>&nbsp;</td>
 	<td>
 	<input class="stdbutton" type="submit" Name="DeleteGroups" value="{intl-delete_groups}">
 	</td>

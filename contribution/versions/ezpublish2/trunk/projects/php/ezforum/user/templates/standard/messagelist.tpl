@@ -23,6 +23,8 @@
 
 <hr noshade size="4" />
 
+<form action="/forum/userlogin/new/{forum_id}">
+
 <table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
 <tr>
    	<th>{intl-topic}:</th>
@@ -63,8 +65,6 @@
 <!-- END next_tpl -->
 </tr>
 </table>
-
-<form action="/forum/userlogin/new/{forum_id}">
 
 <hr noshade size="4" />
 

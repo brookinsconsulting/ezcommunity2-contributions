@@ -1,3 +1,5 @@
+<form action="/forum/userlogin/newsimple/{forum_id}">
+
 <h2>{intl-headline}</h2>
 
 <hr noshade size="4" />
@@ -48,8 +50,6 @@
 	</td>
 </tr>
 </table>
-
-<form action="/forum/userlogin/newsimple/{forum_id}">
 
 <hr noshade size="4" />
 

@@ -17,7 +17,7 @@
 	<input type="text" size="40" name="Description" value="{description_value}"/>
 	
 	<p class="boxtext">{intl-file}:</p>
-	<input size="40" name="userfile" type="file" />
+	<input class="stdbutton" size="40" name="userfile" type="file" />
 	</td>
 	<td>&nbsp;</td>
 </tr>

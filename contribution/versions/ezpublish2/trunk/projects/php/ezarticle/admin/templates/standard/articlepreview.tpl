@@ -2,12 +2,13 @@
 
 <hr noshade="noshade" size="4" />
 
+<br />
+
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
 	<td>
-	<h2>{article_name}</h2> 
-	<p class="byline">{intl-article_author}: {author_text}</p>
-
+	<h1>{article_name}</h1> 
+	<div class="byline">{intl-article_author}: {author_text}</div>
 
 	<p>
 	{article_body}
@@ -15,21 +16,22 @@
 	</td>
 </tr>
 </table>
-<br />
 
 <!-- <span class="boxtext">{intl-link_text}:</span> {link_text} -->
 
 
 <!-- BEGIN attached_file_list_tpl -->
-<h3>{intl-attached_files}:</h3>
+<p class="boxtext">{intl-attached_files}:</p>
 <!-- BEGIN attached_file_tpl -->
-{file_name} <br />
+<div class="p">{file_name}</div>
 <!-- END attached_file_tpl -->
 
 <!-- END attached_file_list_tpl -->
 
 
 <!-- BEGIN page_menu_separator_tpl -->
+<br />
+
 <hr noshade="noshade" size="4" />
 <!-- END page_menu_separator_tpl -->
 

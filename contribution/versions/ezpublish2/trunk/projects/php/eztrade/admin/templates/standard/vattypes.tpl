@@ -23,13 +23,12 @@
 
 <hr noshade size="4" />
 
+<input class="stdbutton" type="submit" name="Add" value="{intl-add_type}" />
 
-<input type="submit" name="Store" value="{intl-store}" />
-
-<input type="submit" name="Add" value="{intl-add_type}" />
-
-<input type="submit" name="Delete" value="{intl-delete_selected}" />
+<input class="stdbutton" type="submit" name="Delete" value="{intl-delete_selected}" />
 
 <hr noshade size="4" />
+
+<input class="okbutton" type="submit" name="Store" value="{intl-store}" />
 
 </form>

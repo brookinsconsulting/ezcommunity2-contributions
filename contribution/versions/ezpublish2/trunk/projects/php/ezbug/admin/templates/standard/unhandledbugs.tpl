@@ -4,28 +4,28 @@
 
 <table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
 <tr>
-	<th>{intl-bug_id}:</th>
-	<th>{intl-bug_name}:</th>
-	<th>{intl-bug_module_name}:</th>
-	<th>{intl-bug_submiter}:</th>
-	<th>&nbsp;</th>
+	<th width="5%">{intl-bug_id}:</th>
+	<th width="30%">{intl-bug_name}:</th>
+	<th width="30%">{intl-bug_module_name}:</th>
+	<th width="34%">{intl-bug_submiter}:</th>
+	<th width="1%">&nbsp;</th>
 </tr>
 <!-- BEGIN bug_tpl -->
 <tr>
-	<td class="{td_class}" width="1%">
+	<td class="{td_class}">
 	{bug_id}
 	</td>
 
-	<td class="{td_class}" width="20%">
+	<td class="{td_class}">
 	{bug_name}
 	</td>
-	<td class="{td_class}" width="30%">
+	<td class="{td_class}">
 	{bug_module_name}
 	</td>
-	<td class="{td_class}" width="48%">
+	<td class="{td_class}">
 	{bug_submiter}
 	</td>
-	<td class="{td_class}" width="1%">
+	<td class="{td_class}">
 	<a href="/bug/edit/edit/{bug_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezb{bug_id}-red','','/images/{site_style}/redigerminimrk.gif',1)"><img name="ezb{bug_id}-red" border="0" src="/images/{site_style}/redigermini.gif" width="16" height="16" align="top" alt="Edit" /></a>
 	</td>
 </tr>

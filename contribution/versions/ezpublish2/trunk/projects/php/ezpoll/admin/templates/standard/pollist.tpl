@@ -10,11 +10,11 @@
 
 <table class="list" width="100%" cellspacing="0" cellpadding="2" border="0">
 <tr>
-	<th>{intl-poll}:</th>
-	<th>{intl-description}:</th>
-	<th>{intl-enabled}:</th>
-	<th>{intl-closed}:</th>
-	<th>{intl-main}:</th>
+	<th width="20%">{intl-poll}:</th>
+	<th width="50%">{intl-description}:</th>
+	<th width="10%">{intl-enabled}:</th>
+	<th width="10%">{intl-closed}:</th>
+	<th width="10%">{intl-main}:</th>
 	<th colspan="2">&nbsp;</td>
 </tr>
 <tr>
@@ -58,15 +58,18 @@
 <table cellspacing="0" cellpadding="2" border="0">
 <tr>
 	<td>
-          <input type="hidden" name="Action" value="StoreMainPoll" />
-	  <input class="okbutton" type="submit" value="{intl-save}" />
-	</td>
-	<td>
-	  <input class="okbutton" name="AddPoll" type="submit" value="{intl-addpoll}" />
+	  <input class="stdbutton" name="AddPoll" type="submit" value="{intl-addpoll}" />
 	</td>  
+	<td>&nbsp;</td>
 	<td>
-	  <input class="okbutton" type="submit" name="DeletePolls" value="{intl-deletepoll}" />
+	  <input class="stdbutton" type="submit" name="DeletePolls" value="{intl-deletepoll}" />
 	</td>
 </tr>
 </table>
+
+<hr noshade="noshade" size="4" />
+
+<input type="hidden" name="Action" value="StoreMainPoll" />
+<input class="okbutton" type="submit" value="{intl-save}" />
+
 </form>

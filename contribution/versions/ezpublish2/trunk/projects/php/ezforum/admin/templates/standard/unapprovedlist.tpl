@@ -1,52 +1,58 @@
+<form metdod="post" action="/forum/unapprovededit/">
+
 <h1>{intl-messages_awaiting_approval}</h1>
 
 <hr noshade="noshade" size="4" />
 
-<form metdod="post" action="/forum/unapprovededit/">
-
-<table cellspacing="0" cellpadding="4" border="0">
 <!-- BEGIN message_item_tpl -->
+<br />
+<table width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
-    <td>
-        <div class="boxtext">{intl-subject}:</div>
+    <td colspan="3">
+	Path til kategori og forum!
+	<br /><br />
+	</td>
+</tr>
+<tr>
+    <td width="50%">
+        <p class="boxtext">{intl-subject}:</p>
         {message_topic}
     </td>
+	<td>
+	<p class="boxtext">{intl-username}:</p>
+    Navnet på posteren
+	</td>
     <td>
-        <div class="boxtext">{intl-postingtime}:</div>
+        <p class="boxtext">{intl-postingtime}:</p>
         {message_postingtime}
     </td>
 </tr>
+</table>
+
+<p class="boxtext">{intl-original_message}:</p>
+<table width="100%" cellspacing="0" cellpadding="4" border="0">
 <tr>
-    <td colspan="2">
-        <div class="boxtext">{intl-original_message}:</div>
+    <td class="bglight">
         {message_body}
     </td>
 </tr>
-<tr>
-    <td colspan="2">
-        <div class="boxtext">{intl-action}:</div>
-        {intl-approve}: <input value="Approve" type="radio" name="ActionValueArray[{i}]" />
-        {intl-discard}: <input value="Discard" type="radio" name="ActionValueArray[{i}]" />
-        {intl-reject}: <input value="Reject" type="radio" name="ActionValueArray[{i}]" />
-    </td>
-</tr>
-<tr>
-    <td colspan="2">
-        <div class="boxtext">{intl-reject_reason}:</div>
-        <input type="hidden" name="MessageID[]" value="{message_id}" />
-        <textarea wrap="soft" rows="3" cols="40" name="RejectReason[]">{reject_message}</textarea>
-    </td>
-</tr>
-<tr>
-    <td colspan="2">
-    &nbsp;
-    </td>
-</tr>
-<!-- END message_item_tpl -->
 </table>
+ 
+<p class="boxtext">{intl-action}:</p>
+<span class="p">{intl-approve}:</span> <input value="Approve" type="radio" name="ActionValueArray[{i}]" />
+<span class="p">{intl-discard}:</span> <input value="Discard" type="radio" name="ActionValueArray[{i}]" />
+<span class="p">{intl-reject}:</span> <input value="Reject" type="radio" name="ActionValueArray[{i}]" />
 
-<br />
+<p class="boxtext">{intl-reject_reason}:</p>
+<input type="hidden" name="MessageID[]" value="{message_id}" />
+<textarea wrap="soft" rows="3" cols="40" name="RejectReason[]">{reject_message}</textarea>
+
+<br /><br />
+
 <hr noshade="noshade" size="4" />
+
+<!-- END message_item_tpl -->
+
 
 <input class="stdbutton" type="submit" value="{intl-update}">
 
