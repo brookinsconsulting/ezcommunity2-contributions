@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: pageedit.php,v 1.19 2001/12/19 16:39:13 jhe Exp $
+// $Id: pageedit.php,v 1.20 2001/12/19 16:43:02 br Exp $
 //
 // Definition of ||| class
 //
@@ -373,6 +373,8 @@ else if( isSet( $PageID ) )
 {
     $elementChoiceID = $page->getConditionElement();
 }
+else if ( $elementChoiceID == 0 )
+    unset( $elementChoiceID );
 
 if ( $count > 0 )
 {
@@ -573,8 +575,11 @@ if ( $element )
     {
         
         $elementType =& $element->elementType();
-        $name = $elementType->name();
-
+        if ( get_class( $elementType ) == "ezformelementtype" )
+            $name = $elementType->name();
+        else
+            $name =  $elementType;
+        
         if ( $elementType && $elementType->name() == "text_field_item" )
         {
             if ( count( $TextFieldFrom ) <= 0 )
@@ -584,8 +589,10 @@ if ( $element )
                 {
                     $TextFieldFrom[$i] = $pageArray[$i]["Min"];
                     $TextFieldTo[$i] = $pageArray[$i]["Max"];
+                    $TextFieldPage[$i] = $pageArray[$i]["Page"];
                     $ElementRange[$i] = $i;
                 }
+
             }
         
             $i=0;
@@ -622,14 +629,20 @@ if ( $element )
                             {
                                 if ( $page->id() != $pageValue->id() )
                                 {
-                                
+
+                                    if ( $TextFieldPage[$i] == $pageValue->id() )
+                                    {
+                                        $t->set_var( "selected", "selected" );
+                                    }
+                                    else
+                                    {
+                                        $t->set_var( "selected", "" );
+                                    }
                                     $t->set_var( "page_id", $pageValue->id() );
                                     $t->set_var( "page_name", $pageValue->name() );
-                                    $t->set_var( "selected", "" );
                                     
                                     $t->parse( "fixed_value", "fixed_value_tpl", true );
                                 }
-                                
                             }
                         }
                     }
