@@ -659,3 +659,11 @@ Maintainer(s) : vl@ez.no
 
     * admin/moduleedit.php: fixed problem with redirection on nVH
 
+
+Module : ezbug
+Repository path : /home/cvsroot/projects/php/ezbug
+Maintainer(s) : jhe@ez.no
+2002-02-18  Jo Henrik Endrerud  <jhe@ez.no>
+
+    * admin/cron.php: fixed bug with shitty subjects
+

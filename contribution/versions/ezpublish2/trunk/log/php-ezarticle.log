@@ -2846,3 +2846,16 @@ Maintainer(s) : bf@ez.no
     * classes/ezqdomrenderer.php:
     Fixed bug where <file> tag does not appear inside factbox and bold
 
+
+Module : ezarticle
+Repository path : /home/cvsroot/projects/php/ezarticle
+Maintainer(s) : bf@ez.no
+2002-02-18  Vlad Pavlenko  <vlad@epasaule.lv>
+
+    * user/headlines.php:
+    LinkMenu changed to HeadlinesMenu, resolving conflict with ezlink
+
+    * admin/categoryedit.php
+      admin/articlelist.php
+      user/articlelist.php: ability to use XML description
+

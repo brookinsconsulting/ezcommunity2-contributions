@@ -631,3 +631,12 @@ Maintainer(s) : bf@ez.no
       ezlist.php
       ezmysqldb.php: Added fixes
 
+
+Module : classes
+Repository path : /home/cvsroot/projects/php/classes
+Maintainer(s) : bf@ez.no
+2002-02-18  Vlad Pavlenko  <vlad@epasaule.lv>
+
+    * ezcachefile.php:
+    Additional component added - GlobalSectionID, not tested yet
+
