@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezpageviewquery.php,v 1.12 2001/02/12 14:32:15 jb Exp $
+// $Id: ezpageviewquery.php,v 1.13 2001/02/12 16:06:22 jb Exp $
 //
 // Definition of eZPageViewQuery class
 //
@@ -237,15 +237,17 @@ class eZPageViewQuery
 
         if ( $excludeDomain != "" )
         {
-            $query = new eZQuery( array( "eZStats_RefererURL.Domain" ), $excludeDomain );
-            $search_text = "AND (" . $query->buildQuery() . ")" ;
+            $query = new eZQuery( array( "eZStats_RefererURL.Domain", "eZStats_RemoteHost.IP" ),
+                                  $excludeDomain );
+            $search_text = "AND (" . $query->buildQuery() . ")";
         }
 
         $db->array_query( $visitor_array,
         "SELECT count(eZStats_PageView.ID) AS Count, eZStats_RefererURL.ID,
                 eZStats_RefererURL.Domain, eZStats_RefererURL.URI
-         FROM eZStats_PageView, eZStats_RefererURL
-         WHERE eZStats_PageView.RefererURLID=eZStats_RefererURL.ID
+         FROM eZStats_PageView, eZStats_RefererURL, eZStats_RemoteHost
+         WHERE eZStats_PageView.RefererURLID=eZStats_RefererURL.ID AND
+               eZStats_PageView.RemoteHostID=eZStats_RemoteHost.ID
          $search_text
          GROUP BY eZStats_RefererURL.ID
          ORDER BY Count DESC
@@ -271,14 +273,16 @@ class eZPageViewQuery
 
         if ( $excludeDomain != "" )
         {
-            $query = new eZQuery( array( "eZStats_RefererURL.Domain" ), $excludeDomain );
-            $search_text = "AND (" . $query->buildQuery() . ")" ;
+            $query = new eZQuery( array( "eZStats_RefererURL.Domain", "eZStats_RemoteHost.IP" ),
+                                  $excludeDomain );
+            $search_text = "AND (" . $query->buildQuery() . ")";
         }
 
         $db->array_query( $visitor_array,
         "SELECT count(eZStats_PageView.ID) AS Count
-         FROM eZStats_PageView, eZStats_RefererURL
-         WHERE eZStats_PageView.RefererURLID=eZStats_RefererURL.ID
+         FROM eZStats_PageView, eZStats_RefererURL, eZStats_RemoteHost
+         WHERE eZStats_PageView.RefererURLID=eZStats_RefererURL.ID AND
+               eZStats_PageView.RemoteHostID=eZStats_RemoteHost.ID
          $search_text
          GROUP BY eZStats_RefererURL.ID" );
 
@@ -462,6 +466,44 @@ class eZPageViewQuery
     }
     
     /*!
+      Returns the statistics for one year.
+
+      Returns an array of months with the statistics as an associative array:
+      array( "Months" => array( "Count" => $count )
+    */
+    function &yearStats( $year )
+    {
+        $db =& eZDB::globalDatabase();
+
+        $return_array = array();
+        $visitor_array = array();
+        $month_array = array();
+
+        $TotalPages = 0;
+        // loop over the days
+        for ( $month = 1; $month <= 12; $month++ )
+        {
+            if ( $month < 10 )
+                $smonth = "0" . $month;
+            else
+                $smonth = $month;
+
+            $stamp = $year . "-" .  $smonth . "-";
+            $db->array_query( $visitor_array,
+            "SELECT count(eZStats_PageView.ID) AS Count FROM eZStats_PageView WHERE DateValue LIKE '$stamp%'" );
+
+            $TotalPages += $visitor_array[0]["Count"];
+            $month_array[] = array( "Count" => $visitor_array[0]["Count"] );
+        }
+
+        $return_array = array( "TotalPages" => $TotalPages,
+                               "PagesPrMonth" => round( $TotalPages/12 ),
+                               "Months" => $month_array );
+        
+        return $return_array;
+    }
+
+    /*!
       Returns the statistics for one month.
 
       Returns an array of days with the statistics as an associative array:
@@ -522,7 +564,7 @@ class eZPageViewQuery
             $month = "0" . $month;
         if ( $day < 10 )
             $day = "0" . $day;
-        $stamp = $year . $month . $day;
+        $stamp = $year . "-" . $month . "-" . $day;
 
         $TotalPages = 0;
         // loop over the days
