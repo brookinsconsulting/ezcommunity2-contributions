@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: menubox.php,v 1.15 2001/01/23 17:46:41 jb Exp $
+// $Id: menubox.php,v 1.16 2001/01/23 17:51:53 jb Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <23-Oct-2000 17:53:46 bf>
@@ -24,6 +24,7 @@
 //
 
 // Supply $menuItems to get a menubox
+
 $menuItems = array(
     array( "/user/userlist/", "{intl-userlist}" ),
     array( "/user/grouplist/", "{intl-grouplist}" ),
