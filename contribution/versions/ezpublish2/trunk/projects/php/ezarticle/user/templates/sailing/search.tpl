@@ -1,8 +1,23 @@
+
+<table width="100%" cellspacing="0" cellpadding="0" border="0">
+<tr>
+   <td colspan="3">
+	  <center><span class="h3">The World of Sailing World</span></center><br>
+   </td>
+</tr>
+  <tr>
+    <td bgcolor="#006699" width="9"><img src="/sitedesign/sailing/images/leftrounded.gif" width="9" height="20" hspace="0" vspace="0" border="0" align="left" alt=""></td>
+    <td bgcolor="#006699" width="100%"><b class="white">Search</b></td>
+    <td width="70"><img src="/sitedesign/sailing/images/rightrounded.gif" width="70" height="20" hspace="0" vspace="0" border="0" align="right" alt=""></td>
+  </tr>
+</table>
+The results of your search follow in no particular order:
+
 <table width="100%" border="0">
 <tr>
 	<td valign="bottom">
 	<td>
-	<h1>{intl-head_line}: "{search_text}"</h1>
+	<span class="h3">Search Terms: "{search_text}"</span>
 	</td>
 	<td align="right">
 	<form action="/article/search/" method="post">
@@ -13,22 +28,8 @@
 </tr>
 </table>
 
-<p>
-{current_category_description}
-</p>
-
-<hr noshade="noshade" size="4" />
-
 <!-- BEGIN article_list_tpl -->
 <table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
-<tr>
-	<th>Article:</th>
-	<th>
-	<div align="right">
-	{intl-publishing_date}:
-	</div>
-	</th>
-</tr>
 
 <!-- BEGIN article_item_tpl -->
 <tr>
