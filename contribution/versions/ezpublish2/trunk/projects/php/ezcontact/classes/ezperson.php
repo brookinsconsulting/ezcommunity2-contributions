@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezperson.php,v 1.38 2001/01/20 23:19:35 jb Exp $
+// $Id: ezperson.php,v 1.39 2001/01/21 21:02:21 jb Exp $
 //
 // Definition of eZPerson class
 //
@@ -82,10 +82,8 @@ class eZPerson
                                                     FirstName='$this->FirstName',
                                                     LastName='$this->LastName',
 	                                                Comment='$this->Comment',
-	                                                PersonNo='$this->PersonNo',
 	                                                BirthDate='$this->BirthDate',
-                                                    ContactTypeID='$this->ContactType',
-	                                                CreatorID='$this->Creator'" );
+                                                    ContactTypeID='$this->ContactType'" );
             $this->ID = mysql_insert_id();            
             $this->State_ = "Coherent";
         }
@@ -95,10 +93,9 @@ class eZPerson
                                                     FirstName='$this->FirstName',
                                                     LastName='$this->LastName',
 	                                                Comment='$this->Comment',
-	                                                PersonNo='$this->PersonNo',
 	                                                BirthDate='$this->BirthDate',
                                                     ContactTypeID='$this->ContactType',
-                                               	    CreatorID='$this->Creator' WHERE ID='$this->ID'" );
+                                                    WHERE ID='$this->ID'" );
             $this->State_ = "Coherent";
         }
     }
@@ -185,11 +182,9 @@ class eZPerson
                 $this->ID = $person_array[ 0 ][ "ID" ];
                 $this->FirstName = $person_array[ 0 ][ "FirstName" ];
                 $this->LastName = $person_array[ 0 ][ "LastName" ];
-                $this->Creator = $person_array[ 0 ][ "CreatorID" ];
                 $this->ContactType = $person_array[ 0 ][ "ContactTypeID" ];
                 $this->BirthDate = $person_array[ 0 ][ "BirthDate" ];
                 $this->Comment = $person_array[ 0 ][ "Comment" ];
-                $this->PersonNo = $person_array[ 0 ][ "PersonNo" ];
             }
         }
     }
@@ -300,7 +295,9 @@ class eZPerson
         $db = eZDB::globalDatabase();
         $person_array = 0;
     
-        $db->array_query( $person_array, "SELECT * FROM eZContact_Person WHERE FirstName LIKE '%$query%' OR LastName LIKE '%$query%' ORDER BY LastName" );
+        $db->array_query( $person_array, "SELECT * FROM eZContact_Person
+                                          WHERE FirstName LIKE '%$query%' OR
+                                                LastName LIKE '%$query%' ORDER BY LastName" );
     
         foreach( $person_array as $personItem )
         {
@@ -744,17 +741,6 @@ class eZPerson
     }
 
     /*!
-        Set the creator of this object to $value. $value is a user id.
-    */
-    function setCreator( $value )
-    {
-        if( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
-        $this->Creator = $value;
-    }
-
-    /*!
         Set the birth day of this object to $value.
     */
     function setBirthDay( $value )
@@ -765,21 +751,6 @@ class eZPerson
         $this->BirthDate = $value;
     }
   
-  
-    /*!
-        Set the person number of this object to $value. This number is different
-        from country to country and also called different things.
-        
-        It is the equivalent of the US social security number, in other words
-        the unique number the government is using to identify a person by.
-     */
-    function setPersonNo( $value )
-    {
-        if( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
-        $this->PersonNo = $value;
-    }
   
     /*!
       Returns the ID of the person.
@@ -828,17 +799,6 @@ class eZPerson
             $this->get( $this->ID );
 
         return $this->FirstName . " " . $this->LastName;
-    }
-
-    /*!
-      Returns the person number of the person.
-    */
-    function personNo()
-    {
-        if( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
-        return $this->PersonNo;
     }
 
     /*!
@@ -909,17 +869,6 @@ class eZPerson
     }
 
     /*!
-      Returns the creator (user id) of this person.
-    */
-    function creator( )
-    {
-        if( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
-        return $this->Creator;
-    }
-  
-    /*!
       Returns the birthday of this person.
     */
     function birthDate( )
@@ -934,8 +883,6 @@ class eZPerson
     var $FirstName;
     var $LastName;
     var $BirthDate;  
-    var $Creator;
-    var $PersonNo;
     var $ContactType;
     var $Comment;
 
