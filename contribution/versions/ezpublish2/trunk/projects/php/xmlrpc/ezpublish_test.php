@@ -8,7 +8,7 @@ include_once( "ezxmlrpc/classes/ezxmlrpcdouble.php" );
 
 // eZ publish article publishing test
 
-$client = new eZXMLRPCClient( "publish.php.ez.no", "/xmlrpc/" );
+$client = new eZXMLRPCClient( "publish.fh.ez.no", "/xmlrpc/" );
 
 $client->setDebug( true );
 
@@ -17,8 +17,12 @@ $call->setMethodName( "Call" );
 $call->addParameter( new eZXMLRPCStruct(
     array(
         "Version" => new eZXMLRPCDouble( "0.1" ), // client version
-        "URL" => new eZXMLRPCString( "ezpublish:/modules" ),
+        "URL" => new eZXMLRPCStruct(
+	array( "Module" => "ezarticle",
+               "Type" => "category",
+		"ID" => 1 ) ),
         "User" => new eZXMLRPCString( "admin" ),
+	"Command" => new eZXMLRPCString( "data" ),
         "Password" => new eZXMLRPCString( "publish" ),
         "Data" => new eZXMLRPCArray( ) )
     ) );
@@ -39,9 +43,11 @@ else
     $version = $value["Version"]->value();
     $url = $value["URL"]->value();
     $data = $value["Data"]->value();
+    $command = $value["Command"]->value();
 
     print( "Server version: <b>$version</b><br>" );
-    print( "URL: <b>$url</b><br>" );
+    print( "Command: <b>$command</b><br>" );
+    print( "URL: <pre>" );print_r( $url ); echo "</pre>";
     print( "Data: <pre>" );
     print_r( $data );
     print( "</pre>" );
@@ -55,7 +61,7 @@ $call->setMethodName( "Call" );
 $call->addParameter( new eZXMLRPCStruct(
     array(
         "Version" => new eZXMLRPCDouble( "0.1" ), // client version
-        "URL" => new eZXMLRPCString( "ezarticle:/categorylist/0" ),
+        "URL" => new eZXMLRPCString( "ezarticle:/category/1" ),
         "User" => new eZXMLRPCString( "admin" ),
         "Password" => new eZXMLRPCString( "publish" ),
         "Data" => new eZXMLRPCArray( ) )

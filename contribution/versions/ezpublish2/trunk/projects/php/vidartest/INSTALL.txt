@@ -10,6 +10,10 @@ eZ xmlrpc installation guide
 
 * Apache-1.3.14 (www.apache.org)
 
+To get https to work you need the following:
+
+- cURL installed on your system (with --with-ssl)
+- php compiled with --with-curl
 
 2 PHP install:
 
