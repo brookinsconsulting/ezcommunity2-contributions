@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezarticlerenderer.php,v 1.4 2000/10/24 12:43:47 bf-cvs Exp $
+// $Id: ezarticlerenderer.php,v 1.5 2000/10/26 11:58:14 bf-cvs Exp $
 //
 // Definition of eZArticleRenderer class
 //
@@ -41,6 +41,13 @@ class eZArticleRenderer
                 }
                 break;
 
+                case "ez" :
+                {
+                    $this->RendererFile = "ezezrenderer.php";
+                    $this->RendererClass = "eZEzRenderer";
+                }
+                break;
+                
                 case "flower" :
                 {
                     $this->RendererFile = "ezflowerrenderer.php";

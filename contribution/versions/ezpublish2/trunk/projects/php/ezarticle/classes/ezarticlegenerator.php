@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezarticlegenerator.php,v 1.4 2000/10/23 14:33:19 bf-cvs Exp $
+// $Id: ezarticlegenerator.php,v 1.5 2000/10/26 11:58:14 bf-cvs Exp $
 //
 // Definition of eZArticleGenerator class
 //
@@ -45,6 +45,13 @@ class eZArticleGenerator
             }
             break;
 
+            case "ez" :
+            {
+                $this->GeneratorFile = "ezezgenerator.php";
+                $this->GeneratorClass = "eZEzGenerator";
+            }
+            break;
+            
             case "flower" :
             {
                 $this->GeneratorFile = "ezflowergenerator.php";
@@ -109,6 +116,13 @@ class eZArticleGenerator
                 }
                 break;
 
+                case "ez" :
+                {
+                    $this->GeneratorFile = "ezezgenerator.php";
+                    $this->GeneratorClass = "eZEzGenerator";
+                }
+                break;
+                
                 case "flower" :
                 {
                     $this->GeneratorFile = "ezflowergenerator.php";
