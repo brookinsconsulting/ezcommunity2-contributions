@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: search.php,v 1.11 2001/07/19 12:19:21 jakobn Exp $
+// $Id: search.php,v 1.12 2001/09/08 21:27:50 fh Exp $
 //
 // Created on: <28-Oct-2000 15:56:58 bf>
 //
@@ -67,27 +67,52 @@ $t->set_block( "article_item_tpl", "article_is_published_tpl", "article_is_publi
 $t->set_block( "article_item_tpl", "article_not_published_tpl", "article_not_published" );
 $t->set_block( "article_list_page_tpl", "article_delete_tpl", "article_delete" );
 
-$category = new eZArticleCategory( $CategoryID );
-
-$t->set_var( "current_category_id", $category->id() );
-$t->set_var( "current_category_name", $category->name() );
-$t->set_var( "current_category_description", $category->description() );
-
-
-if ( count( $categoryList ) > 0 )    
-    $t->parse( "category_list", "category_list_tpl" );
-else
-$t->set_var( "category_list", "" );
-
+// BUILDING THE SEARCH
+$paramsArray = array();
+$advancedSearch = false;
 if ( $SearchText )
 {
+    if ( checkdate ( $StartMonth, $StartDay, $StartYear ) )
+    {
+        $paramsArray["FromDate"] = new eZDateTime( $StartYear,  $StartMonth, $StartDay, $StartHour, $StartMinute, 0 );
+        $advancedSearch = true;
+    }
+        
+    if ( checkdate ( $StopMonth, $StopDay, $StopYear ) )
+    {
+        $paramsArray["StopDate"] = new eZDateTime( $StopYear, $StopMonth, $StopDay, $StopHour, $StopMinute, 0 );
+        $advancedSearch = true;
+    }
+
+    if( $ContentsWriterID != 0 )
+    {
+        $paramsArray["AuthorID"] = $ContentsWriterID;
+        $advancedSearch = true;
+    }
+
+    if( $PhotographerID != 0 )
+    {
+        $paramsArray["PhotographerID"];
+        $advancedSearch = true;
+    }
+
+    if( is_array( $CategoryArray ) && count( $CategoryArray ) > 0 && !in_array( 0, $CategoryArray ) )
+    {
+        $paramsArray["Categories"] = $CategoryArray;
+        $advancedSearch = true;
+    }
+
     $article = new eZArticle();
-    $articleList = $article->search( $SearchText, "time", true, $Offset, $Limit );
-    $totalCount = $article->searchCount( $SearchText, true );
+    $articleList = $article->search( $SearchText, "time", true, $Offset, $Limit, $paramsArray );
+
+    if( !$advancedSearch )
+        $totalCount = $article->searchCount( $SearchText, true );
+    
 
     $t->set_var( "search_text", $SearchText );
     $t->set_var( "url_text", urlencode ( $SearchText ) );
 }
+
 
 if ( count ( $articleList ) > 0 )
 {
@@ -125,7 +150,8 @@ if ( count ( $articleList ) > 0 )
     }
 }
 
-eZList::drawNavigator( $t, $totalCount, $Limit, $Offset, "article_list_page_tpl" );
+if( !$advancedSearch )
+    eZList::drawNavigator( $t, $totalCount, $Limit, $Offset, "article_list_page_tpl" );
 
 if ( count( $articleList ) > 0 )
 {

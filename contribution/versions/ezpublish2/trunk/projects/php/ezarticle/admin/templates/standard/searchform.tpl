@@ -5,7 +5,7 @@
 <hr noshade="noshade" size="4" />
 
 <p class="boxtext">{intl-containing}:</p>
-<input type="text" name="SearchString" size="60" value="" />
+<input type="text" name="SearchText" size="60" value="" />
 
 
 <p class="boxtext">{intl-search_categories}:</p>

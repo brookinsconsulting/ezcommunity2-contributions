@@ -4,7 +4,7 @@
 <tr>
 	<td valign="bottom">
 	<td>
-	<h1>{intl-head_line} - ({article_start}-{article_end}/{article_total}) - {search_string}</h1>
+	<h1>{intl-head_line} - ({article_start}-{article_end}/{article_total}) - {search_text}</h1>
 	</td>
 	<td align="right">
 	<form action="{www_dir}{index}/article/search/" method="post">

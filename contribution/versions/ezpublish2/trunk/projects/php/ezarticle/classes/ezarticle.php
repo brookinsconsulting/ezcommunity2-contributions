@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezarticle.php,v 1.161 2001/09/07 21:39:10 fh Exp $
+// $Id: ezarticle.php,v 1.162 2001/09/08 21:27:50 fh Exp $
 //
 // Definition of eZArticle class
 //
@@ -1752,6 +1752,18 @@ class eZArticle
 
     /*!
       Does a search in the article archive.
+      queryText is the text to search for
+      sortMode is the way the result is sorted.
+      fetchnonPublished can be either true or false.
+      offset, limit are self explanatory.
+
+      params is an associative array that can contain the following items
+      FromDate an eZDate object.
+      ToDate an eZDate object.
+      Categories an array of Category ID's
+      Type
+      AuthorID the ID of the author writing the article
+      PhotographerID a photographer that has contributed to the article 
     */
     function &search( &$queryText, $sortMode=time, $fetchNonPublished=true, $offset=0, $limit=10, $params = array() )
     {

@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: datasupplier.php,v 1.53 2001/09/08 20:26:58 fh Exp $
+// $Id: datasupplier.php,v 1.54 2001/09/08 21:27:50 fh Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -104,10 +104,11 @@ switch ( $url_array[2] )
         }
         else
         {
-            if ( $url_array[3] == "parent" )
+            $Offset = 0;
+            if( $url_array[3] == "parent" )
             {
                 $SearchText = urldecode( $url_array[4] );
-                $Offset = urldecode ( $url_array[5] );
+                $Offset = $url_array[5];
             }
             include( "ezarticle/admin/search.php" );
         }
