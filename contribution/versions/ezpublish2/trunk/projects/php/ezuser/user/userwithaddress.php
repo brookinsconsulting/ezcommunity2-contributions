@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: userwithaddress.php,v 1.55 2001/05/25 13:50:37 ce Exp $
+// $Id: userwithaddress.php,v 1.56 2001/05/25 14:05:55 ce Exp $
 //
 //
 // Christoffer A. Elo <ce@ez.no>
@@ -444,12 +444,10 @@ if ( get_class( $user ) == "ezuser" )
     $cookieCheck = "";
     if ( $user->cookieLogin() == true )
     {
-        print( "shejkka" );
         $cookieCheck = "checked";
     }
     else
     {
-        print( "ikke shejkka" );
     }
     
     if ( !isset( $AddressID ) )
