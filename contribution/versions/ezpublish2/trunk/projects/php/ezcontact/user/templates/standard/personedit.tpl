@@ -86,17 +86,17 @@
         <tr valign="bottom">
             <td>
                 <div class="small">{intl-year}:</div>
-                <input type="text" size="4" name="BirthYear" value="{birthyear}"/>
+                <input type="text" size="4" name="BirthYear" value="{birthyear}"/>&nbsp;&nbsp;
             </td>
 			<td>&nbsp;</td>
             <td>
                 <div class="small">{intl-month}:</div>
-                <input type="text" size="4" name="BirthMonth" value="{birthmonth}"/>
+                <input type="text" size="2" name="BirthMonth" value="{birthmonth}"/>&nbsp;&nbsp;
             </td>
 			<td>&nbsp;</td>
             <td>
                 <div class="small">{intl-day}:</div>
-                <input type="text" size="4" name="BirthDay" value="{birthday}"/>
+                <input type="text" size="2" name="BirthDay" value="{birthday}"/>&nbsp;&nbsp;
             </td>
         </tr>
         </table>
@@ -117,8 +117,8 @@
 <!-- BEGIN address_item_tpl -->
 <h2>{intl-address_headline}</h2>
 <p class="boxtext">{intl-address}:</p>
-<input type="text" size="20" name="Street1" value="{street1}"/><br>
-<input type="text" size="20" name="Street2" value="{street2}"/>
+<input type="text" size="30" name="Street1" value="{street1}"/><br>
+<input type="text" size="30" name="Street2" value="{street2}"/>
 
 <br /><br />
 

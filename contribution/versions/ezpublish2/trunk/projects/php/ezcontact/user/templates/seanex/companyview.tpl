@@ -42,7 +42,7 @@
 
 
 <!-- BEGIN phone_item_tpl -->
-<h2>{intl-telephone_headline}:</h2>
+<h2>{intl-telephone_headline}</h2>
 <table width="100%" cellpadding="0" cellspacing="0" border="0">
 <tr>
     <!-- BEGIN phone_line_tpl -->
@@ -61,7 +61,7 @@
 <!-- END no_phone_item_tpl -->
 
 <!-- BEGIN online_item_tpl -->
-<h2>{intl-online_headline}:</h2>
+<h2>{intl-online_headline}</h2>
 <table width="100%" cellpadding="0" cellspacing="0" border="0">
 <tr>
     <!-- BEGIN online_line_tpl -->

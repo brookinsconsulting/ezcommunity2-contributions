@@ -29,9 +29,12 @@
 <p class="boxtext">{intl-total_revenue}:</p>
 {ad_total_revenue}
 
+<br /><br />
+
+<form action="/ad/ad/edit/{ad_id}/" method="post" >
 
 <hr noshade="noshade" size="4" />
-<form action="/ad/ad/edit/{ad_id}/" method="post" >
+
 <input type="submit" class="okbutton" value="{intl-edit}" />
 </form>
 
