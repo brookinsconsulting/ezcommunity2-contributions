@@ -122,17 +122,15 @@
 	</table>
 	<!-- END attribute_list_tpl -->
 
-	<hr noshade size="1" />
+	<hr noshade="noshade" size="1" />
 	<!-- BEGIN add_to_cart_tpl -->
 	<input class="okbutton" type="submit" name="Cart" value="{intl-add_to_cart}" />
 	<input class="okbutton" type="submit" name="WishList" value="{intl-wishlist}" />
 	<!-- END add_to_cart_tpl -->
 
 	<!-- BEGIN numbered_page_link_tpl -->
-	<div align="center"><a class="path" href="/{module}/{module_view}/{product_id}/0/">| {intl-numbered_page} |</a></div>
 	<!-- END numbered_page_link_tpl -->
 
 	<!-- BEGIN print_page_link_tpl -->
-	<div align="center"> <a class="path" href="/{module}/{module_print}/{product_id}/">| {intl-print_page} |</a></div>
 	<!-- END print_page_link_tpl -->
 </form>

@@ -1,6 +1,6 @@
 <h1>{intl-confirming-order}</h1>
 
-<hr noshade="noshade" size="4" />
+<hr noshade="noshade" size="1" />
 
 <h2>{intl-thanks_for_shopping}</h2>
 
@@ -34,12 +34,12 @@
 
 <!-- BEGIN order_item_list_tpl -->
 <table width="100%" cellspacing="0" cellpadding="3" border="0">
-<tr>
+<tr align="left">
 	<th>{intl-picture}:</th>
 	<th>{intl-product_name}:</th>
 	<th>{intl-options}:</th>
 	<th>{intl-qty}:</th>
-	<td class="path" align="right">{intl-price}:</td>
+	<th align="right">{intl-price}:</th>
 </tr>
 <!-- BEGIN order_item_tpl -->
 
@@ -67,15 +67,15 @@
 	</td>
 </tr>
 <!-- END order_item_tpl -->
-<tr>
-	<td colspan="2">&nbsp;</td>
-	<td class="boxtext">{intl-shipping_and_handling}:</td>
-	<td align="right">{shipping_cost}</td>
+<tr align="right">
+	<td class="sum" colspan="3">&nbsp;</td>
+	<td class="sum">{intl-shipping_and_handling}:</td>
+	<td class="sum">{shipping_cost}</td>
 </tr>
-<tr>
-	<td colspan="2">&nbsp;</td>
-	<td class="boxtext">{intl-total}:</td>
-	<td align="right">{order_sum}</td>
+<tr align="right">
+	<td class="sum" colspan="3">&nbsp;</td>
+	<td class="sum">{intl-total}:</td>
+	<td class="sum">{order_sum}</td>
 </tr>
 </table>
 <!-- END order_item_list_tpl -->

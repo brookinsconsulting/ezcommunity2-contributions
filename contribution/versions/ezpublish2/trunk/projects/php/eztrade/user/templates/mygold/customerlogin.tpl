@@ -1,5 +1,5 @@
 <h1>{intl-head_line}</h1>
-<hr noshade size="1" />
+<hr noshade="noshade" size="1" />
 <h2>{intl-customer_login}</h2>
 <p>{intl-reg_text}</p>
 <form method="post" action="/user/login/login/">
