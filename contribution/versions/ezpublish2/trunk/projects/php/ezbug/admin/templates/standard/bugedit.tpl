@@ -154,7 +154,7 @@
 <!-- END image_headers_tpl -->
 
 <!-- BEGIN log_item_tpl -->
-<p class="boxtext">{log_date}</p>
+<p class="boxtext">{log_date}:</p>
 <div class="p">{log_description}</div>
 <!-- END log_item_tpl -->	
 
