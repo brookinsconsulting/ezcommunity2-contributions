@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: imagelist.php,v 1.2 2001/09/27 16:19:19 br Exp $
+// $Id: imagelist.php,v 1.3 2001/11/15 14:37:54 jhe Exp $
 //
 // Created on: <10-Dec-2000 16:16:20 bf>
 //
@@ -40,7 +40,6 @@ include_once( "classes/ezhttptool.php" );
 $ini =& INIFile::globalINI();
 
 $Language = $ini->read_var( "eZImageCatalogueMain", "Language" );
-
 $ImageDir = $ini->read_var( "eZImageCatalogueMain", "ImageDir" );
 
 $t = new eZTemplate( "ezimagecatalogue/admin/" . $ini->read_var( "eZImageCatalogueMain", "AdminTemplateDir" ),
@@ -133,8 +132,8 @@ $category = new eZImageCategory( $CategoryID );
 
 $error = true;
 
-if ( eZObjectPermission::hasPermission( $category->id(), "imagecatalogue_category", "r", $user )
-     || eZImageCategory::isOwner( $user, $CategoryID ) )
+if ( eZObjectPermission::hasPermission( $category->id(), "imagecatalogue_category", "r", $user ) ||
+     eZImageCategory::isOwner( $user, $CategoryID ) )
 {
     $error = false;
 }
@@ -173,7 +172,7 @@ foreach ( $pathArray as $path )
 // Print out all the categories
 $categoryList =& $category->getByParent( $category );
 
-$i=0;
+$i = 0;
 foreach ( $categoryList as $categoryItem )
 {
     $t->set_var( "category_name", $categoryItem->name() );
@@ -192,9 +191,9 @@ foreach ( $categoryList as $categoryItem )
     }
 
     // Check if user have write permission
-    if ( ( $user ) &&
-         ( eZObjectPermission::hasPermission( $categoryItem->id(), "imagecatalogue_category", "w", $user ) ) ||
-         ( eZImageCategory::isOwner( $user, $categoryItem->id() ) ) )
+    if ( $user &&
+         eZObjectPermission::hasPermission( $categoryItem->id(), "imagecatalogue_category", "w", $user ) ||
+         eZImageCategory::isOwner( $user, $categoryItem->id() ) )
     {
         $t->parse( "category_write", "category_write_tpl" );
         $t->parse( "delete_categories_button", "delete_categories_button_tpl" );
@@ -205,7 +204,7 @@ foreach ( $categoryList as $categoryItem )
     $i++;
 }
 
-if ( count( $categoryList ) > 0  &&  !isSet( $SearchText ))
+if ( count( $categoryList ) > 0 && !isSet( $SearchText ) )
 {
     $t->parse( "category_list", "category_list_tpl" );
 }
@@ -217,7 +216,7 @@ else
 $limit = $ini->read_var( "eZImageCatalogueMain", "ListImagesPerPage" );
 
 // Print out all the images
-if ( isSet( $SearchText )  )
+if ( isSet( $SearchText ) )
 {
     $imageList =& eZImage::search( $SearchText );
     $count =& eZImage::searchCount( $SearchText );
@@ -228,11 +227,9 @@ else
     $count =& $category->imageCount(  );
 }
 
-
 $i = 0;
 $j = 0;
 $counter = 0;
-
 
 foreach ( $imageList as $image )
 {
