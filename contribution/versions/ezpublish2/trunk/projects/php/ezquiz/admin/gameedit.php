@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: gameedit.php,v 1.6 2001/05/30 07:31:31 ce Exp $
+// $Id: gameedit.php,v 1.7 2001/05/30 12:32:46 pkej Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <22-May-2001 13:44:13 ce>
@@ -84,6 +84,9 @@ $t->set_file( array(
 $t->set_block( "game_edit_page", "question_list_tpl", "question_list" );
 $t->set_block( "question_list_tpl", "question_item_tpl", "question_item" );
 $t->set_block( "game_edit_page", "error_date_tpl", "error_date" );
+$t->set_block( "game_edit_page", "error_start_date_tpl", "error_start_date" );
+$t->set_block( "game_edit_page", "error_stop_date_tpl", "error_stop_date" );
+$t->set_block( "game_edit_page", "error_embracing_period_tpl", "error_embracing_period" );
 
 $t->set_var( "game_name", "$Name" );
 $t->set_var( "game_description", "$Description" );
@@ -98,6 +101,9 @@ $t->set_var( "stop_year", "$StopYear" );
 
 $t->set_var( "game_id", "$GameID" );
 $t->set_var( "error_date", "" );
+$t->set_var( "error_start_date", "" );
+$t->set_var( "error_stop_date", "" );
+$t->set_var( "error_embracing_period", "" );
 
 $error = false;
 $checkDate = true;
@@ -115,34 +121,93 @@ if ( ( $Action == "Insert" ) )
 
     if ( $checkDate )
     {
-        $checkList =& eZQuizGame::getAll( false, false );
+        $stillOpen =& eZQuizGame::endedInPeriod( $startDate, $stopDate );
+        $numberOfStillOpen = count( $stillOpen );
+ 
+        $willOpen =& eZQuizGame::startedInPeriod( $startDate, $stopDate );
+        $numberOfwillOpen = count( $willOpen );
 
-        foreach( $checkList as $checkItem )
+        $embracing =& eZQuizGame::embracingPeriod( $startDate, $stopDate );
+        $numberOfEmbracing = count( $embracing );
+
+        if( $numberOfEmbracing > 0 )
         {
-            if ( $GameID == $checkItem->id() )
+            foreach( $embracing as $checkItem )
             {
-            }
-            else
-            {
-                $stopDateCheck =& $checkItem->stopDate();
-                if ( $startDate->isGreater( $stopDateCheck, true ) )
+                if ( $GameID != $checkItem->id() )
                 {
+                    $stopDateCheck =& $checkItem->stopDate();
                     $startDateCheck =& $checkItem->startDate();
-                    
+
                     $t->set_var( "error_game_start_day", $startDateCheck->day() );
                     $t->set_var( "error_game_start_month", $startDateCheck->month() );
                     $t->set_var( "error_game_start_year", $startDateCheck->year() );
                     $t->set_var( "error_game_stop_day", $stopDateCheck->day() );
                     $t->set_var( "error_game_stop_month", $stopDateCheck->month() );
                     $t->set_var( "error_game_stop_year", $stopDateCheck->year() );
-                    
+
                     $t->set_var( "error_game_name", $checkItem->name() );
                     $t->set_var( "error_game_id", $checkItem->id() );
-                    $t->parse( "error_date", "error_date_tpl" );
+                    $t->parse( "error_embracing_period", "error_embracing_period_tpl" );
                     $error = true;
                 }
             }
         }
+
+         if( $numberOfStillOpen > 0 )
+        {
+            foreach( $stillOpen as $checkItem )
+            {
+                if ( $GameID != $checkItem->id() )
+                {
+                    $stopDateCheck =& $checkItem->stopDate();
+                    if ( $startDate->isGreater( $stopDateCheck, true ) )
+                    {
+                        $startDateCheck =& $checkItem->startDate();
+
+                        $t->set_var( "error_game_start_day", $startDateCheck->day() );
+                        $t->set_var( "error_game_start_month", $startDateCheck->month() );
+                        $t->set_var( "error_game_start_year", $startDateCheck->year() );
+                        $t->set_var( "error_game_stop_day", $stopDateCheck->day() );
+                        $t->set_var( "error_game_stop_month", $stopDateCheck->month() );
+                        $t->set_var( "error_game_stop_year", $stopDateCheck->year() );
+
+                        $t->set_var( "error_game_name", $checkItem->name() );
+                        $t->set_var( "error_game_id", $checkItem->id() );
+                        $t->parse( "error_stop_date", "error_stop_date_tpl" );
+                        $error = true;
+                    }
+                }
+            }
+        }
+
+       if( $numberOfwillOpen > 0 )
+        {
+            foreach( $willOpen as $checkItem )
+            {
+                if ( $GameID != $checkItem->id() )
+                {
+                    $startDateCheck =& $checkItem->startDate();
+                    if ( $startDate->isGreater( $startDateCheck, true ) )
+                    {
+                        $stopDateCheck =& $checkItem->stopDate();
+
+                        $t->set_var( "error_game_start_day", $startDateCheck->day() );
+                        $t->set_var( "error_game_start_month", $startDateCheck->month() );
+                        $t->set_var( "error_game_start_year", $startDateCheck->year() );
+                        $t->set_var( "error_game_stop_day", $stopDateCheck->day() );
+                        $t->set_var( "error_game_stop_month", $stopDateCheck->month() );
+                        $t->set_var( "error_game_stop_year", $stopDateCheck->year() );
+
+                        $t->set_var( "error_game_name", $checkItem->name() );
+                        $t->set_var( "error_game_id", $checkItem->id() );
+                        $t->parse( "error_start_date", "error_start_date_tpl" );
+                        $error = true;
+                    }
+                }
+            }
+        }
+
     }
 }
 
