@@ -24,11 +24,14 @@ $t->set_file( array(
 $t->set_block( "person_page", "no_persons_tpl", "no_persons" );
 
 $t->set_block( "person_page", "person_table_tpl", "person_table" );
+
 $t->set_block( "person_table_tpl", "person_item_tpl", "person_item" );
+
 $t->set_block( "person_item_tpl", "person_state_tpl", "person_state" );
 $t->set_block( "person_item_tpl", "no_person_state_tpl", "no_person_state" );
 
 $t->set_block( "person_table_tpl", "person_list_tpl", "person_list" );
+
 $t->set_block( "person_list_tpl", "person_list_previous_tpl", "person_list_previous" );
 $t->set_block( "person_list_tpl", "person_list_item_tpl", "person_list_item" );
 $t->set_block( "person_list_tpl", "person_list_next_tpl", "person_list_next" );
