@@ -87,6 +87,7 @@ if ( $GetByGroupID == false )
 if ( ( $session->variable( "ShowOtherCalendarGroups" ) == false ) || ( isSet( $GetByGroup ) ) )
 {
     $session->setVariable( "ShowOtherCalendarGroups", $GetByGroupID );
+    //?set date session for ...
 }
 
 $eventGroup = new eZUserGroup( $session->variable( "ShowOtherCalendarGroups" ) );
@@ -103,7 +104,7 @@ if ( ( $session->variable( "ShowOtherCalendarTypes" ) == false ) || ( isSet( $Ge
 $type = new eZGroupEventType( $session->variable( "ShowOtherCalendarTypes" ) );
 
 if( !isSet( $GetByTypeID ) )
-	$GetByTypeID = $type->id();
+     $GetByTypeID = $type->id();
 
 $date = new eZDate();
 
@@ -111,6 +112,15 @@ if ( $Year != "" && $Month != "" )
 {
     $date->setYear( $Year );
     $date->setMonth( $Month );
+}
+elseif ( ($Year == "" && $Month == "") && ( $session->variable( "Year" ) != "" && $session->variable( "Month" ) != "" ) ) {
+
+  $date->setYear( $session->variable( "Year" ) );
+  $date->setMonth( $session->variable( "Month" ) );
+
+  $Year = $date->year();
+  $Month = $date->month();
+
 }
 else
 {
@@ -175,19 +185,24 @@ if( $user )
 		}
 	}
 
-//if ( $t->hasCache() )
-//{
-//    print( "cached<br />" );
-//    print( $t->cache() );
-//}
-//else
-//{
-//    print( "not cached<br />" );
+/*
+
+if ( $t->hasCache() ) {
+    print( "cached<br />" );
+    print( $t->cache() );
+}
+else {
+    print( "not cached<br />" );
+}
+
+*/
+
     $t->setAllStrings();
 
     $t->set_block( "month_view_page_tpl", "group_item_tpl", "group_item" );
 	$t->set_block( "month_view_page_tpl", "type_item_tpl", "type_item" );
 	$t->set_block( "month_view_page_tpl", "group_print_tpl", "group_print" );
+
     $t->set_block( "month_view_page_tpl", "month_tpl", "month" );
     $t->set_block( "month_view_page_tpl", "new_event_form_tpl", "new_event_form" );
     $t->set_block( "month_tpl", "week_tpl", "week" );
@@ -203,10 +218,12 @@ if( $user )
     $t->set_block( "day_tpl", "no_new_event_link_tpl", "no_new_event_link" );
 
     $t->set_var( "sitedesign", $SiteDesign );
+
 	$t->set_var( "month_name", $Locale->monthName( $date->monthName(), false ) );
     $t->set_var( "month_number", $Month );
     $t->set_var( "current_year_number", $Year );
     $t->set_var( "week", "" );
+
 	$t->set_var( "sitedesign", $Sitedesign );
     $t->set_var("date_month", $date->month());
     $t->set_var("date_year", $date->year());
@@ -266,7 +283,6 @@ if( $user )
     for ( $week=0; $week<6; $week++ )
     {
         $t->set_var( "day", "" );
-
         if ( ( ( $week * 7 ) - $firstDay + 1 ) < ( $date->daysInMonth()  ) )
         {        
             $date->setDay( 1 );
@@ -287,23 +303,22 @@ if( $user )
                     $tmpDate->setMonth( $date->month() );
                     $tmpDate->setDay( $date->day() );
 
-					// Fetch all the appointments
-					if( $eventGroup->id() == 0 && $type->id() == 0)  {// die('getAllByDate');
-						$appointments =& $tmpGroupEvent->getAllByDate( $tmpDate, true ); }
-					// Fetch all appointments by type
-					elseif( $eventGroup->id() == 0 && $type->id() != 0 ) {// die('getAllByType');
-						$appointments =& $tmpGroupEvent->getAllByType( $tmpDate, $type, true ); }
-					// Fetch all appointments by Group and Type
-					elseif( $eventGroup->id() != 0 && $type->id() != 0 ) {// die('getByGroupType');
-						$appointments =& $tmpGroupEvent->getByGroupType( $tmpDate, $eventGroup, $type, true ); }
-					// Fetch all appointments by Group
-					else {// die('getByDate');
-						$appointments =& $tmpGroupEvent->getByDate( $tmpDate, $eventGroup, true ); }
 
+		    // Fetch all the appointments
+		    if( $eventGroup->id() == 0 && $type->id() == 0)  {// die('getAllByDate');
+		      $appointments =& $tmpGroupEvent->getAllByDate( $tmpDate, true ); }
+		    // Fetch all appointments by type
+		    elseif( $eventGroup->id() == 0 && $type->id() != 0 ) {// die('getAllByType');
+		      $appointments =& $tmpGroupEvent->getAllByType( $tmpDate, $type, true ); }
+		    // Fetch all appointments by Group and Type
+		    elseif( $eventGroup->id() != 0 && $type->id() != 0 ) {// die('getByGroupType');
+		      $appointments =& $tmpGroupEvent->getByGroupType( $tmpDate, $eventGroup, $type, true ); }
+		    // Fetch all appointments by Group
+		    else {// die('getByDate');
+		      $appointments =& $tmpGroupEvent->getByDate( $tmpDate, $eventGroup, true ); }
+		    
                     $t->set_var( "public_appointment", "" );
                     $t->set_var( "private_appointment", "" );
-
-
 
                     foreach ( $appointments as $appointment )
                     {
@@ -511,10 +526,15 @@ if( $user )
 				$t->set_var( "selected_group_id", $eventGroup->id() );
 				$t->set_var( "group_is_selected", "selected" );
 			}
-			elseif ( $eventGroup->id() == 0 )
-				$t->set_var( "selected_group_id", 0 );
-			else
-				$t->set_var( "group_is_selected", "" );
+			elseif ( $groupItem->id() == 0 ) {
+
+			//elseif ( $eventGroup->id() == 0 ) {
+			  $t->set_var( "group_is_selected", "selected" );
+			  //$t->set_var( "selected_group_id", 0 );
+			}
+			else {
+			  $t->set_var( "group_is_selected", "" );
+			}
 
 			$t->parse( "group_item", "group_item_tpl", true );
 		}
