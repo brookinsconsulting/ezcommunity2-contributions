@@ -5,19 +5,19 @@
 <!-- BEGIN first_page_tpl -->
 <form method="post">
 <!-- BEGIN err_msg_tpl -->
-<h2>{intl-errors_occured}:</h2><br />
+<h3 class="error">{intl-errors_occured}:</h3>
 <!-- END err_msg_tpl -->
 
 <!-- BEGIN err_real_name_tpl -->
-<h3 class="error" >{intl-error_real_name}</h3><br />
+<h3 class="error" >{intl-error_real_name}</h3>
 <!-- END err_real_name_tpl -->
 
 <!-- BEGIN err_send_to_tpl -->
-<h3 class="error" >{intl-error_send_to}</h3><br />
+<h3 class="error" >{intl-error_send_to}</h3>
 <!-- END err_send_to_tpl -->
 
 <!-- BEGIN err_from_tpl -->
-<h3 class="error" >{intl-error_from}</h3><br />
+<h3 class="error" >{intl-error_from}</h3>
 <!-- END err_from_tpl -->
 
 <h2>{Topic}</h2>
@@ -27,15 +27,15 @@
 <table width="100%" cellpadding="0" cellspacing="0" border="0">
 <tr>
     <td>
-	<p class="boxtext">{intl-send_to}:</p>
-	<input type="text" class="box" size="40" name="SendTo" value="{send_to}" />*
+	<p class="boxtext">{intl-send_to}:*</p>
+	<input type="text" class="box" size="40" name="SendTo" value="{send_to}" />
 	<br /><br />
 	</td>
 </tr>
 <tr>
     <td>
-	<p class="boxtext">{intl-from_mail}:</p>
-	<input type="text" class="box" size="40" name="From" value="{from}">*
+	<p class="boxtext">{intl-from_mail}:*</p>
+	<input type="text" class="box" size="40" name="From" value="{from}">
 	<br />
 	</td>
 </tr>
@@ -44,6 +44,8 @@
 <p class="boxtext">{intl-comment}:</p>
 <textarea name="Textarea" class="box" cols="40" rows="5">{textarea}</textarea>
 <br /><br />
+
+<p><span class="boxtext">*</span> <span class="small">{intl-required}</span></p>
 
 <hr noshade="noshade" size="4" />
 

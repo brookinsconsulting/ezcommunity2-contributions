@@ -53,8 +53,6 @@
 <!-- END attribute_tpl -->
 </table>
 <!-- END attribute_list_tpl -->
-
-<br />
 <hr noshade="noshade" size="4" />
 
 <input class="stdbutton" type="submit" name="NewAttribute" value="{intl-new_attribute}" />&nbsp;

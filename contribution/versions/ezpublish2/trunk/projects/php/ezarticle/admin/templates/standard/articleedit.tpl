@@ -108,36 +108,14 @@
 <textarea class="box" name="Contents[]" cols="40" rows="20" wrap="soft">{article_contents_1}</textarea>
 <br /><br />
 
-<p class="boxtext">{intl-log_message}:</p>
-<textarea class="box" name="LogMessage" cols="40" rows="2" wrap="soft"></textarea>
-<br />
-<input class="stdbutton" type="submit" name="Log" value="{intl-log_history}" />
-
 <p class="boxtext">{intl-link_text}:</p>
 <input class="box" type="text" name="LinkText" size="20" value="{link_text}" />
 <br /><br />
 
 
 
-<table border="0">
+<table width="80%" cellpaddning="0" cellspacing="0" border="0">
 <tr>
-	<td valign="top">
-	<!-- BEGIN publish_dates_tpl -->
-
-	<!-- BEGIN published_tpl -->
-	<b>{intl-published}:</b> {published_date}
-	<!-- END published_tpl -->
-	<!-- BEGIN un_published_tpl -->
-	<b>{intl-un_published}</b>
-	<!-- END un_published_tpl -->
-	<br />	
-
-	<b>{intl-created}:</b> {created_date}<br />
-	<b>{intl-modified}:</b> {modified_date}<br />
-
-	<!-- END publish_dates_tpl -->
-
-	</td>
 	<td valign="top">
 
 <table cellspacing="0" cellpadding="0" border="0">
@@ -208,7 +186,7 @@
 	<span class="small">{intl-minute}:</span>
 	</td>
 </tr>
-</tr>
+<tr>
 	<td>
 	<input type="text" size="2" name="StopDay" value="{stop_day}" />&nbsp;&nbsp;
 	</td>
@@ -228,19 +206,46 @@
 </table>
 
 </td>
+	<td valign="top">
+	<!-- BEGIN publish_dates_tpl -->
+
+	<p class="boxtext">{intl-created}:</p><span class="p">{created_date}</span>
+
+	<!-- BEGIN published_tpl -->
+	<p class="boxtext">{intl-published}:</p><span class="p">{published_date}</span>
+	<!-- END published_tpl -->
+	<!-- BEGIN un_published_tpl -->
+	<p class="boxtext">{intl-un_published}</p>
+	<!-- END un_published_tpl -->
+
+	<p class="boxtext">{intl-modified}:</p><span class="p">{modified_date}</span>
+
+	<!-- END publish_dates_tpl -->
+
+	</td>
 </tr>
-</table>
-
-
-
-
-<table width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
-	<td width="50%">
+	<td colspan="2">&nbsp;</td>
+</tr>
+<tr>
+	<td colspan="2">
+	<p class="boxtext">{intl-log_message}:</p>
+<textarea class="box" name="LogMessage" cols="40" rows="3" wrap="soft"></textarea>
+<br />
+<input class="stdbutton" type="submit" name="Log" value="{intl-log_history}" />
+
+	</td>
+</tr>
+<tr>
+	<td colspan="2">&nbsp;</td>
+</tr>
+<tr>
+
+	<td>
 	<input type="checkbox" name="IsPublished" {article_is_published} />
 	<span class="boxtext">{intl-article_is_published}</span><br />
 	</td>
-	<td width="50%">
+	<td>
 	<input type="checkbox" name="Discuss" {discuss_article} />
 	<span class="boxtext">{intl-discuss_article}</span><br />
 	</td>
@@ -249,8 +254,12 @@
 <br />
 <hr noshade="noshade" size="4" />
 
-<table  cellspacing="0" cellpadding="0" border="0">
-<tr valign="middle">
+<table cellspacing="0" cellpadding="0" border="0">
+<tr>
+    <td>
+        <input class="stdbutton" type="submit" name="Preview" value="{intl-preview}" />
+    <td>
+    <td>&nbsp;&nbsp;&nbsp;</td>
     <td>
         <select name="ItemToAdd">
         <option value="Image">{intl-pictures}</option>
@@ -262,10 +271,6 @@
     <td>
         <input class="stdbutton" type="submit" name="AddItem" value="{intl-add_item}" />
     </td>
-    <td>&nbsp;&nbsp;&nbsp;</td>
-    <td>
-        <input class="stdbutton" type="submit" name="Preview" value="{intl-preview}" />
-    <td>
 <tr>
 </table>
 <hr noshade="noshade" size="4" />

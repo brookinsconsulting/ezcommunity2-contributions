@@ -125,5 +125,21 @@ if ( $Design == 3 )
   </tr>
 </table>
 
+<?
+// Store the statistics with a callback image.
+// It will be no overhead with this method for storing stats
+//
+
+$StoreStats = $ini->read_var( "eZStatsMain", "StoreStats" );
+
+if ( $StoreStats == "enabled" )
+{
+    // callback for storing the stats
+    $imgSrc = "/stats/store" . $REQUEST_URI . "1x1.gif";
+    print( "<img src=\"$imgSrc\" height=\"1\" width=\"1\" border=\"0\" alt=\"\" />" );    
+}
+
+?>
+
 </body>
 </html>

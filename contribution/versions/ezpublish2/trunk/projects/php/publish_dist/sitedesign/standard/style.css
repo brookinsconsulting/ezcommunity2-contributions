@@ -1,11 +1,5 @@
 /* Standard eZ publish stylesheet */
 
-body
-{
-	background-image: url(/images/addmini.gif);
-	background-repeat: repeat-x;
-}
-
 body, div, span, p, .p, h1, h2, .listheadline, .listproducts, h3, ul, li, a, td ,th, select, input, textarea, credit
 {
 	font-family: Verdana, Arial, Helvetica, Swiss, Futura, sans-serif;

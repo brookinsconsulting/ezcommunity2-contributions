@@ -41,8 +41,6 @@
 </table>
 <!-- END file_list_tpl -->
 
-<br/>
-
 <hr noshade="noshade" size="4" />
 
 <table cellspacing="0" cellpadding="0" border="0">

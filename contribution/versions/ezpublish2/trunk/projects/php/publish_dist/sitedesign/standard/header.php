@@ -2,22 +2,6 @@
 
 <body bgcolor="#b5b5b5" topmargin="6" marginheight="6" leftmargin="6" marginwidth="6"  onload="MM_preloadImages('/images/redigerminimrk.gif','/images/slettminimrk.gif','/images/downloadminimrk.gif','/images/addminimrk.gif')">
 
-<?
-// Store the statistics with a callback image.
-// It will be no overhead with this method for storing stats
-//
-
-$StoreStats = $ini->read_var( "eZStatsMain", "StoreStats" );
-
-if ( $StoreStats == "enabled" )
-{
-    // callback for storing the stats
-    $imgSrc = "/stats/store" . $REQUEST_URI . "1x1.gif";
-    print( "<img src=\"$imgSrc\" height=\"0\" width=\"0\" border=\"0\" alt=\"\" />" );    
-}
-
-?>
-
 <img src="/sitedesign/standard/images/ezpublish-standard.gif" height="40" width="610" border="0" alt="" />
 
 

@@ -4,6 +4,34 @@
 	<h1>{intl-head_line}</h1>
 	</td>
 	<td rowspan="2" align="right">
+	</td>
+	<td rowspan="2" align="right">
+	<form action="/article/search/" method="post">
+	<input type="text" name="SearchText" class="searchbox" size="10" />	
+	<input class="stdbutton" type="submit" value="{intl-search}" />
+	</form>	
+	</td>
+</tr>
+</table>
+
+<hr noshade="noshade" size="4" />
+
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+	<td>
+	<p class="boxtext">{intl-goto}:</p>
+	<form action="/article/archive/" method="post">
+	<select name="CategoryID">
+
+	<!-- BEGIN category_tree_id_tpl -->
+	<option value="{category_id}" {selected}>{category_name}</option>
+	<!-- END category_tree_id_tpl -->
+	</select>
+	<input type="submit" class="stdbutton" value="{intl-go}" />
+	</form>
+	</td>
+	<td>
+	<p class="boxtext">{intl-show}:</p>
 	<form action="/article/archive/{current_category_id}/" method="post">
 
 	<select name="ArticleSelection" >
@@ -15,20 +43,11 @@
 	<input class="stdbutton" type="submit" name="StoreSelection" value="{intl-ok}" />
 	</form>	
 	</td>
-	<td rowspan="2" align="right">
-	<form action="/article/search/" method="post">
-	<input type="text" name="SearchText" size="12" />	
-	<input class="stdbutton" type="submit" value="{intl-search}" />
-	</form>	
-	</td>
 </tr>
 </table>
 
 <hr noshade="noshade" size="4" />
 
-<table width="100%" border="0">
-<tr>
-	<td align="left" width="70%">
 	<img src="/admin/images/{site_style}/path-arrow.gif" height="10" width="12" border="0" alt="" />
 
 	<a class="path" href="/article/archive/0/">{intl-topcategory}</a>
@@ -38,21 +57,6 @@
 
 	<a class="path" href="/article/archive/{category_id}/">{category_name}</a>
 	<!-- END path_item_tpl -->
-
-	</td>
-	<td align="right" width="30%">
-
-	<form action="/article/archive/" method="post">
-	<select name="CategoryID">
-
-	<!-- BEGIN category_tree_id_tpl -->
-	<option value="{category_id}" {selected}>{category_name}</option>
-	<!-- END category_tree_id_tpl -->
-	</select>
-	<input type="submit" value="{intl-go}" />
-	</form>
-</td>
-</table>
 
 <hr noshade="noshade" size="4" />
 
