@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: message.php,v 1.23 2000/10/26 13:23:25 ce-cvs Exp $
+// $Id: message.php,v 1.24 2000/11/06 13:57:58 ce-cvs Exp $
 //
 // Lars Wilhelmsen <lw@ez.no>
 // Created on: <11-Sep-2000 22:10:06 bf>
@@ -119,6 +119,7 @@ foreach ( $messages as $message )
     $i++;
 }
 
+$t->set_var( "message_id", $MessageID );
 if ( $GenerateStaticPage == "true" )
 {
     $fp = fopen ( $cachedFile, "w+");

@@ -1,5 +1,5 @@
 <?
-// $Id: categoryedit.php,v 1.7 2000/11/01 11:15:38 ce-cvs Exp $
+// $Id: categoryedit.php,v 1.8 2000/11/06 13:57:58 ce-cvs Exp $
 //
 // Author: Lars Wilhelmsen <lw@ez.no>
 // Created on: Created on: <14-Jul-2000 13:41:35 lw>
@@ -30,6 +30,7 @@ $error = new INIFIle( "ezforum/admin/intl/" . $Language . "/categoryedit.php.ini
 
 include_once( "classes/ezdb.php" );
 include_once( "classes/eztemplate.php" );
+include_once( "classes/ezlog.php" );
 
 include_once( "ezforum/classes/ezforumcategory.php" );
 
@@ -54,10 +55,12 @@ if ( $Action == "insert" )
             $cat->setDescription( $Description );
    
             $cat->store();
+            eZLog::writeNotice( "Forum category created: $Name from IP: $REMOTE_ADDR" );
             Header( "Location: /forum/categorylist/" );
         }
         else
         {
+            eZLog::writeWarning( "Forum category not created: missing data from IP: $REMOTE_ADDR" );
             $error_msg = $error->read_var( "strings", "error_missingdata" );
         }
     }
@@ -80,14 +83,16 @@ if ( $Action == "delete" )
         {
             $cat = new eZForumCategory();
             $cat->get( $CategoryID );
+            $categoryName = $cat->name();
             $cat->delete( );
+            eZLog::writeNotice( "Forum category deleted: $categoryName from IP: $REMOTE_ADDR" );
             Header( "Location: /forum/categorylist/" );
         }
         else
         {
+            eZLog::writeWarning( "Forum category not deleted: id not found from IP: $REMOTE_ADDR" );
             $error_msg = $error->read_var( "strings", "error_missingdata" );
         }
-
     }
     else
     {
@@ -113,11 +118,12 @@ if ( $Action == "update" )
             $cat->setName( $Name );
             $cat->setDescription( $Description );
             $cat->store();
-            
+            eZLog::writeNotice( "Forum category updated: $Name from IP: $REMOTE_ADDR" );
             Header( "Location: /forum/categorylist/" );
         }
         else
         {
+            eZLog::writeWarning( "Forum category not updated: missing data from IP: $REMOTE_ADDR" );
             $error_msg = $error->read_var( "strings", "error_missingdata" );
         }
     }

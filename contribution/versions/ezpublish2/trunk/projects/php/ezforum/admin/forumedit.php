@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: forumedit.php,v 1.6 2000/10/23 06:58:23 ce-cvs Exp $
+    $Id: forumedit.php,v 1.7 2000/11/06 13:57:58 ce-cvs Exp $
 
     Author: Lars Wilhelmsen <lw@ez.no>
     
@@ -16,6 +16,7 @@ $Language = $ini->read_var( "eZForumMain", "Language" );
 $error = new INIFIle( "ezforum/admin/intl/" . $Language . "/forumedit.php.ini", false );
 
 include_once( "classes/eztemplate.php" );
+include_once( "classes/ezlog.php" );
 include_once( "ezforum/classes/ezforumcategory.php" );
 include_once( "ezforum/classes/ezforum.php" );
 
@@ -35,10 +36,14 @@ if ( $Action == "insert" )
             $forum->setDescription( $Description );
             
             $forum->store();
+            eZLog::writeNotice( "Forum created: $Name from IP: $REMOTE_ADDR" );                    
+
             Header( "Location: /forum/forumlist/$CategorySelectID" );
         }
         else
         {
+            eZLog::writeWarning( "Forum not created: missing data from IP: $REMOTE_ADDR" );                    
+                        
             $error_msg = $error->read_var( "strings", "error_missingdata" );
         }
     }
@@ -63,10 +68,13 @@ if ( $Action == "update" )
             $forum->setDescription( $Description );
 
             $forum->store();
+            eZLog::writeNotice( "Forum updated: $Name from IP: $REMOTE_ADDR" );
+                        
             Header( "Location: /forum/forumlist/$CategorySelectID" );
         }
         else
         {
+            eZLog::writeWarning( "Forum not updated: missing data from IP: $REMOTE_ADDR" ); 
             $error_msg = $error->read_var( "strings", "error_missingdata" );
         }
     }
@@ -84,13 +92,15 @@ if ( $Action == "delete" )
         {
             $forum = new eZForum();
             $forum->get( $ForumID );
+            $forumName = $forum->name();
             $forum->delete();
-            
+            eZLog::writeNotice( "Forum deleted: $forumName from IP: $REMOTE_ADDR" );
             $CategoryID = $forum->categoryID();
             Header( "Location: /forum/forumlist/$CategoryID" );
         }
         else
         {
+            eZLog::writeWarning( "Forum not deleted: id not found from IP: $REMOTE_ADDR" );
             $error_msg = $error->read_var( "strings", "error_missingdata" );
         }
     }
