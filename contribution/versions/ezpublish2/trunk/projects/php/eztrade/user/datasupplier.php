@@ -191,6 +191,7 @@ switch ( $url_array[2] )
 
     case "checkout" :
     {
+        $UseSSL = $url_array[3];
         include( "eztrade/user/checkout.php" );
     }
         break;

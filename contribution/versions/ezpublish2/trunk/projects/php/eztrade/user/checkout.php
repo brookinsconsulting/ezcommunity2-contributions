@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: checkout.php,v 1.57 2001/03/21 10:23:34 ce Exp $
+// $Id: checkout.php,v 1.58 2001/04/24 07:22:54 ce Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <28-Sep-2000 15:52:08 bf>
@@ -73,7 +73,7 @@ if ( !$session->fetch() )
 }
 
 // set SSL mode and redirect if not already in SSL mode.
-if ( $ForceSSL == "enabled" )
+if ( ( $ForceSSL == "enabled" ) && ( $UseSSL == true ) )
 {
     $session->setVariable( "SSLMode", "enabled" );
     
@@ -85,6 +85,7 @@ if ( $ForceSSL == "enabled" )
         exit;
     }
 }
+
 
 
 // get the cart or create it
