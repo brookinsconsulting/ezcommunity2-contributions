@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: typeedit.php,v 1.11 2001/09/25 08:17:19 jhe Exp $
+// $Id: typeedit.php,v 1.11.2.1 2001/12/22 18:00:00 kaid Exp $
 //
 // Created on: <20-Dec-2000 18:24:06 gl>
 //
@@ -23,15 +23,15 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, US
 //
 
+include_once( "classes/ezhttptool.php" );
 if ( isSet( $Cancel ) )
 {
-    Header( "Location: /calendar/typelist/" );
+    eZHTTPTool::header( "Location: /calendar/typelist/" );
     exit();
 }
 
 include_once( "classes/INIFile.php" );
 include_once( "classes/eztemplate.php" );
-include_once( "classes/ezhttptool.php" );
 include_once( "classes/ezlog.php" );
 
 $ini =& INIFile::globalINI();
