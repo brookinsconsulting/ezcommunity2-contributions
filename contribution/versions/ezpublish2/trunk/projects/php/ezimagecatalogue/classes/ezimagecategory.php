@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezimagecategory.php,v 1.44 2001/10/10 08:01:58 ce Exp $
+// $Id: ezimagecategory.php,v 1.45 2001/11/14 19:26:30 br Exp $
 //
 // Definition of eZImageCategory class
 //
@@ -688,33 +688,46 @@ class eZImageCategory
        {
            $groups =& $user->groups( false );
            
-           $i = 0;
-           foreach ( $groups as $group )
-           {
-               if ( $i == 0 )
-                   $groupSQL .= "( Permission.GroupID=$group AND CategoryPermission.GroupID=$group ) OR";
-               else
-                   $groupSQL .= " ( Permission.GroupID=$group AND CategoryPermission.GroupID=$group ) OR";
-               
-               $i++;
-           }
            if ( $user->hasRootAccess() )
+           {
                $usePermission = false;
+           }
+           else
+           {
+               $i = 0;
+               foreach ( $groups as $group )
+               {
+                   if ( $i == 0 )
+                       $groupSQL .= "( Permission.GroupID=$group AND CategoryPermission.GroupID=$group ) OR";
+                   else
+                       $groupSQL .= " ( Permission.GroupID=$group AND CategoryPermission.GroupID=$group ) OR";
+                   
+                   $i++;
+               }
+           }
        }
 
        if ( $usePermission )
-           $permissionSQL = "( ( $groupSQL Permission.GroupID='-1' AND CategoryPermission.GroupID='-1' ) AND Permission.ReadPermission='1' AND CategoryPermission.ReadPermission='1') AND ";
+       {
+           $fromTablePermissionsSQL = ", eZImageCatalogue_ImagePermission as Permission, " .
+                                      "eZImageCatalogue_CategoryPermission as CategoryPermission";
+
+           $permissionSQL = "( ( $groupSQL Permission.GroupID='-1' AND CategoryPermission.GroupID='-1' ) AND " .
+                            "Permission.ReadPermission='1' AND CategoryPermission.ReadPermission='1') AND ";
+       }
        else
+       {
+           $fromTablePermissionsSQL = "";
            $permissionSQL = "";
+       }
 
        $db->array_query( $file_array, "
                 SELECT Image.ID AS ImageID,
                        Image.OriginalFileName
                 FROM eZImageCatalogue_Image as Image,
                      eZImageCatalogue_Category,
-                     eZImageCatalogue_ImageCategoryLink,
-                     eZImageCatalogue_ImagePermission as Permission,
-                     eZImageCatalogue_CategoryPermission as CategoryPermission
+                     eZImageCatalogue_ImageCategoryLink
+                     $fromTablePermissionsSQL
                 WHERE $permissionSQL
                       eZImageCatalogue_ImageCategoryLink.ImageID = Image.ID
                       AND eZImageCatalogue_Category.ID = eZImageCatalogue_ImageCategoryLink.CategoryID
@@ -724,6 +737,7 @@ class eZImageCategory
        array( "Limit" => $limit,
               "Offset" => $offset ) );
 
+       
        for ( $i = 0; $i < count( $file_array ); $i++ )
        {
            $return_array[$i] = new eZImage( $file_array[$i][$db->fieldName("ImageID")], false );
