@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: messagelist.php,v 1.16 2001/03/07 11:50:45 pkej Exp $
+// $Id: messagelist.php,v 1.17 2001/03/09 15:41:23 th Exp $
 //
 // Lars Wilhelmsen <lw@ez.no>
 // Created on: <11-Sep-2000 22:10:06 bf>
@@ -160,7 +160,7 @@ else
             $t->set_var( "previous", "" );
         }
         
-        if ( $nextOffs <= $forum->messageCount() )
+        if ( $nextOffs < $forum->messageCount() )
         {
             $t->set_var( "next_offset", $nextOffs  );
             $t->parse( "next", "next_tpl" );
