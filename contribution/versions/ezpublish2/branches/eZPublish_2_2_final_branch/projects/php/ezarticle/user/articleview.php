@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: articleview.php,v 1.84.2.10 2002/02/08 10:53:35 bf Exp $
+// $Id: articleview.php,v 1.84.2.11 2002/03/04 13:30:10 bf Exp $
 //
 // Created on: <18-Oct-2000 16:34:51 bf>
 //
@@ -524,6 +524,8 @@ else
     
 }
 
+$t->set_var( "total_pages", $pageCount );
+$t->set_var( "current_page", $PageNumber );
 
 // non-printable version link
 if ( ( $PageNumber == -1 ) && ( $PrintableVersion == "enabled" ) )

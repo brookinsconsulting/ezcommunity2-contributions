@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: ezarticle.php,v 1.183.2.12 2002/03/01 13:09:49 master Exp $
+// $Id: ezarticle.php,v 1.183.2.13 2002/03/04 13:30:10 bf Exp $
 //
 // Definition of eZArticle class
 //
@@ -75,6 +75,7 @@ include_once( "ezarticle/classes/ezarticlecategory.php" );
 include_once( "ezarticle/classes/ezarticlecategory.php" );
 include_once( "ezarticle/classes/ezarticleattribute.php" );
 include_once( "ezarticle/classes/ezarticletype.php" );
+include_once( "classes/INIFile.php" );
 
 class eZArticle
 {
