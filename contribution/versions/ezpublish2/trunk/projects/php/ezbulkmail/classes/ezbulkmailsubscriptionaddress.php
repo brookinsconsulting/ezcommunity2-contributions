@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezbulkmailsubscriptionaddress.php,v 1.18 2001/08/28 19:42:03 fh Exp $
+// $Id: ezbulkmailsubscriptionaddress.php,v 1.19 2001/09/08 12:57:09 fh Exp $
 //
 // eZBulkMailSubscriptionAddress class
 //
@@ -307,7 +307,7 @@ class eZBulkMailSubscriptionAddress
         if( get_class( $category ) == "ezbulkmailcategory" )
         {
             $categoryID = $category->id();
-            $db->query( "DELETE FROM eZBulkMail_SubscriptionLink WHERE AddressID='$categoryID'" );
+            $db->query( "DELETE FROM eZBulkMail_SubscriptionLink WHERE CategoryID='$categoryID'" );
         }
         else if( $category == true )
         {
