@@ -38,6 +38,15 @@ class eZUser
     query( "INSERT INTO Usr set Login='$this->User', Pwd=PASSWORD('$this->Password'), Grp='$this->Group'" );
     return mysql_insert_id();
   }
+
+  /*
+    Oppdaterer bruker i databasen.
+  */  
+  function update()
+  {
+    $this->dbInit();
+    query( "Update Usr set Login='$this->User', Pwd=PASSWORD('$this->Password'), Grp='$this->Group'" );
+  }
   
 
   /*!
@@ -83,6 +92,22 @@ class eZUser
   {
     $this->Group = $value;    
   }
+  /*!
+    Setter Login.
+  */
+  function setLogin( $value )
+  {
+    $this->Login = $value;    
+  }
+
+  /*!
+    Setter Passord.
+  */
+  function setPassword( $value )
+  {
+    $this->Password = $value;    
+  }
+
 
   /*
     Returnerer ID'en til brukeren.
@@ -91,7 +116,7 @@ class eZUser
   {
     return $this->ID;
   }
-
+  
   /*!
     Returnerer brukernavnet.
   */
@@ -99,6 +124,15 @@ class eZUser
   {
     return $this->User;
   }
+
+  /*!
+    Returnerer gruppenavnet.
+    */
+  function group()
+  {
+    return $this->Group;
+  }
+
 
   /*!
     Initiering av database.
@@ -112,6 +146,7 @@ class eZUser
 
   var $ID;
   var $User;
+  var $Password;
   var $Group;
 }
 ?>
