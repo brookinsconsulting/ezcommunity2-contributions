@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: ezuser.php,v 1.14 2000/07/26 17:03:13 lw-cvs Exp $
+    $Id: ezuser.php,v 1.15 2000/07/31 13:08:43 lw-cvs Exp $
 
     Author: Lars Wilhelmsen <lw@ez.no>
     
@@ -32,13 +32,22 @@ class eZUser {
     var $RegionInfo;
     var $Password;
     var $AuthHash;
+
+    /**
+       Constructor
+     */
+    function eZUser( $Id = "" )
+    {
+        if ( $Id != "" )
+            $this->get( $Id );
+    }
     
     /*!
         newUser() : defines a new user record.
     */
     function newUser()
     {
-        unset($Id);    
+        unset( $Id );    
     }
     
     /*!
@@ -46,37 +55,36 @@ class eZUser {
         
         $id : user ID
     */
-    function get( $id )
+    function get( $Id )
     {
         global $PREFIX;
-
-        $this->Id = $id;
+        $this->Id = $Id;
         openDB();
         $query_id = mysql_query("SELECT group_id,first_name, last_name, nick_name, email, state,
                                  phone_number, mobile_number, Address_one, Address_two,
                                  zip_code, city, country, region_info, company, fax_number,
                                  auth_hash,passwd
-                                 FROM $PREFIX"."UserTable WHERE id='$id'") 
-        or die("eZUser::get($id) failed, dying...");
+                                 FROM $PREFIX"."UserTable WHERE id='$Id'") 
+        or die("eZUser::get($Id) failed, dying...");
 
-        $this->groupID = mysql_result( $query_id, 0, "group_id" );
-        $this->firstName = mysql_result( $query_id, 0, "first_name" );
-        $this->lastName = mysql_result( $query_id, 0, "last_name" );
-        $this->nickName = mysql_result( $query_id, 0, "nick_name" );
-        $this->email = mysql_result( $query_id, 0, "email" );
-        $this->state = mysql_result( $query_id, 0, "state" );
-        $this->phoneNumber = mysql_result( $query_id, 0, "phone_number" );
-        $this->mobileNumber = mysql_result( $query_id, 0, "mobile_number" );
-        $this->faxNumber = mysql_result( $query_id,0,"fax_number" );
+        $this->GroupID = mysql_result( $query_id, 0, "group_id" );
+        $this->FirstName = mysql_result( $query_id, 0, "first_name" );
+        $this->LastName = mysql_result( $query_id, 0, "last_name" );
+        $this->NickName = mysql_result( $query_id, 0, "nick_name" );
+        $this->Email = mysql_result( $query_id, 0, "email" );
+        $this->State = mysql_result( $query_id, 0, "state" );
+        $this->PhoneNumber = mysql_result( $query_id, 0, "phone_number" );
+        $this->MobileNumber = mysql_result( $query_id, 0, "mobile_number" );
+        $this->FaxNumber = mysql_result( $query_id,0,"fax_number" );
         $this->AddressOne = mysql_result( $query_id,0,"Address_one" );
         $this->AddressTwo = mysql_result( $query_id,0,"Address_two" );
-        $this->zipCode = mysql_result( $query_id,0,"zip_code" );
-        $this->city = mysql_result( $query_id,0,"city" );
-        $this->country = mysql_result( $query_id,0,"country" );
-        $this->regionInfo = mysql_result( $query_id,0,"region_info" );
-        $this->company = mysql_result( $query_id,0,"company" );
-        $this->authHash = mysql_result( $query_id,0,"auth_hash" );
-        $this->password = mysql_result( $query_id,0,"passwd" );
+        $this->ZipCode = mysql_result( $query_id,0,"zip_code" );
+        $this->City = mysql_result( $query_id,0,"city" );
+        $this->Country = mysql_result( $query_id,0,"country" );
+        $this->RegionInfo = mysql_result( $query_id,0,"region_info" );
+        $this->Company = mysql_result( $query_id,0,"company" );
+        $this->AuthHash = mysql_result( $query_id,0,"auth_hash" );
+        $this->Password = mysql_result( $query_id,0,"passwd" );
     }
 
     /*!
@@ -85,67 +93,66 @@ class eZUser {
     function store()
     {
         global $PREFIX;
-        
+
+        echo $this->Email;
         openDB();
 
-        if ($this->Id) // an allready existing user record
+        if ( $this->Id ) // an allready existing user record
         {
             mysql_query("UPDATE $PREFIX"."UserTable SET
-                           group_id='$this->groupID',
-                           first_name='$this->firstName',
-                           last_name='$this->lastName',
-                           nick_name='$this->nickName',
-                           email='$this->email',
-                           state='$this->state',
-                           phone_number='$this->phoneNumber',
-                           mobile_number='$this->mobileNumber',
-                           fax_number='$this->faxNumber',
+                           group_id='$this->GroupID',
+                           first_name='$this->FirstName',
+                           last_name='$this->LastName',
+                           nick_name='$this->NickName',
+                           email='$this->Email',
+                           state='$this->State',
+                           phone_number='$this->PhoneNumber',
+                           mobile_number='$this->MobileNumber',
+                           fax_number='$this->FaxNumber',
                            Address_one='$this->AddressOne',
                            Address_two='$this->AddressTwo',
-                           zip_code='$this->zipCode',
-                           city='$this->city',
-                           country='$this->country',
-                           region_info='$this->regionInfo',
-                           company='$this->company',
-                           auth_hash='$this->authHash',
-                           passwd='$this->password'
-                         WHERE id='$this->id'")
-            or die("eZUser::store($this->id) failed, dying...");
+                           zip_code='$this->ZipCode',
+                           city='$this->City',
+                           country='$this->Country',
+                           region_info='$this->RegionInfo',
+                           company='$this->Company',
+                           auth_hash='$this->AuthHash',
+                           passwd='$this->Password'
+                         WHERE id='$this->Id'")
+            or die("eZUser::store($this->Id) failed, dying...");
         }
         else // new record
        {
-            $queryStr = "INSERT INTO $PREFIX"."UserTable(group_id,first_name, last_name, nick_name, email,
+            $query_id = mysql_query( "INSERT INTO $PREFIX"."UserTable(
+                                            group_id,first_name, last_name, nick_name, email,
                                             state, phone_number, mobile_number,
                                             fax_number, Address_one, Address_two,
                                             zip_code, city, country, region_info,
                                             company, auth_hash, passwd)
-                          VALUES( '$this->group_id' , '$this->firstName' , '$this->lastName',
-                                 '$this->nickName' , '$this->email' , '$this->state',
-                                 '$this->phoneNumber' , '$this->mobileNumber' , '$this->faxNumber' ,
+                          VALUES( '$this->Group_id' , '$this->FirstName' , '$this->LastName',
+                                 '$this->NickName' , '$this->Email' , '$this->State',
+                                 '$this->PhoneNumber' , '$this->MobileNumber' , '$this->FaxNumber' ,
                                  '$this->AddressOne' , '$this->AddressTwo' ,
-                                 '$this->zipCode' , '$this->city' , '$this->country' , '$this->regionInfo' ,
-                                 '$this->company' , '$this->authHash' , '$this->password')";
-            $query_id = mysql_query($queryStr)
-            or die("eZUser::store(new record) failed, dying...");
-            $this->id = mysql_insert_id();
-            return($this->id);
+                                 '$this->ZipCode' , '$this->City' , '$this->Country' , '$this->RegionInfo' ,
+                                 '$this->Company' , '$this->AuthHash' , '$this->Password')" )
+                 or die("eZUser::store(new record) failed, dying...");
+            $this->Id = mysql_insert_id();
+            return( $this->Id );
        }
     }
     
     /*!
         delete() : deletes a user record from the MySQL DB
         
-        $id : user ID
+        $Id : user ID
     */
-    function delete($id)
+    function delete( $Id )
     {
         global $PREFIX;
         
-        $id = addslashes($id);
-        
         openDB();
-        mysql_query("DELETE FROM $PREFIX"."UserTable WHERE id='$id'")
-        or die("eZUser:delete($id) failed, dying...");
+        mysql_query("DELETE FROM $PREFIX"."UserTable WHERE id='$Id'")
+        or die("eZUser:delete($Id) failed, dying...");
     }
     
     /*!
@@ -177,7 +184,7 @@ class eZUser {
         
         $newGroupID : the new group ID
     */    
-    function setGroupID($newGroupID)
+    function setGroupID( $newGroupID )
     {
         $this->groupID = $newGroupID;
     }
@@ -187,7 +194,7 @@ class eZUser {
     */
     function firstName()
     {
-        return $this->firstName;    
+        return $this->FirstName;
     }
 
     /*!
@@ -195,9 +202,9 @@ class eZUser {
         
         $newFirstName : the new first name
     */    
-    function setFirstName($newFirstName)
+    function setFirstName( $newFirstName )
     {
-        $this->firstName = $newFirstName;
+        $this->FirstName = $newFirstName;
     }
 
     /*!
@@ -205,7 +212,7 @@ class eZUser {
     */    
     function lastName()
     {
-        return $this->lastName;
+        return $this->LastName;
     }
     
     /*!
@@ -213,9 +220,9 @@ class eZUser {
         
         $newLastName : the new first name
     */
-    function setLastName($newLastName)
+    function setLastName( $newLastName )
     {
-        $this->lastName = $newLastName;    
+        $this->LastName = $newLastName;    
     }
     
     /*!
@@ -223,7 +230,7 @@ class eZUser {
     */
     function nickName()
     {
-        return $this->nickName;    
+        return $this->NickName;    
     }
     
     /*!
@@ -231,11 +238,14 @@ class eZUser {
         
         $newNickName : new nick name
     */
-    function setNickName($newNickName)
+    function setNickName( $newNickName )
     {
-        $this->nickName = $newNickName;
+        $this->NickName = $newNickName;
     }
-    function searchNickName($queryNick)
+
+    /*!
+     */
+    function searchNickName( $queryNick )
     {
         global $PREFIX;
         
@@ -255,7 +265,7 @@ class eZUser {
     */
     function email()
     {
-        return $this->email;    
+        return $this->Email;    
     }
     
     /*!
@@ -265,7 +275,7 @@ class eZUser {
     */
     function setEmail($newEmail)
     {
-        $this->email = $newEmail;    
+        $this->Email = $newEmail;    
     }
     
     /*!
@@ -310,7 +320,7 @@ class eZUser {
     */
     function city()
     {
-        return $this->city;    
+        return $this->City;    
     }
     
     /*!
@@ -320,7 +330,7 @@ class eZUser {
     */
     function setCity($newCity)
     {
-        $this->city = $newCity;    
+        $this->City = $newCity;    
     }
     
     /*!
@@ -328,7 +338,7 @@ class eZUser {
     */
     function zipCode()
     {
-        return $this->zipCode;    
+        return $this->ZipCode;    
     }
     
     /*!
@@ -336,9 +346,9 @@ class eZUser {
         
         $newZipCode : new ZIP code
     */
-    function setZIPCode($newZipCode)
+    function setZIPCode( $newZipCode )
     {
-        $this->zipCode = $newZipCode;    
+        $this->ZipCode = $newZipCode;    
     }
     
     /*!
@@ -356,7 +366,7 @@ class eZUser {
     */
     function setPhoneNumber($newPhoneNumber)
     {
-        $this->phoneNumber = $newPhoneNumber;
+        $this->PhoneNumber = $newPhoneNumber;
     }
 
     /*!
@@ -364,7 +374,7 @@ class eZUser {
     */
     function mobileNumber()
     {
-        return $this->mobileNumber;    
+        return $this->MobileNumber;    
     }
     
     /*!
@@ -374,7 +384,7 @@ class eZUser {
     */
     function setMobileNumber($newMobileNumber)
     {
-        $this->mobileNumber = $newMobileNumber;
+        $this->MobileNumber = $newMobileNumber;
     }
 
     /*!
@@ -382,7 +392,7 @@ class eZUser {
     */
     function faxNumber()
     {
-        return $this->faxNumber;    
+        return $this->FaxNumber;    
     }
     
     /*!
@@ -392,7 +402,7 @@ class eZUser {
     */
     function setFaxNumber($newFaxNumber)
     {
-        $this->faxNumber = $newFaxNumber;
+        $this->FaxNumber = $newFaxNumber;
     }
 
     /*!
@@ -400,7 +410,7 @@ class eZUser {
     */
     function country()
     {
-        return $this->country;
+        return $this->Country;
     }
     
     /*!
@@ -408,15 +418,15 @@ class eZUser {
         
         $newCountry : new country
     */
-    function setCountry($newCountry)
+    function setCountry( $newCountry )
     {
-        $this->country = $newCountry;
+        $this->Country = $newCountry;
     }
     function company()
     {
-        return $this->company;
+        return $this->Company;
     }
-    function setCompany($newCompany)
+    function setCompany( $newCompany )
     {
         $this->company = $newCompany;
     }
@@ -426,7 +436,7 @@ class eZUser {
     */
     function regionInfo()
     {
-        return $this->regionInfo;
+        return $this->RegionInfo;
     }
 
     /*!
@@ -434,9 +444,9 @@ class eZUser {
         
         $newRegionInfo : new regional info
     */
-    function setRegionalInfo($newRegionInfo)
+    function setRegionalInfo( $newRegionInfo )
     {
-        $this->regionInfo = $newRegionInfo;    
+        $this->RegionInfo = $newRegionInfo;    
     }
     
     /*!
@@ -447,11 +457,11 @@ class eZUser {
         Note: The password gets encrypted in this function
               - not stored in cleartext!
     */
-    function setPassword($newPassword)
+    function setPassword( $newPassword )
     {
         $query_id = mysql_query("SELECT PASSWORD('$newPassword') AS passwd")
         or die("eZUser::setPassword() failed, dying...");
-        $this->password = mysql_result($query_id,0,"passwd");
+        $this->Password = mysql_result($query_id,0,"passwd");
     }
     
     /*!
@@ -459,7 +469,7 @@ class eZUser {
     */
     function password()
     {
-        return $this->password;
+        return $this->Password;
     }
     
     /*!
@@ -479,7 +489,7 @@ class eZUser {
     */
     function authHash()
     {
-        return $this->authHash;
+        return $this->AuthHash;
     }
     function validateUser( $userId, $Passwd )
     {
@@ -609,6 +619,27 @@ class eZUser {
         {
             echo "passwordEmail() failure";
             return 1;
+        }
+    }
+
+    function getAllUsers()
+    {
+        global $PREFIX;
+        openDB();
+
+        $q = mysql_query("SELECT * FROM $PREFIX"."UserTable")
+             or die("eZUser::getAllUsers() failed, dying...");
+
+        if ( mysql_num_rows( $q ) == 0)
+            return (bool)false;
+        else
+        {
+            for ($i = 0; $i < mysql_num_rows( $q ); $i++ )
+            {
+                $resultArray[$i] = mysql_fetch_array( $q );
+            }
+
+            return $resultArray;
         }
     }
 }
