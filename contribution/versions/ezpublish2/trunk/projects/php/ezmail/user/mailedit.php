@@ -48,36 +48,54 @@ if( isset( $Save ) )
 if( isset( $Send ) )
 {
     $MailID = save_mail();
-    // check for valid field
+    // give error message if no valid users where supplied...
     $mail = new eZMail( $MailID );
-    $mail->setStatus( MAIL_SENT, true );
-    $mail->send();
+    if( $mail->to() == "" && $mail->bcc() == "" && $mail->cc() == "" )
+    {
+        $error = "no_address";
+    }
+    else
+    {
+        $mail->setStatus( MAIL_SENT, true );
+        $mail->send();
 
-    $sent = eZMailFolder::getSpecialFolder( SENT );
-    $sent->addMail( $mail );
+        $sent = eZMailFolder::getSpecialFolder( SENT );
+        $sent->addMail( $mail );
     
-    $sentid = $sent->id();
-    eZHTTPTool::header( "Location: /mail/folder/$sentid" );
-    exit();
+        $sentid = $sent->id();
+        eZHTTPTool::header( "Location: /mail/folder/$sentid" );
+        exit();
+    }
 }
+
+if( isset( $Cc ) )
+    $showcc = true;
+if( isset( $Bcc ) )
+    $showbcc = true;
 
 $ini =& INIFile::globalINI();
 $Language = $ini->read_var( "eZMailMain", "Language" ); 
 
 $t = new eZTemplate( "ezmail/user/" . $ini->read_var( "eZMailMain", "TemplateDir" ),
                      "ezmail/user/intl/", $Language, "mailedit.php" );
+
+$languageIni = new INIFIle( "ezmail/user/intl/" . $Language . "/mailedit.php.ini", false );
 $t->setAllStrings();
 
 $t->set_file( array(
     "mail_edit_page_tpl" => "mailedit.tpl"
     ) );
 
+$t->set_block( "mail_edit_page_tpl", "error_message_tpl", "error_message" );
 $t->set_block( "mail_edit_page_tpl", "attachment_delete_tpl", "attachment_delete" );
 $t->set_block( "mail_edit_page_tpl", "inserted_attachments_tpl", "inserted_attachments" );
+$t->set_block( "mail_edit_page_tpl", "bcc_single_tpl", "bcc_single" );
+$t->set_block( "mail_edit_page_tpl", "cc_single_tpl", "cc_single" );
 $t->set_block( "inserted_attachments_tpl", "attachment_tpl", "attachment" );
 $t->set_var( "inserted_attachments", "" );
 $t->set_var( "attachment_delete", "" );
 
+$t->set_var( "error_message", "" );
 $t->set_var( "site_style", $SiteStyle );
 $t->set_var( "to_value", "" );
 $t->set_var( "from_value", "" );
@@ -86,6 +104,8 @@ $t->set_var( "bcc_value", "" );
 $t->set_var( "subject_value", "" );
 $t->set_var( "mail_body", "" );
 $t->set_var( "current_mail_id", "" );
+$t->set_var( "cc_single", "" );
+$t->set_var( "bcc_single", "" );
 
 /** New mail, lets insert some default values **/
 if( $MailID == 0 )
@@ -107,8 +127,18 @@ if( $MailID != 0 && eZMail::isOwner( eZUser::currentUser(), $MailID ) ) // load 
         $t->set_var( "from_value", htmlspecialchars( $mail->from() ) );
     $t->set_var( "subject_value", htmlspecialchars( $mail->subject() ) );
     $t->set_var( "mail_body", htmlspecialchars( $mail->body() ) );
-    $t->set_var( "cc_value", htmlspecialchars( $mail->cc() ) );
-    $t->set_var( "bcc_value", htmlspecialchars( $mail->bcc() ) );
+    
+    if( $mail->cc() != ""  )
+    {
+        $showcc = true;
+        $t->set_var( "cc_value", htmlspecialchars( $mail->cc() ) );
+    }
+
+    if( $mail->bcc() != "" )
+    {
+        $showbcc = true;
+        $t->set_var( "bcc_value", htmlspecialchars( $mail->bcc() ) );
+    }
 
     $files = $mail->files();
     $i = 0;
@@ -131,6 +161,18 @@ if( $MailID != 0 && eZMail::isOwner( eZUser::currentUser(), $MailID ) ) // load 
         $t->parse( "inserted_attachments", "inserted_attachments_tpl", false );
     }
 }
+
+// check if we have any errors... if yes. show them to the user
+if( isset( $error ) )
+{
+    $t->set_var( "mail_error_message", $languageIni->read_var( "strings", "address_error" ) );
+    $t->parse( "error_message", "error_message_tpl", true );
+}
+
+if( isset( $showcc ) )
+        $t->parse( "cc_single", "cc_single_tpl", false );
+if( isset( $showbcc ) )
+        $t->parse( "bcc_single", "bcc_single_tpl", false );
 
 $t->pparse( "output", "mail_edit_page_tpl" );
 

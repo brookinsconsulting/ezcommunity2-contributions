@@ -1,4 +1,8 @@
 <h1>{intl-mailedit}</h1>
+<!-- BEGIN error_message_tpl -->
+<h3 class="error">{mail_error_message}</h3>
+<!-- END error_message_tpl -->
+
 
 <hr noshade="noshade" size="4">
 
@@ -10,11 +14,34 @@
 <p class="boxtext">{intl-from}:</p>
 <input type="text" size="40" name="From" value="{from_value}"/>
 
+<!-- BEGIN cc_single_tpl -->
 <p class="boxtext">{intl-cc}:</p>
 <input type="text" size="40" name="Cc" value="{cc_value}"/>
+<!-- END cc_single_tpl -->
 
+<!-- BEGIN bcc_single_tpl -->
 <p class="boxtext">{intl-bcc}:</p>
 <input type="text" size="40" name="Bcc" value="{bcc_value}"/>
+<!-- END bcc_single_tpl -->
+
+<br /><br />
+<table cellspacing="0" cellpadding="0" border="0">
+<tr>
+<!-- 
+  <td>
+    <input class="stdbutton" type="submit" name="To" value="{intl-to}:" />
+  </td>
+  <td>&nbsp;</td> -->
+  <td>
+    <input class="stdbutton" type="submit" name="Cc" value="{intl-cc}:" />
+  </td>
+  <td>&nbsp;</td>
+  <td>
+    <input class="stdbutton" type="submit" name="Bcc" value="{intl-bcc}:" />
+  </td>
+</tr>
+</table>
+
 
 <p class="boxtext">{intl-subject}:</p>
 <input type="text" size="40" name="Subject" value="{subject_value}"/>
@@ -22,6 +49,7 @@
 <p class="boxtext">{intl-body}:</p>
 <textarea name="MailBody" cols="40" rows="20" wrap="soft">{mail_body}</textarea>
 <br /><br />
+
 
 <!-- BEGIN inserted_attachments_tpl -->
 <h2>{intl-attachments}:</h2>

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezmailaccount.php,v 1.21 2001/04/05 15:00:22 fh Exp $
+// $Id: ezmailaccount.php,v 1.22 2001/04/27 13:29:51 fh Exp $
 //
 // eZMailAccount class
 //
@@ -52,6 +52,7 @@
 include_once( "ezmail/classes/ezmail.php" );
 include_once( "ezmail/classes/ezmailfunctions.php" );
 include_once( "ezmail/classes/ezmailfilterrule.php" );
+include_once( "classes/ezhttptool.php" );
 
 class eZMailAccount
 {
@@ -470,8 +471,13 @@ class eZMailAccount
     {
         $user = eZUser::currentUser();
         $server = "{" . $this->Server . "/pop3:" .$this->ServerPort ."}";
-        $mbox = imap_open( $server, $this->LoginName, $this->Password, OP_HALFOPEN)
-             or die("can't connect: ".imap_last_error());
+        $mbox = imap_open( $server, $this->LoginName, $this->Password, OP_HALFOPEN);
+        if( $mbox == false )
+        {
+            $errorMsg = rawurlencode( imap_last_error() );
+            eZHTTPTool::header( "Location: /error/error?Info=$errorMsg" );
+            exit();
+        }
 
 //debug!!!!        
 //        $struct = imap_fetchstructure( $mbox, 1 );
