@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: index.php,v 1.119.2.20 2002/04/24 13:45:31 jb Exp $
+// $Id: index.php,v 1.119.2.21 2002/06/19 11:41:50 br Exp $
 //
 // Created on: <09-Nov-2000 14:52:40 ce>
 //
@@ -140,7 +140,7 @@ $GlobalSiteDesign = $siteDesign;
 
 $StoreStats = $ini->read_var( "eZStatsMain", "StoreStats" );
 
-if ( $StoreStats == "enabled" )
+if ( $StoreStats == "enabled" and $GlobalSiteIni->Index != "" )
 {
     // do the statistics
     include_once( "ezstats/classes/ezpageview.php" );
