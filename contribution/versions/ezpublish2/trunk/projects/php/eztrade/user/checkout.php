@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: checkout.php,v 1.10 2000/11/01 09:24:19 ce-cvs Exp $
+// $Id: checkout.php,v 1.11 2000/11/01 14:04:17 ce-cvs Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <28-Sep-2000 15:52:08 bf>
@@ -152,7 +152,8 @@ if ( $SendOrder == "true" )
     // Setup the template for email
     $mailTemplate = new eZTemplate( "eztrade/user/" . $ini->read_var( "eZTradeMain", "TemplateDir" ),
                                         "eztrade/user/intl", $Language, "mailorder.php" );
-        
+
+    $mailTemplateIni = new INIFile( "eztrade/user/intl/" . $Language . "/mailorder.php.ini", false );
     $mailTemplate->set_file( "mail_order_tpl", "mailorder.tpl" );
     $mailTemplate->setAllStrings();
 
@@ -203,15 +204,20 @@ if ( $SendOrder == "true" )
         }
 
     // Send E-mail
+    
     $mail = new eZMail();
+    $mailToAdmin = $ini->read_var( "eZTradeMain", "mailToAdmin" );
+    
+    $mailSubjectAdmin = $mailTemplateIni->read_var( "strings", "mail_subject_admin" );
+
     $mailBody = $mailTemplate->parse( "dummy", "mail_order_tpl" );
     $mail->setFrom( $OrderSenderEmail );
     $mail->setTo( $OrderReceiverEmail );
     $mail->setSubject( $newOrder );
     $mail->setBody( $mailBody );
     $mail->send();
-    $mail->setSubject( "en kunde har kjøpt.." );
-    $mail->setTo( "bf@ez.no" );
+    $mail->setSubject( $mailSubjectAdmin );
+    $mail->setTo( $mailToAdmin );
     $mail->send();
     
     $cart->clear();
