@@ -2,12 +2,12 @@
 <form method="post" action="/filemanager/upload/" enctype="multipart/form-data">
 <input type="hidden" name="max_file_size" value="30000000">
 
-<h1>{int-file_uplolad}</h1>
+<h1>{intl-file_upload}</h1>
 
 
 <hr noshade="noshade" size="4" />
 
-<p class="boxtext">{intl-subfolder_of}:</p>
+<p class="boxtext">{intl-folder}:</p>
 
 <select name="FolderID">
 <!-- BEGIN value_tpl -->
@@ -25,9 +25,10 @@
 	<input type="text" size="40" name="Name" value="{name_value}"/>
 	
 	<p class="boxtext">{intl-file_description}:</p>
-	<input type="text" size="40" name="Description" value="{description_value}"/>
 	
-	<p class="boxtext">{intl-filefile}:</p>
+	<textarea name="Description" cols="40" rows="5" wrap="soft">{description_value}</textarea>
+	
+	<p class="boxtext">{intl-file}:</p>
 	<input size="40" name="userfile" type="file" />
 	</td>
 	<td>&nbsp;</td>

@@ -27,6 +27,14 @@
 {article_body}
 </p>
 
+<!-- BEGIN attached_file_list_tpl -->
+<h3>{intl-attached_files}:</h3>
+<!-- BEGIN attached_file_tpl -->
+<a href="/filemanager/download/{file_id}/{original_file_name}/">{file_name}</a><br />
+<!-- END attached_file_tpl -->
+
+<!-- END attached_file_list_tpl -->
+
 <p>
 <!-- BEGIN prev_page_link_tpl -->
 <a class="path" href="/article/articleview/{article_id}/{prev_page_number}/">&lt;&lt; {intl-prev_page}</a>
