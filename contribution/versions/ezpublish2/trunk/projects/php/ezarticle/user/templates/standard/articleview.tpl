@@ -64,7 +64,7 @@
 <tr>
 	<td width="1%" class="{td_class}" valign="top">
 	<img src="{www_dir}{image_url}" width="{image_width}" height="{image_height}" border="2" align="left" />
-	<span class="pictext">{image_caption}</span>
+	<span class="small">{image_caption}</span>
 	</td>
 </tr>
 <!-- END image_tpl -->
