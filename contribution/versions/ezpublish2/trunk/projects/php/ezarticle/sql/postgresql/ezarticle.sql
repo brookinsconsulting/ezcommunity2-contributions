@@ -15,6 +15,7 @@ CREATE TABLE eZArticle_Article (
   TopicID int NOT NULL default '0',
   StartDate int NOT NULL,
   StopDate int NOT NULL,
+  ImportID varchar(255) default NULL,
   PRIMARY KEY (ID)
 );
 
@@ -67,6 +68,7 @@ CREATE TABLE eZArticle_ArticleImageLink (
   ArticleID int NOT NULL default '0',
   ImageID int NOT NULL default '0',
   Created int NOT NULL,
+  Placement int NOT NULL default '0',
   PRIMARY KEY (ID)
 );
 
@@ -129,6 +131,7 @@ CREATE TABLE eZArticle_Category (
   Placement int default '0',
   SectionID int NOT NULL default '0',
   ImageID int default NULL,
+  EditorGroupID int default '0',
   PRIMARY KEY (ID)
 );
 
