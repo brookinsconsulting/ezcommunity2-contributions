@@ -796,3 +796,11 @@ Maintainer(s) : bf@ez.no
     * INIFile.php:
     error messages in ini file is not printet if DEBUG is disabled
 
+
+Module : classes
+Repository path : /home/cvsroot/projects/php/classes
+Maintainer(s) : bf@ez.no
+2002-08-14  Baard Farstad  <bf@ez.no>
+
+    * ezpublish.php: Changed version.
+
