@@ -1,3 +1,14 @@
+<SCRIPT LANGUAGE="JavaScript" SRC="{document_root}templates/overlib.js">
+</SCRIPT>
+
+overlib('Snapped to the left above the cursor.', HEIGHT, 40, LEFT, ABOVE, SNAPX, 10, SNAPY, 10) 
+
+<A HREF="javascript:void" onMouseOver="return overlib('<UL><LI>One<LI>Two<UL>')" onMouseOut="nd();">Html in the popup</A>
+ <BR>
+overlib('&lt;UL&gt;&lt;LI&gt;One&lt;LI&gt;Two&lt;/UL&gt;')
+<BR><BR>
+
+
 - | <a href="index.php4?page={document_root}contactlist.php4">liste</a>
 | <a href="index.php4?page={document_root}loginedit.php4">login</a>
 | <a href="index.php4?page={document_root}noteslist.php4"><img src="{document_root}images/huskelapp.gif" border="0" alt="Notater"></a>

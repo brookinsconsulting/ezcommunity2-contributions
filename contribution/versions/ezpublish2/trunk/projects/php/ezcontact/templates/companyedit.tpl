@@ -39,6 +39,8 @@ Firmanavn:<br>
 <tr>
 	<td bgcolor="#eeeedd">
 
+
+
 Adresse type:
 <br>
 <select name="AddressType">
@@ -70,6 +72,10 @@ Postnummer:<br>
 <table  border="0">
 <tr>
 	<td bgcolor="#eeeeee">
+
+
+
+
 Telefon:<br>
 <select name="PhoneType">
 {phone_type}
