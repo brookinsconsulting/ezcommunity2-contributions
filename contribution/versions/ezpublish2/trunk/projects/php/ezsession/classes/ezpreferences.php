@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezpreferences.php,v 1.3 2001/01/22 14:43:01 jb Exp $
+// $Id: ezpreferences.php,v 1.4 2001/01/25 00:29:05 jb Exp $
 //
 // Definition of eZPreferences class
 //
@@ -71,6 +71,21 @@ class eZPreferences
 
 
     /*!
+      Returns the value of a preferences variable as an array.
+
+      If the variable does not exist 0 (false) is returned.
+    */
+    function variableArray( $name )
+    {
+        $val =& $this->variable( $name );
+        if ( $val )
+        {
+            $val =& explode( ";", $val );
+        }
+        return $val;
+    }
+
+    /*!
       Returns the value of a preferences variable.
 
       If the variable does not exist 0 (false) is returned.
@@ -95,7 +110,7 @@ class eZPreferences
        return $ret;
     }
 
-    /*!
+	/*!
       Adds or updates a variable to the preferences.
 
       Returns false if unsuccessful.
@@ -105,10 +120,14 @@ class eZPreferences
         $ret = false;
         if ( get_class( $this->UserObject ) == "ezuser" )
         {
+            if ( is_array( $value ) )
+            {
+                $value =& implode( ";", $value );
+            }
             $this->dbInit();
-            
+
             $userID = $this->UserObject->id();
-            
+
             $this->Database->array_query( $value_array, "SELECT ID FROM eZSession_Preferences
                                                     WHERE UserID='$userID' AND Name='$name'" );
             if ( count( $value_array ) == 1 )
