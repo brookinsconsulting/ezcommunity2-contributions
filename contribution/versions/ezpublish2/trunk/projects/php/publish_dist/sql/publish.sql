@@ -28,7 +28,7 @@ CREATE TABLE eZArticle_Article (
 # Dumping data for table 'eZArticle_Article'
 #
 
-INSERT INTO eZArticle_Article VALUES (1,'Demo article','<?xml version=\"1.0\"?><article><generator>tech</generator>\n<intro>This is a demo article. It will demontrate the power of the eZTechRenderer used for generating articles.</intro><body><page><header>Here I will demonstrate some simple tags</header>\r\n\r\n<bold> this is bold text</bold> \r\n<italic>this is italic text</italic>\r\n<strike>this is strike through text</strike>\r\n\r\n<link href=\"ez.no\" text=\"this is a link\" />\r\n<mail to=\"bf@ez.no\" subject=\"demo\" text=\"mail me\" /> a mail link with subject set to demo\r\n\r\n</page><page>\r\n\r\n<header>Here I will demonstrate images</header>\r\n\r\nAs you see the images are generated on the fly, so you can request any size (small, medium, large) at any time.\r\n\r\n<image id=\"1\" align=\"left\" size=\"small\" /> This is a small image. Bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla .\r\n\r\nbla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla .\r\n\r\n<header>A large image:</header>\r\n\r\n<image id=\"1\" align=\"center\" size=\"large\" /> \r\n\r\n</page><page>\r\n\r\n<header>Coding tags</header>\r\n\r\nHere I will demonstrate som programming tags.\r\n\r\n<php>\r\n// this is php code\r\nfunction foo()\r\n{\r\n  bar();\r\n}\r\n</php>\r\n\r\nAnd some cpp:\r\n<cpp>\r\nclass foo\r\n{\r\n  foo();\r\n  void bar();\r\n}\r\n</cpp>\r\n\r\nAnd \r\n<ezhtml>\r\n&lt;html&gt;\r\n&lt;head&gt;\r\n  &lt;title&gt;\r\n  Title\r\n  &lt;/title&gt;\r\n&lt;/head&gt;\r\n&lt;body&gt;\r\nthis is the body\r\n&lt;/body&gt;\r\n&lt;/html&gt;\r\n</ezhtml>\r\n\r\n</page></body></article>','Bård Farstad','read',27,20001101123424,20001101122842,3,'true',20001101122842,'tech\nThis is a demo article. It will demontrate the power of eZTechRenderer used for generating articles.Here I demonstrate some simple tags\r\n\r\n this bold text \r\nthis italic text\r\nthis strike through text\r\n\r\n\r\n mail link with subject set to demo\r\n\r\n\r\n\r\nHere images\r\n\r\nAs you see images are generated on fly, so can request any size (small, medium, large) at time.\r\n\r\n This small image. Bla bla .\r\n\r\nbla .\r\n\r\nA large image:\r\n\r\n \r\n\r\n\r\n\r\nCoding tags\r\n\r\nHere som programming tags.\r\n\r\n\r\n// php code\r\nfunction foo()\r\n{\r\n  bar();\r\n}\r\n\r\n\r\nAnd cpp:\r\n\r\nclass foo\r\n{\r\n foo();\r\n void \r\n\r\n&lt;html&gt;\r\n&lt;head&gt;\r\n &lt;title&gt;\r\n Title\r\n &lt;/title&gt;\r\n&lt;/head&gt;\r\n&lt;body&gt;\r\nthis body\r\n&lt;/body&gt;\r\n&lt;/html&gt;\r\n\r\n\r\n ');
+INSERT INTO eZArticle_Article VALUES (1,'Demo article','<?xml version=\"1.0\"?><article><generator>tech</generator>\n<intro>This is a demo article. It will demontrate the power of the eZTechRenderer used for generating articles.</intro><body><page><header>Here I will demonstrate some simple tags</header>\r\n\r\n<bold> this is bold text</bold> \r\n<italic>this is italic text</italic>\r\n<strike>this is strike through text</strike>\r\n\r\n<link href=\"ez.no\" text=\"this is a link\" />\r\n<mail to=\"bf@ez.no\" subject=\"demo\" text=\"mail me\" /> a mail link with subject set to demo\r\n\r\n</page><page>\r\n\r\n<header>Here I will demonstrate images</header>\r\n\r\nAs you see the images are generated on the fly, so you can request any size (small, medium, large) at any time.\r\n\r\n<image id=\"1\" align=\"left\" size=\"small\" /> This is a small image. Bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla .\r\n\r\nbla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla .\r\n\r\n<header>A large image:</header>\r\n\r\n<image id=\"2\" align=\"center\" size=\"large\" /> \r\n\r\n<header>Images on a row</header>\r\n\r\n<image id=\"1\" align=\"float\" size=\"small\" /> <image id=\"2\" align=\"float\" size=\"small\" /> <image id=\"3\" align=\"float\" size=\"small\" />\r\n\r\n</page><page>\r\n\r\n<header>Coding tags</header>\r\n\r\nHere I will demonstrate som programming tags.\r\n\r\n<php>\r\n// this is php code\r\nfunction foo()\r\n{\r\n  bar();\r\n}\r\n</php>\r\n\r\nAnd some cpp:\r\n<cpp>\r\nclass foo\r\n{\r\n  foo();\r\n  void bar();\r\n}\r\n</cpp>\r\n\r\nAnd \r\n<ezhtml>\r\n&lt;html&gt;\r\n&lt;head&gt;\r\n  &lt;title&gt;\r\n  Title\r\n  &lt;/title&gt;\r\n&lt;/head&gt;\r\n&lt;body&gt;\r\nthis is the body\r\n&lt;/body&gt;\r\n&lt;/html&gt;\r\n</ezhtml>\r\n\r\n</page></body></article>','Bård Farstad','read',27,20001219123508,20001101122842,3,'true',20001101122842,'tech\nThis is a demo article. It will demontrate the power of eZTechRenderer used for generating articles.Here I demonstrate some simple tags\r\n\r\n this bold text \r\nthis italic text\r\nthis strike through text\r\n\r\n\r\n mail link with subject set to demo\r\n\r\n\r\n\r\nHere images\r\n\r\nAs you see images are generated on fly, so can request any size (small, medium, large) at time.\r\n\r\n This small image. Bla bla .\r\n\r\nbla .\r\n\r\nA large image:\r\n\r\n \r\n\r\nImages row\r\n\r\n  \r\n\r\n\r\n\r\nCoding tags\r\n\r\nHere som programming tags.\r\n\r\n\r\n// php code\r\nfunction foo()\r\n{\r\n bar();\r\n}\r\n\r\n\r\nAnd cpp:\r\n\r\nclass foo\r\n{\r\n foo();\r\n void \r\n\r\n&lt;html&gt;\r\n&lt;head&gt;\r\n &lt;title&gt;\r\n Title\r\n &lt;/title&gt;\r\n&lt;/head&gt;\r\n&lt;body&gt;\r\nthis body\r\n&lt;/body&gt;\r\n&lt;/html&gt;\r\n\r\n\r\n ');
 INSERT INTO eZArticle_Article VALUES (2,'About eZ publish','<?xml version=\"1.0\"?><article><generator>tech</generator>\n<intro>eZ publish is an Open Source portal building software, content manager or publishing solution whichever fits your needs. </intro><body><page>It is released under the GPL license and can be downloaded from <link href=\"publish.ez.no\" text=\"publish.ez.no\" />. You can get commercial support from eZ systems at <link href=\"ez.no\" text=\"ez.no\" /> or at <link href=\"sourceprovider.com\" text=\"sourceprovider.com\" />.\r\n\r\nThere is a similar project which deals with e-commerce solutions at <link href=\"trade.ez.no\" text=\"trade.ez.no\" /></page></body></article>','admin user','',27,20001123085405,20001123085405,1,'true',20001123085405,'tech\neZ publish is an Open Source portal building software, content manager or publishing solution whichever fits your needs. It released under the GPL license and can be downloaded from . You get commercial support eZ systems at  .\r\n\r\nThere a similar project which deals with e-commerce solutions ');
 INSERT INTO eZArticle_Article VALUES (3,'eZ publish introduction','<?xml version=\"1.0\"?><article><generator>tech</generator>\n<intro>This is an example of articles which is a member of two or more categories. As you can see this article is a part of the News and Help category.\r\n</intro><body><page>For more information about eZ publish go to :\r\n<link href=\"developer.ez.no\" text=\"developer.ez.no\" />.</page></body></article>','admin user','Read more',27,20001123090845,20001123090702,1,'true',20001123090717,'tech\nThis is an example of articles which a member two or more categories. As you can see this article part the News and Help category.\r\nFor information about eZ publish go to :\r\n. ');
 
@@ -47,7 +47,7 @@ CREATE TABLE eZArticle_ArticleCategoryDefinition (
 # Dumping data for table 'eZArticle_ArticleCategoryDefinition'
 #
 
-INSERT INTO eZArticle_ArticleCategoryDefinition VALUES (1,1,1);
+INSERT INTO eZArticle_ArticleCategoryDefinition VALUES (4,1,1);
 INSERT INTO eZArticle_ArticleCategoryDefinition VALUES (2,2,2);
 INSERT INTO eZArticle_ArticleCategoryDefinition VALUES (3,3,3);
 
@@ -66,7 +66,7 @@ CREATE TABLE eZArticle_ArticleCategoryLink (
 # Dumping data for table 'eZArticle_ArticleCategoryLink'
 #
 
-INSERT INTO eZArticle_ArticleCategoryLink VALUES (1,1,1);
+INSERT INTO eZArticle_ArticleCategoryLink VALUES (5,1,1);
 INSERT INTO eZArticle_ArticleCategoryLink VALUES (2,2,2);
 INSERT INTO eZArticle_ArticleCategoryLink VALUES (4,3,1);
 INSERT INTO eZArticle_ArticleCategoryLink VALUES (3,3,3);
@@ -122,7 +122,9 @@ CREATE TABLE eZArticle_ArticleImageLink (
 # Dumping data for table 'eZArticle_ArticleImageLink'
 #
 
-INSERT INTO eZArticle_ArticleImageLink VALUES (1,1,1,20001101122932);
+INSERT INTO eZArticle_ArticleImageLink VALUES (1,1,1,20001219123357);
+INSERT INTO eZArticle_ArticleImageLink VALUES (2,1,2,20001219123406);
+INSERT INTO eZArticle_ArticleImageLink VALUES (3,1,3,20001219123415);
 
 #
 # Table structure for table 'eZArticle_Category'
@@ -525,7 +527,9 @@ CREATE TABLE eZImageCatalogue_Image (
 # Dumping data for table 'eZImageCatalogue_Image'
 #
 
-INSERT INTO eZImageCatalogue_Image VALUES (1,'','caption text','','php0meQsj.jpg','360_rose.jpg');
+INSERT INTO eZImageCatalogue_Image VALUES (1,'','','','phpDPcExf.jpg','DSCN1728.JPG');
+INSERT INTO eZImageCatalogue_Image VALUES (2,'','','','phpBkbWul.jpg','DSCN1742.JPG');
+INSERT INTO eZImageCatalogue_Image VALUES (3,'','','','phpZIDqjq.jpg','DSCN1750.JPG');
 
 #
 # Table structure for table 'eZImageCatalogue_ImageVariation'
@@ -545,9 +549,14 @@ CREATE TABLE eZImageCatalogue_ImageVariation (
 # Dumping data for table 'eZImageCatalogue_ImageVariation'
 #
 
-INSERT INTO eZImageCatalogue_ImageVariation VALUES (1,1,1,'ezimagecatalogue/catalogue/variations/1-150x150.jpg',150,83);
-INSERT INTO eZImageCatalogue_ImageVariation VALUES (2,1,2,'ezimagecatalogue/catalogue/variations/1-100x100.jpg',100,56);
-INSERT INTO eZImageCatalogue_ImageVariation VALUES (3,1,3,'ezimagecatalogue/catalogue/variations/1-300x300.jpg',270,150);
+INSERT INTO eZImageCatalogue_ImageVariation VALUES (1,1,1,'ezimagecatalogue/catalogue/variations/1-150x150.jpg',150,113);
+INSERT INTO eZImageCatalogue_ImageVariation VALUES (2,2,1,'ezimagecatalogue/catalogue/variations/2-150x150.jpg',150,113);
+INSERT INTO eZImageCatalogue_ImageVariation VALUES (3,3,1,'ezimagecatalogue/catalogue/variations/3-150x150.jpg',150,113);
+INSERT INTO eZImageCatalogue_ImageVariation VALUES (4,1,2,'ezimagecatalogue/catalogue/variations/1-100x100.jpg',100,75);
+INSERT INTO eZImageCatalogue_ImageVariation VALUES (5,2,3,'ezimagecatalogue/catalogue/variations/2-300x300.jpg',300,225);
+INSERT INTO eZImageCatalogue_ImageVariation VALUES (6,2,2,'ezimagecatalogue/catalogue/variations/2-100x100.jpg',100,75);
+INSERT INTO eZImageCatalogue_ImageVariation VALUES (7,3,2,'ezimagecatalogue/catalogue/variations/3-100x100.jpg',100,75);
+INSERT INTO eZImageCatalogue_ImageVariation VALUES (8,1,4,'ezimagecatalogue/catalogue/variations/1-400x500.jpg',400,300);
 
 #
 # Table structure for table 'eZImageCatalogue_ImageVariationGroup'
@@ -567,6 +576,7 @@ CREATE TABLE eZImageCatalogue_ImageVariationGroup (
 INSERT INTO eZImageCatalogue_ImageVariationGroup VALUES (1,150,150);
 INSERT INTO eZImageCatalogue_ImageVariationGroup VALUES (2,100,100);
 INSERT INTO eZImageCatalogue_ImageVariationGroup VALUES (3,300,300);
+INSERT INTO eZImageCatalogue_ImageVariationGroup VALUES (4,400,500);
 
 #
 # Table structure for table 'eZLink_Hit'
@@ -724,8 +734,6 @@ CREATE TABLE eZSession_Session (
 # Dumping data for table 'eZSession_Session'
 #
 
-INSERT INTO eZSession_Session VALUES (1,'e506185ac60c7ea6d25ee9b5368a2873',20001123084928,20001123090845,20001123090845);
-
 #
 # Table structure for table 'eZSession_SessionVariable'
 #
@@ -742,7 +750,6 @@ CREATE TABLE eZSession_SessionVariable (
 # Dumping data for table 'eZSession_SessionVariable'
 #
 
-INSERT INTO eZSession_SessionVariable VALUES (1,1,'AuthenticatedUser','27');
 
 #
 # Table structure for table 'eZUser_Forgot'
