@@ -74,8 +74,8 @@ function &newOrders( $args )
         foreach ( $orderArray as $orderItem )
         {
             // set the order item to be exported
-//            $orderItem->setIsExported( true );
-//            $orderItem->store();
+            $orderItem->setIsExported( true );
+            $orderItem->store();
 
             $datetime =& $orderItem->date();
 
