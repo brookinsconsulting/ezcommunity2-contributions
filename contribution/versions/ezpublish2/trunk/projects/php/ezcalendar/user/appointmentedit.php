@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: appointmentedit.php,v 1.27 2001/01/29 18:10:37 gl Exp $
+// $Id: appointmentedit.php,v 1.28 2001/01/30 10:39:53 gl Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <03-Jan-2001 12:47:22 bf>
@@ -29,6 +29,7 @@ if ( isSet( $DeleteAppointments ) )
 {
     $Action = "DeleteAppointment";
 }
+
 
 if ( isSet( $GoDay ) )
 {
@@ -81,6 +82,7 @@ else if ( isSet( $GoToday ) )
     exit();
 }
 
+
 include_once( "classes/INIFile.php" );
 include_once( "classes/eztemplate.php" );
 include_once( "classes/ezlog.php" );
@@ -108,25 +110,55 @@ if ( $user == false )
 else
     $userID = $user->id();
 
-if ( $Action == "New"  )
+if( $userID == false )
+    $app = false;
+else if ( $Action == "New"  )
     $app = new eZAppointment();
 else
     $app = new eZAppointment( $AppointmentID );
 
+
+$t = new eZTemplate( "ezcalendar/user/" . $ini->read_var( "eZCalendarMain", "TemplateDir" ),
+                     "ezcalendar/user/intl/", $Language, "appointmentedit.php" );
+
+$t->set_file( "appointment_edit_tpl", "appointmentedit.tpl" );
+
+$t->setAllStrings();
+
+$t->set_block( "appointment_edit_tpl", "user_error_tpl", "user_error" );
+$t->set_block( "user_error_tpl", "no_user_error_tpl", "no_user_error" );
+$t->set_block( "user_error_tpl", "wrong_user_error_tpl", "wrong_user_error" );
+
+$t->set_block( "appointment_edit_tpl", "no_error_tpl", "no_error" );
+$t->set_block( "no_error_tpl", "title_error_tpl", "title_error" );
+$t->set_block( "no_error_tpl", "start_time_error_tpl", "start_time_error" );
+$t->set_block( "no_error_tpl", "stop_time_error_tpl", "stop_time_error" );
+$t->set_block( "no_error_tpl", "value_tpl", "value" );
+$t->set_block( "no_error_tpl", "month_tpl", "month" );
+$t->set_block( "no_error_tpl", "day_tpl", "day" );
+
+
+// no user logged on
+if( $app == false )
+{
+    $t->set_var( "no_error", "" );
+    $t->set_var( "wrong_user_error", "" );
+
+    $t->parse( "no_user_error", "no_user_error_tpl" );
+    $t->parse( "user_error", "user_error_tpl" );
+    $t->pparse( "output", "appointment_edit_tpl" );
+
+    exit();
+}
+
+
 // only the appointment owner is allowed to edit or delete an appointment
 if ( $Action == "Edit" && $app->userID() != $userID )
 {
-    $t = new eZTemplate( "ezcalendar/user/" . $ini->read_var( "eZCalendarMain", "TemplateDir" ),
-                         "ezcalendar/user/intl/", $Language, "appointmentedit.php" );
-
-    $t->set_file( "appointment_edit_tpl", "appointmentedit.tpl" );
-
-    $t->setAllStrings();
-
-    $t->set_block( "appointment_edit_tpl", "user_error_tpl", "user_error" );
-    $t->set_block( "appointment_edit_tpl", "no_user_error_tpl", "no_user_error" );
-
+    $t->set_var( "no_error", "" );
     $t->set_var( "no_user_error", "" );
+
+    $t->parse( "wrong_user_error", "wrong_user_error_tpl" );
     $t->parse( "user_error", "user_error_tpl" );
     $t->pparse( "output", "appointment_edit_tpl" );
 
@@ -152,17 +184,10 @@ if ( $Action == "DeleteAppointment" )
         // user not allowed to delete this appointment
         else
         {
-            $t = new eZTemplate( "ezcalendar/user/" . $ini->read_var( "eZCalendarMain", "TemplateDir" ),
-                                 "ezcalendar/user/intl/", $Language, "appointmentedit.php" );
-
-            $t->set_file( "appointment_edit_tpl", "appointmentedit.tpl" );
-
-            $t->setAllStrings();
-
-            $t->set_block( "appointment_edit_tpl", "user_error_tpl", "user_error" );
-            $t->set_block( "appointment_edit_tpl", "no_user_error_tpl", "no_user_error" );
-
+            $t->set_var( "no_error", "" );
             $t->set_var( "no_user_error", "" );
+
+            $t->parse( "wrong_user_error", "wrong_user_error_tpl" );
             $t->parse( "user_error", "user_error_tpl" );
             $t->pparse( "output", "appointment_edit_tpl" );
 
@@ -333,23 +358,6 @@ if ( $Action == "Insert" || $Action == "Update" )
     }
 }
 
-
-$t = new eZTemplate( "ezcalendar/user/" . $ini->read_var( "eZCalendarMain", "TemplateDir" ),
-                     "ezcalendar/user/intl/", $Language, "appointmentedit.php" );
-
-$t->set_file( "appointment_edit_tpl", "appointmentedit.tpl" );
-
-$t->setAllStrings();
-
-$t->set_block( "appointment_edit_tpl", "user_error_tpl", "user_error" );
-$t->set_block( "appointment_edit_tpl", "no_user_error_tpl", "no_user_error" );
-
-$t->set_block( "no_user_error_tpl", "title_error_tpl", "title_error" );
-$t->set_block( "no_user_error_tpl", "start_time_error_tpl", "start_time_error" );
-$t->set_block( "no_user_error_tpl", "stop_time_error_tpl", "stop_time_error" );
-$t->set_block( "no_user_error_tpl", "value_tpl", "value" );
-$t->set_block( "no_user_error_tpl", "month_tpl", "month" );
-$t->set_block( "no_user_error_tpl", "day_tpl", "day" );
 
 $t->set_var( "user_error", "" );
 
@@ -565,7 +573,7 @@ for ( $i=1; $i<13; $i++ )
 if ( $Action != "Edit" )
     $t->set_var( "year_value", $tmpdate->year() );
 
-$t->parse( "no_user_error", "no_user_error_tpl" );
+$t->parse( "no_error", "no_error_tpl" );
 $t->pparse( "output", "appointment_edit_tpl" );
 
 

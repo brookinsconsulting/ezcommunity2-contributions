@@ -2,11 +2,17 @@
 <h1>{intl-appointment_edit}</h1>
 
 <!-- BEGIN user_error_tpl -->
-<p class="error">{intl-user_error}</p>
+	<!-- BEGIN no_user_error_tpl -->
+	<p class="error">{intl-no_user_error}</p>
+	<!-- END no_user_error_tpl -->
+
+	<!-- BEGIN wrong_user_error_tpl -->
+	<p class="error">{intl-wrong_user_error}</p>
+	<!-- END wrong_user_error_tpl -->
 <!-- END user_error_tpl -->
 
 
-<!-- BEGIN no_user_error_tpl -->
+<!-- BEGIN no_error_tpl -->
 
 <!-- BEGIN title_error_tpl -->
 <p class="error">{intl-title_error}</p>
@@ -77,11 +83,11 @@
 <tr>
 	<td valign="top">
 	<p class="boxtext">{intl-appointment_start}:</p>
-	<input type="text" size="4" name="Start" value="{start_value}" />
+	<input type="text" size="6" name="Start" value="{start_value}" />
 	</td>
 	<td>
 	<p class="boxtext">{intl-appointment_stop}:</p>
-	<input type="text" size="4" name="Stop" value="{stop_value}" />
+	<input type="text" size="6" name="Stop" value="{stop_value}" />
 
 	</td>
 </tr>
@@ -120,4 +126,4 @@
 <input type="hidden" name="AppointmentID" value="{appointment_id}" />
 </form>
 
-<!-- END no_user_error_tpl -->
+<!-- END no_error_tpl -->
