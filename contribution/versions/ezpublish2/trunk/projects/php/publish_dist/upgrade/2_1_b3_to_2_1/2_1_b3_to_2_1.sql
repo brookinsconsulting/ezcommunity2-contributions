@@ -1,0 +1,1 @@
+ALTER TABLE eZArticle_Category add ImageID int; 
