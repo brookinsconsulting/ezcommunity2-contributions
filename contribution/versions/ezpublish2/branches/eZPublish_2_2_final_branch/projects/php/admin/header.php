@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: header.php,v 1.40.2.1 2001/10/30 19:37:46 master Exp $
+// $Id: header.php,v 1.40.2.2 2002/02/19 18:24:30 master Exp $
 //
 // Created on: <23-Jan-2001 16:06:07 bf>
 //
@@ -30,7 +30,6 @@ include_once( "classes/eztemplate.php" );
 include_once( "classes/ezlocale.php" );
 include_once( "classes/ezpublish.php" );
 
-
 $ini =& INIFile::globalINI();
 $Language =& $ini->read_var( "eZUserMain", "Language" );
 $Locale = new eZLocale( $Language );
@@ -51,6 +50,20 @@ if ( $session->fetch() == false )
     $session->store();
 }
 
+//EP: autoswitch charsets in admin ------------------------------------------
+if ( $url_array[2] == "archive" )
+{
+    $CategoryID = $url_array[3];
+    
+    include_once( "ezarticle/classes/ezarticlecategory.php" );
+    include_once( "ezsitemanager/classes/ezsection.php" );
+
+    $GlobalSectionID = eZArticleCategory::sectionIDStatic( $CategoryID );
+
+    $page_charset = eZSection::language ( $GlobalSectionID );
+}
+//EP ------------------------------------------------------------------------
+
 if ( isset( $page_charset ) )
 {
     $session->setVariable( "charsetLanguage", $page_charset );
@@ -65,7 +78,6 @@ if ( $charsetLanguage == "" )
 	
 $charsetLocale = new eZLocale( $charsetLanguage );
 $iso = $charsetLocale->languageISO();
-
 
 $preferences = new eZPreferences();
 $modules =& eZModuleHandler::active();
