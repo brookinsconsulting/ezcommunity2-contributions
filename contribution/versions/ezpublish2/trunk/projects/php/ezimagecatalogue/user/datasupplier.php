@@ -4,7 +4,7 @@ include_once( "ezuser/classes/ezobjectpermission.php" );
 include_once( "classes/ezhttptool.php" );
 include_once( "ezuser/classes/ezuser.php" );
 include_once( "ezimagecatalogue/classes/ezimagecategory.php" );
-include_once( "ezimagecatelogue/classes/ezimage.php" );
+include_once( "ezimagecatalogue/classes/ezimage.php" );
 
 function writeAtAll()
 {
