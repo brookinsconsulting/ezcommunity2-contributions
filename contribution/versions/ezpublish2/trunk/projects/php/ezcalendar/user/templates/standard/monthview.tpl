@@ -58,22 +58,6 @@
 
 <!-- END public_appointment_tpl -->
 
-<!-- BEGIN public_consultation_tpl -->
-<!-- BEGIN public_consultation_company_tpl -->
-<a class="small" href="{www_dir}{index}/contact/consultation/view/{consultation_id}/">{consultation_desc}</a>
- - 
-<a class="small" href="{www_dir}{index}/contact/company/view/{company_id}/">{consultation_company}</a><br />
-<img src="{www_dir}/images/1x1.gif" height="4" width="2" border="0" alt="" /><br />
-<!-- END public_consultation_company_tpl -->
-
-<!-- BEGIN public_consultation_person_tpl -->
-<a class="small" href="{www_dir}{index}/contact/consultation/view/{consultation_id}/">{consultation_desc}</a>
- - 
-<a class="small" href="{www_dir}{index}/contact/person/view/{person_id}/">{consultation_person}</a><br />
-<img src="{www_dir}/images/1x1.gif" height="4" width="2" border="0" alt="" /><br />
-<!-- END public_consultation_person_tpl -->
-<!-- END public_consultation_tpl -->
-
 <!-- BEGIN public_todo_tpl -->
 <a class="small" href="{www_dir}{index}/todo/todoview/{todo_id}">{todo_desc}</a><br />
 <img src="{www_dir}/images/1x1.gif" height="4" width="2" border="0" alt="" /><br />

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: dayview.php,v 1.42 2001/08/31 12:21:36 jhe Exp $
+// $Id: dayview.php,v 1.43 2001/09/05 08:16:06 jhe Exp $
 //
 // Created on: <08-Jan-2001 12:48:35 bf>
 //
@@ -27,7 +27,6 @@ include_once( "classes/INIFile.php" );
 include_once( "classes/eztemplate.php" );
 include_once( "classes/ezlog.php" );
 include_once( "classes/ezlocale.php" );
-
 include_once( "classes/ezdate.php" );
 include_once( "classes/eztime.php" );
 
@@ -51,17 +50,15 @@ if ( $user == false )
 else
     $userID = $user->id();
 
-if ( $GetByUserID == false )
-{
-    $GetByUserID = $userID;
-}
+if ( isSet( $GetByUser ) )
+    $userID = $GetByUserID;
 
-if ( ( $session->variable( "ShowOtherCalenderUsers" ) == false ) || ( isSet( $GetByUser ) ) )
-{
-    $session->setVariable( "ShowOtherCalenderUsers", $GetByUserID );
-}
+if ( ( $session->variable( "ShowOtherCalendarUsers" ) == false ) || ( isSet( $GetByUser ) ) )
+    $session->setVariable( "ShowOtherCalendarUsers", $userID );
+else
+    $userID = $session->variable( "ShowOtherCalendarUsers" );
 
-$tmpUser = new eZUser( $session->variable( "ShowOtherCalenderUsers" ) );
+$tmpUser = new eZUser( $userID );
 
 $date = new eZDate();
 
@@ -73,9 +70,21 @@ if ( $Year != "" && $Month != "" && $Day != "" )
 }
 else
 {
-    $Year = $date->year();
-    $Month = $date->month();
-    $Day = $date->day();
+    $Year = $session->variable( "Year" );
+    $Month = $session->variable( "Month" );
+    $Day = $session->variable( "Day" );
+    if ( !$Year && !$Month && !$Day )
+    {
+        $Year = $date->year();
+        $Month = $date->month();
+        $Day = $date->day();
+    }
+    else
+    {
+        $date->setYear( $Year );
+        $date->setMonth( $Month );
+        $date->setDay( $Day );
+    }
 }
 
 $session->setVariable( "Year", $Year );
@@ -84,22 +93,21 @@ $session->setVariable( "Day", $Day );
 
 $zMonth = addZero( $Month );
 $zDay = addZero( $Day );
-$isMyCalendar = ( $userID && $userID == $GetByUserID ) ? "-private" : "";
+$isMyCalendar = ( $user && $user->id() == $userID ) ? "-private" : "";
 $t = new eZTemplate( "ezcalendar/user/" . $ini->read_var( "eZCalendarMain", "TemplateDir" ),
                      "ezcalendar/user/intl", $Language, "dayview.php",
-                     "default", "ezcalendar" . "/user", "$Year-$zMonth-$zDay-$GetByUserID".$isMyCalendar );
+                     "default", "ezcalendar" . "/user", "$Year-$zMonth-$zDay-$userID" . $isMyCalendar );
 
 $t->set_file( "day_view_page_tpl", "dayview.tpl" );
 
-
-//if ( $t->hasCache() )
+if ( $t->hasCache() )
 {
-//    print( "cached<br />" );
-//    print( $t->cache() );
+    print( "cached<br />" );
+    print( $t->cache() );
 }
-//else
+else
 {
-//    print( "not cached<br />" );
+    print( "not cached<br />" );
     $t->setAllStrings();
 
     $t->set_block( "day_view_page_tpl", "user_item_tpl", "user_item" );

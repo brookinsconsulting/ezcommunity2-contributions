@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: appointmentedit.php,v 1.47 2001/09/03 14:13:00 jhe Exp $
+// $Id: appointmentedit.php,v 1.48 2001/09/05 08:16:06 jhe Exp $
 //
 // Created on: <03-Jan-2001 12:47:22 bf>
 //
@@ -195,34 +195,31 @@ if ( $Action == "DeleteAppointment" )
 {
     if ( count( $AppointmentArrayID ) != 0 )
     {
-        $tmpAppointment = new eZAppointment( $AppointmentArrayID[0]);
-        $datetime = $tmpAppointment->dateTime();
-
-        if ( $tmpAppointment->userID() == $userID )
+        foreach ( $AppointmentArrayID as $ID )
         {
-            foreach ( $AppointmentArrayID as $ID )
+            if ( $appointment->userID() == $userID )
             {
                 $appointment = new eZAppointment( $ID );
+                $datetime = $appointment->dateTime();
                 $appointment->delete();
+
+                $year = addZero( $datetime->year() );
+                $month = addZero( $datetime->month() );
+                $day = addZero( $datetime->day() );
+                deleteCache( "default", $Language, $year, $month, $day, $appointment->UserID() );
+            }
+            else
+            {
+                $t->set_var( "no_error", "" );
+                $t->set_var( "no_user_error", "" );
+                
+                $t->parse( "wrong_user_error", "wrong_user_error_tpl" );
+                $t->parse( "user_error", "user_error_tpl" );
+                $t->pparse( "output", "appointment_edit_tpl" );
+                
+                $UserError = true;
             }
         }
-        // user not allowed to delete this appointment
-        else
-        {
-            $t->set_var( "no_error", "" );
-            $t->set_var( "no_user_error", "" );
-
-            $t->parse( "wrong_user_error", "wrong_user_error_tpl" );
-            $t->parse( "user_error", "user_error_tpl" );
-            $t->pparse( "output", "appointment_edit_tpl" );
-
-            $UserError = true;
-        }
-        
-        $year = addZero( $datetime->year() );
-        $month = addZero( $datetime->month() );
-        $day = addZero( $datetime->day() );
-        deleteCache( "default", $Language, $year, $month, $day, $tmpAppointment->ID() );
     }
     
     eZHTTPTool::header( "Location: /calendar/dayview/$year/$month/$day/" );
@@ -266,9 +263,15 @@ if ( $Action == "Insert" || $Action == "Update" )
             $type = new eZAppointmentType( $TypeID );
 
             if ( $Action == "Update" )
+            {
                 $appointment = new eZAppointment( $AppointmentID );
+                $beginDate = $appointment->dateTime();
+            }
             else
+            {
                 $appointment = new eZAppointment();
+                $beginDate = false;
+            }
             
             $appointment->setDescription( $Description );
             $appointment->setType( $type );
@@ -281,13 +284,9 @@ if ( $Action == "Insert" || $Action == "Update" )
                 $appointment->setIsPrivate( false );
             
             if ( $Name != "" )
-            {
                 $appointment->setName( $Name );
-            }
             else
-            {
                 $TitleError = true;
-            }
             
             // start/stop time for the day
             $dayStartTime = new eZDateTime( $year, $month, $day );
@@ -379,6 +378,12 @@ if ( $Action == "Insert" || $Action == "Update" )
                 $month = addZero( $datetime->month() );
                 $day = addZero( $datetime->day() );
                 deleteCache( "default", $Language, $year, $month, $day, $userID );
+                if ( $beginDate )
+                {
+                    deleteCache( "default", $Language, addZero( $beginDate->year() ),
+                                 addZero( $beginDate->month() ),
+                                 addZero( $beginDate->day() ), $userID );
+                }
             }
             else
             {
@@ -769,6 +774,7 @@ if ( $UserError == false )
 // deletes the dayview cache file for a given day
 function deleteCache( $siteStyle, $language, $year, $month, $day, $userID )
 {
+    print "$siteStyle, $language, $year, $month, $day, $userID <br>";
     @eZFile::unlink( "ezcalendar/user/cache/dayview.tpl-$siteStyle-$language-$year-$month-$day-$userID.cache" );
     @eZFile::unlink( "ezcalendar/user/cache/monthview.tpl-$siteStyle-$language-$year-$month-$userID.cache" );
     @eZFile::unlink( "ezcalendar/user/cache/dayview.tpl-$siteStyle-$language-$year-$month-$day-$userID-private.cache" );

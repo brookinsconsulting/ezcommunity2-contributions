@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: monthview.php,v 1.31 2001/09/03 12:24:15 jhe Exp $
+// $Id: monthview.php,v 1.32 2001/09/05 08:16:06 jhe Exp $
 //
 // Created on: <27-Dec-2000 14:09:56 bf>
 //
@@ -54,13 +54,9 @@ if ( isSet( $GetByUser ) )
 }
 
 if ( $session->variable( "ShowOtherCalendarUsers" ) == false || isSet( $GetByUser ) )
-{
     $session->setVariable( "ShowOtherCalendarUsers", $userID );
-}
 else
-{
     $userID = $session->variable( "ShowOtherCalendarUsers" );
-}
 
 $appOwnerUser = new eZUser( $userID );
 
@@ -81,20 +77,19 @@ $session->setVariable( "Year", $Year );
 $session->setVariable( "Month", $Month );
 
 $zMonth = addZero( $Month );
-$isMyCalendar = ( $userID && $userID == $GetByUserID ) ? "-private" : "";
+$isMyCalendar = ( $user && $user->id() == $userID ) ? "-private" : "";
 $t = new eZTemplate( "ezcalendar/user/" . $ini->read_var( "eZCalendarMain", "TemplateDir" ),
                      "ezcalendar/user/intl", $Language, "monthview.php",
-                     "default", "ezcalendar" . "/user", "$Year-$zMonth-$GetByUserID" . $isMyCalendar );
+                     "default", "ezcalendar" . "/user", "$Year-$zMonth-$userID" . $isMyCalendar );
 
 $t->set_file( "month_view_page_tpl", "monthview.tpl" );
 
-//{
-//    print( "cached<br />" );
-//    print( $t->cache() );
-//}
-//else
+if ( $t->hasCache() )
 {
-//    print( "not cached<br />" );
+    print( $t->cache() );
+}
+else
+{
     $t->setAllStrings();
 
     $t->set_block( "month_view_page_tpl", "user_item_tpl", "user_item" );
@@ -186,37 +181,6 @@ $t->set_file( "month_view_page_tpl", "monthview.tpl" );
                         }
                     }
 
-                    // fetch the consultations for today
-/*                    $endDate = new eZDateTime();
-                      $endDate->setTimeStamp( $tmpDate->timeStamp() + 86400 );
-                      $consultations =& eZConsultation::findConsultationsByDate( $userID, $tmpDate, $endDate );
-                      foreach ( $consultations as $consultation )
-                      {
-                      $t->set_var( "consultation_id", $consultation->id() );
-                      
-                      $company_id = $consultation->company( $userID );
-                      if ( $company_id )
-                      {
-                      $company = new eZCompany( $company_id );
-                      $t->set_var( "consultation_desc", $consultation->shortDescription() );
-                      $t->set_var( "consultation_company", $company->name() );
-                      $t->set_var( "company_id", $company_id );
-                      $t->parse( "public_consultation", "public_consultation_company_tpl", true );
-                      }
-                      else
-                      {
-                      $person_id = $consultation->person( $userID );
-                      if ( $person_id )
-                      {
-                      $person = new eZPerson( $person_id );
-                      $t->set_var( "consultation_desc", $consultation->shortDescription() );
-                      $t->set_var( "consultation_person", $person->lastName() . " " .  $person->firstName() );
-                      $t->set_var( "person_id", $person_id );
-                      $t->parse( "public_consultation", "public_consultation_person_tpl", true );
-                      }
-                      }
-                      }
-*/
                     // fetch todos for today
                     if ( !$userID )
                         $todos = array();
