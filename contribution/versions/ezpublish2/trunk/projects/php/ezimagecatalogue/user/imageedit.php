@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: imageedit.php,v 1.46 2001/09/16 20:05:43 fh Exp $
+// $Id: imageedit.php,v 1.47 2001/09/25 17:37:52 fh Exp $
 //
 // Created on: <09-Jan-2001 10:45:44 ce>
 //
@@ -227,10 +227,10 @@ if ( $Action == "Insert" && $error == false )
 
     $image->setImage( $file );
 
+    $category = new eZImageCategory( $CategoryID );
 
     if ( trim( $NewPhotographerName ) != "" &&
-         trim( $NewPhotographerEmail ) != ""
-         )
+         trim( $NewPhotographerEmail ) != "" )
     {
         $author = new eZAuthor( );
         $author->setName( $NewPhotographerName );
@@ -245,11 +245,20 @@ if ( $Action == "Insert" && $error == false )
 
     $image->store();
 
-    changePermissions( $ImageID, $ReadGroupArrayID, 'r' );
-    changePermissions( $ImageID, $WriteGroupArrayID, 'w' );
-
-    $category = new eZImageCategory( $CategoryID );
-
+    if ( eZObjectPermission::hasPermission( $Category, "imagecatalogue_image", 'w' ) ) // user had write permission
+    {
+        changePermissions( $ImageID, $ReadGroupArrayID, 'r' );
+        changePermissions( $ImageID, $WriteGroupArrayID, 'w' );
+    }
+    else // user had upload permission only, change ownership, set special rights..
+    {
+        eZObjectPermission::removePermissions( $ImageID, "imagecatalogue_image", 'w' ); // no write
+        eZObjectPermission::removePermissions( $ImageID, "imagecatalogue_image", 'r' ); // all read
+        eZObjectPermission::setPermission( -1, $ImageID, "imagecatalogue_image", 'r' );
+        $image->setUser( $category->user() );
+        $image->store();
+    }
+    
     $image->setCategoryDefinition( $category );
 
     $categories = array_unique( array_merge( $CategoryArray, $CategoryID ) );
@@ -290,17 +299,28 @@ if ( $Action == "Update" && $error == false )
 
     $image->setDescription( $Description );
 
-    changePermissions( $ImageID, $ReadGroupArrayID, 'r' );
-    changePermissions( $ImageID, $WriteGroupArrayID, 'w' );
+
+    $category = new eZImageCategory( $CategoryID );
+    if ( eZObjectPermission::hasPermission( $Category, "imagecatalogue_image", 'w' ) ) // user had write permission
+    {
+        changePermissions( $ImageID, $ReadGroupArrayID, 'r' );
+        changePermissions( $ImageID, $WriteGroupArrayID, 'w' );
+    }
+    else // user had upload permission only, change ownership, set special rights..
+    {
+        eZObjectPermission::removePermissions( $ImageID, "imagecatalogue_image", 'w' ); // no write
+        eZObjectPermission::removePermissions( $ImageID, "imagecatalogue_image", 'r' ); // all read
+        eZObjectPermission::setPermission( -1, $ImageID, "imagecatalogue_image", 'r' );
+        $image->setUser( $category->user() );
+        $image->store();
+    }
 
     $categories = $image->categories();
-
     foreach( $categories as $categoryItem )
     {
         eZImageCategory::removeImage( $image, $categoryItem );
     }
 
-    $category = new eZImageCategory( $CategoryID );
     $image->setCategoryDefinition( $category );
     $categories = array_unique( array_merge( $CategoryArray, $CategoryID ) );
 

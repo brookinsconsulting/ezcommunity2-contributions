@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: menubox.php,v 1.8 2001/07/20 11:06:39 jakobn Exp $
+// $Id: menubox.php,v 1.9 2001/09/25 17:37:52 fh Exp $
 //
 // Created on: <16-Jan-2001 13:23:02 ce>
 //
@@ -46,8 +46,9 @@ $t->set_file( array(
 
 $t->set_block( "menu_box_tpl", "user_login_tpl", "user_login" );
 
-if ( $user && ( eZObjectPermission::getObjects( "imagecatalogue_category", 'w', true ) > 0
-                || eZPermission::checkPermission( $user, "eZImageCatalogue", "WriteToRoot" ) ) )
+if ( $user && ( eZObjectPermission::getObjects( "imagecatalogue_category", 'w', true ) > 0 ||
+                eZObjectPermission::getObjects( "imagecatalogue_category", 'u', true ) > 0 ||
+                eZPermission::checkPermission( $user, "eZImageCatalogue", "WriteToRoot" ) ) )
 {
     $t->parse( "user_login", "user_login_tpl" );
 }

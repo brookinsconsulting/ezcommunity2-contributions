@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: categoryedit.php,v 1.24 2001/09/21 13:30:15 br Exp $
+// $Id: categoryedit.php,v 1.25 2001/09/25 17:37:52 fh Exp $
 //
 // Created on: <08-Jan-2001 11:13:29 ce>
 //
@@ -106,21 +106,20 @@ if ( $Action == "Insert" || $Action == "Update" )
         if ( $ParentID == 0 )
         {
             if ( eZPermission::checkPermission( $user, "eZImageCatalogue", "WriteToRoot"  ) == false )
-            {
-                $t->parse( "error_write", "error_write_permission" );
                 $error = true;
-            }
         }
         else
         {
-            $parentCategory = new eZImageCategory( $ParentID );
-
-            if ( eZObjectPermission::hasPermission( $parentCategory, "imagecatalogue_category", "w", $user ) == false )
-            {
-                $t->parse( "error_write", "error_write_permission" );
+            if ( eZObjectPermission::hasPermission( $ParentID, "imagecatalogue_category", "w", $user ) == false
+                 && eZObjectPermission::hasPermission( $ParentID, "imagecatalogue_category", 'u', $user ) == false
+                 )
                 $error = true;
-            }
+            if( $Action == "Update" && eZObjectPermission::hasPermission( $ParentID, "imagecatalogue_category", 'w' == false ) )
+            $error = true;
+            
         }
+        if( $error )
+            $t->parse( "error_write", "error_write_permission" );
     }
 
     // Check if parent is the same as category.
@@ -187,6 +186,50 @@ if( ( $Action == "Insert" || $Action == "Update" ) && $error == false )
     changePermissions( $CategoryID, $ReadGroupArrayID, 'r' );
     changePermissions( $CategoryID, $WriteGroupArrayID, 'w' );
     changePermissions( $CategoryID, $UploadGroupArrayID, 'u' );
+
+    // check if user uploaded a dir and had upload permission only and is not owner.
+    if ( $Action == "Insert" && eZObjectPermission::hasPermission( $ParentID, "imagecatalogue_category", 'w' ) == false &&
+    $parent->user( false ) != $user->id() )
+    {
+        eZObjectPermission::removePermissions( $CategoryID, "imagecatalogue_category", 'w' ); // no write
+        eZObjectPermission::removePermissions( $CategoryID, "imagecatalogue_category", 'r' ); // all read
+        eZObjectPermission::removePermissions( $CategoryID, "imagecatalogue_category", 'u' ); // all upload
+        eZObjectPermission::setPermission( -1, $CategoryID, "imagecatalogue_category", 'r' );
+        eZObjectPermission::setPermission( -1, $CategoryID, "imagecatalogue_category", 'u' );
+        $category->setUser( $parent->user() );
+        $category->store();
+    }
+    // if update and moving into a category that has upload permission and not owner of that category
+    // TODO: this part has to be extended on imagefolder to support images in multiple categories..
+    if ( $Action == "Update" && eZObjectPermission::hasPermission( $ParentID, "imagecatalogue_category", 'w' ) == false
+    && $parent->user( false ) != $user->id() )
+    {
+        // recursivly edit permissions on all file and folders...
+        $categories = array();
+        $categories[] = $folder; // set permission on self.
+        $images = array();
+        getImagesAndCategories( $categories, $images, $category );
+
+        // set permissions on all these files and dirs..
+        foreach ( $categories as $categoryItem )
+        {
+            eZObjectPermission::removePermissions( $categoryItem->id(), "imagecatalogue_category", 'w' ); // no write
+            eZObjectPermission::removePermissions( $categoryItem->id(), "imagecatalogue_category", 'r' ); // all read
+            eZObjectPermission::removePermissions( $categoryItem->id(), "imagecatalogue_category", 'u' ); // all upload
+            eZObjectPermission::setPermission( -1, $categoryItem->id(), "imagecatalogue_category", 'r' );
+            eZObjectPermission::setPermission( -1, $categoryItem->id(), "imagecatalogue_category", 'u' );
+            $categoryItem->setUser( $parent->user() );
+            $categoryItem->store();
+        }
+        foreach ( $images as $imageItem )
+        {
+            eZObjectPermission::removePermissions( $imageItem->id(), "imagecatalogue_image", 'w' ); // no write
+            eZObjectPermission::removePermissions( $imageItem->id(), "imagecatalogue_image", 'r' ); // all read
+            eZObjectPermission::setPermission( -1, $imageItem->id(), "imagecatalogue_image", 'r' );
+            $imageItem->setUser( $parent->user() );
+            $imageItem->store();
+        }
+    }
     
     eZHTTPTool::header( "Location: /imagecatalogue/image/list/$ParentID" );
     exit();
@@ -377,5 +420,19 @@ function changePermissions( $objectID, $groups , $permission )
     }
 
 }
+// get all the images and categories of a category recursivly.
+function getImagesAndCategores( &$folderArray, &$fileArray, $fromFolder )
+{
+    $result = eZImageCatalogue::getByParent( $fromFolder );
+    $folderArray = array_merge( $result, $folderArray );
+    $files = $fromFolder->images();
+    $fileArray = array_merge( $files, $fileArray );
+    
+    foreach ( $result as $child )
+    {
+        getImagesAndCategories( $folderArray, $fileArray, $child );
+    }
+}
+
 ?>
 

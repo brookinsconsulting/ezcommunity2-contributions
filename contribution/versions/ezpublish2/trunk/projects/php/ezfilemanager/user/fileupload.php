@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: fileupload.php,v 1.37 2001/09/24 14:04:19 jhe Exp $
+// $Id: fileupload.php,v 1.38 2001/09/25 17:37:52 fh Exp $
 //
 // Created on: <10-Dec-2000 15:49:57 bf>
 //
@@ -461,17 +461,5 @@ function changePermissions( $objectID, $groups, $permission )
     }
 }
 
-function getFilesAndFolders( &$folderArray, &$fileArray, $fromFolder )
-{
-    $result = eZVirtualFolder::getByParent( $fromFolder );
-    $folderArray = array_merge( $result, $folderArray );
-    $files = $fromFolder->files( "time", -1, -1 );
-    $fileArray = array_merge( $files, $fileArray );
-    
-    foreach ( $result as $child )
-    {
-        getFilesAndFolders( $folderArray, $fileArray, $child );
-    }
-}
 ?>
 
