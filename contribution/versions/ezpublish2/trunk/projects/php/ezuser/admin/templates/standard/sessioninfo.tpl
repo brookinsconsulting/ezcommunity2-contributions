@@ -30,6 +30,7 @@
 //-->
 </SCRIPT> 
 
+<form method="post" action="/user/sessioninfo/delete" enctype="multipart/form-data">
 <div onLoad="MM_preloadImages('../images/redigerminimrk.gif','../images/slettminimrk.gif')"></div>
 
 <h1>{intl-logged_in_users} - ( {user_count} )</h1>
@@ -82,9 +83,13 @@
 
 
 	<td class="{td_class}" width="1%">
-	<a href="#" onClick="verify( '{intl-delete}', '/user/sessioninfo/delete/{session_id}/'); return false;" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezuser{session_id}-slett','','/images/slettminimrk.gif',1)"><img name="ezuser{session_id}-slett" border="0" src="/images/slettmini.gif" width="16" height="16" align="top"></a>
+	  <input type="checkbox" name="SessionArrayID[]" value="{session_id}" />
 	</td>	
 </tr>
 <!-- END user_item_tpl -->
+<br />
+<hr noshade="noshade" size="4">
+<input class="stdbutton" type="submit" name="Delete" value="{intl-delete_selected}" />
 
 </table>
+</form>

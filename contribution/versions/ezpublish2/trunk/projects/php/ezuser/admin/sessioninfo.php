@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: sessioninfo.php,v 1.10 2001/03/01 14:06:26 jb Exp $
+// $Id: sessioninfo.php,v 1.11 2001/03/02 15:29:26 fh Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <01-Nov-2000 14:34:30 bf>
@@ -36,12 +36,15 @@ include_once( "ezuser/classes/ezusergroup.php" );
 require( "ezuser/admin/admincheck.php" );
 
 
-if ( $Action == "Delete" )
+if ( $Action == "Delete" && count( $SessionArrayID ) > 0 )
 {
-    $session =& eZSession::globalSession( $SessionID );
-    $session->delete();
-    
+    foreach( $SessionArrayID as $sessionID )
+    {
+        $session = new eZSession( $sessionID );
+        $session->delete();
+    }
     eZHTTPTool::header( "Location: /user/sessioninfo/" );
+    exit();
 }
 
 $ini =& INIFile::globalINI();
