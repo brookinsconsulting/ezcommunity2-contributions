@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezarticlecategory.php,v 1.74 2001/07/19 12:19:21 jakobn Exp $
+// $Id: ezarticlecategory.php,v 1.75 2001/08/01 12:55:38 bf Exp $
 //
 // Definition of eZArticleCategory class
 //
@@ -224,7 +224,7 @@ class eZArticleCategory
     {
         $db =& eZDB::globalDatabase();
         
-        $topic =& new eZArticleCategory();
+        $topic = false;
         
         $name = $db->escapeString( $name );
 
@@ -234,11 +234,11 @@ class eZArticleCategory
 
             if( count( $author_array ) == 1 )
             {
-                $topic =& new eZArticleCategory( $author_array[0][$db->fieldName("ID")] );
+                $category =& new eZArticleCategory( $author_array[0][$db->fieldName("ID")] );
             }
         }
         
-        return $topic;
+        return $category;
     }
 
     /*!
