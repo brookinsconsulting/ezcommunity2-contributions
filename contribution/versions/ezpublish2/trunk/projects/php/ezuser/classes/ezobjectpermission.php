@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezobjectpermission.php,v 1.8 2001/02/28 09:27:29 fh Exp $
+// $Id: ezobjectpermission.php,v 1.9 2001/02/28 10:20:36 fh Exp $
 //
 // Definition of eZCompany class
 //
@@ -216,7 +216,57 @@ class eZObjectPermission
         $database->query( $query );
     }
 
+    /*!
+      Returns all the groups that have permissions to a given object, if none are selected a empty array is returned.
+      If one object with -1 is returned, everyone has access to the object.
+      $group is of type eZUserGroup or a groupID, use -1 for objects everyone is allowed to see.
+      $modulTable is the nickname of the table where the permission is found. The nicknames can be found in site.ini
+      $permission either 'r' for readpermission or 'w' for writepermission.
+     */
+    function getGroups( $objectID, $modulTable, $permission, $GroupReturn=true )
+    {
+        $ret = array();
+        $tableName = getTableName( $modulTable );
+        if( $tableName == "" )
+        {
+            return $ret;
+        }
 
+        $SQLPermission = "";
+        if( $permission == 'r' )
+        {
+            $SQLPermission = "ReadPermission='1'";
+        }
+        else if( $permission == 'w' )
+        {
+            $SQLPermission = "WritePermission='1'";
+        }
+        else // bogus $permission input.
+        {
+            return $ret;
+        }
+        
+        $query = "SELECT GroupID FROM $tableName WHERE ObjectID='$objectID' AND $SQLPermission";
+        $database =& eZDB::globalDatabase();
+        $database->array_query( $res, $query );
+        
+        if( count( $res ) > 0 )
+        {
+            $i = 0;
+            foreach( $res as $groupID )
+            {
+                if( $groupID  == -1 )
+                {
+                    $res = array();
+                    $res[0] = -1;
+                    return $res;
+                }
+                $GroupReturn ? $res[$i] = new eZUserGroup( $groupID ) : $res[$i] = $groupID;
+                $i++;
+            }
+        }
+        return $res;
+    }
 }
 
     
