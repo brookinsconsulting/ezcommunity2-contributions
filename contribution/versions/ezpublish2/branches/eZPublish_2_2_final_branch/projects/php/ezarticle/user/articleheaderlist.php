@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: articleheaderlist.php,v 1.11.2.1 2001/11/01 13:46:51 master Exp $
+// $Id: articleheaderlist.php,v 1.11.2.2 2001/11/01 13:55:52 master Exp $
 //
 // Created on: <26-Oct-2000 21:15:58 bf>
 //
@@ -183,9 +183,9 @@ if (  $i > 0 )
 else
     $t->set_var( "article_list", "" );
 
+$t->set_var( "section_id", $GlobalSectionID );
 
 $t->pparse( "output", "article_list_page_tpl" );
-
 
 ?>
 
