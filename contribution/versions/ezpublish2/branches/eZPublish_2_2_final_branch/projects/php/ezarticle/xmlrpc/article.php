@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: article.php,v 1.20.2.6 2002/05/08 13:05:20 jb Exp $
+// $Id: article.php,v 1.20.2.7 2002/05/10 09:22:44 jb Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -374,15 +374,31 @@ else if( $Command == "storedata" )
     $CategoryArray =& $article->categories( false );
     eZArticleTool::deleteCache( $ID, $CategoryID, $CategoryArray );
 
-    $ReturnData = new eZXMLRPCStruct( array( "Location" => createURLStruct( "ezarticle", "article", $ID ),
-                                             "Name" => new eZXMLRPCString( $article->name( false ) ),
-                                             "Path" => new eZXMLRPCArray( $par ),
-                                             "NewLocations" => $add_locs,
-                                             "ChangedLocations" => $cur_locs,
-                                             "RemovedLocations" => $old_locs,
-                                             "UpdateType" => new eZXMLRPCString( $Command )
-                                             )
-                                      );
+    $cat_def_id = $article->categoryDefinition( false );
+    $section_id = eZArticleCategory::sectionIDStatic( $cat_def_id );
+    $section_lang = false;
+    if ( $section_id != 0 )
+    {
+        $section = new eZSection( $section_id );
+        $section_lang = $section->language();
+    }
+
+    $ret_arr = array( "Location" => createURLStruct( "ezarticle", "article", $ID ),
+                      "Name" => new eZXMLRPCString( $article->name( false ) ),
+                      "Path" => new eZXMLRPCArray( $par ),
+                      "NewLocations" => $add_locs,
+                      "ChangedLocations" => $cur_locs,
+                      "RemovedLocations" => $old_locs,
+                      "UpdateType" => new eZXMLRPCString( $Command )
+                      );
+    if ( $section_lang != false )
+    {
+        $charsetLocale = new eZLocale( $section_lang );
+        $section_charset = $charsetLocale->languageISO();
+        $ret_arr["Section"] = new eZXMLRPCStruct( array( "Language" => $section_lang,
+                                                         "Charset" => $section_charset ) );
+    }
+    $ReturnData = new eZXMLRPCStruct( $ret_arr );
     $Command = "update";
 
 }
