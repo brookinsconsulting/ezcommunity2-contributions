@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: fileview.php,v 1.3 2001/01/28 14:16:59 bf Exp $
+// $Id: fileview.php,v 1.4 2001/01/30 11:46:12 jb Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <04-Jan-2001 16:47:23 ce>
@@ -72,18 +72,9 @@ if ( $FileID != 0 )
         $t->parse( "edit", "edit_tpl" );
     }
 
-    $filePath =& $file->filePath( true );
-
-    $size = filesize( $filePath );
-    
-    if ( $size == 0 )
-    {
-        $t->set_var( "file_size", 0 );
-    }
-    else
-    {
-        $t->set_var( "file_size", number_format( ( $size / 1024 ), 2) );
-    }
+    $size_short = $file->shortenedFileSize();
+    $t->set_var( "size_unit", $size_short["unit"] );
+    $t->set_var( "file_size", $size_short["size-string"] );
 
     $fileOwner = $file->user();
 

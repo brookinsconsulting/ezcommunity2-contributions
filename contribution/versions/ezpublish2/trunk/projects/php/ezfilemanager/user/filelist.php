@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: filelist.php,v 1.13 2001/01/28 14:16:59 bf Exp $
+// $Id: filelist.php,v 1.14 2001/01/30 11:46:19 jb Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <10-Dec-2000 16:16:20 bf>
@@ -184,18 +184,9 @@ foreach ( $fileList as $file )
     $t->set_var( "file_name", $file->name() );
     $t->set_var( "file_url", $file->name() );
 
-    $filePath = $file->filePath( true );
-
-    $size = filesize( $filePath );
-
-    if ( $size == 0 )
-    {
-        $t->set_var( "file_size", 0 );
-    }
-    else
-    {
-        $t->set_var( "file_size", number_format( ( $size / 1024 ), 2) );
-    }
+    $size_short = $file->shortenedFileSize();
+    $t->set_var( "size_unit", $size_short["unit"] );
+    $t->set_var( "file_size", $size_short["size-string"] );
 
     $writePermission = $file->checkWritePermission( $user );
     $readPermission = $file->checkReadPermission( $user );
