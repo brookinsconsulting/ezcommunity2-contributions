@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: ezformreportelement.php,v 1.5 2002/01/21 17:19:39 jhe Exp $
+// $Id: ezformreportelement.php,v 1.6 2002/01/21 17:42:52 jhe Exp $
 //
 // Definition of eZFormReportElement class
 //
@@ -63,6 +63,7 @@ class eZFormReportElement
         $db =& eZDB::globalDatabase();
         $this->ID =& $value[$db->fieldName( "ID" )];
         $this->ElementID =& $value[$db->fieldName( "ElementID" )];
+        $this->ReportID =& $value[$db->fieldName( "ReportID" )];
         $this->StatisticsType =& $value[$db->fieldName( "StatisticsType" )];
     }
 
