@@ -4,6 +4,7 @@ eZ publish changelog:
 
 Changes from version 2.0 beta 2 to version 2.0 beta 3
 -----------------------------------------------------
+* Added eZ error, for error handling ( 404, 403.. )
 * Added <html> tag to eZArticle, you can now write HTML code in the articles.
 * Added alternative currency to eZ trade
 * Added VAT handling in eZ trade
