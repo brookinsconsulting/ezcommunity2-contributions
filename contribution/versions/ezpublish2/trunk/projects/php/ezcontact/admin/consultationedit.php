@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: consultationedit.php,v 1.24 2001/09/05 11:57:06 jhe Exp $
+// $Id: consultationedit.php,v 1.25 2001/09/11 10:56:15 jhe Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -58,6 +58,7 @@ function addZero( $value )
 
 if ( isSet( $new_consultation ) )
 {
+    unset( $new_consultation );
     include_once( "classes/ezhttptool.php" );
     eZHTTPTool::header( "Location: contact/consultation/person/new" );
     exit();

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: articlelist.php,v 1.68 2001/09/11 10:28:13 jhe Exp $
+// $Id: articlelist.php,v 1.69 2001/09/11 10:56:15 jhe Exp $
 //
 // Created on: <18-Oct-2000 14:41:37 bf>
 //
@@ -389,7 +389,7 @@ foreach ( $articleList as $article )
     // check if the article contains more than intro
     $contents =& $renderer->renderPage();
 
-    if ( trim( $contents[1] ) == "" )
+    if ( trim( $contents[1] ) == "" || count( $article->attributes( false ) ) <= 0 )
     {
         $t->set_var( "read_more", "" );
         $t->parse( "headline_without_link", "headline_without_link_tpl" );

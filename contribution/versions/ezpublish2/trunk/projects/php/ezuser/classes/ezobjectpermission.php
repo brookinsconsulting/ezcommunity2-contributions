@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezobjectpermission.php,v 1.29 2001/08/21 11:23:58 ce Exp $
+// $Id: ezobjectpermission.php,v 1.30 2001/09/11 10:56:15 jhe Exp $
 //
 // Definition of eZObjectPermission class
 //
@@ -126,7 +126,6 @@ class eZObjectPermission
         $database =& eZDB::globalDatabase();
 
         $database->query_single( $res, $query );
-
         if ( $res[$database->fieldName( "ID" )] != 0 )
             return true;
 
