@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: eznewschangetype.php,v 1.4 2000/09/30 22:17:03 pkej-cvs Exp $
+// $Id: eznewschangetype.php,v 1.5 2000/10/01 13:39:28 pkej-cvs Exp $
 //
 // Definition of eZNewsChangeType class
 //
@@ -25,10 +25,58 @@
     
     Example of usage:
     \code
+    // Example of how to include this file.
+    include_once( "eznews/classes/eznewschangetype.php" );       
+
+    // Example on how to create an empty object:    
+    $ct = new eZNewsChangeType();
+    
+    // Example on how to check if a change type exists
+    
+    $changeName = "create";
+    
+    $ct = new eZNewsChangeType( $changeName, true );
+    
+    if( $ct->isCoherent() )
+    {
+        echo "The object " . $ct->ID() . " represents the change type: " . $ct->Name();
+        echo " which is equal to $changeName";
+    }
+    
+    // Example on how to create a change type.
+    
+    $changeName = "submit";
+    
+    $ct = new eZNewsChangeType( $changeName, true );
+    
+    if( !$ct->isCoherent() )
+    {
+        $ct->setName( $changeName );
+        $ct->setDescription( "The item has been submitted" );
+        $outID = 0;
+        $ct->store( $outID );
+        
+        if( $outID != 0 )
+        {
+            echo "The new change type: " .  $changeName . " was stored with id $outID<br>";
+        }
+        else
+        {
+            echo "Hmm shouldn't see this...<br>";
+        }
+    }
+    else
+    {
+        echo "The change type: " $changeName . " exists with id $outID<br>";
+    }
+    
     \endcode
     
-    \sa eZNewsItem eZNewsChangeTicket
+    \sa eZNewsItem
 */
+/*!TODO
+    Add all examples needed.
+ */
 
 include_once( "eznews/classes/eznewsutility.php" );       
 
@@ -42,7 +90,6 @@ class eZNewsChangeType extends eZNewsUtility
         then the first object with that name will be fetched. In other words
         there is no guarantee that you will get what you want using a name.
       
-        \variables
         \in
             \$inData    Either the ID or the Name of the row we want
             \$fetch     Should we fetch the row now, or later
@@ -56,7 +103,6 @@ class eZNewsChangeType extends eZNewsUtility
     /*!
         Update this eZNewsChangeType object and related items.
         
-        \variables
         \out
             \ID     The ID returned after the insert/update.
         \return
@@ -103,13 +149,12 @@ class eZNewsChangeType extends eZNewsUtility
     /*!
         Store this eZNewsChangeType object and related items.
         
-        \variables
         \out
-            \ID     The ID returned after the insert/update.
+            \$outID     The ID returned after the insert/update.
         \return
             Returns true if we are successful.
      */
-    function storeThis( &$ID )
+    function storeThis( &$outID )
     {
         $value = false;
         
@@ -147,7 +192,6 @@ class eZNewsChangeType extends eZNewsUtility
     /*!
         Fetches the object information from the database.
       
-        \variables
         \in
             \$inData    Either the ID or the Name of the row we want this object
                     to get data from.
@@ -181,33 +225,38 @@ class eZNewsChangeType extends eZNewsUtility
                     *
                 FROM
                     eZNews_ChangeType
-                WHERE Name = %s
+                WHERE Name = '%s'
             ";
             
             $query = sprintf( $query2, $inData );
         }
 
-        $this->Database->array_query( $changetype_array, $query );
+        $this->Database->array_query( $changeTypeArray, $query );
+        
+        $count = count( $changeTypeArray );
+        
+        #echo "count=: " . $count . "<br>";
+        #echo "item 0 id: " . $changeTypeArray[0][ "ID" ] . "<br>";
+        #echo "item 0 description: " . $changeTypeArray[0][ "Description" ] . "<br>";
+        switch( $count )
+        {
+            case 0:
+                $this->Error[] = "intl-eznews-eznewschangetype-no-object-found";
+                break;
+            case 1:
+                $outID[] = $changeTypeArray[0][ "ID" ];
+                $this->Name = $changeTypeArray[0][ "Name" ];
+                $this->Description = $changeTypeArray[0][ "Description" ];
+                $value = true;
+                break;
+            default:
+                $this->Error[] = "intl-eznews-eznewschangetype-more-than-one-object-found";
 
-        if ( count( $changetype_array ) > 1 )
-        {
-            $this->Error[] = "intl-eznews-eznewschangetype-more-than-one-object-found";
-            
-            foreach( $changeTypeArray as $changeType )
-            {
-                $outID[] = $changeType[ "ID" ];
-            }
-        }
-        else if( count( $changeTypeArray ) == 1 )
-        {
-            $this->ID = $changeTypeArray[0][ "ID" ];
-            $this->Name = $changeTypeArray[0][ "Name" ];
-            $this->Description = $changeTypeArray[0][ "Description" ];
-            $value = true;
-        }
-        else
-        {
-            $this->Error[] = "intl-eznews-eznewschangetype-no-object-found";
+                foreach( $changeTypeArray as $changeType )
+                {
+                    $outID[] = $changeType[ "ID" ];
+                }
+                break;
         }
         
         return $value;
@@ -246,7 +295,6 @@ class eZNewsChangeType extends eZNewsUtility
     /*!
         Sets the descritption of the object.
         
-        \variables
         \in
             \$inDescription    The new name of this object
         \return
@@ -268,7 +316,6 @@ class eZNewsChangeType extends eZNewsUtility
     /*!
         Returns the object description.
         
-        \variables
         \return
             Returns the description of the object.
     */
@@ -278,6 +325,38 @@ class eZNewsChangeType extends eZNewsUtility
         
         return $this->Description;
     }
+
+
+
+    /*!
+        Make shure that the object is in a legal state.
+        All errors are stored in $this->Errors.
+        
+        \return
+            Returns true if the object passes the check.
+     */
+    function invariantCheck()
+    {
+        $value = false;
+        
+        eZNewsUtility::invariantCheck();
+
+        if( empty( $this->Description ) )
+        {
+            $this->Errors[] = "intl-description-required";
+        }
+
+        if( !count( $this->Errors ) )
+        {
+            #echo "errors " . $this->Errors[0] . "<br>";
+            $value = true;
+            $this->State_ = "coherent";
+        }
+        #echo "invariantCheck returns: " . $value . "<br>";
+        return $value;
+    }
+
+
 
     // The data members
 

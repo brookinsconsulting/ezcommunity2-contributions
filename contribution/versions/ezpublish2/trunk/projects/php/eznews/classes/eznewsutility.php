@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: eznewsutility.php,v 1.1 2000/09/30 22:17:04 pkej-cvs Exp $
+// $Id: eznewsutility.php,v 1.2 2000/10/01 13:39:28 pkej-cvs Exp $
 //
 // Definition of eZNewsUtility class
 //
@@ -33,10 +33,10 @@ class eZNewsUtility
      */
     function eZNewsUtility( $inData = -1, $fetch = true )
     {
+        
         $this->dbInit();        
         $this->State_ = "New";
         $outID = array();
-        
         if( $inData )
         {
             if( $fetch )
@@ -68,15 +68,15 @@ class eZNewsUtility
         Will call $this->updateThis() or $this->storeThis() which
         has to be implemented in any class which inherits from this
         class.
-
-        \variables
+        
+        \out
             \$outID The ID returned from the insert.
         \return
             Returns the true if successful.
     */
     function store( &$outID )
     {
-        echo "eZNewsUtility::store( \$copy = $copy )<br>";
+        #echo "eZNewsUtility::store( \$copy = $copy )<br>";
         $this->dbInit();
         
         $value = false;
@@ -130,7 +130,6 @@ class eZNewsUtility
         This function does all the error checking before getting a new
         object thru the $this->getThis() function.
         
-        \variables
         \in
             \$inData    Either the ID or the Name of the row we want this object
                     to get data from.
@@ -141,13 +140,14 @@ class eZNewsUtility
      */
     function get( &$outID, &$inData )
     {
+        #echo "eZUtility::get( \$outID, \$inData=$inData ) <br>";
         $value = false;
         $getting = false;
         
         
         // First we just make sure that we have some info on what
         // we should get.
-        
+
         if( empty( $inData  ) )
         {
             if( is_numeric( $this->ID ) )
@@ -161,9 +161,13 @@ class eZNewsUtility
                 $getting = true;
             }
         }
+        else
+        {
+            $getting = true;
+        }
         
         // Then we make sure that the object doesn''t need storing
-        if( !$this->storeCheck() )
+        if( $this->storedCheck() == false )
         {
             $getting = false;
         }
@@ -174,10 +178,12 @@ class eZNewsUtility
             $value = $this->getThis( $outID, $inData );
             
             if( $value )
-            {            
+            {
+                #echo "get out id " . $outID[0] . "<br>";
                 $this->State_ = "coherent";
                 $this->hasChanged = false;
                 $this->ID = $outID[0];
+                #echo "this id = " .  $this->ID . "<br>";
             }
         }
         
@@ -193,7 +199,6 @@ class eZNewsUtility
         
         This function creates an SQL order by clause.
         
-        \variables
         \in
             \$inOrderBy     The column to order the search by
             \$direction     The direction to order the search by
@@ -222,7 +227,6 @@ class eZNewsUtility
         
         This function creates an SQL limit clause.
         
-        \variables
         \in
             \$startAt       The number of the first result we want
             \$noOfResults   The number of results we want
@@ -253,14 +257,13 @@ class eZNewsUtility
         This function returns the current ip and port of the computer
         accessing us.
         
-        \variables
         \return
             Will return a concatenated string of IP and Port, or just a
             slash if nothing exists.
      */
     function createIP()
     {
-        echo "eZNewsUtility::createIP()<br>";
+        #echo "eZNewsUtility::createIP()<br>";
         return $GLOBALS[ "REMOTE_ADDR" ] . "/" .$GLOBALS[ "REMOTE_PORT" ];
     }
 
@@ -271,7 +274,6 @@ class eZNewsUtility
         
         Creates a timestamp for use in a Mysql timestamp field.
         
-        \variables
         \return
             Returns an SQL timestamp on the form YYYYMMDDHHMMSS using the
             gmt time.
@@ -297,7 +299,6 @@ class eZNewsUtility
         if we have to save session id for the user.
         Ie. never loose contact with session.
         
-        \variables
         \return
             Returns zero if there is no authenticated user or
             it will return the User ID of an authenticated user.
@@ -345,7 +346,6 @@ class eZNewsUtility
         on the current state. Only functions which change the
         object may call this function.
         
-        \variables
         \return
             Returns true if the state has been changed.
      */
@@ -383,7 +383,6 @@ class eZNewsUtility
         An object in the altered state will report has changed if its
         previous state was coherent.
         
-        \variables
         \return
             Returns true if the object has changed.
      */
@@ -407,7 +406,6 @@ class eZNewsUtility
         A new object is a blank object which can be used to create a new
         row in the table.
         
-        \variables
         \return
             Returns true if this is a new object.
      */
@@ -432,7 +430,6 @@ class eZNewsUtility
         An object in a dirty state must be getted with get() to make sure
         that we know all facets of it before doing changes.
        
-        \variables
         \return
             Returns true if the object is dirty.
      */
@@ -456,7 +453,6 @@ class eZNewsUtility
        
         A coherent object is one which is ready to be altered or stored.
        
-        \variables
         \return
             Returns true if the object is coherent.
         
@@ -464,13 +460,13 @@ class eZNewsUtility
     function isCoherent()
     {
         $value = false;
-        echo "state: " . $this->State_ . "<br>";
+
         if( $this->State_ == "coherent" )
         {
             $value = true;
         }
         
-        echo "isCoherent returns: " . $value . "<br>";
+        #echo "isCoherent returns: " . $value . "<br>";
         return $value;
     }
 
@@ -481,7 +477,6 @@ class eZNewsUtility
         
         An object in the altered state has had some changes to the data.
        
-        \variables
         \return
             Returns true if the object has been altered since last get or store.
             
@@ -508,7 +503,6 @@ class eZNewsUtility
         It will create one id for an image and/lr parent if
         the isFrontImage or the isCanonical variables are set.
         
-        \variables
         \return
             Returns true if an invariantCheck passes at the end
             of the function.
@@ -538,7 +532,6 @@ class eZNewsUtility
         Make shure that the object is in a legal state.
         All errors are stored in $this->Errors.
         
-        \variables
         \return
             Returns true if the object passes the check.
      */
@@ -568,7 +561,6 @@ class eZNewsUtility
         
         See the examples for how you can use the second method.
         
-        \variables
         \return
             Returns the error messages since last call to the function.
      */
@@ -588,11 +580,10 @@ class eZNewsUtility
         
         If the object 
         
-        \variables
         \return
             Returns false if the object needs to be stored.
      */
-    function storeCheck()
+    function storedCheck()
     {
         $value = false;
         
@@ -611,14 +602,12 @@ class eZNewsUtility
         {
             $value = true;
         }
-        
         return $value;
     }
     
     /*!
         Start or stop object save checking.
         
-        \variables
         \in
             \$check True enables the save check, false disables it.
                     Default is true.
@@ -659,7 +648,6 @@ class eZNewsUtility
         See the examples for how you can use the second method (the same
         example as for errors()).
         
-        \variables
         \return
             Returns the error messages since last call to the function.
      */
@@ -679,7 +667,6 @@ class eZNewsUtility
         the database. If this object is new, then 0 is
         returned.
         
-        \variables
         \return
             Returns the ID of the object, or 0;
     */
@@ -689,7 +676,7 @@ class eZNewsUtility
         
         if ( $this->State_ != "new" )
         {
-            $returnValue = $this->ID;
+            $value = $this->ID;
         }
        
         return $value;
@@ -702,7 +689,6 @@ class eZNewsUtility
         
         This will set the object in a dirty state if successful.
 
-        \variables
         \in
             $inID   The new ID of this object.
         \return
@@ -728,7 +714,6 @@ class eZNewsUtility
     /*!
         Returns the object name.
         
-        \variables
         \return
             Returns the name of the object.
     */
@@ -744,7 +729,6 @@ class eZNewsUtility
     /*!
         Sets the name of the object.
         
-        \variables
         \in
             \$inName    The new name of this object
         \return
@@ -770,11 +754,11 @@ class eZNewsUtility
     */
     function dbInit()
     {
-        if( $GLOBAL["NEWSDEBUG"] == true )
-        {
-            echo "eZNewsItem::dbInit(  ) <br>\n";
-            echo "isConnected is: " . $this->IsConnected . "<br>";
-        }
+        #if( $GLOBAL["NEWSDEBUG"] == true )
+        #{
+        #    echo "eZNewsItem::dbInit(  ) <br>\n";
+        #    echo "isConnected is: " . $this->IsConnected . "<br>";
+        #}
         
         if( $this->IsConnected == false )
         {
@@ -783,6 +767,32 @@ class eZNewsUtility
         }
     }
 
+
+
+    /*!
+        Make shure that the object is in a legal state.
+        All errors are stored in $this->Errors.
+        
+        \return
+            Returns true if the object passes the check.
+     */
+    function invariantCheck()
+    {
+        $value = false;
+
+        if( empty( $this->Name ) )
+        {
+            $this->Errors[] = "intl-name-required";
+        }
+
+        if( !count( $this->Errors ) )
+        {
+            #echo "errors " . $this->Errors[0] . "<br>";
+            $value = true;
+            $this->State_ = "coherent";
+        }
+        return $value;
+    }
 
 
     // The data members

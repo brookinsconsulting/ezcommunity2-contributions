@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eznewsitem.php,v 1.13 2000/09/30 22:17:03 pkej-cvs Exp $
+// $Id: eznewsitem.php,v 1.14 2000/10/01 13:39:28 pkej-cvs Exp $
 //
 // Definition of eZNewsItem class
 //
@@ -81,8 +81,13 @@
     \sa eZNewsArticle, eZNewsCategory
  */
 /*!TODO
-    Clean up code.
+    getThis() must also  fetch info about referenced objects.
     
+    createLogItem() must do its job ;)
+    
+    updateThis(), needs to be implemented, togheter with cascading updates
+    of dependant tables.
+
     Change getSubItemCounts to work more properly.
     
     Add more configuration.
@@ -170,27 +175,28 @@ class eZNewsItem extends eZNewsUtility
             $query = sprintf( $query2, $inData );
         }
 
-        $this->Database->array_query( $changetype_array, $query );
+        $this->Database->array_query( $itemArray, $query );
 
-        if ( count( $changetype_array ) > 1 )
+        if ( count( $itemArray ) > 1 )
         {
             $this->Error[] = "intl-eznews-eznewsitem-more-than-one-object-found";
             
-            foreach( $changeTypeArray as $changeType )
+            foreach( $itemArray as $item )
             {
-                $outID[] = $changeType[ "ID" ];
+                $outID[] = $item[ "ID" ];
             }
         }
-        else if( count( $changeTypeArray ) == 1 )
+        else if( count( $itemArray ) == 1 )
         {
-            $this->ID = $changeTypeArray[0][ "ID" ];
-            $this->Name = $changeTypeArray[0][ "Name" ];
-            $this->ItemTypeID = $changeTypeArray[0][ "ItemTypeID" ];
-            $this->Status = $changeTypeArray[0][ "Status" ];
+            $this->ID = $itemArray[0][ "ID" ];
+            $this->Name = $itemArray[0][ "Name" ];
+            $this->ItemTypeID = $itemArray[0][ "ItemTypeID" ];
+            $this->Status = $itemArray[0][ "Status" ];
             $this->CreatedAt = $changeTypeArray[0][ "CreatedAt" ];
             $this->CreatedBy = $changeTypeArray[0][ "CreatedBy" ];
+            $this->CreastionIP = $changeTypeArray[0][ "CreastionIP" ];
             
-            
+            // fetch more info.
             
             $value = true;
         }
@@ -633,7 +639,7 @@ class eZNewsItem extends eZNewsUtility
      */
     function storeThis( &$outID )
     {
-        echo "eZNewsItem::storeThis( \$outID, \$copy = $copy )<br>";
+        #echo "eZNewsItem::storeThis( \$outID, \$copy = $copy )<br>";
         
         $value = false;
         
@@ -993,6 +999,8 @@ class eZNewsItem extends eZNewsUtility
     {
         $value = false;
         
+        eZNewsUtility::invariantCheck();
+        
         if( is_numeric( $this->isCanonical ) )
         {
             $count = count( $this->ParentID );
@@ -1010,11 +1018,6 @@ class eZNewsItem extends eZNewsUtility
             {
                 $this->Errors[] = "intl-frontimage-exists-images-dont";
             }
-        }
-        
-        if( empty( $this->Name ) )
-        {
-            $this->Errors[] = "intl-name-required";
         }
 
         if( empty( $this->ItemTypeID ) )
@@ -1034,11 +1037,11 @@ class eZNewsItem extends eZNewsUtility
 
         if( !count( $this->Errors ) )
         {
-            echo "errors " . $this->Errors[0] . "<br>";
+            #echo "errors " . $this->Errors[0] . "<br>";
             $value = true;
             $this->State_ = "coherent";
         }
-        echo "invariantCheck returns: " . $value . "<br>";
+        #echo "invariantCheck returns: " . $value . "<br>";
         return $value;
     }
 
