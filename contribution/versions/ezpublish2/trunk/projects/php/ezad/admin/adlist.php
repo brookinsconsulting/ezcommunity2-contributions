@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: adlist.php,v 1.10 2001/02/13 13:33:56 jb Exp $
+// $Id: adlist.php,v 1.11 2001/02/13 14:00:56 jb Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <22-Nov-2000 21:08:34 bf>
@@ -119,7 +119,7 @@ else
 
 
 // ads
-$adList = $category->ads( "time", true );
+$adList = $category->adlist( "time", true );
 
 $locale = new eZLocale( $Language );
 $i=0;
