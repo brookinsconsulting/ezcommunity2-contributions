@@ -32,10 +32,10 @@
 	</td>
 </tr>
 <!-- END article_item_tpl -->
+<!-- END article_list_tpl -->
 <tr>
 	<td class="menuspacer">&nbsp;</td>
 </tr>
-<!-- END article_list_tpl -->
 </table>
 
 
