@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: masssubscribe.php,v 1.4 2001/05/16 13:09:13 ce Exp $
+// $Id: masssubscribe.php,v 1.5 2001/05/16 13:15:38 ce Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <14-May-2001 15:02:02 ce>
@@ -74,7 +74,7 @@ if ( isSet ( $OK ) && ( count ( $CategoryArrayID ) > 0 ) )
         $mailTemplate->setAllStrings();
         $mailTemplate->set_file( "send_mail_tpl", "sendmail.tpl" );
         $mailTemplate->set_block( "send_mail_tpl", "mail_password_tpl", "mail_password" );
-        $t->set_var( "mail_password", "" );
+        $mailTemplate->set_var( "mail_password", "" );
         
         foreach ( $addresses as $address )
         {
