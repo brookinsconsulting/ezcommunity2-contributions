@@ -6,6 +6,9 @@ include_once( "ezuser/classes/ezuser.php" );
 include_once( "ezimagecatalogue/classes/ezimagecategory.php" );
 include_once( "ezimagecatalogue/classes/ezimage.php" );
 
+$ini =& INIFile::globalINI();
+$GlobalSectionID = $ini->read_var( "site", "DefaultSection" );
+
 function writeAtAll()
 {
     $user = eZUser::currentUser();

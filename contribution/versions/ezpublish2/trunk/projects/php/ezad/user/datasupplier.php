@@ -1,4 +1,6 @@
 <?
+$ini =& INIFile::globalINI();
+$GlobalSectionID = $ini->read_var( "site", "DefaultSection" );
 
 switch ( $url_array[2] )
 {

@@ -18,6 +18,9 @@ if ( get_class( $user ) == "ezuser" )
 if ( !$ShowPrice )
     $PriceGroup = -1;
 
+$ini =& INIFile::globalINI();
+$GlobalSectionID = $ini->read_var( "site", "DefaultSection" );
+
 switch ( $url_array[2] )
 {
     case "productlist" :

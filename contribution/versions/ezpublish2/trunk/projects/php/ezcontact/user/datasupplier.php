@@ -1,7 +1,8 @@
 <?
-//print $REQUEST_URI;
-
 include_once( "classes/ezuritool.php" );
+
+$ini =& INIFile::globalINI();
+$GlobalSectionID = $ini->read_var( "site", "DefaultSection" );
 
 //  $url_array = explode( "/", $REQUEST_URI );
 $url_array = eZURITool::split( $REQUEST_URI );

@@ -1,5 +1,8 @@
 <?php
 
+$ini =& INIFile::globalINI();
+$GlobalSectionID = $ini->read_var( "site", "DefaultSection" );
+
 $PageCaching = $ini->read_var( "eZNewsfeedMain", "PageCaching" );
 
 switch ( $url_array[2] )

@@ -1,6 +1,9 @@
 <?php
 include_once( "classes/ezhttptool.php" );
 
+$ini =& INIFile::globalINI();
+$GlobalSectionID = $ini->read_var( "site", "DefaultSection" );
+
 function &errorPage( $PrimaryName, $PrimaryURL, $type )
 {
     $ini =& $GLOBALS["GlobalSiteIni"];

@@ -6,6 +6,9 @@ include_once( "ezbug/classes/ezbugmodule.php" );
 include_once( "ezbug/classes/ezbug.php" );
 include_once( "classes/ezhttptool.php" );
 
+$ini =& INIFile::globalINI();
+$GlobalSectionID = $ini->read_var( "site", "DefaultSection" );
+
 function hasPermission( $bugID )
 {
     $user = eZUser::currentUser();

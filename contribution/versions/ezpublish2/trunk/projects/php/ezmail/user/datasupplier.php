@@ -4,6 +4,9 @@ include_once( "ezmail/classes/ezmailaccount.php" );
 include_once( "ezuser/classes/ezuser.php" );
 include_once( "ezmail/classes/ezmailfolder.php" );
 
+$ini =& INIFile::globalINI();
+$GlobalSectionID = $ini->read_var( "site", "DefaultSection" );
+
 switch( $url_array[2] )
 {
     case "foldersort" : // change the sort mode of the folder list
