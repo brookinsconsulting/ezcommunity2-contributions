@@ -413,6 +413,7 @@ alter table eZArticle_Article add IsPublishedTmp int default '0';
 update eZArticle_Article set IsPublishedTmp='1' where IsPublished='true';
 alter table eZArticle_Article drop IsPublished;
 alter table eZArticle_Article change IsPublishedTmp IsPublished int;
+alter table eZArticle_Article add ImportID varchar(255); 
 
 # eZ poll
 
