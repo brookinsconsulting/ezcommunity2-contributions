@@ -1,4 +1,3 @@
-
 CREATE TABLE eZAd_Ad(
   ID int NOT NULL,
   Name varchar(150) default NULL,
@@ -568,8 +567,6 @@ CREATE TABLE eZArticle_ArticleKeywordFirstLetter (
 
 CREATE INDEX Article_Name ON eZArticle_Article (Name);
 CREATE INDEX Article_Published ON eZArticle_Article (Published);
-# CREATE FULLTEXT INDEX Article_Fulltext ON eZArticle_Article (Contents);
-# CREATE FULLTEXT INDEX Article_FulltextName ON eZArticle_Article (Name);
 
 CREATE INDEX Link_ArticleID ON eZArticle_ArticleCategoryLink (ArticleID);
 CREATE INDEX Link_CategoryID ON eZArticle_ArticleCategoryLink (CategoryID);
@@ -811,10 +808,9 @@ CREATE TABLE eZBulkMail_UserCategoryDelay (
 );
 
 CREATE TABLE eZBulkMail_UserCategoryLink (
-  ID int NOT NULL,
   UserID int default '0',
   CategoryID int default '0',
-  PRIMARY KEY (ID)
+  PRIMARY KEY (UserID, CategoryID)
 );
 
 CREATE TABLE eZBulkMail_UserCategorySettings (
@@ -1710,59 +1706,50 @@ CREATE TABLE eZQuiz_Alternative (
   Name char(100) default NULL,
   IsCorrect int default '0',
   PRIMARY KEY (ID)
-) TYPE=MyISAM;
-
-INSERT INTO eZQuiz_Alternative VALUES (1,1,'',0);
-INSERT INTO eZQuiz_Alternative VALUES (2,2,'test 1',1);
-INSERT INTO eZQuiz_Alternative VALUES (3,2,'test 2',0);
+);
 
 CREATE TABLE eZQuiz_Answer (
   ID int NOT NULL,
   UserID int default '0',
   AlternativeID int default '0',
   PRIMARY KEY (ID)
-) TYPE=MyISAM;
+);
 
 CREATE TABLE eZQuiz_Game (
-  ID int NOT NULL auto_increment,
+  ID int NOT NULL,
   Name varchar(30) default NULL,
   Description text,
   StartDate date default NULL,
   StopDate date default NULL,
   PRIMARY KEY (ID)
-) TYPE=MyISAM;
-
-INSERT INTO eZQuiz_Game VALUES (1,'test','wegwegweg','2001-12-12','0000-00-00');
+);
 
 CREATE TABLE eZQuiz_Question (
-  ID int NOT NULL auto_increment,
+  ID int NOT NULL,
   Name char(100) default NULL,
   GameID int default '0',
   Placement int default '0',
   Score int default '0',
   PRIMARY KEY (ID)
-) TYPE=MyISAM;
-
-INSERT INTO eZQuiz_Question VALUES (1,'hei å hå',1,0,0);
-INSERT INTO eZQuiz_Question VALUES (2,'',1,1,0);
+);
 
 CREATE TABLE eZQuiz_Score (
-  ID int NOT NULL auto_increment,
+  ID int NOT NULL,
   GameID int default '0',
   UserID int default '0',
   TotalScore int default '0',
   LastQuestion int default '0',
   FinishedGame int default '1',
   PRIMARY KEY (ID)
-) TYPE=MyISAM;
+);
 
 CREATE TABLE eZQuiz_AllTimeScore (
-  ID int NOT NULL auto_increment,
+  ID int NOT NULL,
   UserID int default '0',
   TotalScore int default '0',
   GamesPlayed int default '0',
   PRIMARY KEY (ID)
-) TYPE=MyISAM;
+);
 CREATE TABLE eZSession_Session(
   ID int NOT NULL,
   Hash varchar(33) default NULL,
@@ -1948,7 +1935,7 @@ CREATE TABLE eZTodo_Todo (
   Due int,
   Description text,
   Status int DEFAULT '0',
-  IsPublic int(1) NOT NULL DEFAULT '0',
+  IsPublic int NOT NULL DEFAULT '0',
   PRIMARY KEY (ID)
 );
 
@@ -2178,7 +2165,6 @@ CREATE TABLE eZTrade_OrderStatusType (
   ID int NOT NULL,
   Name varchar(25) NOT NULL default '',
   PRIMARY KEY (ID)
-  UNIQUE KEY Name(Name)
 );
 
 INSERT INTO eZTrade_OrderStatusType VALUES (1,'intl-initial');
@@ -2278,10 +2264,6 @@ CREATE TABLE eZTrade_ProductPermission (
   ReadPermission int default '0',
   WritePermission int default '0',
   PRIMARY KEY (ID)
-  KEY ProductPermissionObjectID(ObjectID),
-  KEY ProductPermissionGroupID(GroupID),
-  KEY ProductPermissionWritePermission(WritePermission),
-  KEY ProductPermissionReadPermission(ReadPermission)
 );
 
 CREATE TABLE eZTrade_ProductPermissionLink (
@@ -2413,7 +2395,7 @@ CREATE TABLE eZTrade_VoucherUsed (
   Price decimal default NULL,
   VoucherID int default '0',
   OrderID int default '0',
-  UserID int default '0'
+  UserID int default '0',
   PRIMARY KEY (ID)
 );
 
@@ -2441,6 +2423,7 @@ CREATE TABLE eZTrade_WishListOptionValue (
   PRIMARY KEY (ID)
 );
 
+CREATE UNIQUE INDEX OrderStatusType_Name_ID ON eZTrade_OrderStatusType (Name);   
 CREATE INDEX Category_Name ON eZTrade_Category (Name);
 CREATE INDEX Category_Parent ON eZTrade_Category (Parent);
 CREATE INDEX Product_Name ON eZTrade_Product (Name);
@@ -2453,6 +2436,12 @@ CREATE INDEX ProductOption_OptionID ON eZTrade_ProductOptionLink (OptionID);
 CREATE INDEX ProductOption_OptionValueContent ON  eZTrade_OptionValueContent  (ValueID);
 CREATE INDEX Trade_CartSessionID ON  eZTrade_Cart  (SessionID);
 CREATE INDEX ProductDef_ProductID ON eZTrade_ProductCategoryDefinition (ProductID);
+CREATE INDEX ProductPermissionObjectID_ObjectID ON eZTrade_ProductPermission (ObjectID);
+CREATE INDEX ProductPermissionGroupID_GroupID ON eZTrade_ProductPermission (GroupID);
+CREATE INDEX ProductPermissionWritePermission_WritePermission ON eZTrade_ProductPermission (WritePermission);
+CREATE INDEX ProductPermissionReadPermission_ReadPermission ON eZTrade_ProductPermission (ReadPermission);
+
+
 CREATE TABLE eZURLTranslator_URL (
   ID int NOT NULL,
   Source varchar(200) default NULL,
@@ -2544,10 +2533,10 @@ CREATE TABLE eZUser_Permission (
 
 CREATE TABLE eZUser_Trustees (
   ID int NOT NULL,
-  OwnerID int(11) NOT NULL,
-  UserID int(11) NOT NULL,
+  OwnerID int NOT NULL,
+  UserID int NOT NULL,
   PRIMARY KEY (ID)
-) TYPE=MyISAM;
+);
 
 INSERT INTO eZUser_Module (ID, Name) VALUES (1,'eZTrade');
 INSERT INTO eZUser_Module (ID, Name) VALUES (2,'eZPoll');

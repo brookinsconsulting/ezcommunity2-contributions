@@ -197,7 +197,6 @@ CREATE TABLE eZTrade_OrderStatusType (
   ID int NOT NULL,
   Name varchar(25) NOT NULL default '',
   PRIMARY KEY (ID)
-  UNIQUE KEY Name(Name)
 );
 
 INSERT INTO eZTrade_OrderStatusType VALUES (1,'intl-initial');
@@ -297,10 +296,6 @@ CREATE TABLE eZTrade_ProductPermission (
   ReadPermission int default '0',
   WritePermission int default '0',
   PRIMARY KEY (ID)
-  KEY ProductPermissionObjectID(ObjectID),
-  KEY ProductPermissionGroupID(GroupID),
-  KEY ProductPermissionWritePermission(WritePermission),
-  KEY ProductPermissionReadPermission(ReadPermission)
 );
 
 CREATE TABLE eZTrade_ProductPermissionLink (
@@ -432,7 +427,7 @@ CREATE TABLE eZTrade_VoucherUsed (
   Price decimal default NULL,
   VoucherID int default '0',
   OrderID int default '0',
-  UserID int default '0'
+  UserID int default '0',
   PRIMARY KEY (ID)
 );
 
@@ -460,6 +455,7 @@ CREATE TABLE eZTrade_WishListOptionValue (
   PRIMARY KEY (ID)
 );
 
+CREATE UNIQUE INDEX OrderStatusType_Name_ID ON eZTrade_OrderStatusType (Name);   
 CREATE INDEX Category_Name ON eZTrade_Category (Name);
 CREATE INDEX Category_Parent ON eZTrade_Category (Parent);
 CREATE INDEX Product_Name ON eZTrade_Product (Name);
@@ -472,3 +468,9 @@ CREATE INDEX ProductOption_OptionID ON eZTrade_ProductOptionLink (OptionID);
 CREATE INDEX ProductOption_OptionValueContent ON  eZTrade_OptionValueContent  (ValueID);
 CREATE INDEX Trade_CartSessionID ON  eZTrade_Cart  (SessionID);
 CREATE INDEX ProductDef_ProductID ON eZTrade_ProductCategoryDefinition (ProductID);
+CREATE INDEX ProductPermissionObjectID_ObjectID ON eZTrade_ProductPermission (ObjectID);
+CREATE INDEX ProductPermissionGroupID_GroupID ON eZTrade_ProductPermission (GroupID);
+CREATE INDEX ProductPermissionWritePermission_WritePermission ON eZTrade_ProductPermission (WritePermission);
+CREATE INDEX ProductPermissionReadPermission_ReadPermission ON eZTrade_ProductPermission (ReadPermission);
+
+

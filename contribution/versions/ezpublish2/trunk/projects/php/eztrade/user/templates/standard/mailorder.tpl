@@ -2,6 +2,8 @@
 
 {intl-thanks_for_shopping}
 
+{intl-order_no}: {order_id}
+
 <!-- BEGIN billing_address_tpl -->
 {intl-billing_address}:
 {customer_first_name} {customer_last_name}

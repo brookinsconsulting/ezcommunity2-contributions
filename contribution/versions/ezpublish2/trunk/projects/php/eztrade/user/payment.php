@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: payment.php,v 1.81 2001/10/11 11:44:30 ce Exp $
+// $Id: payment.php,v 1.82 2001/10/15 06:22:27 ce Exp $
 //
 // Created on: <02-Feb-2001 16:31:53 bf>
 //
@@ -768,7 +768,7 @@ if ( $PaymentSuccess == "true" )
     $currency->setValue( $totalVAT + $shippingVAT );
     $mailTemplate->set_var( "order_vat_sum", $locale->format( $currency ) );
 
-    $mailTemplate->set_var( "order_id", $OrderID );
+    $mailTemplate->set_var( "order_id", $order->id() );
     
     // Send E-mail    
     $mail = new eZMail();
@@ -916,7 +916,7 @@ if ( $PaymentSuccess == "true" )
         include( "checkout/user/postpayment.php" );
     }
     
-    $cart->clear();
+//    $cart->clear();
 
     $OrderID = $order->id();
 
@@ -949,7 +949,7 @@ if ( $PaymentSuccess == "true" )
         $session->setVariable( "PayWithVoucher", "" );
     }
     
-    $cart->delete();
+//    $cart->delete();
 
     // call the payment script after the payment is successful.
     // some systems needs this, e.g. to print out the OrderID which was cleared..
@@ -960,7 +960,7 @@ if ( $PaymentSuccess == "true" )
 
     $session->setVariable( "SSLMode", "" );
 
-    eZHTTPTool::header( "Location: http://$HTTP_HOST/trade/ordersendt/$OrderID/" );
+//    eZHTTPTool::header( "Location: http://$HTTP_HOST/trade/ordersendt/$OrderID/" );
     exit();
 }
 

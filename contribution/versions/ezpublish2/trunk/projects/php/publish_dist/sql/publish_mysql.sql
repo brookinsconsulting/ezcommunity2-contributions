@@ -812,10 +812,9 @@ CREATE TABLE eZBulkMail_UserCategoryDelay (
 ) TYPE=MyISAM;
 
 CREATE TABLE eZBulkMail_UserCategoryLink (
-  ID int(11) NOT NULL,
   UserID int(11) default '0',
   CategoryID int(11) default '0',
-  PRIMARY KEY (ID)
+  PRIMARY KEY (UserID, CategoryID)
 ) TYPE=MyISAM;
 
 CREATE TABLE eZBulkMail_UserCategorySettings (

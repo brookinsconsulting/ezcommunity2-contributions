@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezorder.php,v 1.57 2001/10/11 11:44:30 ce Exp $
+// $Id: ezorder.php,v 1.58 2001/10/15 06:22:27 ce Exp $
 //
 // Definition of eZOrder class
 //
@@ -611,7 +611,7 @@ class eZOrder
         if ( $this->PersonID == 0 && $this->CompanyID == 0 )
         {
             $db->array_query( $address_array,
-            "SELECT * FROM eZUser_UserShippingLink WHERE AddressID=$this->ShippingAddressID" );
+            "SELECT * FROM eZUser_UserShippingLink WHERE AddressID='$this->ShippingAddressID'" );
             
             if ( count( $address_array ) == 1 )
             {
@@ -746,13 +746,18 @@ class eZOrder
        {
            $shippingAddress =& $shippingAddress->copy();
            $this->ShippingAddressID = $shippingAddress->id();
+           $userID = $user->id();
 
            $db =& eZDB::globalDatabase();
+           $db->query_single( $ret, "SELECT COUNT(ID) as Count FROM eZUser_UserShippingLink
+                               WHERE UserID='$userID' AND AddressID='$this->ShippingAddressID'" );
+
            $db->begin();
            $userID = $user->id();
            $db->lock( "eZUser_UserShippingLink" );
            $nextID = $db->nextID( "eZUser_UserShippingLink", "ID" );
-           $ret[] = $db->query( "INSERT INTO eZUser_UserShippingLink
+
+                          print( "INSERT INTO eZUser_UserShippingLink
                                   (ID,
 	     	                       UserID,
 		                           AddressID )
@@ -760,6 +765,18 @@ class eZOrder
                                   ('$nextID',
 		                           '$userID',
 		                           '$this->ShippingAddressID') " );
+
+           if ( $ret["Count"] == 0 )
+           {
+               $ret[] = $db->query( "INSERT INTO eZUser_UserShippingLink
+                                  (ID,
+	     	                       UserID,
+		                           AddressID )
+                                  VALUES
+                                  ('$nextID',
+		                           '$userID',
+		                           '$this->ShippingAddressID') " );
+           }
            $db->unlock();
            eZDB::finish( $ret, $db );
        }
