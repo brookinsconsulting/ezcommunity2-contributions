@@ -1,5 +1,5 @@
 <?
-// $Id: linkgrouplist.php,v 1.14 2001/02/23 15:23:56 ce Exp $
+// $Id: linkgrouplist.php,v 1.15 2001/02/23 15:40:42 ce Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <26-Oct-2000 14:55:24 ce>
@@ -195,6 +195,8 @@ else
         $t->set_var( "link_url", $linkItem->url() );
 
         $image =& $linkItem->image();
+
+        $t->set_var( "image_item", "" );
         
         if ( $image->id() != 0 )
         {

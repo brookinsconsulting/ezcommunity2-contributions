@@ -45,7 +45,7 @@
 	<a href="/link/group/{linkgroup_id}/">{linkgroup_title}</a>
 	</td>
 	<td bgcolor="{bg_color}">
-	{category_description}
+	{category_description}&nbsp;
 	</td>
         <td bgcolor="{bg_color}">
 	<!-- BEGIN image_item_tpl -->

@@ -21,7 +21,7 @@
 <tr>
     <td>
         <div class="boxtext">{intl-description}:</div>
-        <textarea name="Description[]">{link_description}</textarea>
+        <textarea cols="40" rows="4" name="Description[]">{link_description}</textarea>
     </td>
 </tr>
 

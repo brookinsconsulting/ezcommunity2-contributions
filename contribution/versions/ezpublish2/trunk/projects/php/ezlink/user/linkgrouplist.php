@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: linkgrouplist.php,v 1.10 2001/02/21 13:00:21 bf Exp $
+// $Id: linkgrouplist.php,v 1.11 2001/02/23 15:40:42 ce Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <26-Oct-2000 15:02:09 ce>
@@ -116,19 +116,21 @@ else
         }
 
         $image =& $groupItem->image();
+
+        $t->set_var( "image_item" , "" );
         
         if ( $image->id() != 0 )
         {
             $imageWidth =& $ini->read_var( "eZLinkMain", "CategoryImageWidth" );
             $imageHeight =& $ini->read_var( "eZLinkMain", "CategoryImageHeight" );
-            
+
             $variation =& $image->requestImageVariation( $imageWidth, $imageHeight );
             
             $imageURL = "/" . $variation->imagePath();
             $imageWidth = $variation->width();
             $imageHeight = $variation->height();
             $imageCaption = $image->caption();
-            
+
             $t->set_var( "image_width", $imageWidth );
             $t->set_var( "image_height", $imageHeight );
             $t->set_var( "image_url", $imageURL );
@@ -203,6 +205,8 @@ else
         $t->set_var( "link_url", $linkItem->url() );
 
         $image =& $linkItem->image();
+
+        $t->set_var( "link_image_item", "" );
         
         if ( $image )
         {
