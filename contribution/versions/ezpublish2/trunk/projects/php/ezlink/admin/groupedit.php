@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: groupedit.php,v 1.9 2000/08/14 09:52:34 bf-cvs Exp $
+    $Id: groupedit.php,v 1.10 2000/08/23 11:14:43 ce-cvs Exp $
 
     Author: Bård Farstad <bf@ez.no>
     
@@ -18,12 +18,14 @@ $ini = new INIFile( "../site.ini" );
 
 $DOC_ROOT = $ini->read_var( "eZLinkMain", "DocumentRoot" );
 
-include_once( "template.inc" );
+include_once( "../classes/eztemplate.php" );
 include_once( "ezphputils.php" );
 
-require "../ezlink/classes/ezlinkgroup.php";
-require "../ezlink/classes/ezlink.php";
-require "../ezlink/classes/ezhit.php";
+include( "../ezlink/classes/ezlinkgroup.php" );
+include( "../ezlink/classes/ezlink.php" );
+include( "../ezlink/classes/ezhit.php" );
+
+$Language = $ini->read_var( "eZLinkMain", "Language" );
 
 
 // Slett
@@ -69,10 +71,13 @@ if ( $Action == "update" )
 }
 
 // Sette template filer
-$t = new Template();
+$t = new eZTemplate( $DOC_ROOT . "/" . $Ini->read_var( "eZLinkMain", "TemplateDir" ), $DOC_ROOT . "/intl", $Language, "groupedit.php" );
+$t->setAllStrings();
+
 $t->set_file( array(
-    "group_edit" => "../ezlink/templates/groupedit.tpl",
-    "group_parent_select" => "../ezlink/templates/groupparentselect.tpl" ));
+    "group_edit" => "groupedit.tpl",
+    "group_parent_select" => "groupparentselect.tpl"
+    ));
 
 
 $groupselect = new eZLinkGroup();
