@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: dayview.php,v 1.10 2001/01/18 13:31:24 gl Exp $
+// $Id: dayview.php,v 1.11 2001/01/18 14:55:20 gl Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <08-Jan-2001 12:48:35 bf>
@@ -106,6 +106,7 @@ $rowSpanColumns = array();
 $startTime = new eZTime( 8, 0, 0 );
 $interval = new eZTime( 0, 30, 0 );
 $stopTime = new eZTime( 18, 0, 0 );
+$now = new eZTime();
 
 // places appointments into columns, creates extra columns as necessary
 foreach ( $appointments as $appointment )
@@ -132,6 +133,7 @@ foreach ( $appointments as $appointment )
 
 $numCols = count( $appointmentColumns );
 $emptyDone = false;
+$nowSet = false;
 
 // print out the time table
 while ( $startTime->isGreater( $stopTime ) == true )
@@ -207,6 +209,13 @@ while ( $startTime->isGreater( $stopTime ) == true )
     }
 
     $startTime = $startTime->add( $interval );
+
+    $t->set_var( "td_class", "" );
+    if ( $nowSet == false && $now->isGreater( $startTime ) )
+    {
+        $t->set_var( "td_class", "bgcurrent" );
+        $nowSet = true;
+    }
 
     $t->parse( "time_table", "time_table_tpl", true );
 }

@@ -32,7 +32,7 @@
 <table width="100%" border="1" cellspacing="0" cellpadding="2" >
 <!-- BEGIN time_table_tpl -->
 <tr>
-	<td width="10%">
+	<td class="{td_class}" width="10%">
 	<a href="/calendar/appointmentedit/new/{year_number}/{month_number}/{day_number}/{start_time}">{short_time}</a>
 	</td>	
 

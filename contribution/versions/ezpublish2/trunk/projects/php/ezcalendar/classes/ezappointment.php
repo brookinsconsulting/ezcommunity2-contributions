@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezappointment.php,v 1.6 2001/01/17 15:20:31 ce Exp $
+// $Id: ezappointment.php,v 1.7 2001/01/18 14:55:20 gl Exp $
 //
 // Definition of eZAppointment class
 //
@@ -290,7 +290,7 @@ class eZAppointment
     /*!
       Returns the date and time of the appointment.
     */
-    function date(  )
+    function dateTime(  )
     {
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
@@ -433,7 +433,7 @@ class eZAppointment
       Sets the appointment date and time. Takes an eZDateTime object
       as argument.
     */
-    function setDate( $dateTime )
+    function setDateTime( $dateTime )
     {
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: yearview.php,v 1.3 2001/01/16 17:12:02 gl Exp $
+// $Id: yearview.php,v 1.4 2001/01/18 14:55:20 gl Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <27-Dec-2000 11:29:22 bf>
@@ -28,7 +28,7 @@ include_once( "classes/eztemplate.php" );
 include_once( "classes/ezlog.php" );
 include_once( "classes/ezlocale.php" );
 
-include_once( "classes/ezdatetime.php" );
+include_once( "classes/ezdate.php" );
 
 $ini =& $GLOBALS["GlobalSiteIni"];
 
@@ -47,15 +47,16 @@ $t->set_block( "month_tpl", "week_tpl", "week" );
 $t->set_block( "week_tpl", "day_tpl", "day" );
 $t->set_block( "week_tpl", "empty_day_tpl", "empty_day" );
 
-$datetime = new eZDateTime( );
+$date = new eZDate( );
+$today = new eZDate( );
 
 if ( $Year != "" )
 {
-    $datetime->setYear( $Year );
+    $date->setYear( $Year );
 }
 else
 {
-    $Year = $datetime->year();
+    $Year = $date->year();
 }
 
 $t->set_var( "year_number", $Year );
@@ -81,9 +82,9 @@ for ( $month=1; $month<13; $month++ )
         $t->set_var( "end_tr", "" );        
     }
     
-    $datetime->setMonth( $month );
+    $date->setMonth( $month );
     $t->set_var( "month_number", $month );
-    $t->set_var( "month_name", $locale->monthName( $datetime->monthName(), false ) );
+    $t->set_var( "month_name", $locale->monthName( $date->monthName(), false ) );
 
     $t->set_var( "week", "" );
     for ( $week=0; $week<6; $week++ )
@@ -94,17 +95,20 @@ for ( $month=1; $month<13; $month++ )
         for ( $day=1; $day<=7; $day++ )
         {
                 
-            $datetime->setDay( 1 );
-            $firstDay = $datetime->dayOfWeek();
+            $date->setDay( 1 );
+            $firstDay = $date->dayOfWeek();
 
             $currentDay = $day + ( $week * 7 ) - $firstDay + 1;
 
             if ( ( ( $day + ( $week * 7 ) )  >= $firstDay ) &&
-                 ( $currentDay <= $datetime->daysInMonth() ) )
+                 ( $currentDay <= $date->daysInMonth() ) )
             {
-                $datetime->setDay( $currentDay );
+                $date->setDay( $currentDay );
 
                 $t->set_var( "td_class", "bglight" );
+                if ( $date->month() == $today->month() && $date->day() == $today->day() )
+                    $t->set_var( "td_class", "bgcurrent" );
+
                 $t->set_var( "day_number", $currentDay );
                 $t->parse( "day", "day_tpl", true );
             }

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: appointmentedit.php,v 1.9 2001/01/18 12:50:03 gl Exp $
+// $Id: appointmentedit.php,v 1.10 2001/01/18 14:55:20 gl Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <03-Jan-2001 12:47:22 bf>
@@ -132,10 +132,10 @@ if ( $Action == "Insert" || $Action == "Update" )
             $StopTimeError = true;
         }
 
-        $date = new eZDateTime( $Year, $Month, $Day,
+        $datetime = new eZDateTime( $Year, $Month, $Day,
         $startTime->hour(), $startTime->minute(), 0 );
 
-        $appointment->setDate( $date );
+        $appointment->setDateTime( $datetime );
 
         $duration = new eZTime( $stopTime->hour() - $startTime->hour(),
         $stopTime->minute() - $startTime->minute() );
@@ -144,9 +144,9 @@ if ( $Action == "Insert" || $Action == "Update" )
         
         $appointment->store();
 
-        $year = eZTime::addZero( $date->year() );
-        $month = eZTime::addZero( $date->month() );
-        $day = eZTime::addZero( $date->day() );
+        $year = eZTime::addZero( $datetime->year() );
+        $month = eZTime::addZero( $datetime->month() );
+        $day = eZTime::addZero( $datetime->day() );
         Header( "Location: /calendar/dayview/$year/$month/$day/" );
         exit();
     }
@@ -157,7 +157,7 @@ if ( $Action == "DeleteAppointment" )
     if ( count ( $AppointmentArrayID ) != 0 )
     {
         $tmpAppointment = new eZAppointment( $AppointmentArrayID[0]);
-        $date = $tmpAppointment->date();
+        $datetime = $tmpAppointment->dateTime();
         foreach( $AppointmentArrayID as $ID )
         {
             $appointment = new eZAppointment( $ID );
@@ -165,9 +165,9 @@ if ( $Action == "DeleteAppointment" )
         }
     }
 
-    $year = eZTime::addZero( $date->year() );
-    $month = eZTime::addZero( $date->month() );
-    $day = eZTime::addZero( $date->day() );
+    $year = eZTime::addZero( $datetime->year() );
+    $month = eZTime::addZero( $datetime->month() );
+    $day = eZTime::addZero( $datetime->day() );
 
     Header( "Location: /calendar/dayview/$year/$month/$day/" );
     exit();
@@ -217,7 +217,7 @@ if ( $Action == "Edit" )
     if ( $appointment->priority() == 2 )
         $t->set_var( "2_selected", "selected" );
 
-    $dt =& $appointment->date();
+    $dt =& $appointment->dateTime();
 
     $t->set_var( "year_value", $dt->year() );
 

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: appointmentview.php,v 1.3 2001/01/17 10:18:09 gl Exp $
+// $Id: appointmentview.php,v 1.4 2001/01/18 14:55:20 gl Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <08-Jan-2001 11:53:05 bf>
@@ -56,7 +56,7 @@ $t->set_block( "appointment_view_tpl", "high_tpl", "high" );
 
 
 $appointment = new eZAppointment( $AppointmentID );
-$datetime = $appointment->date();
+$datetime = $appointment->dateTime();
 
 $t->set_var( "appointment_title", $appointment->name() );
 $t->set_var( "appointment_date", $locale->format( $datetime->date() ) );

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: monthview.php,v 1.8 2001/01/18 10:07:13 gl Exp $
+// $Id: monthview.php,v 1.9 2001/01/18 14:55:20 gl Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <27-Dec-2000 14:09:56 bf>
@@ -36,7 +36,7 @@ include_once( "ezcalendar/classes/ezappointment.php" );
 $ini =& $GLOBALS["GlobalSiteIni"];
 
 $Language = $ini->read_var( "eZCalendarMain", "Language" );
-$locale = new eZLocale( $Language );
+$Locale = new eZLocale( $Language );
 
 $t = new eZTemplate( "ezcalendar/user/" . $ini->read_var( "eZCalendarMain", "TemplateDir" ),
                      "ezcalendar/user/intl/", $Language, "monthview.php" );
@@ -79,20 +79,20 @@ else
     $showPrivate == false;
 }
 
-$datetime = new eZDateTime( );
+$date = new eZDate();
 
 if ( $Year != "" && $Month != "" )
 {
-    $datetime->setYear( $Year );
-    $datetime->setMonth( $Month );
+    $date->setYear( $Year );
+    $date->setMonth( $Month );
 }
 else
 {
-    $Year = $datetime->year();
-    $Month = $datetime->month();
+    $Year = $date->year();
+    $Month = $date->month();
 }
 
-$t->set_var( "month_name", $locale->monthName( $datetime->monthName(), false ) );
+$t->set_var( "month_name", $Locale->monthName( $date->monthName(), false ) );
 $t->set_var( "month_number", $Month );
 $t->set_var( "year_number", $Year );
 $t->set_var( "week", "" );
@@ -100,18 +100,19 @@ $t->set_var( "week", "" );
 
 
 // draw the week day header. Using 2001 because it starts on a monday.
-$dTime = new eZDateTime();
-$dTime->setYear( 2001 );
-$dTime->setMonth( 1 );
+$hDate = new eZDate();
+$hDate->setYear( 2001 );
+$hDate->setMonth( 1 );
 
 for ( $week_day=1; $week_day<=7; $week_day++ )
 {
-    $dTime->setDay( $week_day );
-    $t->set_var( "week_day_name", $locale->dayName( $dTime->dayName(), false ) );
+    $hDate->setDay( $week_day );
+    $t->set_var( "week_day_name", $Locale->dayName( $hDate->dayName(), false ) );
 
     $t->parse( "week_day", "week_day_tpl", true );
 }
 
+$today = new eZDate();
 $tmpDate = new eZDate();
 $tmpAppointment = new eZAppointment();
 
@@ -119,59 +120,61 @@ for ( $week=0; $week<6; $week++ )
 {
     $t->set_var( "day", "" );
 
-    if ( ( ( $week * 7 ) - $firstDay + 1 ) < ( $datetime->daysInMonth()  ) )
+    if ( ( ( $week * 7 ) - $firstDay + 1 ) < ( $date->daysInMonth()  ) )
     {        
-        $datetime->setDay( 1 );
-        $firstDay = $datetime->dayOfWeek();
+        $date->setDay( 1 );
+        $firstDay = $date->dayOfWeek();
 
         for ( $day=1; $day<=7; $day++ )
         {
             $currentDay = $day + ( $week * 7 ) - $firstDay + 1;
 
             if ( ( ( $day + ( $week * 7 ) )  >= $firstDay ) &&
-                 ( $currentDay <= $datetime->daysInMonth() ) )
+                 ( $currentDay <= $date->daysInMonth() ) )
             {
                 // this month
-                $datetime->setDay( $currentDay );
+                $date->setDay( $currentDay );
 
                 // fetch the appointments for today
-                $tmpDate->setYear( $datetime->year() );
-                $tmpDate->setMonth( $datetime->month() );
-                $tmpDate->setDay( $datetime->day() );
+                $tmpDate->setYear( $date->year() );
+                $tmpDate->setMonth( $date->month() );
+                $tmpDate->setDay( $date->day() );
 
                 $appointments = $tmpAppointment->getByDate( $tmpDate, $tmpUser, $showPrivate );
                 $t->set_var( "appointment", "" );
                 foreach ( $appointments as $appointment )
                 {
-                    $start = $appointment->date();
+                    $start = $appointment->dateTime();
                     $t->set_var( "appointment_id", $appointment->id() );
-                    $t->set_var( "start_time",  eZDateTime::addZero( $start->hour() ) . ":" . eZDateTime::addZero( $start->minute() ) );
+                    $t->set_var( "start_time", $Locale->format( $start->time(), true ) );
 
                     $t->parse( "appointment", "appointment_tpl", true );
                 }
 
-                if ( $day <= 5 )
-                    $t->set_var( "td_class", "bglight" );
+                if ( $currentDay == $today->day() )
+                    $t->set_var( "td_class", "bgcurrent" );
+                else if ( $day > 5 )
+                    $t->set_var( "td_class", "bgweekend" );
                 else
-                    $t->set_var( "td_class", "bgdark" );
+                    $t->set_var( "td_class", "bglight" );
 
                 $t->set_var( "day_number", $currentDay );
             }
             else
             {
                 // prevous month
-                if ( ( $currentDay <= $datetime->daysInMonth() ) )
+                if ( ( $currentDay <= $date->daysInMonth() ) )
                 {
-                    $prevMonth = new eZDate( $datetime->year(), $datetime->month(), $datetime->day() );
+                    $prevMonth = new eZDate( $date->year(), $date->month(), $date->day() );
 
-                    if ( $datetime->month() == 1 )
+                    if ( $date->month() == 1 )
                     {
-                        $prevMonth->setYear( $datetime->year() - 1 );
+                        $prevMonth->setYear( $date->year() - 1 );
                         $prevMonth->setMonth( 12 );     
                     }
                     else
                     {
-                        $prevMonth->setMonth( $datetime->month() - 1 );
+                        $prevMonth->setMonth( $date->month() - 1 );
                     }
 
                     $t->set_var( "appointment", "" );
@@ -182,21 +185,21 @@ for ( $week=0; $week<6; $week++ )
                 else
                 {
                     // next month
-                    $nextMonth = new eZDate( $datetime->year(), $datetime->month(), $datetime->day() );
+                    $nextMonth = new eZDate( $date->year(), $date->month(), $date->day() );
 
                     $t->set_var( "appointment", "" );
 
-                    if ( $datetime->month() == 12 )
+                    if ( $date->month() == 12 )
                     {
-                        $nextMonth->setYear( $datetime->year() + 1 );
+                        $nextMonth->setYear( $date->year() + 1 );
                         $nextMonth->setMonth( 1 );     
                     }
                     else
                     {
-                        $nextMonth->setMonth( $datetime->month() + 1 );
+                        $nextMonth->setMonth( $date->month() + 1 );
                     }
 
-                    $tmp = ( $firstDay + $datetime->daysInMonth() ) % 7;
+                    $tmp = ( $firstDay + $date->daysInMonth() ) % 7;
                     if ( $tmp == 0 )
                         $tmp = 7;
 
