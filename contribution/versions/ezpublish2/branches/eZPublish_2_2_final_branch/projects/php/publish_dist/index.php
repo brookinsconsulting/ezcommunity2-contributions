@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: index.php,v 1.119.2.19 2002/03/19 13:39:06 br Exp $
+// $Id: index.php,v 1.119.2.20 2002/04/24 13:45:31 jb Exp $
 //
 // Created on: <09-Nov-2000 14:52:40 ce>
 //
@@ -300,6 +300,10 @@ if ( ( $requireUserLogin == "disabled" ) ||
         if ( isset( $GLOBALS["eZLanguageOverride"] ) and $GLOBALS["eZLanguageOverride"] != "" )
         {
             $Language = $GLOBALS["eZLanguageOverride"];
+        }
+        else if ( $ini->has_var( "site", "Language" ) )
+        {
+            $Language = $ini->read_var( "site", "Language" );
         }
         else
         {
