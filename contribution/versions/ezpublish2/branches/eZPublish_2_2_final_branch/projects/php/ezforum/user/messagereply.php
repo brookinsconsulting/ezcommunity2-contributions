@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: messagereply.php,v 1.44.2.1 2001/11/15 08:43:06 jhe Exp $
+// $Id: messagereply.php,v 1.44.2.2 2001/12/10 13:02:03 jhe Exp $
 //
 // Created on: <24-Sep-2000 12:20:32 bf>
 //
@@ -63,7 +63,7 @@ if ( $StartAction == "reply" )
 
     if ( is_object( $moderator ) )
     {
-        $moderators = eZUserGroup::users($moderator->id() );
+        $moderators = eZUserGroup::users( $moderator->id() );
 
         if ( count( $moderators ) > 0 )
         {
@@ -96,7 +96,7 @@ if ( $StartAction == "reply" )
                     $mailTemplate->parse( "link", "link_tpl" );
                 }
                 $mailTemplate->set_var( "topic", $msg->topic() );
-                $mailTemplate->set_var( "body", $msg->body( false ) );
+                $mailTemplate->set_var( "body", $msg->body( true ) );
                 $mailTemplate->set_var( "forum_name", $forum->name() );
                 $mailTemplate->set_var( "forum_link", "http://"  . $headersInfo["Host"] . "/forum/messagelist/" . $forum->id() );
                 $mailTemplate->set_var( "link_2", "http://admin." . $headersInfo["Host"] . "/forum/messageedit/edit/" . $msg->id() );
@@ -145,11 +145,12 @@ if ( $StartAction == "reply" )
                 $subject_line = $subject_line . $mailTemplate->Ini->read_var( "strings", "subject_append" );
 
                 $mailTemplate->set_var( "topic", $msg->topic() );
-                $mailTemplate->set_var( "body", $msg->body( false ) );
+                $mailTemplate->set_var( "body", $msg->body( true ) );
                 $mailTemplate->set_var( "forum_name", $forum->name() );
                 $mailTemplate->set_var( "forum_link", "http://" . $headersInfo["Host"] . "/forum/message/" . $message->id() );
                 $mailTemplate->set_var( "link_1", "http://" . $headersInfo["Host"] . "/forum/message/" . $msg->id() );
                 $mailTemplate->set_var( "link_2", "http://" . $headersInfo["Host"] . "/forum/message/" . $msg->id() );
+                $mailTemplate->parse( "link", "link_tpl" );
 
                 $bodyText = $mailTemplate->parse( "dummy", "mailreply" );
 

@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: messageedit.php,v 1.58.2.4 2001/11/01 11:25:46 jhe Exp $
+// $Id: messageedit.php,v 1.58.2.5 2001/12/10 13:02:03 jhe Exp $
 //
 // Created on: <21-Feb-2001 18:00:00 pkej>
 //
@@ -301,7 +301,7 @@ switch ( $Action )
                         $subject_line = $mailTemplate->Ini->read_var( "strings", "moderator_subject" );
 
                         $mailTemplate->set_var( "topic", $msg->topic( false ) );
-                        $mailTemplate->set_var( "body", $msg->body( false ) );
+                        $mailTemplate->set_var( "body", $msg->body( true ) );
                         
                         $mailTemplate->set_var( "forum_name", $forum->name() );
                         $mailTemplate->set_var( "forum_link", "http://"  . $headersInfo["Host"] . "/forum/messagelist/" . $forum->id() );
@@ -487,7 +487,7 @@ switch ( $Action )
 
         if ( $ReplyTags == "enabled" )
         {
-            $NewMessageBody = $ReplyStartTag . "\n" . $msg->body( false ) . "\n" . $ReplyEndTag;
+            $NewMessageBody = $ReplyStartTag . "\n" . $msg->body( true ) . "\n" . $ReplyEndTag;
         }
         else
         {
