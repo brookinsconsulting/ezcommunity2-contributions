@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezmenubox.php,v 1.4 2001/01/24 09:14:08 jb Exp $
+// $Id: ezmenubox.php,v 1.5 2001/01/24 10:01:26 bf Exp $
 //
 // Definition of eZMenuBox class
 //
@@ -59,13 +59,39 @@ class eZMenuBox
 
     function createBox( $ModuleName, $module_dir, $place, $SiteStyle, &$menuItems, $print = true )
     {
+        include_once( "ezsession/classes/ezpreferences.php" );
+        $preferences = new eZPreferences();
+        
         $ini =& $GLOBALS["GlobalSiteIni"];
 
         $Language = $ini->read_var( $ModuleName . "Main", "Language" );
 
+        $menuStatus =& $preferences->variable( $module_dir . "_status" );
+
+
+        if ( $GLOBALS["ToggleMenu"] == $module_dir )
+        {
+            if ( $menuStatus == "open" )
+            {
+                $preferences->setVariable( $module_dir . "_status", "closed" );
+            }
+            else
+            {
+                $preferences->setVariable( $module_dir . "_status", "open" );                
+            }
+            
+            $menuStatus =& $preferences->variable( $module_dir . "_status" );
+        }
+        
+        if ( !$menuStatus )
+        {
+            $menuStatus = "open";
+        }
+
         $t = new eZTemplate( "templates/" . $SiteStyle,
                              $module_dir . "/$place/intl", $Language, "menubox.php",
-                             $SiteStyle, $module_dir . "/$place" );
+                              $SiteStyle, $module_dir . "/$place", $menuStatus );
+
         if ( $t->hasCache() )
         {
             print $t->cache();
@@ -74,60 +100,82 @@ class eZMenuBox
 
         $t->setAllStrings();
 
-        $t->set_file( array(
-            "menu_box_tpl" => "menubox.tpl"
-            ) );
-
-        $t->set_block( "menu_box_tpl", "menu_item_tpl", "menu_item" );
-        $t->set_block( "menu_item_tpl", "menu_item_link_tpl", "menu_item_link" );
-        $t->set_block( "menu_item_tpl", "menu_item_break_tpl", "menu_item_break" );
-
-        $t->set_var( "site_style", $SiteStyle );
-        $t->set_var( "module_dir", $module_dir );
-
-        $t->set_var( "request_uri", $GLOBALS["REQUEST_URI"] );
-
-        foreach ( $menuItems as $menuItem )
+        if ( $menuStatus == "open" )
         {
-            $t->set_var( "menu_item_link", "" );
-            $t->set_var( "menu_item_break", "" );
-            $error = false;
-            if ( is_array( $menuItem ) )
-            {
-                $t->set_var( "target_url", $menuItem[0]  );
-                $t->set_var( "name", $t->translate( $menuItem[1] ) );
+            $t->set_file( array(
+                "menu_box_tpl" => "menubox.tpl"
+                ) );
+            
+            $t->set_block( "menu_box_tpl", "menu_item_tpl", "menu_item" );
+            $t->set_block( "menu_item_tpl", "menu_item_link_tpl", "menu_item_link" );
+            $t->set_block( "menu_item_tpl", "menu_item_break_tpl", "menu_item_break" );
 
-                $t->parse( "menu_item_link", "menu_item_link_tpl", true );
-            }
-            else if ( is_string( $menuItem ) )
+            $uri = $GLOBALS["REQUEST_URI"];
+            $uri = "/";
+            $uri =& eZHTTPTool::addVariable( $uri, "ToggleMenu", $module_dir );
+            $t->set_var( "request_uri", $uri );
+            
+            
+            $t->set_var( "site_style", $SiteStyle );
+            $t->set_var( "module_dir", $module_dir );
+            
+            foreach ( $menuItems as $menuItem )
             {
-                switch( $menuItem )
+                $t->set_var( "menu_item_link", "" );
+                $t->set_var( "menu_item_break", "" );
+                $error = false;
+                if ( is_array( $menuItem ) )
                 {
-                    case "break":
+                    $t->set_var( "target_url", $menuItem[0]  );
+                    $t->set_var( "name", $t->translate( $menuItem[1] ) );
+
+                    $t->parse( "menu_item_link", "menu_item_link_tpl", true );
+                }
+                else if ( is_string( $menuItem ) )
+                {
+                    switch( $menuItem )
                     {
-                        $t->parse( "menu_item_break", "menu_item_break_tpl", true );
-                        break;
-                    }
-                    default:
-                    {
-                        $error = true;
+                        case "break":
+                        {
+                            $t->parse( "menu_item_break", "menu_item_break_tpl", true );
+                            break;
+                        }
+                        default:
+                        {
+                            $error = true;
+                        }
                     }
                 }
-            }
-            else
-            {
-                $error = true;
-            }
+                else
+                {
+                    $error = true;
+                }
 
-            if ( $error )
-            {
-                print( "<h1>Unknown menubox item, \"" );
-                print_r( $menuItem );
-                print( "\"</h1><br />" );
+                if ( $error )
+                {
+                    print( "<h1>Unknown menubox item, \"" );
+                    print_r( $menuItem );
+                    print( "\"</h1><br />" );
+                }
+                $t->parse( "menu_item", "menu_item_tpl", true );
             }
-            $t->parse( "menu_item", "menu_item_tpl", true );
         }
+        else
+        {
+            $t->set_file( array(
+                "menu_box_tpl" => "menubox_closed.tpl"
+                ) );
 
+            $t->set_var( "site_style", $SiteStyle );
+            $t->set_var( "module_dir", $module_dir );
+            
+//              $uri = $GLOBALS["REQUEST_URI"];
+            $uri = "/";
+            $uri =& eZHTTPTool::addVariable( $uri, "ToggleMenu", $module_dir );
+            $t->set_var( "request_uri", $uri );
+        }
+        
+        
         return $t->storeCache( "output", "menu_box_tpl", $print );
     }
 };

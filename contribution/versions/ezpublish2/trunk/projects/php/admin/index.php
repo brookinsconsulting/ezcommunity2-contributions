@@ -21,6 +21,8 @@ include_once( "ezuser/classes/ezusergroup.php" );
 include_once( "ezuser/classes/ezmodule.php" );
 include_once( "ezuser/classes/ezpermission.php" );
 
+include_once( "classes/ezhttptool.php" );
+
 $ini = new INIFile( "site.ini" );
 $GlobalSiteIni =& $ini;
 
@@ -31,18 +33,15 @@ $GlobalSiteIni =& $ini;
 // do the statistics
 include_once( "ezstats/classes/ezpageview.php" );
 
-//  $t = new Template( "." );
-
 $SiteStyle =& $ini->read_var( "site", "SiteStyle" );
 
 
 // html header
 include( "header.php" );
 
-$user = eZUser::currentUser();
+$user =& eZUser::currentUser();
 if ( $user )
 {
-
     require( "ezuser/admin/admincheck.php" );
     
     if ( ! ( $HelpMode == "enabled" ) )
