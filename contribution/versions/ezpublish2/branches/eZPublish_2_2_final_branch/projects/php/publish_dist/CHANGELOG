@@ -9,6 +9,7 @@ Changes from 2.2.9 to 2.2.10
 * Fixed bug with escape of strings in cron job for eZ stats.
 * Fixed bug with escape of strings in search in eZ article.
 * Added permission check on products in eZ trade.
+* Fixed bug with newlines when posting a new forum message.
 
 Changes from 2.2.8 to 2.2.9
 ---------------------------
