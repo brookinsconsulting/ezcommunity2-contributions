@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: mailedit.php,v 1.17 2001/08/16 13:57:04 jhe Exp $
+// $Id: mailedit.php,v 1.18 2001/09/04 10:34:55 fh Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -30,6 +30,7 @@ include_once( "classes/ezhttptool.php" );
 include_once( "ezfilemanager/classes/ezvirtualfile.php" );
 include_once( "ezmail/classes/ezmail.php" );
 include_once( "ezuser/classes/ezuser.php" );
+include_once( "ezsession/classes/ezpreferences.php" );
 
 if ( isSet( $Cancel ) )
 {
@@ -60,7 +61,7 @@ if ( isSet( $AddAttachment ) )
     exit();
 }
 
-if ( isSet( $DeleteAttachments ) && count( $AttachmentArrayID ) > 0 )
+if( isSet( $DeleteAttachments ) && count( $AttachmentArrayID ) > 0 )
 {
     foreach ( $AttachmentArrayID as $attachmmentID )
     {
@@ -70,11 +71,7 @@ if ( isSet( $DeleteAttachments ) && count( $AttachmentArrayID ) > 0 )
     }
 }
 
-if ( isSet( $Preview ) )
-{
-}
-
-if ( isSet( $Save ) )
+if( isSet( $Save ) )
 {
     $MailID = save_mail();
     if ( isSet( $IDList ) )
@@ -92,7 +89,14 @@ if ( isSet( $Save ) )
     $drafts->addMail( $mail );
 }
 
-if ( isSet( $Send ) )
+if( isSet( $Preview ) )
+{
+    $MailID = save_mail();
+    eZHTTPTool::header( "Location: /mail/view/$MailID" );
+    exit();
+}
+
+if( isSet( $Send ) )
 {
     $MailID = save_mail();
     if ( isSet( $IDList ) )
@@ -182,15 +186,21 @@ $t->set_var( "current_mail_id", "" );
 $t->set_var( "cc_single", "" );
 $t->set_var( "bcc_single", "" );
 
-/** New mail, lets insert some default values **/
+// New mail, lets insert some default values 
 if ( $MailID == 0 )
 {
-    // put signature stuff here...
+    $auto_signature =& eZPreferences::variable( "eZMail_AutoSignature" );
+    $signature =& eZPreferences::variable( "eZMail_Signature" );
+    if( $auto_signature && $auto_signature == "true" && $signature != "" )
+    {
+        $comp_sign = "--\n$signature";
+        $t->set_var( "mail_body", htmlspecialchars( $comp_sign  ) );
+    }
 }
 $user =& eZUser::currentUser();
 $t->set_var( "from_value", $user->email() );
 
-/** We are editing an allready existant mail... lets insert it's values **/
+// We are editing an allready existant mail... lets insert it's values 
 if ( $MailID != 0 && eZMail::isOwner( $user, $MailID ) ) // load values from disk!, check that this is really current users mail
 {
     $t->set_var( "current_mail_id", $MailID );
@@ -201,7 +211,18 @@ if ( $MailID != 0 && eZMail::isOwner( $user, $MailID ) ) // load values from dis
     if ( $mail->from() != "" )
         $t->set_var( "from_value", htmlspecialchars( $mail->from() ) );
     $t->set_var( "subject_value", htmlspecialchars( $mail->subject() ) );
-    $t->set_var( "mail_body", htmlspecialchars( $mail->body() ) );
+
+    if( isset( $Signature ) )
+    {
+        $signature =& eZPreferences::variable( "eZMail_Signature" );
+        $mail_body = $mail->body();
+        $comp_sign = "$mail_body\n\n--\n$signature";
+        $t->set_var( "mail_body", htmlspecialchars( $comp_sign  ) );
+    }
+    else
+    {
+        $t->set_var( "mail_body", htmlspecialchars( $mail->body() ) );
+    }
     
     if ( $mail->cc() != ""  )
     {
@@ -236,7 +257,7 @@ if ( $MailID != 0 && eZMail::isOwner( $user, $MailID ) ) // load values from dis
         $t->parse( "inserted_attachments", "inserted_attachments_tpl", false );
     }
 }
-else if ( $MailID == 0 && ( $showcc || $showbcc ) ) //mail not saved, but there is data
+else if ( $MailID == 0 && ( $showcc || $showbcc || $Signature ) ) //mail not saved, but there is data
 {
     $t->set_var( "to_value", htmlspecialchars( $To ) );
     $t->set_var( "id_value", $IDList );
@@ -245,7 +266,19 @@ else if ( $MailID == 0 && ( $showcc || $showbcc ) ) //mail not saved, but there 
     $t->set_var( "cc_value", htmlspecialchars( $Cc ) );
     $t->set_var( "bcc_value", htmlspecialchars( $Bcc ) );
     $t->set_var( "subject_value",  htmlspecialchars( $Subject ) );
-    $t->set_var( "mail_body", htmlspecialchars( $MailBody ) );
+    if( $Signature )
+    {
+        $signature =& eZPreferences::variable( "eZMail_Signature" );
+        if( $signature != "" )
+        {
+            $comp_sign = "$MailBody\n\n--\n$signature";
+            $t->set_var( "mail_body", htmlspecialchars( $comp_sign  ) );
+        }
+    }
+    else
+    {
+        $t->set_var( "mail_body", htmlspecialchars( $MailBody ) );
+    }
     if ( $Cc != "" )
         $showcc = true;
     if ( $Bcc != "" )

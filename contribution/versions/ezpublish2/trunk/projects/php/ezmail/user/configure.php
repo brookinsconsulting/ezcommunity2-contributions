@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: configure.php,v 1.9 2001/08/17 13:35:59 jhe Exp $
+// $Id: configure.php,v 1.10 2001/09/04 10:34:55 fh Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -28,10 +28,47 @@ include_once( "classes/eztemplate.php" );
 include_once( "classes/ezlocale.php" );
 include_once( "ezuser/classes/ezuser.php" );
 include_once( "classes/ezhttptool.php" );
+include_once( "ezsession/classes/ezpreferences.php" );
 
 include_once( "ezmail/classes/ezmailaccount.php" );
 include_once( "ezmail/classes/ezmailfolder.php" );
 include_once( "ezmail/classes/ezmailfilterrule.php" );
+
+$user =& eZUser::currentUser();
+
+if( isset( $Ok ) || isset( $NewAccount ) || isset( $NewFilter ) ||
+    isset( $DeleteAccounts ) )
+{
+    // this strange way of enabling accounts makes sure that one user doesn't tamper
+    // with the accounts of someone else.
+    $accounts = eZMailAccount::getByUser( eZUser::currentUser() );
+    foreach( $accounts as $account )
+    {
+        if( count( $AccountActiveArrayID ) > 0 &&
+            in_array( $account->id(), $AccountActiveArrayID ) )
+            $account->setIsActive( true );
+        else
+            $account->setIsActive( false );
+
+        $account->store();
+    }
+    // save options
+    if( $user )
+    {
+        if( isset( $OnDelete ) && $OnDelete == "trash" )
+            eZPreferences::setVariable( "eZMail_OnDel", "trash" );
+        else
+            eZPreferences::setVariable( "eZMail_OnDel", "del" );
+
+        if( isset( $Signature ) )
+            eZPreferences::setVariable( "eZMail_Signature", $Signature );
+
+        if( isset( $AutoSignature ) )
+            eZPreferences::setVariable( "eZMail_AutoSignature", "true" );
+        else
+            eZPreferences::setVariable( "eZMail_AutoSignature", "false" );
+    }
+}
 
 if( isset( $NewAccount ) )
 {
@@ -45,34 +82,21 @@ if( isset( $NewFilter) )
     exit();
 }
 
-if( isset( $DeleteAccounts ) &&  count( $AccountArrayID ) > 0  )
+if( isset( $DeleteAccounts ) && count( $AccountArrayID ) > 0  )
 {
     foreach( $AccountArrayID as $accountID )
     {
         eZMailAccount::delete( $accountID );
     }
 }
-if( isset( $DeleteAccounts ) &&   count( $FilterArrayID ) > 0 ) 
+if( isset( $DeleteAccounts ) && count( $FilterArrayID ) > 0 ) 
 {
     foreach( $FilterArrayID as $filterID )
     {
         eZMailFilterRule::delete( $filterID );
     }
 }
-if( isset( $Ok ) )
-{
-    $accounts = eZMailAccount::getByUser( eZUser::currentUser() );
-    foreach( $accounts as $account )
-    {
-        if( count( $AccountActiveArrayID ) > 0 &&
-            in_array( $account->id(), $AccountActiveArrayID ) )
-            $account->setIsActive( true );
-        else
-            $account->setIsActive( false );
 
-        $account->store();
-    }
-}
 
 $ini =& INIFile::globalINI();
 $Language = $ini->read_var( "eZMailMain", "Language" ); 
@@ -91,8 +115,28 @@ $t->set_block( "mail_configure_page_tpl", "filter_item_tpl", "filter_item" );
 $t->set_var( "account_item", "" );
 $t->set_var( "filter_item" ,"" );
 
+// init options
+$t->set_var( "trash_checked", "checked" );
+$t->set_var( "delete_checked", "" );
+$t->set_var( "signature", "" );
+if( $user )
+{
+    $del_var =& eZPreferences::variable( "eZMail_OnDel" );
+    if( $del_var == "del" )
+    {
+        $t->set_var( "trash_checked", "" );
+        $t->set_var( "delete_checked", "checked" );
+    }
+    $signature =& eZPreferences::variable( "eZMail_Signature" );
+    if( $signature )
+        $t->set_var( "signature", htmlspecialchars( $signature ) );
+    
+    $t->set_var( "signature_checked", "" );
+    $auto_signature =& eZPreferences::variable( "eZMail_AutoSignature" );
+    if( $auto_signature && $auto_signature == "true" )
+        $t->set_var( "signature_checked", "checked" );
+}
 
-$user =& eZUser::currentUser();
 $accounts = eZMailAccount::getByUser( $user->id() );
 foreach( $accounts as $account )
 {

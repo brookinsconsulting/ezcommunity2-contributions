@@ -3,6 +3,18 @@
 <h1>{intl-configure}</h1>
 
 <hr noshade="noshade" size="4" />
+<h2>{intl-options}:</h2>
+<p class="boxtext">{intl-signature}:</p>
+<textarea class="box" name="Signature" cols="40" rows="5" wrap="soft">{signature}</textarea>
+
+<p class="boxtext">{intl-auto_signature}:</p>
+<input type="checkbox" value="true" name="AutoSignature" {signature_checked} />
+
+<p class="boxtext">{intl-on_delete}:</p>
+<input type="radio" value="trash" name="OnDelete" {trash_checked} />
+<span>{intl-trash_on_del}</span><br />
+<input type="radio" value="del" name="OnDelete" {delete_checked} />
+<span>{intl-del_on_del}</span><br />
 
 <h2>{intl-account_setup}:</h2>
 

@@ -87,6 +87,8 @@
 <tr>
   <td><input class="stdbutton" type="submit" Name="Preview" value="{intl-preview}" /></td>
   <td>&nbsp;</td>
+  <td><input class="stdbutton" type="submit" Name="Signature" value="{intl-signature}" /></td>
+  <td>&nbsp;</td>
   <td><input class="stdbutton" type="submit" Name="AddAttachment" value="{intl-add_attachment}" /></td>
   <!-- BEGIN attachment_delete_tpl -->
   <td>&nbsp;</td>

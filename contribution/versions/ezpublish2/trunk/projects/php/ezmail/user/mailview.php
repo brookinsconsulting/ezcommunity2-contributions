@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: mailview.php,v 1.17 2001/08/17 08:43:48 jhe Exp $
+// $Id: mailview.php,v 1.18 2001/09/04 10:34:55 fh Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -30,6 +30,7 @@ include_once( "classes/ezhttptool.php" );
 include_once( "ezmail/classes/ezmail.php" );
 include_once( "ezmail/classes/ezmailfolder.php" );
 include_once( "ezuser/classes/ezuser.php" );
+include_once( "ezsession/classes/ezpreferences.php" );
 
 if ( isSet( $Cancel ) )
 {
@@ -84,11 +85,21 @@ if ( isSet( $Forward ) )
     exit();
 }
 
-if ( isSet( $Delete ) )
+if ( isset( $Delete ) )
 {
     $mail = new eZMail( $MailID );
     $folderID = $mail->folder( false );
-    eZMail::delete( $MailID );
+
+    $del_var =& eZPreferences::variable( "eZMail_OnDel" );
+    if( $del_var == "del" )
+    {
+        eZMail::delete( $MailID );
+    }
+    else // move to trash
+    {
+        $trash = eZMailFolder::getSpecialFolder( TRASH );
+        $trash->addMail( $MailID );
+    }
     eZHTTPTool::header( "Location: /mail/folder/$folderID" );
     exit();
 }
