@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: payment.php,v 1.35 2001/03/26 18:35:47 jb Exp $
+// $Id: payment.php,v 1.36 2001/03/27 09:16:11 jb Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <02-Feb-2001 16:31:53 bf>
@@ -512,6 +512,7 @@ if ( $PaymentSuccess == "true" )
         $options =& $product->options();
         $change_discontinuity = false;
         $max_max_value = 0;
+        $has_value = false;
         foreach( $options as $option )
         {
             $option_values =& $option->values();
@@ -529,9 +530,14 @@ if ( $PaymentSuccess == "true" )
                         $changed_quantity = true;
                     }
                 }
+                $value_quantity = $option_value->totalQuantity();
+                if ( (is_bool( $value_quantity ) and !$value_quantity) or $value_quantity > 0 )
+                {
+                    $has_value = true;
+                }
             }
         }
-        if ( $max_max_value == 0 and $DiscontinueQuantityless )
+        if ( $max_max_value == 0 and !$has_value and $DiscontinueQuantityless )
         {
             $product->setDiscontinued( true );
             $product->store();
