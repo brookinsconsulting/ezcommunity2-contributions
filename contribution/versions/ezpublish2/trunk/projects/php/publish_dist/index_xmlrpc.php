@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: index_xmlrpc.php,v 1.22 2001/09/05 08:58:09 jb Exp $
+// $Id: index_xmlrpc.php,v 1.23 2001/09/26 14:25:01 jb Exp $
 //
 // Created on: <09-Nov-2000 14:52:40 ce>
 //
@@ -517,6 +517,36 @@ function createDateTime( $struct )
     $datetime->setMinute( $struct["Minute"]->value() );
     $datetime->setSecond( $struct["Second"]->value() );
     return $datetime;
+}
+
+function &createPath( &$obj, $module, $type, $include_self = true )
+{
+    $par = array();
+    if ( is_object( $obj ) )
+    {
+        $path =& $obj->path();
+        if ( $obj->id() != 0 )
+            $par[] = createURLStruct( $module, $type, 0 );
+        else
+            $par[] = createURLStruct( $module, "" );
+        foreach( $path as $item )
+        {
+            if ( $include_self or $item[0] != $obj->id() )
+                $par[] = createURLStruct( $module, $type, $item[0] );
+        }
+    }
+    return $par;
+}
+
+function &createURLArray( &$ids, $module, $type )
+{
+    $arr = array();
+    foreach( $ids as $id )
+    {
+        $arr[] = createURLStruct( $module, $type, $id );
+    }
+    $ret = new eZXMLRPCArray( $arr );
+    return $ret;
 }
 
 ob_end_flush();
