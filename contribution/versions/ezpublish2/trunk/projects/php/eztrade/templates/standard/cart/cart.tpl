@@ -1,5 +1,5 @@
 <!-- cart.tpl --> 
-<!-- $Id: cart.tpl,v 1.2 2000/09/28 13:15:45 bf-cvs Exp $ -->
+<!-- $Id: cart.tpl,v 1.3 2000/09/30 10:17:33 bf-cvs Exp $ -->
 
 <!-- BEGIN cart_header_tpl -->
 <h1>{intl-cart}</h1>
@@ -21,6 +21,9 @@
 	<th>
 	Opsjoner:
 	</th>
+	<th>
+	Pris:
+	</th>
 </tr>
 <!-- BEGIN cart_item_tpl -->
 <tr>
@@ -36,8 +39,38 @@
 	{option_value}<br>
         <!-- END cart_item_option_tpl -->
 	</td>
+	<td class="{td_class}" align="right">
+	{product_price}
+	</td>
 </tr>
 <!-- END cart_item_tpl -->
+<tr>
+	<td>
+	</td>
+	<td>
+	</td>
+	<td>
+	Frakt:
+	</td>
+	<td align="right">
+	{shipping_cost}
+	</td>
+</tr>
+<tr>
+	<td>
+	</td>
+	<td>
+	</td>
+	<td>
+	Totalt:
+	</td>
+	<td align="right">
+	{cart_sum}
+	</td>
+</tr>
 </table>
 <!-- END cart_item_list_tpl -->
 
+<form action="/trade/checkout/" method="post">
+<input type="submit" value="Gå til kasse" />
+</form>

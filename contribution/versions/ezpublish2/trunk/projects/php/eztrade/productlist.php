@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: productlist.php,v 1.4 2000/09/27 12:17:13 bf-cvs Exp $
+// $Id: productlist.php,v 1.5 2000/09/30 10:17:32 bf-cvs Exp $
 //
 // Definition of eZCompany class
 //
@@ -95,7 +95,7 @@ foreach ( $categoryList as $categoryItem )
 }
 
 // products
-$productList = $category->activeProducts();
+$productList =& $category->activeProducts();
 
 $locale = new eZLocale( $Language );
 $i=0;

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezproduct.php,v 1.8 2000/09/27 12:17:13 bf-cvs Exp $
+// $Id: ezproduct.php,v 1.9 2000/09/30 10:17:33 bf-cvs Exp $
 //
 // Definition of eZCompany class
 //
@@ -166,13 +166,13 @@ class eZProduct
             }
             else if( count( $category_array ) == 1 )
             {
-                $this->ID = $category_array[0][ "ID" ];
-                $this->Name = $category_array[0][ "Name" ];
-                $this->Brief = $category_array[0][ "Brief" ];
-                $this->Description = $category_array[0][ "Description" ];
-                $this->Keywords = $category_array[0][ "Keywords" ];
-                $this->ProductNumber = $category_array[0][ "ProductNumber" ];
-                $this->Price = $category_array[0][ "Price" ];
+                $this->ID =& $category_array[0][ "ID" ];
+                $this->Name =& $category_array[0][ "Name" ];
+                $this->Brief =& $category_array[0][ "Brief" ];
+                $this->Description =& $category_array[0][ "Description" ];
+                $this->Keywords =& $category_array[0][ "Keywords" ];
+                $this->ProductNumber =& $category_array[0][ "ProductNumber" ];
+                $this->Price =& $category_array[0][ "Price" ];
 
                 if ( $category_array[0][ "ShowPrice" ] == "true" )                    
                     $this->ShowPrice = true;
@@ -239,7 +239,7 @@ class eZProduct
     /*!
       Returns the name of the product.
     */
-    function name( )
+    function &name( )
     {
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
@@ -261,7 +261,7 @@ class eZProduct
     /*!
       Returns the keywords of the product.
     */
-    function keywords( )
+    function &keywords( )
     {
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
@@ -272,7 +272,7 @@ class eZProduct
     /*!
       Returns the product number of the product.
     */
-    function productNumber( )
+    function &productNumber( )
     {
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
@@ -283,7 +283,7 @@ class eZProduct
     /*!
       Returns the introduction to the product.
     */
-    function brief( )
+    function &brief( )
     {
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
@@ -294,7 +294,7 @@ class eZProduct
     /*!
       Returns the description of the product.
     */
-    function description( )
+    function &description( )
     {
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
@@ -344,7 +344,7 @@ class eZProduct
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
 
-       $this->Name = $value;        
+       $this->Name =& $value;        
     }
 
     /*!

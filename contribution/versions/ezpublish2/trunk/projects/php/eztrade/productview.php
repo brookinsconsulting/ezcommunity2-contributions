@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: productview.php,v 1.2 2000/09/25 07:31:47 bf-cvs Exp $
+// $Id: productview.php,v 1.3 2000/09/30 10:17:32 bf-cvs Exp $
 //
 // Definition of eZCompany class
 //
@@ -21,14 +21,13 @@ include_once( "classes/ezcurrency.php" );
 $ini = new INIFIle( "site.ini" );
 
 $Language = $ini->read_var( "eZTradeMain", "Language" );
-$DOC_ROOT = $ini->read_var( "eZTradeMain", "DocumentRoot" );
 
-include_once( $DOC_ROOT . "/classes/ezproduct.php" );
-include_once( $DOC_ROOT . "/classes/ezproductcategory.php" );
-include_once( $DOC_ROOT . "/classes/ezoption.php" );
+include_once( "eztrade/classes/ezproduct.php" );
+include_once( "eztrade/classes/ezproductcategory.php" );
+include_once( "eztrade/classes/ezoption.php" );
 
-$t = new eZTemplate( $DOC_ROOT . "/" . $ini->read_var( "eZTradeMain", "TemplateDir" ) . "/productview/",
-                     $DOC_ROOT . "/intl/", $Language, "productview.php" );
+$t = new eZTemplate( "eztrade/" . $ini->read_var( "eZTradeMain", "TemplateDir" ) . "/productview/",
+                     "eztrade/intl/", $Language, "productview.php" );
 
 $t->setAllStrings();
 
@@ -43,7 +42,7 @@ $t->set_file( array(
 $category = new eZProductCategory(  );
 $category->get( $CategoryID );
 
-$pathArray = $category->path();
+$pathArray =& $category->path();
 
 $t->set_var( "category_path", "" );
 foreach ( $pathArray as $path )

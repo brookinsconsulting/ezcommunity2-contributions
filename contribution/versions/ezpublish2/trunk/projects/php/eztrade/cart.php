@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: cart.php,v 1.3 2000/09/28 13:15:45 bf-cvs Exp $
+// $Id: cart.php,v 1.4 2000/09/30 10:17:32 bf-cvs Exp $
 //
 // Definition of eZCompany class
 //
@@ -135,7 +135,11 @@ $items = $cart->items( $CartType );
 
 if  ( $items )
 {
+    $locale = new eZLocale( $Language );
+    $currency = new eZCurrency();
+    
     $i = 0;
+    $sum = 0.0;
     foreach ( $items as $item )
     {
         $product = $item->product();
@@ -148,8 +152,12 @@ if  ( $items )
         $t->set_var( "product_image_width", $thumbnail->width() );
         $t->set_var( "product_image_height", $thumbnail->height() );
         $t->set_var( "product_image_caption", $image->caption() );
-        
+
+        $currency->setValue( $product->price() );
+
+        $sum += $product->price();
         $t->set_var( "product_name", $product->name() );
+        $t->set_var( "product_price", $locale->format( $currency ) );
 
         if ( ( $i % 2 ) == 0 )
             $t->set_var( "td_class", "bglight" );
@@ -174,6 +182,15 @@ if  ( $items )
         
         $i++;
     }
+
+    $shippingCost = 100.0;
+    $currency->setValue( $shippingCost );
+    $t->set_var( "shipping_cost", $locale->format( $currency ) );
+
+    $sum += $shippingCost;
+    $currency->setValue( $sum );
+    $t->set_var( "cart_sum", $locale->format( $currency ) );
+        
     $t->parse( "cart_item_list", "cart_item_list_tpl" );
 } 
 

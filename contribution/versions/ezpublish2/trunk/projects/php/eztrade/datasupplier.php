@@ -96,6 +96,10 @@ switch ( $url_array[2] )
         $CartType = "WishList";        
          include( "eztrade/cart.php" );    
         break;
+
+    case "checkout" :
+        include( "eztrade/checkout.php" );        
+        break;
         
 
     case "search" :
