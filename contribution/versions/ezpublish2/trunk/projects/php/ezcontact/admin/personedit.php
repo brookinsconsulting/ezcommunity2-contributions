@@ -11,6 +11,7 @@ $Language = $ini->read_var( "eZContactMain", "Language" );
 include_once( "classes/ezmail.php" );
 include_once( "classes/eztemplate.php" );
 include_once( "classes/ezlog.php" );
+include_once( "classes/eztexttool.php" );
 
 include_once( "ezcontact/classes/ezperson.php" );
 include_once( "ezcontact/classes/ezcompany.php" );
@@ -709,10 +710,10 @@ if ( !$confirm )
             }
 
             $t->set_var( "user_id", $user->id() );
-            $t->set_var( "name", htmlspecialchars( $Name ) );
+            $t->set_var( "name", eZTextTool::htmlspecialchars( $Name ) );
 
-            $t->set_var( "comment", htmlspecialchars( $Comment ) );
-            $t->set_var( "companyno", htmlspecialchars( $CompanyNo ) );
+            $t->set_var( "comment", eZTextTool::htmlspecialchars( $Comment ) );
+            $t->set_var( "companyno", eZTextTool::htmlspecialchars( $CompanyNo ) );
 
             // Company type selector
             $companyTypeList = eZCompanyType::getTree();
@@ -727,7 +728,7 @@ if ( !$confirm )
             $t->set_var( "is_top_selected", in_array( 0, $category_values ) ? "selected" : "" );
             foreach( $companyTypeList as $companyTypeItem )
             {
-                $t->set_var( "company_type_name", htmlspecialchars( $companyTypeItem[0]->name() ) );
+                $t->set_var( "company_type_name", eZTextTool::htmlspecialchars( $companyTypeItem[0]->name() ) );
                 $t->set_var( "company_type_id", $companyTypeItem[0]->id() );
 
                 if ( $companyTypeItem[1] > 0 )
@@ -749,9 +750,9 @@ if ( !$confirm )
 
             $t->set_var( "user_id", $user->id() );
             if ( isset( $FirstName ) )
-                $t->set_var( "firstname", htmlspecialchars( $FirstName ) );
+                $t->set_var( "firstname", eZTextTool::htmlspecialchars( $FirstName ) );
             if ( isset( $LastName ) )
-                $t->set_var( "lastname", htmlspecialchars( $LastName ) );
+                $t->set_var( "lastname", eZTextTool::htmlspecialchars( $LastName ) );
 
             $companyTypeList = eZCompanyType::getTree();
 
@@ -761,7 +762,7 @@ if ( !$confirm )
             $t->set_var( "is_top_selected", in_array( 0, $category_values ) ? "selected" : "" );
             foreach( $companyTypeList as $companyTypeItem )
             {
-                $t->set_var( "company_name", "[" . htmlspecialchars( $companyTypeItem[0]->name() ) . "]" );
+                $t->set_var( "company_name", "[" . eZTextTool::htmlspecialchars( $companyTypeItem[0]->name() ) . "]" );
                 $t->set_var( "company_id", "-1" );
 
                 $level = $companyTypeItem[1] > 0 ? str_repeat( "&nbsp;", $companyTypeItem[1] ) : "";
@@ -775,7 +776,7 @@ if ( !$confirm )
                 $companies = eZCompany::getByCategory( $companyTypeItem[0]->id() );
                 foreach( $companies as $companyItem )
                 {
-                    $t->set_var( "company_name", htmlspecialchars( $companyItem->name() ) );
+                    $t->set_var( "company_name", eZTextTool::htmlspecialchars( $companyItem->name() ) );
                     $t->set_var( "company_id", $companyItem->id() );
                     $t->set_var( "is_selected", in_array( $companyItem->id(), $category_values )
                                  ? "selected" : "" );
@@ -877,10 +878,10 @@ if ( !$confirm )
             if ( !in_array( $AddressID[$i], $AddressDeleteValues ) )
             {
                 $last_id = $AddressID[$i];
-                $t->set_var( "street1", htmlspecialchars( $Street1[$i] ) );
-                $t->set_var( "street2", htmlspecialchars( $Street2[$i] ) );
-                $t->set_var( "zip", htmlspecialchars( $Zip[$i] ) );
-                $t->set_var( "place", htmlspecialchars( $Place[$i] ) );
+                $t->set_var( "street1", eZTextTool::htmlspecialchars( $Street1[$i] ) );
+                $t->set_var( "street2", eZTextTool::htmlspecialchars( $Street2[$i] ) );
+                $t->set_var( "zip", eZTextTool::htmlspecialchars( $Zip[$i] ) );
+                $t->set_var( "place", eZTextTool::htmlspecialchars( $Place[$i] ) );
                 $t->set_var( "address_id", $AddressID[$i] );
                 $t->set_var( "address_index", $AddressID[$i] );
                 $t->set_var( "address_position", $i + 1 );
@@ -890,7 +891,7 @@ if ( !$confirm )
                 foreach( $address_types as $address_type )
                 {
                     $t->set_var( "type_id", $address_type->id() );
-                    $t->set_var( "type_name", htmlspecialchars( $address_type->name() ) );
+                    $t->set_var( "type_name", eZTextTool::htmlspecialchars( $address_type->name() ) );
                     $t->set_var( "selected", "" );
                     if ( $address_type->id() == $AddressTypeID[$i] )
                         $t->set_var( "selected", "selected" );
@@ -901,7 +902,7 @@ if ( !$confirm )
                 foreach( $countries as $country )
                 {
                     $t->set_var( "type_id", $country["ID"] );
-                    $t->set_var( "type_name", htmlspecialchars( $country["Name"] ) );
+                    $t->set_var( "type_name", eZTextTool::htmlspecialchars( $country["Name"] ) );
                     $t->set_var( "selected", "" );
                     if ( $Country[$i] == -1 )
                         $t->set_var( "no_country_selected", "selected" );
@@ -942,7 +943,7 @@ if ( !$confirm )
             if ( !in_array( $PhoneID[$i], $PhoneDeleteValues ) )
             {
                 $last_id = $PhoneID[$i];
-                $t->set_var( "phone_number", htmlspecialchars( $Phone[$i] ) );
+                $t->set_var( "phone_number", eZTextTool::htmlspecialchars( $Phone[$i] ) );
                 $t->set_var( "phone_id", $PhoneID[$i] );
                 $t->set_var( "phone_index", $PhoneID[$i] );
                 $t->set_var( "phone_position", $i + 1 );
@@ -952,7 +953,7 @@ if ( !$confirm )
                 foreach( $phone_types as $phone_type )
                 {
                     $t->set_var( "type_id", $phone_type->id() );
-                    $t->set_var( "type_name", htmlspecialchars( $phone_type->name() ) );
+                    $t->set_var( "type_name", eZTextTool::htmlspecialchars( $phone_type->name() ) );
                     $t->set_var( "selected", "" );
                     if ( $phone_type->id() == $PhoneTypeID[$i] )
                         $t->set_var( "selected", "selected" );
@@ -989,7 +990,7 @@ if ( !$confirm )
             if ( !in_array( $OnlineID[$i], $OnlineDeleteValues ) )
             {
                 $last_id = $OnlineID[$i];
-                $t->set_var( "online_value", htmlspecialchars( $Online[$i] ) );
+                $t->set_var( "online_value", eZTextTool::htmlspecialchars( $Online[$i] ) );
                 $t->set_var( "online_id", $OnlineID[$i] );
                 $t->set_var( "online_index", $OnlineID[$i] );
                 $t->set_var( "online_position", $i + 1 );
@@ -999,7 +1000,7 @@ if ( !$confirm )
                 foreach( $online_types as $online_type )
                 {
                     $t->set_var( "type_id", $online_type->id() );
-                    $t->set_var( "type_name", htmlspecialchars( $online_type->name() ) );
+                    $t->set_var( "type_name", eZTextTool::htmlspecialchars( $online_type->name() ) );
                     $t->set_var( "selected", "" );
                     if ( $online_type->id() == $OnlineTypeID[$i] )
                         $t->set_var( "selected", "selected" );
@@ -1018,7 +1019,7 @@ if ( !$confirm )
         foreach( $groups as $group )
         {
             $t->set_var( "type_id", $group->id() );
-            $t->set_var( "type_name", htmlspecialchars( $group->name() ) );
+            $t->set_var( "type_name", eZTextTool::htmlspecialchars( $group->name() ) );
             $t->set_var( "selected", "" );
             if ( $ContactGroupID == $group->id() )
                 $t->set_var( "selected", "selected" );
@@ -1028,7 +1029,7 @@ if ( !$confirm )
         $t->set_var( "project_contact_item", "" );
         if ( isset( $CompanyEdit ) )
         {
-            $t->set_var( "user_search", htmlspecialchars( $UserSearch ) );
+            $t->set_var( "user_search", eZTextTool::htmlspecialchars( $UserSearch ) );
 
             $users = array();
             if ( $ContactGroupID == -1 )
@@ -1063,8 +1064,8 @@ if ( !$confirm )
                      get_class( $user ) == "ezperson" )
                 {
                     $t->set_var( "type_id", $user->id() );
-                    $t->set_var( "type_firstname", htmlspecialchars( $user->firstName() ) );
-                    $t->set_var( "type_lastname", htmlspecialchars( $user->lastName() ) );
+                    $t->set_var( "type_firstname", eZTextTool::htmlspecialchars( $user->firstName() ) );
+                    $t->set_var( "type_lastname", eZTextTool::htmlspecialchars( $user->lastName() ) );
                     $t->set_var( "selected", "" );
                     if ( $ContactID == $user->id() )
                         $t->set_var( "selected", "selected" );
@@ -1100,7 +1101,7 @@ if ( !$confirm )
         foreach( $project_types as $project_type )
         {
             $t->set_var( "type_id", $project_type->id() );
-            $t->set_var( "type_name", htmlspecialchars( $project_type->name() ) );
+            $t->set_var( "type_name", eZTextTool::htmlspecialchars( $project_type->name() ) );
             $t->set_var( "selected", "" );
             if ( $ProjectID == $project_type->id() )
                 $t->set_var( "selected", "selected" );
@@ -1128,7 +1129,7 @@ if ( !$confirm )
                 $t->set_var( "logo_image_width", $variation->width() );
                 $t->set_var( "logo_image_height", $variation->height() );
 
-                $t->set_var( "logo_name", htmlspecialchars( $logoImage->name() ) );
+                $t->set_var( "logo_name", eZTextTool::htmlspecialchars( $logoImage->name() ) );
                 $t->set_var( "logo_id", $logoImage->id() );
         
                 $t->parse( "logo_item", "logo_item_tpl" );
@@ -1150,7 +1151,7 @@ if ( !$confirm )
                 $t->set_var( "image_width", $variation->width() );
                 $t->set_var( "image_height", $variation->height() );
 
-                $t->set_var( "image_name", htmlspecialchars( $companyImage->name() ) );
+                $t->set_var( "image_name", eZTextTool::htmlspecialchars( $companyImage->name() ) );
                 $t->set_var( "image_id", $companyImage->id() );
         
                 $t->parse( "image_item", "image_item_tpl" );

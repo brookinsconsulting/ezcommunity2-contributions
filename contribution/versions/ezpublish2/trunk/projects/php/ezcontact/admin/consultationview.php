@@ -5,6 +5,7 @@
  
 include_once( "classes/INIFile.php" );
 include_once( "classes/ezhttptool.php" );
+include_once( "classes/eztexttool.php" );
 
 $ini = new INIFIle( "site.ini" );
 $Language = $ini->read_var( "eZContactMain", "Language" );
@@ -87,9 +88,9 @@ else
 
     $consultation = new eZConsultation( $ConsultationID );
 
-    $t->set_var( "short_description", htmlspecialchars( $consultation->shortDescription() ) );
-    $t->set_var( "description", htmlspecialchars( $consultation->description() ) );
-    $t->set_var( "email_notification", htmlspecialchars( $consultation->emails() ) );
+    $t->set_var( "short_description", eZTextTool::htmlspecialchars( $consultation->shortDescription() ) );
+    $t->set_var( "description", eZTextTool::htmlspecialchars( $consultation->description() ) );
+    $t->set_var( "email_notification", eZTextTool::htmlspecialchars( $consultation->emails() ) );
     $status_id = $consultation->state();
 
     $companyid = $consultation->company( $user->id() );
@@ -99,15 +100,15 @@ else
         $t->parse( "company_contact_item", "company_contact_item_tpl" );
         $t->set_var( "person_contact_item", "" );
         $company = new eZCompany( $companyid );
-        $t->set_var( "company_name", $company->name() );
+        $t->set_var( "company_name", eZTextTool::htmlspecialchars( $company->name() ) );
     }
     else if ( $personid )
     {
         $t->set_var( "company_contact_item", "" );
         $t->parse( "person_contact_item", "person_contact_item_tpl" );
         $person = new eZPerson( $personid );
-        $t->set_var( "person_lastname", $person->lastName() );
-        $t->set_var( "person_firstname", $person->firstName() );
+        $t->set_var( "person_lastname", eZTextTool::htmlspecialchars( $person->lastName() ) );
+        $t->set_var( "person_firstname", eZTextTool::htmlspecialchars( $person->firstName() ) );
     }
 
     $t->set_var( "consultation_id", $ConsultationID );
@@ -117,13 +118,13 @@ else
 // Create consultation types
 
     $type = new eZConsultationType( $status_id );
-    $t->set_var( "status_name", $type->name() );
+    $t->set_var( "status_name", eZTextTool::htmlspecialchars( $type->name() ) );
 
 // Group list
     $groups = $consultation->groupList();
     foreach( $groups as $group )
         {
-            $t->set_var( "group_notice_name", $group->name() );
+            $t->set_var( "group_notice_name", eZTextTool::htmlspecialchars( $group->name() ) );
 
             $t->parse( "group_notice_select", "group_notice_select_tpl", true );
         }

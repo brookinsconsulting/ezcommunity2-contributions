@@ -11,6 +11,7 @@ $Language = $ini->read_var( "eZContactMain", "Language" );
 include_once( "classes/eztemplate.php" );
 include_once( "classes/ezlocale.php" );
 include_once( "classes/ezdate.php" );
+include_once( "classes/eztexttool.php" );
 
 include_once( "ezcontact/classes/ezperson.php" );
 include_once( "ezaddress/classes/ezaddress.php" );
@@ -111,8 +112,8 @@ if ( $Action == "view" )
     $Action_value = "view";
     $person = new eZPerson( $PersonID, true );
 
-    $t->set_var( "firstname", $person->firstName() );
-    $t->set_var( "lastname", $person->lastName() );
+    $t->set_var( "firstname", eZTextTool::htmlspecialchars( $person->firstName() ) );
+    $t->set_var( "lastname", eZTextTool::htmlspecialchars( $person->lastName() ) );
 
     $t->set_var( "birth_item", "" );
     $t->set_var( "no_birth_item", "" );
@@ -129,7 +130,7 @@ if ( $Action == "view" )
     {
         $t->parse( "no_birth_item", "no_birth_item_tpl" );
     }
-    $t->set_var( "description", $person->comment() );
+    $t->set_var( "description", eZTextTool::htmlspecialchars( $person->comment() ) );
 
     // Telephone list
     $phoneList = $person->phones( $person->id() );
@@ -140,13 +141,13 @@ if ( $Action == "view" )
         for( $i=0; $i < $count; $i++ )
         {
             $t->set_var( "phone_id", $phoneList[$i]->id() );
-            $t->set_var( "phone", $phoneList[$i]->number() );
+            $t->set_var( "phone", eZTextTool::htmlspecialchars( $phoneList[$i]->number() ) );
 
             $phoneType = $phoneList[$i]->phoneType();
 
             $t->set_var( "phone_type_id", $phoneType->id() );
 //              $t->set_var( "phone_type_name", $intl->read_var( "strings", "phone_" . $phoneType->name() ) );
-            $t->set_var( "phone_type_name", $phoneType->name() );
+            $t->set_var( "phone_type_name", eZTextTool::htmlspecialchars( $phoneType->name() ) );
 
             $t->parse( "phone_line", "phone_line_tpl", true );
         }
@@ -168,20 +169,20 @@ if ( $Action == "view" )
         foreach( $addressList as $addressItem )
         {
             $t->set_var( "address_id", $addressItem->id() );
-            $t->set_var( "street1", $addressItem->street1() );
-            $t->set_var( "street2", $addressItem->street2() );
-            $t->set_var( "zip", $addressItem->zip() );
-            $t->set_var( "place", $addressItem->place() );
+            $t->set_var( "street1", eZTextTool::htmlspecialchars( $addressItem->street1() ) );
+            $t->set_var( "street2", eZTextTool::htmlspecialchars( $addressItem->street2() ) );
+            $t->set_var( "zip", eZTextTool::htmlspecialchars( $addressItem->zip() ) );
+            $t->set_var( "place", eZTextTool::htmlspecialchars( $addressItem->place() ) );
             $country = $addressItem->country();
             if ( get_class( $country ) == "ezcountry" )
-                $t->set_var( "country", $country->name() );
+                $t->set_var( "country", eZTextTool::htmlspecialchars( $country->name() ) );
             else
                 $t->set_var( "country", "" );
 
             $addressType = $addressItem->addressType();
 
             $t->set_var( "address_type_id", $addressType->id() );
-            $t->set_var( "address_type_name", $addressType->name() );
+            $t->set_var( "address_type_name", eZTextTool::htmlspecialchars( $addressType->name() ) );
             
             $t->set_var( "script_name", "personedit.php" );
             $t->parse( "address_line", "address_line_tpl", true );
@@ -235,7 +236,7 @@ if ( $Action == "view" )
             $t->set_var( "online_visual_prefix", $vis_prefix );
             $t->set_var( "online", $url );
 
-            $t->set_var( "online_type_name", $onlineType->name() );
+            $t->set_var( "online_type_name", eZTextTool::htmlspecialchars( $onlineType->name() ) );
 
             $t->parse( "online_line", "online_line_tpl", true );
         }
@@ -254,7 +255,7 @@ if ( $Action == "view" )
     foreach( $companies as $company )
     {
         $t->set_var( "company_id", $company->id() );
-        $t->set_var( "company_name", $company->name() );
+        $t->set_var( "company_name", eZTextTool::htmlspecialchars( $company->name() ) );
         $t->parse( "company_item", "company_item_tpl", true );
     }
 
@@ -284,7 +285,7 @@ if ( $Action == "view" )
     if ( $statusid )
     {
         $status = new eZProjectType( $statusid );
-        $t->set_var( "project_status", $status->name() );
+        $t->set_var( "project_status", eZTextTool::htmlspecialchars( $status->name() ) );
         $t->parse( "project_status", "project_status_tpl" );
     }
     else
@@ -317,9 +318,9 @@ if ( $Action == "view" )
 
             $t->set_var( "consultation_id", $consultation->id() );
             $t->set_var( "consultation_date", $locale->format( $consultation->date() ) );
-            $t->set_var( "consultation_short_description", $consultation->shortDescription() );
+            $t->set_var( "consultation_short_description", eZTextTool::htmlspecialchars( $consultation->shortDescription() ) );
             $t->set_var( "consultation_status_id", $consultation->state() );
-            $t->set_var( "consultation_status", eZConsultation::stateName( $consultation->state() ) );
+            $t->set_var( "consultation_status", eZTextTool::htmlspecialchars( eZConsultation::stateName( $consultation->state() ) ) );
             $t->parse( "consultation_item", "consultation_item_tpl", true );
             $i++;
         }
