@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: productlist.php,v 1.41.8.3 2002/01/14 12:18:47 bf Exp $
+// $Id: productlist.php,v 1.41.8.4 2002/01/14 12:54:07 bf Exp $
 //
 // Created on: <23-Sep-2000 14:46:20 bf>
 //
@@ -78,6 +78,9 @@ $t->set_block( "product_tpl", "product_image_tpl", "product_image" );
 $t->set_block( "product_list_page_tpl", "category_list_tpl", "category_list" );
 $t->set_block( "category_list_tpl", "category_tpl", "category" );
 
+$t->set_block( "category_tpl", "sub_category_list_tpl", "sub_category_list" );
+$t->set_block( "sub_category_list_tpl", "sub_category_tpl", "sub_category" );
+
 if ( !isSet( $ModuleName ) )
     $ModuleName = "trade";
 if ( !isSet( $ModuleList ) )
@@ -130,10 +133,19 @@ foreach ( $categoryList as $categoryItem )
     $db->array_query( $sub_category_array,
     "SELECT ID, Name FROM eZTrade_Category WHERE LENGTH(Name )=1 AND Parent='" . $categoryItem["ID"] . "' ORDER BY Name"  );
 
+    $t->set_var( "sub_category_list",  "" );
+    $t->set_var( "sub_category",  "" );
     foreach ( $sub_category_array as $subCategory )
     {
-        print( $subCategory["Name"] );
+        $t->set_var( "sub_category_id", $subCategory["ID"] );
+        $t->set_var( "sub_category_name", $subCategory["Name"] );
+        $t->parse( "sub_category",  "sub_category_tpl", true );
     }
+
+    if ( count( $sub_category_array ) > 0 )        
+        $t->parse( "sub_category_list",  "sub_category_list_tpl");
+    else
+        $t->set_var( "sub_category_list",  "");
     
     
     if ( ( $i % 2 ) == 0 )
