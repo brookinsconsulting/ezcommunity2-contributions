@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezusergroup.php,v 1.4 2000/10/26 13:23:26 ce-cvs Exp $
+// $Id: ezusergroup.php,v 1.5 2000/10/31 07:35:57 ce-cvs Exp $
 //
 // Definition of eZCompany class
 //
@@ -56,7 +56,7 @@
       print( "Error: count not add user." );
   }  
   \endcode
-  \sa eZUser eZPermission eZModule
+  \sa eZUser eZPermission eZModule eZForgot
 */
 
 /*!TODO

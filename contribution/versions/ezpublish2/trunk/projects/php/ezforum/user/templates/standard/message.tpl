@@ -104,11 +104,6 @@
 	<form action="/forum/messageedit/new/{forum_id}">
   	<input class="okbutton" type="submit" value="{intl-new-posting}" />
 	</td>
-	<td>&nbsp;</td>
-	<td>
-	<form action="/forum/messagelist/{forum_id}/">
-  	<input class="okbutton" type="submit" value="{intl-list}" />
-	</td>
 </tr>
 </table>
 

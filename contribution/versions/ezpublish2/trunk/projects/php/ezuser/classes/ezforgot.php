@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezforgot.php,v 1.3 2000/10/30 12:04:17 ce-cvs Exp $
+// $Id: ezforgot.php,v 1.4 2000/10/31 07:35:56 ce-cvs Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <20-Sep-2000 13:32:11 ce>
@@ -22,6 +22,29 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, US
 //
+
+//!! eZUser
+//! eZForgot handles forgotten password. The user send a mail and get a hash returned, the user use the hash to get a new password.
+/*!
+
+  Example code:
+  \code
+
+  // Create a forgot object and store it in the database.
+  $forgot = new eZForgot( $userID );
+  
+  $forgot->setUserID( $userID );
+  $forgot->store(); // The store function generate a hash.
+
+  // Return the hash
+  $hashVaraiable = $forgot->hash();
+
+  // Check if the hash is legal.
+  $forgot->check( $hashVariable );
+
+  \endcode
+  \sa eZUser eZUserGroup eZPermission eZForgot
+*/
 
 include_once( "classes/ezdb.php" );
 include_once( "ezuser/classes/ezuser.php" );
@@ -191,6 +214,7 @@ class eZForgot
 
 
     /*!
+      \private
       Private function.
       Open the database for read and write. Gets all the database information from site.ini.
     */
@@ -206,7 +230,14 @@ class eZForgot
     var $UserID;
     var $ID;
     var $Hash;
-    
+
+    ///  Variable for keeping the database connection.
+    var $Database;
+
+    /// Indicates the state of the object. In regard to database information.
+    var $State_;
+    /// Is true if the object has database connection, false if not.
+    var $IsConnected;
 
 }
 ?>

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezuser.php,v 1.14 2000/10/29 10:21:10 ce-cvs Exp $
+// $Id: ezuser.php,v 1.15 2000/10/31 07:35:57 ce-cvs Exp $
 //
 // Definition of eZCompany class
 //
@@ -59,7 +59,7 @@
   
   \endcode
 
-  \sa eZUserGroup eZPermission eZModule
+  \sa eZUserGroup eZPermission eZModule eZForgot
 */
 
 include_once( "classes/ezdb.php" );
