@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezarticlecategory.php,v 1.46 2001/03/04 18:13:35 pkej Exp $
+// $Id: ezarticlecategory.php,v 1.47 2001/03/06 09:53:47 fh Exp $
 //
 // Definition of eZArticleCategory class
 //
@@ -138,7 +138,7 @@ class eZArticleCategory
                 $this->Database->query( "DELETE FROM eZArticle_ArticleCategoryLink WHERE CategoryID='$categoryID'" );
             }
         }
-        $this->Database->query( "DELETE FROM eZArticle_CategoryReaderLink WHERE CategoryID='$categoryID'" );
+        $this->Database->query( "DELETE FROM eZArticle_CategoryPermission WHERE ObjectID='$categoryID'" );
         
         $this->Database->query( "DELETE FROM eZArticle_Category WHERE ID='$categoryID'" );
     }
