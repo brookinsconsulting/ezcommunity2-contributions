@@ -8,6 +8,12 @@ switch ( $url_array[2] )
     }
     break;
 
+    case "listtable":
+    {
+        include( "ezexample/user/listtable.php" );
+    }
+    break;
+
     default :
     {
         // go to default module page or show an error message
