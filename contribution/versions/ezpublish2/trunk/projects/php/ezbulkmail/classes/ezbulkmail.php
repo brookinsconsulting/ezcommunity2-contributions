@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezbulkmail.php,v 1.3 2001/04/19 09:45:22 fh Exp $
+// $Id: ezbulkmail.php,v 1.4 2001/04/19 12:27:26 fh Exp $
 //
 // eZBulkMail class
 //
@@ -38,6 +38,7 @@
 
 */
 include_once( "classes/ezdatetime.php" );
+include_once( "ezbulkmail/classes/ezbulkmailcategory.php" );
 
 class eZBulkMail
 {
@@ -169,7 +170,7 @@ class eZBulkMail
         
         for ( $i=0; $i<count($mail_array); $i++ )
         {
-            $return_array[$i] = new eZBulkMail( $mail_array[$i]["ID"], 0 );
+            $return_array[$i] = new eZBulkMail( $mail_array[$i]["ID"] );
         }
         
         return $return_array;
@@ -188,7 +189,7 @@ class eZBulkMail
     */
     function sender()
     {
-        return $this->From;
+        return $this->FromField;
     }
 
     /*!
@@ -196,9 +197,9 @@ class eZBulkMail
     */
     function setSender( $newSender )
     {
-        $this->From = $newSender;
+        $this->FromField = $newSender;
     }
-    
+
     /*!
       Returns the subject.
     */
@@ -220,7 +221,7 @@ class eZBulkMail
     /*!
       returns the body.
     */
-    function body( $html )
+    function body( $html = true )
     {
         if( $html )
             return htmlspecialchars( $this->BodyText );
@@ -289,6 +290,24 @@ class eZBulkMail
     function setIsDraft( $value )
     {
         $this->IsDraft = $value;
+    }
+
+    /*!
+      Returns the first category this mail is a member of.
+      False if none..
+     */
+    function category()
+    {
+        $db = eZDB::globalDatabase();
+        $category_array = array();
+        
+        $db->array_query( $category_array, "SELECT CategoryID FROM eZBulkMail_MailCategoryLink WHERE MailID='$this->ID'" );
+
+        if( count( $category_array ) > 0 )
+            return new eZBulkMailCategory( $category_array[0]["CategoryID"] );
+        
+        return false;
+
     }
     
     /*!

@@ -1,6 +1,7 @@
 <?
 include_once( "ezbulkmail/classes/ezbulkmailcategory.php" );
 include_once( "ezbulkmail/classes/ezbulkmailtemplate.php" );
+include_once( "ezbulkmail/classes/ezbulkmail.php" );
 
 include_once( "classes/INIFile.php" );
 include_once( "classes/eztemplate.php" );
@@ -64,12 +65,11 @@ if( $MailID != 0 ) // load values from disk!, check that this is really current 
     $t->set_var( "current_mail_id", $MailID );
     
     $mail = new eZBulkMail( $MailID );
-    $t->set_var( "to_value", htmlspecialchars( $mail->to() ) );
 
-    if( $mail->from() != "" )
-        $t->set_var( "from_value", htmlspecialchars( $mail->from() ) );
-    $t->set_var( "subject_value", htmlspecialchars( $mail->subject() ) );
-    $t->set_var( "mail_body", htmlspecialchars( $mail->body() ) );
+    if( $mail->sender() != "" )
+        $t->set_var( "from_value",  $mail->sender() );
+    $t->set_var( "subject_value", $mail->subject() );
+    $t->set_var( "mail_body", $mail->body() );
 
 }
 

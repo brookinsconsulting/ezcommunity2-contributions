@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: maillist.php,v 1.1 2001/04/19 09:45:22 fh Exp $
+// $Id: maillist.php,v 1.2 2001/04/19 12:27:26 fh Exp $
 //
 // Frederik Holljen <fh@ez.no>
 // Created on: <18-Apr-2001 10:26:26 fh>
@@ -24,6 +24,7 @@
 //
 
 include_once( "ezbulkmail/classes/ezbulkmail.php" );
+include_once( "ezbulkmail/classes/ezbulkmailcategory.php" );
 include_once( "ezuser/classes/ezuser.php" );
 include_once( "classes/ezhttptool.php" );
 include_once( "classes/eztemplate.php" );
@@ -62,7 +63,12 @@ $i = 0;
 foreach( $mail as $mailItem )
 {
     $t->set_var( "bulkmail_subject", $mailItem->subject() );
-    $t->set_var( "bulkmail_category" , "" );
+    $category = $mailItem->category();
+    if( is_object( $category ) )
+    {
+        $t->set_var( "bulkmail_category", $category->name() );
+    }
+
     $t->set_var( "bulkmail_id", $mailItem->id() );
     ( $i % 2 ) ? $t->set_var( "td_class", "bgdark" ) : $t->set_var( "td_class", "bglight" );
     

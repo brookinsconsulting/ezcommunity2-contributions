@@ -47,6 +47,20 @@ switch ( $url_array[2] )
         include_once( "ezbulkmail/admin/maillist.php" );
     }
     break;
+
+    case "preview" :
+    {
+        $MailID = $url_array[3];
+        if( !is_numeric( $MailID ) )
+        {
+            eZHTTPTool::header( "Location: /error/404" );
+            exit();
+        }
+        $SendButton = true;
+        $EditButton = true;
+        include_once( "ezbulkmail/admin/mailview.php" );
+    }
+    break;
     
     default:
     {
