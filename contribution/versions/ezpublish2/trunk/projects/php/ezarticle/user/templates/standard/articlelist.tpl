@@ -58,7 +58,7 @@
 <tr>
 	<td>
 	<div class="listheadline"><a class="listheadline" href="/article/articleview/{article_id}/">{article_name}</a></div>
-	<div class="small">{article_published}</div>
+	<div class="small">( {article_published} )</div>
 
 	<!-- BEGIN article_image_tpl -->
 	    <table align="right">

@@ -1,8 +1,7 @@
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
-	<td bgcolor="#f08c00"  width="100%">
-  
-	<strong class="h1"><img src="/images/1x1.gif" width="3" height="1" border="0">{article_name}</strong>
+	<td bgcolor="#f08c00">
+	<div class="headline">{article_name}</div>
 	</td>
 </tr>
 </table>
@@ -35,9 +34,8 @@
 
 <!-- END attached_file_list_tpl -->
 
-
 <br />
-
+<div align="center">
 <!-- BEGIN prev_page_link_tpl -->
 <a class="path" href="/article/articleview/{article_id}/{prev_page_number}/">&lt;&lt; {intl-prev_page}</a>
 <!-- END prev_page_link_tpl -->
@@ -52,13 +50,14 @@
 
 
 <!-- BEGIN next_page_link_tpl -->
-| <a href="/article/articleview/{article_id}/{next_page_number}/">{intl-next_page}</a>
+| <a class="path" href="/article/articleview/{article_id}/{next_page_number}/">{intl-next_page} &gt;&gt;</a>
 <!-- END next_page_link_tpl -->
 
 <!-- BEGIN numbered_page_link_tpl -->
-<!-- | <a class="path" href="/article/articleview/{article_id}/0/">{intl-numbered_page}</a> | -->
+| <a class="path" href="/article/articleview/{article_id}/0/">{intl-numbered_page}</a> |
 <!-- END numbered_page_link_tpl -->
 
 <!-- BEGIN print_page_link_tpl -->
-<!-- | <a class="path" href="/article/articleprint/{article_id}/">{intl-print_page}</a> | -->
+| <a class="path" href="/article/articleprint/{article_id}/">{intl-print_page}</a> |
 <!-- END print_page_link_tpl -->
+</div>
