@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eznewsflowerarticleviewer.php,v 1.4 2000/10/16 11:49:44 pkej-cvs Exp $
+// $Id: eznewsflowerarticleviewer.php,v 1.5 2000/10/16 11:55:55 pkej-cvs Exp $
 //
 // Definition of eZNewsFlowerArticleViewer class
 //
@@ -224,7 +224,7 @@ class eZNewsFlowerArticleViewer extends eZNewsViewer
      */
     function renderPage( &$outPage )
     {
-        echo "eZNewsFlowerArticleViewer::renderPage( \$outPage = $outPage )<br />\n";
+        #echo "eZNewsFlowerArticleViewer::renderPage( \$outPage = $outPage )<br />\n";
         $value = false;
         $continue = false;
 
