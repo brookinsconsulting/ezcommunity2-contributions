@@ -6,7 +6,7 @@
 <!-- BEGIN index_item_tpl -->
 <tr>
 	<td width="1%" valign="top">
-	<b>{index_name}:</b>
+	<div class="spacer"><div class="path">{index_name}:</div></div>
 	</td>
 	<td>
 	<!-- BEGIN article_item_tpl -->

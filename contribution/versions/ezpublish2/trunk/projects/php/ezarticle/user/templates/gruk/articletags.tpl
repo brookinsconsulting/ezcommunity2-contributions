@@ -43,7 +43,7 @@
 </tr>
 <!-- BEGIN image_text_tpl -->
 <tr>
-   <td class="pictext" bgcolor="#eeeeee">
+   <td class="pictext">
     {caption}
    </td>
 </tr>

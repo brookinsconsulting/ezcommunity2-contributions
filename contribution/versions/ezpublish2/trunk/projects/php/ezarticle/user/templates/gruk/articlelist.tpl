@@ -21,9 +21,6 @@
 <hr noshade="noshade" size="4" />
 <!-- END header_item_tpl -->
 
-<img src="{www_dir}/images/path-arrow.gif" height="10" width="12" border="0" alt="">
-<a class="path" href="{www_dir}{index}/article/archive/0/">{intl-top_level}</a>
-
 <!-- BEGIN path_item_tpl -->
 <img src="{www_dir}/images/path-slash.gif" height="10" width="16" border="0" alt="">
 <a class="path" href="{www_dir}{index}/article/archive/{category_id}/">{category_name}</a>
@@ -98,8 +95,6 @@
         <!-- BEGIN read_more_tpl -->
 	<img src="{www_dir}/images/path-arrow.gif" height="10" width="12" border="0" alt="" />
 	<a class="path" href="{www_dir}{index}/article/articleview/{article_id}/1/{category_id}/">{article_link_text}</a>
-
-	| <a class="path" href="{www_dir}/article/archive/{category_def_id}/">{category_def_name}</a>
 	<br /><br />
         <!-- END read_more_tpl -->
 	</td>

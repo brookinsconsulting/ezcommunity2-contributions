@@ -38,8 +38,8 @@
 	<th>
 	{intl-category}:
 	</th>
-	<th>
-	<div align="right">{intl-publishing_date}:</div>
+	<th class="right">
+	{intl-publishing_date}:
 	</th>
 </tr>
 <!-- BEGIN article_item_tpl -->

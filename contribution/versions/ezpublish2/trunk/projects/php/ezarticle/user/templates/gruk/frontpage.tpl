@@ -20,7 +20,6 @@
 
 <hr noshade="noshade" size="4" />
 
-<br />
 <!-- BEGIN element_list_tpl -->
 <!-- END element_list_tpl -->
 
@@ -52,7 +51,8 @@
         <!-- BEGIN one_column_read_more_tpl -->
 	<img src="{www_dir}/images/path-arrow.gif" height="10" width="12" border="0" alt="" />
 	<a class="path" href="{www_dir}{index}/article/articleview/{article_id}/1/{category_id}/">{article_link_text}</a>
-	<br /><br />
+	| <a class="path" href="{www_dir}/article/archive/{category_def_id}/">{category_def_name}</a>
+	<br /><img src="{www_dir}/images/1x1.gif" height="8" width="4" border="0" alt="" /><br />
     <!-- END one_column_read_more_tpl -->
 	</td>
 </tr>
@@ -89,7 +89,8 @@
         <!-- BEGIN left_read_more_tpl -->
 	<img src="{www_dir}/images/path-arrow.gif" height="10" width="12" border="0" alt="" />
 	<a class="path" href="{www_dir}{index}/article/articleview/{article_id}/1/{category_id}/">{article_link_text}</a>
-	<br /><br />
+	| <a class="path" href="{www_dir}/article/archive/{category_def_id}/">{category_def_name}</a>
+	<br /><img src="{www_dir}/images/1x1.gif" height="8" width="4" border="0" alt="" /><br />
         <!-- END left_read_more_tpl -->
 
 	<!-- END left_article_tpl -->
@@ -122,7 +123,8 @@
         <!-- BEGIN right_read_more_tpl -->
 	<img src="{www_dir}/images/path-arrow.gif" height="10" width="12" border="0" alt="" />
 	<a class="path" href="{www_dir}{index}/article/articleview/{article_id}/1/{category_id}/">{article_link_text}</a>
-	<br /><br />
+	| <a class="path" href="{www_dir}/article/archive/{category_def_id}/">{category_def_name}</a>
+	<br /><img src="{www_dir}/images/1x1.gif" height="8" width="4" border="0" alt="" /><br />
         <!-- END right_read_more_tpl -->
 	<!-- END right_article_tpl -->
 	</td>

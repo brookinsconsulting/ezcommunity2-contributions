@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: menubox.php,v 1.22 2001/08/01 16:22:23 kaid Exp $
+// $Id: menubox.php,v 1.23 2001/08/29 14:39:44 th Exp $
 //
 // 
 //
@@ -117,6 +117,8 @@ function createArticleMenu( $menuCachedFile=false )
     $articleCategory = new eZArticleCategory( $CategoryID );
 
     $articleCategory_array = $articleCategory->getByParent( $articleCategory );
+
+    $t->set_var( "top_title", $articleCategory->name() );
 
     $i = 0;
     foreach( $articleCategory_array as $categoryItem )
