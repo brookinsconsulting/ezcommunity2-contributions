@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: appointmentedit.php,v 1.42 2001/08/29 10:37:22 jhe Exp $
+// $Id: appointmentedit.php,v 1.43 2001/08/30 09:31:54 jhe Exp $
 //
 // Created on: <03-Jan-2001 12:47:22 bf>
 //
@@ -568,17 +568,20 @@ if ( $Action == "New" )
     if ( $StartTime != 0 )
         $t->set_var( "start_value", $StartTime );
 
-    $t->set_var( "own_user_id", $userID );
-    $t->set_var( "own_user_name", $user->name() );
-    $t->set_var( "user_name", "" );
-
-    $trusteeArray = $user->getByTrustee( -1, true );
-    foreach ( $trusteeArray as $trustee )
+    if ( $user )
     {
-        $t->set_var( "user_id", $trustee->ID() );
-        $t->set_var( "user_name", $trustee->name() );
-
-        $t->parse( "trustee_user_name", "trustee_user_name_tpl", true );
+        $t->set_var( "own_user_id", $userID );
+        $t->set_var( "own_user_name", $user->name() );
+        $t->set_var( "user_name", "" );
+        
+        $trusteeArray = $user->getByTrustee( -1, true );
+        foreach ( $trusteeArray as $trustee )
+        {
+            $t->set_var( "user_id", $trustee->ID() );
+            $t->set_var( "user_name", $trustee->name() );
+            
+            $t->parse( "trustee_user_name", "trustee_user_name_tpl", true );
+        }
     }
 }
 
