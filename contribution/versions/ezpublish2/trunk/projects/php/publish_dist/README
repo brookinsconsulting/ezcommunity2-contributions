@@ -350,3 +350,9 @@ alter table eZBug_Module add OwnerGroupID int default 0;
 INSERT INTO eZUser_Module VALUES (11, 'eZBug');
 INSERT INTO eZUser_Permission VALUES (40, 11,'BugEdit'); 
 alter table eZBug_Bug add OwnerID int default NULL; 
+
+# Contact Persons in eZContact
+ALTER TABLE eZContact_Company ADD ContactID int(11) NOT NULL DEFAULT '0';
+UPDATE eZContact_Company SET ContactID=ContactType;
+ALTER table eZContact_Company MODIFY ContactType int(1) NOT NULL DEFAULT '0';
+UPDATE eZContact_Company SET ContactType='1';
