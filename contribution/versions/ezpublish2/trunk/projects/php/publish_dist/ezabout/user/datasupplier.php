@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: datasupplier.php,v 1.11 2001/07/19 11:52:22 jakobn Exp $
+// $Id: datasupplier.php,v 1.12 2001/08/31 14:04:31 bf Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -28,14 +28,28 @@ include_once( "classes/ezpublish.php" );
 $version = eZPublish::version();
 
 ?>
-<h1>About eZ publish v <? echo $version; ?></h1>
+<a href="http://developer.ez.no"><h1>About eZ publish v <? echo $version; ?></h1></a>
 <hr noshade="noshade" size="4" />
-<br />
 
 <p>
-eZ publish is an Open Source portal building software, content manager or publishing solution whichever fits your needs. 
-</p><p>
+<a href="http://developer.ez.no">eZ publish</a> is a web based application suite or a <a href="http://developer.ez.no">Content Management System</a>.
+It delivers functionality ranging from publishing of news, web logs and diaries, through web shop functionality like shopping carts and wishlists and forums to intranet functions like contact handling and bug reporting.
+</p>
+<p>
+The software uses caching and other optimization techniques to speed up page serving. It handles users, user preferences and user tracking through a user database and both cookie-based and non-cookie sessions.
+</p>
+<p>
+It supports statistics for page views, links followed and banner ads, both images and HTML with presentation logic.
+</p>
+<p>
+The package lends itself easily to customization, from changing the look and feel by changing templates, localizing the languages and other internationalization issues to adding new functionality.
+</p>
+<p>
+The target audience for <a href="http://developer.ez.no">eZ publish</a> are <a href="http://developer.ez.no">e-commerce</a>, ASP (Application Service Providers), BSP (Business Service Providers), news publishing, intranets, bug reporting, content management, discussion boards, FAQ and knowledge handling, file and image management, group ware, calendaring, polls, todo lists, appointments as well as personal web sites.
+</p>
+
+<p>
 It is released under the <a href="http://www.gnu.org/copyleft/gpl.html
-">GPL license</a> and can be downloaded from <a href="http://publish.ez.no">publish.ez.no</a>. You can get commercial support from eZ systems at
-<a href="http://ez.no">ez.no</a> or at <a href="http://sourceprovider.com">sourceprovider.com</a>.<br />
+">GPL license</a> and can be downloaded from <a href="http://developer.ez.no">developer.ez.no</a>. You can get commercial support from <a href="http://ez.no">eZ systems</a> at
+<a href="http://ez.no">ez.no</a>.
 </p>
