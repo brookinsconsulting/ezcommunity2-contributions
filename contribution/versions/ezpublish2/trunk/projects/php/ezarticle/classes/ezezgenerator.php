@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezezgenerator.php,v 1.4 2000/10/30 12:06:50 bf-cvs Exp $
+// $Id: ezezgenerator.php,v 1.5 2000/10/30 13:38:28 bf-cvs Exp $
 //
 // Definition of eZEzGenerator class
 //
@@ -226,7 +226,7 @@ class eZEzGenerator
                     }
 
                     // link 
-                    if ( $paragraph->name == "link" )
+                    if ( $paragraph->name == "ezlink" )
                     {
                         foreach ( $paragraph->attributes as $imageItem )
                         {
@@ -249,7 +249,7 @@ class eZEzGenerator
                             }
                         }
                         
-                        $pageContent .= "<link $href $text>";
+                        $pageContent .= "<ezlink $href $text>";
                     }
                     
 
