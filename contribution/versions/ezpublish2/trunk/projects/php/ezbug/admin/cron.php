@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: cron.php,v 1.7 2001/12/04 14:14:28 jhe Exp $
+// $Id: cron.php,v 1.8 2002/02/18 09:11:42 jhe Exp $
 //
 // Created on: <26-Oct-2001 15:57:39 jhe>
 //
@@ -70,7 +70,7 @@ foreach ( $bugCategories as $bugCategory )
         $subject = $mail->subject();
         if ( $bugCategory->supportNo() )
         {
-            if ( ereg( " #([0-9]+)", $subject, $list ) )
+            if ( ereg( "#([0-9]+)", $subject, $list ) )
             {
                 $support = new eZBugSupport( $list[1] );
                 if ( $support->expiryDate() >= eZDateTime::timeStamp( true ) &&
