@@ -85,9 +85,9 @@
         <!-- BEGIN headline_without_link_tpl -->
         <div class="listheadline">{article_name} </div>
         <!-- END headline_without_link_tpl -->
-<!-- BEGIN article_date_tpl -->
+	<!-- BEGIN article_date_tpl -->
 	<div class="small">( {article_published} )</div>
-<!-- END article_date_tpl -->
+	<!-- END article_date_tpl -->
 
 	<!-- BEGIN article_image_tpl -->
 	    <table width="1%" align="right" width="{thumbnail_image_width}">
@@ -107,6 +107,7 @@
 
 	<div class="spacer"><div class="p">{article_intro}</div></div>
 
+
         <!-- BEGIN read_more_tpl -->
 	<img src="{www_dir}/images/path-arrow.gif" height="10" width="12" border="0" alt="" />
 	<a class="path" href="{www_dir}{index}/article/articleview/{article_id}/1/{category_id}/">{article_link_text}</a>
@@ -114,6 +115,11 @@
 	| <a class="path" href="{www_dir}/article/archive/{category_def_id}/">{category_def_name}</a>
 	<br /><br />
         <!-- END read_more_tpl -->
+
+	<!-- BEGIN article_topic_tpl -->
+        | <a class="path" href="/article/topiclist/{topic_id}">{topic_name}</a>
+	<!-- END article_topic_tpl -->
+
 	</td>
 </tr>
 <!-- END article_item_tpl -->

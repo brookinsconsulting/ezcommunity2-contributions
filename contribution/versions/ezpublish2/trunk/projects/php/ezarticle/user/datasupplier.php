@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: datasupplier.php,v 1.86 2001/09/12 12:54:16 ce Exp $
+// $Id: datasupplier.php,v 1.87 2001/09/14 11:32:24 bf Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -45,6 +45,7 @@ switch ( $url_array[2] )
 
     case "topiclist":
     {
+        $TopicID = $url_array[3];
         include( "ezarticle/user/topiclist.php" );
     }
     break;

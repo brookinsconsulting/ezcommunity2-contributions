@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezqdomgenerator.php,v 1.32 2001/09/11 11:56:39 bf Exp $
+// $Id: ezqdomgenerator.php,v 1.33 2001/09/14 11:32:24 bf Exp $
 //
 // Definition of eZQDomGenerator class
 //
@@ -710,6 +710,7 @@ class eZQDomGenerator
                                 }
 
                             $tmpData = "";
+                            if ( count( $data->children ) > 0 )
                             foreach ( $data->children as $contents )
                             {
                                 if ( $contents->name == "#text" or $contents->name == "text" )

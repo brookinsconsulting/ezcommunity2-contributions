@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezarticle.php,v 1.165 2001/09/13 12:10:11 ce Exp $
+// $Id: ezarticle.php,v 1.166 2001/09/14 11:32:23 bf Exp $
 //
 // Definition of eZArticle class
 //
@@ -1112,6 +1112,7 @@ class eZArticle
     */
     function topic( $as_object = true )
     {
+        include_once( "ezarticle/classes/eztopic.php" );
         return $as_object ? new eZTopic( $this->TopicID ) : $this->TopicID;
     }
     

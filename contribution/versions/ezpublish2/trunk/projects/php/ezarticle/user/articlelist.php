@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: articlelist.php,v 1.73 2001/09/12 12:39:50 jhe Exp $
+// $Id: articlelist.php,v 1.74 2001/09/14 11:32:24 bf Exp $
 //
 // Created on: <18-Oct-2000 14:41:37 bf>
 //
@@ -105,6 +105,7 @@ $t->set_block( "article_item_tpl", "headline_without_link_tpl", "headline_withou
 
 $t->set_block( "article_item_tpl", "article_image_tpl", "article_image" );
 $t->set_block( "article_item_tpl", "read_more_tpl", "read_more" );
+$t->set_block( "article_item_tpl", "article_topic_tpl", "article_topic" );
 
 // prev/next
 $t->set_block( "article_list_page_tpl", "previous_tpl", "previous" );
@@ -319,6 +320,20 @@ foreach ( $articleList as $article )
     $SiteDescriptionOverride .= $article->name() . " ";
         
     $t->set_var( "author_text", $article->authorText() );
+
+    // check for topic
+    $topic =& $article->topic();
+
+    if ( get_class( $topic ) == "eztopic" )
+    {
+        $t->set_var( "topic_id", $topic->id() );
+        $t->set_var( "topic_name", $topic->name() );
+        $t->parse( "article_topic", "article_topic_tpl" );
+    }
+    else
+    {
+        $t->set_var( "article_topic", "" );        
+    }
     
     // preview image
     $thumbnailImage =& $article->thumbnailImage();
