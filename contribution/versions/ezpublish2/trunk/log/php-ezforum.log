@@ -1211,3 +1211,26 @@ Maintainer(s) : jhe@ez.no
 
     * classes/ezforum.php: fixed permission bug
 
+
+Module : ezforum
+Repository path : /home/cvsroot/projects/php/ezforum
+Maintainer(s) : jhe@ez.no
+2002-05-08  Vidar Langseid  <vl@ez.no>
+
+    * user/message.php
+      user/messageform.php
+      user/messagesimplelist.php
+      user/userlogin.php:
+    Fixed cross site bugs caused by the ?RedirectURL feature
+
+
+Module : ezforum
+Repository path : /home/cvsroot/projects/php/ezforum
+Maintainer(s) : jhe@ez.no
+2002-05-21  Jo Henrik Endrerud  <jhe@ez.no>
+
+    * user/messageedit.php
+      user/messageform.php
+      user/messagelist.php
+      user/templates/standard/messageform.tpl: fixed stupid bugs
+
