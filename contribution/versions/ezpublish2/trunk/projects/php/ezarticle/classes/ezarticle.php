@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezarticle.php,v 1.173 2001/09/21 14:28:48 jhe Exp $
+// $Id: ezarticle.php,v 1.174 2001/09/25 14:22:49 bf Exp $
 //
 // Definition of eZArticle class
 //
@@ -759,6 +759,7 @@ class eZArticle
         $contents = preg_replace("(\s+)", " ", $contents );
 
         $contents_array =& split( " ", $contents );
+        $contents_array =& array_merge( $contents_array, $this->manualKeywords( true ) );
        
         $totalWordCount = count( $contents_array );
         $wordCount = array_count_values( $contents_array );

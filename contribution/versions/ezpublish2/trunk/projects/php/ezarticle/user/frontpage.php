@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: frontpage.php,v 1.11 2001/09/25 12:14:05 bf Exp $
+// $Id: frontpage.php,v 1.12 2001/09/25 14:22:49 bf Exp $
 //
 // Created on: <30-May-2001 14:06:59 bf>
 //
@@ -32,6 +32,8 @@ include_once( "ezarticle/classes/ezarticlecategory.php" );
 include_once( "ezarticle/classes/ezarticle.php" );
 include_once( "ezarticle/classes/ezarticlerenderer.php" );
 include_once( "ezuser/classes/ezobjectpermission.php" );
+include_once( "ezsitemanager/classes/ezsection.php" );
+
 
 $ini =& INIFile::globalINI();
 
