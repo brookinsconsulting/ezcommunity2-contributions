@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezimagefile.php,v 1.3 2000/09/22 12:51:34 bf-cvs Exp $
+// $Id: ezimagefile.php,v 1.4 2000/11/15 16:16:31 bf-cvs Exp $
 //
 // Definition of eZCompany class
 //
@@ -24,7 +24,6 @@
   You need a HTML file like:
     <form method="post" action="script_url" enctype="multipart/form-data">
        <input type="hidden" name="max_file_size" value="3000000">
-       <input type="hidden" name="docp" value="TRUE">
 
     Image:<br>
        <input name="userfile" type="file" /><br>
@@ -35,7 +34,9 @@
   
     $file = new eZImageFile();
 
-    if ( $file->getFile( $HTTP_POST_FILES['userfile'] ) )
+    // note: userfile is not a variable it's a "text" string. The value
+    // must be the same as the one used in the input.
+    if ( $file->getFile( "userfile" ) )
     {
         print( $file->name() . " uploaded successfully" );
 
