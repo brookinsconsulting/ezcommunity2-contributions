@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: articleedit.php,v 1.79 2001/04/30 12:10:33 fh Exp $
+// $Id: articleedit.php,v 1.80 2001/04/30 12:12:47 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <18-Oct-2000 15:04:39 bf>
@@ -627,6 +627,9 @@ $categoryArray = $category->getAll( );
 $tree = new eZArticleCategory();
 $treeArray =& $tree->getTree();
 $user =& eZUser::currentUser();
+
+$catCount = count( $treeArray );
+$t->set_var( "num_select_categories", min( $catCount, 10 ) );
 
 foreach ( $treeArray as $catItem )
 {
