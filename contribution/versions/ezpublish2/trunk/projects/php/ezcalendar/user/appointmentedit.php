@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: appointmentedit.php,v 1.50 2001/09/14 12:21:33 jhe Exp $
+// $Id: appointmentedit.php,v 1.51 2001/09/17 07:52:25 jhe Exp $
 //
 // Created on: <03-Jan-2001 12:47:22 bf>
 //
@@ -234,13 +234,16 @@ if ( $Action == "Insert" || $Action == "Update" )
 {
     if ( isSet( $Cancel ) )
     {
-        $app = new eZAppointment( $AppointmentID );
-        $dt = $app->dateTime();
-        $year = $dt->year();
-        $month = $dt->month();
-        $day = $dt->day();
-        
-        eZHTTPTool::header( "Location: /calendar/dayview/$year/$month/$day" );
+        if ( is_numeric( $AppointmentID ) )
+        {
+            $app = new eZAppointment( $AppointmentID );
+            $dt = $app->dateTime();
+            $Year = $dt->year();
+            $Month = $dt->month();
+            $Day = $dt->day();
+       }
+         
+        eZHTTPTool::header( "Location: /calendar/dayview/$Year/$Month/$Day" );
         exit();
     }
 
