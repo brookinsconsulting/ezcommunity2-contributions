@@ -203,7 +203,7 @@ onmouseover="this.className='gcalSubmitOverFrm'">
 	<td valign="top">
 		<span id="gcalRecurSpan" class="gcalRCheckFrm">
 		 <input {is_recurring} type="checkbox" name="IsRecurring" 
-		 onChange="toggleRecurringEventForm()" />&nbsp;{intl-make_recurring}
+		 onclick="toggleRecurringEventForm()" />&nbsp;{intl-make_recurring}
 		</span>
 	</td>
 </tr>
