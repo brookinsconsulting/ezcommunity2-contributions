@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: buglist.php,v 1.7 2001/02/20 20:04:43 fh Exp $
+// $Id: buglist.php,v 1.8 2001/02/23 14:23:22 fh Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <27-Nov-2000 19:06:23 bf>
@@ -102,7 +102,8 @@ foreach ( $moduleList as $moduleItem )
 {
     $t->set_var( "module_id", $moduleItem->id() );
 
-    $t->set_var( "module_name", $moduleItem->name() );
+    $tmp = $moduleItem->name();
+    $t->set_var( "module_name", htmlspecialchars( $tmp ) );
 
     $parent = $moduleItem->parent();
     
@@ -147,7 +148,8 @@ $t->set_var( "bug_list", "" );
 foreach ( $bugList as $bug )
 {
     $t->set_var( "bug_id", $bug->id() );
-    $t->set_var( "bug_name", $bug->name() );
+    $tmp = $bug->name();
+    $t->set_var( "bug_name", htmlspecialchars( $tmp ) );
 
     $pri =& $bug->priority();
     $status =& $bug->status();
