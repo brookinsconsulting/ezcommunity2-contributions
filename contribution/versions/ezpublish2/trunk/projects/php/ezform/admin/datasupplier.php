@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: datasupplier.php,v 1.2 2001/07/19 13:03:49 jakobn Exp $
+// $Id: datasupplier.php,v 1.3 2001/10/09 08:06:02 ce Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -65,6 +65,14 @@ switch( $Operation )
             case "preview":
             {
                 include( "ezform/admin/formpreview.php" );
+            }
+            break;
+
+            case "fixedvalues":
+            {
+                $FromID = $url_array[4];
+                $ElementID = $url_array[5];
+                include( "ezform/admin/fixedvalues.php" );
             }
             break;
             

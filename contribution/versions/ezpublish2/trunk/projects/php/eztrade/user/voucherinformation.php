@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: voucherinformation.php,v 1.10 2001/09/28 11:35:03 ce Exp $
+// $Id: voucherinformation.php,v 1.11 2001/10/09 08:06:02 ce Exp $
 //
 // Created on: <06-Aug-2001 13:02:18 ce>
 //
@@ -89,14 +89,23 @@ if ( $product && isSet( $OK ) )
     }
     else if ( $MailMethod == 2 )
     {
-        $address = new eZAddress();
-        $address->setName( $Name );
-        $address->setStreet1( $Street1 );
-        $address->setStreet2( $Street2 );
-        $address->setZip( $Zip );
-        $address->setPlace( $Place );
-        $address->store();
-        $voucherInfo->setAddress( $address );
+        $toAddress = new eZAddress();
+        $toAddress->setName( $ToName );
+        $toAddress->setStreet1( $ToStreet1 );
+        $toAddress->setStreet2( $ToStreet2 );
+        $toAddress->setZip( $ToZip );
+        $toAddress->setPlace( $ToPlace );
+        $toAddress->store();
+        $voucherInfo->setToAddress( $toAddress );
+
+        $fromAddress = new eZAddress();
+        $fromAddress->setName( $FromName );
+        $fromAddress->setStreet1( $FromStreet1 );
+        $fromAddress->setStreet2( $FromStreet2 );
+        $fromAddress->setZip( $FromZip );
+        $fromAddress->setPlace( $FromPlace );
+        $fromAddress->sfromre();
+        $voucherInfo->setFromAddress( $fromAddress );
     }
 
     $online = new eZOnline();

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: productsearch.php,v 1.4 2001/07/20 11:42:01 jakobn Exp $
+// $Id: productsearch.php,v 1.5 2001/10/09 08:06:02 ce Exp $
 //
 // Created on: <13-Sep-2000 14:56:11 bf>
 //
@@ -95,6 +95,12 @@ foreach ( $productList as $product )
     {
         $t->parse( "product_inactive_item", "product_inactive_item_tpl" );
     }
+
+    if ( $product->productType() == 2 )
+        $t->set_var( "action_url", "voucher" );
+    else
+        $t->set_var( "action_url", "productedit" );
+    
     $t->set_var( "product_id", $product->id() );
 
     $t->parse( "product_item", "product_item_tpl", true );

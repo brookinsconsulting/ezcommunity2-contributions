@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezformelementtype.php,v 1.4 2001/08/16 10:00:36 br Exp $
+// $Id: ezformelementtype.php,v 1.5 2001/10/09 08:06:02 ce Exp $
 //
 // ezformelementtype class
 //
@@ -228,6 +228,7 @@ class eZFormElementType
     }
 
 
+
     /*!
       Sets the name of the object.
     */
@@ -243,6 +244,7 @@ class eZFormElementType
     {
        $this->Description = $value;
     }
+
 
     /*!
       Returns every element which this form element type is associated with.

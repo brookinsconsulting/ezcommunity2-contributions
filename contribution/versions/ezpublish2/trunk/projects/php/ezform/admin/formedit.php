@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: formedit.php,v 1.3 2001/07/19 13:03:49 jakobn Exp $
+// $Id: formedit.php,v 1.4 2001/10/09 08:06:02 ce Exp $
 //
 // Created on: <12-Jun-2001 13:07:24 pkej>
 //
@@ -232,6 +232,7 @@ $t->set_block( "form_edit_page_tpl", "no_elements_item_tpl", "no_elements_item" 
 $t->set_block( "form_edit_page_tpl", "element_list_tpl", "element_list" );
 $t->set_block( "element_list_tpl", "element_item_tpl", "element_item" );
 $t->set_block( "element_item_tpl", "typelist_item_tpl", "typelist_item" );
+$t->set_block( "element_item_tpl", "fixed_values_tpl", "fixed_values" );
 
 $move_item = true;
 $t->set_block( "element_item_tpl", "item_move_up_tpl", "item_move_up" );
@@ -362,6 +363,13 @@ if( $count > 0 )
 
             if( $type->id() == $currentType->id() )
             {
+                if ( $currentType->name() == "multiple_select_item" )
+                {
+                    $t->parse( "fixed_values", "fixed_values_tpl" );
+                }
+                else
+                    $t->set_var( "fixed_values", "" );
+                    
                 $t->set_var( "selected", "selected" );
             }
             

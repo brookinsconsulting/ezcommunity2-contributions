@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezvoucherinformation.php,v 1.4 2001/09/28 11:35:03 ce Exp $
+// $Id: ezvoucherinformation.php,v 1.5 2001/10/09 08:06:02 ce Exp $
 //
 // eZVoucherInformation class
 //
@@ -91,12 +91,13 @@ class eZVoucherInformation
             $timeStamp =& eZDateTime::timeStamp( true );
 
             $res = $db->query( "INSERT INTO eZTrade_VoucherInformation
-                      ( ID, VoucherID, OnlineID, AddressID, Description, PreOrderID, MailMethod, FromName, ToName, FromOnlineID, Price, ProductID )
+                      ( ID, VoucherID, OnlineID, ToAddressID, FromToAddressID, Description, PreOrderID, MailMethod, FromName, ToName, FromOnlineID, Price, ProductID )
                       VALUES
                       ( '$nextID',
                         '$this->VoucherID',
                         '$this->OnlineID',
-                        '$this->AddressID',
+                        '$this->ToAddressID',
+                        '$this->FromAddressID',
                         '$description',
                         '$this->PreOrderID',
                         '$this->MailMethod',
@@ -115,7 +116,8 @@ class eZVoucherInformation
             $res = $db->query( "UPDATE eZTrade_VoucherInformation SET
                                      VoucherID='$this->VoucherID',
                                      OnlineID='$this->OnlineID',
-                                     AddressID='$this->AddressID',
+                                     ToAddressID='$this->ToAddressID',
+                                     FromAddressID='$this->FromAddressID',
                                      Description='$description',
                                      PreOrderID='$this->PreOrderID',
                                      MailMethod='$this->MailMethod',
@@ -386,12 +388,23 @@ class eZVoucherInformation
     /*!
       Sets the email for the voucher smail.
     */
-    function setAddress( &$value )
+    function setToAddress( &$value )
     {
         if ( get_class ( $value ) == "ezaddress" )
-            $this->AddressID = $value->id();
+            $this->ToAddressID = $value->id();
         else
-            $this->AddressID = $value;
+            $this->ToAddressID = $value;
+    }
+
+    /*!
+      Sets the email for the voucher smail.
+    */
+    function setFromAddress( &$value )
+    {
+        if ( get_class ( $value ) == "ezaddress" )
+            $this->FromAddressID = $value->id();
+        else
+            $this->FromAddressID = $value;
     }
 
     /*!
@@ -464,16 +477,29 @@ class eZVoucherInformation
     /*!
       Returns the smail
     */
-    function address( $asObject=true )
+    function toAddress( $asObject=true )
     {
         if ( $asObject )
-            $ret = new eZAddress( $this->AddressID );
+            $ret = new eZAddress( $this->ToAddressID );
         else
-            $ret = $this->AddressID;
+            $ret = $this->ToAddressID;
 
         return $ret;
     }
-    
+
+    /*!
+      Returns the smail
+    */
+    function fromAddress( $asObject=true )
+    {
+        if ( $asObject )
+            $ret = new eZAddress( $this->FromAddressID );
+        else
+            $ret = $this->FromAddressID;
+
+        return $ret;
+    }
+
     /*!
       Returns the product
     */
@@ -570,7 +596,8 @@ class eZVoucherInformation
     var $Description;
     var $PreOrderID;
     var $OnlineID;
-    var $AddressID;
+    var $ToAddressID;
+    var $FromAddressID;
     var $VoucherID;
     var $MailMethod;
     var $Price;

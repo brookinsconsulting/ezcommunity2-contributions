@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezformelement.php,v 1.6 2001/08/21 11:23:58 ce Exp $
+// $Id: ezformelement.php,v 1.7 2001/10/09 08:06:02 ce Exp $
 //
 // ezformelement class
 //
@@ -37,6 +37,7 @@
 
 include_once( "ezform/classes/ezform.php" );
 include_once( "ezform/classes/ezformelementtype.php" );
+include_once( "ezform/classes/ezformelementfixedvalues.php" );
 
 class eZFormElement
 {
@@ -335,6 +336,45 @@ class eZFormElement
         return $ret;
     }
 
+    /*!
+      Sets if this element has fixed values.
+    */
+    function addValue( &$value )
+    {
+        $db =& eZDB::globalDatabase();
+        $db->begin();
+
+        if ( is_object( $value ) )
+             $value = $value->id();
+        
+        $db->lock( "eZForm_FormElementFixedValueLink" );
+        $nextID = $db->nextID( "eZForm_FormElementFixedValueLink", "ID" );
+        $res[] = $db->query( "INSERT INTO eZForm_FormElementFixedValueLink
+                         ( ID, ElementID, FixedValueID )
+                         VALUES
+                         ( '$nextID', '$this->ID', '$value' )" );
+        
+        eZDB::finish( $res, $db );
+        return true;
+    }
+
+        /*!
+      Returns true if this type has fixed values.
+    */
+    function &fixedValues()
+    {
+        $returnArray = array();
+        $formArray = array();
+        
+        $db =& eZDB::globalDatabase();
+        $db->array_query( $formArray, "SELECT FixedValueID FROM eZForm_FormElementFixedValueLink WHERE ElementID='$this->ID'" );
+
+        for ( $i=0; $i < count($formArray); $i++ )
+        {
+            $returnArray[$i] = new eZFormElementFixedValues( $formArray[$i][$db->fieldName( "FixedValueID" )], true );
+        }
+        return $returnArray;
+    }
 
 
     var $ID;
