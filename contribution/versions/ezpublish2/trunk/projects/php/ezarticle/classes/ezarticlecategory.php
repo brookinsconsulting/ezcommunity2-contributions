@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezarticlecategory.php,v 1.53 2001/04/04 13:26:09 fh Exp $
+// $Id: ezarticlecategory.php,v 1.54 2001/04/07 14:16:48 bf Exp $
 //
 // Definition of eZArticleCategory class
 //
@@ -706,12 +706,12 @@ class eZArticleCategory
 
        // this code works. do not EDIT !! :)
        
-       $user = eZUser::currentUser();
+       $user =& eZUser::currentUser();
 
        $loggedInSQL = "";
        if ( $user )
        {
-           $groups = $user->groups( true );
+           $groups =& $user->groups( true );
 
            $groupSQL = "";
            
@@ -730,7 +730,7 @@ class eZArticleCategory
        }
 
 
-       $query = "SELECT Article.ID as ArticleID
+       $query = "SELECT DISTINCT Article.ID as ArticleID
                   FROM eZArticle_Article AS Article,
                        eZArticle_ArticleCategoryLink as Link,
                        eZArticle_ArticlePermission AS Permission
@@ -744,7 +744,6 @@ class eZArticleCategory
                  ORDER BY $OrderBy
                  LIMIT $offset,$limit";
        
-
        /* SQL before optimizing
        $query = "SELECT Article.ID as ArticleID
                  FROM eZArticle_Article AS Article
@@ -818,12 +817,12 @@ class eZArticleCategory
        */
 
 
-       $user = eZUser::currentUser();
+       $user =& eZUser::currentUser();
 
        $loggedInSQL = "";
        if ( $user )
        {
-           $groups = $user->groups( true );
+           $groups =& $user->groups( true );
 
            $groupSQL = "";
            

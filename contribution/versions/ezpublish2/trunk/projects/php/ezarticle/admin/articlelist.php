@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: articlelist.php,v 1.29 2001/04/04 12:14:02 fh Exp $
+// $Id: articlelist.php,v 1.30 2001/04/07 14:16:48 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <18-Oct-2000 14:41:37 bf>
@@ -55,7 +55,7 @@ if( isset( $DeleteArticles ) )
                 // get the category to redirect to
                 $articleID = $article->id();
 
-                $categoryArray = $article->categories();
+                $categoryArray =& $article->categories();
                 $categoryIDArray = array();
                 foreach ( $categoryArray as $cat )
                 {
@@ -77,7 +77,7 @@ if( isset( $DeleteCategories ) )
     if ( count ( $CategoryArrayID ) != 0 )
     {
         /** Delete menubox cache **/
-        $files = eZCacheFile::files( "ezarticle/cache/",
+        $files =& eZCacheFile::files( "ezarticle/cache/",
                                  array( "menubox", NULL ),
                                  "cache", "," );
         foreach( $files as $file )
@@ -164,17 +164,17 @@ if( is_numeric( $MoveCategoryUp ) || is_numeric( $MoveCategoryDown ) )
     }
 
     /** Clear cache when moving stuff arround **/
-    $files = eZCacheFile::files( "ezarticle/cache/",
+    $files =& eZCacheFile::files( "ezarticle/cache/",
                                  array( "menubox", NULL ),
                                  "cache", "," );
     
-    foreach( $files as $file )
+    foreach ( $files as $file )
     {
         $file->delete();
     }
-    $files = eZCacheFile::files( "ezarticle/cache/",
+    $files =& eZCacheFile::files( "ezarticle/cache/",
                                  array( "articlelist", $CategoryID, NULL, NULL ), "cache", "," );
-    foreach( $files as $file )
+    foreach ( $files as $file )
     {
         $file->delete();
     }
@@ -272,7 +272,7 @@ if ( is_numeric( $CategoryID ) && ( $CategoryID > 0 ) )
     if( $ini->read_var( "eZArticleMain", "MixUnpublished" ) == "enabled" )
     {
         $articleList =& $category->articles( $category->sortMode(), true, true, $Offset, $Limit );
-        $articleCount = $category->articleCount( true, true  );
+        $articleCount = $category->articleCount( true, true  );        
     }
     else
     {
