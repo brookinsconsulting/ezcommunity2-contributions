@@ -83,9 +83,9 @@
 <table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
 <tr>
 	<th width="50%">Svaralternativer:</th>
-	<th><span align="right">Antall stemmer:</span></th>
-	<th>&nbsp;</th>
-	<th>&nbsp;</th>
+	<th>Justering:</th>
+	<td align="right"><span class="boxtext">Antall stemmer:</span></td>
+	<th colspan="3">&nbsp;</th>
 </tr>
 <tr>
 	<td>
@@ -96,9 +96,11 @@
 		<td>
 			<a href="/poll/polledit/{choice_id}/">{poll_choice_name}</a>
 		</td>
-		<td>
+		<td>&nbsp;</td>
+		<td align="right">
 			{poll_number}
 		</td>
+		<td>&nbsp;</td>
 		<td width="1%">
 			<a href="/poll/choiceedit/edit/{poll_id}/{choice_id}/"onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezpoll{choice_id}-red','','/images/redigerminimrk.gif',1)"><img name="ezpoll{choice_id}-red" border="0" src="/images/redigermini.gif" width="16" height="16" align="top"></a>
 		</td>

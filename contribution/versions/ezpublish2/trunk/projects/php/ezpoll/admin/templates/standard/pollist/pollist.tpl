@@ -30,7 +30,7 @@
 //-->
 </SCRIPT> 
 
-<div onLoad="MM_preloadImages('../ezpoll/images/redigerminimrk.gif','../ezpoll/images/slettminimrk.gif')"></div>
+<div onLoad="MM_preloadImages('../images/redigerminimrk.gif','../images/slettminimrk.gif')"></div>
 
 <form action="/poll/pollist/">
 
@@ -46,7 +46,7 @@
 	<th>{intl-description}</th>
 	<th>{intl-enabled}</th>
 	<th>{intl-closed}</th>
-	<th>Hovedpoll</th>
+	<th>{intl-main}</th>
 	<th colspan="2">&nbsp;</td>
 </tr>
 <tr>
@@ -74,12 +74,12 @@
 	<input type="radio" name="MainPollID" value="{poll_id}" {is_checked} />
 	</td>
 
-	<td class="{td_class}">
-	<a href="/poll/polledit/edit/{poll_id}/">[ Rediger ]</a>
+	<td width="1%" class="{td_class}">
+	<a href="/poll/polledit/edit/{poll_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezp{poll_id}-red','','/images/redigerminimrk.gif',1)"><img name="ezp{poll_id}-red" border="0" src="/images/redigermini.gif" width="16" height="16" align="top"></a>
 	</td>
-	<td class="{td_class}">
-	<a href="/poll/polledit/delete/{poll_id}/">[ slett ]</a>
-	</td>	
+	<td width="1%" class="{td_class}">
+	<a href="/poll/polledit/delete/{poll_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezp{poll_id}-slett','','/images/slettminimrk.gif',1)"><img name="ezp{poll_id}-slett" border="0" src="/images/slettmini.gif" width="16" height="16" align="top"></a>
+	</td>
 	</tr>
 	<!-- END poll_item_tpl -->
 </tr>

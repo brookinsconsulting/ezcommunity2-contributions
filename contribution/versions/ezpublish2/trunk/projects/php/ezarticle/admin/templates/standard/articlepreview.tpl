@@ -2,13 +2,20 @@
 
 <hr noshade="noshade" size="4" />
 
-<h2>{article_name}</h2>
-<p class="byline">{intl-written_by} {author_text}</p>
+<table width="0" cellspacing="0" cellpadding="0" border="0">
+<tr>
+	<td>
+	<h2>{article_name}</h2>
+	<p class="byline">{intl-written_by} {author_text}</p>
 
 
-<p>
-{article_body}
-</p>
+	<p>
+	{article_body}
+	</p>
+	</td>
+</tr>
+</table>
+<br />
 
 <!-- <span class="boxtext">{intl-link_text}:</span> {link_text} -->
 
