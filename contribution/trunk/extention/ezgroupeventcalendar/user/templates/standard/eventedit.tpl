@@ -26,7 +26,11 @@
 <!-- BEGIN stop_time_error_tpl -->
 <p class="error">{intl-stop_time_error}</p>
 <!-- END stop_time_error_tpl -->
- <!-- BEGIN top_buttons_tpl -->
+
+
+<form method="post" onSubmit="return formCheck(this)" name="EventEdit" action="{www_dir}{index}/groupeventcalendar/eventedit/{action_value}/{event_id}/">
+
+<!-- BEGIN top_buttons_tpl -->
 <table width="100%" border="0" cellpadding="0" cellspacing="0" align="right">
 <tr>
 <td style="height: 30px; text-align: right;">&nbsp;
@@ -50,11 +54,18 @@
       onmouseout="this.className='gcalSwitchBox'">
       <a href="{www_dir}{index}/groupeventcalendar/dayview/{year_cur}/{month_cur}/{day_cur}/" style="text-decoration:none; font-weight:normal;font-size:12px;">{intl-today}</a>
       </span>
+      <!-- BEGIN add_file_list_tpl -->
+	<span class="gcalSwitchBox">
+	<input class="gcalSwitchBox" type="submit" name="AddFile" value="{intl-event_file_list}" 
+	onmouseout="this.className='gcalSwitchBox'" onmouseover="this.className='gcalSwitchBoxSelect'" />
+	</span>
+      <!-- END add_file_list_tpl -->
+
 </td>
 </tr>
 </table>
 <!-- END top_buttons_tpl -->
-<form method="post" onSubmit="return formCheck(this)" name="EventEdit" action="{www_dir}{index}/groupeventcalendar/eventedit/{action_value}/{event_id}/">
+
 <br />
 <br />
 <table width="100%" border="0" cellpadding="0" cellspacing="0" class="gcalEventEditMain">
@@ -106,11 +117,8 @@ onFocus="this.className='gcalTextFocusFrm'"
 </select>
 
 <!-- END group_name_new_tpl -->
-</div>
-
-<div class="gcalGroupBoxFrm">
-
-<div align="left" style="margin-right: 50%;">
+<br />
+<div align="left" style="margin-left: 25%;">
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <input {is_private}  type="checkbox" name="IsPrivate" />&nbsp;<span class="check">{intl-private_event}</span>
 <br />
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <input {is_event_alarm_notice} type="checkbox" name="IsEventAlarmNotice" />&nbsp;<span class="check">{intl-event_notification}</span>
@@ -119,7 +127,6 @@ onFocus="this.className='gcalTextFocusFrm'"
 </div>
 
 </div>
-
 
 <div class="gcalGroupBoxFrm">
 <span class="boxtext">{intl-type}:</span>
@@ -917,11 +924,6 @@ if (frm.IsRecurring.checked) {
 
 // stop hiding -->
 </script>
-<!-- BEGIN add_file_list_tpl -->
-<br />
-<input class="gcalSwitchBox" type="submit" name="AddFile" value="{intl-event_file_list}" 
-onmouseout="this.className='gcalSwitchBox'" onmouseover="this.className='gcalSwitchBoxSelect'" />
-<!-- END add_file_list_tpl -->
 
 <hr noshade size="4" />
 
