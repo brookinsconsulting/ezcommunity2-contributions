@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: article.php,v 1.20.2.10 2002/07/31 14:26:26 gl Exp $
+// $Id: article.php,v 1.20.2.11 2002/08/01 13:38:29 gl Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -146,7 +146,13 @@ else if( $Command == "data" ) // return all the data in the category
             $ret["StopDate"] = createDateTimeStruct( $article->stopDate() );
         $published =& $article->published();
         if ( $published->isValid() )
-            $ret["PublishDate"] = createDateTimeStruct( $published );
+            $ret["PublishedDate"] = createDateTimeStruct( $published );
+        $created =& $article->created();
+        if ( $created->isValid() )
+            $ret["CreatedDate"] = createDateTimeStruct( $created );
+        $modified =& $article->modified();
+        if ( $modified->isValid() )
+            $ret["ModifiedDate"] = createDateTimeStruct( $modified );
         $ReturnData = new eZXMLRPCStruct( $ret );
     }
 }
