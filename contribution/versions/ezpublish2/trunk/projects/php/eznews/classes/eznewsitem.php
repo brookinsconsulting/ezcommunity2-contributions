@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eznewsitem.php,v 1.29 2000/10/11 15:34:08 pkej-cvs Exp $
+// $Id: eznewsitem.php,v 1.30 2000/10/11 16:02:37 pkej-cvs Exp $
 //
 // Definition of eZNewsItem class
 //
@@ -286,7 +286,7 @@ class eZNewsItem extends eZNewsUtility
      */
     function createLogItem( $changeText, $changeType  )
     {
-        #echo "eZNewsItem::createLogItem( \$changeText = $changeText \$changeType = $changeType )<br>";
+        echo "eZNewsItem::createLogItem( \$changeText = $changeText \$changeType = $changeType )<br>";
         
         $value = false;
         $doIt = false;
@@ -319,7 +319,7 @@ class eZNewsItem extends eZNewsUtility
                 $ticket->store( $outID );
 
                 $this->setLog( $outID );
-                
+
                 $this->Status = $type->ID();
                 $value = true;
             }
@@ -862,7 +862,7 @@ class eZNewsItem extends eZNewsUtility
      */
     function storeParents()
     {
-        #echo "eZNewsItem::storeParents()<br>";
+        echo "eZNewsItem::storeParents()<br>";
         $this->dbInit();
 
         $nonCanonicalQuery =
@@ -920,6 +920,7 @@ class eZNewsItem extends eZNewsUtility
      */
     function updateParents()
     {
+        echo "eZNewsItem::updateParents()<br>";
         $this->dbInit();
 
         $query =
@@ -953,7 +954,7 @@ class eZNewsItem extends eZNewsUtility
      */
     function storeThis( &$outID )
     {
-        #echo "eZNewsItem::storeThis( \$outID )<br>";
+        echo "eZNewsItem::storeThis( \$outID )<br>";
         
         $value = false;
         
@@ -1026,7 +1027,7 @@ class eZNewsItem extends eZNewsUtility
      */
     function updateThis( &$outID )
     {
-        #echo "eZNewsItem::updateThis( \$outID )<br>";
+        echo "eZNewsItem::updateThis( \$outID )<br>";
         
         $value = false;
         
@@ -1096,15 +1097,42 @@ class eZNewsItem extends eZNewsUtility
      */
     function delete()
     {
+        echo "eZNewsItem::delete()<br>";
         $value = false;
         $this->dbInit();
 
         if ( isset( $this->ID ) )
         {
+            $this->dirtyUpdate();
+
             if( $this->isLogging() )
             {
                 $this->createLogItem( $this->ID . ": Item was deleted", "delete" );
             }
+            
+            $type = new eZNewsChangeType( "delete" );
+
+            $this->Status = $type->ID();
+
+            unset( $this->ParentID );
+            $this->ParentID = array();
+            
+            unset( $this->FileID );
+            $this->FileID = array();
+            
+            unset( $this->ImageID );
+            $this->ImageID = array();
+            
+            $this->isCanonical = 0;
+            $this->isFrontImage = 0;
+
+            $this->alterState();
+            
+            echo $type->name() . "<br>";
+            echo $type->ID() . "<br>";
+            $this->printErrors();
+            $this->printParents();
+            $this->store( $outID );
         }
         
         return $value;

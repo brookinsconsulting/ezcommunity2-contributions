@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: eznewsutility.php,v 1.11 2000/10/11 15:34:08 pkej-cvs Exp $
+// $Id: eznewsutility.php,v 1.12 2000/10/11 16:02:37 pkej-cvs Exp $
 //
 // Definition of eZNewsUtility class
 //
@@ -105,9 +105,9 @@ class eZNewsUtility
         \return
             Returns the true if successful.
     */
-    function store( &$outID )
+    function store( &$outID, $copy = false )
     {
-        #echo "eZNewsUtility::store( \$outID = $outID )<br>";
+        echo "eZNewsUtility::store( \$outID = $outID )<br>";
         $this->dbInit();
         
         $value = false;
@@ -133,12 +133,18 @@ class eZNewsUtility
         {
             if( $this->hasChanged() )
             {
-                $stored = $this->updateThis( $this->ID );
+                $stored = $this->updateThis( $outID );
+                echo "has changed<br>";
             }
             else
             {
                 $stored = $this->storeThis( $outID );
+                echo "hasn't changed<br>";
             }
+        }
+        else
+        {
+                echo "wtf?<br>";
         }
         
         if( $stored )

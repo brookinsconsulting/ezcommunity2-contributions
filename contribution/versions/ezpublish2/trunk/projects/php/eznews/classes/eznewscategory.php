@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: eznewscategory.php,v 1.3 2000/10/11 10:05:57 pkej-cvs Exp $
+// $Id: eznewscategory.php,v 1.4 2000/10/11 16:02:37 pkej-cvs Exp $
 //
 // Definition of eZNewsCategory class
 //
@@ -50,7 +50,7 @@ class eZNewsCategory extends eZNewsItem
     */
     function storeThis( &$outID )
     {
-        #echo "eZNewsCategory::storeThis( \$outID=$outID )<br>";
+        echo "eZNewsCategory::storeThis( \$outID=$outID )<br>";
         $value = false;
         
         eZNewsItem::storeThis( $outID );
@@ -96,7 +96,7 @@ class eZNewsCategory extends eZNewsItem
      */
     function updateThis( &$outID )
     {
-        #echo "eZNewsCategory::updateThis( \$outID=$outID )<br>";
+        echo "eZNewsCategory::updateThis( \$outID=$outID )<br>";
     
         $value = false;
         
