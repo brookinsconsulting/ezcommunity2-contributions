@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezimage.php,v 1.49 2001/05/15 14:57:11 ce Exp $
+// $Id: ezimage.php,v 1.50 2001/05/29 11:59:20 ce Exp $
 //
 // Definition of eZImage class
 //
@@ -242,7 +242,7 @@ class eZImage
 
       The images are returned as an array of eZImage objects.
      */
-    function getUnassiged()
+    function getUnassigned()
     {
         $db =& eZDB::globalDatabase();
 

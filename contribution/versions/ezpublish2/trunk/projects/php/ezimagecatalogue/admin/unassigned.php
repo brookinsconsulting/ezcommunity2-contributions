@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: unassigned.php,v 1.1 2001/05/15 14:57:11 ce Exp $
+// $Id: unassigned.php,v 1.2 2001/05/29 11:59:20 ce Exp $
 //
 // Christoffer A. Elo
 // Created on: <15-May-2001 15:01:28 ce>
@@ -77,11 +77,10 @@ if ( isSet ( $Update ) )
             $category->addImage( &$image );
         }
     }
-    
 }
 
 // Print out all the images
-$imageList =& eZImage::getUnassiged();
+$imageList =& eZImage::getUnassigned();
 $imageCount =& eZImage::countUnassigned();
 
 $i = 0;
@@ -168,9 +167,7 @@ else
 }
 
 $category = new eZImageCategory() ;
-
 $categoryList =& $category->getTree( );
-
 
 // Make a category list
 foreach ( $categoryList as $categoryItem )

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezvirtualfolder.php,v 1.19 2001/05/05 11:16:04 bf Exp $
+// $Id: ezvirtualfolder.php,v 1.20 2001/05/29 11:59:20 ce Exp $
 //
 // Definition of eZVirtualFolder class
 //
@@ -136,11 +136,11 @@ class eZVirtualFolder
     */
     function get( $id=-1 )
     {
-        $this->dbInit();
+        $db =& eZDB::globalDatabase();
         
         if ( $id != "" )
         {
-            $this->Database->array_query( $category_array, "SELECT * FROM eZFileManager_Folder WHERE ID='$id'" );
+            $db->array_query( $category_array, "SELECT * FROM eZFileManager_Folder WHERE ID='$id'" );
             if ( count( $category_array ) > 1 )
             {
                 die( "Error: Category's with the same ID was found in the database. This shouldent happen." );

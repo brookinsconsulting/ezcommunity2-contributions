@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezvirtualfile.php,v 1.29 2001/05/10 11:35:16 ce Exp $
+// $Id: ezvirtualfile.php,v 1.30 2001/05/29 11:59:20 ce Exp $
 //
 // Definition of eZVirtualFile class
 //
@@ -247,6 +247,29 @@ class eZVirtualfile
         $ret = $result["Count"];
         return $ret;
     }
+
+    /*!
+      Get all the files that is not assigned to a category.
+
+      The images are returned as an array of eZVirtualFile objects.
+     */
+    function &getUnassigned()
+    {
+        $db =& eZDB::globalDatabase();
+
+        $db->array_query( $fileArray, "SELECT File.ID, Link.FileID
+                                        FROM eZFileManager_File AS File
+                                        LEFT JOIN  eZFileManager_FileFolderLink AS Link
+                                        ON File.ID=Link.FileID
+                                        WHERE FileID IS NULL" );
+
+        foreach( $fileArray as $file )
+        {
+            $returnArray[] = new eZVirtualFile( $file["ID"] );
+        }
+        return $returnArray;
+    }
+
     
     /*!
       Returns the id of the virtual file.

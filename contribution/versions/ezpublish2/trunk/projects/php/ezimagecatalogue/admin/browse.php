@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: browse.php,v 1.4 2001/05/25 07:46:35 ce Exp $
+// $Id: browse.php,v 1.5 2001/05/29 11:59:20 ce Exp $
 //
 // Christoffer A. Elo
 // Created on: <15-May-2001 15:01:28 ce>
@@ -168,6 +168,8 @@ $imageList =& $category->images();
 $selectImages = $session->variable( "SelectImages" );
 if( !$selectImages )
     $selectImages = "single";
+
+$t->set_var( "name", $session->variable( "NameInBrowse" ) );
 
 $i = 0;
 $counter = 0;

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: menubox.php,v 1.3 2001/03/08 13:16:59 fh Exp $
+// $Id: menubox.php,v 1.4 2001/05/29 11:59:19 ce Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <23-Oct-2000 17:53:46 bf>
@@ -28,7 +28,8 @@
 $menuItems = array(
     array( "/filemanager/list/", "{intl-file_list}" ),
     array( "/filemanager/folder/new/", "{intl-new_folder}" ),
-    array( "/filemanager/new/", "{intl-new_file}" )
+    array( "/filemanager/new/", "{intl-new_file}" ),
+    array( "/filemanager/unassigned/", "{intl-unassigned}" )
     );
 
 ?>

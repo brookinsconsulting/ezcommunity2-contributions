@@ -2,7 +2,7 @@
 
 <input type="hidden" name="CategoryID" value="{main_category_id}">
 
-<h1>{intl-images}</h1>
+<h1>{intl-add_images_for} {name}</h1>
 
 <!-- BEGIN current_category_tpl -->
 
