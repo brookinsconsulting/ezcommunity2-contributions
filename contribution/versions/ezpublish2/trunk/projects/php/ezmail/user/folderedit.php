@@ -36,13 +36,27 @@ $t->set_var( "folder_item", "" );
 $t->set_var( "folder_name", "" );
 $t->set_var( "current_folder_id", $FolderID );
 
+if( $FolderID != 0 )
+{
+    $folder = new eZMailFolder( $FolderID );
+    $t->set_var( "folder_name", htmlspecialchars( $folder->name() ) );
+}
+
 $folders = eZMailFolder::getByUser();
 foreach( $folders as $folderItem )
 {
-    $t->set_var( "folder_parent_id", $folderItem->id() );
-    $t->set_var( "folder_parent_name", $folderItem->name() );
-    $t->set_var( "is_selected", "" );
-    $t->parse( "folder_item", "folder_item_tpl", true );
+    if( $folderItem->id() != $FolderID )
+    {
+        $t->set_var( "folder_parent_id", $folderItem->id() );
+        $t->set_var( "folder_parent_name", $folderItem->name() );
+
+        if( $folderItem->parentID() == $FolderID )
+            $t->set_var( "is_selected", "selected" );
+        else
+            $t->set_var( "is_selected", "" );
+
+        $t->parse( "folder_item", "folder_item_tpl", true );
+    }
 }
 
 

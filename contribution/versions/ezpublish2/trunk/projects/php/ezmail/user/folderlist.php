@@ -9,6 +9,18 @@ include_once( "ezmail/classes/ezmailaccount.php" );
 include_once( "ezmail/classes/ezmail.php" );
 include_once( "ezmail/classes/ezmailfolder.php" );
 
+
+if( isset( $Move ) )
+{
+}
+
+if( isset( $NewFolder ) )
+{
+    eZHTTPTool::header( "Location: /mail/folderedit/" );
+    exit();
+}
+
+
 $ini =& INIFile::globalINI();
 $Language = $ini->read_var( "eZMailMain", "Language" ); 
 
