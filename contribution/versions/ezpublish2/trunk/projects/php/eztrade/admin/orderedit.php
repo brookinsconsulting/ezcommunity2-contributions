@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: orderedit.php,v 1.8 2000/11/02 12:10:59 bf-cvs Exp $
+// $Id: orderedit.php,v 1.9 2000/11/06 15:06:08 bf-cvs Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <30-Sep-2000 13:03:13 bf>
@@ -147,14 +147,17 @@ foreach ( $items as $item )
     $product = $item->product();
 
     $image = $product->thumbnailImage();
-
-    $thumbnail =& $image->requestImageVariation( 35, 35 );        
-
-    $t->set_var( "product_image_path", "/" . $thumbnail->imagePath() );
-    $t->set_var( "product_image_width", $thumbnail->width() );
-    $t->set_var( "product_image_height", $thumbnail->height() );
-    $t->set_var( "product_image_caption", $image->caption() );
-
+    
+    if ( $image )
+    {
+        $thumbnail =& $image->requestImageVariation( 35, 35 );
+        
+        $t->set_var( "product_image_path", "/" . $thumbnail->imagePath() );
+        $t->set_var( "product_image_width", $thumbnail->width() );
+        $t->set_var( "product_image_height", $thumbnail->height() );
+        $t->set_var( "product_image_caption", $image->caption() );
+    }
+        
     $price = $product->price() * $item->count();
     $currency->setValue( $price );
 
