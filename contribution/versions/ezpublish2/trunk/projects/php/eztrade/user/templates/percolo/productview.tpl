@@ -33,8 +33,7 @@
 	<!-- END product_number_item_tpl -->
 	</td>
 </tr>
-<tr>
-	<td colspan="2">
+</table>
 
 <br />
 <!-- BEGIN main_image_tpl -->
@@ -48,8 +47,7 @@
 </tr>
 <tr>
 	<td class="pictext">
-	{main_image_caption}<br />
-	<br />
+	{main_image_caption}	
 	</td>
 </tr>
 </table>
@@ -62,69 +60,38 @@
 
 <br clear="all" />
 
-<table width="100%" cellspacing="0" cellpadding="2" border="0">
-<tr>
-	<td width="70%">
 <!-- BEGIN image_list_tpl -->
 <table width="100%" cellspacing="0" cellpadding="2" border="0">
+<tr>
 <!-- BEGIN image_tpl -->
-<tr>
-<td width="1%" valign="top">
 
-	<a href="/imagecatalogue/imageview/{image_id}/?RefererURL=/{module}/{module_view}/{product_id}/{category_id}/">
-	<img src="{image_url}" border="0" alt="{image_caption}" width="{image_width}" height="{image_height}"/></a>
-</td>
-</tr>
-<tr>
-<td valign="top">
+	<td width="1%" valign="top" align="center">
 
-<table cellspacing="0" cellpadding="0" border="0">
-<tr>
-	<th valign="top">
-	<!-- {image_title}: -->
-	</th>
-</tr>
-<tr>
-	<td valign="top" class="pictext">
-	{image_caption}
+	<table width="1%" cellspacing="0" cellpadding="2" border="0">
+	<tr>
+		<td>
+		<a href="/imagecatalogue/imageview/{image_id}/?RefererURL=/{module}/{module_view}/{product_id}/{category_id}/">
+		<img src="{image_url}" border="0" alt="{image_caption}" width="{image_width}" height="{image_height}"/></a>
+		<div class="pictext">
+		{image_caption}
+		</div>
+		</td>
+	</tr>
+	</table>
+
 	</td>
-</tr>
-</table>
-
-</td>
-
-</tr>
 
 <!-- END image_tpl -->
-
+</tr>
 </table>
+
 <br />
 <!-- END image_list_tpl -->
-	</td>
-	<td width="30%" valign="top">
-<table width="100%" cellpadding="0" cellspacing="0" border="0">
+
 <!-- BEGIN section_item_tpl -->
-<tr>
-	<th>
-	{section_name}:
-	</th>
-</tr>
 <!-- BEGIN link_item_tpl -->
-<tr>
-	<td class="{td_class}">
-	&nbsp;<a href="{link_url}">{link_name}</a>
-	</td>
-</tr>
 <!-- END link_item_tpl -->
-<tr>
-	<td>&nbsp;
-	</td>
-</tr>
 <!-- END section_item_tpl -->
-</table>
-	</td>
-</tr>
-</table>
 
 <!-- BEGIN attribute_list_tpl -->
 <table width="60%" cellspacing="0" cellpadding="2" border="0" align="center">
@@ -214,9 +181,6 @@
 
 <!-- END option_tpl -->
 
-	</td>
-</tr>
-</table>
 <br />
 
 <table width="100%" cellpadding="0" cellspacing="0" border="0">
