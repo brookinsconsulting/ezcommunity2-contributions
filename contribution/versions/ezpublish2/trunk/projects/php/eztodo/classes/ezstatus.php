@@ -1,5 +1,5 @@
 <?
-// $Id: ezstatus.php,v 1.1 2001/04/04 11:16:56 wojciechp Exp $
+// $Id: ezstatus.php,v 1.2 2001/04/10 20:07:55 wojciechp Exp $
 //
 // Definition of eZStatus class
 //
@@ -51,7 +51,7 @@ class eZStatus
     function store()
     {
         $this->dbInit();
-
+	$name = addslashes( $this->Name );
 
         if ( !isSet( $this->ID ) )
         {
