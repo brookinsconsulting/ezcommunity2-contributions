@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: ezarticle.php,v 1.183.2.20 2002/07/10 10:25:26 bf Exp $
+// $Id: ezarticle.php,v 1.183.2.21 2002/08/15 10:27:45 gl Exp $
 //
 // Definition of eZArticle class
 //
@@ -60,6 +60,7 @@
 include_once( "classes/ezdb.php" );
 include_once( "classes/ezdatetime.php" );
 include_once( "classes/eztemplate.php" );
+include_once( "classes/eztexttool.php" );
 include_once( "ezmail/classes/ezmail.php" );
 include_once( "ezuser/classes/ezuser.php" );
 include_once( "ezuser/classes/ezusergroup.php" );
@@ -455,7 +456,7 @@ class eZArticle
     function &name( $asHTML = true )
     {
         if( $asHTML == true )
-            return htmlspecialchars( $this->Name );
+            return eZTextTool::fixhtmlentities( htmlspecialchars( $this->Name ) );
         return $this->Name;
     }
 
@@ -487,12 +488,12 @@ class eZArticle
         $author = new eZAuthor( $this->ContentsWriterID );
 
         if( $asHTML == true )
-            return htmlspecialchars( $author->name() );
+            return eZTextTool::fixhtmlentities( htmlspecialchars( $author->name() ) );
         return $author->name();
     }
 
     /*!
-      Returns the author text contents.
+      Returns the author email contents.
     */
     function &authorEmail( $asHTML = true )
     {
@@ -510,7 +511,7 @@ class eZArticle
     function &linkText( $asHTML = true )
     {
         if(  $asHTML )
-            return htmlspecialchars( $this->LinkText );
+            return eZTextTool::fixhtmlentities( htmlspecialchars( $this->LinkText ) );
         return $this->LinkText;
     }
 

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezarticlecategory.php,v 1.103.2.6 2002/05/07 15:39:07 jb Exp $
+// $Id: ezarticlecategory.php,v 1.103.2.7 2002/08/15 10:27:45 gl Exp $
 //
 // Definition of eZArticleCategory class
 //
@@ -668,7 +668,6 @@ class eZArticleCategory
         return $this->SectionID;
     }
 
-    
     /*!
       Returns the object ID to the category. This is the unique ID stored in the database.
     */
@@ -677,37 +676,34 @@ class eZArticleCategory
         return $this->ID;
     }
 
-    
     /*!
       Returns the name of the category.
     */
     function name( $asHTML = true )
     {
-	   if ( isset( $this->Name ) )
-	   {
-           if ( $asHTML )
-               return htmlspecialchars( $this->Name );
-
-           return $this->Name;
-	   }
-	   else
-	       return;
+        if ( isset( $this->Name ) )
+        {
+            if ( $asHTML )
+                return eZTextTool::fixhtmlentities( htmlspecialchars( $this->Name ) );
+            return $this->Name;
+        }
+        else
+            return;
     }
-    
+
     /*!
       Returns the group description.
     */
     function description( $asHTML = true )
     {
-	   if ( isset( $this->Description ) )
-	   {
-           if ( $asHTML )
-               return htmlspecialchars( $this->Description );
-
-           return $this->Description;
-	   }
-	   else
-	       return;
+        if ( isset( $this->Description ) )
+        {
+            if ( $asHTML )
+                return eZTextTool::fixhtmlentities( htmlspecialchars( $this->Description ) );
+            return $this->Description;
+        }
+        else
+            return;
     }
 
     /*!

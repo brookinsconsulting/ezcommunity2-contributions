@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eztexttool.php,v 1.21 2001/09/27 15:51:53 jakobn Exp $
+// $Id: eztexttool.php,v 1.21.2.1 2002/08/15 10:27:45 gl Exp $
 //
 // Definition of eZTextTool class
 //
@@ -148,7 +148,17 @@ class eZTextTool
     {
         return stripslashes( htmlspecialchars( $string ) );
     }
-    
+
+    /*!
+      Fixup error made by htmlspecialchars, will convert for instance
+      &amp;#8364; back to &#8364; (euro symbol)
+    */
+    function &fixhtmlentities( $string )
+    {
+        $string = ereg_replace( "&amp;#([0-9]+);", "&#\\1;", $string );
+        return $string;
+    }
+
     /*!
       This function will split a string into lines of no more than a
       given number of characters, but wont split a word. Useful in

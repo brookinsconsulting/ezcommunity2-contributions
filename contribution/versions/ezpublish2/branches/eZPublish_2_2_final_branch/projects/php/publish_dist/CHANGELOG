@@ -17,6 +17,8 @@ Changes from 2.2.6 to 2.2.7
 * Articles no longer loose their placement when using the XMLRPC interface
 * Fixed sorting of user list in admin area
 * Added printing of articles for the root category in sitemap.
+* Added eZTextTool::fixhtmlentities(), which fixes errors made by the
+  over-enthusiastic htmlspecialchars(). Used in eZArticle and eZImageCatalogue.
 
 Changes from 2.2.5 to 2.2.6
 ---------------------------

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezauthor.php,v 1.9 2001/08/14 10:37:21 br Exp $
+// $Id: ezauthor.php,v 1.9.2.1 2002/08/15 10:27:46 gl Exp $
 //
 // Definition of eZAuthor class
 //
@@ -167,7 +167,6 @@ class eZAuthor
         return $ret;
     }
 
-    
     /*!
       Fetches the user id from the database. And returns a array of eZAuthor objects.
     */
@@ -188,6 +187,7 @@ class eZAuthor
         }
         return $return_array;
     }
+
     /*!
       Returns the object id.
     */
@@ -195,17 +195,16 @@ class eZAuthor
     {
         return $this->ID;
     }
-    
+
     /*!
       Returns the name.
     */
     function name( $html = true )
     {
         if ( $html )
-            return htmlspecialchars( $this->Name );
+            return eZTextTool::fixhtmlentities( htmlspecialchars( $this->Name ) );
         return $this->Name;
     }
-
 
     /*!
       Returns the authors e-mail address.
@@ -222,7 +221,7 @@ class eZAuthor
     {
        $this->Name = $value;
     }
-    
+
     /*!
       Sets the email address to the user.
     */
@@ -230,7 +229,7 @@ class eZAuthor
     {
        $this->EMail = $value;
     }
-    
+
     var $ID;
     var $Name;
     var $EMail;

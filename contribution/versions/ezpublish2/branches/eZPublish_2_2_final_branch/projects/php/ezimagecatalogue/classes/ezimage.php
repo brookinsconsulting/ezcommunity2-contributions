@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezimage.php,v 1.88.2.5 2002/05/23 11:42:37 jhe Exp $
+// $Id: ezimage.php,v 1.88.2.6 2002/08/15 10:27:45 gl Exp $
 //
 // Definition of eZImage class
 //
@@ -655,9 +655,8 @@ class eZImage
         }
 
         return $ret;
-    }    
-    
-    
+    }
+
     /*!
       Returns the id of the image.
     */
@@ -668,14 +667,14 @@ class eZImage
         else
             return;
     }
-    
+
     /*!
       Returns the name of the image.
     */
     function &name( $html = true )
     {
        if ( $html )
-           return htmlspecialchars( $this->Name );
+           return eZTextTool::fixhtmlentities( htmlspecialchars( $this->Name ) );
        else
            return $this->Name;
     }
@@ -686,7 +685,7 @@ class eZImage
     function &caption( $html = true )
     {
        if ( $html )
-           return htmlspecialchars( $this->Caption );
+           return eZTextTool::fixhtmlentities( htmlspecialchars( $this->Caption ) );
        else
            return $this->Caption;
     }
@@ -697,10 +696,10 @@ class eZImage
     function &description( $html = true )
     {
        if ( $html )
-           return htmlspecialchars( $this->Description );
+           return eZTextTool::fixhtmlentities( htmlspecialchars( $this->Description ) );
        else
            return $this->Description;
-    }    
+    }
 
     /*!
       Returns the filename of the image.
@@ -717,7 +716,7 @@ class eZImage
     {
         return $this->OriginalFileName;
     }
-    
+
     function &fileExists( $relative=false )
     {
        if ( $relative == true )
@@ -728,7 +727,7 @@ class eZImage
        {
            $path = "/ezimagecatalogue/catalogue/" .$this->FileName;
        }
-       
+
        $relPath = "ezimagecatalogue/catalogue/" . $this->FileName;
 
        return eZFile::file_exists( $relPath ) and is_file( $relPath );
@@ -742,7 +741,7 @@ class eZImage
     function &filePath( $relative = false )
     {
        $relPath = "ezimagecatalogue/catalogue/" . $this->FileName;
-       
+
        if ( $relative == true )
        {
            $path = "ezimagecatalogue/catalogue/" . $this->FileName;
@@ -1262,7 +1261,7 @@ class eZImage
         if ( count( $res ) > 0 )
             return true;
         else
-            return false;        
+            return false;
     }
 
     var $ID;

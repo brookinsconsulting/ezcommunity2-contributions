@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezimagecategory.php,v 1.44.2.5 2002/07/04 10:48:39 gl Exp $
+// $Id: ezimagecategory.php,v 1.44.2.6 2002/08/15 10:27:45 gl Exp $
 //
 // Definition of eZImageCategory class
 //
@@ -403,7 +403,6 @@ class eZImageCategory
         return $tree;
     }
 
-    
     /*!
       Returns the object ID to the category. This is the unique ID stored in the database.
     */
@@ -412,14 +411,13 @@ class eZImageCategory
         return $this->ID;
     }
 
-    
     /*!
       Returns the name of the category.
     */
     function name( $html = true )
     {
        if ( $html )
-           return htmlspecialchars( $this->Name );
+           return eZTextTool::fixhtmlentities( htmlspecialchars( $this->Name ) );
        else
            return $this->Name;
     }
@@ -430,12 +428,11 @@ class eZImageCategory
     function description( $html = true )
     {
        if ( $html )
-           return htmlspecialchars( $this->Description );
+           return eZTextTool::fixhtmlentities( htmlspecialchars( $this->Description ) );
        else
            return $this->Description;
-           
     }
-    
+
     /*!
       Returns the parent if one exist. If not 0 is returned.
     */
@@ -449,7 +446,7 @@ class eZImageCategory
         }
         else
         {
-            return 0;           
+            return 0;
         }
     }
 
@@ -463,7 +460,6 @@ class eZImageCategory
         {
             $ret = new eZUser( $this->UserID );
         }
-        
         return $ret;
     }
 
