@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: fileupload.php,v 1.44.2.2 2001/11/06 14:00:34 jhe Exp $
+// $Id: fileupload.php,v 1.44.2.3 2001/11/15 17:43:30 jhe Exp $
 //
 // Created on: <10-Dec-2000 15:49:57 bf>
 //
@@ -146,17 +146,17 @@ if ( $Action == "Insert" || $Action == "Update" )
             $error = true;
         }
         // if not write or upload to folder...
-        if ( ( eZObjectPermission::hasPermission( $folder->id(), "filemanager_folder", "w", $user ) == false &&
-               eZObjectPermission::hasPermission( $folder->id(), "filemanager_folder", "u", $user ) == false ) &&
-             eZVirtualFolder::isOwner( $user, $FolderID ) == false )
+        if ( ( !eZObjectPermission::hasPermission( $folder->id(), "filemanager_folder", "w", $user ) &&
+               !eZObjectPermission::hasPermission( $folder->id(), "filemanager_folder", "u", $user ) ) &&
+             !eZVirtualFolder::isOwner( $user, $FolderID ) )
         {
             $t->parse( "write_permission", "error_write_permission" ); 
             $error = true;
         }
         // if update but not owner or write.
         if( $Action == "Update" &&
-           eZObjectPermission::hasPermission( $folder->id(), "filemanager_folder", "w", $user ) == false  &&
-           !eZVirtualFolder::isOwner( $user, $FolderID ) )
+            !eZObjectPermission::hasPermission( $folder->id(), "filemanager_folder", "w", $user ) &&
+            !eZVirtualFolder::isOwner( $user, $FolderID ) )
         {
             $t->parse( "upload_permission", "error_upload_permission" ); 
             $error = true;
@@ -322,8 +322,16 @@ if ( $Action == "New" || $error )
 {
     $t->set_var( "action_value", "insert" );
     $t->set_var( "file_id", "" );
-    $t->set_var( "write_everybody", "selected" );
-    $t->set_var( "read_everybody", "selected" );
+    if ( $FolderID )
+    {
+        $readGroupArrayID =& eZObjectPermission::getGroups( $FolderID, "filemanager_folder", "r", false );
+        $writeGroupArrayID =& eZObjectPermission::getGroups( $FolderID, "filemanager_folder", "w", false );
+    }
+    else
+    {
+        $t->set_var( "write_everybody", "selected" );
+        $t->set_var( "read_everybody", "selected" );
+    }
 }
 
 if ( $Action == "Edit" )
