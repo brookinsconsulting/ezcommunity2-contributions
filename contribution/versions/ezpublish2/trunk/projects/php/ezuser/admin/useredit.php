@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: useredit.php,v 1.29 2001/08/21 09:17:12 st Exp $
+// $Id: useredit.php,v 1.30 2001/09/10 23:00:02 fh Exp $
 //
 // Created on: <20-Sep-2000 13:32:11 ce>
 //
@@ -50,6 +50,19 @@ if ( isSet( $Back ) )
     exit();
 }
 
+// do not allow editing users with root access while you do not.
+$currentUser = eZUser::currentUser();
+if( isset( $UserID ) )
+{
+    $editUser = new eZUser( $UserID );
+    if( !$currentUser->hasRootAccess() && $editUser->hasRootAccess() )
+    {
+        $info = urlencode( "Can't edit a user with root priveliges." );
+        eZHTTPTool::header( "Location: /error/403?Info=$info" );
+        exit();
+    }
+}
+
 if ( $Action == "insert" )
 {
     if ( eZPermission::checkPermission( $user, "eZUser", "UserAdd" ) )
@@ -94,9 +107,12 @@ if ( $Action == "insert" )
                             foreach ( $GroupArray as $GroupID )
                             {
                                 $group->get( $GroupID );
-                                $group->adduser( $user );
-                                $groupname = $group->name();
-                                eZLog::writeNotice( "User added to group: $groupname from IP: $REMOTE_ADDR" );     
+                                if( ( $group->isRoot() && $currentUser->hasRootAccess() ) || !$group->isRoot() )
+                                {
+                                    $group->adduser( $user );
+                                    $groupname = $group->name();
+                                    eZLog::writeNotice( "User added to group: $groupname from IP: $REMOTE_ADDR" );
+                                }
                             }
                         }
 
@@ -186,8 +202,11 @@ if ( $Action == "update" )
                             foreach ( $GroupArray as $GroupID )
                             {
                                 $group->get( $GroupID );
-                                $group->adduser( $user );
-                                eZLog::writeNotice( "User added to group: $groupname from IP: $REMOTE_ADDR" );
+                                if( ( $group->isRoot() && $currentUser->hasRootAccess() ) || !$group->isRoot() )
+                                {
+                                    $group->adduser( $user );
+                                    eZLog::writeNotice( "User added to group: $groupname from IP: $REMOTE_ADDR" );
+                                }
                             }
                         }
 
@@ -243,23 +262,35 @@ if ( $Action == "delete" )
         $error_msg = $error->read_var( "strings", "error_norights" );
     }
 }
-
+$currentUser = eZUser::currentUser();
 if ( $Action == "DeleteUsers" )
 {
-    if ( count ( $UserArrayID ) != 0 )
+    if( eZPermission::checkPermission( $user, "eZUser", "UserDelete" ) )
     {
-        foreach( $UserArrayID as $UserID )
+        if ( count ( $UserArrayID ) != 0 )
         {
-            $user = new eZUser( $UserID );
-            $firstName = $user->firstName();
-            $lastName = $user->lastName();
-            $email = $user->email();
-            $login = $user->login();
-            $simultaneousLogins = $user->simultaneousLogins();
-
-            $user->delete();
+            foreach( $UserArrayID as $UserID )
+            {
+                $user = new eZUser( $UserID );
+                $login = $user->login();
+                if( $user->hasRootAccess() && !$currentUser->hasRootAccess() )
+                {
+                    $currentLogin = $currentUser->login();
+                    eZLog::writeNotice( "$currentLogin failed to delete user $login since he can't delete users with root privelidges." );
+                }
+                else
+                {
+                    $firstName = $user->firstName();
+                    $lastName = $user->lastName();
+                    $email = $user->email();
+                    $login = $user->login();
+                    $simultaneousLogins = $user->simultaneousLogins();
+                
+                    $user->delete();
             
-            eZLog::writeNotice( "User deleted: $firstname $lastname ($login) $email $simultaneousLogins from IP: $REMOTE_ADDR" );
+                    eZLog::writeNotice( "User deleted: $firstname $lastname ($login) $email $simultaneousLogins from IP: $REMOTE_ADDR" );
+                }
+            }
         }
     }
     eZHTTPTool::header( "Location: /user/userlist/" );

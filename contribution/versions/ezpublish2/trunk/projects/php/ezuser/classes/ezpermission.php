@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezpermission.php,v 1.20 2001/08/31 14:02:48 jhe Exp $
+// $Id: ezpermission.php,v 1.21 2001/09/10 23:00:02 fh Exp $
 //
 // Definition of eZPermission class
 //
@@ -436,7 +436,7 @@ class eZPermission
         
         if ( $user->hasRootAccess() )
             return true;
-        
+
         $ret = false;
 
         if ( $module )

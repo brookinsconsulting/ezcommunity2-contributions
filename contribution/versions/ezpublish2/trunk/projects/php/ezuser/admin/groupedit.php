@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: groupedit.php,v 1.22 2001/08/10 12:15:26 jhe Exp $
+// $Id: groupedit.php,v 1.23 2001/09/10 23:00:01 fh Exp $
 //
 // Created on: <20-Sep-2000 13:32:11 ce>
 //
@@ -38,11 +38,23 @@ include_once( "ezuser/classes/ezpermission.php" );
 
 require( "ezuser/admin/admincheck.php" );
 
+$user =& eZUser::currentUser();
+
 if ( isSet( $DeleteGroups ) and isSet( $GroupArrayID ) )
 {
+    $hasRoot = $user->hasRootAccess();
     foreach ( $GroupArrayID as $groupid )
     {
-        eZUserGroup::delete( $groupid );
+        if( $hasRoot )
+        {
+            eZUserGroup::delete( $groupid );
+        }
+        else
+        {
+            $group = new eZUserGroup( $groupid );
+            if( !$group->isRoot() )
+                eZUserGroup::delete( $groupid );
+        }
     }
     eZHTTPTool::header( "Location: /user/grouplist" );
     exit();
@@ -52,6 +64,20 @@ if ( isSet( $Back ) )
 {
     eZHTTPTool::header( "Location: /user/grouplist/" );
     exit();
+}
+
+
+
+// do not allow editing users with root access while you do not.
+if( isset( $GroupID ) )
+{
+    $editGroup = new eZUserGroup( $GroupID );
+    if( !$user->hasRootAccess() && $editGroup->isRoot() )
+    {
+        $info = urlencode( "Can't edit a group with root priveliges." );
+        eZHTTPTool::header( "Location: /error/403?Info=$info" );
+        exit();
+    }
 }
 
 if ( $Action == "insert" )
@@ -71,7 +97,7 @@ if ( $Action == "insert" )
             $group->setSessionTimeout( $SessionTimeout );
             $group->setGroupURL( $GroupURL );
             
-            if ( isSet( $IsRoot ) )
+            if ( isSet( $IsRoot ) && $user->hasRootAccess() )
                 $group->setIsRoot( true );
             else
                 $group->setIsRoot( false );
@@ -136,7 +162,7 @@ if ( $Action == "update" )
         $group->setDescription( $Description );
         $group->setSessionTimeout( $SessionTimeout );
 
-        if ( isSet( $IsRoot ) )
+        if ( isSet( $IsRoot ) && $user->hasRootAccess() )
             $group->setIsRoot( true );
         else
             $group->setIsRoot( false );
