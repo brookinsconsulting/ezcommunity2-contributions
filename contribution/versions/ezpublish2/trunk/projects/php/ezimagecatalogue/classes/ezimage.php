@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezimage.php,v 1.13 2000/10/27 13:35:49 bf-cvs Exp $
+// $Id: ezimage.php,v 1.14 2000/10/27 15:41:48 bf-cvs Exp $
 //
 // Definition of eZImage class
 //
@@ -368,14 +368,19 @@ class eZImage
 //           }
            
            // the path to the catalogue
-           $file->convertCopy( "ezimagecatalogue/catalogue/" . basename( $file->tmpName() ) . $postfix );
+
+           if ( ( ereg( "jpg$", $this->OriginalFileName ) || ereg( "jpeg$", $this->OriginalFileName )) )
+           {               
+               $file->copy( "ezimagecatalogue/catalogue/" . basename( $file->tmpName() ) . $postfix );
+           }
+           else
+           {
+               $file->convertCopy( "ezimagecatalogue/catalogue/" . basename( $file->tmpName() ) . $postfix );
+           }
 
            $this->FileName = basename( $file->tmpName() ) . $postfix;
 
            $name = $file->name();
-
-//             ereg( "([^.]+)\(.*)", $name, $regs );
-//             $name = $regs[0] . "jpg";
            
            $this->OriginalFileName =& $name;
        }

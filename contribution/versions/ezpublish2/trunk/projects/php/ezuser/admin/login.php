@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: login.php,v 1.9 2000/10/26 13:13:46 ce-cvs Exp $
+// $Id: login.php,v 1.10 2000/10/27 15:41:48 bf-cvs Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <20-Sep-2000 13:32:11 ce>
@@ -56,6 +56,7 @@ if ( !$session->fetch() )
 {
     $session->store();
 }
+
 if ( $Action == "login" )
 {
     $user = new eZUser();

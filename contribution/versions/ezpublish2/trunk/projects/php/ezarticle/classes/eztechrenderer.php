@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eztechrenderer.php,v 1.17 2000/10/27 10:58:34 bf-cvs Exp $
+// $Id: eztechrenderer.php,v 1.18 2000/10/27 15:41:48 bf-cvs Exp $
 //
 // Definition of eZTechRenderer class
 //
@@ -183,20 +183,20 @@ class eZTechRenderer
                     // ordinary text
                     if ( $paragraph->name == "text" )
                     {
-                        $pageContent .= eZTextTool::nl2br( $paragraph->content );
+                        $pageContent .= eZTextTool::nl2br( trim( $paragraph->content ) );
                     }
 
                     // php code 
                     if ( $paragraph->name == "php" )
                     {
-                        $pageContent .= $this->phpHighlight( $paragraph->children[0]->content );
+                        $pageContent .= $this->phpHighlight( trim( $paragraph->children[0]->content ) );
                     }
 
                     
                     // header
                     if ( $paragraph->name == "header" )
                     {
-                        $pageContent .= "<h3>".  $paragraph->children[0]->content . "</h3>";
+                        $pageContent .= "<h2>".  $paragraph->children[0]->content . "</h2>";
                     }
 
 
@@ -461,7 +461,8 @@ class eZTechRenderer
         $reservedWords = array( "/(function)/",
                                 "/( as )/",
                                 "/(class )/",
-                                "/(var )/",
+                                "/( var )/",
+                                "/(^var )/",
                                 "/( for)/"
                                 );
 
@@ -473,11 +474,11 @@ class eZTechRenderer
         $string = preg_replace( "/(\$[a-zA-Z0-9]+)/", "<font color=\"#00ffff\">\\1</font>", $string );
 
         // indenting
-        $string = preg_replace( "/^( )+/m", "&nbsp;", $string );
         
-        $string = "<p>" . $string . "</p>";
+        $string = "<table width=\"100%\" cellspacing=\"0\" cellpadding=\"4\" border=\"0\"><tr><td bgcolor=\"#f0f0f0\"><pre>" .
+             $string . "</pre></td></tr></table>";
         
-        return eZTextTool::nl2br( $string );
+        return $string;
     }
 
     /*!

@@ -173,7 +173,7 @@ else
     $page = "";
 
     // Remove url parameters
-    ereg( "([^?]+)", $REQUEST_URI, $regs) ;
+    ereg( "([^?]+)", $REQUEST_URI, $regs );
 
     $REQUEST_URI = $regs[1];
 
