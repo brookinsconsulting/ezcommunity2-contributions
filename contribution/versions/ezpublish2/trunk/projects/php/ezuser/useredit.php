@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: useredit.php,v 1.2 2000/10/15 12:23:36 bf-cvs Exp $
+// $Id: useredit.php,v 1.3 2000/10/15 13:04:57 bf-cvs Exp $
 //
 // 
 //
@@ -15,6 +15,8 @@
 
 include_once( "classes/INIFile.php" );
 include_once( "classes/eztemplate.php" );
+include_once( "classes/ezmail.php" );
+include_once( "classes/ezlog.php" );
 
 $ini = new INIFIle( "site.ini" );
 
@@ -42,25 +44,35 @@ if ( $Action == "Insert" )
         {
             if ( ( $Password == $VerifyPassword ) && ( strlen( $VerifyPassword ) > 2 ) )
             {
-                $user->setLogin( $Login );
-                $user->setPassword( $Password );
-                $user->setEmail( $Email );
-                $user->setFirstName( $FirstName );
-                $user->setLastName( $LastName );
+                if ( eZMail::validate( $Email ) )
+                {
+                    $user->setLogin( $Login );
+                    $user->setPassword( $Password );
+                    $user->setEmail( $Email );
+                    $user->setFirstName( $FirstName );
+                    $user->setLastName( $LastName );
 
-                $user->store();
+                    $user->store();
 
-                // add user to usergroup
-                setType( $AnonymousUserGroup, "integer" );
+                    // add user to usergroup
+                    setType( $AnonymousUserGroup, "integer" );
                 
-                $group = new eZUserGroup( $AnonymousUserGroup );
-                $group->addUser( $user );
+                    $group = new eZUserGroup( $AnonymousUserGroup );
+                    $group->addUser( $user );
                 
 
-                // log in the user
-                $user->loginUser( $user );
+                    // log in the user
+                    $user->loginUser( $user );
 
-                Header( "Location: $RedirectURL" );
+                    eZLog::writeNotice( "Anonyous user created: $FirstName $LastName ($Login) $Email from IP: $REMOTE_ADDR" );                    
+                    eZLog::writeNotice( "User login: $Login from IP: $REMOTE_ADDR" );
+                        
+                    Header( "Location: $RedirectURL" );
+                }
+                else
+                {
+                    $EmailError = true;
+                }                
             }
             else
             {
@@ -91,6 +103,7 @@ $t->set_file( array(
 $t->set_block( "user_edit_tpl", "required_fields_error_tpl", "required_fields_error" );
 $t->set_block( "user_edit_tpl", "user_exists_error_tpl", "user_exists_error" );
 $t->set_block( "user_edit_tpl", "password_error_tpl", "password_error" );
+$t->set_block( "user_edit_tpl", "email_error_tpl", "email_error" );
 
 if ( $Error == true )
 {
@@ -117,6 +130,15 @@ if ( $PasswordError == true )
 else
 {
    $t->set_var( "password_error", "" );
+}
+
+if ( $EmailError == true )
+{
+    $t->parse( "email_error", "email_error_tpl" );
+}
+else
+{
+   $t->set_var( "email_error", "" );
 }
 
 $t->set_var( "login_value", $Login );

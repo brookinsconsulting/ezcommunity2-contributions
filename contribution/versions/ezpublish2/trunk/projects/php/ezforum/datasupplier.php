@@ -17,7 +17,7 @@ switch ( $url_array[2] )
         
     case "reply" :
     {
-        $Action = "Reply";
+//          $Action = "Reply";
         $ReplyID = $url_array[3];
         include( "ezforum/replymessage.php" );
     }    

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: replymessage.php,v 1.17 2000/10/15 12:38:27 bf-cvs Exp $
+// $Id: replymessage.php,v 1.18 2000/10/15 13:04:57 bf-cvs Exp $
 //
 // 
 //
@@ -26,7 +26,8 @@ include_once( "ezforum/classes/ezforummessage.php");
 include_once( "ezforum/classes/ezforumcategory.php");
 
 
-if ( $Action == "Reply" )
+print( $Action );
+if ( $Action == "Insert" )
 {
     $original = new eZForumMessage( $ReplyID );
     

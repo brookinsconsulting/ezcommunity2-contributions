@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezmail.php,v 1.4 2000/10/08 13:54:21 bf-cvs Exp $
+// $Id: ezmail.php,v 1.5 2000/10/15 13:04:57 bf-cvs Exp $
 //
 // Definition of eZCompany class
 //
@@ -129,6 +129,7 @@ class eZMail
     }
 
     /*!
+      \static
       Static function for validating e-mail addresses.
 
       Returns true if successful, false if not.

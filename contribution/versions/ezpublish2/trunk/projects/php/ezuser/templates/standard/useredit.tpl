@@ -12,6 +12,10 @@
 <h3 class="error" >{intl-password_error}</h3>
 <!-- END password_error_tpl -->
 
+<!-- BEGIN email_error_tpl -->
+<h3 class="error" >{intl-email_error}</h3>
+<!-- END email_error_tpl -->
+
 
 <form method="post" action="/user/user/{action_value}/{user_id}/">
 

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: login.php,v 1.5 2000/10/08 13:07:11 bf-cvs Exp $
+// $Id: login.php,v 1.6 2000/10/15 13:04:57 bf-cvs Exp $
 //
 // Definition of eZUser class
 //
@@ -15,6 +15,7 @@
 
 include_once( "classes/INIFile.php" );
 include_once( "classes/eztemplate.php" );
+include_once( "classes/ezlog.php" );
 
 $ini = new INIFIle( "site.ini" );
 
@@ -51,23 +52,17 @@ if ( $Action == "login" )
     $user = new eZUser();
     $user = $user->validateUser( $Username, $Password );
 
-//      if ( !eZPermission::checkPermission( $user, "eZUser", "AdminLogin" ) )
-//      {
-//  //          print( "Har ikke adminlogin!" );
-//      }
-    
-//      if ( !$user )
-//      {
-//  //          print( "Bruker finnes ikke!" );
-//      }
-    
     if ( ( $user )  && eZPermission::checkPermission( $user, "eZUser", "AdminLogin" ))
     {
+        eZLog::writeNotice( "Admin login: $Username from IP: $REMOTE_ADDR" );
+
         eZUser::loginUser( $user );
         Header( "Location: /" );
     }
     else
     {
+        eZLog::writeWarning( "Bad admin  login: $Username from IP: $REMOTE_ADDR" );
+        
         $error = true;
     }
 }

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: login.php,v 1.2 2000/10/06 13:46:24 bf-cvs Exp $
+// $Id: login.php,v 1.3 2000/10/15 13:04:57 bf-cvs Exp $
 //
 // Definition of eZUser class
 //
@@ -15,6 +15,7 @@
 
 include_once( "classes/INIFile.php" );
 include_once( "classes/eztemplate.php" );
+include_once( "classes/ezlog.php" );
 
 $ini = new INIFIle( "site.ini" );
 
@@ -53,6 +54,8 @@ if ( $Action == "login" )
 
     if ( $user )
     {
+        eZLog::writeNotice( "User login: $Username from IP: $REMOTE_ADDR" );
+        
         eZUser::loginUser( $user );
         if ( isSet( $RedirectURL ) )
         {
@@ -66,8 +69,10 @@ if ( $Action == "login" )
     }
     else
     {
+        eZLog::writeNotice( "Bad login: $Username from IP: $REMOTE_ADDR" );
+        
         Header( "Location: /" );
-        print( "Feil passord!" );
+        exit();
     }
 }
 
