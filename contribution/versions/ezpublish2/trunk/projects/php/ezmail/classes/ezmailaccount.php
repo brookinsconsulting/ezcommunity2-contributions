@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezmailaccount.php,v 1.1 2001/03/19 18:52:31 fh Exp $
+// $Id: ezmailaccount.php,v 1.2 2001/03/19 20:09:35 fh Exp $
 //
 // eZMailAccount class
 //
@@ -316,22 +316,22 @@ class eZMailAccount
 
     /*!
     */
-    function server()
+    function serverType()
     {
         if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
 
-        return $this->IsActive;
+        return $this->ServerType;
     }
 
   /*!
     */
-    function setServer( $value )
+    function setServerType( $value )
     {
         if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
 
-        $this->IsActive = $value;
+        $this->ServerType = $value;
     }
 
     
@@ -350,7 +350,7 @@ class eZMailAccount
     }
 
     
-    var $ID
+    var $ID;
     var $UserID;
     var $Name;
     var $LoginName;
