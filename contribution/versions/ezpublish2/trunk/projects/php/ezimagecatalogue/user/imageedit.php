@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: imageedit.php,v 1.48 2001/10/04 09:09:51 fh Exp $
+// $Id: imageedit.php,v 1.49 2001/11/02 06:35:01 br Exp $
 //
 // Created on: <09-Jan-2001 10:45:44 ce>
 //
@@ -514,7 +514,7 @@ $t->set_var( "num_select_categories", min( $catCount, 10 ) );
 foreach ( $treeArray as $catItem )
 {
     if ( eZObjectPermission::hasPermission( $catItem[0]->id(), "imagecatalogue_category", 'w', $user ) == true
-         || eZObjectPermission::hasPermission( $categoryItem[0]->id(), "imagecatalogue_category", 'u' )
+         || eZObjectPermission::hasPermission( $catItem[0]->id(), "imagecatalogue_category", 'u' )
          || eZImageCategory::isOwner( eZUser::currentUser(), $catItem[0]->id() ) )
     {
         if ( $Action == "Edit" )
