@@ -33,7 +33,7 @@ $linkGroup_array = $linkGroup->getByParent( $LGID );
 
 if ( ( count( $linkGroup_array ) == 0 ) || ( $LGID == "incoming" ) )
 {
-    $t->set_var( "group_list", "Ingen grupper funnet" );
+    $t->set_var( "group_list", "<p>Ingen grupper ble funnet i denne kategorien.</p>" );
 }
 else
 {
@@ -115,7 +115,7 @@ else
 
 if ( count( $link_array ) == 0 )
 {
-    $t->set_var( "link_list", "Ingen linker funnet" );
+    $t->set_var( "link_list", "<p>Ingen linker ble funnet i denne kategorien.</p>" );
 }
 else
 {
