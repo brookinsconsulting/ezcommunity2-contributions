@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: messagelist.php,v 1.1 2001/06/06 09:52:43 bf Exp $
+// $Id: messagelist.php,v 1.2 2001/06/29 13:44:51 th Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <05-Jun-2001 16:42:09 bf>
@@ -53,6 +53,7 @@ $message = new eZMessage( );
 
 $messageArray =& $message->messagesToUser( $user );
 
+$i = 0;
 foreach ( $messageArray as $message )
 {
     $t->set_var( "message_id", $message->id() );
@@ -65,6 +66,11 @@ foreach ( $messageArray as $message )
 
     $t->set_var( "message_subject", $message->subject() );
 
+    if ( ( $i %2 ) == 0 )
+        $t->set_var( "td_class", "bglight"  );
+    else
+        $t->set_var( "td_class", "bgdark"  );
+
     if ( $message->isRead() == true )
     {
         $t->set_var( "message_unread", "" );
@@ -76,6 +82,7 @@ foreach ( $messageArray as $message )
         $t->parse( "message_unread", "message_unread_tpl" );
     }
 
+	$i++;
     $t->parse( "message_item", "message_item_tpl", true );
 }
 if ( count( $messageArray ) > 0 )

@@ -11,7 +11,7 @@
 	{intl-message_subject}:
 	</th>
 
-	<th>
+	<th class="right">
 	{intl-message_date}:
 	</th>
 </tr>
@@ -20,9 +20,12 @@
 	{message_subject}
 	</td>
 
-	<td valign="top">
+	<td valign="top" align="right">
 	{message_date}
 	</td>
+</tr>
+<tr>
+	<td colspan="2">&nbsp;</td>
 </tr>
 <tr>
 	<th colspan="2">
