@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezqdomgenerator.php,v 1.39.2.3 2002/01/04 14:51:11 bf Exp $
+// $Id: ezqdomgenerator.php,v 1.39.2.4 2002/01/04 21:17:02 kaid Exp $
 //
 // Definition of eZQDomGenerator class
 //
@@ -105,9 +105,9 @@ class eZQDomGenerator
         $tmpPage = $this->generateHeader( $tmpPage );
 
         $tmpPage = $this->generateHr( $tmpPage );
-	
+    
         $tmpPage = $this->generateTable( $tmpPage );
-	
+    
         // replace & with &amp; to prevent killing the xml parser..
         // is that a bug in the xmltree(); function ? answer to bf@ez.no
         $tmpPage = ereg_replace ( "&", "&amp;", $tmpPage );
@@ -223,7 +223,7 @@ class eZQDomGenerator
         $tmpPage = preg_replace( "/(<td\s+([0-9]+[^ ]??)\s+?([0-9]+?)\s+([0-9]+?)\s*>)/", "<td width=\"\\2\" colspan=\"\\3\" rowspan=\"\\4\">", $tmpPage );
         $tmpPage = preg_replace( "/(<td\s+([0-9]+[^ ]??)\s+?([0-9]+?)\s*>)/", "<td width=\"\\2\" colspan=\"\\3\">", $tmpPage );
         $tmpPage = preg_replace( "/(<td\s+([0-9]+[^ ]??)\s*>)/", "<td width=\"\\2\">", $tmpPage );
-        	
+            
         return $tmpPage;
     }
 
@@ -262,6 +262,15 @@ class eZQDomGenerator
         $tmpPage = preg_replace( "#([\s\n]|^)(([a-zA-Z0-9_\-\.]+)@((([a-zA-Z0-9\-]+\.)+))([a-zA-Z]{2,4}))([\s\n]|$)#",
                                  "<mail to=\"\\2\" subject=\"\" text=\"\\2\" />", $tmpPage );
         
+        // convert <ezarticle id text> to valid xml
+        $tmpPage = preg_replace( "#(<ezarticle\s+?([^ ]+)\s+?([^>]+)>)#", "<ezarticle id=\"\\2\" text=\"\\3\" />", $tmpPage );
+ 
+        // convert <ezstatic id text> to valid xml
+        $tmpPage = preg_replace( "#(<ezstatic\s+?([^ ]+)\s+?([^>]+)>)#", "<ezstatic id=\"\\2\" text=\"\\3\" />", $tmpPage );
+ 
+        // convert <ezcategory id text> to valid xml
+        $tmpPage = preg_replace( "#(<ezcategory\s+?([^ ]+)\s+?([^>]+)>)#", "<ezcategory id=\"\\2\" text=\"\\3\" />", $tmpPage );
+
         return $tmpPage;
     }
 
@@ -750,6 +759,80 @@ class eZQDomGenerator
             $pageContent .= "<ezanchor $href>";
         }
         
+        // ezarticle
+        if ( $paragraph->name == "ezarticle" )
+        {
+            foreach ( $paragraph->attributes as $ezArticleItem )
+            {
+                switch ( $ezArticleItem->name )
+                {
+
+                    case "id" :
+                    {
+                        $id = $ezArticleItem->children[0]->content;
+                    }
+                    break;
+
+                    case "text" :
+                    {
+                        $text = $ezArticleItem->children[0]->content;
+                    }
+                    break;
+                }
+            }
+
+            $pageContent .= "<ezarticle $id $text>";
+        }
+
+        // ezstatic
+        if ( $paragraph->name == "ezstatic" )
+        {
+            foreach ( $paragraph->attributes as $ezArticleItem )
+            {
+                switch ( $ezArticleItem->name )
+                {
+
+                    case "id" :
+                    {
+                        $id = $ezArticleItem->children[0]->content;
+                    }
+                    break;
+
+                    case "text" :
+                    {
+                        $text = $ezArticleItem->children[0]->content;
+                    }
+                    break;
+                }
+            }
+
+            $pageContent .= "<ezstatic $id $text>";
+        }
+
+        // ezcategory
+        if ( $paragraph->name == "ezcategory" )
+        {
+            foreach ( $paragraph->attributes as $Item )
+            {
+                switch ( $Item->name )
+                {
+
+                    case "id" :
+                    {
+                        $id = $Item->children[0]->content;
+                    }
+                    break;
+
+                    case "text" :
+                    {
+                        $text = $Item->children[0]->content;
+                    }
+                    break;
+                }
+            }
+
+            $pageContent .= "<ezcategory $id $text>";
+        }		
         return $pageContent;
     }
 
@@ -761,7 +844,7 @@ class eZQDomGenerator
     {
         if ( $paragraph->name == "table" )
         {
-	
+    
             if  ( count( $paragraph->attributes ) > 0 )
                 foreach ( $paragraph->attributes as $attr )
                 {
@@ -779,7 +862,7 @@ class eZQDomGenerator
                         break;
                     }
                 }
-	
+    
             $tmpContent = "";
             foreach ( $paragraph->children as $row )
             {
@@ -790,7 +873,7 @@ class eZQDomGenerator
                     {
                         if ( $data->name == "td" )
                         {
-			
+            
                             $tdWidth="";
                             $tdColspan="";
                             $tdRowspan="";
@@ -894,7 +977,7 @@ class eZQDomGenerator
 
             switch ( $paragraph->name )
             {
-	    
+        
                 case "bold" :
                 {                        
                     $pageContent .= "<bold>" . $tmpContent . "</bold>";

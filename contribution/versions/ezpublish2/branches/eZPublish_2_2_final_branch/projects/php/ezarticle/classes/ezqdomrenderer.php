@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezqdomrenderer.php,v 1.55.2.6 2001/12/03 10:53:42 kaid Exp $
+// $Id: ezqdomrenderer.php,v 1.55.2.7 2002/01/04 21:17:02 kaid Exp $
 //
 // Definition of eZQDomRenderer class
 //
@@ -1182,6 +1182,98 @@ class eZQDomrenderer
             $pageContent =& $this->Template->parse( "link", "link_tpl" );
         }
         
+        // ezarticle
+        if ( $paragraph->name == "ezarticle" )
+        {
+            if ( count( $paragraph->attributes ) > 0 )
+            foreach ( $paragraph->attributes as $attr )
+            {
+                switch ( $attr->name )
+                {
+                    case "id" :
+                    {
+                       $id = $attr->children[0]->content;
+                    }
+                    break;
+
+                    case "text" :
+                    {
+                       $text = $attr->children[0]->content;
+                       $text = htmlentities( $text );
+                    }
+                    break;
+                }
+            }
+
+            global $GlobalSiteIni;
+            $href = "$GlobalSiteIni->WWWDir$GlobalSiteIni->Index/article/view/" . $id;
+            $this->Template->set_var( "href", $href );
+            $this->Template->set_var( "target", "" );
+            $this->Template->set_var( "link_text", $text );
+            $pageContent =& trim( $this->Template->parse( "link", "link_tpl" ) );
+        }
+
+        // ezstatic
+        if ( $paragraph->name == "ezstatic" )
+        {
+            if ( count( $paragraph->attributes ) > 0 )
+            foreach ( $paragraph->attributes as $attr )
+            {
+                switch ( $attr->name )
+                {
+                    case "id" :
+                    {
+                       $id = $attr->children[0]->content;
+                    }
+                    break;
+
+                    case "text" :
+                    {
+                       $text = $attr->children[0]->content;
+                       $text = htmlentities( $text );
+                    }
+                    break;
+                }
+            }
+
+            global $GlobalSiteIni;
+            $href = "$GlobalSiteIni->WWWDir$GlobalSiteIni->Index/article/static/" . $id;
+            $this->Template->set_var( "href", $href );
+            $this->Template->set_var( "target", "" );
+            $this->Template->set_var( "link_text", $text );
+            $pageContent =& trim( $this->Template->parse( "link", "link_tpl" ) );
+        }
+
+        // ezcategory
+        if ( $paragraph->name == "ezcategory" )
+        {
+            if ( count( $paragraph->attributes ) > 0 )
+            foreach ( $paragraph->attributes as $attr )
+            {
+                switch ( $attr->name )
+                {
+                    case "id" :
+                    {
+                       $id = $attr->children[0]->content;
+                    }
+                    break;
+
+                    case "text" :
+                    {
+                       $text = $attr->children[0]->content;
+                       $text = htmlentities( $text );
+                    }
+                    break;
+                }
+            }
+
+            global $GlobalSiteIni;
+            $href = "$GlobalSiteIni->WWWDir$GlobalSiteIni->Index/article/archive/" . $id;
+            $this->Template->set_var( "href", $href );
+            $this->Template->set_var( "target", "" );
+            $this->Template->set_var( "link_text", $text );
+            $pageContent =& trim( $this->Template->parse( "link", "link_tpl" ) );
+        }
         return $pageContent;
     }
 
