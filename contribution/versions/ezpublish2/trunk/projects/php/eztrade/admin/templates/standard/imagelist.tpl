@@ -70,7 +70,8 @@
 	<a href="/trade/productedit/imageedit/edit/{image_id}/{product_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('eztp{image_id}-red','','/eztrade/admin/images/redigerminimrk.gif',1)"><img name="eztp{image_id}-red" border="0" src="/eztrade/admin/images/redigermini.gif" width="16" height="16" align="top"></a>
 	</td>
 	<td width="1%" class="{td_class}">
-	<a href="/trade/productedit/imageedit/delete/{image_id}/{product_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('eztp{image_id}-slett','','/eztrade/admin/images/slettminimrk.gif',1)"><img name="eztp{image_id}-slett" border="0" src="/eztrade/admin/images/slettmini.gif" width="16" height="16" align="top"></a>
+	<a href="#" onClick="verify( '{intl-delete}', '/trade/productedit/imageedit/delete/{image_id}/{product_id}/'); return false;"
+onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('eztp{image_id}-slett','','/eztrade/admin/images/slettminimrk.gif',1)"><img name="eztp{image_id}-slett" border="0" src="/eztrade/admin/images/slettmini.gif" width="16" height="16" align="top"></a>
 	</td>
 </tr>
 <!-- END image_tpl -->

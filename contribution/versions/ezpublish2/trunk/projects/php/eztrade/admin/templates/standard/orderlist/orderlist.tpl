@@ -33,7 +33,7 @@
 <div onLoad="MM_preloadImages('../eztrade/images/redigerminimrk.gif','../eztrade/images/slettminimrk.gif')"></div>
 
 <!-- orderlist.tpl --> 
-<!-- $Id: orderlist.tpl,v 1.4 2000/10/27 09:26:27 bf-cvs Exp $ -->
+<!-- $Id: orderlist.tpl,v 1.5 2000/11/01 07:56:05 ce-cvs Exp $ -->
 
 <table width="100%" border="0">
 <tr>
@@ -84,7 +84,8 @@
 	<a href="/trade/orderedit/{order_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezto{order_id}-red','','/eztrade/images/redigerminimrk.gif',1)"><img name="ezto{order_id}-red" border="0" src="/eztrade/images/redigermini.gif" width="16" height="16" align="top"></a>
 	</td>
 	<td width="1%" class="{td_class}">
-	<a href="/trade/orderedit/{order_id}/delete/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezto{order_id}-slett','','/eztrade/images/slettminimrk.gif',1)"><img name="ezto{order_id}-slett" border="0" src="/eztrade/images/slettmini.gif" width="16" height="16" align="top"></a>
+	<a href="#" onClick="verify( '{intl-delete}', '/trade/orderedit/{order_id}/delete/'); return false;"
+onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezto{order_id}-slett','','/eztrade/images/slettminimrk.gif',1)"><img name="ezto{order_id}-slett" border="0" src="/eztrade/images/slettmini.gif" width="16" height="16" align="top"></a>
 	</td>
 </tr>
 <!-- END order_item_tpl -->

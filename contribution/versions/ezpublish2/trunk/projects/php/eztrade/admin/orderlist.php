@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: orderlist.php,v 1.5 2000/10/27 09:26:27 bf-cvs Exp $
+// $Id: orderlist.php,v 1.6 2000/11/01 07:56:05 ce-cvs Exp $
 //
 // 
 //
@@ -59,7 +59,7 @@ if ( !isset( $Offset ) )
     $Offset = 0;
 
 if ( !isset( $Limit ) )
-    $Limit = 5;
+    $Limit = 15;
 
 
 $order = new eZOrder();

@@ -69,7 +69,8 @@
 	<a href="/trade/categoryedit/edit/{category_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('eztc{category_id}-red','','/eztrade/images/redigerminimrk.gif',1)"><img name="eztc{category_id}-red" border="0" src="/eztrade/images/redigermini.gif" width="16" height="16" align="top"></a>
 	</td>
 	<td width="1%" class="{td_class}">
-	<a href="/trade/categoryedit/delete/{category_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('eztc{category_id}-slett','','/eztrade/images/slettminimrk.gif',1)"><img name="eztc{category_id}-slett" border="0" src="/eztrade/images/slettmini.gif" width="16" height="16" align="top"></a>
+	<a href="#" onClick="verify( '{intl-delete}', '/trade/categoryedit/delete/{category_id}/'); return false;"
+onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('eztc{category_id}-slett','','/eztrade/images/slettminimrk.gif',1)"><img name="eztc{category_id}-slett" border="0" src="/eztrade/images/slettmini.gif" width="16" height="16" align="top"></a>
 	</td>
 </tr>
 <!-- END category_item_tpl -->
@@ -100,7 +101,8 @@
 	<a href="/trade/productedit/edit/{product_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezti{product_id}-red','','/eztrade/images/redigerminimrk.gif',1)"><img name="ezti{product_id}-red" border="0" src="/eztrade/images/redigermini.gif" width="16" height="16" align="top"></a>
 	</td>
 	<td width="1%" class="{td_class}">
-	<a href="/trade/productedit/delete/{product_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezti{product_id}-slett','','/eztrade/images/slettminimrk.gif',1)"><img name="ezti{product_id}-slett" border="0" src="/eztrade/images/slettmini.gif" width="16" height="16" align="top"></a>
+	<a href="#" onClick="verify( '{intl-deleteproduct}', '/trade/productedit/delete/{product_id}/'); return false;"
+onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezti{product_id}-slett','','/eztrade/images/slettminimrk.gif',1)"><img name="ezti{product_id}-slett" border="0" src="/eztrade/images/slettmini.gif" width="16" height="16" align="top"></a>
 	</td>
 </tr>
 <!-- END product_item_tpl -->
