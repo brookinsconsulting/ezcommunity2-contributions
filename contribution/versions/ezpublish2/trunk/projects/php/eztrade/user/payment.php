@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: payment.php,v 1.56 2001/07/31 11:33:12 jhe Exp $
+// $Id: payment.php,v 1.57 2001/08/01 15:15:48 ce Exp $
 //
 // Created on: <02-Feb-2001 16:31:53 bf>
 //
@@ -120,6 +120,13 @@ $items = $cart->items();
 // this is the value to charge the customer with
 $ChargeTotal = $session->variable( "TotalCost" ) ;
 
+// Check if we want to include vat or not.
+if( $session->variable( "IncludeVAT" ) == "true" )
+    $vat = true;
+else
+$vat = false;
+
+
 $checkout = new eZCheckout();
 $instance =& $checkout->instance();
 
@@ -167,6 +174,8 @@ if ( $PaymentSuccess == "true" )
 
     $order->setPersonID( $cart->personID() );
     $order->setCompanyID( $cart->companyID() );
+
+    $order->setIsVATInc( $vat );
     
     $order->store();
 
@@ -253,6 +262,13 @@ if ( $PaymentSuccess == "true" )
         $orderItem->setProduct( $product );
         $orderItem->setCount( $item->count() );
         $orderItem->setPrice( $price );
+
+        $priceIncVAT = $product->priceIncVAT( $price );
+        $orderItem->setPriceIncVAT( $priceIncVAT["Price"] );
+        if ( $vat )
+            $orderItem->setVATValue( $priceIncVAT["VAT"] );
+        else
+            $orderItem->setVATValue( 0 );
 
         $expiryTime = $product->expiryTime();
         if ( $expiryTime > 0 )
@@ -518,7 +534,7 @@ if ( $PaymentSuccess == "true" )
         }
         
         $price = $priceobj->value();    
-        
+
         $totalPrice += $price;
 
         $currency->setValue( $price );
@@ -567,7 +583,12 @@ if ( $PaymentSuccess == "true" )
     }
 
 //    $totalPrice = $order->totalPrice();
-    $currency->setValue( $totalPrice );
+
+    if ( $vat )
+        $currency->setValue( $order->totalPriceIncVAT() );
+    else
+        $currency->setValue( $totalPrice );
+    
     
     $priceString = substr(  $locale->format( $currency ), 0, 13 );
     $priceString = str_pad( $priceString, 15, " ", STR_PAD_LEFT );
@@ -580,7 +601,11 @@ if ( $PaymentSuccess == "true" )
     $shippingPriceString = str_pad( $shippingPriceString, 15, " ", STR_PAD_LEFT );
     $mailTemplate->set_var( "product_ship_hand", $shippingPriceString );
 
-    $grandTotal = $totalPrice + $order->shippingCharge();
+    if ( $vat )
+        $grandTotal = $order->totalPriceIncVAT() + $order->shippingCharge();
+    else
+        $grandTotal = $totalPrice + $order->shippingCharge();
+    
     $currency->setValue( $grandTotal );
 
     $grandTotalString = substr(  $locale->format( $currency ), 0, 13 );

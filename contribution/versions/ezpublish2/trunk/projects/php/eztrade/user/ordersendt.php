@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ordersendt.php,v 1.32 2001/07/31 11:33:12 jhe Exp $
+// $Id: ordersendt.php,v 1.33 2001/08/01 15:15:48 ce Exp $
 //
 // Created on: <06-Oct-2000 14:04:17 bf>
 //
@@ -75,6 +75,7 @@ if ( $currentUser->id() != $user->id() )
     exit();
 }
 
+$vat = true;
 if ( $user )
 {
     // print out the addresses
@@ -114,6 +115,7 @@ if ( $user )
             $t->set_var( "billing_country", $country->name() );
         else
             $t->set_var( "billing_country", "" );
+        $vat = $country->hasVAT();
     }
     else
     {
@@ -278,7 +280,10 @@ foreach ( $items as $item )
 
     $sum += $price;
 
-    $totalVAT += $product->vat( $price );
+    if ( $vat )
+        $totalVAT += $product->vat( $price );
+    else
+        $totalVAT = 0;
     
     $t->set_var( "product_name", $product->name() );
     $t->set_var( "product_price", $locale->format( $currency ) );
@@ -321,14 +326,31 @@ if ( $shippingType )
 }
 
 $shippingCost = $order->shippingCharge();
-$shippingVAT = $order->shippingVAT();
+
+if ( $vat )
+    $shippingVAT = $order->shippingVAT();
+else
+$shippingVAT = 0;
+
 $currency->setValue( $shippingCost );
 
 $t->set_var( "shipping_cost", $locale->format( $currency ) );
 
-$sum += $shippingCost;
-$currency->setValue( $sum );
-$t->set_var( "order_sum", $locale->format( $currency ) );
+if ( $ini->read_var( "eZTradeMain", "IncludeVAT" ) == "disabled" )
+{
+    $sum += $shippingCost;
+    $currency->setValue( $sum );
+    $t->set_var( "order_sum", $locale->format( $currency ) );
+}
+else
+{
+    if ( $vat )
+        $sum = $sum + $shippingCost + $totalVAT + $shippingVAT;
+    else
+        $sum = $sum + $shippingCost;
+    $currency->setValue( $sum );
+    $t->set_var( "order_sum", $locale->format( $currency ) );
+}
 
 $currency->setValue( $totalVAT + $shippingVAT );
 $t->set_var( "order_vat_sum", $locale->format( $currency ) );

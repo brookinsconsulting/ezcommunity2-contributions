@@ -1,5 +1,5 @@
 <!-- orderlist.tpl --> 
-<!-- $Id: orderedit.tpl,v 1.4 2001/07/30 12:15:56 ce Exp $ -->
+<!-- $Id: orderedit.tpl,v 1.5 2001/08/01 15:15:48 ce Exp $ -->
 
 <h1>{intl-head_line}</h1>
 
@@ -89,6 +89,11 @@
 	<td colspan="3">&nbsp;</td>
 	<th>{intl-shipping}:</th>
 	<td align="right">{shipping_cost}</td>
+</tr>
+<tr>
+	<td colspan="3">&nbsp;</td>
+	<th>{intl-vat}:</th>
+	<td align="right">{vat_cost}</td>
 </tr>
 <tr>
 	<td colspan="3">&nbsp;</td>

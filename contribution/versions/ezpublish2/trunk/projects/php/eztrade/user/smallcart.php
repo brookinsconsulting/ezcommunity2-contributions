@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: smallcart.php,v 1.20 2001/07/20 11:42:02 jakobn Exp $
+// $Id: smallcart.php,v 1.21 2001/08/01 15:15:48 ce Exp $
 //
 // Created on: <12-Dec-2000 15:21:10 bf>
 //
@@ -75,9 +75,7 @@ $t = new eZTemplate( "eztrade/user/" . $ini->read_var( "eZTradeMain", "TemplateD
 
 $t->setAllStrings();
 
-$t->set_file( array(
-    "cart_page_tpl" => "smallcart.tpl"
-    ) );
+$t->set_file( "cart_page_tpl", "smallcart.tpl" );
 
 $t->set_block( "cart_page_tpl", "cart_checkout_tpl", "cart_checkout" );
 $t->set_block( "cart_page_tpl", "empty_cart_tpl", "empty_cart" );
@@ -85,7 +83,6 @@ $t->set_block( "cart_page_tpl", "empty_cart_tpl", "empty_cart" );
 
 $t->set_block( "cart_page_tpl", "cart_item_list_tpl", "cart_item_list" );
 $t->set_block( "cart_item_list_tpl", "cart_item_tpl", "cart_item" );
-
 
 // fetch the cart items
 $items = $cart->items( );

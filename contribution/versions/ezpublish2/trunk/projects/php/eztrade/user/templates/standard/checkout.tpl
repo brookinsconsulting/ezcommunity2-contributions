@@ -77,11 +77,20 @@
 	</td>
 </tr>
 <tr>
+	<!-- BEGIN price_ex_vat_tpl -->
 	<td>&nbsp;</td>
 	<td colspan="2" align="right"><span class="boxtext">{intl-total_cost_is}:</span></td>
 	<td align="right">
-	{cart_sum}
+	{cart_sum_ex_vat}
 	</td>
+	<!-- END price_ex_vat_tpl -->
+	<!-- BEGIN price_inc_vat_tpl -->
+	<td>&nbsp;</td>
+	<td colspan="2" align="right"><span class="boxtext">{intl-total_cost_is}:</span></td>
+	<td align="right">
+	{cart_sum_inc_vat}
+	</td>
+	<!-- END price_inc_vat_tpl -->
 </tr>
 </table>
 <!-- END cart_item_list_tpl -->
@@ -125,6 +134,7 @@
 <input type="hidden" name="ShippingCost" value="{shipping_cost_value}" />
 <input type="hidden" name="ShippingVAT" value="{shipping_vat_value}" />
 <input type="hidden" name="TotalCost" value="{total_cost_value}" />
+<input type="hidden" name="IncludeVAT" value="{include_vat}" />
 
 <!-- BEGIN sendorder_item_tpl -->
 <input class="okbutton" type="submit" name="SendOrder" value="{intl-send}" />

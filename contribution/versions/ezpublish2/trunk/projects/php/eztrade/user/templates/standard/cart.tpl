@@ -72,11 +72,20 @@
 	</td>
 </tr>
 <tr>
+	<!-- BEGIN price_ex_vat_tpl -->
 	<td colspan="3">&nbsp;</td>
 	<td align="right" colspan="2"><span class="boxtext">{intl-total}:</span></td>
 	<td align="right">
 	{cart_sum}
 	</td>
+	<!-- END price_ex_vat_tpl -->
+	<!-- BEGIN price_inc_vat_tpl -->
+	<td colspan="3">&nbsp;</td>
+	<td align="right" colspan="2"><span class="boxtext">{intl-total}:</span></td>
+	<td align="right">
+	{cart_sum}
+	</td>
+	<!-- END price_inc_vat_tpl -->
 </tr>
 </table>
 <!-- END cart_item_list_tpl -->

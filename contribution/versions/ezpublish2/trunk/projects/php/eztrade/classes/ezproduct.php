@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezproduct.php,v 1.72 2001/07/31 11:33:11 jhe Exp $
+// $Id: ezproduct.php,v 1.73 2001/08/01 15:15:48 ce Exp $
 //
 // Definition of eZProduct class
 //
@@ -378,6 +378,43 @@ class eZProduct
 
        return $priceExVat;
     }
+
+    /*!
+      Returns the price of the product included VAT ( prive + VAT value ).
+
+      If a value is given as argument this value is used for VAT calculation.
+      This is used in carts where you have multiple products and prices on options.
+    */
+    function &priceIncVAT( $price="" )
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+       if ( $price == "" )
+       {
+           $calcPrice = $this->Price;
+       }
+       else
+       {
+           $calcPrice = $price;
+       }
+       
+       $vatType =& $this->vatType();
+
+       $vat = 0;
+       
+       if ( $vatType )
+       {
+           $value =& $vatType->value();
+
+           $vat = ( $calcPrice / ( $value + 100  ) ) * $value;
+       }
+      
+       $priceExVat = $calcPrice + $vat;
+
+       return array( "Price" => $priceExVat, "VAT" => $vat );
+    }
+
 
     /*!
       Returns the VAT value of the product.

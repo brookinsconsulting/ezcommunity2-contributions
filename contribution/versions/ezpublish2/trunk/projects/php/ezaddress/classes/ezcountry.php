@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezcountry.php,v 1.9 2001/07/19 12:06:56 jakobn Exp $
+// $Id: ezcountry.php,v 1.10 2001/08/01 15:15:47 ce Exp $
 //
 // Definition of eZCountry class
 //
@@ -66,15 +66,16 @@ class eZCountry
             $this->ID = $db->nextID( "eZAddress_Country", "ID" );
 
             $res[] = $db->query( "INSERT INTO eZAddress_Country
-                    ( ID, ISO, Name )
-                    VALUES ( '$this->ID', '$this->ISO', '$name' )" );
+                    ( ID, ISO, Name, HasVAT )
+                    VALUES ( '$this->ID', '$this->ISO', '$name', $this->HasVAT )" );
             $db->unlock();
         }
         else
         {
             $res[] = $db->query( "UPDATE eZAddress_Country
                     SET ISO='$this->ISO',
-                    Name='$name'
+                    Name='$name',
+                    HasVAT='$this->HasVAT'
                     WHERE ID='$this->ID'" );            
 
         }        
@@ -108,6 +109,7 @@ class eZCountry
         $this->ID =& $country_array[ $db->fieldName( "ID" ) ];
         $this->ISO =& $country_array[ $db->fieldName( "ISO" ) ];
         $this->Name =& $country_array[ $db->fieldName( "Name" ) ];
+        $this->HasVAT =& $country_array[ $db->fieldName( "HasVAT" ) ];
     }
 
     /*!
@@ -240,6 +242,16 @@ class eZCountry
         return $this->Name;
     }
 
+    /*!
+      Returns true if the country has VAT, return false if not.
+    */
+    function hasVAT( )
+    {
+        if ( $this->HasVAT == 1 )
+            return true;
+        else
+            return false;
+    }
 
     /*!
       Sets the ISO code of the country.
@@ -256,10 +268,23 @@ class eZCountry
     {
        $this->Name = $value;
     }
+
+    /*!
+      Sets if the country have VAT or not
+    */
+    function setHasVAT( $value )
+    {
+        if ( $value )
+            $this->HasVAT = 1;
+        else
+            $this->HasVAT = 0;
+    }
+
   
     var $ID;
     var $ISO;
     var $Name;
+    var $HasVAT;
 }
 
 ?>

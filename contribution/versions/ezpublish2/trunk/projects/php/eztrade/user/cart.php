@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: cart.php,v 1.41 2001/07/31 11:33:12 jhe Exp $
+// $Id: cart.php,v 1.42 2001/08/01 15:15:48 ce Exp $
 //
 // Created on: <27-Sep-2000 11:57:49 bf>
 //
@@ -222,7 +222,7 @@ if ( $Action == "AddToBasket" )
             }
         }
     }
-    
+
     eZHTTPTool::header( "Location: /trade/cart/" );
     exit();
 }
@@ -255,6 +255,8 @@ $t->set_block( "cart_page_tpl", "empty_cart_tpl", "empty_cart" );
 
 $t->set_block( "cart_page_tpl", "cart_item_list_tpl", "cart_item_list" );
 $t->set_block( "cart_item_list_tpl", "cart_item_tpl", "cart_item" );
+$t->set_block( "cart_item_list_tpl", "price_ex_vat_tpl", "price_ex_vat" );
+$t->set_block( "cart_item_list_tpl", "price_inc_vat_tpl", "price_inc_vat" );
 $t->set_block( "cart_item_list_tpl", "product_available_header_tpl", "product_available_header" );
 
 $t->set_block( "cart_item_tpl", "cart_item_option_tpl", "cart_item_option" );
@@ -462,6 +464,21 @@ $t->set_var( "shipping_sum", $locale->format( $currency ) );
 
 // calculate the vat of the shiping
 $shippingVAT = $cart->shippingVAT( $shippingType );
+
+if ( $ini->read_var( "eZTradeMain", "IncludeVAT" ) == "disabled" )
+{
+    $currency->setValue( $sum + $shippingCost );
+    $t->set_var( "cart_sum", $locale->format( $currency ) );
+    $t->set_var( "price_inc_vat", "" );
+    $t->parse( "price_ex_vat", "price_ex_vat_tpl" ); 
+}
+else
+{
+    $currency->setValue( $sum + $totalVAT + $shippingVAT + $shippingCost );
+    $t->set_var( "cart_sum", $locale->format( $currency ) );
+    $t->set_var( "price_ex_vat", "" );
+    $t->parse( "price_inc_vat", "price_inc_vat_tpl" ); 
+}
 
 
 $currency->setValue( $sum + $shippingCost );

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: orderedit.php,v 1.22 2001/07/30 14:19:03 jhe Exp $
+// $Id: orderedit.php,v 1.23 2001/08/01 15:15:47 ce Exp $
 //
 // Created on: <30-Sep-2000 13:03:13 bf>
 //
@@ -320,9 +320,22 @@ $shippingCost = $order->shippingCharge();
 $currency->setValue( $shippingCost );
 $t->set_var( "shipping_cost", $locale->format( $currency ) );
 
-$sum += $shippingCost;
-$currency->setValue( $sum );
-$t->set_var( "order_sum", $locale->format( $currency ) );
+$totalVAT = $order->totalVAT();
+$currency->setValue( $totalVAT );
+$t->set_var( "vat_cost", $locale->format( $currency ) );
+
+if ( $order->isVATInc() )
+{
+    $sum = $order->totalPriceIncVAT() + $shippingCost;
+    $currency->setValue( $sum );
+    $t->set_var( "order_sum", $locale->format( $currency ) );
+}
+else
+{
+    $sum += $shippingCost;
+    $currency->setValue( $sum );
+    $t->set_var( "order_sum", $locale->format( $currency ) );
+}
 
 $statusType = new eZOrderStatusType();
 $statusTypeArray = $statusType->getAll();

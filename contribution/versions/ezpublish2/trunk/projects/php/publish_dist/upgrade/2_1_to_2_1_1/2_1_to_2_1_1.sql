@@ -546,6 +546,13 @@ alter table eZNewsFeed_SourceSite change Login Login varchar(30);
 alter table eZNewsFeed_SourceSite change Password Password varchar(30);
 alter table eZNewsFeed_SourceSite change Decoder Decoder varchar(50);
 
+# ez trade
+alter table eZTrade_Product change ShowPrice ShowPrice int default '1';
+alter table eZTrade_Product change ShowProduct ShowProduct int default '1';
+alter table eZTrade_Product change Discontinued Discontinued int default '0';
+alter table eZTrade_Product change InheritOptions InheritOptions int default '0';
+alter table eZTrade_Product change IsHotDeal IsHotDeal int default '0';
+
 
 alter table eZImageCatalogue_Image add PhotographerID int;
 alter table eZImageCatalogue_Image add Created int;
@@ -774,3 +781,8 @@ CREATE TABLE eZMessage_Message (
   Description text,
   PRIMARY KEY (ID)
 ) TYPE=MyISAM;
+
+alter table eZAddress_Country add HasVAT int default 1;
+alter table eZTrade_OrderItem add PriceIncVAT float(10,2);
+alter table eZTrade_OrderItem add VATValue int;
+alter table eZTrade_Order add IsVATInc int default 0;

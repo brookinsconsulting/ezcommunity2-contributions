@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezorderitem.php,v 1.17 2001/07/31 11:33:11 jhe Exp $
+// $Id: ezorderitem.php,v 1.18 2001/08/01 15:15:48 ce Exp $
 //
 // Definition of eZOrderItem class
 //
@@ -73,6 +73,8 @@ class eZOrderItem
 	                                OrderID,
 		                            Count,
 		                            Price,
+                                    PriceIncVAT,
+		                            VATValue,
 		                            ProductID,
                                     ExpiryDate )
                                   VALUES
@@ -80,6 +82,8 @@ class eZOrderItem
 		                            '$this->OrderID',
 		                            '$this->Count',
 		                            '$this->Price',
+		                            '$this->PriceIncVAT',
+		                            '$this->VATValue',
 		                            '$this->ProductID',
                                     '$this->ExpiryDate' )" );
             $db->unlock();
@@ -93,6 +97,8 @@ class eZOrderItem
 		                         Count='$this->Count',
 		                         Price='$this->Price',
 		                         ProductID='$this->ProductID',
+		                         PriceIncVAT='$this->PriceIncVAT',
+		                         VATValue='$this->VATValue',
                                  ExpiryDate='$this->ExpiryDate'
                                  WHERE ID='$this->ID'
                                  " );
@@ -125,6 +131,8 @@ class eZOrderItem
                 $this->Price =& $cart_array[0][$db->fieldName("Price")];
                 $this->ProductID =& $cart_array[0][$db->fieldName("ProductID")];
                 $this->ExpiryDate =& $cart_array[0][$db->fieldName("ExpiryDate")];
+                $this->PriceIncVAT =& $cart_array[0][ "PriceIncVAT" ];
+                $this->VATValue =& $cart_array[0][ "VATValue" ];
                 $ret = true;
             }
         }
@@ -178,6 +186,28 @@ class eZOrderItem
         $ret = new eZProduct( $this->ProductID );
             
         return $ret;
+    }
+
+    /*!
+      Returns the price included with VAT of the order item.
+    */
+    function priceIncVAT( )
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+       return $this->PriceIncVAT;
+    }
+
+    /*!
+      Returns the VAT of the order item.
+    */
+    function VATValue( )
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+       return $this->VATValue;
     }
 
     /*!
@@ -242,6 +272,19 @@ class eZOrderItem
     }
 
     /*!
+      Sets the price included with VAT of one product.
+    */
+    function setPriceIncVAT( $value )
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+       $this->PriceIncVAT = $value;
+       setType( $this->PriceIncVAT, "double" );
+    }
+
+
+    /*!
       Sets the price of one product.
     */
     function setPrice( $value )
@@ -249,6 +292,19 @@ class eZOrderItem
         $this->Price = $value;
         setType( $this->Price, "double" );
     }
+
+    /*!
+      Sets the VAT of one product.
+    */
+    function setVATValue( $value )
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+       $this->VATValue = $value;
+       setType( $this->VATValue, "double" );
+    }
+
 
     /*!
       Sets the date when this product expires
@@ -271,6 +327,9 @@ class eZOrderItem
     var $Price;
     var $ProductID;
     var $ExpiryDate;
+    var $PriceIncVAT;
+    var $VATValue;
+
 }
 
 ?>

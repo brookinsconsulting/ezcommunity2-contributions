@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezorder.php,v 1.40 2001/07/31 11:33:11 jhe Exp $
+// $Id: ezorder.php,v 1.41 2001/08/01 15:15:48 ce Exp $
 //
 // Definition of eZOrder class
 //
@@ -90,6 +90,7 @@ class eZOrder
                                     ShippingVAT,
                                     ShippingTypeID,
 		                            Date,
+		                            IsVATInc,
 		                            ShippingCharge,
                                     PersonID,
                                     CompanyID )
@@ -103,6 +104,7 @@ class eZOrder
                                     '$this->ShippingVAT',
                                     '$this->ShippingTypeID',
 		                            '$timeStamp',
+                                    '$this->IsVATInc',
 		                            '$this->ShippingCharge',
                                     '$this->PersonID',
                                     '$this->CompanyID' )" );
@@ -202,6 +204,7 @@ class eZOrder
                 $this->ShippingTypeID =& $cart_array[0][$db->fieldName("ShippingTypeID")];
                 $this->PaymentMethod =& $cart_array[0][$db->fieldName("PaymentMethod")];
                 $this->Date =& $cart_array[0][$db->fieldName("Date")];
+                $this->IsVATInc =& $cart_array[0][ "IsVATInc" ];
                 $this->IsExported =& $cart_array[0][$db->fieldName("IsExported")];
                 $this->PersonID =& $cart_array[0][$db->fieldName("PersonID")];
                 $this->CompanyID =& $cart_array[0][$db->fieldName("CompanyID")];
@@ -382,6 +385,18 @@ class eZOrder
     }
 
     /*!
+      Returns true if the order was included with VAT.
+    */
+    function isVATInc()
+    {
+        if ( $this->IsVATInc == 1 )
+            return true;
+        else
+            return false;
+    }
+
+
+    /*!
       Returns the user to ship the goods to.
 
       Returns false if unsuccessful.
@@ -537,6 +552,18 @@ class eZOrder
 
        setType( $this->ShippingVAT, "double" );
     }
+
+    /*!
+      Sets true if an order is included with VAT, false if not.
+    */
+    function setIsVATInc( $value )
+    {
+        if ( $value )
+            $this->IsVATInc = 1;
+        else
+            $this->IsVATInc = 0;
+    }
+
 
     /*!
       Sets the status of the order.
@@ -711,6 +738,55 @@ class eZOrder
     }
 
     /*!
+      Returns the total price with VAT on an order. Without the shipping charge.
+    */
+    function totalPriceIncVAT()
+    {
+       $retPrice = 0;
+       $db =& eZDB::globalDatabase();
+
+       $db->array_query( $order_item_array, "SELECT PriceIncVAT, Count FROM
+                                                    eZTrade_OrderItem
+                                                    WHERE OrderID='$this->ID'" );
+
+       foreach ( $order_item_array as $item )
+       {
+           $price = $item["PriceIncVAT"];
+
+           $price = $price * $item["Count"];
+
+           $retPrice += $price;
+       }
+
+       return $retPrice;       
+    }
+    
+    /*!
+      Returns the total VAT on an order. Without the shipping charge.
+    */
+    function totalVAT()
+    {
+       $retPrice = 0;
+       $db =& eZDB::globalDatabase();
+
+       $db->array_query( $order_item_array, "SELECT VATValue, Count FROM
+                                                    eZTrade_OrderItem
+                                                    WHERE OrderID='$this->ID'" );
+
+       foreach ( $order_item_array as $item )
+       {
+           $price = $item["VATValue"];
+
+           $price = $price * $item["Count"];
+
+           $retPrice += $price;
+       }
+
+       return $retPrice;       
+    }
+
+
+    /*!
       Returns the most request bought products.
     */
     function mostPopularProduct()
@@ -746,6 +822,7 @@ class eZOrder
     var $Date;
     var $PersonID;
     var $CompanyID;
+    var $IsVATInc;
     
     var $ShippingTypeID;
     var $OrderStatus_;

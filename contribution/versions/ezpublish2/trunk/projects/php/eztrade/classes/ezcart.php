@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezcart.php,v 1.21 2001/07/31 11:33:11 jhe Exp $
+// $Id: ezcart.php,v 1.22 2001/08/01 15:15:48 ce Exp $
 //
 // Definition of eZCart class
 //
@@ -176,11 +176,10 @@ class eZCart
 
         $ret = false;
         if ( get_class( $session ) == "ezsession" )
-        {        
+        {
             $sid = $session->id();
-            $db->array_query( $cart_array, "SELECT * FROM
-                                                    eZTrade_Cart
-                                                    WHERE SessionID='$sid'" );
+
+            $db->array_query( $cart_array, "SELECT * FROM eZTrade_Cart WHERE SessionID='$sid'" );
 
             if ( count( $cart_array ) == 1 )
             {

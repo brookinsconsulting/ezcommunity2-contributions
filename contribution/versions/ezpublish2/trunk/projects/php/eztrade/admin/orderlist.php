@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: orderlist.php,v 1.16 2001/07/20 11:42:01 jakobn Exp $
+// $Id: orderlist.php,v 1.17 2001/08/01 15:15:47 ce Exp $
 //
 // Created on: <30-Sep-2000 13:03:13 bf>
 //
@@ -160,7 +160,10 @@ foreach ( $orderArray as $order )
     
     $t->set_var( "order_status", $statusName );
     
-    $currency->setValue( $order->totalPrice() + $order->shippingCharge() );
+    if ( $order->isVATInc() == true )
+        $currency->setValue( $order->totalPriceIncVAT() + $order->shippingCharge());
+    else
+        $currency->setValue( $order->totalPrice() + $order->shippingCharge() );
     $t->set_var( "order_price", $locale->format( $currency ) );
     
     $t->parse( "order_item", "order_item_tpl", true );
