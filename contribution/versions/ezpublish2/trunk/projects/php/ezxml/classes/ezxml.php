@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: ezxml.php,v 1.1 2001/11/16 14:42:30 bf Exp $
+// $Id: ezxml.php,v 1.2 2001/11/16 15:05:41 bf Exp $
 //
 // Definition of eZXML class
 //
@@ -166,13 +166,16 @@ class eZXML
                             }
                         }
                     }
-                    
 
-                    array_push( $TagStack,
-                    array( "TagName" => $justName, "ParentNodeObject" => &$currentNode ) );
+                    // check it it's a oneliner: <tagname />
+                    if ( $tagName[strlen($tagName) - 1]  != "/" )
+                    {                    
+                        array_push( $TagStack,
+                        array( "TagName" => $justName, "ParentNodeObject" => &$currentNode ) );
 
-                    unset( $currentNode );
-                    $currentNode =& $subNode;
+                        unset( $currentNode );
+                        $currentNode =& $subNode;
+                    }
 
 //                    print( "tag name: $justName <br> " );
                 }
