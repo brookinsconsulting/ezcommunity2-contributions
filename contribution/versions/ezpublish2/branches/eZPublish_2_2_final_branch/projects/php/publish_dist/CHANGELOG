@@ -8,6 +8,7 @@ Changes from 2.2.6 to 2.2.7
 * Added better logic to the forgot password page
 * Fixed several bugs with the referer list in eZ stats.
 * Fixed bug when using <file ID> and nVH setup.
+* Articles no longer loose their placement when using the XMLRPC interface
 
 Changes from 2.2.5 to 2.2.6
 ---------------------------
