@@ -94,12 +94,8 @@ switch ( $url_array[2] )
             case "completed":
             case "insert":
             case "update":
-            {
-                $MessageID = $ID;
-            }
-            break;
-
             case "delete":
+            case "dodelete":
             {
                 $MessageID = $ID;
             }
