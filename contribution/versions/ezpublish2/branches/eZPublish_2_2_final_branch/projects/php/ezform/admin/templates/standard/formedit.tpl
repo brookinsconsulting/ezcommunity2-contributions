@@ -102,7 +102,7 @@
 
     <td class="{td_class}">&nbsp;
     <!-- BEGIN size_tpl -->
-    <input type="text" size="3" name="Size[]" value="{element_size}" />&nbsp;
+    <input type="text" size="3" name="Size[{element_nr}]" value="{element_size}" />&nbsp;
     <!-- END size_tpl -->
     </td>
 
