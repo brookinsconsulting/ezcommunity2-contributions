@@ -78,7 +78,7 @@
 <tr>
 	<td colspan="3" class="bglight">
 
-	<table width="100%" cellspacing="0" cellpadding="2" border="0">
+	<table width="100%" cellspacing="0" cellpadding="4" border="0">
 	<tr>
 		<td>
 		{appointment_description}
