@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezimapmail.php,v 1.2 2001/12/19 23:11:28 fh Exp $
+// $Id: ezimapmail.php,v 1.3 2001/12/20 12:11:35 fh Exp $
 //
 // Definition of eZIMAPMail class
 //
@@ -61,6 +61,7 @@ class eZIMAPMail
             $elements = $this->decodeMailID( $id );
             $this->Account = new eZMailAccount( $elements[0] );
             $this->ID = $elements[1];
+            $this->Folder = $elements[2];
             $this->get();
         }
             // default values
@@ -71,15 +72,16 @@ class eZIMAPMail
       Functions to encode more information into one url position. This allows us to use the same
       templates for remote and local mail.
     */
-    function encodeMailID( $accountID = -1 , $mailID = -1 )
+    function encodeMailID( $accountID = -1 , $mailID = -1, $folder="INBOX" )
     {
         if( $accountID == -1 || $mailID == -1 )
         {
             $accountID = $this->Account->id();
             $id = $this->ID;
+            $folder = $this->Folder;
         }
 //        echo "Was here: $accountID, $folderName";
-        return rawurlencode( $accountID . "-" . $id );
+        return rawurlencode( $accountID . "-" . $id . "-" . $folder );
     }
     
     /*!
@@ -88,7 +90,7 @@ class eZIMAPMail
     */
     function decodeMailID( $codedString )
     {
-        $elements = explode( "-", $codedString, 2 ); // max 1 split rest is foldername.
+        $elements = explode( "-", $codedString, 3 ); // max 1 split rest is foldername.
         return $elements;
     }
 
@@ -100,6 +102,26 @@ class eZIMAPMail
         return true;
     }
 
+    /*!
+      \static
+      IMAPMail spesific. Deletes a mail from server.
+     */
+    function deleteMail( $account, $folder, $id )
+    {
+        $mbox = imapConnect( $account, $folder );
+        $server = $account->server();
+        $ok = imap_delete( $mbox, $id );
+
+        if( !$ok )
+            echo "imap_deletemail failed: " . imap_last_error() . "\n";
+
+        imap_expunge( $mbox ); // really delete the mail.
+        
+        imapDisconnect( $mbox );
+
+        return $ok;
+    }
+    
     /*!
       Stores a mail to the database.
     */
@@ -145,7 +167,7 @@ class eZIMAPMail
     */
     function get( $id = "" )
     {
-        $mbox = imapConnect( $this->Account );
+        $mbox = imapConnect( $this->Account, $this->Folder );
 //        $header = imap_header( $mbox, $this->ID );
         
 //        $this->UDate( $header->udate );
@@ -174,6 +196,14 @@ class eZIMAPMail
     function setMailNr( $nr )
     {
         $this->ID = $nr;
+    }
+
+    /*!
+      IMAPMail only, set the folder that this mail belongs to (full path)
+     */
+    function setPath( $path )
+    {
+        $this->Folder = $path;
     }
 
     /*!
@@ -681,6 +711,9 @@ class eZIMAPMail
     
     /* database specific variables */
     var $ID;
+    var $Folder;
+
+    // is this one needed here?
     var $UserID;
 }
 

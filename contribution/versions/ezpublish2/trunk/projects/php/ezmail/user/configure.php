@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: configure.php,v 1.11 2001/09/04 13:20:15 fh Exp $
+// $Id: configure.php,v 1.12 2001/12/20 12:11:35 fh Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -162,8 +162,14 @@ foreach( $accounts as $account )
 {
     $t->set_var( "account_id", $account->id() );
     $t->set_var( "account_name", htmlspecialchars( $account->name() ) );
-    $t->set_var( "account_type", $account->serverType() );
-    $t->set_var( "account_folder", "" );
+
+    $languageIni = new INIFile( "ezmail/user/" . "intl/" . $Language . "/accountedit.php.ini", false );
+    
+    if( $account->serverType() == POP3 )
+        $t->set_var( "account_type", $languageIni->read_var( "strings", "pop3" ) );
+    else
+        $t->set_var( "account_type", $languageIni->read_var( "strings", "imap" ) );
+
     $account->isActive() ? $t->set_var( "account_active_checked", "checked" ) : $t->set_var( "account_active_checked", "" );
     ( $i % 2 ) ? $t->set_var( "td_class", "bgdark" ) : $t->set_var( "td_class", "bglight" );
     $t->parse( "account_item", "account_item_tpl", true );

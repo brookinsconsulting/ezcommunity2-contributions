@@ -4,6 +4,7 @@
 
 <form method="post" action="{www_dir}{index}/mail/accountedit/{current_account_id}" enctype="multipart/form-data" >
 
+
 <p class="boxtext">{intl-name}:</p>
 <input type="text" size="40" name="Name" value="{name_value}"/>
 
@@ -12,6 +13,12 @@
 
 <p class="boxtext">{intl-password}:</p>
 <input type="password" size="40" name="Password" value="{password_value}"/>
+
+<p class="boxtext">{intl-account_type}:</p>
+<select name="ServerType">
+<option {pop3_selected} value="0">{intl-pop3}</option>
+<option {imap_selected} value="1">{intl-imap}</option>
+</select>
 
 <br /><br />
 <table cellpadding="0" cellspacing="0" border="0">
@@ -27,8 +34,9 @@
   </td>
 </tr>
 </table>
+{intl-port_select_text}
 
-<br />
+<br /><br />
 <div class="check"><input type="checkbox" name="DelFromServer" {delete_from_server_checked} />&nbsp;{intl-delete_from_server}</div>
 
 <br />

@@ -42,9 +42,8 @@
 
 <table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
 <tr>
-	<th width="33%">{intl-name}:</th>
+	<th width="62%">{intl-name}:</th>
 	<th width="32%">{intl-type}:</th>
-	<th width="27%">{intl-folder}:</th>
 	<th width="5%">{intl-active}:</th>
 	<th width="1%">&nbsp;</th>
 </tr>
@@ -56,9 +55,6 @@
 
 	<td class="{td_class}">
 	{account_type}
-	</td>
-	<td class="{td_class}">
-	{account_folder}
 	</td>
 	<td class="{td_class}">
 	<input type="checkbox" name="AccountActiveArrayID[]" value="{account_id}" {account_active_checked} />

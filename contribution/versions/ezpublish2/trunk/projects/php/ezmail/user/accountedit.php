@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: accountedit.php,v 1.5 2001/07/20 11:18:28 jakobn Exp $
+// $Id: accountedit.php,v 1.6 2001/12/20 12:11:35 fh Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -52,12 +52,20 @@ if( isset( $Ok ) )
         $account->setPassword( $Password );
     $account->setLoginName( $Login );
     $account->setServer( $Server );
-    $account->setServerPort( $Port );
+
+    if( $Port == 0 && $ServerType == POP3 ) // default for POP3
+        $account->setServerPort( 110 );
+    else if( $Port == 0 && $ServerType == IMAP ) // default for IMAP
+        $account->setServerPort( 143 );
+    else
+        $account->setServerPort( $Port );
+    
     if( isset( $DelFromServer ) )
         $account->setDeleteFromServer( true );
     else
         $account->setDeleteFromServer( false );
 
+    $account->setServerType( $ServerType );
     $account->store();
     eZHTTPTool::header( "Location: /mail/config" );
     exit();
@@ -85,13 +93,20 @@ $t->set_var( "current_account_id", $AccountID );
 $t->set_var( "name_value", "" );
 $t->set_var( "login_value", "" );
 $t->set_var( "password_value", "" );
-$t->set_var( "port_value", "110" );
+$t->set_var( "port_value", "0" );
 $t->set_var( "server_value" ,"" );
 $t->set_var( "delete_from_server_checked", "" );
+$t->set_var( "pop3_selected", "" );
+$t->set_var( "imap_selected", "" );
 
-if( $AccountID != 0 ) // TODO: check that user really is the owner of the account.
+if( $AccountID != 0 )
 {
     $account = new eZMailAccount( $AccountID );
+    if( $account->serverType() == POP3 )
+        $t->set_var( "pop3_selected", "selected" );
+    else
+        $t->set_var( "imap_selected", "selected" );
+
     $t->set_var( "name_value", htmlspecialchars( $account->name() ) );
     $t->set_var( "login_value", htmlspecialchars( $account->loginName() ) );
     $t->set_var( "password_value", htmlspecialchars( $account->password() ) );

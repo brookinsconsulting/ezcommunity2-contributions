@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezimapmailfolder.php,v 1.3 2001/12/19 23:11:28 fh Exp $
+// $Id: ezimapmailfolder.php,v 1.4 2001/12/20 12:11:35 fh Exp $
 //
 // eZIMAPMailFolder class
 //
@@ -95,6 +95,65 @@ class eZIMAPMailFolder
         return true;
     }    
 
+    /*!
+      \static
+      IMAPMailFolder spesific. Creates a mailbox on a server.
+      Foldername must be the full path to the mailbox you want to create.
+     */
+    function createMailBox( $account, $folderName )
+    {
+        $mbox = imapConnect( $account );
+        $server = $account->server();
+//        $mailBoxes = imap_getmailboxes( $mbox, "{" . $server . "}", "*" );
+        $ok = imap_createmailbox( $mbox, imap_utf7_encode( "{" . $server ."}" . $folderName ) );
+//
+        if( !$ok )
+            echo "imap_createmailbox failed: " . imap_last_error() . "\n";
+        
+        imapDisconnect( $mbox );
+
+        return $ok;
+    }
+
+    /*!
+      \static
+      IMAPMailFolder spesific. Deletes a mailbox on a server.
+      Foldername must be the full path to the mailbox you want to create.
+     */
+    function deleteMailBox( $account, $folderName )
+    {
+        $mbox = imapConnect( $account );
+        $server = $account->server();
+
+        $ok = imap_deletemailbox( $mbox, imap_utf7_encode( "{" . $server ."}" . $folderName ) );
+        if( !$ok )
+            echo "imap_deletemailbox failed: " . imap_last_error() . "\n";
+        
+        imapDisconnect( $mbox );
+
+        return $ok;
+    }
+
+    /*!
+      \static
+      IMAPMailFolder spesific. Renames a mailbox on a server.
+      Foldername must be the full path to the mailbox you want to create.
+     */
+    function renameMailBox( $account, $oldFolder, $newFolder )
+    {
+        $mbox = imapConnect( $account );
+        $server = $account->server();
+        $ok = imap_renamemailbox( $mbox,
+              imap_utf7_encode( "{" . $server ."}" . $oldFolder ),
+              imap_utf7_encode( "{" . $server ."}" . $newFolder ) );
+        if( !$ok )
+            echo "imap_renamemailbox failed: " . imap_last_error() . "\n";
+        
+        imapDisconnect( $mbox );
+
+        return $ok;
+    }
+    
     /*!
       Fetches the object information from the database.
     */
@@ -325,6 +384,7 @@ class eZIMAPMailFolder
             $mailItem = new eZIMAPMail();
             $mailItem->setAccount( $this->Account );
             $mailItem->setMailNr( $mailHeader->msgno );
+            $mailItem->setPath( $this->Name );
             $mailItem->setSize( $mailHeader->size );
             $mailItem->setSubject( $mailHeader->subject );
             $mailItem->setFrom( $mailHeader->from );
