@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezimagecategory.php,v 1.44.2.6 2002/08/15 10:27:45 gl Exp $
+// $Id: ezimagecategory.php,v 1.44.2.7 2002/08/27 14:22:50 jb Exp $
 //
 // Definition of eZImageCategory class
 //
@@ -627,7 +627,7 @@ class eZImageCategory
             foreach ( $groups as $group )
             {
                 if ( $i == 0 )
-                    $groupSQL .= "( Permission.GroupID=$group AND ( CategoryPermission.GroupID=$group OR CategoryPermission.GroupID='-1' ) ) OR";
+                    $groupSQL .= "( Permission.GroupID=$group AND ( CategoryPermission.GroupID=$group OR CategoryPermission.GroupID='-1' ) ) OR\n";
                 else
                     $groupSQL .= " ( Permission.GroupID=$group AND ( CategoryPermission.GroupID=$group OR CategoryPermission.GroupID='-1' ) ) OR";
                 
@@ -637,13 +637,23 @@ class eZImageCategory
                 $usePermission = false;
         }
         
+        $having_str = "";
+
+        $sel_str = "count( DISTINCT Image.ID ) AS Count";
         if ( $usePermission )
         {
             if ( $check_write )
-                $permissionSQL = "( ( $groupSQL Permission.GroupID='-1' AND CategoryPermission.GroupID='-1' ) AND
-                                    Permission.ReadPermission='1' AND CategoryPermission.ReadPermission='1' AND
-                                    Permission.WritePermission='1' AND CategoryPermission.WritePermission='1') AND
-                                  Image.ID = Permission.ObjectID AND ";
+            {
+                $permissionSQL = "( ($groupSQL Permission.GroupID='-1') )
+ AND Image.ID = Permission.ObjectID
+ AND eZImageCatalogue_Category.ID = CategoryPermission.ObjectID
+ AND ";
+                $sel_str = "max( Permission.ReadPermission ) AS MaxReadPerm, max( Permission.WritePermission ) AS MaxWritePerm,
+  MAX(CategoryPermission.WritePermission) AS MaxCatWritePerm, MAX(CategoryPermission.ReadPermission) AS MaxCatReadPerm,
+ MAX(CategoryPermission.UploadPermission) AS MaxCatUploadPerm";
+                $having_str = "GROUP BY Image.ID
+ HAVING MaxWritePerm=1 AND MaxReadPerm=1 AND MaxCatWritePerm=1 AND MaxCatReadPerm=1 AND MaxCatUploadPerm=1 ";
+            }
             else
                 $permissionSQL = "( ( $groupSQL Permission.GroupID='-1' AND CategoryPermission.GroupID='-1' ) AND
                                     Permission.ReadPermission='1' AND CategoryPermission.ReadPermission='1') AND
@@ -659,8 +669,8 @@ class eZImageCategory
             $fromTablePermissionsSQL = "";
         }
 
-        $db->query_single( $file_array, "
-                SELECT COUNT( DISTINCT Image.ID ) AS Count
+        $sql = "
+                SELECT $sel_str
                 FROM eZImageCatalogue_Image as Image,
                      eZImageCatalogue_Category,
                      eZImageCatalogue_ImageCategoryLink
@@ -669,8 +679,23 @@ class eZImageCategory
                       eZImageCatalogue_ImageCategoryLink.ImageID = Image.ID
                       AND eZImageCatalogue_Category.ID = eZImageCatalogue_ImageCategoryLink.CategoryID
                       AND eZImageCatalogue_Category.ID='$this->ID'
-                      AND eZImageCatalogue_ImageCategoryLink.CategoryID='$this->ID'" );
-        return $file_array["Count"];
+                      AND eZImageCatalogue_ImageCategoryLink.CategoryID='$this->ID'
+                      $having_str";
+
+//         eZLog::writeNotice( "Count sql: $sql" );
+
+        if ( $usePermission and $check_write )
+        {
+            $db->array_query( $file_array, $sql );
+            $cnt = count( $file_array );
+        }
+        else
+        {
+            $db->query_single( $file_array, $sql,
+                               "Count" );
+            $cnt = $file_array;
+        }
+        return $cnt;
     } 
 
     /*!
@@ -709,22 +734,29 @@ class eZImageCategory
                        $groupSQL .= "( Permission.GroupID=$group AND ( CategoryPermission.GroupID=$group OR CategoryPermission.GroupID='-1' ) ) OR";
                    else
                        $groupSQL .= " ( Permission.GroupID=$group AND ( CategoryPermission.GroupID=$group OR CategoryPermission.GroupID='-1' ) ) OR";
-                   
                    $i++;
                }
            }
        }
 
+       $having_str = "";
+       $perm_str = "";
        if ( $usePermission )
        {
            $fromTablePermissionsSQL = ", eZImageCatalogue_ImagePermission as Permission, " .
                                       "eZImageCatalogue_CategoryPermission as CategoryPermission";
 
            if ( $check_write )
-               $permissionSQL = "( ( $groupSQL Permission.GroupID='-1' AND CategoryPermission.GroupID='-1' ) AND " .
-                   "Permission.ReadPermission='1' AND CategoryPermission.ReadPermission='1' AND " .
-                   "Permission.WritePermission='1' AND CategoryPermission.WritePermission='1') AND " .
-                   "Image.ID = Permission.ObjectID AND ";
+           {
+               $perm_str = ", MAX(Permission.WritePermission) AS MaxWritePerm, MAX(Permission.ReadPermission) AS MaxReadPerm,
+ MAX(CategoryPermission.WritePermission) AS MaxCatWritePerm, MAX(CategoryPermission.ReadPermission) AS MaxCatReadPerm,
+ MAX(CategoryPermission.UploadPermission) AS MaxCatUploadPerm";
+               $permissionSQL = "( ($groupSQL Permission.GroupID='-1') )
+ AND Image.ID = Permission.ObjectID
+ AND eZImageCatalogue_Category.ID = CategoryPermission.ObjectID
+ AND ";
+               $having_str = "HAVING MaxWritePerm=1 AND MaxReadPerm=1 AND MaxCatWritePerm=1 AND MaxCatReadPerm=1 AND MaxCatUploadPerm=1 ";
+           }
            else
                $permissionSQL = "( ( $groupSQL Permission.GroupID='-1' AND CategoryPermission.GroupID='-1' ) AND " .
                    "Permission.ReadPermission='1' AND CategoryPermission.ReadPermission='1' ) AND " . 
@@ -736,19 +768,22 @@ class eZImageCategory
            $permissionSQL = "";
        }
 
-       $db->array_query( $file_array, "
-                SELECT Image.ID AS ImageID,
-                       Image.OriginalFileName
+       $sql = " SELECT Image.ID AS ImageID,
+                       Image.OriginalFileName $perm_str
                 FROM eZImageCatalogue_Image as Image,
                      eZImageCatalogue_Category,
-                     eZImageCatalogue_ImageCategoryLink,
-                     eZImageCatalogue_ImageCategoryDefinition
+                     eZImageCatalogue_ImageCategoryLink
                      $fromTablePermissionsSQL
                 WHERE $permissionSQL
                       eZImageCatalogue_ImageCategoryLink.ImageID = Image.ID
                       AND eZImageCatalogue_Category.ID = eZImageCatalogue_ImageCategoryLink.CategoryID
                       AND eZImageCatalogue_Category.ID='$catID'
-               GROUP BY Image.ID, Image.OriginalFileName ORDER BY Image.OriginalFileName",
+               GROUP BY Image.ID, Image.OriginalFileName
+               $having_str
+               ORDER BY Image.OriginalFileName";
+//         eZLog::writeNotice( "List sql: $sql" );
+
+       $db->array_query( $file_array, $sql,
        array( "Limit" => $limit,
               "Offset" => $offset ) );
 
