@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: index.php,v 1.97 2001/08/21 11:23:58 ce Exp $
+// $Id: index.php,v 1.98 2001/08/24 10:45:56 bf Exp $
 //
 // Created on: <09-Nov-2000 14:52:40 ce>
 //
@@ -67,7 +67,7 @@ else
     $wwwDir = "";
     $index = "";
 }
-    
+
 include_once( "classes/ezbenchmark.php" );
 
 // Run benchmark test.

@@ -5,6 +5,7 @@ CREATE TABLE eZSiteManager_Section (
   Created int NOT NULL,
   Description varchar(255),
   SiteDesign varchar(30) default NULL,
+  TemplateStyle varchar(30) default NULL,
   PRIMARY KEY (ID)
 );
 
