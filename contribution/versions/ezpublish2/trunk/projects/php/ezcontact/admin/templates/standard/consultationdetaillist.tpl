@@ -70,6 +70,9 @@
 <!-- END consultation_item_tpl -->
 </table>
 
+<table>
+<tr>
+<td>
 <!-- BEGIN new_person_consultation_item_tpl -->
 <form method="post" action="/contact/consultation/person/new/{person_id}">
 <!-- END new_person_consultation_item_tpl -->
@@ -78,5 +81,13 @@
 <!-- END new_company_consultation_item_tpl -->
 <input class="okbutton" type="submit" name="New" value="{intl-new_consultation}">
 </form>
+</td>
+<td>
+<form method="post" action="/contact/consultation/list">
+<input class="okbutton" type="submit" value="{intl-back}">
+</form>
+</td>
+</tr>
+</table>
 
 <!-- END consultation_table_item_tpl -->
