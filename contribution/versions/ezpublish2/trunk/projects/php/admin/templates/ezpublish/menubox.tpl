@@ -27,6 +27,12 @@
 		{intl-module_name}
 		</span>
 		</td>
+		<td>
+		<a href="{move_up_uri}">U</a>
+		</td>
+		<td>
+		<a href="{move_down_uri}">D</a>
+		</td>
 	</tr>
 	</table>
 	
