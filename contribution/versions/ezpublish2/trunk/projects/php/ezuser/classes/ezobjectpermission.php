@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezobjectpermission.php,v 1.1 2001/02/27 15:14:16 fh Exp $
+// $Id: ezobjectpermission.php,v 1.2 2001/02/27 15:25:50 fh Exp $
 //
 // Definition of eZCompany class
 //
@@ -176,8 +176,27 @@ class eZObjectPermission
             return;
         }
 
-        $query = "UPDATE $tableName $SQLPermission WHERE ObjectID='$objectID' AND GroupID='$groupID'";
-        $query2 = "INSERT INTO $tableName $SQL ObjectID='$objectID', GroupID='$groupID'";
+        $database =& eZDB::globalDatabase();
+        $queryexists = "SELECT COUNT( ID ) WHERE ObjectID='$objectID' AND GroupID='$groupID'";
+        $database->query_single( $res, $queryexists );
+
+        if( $res[ "ID " ] == 0 )
+        {
+            $query = "INSERT INTO $tableName $SQL ObjectID='$objectID', GroupID='$groupID'";
+            $database->query_single( $res, $query );
+        }
+        else if( $res[ "ID" ] == 1 )
+        {
+            $query = "UPDATE $tableName $SQLPermission WHERE ObjectID='$objectID' AND GroupID='$groupID'";
+            $database->query_single( $res, $query );
+        }
+        else
+        {
+            print("Duplicate objects in database. Please contact your administrator");
+            exit();
+        }
+        
+        
     }
     
      /*
