@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezbuglog.php,v 1.1 2000/11/29 16:53:16 bf-cvs Exp $
+// $Id: ezbuglog.php,v 1.2 2000/11/30 09:21:39 bf-cvs Exp $
 //
 // Definition of eZBugLog class
 //
@@ -163,6 +163,34 @@ class eZBugLog
         return $return_array;
     }
 
+    /*!
+      Returns all the bugs found in the database which is assigned to
+      the bug given as argument.
+
+      The bugs are returned as an array of eZBug objects.
+    */
+    function getByBug( $bug )
+    {
+        $this->dbInit();
+        
+        $return_array = array();
+        $module_array = array();
+        if ( get_class( $bug ) == "ezbug" )
+        {
+            $bugID = $bug->id();
+            $this->Database->array_query( $module_array, "SELECT ID FROM eZBug_Log
+                                                          WHERE BugID='$bugID' 
+                                                          ORDER BY Created" );
+        
+            for ( $i=0; $i<count($module_array); $i++ )
+            {
+                $return_array[$i] = new eZBugLog( $module_array[$i]["ID"], 0 );
+            }
+        }
+        
+        return $return_array;
+    }
+    
     /*!
       Returns the object id.
     */

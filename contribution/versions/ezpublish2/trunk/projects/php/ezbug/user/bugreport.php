@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: bugreport.php,v 1.2 2000/11/29 16:51:37 bf-cvs Exp $
+// $Id: bugreport.php,v 1.3 2000/11/30 09:21:39 bf-cvs Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <27-Nov-2000 20:31:00 bf>
@@ -43,8 +43,8 @@ $t->set_file( array(
     "bug_report_tpl" => "bugreport.tpl"
     ) );
 
-$t->set_block( "bug_report_tpl", "module_item_tpl", "module_item_tpl" );
-$t->set_block( "bug_report_tpl", "category_item_tpl", "category_item_tpl" );
+$t->set_block( "bug_report_tpl", "module_item_tpl", "module_item" );
+$t->set_block( "bug_report_tpl", "category_item_tpl", "category_item" );
 
 if ( $Action == "Insert" )
 {
@@ -94,6 +94,7 @@ foreach ( $modules as $module )
 }
 
 $t->set_var( "action_value", "Insert" );
+
 
 $t->pparse( "output", "bug_report_tpl" );
 

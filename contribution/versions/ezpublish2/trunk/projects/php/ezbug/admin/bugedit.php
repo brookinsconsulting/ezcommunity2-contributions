@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: bugedit.php,v 1.1 2000/11/29 16:51:37 bf-cvs Exp $
+// $Id: bugedit.php,v 1.2 2000/11/30 09:21:38 bf-cvs Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <28-Nov-2000 19:45:35 bf>
@@ -26,6 +26,7 @@
 include_once( "classes/INIFile.php" );
 include_once( "classes/eztemplate.php" );
 include_once( "classes/ezlog.php" );
+include_once( "classes/ezlocale.php" );
 
 $ini = new INIFIle( "site.ini" );
 
@@ -46,10 +47,12 @@ $t->set_file( array(
     "bug_edit_tpl" => "bugedit.tpl"
     ) );
 
-$t->set_block( "bug_edit_tpl", "module_item_tpl", "module_item_tpl" );
-$t->set_block( "bug_edit_tpl", "category_item_tpl", "category_item_tpl" );
-$t->set_block( "bug_edit_tpl", "priority_item_tpl", "priority_item_tpl" );
-$t->set_block( "bug_edit_tpl", "status_item_tpl", "status_item_tpl" );
+$t->set_block( "bug_edit_tpl", "module_item_tpl", "module_item" );
+$t->set_block( "bug_edit_tpl", "category_item_tpl", "category_item" );
+$t->set_block( "bug_edit_tpl", "priority_item_tpl", "priority_item" );
+$t->set_block( "bug_edit_tpl", "status_item_tpl", "status_item" );
+
+$t->set_block( "bug_edit_tpl", "log_item_tpl", "log_item" );
 
 if ( $Action == "Insert" )
 {
@@ -147,13 +150,35 @@ $t->set_var( "action_value", "Insert" );
 
 if ( $Action == "Edit" )
 {
+    $locale = new eZLocale( $Language );
+
     $bug = new eZBug( $BugID );
     
     $t->set_var( "bug_id", $bug->id() );
     $t->set_var( "name_value", $bug->name() );
     $t->set_var( "description_value", $bug->description() );
     $t->set_var( "action_value", "Update" );
+
+    $bugLog = new eZBugLog();
+    $logList = $bugLog->getByBug( $bug );
+
+    foreach ( $logList as $log )
+    {
+        $date =& $log->created();
+        
+        $t->set_var( "log_date", $locale->format( $date ) );
+        
+        
+        $t->set_var( "log_description", $log->description() );
+        
+        $t->parse( "log_item", "log_item_tpl", true );
+    }
+    
 }
+
+
+
+
 
 $t->pparse( "output", "bug_edit_tpl" );
 

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: unhandledbugs.php,v 1.2 2000/11/29 16:51:37 bf-cvs Exp $
+// $Id: unhandledbugs.php,v 1.3 2000/11/30 09:21:38 bf-cvs Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <27-Nov-2000 22:18:56 bf>
@@ -46,12 +46,23 @@ $bug = new eZBug();
 
 $unhandleBugs =& $bug->getUnhandled();
 
+$i=0;
 foreach ( $unhandleBugs as $bug )
 {
+    if ( ( $i % 2 ) == 0 )
+    {
+        $t->set_var( "td_class", "bglight" );
+    }
+    else
+    {
+        $t->set_var( "td_class", "bgdark" );
+    }
+
     $t->set_var( "bug_id",  $bug->id() );
     $t->set_var( "bug_name",  $bug->name() );
 
     $t->parse( "bug", "bug_tpl", true );
+    $i++;
 }
 
 $t->pparse( "output", "unhandled_bugs_tpl" );

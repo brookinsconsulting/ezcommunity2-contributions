@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezbugpriority.php,v 1.1 2000/11/29 16:53:16 bf-cvs Exp $
+// $Id: ezbugpriority.php,v 1.2 2000/11/30 09:21:39 bf-cvs Exp $
 //
 // Definition of eZBugPriority class
 //

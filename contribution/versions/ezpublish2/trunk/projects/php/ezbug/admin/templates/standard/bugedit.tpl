@@ -3,6 +3,9 @@
 <h1>{intl-edit_bug}</h1>
 
 <hr noshade="noshade" size="4">
+<table width="100%" cellspacing="0" cellpadding="0" border="0">
+<tr>
+	<td valign="top" width="50%">
 
 <table cellspacing="0" cellpadding="0" border="0">
 <tr>
@@ -55,12 +58,25 @@
 </tr>
 </table>
 
-
 <br />
 
 <p class="boxtext">{intl-log_message}:</p>
 <textarea name="LogMessage" cols="40" rows="5" wrap="soft"></textarea>
 <br />
+
+
+	</td>
+	<td valign="top" width="50%">
+	<!-- BEGIN log_item_tpl -->
+	<b>{log_date}</b>
+	<p>
+	{log_description}
+	</p>
+	<!-- END log_item_tpl -->	
+	</td>
+</tr>
+</table>
+
 
 <hr noshade="noshade" size="4">
 
