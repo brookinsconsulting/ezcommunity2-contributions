@@ -1,14 +1,14 @@
 body 
 {
 	font-family: Verdana, Arial, Helvetica, Swiss, Futura, sans-serif;
-	font-size: 12px;
+	font-size: 13px;
 	color: #000000;
 }
 
 p 
 {
 	font-family: Verdana, Arial, Helvetica, Swiss, Futura, sans-serif;
-	font-size: 12px;
+	font-size: 13px;
 	color: #000000;
 }
 
@@ -19,6 +19,7 @@ h1
 	font-size: 24px;
 	color: #000000;
 	margin-bottom: 8px;
+	text-decoration : none;
 }
 
 h2 
@@ -29,22 +30,41 @@ h2
 	color: #000000;
 	margin-top: 16px;
 	margin-bottom: 8px;	
+	text-decoration : none;
+}
+
+.newslistheadline 
+{
+	font-family: Verdana, Arial, Helvetica, Swiss, Futura, sans-serif;	
+	font-weight: bold;
+	font-size: 18px;
+	color: #000000;
+	margin-top: 16px;
+	margin-bottom: 8px;	
+	text-decoration : none;
 }
 
 h3 
 {
 	font-family: Verdana, Arial, Helvetica, Swiss, Futura, sans-serif;	
 	font-weight: bold;
-	font-size: 12px;
+	font-size: 13px;
 	color: #000000;
+	text-decoration : none;
 }
 
 a 
 {
 	font-family: Verdana, Arial, Helvetica, Swiss, Futura, sans-serif;
-	font-size: 12px;		
+	font-size: 13px;		
 	color : #000000;
 	text-decoration : underline;
+}
+
+.small
+{
+	font-size: 10px;
+	font-weight: normal;
 }
 
 .smallbold 
@@ -53,53 +73,44 @@ a
 	font-weight: bold;
 }
 
-.top
-{
-	color: #ffffff;
-	font-size: 10px;
-	font-weight: bold;
-}
-
-.topusername
-{
-	color: #ffffff;
-	font-size: 10px;
-}
-
-.topmenu
-{
-	color: #ffffff;
-	font-size: 10px;
-	font-weight: bold;
-	text-decoration: none;
-}
-
-
 .menu 
 {
-	font-size: 10px;
-	font-weight: bold;
+	font-size: 11px;
+	font-weight: normal;
 	text-decoration: none;
 }
 
-.pris 
+.menubold 
 {
-	font-size: 12px;
+	font-size: 11px;
 	font-weight: bold;
+}
+
+.menutext 
+{
+	font-size: 11px;
+	margin-bottom: 4px;
+}
+
+.menuhead
+{
+	background: #777777;
+	font-size: 18px;
+	color: #ffffff;
+	font-weight: normal;
+	text-align: center;
+}
+
+.menuspacer
+{
+	font-size: 2px;
 }
 
 .path 
 {
-	font-size: 12px;
+	font-size: 13px;
 	font-weight: bold;
 	text-decoration: none;
-}
-
-.slash
-{
-	font-weight: bold;
-	font-size: 18px;
-	color: #c80000;
 }
 
 .byline 
@@ -113,26 +124,6 @@ a
 	margin-bottom: 4px;
 }
 
-.pictext 
-{
-	font-size: 10px;
-	font-style: italic;
-}
-
-.check 
-{
-	font-family: Verdana, Arial, Helvetica, Swiss, Futura, sans-serif;	
-	font-size: 12px;
-	color: #000000;
-	margin-bottom: 8px;
-}
-
-.checkhead
-{
-	font-weight: bold;
-	margin-bottom: 16px;
-}
-
 .list
 {
 	margin-top: 5px;
@@ -143,7 +134,7 @@ a
 th 
 {
 	font-family: Verdana, Arial, Helvetica, Swiss, Futura, sans-serif;	
-	font-size: 12px;
+	font-size: 13px;
 	font-weight: bold;
 	color: #000000;
 	text-align: left;
@@ -152,7 +143,7 @@ th
 td 
 {
 	font-family: Verdana, Arial, Helvetica, Swiss, Futura, sans-serif;	
-	font-size: 12px;
+	font-size: 13px;
 	color: #000000;
 
 }
@@ -164,20 +155,46 @@ td
 
 .bgdark 
 {
+	background-color: #bcbcbc;
+}
+
+.bgcurrent
+{
+	background-color: #ffdcdc;
+}
+
+.bgweekend
+{
 	background-color: #dcdcdc;
+}
+
+.bgselect
+{
+	color: #ffffff;
+	background-color: #787878;
+}
+
+.linkselect
+{
+	color: #ffffff;
+}
+
+.linknormal
+{
+	color: #000000;
 }
 
 select 
 {
 	font-family: Verdana, Arial, Helvetica, Swiss, Futura, sans-serif;
-	font-size: 12px;
+	font-size: 13px;
 	color: #000000;
 }
 
 input 
 {
 	font-family: Verdana, Arial, Helvetica, Swiss, Futura, sans-serif;
-	font-size: 12px;
+	font-size: 13px;
 	color: #000000;
 }
 
@@ -195,7 +212,7 @@ input
 textarea 
 {
 	font-family: Verdana, Arial, Helvetica, Swiss, Futura, sans-serif;
-	font-size: 12px;
+	font-size: 13px;
 	color: #000000;
 }
 
@@ -208,27 +225,27 @@ textarea
 
 hr
 {
-	color: #640000;
+	color: #777777;
 }
 
 a:hover 
 {
-	color : #808080;
+	color: #404040;
+	text-decoration: underline;
 }
 
-.menutext
+.pictext 
 {
-	font-size: 10px;
+	font-size: 11px;
+	font-style: italic;
+}
+
+.credit
+{
+	font-size: 11px;
+}
+
+.pris
+{
 	font-weight: bold;
-	color: #ffffff;
-	margin-top: 4px;
-	margin-bottom: 4px;
 }
-
-.menuspacer
-{
-	font-size: 2px;
-	margin-top: 4px;
-	margin-bottom: 0px;
-}
-

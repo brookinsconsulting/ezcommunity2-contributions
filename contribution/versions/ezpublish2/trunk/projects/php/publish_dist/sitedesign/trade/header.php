@@ -1,23 +1,60 @@
-<body bgcolor="#aaaaaa">
+</head>
 
-<table width="100%" border="1" cellspacing="0" cellpadding="5">
-<tr>
-	<td bgcolor="#dddddd" colspan="3">
-    <h1>eZ trade v2.0 Beta 1</h1>
-	</td>
-</tr>
-<tr> 
-    <td width="1%" valign="top" bgcolor="#eeeeee">
-     <a href="/article/archive/1/">NEWS</a><br /><br />
-     <b>Products:</b>
+<body bgcolor="#b5b5b5" topmargin="6" marginheight="6" leftmargin="6" marginwidth="6">
+
+<h1>eZ publish v2.0 Beta 1</h1>
+
+<table width="100%" border="0" cellspacing="0" cellpadding="4">
+<tr valign="top">
+    <td width="1%" bgcolor="#f0f0f0">
+
+	<!-- Meny start! -->
+
+	<table width="100%" cellspacing="0" cellpadding="2" border="0">
+    <tr>
+		<td colspan="2" class="menuhead">News</td>
+	</tr>
+	<tr>
+		<td width="1%" valign="top"><img src="/images/dot.gif" width="10" height="12"><br /></td>
+		<td width="99%"><a class="menu" href="/article/archive/1/">Latest</a></td>
+	</tr>
+	<tr>
+		<td class="menuspacer">&nbsp;</td>
+	</tr>
+	</table>
+
      <? include( "eztrade/user/categorylist.php" ); ?>
 
-     <a href="/trade/cart/">YOUR CART</a><br />
-     <a href="/trade/wishlist/">YOUR WISHLIST</a><br />
-     
-     <a href="/trade/sendwishlist/">Send wishlist</a><br />
-     <a href="/trade/findwishlist/">Find wishlist</a><br />
-     
+	<table width="100%" cellspacing="0" cellpadding="2" border="0">
+    <tr>
+		<td colspan="2" class="menuhead">User</td>
+	</tr>
+	<tr>
+		<td width="1%" valign="top"><img src="/images/dot.gif" width="10" height="12"><br /></td>
+		<td width="99%"><a class="menu" href="/trade/cart/">Your cart</a></td>
+	</tr>
+	<tr>
+		<td width="1%" valign="top"><img src="/images/dot.gif" width="10" height="12"><br /></td>
+		<td width="99%"><a class="menu" href="/trade/wishlist/">Your wishlist</a></td>
+	</tr>
+	<tr>
+		<td width="1%" valign="top"><img src="/images/dot.gif" width="10" height="12"><br /></td>
+		<td width="99%"><a class="menu" href="/trade/sendwishlist/">Send wishlist</a></td>
+	</tr>
+	<tr>
+		<td width="1%" valign="top"><img src="/images/dot.gif" width="10" height="12"><br /></td>
+		<td width="99%"><a class="menu" href="/trade/findwishlist/">Find wishlist</a></td>
+	</tr>
+	<tr>
+		<td class="menuspacer">&nbsp;</td>
+	</tr>
+	</table>
+
      <? include( "eztrade/user/hotdealslist.php" ); ?>     
-</td>
-<td rowspan="2" bgcolor="#ffffff" width="97%" valign="top">
+
+	<img src="/images/1x1.gif" width="130" height="1" border="0"><br />
+	</td>
+
+	<td width="1%" bgcolor="#ffffff"><img src="/images/1x1.gif" width="2" height="1" border="0" alt="0" /></td>
+    <td width="96%" bgcolor="#ffffff">
+

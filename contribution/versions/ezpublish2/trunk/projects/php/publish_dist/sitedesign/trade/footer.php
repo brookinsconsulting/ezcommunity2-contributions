@@ -1,19 +1,19 @@
-	<br />
+
     </td>
- 	<td valign="top" rowspan="2" width="1%" bgcolor="#eeeeee">
+   	<td width="1%" bgcolor="#ffffff"><img src="/images/1x1.gif" width="2" height="1" border="0" alt="0" /></td>
+
+	<td width="1%" bgcolor="#f0f0f0">
+
+   	<!-- Oppslagstavle kommer her! -->
 
     <? include( "ezuser/user/userbox.php" ); ?>
 
     <? include( "eztrade/user/smallcart.php" );    ?>
     
-	<img src="/images/1x1.gif" width="100" height="1" border="0"><br />
+	<!-- Oppslagstavle fram til hit! -->
 
-	</td>
-  </tr>
-  <tr> 
-	<td align="center" valign="bottom" bgcolor="#eeeeee">
-	<a href="http://trade.ez.no"><img src="/images/poweredbyeztrade.gif" width="62" height="75" border="0"></a><br />
-	<img src="/images/1x1.gif" width="80" height="10" border="0"><br />
+
+	<hr noshade="noshade" size="4" />
 
 
     <?
@@ -66,14 +66,11 @@ if ( $Design == 2 )
     <a href="<? print( $REQUEST_URI . "?Design=1"); ?>">Portal site</a>
     <a href="<? print( $REQUEST_URI . "?Design=2"); ?>">Intranet</a>
     
+	<img src="/images/1x1.gif" width="130" height="1" border="0"><br />
 	</td>
-	</tr>
+  </tr>
 </table>
-
-<center>
-eZ systems - <a href="http://ez.no">ez.no</a>
-</center>
+<div class="credit" align="center" valign="bottom"><br />Powered by <a class="credit" href="http://publish.ez.no">eZ publish</a> made by <img src="/images/logo-mini.gif" width="16" height="16" border="0" alt="0" align="absmiddle" /> <a class="credit" href="http://publish.ez.no">eZ systems</a></div>
 
 </body>
 </html>
-

@@ -1,33 +1,38 @@
-<h2>{intl-hot_deals}:</h2>
+<table width="100%" cellspacing="0" cellpadding="2" border="0">
+<tr>
+	<td class="menuhead">{intl-hot_deals}</td>
+</tr>
 
-<hr noshade="noshade" size="4" />
 <!-- BEGIN category_list_tpl -->
 
 
 <!-- BEGIN product_list_tpl -->
 
-<table width="100%" cellspacing="0" cellpadding="0" border="0">
 
 <!-- BEGIN product_tpl -->
 {begin_tr}
-	<td>
+	<td class="menutext">
 
-	<a href="/trade/productview/{product_id}/{category_id}/"><h3>{product_name}</h3></a>
+	<a class="menutext" href="/trade/productview/{product_id}/{category_id}/"><b>{product_name}</b></a>
 
 	<!-- BEGIN product_image_tpl -->
 	<a href="/trade/productview/{product_id}/{category_id}/">
 	<img src="{product_image_path}" border="0" width="{product_image_width}" height="{product_image_height}" alt="{product_image_caption}"/></a>
 	<!-- END product_image_tpl -->&nbsp;
 
-<p>{product_intro_text}</p>
+<div class="menutext">{product_intro_text}</div>
 
 
 <!-- BEGIN price_tpl -->
-<p class="pris">{product_price}</p>
+<div class="pris">{product_price}</div>
 <!-- END price_tpl -->
 
 	</td>
 {end_tr}
+<tr>
+	<td class="menuspacer">&nbsp;</td>
+</tr>
+
 <!-- END product_tpl -->
 
 </table>
