@@ -82,7 +82,6 @@
 <!-- <p><a href="{www_dir}{index}/{intl-module_name}/{intl-command_type}/{intl-command_edit}/{current_id}">{intl-button_edit}</a></p> -->
 <!-- END not_root_tpl -->
 
-
 <!-- BEGIN category_list_tpl -->
 
 <h2>{intl-headline_categories}</h2>
@@ -152,6 +151,7 @@
 <!-- END no_companies_tpl -->
 
 <!-- BEGIN companies_table_tpl -->
+<form method="post" action="{www_dir}{index}/contact/company/edit/{current_id}">
 <table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
 <tr>
 	<th>{intl-name}:</th>
@@ -202,7 +202,7 @@
 
 	<!-- BEGIN company_delete_button_tpl -->
 	<td class="{td_class}" width="1%">
-	<a href="{www_dir}{index}/contact/company/delete/{company_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezc{company_id}-slett','','/admin/images/slettminimrk.gif',1)"><img name="ezc{company_id}-slett" border="0" src="{www_dir}/admin/images/slettmini.gif" width="16" height="16" align="top" alt="Delete" /></a>
+	<input type="checkbox" name="ContactArrayID[]" value="{company_id}" />
 	</td>	
 	<!-- END company_delete_button_tpl -->
 
@@ -260,10 +260,11 @@
 <!-- END company_list_tpl -->
 
 <!-- BEGIN company_new_button_tpl -->
-<form method="post" action="{www_dir}{index}/contact/company/new/{current_id}">
-
 <hr noshade="noshade" size="4" />
 
-<input class="stdbutton" type="submit" value="{intl-new_company}">
+<input class="stdbutton" type="submit" name="NewCompany" value="{intl-new_company}" />
+<input class="stdbutton" type="submit" name="Delete" value="{intl-delete_company}" />
+<input class="stdbutton" type="submit" name="SendMail" value="{intl-send_mail}" />
+
 </form>
 <!-- END company_new_button_tpl -->

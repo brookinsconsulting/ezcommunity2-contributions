@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: typelist_pre.php,v 1.2 2001/07/20 12:01:50 jakobn Exp $
+// $Id: typelist_pre.php,v 1.3 2001/08/14 14:12:15 jhe Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -29,13 +29,13 @@ if ( !isset( $Max ) )
     $Max = 10;
 }
 
-if ( !isset( $Index ) )
+if ( !isset( $Offset ) )
 {
-    $Index = 0;
+    $Offset = 0;
 }
-else if ( !is_numeric( $Index ) )
+else if ( !is_numeric( $Offset ) )
 {
-    $Index = 0;
+    $Offset = 0;
 }
 
 if ( !isset( $SearchText ) )

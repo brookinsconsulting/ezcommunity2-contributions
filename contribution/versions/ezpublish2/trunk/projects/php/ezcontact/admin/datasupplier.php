@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: datasupplier.php,v 1.49 2001/07/24 11:49:56 jhe Exp $
+// $Id: datasupplier.php,v 1.50 2001/08/14 14:12:15 jhe Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -24,11 +24,11 @@
 //
 
 include_once( "classes/ezuritool.php" );
-include_once( "ezuser/classes/ezpermission.php" );
 include_once( "classes/ezhttptool.php" );
+include_once( "ezuser/classes/ezpermission.php" );
 
-$user = eZUser::currentUser();
-if( eZPermission::checkPermission( $user, "eZContact", "ModuleEdit" ) == false )
+$user =& eZUser::currentUser();
+if ( eZPermission::checkPermission( $user, "eZContact", "ModuleEdit" ) == false )
 {
     eZHTTPTool::header( "Location: /error/403" );
     exit();
@@ -91,25 +91,33 @@ switch ( $ListType )
 
     case "company":
     {
+        $CompanyID = $url_array[4];
         $Action = $url_array[3];
         switch ( $Action )
         {
-            // intentional fall through
             case "new":
-            {
-                if ( isSet( $url_array[4] ) and is_numeric( $url_array[4] ) )
-                    $NewCompanyCategory = $url_array[4];
-                include( "ezcontact/admin/companyedit.php" );
-                break;
-            }
             case "edit":
             case "update":
             case "delete":
             case "insert":
             {
-                if ( !isSet( $CompanyID ) and isSet( $url_array[4] ) and is_numeric( $url_array[4] ) )
-                    $CompanyID = $url_array[4];
-                include( "ezcontact/admin/companyedit.php" );
+                if ( isSet( $SendMail ) )
+                {
+                    $CompanyEdit = true;
+                    include( "ezcontact/admin/sendmail.php" );
+                }
+                else
+                {
+                    if ( isSet( $NewCompany ) )
+                        $Action = "new";
+                    if ( $Action == "new" )
+                        if ( isSet( $url_array[4] ) and is_numeric( $url_array[4] ) )
+                            $NewCompanyCategory = $url_array[4];
+                        else
+                            if ( !isSet( $CompanyID ) and isSet( $url_array[4] ) and is_numeric( $url_array[4] ) )
+                                $CompanyID = $url_array[4];
+                    include( "ezcontact/admin/companyedit.php" );
+                }
                 break;
             }
             case "view":
@@ -126,7 +134,7 @@ switch ( $ListType )
                 $Month = $url_array[7];
                 $Day = $url_array[8];
                 $DateType = $url_array[4];
-                if ( !isset( $CompanyID ) and isset( $url_array[5] ) and is_numeric( $url_array[5] ) )
+                if ( !isSet( $CompanyID ) and isSet( $url_array[5] ) and is_numeric( $url_array[5] ) )
                     $CompanyID = $url_array[5];
                 include( "ezcontact/admin/companystats.php" );
                 break;
@@ -194,21 +202,30 @@ switch ( $ListType )
             case "delete":
             case "insert":
             {
-                include( "ezcontact/admin/personedit.php" );
+                if ( isSet( $SendMail ) )
+                {
+                    $CompanyEdit = false;
+                    include( "ezcontact/admin/sendmail.php" );
+                }
+                else
+                {
+                    include( "ezcontact/admin/personedit.php" );
+                }
                 break;
+                    
             }
             case "list":
             {
                 if ( is_numeric( $url_array[4] ) )
-                    $Index = $url_array[4];
+                    $Offset = $url_array[4];
                 include( "ezcontact/admin/personlist.php" );
                 break;
             }
             case "search":
             {
                 if ( is_numeric( $url_array[4] ) )
-                    $Index = $url_array[4];
-                if ( count( $url_array ) >= 5 && !isset( $SearchText ) )
+                    $Offset = $url_array[4];
+                if ( count( $url_array ) >= 5 && !isSet( $SearchText ) )
                 {
                     $SearchText = $url_array[5];
                     $SearchText = eZURITool::decode( $SearchText );
@@ -233,7 +250,7 @@ switch ( $ListType )
 
     case "consultation":
     {
-        if ( !isset( $ConsultationID ) or !is_numeric( $ConsultationID ) )
+        if ( !isSet( $ConsultationID ) or !is_numeric( $ConsultationID ) )
             $ConsultationID = $url_array[4];
         $Action = $url_array[3];
         switch ( $Action )
@@ -262,7 +279,7 @@ switch ( $ListType )
             {
                 $SubAction = $url_array[3];
                 $Action = $url_array[4];
-                if ( !isset( $CompanyID ) or !is_numeric( $CompanyID ) )
+                if ( !isSet( $CompanyID ) or !is_numeric( $CompanyID ) )
                     $CompanyID = $url_array[5];
                 switch ( $Action )
                 {
@@ -297,7 +314,7 @@ switch ( $ListType )
             {
                 $SubAction = $url_array[3];
                 $Action = $url_array[4];
-                if ( !isset( $PersonID ) )
+                if ( !isSet( $PersonID ) )
                     $PersonID = $url_array[5];
                 switch ( $Action )
                 {
@@ -361,15 +378,15 @@ switch ( $ListType )
             case "list":
             {
                 if ( is_numeric( $url_array[4] ) )
-                    $Index = $url_array[4];
+                    $Offset = $url_array[4];
                 include( "ezcontact/admin/consultationtypelist.php" );
                 break;
             }
             case "search":
             {
                 if ( is_numeric( $url_array[4] ) )
-                    $Index = $url_array[4];
-                if ( count( $url_array ) >= 5 && !isset( $SearchText ) )
+                    $Offset = $url_array[4];
+                if ( count( $url_array ) >= 5 && !isSet( $SearchText ) )
                 {
                     $SearchText = $url_array[5];
                     $SearchText = eZURITool::decode( $SearchText );
@@ -410,15 +427,15 @@ switch ( $ListType )
             case "list":
             {
                 if ( is_numeric( $url_array[4] ) )
-                    $Index = $url_array[4];
+                    $Offset = $url_array[4];
                 include( "ezcontact/admin/projecttypelist.php" );
                 break;
             }
             case "search":
             {
                 if ( is_numeric( $url_array[4] ) )
-                    $Index = $url_array[4];
-                if ( count( $url_array ) >= 5 && !isset( $SearchText ) )
+                    $Offset = $url_array[4];
+                if ( count( $url_array ) >= 5 && !isSet( $SearchText ) )
                 {
                     $SearchText = $url_array[5];
                     $SearchText = eZURITool::decode( $SearchText );

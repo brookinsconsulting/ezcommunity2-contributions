@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezmail.php,v 1.40 2001/08/13 13:50:22 jhe Exp $
+// $Id: ezmail.php,v 1.41 2001/08/14 14:12:15 jhe Exp $
 //
 // Definition of eZMail class
 //
@@ -602,12 +602,10 @@ class eZMail
     {
         $db =& eZDB::globalDatabase();
         $db->begin();
-        $db->lock( "eZMail_FetchedMail" );
-        $nextID = $db->nextID( "eZMail_FetchedMail", "ID" );            
-        $result = $db->query( "INSERT INTO eZMail_FetchedMail ( ID, UserID, MessageID ) VALUES (
-                               $nextID, '$this->UserID', '$this->MessageID' )" );
-
-        $db->unlock();
+        $result = $db->query( "INSERT INTO eZMail_FetchedMail
+                               (UserID, MessageID)
+                               VALUES
+                               ('$this->UserID', '$this->MessageID')" );
         if ( $result == false )
             $db->rollback( );
         else
@@ -678,7 +676,7 @@ class eZMail
            $db->begin();
            $fileID = $file->id();
            
-           $db->query( "INSERT INTO eZMail_MailAttachmentLink ( MailID, FileID )
+           $db->query( "INSERT INTO eZMail_MailAttachmentLink (MailID, FileID)
                         VALUES ('$this->ID', '$fileID')" );
 
            $this->calculateSize();

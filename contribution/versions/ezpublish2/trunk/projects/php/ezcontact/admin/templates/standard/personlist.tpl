@@ -68,6 +68,8 @@
 <!-- END no_persons_tpl -->
 
 <!-- BEGIN person_table_tpl -->
+<form method="post" action="{www_dir}{index}/contact/person/edit/">
+
 <table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
 <tr>
 	<th>{intl-person_name}:</th>
@@ -112,7 +114,7 @@
 
 	<!-- BEGIN person_delete_button_tpl -->
 	<td width="1%">
-	<a href="{www_dir}{index}/contact/person/delete/{person_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezc{person_id}-slett','','/admin/images/slettminimrk.gif',1)"><img name="ezc{person_id}-slett" border="0" src="{www_dir}/admin/images/slettmini.gif" width="16" height="16" align="top"></a>
+	<input type="checkbox" name="ContactArrayID[]" value="{person_id}" />
 	</td>	
 	<!-- END person_delete_button_tpl -->
 
@@ -169,9 +171,9 @@
 
 <!-- END person_table_tpl -->
 <!-- BEGIN person_new_button_tpl -->
-<form method="post" action="{www_dir}{index}/contact/person/new">
-
 <hr noshade="noshade" size="4" />
-<input class="stdbutton" type="submit" value="{intl-new_person}">
+<input class="stdbutton" type="submit" name="NewPerson" value="{intl-new_person}">
+<input class="stdbutton" type="submit" name="Delete" value="{intl-delete_person}" />
+<input class="stdbutton" type="submit" name="SendMail" value="{intl-send_mail}" />
 </form>
 <!-- END person_new_button_tpl -->

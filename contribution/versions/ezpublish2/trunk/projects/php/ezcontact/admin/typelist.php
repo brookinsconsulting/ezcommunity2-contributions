@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: typelist.php,v 1.5 2001/07/20 12:01:50 jakobn Exp $
+// $Id: typelist.php,v 1.6 2001/08/14 14:12:15 jhe Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -224,7 +224,7 @@ else
     $t->parse( "list_item", "list_item_tpl" );
 }
 
-if ( $total_types > $Max || $Index > 0 )
+if ( $total_types > $Max || $Offset > 0 )
 {
     $t->set_var( "type_list_previous", "" );
     $t->set_var( "type_list_item", "" );
@@ -232,18 +232,18 @@ if ( $total_types > $Max || $Index > 0 )
     $t->set_var( "type_list_previous_inactive", "" );
     $t->set_var( "type_list_next_inactive", "" );
 
-    if ( $Index > 0 )
+    if ( $Offset > 0 )
     {
-        $t->set_var( "item_previous_index", max( $Index - $Max, 0 ) );
+        $t->set_var( "item_previous_index", max( $Offset - $Max, 0 ) );
         $t->parse( "type_list_previous", "type_list_previous_tpl" );
     }
     else
     {
         $t->parse( "type_list_previous_inactive", "type_list_previous_inactive_tpl" );
     }
-    if ( $Index + $Max < $total_types )
+    if ( $Offset + $Max < $total_types )
     {
-        $t->set_var( "item_next_index", $Index + $Max );
+        $t->set_var( "item_next_index", $Offset + $Max );
         $t->parse( "type_list_next", "type_list_next_tpl" );
     }
     else

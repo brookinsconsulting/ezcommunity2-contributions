@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: mailedit.php,v 1.14 2001/08/09 14:17:42 jhe Exp $
+// $Id: mailedit.php,v 1.15 2001/08/14 14:12:15 jhe Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -128,7 +128,16 @@ $t->set_var( "attachment_delete", "" );
 
 $t->set_var( "error_message", "" );
 $t->set_var( "site_style", $SiteStyle );
-$t->set_var( "to_value", "" );
+
+$to_string = "";
+for ( $i = 0; $i < count( $toArray ); $i++ )
+{
+    $to_string .= $toArray[$i];
+    if ( ( $i + 1 ) < count( $toArray ) )
+        $to_string .= "; ";
+}
+
+$t->set_var( "to_value", $to_string );
 $t->set_var( "from_value", "" );
 $t->set_var( "cc_value", "" );
 $t->set_var( "bcc_value", "" );

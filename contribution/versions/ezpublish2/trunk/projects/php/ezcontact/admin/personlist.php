@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: personlist.php,v 1.14 2001/07/20 12:01:50 jakobn Exp $
+// $Id: personlist.php,v 1.15 2001/08/14 14:12:15 jhe Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -37,7 +37,8 @@ include_once( "classes/eztemplate.php" );
 include_once( "classes/ezuritool.php" );
 include_once( "classes/ezlist.php" );
 
-$t = new eZTemplate( "ezcontact/admin/" . $ini->read_var( "eZContactMain", "AdminTemplateDir" ),  "ezcontact/admin/intl", $Language, "personedit.php" );
+$t = new eZTemplate( "ezcontact/admin/" . $ini->read_var( "eZContactMain", "AdminTemplateDir" ),
+                     "ezcontact/admin/intl", $Language, "personedit.php" );
 $t->setAllStrings();
 
 include_once( "ezcontact/classes/ezperson.php" );
@@ -46,7 +47,7 @@ include_once( "ezuser/classes/ezuser.php" );
 include_once( "ezuser/classes/ezusergroup.php" );
 include_once( "ezuser/classes/ezpermission.php" );
 
-$user = eZUser::currentUser();
+$user =& eZUser::currentUser();
 if ( get_class( $user ) != "ezuser" )
 {
     include_once( "classes/ezhttptool.php" );
@@ -61,9 +62,7 @@ if ( !eZPermission::checkPermission( $user, "eZContact", "PersonList" ) )
     exit();
 }
 
-$t->set_file( array(
-    "person_page" => "personlist.tpl"
-    ) );    
+$t->set_file( "person_page", "personlist.tpl" );
 $t->set_block( "person_page", "no_persons_tpl", "no_persons" );
 
 $t->set_block( "person_page", "person_table_tpl", "person_table" );
@@ -95,7 +94,7 @@ $session =& eZSession::globalSession();
 
 if ( $session->fetch() != false )
 {
-    if ( !isset( $LimitType ) )
+    if ( !isSet( $LimitType ) )
     {
         $LimitType =& $session->variable( "PersonLimitType" );
     }
@@ -108,7 +107,7 @@ if ( $session->fetch() != false )
 $t->set_var( "is_all_selected", "" );
 $t->set_var( "is_without_selected", "" );
 $t->set_var( "is_with_selected", "" );
-switch( $LimitType )
+switch ( $LimitType )
 {
     case "all":
     {
@@ -130,21 +129,21 @@ switch( $LimitType )
 
 $person = new eZPerson();
 
-if ( !isset( $Index ) )
+if ( !isSet( $Offset ) )
 {
-    $Index = 0;
+    $Offset = 0;
 }
-else if ( !is_numeric( $Index ) )
+else if ( !is_numeric( $Offset ) )
 {
-    $Index = 0;
+    $Offset = 0;
 }
 
 $t->set_var( "action", $Action );
 
-if ( !isset( $SearchText ) )
+if ( !isSet( $SearchText ) )
 {
     $total_persons = $person->getAllCount( "", $LimitType );
-    $persons = $person->getAll( "", $Index, $Max, $LimitType );
+    $persons = $person->getAll( "", $Offset, $Max, $LimitType );
     $t->set_var( "search_form_text", "" );
     $t->set_var( "search_text", "" );
 }
@@ -155,7 +154,7 @@ else
     $t->set_var( "search_form_text", $SearchText );
     $t->set_var( "search_text", $search_encoded );
     $total_persons = $person->getAllCount( $SearchText, $LimitType );
-    $persons = $person->getAll( $SearchText, $Index, $Max, $LimitType );
+    $persons = $person->getAll( $SearchText, $Offset, $Max, $LimitType );
 }
 
 $count = count( $persons );
@@ -183,13 +182,13 @@ else
     $t->parse( "no_person_view_button", "no_person_view_button_tpl" );
 }
 
-if( $count == 0 )
+if ( $count == 0 )
 {
     $t->parse( "no_persons", "no_persons_tpl" );
 }
 else
 {
-    for( $i = 0; $i < $count && $i < $Max; $i++ )
+    for ( $i = 0; $i < $count && $i < $Max; $i++ )
     {
         $t->set_var( "bg_color", ( $i % 2 ) == 0 ? "bglight" : "bgdark" );
 
@@ -221,7 +220,7 @@ $t->set_var( "person_new_button", "" );
 if ( eZPermission::checkPermission( $user, "eZContact", "PersonAdd" ) )
     $t->parse( "person_new_button", "person_new_button_tpl" );
 
-eZList::drawNavigator( $t, $total_persons, $Max, $Index, false,
+eZList::drawNavigator( $t, $total_persons, $Max, $Offset, false,
 array( "type_list" => "person_list",
        "next" => "person_list_next",
        "next_inactive" => "person_list_next_inactive",

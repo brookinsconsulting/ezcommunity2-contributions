@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: maillist.php,v 1.21 2001/08/13 13:50:22 jhe Exp $
+// $Id: maillist.php,v 1.22 2001/08/14 14:12:15 jhe Exp $
 //
 // Created on: <19-Mar-2000 20:25:22 fh>
 //
@@ -84,6 +84,15 @@ $t->set_var( "mail_forwarded", "" );
 $t->set_var( "mail_replied", "" );
 $t->set_var( "mail_repliedall", "" );
 $t->set_var( "mail_status_renderer", "" );
+
+$user =& eZUser::currentUser();
+$accounts = eZMailAccount::getByUser( $user->id() );
+
+foreach ( $accounts as $account )
+{
+    if ( $account->isActive() )
+        $account->checkMail();
+}
 
 $folder = new eZMailFolder( $FolderID );
 $isDraftsFolder = false;

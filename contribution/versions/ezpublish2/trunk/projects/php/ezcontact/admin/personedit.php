@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: personedit.php,v 1.44 2001/07/31 11:33:11 jhe Exp $
+// $Id: personedit.php,v 1.45 2001/08/14 14:12:15 jhe Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -55,7 +55,7 @@ function deleteCache( $siteStyle )
 
 function unlink_wild( $dir, $rege )
 {
-    $d = eZFile::dir( $root );
+    $d = eZFile::dir( $dir );
     while( $f = $d->read() )
     {
         if ( ereg( $rege, $f ) )
@@ -65,8 +65,8 @@ function unlink_wild( $dir, $rege )
     }
 }
 
+$user =& eZUser::currentUser();
 
-$user = eZUser::currentUser();
 if ( get_class( $user ) != "ezuser" )
 {
     include_once( "classes/ezhttptool.php" );
@@ -244,24 +244,27 @@ if ( $Action == "delete" )
         }
     }
 
-    if ( isSet( $Confirm ) )
+    if ( isSet( $CompanyEdit ) )
     {
-        if ( isSet( $CompanyEdit ) )
+        $categories =& eZCompany::categories( $CompanyID, false, 1 );
+        $id =& $categories[0];
+        foreach ( $ContactArrayID as $contactItem )
         {
-            $categories =& eZCompany::categories( $CompanyID, false, 1 );
-            $id =& $categories[0];
-            eZCompany::delete( $CompanyID );
+            eZCompany::delete( $contactItem );
         }
-        else
-        {
-            eZPerson::delete( $PersonID );
-        }
-
-        deleteCache( "default" );
-        include_once( "classes/ezhttptool.php" );
-        eZHTTPTool::header( "Location: /contact/$item_type/list/$id" );
-        exit;
     }
+    else
+    {
+        foreach ( $ContactArrayID as $contactItem )
+        {
+            eZPerson::delete( $contactItem );
+        }
+    }
+    
+    deleteCache( "default" );
+    include_once( "classes/ezhttptool.php" );
+    eZHTTPTool::header( "Location: /contact/$item_type/list/$id" );
+    exit;
 }
 
 if ( isSet( $OK ) )

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezonlinetype.php,v 1.7 2001/07/19 12:06:56 jakobn Exp $
+// $Id: ezonlinetype.php,v 1.8 2001/08/14 14:12:15 jhe Exp $
 //
 // Definition of eZOnline class
 //
@@ -248,7 +248,7 @@ class eZOnlineType
     /*!
       Returns the name of the object.
     */
-    function name(  )
+    function name()
     {
         return $this->Name;
     }
@@ -256,7 +256,7 @@ class eZOnlineType
     /*!
       Returns the URL prefix of the object.
     */
-    function urlPrefix(  )
+    function urlPrefix()
     {
         return $this->URLPrefix;
     }
@@ -264,7 +264,7 @@ class eZOnlineType
     /*!
       Returns true if the prefix must always be applied for links.
     */
-    function prefixLink(  )
+    function prefixLink()
     {
         return $this->PrefixLink == 1;
     }
@@ -272,7 +272,7 @@ class eZOnlineType
     /*!
       Returns true if the prefix must always be applied for visuals (the visual part of a link).
     */
-    function prefixVisual(  )
+    function prefixVisual()
     {
         return $this->PrefixVisual == 1;
     }
@@ -322,8 +322,8 @@ class eZOnlineType
         $db =& eZDB::globalDatabase();
         $db->query_single( $qry, "SELECT ID, ListOrder FROM eZAddress_OnlineType
                                   WHERE Removed=0 AND ListOrder<'$this->ListOrder' ORDER BY ListOrder DESC", array( "Limit" => "1" ) );
-        $listorder = $qry[$db->fieldName("ListOrder")];
-        $listid = $qry[$db->fieldName("ID")];
+        $listorder = $qry[$db->fieldName( "ListOrder" )];
+        $listid = $qry[$db->fieldName( "ID" )];
 
         $db->begin();
         $res[] = $db->query( "UPDATE eZAddress_OnlineType SET ListOrder='$listorder' WHERE ID='$this->ID'" );
@@ -340,8 +340,8 @@ class eZOnlineType
         $db =& eZDB::globalDatabase();
         $db->query_single( $qry, "SELECT ID, ListOrder FROM eZAddress_OnlineType
                                   WHERE Removed=0 AND ListOrder>'$this->ListOrder' ORDER BY ListOrder ASC", array( "Limit" => "1" ) );
-        $listorder = $qry[$db->fieldName("ListOrder")];
-        $listid = $qry[$db->fieldName("ID")];
+        $listorder = $qry[$db->fieldName( "ListOrder" )];
+        $listid = $qry[$db->fieldName( "ID" )];
 
         $db->begin();
         $res[] = $db->query( "UPDATE eZAddress_OnlineType SET ListOrder='$listorder' WHERE ID='$this->ID'" );

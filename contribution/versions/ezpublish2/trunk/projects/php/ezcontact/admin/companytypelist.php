@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: companytypelist.php,v 1.30 2001/07/29 23:31:02 kaid Exp $
+// $Id: companytypelist.php,v 1.31 2001/08/14 14:12:15 jhe Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -42,7 +42,7 @@ include_once( "ezuser/classes/ezuser.php" );
 include_once( "ezuser/classes/ezusergroup.php" );
 include_once( "ezuser/classes/ezpermission.php" );
 
-if( empty( $TypeID ) )
+if ( empty( $TypeID ) )
 {
     $TypeID = 0;
 }
@@ -52,7 +52,7 @@ $type->get( $TypeID );
 
 $company = new eZCompany();
 
-$user = eZUser::currentUser();
+$user =& eZUser::currentUser();
 if ( get_class( $user ) != "ezuser" )
 {
     include_once( "classes/ezhttptool.php" );
@@ -67,7 +67,7 @@ if ( !eZPermission::checkPermission( $user, "eZContact", "CompanyList" ) )
     exit();
 }
 
-if( !$type->id() && $TypeID != 0 )
+if ( !$type->id() && $TypeID != 0 )
 {
     header( "HTTP/1.0 404 Not Found" );
     include_once( "classes/ezhttptool.php" );
@@ -314,7 +314,7 @@ else
         $t->parse( "no_company_view_button", "no_company_view_button_tpl" );
     }
 
-    if ( count ( $companyList ) == 0 )
+    if ( count( $companyList ) == 0 )
     {
 
         $t->set_var( "company_item", "" );
@@ -328,26 +328,26 @@ else
         if ( $can_view_stats )
             $t->parse( "company_stats_header", "company_stats_header_tpl" );
         $t->set_var( "company_stats_item", "" );
-        for ( $index = 0; $index < count( $companyList ); $index++ )
+        for ( $i = 0; $i < count( $companyList ); $i++ )
         {
-            if ( ( $index %2 ) == 0 )
+            if ( ( $i % 2 ) == 0 )
                 $t->set_var( "td_class", "bglight" );
             else
                 $t->set_var( "td_class", "bgdark" );
         
-            $t->set_var( "company_id", $companyList[$index]->id() );
-            $t->set_var( "company_name", $companyList[$index]->name() );
+            $t->set_var( "company_id", $companyList[$i]->id() );
+            $t->set_var( "company_name", $companyList[$i]->name() );
             if ( $can_view_stats )
             {
-                $count = $companyList[$index]->totalViewCount();
+                $count = $companyList[$i]->totalViewCount();
                 $t->set_var( "company_views", $count );
                 $t->parse( "company_stats_item", "company_stats_item_tpl" );
             }
 
             unSet( $logoObj );
-            $logoObj = $companyList[$index]->logoImage();
+            $logoObj = $companyList[$i]->logoImage();
 
-            if ( get_class ( $logoObj ) == "ezimage" )
+            if ( get_class( $logoObj ) == "ezimage" )
             {
                 $variationObj = $logoObj->requestImageVariation( 150, 150 );
             

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezfile.php,v 1.16 2001/08/02 13:09:42 jhe Exp $
+// $Id: ezfile.php,v 1.17 2001/08/14 14:12:15 jhe Exp $
 //
 // Definition of eZCompany class
 //
@@ -328,7 +328,6 @@ class eZFile
                 $dir = $siteDir . $dir;
             }
         }
-
         return dir( $dir );
     }
     

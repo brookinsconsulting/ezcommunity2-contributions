@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eztemplate.php,v 1.39 2001/08/02 16:01:52 kaid Exp $
+// $Id: eztemplate.php,v 1.40 2001/08/14 14:12:15 jhe Exp $
 //
 // Definition of eZTemplate class
 //
@@ -395,25 +395,25 @@ class eZTemplate
       using an array, set_file( array( "file1_tpl" => "file1.tpl",
                                        "file2_tpl" => "file2.tpl" ) );
     */
-    function set_file($handle, $filename = "")
+    function set_file( $handle, $filename = "" )
     {
-        if (!is_array($handle))
+        if ( !is_array( $handle ) )
         {
-            if ($filename == "")
+            if ( $filename == "" )
             {
-                $this->halt("set_file: For handle $handle filename is empty.");
+                $this->halt( "set_file: For handle $handle filename is empty." );
                 return false;
             }
-            $this->file[$handle] = $this->filename($filename);
+            $this->file[$handle] = $this->filename( $filename );
             $this->files = array( $filename );
         }
         else
         {
             $this->files = array();
-            reset($handle);
-            while(list($h, $f) = each($handle))
+            reset( $handle );
+            while( list( $h, $f ) = each( $handle ) )
             {
-                $this->file[$h] = $this->filename($f);
+                $this->file[$h] = $this->filename( $f );
                 $this->files[] = $f;
             }
         }
@@ -430,17 +430,17 @@ class eZTemplate
       If $parent is an array each entry is extracted and set as a block,
       each entry is assumed to contain a parent, a handle and a name.
     */
-    function set_block($parent, $handle = "", $name = "", $required = true)
+    function set_block( $parent, $handle = "", $name = "", $required = true )
     {
         if ( !is_array( $parent ) )
         {
-            if (!$this->loadfile($parent))
+            if ( !$this->loadfile( $parent ) )
             {
                 if ( $required )
                     $this->halt("subst: unable to load $parent.");
                 return false;
             }
-            if ($name == "")
+            if ( $name == "" )
                 $name = $handle;
 
             $str =& $this->get_var($parent);
@@ -468,7 +468,7 @@ class eZTemplate
         if ( is_array( $parent ) )
         {
             reset( $parent );
-            while( list($file, $val) = each( $parent ) )
+            while( list( $file, $val ) = each( $parent ) )
             {
                 if ( !$this->loadfile( $file ) )
                 {
@@ -479,7 +479,7 @@ class eZTemplate
         }
         else
         {
-            if (!$this->loadfile($parent))
+            if ( !$this->loadfile( $parent ) )
             {
                 $this->halt("set_file_block: unable to load $parent.");
                 return false;

@@ -74,7 +74,7 @@
 	<input type="hidden" name="ArticleID" value="{article_id}" />
 	<input type="hidden" name="MediaID" value="{media_id}" />
 	<input type="hidden" name="Action" value="{action_value}" />
-	<input class="okbutton" type="submit" name="OK" alue="{intl-ok}" />
+	<input class="okbutton" type="submit" name="OK" value="{intl-ok}" />
 	</form>
 	</td>
 	<td>&nbsp;</td>

@@ -3,25 +3,24 @@
 <h3 class="error">{mail_error_message}</h3>
 <!-- END error_message_tpl -->
 
-
 <hr noshade="noshade" size="4">
 
 <form method="post" action="{www_dir}{index}/mail/mailedit/{current_mail_id}" enctype="multipart/form-data" >
 
 <p class="boxtext">{intl-to}:</p>
-<input type="text" size="40" name="To" value="{to_value}"/>
+<input type="text" size="40" name="To" value="{to_value}" />
 
 <p class="boxtext">{intl-from}:</p>
-<input type="text" size="40" name="From" value="{from_value}"/>
+<input type="text" size="40" name="From" value="{from_value}" />
 
 <!-- BEGIN cc_single_tpl -->
 <p class="boxtext">{intl-cc}:</p>
-<input type="text" size="40" name="Cc" value="{cc_value}"/>
+<input type="text" size="40" name="Cc" value="{cc_value}" />
 <!-- END cc_single_tpl -->
 
 <!-- BEGIN bcc_single_tpl -->
 <p class="boxtext">{intl-bcc}:</p>
-<input type="text" size="40" name="Bcc" value="{bcc_value}"/>
+<input type="text" size="40" name="Bcc" value="{bcc_value}" />
 <!-- END bcc_single_tpl -->
 
 <br /><br />
@@ -44,7 +43,7 @@
 
 
 <p class="boxtext">{intl-subject}:</p>
-<input type="text" size="40" name="Subject" value="{subject_value}"/>
+<input type="text" size="40" name="Subject" value="{subject_value}" />
 
 <p class="boxtext">{intl-body}:</p>
 <textarea name="MailBody" cols="40" rows="20" wrap="soft">{mail_body}</textarea>

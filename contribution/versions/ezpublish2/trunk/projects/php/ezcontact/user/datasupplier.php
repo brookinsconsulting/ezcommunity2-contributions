@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: datasupplier.php,v 1.30 2001/07/25 10:22:59 jhe Exp $
+// $Id: datasupplier.php,v 1.31 2001/08/14 14:12:15 jhe Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -31,12 +31,12 @@ $GlobalSectionID = $ini->read_var( "eZContactMain", "DefaultSection" );
 //  $url_array = explode( "/", $REQUEST_URI );
 $url_array = eZURITool::split( $REQUEST_URI );
 
-if( is_object( $user ) )
+if ( is_object( $user ) )
 {
     $UserID = $user->id();
 }
 
-if( $UserID > 0 )
+if ( $UserID > 0 )
 {
     $Add_User = false;
 }
@@ -124,21 +124,31 @@ switch ( $url_array[2] )
             case "delete":
             case "insert":
             {
-                include( "ezcontact/admin/personedit.php" );
+                if ( isSet( $SendMail ) )
+                {
+                    $CompanyEdit = false;
+                    include( "ezcontact/admin/sendmail.php" );
+                }
+                else
+                {
+                    if ( isSet( $NewPerson ) )
+                        $Action = "new";
+                    include( "ezcontact/admin/personedit.php" );
+                }
                 break;
             }
             case "list":
             {
                 if ( is_numeric( $url_array[4] ) )
-                    $Index = $url_array[4];
+                    $Offset = $url_array[4];
                 include( "ezcontact/admin/personlist.php" );
                 break;
             }
             case "search":
             {
                 if ( is_numeric( $url_array[4] ) )
-                    $Index = $url_array[4];
-                if ( count( $url_array ) >= 5 && !isset( $SearchText ) )
+                    $Offset = $url_array[4];
+                if ( count( $url_array ) >= 5 && !isSet( $SearchText ) )
                 {
                     $SearchText = eZURITool::decode( $url_array[5] );
                 }
@@ -165,27 +175,34 @@ switch ( $url_array[2] )
         $Action = $url_array[3];
         switch ( $Action )
         {
-            // intentional fall through
             case "new":
-            {
-                if ( isset( $url_array[4] ) and is_numeric( $url_array[4] ) )
-                    $NewCompanyCategory = $url_array[4];
-                include( "ezcontact/admin/companyedit.php" );
-                break;
-            }
             case "edit":
             case "update":
             case "delete":
             case "insert":
             {
-                if ( !isset( $CompanyID ) and isset( $url_array[4] ) and is_numeric( $url_array[4] ) )
-                    $CompanyID = $url_array[4];
-                include( "ezcontact/admin/companyedit.php" );
+                if ( isSet( $SendMail ) )
+                {
+                    $CompanyEdit = true;
+                    include( "ezcontact/admin/sendmail.php" );
+                }
+                else
+                {
+                    if ( isSet( $NewCompany ) )
+                        $Action = "new";
+                    if ( $Action == "new" )
+                        if ( isSet( $url_array[4] ) and is_numeric( $url_array[4] ) )
+                            $NewCompanyCategory = $url_array[4];
+                        else
+                            if ( !isSet( $CompanyID ) and isSet( $url_array[4] ) and is_numeric( $url_array[4] ) )
+                                $CompanyID = $url_array[4];
+                    include( "ezcontact/admin/companyedit.php" );
+                }
                 break;
             }
             case "view":
             {
-                if ( !isset( $CompanyID ) and isset( $url_array[4] ) and is_numeric( $url_array[4] ) )
+                if ( !isSet( $CompanyID ) and isSet( $url_array[4] ) and is_numeric( $url_array[4] ) )
                     $CompanyID = $url_array[4];
                 $PersonOffset = $url_array[5];
                 include_once( "ezcontact/classes/ezcompany.php" );
@@ -247,7 +264,7 @@ switch ( $url_array[2] )
 
     case "consultation":
     {
-        if ( !isset( $ConsultationID ) or !is_numeric( $ConsultationID ) )
+        if ( !isSet( $ConsultationID ) or !is_numeric( $ConsultationID ) )
             $ConsultationID = $url_array[4];
         $Action = $url_array[3];
         switch ( $Action )
@@ -276,7 +293,7 @@ switch ( $url_array[2] )
             {
                 $SubAction = $url_array[3];
                 $Action = $url_array[4];
-                if ( !isset( $CompanyID ) or !is_numeric( $CompanyID ) )
+                if ( !isSet( $CompanyID ) or !is_numeric( $CompanyID ) )
                     $CompanyID = $url_array[5];
                 switch ( $Action )
                 {
@@ -311,7 +328,7 @@ switch ( $url_array[2] )
             {
                 $SubAction = $url_array[3];
                 $Action = $url_array[4];
-                if ( !isset( $PersonID ) or !is_numeric( $PersonID ) )
+                if ( !isSet( $PersonID ) or !is_numeric( $PersonID ) )
                     $PersonID = $url_array[5];
                 switch ( $Action )
                 {
