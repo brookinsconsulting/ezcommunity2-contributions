@@ -63,11 +63,11 @@
 	</td>
 
 	<td class="{td_class}" width="1%">
-	<a href="/classified/category/edit/{category_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezuser{classified_id}-red','','/images/redigerminimrk.gif',1)"><img name="ezuser{classified_id}-red" border="0" src="/images/redigermini.gif" width="16" height="16" align="top"></a>
+	<a href="/classified/category/edit/{category_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezuser{category_id}-red','','/images/redigerminimrk.gif',1)"><img name="ezuser{category_id}-red" border="0" src="/images/redigermini.gif" width="16" height="16" align="top"></a>
 	</td>
 
 	<td class="{td_class}" width="1%">
-	<a href="/classified/category/edit/{category_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezuser{classified_id}-slett','','/images/slettminimrk.gif',1)"><img name="ezuser{classified_id}-slett" border="0" src="/images/slettmini.gif" width="16" height="16" align="top"></a>
+	<a href="/classified/category/edit/{category_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezuser{category_id}-slett','','/images/slettminimrk.gif',1)"><img name="ezuser{category_id}-slett" border="0" src="/images/slettmini.gif" width="16" height="16" align="top"></a>
 	</td>	
 
 </tr>
