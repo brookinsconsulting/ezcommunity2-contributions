@@ -259,12 +259,12 @@
 </tr>
 </table>
 <div id="gcalRecurringFormWrap">
- Repeat Every <input type="text" size="4" name="RecurFreq" value="{recur_freq}" /> 
+ {intl-repeat_int} <input type="text" size="4" name="RecurFreq" value="{recur_freq}" /> 
  <select name="RecurType" onChange="toggleRecurTypeLayer();">
-   <option value="rtDay" {rtselect_day}>Day</option>
-   <option value="rtWeek" {rtselect_week}>Week</option>
-   <option value="rtMonth" {rtselect_month}>Month</option>
-   <option value="rtYear" {rtselect_year}>Year</option>
+   <option value="rtDay" {rtselect_day}>{intl-event_day}</option>
+   <option value="rtWeek" {rtselect_week}>{intl-event_week}</option>
+   <option value="rtMonth" {rtselect_month}>{intl-event_month}</option>
+   <option value="rtYear" {rtselect_year}>{intl-event_year}</option>
  </select>
  
  <div id="gcalRecurringWeekly">
@@ -278,24 +278,24 @@
  </div>
  <div id="gcalRecurringMonthly">
    <input type="radio" name="RecurTypeMonth" value="daily" {start_daily} />&nbsp;&nbsp;
-   On the {today_date} of the month.
+   {intl-on_the} {today_date} {intl-of_the_month}.
    <br />
    <input type="radio" name="RecurTypeMonth" value="strdayname" {start_StrDayName} />&nbsp;&nbsp;
-   {week_number_str} {today_day_name} of the month.
+   {week_number_str} {today_day_name} {intl-of_the_month}.
    <br />
    <input type="radio" name="RecurTypeMonth" value="numdayname" {start_NumDayName} />&nbsp;&nbsp;
-   {day_number_str} {today_day_name} of the month.
+   {day_number_str} {today_day_name} {intl-of_the_month}.
  </div>
  <br /><br />
- <input type="radio" name="repeatOptions" value="forever" /> Forever
+ <input type="radio" name="repeatOptions" value="forever" /> {intl-repeat_forever}
  <br />
- <input type="radio" name="repeatOptions" value="numTimes" /> Number of Times <input type="text" size="10" name="numberOfTimes" />
+ <input type="radio" name="repeatOptions" value="numTimes" /> {intl-repeat_number} <input type="text" size="10" name="numberOfTimes" />
  <br />
- <input type="radio" name="repeatOptions" value="UntilDate" /> Until Date <input type="text" size="20" name="untilDate" />
+ <input type="radio" name="repeatOptions" value="UntilDate" /> {intl-repeat_until} <input type="text" size="20" name="untilDate" />
  <br />
  <br />
- Exceptions<br />
- <a href="#">Add</a> <a href="#">Remove</a><br /><br />
+{intl-repeat_exceptions} <br />
+ <a href="#" style="font-size: 9px;">{intl-repeat_exception_add}</a> <a href="#" style="font-size: 9px;">{intl-repeat_exception_remove}</a><br /><br />
  <input type="text" size=7 name="untilDate" /> <br /><br />
  <select name="select" multiple>
  <option>08/19/1983</option>
@@ -304,6 +304,8 @@
 <!-- End recurring event stuff -->
 
 <br />
+
+
 <script language="JavaScript">
 <!--hide this script from non-javascript-enabled browsers
 toggleRecurTypeLayer();
@@ -738,10 +740,8 @@ function formCheck(form)
     </td>
 </tr>
 </table>
+
 <hr noshade size="4" />
 
-
-
 </form>
-
 <!-- END no_error_tpl -->
