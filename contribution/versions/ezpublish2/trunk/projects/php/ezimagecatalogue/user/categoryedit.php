@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: categoryedit.php,v 1.22 2001/09/16 20:34:45 fh Exp $
+// $Id: categoryedit.php,v 1.23 2001/09/21 13:26:35 br Exp $
 //
 // Created on: <08-Jan-2001 11:13:29 ce>
 //
@@ -36,6 +36,8 @@ include_once( "ezuser/classes/ezobjectpermission.php" );
 include_once( "ezimagecatalogue/classes/ezimage.php" );
 include_once( "ezimagecatalogue/classes/ezimagecategory.php" );
 
+include_once( "ezsitemanager/classes/ezsection.php" );
+
 if ( isSet ( $Cancel ) )
 {
     eZHTTPTool::header( "Location: /imagecatalogue/image/list/" );
@@ -64,6 +66,7 @@ $t->setAllStrings();
 $t->set_block( "category_edit_tpl", "value_tpl", "value" );
 $t->set_block( "category_edit_tpl", "errors_tpl", "errors" );
 
+$t->set_block( "category_edit_tpl", "section_item_tpl", "section_item" );
 $t->set_block( "category_edit_tpl", "write_group_item_tpl", "write_group_item" );
 $t->set_block( "category_edit_tpl", "read_group_item_tpl", "read_group_item" );
 $t->set_block( "category_edit_tpl", "upload_group_item_tpl", "upload_group_item" );
@@ -173,7 +176,10 @@ if( ( $Action == "Insert" || $Action == "Update" ) && $error == false )
 
     $category->setName( $Name );
     $category->setDescription( $Description );
+    print ( "<br>...<$SectionID " );
 
+    $category->setSectionID( $SectionID );
+    
     $parent = new eZImageCategory( $ParentID );
     $category->setParent( $parent );
 
@@ -220,7 +226,8 @@ if ( $Action == "Edit" )
     $t->set_var( "category_description", $category->description() );
 
     $parent =& $category->parent();
-
+    $sectionID = $category->sectionID();
+    print("<br>SECTIONID: $sectionID" );
     if ( $parent )
         $CurrentCategoryID = $parent->id();
 
@@ -231,6 +238,31 @@ if ( $Action == "Edit" )
     $writeGroupArrayID =& eZObjectPermission::getGroups( $category->id(), "imagecatalogue_category", "w", false );
     $uploadGroupArrayID =& eZObjectPermission::getGroups( $category->id(), "imagecatalogue_category", "u", false );
 }
+
+// Print the sections.
+
+$sectionList =& eZSection::getAll();
+
+if ( count( $sectionList ) > 0 )
+{
+    foreach ( $sectionList as $section )
+    {
+        $t->set_var( "section_id", $section->id() );
+        $t->set_var( "section_name", $section->name() );
+        print ( "<br>$sectionID == ". $section->id() );
+        if ( $sectionID == $section->id() )
+            $t->set_var( "section_is_selected", "selected" );
+        else
+            $t->set_var( "section_is_selected", "" );
+        
+        $t->parse( "section_item", "section_item_tpl", true );
+    }
+}
+else
+    $t->set_var( "section_item", "" );
+
+
+
 
 // Print out all the groups.
 $groups = eZUserGroup::getAll();

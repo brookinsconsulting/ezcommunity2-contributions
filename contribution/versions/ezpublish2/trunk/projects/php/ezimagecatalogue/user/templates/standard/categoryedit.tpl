@@ -37,21 +37,28 @@
 
 
 <!-- END errors_tpl -->
-
 <p class="boxtext">{intl-category_name}:</p>
 <input type="text" size="40" class="box" name="Name" value="{category_name}"/>
 
+<table with="100%" border="0">
+<tr>
+    <td><p class="boxtext">{intl-category}:</p>
 
-<p class="boxtext">{intl-category}:</p>
+    <select name="ParentID">
+    <option value="0" {selected}>{intl-root_level}</option>
+    <!-- BEGIN value_tpl -->
+    <option value="{option_value}" {is_selected}>{option_level}{option_name}</option>
+    <!-- END value_tpl -->
 
-<select name="ParentID">
-<option value="0" {selected}>{intl-root_level}</option>
-<!-- BEGIN value_tpl -->
-<option value="{option_value}" {is_selected}>{option_level}{option_name}</option>
-<!-- END value_tpl -->
-
-</select>
-
+    </select></td>
+    <td><p class="boxtext">{intl-section_select}:</p>
+    <select name="SectionID">
+    <!-- BEGIN section_item_tpl -->
+    <option value="{section_id}" {section_is_selected}>{section_name}</option>
+    <!-- END section_item_tpl -->
+    </select></td>
+</tr>
+</table>
 <br />
 
 <p class="boxtext">{intl-category_description}:</p>
