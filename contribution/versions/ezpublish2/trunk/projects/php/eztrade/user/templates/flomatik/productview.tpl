@@ -80,13 +80,13 @@
 <br />
 
 <!-- BEGIN attribute_list_tpl -->
-<table width="50%" cellspacing="0" cellpadding="2" border="0">
+<table width="70%" cellspacing="0" cellpadding="2" border="0" align="center">
 <!-- BEGIN attribute_tpl -->
 <tr>
 	<th>
 	{attribute_name}: 
 	</td>
-	<td>
+	<td align="right">
 	{attribute_value}
 	</td>
 </tr>
@@ -156,7 +156,7 @@
 
 	<!-- END price_tpl -->	
 	</td>
-	<td align="right">
+	<td align="right" valign="top">
 	<!-- BEGIN external_link_tpl -->
 	<p class="boxtext">{intl-external_link}:</p>
 	<a href="{external_link_url}" target="_blank">{external_link_url}</a>
@@ -169,12 +169,15 @@
 {extra_product_info}
 <br />
 
+<!-- BEGIN add_to_cart_tpl -->
+<!--
+
 <hr noshade="noshade" size="4" />
 
-<!-- BEGIN add_to_cart_tpl -->
 <input class="okbutton" type="submit" name="Cart" value="{intl-add_to_cart}" />
 
 <input class="okbutton" type="submit" name="WishList" value="{intl-wishlist}" />
+-->
 <!-- END add_to_cart_tpl -->
 
 <br /><br />
