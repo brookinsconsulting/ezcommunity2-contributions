@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: customerlogin.php,v 1.7 2000/11/07 11:42:52 bf-cvs Exp $
+// $Id: customerlogin.php,v 1.8 2000/11/23 10:16:30 bf-cvs Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <03-Oct-2000 16:45:30 bf>
@@ -38,6 +38,12 @@ include_once( "ezuser/classes/ezuser.php" );
 $user = eZUser::currentUser();
 if ( $user  )
 {
+    if ( isset( $RedirectURL ) && ( $RedirectURL != "" ) )
+    {
+        Header( "Location: $RedirectURL" );
+        exit();
+    }
+        
     if ( count( $user->addresses() ) == 0 )
     {
         Header( "Location: /user/address/new/?RedirectURL=/trade/customerlogin/" );
@@ -59,7 +65,15 @@ else
         "customer_login_tpl" => "customerlogin.tpl"
         ) );
 
-    $t->set_var( "redirect_url", "/trade/customerlogin/" );
+    if ( isset( $RedirectURL ) && ( $RedirectURL != "" ) )
+    {         
+        $t->set_var( "redirect_url", $RedirectURL );
+    }
+    else
+    {
+        $t->set_var( "redirect_url", "/trade/customerlogin/" );
+    }
+    
     $t->pparse( "output", "customer_login_tpl" );
 }
 

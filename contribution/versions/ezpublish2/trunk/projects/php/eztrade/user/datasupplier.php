@@ -80,8 +80,13 @@ switch ( $url_array[2] )
         break;
         
     case "wishlist" :
-        $CartType = "WishList";        
-    include( "eztrade/user/wishlist.php" );
+        if ( $url_array[3] == "movetocart" )
+        {
+            $Action = "MoveToCart";
+            $WishListItemID = $url_array[4];
+        }
+        
+        include( "eztrade/user/wishlist.php" );
     break;
 
     case "customerlogin" :

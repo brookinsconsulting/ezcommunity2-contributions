@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: wishlist.php,v 1.5 2000/11/01 19:22:11 bf-cvs Exp $
+// $Id: wishlist.php,v 1.6 2000/11/23 10:16:30 bf-cvs Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <21-Oct-2000 18:09:45 bf>
@@ -22,8 +22,6 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, US
 //
-
-print( "wishlist" );
 
 include_once( "classes/INIFile.php" );
 include_once( "classes/eztemplate.php" );
@@ -115,6 +113,19 @@ if ( $Action == "AddToBasket" )
     exit();
 }
 
+if ( $Action == "MoveToCart" )
+{
+    $wishListItem = new eZWishListItem( );
+    if ( $wishListItem->get( $WishListItemID ) )
+    {
+        $wishListItem->moveToCart();
+        $wishListItem->delete();
+    }
+
+    Header( "Location: /trade/wishlist/" );
+    exit();
+}
+
 $t = new eZTemplate( "eztrade/user/" . $ini->read_var( "eZTradeMain", "TemplateDir" ),
                      "eztrade/user/intl/", $Language, "wishlist.php" );
 
@@ -126,6 +137,8 @@ $t->set_file( array(
 
 
 $t->set_block( "wishlist_page_tpl", "empty_wishlist_tpl", "empty_wishlist" );
+
+$t->set_block( "wishlist_page_tpl", "wishlist_image_tpl", "wishlist_image" );
 
 
 $t->set_block( "wishlist_page_tpl", "wishlist_item_list_tpl", "wishlist_item_list" );
@@ -144,15 +157,25 @@ foreach ( $items as $item )
 {
     $product = $item->product();
 
+    $t->set_var( "wishlist_item_id", $item->id() );
+    
     $image = $product->thumbnailImage();
 
-    $thumbnail =& $image->requestImageVariation( 35, 35 );        
+    if ( $image )
+    {
+        $thumbnail =& $image->requestImageVariation( 35, 35 );        
 
-    $t->set_var( "product_image_path", "/" . $thumbnail->imagePath() );
-    $t->set_var( "product_image_width", $thumbnail->width() );
-    $t->set_var( "product_image_height", $thumbnail->height() );
-    $t->set_var( "product_image_caption", $image->caption() );
-
+        $t->set_var( "product_image_path", "/" . $thumbnail->imagePath() );
+        $t->set_var( "product_image_width", $thumbnail->width() );
+        $t->set_var( "product_image_height", $thumbnail->height() );
+        $t->set_var( "product_image_caption", $image->caption() );
+        $t->parse( "wishlist_image", "wishlist_image_tpl" );
+    }
+    else
+    {
+        $t->set_var( "wishlist_image", "&nbsp;" );
+    }
+        
     $currency->setValue( $product->price() );
 
     $sum += $product->price();

@@ -65,6 +65,22 @@ CREATE TABLE eZArticle_ArticleCategoryLink (
 INSERT INTO eZArticle_ArticleCategoryLink VALUES (1,1,1);
 
 #
+# Table structure for table 'eZArticle_ArticleForumLink'
+#
+DROP TABLE IF EXISTS eZArticle_ArticleForumLink;
+CREATE TABLE eZArticle_ArticleForumLink (
+  ID int(11) DEFAULT '0' NOT NULL auto_increment,
+  ArticleID int(11) DEFAULT '0' NOT NULL,
+  ForumID int(11) DEFAULT '0' NOT NULL,
+  PRIMARY KEY (ID)
+);
+
+#
+# Dumping data for table 'eZArticle_ArticleForumLink'
+#
+
+
+#
 # Table structure for table 'eZArticle_ArticleImageDefinition'
 #
 DROP TABLE IF EXISTS eZArticle_ArticleImageDefinition;
@@ -408,6 +424,81 @@ INSERT INTO eZContact_Country VALUES (238,'ZR','Zaire');
 INSERT INTO eZContact_Country VALUES (239,'ZM','Zambia');
 
 #
+# Table structure for table 'eZForum_Category'
+#
+DROP TABLE IF EXISTS eZForum_Category;
+CREATE TABLE eZForum_Category (
+  Name varchar(20),
+  Description varchar(40),
+  Private enum('Y','N') DEFAULT 'N',
+  ID int(11) DEFAULT '0' NOT NULL auto_increment,
+  PRIMARY KEY (ID)
+);
+
+#
+# Dumping data for table 'eZForum_Category'
+#
+
+
+#
+# Table structure for table 'eZForum_Forum'
+#
+DROP TABLE IF EXISTS eZForum_Forum;
+CREATE TABLE eZForum_Forum (
+  Name varchar(20) DEFAULT '' NOT NULL,
+  Description varchar(40),
+  Moderated enum('Y','N') DEFAULT 'N',
+  Private enum('Y','N') DEFAULT 'N',
+  ID int(11) DEFAULT '0' NOT NULL auto_increment,
+  PRIMARY KEY (ID)
+);
+
+#
+# Dumping data for table 'eZForum_Forum'
+#
+
+
+#
+# Table structure for table 'eZForum_ForumCategoryLink'
+#
+DROP TABLE IF EXISTS eZForum_ForumCategoryLink;
+CREATE TABLE eZForum_ForumCategoryLink (
+  ID int(11) DEFAULT '0' NOT NULL auto_increment,
+  ForumID int(11) DEFAULT '0' NOT NULL,
+  CategoryID int(11) DEFAULT '0' NOT NULL,
+  PRIMARY KEY (ID)
+);
+
+#
+# Dumping data for table 'eZForum_ForumCategoryLink'
+#
+
+
+#
+# Table structure for table 'eZForum_Message'
+#
+DROP TABLE IF EXISTS eZForum_Message;
+CREATE TABLE eZForum_Message (
+  ForumID int(11) DEFAULT '0' NOT NULL,
+  Topic varchar(60),
+  Body text,
+  UserID int(11),
+  Parent int(11),
+  EmailNotice enum('N','Y') DEFAULT 'N',
+  PostingTime timestamp(14),
+  TreeID int(11),
+  ThreadID int(11),
+  Depth int(11),
+  ID int(11) DEFAULT '0' NOT NULL auto_increment,
+  PRIMARY KEY (ID)
+);
+
+#
+# Dumping data for table 'eZForum_Message'
+#
+
+
+#
 # Table structure for table 'eZImageCatalogue_Image'
 #
 DROP TABLE IF EXISTS eZImageCatalogue_Image;
@@ -481,6 +572,9 @@ DROP TABLE IF EXISTS eZSession_Session;
 CREATE TABLE eZSession_Session (
   ID int(11) DEFAULT '0' NOT NULL auto_increment,
   Hash char(33),
+  Created timestamp(14),
+  LastAccessed timestamp(14),
+  SecondLastAccessed timestamp(14),
   PRIMARY KEY (ID)
 );
 
@@ -488,8 +582,10 @@ CREATE TABLE eZSession_Session (
 # Dumping data for table 'eZSession_Session'
 #
 
-INSERT INTO eZSession_Session VALUES (1,'570cf3b1469f51a801eae563a271d808');
-INSERT INTO eZSession_Session VALUES (2,'b06203dc4c3b53b4d3532ee42f8b3566');
+INSERT INTO eZSession_Session VALUES (1,'570cf3b1469f51a801eae563a271d808',20001123091840,00000000000000,00000000000000);
+INSERT INTO eZSession_Session VALUES (2,'b06203dc4c3b53b4d3532ee42f8b3566',20001123091840,00000000000000,00000000000000);
+INSERT INTO eZSession_Session VALUES (3,'c920fb2afcc671ea9fb8ddfc53254fd0',20001123091910,20001123092209,20001123092209);
+INSERT INTO eZSession_Session VALUES (4,'660f598f31d0e26413d75f1410571270',20001123093118,20001123093332,20001123093329);
 
 #
 # Table structure for table 'eZSession_SessionVariable'
@@ -509,6 +605,7 @@ CREATE TABLE eZSession_SessionVariable (
 
 INSERT INTO eZSession_SessionVariable VALUES (1,1,'AuthenticatedUser','');
 INSERT INTO eZSession_SessionVariable VALUES (2,2,'AuthenticatedUser','1');
+INSERT INTO eZSession_SessionVariable VALUES (3,3,'AuthenticatedUser','1');
 
 #
 # Table structure for table 'eZTrade_Cart'
@@ -526,6 +623,7 @@ CREATE TABLE eZTrade_Cart (
 
 INSERT INTO eZTrade_Cart VALUES (1,176);
 INSERT INTO eZTrade_Cart VALUES (2,1);
+INSERT INTO eZTrade_Cart VALUES (3,4);
 
 #
 # Table structure for table 'eZTrade_CartItem'
@@ -579,6 +677,7 @@ CREATE TABLE eZTrade_Category (
 #
 
 INSERT INTO eZTrade_Category VALUES (1,0,'','Products');
+INSERT INTO eZTrade_Category VALUES (2,0,'','OtherProducts');
 
 #
 # Table structure for table 'eZTrade_CategoryOptionLink'
@@ -749,6 +848,7 @@ CREATE TABLE eZTrade_Product (
 #
 
 INSERT INTO eZTrade_Product VALUES (1,'Flower','This is just a demo product... ','Here are the description of the product.','nice flower',42.00,'true','true','false','false','FLW-100','ez.no','false');
+INSERT INTO eZTrade_Product VALUES (2,'Multi product','This product is assigned in multiple categories.','Not much to say, buy it!','Multi Power',64.00,'true','true','false','false','M100','','true');
 
 #
 # Table structure for table 'eZTrade_ProductCategoryDefinition'
@@ -766,6 +866,7 @@ CREATE TABLE eZTrade_ProductCategoryDefinition (
 #
 
 INSERT INTO eZTrade_ProductCategoryDefinition VALUES (1,1,1);
+INSERT INTO eZTrade_ProductCategoryDefinition VALUES (2,2,2);
 
 #
 # Table structure for table 'eZTrade_ProductCategoryLink'
@@ -783,6 +884,8 @@ CREATE TABLE eZTrade_ProductCategoryLink (
 #
 
 INSERT INTO eZTrade_ProductCategoryLink VALUES (1,1,1);
+INSERT INTO eZTrade_ProductCategoryLink VALUES (2,2,2);
+INSERT INTO eZTrade_ProductCategoryLink VALUES (3,1,2);
 
 #
 # Table structure for table 'eZTrade_ProductImageDefinition'
@@ -901,6 +1004,7 @@ CREATE TABLE eZUser_Group (
   ID int(11) DEFAULT '0' NOT NULL auto_increment,
   Name varchar(100),
   Description text,
+  SessionTimeout int(11) DEFAULT '60',
   PRIMARY KEY (ID)
 );
 
@@ -908,8 +1012,8 @@ CREATE TABLE eZUser_Group (
 # Dumping data for table 'eZUser_Group'
 #
 
-INSERT INTO eZUser_Group VALUES (2,'Anonymous','Anonymous users who have created themselves, customers.');
-INSERT INTO eZUser_Group VALUES (1,'Administration','All rights');
+INSERT INTO eZUser_Group VALUES (2,'Anonymous','Anonymous users who have created themselves, customers.',60);
+INSERT INTO eZUser_Group VALUES (1,'Administration','All rights',60);
 
 #
 # Table structure for table 'eZUser_GroupPermissionLink'

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezwishlistitem.php,v 1.2 2000/11/01 09:24:19 ce-cvs Exp $
+// $Id: ezwishlistitem.php,v 1.3 2000/11/23 10:16:30 bf-cvs Exp $
 //
 // Definition of eZWishItem class
 //
@@ -46,6 +46,9 @@ include_once( "classes/ezdb.php" );
 
 include_once( "eztrade/classes/ezwishlistoptionvalue.php" );
 include_once( "eztrade/classes/ezproduct.php" );
+include_once( "eztrade/classes/ezcartitem.php" );
+include_once( "eztrade/classes/ezcart.php" );
+
 
 class eZWishListItem
 {
@@ -272,6 +275,64 @@ class eZWishListItem
            $return_array[] = new eZWishlistOptionValue( $item["ID"] );
        }
        return $return_array;
+    }
+
+    /*!
+      Will move the current eZWishListItem to the cart.
+    */
+    function moveToCart()
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+       // fetch the cart or create one
+       $cart = new eZCart();
+       $session = new eZSession();
+
+       // if no session exist create one.
+       if ( !$session->fetch() )
+       {
+           $session->store();
+       }
+
+       $user = eZUser::currentUser();
+
+       $cart = $cart->getBySession( $session );
+       
+       if ( !$cart )
+       {
+           $cart = new eZCart();
+           $cart->setSession( $session );
+    
+           $cart->store();
+       }
+              
+       $product = $this->product();
+
+       $cartItem = new eZCartItem();
+    
+       $cartItem->setProduct( $product );
+       $cartItem->setCart( $cart );
+
+       $cartItem->store();
+
+       $optionValues = $this->optionValues();
+       
+
+       if ( count( $optionValues ) > 0 )
+       {
+           foreach ( $optionValues as $value )
+           {
+               $cartOption = new eZCartOptionValue();
+               $cartOption->setCartItem( $cartItem );
+               
+               $cartOption->setOption( $value->option() );
+               $cartOption->setOptionValue( $value->optionValue() );
+               
+               $cartOption->store();
+           }
+       }       
+
     }
     
     /*!

@@ -10,3 +10,56 @@ ALTER TABLE eZTrade_Product add IsHotDeal enum( 'true', 'false' ) default 'false
 create table eZTrade_ProductCategoryDefinition( ID int primary key auto_increment, ProductID int not null, CategoryID int not null ); 
 INSERT INTO eZTrade_ProductCategoryDefinition ( ProductID, CategoryID )  SELECT DISTINCT ProductID, CategoryID from eZTrade_ProductCategoryLink;  
 
+NOTE: To upgrade the database from version 1.0.2 to 1.0.3 
+run the followint SQL commands:
+
+# Create the eZ forum tables.
+DROP TABLE IF EXISTS eZForum_Category;
+CREATE TABLE eZForum_Category (
+  Name varchar(20),
+  Description varchar(40),
+  Private enum('Y','N') DEFAULT 'N',
+  ID int(11) DEFAULT '0' NOT NULL auto_increment,
+  PRIMARY KEY (ID)
+);
+
+DROP TABLE IF EXISTS eZForum_Forum;
+CREATE TABLE eZForum_Forum (
+  CategoryID int(11) DEFAULT '0' NOT NULL,
+  Name varchar(20) DEFAULT '' NOT NULL,
+  Description varchar(40),
+  Moderated enum('Y','N') DEFAULT 'N',
+  Private enum('Y','N') DEFAULT 'N',
+  ID int(11) DEFAULT '0' NOT NULL auto_increment,
+  PRIMARY KEY (ID)
+);
+
+DROP TABLE IF EXISTS eZForum_Message;
+CREATE TABLE eZForum_Message (
+  ForumID int(11) DEFAULT '0' NOT NULL,
+  Topic varchar(60),
+  Body text,
+  UserID int(11),
+  Parent int(11),
+  EmailNotice enum('N','Y') DEFAULT 'N',
+  PostingTime timestamp(14),
+  TreeID int(11),
+  ThreadID int(11),
+  Depth int(11),
+  ID int(11) DEFAULT '0' NOT NULL auto_increment,
+  PRIMARY KEY (ID)
+);
+
+ALTER TABLE eZSession_Session ADD Created timestamp;
+ALTER TABLE eZSession_Session ADD LastAccessed timestamp;
+ALTER TABLE eZSession_Session ADD SecondLastAccessed timestamp;
+
+ALTER TABLE eZUser_Group ADD SessionTimeout int default 60;
+
+# Create the forum tables 
+CREATE TABLE eZArticle_ArticleForumLink( ID int primary key auto_increment, ArticleID int not NULL, ForumID int not NULL );
+
+CREATE TABLE eZForum_ForumCategoryLink( ID int primary key auto_increment, ForumID int not null, CategoryID int not null );
+INSERT INTO eZForum_ForumCategoryLink ( ForumID, CategoryID )  SELECT ID, CategoryID from eZForum_Forum;
+ALTER TABLE eZForum_Forum DROP CategoryID;
+

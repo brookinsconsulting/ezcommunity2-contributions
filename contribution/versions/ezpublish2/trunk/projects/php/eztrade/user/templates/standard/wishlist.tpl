@@ -1,5 +1,5 @@
 <!-- wishlist.tpl --> 
-<!-- $Id: wishlist.tpl,v 1.2 2000/10/22 13:42:09 bf-cvs Exp $ -->
+<!-- $Id: wishlist.tpl,v 1.3 2000/11/23 10:16:31 bf-cvs Exp $ -->
 
 <h1>{intl-wishlist}</h1>
 
@@ -14,16 +14,19 @@
 <!-- BEGIN wishlist_item_list_tpl -->
 <table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
 <tr>
-	<th>Bilde:</th>
-	<th>Varenavn:</th>
-	<th>Opsjoner:</th>
-	<td class="path" align="right">Pris:</td>
+	<th>{intl-product_image}:</th>
+	<th>{intl-product_name}:</th>
+	<th>{intl-product_options}:</th>
+	<th>{intl-move_to_cart}:</th>
+	<td class="path" align="right">{intl-product_price}:</td>
 </tr>
 
 <!-- BEGIN wishlist_item_tpl -->
 <tr>
 	<td class="{td_class}">
+	<!-- BEGIN wishlist_image_tpl -->
 	<img src="{product_image_path}" border="0" width="{product_image_width}" height="{product_image_height}" alt="{product_image_caption}"/>
+	<!-- END wishlist_image_tpl -->
 	</td>
 	<td class="{td_class}">
 	<a href="/trade/productview/{product_id}/">{product_name}</a>
@@ -34,6 +37,11 @@
 	{option_value}<br>
         <!-- END wishlist_item_option_tpl -->
 	&nbsp;</td>
+	<td class="{td_class}">
+	<a href="/trade/wishlist/movetocart/{wishlist_item_id}/">
+	{intl-move_to_cart}
+	</a>
+	</td>
 	<td class="{td_class}" align="right">
 	{product_price}
 	</td>
@@ -42,14 +50,14 @@
 
 <tr>
 	<td colspan="2">&nbsp;</td>
-	<th>Frakt:</th>
+	<th>{intl-shipping}:</th>
 	<td align="right">
 	{shipping_cost}
 	</td>
 </tr>
 <tr>
 	<td colspan="2">&nbsp;</td>
-	<th>Totalt:</th>
+	<th>{intl-total}:</th>
 	<td align="right">
 	{wishlist_sum}
 	</td>
