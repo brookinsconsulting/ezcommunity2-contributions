@@ -14,6 +14,10 @@
 		<td width="1%" valign="top"><img src="/sitedesign/{sitedesign}/images/dot.gif" width="10" height="12"><br /></td>
 		<td width="99%"><a class="menu" href="/article/author/list">{intl-authors}</a></td>
 	</tr>
+	<tr>
+		<td width="1%" valign="top"><img src="/sitedesign/{sitedesign}/images/dot.gif" width="10" height="12"><br /></td>
+		<td width="99%"><a class="menu" href="/article/index">{intl-index}</a></td>
+	</tr>
 <!-- BEGIN submit_article_tpl -->
 <tr>
 	<td width="1%" valign="top"><img src="/sitedesign/{sitedesign}/images/dot.gif" width="10" height="12" border="0" alt="" /><br /></td>
