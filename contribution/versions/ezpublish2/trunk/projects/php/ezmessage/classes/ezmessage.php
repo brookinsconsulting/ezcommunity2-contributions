@@ -1,14 +1,14 @@
 <?php
 // 
-// $Id: ezmessage.php,v 1.4 2001/06/06 09:52:43 bf Exp $
+// $Id: ezmessage.php,v 1.5 2001/07/20 11:19:37 jakobn Exp $
 //
 // Definition of eZMessage class
 //
-// Bård Farstad <bf@ez.no>
 // Created on: <05-Jun-2001 13:46:48 bf>
 //
 // This source file is part of eZ publish, publishing software.
-// Copyright (C) 1999-2001 eZ systems as
+//
+// Copyright (C) 1999-2001 eZ Systems.  All rights reserved.
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License
