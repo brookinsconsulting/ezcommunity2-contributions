@@ -1217,6 +1217,7 @@ CREATE TABLE eZImageCatalogue_CategoryPermission (
   GroupID int default NULL,
   ReadPermission int default '0',
   WritePermission int default '0',
+  UploadPermission int default '0',
   PRIMARY KEY (ID)
 );
 
