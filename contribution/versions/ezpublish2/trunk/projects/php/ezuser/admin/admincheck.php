@@ -12,11 +12,4 @@ if ( !eZPermission::checkPermission( $user, "eZUser", "AdminLogin" ) )
     Header( "Location: /user/login" );
     exit();
 }
-
-if ( isset( $MainPollID ) )
-{
-    $tmpPoll = new eZPoll( $MainPollID );
-    $tmpPoll->setMainPoll( $tmpPoll );
-}
-
 ?>

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezdb.php,v 1.10 2000/10/15 12:23:36 bf-cvs Exp $
+// $Id: ezdb.php,v 1.11 2000/10/19 18:39:59 bf-cvs Exp $
 //
 // Definition of eZDB class
 //
@@ -49,10 +49,10 @@ class eZDB
         $this->Password =& $ini->read_var( "site", "Password" );
         
         mysql_pconnect( $this->Server, $this->User, $this->Password )
-            or warn( "Error: could not connect to the database." );
+            or print( "Error: could not connect to the database." );
         
         mysql_select_db( $this->DB )
-            or warn( "Error: could not connect to the database." );;
+            or print( "Error: could not connect to the database." );;
     }
 
     /*

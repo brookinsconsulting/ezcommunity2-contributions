@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eztechgenerator.php,v 1.2 2000/10/19 18:03:40 bf-cvs Exp $
+// $Id: eztechgenerator.php,v 1.3 2000/10/19 18:39:59 bf-cvs Exp $
 //
 // Definition of eZTechGenerator class
 //
@@ -19,6 +19,12 @@
   This class will generate a tech XML article. This class is ment
   as an example of how to write your own special generator.
 
+*/
+
+/*!TODO
+  Add support for < > and tags which are not supported. Theese tags should
+  be converted into html special chars.
+  
 */
 
 class eZTechGenerator
@@ -50,11 +56,14 @@ class eZTechGenerator
         $body = "";
         foreach ( $pages as $page )
         {
+
             $tmpPage = strip_tags( $page, "<page>,<php>,</php>" );
             
             // replace & with &amp; to prevent killing the xml parser..
             // is that a bug in the xmltree(); function ? answer to bf@ez.no
-            $body .= "<page>" .  ereg_replace ( "&", "&amp;", $tmpPage ) . "</page>";        
+            $tmpPage = ereg_replace ( "&", "&amp;", $tmpPage );
+            $body .= "<page>" . $tmpPage  . "</page>";        
+
         }
         
         $newContents .= "<body>" . $body . "</body></article>";

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: articleedit.php,v 1.2 2000/10/19 18:03:40 bf-cvs Exp $
+// $Id: articleedit.php,v 1.3 2000/10/19 18:39:59 bf-cvs Exp $
 //
 // 
 //
@@ -16,6 +16,7 @@
 include_once( "classes/INIFile.php" );
 include_once( "classes/eztemplate.php" );
 include_once( "classes/ezlocale.php" );
+include_once( "ezuser/classes/ezuser.php" );
 
 include_once( "ezarticle/classes/ezarticlecategory.php" );
 include_once( "ezarticle/classes/ezarticle.php" );
@@ -100,10 +101,19 @@ $t->set_var( "article_id", "" );
 $t->set_var( "article_name", "" );
 $t->set_var( "article_contents_0", "" );
 $t->set_var( "article_contents_1", "" );
+$t->set_var( "article_contents_2", "" );
+$t->set_var( "article_contents_3", "" );
 $t->set_var( "author_text", "" );
 $t->set_var( "link_text", "" );
 
 $t->set_var( "action_value", "insert" );
+
+if ( $Action == "New" )
+{
+    $user = eZUser::currentUser();
+    $t->set_var( "author_text", $user->firstName() . " " . $user->lastName());    
+
+}
 
 if ( $Action == "Edit" )
 {
