@@ -2251,6 +2251,7 @@ CREATE TABLE eZUser_Group (
 #
 
 INSERT INTO eZUser_Group VALUES (1,'Administrators','All rights',7200);
+INSERT INTO eZUser_Group VALUES (2,'Anonymous','Anonymous users',7200);
 
 #
 # Table structure for table 'eZUser_GroupPermissionLink'
@@ -2304,6 +2305,7 @@ INSERT INTO eZUser_GroupPermissionLink VALUES (76,1,37,'true');
 INSERT INTO eZUser_GroupPermissionLink VALUES (77,1,38,'true');
 INSERT INTO eZUser_GroupPermissionLink VALUES (78,1,39,'true');
 INSERT INTO eZUser_GroupPermissionLink VALUES (79,1,40,'true');
+
 
 
 #
