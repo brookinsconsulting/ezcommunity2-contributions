@@ -47,32 +47,40 @@ switch ( $url_array[2] )
         break;
         
     case "productedit" :
-        if ( ( $url_array[3] == "insert") )
+        switch ( $url_array[3] )
         {
-            $Action = "Insert";
-            include( "eztrade/admin/productedit.php" );
+            case "optionlist" :
+                $ProductID = $url_array[4];
+                include( "eztrade/admin/optionlist.php" );
+                break;
+
+            case "optionedit" :
+                $ProductID = $url_array[4];
+                include( "eztrade/admin/optionedit.php" );
+                break;
+                
+            case "insert" :
+                $Action = "Insert";
+                include( "eztrade/admin/productedit.php" );
+                break;
+            case "edit" :
+                $Action = "Edit";
+                $ProductID = $url_array[4];            
+                include( "eztrade/admin/productedit.php" );
+                break;
+            case "update" :
+                $Action = "Update";
+                include( "eztrade/admin/productedit.php" );
+                break;
+            case "delete" :
+                $Action = "Delete";
+                $ProductID = $url_array[4];
+                include( "eztrade/admin/productedit.php" );
+                break;
+            default:
+                include( "eztrade/admin/productedit.php" );
+                break;
         }
-        else if ( ( $url_array[3] == "edit") )
-        {
-            $Action = "Edit";
-            $ProductID = $url_array[4];            
-            include( "eztrade/admin/productedit.php" );
-        }
-        else if ( ( $url_array[3] == "update") )
-        {
-            $Action = "Update";
-            include( "eztrade/admin/productedit.php" );
-        }        
-        else if ( ( $url_array[3] == "delete") )
-        {
-            $Action = "Delete";
-            $ProductID = $url_array[4];
-            include( "eztrade/admin/productedit.php" );
-        }        
-        else
-        {
-            include( "eztrade/admin/productedit.php" );
-        }        
         break;        
     case "testbench" :
         include( "eztrade/admin/testbench.php" );

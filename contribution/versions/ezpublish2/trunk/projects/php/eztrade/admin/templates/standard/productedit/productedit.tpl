@@ -99,7 +99,7 @@
 <tr>
 	<td colspan="2">
 	<input type="submit" name="" value="Bilder" />
-	<input type="submit" name="" value="Opsjoner" />
+	<input type="submit" name="Option" value="Opsjoner" />
 	<input type="submit" name="" value="Forhåndsvisning" />
 	</td>
 </tr>
