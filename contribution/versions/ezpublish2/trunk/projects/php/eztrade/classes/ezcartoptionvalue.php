@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezcartoptionvalue.php,v 1.13 2001/08/31 10:26:50 ce Exp $
+// $Id: ezcartoptionvalue.php,v 1.14 2001/08/31 13:59:24 ce Exp $
 //
 // Definition of eZCartOptionValue class
 //
@@ -73,8 +73,8 @@ class eZCartOptionValue
             $nextID = $db->nextID( "eZTrade_CartOptionValue", "ID" );            
 
             $res = $db->query( "INSERT INTO eZTrade_CartOptionValue
-                             ( ID, CartItemID, OptionID, RemoteID, OptionValueID )
-                             VALUES ( '$nextID','$this->CartItemID','$this->OptionID','$this->RemoteID','$this->OptionValueID' )
+                             ( ID, CartItemID, OptionID, RemoteID, OptionValueID, Count )
+                             VALUES ( '$nextID','$this->CartItemID','$this->OptionID','$this->RemoteID','$this->OptionValueID', '$this->Count' )
                              " );
             $db->unlock();
 
@@ -85,7 +85,8 @@ class eZCartOptionValue
             $res = $db->query( "UPDATE eZTrade_CartOptionValue SET
 		                         CartItemID='$this->CartItemID',
 		                         OptionID='$this->OptionID',
-		                         OptionValueID='$this->OptionValueID'
+		                         OptionValueID='$this->OptionValueID',
+		                         Count='$this->Count',
                                  WHERE ID='$this->ID'
                                  " );
         }
@@ -120,6 +121,7 @@ class eZCartOptionValue
                 $this->OptionID =& $cart_array[0][$db->fieldName( "OptionID" )];
                 $this->RemoteID =& $cart_array[0][$db->fieldName( "RemoteID" )];
                 $this->OptionValueID =& $cart_array[0][$db->fieldName( "OptionValueID" )];
+                $this->Count =& $cart_array[0][$db->fieldName( "Count" )];
 
                 $ret = true;
             }
@@ -166,7 +168,15 @@ class eZCartOptionValue
     {
        return new eZOptionValue( $this->OptionValueID );
     }
-    
+
+    /*!
+      Returns the count value object.
+    */
+    function count()
+    {
+       return $this->Count;
+    }
+
     /*!
       Sets the cart item object id.
     */
@@ -198,6 +208,14 @@ class eZCartOptionValue
     }
 
     /*!
+      Sets the count object id.
+    */
+    function setCount( $value )
+    {
+        $this->Count = $value;
+    }
+
+    /*!
       Sets the option value object id.
     */
     function setOptionValue( &$optionValue )
@@ -213,6 +231,7 @@ class eZCartOptionValue
     var $OptionID;
     var $OptionValueID;
     var $RemoteID;
+    var $Count;
 }
 
 ?>

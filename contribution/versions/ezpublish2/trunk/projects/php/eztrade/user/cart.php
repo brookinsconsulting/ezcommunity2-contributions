@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: cart.php,v 1.50 2001/08/31 11:28:38 ce Exp $
+// $Id: cart.php,v 1.51 2001/08/31 13:59:24 ce Exp $
 //
 // Created on: <27-Sep-2000 11:57:49 bf>
 //
@@ -71,7 +71,7 @@ if ( ( $Action == "Refresh" ) || isSet( $DoCheckOut ) )
         {
             $cartItem->setCount( $CartCountArray[$i] );
         }
-        
+
         $cartItem->store();
 
         $i++;
@@ -80,6 +80,30 @@ if ( ( $Action == "Refresh" ) || isSet( $DoCheckOut ) )
         if ( ( $cartItem->count() < 1 ) )
         {
             $cartItem->delete();
+        }
+    }
+    foreach ( $ValueCountArray as $valueID )
+    {
+        $valueItem = new eZCartOptionValue( $optionID );
+        $value =& $valueItem->optionValue();
+
+        if ( ( $value->totalQuantity() < $ValueCountArray[$i] ) and ( $value->totalQuantity() != false ) )
+        {
+            $valueItem->setCount( $value->totalQuantity() );
+        }
+        else
+        {
+            $valueItem->setCount( $ValueCountArray[$i] );
+        }
+
+        $valueItem->store();
+
+        $i++;
+
+        // Check for negative entries
+        if ( ( $valueItem->count() < 1 ) )
+        {
+//            $valueItem->delete();
         }
     }
 }
@@ -334,13 +358,13 @@ foreach ( $items as $item )
     {
         $Quantity = 0;
         foreach ( $optionValues as $optionValue )
-        {
-            $option =& $optionValue->option();
-            $value =& $optionValue->optionValue();
-            $value_quantity = $value->totalQuantity();
-            if ( $value_quantity > 0 )
-                $Quantity = $value_quantity;
-        }
+            {
+                $option =& $optionValue->option();
+                $value =& $optionValue->optionValue();
+                $value_quantity = $value->totalQuantity();
+                if ( $value_quantity > 0 )
+                    $Quantity = $value_quantity;
+            }
     }
     
     $t->set_var( "product_available_item", "" );
@@ -353,43 +377,8 @@ foreach ( $items as $item )
         $t->parse( "product_available_item", "product_available_item_tpl" );
     }
 
-
-    $t->set_var( "cart_item_option", "" );
-    $min_quantity = $Quantity;
-    foreach ( $optionValues as $optionValue )
-    {
-        $option =& $optionValue->option();
-        $value =& $optionValue->optionValue();
-        $value_quantity = $value->totalQuantity();
-
-        $t->set_var( "option_name", $option->name() );
-
-        $descriptions = $value->descriptions();
-        $t->set_var( "option_value", $descriptions[0] );
-
-        $t->set_var( "cart_item_option_availability", "" );
-        if ( !(is_bool( $value_quantity ) and !$value_quantity) )
-        {
-            if ( is_bool( $min_quantity ) )
-                $min_quantity =  $value_quantity;
-            else
-                $min_quantity = min( $min_quantity , $value_quantity );
-            $named_quantity = $value_quantity;
-            if ( $ShowNamedQuantity )
-                $named_quantity = eZProduct::namedQuantity( $value_quantity );
-            if ( $ShowOptionQuantity )
-            {
-                $t->set_var( "option_availability", $named_quantity );
-                $t->parse( "cart_item_option_availability", "cart_item_option_availability_tpl" );
-            }
-        }
-
-        $t->parse( "cart_item_option", "cart_item_option_tpl", true );
-    }
-
-
-    $priceobj = new eZCurrency();
-
+    // Show the product price
+    $foundPriceGroup = false;
     if ( ( !$RequireUserLogin or get_class( $user ) == "ezuser" ) and
          $ShowPrice and $product->showPrice() == true and $product->hasPrice() )
     {
@@ -399,6 +388,7 @@ foreach ( $items as $item )
             $price = eZPriceGroup::correctPrice( $product->id(), $PriceGroup );
             if ( $price )
             {
+                $foundPriceGroup = true;
                 if ( $PricesIncludeVAT == "enabled" )
                 {
                     $totalVAT = $product->addVAT( $price );
@@ -407,11 +397,9 @@ foreach ( $items as $item )
                 else
                 {
                     $totalVAT = $product->extractVAT( $price );
-                    $price = $item->price();
+                    $price = $item->price( true, false );
                 }
-                
                 $found_price = true;
-                $priceobj->setValue( $price * $item->count() );
             }
         }
         if ( !$found_price )
@@ -419,17 +407,14 @@ foreach ( $items as $item )
             if ( $PricesIncludeVAT == "enabled" )
             {
                 $totalVAT = $product->addVAT( $item->price() );
-                $price = $item->price() + $totalVAT;
+                $price = $item->price( true, false ) + $totalVAT;
             }
             else
             {
                 $totalVAT = $product->extractVAT( $item->price() );
-                $price = $item->price();
+                $price = $item->price( true, false );
             }
-            
-            $priceobj->setValue( $price * $item->count() );
         }
-        $t->set_var( "product_price", $locale->format( $priceobj ) );
     }
     else
     {
@@ -443,19 +428,78 @@ foreach ( $items as $item )
             $totalVAT = $product->extractVAT( $item->price() );
             $price = $item->price();
         }
-        
-        $priceobj->setValue( $price );
     }
 
-    $price = $priceobj->value();
-
     $currency->setValue( $price );
-    $sum = $sum + $price;
 
     $t->set_var( "product_id", $product->id() );
     $t->set_var( "product_name", $product->name() );
     $t->set_var( "cart_item_count", $item->count() );
     $t->set_var( "product_price", $locale->format( $currency ) );
+
+
+    // Print all the options
+    if ( count ( $optionValues ) > 0 )
+    {
+        foreach ( $optionValues as $optionValue )
+        {
+            $option =& $optionValue->option();
+            $value =& $optionValue->optionValue();
+            $value_quantity = $value->totalQuantity();
+
+            $t->set_var( "option_name", $option->name() );
+
+            $descriptions = $value->descriptions();
+            $t->set_var( "option_value", $descriptions[0] );
+
+            $t->set_var( "value_item_count", $optionValue->count() );
+
+            $t->set_var( "cart_item_option_availability", "" );
+
+            if ( $foundPriceGroup )
+            {
+                // Add code for options
+            }
+            else
+            {
+                if ( $PricesIncludeVAT == "enabled" )
+                {
+                    $totalVAT += $product->addVAT( $value->price() );
+                    $optionPrice += $value->price() + $totalVAT;
+                }
+                else
+                {
+                    $totalVAT += $product->extractVAT( $value->price() );
+                    $optionPrice += $value->price();
+                }
+            }
+            $price += $optionPrice;
+            $currency->setValue( $optionPrice );
+            $t->set_var( "option_price", $locale->format( $currency ) );
+
+            if ( !(is_bool( $value_quantity ) and !$value_quantity) )
+            {
+                if ( is_bool( $min_quantity ) )
+                    $min_quantity =  $value_quantity;
+                else
+                    $min_quantity = min( $min_quantity , $value_quantity );
+                $named_quantity = $value_quantity;
+                if ( $ShowNamedQuantity )
+                    $named_quantity = eZProduct::namedQuantity( $value_quantity );
+                if ( $ShowOptionQuantity )
+                {
+                    $t->set_var( "option_availability", $named_quantity );
+                    $t->parse( "cart_item_option_availability", "cart_item_option_availability_tpl" );
+                }
+            }
+            $t->parse( "cart_item_option", "cart_item_option_tpl", true );
+        }
+    }
+    else
+        $t->set_var( "cart_item_option", "" );
+
+    $sum = $sum + $price;
+    $min_quantity = $Quantity;
 
     if ( !(is_bool( $min_quantity ) and !$min_quantity) and
          $RequireQuantity and $min_quantity == 0 )
