@@ -1,0 +1,21 @@
+This is version: $Id: FAQ,v 1.1 2001/03/08 14:12:04 pkej Exp $ of this faq.
+
+1. Error Messages
+1.1 Missing function "qdom_tree"
+
+You've failed to install the QT package properly, please visit
+http://www.trolltech.com and read how you should install QT.
+
+A common problem is that you might have several versions of QT
+installed.
+
+
+
+1.2 Missing function "xmltree()"
+
+You've failed to install the libXml2 package properly, please visit
+the site http://xmlsoft.org/#Downloads
+
+
+
+2. 
