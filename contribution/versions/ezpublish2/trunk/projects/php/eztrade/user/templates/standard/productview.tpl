@@ -65,17 +65,13 @@
 
 <table cellspacing="0" cellpadding="0" border="0">
 <tr>
-	<td valign="top">
-	<p class="boxtext">
+	<th valign="top">
 	{image_title}:
-	</p>
-	</td>
+	</th>
 </tr>
 <tr>
 	<td valign="top">
-	<p>
 	{image_caption}
-	</p>
 	</td>
 </tr>
 </table>

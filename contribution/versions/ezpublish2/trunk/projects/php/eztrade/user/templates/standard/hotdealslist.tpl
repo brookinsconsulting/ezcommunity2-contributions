@@ -15,20 +15,19 @@
 	<a href="/trade/productview/{product_id}/{category_id}/"><img src="{product_image_path}" border="0" width="{product_image_width}" height="{product_image_height}" alt="{product_image_caption}"/></a>
 	<!-- END product_image_tpl -->
 
-	<br />
-	<span class="menutext">{product_intro_text}</span><br />
+	<div class="menutext">{product_intro_text}</div>
 
 <!-- BEGIN price_tpl -->
-	<span class="pris">{product_price}</span><br />
+	<span class="pris">{product_price}</span>
 <!-- END price_tpl -->
-	<img src="/images/1x1.gif" width="1" height="4" border="0" alt="" /><br />
+	<img src="/images/1x1.gif" width="1" height="8" border="0" alt="" /><br />
 	</td>
 {end_tr}
 
 <!-- END product_tpl -->
 
 <tr>
-	<td class="menuspacer">&nbsp;</td>
+	<td class="menuspacer" colspan="{hotdeal_columns}">&nbsp;</td>
 </tr>
 
 
