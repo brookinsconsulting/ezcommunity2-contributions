@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: imageedit.php,v 1.1.2.2 2002/05/12 19:42:17 br Exp $
+// $Id: imageedit.php,v 1.1.2.3 2002/05/17 10:32:19 fh Exp $
 //
 // Created on: <09-Jan-2001 10:45:44 ce>
 //
@@ -651,7 +651,7 @@ foreach ( $groups as $group )
             }
         }
     }
-    if ( $Action == "new" )
+    if ( $Action == "New" )
         $t->set_var( "read_everybody", "selected" );
     $t->parse( "read_group_item", "read_group_item_tpl", true );
 
