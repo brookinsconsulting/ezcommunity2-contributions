@@ -13,7 +13,8 @@ CREATE TABLE eZContact_Company (
   CreatorID int(11) DEFAULT '0' NOT NULL,
   Name char(50),
   Comment text,
-  CompanyType int(11),
+  ContactType int(11),
+  CompanyNo varchar(255),
   PRIMARY KEY (ID)
 );
 
