@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: adedit.php,v 1.16 2001/03/01 14:06:24 jb Exp $
+// $Id: adedit.php,v 1.17 2001/03/02 13:29:03 fh Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <16-Nov-2000 13:02:32 bf>
@@ -199,7 +199,7 @@ if ( $Action == "Delete" )
 {
     $ad = new eZAd( $AdID );
     $ad->delete();
-    
+
     eZHTTPTool::header( "Location: /ad/archive/$CategoryID/" );
     exit();    
 }
@@ -211,6 +211,8 @@ if ( $Action == "DeleteAds" )
         foreach( $AdArrayID as $AdID )
         {
             $ad = new eZAd( $AdID );
+            $cat = $ad->categories();
+            $CategoryID = $cat[0]->id();
             $ad->delete();
         }
     }
