@@ -10,6 +10,7 @@
 
 <!-- END path_tpl -->
 
+<!--
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
 	<td>
@@ -17,20 +18,24 @@
 	</td>
 	<td align="right">
 	<br />
+-->
 	<!-- BEGIN product_number_item_tpl -->
-	<span class="boxtext">{intl-nr}:</span> {product_number}
+<!--	<span class="boxtext">{intl-nr}:</span> {product_number} -->
 	<!-- END product_number_item_tpl -->
+<!--
 	</td>
 </tr>
 <tr>
 	<td colspan="2">
 
 <br />
+-->
 <!-- BEGIN main_image_tpl -->
 
 <table align="right" cellspacing="0" cellpadding="0" border="0">
 <tr>
 	<td>
+	<br />
 	<a href="/imagecatalogue/imageview/{main_image_id}/?RefererURL=/{module}/{module_view}/{product_id}/">
 	<img src="{main_image_uri}" border="0" width="{main_image_width}" height="{main_image_height}" /></a>
 	</td>
@@ -164,10 +169,11 @@
 </table>
 
 <!-- END option_tpl -->
-
+<!--
 	</td>
 </tr>
 </table>
+-->
 <br />
 
 <table width="100%" cellpadding="0" cellspacing="0" border="0">

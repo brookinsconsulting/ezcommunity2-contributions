@@ -100,8 +100,6 @@
 </select>
 
 <br /><br />
-<hr noshade="noshade" size="4" />
-<br />
 
 {intl-payment_methods_description}:
 
