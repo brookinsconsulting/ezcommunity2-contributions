@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezdatetime.php,v 1.8 2000/10/02 11:58:14 bf-cvs Exp $
+// $Id: ezdatetime.php,v 1.9 2000/10/02 15:00:32 bf-cvs Exp $
 //
 // Definition of eZCompany class
 //
@@ -240,6 +240,27 @@ class eZDateTime
             print( "<b>Error:</b> eZDateTime::setMySQLDate() received wrong MySQL date format." );
         }
     }
+
+    /*!
+      Sets the data according to the MySQL timestamp given as parameter.
+    */
+    function setMySQLTimeStamp( $value )
+    {
+        if ( ereg( "([0-9]{4})([0-9]{2})([0-9]{2})([0-9]{2})([0-9]{2})([0-9]{2})", $value, $valueArray ) )
+        {
+            $this->setYear( $valueArray[1] );
+            $this->setMonth( $valueArray[2] );
+            $this->setDay( $valueArray[3] );
+            $this->setHour( $valueArray[4] );
+            $this->setMinute( $valueArray[5] );
+            $this->setSecond( $valueArray[6] );
+        }
+        else
+        {
+            print( "<b>Error:</b> eZDateTime::setMySQLTimeStamp() received wrong MySQL timestamp format." );
+        }
+    }
+    
     
     var $Year;
     var $Month;
