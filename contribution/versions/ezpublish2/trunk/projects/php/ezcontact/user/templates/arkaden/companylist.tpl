@@ -1,7 +1,10 @@
+<!-- 
 <h1>{intl-headline}</h1>
 
 <hr noshade="noshade" size="4" />
 <br />
+-->
+
 <!-- BEGIN path_item_tpl -->
 
 <!-- END path_item_tpl -->
@@ -13,7 +16,14 @@
 
 <!-- BEGIN image_item_tpl -->
 <!-- <p class="boxtext">{intl-th_type_current_image}:</p> -->
-<p><img src="{image_url}" alt="{image_caption}" width="{image_width}" height="{image_height}" /></p>
+<table width="100%" cellspacing="0" cellpadding="0" border="0">
+<tr>
+	<td align="center">
+	<img src="{image_url}" alt="{image_caption}" width="{image_width}" height="{image_height}" /><br />
+	</td>
+</tr>
+</table>
+<br />
 <!-- END image_item_tpl -->
 
 <table width="100%" cellspacing="0" cellpadding="4" border="0">

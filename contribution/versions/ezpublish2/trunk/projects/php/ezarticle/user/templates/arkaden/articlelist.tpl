@@ -1,11 +1,8 @@
+
 <h1>{current_category_name}</h1>
 
 
 <hr noshade="noshade" size="4" />
-
-<p><b>
-{current_category_description}
-</b></p>
 
 <!-- BEGIN path_item_tpl -->
 
@@ -37,11 +34,6 @@
 
 <!-- BEGIN article_list_tpl -->
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
-<tr>
-	<tr>
-	<td>
-	</td>
-</tr>
 <!-- BEGIN article_item_tpl -->
 <tr>
 	<td>
@@ -75,7 +67,6 @@
 	<a class="path" href="/article/articleview/{article_id}/">
 	{article_link_text}
 	</a>
-	<br />
 	<br />
 	<br />
 	</td>
