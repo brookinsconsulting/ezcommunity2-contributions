@@ -104,7 +104,7 @@
 
 <!-- BEGIN type_list_tpl -->
 <br />
-<table cellpadding="0" cellspacing="0" border="0">
+<table cellpadding="1" cellspacing="1" border="0" align="center">
 <tr>
 	<!-- BEGIN type_list_previous_tpl -->
 	<td>
@@ -128,7 +128,7 @@
 
 	<!-- BEGIN type_list_inactive_item_tpl -->
 	<td>
-	|&nbsp;&lt;&nbsp;{type_item_name}&nbsp;&gt;&nbsp;
+	|&nbsp;<span class="inactive">{type_item_name}</span>&nbsp;
 	</td>
 	<!-- END type_list_inactive_item_tpl -->
 
@@ -136,13 +136,13 @@
 
 	<!-- BEGIN type_list_next_tpl -->
 	<td>
-	|&nbsp;<a class="path" href="/article/archive/{category_current_id}/{item_next_index}">{intl-next}&nbsp;&gt;&gt;</a>
+	|&nbsp;<a class="path" href="/article/archive/{category_current_id}/{item_next_index}">{intl-next}</a>&nbsp;&gt;&gt;
 	</td>
 	<!-- END type_list_next_tpl -->
 
 	<!-- BEGIN type_list_next_inactive_tpl -->
 	<td>
-	|&nbsp;
+	|&nbsp;<span class="inactive">{intl-next}</span>&nbsp;&gt;&gt;
 	</td>
 	<!-- END type_list_next_inactive_tpl -->
 
