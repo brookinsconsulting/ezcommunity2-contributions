@@ -166,3 +166,21 @@ Maintainer(s) : vl@ez.no
     * admin/intl/hr_HR/menubox.php.ini
       admin/intl/hr_HR/urledit.php.ini: Croatian (hr_HR) for 2.2.2
 
+
+Module : ezurltranslator
+Repository path : /home/cvsroot/projects/php/ezurltranslator
+Maintainer(s) : vl@ez.no
+2001-12-21  Gunnstein Lye  <gl@ez.no>
+
+    * admin/intl/pt_PT/menubox.php.ini
+      admin/intl/pt_PT/urledit.php.ini: pt_PT (Portuguese) version 2.2.2
+
+
+Module : ezurltranslator
+Repository path : /home/cvsroot/projects/php/ezurltranslator
+Maintainer(s) : vl@ez.no
+2002-01-28  Vlad Pavlenko  <vlad@epasaule.lv>
+
+    * classes/ezurltranslator.php:
+    new method getbydest - to receive id by destination url
+

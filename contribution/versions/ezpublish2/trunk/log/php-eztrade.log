@@ -2944,3 +2944,28 @@ Maintainer(s) : ce@ez.no
       admin/categorylist.php
       admin/templates/standard/categoryedit.tpl: Fixed a parent bug
 
+
+Module : eztrade
+Repository path : /home/cvsroot/projects/php/eztrade
+Maintainer(s) : ce@ez.no
+2002-01-28  Bjoern Reiten  <br@ez.no>
+
+    * classes/ezorder.php: added code to get pnutr.
+
+    * admin/orderedit.php
+      admin/templates/standard/orderedit.tpl: Added payment info.
+
+    * admin/intl/no_NO/orderedit.php.ini: added translation for payment.
+
+2002-01-28  Baard Farstad  <bf@ez.no>
+
+    * user/cart.php
+      user/productlist.php
+      user/productview.php: Fixed checkout.
+
+2002-01-28  ceaker  <ceaker@zev.ez.no>
+
+    * user/checkout.php
+      user/ordersendt.php
+      user/productsearch.php: *** empty log message ***
+

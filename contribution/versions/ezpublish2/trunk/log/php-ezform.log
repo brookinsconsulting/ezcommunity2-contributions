@@ -1216,3 +1216,34 @@ Maintainer(s) : pkej@ez.no
       user/results.php
       user/viewreport.php: added starts with in search, added min25median75max
 
+
+Module : ezform
+Repository path : /home/cvsroot/projects/php/ezform
+Maintainer(s) : pkej@ez.no
+2002-01-28  Jo Henrik Endrerud  <jhe@ez.no>
+
+    * admin/intl/en_GB/reportsetup.php.ini
+      admin/intl/no_NO/reportsetup.php.ini
+      admin/reportsetup.php
+      admin/templates/standard/formrenderer.tpl
+      admin/templates/standard/reportsetup.tpl
+      classes/ezformrenderer.php
+      classes/ezformreportelement.php
+      user/formedit.php
+      user/templates/standard/viewreport.tpl
+      user/viewreport.php: added list
+
+    * classes/ezformrenderer.php: removed things...
+
+    * user/viewresult.php: removed bug
+
+    * user/intl/en_GB/viewreport.php.ini
+      user/intl/no_NO/viewreport.php.ini
+      user/templates/standard/viewreport.tpl
+      user/viewreport.php
+      admin/reportsetup.php
+      classes/ezform.php
+      classes/ezformelement.php
+      classes/ezformrenderer.php:
+    fixed bug with overriding of text, added count of results
+

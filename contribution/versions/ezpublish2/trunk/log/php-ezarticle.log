@@ -2735,3 +2735,18 @@ Maintainer(s) : bf@ez.no
     * classes/ezqdomrenderer.php:
     Added the filename at the end of the file uri.
 
+
+Module : ezarticle
+Repository path : /home/cvsroot/projects/php/ezarticle
+Maintainer(s) : bf@ez.no
+2002-01-28  Vlad Pavlenko  <vlad@epasaule.lv>
+
+    * admin/articleedit.php:
+    url trans
+
+    * admin/intl/en_GB/articleedit.php.ini
+      admin/templates/standard/articleedit.tpl:
+    add fields for fast editing URL translation for the the shortcut = /article/articleview/$articleid/1/$categorydefinitionid
+    that give  ability create shortcut for the article when you create it.
+    feature need to be enabled in site.ini
+
