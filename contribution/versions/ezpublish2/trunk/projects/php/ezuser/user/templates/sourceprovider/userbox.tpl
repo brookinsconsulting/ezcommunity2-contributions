@@ -3,6 +3,6 @@
 	<p class="menutext">{first_name} {last_name}</p>
 	<p class="menuspacer">&nbsp;</p>
 	<input type="submit" value="Logg ut" />
-	<p class="menuspacer"><br /><br /><br /></p>
+	<p class="menuspacer"><br /><br /></p>
         <a class="menutext" href="/user/userwithaddress/edit/">Change password</a>
         </form>
