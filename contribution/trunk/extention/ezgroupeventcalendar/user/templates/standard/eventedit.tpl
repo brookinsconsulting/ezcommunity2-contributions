@@ -824,11 +824,11 @@ if (frm.IsRecurring.checked) {
 
 // stop hiding -->
 </script>
- <br />
-<input class="gcalSwitchBox" type="submit" name="AddFile" value="{intl-event_file_list}"
-onmouseout="this.className='gcalSwitchBox'"
-onmouseover="this.className='gcalSwitchBoxSelect'"
-/>
+<!-- BEGIN add_file_list_tpl -->
+<br />
+<input class="gcalSwitchBox" type="submit" name="AddFile" value="{intl-event_file_list}" 
+onmouseout="this.className='gcalSwitchBox'" onmouseover="this.className='gcalSwitchBoxSelect'" />
+<!-- END add_file_list_tpl -->
 
 <hr noshade size="4" />
 

@@ -207,6 +207,9 @@ $t->set_block( "no_error_tpl", "day_tpl", "day" );
 $t->set_block( "no_error_tpl", "year_tpl", "year" );
 $t->set_block( "no_error_tpl", "group_name_edit_tpl", "group_name_edit" );
 $t->set_block( "no_error_tpl", "group_name_new_tpl", "group_name_new" );
+
+$t->set_block( "no_error_tpl", "add_file_list_tpl", "add_file_list" );
+
 $t->set_block( "group_name_new_tpl", "group_item_tpl", "group_item" );
 
 //history bar block
@@ -246,6 +249,8 @@ $t->set_var( "new_history", "" );
 $t->set_var( "group_name_edit", "" );
 $t->set_var( "group_name_new", "" );
 
+
+$t->set_var( "add_file_list", "" );
 
 // no user logged on
 if( $userID == false )
@@ -998,6 +1003,9 @@ $t->set_var( "edit", "" );
 
 if ( $Action == "Edit" && $groupError == false )
 {
+
+    $t->parse( "add_file_list", "add_file_list_tpl" );
+
     $event = new eZGroupEvent( $EventID );
     $t->set_var( "name_value", $event->name() );
     
@@ -1425,6 +1433,8 @@ if ( $Action == "New" && $groupError == false )
 	}
 
 	$t->parse( "new_history", "new_history_tpl", true );
+
+    $t->set_var( "add_file_list", "" );
 
     $t->set_var( "action_value", "insert" );
     $t->set_var( "appointment_id", "new" );

@@ -238,10 +238,10 @@
 <!-- BEGIN attached_file_tpl -->
 <tr>
      <td width="50%" class="{td_class}">
-     <a style="text-decoration: none;" href="{www_dir}{index}/filemanager/download/{file_id}/{file_name}">{file_name}</a>
+     <a style="text-decoration: none;" href="{www_dir}{index}/filemanager/download/{file_id}/">{file_name}</a>
      </td>
      <td width="50%" class="{td_class}" align="right">
-     <div class="p">( <a href="{www_dir}{index}/filemanager/download/{file_id}/{file_name}">{file_size}&nbsp;{file_unit}</a> )</div>
+     <div class="p">( <a href="{www_dir}{index}/filemanager/download/{file_id}/">{file_size}&nbsp;{file_unit}</a> )</div>
      </td>
 </tr>
 <tr>
