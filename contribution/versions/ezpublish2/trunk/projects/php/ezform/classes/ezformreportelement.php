@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: ezformreportelement.php,v 1.10 2002/01/23 07:48:11 jhe Exp $
+// $Id: ezformreportelement.php,v 1.11 2002/01/23 08:30:02 jhe Exp $
 //
 // Definition of eZFormReportElement class
 //
@@ -166,69 +166,70 @@ class eZFormReportElement
 
     function analyze( &$template )
     {
-        switch ( $this->StatisticsType )
+        $name = $this->types( $this->StatisticsType );
+        switch ( $name["Name"] )
         {
-            case 0:
+            case "Nothing":
             {
                 return "";
             }
             break;
-            
-            case 1:
+
+            case "Frequency":
             {
                 return $this->statFrequency( &$template );
             }
             break;
 
-            case 2:
+            case "Count":
             {
                 return $this->statCount( &$template );
             }
             break;
 
-            case 3:
+            case "Sum":
             {
                 return $this->statSum( &$template );
             }
             break;
 
-            case 4:
+            case "Average":
             {
                 return $this->statAverage( &$template );
             }
             break;
 
-            case 5:
+            case "Min":
             {
                 return $this->statMin( &$template );
             }
             break;
 
-            case 6:
+            case "Max":
             {
                 return $this->statMax( &$template );
             }
             break;
 
-            case 7:
+            case "Median":
             {
                 return $this->statMedian( &$template );
             }
             break;
 
-            case 8:
+            case "25percentile":
             {
                 return $this->statPercentile( &$template, 25 );
             }
             break;
 
-            case 9:
+            case "75percentile":
             {
                 return $this->statPercentile( &$template, 75 );
             }
             break;
 
-            case 10:
+            case "Cross-reference":
             {
                 return $this->statCrossTable( &$template );
             }
@@ -433,22 +434,27 @@ class eZFormReportElement
         return $output;
     }
     
-    function types()
+    function types( $no = -1 )
     {
         $ret = array(
-            array( "Name" => "nothing", "Description" => "intl-nothing" ),
-            array( "Name" => "frequency", "Description" => "intl-frequency" ),
-            array( "Name" => "count", "Description" => "intl-count" ),
-            array( "Name" => "sum", "Description" => "intl-sum" ),
-            array( "Name" => "average", "Description" => "intl-average" ),
-            array( "Name" => "min", "Description" => "intl-min" ),
-            array( "Name" => "max", "Description" => "intl-max" ),
-            array( "Name" => "median", "Description" => "intl-median" ),
+            array( "Name" => "Nothing", "Description" => "intl-nothing" ),
+            array( "Name" => "Hide", "Description" => "intl-hide" ),
+            array( "Name" => "Frequency", "Description" => "intl-frequency" ),
+            array( "Name" => "Count", "Description" => "intl-count" ),
+            array( "Name" => "Sum", "Description" => "intl-sum" ),
+            array( "Name" => "Average", "Description" => "intl-average" ),
+            array( "Name" => "Min", "Description" => "intl-min" ),
+            array( "Name" => "Max", "Description" => "intl-max" ),
+            array( "Name" => "Median", "Description" => "intl-median" ),
             array( "Name" => "25percentile", "Description" => "intl-25percentile" ),
             array( "Name" => "75percentile", "Description" => "intl-75percentile" ),
             array( "Name" => "Cross-reference", "Description" => "intl-cross_reference" )
             );
-        return $ret;
+        
+        if ( $no > -1 )
+            return $ret[$no];
+        else
+            return $ret;
     }
     
     var $ID;

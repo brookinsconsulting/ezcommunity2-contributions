@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezformrenderer.php,v 1.57 2002/01/22 17:37:48 jhe Exp $
+// $Id: ezformrenderer.php,v 1.58 2002/01/23 08:30:02 jhe Exp $
 //
 // eZFormRenderer class
 //
@@ -234,6 +234,8 @@ class eZFormRenderer
                 if ( $report )
                 {
                     $reportElement = new eZFormReportElement( $element->id(), $resultID );
+                    if ( $reportElement->statisticsType( false ) == "Hide" )
+                        return "";
                     $elementValue = $reportElement->analyze( $this->Template );
                 }
                 else
@@ -403,7 +405,19 @@ class eZFormRenderer
 
         foreach ( $elements as $element )
         {
-            if ( !$element->hide() )
+            $hide = false;
+
+            if ( $element->hide() )
+                $hide = true;
+
+            if ( $report && $element->ElementType->name() == "table_item" )
+            {
+                $repElement = new eZFormReportElement( $element->id(), $report );
+                if ( $repElement->statisticsType( false ) == "Hide" )
+                    $hide = true;
+            }
+            
+            if ( !$hide )
             {
                 $elementCounter++;
                 $eType = $element->elementType();
@@ -439,9 +453,9 @@ class eZFormRenderer
                                 $this->Template->set_var( "colspan", "colspan=\"$colspan\"" );
                             else
                                 $this->Template->set_var( "colspan", "" );
-                            
+
                             $output = $this->renderElement( $tableElements[$i], true, false, $result, $resultID, $report );
-                            
+                                                        
                             $this->Template->set_var( "element", $output );
                             
                             if ( $cols == 0 )
