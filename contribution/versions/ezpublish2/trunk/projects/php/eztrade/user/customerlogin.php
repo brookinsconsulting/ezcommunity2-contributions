@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: customerlogin.php,v 1.6 2000/11/07 08:28:17 bf-cvs Exp $
+// $Id: customerlogin.php,v 1.7 2000/11/07 11:42:52 bf-cvs Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <03-Oct-2000 16:45:30 bf>
@@ -40,7 +40,7 @@ if ( $user  )
 {
     if ( count( $user->addresses() ) == 0 )
     {
-        Header( "Location: /user/address/new/" );
+        Header( "Location: /user/address/new/?RedirectURL=/trade/customerlogin/" );
         exit();
 
     }

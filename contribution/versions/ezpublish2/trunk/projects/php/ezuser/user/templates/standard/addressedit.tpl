@@ -1,4 +1,4 @@
-<form method="post" action="/user/userwithaddress/{action_value}/{user_id}/">
+<form method="post" action="/user/address/{action_value}/{user_id}/">
 
 <h1>{intl-head_line}</h1>
 

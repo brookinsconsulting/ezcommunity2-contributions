@@ -77,6 +77,20 @@ switch ( $url_array[2] )
 
     case "address" :
     {
+        if ( $url_array[3] == "new" )
+            $Action = "New";
+        if ( $url_array[3] == "insert" )
+            $Action = "Insert";
+
+        if ( $url_array[3] == "edit" )
+        {
+            $Action = "Edit";
+        }
+        if ( $url_array[3] == "update" )
+        {
+            $Action = "Update";
+        }
+        
         include( "ezuser/user/addressedit.php" );
     }
     break;

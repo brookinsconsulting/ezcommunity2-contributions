@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: addressedit.php,v 1.2 2000/11/07 08:28:17 bf-cvs Exp $
+// $Id: addressedit.php,v 1.3 2000/11/07 11:42:53 bf-cvs Exp $
 //
 // 
 //
@@ -24,6 +24,7 @@
 
 include_once( "classes/INIFile.php" );
 include_once( "classes/eztemplate.php" );
+include_once( "classes/ezlog.php" );
 
 $ini = new INIFIle( "site.ini" );
 
@@ -46,40 +47,35 @@ if ( $Action == "Insert" )
     {
         $user = eZUser::currentUser();
 
-        if ( !$user->exists( $Login ) )
+        if ( $user )
         {
+            $address = new eZAddress();
+            $address->setStreet1( $Street1 );
+            $address->setStreet2( $Street2 );
+            $address->setZip( $Zip );
+            $address->setPlace( $Place );
+            
+            if ( isset( $CountryID ) )
             {
-                $address = new eZAddress();
-                $address->setStreet1( $Street1 );
-                $address->setStreet2( $Street2 );
-                $address->setZip( $Zip );
-                $address->setPlace( $Place );
+                $country = new eZCountry( $CountryID );
+                $address->setCountry( $country );
+            }
+            
+            $address->store();
+            
+            // add the address to the user.
+            $user->addAddress( $address );
 
-                if ( isset( $CountryID ) )
-                {
-                    $country = new eZCountry( $CountryID );
-                    $address->setCountry( $country );
-                    
-                }
-                
-                $address->store();
-
-                // add the address to the user.
-                $user->addAddress( $address );
-
-                if ( isset( $RedirectURL ) )
-                {
-                    Header( "Location: $RedirectURL" );
-                    exit();
-                }
-                
-                Header( "Location: /" );
+            eZLog::writeNotice( "Anonyous user added address:  (" . $user->login() . ") from IP: $REMOTE_ADDR" );                    
+            
+            if ( ( isset( $RedirectURL ) ) && ( $RedirectURL != "" ) )
+            {
+                Header( "Location: $RedirectURL" );
                 exit();
             }
-            else
-            {
-                $PasswordError = true;
-            }
+            
+            Header( "Location: /" );
+            exit();
         }
         else
         {
