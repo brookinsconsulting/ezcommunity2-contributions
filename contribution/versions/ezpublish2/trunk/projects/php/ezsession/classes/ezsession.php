@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezsession.php,v 1.25 2001/01/22 14:50:58 jb Exp $
+// $Id: ezsession.php,v 1.26 2001/01/23 11:52:10 jb Exp $
 //
 // Definition of eZSession class
 //
@@ -210,6 +210,10 @@ class eZSession
         }
         else
         {
+            if ( $refresh == true )
+            {
+                $this->refresh();
+            }
             $ret = true;
         }
 
