@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: folderedit.php,v 1.28 2001/09/13 21:05:22 fh Exp $
+// $Id: folderedit.php,v 1.29 2001/09/16 21:03:39 fh Exp $
 //
 // Created on: <08-Jan-2001 11:13:29 ce>
 //
@@ -166,11 +166,18 @@ if ( $Action == "Insert" || $Action == "Update" )
 // Insert or update a folder.
 if ( ( $Action == "Insert" || $Action == "Update" ) && $error == false )
 {
-    $folder = $Action == "Insert" ? new eZVirtualFolder(): new eZVirtualFolder( $FolderID );
+    if( $Action == "Insert" )
+    {
+        $folder = new eZVirtualFolder();
+        $folder->setUser( $user );
+    }
+    else
+    {
+        new eZVirtualFolder( $FolderID );
+    }
     $folder->setName( $Name );
     $folder->setDescription( $Description );
 
-    $folder->setUser( $user );
 
     $parent = new eZVirtualFolder( $ParentID );
     $folder->setParent( $parent );
@@ -290,7 +297,7 @@ foreach ( $groups as $group )
             }
             else
             {
-                $t->set_var( "is_write_selected", "" );
+                $t->set_var( "is_write_selected1", "" );
             }
         }
     }
