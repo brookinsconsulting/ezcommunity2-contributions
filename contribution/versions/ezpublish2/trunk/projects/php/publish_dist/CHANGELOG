@@ -3,6 +3,11 @@ eZ publish changelog:
 
 Changes from 2.2 Beta 1 to 2.2 Beta 2
 -----------------------------------
+* Added sections to eZ trade
+* Added a better VAT system i eZ trade
+* Added voucher view
+* Added order list/view for customers
+* Added a more complete cart and checkout
 * Added SQL admin in sitemanager
 * Added fulltext search in eZ forum
 * Fixed search on keywords in article
