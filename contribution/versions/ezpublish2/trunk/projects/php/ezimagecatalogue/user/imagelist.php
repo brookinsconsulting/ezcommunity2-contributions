@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: imagelist.php,v 1.10 2001/01/26 09:25:01 ce Exp $
+// $Id: imagelist.php,v 1.11 2001/01/26 10:39:34 ce Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <10-Dec-2000 16:16:20 bf>
@@ -26,6 +26,9 @@
 include_once( "classes/INIFile.php" );
 include_once( "classes/eztemplate.php" );
 include_once( "classes/ezlog.php" );
+
+include_once( "ezuser/classes/ezuser.php" );
+include_once( "ezuser/classes/ezpermission.php" );
 
 include_once( "ezimagecatalogue/classes/ezimage.php" );
 include_once( "ezimagecatalogue/classes/ezimagecategory.php" );
@@ -297,7 +300,7 @@ foreach ( $imageList as $image )
     $i++;
 }
 
-if ( $category )
+if ( $category->id() != 0 )
 {
     $currentWritePermission = $category->checkWritePermission( $user );
 

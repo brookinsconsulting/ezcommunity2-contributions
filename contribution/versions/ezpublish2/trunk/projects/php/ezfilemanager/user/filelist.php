@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: filelist.php,v 1.11 2001/01/25 19:08:20 ce Exp $
+// $Id: filelist.php,v 1.12 2001/01/26 10:39:34 ce Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <10-Dec-2000 16:16:20 bf>
@@ -27,6 +27,7 @@ include_once( "classes/INIFile.php" );
 include_once( "classes/eztemplate.php" );
 include_once( "classes/ezlog.php" );
 
+include_once( "ezuser/classes/ezuser.php" );
 include_once( "ezuser/classes/ezpermission.php" );
 
 include_once( "ezfilemanager/classes/ezvirtualfile.php" );
@@ -145,7 +146,7 @@ foreach ( $folderList as $folderItem )
     $i++;
 }
 
-if ( $folder )
+if ( $folder->id() != 0 )
 {
     $currentWritePermission = $folder->checkWritePermission( $user );
 
@@ -156,6 +157,7 @@ if ( $folder )
 }
 else
 {
+
     if ( eZPermission::checkPermission( $user, "eZFileManager", "WriteToRoot" ) )
     {
         $t->parse( "write_menu", "write_menu_tpl" );
