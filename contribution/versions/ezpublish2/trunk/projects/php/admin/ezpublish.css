@@ -191,6 +191,11 @@ th
 	background-color: #787878;
 }
 
+form
+{
+	margin: 0px;
+}
+
 hr
 {
 	color: #808080;
