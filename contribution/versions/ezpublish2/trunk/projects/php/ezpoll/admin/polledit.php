@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: polledit.php,v 1.14 2000/11/02 12:10:24 ce-cvs Exp $
+// $Id: polledit.php,v 1.15 2000/11/02 14:09:10 ce-cvs Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <21-Sep-2000 10:39:19 ce>
@@ -173,7 +173,7 @@ if ( $Action == "Update" )
 // Delete
 if ( $Action == "Delete" )
 {
-    $poll = new eZPoll();    
+    $poll = new eZPoll();
     $poll->get( $PollID );
     $poll->delete();
 
