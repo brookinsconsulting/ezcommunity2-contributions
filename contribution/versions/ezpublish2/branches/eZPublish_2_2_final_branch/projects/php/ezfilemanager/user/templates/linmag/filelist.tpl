@@ -38,9 +38,18 @@
 <!-- END path_item_tpl -->
 
 <div class="spacer"><div class="p">{current_folder_description}</div></div>
-
-<!-- BEGIN folder_list_tpl -->
 <table width="100%" border="0" cellspacing="0" cellpadding="4" >
+<!-- BEGIN parent_folder_tpl -->
+<tr>
+<td class="{td_class_parent}" width="%1">
+<img src="{www_dir}/images/folder.gif" alt="" width="16" height="16" border="0" />
+</td>
+<td class="{td_class_parent}" colspan="3" width="99%">
+<a href="{www_dir}{index}/filemanager/list/{parent_folder_id}/">..</a><br />
+</td>
+</tr>
+<!-- END parent_folder_tpl -->
+<!-- BEGIN folder_list_tpl -->
 <!-- BEGIN folder_tpl -->
 <tr>
         <!-- BEGIN folder_read_tpl -->
