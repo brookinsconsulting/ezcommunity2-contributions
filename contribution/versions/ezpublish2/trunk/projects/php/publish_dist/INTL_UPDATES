@@ -3,6 +3,11 @@ Example:
 mod: bug/user, fileedit.php.ini
 change: added user_edit=Some text
 --------------------------------------------------------------------
+mod: ezforum/ user, mailreply.php.ini
+change: added moderator_subject=Message posted to your moderated forum
+change: added moderator_info_message_1=You are the moderator of the forum
+change: added moderator_info_message_4=The new message is presented below
+
 mod: ezbug/ admin, mailreply.php.ini
 change: added bug_handled=BUG HANDLED
 
