@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezuser.php,v 1.45 2001/01/23 10:57:48 ce Exp $
+// $Id: ezuser.php,v 1.46 2001/01/25 17:08:06 jb Exp $
 //
 // Definition of eZCompany class
 //
@@ -64,7 +64,7 @@
 
 include_once( "classes/ezdb.php" );
 
-include_once( "ezcontact/classes/ezaddress.php" );
+include_once( "ezaddress/classes/ezaddress.php" );
 include_once( "classes/ezdatetime.php" );
 include_once( "ezsession/classes/ezsession.php" );
 include_once( "ezuser/classes/ezusergroup.php" );
@@ -662,8 +662,9 @@ class eZUser
 
             $db->query( "DELETE FROM eZUser_UserAddressLink
                                 WHERE AddressID='$addressID'" );
-            $db->query( "DELETE FROM eZContact_Address
-                                WHERE ID='$addressID'" );
+            eZAddress::delete( $addressID );
+//              $db->query( "DELETE FROM eZContact_Address
+//                                  WHERE ID='$addressID'" );
         }
     }
     
