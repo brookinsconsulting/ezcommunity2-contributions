@@ -5,15 +5,16 @@
 
 <!-- BEGIN product_tpl -->
 {begin_tr}
-	<td class="menutext">
+	<td>
 
-	<a class="menutext" href="/trade/productview/{product_id}/{category_id}/"><b>{product_name}</b></a>
+	<a class="small" href="http://shop.ez.no/trade/productview/{product_id}/{category_id}/">{product_name}</a><br />
 
 	<!-- BEGIN product_image_tpl -->
+
 	<!-- END product_image_tpl -->
 
 <!-- BEGIN price_tpl -->
-	<div class="pris">{product_price}</div>
+	<div class="small">{product_price}</div>
 <!-- END price_tpl -->
 
 	</td>
@@ -21,9 +22,6 @@
 
 <!-- END product_tpl -->
 
-<tr>
-	<td class="menuspacer">&nbsp;</td>
-</tr>
 </table>
 
 <!-- END product_list_tpl -->
