@@ -14,6 +14,7 @@
 	</td>
 	<td align="right">
 	<form action="{www_dir}{index}/article/search/" method="post">
+        <input type="hidden" name="SectionIDOverride" value="{section_id}">
 	<input class="searchbox" type="text" name="SearchText" size="10" />	
 	<input class="stdbutton" type="submit" value="{intl-search}" />
 	</form>	
@@ -46,15 +47,28 @@
 </table>
 <!-- END article_header_tpl -->
 
+<!-- BEGIN article_topic_tpl -->
+<a class="path" href="{www_dir}{index}/article/topiclist/{topic_id}">{topic_name}</a>
+<!-- END article_topic_tpl -->
+
 <!-- BEGIN article_intro_tpl -->
-<p>
-{article_intro}
-</p>
+<table width="100%" cellspacing="0" cellpadding="0" border="0">
+<tr>
+	<td>
+	{article_intro}
+	</td>
+</tr>
+</table>
+<br />
 <!-- END article_intro_tpl -->
 
-<p>
-{article_body}
-</p>
+<table width="100%" cellspacing="0" cellpadding="0" border="0">
+<tr>
+	<td>
+	{article_body}
+	</td>
+</tr>
+</table>
 
 <!-- BEGIN image_list_tpl -->
 <table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
@@ -112,10 +126,10 @@
 <br /><br />
 
 <!-- BEGIN numbered_page_link_tpl -->
-| <a class="path" href="{www_dir}{index}/article/articleview/{article_id}/0/">{intl-numbered_page}</a> |
+| <a class="path" href="{www_dir}{index}/article/articleview/{article_id}/0/{category_id}/">{intl-numbered_page}</a> |
 <!-- END numbered_page_link_tpl -->
 
 <!-- BEGIN print_page_link_tpl -->
-| <a class="path" href="{www_dir}{index}/article/articleprint/{article_id}/">{intl-print_page}</a> |
+| <a class="path" href="{www_dir}{index}/article/articleprint/{article_id}/-1/{category_id}/">{intl-print_page}</a> |
 <!-- END print_page_link_tpl -->
 </div>
