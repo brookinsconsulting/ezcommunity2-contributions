@@ -1243,3 +1243,12 @@ Maintainer(s) : jhe@ez.no
     * user/messagebody.php
       user/messageform.php: fixed bug with posting time and author name
 
+
+Module : ezforum
+Repository path : /home/cvsroot/projects/php/ezforum
+Maintainer(s) : jhe@ez.no
+2002-10-02  Baard Farstad  <bf@ez.no>
+
+    * classes/ezforum.php
+      admin/search.php: Fixed problem with search in forum admin interface.
+
