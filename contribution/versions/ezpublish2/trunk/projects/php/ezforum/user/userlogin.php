@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: userlogin.php,v 1.1 2000/10/20 10:27:02 ce-cvs Exp $
+// $Id: userlogin.php,v 1.2 2000/10/24 14:02:03 ce-cvs Exp $
 //
 // 
 //
@@ -34,7 +34,7 @@ if ( eZUser::currentUser() )
 
     if ( $Action == "reply" )
     {
-        Header( "Location: /forum/reply//reply/$MessageID/" );
+        Header( "Location: /forum/reply/reply/$MessageID/" );
     }    
 }
 else

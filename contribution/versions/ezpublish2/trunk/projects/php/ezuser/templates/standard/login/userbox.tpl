@@ -12,7 +12,7 @@
 	<b>Innlogget bruker:</b>
 	{first_name} {last_name}
 	<input type="submit" value="Logg ut" /><br>
-        <a href="/user/passwordchange/">Bytt passord</a>
+        <a href="/user/user/edit/{user_id}/">{intl-change_user_info}</a>
         </form>
 	</td>
 </tr>

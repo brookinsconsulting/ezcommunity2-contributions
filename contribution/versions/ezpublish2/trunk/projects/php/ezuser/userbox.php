@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: userbox.php,v 1.2 2000/10/03 07:13:48 ce-cvs Exp $
+// $Id: userbox.php,v 1.3 2000/10/24 14:02:03 ce-cvs Exp $
 //
 // Definition of eZUser class
 //
@@ -54,6 +54,7 @@ else
 
     $t->set_var( "first_name", $user->firstName() );
     $t->set_var( "last_name", $user->lastName() );
+    $t->set_var( "user_id", $user->id() );
     $t->set_var( "style", $SiteStyle );
 
     $t->pparse( "output", "userbox" );

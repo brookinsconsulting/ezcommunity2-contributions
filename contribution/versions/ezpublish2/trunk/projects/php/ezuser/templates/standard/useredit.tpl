@@ -36,7 +36,7 @@
 </table>
 
 <p class="boxtext">{intl-login}</p>
-<input type="text" size="20" name="Login" value="{login_value}"/>
+<input type="text" {read_only} size="20" name="Login" value="{login_value}"/>
 
 <p class="boxtext">{intl-email}</p>
 <input type="text" size="20" name="Email" value="{email_value}"/>

@@ -15,16 +15,18 @@
 </select>
 
 <p class="boxtext">{intl-url}</p>
-<form method="post" action="/link/suggestlink/?Action=GetSite">
-http://<input type="text" name="url" size="40" value="{url}"><br /><input class="stdbutton" type="submit" value="{intl-meta}">
-</form>
+
+http://<input type="text" name="url" size="40" value="{url}"><br />
+<input class="stdbutton" type="submit" value="{intl-meta}" name="GetSite" />
 
 <p class="boxtext">{intl-keywords}</p>
-<textarea rows="5" cols="40" name="keywords">{keywords}</textarea>
+
+<textarea wrap="soft" rows="5" cols="40" name="keywords">{keywords}</textarea>
+
 <br />
 
 <p class="boxtext">{intl-description}</p>
-<textarea rows="5" cols="40" name="description">{description}</textarea>
+<textarea wrap="soft" rows="5" cols="40" name="description">{description}</textarea>
 <br /><br />
 
 <hr noshade size="4"/>
@@ -35,6 +37,7 @@ http://<input type="text" name="url" size="40" value="{url}"><br /><input class=
 	<input class="okbutton" type="submit" value="{intl-ok}">
 	</td>
 	<td>&nbsp;</td>
+</form>
 	<td>
 	<form action="/link/group/">
 	<input class="okbutton" type="submit" name="Back" value="{intl-back}">
@@ -42,5 +45,3 @@ http://<input type="text" name="url" size="40" value="{url}"><br /><input class=
 	</td>
 </tr>
 </table>
-</form>
-

@@ -33,6 +33,17 @@ switch ( $url_array[2] )
             $Action = "New";
         if ( $url_array[3] == "insert" )
             $Action = "Insert";
+        if ( $url_array[3] == "edit" )
+        {
+            $Action = "Edit";
+            $UserID = $url_array[4];
+        }
+        if ( $url_array[3] == "update" )
+        {
+            $Action = "Update";
+            $UserID = $url_array[4];
+        }
+        
         
         include( "ezuser/useredit.php" );
     }

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: messageedit.php,v 1.2 2000/10/20 10:27:02 ce-cvs Exp $
+// $Id: messageedit.php,v 1.3 2000/10/24 14:02:03 ce-cvs Exp $
 //
 // 
 //
@@ -94,6 +94,7 @@ $t->set_var( "forum_name", $forum->name() );
 $t->set_var( "forum_id", $ForumID );
 $category = new eZForumCategory( $forum->categoryID() );
 $t->set_var( "category_name", $category->name() );
+$t->set_var( "category_id", $category->id() );
 
 
 $username = ( $user->firstName() . " " . $user->lastName() );

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: messagereply.php,v 1.2 2000/10/18 13:59:40 th-cvs Exp $
+// $Id: messagereply.php,v 1.3 2000/10/24 14:02:03 ce-cvs Exp $
 //
 // 
 //
@@ -119,9 +119,6 @@ $t = new eZTemplate( "ezforum/user/" . $ini->read_var( "eZForumMain", "TemplateD
 $t->setAllStrings();
 
 $t->set_file( "replymessage", "messagereply.tpl");
-
-
-
 
 $category = new eZForumCategory();
 

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: useredit.php,v 1.3 2000/10/15 13:04:57 bf-cvs Exp $
+// $Id: useredit.php,v 1.4 2000/10/24 14:02:03 ce-cvs Exp $
 //
 // 
 //
@@ -66,8 +66,15 @@ if ( $Action == "Insert" )
 
                     eZLog::writeNotice( "Anonyous user created: $FirstName $LastName ($Login) $Email from IP: $REMOTE_ADDR" );                    
                     eZLog::writeNotice( "User login: $Login from IP: $REMOTE_ADDR" );
-                        
-                    Header( "Location: $RedirectURL" );
+
+                    if ( $RedirectURL )
+                    {
+                        Header( "Location: $RedirectURL" );
+                    }
+                    else
+                    {
+                        Header( "Location: /" );
+                    }
                 }
                 else
                 {
@@ -90,6 +97,41 @@ if ( $Action == "Insert" )
     }
 }
 
+if ( $Action == "Update" )
+{
+    if ( eZMail::validate( $Email ) )
+    {
+        $user = new eZUser();
+        $user->get( $UserID );
+        $user->setEmail( $Email );
+        $user->setFirstName( $FirstName );
+        $user->setLastName( $LastName );
+        if ( $Password )
+        {
+            if ( ( $Password == $VerifyPassword ) && ( strlen( $VerifyPassword ) > 2 ) )
+            {
+                $user->setPassword( $Password );
+            }
+            else
+            {
+                $PasswordError = true;
+            }
+        }
+        if ( $PasswordError == false )
+        {
+            $user->store();
+        }
+    }
+    else
+    {
+        $EmailError = true;
+    }
+    if ( $EmailError == false )
+    {
+        Header( "Location: /" );
+    }
+}
+        
 $t = new eZTemplate( "ezuser/" . $ini->read_var( "eZTradeMain", "TemplateDir" ),
                      "ezuser/intl/", $Language, "useredit.php" );
 
@@ -98,6 +140,21 @@ $t->setAllStrings();
 $t->set_file( array(        
     "user_edit_tpl" => "useredit.tpl"
     ) );
+
+$actionValue = "insert";
+
+if ( $Action == "Edit" )
+{
+    $user = new eZUser();
+    $user->get( $UserID );
+
+    $Login = $user->login();
+    $Email = $user->email();
+    $FirstName = $user->firstName();
+    $LastName = $user->lastName();
+    $t->set_var( "read_only", "readonly=readonly" );
+    $actionValue = "update";
+}
 
 
 $t->set_block( "user_edit_tpl", "required_fields_error_tpl", "required_fields_error" );
@@ -141,6 +198,7 @@ else
    $t->set_var( "email_error", "" );
 }
 
+$t->set_var( "user_id", $UserID );
 $t->set_var( "login_value", $Login );
 $t->set_var( "password_value", $Password );
 $t->set_var( "verify_password_value", $VerifyPassword );
@@ -149,8 +207,7 @@ $t->set_var( "email_value", $Email );
 $t->set_var( "first_name_value", $FirstName );
 $t->set_var( "last_name_value", $LastName );
 
-$t->set_var( "action_value", "insert" );
-$t->set_var( "user_id", "" );
+$t->set_var( "action_value", $actionValue );
 
 $t->set_var( "redirect_url", $RedirectURL );
 

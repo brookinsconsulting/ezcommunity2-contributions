@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: suggestlink.php,v 1.3 2000/10/20 14:42:32 ce-cvs Exp $
+    $Id: suggestlink.php,v 1.4 2000/10/24 14:02:03 ce-cvs Exp $
 
     Author: Christoffer A. Elo <ce@ez.no>
     
@@ -21,20 +21,16 @@ include_once( "ezlink/classes/ezlinkgroup.php" );
 include_once( "ezlink/classes/ezlink.php" );
 include_once( "ezlink/classes/ezhit.php" );
 
-
-if ( $Action == "GetSite" )
+if ( $GetSite )
 {
     if ( $url )
     {
         
     $metaList =  get_meta_tags ( "http://" . $url );
 
-            print_r( $metaList );
-
     $tdescription = $metaList["description"];
     $tkeywords = $metaList["keywords"];
     }
-    
 }
 
 if ( $Action == "insert" )
@@ -43,13 +39,16 @@ if ( $Action == "insert" )
 
     if ( ( $title == "" ) || ( $url == "" ) || ( $description == "" ) || ( $keywords == "" ) ) 
     {
-        $inierror = new INIFile( "ezlink/" . "/intl/" . $Language . "/suggestlink.php.ini", false );
+        $inierror = new INIFile( "ezlink/user" . "/intl/" . $Language . "/suggestlink.php.ini", false );
         $terror_msg =  $inierror->read_var( "strings", "empty_error" );
 
         $ttitle = $title;
         $turl = $url;
-        $tkeywords = $keywords;
-        $tdescription = $description;
+        if ( !$GetSite )
+        {
+            $tkeywords = $keywords;
+            $tdescription = $description;
+        }
     }
     else
     {

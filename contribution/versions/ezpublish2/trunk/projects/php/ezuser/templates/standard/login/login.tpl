@@ -16,6 +16,8 @@
 	<br />
 	<input type="submit" value="{intl-ok}" />
 	</form>
+	<a href="/user/user/new/">{intl-register}</a><br /><br />
 	<a href="/user/forgot">{intl-forgot}</a>
+	
 	</td>
 </tr>
