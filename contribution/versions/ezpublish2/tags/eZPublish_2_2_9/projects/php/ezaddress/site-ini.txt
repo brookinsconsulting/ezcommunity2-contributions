@@ -1,0 +1,21 @@
+        **** Explanation of site.ini variables ****
+
+The name of the group in site.ini for eZAddress is eZAddressMain.
+It contains these variables:
+
+AdminTemplateDir:    Relative path to template files in admin
+TemplateDir:         Relative path to template files in user
+ImageDir:            Absolute path to images
+DocumentRoot:        The path to the root directory of eZContact
+Language:            The language used in eZContact
+MaxCountryList:      The maximum number of countries to show in a countrylist,
+                     if the number is exceeded next/prev button are shown
+
+Example group:
+[eZAddressMain]
+AdminTemplateDir=templates/standard/
+TemplateDir=templates/standard/
+ImageDir=/images/standard/
+DocumentRoot=./ezaddress/
+Language=en_GB
+MaxCountryList=10
