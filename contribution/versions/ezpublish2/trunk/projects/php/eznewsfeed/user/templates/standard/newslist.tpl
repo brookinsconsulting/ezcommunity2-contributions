@@ -18,7 +18,7 @@
 <table width="100%" cellspacing="0" cellpadding="4" border="0">
 <tr>
 	<td>
-	<h1>Seanex.no er ute på nettet!</h1>
+	<div class="h1">Seanex.no er ute på nettet!</div>
 	<p>
 	Egen boks for PR for Seanex.no. Denne kan fylles med hva som helst, men gjerne fisk.
 	Egen boks for PR for Seanex.no. Denne kan fylles med hva som helst, men gjerne fisk.
@@ -28,7 +28,6 @@
 	</td>
 </tr>
 </table>
-<br />
 
 <!-- {intl-latest_news} -->
 <!-- <h1>Siste nytt om fiskerinæringen</h1> -->
@@ -94,6 +93,7 @@
 </table>
 <!-- END news_list_tpl -->
 
+<!--
 <br />
 
 <table width="100%" cellspacing="0" cellpadding="4" border="0">
@@ -106,6 +106,6 @@
 	</td>
 </tr>
 </table>
-
+-->
 
 
