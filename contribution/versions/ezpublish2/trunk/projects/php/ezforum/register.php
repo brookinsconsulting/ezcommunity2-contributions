@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: register.php,v 1.1 2000/07/14 12:55:45 lw-cvs Exp $
+    $Id: register.php,v 1.2 2000/07/14 13:18:34 lw-cvs Exp $
 
     Author: Lars Wilhelmsen <lw@ez.no>
     
@@ -15,8 +15,8 @@ include( "$DOCROOT/classes/ezuser.php" );
 
 
 $t = new Template(".");
-$t->set_file(Array( "register" => "templates/register.tpl",
-                    "finish" => "templates/register-finished.tpl"));
+$t->set_file(Array( "register" => "$DOCROOT/templates/register.tpl",
+                    "finish" => "$DOCROOT/templates/register-finished.tpl"));
 $t->set_var( "docroot", $DOCROOT);
 
 $user = new eZUser;
