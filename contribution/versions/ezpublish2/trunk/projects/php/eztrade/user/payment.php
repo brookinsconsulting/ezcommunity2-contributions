@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: payment.php,v 1.8 2001/02/09 15:20:05 bf Exp $
+// $Id: payment.php,v 1.9 2001/02/09 15:49:50 ce Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <02-Feb-2001 16:31:53 bf>
@@ -251,6 +251,12 @@ if ( $PaymentSuccess == "true" )
     $mailTemplate->set_var( "product_total", $grandTotalString );
    
     $mailTemplate->set_var( "order_number", $order->id() );
+
+    $checkout = new eZCheckout();
+    $instance =& $checkout->instance();
+    $paymentMethod = $instance->paymentName( $order->paymentMethod() );
+    
+    $mailTemplate->set_var( "payment_method", $paymentMethod );
 
     // get the subjects
     $mailSubjectUser = $mailTemplate->parse( "subject_user", "subject_user_tpl" );

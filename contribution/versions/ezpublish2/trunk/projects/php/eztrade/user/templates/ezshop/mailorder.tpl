@@ -5,7 +5,7 @@
 {intl-mail_subject_user} shop.ez.no
 <!-- END subject_user_tpl -->
 
-http://shop.ez.no 
+http://shop.ez.no
 
 {intl-payment_method}: {payment_method}
 
@@ -26,6 +26,9 @@ http://shop.ez.no
 {shipping_zip} {shipping_place}
 {shipping_country}
 <!-- END shipping_address_tpl -->
+
+Betalingsmetode:
+{payment_method}
 
 {intl-order_no}: {order_number}
 

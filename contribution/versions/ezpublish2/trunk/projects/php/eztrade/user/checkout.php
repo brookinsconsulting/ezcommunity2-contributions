@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: checkout.php,v 1.33 2001/02/09 14:43:00 ce Exp $
+// $Id: checkout.php,v 1.34 2001/02/09 15:49:50 ce Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <28-Sep-2000 15:52:08 bf>
@@ -323,6 +323,15 @@ foreach ( $addressArray as $address )
     $t->set_var( "place", $address->place() );
     $country = $address->country();
     $t->set_var( "country", $country->name() );
+
+    unset( $mainAddress );
+    $t->set_var( "is_selected", "" );
+    $mainAddress = $address->mainAddress( $user );
+
+    if ( $mainAddress->id() == $address->id() )
+    {
+        $t->set_var( "is_selected", "selected" );
+    }
 
     if ( $ini->read_var( "eZTradeMain", "ShowBillingAddress" ) == "enabled" )
         $t->parse( "billing_option", "billing_option_tpl", true );
