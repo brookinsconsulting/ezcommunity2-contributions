@@ -52,15 +52,30 @@
 
 	</td>
 </tr>
+<tr>
+<td>&nbsp;</td>
+</tr> 
+<tr>
+       <td>
+       <p class="boxtext">{intl-bulkmail_category_select}:</p>
+       <select name="BulkMailID">
+       <option value="-1" {no_bulkmail_selected}>{intl-no_bulkmail}</option>
+       <!-- BEGIN bulkmail_category_item_tpl -->
+       <option value="{bulkmail_category_id}" {bulkmail_selected}>{bulkmail_category_name}</option>
+       <!-- END bulkmail_category_item_tpl -->
+       </select>
+       </td>
+       <td>
+	<p class="boxtext">{intl-section_select}:</p>
+	<select name="SectionID">
+	<!-- BEGIN section_item_tpl -->
+	<option value="{section_id}" {section_is_selected}>{section_name}</option>
+	<!-- END section_item_tpl -->
+	</select>
+	</td>
+</tr>
 </table>
 
-<p class="boxtext">{intl-bulkmail_category_select}:</p>
-<select name="BulkMailID">
-<option value="-1" {no_bulkmail_selected}>{intl-no_bulkmail}</option>
-<!-- BEGIN bulkmail_category_item_tpl -->
-<option value="{bulkmail_category_id}" {bulkmail_selected}>{bulkmail_category_name}</option>
-<!-- END bulkmail_category_item_tpl -->
-</select>
 <br /><br />
 
 

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezsection.php,v 1.1 2001/05/10 14:56:52 ce Exp $
+// $Id: ezsection.php,v 1.2 2001/05/10 15:41:45 ce Exp $
 //
 // ezsection class
 //
@@ -201,13 +201,22 @@ class ezsection
     
     /*!
       Returns the SiteDesign of the section.
+
+      If $sectionID is a number, the function will return the sitedesign for that section ID.
     */
-    function siteDesign()
+    function siteDesign( $sectionID=false )
     {
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
-        
-        return htmlspecialchars( $this->SiteDesign );
+
+       if ( is_numeric ( $sectionID ) )
+       {
+           $db =& eZDB::globalDatabase();
+           $db->query_single( $siteDesign, "SELECT SiteDesign FROM eZSiteManager WHERE ID='$sectionID'" );
+           return $siteDesign["SiteDesign"];
+       }
+       else
+           return htmlspecialchars( $this->SiteDesign );
     }
     
     /*!

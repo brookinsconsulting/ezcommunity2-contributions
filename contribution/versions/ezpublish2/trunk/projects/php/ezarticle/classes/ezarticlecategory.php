@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezarticlecategory.php,v 1.60 2001/05/05 11:16:03 bf Exp $
+// $Id: ezarticlecategory.php,v 1.61 2001/05/10 15:41:45 ce Exp $
 //
 // Definition of eZArticleCategory class
 //
@@ -336,7 +336,7 @@ class eZArticleCategory
         else
             return false;
     }
-
+    
     
     /*!
       Returns the object ID to the category. This is the unique ID stored in the database.
@@ -512,6 +512,17 @@ class eZArticleCategory
             $this->get( $this->ID );
         
         $this->Name = $value;
+    }
+
+    /*!
+      Sets the section of the category.
+    */
+    function setSectionID( $value )
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+        
+        $this->SectionID = $value;
     }
 
     /*!
@@ -1057,7 +1068,7 @@ class eZArticleCategory
 
         return $result;
     }
-    
+
     /*!
       Private function.
       Open the database for read and write. Gets all the database information from site.ini.

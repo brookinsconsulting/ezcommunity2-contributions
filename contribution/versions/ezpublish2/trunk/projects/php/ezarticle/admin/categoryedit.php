@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: categoryedit.php,v 1.16 2001/05/08 14:44:16 ce Exp $
+// $Id: categoryedit.php,v 1.17 2001/05/10 15:41:45 ce Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <18-Sep-2000 14:46:19 bf>
@@ -36,6 +36,7 @@ include_once( "classes/eztemplate.php" );
 include_once( "classes/ezcachefile.php" );
 include_once( "ezuser/classes/ezobjectpermission.php" );
 include_once( "ezbulkmail/classes/ezbulkmailcategory.php" );
+include_once( "ezsitemanager/classes/ezsection.php" );
 
 $ini =& INIFile::globalINI();
 
@@ -73,7 +74,8 @@ if ( $Action == "insert" && !$error )
     $category->setName( $Name );
     $category->setParent( $parentCategory );
     $category->setDescription( $Description );
-
+    $category->setSectionID( $SectionID );
+    
     $category->setSortMode( $SortMode );
     
     if ( $ExcludeFromSearch == "on" )
@@ -94,7 +96,7 @@ if ( $Action == "insert" && !$error )
         $category->setBulkMailCategory( $BulkMailID );
     else
         $category->setBulkMailCategory( false );
-    
+
     /* write access select */
     if( isset( $WriteGroupArray ) )
     {
@@ -170,6 +172,7 @@ if ( $Action == "update" && !$error )
     $category->setName( $Name );
     $category->setParent( $parentCategory );
     $category->setDescription( $Description );
+    $category->setSectionID( $SectionID );
 
     $category->setSortMode( $SortMode );
 
@@ -293,6 +296,7 @@ $t->set_block( "category_edit_tpl", "value_tpl", "value" );
 $t->set_block( "category_edit_tpl", "category_owner_tpl", "category_owner" );
 $t->set_block( "category_edit_tpl", "group_item_tpl", "group_item" );
 $t->set_block( "category_edit_tpl", "bulkmail_category_item_tpl", "bulkmail_category_item" );
+$t->set_block( "category_edit_tpl", "section_item_tpl", "section_item" );
 $t->set_block( "category_edit_tpl", "error_permission_tpl", "error_permission" );
 
 $category = new eZArticleCategory();
@@ -423,6 +427,25 @@ foreach( $groupList as $groupItem )
     $t->parse( "group_item", "group_item_tpl", true );
 }
 
+$sectionList =& eZSection::getAll();
+
+if ( count ( $sectionList ) > 0 )
+{
+    foreach( $sectionList as $section )
+    {
+        $t->set_var( "section_id", $section->id() );
+        $t->set_var( "section_name", $section->name() );
+        
+        if ( $sectionID == $section->id() )
+            $t->set_var( "section_is_selected", "selected" );
+        else
+            $t->set_var( "section_is_selected", "" );
+        
+        $t->parse( "section_item", "section_item_tpl", true );
+    }
+}
+else
+$t->set_var( "section_item", "" );
 
 // bulkmail selector
 $categories = eZBulkMailCategory::getAll();
