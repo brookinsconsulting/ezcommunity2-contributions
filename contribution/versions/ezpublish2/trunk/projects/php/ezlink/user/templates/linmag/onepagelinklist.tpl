@@ -14,45 +14,25 @@
 
 <!-- BEGIN path_tpl -->
 
-<img src="/images/path-arrow.gif" height="10" width="12" border="0" alt="" />
-
-<a class="path" href="/link/category/0/">{intl-top}</a>
-
 <!-- END path_tpl -->
 
 <!-- BEGIN path_item_tpl -->
 
-<img src="/images/path-slash.gif" height="10" width="16" border="0" alt="" />
-
-<a class="path" href="/link/category/{category_id}/">{category_name}</a>
-
 <!-- END path_item_tpl -->
 
-<br /><br />
 <!-- BEGIN category_list_tpl -->
-<table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
-<!--
-<tr>
-	<td>
-	<h2>{categories}</h2>
-	</td>
-</tr
--->
 <!-- BEGIN category_item_tpl -->
+<table width="100%" cellspacing="0" cellpadding="4" border="0">
 <tr>
-	<td class="{td_class}" valign="top" width="1%">
-	<img src="/images/folder.gif" height="16" width="16" border="0" alt="" /><br />
-        </td>
-	<td class="{td_class}" valign="top" width="98%" colspan="2">
-<!--	<span class="boxtext" <a href="{www_dir}{index}/link/category/{linkcategory_id}/">{linkcategory_name}</a></span> -->
-	<a class="path" href="{www_dir}{index}/link/category/{linkcategory_id}/">{linkcategory_name}</a>
+	<td valign="top" colspan="2">
+	<h2>{linkcategory_name}</h2>
 	</td>
 </tr>
 <tr>
-    <td class="{td_class}" width="99%" colspan="2">
-	<span class="p">{linkcategory_description}</span>
+    <td width="99%">
+	<div class="p">{linkcategory_description}</div>
 	</td>
-	 <td class="{td_class}" width="1%">
+	 <td width="1%">
 	<!-- BEGIN image_item_tpl -->
 	<a href="/link/category/{linkcategory_id}/">
 	<img src="{image_url}" alt="{image_caption}" width="{image_width}" height="{image_height}" border="0" /></a>
@@ -62,18 +42,10 @@
 	<!-- END no_image_tpl -->
     </td>
 </tr>
-<tr>
-<td>
+</table>
+
 <!-- BEGIN link_list_tpl -->
-<table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
-<tr>
-	<td colspan="3">
-<!--
-	<h2>{links}</h2>
--->
-	<div class="boxtext">({link_start}-{link_end}/{link_total})</div>
-	</td>
-</tr>
+<table width="100%" cellspacing="0" cellpadding="4" border="0">
 <!-- BEGIN link_item_tpl -->
 <tr>
 	<td class="{td_class}" valign="top" width="1%">
@@ -179,8 +151,6 @@
 </table>
 <!-- END type_list_tpl -->
 
-</td>
-</tr>
 <!-- END category_item_tpl -->
-</table>
+
 <!-- END category_list_tpl -->

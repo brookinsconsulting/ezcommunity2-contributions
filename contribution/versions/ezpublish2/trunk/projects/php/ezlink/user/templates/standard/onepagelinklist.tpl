@@ -34,53 +34,86 @@
 <hr noshade size="4">
 
 <!-- BEGIN category_list_tpl -->
-<table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
+<!-- BEGIN category_item_tpl -->
+<table width="100%" cellspacing="0" cellpadding="4" border="0">
 <tr>
-	<td>
-	<h2>{categories}</h2>
+	<td valign="top" colspan="2">
+	<h2>{linkcategory_name}</h2>
 	</td>
 </tr>
-<!-- BEGIN category_item_tpl -->
 <tr>
-	<td class="{td_class}" valign="top" width="99%">
-	<b><a href="/link/category/{linkcategory_id}/">{linkcategory_name}</a></b><br />
-<!--	<div class="spacer"><span class="p">{linkcategory_description}</span></div> -->
+    <td width="99%">
+	<div class="p">{linkcategory_description}</div>
 	</td>
-    <td class="{td_class}" width="1%">
+	 <td width="1%">
 	<!-- BEGIN image_item_tpl -->
 	<a href="/link/category/{linkcategory_id}/">
 	<img src="{image_url}" alt="{image_caption}" width="{image_width}" height="{image_height}" border="0" /></a>
 	<!-- END image_item_tpl -->
 	<!-- BEGIN no_image_tpl -->
-	&nbsp;
+	<img src="/images/1x1.gif" height="1" width="1" border="0" alt="" /><br />
 	<!-- END no_image_tpl -->
     </td>
 </tr>
-<tr>
-<td>
+</table>
+
 <!-- BEGIN link_list_tpl -->
-<table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
-<tr>
-	<td>
-	<h2>{links}</h2>
-	<div class="boxtext">({link_start}-{link_end}/{link_total})</div>
-	</td>
-</tr>
+<table width="100%" cellspacing="0" cellpadding="4" border="0">
 <!-- BEGIN link_item_tpl -->
-<tr class="{td_class}">
-	<td valign="top" width="99%">
-	<b><a href="/link/gotolink/addhit/{link_id}/?Url={link_url}"  target="_blank">{link_name}</a></b><br />
- 	<span class="p">{link_description}</span><br />
-	<span class="small">(Hits: {link_hits})</span>
+<tr>
+	<td class="{td_class}" valign="top" width="1%">
+	<img src="/images/link.gif" height="16" width="16" border="0" alt="" /><br />
+	</td>
+	<td class="{td_class}" valign="top" width="99%" colspan="2">
+	<span class="boxtext"><a href="/link/gotolink/addhit/{link_id}/?Url={link_url}"  target="_blank">{link_name}</a></span>
    	</td>
-	<td valign="top" width="1%">
+</tr>
+<tr>
+    <td class="{td_class}" width="99%" valign="top" colspan="2">
+    	<span class="p">{link_description}</span>
+	</td>
+    <td class="{td_class}" width="1%" valign="top">
 	<!-- BEGIN link_image_item_tpl -->
-	<img src="{image_url}" alt="{image_caption}" width="{image_width}" height="{image_height}" border="0" />
+	<a href="{www_dir}{index}/link/gotolink/addhit/{link_id}/?Url={link_url}"  target="_blank"><img src="{www_dir}{image_url}" alt="{image_caption}" width="{image_width}" height="{image_height}" border="0" align="right" /></a>
 	<!-- END link_image_item_tpl -->
 	</td>
 </tr>
 <!-- END link_item_tpl -->
+
+<!-- BEGIN attribute_list_tpl -->
+<tr>
+	<td colspan="3" class="{td_class}" align="center">
+	<table width="50%" cellspacing="0" cellpadding="2" border="0">
+
+<!-- BEGIN attribute_tpl -->
+
+<!-- END attribute_tpl -->
+
+<!-- BEGIN attribute_value_tpl -->
+
+	<tr> 
+		<th class="small">{attribute_name}:</th>
+		<td class="small" align="right">{attribute_value_var} {attribute_unit}</td>
+	</tr>
+
+<!-- END attribute_value_tpl -->
+
+<!-- BEGIN attribute_header_tpl -->
+
+	<tr> 
+		<th colspan="2">{attribute_name}:</th>
+	</tr>
+
+<!-- END attribute_header_tpl -->
+
+	</table>
+	</td>
+</tr>
+
+<!-- END attribute_list_tpl -->
+
 </table>
+
 <!-- END link_list_tpl -->
 
 <!-- BEGIN type_list_tpl -->
@@ -131,9 +164,7 @@
 </table>
 <!-- END type_list_tpl -->
 
-</td>
-</tr>
 <!-- END category_item_tpl -->
-</table>
+
 <!-- END category_list_tpl -->
-<!-- END page_tpl -->
+
