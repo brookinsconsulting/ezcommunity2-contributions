@@ -463,3 +463,47 @@ Maintainer(s) : pkej@ez.no
       admin/intl/en_GB/form.php.ini
       admin/intl/no_NO/form.php.ini: added tables
 
+
+Module : ezform
+Repository path : /home/cvsroot/projects/php/ezform
+Maintainer(s) : pkej@ez.no
+2001-12-14  Jo Henrik Endrerud  <jhe@ez.no>
+
+    * admin/tableedit.php
+      admin/templates/standard/elementlist.tpl
+      admin/templates/standard/tableedit.tpl
+      classes/ezform.php
+      classes/ezformelement.php
+      admin/datasupplier.php
+      admin/pageedit.php
+      admin/templates/standard/pageedit.tpl
+      classes/ezformtable.php: several fixes
+
+2001-12-14  Bjoern Reiten  <br@ez.no>
+
+    * sql/mysql/ezform.sql
+      admin/datasupplier.php
+      admin/formedit.php
+      admin/intl/en_GB/form.php.ini
+      admin/intl/en_GB/pageedit.php.ini
+      admin/pageedit.php
+      admin/templates/standard/elementlist.tpl
+      admin/templates/standard/formedit.tpl
+      admin/templates/standard/pageedit.tpl
+      admin/templates/standard/pagelist.tpl
+      classes/ezform.php
+      classes/ezformpage.php: added formpage, and moved elements to formpage.
+
+2001-12-14  Jo Henrik Endrerud  <jhe@ez.no>
+
+    * admin/formedit.php
+      admin/intl/en_GB/table.php.ini
+      admin/tableedit.php
+      admin/templates/standard/tableedit.tpl
+      classes/ezformtable.php: several fixed
+
+    * admin/intl/en_GB/table.php.ini
+      admin/tableedit.php
+      admin/templates/standard/tableedit.tpl
+      classes/ezformtable.php: added table edit
+

@@ -2534,3 +2534,12 @@ Maintainer(s) : bf@ez.no
 
     * user/articlelist.php: added nl2br on current category description.
 
+
+Module : ezarticle
+Repository path : /home/cvsroot/projects/php/ezarticle
+Maintainer(s) : bf@ez.no
+2001-12-14  Baard Farstad  <bf@ez.no>
+
+    * classes/eztechgenerator.php
+      user/frontpage.php: Fixed grayscale images on frontpage list.
+
