@@ -68,8 +68,6 @@
     <!-- END error_missing_address_tpl -->
 </ul>
 
-<hr noshade size="4"/>
-
 <br />
 <!-- END errors_item_tpl -->
 
@@ -144,8 +142,6 @@
 
 
 <br />
-
-<hr noshade="noshade" size="4" />
 
 <input type="submit" value="{intl-new_address}" name="NewAddress" />
 <input type="submit" value="{intl-delete_address}" name="DeleteAddress" />

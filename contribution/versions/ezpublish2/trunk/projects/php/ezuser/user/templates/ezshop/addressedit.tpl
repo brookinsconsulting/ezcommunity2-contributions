@@ -81,8 +81,6 @@
 
 <br />
 
-<hr noshade="noshade" size="4" />
-
 <input type="hidden" name="UserID" value="{user_id}" />
 <input class="okbutton" type="submit" value="OK" />
 
