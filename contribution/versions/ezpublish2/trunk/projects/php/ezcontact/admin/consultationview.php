@@ -87,9 +87,9 @@ else
 
     $consultation = new eZConsultation( $ConsultationID );
 
-    $t->set_var( "short_description", $consultation->shortDescription() );
-    $t->set_var( "description", $consultation->description() );
-    $t->set_var( "email_notification", $consultation->emails() );
+    $t->set_var( "short_description", htmlspecialchars( $consultation->shortDescription() ) );
+    $t->set_var( "description", htmlspecialchars( $consultation->description() ) );
+    $t->set_var( "email_notification", htmlspecialchars( $consultation->emails() ) );
     $status_id = $consultation->state();
 
     $companyid = $consultation->company( $user->id() );

@@ -99,9 +99,9 @@ $company = new eZCompany();
 $company->get( $CompanyID );
 
 
-$t->set_var( "name", $company->name() );
-$t->set_var( "description", $company->comment() );
-$t->set_var( "company_no", $company->companyNo() );
+$t->set_var( "name", htmlspecialchars( $company->name() ) );
+$t->set_var( "description", htmlspecialchars( $company->comment() ) );
+$t->set_var( "company_no", htmlspecialchars( $company->companyNo() ) );
 
 
 // View logo.
@@ -149,15 +149,15 @@ if ( count ( $addressList ) != 0 )
     foreach( $addressList as $addressItem )
     {
         $t->set_var( "address_id", $addressItem->id() );
-        $t->set_var( "street1", $addressItem->street1() );
-        $t->set_var( "street2", $addressItem->street2() );
-        $t->set_var( "zip", $addressItem->zip() );
-        $t->set_var( "place", $addressItem->place() );
+        $t->set_var( "street1", htmlspecialchars( $addressItem->street1() ) );
+        $t->set_var( "street2", htmlspecialchars( $addressItem->street2() ) );
+        $t->set_var( "zip", htmlspecialchars( $addressItem->zip() ) );
+        $t->set_var( "place", htmlspecialchars( $addressItem->place() ) );
         $addressType = $addressItem->addressType();
         $t->set_var( "address_type_name", $addressType->name() );
         $country = $addressItem->country();
         if ( get_class( $country ) == "ezcountry" )
-            $t->set_var( "country", $country->name() );
+            $t->set_var( "country", htmlspecialchars( $country->name() ) );
         else
             $t->set_var( "country", "" );
 
@@ -188,7 +188,7 @@ if( $count != 0 )
         $phoneType = $phoneList[$i]->phoneType();
 
         $t->set_var( "phone_type_id", $phoneType->id() );
-        $t->set_var( "phone_type_name", $phoneType->name() );
+        $t->set_var( "phone_type_name", htmlspecialchars( $phoneType->name() ) );
 
         $t->set_var( "phone_width", 100/$count );
         $t->parse( "phone_line", "phone_line_tpl", true );
@@ -238,9 +238,9 @@ if ( $count != 0)
 
         $t->set_var( "online_prefix", $prefix );
         $t->set_var( "online_visual_prefix", $vis_prefix );
-        $t->set_var( "online", $OnlineList[$i]->URL() );
+        $t->set_var( "online", htmlspecialchars( $OnlineList[$i]->URL() ) );
         $t->set_var( "online_type_id", $onlineType->id() );
-        $t->set_var( "online_type_name", $onlineType->name() );
+        $t->set_var( "online_type_name", htmlspecialchars( $onlineType->name() ) );
         $t->set_var( "online_width", 100/$count );
 
         $t->parse( "online_line", "online_line_tpl", true );
@@ -262,8 +262,8 @@ if ( $contact )
         $user = new eZPerson( $contact );
     else
         $user = new eZUser( $contact );
-    $t->set_var( "contact_firstname", $user->firstName() );
-    $t->set_var( "contact_lastname", $user->lastName() );
+    $t->set_var( "contact_firstname", htmlspecialchars( $user->firstName() ) );
+    $t->set_var( "contact_lastname", htmlspecialchars( $user->lastName() ) );
     $t->parse( "contact_person", "contact_person_tpl" );
 }
 else
@@ -278,7 +278,7 @@ $statusid = $company->projectState();
 if ( $statusid )
 {
     $status = new eZProjectType( $statusid );
-    $t->set_var( "project_status", $status->name() );
+    $t->set_var( "project_status", htmlspecialchars( $status->name() ) );
     $t->parse( "project_status", "project_status_tpl" );
 }
 else
@@ -310,8 +310,8 @@ if ( count( $persons ) > 0 )
     {
         $t->set_var( "bg_color", ( $i % 2 ) == 0 ? "bglight" : "bgdark" );
         $t->set_var( "person_id", $person->id() );
-        $t->set_var( "person_lastname", $person->lastName() );
-        $t->set_var( "person_firstname", $person->firstName() );
+        $t->set_var( "person_lastname", htmlspecialchars( $person->lastName() ) );
+        $t->set_var( "person_firstname", htmlspecialchars( $person->firstName() ) );
         $t->parse( "person_item", "person_item_tpl", true );
         $i++;
     }
@@ -338,7 +338,7 @@ if ( eZPermission::checkPermission( $user, "eZContact", "consultation" ) )
 
         $t->set_var( "consultation_id", $consultation->id() );
         $t->set_var( "consultation_date", $locale->format( $consultation->date() ) );
-        $t->set_var( "consultation_short_description", $consultation->shortDescription() );
+        $t->set_var( "consultation_short_description", htmlspecialchars( $consultation->shortDescription() ) );
         $t->set_var( "consultation_status_id", $consultation->state() );
         $t->set_var( "consultation_status", eZConsultation::stateName( $consultation->state() ) );
         $t->parse( "consultation_item", "consultation_item_tpl", true );
