@@ -169,6 +169,10 @@ switch ( $url_array[2] )
                 $root = "/trade/productedit";
                 $URLS = array( "back" => "$root/edit/%s",
                                "linklist" => "$root/link/list/%s",
+                               "linkmoveup" => "$root/link/moveup/link/%d/%d/%d",
+                               "linkmovedown" => "$root/link/movedown/link/%d/%d/%d",
+                               "sectionmoveup" => "$root/link/moveup/section/%d/%d",
+                               "sectionmovedown" => "$root/link/movedown/section/%d/%d",
                                "linkselect" => "$root/link/select/%s/%s/%s/%s/%s/0/%s",
                                "linkselect_basic" => "$root/link/select/",
                                "linkselect_std" => "$root/link/select/%s/%s/%s/%s/%s",
@@ -185,7 +189,6 @@ switch ( $url_array[2] )
                 {
                     case "list":
                     {
-//                          include( "eztrade/admin/linklist.php" );
                         include( "classes/admin/linklist.php" );
                         break;
                     }
@@ -203,8 +206,27 @@ switch ( $url_array[2] )
                             $Offset = $url_array[10];
                         if ( isset( $url_array[11] ) )
                             $LinkID = $url_array[11];
-//                          include( "eztrade/admin/linkselect.php" );
                         include( "classes/admin/linkselect.php" );
+                        break;
+                    }
+                    case "moveup":
+                        $MoveUp = true;
+                    case "movedown":
+                    {
+                        if ( isset( $url_array[5] ) )
+                            $ObjectType = $url_array[5];
+                        if ( isset( $url_array[6] ) )
+                            $ItemID = $url_array[6];
+                        if ( isset( $url_array[7] ) )
+                            $ObjectID = $url_array[7];
+                        if ( isset( $url_array[8] ) )
+                            $LinkID = $url_array[8];
+                        include( "classes/admin/linkmove.php" );
+                        break;
+                    }
+                    default:
+                    {
+                        eZHTTPTool::header( "Location: /error/404" );
                         break;
                     }
                 }
