@@ -62,6 +62,7 @@ $t->set_block( "company_edit", "consultation_buttons_tpl", "consultation_buttons
 
 $t->set_block( "company_edit", "person_table_item_tpl", "person_table_item" );
 $t->set_block( "person_table_item_tpl", "person_item_tpl", "person_item" );
+$t->set_block( "person_item_tpl", "person_consultation_button_tpl", "person_consultation_button" );
 
 $t->set_block( "company_edit", "consultation_table_item_tpl", "consultation_table_item" );
 $t->set_block( "consultation_table_item_tpl", "consultation_item_tpl", "consultation_item" );
@@ -286,6 +287,12 @@ else
 }
 
 // Person list
+$user = eZUser::currentUser();
+$t->set_var( "person_consultation_button", "" );
+if ( eZPermission::checkPermission( $user, "eZContact", "consultation" ) )
+{
+    $t->parse( "person_consultation_button", "person_consultation_button_tpl" );
+}
 if ( !isset( $PersonLimit ) or !is_numeric( $PersonLimit ) )
     $PersonLimit = 5;
 if ( !isset( $PersonOffset ) or !is_numeric( $PersonOffset ) )

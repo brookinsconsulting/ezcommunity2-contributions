@@ -133,11 +133,21 @@
 <h2>{intl-person_headline} - ({person_start}-{person_end}/{person_max})</h2>
 
 <table width="100%" cellpadding="0" cellspacing="0" border="0">
+<tr>
+	<th>{intl-person_name}:</th>
+	<th colspan="1">&nbsp;</th>
+</tr>
 <!-- BEGIN person_item_tpl -->
 <tr class="{bg_color}">
 	<td>
 	<a href="/contact/person/view/{person_id}/">{person_lastname}, {person_firstname}</a>
 	</td>
+
+	<!-- BEGIN person_consultation_button_tpl -->
+	<td width="1%">
+	<a href="/contact/consultation/person/new/{person_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezn{person_id}-red','','/images/addminimrk.gif',1)"><img name="ezn{person_id}-red" border="0" src="/images/addmini.gif" width="16" height="16" align="top"></a>
+	</td>
+	<!-- END person_consultation_button_tpl -->
 </tr>
 <!-- END person_item_tpl -->
 </table>
