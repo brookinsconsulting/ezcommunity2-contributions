@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezarticletool.php,v 1.4 2001/04/30 12:10:33 fh Exp $
+// $Id: ezarticletool.php,v 1.5 2001/04/30 15:18:14 fh Exp $
 //
 // Definition of eZArticleTool class
 //
@@ -138,8 +138,22 @@ class eZArticleTool
 
         // Send bulkmail also
         $articleCategory = $article->categoryDefinition();
-        $category = $articleCategory->bulkMailCategory();
-        if( is_object( $category ) ) // send a mail to this group
+        $articleCategories = $article->categories();
+        $bulkMailCategories = array();
+        
+        $bulkMailCategory = $articleCategory->bulkMailCategory();
+        if( $bulkMailCategory != false )
+            $bulkMailCategories[] = $bulkMailCategory;
+
+        foreach( $articleCategories as $articleCategory )
+        {
+            $bulkMailCategory = $articleCategory->bulkMailCategory();
+            if( $bulkMailCategory != false )
+                $bulkMailCategories[] = $bulkMailCategory;
+        }
+
+        
+        if( count( $bulkMailCategories ) > 0 ) // send a mail to this group
         {
             $bulkmail = new eZBulkMail();
             $bulkmail->setOwner( eZUser::currentUser() );
@@ -151,7 +165,11 @@ class eZArticleTool
             $bulkmail->setIsDraft( false );
     
             $bulkmail->store();
-            $category->addMail( $bulkmail );
+
+            $bulkmail->addToCategory( false );
+            foreach( $bulkMailCategories as $bulkMailCategory )
+                $bulkmail->addToCategory( $bulkMailCategory );
+
             $bulkmail->send();
         }
     }
