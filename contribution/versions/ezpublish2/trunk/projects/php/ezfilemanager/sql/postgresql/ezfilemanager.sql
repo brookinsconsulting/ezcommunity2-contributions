@@ -1,9 +1,9 @@
 CREATE TABLE eZFileManager_File (
   ID int NOT NULL,
-  Name char(200),
-  Description char(200),
-  FileName char(200),
-  OriginalFileName char(200),
+  Name varchar(200),
+  Description varchar(200),
+  FileName varchar(200),
+  OriginalFileName varchar(200),
   ReadPermission int DEFAULT '1',
   WritePermission int DEFAULT '1',
   UserID int,
@@ -26,7 +26,7 @@ CREATE TABLE eZFileManager_FilePageViewLink (
 
 CREATE TABLE eZFileManager_Folder (
   ID int NOT NULL,
-  Name varchar(100),
+  Name varvarchar(100),
   Description text,
   ParentID int NOT NULL,
   ReadPermission int DEFAULT '1',

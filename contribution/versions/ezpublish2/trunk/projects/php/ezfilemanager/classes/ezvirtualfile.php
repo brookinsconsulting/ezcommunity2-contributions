@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezvirtualfile.php,v 1.32 2001/06/28 14:52:36 jb Exp $
+// $Id: ezvirtualfile.php,v 1.33 2001/06/29 11:10:46 ce Exp $
 //
 // Definition of eZVirtualFile class
 //
@@ -64,7 +64,7 @@ class eZVirtualfile
         $description = $db->escapeString( $this->Description );
         $filename = $db->escapeString( $this->FileName );
         $originalfilename = $db->escapeString( $this->OriginalFileName );
-        
+
         if ( !isset( $this->ID ) )
         {
             $db->lock( "eZFileManager_File" );
