@@ -575,3 +575,9 @@ ALTER TABLE eZArticle_Category ADD OwnerID int(11) DEFAULT '0';
 #insert into eZArticle_ArticlePermission( ObjectID, GroupID, ReadPermission, WritePermission ) select ID, '-1', '1', '1' from eZArticle_Article;
 # the same goes for you old categories
 #insert into eZArticle_CategoryPermission( ObjectID, GroupID, ReadPermission, WritePermission ) select ID, '-1', '1', '1' from eZArticle_Category;
+
+### PRE 1 - PRE 2
+
+# add remote ID to option values
+alter table eZTrade_OptionValue add RemoteID int default 0;
+
