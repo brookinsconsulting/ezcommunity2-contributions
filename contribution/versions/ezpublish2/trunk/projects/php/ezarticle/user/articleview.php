@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: articleview.php,v 1.54 2001/07/09 20:01:13 bf Exp $
+// $Id: articleview.php,v 1.55 2001/07/12 08:28:37 th Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <18-Oct-2000 16:34:51 bf>
@@ -94,6 +94,7 @@ $t->set_block( "article_view_page_tpl", "path_item_tpl", "path_item" );
 $t->set_block( "article_view_page_tpl", "article_url_item_tpl", "article_url_item" );
 
 $t->set_block( "article_view_page_tpl", "article_header_tpl", "article_header" );
+$t->set_block( "article_view_page_tpl", "article_intro_tpl", "article_intro" );
 
 $t->set_block( "article_view_page_tpl", "attached_file_list_tpl", "attached_file_list" );
 $t->set_block( "attached_file_list_tpl", "attached_file_tpl", "attached_file" );
@@ -218,6 +219,12 @@ if ( $article->get( $ArticleID ) )
         $articleContents = $renderer->renderPage( $PageNumber -1 );
     
     $t->set_var( "article_intro", $articleContents[0] );
+
+    if ( $PageNumber == 1 )
+       	$t->parse( "article_intro", "article_intro_tpl" );
+	else
+    	$t->set_var( "article_intro", "" );
+		
     $t->set_var( "article_body", $articleContents[1] );
 
     $t->set_var( "link_text", $article->linkText() );
