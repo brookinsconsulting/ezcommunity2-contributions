@@ -3,10 +3,13 @@ eZ publish changelog:
 
 Changes from version 1.0.3
 --------------------------
+* Added clickable images in articlepreview in admin
 * Fixed max one "RE:" in reply of messages in forum.
 * Fixed so that the forum code runs under the latest version of PHP
+* Fixed bug in image view, referer page was not properly set
 * Fixed so that users can change their password
 * Fixed so that admin can read forum messages.
+
 
 Changes from version 1.0.2
 --------------------------
