@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: companyview.php,v 1.29 2001/08/16 13:57:04 jhe Exp $
+// $Id: companyview.php,v 1.30 2001/08/17 12:29:17 jhe Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -67,7 +67,8 @@ include_once( "eztrade/classes/ezorder.php" );
 include_once( "ezuser/classes/ezusergroup.php" );
 include_once( "ezuser/classes/ezpermission.php" );
 
-$user = eZUser::currentUser();
+$user =& eZUser::currentUser();
+
 if ( $CompanyViewLogin and get_class( $user ) != "ezuser" )
 {
     include_once( "classes/ezhttptool.php" );
@@ -166,7 +167,7 @@ else
     $logoImage = $company->logoImage();
 
     $no_image = true;
-    if ( ( get_class ( $logoImage ) == "ezimage" ) && ( $logoImage->id() != 0 ) )
+    if ( ( get_class( $logoImage ) == "ezimage" ) && ( $logoImage->id() != 0 ) )
     {
         $variation = $logoImage->requestImageVariation( 150, 150 );
         if ( get_class( $variation ) == "ezimagevariation" )
@@ -188,7 +189,7 @@ else
     $companyImage = $company->companyImage();
 
     $no_image = true;
-    if ( ( get_class ( $companyImage ) == "ezimage" ) && ( $companyImage->id() != 0 ) )
+    if ( ( get_class( $companyImage ) == "ezimage" ) && ( $companyImage->id() != 0 ) )
     {
         $variation = $companyImage->requestImageVariation( 150, 150 );
         if ( get_class( $variation ) == "ezimagevariation" )
@@ -276,8 +277,7 @@ else
         {
             $t->set_var( "online_id", $OnlineList[$i]->id() );
             $onlineType = $OnlineList[$i]->onlineType();
-
-            $prefix = $onlineType->URLPrefix();
+            $prefix = $onlineType->urlPrefix();
             $vis_prefix = $prefix;
             $url = $OnlineList[$i]->URL();
             if ( $onlineType->prefixLink() )
@@ -308,7 +308,7 @@ else
             $t->set_var( "online", eZTextTool::htmlspecialchars( $OnlineList[$i]->URL() ) );
             $t->set_var( "online_type_id", $onlineType->id() );
             $t->set_var( "online_type_name", eZTextTool::htmlspecialchars( $onlineType->name() ) );
-            $t->set_var( "online_width", 100/$count );
+            $t->set_var( "online_width", 100 / $count );
 
             $t->parse( "online_line", "online_line_tpl", true );
         }
@@ -364,7 +364,7 @@ else
     }
 
 // Person list
-    $user = eZUser::currentUser();
+    $user =& eZUser::currentUser();
     $t->set_var( "person_consultation_button", "" );
     $t->set_var( "buy_button", "" );
     if ( get_class( $user ) == "ezuser" and eZPermission::checkPermission( $user, "eZContact", "consultation" ) )

@@ -81,7 +81,7 @@
     <!-- BEGIN online_line_tpl -->
     <td width="{online_width}%">
         <p class="boxtext">{online_type_name}:</p>
-        <a href="{www_dir}{index}{online_prefix}{online}">{online_visual_prefix}{online}</a>
+        <a href="{online_prefix}{online}">{online_visual_prefix}{online}</a>
     </td>
     <!-- END online_line_tpl -->
 </tr>

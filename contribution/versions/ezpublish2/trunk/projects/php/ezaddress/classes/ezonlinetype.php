@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezonlinetype.php,v 1.8 2001/08/14 14:12:15 jhe Exp $
+// $Id: ezonlinetype.php,v 1.9 2001/08/17 12:29:17 jhe Exp $
 //
 // Definition of eZOnline class
 //
@@ -160,12 +160,12 @@ class eZOnlineType
     {
         $db =& eZDB::globalDatabase();
                 
-        $this->ID = $online_type_array[ $db->fieldName( "ID" ) ];
-        $this->Name = $online_type_array[ $db->fieldName( "Name" ) ];
-        $this->ListOrder = $online_type_array[ $db->fieldName( "ListOrder" ) ];
-        $this->URLPrefix = $online_type_array[ $db->fieldName( "URLPrefix" ) ];
-        $this->PrefixLink = $online_type_array[ $db->fieldName( "PrefixLink" ) ];
-        $this->PrefixVisual = $online_type_array[ $db->fieldName( "PrefixVisual" ) ];
+        $this->ID = $online_type_array[$db->fieldName( "ID" )];
+        $this->Name = $online_type_array[$db->fieldName( "Name" )];
+        $this->ListOrder = $online_type_array[$db->fieldName( "ListOrder" )];
+        $this->URLPrefix = $online_type_array[$db->fieldName( "URLPrefix" )];
+        $this->PrefixLink = $online_type_array[$db->fieldName( "PrefixLink" )];
+        $this->PrefixVisual = $online_type_array[$db->fieldName( "PrefixVisual" )];
     }
 
     /*
@@ -280,7 +280,7 @@ class eZOnlineType
     /*!
       Returns the id of the object.
     */
-    function id(  )
+    function id()
     {
         return $this->ID;
     }
