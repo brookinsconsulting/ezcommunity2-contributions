@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: productedit.php,v 1.63 2001/09/19 12:58:00 ce Exp $
+// $Id: productedit.php,v 1.64 2001/09/25 12:21:06 bf Exp $
 //
 // Created on: <19-Sep-2000 10:56:05 bf>
 //
@@ -107,464 +107,252 @@ if ( isSet( $DeleteProducts ) )
     $Action = "DeleteProducts";
 }
 
-if ( $Action == "Insert" )
+if ( $Action == "Update"  or $Action == "Insert" )
 {
     $parentCategory = new eZProductCategory();
     $parentCategory->get( $CategoryID );
 
-    $product = new eZProduct();
+    if ( $Action == "Insert" )
+    {
+        $product = new eZProduct();
+    }
+    else
+    {
+        $product = new eZProduct();
+        $product->get( $ProductID );
+        $was_hotdeal = $product->isHotDeal();
+
+    }
+    
     $product->setName( $Name );
 
     $generator = new eZArticleGenerator();
     $contents =& $generator->generateXML( $Contents );
-    $product->setContents( $contents );
+
+    if ( xmltree( $contents ) )
+    {
+        $product->setContents( $contents );
     
-//    $product->setDescription( $Description );
-//    $product->setBrief(  $Brief );
+        $product->setKeywords( $Keywords  );
+        $product->setProductNumber( $ProductNumber );
+        $product->setExternalLink( $ExternalLink );
+
+        $vattype = new eZVATType( $VATTypeID );
+        $product->setVATType( $vattype );
+
+        $shippingGroup = new eZShippingGroup( $ShippingGroupID );
+        $product->setShippingGroup( $shippingGroup );
     
-    $product->setKeywords( $Keywords );
-    $product->setProductNumber( $ProductNumber );
-
-    $product->setExternalLink( $ExternalLink );
-
-    $vattype = new eZVATType( $VATTypeID );
-    $product->setVATType( $vattype );
-    
-    $shippingGroup = new eZShippingGroup( $ShippingGroupID );
-    $product->setShippingGroup( $shippingGroup );    
-    
-    if ( $ShowPrice == "on" )
-    {
-        $product->setShowPrice( true );
-    }
-    else
-    {
-        $product->setShowPrice( false );
-    }
-
-    if ( $UseVoucher == true )
-    {
-        $product->setProductType( 2 );
-    }
-    else
-    {
-        $product->setProductType( 1 );
-    }
-
-    if ( $Active == "on" )
-    {
-        $product->setShowProduct( true );
-    }
-    else
-    {
-        $product->setShowProduct( false );
-    }
-
-    if ( $Discontinued == "on" )
-    {        
-        $product->setDiscontinued( true );
-    }
-    else
-    {
-        $product->setDiscontinued( false );
-    }
-
-    if ( $IsHotDeal == "on" )
-    {
-        $product->setIsHotDeal( true );
-    }
-    else
-    {
-        $product->setIsHotDeal( false );
-    }
-
-    if ( $Expiry > 0 )
-        $product->setExpiryTime( $Expiry );
-
-    $product->setPrice( $Price );
-    
-    $product->store();
-    
-    if ( $product->productType() == 2 )
-    {
-        $range = new eZProductPriceRange();
-        $range->setMin( $Min );
-        $range->setMax( $Max );
-        $range->setProduct( $product );
-        $range->store();
-    }
-
-    if ( $IncludesVAT == "true" )
-    {
-        $product->setIncludesVAT( true );
-    }
-    else
-    {
-        $product->setIncludesVAT( false );
-    }
-
-    if ( $ShowQuantity )
-    {
-        $product->setTotalQuantity( is_numeric( $Quantity ) ? $Quantity : false );
-    }
-
-//      eZPriceGroup::removePrices( $ProductID, -1 );
-    $count = max( count( $PriceGroup ), count( $PriceGroupID ) );
-    for ( $i = 0; $i < $count; $i++ )
-    {
-        if ( is_numeric( $PriceGroupID[$i] ) and $PriceGroup[$i] != "" )
+        if ( $ShowPrice == "on" )
         {
-            eZPriceGroup::addPrice( $product->id(), $PriceGroupID[$i], $PriceGroup[$i] );
-        }
-    }
-
-    // add a product to the categories
-    $category = new eZProductCategory( $CategoryID );
-    $category->addProduct( $product );
-
-    $product->setCategoryDefinition( $category );
-
-    if ( count( $CategoryArray ) > 0 )
-    {
-        foreach ( $CategoryArray as $categoryItem )
-        {
-            if ( $categoryItem != $CategoryID )
-            {
-                $category = new eZProductCategory( $categoryItem );
-                $category->addProduct( $product );
-            }
-        }
-    }
-
-    $product->store();
-
-    $productID = $product->id();
-
-    eZObjectPermission::removePermissions( $productID, "trade_product", 'w' );
-    if( isset( $WriteGroupArray ) )
-    {
-        if( $WriteGroupArray[0] == 0 )
-        {
-            eZObjectPermission::setPermission( -1, $productID, "trade_product", 'w' );
+            $product->setShowPrice( true );
         }
         else
         {
-            foreach ( $WriteGroupArray as $groupID )
-            {
-                eZObjectPermission::setPermission( $groupID, $productID, "trade_product", 'w' );
-            }
+            $product->setShowPrice( false );
         }
-    }
-    else
-    {
-        eZObjectPermission::removePermissions( $productID, "trade_product", 'w' );
-    }
-    
-    /* read access thingy */
-    eZObjectPermission::removePermissions( $productID, "trade_product", 'r' );
-    if ( isset( $ReadGroupArray ) )
-    {
-        if( $ReadGroupArray[0] == 0 )
+
+        if ( $UseVoucher == true )
         {
-            eZObjectPermission::setPermission( -1, $productID, "trade_product", 'r' );
-        }
-        else // some groups are selected.
-        {
-            foreach ( $ReadGroupArray as $groupID )
-            {
-                eZObjectPermission::setPermission( $groupID, $productID, "trade_product", 'r' );
-            }
-        }
-    }
-    else
-    {
-        eZObjectPermission::removePermissions( $productID, "trade_product", 'r' );
-    }
-    
-    $categoryArray = $product->categories();
-    $categoryIDArray = array();
-    foreach ( $categoryArray as $cat )
-    {
-        $categoryIDArray[] = $cat->id();
-    }    
-
-    // clear the cache files.
-    deleteCache( $ProductID, $CategoryID, $categoryIDArray, $product->isHotDeal() );
-
-    if ( isSet( $AddItem ) )
-    {
-        switch ( $ItemToAdd )
-        {
-            // add options
-            case "Option":
-            {
-                eZHTTPTool::header( "Location: /trade/productedit/optionlist/$productID/" );
-                exit();
-            }
-            break;
-
-            // add images
-            case "Image":
-            {
-                eZHTTPTool::header( "Location: /trade/productedit/imagelist/$productID/" );
-                exit();
-            }
-            break;
-
-            // attribute
-            case "Attribute":
-            {
-                eZHTTPTool::header( "Location: /trade/productedit/attributeedit/$productID/" );
-                exit();
-            }
-            break;
-
-            // attribute
-            case "ModuleLinker":
-            {
-                eZHTTPTool::header( "Location: /trade/productedit/link/list/$productID/" );
-                exit();
-            }
-            break;
-        }
-    }
-
-
-    // preview
-    if ( isSet ( $Preview ))
-    {
-        eZHTTPTool::header( "Location: /trade/productedit/productpreview/$productID/" );
-        exit();
-    }
-
-
-    // get the category to redirect to
-    $category = $product->categoryDefinition();
-    $categoryID = $category->id();
-    
-    eZHTTPTool::header( "Location: /trade/categorylist/parent/$categoryID" );
-    exit();
-}
-
-if ( $Action == "Update" )
-{
-    $parentCategory = new eZProductCategory();
-    $parentCategory->get( $CategoryID );
-
-    $product = new eZProduct();
-    $product->get( $ProductID );
-    $was_hotdeal = $product->isHotDeal();
-    $product->setName( $Name );
-
-    $generator = new eZArticleGenerator();
-    $contents =& $generator->generateXML( $Contents );
-    $product->setContents( $contents );
-    
-//    $product->setDescription( $Description );
-//    $product->setBrief( $Brief );
-    
-    $product->setKeywords( $Keywords  );
-    $product->setProductNumber( $ProductNumber );
-    $product->setExternalLink( $ExternalLink );
-
-    $vattype = new eZVATType( $VATTypeID );
-    $product->setVATType( $vattype );
-
-    $shippingGroup = new eZShippingGroup( $ShippingGroupID );
-    $product->setShippingGroup( $shippingGroup );
-    
-    if ( $ShowPrice == "on" )
-    {
-        $product->setShowPrice( true );
-    }
-    else
-    {
-        $product->setShowPrice( false );
-    }
-
-    if ( $UseVoucher == true )
-    {
-        $product->setProductType( 2 );
-    }
-    else
-    {
-        $product->setProductType( 1 );
-    }
-
-    $product->setShowProduct( $Active == "on" );
-    $product->setDiscontinued( $Discontinued == "on" );
-
-    if ( $IsHotDeal == "on" )
-    {
-        $product->setIsHotDeal( true );
-    }
-    else
-    {
-        $product->setIsHotDeal( false );
-    }
-    
-    $product->setPrice( $Price );
-
-    if ( $IncludesVAT == "true" )
-    {
-        $product->setIncludesVAT( true );
-    }
-    else
-    {
-        $product->setIncludesVAT( false );
-    }
-
-
-    
-    if ( $Expiry > 0 )
-        $product->setExpiryTime( $Expiry );
-
-    $product->store();
-
-    if ( $product->productType() == 2 )
-    {
-        $range =& $product->priceRange();
-        $range->setMin( $MinPrice );
-        $range->setMax( $MaxPrice );
-        $range->store();
-    }
-
-    if ( $ShowQuantity )
-    {
-        $product->setTotalQuantity( is_numeric( $Quantity ) ? $Quantity : false );
-    }
-
-    eZPriceGroup::removePrices( $ProductID, -1 );
-    $count = max( count( $PriceGroup ), count( $PriceGroupID ) );
-    for ( $i = 0; $i < $count; $i++ )
-    {
-        if ( is_numeric( $PriceGroupID[$i] ) and $PriceGroup[$i] != "" )
-        {
-            eZPriceGroup::addPrice( $ProductID, $PriceGroupID[$i], $PriceGroup[$i] );
-        }
-    }
-
-    $productID = $product->id();
-
-    eZObjectPermission::removePermissions( $productID, "trade_product", 'w' );
-    if( isset( $WriteGroupArray ) )
-    {
-        if( $WriteGroupArray[0] == 0 )
-        {
-            eZObjectPermission::setPermission( -1, $productID, "trade_product", 'w' );
+            $product->setProductType( 2 );
         }
         else
         {
-            foreach ( $WriteGroupArray as $groupID )
+            $product->setProductType( 1 );
+        }
+
+        $product->setShowProduct( $Active == "on" );
+        $product->setDiscontinued( $Discontinued == "on" );
+
+        if ( $IsHotDeal == "on" )
+        {
+            $product->setIsHotDeal( true );
+        }
+        else
+        {
+            $product->setIsHotDeal( false );
+        }
+    
+        $product->setPrice( $Price );
+
+        if ( $IncludesVAT == "true" )
+        {
+            $product->setIncludesVAT( true );
+        }
+        else
+        {
+            $product->setIncludesVAT( false );
+        }
+
+
+    
+        if ( $Expiry > 0 )
+            $product->setExpiryTime( $Expiry );
+
+        $product->store();
+
+        if ( $product->productType() == 2 )
+        {
+            $range =& $product->priceRange();
+            $range->setMin( $MinPrice );
+            $range->setMax( $MaxPrice );
+            $range->store();
+        }
+
+        if ( $ShowQuantity )
+        {
+            $product->setTotalQuantity( is_numeric( $Quantity ) ? $Quantity : false );
+        }
+
+        eZPriceGroup::removePrices( $ProductID, -1 );
+        $count = max( count( $PriceGroup ), count( $PriceGroupID ) );
+        for ( $i = 0; $i < $count; $i++ )
+        {
+            if ( is_numeric( $PriceGroupID[$i] ) and $PriceGroup[$i] != "" )
             {
-                eZObjectPermission::setPermission( $groupID, $productID, "trade_product", 'w' );
+                eZPriceGroup::addPrice( $ProductID, $PriceGroupID[$i], $PriceGroup[$i] );
             }
         }
-    }
-    else
-    {
+
+        $productID = $product->id();
+
         eZObjectPermission::removePermissions( $productID, "trade_product", 'w' );
-    }
-    
-    /* read access thingy */
-    eZObjectPermission::removePermissions( $productID, "trade_product", 'r' );
-    if ( isset( $ReadGroupArray ) )
-    {
-        if( $ReadGroupArray[0] == 0 )
+        if( isset( $WriteGroupArray ) )
         {
-            eZObjectPermission::setPermission( -1, $productID, "trade_product", 'r' );
-        }
-        else // some groups are selected.
-        {
-            foreach ( $GroupArray as $groupID )
+            if( $WriteGroupArray[0] == 0 )
             {
-                eZObjectPermission::setPermission( $groupID, $productID, "trade_product", 'r' );
+                eZObjectPermission::setPermission( -1, $productID, "trade_product", 'w' );
+            }
+            else
+            {
+                foreach ( $WriteGroupArray as $groupID )
+                {
+                    eZObjectPermission::setPermission( $groupID, $productID, "trade_product", 'w' );
+                }
             }
         }
-    }
-    else
-    {
-        eZObjectPermission::removePermissions( $productID, "trade_product", 'r' );
-    }
+        else
+        {
+            eZObjectPermission::removePermissions( $productID, "trade_product", 'w' );
+        }
     
-    // Calculate which categories are new and which are unused
-    $old_maincategory = $product->categoryDefinition();
-    $old_categories = array_merge( $old_maincategory->id(), $product->categories( false ) );
-    $old_categories = array_unique( $old_categories );
+        /* read access thingy */
+        eZObjectPermission::removePermissions( $productID, "trade_product", 'r' );
+        if ( isset( $ReadGroupArray ) )
+        {
+            if( $ReadGroupArray[0] == 0 )
+            {
+                eZObjectPermission::setPermission( -1, $productID, "trade_product", 'r' );
+            }
+            else // some groups are selected.
+            {
+                foreach ( $GroupArray as $groupID )
+                {
+                    eZObjectPermission::setPermission( $groupID, $productID, "trade_product", 'r' );
+                }
+            }
+        }
+        else
+        {
+            eZObjectPermission::removePermissions( $productID, "trade_product", 'r' );
+        }
+    
+        // Calculate which categories are new and which are unused
 
-    $new_categories = array_unique( array_merge( $CategoryID, $CategoryArray ) );
+        if ( $Action == "Update" )
+        {
+            $old_maincategory = $product->categoryDefinition();
+            $old_categories = array_merge( $old_maincategory->id(), $product->categories( false ) );
+            $old_categories = array_unique( $old_categories );
 
-    $remove_categories = array_diff( $old_categories, $new_categories );
-    $add_categories = array_diff( $new_categories, $old_categories );
+            $new_categories = array_unique( array_merge( $CategoryID, $CategoryArray ) );
+        
+            $remove_categories = array_diff( $old_categories, $new_categories );
+            $add_categories = array_diff( $new_categories, $old_categories );
+        
+            foreach ( $remove_categories as $categoryItem )
+            {
+                eZProductCategory::removeProduct( $product, $categoryItem );
+            }
+        }
 
-    foreach ( $remove_categories as $categoryItem )
-    {
-        eZProductCategory::removeProduct( $product, $categoryItem );
-    }
+        
+        // add a product to the categories
+        $category = new eZProductCategory( $CategoryID );
+        $product->setCategoryDefinition( $category );
 
-    // add a product to the categories
-    $category = new eZProductCategory( $CategoryID );
-    $product->setCategoryDefinition( $category );
+        foreach ( $add_categories as $categoryItem )
+        {
+            eZProductCategory::addProduct( $product, $categoryItem );
+        }
 
-    foreach ( $add_categories as $categoryItem )
-    {
-        eZProductCategory::addProduct( $product, $categoryItem );
-    }
+        // clear the cache files.
+        deleteCache( $ProductID, $CategoryID, $old_categories, $was_hotdeal or $product->isHotDeal() );
 
-    // clear the cache files.
-    deleteCache( $ProductID, $CategoryID, $old_categories, $was_hotdeal or $product->isHotDeal() );
+        // preview
+        if ( isSet( $Preview ) )
+        {
+            eZHTTPTool::header( "Location: /trade/productedit/productpreview/$productID/" );
+            exit();
+        }
 
-    // preview
-    if ( isSet( $Preview ) )
-    {
-        eZHTTPTool::header( "Location: /trade/productedit/productpreview/$productID/" );
+        if( isSet( $AddItem ) )
+        {
+            switch ( $ItemToAdd )
+            {
+                // add options
+                case "Option":
+                {
+                    eZHTTPTool::header( "Location: /trade/productedit/optionlist/$productID/" );
+                    exit();
+                }
+                break;
+
+                // add images
+                case "Image":
+                {
+                    eZHTTPTool::header( "Location: /trade/productedit/imagelist/$productID/" );
+                    exit();
+                }
+                break;
+
+                // attribute
+                case "Attribute":
+                {
+                    eZHTTPTool::header( "Location: /trade/productedit/attributeedit/$productID/" );
+                    exit();
+                }
+                break;
+
+                // attribute
+                case "ModuleLinker":
+                {
+                    eZHTTPTool::header( "Location: /trade/productedit/link/list/$productID/" );
+                    exit();
+                }
+                break;
+            }
+        }
+
+        // get the category to redirect to
+        $category = $product->categoryDefinition();
+        $categoryID = $category->id();
+    
+        eZHTTPTool::header( "Location: /trade/categorylist/parent/$categoryID" );
         exit();
     }
-
-    if( isSet( $AddItem ) )
+    else
     {
-        switch ( $ItemToAdd )
+        $Contents_Override = $Contents;
+        if ( $Action == "Update" )
         {
-            // add options
-            case "Option":
-            {
-                eZHTTPTool::header( "Location: /trade/productedit/optionlist/$productID/" );
-                exit();
-            }
-            break;
-
-            // add images
-            case "Image":
-            {
-                eZHTTPTool::header( "Location: /trade/productedit/imagelist/$productID/" );
-                exit();
-            }
-            break;
-
-            // attribute
-            case "Attribute":
-            {
-                eZHTTPTool::header( "Location: /trade/productedit/attributeedit/$productID/" );
-                exit();
-            }
-            break;
-
-            // attribute
-            case "ModuleLinker":
-            {
-                eZHTTPTool::header( "Location: /trade/productedit/link/list/$productID/" );
-                exit();
-            }
-            break;
+            $Action = "Edit";
+        }
+        else
+        {
+            $Action = "Insert";
         }
     }
-
-    // get the category to redirect to
-    $category = $product->categoryDefinition();
-    $categoryID = $category->id();
-    
-    eZHTTPTool::header( "Location: /trade/categorylist/parent/$categoryID" );
-    exit();
 }
 
 if ( $Action == "Cancel" )
@@ -717,8 +505,18 @@ if ( $Action == "Edit" )
 
     $generator = new eZArticleGenerator();
     $contentsArray =& $generator->decodeXML( $product->contents() );
-    $t->set_var( "brief_value", $contentsArray[0] );
-    $t->set_var( "description_value", $contentsArray[1] );
+
+    if ( count( $Contents_Override ) == 2 )
+    {
+        $t->set_var( "brief_value", $Contents_Override[0] );
+        $t->set_var( "description_value", $Contents_Override[1] );
+    }
+    else
+    {
+        $t->set_var( "brief_value", $contentsArray[0] );
+        $t->set_var( "description_value", $contentsArray[1] );
+    }
+        
     
     $t->set_var( "action_value", "update" );
     $t->set_var( "product_id", $product->id() );
