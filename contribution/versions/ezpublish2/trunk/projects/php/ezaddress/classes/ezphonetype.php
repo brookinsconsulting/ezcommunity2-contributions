@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezphonetype.php,v 1.7 2001/07/19 12:06:56 jakobn Exp $
+// $Id: ezphonetype.php,v 1.8 2001/10/18 12:15:37 ce Exp $
 //
 // Definition of eZAddressType class
 //
@@ -147,16 +147,16 @@ class eZPhoneType
     function fill( &$phone_type_array )
     {
         $db =& eZDB::globalDatabase();
-        $this->ID = $phone_type_array[$db->fieldName("ID")];
-        $this->Name = $phone_type_array[$db->fieldName("Name")];
-        $this->ListOrder = $phone_type_array[$db->fieldName("ListOrder")];
+        $this->ID =& $phone_type_array[$db->fieldName("ID")];
+        $this->Name =& $phone_type_array[$db->fieldName("Name")];
+        $this->ListOrder =& $phone_type_array[$db->fieldName("ListOrder")];
     }
 
     /*
       \static
       Fetches the addresstype id from the database. And returns a array of eZAddressType objects.
     */
-    function getAllCount()
+    function &getAllCount()
     {
         $db =& eZDB::globalDatabase();
         $db->query_single( $phone_type_array,
@@ -168,7 +168,7 @@ class eZPhoneType
       \static
       Fetches the phonetype id from the database. And returns a array of eZPhoneType objects.
     */
-    function getAll( $as_object = true, $offset = 0, $max = -1 )
+    function &getAll( $as_object = true, $offset = 0, $max = -1 )
     {
         $db =& eZDB::globalDatabase();
 
@@ -212,7 +212,7 @@ class eZPhoneType
     /*!
       Sets the name.
     */
-    function setName( $value )
+    function setName( &$value )
     {
         $this->Name = $value;
     }
@@ -220,7 +220,7 @@ class eZPhoneType
     /*!
       Returns the name.
     */
-    function name(  )
+    function &name(  )
     {
         return $this->Name;
     }  

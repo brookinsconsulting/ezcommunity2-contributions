@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezphone.php,v 1.7 2001/10/18 12:02:24 ce Exp $
+// $Id: ezphone.php,v 1.8 2001/10/18 12:15:37 ce Exp $
 //
 // Definition of eZAddressType class
 //
@@ -134,7 +134,7 @@ class eZPhone
     /*!
       Sets the PhoneTypeID of the object.
     */
-    function setPhoneTypeID( $value )
+    function setPhoneTypeID( &$value )
     {
         if( is_numeric( $value ) )
         {
@@ -150,7 +150,7 @@ class eZPhone
     /*!
       Sets the PhoneType object of the object.
     */
-    function setPhoneType( $value )
+    function setPhoneType( &$value )
     {
         if( is_numeric( $value ) )
         {

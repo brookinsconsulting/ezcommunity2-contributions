@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: ezaddress.php,v 1.20 2001/10/18 12:02:24 ce Exp $
+// $Id: ezaddress.php,v 1.21 2001/10/18 12:15:36 ce Exp $
 //
 // Definition of eZAddress class
 //
@@ -58,7 +58,6 @@ class eZAddress
     {
         if ( $id != "" )
         {
-
             $this->ID = $id;
             $this->get( $this->ID );
         }
@@ -153,7 +152,7 @@ class eZAddress
       The categories are returned as an array of eZAddress objects.
 
     */
-    function getAll( )
+    function &getAll( )
     {
         $db =& eZDB::globalDatabase();
         $address_array = 0;
@@ -200,7 +199,7 @@ class eZAddress
     /*!
       Sets street1 of this eZAddress object.
     */
-    function setStreet1( $value )
+    function setStreet1( &$value )
     {
         $this->Street1 = $value;
     }
@@ -208,7 +207,7 @@ class eZAddress
     /*!
       Sets street2 of this eZAddress object.
     */
-    function setStreet2( $value )
+    function setStreet2( &$value )
     {
         $this->Street2 = $value;
     }
@@ -216,7 +215,7 @@ class eZAddress
     /*!
       Sets the name of this eZAddress object.
     */
-    function setName( $value )
+    function setName( &$value )
     {
         $this->Name = $value;
     }
@@ -233,7 +232,7 @@ class eZAddress
       Sets the address type for this eZAddress object.
       The parameter can be the ID for the eZAddressType object a the eZAddressType object.
     */
-    function setAddressType( $value )
+    function setAddressType( &$value )
     {
         if( is_numeric( $value ) )
         {
@@ -251,7 +250,7 @@ class eZAddress
       The paramenter can be the ID for the eZAddress object or a eZAddress object.
       If the eZUser object already has a eZAddress object as a main address, the address will be updated.
     */
-    function setMainAddress( $mainAddress, $user )
+    function setMainAddress( &$mainAddress, &$user )
     {
         if ( get_class( $mainAddress ) == "ezaddress" )
             $addressID = $mainAddress->id();
@@ -291,7 +290,7 @@ class eZAddress
       Returns the main address as an eZAddress object.
       The paramenter can be the ID for the eZUser object or a eZUser object.
     */
-    function mainAddress( $user )
+    function &mainAddress( $user )
     {
         if ( get_class ( $user ) == "ezuser" )
             $userID = $user->id();
@@ -324,7 +323,7 @@ class eZAddress
     /*!
       Returns street1 for this eZAddress object.
     */
-    function street1( )
+    function &street1( )
     {
         return $this->Street1;
     }
@@ -332,7 +331,7 @@ class eZAddress
     /*!
       Returns street2 for this eZAddress object.
     */
-    function street2( )
+    function &street2( )
     {
         return $this->Street2;
     }
@@ -340,7 +339,7 @@ class eZAddress
     /*!
       Returns name for this eZAddress object.
     */
-    function name( )
+    function &name( )
     {
         return $this->Name;
     }
@@ -348,7 +347,7 @@ class eZAddress
     /*!
       Returns zip for this eZAddress object.
     */
-    function zip( )
+    function &zip( )
     {
         return $this->Zip;
     }
@@ -356,7 +355,7 @@ class eZAddress
     /*!
       Returns addressTypeID for this eZAddress object.
     */
-    function addressTypeID( $asObject=false )
+    function &addressTypeID( $asObject=false )
     {
         if ( $asObject )
             return new eZAddress( $this->AddressTypeID );
@@ -367,7 +366,7 @@ class eZAddress
     /*!
       Returns address type as an eZAddressType object.
     */
-    function addressType()
+    function &addressType()
     {
         $addressType = new eZAddressType( $this->AddressTypeID );
         return $addressType;
@@ -376,7 +375,7 @@ class eZAddress
     /*!
       Returns place for this eZAddress object.
     */
-    function setPlace( $value )
+    function setPlace( &$value )
     {
        $this->Place = $value;
     }
@@ -384,7 +383,7 @@ class eZAddress
     /*!
       Sets the country, takes an eZCountry object as argument.
     */
-    function setCountry( $country )
+    function setCountry( &$country )
     {
        if ( get_class( $country ) == "ezcountry" )
        {
@@ -399,7 +398,7 @@ class eZAddress
     /*!
       Returns place for this eZAddress object.
     */
-    function place()
+    function &place()
     {
        return $this->Place;
     }
@@ -407,7 +406,7 @@ class eZAddress
     /*!
       Returns the country as an eZCountry object.
     */
-    function country()
+    function &country()
     {
         if ( is_numeric( $this->CountryID ) and $this->CountryID > 0 )
             return new eZCountry( $this->CountryID );

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezaddresstype.php,v 1.9 2001/10/18 12:02:24 ce Exp $
+// $Id: ezaddresstype.php,v 1.10 2001/10/18 12:15:36 ce Exp $
 //
 // Definition of eZAddressType class
 //
@@ -150,9 +150,9 @@ class eZAddressType
     function fill( &$address_type_array )
     {
         $db =& eZDB::globalDatabase();
-        $this->ID = $address_type_array[$db->fieldName("ID")];
-        $this->Name = $address_type_array[$db->fieldName("Name")];
-        $this->ListOrder = $address_type_array[$db->fieldName("ListOrder")];
+        $this->ID =& $address_type_array[$db->fieldName("ID")];
+        $this->Name =& $address_type_array[$db->fieldName("Name")];
+        $this->ListOrder =& $address_type_array[$db->fieldName("ListOrder")];
     }
 
     /*
@@ -197,7 +197,7 @@ class eZAddressType
     /*!
       Sets the name.
     */
-    function setName( $value )
+    function setName( &$value )
     {
         $this->Name = $value;
     }
@@ -205,7 +205,7 @@ class eZAddressType
     /*!
       Returns the name.
     */
-    function name(  )
+    function &name(  )
     {
         return $this->Name;
     }

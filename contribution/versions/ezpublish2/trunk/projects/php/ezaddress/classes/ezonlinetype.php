@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezonlinetype.php,v 1.10 2001/10/18 12:02:24 ce Exp $
+// $Id: ezonlinetype.php,v 1.11 2001/10/18 12:15:37 ce Exp $
 //
 // Definition of eZOnline class
 //
@@ -160,12 +160,12 @@ class eZOnlineType
     {
         $db =& eZDB::globalDatabase();
                 
-        $this->ID = $online_type_array[$db->fieldName( "ID" )];
-        $this->Name = $online_type_array[$db->fieldName( "Name" )];
-        $this->ListOrder = $online_type_array[$db->fieldName( "ListOrder" )];
-        $this->URLPrefix = $online_type_array[$db->fieldName( "URLPrefix" )];
-        $this->PrefixLink = $online_type_array[$db->fieldName( "PrefixLink" )];
-        $this->PrefixVisual = $online_type_array[$db->fieldName( "PrefixVisual" )];
+        $this->ID =& $online_type_array[$db->fieldName( "ID" )];
+        $this->Name =& $online_type_array[$db->fieldName( "Name" )];
+        $this->ListOrder =& $online_type_array[$db->fieldName( "ListOrder" )];
+        $this->URLPrefix =& $online_type_array[$db->fieldName( "URLPrefix" )];
+        $this->PrefixLink =& $online_type_array[$db->fieldName( "PrefixLink" )];
+        $this->PrefixVisual =& $online_type_array[$db->fieldName( "PrefixVisual" )];
     }
 
     /*
@@ -210,7 +210,7 @@ class eZOnlineType
     /*!
       Sets the name of the object.
     */
-    function setName( $value )
+    function setName( &$value )
     {
         $this->Name = $value;
     }
@@ -218,7 +218,7 @@ class eZOnlineType
     /*!
       Sets the name of the object.
     */
-    function setURLPrefix( $value )
+    function setURLPrefix( &$value )
     {
         $this->URLPrefix = $value;
     }
@@ -226,7 +226,7 @@ class eZOnlineType
     /*!
       Sets whether the prefix must always be applied for links.
     */
-    function setPrefixLink( $value )
+    function setPrefixLink( &$value )
     {
         if ( $value )
             $this->PrefixLink = 1;
@@ -237,7 +237,7 @@ class eZOnlineType
     /*!
       Sets whether the prefix must always be applied for visuals (the visual part of a link).
     */
-    function setPrefixVisual( $value )
+    function setPrefixVisual( &$value )
     {
         if ( $value )
             $this->PrefixVisual = 1;
@@ -248,7 +248,7 @@ class eZOnlineType
     /*!
       Returns the name of the object.
     */
-    function name()
+    function &name()
     {
         return $this->Name;
     }
@@ -256,7 +256,7 @@ class eZOnlineType
     /*!
       Returns the URL prefix of the object.
     */
-    function urlPrefix()
+    function &urlPrefix()
     {
         return $this->URLPrefix;
     }
@@ -264,7 +264,7 @@ class eZOnlineType
     /*!
       Returns true if the prefix must always be applied for links.
     */
-    function prefixLink()
+    function &prefixLink()
     {
         return $this->PrefixLink == 1;
     }
@@ -272,7 +272,7 @@ class eZOnlineType
     /*!
       Returns true if the prefix must always be applied for visuals (the visual part of a link).
     */
-    function prefixVisual()
+    function &prefixVisual()
     {
         return $this->PrefixVisual == 1;
     }

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezonline.php,v 1.10 2001/10/18 12:02:24 ce Exp $
+// $Id: ezonline.php,v 1.11 2001/10/18 12:15:37 ce Exp $
 //
 // Definition of eZOnline class
 //
@@ -132,7 +132,7 @@ class eZOnline
     /*!
       Fetches out all the onlines thats stored in the database.
     */
-    function getAll( )
+    function &getAll( )
     {
         $db =& eZDB::globalDatabase();
         $online_array = 0;
@@ -161,7 +161,7 @@ class eZOnline
     /*!
       Returns the URL of the object.
     */
-    function url()
+    function &url()
     {
         return $this->URL;
     }
@@ -170,7 +170,7 @@ class eZOnline
     /*!
       Returns the OnlineTypeID of the object.
     */
-    function onlineTypeID()
+    function &onlineTypeID()
     {
         return $this->OnlineTypeID;
     }
@@ -178,7 +178,7 @@ class eZOnline
     /*!
       Returns the OnlineType of the object.
     */
-    function onlineType()
+    function &onlineType()
     {
         $onlineType = new eZOnlineType( $this->OnlineTypeID );
         return $onlineType;
@@ -187,7 +187,7 @@ class eZOnline
     /*!
       Sets the URL of the object.
     */
-    function setURL( $value )
+    function setURL( &$value )
     {
         $this->URL= $value;
     }
@@ -195,7 +195,7 @@ class eZOnline
     /*!
       Sets the OnlineTypeID of the object.
     */
-    function setOnlineTypeID( $value )
+    function setOnlineTypeID( &$value )
     {
         if( is_numeric( $value ) )
         {
@@ -211,7 +211,7 @@ class eZOnline
     /*!
       Sets the OnlineType of the object.
     */
-    function setOnlineType( $value )
+    function setOnlineType( &$value )
     {
         if( is_numeric( $value ) )
         {

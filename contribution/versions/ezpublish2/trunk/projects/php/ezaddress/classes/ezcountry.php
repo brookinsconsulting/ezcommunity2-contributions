@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezcountry.php,v 1.10 2001/08/01 15:15:47 ce Exp $
+// $Id: ezcountry.php,v 1.11 2001/10/18 12:15:37 ce Exp $
 //
 // Definition of eZCountry class
 //
@@ -28,7 +28,17 @@
 //!! eZAddress
 //! eZCountry handles countries.
 /*!
-  
+    Example code:
+  \code
+  // create a new country type and set some variables.
+  $country = new eZCountry();
+  $country->setName( "Norway" );
+  $country->setHasVAT( true );
+  $country->setISO( "NO" ); 
+  $country->store();
+  \endcode
+  \sa eZCompany eZPerson eZAddress eZPhone eZAddress
+
 */
 
 include_once( "classes/ezdb.php" );
@@ -229,7 +239,7 @@ class eZCountry
     /*!
       Returns the ISO code of the country.
     */
-    function iso( )
+    function &iso( )
     {
         return $this->ISO;
     }
@@ -237,7 +247,7 @@ class eZCountry
     /*!
       Returns the name of the country.
     */
-    function name( )
+    function &name( )
     {
         return $this->Name;
     }
@@ -256,7 +266,7 @@ class eZCountry
     /*!
       Sets the ISO code of the country.
     */
-    function setISO( $value )
+    function setISO( &$value )
     {
        $this->ISO = $value;
     }
@@ -264,7 +274,7 @@ class eZCountry
     /*!
       Sets the name of the country.
     */
-    function setName( $value )
+    function setName( &$value )
     {
        $this->Name = $value;
     }
