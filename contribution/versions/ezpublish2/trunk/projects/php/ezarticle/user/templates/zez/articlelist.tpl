@@ -39,7 +39,9 @@
 	    <table align="right">
 	        <tr>
 			<td>
+			<a href="/article/articleview/{article_id}/">
                         <img src="{thumbnail_image_uri}" border="0" width="{thumbnail_image_width}" height="{thumbnail_image_height}" />
+			</a>
                         </td>
                 </tr>
                 <tr>

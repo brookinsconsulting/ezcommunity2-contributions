@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: articlelist.php,v 1.6 2000/10/24 12:59:07 bf-cvs Exp $
+// $Id: articlelist.php,v 1.7 2000/10/25 12:25:59 bf-cvs Exp $
 //
 // 
 //
@@ -119,11 +119,15 @@ $i=0;
 $t->set_var( "article_list", "" );
 foreach ( $articleList as $article )
 {
+    $t->set_var( "article_id", $article->id() );
+    $t->set_var( "article_name", $article->name() );
+    
     // preview image
     $thumbnailImage = $article->thumbnailImage();
     if ( $thumbnailImage )
     {
-        $variation =& $thumbnailImage->requestImageVariation( 150, 150 );
+        $variation =& $thumbnailImage->requestImageVariation( $ini->read_var( "eZArticleMain", "ThumbnailImageWidth" ),
+                                                              $ini->read_var( "eZArticleMain", "ThumbnailImageHeight" ));
     
         $t->set_var( "thumbnail_image_uri", "/" . $variation->imagePath() );
         $t->set_var( "thumbnail_image_width", $variation->width() );
@@ -137,9 +141,6 @@ foreach ( $articleList as $article )
         $t->set_var( "article_image", "" );    
     }
     
-    $t->set_var( "article_name", $article->name() );
-
-    $t->set_var( "article_id", $article->id() );
 
     if ( ( $i % 2 ) == 0 )
     {
