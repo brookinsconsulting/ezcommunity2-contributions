@@ -1,6 +1,6 @@
 <?php
-// 
-// $Id: typeedit.php,v 1.10 2001/09/12 10:50:36 br Exp $
+//
+// $Id: typeedit.php,v 1.10.8.1 2002/01/16 10:19:34 ce Exp $
 //
 // Created on: <20-Dec-2000 18:24:06 bf>
 //
@@ -74,7 +74,8 @@ if ( ( $Action == "Update" ) || ( isset ( $Update ) ) )
             $att->setName( $attribute );
             $att->setAttributeType( $AttributeType[$i] );
             $att->setUnit( $Unit[$i] );
-            $att->store();            
+            $att->setURL( $URL[$i] );
+            $att->store();
 
             $i++;
         }
@@ -136,7 +137,7 @@ if ( $Action == "Delete" )
     $type->get( $TypeID );
 
     $type->delete();
-    
+
     eZHTTPTool::header( "Location: /trade/typelist/" );
     exit();
 }
@@ -200,16 +201,17 @@ if ( $Action == "Edit" )
         $t->set_var( "attribute_id", $attribute->id( ) );
         $t->set_var( "attribute_name", $attribute->name( ) );
         $t->set_var( "attribute_unit", $attribute->unit( ) );
+        $t->set_var( "attribute_url", $attribute->URL( ) );
 
         $t->set_var( "is_1_selected", "" );
         $t->set_var( "is_2_selected", "" );
-        
+
         if ( $attribute->attributeType() == 1 )
             $t->set_var( "is_1_selected", "checked" );
         elseif ( $attribute->attributeType() == 2 )
             $t->set_var( "is_2_selected", "checked" );
-        
-       
+
+
         if ( $i > 0 && isset( $move_item ) )
         {
             $t->parse( "item_move_up", "item_move_up_tpl" );
@@ -218,7 +220,7 @@ if ( $Action == "Edit" )
         {
             $t->parse( "no_item_move_up", "no_item_move_up_tpl" );
         }
-        
+
         if ( $i > 0 && $i < $count - 1 && isset( $move_item ) )
         {
             $t->parse( "item_separator", "item_separator_tpl" );
@@ -227,7 +229,7 @@ if ( $Action == "Edit" )
         {
             $t->parse( "no_item_separator", "no_item_separator_tpl" );
         }
-        
+
         if ( $i < $count - 1 && isset( $move_item ) )
         {
             $t->parse( "item_move_down", "item_move_down_tpl" );
@@ -236,7 +238,7 @@ if ( $Action == "Edit" )
         {
             $t->parse( "no_item_move_down", "no_item_move_down_tpl" );
         }
-        
+
 		if ( ( $i % 2 ) == 0 )
 	    {
 	        $t->set_var( "td_class", "bglight" );
@@ -258,7 +260,7 @@ if ( $Action == "Edit" )
     {
         $t->set_var( "attribute_list", "" );
     }
-    
+
 }
 
 

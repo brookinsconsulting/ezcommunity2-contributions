@@ -23,6 +23,9 @@
 	{intl-unit}:
 	</th>
 	<th>
+	URL:
+	</th>
+	<th>
 	{intl-variable}:
 	</th>
 	<th>
@@ -36,8 +39,11 @@
 	<input type="hidden" name="AttributeID[]" value="{attribute_id}" />
 	<input type="text" name="AttributeName[]" value="{attribute_name}" />
 	</td>
-	<td width="95%">
+	<td width="1%">
 	<input type="text" size="5" name="Unit[]" value="{attribute_unit}" />
+	</td>
+	<td width="94%">
+	<input type="text" size="40" name="URL[]" value="{attribute_url}" />
 	</td>
 	<td width="1%">
 	<input {is_1_selected} type="radio" value="1" name="AttributeType[{counter}]" />

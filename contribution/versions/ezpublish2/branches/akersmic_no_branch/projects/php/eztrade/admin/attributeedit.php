@@ -1,6 +1,6 @@
 <?php
-// 
-// $Id: attributeedit.php,v 1.4 2001/07/20 11:42:01 jakobn Exp $
+//
+// $Id: attributeedit.php,v 1.4.8.1 2002/01/16 10:19:34 ce Exp $
 //
 // Created on: <20-Dec-2000 18:45:08 bf>
 //
@@ -49,9 +49,9 @@ include_once( "eztrade/classes/ezproductattribute.php" );
 if ( $Action == "Update" )
 {
     $product = new eZProduct( $ProductID );
-    
+
 //      print( "update<br>" );
-    
+
 //      print( $TypeID );
 
     if ( $TypeID == -1 )
@@ -68,14 +68,14 @@ if ( $Action == "Update" )
             foreach ( $AttributeValue as $attribute )
             {
                 $att = new eZProductAttribute( $AttributeID[$i] );
-                
+
                 $att->setValue( $product, $attribute );
 
                 $i++;
             }
         }
     }
-    
+
     if ( isset( $OK ) )
     {
         eZHTTPTool::header( "Location: /trade/productedit/edit/$ProductID/" );
@@ -101,10 +101,10 @@ $t->set_block( "attribute_edit_page", "type_tpl", "type" );
 
 
 //default values
-    
+
 if ( $Action == "Edit" )
-{    
-    
+{
+
 }
 
 $type = new eZProductType( );
@@ -130,15 +130,15 @@ foreach ( $types as $typeItem )
     {
         $t->set_var( "selected", "" );
     }
-    
+
     $t->set_var( "type_id", $typeItem->id( ) );
     $t->set_var( "type_name", $typeItem->name( ) );
-    
+
     $t->parse( "type", "type_tpl", true );
 }
 
 
-if ( $type )    
+if ( $type )
 {
     $attributes = $type->attributes();
 
@@ -146,8 +146,9 @@ if ( $type )
     {
         $t->set_var( "attribute_id", $attribute->id( ) );
         $t->set_var( "attribute_name", $attribute->name( ) );
+
         $t->set_var( "attribute_value", $attribute->value( $product ) );
-        
+
         $t->parse( "attribute", "attribute_tpl", true );
     }
 }
