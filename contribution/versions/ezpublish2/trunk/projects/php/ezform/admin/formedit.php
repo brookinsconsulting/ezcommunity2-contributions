@@ -1,12 +1,12 @@
-<?
+<?php
 // 
-// $Id: formedit.php,v 1.2 2001/06/15 15:03:59 pkej Exp $
+// $Id: formedit.php,v 1.3 2001/07/19 13:03:49 jakobn Exp $
 //
-// Paul K Egell-Johnsen <pkej@ez.no>
 // Created on: <12-Jun-2001 13:07:24 pkej>
 //
 // This source file is part of eZ publish, publishing software.
-// Copyright (C) 1999-2001 eZ systems as
+//
+// Copyright (C) 1999-2001 eZ Systems.  All rights reserved.
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License
@@ -22,6 +22,7 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, US
 //
+
 include_once( "classes/INIFile.php" );
 include_once( "classes/eztemplate.php" );
 include_once( "classes/ezhttptool.php" );
