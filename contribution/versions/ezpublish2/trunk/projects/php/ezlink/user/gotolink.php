@@ -1,5 +1,5 @@
 <?php
-//  $Id: gotolink.php,v 1.11 2001/07/09 08:05:04 jhe Exp $
+//  $Id: gotolink.php,v 1.12 2001/07/16 13:50:03 bf Exp $
 //
 //  Christoffer A. Elo <ce@ez.no>
 //  Created on: <26-Oct-2000 15:02:25 ce>
@@ -26,7 +26,6 @@ include_once( "classes/INIFile.php" );
 
 $ini =& $GLOBALS["GlobalSiteIni"];
 
-include_once( "ezlink/classes/ezlinkgroup.php" );
 include_once( "ezlink/classes/ezlink.php" );
 include_once( "ezlink/classes/ezhit.php" );
 

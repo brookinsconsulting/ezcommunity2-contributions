@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezhit.php,v 1.24 2001/07/11 08:09:37 jhe Exp $
+// $Id: ezhit.php,v 1.25 2001/07/16 13:50:03 bf Exp $
 //
 // Definition of eZHit class
 //
@@ -40,25 +40,12 @@ class eZHit
     /*!
       Constructor
     */
-    function eZHit( $id=-1, $fetch=true )
+    function eZHit( $id=-1 )
     {
-        $this->IsConnected = false;
         if ( $id != -1 )
         {
             $this->ID = $id;
-            if ( $fetch == true )
-            {
-                
-                $this->get( $this->ID );
-            }
-            else
-            {
-                $this->State_ = "Dirty";
-            }
-        }
-        else
-        {
-            $this->State_ = "New";
+            $this->get( $this->ID );
         }
     }
 
@@ -67,12 +54,18 @@ class eZHit
     */
     function store()
     {
-        $this->dbInit();
-        
-        $res = $this->Database->query( "INSERT INTO eZLink_Hit
-                                        (RemoteIP, ID, Link)
+        $db =& eZDB::globalDatabase();
+        $db->begin();
+
+        // lock the table
+        $db->lock( "eZLink_Hit" );
+
+        $nextID = $db->nextID( "eZLink_Hit", "ID" );
+
+        $res = $db->query( "INSERT INTO eZLink_Hit
+                                        ( RemoteIP, ID, Link)
                                         VALUES
-                                        ('$this->RemoteIP','$this->ID','$this->Link')" );
+                                        ('$this->RemoteIP','$nextID','$this->Link')" );
         if ( $res == false )
             $db->rollback( );
         else
@@ -84,8 +77,9 @@ class eZHit
     */
     function update()
     {
-        $this->dbInit();
-        $this->Database->query( "UPDATE eZLink_Hit SET
+        $db =& eZDB::globalDatabase();
+        
+        $db->query( "UPDATE eZLink_Hit SET
 				RemoteIP='$this->RemoteIP',
                 Link='$this->Link',
                 WHERE ID='$this->ID'" );
@@ -96,8 +90,8 @@ class eZHit
     */
     function delete()
     {
-        $this->dbInit();                
-        $this->Database->query( "DELETE FROM eZLink_Hit WHERE ID='$ID'" );
+        $db =& eZDB::globalDatabase();
+        $db->query( "DELETE FROM eZLink_Hit WHERE ID='$ID'" );
     }
 
     /*!
@@ -106,8 +100,8 @@ class eZHit
 
     function &getLinkHits( $id )
     {
-        $this->dbInit();        
-        $this->Database->array_query( $hit_array, "SELECT * FROM eZLink_Hit WHERE Link='$id'" );        
+        $db =& eZDB::globalDatabase();
+        $db->array_query( $hit_array, "SELECT * FROM eZLink_Hit WHERE Link='$id'" );        
         $count = count( $hit_array );
 
         return $count;
@@ -118,8 +112,8 @@ class eZHit
      */
     function get( $id )
     {
-        $this->dbInit();
-        $this->Database->array_query( $hit_array, "SELECT * FROM eZLink_Hit WHERE ID='$id'" );
+        $db =& eZDB::globalDatabase();
+        $db->array_query( $hit_array, "SELECT * FROM eZLink_Hit WHERE ID='$id'" );
 
         return count( $hit_array );
     }
@@ -145,9 +139,6 @@ class eZHit
     */
     function id()
     {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
         return $this->ID;
     }
 
@@ -176,31 +167,11 @@ class eZHit
         return $this->RemoteIP;
     }
     
-    /*!
-      Initializing the database
-    */
-    function dbInit()
-    {
-        if ( $this->IsConnected == false )
-        {
-            $this->Database =& eZDB::globalDatabase();
-            $this->IsConnected = true;
-        }
-    }
       
     var $ID;
     var $Link;
     var $Time;
     var $RemoteIP;    
-
-    /// Is true if the object has database connection, false if not.
-    var $IsConnected;
-
-    /// database connection indicator
-    var $Database;
-
-    /// internal object state
-    var $State_;
 }
 
 ?>
