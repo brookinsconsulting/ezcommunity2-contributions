@@ -487,3 +487,10 @@ alter table eZLink_LinkGroup add Description text;
 # Alternative cuyrrency
 create table eZTrade_AlternativeCurrency( ID int primary key auto_increment, Name char(100) not null, PrefixSign int not null default 0, Sign char(5) not null, Value float not null default 1 );
 alter table eZTrade_AlternativeCurrency add Created timestamp;
+
+# Add multipe group permission in ezfilemanager
+create table eZFileManager_FolderWriteGroupLink( ID int primary key auto_increment, GroupID int, FolderID int );     
+create table eZFileManager_FolderReadGroupLink( ID int primary key auto_increment, GroupID int, FolderID int );               
+
+create table eZFileManager_FileWriteGroupLink( ID int primary key auto_increment, GroupID int, FileID int );     
+create table eZFileManager_FileReadGroupLink( ID int primary key auto_increment, GroupID int, FileID int );               
