@@ -57,7 +57,7 @@
 <table width="100%" cellpadding="0" cellspacing="0" border="0">
 <tr>
 	<td width="1%" class="tdmini">
-	<img src="/images/{site_style}/ezpublish-logo2.gif" width="200" height="40" border="0" alt="" /><br />
+	<a href="http://publish.ez.no"><img src="/images/{site_style}/ezpublish-logo.gif" width="200" height="40" border="0" alt="" /></a><br />
 	</td>
 	<td width="92%">
 	<img src="/images/1x1.gif" width="20" height="10" border="0" alt="" />
@@ -73,11 +73,11 @@
 	</td>
 	<td width="1%"><img src="/images/1x1.gif" width="20" height="10" border="0" alt="" /></td>
 	<td width="1%">
-	<nobr><img src="/images/{site_style}/top-arrow.gif" width="10" height="13" border="0" alt="" /><span class="top">&nbsp;Endre brukerinfo</span></nobr><br />
+	<nobr><img src="/images/{site_style}/top-arrow.gif" width="10" height="13" border="0" alt="" />&nbsp;<a class="top" href="/user/passwordchange/">Endre brukerinfo</a></nobr><br />
 	</td>
 	<td width="1%"><img src="/images/1x1.gif" width="20" height="10" border="0" alt="" /></td>
 	<td width="1%" align="right">
-	<img src="/images/{site_style}/top-logout.gif" width="35" height="40" border="0" alt="" />
+	<a  href="/user/login/logout/"><img src="/images/{site_style}/top-logout.gif" width="35" height="40" border="0" alt="" /></a>
 	</td>
 </tr>
 </table>
