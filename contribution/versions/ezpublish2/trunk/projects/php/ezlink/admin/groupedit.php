@@ -1,6 +1,6 @@
 <?
 //
-// $Id: groupedit.php,v 1.29 2000/11/01 07:48:39 bf-cvs Exp $
+// $Id: groupedit.php,v 1.30 2000/11/01 08:16:43 ce-cvs Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <26-Oct-2000 14:57:28 ce>
@@ -151,7 +151,7 @@ if ( $Action == "edit" )
     $ini = new INIFIle( "ezlink/admin/intl/" . $Language . "/groupedit.php.ini", false );
     $headline = $ini->read_var( "strings", "headline_edit" );
 
-    if ( !eZPermission::checkPermission( $user, "eZLink", "GroupModify" ) )
+    if ( !eZPermission::checkPermission( $user, "eZLink", "LinkGroupModify" ) )
     {
         Header( "Location: /link/norights" );
     }
