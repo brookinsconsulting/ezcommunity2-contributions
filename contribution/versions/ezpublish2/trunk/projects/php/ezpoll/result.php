@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: result.php,v 1.5 2000/10/09 10:24:01 ce-cvs Exp $
+// $Id: result.php,v 1.6 2000/10/09 14:15:08 ce-cvs Exp $
 //
 // Definition of eZPoll class
 //
@@ -37,7 +37,6 @@ $t->set_file( array(
 
 $t->set_block( "result", "result_list_tpl", "result_list" );
 $t->set_block( "result_list_tpl", "result_item_tpl", "result_item" );
-
 
 $poll = new eZPoll();
 if ( $Show == "all"  )
@@ -100,13 +99,11 @@ foreach ( $pollArray as $poll )
             $i++;    
         }
 
-
         $t->set_var( "total_votes", $poll->totalVotes() );
         
         $t->parse( "result_list", "result_list_tpl", true );
     }        
 }
-
 
 $t->pparse( "output", "result" );
 ?>

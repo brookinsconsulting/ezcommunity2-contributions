@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: groupedit.php,v 1.18 2000/10/06 10:13:34 ce-cvs Exp $
+    $Id: groupedit.php,v 1.19 2000/10/09 14:15:08 ce-cvs Exp $
 
     Author: Bård Farstad <bf@ez.no>
     
@@ -18,12 +18,12 @@ $ini = new INIFile( "site.ini" );
 
 $DOC_ROOT = $ini->read_var( "eZLinkMain", "DocumentRoot" );
 
-include_once( "../classes/eztemplate.php" );
-include_once( "../common/ezphputils.php" );
+include_once( "classes/eztemplate.php" );
+include_once( "common/ezphputils.php" );
 
-include( "../ezlink/classes/ezlinkgroup.php" );
-include( "../ezlink/classes/ezlink.php" );
-include( "../ezlink/classes/ezhit.php" );
+include( "ezlink/classes/ezlinkgroup.php" );
+include( "ezlink/classes/ezlink.php" );
+include( "ezlink/classes/ezhit.php" );
 
 $Language = $ini->read_var( "eZLinkMain", "Language" );
 
@@ -36,7 +36,7 @@ if ( $Action == "delete" )
     $deletelinkgroup->get( $LGID );
     $deletelinkgroup->delete();
 
-    Header( "Location: /link/" );
+    Header( "Location: /link/group/" );
 }
 
 // Legg til gruppe
@@ -46,34 +46,26 @@ if ( $Action == "insert" )
 
     $addlinkgroup->setTitle( $title );
     $addlinkgroup->setParent( $ParentCategory );
-
     $ttile = "";
-
     $addlinkgroup->store();
-
-    
     $message = "Legg til gruppe";
     $submit = "Legg til";
-//      Header( "Location: index.php?page=../ezlink/admin/linklist.php" );
-    Header( "Location: /link/" );
+    Header( "Location: /link/group/". $ParentCategory );
 }
 
 // Oppdatere
 if ( $Action == "update" )
 {
-    //   die();
     $updatelinkgroup = new eZLinkGroup();
-
     $updatelinkgroup->get ( $LGID );
-
     $updatelinkgroup->setTitle ( $title );
     $updatelinkgroup->update();
-    Header( "Location: index.php?page=../ezlink/admin/linklist.php" );    
-
+    Header( "Location: /link/group/" );    
 }
 
 // Sette template filer
-$t = new eZTemplate( $DOC_ROOT . "/" . $ini->read_var( "eZLinkMain", "TemplateDir" ), "../" . $DOC_ROOT . "/intl/", $Language, "groupedit.php" );
+$t = new eZTemplate( $DOC_ROOT . "/admin/" . $ini->read_var( "eZLinkMain", "TemplateDir" ). "/groupedit",
+$DOC_ROOT . "/admin/" . "/intl/", $Language, "groupedit.php" );
 $t->setAllStrings();
 
 $t->set_file( array(
@@ -81,15 +73,12 @@ $t->set_file( array(
     "group_parent_select" => "groupparentselect.tpl"
     ));
 
-
 $groupselect = new eZLinkGroup();
 $grouplink_array = $groupselect->getAll( );
 
     $message = "Legg til linkkategori";
     $submit = "Legg til";
     $action = "insert";
-
-
 
 // Redigering av gruppe
 if ( $Action == "edit" )
@@ -129,7 +118,6 @@ for ( $i=0; $i<count( $grouplink_array ); $i++ )
     $t->parse( "parent_category", "group_parent_select", true );
 }
 
-
 $t->set_var( "submit_text", $submit );
 $t->set_var( "action_value", $action );
 $t->set_var( "message", $message );
@@ -140,8 +128,4 @@ $t->set_var( "document_root", $DOC_ROOT );
 
 $t->set_var( "linkgroup_id", $LGID );
 $t->pparse( "output", "group_edit" );
-
-
-
-
 ?>

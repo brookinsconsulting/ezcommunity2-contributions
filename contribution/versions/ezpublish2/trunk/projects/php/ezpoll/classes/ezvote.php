@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezvote.php,v 1.9 2000/10/09 11:22:17 ce-cvs Exp $
+// $Id: ezvote.php,v 1.10 2000/10/09 14:15:08 ce-cvs Exp $
 //
 // Definition of eZVote class
 //
@@ -116,10 +116,7 @@ class eZVote
         {
             $return_array[$i] = new eZVote( $vote_array[$i][ "ID" ], 0 );
         }
-
-
     }
-
     
     /*!
       Returns the pollid of the vote.

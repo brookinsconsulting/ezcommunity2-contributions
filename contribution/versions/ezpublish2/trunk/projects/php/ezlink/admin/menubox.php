@@ -4,7 +4,8 @@
 <tr> 
     <td background="/images/<? echo $SiteStyle; ?>/menu-m.gif">
 	<img src="/images/<? echo $SiteStyle; ?>/menu-arrow.gif" width="20" height="10"><a class="menu" href="/link/">Kategorioversikt</a><br>
-	<img src="/images/<? echo $SiteStyle; ?>/menu-arrow.gif" width="20" height="10"><a class="menu" href="/link/linkedit/">Ny Kategori</a><br>
+	<img src="/images/<? echo $SiteStyle; ?>/menu-arrow.gif" width="20" height="10"><a class="menu" href="/link/groupedit/new//">Ny kategori</a><br>
+    <img src="/images/<? echo $SiteStyle; ?>/menu-arrow.gif" width="20" height="10"><a class="menu" href="/link/linkedit/new//">Ny link</a><br>
     </td>
 </tr>
 <tr>

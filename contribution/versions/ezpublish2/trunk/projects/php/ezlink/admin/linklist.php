@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: linklist.php,v 1.23 2000/10/06 10:13:34 ce-cvs Exp $
+    $Id: linklist.php,v 1.24 2000/10/09 14:15:08 ce-cvs Exp $
 
     Author: Bård Farstad <bf@ez.no>
     
@@ -13,16 +13,17 @@
   linklist.php viser alle kategorier
 */
 
-include_once( "classes/template.inc" );
-include_once( "../common/ezphputils.php" );
 include_once( "classes/INIFile.php" );
+include_once( "classes/eztemplate.php" );
 
 $ini = new INIFile( "site.ini" );
+
+$Language = $ini->read_var( "eZLinkMain", "Language" );
 $DOC_ROOT = $ini->read_var( "eZLinkMain", "DocumentRoot" );
 
-include_once( "../ezlink/classes/ezlinkgroup.php" );
-include_once( "../ezlink/classes/ezlink.php" );
-include_once( "../ezlink/classes/ezhit.php" );
+include_once( "ezlink/classes/ezlinkgroup.php" );
+include_once( "ezlink/classes/ezlink.php" );
+include_once( "ezlink/classes/ezhit.php" );
 
 include_once( "ezuser/classes/ezuser.php" );
 include_once( "ezuser/classes/ezusergroup.php" );
@@ -32,11 +33,14 @@ include_once( "ezuser/classes/ezpermission.php" );
 require( "ezuser/admin/admincheck.php" );
 
 // setter template filer
-$t = new Template( "." );
+$t = new eZTemplate( $DOC_ROOT . "/admin/" . $ini->read_var( "eZLinkMain", "TemplateDir" ). "/grouplist/",
+$DOC_ROOT . "/admin/" . "/intl/", $Language, "grouplist.php" );
+$t->setAllStrings();
+
 $t->set_file( array(
-    "linkgroup_list" => "../ezlink/templates/linkgrouplist.tpl",
-    "linkgroup_item" => "../ezlink/templates/linkgroupitem.tpl",
-    "link_item" => "../ezlink/templates/linkitem.tpl"
+    "linkgroup_list" => "linkgrouplist.tpl",
+    "linkgroup_item" => "linkgroupitem.tpl",
+    "link_item" => "linkitem.tpl"
     ) );
 
 // Lister alle kategorier

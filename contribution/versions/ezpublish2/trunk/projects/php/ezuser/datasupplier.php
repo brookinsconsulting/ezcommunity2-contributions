@@ -12,6 +12,13 @@ switch ( $url_array[2] )
     }
     break;
 
+    case "test" :
+    {
+        include( "ezuser/test.php" );
+    }
+    break;
+
+    
     case "success" :
     {
 

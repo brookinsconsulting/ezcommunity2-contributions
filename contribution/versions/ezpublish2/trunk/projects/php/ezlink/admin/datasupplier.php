@@ -7,12 +7,21 @@ switch ( $url_array[2] )
     {
         include( "ezlink/admin/linklist.php" );
     }
+    break;
+    case "link" :
+    {
+        $LID = $url_array[3];
+        include( "ezlink/admin/linklist.php" );
+    }
+    break;
+
     case "group" :
     {
         $LGID = $url_array[3];
         include( "ezlink/admin/linklist.php" );
     }
-        break;
+    break;
+    
     case "linkedit" :
     {
         if ( $url_array[3] == "new" )

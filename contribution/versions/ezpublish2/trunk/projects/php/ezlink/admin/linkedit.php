@@ -1,6 +1,6 @@
 <?
 /*!
-  $Id: linkedit.php,v 1.22 2000/10/06 10:13:34 ce-cvs Exp $
+  $Id: linkedit.php,v 1.23 2000/10/09 14:15:08 ce-cvs Exp $
 
   Author: Christoffer A. Elo <ce@ez.no>
     
@@ -44,8 +44,7 @@ if ( $Action == "update" )
     
     $updatelink->update();
 
-    Header( "Location: index.php?page=../ezlink/admin/linklist.php" );
-//    printRedirect( "index.php?page=../ezlink/admin/linklist.php" );    
+    Header( "Location: /link/group/" . $linkgroup );
 }
 
 // Slette link
@@ -57,11 +56,11 @@ if ( $Action == "delete" )
 
     if ( $LGID == incoming )
     {
-        Header( "Location: index.php?page=..ezlink/admin/linklist.php&LGID=incoming" );
+        Header( "Location: /link/group/incoming" );
     }
     else
     {
-        Header( "Location: index.php?page=../ezlink/admin/linklist.php" );
+        Header( "Location: /link/group/" );
     }
 }
 
@@ -93,8 +92,9 @@ if ( $Action == "insert" )
 
 // Sette template filer.
 
-
-$t = new eZTemplate( "../" . $DOC_ROOT . "/" . $ini->read_var( "eZLinkMain", "TemplateDir" ), "../" . $DOC_ROOT . "intl/", $Language, "linkedit.php" );
+$t = new eZTemplate( $DOC_ROOT . "/admin/" . $ini->read_var( "eZLinkMain", "TemplateDir" ). "/linkedit/",
+$DOC_ROOT . "/admin/" . "/intl", $Language, "linkedit.php" );
+$t->setAllStrings();
 
 $t->setAllStrings();
 
