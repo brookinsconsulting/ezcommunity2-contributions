@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezsection.php,v 1.10 2001/08/30 06:11:41 virt Exp $
+// $Id: ezsection.php,v 1.11 2001/09/19 11:24:57 bf Exp $
 //
 // ezsection class
 //
@@ -56,7 +56,7 @@ class eZSection
         }
     }
     
-     /*!
+    /*!
       Stores a eZSection object to the database.
     */
     function store()
@@ -69,7 +69,7 @@ class eZSection
         $description = $db->escapeString( $this->Description );
         $sitedesign = $db->escapeString( $this->SiteDesign );
         $templateStyle = $db->escapeString( $this->TemplateStyle );
-	$secLanguage = $db->escapeString( $this->SecLanguage );
+        $secLanguage = $db->escapeString( $this->SecLanguage );
              
         if ( !isset( $this->ID ) )
         {
@@ -94,7 +94,6 @@ class eZSection
         }
         else
         {
-        print( $templateStyle );
             $res = $db->query( "UPDATE eZSiteManager_Section SET
 		                             Name='$name',
 		                             SiteDesign='$sitedesign',
@@ -173,7 +172,7 @@ class eZSection
         $db->array_query( $section_array, "SELECT ID, Created
                                            FROM eZSiteManager_Section
                                            ORDER BY Created ASC",
-                          array( "Limit" => $limit, "Offset" => $offset ) );
+        array( "Limit" => $limit, "Offset" => $offset ) );
         
         for ( $i=0; $i < count($section_array); $i++ )
         {
@@ -185,7 +184,7 @@ class eZSection
 
     /*!
       Returns the total count.
-     */
+    */
     function count()
     {
         $db =& eZDB::globalDatabase();
@@ -222,45 +221,47 @@ class eZSection
     */
     function siteDesign( $sectionID=false )
     {
-       if ( is_numeric ( $sectionID ) )
-       {
-           $db =& eZDB::globalDatabase();
-           $db->query_single( $siteDesign, "SELECT SiteDesign FROM eZSiteManager_Section WHERE ID='$sectionID'" );
-           return $siteDesign[$db->fieldName("SiteDesign")];
-       }
-       else
-           return htmlspecialchars( $this->SiteDesign );
+        if ( is_numeric ( $sectionID ) )
+        {
+            $db =& eZDB::globalDatabase();
+            $db->query_single( $siteDesign, "SELECT SiteDesign FROM eZSiteManager_Section WHERE ID='$sectionID'" );
+            return $siteDesign[$db->fieldName("SiteDesign")];
+        }
+        else
+            return htmlspecialchars( $this->SiteDesign );
     }
 
 
     /*!
+      \static
       Returns the template style for this section.
     */
     function templateStyle( $sectionID=false )
     {
-       if ( is_numeric ( $sectionID ) )
-       {
-           $db =& eZDB::globalDatabase();
-           $db->query_single( $templateStyle, "SELECT TemplateStyle FROM eZSiteManager_Section WHERE ID='$sectionID'" );
-           return $templateStyle[$db->fieldName("TemplateStyle")];
-       }
-       else
-           return htmlspecialchars( $this->TemplateStyle );
+        if ( is_numeric ( $sectionID ) )
+        {
+            $db =& eZDB::globalDatabase();
+            $db->query_single( $templateStyle, "SELECT TemplateStyle FROM eZSiteManager_Section WHERE ID='$sectionID'" );
+            return $templateStyle[$db->fieldName("TemplateStyle")];
+        }
+        else
+            return htmlspecialchars( $this->TemplateStyle );
     }
     
     /*!
+     \static
       Returns the language for this section.
     */
     function language( $sectionID=false )
     {
-       if ( is_numeric ( $sectionID ) )
-       {
-           $db =& eZDB::globalDatabase();
-           $db->query_single( $templateStyle, "SELECT Language FROM eZSiteManager_Section WHERE ID='$sectionID'" );
-           return $templateStyle[$db->fieldName("Language")];
-       }
-       else
-           return htmlspecialchars( $this->SecLanguage );
+        if ( is_numeric ( $sectionID ) )
+        {
+            $db =& eZDB::globalDatabase();
+            $db->query_single( $templateStyle, "SELECT Language FROM eZSiteManager_Section WHERE ID='$sectionID'" );
+            return $templateStyle[$db->fieldName("Language")];
+        }
+        else
+            return htmlspecialchars( $this->SecLanguage );
     }
     
     /*!
@@ -309,6 +310,40 @@ class eZSection
     function setDescription( $value )
     {
         $this->Description = $value;
+    }
+
+    /*!
+      \static
+      Will return the global section object for the given section ID.
+     */
+    function &globalSectionObject( $sectionID )
+    {
+        $objName = "eZSectionObject_$sectionID";
+        
+        if ( !get_class( $GLOBALS[$objName] ) == "ezsection" )
+        {
+            $GLOBALS[$objName] = new eZSection( $sectionID );
+        }
+
+        return $GLOBALS[$objName];
+    }
+
+    /*!
+      Will set override variables for this section.
+
+      Language and templatestyle variables will be overrided.
+     */
+    function setOverrideVariables()
+    {
+        if ( trim( $this->TemplateStyle ) != "" )
+        {
+            $GLOBALS["eZTemplateOverride"] = trim( $this->TemplateStyle );
+        }
+
+        if ( trim( $this->SecLanguage ) != "" )
+        {
+            $GLOBALS["eZLanguageOverride"] = trim( $this->SecLanguage );
+        }
     }
 
 

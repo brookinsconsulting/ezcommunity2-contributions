@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: index.php,v 1.104 2001/09/14 12:29:10 ce Exp $
+// $Id: index.php,v 1.105 2001/09/19 11:24:57 bf Exp $
 //
 // Created on: <09-Nov-2000 14:52:40 ce>
 //
@@ -76,6 +76,12 @@ $UsePHPSessions = false;
 ob_start();
 // Turn on output buffering with gz compression
 //ob_start("ob_gzhandler");
+
+  include_once( "classes/ezbenchmark.php" );
+
+  $bench = new eZBenchmark();
+  $bench->start();
+  
 
 if ( $UsePHPSessions == true )
 {
@@ -290,6 +296,17 @@ if ( ( $requireUserLogin == "disabled" ) ||
                 $GlobalSectionID = $SectionIDOverride;
             }
 
+            // init the section
+            $sectionObject =& eZSection::globalSectionObject( $GlobalSectionID );
+            $sectionObject->setOverrideVariables();
+
+            print( "Section Debug $GlobalSectionID: <br>" );
+            print( "sitedesign: " . $sectionObject->siteDesign() . " <br>" );
+            print( "template: " . $sectionObject->templateStyle() . " <br>" );
+            print( "language: " . $sectionObject->language() . " <br>" );
+
+            print( $GlobalSectionID );
+
             if ( $DEBUG == true )
             {
                 print( eZSection::siteDesign( $GlobalSectionID ) );
@@ -356,6 +373,9 @@ else
 // close the database connection.
 $db =& eZDB::globalDatabase();
 $db->close();
+
+$bench->stop();
+$bench->printResults();
 
 ob_end_flush();
 

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eztemplate.php,v 1.42 2001/09/15 13:08:16 bf Exp $
+// $Id: eztemplate.php,v 1.43 2001/09/19 11:24:57 bf Exp $
 //
 // Definition of eZTemplate class
 //
@@ -112,6 +112,19 @@ class eZTemplate
                          $phpFile = "", $style = false, $module_dir = false,
                          $state = false, $mod_time = false )
     {
+        // section override variables
+        $languageOverride = $GLOBALS["eZLanguageOverride"];
+        if ( $languageOverride != "" )
+            $language = $languageOverride;
+
+        $templateOverride = $GLOBALS["eZTemplateOverride"];
+
+        if ( $templateOverride != "" )
+        {
+            // override template dir
+            $templateDir = preg_replace( "#^(.*?)/(.*?)/(.*?)/(.*?)/$#", "\\1/\\2/\\3/$templateOverride/", $templateDir );
+        }
+        
         $this->intlDir =& $intlDir;
         $this->language =& $language;
         $this->phpFile =& $phpFile;

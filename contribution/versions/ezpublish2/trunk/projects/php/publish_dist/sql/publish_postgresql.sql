@@ -755,6 +755,7 @@ CREATE TABLE eZBulkMail_Forgot (
   UserID int DEFAULT '0' NOT NULL,
   Date int,
   Duration int,
+  AllDay int,
   AppointmentTypeID int DEFAULT '0' NOT NULL,
   EMailNotice int DEFAULT '0',
   IsPrivate int,
@@ -1465,6 +1466,14 @@ CREATE TABLE eZMediaCatalogue_Type (
   PRIMARY KEY (ID)
 );
 
+CREATE TABLE eZMediaCatalogue_TypeLink (
+  ID int NOT NULL,		  
+  TypeID int default 0,
+  MediaID int default 0,
+  PRIMARY KEY (ID)
+);
+
+
 INSERT INTO eZMediaCatalogue_Type VALUES (1,'QuickTime');
 INSERT INTO eZMediaCatalogue_Type VALUES (2,'Windows Media Player');
 INSERT INTO eZMediaCatalogue_Type VALUES (3,'ShockWave Flash');
@@ -1956,6 +1965,7 @@ CREATE TABLE eZTrade_Product (
   ProductType int default '1',
   ExpiryTime int NOT NULL default '0',
   Published int default NULL,
+  IncludesVAT int default '0',
   PRIMARY KEY (ID)
 );
 

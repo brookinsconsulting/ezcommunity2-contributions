@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: articlelist.php,v 1.75 2001/09/15 13:06:03 bf Exp $
+// $Id: articlelist.php,v 1.76 2001/09/19 11:24:57 bf Exp $
 //
 // Created on: <18-Oct-2000 14:41:37 bf>
 //
@@ -33,8 +33,13 @@ include_once( "ezarticle/classes/ezarticlecategory.php" );
 include_once( "ezarticle/classes/ezarticle.php" );
 include_once( "ezarticle/classes/ezarticlerenderer.php" );
 include_once( "ezuser/classes/ezobjectpermission.php" );
+include_once( "ezsitemanager/classes/ezsection.php" );
 
 $GlobalSectionID = eZArticleCategory::sectionIDStatic( $CategoryID );
+
+// init the section
+$sectionObject =& eZSection::globalSectionObject( $GlobalSectionID );
+$sectionObject->setOverrideVariables();
 
 $ini =& INIFile::globalINI();
 

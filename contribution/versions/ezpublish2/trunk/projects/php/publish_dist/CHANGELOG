@@ -3,6 +3,8 @@ eZ publish changelog:
 
 Changes from 2.2 Beta 1 to 2.2 Beta 2
 -----------------------------------
+* Fixed problems with articles being stored with invalid XML
+* Added topic link from article list and article view
 * Added modification sorting on article categories.
 * Added image caption override tag
 * Added better search in eZ article. Now handles stop words and word freqyency.

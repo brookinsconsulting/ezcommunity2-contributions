@@ -486,6 +486,7 @@ CREATE TABLE eZArticle_Category (
   SectionID int NOT NULL default '0',
   ImageID int default NULL,
   EditorGroupID int default '0',
+  ListLimit int default '0',
   PRIMARY KEY (ID)
 );
 
@@ -549,9 +550,16 @@ CREATE TABLE eZArticle_Word (
   Word varchar(50) NOT NULL default ''
 );
 
+CREATE TABLE eZArticle_ArticleKeywordFirstLetter (
+  ID int(11) NOT NULL default '0',
+  Letter char(1) NOT NULL default ''
+);
+
 
 CREATE INDEX Article_Name ON eZArticle_Article (Name);
 CREATE INDEX Article_Published ON eZArticle_Article (Published);
+CREATE FULLTEXT INDEX Article_Fulltext ON eZArticle_Article (Contents);
+CREATE FULLTEXT INDEX Article_FulltextName ON eZArticle_Article (Name);
 
 CREATE INDEX Link_ArticleID ON eZArticle_ArticleCategoryLink (ArticleID);
 CREATE INDEX Link_CategoryID ON eZArticle_ArticleCategoryLink (CategoryID);
@@ -744,6 +752,7 @@ CREATE TABLE eZBulkMail_Forgot (
   UserID int DEFAULT '0' NOT NULL,
   Date int,
   Duration int,
+  AllDay int,
   AppointmentTypeID int DEFAULT '0' NOT NULL,
   EMailNotice int DEFAULT '0',
   IsPrivate int,
@@ -1474,6 +1483,13 @@ CREATE TABLE eZMediaCatalogue_Type (
   PRIMARY KEY (ID)
 ) TYPE=MyISAM;
 
+CREATE TABLE eZMediaCatalogue_TypeLink (
+  ID int(11) NOT NULL,		  
+  TypeID int(11) default 0,
+  MediaID int(11) default 0,
+  PRIMARY KEY (ID)
+) TYPE=MyISAM;
+
 INSERT INTO eZMediaCatalogue_Type VALUES (1,'QuickTime');
 INSERT INTO eZMediaCatalogue_Type VALUES (2,'Windows Media Player');
 INSERT INTO eZMediaCatalogue_Type VALUES (3,'ShockWave Flash');
@@ -1885,6 +1901,7 @@ CREATE TABLE eZTodo_Todo (
   Due int(11),
   Description text,
   Status int(11) DEFAULT '0',
+  IsPublic int(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (ID)
 );
 
@@ -2153,6 +2170,7 @@ CREATE TABLE eZTrade_Product (
   ProductType int(11) default '1',
   ExpiryTime int(11) NOT NULL default '0',
   Published int(11) default NULL,
+  IncludesVAT int(1) default '0',
   PRIMARY KEY (ID)
 ) TYPE=MyISAM;
 
@@ -2486,6 +2504,12 @@ CREATE TABLE eZUser_Permission (
   PRIMARY KEY (ID)
 );
 
+CREATE TABLE eZUser_Trustees (
+  ID int(11) NOT NULL auto_increment,
+  OwnerID int(11) NOT NULL,
+  UserID int(11) NOT NULL,
+  PRIMARY KEY (ID)
+) TYPE=MyISAM;
 
 INSERT INTO eZUser_Module (ID, Name ) VALUES (1,'eZTrade');
 INSERT INTO eZUser_Module (ID, Name ) VALUES (2,'eZPoll');

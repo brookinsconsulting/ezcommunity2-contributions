@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: articleview.php,v 1.81 2001/09/15 13:06:03 bf Exp $
+// $Id: articleview.php,v 1.82 2001/09/19 11:24:57 bf Exp $
 //
 // Created on: <18-Oct-2000 16:34:51 bf>
 //
@@ -32,8 +32,7 @@ include_once( "ezarticle/classes/ezarticlecategory.php" );
 include_once( "ezarticle/classes/ezarticle.php" );
 include_once( "ezarticle/classes/ezarticlerenderer.php" );
 include_once( "ezmail/classes/ezmail.php" );
-
-
+include_once( "ezsitemanager/classes/ezsection.php" );
 
 $ini =& INIFile::globalINI();
 
@@ -53,6 +52,11 @@ if ( $ForceCategoryDefinition == "enabled" )
 }
 
 $GlobalSectionID = eZArticleCategory::sectionIDStatic( $CategoryID );
+
+// init the section
+$sectionObject =& eZSection::globalSectionObject( $GlobalSectionID );
+$sectionObject->setOverrideVariables();
+
 
 $t = new eZTemplate( "ezarticle/user/" . $TemplateDir,
                      "ezarticle/user/intl/", $Language, "articleview.php" );
