@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezproduct.php,v 1.86 2001/09/07 11:13:39 ce Exp $
+// $Id: ezproduct.php,v 1.87 2001/09/10 14:03:49 pkej Exp $
 //
 // Definition of eZProduct class
 //
@@ -149,7 +149,8 @@ class eZProduct
                                   ProductType,
                                   ShippingGroupID,
                                   Published,
-                                  ExpiryTime )
+                                  ExpiryTime,
+                                  IncludesVAT )
                                   VALUES
                                   ( '$nextID',
 		                            '$this->Name',
@@ -167,7 +168,8 @@ class eZProduct
                                     '$this->ProductType',
                                     '$this->ShippingGroupID',
                                     '$timeStamp',
-                                    '$this->ExpiryTime' )" );
+                                    '$this->ExpiryTime',
+                                    '$this->IncludesVAT' )" );
             $db->unlock();
 			$this->ID = $nextID;
         }
@@ -188,7 +190,8 @@ class eZProduct
                                  ShippingGroupID='$this->ShippingGroupID',
                                  ProductType='$this->ProductType',
                                  Published=Published,
-                                 ExpiryTime='$this->ExpiryTime'
+                                 ExpiryTime='$this->ExpiryTime',
+                                 IncludesVAT='$this->IncludesVAT'
                                  WHERE ID='$this->ID'
                                  " );
         }
@@ -233,6 +236,7 @@ class eZProduct
                 $this->ShippingGroupID =& $category_array[0][$db->fieldName( "ShippingGroupID" )];
                 $this->ProductType =& $category_array[0][$db->fieldName( "ProductType" )];
                 $this->ExpiryTime =& $category_array[0][$db->fieldName( "ExpiryTime" )];
+                $this->IncludesVAT =& $category_array[0][$db->fieldName( "IncludesVAT" )];
                 if ( $this->Price == "NULL" )
                     unset( $this->Price );
 
@@ -414,7 +418,7 @@ class eZProduct
 
 
     /*!
-     Obsolete. Use addVAT() or extractVAT() insted.
+     Obsolete. Use addVAT() or extractVAT() instead.
     */
     function &vat( $price="" )
     {
@@ -1727,7 +1731,54 @@ class eZProduct
         return $ret;
     }
     
+    /*!
+        Set the "includes vat" status. If true, the price stored in the database includes
+        vat, if false the price stored exlcudes vat.
+        
+        This value must be checked and the correct values computed based on the state.
+     */
+    function setIncludesVAT( $inValue = true )
+    {
+        if( $inValue == true )
+        {
+            $this->IncludesVAT = 1;
+        }
+        else
+        {
+            $this->IncludesVAT = 0;
+        }
+    }
     
+    /*!
+        Returns true if the prices of this product includes vat.
+     */
+    function includesVAT()
+    {
+        $ret = false;
+        
+        if( $this->IncludesVAT == 1 )
+        {
+            $ret = true;
+        }
+        
+        return $ret;
+    }
+
+    /*!
+        Returns true if the prices of this product doesn't include vat.
+     */
+    function excludedVAT()
+    {
+        $ret = false;
+        
+        if( $this->IncludesVAT == 0 )
+        {
+            $ret = true;
+        }
+        
+        return $ret;
+    }
+   
     var $ID;
     var $Name;
     
@@ -1748,6 +1799,7 @@ class eZProduct
     var $ProductType;
     var $Price;
     var $ExpiryTime;
+    var $IncludesVAT;
 }
 
 ?>
