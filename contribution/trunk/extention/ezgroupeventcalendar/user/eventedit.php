@@ -133,9 +133,10 @@ include_once( "classes/INIFile.php" );
 include_once( "classes/eztemplate.php" );
 include_once( "classes/ezlog.php" );
 include_once( "classes/ezlocale.php" );
-include_once( "classes/ezdatetime.php" );
+
 include_once( "classes/ezdate.php" );
 include_once( "classes/eztime.php" );
+include_once( "classes/eztimetime.php" );
 
 include_once( "ezuser/classes/ezuser.php" );
 include_once( "ezuser/classes/ezpermission.php" );
@@ -159,6 +160,23 @@ $Locale = new eZLocale( $Language );
 
 $user = eZUser::currentUser();
 
+
+
+////////////////////////////////////////////
+// die("Hello");
+/*
+
+$stamp = '20361230235959';
+
+$the_stamp = new eZDateTime;
+// $the_stamp = $the_stamp->setMySQLTimeStamp($stamp);
+$the_stamp_unix = $the_stamp->timeStamp();
+
+die("core: $the_stamp_unix");
+
+*/
+////////////////////////////////////////////
+
 if ( $user == false )
     $userID = false;
 else
@@ -171,9 +189,8 @@ if ( $Action == "New"  )
 else
     $event = new eZGroupEvent( $EventID );
 
-//We don't need to record this
-//$session->setVariable( "ShowOtherCalenderGroups", $groupID );
-
+// We don't need to record this
+// $session->setVariable( "ShowOtherCalenderGroups", $groupID );
 
 $t = new eZTemplate( "ezgroupeventcalendar/user/" . $ini->read_var( "eZGroupEventCalendarMain", "TemplateDir" ),
                      "ezgroupeventcalendar/user/intl/", $Language, "eventedit.php" );
@@ -214,6 +231,7 @@ $t->set_block( "no_error_tpl", "add_file_list_tpl", "add_file_list" );
 $t->set_block( "group_name_new_tpl", "group_item_tpl", "group_item" );
 
 $t->set_block ( "no_error_tpl", "top_buttons_tpl", "top_buttons");
+
 //history bar block
 $t->set_block( "event_edit_tpl", "group_history_tpl", "group_history" );
 $t->set_block( "event_edit_tpl", "edit_history_tpl", "edit_history" );
@@ -223,6 +241,10 @@ $t->set_block( "no_error_tpl", "recur_exceptions_tpl", "recur_exceptions");
 $t->set_var( "sitedesign", $SiteDesign );
 
 $t->set_var( "group_history", "" );
+
+
+////////////////////////////////////////////
+
 if ("Edit" == $Action)
 {
  $theDate = $event->dateTime();
@@ -238,6 +260,7 @@ if ("Edit" == $Action)
 {
  $t->set_var( "top_buttons", "" );
 }
+
 //print the group name in the history bar if a group is selected
 if( $masterGroupID != 0 )
 {
@@ -292,6 +315,9 @@ $noShowGroup = new eZGroupNoShow();
 $permission = new eZGroupEditor();
 $editor     = false;
 
+
+////////////////////////////////////////////
+// ifAuthenticatUser
 if ( $user == true )
 {
 	//if the user has root access, return all the groups else just return the group they are a member of
@@ -467,59 +493,67 @@ if ( $Action == "DeleteEvents" )
 
 if ( ($Action == "Insert" || $Action == "Update")  && $groupError == false )
 {
-$dateArr = explode("-", $dateCal);
-$Year = $dateArr[0];
-$Month = $dateArr[1];
-$Day = $dateArr[2];
-    if ( isSet( $Cancel ) )
-    {
-        $event = new eZGroupEvent( $EventID );
-        $dt = $event->dateTime();
-        $year = $dt->year();
-        $month = $dt->month();
-        $day = $dt->day();
+  //die("what?");
+  $dateArr = explode("-", $dateCal);
+  $Year = $dateArr[0];
+  $Month = $dateArr[1];
+  $Day = $dateArr[2];
 
-        eZHTTPTool::header( "Location: /groupeventcalendar/dayview/$year/$month/$day/" );
-        exit();
-    }
+  // die("$Year $Month $Day");
+  if ( isSet( $Cancel ) )
+  {
+    $event = new eZGroupEvent( $EventID );
+    $dt = $event->dateTime();
+    $year = $dt->year();
+    $month = $dt->month();
+    $day = $dt->day();
+    
+    eZHTTPTool::header( "Location: /groupeventcalendar/dayview/$year/$month/$day/" );
+    exit();
+  }
 
-    $user = eZUser::currentUser();
-    if ( $user )
-    {
-        $type = new eZGroupEventType( $TypeID );
+  $user = eZUser::currentUser();
 
-        if ( $Action == "Update" )
-            $event = new eZGroupEvent( $EventID );
-        else
-            $event = new eZGroupEvent();
-
-        $category = new eZGroupEventCategory( $CategoryID );
-
-        $event->setDescription( $Description );
-        $event->setLocation( $Location );
-        $event->setUrl( $Url );
-
-        $event->setType( $type );
-        $event->setCategory( $category );
-
+  if ( $user )
+  {
+    $type = new eZGroupEventType( $TypeID );
+    
+    if ( $Action == "Update" )
+      $event = new eZGroupEvent( $EventID );
+    else
+      $event = new eZGroupEvent();
+    
+    $category = new eZGroupEventCategory( $CategoryID );
+    
+    $event->setDescription( $Description );
+    $event->setLocation( $Location );
+    $event->setUrl( $Url );
+    
+    $event->setType( $type );
+    $event->setCategory( $category );
+    
         $event->setPriority( $Priority );
         $event->setStatus( $Status );
-
-
+	
+	
 	if ( $IsPrivate == "on" )
-            $event->setIsPrivate( true );
+	  $event->setIsPrivate( true );
         else
-            $event->setIsPrivate( false );
+	  $event->setIsPrivate( false );
+
+	if ( $IsEventAlarmNotice == "on" )
+          $event->setEventAlarmNotice( true );
+        else
+          $event->setEventAlarmNotice( false );
 
         if ( $Name != "" )
-        {
-            $event->setName( $Name );
-        }
+	{
+	  $event->setName( $Name );
+	}
         else
         {
-            $TitleError = true;
+	  $TitleError = true;
         }
-
 
 	// wanted to reserve 0 for events in all group category
 	//	if ( $StoreByGroupID != 0 )
@@ -536,7 +570,7 @@ $Day = $dateArr[2];
         // start/stop time for the day
         $dayStartTime = new eZTime();
         $dayStopTime = new eZTime();
-
+	
         if ( preg_match( "#(^([0-9]{1,2})[^0-9]{0,1}([0-9]{0,2})$)#", $StartTimeStr, $dayStartArray ) )
         {
             $hour = $dayStartArray[2];
@@ -568,7 +602,7 @@ $Day = $dateArr[2];
 
         if ( $IsAllDay == "on" )
         {
-        $starthour = $dayStartArray[2];
+	    $starthour = $dayStartArray[2];
 	    $startmin  = $dayStartArray[3];
 	    $stophour  = $dayStopArray[2];
 	    $stopmin   = $dayStopArray[3];
@@ -628,7 +662,7 @@ $Day = $dateArr[2];
 
         $pStopTimeHour = $stopTime->hour();
         $pStopTimeMinute = addZero( $stopTime->minute() );
-
+ 
         $datetime = new eZDateTime( $Year, $Month, $Day );
 
         $datetime->setSecondsElapsedHMS( $pStartTimeHour, $pStartTimeMinute, 0 );
@@ -638,7 +672,7 @@ $Day = $dateArr[2];
         {
             $StopTimeError = true;
         }
-	
+
 	// setting recurrance variables to be used by the store() function
 	$event->setRecurFreq ($RecurFreq );
 	$event->setIsRecurring ( $IsRecurring );
@@ -652,6 +686,7 @@ $Day = $dateArr[2];
 	  $event->setRecurDay();
 	  // the $RecurExceptions var is actually the text/calendar field, the select box array is $ExceptSelect
 	  $event->setRecurExceptions( $ExceptSelect );
+
 	// now we check to see if the RecurType is month
 	if ($event->RecurType == 'month')
 	  // it is, so let's set RecurMonthlyType
@@ -659,13 +694,30 @@ $Day = $dateArr[2];
 	  // if not, we set it to blank
         else
 	  $event->setRecurMonthlyType();
+
+	////////////////////////////////////////////
+	// die("what-is-t00");
+	// die($RepeatOptions);
+
 	// feed repeat options to setFinishTime
-	if ($RepeatOptions=='numTimes')
-	 $event->setFinishDateNot($NumberOfTimes, $RecurFreq, $RecurType, $datetime);
-	elseif ($RepeatOptions=='untilDate')
-	 $event->setFinishDateUntil($UntilDate);
-	else // must be forever
-	$event->SetFinishDateForever();
+	if ($RepeatOptions=='numTimes') {
+	  $event->setFinishDateNot($NumberOfTimes, $RecurFreq, $RecurType, $datetime);
+	  // die("what-is-t1");
+	} elseif ($RepeatOptions=='untilDate') {
+	  //die("what-is: $UntilDate");
+	  $event->setFinishDateUntil($UntilDate);
+	  //die("what-is: $UntilDate");
+	   //die("what-is-42");
+	
+	} else {// must be forever
+	  //die("what-is-t12");
+	  $event->SetFinishDateForever();
+        }
+
+	////////////////////////////////////////////
+	//die("what-is-t2");
+	
+
 	
 	  /*
             $duration = new eZTime( $stopTime->hour() - $startTime->hour(),
@@ -693,6 +745,8 @@ $Day = $dateArr[2];
 	    */
 	    //  : check to see if this is a recurring event
        }
+
+  //die("here!");
 
         if ( $TitleError == false && $GroupInsertError == false && $StartTimeError == false && $StopTimeError == false )
         {
@@ -806,7 +860,9 @@ $Day = $dateArr[2];
 
             $t->set_var( "location_value", $event->location() );
             $t->set_var( "url_value", $event->url() );
-			$t->set_var( "group_name_new", "" );
+	    
+	    $t->set_var( "group_name_new", "" );
+			
 			if ( $user )
 			{
 				include_once( "ezuser/classes/ezusergroup.php" );
@@ -853,6 +909,12 @@ $Day = $dateArr[2];
                 $t->set_var( "is_private", "checked" );
             else
                 $t->set_var( "is_private", "" );
+
+	    if ( $event->isEventAlarmNotice() )
+	      $t->set_var( "is_event_alarm_notice", "checked" );
+	    else
+	      $t->set_var( "is_event_alarm_notice", "" );
+
 	                /* what we need to store this date. timestamp */
 
 			$eventStartTime =& $event->startTime();
@@ -1017,6 +1079,11 @@ if ( $Action == "Update" && $groupError == false )
         $t->set_var( "is_private", "checked" );
     else
         $t->set_var( "is_private", "" );
+
+    if ( $EventAlarmNotice == "on" )
+      $t->set_var( "is_event_alarm_notice", "checked" );
+    else
+      $t->set_var( "is_event_alarm_notice", "" );
 
     $t->set_var( "action_value", $Action );
     $t->set_var( "appointment_id", $EventID );
@@ -1345,10 +1412,11 @@ if ( $Action == "Edit" && $groupError == false )
 	$tempYear = addZero( $today->year() );
         //$tempYear = $tmpdate->year();
 	$yearsPrint = $ini->read_var( "eZGroupEventCalendarMain", "YearsPrint" );
-// : setting new day time in template
-$t->set_var( "date_calendar", "$year-$month-$day");
 
-/*
+	// : setting new day time in template
+	$t->set_var( "date_calendar", "$year-$month-$day");
+
+	/*
 	for( $i=1; $i<=$yearsPrint; $i++ )
 	{
 		if( $dt->year() == $tempYear )
@@ -1366,11 +1434,17 @@ $t->set_var( "date_calendar", "$year-$month-$day");
 		$tempYear++;
 		$t->parse( "year", "year_tpl", true );
 	}
-*/
-    if ( $event->isPrivate() )
-        $t->set_var( "is_private", "checked" );
-    else
-        $t->set_var( "is_private", "" );
+	*/
+
+	if ( $event->isPrivate() )
+	  $t->set_var( "is_private", "checked" );
+	else
+	  $t->set_var( "is_private", "" );
+
+        if ( $event->isEventAlarmNotice() )
+          $t->set_var( "is_event_alarm_notice", "checked" );
+        else
+          $t->set_var( "is_event_alarm_notice", "" );
 
     $t->set_var( "action_value", "update" );
 }
@@ -1493,10 +1567,11 @@ if ( $Action == "New" && $groupError == false )
     $t->set_var( "repeat_until", "");
     $t->set_var( "repeat_times", "");
     $t->set_var( "repeat_forever", "");
-    
-    
+        
     $t->set_var( "description_value", "" );
     $t->set_var( "is_private", "" );
+    $t->set_var( "is_event_alarm_notice", "" );
+
     $t->set_var( "start_value", "" );
     $t->set_var( "stop_value", "" );
  
