@@ -5,7 +5,7 @@
  * (C) Copyright 1999-2000 NetUSE GmbH
  *                    Kristian Koehntopp
  *
- * $Id: template.inc,v 1.6 2001/01/23 21:52:13 jb Exp $
+ * $Id: template.inc,v 1.7 2001/01/24 12:06:42 jb Exp $
  *
  */ 
 
@@ -129,22 +129,16 @@ class Template {
     {
         if (!is_array($varname))
         {
-//              $this->varkeys[$varname] =& preg_quote("/{".$varname."}/");
-//              $this->varvals[$varname] =& $value;
-            $var = "{".$varname."}";
-            $this->varkeys[$varname] =& $value;
-            $this->varvals[$var] =& $value;
+            $this->varkeys[$varname] =& preg_quote("/{".$varname."}/");
+            $this->varvals[$varname] =& $value;
         }
         else
         {
             reset($varname);
             while(list($k, $v) = each($varname))
             {
-//                  $this->varkeys[$k] =& preg_quote("/{".$k."}/");
-//                  $this->varvals[$k] =& $v;
-                $var = "{".$k."}";
-                $this->varkeys[$k] =& $v;
-                $this->varvals[$var] =& $v;
+                $this->varkeys[$k] =& preg_quote("/{".$k."}/");
+                $this->varvals[$k] =& $v;
             }
         }
     }
@@ -161,8 +155,7 @@ class Template {
         }
 
         $str = $this->get_var($handle);
-//          $str =& preg_replace( $this->varkeys, $this->varvals, $str);
-        $str =& strtr( $str, $this->varvals );
+        $str =& preg_replace( $this->varkeys, $this->varvals, $str);
         return $str;
     }
   
@@ -215,16 +208,16 @@ class Template {
   
   /* public: get_vars()
    */
-    function get_vars() {
-//      reset($this->varkeys);
-//      while(list($k, $v) = each($this->varkeys))
-//          while(list($k, $v) = each($this->varkeys))
-//          {
-//              $result[$k] = $v;
-//          }
+    function get_vars()
+    {
+        reset($this->varkeys);
+        while(list($k, $v) = each($this->varkeys))
+            while(list($k, $v) = each($this->varkeys))
+            {
+                $result[$k] = $v;
+            }
     
-//          return $result;
-        return $this->varkeys;
+        return $result;
     }
   
     /* public: get_var(string varname)
@@ -237,16 +230,14 @@ class Template {
     {
         if (!is_array($varname))
         {
-//              return $this->varvals[$varname];
-            return $this->varkeys[$varname];
+            return $this->varvals[$varname];
         }
         else
         {
             reset($varname);
             while(list($k, $v) = each($varname))
             {
-//                  $result[$k] =& $this->varvals[$k];
-                $result[$k] =& $this->varkeys[$k];
+                $result[$k] =& $this->varvals[$k];
             }
             return $result;
         }
@@ -271,10 +262,8 @@ class Template {
         reset($m);
         while(list($k, $v) = each($m))
         {
-//            if (!isset($this->varkeys[$v]))
-//                $result[$v] = $v;
-            if (!isset($this->varkeys[$v]))
-                $result[$v] = $v;
+          if (!isset($this->varkeys[$v]))
+              $result[$v] = $v;
         }
     
         if (count($result))
@@ -348,9 +337,7 @@ class Template {
    */
     function loadfile($handle)
     {
-//          if (isset($this->varkeys[$handle]) and !empty($this->varvals[$handle]))
-//              return true;
-        if (isset($this->varkeys[$handle]) and !empty($this->varkeys[$handle]))
+        if (isset($this->varkeys[$handle]) and !empty($this->varvals[$handle]))
             return true;
 
         if (!isset($this->file[$handle])) {
