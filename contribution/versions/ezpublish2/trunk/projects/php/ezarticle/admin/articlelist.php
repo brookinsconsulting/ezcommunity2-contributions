@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: articlelist.php,v 1.50 2001/09/14 12:29:10 ce Exp $
+// $Id: articlelist.php,v 1.51 2001/11/01 13:15:27 bf Exp $
 //
 // Created on: <18-Oct-2000 14:41:37 bf>
 //
@@ -90,6 +90,12 @@ if ( isset( $CopyCategories ) )
             $newCategory->setOwner( eZUser::currentUser() );
 
             $newCategory->store();
+
+            // write access
+            eZObjectPermission::setPermission( -1, $newCategory->id(), "article_category", 'w' );
+
+            // read access 
+            eZObjectPermission::setPermission( -1, $newCategory->id(), "article_category", 'r' );
 
             $tmpCategory->copyTree( $tCategoryID, $newCategory );
         }
