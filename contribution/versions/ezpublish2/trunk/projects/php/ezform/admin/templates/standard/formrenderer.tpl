@@ -183,4 +183,10 @@
 {count}
 <!-- END count_tpl -->
 
-ADMIN REMOVE
+<!-- BEGIN sum_tpl -->
+{sum}
+<!-- END sum_tpl -->
+
+<!-- BEGIN average_tpl -->
+{average}
+<!-- END average_tpl -->

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezformrenderer.php,v 1.52 2002/01/21 11:29:57 jhe Exp $
+// $Id: ezformrenderer.php,v 1.53 2002/01/21 12:18:07 jhe Exp $
 //
 // eZFormRenderer class
 //
@@ -84,6 +84,8 @@ class eZFormRenderer
         $this->Template->set_block( "form_renderer_page_tpl", "multiple_select_item_tpl", "multiple_select_item" );
         $this->Template->set_block( "form_renderer_page_tpl", "header_tpl", "header" );
         $this->Template->set_block( "form_renderer_page_tpl", "frequency_tpl", "frequency" );
+        $this->Template->set_block( "form_renderer_page_tpl", "sum_tpl", "sum" );
+        $this->Template->set_block( "form_renderer_page_tpl", "average_tpl", "average" );
         $this->Template->set_block( "frequency_tpl", "frequency_element_tpl", "frequency_element" );
         $this->Template->set_block( "form_renderer_page_tpl", "count_tpl", "count" );
         
@@ -120,6 +122,8 @@ class eZFormRenderer
         $this->Template->set_block( "form_renderer_page_tpl", "error_list_tpl", "error_list" );
         $this->Template->set_block( "error_list_tpl", "error_item_tpl", "error_item" );
 
+        $this->Template->set_var( "sum", "" );
+        $this->Template->set_var( "average", "" );
         $this->Template->set_var( "frequency", "" );
         $this->Template->set_var( "count", "" );
         $this->Template->set_var( "error_list", "" );

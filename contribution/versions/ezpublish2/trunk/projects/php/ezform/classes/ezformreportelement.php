@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: ezformreportelement.php,v 1.2 2002/01/21 11:29:57 jhe Exp $
+// $Id: ezformreportelement.php,v 1.3 2002/01/21 12:18:07 jhe Exp $
 //
 // Definition of eZFormReportElement class
 //
@@ -141,6 +141,18 @@ class eZFormReportElement
                 return $this->statCount( &$template );
             }
             break;
+
+            case 3:
+            {
+                return $this->statSum( &$template );
+            }
+            break;
+
+            case 4:
+            {
+                return $this->statAverage( &$template );
+            }
+            break;
         }
     }
 
@@ -175,13 +187,41 @@ class eZFormReportElement
         $output = $template->parse( $target, "count_tpl" );
         return $output;        
     }
+
+    function statSum( &$template )
+    {
+        $template->set_var( "sum", "" );
+        $res = array();
+        $db =& eZDB::globalDatabase();
+        $db->query_single( $res, "SELECT SUM(eZForm_FormElementResult.Result) as Sum
+                                  FROM eZForm_FormElementResult
+                                  WHERE ElementID='$this->ElementID'" );
+        $template->set_var( "sum", $res[$db->fieldName( "Sum" )] );
+        $output = $template->parse( $target, "sum_tpl" );
+        return $output;        
+    }
+
+    function statAverage( &$template )
+    {
+        $template->set_var( "average" );
+        $res = array();
+        $db =& eZDB::globalDatabase();
+        $db->query_single( $res, "SELECT AVG(eZForm_FormElementResult.Result) as Avg
+                                  FROM eZForm_FormElementResult
+                                  WHERE ElementID='$this->ElementID'" );
+        $template->set_var( "average", $res[$db->fieldName( "Avg" )] );
+        $output = $template->parse( $target, "average_tpl" );
+        return $output;
+    }
     
     function types()
     {
         $ret = array(
             array( "Name" => "nothing", "Description" => "intl-nothing" ),
             array( "Name" => "frequency", "Description" => "intl-frequency" ),
-            array( "Name" => "count", "Description" => "intl-count" )
+            array( "Name" => "count", "Description" => "intl-count" ),
+            array( "Name" => "sum", "Description" => "intl-sum" ),
+            array( "Name" => "average", "Description" => "intl-average" )
             );
         return $ret;
     }
