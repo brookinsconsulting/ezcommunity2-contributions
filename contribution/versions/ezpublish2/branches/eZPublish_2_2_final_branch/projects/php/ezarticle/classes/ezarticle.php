@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: ezarticle.php,v 1.183.2.9 2002/02/20 09:13:54 ce Exp $
+// $Id: ezarticle.php,v 1.183.2.10 2002/02/22 15:06:30 bf Exp $
 //
 // Definition of eZArticle class
 //
@@ -2208,9 +2208,12 @@ class eZArticle
        else
            $permissionSQL = "";
 
+       $excludeSQL = " AND Category.ExcludeFromSearch = '0'";
+        
        // fetch only published articles
        if ( $fetchNonPublished  == true )
-       {
+       {           
+           $excludeSQL = "";
            if ( $permissionSQL == "" )
                $publishedSQL = " Article.IsPublished = '0' AND ";
            else
@@ -2234,7 +2237,6 @@ class eZArticle
                $publishedSQL = " AND Article.IsPublished = '2' AND ";
        }
 
-       $excludeSQL = " AND Category.ExcludeFromSearch = '0'";
 
         $query = "SELECT Article.ID as ArticleID
                   FROM eZArticle_ArticleCategoryDefinition as Definition,
