@@ -45,13 +45,14 @@ else if( $Command == "storedata" ) // save the category data!
     else
     {
         $category = new eZArticleCategory( $ID );
-        $category->setOwner( eZUser::currentUser() );
+        $category->setOwner( $User );
     }
 
     $category->setName( $Data["Name"]->value() );
     $category->setDescription( $Data["Description"]->value() );
 
 //    $category->setParent( $Data["ParentID"]->value() );
+    $category->setParent( 0 );
     $category->setExcludeFromSearch( $Data["ExcludeFromSearch"]->value() );
     
     $category->setBulkMailCategory( $Data["BulkMailID"]->value() );
@@ -72,23 +73,59 @@ else if( $Command == "storedata" ) // save the category data!
     eZObjectPermission::removePermissions( $ID, "article_category", 'w' );
     foreach( $Data["WriteGroups"]->value() as $writeGroup )
         eZObjectPermission::setPermission( $writeGroup->value(), $ID, "article_category", 'w' );
+
+
+    // create the path array
+    $path =& $category->path();
+    if ( $category->id() != 0 )
+    {
+        $par[] = createURLStruct( "ezarticle", "category", 0 );
+    }
+    else
+    {
+        $par[] = createURLStruct( "ezarticle", "" );
+    }
+    foreach( $path as $item )
+    {
+        if ( $item[0] != $category->id() )
+            $par[] = createURLStruct( "ezarticle", "category", $item[0] );
+    }
+
     
-    $ReturnData = new eZXMLRPCStruct( array( "ErrorID" => new eZXMLRPCInt( 0 ),
-                                             "ErrorString" => new eZXMLRPCString( "" )
+    $ReturnData = new eZXMLRPCStruct( array( "Location" => createURLStruct( "ezarticle", "category", $ID ),
+                                             "Path" => new eZXMLRPCArray( $par ),
+                                             "UpdateType" => new eZXMLRPCString( $Command )
                                              )
                                       );
+    $Command = "update";
 }
 else if( $Command == "delete" )
 {
-    eZLog::writeNotice( "Deleting: " . $ID );
-//    $category = new eZArticleCategory( $ID );
-//    $category->delete();
-    eZArticleCategory::delete( $ID );
-    eZLog::writeNotice( "Deleted: " . $ID );
-    $ReturnData = new eZXMLRPCStruct( array( "ErrorID" => new eZXMLRPCInt( 0 ),
-                                             "ErrorString" => new eZXMLRPCString( "" )
+    // create the path array
+    $category = new eZArticleCategory( $ID );
+    $path =& $category->path();
+    if ( $category->id() != 0 )
+    {
+        $par[] = createURLStruct( "ezarticle", "category", 0 );
+    }
+    else
+    {
+        $par[] = createURLStruct( "ezarticle", "" );
+    }
+    foreach( $path as $item )
+    {
+        if ( $item[0] != $category->id() )
+            $par[] = createURLStruct( "ezarticle", "category", $item[0] );
+    }
+
+    
+    $ReturnData = new eZXMLRPCStruct( array( "Location" => createURLStruct( "ezarticle", "category", $ID ),
+                                             "Path" => new eZXMLRPCArray( $par ),
+                                             "UpdateType" => new eZXMLRPCString( $Command )
                                              )
                                       );
+    $Command = "update";
+    eZArticleCategory::delete( $ID ); // finally, delete the articlecategory..
 }
 
 ?>
