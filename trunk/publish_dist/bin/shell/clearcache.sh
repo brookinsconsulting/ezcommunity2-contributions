@@ -1,5 +1,5 @@
 #!/bin/sh
-echo "Clearing the cache."
+echo "Clearing the eZ publish cache . . ."
 
 dirs="
 ezad
