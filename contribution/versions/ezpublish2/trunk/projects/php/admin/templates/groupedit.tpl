@@ -103,32 +103,47 @@
   </tr>
 
   <tr>
-    <td><input type="checkbox" name="eZContact_Person" {eZContact_Person}></td>
+    <td><input type="checkbox" name="eZContact_Add" {eZContact_Add}></td>
     <td>
-      Rettigheter til personer
+      Rettigheter til å legge til firma/personer
     </td>
   </tr>
     
   <tr>
-    <td><input type="checkbox" name="eZContact_Company" {eZContact_Company}></td>
+    <td><input type="checkbox" name="eZContact_Delete" {eZContact_Delete}></td>
     <td>
-      Rettigheter til firma
+      Rettigheter til å slette firma/personer
     </td>
   </tr>
     
   <tr>
-    <td><input type="checkbox" name="eZContact_Address" {eZContact_Address}></td>
+    <td><input type="checkbox" name="eZContact_Edit" {eZContact_Edit}></td>
     <td>
-      Rettigheter til addresser
+      Rettigheter til forandinger av firma/personer
     </td>
   </tr>
 
   <tr>
-    <td><input type="checkbox" name="eZConmtact_Consult" {eZContact_Consult}></td>
+    <td><input type="checkbox" name="eZContact_AdminAdd" {eZContact_AdminAdd}></td>
     <td>
-      Rettigheter til konsultasjoner
+      Rettigheter til å legge til administrasjon komponenter
     </td>
   </tr>
+    
+  <tr>
+    <td><input type="checkbox" name="eZContact_AdminDelete" {eZContact_AdminDelete}></td>
+    <td>
+      Rettigheter til å slette administrasjon komponenter
+    </td>
+  </tr>
+    
+  <tr>
+    <td><input type="checkbox" name="eZContact_AdminEdit" {eZContact_AdminEdit}></td>
+    <td>
+      Rettigheter til å forandre administrasjon komponenter
+    </td>
+  </tr>
+
 
 
 

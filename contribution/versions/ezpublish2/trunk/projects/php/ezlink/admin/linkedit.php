@@ -1,6 +1,6 @@
 <?
 /*!
-  $Id: linkedit.php,v 1.16 2000/08/25 09:39:28 ce-cvs Exp $
+  $Id: linkedit.php,v 1.17 2000/08/29 16:37:21 ce-cvs Exp $
 
   Author: Christoffer A. Elo <ce@ez.no>
     
@@ -92,7 +92,10 @@ if ( $Action == "insert" )
 }
 
 // Sette template filer.
-$t = new eZTemplate( $DOC_ROOT . "/" . $Ini->read_var( "eZLinkMain", "TemplateDir" ), $DOC_ROOT . "/intl", $Language, "linkedit.php" );
+
+
+$t = new eZTemplate( "../" . $DOC_ROOT . "/" . $Ini->read_var( "eZLinkMain", "TemplateDir" ), "../" . $DOC_ROOT . "/intl/", $Language, "linkedit.php" );
+
 $t->setAllStrings();
 
 $t->set_file( array(

@@ -1,6 +1,6 @@
 <?php
 /*!
-    $Id: groupedit.php,v 1.1 2000/08/16 11:32:15 bf-cvs Exp $
+    $Id: groupedit.php,v 1.2 2000/08/29 16:37:21 ce-cvs Exp $
 
     Author: Lars Wilhelmsen <lw@ez.no>
     
@@ -24,6 +24,7 @@ if ( $Action == "Update" )
     $group->setName( $Name );
     $group->setDescription( $Description );
 
+    // eZ Publish
     if ( $eZPublish_Add == "on" )
         $group->seteZPublish_Add( "Y" );
     else
@@ -40,6 +41,8 @@ if ( $Action == "Update" )
         $group->seteZPublish_EditAll( "Y" );
     else
         $group->seteZPublish_EditAll( "N" );
+
+    // eZ Link
     if ( $eZLink_Add == "on" )
         $group->seteZLink_Add( "Y" );
     else
@@ -52,6 +55,38 @@ if ( $Action == "Update" )
         $group->seteZLink_Delete( "Y" );
     else
         $group->seteZLink_Delete( "N" );
+
+
+    // eZ Contact
+    if ( $eZContact_Add == "on" )
+        $group->seteZContact_Add( "Y" );
+    else
+        $group->seteZContact_Add( "N" );
+    if ( $eZContact_Delete == "on" )
+        $group->seteZContact_Delete( "Y" );
+    else
+        $group->seteZContact_Delete( "N" );
+    if ( $eZContact_Edit == "on" )
+        $group->seteZContact_Edit( "Y" );
+    else
+        $group->seteZContact_Edit( "N" );
+
+    if ( $eZContact_AdminAdd == "on" )
+        $group->seteZContact_AdminAdd( "Y" );
+    else
+        $group->seteZContact_AdminAdd( "N" );
+    if ( $eZContact_AdminDelete == "on" )
+        $group->seteZContact_AdminDelete( "Y" );
+    else
+        $group->seteZContact_AdminDelete( "N" );
+    if ( $eZContact_AdminEdit == "on" )
+        $group->seteZContact_AdminEdit( "Y" );
+    else
+        $group->seteZContact_AdminEdit( "N" );
+
+    
+    
+    // eZ Forum
     if ( $eZForum_AddCategory == "on" )
         $group->seteZForum_AddCategory( "Y" );
     else
@@ -78,12 +113,12 @@ if ( $Action == "Update" )
         $group->seteZForum_DeleteMessage( "N" );
     
 
+    // zez
     if ( $GrantUser == "on" )
         $group->setGrantUser( "Y" );
     else
         $group->setGrantUser( "N" );
-    
-    
+
     if ( $zez_AddGroup == "on" )
         $group->setzez_AddGroup( "Y" );
     else
@@ -117,6 +152,7 @@ if ( $Action == "Insert" )
     $group->setName( $Name );
     $group->setDescription( $Description );
 
+    // eZ Publish
     if ( $eZPublish_Add == "on" )
         $group->seteZPublish_Add( "Y" );
     if ( $eZPublish_Edit == "on" )
@@ -126,6 +162,7 @@ if ( $Action == "Insert" )
     if ( $eZPublish_EditAll == "on" )
         $group->seteZPublish_EditAll( "Y" );
 
+    // eZ Link
     if ( $eZLink_Add == "on" )
         $group->seteZLink_Add( "Y" );
     if ( $eZLink_Edit == "on" )
@@ -133,6 +170,22 @@ if ( $Action == "Insert" )
     if ( $eZLink_Delete == "on" )
         $group->seteZLink_Delete( "Y" );
 
+    // eZContact
+    if ( $eZContact_Add == "on" )
+        $group->seteZContact_Add( "Y" );
+    if ( $eZContact_Delete == "on" )
+        $group->seteZContact_Delete( "Y" );
+    if ( $eZContact_Edit == "on" )
+        $group->seteZContact_Edit( "Y" );
+
+    if ( $eZContact_AdminAdd == "on" )
+        $group->seteZContact_AdminAdd( "Y" );
+    if ( $eZContact_AdminDelete == "on" )
+        $group->seteZContact_AdminDelete( "Y" );
+    if ( $eZContact_AdminEdit == "on" )
+        $group->seteZContact_AdminEdit( "Y" );
+   
+    // eZ Forum
     if ( $eZForum_AddCategory == "on" )
         $group->seteZForum_AddCategory( "Y" );
     if ( $eZForum_AddForum == "on" )
@@ -146,6 +199,7 @@ if ( $Action == "Insert" )
     if ( $eZForum_DeleteMessage == "on" )
         $group->seteZForum_DeleteMessage( "Y" );
 
+    // zez
     if ( $GrantUser == "on" )
         $group->setGrantUser( "Y" );
     
@@ -159,7 +213,7 @@ if ( $Action == "Insert" )
         $group->setzez_DeleteUser( "Y" );
     if ( $zez_Admin == "on" )
         $group->setzez_Admin( "Y" );
-    
+
     $group->store();
     
     Header( "Location: index.php?page=grouplist.php" );        
@@ -181,7 +235,7 @@ if ( $Action == "Edit" )
     $t->set_var( "name", $group->Name() );
     $t->set_var( "description", $group->Description() );
 
-    // eZ publish
+    // eZ Publish
     if ( $group->eZPublish_Add() == "Y" )
         $t->set_var( "eZPublish_Add", "checked");
     else
@@ -207,7 +261,7 @@ if ( $Action == "Edit" )
     else
         $t->set_var( "eZPublish_EditAll", "" );
         
-        // eZ link
+    // eZ Link
     if ( $group->eZLink_Add() == "Y" )
         $t->set_var( "eZLink_Add", "checked");
     else
@@ -223,8 +277,38 @@ if ( $Action == "Edit" )
     else
         $t->set_var( "eZLink_Delete", "" );
 
+    // eZ Contact
+    if ( $group->eZContact_Add == "Y" )
+        $t->set_var( "eZContact_Add", "checked" );
+    else
+        $t->set_var( "eZContact_Add", "" );
 
-        // eZ forum
+    if ( $group->eZContact_Delete == "Y" )
+        $t->set_var( "eZContact_Delete", "checked" );
+    else
+        $t->set_var( "eZContact_Delete", "" );
+
+    if ( $group->eZContact_Edit == "Y" )
+        $t->set_var( "eZContact_Edit", "checked" );
+    else
+        $t->set_var( "eZContact_Edit", "" );
+
+        if ( $group->eZContact_AdminAdd == "Y" )
+        $t->set_var( "eZContact_AdminAdd", "checked" );
+    else
+        $t->set_var( "eZContact_AdminAdd", "" );
+
+    if ( $group->eZContact_AdminDelete == "Y" )
+        $t->set_var( "eZContact_AdminDelete", "checked" );
+    else
+        $t->set_var( "eZContact_AdminDelete", "" );
+
+    if ( $group->eZContact_AdminEdit == "Y" )
+        $t->set_var( "eZContact_AdminEdit", "checked" );
+    else
+        $t->set_var( "eZContact_AdminEdit", "" );
+
+    // eZ Forum
     if ( $group->eZForum_AddCategory() == "Y" )
         $t->set_var( "eZForum_AddCategory", "checked");
     else
@@ -255,7 +339,7 @@ if ( $Action == "Edit" )
     else
         $t->set_var( "eZForum_DeleteMessage", "" );
 
-        // site (zez)
+    // site (zez)
     if ( $group->zez_AddGroup() == "Y" )
         $t->set_var( "zez_AddGroup", "checked");
     else
@@ -294,18 +378,30 @@ if ( $Action == "New" )
     $t->set_var( "description", "" );
     $t->set_var( "eZPublish_Add", "" );
     $t->set_var( "eZPublish_Edit", "" );
-    $t->set_var( "GrantUser", "" );
+    $t->set_var( "eZPublish_EditAll", "" );
     $t->set_var( "eZPublish_Preferences", "" );
+
     $t->set_var( "eZLink_Add", "" );
     $t->set_var( "eZLink_Edit", "" );
     $t->set_var( "eZLink_Delete", "" );
-    $t->set_var( "eZPublish_EditAll", "" );
+
+    $t->set_var( "eZContact_Add", "" );
+    $t->set_var( "eZContact_Delete", "" );
+    $t->set_var( "eZContact_Edit", "" );
+
+    $t->set_var( "eZContact_AdminAdd", "" );
+    $t->set_var( "eZContact_AdminDelete", "" );
+    $t->set_var( "eZContact_AdminEdit", "" );
+
     $t->set_var( "eZForum_AddCategory", "" );
     $t->set_var( "eZForum_AddForum", "" );
     $t->set_var( "eZForum_DeleteCategory", "" );
     $t->set_var( "eZForum_DeleteForum", "" );
     $t->set_var( "eZForum_AddMessage", "" );
     $t->set_var( "eZForum_DeleteMessage", "" );
+
+    $t->set_var( "GrantUser", "" );
+    
     $t->set_var( "zez_AddGroup", "" );
     $t->set_var( "zez_DeleteGroup", "" );
     $t->set_var( "zez_AddUser", "" );

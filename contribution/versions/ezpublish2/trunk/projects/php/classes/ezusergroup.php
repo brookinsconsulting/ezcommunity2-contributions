@@ -1,5 +1,5 @@
 <?php
-// $Id: ezusergroup.php,v 1.1 2000/08/16 11:40:56 bf-cvs Exp $
+// $Id: ezusergroup.php,v 1.2 2000/08/29 16:37:21 ce-cvs Exp $
 // Lars Wilhelmsen <lw@ez.no>
 // eZ systems <http://www.ez.no/>
 //
@@ -26,44 +26,51 @@ class eZUserGroup
     */
     function get( $Id )
     {
-        $this->openDB();
-        $q = mysql_query("SELECT * FROM GroupTable WHERE Id='$Id' ")
+        $this->dbInit();
+        $query = mysql_query("SELECT * FROM GroupTable WHERE Id='$Id' ")
              or die( "blah. " ); 
-        if( mysql_num_rows( $q ) == 0 )
+        if( mysql_num_rows( $query ) == 0 )
             die( "No groups defined for this user" );
-        $this->ID = mysql_result( $q, 0, "Id" );
-        $this->Name = mysql_result( $q, 0, "Name" );
-        $this->Description = mysql_result( $q, 0, "Description" );
-        $this->eZPublish_Add = mysql_result( $q, 0, "eZPublish_Add" );
-        $this->eZPublish_Edit = mysql_result( $q, 0, "eZPublish_Edit" );
-        $this->GrantUser = mysql_result( $q, 0, "GrantUser" );
-        $this->eZPublish_Preferences = mysql_result( $q, 0, "eZPublish_Preferences" );
-        $this->eZLink_Add = mysql_result( $q, 0, "eZLink_Add" );
-        $this->eZLink_Edit = mysql_result( $q, 0, "eZLink_Edit" );
-        $this->eZLink_Delete = mysql_result( $q, 0, "eZLink_Delete" );
-        $this->eZPublish_EditAll = mysql_result( $q, 0, "eZPublish_EditAll" );
-        $this->eZForum_AddCategory = mysql_result( $q, 0, "eZForum_AddCategory" );
-        $this->eZForum_AddForum = mysql_result( $q, 0, "eZForum_AddForum" );
-        $this->eZForum_DeleteCategory = mysql_result( $q, 0, "eZForum_DeleteCategory" );
-        $this->eZForum_DeleteForum = mysql_result( $q, 0, "eZForum_DeleteForum" );
-        $this->eZForum_AddMessage = mysql_result( $q, 0, "eZForum_AddMessage" );
-        $this->eZForum_DeleteMessage = mysql_result( $q, 0, "eZForum_DeleteMessage" );
-        $this->zez_AddGroup = mysql_result( $q, 0, "zez_AddGroup" );
-        $this->zez_DeleteGroup = mysql_result( $q, 0, "zez_DeleteGroup" );
-        $this->zez_AddUser = mysql_result( $q, 0, "zez_AddUser" );
-        $this->zez_DeleteUser = mysql_result( $q, 0, "zez_DeleteUser" );
-        $this->zez_Admin = mysql_result( $q, 0, "zez_Admin" );
+        $this->ID = mysql_result( $query, 0, "Id" );
+        $this->Name = mysql_result( $query, 0, "Name" );
+        $this->Description = mysql_result( $query, 0, "Description" );
+        $this->eZPublish_Add = mysql_result( $query, 0, "eZPublish_Add" );
+        $this->eZPublish_Edit = mysql_result( $query, 0, "eZPublish_Edit" );
+        $this->GrantUser = mysql_result( $query, 0, "GrantUser" );
+        $this->eZPublish_Preferences = mysql_result( $query, 0, "eZPublish_Preferences" );
+        $this->eZLink_Add = mysql_result( $query, 0, "eZLink_Add" );
+        $this->eZLink_Edit = mysql_result( $query, 0, "eZLink_Edit" );
+        $this->eZLink_Delete = mysql_result( $query, 0, "eZLink_Delete" );
+        $this->eZPublish_EditAll = mysql_result( $query, 0, "eZPublish_EditAll" );
+        $this->eZForum_AddCategory = mysql_result( $query, 0, "eZForum_AddCategory" );
+        $this->eZForum_AddForum = mysql_result( $query, 0, "eZForum_AddForum" );
+        $this->eZForum_DeleteCategory = mysql_result( $query, 0, "eZForum_DeleteCategory" );
+        $this->eZForum_DeleteForum = mysql_result( $query, 0, "eZForum_DeleteForum" );
+        $this->eZForum_AddMessage = mysql_result( $query, 0, "eZForum_AddMessage" );
+        $this->eZForum_DeleteMessage = mysql_result( $query, 0, "eZForum_DeleteMessage" );
+        $this->eZContact_Add = mysql_result( $query, 0, "eZContact_Add" );
+        $this->eZContact_Delete = mysql_result( $query, 0, "eZContact_Delete" );
+        $this->eZContact_Edit = mysql_result( $query, 0, "eZContact_Edit" );
+        $this->eZContact_AdminAdd = mysql_result( $query, 0, "eZContact_AdminAdd" );
+        $this->eZContact_AdminDelete = mysql_result( $query, 0, "eZContact_AdminDelete" );
+        $this->eZContact_AdminEdit = mysql_result( $query, 0, "eZContact_AdminEdit" );
+        $this->zez_AddGroup = mysql_result( $query, 0, "zez_AddGroup" );
+        $this->zez_DeleteGroup = mysql_result( $query, 0, "zez_DeleteGroup" );
+        $this->zez_AddUser = mysql_result( $query, 0, "zez_AddUser" );
+        $this->zez_DeleteUser = mysql_result( $query, 0, "zez_DeleteUser" );
+        $this->zez_Admin = mysql_result( $query, 0, "zez_Admin" );
     }
 
-    /*!
+    /*!4
       Lagrer en ny brukergruppe i databasen.
     */
     function store()
     {
-        $this->openDB();
+        $this->dbInit();
+        
         if ( !isset( $this->ID ) )
         { // insert new record
-            $q = mysql_query( "INSERT INTO GroupTable SET
+            query( "INSERT INTO GroupTable SET
 			Name='$this->Name',
 			Description='$this->Description',
 			eZPublish_Add='$this->eZPublish_Add',
@@ -80,13 +87,18 @@ class eZUserGroup
 			eZForum_DeleteForum='$this->eZForum_DeleteForum',
 			eZForum_AddMessage='$this->eZForum_AddMessage',
 			eZForum_DeleteMessage='$this->eZForum_DeleteMessage',
-			zez_AddGroup='$this->zez_AddGroup',
+            eZContact_Add='$this->eZContact_Add',
+            eZContact_Delete='$this->eZContact_Delete',
+            eZContact_Edit='$this->eZContact_Edit',
+            eZContact_AdminAdd='$this->eZContact_AdminAdd',
+            eZContact_AdminDelete='$this->eZContact_AdminDelete',
+            eZContact_AdminEdit='$this->eZContact_AdminEdit',
+            zez_AddGroup='$this->zez_AddGroup',
 			zez_DeleteGroup='$this->zez_DeleteGroup',
 			zez_AddUser='$this->zez_AddUser',
 			zez_DeleteUser='$this->zez_DeleteUser',
-			zez_Admin='$this->zez_Admin'" )
-             or die( "SQL Error: could not insert usergroup " );
-
+			zez_Admin='$this->zez_Admin'" );
+            
             return mysql_insert_id(  );
         }
     }
@@ -97,8 +109,8 @@ class eZUserGroup
     */
     function update()
     {
-        $this->openDB();        
-        $q = mysql_query( "UPDATE GroupTable SET
+        $this->dbInit();        
+        $query = mysql_query( "UPDATE GroupTable SET
                 Name='$this->Name',
                 Description='$this->Description',
                 eZPublish_Add='$this->eZPublish_Add',
@@ -115,6 +127,13 @@ class eZUserGroup
                 eZForum_DeleteForum='$this->eZForum_DeleteForum',
                 eZForum_AddMessage='$this->eZForum_AddMessage',
                 eZForum_DeleteMessage='$this->eZForum_DeleteMessage',
+                eZContact_Add='$this->eZContact_Add',
+                eZContact_Delete='$this->eZContact_Delete',
+                eZContact_Edit='$this->eZContact_Edit',
+                eZContact_AdminAdd='$this->eZContact_AdminAdd',
+                eZContact_AdminDelete='$this->eZContact_AdminDelete',
+                eZContact_AdminEdit='$this->eZContact_AdminEdit',
+
                 zez_AddGroup='$this->zez_AddGroup',
                 zez_DeleteGroup='$this->zez_DeleteGroup',
                 zez_AddUser='$this->zez_AddUser',
@@ -125,19 +144,19 @@ class eZUserGroup
 
     function delete( )
     {
-        $this->openDB();
+        $this->dbInit();
         mysql_query("DELETE FROM GroupTable WHERE Id='$this->ID' " )
              or die( "SQL Error: could not delete usergroup with ID=$this->ID" );
     }
 
     function getAllGroups()
     {
-        $this->openDB();
-        $q = mysql_query("SELECT * FROM GroupTable")
+        $this->dbInit();
+        $query = mysql_query("SELECT * FROM GroupTable")
              or die( "eZUserGroup::getAllGroups() failed, dying..." );
 
-        for ( $i = 0; $i < mysql_num_rows( $q ); $i++ )
-               $resultArray[$i] = mysql_fetch_array( $q );
+        for ( $i = 0; $i < mysql_num_rows( $query ); $i++ )
+               $resultArray[$i] = mysql_fetch_array( $query );
 
         return $resultArray;
     }
@@ -150,9 +169,9 @@ class eZUserGroup
         return $this->ID;
     }
 
-    function setId( $v )
+    function setId( $value )
     {
-        $this->ID = $v;
+        $this->ID = $value;
     }
 
     function Name()
@@ -160,9 +179,9 @@ class eZUserGroup
         return $this->Name;
     }
 
-    function setName( $v )
+    function setName( $value )
     {
-        $this->Name = $v;
+        $this->Name = $value;
     }
 
     function Description()
@@ -170,9 +189,9 @@ class eZUserGroup
         return $this->Description;
     }
 
-    function setDescription( $v )
+    function setDescription( $value )
     {
-        $this->Description = $v;
+        $this->Description = $value;
     }
 
     /*!
@@ -183,9 +202,9 @@ class eZUserGroup
         return $this->eZPublish_Add;
     }
 
-    function seteZPublish_Add( $v )
+    function seteZPublish_Add( $value )
     {
-        $this->eZPublish_Add = $v;
+        $this->eZPublish_Add = $value;
     }
 
     function eZPublish_Edit()
@@ -193,9 +212,9 @@ class eZUserGroup
         return $this->eZPublish_Edit;
     }
 
-    function seteZPublish_Edit( $v )
+    function seteZPublish_Edit( $value )
     {
-        $this->eZPublish_Edit = $v;
+        $this->eZPublish_Edit = $value;
     }
 
     function eZPublish_Preferences()
@@ -203,9 +222,9 @@ class eZUserGroup
         return $this->eZPublish_Preferences;
     }
 
-    function seteZPublish_Preferences( $v )
+    function seteZPublish_Preferences( $value )
     {
-        $this->eZPublish_Preferences = $v;
+        $this->eZPublish_Preferences = $value;
     }
 
     function eZPublish_EditAll()
@@ -213,9 +232,9 @@ class eZUserGroup
         return $this->eZPublish_EditAll;
     }
 
-    function seteZPublish_EditAll( $v )
+    function seteZPublish_EditAll( $value )
     {
-        $this->eZPublish_EditAll = $v;
+        $this->eZPublish_EditAll = $value;
     }
 
     /*!
@@ -226,9 +245,9 @@ class eZUserGroup
         return $this->eZLink_Add;
     }
 
-    function seteZLink_Add( $v )
+    function seteZLink_Add( $value )
     {
-        $this->eZLink_Add = $v;
+        $this->eZLink_Add = $value;
     }
 
     function eZLink_Edit()
@@ -236,9 +255,9 @@ class eZUserGroup
         return $this->eZLink_Edit;
     }
 
-    function seteZLink_Edit( $v )
+    function seteZLink_Edit( $value )
     {
-        $this->eZLink_Edit = $v;
+        $this->eZLink_Edit = $value;
     }
 
     function eZLink_Delete()
@@ -246,11 +265,74 @@ class eZUserGroup
         return $this->eZLink_Delete;
     }
 
-    function seteZLink_Delete( $v )
+    function seteZLink_Delete( $value )
     {
-        $this->eZLink_Delete = $v;
+        $this->eZLink_Delete = $value;
     }
 
+    /*!
+      Rettigheter til eZ Contact
+    */
+    function eZContact_Add()
+    {
+        return $this->eZContact_Add;
+    }
+
+    function seteZContact_Add( $value )
+    {
+        $this->eZContact_Add = $value;
+    }
+        
+    function eZContact_Delete()
+    {
+        return $this->eZContact_Delete;
+    }
+
+    function seteZContact_Delete( $value )
+    {
+        $this->eZContact_Delete = $value;
+    }
+
+    function eZContact_Edit()
+    {
+        return $this->eZContact_Edit;
+    }
+
+    function seteZContact_Edit( $value )
+    {
+        $this->eZContact_Edit = $value;
+    }
+
+    function eZContact_AdminAdd()
+    {
+        return $this->eZContact_AdminAdd;
+    }
+
+    function seteZContact_AdminAdd( $value )
+    {
+        $this->eZContact_AdminAdd = $value;
+    }
+        
+    function eZContact_AdminDelete()
+    {
+        return $this->eZContact_AdminDelete;
+    }
+
+    function seteZContact_AdminDelete( $value )
+    {
+        $this->eZContact_AdminDelete = $value;
+    }
+
+    function eZContact_AdminEdit()
+    {
+        return $this->eZContact_AdminEdit;
+    }
+
+    function seteZContact_AdminEdit( $value )
+    {
+        $this->eZContact_AdminEdit = $value;
+    }
+    
     /*!
       Rettigheter til eZ forum.
     */        
@@ -259,9 +341,9 @@ class eZUserGroup
         return $this->eZForum_AddCategory;
     }
 
-    function seteZForum_AddCategory( $v )
+    function seteZForum_AddCategory( $value )
     {
-        $this->eZForum_AddCategory = $v;
+        $this->eZForum_AddCategory = $value;
     }
 
     function eZForum_AddForum()
@@ -269,9 +351,9 @@ class eZUserGroup
         return $this->eZForum_AddForum;
     }
 
-    function seteZForum_AddForum( $v )
+    function seteZForum_AddForum( $value )
     {
-        $this->eZForum_AddForum = $v;
+        $this->eZForum_AddForum = $value;
     }
 
     function eZForum_DeleteCategory()
@@ -279,9 +361,9 @@ class eZUserGroup
         return $this->eZForum_DeleteCategory;
     }
 
-    function seteZForum_DeleteCategory( $v )
+    function seteZForum_DeleteCategory( $value )
     {
-        $this->eZForum_DeleteCategory = $v;
+        $this->eZForum_DeleteCategory = $value;
     }
 
     function eZForum_DeleteForum()
@@ -289,9 +371,9 @@ class eZUserGroup
         return $this->eZForum_DeleteForum;
     }
 
-    function seteZForum_DeleteForum( $v )
+    function seteZForum_DeleteForum( $value )
     {
-        $this->eZForum_DeleteForum = $v;
+        $this->eZForum_DeleteForum = $value;
     }
 
     function eZForum_AddMessage()
@@ -299,9 +381,9 @@ class eZUserGroup
         return $this->eZForum_AddMessage;
     }
 
-    function seteZForum_AddMessage( $v )
+    function seteZForum_AddMessage( $value )
     {
-        $this->eZForum_AddMessage = $v;
+        $this->eZForum_AddMessage = $value;
     }
 
     function eZForum_DeleteMessage()
@@ -309,9 +391,9 @@ class eZUserGroup
         return $this->eZForum_DeleteMessage;
     }
 
-    function seteZForum_DeleteMessage( $v )
+    function seteZForum_DeleteMessage( $value )
     {
-        $this->eZForum_DeleteMessage = $v;
+        $this->eZForum_DeleteMessage = $value;
     }
 
 
@@ -324,9 +406,9 @@ class eZUserGroup
         return $this->GrantUser;
     }
 
-    function setGrantUser( $v )
+    function setGrantUser( $value )
     {
-        $this->GrantUser = $v;
+        $this->GrantUser = $value;
     }
 
     function zez_AddGroup()
@@ -334,9 +416,9 @@ class eZUserGroup
         return $this->zez_AddGroup;
     }
 
-    function setzez_AddGroup( $v )
+    function setzez_AddGroup( $value )
     {
-        $this->zez_AddGroup = $v;
+        $this->zez_AddGroup = $value;
     }
 
     function zez_DeleteGroup()
@@ -344,9 +426,9 @@ class eZUserGroup
         return $this->zez_DeleteGroup;
     }
 
-    function setzez_DeleteGroup( $v )
+    function setzez_DeleteGroup( $value )
     {
-        $this->zez_DeleteGroup = $v;
+        $this->zez_DeleteGroup = $value;
     }
 
     function zez_AddUser()
@@ -354,9 +436,9 @@ class eZUserGroup
         return $this->zez_AddUser;
     }
 
-    function setzez_AddUser( $v )
+    function setzez_AddUser( $value )
     {
-        $this->zez_AddUser = $v;
+        $this->zez_AddUser = $value;
     }
 
     function zez_DeleteUser()
@@ -364,9 +446,9 @@ class eZUserGroup
         return $this->zez_DeleteUser;
     }
 
-    function setzez_DeleteUser( $v )
+    function setzez_DeleteUser( $value )
     {
-        $this->zez_DeleteUser = $v;
+        $this->zez_DeleteUser = $value;
     }
 
     function zez_Admin()
@@ -374,9 +456,9 @@ class eZUserGroup
         return $this->zez_Admin;
     }
 
-    function setzez_Admin( $v )
+    function setzez_Admin( $value )
     {
-        $this->zez_Admin = $v;
+        $this->zez_Admin = $value;
     }
 
     // Additional commands
@@ -398,8 +480,9 @@ class eZUserGroup
         
         mysql_pconnect( $SERVER, $USER, $PWD ) or die( "Kunne ikke kople til database" );
         mysql_select_db( $DATABASE ) or die( "Kunne ikke velge database" );
-        
-        $q = mysql_query( "SELECT GroupTable.$cmd As rights
+
+       
+        $query = mysql_query( "SELECT GroupTable.$cmd As rights
                            FROM
                                GroupTable, UserTable
                            WHERE
@@ -408,10 +491,9 @@ class eZUserGroup
                                UserTable.Id='$userID'
                            GROUP BY
                                GroupTable.Id" )
-
              or die( "ERROR in SQL or command  in eZUserGroup::verifyCommand(), exiting." );
-
-        if ( mysql_result( $q, 0, "rights" ) == "Y" )
+        print ( "resulkt " . mysql_result( $query, 0, "rights" ) );
+        if ( mysql_result( $query, 0, "rights" ) == "Y" )
             return true;
         else
             return false;
@@ -419,23 +501,23 @@ class eZUserGroup
 
     function resolveGroup( $Id )
     {
-        $this->openDB();
+        $this->dbInit();
 
-        $q = mysql_query( "SELECT Name FROM GroupTable WHERE Id='$Id'" )
+        $query = mysql_query( "SELECT Name FROM GroupTable WHERE Id='$Id'" )
              or die( "eZUserGroup::resolveGroup( $Id ) failed, dying..." );
 
-        if ( mysql_num_rows( $q ) == 1 )
-            return mysql_result( $q, 0, "Name" );
+        if ( mysql_num_rows( $query ) == 1 )
+            return mysql_result( $query, 0, "Name" );
 
         else
-            die( "The query returned a bogus number of records (" . mysql_num_rows( $q ) . "), Probably a user with group_id=0, dying..." );
+            die( "The query returned a bogus number of records (" . mysql_num_rows( $query ) . "), Probably a user with group_id=0, dying..." );
     }
 
     /*!
-      Privat funksjon, skal kun brukes ac ezusergroup klassen.
+      Privat funksjon, skal kun brukes av ezusergroup klassen.
       Funksjon for å åpne databasen.
     */
-    function openDB()
+    function dbInit()
     {
         include_once( "class.INIFile.php" );
 
@@ -467,6 +549,15 @@ class eZUserGroup
     var $eZForum_DeleteForum;
     var $eZForum_AddMessage;
     var $eZForum_DeleteMessage;
+
+    var $eZContact_Add;
+    var $eZContact_Delete;
+    var $eZContact_Edit;
+
+    var $eZContact_AdminAdd;
+    var $eZContact_AdminDelete;
+    var $eZContact_AdminEdit;
+  
     var $zez_AddGroup;
     var $zez_DeleteGroup;
     var $zez_AddUser;

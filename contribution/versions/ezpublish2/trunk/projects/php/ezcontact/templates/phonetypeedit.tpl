@@ -1,4 +1,4 @@
-<form method="post" action="index.php4?prePage={document_root}phonetypeedit.php4">
+<form method="post" action="index.php4?page={document_root}phonetypeedit.php4">
 <h1>{intl-headline}</h1>
 
 <p>{intl-name}<br>

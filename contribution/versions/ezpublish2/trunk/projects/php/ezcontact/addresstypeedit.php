@@ -2,84 +2,52 @@
 include_once( "class.INIFile.php" );
 
 $ini = new INIFIle( "site.ini" );
-
 $Language = $ini->read_var( "eZContactMain", "Language" );
-
 $DOC_ROOT = $ini->read_var( "eZContactMain", "DocumentRoot" );
 
 include_once( "../classes/eztemplate.php" );
+include_once( "../classes/ezsession.php" );
+include_once( "../classes/ezusergroup.php" );
 include_once( "ezphputils.php" );
-//  require $DOC_ROOT . "classes/ezsession.php";
-//  require $DOC_ROOT . "classes/ezuser.php";
-include_once( "ezcontact/classes/ezusergroup.php" );
+
 include_once( "ezcontact/classes/ezaddresstype.php" );
 
-// Legge til
-if ( $Action == "insert" )
+$session = new eZSession();
+if( $session->get( $AuthenticatedSession ) == 0 )
+
 {
-    $type = new eZAddressType();
-    $type->setName( $AddressTypeName );
-    $type->store();    
-
-    Header( "Location: index.php?page=" . $DOC_ROOT . "addresstypelist.php" );
-}
-
-// Oppdatere
-if ( $Action == "update" )
-{
-    $type = new eZAddressType();
-    $type->get( $AID );
-    $type->setName( $AddressTypeName );
-    $type->update();
-
-    Header( "Location: index.php?page=" . $DOC_ROOT . "addresstypelist.php" );
-}
-
-// Slette
-if ( $Action == "delete" )
-{
-    $type = new eZAddressType();
-    $type->get( $AID );
-    $type->delete( );
-
-    Header( "Location: index.php?page=" . $DOC_ROOT . "addresstypelist.php" ); 
-}
-
-//  // sjekke session
-//  {
-//      include( $DOC_ROOT . "checksession.php" );
-//  }
-
-
-//  // hente ut rettigheter
-//  {    
-//      $session = new eZSession();
     
-//      if ( !$session->get( $AuthenticatedSession ) )
-//      {
-//          die( "Du må logge deg på." );    
-//      }        
-    
-//      $usr = new eZUser();
-//      $usr->get( $session->userID() );
+    // Legge til
+    if ( $Action == "insert" && ( eZUserGroup::verifyCommand( $session->userID(), "eZContact_AdminAdd" ) == 1 ) ) 
+    {
+        $type = new eZAddressType();
+        $type->setName( $AddressTypeName );
+        $type->store();    
 
-//      $usrGroup = new eZUserGroup();
-//      $usrGroup->get( $usr->group() );
-//  }
+        Header( "Location: index.php?page=" . $DOC_ROOT . "addresstypelist.php" );
+    }
 
-//  // vise feilmelding dersom brukeren ikke har rettigheter.
-//  if ( $usrGroup->addressTypeAdmin() == 'N' )
-//  {    
-//      $t = new Template( "." );
-//      $t->set_file( array(
-//          "error_page" => $DOC_ROOT . "templates/errorpage.tpl"
-//          ) );
+    // Oppdatere
+    if ( $Action == "update" && ( eZUserGroup::verifyCommand( $session->userID(), "eZContact_AdminEdit" ) == 1 ) ) 
+    {
+        $type = new eZAddressType();
+        $type->get( $AID );
+        $type->setName( $AddressTypeName );
+        $type->update();
 
-//      $t->set_var( "error_message", "Du har ikke rettiheter til dette." );
-//      $t->pparse( "output", "error_page" );
-//  }
-//  else
-{
+        Header( "Location: index.php?page=" . $DOC_ROOT . "addresstypelist.php" );
+    }
+
+    // Slette
+    if ( $Action == "delete" && ( eZUserGroup::verifyCommand( $session->userID(), "eZContact_AdminDelete" ) == 1 ) )
+    {
+        $type = new eZAddressType();
+        $type->get( $AID );
+        $type->delete( );
+
+        Header( "Location: index.php?page=" . $DOC_ROOT . "addresstypelist.php" ); 
+    }
+
     $t = new eZTemplate( $DOC_ROOT . "/" . $ini->read_var( "eZContactMain", "TemplateDir" ), $DOC_ROOT . "/intl", $Language, "addresstypeedit.php" );
     $t->setAllStrings();
 
@@ -92,8 +60,8 @@ if ( $Action == "delete" )
     $t->set_var( "address_type_id", "" );
     $t->set_var( "head_line", "Legg til ny addressetype" );
 
-// Editere
-    if ( $Action == "edit" )
+    // Editere
+    if ( $Action == "edit" && ( eZUserGroup::verifyCommand( $session->userID(), "eZContact_AdminEdit" ) == 1 ) )
     {
         $type = new eZAddressType();
         $type->get( $AID );
@@ -107,10 +75,15 @@ if ( $Action == "delete" )
         $AddressTypeName = $type->name();
     }
 
-// Sette template variabler
+    // Sette template variabler
     $t->set_var( "document_root", $DOC_ROOT );
     $t->set_var( "address_type_name", $AddressTypeName );
 
     $t->pparse( "output", "address_type_edit_page" );
+}
+
+else
+{
+    Header( "Location: index.php?page=" . $DOC_ROOT . "error.php" );
 }
 ?>

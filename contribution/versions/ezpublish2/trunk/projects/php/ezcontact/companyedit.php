@@ -10,6 +10,8 @@ $Language = $ini->read_var( "eZContactMain", "Language" );
 $DOC_ROOT = $ini->read_var( "eZContactMain", "DocumentRoot" );
 
 include_once( "../classes/eztemplate.php" );
+include_once( "ezcontact/classes/ezsession.php" );
+include_once( "../classes/ezusergroup.php" );
 include_once( "ezphputils.php" );
 
 include_once( "ezcontact/classes/ezperson.php" );
@@ -17,7 +19,6 @@ include_once( "ezcontact/classes/ezpersontype.php" );
 include_once( "ezcontact/classes/ezcompany.php" );
 include_once( "ezcontact/classes/ezaddress.php" );
 include_once( "ezcontact/classes/ezaddresstype.php" );
-include_once( "ezcontact/classes/ezsession.php" );
 include_once( "ezcontact/classes/ezuser.php" );
 include_once( "ezcontact/classes/ezcompanytype.php" );
 include_once( "ezcontact/classes/ezphone.php" );
@@ -26,6 +27,8 @@ include_once( "ezcontact/classes/ezcompanyphonedict.php" );
 include_once( "ezcontact/classes/ezcompanyaddressdict.php" );
 include_once( "ezcontact/classes/ezconsult.php" );
 include_once( "ezcontact/classes/ezcompanyconsultdict.php" );
+
+
 
 // Legger til et firma.
 if ( $Action == "insert" )

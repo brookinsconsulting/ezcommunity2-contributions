@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: grouplist.php,v 1.1 2000/08/16 11:32:15 bf-cvs Exp $
+    $Id: grouplist.php,v 1.2 2000/08/29 16:37:21 ce-cvs Exp $
 
     Author: Lars Wilhelmsen <lw@ez.no>
     
@@ -55,6 +55,26 @@ if ( $modifyGroup )
         $t->set_var( "eZLink_Delete", "checked");
     else
         $t->set_var( "eZLink_Delete", "" );
+
+    if ( $group->eZContact_Person() == "Y" )
+        $t->set_var( "eZContact_Person", "checked" );
+    else
+        $t->set_var( "eZContact_Person", "" );
+
+    if ( $group->eZContact_Company() == "Y" )
+        $t->set_var( "eZContact_Company", "checked" );
+    else
+        $group->set_var( "eZContat_Company", "" );
+
+    if ( $group->eZContact_Address() == "Y" )
+        $t->set_var( "eZContact_Address", "checked" );
+    else
+        $group->set_var( "eZContact_Address", "" );
+
+    if ( $group->eZContact_Contact() == "Y" )
+        $t->set_var( "eZContact_Address", "checked" );
+    else
+        $t->set_var( "eZContact_Address" , "" );
     
     if ( $group->eZPublish_EditAll() == "Y" )
         $t->set_var( "eZPublish_EditAll", "checked");
