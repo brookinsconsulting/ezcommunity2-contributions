@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: checkout.php,v 1.15 2000/11/02 15:45:37 pkej-cvs Exp $
+// $Id: checkout.php,v 1.16 2000/11/02 15:46:58 pkej-cvs Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <28-Sep-2000 15:52:08 bf>
@@ -297,8 +297,8 @@ if ( $SendOrder == "true" )
     $currency->setValue( $totalPrice );
     
     $priceString = substr(  $locale->format( $currency ), 0, 13 );
-    $priceString = str_pad( $totalPriceString, 15, " ", STR_PAD_LEFT );
-    $mailTemplate->set_var( "product_sub_total", $totalPriceString );
+    $priceString = str_pad( $priceString, 15, " ", STR_PAD_LEFT );
+    $mailTemplate->set_var( "product_sub_total", $priceString );
 
 
 
