@@ -333,3 +333,32 @@ Maintainer(s) : ce@ez.no
       admin/templates/standard/typelist.tpl:
     fixed missing {www_dir} in templates
 
+
+Module : ezmediacatalogue
+Repository path : /home/cvsroot/projects/php/ezmediacatalogue
+Maintainer(s) : ce@ez.no
+2001-12-21  Gunnstein Lye  <gl@ez.no>
+
+    * admin/intl/pt_PT/attributeedit.php.ini
+      admin/intl/pt_PT/browse.php.ini
+      admin/intl/pt_PT/categoryedit.php.ini
+      admin/intl/pt_PT/mediaedit.php.ini
+      admin/intl/pt_PT/medialist.php.ini
+      admin/intl/pt_PT/mediaview.php.ini
+      admin/intl/pt_PT/menubox.php.ini
+      admin/intl/pt_PT/typeedit.php.ini
+      admin/intl/pt_PT/typelist.php.ini: pt_PT (Portuguese) version 2.2.2
+
+
+Module : ezmediacatalogue
+Repository path : /home/cvsroot/projects/php/ezmediacatalogue
+Maintainer(s) : ce@ez.no
+2002-02-28  Christoffer Elo  <ce@ez.no>
+
+    * admin/mediaedit.php
+      classes/ezmedia.php: Fixed a upload bug.
+
+2002-02-28  Jo Henrik Endrerud  <jhe@ez.no>
+
+    * classes/ezmedia.php: coding standard fixes
+

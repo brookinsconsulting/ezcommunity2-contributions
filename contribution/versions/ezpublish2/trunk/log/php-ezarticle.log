@@ -2931,3 +2931,15 @@ Maintainer(s) : bf@ez.no
     * user/articlelistrss.php
       user/menubox.php: Added text/xml header in rss headlines.
 
+
+Module : ezarticle
+Repository path : /home/cvsroot/projects/php/ezarticle
+Maintainer(s) : bf@ez.no
+2002-02-28  Vlad Pavlenko  <vlad@epasaule.lv>
+
+    * user/frontpage.php: correct processing section information
+
+    * user/search.php
+      classes/ezarticle.php:
+    SearchWithinSections=possibility to search only in the specific section(s)
+
