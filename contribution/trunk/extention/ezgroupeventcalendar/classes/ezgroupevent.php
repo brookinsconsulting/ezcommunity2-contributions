@@ -36,6 +36,8 @@ include_once( "classes/eztime.php" );
 include_once( "ezgroupeventcalendar/classes/ezgroupnoshow.php" );
 include_once( "ezgroupeventcalendar/classes/ezgroupeventtype.php" );
 
+include_once( "ezmail/classes/ezmail.php" );
+
 
 // take two date objects and return an array holding
 // the difference in years, months, weeks, and days
@@ -1257,43 +1259,208 @@ class eZGroupEvent
       Public function.  	 
       Email Notice to all Members of an Group the Event is Acociated with (including all) 	 
     */ 	 
-    function notification() 	 
-      { 	 
-    /* 	 
+    function notification( $debug = false ) 	 
+    {
+  
+     /* 	 
         if ( $this->IsConnected == false ) 	 
       { 	 
             $this->Database = eZDB::globalDatabase(); 	 
             $this->IsConnected = true; 	 
       } 	 
-        */ 	 
+     */ 	 
   	 
-  	 
+    $ret = false;  	 
     $db =& eZDB::globalDatabase(); 	 
     $event_array =& new eZGroupEvent(); 	 
+
+    $eventIteration = 0;
+    $eventName = $this->name();
+    if ( $debug )
+    print("\n## Begin Event: $eventName  ##############################\n\n");
+
      	 
     $current_date = new eZDate(); 	 
     $current_date_stamp = $current_date->timeStamp(); 	 
-  	 
-    print( $current_date_stamp ."\n" ); $future_date = new eZDate(); 	 
+    $current_date_human = $current_date->month() ." / ". $current_date->day() ." / ". $current_date->year();
+    if ( $debug )
+    print( "current date: ". $current_date_human ."\n" ); 
+
+
+    $future_date = new eZDate(); 	 
     $future_date->move(0,0,-7); 	 
     $future_date_stamp = $future_date->timeStamp(); 	 
-  	 
-    print( $future_date_stamp ."\n"); 	 
-  	 
-    $date_gt = $future_date->isGreater($current_date); 	 
-    // $date_gt = $current_date->isGreater($future_date); 	 
+    $future_date_human = $future_date->month() ." / ". $future_date->day() ." / ". $future_date->year();
+    //    print( "future date: ". $future_date_human ."\n"); 	 
+
+    /*
+    $event_date = new eZDateTime();
+    $event_date->setMySQLTimeStamp( $this->Date ); echo("\n\n");
+    $event_date_human = $event_date->month() ." / ". $event_date->day() ." / ". $event_date->year();
+    */
+
+    /*
+    $zDate = new eZDateTime();
+    $zDate->setMySQLTimeStamp( $this->Date );
+    */
+
+    $zDate = $this->dateTime();
+    $event_date = $zDate;
+    $event_date_human = $zDate->month() ." / ". $zDate->day() ." / ". $zDate->year();
+    if ( $debug )
+    print( "event date: ". $event_date_human ."\n");
+
+    /*
+    $event_date = new eZDate();
+    $event_date_time = $event_date->setMySQLDate($event_date_time);
+
+    $zDate = new eZDateTime();
+    $zDate->setMySQLTimeStamp( $this->Date );
+    $event_date_human = $zDate->month() ." / ". $zDate->day() ." / ". $zDate->year();
+
+    */
+
+
+    $event_date_time = $this->startTime();
+    $event_date_time_human = $event_date_time->hour() .":". $event_date_time->minute() .":". $event_date_time->second();
+
+    if ( $debug )
+    print("event Date: $event_date_human\nevent Time: $event_date_time_human \n\n");
+
+    if ( $debug )
+    print("Iteration: ". $eventIteration ."\n\n");
+
+    // $date_gt = $current_date->isGreater($future_date); 	
+    // $date_gt = $event_date_time->isGreater($current_date); 	 
+    // $date_gt = $current_date->isGreater($event_date_time); 	 
+    $date_gt = $current_date->equals($event_date);
+
+    /* 
     $date_gt = count(event_array); 	 
     print($date_gt."\n"); 	 
-  	 
+    */
     // if ($future_date_stamp < $current_date_stamp ) { 	 
-  	 
-    if (  $future_date->isGreater($current_date) ) { 	 
-      print("Future Date is Greateer Then Current Date <br />"); 	 
+    // if (  $current_date->isGreater($event_date_time)  ) {
+
+    //equals  	 
+    //    if (  $date_gt  ) { 	 
+    // print("Current Date Matches Event Date \n\n"); 	 
+
+      // if the event date is greater than current date
+      // if it is greater (meaning active event), match event_date with current date, 
+      // if they match then the message should be sent.
+
+        $eventGroupID = $this->GroupID;
+
+        // get users by group
+	if ( $eventGroupID != 0 ) {
+            $eventGroup = new eZUserGroup($eventGroupID); 
+            $eventGroupID = $eventGroup->id();
+
+	    // get all users per group
+	    $eventGroupUserList = $eventGroup->users($eventGroupID);
+
+	    if ( $debug )
+	    print("group (static) : $this->GroupID  --> $eventGroupID\n");
+
+
+            foreach( $eventGroupUserList as $user ) {
+	      $userEmail = $user->email();        
+
+	      $siteName = "eZCommunity.net"; 
+	      $siteAdministrator = "Blank@blank.net"; //siteINIAdminEmail();
+	      
+	      $mailBody = "Your event is comming out . . . ";
+	      $mailSubject = $SiteName ." : Calendar : Event Notification : ". $event_date_human ." ". $event_date_time_human;
+	      
+	      $mail = new eZMail();
+	      $mail->to($userEmail);
+	      $mail->from($siteAdministrator);
+	      $mail->subject($mailSubject3);
+	      $mail->body($mailBody);
+	      
+	      // send mail
+	      // $mail->send();
+
+	      if ( $debug )
+	      print("Virtual Email: Sent To: $userEmail \n\n####################################### \n");
+
+	    }
+	}else {
+          $eventGroup = new eZUserGroup();
+          $eventGroupList = $eventGroup->getAll();
+
+             
+          foreach ($eventGroupList as $group) {
+	    $cGroupID = $group->id();
+	    $eventGroupUserList = $group->users($cGroupID);
+
+	    if ( $debug )
+	    print("group (all): $cGroupID  --> $eventGroupID \n");
+	    
+	    // foreach user print notice
+	    foreach( $eventGroupUserList as $user ) {
+	      $userID = $user->ID();
+	      $userList[] = $userID;
+	    }
+
+	  }
+
+	  
+	  // ensure that per group loop we only mail to
+	  $uniqueUserList = array_unique( $userList );
+
+	  foreach( $uniqueUserList as $user_id ) {
+	    $userObj = new eZUser($user_id);
+	    $userObjectList[] = $userObj;
+	  }
+
+
+
+	  // foreach user print notice      
+	  // foreach( $eventGroupUserList as $user ) {
+	  foreach( $userObjectList as $user ) {
+	    $userEmail = $user->email();        
+	    
+	    // build mail
+	    $siteName = "eZCommunity.net"; 
+	    $siteAdministrator = "Blank@blank.net"; //siteINIAdminEmail();
+	    
+	    $mailBody = "Your event is comming out . . . ";
+	    $mailSubject = $SiteName ." : Calendar : Event Notification : ". $event_date_human ." ". $event_date_time_human;
+	    
+	    $mail = new eZMail();
+	    $mail->to($userEmail);
+	    $mail->from($siteAdministrator);
+	    $mail->subject($mailSubject3);
+	    $mail->body($mailBody);
+	    
+	    // send mail
+	    // $mail->send();
+
+	    if ( $debug )
+	    print("\nVirtual Email: Sent To: $userEmail \n############################## \n");
+	  }
+	}
+    
+
+	if ( $debug )
+	print("\n## End $eventName ############################################ \n");
+        $eventIteration++;
+
+    /*
     } else { 	 
-      print("Future Date is not Greater Then Current Date <br />"); 	 
+      print("Current Date Does Not Match Event Date \n\n"); 	 
     } 	 
+    */
   	 
     $eventResponceDateMysql = $future_date_stamp; 	 
+
+
+    // if (x ) 
+    // consider: $ret = true;
+
+
     // $eventResponceDateMysql = "bob"; 	 
   	 
     //      $date = new eZDate( 2000, 9, 2 ); 	 
@@ -1309,9 +1476,9 @@ class eZGroupEvent
     //   $eventResponceDateCheck = $db->escapeString( $eventResponseDueDate ); 	 
   	 
     // the rest of the script is bogus! 	 
-    return false; 	 
-  	 
-      } 	 
+ 
+      return $ret; 
+    } 	 
   	 
     /*! 	 
       Returns every file to a event as an array of eZFile objects. 	 

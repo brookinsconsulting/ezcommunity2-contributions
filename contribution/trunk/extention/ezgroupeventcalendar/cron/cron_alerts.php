@@ -69,14 +69,24 @@ ini_set( "include_path", $includePath );
  include_once( "ezgroupeventcalendar/classes/ezgroupeventcategory.php" );
 
  $events = new eZGroupEvent();
+
+ $current_date = new eZDate();
+// $current_date = $current_date->timeStamp();
+
+/*
+ $eventList = $events->getByDate($current_date);
  $eventList = $events->getAll();
+*/
+
+// $eventList = $events->getByDate($current_date, new eZUserGroup(0), true);
+ $eventList = $events->getAllByDate( $current_date, true );
 
  foreach( $eventList as $events )
  {
    // $events =& $event->getAll();
    // print( "event: " .  $event->name()."\n" );
 
-   $events->notification();
+   $events->notification(true);
  }
 //------------------------------------------------
 
