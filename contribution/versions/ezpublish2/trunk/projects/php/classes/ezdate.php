@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezdate.php,v 1.13 2001/01/22 14:42:59 jb Exp $
+// $Id: ezdate.php,v 1.14 2001/01/23 16:08:55 gl Exp $
 //
 // Definition of eZCompany class
 //
@@ -50,12 +50,6 @@ class eZDate
     */
     function eZDate( $year=0, $month=0, $day=0 )
     {
-        include_once( "classes/ezlocale.php" );
-
-        $this->Ini =& $GLOBALS["GlobalSiteIni"];
-        $this->Language = $this->Ini->read_var( "eZCalendarMain", "Language" );
-        $this->Locale = new eZLocale( $this->Language );
-
         if ( ( $year == 0 )  && ( $month == 0 ) && ( $day == 0 ) )
         {
             $now = getdate();
@@ -164,14 +158,13 @@ class eZDate
     }
 
     /*!
-      Returns the day of week. ( 1..7 )
+      Returns the day of week. ( 1..7 ) If mondayFirst is true, the week starts on Monday, else on Sunday.
     */
-    function dayOfWeek( )
+    function dayOfWeek( $mondayFirst )
     {
-
         $weekday = date ( "w", mktime ( 2, 0, 0, $this->Month, $this->Day, $this->Year ) );
 
-        if ( $this->Locale->mondayFirst() == true )
+        if ( $mondayFirst == true )
         {
             if ( $weekday == 0 )
                 $weekday = 7;
@@ -402,9 +395,5 @@ class eZDate
     var $Year;
     var $Month;
     var $Day;
-
-    var $Ini;
-    var $Language;
-    var $Locale;
 }
 ?>
