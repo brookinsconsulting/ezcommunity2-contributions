@@ -2,6 +2,9 @@
 
 <hr size="4" noshade="noshade" />
 
+<!-- BEGIN image_view_tpl -->
+<img src="{www_dir}{image_src}" width="{image_width}" height="{image_height}" border="0" alt="{image_alt}" /><br /><br />
+<!-- END image_view_tpl -->
 <!-- BEGIN item_value_list_tpl -->
 
 <table width="100%" cellpadding="4" cellspacing="2" >

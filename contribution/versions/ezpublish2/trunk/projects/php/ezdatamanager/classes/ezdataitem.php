@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezdataitem.php,v 1.7 2002/02/10 11:55:29 bf Exp $
+// $Id: ezdataitem.php,v 1.8 2002/02/21 14:50:52 jhe Exp $
 //
 // Definition of eZDataItem class
 //
@@ -68,8 +68,8 @@ class eZDataItem
                          ( '$nextID',
                            '$this->DataTypeID',
                            '$this->OwnerGroupID',
-		                   '$name' )
-                          " );
+		                   '$name',
+                           '$this->Image')" );
         
 			$this->ID = $nextID;
         }
@@ -78,12 +78,12 @@ class eZDataItem
             $res = $db->query( "UPDATE eZDataManager_Item SET
 		                 Name='$name',
                          DataTypeID='$this->DataTypeID',
-                         OwnerGroupID='$this->OwnerGroupID'
+                         OwnerGroupID='$this->OwnerGroupID',
+                         Image='$this->Image'
                          WHERE ID='$this->ID'" );
         }
 
         $db->unlock();
-    
         if ( $res == false )
             $db->rollback();
         else
@@ -113,6 +113,7 @@ class eZDataItem
                 $this->Name =& $type_array[0][$db->fieldName( "Name" )];
                 $this->DataTypeID =& $type_array[0][$db->fieldName( "DataTypeID" )];
                 $this->OwnerGroupID =& $type_array[0][$db->fieldName( "OwnerGroupID" )];
+                $this->Image =& $type_array[0][$db->fieldName( "Image" )];
             }
         }
     }
@@ -142,9 +143,9 @@ class eZDataItem
         }
         
 
-        for ( $i=0; $i < count($typeItemArray); $i++ )
+        for ( $i = 0; $i < count( $typeItemArray ); $i++ )
         {
-            $returnArray[$i] = new eZDataItem( $typeItemArray[$i][$db->fieldName("ID")] );
+            $returnArray[$i] = new eZDataItem( $typeItemArray[$i][$db->fieldName( "ID" )] );
         }
 
         return $returnArray;
@@ -159,8 +160,9 @@ class eZDataItem
 
         $db->begin( );
 
-        $res = $db->query( "DELETE FROM eZDataManager_ItemValue WHERE ItemID='$this->ID'" );        
-        $res = $db->query( "DELETE FROM eZDataManager_Item WHERE ID='$this->ID'" );        
+        $this->deleteImage();
+        $res = $db->query( "DELETE FROM eZDataManager_ItemValue WHERE ItemID='$this->ID'" );
+        $res = $db->query( "DELETE FROM eZDataManager_Item WHERE ID='$this->ID'" );
 
         if ( $res == false )
             $db->rollback( );
@@ -168,11 +170,10 @@ class eZDataItem
             $db->commit();        
     }
     
-    
     /*!
       Returns the object id
     */
-    function id( )
+    function id()
     {
         return $this->ID;
     }
@@ -188,7 +189,7 @@ class eZDataItem
     /*!
       Returns the name
     */
-    function name( )
+    function name()
     {
         return $this->Name;
     }
@@ -235,6 +236,24 @@ class eZDataItem
         return $type;
     }
 
+    function image()
+    {
+        if ( $this->Image > 0 )
+            return new eZImage( $this->Image );
+        else
+            return false;
+    }
+
+    function setImage( $image )
+    {
+        $this->Image = $image->id();
+    }
+
+    function deleteImage()
+    {
+        $this->Image = '';
+    }
+    
     /*!
       Sets a value for the given data type item
     */
@@ -394,6 +413,9 @@ class eZDataItem
 
     /// the datatype for this item
     var $DataTypeID;
+
+    /// the image for this item
+    var $Image;
 }
 
 ?>

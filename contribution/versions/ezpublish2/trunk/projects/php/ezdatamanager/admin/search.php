@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: search.php,v 1.2 2001/11/21 17:06:41 ce Exp $
+// $Id: search.php,v 1.3 2002/02/21 14:50:52 jhe Exp $
 //
 // Created on: <21-Nov-2001 12:42:41 bf>
 //
@@ -58,8 +58,7 @@ if ( !isset ( $offset ) )
 if ( isset( $SearchText ) )
 {
     $valueItems =& eZDataItem::search( $SearchText, $limit, $offset );
-    $searchCount =& eZDataItem::searchCount( $SearchText );
-    $i=0;
+    $i = 0;
     foreach ( $valueItems as $item )
     {
         if ( ( $i % 2 ) == 0 )
@@ -82,11 +81,12 @@ if ( isset( $SearchText ) )
         $t->parse( "item_list", "item_list_tpl" );
     }
     else
+    {
         $t->set_var( "item_list", "" );
+    }
 }
 
 eZList::drawNavigator( $t, $searchCount, $limit, $offset, "search_page_tpl" );
-
 
 $t->pparse( "output", "search_page_tpl" );
 

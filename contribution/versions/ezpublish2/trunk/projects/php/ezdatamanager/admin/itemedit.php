@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: itemedit.php,v 1.4 2002/02/10 11:55:29 bf Exp $
+// $Id: itemedit.php,v 1.5 2002/02/21 14:50:52 jhe Exp $
 //
 // Created on: <20-Nov-2001 17:23:58 bf>
 //
@@ -27,6 +27,10 @@ include_once( "classes/ezlocale.php" );
 include_once( "classes/ezhttptool.php" );
 include_once( "classes/eztemplate.php" );
 include_once( "classes/INIFile.php" );
+include_once( "classes/ezimagefile.php" );
+include_once( "classes/eztexttool.php" );
+
+include_once( "ezimagecatalogue/classes/ezimage.php" );
 
 include_once( "ezdatamanager/classes/ezdatatype.php" );
 include_once( "ezdatamanager/classes/ezdatatypeitem.php" );
@@ -42,7 +46,26 @@ if ( isset( $Store ) )
 
     $item->setName( $ItemName );
     $item->setOwnerGroup( $ItemOwnerGroupID );
-    
+    $file = new eZImageFile();
+    if ( $file->getUploadedFile( "userfile" ) )
+    {
+        $image = new eZImage();
+        $image->setName( "Image" );
+        if ( $image->checkImage( $file ) )
+        {
+            $image->setImage( $file );
+            $image->store();
+            $item->setImage( $image );
+        }
+    }
+    else
+    {
+        if ( isSet( $ImageDelete ) )
+        {
+            $item->deleteImage();
+        }
+    }
+
     $item->store();
     
     $dataType =& $item->dataType();
@@ -60,17 +83,15 @@ if ( isset( $Store ) )
                 $contentsArray[] = $ItemValueArray[$dataTypeItem->id()];
                 $contents = $generator->generateXML( $contentsArray );
                 $item->setItemValue( $dataTypeItem, $contents );
-                
-            }break;
+            }
+            break;
 
             case "2" :
             {
                 $item->setItemValue( $dataTypeItem, $ItemValueArray[$dataTypeItem->id()] );
-            }break;
+            }
+            break;
         }
-        
-
-
     }
 
     eZHTTPTool::header( "Location: /datamanager/typelist/" . $dataType->id() );
@@ -106,6 +127,7 @@ $locale = new eZLocale( $Language );
 
 $t->set_file( "item_edit_tpl", "itemedit.tpl" );
 $t->set_block( "item_edit_tpl", "item_type_option_tpl", "item_type_option" );
+$t->set_block( "item_edit_tpl", "image_tpl", "image" );
 $t->set_block( "item_edit_tpl", "item_owner_group_tpl", "item_owner_group" );
 $t->set_block( "item_edit_tpl", "item_value_list_tpl", "item_value_list" );
 $t->set_block( "item_value_list_tpl", "item_value_tpl", "item_value" );
@@ -113,7 +135,6 @@ $t->set_block( "item_value_list_tpl", "item_value_tpl", "item_value" );
 $t->set_block( "item_value_tpl", "text_item_tpl", "text_item" );
 $t->set_block( "item_value_tpl", "relation_item_tpl", "relation_item" );
 $t->set_block( "relation_item_tpl", "relation_item_value_tpl", "relation_item_value" );
-
 
 $t->setAllStrings();
 
@@ -148,7 +169,6 @@ foreach ( $types as $type )
 
 $item = new eZDataItem( $ItemID );
 
-
 // group selector
 $group = new eZUserGroup();
 $groupList = $group->getAll();
@@ -180,6 +200,17 @@ if ( $ItemID > 0 )
     $item = new eZDataItem( $ItemID );
     $t->set_var( "item_name", $item->name() );
 
+    $image = $item->image();
+    if ( $image )
+    {
+        $variation = $image->requestImageVariation( 150, 150 );
+        $t->set_var( "image_src", "/" . $variation->imagePath() );
+        $t->set_var( "image_width", $variation->width() );
+        $t->set_var( "image_height", $variation->height() );
+        $t->set_var( "image_alt", eZTextTool::htmlspecialchars( $image->caption() ) );
+        $t->parse( "image", "image_tpl" );
+    }
+
     $dataType =& $item->dataType();
     $dataTypeItems =& $dataType->typeItems();
 
@@ -206,7 +237,8 @@ if ( $ItemID > 0 )
 
                 $t->parse( "text_item", "text_item_tpl" );
 
-            }break;
+            }
+            break;
 
             case "2" :
             {
@@ -233,8 +265,8 @@ if ( $ItemID > 0 )
                 }
 
                 $t->parse( "relation_item", "relation_item_tpl" );
-
-            }break;
+            }
+            break;
             
         }
 

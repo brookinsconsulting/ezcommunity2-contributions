@@ -1,4 +1,3 @@
-
 CREATE TABLE eZDataManager_DataType (
   ID int(11) NOT NULL default '0',
   Name varchar(100) default '',
@@ -41,6 +40,7 @@ CREATE TABLE eZDataManager_Item (
   DataTypeID int(11) NOT NULL default '0',
   Name varchar(100) default '',
   OwnerGroupID int(11) default '0',
+  Image int(11),
   PRIMARY KEY  (ID),
   KEY DataManager_Item_Name (Name)
 ) TYPE=MyISAM;

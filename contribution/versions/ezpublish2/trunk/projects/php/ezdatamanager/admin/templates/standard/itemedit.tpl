@@ -1,6 +1,6 @@
 <h1>{intl-item_edit}</h1>
 
-<form method="post" action="/datamanager/itemedit/">
+<form method="post" action="/datamanager/itemedit/" enctype="multipart/form-data">
 
 <hr size="4" noshade="noshade" />
 
@@ -22,19 +22,30 @@
 </select>
 
 
-
 <p class="boxtext">{intl-item_name}:</p>
 <input class="box" type="text" name="ItemName" value="{item_name}" />
 
+<p class="boxtext">{intl-image}:</p>
+<input class="box" type="file" name="userfile" /><br /><br />
 
+<!-- BEGIN image_tpl -->
+<table cellspacing="0" cellpadding="0" border="0">
+<tr>
+<td>
+<img src="{www_dir}{image_src}" width="{image_width}" height="{image_height}" border="0" alt="{image_alt}" />
+</td>
+</tr>
+<tr>
+<td>
+<input type="checkbox" name="ImageDelete" value="ImageDelete" />
+<span class="boxtext">{intl-delete_image}</span><br />
+</td>
+</tr>
+</table>
+<!-- END image_tpl -->
 <!-- BEGIN item_value_list_tpl -->
 
 <table width="100%" cellpadding="4" cellspacing="2" >
-<tr>
-	<th>
-	<p class="boxtext">{intl-item_name}:</p>
-	</th>
-</tr>
 <!-- BEGIN item_value_tpl -->
 <tr>
 	<td class="{td_class}">	
@@ -67,7 +78,4 @@
 <input class="okbutton" type="submit" name="Store" value="{intl-ok}" />
 
 <!-- END item_value_list_tpl -->
-
-
-
 </form>
