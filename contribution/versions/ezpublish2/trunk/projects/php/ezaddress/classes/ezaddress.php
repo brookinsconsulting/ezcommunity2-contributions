@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: ezaddress.php,v 1.15 2001/08/22 12:09:15 ce Exp $
+// $Id: ezaddress.php,v 1.16 2001/09/26 07:10:50 ce Exp $
 //
 // Definition of eZAddress class
 //
@@ -116,7 +116,7 @@ class eZAddress
             $db->array_query( $address_array, "SELECT * FROM eZAddress_Address WHERE ID='$id'" );
             if ( count( $address_array ) > 1 )
             {
-                die( "Feil: Flere addresser med samme ID funnet i database, dette skal ikke være mulig. " );
+                die( "Error: addresses with the same ID was found in the database. This shouldent happen." );
             }
             else if ( count( $address_array ) == 1 )
             {
