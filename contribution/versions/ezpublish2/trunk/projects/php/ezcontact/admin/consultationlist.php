@@ -32,6 +32,9 @@ if ( isset( $ConsultationList ) )
     $t->set_block( "consultation_page", "consultation_table_item_tpl", "consultation_table_item" );
     $t->set_block( "consultation_table_item_tpl", "consultation_item_tpl", "consultation_item" );
 
+    $t->set_block( "consultation_table_item_tpl", "new_company_consultation_item_tpl", "new_company_consultation_item" );
+    $t->set_block( "consultation_table_item_tpl", "new_person_consultation_item_tpl", "new_person_consultation_item" );
+
     $t->set_var( "consultation_item", "" );
     $t->set_var( "no_consultations_item", "" );
     $t->set_var( "consultation_table_item", "" );
@@ -70,11 +73,13 @@ if ( isset( $ConsultationList ) )
     {
         $consultations = eZConsultation::findConsultationsByContact( $CompanyID, $user->id(), false );
         $t->set_var( "consultation_type", "company" );
+        $t->set_var( "company_id", $CompanyID  );
     }
-    else
+    else if ( isset( $PersonID ) )
     {
         $consultations = eZConsultation::findConsultationsByContact( $PersonID, $user->id(), true );
         $t->set_var( "consultation_type", "person" );
+        $t->set_var( "person_id", $PersonID  );
     }
 
     $count = count( $consultations );
@@ -101,6 +106,7 @@ if ( isset( $ConsultationList ) )
         $t->set_var( "consultation_id", $consultation->id() );
         $t->set_var( "consultation_date", $locale->format( $consultation->date() ) );
         $t->set_var( "consultation_short_description", $consultation->shortDescription() );
+        $t->set_var( "consultation_status_id", $consultation->state() );
         $t->set_var( "consultation_status", eZConsultation::stateName( $consultation->state() ) );
         $t->parse( "consultation_item", "consultation_item_tpl", true );
         $i++;
@@ -113,6 +119,17 @@ if ( isset( $ConsultationList ) )
     else
     {
         $t->parse( "no_consultations_item", "no_consultations_item_tpl", true );
+    }
+
+    if ( isset( $CompanyID ) )
+    {
+        $t->set_var( "new_person_consultation_item", "" );
+        $t->parse( "new_company_consultation_item", "new_company_consultation_item_tpl"  );
+    }
+    else if ( isset( $PersonID ) )
+    {
+        $t->parse( "new_person_consultation_item", "new_person_consultation_item_tpl"  );
+        $t->set_var( "new_company_consultation_item", "" );
     }
 }
 else
