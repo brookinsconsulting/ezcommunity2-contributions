@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezqdomrenderer.php,v 1.24 2001/08/06 10:56:53 virt Exp $
+// $Id: ezqdomrenderer.php,v 1.25 2001/08/07 13:36:09 virt Exp $
 //
 // Definition of eZQDomRenderer class
 //
@@ -825,6 +825,25 @@ class eZQDomrenderer
             $this->Template->set_var( "link_text", $text );
             $pageContent =& trim( $this->Template->parse( "link", "link_tpl" ) );
         }    
+
+
+        // ez anchor
+        if ( $paragraph->name == "ezanchor" )
+        {
+            foreach ( $paragraph->attributes as $anchorItem )
+                {
+                    switch ( $anchorItem->name )
+                    {
+                        case "href" :
+                        {
+                            $href = $anchorItem->children[0]->content;
+                        }
+                        break;
+                    }
+                }
+                        
+            $pageContent .= "<a name=\"$href\"></a>";
+        }
 
 
         // mail
