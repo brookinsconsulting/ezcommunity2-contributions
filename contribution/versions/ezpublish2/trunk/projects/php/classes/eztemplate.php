@@ -1,16 +1,28 @@
 <?php
 // 
-// $Id: eztemplate.php,v 1.21 2001/01/24 10:45:48 jb Exp $
+// $Id: eztemplate.php,v 1.22 2001/01/24 11:31:13 jb Exp $
 //
 // Definition of eZTemplate class
 //
 // Lars Wilhelmsen <lw@ez.no>
 // Created on: <11-Sep-2000 22:10:06 bf>
 //
-// Copyright (C) 1999-2001 eZ Systems.  All rights reserved.
+// This source file is part of eZ publish, publishing software.
+// Copyright (C) 1999-2000 eZ systems as
 //
-// IMPORTANT NOTE: You may NOT copy this file or any part of it into
-// your own programs or libraries.
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, US
 //
 
 include_once( "classes/INIFile.php" );
@@ -21,7 +33,70 @@ include_once( "classes/INIFile.php" );
   This class provides functions for using templates with internationalized language.
   Template variables which start with intl- are looked up in the language file and
   replaced with text in the described language.
-    
+
+  Handling templates is done by setting the template file,
+  setting up blocks and filling in template variables.
+
+  Setting up the template file is done by
+  \code
+  $t->set_file( "template_tpl", "template.tpl" );
+  \endcode
+  or by using several files
+  \code
+  $t->set_file( array( "template_tpl" => "template.tpl",
+                       "second_tpl" => "second.tpl" ) );
+  \endcode
+
+  If you want to fill in an internationalized language you do
+  \code
+  $t->setAllStrings()
+  \endcode
+  all strings are then taken from the language file and supplied as template variables.
+
+  Setting up blocks is done by filling in template blocks in the template file
+  \code
+  <!-- BEGIN my_block_tpl -->
+  <b>{my_variable}</b>
+  <!-- END my_block_tpl -->
+  \endcode
+  and defining them in the template object.
+  \code
+  $t->set_block( "template_tpl", "my_block_tpl", "my_block" );
+  \endcode
+
+  Filling in template variables is either done by setting them directly
+  \code
+  $t->set_var( "my_variable", "some text" );
+  \endcode
+  or by parsing a predefined block
+  \code
+  $t->parse( "my_block", "my_block_tpl" );
+  \encode
+  alternativley parsing a predefined block several times
+  \code
+  foreach( $list as $item )
+  {
+      $t->set_var( "item", $item );
+      $t->parse( "my_block", "my_block_tpl", true );
+  }
+  \encode
+
+  The class can also carry out caching of template content.
+  Example:
+  \code
+  $t->set_file( "template_tpl", "template.tpl" );
+  if ( $t->hasCache() )
+  {
+      print $t->cache();
+      return;
+  }
+
+  // Do lot's of template stuff
+
+  // store the cache and print it
+  $t->storeCache( "output", "template_tpl" );
+  \endcode
+
 */
 
 class eZTemplate
@@ -35,25 +110,26 @@ class eZTemplate
         $this->intlDir =& $intlDir;
         $this->language =& $language;
         $this->phpFile =& $phpFile;
+        $this->Style = $style;
+        $this->ModuleDir = $module_dir;
+        $this->TextStrings = array();
+        $this->State = $state;
+
         $this->set_root($templateDir);
         $this->set_unknowns("remove");
-        $this->style = $style;
-        $this->module_dir = $module_dir;
-        $this->TextStrings = array();
-        $this->state = $state;
 
         $this->languageFile = $intlDir . "/" . $language . "/" . $phpFile . ".ini";
         if ( file_exists( $this->languageFile ) )
         {
-            $this->ini = new INIFile( $intlDir . "/" . $language . "/" . $phpFile . ".ini", false );
-            $this->TextStrings = $this->ini->read_group( "strings" );
+            $this->Ini = new INIFile( $intlDir . "/" . $language . "/" . $phpFile . ".ini", false );
+            $this->TextStrings = $this->Ini->read_group( "strings" );
         }
         else
         {
             print( "<br><b>Error: language file, $this->languageFile, could not be found.</b><br>" );
         }
 
-        if ( empty( $this->style ) || empty( $this->module_dir ) )
+        if ( empty( $this->Style ) || empty( $this->ModuleDir ) )
         {
             $this->CacheSuffix = "";
             $this->CacheDir = "";
@@ -82,12 +158,19 @@ class eZTemplate
         }
     }
 
+    /*!
+      Returns the name of the cache file.
+    */
     function &cacheFile()
     {
         $CacheFile = $this->CacheDir . "/" . $this->files[0] . "-" . $this->CacheSuffix;
         return $CacheFile;
     }
 
+    /*!
+      Returns true if the template file has a cache file which can be read,
+      if the cache file does not exist or is too old, false is returned.
+    */
     function hasCache()
     {
         if ( empty( $this->CacheSuffix ) )
@@ -106,6 +189,11 @@ class eZTemplate
         return false;
     }
 
+    /*!
+      If the hasCache() returns true the cache content can be retrieved with this function,
+      otherwise false is returned.
+    */
+
     function &cache()
     {
         if ( empty( $this->CacheSuffix ) )
@@ -123,6 +211,11 @@ class eZTemplate
         return false;
     }
 
+    /*!
+      Instead of using pparse for printing out the template,
+      one can use this to store the template content to a cache file and eventually print it.
+      If $print is true the template content is printed.
+    */
     function &storeCache( $target, $handle, $print = true )
     {
         if ( empty( $this->CacheSuffix ) )
@@ -146,67 +239,17 @@ class eZTemplate
         return $str;
     }
 
-    function &translate( $key )
-    {
-        if ( isset( $this->varvals[$key] ) )
-        {
-            return $this->varvals[$key];
-        }
-        else
-        {
-            return $key;
-        }
-    }
-
     /*!
       Returns a reference to the ini file object.
     */
     function &ini()
     {
-        return $this->ini;
+        return $this->Ini;
     }
-    
-    var $TextStrings;
-    var $ini;
-    var $style;
-    var $module_dir;
-    var $state;
-    var $languageFile;
-    var $CacheSuffix;
-    var $CacheDir;
-    var $files = array();
 
-    var $classname = "Template";
-
-    /* if set, echo assignments */
-    var $debug     = false;
-
-    /* $file[handle] = "filename"; */
-    var $file  = array();
-
-    /* relative filenames are relative to this pathname */
-    var $root   = "";
-
-    /* $varkeys[key] = "key"; $varvals[key] = "value"; */
-    var $varkeys = array();
-    var $varvals = array();
-
-    /* "remove"  => remove undefined variables
-     * "comment" => replace undefined variables with comments
-     * "keep"    => keep undefined variables
-     * "nbsp"    => replace all undefined variables with &nbsp; (very nice in tables with bg color)
-     */
-    var $unknowns = "remove";
-  
-    /* "yes" => halt, "report" => report error, continue, "no" => ignore error quietly */
-    var $halt_on_error  = "report";
-  
-    /* last error message is retained here */
-    var $last_error     = "";
-
-    /* public: setroot(pathname $root)
-     * root:   new template directory.
-     */  
+    /*!
+     Sets the template directory.
+    */  
     function set_root($root)
     {
         if (!is_dir($root)) {
@@ -218,21 +261,20 @@ class eZTemplate
         return true;
     }
 
-  /* public: set_unknowns(enum $unknowns)
-   * unknowns: "remove", "comment", "keep", "nbsp"
-   *
-   */
-  function set_unknowns($unknowns = "keep") {
-    $this->unknowns = $unknowns;
-  }
+    /*!
+     Sets what to do with uknown templates variables
+    */
+    function set_unknowns($unknowns = "keep")
+    {
+        $this->unknowns = $unknowns;
+    }
 
-  /* public: set_file(array $filelist)
-   * filelist: array of handle, filename pairs.
-   *
-   * public: set_file(string $handle, string $filename)
-   * handle: handle for a filename,
-   * filename: name of template file
-   */
+    /*!
+      Sets the file(s) to be working on, its either set to one file with
+      two parameters, set_file( $handle, $filename ), or by several file
+      using an array, set_file( array( "file1_tpl", "file1.tpl",
+                                       "file2_tpl", "file2.tpl" ) );
+    */
     function set_file($handle, $filename = "")
     {
         if (!is_array($handle))
@@ -258,13 +300,14 @@ class eZTemplate
         }
     }
 
-  /* public: set_block(string $parent, string $handle, string $name = "")
-   * extract the template $handle from $parent, 
-   * place variable {$name} instead.
-   */
+    /*!
+      Extract a template block and set it as a template variable,
+      the content of the template variable is the same as the content of the block.
+    */
     function set_block($parent, $handle, $name = "")
     {
-        if (!$this->loadfile($parent)) {
+        if (!$this->loadfile($parent))
+        {
             $this->halt("subst: unable to load $parent.");
             return false;
         }
@@ -279,17 +322,18 @@ class eZTemplate
         $this->set_var_internal($parent, $str);
     }
 
-    /* public: set_var(array $values)
-     * values: array of variable name, value pairs.
-     *
-     * public: set_var(string $varname, string $value)
-     * varname: name of a variable that is to be defined
-     * value:   value of that variable
-     */
+    /*!
+      Sets a template variable to contain a certain value.
+    */
     function set_var( $varname, $value = "")
     {
         $this->set_var_internal( $varname, $value );
     }
+
+    /*!
+      \private
+      Sets the template variable using references.
+    */
 
     function set_var_internal( &$varname, &$value )
     {
@@ -315,9 +359,11 @@ class eZTemplate
         }
     }
 
-    /* public: subst(string $handle)
-     * handle: handle of template where variables are to be substituted.
-     */
+    /*!
+      \private
+      Retrieves a template variable and subsistutes all variable in that with
+      all defined template variables and returns it.
+    */
     function &subst($handle)
     {
         if (!$this->loadfile($handle))
@@ -332,9 +378,9 @@ class eZTemplate
         return $str;
     }
   
-  /* public: psubst(string $handle)
-   * handle: handle of template where variables are to be substituted.
-   */
+    /*!
+      Same as subst() but prints it.
+    */
     function psubst($handle)
     {
         print $this->subst($handle);
@@ -342,12 +388,9 @@ class eZTemplate
         return false;
     }
 
-    /* public: parse(string $target, string $handle, boolean append)
-     * public: parse(string $target, array  $handle, boolean append)
-     * target: handle of variable to generate
-     * handle: handle of template to substitute
-     * append: append to target handle
-     */
+    /*!
+      Parses a the content of a block into a template variable and returns it.
+    */
     function &parse( $target, $handle, $append = false )
     {
         if (!is_array($handle))
@@ -374,34 +417,35 @@ class eZTemplate
         }
         return $str;
     }
-  
+
+    /*!
+      Same as parse() but prints it.
+    */
+
     function pparse($target, $handle, $append = false)
     {
         print $this->parse($target, $handle, $append);
         return false;
     }
   
-  /* public: get_vars()
-   */
+    /*!
+      Returns an array of template variables.
+    */
     function &get_vars()
     {
         reset($this->varkeys);
         while(list($k, $v) = each($this->varkeys))
-            while(list($k, $v) = each($this->varkeys))
-            {
-                $result[$k] = $v;
-            }
+        {
+            $result[$k] = $v;
+        }
     
         return $result;
 //          return $this->varkeys;
     }
 
-    /* public: get_var(string varname)
-     * varname: name of variable.
-     *
-     * public: get_var(array varname)
-     * varname: array of variable names
-     */
+    /*!
+      Returns the content of a specific template variable.
+    */
     function &get_var($varname)
     {
         if (!is_array($varname))
@@ -421,9 +465,9 @@ class eZTemplate
         }
     }
   
-  /* public: get_undefined($handle)
-   * handle: handle of a template.
-   */
+    /*!
+     Returns an array of undefined template variables inside another template variable.
+    */
     function get_undefined($handle)
     {
         if (!$this->loadfile($handle))
@@ -450,69 +494,74 @@ class eZTemplate
             return false;
     }
 
-  /* public: finish(string $str)
-   * str: string to finish.
-   */
-    function finish($str)
+    /*!
+      Does an operation on the $str depending on what setUnkowns is set too and returns it.
+      If set to:
+      "keep", no change to string
+      "remove", removes all template variables
+      "comment", comments out all template variables
+      "nbsp", changes all template variables into a non-breaking space
+      \sa set_unknowns
+     */
+    function &finish($str)
     {
         switch ($this->unknowns)
         {
             case "keep":
                 break;
-      
+
             case "remove":
-                $str = preg_replace('/{[^ \t\r\n}]+}/', "", $str);
+                $str =& preg_replace('/{[^ \t\r\n}]+}/', "", $str);
             break;
 
             case "comment":
-                $str = preg_replace('/{([^ \t\r\n}]+)}/', "<!-- Template $handle: Variable \\1 undefined -->", $str);
+                $str =& preg_replace('/{([^ \t\r\n}]+)}/', "<!-- Template $handle: Variable \\1 undefined -->", $str);
             break;
-      
+
             case "nbsp":
-                $str = preg_replace('/{[^ \t\r\n}]+}/', "&nbsp;", $str);
+                $str =& preg_replace('/{[^ \t\r\n}]+}/', "&nbsp;", $str);
         }
-    
         return $str;
     }
 
-  /* public: p(string $varname)
-   * varname: name of variable to print.
-   */
-  function p($varname) {
-    print $this->finish($this->get_var($varname));
-  }
-
-  function get($varname) {
-    return $this->finish($this->get_var($varname));
-  }
-    
-  /***************************************************************************/
-  /* private: filename($filename)
-   * filename: name to be completed.
-   */
-  function filename($filename) {
-    if (substr($filename, 0, 1) != "/") {
-      $filename = $this->root."/".$filename;
-    }
-    
-    if (!file_exists($filename))
-      $this->halt("filename: file $filename does not exist.");
-
-    return $filename;
-  }
-  
-    /* private: varname($varname)
-     * varname: name of a replacement variable to be protected.
-     * unused.
-     */
-    function &varname($varname)
+    /*!
+      Prints out the content of template variable after it has gone trough finish
+      \sa finish(), get()
+    */
+    function p($varname)
     {
-        return preg_quote("/{".$varname."}/");
+        print $this->finish($this->get_var($varname));
     }
 
-  /* private: loadfile(string $handle)
-   * handle:  load file defined by handle, if it is not loaded yet.
-   */
+    /*!
+      Returns the content of template variable after it has gone trough finish
+      \sa finish(), p()
+    */
+
+    function get($varname)
+    {
+        return $this->finish($this->get_var($varname));
+    }
+    
+    /*!
+      \private
+      Returns a full filepath of the specified filename.
+    */
+    function filename($filename)
+    {
+        if (substr($filename, 0, 1) != "/") {
+            $filename = $this->root."/".$filename;
+        }
+    
+        if (!file_exists($filename))
+            $this->halt("filename: file $filename does not exist.");
+
+        return $filename;
+    }
+  
+    /*!
+      Loads the template file and sets as a template variable.
+    */
     function loadfile($handle)
     {
         if (isset($this->varkeys[$handle]) and !empty($this->varvals[$handle]))
@@ -541,29 +590,66 @@ class eZTemplate
         return true;
     }
 
-  /***************************************************************************/
-  /* public: halt(string $msg)
-   * msg:    error message to show.
-   */
-  function halt($msg) {
-    $this->last_error = $msg;
-    
-    if ($this->halt_on_error != "no")
-      $this->haltmsg($msg);
-    
-    if ($this->halt_on_error == "yes")
-      die("<b>Halted.</b>");
-    
-    return false;
-  }
-  
-  /* public, override: haltmsg($msg)
-   * msg: error message to show.
-   */
-  function haltmsg($msg) {
-    printf("<b>Template Error:</b> %s<br>\n", $msg);
-  }
+    /*!
+      \private
+      Prints out an error message and halts.
+      Whether to print or halt is controlled by the halt_on_error variable.
+    */
+    function halt($msg)
+    {
+        $this->last_error = $msg;
 
+        if ($this->halt_on_error != "no")
+            $this->haltmsg($msg);
+
+        if ($this->halt_on_error == "yes")
+            die("<b>Halted.</b>");
+
+        return false;
+    }
+
+    /*!
+      \private
+      Prints out the halt message
+    */
+    function haltmsg($msg)
+    {
+        printf("<b>Template Error:</b> %s<br>\n", $msg);
+    }
+
+    var $TextStrings;
+    var $Ini;
+    var $Style;
+    var $ModuleDir;
+    var $State;
+    var $languageFile;
+    var $CacheSuffix;
+    var $CacheDir;
+
+    var $files = array();
+
+    /* $file[handle] = "filename"; */
+    var $file  = array();
+
+    /* relative filenames are relative to this pathname */
+    var $root   = "";
+
+    /* $varkeys[key] = "key"; $varvals[key] = "value"; */
+    var $varkeys = array();
+    var $varvals = array();
+
+    /* "remove"  => remove undefined variables
+     * "comment" => replace undefined variables with comments
+     * "keep"    => keep undefined variables
+     * "nbsp"    => replace all undefined variables with &nbsp; (very nice in tables with bg color)
+     */
+    var $unknowns = "remove";
+  
+    /* "yes" => halt, "report" => report error, continue, "no" => ignore error quietly */
+    var $halt_on_error  = "report";
+  
+    /* last error message is retained here */
+    var $last_error     = "";
 }
 
 ?>
