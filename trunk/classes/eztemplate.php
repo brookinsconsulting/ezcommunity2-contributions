@@ -443,8 +443,10 @@ class eZTemplate
         if ( !is_array( $handle ) )
         {
             if ( $filename == "" )
-            {
-                $this->halt( "set_file: For handle $handle filename is empty." );
+	      { 
+		// kracker : Added Support for template filename error tracking
+		$phpFile = $this->phpFile;
+		$this->halt( "set_file ($phpFile): For handle $handle filename is empty." ); 
                 return false;
             }
             $this->file[$handle] = $this->filename( $filename );
