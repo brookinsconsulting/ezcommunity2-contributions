@@ -123,6 +123,7 @@
 </tr>
 </table>
 
+<!-- BEGIN image_info_tpl -->
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
 <td>
@@ -152,11 +153,7 @@
 
 </tr>
 </table>
-
-
-<table>
-</table>
-
+<!-- END image_info_tpl -->
 
 <hr noshade="noshade" size="4" />
 
@@ -172,7 +169,6 @@
 	<td>
 	<input class="okbutton" type="submit" name="Cancel" value="{intl-cancel}" />
 	</td>
-
 </tr>
 </table>
 </form>

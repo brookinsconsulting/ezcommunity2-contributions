@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: imageedit.php,v 1.43 2001/09/07 18:39:18 fh Exp $
+// $Id: imageedit.php,v 1.44 2001/09/07 19:05:23 fh Exp $
 //
 // Created on: <09-Jan-2001 10:45:44 ce>
 //
@@ -99,6 +99,10 @@ $t->set_block( "image_edit_page", "article_item_tpl", "article_item" );
 
 $t->set_block( "image_edit_page", "product_item_tpl", "product_item" );
 
+$t->set_block( "image_edit_page", "image_info_tpl", "image_info" );
+$t->set_var( "image_info", "" );
+
+
 $t->set_var( "errors", "&nbsp;" );
 
 $t->set_var( "name_value", "$Name" );
@@ -126,7 +130,6 @@ $t->set_var( "error_description", "&nbsp;" );
 
 $t->set_block( "errors_tpl", "error_read_everybody_permission_tpl", "error_read_everybody_permission" );
 $t->set_var( "error_read_everybody_permission", "&nbsp;" );
-
 
 $t->set_block( "errors_tpl", "error_write_everybody_permission_tpl", "error_write_everybody_permission" );
 $t->set_var( "error_write_everybody_permission", "&nbsp;" );
@@ -347,31 +350,6 @@ if ( $Action == "Update" && $error == false )
         }
     }
 
-    /*
-    $categoryArray = $image->categories();
-    // Calculate new and unused categories
-    $old_maincategory = $image->categoryDefinition();
-
-    if ( $old_maincategory > -1 )
-        $old_categories =& array_unique( array_merge( $old_maincategory->id(),
-                                                      $image->categories( false ) ) );
-
-    $new_categories = array_unique( array_merge( $CategoryID, $CategoryArray ) );
-
-    $remove_categories = array_diff( $old_categories, $new_categories );
-    $add_categories = array_diff( $new_categories, $old_categories );
-
-
-    foreach ( $remove_categories as $categoryItem )
-    {
-        eZImageCategory::removeImage( $image, $categoryItem );
-    }
-    foreach ( $add_categories as $categoryItem )
-    {
-        eZImageCategory::addImage( $image, $categoryItem );
-    }
-    */
-
     $categories = $image->categories();
 
     foreach( $categories as $categoryItem )
@@ -507,6 +485,7 @@ if ( $Action == "Edit" )
         }
     }
 
+    $info_items = 0;
     $t->set_var( "variation_item", "" );
     foreach ( $variationList as $variation )
     {
@@ -515,6 +494,7 @@ if ( $Action == "Edit" )
         $t->set_var( "variation_height", $variation->height() );
         
         $t->parse( "variation", "image_variation_tpl", true );
+        $info_items++;
     }
 
     $t->set_var( "article_item", "" );
@@ -528,6 +508,7 @@ if ( $Action == "Edit" )
             $t->set_var( "article_name", $article->name() );
 
             $t->parse( "article_item", "article_item_tpl", true );
+            $info_items++;
         }
     }
 
@@ -539,8 +520,11 @@ if ( $Action == "Edit" )
         $t->set_var( "product_name", $product->name() );
         
         $t->parse( "product_item", "product_item_tpl", true );
+            $info_items++;
     }
 
+    if( $info_items > 0 )
+        $t->parse( "image_info", "image_info_tpl", false );
     $objectPermission = new eZObjectPermission();
 
     $readGroupArrayID =& $objectPermission->getGroups( $image->id(), "imagecatalogue_image", "r", false );
