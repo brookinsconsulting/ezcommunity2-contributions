@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezquizgame.php,v 1.5 2001/05/28 15:19:02 pkej Exp $
+// $Id: ezquizgame.php,v 1.6 2001/05/29 09:07:05 ce Exp $
 //
 // ezquizgame class
 //
@@ -108,6 +108,15 @@ class eZQuizGame
 
         $db =& eZDB::globalDatabase();
 
+        $questions =& $this->questions();
+        if ( is_array ( $questions ) )
+        {
+            foreach( $questions as $question )
+            {
+                $question->delete();
+            }
+        }
+        
         $db->query( "DELETE FROM eZQuiz_Game WHERE ID='$this->ID'" );
     }
 

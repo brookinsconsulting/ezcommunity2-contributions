@@ -53,7 +53,7 @@
 	 <a href="/quiz/game/questionedit/{question_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezquiz{game_id}-red','','/admin/images/{site_style}/redigerminimrk.gif',1)"><img name="ezquiz{game_id}-red" border="0" src="/admin/images/{site_style}/redigermini.gif" width="16" height="16" align="top" alt="Edit" /></a>&nbsp;
 	 </td>
 	<td class="{td_class}" width="1%" align="center">
-	<input type="checkbox" name="QuestionArrayID[]" value="{question_id}">
+	<input type="checkbox" name="DeleteQuestionArray[]" value="{question_id}">
 	</td>
 </tr>
 <!-- END question_item_tpl -->
@@ -64,6 +64,7 @@
 <br />
 
 <input type="submit" name="NewQuestion" value="{intl-new_question}" />&nbsp;
+<input type="submit" name="DeleteQuestions" value="{intl-delete_questions}" />&nbsp;
 
 <hr noshade="noshade" size="4" />
 

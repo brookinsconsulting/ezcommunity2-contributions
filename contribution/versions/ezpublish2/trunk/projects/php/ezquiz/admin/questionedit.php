@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: questionedit.php,v 1.2 2001/05/28 11:14:35 ce Exp $
+// $Id: questionedit.php,v 1.3 2001/05/29 09:07:05 ce Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <22-May-2001 16:17:22 ce>
@@ -61,12 +61,9 @@ if ( isSet ( $Delete ) )
         {
             eZQuizAlternative::delete( $AltID );
         }
-        unset ( $alternative );
     }
-//    $Action = "Update";
+    $Action = "";
 }
-
-
 
 $ini =& INIFile::globalINI();
 $Language = $ini->read_var( "eZQuizMain", "Language" );

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezquizquestion.php,v 1.2 2001/05/28 13:39:01 pkej Exp $
+// $Id: ezquizquestion.php,v 1.3 2001/05/29 09:07:05 ce Exp $
 //
 // eZQuizQuestion class
 //
@@ -110,7 +110,17 @@ class eZQuizQuestion
 
         $db =& eZDB::globalDatabase();
 
+        $alternatives =& $this->alternatives();
+        if ( is_array ( $alternatives ) )
+        {
+            foreach ( $alternatives as $alternative )
+            {
+                $alternative->delete();
+            }
+        }
+
         $db->query( "DELETE FROM eZQuiz_Question WHERE ID='$this->ID'" );
+        
     }
 
     /*!
@@ -255,7 +265,7 @@ class eZQuizQuestion
     {
         $returnArray = array();
         $db =& eZDB::globalDatabase();
-        $db->array_query( $questionArray, "SELECT ID FROM eZQuiz_Alternative WHERE QuestionID='$this->ID'" );
+        $db->array_query( $questionArray, "SELECT ID FROM eZQuiz_Alternative WHERE QuestionID='$this->ID' ORDER BY ID" );
 
        for ( $i=0; $i < count($questionArray); $i++ )
        {

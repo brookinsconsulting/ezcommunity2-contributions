@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezquizalternative.php,v 1.2 2001/05/28 11:14:35 ce Exp $
+// $Id: ezquizalternative.php,v 1.3 2001/05/29 09:07:05 ce Exp $
 //
 // eZQuizAlternative class
 //
@@ -102,6 +102,16 @@ class eZQuizAlternative
             $catID = $this->ID;
 
         $db =& eZDB::globalDatabase();
+
+//        $answers =& $this->answers();
+
+        if ( is_array ( $answers ) )
+        {
+            foreach( $answers as $answer )
+            {
+                $answer->delete();
+            }
+        }
 
         $db->query( "DELETE FROM eZQuiz_Alternative WHERE ID='$catID'" );
     }
@@ -245,6 +255,23 @@ class eZQuizAlternative
     {
         if ( get_class ( $question ) == "ezquizquestion" )
             $this->Question = $question;
+    }
+
+    /*!
+      Returns every answers to this quiz alternative
+      The alternatives is returned as an array of eZQuizAnswer objects.
+    */
+    function answers()
+    {
+        $returnArray = array();
+        $db =& eZDB::globalDatabase();
+        $db->array_query( $questionArray, "SELECT ID FROM eZQuiz_Answer WHERE AlternativeID='$this->ID'" );
+
+       for ( $i=0; $i < count($questionArray); $i++ )
+       {
+           $returnArray[$i] = new eZQuizAnswer( $questionArray[$i]["ID"], true );
+       }
+       return $returnArray;
     }
 
     var $ID;

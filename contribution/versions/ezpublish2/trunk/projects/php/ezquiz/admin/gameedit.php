@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: gameedit.php,v 1.4 2001/05/28 13:40:28 pkej Exp $
+// $Id: gameedit.php,v 1.5 2001/05/29 09:07:05 ce Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <22-May-2001 13:44:13 ce>
@@ -35,15 +35,18 @@ if ( isSet ( $OK ) )
 {
     $Action = "Update";
 }
+
 if ( isSet ( $Delete ) )
 {
     $Action = "Delete";
 }
+
 if ( isSet ( $Cancel ) )
 {
     eZHTTPTool::header( "Location: /quiz/game/list/" );
     exit();
 }
+
 if ( isSet ( $NewQuestion ) )
 {
     $game = new eZQuizGame( $GameID );
@@ -54,6 +57,19 @@ if ( isSet ( $NewQuestion ) )
     eZHTTPTool::header( "Location: /quiz/game/questionedit/$questionID" );
     exit();
 }
+
+if ( isSet ( $DeleteQuestions ) )
+{
+    if ( count ( $DeleteQuestionArray ) > 0 )
+    {
+        foreach( $DeleteQuestionArray as $Quest )
+        {
+            $quest = new eZQuizQuestion( $Quest );
+            $quest->delete();
+        }
+    }
+}
+
 
 $ini =& INIFile::globalINI();
 $Language = $ini->read_var( "eZQuizMain", "Language" );
