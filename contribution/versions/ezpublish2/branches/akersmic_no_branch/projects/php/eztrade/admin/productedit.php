@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: productedit.php,v 1.69.2.1.4.3 2002/01/14 10:28:53 ce Exp $
+// $Id: productedit.php,v 1.69.2.1.4.4 2002/01/17 08:04:41 ce Exp $
 //
 // Created on: <19-Sep-2000 10:56:05 bf>
 //
@@ -622,8 +622,8 @@ if ( $Action == "Edit" )
         $priceRange =& $product->priceRange();
     }
 
-    $writeGroupsID = eZObjectPermission::getGroups( $ProductID, "trade_product", 'w' , false );
-    $readGroupsID = eZObjectPermission::getGroups( $ProductID, "trade_product", 'r', false );
+//    $writeGroupsID = eZObjectPermission::getGroups( $ProductID, "trade_product", 'w' , false );
+//    $readGroupsID = eZObjectPermission::getGroups( $ProductID, "trade_product", 'r', false );
 
     $VatType =& $product->vatType();
     $ShippingGroup =& $product->shippingGroup();
@@ -859,6 +859,7 @@ if ( is_array ( $SelectedCategories ) )
 }
 
 // group selector
+/*
 $group = new eZUserGroup();
 $groupList = $group->getAll();
 
@@ -886,7 +887,7 @@ foreach ( $groupList as $groupItem )
 
     $t->parse( "write_group_item", "write_group_item_tpl", true );
 }
-
+*/
 $t->pparse( "output", "product_edit_tpl" );
 
 ?>
