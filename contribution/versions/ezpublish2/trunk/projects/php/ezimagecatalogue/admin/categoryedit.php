@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: categoryedit.php,v 1.3 2001/10/05 09:34:37 bf Exp $
+// $Id: categoryedit.php,v 1.4 2002/02/26 13:48:38 br Exp $
 //
 // Created on: <08-Jan-2001 11:13:29 ce>
 //
@@ -425,7 +425,7 @@ function changePermissions( $objectID, $groups , $permission )
 
 }
 // get all the images and categories of a category recursivly.
-function getImagesAndCategores( &$folderArray, &$fileArray, $fromFolder )
+function getImagesAndCategories( &$folderArray, &$fileArray, $fromFolder )
 {
     $result = eZImageCatalogue::getByParent( $fromFolder );
     $folderArray = array_merge( $result, $folderArray );
