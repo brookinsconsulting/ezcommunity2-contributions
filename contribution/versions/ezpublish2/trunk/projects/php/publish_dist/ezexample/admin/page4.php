@@ -1,12 +1,12 @@
 <?php
 // 
-// $Id: page4.php,v 1.1 2001/06/22 19:49:22 br Exp $
+// $Id: page4.php,v 1.2 2001/07/19 12:48:35 jakobn Exp $
 //
-// Bjørn Reiten <br@ez.no>
 // Created on: <22-Jun-2001 13:24:18 br>
-// 
+//
 // This source file is part of eZ publish, publishing software.
-// Copyright (C) 1999-2001 eZ systems as
+//
+// Copyright (C) 1999-2001 eZ Systems.  All rights reserved.
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License

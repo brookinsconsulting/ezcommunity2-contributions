@@ -1,7 +1,12 @@
 <?php
 //
+// $Id: ezexample.php,v 1.2 2001/07/19 12:48:35 jakobn Exp $
+//
+// Created on: <23-Oct-2000 17:53:46 bf>
+//
 // This source file is part of eZ publish, publishing software.
-// Copyright (C) 1999-2001 eZ systems as
+//
+// Copyright (C) 1999-2001 eZ Systems.  All rights reserved.
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License
@@ -17,7 +22,6 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, US
 //
-
 
 
 include_once( "classes/ezdb.php" );
