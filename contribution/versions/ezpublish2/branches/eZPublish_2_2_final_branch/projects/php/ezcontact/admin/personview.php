@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: personview.php,v 1.25.2.4 2002/11/21 08:52:13 jhe Exp $
+// $Id: personview.php,v 1.25.2.5 2002/11/21 08:54:14 jhe Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -345,7 +345,7 @@ if ( $Action == "view" )
     }
     else*/
     {
-        $t->parse( "image_item", "" );
+        $t->set_var( "image_item", "" );
     }
 
     // Consultation list
