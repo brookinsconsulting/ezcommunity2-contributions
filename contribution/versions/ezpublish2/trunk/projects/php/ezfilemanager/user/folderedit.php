@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: folderedit.php,v 1.25 2001/07/26 08:29:49 jhe Exp $
+// $Id: folderedit.php,v 1.26 2001/08/02 13:09:42 jhe Exp $
 //
 // Created on: <08-Jan-2001 11:13:29 ce>
 //
@@ -40,8 +40,9 @@ $user =& eZUser::currentUser();
 
 //om folder ID finnes 
 
-if ( isSet( $FolderID ) && $FolderID != 0 && !eZObjectPermission::hasPermission( $FolderID, "filemanager_folder", 'w' ) &&
-                            !eZVirtualFolder::isOwner( $user, $FolderID ) ) 
+if ( isSet( $FolderID ) && $FolderID != 0 &&
+     !eZObjectPermission::hasPermission( $FolderID, "filemanager_folder", 'w' ) &&
+     !eZVirtualFolder::isOwner( $user, $FolderID ) ) 
 {
     eZHTTPTool::header( "Location: /error/403/" );
     exit();
@@ -135,7 +136,6 @@ if ( $Action == "Insert" || $Action == "Update" )
 
     if ( $permissionCheck )
     {
-
         if ( $FolderID == 0 )
         {
         }

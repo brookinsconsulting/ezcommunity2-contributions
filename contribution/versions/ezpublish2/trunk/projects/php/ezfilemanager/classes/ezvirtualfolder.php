@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezvirtualfolder.php,v 1.25 2001/07/26 08:29:48 jhe Exp $
+// $Id: ezvirtualfolder.php,v 1.26 2001/08/02 13:09:42 jhe Exp $
 //
 // Definition of eZVirtualFolder class
 //
@@ -35,6 +35,8 @@
 */
 
 include_once( "classes/ezdb.php" );
+include_once( "ezuser/classes/ezusergroup.php" );
+include_once( "ezuser/classes/ezobjectpermission.php" );
 
 class eZVirtualFolder
 {
@@ -46,7 +48,7 @@ class eZVirtualFolder
     */
     function eZVirtualFolder( $id=-1 )
     {
-        $this->ExcludeFromSearch = "false";
+        $this->ExcludeFromSearch = false;
         if ( $id != -1 )
         {
             $this->ID = $id;
@@ -63,30 +65,29 @@ class eZVirtualFolder
         $db->begin();
         $name = $db->escapeString( $this->Name );
         $description = $db->escapeString( $this->Description );
-
         if ( !isSet( $this->ID ) )
         {
             $db->lock( "eZFileManager_Folder" );
             $nextID = $db->nextID( "eZFileManager_Folder", "ID" );
-
             $result = $db->query( "INSERT INTO eZFileManager_Folder
-                                  ( ID, Name, Description, UserID, ParentID )
-                                  VALUES ( '$nextID',
+                                   (ID, Name, Description, UserID, ParentID)
+                                   VALUES ('$nextID',
                                            '$name',
                                            '$description',
                                            '$this->UserID',
-                                           '$this->ParentID' )
-                                  " );
+                                           '$this->ParentID')
+                                   " );
             $db->unlock();
 			$this->ID = $nextID;
         }
         else
         {
             $result = $db->query( "UPDATE eZFileManager_Folder SET
-		                         Name='$name',
-                                 Description='$description',
-                                 UserID='$this->UserID',
-                                 ParentID='$this->ParentID' WHERE ID='$this->ID'", true );
+		                           Name='$name',
+                                   Description='$description',
+                                   UserID='$this->UserID',
+                                   ParentID='$this->ParentID'
+                                   WHERE ID='$this->ID'", true );
         }
 
         if ( $result == false )
@@ -94,7 +95,48 @@ class eZVirtualFolder
         else
             $db->commit();
     }
+    
+    function getByName( $dir, $parent = 0, $create = false, $readgroup = -1, $writegroup = -1 )
+    {
+        unset( $folder_array );
+        $dirlist = split( "/", $dir );
+        if ( $dirlist[0] == "" )
+            array_shift( $dirlist );
+        $db =& eZDB::globalDatabase();
+        if ( count( $dirlist ) == 1 )
+        {
+            $db->array_query( $folder_array, "SELECT * FROM eZFileManager_Folder WHERE ParentID='$parent' AND Name='" . $dirlist[0] . "'" );
+            if ( count( $folder_array ) == 0 )
+            {
+                if ( $create )
+                {
+                    $folder = new eZVirtualFolder();
+                    $folder->setName( $dirlist[0] );
+                    $folder->setParent( new eZVirtualFolder( $parent ) );
+                    $folder->store();
+                    $group = new eZUserGroup( $readgroup );
+                    eZObjectPermission::setPermission( $group, $folder->id(), "filemanager_folder", "r" );
+                    $group = new eZUserGroup( $writegroup );
+                    eZObjectPermission::setPermission( $group, $folder->id(), "filemanager_folder", "w" );
 
+                    return $folder->ID();
+                }
+            }
+            else
+            {
+                return $folder_array[0][$db->fieldName( "ID" )];
+            }
+        }
+        else
+        {
+            for ( $i = 0; $i < count( $dirlist ); $i++ )
+            {
+                $parent = eZVirtualFolder::getByName( $dirlist[$i], $parent, $create, $readgroup, $writegroup );
+            }
+            return $parent;
+        }
+    }
+    
     /*!
       Deletes a eZVirtualFolder object from the database.
 
@@ -492,6 +534,28 @@ class eZVirtualFolder
         return $return_array;
     }
 
+    /*!
+      Returns true if file exists in this folder
+    */
+    function hasFile( $file )
+    {
+        $db =& eZDB::globalDatabase();
+        $db->array_query( $file_array, "SELECT ID FROM eZFileManager_File
+                                        WHERE OriginalFileName='" . $file . "'" );
+        $ret = false;
+        foreach ( $file_array as $singlefile )
+        {
+            $db->array_query( $folder_array, "SELECT ID FROM eZFileManager_Folder
+                                              WHERE FolderID='" . $this->ID .
+                                              "' AND FileID='" .
+                                              $singlefile[$db->fieldName( "ID" )] .
+                                              "'" );
+            if ( count( $folder_array ) > 0 )
+                $ret = true;
+        }
+        return $ret;
+    }
+    
     var $ID;
     var $Name;
     var $ParentID;

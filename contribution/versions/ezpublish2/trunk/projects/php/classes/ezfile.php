@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezfile.php,v 1.15 2001/07/29 23:30:57 kaid Exp $
+// $Id: ezfile.php,v 1.16 2001/08/02 13:09:42 jhe Exp $
 //
 // Definition of eZCompany class
 //
@@ -318,12 +318,15 @@ class eZFile
     /*!
       Same as dir(), but prepends $siteDir if $dir not empty.
     */
-    function dir( $dir )
+    function dir( $dir, $add_sitedir = true )
     {
-        if ( file_exists( "sitedir.ini" ) && $dir != "" )
+        if ( $add_sitedir )
         {
-            include( "sitedir.ini" );
-            $dir = $siteDir . $dir;
+            if ( file_exists( "sitedir.ini" ) && $dir != "" )
+            {
+                include( "sitedir.ini" );
+                $dir = $siteDir . $dir;
+            }
         }
 
         return dir( $dir );

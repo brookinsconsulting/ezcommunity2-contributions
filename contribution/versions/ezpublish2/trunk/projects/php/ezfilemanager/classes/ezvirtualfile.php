@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezvirtualfile.php,v 1.40 2001/07/29 23:31:03 kaid Exp $
+// $Id: ezvirtualfile.php,v 1.41 2001/08/02 13:09:42 jhe Exp $
 //
 // Definition of eZVirtualFile class
 //
@@ -44,8 +44,6 @@ class eZVirtualfile
     */
     function eZVirtualfile( $id="" )
     {
-        $this->IsConnected = false;
-
         if ( $id != "" )
         {
             $this->ID = $id;
@@ -65,7 +63,7 @@ class eZVirtualfile
         $filename = $db->escapeString( $this->FileName );
         $originalfilename = $db->escapeString( $this->OriginalFileName );
 
-        if ( !isset( $this->ID ) )
+        if ( !isSet( $this->ID ) )
         {
             $db->lock( "eZFileManager_File" );
             $nextID = $db->nextID( "eZFileManager_File", "ID" );
@@ -81,7 +79,6 @@ class eZVirtualfile
                                   " );
             $db->unlock();
 			$this->ID = $nextID;
-
         }
         else
         {
@@ -183,7 +180,7 @@ class eZVirtualfile
         
         $db->array_query( $category_array, "SELECT ID, FROM eZFileManager_File ORDER BY Name" );
         
-        for ( $i=0; $i<count($category_array); $i++ )
+        for ( $i = 0; $i < count( $category_array ); $i++ )
         {
             $return_array[$i] = new eZVirtualFile( $category_array[$i][$db->fieldName("ID")], 0 );
         }
@@ -236,6 +233,7 @@ class eZVirtualfile
 
         $db->query_single( $result, $queryString );
         $ret = $result[$db->fieldName("Count")];
+
         return $ret;
     }
 
@@ -509,7 +507,7 @@ class eZVirtualfile
                        VALUES ( '$nextID', '$this->ID', '$pageViewID' ) " );
 
             $result = $db->query( $query );
-
+            $db->unlock();
             if ( $result == false )
                 $db->rollback( );
             else
@@ -528,9 +526,9 @@ class eZVirtualfile
         $nextID = $db->nextID( "eZFileManager_FileReadGroupLink", "ID" );
         
         $query = "INSERT INTO eZFileManager_FileReadGroupLink
-                 ( ID, FileID, GroupID )
-                 VALUES ( '$nextID', '$this->ID', '$value' )";
-        
+                  ( ID, FileID, GroupID )
+                  VALUES ( '$nextID', '$this->ID', '$value' )";
+        $db->unlock();
         $result = $db->query( $query );
         
         if ( $result == false )
@@ -554,7 +552,7 @@ class eZVirtualfile
                  VALUES ( '$nextID', '$this->ID', '$value' )";
         
         $result = $db->query( $query );
-        
+        $db->unlock();
         if ( $result == false )
             $db->rollback( );
         else
@@ -667,7 +665,16 @@ class eZVirtualfile
             $db->commit();
     }
 
-
+    /*!
+      Checks if a file exists in a virtual directory
+    */
+    function fileExists( $dir, $file )
+    {
+        print "aaaaaaaaaaaaa";
+        $directory = new eZVirtualFolder( eZVirtualFolder::getByName( $dir ) );
+        return $directory->hasFile( $file );
+    }
+    
     /*!
       Remove the write permissions from this eZVirtualFile object.
 
@@ -745,14 +752,6 @@ class eZVirtualfile
     var $FileName;
     var $OriginalFileName;
     var $UserID;
-
-    ///  Variable for keeping the database connection.
-    var $Database;
-
-    /// Indicates the state of the object. In regard to database information.
-    var $State_;
-    /// Is true if the object has database connection, false if not.
-    var $IsConnected;
 
 }
 

@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: ezmysqldb.php,v 1.20 2001/08/01 16:29:52 kaid Exp $
+// $Id: ezmysqldb.php,v 1.21 2001/08/02 13:09:42 jhe Exp $
 //
 // Definition of eZMySQLDB class
 //
@@ -36,8 +36,12 @@ class eZMySQLDB
 {
     function eZMySQLDB( $server, $db, $user, $password  )
     {
+        $this->DB = $db;
+        $this->Server = $server;
+        $this->User = $user;
+        $this->Password = $password;
+        
         $this->Database = mysql_pconnect( $server, $user, $password );
-
         if ( $this->Database == false )
         {
             if ( $GLOBALS["DEBUG"] == true )
@@ -47,7 +51,7 @@ class eZMySQLDB
         }
 
         
-        $ret = @mysql_select_db( $db, $this->Database );
+        $ret = mysql_select_db( $db, $this->Database );
              
         if ( !$ret )
         {
@@ -316,6 +320,20 @@ class eZMySQLDB
         return mysql_insert_id( $this->Database );
     }
 
+    function printConnection()
+    {
+        print "Server: " . $this->Server . "<br>\n";
+        print "Database: " . $this->DB . "<br>\n";
+        print "Username: " . $this->User . "<br>\n";
+        print "Password: " . $this->Password . "<br>\n";
+    }
+    
+
+
+    var $Server;
+    var $DB;
+    var $User;
+    var $Password;
     var $Database;
     var $Error;
     

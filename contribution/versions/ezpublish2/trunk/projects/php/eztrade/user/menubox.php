@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: menubox.php,v 1.3 2001/07/20 11:42:02 jakobn Exp $
+// $Id: menubox.php,v 1.4 2001/08/02 13:09:42 jhe Exp $
 //
 // Created on: <18-April-2001 13:00:00 th>
 //
@@ -28,7 +28,6 @@ include_once( "classes/INIFile.php" );
 $ini =& $GLOBALS["GlobalSiteIni"];
 
 $Language = $ini->read_var( "eZTradeMain", "Language" );
-
     
 include_once( "classes/eztemplate.php" );
 include_once( "classes/ezdb.php" );
@@ -39,9 +38,7 @@ $t = new eZTemplate( "eztrade/user/" . $ini->read_var( "eZTradeMain", "TemplateD
 
 $t->setAllStrings();
 
-$t->set_file( array(
-    "menu_box_tpl" => "menubox.tpl"
-    ) );
+$t->set_file( "menu_box_tpl", "menubox.tpl" );
 
 $t->set_var( "sitedesign", $GlobalSiteDesign );
 
