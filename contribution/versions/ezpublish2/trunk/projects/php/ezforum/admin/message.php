@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: message.php,v 1.14 2000/08/22 09:35:02 bf-cvs Exp $
+    $Id: message.php,v 1.15 2000/08/30 14:14:15 bf-cvs Exp $
 
     Author: Lars Wilhelmsen <lw@ez.no>
     
@@ -87,10 +87,12 @@ else
 {
     for ($i = 0; $i < count( $headers ); $i++)
     {
+        $user = new eZUser();
+            
         $t->set_var( "message_id", $headers[$i]["Id"] );
         $t->set_var( "topic", $headers[$i]["Topic"] );
         $t->set_var( "parent", $headers[$i]["Parent"] );
-        $t->set_var( "user", ezUser::resolveUser( $headers[$i]["UserId"] ) );
+        $t->set_var( "user", $user->resolveUser( $headers[$i]["UserId"] ) );
         $t->set_var( "postingtime", $headers[$i]["PostingTimeFormated"] );
         
         if ( $headers[$i]["EmailNotice"] == "Y" )
