@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: passwordchange.php,v 1.6 2000/10/26 17:27:23 bf-cvs Exp $
+// $Id: passwordchange.php,v 1.7 2000/10/30 09:50:58 ce-cvs Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <20-Sep-2000 13:32:11 ce>
@@ -30,6 +30,7 @@ $ini = new INIFIle( "site.ini" );
 
 $Language = $ini->read_var( "eZUserMain", "Language" );
 $DOC_ROOT = $ini->read_var( "eZUserMain", "DocumentRoot" );
+$errorIni = new INIFIle( "ezuser/admin/intl/" . $Language . "/passwordchange.php.ini", false );
 
 include_once( "ezuser/classes/ezuser.php" );
 include_once( "ezuser/classes/ezusergroup.php" );
@@ -51,7 +52,6 @@ $t->set_file( array(
 $user = eZUser::currentUser();
 if ( !$user ) 
 {
-    print( "Du må logge inn" );
     Header( "Location: /user/login/" );
     exit();
 }
@@ -62,28 +62,22 @@ if ( $Action == "update" )
     
     if ( !$checkuser )
     {
-        print( "Gammelt passord var feil." );
-        
+        $error_msg = $errorIni->read_var( "strings", "error_wrong" );
     }
     else if ( $NewPassword != $VerifyPassword )
     {
-        print( "Passordene machet ikke." );
-
+        $error_msg = $errorIni->read_var( "strings", "error_nomach" );
     }
     else if ( $OldPassord == $NewPassord )
     {
         $user->setPassword( $NewPassword );
         $user->store();
-        print( "Passordet ble oppgradert!" );
+        $error_msg = $errorIni->read_var( "strings", "password_update" );
 
     }
 }
 
-if ( $Action == "change" )
-{
-    
-    
-}
+$t->set_var( "error_msg", $error_msg );
 
 $t->set_var( "first_name", $user->firstName() );
 $t->set_var( "last_name", $user->lastName() );

@@ -1,8 +1,10 @@
 <form method="post" action="/user/passwordchange/{action_value}/">
 
-<h1>Endre passord</h1>
+<h1>{intl-headline}</h1>
 
 <hr noshade size="4">
+
+<p class="error">{error_msg}</p>
 
 <h2>{first_name} {last_name}</h2>
 
@@ -18,7 +20,7 @@
 
 <hr noshade size="4">
 
-<input class="okbutton" type="submit" value="OK" />
+<input class="okbutton" type="submit" value="{intl-ok}" />
 
 </form>
 
