@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezproduct.php,v 1.119.2.8 2001/11/27 19:00:48 br Exp $
+// $Id: ezproduct.php,v 1.119.2.9 2001/11/27 20:33:09 br Exp $
 //
 // Definition of eZProduct class
 //
@@ -348,12 +348,12 @@ class eZProduct
       Returns the correct price of the product based on the logged in user, and the
       VAT status and use.
     */
-    function &correctPrice( $calcVAT )
+    function &correctPrice( $calcVAT, $withPriceGroups = true )
     {
         $db =& eZDB::globalDatabase();
         $inUser =& eZUser::currentUser();
         
-        if ( get_class( $inUser ) == "ezuser" )
+        if ( get_class( $inUser ) == "ezuser" && $withPriceGroups == true )
         {
             $groups = eZPriceGroup::priceGroups( $inUser, false );
             
@@ -524,7 +524,7 @@ class eZProduct
       Returns the correct price range of the product based on the logged in user, and the
       VAT status and use.
     */
-    function &correctPriceRange( $calcVAT )
+    function &correctPriceRange( $calcVAT, $withPriceGroups = true )
     {
         $inUser =& eZUser::currentUser();
         
@@ -532,8 +532,10 @@ class eZProduct
         {
             $inUser = new eZUser();
         }
-
-        $groups = eZPriceGroup::priceGroups( $inUser, false );
+        if ( $withPriceGroups == true )
+            $groups = eZPriceGroup::priceGroups( $inUser, false );
+        else
+            $groups = array();
 
         $options = $this->options();
 
@@ -570,9 +572,9 @@ class eZProduct
         }
 
 
-        $lowPrice += $this->correctPrice( $calcVAT );
-        $maxPrice += $this->correctPrice( $calcVAT );
-
+        $lowPrice += $this->correctPrice( $calcVAT, $withPriceGroups );
+        $maxPrice += $this->correctPrice( $calcVAT, $withPriceGroups );
+        print("<br>$lowPrice - $maxPrice");
         $price["max"] = $maxPrice;
         $price["min"] = $lowPrice;
         return $price;
@@ -581,7 +583,7 @@ class eZProduct
     /*!
       Returns the correct localized price of the product.
     */
-    function &localePrice( $calcVAT )
+    function &localePrice( $calcVAT, $withPriceGroups = true )
     {
         $inUser =& eZUser::currentUser();
         $ini =& INIFile::globalINI();
@@ -595,7 +597,7 @@ class eZProduct
             $highCurrency = new eZCurrency();
             $lowCurrency = new eZCurrency();
             
-            $prices = $this->correctPriceRange( $calcVAT );
+            $prices = $this->correctPriceRange( $calcVAT, $withPriceGroups );
             $highCurrency->setValue( $prices["max"] );
             $lowCurrency->setValue( $prices["min"] );
             if (  $prices["min"] !=  $prices["max"] )
@@ -605,7 +607,7 @@ class eZProduct
         }
         else
         {
-            $price = $this->correctPrice( $calcVAT );
+            $price = $this->correctPrice( $calcVAT, $withPriceGroups );
             $currency->setValue( $price );
             $returnString = $locale->format( $currency );
         }
@@ -1888,10 +1890,6 @@ class eZProduct
             
             $res[] = $db->query( "DELETE FROM eZTrade_AttributeValue
                                      WHERE ProductID='$this->ID'" );
-            
-            $res[] = $db->query( "DELETE FROM eZTrade_ProductTypeLink
-                                     WHERE ProductID='$this->ID'" );
-
             
             $db->lock( "eZTrade_ProductTypeLink" );
             $nextID = $db->nextID( "eZTrade_ProductTypeLink", "ID" );

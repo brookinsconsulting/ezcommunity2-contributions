@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: cart.php,v 1.71.2.3 2001/11/22 15:49:12 pkej Exp $
+// $Id: cart.php,v 1.71.2.4 2001/11/27 20:33:10 br Exp $
 //
 // Created on: <27-Sep-2000 11:57:49 bf>
 //
@@ -427,6 +427,12 @@ foreach ( $items as $item )
     $t->set_var( "product_id", $product->id() );
     $t->set_var( "product_number", $product->productNumber() );
     $t->set_var( "product_price", $item->localePrice( false, true, $PricesIncludeVAT ) );
+
+    $currency = new eZCurrency();
+    $productPrice = $item->localePrice( false, true, $PricesIncludeVAT, false );
+    $currency->setValue( $productPrice );
+    $t->set_var( "product_price", $item->localePrice( false, true, $PricesIncludeVAT, false ) );
+
     $t->set_var( "product_count", $item->count() );
     $t->set_var( "product_total_ex_tax", $item->localePrice( true, true, false ) );
     $t->set_var( "product_total_inc_tax", $item->localePrice( true, true, true ) );

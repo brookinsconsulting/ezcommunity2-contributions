@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezoptionvalue.php,v 1.39.2.4 2001/11/26 09:21:10 ce Exp $
+// $Id: ezoptionvalue.php,v 1.39.2.5 2001/11/27 20:33:09 br Exp $
 //
 // Definition of eZOptionValue class
 //
@@ -429,7 +429,7 @@ class eZOptionValue
     /*!
       Returns the correct price of the option value.
     */
-    function correctPrice( $calcVAT, $inProduct )
+    function correctPrice( $calcVAT, $inProduct, $withPriceGroups=true )
     {
         $inUser =& eZUser::currentUser();
         $vat = $inProduct->vatPercentage();
@@ -437,8 +437,10 @@ class eZOptionValue
 
         if ( get_class( $inUser ) == "ezuser" )
         {
-            $groups = eZPriceGroup::priceGroups( $inUser, false );
-
+            if( $withPriceGroups == true )
+                $groups = eZPriceGroup::priceGroups( $inUser, false );
+            else
+                $groups = array();
             $price = eZPriceGroup::correctPrice( $inProduct->id(), $groups, $this->OptionID, $this->ID );
         }
         
