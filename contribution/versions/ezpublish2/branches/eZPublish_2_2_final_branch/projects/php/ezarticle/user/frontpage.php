@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: frontpage.php,v 1.28.2.11 2002/02/27 18:41:01 master Exp $
+// $Id: frontpage.php,v 1.28.2.12 2002/02/28 13:40:23 master Exp $
 //
 // Created on: <30-May-2001 14:06:59 bf>
 //
@@ -291,12 +291,12 @@ function &renderFrontpageArticle( &$t, &$locale, &$article )
     $aid = $article->id();
 
     $CategoryID = $rows[$counter]->CategoryID;
-
-//    if ( $CategoryID == 0 )
-//    {
-//        $category =& $article->categoryDefinition();
-//        $CategoryID = $category->id();
-//    }
+    
+    if ( $CategoryID == 0 )
+    {
+        $category =& $article->categoryDefinition();
+        $CategoryID = $category->id();
+    }
     
     $t->set_var( "category_id", $CategoryID );
     
@@ -384,11 +384,11 @@ function &renderFrontpageArticleDouble( &$t, &$locale, &$article1, &$article2 )
 	
     $CategoryID = $rows[$counter]->CategoryID;
     
-//    if ( $CategoryID == 0 )                  
-//    {                            
-//	$category =& $article1->categoryDefinition();
-//	$CategoryID = $category->id();
-//    }
+    if ( $CategoryID == 0 )                  
+    {                            
+	$category =& $article1->categoryDefinition();
+	$CategoryID = $category->id();
+    }
 
     $t->set_var( "category_id", $CategoryID );
     
@@ -555,14 +555,14 @@ function &renderShortSingleArticle( &$t, &$locale, &$article )
     $aid = $article->id();
 	
     $DefaultLinkText =  $ini->read_var( "eZArticleMain", "DefaultLinkText" );
-	
-//    if ( $CategoryID == 0 )
-//    {
-//	$category =& $article->categoryDefinition();
-//	$CategoryID = $category->id();
-//    }
 
     $CategoryID = $rows[$counter]->CategoryID;
+	
+    if ( $CategoryID == 0 )
+    {
+	$category =& $article->categoryDefinition();
+	$CategoryID = $category->id();
+    }
         
     $t->set_var( "category_id", $CategoryID );
     
