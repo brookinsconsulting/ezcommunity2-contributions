@@ -88,11 +88,21 @@
 	</td>
 	<!-- END type_list_previous_inactive_tpl -->
 
+	<!-- BEGIN type_list_item_list_tpl -->
+
 	<!-- BEGIN type_list_item_tpl -->
 	<td>
 	<a href="/user/userlist/{item_index}/{sort_order}/{current_group_id}">{type_item_name}</a>
 	</td>
 	<!-- END type_list_item_tpl -->
+
+	<!-- BEGIN type_list_inactive_item_tpl -->
+	<td>
+	{type_item_name}
+	</td>
+	<!-- END type_list_inactive_item_tpl -->
+
+	<!-- END type_list_item_list_tpl -->
 
 	<!-- BEGIN type_list_next_tpl -->
 	<td>
