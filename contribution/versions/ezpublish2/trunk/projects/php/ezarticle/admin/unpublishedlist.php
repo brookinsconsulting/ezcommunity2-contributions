@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: unpublishedlist.php,v 1.6 2001/04/10 09:46:50 jb Exp $
+// $Id: unpublishedlist.php,v 1.7 2001/04/27 11:23:04 ce Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <18-Oct-2000 14:41:37 bf>
@@ -31,6 +31,7 @@ include_once( "ezarticle/classes/ezarticlecategory.php" );
 include_once( "ezarticle/classes/ezarticle.php" );
 include_once( "ezuser/classes/ezobjectpermission.php" );
 include_once( "classes/ezcachefile.php" );
+include_once( "classes/ezlist.php" );
 
 $ini =& INIFile::globalINI();
 
@@ -128,11 +129,6 @@ $t->set_block( "article_item_tpl", "article_edit_tpl", "article_edit" );
 // move up / down
 $t->set_block( "article_list_tpl", "absolute_placement_header_tpl", "absolute_placement_header" );
 $t->set_block( "article_item_tpl", "absolute_placement_item_tpl", "absolute_placement_item" );
-
-
-// prev/next
-$t->set_block( "unpublished_list_page_tpl", "previous_tpl", "previous" );
-$t->set_block( "unpublished_list_page_tpl", "next_tpl", "next" );
 
 $t->set_var( "site_style", $SiteStyle );
 
@@ -295,28 +291,9 @@ foreach ( $articleList as $article )
     }
 }
 
-$prevOffs = $Offset - $Limit;
-$nextOffs = $Offset + $Limit;
-        
-if ( $prevOffs >= 0 )
-{
-    $t->set_var( "prev_offset", $prevOffs  );
-    $t->parse( "previous", "previous_tpl" );
-}
-else
-{
-    $t->set_var( "previous", "" );
-}
+eZList::drawNavigator( $t, $articleCount, $AdminListLimit, $Offset, "unpublished_list_page_tpl" );
 
-if ( $nextOffs <= $articleCount )
-{
-    $t->set_var( "next_offset", $nextOffs  );
-    $t->parse( "next", "next_tpl" );
-}
-else
-{
-    $t->set_var( "next", "" );
-}
+$t->set_var( "archive_id", $CategoryID );
 
 if ( count( $articleList ) > 0 )    
     $t->parse( "article_list", "article_list_tpl" );
@@ -327,7 +304,9 @@ else
 $t->pparse( "output", "unpublished_list_page_tpl" );
 
 
-/************ FUNCTIONS **********************/
+/*
+  Delete cache.
+*/
 function deleteCache( $ArticleID, $CategoryID, $CategoryArray )
 {
     $user = eZUser::currentUser();

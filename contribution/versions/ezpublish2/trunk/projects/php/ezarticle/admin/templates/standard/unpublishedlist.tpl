@@ -128,23 +128,50 @@
 <!-- END article_list_tpl -->
 
 
-<table width="100%" cellspacing="0" cellpadding="0" border="0">
+<!-- BEGIN type_list_tpl -->
+<br />
+<table cellpadding="0" cellspacing="0" border="0">
 <tr>
+	<!-- BEGIN type_list_previous_tpl -->
 	<td>
+	<a class="path" href="/article/unpublished/{archive_id}/parent/{item_previous_index}">&lt;&lt;&nbsp;{intl-previous}</a>&nbsp;
+	</td>
+	<!-- END type_list_previous_tpl -->
 
-<!-- BEGIN previous_tpl -->
-<a class="path" href="/article/unpublished/{category_id}/?Offset={prev_offset}">&lt;&lt; {intl-prev}</a>
-<!-- END previous_tpl -->
+	<!-- BEGIN type_list_previous_inactive_tpl -->
+	<td>
+	&nbsp;
+	</td>
+	<!-- END type_list_previous_inactive_tpl -->
 
-     </td>
-     <td align="right">
+	<!-- BEGIN type_list_item_list_tpl -->
 
-<!-- BEGIN next_tpl -->
-<a class="path" href="/article/unpublished/{category_id}/?Offset={next_offset}">{intl-next} &gt;&gt;</a>
-<!-- END next_tpl -->
+	<!-- BEGIN type_list_item_tpl -->
+	<td>
+	|&nbsp;<a class="path" href="/article/unpublished/{archive_id}/parent/{item_index}">{type_item_name}</a>&nbsp;
+	</td>
+	<!-- END type_list_item_tpl -->
 
-     </td>
+	<!-- BEGIN type_list_inactive_item_tpl -->
+	<td>
+	|&nbsp;&lt;&nbsp;{type_item_name}&nbsp;&gt;&nbsp;
+	</td>
+	<!-- END type_list_inactive_item_tpl -->
+
+	<!-- END type_list_item_list_tpl -->
+
+	<!-- BEGIN type_list_next_tpl -->
+	<td>
+	|&nbsp;<a class="path" href="/article/unpublished/{archive_id}/parent/{item_next_index}">{intl-next}&nbsp;&gt;&gt;</a>
+	</td>
+	<!-- END type_list_next_tpl -->
+
+	<!-- BEGIN type_list_next_inactive_tpl -->
+	<td>
+	|&nbsp;
+	</td>
+	<!-- END type_list_next_inactive_tpl -->
+
 </tr>
-</table>    
-
-
+</table>
+<!-- END type_list_tpl -->

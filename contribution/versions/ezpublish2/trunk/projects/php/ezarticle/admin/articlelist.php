@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: articlelist.php,v 1.31 2001/04/27 08:43:34 ce Exp $
+// $Id: articlelist.php,v 1.32 2001/04/27 11:23:04 ce Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <18-Oct-2000 14:41:37 bf>
@@ -307,6 +307,14 @@ foreach ( $articleList as $article )
         else
             $t->set_var( "article_name", $article->name() );
 
+        $publised =& $article->published();
+        if ( get_class ( $publised ) == "ezdatetime" )
+        {
+            $t->set_var( "article_published_date", $Locale->format( $publised ) );
+        }
+        else
+            $t->set_var( "article_published_date", "" );
+
         $t->set_var( "article_id", $article->id() );
 
         if ( $article->isPublished() == true )
@@ -356,7 +364,6 @@ if ( $i > 0 )
     $t->parse( "article_list", "article_list_tpl" );
 else
     $t->set_var( "article_list", "" );
-
 
 $t->pparse( "output", "article_list_page_tpl" );
 
