@@ -85,7 +85,7 @@
       var posy = getMouse(event, 'y');
       document.getElementById('gcalDayViewSortBy').style.left = posx + 'px';
       document.getElementById('gcalDayViewSortBy').style.top = posy+ 'px';">
-      Sort By...
+      Sort By
       </span>
      <span class="gcalSwitchBox" onmouseover="this.className='gcalSwitchBoxSelect'"
       onmouseout="this.className='gcalSwitchBox'"
@@ -157,7 +157,7 @@ onmouseout="return nd();">{all_day_name}</a></td>
 
 	<!-- BEGIN all_day_delete_check_tpl -->
 		<td width="1%" align="right" style="cursor: pointer; background: url('{www_dir}{index}/ezgroupeventcalendar/user/templates/standard/images/gcalAllDayEvent.png') repeat;">
-		  <a href="{www_dir}{index}/groupeventcalendar/eventedit/edit/{event_id}/">
+		  <a href="{www_dir}{index}/groupeventcalendar/eventedit/edit/{all_day_id}/">
           <img name="ezcal{event_id}-red" border="0" src="/images/redigermini.gif" width="12" height="12" align="top" alt="Edit" /></a>
 		</td>
 		<td width="1%" align="right" style="cursor: pointer; background: url('{www_dir}{index}/ezgroupeventcalendar/user/templates/standard/images/gcalAllDayEvent.png') repeat;">
