@@ -88,13 +88,35 @@ class eZLog
         {
             include_once( "classes/INIFile.php" );
             $ini =& INIFile::globalINI();
-            $fileName =& $ini->read_var( "site", "LogFile" );
-            
-            $this->LogFile = eZFile::fopen( $fileName, "a" );
-            
+
+            $fileName =& $ini->read_var( "site", "LogFileName" );
+	    $logDir =& $ini->read_var( "site", "LogDir" );
+
+	    // build timestamp for today's date 	    
+	    include_once( "classes/ezdate.php" );
+
+	    $today = new eZDate();
+	    $year = eZDateTime::addZero( $today->year() );
+    	    $month = eZDateTime::addZero( $today->month() );
+            $day = eZDateTime::addZero( $today->day() );
+
+	    // append timestamp to log file name
+	    $timestamp = $year ."_". $month ."_". $day;
+
+            $fileName = $logDir . $fileName ."_". $timestamp .".log";
+
+	    if ( eZFile::file_exists( $fileName ) )
+            {	
+	       $this->LogFile = eZFile::fopen( $fileName, "a" );
+            } 
+	    else
+            {
+               $this->LogFile = eZFile::fopen( $fileName, "a+" );
+            }
+    
             if ( !$this->LogFile )
             {
-                print( "Log file could not be opened." );
+                print( "Log file ( $fileName )  could not be opened." );
             }
         }
     }
