@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezquizquestion.php,v 1.8 2001/07/20 11:24:09 jakobn Exp $
+// $Id: ezquizquestion.php,v 1.8.2.1 2001/12/06 10:19:29 jhe Exp $
 //
 // eZQuizQuestion class
 //
@@ -48,7 +48,7 @@ class eZQuizQuestion
       If $id is set the object's values are fetched from the
       database.
     */
-    function eZQuizQuestion( $id=-1, $fetch=true )
+    function eZQuizQuestion( $id = -1, $fetch = true )
     {
         if ( is_array( $id ) )
         {
@@ -70,52 +70,56 @@ class eZQuizQuestion
     function store()
     {
         $db =& eZDB::globalDatabase();
+        $db->begin();
 
-        $name =& addslashes( $this->Name );
+        $name =& $db->escapeString( $this->Name );
         $gameID = $this->Game->id();
 
         $db->query_single( $result, "SELECT MAX(Placement)+1 FROM eZQuiz_Question WHERE GameID='$gameID' " );
 
         $place = $result[0];
-        if( $result[0] == NULL )
+        if ( $result[0] == NULL )
         {
             $place = 1;
         }
 
         if ( !isset( $this->ID ) )
         {
-            $db->query( "INSERT INTO eZQuiz_Question SET
-                                     Name='$name',
-                                     Score='$this->Score',
-                                     GameID='$gameID',
-                                     Placement='$place'
-                                     " );
+            $db->lock( "eZQuiz_Question" );
+			$this->ID = $db->nextID( "eZQuiz_Question", "ID" );
+            
+            $res[] = $db->query( "INSERT INTO eZQuiz_Question
+                                  (ID, Name, Score, GameID, Placement)
+                                  VALUES
+                                  ('$this->ID','$name','$this->Score','$gameID','$place')" );
+            $db->unlock();
 
-			$this->ID = $db->insertID();
         }
         elseif ( is_numeric( $this->ID ) )
         {
-            $db->query( "UPDATE eZQuiz_Question SET
+            $res[] = $db->query( "UPDATE eZQuiz_Question SET
                                      Name='$name',
                                      Score='$this->Score',
                                      GameID='$gameID'
                                      WHERE ID='$this->ID'" );
         }
+        eZDB::finish( $res, $db );
         return true;
     }
 
     /*!
       Deletes a eZQuizQuestion object from the database.
     */
-    function delete( $catID=-1 )
+    function delete( $catID = -1 )
     {
         if ( $catID == -1 )
             $catID = $this->ID;
 
         $db =& eZDB::globalDatabase();
+        $db->begin();
 
         $alternatives =& $this->alternatives();
-        if ( is_array ( $alternatives ) )
+        if ( is_array( $alternatives ) )
         {
             foreach ( $alternatives as $alternative )
             {
@@ -123,7 +127,8 @@ class eZQuizQuestion
             }
         }
 
-        $db->query( "DELETE FROM eZQuiz_Question WHERE ID='$this->ID'" );
+        $res[] = $db->query( "DELETE FROM eZQuiz_Question WHERE ID='$this->ID'" );
+        eZDB::finish( $res, $db );
         
     }
 
@@ -132,7 +137,7 @@ class eZQuizQuestion
 
       True is retuned if successful, false (0) if not.
     */
-    function get( $id=-1 )
+    function get( $id = -1 )
     {
         $db =& eZDB::globalDatabase();
 
@@ -141,12 +146,12 @@ class eZQuizQuestion
         {
             $db->array_query( $questionArray, "SELECT * FROM eZQuiz_Question WHERE ID='$id'",
                               0, 1 );
-            if( count( $questionArray ) == 1 )
+            if ( count( $questionArray ) == 1 )
             {
                 $this->fill( &$questionArray[0] );
                 $ret = true;
             }
-            elseif( count( $questionArray ) == 1 )
+            elseif ( count( $questionArray ) == 1 )
             {
                 $this->ID = 0;
             }
@@ -159,10 +164,11 @@ class eZQuizQuestion
     */
     function fill( &$questionArray )
     {
-        $this->ID =& $questionArray[ "ID" ];
-        $this->Name =& $questionArray[ "Name" ];
-        $this->Description =& $questionArray[ "Description" ];
-        $this->Game = new eZQuizGame( $questionArray[ "GameID" ] );
+        $db =& eZDB::globalDatabase();
+        $this->ID =& $questionArray[$db->fieldName( "ID" )];
+        $this->Name =& $questionArray[$db->fieldName( "Name" )];
+        $this->Description =& $questionArray[$db->fieldName( "Description" )];
+        $this->Game = new eZQuizGame( $questionArray[$db->fieldName( "GameID" )] );
     }
 
     /*!
@@ -170,21 +176,20 @@ class eZQuizQuestion
 
       The categories are returned as an array of eZQuizQuestion objects.
     */
-    function getAll( $offset=0, $limit=20)
+    function getAll( $offset = 0, $limit = 20 )
     {
         $db =& eZDB::globalDatabase();
         
         $returnArray = array();
         $questionArray = array();
         
-        $db->array_query( $questionArray, "SELECT ID
-                                           FROM eZQuiz_Question
-                                           ORDER BY StartDate DESC
-                                           LIMIT $offset, $limit" );
+        $db->array_query( $questionArray, "SELECT ID FROM eZQuiz_Question
+                                           ORDER BY StartDate DESC",
+                                           array( "Offset" => $offset, "Limit" => $limit ) );
         
-        for ( $i=0; $i < count($questionArray); $i++ )
+        for ( $i = 0; $i < count( $questionArray ); $i++ )
         {
-            $returnArray[$i] = new eZQuizQuestion( $questionArray[$i]["ID"] );
+            $returnArray[$i] = new eZQuizQuestion( $questionArray[$i][$db->fieldName( "ID" )] );
         }
         
         return $returnArray;
@@ -200,7 +205,7 @@ class eZQuizQuestion
 
         $db->query_single( $result, "SELECT COUNT(ID) as Count
                                      FROM eZQuiz_Question" );
-        $ret = $result["Count"];
+        $ret = $result[$db->fieldName( "Count" )];
         return $ret;
     }
 
@@ -257,7 +262,7 @@ class eZQuizQuestion
     */
     function setGame( &$game )
     {
-        if ( get_class ( $game ) == "ezquizgame" )
+        if ( get_class( $game ) == "ezquizgame" )
             $this->Game = $game;
     }
 
@@ -268,7 +273,7 @@ class eZQuizQuestion
     {
         $ret = false;
         $db =& eZDB::globalDatabase();
-        if ( get_class ( $alternative ) == "ezquizalternative" )
+        if ( get_class( $alternative ) == "ezquizalternative" )
         {
             $alternativeID = $alternative->id();
             $questionID = $this->ID;
@@ -276,7 +281,7 @@ class eZQuizQuestion
             $db->query_single( $result, "SELECT ID 
                                      FROM eZQuiz_Alternative WHERE QuestionID='$questionID' AND ID='$alternativeID'" );
  
-            if( is_numeric( $result["ID"] ) )
+            if ( is_numeric( $result[$db->fieldName( "ID" )] ) )
             {
                 $ret = true;
             }
@@ -295,9 +300,9 @@ class eZQuizQuestion
         $db =& eZDB::globalDatabase();
         $db->array_query( $questionArray, "SELECT ID FROM eZQuiz_Alternative WHERE QuestionID='$this->ID' ORDER BY ID" );
 
-        for ( $i=0; $i < count($questionArray); $i++ )
+        for ( $i = 0; $i < count( $questionArray ); $i++ )
         {
-           $returnArray[$i] = new eZQuizAlternative( $questionArray[$i]["ID"], true );
+           $returnArray[$i] = new eZQuizAlternative( $questionArray[$i][$db->fieldName( "ID" )], true );
         }
         return $returnArray;
     }
@@ -310,13 +315,13 @@ class eZQuizQuestion
     {
         $returnArray = array();
         $db =& eZDB::globalDatabase();
-        $db->query_single( $result, "SELECT count( ID ) AS COUNT FROM eZQuiz_Alternative WHERE QuestionID='$this->ID' ORDER BY ID" );
+        $db->query_single( $result, "SELECT count( ID ) AS COUNT FROM eZQuiz_Alternative WHERE QuestionID='$this->ID'" );
 
         $ret = false;
 
-        if( is_numeric( $result["COUNT"] ) )
+        if ( is_numeric( $result[$db->fieldName( "COUNT" )] ) )
         {
-            $ret = $result["COUNT"];
+            $ret = $result[$db->fieldName( "COUNT" )];
         }
 
         return $ret;
@@ -330,13 +335,13 @@ class eZQuizQuestion
     {
         $returnArray = array();
         $db =& eZDB::globalDatabase();
-        $db->query_single( $result, "SELECT count( ID ) AS COUNT FROM eZQuiz_Alternative WHERE QuestionID='$this->ID' AND IsCorrect=1 ORDER BY ID" );
+        $db->query_single( $result, "SELECT count( ID ) AS COUNT FROM eZQuiz_Alternative WHERE QuestionID='$this->ID' AND IsCorrect=1" );
 
         $ret = false;
 
-        if( is_numeric( $result["COUNT"] ) )
+        if ( is_numeric( $result[$db->fieldName( "COUNT" )] ) )
         {
-            $ret = $result["COUNT"];
+            $ret = $result[$db->fieldName( "COUNT" )];
         }
 
         return $ret;

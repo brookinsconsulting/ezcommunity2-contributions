@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezquizgame.php,v 1.16 2001/07/20 11:24:09 jakobn Exp $
+// $Id: ezquizgame.php,v 1.16.2.1 2001/12/06 10:19:29 jhe Exp $
 //
 // ezquizgame class
 //
@@ -47,7 +47,7 @@ class eZQuizGame
       If $id is set the object's values are fetched from the
       database.
     */
-    function eZQuizGame( $id=-1, $fetch=true )
+    function eZQuizGame( $id = -1, $fetch = true )
     {
         if ( is_array( $id ) )
         {
@@ -69,55 +69,56 @@ class eZQuizGame
     function store()
     {
         $db =& eZDB::globalDatabase();
-
-        $name =& addslashes( $this->Name );
-        $description =& addslashes( $this->Description );
-        $startDate =& $this->StartDate->mySQLDate();
-        $stopDate =& $this->StopDate->mySQLDate();
+        $db->begin();
+        $name =& $db->escapeString( $this->Name );
+        $description =& $db->escapeString( $this->Description );
+        $startDate =& $this->StartDate->timeStamp();
+        $stopDate =& $this->StopDate->timeStamp();
         
         if ( !isset( $this->ID ) )
         {
-            $db->query( "INSERT INTO eZQuiz_Game SET
-                                     Name='$name',
-                                     Description='$description',
-                                     StartDate='$startDate',
-                                     StopDate='$stopDate'
-                                     " );
-
-			$this->ID = $db->insertID();
+            $db->lock( "eZQuiz_Game" );
+			$this->ID = $db->nextID( "eZQuiz_Game", "ID" );
+            $res[] = $db->query( "INSERT INTO eZQuiz_Game
+                                  (ID, Name, Description, StartDate, StopDate)
+                                  VALUES
+                                  ('$this->ID','$name','$description','$startDate','$stopDate')" );
+            $db->unlock();
         }
         elseif ( is_numeric( $this->ID ) )
         {
-            $db->query( "UPDATE eZQuiz_Game SET
+            $res[] = $db->query( "UPDATE eZQuiz_Game SET
                                      Name='$name',
                                      Description='$description',
                                      StartDate='$startDate',
                                      StopDate='$stopDate'
                                      WHERE ID='$this->ID'" );
         }
+        eZDB::finish( $res, $db );
         return true;
     }
 
     /*!
       Deletes a eZQuizGame object from the database.
     */
-    function delete( $catID=-1 )
+    function delete( $catID = -1 )
     {
         if ( $catID == -1 )
             $catID = $this->ID;
 
         $db =& eZDB::globalDatabase();
-
+        $db->begin();
         $questions =& $this->questions();
-        if ( is_array ( $questions ) )
+        if ( is_array( $questions ) )
         {
-            foreach( $questions as $question )
+            foreach ( $questions as $question )
             {
                 $question->delete();
             }
         }
         
-        $db->query( "DELETE FROM eZQuiz_Game WHERE ID='$this->ID'" );
+        $res[] = $db->query( "DELETE FROM eZQuiz_Game WHERE ID='$this->ID'" );
+        eZDB::finish( $res, $db );
     }
 
     /*!
@@ -133,13 +134,14 @@ class eZQuizGame
         if ( $id != "" )
         {
             $db->array_query( $quizArray, "SELECT * FROM eZQuiz_Game WHERE ID='$id'",
-                              0, 1 );
-            if( count( $quizArray ) == 1 )
+                              array( "Offset" => 0, "Limit" => 1 ) );
+
+            if ( count( $quizArray ) == 1 )
             {
                 $this->fill( &$quizArray[0] );
                 $ret = true;
             }
-            elseif( count( $quizArray ) == 1 )
+            elseif ( count( $quizArray ) == 1 )
             {
                 $this->ID = 0;
             }
@@ -152,13 +154,14 @@ class eZQuizGame
     */
     function fill( &$quizArray )
     {
-        $this->ID =& $quizArray[ "ID" ];
-        $this->Name =& $quizArray[ "Name" ];
-        $this->Description =& $quizArray[ "Description" ];
+        $db =& eZDB::globalDatabase();
+        $this->ID =& $quizArray[$db->fieldName( "ID" )];
+        $this->Name =& $quizArray[$db->fieldName( "Name" )];
+        $this->Description =& $quizArray[$db->fieldName( "Description" )];
         $this->StartDate = new eZDate();
-        $this->StartDate->setMySQLDate( $quizArray[ "StartDate" ] );
+        $this->StartDate->setTimeStamp( $quizArray[$db->fieldName( "StartDate" )] );
         $this->StopDate = new eZDate();
-        $this->StopDate->setMySQLDate( $quizArray[ "StopDate" ] );
+        $this->StopDate->setTimeStamp( $quizArray[$db->fieldName( "StopDate" )] );
     }
 
     /*!
@@ -166,7 +169,7 @@ class eZQuizGame
 
       The categories are returned as an array of eZQuizGame objects.
     */
-    function &getAll( $offset=0, $limit=20 )
+    function &getAll( $offset = 0, $limit = 20 )
     {
         $db =& eZDB::globalDatabase();
         
@@ -177,21 +180,20 @@ class eZQuizGame
         {
             $db->array_query( $quizArray, "SELECT ID
                                            FROM eZQuiz_Game
-                                           ORDER BY StartDate DESC
-                                           " );
+                                           ORDER BY StartDate DESC" );
 
         }
         else
         {
             $db->array_query( $quizArray, "SELECT ID
                                            FROM eZQuiz_Game
-                                           ORDER BY StartDate DESC
-                                           LIMIT $offset, $limit" );
+                                           ORDER BY StartDate DESC",
+                                           array( "Offset" => $offset, "Limit" => $limit ) );
         }
 
-        for ( $i=0; $i < count($quizArray); $i++ )
+        for ( $i = 0; $i < count( $quizArray ); $i++ )
         {
-            $returnArray[$i] = new eZQuizGame( $quizArray[$i]["ID"] );
+            $returnArray[$i] = new eZQuizGame( $quizArray[$i][$db->fieldName( "ID" )] );
         }
 
         return $returnArray;
@@ -205,9 +207,8 @@ class eZQuizGame
         $db =& eZDB::globalDatabase();
         $ret = false;
 
-        $db->query_single( $result, "SELECT COUNT(ID) as Count
-                                     FROM eZQuiz_Game" );
-        $ret = $result["Count"];
+        $db->query_single( $result, "SELECT COUNT(ID) as Count FROM eZQuiz_Game" );
+        $ret = $result[$db->fieldName( "Count" )];
         return $ret;
     }
 
@@ -272,7 +273,7 @@ class eZQuizGame
     */
     function setStartDate( &$date )
     {
-        if ( get_class ( $date ) == "ezdate" )
+        if ( get_class( $date ) == "ezdate" )
             $this->StartDate = $date;
     }
 
@@ -281,7 +282,7 @@ class eZQuizGame
     */
     function setStopDate( &$date )
     {
-        if ( get_class ( $date ) == "ezdate" )
+        if ( get_class( $date ) == "ezdate" )
             $this->StopDate = $date;
     }
 
@@ -291,16 +292,17 @@ class eZQuizGame
     function isClosed()
     {
         $db =& eZDB::globalDatabase();
+        $now = eZDateTime::timeStamp( true );
 
         $ret = false;
         $quizArray = array();
 
         $db->array_query( $quizArray, "SELECT ID FROM eZQuiz_Game
-                                       WHERE StopDate < now() AND ID = '$this->ID'" );
+                                       WHERE StopDate < '$now' AND ID = '$this->ID'" );
 
-        $ret = $quizArray[0]["ID"];
+        $ret = $quizArray[0][$db->fieldName( "ID" )];
         
-        if( $ret == $this->ID )
+        if ( $ret == $this->ID )
         {
             $ret = true;
         }
@@ -313,16 +315,17 @@ class eZQuizGame
     function isFutureGame()
     {
         $db =& eZDB::globalDatabase();
+        $now = eZDateTime::timeStamp( true );
 
         $ret = false;
         $quizArray = array();
 
         $db->array_query( $quizArray, "SELECT ID FROM eZQuiz_Game
-                                       WHERE StartDate > now() AND ID = '$this->ID'" );
+                                       WHERE StartDate > '$now' AND ID = '$this->ID'" );
 
-        $ret = $quizArray[0]["ID"];
+        $ret = $quizArray[0][$db->fieldName( "ID" )];
 
-        if( $ret == $this->ID )
+        if ( $ret == $this->ID )
         {
             $ret = true;
         }
@@ -339,9 +342,9 @@ class eZQuizGame
         $db =& eZDB::globalDatabase();
         $db->array_query( $questionArray, "SELECT ID FROM eZQuiz_Question WHERE GameID='$this->ID'" );
 
-        for ( $i=0; $i < count($questionArray); $i++ )
+        for ( $i = 0; $i < count( $questionArray ); $i++ )
         {
-            $returnArray[$i] = new eZQuizQuestion( $questionArray[$i]["ID"], true );
+            $returnArray[$i] = new eZQuizQuestion( $questionArray[$i][$db->fieldName( "ID" )], true );
         }
         return $returnArray;
     }
@@ -355,7 +358,7 @@ class eZQuizGame
         $db =& eZDB::globalDatabase();
         $db->query_single( $question, "SELECT ID FROM eZQuiz_Question WHERE GameID='$this->ID' AND Placement='$placement'" );
 
-        $return = new eZQuizQuestion( $question["ID"], true );
+        $return = new eZQuizQuestion( $question[$db->fieldName( "ID" )], true );
            
         return $return;
     }
@@ -372,7 +375,7 @@ class eZQuizGame
 
         $db->query_single( $result, "SELECT COUNT(ID) as Count
                                      FROM eZQuiz_Question WHERE GameID='$this->ID'" );
-        $ret = $result["Count"];
+        $ret = $result[$db->fieldName( "Count" )];
         
         return $ret;
     }
@@ -387,7 +390,7 @@ class eZQuizGame
 
         $db->query_single( $result, "SELECT COUNT(ID) as Count
                                      FROM eZQuiz_Score WHERE GameID='$this->ID' AND FinishedGame=1" );
-        $ret = $result["Count"];
+        $ret = $result[$db->fieldName( "Count" )];
         return $ret;
     }
     
@@ -397,17 +400,18 @@ class eZQuizGame
     function &openGames( $offset = 0, $limit = 20 )
     {
         $db =& eZDB::globalDatabase();
-
+        $now = eZDateTime::timeStamp( true );
         $returnArray = array();
         $quizArray = array();
 
         $db->array_query( $quizArray, "SELECT ID FROM eZQuiz_Game
-                                       WHERE StartDate <= now() AND StopDate >= now()
-                                       ORDER BY StartDate DESC LIMIT $offset, $limit" );
+                                       WHERE StartDate <= '$now' AND StopDate >= '$now'
+                                       ORDER BY StartDate DESC",
+                                       array( "Offset" => $offset, "Limit" => $limit ) );
 
-        for ( $i=0; $i < count($quizArray); $i++ )
+        for ( $i = 0; $i < count( $quizArray ); $i++ )
         {
-            $returnArray[$i] = new eZQuizGame( $quizArray[$i]["ID"] );
+            $returnArray[$i] = new eZQuizGame( $quizArray[$i][$db->fieldName( "ID" )] );
         }
         
         return $returnArray;
@@ -419,13 +423,13 @@ class eZQuizGame
     function &numberOfOpenGames()
     {
         $db =& eZDB::globalDatabase();
-
+        $now = eZDateTime::timeStamp( true );
         $quizArray = array();
 
         $db->array_query( $quizArray, "SELECT count(ID) as Count FROM eZQuiz_Game
-                                       WHERE StartDate <= now() AND StopDate >= now()" );
+                                       WHERE StartDate <= '$now' AND StopDate >= '$now'" );
 
-        $ret = $quizArray[0]["Count"];
+        $ret = $quizArray[0][$db->fieldName( "Count" )];
         
         return $ret;
     }
@@ -436,16 +440,18 @@ class eZQuizGame
     function &opensNext( $offset = 0, $limit = 20 )
     {
         $db =& eZDB::globalDatabase();
+        $now = eZDateTime::timeStamp( true );
 
         $returnArray = array();
         $quizArray = array();
 
         $db->array_query( $quizArray, "SELECT ID FROM eZQuiz_Game
-                                       WHERE StartDate > now()
-                                       ORDER BY StartDate DESC LIMIT $offset, $limit" );
-        for ( $i=0; $i < count($quizArray); $i++ )
+                                       WHERE StartDate > '$now'
+                                       ORDER BY StartDate DESC",
+                          array( "Offset" => $offset, "Limit" => $limit ) );
+        for ( $i = 0; $i < count( $quizArray ); $i++ )
         {
-            $returnArray[$i] = new eZQuizGame( $quizArray[$i]["ID"] );
+            $returnArray[$i] = new eZQuizGame( $quizArray[$i][$db->fieldName( "ID" )] );
         }
 
         return $returnArray;
@@ -457,16 +463,18 @@ class eZQuizGame
     function &closedGames( $offset = 0, $limit = 20 )
     {
         $db =& eZDB::globalDatabase();
-
+        $now = eZDateTime::timeStamp( true );
         $returnArray = array();
         $quizArray = array();
 
         $db->array_query( $quizArray, "SELECT ID FROM eZQuiz_Game
-                                       WHERE StopDate < now()
-                                       ORDER BY StartDate DESC LIMIT $offset, $limit" );
-        for ( $i=0; $i < count($quizArray); $i++ )
+                                       WHERE StopDate < '$now'
+                                       ORDER BY StartDate DESC",
+                          array( "Offset" => $offset, "Limit" => $limit ) );
+
+        for ( $i = 0; $i < count( $quizArray ); $i++ )
         {
-            $returnArray[$i] = new eZQuizGame( $quizArray[$i]["ID"] );
+            $returnArray[$i] = new eZQuizGame( $quizArray[$i][$db->fieldName( "ID" )] );
         }
         
         return $returnArray;
@@ -478,12 +486,12 @@ class eZQuizGame
     function &numberOfClosedGames()
     {
         $db =& eZDB::globalDatabase();
-
+        $now = eZDateTime::timeStamp( true );
         $quizArray = array();
 
         $db->array_query( $quizArray, "SELECT count(ID) as Count FROM eZQuiz_Game
-                                       WHERE StopDate < now()" );
-        $ret = $quizArray[0]["Count"];
+                                       WHERE StopDate < '$now'" );
+        $ret = $quizArray[0][$db->fieldName( "Count" )];
         
         return $ret;
     }
@@ -498,17 +506,17 @@ class eZQuizGame
         $returnArray = array();
         $quizArray = array();
 
-        $stopDate = $inStopDate->mySQLDate();
-        $startDate = $inStartDate->mySQLDate();
+        $stopDate = $inStopDate->timeStamp();
+        $startDate = $inStartDate->timeStamp();
 
         $db->array_query( $quizArray, "SELECT ID FROM eZQuiz_Game
                                        WHERE StartDate >= '$startDate' AND StartDate <= '$stopDate'
                                        ORDER BY StartDate" );
-        $ret = $result["Count"];
+        $ret = $result[$db->fieldName( "Count" )];
 
-        for ( $i=0; $i < count($quizArray); $i++ )
+        for ( $i = 0; $i < count( $quizArray ); $i++ )
         {
-            $returnArray[$i] = new eZQuizGame( $quizArray[$i]["ID"] );
+            $returnArray[$i] = new eZQuizGame( $quizArray[$i][$db->fieldName( "ID" )] );
         }
         
         return $returnArray;
@@ -524,17 +532,17 @@ class eZQuizGame
         $returnArray = array();
         $quizArray = array();
 
-        $startDate = $inStartDate->mySQLDate();
-        $stopDate = $inStopDate->mySQLDate();
+        $startDate = $inStartDate->timeStamp();
+        $stopDate = $inStopDate->timeStamp();
 
         $db->array_query( $quizArray, "SELECT ID FROM eZQuiz_Game
                                        WHERE StopDate >= '$startDate' AND StopDate <= '$stopDate'
                                        ORDER BY StartDate" );
-        $ret = $result["Count"];
+        $ret = $result[$db->fieldName( "Count" )];
 
-        for ( $i=0; $i < count($quizArray); $i++ )
+        for ( $i = 0; $i < count( $quizArray ); $i++ )
         {
-            $returnArray[$i] = new eZQuizGame( $quizArray[$i]["ID"] );
+            $returnArray[$i] = new eZQuizGame( $quizArray[$i][$db->fieldName( "ID" )] );
         }
         
         return $returnArray;
@@ -550,17 +558,17 @@ class eZQuizGame
         $returnArray = array();
         $quizArray = array();
 
-        $startDate = $inStartDate->mySQLDate();
-        $stopDate = $inStopDate->mySQLDate();
+        $startDate = $inStartDate->timeStamp();
+        $stopDate = $inStopDate->timeStamp();
 
         $db->array_query( $quizArray, "SELECT ID FROM eZQuiz_Game
                                        WHERE StartDate <= '$startDate' AND StopDate >= '$stopDate'
                                        ORDER BY StartDate" );
-        $ret = $result["Count"];
+        $ret = $result[$db->fieldName( "Count" )];
 
-        for ( $i=0; $i < count($quizArray); $i++ )
+        for ( $i = 0; $i < count( $quizArray ); $i++ )
         {
-            $returnArray[$i] = new eZQuizGame( $quizArray[$i]["ID"] );
+            $returnArray[$i] = new eZQuizGame( $quizArray[$i][$db->fieldName( "ID" )] );
         }
         
         return $returnArray;

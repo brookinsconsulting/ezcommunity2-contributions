@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezquiztool.php,v 1.7 2001/08/17 13:36:00 jhe Exp $
+// $Id: ezquiztool.php,v 1.7.2.1 2001/12/06 10:19:29 jhe Exp $
 //
 // Created on: <28-May-2001 11:24:41 pkej>
 //
@@ -44,7 +44,7 @@ class eZQuizTool
 
         $files =& eZCacheFile::files( "ezquiz/cache/",
                                       array( "quizlist", "quizfuture", "quizpast", "quizopen", "quizscore", "quizscores", NULL ), "cache", "," );
-        foreach( $files as $file )
+        foreach ( $files as $file )
         {
             $file->delete();
         }

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: quizplay.php,v 1.12 2001/10/15 08:10:26 fh Exp $
+// $Id: quizplay.php,v 1.12.2.1 2001/12/06 10:19:29 jhe Exp $
 //
 // Created on: <28-May-2001 11:24:41 pkej>
 //
@@ -41,19 +41,19 @@ $Language = $ini->read_var( "eZQuizMain", "Language" );
 $t = new eZTemplate( "ezquiz/user/" . $ini->read_var( "eZQuizMain", "TemplateDir" ),
                      "ezquiz/user/intl/", $Language, "quiz.php" );
 
-$intl = new INIFIle( "ezquiz/user/intl/". $Language . "/quiz.php.ini" );
+$intl = new INIFile( "ezquiz/user/intl/". $Language . "/quiz.php.ini" );
 
-if( isset( $SaveButton ) )
+if ( isset( $SaveButton ) )
 {
     // Do we have the same user uploading the data?
     // Me? Paranoid?
-    if( $UserID == $user->id() )
+    if ( $UserID == $user->id() )
     {
         $question = new eZQuizQuestion( $QuestionID );
         $game = $question->game();
         $score = new eZQuizScore();
         $score->getUserGame( $user, $game );
-        if( $score->id() == 0 )
+        if ( $score->id() == 0 )
         {
             $score->setUser( $user );
             $score->setGame( $game );
@@ -67,21 +67,20 @@ if( isset( $SaveButton ) )
 
 
 
-if( isset( $NextButton ) )
+if ( isset( $NextButton ) )
 {
     // Do we have the same user uploading the data?
     // Me? Paranoid?
-    if( $UserID == $user->id() )
+    if ( $UserID == $user->id() )
     {
         $question = new eZQuizQuestion( $QuestionID );
         $alternative = new eZQuizAlternative( $AlternativeID );
-
-        if( $question->isAlternative( $alternative ) )
+        if ( $question->isAlternative( $alternative ) )
         {
-            if( $alternative->isCorrect() )
+            if ( $alternative->isCorrect() )
             {
                 $scoreValue = $question->score();
-                if( empty( $scoreValue ) )
+                if ( empty( $scoreValue ) )
                 {
                     $scoreValue = 1;
                 }
@@ -92,9 +91,9 @@ if( isset( $NextButton ) )
             $answer->setAlternative( $alternative );
             $game = $question->game();
             $score = new eZQuizScore();
-            $score->getUserGame( $user, $game );
 
-            if( $answer->hasAnswered() )
+            $score->getUserGame( $user, $game );
+            if ( $answer->hasAnswered() )
             {
                 $QuestionNum = $score->nextQuestion();
             }
@@ -107,7 +106,7 @@ if( isset( $NextButton ) )
                 
                 $score->setNextQuestion( $QuestionNum );
                 
-                if( $QuestionNum > $game->numberOfQuestions() )
+                if ( $QuestionNum > $game->numberOfQuestions() )
                 {
                     $score->setFinishedGame( true );
                     include_once( "ezquiz/classes/ezquiztool.php" );
@@ -116,7 +115,6 @@ if( isset( $NextButton ) )
                 {
                     $score->setFinishedGame( false );
                 }
-                
                 $answer->store();
                 $score->store();
             }
@@ -129,16 +127,14 @@ if( isset( $NextButton ) )
     }
     else
     {
-            $t->set_var( "error_message", $intl->read_var( "strings", "error_differing_user_ids" ) );
-            $t->parse( "error_item", "error_item_tpl" );
+        $t->set_var( "error_message", $intl->read_var( "strings", "error_differing_user_ids" ) );
+        $t->parse( "error_item", "error_item_tpl" );
     }
 }
 
 $t->setAllStrings();
 
-$t->set_file( array(
-    "question_page_tpl" => "question.tpl"
-    ) );
+$t->set_file( "question_page_tpl", "question.tpl" );
 
 $t->set_block( "question_page_tpl", "question_item_tpl", "question_item" );
 $t->set_block( "question_page_tpl", "high_score_item_tpl", "high_score_item" );
@@ -163,7 +159,7 @@ $t->set_var( "players", $game->numberOfPlayers() );
 $score = new eZQuizScore();
 $highScorer = $score->highScore( $game );
 
-if( $highScorer->id() > 0 )
+if ( $highScorer->id() > 0 )
 {
     $t->set_var( "high_score", $highScorer->totalScore() );
     $highPlayer = $highScorer->user();
@@ -174,30 +170,28 @@ if( $highScorer->id() > 0 )
 
 $score->getUserGame( $user, $game );
 
-if( $score->isFinishedGame() )
+if ( $score->isFinishedGame() )
 {
     $t->set_var( "your_score", $score->totalScore() );
     $t->set_var( "your_name", $user->login() );
     $t->set_var( "your_id", $user->id() );
     $t->parse( "your_score_item", "your_score_item_tpl" );
-
 }
 
 // Find out which question this user should start on (has he saved earlier info).
 
-if( $score->nextQuestion() > 1 )
+if ( $score->nextQuestion() > 1 )
 {
     $QuestionNum = $score->nextQuestion();
 }
 
-if( $QuestionNum == 0 )
+if ( $QuestionNum == 0 )
 {
     $t->parse( "start_item", "start_item_tpl" );
 }
-elseif( empty( $error ) )
+elseif ( empty( $error ) )
 {
-
-    if( $QuestionNum >= 1 )
+    if ( $QuestionNum >= 1 )
     {
         $QuestionNum = $score->nextQuestion();
     }
@@ -205,13 +199,12 @@ elseif( empty( $error ) )
     $questionCount = $game->numberOfQuestions();
     $currentQuestion = $game->question( $QuestionNum );
 
-
-    if( $questionCount <= 0 )
+    if ( $questionCount <= 0 )
     {
         $t->set_var( "error_message", $intl->read_var( "strings", "error_no_questions" ) );
         $t->parse( "error_item", "error_item_tpl" );
     }
-    else if( $QuestionNum <= $questionCount )
+    else if ( $QuestionNum <= $questionCount )
     {
         $t->set_var( "question_id", $currentQuestion->id() );
 
@@ -226,14 +219,14 @@ elseif( empty( $error ) )
         $i = 0;
         $count = count( $alternatives );
         
-        if( $count == 0 )
+        if ( $count == 0 )
         {
             $t->set_var( "error_message", $intl->read_var( "strings", "error_no_alternatives" ) );
             $t->parse( "error_item", "error_item_tpl" );
         }
         else
         {
-            foreach( $alternatives as $alternative )
+            foreach ( $alternatives as $alternative )
             {
                 if ( ( $i % 2 ) == 0 )
                 {
@@ -258,9 +251,9 @@ elseif( empty( $error ) )
 }
 
 
-if( $error )
+if ( $error )
 {
-    switch( $error )
+    switch ( $error )
     {
         case "unopened":
         {

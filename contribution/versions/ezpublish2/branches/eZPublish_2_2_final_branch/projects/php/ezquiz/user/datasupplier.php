@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: datasupplier.php,v 1.11 2001/07/20 11:24:09 jakobn Exp $
+// $Id: datasupplier.php,v 1.11.2.1 2001/12/06 10:19:29 jhe Exp $
 //
 // Created on: <28-May-2001 11:24:41 pkej>
 //
@@ -100,12 +100,12 @@ switch ( $url_array[2] )
 
                     $locale = new eZLocale( $Language );
 
-                    if( $gameStart->isGreater( $today, true ) )
+                    if ( $gameStart->isGreater( $today, true ) )
                     {
-                        if( $today->isGreater( $gameStop, true ) )
+                        if ( $today->isGreater( $gameStop, true ) )
                         {
                             $QuestionNum = $url_array[5];
-                            if  ( !is_numeric( $QuestionNum ) )
+                            if ( !is_numeric( $QuestionNum ) )
                             {
                                 $QuestionNum = 0;
                             }
@@ -123,8 +123,6 @@ switch ( $url_array[2] )
                         $error = "unopened";
                         include( "ezquiz/user/quizplay.php" );
                     }
-                    
-
                 }
             }
             break;

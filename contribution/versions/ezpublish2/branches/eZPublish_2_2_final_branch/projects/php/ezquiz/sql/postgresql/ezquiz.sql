@@ -1,7 +1,7 @@
 CREATE TABLE eZQuiz_Alternative (
   ID int NOT NULL,
   QuestionID int default '0',
-  Name char(100) default NULL,
+  Name varchar(100) default NULL,
   IsCorrect int default '0',
   PRIMARY KEY (ID)
 );
@@ -17,14 +17,14 @@ CREATE TABLE eZQuiz_Game (
   ID int NOT NULL,
   Name varchar(30) default NULL,
   Description text,
-  StartDate date default NULL,
-  StopDate date default NULL,
+  StartDate int default NULL,
+  StopDate int default NULL,
   PRIMARY KEY (ID)
 );
 
 CREATE TABLE eZQuiz_Question (
   ID int NOT NULL,
-  Name char(100) default NULL,
+  Name varchar(100) default NULL,
   GameID int default '0',
   Placement int default '0',
   Score int default '0',

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezquizanswer.php,v 1.6 2001/07/20 11:24:09 jakobn Exp $
+// $Id: ezquizanswer.php,v 1.6.2.1 2001/12/06 10:19:29 jhe Exp $
 //
 // eZQuizAnswer class
 //
@@ -47,7 +47,7 @@ class eZQuizAnswer
       If $id is set the object's values are fetched from the
       database.
     */
-    function eZQuizAnswer( $id=-1, $fetch=true )
+    function eZQuizAnswer( $id = -1, $fetch = true )
     {
         if ( is_array( $id ) )
         {
@@ -69,42 +69,45 @@ class eZQuizAnswer
     function store()
     {
         $db =& eZDB::globalDatabase();
-
-        $name =& addslashes( $this->Name );
+        $db->begin();
+        $name =& $db->escapeString( $this->Name );
         $userID = $this->User->id();
         $alternativeID = $this->Alternative->id();
 
         if ( !isset( $this->ID ) )
         {
-            $db->query( "INSERT INTO eZQuiz_Answer SET
-                                     UserID='$userID',
-                                     AlternativeID='$alternativeID'
-                                     " );
+            $db->lock( "eZQuiz_Answer" );
+			$this->ID = $db->nextID( "eZQuiz_Answer", "ID" );
+            $res = $db->query( "INSERT INTO eZQuiz_Answer
+                                  (ID, UserID, AlternativeID)
+                                  VALUES
+                                  ('$this->ID','$userID','$alternativeID')" );
+            $db->unlock();
 
-			$this->ID = $db->insertID();
         }
         elseif ( is_numeric( $this->ID ) )
         {
-            $db->query( "UPDATE eZQuiz_Answer SET
+            $res = $db->query( "UPDATE eZQuiz_Answer SET
                                      UserID='$userID',
                                      AlternativeID='$alternativeID'
                                      WHERE ID='$this->ID'" );
         }
+        eZDB::finish( $res, $db );
         return true;
     }
 
     /*!
       Deletes a eZQuizAnswer object from the database.
     */
-    function delete( $catID=-1 )
+    function delete( $catID = -1 )
     {
         if ( $catID == -1 )
             $catID = $this->ID;
 
         $db =& eZDB::globalDatabase();
-
-
-        $db->query( "DELETE FROM eZQuiz_Answer WHERE ID='$catID'" );
+        $db->begin();
+        $res[] = $db->query( "DELETE FROM eZQuiz_Answer WHERE ID='$catID'" );
+        eZDB::finish( $res, $db );
     }
 
     /*!
@@ -112,23 +115,22 @@ class eZQuizAnswer
 
       True is retuned if successful, false (0) if not.
     */
-    function get( $id=-1 )
+    function get( $id = -1 )
     {
         $db =& eZDB::globalDatabase();
 
         $ret = false;
         if ( $id != "" )
         {
-            $GLOBALS["DEBUG"] = true;
             $db->array_query( $answerArray, "SELECT * FROM eZQuiz_Answer WHERE ID='$id'",
-                              0, 1 );
+                              array( "Offset" => 0, "Limit" => 1 ) );
 
-            if( count( $answerArray ) == 1 )
+            if ( count( $answerArray ) == 1 )
             {
                 $this->fill( &$answerArray[0] );
                 $ret = true;
             }
-            elseif( count( $answerArray ) == 1 )
+            elseif ( count( $answerArray ) == 1 )
             {
                 $this->ID = 0;
             }
@@ -141,9 +143,9 @@ class eZQuizAnswer
     */
     function fill( &$answerArray )
     {
-        $this->ID =& $answerArray[ "ID" ];
-        $this->User =& new eZUser( $answerArray[ "UserID" ] );
-        $this->Alternative = new eZQuizAlternative( $answerArray[ "QuestionID" ] );
+        $this->ID =& $answerArray[$db->fieldName( "ID" )];
+        $this->User =& new eZUser( $answerArray[$db->fieldName( "UserID" )] );
+        $this->Alternative = new eZQuizAlternative( $answerArray[$db->fieldName( "QuestionID" )] );
     }
 
     /*!
@@ -151,20 +153,18 @@ class eZQuizAnswer
 
       The categories are returned as an array of eZQuizAnswer objects.
     */
-    function getAll( $offset=0, $limit=20)
+    function getAll( $offset = 0, $limit = 20)
     {
         $db =& eZDB::globalDatabase();
         
         $returnArray = array();
         $answerArray = array();
         
-        $db->array_query( $answerArray, "SELECT ID
-                                           FROM eZQuiz_Answer
-                                           " );
+        $db->array_query( $answerArray, "SELECT ID FROM eZQuiz_Answer " );
         
-        for ( $i=0; $i < count($answerArray); $i++ )
+        for ( $i = 0; $i < count( $answerArray ); $i++ )
         {
-            $returnArray[$i] = new eZQuizAnswer( $answerArray[$i]["ID"] );
+            $returnArray[$i] = new eZQuizAnswer( $answerArray[$i][$db->fieldName( "ID" )] );
         }
         
         return $returnArray;
@@ -178,9 +178,8 @@ class eZQuizAnswer
         $db =& eZDB::globalDatabase();
         $ret = false;
 
-        $db->query_single( $result, "SELECT COUNT(ID) as Count
-                                     FROM eZQuiz_Answer" );
-        $ret = $result["Count"];
+        $db->query_single( $result, "SELECT COUNT(ID) as Count FROM eZQuiz_Answer" );
+        $ret = $result[$db->fieldName( "Count" )];
         return $ret;
     }
 
@@ -191,12 +190,12 @@ class eZQuizAnswer
     {
         $return = false;
         
-        if( get_class( $this->Alternative ) == "ezquizalternative" )
+        if ( get_class( $this->Alternative ) == "ezquizalternative" )
         {
             $QuestionID = $this->Alternative->QuestionID();
         }
         
-        if( get_class( $this->User ) == "ezuser" )
+        if ( get_class( $this->User ) == "ezuser" )
         {
             $UserID = $this->User->id();
         }
@@ -206,7 +205,7 @@ class eZQuizAnswer
                             WHERE eZQuiz_Answer.AlternativeID = eZQuiz_Alternative.ID
                             AND eZQuiz_Alternative.QuestionID = '$QuestionID' AND eZQuiz_Answer.UserID = '$UserID'" );
 
-        if( count( $result ) >= 1 )
+        if ( count( $result ) >= 1 )
         {
             $return = true;
         }
@@ -244,7 +243,7 @@ class eZQuizAnswer
     */
     function setUser( &$user )
     {
-        if ( get_class ( $user ) == "ezuser" )
+        if ( get_class( $user ) == "ezuser" )
             $this->User = $user;
     }
 
@@ -253,7 +252,7 @@ class eZQuizAnswer
     */
     function setAlternative( &$alternative )
     {
-        if ( get_class ( $alternative ) == "ezquizalternative" )
+        if ( get_class( $alternative ) == "ezquizalternative" )
             $this->Alternative = $alternative;
     }
     

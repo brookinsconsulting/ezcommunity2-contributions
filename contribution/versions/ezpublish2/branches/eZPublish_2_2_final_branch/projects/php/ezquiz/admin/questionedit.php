@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: questionedit.php,v 1.5 2001/07/20 11:24:09 jakobn Exp $
+// $Id: questionedit.php,v 1.5.2.1 2001/12/06 10:19:29 jhe Exp $
 //
 // Created on: <22-May-2001 16:17:22 ce>
 //
@@ -31,32 +31,32 @@ include_once( "ezquiz/classes/ezquizquestion.php" );
 
 $errorMessages = array();
 
-if ( isSet ( $NewAlternative ) )
+if ( isSet( $NewAlternative ) )
 {
     $question = new eZQuizQuestion( $QuestionID );
     $alternative = new eZQuizAlternative();
-    $alternative->setquestion( &$question );
+    $alternative->setQuestion( &$question );
     $alternative->store();
     $Action = "Update";
 }
 
-if ( isSet ( $OK ) )
+if ( isSet( $OK ) )
 {
     $question = new eZQuizQuestion( $QuestionID );
     
-    if( $question->countAlternatives() == false )
+    if ( $question->countAlternatives() == false )
     {
         $errorMessages[] = "error_add_alternative";
     }
     
-    if( count( $errorMessages ) > 0 )
+    if ( count( $errorMessages ) > 0 )
     {
         unset( $OK );
     }
     $Action = "Update";
 }
 
-if ( isSet ( $Cancel ) )
+if ( isSet( $Cancel ) )
 {
     $question = new eZQuizQuestion( $QuestionID);
     $game =& $question->game();
@@ -65,11 +65,11 @@ if ( isSet ( $Cancel ) )
     exit();
 }
 
-if ( isSet ( $Delete ) )
+if ( isSet( $Delete ) )
 {
-    if ( count ( $AlternativeDeleteArray ) > 0 )
+    if ( count( $AlternativeDeleteArray ) > 0 )
     {
-        foreach( $AlternativeDeleteArray as $AltID )
+        foreach ( $AlternativeDeleteArray as $AltID )
         {
             eZQuizAlternative::delete( $AltID );
         }
@@ -93,17 +93,17 @@ $t->set_block( "alternative_list_tpl", "alternative_item_tpl", "alternative_item
 $t->set_block( "question_edit_page", "error_list_tpl", "error_list" );
 $t->set_block( "error_list_tpl", "error_item_tpl", "error_item" );
 
-$t->set_var( "question_name", "$Name" );
-$t->set_var( "question_description", "$Description" );
+$t->set_var( "question_name", $Name );
+$t->set_var( "question_description", $Description );
 
 if ( $Action == "Update" )
 {
     if ( is_numeric( $QuestionID ) )
-        $question = new eZQuizQuestion( $QuestionID);
+        $question = new eZQuizQuestion( $QuestionID );
     else
         $question = new eZQuizQuestion();
         
-    if( empty( $Name ) )
+    if ( empty( $Name ) )
     {
         $errorMessages[] = "error_missing_question_name";
         unset( $OK );
@@ -114,14 +114,14 @@ if ( $Action == "Update" )
     }
     $question->store();
     $alternativeNameError = false;
-    if ( count ( $AlternativeArrayID ) > 0 )
+    if ( count( $AlternativeArrayID ) > 0 )
     {
-        for( $i=0; $i < count ( $AlternativeArrayID ); $i++ )
+        for ( $i = 0; $i < count( $AlternativeArrayID ); $i++ )
         {
             $alternative = new eZQuizAlternative( $AlternativeArrayID[$i] );
-            if( empty( $AlternativeArrayName[$i] ) )
+            if ( empty( $AlternativeArrayName[$i] ) )
             {
-                if( $alternativeNameError == false )
+                if ( $alternativeNameError == false )
                 {
                     $errorMessages[] = "error_missing_answer_name";
                     unset( $OK );
@@ -142,14 +142,14 @@ if ( $Action == "Update" )
         unset( $alternative );
     }
 
-    if( $question->countCorrectAlternatives() == false && !isset( $NewAlternative ) )
+    if ( $question->countCorrectAlternatives() == false && !isset( $NewAlternative ) )
     {
         $errorMessages[] = "error_no_correct_alternative";
         unset( $OK );
     }
 
 
-    if ( isSet ( $OK ) )
+    if ( isSet( $OK ) )
     {
         $game =& $question->game();
         $gameID = $game->id();
@@ -160,9 +160,9 @@ if ( $Action == "Update" )
 
 if ( $Action == "Delete" )
 {
-    if ( count ( $AlternativeArrayID ) > 0 )
+    if ( count( $AlternativeArrayID ) > 0 )
     {
-        foreach( $AlternativeArrayID as $AlternativeID )
+        foreach ( $AlternativeArrayID as $AlternativeID )
         {
             $alternative = new eZQuizAlternative( $AlternativeID );
             $alternative->delete();
@@ -182,9 +182,9 @@ if ( is_numeric( $QuestionID ) )
     $alternativeList =& $question->alternatives();
 }
 
-if ( count ( $alternativeList ) > 0 )
+if ( count( $alternativeList ) > 0 )
 {
-    foreach( $alternativeList as $alternative )
+    foreach ( $alternativeList as $alternative )
     {
         $t->set_var( "alternative_id", $alternative->id() );
         $t->set_var( "alternative_name", $alternative->name() );
@@ -203,9 +203,9 @@ else
     $t->set_var( "alternative_list", "" );
 }
 
-if( count( $errorMessages ) > 0 )
+if ( count( $errorMessages ) > 0 )
 {
-    foreach( $errorMessages as $errorMessage )
+    foreach ( $errorMessages as $errorMessage )
     {
         $errorMessage =& $t->Ini->read_var( "strings", $errorMessage );
         $t->set_var( "error_message", $errorMessage );
@@ -222,7 +222,6 @@ else
     $t->set_var( "error_list", "" );
 }
 
-
-
 $t->pparse( "output", "question_edit_page" );
+
 ?>

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: gameedit.php,v 1.10 2001/07/20 11:24:09 jakobn Exp $
+// $Id: gameedit.php,v 1.10.2.1 2001/12/06 10:19:29 jhe Exp $
 //
 // Created on: <22-May-2001 13:44:13 ce>
 //
@@ -85,18 +85,18 @@ $t->set_block( "game_edit_page", "error_stop_date_tpl", "error_stop_date" );
 $t->set_block( "game_edit_page", "error_embracing_period_tpl", "error_embracing_period" );
 $t->set_block( "game_edit_page", "error_question_tpl", "error_question" );
 
-$t->set_var( "game_name", "$Name" );
-$t->set_var( "game_description", "$Description" );
+$t->set_var( "game_name", $Name );
+$t->set_var( "game_description", $Description );
 
-$t->set_var( "start_month", "$StartMonth" );
-$t->set_var( "start_day", "$StartDay" );
-$t->set_var( "start_year", "$StartYear" );
+$t->set_var( "start_month", $StartMonth );
+$t->set_var( "start_day", $StartDay );
+$t->set_var( "start_year", $StartYear );
 
-$t->set_var( "stop_month", "$StopMonth" );
-$t->set_var( "stop_day", "$StopDay" );
-$t->set_var( "stop_year", "$StopYear" );
+$t->set_var( "stop_month", $StopMonth );
+$t->set_var( "stop_day", $StopDay );
+$t->set_var( "stop_year", $StopYear );
 
-$t->set_var( "game_id", "$GameID" );
+$t->set_var( "game_id", $GameID );
 $t->set_var( "error_date", "" );
 $t->set_var( "error_start_date", "" );
 $t->set_var( "error_stop_date", "" );
@@ -109,49 +109,42 @@ $error = false;
 $checkDate = true;
 if ( ( $Action == "Insert" ) )
 {
-    if( $GameID > 0 && !isset( $NewQuestion ) )
+    if ( $GameID > 0 && !isset( $NewQuestion ) )
     {
         $game = new  eZQuizGame( $GameID );
         
-        if( $game->numberOfQuestions() == 0 )
+        if ( $game->numberOfQuestions() == 0 )
         {
             $t->parse( "error_question", "error_question_tpl" );
             $error = true;
         }
         unset( $game );
     }
-    elseif( isset( $OK ) )
+    elseif ( isset( $OK ) )
     {
         $t->parse( "error_question", "error_question_tpl" );
         $error = true;
     }
     
-    if( empty( $Name ) )
+    if ( empty( $Name ) )
     {
         $t->parse( "error_name", "error_name_tpl" );
         $error = true;
     }
 
-    if( $StartMonth == 0
-        || $StartDay == 0
-        || $StartYear == 0
-        || $StopMonth == 0
-        || $StopDay == 0
-        || $StopYear == 0 )
+    if ( $StartMonth == 0 ||
+         $StartDay == 0 ||
+         $StartYear == 0 ||
+         $StopMonth == 0 ||
+         $StopDay == 0 ||
+         $StopYear == 0 )
     {
         $t->parse( "error_no_date", "error_no_date_tpl" );
         $error = true;
     }
 
-    $startDate = new eZDate();
-    $startDate->setMonth( $StartMonth );
-    $startDate->setDay( $StartDay );
-    $startDate->setYear( $StartYear );
-
-    $stopDate = new eZDate();
-    $stopDate->setMonth( $StopMonth );
-    $stopDate->setDay( $StopDay );
-    $stopDate->setYear( $StopYear );
+    $startDate = new eZDate( $StartYear, $StartMonth, $StartDay );
+    $stopDate = new eZDate( $StopYear, $StopMonth, $StopDay );
 
     if ( $checkDate )
     {
@@ -163,10 +156,9 @@ if ( ( $Action == "Insert" ) )
 
         $embracing =& eZQuizGame::embracingPeriod( $startDate, $stopDate );
         $numberOfEmbracing = count( $embracing );
-
-        if( $numberOfEmbracing > 0 )
+        if ( $numberOfEmbracing > 0 )
         {
-            foreach( $embracing as $checkItem )
+            foreach ( $embracing as $checkItem )
             {
                 if ( $GameID != $checkItem->id() )
                 {
@@ -188,9 +180,9 @@ if ( ( $Action == "Insert" ) )
             }
         }
 
-        if( $numberOfStillOpen > 0 )
+        if ( $numberOfStillOpen > 0 )
         {
-            foreach( $stillOpen as $checkItem )
+            foreach ( $stillOpen as $checkItem )
             {
                 if ( $GameID != $checkItem->id() )
                 {
@@ -215,9 +207,9 @@ if ( ( $Action == "Insert" ) )
             }
         }
 
-       if( $numberOfwillOpen > 0 )
+        if ( $numberOfwillOpen > 0 )
         {
-            foreach( $willOpen as $checkItem )
+            foreach ( $willOpen as $checkItem )
             {
                 if ( $GameID != $checkItem->id() )
                 {
@@ -262,9 +254,9 @@ if ( ( $Action == "Insert" ) && ( $error == false ) )
 
     $game->store();
 
-    if ( count ( $QuestionArrayID ) > 0 )
+    if ( count( $QuestionArrayID ) > 0 )
     {
-        for( $i=0; $i < count ( $QuestionArrayID ); $i++ )
+        for ( $i = 0; $i < count( $QuestionArrayID ); $i++ )
         {
             $question = new eZQuizQuestion( $QuestionArrayID[$i] );
             $question->setName( $QuestionArrayName[$i] );
@@ -273,7 +265,7 @@ if ( ( $Action == "Insert" ) && ( $error == false ) )
         unset( $question );
     }
 
-    if ( isSet ( $NewQuestion ) )
+    if ( isSet( $NewQuestion ) )
     {
         $question = new eZQuizQuestion();
         $question->setGame( $game );
@@ -283,7 +275,7 @@ if ( ( $Action == "Insert" ) && ( $error == false ) )
         exit();
     }
     
-    if ( isSet ( $OK ) )
+    if ( isSet( $OK ) )
     {
         eZHTTPTool::header( "Location: /quiz/game/list/" );
         exit();
@@ -292,9 +284,9 @@ if ( ( $Action == "Insert" ) && ( $error == false ) )
 
 if ( $Action == "Delete" )
 {
-    if ( count ( $GameArrayID ) > 0 )
+    if ( count( $GameArrayID ) > 0 )
     {
-        foreach( $GameArrayID as $GameID )
+        foreach ( $GameArrayID as $GameID )
         {
             $game = new eZQuizGame( $GameID );
             $game->delete();
@@ -326,12 +318,12 @@ if ( is_numeric( $GameID ) && !isset( $OK ) && !isset( $NewQuestion ) )
     $questionList =& $game->questions();
 }
 
-if ( count ( $questionList ) > 0 )
+if ( count( $questionList ) > 0 )
 {
-    $i=0;
-    foreach( $questionList as $question )
+    $i = 0;
+    foreach ( $questionList as $question )
     {
-        if ( ( $i %2 ) == 0 )
+        if ( ( $i % 2 ) == 0 )
             $t->set_var( "td_class", "bglight" );
         else
             $t->set_var( "td_class", "bgdark" );
@@ -351,4 +343,5 @@ else
 }
 $t->set_var( "site_style", $SiteStyle );
 $t->pparse( "output", "game_edit_page" );
+
 ?>
