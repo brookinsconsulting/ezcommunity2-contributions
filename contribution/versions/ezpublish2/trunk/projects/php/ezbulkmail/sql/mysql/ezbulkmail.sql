@@ -69,7 +69,7 @@ CREATE TABLE eZBulkMail_GroupCategoryLink (
 ) TYPE=MyISAM;
 
 CREATE TABLE eZBulkMail_Forgot (
-  ID int NOT NULL,
+  ID(11) int NOT NULL,
   Mail varchar(255) NOT NULL,
   Password varchar(50) NOT NULL,
   Hash varchar(33),
@@ -113,16 +113,16 @@ CREATE TABLE eZBulkMail_UserCategoryDelay (
 ) TYPE=MyISAM;
 
 CREATE TABLE eZBulkMail_UserCategoryLink (
-  UserID int(11) default '0',
-  CategoryID int(11) default '0',
+  UserID int(11) NOT NULL default '0',
+  CategoryID int(11) NOT NULL default '0',
   PRIMARY KEY (UserID, CategoryID)
 ) TYPE=MyISAM;
 
 CREATE TABLE eZBulkMail_UserCategorySettings (
+  ID int(11) NOT NULL,
   CategoryID int(11) default '0',
   UserID int(11) default '0',
   Delay int(11) default '0',
-  ID int(11) NOT NULL,
   PRIMARY KEY (ID)
 ) TYPE=MyISAM;
 
