@@ -38,7 +38,7 @@
 
 <table class="list" width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
-	<th>Opsjon: </th>
+	<th>{intl-option}: </th>
 	<th>&nbsp;</th>
 	<th>&nbsp;</th>
 </tr>
