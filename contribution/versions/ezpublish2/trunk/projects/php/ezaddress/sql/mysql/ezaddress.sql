@@ -1,75 +1,36 @@
-#
-# Table structure for table 'eZAddress_Address'
-#
-DROP TABLE IF EXISTS eZAddress_Address;
 CREATE TABLE eZAddress_Address (
-  ID int(11) DEFAULT '0' NOT NULL auto_increment,
-  Street1 char(50),
-  Street2 char(50),
+  ID int(11) NOT NULL,
+  Street1 varchar(50),
+  Street2 varchar(50),
   AddressTypeID int(11),
-  Place char(50),
-  Zip char(10),
+  Place varchar(50),
+  Zip varchar(10),
   CountryID int(11),
   PRIMARY KEY (ID)
 );
 
-#
-# Dumping data for table 'eZAddress_Address'
-#
-
-INSERT INTO eZAddress_Address VALUES (1,'Adminstreet1','Adminstreet2',0,'Noplace','42',0);
-INSERT INTO eZAddress_Address VALUES (4,'3q24324324','',1,'sfdasdf','234',0);
-INSERT INTO eZAddress_Address VALUES (3,'abc','',1,'Skien','123',0);
-INSERT INTO eZAddress_Address VALUES (5,'zzzzzzzzzzzzzzzzzzzzzz','',1,'Oslo','123',0);
-
-#
-# Table structure for table 'eZAddress_AddressDefinition'
-#
-DROP TABLE IF EXISTS eZAddress_AddressDefinition;
 CREATE TABLE eZAddress_AddressDefinition (
   UserID int(11) DEFAULT '0' NOT NULL,
   AddressID int(11) DEFAULT '0' NOT NULL,
   PRIMARY KEY (UserID,AddressID)
 );
 
-#
-# Dumping data for table 'eZAddress_AddressDefinition'
-#
-
-
-#
-# Table structure for table 'eZAddress_AddressType'
-#
-DROP TABLE IF EXISTS eZAddress_AddressType;
 CREATE TABLE eZAddress_AddressType (
-  ID int(11) DEFAULT '0' NOT NULL auto_increment,
-  Name char(50),
+  ID int(11) NOT NULL,
+  Name varchar(50),
   ListOrder int(11) DEFAULT '0' NOT NULL,
   Removed int(1) DEFAULT '0' NOT NULL,
   PRIMARY KEY (ID)
 );
 
-#
-# Dumping data for table 'eZAddress_AddressType'
-#
-
-INSERT INTO eZAddress_AddressType VALUES (1,'Post adresse',1,0);
-
-#
-# Table structure for table 'eZAddress_Country'
-#
-DROP TABLE IF EXISTS eZAddress_Country;
 CREATE TABLE eZAddress_Country (
-  ID int(11) DEFAULT '0' NOT NULL auto_increment,
-  ISO char(2),
-  Name char(100),
+  ID int(11) NOT NULL,
+  ISO varchar(2),
+  Name varchar(100),
+  HasVAT int(1) DEFAULT '0',
   Removed int(1) DEFAULT '0' NOT NULL,
   PRIMARY KEY (ID)
 );
-
-#
-# Dumping data for table 'eZAddress_Country'
-#
 
 INSERT INTO eZAddress_Country VALUES (2,'AF','Afghanistan',0);
 INSERT INTO eZAddress_Country VALUES (3,'AL','Albania',0);
@@ -311,31 +272,15 @@ INSERT INTO eZAddress_Country VALUES (238,'ZR','Zaire',0);
 INSERT INTO eZAddress_Country VALUES (239,'ZM','Zambia',0);
 INSERT INTO eZAddress_Country VALUES (240,'US','United States of America',0);
 
-#
-# Table structure for table 'eZAddress_Online'
-#
-DROP TABLE IF EXISTS eZAddress_Online;
 CREATE TABLE eZAddress_Online (
-  ID int(11) DEFAULT '0' NOT NULL auto_increment,
-  URL char(255),
+  ID int(11) NOT NULL,
+  URL varchar(255),
   OnlineTypeID int(11),
   PRIMARY KEY (ID)
 );
 
-#
-# Dumping data for table 'eZAddress_Online'
-#
-
-INSERT INTO eZAddress_Online VALUES (3,'eadasfdasdf@sdfaasf',1);
-INSERT INTO eZAddress_Online VALUES (2,'jb@ez.no',1);
-INSERT INTO eZAddress_Online VALUES (4,'a@b.e',1);
-
-#
-# Table structure for table 'eZAddress_OnlineType'
-#
-DROP TABLE IF EXISTS eZAddress_OnlineType;
 CREATE TABLE eZAddress_OnlineType (
-  ID int(11) DEFAULT '0' NOT NULL auto_increment,
+  ID int(11) NOT NULL,
   Name varchar(50),
   ListOrder int(11) DEFAULT '0' NOT NULL,
   URLPrefix varchar(30) DEFAULT '' NOT NULL,
@@ -345,46 +290,17 @@ CREATE TABLE eZAddress_OnlineType (
   PRIMARY KEY (ID)
 );
 
-#
-# Dumping data for table 'eZAddress_OnlineType'
-#
-
-INSERT INTO eZAddress_OnlineType VALUES (1,'Email',1,'mailto:',1,0,0);
-
-#
-# Table structure for table 'eZAddress_Phone'
-#
-DROP TABLE IF EXISTS eZAddress_Phone;
 CREATE TABLE eZAddress_Phone (
-  ID int(11) DEFAULT '0' NOT NULL auto_increment,
+  ID int(11) NOT NULL,
   Number varchar(22),
   PhoneTypeID int(11),
   PRIMARY KEY (ID)
 );
 
-#
-# Dumping data for table 'eZAddress_Phone'
-#
-
-INSERT INTO eZAddress_Phone VALUES (3,'32324324',1);
-INSERT INTO eZAddress_Phone VALUES (2,'456',1);
-INSERT INTO eZAddress_Phone VALUES (4,'234234234',1);
-
-#
-# Table structure for table 'eZAddress_PhoneType'
-#
-DROP TABLE IF EXISTS eZAddress_PhoneType;
 CREATE TABLE eZAddress_PhoneType (
-  ID int(11) DEFAULT '0' NOT NULL auto_increment,
-  Name char(50),
+  ID int(11) NOT NULL,
+  Name varchar(50),
   ListOrder int(11) DEFAULT '0' NOT NULL,
   Removed int(1) DEFAULT '0' NOT NULL,
   PRIMARY KEY (ID)
 );
-
-#
-# Dumping data for table 'eZAddress_PhoneType'
-#
-
-INSERT INTO eZAddress_PhoneType VALUES (1,'Telefon',1,0);
-

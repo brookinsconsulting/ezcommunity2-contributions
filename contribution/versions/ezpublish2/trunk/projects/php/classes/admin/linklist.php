@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: linklist.php,v 1.8 2001/07/29 23:30:57 kaid Exp $
+// $Id: linklist.php,v 1.9 2001/08/27 11:50:54 ce Exp $
 //
 // Created on: <30-Apr-2001 18:50:47 amos>
 //
@@ -52,7 +52,6 @@
 // Variables which you may set to use a different template and/or intl file.
 //  $ClientRoot = The root of the module, default is "classes/", eg. "eztrade/admin/"
 //  $ClientIntlDir = The intl dir of the module, default is "classes/admin/intl/", eg. "eztrade/admin/intl/"
-
 
 include_once( "classes/INIFile.php" );
 include_once( "classes/eztemplate.php" );

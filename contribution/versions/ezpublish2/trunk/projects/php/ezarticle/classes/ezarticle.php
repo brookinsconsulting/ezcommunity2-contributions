@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezarticle.php,v 1.154 2001/08/24 13:30:47 ce Exp $
+// $Id: ezarticle.php,v 1.155 2001/08/27 11:50:55 ce Exp $
 //
 // Definition of eZArticle class
 //
@@ -2675,7 +2675,6 @@ class eZArticle
             $mail->setTo( $userItem->email() );
             $mail->send();
         }
-        exit();
     }
 
     /*!

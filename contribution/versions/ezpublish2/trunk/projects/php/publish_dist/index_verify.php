@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: index_verify.php,v 1.4 2001/07/31 19:55:51 kaid Exp $
+// $Id: index_verify.php,v 1.5 2001/08/27 11:50:54 ce Exp $
 //
 // Created on: <09-Nov-2000 14:52:40 ce>
 //
@@ -44,8 +44,9 @@ ob_end_clean();
 include_once( "classes/ezdb.php" );
 
 $db =& eZDB::globalDatabase();
-$db->query_single( $session_array, "SELECT count( ID ) AS Count FROM eZSession_Session" );
-$db->query_single( $user_array, "SELECT count( ID ) AS Count FROM eZUser_User" );
+$db->query_single( $session_array, "SELECT COUNT( ID ) AS Count FROM eZSession_Session" );
+$db->query_single( $user_array, "SELECT COUNT( ID ) AS Count FROM eZUser_User" );
+$db->query_single( $stats_array, "SELECT COUNT( ID ) AS Count FROM eZStats_PageView" );
 if ( $user_array["Count"] > 0 )
     print( "42" );
 else

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: linkselect.php,v 1.9 2001/07/29 23:30:57 kaid Exp $
+// $Id: linkselect.php,v 1.10 2001/08/27 11:50:54 ce Exp $
 //
 // Created on: <30-Apr-2001 18:33:53 amos>
 //
@@ -133,6 +133,7 @@ if ( isset( $NewSection ) or count( $sections ) == 0 )
     $SectionID = $section->id();
     $module->addSection( $section );
     $Funcs["delete"]( $ItemID );
+
     if ( isset( $NewSection ) )
     {
         eZHTTPTool::header( sprintf( "Location: " . $URLS["linklist"], $ItemID ) );

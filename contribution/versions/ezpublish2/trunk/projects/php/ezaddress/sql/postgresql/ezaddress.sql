@@ -32,6 +32,7 @@ CREATE TABLE eZAddress_Country (
   ID int NOT NULL,
   ISO varchar(2),
   Name varchar(100),
+  HasVAT int DEFAULT '0',
   Removed int DEFAULT '0' NOT NULL,
   PRIMARY KEY (ID)
 );

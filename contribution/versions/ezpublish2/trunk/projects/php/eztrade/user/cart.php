@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: cart.php,v 1.43 2001/08/23 08:58:09 th Exp $
+// $Id: cart.php,v 1.44 2001/08/27 11:50:56 ce Exp $
 //
 // Created on: <27-Sep-2000 11:57:49 bf>
 //
@@ -60,8 +60,14 @@ if ( ( $Action == "Refresh" ) || isSet( $DoCheckOut ) )
     foreach ( $CartIDArray as $cartID )
     {
         $cartItem = new eZCartItem( $cartID );
-        $cartItem->setCount( $CartCountArray[$i] );
+        $product =& $cartItem->product();
+
+        if ( $product->totalQuantity() < $CartCountArray[$i] )
+            $cartItem->setCount( $product->totalQuantity() );
+        else
+            $cartItem->setCount( $CartCountArray[$i] );
         $cartItem->store();
+
         $i++;
 
         // Check for negative entries
