@@ -1,5 +1,7 @@
 <form action="{www_dir}{index}/article/search/" method="post">
 
+<input type="hidden" name="SectionIDOverride" value="{section_id}">
+
 <h1>{intl-advanced_search}</h1>
 
 <hr noshade="noshade" size="4" />

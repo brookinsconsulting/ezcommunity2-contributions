@@ -6,6 +6,7 @@
 	</td>
 	<td align="right">
 	<form action="{www_dir}{index}/article/search/" method="get">
+        <input type="hidden" name="SectionIDOverride" value="{section_id}">
 	<input class="searchbox" type="text" name="SearchText" value="{search_text}" size="10" />	
 	<input class="stdbutton" type="submit" value="{intl-search}" />
 	</form>	
