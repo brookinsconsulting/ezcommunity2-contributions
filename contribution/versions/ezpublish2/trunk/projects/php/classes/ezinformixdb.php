@@ -4,7 +4,7 @@ class eZInformixDB
 {
     function eZInformixDB( $server, $db, $user, $password  )
     {
-        putenv('INFORMIXSERVER=pooh');
+        putenv('INFORMIXSERVER=kosh');
         putenv('INFORMIXDIR=/opt/informix');
         ifx_textasvarchar(1);
         
@@ -90,7 +90,7 @@ class eZInformixDB
     */
     function lock( $table )
     {
-        $this->query( "LOCK TABLE $table" );
+        $this->query( "LOCK TABLE $table IN EXCLUSIVE MODE" );
     }
 
     /*!
@@ -98,7 +98,8 @@ class eZInformixDB
     */
     function unlock()
     {
-        $this->query( "UNLOCK TABLES" );
+        // no unlock code necessary?
+//        $this->query( "" );
     }
 
     /*!
