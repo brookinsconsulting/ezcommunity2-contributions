@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: linklist.php,v 1.7 2000/10/28 16:11:52 ce-cvs Exp $
+// $Id: linklist.php,v 1.8 2000/11/01 13:58:45 bf-cvs Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <26-Oct-2000 15:02:09 ce>
@@ -29,8 +29,6 @@ include_once( "classes/INIFile.php" );
 $ini = new INIFile( "site.ini" );
 
 $Language = $ini->read_var( "eZLinkMain", "Language" );
-
-include_once( "common/ezphputils.php" );
 
 include_once( "ezlink/classes/ezlinkgroup.php" );
 include_once( "ezlink/classes/ezlink.php" );
