@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: bugreport.php,v 1.22 2001/04/04 15:21:44 fh Exp $
+// $Id: bugreport.php,v 1.23 2001/04/23 10:35:20 fh Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <27-Nov-2000 20:31:00 bf>
@@ -127,12 +127,11 @@ if( $Action == "New" )
     $bug->setName( $Name );
     $bug->setDescription( $Description );
     $bug->store();
-    
-    $category = new eZBugCategory( $CategoryID );
+
+    $category = new eZBugCategory( $BugCategoryID );
     $module = new eZBugModule( $ModuleID );
     $bug->removeFromCategories();
     $bug->removeFromModules();
-
     $category->addBug( $bug );
     $module->addBug( $bug );
 
@@ -158,7 +157,7 @@ if( $Action == "Update" )
     $bug->setName( $Name );
     $bug->setDescription( $Description );
 
-    $category = new eZBugCategory( $CategoryID );
+    $category = new eZBugCategory( $BugCategoryID );
     $module = new eZBugModule( $ModuleID );
     $bug->removeFromCategories();
     $bug->removeFromModules();

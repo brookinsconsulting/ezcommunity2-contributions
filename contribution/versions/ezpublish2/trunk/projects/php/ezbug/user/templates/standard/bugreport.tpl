@@ -29,7 +29,7 @@
 
 	<td>
 	<p class="boxtext">{intl-bug_category}:</p>
-	<select name="CategoryID">
+	<select name="BugCategoryID">
 	<!-- BEGIN category_item_tpl -->
 	<option value="{category_id}" {selected}>{category_name}</option>
 	<!-- END category_item_tpl -->

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: bugedit.php,v 1.34 2001/04/04 15:21:44 fh Exp $
+// $Id: bugedit.php,v 1.35 2001/04/23 10:35:20 fh Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <28-Nov-2000 19:45:35 bf>
@@ -336,7 +336,9 @@ if ( $Action == "Edit" )
 
     $cat =& $bug->category();
     if ( $cat )
+    {
         $categoryID = $cat->id();
+    }
 
     $module =& $bug->module();
     if ( $module )
