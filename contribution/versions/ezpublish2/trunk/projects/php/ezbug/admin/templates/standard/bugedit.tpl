@@ -39,9 +39,13 @@
 </tr>
 </table>
 
+<!-- BEGIN program_version_tpl -->
+<p class="boxtext">{intl-version_number}:</p>
+<div class="p">{version_value}</div>
+<!-- END program_version_tpl -->
+
 <p class="boxtext">{intl-bug_reporter}:</p>
 <div class="p">{reporter_name_value}</div>
-
 
 <p class="boxtext">{intl-bug_description}:</p>
 <table cellspacing="0" cellpadding="4" border="0" width="100%">

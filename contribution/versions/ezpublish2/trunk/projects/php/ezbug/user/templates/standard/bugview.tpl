@@ -1,5 +1,5 @@
 <h1>{intl-bug_view}</h1>
-
+ 
 <hr noshade="noshade" size="4">
 <!-- BEGIN path_tpl -->
 
@@ -45,6 +45,11 @@
 	</td>
 </tr>
 </table>
+
+<!-- BEGIN version_number_tpl -->
+<p class="boxtext">{intl-version_number}:</p>
+<div class="p">{version_number_value}</div>
+<!-- END version_number_tpl -->
 
 <p class="boxtext">{intl-bug_reporter}:</p>
 <div class="p">{reporter_name_value}</div>

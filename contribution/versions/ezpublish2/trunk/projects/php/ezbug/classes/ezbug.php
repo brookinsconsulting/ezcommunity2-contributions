@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezbug.php,v 1.22 2001/04/04 15:21:44 fh Exp $
+// $Id: ezbug.php,v 1.23 2001/04/27 15:28:39 fh Exp $
 //
 // Definition of eZBug class
 //
@@ -113,6 +113,7 @@ class eZBug
         $name = addslashes( $this->Name );
         $description = addslashes( $this->Description );
         $useremail = addslashes( $this->UserEmail );
+        $version = addslashes( $this->Version );
         
         if ( !isset( $this->ID ) )
         {
@@ -127,6 +128,7 @@ class eZBug
                                  Created=now(),
                                  UserID='$this->UserID',
                                  OwnerID='$this->OwnerID',
+                                 Version='$version',
                                  IsPrivate='$this->IsPrivate'" );
             $this->ID = mysql_insert_id();
         }
@@ -143,6 +145,7 @@ class eZBug
                                  UserEmail='$useremail',
                                  UserID='$this->UserID',
                                  OwnerID='$this->OwnerID',
+                                 Version='$version',
                                  IsPrivate='$this->IsPrivate'
                                  WHERE ID='$this->ID'" );
         }
@@ -196,6 +199,7 @@ class eZBug
                 $this->StatusID =& $module_array[0][ "StatusID" ];
                 $this->OwnerID =& $module_array[0][ "OwnerID" ];
                 $this->IsPrivate =& $module_array[0][ "IsPrivate" ];
+                $this->Version =& $module_array[0][ "Version" ];
             }
                  
             $this->State_ = "Coherent";
@@ -570,6 +574,28 @@ class eZBug
             $this->IsPrivate = "false";           
         }
     }
+
+    /*!
+      Sets the version number
+     */
+    function setVersion( $value )
+    {
+        if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+        $this->Version = $value;
+    }
+
+    /*!
+      Returns the version number
+     */
+    function version( $asHTML = true )
+    {
+        if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+        if( $asHTML )
+            return htmlspecialchars( $this->Version );
+        return $this->Version;
+    }
     
    /*!
       Returns the priority assigned to the bug as an
@@ -868,6 +894,7 @@ class eZBug
     var $StatusID;    
     var $OwnerID;
     var $IsPrivate="false";
+    var $Version;
     
     ///  Variable for keeping the database connection.
     var $Database;

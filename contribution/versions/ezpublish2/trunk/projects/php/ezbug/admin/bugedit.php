@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: bugedit.php,v 1.36 2001/04/23 10:41:57 fh Exp $
+// $Id: bugedit.php,v 1.37 2001/04/27 15:28:39 fh Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <28-Nov-2000 19:45:35 bf>
@@ -76,6 +76,7 @@ $t->set_block( "bug_edit_tpl", "category_item_tpl", "category_item" );
 $t->set_block( "bug_edit_tpl", "priority_item_tpl", "priority_item" );
 $t->set_block( "bug_edit_tpl", "status_item_tpl", "status_item" );
 $t->set_block( "bug_edit_tpl", "owner_item_tpl", "owner_item" );
+$t->set_block( "bug_edit_tpl", "program_version_tpl", "program_version" );
 
 $t->set_block( "bug_edit_tpl", "log_item_tpl", "log_item" );
 $t->set_block( "bug_edit_tpl", "file_headers_tpl", "file_headers" );
@@ -83,6 +84,7 @@ $t->set_block( "file_headers_tpl", "file_tpl", "file" );
 $t->set_block( "bug_edit_tpl", "image_headers_tpl", "image_headers" );
 $t->set_block( "image_headers_tpl", "image_tpl", "image" );
 
+$t->set_var( "program_version", "" );
 
 if ( $Action == "Insert" )
 {
@@ -330,6 +332,11 @@ if ( $Action == "Edit" )
     $date =& $bug->created();
     $t->set_var( "bug_date", $locale->format( $date ) );    
 
+    if( $bug->version() != "" )
+    {
+        $t->set_var( "version_value", $bug->version() );
+        $t->parse( "program_version", "program_version_tpl", false );
+    }
 
     $bugLog = new eZBugLog();
     $logList = $bugLog->getByBug( $bug );

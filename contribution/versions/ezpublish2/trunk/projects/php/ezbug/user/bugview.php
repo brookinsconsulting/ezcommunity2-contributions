@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: bugview.php,v 1.10 2001/04/04 15:21:44 fh Exp $
+// $Id: bugview.php,v 1.11 2001/04/27 15:28:40 fh Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <04-Dec-2000 11:44:31 bf>
@@ -28,6 +28,7 @@ include_once( "classes/eztemplate.php" );
 include_once( "classes/ezlog.php" );
 include_once( "classes/ezlocale.php" );
 include_once( "classes/eztexttool.php" );
+include_once( "classes/ezhttptool.php" );
 
 $ini =& $GLOBALS["GlobalSiteIni"];
 
@@ -59,12 +60,21 @@ $t->set_block( "bug_edit_tpl", "screenshots_tpl", "screenshots" );
 $t->set_block( "screenshots_tpl", "screenshot_item_tpl", "screenshot_item" );
 $t->set_block( "bug_edit_tpl", "patches_tpl", "patches" );
 $t->set_block( "patches_tpl", "patch_item_tpl", "patch_item" );
+$t->set_block( "bug_edit_tpl", "version_number_tpl", "version_number" );
+
+$t->set_var( "version_number", "" );
 
 $locale = new eZLocale( $Language );
 $bug = new eZBug( $BugID );
 
 // path
 $module = $bug->module();
+if( $module == false )
+{
+    eZHTTPTool::header( "Location: /bug/archive/0" );
+    exit();
+}
+
 $pathArray = $module->path();
 
 $t->set_var( "path_item", "" );
@@ -77,6 +87,11 @@ foreach ( $pathArray as $path )
     $t->parse( "path_item", "path_item_tpl", true );
 }
 
+if( $bug->version() != "" )
+{
+    $t->set_var( "version_number_value", $bug->version() );
+    $t->parse( "version_number", "version_number_tpl", false );
+}
 
 $t->set_var( "bug_id", $bug->id() );
 

@@ -12,6 +12,7 @@ CREATE TABLE eZBug_Bug (
   PriorityID int(11) DEFAULT '0' NOT NULL,
   StatusID int(11) DEFAULT '0' NOT NULL,
   IsClosed enum('true','false') DEFAULT 'false',
+  Version varchar(150) DEFAULT '',
   UserEmail varchar(100) DEFAULT '',
   PRIMARY KEY (ID)
 );

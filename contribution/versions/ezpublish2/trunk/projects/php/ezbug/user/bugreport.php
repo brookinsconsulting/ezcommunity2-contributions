@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: bugreport.php,v 1.23 2001/04/23 10:35:20 fh Exp $
+// $Id: bugreport.php,v 1.24 2001/04/27 15:28:39 fh Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <27-Nov-2000 20:31:00 bf>
@@ -72,57 +72,6 @@ $successfull = 0;
 $actionValue = "new";
 if( $Action == "New" )
 {
-    /*   $user = eZUser::currentUser();
-
-    if( ( $Name != "" ) && ( $Description != "" ) )
-    {
-        $category = new eZBugCategory( $CategoryID );
-        $module = new eZBugModule( $ModuleID );
-        
-        $bug = new eZBug();
-        $bug->setName( $Name );
-        $bug->setDescription( $Description );
-        
-        if( $user )
-        {
-            $bug->setUser( $user );
-            
-            $bug->setIsHandled( false );
-            $bug->store();
-            
-            $category->addBug( $bug );
-            $module->addBug( $bug );
-
-            $successfull = 1;
-            $actionValue = "Update";
-        }
-        else
-        {
-            if( $bug->setUserEmail( $Email ) )
-            {
-                $bug->setIsHandled( false );
-                $bug->store();
-                
-                $category->addBug( $bug );
-                $module->addBug( $bug );
-                
-                $successfull = 2;
-                $actionValue = "Update";
-            }
-            else
-            {
-                $EmailError = true;                
-            }            
-        }       
-    }
-    else
-    {
-        $AllFieldsError = true;
-    }
-    */
-//    $bug = new eZBug();
-//    $bug->store();
-//    $BugID = $bug->id();
     $bug = new eZBug();
     $bug->setName( $Name );
     $bug->setDescription( $Description );
@@ -143,7 +92,8 @@ if( $Action == "New" )
 
     if( $IsPrivate == "true" )
         $bug->setIsPrivate( true );
-    
+
+    $bug->setVersion( $Version );
     $bug->setIsHandled( false );
     $bug->store();
     
@@ -174,6 +124,7 @@ if( $Action == "Update" )
     if( $IsPrivate == "true" )
         $bug->setIsPrivate( true );
     
+    $bug->setVersion( $Version );
     $bug->setIsHandled( false );
     $bug->store();
     
@@ -260,6 +211,9 @@ $t->set_var( "description_value", $Description );
 $t->set_var( "title_value", $Name );
 $t->set_var( "file", "" );
 $t->set_var( "image", "" );
+$t->set_var( "private_checked", "" );
+$t->set_var( "version_value", "" );
+
 if( $IsPrivate == "On" )
     $t->set_var( "private_checked", "checked" );
 $t->set_var( "usr_email", $Email );
@@ -282,7 +236,8 @@ if( $Action == "Edit" ) // load values from database
     
     $t->set_var( "description_value", $bug->description() );
     $t->set_var( "title_value", $bug->name() );
-
+    $t->set_var( "version_value", $bug->version() );
+    
     if( $bug->isPrivate() )
         $t->set_var( "private_checked", "checked" );
 

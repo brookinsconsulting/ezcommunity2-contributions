@@ -18,7 +18,7 @@
 
 <table cellspacing="0" cellpadding="0" border="0" width="100%">
 <tr>
-	<td width="50%">
+	<td width="33%">
 	<p class="boxtext">{intl-bug_module}:</p>
 	<select name="ModuleID">
 	<!-- BEGIN module_item_tpl -->
@@ -27,13 +27,17 @@
 	</select>
 	</td>
 
-	<td>
+	<td width="33%">
 	<p class="boxtext">{intl-bug_category}:</p>
 	<select name="BugCategoryID">
 	<!-- BEGIN category_item_tpl -->
 	<option value="{category_id}" {selected}>{category_name}</option>
 	<!-- END category_item_tpl -->
 	</select>
+	</td>
+	<td>
+	<p class="boxtext">{intl-program_version}:</p>
+	<input type="text" name="Version" value="{version_value}" />
 	</td>
 </tr>
 </table>
