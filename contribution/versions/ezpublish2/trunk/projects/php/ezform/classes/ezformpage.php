@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezformpage.php,v 1.5 2001/12/17 17:36:10 br Exp $
+// $Id: ezformpage.php,v 1.6 2001/12/18 09:37:40 jhe Exp $
 //
 // Definition of ||| class
 //
@@ -497,8 +497,6 @@ class eZFormPage
     {
         return $this->Name;
     }
-
-    
     
     var $ID;
     var $Name;

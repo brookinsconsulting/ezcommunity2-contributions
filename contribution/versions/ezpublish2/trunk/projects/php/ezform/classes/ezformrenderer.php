@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezformrenderer.php,v 1.23 2001/12/17 18:45:25 jhe Exp $
+// $Id: ezformrenderer.php,v 1.24 2001/12/18 09:37:40 jhe Exp $
 //
 // eZFormRenderer class
 //
@@ -112,6 +112,8 @@ class eZFormRenderer
         $this->Template->set_var( "form_item", "" );
         $this->Template->set_var( "text_field_item", "" );
         $this->Template->set_var( "text_area_item", "" );
+        $this->Template->set_var( "table_item", "" );
+        $this->Template->set_var( "table_item_sub_item", "" );
         $this->Template->set_var( "form_instructions", "" );
         $this->Template->set_var( "form_sender_value", "" );
         
@@ -199,6 +201,7 @@ class eZFormRenderer
      */
     function &renderForm( $form = "", $addFormTags = true, $addButtons = true )
     {
+        global $pageList;
         $output = "";
         $render = false;
         
@@ -216,7 +219,6 @@ class eZFormRenderer
         }
 
         $currentPage = $this->Form->formPage( $this->Page );
-        
         if ( $render == true )
         {
             $elements =& $currentPage->pageElements();
@@ -225,6 +227,10 @@ class eZFormRenderer
             $this->Template->set_var( "form_id", $this->Form->id() );
             $this->Template->set_var( "form_name", $this->Form->name() );
             $this->Template->set_var( "form_completed_page", $this->Form->completedPage() );
+            if ( $this->Page == -1 )
+                $this->Template->set_var( "page_list", $this->Page );
+            else
+                $this->Template->set_var( "page_list", $pageList );
             if ( $this->Form->instructionPage() != "" )
             {
                 $this->Template->set_var( "form_instruction_page", $this->Form->instructionPage() );
@@ -259,7 +265,6 @@ class eZFormRenderer
             foreach ( $elements as $element )
             {
                 $elementCounter++;
-
                 $eType = $element->elementType();
                 if ( $eType->name() == "table_item" )
                 {
@@ -379,11 +384,21 @@ class eZFormRenderer
         
         return $output;
     }
+
+    function setPage( $page = -1 )
+    {
+        $this->Page = $page;
+    }
+
+    function page()
+    {
+        return $this->Page;
+    }
     
     /*!
         This function verifies the data from a posted form
      */
-    function verifyForm()
+    function verifyPage( $page = -1 )
     {
         global $FormID;
         global $formName;
@@ -396,8 +411,8 @@ class eZFormRenderer
         $ini =& INIFile::globalINI();
               
         $this->Form = new eZForm( $FormID );
-        
-        $elements = $this->Form->formElements();
+        $page = new eZFormPage( $page );
+        $elements = $page->pageElements();
 
         if ( $this->Form->isSendAsUser() )
         {

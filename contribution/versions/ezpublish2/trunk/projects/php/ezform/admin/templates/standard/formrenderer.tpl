@@ -67,6 +67,7 @@
 <input type="hidden" name="formID" value="{form_id}" />
 <input type="hidden" name="mailSubject" value="{form_name}" />
 <input type="hidden" name="redirectTo" value="{form_completed_page}" />
+<input type="hidden" name="pageList" value="{page_list}" />
 <!-- BEGIN form_sender_tpl -->
 <p class="boxtext">{intl-form_sender}:</p>
 <input type="text" class="box" name="formSender" value="{form_sender_value}" />

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: formview.php,v 1.2 2001/07/19 13:03:50 jakobn Exp $
+// $Id: formview.php,v 1.3 2001/12/18 09:37:40 jhe Exp $
 //
 // Created on: <12-Jun-2001 13:07:24 pkej>
 //
@@ -33,12 +33,13 @@ include_once( "ezform/classes/ezformelementtype.php" );
 include_once( "ezform/classes/ezformrenderer.php" );
 include_once( "ezmail/classes/ezmail.php" );
 
-
 $ini =& INIFile::globalINI();
 
-if( isset( $Cancel ) )
+$page_array = explode( ":", $pageList );
+
+if ( isSet( $Cancel ) )
 {
-    if( !empty( $redirectTo ) )
+    if ( !empty( $redirectTo ) )
     {
         eZHTTPTool::header( "Location: $redirectTo" );
     }
@@ -49,6 +50,27 @@ if( isset( $Cancel ) )
     exit();
 }
 
+$renderer =& new eZFormRenderer( $form );
+
+if ( isSet( $Next ) )
+{
+    $output =& $renderer->verifyPage( $page_array[count( $page_array ) - 1] );
+    if ( $output == "" )
+    {
+        $nextPage = 7;
+        $pageList .= ":" . $nextPage;
+    }
+    else
+    {
+        $t->set_var( "error", $output );
+    }
+}
+else if ( isSet( $Previous ) )
+{
+    $nextPage = $page_array[count( $page_array ) - 2];
+    $page_array = array_slice( $page_array, 0, -1 );
+    $pageList = implode( ":", $page_array );
+}
 
 
 $ActionValue="process";
@@ -64,9 +86,7 @@ $t = new eZTemplate( "ezform/admin/" . $ini->read_var( "eZFormMain", "AdminTempl
 
 $t->setAllStrings();
 
-$t->set_file( array(
-    "form_view_page_tpl" => "formview.tpl"
-    ) );
+$t->set_file( "form_view_page_tpl", "formview.tpl" );
 
 $t->set_block( "form_view_page_tpl", "mail_preview_tpl", "mail_preview" );
 
@@ -77,15 +97,16 @@ $t->set_var( "form_id", $FormID );
 $t->set_var( "form_name", $form->name() );
 $t->set_var( "form_completed_page", $form->completedPage() );
 $t->set_var( "form_instruction_page", $form->instructionPage() );
+$t->set_var( "page_list", $pageList );
 
-$renderer =& new eZFormRenderer( $form );
+$renderer->setPage( $nextPage );
 $output =& $renderer->renderForm( $form );
 $t->set_var( "form", $output );
 
-if( isset( $OK ) )
+if ( isSet( $OK ) )
 {
-    $output =& $renderer->verifyForm();
-    if( $output == "" )
+    $output =& $renderer->verifyPage();
+    if ( $output == "" )
     {
         $renderer->sendForm();
     }

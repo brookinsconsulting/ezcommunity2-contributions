@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: ezformtable.php,v 1.7 2001/12/14 13:39:24 jhe Exp $
+// $Id: ezformtable.php,v 1.8 2001/12/18 09:37:40 jhe Exp $
 //
 // Definition of eZFormTable class
 //
@@ -128,7 +128,7 @@ class eZFormTable
     function tableElements( $id = -1 )
     {
         if ( $id == -1 )
-            $tableID = $this->ID;
+            $tableID = $this->ElementID;
         else
             $tableID = $id;
 

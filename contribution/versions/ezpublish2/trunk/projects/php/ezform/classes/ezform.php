@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezform.php,v 1.12 2001/12/17 18:45:25 jhe Exp $
+// $Id: ezform.php,v 1.13 2001/12/18 09:37:40 jhe Exp $
 //
 // ezform class
 //
@@ -426,7 +426,7 @@ class eZForm
         $whereString = "";
         $element = array();
         if ( $page != -1 )
-            $whereString = "AND PageNumber = $page ";
+            $whereString = "AND ID = $page ";
         $db =& eZDB::globalDatabase();
         $db->array_query( $element, "SELECT * FROM eZForm_FormPage WHERE FormID='$this->ID' $whereString ORDER BY Placement" );
         $formpage = new eZFormPage( $element[0] );

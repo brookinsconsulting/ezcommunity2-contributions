@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: formview.php,v 1.3 2001/12/12 10:11:47 jhe Exp $
+// $Id: formview.php,v 1.4 2001/12/18 09:37:40 jhe Exp $
 //
 // Created on: <12-Jun-2001 13:07:24 pkej>
 //
@@ -35,6 +35,8 @@ include_once( "ezmail/classes/ezmail.php" );
 
 $ini =& INIFile::globalINI();
 
+$page_array = explode( ":", $pageList );
+
 if ( isset( $Cancel ) )
 {
     if ( !empty( $redirectTo ) )
@@ -46,6 +48,28 @@ if ( isset( $Cancel ) )
         eZHTTPTool::header( "Location: /" );
     }
     exit();
+}
+
+$renderer =& new eZFormRenderer( $form );
+
+if ( isSet( $Next ) )
+{
+    $output =& $renderer->verifyPage( $page_array[count( $page_array ) - 1] );
+    if ( $output == "" )
+    {
+        $nextPage = 7;
+        $pageList .= ":" . $nextPage;
+    }
+    else
+    {
+        $t->set_var( "error", $output );
+    }
+}
+else if ( isSet( $Previous ) )
+{
+    $nextPage = $page_array[count( $page_array ) - 2];
+    $page_array = array_slice( $page_array, 0, -1 );
+    $pageList = implode( ":", $page_array );
 }
 
 
@@ -87,8 +111,9 @@ $t->set_var( "form_id", $FormID );
 $t->set_var( "form_name", $form->name() );
 $t->set_var( "form_completed_page", $form->completedPage() );
 $t->set_var( "form_instruction_page", $form->instructionPage() );
+$t->set_var( "page_list", $pageList );
 
-$renderer =& new eZFormRenderer( $form );
+$renderer->setPage( $nextPage );
 $output =& $renderer->renderForm( $form );
 $t->set_var( "form", $output );
 
