@@ -7,3 +7,11 @@ Maintainer(s) : bf@ez.no
 
     * ezquery.php: Added Stop Word check.
 
+
+Module : classes
+Repository path : /home/cvsroot/projects/php/classes
+Maintainer(s) : bf@ez.no
+2001-09-04  Baard Farstad  <bf@ez.no>
+
+    * ezquery.php: Added Stop Word check.
+
