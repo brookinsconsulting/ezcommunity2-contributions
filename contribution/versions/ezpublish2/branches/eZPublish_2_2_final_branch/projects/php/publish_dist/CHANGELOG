@@ -21,6 +21,7 @@ Changes from 2.2.2 to 2.2.3
 * Added new eztag: <ezarticle id text> links to article with "id" and linktext "text"
 * Added new eztag: <ezcategory id text> links to category with "id" and linktext "text"
 * Added new eztag: <ezstatic id text> links to static article with "id" and linktext "text"
+* Fixed bug when using multiple standard ezpublish tags in custom tag. 
 
 Changes from 2.2.1 final to 2.2.2
 ---------------------------------
