@@ -4,6 +4,15 @@ Example:
 mod: bug/user, fileedit.php.ini
 change: added user_edit=Some text
 --------------------------------------------------------------------
+
+mod: eztrade/user, menubox.php.ini
+change: added
+headline=Customer
+your_cart=Your cart
+your_wishlist=Your wishlist
+find_wishlist=Find wishlist
+send_wishlist=Send wishlist
+
 mod: general admin interface, header.php.ini
 change: added
 user_settings=User&nbsp;settings
