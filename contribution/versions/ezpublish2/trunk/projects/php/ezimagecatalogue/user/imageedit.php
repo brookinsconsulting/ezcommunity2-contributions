@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: imageedit.php,v 1.45 2001/09/08 15:17:38 fh Exp $
+// $Id: imageedit.php,v 1.46 2001/09/16 20:05:43 fh Exp $
 //
 // Created on: <09-Jan-2001 10:45:44 ce>
 //
@@ -114,7 +114,7 @@ $nameCheck = true;
 $captionCheck = false;
 $descriptionCheck = false;
 $fileCheck = true;
-$permissionCheck = false;
+$permissionCheck = true;
 
 $t->set_block( "errors_tpl", "error_name_tpl", "error_name" );
 $t->set_var( "error_name", "&nbsp;" );
@@ -127,12 +127,6 @@ $t->set_var( "error_file_upload", "&nbsp" );
 
 $t->set_block( "errors_tpl", "error_description_tpl", "error_description" );
 $t->set_var( "error_description", "&nbsp;" );
-
-$t->set_block( "errors_tpl", "error_read_everybody_permission_tpl", "error_read_everybody_permission" );
-$t->set_var( "error_read_everybody_permission", "&nbsp;" );
-
-$t->set_block( "errors_tpl", "error_write_everybody_permission_tpl", "error_write_everybody_permission" );
-$t->set_var( "error_write_everybody_permission", "&nbsp;" );
 
 // Check for errors when inserting or updating.
 if ( $Action == "Insert" || $Action == "Update" )
@@ -164,22 +158,18 @@ if ( $Action == "Insert" || $Action == "Update" )
         }
     }
 
-    if ( $permissionCheck )
+    if( $permissionCheck )
     {
-        if ( empty( $ReadGroupArrayID )  )
+        if ( !( eZObjectPermission::hasPermission( $CategoryID, "imagecatalogue_category", 'w', $user ) == true
+                || eZObjectPermission::hasPermission( $CategoryID, "imagecatalogue_category", 'u' )
+                || eZImageCategory::isOwner( eZUser::currentUser(), $CategoryID ) ) )
         {
-            $t->parse( "error_read_everybody_permission", "error_read_everybody_permission_tpl" );
-            $error = true;
-        }
-        if ( empty( $WriteGroupArrayID )  )
-        {
-            $t->parse( "error_write_everybody_permission", "error_write_everybody_permission_tpl" );
-            $error = true;
+            eZHTTPTool::header( "Location: /error/403/" );
+            exit();
         }
 
     }
-
-
+    
     if ( $fileCheck )
     {
         $file = new eZImageFile();
@@ -255,31 +245,8 @@ if ( $Action == "Insert" && $error == false )
 
     $image->store();
 
-    if ( count ( $ReadGroupArrayID ) > 0 )
-    {
-        foreach ( $ReadGroupArrayID as $Read )
-        {
-            if ( $Read == 0 )
-                $group = -1;
-            else
-                $group = new eZUserGroup( $Read );
-
-            eZObjectPermission::setPermission( $group, $image->id(), "imagecatalogue_image", "r" );
-        }
-    }
-
-    if ( count ( $WriteGroupArrayID ) > 0 )
-    {
-        foreach ( $WriteGroupArrayID as $Write )
-        {
-            if ( $Write == 0 )
-                $group = -1;
-            else
-                $group = new eZUserGroup( $Write );
-
-            eZObjectPermission::setPermission( $group, $image->id(), "imagecatalogue_image", "w" );
-        }
-    }
+    changePermissions( $ImageID, $ReadGroupArrayID, 'r' );
+    changePermissions( $ImageID, $WriteGroupArrayID, 'w' );
 
     $category = new eZImageCategory( $CategoryID );
 
@@ -289,7 +256,8 @@ if ( $Action == "Insert" && $error == false )
 
     foreach ( $categories as $categoryItem )
     {
-        eZImageCategory::addImage( $image, $categoryItem );
+        if( eZObjectPermission::hasPermission( $image->id(), "imagecatalogue_image", 'w' ) )
+            eZImageCategory::addImage( $image, $categoryItem );
     }
     eZLog::writeNotice( "Picture added to catalogue: $image->name() from IP: $REMOTE_ADDR" );
 
@@ -322,33 +290,8 @@ if ( $Action == "Update" && $error == false )
 
     $image->setDescription( $Description );
 
-    eZObjectPermission::removePermissions( $ImageID, "imagecatalogue_image", 'r' );
-    if ( count ( $ReadGroupArrayID ) > 0 )
-    {
-        foreach ( $ReadGroupArrayID as $Read )
-        {
-            if ( $Read == 0 )
-                $group = -1;
-            else
-                $group = new eZUserGroup( $Read );
-
-            eZObjectPermission::setPermission( $group, $image->id(), "imagecatalogue_image", "r" );
-        }
-    }
-
-    eZObjectPermission::removePermissions( $ImageID, "imagecatalogue_image", 'w' );
-    if ( count ( $WriteGroupArrayID ) > 0 )
-    {
-        foreach ( $WriteGroupArrayID as $Write )
-        {
-            if ( $Write == 0 )
-                $group = -1;
-            else
-                $group = new eZUserGroup( $Write );
-
-            eZObjectPermission::setPermission( $group, $image->id(), "imagecatalogue_image", "w" );
-        }
-    }
+    changePermissions( $ImageID, $ReadGroupArrayID, 'r' );
+    changePermissions( $ImageID, $WriteGroupArrayID, 'w' );
 
     $categories = $image->categories();
 
@@ -363,7 +306,8 @@ if ( $Action == "Update" && $error == false )
 
     foreach ( $categories as $categoryItem )
     {
-        eZImageCategory::addImage( $image, $categoryItem );
+        if( eZObjectPermission::hasPermission( $image->id(), "imagecatalogue_image", 'w' ) )
+            eZImageCategory::addImage( $image, $categoryItem );
     }
 
     $category->addImage( $image );
@@ -552,8 +496,9 @@ $t->set_var( "num_select_categories", min( $catCount, 10 ) );
 
 foreach ( $treeArray as $catItem )
 {
-    if ( eZObjectPermission::hasPermission( $catItem[0]->id(), "image_category", 'w', $user ) == true  ||
-         eZImageCategory::isOwner( eZUser::currentUser(), $catItem[0]->id() ) )
+    if ( eZObjectPermission::hasPermission( $catItem[0]->id(), "imagecatalogue_category", 'w', $user ) == true
+         || eZObjectPermission::hasPermission( $categoryItem[0]->id(), "imagecatalogue_category", 'u' )
+         || eZImageCategory::isOwner( eZUser::currentUser(), $catItem[0]->id() ) )
     {
         if ( $Action == "Edit" )
         {
@@ -679,5 +624,22 @@ foreach ( $groups as $group )
 }
 
 $t->pparse( "output", "image_edit_page" );
+/******* FUNCTIONS ****************************/
+function changePermissions( $objectID, $groups , $permission )
+{
+    eZObjectPermission::removePermissions( $objectID, "imagecatalogue_image", $permission );
+    if ( count( $groups ) > 0 )
+    {
+        foreach ( $groups as $groupItem )
+        {
+            if ( $groupItem == 0 )
+                $group = -1;
+            else
+                $group = new eZUserGroup( $groupItem );
+            
+            eZObjectPermission::setPermission( $group, $objectID, "imagecatalogue_image", $permission );
+        }
+    }
 
+}
 ?>

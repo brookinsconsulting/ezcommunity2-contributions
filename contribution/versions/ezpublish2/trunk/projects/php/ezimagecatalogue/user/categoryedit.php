@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: categoryedit.php,v 1.20 2001/08/17 13:35:59 jhe Exp $
+// $Id: categoryedit.php,v 1.21 2001/09/16 20:05:43 fh Exp $
 //
 // Created on: <08-Jan-2001 11:13:29 ce>
 //
@@ -66,6 +66,7 @@ $t->set_block( "category_edit_tpl", "errors_tpl", "errors" );
 
 $t->set_block( "category_edit_tpl", "write_group_item_tpl", "write_group_item" );
 $t->set_block( "category_edit_tpl", "read_group_item_tpl", "read_group_item" );
+$t->set_block( "category_edit_tpl", "upload_group_item_tpl", "upload_group_item" );
 
 $t->set_var( "errors", "" );
 $t->set_var( "category_name", "$Name" );
@@ -119,32 +120,6 @@ if ( $Action == "Insert" || $Action == "Update" )
         }
     }
 
-    // If selected more that one group, check if there is are a everybody.
-    if ( count ( $ReadGroupArrayID ) > 1 )
-    {
-        foreach ( $ReadGroupArrayID as $Read )
-        {
-            if ( $Read == 0 )
-            {
-                $t->parse( "error_read_everybody_permission", "error_read_everybody_permission_tpl" );
-                $error = true;
-            }
-        }
-    }
-
-    // If selected more that one group, check if there is are a everybody.
-    if ( count ( $WriteGroupArrayID ) > 1 )
-    {
-        foreach ( $WriteGroupArrayID as $Write )
-        {
-            if ( $Write == 0 )
-            {
-                $t->parse( "error_write_everybody_permission", "error_write_everybody_permission_tpl" );
-                $error = true;
-            }
-        }
-    }
-
     // Check if parent is the same as category.
     if ( $Action == "Update" )
     {
@@ -183,95 +158,33 @@ if ( $Action == "Insert" || $Action == "Update" )
     }
 }
 
-// Insert a category.
-if( $Action == "Insert" && $error == false )
+// Insert or update a category
+if( ( $Action == "Insert" || $Action == "Update" ) && $error == false )
 {
-    $category = new eZImageCategory();
+    if( $Action == "Insert" )
+    {
+        $category = new eZImageCategory();
+        $category->setUser( $user );
+    }
+    else
+    {
+        $category = new eZImageCategory( $CategoryID );
+    }
+
     $category->setName( $Name );
     $category->setDescription( $Description );
-
-    $category->setUser( $user );
-
 
     $parent = new eZImageCategory( $ParentID );
     $category->setParent( $parent );
 
     $category->store();
-
-
-     if ( count ( $ReadGroupArrayID ) > 0 )
-     {
-         foreach ( $ReadGroupArrayID as $Read )
-         {
-             if ( $Read == 0 )
-                $group = -1;
-            else
-                $group = new eZUserGroup( $Read );
-            
-            eZObjectPermission::setPermission( $group, $category->id(), "imagecatalogue_category", "r" );
-        }
-    }
-
-   if( count ( $WriteGroupArrayID ) > 0 )
-    {
-        foreach ( $WriteGroupArrayID as $Write )
-        {
-            if ( $Write == 0 )
-                $group = -1;
-            else
-                $group = new eZUserGroup( $Write );
-            
-            eZObjectPermission::setPermission( $group, $category->id(), "imagecatalogue_category", "w" );
-        }
-    }
-
+    $CategoryID = $category->id();
+    changePermissions( $CategoryID, $ReadGroupArrayID, 'r' );
+    changePermissions( $CategoryID, $WriteGroupArrayID, 'w' );
+    changePermissions( $CategoryID, $UploadGroupArrayID, 'u' );
+    
     eZHTTPTool::header( "Location: /imagecatalogue/image/list/$ParentID" );
     exit();
-}
-
-// Update the category.
-if ( $Action == "Update" && $error == false )
-{
-    $category = new eZImageCategory( $CategoryID );
-    $category->setName( $Name );
-    $category->setDescription( $Description );
-
-    $parent = new eZImageCategory( $ParentID );
-    $category->setParent( $parent );
-
-    $category->store();
-
-    eZObjectPermission::removePermissions( $CategoryID, "imagecatalogue_category", 'r' );
-    if ( count ( $ReadGroupArrayID ) > 0 )
-    {
-        foreach ( $ReadGroupArrayID as $Read )
-        {
-            if ( $Read == 0 )
-                $group = -1;
-            else
-                $group = new eZUserGroup( $Read );
-            
-            eZObjectPermission::setPermission( $group, $category->id(), "imagecatalogue_category", "r" );
-        }
-    }
-    
-    eZObjectPermission::removePermissions( $CategoryID, "imagecatalogue_category", 'w' );
-    if ( count ( $WriteGroupArrayID ) > 0 )
-    {
-        foreach ( $WriteGroupArrayID as $Write )
-        {
-            if ( $Write == 0 )
-                $group = -1;
-            else
-                $group = new eZUserGroup( $Write );
-            
-            eZObjectPermission::setPermission( $group, $category->id(), "imagecatalogue_category", "w" );
-        }
-    }
-
-    eZHTTPTool::header( "Location: /imagecatalogue/image/list/$CategoryID" );
-    exit();
-  
 }
 
 // Delete the selected categories.
@@ -292,9 +205,9 @@ if ( $Action == "New" || $error )
 {
     $t->set_var( "action_value", "insert" );
     $t->set_var( "category_id", "" );
-
-    $t->set_var( "user_read_checked", "checked" );
-    $t->set_var( "user_write_checked", "checked" );
+    $t->set_var( "read_everybody", "selected" );
+    $t->set_var( "write_everybody", "selected" );
+    $t->set_var( "upload_everybody", "selected" );
 }
 
 // Insert the category values when editing.
@@ -316,6 +229,7 @@ if ( $Action == "Edit" )
     $readGroupArrayID =& eZObjectPermission::getGroups( $category->id(), "imagecatalogue_category", "r", false );
 
     $writeGroupArrayID =& eZObjectPermission::getGroups( $category->id(), "imagecatalogue_category", "w", false );
+    $uploadGroupArrayID =& eZObjectPermission::getGroups( $category->id(), "imagecatalogue_category", "u", false );
 }
 
 // Print out all the groups.
@@ -327,48 +241,49 @@ foreach ( $groups as $group )
 
     $t->set_var( "is_write_selected1", "" );
     $t->set_var( "is_read_selected1", "" );
+    $t->set_var( "is_upload_selected1", "" );
     
-    if ( $readGroupArrayID )
+    if( in_array( $group->id(), $readGroupArrayID ) )
     {
-        foreach ( $readGroupArrayID as $readGroup )
-        {
-            if ( $readGroup == $group->id() )
-            {
-                $t->set_var( "is_read_selected1", "selected" );
-            }
-            elseif ( $readGroup == -1 )
-            {
-                $t->set_var( "read_everybody", "selected" );
-            }
-            else
-            {
-                $t->set_var( "is_read_selected", "" );
-            }
-        }
+        $t->set_var( "is_read_selected1", "selected" );
     }
-
+    elseif( in_array( -1, $readGroupArrayID ) )
+    {
+        $t->set_var( "read_everybody", "selected" );
+    }
+    else
+    {
+        $t->set_var( "is_read_selected1", "" );
+    }
     $t->parse( "read_group_item", "read_group_item_tpl", true );
-    
-    if ( $writeGroupArrayID )
-    {
-        foreach ( $writeGroupArrayID as $writeGroup )
-        {
-                if ( $writeGroup == $group->id() )
-                {
-                    $t->set_var( "is_write_selected1", "selected" );
-                }
-                elseif ( $writeGroup == -1 )
-                {
-                    $t->set_var( "write_everybody", "selected" );
-                }
-                else
-                {
-                    $t->set_var( "is_write_selected", "" );
-                }
-        }
-    }
 
+    if( in_array( $group->id(), $writeGroupArrayID ) )
+    {
+        $t->set_var( "is_write_selected1", "selected" );
+    }
+    elseif( in_array( -1, $writeGroupArrayID ) )
+    {
+        $t->set_var( "write_everybody", "selected" );
+    }
+    else
+    {
+        $t->set_var( "is_write_selected1", "" );
+    }
     $t->parse( "write_group_item", "write_group_item_tpl", true );
+
+    if( in_array( $group->id(), $uploadGroupArrayID ) )
+    {
+        $t->set_var( "is_upload_selected1", "selected" );
+    }
+    elseif( in_array( -1, $uploadGroupArrayID ) )
+    {
+        $t->set_var( "upload_everybody", "selected" );
+    }
+    else
+    {
+        $t->set_var( "is_upload_selected1", "" );
+    }
+    $t->parse( "upload_group_item", "upload_group_item_tpl", true );
 }
 
 $category = new eZImageCategory() ;
@@ -384,6 +299,7 @@ if ( count ( $categoryList ) == 0 )
 foreach ( $categoryList as $categoryItem )
 {
     if( eZObjectPermission::hasPermission( $categoryItem[0]->id(), "imagecatalogue_category", 'w' )
+        || eZObjectPermission::hasPermission( $categoryItem[0]->id(), "imagecatalogue_category", 'u' )
         || eZImageCategory::isOwner( eZUser::currentUser(), $categoryItem[0]->id() ) )
     {
         $t->set_var( "option_name", $categoryItem[0]->name() );
@@ -413,5 +329,24 @@ foreach ( $categoryList as $categoryItem )
 }
 
 $t->pparse( "output", "category_edit_tpl" );
+
+/******* FUNCTIONS ****************************/
+function changePermissions( $objectID, $groups , $permission )
+{
+    eZObjectPermission::removePermissions( $objectID, "imagecatalogue_category", $permission );
+    if ( count( $groups ) > 0 )
+    {
+        foreach ( $groups as $groupItem )
+        {
+            if ( $groupItem == 0 )
+                $group = -1;
+            else
+                $group = new eZUserGroup( $groupItem );
+            
+            eZObjectPermission::setPermission( $group, $objectID, "imagecatalogue_category", $permission );
+        }
+    }
+
+}
 ?>
 

@@ -23,15 +23,6 @@
     <!-- BEGIN error_file_upload_tpl -->
     <li>{intl-error_file_upload}
     <!-- END error_file_upload_tpl -->
-
-    <!-- BEGIN error_read_everybody_permission_tpl -->
-    <li>{intl-error_read_check}
-    <!-- END error_read_everybody_permission_tpl -->
-
-    <!-- BEGIN error_write_everybody_permission_tpl -->
-    <li>{intl-error_write_check}
-    <!-- END error_write_everybody_permission_tpl -->
-
 </ul>
 
 <hr noshade size="4"/>
