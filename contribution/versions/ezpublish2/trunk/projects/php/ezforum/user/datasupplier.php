@@ -99,7 +99,7 @@ switch ( $url_array[2] )
             
             if( empty( $url_array[4] ) )
             {
-                $Offset=1;
+                $Offset=0;
             }
         }
 
