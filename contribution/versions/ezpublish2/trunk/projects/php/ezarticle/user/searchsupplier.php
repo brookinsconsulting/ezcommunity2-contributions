@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: searchsupplier.php,v 1.4 2001/10/01 17:48:15 br Exp $
+// $Id: searchsupplier.php,v 1.5 2001/10/09 08:59:33 jhe Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -25,16 +25,16 @@
 
 
 $ModuleName = "eZ article";
-$DetailedSearchPath = "/article/search/";
-$DetailedSearchVariable = "SearchText";
-$DetailViewPath = "/article/view/";
-$IconPath = "/images/document.gif";
+$SearchResult["DetailedSearchPath"] = "/article/search/";
+$SearchResult["DetailedSearchVariable"] = "SearchText";
+$SearchResult["DetailViewPath"] = "/article/view/";
+$SearchResult["IconPath"] = "/images/document.gif";
 
 include_once( "ezarticle/classes/ezarticle.php" );
 
 $article = new eZArticle();
-$SearchResult = $article->search( $SearchText, "time", false, 0, $Limit, array(), $SearchCount );
-// $SearchCount = $article->searchCount( $SearchText, "time", false );
+$SearchResult["Result"] = $article->search( $SearchText, "time", false, 0, $Limit, array(), $SearchCount );
+// $SearchResult["SearchCount"] = $article->searchCount( $SearchText, "time", false );
 
 
 

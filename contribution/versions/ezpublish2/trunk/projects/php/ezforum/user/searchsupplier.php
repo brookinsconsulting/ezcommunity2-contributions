@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: searchsupplier.php,v 1.3 2001/10/01 17:47:24 br Exp $
+// $Id: searchsupplier.php,v 1.4 2001/10/09 08:59:33 jhe Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -25,18 +25,18 @@
 
 
 $ModuleName = "eZ forum";
-$DetailedSearchPath = "/forum/search/";
-$DetailedSearchVariable = "QueryString";
-$DetailViewPath = "/forum/message/";
-$IconPath = "/images/message.gif";
+$SearchResult["DetailedSearchPath"] = "/forum/search/";
+$SearchResult["DetailedSearchVariable"] = "QueryString";
+$SearchResult["DetailViewPath"] = "/forum/message/";
+$SearchResult["IconPath"] = "/images/message.gif";
 
 include_once( "ezforum/classes/ezforum.php" );
 
 $forum = new eZForum();
 
-$SearchResult = $forum->search( $SearchText, 0, $Limit, $SearchCount );
+$SearchResult["Result"] = $forum->search( $SearchText, 0, $Limit, $SearchCount );
 
-// $SearchCount = $forum->getQueryCount( $SearchText );
+// $SearchResult["SearchCount"] = $forum->getQueryCount( $SearchText );
 
 
 ?>

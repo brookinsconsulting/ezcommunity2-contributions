@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: ezforum.php,v 1.52 2001/09/28 12:39:14 jhe Exp $
+// $Id: ezforum.php,v 1.53 2001/10/09 08:59:33 jhe Exp $
 //
 // Created on: <11-Sep-2000 22:10:06 bf>
 //
@@ -243,15 +243,15 @@ class eZForum
 
                 $searchSQL = " ( eZForum_Word.Word = '$queryWord' AND eZForum_Word.Frequency < '0.5' ) ";
                 
-                $queryString = "INSERT INTO eZForum_SearchTemp ( MessageID ) SELECT DISTINCT eZForum_Message.ID AS MessageID
-                 FROM eZForum_Message,
-                      eZForum_MessageWordLink,
-                      eZForum_Word
-                 WHERE
-                        $searchSQL AND
-                        ( eZForum_Message.ID=eZForum_MessageWordLink.MessageID
-                         AND eZForum_MessageWordLink.WordID=eZForum_Word.ID )
-                       ORDER BY eZForum_MessageWordLink.Frequency";
+                $queryString = "INSERT INTO eZForum_SearchTemp ( MessageID )
+                                SELECT DISTINCT eZForum_Message.ID AS MessageID
+                                FROM eZForum_Message,
+                                     eZForum_MessageWordLink,
+                                     eZForum_Word
+                                WHERE $searchSQL AND
+                                ( eZForum_Message.ID=eZForum_MessageWordLink.MessageID
+                                AND eZForum_MessageWordLink.WordID=eZForum_Word.ID )
+                                ORDER BY eZForum_MessageWordLink.Frequency";
 
                 $db->query( $queryString );
 
@@ -276,17 +276,15 @@ class eZForum
         else
         {
             $queryString = "SELECT DISTINCT eZForum_Message.ID AS MessageID
-                 FROM eZForum_Message,
-                      eZForum_MessageWordLink,
-                      eZForum_Word
-                 WHERE
-                       $searchSQL
-                       AND
-                       ( eZForum_Message.ID=eZForum_MessageWordLink.MessageID
-                         AND eZForum_MessageWordLink.WordID=eZForum_Word.ID
-                       )
-                        ORDER BY eZForum_MessageWordLink.Frequency";
-
+                            FROM eZForum_Message,
+                            eZForum_MessageWordLink,
+                            eZForum_Word
+                            WHERE
+                            $searchSQL
+                            AND
+                            ( eZForum_Message.ID=eZForum_MessageWordLink.MessageID
+                            AND eZForum_MessageWordLink.WordID=eZForum_Word.ID )
+                            ORDER BY eZForum_MessageWordLink.Frequency";
             
             $db->array_query( $message_array, $queryString );
             $SearchTotalCount = count( $message_array );
