@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezform.php,v 1.23 2002/01/17 09:38:52 jhe Exp $
+// $Id: ezform.php,v 1.24 2002/01/28 09:45:30 jhe Exp $
 //
 // ezform class
 //
@@ -501,6 +501,36 @@ class eZForm
         for ( $i = 0; $i < count( $formArray ); $i++ )
         {
             $returnArray[$i] = new eZFormElement( $formArray[$i][$db->fieldName( "ElementID" )], true );
+        }
+        return $returnArray;
+    }
+
+    /*!
+      Like formElements, but also returns table elements
+    */
+    function getAllFormElements( $id = false )
+    {
+        if ( !$id )
+            $id = $this->ID;
+
+        $returnArray = array();
+        $formArray = array();
+
+        $db =& eZDB::globalDatabase();
+        $db->array_query( $formArray, "SELECT eZForm_FormElement.ID AS ID
+                          FROM eZForm_PageElementDict, eZForm_FormPage, eZForm_FormElement, eZForm_FormTableElementDict, eZForm_FormTable WHERE
+                          (eZForm_PageElementDict.PageID=eZForm_FormPage.ID AND
+                           eZForm_FormPage.FormID=$id AND
+                           eZForm_PageElementDict.ElementID=eZForm_FormElement.ID) OR
+                          (eZForm_FormTableElementDict.ElementID=eZForm_FormElement.ID AND
+                           eZForm_FormElement.ID=eZForm_FormTableElementDict.ElementID AND
+                           eZForm_FormTable.ElementID=eZForm_FormTableElementDict.TableID AND
+                           eZForm_FormTable.ElementID=eZForm_PageElementDict.ElementID AND
+                           eZForm_FormPage.FormID=$id AND
+                           eZForm_PageElementDict.PageID=eZForm_FormPage.ID) group by eZForm_FormElement.ID" );
+        for ( $i = 0; $i < count( $formArray ); $i++ )
+        {
+            $returnArray[$i] = new eZFormElement( $formArray[$i][$db->fieldName( "ID" )], true );
         }
         return $returnArray;
     }

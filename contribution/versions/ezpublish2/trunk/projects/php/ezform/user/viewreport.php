@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: viewreport.php,v 1.4 2002/01/25 10:29:34 jhe Exp $
+// $Id: viewreport.php,v 1.5 2002/01/28 09:45:31 jhe Exp $
 //
 // Created on: <21-Jan-2002 09:40:52 jhe>
 //
@@ -113,10 +113,15 @@ $renderer =& new eZFormRenderer( $form );
 $t->set_var( "form_name", $form->name() );
 
 if ( isSet( $Search ) )
-    $output = $renderer->renderResult( $ReportID, true, true, $ElementID, $Operator, $SearchText );
+    $output = $renderer->renderResult( $ReportID, true, true, $ElementID, $Operator, $SearchText, $result_count );
 else
-    $output = $renderer->renderResult( $ReportID, true, true );
+{
+    $output = $renderer->renderResult( $ReportID, true, true, false, false, false, $result_count );
+    $result_count = count( eZFormElement::getAllResults( true, eZForm::getAllFormElements( $form->id() ) ) );
 
+}
+
+$t->set_var( "result_count", $result_count );
 $t->set_var( "form", $output );
 
 $t->pparse( "output", "view_report_tpl" );

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezformrenderer.php,v 1.64 2002/01/25 13:23:13 jhe Exp $
+// $Id: ezformrenderer.php,v 1.65 2002/01/28 09:45:30 jhe Exp $
 //
 // eZFormRenderer class
 //
@@ -379,9 +379,11 @@ class eZFormRenderer
     /*!
       Renders form for viewing of results
     */
-    function &renderResult( $resultID, $result = true, $report = false, $elementID = false, $operator = false, $searchString = false )
+    function &renderResult( $resultID, $result = true, $report = false, $elementID = false, $operator = false, $searchString = false, &$result_count )
     {
         $db =& eZDB::globalDatabase();
+
+        $elements = $this->Form->formElements();
 
         $resultArray = false;
         if ( $elementID )
@@ -447,9 +449,13 @@ class eZFormRenderer
             {
                 $resultArray[] = $q[$db->fieldName( "ResultID" )];
             }
+            
+            $result_count = count( $qa );
+        }
+        else
+        {
         }
         
-        $elements = $this->Form->formElements();
         $elementCounter = 0;
         
         $this->Template->set_var( "form_id", $this->Form->id() );

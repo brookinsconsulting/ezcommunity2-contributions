@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: reportsetup.php,v 1.7 2002/01/25 13:23:13 jhe Exp $
+// $Id: reportsetup.php,v 1.8 2002/01/28 09:45:30 jhe Exp $
 //
 // Created on: <17-Jan-2002 18:09:19 jhe>
 //
@@ -59,10 +59,6 @@ if ( $Action == "store" )
             $value = "CrossReference" . $element->id();
             if ( isSet( $$value ) )
                 $repElement->setReference( $$value );
-        }
-        else
-        {
-            $repElement->setReference( "" );
         }
         $repElement->store();
     }

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezformelement.php,v 1.37 2002/01/25 10:29:34 jhe Exp $
+// $Id: ezformelement.php,v 1.38 2002/01/28 09:45:30 jhe Exp $
 //
 // ezformelement class
 //
@@ -197,15 +197,13 @@ class eZFormElement
 
         if ( $limit == false )
         {
-            $db->array_query( $formArray, "SELECT *
-                                           FROM eZForm_FormElement
+            $db->array_query( $formArray, "SELECT * FROM eZForm_FormElement
                                            ORDER BY Name DESC" );
 
         }
         else
         {
-            $db->array_query( $formArray, "SELECT *
-                                           FROM eZForm_FormElement
+            $db->array_query( $formArray, "SELECT * FROM eZForm_FormElement
                                            ORDER BY Name DESC",
                                            array( "Limit" => $limit, "Offset" => $offset ) );
         }

@@ -24,6 +24,10 @@
 	</form>
 	</td>
 </tr>
+<tr>
+<td colspan="2">
+{intl-results}: {result_count}
+</td>
 </table>
 
 <hr noshade="noshade" size="4" />
