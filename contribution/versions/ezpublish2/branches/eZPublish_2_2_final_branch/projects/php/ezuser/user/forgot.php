@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: forgot.php,v 1.20.2.6 2003/05/16 13:15:58 br Exp $
+// $Id: forgot.php,v 1.20.2.7 2003/05/19 07:30:55 br Exp $
 //
 // Created on: <20-Sep-2000 13:32:11 ce>
 //
@@ -71,7 +71,7 @@ if ( $user )
     $mailpassword->setFrom( $reminderMailFromAddress  );                                               //SF
 
     $body = ( $bodyText . "\n");
-    $body .= ( "http://" . $headersInfo["Host"] . $ini->WWWDir . $ini->Index . "/user/forgot/change/" . htmlspecialchars( $forgot->Hash() ) publishstable " " );
+    $body .= ( "http://" . $headersInfo["Host"] . $ini->WWWDir . $ini->Index . "/user/forgot/change/" . htmlspecialchars( $forgot->Hash() ) );
     $body .= ( $bodyFooter );                                                                      //SF
 
     $mailpassword->setBody( $body );
