@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezpublish.php,v 1.14.2.5 2002/02/27 09:43:24 bf Exp $
+// $Id: ezpublish.php,v 1.14.2.6 2002/04/25 07:09:04 bf Exp $
 //
 // Definition of eZPublish class
 //
@@ -40,7 +40,7 @@ class eZPublish
     */
     function version()
     {
-        return "2.2.4";
+        return "2.2.5";
     }
 }
 
