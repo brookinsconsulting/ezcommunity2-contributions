@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: imageedit.php,v 1.10 2001/02/02 12:27:20 ce Exp $
+// $Id: imageedit.php,v 1.11 2001/02/02 14:07:06 ce Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <09-Jan-2001 10:45:44 ce>
@@ -368,9 +368,12 @@ foreach ( $categoryList as $categoryItem )
     {
         $category =& $image->category();
 
-        if ( $category->id() == $categoryItem[0]->id() )
+        if ( get_class ( $category ) == "ezimagecategory" )
         {
-            $t->set_var( "selected", "selected" );
+            if ( $category->id() == $categoryItem[0]->id() )
+            {
+                $t->set_var( "selected", "selected" );
+            }
         }
     }
     

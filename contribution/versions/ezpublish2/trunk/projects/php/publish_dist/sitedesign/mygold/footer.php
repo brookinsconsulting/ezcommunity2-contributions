@@ -1,7 +1,7 @@
 
 <!--Footer Start -->
 	&nbsp;</td>
-	<td><img src="/images/shim.gif" alt="" width="1" height="1" /></td>
+	<td><img src="/sitedesign/mygold/images/shim.gif" alt="" width="1" height="1" /></td>
 	<td bgcolor="#DDDDDD" valign="top"> 
 	  <?        include( "ezuser/user/userbox.php" ); ?>
 	  <?        include( "eztrade/user/hotdealslist.php" ); ?>
@@ -10,11 +10,11 @@
   </tr>
   <tr> 
 	<td class="spacer" bgcolor="#DDDDDD">&nbsp;</td>
-	<td class="spacer" valign="bottom" bgcolor="#DDDDDD"><img src="/images/co_li_u_n.gif" alt="" width="20" height="20" /></td>
+	<td class="spacer" valign="bottom" bgcolor="#DDDDDD"><img src="/sitedesign/mygold/images/co_li_u_n.gif" alt="" width="20" height="20" /></td>
 	<td class="spacer">&nbsp;</td>
 	
   <td class="spacer" valign="bottom"> 
-	<div align="right"><img src="/images/co_re_u_n.gif" alt="" width="20" height="20" /></div>
+	<div align="right"><img src="/sitedesign/mygold/images/co_re_u_n.gif" alt="" width="20" height="20" /></div>
 	</td>
 	<td class="spacer" bgcolor="#DDDDDD">&nbsp;</td>
   </tr>
@@ -34,7 +34,7 @@
 			  <br />
 			 </p>
 		  </td>
-		  <td width="1%" class="bgspacer30"><img src="/images/shim.gif" alt="" width="30" height="1" /></td>
+		  <td width="1%" class="bgspacer30"><img src="/sitedesign/mygold/images/shim.gif" alt="" width="30" height="1" /></td>
 		</tr>
 	  </table>
 	</td>

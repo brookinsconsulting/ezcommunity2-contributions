@@ -116,8 +116,15 @@ if ( ( $requireUserLogin == "disabled" ) ||
     else
     {
         // the default page to load
-        $CategoryID = 0;
-        include( "ezarticle/user/articlelist.php" );
+        if ( $ini->read_var( "site", "DefaultPage" ) != "disabled" )
+        {
+            include( $ini->read_var( "site", "DefaultPage" ) );
+        }
+        else
+        {
+            $CategoryID = 0;
+            include( "ezarticle/user/articlelist.php" );
+        }
     }
 
 // and the html finish

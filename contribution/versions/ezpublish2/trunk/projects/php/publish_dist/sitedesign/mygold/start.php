@@ -5,7 +5,7 @@
 	  	<br /><br /><br />
         My Gold w&uuml;nscht Ihnen frohe Feiertage
 		<br />
-        <img src="/images/hero_holiday_solitaire.jpg" width="255" height="168" alt="Solitaire" /><br />
+        <img src="/sitedesign/mygold/images/hero_holiday_solitaire.jpg" width="255" height="168" alt="Solitaire" /><br />
 	  </div>
 	</td>
   </tr>
