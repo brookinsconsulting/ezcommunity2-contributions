@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: dayview.php,v 1.48 2001/09/24 14:04:19 jhe Exp $
+// $Id: dayview.php,v 1.49 2001/09/27 11:07:24 jhe Exp $
 //
 // Created on: <08-Jan-2001 12:48:35 bf>
 //
@@ -226,7 +226,7 @@ else
     $tmpTime = new eZTime();
     $tmpTime->setSecondsElapsed( $startTime->secondsElapsed() );
 
-    while ( $tmpTime->isGreater( $stopTime ) == true )
+    while ( $tmpTime->isGreater( $stopTime ) )
     {
         $numRows++;
         $tableCellsId[$numRows - 1] = array();
@@ -340,7 +340,7 @@ else
     $tmpTime = new eZTime();
     $tmpTime->setSecondsElapsed( $startTime->secondsElapsed() );
 
-    while ( $tmpTime->isGreater( $stopTime ) == true )
+    while ( $tmpTime->isGreater( $stopTime ) )
     {
         $t->set_var( "short_time", $Locale->format( $tmpTime, true ) );
         $t->set_var( "start_time", addZero( $tmpTime->hour() ) . addZero( $tmpTime->minute() ) );
@@ -362,7 +362,7 @@ else
                 $appointment = new eZAppointment( $appointmentId );
 
                 // a private appointment
-                if ( $appointment->isPrivate() == true && $appointment->userID() != $userID )
+                if ( $appointment->isPrivate() && $appointment->userID() != $userID )
                 {
                     $t->set_var( "td_class", "bglight" );
                     $t->set_var( "rowspan_value", $tableCellsRowSpan[$row][$col] );

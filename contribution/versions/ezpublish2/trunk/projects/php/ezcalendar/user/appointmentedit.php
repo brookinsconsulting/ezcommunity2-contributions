@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: appointmentedit.php,v 1.57 2001/09/19 11:30:31 jhe Exp $
+// $Id: appointmentedit.php,v 1.58 2001/09/27 11:07:24 jhe Exp $
 //
 // Created on: <03-Jan-2001 12:47:22 bf>
 //
@@ -141,6 +141,7 @@ $t->set_block( "appointment_edit_tpl", "no_error_tpl", "no_error" );
 $t->set_block( "no_error_tpl", "title_error_tpl", "title_error" );
 $t->set_block( "no_error_tpl", "start_time_error_tpl", "start_time_error" );
 $t->set_block( "no_error_tpl", "stop_time_error_tpl", "stop_time_error" );
+$t->set_block( "no_error_tpl", "date_error_tpl", "date_error" );
 $t->set_block( "no_error_tpl", "trustee_user_name_tpl", "trustee_user_name" );
 $t->set_block( "no_error_tpl", "value_tpl", "value" );
 $t->set_block( "no_error_tpl", "month_tpl", "month" );
@@ -246,6 +247,17 @@ if ( $Action == "Insert" || $Action == "Update" )
         exit();
     }
 
+    $datetime = new eZDateTime( $Year, $Month, 1 );
+    if ( $datetime->daysInMonth() < $Day )
+    {
+        $DateError = true;
+    }
+    $datetime->setDay( $Day );
+    if ( !is_numeric( $Year ) )
+    {
+        $DateError = true;
+    }
+    
     if ( !isSet( $trusteelist ) )
     {
         $trusteelist = array();
@@ -256,14 +268,14 @@ if ( $Action == "Insert" || $Action == "Update" )
     }
     if ( !isSet( $user ) )
         $user =& eZUser::currentUser();
-    
+
     foreach ( $trusteelist as $trusteduser )
     {
         if ( $user->ID() == $trusteduser->ID() ||
              in_array( $user->ID(), $trusteduser->getByTrustee() ) )
         {
             $type = new eZAppointmentType( $TypeID );
-
+                
             if ( $Action == "Update" )
             {
                 $appointment = new eZAppointment( $AppointmentID );
@@ -334,7 +346,7 @@ if ( $Action == "Insert" || $Action == "Update" )
                 $startTime->setHour( $hour );
                 $min = $startArray[3];
                 settype( $min, "integer" );
-                
+                    
                 $startTime->setMinute( $min );
                 $appointment->setAllDay( false );
             }
@@ -342,7 +354,7 @@ if ( $Action == "Insert" || $Action == "Update" )
             {
                 $StartTimeError = true;
             }
-
+            
             if ( $AllDay == "on" )
             {
                 $appointment->setAllDay( true );
@@ -364,7 +376,6 @@ if ( $Action == "Insert" || $Action == "Update" )
                 $StopTimeError = true;
             }
             
-            $datetime = new eZDateTime( $Year, $Month, $Day );
             $datetime->setSecondsElapsedHMS( $startTime->hour(), $startTime->minute(), 0 );
             
             $appointment->setDateTime( $datetime );
@@ -380,7 +391,7 @@ if ( $Action == "Insert" || $Action == "Update" )
                 $appointment->setDuration( $AllDay == "on" ? 0 : $duration->timeStamp() );
             }
             
-            if ( $TitleError == false && $StartTimeError == false && $StopTimeError == false )
+            if ( $TitleError == false && $StartTimeError == false && $StopTimeError == false && $DateError == false )
             {
                 $appointment->store();
                 
@@ -402,7 +413,8 @@ if ( $Action == "Insert" || $Action == "Update" )
         }
     }
 
-    if ( $TitleError == false && $StartTimeError == false && $StopTimeError == false )
+    if ( $TitleError == false && $StartTimeError == false &&
+         $StopTimeError == false && $DateError == false )
     {
         eZHTTPTool::header( "Location: /calendar/dayview/$year/$month/$day/" );
         exit();
@@ -608,6 +620,17 @@ else
     $t->set_var( "stop_time_error", "" );
 }
 
+if ( $DateError )
+{
+    $t->parse( "date_error", "date_error_tpl" );
+    $t->set_var( "action_value", "insert" );
+    $t->set_var( "appointment_id", "new" );
+}
+else
+{
+    $t->set_var( "date_error", "" );
+}
+
 $today = new eZDate();
 $tmpdate = new eZDate( $Year, $Month, $Day );
 
@@ -744,8 +767,7 @@ foreach ( $typeList as $type )
 }
 
 // set day combobox
-$daysInMonth = $tmpdate->daysInMonth();
-for ( $i = 1; $i <= $daysInMonth; $i++ )
+for ( $i = 1; $i <= 31; $i++ )
 {
     if ( $tmpdate->day() == $i )
         $t->set_var( "selected", "selected" );
@@ -763,6 +785,18 @@ for ( $i = 1; $i <= $daysInMonth; $i++ )
             $t->set_var( "selected", "" );
         }
     }
+    else if ( $DateError )
+    {
+        if ( $Day == $i )
+        {
+            $t->set_var( "selected", "selected" );
+        }
+        else
+        {
+            $t->set_var( "selected", "" );
+        }
+    }
+    
     $t->set_var( "day_id", $i );
     $t->set_var( "day_name", $i );
 
@@ -780,7 +814,18 @@ for ( $i = 1; $i <= 12; $i++ )
 
     if ( $Action == "Edit" )
     {
-        if ( $dt->month() == $i )
+        if ( $i == $dt->month() )
+        {
+            $t->set_var( "selected", "selected" );
+        }
+        else
+        {
+            $t->set_var( "selected", "" );
+        }
+    }
+    else if ( $DateError )
+    {
+        if ( $i == $Month )
         {
             $t->set_var( "selected", "selected" );
         }
@@ -798,7 +843,12 @@ for ( $i = 1; $i <= 12; $i++ )
 }
 
 if ( $Action != "Edit" )
-    $t->set_var( "year_value", $tmpdate->year() );
+{
+    if ( $DateError )
+        $t->set_var( "year_value", $Year );
+    else
+        $t->set_var( "year_value", $tmpdate->year() );
+}
 
 if ( $UserError == false )
 {

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: monthview.php,v 1.37 2001/09/27 09:27:38 jhe Exp $
+// $Id: monthview.php,v 1.38 2001/09/27 11:07:25 jhe Exp $
 //
 // Created on: <27-Dec-2000 14:09:56 bf>
 //
@@ -83,11 +83,11 @@ $t = new eZTemplate( "ezcalendar/user/" . $ini->read_var( "eZCalendarMain", "Tem
 
 $t->set_file( "month_view_page_tpl", "monthview.tpl" );
 
-//if ( $t->hasCache() )
+if ( $t->hasCache() )
 {
-//    print( $t->cache() );
+    print( $t->cache() );
 }
-//else
+else
 {
     $t->setAllStrings();
 

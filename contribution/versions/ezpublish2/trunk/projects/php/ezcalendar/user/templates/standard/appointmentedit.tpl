@@ -22,6 +22,10 @@
 <p class="error">{intl-start_time_error}</p>
 <!-- END start_time_error_tpl -->
 
+<!-- BEGIN date_error_tpl -->
+<p class="error">{intl-date_error}</p>
+<!-- END date_error_tpl -->
+
 <!-- BEGIN stop_time_error_tpl -->
 <p class="error">{intl-stop_time_error}</p>
 <!-- END stop_time_error_tpl -->
