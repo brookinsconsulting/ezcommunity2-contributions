@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: header.php,v 1.31 2001/04/18 15:24:00 th Exp $
+// $Id: header.php,v 1.32 2001/04/19 07:39:19 jb Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <23-Jan-2001 16:06:07 bf>
@@ -31,10 +31,13 @@ include_once( "classes/ezlocale.php" );
 
 $ini =& INIFile::globalINI();
 $Language =& $ini->read_var( "eZUserMain", "Language" );
-$ModuleTab = $ini->read_var( "site", "ModuleTab" ) == "enabled";
 $Locale = new eZLocale( $Language );
 $iso = $Locale->languageISO();
 $site_modules = $ini->read_array( "site", "EnabledModules" );
+
+include_once( "ezmodule/classes/ezmodulehandler.php" );
+
+$ModuleTab = eZModuleHandler::activeTab();
 
 include_once( "ezsession/classes/ezpreferences.php" );
 $preferences = new eZPreferences();
@@ -79,6 +82,8 @@ $t->set_var( "charset", $iso );
 $t->set_var( "module_list", "" );
 $t->set_var( "module_item", "" );
 $t->set_var( "module_control", "" );
+$uri = $GLOBALS["REQUEST_URI"];
+$t->set_var( "ref_url", $uri );
 
 if ( $ModuleTab == true )
 {
