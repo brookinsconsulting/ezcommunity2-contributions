@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: separator.php,v 1.12 2001/03/20 13:26:07 bf Exp $
+// $Id: separator.php,v 1.13 2001/04/18 15:20:39 th Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <23-Jan-2001 16:06:07 bf>
@@ -23,6 +23,11 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, US
 //
 
+include_once( "ezsession/classes/ezpreferences.php" );
+$single_module = $preferences->variable( "SingleModule" ) == "enabled";
+
+include_once( "ezmodule/classes/ezmodulehandler.php" );
+
 include_once( "classes/INIFile.php" );
 $ini =& INIFile::globalINI();
 
@@ -38,6 +43,9 @@ $t->set_file( array(
     "separator_tpl" => "separator.tpl"
     ) );
 
+$t->set_block( "separator_tpl", "left_spacer_tpl", "left_spacer_item" );
+$t->set_block( "separator_tpl", "top_field_tpl", "top_field_item" );
+
 $t->set_var( "site_style", $SiteStyle );
 
 $t->set_var( "module_name", $moduleName );
@@ -46,6 +54,18 @@ $t->set_var( "current_url", $REQUEST_URI );
 
 
 $t->setAllStrings();
+
+$t->set_var( "module_count", count ($modules) );
+$t->set_var( "left_spacer_item", "" );
+
+$moduletab = $ini->read_var( "site", "ModuleTab" );
+
+if ( ( $moduletab == "enabled" ) && ( count ($modules) != 0 ) )
+{
+	$t->parse( "left_spacer_item", "left_spacer_tpl" );
+}
+
+$t->parse( "top_field_item", "top_field_tpl" );
 
 $t->pparse( "output", "separator_tpl" );
     

@@ -10,7 +10,9 @@
 </tr>
 <!-- END link_group_tpl -->
 <!-- BEGIN no_link_group_tpl -->
-{intl-no_link_groups}
+<tr>
+	<td colspan="2" class="menu">{intl-no_link_groups}</td>
+</tr>
 <!-- END no_link_group_tpl -->
 
 <tr>

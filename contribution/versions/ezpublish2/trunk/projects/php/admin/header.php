@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: header.php,v 1.29 2001/04/11 14:38:40 jb Exp $
+// $Id: header.php,v 1.30 2001/04/18 15:20:39 th Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <23-Jan-2001 16:06:07 bf>
@@ -22,6 +22,9 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, US
 //
+
+
+include_once( "ezmodule/classes/ezmodulehandler.php" );
 
 include_once( "classes/eztemplate.php" );
 include_once( "classes/ezlocale.php" );
@@ -47,6 +50,7 @@ $t->set_file( "header_tpl", "header.tpl" );
 $t->set_block( "header_tpl", "module_list_tpl", "module_list" );
 $t->set_block( "module_list_tpl", "module_item_tpl", "module_item" );
 $t->set_block( "module_list_tpl", "module_control_tpl", "module_control" );
+$t->set_block( "header_tpl", "menu_tpl", "menu_item" );
 
 $SiteURL =& $ini->read_var( "site", "SiteURL" );
 
@@ -105,6 +109,17 @@ if ( $ModuleTab == true )
 }
 
 $t->setAllStrings();
+
+$t->set_var( "module_count", count ($modules) );
+
+$t->set_var( "menu_item", "" );
+
+$moduletab = $ini->read_var( "site", "ModuleTab" );
+
+if ( ( $moduletab == "enabled" ) && ( count ($modules) != 0 ) )
+{
+	$t->parse( "menu_item", "menu_tpl" );
+}
 
 
 $t->pparse( "output", "header_tpl" );

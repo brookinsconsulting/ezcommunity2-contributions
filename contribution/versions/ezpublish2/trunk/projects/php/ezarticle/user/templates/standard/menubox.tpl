@@ -23,7 +23,7 @@
 
 	<tr>
 		<td width="1%" valign="top">&nbsp;</td>
-		<td class="subhead">{intl-categories}:</td>
+		<td class="menusubhead">{intl-categories}:</td>
 	</tr>
 
 <!-- BEGIN article_category_tpl -->

@@ -16,32 +16,9 @@
 
 	<? include( "eztrade/user/categorylist.php" ); ?>
 
-	<table width="100%" cellspacing="0" cellpadding="2" border="0">
-    <tr>
-		<td colspan="2" class="menuhead">User</td>
-	</tr>
-	<tr>
-		<td width="1%" valign="top"><img src="/sitedesign/trade/images/dot.gif" width="10" height="12"><br /></td>
-		<td width="99%"><a class="menu" href="/trade/cart/">Your cart</a></td>
-	</tr>
-	<tr>
-		<td width="1%" valign="top"><img src="/sitedesign/trade/images/dot.gif" width="10" height="12"><br /></td>
-		<td width="99%"><a class="menu" href="/trade/wishlist/">Your wishlist</a></td>
-	</tr>
-	<tr>
-		<td width="1%" valign="top"><img src="/sitedesign/trade/images/dot.gif" width="10" height="12"><br /></td>
-		<td width="99%"><a class="menu" href="/trade/sendwishlist/">Send wishlist</a></td>
-	</tr>
-	<tr>
-		<td width="1%" valign="top"><img src="/sitedesign/trade/images/dot.gif" width="10" height="12"><br /></td>
-		<td width="99%"><a class="menu" href="/trade/findwishlist/">Find wishlist</a></td>
-	</tr>
-	<tr>
-		<td colspan="2" class="menuspacer">&nbsp;</td>
-	</tr>
-	</table>
+	<? include( "eztrade/user/menubox.php" ); ?>
 
-     <? include( "eztrade/user/hotdealslist.php" ); ?>     
+    <? include( "eztrade/user/hotdealslist.php" ); ?>     
 
 	<img src="/images/1x1.gif" width="130" height="8" border="0"><br />
 	</td>

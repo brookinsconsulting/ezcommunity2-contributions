@@ -1,13 +1,15 @@
+<!-- BEGIN left_spacer_tpl -->
+
 	<!-- Menues: End -->
 
 	</td>
 
     
-	<td>
-	<img src="/admin/images/1x1.gif" width="6" height="6" border="0" /><br />
-	</td>
-	<td width="98%" valign="top">
+	<td width="1%"><img src="/admin/images/1x1.gif" width="6" height="6" border="0" /></td>
+<!-- END left_spacer_tpl -->
 
+<!-- BEGIN top_field_tpl -->
+	<td width="99%" valign="top">
     <table width="100%" cellpadding="0" cellspacing="0" border="0">
 <tr>
     <td class="repeaty" rowspan="2" width="1%" background="/admin/images/{site_style}/box-l02.gif" valign="top"><img src="/admin/images/{site_style}/box-l01.gif" width="10" height="10" border="0" /><br /></td>
@@ -74,4 +76,4 @@
 
 <!-- Main view: Start -->
 
- 
+<!-- END top_field_tpl -->
