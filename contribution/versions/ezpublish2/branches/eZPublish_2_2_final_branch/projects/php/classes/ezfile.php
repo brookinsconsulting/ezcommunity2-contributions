@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezfile.php,v 1.20.2.1 2001/12/03 15:55:32 kaid Exp $
+// $Id: ezfile.php,v 1.20.2.2 2002/02/27 10:26:13 bf Exp $
 //
 // Definition of eZCompany class
 //
@@ -241,8 +241,13 @@ class eZFile
         {
 			global $GlobalSiteIni;
             $filename = $GlobalSiteIni->SiteDir . $filename;
+            return file_exists( $filename );
+        } else
+        {
+            return false;
         }
-        return file_exists( $filename );
+
+
     }
 
     /*!
@@ -364,6 +369,7 @@ class eZFile
     var $FileType;
     var $FileSize;
 }
+
 
 
 ?>
