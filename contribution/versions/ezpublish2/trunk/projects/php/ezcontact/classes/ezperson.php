@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezperson.php,v 1.23 2000/11/16 16:59:33 pkej-cvs Exp $
+// $Id: ezperson.php,v 1.24 2000/11/16 17:38:28 pkej-cvs Exp $
 //
 // Definition of eZPerson class
 //
@@ -51,10 +51,10 @@ class eZPerson
     function eZPerson( $id="-1", $fetch=true  )
     {
         $this->IsConnected = false;
-        if ( $id != -1 )
+        if( $id != -1 )
         {
             $this->ID = $id;
-            if ( $fetch == true )
+            if( $fetch == true )
             {
                 $this->get( $this->ID );
             }
@@ -75,7 +75,7 @@ class eZPerson
     function store()
     {
         $this->dbInit();
-        if ( !isSet( $this->ID ) )
+        if( !isSet( $this->ID ) )
         {
         
             $this->Database->query( "INSERT INTO eZContact_Person set
@@ -111,7 +111,7 @@ class eZPerson
     {
         $this->dbInit();
 
-        if ( isSet( $this->ID ) )
+        if( isSet( $this->ID ) )
         {
             // Delete real world addresses
 
@@ -168,14 +168,14 @@ class eZPerson
     function get( $id )
     {
         $this->dbInit();    
-        if ( $id != "" )
+        if( $id != "" )
         {
             $this->Database->array_query( $person_array, "SELECT * FROM eZContact_Person WHERE ID='$id'" );
-            if ( count( $person_array ) > 1 )
+            if( count( $person_array ) > 1 )
             {
                 die( "Feil: Flere personer med samme ID funnet i database, dette skal ikke være mulig. " );
             }
-            else if ( count( $person_array ) == 1 )
+            else if( count( $person_array ) == 1 )
             {
                 $this->ID = $person_array[ 0 ][ "ID" ];
                 $this->FirstName = $person_array[ 0 ][ "FirstName" ];
@@ -246,7 +246,7 @@ class eZPerson
     */
     function addresses( $personID )
     {
-        if ( $this->State_ == "Dirty" )
+        if( $this->State_ == "Dirty" )
             $this->get( $this->ID );
         
         $return_array = array();
@@ -269,13 +269,13 @@ class eZPerson
     */
     function addAddress( $address )
     {
-        if ( $this->State_ == "Dirty" )
+        if( $this->State_ == "Dirty" )
             $this->get( $this->ID );
 
         $ret = false;
        
         $this->dbInit();
-        if ( get_class( $address ) == "ezaddress" )
+        if( get_class( $address ) == "ezaddress" )
         {
             $addressID = $address->id();
 
@@ -292,7 +292,7 @@ class eZPerson
     */
     function phones( $personID )
     {
-        if ( $this->State_ == "Dirty" )
+        if( $this->State_ == "Dirty" )
             $this->get( $this->ID );
         
         $return_array = array();
@@ -315,13 +315,13 @@ class eZPerson
     */
     function addPhone( $phone )
     {
-        if ( $this->State_ == "Dirty" )
+        if( $this->State_ == "Dirty" )
             $this->get( $this->ID );
 
         $ret = false;
        
         $this->dbInit();
-        if ( get_class( $phone ) == "ezphone" )
+        if( get_class( $phone ) == "ezphone" )
         {
             $phoneID = $phone->id();
 
@@ -338,7 +338,7 @@ class eZPerson
     */
     function onlines( $onlineID )
     {
-        if ( $this->State_ == "Dirty" )
+        if( $this->State_ == "Dirty" )
             $this->get( $this->ID );
         
         $return_array = array();
@@ -361,14 +361,14 @@ class eZPerson
     */
     function addOnline( $online )
     {
-        if ( $this->State_ == "Dirty" )
+        if( $this->State_ == "Dirty" )
             $this->get( $this->ID );
 
         $ret = false;
        
         $this->dbInit();
 
-        if ( get_class( $online ) == "ezonline" )
+        if( get_class( $online ) == "ezonline" )
         {
             $onlineID = $online->id();
 
@@ -385,7 +385,7 @@ class eZPerson
     */
     function user()
     {
-        if ( $this->State_ == "Dirty" )
+        if( $this->State_ == "Dirty" )
             $this->get( $this->ID );
         
         $return_array = array();
@@ -408,20 +408,29 @@ class eZPerson
     */
     function addUser( $user )
     {
-        if ( $this->State_ == "Dirty" )
+        if( $this->State_ == "Dirty" )
             $this->get( $this->ID );
 
         $ret = false;
-       
+        
         $this->dbInit();
 
-        if ( get_class( $user ) == "ezuser" )
+        if( get_class( $user ) == "ezuser" )
         {
             $userID = $user->id();
-
-            $this->Database->query( "INSERT INTO eZContact_UserPersonDict
+            
+            $checkQuery = "SELECT PersonID FROM eZContact_UserPersonDict WHERE UserID=$userID";
+            $this->Database->array_query( $user_array, $checkQuery );
+            
+            if( is_array( $user_array ) )
+            {
+                $user_array[0]["PersonID"];
+            }
+            else
+            {
+                $this->Database->query( "INSERT INTO eZContact_UserPersonDict
                                 SET PersonID='$this->ID', UserID='$userID'" );
-
+            }
             $ret = true;
         }
         return $ret;
@@ -432,7 +441,7 @@ class eZPerson
      */
     function setFirstName( $value )
     {
-        if ( $this->State_ == "Dirty" )
+        if( $this->State_ == "Dirty" )
             $this->get( $this->ID );
 
         $this->FirstName = $value;
@@ -443,7 +452,7 @@ class eZPerson
      */
     function setLastName( $value )
     {
-        if ( $this->State_ == "Dirty" )
+        if( $this->State_ == "Dirty" )
             $this->get( $this->ID );
 
         $this->LastName = $value;
@@ -454,7 +463,7 @@ class eZPerson
      */
     function setComment( $value )
     {
-        if ( $this->State_ == "Dirty" )
+        if( $this->State_ == "Dirty" )
             $this->get( $this->ID );
 
         $this->Comment = $value;
@@ -465,7 +474,7 @@ class eZPerson
      */
     function setContactType( $value )
     {
-        if ( $this->State_ == "Dirty" )
+        if( $this->State_ == "Dirty" )
             $this->get( $this->ID );
 
         $this->ContactType = $value;
@@ -476,7 +485,7 @@ class eZPerson
      */
     function setCreator( $value )
     {
-        if ( $this->State_ == "Dirty" )
+        if( $this->State_ == "Dirty" )
             $this->get( $this->ID );
 
         $this->Creator = $value;
@@ -488,7 +497,7 @@ class eZPerson
      */
     function setBirthDay( $value )
     {
-        if ( $this->State_ == "Dirty" )
+        if( $this->State_ == "Dirty" )
             $this->get( $this->ID );
 
         $this->BirthDate = $value;
@@ -504,7 +513,7 @@ class eZPerson
      */
     function setPersonNo( $value )
     {
-        if ( $this->State_ == "Dirty" )
+        if( $this->State_ == "Dirty" )
             $this->get( $this->ID );
 
         $this->PersonNo = $value;
@@ -523,7 +532,7 @@ class eZPerson
     */
     function firstName()
     {
-        if ( $this->State_ == "Dirty" )
+        if( $this->State_ == "Dirty" )
             $this->get( $this->ID );
 
         return $this->FirstName;
@@ -534,7 +543,7 @@ class eZPerson
     */
     function lastName()
     {    
-        if ( $this->State_ == "Dirty" )
+        if( $this->State_ == "Dirty" )
             $this->get( $this->ID );
 
         return $this->LastName;
@@ -545,7 +554,7 @@ class eZPerson
     */
     function personNo()
     {
-        if ( $this->State_ == "Dirty" )
+        if( $this->State_ == "Dirty" )
             $this->get( $this->ID );
 
         return $this->PersonNo;
@@ -556,7 +565,7 @@ class eZPerson
     */
     function comment( )
     {
-        if ( $this->State_ == "Dirty" )
+        if( $this->State_ == "Dirty" )
             $this->get( $this->ID );
 
         return $this->Comment;
@@ -567,7 +576,7 @@ class eZPerson
     */
     function contactType( )
     {
-        if ( $this->State_ == "Dirty" )
+        if( $this->State_ == "Dirty" )
             $this->get( $this->ID );
 
         return $this->ContactType;
@@ -578,7 +587,7 @@ class eZPerson
     */
     function creator( )
     {
-        if ( $this->State_ == "Dirty" )
+        if( $this->State_ == "Dirty" )
             $this->get( $this->ID );
 
         return $this->Creator;
@@ -589,7 +598,7 @@ class eZPerson
     */
     function birthDate( )
     {
-        if ( $this->State_ == "Dirty" )
+        if( $this->State_ == "Dirty" )
             $this->get( $this->ID );
 
         return $this->BirthDate;
@@ -601,7 +610,7 @@ class eZPerson
     */
     function dbInit()
     {
-        if ( $this->IsConnected == false )
+        if( $this->IsConnected == false )
         {
             $this->Database = new eZDB( "site.ini", "site" );
             $this->IsConnected = true;
