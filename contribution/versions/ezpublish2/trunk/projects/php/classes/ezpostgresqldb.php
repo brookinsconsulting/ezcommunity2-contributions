@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezpostgresqldb.php,v 1.9 2001/07/19 11:33:57 jakobn Exp $
+// $Id: ezpostgresqldb.php,v 1.10 2001/10/15 05:53:30 ce Exp $
 //
 // Definition of eZPostgreSQLLDB class
 //
@@ -52,14 +52,17 @@ class eZPostgreSQLDB
 
     function &query( $sql )
     {
-        $result = @pg_exec( $this->Database, $sql );
-
-        if ( !$result )
+        if ( $this->Database )
         {
-            if ( $GLOBALS["DEBUG"] == true )
+            $result = @pg_exec( $this->Database, $sql );
+            
+            if ( !$result )
             {
-                print( "PostgreSQL error: error executing query: $sql ".
-                       pg_errormessage ( $this->Database ) );
+                if ( $GLOBALS["DEBUG"] == true )
+                {
+                    print( "PostgreSQL error: error executing query: $sql ".
+                           pg_errormessage ( $this->Database ) );
+                }
             }
         }
 
