@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezarticle.php,v 1.72 2001/04/27 09:09:19 jb Exp $
+// $Id: ezarticle.php,v 1.73 2001/04/27 12:08:35 jb Exp $
 //
 // Definition of eZArticle class
 //
@@ -555,8 +555,45 @@ class eZArticle
     */
     function &manualKeywordIndex()
     {
+        $user = eZUser::currentUser();
+        $currentUserSQL = "";
+        if ( $user )
+        {
+            $groups = $user->groups( true );
+
+            $groupSQL = "";
+           
+            $i = 0;
+            foreach ( $groups as $group )
+            {
+                if ( $i == 0 )
+                    $groupSQL .= "Permission.GroupID=$group OR";
+                else
+                    $groupSQL .= " Permission.GroupID=$group OR";
+               
+                $i++;
+            }
+            $currentUserID = $user->id();
+            $currentUserSQL = "Article.AuthorID=$currentUserID OR";
+        }
+        $loggedInSQL = "( $currentUserSQL ( ( $groupSQL Permission.GroupID='-1' ) AND Permission.ReadPermission='1') ) AND";
+
         $db =& eZDB::globalDatabase();
-        $db->array_query( $keywords, "SELECT Keyword FROM eZArticle_ArticleKeyword
+        $db->array_query( $keywords, "SELECT ArtKey.Keyword AS Keyword
+                  FROM eZArticle_ArticleCategoryLink as Link,
+                       eZArticle_ArticlePermission AS Permission,
+                       eZArticle_Category AS Category,
+                       eZArticle_Article AS Article LEFT JOIN eZArticle_ArticleKeyword AS ArtKey ON
+                       Article.ID=ArtKey.ArticleID
+                  WHERE (
+                        ( $loggedInSQL ($groupSQL Permission.GroupID='-1') AND Permission.ReadPermission='1' )
+                        )
+                        AND Article.IsPublished = 'true'
+                        AND Permission.ObjectID=Article.ID
+                        AND Link.ArticleID=Article.ID
+                        AND Category.ID=Link.CategoryID
+                        AND Category.ExcludeFromSearch = 'false'
+                        AND ArtKey.Keyword is not NULL
                                       GROUP BY Keyword ORDER BY Keyword", 0, -1, "Keyword" );
         return $keywords;
     }
@@ -652,11 +689,6 @@ class eZArticle
         }
         $loggedInSQL = "( $currentUserSQL ( ( $groupSQL Permission.GroupID='-1' ) AND Permission.ReadPermission='1') ) AND";
 
-//          $sql = "SELECT Art.ID FROM eZArticle_Article AS Art LEFT JOIN
-//                                                           eZArticle_ArticleKeyword AS ArtKey ON
-//                                               Art.ID=ArtKey.ArticleID
-//                                        WHERE Art.IsPublished='true' $conditions
-//                                        ORDER BY Art.Name";
         $select_sql = "";
         if ( is_bool( $offset ) )
         {
@@ -683,7 +715,6 @@ class eZArticle
                         $conditions
                  ORDER BY Article.Name
                  $limit_sql";
-//          print( "<pre>$sql</pre>" );
         $db->array_query( $contents, $sql );
         if ( !is_bool( $offset ) )
         {
