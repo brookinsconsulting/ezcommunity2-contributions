@@ -1,7 +1,12 @@
 <table width="100%" cellspacing="0" cellpadding="2" border="0">
 <tr>
-	<td class="menuhead" colspan="{hotdeal_columns}">{intl-hot_deals}</td>
+	<td bgcolor="#c0c0c0">
+	<div class="listheadline"><a class="listheadline" href="/article/articleview/{article_id}/">{intl-hot_deals}</a></div>
+	</td>
 </tr>
+</table>
+
+<table width="100%" cellspacing="0" cellpadding="2" border="0">
 
 <!-- BEGIN product_list_tpl -->
 
