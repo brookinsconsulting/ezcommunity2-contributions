@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezpageviewquery.php,v 1.19 2001/07/20 11:28:54 jakobn Exp $
+// $Id: ezpageviewquery.php,v 1.20 2001/08/23 08:44:12 br Exp $
 //
 // Definition of eZPageViewQuery class
 //
@@ -361,7 +361,7 @@ class eZPageViewQuery
         $return_array = array();
 
         $db->array_query( $visitor_array,
-        "SELECT count(ID) AS Count, Browser FROM eZStats_ArchiveBrowserType GROUP BY Browser" );
+        "SELECT count(ID) AS Count, Browser FROM eZStats_Archive_BrowserType GROUP BY Browser" );
 
         return $visitor_array[0][ $db->fieldName( "Count" )];
     }
