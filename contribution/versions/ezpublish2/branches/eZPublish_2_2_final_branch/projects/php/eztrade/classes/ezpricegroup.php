@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezpricegroup.php,v 1.17.2.2 2001/11/27 18:30:42 br Exp $
+// $Id: ezpricegroup.php,v 1.17.2.3 2001/11/29 11:02:24 bf Exp $
 //
 // Definition of eZPriceGroup class
 //
@@ -426,15 +426,21 @@ class eZPriceGroup
                     $group_text = " AND ( $group_text )";
                 else
                     $group_text = "";
+
             }
             else
             {
                 $group_text = "AND PriceID='$priceid'";
             }
 
-            $db->array_query( $array, "SELECT Price FROM eZTrade_ProductPriceLink
+            // don't give better price unless you're a part of a price group
+            if ( $group_text != "" )
+            {
+                $db->array_query( $array, "SELECT Price FROM eZTrade_ProductPriceLink
                                        WHERE ProductID='$productid' $group_text
                                          AND OptionID='$optionid' AND ValueID='$valueid' ORDER BY Price" );
+
+            }
             if ( count( $array ) == 1 )
                 return $array[0][$db->fieldName("Price")];
         }

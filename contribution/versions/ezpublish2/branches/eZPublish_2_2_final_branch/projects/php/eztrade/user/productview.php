@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: productview.php,v 1.77.2.4 2001/11/28 17:35:28 br Exp $
+// $Id: productview.php,v 1.77.2.5 2001/11/29 11:02:24 bf Exp $
 //
 // Created on: <24-Sep-2000 12:20:32 bf>
 //
@@ -404,7 +404,7 @@ foreach ( $options as $option )
             if ( $ShowPrice and $product->showPrice() == true  )
             {
                 $price = new eZCurrency( $value->correctPrice( $PricesIncludeVAT, $product ) );
-
+                print( "test" );
                 if ( $value->price() != 0 )
                     $t->set_var( "value_price", $value->localePrice( $PricesIncludeVAT, $product ) );
                 else
