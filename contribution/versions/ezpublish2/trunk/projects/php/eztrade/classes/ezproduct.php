@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezproduct.php,v 1.94 2001/09/15 13:32:28 pkej Exp $
+// $Id: ezproduct.php,v 1.95 2001/09/15 13:41:11 pkej Exp $
 //
 // Definition of eZProduct class
 //
@@ -449,7 +449,6 @@ class eZProduct
         
         $price["max"] = $maxPrice;
         $price["min"] = $lowPrice;
-        print_r( $price );
         return $price;
     }    
 
