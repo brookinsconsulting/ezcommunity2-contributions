@@ -87,7 +87,8 @@ $t->set_var( "person_id", "" );
 $t->set_var( "user_id", $UserID );
 
 $t->set_var( "user_name", "" );
-$t->set_var( "old_password", "" );
+$t->set_var( "password", "" );
+$t->set_var( "password_repeat", "" );
 
 $t->set_var( "street1", "" );
 $t->set_var( "street2", "" );
