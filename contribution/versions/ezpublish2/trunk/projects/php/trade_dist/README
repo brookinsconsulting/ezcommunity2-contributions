@@ -1,3 +1,15 @@
+NOTE: eZ trade has shipped with a missing table. This is fixed in version 1.0.4. To upgrade the 
+database manually run the following SQL command:
+
+DROP TABLE IF EXISTS eZUser_Forgot;
+CREATE TABLE eZUser_Forgot (
+  ID int(11) DEFAULT '0' NOT NULL auto_increment,
+  UserID int(11) DEFAULT '0' NOT NULL,
+  Hash char(33),
+  Time timestamp(14),
+  PRIMARY KEY (ID)
+);
+
 
 NOTE: To upgrade the database from version 1.0.1 to 1.0.2 
 run the following SQL commands:

@@ -2,7 +2,7 @@
 // Version information
 if ( $VersionQuery == "show" )
 {
-    print( "eZ trade v1.0.4 pre" );
+    print( "eZ trade v1.0.4" );
     exit();
 }
 
