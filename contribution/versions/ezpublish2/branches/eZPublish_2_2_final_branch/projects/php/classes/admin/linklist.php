@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: linklist.php,v 1.9 2001/08/27 11:50:54 ce Exp $
+// $Id: linklist.php,v 1.9.2.1 2001/11/01 12:06:23 ce Exp $
 //
 // Created on: <30-Apr-2001 18:50:47 amos>
 //
@@ -59,6 +59,7 @@ include_once( "classes/ezlocale.php" );
 include_once( "classes/ezcachefile.php" );
 include_once( "classes/ezhttptool.php" );
 
+
 $ini =& INIFile::globalINI();
 $Language = $ini->read_var( $INIGroup, "Language" );
 $Modules = $ini->read_array( $INIGroup, "ModuleList" );
@@ -105,7 +106,9 @@ if ( isset( $ItemInsert ) )
                 $link_item->setName( $URLName );
                 $link_item->setURL( $URL );
                 $link_item->setSection( $SectionID );
+
                 $link_item->setType( $ModuleName,$Type );
+
                 $link_item->store();
                 $Funcs["delete"]( $ItemID );
             }

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezlinkitem.php,v 1.8 2001/10/15 11:32:17 ce Exp $
+// $Id: ezlinkitem.php,v 1.8.2.1 2001/11/01 12:06:23 ce Exp $
 //
 // Definition of eZLinkItem class
 //
@@ -97,6 +97,7 @@ class eZLinkItem
                      ( ID, SectionID, Name, URL, Placement, ModuleType )
                      VALUES( '$nextID', '$this->Section', '$this->Name', '$this->URL', '$this->Placement', '$this->ModuleType' )" );
             $this->ID = $nextID;
+            $db->unlock();
         }
 
         if ( $res == false )
@@ -228,9 +229,9 @@ class eZLinkItem
             $db->lock( "eZModule_LinkModuleType" );
             $nextID = $db->nextID( "eZModule_LinkModuleType", "ID" );            
 
-            $res = $db->query( "INSERT INTO eZModule_LinkModuleType
-                         ( ID, Module, Type ) VALUES ( '$nextID', '$module', '$type'" );
+            $res = $db->query( "INSERT INTO eZModule_LinkModuleType ( ID, Module, Type ) VALUES ( '$nextID', '$module', '$type' )" );
             $this->ModuleType = $nextID;
+            $db->unlock();
 
             if ( $res == false )
                 $db->rollback( );
