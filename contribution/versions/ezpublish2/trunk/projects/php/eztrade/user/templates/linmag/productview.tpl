@@ -277,7 +277,6 @@
 <br />
 <input class="okbutton" type="submit" name="Cart" value="{intl-add_to_cart}" />
 
-<input class="okbutton" type="submit" name="WishList" value="{intl-wishlist}" />
 <!-- END add_to_cart_tpl -->
 
 <br /><br />
