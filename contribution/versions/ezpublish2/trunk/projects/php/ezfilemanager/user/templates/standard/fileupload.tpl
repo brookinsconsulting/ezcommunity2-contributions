@@ -61,7 +61,7 @@
     <select multiple size="5" name="ReadGroupArrayID[]">
     <option value="0" {read_everybody}>{intl-everybody}</option>
     <!-- BEGIN read_group_item_tpl -->
-    <option value="{group_id}" {is_read_selected}>{group_name}</option>
+    <option value="{group_id}" {is_read_selected1}>{group_name}</option>
     <!-- END read_group_item_tpl -->
     </select>
     <br /><br />
@@ -70,7 +70,7 @@
     <select multiple size="5" name="WriteGroupArrayID[]">
     <option value="0" {write_everybody}>{intl-everybody}</option>
     <!-- BEGIN write_group_item_tpl -->
-    <option value="{group_id}" {is_write_selected}>{group_name}</option>
+    <option value="{group_id}" {is_write_selected1}>{group_name}</option>
     <!-- END write_group_item_tpl -->
     </select>
     <br /><br />

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: fileupload.php,v 1.18 2001/02/26 17:28:08 ce Exp $
+// $Id: fileupload.php,v 1.19 2001/02/26 17:40:00 ce Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <10-Dec-2000 15:49:57 bf>
@@ -186,8 +186,11 @@ if ( $Action == "Insert" || $Action == "Update" )
         $file = new eZFile();
         if ( $file->getUploadedFile( "userfile" ) == false )
         {
-            $error = true;
-            $t->parse( "error_file_upload", "error_file_upload_tpl" );
+            if ( $Action == "Insert" )
+            {
+                $error = true;
+                $t->parse( "error_file_upload", "error_file_upload_tpl" );
+            }
         }
     }
 
@@ -346,6 +349,9 @@ foreach ( $groups as $group )
     $t->set_var( "group_id", $group->id() );
     $t->set_var( "group_name", $group->name() );
 
+    $t->set_var( "is_read_selected1", "" );
+    $t->set_var( "is_write_selected1", "" );
+    
     if ( $readPermissionList )
     {
         foreach ( $readPermissionList as $readGroup )
@@ -354,7 +360,7 @@ foreach ( $groups as $group )
             {
                 if ( $readGroup->id() == $group->id() )
                 {
-                    $t->set_var( "is_read_selected", "selected" );
+                    $t->set_var( "is_read_selected1", "selected" );
                 }
                 else
                 {
@@ -378,7 +384,7 @@ foreach ( $groups as $group )
             {
                 if ( $writeGroup->id() == $group->id() )
                 {
-                    $t->set_var( "is_write_selected", "selected" );
+                    $t->set_var( "is_write_selected1", "selected" );
                 }
                 else
                 {

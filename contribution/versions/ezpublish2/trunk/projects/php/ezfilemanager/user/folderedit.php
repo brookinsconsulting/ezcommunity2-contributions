@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: folderedit.php,v 1.13 2001/02/26 17:16:13 ce Exp $
+// $Id: folderedit.php,v 1.14 2001/02/26 17:40:00 ce Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <08-Jan-2001 11:13:29 ce>
@@ -74,7 +74,7 @@ $t->setAllStrings();
 $t->set_block( "folder_edit_tpl", "value_tpl", "value" );
 $t->set_block( "folder_edit_tpl", "errors_tpl", "errors" );
 $t->set_block( "folder_edit_tpl", "write_group_item_tpl", "write_group_item" );
-$t->set_block( "folder_edit_tpl", "read_group_item_tpl", "write_group_item" );
+$t->set_block( "folder_edit_tpl", "read_group_item_tpl", "read_group_item" );
 
 $t->set_var( "errors", "" );
 $t->set_var( "name_value", "$Name" );
@@ -309,7 +309,10 @@ foreach ( $groups as $group )
     $t->set_var( "group_id", $group->id() );
     $t->set_var( "group_name", $group->name() );
 
-        if ( $readPermissionList )
+    $t->set_var( "is_write_selected1", "" );
+    $t->set_var( "is_read_selected1", "" );
+    
+    if ( $readPermissionList )
     {
         foreach ( $readPermissionList as $readGroup )
         {
@@ -317,7 +320,7 @@ foreach ( $groups as $group )
             {
                 if ( $readGroup->id() == $group->id() )
                 {
-                    $t->set_var( "is_read_selected", "selected" );
+                    $t->set_var( "is_read_selected1", "selected" );
                 }
                 else
                 {
@@ -332,6 +335,8 @@ foreach ( $groups as $group )
         }
     }
 
+    $t->parse( "read_group_item", "read_group_item_tpl", true );
+    
     if ( $writePermissionList )
     {
         foreach ( $writePermissionList as $writeGroup )
@@ -340,7 +345,7 @@ foreach ( $groups as $group )
             {
                 if ( $writeGroup->id() == $group->id() )
                 {
-                    $t->set_var( "is_write_selected", "selected" );
+                    $t->set_var( "is_write_selected1", "selected" );
                 }
                 else
                 {
@@ -356,7 +361,6 @@ foreach ( $groups as $group )
     }
 
     $t->parse( "write_group_item", "write_group_item_tpl", true );
-    $t->parse( "read_group_item", "read_group_item_tpl", true );
 }
 
 // Print out all the folders.
