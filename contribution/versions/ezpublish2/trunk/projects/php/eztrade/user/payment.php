@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: payment.php,v 1.22 2001/03/15 14:31:11 bf Exp $
+// $Id: payment.php,v 1.23 2001/03/15 15:54:29 jb Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <02-Feb-2001 16:31:53 bf>
@@ -31,6 +31,7 @@ include_once( "classes/ezlocale.php" );
 include_once( "classes/ezcurrency.php" );
 
 include_once( "classes/ezhttptool.php" );
+include_once( "classes/ezcachefile.php" );
 
 
 include_once( "ezuser/classes/ezuser.php" );
@@ -58,6 +59,41 @@ $Language = $ini->read_var( "eZTradeMain", "Language" );
 $OrderSenderEmail = $ini->read_var( "eZTradeMain", "OrderSenderEmail" );
 $OrderReceiverEmail = $ini->read_var( "eZTradeMain", "OrderReceiverEmail" );
 $SiteURL =  $ini->read_var( "site", "SiteURL" );
+
+function deleteCache( $ProductID, $CategoryID, $CategoryArray, $Hotdeal )
+{
+    if ( get_class( $ProductID ) == "ezproduct" )
+    {
+        $CategoryID =& $ProductID->categoryDefinition( false );
+        $CategoryArray =& $ProductID->categories( false );
+        $Hotdeal = $ProductID->isHotDeal();
+        $ProductID = $ProductID->id();
+    }
+
+    $files = eZCacheFile::files( "eztrade/cache/", array( array( "productview", "productprint" ),
+                                                          $ProductID, $CategoryID ),
+                                 "cache", "," );
+    foreach( $files as $file )
+    {
+        $file->delete();
+    }
+    $files = eZCacheFile::files( "eztrade/cache/", array( "productlist",
+                                                          array_merge( $CategoryID, $CategoryArray ) ),
+                                 "cache", "," );
+    foreach( $files as $file )
+    {
+        $file->delete();
+    }
+    if ( $Hotdeal )
+    {
+        $files = eZCacheFile::files( "eztrade/cache/", array( "hotdealslist", NULL ),
+                                     "cache", "," );
+        foreach( $files as $file )
+        {
+            $file->delete();
+        }
+    }
+}
 
 // fetch the cart
 $cart = new eZCart();
@@ -430,37 +466,54 @@ if ( $PaymentSuccess == "true" )
         }
     }
 
-    $order->setIsActive( true );
-    $order->store();
-    $cart->clear();
-
     // Decrease product/option quantity
-    $order_items = $order->items();
-    foreach( $order_items as $order_item )
+    $items =& $cart->items();
+    foreach( $items as $item )
     {
-        $product =& $order_item->product();
-        $count = $order_item->count();
+        $product =& $item->product();
+        $count = $item->count();
         $quantity = $product->totalQuantity();
-//          if ( !(is_bool( $quantity ) and !$quantity) )
-//          {
-//              $product->setTotalQuantity( max( $quantity - $count, 0 ) );
-//              $product->store();
-//          }
+        $values =& $item->optionValues();
+        $selected_values = array();
+        foreach( $values as $value )
+        {
+            $option_value =& $value->optionValue();
+            $selected_values[] = $option_value->id();
+        }
+        $changed_quantity = false;
+        if ( !(is_bool( $quantity ) and !$quantity) )
+        {
+            $product->setTotalQuantity( max( $quantity - $count, 0 ) );
+            $product->store();
+            $changed_quantity = true;
+        }
         $options =& $product->options();
         foreach( $options as $option )
         {
             $option_values =& $option->values();
             foreach( $option_values as $option_value )
             {
-                $value_quantity = $option_value->totalQuantity();
-//                  if ( !(is_bool( $value_quantity ) and !$value_quantity) )
-//                  {
-//                      $option_value->setTotalQuantity( max( $value_quantity - $count, 0 ) );
-//                      $option_value->store();
-//                  }
+                if ( in_array( $option_value->id(), $selected_values ) )
+                {
+                    $value_quantity = $option_value->totalQuantity();
+                    if ( !(is_bool( $value_quantity ) and !$value_quantity) )
+                    {
+                        $option_value->setTotalQuantity( max( $value_quantity - $count, 0 ) );
+                        $option_value->store();
+                        $changed_quantity = true;
+                    }
+                }
             }
         }
+        if ( $changed_quantity )
+        {
+            deleteCache( $product, false, false, false );
+        }
     }
+
+    $order->setIsActive( true );
+    $order->store();
+    $cart->clear();
 
     $orderID = $order->id();
 
