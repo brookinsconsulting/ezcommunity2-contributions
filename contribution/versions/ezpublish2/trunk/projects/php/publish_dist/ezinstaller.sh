@@ -1,7 +1,7 @@
 #!/bin/sh
 
 #
-# ezinstaller - version 1.5 - (c) 2001 Kai Dübbert <kai@duebbert.de> - Licence: GPL
+# ezinstaller - version 1.6 - (c) 2001 Kai Dübbert <kai@duebbert.de> - Licence: GPL
 # =================================================================================
 #
 # This shell script will install eZ publish (http://publish.ez.no) on a Linux 
@@ -23,6 +23,10 @@
 # Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, US
 #---------------------------------------------------------------------------
 #
+# changelog:
+#
+# 1.6: - changed to allow installation of php files in same directory for
+#        people who can't install it properly
 # 1.5: - partial rewrite
 #      - fixed for 2.2 alpha
 # 1.4: - fixed to have it work with older Bash
@@ -48,8 +52,8 @@ DEF_INSTALL=1
 ############################################################################
 #Let's go
 #
-DATE="2001-08-29"
-VERSION="1.5 [$DATE]"
+DATE="2001-08-31"
+VERSION="1.6 [$DATE]"
 
 echo "ezinstaller.sh - version $VERSION - (c) 2001 Kai Dübbert <kai@duebbert.de>"
 echo ""
@@ -97,7 +101,7 @@ function install_q {
 		echo "     Advantages compared to [2]:"
 		echo "        - better tested"
 		echo "        - better for upgrading existing eZ publish sites"
-		echo "     Disadvantages (see [2])"
+		echo "     Disadvantages (see advantages of [2])"
 		echo ""
 		echo "[2]: lets you install eZ publish much like other PHP programs."
 		echo "     It doesn't need any special configurations in the Apache"
@@ -134,14 +138,15 @@ echo ""
 # Let's first check for directories and permissions, so the user
 # doesn't have to do all again
 
+#
 # Web directory
+#
 echo -n "Apache web directory [$DEF_WWWDIR]: "
 read C_WWWDIR
 if [ "$C_WWWDIR" = "" ]; then
 	C_WWWDIR=$DEF_WWWDIR
 fi
 
-# New install: Installdir
 if [ "$C_INSTALL" = "new" ]; then
 	echo -n "Web directory for eZ publish as subdirectory of $C_WWWDIR [$DEF_URLDIR]: "
 	read C_URLDIR
@@ -181,25 +186,34 @@ if [ "$C_INSTALL" = "new" ]; then
 	fi
 fi
 
+#
+# New install: Installdir
+#
 function conf_inst_dir {
 	if [ "$C_INSTALL" = "new" ]; then
 		echo "-----------------------------------------------------------------"
 		echo "Now I need a directory where you want me to put the eZ publish"
-		echo "files. THIS *MUST NOT* BE THE SAME AS YOUR PUBLIC WWW DIRECTORY!"
-		echo "This is very important for your security."
+		echo "files. THIS SHOULD *NOT* BE THE SAME AS YOUR PUBLIC WWW DIRECTORY!"
+		echo "This is important for your security. If you have a web hoster, who"
+		echo "doesn't allow this, use the same directory, but put .htaccess files"
+		echo "in the directories with php-files to prevent direct web access."
 		echo -n "Directory for program files [$DEF_INSTDIR]: "
 		read C_INSTDIR
 		
 		# Check if the user read the warning.
 		if [ "$C_WWWDIR" = "$C_INSTDIR" ] || [ "$C_WWWDIR" = "$C_INSTDIR/" ]; then
 			echo ""
-			echo "AAAAARGHH! Please read the warning above."
 			echo "It's important to not give anybody direct access"
 			echo "to the PHP files of eZ publish. Bad, bad people"
 			echo "might find bugs which could allow them to use"
 			echo "eZ publish in a malicious way."
-			echo "Please give me a different directory."
-			conf_inst_dir
+			echo ""
+			echo -n "Are you sure you want to use the same directories? (y/N) "
+			read Q
+			if [ "$Q" = "N" ] || [ "$Q" = "n" ] || [ "$Q" = "" ]; then
+				echo "Please give me a different directory."
+				conf_inst_dir
+			fi
 		fi
 		
 		if [ "$C_INSTDIR" = "" ]; then
@@ -260,11 +274,14 @@ if [ "$C_DBSERVER" = "" ]; then
 fi
 
 # DB name
-echo -n "Database name [$DEF_DBNAME]: "
-read C_DBNAME
-if [ "$C_DBNAME" = "" ]; then
-	C_DBNAME=$DEF_DBNAME
-fi
+function db_name {
+	echo -n "Database name [$DEF_DBNAME]: "
+	read C_DBNAME
+	if [ "$C_DBNAME" = "" ]; then
+		C_DBNAME=$DEF_DBNAME
+	fi
+}
+db_name
 
 # DB user
 echo -n "Database user [$DEF_DBUSER]: "
@@ -326,18 +343,20 @@ else
 	Q_DB_CREATE=0
 fi
 
-if [ $Q_DB_CREATE = 1 ]; then
-	echo ""
-	echo "Please tell me a user that is allowed to create"
-	echo -n "the database (e.g. root): "
-	read C_DBUSER2
-	if [ "$C_DBUSER2" = "" ]; then
-		echo "ARGH.... you were supposed to give me a name! I will use \"root\""
-		echo "for now."
-		C_DBUSER2=root
+function db_root_name {
+	if [ $Q_DB_CREATE = 1 ]; then
+		echo ""
+		echo "Please tell me a user that is allowed to create"
+		echo -n "the database (e.g. root): "
+		read C_DBUSER2
+		if [ "$C_DBUSER2" = "" ]; then
+			echo "ARGH.... you were supposed to give me a name! I will use \"root\""
+			echo "for now."
+			C_DBUSER2=root
+		fi
 	fi
-fi
-
+}
+db_root_name
 
 function db_root_pass {
 	if [ $Q_DB_CREATE = 1 ]; then
@@ -356,7 +375,7 @@ function db_root_pass {
 		if [ "$C_DBPASS2" = "" ]; then
 			echo "Uh-oh, having a powerful user like this and not having a password"
 			echo "is *VERY* bad in respect to security. You should seriously think"
-			echo "about setting a password for root. But I will continue..."
+			echo "about setting a password for root. But I will continue for now..."
 			DBOPTIONS="-u$C_DBUSER2"
 		else
 			DBOPTIONS="-u$C_DBUSER2 -p$C_DBPASS2"
@@ -365,17 +384,75 @@ function db_root_pass {
 }
 db_root_pass
 
-if [ $Q_DB_CREATE = 1 ]; then
-	# database creation
-	echo -n "Creating the database... "
-	mysqladmin $DBOPTIONS create $C_DBNAME
-	if [ ! $? = 0 ]; then
-		echo "Creating the database failed! Abort."
-		exit 1
-	else
-		echo "done."
+# database creation
+function db_create {
+	if [ $Q_DB_CREATE = 1 ]; then
+		echo -n "Creating the database \"$C_DBNAME\"... "
+		mysqladmin $DBOPTIONS create $C_DBNAME 2> .ezinst.$$
+		if [ ! $? = 0 ]; then
+			if grep "Can't connect" .ezinst.$$ > /dev/null; then
+				echo "ERROR: Can't connect to database!"
+				echo "Please start database server and hit return to try creating the"
+				echo "database again."
+				echo "Hit return..."
+				read LA
+				db_create
+			elif grep "Database exists" .ezinst.$$ > /dev/null; then
+				echo "ERROR: database exists!"
+				echo "You have 3 options: "
+				echo ""
+				echo "   [1] Drop old database and create new one"
+				echo "   [2] Change database name and create that"
+				echo "   [3] Continue without creating or changing the database"
+				echo ""
+				echo -n "Choose: "
+				read Q
+				if [ "$Q" = "1" ]; then
+					echo -n "Dropping database... "
+					echo "y" | mysqladmin $DBOPTIONS drop $C_DBNAME > /dev/null
+					if [ $? = 0 ]; then
+						echo "done."
+					else
+						echo "FAILED. Sorry, please try to fix this."
+						exit 1
+					fi
+					db_create
+				elif [ "$Q" = "2" ]; then
+					db_name
+					db_create
+				elif [ "$Q" = "3" ]; then
+					echo "OK, leave the existing database alone."
+					Q_DB_CREATE=0
+				fi
+			elif grep "Access denied" .ezinst.$$ > /dev/null; then
+				echo "ERROR: Access denied."
+				echo "You have 2 options:"
+				echo ""
+				echo "  [1] Change name and password of user who is allowed to create the databases"
+				echo "  [2] Continue without touching the database"
+				echo ""
+				echo -n "Choose: "
+				read Q
+				if [ "$Q" = "2" ]; then
+					Q_DB_CREATE=0
+				else
+					db_root_name
+					db_root_pass
+					db_create
+				fi
+			else
+				echo "ERROR: Creating the database failed and I can't recover from that error! Aborting."
+				exit 1
+			fi
+			if [ -f ".ezinst.$$" ]; then
+				rm -f .ezinst.$$
+			fi
+		else
+			echo "done."
+		fi
 	fi
-fi
+}
+db_create
 
 if [ $Q_DB_CREATE = 1 ]; then
 	# Creating the user
@@ -573,7 +650,8 @@ if [ "$C_INSTALL" = "new" ]; then
 		if [ ! "$(basename $i)" = "CVS" ]; then
 			mkdir -p admin/templates/$(basename $i)
 			if [ -e $i/*.css ]; then
-				mv $i/*.css admin/templates/$(basename $i)
+				# TODO: Resolve this problem!
+				mv $i/*.css admin/templates/$(basename $i) | grep -v "are the same file"
 			fi
 		fi
 	done
