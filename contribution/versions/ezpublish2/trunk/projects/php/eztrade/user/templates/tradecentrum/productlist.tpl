@@ -77,7 +77,7 @@
 <div class="p">{product_intro_text}</div>
 
 <!-- BEGIN price_tpl -->
-<div class="pris">{product_price}</div>
+<div class="spacer"><div class="pris">{product_price}</div></div>
 <!-- END price_tpl -->
 
 	</td>
