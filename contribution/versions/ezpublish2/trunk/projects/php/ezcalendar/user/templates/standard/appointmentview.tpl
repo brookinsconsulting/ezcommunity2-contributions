@@ -8,10 +8,10 @@
 <!-- BEGIN view_tpl -->
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
-	<th width="50%">
+	<th>
 	<h2>{appointment_title}</h2>
 	</th>
-	<td width="50%" align="right">
+	<td width="10%" align="right">
 	<!-- BEGIN private_tpl -->
 	<b><i>{intl-private}</i></b>
 	<!-- END private_tpl -->
@@ -20,12 +20,15 @@
 	<!-- END public_tpl -->
 	</td>
 </tr>
-<tr><td colspan="2"><br /></td></tr>
+</table>
+<br />
+
+<table width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
-	<th>
+	<th width="50%">
 	{intl-type}:
 	</th>
-	<th>
+	<th width="50%">
 	{intl-priority}:
 	</th>
 </tr>
