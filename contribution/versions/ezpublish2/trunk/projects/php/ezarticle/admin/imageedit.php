@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: imageedit.php,v 1.14 2001/02/21 12:38:09 gl Exp $
+// $Id: imageedit.php,v 1.15 2001/02/21 17:28:36 gl Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <21-Sep-2000 10:32:36 bf>
@@ -27,7 +27,6 @@ include_once( "classes/INIFile.php" );
 include_once( "classes/eztemplate.php" );
 include_once( "classes/ezlog.php" );
 
-// include_once( "classes/ezfile.php" );
 include_once( "classes/ezimagefile.php" );
 
 include_once( "ezimagecatalogue/classes/ezimage.php" );
