@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezmedia.php,v 1.3 2001/07/29 23:31:08 kaid Exp $
+// $Id: ezmedia.php,v 1.4 2001/10/16 14:13:41 ce Exp $
 //
 // Definition of eZMedia class
 //
@@ -1226,11 +1226,15 @@ class eZMedia
     function &attributeString( )
     {
         $type =& $this->type();
-        $attributes = $type->attributes();
-    
-        foreach( $attributes as $attribute )
+
+        if ( $type )
         {
-            $attString .= " " . $attribute->name() . "=\"" . $attribute->value( $this ) . "\"";
+            $attributes = $type->attributes();
+            
+            foreach( $attributes as $attribute )
+            {
+                $attString .= " " . $attribute->name() . "=\"" . $attribute->value( $this ) . "\"";
+            }
         }
         return $attString;
     }
