@@ -157,12 +157,36 @@ switch ( $url_array[2] )
                 
             case "link" :
             {
-                $ProductID = $url_array[5];
+                $ItemID = $url_array[5];
+                include_once( "eztrade/classes/ezproduct.php" );
+                include_once( "eztrade/classes/ezproducttool.php" );
+
+                $INIGroup = "eZTradeMain";
+                $DefaultSectionsName = "ProductLinkSections";
+                $PreferencesSetting = "ProductLinkType";
+                $ClientModuleName = "eZTrade";
+                $ClientModuleType = "Product";
+                $root = "/trade/productedit";
+                $URLS = array( "back" => "$root/edit/%s",
+                               "linklist" => "$root/link/list/%s",
+                               "linkselect" => "$root/link/select/%s/%s/%s/%s/%s/0/%s",
+                               "linkselect_basic" => "$root/link/select/",
+                               "linkselect_std" => "$root/link/select/%s/%s/%s/%s/%s",
+                               "urledit" => "$root/link/select/%s/%s/%s/%s",
+                               "linkedit" => "$root/link/select/%s/%s/%s/0/0/%s" );
+                $Funcs = array( "delete" => "deleteCacheHelper" );
+
+                function deleteCacheHelper( $ProductID )
+                    {
+                        eZProductTool::deleteCache( $ProductID );
+                    }
+
                 switch( $url_array[4] )
                 {
                     case "list":
                     {
-                        include( "eztrade/admin/linklist.php" );
+//                          include( "eztrade/admin/linklist.php" );
+                        include( "classes/admin/linklist.php" );
                         break;
                     }
                     case "select":
@@ -177,7 +201,10 @@ switch ( $url_array[2] )
                             $Category = $url_array[9];
                         if ( isset( $url_array[10] ) )
                             $Offset = $url_array[10];
-                        include( "eztrade/admin/linkselect.php" );
+                        if ( isset( $url_array[11] ) )
+                            $LinkID = $url_array[11];
+//                          include( "eztrade/admin/linkselect.php" );
+                        include( "classes/admin/linkselect.php" );
                         break;
                     }
                 }

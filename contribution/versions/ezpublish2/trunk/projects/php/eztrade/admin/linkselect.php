@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: linkselect.php,v 1.3 2001/04/30 17:43:12 jb Exp $
+// $Id: linkselect.php,v 1.4 2001/05/03 14:24:24 jb Exp $
 //
 // Jan Borsodi <jb@ez.no>
 // Created on: <16-Mar-2001 15:51:06 amos>
@@ -23,25 +23,30 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, US
 //
 
-include_once( "eztrade/classes/ezproduct.php" );
-include_once( "eztrade/classes/ezproducttool.php" );
+// ** Obsolete **
 
-$INIGroup = "eZTradeMain";
-$DefaultSectionsName = "ProductLinkSections";
-$PreferencesSetting = "ProductLinkType";
-$ClientModuleName = "eZTrade";
-$ClientModuleType = "Product";
-$ItemID = $ProductID;
-$URLS = array( "back" => "/trade/productedit/edit/%s",
-               "linklist" => "/trade/productedit/link/list/%s",
-               "linkselect" => "/trade/productedit/link/select/%s/%s/%s/%s/%s" );
-$Funcs = array( "delete" => "deleteCacheHelper" );
+//  include_once( "eztrade/classes/ezproduct.php" );
+//  include_once( "eztrade/classes/ezproducttool.php" );
 
-function deleteCacheHelper( $ProductID )
-{
-    eZProductTool::deleteCache( $ProductID );
-}
+//  $INIGroup = "eZTradeMain";
+//  $DefaultSectionsName = "ProductLinkSections";
+//  $PreferencesSetting = "ProductLinkType";
+//  $ClientModuleName = "eZTrade";
+//  $ClientModuleType = "Product";
+//  $ItemID = $ProductID;
+//  $root = "/trade/productedit";
+//  $URLS = array( "back" => "$root/edit/%s",
+//                 "linklist" => "$root/link/list/%s",
+//                 "linkselect" => "$root/link/select/%s/%s/%s/%s/%s/0/%s",
+//                 "linkselect_basic" => "$root/link/select/",
+//                 "linkselect_std" => "$root/link/select/%s/%s/%s/%s/%s" );
+//  $Funcs = array( "delete" => "deleteCacheHelper" );
 
-include( "classes/admin/linkselect.php" );
+//  function deleteCacheHelper( $ProductID )
+//  {
+//      eZProductTool::deleteCache( $ProductID );
+//  }
+
+//  include( "classes/admin/linkselect.php" );
 
 ?>
