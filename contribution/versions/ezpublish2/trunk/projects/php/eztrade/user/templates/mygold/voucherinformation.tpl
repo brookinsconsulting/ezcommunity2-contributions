@@ -41,32 +41,37 @@
 <!-- BEGIN smail_tpl -->
 <b>{intl-name}:</b><br />
 <input type="text" name="Name" value="{name_value}" />
-
-<b>{intl-street}:</b><br />
-<input type="text" size="20" name="Street1" value="{street1_value}"/><br />
-<input type="text" size="20" name="Street2" value="{street2_value}"/><br />
 <br /><br />
 
-<b>{intl-zip}:</b>
+<b>{intl-street}:</b><br />
+<input type="text" size="20" name="Street1" value="{street1_value}"/>
+<br /><br />
+
+<b>{intl-street}:</b><br />
+<input type="text" size="20" name="Street2" value="{street2_value}"/>
+<br /><br />
+
+<b>{intl-zip}:</b><br />
 <input type="text" size="20" name="Zip" value="{zip_value}"/>
 <br /><br />
 
-<p class="boxtext">{intl-place}:</p><br />
+<b>{intl-place}:</b><br />
 <input type="text" size="20" name="Place" value="{place_value}"/>
 <br /><br />
 
 <!-- BEGIN country_tpl -->
-<b>{intl-country}:</b>
+<b>{intl-country}:</b><br />
 <select name="CountryID[]" size="5">
   <!-- BEGIN country_option_tpl -->
   <option {is_selected} value="{country_id}">{country_name}</option>
   <!-- END country_option_tpl -->
 </select>
-<!-- END country_tpl -->
 <br /><br />
+<!-- END country_tpl -->
 
 <b>{intl-text}:</b><br />
 <textarea name="Description" cols="40"" rows="8">{email_text}</textarea>
+<br /><br />
 <!-- END smail_tpl -->
 
 <hr noshade="noshade" size="1" />

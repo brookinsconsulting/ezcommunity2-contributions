@@ -53,7 +53,7 @@
     <!-- BEGIN cart_inc_tax_item_tpl -->
     <td class="{td_class}" align="right"><nobr>{product_total_inc_tax}</nobr></td>
     <!-- END cart_inc_tax_item_tpl -->
-    <td class="{td_class}" align="center"><input type="checkbox" name="CartSelectArray[]" value="{cart_item_id}" /></td>
+    <td class="{td_class}" align="center"><input type="checkbox" class="{td_class}" name="CartSelectArray[]" value="{cart_item_id}" /></td>
   </tr>
   <!-- BEGIN cart_item_basis_tpl -->
     <!-- {intl-basis_price} {basis_price} -->

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: categorylist.php,v 1.10 2001/10/04 10:04:54 ce Exp $
+// $Id: categorylist.php,v 1.11 2001/10/09 12:00:53 sascha Exp $
 //
 // Created on: <23-Nov-2000 09:23:42 bf>
 //
@@ -87,7 +87,7 @@ if ( $PureStatic != "true" )
     $t->set_var( "sitedesign", $GlobalSiteDesign );
 
     $user =& eZUser::currentUser();
-    
+   
     // categories
     $i=0;
     foreach ( $categoryList as $categoryItem )

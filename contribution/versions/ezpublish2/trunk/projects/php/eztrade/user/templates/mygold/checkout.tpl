@@ -105,10 +105,11 @@
   <!-- BEGIN vouchers_tpl --> 
   <!-- BEGIN voucher_item_tpl -->
   <tr>
-    <td colspan="3" align="right"><span class="boxtext">{intl-voucher} {number}:</span></td>
-    <td align="right"><nobr>- {voucher_price_ex_vat}</nobr>&nbsp;</td>
-    <td align="right"><nobr>- {voucher_price_inc_vat}</nobr>&nbsp;</td>
-    <td><input type="checkbox" name="RemoveVoucherArray[]" value="{number}" /></td>
+    <td colspan="2" align="right">
+    <td align="right" class="borderleft">{intl-voucher} {number}:</td>
+    <td align="right" class="bordermid"><nobr>- {voucher_price_ex_vat}</nobr>&nbsp;</td>
+    <td align="right" class="bordermid"><nobr>- {voucher_price_inc_vat}</nobr>&nbsp;</td>
+    <td align="center" class="borderright"><input type="checkbox" name="RemoveVoucherArray[]" value="{number}" /></td>
   </tr>
   <!-- END voucher_item_tpl -->
   <!-- END vouchers_tpl --> 
