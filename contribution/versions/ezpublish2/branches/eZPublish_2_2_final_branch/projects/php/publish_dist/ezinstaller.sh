@@ -1,7 +1,7 @@
 #!/bin/sh
 
 #
-# ezinstaller - version 1.8 - (c) 2001 Kai Dübbert <kai@duebbert.de> - Licence: GPL
+# ezinstaller - version 1.11 - (c) 2001 Kai Dübbert <kai@duebbert.de> - Licence: GPL
 # =================================================================================
 #
 # This shell script will install eZ publish (http://developer.ez.no) on a Linux 
@@ -25,6 +25,8 @@
 #
 # changelog:
 #
+# 1.10: - vl : Fixed bug when www-dir and inst-dir is the same dir
+# 1.9: - jhe : changed publish.ez.no to developer.ez.no 
 # 1.8: - changed to tell about new possible install (with .htaccess)
 # 1.7: - more cache directories
 # 1.6: - changed to allow installation of php files in same directory for
@@ -601,7 +603,7 @@ fi
 ############################################################################
 # Moving files to wwwdir
 #
-if [ "$C_INSTALL" = "new" ]; then
+if [ "$C_INSTALL" = "new" ] && [ $C_WWWDIR != $C_INSTDIR ]; then
 	echo ""
 	echo "#################################################################"
 	echo "Moving the publicly needed files to $C_WWWDIR... "
@@ -689,7 +691,7 @@ fi
 ############################################################################
 # Move the files
 #
-if [ "$C_INSTALL" = "new" ]; then
+if [ "$C_INSTALL" = "new" ] && [ $C_WWWDIR != $C_INSTDIR ]; then
 	echo ""
 	echo "#################################################################"
 	echo "Moving the files:"
@@ -717,6 +719,12 @@ if [ "$C_INSTALL" = "new" ]; then
 		echo "done."
 	fi
 
+fi
+
+# www-dir and inst-dir is the same target. Let's move all files.....
+if [ "$C_INSTALL" = "new" ] && [ $C_WWWDIR = $C_INSTDIR ]; then
+	echo moving all files
+	mv * $C_INSTDIR
 fi
 
 ############################################################################
