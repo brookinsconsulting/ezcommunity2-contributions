@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: articlelist.php,v 1.50.2.3 2002/04/19 16:38:50 br Exp $
+// $Id: articlelist.php,v 1.50.2.4 2002/04/24 07:35:26 jhe Exp $
 //
 // Created on: <18-Oct-2000 14:41:37 bf>
 //
@@ -48,19 +48,21 @@ if ( isSet( $GoTo ) && is_Numeric( $GoToCategoryID ) )
     exit();
 }
 
-if ( isset( $StoreSelection ) )
+if ( isSet( $StoreSelection ) )
 {
     switch ( $ArticleSelection )
     {
         case "Published" :
         {
             $session->setVariable( "MixUnpublished", "Published" ); 
-        }break;
+        }
+        break;
 
         case "Unpublished" :
         {
             $session->setVariable( "MixUnpublished", "Unpublished" ); 
-        }break;
+        }
+        break;
         
         case "All" :
         default  :
@@ -81,14 +83,14 @@ if ( $articleMix == "" )
 
 if ( isset( $CopyCategories ) )
 {
-    if ( count ( $CategoryArrayID ) != 0 )
+    if ( count( $CategoryArrayID ) != 0 )
     {
-        foreach( $CategoryArrayID as $tCategoryID )
+        foreach ( $CategoryArrayID as $tCategoryID )
         {
             // copy category
             $tmpCategory = new eZArticleCategory( $tCategoryID );
 
-            $newCategory = new eZArticleCategory( );
+            $newCategory = new eZArticleCategory();
             $newCategory->setName( "Copy of " . $tmpCategory->name() );            
             $newCategory->setDescription( $tmpCategory->description(false) );
             $newCategory->setParent( $tmpCategory->parent( false ) );
@@ -113,14 +115,14 @@ if ( isset( $CopyCategories ) )
 
 
 
-if ( isset( $DeleteArticles ) )
+if ( isSet( $DeleteArticles ) )
 {
-    if ( count ( $ArticleArrayID ) != 0 )
+    if ( count( $ArticleArrayID ) != 0 )
     {
-        foreach( $ArticleArrayID as $TArticleID )
+        foreach ( $ArticleArrayID as $TArticleID )
         {
-            if( eZObjectPermission::hasPermission( $TArticleID, "article_article", 'w' )
-                || eZArticle::isAuthor( eZUser::currentUser(), $TArticleID ) )
+            if ( eZObjectPermission::hasPermission( $TArticleID, "article_article", 'w' ) ||
+                 eZArticle::isAuthor( eZUser::currentUser(), $TArticleID ) )
             {
                 $article = new eZArticle( $TArticleID );
 
@@ -142,31 +144,31 @@ if ( isset( $DeleteArticles ) )
             }
         }
         eZHTTPTool::header( "Location: /article/archive/$CurrentCategoryID" );
-        exit();        
+        exit();
     }
 }
 
 if ( isset( $DeleteCategories ) )
 {
-    if ( count ( $CategoryArrayID ) != 0 )
+    if ( count( $CategoryArrayID ) != 0 )
     {
         /** Delete menubox cache **/
         $files =& eZCacheFile::files( "ezarticle/cache/",
                                  array( "menubox", NULL ),
                                  "cache", "," );
-        foreach( $files as $file )
+        foreach ( $files as $file )
         {
             $file->delete();
         }
 
         $categories = array();
-        foreach( $CategoryArrayID as $ID )
+        foreach ( $CategoryArrayID as $ID )
         {
             $categories[] = $ID;
             $category = new eZArticleCategory( $ID );
             $categories[] = $category->parent( false );
-            if( eZObjectPermission::hasPermission( $ID , "article_category", 'w' ) ||
-                eZArticleCategory::isOwner( eZUser::currentUser(), $ID ) )
+            if ( eZObjectPermission::hasPermission( $ID , "article_category", 'w' ) ||
+                 eZArticleCategory::isOwner( eZUser::currentUser(), $ID ) )
                 $category->delete();
         }
         $categories = array_unique( $categories );
@@ -174,7 +176,7 @@ if ( isset( $DeleteCategories ) )
                                       array( "articlelist",
                                              $categories, NULL ),
                                       "cache", "," );
-        foreach( $files as $file )
+        foreach ( $files as $file )
         {
             $file->delete();
         }
@@ -224,15 +226,15 @@ $t->set_var( "site_style", $SiteStyle );
 $category = new eZArticleCategory( $CategoryID );
 
 /** move article categories up/down **/
-if( is_numeric( $MoveCategoryUp ) || is_numeric( $MoveCategoryDown ) )
+if ( is_numeric( $MoveCategoryUp ) || is_numeric( $MoveCategoryDown ) )
 {
-    if( is_numeric( $MoveCategoryUp ) )
+    if ( is_numeric( $MoveCategoryUp ) )
     {
         $mvcategory = new eZArticleCategory( $MoveCategoryUp );
         $mvcategory->moveCategoryUp();
     }
 
-    if( is_numeric( $MoveCategoryDown ) )
+    if ( is_numeric( $MoveCategoryDown ) )
     {
         $mvcategory = new eZArticleCategory( $MoveCategoryDown );
         $mvcategory->moveCategoryDown();
@@ -274,20 +276,20 @@ $t->set_var( "current_category_id", $category->id() );
 //EP: CategoryDescriptionXML=enabled, description go in XML -------------------
 if ( $ini->read_var( "eZArticleMain", "CategoryDescriptionXML" ) == "enabled" )
 {
-    if ($CategoryID)
+    if ( $CategoryID )
     {
-	include_once( "ezarticle/classes/ezarticlerenderer.php" );
+        include_once( "ezarticle/classes/ezarticlerenderer.php" );
     
-        $article = new eZArticle ();
-	$article->setContents ($category->description(false));
+        $article = new eZArticle();
+        $article->setContents( $category->description( false ) );
 	    
-	$renderer = new eZArticleRenderer( $article );
+        $renderer = new eZArticleRenderer( $article );
 		
         $t->set_var( "current_category_description", $renderer->renderIntro() );
     }
     else
     {
-    $t->set_var( "current_category_description", "" );
+        $t->set_var( "current_category_description", "" );
     }
 }
 else
@@ -303,9 +305,7 @@ $t->set_var( "path_item", "" );
 foreach ( $pathArray as $path )
 {
     $t->set_var( "category_id", $path[0] );
-
     $t->set_var( "category_name", $path[1] );
-    
     $t->parse( "path_item", "path_item_tpl", true );
 }
 
@@ -324,19 +324,19 @@ foreach ( $treeArray as $catItem )
         $t->set_var( "category_level", str_repeat( "&nbsp;&nbsp;", $catItem[1] ) );
     else
         $t->set_var( "category_level", "" );
-    
+
+    $t->set_var( "selected", $catItem[0]->id() == $CategoryID ? "selected" : "" );
     
     $t->parse( "category_tree_id", "category_tree_id_tpl", true );    
 }
 
 
 // categories
-$i=0;
+$i = 0;
 $t->set_var( "category_list", "" );
 foreach ( $categoryList as $categoryItem )
 {
     $t->set_var( "category_id", $categoryItem->id() );
-
     $t->set_var( "category_name", $categoryItem->name() );
 
     $parent = $categoryItem->parent();
@@ -353,23 +353,23 @@ foreach ( $categoryList as $categoryItem )
     //EP: CategoryDescriptionXML=enabled, description go in XML -------------------
     if ( $ini->read_var( "eZArticleMain", "CategoryDescriptionXML" ) == "enabled" )
     {
-	include_once( "ezarticle/classes/ezarticlerenderer.php" );
+        include_once( "ezarticle/classes/ezarticlerenderer.php" );
        
         $article = new eZArticle ();
-	$article->setContents ($categoryItem->description(false));
+        $article->setContents ($categoryItem->description(false));
 	       
         $renderer = new eZArticleRenderer( $article );
 		   
-	$t->set_var( "category_description", $renderer->renderIntro() );
+        $t->set_var( "category_description", $renderer->renderIntro() );
     }
     else
     {
-	$t->set_var( "category_description", $categoryItem->description() );
+        $t->set_var( "category_description", $categoryItem->description() );
     }       
     //EP --------------------------------------------------------------------------
 
-    if( eZObjectPermission::hasPermission( $categoryItem->id(), "article_category", 'w')  ||
-        eZArticleCategory::isOwner( eZUser::currentUser(), $categoryItem->id() ) )
+    if ( eZObjectPermission::hasPermission( $categoryItem->id(), "article_category", 'w' ) ||
+         eZArticleCategory::isOwner( eZUser::currentUser(), $categoryItem->id() ) )
         $t->parse( "category_edit", "category_edit_tpl", false );
     else
         $t->set_var( "category_edit", "" );
@@ -380,7 +380,7 @@ foreach ( $categoryList as $categoryItem )
 
 $t->set_var( "archive_id", $CategoryID );
 
-if ($i > 0 )    
+if ( $i > 0 )
     $t->parse( "category_list", "category_list_tpl" );
 else
     $t->set_var( "category_list", "" );
@@ -400,14 +400,16 @@ switch ( $articleMix )
         $t->set_var( "published_selected", "selected" );
         $t->set_var( "un_published_selected", "" );
         $t->set_var( "all_selected", "" );
-    }break;
+    }
+    break;
 
     case "Unpublished" :
     {
         $t->set_var( "published_selected", "" );
         $t->set_var( "un_published_selected", "selected" );
         $t->set_var( "all_selected", "" );
-    }break;
+    }
+    break;
         
     case "All" :
     default  :
@@ -429,13 +431,15 @@ if ( is_numeric( $CategoryID ) && ( $CategoryID > 0 ) )
         {
             $articleList =& $category->articles( $category->sortMode(), false, true, $Offset, $Limit );
             $articleCount = $category->articleCount( false, true  );        
-        }break;
+        }
+        break;
 
         case "Unpublished" :
         {
             $articleList =& $category->articles( $category->sortMode(), false, false, $Offset, $Limit );
             $articleCount = $category->articleCount( false, false  );
-        }break;
+        }
+        break;
         
         case "All" :
         default  :
@@ -447,12 +451,11 @@ if ( is_numeric( $CategoryID ) && ( $CategoryID > 0 ) )
 }
 else
 {
-  
     $articleList = array();
     $articleCount = 0;
 }
 
-$i=0;
+$i = 0;
 $t->set_var( "article_list", "" );
 
 if ( $category->sortMode() == "absolute_placement" )
@@ -468,8 +471,8 @@ $locale = new eZLocale( $Language );
 
 foreach ( $articleList as $article )
 {
-    if( eZObjectPermission::hasPermission( $article->id(), "article_article", 'r' ) ||
-        eZArticle::isAuthor( eZUser::currentUser(), $article->id() ) )
+    if ( eZObjectPermission::hasPermission( $article->id(), "article_article", 'r' ) ||
+         eZArticle::isAuthor( eZUser::currentUser(), $article->id() ) )
     {
         if ( $article->name() == "" )
             $t->set_var( "article_name", "&nbsp;" );
@@ -510,7 +513,6 @@ foreach ( $articleList as $article )
         $published = $article->published();
         $t->set_var( "article_published_date", $locale->format( $published ) );
 
-
         if( eZObjectPermission::hasPermission( $article->id(), "article_article", 'w') ||
             eZArticle::isAuthor( eZUser::currentUser(), $article->id() ) )
             $t->parse( "article_edit", "article_edit_tpl", false );
@@ -540,6 +542,5 @@ function deleteCache( $ArticleID, $CategoryID, $CategoryArray )
 {    
     eZArticleTool::deleteCache( $ArticleID, $CategoryID, $CategoryArray );
 }
-
 
 ?>

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: categoryedit.php,v 1.29.2.1 2002/02/18 18:54:01 master Exp $
+// $Id: categoryedit.php,v 1.29.2.2 2002/04/24 07:35:26 jhe Exp $
 //
 // Created on: <18-Sep-2000 14:46:19 bf>
 //
@@ -94,11 +94,9 @@ if ( $Action == "insert" && !$error )
     if ( $ini->read_var( "eZArticleMain", "CategoryDescriptionXML" ) == "enabled" )
     {
 
-	$generator = new eZArticleGenerator();
-        $desc1 = array ( $Description, "" );
-
-	$desc2 = $generator->generateXML( $desc1 ); 
-    
+        $generator = new eZArticleGenerator();
+        $desc1 = array( $Description, "" );
+        $desc2 = $generator->generateXML( $desc1 ); 
         $category->setDescription( $desc2 );
     }
     else
@@ -124,7 +122,7 @@ if ( $Action == "insert" && !$error )
     $file = new eZImageFile();
     if ( $file->getUploadedFile( "ImageFile" ) )
     {
-        $image = new eZImage( );
+        $image = new eZImage();
         $image->setName( "Image" );
         $image->setImage( $file );
         
@@ -137,7 +135,7 @@ if ( $Action == "insert" && !$error )
     $category->store();
     $categoryID = $category->id();
 
-    if ( isset( $BulkMailID ) && $BulkMailID != -1 )
+    if ( isSet( $BulkMailID ) && $BulkMailID != -1 )
         $category->setBulkMailCategory( $BulkMailID );
     else
         $category->setBulkMailCategory( false );
@@ -146,7 +144,7 @@ if ( $Action == "insert" && !$error )
         $category->setImage( 0 );
 
     /* write access select */
-    if ( isset( $WriteGroupArray ) )
+    if ( isSet( $WriteGroupArray ) )
     {
         if ( $WriteGroupArray[0] == 0 )
         {
@@ -167,7 +165,7 @@ if ( $Action == "insert" && !$error )
     }
 
     /* read access thingy */
-    if ( isset( $GroupArray ) )
+    if ( isSet( $GroupArray ) )
     {
         if ( $GroupArray[0] == 0 )
         {
@@ -242,15 +240,14 @@ if ( $Action == "update" && !$error )
 //    $category->setDescription( $Description );
     
         $generator = new eZArticleGenerator();
-	$desc1 = array ( $Description, "" );
-
+        $desc1 = array( $Description, "" );
         $desc2 = $generator->generateXML( $desc1 ); 
     
-	$category->setDescription( $desc2 );
+        $category->setDescription( $desc2 );
     }
     else
     {
-	$category->setDescription( $Description );
+        $category->setDescription( $Description );
     }
     //EP --------------------------------------------------------------------------
     
@@ -453,14 +450,13 @@ if ( $Action == "edit" )
     //EP: CategoryDescriptionXML=enabled, description go in XML -------------------------
     if ( $ini->read_var( "eZArticleMain", "CategoryDescriptionXML" ) == "enabled" )
     {
-	$generator = new eZArticleGenerator( );
-        $desc1 = $generator->decodeXML( $category->description(false) );
-	$t->set_var( "description_value", $desc1[0]  );
-
+        $generator = new eZArticleGenerator();
+        $desc1 = $generator->decodeXML( $category->description( false ) );
+        $t->set_var( "description_value", $desc1[0]  );
     }
     else
     {
-	$t->set_var( "description_value", htmlspecialchars( $category->description() ) );    
+        $t->set_var( "description_value", $category->description() );    
     }
     //EP --------------------------------------------------------------------------------
 
@@ -491,10 +487,6 @@ if ( $Action == "edit" )
         $t->set_var( "image_url", $imageURL );
         $t->set_var( "image_caption", $imageCaption );
         $t->parse( "image_item", "image_item_tpl" );
-    }
-    else
-    {
-
     }
 
     if ( is_object( $parent ) )

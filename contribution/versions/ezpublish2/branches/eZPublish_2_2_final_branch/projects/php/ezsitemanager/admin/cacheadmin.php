@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: cacheadmin.php,v 1.3.2.1 2002/02/08 15:12:09 bf Exp $
+// $Id: cacheadmin.php,v 1.3.2.2 2002/04/24 07:38:20 jhe Exp $
 //
 // Created on: <05-Jul-2001 14:40:06 bf>
 //
@@ -31,8 +31,7 @@ $ini =& INIFile::globalINI();
 $Language = $ini->read_var( "eZSiteManagerMain", "Language" );
 $Limit = $ini->read_var( "eZSiteManagerMain", "AdminListLimit" );
 
-include_once( "ezsitemanager/classes/ezsection.php" );
-
+//include_once( "ezsitemanager/classes/ezsection.php" );
 
 $t = new eZTemplate( "ezsitemanager/admin/" . $ini->read_var( "eZSiteManagerMain", "AdminTemplateDir" ),
                      "ezsitemanager/admin/" . "/intl", $Language, "cacheadmin.php" );
@@ -41,8 +40,6 @@ $t->setAllStrings();
 $t->set_file( "cache_admin_tpl", "cacheadmin.tpl" );
 
 $t->set_block( "cache_admin_tpl", "cache_results_tpl", "cache_results" ); 
-
-
 
 $t->set_var( "cache_results", "" );
 if ( isset( $ClearCache ) )
@@ -53,25 +50,21 @@ if ( isset( $ClearCache ) )
 
     // fetch the system printout
     ob_start();
-    
     if ( trim( $GLOBALS["WINDIR"] ) != "" )
         system( $siteDir . "./clearcache.bat" );
     else
         system( $siteDir . "./clearcache.sh" );
-        
     $ret = ob_get_contents();
     ob_end_clean();
 
     // fill the buffer with the old values
     ob_start();
     print( $buffer );
-    
+
     $t->set_var( "cache_return", $ret );
 
     $t->parse( "cache_results", "cache_results_tpl" );
 }
-
-
 
 $t->pparse( "output", "cache_admin_tpl" );
 

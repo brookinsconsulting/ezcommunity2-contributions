@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: index_admin.php,v 1.19.2.8 2002/01/08 09:59:34 kaid Exp $
+// $Id: index_admin.php,v 1.19.2.9 2002/04/24 07:32:38 jhe Exp $
 //
 // Created on: <09-Nov-2000 14:52:40 ce>
 //
@@ -128,8 +128,8 @@ $GlobalSiteIni =& $ini;
 $GlobalSiteIni->Index = $index;
 $GlobalSiteIni->WWWDir = $wwwDir;
 $GlobalSiteIni->SiteDir = $siteDir;
-unset($index);
-unset($wwwDir);
+unset( $index );
+unset( $wwwDir );
 
 //  $session =& eZSession::globalSession();
 //  $session->fetch();
@@ -147,7 +147,6 @@ $GLOBALS["DEBUG"] = true;
 // $REQUEST_URI = $regs[1];
 
 $url_array =& explode( "/", $REQUEST_URI );
-
 
 $user =& eZUser::currentUser();
 if ( $user )
@@ -278,7 +277,6 @@ if ( $user )
 
         }
     }
-
     if ( $HelpMode == "enabled" )
     {
         include( "admin/help_footer.php" );
@@ -294,7 +292,7 @@ if ( $user )
         {
             include( "admin/footer.php" );
         }
-    }    
+    }
 }
 else
 {

@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: datasupplier.php,v 1.10 2001/10/02 14:03:27 ce Exp $
+// $Id: datasupplier.php,v 1.10.2.1 2002/04/24 07:38:20 jhe Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -22,7 +22,6 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, US
 //
-
 
 include_once( "classes/ezhttptool.php" );
 include_once( "ezuser/classes/ezpermission.php" );
@@ -46,16 +45,19 @@ switch ( $url_array[2] )
             {
                 $filePath = $url_array[4];
                 include( "ezsitemanager/admin/templatelist.php" );
-            }break;
+            }
+            break;
 
             case "edit" :
             {
                 $filePath = $url_array[4];
                 include( "ezsitemanager/admin/templateedit.php" );
-            }break;
+            }
+            break;
         }
 
-    }break;
+    }
+    break;
 
     case "menu":
     {
@@ -65,21 +67,25 @@ switch ( $url_array[2] )
             {
                 $ParentID = $url_array[4];
                 include( "ezsitemanager/admin/menulist.php" );        
-            }break;
+            }
+            break;
 
             case "edit" :
             {
                 $MenuID = $url_array[4];
                 include( "ezsitemanager/admin/menuedit.php" );
-            }break;
+            }
+            break;
         }
-    }break;
+    }
+    break;
 
     
     case "siteconfig":
     {
         include( "ezsitemanager/admin/siteconfig.php" );        
-    }break;
+    }
+    break;
     
     case "file":
     {
@@ -88,13 +94,15 @@ switch ( $url_array[2] )
             case "list" :
             {
                 include( "ezsitemanager/admin/filelist.php" );
-            }break;
+            }
+            break;
 
             case "edit" :
             {
                 $fileName = $url_array[4];
                 include( "ezsitemanager/admin/fileedit.php" );
-            }break;
+            }
+            break;
         }
     }
     break;
@@ -123,7 +131,6 @@ switch ( $url_array[2] )
                 include( "ezsitemanager/admin/sectionlist.php" );
             }
             break;
-
 
 
             case "edit":
