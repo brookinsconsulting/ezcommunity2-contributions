@@ -3132,3 +3132,12 @@ Maintainer(s) : ce@ez.no
 
     * user/wishlist.php: *** empty log message ***
 
+
+Module : eztrade
+Repository path : /home/cvsroot/projects/php/eztrade
+Maintainer(s) : ce@ez.no
+2002-02-02  Bjoern Reiten  <br@ez.no>
+
+    * admin/orderedit.php
+      admin/templates/standard/orderedit.tpl: removed code for edate.
+
