@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: imageedit.php,v 1.27 2001/06/26 11:31:53 jhe Exp $
+// $Id: imageedit.php,v 1.28 2001/06/27 13:28:56 jhe Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <09-Jan-2001 10:45:44 ce>
@@ -313,8 +313,10 @@ if ( $Action == "Update" && $error == false )
     $categoryArray = $image->categories();
     // Calculate new and unused categories
     $old_maincategory = $image->categoryDefinition();
-    $old_categories =& array_unique( array_merge( $old_maincategory->id(),
-                                                  $image->categories( false ) ) );
+    
+    if ( $old_maincategory > -1 )
+        $old_categories =& array_unique( array_merge( $old_maincategory->id(),
+                                                      $image->categories( false ) ) );
 
     $new_categories = array_unique( array_merge( $CategoryID, $CategoryArray ) );
 

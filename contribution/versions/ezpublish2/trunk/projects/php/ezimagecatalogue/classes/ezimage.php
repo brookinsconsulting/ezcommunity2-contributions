@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezimage.php,v 1.57 2001/06/27 07:57:02 jhe Exp $
+// $Id: ezimage.php,v 1.58 2001/06/27 13:28:56 jhe Exp $
 //
 // Definition of eZImage class
 //
@@ -310,7 +310,7 @@ class eZImage
         }
         else
         {
-            print( "<br><b>Failed to get image category definition for ID $this->ID</b></br>" );
+            return -1;
         }
 
         return $category;

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: sectionedit.php,v 1.2 2001/06/25 14:40:09 bf Exp $
+// $Id: sectionedit.php,v 1.3 2001/06/27 13:28:56 jhe Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <10-May-2001 16:17:29 ce>
@@ -87,7 +87,6 @@ if ( ( $Action == "Insert" ) || ( $Action == "Update" ) && ( $user ) )
 
 if ( $Action == "Delete" )
 {
-    print( "her" );
     if ( count ( $SectionArrayID ) > 0 )
     {
         foreach( $SectionArrayID as $SectionID )
