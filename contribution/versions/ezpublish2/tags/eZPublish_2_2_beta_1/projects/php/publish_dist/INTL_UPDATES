@@ -1,0 +1,6 @@
+INTL UPDATES for eZ publish:
+---------------------------
+
+From version 2.1 Beta 1 the INTL updates are located in the updates folder.
+With the version number as name. Any changes made before 2.1 Beta 1 are stored in the INTL_UPDATES file in the pre_2_1_b1 folder
+
