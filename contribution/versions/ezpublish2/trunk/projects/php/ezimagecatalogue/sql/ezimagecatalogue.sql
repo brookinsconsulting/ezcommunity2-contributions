@@ -7,6 +7,7 @@
 #
 # Table structure for table 'eZImageCatalogue_Image'
 #
+DROP TABLE IF EXISTS eZImageCatalogue_Image;
 CREATE TABLE eZImageCatalogue_Image (
   ID int(11) DEFAULT '0' NOT NULL auto_increment,
   Name varchar(100),
@@ -26,6 +27,7 @@ INSERT INTO eZImageCatalogue_Image VALUES (1,'','caption text','','php0meQsj.jpg
 #
 # Table structure for table 'eZImageCatalogue_ImageVariation'
 #
+DROP TABLE IF EXISTS eZImageCatalogue_ImageVariation;
 CREATE TABLE eZImageCatalogue_ImageVariation (
   ID int(11) DEFAULT '0' NOT NULL auto_increment,
   ImageID int(11),
@@ -47,6 +49,7 @@ INSERT INTO eZImageCatalogue_ImageVariation VALUES (3,1,3,'ezimagecatalogue/cata
 #
 # Table structure for table 'eZImageCatalogue_ImageVariationGroup'
 #
+DROP TABLE IF EXISTS eZImageCatalogue_ImageVariationGroup;
 CREATE TABLE eZImageCatalogue_ImageVariationGroup (
   ID int(11) DEFAULT '0' NOT NULL auto_increment,
   Width int(11),
@@ -61,3 +64,15 @@ CREATE TABLE eZImageCatalogue_ImageVariationGroup (
 INSERT INTO eZImageCatalogue_ImageVariationGroup VALUES (1,150,150);
 INSERT INTO eZImageCatalogue_ImageVariationGroup VALUES (2,100,100);
 INSERT INTO eZImageCatalogue_ImageVariationGroup VALUES (3,300,300);
+
+#
+# Table structure for table 'eZLink_Hit'
+#
+DROP TABLE IF EXISTS eZLink_Hit;
+CREATE TABLE eZLink_Hit (
+  ID int(11) DEFAULT '0' NOT NULL auto_increment,
+  Link int(11),
+  Time timestamp(14),
+  RemoteIP char(15),
+  PRIMARY KEY (ID)
+);

@@ -7,6 +7,7 @@
 #
 # Table structure for table 'eZContact_Address'
 #
+DROP TABLE IF EXISTS eZContact_Address;
 CREATE TABLE eZContact_Address (
   ID int(11) DEFAULT '0' NOT NULL auto_increment,
   Street1 char(50),
@@ -26,6 +27,7 @@ CREATE TABLE eZContact_Address (
 #
 # Table structure for table 'eZContact_Country'
 #
+DROP TABLE IF EXISTS eZContact_Country;
 CREATE TABLE eZContact_Country (
   ID int(11) DEFAULT '0' NOT NULL auto_increment,
   ISO char(2),

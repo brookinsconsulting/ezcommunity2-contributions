@@ -7,6 +7,7 @@
 #
 # Table structure for table 'eZUser_Forgot'
 #
+DROP TABLE IF EXISTS eZUser_Forgot;
 CREATE TABLE eZUser_Forgot (
   ID int(11) DEFAULT '0' NOT NULL auto_increment,
   UserID int(11) DEFAULT '0' NOT NULL,
@@ -23,6 +24,7 @@ CREATE TABLE eZUser_Forgot (
 #
 # Table structure for table 'eZUser_Group'
 #
+DROP TABLE IF EXISTS eZUser_Group;
 CREATE TABLE eZUser_Group (
   ID int(11) DEFAULT '0' NOT NULL auto_increment,
   Name varchar(100),
@@ -34,12 +36,13 @@ CREATE TABLE eZUser_Group (
 # Dumping data for table 'eZUser_Group'
 #
 
-INSERT INTO eZUser_Group VALUES (2,'Anonyme brukere','Brukere som har opprettet seg selv, eks shopping brukere.');
-INSERT INTO eZUser_Group VALUES (1,'Administrasjon','Alle rettigheter');
+INSERT INTO eZUser_Group VALUES (2,'Anonymous','Users that register themself on the user page, eg forum users.');
+INSERT INTO eZUser_Group VALUES (1,'Adminitrators','All rights');
 
 #
 # Table structure for table 'eZUser_GroupPermissionLink'
 #
+DROP TABLE IF EXISTS eZUser_GroupPermissionLink;
 CREATE TABLE eZUser_GroupPermissionLink (
   ID int(11) DEFAULT '0' NOT NULL auto_increment,
   GroupID int(11),
@@ -85,6 +88,7 @@ INSERT INTO eZUser_GroupPermissionLink VALUES (29,1,23,'true');
 #
 # Table structure for table 'eZUser_Module'
 #
+DROP TABLE IF EXISTS eZUser_Module;
 CREATE TABLE eZUser_Module (
   ID int(11) DEFAULT '0' NOT NULL auto_increment,
   Name char(100) DEFAULT '' NOT NULL,
@@ -96,10 +100,8 @@ CREATE TABLE eZUser_Module (
 # Dumping data for table 'eZUser_Module'
 #
 
-INSERT INTO eZUser_Module VALUES (1,'eZTrade');
 INSERT INTO eZUser_Module VALUES (2,'eZPoll');
 INSERT INTO eZUser_Module VALUES (3,'eZUser');
-INSERT INTO eZUser_Module VALUES (4,'eZTodo');
 INSERT INTO eZUser_Module VALUES (5,'eZNews');
 INSERT INTO eZUser_Module VALUES (6,'eZContact');
 INSERT INTO eZUser_Module VALUES (7,'eZForum');
@@ -108,6 +110,7 @@ INSERT INTO eZUser_Module VALUES (8,'eZLink');
 #
 # Table structure for table 'eZUser_Permission'
 #
+DROP TABLE IF EXISTS eZUser_Permission;
 CREATE TABLE eZUser_Permission (
   ID int(11) DEFAULT '0' NOT NULL auto_increment,
   ModuleID int(11),
@@ -145,6 +148,7 @@ INSERT INTO eZUser_Permission VALUES (23,7,'MessageDelete');
 #
 # Table structure for table 'eZUser_User'
 #
+DROP TABLE IF EXISTS eZUser_User;
 CREATE TABLE eZUser_User (
   ID int(11) DEFAULT '0' NOT NULL auto_increment,
   Login char(50) DEFAULT '' NOT NULL,
@@ -166,6 +170,7 @@ INSERT INTO eZUser_User VALUES (27,'admin','0c947f956f7aa781','admin@nospam.com'
 #
 # Table structure for table 'eZUser_UserAddressLink'
 #
+DROP TABLE IF EXISTS eZUser_UserAddressLink;
 CREATE TABLE eZUser_UserAddressLink (
   ID int(11) DEFAULT '0' NOT NULL auto_increment,
   UserID int(11) DEFAULT '0' NOT NULL,
@@ -181,6 +186,7 @@ CREATE TABLE eZUser_UserAddressLink (
 #
 # Table structure for table 'eZUser_UserGroupLink'
 #
+DROP TABLE IF EXISTS eZUser_UserGroupLink;
 CREATE TABLE eZUser_UserGroupLink (
   ID int(11) DEFAULT '0' NOT NULL auto_increment,
   UserID int(11),
@@ -195,4 +201,3 @@ CREATE TABLE eZUser_UserGroupLink (
 INSERT INTO eZUser_UserGroupLink VALUES (42,27,1);
 INSERT INTO eZUser_UserGroupLink VALUES (39,28,2);
 INSERT INTO eZUser_UserGroupLink VALUES (41,13,1);
-

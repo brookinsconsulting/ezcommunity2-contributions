@@ -7,6 +7,7 @@
 #
 # Table structure for table 'eZForum_Category'
 #
+DROP TABLE IF EXISTS eZForum_Category;
 CREATE TABLE eZForum_Category (
   Name varchar(20),
   Description varchar(40),
@@ -24,6 +25,7 @@ INSERT INTO eZForum_Category VALUES ('Talk center','General talk','N',1);
 #
 # Table structure for table 'eZForum_Forum'
 #
+DROP TABLE IF EXISTS eZForum_Forum;
 CREATE TABLE eZForum_Forum (
   CategoryID int(11) DEFAULT '0' NOT NULL,
   Name varchar(20) DEFAULT '' NOT NULL,
@@ -44,6 +46,7 @@ INSERT INTO eZForum_Forum VALUES (1,'Special talk','Talk about something else he
 #
 # Table structure for table 'eZForum_Message'
 #
+DROP TABLE IF EXISTS eZForum_Message;
 CREATE TABLE eZForum_Message (
   ForumID int(11) DEFAULT '0' NOT NULL,
   Topic varchar(60),
