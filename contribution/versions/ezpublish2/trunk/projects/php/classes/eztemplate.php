@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eztemplate.php,v 1.26 2001/01/25 00:24:24 jb Exp $
+// $Id: eztemplate.php,v 1.27 2001/01/25 16:53:14 jb Exp $
 //
 // Definition of eZTemplate class
 //
@@ -107,7 +107,9 @@ class eZTemplate
     /*!
       Constructs a new eZTemplate object.
     */
-    function eZTemplate( $templateDir = "", $intlDir = "", $language = "", $phpFile = "", $style = false, $module_dir = false, $state = false )
+    function eZTemplate( $templateDir = "", $intlDir = "", $language = "",
+                         $phpFile = "", $style = false, $module_dir = false,
+                         $state = false, $mod_time = false )
     {
         $this->intlDir =& $intlDir;
         $this->language =& $language;
@@ -116,6 +118,7 @@ class eZTemplate
         $this->ModuleDir = $module_dir;
         $this->TextStrings = array();
         $this->State = $state;
+        $this->ExternModTime = $mod_time;
 
         $this->set_root($templateDir);
         $this->set_unknowns("remove");
@@ -226,7 +229,10 @@ class eZTemplate
             $lang_m = filemtime( $this->languageFile );
             $cache_m = filemtime( $CacheFile );
             if ( $template_m <= $cache_m && $lang_m <= $cache_m )
-                return true;
+            {
+                if ( $this->ExternModtime or $this->ExternModTime <= $cache_m )
+                    return true;
+            }
         }
         return false;
     }
@@ -749,6 +755,7 @@ class eZTemplate
     var $languageFile;
     var $CacheSuffix;
     var $CacheDir;
+    var $ExternModTime;
 
     var $files = array();
 
