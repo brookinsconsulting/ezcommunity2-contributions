@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: index_xmlrpc.php,v 1.27.2.3 2002/01/04 12:06:34 kaid Exp $
+// $Id: index_xmlrpc.php,v 1.27.2.4 2002/01/08 08:07:15 kaid Exp $
 //
 // Created on: <09-Nov-2000 14:52:40 ce>
 //
@@ -25,7 +25,7 @@
 
 
 // Tell PHP where it can find our files.
-if ( ereg( "(.*/)([^\/]+\.php)$", $SCRIPT_FILENAME, $regs ) )
+if ( ereg( "(.*/)([^\/]+\.php)$", $PATH_TRANSLATED, $regs ) )
 {
     $siteDir = $regs[1];
     $index = "/" . $regs[2];
