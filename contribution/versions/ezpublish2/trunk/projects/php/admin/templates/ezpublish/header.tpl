@@ -59,7 +59,7 @@
 
 </head>
 
-<body bgcolor="#777777" topmargin="6" marginheight="6" leftmargin="6" marginwidth="6" onload="MM_preloadImages('/admin/images/{site_style}/redigerminimrk.gif','/admin/images/{site_style}/slettminimrk.gif','/admin/images/{site_style}/downloadminimrk.gif')">
+<body bgcolor="#777777" topmargin="6" marginheight="6" leftmargin="6" marginwidth="6" onload="MM_preloadImages('/admin/images/{site_style}/redigerminimrk.gif','/admin/images/{site_style}/slettminimrk.gif','/admin/images/{site_style}/downloadminimrk.gif','/admin/images/{site_style}/imagemapminimrk.gif')">
 
 <table width="100%" cellpadding="0" cellspacing="0" border="0">
 <tr>
