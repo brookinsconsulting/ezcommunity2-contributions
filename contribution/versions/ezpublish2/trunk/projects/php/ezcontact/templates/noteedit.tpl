@@ -1,4 +1,8 @@
+<<<<<<< noteedit.tpl
+<form method="post" action="index.php?page={document_root}noteedit.php">
+=======
 <form method="post" action="index.php?prePage={document_root}noteedit.php">
+>>>>>>> 1.5
 
 <h1>{intl-headline}</h1>
 <p>{intl-title}<br>

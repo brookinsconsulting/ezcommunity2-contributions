@@ -6,13 +6,15 @@ $ini = new INIFIle( "site.ini" );
 $Language = $ini->read_var( "eZContactMain", "Language" );
 $DOC_ROOT = $ini->read_var( "eZContactMain", "DocumentRoot" );
 
-include_once( "../classes/eztemplate.php" );
-include_once( "../classes/ezusergroup.php" );
-include_once( "../classes/ezsession.php" );
+include_once( "classes/eztemplate.php" );
+include_once( "classes/ezusergroup.php" );
+include_once( "classes/ezsession.php" );
 include_once( "ezphputils.php" );
 
 include_once( "ezcontact/classes/ezperson.php" );
 include_once( "ezcontact/classes/ezpersontype.php" );
+
+include_once( "./topmenu.php" );
 
 $session = new eZSession();
 if( $session->get( $AuthenticatedSession ) == 0 )

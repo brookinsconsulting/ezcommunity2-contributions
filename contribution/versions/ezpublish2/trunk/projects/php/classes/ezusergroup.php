@@ -1,5 +1,5 @@
 <?php
-// $Id: ezusergroup.php,v 1.2 2000/08/29 16:37:21 ce-cvs Exp $
+// $Id: ezusergroup.php,v 1.3 2000/08/30 14:39:23 ce-cvs Exp $
 // Lars Wilhelmsen <lw@ez.no>
 // eZ systems <http://www.ez.no/>
 //
@@ -48,6 +48,7 @@ class eZUserGroup
         $this->eZForum_DeleteForum = mysql_result( $query, 0, "eZForum_DeleteForum" );
         $this->eZForum_AddMessage = mysql_result( $query, 0, "eZForum_AddMessage" );
         $this->eZForum_DeleteMessage = mysql_result( $query, 0, "eZForum_DeleteMessage" );
+        $this->eZContact_Read = mysql_result( $query, 0, "eZContact_Read" );
         $this->eZContact_Add = mysql_result( $query, 0, "eZContact_Add" );
         $this->eZContact_Delete = mysql_result( $query, 0, "eZContact_Delete" );
         $this->eZContact_Edit = mysql_result( $query, 0, "eZContact_Edit" );
@@ -87,6 +88,7 @@ class eZUserGroup
 			eZForum_DeleteForum='$this->eZForum_DeleteForum',
 			eZForum_AddMessage='$this->eZForum_AddMessage',
 			eZForum_DeleteMessage='$this->eZForum_DeleteMessage',
+            eZContact_Read='$this->eZContact_Read',
             eZContact_Add='$this->eZContact_Add',
             eZContact_Delete='$this->eZContact_Delete',
             eZContact_Edit='$this->eZContact_Edit',
@@ -127,13 +129,13 @@ class eZUserGroup
                 eZForum_DeleteForum='$this->eZForum_DeleteForum',
                 eZForum_AddMessage='$this->eZForum_AddMessage',
                 eZForum_DeleteMessage='$this->eZForum_DeleteMessage',
+                eZContact_Read='$this->eZContact_Read',
                 eZContact_Add='$this->eZContact_Add',
                 eZContact_Delete='$this->eZContact_Delete',
                 eZContact_Edit='$this->eZContact_Edit',
                 eZContact_AdminAdd='$this->eZContact_AdminAdd',
                 eZContact_AdminDelete='$this->eZContact_AdminDelete',
                 eZContact_AdminEdit='$this->eZContact_AdminEdit',
-
                 zez_AddGroup='$this->zez_AddGroup',
                 zez_DeleteGroup='$this->zez_DeleteGroup',
                 zez_AddUser='$this->zez_AddUser',
@@ -273,6 +275,16 @@ class eZUserGroup
     /*!
       Rettigheter til eZ Contact
     */
+    function eZContact_Read()
+    {
+        return $this->eZContact_Read;
+    }
+
+    function seteZContact_Read( $value )
+    {
+        $this->eZContact_Read = $value;
+    }
+    
     function eZContact_Add()
     {
         return $this->eZContact_Add;
@@ -492,8 +504,7 @@ class eZUserGroup
                            GROUP BY
                                GroupTable.Id" )
              or die( "ERROR in SQL or command  in eZUserGroup::verifyCommand(), exiting." );
-        print ( "resulkt " . mysql_result( $query, 0, "rights" ) );
-        if ( mysql_result( $query, 0, "rights" ) == "Y" )
+             if ( mysql_result( $query, 0, "rights" ) == "Y" )
             return true;
         else
             return false;
@@ -549,15 +560,13 @@ class eZUserGroup
     var $eZForum_DeleteForum;
     var $eZForum_AddMessage;
     var $eZForum_DeleteMessage;
-
+    var $eZContact_Read;
     var $eZContact_Add;
     var $eZContact_Delete;
     var $eZContact_Edit;
-
     var $eZContact_AdminAdd;
     var $eZContact_AdminDelete;
     var $eZContact_AdminEdit;
-  
     var $zez_AddGroup;
     var $zez_DeleteGroup;
     var $zez_AddUser;

@@ -1,15 +1,14 @@
 <?
+
 include_once( "class.INIFile.php" );
 
 $ini = new INIFIle( "../site.ini" );
-
 // $Language = $ini->read_var( "eZContactMain", "Language" );
-
 $DOC_ROOT = $ini->read_var( "eZContactMain", "DocumentRoot" );
 
 include_once( "ezphputils.php" );
-include_once( "../ezcontact/classes/ezuser.php" );
-include_once( "../ezcontact/classes/ezsession.php" );
+include_once( "../classes/ezuser.php" );
+include_once( "../classes/ezsession.php" );
 
 $message = "<h1>Tast inn et gyldig brukernavn og passord</h1>";
 

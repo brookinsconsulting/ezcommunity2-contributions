@@ -11,8 +11,8 @@ include_once( "../classes/eztemplate.php" );
 include_once( "ezphputils.php" );
 // include_once( "../classes/ezsession.php" );
 // include_once( "../ezcontact/classes/ezuser.php" );
-include_once( "../ezcontact/classes/ezusergroup.php" );
-include_once( "../ezcontact/classes/ezphonetype.php" );
+include_once( "../classes/ezusergroup.php" );
+include_once( "../classes/ezphonetype.php" );
 
 // sjekke session
 //  {

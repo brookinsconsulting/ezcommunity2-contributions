@@ -11,15 +11,16 @@ include_once( "../classes/ezsession.php" );
 include_once( "../classes/ezusergroup.php" );
 include_once( "ezphputils.php" );
 
-include_once( "ezcontact/classes/ezphonetype.php" );
+include_once( "../ezcontact/classes/ezphonetype.php" );
 
 $session = new eZSession();
 if( $session->get( $AuthenticatedSession ) == 0 )
-
+            
 {
     // Legge til
     if ( $Action == "insert" && ( eZUserGroup::verifyCommand( $session->userID(), "eZContact_AdminAdd" ) == 1 ) )
     {
+        
         $type = new eZPhoneType();
         $type->setName( $PhoneTypeName );
         $type->store();
@@ -82,8 +83,8 @@ if( $session->get( $AuthenticatedSession ) == 0 )
 
     $t->pparse( "output", "phone_type_edit_page" );
 }
-else
-{
-    Header( "Location: index.php?page=" . $DOC_ROOT . "error.php" );
-}
+//  else
+//  {
+//      Header( "Location: index.php?page=" . $DOC_ROOT . "error.php" );
+//  }
 ?>

@@ -1,6 +1,6 @@
 <?php
 /*!
-    $Id: groupedit.php,v 1.2 2000/08/29 16:37:21 ce-cvs Exp $
+    $Id: groupedit.php,v 1.3 2000/08/30 14:39:23 ce-cvs Exp $
 
     Author: Lars Wilhelmsen <lw@ez.no>
     
@@ -58,6 +58,10 @@ if ( $Action == "Update" )
 
 
     // eZ Contact
+    if ( $eZContact_Read == "on" )
+        $group->seteZContact_Read( "Y" );
+    else
+        $group->seteZContact_Read( "N" );
     if ( $eZContact_Add == "on" )
         $group->seteZContact_Add( "Y" );
     else
@@ -171,6 +175,8 @@ if ( $Action == "Insert" )
         $group->seteZLink_Delete( "Y" );
 
     // eZContact
+    if ( $eZContact_Read = "on" )
+        $group->seteZContact_Read( "Y" );
     if ( $eZContact_Add == "on" )
         $group->seteZContact_Add( "Y" );
     if ( $eZContact_Delete == "on" )
@@ -278,6 +284,11 @@ if ( $Action == "Edit" )
         $t->set_var( "eZLink_Delete", "" );
 
     // eZ Contact
+    if ( $group->eZContact_Read == "Y" )
+        $t->set_var( "eZContact_Read", "checked" );
+    else
+        $t->set_var( "eZContact_Read", "" );
+    
     if ( $group->eZContact_Add == "Y" )
         $t->set_var( "eZContact_Add", "checked" );
     else
@@ -385,6 +396,7 @@ if ( $Action == "New" )
     $t->set_var( "eZLink_Edit", "" );
     $t->set_var( "eZLink_Delete", "" );
 
+    $t->set_var( "eZContact_Read", "" );
     $t->set_var( "eZContact_Add", "" );
     $t->set_var( "eZContact_Delete", "" );
     $t->set_var( "eZContact_Edit", "" );
