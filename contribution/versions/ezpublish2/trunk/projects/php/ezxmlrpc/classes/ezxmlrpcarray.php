@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezxmlrpcarray.php,v 1.5 2001/03/16 10:48:07 bf Exp $
+// $Id: ezxmlrpcarray.php,v 1.6 2001/06/27 13:58:25 jb Exp $
 //
 // Definition of eZXMLRPCArray class
 //
@@ -39,9 +39,43 @@ class eZXMLRPCArray
 
       The default value is true.
     */
-    function eZXMLRPCArray( $array=array() )
+    function eZXMLRPCArray( $array=array(), $type = false, $rec = false )
     {
         $this->Array = $array;
+        $this->Type = $type;
+        $this->Recursive = $rec;
+    }
+
+    /*!
+      Returns true if type information is sent recursively to objects.
+    */
+    function isRecursive()
+    {
+        return $this->Recursive;
+    }
+
+    /*!
+      Returns the type which all items are sent as, if false items are probed for type.
+    */
+    function type()
+    {
+        return $this->Type;
+    }
+
+    /*!
+      Set recursive behaviour on or off.
+    */
+    function setIsRecursive( $rec )
+    {
+        $this->Recursive = $rec;
+    }
+
+    /*!
+      Sets type of all items, false means probe for type.
+    */
+    function setType( $type )
+    {
+        $this->Type = $type;
     }
 
     /*!
@@ -49,7 +83,7 @@ class eZXMLRPCArray
     */
     function &serialize( )
     {
-        $ret .= $this->serializeArray( $this->Array );        
+        $ret .= $this->serializeArray( $this->Array, $this->Type, $this->Recursive );        
         return $ret;
     }
 
@@ -73,12 +107,15 @@ class eZXMLRPCArray
       \private
       \static
     */
-    function serializeArray( $array )
+    function serializeArray( $array, $type = false, $rec = false )
     {
         $ret .= "<value><array><data>";
         foreach ( $array as $value )
         {
-            switch( gettype($value) )
+            $val_type = gettype($value);
+            if ( !is_bool( $type ) )
+                $val_type = $type;
+            switch( $val_type  )
             {
                 case "integer":
                 {
@@ -88,7 +125,10 @@ class eZXMLRPCArray
                 
                 case "array":
                 {
-                    $ret .= eZXMLRPCArray::serializeArray( $value );
+                    if ( $rec )
+                        $ret .= eZXMLRPCArray::serializeArray( $value, $type, $rec );
+                    else
+                        $ret .= eZXMLRPCArray::serializeArray( $value );
                 }
                 break;
                 
@@ -96,6 +136,12 @@ class eZXMLRPCArray
                 {
                     if ( substr( get_class( $value ), 0, 8 ) == "ezxmlrpc" )
                     {
+                        if ( get_class($value) == "ezxmlrpcstruct" and
+                             $rec )
+                        {
+                            $value->setIsRecursive( $rec );
+                            $value->setType( $type );
+                        }
                         $ret .= $value->serialize( $value );
                     }
                 }
@@ -115,6 +161,8 @@ class eZXMLRPCArray
 
     // The array value
     var $Array;
+    var $Type;
+    var $Recursive;
 }
 
 ?>

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezxmlrpcstruct.php,v 1.7 2001/03/16 11:20:12 bf Exp $
+// $Id: ezxmlrpcstruct.php,v 1.8 2001/06/27 13:58:25 jb Exp $
 //
 // Definition of eZXMLRPCStruct class
 //
@@ -39,9 +39,44 @@ class eZXMLRPCStruct
 
       The default value is true.
     */
-    function eZXMLRPCStruct( $struct=array() )
+    function eZXMLRPCStruct( $struct = array(), $type = false, $rec = false )
     {
         $this->Struct = $struct;
+
+        $this->DataType = $type;
+        $this->Recursive = $rec;
+    }
+
+    /*!
+      Returns true if type information is sent recursively to objects.
+    */
+    function isRecursive()
+    {
+        return $this->Recursive;
+    }
+
+    /*!
+      Returns the type which all items are sent as, if false items are probed for type.
+    */
+    function type()
+    {
+        return $this->DataType;
+    }
+
+    /*!
+      Set recursive behaviour on or off.
+    */
+    function setIsRecursive( $rec )
+    {
+        $this->Recursive = $rec;
+    }
+
+    /*!
+      Sets type of all items, false means probe for type.
+    */
+    function setType( $type )
+    {
+        $this->DataType = $type;
     }
 
     /*!
@@ -49,7 +84,7 @@ class eZXMLRPCStruct
     */
     function &serialize( )
     {
-        $ret .= $this->serializeStruct( $this->Struct );        
+        $ret .= $this->serializeStruct( $this->Struct );
         return $ret;
     }
 
@@ -82,7 +117,10 @@ class eZXMLRPCStruct
         {
             $ret .= "<member><name>" . ${key} . "</name>";
 
-			switch ( gettype($value) )
+            $type = gettype($value);
+            if ( !is_bool( $this->DataType ) )
+                $type = $this->DataType;
+			switch ( $type )
 			{
 				case "integer":
                 {
@@ -94,6 +132,12 @@ class eZXMLRPCStruct
                 {
 					if ( substr( get_class($value),0,8) == "ezxmlrpc" )
 					{
+                        if ( get_class($value) == "ezxmlrpcstruct" and
+                             $this->Recursive )
+                        {
+                            $value->setIsRecursive( $this->Recursive );
+                            $value->setType( $this->DataType );
+                        }
 						$ret .= $value->serialize( $value );
 					}
                 }
@@ -101,7 +145,10 @@ class eZXMLRPCStruct
                  
                 case "array":
                 {
-                    $ret .= eZXMLRPCArray::serializeArray( $value );
+                    if ( $this->Recursive )
+                        $ret .= eZXMLRPCArray::serializeArray( $value, $this->DataType, $this->Recursive );
+                    else
+                        $ret .= eZXMLRPCArray::serializeArray( $value );
                 }
                 break;                
                 
@@ -122,6 +169,8 @@ class eZXMLRPCStruct
 
     // The struct value
     var $Struct;
+    var $DataType;
+    var $Recursive;
 }
 
 ?>
