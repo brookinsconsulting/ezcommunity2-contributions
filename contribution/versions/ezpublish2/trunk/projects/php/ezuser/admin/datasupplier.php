@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: datasupplier.php,v 1.25 2001/08/02 16:16:16 kaid Exp $
+// $Id: datasupplier.php,v 1.26 2001/09/07 20:26:48 fh Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -65,7 +65,17 @@ if ( get_class( $user ) == "ezuser"  and eZPermission::checkPermission( $user, "
             include( "ezuser/admin/sessioninfo.php" );
         }
         break;
-    
+
+        // hack: Two methods to access the userlist. Through direct GroupID here, or by indexes (under)
+        case "ingroup" :
+        {
+            $GroupID = $url_array[3];
+            $Index = 0;
+            include( "ezuser/admin/userlist.php" );
+        }
+        break;
+        // end hack
+        
         case "userlist" :
         {
             $Index = $url_array[3];

@@ -14,7 +14,7 @@
 <!-- BEGIN group_item_tpl -->
 <tr>
 	<td class="{td_class}">
-	<a href="{www_dir}{index}/user/userlist//{group_id}">{group_name}</a>
+	<a href="{www_dir}{index}/user/ingroup/{group_id}">{group_name}</a>
 	</td>
 
 	<td class="{td_class}">
