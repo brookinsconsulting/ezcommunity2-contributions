@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: viewwishlist.php,v 1.3 2001/03/09 11:39:12 jb Exp $
+// $Id: viewwishlist.php,v 1.4 2001/03/09 11:41:57 jb Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <21-Oct-2000 18:09:45 bf>
@@ -222,7 +222,8 @@ foreach ( $items as $item )
     $i++;
 }
 
-$shippingCost = $ini->read_var( "eZTradeMain", "ShippingCost" );
+//  $shippingCost = $ini->read_var( "eZTradeMain", "ShippingCost" );
+$shippingCost = 0;
 
 $currency->setValue( $shippingCost );
 $t->set_var( "shipping_cost", $locale->format( $currency ) );
