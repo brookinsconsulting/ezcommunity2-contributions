@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezdb.php,v 1.16 2000/12/13 00:53:49 bf Exp $
+// $Id: ezdb.php,v 1.17 2000/12/13 11:04:28 bf Exp $
 //
 // Definition of eZDB class
 //
@@ -71,7 +71,7 @@ class eZDB
     */
     function &query( $sql )
     {
-        $result =& mysql_query( $sql );
+        $result = mysql_query( $sql );
   
         if ( $result )
             return $result;

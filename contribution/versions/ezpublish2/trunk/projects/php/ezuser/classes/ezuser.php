@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezuser.php,v 1.30 2000/12/08 09:49:28 bf-cvs Exp $
+// $Id: ezuser.php,v 1.31 2000/12/13 11:04:28 bf Exp $
 //
 // Definition of eZCompany class
 //
@@ -522,7 +522,7 @@ class eZUser
                     $ret = $user;
                 }
             }            
-        }        
+        }
         return $ret;
     }
 

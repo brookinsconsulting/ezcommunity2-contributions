@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: admincheck.php,v 1.4 2000/10/26 13:13:46 ce-cvs Exp $
+// $Id: admincheck.php,v 1.5 2000/12/13 11:04:28 bf Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <26-Oct-2000 15:11:17 ce>
@@ -24,6 +24,7 @@
 //
 
 $user = eZUser::currentUser();
+
 if ( !$user )
 {
     Header( "Location: /user/login" );
@@ -36,5 +37,6 @@ if ( !eZPermission::checkPermission( $user, "eZUser", "AdminLogin" ) )
     Header( "Location: /user/login" );
     exit();
 }
+
 ?>
 

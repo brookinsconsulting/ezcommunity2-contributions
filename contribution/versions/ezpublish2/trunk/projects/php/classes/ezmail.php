@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezmail.php,v 1.6 2000/11/02 17:21:23 bf-cvs Exp $
+// $Id: ezmail.php,v 1.7 2000/12/13 11:04:28 bf Exp $
 //
 // Definition of eZCompany class
 //
@@ -84,6 +84,22 @@ class eZMail
     }
 
     /*!
+      Returns the receiver address.
+    */
+    function receiver()
+    {
+        return $this->To;
+    }
+
+    /*!
+      Sets the receiver address.
+    */
+    function setReceiver( $newReceiver )
+    {
+        $this->To = $newReceiver;
+    }
+    
+    /*!
       Returns the from address.
     */
     function from()
@@ -99,6 +115,22 @@ class eZMail
         $this->From = $newFrom;
     }
 
+    /*!
+      Returns the sender address.
+    */
+    function sender()
+    {
+        return $this->From;
+    }
+
+    /*!
+      Sets the sender address.      
+    */
+    function setSender( $newSender )
+    {
+        $this->From = $newSender;
+    }
+    
     /*!
       Returns the subject.
     */
