@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezlocale.php,v 1.15 2001/01/06 16:45:40 bf Exp $
+// $Id: ezlocale.php,v 1.16 2001/01/07 12:35:46 bf Exp $
 //
 // Definition of eZLocale class
 //
@@ -116,8 +116,6 @@ class eZLocale
     {
         $ini =& $GLOBALS["GlobalSiteIni"];
 
-//          $ini = new INIFile( "site.ini", false );
-        
         if ( file_exists( "classes/locale/" . $iso . ".ini" ) )
         {
             $localeIni = new INIFile( "classes/locale/" . $iso . ".ini", false );
@@ -138,7 +136,6 @@ class eZLocale
         $this->TimeFormat =& $localeIni->read_var( "RegionalSettings", "TimeFormat" );
         $this->DateFormat =& $localeIni->read_var( "RegionalSettings", "DateFormat" );
         $this->ShortDateFormat =& $localeIni->read_var( "RegionalSettings", "ShortDateFormat" );
-
     }
 
     /*!
@@ -230,7 +227,7 @@ class eZLocale
                 $time =& str_replace( "%i", "" . $obj->minute() . "", $time );
 
                 // s - seconds; i.e. "00" to "59"
-                $time =& str_replace( "%s", "" . $obj->second() . "", $time );                                
+                $time =& str_replace( "%s", "" . $obj->second() . "", $time );
 
                 $returnString =& $time;
                 break;
