@@ -10,9 +10,9 @@ $Language = $ini->read_var( "eZContactMain", "Language" );
 $DOC_ROOT = $ini->read_var( "eZContactMain", "DocumentRoot" );
 
 include_once( "classes/eztemplate.php" );
-include_once( "classes/ezsession.php" );
-include_once( "classes/ezusergroup.php" );
-include_once( "classes/ezuser.php" );
+//  include_once( "classes/ezsession.php" );
+//  include_once( "classes/ezusergroup.php" );
+//  include_once( "classes/ezuser.php" );
 
 include_once( "common/ezphputils.php" );
 
@@ -34,7 +34,7 @@ include_once( "ezcontact/topmenu.php" );
 $session = new eZSession();
 if( $session->get( $AuthenticatedSession ) == 0 )
 {
-    if ( eZUserGroup::verifyCommand( $session->userID(), "eZContact_Read" ) == 1 )
+//      if ( eZUserGroup::verifyCommand( $session->userID(), "eZContact_Read" ) == 1 )
     {
         // Legger til et firma.
         if ( $Action == "insert" )
@@ -486,10 +486,10 @@ if( $session->get( $AuthenticatedSession ) == 0 )
 
         $t->pparse( "output", "company_edit"  );
     }
-    else
-    {
-        print( "\nDu har ikke rettigheter\n" );
-    }
+//      else
+//      {
+//          print( "\nDu har ikke rettigheter\n" );
+//      }
 }
 else
 {

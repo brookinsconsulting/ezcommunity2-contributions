@@ -1,9 +1,5 @@
 <table width="100%">
 <tr>
-	<td width="50" valign="top">
- Bruker: <br>
-<b>{current_user}</b> 
-	</td>
 	<td valign="top">
 
  <a href="/contact/"><img src="/{document_root}images/liste.gif" border="0" alt="Liste"></a>

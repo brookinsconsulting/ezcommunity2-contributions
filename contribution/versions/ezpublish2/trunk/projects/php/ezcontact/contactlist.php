@@ -8,9 +8,9 @@ $ini = new INIFIle( "site.ini" );
 $Language = $ini->read_var( "eZContactMain", "Language" );
 $DOC_ROOT = $ini->read_var( "eZContactMain", "DocumentRoot" );
 
-include_once( "classes/ezuser.php" );
-include_once( "classes/ezusergroup.php" );
-include_once( "classes/ezsession.php" );
+//  include_once( "classes/ezuser.php" );
+//  include_once( "classes/ezusergroup.php" );
+//  include_once( "classes/ezsession.php" );
 include_once( "classes/eztemplate.php" );
 include_once( "common/ezphputils.php" );
 
@@ -23,7 +23,7 @@ include_once( "ezcontact/topmenu.php" );
 $session = new eZSession();
 if( $session->get( $AuthenticatedSession ) == 0 )
 {
-    if ( eZUserGroup::verifyCommand( $session->userID(), "eZContact_Read" ) == 1 )
+//      if ( eZUserGroup::verifyCommand( $session->userID(), "eZContact_Read" ) == 1 )
     {
 
 
@@ -100,28 +100,28 @@ if( $session->get( $AuthenticatedSession ) == 0 )
                     $t->set_var( "document_root", $DOC_ROOT );
 
                     // utøve rettigheter
-                    if ( eZUserGroup::verifyCommand( $session->userID(), "eZContact_Delete" ) == 1 )
+//                      if ( eZUserGroup::verifyCommand( $session->userID(), "eZContact_Delete" ) == 1 )
                     {
                         $t->parse( "delete_person", "delete_person_item" );
                     }
-                    else
-                    {
-                        $t->set_var( "delete_person", "" );
-                    }
+//                      else
+//                      {
+//                          $t->set_var( "delete_person", "" );
+//                      }
 
                     $t->parse( "person_list", "person_item", true );          
                 }
             }
 
-            // utøve rettigheter
-            if ( eZUserGroup::verifyCommand( $session->userID(), "eZContact_Delete" ) == 1 )
+//              // utøve rettigheter
+//              if ( eZUserGroup::verifyCommand( $session->userID(), "eZContact_Delete" ) == 1 )
             {
                 $t->parse( "delete_company", "delete_company_item" );
             }
-            else
-            {
-                $t->set_var( "delete_company", "" );
-            }
+//              else
+//              {
+//                  $t->set_var( "delete_company", "" );
+//              }
 
             $color_count++;
 
@@ -133,11 +133,11 @@ if( $session->get( $AuthenticatedSession ) == 0 )
         $t->pparse( "output", "contact_page");
 
     }
-    else
-    {
-        $message = ( "Du har ikke rettiheter" );
-        include( "common/error.php" );
-    }
+//      else
+//      {
+//          $message = ( "Du har ikke rettiheter" );
+//          include( "common/error.php" );
+//      }
 
 }
 else

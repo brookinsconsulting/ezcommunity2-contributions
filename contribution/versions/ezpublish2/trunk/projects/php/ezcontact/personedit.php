@@ -10,9 +10,9 @@ $Language = $ini->read_var( "eZContactMain", "Language" );
 $DOC_ROOT = $ini->read_var( "eZContactMain", "DocumentRoot" );
 
 include_once( "classes/eztemplate.php" );
-include_once( "classes/ezsession.php" );
-include_once( "classes/ezuser.php" );
-include_once( "classes/ezusergroup.php" );
+//  include_once( "classes/ezsession.php" );
+//  include_once( "classes/ezuser.php" );
+//  include_once( "classes/ezusergroup.php" );
 
 include_once( "common/ezphputils.php" );
 
@@ -34,10 +34,10 @@ include_once( "ezcontact/topmenu.php" );
 $session = new eZSession();
 if( $session->get( $AuthenticatedSession ) == 0 )
 {
-    if ( eZUserGroup::verifyCommand( $session->userID(), "eZContact_Read" ) == 1 )
+//      if ( eZUserGroup::verifyCommand( $session->userID(), "eZContact_Read" ) == 1 )
     {
         // Oppdatere informasjon.
-        if ( $Action == "update" && eZUserGroup::verifyCommand( $session->userID(), "eZContact_Edit" ) == 1 ) 
+        if ( $Action == "update" ) 
         {
             $updatePerson = new eZPerson();
             $updatePerson->get( $PID );
@@ -52,7 +52,7 @@ if( $session->get( $AuthenticatedSession ) == 0 )
         }
 
         // Slette person fra databasen.
-        if ( $Action == "delete" && eZUserGroup::verifyCommand( $session->userID(), "eZContact_Delete" ) == 1 )
+        if ( $Action == "delete" )
         {
             $deletePerson = new eZPerson();
             $deletePerson->get ( $PID );
@@ -62,7 +62,7 @@ if( $session->get( $AuthenticatedSession ) == 0 )
         }
 
         // Legge til kontakt person.
-        if ( $Action == "insert" && eZUserGroup::verifyCommand( $session->userID(), "eZContact_Add" ) == 1 )
+        if ( $Action == "insert" )
         {
             $newPerson = new eZPerson();
             $newPerson->setFirstName( $FirstName );
@@ -99,7 +99,7 @@ if( $session->get( $AuthenticatedSession ) == 0 )
         }
 
         // Legge til telefon.
-        if ( $PhoneAction == "AddPhone" && eZUserGroup::verifyCommand( $session->userID(), "eZContact_Add" ) == 1 )
+        if ( $PhoneAction == "AddPhone" )
         {
             $phone = new eZPhone();
             $phone->setNumber( $PhoneNumber );
@@ -115,7 +115,7 @@ if( $session->get( $AuthenticatedSession ) == 0 )
         }
 
         // Oppdatere telefon.
-        if ( $PhoneAction == "UpdatePhone" && eZUserGroup::verifyCommand( $session->userID(), "eZContact_Edit" ) == 1 )
+        if ( $PhoneAction == "UpdatePhone"  )
         {
             $phone = new eZPhone();
             $phone->get( $PhoneID );
@@ -127,7 +127,7 @@ if( $session->get( $AuthenticatedSession ) == 0 )
         }
 
         // Slette telefon.
-        if ( $PhoneAction == "DeletePhone" && eZUserGroup::verifyCommand( $session->userID(), "eZContact_Delete" ) == 1 )
+        if ( $PhoneAction == "DeletePhone" )
         {
             $phone = new eZPhone();
             $phone->get( $PhoneID );
@@ -140,7 +140,7 @@ if( $session->get( $AuthenticatedSession ) == 0 )
         }
 
         // Oppdatere konsultasjon.
-        if ( $ConsultAction == "UpdateConsult" && eZUserGroup::verifyCommand( $session->userID(), "eZContact_Edit" ) == 1 )
+        if ( $ConsultAction == "UpdateConsult" )
         {
             $consult = new eZConsult();
             $consult->get( $ConsultID );
@@ -150,7 +150,7 @@ if( $session->get( $AuthenticatedSession ) == 0 )
         }
 
         // Legge til konsultasjon.
-        if ( $ConsultAction == "AddConsult" && eZUserGroup::verifyCommand( $session->userID(), "eZContact_Add" ) == 1 )
+        if ( $ConsultAction == "AddConsult" )
         {
 
             // henter ut brukeren som er logget inn
@@ -178,7 +178,7 @@ if( $session->get( $AuthenticatedSession ) == 0 )
         }
 
         // Slette konsultasjon.
-        if ( $ConsultAction == "DeleteConsult" && eZUserGroup::verifyCommand( $session->userID(), "eZContact_Delete" ) == 1 )
+        if ( $ConsultAction == "DeleteConsult" )
         {
             $consult = new eZConsult();
             $consult->get( $ConsultID );
@@ -193,7 +193,7 @@ if( $session->get( $AuthenticatedSession ) == 0 )
         }
 
         // Legge til adresse.
-        if ( $AddressAction == "AddAddress" && eZUserGroup::verifyCommand( $session->userID(), "eZContact_Add" ) == 1 )
+        if ( $AddressAction == "AddAddress" )
         {
             $address = new eZAddress( );
             $address->setStreet1( $Street1 );
@@ -213,7 +213,7 @@ if( $session->get( $AuthenticatedSession ) == 0 )
         }
 
         // Oppgradere  adresse.
-        if ( $AddressAction == "UpdateAddress" && eZUserGroup::verifyCommand( $session->userID(), "eZContact_Edit" ) == 1 )
+        if ( $AddressAction == "UpdateAddress" )
         {
             $address = new eZAddress( );
             $address->get( $AddressID );
@@ -229,7 +229,7 @@ if( $session->get( $AuthenticatedSession ) == 0 )
         }
 
         // Slette adresse.
-        if ( $AddressAction == "DeleteAddress" && eZUserGroup::verifyCommand( $session->userID(), "eZContact_Delete" ) == 1 )
+        if ( $AddressAction == "DeleteAddress"  )
         {
             $address = new eZAddress( );
             $address->get( $AddressID );
@@ -323,7 +323,7 @@ if( $session->get( $AuthenticatedSession ) == 0 )
         }
 
         // Editere kontakt person.
-        if ( $Action == "edit" && eZUserGroup::verifyCommand( $session->userID(), "eZContact_Edit" ) == 1 )
+        if ( $Action == "edit"  )
         {
             $editPerson = new eZPerson();
             $editPerson->get( $PID );
@@ -487,10 +487,10 @@ if( $session->get( $AuthenticatedSession ) == 0 )
 
         $t->pparse( "output", "person_edit"  );
     }
-    else
-    {
-        print( "\nDu har ikke rettigheter\n" );
-    }
+//      else
+//      {
+//          print( "\nDu har ikke rettigheter\n" );
+//      }
 }
 else
 {

@@ -10,9 +10,6 @@ $Language = $ini->read_var( "eZContactMain", "Language" );
 $DOC_ROOT = $ini->read_var( "eZContactMain", "DocumentRoot" );
 
 include_once( "classes/eztemplate.php" );
-include_once( "classes/ezuser.php" );
-include_once( "classes/ezusergroup.php" );
-include_once( "classes/ezsession.php" );
 
 include_once( "common/ezphputils.php" );
 
@@ -49,7 +46,7 @@ $t->set_var( "comment", $person->comment() );
 
 $usr = new eZUser();
 $usr->get( $person->owner() );
-$t->set_var( "owner", $usr->nickname() );
+//  $t->set_var( "owner", $usr->nickname() );
 
 $dict = new eZPersonAddressDict();
 $dict_array = $dict->getByPerson( $person->id() );

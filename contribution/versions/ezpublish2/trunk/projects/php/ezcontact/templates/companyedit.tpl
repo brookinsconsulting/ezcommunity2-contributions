@@ -95,7 +95,7 @@
 <td bgcolor="#f0f0f0">
 
 <br>
-&nbsp;&nbsp;<textarea rows="5" name="Comment">{company_comment}</textarea><br>
+&nbsp;&nbsp;<textarea rows="5" cols="10" name="Comment">{company_comment}</textarea><br>
 
 
 <input type="hidden" name="Insert" value="TRUE">
@@ -225,7 +225,7 @@
 &nbsp;&nbsp;<input type="text" name="ConsultTitle" value="{consult_title}">
 <br>
 &nbsp;&nbsp;{intl-textdesc}<br>
-&nbsp;&nbsp;<textarea rows="5" cols="40" wrap="soft"name="ConsultBody">{consult_body}</textarea>
+&nbsp;&nbsp;<textarea rows="5" cols="10" wrap="soft"name="ConsultBody">{consult_body}</textarea>
 
 <input type="hidden" name="ConsultID" value="{consult_edit_id}">
 <input type="hidden" name="ConsultAction" value="{consult_action}"><br><br>
