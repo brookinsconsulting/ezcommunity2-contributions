@@ -16,6 +16,8 @@ class eZLink
     function store()
     {
         $this->dbInit();
+        // setter created til tiden på systemklokken.
+        $this->Created = date( "Y-m-d G:i:s" );        
         query( "INSERT INTO Link SET
                 ID='$this->ID',
                 Title='$this->Title',
@@ -27,7 +29,6 @@ class eZLink
                 Accepted='$this->Accepted'" );
     }
 
-
     /*
       Oppgraderer databasen
     */
@@ -38,7 +39,6 @@ class eZLink
                 Title='$this->Title',
                 LinkGroup='$this->LinkGroup',
                 KeyWords='$this->KeyWords',
-                Created='$this->Created',
                 Url='$this->Url',
                 Accepted='$this->Accepted'
                 WHERE ID='$this->ID'" );
@@ -117,7 +117,7 @@ class eZLink
         $this->dbInit();
         $link_array = 0;
         
-        array_query( $link_array, "SELECT * FROM Link WHERE  Accepted='N' ORDER BY Title" );
+        array_query( $link_array, "SELECT * FROM Link WHERE Accepted='N' ORDER BY Title" );
 
         return $link_array;
     }
@@ -134,9 +134,6 @@ class eZLink
 
         return $link_array;
     }
-    
-
-
 
     /*
       Henter ut alt fra Link
@@ -183,14 +180,6 @@ class eZLink
     function setKeyWords( $value )
     {
         $this->KeyWords = ( $value );
-    }
-
-    /*
-      Dato når linken ble født
-    */
-    function setCreated( $value )
-    {
-        $this->Created = ( $value );
     }
 
     /*
