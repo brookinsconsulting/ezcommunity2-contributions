@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: menubox.php,v 1.15 2001/04/11 13:21:15 th Exp $
+// $Id: menubox.php,v 1.16 2001/04/25 14:24:55 th Exp $
 //
 // 
 //
@@ -112,7 +112,7 @@ function createArticleMenu( $menuCachedFile="" )
         {
             $t->set_var( "articlecategory_id", $categoryItem->id()  );
             $t->set_var( "articlecategory_title", $categoryItem->name() );
-            
+
             $t->parse( "article_category", "article_category_tpl", true );
             $i++;
         }
