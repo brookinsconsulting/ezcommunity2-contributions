@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: category.php,v 1.14.2.5 2002/07/24 08:01:46 gl Exp $
+// $Id: category.php,v 1.14.2.6 2003/02/11 14:16:31 jb Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -191,13 +191,16 @@ else if( $Command == "delete" )
             $par[] = createURLStruct( "ezarticle", "category", $item[0] );
     }
 
-    
     $ReturnData = new eZXMLRPCStruct( array( "Location" => createURLStruct( "ezarticle", "category", $ID ),
                                              "Path" => new eZXMLRPCArray( $par ),
                                              "UpdateType" => new eZXMLRPCString( $Command )
                                              )
                                       );
     $Command = "update";
+    // Delete the cache
+    $parentid = $category->parent( false );
+    eZArticleTool::deleteCache( 0, $parentid, 0 );
+    eZArticleTool::deleteCache( 0, $ID, 0 );
     eZArticleCategory::delete( $ID ); // finally, delete the articlecategory..
 }
 
