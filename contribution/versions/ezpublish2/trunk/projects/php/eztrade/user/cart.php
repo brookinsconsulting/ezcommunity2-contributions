@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: cart.php,v 1.14 2001/02/15 10:42:26 bf Exp $
+// $Id: cart.php,v 1.15 2001/02/20 16:12:48 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <27-Sep-2000 11:57:49 bf>
@@ -234,6 +234,7 @@ $currency = new eZCurrency();
     
 $i = 0;
 $sum = 0.0;
+$totalVAT = 0.0;
 foreach ( $items as $item )
 {
     $t->set_var( "cart_item_id", $item->id() );
@@ -262,6 +263,9 @@ foreach ( $items as $item )
     $currency->setValue( $price );
 
     $sum += $price;
+    
+    $totalVAT += $product->vat() * $item->count();
+    
     $t->set_var( "product_id", $product->id() );
     $t->set_var( "product_name", $product->name() );
 
@@ -303,6 +307,8 @@ $t->set_var( "shipping_cost", $locale->format( $currency ) );
 $sum += $shippingCost;
 $currency->setValue( $sum );
 $t->set_var( "cart_sum", $locale->format( $currency ) );
+$currency->setValue( $totalVAT );
+$t->set_var( "cart_vat_sum", $locale->format( $currency ) );
 
 if ( count( $items ) > 0 )
 {

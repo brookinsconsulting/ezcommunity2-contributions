@@ -115,6 +115,9 @@
 <span class="boxtext">{intl-price}:</span> 
 <div class="p">{product_price}</div>
 
+<span class="boxtext">{intl-price_ex_vat}:</span> 
+<div class="p">{product_price_ex_vat}</div>
+
 <br />
 
 <hr noshade="noshade" size="4" />

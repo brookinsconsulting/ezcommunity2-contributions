@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ordersendt.php,v 1.20 2001/02/15 10:42:26 bf Exp $
+// $Id: ordersendt.php,v 1.21 2001/02/20 16:12:48 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <06-Oct-2000 14:04:17 bf>
@@ -129,6 +129,7 @@ $currency = new eZCurrency();
 
 $i = 0;
 $sum = 0.0;
+$totalVAT = 0.0;
 foreach ( $items as $item )
 {
     $product = $item->product();
@@ -155,6 +156,9 @@ foreach ( $items as $item )
     $currency->setValue( $price );
 
     $sum += $price;
+
+    $totalVAT += $product->vat() * $item->count();
+    
     $t->set_var( "product_name", $product->name() );
     $t->set_var( "product_price", $locale->format( $currency ) );
 
@@ -196,6 +200,10 @@ $t->set_var( "shipping_cost", $locale->format( $currency ) );
 $sum += $shippingCost;
 $currency->setValue( $sum );
 $t->set_var( "order_sum", $locale->format( $currency ) );
+
+$currency->setValue( $totalVAT );
+$t->set_var( "order_vat_sum", $locale->format( $currency ) );
+
 
 $t->set_var( "order_id", $OrderID );
 

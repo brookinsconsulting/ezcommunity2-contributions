@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezdb.php,v 1.34 2001/02/04 17:00:03 bf Exp $
+// $Id: ezdb.php,v 1.35 2001/02/20 16:12:48 bf Exp $
 //
 // Definition of eZDB class
 //
@@ -46,7 +46,7 @@ class eZDB
     /*!
       Constructs a new eZDB object, connects to the database and
       selects the desired table.
-
+      
       The eZDB constructor takes a .ini file as an argument.
       The second argument defines under what category in the .ini
       file the database information is located.

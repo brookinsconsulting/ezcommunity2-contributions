@@ -57,6 +57,13 @@
 </tr>
 <tr>
 	<td colspan="2">&nbsp;</td>
+	<th colspan="2">{intl-vat}:</th>
+	<td align="right">
+	{cart_vat_sum}
+	</td>
+</tr>
+<tr>
+	<td colspan="2">&nbsp;</td>
 	<th colspan="2">{intl-total}:</th>
 	<td align="right">
 	{cart_sum}

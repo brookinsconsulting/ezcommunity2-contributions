@@ -33,6 +33,12 @@
 	</td>
 </tr>
 <tr>
+	<td class="small" colspan="3">{intl-vat}:</td>
+	<td class="small" align="right">
+	{cart_vat_sum}
+	</td>
+</tr>
+<tr>
 	<td class="small" colspan="3">{intl-total}:</td>
 	<td class="small" align="right">
 	{cart_sum}

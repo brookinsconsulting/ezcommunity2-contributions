@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: productpreview.php,v 1.12 2000/12/21 13:00:29 bf Exp $
+// $Id: productpreview.php,v 1.13 2001/02/20 16:12:48 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <22-Sep-2000 16:13:32 bf>
@@ -25,10 +25,14 @@
 
 include_once( "classes/INIFile.php" );
 include_once( "classes/eztemplate.php" );
+include_once( "classes/ezlocale.php" );
+include_once( "classes/ezcurrency.php" );
 
-$ini = new INIFIle( "site.ini" );
+$ini =& $GLOBALS["GlobalSiteIni"];
 
 $Language = $ini->read_var( "eZTradeMain", "Language" );
+
+$locale = new eZLocale( $Language );
 
 include_once( "eztrade/classes/ezproduct.php" );
 include_once( "eztrade/classes/ezproductcategory.php" );
@@ -164,10 +168,18 @@ else
 }
 
 
+
+$t->set_var( "product_number", $product->productNumber() );
+
+    
 $t->set_var( "product_id", $product->id() );
 $t->set_var( "product_number", $product->productNumber() );
-$t->set_var( "product_price", $product->price() );
 
+$price = new eZCurrency( $product->price() );
+$t->set_var( "product_price", $locale->format( $price ) );
+
+$priceEx = new eZCurrency( $product->priceExVAT() );
+$t->set_var( "product_price_ex_vat", $locale->format( $priceEx ) );
 
 $t->pparse( "output", "product_preview_tpl" );
 

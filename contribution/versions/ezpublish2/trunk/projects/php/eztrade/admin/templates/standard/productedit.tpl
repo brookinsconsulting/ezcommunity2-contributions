@@ -56,7 +56,7 @@ http://<input type="text" size="36" name="ExternalLink" value="{external_link}"/
 	</td>
 	<td valign="top">
 	<p class="boxtext">{intl-vat_type}:</p>
-	<select name="VATType">
+	<select name="VATTypeID">
 
 	<!-- BEGIN vat_select_tpl -->
 	<option value="{vat_id}" {vat_selected}>{vat_name}</option>

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezproduct.php,v 1.32 2001/02/09 10:03:02 bf Exp $
+// $Id: ezproduct.php,v 1.33 2001/02/20 16:12:48 bf Exp $
 //
 // Definition of eZProduct class
 //
@@ -55,6 +55,7 @@ include_once( "classes/ezdb.php" );
 include_once( "eztrade/classes/ezoption.php" );
 include_once( "ezimagecatalogue/classes/ezimage.php" );
 include_once( "eztrade/classes/ezproducttype.php" );
+include_once( "eztrade/classes/ezvattype.php" );
 
 
 class eZProduct
@@ -133,7 +134,8 @@ class eZProduct
                                  ShowProduct='$showProduct',
                                  Discontinued='$discontinued',
                                  ExternalLink='$this->ExternalLink',
-                                 IsHotDeal='$this->IsHotDeal'
+                                 IsHotDeal='$this->IsHotDeal',
+                                 VATTypeID='$this->VATTypeID'
                                  " );
 
             $this->ID = mysql_insert_id();
@@ -153,7 +155,8 @@ class eZProduct
                                  ShowProduct='$showProduct',
                                  Discontinued='$discontinued',
                                  ExternalLink='$this->ExternalLink',
-                                 IsHotDeal='$this->IsHotDeal'
+                                 IsHotDeal='$this->IsHotDeal',
+                                 VATTypeID='$this->VATTypeID'
                                  WHERE ID='$this->ID'
                                  " );
 
@@ -189,6 +192,7 @@ class eZProduct
                 $this->ExternalLink =& $category_array[0][ "ExternalLink" ];
                 $this->Price =& $category_array[0][ "Price" ];
                 $this->IsHotDeal =& $category_array[0][ "IsHotDeal" ];
+                $this->VATTypeID =& $category_array[0][ "VATTypeID" ];
 
                 if ( $category_array[0][ "ShowPrice" ] == "true" )                    
                     $this->ShowPrice = true;
@@ -282,6 +286,49 @@ class eZProduct
        return $this->Price;
     }    
 
+    /*!
+      Returns the price of the product exclusive VAT ( prive - VAT value ).
+    */
+    function priceExVAT( )
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+       $vatType =& $this->vatType();
+
+       $vat = 0;
+       
+       if ( $vatType )
+       {
+           $value =& $vatType->value();
+
+           $vat = ( $this->Price / ( $value + 100  ) ) * $value;
+       }
+      
+       $priceExVat = $this->Price - $vat;
+
+       return $priceExVat;
+    }
+
+    /*!
+      Returns the VAT value of the product.
+    */
+    function vat()
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+       $vatType =& $this->vatType();
+       $vat = 0;
+       if ( $vatType )
+       {
+           $value =& $vatType->value();
+           $vat = ( $this->Price / ( $value + 100  ) ) * $value;        
+       }       
+       
+       return $vat;
+    }
+    
     /*!
       Returns the keywords of the product.
     */
@@ -1049,6 +1096,45 @@ class eZProduct
         
         return $ret;
     }
+
+    /*!
+      Sets the VAT type.
+    */
+    function setVATType( $type )
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+       
+       $this->dbInit();
+
+       if ( get_class( $type ) == "ezvattype" )
+       {
+           $this->VATTypeID = $type->id();
+       }
+    }
+
+
+    /*!
+      Returns the VAT type.
+
+      False if no type is assigned.
+    */
+    function vatType( )
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+       
+       $this->dbInit();
+
+       $ret = false;
+       if ( is_numeric( $this->VATTypeID ) and ( $this->VATTypeID > 0 ) )
+       {
+           $ret = new eZVATType( $this->VATTypeID );
+       }
+
+       return $ret;
+    }
+    
     
     /*!
       \private
@@ -1059,7 +1145,7 @@ class eZProduct
     {
         if ( $this->IsConnected == false )
         {            
-            $this->Database = eZDB::globalDatabase();
+            $this->Database =& eZDB::globalDatabase();
             $this->IsConnected = true;
         }
     }
@@ -1075,6 +1161,7 @@ class eZProduct
     var $Discontinued;
     var $ExternalLink;
     var $IsHotDeal;
+    var $VATTypeID;
     
     ///  Variable for keeping the database connection.
     var $Database;

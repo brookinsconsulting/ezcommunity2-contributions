@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: checkout.php,v 1.35 2001/02/15 10:42:26 bf Exp $
+// $Id: checkout.php,v 1.36 2001/02/20 16:12:48 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <28-Sep-2000 15:52:08 bf>
@@ -203,6 +203,8 @@ if ( $SendOrder == "true" )
     
     $i = 0;
     $sum = 0.0;
+    $totalVAT = 0.0;
+
     foreach ( $items as $item )
     {
         $product = $item->product();
@@ -263,6 +265,8 @@ if ( $SendOrder == "true" )
 
         $sum += $price;
         
+        $totalVAT += $product->vat() * $item->count();
+        
         $t->set_var( "product_name", $product->name() );
         $t->set_var( "product_price", $locale->format( $currency ) );
 
@@ -299,6 +303,10 @@ if ( $SendOrder == "true" )
     $sum += $shippingCost;
     $currency->setValue( $sum );
     $t->set_var( "cart_sum", $locale->format( $currency ) );
+    
+    $currency->setValue( $totalVAT );
+    $t->set_var( "cart_vat_sum", $locale->format( $currency ) );
+
 }
 
 $t->parse( "cart_item_list", "cart_item_list_tpl" );

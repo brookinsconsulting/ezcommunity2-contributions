@@ -349,6 +349,7 @@ alter table eZForum_Forum add GroupID int default 0;
 alter table eZBug_Module add OwnerGroupID int default 0;
 INSERT INTO eZUser_Module VALUES (11, 'eZBug');
 INSERT INTO eZUser_Permission VALUES (40, 11,'BugEdit'); 
+
 alter table eZBug_Bug add OwnerID int default NULL; 
 
 # Contact Persons in eZContact
@@ -382,6 +383,17 @@ CREATE TABLE eZBug_BugImageLink (
   Created timestamp(14),
   PRIMARY KEY (ID)
 );
+
+
+#
+# VAT handling
+create table eZTrade_VATType( ID int primary key auto_increment, Name char(100), VATValue float not null default 0 );       
+alter table eZTrade_VATType add Created timestamp;
+
+alter table eZTrade_Product add VATTypeID int not null default 0;	
+
+# image on link
+alter table eZLink_Link add ImageID int not null default 0;
 
 # Add more info to eZForum_Message.
 ALTER TABLE eZForum_Message ADD IsTemporary int(1) DEFAULT '0' NOT NULL;

@@ -4,7 +4,8 @@ header("Last-Modified: " . gmdate("D, d M Y H:i:s") . "GMT");
 header("Cache-Control: no-cache, must-revalidate"); 
 header("Pragma: no-cache");
 
-$GLOBLAS["DEBUG"] = true;
+$GLOBALS["DEBUG"] = true;
+
 
 // Turn on output buffering
 ob_start();
@@ -26,8 +27,6 @@ if ( $iso != false )
 
 // Design
 include_once( "ezsession/classes/ezsession.php" );
-
-$GLOBALS["DEBUG"] = true;
 
 $session =& eZSession::globalSession();
 

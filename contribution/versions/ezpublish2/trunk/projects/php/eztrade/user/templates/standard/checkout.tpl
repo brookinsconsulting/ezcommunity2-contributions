@@ -43,14 +43,21 @@
 <!-- END cart_item_tpl -->
 
 <tr>
-	<td colspan="2">&nbsp;</td>
+	<td colspan="3">&nbsp;</td>
 	<th>{intl-shipping_charges}:</th>
 	<td align="right">
 	{shipping_cost}
 	</td>
 </tr>
 <tr>
-	<td colspan="2">&nbsp;</td>
+	<td colspan="3">&nbsp;</td>
+	<th>{intl-vat}:</th>
+	<td align="right">
+	{cart_vat_sum}
+	</td>
+</tr>
+<tr>
+	<td colspan="3">&nbsp;</td>
 	<th>{intl-total_cost_is}:</th>
 	<td align="right">
 	{cart_sum}

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: productedit.php,v 1.31 2001/02/19 13:57:03 bf Exp $
+// $Id: productedit.php,v 1.32 2001/02/20 16:12:48 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <19-Sep-2000 10:56:05 bf>
@@ -189,8 +189,11 @@ if ( $Action == "Update" )
     $product->setBrief( strip_tags( $Brief ) );
     $product->setKeywords( strip_tags( $Keywords ) );
     $product->setProductNumber( strip_tags( $ProductNumber  ) );
-
     $product->setExternalLink( strip_tags( $ExternalLink ) );
+
+    $vattype = new eZVATType( $VATTypeID );
+    $product->setVATType( $vattype );    
+    
     
     if ( $ShowPrice == "on" )
     {
@@ -398,6 +401,7 @@ $t->set_var( "external_link", "" );
 $t->set_var( "action_value", "insert" );
 
 
+$VatType = false;
 // edit
 if ( $Action == "Edit" )
 {
@@ -424,7 +428,8 @@ if ( $Action == "Edit" )
 
     if ( $product->isHotDeal() == true )
         $t->set_var( "is_hot_deal_checked", "checked" );
-    
+
+    $VatType =& $product->vatType();    
 }
 
 $category = new eZProductCategory();
@@ -492,13 +497,20 @@ $vatTypes = $vat->getAll();
 
 foreach ( $vatTypes as $type )
 {
+    if ( $VatType  and  ( $VatType->id() == $type->id() ) )
+    {
+        $t->set_var( "vat_selected", "selected" );
+    }
+    else
+    {
+        $t->set_var( "vat_selected", "" );
+    }
+        
     $t->set_var( "vat_id", $type->id() );
     $t->set_var( "vat_name", $type->name() . " (" . $type->value() . ")%" );
 
     $t->parse( "vat_select", "vat_select_tpl", true );
 }
-
-
 
 
 
