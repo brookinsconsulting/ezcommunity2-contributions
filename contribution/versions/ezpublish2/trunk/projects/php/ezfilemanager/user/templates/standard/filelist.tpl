@@ -38,7 +38,9 @@
 	</td>
         <!-- END folder_read_tpl -->
         <!-- BEGIN folder_write_tpl -->
-
+	<td>
+	<a href="/filemanager/folder/delete/{folder_id}/">delete</a><br />
+	</td>
         <!-- END folder_write_tpl -->
 </tr>
 <!-- END folder_tpl -->

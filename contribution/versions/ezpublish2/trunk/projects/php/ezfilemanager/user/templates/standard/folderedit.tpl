@@ -40,6 +40,7 @@
 <p class="boxtext">{intl-folder}:</p>
 
 <select name="FolderID">
+<option value="0" {selected}>{option_level}{intl-top_folder}</option>
 <!-- BEGIN value_tpl -->
 <option value="{option_value}" {selected}>{option_level}{option_name}</option>
 <!-- END value_tpl -->

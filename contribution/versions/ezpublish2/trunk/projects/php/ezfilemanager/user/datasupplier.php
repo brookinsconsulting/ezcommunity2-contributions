@@ -71,7 +71,15 @@ switch ( $url_array[2] )
                 include( "ezfilemanager/user/folderedit.php" );
             }
             break;
-          print( $FolderID );  case "insert" :
+            case "delete" :
+            {
+                $FolderID = $url_array[4];
+                $Action = "Delete";
+                include( "ezfilemanager/user/folderedit.php" );
+            }
+            break;
+            
+            case "insert" :
             {
                 $Action = "Insert";
                 include( "ezfilemanager/user/folderedit.php" );

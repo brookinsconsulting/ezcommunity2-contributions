@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: folderedit.php,v 1.1 2001/01/12 15:59:01 ce Exp $
+// $Id: folderedit.php,v 1.2 2001/01/15 10:19:28 ce Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <08-Jan-2001 11:13:29 ce>
@@ -78,13 +78,20 @@ if ( $Action == "Insert" || $Action == "Update" )
     {
         $t->set_block( "errors_tpl", "error_write_permission", "error_write" );
         $t->set_var( "error_write", "" );
-        
-        $user = eZUser::currentUser();
-        $parentFolder = new eZVirtualFolder( $FolderID );
-        if ( $parentFolder->checkWritePermission( $user ) == false )
+
+        if ( $FolderID == 0 )
         {
-            $t->parse( "error_write", "error_write_permission" );
-            $error = true;
+        }
+        else
+        {
+            $user = eZUser::currentUser();
+            $parentFolder = new eZVirtualFolder( $FolderID );
+            
+            if ( $parentFolder->checkWritePermission( $user ) == false )
+            {
+                $t->parse( "error_write", "error_write_permission" );
+                $error = true;
+            }
         }
     }
 
@@ -180,6 +187,8 @@ if ( $Action == "Update" && $error == false )
 
 if ( $Action == "Delete" && $error == false )
 {
+    $folder = new eZVirtualFolder( $FolderID );
+    $folder->delete();
 }
     
 
@@ -196,6 +205,12 @@ if ( $Action == "Edit" )
 $folder = new eZVirtualFolder() ;
 
 $folderList = $folder->getTree( );
+
+if ( count ( $folderList ) == 0 )
+{
+    $t->set_var( "option_level", "" );
+    $t->set_var( "value", "" );
+}
 
 foreach ( $folderList as $folderItem )
 {

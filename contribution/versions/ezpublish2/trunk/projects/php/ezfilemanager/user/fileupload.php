@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: fileupload.php,v 1.7 2001/01/10 15:22:40 ce Exp $
+// $Id: fileupload.php,v 1.8 2001/01/15 10:19:28 ce Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <10-Dec-2000 15:49:57 bf>
@@ -26,6 +26,7 @@
 include_once( "classes/INIFile.php" );
 include_once( "classes/eztemplate.php" );
 include_once( "classes/ezlog.php" );
+include_once( "classes/ezfile.php" );
 
 include_once( "ezuser/classes/ezuser.php" );
 include_once( "ezfilemanager/classes/ezvirtualfile.php" );
