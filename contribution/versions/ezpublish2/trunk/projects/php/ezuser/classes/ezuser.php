@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezuser.php,v 1.37 2001/01/20 23:30:00 jb Exp $
+// $Id: ezuser.php,v 1.38 2001/01/21 18:11:45 jb Exp $
 //
 // Definition of eZCompany class
 //
@@ -79,21 +79,17 @@ class eZUser
     */
     function eZUser( $id=-1, $fetch=true )
     {
-        if ( $id != -1 )
+        if ( is_array( $id ) )
+        {
+            $this->fill( $id );
+        }
+        else if ( $id != -1 )
         {
             $this->ID = $id;
             if ( $fetch == true )
             {
                 $this->get( $this->ID );
             }
-            else
-            {
-                $this->State_ = "Dirty";
-            }
-        }
-        else
-        {
-            $this->State_ = "New";
         }
     }
 
@@ -102,7 +98,7 @@ class eZUser
     */
     function store()
     {
-        $db = eZDB::globalDatabase();
+        $db =& eZDB::globalDatabase();
 
         if ( !isset( $this->ID ) )
         {
@@ -144,7 +140,7 @@ class eZUser
     */
     function delete()
     {
-        $db = eZDB::globalDatabase();
+        $db =& eZDB::globalDatabase();
 
         if ( isset( $this->ID ) )
         {
@@ -164,44 +160,42 @@ class eZUser
     */
     function get( $id=-1 )
     {
-        $db = eZDB::globalDatabase();
+        $db =& eZDB::globalDatabase();
 
         $ret = false;
         if ( $id != "" )
         {
-            $db->array_query( $user_array, "SELECT * FROM eZUser_User WHERE ID='$id'" );
-            if ( count( $user_array ) > 1 )
+            $db->array_query( $user_array, "SELECT * FROM eZUser_User WHERE ID='$id'",
+                              0, 1 );
+            if( count( $user_array ) == 1 )
             {
-                die( "Error: User's with the same ID was found in the database. This shouldent happen." );
-            }
-            else if( count( $user_array ) == 1 )
-            {
-                $this->ID =& $user_array[0][ "ID" ];
-                $this->Login =& $user_array[0][ "Login" ];
-                $this->Email =& $user_array[0][ "Email" ];
-                $this->InfoSubscription =& $user_array[0][ "InfoSubscription" ];
-                $this->FirstName =& $user_array[0][ "FirstName" ];
-                $this->LastName =& $user_array[0][ "LastName" ];
-
-                $this->State_ = "Coherent";                
+                $this->fill( $user_array[0] );
                 $ret = true;
             }
         }
-        else
-        {
-            $this->State_ = "Dirty";
-
-        }
         return $ret;
+    }
+
+    /*!
+      Fills in information to the object taken from the array.
+    */
+    function fill( &$user_array )
+    {
+        $this->ID =& $user_array[ "ID" ];
+        $this->Login =& $user_array[ "Login" ];
+        $this->Email =& $user_array[ "Email" ];
+        $this->InfoSubscription =& $user_array[ "InfoSubscription" ];
+        $this->FirstName =& $user_array[ "FirstName" ];
+        $this->LastName =& $user_array[ "LastName" ];
     }
 
 
     /*!
       Fetches the user id from the database. And returns a array of eZUser objects.
     */
-    function getAll( $order="Login" )
+    function &getAll( $order="Login", $as_object = true )
     {
-        $db = eZDB::globalDatabase();
+        $db =& eZDB::globalDatabase();
 
         switch ( $order )
         {
@@ -243,16 +237,29 @@ class eZUser
         $return_array = array();
         $user_array = array();
 
-        $db->array_query( $user_array, "SELECT ID FROM eZUser_User ORDER By $orderBy" );
+        if ( $as_object )
+            $select = "*";
+        else
+            $select = "ID";
 
-        for ( $i=0; $i<count ( $user_array ); $i++ )
+        $db->array_query( $user_array, "SELECT $select FROM eZUser_User ORDER By $orderBy" );
+
+        if ( $as_object )
         {
-            $return_array[$i] = new eZUser( $user_array[$i][ "ID" ], 0 );
+            foreach ( $user_array as $user )
+            {
+                $return_array[] = new eZUser( $user );
+            }
         }
-
+        else
+        {
+            foreach ( $user_array as $user )
+            {
+                $return_array[] = $user[ "ID" ];
+            }
+        }
         return $return_array;
     }
-      
 
     /*!
       Returns the eZUser object where login = $login.
@@ -261,7 +268,7 @@ class eZUser
     */
     function getUser( $login )
     {
-        $db = eZDB::globalDatabase();
+        $db =& eZDB::globalDatabase();
         $ret = false;
         
         $db->array_query( $user_array, "SELECT * FROM eZUser_User
@@ -280,7 +287,7 @@ class eZUser
     */
     function validateUser( $login, $password )
     {
-        $db = eZDB::globalDatabase();
+        $db =& eZDB::globalDatabase();
         $ret = false;
         
         $db->array_query( $user_array, "SELECT * FROM eZUser_User
@@ -301,7 +308,7 @@ class eZUser
     */
     function exists( $login )
     {
-        $db = eZDB::globalDatabase();
+        $db =& eZDB::globalDatabase();
         $ret = false;
         
         $db->array_query( $user_array, "SELECT * FROM eZUser_User
@@ -328,9 +335,6 @@ class eZUser
     */
     function login( )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
        return $this->Login;
     }
 
@@ -340,9 +344,6 @@ class eZUser
     */
     function infoSubscription( )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
        $ret = false;
        
        if ( $this->InfoSubscription == "true" )
@@ -358,9 +359,6 @@ class eZUser
     */
     function email( )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
        return $this->Email;
     }
 
@@ -385,9 +383,6 @@ class eZUser
     */
     function firstName( )
     {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
         return $this->FirstName;
     }
 
@@ -396,9 +391,6 @@ class eZUser
     */
     function lastName( )
     {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
         return $this->LastName;
     }
     
@@ -407,9 +399,6 @@ class eZUser
     */
     function setLogin( $value )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
        $this->Login = $value;
     }
 
@@ -418,9 +407,6 @@ class eZUser
     */
     function setPassword( $value )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
        $this->Password = $value;
     }
     
@@ -429,9 +415,6 @@ class eZUser
     */
     function setEmail( $value )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
        $this->Email = $value;
     }
 
@@ -443,9 +426,6 @@ class eZUser
     */
     function setInfoSubscription( $value )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
        if ( $value == true )
        {
            $this->InfoSubscription = "true";
@@ -461,9 +441,6 @@ class eZUser
     */
     function setFirstName( $value )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
        $this->FirstName = $value;
     }
 
@@ -472,9 +449,6 @@ class eZUser
     */
     function setLastName( $value )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
        $this->LastName = $value;
     }
 
@@ -490,8 +464,8 @@ class eZUser
 
         if ( get_class( $user ) == "ezuser" )
         {
-            $session = new eZSession();
-            
+            $session = eZSession::globalSession();
+
             if ( !$session->fetch() )
             {
                 $session->store();
@@ -512,7 +486,7 @@ class eZUser
     */
     function logout( )
     {
-        $session = new eZSession();
+        $session = eZSession::globalSession();
         if ( $session->fetch() )
         {
             $session->setVariable( "AuthenticatedUser", "" );
@@ -532,7 +506,7 @@ class eZUser
     */
     function currentUser()
     {
-        $session = new eZSession();
+        $session = eZSession::globalSession();
 
         $returnValue = false;
         
@@ -572,7 +546,7 @@ class eZUser
     */
     function currentUsers()
     {
-        $session = new eZSession();
+        $session = eZSession::globalSession();
 
         $ret = array();
 
@@ -580,7 +554,7 @@ class eZUser
 
         foreach ( $sessionIDArray as $sessionID )
         {
-            $session = new eZSession( $sessionID );
+            $session = eZSession::globalSession( $sessionID );
 
             $user = new eZUser( $session->variable( "AuthenticatedUser" ) );
 
@@ -610,11 +584,8 @@ class eZUser
     */
     function groups()
     {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
         $ret = array();
-        $db = eZDB::globalDatabase();
+        $db =& eZDB::globalDatabase();
         
         $db->array_query( $user_group_array, "SELECT * FROM eZUser_UserGroupLink
                                                     WHERE UserID='$this->ID'" );
@@ -632,10 +603,7 @@ class eZUser
     */
     function removeGroups()
     {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
-        $db = eZDB::globalDatabase();
+        $db =& eZDB::globalDatabase();
        
         $db->query( "DELETE FROM eZUser_UserGroupLink
                                 WHERE UserID='$this->ID'" );
@@ -646,10 +614,7 @@ class eZUser
     */
     function addAddress( $address )
     {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
-        $db = eZDB::globalDatabase();
+        $db =& eZDB::globalDatabase();
         if ( get_class( $address ) == "ezaddress" )
         {
             $addressID = $address->id();
@@ -663,10 +628,7 @@ class eZUser
     */
     function removeAddress( $address )
     {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
-        $db = eZDB::globalDatabase();
+        $db =& eZDB::globalDatabase();
         if ( get_class( $address ) == "ezaddress" )
         {
             $addressID = $address->id();
@@ -684,12 +646,9 @@ class eZUser
     */
     function addresses()
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
        $ret = array();
        
-        $db = eZDB::globalDatabase();
+        $db =& eZDB::globalDatabase();
 
        $db->array_query( $address_array, "SELECT AddressID FROM eZUser_UserAddressLink
                                 WHERE UserID='$this->ID'" );
@@ -708,14 +667,9 @@ class eZUser
     */
     function timeoutValue()
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
-       $ret = 30;
-       
-        $db = eZDB::globalDatabase();
-
-       $db->array_query( $timeout_array, "SELECT eZUser_Group.SessionTimeout
+        $ret = 30;
+        $db =& eZDB::globalDatabase();
+        $db->array_query( $timeout_array, "SELECT eZUser_Group.SessionTimeout
                                                       FROM eZUser_User, eZUser_UserGroupLink, eZUser_Group
                                                       WHERE eZUser_User.ID=eZUser_UserGroupLink.UserID
                                                       AND eZUser_Group.ID=eZUser_UserGroupLink.GroupID
@@ -738,9 +692,6 @@ class eZUser
     var $FirstName;
     var $LastName;
     var $InfoSubscription;
-
-    /// Indicates the state of the object. In regard to database information.
-    var $State_;
 }
 
 ?>

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezusergroup.php,v 1.8 2001/01/20 23:30:22 jb Exp $
+// $Id: ezusergroup.php,v 1.9 2001/01/21 18:11:46 jb Exp $
 //
 // Definition of eZCompany class
 //
@@ -72,21 +72,17 @@ class eZUserGroup
     */
     function eZUserGroup( $id=-1, $fetch=true )
     {
-        if ( $id != -1 )
+        if ( is_array( $id ) )
+        {
+            $this->fill( $id );
+        }
+        else if ( $id != -1 )
         {
             $this->ID = $id;
             if ( $fetch == true )
             {
                 $this->get( $this->ID );
             }
-            else
-            {
-                $this->State_ = "Dirty";
-            }
-        }
-        else
-        {
-            $this->State_ = "New";
         }
     }
 
@@ -95,7 +91,7 @@ class eZUserGroup
     */
     function store()
     {
-        $db = eZDB::globalDatabase();
+        $db =& eZDB::globalDatabase();
 
         if ( !isset( $this->ID ) )
         {
@@ -120,17 +116,20 @@ class eZUserGroup
     /*!
       Deletes a eZUserGroup object from the database.
     */
-    function delete()
+    function delete( $id = false )
     {
-        $db = eZDB::globalDatabase();
+        $db =& eZDB::globalDatabase();
 
-        if ( isset( $this->ID ) )
+        if ( !$id )
+            $id = $this->ID;
+
+        if ( isset( $id ) )
         {
-            $db->query( "DELETE FROM eZUser_UserGroupLink WHERE GroupID='$this->ID'" );
+            $db->query( "DELETE FROM eZUser_UserGroupLink WHERE GroupID='$id'" );
 
-            $db->query( "DELETE FROM eZUser_GroupPermissionLink WHERE GroupID='$this->ID'" );
+            $db->query( "DELETE FROM eZUser_GroupPermissionLink WHERE GroupID='$id'" );
 
-            $db->query( "DELETE FROM eZUser_Group WHERE ID='$this->ID'" );
+            $db->query( "DELETE FROM eZUser_Group WHERE ID='$id'" );
         }
         
         return true;
@@ -141,29 +140,27 @@ class eZUserGroup
     */
     function get( $id=-1 )
     {
-        $db = eZDB::globalDatabase();
+        $db =& eZDB::globalDatabase();
         
         if ( $id != "" )
         {
-            $db->array_query( $user_group_array, "SELECT * FROM eZUser_Group WHERE ID='$id'" );
-            if ( count( $user_group_array ) > 1 )
+            $db->array_query( $user_group_array, "SELECT * FROM eZUser_Group WHERE ID='$id'", 0, 1 );
+            if( count( $user_group_array ) == 1 )
             {
-                die( "Error: User groups with the same ID was found in the database. This shouldent happen." );
+                $this->fill( $user_group_array[0] );
             }
-            else if( count( $user_group_array ) == 1 )
-            {
-                $this->ID = $user_group_array[0][ "ID" ];
-                $this->Name = $user_group_array[0][ "Name" ];
-                $this->Description = $user_group_array[0][ "Description" ];
-                $this->SessionTimeout = $user_group_array[0][ "SessionTimeout" ];
-            }
-                 
-            $this->State_ = "Coherent";
         }
-        else
-        {
-            $this->State_ = "Dirty";
-        }
+    }
+
+    /*!
+      Fills in information to the object taken from the array.
+    */
+    function fill( &$user_group_array )
+    {
+        $this->ID = $user_group_array[ "ID" ];
+        $this->Name = $user_group_array[ "Name" ];
+        $this->Description = $user_group_array[ "Description" ];
+        $this->SessionTimeout = $user_group_array[ "SessionTimeout" ];
     }
 
     /*!
@@ -171,22 +168,36 @@ class eZUserGroup
       Returns every user group from the database. The result is returned as an
       array of eZUserGroup objects.
     */
-    function getAll()
+    function &getAll( $as_object = true )
     {
-        $db = eZDB::globalDatabase();
+        $db =& eZDB::globalDatabase();
 
         $return_array = array();
         $group_array = array();
 
-        $db->array_query( $group_array, "SELECT ID FROM eZUser_Group ORDER By Name" );
+        if ( $as_object )
+            $select = "*";
+        else
+            $select = "ID";
 
-        for ( $i=0; $i<count ( $group_array ); $i++ )
+        $db->array_query( $group_array, "SELECT $select FROM eZUser_Group ORDER By Name" );
+
+        if ( $as_object )
         {
-            $return_array[$i] = new eZUserGroup( $group_array[$i][ "ID" ], 0 );
+            for ( $i=0; $i<count ( $group_array ); $i++ )
+            {
+                $return_array[$i] = new eZUserGroup( $group_array[$i] );
+            }
+        }
+        else
+        {
+            for ( $i=0; $i<count ( $group_array ); $i++ )
+            {
+                $return_array[$i] =& $group_array[ "ID" ];
+            }
         }
 
         return $return_array;
-        
     }
 
     /*!
@@ -202,7 +213,7 @@ class eZUserGroup
         
         if ( get_class( $user ) == "ezuser" )
         {
-            $db = eZDB::globalDatabase();
+            $db =& eZDB::globalDatabase();
         
             $group_array = array();
 
@@ -231,9 +242,6 @@ class eZUserGroup
     */
     function users( $GroupID = false, $order="Login" )
     {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
         switch ( $order )
         {
             case "name" :
@@ -269,7 +277,7 @@ class eZUserGroup
             $GroupID = $this->ID;
 
         $ret = array();
-        $db = eZDB::globalDatabase();
+        $db =& eZDB::globalDatabase();
 
         $db->array_query( $user_array, "SELECT UGL.UserID FROM eZUser_UserGroupLink AS UGL,
                                                                eZUser_User AS U
@@ -287,9 +295,6 @@ class eZUserGroup
     */
     function name()
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-        
         return $this->Name;
     }
 
@@ -298,9 +303,6 @@ class eZUserGroup
     */
     function description()
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-        
         return $this->Description;
     }
 
@@ -309,9 +311,6 @@ class eZUserGroup
     */
     function sessionTimeout()
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-        
         return $this->SessionTimeout;
     }
     
@@ -320,9 +319,6 @@ class eZUserGroup
     */
     function setName( $value )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
        $this->Name = $value;
     }
 
@@ -331,9 +327,6 @@ class eZUserGroup
     */
     function setDescription( $value )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
        $this->Description = $value;
     }
 
@@ -342,9 +335,6 @@ class eZUserGroup
     */
     function setSessionTimeout( $value )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
        $this->SessionTimeout = $value;
        
        setType( $this->SessionTimeout, "integer" );
@@ -357,14 +347,11 @@ class eZUserGroup
     */
     function addUser( $user )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-       
        $ret = false;
 
        if ( get_class( $user ) == "ezuser" )
        {
-           $db = eZDB::globalDatabase();
+           $db =& eZDB::globalDatabase();
 
            $userID = $user->id();
 
@@ -384,9 +371,6 @@ class eZUserGroup
     var $Name;
     var $Description;
     var $SessionTimeout;
-        
-    /// Indicates the state of the object. In regard to database information.
-    var $State_;
 }
 
 ?>
