@@ -8,7 +8,8 @@ Changes from 2.2 Beta 1 to 2.2 Beta 2
 * Added better search in eZ article. Now handles stop words and word freqyency.
 * Fixed problems with searching in eZ filemanager
 * Added setting to set if a user can see the calendar of every user
-* Added setting to mage consultations visible for everyone
+* Added setting to make consultations visible for everyone
+* Added upload permission setting to eZ filemanager folders.
 
 Changes from 2.2 Alpha to 2.2 Beta 1
 -----------------------------------
