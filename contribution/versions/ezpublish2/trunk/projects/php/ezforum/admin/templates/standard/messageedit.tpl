@@ -53,7 +53,7 @@
 	<td>
 	<form method="post" action="/forum/messagelist/{forum_id}">
 	<input class="okbutton" type="submit" value="{intl-cancel}">
-	</forum>
+	</form>
 	</td>
 </tr>
 </table>

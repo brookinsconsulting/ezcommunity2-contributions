@@ -32,7 +32,6 @@
 
 <div onLoad="MM_preloadImages('../ezforum/images/redigerminimrk.gif','../ezforum/images/slettminimrk.gif')"></div>
 
-<form action="/forum/forumedit/{action_value}/{forum_id}/" method="post">
 
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
@@ -47,6 +46,8 @@
      </td>
 </tr>
 </table>
+
+<form action="/forum/forumedit/{action_value}/{forum_id}/" method="post">
 
 <hr noshade="noshade" size="4" />
 
@@ -80,9 +81,9 @@
 	&nbsp;
 	</td>
 	<td>
-	<forum method="post" action="/forum/categorylist">
+	<form method="post" action="/forum/categorylist">
 	<input class="okbutton" type="submit" value="{intl-cancel}">
-	</forum>
+	</form>
 	</td>
 </tr>
 </table>

@@ -30,9 +30,6 @@
 //-->
 </SCRIPT> 
 
-<form action="/forum/categoryedit/{action_value}/{category_id}/" method="post">
-<input type="hidden" name="page" value="{docroot}/admin/category.php">
-
 <div onLoad="MM_preloadImages('/ezforum/images/redigerminimrk.gif','/ezforum/images/slettminimrk.gif')"></div>
 
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
@@ -49,6 +46,8 @@
 </tr>
 </table>
 
+<form action="/forum/categoryedit/{action_value}/{category_id}/" method="post">
+<input type="hidden" name="page" value="{docroot}/admin/category.php">
 
 <hr noshade="noshade" size="4" />
 
@@ -74,7 +73,7 @@
 	<td>
 	<form method="post" action="/forum/categorylist/">
 	<input class="okbutton" type="submit" value="{intl-cancel}">
-	</forum>
+	</form>
 	</td>
 </tr>
 </table>
