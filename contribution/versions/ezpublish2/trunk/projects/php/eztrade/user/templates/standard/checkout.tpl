@@ -96,6 +96,10 @@
 	<td align="right">
 	- {voucher_price}
 	</td>
+	<td>
+	<input type="checkbox" name="RemoveVoucherArray[]" value="{number}" />
+	</td>
+
         <!-- END voucher_item_tpl -->
 </tr>
 <!-- END vouchers_tpl --> 
@@ -144,6 +148,10 @@
 
 <br /><br />
 
+
+<!-- BEGIN remove_voucher_tpl -->
+<input class="stdbutton" type="submit" name="RemoveVoucher" value="{intl-remove_voucher}" />
+<!-- END remove_voucher_tpl -->
 
 <hr noshade="noshade" size="4" />
 

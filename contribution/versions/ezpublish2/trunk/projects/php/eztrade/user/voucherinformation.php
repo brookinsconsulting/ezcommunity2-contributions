@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: voucherinformation.php,v 1.3 2001/08/24 13:56:00 ce Exp $
+// $Id: voucherinformation.php,v 1.4 2001/08/31 10:15:27 ce Exp $
 //
 // Created on: <06-Aug-2001 13:02:18 ce>
 //
@@ -78,6 +78,7 @@ if ( ( isSet ( $Next ) || isSet ( $OK ) ) && ( is_numeric( $preOrderID ) ) )
     
     $voucher = new eZVoucher();
     $voucher->generateKey();
+
     $voucher->setPrice( $product->price() );
     $voucher->setAvailable( false );
     $voucher->store();
@@ -104,6 +105,8 @@ if ( ( isSet ( $Next ) || isSet ( $OK ) ) && ( is_numeric( $preOrderID ) ) )
     $voucherInfo->setPreOrder( $preOrderID );
     $voucherInfo->setDescription( $Description );
     $voucherInfo->setVoucher( $voucher );
+
+    $session->setArray( "AddedVouchers", $voucher->id(), true );
     
     $voucherInfo->store();
 
@@ -119,8 +122,21 @@ $mailID = $voucherMail[$Key];
 
 if ( is_numeric( $voucherID ) )
 {
+    $locale = new eZLocale( $Language );
     $product = new eZProduct( $voucherID );
-    $t->set_var( "voucher_name", $product->name() );
+    $t->set_var( "product_name", $product->name() );
+
+    if ( $PricesIncludeVAT == "enabled" )
+    {
+        $totalVAT = $product->addVAT( $price );
+        $price = $product->price() + $totalVAT;
+    }
+    else
+        $price = $product->price();
+
+    $priceobj = new eZCurrency( $price );
+    
+    $t->set_var( "product_price", $locale->format( $priceobj ) );
 
     if ( $mailID == 1 )
     {

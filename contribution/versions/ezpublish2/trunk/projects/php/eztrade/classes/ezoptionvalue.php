@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezoptionvalue.php,v 1.31 2001/08/27 10:37:53 ce Exp $
+// $Id: ezoptionvalue.php,v 1.32 2001/08/31 10:15:27 ce Exp $
 //
 // Definition of eZOptionValue class
 //
@@ -95,7 +95,6 @@ class eZOptionValue
                                  '$placement',
                                  '$this->RemoteID',
                                  '$this->OptionID' )" );
-
             $db->unlock();
 			$this->ID = $nextID;
         }

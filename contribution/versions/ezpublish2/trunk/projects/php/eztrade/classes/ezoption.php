@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezoption.php,v 1.24 2001/08/27 10:37:53 ce Exp $
+// $Id: ezoption.php,v 1.25 2001/08/31 10:15:27 ce Exp $
 //
 // Definition of eZOption class
 //
@@ -110,11 +110,13 @@ class eZOption
             $res[] = $db->query( "INSERT INTO eZTrade_Option
                                ( ID,
 		                         Name,
-                                 Description )
+                                 Description,
+                                 RemoteID )
                                VALUES
                                ( '$nextID',
                                  '$this->Name',
-                                 '$this->Description' )" );
+                                 '$this->Description',
+                                  '$this->RemoteID')" );
             $db->unlock();
 			$this->ID = $nextID;
 
@@ -123,7 +125,7 @@ class eZOption
         {
             $res[] = $db->query( "UPDATE eZTrade_Option SET
 		                         Name='$this->Name',
-                                 Description='$this->Description' WHERE ID='$this->ID'" );
+                                 Description='$this->Description', RemoteID='$this->RemoteID'  WHERE ID='$this->ID'" );
         }
 
         eZDB::finish( $res, $db );
@@ -150,6 +152,7 @@ class eZOption
                 $this->ID =& $option_array[0][$db->fieldName( "ID" )];
                 $this->Name =& $option_array[0][$db->fieldName( "Name" )];
                 $this->Description =& $option_array[0][$db->fieldName( "Description" )];
+                $this->RemoteID =& $option_array[0][$db->fieldName( "RemoteID" )];
             }
         }
     }
@@ -223,6 +226,14 @@ class eZOption
     }
 
     /*!
+      Returns the option remote id.
+    */
+    function remoteID()
+    {
+        return $this->RemoteID;
+    }
+
+    /*!
       Returns all the values to the current option.
 
       The values are returned as an array of eZOptionValue objects.
@@ -248,6 +259,15 @@ class eZOption
     {
         $this->Description = $value;
     }
+
+    /*!
+      Sets the remote id of the option.
+    */
+    function setRemoteID( $value )
+    {
+        $this->RemoteID = $value;
+    }
+
 
     function &descriptionHeaders( $id = false )
     {
@@ -356,9 +376,22 @@ class eZOption
         }
     }
 
+    function getByRemoteID( $value )
+    {
+        $db =& eZDB::globalDatabase();
+
+        $db->array_query( $option_array, "SELECT ID FROM eZTrade_Option WHERE RemoteID='$value'" );
+
+        if ( count ( $option_array ) == 1 )
+            return true;
+        else
+            return false;
+    }
+
     var $ID;
     var $Name;
     var $Description;
+    var $RemoteID;
 
 }
 

@@ -85,6 +85,11 @@ http://<input type="text" size="36" name="ExternalLink" value="{external_link}"/
 	</td>
 
 	<td valign="top">
+	<p class="boxtext">{intl-mark_as_voucher}:</p>
+	<input type="checkbox" name="MarkAsVoucher" {mark_as_voucher}>
+	</td>
+
+	<td valign="top">
 	<p class="boxtext">{intl-shipping_group}:</p>
 	<select name="ShippingGroupID">
 
@@ -95,9 +100,9 @@ http://<input type="text" size="36" name="ExternalLink" value="{external_link}"/
 	</select>
 	</td>
 </tr>
-</table>
-<br />
-<table width="100%" cellspacing="0" cellpadding="0" border="0">
+<tr>
+       <td>&nbsp;</td>
+</tr>
 <tr>
 	<td valign="top">
 	<p class="boxtext">{intl-price}:</p>

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: productedit.php,v 1.59 2001/08/29 14:31:58 bf Exp $
+// $Id: productedit.php,v 1.60 2001/08/31 10:15:26 ce Exp $
 //
 // Created on: <19-Sep-2000 10:56:05 bf>
 //
@@ -139,6 +139,15 @@ if ( $Action == "Insert" )
     else
     {
         $product->setShowPrice( false );
+    }
+
+    if ( $MarkAsVoucher == "on" )
+    {
+        $product->setProductType( 2 );
+    }
+    else
+    {
+        $product->setProductType( 1 );
     }
 
     if ( $Active == "on" )
@@ -352,6 +361,15 @@ if ( $Action == "Update" )
     else
     {
         $product->setShowPrice( false );
+    }
+
+    if ( $MarkAsVoucher == "on" )
+    {
+        $product->setProductType( 2 );
+    }
+    else
+    {
+        $product->setProductType( 1 );
     }
 
     $product->setShowProduct( $Active == "on" );
@@ -672,6 +690,9 @@ if ( $Action == "Edit" )
 
     if ( $product->isHotDeal() == true )
         $t->set_var( "is_hot_deal_checked", "checked" );
+
+    if ( $product->productType() == 2 )
+        $t->set_var( "mark_as_voucher", "checked" );
 
     $VatType =& $product->vatType();
 

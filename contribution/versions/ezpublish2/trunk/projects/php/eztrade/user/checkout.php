@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: checkout.php,v 1.80 2001/08/30 11:06:37 ce Exp $
+// $Id: checkout.php,v 1.81 2001/08/31 10:15:27 ce Exp $
 //
 // Created on: <28-Sep-2000 15:52:08 bf>
 //
@@ -116,6 +116,8 @@ $t->set_block( "checkout_tpl", "sendorder_item_tpl", "sendorder_item" );
 
 $t->set_block( "checkout_tpl", "show_payment_tpl", "show_payment" );
 
+$t->set_block( "checkout_tpl", "remove_voucher_tpl", "remove_voucher" );
+
 $t->set_block( "cart_item_list_tpl", "vouchers_tpl", "vouchers" );
 $t->set_block( "vouchers_tpl", "voucher_item_tpl", "voucher_item" );
 
@@ -123,6 +125,23 @@ $t->set_var( "show_payment", "" );
 $t->set_var( "price_ex_vat", "" );
 $t->set_var( "price_inc_vat", "" );
 $t->set_var( "cart_item", "" );
+
+if ( isSet ( $RemoveVoucher ) )
+{
+    if ( count ( $RemoveVoucherArray ) > 0 )
+    {
+        $newArray = array();
+        $payWithVoucher = $session->arrayValue( "PayWithVoucher" );
+        foreach( $RemoveVoucherArray as $voucherID )
+        {
+            if ( !in_array( $voucherID, $payWithVoucher ) )
+                $newArray[] = $voucherID;
+        }
+        print_r( $newArray );
+        $session->setArray( "PayWithVoucher", $newArray );
+    }
+}
+         
 
 if ( isSet( $SendOrder ) ) 
 {
@@ -505,6 +524,8 @@ $can_checkout = true;
     // Vouchers
     $vouchers = $session->arrayValue( "PayWithVocuher" );
 
+    print_r( $vouchers );
+
     $i=1;
     $t->set_var( "vouchers", "" );
     $t->set_var( "voucher_item", "" );
@@ -531,12 +552,19 @@ $can_checkout = true;
         $t->parse( "voucher_item", "voucher_item_tpl", true );
         $i++;
     }
+    
     if ( is_array ( $totalVoucher ) )
     {
         $t->parse( "vouchers", "vouchers_tpl" );
         $session->setArray( "PayedWith", $voucherSession );
         $totalVoucher = array_sum ( $totalVoucher );
     }
+
+    if ( count ( $vouchers ) > 0 )
+        $t->parse( "remove_voucher", "remove_voucher_tpl" );
+    else
+        $t->set_var( "remove_voucher", "" );
+
 
     // Print the total sum.
     $sum -= $totalVoucher;

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezfreetradeimport.php,v 1.7 2001/08/24 07:21:07 ce Exp $
+// $Id: ezfreetradeimport.php,v 1.8 2001/08/31 10:15:27 ce Exp $
 //
 // ezfreetradeimport class
 //
@@ -230,7 +230,7 @@ class eZFreeTradeImport
 //                $quantityArray = $this->getQuantity( $importOption["ID"] );
                         
                         //              $value->setTotalQuantity( $quantityArray["Available"] );
-                        
+                       
 //                print( "ID: " . $value->id() . " - Price: ". $importOption["SalePrice" ] . "<br>");
                     }
                 }
@@ -318,6 +318,58 @@ class eZFreeTradeImport
         }
         else
             return false;
+    }
+
+    function makeOption()
+    {
+        $db =& eZDB::globalDatabase();
+        $this->dbInit();
+
+        $this->dbImport->array_query( $attribute, "SELECT * FROM attribute" );
+
+        foreach( $attribute as $att )
+        {
+            $option = new eZOption();
+            
+            $option->setName( $att["Name"] );
+            $option->setDescription( $att["Description"] );
+            $option->setRemoteID( $att["ID"] );
+            $option->store();
+         }
+    }
+
+    function makeLinks()
+    {
+        $this->dbInit();
+        $this->dbImport->array_query( $links, "SELECT * FROM sku_variation" );
+        foreach ( $links as $link )
+        {
+            $product = new eZProduct( $link["SKU"] );
+            $option = new eZOption( $link["Variation"] );
+            $product->addOption( $option );
+        }
+    }
+    
+    function makeValue( )
+    {
+
+        $db =& eZDB::globalDatabase();
+        $this->dbInit();
+        $this->dbImport->array_query( $optionValues, "SELECT * FROM variation" );
+
+        foreach ( $optionValues as $value )
+        {
+            if ( $value["Attribute"] != 0 )
+            {
+                $value1 = new eZOptionValue( );
+                $value1->setRemoteID( $value["ID"] );
+                $value1->store();
+                $value1->addDescription( $value["Name"] );
+                
+                $option = new eZOption( $value["Attribute"] );
+                $option->addValue( $value1 );
+            }
+        }
     }
 
     function setDatabaseImport( $host="localhost", $username="import", $password="import", $database="import" )
