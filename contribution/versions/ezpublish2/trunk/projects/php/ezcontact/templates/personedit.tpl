@@ -2,18 +2,36 @@
 <script language="JavaScript">
 
 <!--
-   function Update( number, phoneID, phoneTypeID )
+   function UpdatePhone( number, phoneID, phoneTypeID )
    {
-      document.PersonEdit.PhoneNumber.value = number;
-      document.PersonEdit.PhoneID.value = phoneID;
-      document.PersonEdit.PhoneType.selectedIndex = phoneTypeID;
-      document.PersonEdit.PhoneAction.value = 'UpdatePhone';
+      document.CompanyPhoneEdit.PhoneNumber.value = number;
+      document.CompanyPhoneEdit.PhoneID.value = phoneID;
+      document.CompanyPhoneEdit.PhoneType.selectedIndex = phoneTypeID;
+      document.CompanyPhoneEdit.PhoneAction.value = 'UpdatePhone';
+      document.CompanyPhoneEdit.PhoneSubmit.value = 'Lagre';
+
    }
+
+   function UpdateAddress( street1, street2, zip, addressID, addressTypeID )
+   {
+      document.CompanyAddressEdit.Street1.value = street1;
+      document.CompanyAddressEdit.Street2.value = street2;
+      document.CompanyAddressEdit.Zip.value = zip;
+      document.CompanyAddressEdit.AddressID.value = addressID;
+      document.CompanyAddressEdit.AddressType.selectedIndex = addressTypeID;
+      document.CompanyAddressEdit.AddressAction.value = 'UpdateAddress';
+      document.CompanyAddressEdit.AddressSubmit.value = 'Lagre';
+   }
+
 //-->
 
 </script>
 
 <h1>{message}</h1>
+
+<table width="100%">
+<tr>
+	<td valign="top"  bgcolor="#eeeeff">
 
 <form method="post" action="index.php4?page={document_root}personedit.php4">
 Kontakt person type:
@@ -33,6 +51,21 @@ Fornavn:<br>
 Etternavn:<br>
 <input type="text" name="LastName" value="{last_name}"><br>
 
+Kommentar:<br>
+<textarea rows="5" name="Comment">{comment}</textarea><br>
+
+<input type="hidden" name="Action" value="{action_value}">
+<input type="hidden" name="PID" value="{person_id}">
+
+<input type="submit" value="{submit_text}">
+
+</form>
+
+	</td>
+	<td valign="top"  bgcolor="#ddeeee">
+
+<form method="post" action="index.php4?page={document_root}personedit.php4">
+
 Adresse type:
 <br>
 <select name="AddressType">
@@ -46,11 +79,18 @@ Adresse:<br>
 Postnummer:<br>
 <input type="text" name="Zip" value="{zip_code}"><br>
 
+<input type="hidden" name="Action" value="edit">
+<input type="hidden" name="PID" value="{person_id}">
 
+<input type="submit" value="{submit_text}">
 
-<table  border="0">
-<tr>
-	<td bgcolor="#eeeeee">
+</form>
+
+	</td>
+	<td valign="top" bgcolor="#eeeeee">
+
+<form method="post" action="index.php4?page={document_root}personedit.php4">
+
 Telefon:<br>
 <select name="PhoneType">
 {phone_type}
@@ -70,13 +110,13 @@ Telefon:<br>
 </tr>
 </table>
 
-Kommentar:<br>
-<textarea rows="5" name="Comment">{comment}</textarea><br>
-
-<input type="hidden" name="Action" value="{action_value}">
+<input type="hidden" name="Action" value="edit">
 <input type="hidden" name="PID" value="{person_id}">
-
 
 <input type="submit" value="{submit_text}">
 
 </form>
+
+	</td>
+</tr>
+</table>

@@ -15,8 +15,6 @@ require $DOCUMENTROOT . "classes/ezphonetype.php";
 require $DOCUMENTROOT . "classes/ezpersonphonedict.php";
 require $DOCUMENTROOT . "classes/ezpersonaddressdict.php";
 
-print ( "blah" );
-
 // Oppdatere informasjon.
 if ( $Action == "update" )
 {
@@ -38,7 +36,6 @@ if ( $Action == "delete" )
     $deletePerson->delete();
 
     printRedirect( "../index.php?page=" . $DOCUMENTROOT . "contactlist.php" );
-    
 }
 
 // Legge til kontakt person.
@@ -148,10 +145,48 @@ $phone_type_array = $phoneType->getAll( );
 $t->set_var( "phone_action_type", "hidden" );
 
 
+// address type selector
+for ( $i=0; $i<count( $address_type_array ); $i++ )
+{
+  $t->set_var( "address_type_id", $address_type_array[$i][ "ID" ] );
+  $t->set_var( "address_type_name", $address_type_array[$i][ "Name" ] );
+  
+  if ( $Address_Type == $address_type_array[$i][ "ID" ] )
+  {
+    $t->set_var( "is_selected", "selected" );
+  }
+  else
+  {
+    $t->set_var( "is_selected", "" );    
+  }
+  
+  $t->parse( "address_type", "address_type_select", true );
+}
+
+$phone_select_dict = "";
+// telefon type selector
+for ( $i=0; $i<count( $phone_type_array ); $i++ )
+{
+    $t->set_var( "phone_type_id", $phone_type_array[$i][ "ID" ] );
+    $t->set_var( "phone_type_name", $phone_type_array[$i][ "Name" ] );
+  
+    if ( $Phone_Type == $phone_type_array[$i][ "ID" ] )
+    {
+        $t->set_var( "is_selected", "selected" );
+    }
+    else
+    {
+        $t->set_var( "is_selected", "" );    
+    }
+
+    $phone_select_dict[ $phone_type_array[$i][ "ID" ] ] = $i;
+  
+    $t->parse( "phone_type", "phone_type_select", true );
+}
+
 // Editere kontakt person
 if ( $Action == "edit" )
 {
-        print ( "tjo" );
     $editPerson = new eZPerson();
     $editPerson->get( $PID );
     
@@ -167,14 +202,15 @@ if ( $Action == "edit" )
     $person_id = $PID;
 
 
-        $phone = new eZPhone();
+    $phone = new eZPhone();
+    $phone_dict = new eZPersonPhoneDict();
+    $phone_dict_array = $phone_dict->getByPerson( $PID );
 
-         $phone_dict = new eZPersonPhoneDict();
-
-        $phone_dict_array = $phone_dict->getByPerson( $PID );
-    
+    print( "antall: " . count( $phone_dict_array ) );
     for ( $i=0; $i<count( $phone_dict_array ); $i++ )
     {
+        print( "antall: " . count( $phone_dict_array ) );
+        
         $phone->get( $phone_dict_array[ $i ][ "PhoneID" ] );
         $phoneType->get( $phone->type() );
 
@@ -233,54 +269,14 @@ for ( $i=0; $i<count( $company_array ); $i++ )
   $t->parse( "company_type", "company_select", true );
 }
 
-  $t->set_var( "first_name", $FirstName );
-  $t->set_var( "last_name", $LastName );
-
-// address type selector
-for ( $i=0; $i<count( $address_type_array ); $i++ )
-{
-  $t->set_var( "address_type_id", $address_type_array[$i][ "ID" ] );
-  $t->set_var( "address_type_name", $address_type_array[$i][ "Name" ] );
-  
-  if ( $Address_Type == $address_type_array[$i][ "ID" ] )
-  {
-    $t->set_var( "is_selected", "selected" );
-  }
-  else
-  {
-    $t->set_var( "is_selected", "" );    
-  }
-  
-  $t->parse( "address_type", "address_type_select", true );
-}
-
-
-// telefon type selector
-for ( $i=0; $i<count( $phone_type_array ); $i++ )
-{
-    $t->set_var( "phone_type_id", $phone_type_array[$i][ "ID" ] );
-    $t->set_var( "phone_type_name", $phone_type_array[$i][ "Name" ] );
-  
-    if ( $Phone_Type == $phone_type_array[$i][ "ID" ] )
-    {
-        $t->set_var( "is_selected", "selected" );
-    }
-    else
-    {
-        $t->set_var( "is_selected", "" );    
-    }
-
-    $phone_select_dict[ $phone_type_array[$i][ "ID" ] ] = $i;
-  
-    $t->parse( "phone_type", "phone_type_select", true );
-}
-
+$t->set_var( "first_name", $FirstName );
+$t->set_var( "last_name", $LastName );
 
 $t->set_var( "comment", $Comment );
 
-$t->set_var( "street_1", $Street1 );
-$t->set_var( "street_2", $Street2 );
-$t->set_var( "zip_code", $Zip );
+//  $t->set_var( "street_1", $Street1 );
+//  $t->set_var( "street_2", $Street2 );
+//  $t->set_var( "zip_code", $Zip );
 
 $t->set_var( "phone_edit_number", $PhoneNumber );
 $t->set_var( "phone_edit_id", $PhoneID );

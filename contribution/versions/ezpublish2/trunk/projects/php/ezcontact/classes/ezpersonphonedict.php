@@ -30,12 +30,12 @@ class eZPersonPhoneDict
     /*
       Henter ut alle telefonnummer lagret i databasen hvor PersonID == $id.
     */
-    function getByPerson()
+    function getByPerson( $id )
     {
         $this->dbInit();
         $phone_array = 0;
 
-        array_query( $phone_array, "SELECT * FROM PersonPhoneDict WHERE PersonID='$ID'" );
+        array_query( $phone_array, "SELECT * FROM PersonPhoneDict WHERE PersonID='$id'" );
 
         return $phone_array;
     }

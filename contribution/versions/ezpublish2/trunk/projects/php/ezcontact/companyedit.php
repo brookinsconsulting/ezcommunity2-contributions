@@ -316,7 +316,6 @@ if ( $Action == "edit" )
     $t->set_var( "address_action_value", "Legg til" );
     $t->set_var( "address_action_type", "submit" );    
 
-
     $t->set_var( "phone_action", "AddPhone" );
     $t->set_var( "phone_edit_id", "-1" );
     $t->set_var( "phone_action_value", "Legg til" );
