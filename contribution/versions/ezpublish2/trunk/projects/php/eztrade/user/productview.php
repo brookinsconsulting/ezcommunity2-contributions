@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: productview.php,v 1.74 2001/10/12 10:40:18 ce Exp $
+// $Id: productview.php,v 1.75 2001/10/16 11:33:52 ce Exp $
 //
 // Created on: <24-Sep-2000 12:20:32 bf>
 //
@@ -722,10 +722,21 @@ if ( isSet( $func_array ) and is_array( $func_array ) )
     }
 }
 
+$SiteTitleAppend = $product->name();
+$SiteDescriptionOverride = str_replace( "\"", "", strip_tags( $product->brief() ) );
+
 if ( $GenerateStaticPage == "true" )
 {
     $template_var = "product_view_tpl";
 
+    // add PHP code in the cache file to store variables
+    $output = "<?php\n";
+    $output .= "\$GlobalSectionID=\"$GlobalSectionID\";\n";
+    $output .= "\$SiteTitleAppend=\"$SiteTitleAppend\";\n";
+    $output .= "\$SiteDescriptionOverride=\"$SiteDescriptionOverride\";\n";    
+    $output .= "?>\n";
+
+    
     $output = $t->parse($target, $template_var );
     // print the output the first time while printing the cache file.
     print( $output );

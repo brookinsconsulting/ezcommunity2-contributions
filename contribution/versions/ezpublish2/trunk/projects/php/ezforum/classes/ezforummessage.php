@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezforummessage.php,v 1.103 2001/10/12 12:22:04 jhe Exp $
+// $Id: ezforummessage.php,v 1.104 2001/10/16 11:33:52 ce Exp $
 //
 // Definition of eZForumMessage class
 //
@@ -392,7 +392,7 @@ class eZForumMessage
 
         // get total number of messages
         $db->array_query( $message_array, "SELECT COUNT(*) AS Count FROM eZForum_Message" );
-        $messageCount = $message_array[0]["Count"];        
+        $messageCount = $message_array[0][$db->fieldName( "Count" )];        
         
         foreach ( $contents_array as $word )
         {
@@ -422,9 +422,10 @@ class eZForumMessage
 
                     // number of links to this word
                     $db->array_query( $message_array, "SELECT COUNT(*) AS Count FROM eZForum_MessageWordLink WHERE WordID='$wordID'" );
-                    $wordUsageCount = $message_array[0]["Count"];
+                    $wordUsageCount = $message_array[0][$db->fieldName( "Count" )];
 
-                    $wordFreq = ( $wordUsageCount + 1 )  / $messageCount;
+                    if ( $messageCount != 0 )
+                        $wordFreq = ( $wordUsageCount + 1 )  / $messageCount;
 
                     // update word frequency
                     $ret[] = $db->query( "UPDATE  eZForum_Word SET Frequency='$wordFreq' WHERE ID='$wordID'" );
@@ -440,7 +441,8 @@ class eZForumMessage
                     // lock the table
                     $db->lock( "eZForum_Word" );
 
-                    $wordFreq = 1 / $messageCount;
+                    if ( $messageCount != 0 )
+                        $wordFreq = 1 / $messageCount;
 
                     // new word, create word
                     $nextID = $db->nextID( "eZForum_Word", "ID" );

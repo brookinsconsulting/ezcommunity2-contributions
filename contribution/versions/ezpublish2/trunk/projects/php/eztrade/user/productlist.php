@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: productlist.php,v 1.40 2001/10/09 12:00:53 sascha Exp $
+// $Id: productlist.php,v 1.41 2001/10/16 11:33:52 ce Exp $
 //
 // Created on: <23-Sep-2000 14:46:20 bf>
 //
@@ -106,6 +106,8 @@ foreach ( $pathArray as $path )
     $t->set_var( "category_id", $path[0] );
     $t->set_var( "category_name", $path[1] );
     $t->parse( "path", "path_tpl", true );
+
+    $SiteTitleAppend .= $path[1] . " - ";
 }
 
 $categoryList =& $category->getByParent( $category );
@@ -186,6 +188,8 @@ foreach ( $productList as $product )
     {
         $t->set_var( "product_image", "" );    
     }
+
+    $SiteDescriptionOverride .= $product->name() . " ";
 
     $t->set_var( "product_name", $product->name() );
 
@@ -272,6 +276,14 @@ if ( $GenerateStaticPage == "true" )
         $CategoryArray =& $user->groups( false );
     $cache = new eZCacheFile( "eztrade/cache/", array( "productlist", $CategoryArray, $Offset, $PriceGroup ),
                               "cache", "," );
+
+    // add PHP code in the cache file to store variables
+    $output = "<?php\n";
+    $output .= "\$GlobalSectionID=\"$GlobalSectionID\";\n";
+    $output .= "\$SiteTitleAppend=\"$SiteTitleAppend\";\n";
+    $output .= "\$SiteDescriptionOverride=\"$SiteDescriptionOverride\";\n";    
+    $output .= "?>\n";
+    
     $output = $t->parse( $target, "product_list_page_tpl" );
     print( $output );
     $CacheFile->store( $output );

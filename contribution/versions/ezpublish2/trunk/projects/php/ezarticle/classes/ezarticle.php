@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezarticle.php,v 1.182 2001/10/16 11:04:08 ce Exp $
+// $Id: ezarticle.php,v 1.183 2001/10/16 11:33:52 ce Exp $
 //
 // Definition of eZArticle class
 //
@@ -785,7 +785,7 @@ class eZArticle
 
         // get total number of articles
         $db->array_query( $article_array, "SELECT COUNT(*) AS Count FROM eZArticle_Article" );
-        $articleCount = $article_array[0]["Count"];        
+        $articleCount = $article_array[0][$db->fieldName( "Count" )];        
         
         foreach ( $contents_array as $word )
         {
@@ -815,7 +815,7 @@ class eZArticle
 
                     // number of links to this word
                     $db->array_query( $article_array, "SELECT COUNT(*) AS Count FROM eZArticle_ArticleWordLink WHERE WordID='$wordID'" );
-                    $wordUsageCount = $article_array[0]["Count"];
+                    $wordUsageCount = $article_array[0][$db->fieldName( "Count" )];
 
                     $wordFreq = ( $wordUsageCount + 1 )  / $articleCount;
 
@@ -1981,7 +1981,7 @@ class eZArticle
         }
         else
         {
-            $queryString = "SELECT DISTINCT eZArticle_Article.ID AS ArticleID, eZArticle_Article.Published, eZArticle_Article.Name
+            $queryString = "SELECT DISTINCT eZArticle_Article.ID AS ArticleID, eZArticle_Article.Published, eZArticle_Article.Name, eZArticle_ArticleWordLink.Frequency
                  FROM eZArticle_Article,
                       eZArticle_ArticleWordLink,
                       eZArticle_Word,

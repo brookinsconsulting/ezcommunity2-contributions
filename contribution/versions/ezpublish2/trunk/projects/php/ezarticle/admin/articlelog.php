@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: articlelog.php,v 1.3 2001/07/19 12:19:20 jakobn Exp $
+// $Id: articlelog.php,v 1.4 2001/10/16 11:33:52 ce Exp $
 //
 // Created on: <05-Jun-2001 14:38:04 bf>
 //
@@ -51,7 +51,7 @@ $logArray = $article->logMessages();
 foreach ( $logArray as $message )
 {
     $dateTime = new eZDateTime();    
-    $dateTime->setMySQLTimeStamp( $message["Created"] );
+    $dateTime->timeStamp( $message["Created"] );
     $t->set_var( "log_date", $locale->format( $dateTime ) );
 
     $user = new eZUser( $message["UserID"] );
