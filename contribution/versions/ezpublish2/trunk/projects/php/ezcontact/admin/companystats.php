@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: companystats.php,v 1.2 2001/07/20 12:01:50 jakobn Exp $
+// $Id: companystats.php,v 1.3 2001/10/31 11:11:49 jhe Exp $
 //
 // Created on: <20-Mar-2001 18:21:41 amos>
 //
@@ -25,7 +25,7 @@
 
 include_once( "classes/INIFile.php" );
 
-$ini = new INIFIle( "site.ini" );
+$ini =& $GLOBALS["SiteIni"];
 $Language = $ini->read_var( "eZContactMain", "Language" );
 
 include_once( "classes/ezlocale.php" );

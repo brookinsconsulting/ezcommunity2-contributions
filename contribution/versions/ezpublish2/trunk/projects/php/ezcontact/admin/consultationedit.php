@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: consultationedit.php,v 1.27 2001/09/14 12:21:34 jhe Exp $
+// $Id: consultationedit.php,v 1.28 2001/10/31 11:11:49 jhe Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -29,7 +29,7 @@
 
 include_once( "classes/INIFile.php" );
 
-$ini = new INIFIle( "site.ini" );
+$ini =& $GLOBALS["SiteIni"];
 $Language = $ini->read_var( "eZContactMain", "Language" );
 
 include_once( "ezuser/classes/ezusergroup.php" );
