@@ -37,9 +37,9 @@
 	</td>
 <tr>
 <tr>
-    <td>
-    &nbsp;
-    </td>
+    <th>
+        {intl-shipping_group}:
+    </th>
     <!-- BEGIN header_item_tpl -->
     <th>
         {intl-first}:
@@ -48,9 +48,9 @@
         {intl-additional}:
     </th>
     <!-- END header_item_tpl -->
-	<td colspan="2">
-	&nbsp;
-	</td>
+    <th colspan="2">
+	{intl-delete}:
+    </th>
 </tr>
 <!-- BEGIN group_item_tpl -->
 <tr>

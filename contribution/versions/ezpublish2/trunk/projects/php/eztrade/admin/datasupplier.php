@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: datasupplier.php,v 1.35 2001/07/30 13:22:37 bf Exp $
+// $Id: datasupplier.php,v 1.36 2001/08/29 10:17:24 br Exp $
 //
 // Created on: <21-Sep-2000 10:32:36 bf>
 //
@@ -25,7 +25,6 @@
 
 include_once( "classes/ezhttptool.php" );
 include_once( "ezuser/classes/ezpermission.php" );
-
 
 $user =& eZUser::currentUser();
 if( eZPermission::checkPermission( $user, "eZTrade", "ModuleEdit" ) == false )

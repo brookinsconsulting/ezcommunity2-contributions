@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: orderedit.php,v 1.25 2001/08/10 12:15:26 jhe Exp $
+// $Id: orderedit.php,v 1.26 2001/08/29 10:17:24 br Exp $
 //
 // Created on: <30-Sep-2000 13:03:13 bf>
 //
@@ -204,6 +204,9 @@ $currency = new eZCurrency();
 
 $i = 0;
 $sum = 0.0;
+$t->set_var( "product_image_caption", "" );
+
+
 foreach ( $items as $item )
 {
     $product =& $item->product();
@@ -380,6 +383,8 @@ $paymentMethod = $instance->paymentName( $order->paymentMethod() );
 $t->set_var( "payment_method", $paymentMethod );
 
 $shippingType = $order->shippingType();
+
+$t->set_var( "shipping_method", "" );
 if ( $shippingType )
 {    
     $t->set_var( "shipping_method", $shippingType->name() );
