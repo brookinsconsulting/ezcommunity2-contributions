@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezbugmodule.php,v 1.18 2001/04/04 15:21:44 fh Exp $
+// $Id: ezbugmodule.php,v 1.19 2001/05/03 09:23:24 fh Exp $
 //
 // Definition of eZBugModule class
 //
@@ -567,6 +567,33 @@ class eZBugModule
        
        return $ret;
     }
+
+    /*!
+      Returns true if the given module is a child (doesn't have to be first level) of this module.
+      If the second parameter is set to true, the function also checks if the module given is itself.
+     */
+    function isChild( $moduleID, $check_for_self = false )
+    {
+        $return_value = false;
+        $db = eZDB::globalDatabase();
+
+        if( get_class( $module ) == "ezbugmodule" )
+            $moduleID = $moduleID->id();
+
+        if( $check_for_self == true && $moduleID == $this->ID )
+            return true;
+        
+        while( $moduleID != 0 )
+        {
+            $db->query_single( $result, "SELECT ParentID FROM eZBug_Module WHERE ID='$moduleID'" );
+            print_r( $result );
+            $moduleID = $result["ParentID"];
+            echo "Test: $moduleID, $this->ID <br>";
+            if( $moduleID == $this->ID )
+                return true;
+        }
+        return $return_value;
+    }
     
     /*!
       Private function.
@@ -576,7 +603,7 @@ class eZBugModule
     {
         if ( $this->IsConnected == false )
         {
-            $this->Database = new eZDB( "site.ini", "site" );
+            $this->Database = eZDB::globalDatabase();
             $this->IsConnected = true;
         }
     }

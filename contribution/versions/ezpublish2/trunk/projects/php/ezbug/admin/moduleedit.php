@@ -30,40 +30,42 @@ if ( $Action == "insert" )
 if ( $Action == "update" )
 {
     $module = new eZBugModule( $ModuleID );
-    $module->setName( $Name );
     $parent = new eZBugModule( $ParentID );
-    $module->setParent( $parent );
+    if( $module->isChild( $ParentID, true ) != true )
+    {
+        $module->setName( $Name );
+        $module->setParent( $parent );
 //    $ownerGroup = new eZUserGroup( $OwnerID );
 
-    if( isset( $Recursive ) )
-    {
-        $recursiveList = $module->getByParent( $module, "name", array() );
-        
-        foreach( $recursiveList as $itemID )
+        if( isset( $Recursive ) )
         {
-            eZObjectPermission::removePermissions( $itemID, "bug_module", "w" );
-            if ( count ( $WriteGroupArrayID ) > 0 )
+            $recursiveList = $module->getByParent( $module, "name", array() );
+        
+            foreach( $recursiveList as $itemID )
             {
-                foreach ( $WriteGroupArrayID as $Write )
+                eZObjectPermission::removePermissions( $itemID, "bug_module", "w" );
+                if ( count ( $WriteGroupArrayID ) > 0 )
                 {
-                    if ( $Write == -1 )
-                        $group = -1;
-                    else
-                        $group = new eZUserGroup( $Write );
+                    foreach ( $WriteGroupArrayID as $Write )
+                    {
+                        if ( $Write == -1 )
+                            $group = -1;
+                        else
+                            $group = new eZUserGroup( $Write );
 
-                    eZObjectPermission::setPermission( $group, $itemID, "bug_module", "w" );
+                        eZObjectPermission::setPermission( $group, $itemID, "bug_module", "w" );
+                    }
                 }
             }
         }
-    }
-    else
-    {
-        eZObjectPermission::removePermissions( $ModuleID, "bug_module", "w" );
-        eZObjectPermission::setPermission( $WriteGroupArrayID[0], $ModuleID, "bug_module", 'w' );
-    }
+        else
+        {
+            eZObjectPermission::removePermissions( $ModuleID, "bug_module", "w" );
+            eZObjectPermission::setPermission( $WriteGroupArrayID[0], $ModuleID, "bug_module", 'w' );
+        }
 
-    $module->store();
-
+        $module->store();
+    }
     Header( "Location: /bug/module/list/" );
     exit();
 }
