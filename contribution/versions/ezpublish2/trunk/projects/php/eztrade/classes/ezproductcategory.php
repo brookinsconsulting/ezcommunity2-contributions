@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezproductcategory.php,v 1.31 2001/03/12 10:44:10 bf Exp $
+// $Id: ezproductcategory.php,v 1.32 2001/03/19 13:58:09 ce Exp $
 //
 // Definition of eZProductCategory class
 //
@@ -357,7 +357,7 @@ class eZProductCategory
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
         
-        return $this->Name;
+        return $this->RemoteID;
     }
 
     /*!

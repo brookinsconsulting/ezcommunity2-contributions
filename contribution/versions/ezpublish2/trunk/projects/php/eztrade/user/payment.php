@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: payment.php,v 1.25 2001/03/15 17:37:26 bf Exp $
+// $Id: payment.php,v 1.26 2001/03/19 13:58:09 ce Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <02-Feb-2001 16:31:53 bf>
@@ -528,6 +528,12 @@ if ( $PaymentSuccess == "true" )
     // some systems needs this, e.g. to print out the OrderID which was cleared..
     $Action = "PostPayment";
     include( $instance->paymentFile( $paymentMethod ) );
+
+    //
+    if ( is_file ( "checkout/user/postpayment.php" ) )
+    {
+        include( "checkout/user/postpayment.php" );
+    }
 
     eZHTTPTool::header( "Location: /trade/ordersendt/$OrderID/" );
     exit();
