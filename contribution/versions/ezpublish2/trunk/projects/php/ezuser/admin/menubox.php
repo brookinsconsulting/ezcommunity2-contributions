@@ -5,6 +5,8 @@
     <td background="/images/<? echo $SiteStyle; ?>/menu-m.gif">
     <img src="/images/<? echo $SiteStyle; ?>/menu-arrow.gif" width="20" height="10"><a class="menu" href="/user/userlist/">User liste</a><br>
     <img src="/images/<? echo $SiteStyle; ?>/menu-arrow.gif" width="20" height="10"><a class="menu" href="/user/grouplist/">Group list</a><br>
+    <img src="/images/<? echo $SiteStyle; ?>/menu-arrow.gif" width="20" height="10"><a class="menu" href="/user/useredit/new/">New user</a><br>
+    <img src="/images/<? echo $SiteStyle; ?>/menu-arrow.gif" width="20" height="10"><a class="menu" href="/user/groupedit/new/">New group</a><br>
 	</td>
 </tr>
 <tr>

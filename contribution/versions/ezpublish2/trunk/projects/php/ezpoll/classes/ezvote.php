@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezvote.php,v 1.7 2000/10/03 14:09:48 bf-cvs Exp $
+// $Id: ezvote.php,v 1.8 2000/10/07 09:43:13 bf-cvs Exp $
 //
 // Definition of eZVote class
 //
@@ -252,7 +252,7 @@ class eZVote
     {
         if ( $this->IsConnected == false )
         {
-            $this->Database = new eZDB( "site.ini", "eZPollMain" );
+            $this->Database = new eZDB( "site.ini", "site" );
             $this->IsConnected = true;
         }
     }

@@ -1,5 +1,5 @@
 <?// 
-// $Id: ezpollchoice.php,v 1.4 2000/10/02 11:58:15 bf-cvs Exp $
+// $Id: ezpollchoice.php,v 1.5 2000/10/07 09:43:13 bf-cvs Exp $
 //
 // Definition of eZPollChoice class
 //
@@ -246,7 +246,7 @@ class eZPollChoice
     {
         if ( $this->IsConnected == false )
         {
-            $this->Database = new eZDB( "site.ini", "eZPollMain" );
+            $this->Database = new eZDB( "site.ini", "site" );
             $this->IsConnected = true;
         }
     }

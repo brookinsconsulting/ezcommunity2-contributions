@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezpoll.php,v 1.5 2000/10/03 13:08:56 bf-cvs Exp $
+// $Id: ezpoll.php,v 1.6 2000/10/07 09:43:13 bf-cvs Exp $
 //
 // Definition of eZPoll class
 //
@@ -374,7 +374,7 @@ class eZPoll
     {
         if ( $this->IsConnected == false )
         {
-            $this->Database = new eZDB( "site.ini", "eZPollMain" );
+            $this->Database = new eZDB( "site.ini", "site" );
             $this->IsConnected = true;
         }
     }
