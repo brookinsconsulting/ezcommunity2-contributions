@@ -110,20 +110,21 @@
 <tr>
 	<td width="20%">
 
-	<input type="hidden" name="OptionIDArray[]" value="{option_id}" />
+<table width="100%" cellpadding="0" cellspacing="0" border="0">
 	<!-- BEGIN value_price_header_tpl -->
 
 	<!-- END value_price_header_tpl -->
-	<select name="OptionValueArray[]">
-
+	<tr>
+	<td>
 	<!-- BEGIN value_tpl -->
-	<option value="{value_id}">{value_name}
+	{value_name}
 	<!-- BEGIN value_price_item_tpl -->
 	{value_price}
 	<!-- END value_price_item_tpl -->
-	 </option>
+	</td>
+	</tr>
 	<!-- END value_tpl -->
-	</select>
+</table>
 	</td>
 
 	<td width="80%">
