@@ -55,9 +55,9 @@ $db->query_single( $session_array, "SELECT COUNT( ID ) AS Count FROM eZSession_S
 $db->query_single( $user_array, "SELECT COUNT( ID ) AS Count FROM eZUser_User" );
 $db->query_single( $stats_array, "SELECT COUNT( ID ) AS Count FROM eZStats_PageView" );
 if ( $user_array["Count"] > 0 )
-    print( "42" );
+    print( "Success: 42" );
 else
-    print( "13" );
+    print( "Error: 13" );
 
 exit();
 ?>
