@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: articlelist.php,v 1.49 2001/06/15 14:53:59 th Exp $
+// $Id: articlelist.php,v 1.50 2001/06/19 07:47:48 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <18-Oct-2000 14:41:37 bf>
@@ -23,6 +23,7 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, US
 //
 
+
 include_once( "classes/INIFile.php" );
 include_once( "classes/eztemplate.php" );
 include_once( "classes/ezlocale.php" );
@@ -32,6 +33,8 @@ include_once( "ezarticle/classes/ezarticlecategory.php" );
 include_once( "ezarticle/classes/ezarticle.php" );
 include_once( "ezarticle/classes/ezarticlerenderer.php" );
 include_once( "ezuser/classes/ezobjectpermission.php" );
+
+$GlobalSectionID = eZArticleCategory::sectionIDStatic( $CategoryID );
 
 $ini =& INIFile::globalINI();
 
@@ -371,6 +374,7 @@ if ( $GenerateStaticPage == "true" and $cachedFile != "" )
 
     // add PHP code in the cache file to store variables
     $output = "<?php\n";
+    $output .= "\$GlobalSectionID=\"$GlobalSectionID\";\n";
     $output .= "\$SiteTitleAppend=\"$SiteTitleAppend\";\n";
     $output .= "\$SiteDescriptionOverride=\"$SiteDescriptionOverride\";\n";    
     $output .= "?>\n";

@@ -78,8 +78,6 @@ switch ( $url_array[2] )
             $user = 0;
 //        print( "Checking category: $CategoryID <br>" );
 
-        $GlobalSectionID = eZArticleCategory::sectionIDStatic( $CategoryID );
-
         if ( $PageCaching == "enabled" )
         {
             //$CategoryID = $url_array[3];
@@ -214,11 +212,6 @@ switch ( $url_array[2] )
         else
             $user = 0;
 
-        if ( !isset( $CategoryID ) )
-            $CategoryID = eZArticle::categoryDefinitionStatic( $ArticleID );
-        
-        $GlobalSectionID = eZArticleCategory::sectionIDStatic( $CategoryID );
-        
         if ( $PageCaching == "enabled" )
         {
             $cachedFile = "ezarticle/cache/articleview," . $ArticleID . ",". $PageNumber . "," . $CategoryID . "," . $groupstr  .".cache";

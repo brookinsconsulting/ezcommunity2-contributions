@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezqdomrenderer.php,v 1.5 2001/06/06 12:36:01 bf Exp $
+// $Id: ezqdomrenderer.php,v 1.6 2001/06/19 07:47:48 bf Exp $
 //
 // Definition of eZQDomRenderer class
 //
@@ -250,6 +250,7 @@ class eZQDomrenderer
                                     $intro .= $this->renderPlain( $paragraph );
                                     $intro .= $this->renderStandards( $paragraph );
                                     $intro .= $this->renderImage( $paragraph );
+                                    $intro .= $this->renderLink( $paragraph );
                                     
                                     $this->PrevTag = $paragraph->name;
                                 }
@@ -277,6 +278,7 @@ class eZQDomrenderer
                     $pageContent .= $this->renderStandards( $paragraph );
                     $pageContent .= $this->renderPlain( $paragraph );
                     $pageContent .= $this->renderImage( $paragraph );
+                    $pageContent .= $this->renderLink( $paragraph );
                     
 //                      $pageContent = $this->renderCode( $pageContent, $paragraph );
 //                      $pageContent = $this->renderLink( $pageContent, $paragraph );
@@ -571,6 +573,45 @@ class eZQDomrenderer
         
         return $pageContent;
     }    
+
+    /*!
+      Renders link tags.
+    */
+    function &renderLink( $paragraph )
+    {
+        $pageContent = "";
+        if ( $paragraph->name == "link" )
+        {
+            print( "link" );
+            if  ( count( $paragraph->attributes ) > 0 )
+            foreach ( $paragraph->attributes as $attr )
+            {
+                print( $attr );
+                switch ( $attr->name )
+                {
+                    case "level" :
+                    {
+                       $level = $attr->children[0]->content;
+                    }
+                    break;
+                }
+            }
+
+            foreach ( $paragraph->children as $child )
+            {
+                if ( $child->name == "text" )
+                {
+                    $content = $child->content;
+                }
+            }
+            
+//            $this->Template->set_var( "contents", $content );
+//            $pageContent =& $this->Template->parse( "header_" . $level, "header_" . $level. "_tpl" );
+        }
+
+        return $pageContent;
+    }
+
     
     var $Article;
     var $PrevTag;

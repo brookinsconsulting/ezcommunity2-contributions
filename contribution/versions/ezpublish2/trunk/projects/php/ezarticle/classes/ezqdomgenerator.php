@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezqdomgenerator.php,v 1.4 2001/06/08 09:00:37 bf Exp $
+// $Id: ezqdomgenerator.php,v 1.5 2001/06/19 07:47:48 bf Exp $
 //
 // Definition of eZQDomGenerator class
 //
@@ -118,7 +118,7 @@ class eZQDomGenerator
     function &generateUnknowns( $tmpPage )
     {
         $tmpPage =& preg_replace( "#< #", "&lt; ", $tmpPage );
-        $tmpPage =& preg_replace( "# >#", " &gt;", $tmpPage );
+//        $tmpPage =& preg_replace( "# >#", " &gt;", $tmpPage );
         
         // make unknown tags readable.. look-ahead assertion is used ( ?! ) 
 //        $tmpPage = preg_replace( "/<(?!(page|php|\/|image|cpp|shell|sql|hea|lin|iconlink|per|bol|ita|und|str|pre|ver|lis|ezhtml|html|java|ezanchor|mail|module|bullet))/", "&lt;", $tmpPage );
