@@ -1,5 +1,5 @@
 #
-# $Id: eznews.sql,v 1.5 2000/10/02 19:07:03 pkej-cvs Exp $
+# $Id: eznews.sql,v 1.6 2000/10/03 18:06:45 pkej-cvs Exp $
 #
 # eZNews database schema.
 #
@@ -24,8 +24,8 @@ CREATE TABLE eZNews_ItemType
     KEY (eZTable)
 );
 
-INSERT INTO eZNews_ItemType (ID, Name, eZClass, eZTable) VALUES ('1', 'Undefined', '', '');
-INSERT INTO eZNews_ItemType (ID, Name, eZClass, eZTable) VALUES ('2', 'News', '', '');
+INSERT INTO eZNews_ItemType (ID, Name, eZClass, eZTable) VALUES ('1', 'undefined', '', '');
+INSERT INTO eZNews_ItemType (ID, Name, eZClass, eZTable) VALUES ('2', 'news', '', '');
 INSERT INTO eZNews_ItemType (ID, ParentID, Name, eZClass, eZTable) VALUES ('3', '2', 'category',  'eZNewsCategory',  'eZNews_Category');
 INSERT INTO eZNews_ItemType (ID, ParentID, Name, eZClass, eZTable) VALUES ('4', '2', 'article',  'eZNewsArticle',  'eZNews_Article');
 INSERT INTO eZNews_ItemType (ID, ParentID, Name, eZClass, eZTable) VALUES ('5', '4', 'product',  'eZNewsArticleProduct',  '');
@@ -71,6 +71,7 @@ INSERT INTO eZNews_ChangeType (Description, Name) VALUES ('The item has been ret
 INSERT INTO eZNews_ChangeType (Description, Name) VALUES ('The item has been translated',    'translate');
 INSERT INTO eZNews_ChangeType (Description, Name) VALUES ('The item has been updated',       'update'   );
 INSERT INTO eZNews_ChangeType (Description, Name) VALUES ('The item has been copied',        'copy'   );
+INSERT INTO eZNews_ChangeType (Description, Name) VALUES ('The item is a temporary item',       'temporary'   );
 
 
 # This table keeps track of all items in the hiearcy,
