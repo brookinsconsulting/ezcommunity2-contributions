@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: ezcart.php,v 1.36.8.1 2002/01/30 13:02:09 ce Exp $
+// $Id: ezcart.php,v 1.36.8.2 2002/01/31 09:38:37 ce Exp $
 //
 // Definition of eZCart class
 //
@@ -299,11 +299,13 @@ class eZCart
     /*
         This function calculates the totals of the cart contents.
      */
-    function cartTotals( &$tax, &$total, $voucher=false, $paymentMethod=2 )
+    function cartTotals( &$tax, &$total, $voucher=false, $paymentMethod=1 )
     {
         $tax = "";
         $total = "";
 
+        if ( !$paymentMethod )
+            $paymentMethod = 1;
         $products = false;
         $continue = true;
         $this->ShippingType = new eZShippingType( );
