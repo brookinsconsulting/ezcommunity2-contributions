@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: articleedit.php,v 1.46 2001/02/26 20:20:47 bf Exp $
+// $Id: articleedit.php,v 1.47 2001/02/28 11:42:59 jb Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <18-Oct-2000 15:04:39 bf>
@@ -110,14 +110,12 @@ function deleteCache( $ArticleID, $CategoryID, $CategoryArray )
     $files = eZCacheFile::files( "ezarticle/cache/",
                                  array( "articlelist",
                                         array_merge( 0, $CategoryID, $CategoryArray ),
-                                        NULL, $groupstr ),
+                                        NULL, array( "", $groupstr ) ),
                                  "cache", "," );
     foreach( $files as $file )
     {
         $file->delete();
     }
-
-//      exit();
 }
 
 if ( isset ( $DeleteArticles ) )
