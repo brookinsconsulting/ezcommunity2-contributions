@@ -4,6 +4,11 @@ eZ publish changelog:
 Changes from 2.2 final to 2.2.1
 -------------------------------
 * Added support for libxml parsing in newsfeed
+* Fixed bug with attachments in eZMail.
+* Fixed bug with userlist in eZBulkMail.
+* Assigning multiple ownergroups in eZBug now work.
+* First time ownergroup assignment in eZBug works.
+* Fixed bug when editing images/patches in eZBug
 
 Changes from 2.2 Beta 2 to 2.2 Pre
 -----------------------------------
