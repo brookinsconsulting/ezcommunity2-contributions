@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezcachefile.php,v 1.14.2.4 2002/04/10 14:21:35 jhe Exp $
+// $Id: ezcachefile.php,v 1.14.2.5 2002/04/25 09:11:57 bf Exp $
 //
 // Definition of eZCacheFile class
 //
@@ -100,6 +100,7 @@ class eZCacheFile
     */
     function delete()
     {
+        print( $this->filename( true ) . "<br>" );
         if ( $this->exists() )
             eZFile::unlink( $this->filename( true ) );
     }

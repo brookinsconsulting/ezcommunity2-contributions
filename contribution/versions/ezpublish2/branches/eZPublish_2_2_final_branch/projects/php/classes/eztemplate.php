@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eztemplate.php,v 1.46.2.6 2002/04/24 07:31:19 jhe Exp $
+// $Id: eztemplate.php,v 1.46.2.7 2002/04/25 09:11:58 bf Exp $
 //
 // Definition of eZTemplate class
 //
@@ -120,7 +120,7 @@ class eZTemplate
         $minor = $versionArray[1]; 
         $release = $versionArray[2];
 
-        if ( $major >= 4 && $minor >= 0 && $release >= 5 )
+        if ( $major >= 4 && (($minor == 0 && $release >= 5) || ($minor > 0)) )
         {        
             $this->ReplaceFunc = "str_replace";
         }
