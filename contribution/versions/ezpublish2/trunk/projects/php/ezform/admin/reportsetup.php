@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: reportsetup.php,v 1.6 2002/01/25 09:14:08 jhe Exp $
+// $Id: reportsetup.php,v 1.7 2002/01/25 13:23:13 jhe Exp $
 //
 // Created on: <17-Jan-2002 18:09:19 jhe>
 //
@@ -94,10 +94,12 @@ $t->set_file( "report_setup_tpl", "reportsetup.tpl" );
 $t->set_block( "report_setup_tpl", "form_element_tpl", "form_element" );
 $t->set_block( "form_element_tpl", "statistics_type_tpl", "statistics_type" );
 $t->set_block( "form_element_tpl", "table_item_tpl", "table_item" );
+$t->set_block( "form_element_tpl", "override_text_tpl", "override_text" );
 $t->set_block( "form_element_tpl", "cross_reference_tpl", "cross_reference" );
 $t->set_block( "cross_reference_tpl", "cross_reference_item_tpl", "cross_reference_item" );
 
 $t->set_var( "form_element", "" );
+$t->set_var( "override_text", "" );
 $t->set_var( "cross_reference", "" );
 $t->set_var( "cross_reference_item", "" );
 $t->set_var( "report_id", $ReportID );
@@ -119,6 +121,11 @@ foreach ( $elements as $element )
         $t->parse( "table_item", "table_item_tpl" );
     else
         $t->set_var( "table_item", "" );
+    
+    if ( $eType->name() == "text_label_item" )
+        $t->parse( "override_text", "override_text_tpl" );
+    else
+        $t->set_var( "override_text", "" );
 
     $t->set_var( "statistics_type", "" );
     for ( $stat = 0; $stat < count( $statTypes ); $stat++ )

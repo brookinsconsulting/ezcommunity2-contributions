@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: ezformreportelement.php,v 1.18 2002/01/25 09:14:08 jhe Exp $
+// $Id: ezformreportelement.php,v 1.19 2002/01/25 13:23:13 jhe Exp $
 //
 // Definition of eZFormReportElement class
 //
@@ -134,10 +134,17 @@ class eZFormReportElement
 
     function reference( $as_object = true )
     {
-        if ( $as_object )
-            return new eZFormElement( $this->ReferenceID );
+        if ( $this->ReferenceID == 0 )
+        {
+            return false;
+        }
         else
-            return $this->ReferenceID;
+        {
+            if ( $as_object )
+                return new eZFormElement( $this->ReferenceID );
+            else
+                return $this->ReferenceID;
+        }
     }
 
     function setReference( $value )

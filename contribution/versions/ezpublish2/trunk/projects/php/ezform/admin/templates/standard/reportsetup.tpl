@@ -35,6 +35,9 @@
 <!-- END cross_reference_item_tpl -->
    </select>
 <!-- END cross_reference_tpl -->
+<!-- BEGIN override_text_tpl -->
+   <a href="{www_dir}{index}/form/report/setup/text/{report_id}/{table_id}/{element_id}/">{intl-override_text}</a>
+<!-- END override_text_tpl -->
    </td>
 </tr>
 <!-- END form_element_tpl -->

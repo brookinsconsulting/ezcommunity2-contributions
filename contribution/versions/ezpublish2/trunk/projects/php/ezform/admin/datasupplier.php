@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: datasupplier.php,v 1.14 2002/01/18 14:05:57 jhe Exp $
+// $Id: datasupplier.php,v 1.15 2002/01/25 13:23:13 jhe Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -193,14 +193,34 @@ switch ( $Operation )
         }
         else if ( $Action == "setup" )
         {
-            $TableID = $url_array[5];
-            if ( $ReportID == "store" )
+            if ( $ReportID == "text" )
             {
-                $ReportID = $url_array[5];
-                $Action = "store";
-                $TableID = $url_array[6];
+                if ( $url_array[5] == "store" )
+                {
+                    $Action = $url_array[5];
+                    $ReportID = $url_array[6];
+                    $TableID = $url_array[7];
+                    $ElementID = $url_array[8];
+                }
+                else
+                {
+                    $ReportID = $url_array[5];
+                    $TableID = $url_array[6];
+                    $ElementID = $url_array[7];
+                }
+                include( "ezform/admin/reportoverridetext.php" );
             }
-            include( "ezform/admin/reportsetup.php" );
+            else
+            {
+                $TableID = $url_array[5];
+                if ( $ReportID == "store" )
+                {
+                    $ReportID = $url_array[5];
+                    $Action = "store";
+                    $TableID = $url_array[6];
+                }
+                include( "ezform/admin/reportsetup.php" );
+            }            
         }
         else
         {

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezformrenderer.php,v 1.63 2002/01/25 10:29:34 jhe Exp $
+// $Id: ezformrenderer.php,v 1.64 2002/01/25 13:23:13 jhe Exp $
 //
 // eZFormRenderer class
 //
@@ -233,6 +233,8 @@ class eZFormRenderer
 
             if ( isSet( $$elementName ) )
                 $elementValue = $$elementName;
+
+            $elementNameValue = $element->name();
             
             $this->Template->set_var( "field_name", $elementName );
 
@@ -248,6 +250,12 @@ class eZFormRenderer
                     {
                         return $elementValue;
                     }
+                    if ( $name == "text_label_item" )
+                    {
+                        $repText = $reportElement->reference( true );
+                        if ( $repText )
+                            $elementNameValue = $repText->name();
+                    }
                 }
                 else
                 {
@@ -258,7 +266,9 @@ class eZFormRenderer
                             $elementValue = "&nbsp;";
                     }
                     else
+                    {
                         $elementValue = $element->result();
+                    }
                 }
             }
 
@@ -274,7 +284,7 @@ class eZFormRenderer
             }
 
             $this->Template->set_var( "field_value", $elementValue );
-            $this->Template->set_var( "element_name", $element->name() );
+            $this->Template->set_var( "element_name", $elementNameValue );
 
             if ( $name == "text_block_item" )
             {
