@@ -226,3 +226,11 @@ Maintainer(s) : br@ez.no
 
     * classes/ezimagecategory.php: added sectionIDstatic
 
+
+Module : ezimagecatalogue
+Repository path : /home/cvsroot/projects/php/ezimagecatalogue
+Maintainer(s) : br@ez.no
+2001-09-23  Bjoern Reiten  <br@ez.no>
+
+    * classes/ezimagecategory.php: Changed some formating of code.
+
