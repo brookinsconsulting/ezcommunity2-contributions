@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezbugmodule.php,v 1.19 2001/05/03 09:23:24 fh Exp $
+// $Id: ezbugmodule.php,v 1.20 2001/05/03 09:42:23 fh Exp $
 //
 // Definition of eZBugModule class
 //
@@ -577,7 +577,7 @@ class eZBugModule
         $return_value = false;
         $db = eZDB::globalDatabase();
 
-        if( get_class( $module ) == "ezbugmodule" )
+        if( get_class( $moduleID ) == "ezbugmodule" )
             $moduleID = $moduleID->id();
 
         if( $check_for_self == true && $moduleID == $this->ID )
@@ -586,9 +586,7 @@ class eZBugModule
         while( $moduleID != 0 )
         {
             $db->query_single( $result, "SELECT ParentID FROM eZBug_Module WHERE ID='$moduleID'" );
-            print_r( $result );
             $moduleID = $result["ParentID"];
-            echo "Test: $moduleID, $this->ID <br>";
             if( $moduleID == $this->ID )
                 return true;
         }
