@@ -39,14 +39,13 @@ if ( $Action == "insert" || $Action == "update" )
     }
     else
     {
-        header( "Location: /error.php?type=500&reason=missingpermission&tried=update&module=ezcontact" );
+        header( "Location: /error.php?type=500&reason=missingpermission&permission=AdminModify&tried=update&module=ezcontact" );
    }
 }
 
 if( !$type->id() && $Action != "new"  )
 {
-    header( "HTTP/1.0 404 Not Found" );
-    header( "Location: /contact/companytype/list/0" );
+    header( "Location: /error.php?type=404&reason=missingpage&module=ezcontact&hint=/contact/companytype/list/0" );
     exit();
 }
 else
@@ -64,7 +63,7 @@ else
         }
         else
         {
-            header( "Location: /error.php?type=500&reason=missingpermission&tried=delete&module=ezcontact" );
+            header( "Location: /error.php?type=500&reason=missingpermission&permission=AdminDelete&tried=delete&module=ezcontact" );
         }
     }
 

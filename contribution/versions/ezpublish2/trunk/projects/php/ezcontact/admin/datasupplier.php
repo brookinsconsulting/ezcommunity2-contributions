@@ -5,10 +5,6 @@ $url_array = explode( "/", $REQUEST_URI );
 
 switch ( $url_array[2] )
 {
-    case "" :
-        include( "ezcontact/admin/phonetypelist.php" );        
-        break;
-
     case "company":
     {
         switch ( $url_array[3] )
@@ -25,13 +21,13 @@ switch ( $url_array[2] )
                 include( "ezcontact/admin/companyedit.php" );
                 break;
             }
-            case "Insert":
+            case "insert":
             {
                 $Action = "insert";
                 include( "ezcontact/admin/companyedit.php" );
                 break;
             }
-            case "Edit":
+            case "edit":
             {
                 $Action = "edit";
                 $CompanyID = $url_array[4];
@@ -39,7 +35,7 @@ switch ( $url_array[2] )
                 break;
             }
 
-            case "Update":
+            case "update":
             {
                 $Action = "update";
                 $CompanyID = $url_array[4];
@@ -47,7 +43,7 @@ switch ( $url_array[2] )
                 break;
             }
             
-            case "Delete":
+            case "delete":
             {
                 $Action = "delete";
                 $CompanyID = $url_array[4];
@@ -166,15 +162,12 @@ switch ( $url_array[2] )
                 include( "ezcontact/admin/persondelete.php" );
                 break;
             }
-            default:
-                header( "Redirect: ezcontact/admin/" );
-                break;
         }
         break;
     }
 
     default :
-        print( "<h1>Sorry, Your link page could not be found. </h1>" );
+        header( "Location: /error.php?type=404&reason=missingpage&hint[]=/contact/company/list/&hint[]=/contact/person/list&module=ezcontact" );
         break;
 }
 
