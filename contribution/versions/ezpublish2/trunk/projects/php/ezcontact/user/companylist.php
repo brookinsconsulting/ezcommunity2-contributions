@@ -36,6 +36,7 @@ $t->set_block( "company_item_tpl", "no_image_tpl", "no_image" );
 $t->set_block( "company_page_tpl", "path_item_tpl", "path_item" );
 
 
+
 $companyType = new eZCompanyType( $CategoryID );
 
 // path
@@ -68,7 +69,6 @@ else
             $t->set_var( "td_class", "bglight" );
         else
             $t->set_var( "td_class", "bgdark" );
-                
         $t->set_var( "category_id", $companyTypeItem->id() );
         $t->set_var( "category_parent_id", $companyTypeItem->parentID() );
         $t->set_var( "category_name", $companyTypeItem->name() );
@@ -82,7 +82,6 @@ else
 $company = new eZCompany();
 
 $companyList = $company->getByCategory( $CategoryID );
-
 if ( count( $companyList ) == 0 )
 {
     $t->set_var( "error_msg", $errorIni->read_var( "strings", "error_msg" ) );
@@ -91,23 +90,19 @@ if ( count( $companyList ) == 0 )
 }
 else
 {
-    $color_count = 0;
+    $count=0;
     foreach( $companyList as $companyItem )
     {
-        if ( ( $color_count % 2 ) == 0 )
-        {
-            $t->set_var( "bg_color", "#F0F0F0" );
-        }
+        if ( ( $count  %2 ) == 0 )
+            $t->set_var( "td_class", "bglight" );
         else
-        {
-            $t->set_var( "bg_color", "#DCDCDC" );
-        }
-
+            $t->set_var( "td_class", "bgdark" );
+        
         $companyID = $companyItem->id();
         $t->set_var( "company_id", $companyID );
         $t->set_var( "company_name", $companyItem->name() );
-
-        // Image list
+         
+         // Image list
         $logoImage = $companyItem->logoImage();
         if ( get_class ( $logoImage ) == "ezimage" )
         {
@@ -135,10 +130,13 @@ else
             {
                 $t->set_var( "company_telephone", $phoneList[$i]->number() );
             }
+            else
+            {
+                $t->set_var( "company_telephone", "" );
+            }
         }
-        
-        $color_count++;
 
+        $count++;
         $t->set_var( "error", "" );
         $t->parse( "company_item", "company_item_tpl", true );
     }

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezcompany.php,v 1.35 2000/11/29 21:13:15 pkej-cvs Exp $
+// $Id: ezcompany.php,v 1.36 2000/12/01 10:47:54 ce-cvs Exp $
 //
 // Definition of eZProduct class
 //
@@ -229,16 +229,14 @@ class eZCompany
         
         $company_array = array();
         $return_array = array();
-        if( is_numeric( $query ) )
-        {
-            $this->Database->array_query( $company_array, "SELECT CompanyID FROM eZContact_CompanyTypeDict WHERE CompanyTypeID='$categoryID'" );
+
+        $this->Database->array_query( $company_array, "SELECT CompanyID FROM eZContact_CompanyTypeDict WHERE CompanyTypeID='$categoryID'" );
 
             foreach( $company_array as $companyItem )
             {
                 $return_array[] = new eZCompany( $companyItem["CompanyID"] );
             }
-        }
-        
+       
         return $return_array;
     }
     
