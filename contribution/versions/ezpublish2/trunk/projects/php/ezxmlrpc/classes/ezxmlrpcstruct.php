@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezxmlrpcstruct.php,v 1.6 2001/03/16 10:48:07 bf Exp $
+// $Id: ezxmlrpcstruct.php,v 1.7 2001/03/16 11:20:12 bf Exp $
 //
 // Definition of eZXMLRPCStruct class
 //
@@ -98,7 +98,7 @@ class eZXMLRPCStruct
 					}
                 }
                 break;
-                
+                 
                 case "array":
                 {
                     $ret .= eZXMLRPCArray::serializeArray( $value );
