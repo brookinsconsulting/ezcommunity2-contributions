@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: confirmation.php,v 1.1.2.1 2002/03/27 14:33:56 br Exp $
+// $Id: confirmation.php,v 1.1.2.2 2002/03/27 17:37:49 br Exp $
 //
 // <Bjørn Reiten> <br@ez.no>
 // Created on: <20-Mar-2002 14:11:34 br>
@@ -54,19 +54,19 @@ if ( is_Numeric( $orderID ) )
         }
         else
         {
-            eZHTTPTool::header( "Location: http://" . $HTTP_HOST . $indexFile . "/trade/checkout/1" );
+            eZHTTPTool::header( "Location: http://" . $HTTP_HOST . $indexFile . "/trade/checkout/" );
             exit();
         }
     }
     else
     {
-        eZHTTPTool::header( "Location: http://" . $HTTP_HOST . $indexFile . "/trade/checkout/2" );
+        eZHTTPTool::header( "Location: http://" . $HTTP_HOST . $indexFile . "/trade/checkout/" );
         exit();
     }
 }
 else
 {
-    eZHTTPTool::header( "Location: http://" . $HTTP_HOST . $indexFile . "/trade/checkout/3" );
+    eZHTTPTool::header( "Location: http://" . $HTTP_HOST . $indexFile . "/trade/checkout/" );
     exit();
 }
 
