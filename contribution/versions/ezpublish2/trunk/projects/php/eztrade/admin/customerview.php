@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: customerview.php,v 1.5 2001/10/04 12:57:02 ce Exp $
+// $Id: customerview.php,v 1.6 2001/10/05 09:52:52 bf Exp $
 //
 // Created on: <21-Sep-2001 16:06:44 bf>
 //
@@ -90,8 +90,6 @@ foreach ( $addressArray as $address )
     $t->set_var( "zip", $address->zip() );
     $t->set_var( "place", $address->place() );
 
-
-    print_r( $address );
     $country = $address->country();
     $t->set_var( "country", $country->name() );
     $t->parse( "address_item", "address_item_tpl", true );
