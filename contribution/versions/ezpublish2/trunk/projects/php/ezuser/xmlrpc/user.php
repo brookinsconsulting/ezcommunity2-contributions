@@ -10,12 +10,13 @@ if( $Command == "list" ) // Return a list of users and their ID's
     $users = array();
     foreach( $userList as $user )
     {
-        $users[] = new eZXMLRPCStruct( array( "Location" => createURLStruct( "ezuser", "user", $user->id() ),
+        $users[] = new eZXMLRPCStruct( array( "URL" => createURLStruct( "ezuser", "user", $user->id() ),
                                               "Name" => new eZXMLRPCString( $user->login( false ) )
                                               )
                                        );
     }
-    $ReturnData = new eZXMLRPCArray( $users );
+    $ReturnData = new eZXMLRPCStruct( array( "Catalogues" => array(),
+                                             "Elements" => $users ) );
 }
 else if( $Command == "data" || $Command == "currentuser" )
 {
