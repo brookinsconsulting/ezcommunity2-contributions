@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezlink.php,v 1.74.2.2 2002/02/12 13:07:03 br Exp $
+// $Id: ezlink.php,v 1.74.2.3 2003/02/26 09:03:33 br Exp $
 //
 // Definition of eZLink class
 //
@@ -479,14 +479,6 @@ class eZLink
         $db->array_query( $url_array, "SELECT url FROM eZLink_Link WHERE url='$url'" );
 
         return count( $url_array );
-    }
-
-    /*!
-      Returns the id of the link.
-    */
-    function id()
-    {
-        return $this->ID;
     }
 
     /*!
