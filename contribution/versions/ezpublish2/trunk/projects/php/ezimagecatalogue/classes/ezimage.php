@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezimage.php,v 1.11 2000/10/06 13:46:24 bf-cvs Exp $
+// $Id: ezimage.php,v 1.12 2000/10/22 13:10:40 bf-cvs Exp $
 //
 // Definition of eZImage class
 //
@@ -229,6 +229,17 @@ class eZImage
     }
 
     /*!
+      Returns the original file name of the image.
+    */
+    function originalFileName()
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+        
+        return $this->OriginalFileName;
+    }
+    
+    /*!
       Returns the path and filename to the original image.
 
       If $relative is set to true the path is returned relative.
@@ -352,9 +363,8 @@ class eZImage
 
            $name = $file->name();
 
-           ereg( "([^.]+)\(.*)", $name, $regs );
-           
-           $name = $regs[0] . "jpg";
+//             ereg( "([^.]+)\(.*)", $name, $regs );
+//             $name = $regs[0] . "jpg";
            
            $this->OriginalFileName =& $name;
        }

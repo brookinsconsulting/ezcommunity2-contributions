@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezpoll.php,v 1.7 2000/10/20 09:16:16 ce-cvs Exp $
+// $Id: ezpoll.php,v 1.8 2000/10/22 13:10:40 bf-cvs Exp $
 //
 // Definition of eZPoll class
 //
@@ -369,7 +369,7 @@ class eZPoll
     /*!
       Sets the active poll to the current poll.
     */
-    function setMainPoll( $poll)
+    function setMainPoll( $poll )
     {
         if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );

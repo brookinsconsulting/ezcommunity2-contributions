@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: imageedit.php,v 1.4 2000/10/22 11:54:41 bf-cvs Exp $
+// $Id: imageedit.php,v 1.5 2000/10/22 13:10:40 bf-cvs Exp $
 //
 // Definition of eZCompany class
 //
@@ -149,6 +149,16 @@ if ( $Action == "Edit" )
     $t->set_var( "name_value", $image->name() );
     $t->set_var( "caption_value", $image->caption() );
     $t->set_var( "action_value", "Update" );
+
+
+    $t->set_var( "image_alt", $image->caption() );
+
+    $variation = $image->requestImageVariation( 150, 150 );
+    
+    $t->set_var( "image_src", "/" .$variation->imagePath() );
+    $t->set_var( "image_width", $variation->width() );
+    $t->set_var( "image_height", $variation->height() );
+    $t->set_var( "image_file_name", $image->originalFileName() );    
 }
 
 $article = new eZArticle( $ArticleID );

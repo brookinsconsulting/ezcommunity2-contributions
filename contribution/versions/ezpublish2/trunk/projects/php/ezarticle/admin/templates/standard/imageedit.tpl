@@ -5,16 +5,24 @@
 
 <hr noshade="noshade" size="4" />
 
-<p class="boxtext">Tittel:</p>
-<input type="text" size="40" name="Name" value="{name_value}"/>
+<table width="100%" cellspacing="0" cellpadding="0" border="0">
+<tr>
+	<td>
+	<p class="boxtext">Tittel:</p>
+	<input type="text" size="40" name="Name" value="{name_value}"/>
 
-<p class="boxtext">Bildetekst:</p>
-<input type="text" size="40" name="Caption" value="{caption_value}"/>
+	<p class="boxtext">Bildetekst:</p>
+	<input type="text" size="40" name="Caption" value="{caption_value}"/>
 
-<p class="boxtext">Bilde:</p>
-<input size="40" name="userfile" type="file" />
+	<p class="boxtext">Bilde:</p> {image_file_name}
+	<input size="40" name="userfile" type="file" />
+	</td>
 
-<br /><br />
+	<td>
+	<img src="{image_src}" width="{image_width}" height="{image_height}" border="0" alt="{image_alt}" />
+	</td>
+</tr>
+</table>
 
 <hr noshade="noshade" size="4" />
 
@@ -35,6 +43,7 @@
 	</form>
 
 	</td>
+
 </tr>
 </table>
 
