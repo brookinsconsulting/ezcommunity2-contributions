@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: fileview.php,v 1.7 2001/02/14 13:37:14 th Exp $
+// $Id: fileview.php,v 1.8 2001/02/20 18:20:23 jb Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <04-Jan-2001 16:47:23 ce>
@@ -74,16 +74,9 @@ if ( $FileID != 0 )
 
     $filePath =& $file->filePath( true );
 
-    $size = filesize( $filePath );
-    
-    if ( $size == 0 )
-    {
-        $t->set_var( "file_size", 0 );
-    }
-    else
-    {
-        $t->set_var( "file_size", $size );
-    }
+    $size = $file->siFileSize();
+    $t->set_var( "file_size", $size["size-string"] );
+    $t->set_var( "file_unit", $size["unit"] );
 
     $fileOwner = $file->user();
 

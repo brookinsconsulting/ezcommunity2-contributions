@@ -78,7 +78,7 @@
 	<a href="/filemanager/fileview/{file_id}/">{original_file_name}</a><br />
 	</td>
 	<td class="{td_class}" width="1%">
-	{file_size}&nbsp;Kb
+	{file_size}&nbsp;{file_unit}
 	</td>
 	<td class="{td_class}" width="1%">
 	<a href="/filemanager/download/{file_id}/{original_file_name}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezf{file_id}-dl','','/images/downloadminimrk.gif',1)"><img name="ezf{file_id}-dl" border="0" src="/images/downloadmini.gif" width="16" height="16" align="top"></a>
