@@ -1,6 +1,70 @@
 <?php
 
 
+//!! eZNews
+//! eZNewsItem2 handles eZNews items.
+/*!
+    An eZNewsItem object is a base class for all items which can be stored
+    in the eZNews hiearchy. It is not an abstract class, you can create
+    objects of this type and store them in the db without any problems.
+    
+    All parts of an eZNews hiearchy is an eZNewsItem, even the categories
+    which are used for creating the hiearchy. This enables us to treat any
+    object in the database uniformly, thus very few special cases are needed.
+    
+    This class will therefore provide most functions needed for storing an
+    object, logging it's use, etc. All classes which inherit from this class
+    will only need to add set/get functions for it's extra data, a constructor,
+    store and get.ddd
+    
+    In subclasses you must call the base constructor from the sub-class, etc.
+    See eZNewsArticle and eZNewsCategory for examples of this usage.
+
+    TODO:
+    <ul>
+        <li>Clean up code.
+        <li>Change getSubItemCounts to work more properly.
+        <li>Move more code into sub-functions.
+        <li>Integrate more dynamic info into the system.
+        <li>Add more checking.
+        <li>Add more configuration.
+        <li>Clean up error handling.
+        <li>Better documentation.
+        <li>New examples.
+    </ul>
+    \code
+    \endcode
+
+    \sa eZNewsArticle, eZNewsCategory
+ */
+
+    function printArray( &$array )
+    {
+        if( is_array( $array ) )
+        {
+            foreach( $array as $item )
+            {
+                if( is_array( $item )  )
+                {
+                    printArray( $item );
+                }
+                else
+                {
+                    echo htmlspecialchars( $item ) . "<br>";
+                }
+            }
+        }
+        else    
+        {
+            echo htmlspecialchars( $array ) . " a<br>";
+        }
+    }
+
+
+include_once( "classes/ezdb.php" );
+include_once( "classes/ezsession.php" );       
+include_once( "eznews/classes/eznewschangetype.php" );       
+
 class eZNewsItem2
 {
 /*
