@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: tableedit.php,v 1.1 2001/12/13 12:40:16 jhe Exp $
+// $Id: tableedit.php,v 1.2 2001/12/14 09:05:11 jhe Exp $
 //
 // Created on: <13-Dec-2001 10:51:41 jhe>
 //
@@ -67,7 +67,9 @@ if ( isSet( $DeleteSelected ) )
     }
 }
 
-$cells = $table->rows() * $table->cols()
+$cells = $table->rows() * $table->cols();
+
+
 if ( isSet( $OK ) || isSet( $Update ) )
 {
     for ( $i = 0; $i < $cells; $i++ )
@@ -121,10 +123,148 @@ if ( isSet( $OK ) || isSet( $Update ) )
 $Language = $ini->read_var( "eZFormMain", "Language" );
 
 $t = new eZTemplate( "ezform/admin/" . $ini->read_var( "eZFormMain", "AdminTemplateDir" ),
-                     "ezform/admin/intl/", $Language, "form.php" );
+                     "ezform/admin/intl/", $Language, "table.php" );
 
-$t->set_file( "form_edit_page_tpl", "formedit.tpl" );
+$t->set_file( "table_edit_page_tpl", "tableedit.tpl" );
 
+$t->set_block( "table_edit_page_tpl", "row_list_tpl", "row_list" );
+
+$elementTemplate = new eZTemplate( "ezform/admin/" . $ini->read_var( "eZFormMain", "AdminTemplateDir" ),
+                                   "ezform/admin/intl/", $Language, "form.php" );
+
+$elementTemplate->set_file( "elementlist_tpl", "elementlist.tpl" );
+
+$elementTemplate->set_block( "elementlist_tpl", "no_elements_item_tpl", "no_elements_item" );
+$elementTemplate->set_block( "elementlist_tpl", "element_list_tpl", "element_list" );
+$elementTemplate->set_block( "element_list_tpl", "element_item_tpl", "element_item" );
+$elementTemplate->set_block( "element_item_tpl", "typelist_item_tpl", "typelist_item" );
+$elementTemplate->set_block( "element_item_tpl", "fixed_values_tpl", "fixed_values" );
+$elementTemplate->set_block( "element_item_tpl", "table_edit_tpl", "table_edit" );
+$elementTemplate->set_block( "element_item_tpl", "size_tpl", "size" );
+$elementTemplate->set_block( "element_item_tpl", "table_size_tpl", "table_size" );
+$elementTemplate->set_block( "element_item_tpl", "break_tpl", "break" );
+
+$move_item = true;
+$elementTemplate->set_block( "element_item_tpl", "item_move_up_tpl", "item_move_up" );
+$elementTemplate->set_block( "element_item_tpl", "item_separator_tpl", "item_separator" );
+$elementTemplate->set_block( "element_item_tpl", "item_move_down_tpl", "item_move_down" );
+$elementTemplate->set_block( "element_item_tpl", "no_item_move_up_tpl", "no_item_move_up" );
+$elementTemplate->set_block( "element_item_tpl", "no_item_separator_tpl", "no_item_separator" );
+$elementTemplate->set_block( "element_item_tpl", "no_item_move_down_tpl", "no_item_move_down" );
+
+$elementTemplate->set_var( "no_elements_item", "" );
+$elementTemplate->set_var( "element_list", "" );
+$elementTemplate->set_var( "element_item", "" );
+$elementTemplate->set_var( "typelist_item", "" );
+$elementTemplate->set_var( "checked", "" );
+
+$elementTemplate->set_var( "form_id", $FormID );
+
+$elementList = eZFormTable::tableElements( $ElementID );
+$types = eZFormElementType::getAll();
+
+$i = 0;
+for ( $row = 0; $row < $table->rows(); $row++ )
+{
+    $t->set_var( "row", $row + 1 );
+//    $t->parse( );
+    for ( $col = 0; $col < $table->cols(); $col++ )
+    {
+        $element = $elementList[$i];
+        if ( get_class( $element ) != "ezformelement" )
+        {
+            $newElementName =& $ini->read_var( "eZFormMain", "DefaultElementName" );
+            $newElementName = $newElementName . " " . $i;
+
+            $element = new eZFormElement();
+            $element->setName( $newElementName );
+            $element->store();
+            $table->addElement( $element );
+        }
+        
+        if ( ( $i % 2 ) == 0 )
+        {
+            $elementTemplate->set_var( "td_class", "bglight" );
+        }
+        else
+        {
+            $elementTemplate->set_var( "td_class", "bgdark" );
+        }
+
+        $elementTemplate->set_var( "fixed_values", "" );
+        $elementTemplate->set_var( "table_table", "" );
+        $elementTemplate->set_var( "size", "" );
+        $elementTemplate->set_var( "table_size", "" );
+        $elementTemplate->set_var( "typelist_item", "" );
+        $elementTemplate->set_var( "break", "" );
+        $elementTemplate->set_var( "table_edit", "" );
+
+        $currentType = $element->elementType();
+
+        foreach ( $types as $type )
+        {
+            $elementTemplate->set_var( "selected", "" );
+            
+            if ( $type->id() == $currentType->id() )
+            {
+                $name = $currentType->name();
+                if ( $name == "multiple_select_item" ||
+                     $name == "dropdown_item" ||
+                     $name == "radiobox_item" ||
+                     $name == "checkbox_item" )
+                {
+                    $elementTemplate->parse( "fixed_values", "fixed_values_tpl" );
+                }
+                else
+                {
+                    $elementTemplate->set_var( "fixed_values", "" );
+                }
+                
+                $elementTemplate->set_var( "selected", "selected" );
+
+                $elementTemplate->set_var( "element_nr", $i );
+                if ( $name == "text_field_item" )
+                {
+                    $elementTemplate->parse( "size", "size_tpl" );
+                    $elementTemplate->parse( "break", "break_tpl" );
+                }
+                else
+                {
+                    $elementTemplate->set_var( "break", "" );
+                    if ( $name == "table_item" )
+                    {
+                        $table = new eZFormTable( $element->id() );
+                        $elementTemplate->set_var( "element_size", $table->cols() );
+                        $elementTemplate->set_var( "element_rows", $table->rows() );
+                        $elementTemplate->parse( "size", "size_tpl" );
+                        $elementTemplate->parse( "table_size", "table_size_tpl" );
+                        $elementTemplate->parse( "table_edit", "table_edit_tpl" );
+                    }
+                }
+            }
+            
+            $elementTemplate->set_var( "element_type_id", $type->id() );
+            $elementTemplate->set_var( "element_type_name", $type->name() );
+            $elementTemplate->parse( "typelist_item", "typelist_item_tpl", true );
+        }
+
+        
+        $elementTemplate->set_var( "element_name", $element->name() );
+        $elementTemplate->set_var( "element_id", $element->id() );
+        $elementTemplate->set_var( "element_size", $element->size() );
+        $elementTemplate->parse( "element_item", "element_item_tpl", true );
+
+        $i++;
+    }
+
+    $elementTemplate->parse( "element_list", "element_list_tpl" );
+    $elementListBody = $elementTemplate->parse( $target, "elementlist_tpl" );
+    $t->set_var( "element_list", $elementListBody );
+    $t->parse( "row_list", "row_list_tpl", true );
+}
+
+$t->setAllStrings();
+$t->pparse( "output", "table_edit_page_tpl" );
 
 
 ?>

@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: ezformtable.php,v 1.4 2001/12/13 12:40:16 jhe Exp $
+// $Id: ezformtable.php,v 1.5 2001/12/14 09:05:11 jhe Exp $
 //
 // Definition of eZFormTable class
 //
@@ -142,7 +142,7 @@ class eZFormTable
 
         foreach ( $elementArray as $element )
         {
-            $returnArray[] = new eZElement( $element );
+            $returnArray[] = new eZFormElement( $element );
         }
         return $returnArray;
     }
@@ -260,7 +260,31 @@ class eZFormTable
         }
     }
 
+    function addElement( &$object )
+    {
+        if ( get_class( $object ) == "ezformelement" )
+        {
+            $elementID = $object->id();
+            $elementName = $object->name();
+            $tableID = $this->ElementID;
 
+            $db =& eZDB::globalDatabase();
+            $db->begin();
+            $db->query_single( $result, "SELECT MAX(Placement) as Placement
+                                     FROM eZForm_FormTableElementDict WHERE TableID='$tableID'" );
+            
+            $placement = $result[$db->fieldName( "Placement" )];
+            $placement++;
+            $db->lock( "eZForm_FormTableElementDict" );
+            $nextID = $db->nextID( "eZForm_FormTableElementDict", "ID" );
+            $res[] = $db->query( "INSERT INTO eZForm_FormTableElementDict
+                                   ( ID, Placement, ElementID, TableID, Name )
+                                   VALUES
+                                   ( '$nextID', '$placement', '$elementID', '$tableID', '$elementName' )" );
+            eZDB::finish( $res, $db );
+            return true;
+        }
+    }
     
     function id()
     {
