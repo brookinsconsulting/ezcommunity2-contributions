@@ -840,37 +840,8 @@ function insert( $args )
     elseif ( count ( $parents ) == 1 )
         $category = addToGroup( $productCategory, $product, $parents[0], $oldDesign, $oldCategoryName, true );
 
-/*
-    if ( $productPictureName && $update )
-    {
-        if ( is_file( "tmp/" . $productPictureName ) )
-            unlink( "tmp/" . $productPictureName );
-
-
-        if ( is_file( "tmp/" . $productPictureName ) == false )
-        {
-            $filePath = "tmp/" . $productPictureName;
-            $fp = fopen( $filePath, "w+" );
-            fwrite( $fp, $productPicture );
-            fclose( $fp );
-            if ( is_file( "tmp/" . $productPictureName ) && ( filesize( "tmp/". $productPictureName ) != 0 ) && ( $productPictureName != ".jpg" ) )
-            {
-                $file = new eZImageFile();
-                if ( $file->getFile( "tmp/" . $productPictureName ) )
-                {
-
-                    $image = new eZImage();
-                    $image->setImage( &$file );
-                    $image->setName( $productName );
-                    $image->store();
-
-                    addImage( $image, $product );
-                }
-            }
-        }
-    }
-*/
-    if ( $productPictureName )
+    
+    if ( $productPicture )
     {
         if ( is_file( "tmp/" . $productPictureName ) )
             unlink( "tmp/" . $productPictureName );
