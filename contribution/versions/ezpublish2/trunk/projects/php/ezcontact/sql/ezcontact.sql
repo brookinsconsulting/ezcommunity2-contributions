@@ -25,17 +25,17 @@ CREATE TABLE eZContact_Company (
 
 
 #
-# Table structure for table 'eZContact_CompanyPictureDict'
+# Table structure for table 'eZContact_CompanyImageDict'
 #
-DROP TABLE IF EXISTS eZContact_CompanyPictureDict;
-CREATE TABLE eZContact_CompanyPictureDict (
+DROP TABLE IF EXISTS eZContact_CompanyImageDict;
+CREATE TABLE eZContact_CompanyImageDict (
   CompanyID int(11) DEFAULT '0' NOT NULL,
   ImageID int(11) DEFAULT '0' NOT NULL,
   PRIMARY KEY (CompanyID, ImageID)
 );
 
 #
-# Dumping data for table 'eZContact_CompanyPictureDict'
+# Dumping data for table 'eZContact_CompanyImageDict'
 #
 
 
@@ -147,6 +147,7 @@ DROP TABLE IF EXISTS eZContact_ContactType;
 CREATE TABLE eZContact_ContactType (
   ID int(11) DEFAULT '0' NOT NULL auto_increment,
   Name char(50),
+  Description text,
   PRIMARY KEY (ID)
 );
 
@@ -161,6 +162,7 @@ DROP TABLE IF EXISTS eZContact_CompanyType;
 CREATE TABLE eZContact_CompanyType (
   ID int(11) DEFAULT '0' NOT NULL auto_increment,
   Name char(50),
+  Description text,
   PRIMARY KEY (ID)
 );
 
