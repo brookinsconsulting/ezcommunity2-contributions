@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: search.php,v 1.4 2000/08/29 08:21:39 bf-cvs Exp $
+    $Id: search.php,v 1.5 2000/08/30 08:44:57 bf-cvs Exp $
 
     Author: Lars Wilhelmsen <lw@ez.no>
     
@@ -66,15 +66,28 @@ if ( $search )
 
     if ( count( $headers ) == 0 )
         $t->set_var( "fields", "<b>Ingen treff</b>");
-    
+
+    $user = new eZUser();    
     for ( $i = 0; $i < count ( $headers ); $i++)
     {
-        arrayTemplate( $t, $headers[$i], Array( Array("Id", "message_id"),
-                                                Array("Topic", "topic"),
-                                                Array("UserId", "author"),
-                                                Array("PostingTime", "time" )
-                                                )
-                       );
+        $message->get( $headers[$i][ "Id" ] );
+
+
+     
+
+        if ( $message->userID() == 0 )
+            $userName = "Anonym";
+        else
+        {
+            $user->get( $message->userID() );
+            $userName = $user->firstName() . " " . $user->lastName();
+        }
+                
+        $t->set_var( "message_id", $message->id() );
+        $t->set_var( "topic", $message->topic() );
+        $t->set_var( "author", $userName );
+        $t->set_var( "time", $message->postingTime() );
+        
         $t->set_var( "forum", "&nbsp;" );
 
         $t->set_var( "color", switchColor( $i, "#f0f0f0", "#dcdcdc" ) );

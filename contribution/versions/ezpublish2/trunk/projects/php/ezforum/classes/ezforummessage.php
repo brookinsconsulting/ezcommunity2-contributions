@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: ezforummessage.php,v 1.34 2000/08/29 12:08:53 bf-cvs Exp $
+    $Id: ezforummessage.php,v 1.35 2000/08/30 08:44:57 bf-cvs Exp $
 
     Author: Lars Wilhelmsen <lw@ez.no>
     
@@ -224,7 +224,7 @@ class eZForumMessage
         $this->Body = $newBody;
     }
     
-    function userId()
+    function userID()
     {
         return $this->UserId;
     }
