@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: userbox.php,v 1.34.2.1 2001/12/02 12:48:02 kaid Exp $
+// $Id: userbox.php,v 1.34.2.2 2002/01/04 14:04:51 kaid Exp $
 //
 // Created on: <20-Sep-2000 13:32:11 ce>
 //
@@ -124,6 +124,8 @@ else
         "userbox" => "userbox.tpl"
         ) );
 
+	if ( !isset( $GlobalSectionID ) )
+		$GlobalSectionID = "";
     $t->set_var( "section_id", $GlobalSectionID );
     
     $t->set_var( "first_name", $user->firstName() );
