@@ -20,4 +20,4 @@ create table eZTrade_ProductPriceRange( ID int NOT NULL, Min int default 0, Max 
 alter table eZTrade_CartItem add PriceRange int default 0;
 alter table eZTrade_Product add IncludesVAT int(1) default '0';
 
-alter table eZArticle_Category add ListLimit int default NULL'0';
+alter table eZArticle_Category add ListLimit int default '0';
