@@ -79,7 +79,7 @@
 <tr>
 	<td colspan="2">
 	<p class="boxtext">{intl-desc}</p>
-	<textarea cols="30" rows="10" name="Description">{description}</textarea>
+	<textarea wrap="soft" cols="30" rows="10" name="Description">{description}</textarea>
 	<br><br>
 	</td>
 </tr>
@@ -112,7 +112,7 @@
 	</td>
 	<td>&nbsp;</td>
     <td>
-	<input class="okbutton" type="submit" name="Delete" value="{intl-cancel}">
+	<input class="okbutton" type="submit" name="Cancel" value="{intl-cancel}">
 	</td>
 </tr>
 </table>

@@ -1,5 +1,5 @@
 <?
-// $Id: todoedit.php,v 1.9 2001/01/16 15:31:19 ce Exp $
+// $Id: todoedit.php,v 1.10 2001/01/16 15:59:54 ce Exp $
 //
 // Definition of todo list.
 //
@@ -79,7 +79,6 @@ $permissionCheck = true;
 $descriptionCheck = false;
 $userCheck = true;
 
-
 $t->set_block( "errors_tpl", "error_name_tpl", "error_name" );
 $t->set_var( "error_name", "&nbsp;" );
 
@@ -91,6 +90,21 @@ $t->set_var( "error_permission", "&nbsp;" );
 
 $t->set_block( "errors_tpl", "error_user_tpl", "error_user" );
 $t->set_var( "error_user", "&nbsp;" );
+
+
+if ( ( $userCheck ) && ( $Action == "update" ) || ( $Action == "updateStatus" ) )
+{
+    $todo = new eZTodo( $TodoID );
+    
+    if ( ( $todo->userID() == $user->id() ) || ( $todo->ownerID() == $user->id() ) )
+    {
+    }
+    else
+    {
+        $t->parse( "error_user", "error_user_tpl" );
+        $error = true;
+    }
+}
 
 
 if ( $Action == "insert" || $Action == "update" )
@@ -119,29 +133,12 @@ if ( $Action == "insert" || $Action == "update" )
             $error = true;
         }
     }
-
-    if ( $userCheck && $Action == "update" )
-    {
-        $todo = new eZTodo( $TodoID );
-        
-        if ( ( $todo->userID() == $user->id() ) || ( $todo->ownerID() == $user->id() ) )
-        {
-        }
-        else
-        {
-            $t->parse( "error_user", "error_user_tpl" );
-            $error = true;
-        }
-        
-    }
-    
-    if ( $error )
-    {
-        $t->parse( "errors", "errors_tpl" );
-    }
-
 }
 
+if ( $error )
+{
+    $t->parse( "errors", "errors_tpl" );
+}
 
 // Save a todo in the database.
 if ( $Action == "insert" && $error == false )
@@ -210,7 +207,7 @@ if ( $Action == "insert" && $error == false )
     exit();
 }
 
-if ( $Action == "updateStatus" )
+if ( $Action == "updateStatus" && $error == false )
 {
     $todo = new eZTodo( $TodoID );
     if ( $Status == "on" )
