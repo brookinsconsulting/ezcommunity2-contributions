@@ -52,3 +52,5 @@ CHange from
 RewriteRule     !\.(gif|css|jpg|png) /home/ce/ez/projects/php/ezdeveloper/index.php
 To
 RewriteRule     !\.(gif|css|jpg|png)$ /home/ce/ez/projects/php/ezdeveloper/index.php
+
+create table eZSession_Preferences( ID int primary key auto_increment, UserID int not null, Name char(50), Value char(50) );
