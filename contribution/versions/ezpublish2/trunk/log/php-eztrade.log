@@ -3481,3 +3481,109 @@ Maintainer(s) : ce@ez.no
 
     * classes/ezproduct.php: Added more search options.
 
+
+Module : eztrade
+Repository path : /home/cvsroot/projects/php/eztrade
+Maintainer(s) : ce@ez.no
+2002-04-16  gl  <gl@zev.ez.no>
+
+    * admin/intl/no_NO/customerview.php.ini
+      admin/intl/no_NO/orderedit.php.ini
+      user/intl/no_NO/checkout.php.ini
+      user/intl/no_NO/ordersendt.php.ini
+      user/intl/no_NO/productview.php.ini
+      user/intl/no_NO/sendwishlist.php.ini
+      user/intl/no_NO/voucherinformation.php.ini: epost -> e-post
+
+2002-04-16  christoffer  <ce@zev.ez.no>
+
+    * classes/Attic/ezorderstats.php
+      user/Attic/productspecials.php
+      user/intl/de_MG/Attic/productspecials.php.ini
+      user/intl/de_MG/Attic/voucheremail.php.ini: Added files
+
+    * classes/Attic/ezorderstats.php
+      user/Attic/productspecials.php
+      user/intl/de_MG/Attic/productspecials.php.ini
+      user/intl/de_MG/Attic/voucheremail.php.ini: New file.
+
+    * admin/intl/de_MG/Attic/orderstats.php.ini
+      admin/intl/de_MG/Attic/productspecialsedit.php.ini
+      admin/intl/de_MG/Attic/productspecialslist.php.ini
+      admin/intl/de_MG/Attic/vouchercreate.php.ini
+      admin/intl/de_MG/Attic/vouchercreatebyemail.php.ini
+      admin/intl/de_MG/Attic/vouchercreatesnail.php.ini
+      admin/templates/standard/Attic/orderstats.tpl
+      admin/templates/standard/Attic/productspecialsedit.tpl
+      admin/templates/standard/Attic/productspecialslist.tpl
+      admin/templates/standard/Attic/vouchercreate.tpl
+      admin/templates/standard/Attic/vouchercreatebyemail.tpl
+      admin/templates/standard/Attic/vouchercreatesnail.tpl: Added files
+
+    * admin/intl/de_MG/Attic/orderstats.php.ini
+      admin/intl/de_MG/Attic/productspecialsedit.php.ini
+      admin/intl/de_MG/Attic/productspecialslist.php.ini
+      admin/intl/de_MG/Attic/vouchercreate.php.ini
+      admin/intl/de_MG/Attic/vouchercreatebyemail.php.ini
+      admin/intl/de_MG/Attic/vouchercreatesnail.php.ini
+      admin/templates/standard/Attic/orderstats.tpl
+      admin/templates/standard/Attic/productspecialsedit.tpl
+      admin/templates/standard/Attic/productspecialslist.tpl
+      admin/templates/standard/Attic/vouchercreate.tpl
+      admin/templates/standard/Attic/vouchercreatebyemail.tpl
+      admin/templates/standard/Attic/vouchercreatesnail.tpl: New file.
+
+    * admin/Attic/orderstats.php
+      admin/Attic/productspecialsedit.php
+      admin/Attic/productspecialslist.php
+      admin/Attic/vouchercreate.php
+      admin/Attic/vouchercreatebyemail.php
+      admin/Attic/vouchercreatesnail.php: Added files
+
+    * admin/Attic/orderstats.php
+      admin/Attic/productspecialsedit.php
+      admin/Attic/productspecialslist.php
+      admin/Attic/vouchercreate.php
+      admin/Attic/vouchercreatebyemail.php
+      admin/Attic/vouchercreatesnail.php: New file.
+
+    * xmlrpc/Attic/xmlrpcserverimport.php
+      xmlrpc/xmlrpcserver.php
+      user/intl/de_MG/Attic/voucher.php.ini
+      user/intl/de_MG/checkout.php.ini
+      user/intl/de_MG/mailorder.php.ini
+      user/intl/de_MG/ordersendt.php.ini
+      user/cart.php
+      user/checkout.php
+      user/customerlogin.php
+      user/datasupplier.php
+      user/orderlist.php
+      user/ordersendt.php
+      user/payment.php
+      user/productlist.php
+      user/productsearch.php
+      user/productview.php
+      user/viewwishlist.php
+      user/voucher.php
+      user/voucherinformation.php
+      user/voucherview.php
+      classes/ezcart.php
+      classes/ezoptionvalue.php
+      classes/ezorder.php
+      classes/ezproduct.php
+      classes/ezproductcategory.php
+      classes/ezvoucher.php
+      classes/ezvoucherinformation.php
+      classes/ezwishlist.php
+      classes/ezwishlistitem.php
+      admin/intl/de_MG/Attic/voucheredit.php.ini
+      admin/intl/de_MG/Attic/voucherlist.php.ini
+      admin/intl/de_MG/menubox.php.ini
+      admin/templates/standard/orderedit.tpl
+      admin/templates/standard/voucheredit.tpl
+      admin/templates/standard/voucherlist.tpl
+      admin/datasupplier.php
+      admin/menubox.php
+      admin/voucheredit.php
+      admin/voucherlist.php: Major commit for the mygold project
+

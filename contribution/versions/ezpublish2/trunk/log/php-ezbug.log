@@ -685,3 +685,12 @@ Maintainer(s) : jhe@ez.no
       user/intl/no_NO/bugview.php.ini
       user/intl/no_NO/reportsuccess.php.ini: updated no_NO for 2.2.4
 
+
+Module : ezbug
+Repository path : /home/cvsroot/projects/php/ezbug
+Maintainer(s) : jhe@ez.no
+2002-04-16  gl  <gl@zev.ez.no>
+
+    * admin/intl/no_NO/confirmationmail.php.ini
+      user/intl/no_NO/bugreport.php.ini: epost -> e-post
+

@@ -750,3 +750,14 @@ Maintainer(s) : bf@ez.no
     * admin/intl/no_NO/linklist.php.ini
       admin/intl/no_NO/linkselect.php.ini: updated no_NO for 2.2.4
 
+
+Module : classes
+Repository path : /home/cvsroot/projects/php/classes
+Maintainer(s) : bf@ez.no
+2002-04-16  christoffer  <ce@zev.ez.no>
+
+    * ezmysqldb.php
+      eztime.php
+      locale/de_DE.ini
+      locale/de_MG.ini: Major commit for the mygold project
+

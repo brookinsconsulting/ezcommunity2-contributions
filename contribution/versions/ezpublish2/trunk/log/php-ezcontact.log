@@ -774,3 +774,16 @@ Maintainer(s) : jhe@ez.no
       admin/intl/no_NO/personedit.php.ini
       admin/intl/no_NO/personview.php.ini: updated no_NO for 2.2.4
 
+
+Module : ezcontact
+Repository path : /home/cvsroot/projects/php/ezcontact
+Maintainer(s) : jhe@ez.no
+2002-04-16  gl  <gl@zev.ez.no>
+
+    * admin/intl/no_NO/companyedit.php.ini
+      admin/intl/no_NO/companytype.php.ini
+      admin/intl/no_NO/companyview.php.ini
+      admin/intl/no_NO/consultationedit.php.ini
+      admin/intl/no_NO/personedit.php.ini
+      admin/intl/no_NO/personview.php.ini: epost -> e-post
+

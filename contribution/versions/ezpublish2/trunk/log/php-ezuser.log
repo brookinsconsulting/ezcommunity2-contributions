@@ -1139,3 +1139,140 @@ Maintainer(s) : bf@ez.no
       admin/intl/no_NO/userlist.php.ini
       admin/intl/no_NO/welcome.php.ini: updated no_NO for 2.2.4
 
+
+Module : ezuser
+Repository path : /home/cvsroot/projects/php/ezuser
+Maintainer(s) : bf@ez.no
+2002-04-16  gl  <gl@zev.ez.no>
+
+    * user/intl/no_NO/forgot.php.ini
+      user/intl/no_NO/forgotmessage.php.ini
+      user/intl/no_NO/missingemailmessage.php.ini
+      user/intl/no_NO/useredit.php.ini
+      user/intl/no_NO/userwithaddress.php.ini
+      admin/intl/no_NO/useredit.php.ini: epost -> e-post
+
+2002-04-16  christoffer  <ce@zev.ez.no>
+
+    * user/intl/de_MG/missingemailmessage.php.ini
+      user/templates/mygold/forgotmessage.tpl
+      user/templates/mygold/missingemailmessage.tpl
+      admin/intl/de_MG/authorlist.php.ini
+      admin/intl/de_MG/settings.php.ini: Added files
+
+    * user/templates/standard/missingemailmessage.tpl
+      user/templates/standard/userwithaddress.tpl
+      user/intl/fi_FI/addressedit.php.ini
+      user/intl/fi_FI/forgot.php.ini
+      user/intl/fi_FI/forgotmessage.php.ini
+      user/intl/fi_FI/login.php.ini
+      user/intl/fi_FI/norights.php.ini
+      user/intl/fi_FI/userbox.php.ini
+      user/intl/fi_FI/useredit.php.ini
+      user/intl/fi_FI/userwithaddress.php.ini
+      user/intl/fr_FR/userwithaddress.php.ini
+      user/intl/no_NO/addressedit.php.ini
+      user/intl/no_NO/forgot.php.ini
+      user/intl/no_NO/forgotmessage.php.ini
+      user/intl/no_NO/missingemailmessage.php.ini
+      user/intl/no_NO/userbox.php.ini
+      user/intl/no_NO/useredit.php.ini
+      user/intl/no_NO/userwithaddress.php.ini
+      user/templates/mygold/loginmain.tpl
+      user/templates/mygold/userwithaddress.tpl
+      user/intl/es_MX/forgot.php.ini
+      user/intl/es_MX/forgotmessage.php.ini
+      user/intl/es_MX/norights.php.ini
+      user/intl/es_MX/userbox.php.ini
+      user/intl/es_MX/useredit.php.ini
+      user/intl/es_MX/userwithaddress.php.ini
+      user/intl/en_GB/forgot.php.ini
+      user/intl/en_GB/userwithaddress.php.ini
+      user/intl/es_AR/addressedit.php.ini
+      user/intl/es_AR/forgot.php.ini
+      user/intl/es_AR/forgotmessage.php.ini
+      user/intl/es_AR/login.php.ini
+      user/intl/es_AR/norights.php.ini
+      user/intl/es_AR/userbox.php.ini
+      user/intl/es_AR/useredit.php.ini
+      user/intl/es_AR/userwithaddress.php.ini
+      user/intl/de_DE/forgot.php.ini
+      user/intl/de_DE/forgotmessage.php.ini
+      user/intl/de_DE/missingemailmessage.php.ini
+      user/intl/de_DE/norights.php.ini
+      user/intl/de_DE/userbox.php.ini
+      user/intl/de_DE/useredit.php.ini
+      user/intl/de_DE/userwithaddress.php.ini
+      user/intl/de_MG/forgot.php.ini
+      user/intl/de_MG/forgotmessage.php.ini
+      user/intl/de_MG/userwithaddress.php.ini
+      user/login.php
+      user/userbox.php
+      user/userwithaddress.php
+      classes/ezforgot.php
+      classes/ezuser.php
+      classes/ezusergroup.php
+      sql/mysql/ezuser.sql
+      sql/postgresql/ezuser.sql
+      user/forgot.php
+      admin/intl/fi_FI/groupedit.php.ini
+      admin/intl/fi_FI/grouplist.php.ini
+      admin/intl/fi_FI/menubox.php.ini
+      admin/intl/fi_FI/passwordchange.php.ini
+      admin/intl/fi_FI/sessioninfo.php.ini
+      admin/intl/fi_FI/settings.php.ini
+      admin/intl/fi_FI/useredit.php.ini
+      admin/intl/fi_FI/userlist.php.ini
+      admin/intl/fi_FI/welcome.php.ini
+      admin/intl/no_NO/authorlist.php.ini
+      admin/intl/no_NO/groupedit.php.ini
+      admin/intl/no_NO/grouplist.php.ini
+      admin/intl/no_NO/menubox.php.ini
+      admin/intl/no_NO/sessioninfo.php.ini
+      admin/intl/no_NO/settings.php.ini
+      admin/intl/no_NO/useredit.php.ini
+      admin/intl/no_NO/userlist.php.ini
+      admin/intl/no_NO/welcome.php.ini
+      admin/templates/standard/useredit.tpl
+      admin/templates/standard/welcome.tpl
+      admin/intl/en_GB/login.php.ini
+      admin/intl/en_GB/menubox.php.ini
+      admin/intl/en_GB/useredit.php.ini
+      admin/intl/en_GB/userlist.php.ini
+      admin/intl/en_GB/welcome.php.ini
+      admin/intl/es_AR/groupedit.php.ini
+      admin/intl/es_AR/grouplist.php.ini
+      admin/intl/es_AR/login.php.ini
+      admin/intl/es_AR/menubox.php.ini
+      admin/intl/es_AR/passwordchange.php.ini
+      admin/intl/es_AR/sessioninfo.php.ini
+      admin/intl/es_AR/settings.php.ini
+      admin/intl/es_AR/useredit.php.ini
+      admin/intl/es_AR/userlist.php.ini
+      admin/intl/es_AR/welcome.php.ini
+      admin/intl/es_MX/groupedit.php.ini
+      admin/intl/es_MX/grouplist.php.ini
+      admin/intl/es_MX/login.php.ini
+      admin/intl/es_MX/menubox.php.ini
+      admin/intl/es_MX/sessioninfo.php.ini
+      admin/intl/es_MX/useredit.php.ini
+      admin/intl/es_MX/userlist.php.ini
+      admin/intl/es_MX/welcome.php.ini
+      admin/intl/de_MG/menubox.php.ini
+      admin/intl/de_MG/sessioninfo.php.ini
+      admin/intl/en_GB/groupedit.php.ini
+      admin/authorlist.php
+      admin/datasupplier.php
+      admin/intl/de_DE/authorlist.php.ini
+      admin/intl/de_DE/groupedit.php.ini
+      admin/intl/de_DE/grouplist.php.ini
+      admin/intl/de_DE/menubox.php.ini
+      admin/intl/de_DE/useredit.php.ini
+      admin/intl/de_DE/userlist.php.ini
+      admin/intl/de_DE/welcome.php.ini
+      admin/login.php
+      admin/menubox.php
+      admin/useredit.php
+      admin/userlist.php
+      admin/welcome.php: Major commit for the mygold project
+

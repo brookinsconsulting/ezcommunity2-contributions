@@ -408,3 +408,11 @@ Maintainer(s) : ce@ez.no
       user/intl/no_NO/todoview.php.ini
       admin/intl/no_NO/statustypelist.php.ini: updated no_NO for 2.2.4
 
+
+Module : eztodo
+Repository path : /home/cvsroot/projects/php/eztodo
+Maintainer(s) : ce@ez.no
+2002-04-16  gl  <gl@zev.ez.no>
+
+    * user/intl/no_NO/todoedit.php.ini: epost -> e-post
+

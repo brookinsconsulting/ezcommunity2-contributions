@@ -385,3 +385,28 @@ Maintainer(s) : br@ez.no
 
     * admin/intl/no_NO/pageviewlist.php.ini: updated no_NO for 2.2.4
 
+
+Module : ezstats
+Repository path : /home/cvsroot/projects/php/ezstats
+Maintainer(s) : br@ez.no
+2002-04-16  christoffer  <ce@zev.ez.no>
+
+    * user/datasupplier.php
+      user/storestats.php
+      admin/browserlist.php
+      admin/cron.php
+      admin/datasupplier.php
+      admin/dayreport.php
+      admin/entryexitpages.php
+      admin/menubox.php
+      admin/monthreport.php
+      admin/overview.php
+      admin/pageviewlist.php
+      admin/productreport.php
+      admin/refererlist.php
+      admin/requestpagelist.php
+      admin/visitorlist.php
+      admin/yearreport.php
+      classes/ezpageview.php
+      classes/ezpageviewquery.php: Major commit for the mygold project
+

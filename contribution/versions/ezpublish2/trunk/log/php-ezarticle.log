@@ -3102,3 +3102,63 @@ Maintainer(s) : bf@ez.no
 
     * classes/ezarticle.php: fixed bug with author article count
 
+
+Module : ezarticle
+Repository path : /home/cvsroot/projects/php/ezarticle
+Maintainer(s) : bf@ez.no
+2002-04-16  gl  <gl@zev.ez.no>
+
+    * admin/intl/no_NO/articleedit.php.ini
+      admin/intl/no_NO/imageedit.php.ini
+      admin/intl/no_NO/mediaedit.php.ini
+      user/intl/no_NO/articleview.php.ini
+      user/intl/no_NO/authorlist.php.ini
+      user/intl/no_NO/imageedit.php.ini
+      user/intl/no_NO/mailtofriend.php.ini: epost -> e-post
+
+2002-04-16  christoffer  <ce@zev.ez.no>
+
+    * user/intl/de_MG/Attic/mailtofriend.php.ini: Added files
+
+    * user/intl/de_MG/Attic/mailtofriend.php.ini: New file.
+
+    * admin/intl/de_MG/Attic/browse.ini.php: Added files
+
+    * admin/intl/de_MG/Attic/browse.ini.php: New file.
+
+    * user/intl/de_MG/Attic/sendmailtofriend.php.ini: Added files
+
+    * user/intl/de_MG/Attic/sendmailtofriend.php.ini: New file.
+
+    * admin/intl/de_MG/Attic/articlelog.php.ini
+      admin/intl/de_MG/Attic/attribute.php.ini
+      admin/intl/de_MG/Attic/attributelist.php.ini
+      admin/intl/de_MG/Attic/formlist.php.ini
+      admin/intl/de_MG/Attic/imagemap.php.ini
+      admin/intl/de_MG/Attic/mediaedit.php.ini
+      admin/intl/de_MG/Attic/medialist.php.ini
+      admin/intl/de_MG/Attic/pendinglist.php.ini
+      admin/intl/de_MG/Attic/pendingmail.php.ini
+      admin/intl/de_MG/Attic/searchform.php.ini
+      admin/intl/de_MG/Attic/sitemap.php.ini
+      admin/intl/de_MG/Attic/topiclist.php.ini
+      admin/intl/de_MG/Attic/typeedit.php.ini
+      admin/intl/de_MG/Attic/typelist.php.ini: Added files
+
+    * admin/intl/de_MG/Attic/articlelog.php.ini
+      admin/intl/de_MG/Attic/attribute.php.ini
+      admin/intl/de_MG/Attic/attributelist.php.ini
+      admin/intl/de_MG/Attic/formlist.php.ini
+      admin/intl/de_MG/Attic/imagemap.php.ini
+      admin/intl/de_MG/Attic/mediaedit.php.ini
+      admin/intl/de_MG/Attic/medialist.php.ini
+      admin/intl/de_MG/Attic/pendinglist.php.ini
+      admin/intl/de_MG/Attic/pendingmail.php.ini
+      admin/intl/de_MG/Attic/searchform.php.ini
+      admin/intl/de_MG/Attic/sitemap.php.ini
+      admin/intl/de_MG/Attic/topiclist.php.ini
+      admin/intl/de_MG/Attic/typeedit.php.ini
+      admin/intl/de_MG/Attic/typelist.php.ini: New file.
+
+    * user/intl/de_MG/articleview.php.ini: Major commit for the mygold project
+

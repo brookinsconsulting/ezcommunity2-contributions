@@ -105,3 +105,12 @@ Maintainer(s) : bf@ez.no
 
     * classes/ezsession.php: Added new patch
 
+
+Module : ezsession
+Repository path : /home/cvsroot/projects/php/ezsession
+Maintainer(s) : bf@ez.no
+2002-04-16  christoffer  <ce@zev.ez.no>
+
+    * classes/ezpreferences.php
+      classes/ezsession.php: Major commit for the mygold project
+

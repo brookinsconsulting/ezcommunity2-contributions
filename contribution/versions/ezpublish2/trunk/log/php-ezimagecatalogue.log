@@ -993,3 +993,12 @@ Maintainer(s) : br@ez.no
 
     * user/imagelist.php: removed template variable when empty list
 
+
+Module : ezimagecatalogue
+Repository path : /home/cvsroot/projects/php/ezimagecatalogue
+Maintainer(s) : br@ez.no
+2002-04-16  gl  <gl@zev.ez.no>
+
+    * admin/intl/no_NO/imageedit.php.ini
+      user/intl/no_NO/imageedit.php.ini: epost -> e-post
+

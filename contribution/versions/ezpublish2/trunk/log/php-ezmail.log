@@ -600,3 +600,18 @@ Maintainer(s) : fh@ez.no
       user/intl/no_NO/menubox.php.ini
       user/intl/no_NO/search.php.ini: updated no_NO for 2.2.4
 
+
+Module : ezmail
+Repository path : /home/cvsroot/projects/php/ezmail
+Maintainer(s) : fh@ez.no
+2002-04-16  gl  <gl@zev.ez.no>
+
+    * user/intl/no_NO/configure.php.ini
+      user/intl/no_NO/link.php.ini
+      user/intl/no_NO/mailedit.php.ini: epost -> e-post
+
+2002-04-16  jhe  <jhe@zev.ez.no>
+
+    * classes/ezmail.php:
+    removed codepage "fix" because it caused problems with long subjects
+

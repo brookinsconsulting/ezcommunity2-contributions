@@ -1388,3 +1388,12 @@ Maintainer(s) : pkej@ez.no
       admin/intl/no_NO/menubox.php.ini
       user/intl/no_NO/form.php.ini: updated no_NO for 2.2.4
 
+
+Module : ezform
+Repository path : /home/cvsroot/projects/php/ezform
+Maintainer(s) : pkej@ez.no
+2002-04-16  gl  <gl@zev.ez.no>
+
+    * user/intl/no_NO/form.php.ini
+      admin/intl/no_NO/form.php.ini: epost -> e-post
+

@@ -378,3 +378,11 @@ Maintainer(s) : ce@ez.no
       admin/intl/no_NO/typeedit.php.ini
       admin/intl/no_NO/typelist.php.ini: updated no_NO for 2.2.4
 
+
+Module : ezmediacatalogue
+Repository path : /home/cvsroot/projects/php/ezmediacatalogue
+Maintainer(s) : ce@ez.no
+2002-04-16  gl  <gl@zev.ez.no>
+
+    * admin/intl/no_NO/mediaedit.php.ini: epost -> e-post
+

@@ -1171,3 +1171,17 @@ Maintainer(s) : jhe@ez.no
       user/intl/no_NO/message.php.ini
       user/intl/no_NO/noaccess.php.ini: updated no_NO for 2.2.4
 
+
+Module : ezforum
+Repository path : /home/cvsroot/projects/php/ezforum
+Maintainer(s) : jhe@ez.no
+2002-04-16  jhe  <jhe@zev.ez.no>
+
+    * user/messageform.php: fields keep values even when error
+
+2002-04-16  gl  <gl@zev.ez.no>
+
+    * user/intl/no_NO/mailreply.php.ini
+      admin/intl/no_NO/categoryedit.php.ini
+      admin/intl/no_NO/messageedit.php.ini: epost -> e-post
+
