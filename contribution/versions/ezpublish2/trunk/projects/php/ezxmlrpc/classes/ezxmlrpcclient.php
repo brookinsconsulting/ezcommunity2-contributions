@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezxmlrpcclient.php,v 1.18 2001/06/08 08:38:12 bf Exp $
+// $Id: ezxmlrpcclient.php,v 1.19 2001/06/11 08:02:16 bf Exp $
 //
 // Definition of eZXMLRPCClient class
 //
@@ -178,7 +178,6 @@ class eZXMLRPCClient
                 {
                     $rawResponse .= $data;
                 }
-                print( $rawResponse );            
 
                 if ( $this->Debug == true )
                 {
@@ -190,46 +189,46 @@ class eZXMLRPCClient
                 // close the socket
                 fclose( $fp );
             }
-            else
+        }
+        else
+        {
+            // Call was made with useSSL == true
+            // to use this functionality, you must have cURL (curl.haxx.se) installed and compiled into PHP with --with-ssl enabled.
+            if ( get_class( $call ) == "ezxmlrpccall" )
             {
-                // Call was made with useSSL == true
-                // to use this functionality, you must have cURL (curl.haxx.se) installed and compiled into PHP with --with-ssl enabled.
-                if ( get_class( $call ) == "ezxmlrpccall" )
+                $URL = "https://".$this->Server.":".$this->Port.$this->Path;
+                $ch = curl_init ($URL);
+                if ( $Timeout != 0 )
                 {
-                    $URL = "https://".$this->Server.":".$this->Port.$this->Path;
-                    $ch = curl_init ($URL);
-                    if ( $Timeout != 0 )
-                    {
-                        curl_setopt ($ch, CURLOPT_TIMEOUT, $this->TimeOut);
-                    }
-                    $payload =& $call->payload();
-                    // send the XML-RPC call
-                    if ( $ch != 0 )
-                    {
-                        curl_setopt ($ch, CURLOPT_RETURNTRANSFER,1); 
-                        $HTTPCall = "POST " . $this->Path . " HTTP/1.0\r\n" .
-                             "User-Agent: eZ xmlrpc client\r\n" .
-                             "Host: " . $this->Server . "\r\n" .
-                             "Content-Type: text/xml\r\n" .
-                             "Content-Length: " . strlen( $payload )."\r\n";
-                        if ($this->Username != "") 
-                        {
-                            $HTTPCall .= "Authorization: Basic " .	base64_encode($this->Username . ":" . $this->Password) . "\r\n";
-                        }
-                        $HTTPCall .= "\r\n" . $payload;
-                        curl_setopt ($ch, CURLOPT_CUSTOMREQUEST, $HTTPCall);
-                        unSet( $rawResponse );
-                        $rawResponse = curl_exec ($ch);
-                        if ( !$rawResponse )
-                        {
-                            $this->ErrorString = "<b>Error:</b> could not send the XML-RPC call. Could not write to the socket.";
-                            return 0;
-                        }
-                    }
-                    curl_close ($ch);
+                    curl_setopt ($ch, CURLOPT_TIMEOUT, $this->TimeOut);
                 }
-		
+                $payload =& $call->payload();
+                // send the XML-RPC call
+                if ( $ch != 0 )
+                {
+                    curl_setopt ($ch, CURLOPT_RETURNTRANSFER,1); 
+                    $HTTPCall = "POST " . $this->Path . " HTTP/1.0\r\n" .
+                         "User-Agent: eZ xmlrpc client\r\n" .
+                         "Host: " . $this->Server . "\r\n" .
+                         "Content-Type: text/xml\r\n" .
+                         "Content-Length: " . strlen( $payload )."\r\n";
+                    if ($this->Username != "") 
+                    {
+                        $HTTPCall .= "Authorization: Basic " .	base64_encode($this->Username . ":" . $this->Password) . "\r\n";
+                    }
+                    $HTTPCall .= "\r\n" . $payload;
+                    curl_setopt ($ch, CURLOPT_CUSTOMREQUEST, $HTTPCall);
+                    unSet( $rawResponse );
+                    $rawResponse = curl_exec ($ch);
+                    if ( !$rawResponse )
+                    {
+                        $this->ErrorString = "<b>Error:</b> could not send the XML-RPC call. Could not write to the socket.";
+                        return 0;
+                    }
+                }
+                curl_close($ch);
             }
+        }
         
         $response = new eZXMLRPCResponse();
         $response->decodeStream( $rawResponse );
