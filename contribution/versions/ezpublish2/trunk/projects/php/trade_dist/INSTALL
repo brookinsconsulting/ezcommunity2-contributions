@@ -1,0 +1,92 @@
+eZ trade installation guide
+-----------------------------
+
+Dependencies:
+
+ - MySQL ( www.mysql.org )
+ - PHP-4.0 ( www.php.net )
+ - ImageMagick ( www.imagemagick.org )
+ - Apache ( www.apache.org )
+ - libxml ( www.xmlsoft.org )
+
+PHP install:
+
+ - Unpack your php-4.0.x.tar.gz package:
+   # tar zxvf php-4.0.x.tar.gz
+
+ - Howo configure php
+  # cd php-4.0.x
+  # ./configure --with-xml --enable-trans-sid --with-mysql --with-magic-quotes --with-apxs --with-dom
+
+ - Compile and install the PHP package
+  # make
+  # make install
+
+Apache config:
+
+ - Rewrite and php modules needs to be active to use trade.
+
+ - A httpd.conf virtalhost example will looks something like this: (change the trade.org to your own domain)
+
+   # User site
+   <VirtualHost trade.org>
+    <Directory /home/trade/www>
+          Options FollowSymLinks Indexes ExecCGI
+          AllowOverride None
+
+          RewriteEngine On
+          RewriteRule     !\.(gif|css|jpg) /home/trade/www/index.php
+    </Directory>
+
+    ServerAdmin your_mail@domain.no
+    DocumentRoot /home/trade/www
+    ServerName trade.org
+    ServerAlias www.trade.org
+  </VirtualHost>
+
+  # Admin site
+  <VirtualHost admin.trade.org>
+    <Directory /home/trade/admin/www>
+          Options FollowSymLinks Indexes ExecCGI
+          AllowOverride None
+    </Directory>
+
+    RewriteEngine On
+    RewriteRule     !\.(gif|css|jpg) /home/trade/admin/www/index.php
+
+    ServerAdmin your_mail@domain.no
+    DocumentRoot /home/trade/www/admin
+    ServerName admin.trade.org
+    ServerAlias admin.trade.org
+  </VirtualHost>
+
+Install trade:
+
+ - Make a database, call it trade ( or whatever you like )
+   # mysqladmin -uroot -p create database trade
+
+ - Add a trade user in MySQL, to add a user you can use the MySQL client.
+   # mysql -uroot -p
+   mysql> grant all on trade.* to trade@localhost identified by "secret";
+
+ - Dump all the sql data from sql/trade.sql into your database
+   # mysql -uroot -p trade < sql/trade.sql
+
+ - Put all the trade files in your apache documentroot
+   # cd /path/to/apache/documentroot/
+   # tar zxvf /path/to/trade-1.0.tar.gz
+
+ - Edit site.ini
+   Add all the modules you need, and set the database, username and password.
+
+ - Run modfix, this is important. This script will create symbolic links needed and set permissions.
+  # ./modfix.sh
+
+ - Start konqueror and have fun!
+  # konqueror http://yoursite.com
+
+ - NOTE!
+ The default admin username and password will be admin/trade. Remember to change the password!!
+
+
+
