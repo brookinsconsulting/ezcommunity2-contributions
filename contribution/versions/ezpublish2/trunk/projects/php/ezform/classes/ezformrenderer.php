@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezformrenderer.php,v 1.6 2001/10/01 10:46:30 pkej Exp $
+// $Id: ezformrenderer.php,v 1.7 2001/10/01 11:23:10 pkej Exp $
 //
 // eZFormRenderer class
 //
@@ -308,6 +308,8 @@ class eZFormRenderer
             global $$elementName;
             $value = $$elementName;
 
+            $content = $GLOBALS["HTTP_REFERER"] . "\n\n";
+
             if( $emailDefaults == true )
             {
                 if( $element->name() == $this->Template->Ini->read_var( "strings", "subject_label" ) )
@@ -357,9 +359,10 @@ class eZFormRenderer
         }
         
         $mail->setTo( $form->receiver() );
-        $mail->setCC( $form->CC() );
+        $mail->setCC( $form->CC() . "; " . $form->sender() );
         
         $mail->send();
+        
         $formSent = true;
 
         if( $formSent )
