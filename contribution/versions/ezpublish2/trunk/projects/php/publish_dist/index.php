@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: index.php,v 1.125 2001/11/14 15:52:01 ce Exp $
+// $Id: index.php,v 1.126 2001/11/15 18:02:12 ce Exp $
 //
 // Created on: <09-Nov-2000 14:52:40 ce>
 //
@@ -35,6 +35,7 @@ if ( file_exists( "sitedir.ini" ) )
 }
 
 // apd_set_session_trace(35);
+
 
 // Preparing variables for nVH setup
 if ( isSet( $siteDir ) and $siteDir != "" )
@@ -130,7 +131,6 @@ include_once( "ezuser/classes/ezuser.php" );
 include_once( "classes/ezfile.php" );
 
 $session =& eZSession::globalSession();
-
 //
 unset( $siteDesign );
 unset( $GlobalSiteDesign );

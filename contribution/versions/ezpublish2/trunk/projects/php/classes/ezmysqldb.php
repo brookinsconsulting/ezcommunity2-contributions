@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: ezmysqldb.php,v 1.27 2001/11/01 11:43:29 bf Exp $
+// $Id: ezmysqldb.php,v 1.28 2001/11/15 18:02:12 ce Exp $
 //
 // Definition of eZMySQLDB class
 //
@@ -56,10 +56,10 @@ class eZMySQLDB
             if ( $GLOBALS["DEBUG"] == true )
             {
                 print( "<b>MySQL Error</b>: " . mysql_errno( $this->Database ) . ": ".mysql_error( $this->Database )."<br>" );
+                exit();
             }
         }
 
-        
         $ret = mysql_select_db( $db, $this->Database );
              
         if ( !$ret )

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezsession.php,v 1.69 2001/11/15 13:16:21 th Exp $
+// $Id: ezsession.php,v 1.70 2001/11/15 18:02:12 ce Exp $
 //
 // Definition of eZSession class
 //
@@ -217,6 +217,7 @@ class eZSession
         if ( $this->IsFetched != true )
         {
             $db =& eZDB::globalDatabase();
+
             $ret = false;
 
             // prefer cookie
