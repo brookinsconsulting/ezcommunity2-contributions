@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: print_footer.php,v 1.5 2001/09/29 12:35:14 kaid Exp $
+// $Id: print_footer.php,v 1.5.2.1 2002/02/15 12:56:51 jhe Exp $
 //
 // Created on: <04-Mar-2001 13:57:25 bf>
 //
@@ -30,7 +30,7 @@ $Language = $ini->read_var( "eZArticleMain", "Language" );
 
 include_once( "classes/template.inc" );
 
-$t = new Template( $siteDir . "admin/templates/" . $SiteStyle );
+$t = new Template( "admin/templates/" . $SiteStyle );
 
 $t->set_file( array(
     "print_footer_tpl" => "print_footer.tpl"
@@ -41,9 +41,7 @@ $t->set_var( "module_dir", $moduleName );
 $t->set_var( "www_dir", $GlobalSiteIni->WWWDir );
 $t->set_var( "index", $GlobalSiteIni->Index );
 
-
 $t->pparse( "output", "print_footer_tpl" );
-    
 
 ?>
 
