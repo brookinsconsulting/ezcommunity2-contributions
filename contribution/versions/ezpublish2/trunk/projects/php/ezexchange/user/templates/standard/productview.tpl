@@ -1,34 +1,19 @@
-<table class="list" width="100%" cellspacing="0" cellpadding="0" border="1">
+<br />
+<hr noshade="noshade" size="4" />
+<table class="list" width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
-	<td colspan="2" align="center" class="menuhead">
-	{intl-quotes}
-	</td>
-</tr>
-<tr>
-	<td colspan="1" valign="top" align="left">
-	{intl-quotes}
-	</td>
+	<td colspan="1" valign="top"><h2>{intl-quotes}</h2></td>
 
-	<td colspan="1" valign="top" align="right">
-	{intl-offers}
-	</td>
+	<td colspan="1" valign="top"><h2>{intl-offers}</h2></td>
 </tr>
 <tr>
 	<td colspan="1" valign="top" align="left">
-	<table class="list" width="100%" cellspacing="0" cellpadding="0" border="1">
+	<table class="list" width="100%" cellspacing="0" cellpadding="0" border="0">
 	<tr>
-		<th>
-		{intl-expire_date}
-		</th>
-		<th>
-		{intl-type}
-		</th>
-		<th>
-		{intl-quantity}
-		</th>
-		<th>
-		{intl-price}
-		</th>
+		<th>{intl-expire_date}:	</th>
+		<th>{intl-type}:</th>
+		<th>{intl-quantity}:</th>
+		<th>{intl-price}:</th>
 	</tr>
 	<!-- BEGIN quote_item_tpl -->
 	<tr>
@@ -63,20 +48,12 @@
 	</td>
 
 	<td colspan="1" valign="top" align="right">
-	<table class="list" width="100%" cellspacing="0" cellpadding="0" border="1">
+	<table class="list" width="100%" cellspacing="0" cellpadding="0" border="0">
 	<tr>
-		<th>
-		{intl-price}
-		</th>
-		<th>
-		{intl-quantity}
-		</th>
-		<th>
-		{intl-type}
-		</th>
-		<th>
-		{intl-expire_date}
-		</th>
+		<th>{intl-price}:</th>
+		<th>{intl-quantity}:</th>
+		<th>{intl-type}:</th>
+		<th>{intl-expire_date}:	</th>
 	</tr>
 	<!-- BEGIN offer_item_tpl -->
 	<tr>
@@ -115,10 +92,10 @@
 	<td colspan="1" align="left" width="50%">
 <!-- BEGIN do_quote_item_tpl -->
 	<!-- BEGIN do_edit_quote_item_tpl -->
-	<a href="/{module}/product/quote/{product_id}/{category_id}">{intl-quote}</a>
+	<a class="path" href="/{module}/product/quote/{product_id}/{category_id}">[ {intl-quote} ]</a>
 	<!-- END do_edit_quote_item_tpl -->
 	<!-- BEGIN do_new_quote_item_tpl -->
-	<a href="/{module}/product/quote/{product_id}/{category_id}">{intl-quote_new}</a>
+	<a class="path" href="/{module}/product/quote/{product_id}/{category_id}">[ {intl-quote_new} ]</a>
 	<!-- END do_new_quote_item_tpl -->
 <!-- END do_quote_item_tpl -->
 <!-- BEGIN no_do_quote_item_tpl -->
@@ -126,13 +103,13 @@
 <!-- END no_do_quote_item_tpl -->
 	</td>
 
-	<td colspan="1" align="right" width="50%">
+	<td colspan="1" align="left" width="50%">
 <!-- BEGIN do_offer_item_tpl -->
 	<!-- BEGIN do_edit_offer_item_tpl -->
-	<a href="/{module}/product/offer/{product_id}/{category_id}">{intl-offer}</a>
+	<a class="path" href="/{module}/product/offer/{product_id}/{category_id}">[ {intl-offer} ]</a>
 	<!-- END do_edit_offer_item_tpl -->
 	<!-- BEGIN do_new_offer_item_tpl -->
-	<a href="/{module}/product/offer/{product_id}/{category_id}">{intl-offer_new}</a>
+	<a class="path" href="/{module}/product/offer/{product_id}/{category_id}">[ {intl-offer_new} ]</a>
 	<!-- END do_new_offer_item_tpl -->
 <!-- END do_offer_item_tpl -->
 <!-- BEGIN no_do_offer_item_tpl -->

@@ -1,6 +1,6 @@
 <form method="post" action="/exchange/product/{quote_type}/{product_id}/{category_id}/{quote_id}" enctype="multipart/form-data">
 
-<h2>{intl-quote_edit}</h2>
+<h1>{intl-quote_edit}</h1>
 
 <hr noshade="noshade" size="4" />
 
@@ -41,49 +41,27 @@
 </ul>
 <!-- END errors_tpl -->
 
-<p class="boxtext">{intl-product}: {product_name}</p>
+<h2>{intl-product}: {product_name}</h2>
 
-<table border="1">
-
+<table width="100%" cellpadding="0" cellspacing="0" border="0">
 <tr>
-	<td>
-	</td>
-	<td>
-	{intl-today}:
-	</td>
-	<td>
-	{intl-days_left}:
-	</td>
-	<td>
-	{intl-expire_date}:
-	</td>
-	<td>
-	{intl-type}:
-	</td>
-	<td>
-	{intl-quantity}:
-	</td>
+	<th>&nbsp;</th>
+	<th>{intl-today}:</th>
+	<th>{intl-days_left}:</th>
+	<th>{intl-expire_date}:</th>
+	<th>{intl-type}:</th>
+	<th>{intl-quantity}:</th>
 	<!-- BEGIN quote_header_price_tpl -->
-	<td>
-	{intl-price}:
-	</td>
+	<th>{intl-price}:</th>
 	<!-- END quote_header_price_tpl -->
 </tr>
 
 <!-- BEGIN edit_quote_tpl -->
 <tr>
-	<td>
-	{intl-current_values}
-	</td>
-	<td>
-	{today}
-	</td>
-	<td>
-	{last_days}
-	</td>
-	<td>
-	{last_expire_date}
-	</td>
+	<td>{intl-current_values}</td>
+	<td>{today}</td>
+	<td>{last_days}</td>
+	<td>{last_expire_date}</td>
 	<td>
 	<!-- BEGIN quote_all_type_tpl -->
 	{intl-all_type}
@@ -92,12 +70,8 @@
 	{intl-any_type}
 	<!-- END quote_any_type_tpl -->
 	</td>
-	<td>
-	{last_quantity}
-	</td>
-	<td>
-	{last_price}
-	</td>
+	<td>{last_quantity}</td>
+	<td>{last_price}</td>
 </tr>
 <tr>
 	<td>
@@ -173,8 +147,8 @@
 <!-- END quote_rfq_price_tpl -->
 
 </table>
-
+<br />
 <hr noshade="noshade" size="4" />
 <input class="okbutton" type="submit" name="OK" value="{intl-ok}">
-<input type="submit" name="Cancel" value="{intl-cancel}">
+<input class="okbutton" type="submit" name="Cancel" value="{intl-cancel}">
 </form>
