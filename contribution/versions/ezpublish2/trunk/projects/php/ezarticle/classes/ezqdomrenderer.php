@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezqdomrenderer.php,v 1.34 2001/08/23 13:29:11 bf Exp $
+// $Id: ezqdomrenderer.php,v 1.35 2001/08/24 13:24:49 bf Exp $
 //
 // Definition of eZQDomRenderer class
 //
@@ -981,7 +981,7 @@ class eZQDomrenderer
             $this->Template->set_var( "td", "" );
 
             $tableWidth = "100%";
-	    $tableBorder = 1;
+            $tableBorder = 1;
             if  ( count( $paragraph->attributes ) > 0 )
             foreach ( $paragraph->attributes as $attr )
             {
@@ -989,12 +989,12 @@ class eZQDomrenderer
                 {
                     case "width" :
                     {
-                       $tableWidth = $attr->children[0]->content;
+                        $tableWidth = $attr->children[0]->content;
                     }
                     break;
-		    case "border" :
+                    case "border" :
                     {
-                       $tableBorder = $attr->children[0]->content;
+                        $tableBorder = $attr->children[0]->content;
                     }
                     break;
                 }
@@ -1012,30 +1012,30 @@ class eZQDomrenderer
                         {
 
                             $tdWidth = "";
-	                    $tdColspan = 1;
-			    $tdRowspan = 1;
+                            $tdColspan = 1;
+                            $tdRowspan = 1;
                             if  ( count( $data->attributes ) > 0 )
-                            foreach ( $data->attributes as $attr )
-                            {
-                                switch ( $attr->name )
+                                foreach ( $data->attributes as $attr )
                                 {
-                                    case "width" :
+                                    switch ( $attr->name )
                                     {
-                                        $tdWidth = $attr->children[0]->content;
+                                        case "width" :
+                                        {
+                                            $tdWidth = $attr->children[0]->content;
+                                        }
+                                        break;
+                                        case "colspan" :
+                                        {
+                                            $tdColspan = $attr->children[0]->content;
+                                        } 
+                                        break;
+                                        case "rowspan" :
+                                        {
+                                            $tdRowspan = $attr->children[0]->content;
+                                        } 
+                                        break;
                                     }
-                                    break;
-		                    case "colspan" :
-                                    {
-                                        $tdColspan = $attr->children[0]->content;
-                                    } 
-                                    break;
-				    case "rowspan" :
-                                    {
-                                        $tdRowspan = $attr->children[0]->content;
-                                    } 
-                                    break;
                                 }
-                            }
 
 
                             $childrenData =& $this->renderChildren( $data );
@@ -1043,14 +1043,14 @@ class eZQDomrenderer
                             $this->Template->set_var( "td_width", $tdWidth );
                             $this->Template->set_var( "td_colspan", $tdColspan );
                             $this->Template->set_var( "td_rowspan", $tdRowspan );
-			    $this->Template->parse( "td", "td_tpl", true );
+                            $this->Template->parse( "td", "td_tpl", true );
                         }
                     }
                     $this->Template->parse( "tr", "tr_tpl", true );
                 }
             }
-	    $this->Template->set_var( "table_width", $tableWidth );
-	    $this->Template->set_var( "table_border", $tableBorder );
+            $this->Template->set_var( "table_width", $tableWidth );
+            $this->Template->set_var( "table_border", $tableBorder );
             $pageContent =& $this->Template->parse( "table", "table_tpl" );
         }
         
