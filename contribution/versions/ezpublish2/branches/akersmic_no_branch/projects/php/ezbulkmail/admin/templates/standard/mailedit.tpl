@@ -18,10 +18,10 @@
 <tr>
   <td width="50%">
     <p class="boxtext">{intl-category_select}:</p>
-    <select multiple size="4" name="CategoryArrayID[]">
-    <!-- BEGIN multiple_value_tpl -->
-    <option value="{category_id}" {multiple_selected}>{category_name}</option>
-    <!-- END multiple_value_tpl -->
+    <select multiple size="10" name="CategoryArrayID[]">
+	<!-- BEGIN value_tpl -->
+	<option value="{option_value}" {selected}>{option_level}{option_name}</option>
+	<!-- END value_tpl -->
     </select>
   </td>
 

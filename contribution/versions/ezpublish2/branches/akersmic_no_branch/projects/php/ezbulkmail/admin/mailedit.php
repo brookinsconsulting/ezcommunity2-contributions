@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: mailedit.php,v 1.9 2001/08/17 13:35:58 jhe Exp $
+// $Id: mailedit.php,v 1.9.8.1 2002/01/31 08:05:45 ce Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -66,7 +66,7 @@ if( isset( $Send ) )
 }
 
 $ini =& INIFile::globalINI();
-$Language = $ini->read_var( "eZBulkMailMain", "Language" ); 
+$Language = $ini->read_var( "eZBulkMailMain", "Language" );
 
 $t = new eZTemplate( "ezbulkmail/admin/" . $ini->read_var( "eZBulkMailMain", "AdminTemplateDir" ),
                      "ezbulkmail/admin/intl/", $Language, "mailedit.php" );
@@ -77,7 +77,8 @@ $t->set_file( array(
     ) );
 
 $t->set_block( "mail_edit_page_tpl", "template_item_tpl", "template_item" );
-$t->set_block( "mail_edit_page_tpl", "multiple_value_tpl", "multiple_value" );
+// $t->set_block( "mail_edit_page_tpl", "multiple_value_tpl", "multiple_value" );
+$t->set_block( "mail_edit_page_tpl", "value_tpl", "value" );
 $t->set_block( "mail_edit_page_tpl", "error_message_tpl", "error_message" );
 $t->set_var( "multiple_value", "" );
 $t->set_var( "template_item", "" );
@@ -110,10 +111,10 @@ else
 }
 $categoryArrayID = array();
 /** We are editing an allready existent mail... lets insert it's values **/
-if( $MailID != 0 ) 
+if( $MailID != 0 )
 {
     $t->set_var( "current_mail_id", $MailID );
-    
+
     $mail = new eZBulkMail( $MailID );
 
     if( $mail->sender() != "" )
@@ -126,6 +127,45 @@ if( $MailID != 0 )
 }
 
 /** Inserting values in the drop down boxes... **/
+$categories =& eZBulkMailCategory::getTree();
+
+foreach ( $categories as $catItem )
+{
+    if ( $CategoryID != $catItem[0]->id() )
+    {
+        $t->set_var( "option_value", $catItem[0]->id() );
+        $t->set_var( "option_name", $catItem[0]->name() );
+
+        if ( $Action == "Edit" )
+        {
+		    if ( $parent )
+			{
+	if ( $catItem[0]->id() == $parent->id() )
+	{
+	$t->set_var( "selected", "selected" );
+	}
+	else
+	{
+		$t->set_var( "selected", "" );
+	}
+			}
+
+        }
+        else
+        {
+            $t->set_var( "selected", "" );
+        }
+
+        if ( $catItem[1] > 0 )
+            $t->set_var( "option_level", str_repeat( "&nbsp;&nbsp;", $catItem[1] ) );
+        else
+            $t->set_var( "option_level", "" );
+
+        $t->parse( "value", "value_tpl", true );
+    }
+}
+
+/*
 $categories = eZBulkMailCategory::getAll();
 foreach( $categories as $category )
 {
@@ -136,9 +176,10 @@ foreach( $categories as $category )
         $t->set_var( "multiple_selected", "selected" );
     else
         $t->set_var( "multiple_selected", "" );
-        
+
     $t->parse( "multiple_value", "multiple_value_tpl", true );
 }
+*/
 $templates = eZBulkMailTemplate::getAll();
 foreach( $templates as $template )
 {
@@ -180,16 +221,16 @@ function save_mail()
 
     $mail->setSender( $From  ); // from NAME
     $mail->setFromName( $FromName ); // from NAME
-    
+
     $mail->setSubject( $Subject );
     $mail->setBodyText( $MailBody );
 
     $mail->setIsDraft( true );
-    
+
     $mail->store();
     if( $TemplateID != -1 )
         $mail->useTemplate( $TemplateID );
-    
+
     $mail->addToCategory( false );
     if( count( $CategoryArrayID ) > 0 )
     {
@@ -200,7 +241,7 @@ function save_mail()
     }
     else
         $error = "No categories set";
-    
+
     return $mail->id();
 }
 
