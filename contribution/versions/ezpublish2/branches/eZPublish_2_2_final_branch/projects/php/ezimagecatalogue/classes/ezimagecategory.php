@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezimagecategory.php,v 1.44.2.7 2002/08/27 14:22:50 jb Exp $
+// $Id: ezimagecategory.php,v 1.44.2.8 2003/03/25 14:49:48 br Exp $
 //
 // Definition of eZImageCategory class
 //
@@ -633,6 +633,9 @@ class eZImageCategory
                 
                 $i++;
             }
+
+            $groupSQL .= " (Image.UserID='" . $user->id() . "') OR";
+
             if ( $user->hasRootAccess() )
                 $usePermission = false;
         }
@@ -736,6 +739,8 @@ class eZImageCategory
                        $groupSQL .= " ( Permission.GroupID=$group AND ( CategoryPermission.GroupID=$group OR CategoryPermission.GroupID='-1' ) ) OR";
                    $i++;
                }
+
+               $groupSQL .= " (Image.UserID='" . $user->id() . "') OR";
            }
        }
 

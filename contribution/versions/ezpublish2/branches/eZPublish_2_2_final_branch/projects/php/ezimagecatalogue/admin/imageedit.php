@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: imageedit.php,v 1.1.2.4 2002/05/29 13:55:22 br Exp $
+// $Id: imageedit.php,v 1.1.2.5 2003/03/25 14:49:48 br Exp $
 //
 // Created on: <09-Jan-2001 10:45:44 ce>
 //
@@ -248,12 +248,12 @@ if ( $Action == "Insert" && $error == false )
 
     $ImageID = $image->id();
     
-    if ( eZObjectPermission::hasPermission( $ImageID, "imagecatalogue_image", 'w' ) ) // user had write permission
+    if ( eZObjectPermission::hasPermission( $CategoryID, "imagecatalogue_category", 'w' ) ) // user had write permission
     {
         changePermissions( $ImageID, $ReadGroupArrayID, 'r' );
         changePermissions( $ImageID, $WriteGroupArrayID, 'w' );
     }
-    else // user had upload permission only, change ownership, set special rights..
+    else if ( eZObjectPermission::hasPermission( $CategoryID, "imagecatalogue_category", 'u' ) ) // user had upload permission only, change ownership, set special rights..
     {
         eZObjectPermission::removePermissions( $ImageID, "imagecatalogue_image", 'w' ); // no write
         eZObjectPermission::removePermissions( $ImageID, "imagecatalogue_image", 'r' ); // all read
@@ -261,16 +261,22 @@ if ( $Action == "Insert" && $error == false )
         $image->setUser( $category->user() );
         $image->store();
     }
-    
+    else
+    {
+        eZHTTPTool::header( "Location: /error/403/" );
+        exit();
+    }
+
     $image->setCategoryDefinition( $category );
 
     $categories = array_unique( array_merge( $CategoryArray, $CategoryID ) );
 
     foreach ( $categories as $categoryItem )
     {
-        if( eZObjectPermission::hasPermission( $image->id(), "imagecatalogue_image", 'w' ) )
+        if( eZObjectPermission::hasPermission( $categoryItem, "imagecatalogue_category", 'w' ) )
             eZImageCategory::addImage( $image, $categoryItem );
     }
+    
     eZLog::writeNotice( "Picture added to catalogue: $image->name() from IP: $REMOTE_ADDR" );
 
     eZHTTPTool::header( "Location: /imagecatalogue/image/list/" . $CategoryID . "/" );
@@ -299,18 +305,24 @@ if ( $Action == "Update" && $error == false )
     $image->setDescription( $Description );
 
     $category = new eZImageCategory( $CategoryID );
-    if ( eZObjectPermission::hasPermission( $ImageID, "imagecatalogue_image", 'w' ) ) // user had write permission
+    if ( eZObjectPermission::hasPermission( $CategoryID, "imagecatalogue_category", 'w' ) ) // user had write permission
     {
         changePermissions( $ImageID, $ReadGroupArrayID, 'r' );
         changePermissions( $ImageID, $WriteGroupArrayID, 'w' );
     }
-    else // user had upload permission only, change ownership, set special rights..
+    else if ( eZObjectPermission::hasPermission( $CategoryID, "imagecatalogue_category", 'u' ) ) // user had upload permission only, change ownership, set special rights..
     {
         eZObjectPermission::removePermissions( $ImageID, "imagecatalogue_image", 'w' ); // no write
         eZObjectPermission::removePermissions( $ImageID, "imagecatalogue_image", 'r' ); // all read
         eZObjectPermission::setPermission( -1, $ImageID, "imagecatalogue_image", 'r' );
+
         $image->setUser( $category->user() );
         $image->store();
+    }
+    else
+    {
+        eZHTTPTool::header( "Location: /error/403/" );
+        exit();
     }
 
     $categories = $image->categories();
@@ -324,7 +336,7 @@ if ( $Action == "Update" && $error == false )
 
     foreach ( $categories as $categoryItem )
     {
-        if( eZObjectPermission::hasPermission( $image->id(), "imagecatalogue_image", 'w' ) )
+        if( eZObjectPermission::hasPermission( $categoryItem, "imagecatalogue_category", "w" ) )
         {
             eZImageCategory::addImage( $image, $categoryItem );
         }
