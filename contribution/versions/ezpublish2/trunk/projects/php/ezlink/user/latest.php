@@ -1,5 +1,5 @@
-<?
-// $Id: latest.php,v 1.5 2001/01/22 14:43:01 jb Exp $
+<?php
+// $Id: latest.php,v 1.6 2001/07/09 08:05:04 jhe Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <26-Oct-2000 14:50:13 ce>

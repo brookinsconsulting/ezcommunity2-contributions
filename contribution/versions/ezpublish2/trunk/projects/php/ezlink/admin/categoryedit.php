@@ -1,6 +1,6 @@
-<?
+<?php
 //
-// $Id: categoryedit.php,v 1.1 2001/06/30 11:29:40 bf Exp $
+// $Id: categoryedit.php,v 1.2 2001/07/09 08:05:03 jhe Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <26-Oct-2000 14:57:28 ce>

@@ -1,6 +1,6 @@
-<?
+<?php
 //
-// $Id: success.php,v 1.4 2001/01/22 14:43:01 jb Exp $
+// $Id: success.php,v 1.5 2001/07/09 08:05:04 jhe Exp $
 //
 // <real-name> <<mail-name>>    
 // Created on: <14-Sep-2000 19:37:17 bf>

@@ -1,5 +1,5 @@
-<?
-// $Id: unacceptededit.php,v 1.3 2001/07/02 14:40:47 jhe Exp $
+<?php
+// $Id: unacceptededit.php,v 1.4 2001/07/09 08:05:04 jhe Exp $
 //
 // Author: Bård Farstad <bf@ez.no>
 // Created on: <21-Jan-2001 13:34:48 bf>

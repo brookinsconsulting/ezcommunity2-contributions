@@ -1,6 +1,6 @@
-<?
+<?php
 //
-// $Id: norights.php,v 1.6 2001/01/22 14:43:01 jb Exp $
+// $Id: norights.php,v 1.7 2001/07/09 08:05:04 jhe Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <26-Oct-2000 14:56:23 ce>

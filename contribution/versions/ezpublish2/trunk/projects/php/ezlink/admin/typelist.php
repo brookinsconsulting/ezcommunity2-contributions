@@ -1,6 +1,6 @@
-<?
+<?php
 // 
-// $Id: typelist.php,v 1.1 2001/06/29 12:54:27 jhe Exp $
+// $Id: typelist.php,v 1.2 2001/07/09 08:05:04 jhe Exp $
 //
 // Jo Henrik Endrerud <jhe@ez.no>
 // Created on: <21-Jun-2001 11:55:24 jhe>

@@ -1,8 +1,6 @@
-<?
+<?php
 // 
-// $Id: menubox.php,v 1.12 2001/07/02 07:10:41 bf Exp $
-//
-// 
+// $Id: menubox.php,v 1.13 2001/07/09 08:05:04 jhe Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <17-Oct-2000 12:16:07 bf>

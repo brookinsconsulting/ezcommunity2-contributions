@@ -1,5 +1,5 @@
-<?
-// $Id: suggestlink.php,v 1.16 2001/07/02 14:40:47 jhe Exp $
+<?php
+// $Id: suggestlink.php,v 1.17 2001/07/09 08:05:04 jhe Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <26-Oct-2000 14:58:57 ce>

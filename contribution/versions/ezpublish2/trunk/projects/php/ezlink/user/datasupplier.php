@@ -1,4 +1,4 @@
-<?
+<?php
 
 $ini =& INIFile::globalINI();
 $GlobalSectionID = $ini->read_var( "eZLinkMain", "DefaultSection" );

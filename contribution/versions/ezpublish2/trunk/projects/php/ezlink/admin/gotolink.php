@@ -1,5 +1,5 @@
-<?
-//  $Id: gotolink.php,v 1.4 2001/01/22 14:43:01 jb Exp $
+<?php
+//  $Id: gotolink.php,v 1.5 2001/07/09 08:05:03 jhe Exp $
 //
 //  Christoffer A. Elo <ce@ez.no>
 //  Created on: <26-Oct-2000 15:02:25 ce>

@@ -1,5 +1,5 @@
-<?
-// $Id: unacceptedlist.php,v 1.6 2001/07/02 14:40:47 jhe Exp $
+<?php
+// $Id: unacceptedlist.php,v 1.7 2001/07/09 08:05:04 jhe Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <26-Oct-2000 14:55:24 ce>

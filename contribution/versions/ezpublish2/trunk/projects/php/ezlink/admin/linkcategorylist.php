@@ -1,5 +1,5 @@
-<?
-// $Id: linkcategorylist.php,v 1.3 2001/07/02 14:40:47 jhe Exp $
+<?php
+// $Id: linkcategorylist.php,v 1.4 2001/07/09 08:05:04 jhe Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <26-Oct-2000 14:55:24 ce>

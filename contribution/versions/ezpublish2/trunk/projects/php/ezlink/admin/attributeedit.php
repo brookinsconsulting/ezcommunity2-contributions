@@ -1,6 +1,6 @@
-<?
+<?php
 // 
-// $Id: attributeedit.php,v 1.1 2001/06/29 12:54:26 jhe Exp $
+// $Id: attributeedit.php,v 1.2 2001/07/09 08:05:03 jhe Exp $
 //
 // Jo Henrik Endrerud <jhe@ez.no>
 // Created on: <29-Jun-2001 13:57:58 bf>

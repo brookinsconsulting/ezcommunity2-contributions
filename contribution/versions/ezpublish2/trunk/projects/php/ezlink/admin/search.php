@@ -1,6 +1,6 @@
-<?
+<?php
 // 
-// $Id: search.php,v 1.21 2001/07/02 07:13:45 bf Exp $
+// $Id: search.php,v 1.22 2001/07/09 08:05:04 jhe Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <15-Sep-2000 14:40:06 bf>
