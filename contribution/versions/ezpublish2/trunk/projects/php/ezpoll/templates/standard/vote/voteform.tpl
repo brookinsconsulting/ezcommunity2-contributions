@@ -15,9 +15,13 @@
 <!-- END vote_item_tpl -->
 <tr>
 	<td colspan="2">
-	<br />
 	<input type="hidden" name="PollID" value="{poll_id}" />
 	<input type="submit" value="Vote" />
+	</td>
+</tr>
+<tr>
+	<td>
+	<a href="/poll/result/{poll_id}">{intl-result}</a> <a href="/poll/polls">{intl-polls}</a>
 	</td>
 </tr>
 </table>

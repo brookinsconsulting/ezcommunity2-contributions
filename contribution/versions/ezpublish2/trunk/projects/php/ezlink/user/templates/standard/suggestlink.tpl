@@ -5,7 +5,7 @@
 <hr noshade size="4"/>
 
 <p class="boxtext">{intl-name}</p>
-<input type="text" name="title" size="40" value="{title}">
+<input tabindex="1" type="text" name="title" size="40" value="{title}">
 
 <p class="boxtext">{intl-category}</p>
 <select name="linkgroup">
@@ -16,7 +16,7 @@
 
 <p class="boxtext">{intl-url}</p>
 
-http://<input type="text" name="url" size="40" value="{url}"><br />
+http://<input tabindex="2" type="text" name="url" size="40" value="{url}"><br />
 <input class="stdbutton" type="submit" value="{intl-meta}" name="GetSite" />
 
 <p class="boxtext">{intl-keywords}</p>

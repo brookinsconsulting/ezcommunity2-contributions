@@ -44,6 +44,7 @@ switch ( $url_array[2] )
     {
         if ( $url_array[3] == "new" )
         {
+            $Action = "new";
             $ForumID = $url_array[4];
             include( "ezforum/user/messageedit.php" );
         }

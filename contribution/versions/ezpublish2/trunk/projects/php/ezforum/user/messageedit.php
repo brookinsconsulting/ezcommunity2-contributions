@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: messageedit.php,v 1.3 2000/10/24 14:02:03 ce-cvs Exp $
+// $Id: messageedit.php,v 1.4 2000/10/24 15:07:15 ce-cvs Exp $
 //
 // 
 //
@@ -88,6 +88,19 @@ $t->set_block( "messagepost", "message_item_tpl", "message_item" );
 $t->setAllStrings();
 
 $user = eZUser::currentUser();
+
+if ( !$user )
+{
+    if ( $Action == "new" )
+    {
+        Header( "Location: /forum/userlogin/new/$ForumID" );
+    }
+    if ( $Action == "reply" )
+    {
+        Header( "Location: /forum/userlogin/reply/$MessageID" );
+    }
+
+}
 
 $forum = new eZForum( $ForumID );
 $t->set_var( "forum_name", $forum->name() );

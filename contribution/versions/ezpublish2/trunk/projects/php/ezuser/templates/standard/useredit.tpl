@@ -28,6 +28,7 @@
 	<p class="boxtext">{intl-firstname}</p>
 	<input type="text" size="20" name="FirstName" value="{first_name_value}"/>
 	</td>
+
 	<td>
 	<p class="boxtext">{intl-lastname}</p>
 	<input type="text" size="20" name="LastName" value="{last_name_value}"/>
@@ -36,10 +37,10 @@
 </table>
 
 <p class="boxtext">{intl-login}</p>
-<input type="text" {read_only} size="20" name="Login" value="{login_value}"/>
+<input tabindex="3" type="text" {read_only} size="20" name="Login" value="{login_value}"/>
 
 <p class="boxtext">{intl-email}</p>
-<input type="text" size="20" name="Email" value="{email_value}"/>
+<input tabindex="4" type="text" size="20" name="Email" value="{email_value}"/>
 
 <br /><br />
 
