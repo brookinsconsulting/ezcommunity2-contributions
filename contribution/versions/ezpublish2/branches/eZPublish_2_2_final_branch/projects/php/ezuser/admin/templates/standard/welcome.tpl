@@ -11,10 +11,6 @@
 <hr noshade="noshade" size="4" />
 <h3 class="error">{intl-error_headline}</h3>
 <ul>
-     <!-- BEGIN libxml_error_tpl -->
-     <li />{intl-libxml_error} <a href="{libxml_location}">{libxml_location}</a>
-     <!-- END libxml_error_tpl -->
-
      <!-- BEGIN convert_error_tpl -->
      <li />{intl-convert_error} <a href="{convert_location}">{convert_location}</a>
      <!-- END convert_error_tpl -->

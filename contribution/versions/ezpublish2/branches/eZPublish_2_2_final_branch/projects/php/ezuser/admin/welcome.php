@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: welcome.php,v 1.11.2.3 2001/11/19 11:37:48 bf Exp $
+// $Id: welcome.php,v 1.11.2.4 2002/01/04 09:15:05 bf Exp $
 //
 // Created on: <13-Nov-2000 10:57:15 bf>
 //
@@ -49,12 +49,9 @@ $t->set_file( array(
 
 $t->set_block( "welcome_tpl", "error_tpl", "error" );
 
-$t->set_block( "error_tpl", "libxml_error_tpl", "libxml_error" );
 $t->set_block( "error_tpl", "convert_error_tpl", "convert_error" );
 
 $t->set_var( "error", "" );
-$t->set_var( "libxml_error", "" );
-$t->set_var( "qtdom_error", "" );
 $t->set_var( "convert_error", "" );
 
 $user =& eZUser::currentUser();
@@ -67,13 +64,6 @@ if ( $user )
 
 if ( $ini->read_var( "site", "CheckDependence" ) == "enabled" )
 {
-    if ( function_exists( "xmltree" ) == false )
-    {
-        $t->set_var( "libxml_location", "http://xmlsoft.org/#Downloads" );
-        $t->parse( "libxml_error", "libxml_error_tpl" );
-        $error = true;
-    }
-
     $image_prog = "convert";    
     if ( $ini->has_var( "classes", "ImageConversionProgram" ) )
         $image_prog = $ini->read_var( "classes", "ImageConversionProgram" );
