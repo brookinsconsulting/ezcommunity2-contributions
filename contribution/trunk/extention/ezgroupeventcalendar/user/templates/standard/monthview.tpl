@@ -8,9 +8,8 @@
 </form>
 </table>
 
-<form method="post" action="/groupeventcalendar/monthview/">
-
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
+ <form method="post" action="/groupeventcalendar/monthview/">
   <tr>
     <td colspan="2">
 	<table border="0" cellspacing="3" cellpadding="3">
@@ -39,6 +38,7 @@
 	</table>
     </td>
   </tr>
+ </form>
   <tr>
 	<td colspan="2" align="right" style="padding:5px;">
 	  <form action="/groupeventcalendar/eventedit/edit/">
@@ -63,7 +63,6 @@
 </tr>
 </table>
 
-</form>
 <br />
 
 <!-- BEGIN month_tpl -->
