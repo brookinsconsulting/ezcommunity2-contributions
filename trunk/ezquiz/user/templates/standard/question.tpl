@@ -21,9 +21,9 @@
 <p>{intl-your_score}.</p>
 <p>{intl-answer_before_end_date}.</p>
 <p>{intl-save_and_return}. {intl-also_saved_games}.</p>
-<img src="{www_dir}/images/path-arrow.gif" height="10" width="12" border="0" alt="" />
+<img src="{www_dir}/design/base/images/icons/path-arrow.gif" height="10" width="12" border="0" alt="" />
 <a class="path" href="{www_dir}{index}/quiz/game/play/{game_id}/1">{intl-start_game}</a><br />
-<img src="{www_dir}/images/path-arrow.gif" height="10" width="12" border="0" alt="" />
+<img src="{www_dir}/design/base/images/icons/path-arrow.gif" height="10" width="12" border="0" alt="" />
 <a class="path" href="{www_dir}{index}/quiz/game/scores/{game_id}">{intl-view_high_score}</a><br />
 <!-- END start_item_tpl -->
 
