@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: userwithaddress.php,v 1.75.2.1.4.5 2002/01/31 14:58:13 ce Exp $
+// $Id: userwithaddress.php,v 1.75.2.1.4.6 2002/02/01 15:43:00 ce Exp $
 //
 // Created on: <10-ct-2000 12:52:42 bf>
 //
@@ -394,16 +394,13 @@ if ( isSet( $OK ) and $error == false )
     if ( !$MainAddressID && count( $AddressID ) > 0 )
         $MainAddressID = $AddressID[0];
 
-//    if ( !$new_user )
-//        $user_insert->removeAddresses();
-
     for ( $i = 0; $i < count( $AddressID ); ++$i )
     {
         $address_id = $AddressID[$i];
         $realAddressID = $RealAddressID[$i];
 
         $address = new eZAddress( );
-        if ( !$address->get( 1, true ) )
+        if ( !$address->get( $realAddressID ) )
         {
             $address = new eZAddress();
         }
@@ -673,7 +670,7 @@ if ( $deleted )
 
 // Check if we will add delete buttons
 $checkArray = array_diff( $AddressID, $DeleteAddressArrayID );
-if ( count ( $checkArray ) == 1 )
+if ( count ( $checkArray ) == 0 )
 {
     $t->set_var( "delete_address", "" );
 	$t->set_var( "main_address", "" );
