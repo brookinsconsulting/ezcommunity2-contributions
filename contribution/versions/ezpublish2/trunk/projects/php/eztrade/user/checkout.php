@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: checkout.php,v 1.21 2001/01/18 14:18:27 ce Exp $
+// $Id: checkout.php,v 1.22 2001/01/19 16:00:02 ce Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <28-Sep-2000 15:52:08 bf>
@@ -40,6 +40,7 @@ $MasterCardShopping = $ini->read_var( "eZTradeMain", "MasterCardShopping" );
 $CODShopping = $ini->read_var( "eZTradeMain", "CODShopping" );
 $InvoiceShopping = $ini->read_var( "eZTradeMain", "InvoiceShopping" );
 
+include_once( "ezuser/classes/ezuser.php" );
 include_once( "eztrade/classes/ezproduct.php" );
 include_once( "eztrade/classes/ezoption.php" );
 include_once( "eztrade/classes/ezoptionvalue.php" );
@@ -49,8 +50,10 @@ include_once( "eztrade/classes/ezcartoptionvalue.php" );
 include_once( "eztrade/classes/ezorder.php" );
 include_once( "eztrade/classes/ezorderitem.php" );
 include_once( "eztrade/classes/ezorderoptionvalue.php" );
+include_once( "eztrade/classes/ezwishlist.php" );
 
 include_once( "ezsession/classes/ezsession.php" );
+include_once( "ezuser/classes/ezuser.php" );
 
 include_once( "classes/ezmail.php" );
 
@@ -404,6 +407,24 @@ if ( $SendOrder == "true" )
         {
             $t->set_var( "cart_image", "" );
         }
+
+        $wishListItem = $item->wishListItem();
+        if ( $wishListItem )
+        {
+            $wishList = $wishListItem->wishList();
+
+            $wishUser = $wishList->user();
+
+            $address = new eZAddress();
+
+            $mainAddress = $address->mainAddress( $wishUser );
+
+            if ( $mainAddress )
+            {
+                // BÅRD, her har du $mainAddress objektet
+            }
+        }
+
         
         $price = $product->price() * $item->count();
         $currency->setValue( $price );

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezaddress.php,v 1.26 2001/01/19 15:50:26 ce Exp $
+// $Id: ezaddress.php,v 1.27 2001/01/19 16:00:02 ce Exp $
 //
 // Definition of eZAddress class
 //
@@ -43,6 +43,8 @@ class eZAddress
     */
     function eZAddress( $id="", $fetch=true )
     {
+        $this->IsConnected = false;
+
         // default to Norwegian country.
         $this->CountryID = 162;
 
@@ -72,13 +74,13 @@ class eZAddress
     */  
     function store()
     {
-        $db = eZDB::globalDatabase();
+        $this->dbInit();
 
         $ret = false;
         
         if ( !isset( $this->ID ) )
         {
-            $db->query( "INSERT INTO eZContact_Address
+            $this->Database->query( "INSERT INTO eZContact_Address
                     SET Street1='$this->Street1',
                     Street2='$this->Street2',
                     Zip='$this->Zip',
@@ -93,7 +95,7 @@ class eZAddress
         }
         else
         {
-            $db->query( "UPDATE eZContact_Address
+            $this->Database->query( "UPDATE eZContact_Address
                     SET Street1='$this->Street1',
                     Street2='$this->Street2',
                     Zip='$this->Zip',
@@ -115,10 +117,10 @@ class eZAddress
     */  
     function get( $id="" )
     {
-        $db = eZDB::globalDatabase();
+        $this->dbInit();    
         if ( $id != "" )
         {
-            $db->array_query( $address_array, "SELECT * FROM eZContact_Address WHERE ID='$id'" );
+            $this->Database->array_query( $address_array, "SELECT * FROM eZContact_Address WHERE ID='$id'" );
             if ( count( $address_array ) > 1 )
             {
                 die( "Feil: Flere addresser med samme ID funnet i database, dette skal ikke være mulig. " );
@@ -142,10 +144,10 @@ class eZAddress
     */
     function getAll( )
     {
-        $db = eZDB::globalDatabase();
+        $this->dbInit();    
         $address_array = 0;
     
-        $db->array_query( $address_array, "SELECT * FROM eZContact_Address" );
+        $this->Database->array_query( $address_array, "SELECT * FROM eZContact_Address" );
     
         return $address_array;
     }
@@ -156,9 +158,9 @@ class eZAddress
     function delete()
     {
         $GLOBALS["DEBUG"] = true;
-        $db = eZDB::globalDatabase();
+        $this->dbInit();
         
-        $db->query( "DELETE FROM eZContact_Address WHERE ID='$this->ID'", true );
+        $this->Database->query( "DELETE FROM eZContact_Address WHERE ID='$this->ID'", true );
     }    
     
 
@@ -408,6 +410,19 @@ class eZAddress
     }
 
     
+    /*!
+      \private
+      Open the database.
+    */
+    function dbInit()
+    {
+        if ( $this->IsConnected == false )
+        {
+            $this->Database = new eZDB( "site.ini", "site" );
+            $this->IsConnected = true;
+        }
+    }
+  
     var $ID;
     var $Street1;
     var $Street2;
@@ -419,8 +434,13 @@ class eZAddress
     /// Relation to an eZAddressTypeID
     var $AddressTypeID;
 
+    ///  Variable for keeping the database connection.
+    var $Database;
+
     /// Indicates the state of the object. In regard to database information.
     var $State_;
+    /// Is true if the object has database connection, false if not.
+    var $IsConnected;
 }
 
 ?>

@@ -117,3 +117,13 @@ New ordering fields:
 alter table eZTrade_Order add ShippingAddressID int;     
 alter table eZTrade_Order add BillingAddressID int;                       
 
+
+#
+# Table structure for table 'eZContact_AddressDefinition'
+#
+DROP TABLE IF EXISTS eZContact_AddressDefinition;
+CREATE TABLE eZContact_AddressDefinition (
+  AddressID int(11),
+  UserID int(11),
+  PRIMARY KEY (UserID)
+);
