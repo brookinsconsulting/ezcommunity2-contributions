@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezlog.php,v 1.8 2001/07/29 23:30:57 kaid Exp $
+// $Id: ezlog.php,v 1.9 2001/11/13 16:40:53 jb Exp $
 //
 // Definition of eZLog class
 //
@@ -107,13 +107,23 @@ class eZLog
         fclose( $this->LogFile );
     }
 
+    function session()
+    {
+        $session =& $GLOBALS["eZLogSession"];
+        if ( $session == "" )
+        {
+            $session = md5( microtime() );
+        }
+        return $session;
+    }
+
     /*!
       Writes out a notice to the log file.
     */
     function notice( $notice )
     {
         $time = strftime ("%b %d %Y %H:%M:%S", strtotime( "now" ) );        
-        $notice = "[ " . $time . " ] [notice] " . $notice . "\n"; 
+        $notice = "[ " . $time . " ] (" . $this->session() . ") [notice] " . $notice . "\n"; 
         fwrite( $this->LogFile, $notice );
     }
 
@@ -123,7 +133,7 @@ class eZLog
     function warning( $warning )
     {
         $time = strftime ("%b %d %Y %H:%M:%S", strtotime( "now" ) );        
-        $warning = "[ " . $time . " ] [warning] " . $warning . "\n"; 
+        $warning = "[ " . $time . " ] (" . $this->session() . ")[warning] " . $warning . "\n"; 
         fwrite( $this->LogFile, $warning );
     }
 
@@ -134,7 +144,7 @@ class eZLog
     function error( $error )
     {
         $time = strftime ("%b %d %Y %H:%M:%S", strtotime( "now" ) );        
-        $error = "[ " . $time . " ] [error] " . $error . "\n"; 
+        $error = "[ " . $time . " ] (" . $this->session() . ") [error] " . $error . "\n"; 
         fwrite( $this->LogFile, $error );
     }
 

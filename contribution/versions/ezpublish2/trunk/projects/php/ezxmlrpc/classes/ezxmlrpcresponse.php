@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: ezxmlrpcresponse.php,v 1.19 2001/11/13 15:20:09 jb Exp $
+// $Id: ezxmlrpcresponse.php,v 1.20 2001/11/13 16:40:53 jb Exp $
 //
 // Definition of eZXMLRPCResponse class
 //
@@ -143,17 +143,6 @@ class eZXMLRPCResponse
     }
 
     /*!
-<<<<<<< ezxmlrpcresponse.php
-      Sets the version number, it's expected to be a float with a major and minor version.
-      Example: 2.2
-    */
-    function setVersion( $version )
-    {
-        $this->Version = $version;
-    }
-
-    /*!
-=======
       Sets the version and release number, the version is expected to be a float with a major and minor version,
       while the release is an integer.
       Example: setVersion( 2.2, 2 )
@@ -166,21 +155,15 @@ class eZXMLRPCResponse
 
 
     /*!
->>>>>>> 1.15.6.2
       Sets an error message.
     */
     function setError( $faultCode, $faultString, $faultSubCode = false )
     {
         $this->IsFault = true;
         $error = array( "faultCode" => new eZXMLRPCInt( $faultCode ),
-<<<<<<< ezxmlrpcresponse.php
-                        "faultString" => new eZXMLRPCString( $faultString ),
-                        "version" => new eZXMLRPCDouble( $this->Version ) );
-=======
                         "faultString" => new eZXMLRPCString( $faultString ),
                         "version" => new eZXMLRPCDouble( $this->Version ),
                         "release" => new eZXMLRPCInt( $this->Release ) );
->>>>>>> 1.15.6.2
         if ( !is_bool( $faultSubCode ) )
             $error["faultSubCode"] = $faultSubCode;
         $this->Error = new eZXMLRPCStruct( $error );
@@ -290,16 +273,10 @@ class eZXMLRPCResponse
 
     /// Is true if the response is a fault
     var $IsFault;
-<<<<<<< ezxmlrpcresponse.php
-
-    /// The version number, is sent on error responses
-    var $Version;
-=======
 
     /// The version and release number, is sent on error responses
     var $Version;
     var $Release;
->>>>>>> 1.15.6.2
 }
 
 ?>
