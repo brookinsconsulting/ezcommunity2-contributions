@@ -84,8 +84,8 @@ $t->set_var( "group_notice_id", "" );
 $t->set_var( "is_selected", "" );
 $t->set_var( "group_notice_name", "" );
 
-$t->set_var( "hidden_company_contact_item", "" );
-$t->set_var( "hidden_person_contact_item", "" );
+//  $t->set_var( "hidden_company_contact_item", "" );
+//  $t->set_var( "hidden_person_contact_item", "" );
 
 $t->set_var( "state_id", "" );
 
@@ -222,6 +222,19 @@ if( $Action == "new" )
     {
         header( "Location: /contact/consultation/edit/$ConsultationID" );
         exit();
+    }
+
+    if ( isset( $CompanyID ) )
+    {
+        $t->set_var( "company_contact", $CompanyID );
+        $t->parse( "hidden_company_contact_item", "hidden_company_contact_item_tpl" );
+        $t->set_var( "hidden_person_contact_item", "" );
+    }
+    else if ( isset( $PersonID ) )
+    {
+        $t->set_var( "person_contact", $PersonID );
+        $t->parse( "hidden_person_contact_item", "hidden_person_contact_item_tpl" );
+        $t->set_var( "hidden_company_contact_item", "" );
     }
 
     $Action_value = "insert";
