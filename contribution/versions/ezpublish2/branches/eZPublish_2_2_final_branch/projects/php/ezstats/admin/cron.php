@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: cron.php,v 1.1.2.5 2002/06/19 15:02:28 br Exp $
+// $Id: cron.php,v 1.1.2.6 2002/08/26 13:28:47 br Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -75,7 +75,7 @@ foreach ( $newelements as $element )
     $requestname = $request[0][$db->fieldName("URI")];
     $date = new eZDateTime();
     $date->setTimeStamp( $element[$db->fieldName("Date")] );
-    $month = new eZDateTime( $date->year(), $date->month() );
+    $month = new eZDateTime( $date->year(), $date->month(), 1, 0, 0, 0 );
     $db->array_query( $oldelements, "SELECT * FROM eZStats_Archive_RequestedPage WHERE URI='$requestname' AND Month='" . $month->timeStamp() . "'" );
     if ( count( $oldelements ) == 0 )
     {
@@ -105,7 +105,7 @@ foreach ( $newelements as $element )
     
     $date = new eZDateTime();
     $date->setTimeStamp( $element[$db->fieldName("Date")] );
-    $month = new eZDateTime( $date->year(), $date->month() );
+    $month = new eZDateTime( $date->year(), $date->month(), 1, 0, 0, 0 );
     $db->array_query( $oldelements, "SELECT * FROM eZStats_Archive_RefererURL WHERE URI='$refername' AND Domain='$domain' AND Month='". $month->timeStamp() . "'" );
 
     if ( count( $oldelements ) == 0 )
@@ -166,7 +166,7 @@ foreach ( $newelements as $element )
     $userID = $element[$db->fieldName("UserID")];
     $date = new eZDateTime();
     $date->setTimeStamp( $element[$db->fieldName("Date")] );
-    $month = new eZDateTime( $date->year(), $date->month() );
+    $month = new eZDateTime( $date->year(), $date->month(), 1, 0, 0, 0 );
     $db->array_query( $oldelements, "SELECT * FROM eZStats_Archive_Users WHERE UserID='$userID' AND Month='". $month->timeStamp() . "'" );
     
     if ( count( $oldelements ) == 0 )
@@ -218,7 +218,12 @@ foreach ( $newelements as $element )
 {
     $date = new eZDateTime();
     $date->setTimeStamp( $element[$db->fieldName("Date")] );
-    $hour = new eZDateTime( $date->year(), $date->month(), $date->day(), $date->hour() );
+    $hour = new eZDateTime( $date->year(), $date->month(), $date->day(), $date->hour(), 0, 0 );
+    $ttt = $hour->timeStamp();
+
+    $test = new eZDateTime();
+    $test->setTimeStamp( $ttt );
+
     $db->array_query( $oldelements, "SELECT * FROM eZStats_Archive_PageView WHERE Hour='" . $hour->timeStamp() . "'" );
     
     if ( count( $oldelements ) == 0 )
