@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eztechrenderer.php,v 1.76 2001/09/30 11:53:59 bf Exp $
+// $Id: eztechrenderer.php,v 1.76.2.1 2002/02/04 08:11:33 jhe Exp $
 //
 // Definition of eZTechRenderer class
 //
@@ -222,7 +222,7 @@ class eZTechRenderer
         else
         {
             $intro = "";
-            $body = "";
+            $body = array();
 
             $this->PrevTag = "";
             $articleImages =& $this->Article->images();
@@ -258,9 +258,9 @@ class eZTechRenderer
                         if ( $article->name == "body" )
                         {
                             $body = $article->children;
-                        }                        
+                        }
                     }
-                }                
+                }
             }
 
             $pageArray = array();
