@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: fileedit.php,v 1.3 2001/07/20 11:18:28 jakobn Exp $
+// $Id: fileedit.php,v 1.4 2001/10/14 16:20:00 fh Exp $
 //
 // Created on: <16-Feb-2001 14:33:48 fh>
 //
@@ -40,10 +40,10 @@ if( isset( $Ok ) )
         $mail = new eZMail( $MailID );
 
         $uploadedFile = new eZVirtualFile();
-        $uploadedFile->setName( $Name );
-        $uploadedFile->setDescription( $Description );
+//        $uploadedFile->setDescription( $Description );
 
         $uploadedFile->setFile( $file );
+        $uploadedFile->setName( $uploadedFile->originalFileName() );
         
         $uploadedFile->store();
 
