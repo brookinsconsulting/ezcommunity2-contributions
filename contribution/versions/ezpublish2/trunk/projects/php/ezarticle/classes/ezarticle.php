@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezarticle.php,v 1.65 2001/04/17 13:24:39 bf Exp $
+// $Id: ezarticle.php,v 1.66 2001/04/17 14:13:39 bf Exp $
 //
 // Definition of eZArticle class
 //
@@ -1043,7 +1043,7 @@ class eZArticle
            $publishedCode = "AND Article.IsPublished = 'true'";
        }
 
-       $query = "SELECT Article.ID as ArticleID
+       $query = "SELECT DISTINCT Article.ID as ArticleID
                   FROM eZArticle_Article AS Article,
                        eZArticle_ArticleCategoryLink as Link,
                        eZArticle_ArticlePermission AS Permission,

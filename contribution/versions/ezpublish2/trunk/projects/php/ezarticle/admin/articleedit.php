@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: articleedit.php,v 1.67 2001/04/17 13:24:38 bf Exp $
+// $Id: articleedit.php,v 1.68 2001/04/17 14:13:39 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <18-Oct-2000 15:04:39 bf>
@@ -117,6 +117,17 @@ function deleteCache( $ArticleID, $CategoryID, $CategoryArray )
     {
         $file->delete();
     }
+
+    $files =& eZCacheFile::files( "ezarticle/cache/",
+                                 array( "articlelinklist",
+                                        array_merge( 0, $CategoryID, $CategoryArray ),
+                                        NULL ),
+                                  "cache", "," );
+    foreach( $files as $file )
+    {
+        $file->delete();
+    }
+
 }
 
 /* Can possibly be deleted!
@@ -207,9 +218,9 @@ if ( $Action == "Insert" )
     }
     
     // check if the contents is parseable
-//    xmltree( $contents )
+    xmltree( $contents )
     // add document validation here
-    if ( true )
+//    if ( true )
     {
         // generate keywords
         $contents = strip_tags( $contents );
@@ -399,9 +410,9 @@ if ( $Action == "Update" )
     }
         
     // check if the contents is parseable
-//    if ( xmltree( $contents ) )
+    if ( xmltree( $contents ) )
     // TODO add document validation here:
-    if ( true )
+//    if ( true )
     {
 
         // generate keywords
