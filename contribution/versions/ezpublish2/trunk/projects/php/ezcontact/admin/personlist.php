@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: personlist.php,v 1.21 2002/11/04 09:11:33 jhe Exp $
+// $Id: personlist.php,v 1.22 2002/11/04 09:14:55 jhe Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -71,7 +71,6 @@ $t->set_block( "person_table_tpl", "person_item_tpl", "person_item" );
 
 $t->set_block( "person_item_tpl", "person_state_tpl", "person_state" );
 $t->set_block( "person_item_tpl", "no_person_state_tpl", "no_person_state" );
-$t->set_block( "person_item_tpl", "image_item_tpl", "image_item" );
 $t->set_block( "person_item_tpl", "person_view_button_tpl", "person_view_button" );
 $t->set_block( "person_item_tpl", "no_person_view_button_tpl", "no_person_view_button" );
 $t->set_block( "person_item_tpl", "person_buy_button_tpl", "person_buy_button" );
