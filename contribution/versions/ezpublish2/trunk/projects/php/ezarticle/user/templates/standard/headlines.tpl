@@ -35,8 +35,8 @@
 <tr>
 	<td class="menuspacer">&nbsp;</td>
 </tr>
-</table>
 <!-- END article_list_tpl -->
+</table>
 
 
 
