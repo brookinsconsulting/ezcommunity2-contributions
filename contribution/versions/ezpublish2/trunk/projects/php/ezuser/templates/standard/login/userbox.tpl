@@ -1,4 +1,4 @@
-<tr bgcolor="#eeeeee"> 
+<tr bgcolor="#aaaaaa"> 
 	<td>
         <p class="smallhead">
 	Bruker informasjon

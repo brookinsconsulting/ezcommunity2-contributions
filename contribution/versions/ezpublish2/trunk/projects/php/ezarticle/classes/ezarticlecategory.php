@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezarticlecategory.php,v 1.3 2000/10/20 15:42:26 bf-cvs Exp $
+// $Id: ezarticlecategory.php,v 1.4 2000/10/21 12:46:22 bf-cvs Exp $
 //
 // Definition of eZArticleCategory class
 //
@@ -201,7 +201,7 @@ class eZArticleCategory
         $path = array();
 
         $parent = $category->parent();
-        
+
         if ( $parent != 0 )
         {
             $path = array_merge( $path, $this->path( $parent->id() ) );
@@ -256,9 +256,9 @@ class eZArticleCategory
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
 
-       if ( $this->Parent != 0 )
+       if ( $this->ParentID != 0 )
        {
-           return new eZArticleCategory( $this->Parent );
+           return new eZArticleCategory( $this->ParentID );
        }
        else
        {
@@ -343,12 +343,9 @@ class eZArticleCategory
 
        $this->Database->array_query( $article_array, "SELECT eZArticle_Article.ID AS ArticleID, eZArticle_ArticleCategoryLink.ArticleID 
                                                       FROM eZArticle_Article, eZArticle_ArticleCategoryLink
-                                                      WHERE CategoryID='1' AND eZArticle_Article.ID = eZArticle_ArticleCategoryLink.ArticleID
+                                                      WHERE CategoryID='$this->ID' AND eZArticle_Article.ID = eZArticle_ArticleCategoryLink.ArticleID
                                                       ORDER BY eZArticle_Article.Created DESC" );
-
  
-//         $this->Database->array_query( $article_array, "SELECT ArticleID FROM eZArticle_ArticleCategoryLink WHERE CategoryID='$this->ID'" );
-
        for ( $i=0; $i<count($article_array); $i++ )
        {
            $return_array[$i] = new eZArticle( $article_array[$i]["ArticleID"], false );

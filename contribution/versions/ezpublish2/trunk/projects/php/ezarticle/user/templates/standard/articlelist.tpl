@@ -1,9 +1,9 @@
 <h1>Artikkel arkiv</h1>
 
 <hr noshade size="4"/>
-/ <a href="/article/archive/parent/0/">Toppnivå</a> / 
+/ <a href="/article/archive/0/">Toppnivå</a> / 
 <!-- BEGIN path_item_tpl -->
-<a href="/article/archive/parent/{category_id}/">{category_name}</a> / 
+<a href="/article/archive/{category_id}/">{category_name}</a> / 
 <!-- END path_item_tpl -->
 
 <hr noshade size="4"/>
