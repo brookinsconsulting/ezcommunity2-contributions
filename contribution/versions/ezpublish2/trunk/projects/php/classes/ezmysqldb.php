@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezmysqldb.php,v 1.10 2001/07/18 10:55:41 ce Exp $
+// $Id: ezmysqldb.php,v 1.11 2001/07/18 11:00:43 ce Exp $
 //
 // Definition of eZMySQLDB class
 //
@@ -46,9 +46,9 @@ class eZMySQLDB
         }
 
         
-        $this->Database = @mysql_select_db( $db );
+        $ret = @mysql_select_db( $db, $this->Database );
              
-        if ( !$this->Database )
+        if ( !$ret )
         {
             if ( $GLOBALS["DEBUG"] == true )
             {
@@ -320,6 +320,7 @@ class eZMySQLDB
     var $Error;
     
 }
+
 
 
 
