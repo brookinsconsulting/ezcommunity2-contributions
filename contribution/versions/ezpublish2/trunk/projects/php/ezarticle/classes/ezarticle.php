@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezarticle.php,v 1.121 2001/07/12 10:45:41 jb Exp $
+// $Id: ezarticle.php,v 1.122 2001/07/12 11:08:34 pkej Exp $
 //
 // Definition of eZArticle class
 //
@@ -110,6 +110,7 @@ class eZArticle
         $authoremail = $db->escapeString( $this->AuthorEmail );
         $linktext = $db->escapeString( $this->LinkText );
         $keywords = $db->escapeString( $this->Keywords );
+        $importID = $db->escapeString( $this->ImportID );
 
         if ( is_object( $this->StartDate ) and $this->StartDate->isValid() )
             $startDate = $this->StartDate->timeStamp();
@@ -165,7 +166,8 @@ class eZArticle
                                  StopDate,
                                  Modified,
                                  Published,
-                                 Created )
+                                 Created,
+                                 ImportID )
                                  VALUES
                                  ( '$nextID',
 		                           '$name',
@@ -182,7 +184,8 @@ class eZArticle
                                    '$stopDate',
                                    '$timeStamp',
                                    '$published',
-                                   '$timeStamp' )
+                                   '$timeStamp',
+                                   '$importID' )
                                  " );
 
 			$this->ID = $nextID;
@@ -243,7 +246,8 @@ class eZArticle
                                  StartDate='$startDate',
                                  StopDate='$stopDate',
                                  Published='$published',
-                                 Modified='$timeStamp'
+                                 Modified='$timeStamp',
+                                 ImportID='$importID'
                                  WHERE ID='$this->ID'
                                  " );
             }
@@ -268,7 +272,8 @@ class eZArticle
                                  Published='$published',
                                  StartDate='$startDate',
                                  StopDate='$stopDate',
-                                 Modified='$timeStamp'
+                                 Modified='$timeStamp',
+                                 ImportID='$importID'
                                  WHERE ID='$this->ID'
                                  " );
             }
@@ -319,6 +324,7 @@ class eZArticle
                 $this->TopicID =& $article_array[0][$db->fieldName("TopicID")];
                 $this->StartDate =& $article_array[0][$db->fieldName("StartDate")];
                 $this->StopDate =& $article_array[0][$db->fieldName("StopDate")];
+                $this->ImportID =& $article_array[0][$db->fieldName("ImportID")];
                 $ret = true;
             }
         }
@@ -342,6 +348,32 @@ class eZArticle
         if( $name != "" )
         {
             $db->array_query( $author_array, "SELECT * FROM eZArticle_Article WHERE Name='$name'" );
+
+            if( count( $author_array ) == 1 )
+            {
+                $topic =& new eZArticle( $author_array[0][$db->fieldName("ID")] );
+            }
+        }
+        
+        return $topic;
+    }
+    /*!
+        \static
+        Returns the one, and only if one exists, article with the import id
+        
+        Returns an object of eZArticle.
+     */
+    function &getByImportID( $name )
+    {
+        $db =& eZDB::globalDatabase();
+        
+        $topic =& new eZArticle();
+        
+        $name = $db->escapeString( $name );
+
+        if( $name != "" )
+        {
+            $db->array_query( $author_array, "SELECT * FROM eZArticle_Article WHERE ImportID='$name'" );
 
             if( count( $author_array ) == 1 )
             {
@@ -416,6 +448,14 @@ class eZArticle
     }
 
     /*!
+      Returns the article import id.
+    */
+    function &importID( )
+    {
+        return $this->ImportID;
+    }
+
+    /*!
       Returns the article contents.
 
       The contents is internally stored as XML.
@@ -478,6 +518,7 @@ class eZArticle
       Returns the number of pages in the article.
     */
     function &pageCount()
+
     {
         return $this->PageCount;
     }
@@ -592,6 +633,14 @@ class eZArticle
     function setName( $value )
     {
         $this->Name = $value;
+    }
+
+    /*!
+      Sets the article import id.
+    */
+    function setImportID( $value )
+    {
+        $this->ImportID = $value;
     }
 
     /*!
@@ -2231,6 +2280,7 @@ class eZArticle
     var $TopicID;
     var $StartDate;
     var $StopDate;
+    var $ImportID;
     
     // tell eZ publish to show the article to the public
     var $IsPublished;
