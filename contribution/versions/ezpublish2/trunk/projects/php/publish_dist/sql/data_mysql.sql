@@ -1227,10 +1227,10 @@ INSERT INTO eZArticle_Word VALUES (473,0.2,'ez publish 2.2');
 
 INSERT INTO eZForm_Form VALUES (2,'Feedback form demo','nospam@ez.no','','','1','/article/articleview/6','',0);
 
-INSERT INTO eZForm_FormElement VALUES (2,'Firstname',0,1,0,10);
-INSERT INTO eZForm_FormElement VALUES (3,'Lastname',0,1,0,10);
+INSERT INTO eZForm_FormElement VALUES (2,'Firstname',0,1,10,0);
+INSERT INTO eZForm_FormElement VALUES (3,'Lastname',0,1,10,0);
 INSERT INTO eZForm_FormElement VALUES (5,'Description',0,2,0,0);
-INSERT INTO eZForm_FormElement VALUES (4,'Initials',0,1,1,3);
+INSERT INTO eZForm_FormElement VALUES (4,'Initials',0,1,3,1);
 INSERT INTO eZForm_FormElement VALUES (6,'Your rating',0,6,0,0);
 
 INSERT INTO eZForm_FormElementDict VALUES (7,'New element 5',2,6,6);
