@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: articleedit.php,v 1.14 2001/05/02 13:09:52 fh Exp $
+// $Id: articleedit.php,v 1.15 2001/05/07 14:19:14 fh Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <18-Oct-2000 15:04:39 bf>
@@ -181,22 +181,25 @@ $treeArray = $tree->getTree();
 
 foreach ( $treeArray as $catItem )
 {
-    $t->set_var( "selected", "" );
-
-    if ( $CategoryIDSelect == $catItem[0]->id() )
+    if( eZObjectPermission::hasPermission( $catItem[0]->id(), "article_category", 'w', eZUser::currentUser() ) == true )
     {
-        $t->set_var( "selected", "selected" );
+        $t->set_var( "selected", "" );
+
+        if ( $CategoryIDSelect == $catItem[0]->id() )
+        {
+            $t->set_var( "selected", "selected" );
+        }
+
+        $t->set_var( "option_value", $catItem[0]->id() );
+        $t->set_var( "option_name", $catItem[0]->name() );
+
+        if ( $catItem[1] > 0 )
+            $t->set_var( "option_level", str_repeat( "&nbsp;", $catItem[1] ) );
+        else
+            $t->set_var( "option_level", "" );
+
+        $t->parse( "value", "value_tpl", true );
     }
-
-    $t->set_var( "option_value", $catItem[0]->id() );
-    $t->set_var( "option_name", $catItem[0]->name() );
-
-    if ( $catItem[1] > 0 )
-        $t->set_var( "option_level", str_repeat( "&nbsp;", $catItem[1] ) );
-    else
-        $t->set_var( "option_level", "" );
-
-    $t->parse( "value", "value_tpl", true );    
 }
 
 
