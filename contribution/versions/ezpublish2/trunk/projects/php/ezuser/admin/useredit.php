@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: useredit.php,v 1.14 2000/12/19 13:52:05 ce Exp $
+// $Id: useredit.php,v 1.15 2000/12/21 16:08:49 ce Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <20-Sep-2000 13:32:11 ce>
@@ -60,7 +60,8 @@ if ( $Action == "insert" )
                 $user->setLogin( $Login );
                 if ( !$user->exists( $user->login() ) )
                 {
-                    if ( eZMail::validate( $Email ) )
+                    $tmp[0] = $Email;
+                    if ( eZMail::validate( $tmp[0] ) )
                     {
                         $user->setPassword( $Password );
                         $user->setEmail( $Email );

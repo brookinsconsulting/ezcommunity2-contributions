@@ -280,6 +280,11 @@
 	<td>
 	<input class="stdbutton" type="submit" name="CertificateAdd" value="{intl-button_add_certificate}" />
 	</td>
+	<td>&nbsp;</td>
+	<td>
+	<input class="stdbutton" type="submit" name="CourseAdd" value="{intl-button_add_course}" />
+	</td>
+
 </tr>
 </table>
 

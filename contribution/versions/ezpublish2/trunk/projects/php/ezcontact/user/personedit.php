@@ -149,8 +149,8 @@ if( $Action == "insert" || $Action == "update" )
     $t->set_var( "error_passwordrepeat_item", "" );
     $t->set_var( "error_passwordmatch_item", "" );
     $t->set_var( "error_address_item", "" );
-    $t->set_var( "error_loginname_item", "&nbsp;" );
-    
+    $t->set_var( "error_userexists_item", "&nbsp;" );
+
     if( empty( $Online[0] ) )
     {
         $t->parse( "error_email_item", "error_email_item_tpl" );
@@ -158,8 +158,9 @@ if( $Action == "insert" || $Action == "update" )
     }
     else
     {
-        if( !eZMail::validate( $Online[0] ) )
+        if ( eZMail::validate( $Online[0] ) == false )
         {
+        exit;
             $t->parse( "error_email_not_valid_item", "error_email_not_valid_item_tpl" );
             $error = true;
         }

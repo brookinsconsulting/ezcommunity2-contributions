@@ -2,7 +2,6 @@
 /*
     Edit a cv
  */
- 
 include_once( "classes/INIFile.php" );
 
 $ini = new INIFile( "site.ini" );
@@ -16,7 +15,7 @@ include_once( "ezcontact/classes/ezcountry.php");
 include_once( "classes/ezdate.php" );
 include_once( "classes/ezlocale.php" );
 
-if( !empty( $CertificateAdd ) || !empty( $ExperienceAdd ) || !empty( $ExtracurricularAdd ) || !empty( $EducationAdd ) )
+if( !empty( $CertificateAdd ) || !empty( $ExperienceAdd ) || !empty( $ExtracurricularAdd ) || !empty( $EducationAdd ) || !empty( $CourseAdd ) )
 {
     $Action = "add";
 }
@@ -121,6 +120,11 @@ $t->set_var( "certificate_info", "" );
 $t->set_block( "certificate_info_tpl", "certificate_item_tpl", "certificate_item" );
 $t->set_var( "certificate_item", "" );
 
+$t->set_block( "cv_edit", "course_info_tpl", "course_info" );
+$t->set_var( "course_info", "" );
+$t->set_block( "course_info_tpl", "course_item_tpl", "course_item" );
+$t->set_var( "course_item", "" );
+
 
 
 
@@ -143,7 +147,9 @@ if( empty( $ValidUntil ) )
     $futureDate = $ValidFor * 60 * 60 * 24 + $time; // We are working in days here...
     $ValidUntil=gmdate( "Y-m-d", $futureDate);
 }
-    
+
+
+
 if( $Action == "insert" || $Action == "update" || $Action == "add" )
 {
     $cv->setNationalityID( $NationalityID );
@@ -193,7 +199,6 @@ if( $Action == "insert" || $Action == "update" || $Action == "add" )
         header( "Location: /cv/course/new/?CVID=$CVID" );
         exit();
     }
-
 }
 
 
@@ -245,7 +250,8 @@ if( is_numeric( $CVID ) )
     $ArmyStatus = $cv->armyStatus();
     $WorkStatus = $cv->workStatus();
     $MaritalStatus = $cv->maritalStatus();
-    
+
+    // Experience list
     $experienceArray = $cv->experience();
     
     $i = 0;
@@ -280,8 +286,7 @@ if( is_numeric( $CVID ) )
         $t->parse( "experience_info", "experience_info_tpl" );
     }
 
-
-
+    // Education list
     $educationArray = $cv->education();
     
     $i = 0;
@@ -296,6 +301,7 @@ if( is_numeric( $CVID ) )
         {
             $t->set_var( "theme-type_class", "bgdark" );
         }
+        
         $i++;
         $startDate = new eZDate();
         $startDate->setMySQLDate( $education->start() );
@@ -316,7 +322,43 @@ if( is_numeric( $CVID ) )
         $t->parse( "education_info", "education_info_tpl" );
     }
 
+    // Course list
+    $courseArray = $cv->course();
+    
+    $i = 0;
 
+    foreach( $courseArray as $course )
+    {
+        print_r( $course );
+        if ( ( $i %2 ) == 0 )
+        {
+            $t->set_var( "theme-type_class", "bglight" );
+        }
+        else
+        {
+            $t->set_var( "theme-type_class", "bgdark" );
+        }
+        $i++;
+        $startDate = new eZDate();
+        $startDate->setMySQLDate( $course->courseStart() );
+        $endDate = new eZDate();
+        $endDate->setMySQLDate( $course->courseStop() );
+        
+        $t->set_var( "course_id", $course->id() );
+        $t->set_var( "course_name", $course->courseName() );
+        $t->set_var( "course_place", $course->coursePlace() );
+        $t->set_var( "course_start", $locale->format( $startDate ) );
+        $t->set_var( "course_end", $locale->format( $endDate ) );
+
+        $t->parse( "course_item", "course_item_tpl", true );
+    }
+    
+    if( $i != 0 )
+    {
+        $t->parse( "course_info", "course_info_tpl" );
+    }
+
+    // Certificate list
     $certificateArray = $cv->certificate();
     
     $i = 0;
@@ -353,7 +395,7 @@ if( is_numeric( $CVID ) )
         $t->parse( "certificate_info", "certificate_info_tpl" );
     }
 
-
+    // Extracurricular list
     $extracurricularArray = $cv->extracurricular();
     
     $i = 0;

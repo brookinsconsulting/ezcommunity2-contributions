@@ -18,7 +18,7 @@ include_once( "classes/ezlocale.php" );
 include_once( "classes/ezdate.php" );
 
 
-$t = new eZTemplate( "ezcv/user/" . $ini->read_var( "eZCVMain", "TemplateDir" ),
+$t = new eZTemplate( "ezcv/user/" . $ini->read_var( "eZCVMain", "AdminTemplateDir" ),
                      "ezcv/user/intl", $Language, "cv.php" );
 $intl = new INIFile( "ezcv/user/intl/" . $Language . "/cv.php.ini", false );
 
@@ -156,6 +156,13 @@ if( $Action == "view" )
     $t->set_var( "experience_items", "");
     $t->set_var( "no_experience_items", "");
     $t->set_var( "experience_item", "" );
+    
+    $t->set_block( "cv_view", "course_items_tpl", "course_items");
+    $t->set_block( "cv_view", "no_course_items_tpl", "no_course_items");
+    $t->set_block( "course_items_tpl", "course_item_tpl", "course_item" );
+    $t->set_var( "course_items", "");
+    $t->set_var( "no_course_items", "");
+    $t->set_var( "course_item", "" );
 
     $t->set_block( "cv_view", "extracurricular_items_tpl", "extracurricular_items");
     $t->set_block( "cv_view", "no_extracurricular_items_tpl", "no_extracurricular_items");
@@ -289,6 +296,7 @@ if( $Action == "view" )
 
 if( $Action == "view" && $viewPermission )
 {
+    // Experience list
     $experienceArray = $cv->experience();
     
     if( $i != 0 )
@@ -327,6 +335,7 @@ if( $Action == "view" && $viewPermission )
         $t->parse( "no_experience_items", "no_experience_items_tpl");
     }
 
+    // Extracurricular list
     $extracurricularArray = $cv->extracurricular();
     
     if( $i != 0 )
@@ -366,7 +375,7 @@ if( $Action == "view" && $viewPermission )
     }
 
 
-
+    // Education list
     $educationArray = $cv->education();
     
     if( $i != 0 )
@@ -405,7 +414,47 @@ if( $Action == "view" && $viewPermission )
         $t->parse( "no_education_items", "no_education_items_tpl");
     }
 
+    // Course list
+    $courseArray = $cv->course();
+    
+    if( $i != 0 )
+    {
+        $t->parse( "online_info", "online_info_tpl" );
+    }
 
+    $i = 0;
+    foreach( $courseArray as $course )
+    {
+        if ( ( $i %2 ) == 0 )
+        {
+            $t->set_var( "theme-type_class", "bglight" );
+        }
+        else
+        {
+            $t->set_var( "theme-type_class", "bgdark" );
+        }
+        $i++;
+        
+        $t->set_var( "item_end_period", $course->courseEnd() );
+        $t->set_var( "item_start_period", $course->courseStart() );
+        $t->set_var( "item_place", $course->coursePlace() );
+        $t->set_var( "item_name", $course->courseName() );
+        $t->set_var( "item_id", $course->id() );
+        $t->parse( "course_item", "course_item_tpl", true );
+
+    }
+    
+    if( $i != 0 )
+    {
+        $t->parse( "course_items", "course_items_tpl");
+    }
+    else
+    {
+        $t->parse( "no_course_items", "no_course_items_tpl");
+    }
+
+
+    // Certificate list
     $certificateArray = $cv->certificate();
     
     if( $i != 0 )
@@ -451,8 +500,6 @@ if( $Action == "view" && $viewPermission )
 
 if( $Action == "view" )
 {
-
-
     $t->setAllStrings();
     $t->set_var( "action_value", $ActionValue );
     $t->pparse( "output", "cv_view"  ); 

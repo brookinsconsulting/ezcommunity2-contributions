@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezcv.php,v 1.2 2000/12/14 17:50:25 pkej Exp $
+// $Id: ezcv.php,v 1.3 2000/12/21 16:08:49 ce Exp $
 //
 // Definition of eZCV class
 //
@@ -34,6 +34,7 @@ include_once( "ezcv/classes/ezexperience.php" );
 include_once( "ezcv/classes/ezeducation.php" );
 include_once( "ezcv/classes/ezcertificate.php" );
 include_once( "ezcv/classes/ezextracurricular.php" );
+include_once( "ezcv/classes/ezcourse.php" );
 include_once( "ezcontact/classes/ezperson.php" );
 
 class eZCV
@@ -329,7 +330,38 @@ class eZCV
         }
         return $return_array;
     }
+
+    /*!
+        Get CV by Course.
+     */
+    function getByCourse( $course )
+    {
+        $this->dbInit();
+        $item_array = 0;
+        $return_array = 0;
     
+        if( is_numeric( $course ) )
+        {
+            $CourseID = $course;
+        }
+        
+        if( get_class( $course ) == "ezcourse" )
+        {
+            $CourseID = $course->id();
+        }
+        
+        if( is_numeric( $course ) )
+        {
+            $this->Database->array_query( $item_array, "SELECT DISTINCT CVID AS ID FROM eZCV_CVCourseDict WHERE CourseID = '$CourseID'" );
+
+            foreach( $item_array as $item )
+            {
+                $return_array = new eZCV( $item["ID"] );
+            }
+        }
+        return $return_array;
+    }
+
     /*!
         Get CV by Education.
      */
@@ -425,6 +457,141 @@ class eZCV
         return $ret;
     }
     
+    /*!
+      Adds course to this CV.
+        
+        \in
+            \$course  Either an object of the type eZCourse or a numeric id for a tuplet in
+                        the eZCV_Course table.
+        \return
+            Returns true if the object/id exists or is inserted as a part of this CV.
+     */
+    function addCourse( $course )
+    {
+        if( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+        $ret = false;
+       
+        $this->dbInit();
+        if( get_class( $course ) == "ezcourse" )
+        {
+            $courseID = $course->id();
+
+        }
+        elseif( is_numeric( $course ) )
+        {
+            $courseID = $course;
+        }
+        
+        if( is_numeric( $courseID ) )
+        {
+            $checkQuery = "SELECT CVID FROM eZCV_CVCourseDict WHERE CourseID='$courseID'";
+            
+            $this->Database->array_query( $course_array, $checkQuery );
+
+            $count = count( $course_array );
+
+            if( $count == 0 )
+            {
+                $this->Database->query( "INSERT INTO eZCV_CVCourseDict
+                                SET CVID='$this->ID', CourseID='$courseID'" );
+            }
+            $this->update();
+            $ret = true;
+        }
+        
+        return $ret;
+    }
+
+    /*!
+        Deletes work course from this CV.
+     */
+    function deleteAllCourse()
+    {
+        if( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+        
+        $CVID = $this->ID;
+
+        $this->dbInit();
+        
+        $this->Database->array_query(
+            $itemArray,
+            "
+                SELECT
+                    CourseID AS ID
+                FROM
+                    eZCV_CVCourseDict
+                WHERE
+                    CVID='$CVID'
+            " );
+        foreach( $itemArray as $item )
+        {
+            $itemID = $item["ID"];
+            $this->Database->query( "DELETE FROM eZCV_Course WHERE ID='$itemID'" );
+            $this->Database->query( "DELETE FROM eZCV_CVCourseDict WHERE CourseID='$itemID'" );
+            $this->update();
+        }            
+    }
+
+    /*!
+        Deletes education from this CV.
+     */
+    function deleteCourse( $item )
+    {
+        if( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+        
+        $CVID = $this->ID;
+
+        $this->dbInit();
+        
+        if( get_class() == "ezcourse" )
+        {
+            $ItemID = $item->id();
+        }
+        
+        if( is_numeric( $item ) )
+        {
+            $ItemID = $item;
+        }
+        
+        if( is_numeric( $ItemID ) )
+        {
+            $this->Database->query( "DELETE FROM eZCV_Course WHERE ID='$ItemID'" );
+            $this->Database->query( "DELETE FROM eZCV_CVCourseDict WHERE CourseID='$ItemID'" );
+            $this->update();
+        }
+    }
+
+
+    /*!
+        Returns all courses from this CV.
+        
+        \return
+            Returns an array of eZCourse objects.
+     */
+    function course()
+    {
+        if( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+        
+        $return_array = array();
+        $CVID = $this->ID;
+        
+        $this->dbInit();
+
+        $this->Database->array_query( $itemArray, "SELECT CourseID AS ID FROM eZCV_CVCourseDict WHERE CVID='$CVID'" );
+
+        foreach( $itemArray as $item )
+        {
+            $return_array[] = new eZCourse( $item["ID"] );
+        }
+
+        return $return_array;
+    }
+
     
     /*!
         Deletes work experience from this CV.
@@ -630,6 +797,7 @@ class eZCV
             $this->update();
         }
     }
+
     /*!
         Returns all education from this CV.
         
@@ -915,6 +1083,7 @@ class eZCV
             $this->update();
         }
     }
+
     /*!
         Returns all certificates from this CV.
         

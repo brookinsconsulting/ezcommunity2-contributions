@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezmail.php,v 1.7 2000/12/13 11:04:28 bf Exp $
+// $Id: ezmail.php,v 1.8 2000/12/21 16:08:49 ce Exp $
 //
 // Definition of eZCompany class
 //
@@ -179,8 +179,11 @@ class eZMail
       Returns true if successful, false if not.
     */
     function validate( $address )
-    {  
+    {
+        
         $pos = ( ereg('^[-!#$%&\'*+\\./0-9=?A-Z^_`a-z{|}~]+'.'@'.'[-!#$%&\'*+\\/0-9=?A-Z^_`a-z{|}~]+\.'.'[-!#$%&\'*+\\./0-9=?A-Z^_`a-z{|}~]+$', $address) );
+        print( "address = $address, pos = $pos \n\n" );
+        
         return $pos;
     } 
     

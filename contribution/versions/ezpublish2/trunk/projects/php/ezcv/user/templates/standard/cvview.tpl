@@ -298,6 +298,40 @@
 <!-- END no_certificate_items_tpl -->
 
 
+<!-- BEGIN course_items_tpl -->
+<h2>{intl-th_course_list}</h2>
+
+<table class="list" width="100%" cellspacing="0" cellpadding="0" border="0">
+<tr>
+    <th>{intl-th_start}:</th>
+    <th>{intl-th_end}:</th>
+    <th>{intl-th_course_institution}:</th>
+    <th>{intl-th_course_direction}:</th>
+<!--    <th colspan="2">&nbsp;</th> -->
+</tr>
+
+<!-- BEGIN course_item_tpl -->
+<tr class="{theme-type_class}">
+    <td class="small">{item_start_period}</td>
+    <td class="small">{item_end_period}</td>
+    <td>{item_where}</td>
+    <td>{item_what}</td>
+<!--
+    <td width="1%"><a href="/cv/course/edit/{item_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezedu{item_id}-red','','/images/redigerminimrk.gif',1)"><img name="ezedu{item_id}-red" border="0" src="/images/redigermini.gif" width="16" height="16" align="top"></a></td>
+    <td width="1%"><a href="/cv/course/delete/{item_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezedu{item_id}-slett','','/images/slettminimrk.gif',1)"><img name="ezedu{item_id}-slett" border="0" src="/images/slettmini.gif" width="16" height="16" align="top"></a></td>
+-->
+</tr>
+
+<!-- END course_item_tpl -->
+</table>
+
+<!-- END course_items_tpl -->
+
+<!-- BEGIN no_course_items_tpl -->
+<h2 class="boxtext">{intl-th_course_list}</h2>
+<p>{intl-th_no_course}</p>
+<!-- END no_course_items_tpl -->
+
 
 
 

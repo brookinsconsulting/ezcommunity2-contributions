@@ -210,6 +210,43 @@ switch ( $url_array[2] )
         }
         break;
     }
+    case "course":
+    {
+        $operation = $url_array[3];
+        
+        switch( $operation )
+        {
+            case "new":
+                $Action = "new";
+                include( "ezcv/user/courseedit.php" );
+                break;
+            case "edit":
+                $Action = "edit";
+                $CourseID = $url_array[4];
+                include( "ezcv/user/courseedit.php" );
+                break;
+            case "insert":
+                $Action = "insert";
+                $CourseID = $url_array[4];
+                include( "ezcv/user/courseedit.php" );
+                break;
+            case "update":
+                $Action = "insert";
+                $CourseID = $url_array[4];
+                include( "ezcv/user/courseedit.php" );
+                break;
+            case "delete":
+                $Action = "delete";
+                $CourseID = $url_array[4];
+                include( "ezcv/user/courseedit.php" );
+                break;
+            default:
+                header( "Location: /error.php?type=404&reason=missingpage&hint[]=/cv/course/$operation/&module=ezcv" );
+                exit();               
+        }
+        break;
+    }
+
     case "certificatetype":
     {
         switch( $url_array[3] )
