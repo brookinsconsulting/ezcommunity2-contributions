@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: linkcategorylist.php,v 1.9 2001/09/24 09:51:46 bf Exp $
+// $Id: linkcategorylist.php,v 1.10 2001/09/27 12:49:47 th Exp $
 //
 // Created on: <26-Oct-2000 15:02:09 ce>
 //
@@ -66,6 +66,9 @@ $t->setAllStrings();
 
 $t->set_file( "link_page_tpl", "linkcategorylist.tpl" );
 
+$t->set_block( "link_page_tpl", "headline_tpl", "headline_item" );
+$t->set_block( "link_page_tpl", "category_name_tpl", "category_name_item" );
+
 $t->set_block( "link_page_tpl", "category_list_tpl", "category_list" );
 $t->set_block( "category_list_tpl", "category_item_tpl", "category_item" );
 
@@ -88,8 +91,6 @@ $t->set_block( "link_page_tpl", "path_item_tpl", "path_item" );
 $t->set_var( "attribute_header", "" );
 $t->set_var( "attribute_value", "" );
 
-
-
 // Path
 $pathArray = $linkCategory->path();
 
@@ -100,6 +101,17 @@ foreach ( $pathArray as $path )
     $t->set_var( "category_name", $path[1] );
     $t->parse( "path_item", "path_item_tpl", true );
 }
+
+if ( ! $path[1] )
+{
+    $t->parse( "headline_item", "headline_tpl" );
+    $t->set_var( "category_name_item", "" );
+}	 
+else
+{
+    $t->parse( "category_name_item", "category_name_tpl" );
+    $t->set_var( "headline_item", "" );
+}	 
 
 $linkCategory_array =& $linkCategory->getByParent( $LinkCategoryID );
 

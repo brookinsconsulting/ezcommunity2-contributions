@@ -1,7 +1,12 @@
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
     <td align="left" valign="bottom">
-        <h1>{intl-headline}</h1>
+<!-- BEGIN headline_tpl -->
+   	<h1>{intl-headline}</h1>
+<!-- END headline_tpl -->
+<!-- BEGIN category_name_tpl -->
+   	<h1>{category_name}</h1>
+<!-- END category_name_tpl -->
      </td>
      <td align="right">
 	 <form action="{www_dir}{index}/link/search/" method="post">
