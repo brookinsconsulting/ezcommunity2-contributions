@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: articlelist.php,v 1.59 2001/08/15 06:56:47 ce Exp $
+// $Id: articlelist.php,v 1.60 2001/08/16 13:57:04 jhe Exp $
 //
 // Created on: <18-Oct-2000 14:41:37 bf>
 //
@@ -181,7 +181,6 @@ else
     $t->set_var( "current_image_item", "" );
 }
 
-
 // categories
 $i = 0;
 $t->set_var( "category_list", "" );
@@ -251,7 +250,6 @@ if ( !isSet( $Offset ) or !is_numeric( $Offset ) )
     $Offset = 0;
 
 $Limit = $UserListLimit;
-
 
 if ( $CategoryID == 0 )
 {

@@ -67,9 +67,8 @@
 <h2>{intl-no_persons_found}</h2>
 <!-- END no_persons_tpl -->
 
-<!-- BEGIN person_table_tpl -->
 <form method="post" action="{www_dir}{index}/contact/person/edit/">
-
+<!-- BEGIN person_table_tpl -->
 <table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
 <tr>
 	<th>{intl-person_name}:</th>

@@ -18,7 +18,8 @@
   </td>
 </tr>
 </table>
-
+<input type="hidden" name="IDList" value="{id_value}" />
+<input type="hidden" name="CompanyList" value="{company_value}" />
 <p class="boxtext">{intl-from}:</p>
 <input type="text" size="40" name="From" value="{from_value}" />
 

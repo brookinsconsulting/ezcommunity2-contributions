@@ -188,6 +188,33 @@
 
 <!-- END order_table_item_tpl -->
 
+<!-- BEGIN mail_table_item_tpl -->
+<h2>{intl-mail_headline}</h2>
+
+<table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
+<tr>
+	<th>{intl-mail_date}:</th>
+	<th>{intl-mail_subject}:</th>
+	<th>{intl-mail_email}:</th>
+</tr>
+
+<!-- BEGIN mail_item_tpl -->
+<tr class="{bg_color}">
+	<td>
+        <a href="{www_dir}{index}/mail/view/{mail_id}/">{mail_date}</a>
+	</td>
+	<td>
+        <a href="{www_dir}{index}/mail/view/{mail_id}/">{mail_subject}</a>
+	</td>
+	<td>
+        <a href="{www_dir}{index}/mail/view/{mail_id}/">{mail_email}</a>
+	</td>
+</tr>
+<!-- END mail_item_tpl -->
+</table>
+
+<!-- END mail_table_item_tpl -->
+
 
 <form method="post" action="{www_dir}{index}/contact/person/edit/{person_id}/">
 

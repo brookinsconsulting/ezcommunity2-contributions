@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezmailfolder.php,v 1.27 2001/08/13 13:50:22 jhe Exp $
+// $Id: ezmailfolder.php,v 1.28 2001/08/16 13:57:04 jhe Exp $
 //
 // eZMailFolder class
 //
@@ -100,7 +100,7 @@ class eZMailFolder
                                  '$name',
                                  '$this->FolderType' )
                                  " );
-
+            $db->unlock();
 			$this->ID = $nextID;
 
         }
@@ -115,7 +115,6 @@ class eZMailFolder
                                  " );
         }
 
-        $db->unlock();
         if ( $result == false )
             $db->rollback( );
         else
@@ -260,7 +259,6 @@ class eZMailFolder
        $results[] = $db->query( $query );
        $res = in_array( false, $results ) ? false : true;
        
-        $db->unlock();
         if ( $res == false )
         {
             $db->rollback( );

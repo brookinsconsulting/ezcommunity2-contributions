@@ -11,7 +11,7 @@
 <!-- END link_category_tpl -->
 <!-- BEGIN no_link_category_tpl -->
 <tr>
-	<td colspan="2" class="menu">{intl-no_link_categorys}</td>
+	<td colspan="2" class="menu">{intl-no_link_categories}</td>
 </tr>
 <!-- END no_link_category_tpl -->
 

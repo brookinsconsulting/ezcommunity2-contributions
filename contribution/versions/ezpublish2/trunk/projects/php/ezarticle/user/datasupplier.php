@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: datasupplier.php,v 1.71 2001/08/16 13:50:19 ce Exp $
+// $Id: datasupplier.php,v 1.72 2001/08/16 13:57:04 jhe Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -33,7 +33,6 @@ $PageCaching = $ini->read_var( "eZArticleMain", "PageCaching" );
 $UserComments = $ini->read_var( "eZArticleMain", "UserComments" );
 
 $GlobalSectionID = $ini->read_var( "eZArticleMain", "DefaultSection" );
-
 
 switch ( $url_array[2] )
 {
@@ -95,6 +94,7 @@ switch ( $url_array[2] )
         $Offset = $url_array[4];
         if  ( !is_numeric( $Offset ) )
             $Offset = 0;
+
 
         // if file exists... evrything is ok..
         // if not.. check permission, then run page if ok

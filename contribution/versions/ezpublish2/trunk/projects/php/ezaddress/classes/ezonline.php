@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezonline.php,v 1.8 2001/07/19 12:06:56 jakobn Exp $
+// $Id: ezonline.php,v 1.9 2001/08/16 13:57:04 jhe Exp $
 //
 // Definition of eZOnline class
 //
@@ -76,7 +76,7 @@ class eZOnline
                                   (ID, URL, OnlineTypeID)
                                   VALUES
                                   ('$this->ID', '$url', '$this->OnlineTypeID')" );
-
+            $db->unlock();
             $ret = true;
         }
         else

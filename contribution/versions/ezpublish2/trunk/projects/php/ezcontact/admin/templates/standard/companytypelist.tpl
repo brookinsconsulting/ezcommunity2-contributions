@@ -150,8 +150,8 @@
 	<p>{intl-no_companies_error}</p>
 <!-- END no_companies_tpl -->
 
-<!-- BEGIN companies_table_tpl -->
 <form method="post" action="{www_dir}{index}/contact/company/edit/{current_id}">
+<!-- BEGIN companies_table_tpl -->
 <table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
 <tr>
 	<th>{intl-name}:</th>

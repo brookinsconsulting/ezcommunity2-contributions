@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: personview.php,v 1.20 2001/08/07 13:26:40 jhe Exp $
+// $Id: personview.php,v 1.21 2001/08/16 13:57:04 jhe Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -40,7 +40,6 @@ include_once( "classes/ezdate.php" );
 include_once( "classes/eztexttool.php" );
 include_once( "classes/ezcurrency.php" );
 
-include_once( "ezcontact/classes/ezperson.php" );
 include_once( "ezaddress/classes/ezaddress.php" );
 include_once( "ezaddress/classes/ezaddresstype.php" );
 include_once( "ezaddress/classes/ezphone.php" );
@@ -49,13 +48,15 @@ include_once( "ezaddress/classes/ezonline.php" );
 include_once( "ezaddress/classes/ezonlinetype.php" );
 include_once( "ezcontact/classes/ezprojecttype.php" );
 include_once( "ezcontact/classes/ezconsultation.php" );
+include_once( "ezcontact/classes/ezperson.php" );
 
+include_once( "ezmail/classes/ezmail.php" );
 include_once( "eztrade/classes/ezorder.php" );
 
 include_once( "ezuser/classes/ezusergroup.php" );
 include_once( "ezuser/classes/ezpermission.php" );
 
-$user = eZUser::currentUser();
+$user =& eZUser::currentUser();
 if ( get_class( $user ) != "ezuser" )
 {
     include_once( "classes/ezhttptool.php" );
@@ -104,7 +105,9 @@ $t->set_block( "person_view", "consultation_table_item_tpl", "consultation_table
 $t->set_block( "consultation_table_item_tpl", "consultation_item_tpl", "consultation_item" );
 
 $t->set_block( "person_view", "order_table_item_tpl", "order_table_item" );
+$t->set_block( "person_view", "mail_table_item_tpl", "mail_table_item" );
 $t->set_block( "order_table_item_tpl", "order_item_tpl", "order_item" );
+$t->set_block( "mail_table_item_tpl", "mail_item_tpl", "mail_item" );
 
 $t->set_block( "person_view", "consultation_buttons_tpl", "consultation_buttons" );
 
@@ -324,7 +327,7 @@ if ( $Action == "view" )
     }
 
     // Consultation list
-    $user = eZUser::currentUser();
+    $user =& eZUser::currentUser();
     if ( eZPermission::checkPermission( $user, "eZContact", "consultation" ) )
     {
         $max = $ini->read_var( "eZContactMain", "MaxPersonConsultationList" );
@@ -425,6 +428,38 @@ else
     $t->set_var( "order_table_item", "" );
 }
 
+
+// e-mail list
+$emails = eZMail::getByContact( $PersonID, false, 0, $max );
+
+$locale = new eZLocale( $Language );
+$i = 0;
+$currency = new eZCurrency();
+$t->set_var( "admin_dir", $AdminSiteURL );
+$date = new eZDateTime();
+foreach ( $emails as $email )
+{
+    $t->set_var( "bg_color", ( $i % 2 ) == 0 ? "bglight" : "bgdark" );
+    
+    $t->set_var( "mail_id", $email->id() );
+    $date->setTimeStamp( $email->uDate() );
+    $t->set_var( "mail_date", $locale->format( $date ) );
+    
+    $t->set_var( "mail_subject", $email->subject() );
+    $t->set_var( "mail_email", $email->sender() );
+    
+    $t->parse( "mail_item", "mail_item_tpl", true );
+    $i++;
+}
+
+if ( get_class( $user ) == "ezuser" and count( $emails ) > 0 )
+{
+    $t->parse( "mail_table_item", "mail_table_item_tpl", true );
+}
+else
+{
+    $t->set_var( "mail_table_item", "" );
+}
 
 
 $t->set_var( "action_value", $Action_value );

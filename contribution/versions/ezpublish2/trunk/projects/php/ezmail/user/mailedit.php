@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: mailedit.php,v 1.16 2001/08/15 13:06:14 jhe Exp $
+// $Id: mailedit.php,v 1.17 2001/08/16 13:57:04 jhe Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -77,6 +77,14 @@ if ( isSet( $Preview ) )
 if ( isSet( $Save ) )
 {
     $MailID = save_mail();
+    if ( isSet( $IDList ) )
+    {
+        $id_array = split( ";", $IDList );
+        foreach ( $id_array as $idItem )
+        {
+            eZMail::addContact( $MailID, $idItem, $CompanyList );
+        }
+    }
     $mail = new eZMail( $MailID );
     $mail->setStatus( READ, true );
 
@@ -87,6 +95,15 @@ if ( isSet( $Save ) )
 if ( isSet( $Send ) )
 {
     $MailID = save_mail();
+    if ( isSet( $IDList ) )
+    {
+        $id_array = split( ";", $IDList );
+        foreach ( $id_array as $idItem )
+        {
+            if ( is_numeric( $idItem ) )
+                eZMail::addContact( $MailID, $idItem, $CompanyList );
+        }
+    }
     // give error message if no valid users where supplied...
     $mail = new eZMail( $MailID );
     if ( $mail->to() == "" && $mail->bcc() == "" && $mail->cc() == "" )
@@ -118,7 +135,7 @@ $Language = $ini->read_var( "eZMailMain", "Language" );
 $t = new eZTemplate( "ezmail/user/" . $ini->read_var( "eZMailMain", "TemplateDir" ),
                      "ezmail/user/intl/", $Language, "mailedit.php" );
 
-$languageIni = new INIFIle( "ezmail/user/intl/" . $Language . "/mailedit.php.ini", false );
+$languageIni = new INIFile( "ezmail/user/intl/" . $Language . "/mailedit.php.ini", false );
 $t->setAllStrings();
 
 $t->set_file( "mail_edit_page_tpl", "mailedit.tpl" );
@@ -136,14 +153,26 @@ $t->set_var( "error_message", "" );
 $t->set_var( "site_style", $SiteStyle );
 
 $to_string = "";
-for ( $i = 0; $i < count( $toArray ); $i++ )
+$id_string = "";
+$company_list = false;
+for ( $i = 0; $i < count( $toArray["Email"] ); $i++ )
 {
-    $to_string .= $toArray[$i];
-    if ( ( $i + 1 ) < count( $toArray ) )
+    $to_string .= $toArray["Email"][$i];
+    $id_string .= $toArray["ID"][$i];
+    if ( ( $i + 1 ) < count( $toArray["Email"] ) )
+    {
         $to_string .= "; ";
+        $id_string .= ";";
+    }
+    else
+    {
+        $company_list = $toArray["CompanyEdit"];
+    }
 }
 
 $t->set_var( "to_value", $to_string );
+$t->set_var( "id_value", $id_string );
+$t->set_var( "company_value", $company_list );
 $t->set_var( "from_value", "" );
 $t->set_var( "cc_value", "" );
 $t->set_var( "bcc_value", "" );
@@ -162,7 +191,7 @@ $user =& eZUser::currentUser();
 $t->set_var( "from_value", $user->email() );
 
 /** We are editing an allready existant mail... lets insert it's values **/
-if ( $MailID != 0 && eZMail::isOwner( eZUser::currentUser(), $MailID ) ) // load values from disk!, check that this is really current users mail
+if ( $MailID != 0 && eZMail::isOwner( $user, $MailID ) ) // load values from disk!, check that this is really current users mail
 {
     $t->set_var( "current_mail_id", $MailID );
     
@@ -210,6 +239,8 @@ if ( $MailID != 0 && eZMail::isOwner( eZUser::currentUser(), $MailID ) ) // load
 else if ( $MailID == 0 && ( $showcc || $showbcc ) ) //mail not saved, but there is data
 {
     $t->set_var( "to_value", htmlspecialchars( $To ) );
+    $t->set_var( "id_value", $IDList );
+    $t->set_var( "company_value", $CompanyList );
     $t->set_var( "from_value", htmlspecialchars( $From ) );
     $t->set_var( "cc_value", htmlspecialchars( $Cc ) );
     $t->set_var( "bcc_value", htmlspecialchars( $Bcc ) );

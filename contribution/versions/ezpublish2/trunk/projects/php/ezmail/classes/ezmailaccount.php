@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezmailaccount.php,v 1.29 2001/08/08 12:34:56 jhe Exp $
+// $Id: ezmailaccount.php,v 1.30 2001/08/16 13:57:04 jhe Exp $
 //
 // eZMailAccount class
 //
@@ -117,7 +117,7 @@ class eZMailAccount
                                  '$this->ServerType',
                                  '$this->ServerPort' )
                                  " );
-
+            $db->unlock();
 			$this->ID = $nextID;
         }
         else
@@ -135,7 +135,6 @@ class eZMailAccount
                                  WHERE ID='$this->ID'
                                  " );
         }
-        $db->unlock();
         if ( $result == false )
             $db->rollback( );
         else

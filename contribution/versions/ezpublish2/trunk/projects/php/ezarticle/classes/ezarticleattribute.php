@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezarticleattribute.php,v 1.7 2001/07/19 12:19:21 jakobn Exp $
+// $Id: ezarticleattribute.php,v 1.8 2001/08/16 13:57:04 jhe Exp $
 //
 // Definition of eZArticleAttribute class
 //
@@ -95,7 +95,7 @@ class eZArticleAttribute
 		                  '$this->TypeID',
 		                  '$place',
                           '$timeStamp' )" );
-        
+            $db->unlock();
 			$this->ID = $nextID;
         }
         else
@@ -106,8 +106,6 @@ class eZArticleAttribute
         }
 
 
-        $db->unlock();
-    
         if ( $res == false )
             $db->rollback( );
         else

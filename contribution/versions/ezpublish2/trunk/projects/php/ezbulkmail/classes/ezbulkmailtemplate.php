@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezbulkmailtemplate.php,v 1.9 2001/07/19 12:36:31 jakobn Exp $
+// $Id: ezbulkmailtemplate.php,v 1.10 2001/08/16 13:57:04 jhe Exp $
 //
 // eZBulkMailTemplate class
 //
@@ -98,14 +98,13 @@ class eZBulkMailTemplate
     */
     function delete( $id = -1)
     {
-        $db = eZDB::globalDatabase();
+        $db =& eZDB::globalDatabase();
 
         if( $id == -1 )
             $id = $this->ID;
 
         $db->begin();
         $result = $db->query( "DELETE FROM eZBulkMail_Template WHERE ID='$id'" );
-        $db->unlock();
         if ( $result == false )
             $db->rollback( );
         else
@@ -117,7 +116,7 @@ class eZBulkMailTemplate
     */
     function get( $id=-1 )
     {
-        $db = eZDB::globalDatabase();
+        $db =& eZDB::globalDatabase();
         
         if ( $id != "" )
         {

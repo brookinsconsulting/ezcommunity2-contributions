@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: companyview.php,v 1.28 2001/08/07 13:26:39 jhe Exp $
+// $Id: companyview.php,v 1.29 2001/08/16 13:57:04 jhe Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -60,6 +60,8 @@ include_once( "ezcontact/classes/ezconsultation.php" );
 
 include_once( "ezimagecatalogue/classes/ezimage.php" );
 
+include_once( "ezmail/classes/ezmail.php" );
+
 include_once( "eztrade/classes/ezorder.php" );
 
 include_once( "ezuser/classes/ezusergroup.php" );
@@ -106,8 +108,10 @@ $t->set_block( "person_item_tpl", "person_consultation_button_tpl", "person_cons
 
 $t->set_block( "company_information_tpl", "consultation_table_item_tpl", "consultation_table_item" );
 $t->set_block( "company_information_tpl", "order_table_item_tpl", "order_table_item" );
+$t->set_block( "company_information_tpl", "mail_table_item_tpl", "mail_table_item" );
 $t->set_block( "consultation_table_item_tpl", "consultation_item_tpl", "consultation_item" );
 $t->set_block( "order_table_item_tpl", "order_item_tpl", "order_item" );
+$t->set_block( "mail_table_item_tpl", "mail_item_tpl", "mail_item" );
 
 $t->set_block( "company_information_tpl", "address_item_tpl", "address_item" );
 $t->set_var( "address_item", "" );
@@ -373,9 +377,9 @@ else
         $t->parse( "buy_button", "buy_button_tpl" );
     }
     
-    if ( !isset( $PersonLimit ) or !is_numeric( $PersonLimit ) )
+    if ( !isSet( $PersonLimit ) or !is_numeric( $PersonLimit ) )
         $PersonLimit = 5;
-    if ( !isset( $PersonOffset ) or !is_numeric( $PersonOffset ) )
+    if ( !isSet( $PersonOffset ) or !is_numeric( $PersonOffset ) )
         $PersonOffset = 0;
     $t->set_var( "person_table_item", "" );
     $persons = $company->persons( false, true, $PersonLimit, $PersonOffset );
@@ -386,7 +390,7 @@ else
         $t->set_var( "person_max", $person_count );
         $t->set_var( "person_start", $PersonOffset + 1 );
         $t->set_var( "person_end", min( $PersonOffset + $PersonLimit, $person_count ) );
-        foreach( $persons as $person )
+        foreach ( $persons as $person )
         {
             $t->set_var( "bg_color", ( $i % 2 ) == 0 ? "bglight" : "bgdark" );
             $t->set_var( "person_id", $person->id() );
@@ -401,7 +405,7 @@ else
     }
 
 // Consultation list
-    $user = eZUser::currentUser();
+    $user =& eZUser::currentUser();
     if ( get_class( $user ) == "ezuser" and eZPermission::checkPermission( $user, "eZContact", "consultation" ) )
     {
         if ( !isSet( $OrderBy ) )
@@ -499,6 +503,38 @@ else
     else
     {
         $t->set_var( "order_table_item", "" );
+    }
+
+// e-mail list
+    $emails = eZMail::getByContact( $CompanyID, true, 0, $max );
+
+    $locale = new eZLocale( $Language );
+    $i = 0;
+    $currency = new eZCurrency();
+    $t->set_var( "admin_dir", $AdminSiteURL );
+    $date = new eZDateTime();
+    foreach ( $emails as $email )
+    {
+        $t->set_var( "bg_color", ( $i % 2 ) == 0 ? "bglight" : "bgdark" );
+        
+        $t->set_var( "mail_id", $email->id() );
+        $date->setTimeStamp( $email->uDate() );
+        $t->set_var( "mail_date", $locale->format( $date ) );
+        
+        $t->set_var( "mail_subject", $email->subject() );
+        $t->set_var( "mail_email", $email->sender() );
+        
+        $t->parse( "mail_item", "mail_item_tpl", true );
+        $i++;
+    }
+
+    if ( get_class( $user ) == "ezuser" and count( $emails ) > 0 )
+    {
+        $t->parse( "mail_table_item", "mail_table_item_tpl", true );
+    }
+    else
+    {
+        $t->set_var( "mail_table_item", "" );
     }
 
 

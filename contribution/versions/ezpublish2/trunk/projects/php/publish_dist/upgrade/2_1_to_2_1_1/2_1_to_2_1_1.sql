@@ -785,7 +785,6 @@ alter table eZTrade_OrderItem add PriceIncVAT float(10,2);
 alter table eZTrade_OrderItem add VATValue int;
 alter table eZTrade_Order add IsVATInc int default 0;
 
-
 CREATE TABLE eZPoll_PollForumLink (
   ID int NOT NULL,
   PollID int NOT NULL default '0',
@@ -813,5 +812,13 @@ CREATE TABLE eZUser_UserGroupDefinition (
   ID int NOT NULL,
   UserID int NOT NULL default '0',
   GroupID int NOT NULL default '0',
+  PRIMARY KEY (ID)
+);
+
+CREATE TABLE eZMail_MailContactLink (
+  ID int NOT NULL,
+  MailID int NOT NULL default '0',
+  PersonID int,
+  CompanyID int,
   PRIMARY KEY (ID)
 );

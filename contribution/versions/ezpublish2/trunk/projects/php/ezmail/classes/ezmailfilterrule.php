@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezmailfilterrule.php,v 1.14 2001/07/20 11:18:28 jakobn Exp $
+// $Id: ezmailfilterrule.php,v 1.15 2001/08/16 13:57:04 jhe Exp $
 //
 // eZMailFilterRule class
 //
@@ -109,7 +109,7 @@ class eZMailFilterRule
                                  '$this->FolderID',
                                  '$this->IsActive' )
                                  " );
-
+            $db->unlock();
 			$this->ID = $nextID;
         }
         else
@@ -125,7 +125,6 @@ class eZMailFilterRule
                                  " );
 
         }
-        $db->unlock();
         if ( $result == false )
             $db->rollback( );
         else

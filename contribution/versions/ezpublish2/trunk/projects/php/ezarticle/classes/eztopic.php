@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eztopic.php,v 1.7 2001/08/13 12:47:37 pkej Exp $
+// $Id: eztopic.php,v 1.8 2001/08/16 13:57:04 jhe Exp $
 //
 // Definition of eZTopic class
 //
@@ -61,7 +61,7 @@ class eZTopic
         $name = $db->escapeString( $this->Name );
         $description = $db->escapeString( $this->Description );
 
-        if ( !isset( $this->ID ) )
+        if ( !isSet( $this->ID ) )
         {
             $db->lock( "eZArticle_Topic" );
             $nextID = $db->nextID( "eZArticle_Topic", "ID" );

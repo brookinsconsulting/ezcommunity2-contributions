@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezcategory.php,v 1.15 2001/07/20 11:36:07 jakobn Exp $
+// $Id: ezcategory.php,v 1.16 2001/08/16 13:57:05 jhe Exp $
 //
 // Definition of eZCategory class
 //
@@ -63,6 +63,7 @@ class eZCategory
                                   (ID, Name)
                                   VALUES
                                   ('$this->ID', '$name')" );
+            $db->unlock();
         }
         else
         {

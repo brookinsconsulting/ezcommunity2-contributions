@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezimagemap.php,v 1.3 2001/07/19 12:19:21 jakobn Exp $
+// $Id: ezimagemap.php,v 1.4 2001/08/16 13:57:04 jhe Exp $
 //
 // Created on: <12-Jun-2001 17:41:10 jhe>
 //
@@ -36,18 +36,16 @@ class eZImageMap
 {
     function eZImageMap( $image )
     {
-        $this->IsConnected = false;
-        
         $this->ID = $image;
     }
     
     function get()
     {
-        $this->dbinit();
+        $db =& eZDB::globalDatabase();
         
         $elements = array();
         
-        $this->Database->array_query( $article_array, "SELECT Link, AltText, Shape, StartPosX, StartPosY, EndPosX, EndPosY FROM eZImageCatalogue_ImageMap WHERE ImageID='$this->ID'" );
+        $db->array_query( $article_array, "SELECT Link, AltText, Shape, StartPosX, StartPosY, EndPosX, EndPosY FROM eZImageCatalogue_ImageMap WHERE ImageID='$this->ID'" );
 
         for ( $i = 0; $i < count( $article_array ); $i++ )
         {
@@ -58,14 +56,14 @@ class eZImageMap
     
     function store( $elements )
     {
-        $this->dbinit();
+        $db =& eZDB::globalDatabase();
     	
-        $this->Database->query( "DELETE FROM eZImageCatalogue_ImageMap WHERE ImageID='$this->ID'" );
+        $db->query( "DELETE FROM eZImageCatalogue_ImageMap WHERE ImageID='$this->ID'" );
         
         $list = array();
         $element_list = array();
         $element_list = split( "\n", $elements );
-        $this->Database->lock( "eZImageCatalogue_ImageMap" );
+        $db->lock( "eZImageCatalogue_ImageMap" );
         
         for ( $i = 0; $i < count( $element_list ); $i++ )
         {
@@ -94,20 +92,13 @@ class eZImageMap
                                           '$list[6]')" );
             }
         }
+        $db->unlock();
         if ( in_array( false, $res ) )
             $db->rollback( );
         else
             $db->commit();            
     }
     
-    function dbinit()
-    {
-        if ( $this->IsConnected == false )
-        {
-            $this->Database = eZDB::globalDatabase();
-            $this->IsConnected = true;
-        }
-    }
 }
 
 ?>

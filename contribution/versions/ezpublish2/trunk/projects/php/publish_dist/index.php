@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: index.php,v 1.94 2001/08/15 06:56:46 ce Exp $
+// $Id: index.php,v 1.95 2001/08/16 13:57:04 jhe Exp $
 //
 // Created on: <09-Nov-2000 14:52:40 ce>
 //
@@ -27,7 +27,6 @@ header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
 header("Last-Modified: " . gmdate("D, d M Y H:i:s") . "GMT"); 
 header("Cache-Control: no-cache, must-revalidate"); 
 header("Pragma: no-cache");
-
 
 // Tell PHP where it can find our files.
 if ( file_exists( "sitedir.ini" ) )
@@ -219,7 +218,6 @@ if ( ( $requireUserLogin == "disabled" ) ||
         $SiteCache = "disabled";
     }
 
-         
     // check to use site cache
     if ( ( $SiteCache == "enabled" ) and !eZFile::file_exists( $SiteCacheFile ) )
     {
@@ -259,7 +257,6 @@ if ( ( $requireUserLogin == "disabled" ) ||
         {
             // the page with the real contents
             include( $content_page );
-
             // The following variables can be set from the contents page:
             // $PrintableVersion = "enabled | disabled";
             // $GlobalSectionID = integer value, reference to the selected section.
@@ -334,7 +331,6 @@ if ( ( $requireUserLogin == "disabled" ) ||
         // load site cache
         include( $SiteCacheFile );
     }
-
 }
 else
 {

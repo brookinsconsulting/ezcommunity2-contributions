@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezmail.php,v 1.41 2001/08/14 14:12:15 jhe Exp $
+// $Id: ezmail.php,v 1.42 2001/08/16 13:57:04 jhe Exp $
 //
 // Definition of eZMail class
 //
@@ -24,7 +24,6 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, US
 //
-
 
 //!! eZCommon
 //! eZMail
@@ -168,6 +167,24 @@ class eZMail
         return true;
     }    
 
+    function addContact( $mailID, $contactID, $companyID )
+    {
+        if ( $companyID )
+            $contact = "CompanyID";
+        else
+            $contact = "PersonID";
+        $db =& eZDB::globalDatabase();
+        $db->begin();
+        $db->lock( "eZMail_MailContactLink" );
+        $nextID = $db->nextID( "eZMail_MailContactLink", "ID" );
+        $res[] = $db->query( "INSERT INTO eZMail_MailContactLink
+                              (ID, MailID, $contact)
+                              VALUES
+                              ('$nextID', '$mailID', '$contactID')" );
+        $db->unlock();
+        eZDB::finish( $res, $db );
+    }
+    
     /*!
       Fetches the object information from the database.
     */
@@ -662,6 +679,33 @@ class eZMail
         return $return_array;
     }
 
+    /*!
+      \static
+      Returns all mail that is sendt to a contact
+    */
+    function getByContact( $ContactID, $CompanyEdit, $Offset, $Limit, $user = false )
+    {
+        if ( get_class( $user ) != "ezuser" )
+            $user =& eZUser::currentUser();
+        if ( $CompanyEdit )
+            $field = "CompanyID";
+        else
+            $field = "PersonID";
+        
+        $db =& eZDB::globalDatabase();
+        $db->array_query( $res, "SELECT MailID FROM eZMail_MailContactLink
+                                 WHERE $field='$ContactID'" );
+
+        $return_array = array();
+        for ( $i = 0; $i < count( $res ); $i++ )
+        {
+            $mail = new eZMail( $res[$i][$db->fieldName( "MailID" )] );
+            if ( $mail->owner() == $user->id() )
+                $return_array[] = $mail;            
+        }
+        return $return_array;
+    }
+        
     /*
       Adds an attachment to this mail
       Recalculates the size of the mail.
