@@ -46,12 +46,12 @@
 <tr>
 	  <td width="50%">
 	  <p class="boxtext">{intl-firstname}:</p>
-	  <input type="text" size="20" name="FirstName" value="{firstname}" />
+	  <input class="halfbox" type="text" size="20" name="FirstName" value="{firstname}" />
 	  <br /><br />
 	  </td> 
 	  <td width="50%" colspan="2">
 	  <p class="boxtext">{intl-lastname}:</p>
-	  <input type="text" size="20" name="LastName" value="{lastname}" />
+	  <input class="halfbox" type="text" size="20" name="LastName" value="{lastname}" />
 	  <br /><br />
 	  </td>
 </tr>
@@ -104,7 +104,7 @@
     <tr>
     	<td valign="top">
 	<p class="boxtext">{intl-comment_headline}:</p>
-	<textarea name="Comment" rows="4" cols="40" wrap="soft">{comment}</textarea>
+	<textarea name="Comment" class="halfbox" rows="4" cols="20" wrap="soft">{comment}</textarea>
 	</td>
     </tr>
 </table>
@@ -114,42 +114,35 @@
 <h2>{intl-address_headline}</h2>
 <p>{intl-address_information}</p>
 <p>{intl-address_ignore_information}</p>
-<table width="100%" cellpadding="0" cellspacing="0" border="0">
 <!-- BEGIN address_table_item_tpl -->
 <!-- BEGIN address_item_tpl -->
-<tr>
-	<td colspan="2">
-	    <p class="boxtext">{intl-address_pos}&nbsp;{address_position}:</p>
-	</td>
-</tr>
-<tr>
-	<td colspan="2">
-	<p><select name="AddressTypeID[]">
-	    <option value="-1">{intl-unknown_type}</option>
-	    <!-- BEGIN address_item_select_tpl -->
-	    <option value="{type_id}" {selected}>{type_name}</option>
-	    <!-- END address_item_select_tpl -->
 
-	    </select>
-	<input type="checkbox" name="AddressDelete[]" value="{address_index}" />
-	<span class="boxtext">{intl-delete}</span><br />
-        </p>
-	<p class="boxtext">{intl-address}:</p>
-	<input type="text" size="40" name="Street1[]" value="{street1}" /><br />
-	<input type="text" size="40" name="Street2[]" value="{street2}" /><br />
-	<br />
-	</td>
-</tr>
+<p class="boxtext">{intl-address_pos}&nbsp;{address_position}:</p>
+<p><select name="AddressTypeID[]">
+ <option value="-1">{intl-unknown_type}</option>
+ <!-- BEGIN address_item_select_tpl -->
+ <option value="{type_id}" {selected}>{type_name}</option>
+ <!-- END address_item_select_tpl -->
 
+ </select>
+<input type="checkbox" name="AddressDelete[]" value="{address_index}" />
+<span class="boxtext">{intl-delete}</span><br />
+    </p>
+<p class="boxtext">{intl-address}:</p>
+<input type="text" class="box" size="40" name="Street1[]" value="{street1}" /><br />
+<input type="text" class="box" size="40" name="Street2[]" value="{street2}" /><br />
+<br />
+
+<table width="100%" cellpadding="0" cellspacing="0" border="0">
 <tr>
-	<td width="1%">
+	<td width="50%">
         <p class="boxtext">{intl-zip}:*</p>
         <input type="text" size="4" name="Zip[]" value="{zip}" />&nbsp;&nbsp;<br />
 		<br />
 	</td>
 	<td>
         <p class="boxtext">{intl-place}:</p>
-        <input type="text" size="20" name="Place[]" value="{place}" /><br />
+        <input type="text" class="halfbox" size="20" name="Place[]" value="{place}" /><br />
 		<br />
 	</td>
 </tr>
@@ -164,9 +157,9 @@
 	</select>
 	</td>
 </tr>
+</table>
 <!-- END address_item_tpl -->
 <!-- END address_table_item_tpl -->
-</table>
 
 <h2>{intl-telephone_headline}</h2>
 <p>{intl-telephone_information}</p>
@@ -184,7 +177,7 @@
 	    <!-- END phone_item_select_tpl -->
 
 	    </select><br />
-        <input type="text" size="20" name="Phone[]" value="{phone_number}" />
+        <input type="text" class="halfbox" size="20" name="Phone[]" value="{phone_number}" />
         <input type="hidden" name="PhoneID[]" value="{phone_id}" /><br />
 	<input type="checkbox" name="PhoneDelete[]" value="{phone_index}" />
 	<span class="boxtext">{intl-delete}</span><br />
@@ -197,6 +190,7 @@
 <h2>{intl-online_headline}</h2>
 <p>{intl-online_information}</p>
 <p>{intl-online_ignore_information}</p>
+
 <table width="100%" cellpadding="0" cellspacing="0" border="0">
 <!-- BEGIN online_table_item_tpl -->
 <tr>
@@ -210,7 +204,7 @@
 	    <!-- END online_item_select_tpl -->
 
 	    </select><br />
-        <input type="text" size="20" name="Online[]" value="{online_value}" />
+        <input type="text" class="halfbox" size="20" name="Online[]" value="{online_value}" />
         <input type="hidden" name="OnlineID[]" value="{online_id}"><br />
 	<input type="checkbox" name="OnlineDelete[]" value="{online_index}" />
 	<span class="boxtext">{intl-delete}</span><br />
@@ -222,6 +216,7 @@
 
 <!-- BEGIN project_item_tpl -->
 <h2>{intl-project_headline}</h2>
+
 <table width="100%" cellpadding="0" cellspacing="0" border="0">
     <!-- BEGIN project_contact_item_tpl -->
     <tr>

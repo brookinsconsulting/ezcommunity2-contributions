@@ -53,12 +53,12 @@
 <tr>
 	<td width="50%">
 	<p class="boxtext">{intl-name}:</p>
-	<input type="text" size="20" name="Name" value="{name}" />
+	<input type="text" class="halfbox" size="20" name="Name" value="{name}" />
 	<br /><br />
 	</td>
 	<td width="50%">
 	<p class="boxtext">{intl-orgno}:</p>
-	<input type="text" size="20" name="CompanyNo" value="{companyno}" />
+	<input type="text" class="halfbox" size="20" name="CompanyNo" value="{companyno}" />
 	<br /><br />
 	</td>
 </tr>
@@ -74,7 +74,7 @@
 	</td>
 	<td valign="top" width="50%">
 	<p class="boxtext">{intl-comment}:</p>
-	<textarea cols="40" rows="8" name="Comment">{comment}</textarea>
+	<textarea class="halfbox" cols="20" rows="8" name="Comment">{comment}</textarea>
 	</td>
 </tr>
 </table>
@@ -84,17 +84,11 @@
 <h2>{intl-address_headline}</h2>
 <p>{intl-address_information}</p>
 <p>{intl-address_ignore_information}</p>
-<table width="100%" cellpadding="0" cellspacing="0" border="0">
+
 <!-- BEGIN address_table_item_tpl -->
 <!-- BEGIN address_item_tpl -->
-<tr>
-	<td clospan="2">
-	    <p class="boxtext">{intl-address_pos}&nbsp;{address_position}:</p>
-	</td>
-</tr>
-<tr>
-	<td colspan="2">
-	<p><select name="AddressTypeID[]">
+<p class="boxtext">{intl-address_pos}&nbsp;{address_position}:</p>
+<p><select name="AddressTypeID[]">
 	    <option value="-1">{intl-unknown_type}</option>
 	    <!-- BEGIN address_item_select_tpl -->
 	    <option value="{type_id}" {selected}>{type_name}</option>
@@ -106,13 +100,14 @@
 	<span class="boxtext">{intl-delete}</span><br />
         </p>
 	<p class="boxtext">{intl-address}:</p>
-	<input type="text" size="40" name="Street1[]" value="{street1}" /><br />
-	<input type="text" size="40" name="Street2[]" value="{street2}" /><br />
+	<input type="text" class="box" size="40" name="Street1[]" value="{street1}" /><br />
+	
+	<input type="text" class="box" size="40" name="Street2[]" value="{street2}" /><br />
 	<br />
-	</td>
-</tr>
+
+<table width="100%" cellpadding="0" cellspacing="0" border="0">
 <tr>
-	<td width="1%">
+	<td width="50%">
         <p class="boxtext">{intl-zip}:*</p>
         <input type="text" size="4" name="Zip[]" value="{zip}" /><br />
 		<br />
@@ -134,13 +129,14 @@
 	</select>
 	</td>
 </tr>
+</table>
 <!-- END address_item_tpl -->
 <!-- END address_table_item_tpl -->
-</table>
 
 <h2>{intl-telephone_headline}</h2>
 <p>{intl-telephone_information}</p>
 <p>{intl-telephone_ignore_information}</p>
+
 <table width="100%" cellpadding="0" cellspacing="0" border="0">
 <!-- BEGIN phone_table_item_tpl -->
 <tr>
@@ -167,6 +163,7 @@
 <h2>{intl-online_headline}</h2>
 <p>{intl-online_information}</p>
 <p>{intl-online_ignore_information}</p>
+
 <table width="100%" cellpadding="0" cellspacing="0" border="0">
 <!-- BEGIN online_table_item_tpl -->
 <tr>
@@ -193,6 +190,7 @@
 <!-- BEGIN project_item_tpl -->
 <h2>{intl-project_headline}</h2>
 <p>{intl-project_information}</p>
+
 <table width="100%" cellpadding="0" cellspacing="0" border="0">
     <!-- BEGIN project_contact_item_tpl -->
     <tr>
@@ -271,13 +269,13 @@
 <tr>
     <td valign="top">
     <p class="boxtext">{intl-file}:</p>
-	<input class="stdbutton" size="20" name="logo" type="file" />
+	<input class="stdbutton" class="halfbox" size="20" name="logo" type="file" />
 	<input type="hidden" name="LogoImageID" value="{logo_id}" />
     </td>
 
     <td>
   	<p class="boxtext">{intl-file}:</p>
-	<input class="stdbutton" size="20" name="image" type="file" />
+	<input class="stdbutton" class="halfbox" size="20" name="image" type="file" />
 	<input type="hidden" name="CompanyImageID" value="{image_id}" />
     </td>
 <tr>

@@ -101,8 +101,8 @@
 
 <!-- BEGIN no_found_tpl -->
 <tr>
-	<td>
-	<p class="error">{intl-noitem}</p>
+	<td colspan="8">
+	<h2>{intl-noitem}</h2>
 	</td>
 </tr>
 <!-- END no_found_tpl -->

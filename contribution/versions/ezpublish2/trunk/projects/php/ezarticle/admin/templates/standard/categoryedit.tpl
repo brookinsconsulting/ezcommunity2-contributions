@@ -114,7 +114,8 @@
 <div><input type="checkbox" name="DeleteImage"><span class="p">{intl-delete_image}</span><div /><br />
 <!-- END image_item_tpl -->
 
-<input size="20" name="ImageFile" type="file" />&nbsp;
+<input class="box" size="40" name="ImageFile" type="file" />
+<br /><br />
 <input class="stdbutton" type="submit" name="Browse" value="{intl-browse}" />
 <br /><br />
 
