@@ -48,7 +48,7 @@
 <!-- BEGIN order_item_list_tpl -->
 <table width="100%" cellspacing="0" cellpadding="3" border="0">
 <tr>
-	<th>{intl-picture}:</th>
+	<th>&nbsp;</th>
 	<th>{intl-product_name}:</th>
 	<th>{intl-options}:</th>
 	<th>{intl-qty}:</th>

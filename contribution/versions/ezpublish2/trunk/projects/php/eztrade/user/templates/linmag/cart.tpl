@@ -9,11 +9,11 @@
 <!-- BEGIN cart_item_list_tpl -->
 <table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
 <tr>
-	<th>{intl-product_image}:</th>
+	<th>&nbsp;</th>
 	<th>{intl-product_name}:</th>
 	<th>{intl-product_options}:</th>
 	<!-- BEGIN product_available_header_tpl -->
-	<th>{intl-product_availability}:</th>
+
 	<!-- END product_available_header_tpl -->
 	<th>{intl-product_qty}:</th>
 
@@ -38,9 +38,7 @@
         <!-- END cart_item_option_tpl -->
 	&nbsp;</td>
 	<!-- BEGIN product_available_item_tpl -->
-	<td class="{td_class}">
-	{product_availability}
-	</td>
+
 	<!-- END product_available_item_tpl -->
 	<td class="{td_class}">
 	<input type="hidden" name="CartIDArray[]" value="{cart_item_id}" />
@@ -56,14 +54,14 @@
 <!-- END cart_item_tpl -->
 
 <tr>
-	<td colspan="3">&nbsp;</td>
+	<td colspan="2">&nbsp;</td>
 	<td align="right" colspan="2"><span class="boxtext">{intl-shipping}:</span></td>
 	<td align="right">
 	{shipping_sum}
 	</td>
 </tr>
 <tr>
-	<td colspan="3">&nbsp;</td>
+	<td colspan="2">&nbsp;</td>
 	<td align="right" colspan="2"><span class="boxtext">{intl-vat}:</span></td>
 	<td align="right">
 	{cart_vat_sum}
@@ -71,14 +69,14 @@
 </tr>
 <tr>
 	<!-- BEGIN price_ex_vat_tpl -->
-	<td colspan="3">&nbsp;</td>
+	<td colspan="2">&nbsp;</td>
 	<td align="right" colspan="2"><span class="boxtext">{intl-total}:</span></td>
 	<td align="right">
 	{cart_sum}
 	</td>
 	<!-- END price_ex_vat_tpl -->
 	<!-- BEGIN price_inc_vat_tpl -->
-	<td colspan="3">&nbsp;</td>
+	<td colspan="2">&nbsp;</td>
 	<td align="right" colspan="2"><span class="boxtext">{intl-total}:</span></td>
 	<td align="right">
 	{cart_sum}

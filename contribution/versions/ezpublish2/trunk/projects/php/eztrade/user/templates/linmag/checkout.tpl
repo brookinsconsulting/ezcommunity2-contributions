@@ -7,11 +7,11 @@
 <!-- BEGIN cart_item_list_tpl -->
 <table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
 <tr>
-	<th>{intl-picture}:</th>
+	<th>&nbsp;</th>
 	<th>{intl-product_name}:</th>
 	<th>{intl-options}:</th>
 	<!-- BEGIN product_available_header_tpl -->
-	<th>{intl-product_availability}:</th>
+
 	<!-- END product_available_header_tpl -->
 	<th>{intl-qty}:</th>
 	<th class="right">&nbsp;&nbsp;{intl-price}:</th>
@@ -35,8 +35,7 @@
 	&nbsp;
 	</td>
 	<!-- BEGIN product_available_item_tpl -->
-	<td class="{td_class}">
-	{product_availability}
+
 	<!-- BEGIN product_available_item_tpl -->
 	</td>
 	<!-- END product_available_item_tpl -->
@@ -50,7 +49,7 @@
 <!-- END cart_item_tpl -->
 
 <tr>
-	<td colspan="2" rowspan="3" valign="top">
+	<td colspan="2" rowspan="2" valign="top">
 	<div class="boxtext">{intl-shipping_method}:</div>
 	<select name="ShippingTypeID">
 	<!-- BEGIN shipping_type_tpl -->
@@ -59,7 +58,7 @@
 	</select>
 	<input class="stdbutton" type="submit" name="Recalculate" value="{intl-recalculate}" />
 	</td>
-	<td align="right" colspan="3">
+	<td align="right" colspan="2">
 	<span class="boxtext">{intl-shipping_charges}:</span>
 	</td>
 
@@ -67,8 +66,15 @@
 	{shipping_cost}
 	</td>
 </tr>
+
+<!-- BEGIN vouchers_tpl --> 
+
+        <!-- BEGIN voucher_item_tpl -->
+        <!-- END voucher_item_tpl -->
+
+<!-- END vouchers_tpl --> 
+
 <tr>
-	<td>&nbsp;</td>
 	<td colspan="2" align="right"><span class="boxtext">{intl-vat}:</span></td>
 	<td align="right">
 	{cart_vat_sum}
@@ -76,14 +82,12 @@
 </tr>
 <tr>
 	<!-- BEGIN price_ex_vat_tpl -->
-	<td>&nbsp;</td>
 	<td colspan="2" align="right"><span class="boxtext">{intl-total_cost_is}:</span></td>
 	<td align="right">
 	{cart_sum_ex_vat}
 	</td>
 	<!-- END price_ex_vat_tpl -->
 	<!-- BEGIN price_inc_vat_tpl -->
-	<td>&nbsp;</td>
 	<td colspan="2" align="right"><span class="boxtext">{intl-total_cost_is}:</span></td>
 	<td align="right">
 	{cart_sum_inc_vat}
