@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: payment.php,v 1.75 2001/09/26 07:09:33 ce Exp $
+// $Id: payment.php,v 1.76 2001/09/26 11:04:52 ce Exp $
 //
 // Created on: <02-Feb-2001 16:31:53 bf>
 //
@@ -879,7 +879,7 @@ if ( $PaymentSuccess == "true" )
             deleteCache( $product, false, false, false );
         }
 
-        $user =& eZUser::currenctUser();
+        $user =& eZUser::currentUser();
         
         // Create vouchers
         $voucherInfo =& $item->voucherInformation();
