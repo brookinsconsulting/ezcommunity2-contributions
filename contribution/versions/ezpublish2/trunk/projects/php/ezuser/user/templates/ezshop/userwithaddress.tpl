@@ -11,7 +11,6 @@
 
 <br />
 
-<hr noshade="noshade" size="4" />
 <!-- BEGIN errors_item_tpl -->
 <h3 class="error">{intl-error_headline}</h3>
 <ul>
@@ -118,14 +117,23 @@
 <input {is_checked} type="radio" name="MainAddressID" value="{address_id}"> {intl-main_address}
 
 <p class="boxtext">Gateadresse:</p>
-<input type="text" size="20" name="Street1[]" value="{street1_value}"/>
+<input type="text" size="20" name="Street1[]" value="{street1_value}"/><br />
 <input type="text" size="20" name="Street2[]" value="{street2_value}"/>
 
-<p class="boxtext">{intl-zip}:</p>
-<input type="text" size="20" name="Zip[]" value="{zip_value}"/>
+<br /><br />
 
-<p class="boxtext">{intl-place}:</p>
-<input type="text" size="20" name="Place[]" value="{place_value}"/>
+<table width="100%" cellspacing="0" cellpadding="0" border="0">
+<tr>
+	<td>
+	<p class="boxtext">{intl-zip}:</p>
+	<input type="text" size="20" name="Zip[]" value="{zip_value}"/>
+	</td>
+	<td>
+	<p class="boxtext">{intl-place}:</p>
+	<input type="text" size="20" name="Place[]" value="{place_value}"/>
+	</td>
+</tr>
+</table>
 
 <!-- BEGIN country_tpl -->
 <p class="boxtext">{intl-country}:</p>
@@ -139,13 +147,12 @@
 <!-- END address_tpl -->
 
 
-<br />
+<br /><br />
 
-<input type="submit" value="{intl-new_address}" name="NewAddress" />
-<input type="submit" value="{intl-delete_address}" name="DeleteAddress" />
+<input class="stdbutton" type="submit" value="{intl-new_address}" name="NewAddress" />
+<input class="stdbutton" type="submit" value="{intl-delete_address}" name="DeleteAddress" />
 
-<hr noshade="noshade" size="4" />
-
+<br /><br />
 
 <input type="hidden" name="UserID" value="{user_id}" />
 <input class="okbutton" type="submit" value="OK" />
