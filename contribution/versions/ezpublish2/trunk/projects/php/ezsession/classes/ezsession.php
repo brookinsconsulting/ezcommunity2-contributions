@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezsession.php,v 1.53 2001/07/13 14:48:19 jhe Exp $
+// $Id: ezsession.php,v 1.54 2001/07/16 11:23:55 bf Exp $
 //
 // Definition of eZSession class
 //
@@ -467,9 +467,6 @@ class eZSession
 
         $value = $db->escapeString( $value );
     
-        // lock the table
-        $db->lock( "eZSession_SessionVariable" );
-
         if ( isset( $this->StoredVariables[$group][$name] ) )
         {
             $this->StoredVariables[$group][$name] = $value;
@@ -502,6 +499,9 @@ class eZSession
             else
                 $group_sql = "'$group'";
 
+            // lock the table
+            $db->lock( "eZSession_SessionVariable" );
+
             $nextID = $db->nextID( "eZSession_SessionVariable", "ID" );
 
             $res = $db->query( "INSERT INTO eZSession_SessionVariable ( ID, SessionID, Name, Value, GroupName ) VALUES
@@ -521,7 +521,6 @@ class eZSession
             $db->rollback( );
         else
             $db->commit();
-        
     }
 
     /*!
