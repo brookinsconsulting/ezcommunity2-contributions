@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: datasupplier.php,v 1.56.2.3 2002/04/23 08:25:40 jhe Exp $
+// $Id: datasupplier.php,v 1.56.2.4 2002/05/22 13:35:33 bf Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -158,7 +158,7 @@ switch ( $url_array[2] )
     }
     break;
     
-// FIXME: test for writeable categories!!!    
+  // FIXME: test for writeable categories!!!    
     case "articleedit":
     {
         if ( eZObjectPermission::getObjects( "article_category", 'w', true ) < 1 )

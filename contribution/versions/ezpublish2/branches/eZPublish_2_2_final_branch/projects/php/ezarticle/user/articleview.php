@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: articleview.php,v 1.84.2.11 2002/03/04 13:30:10 bf Exp $
+// $Id: articleview.php,v 1.84.2.12 2002/05/22 13:35:33 bf Exp $
 //
 // Created on: <18-Oct-2000 16:34:51 bf>
 //
@@ -87,7 +87,7 @@ else
 {
     if ( isset( $PrintableVersion ) and $PrintableVersion == "enabled" )
     {
-            $t->set_file( "article_view_page_tpl", "articleprint.tpl"  );        
+            $t->set_file( "article_view_page_tpl", "articleprint.tpl"  );
     }
     else
     {

@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: ezqdomrenderer.php,v 1.55.2.16 2002/04/22 07:52:03 bf Exp $
+// $Id: ezqdomrenderer.php,v 1.55.2.17 2002/05/22 13:35:33 bf Exp $
 //
 // Definition of eZQDomRenderer class
 //
@@ -536,7 +536,7 @@ class eZQDomrenderer
 
             $hasMap = false;
             $mapString = "";
-            if ( $image->hasMap() == true )
+            if ( is_object( $image ) && ( $image->hasMap() == true ) )
             {
                 $hasMap = true;
                 include_once( "ezarticle/classes/ezimagemap.php" );
