@@ -66,3 +66,25 @@ Maintainer(s) : vl@ez.no
       admin/templates/standard/templatelist.tpl:
     Added basic editor for templates in admin.
 
+
+Module : ezsitemanager
+Repository path : /home/cvsroot/projects/php/ezsitemanager
+Maintainer(s) : vl@ez.no
+2001-09-26  Baard Farstad  <bf@ez.no>
+
+    * admin/intl/en_GB/menubox.php.ini
+      admin/intl/no_NO/menubox.php.ini
+      admin/datasupplier.php
+      admin/menubox.php
+      admin/sqlquery.php: Fixed showing of column names in SQL query.
+
+2001-09-26  Unknown  <master@open.lv>
+
+    * admin/menubox.php: sql admin activated
+
+    * admin/sqlquery.php: SQL Admin working sample
+
+    * admin/intl/en_GB/menubox.php.ini
+      admin/intl/en_GB/sqlquery.php.ini
+      admin/templates/standard/sqlquery.tpl: SQL Admin added
+

@@ -278,3 +278,20 @@ Maintainer(s) : br@ez.no
     the object before being used further. This fixes the problem where the
     permissions would not be set the first time an image was inserted.
 
+
+Module : ezimagecatalogue
+Repository path : /home/cvsroot/projects/php/ezimagecatalogue
+Maintainer(s) : br@ez.no
+2001-09-26  Jan Borsodi  <jb@ez.no>
+
+    * xmlrpc/category.php
+      xmlrpc/image.php:
+    Changes to the update system. The update structure now contains an url
+    list of categories in which this object has changed.
+    All path creation code is gathered in a common createPath() function.
+
+    * classes/ezimagecategory.php: Changed delete code from
+    $this->delete( $category->id() );
+    to
+    $category->delete();
+

@@ -563,3 +563,116 @@ Maintainer(s) : ce@ez.no
 
     * admin/productedit.php: Fixed checking of input.
 
+
+Module : eztrade
+Repository path : /home/cvsroot/projects/php/eztrade
+Maintainer(s) : ce@ez.no
+2001-09-26  Christofer Elo  <ce@ez.no>
+
+    * user/templates/mygold/voucheremail.tpl
+      user/templates/mygold/voucherinformation.tpl: fix
+
+2001-09-26  Sascha Frinken  <sascha@impetex.de>
+
+    * user/intl/de_MG/productview.php.ini
+      user/templates/mygold/productview.tpl
+      user/templates/mygold/voucher.tpl: added design
+
+    * user/intl/de_MG/checkout.php.ini
+      user/templates/mygold/checkout.tpl
+      user/templates/mygold/voucherinformation.tpl: sf
+
+2001-09-26  Paul Kenneth Egell-Johnsen  <pkej@ez.no>
+
+    * classes/ezproduct.php:
+    Changed occurences of $this->hasVAT() to $this->includesVAT.
+
+2001-09-26  Sascha Frinken  <sascha@impetex.de>
+
+    * user/templates/mygold/productview.tpl: fix
+
+2001-09-26  Christofer Elo  <ce@ez.no>
+
+    * user/payment.php: fix
+
+2001-09-26  Sascha Frinken  <sascha@impetex.de>
+
+    * user/intl/de_MG/cart.php.ini
+      user/templates/mygold/cart.tpl
+      user/templates/mygold/checkout.tpl: fix
+
+2001-09-26  Christofer Elo  <ce@ez.no>
+
+    * classes/ezproduct.php: fix
+
+2001-09-26  Bjoern Reiten  <br@ez.no>
+
+    * admin/orderlist.php:
+    Set OrderID to 0 in eZPreOrder when an order is deleted.
+
+2001-09-26  Christofer Elo  <ce@ez.no>
+
+    * admin/templates/standard/customerview.tpl: removed a string
+
+    * admin/templates/standard/customerview.tpl
+      admin/customerview.php: Fixed the template`
+
+2001-09-26  Bjoern Reiten  <br@ez.no>
+
+    * admin/intl/en_GB/orderedit.php.ini
+      admin/intl/no_NO/orderedit.php.ini
+      admin/intl/no_NO/orderlist.php.ini
+      admin/orderedit.php
+      admin/templates/standard/orderedit.tpl:
+    added view for preorderid and orderid when you are in admin for orderedit.
+
+2001-09-26  Sascha Frinken  <sascha@impetex.de>
+
+    * user/intl/de_MG/cart.php.ini
+      user/intl/de_MG/checkout.php.ini
+      user/templates/mygold/cart.tpl
+      user/templates/mygold/categorylist.tpl
+      user/templates/mygold/checkout.tpl
+      user/templates/mygold/customerlogin.tpl
+      user/templates/mygold/extendedsearch.tpl
+      user/templates/mygold/findwishlist.tpl
+      user/templates/mygold/hotdealslist.tpl
+      user/templates/mygold/hotdealspage.tpl
+      user/templates/mygold/hotdealsshortlist.tpl
+      user/templates/mygold/mailorder.tpl
+      user/templates/mygold/menubox.tpl
+      user/templates/mygold/ordersendt.tpl
+      user/templates/mygold/precheckout.tpl
+      user/templates/mygold/productlist.tpl
+      user/templates/mygold/productsearch.tpl
+      user/templates/mygold/productview.tpl
+      user/templates/mygold/sendwishlist.tpl
+      user/templates/mygold/smallcart.tpl
+      user/templates/mygold/viewwishlist.tpl
+      user/templates/mygold/voucher.tpl
+      user/templates/mygold/voucherinformation.tpl
+      user/templates/mygold/wishlist.tpl: Added design
+
+2001-09-26  Christofer Elo  <ce@ez.no>
+
+    * classes/ezvoucher.php
+      classes/ezvoucherused.php
+      classes/ezwishlist.php
+      classes/ezwishlistitem.php
+      user/payment.php
+      user/templates/standard/wishlist.tpl
+      user/wishlist.php
+      admin/customerlist.php
+      admin/customerview.php
+      admin/intl/en_GB/customerview.php.ini
+      admin/intl/en_GB/orderedit.php.ini
+      admin/intl/en_GB/voucheredit.php.ini
+      admin/orderedit.php
+      admin/templates/standard/customerlist.tpl
+      admin/templates/standard/customerview.tpl
+      admin/templates/standard/orderedit.tpl
+      admin/templates/standard/voucheredit.tpl
+      admin/voucheredit.php
+      classes/ezproduct.php: Added better customerview
+    Added more information on vouchers
+

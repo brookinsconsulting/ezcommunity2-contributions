@@ -266,3 +266,16 @@ Maintainer(s) : jhe@ez.no
     * sql/mysql/ezforum.sql
       sql/postgresql/ezforum.sql: updated sql schemas
 
+
+Module : ezforum
+Repository path : /home/cvsroot/projects/php/ezforum
+Maintainer(s) : jhe@ez.no
+2001-09-26  Thomas Hellstroem  <th@ez.no>
+
+    * user/intl/en_GB/messagelist.php.ini
+      user/messagelist.php: Layout
+
+2001-09-26  Christofer Elo  <ce@ez.no>
+
+    * user/messagelist.php: fizx
+

@@ -108,3 +108,11 @@ Maintainer(s) : bf@ez.no
 
     * eztemplate.php: Removed debug output if debug is disabled.
 
+
+Module : classes
+Repository path : /home/cvsroot/projects/php/classes
+Maintainer(s) : bf@ez.no
+2001-09-26  Christofer Elo  <ce@ez.no>
+
+    * ezbenchmark.php: fizx
+

@@ -11,3 +11,18 @@ Maintainer(s) : bf@ez.no
 Module : ezsession
 Repository path : /home/cvsroot/projects/php/ezsession
 Maintainer(s) : bf@ez.no
+
+Module : ezsession
+Repository path : /home/cvsroot/projects/php/ezsession
+Maintainer(s) : bf@ez.no
+2001-09-26  Bjoern Reiten  <br@ez.no>
+
+    * sql/informix/ezsession.sql
+      sql/mysql/ezsession.sql
+      sql/postgresql/ezsession.sql:
+    changed Value in eZSession_SessionVariable from varchar(50) to text.
+
+2001-09-26  Christofer Elo  <ce@ez.no>
+
+    * classes/ezsession.php: Fixed a bug in setArray()
+

@@ -966,3 +966,15 @@ Maintainer(s) : bf@ez.no
       user/frontpage.php:
     Made it possible to choose which ID to show on the frontpage.
 
+
+Module : ezarticle
+Repository path : /home/cvsroot/projects/php/ezarticle
+Maintainer(s) : bf@ez.no
+2001-09-26  Jan Borsodi  <jb@ez.no>
+
+    * xmlrpc/article.php
+      xmlrpc/category.php:
+    Changes to the update system. The update structure now contains an url
+    list of categories in which this object has changed.
+    All path creation code is gathered in a common createPath() function.
+

@@ -23,3 +23,11 @@ Maintainer(s) : ce@ez.no
       admin/intl/fr_FR/onlinetype.php.ini
       admin/intl/fr_FR/phonetype.php.ini: updated fr_FR
 
+
+Module : ezaddress
+Repository path : /home/cvsroot/projects/php/ezaddress
+Maintainer(s) : ce@ez.no
+2001-09-26  Christofer Elo  <ce@ez.no>
+
+    * classes/ezaddress.php: Added english output error
+
