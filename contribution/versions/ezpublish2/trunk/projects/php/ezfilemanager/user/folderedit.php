@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: folderedit.php,v 1.37 2001/10/03 08:15:44 fh Exp $
+// $Id: folderedit.php,v 1.38 2001/10/03 08:28:57 fh Exp $
 //
 // Created on: <08-Jan-2001 11:13:29 ce>
 //
@@ -118,23 +118,35 @@ if ( $Action == "Insert" || $Action == "Update" )
 {
     if ( $permissionCheck )
     {
-        $parentFolder = new eZVirtualFolder( $ParentID );
 
-        // not write and not upload
-        if ( eZObjectPermission::hasPermission( $ParentID, "filemanager_folder", "w" ) == false &&
-             eZObjectPermission::hasPermission( $ParentID, "filemanager_folder", 'u') == false )
+        if( $ParentID == 0 )
         {
-            $t->parse( "error_write", "error_write_permission" );
-            $error = true;
+            if( eZPermission::checkPermission( $user, "eZFileManager", "WriteToRoot"  ) == false )
+            {
+                $t->parse( "error_write", "error_write_permission" );
+                $error = true;
+            }
         }
-        // update and not write or owner
-        if ( $Action == "Update" && (
-            eZObjectPermission::hasPermission( $ParentID, "filemanager_folder", 'w' ) == false ||
-            eZVirtualFolder::isOwner( $user, $FolderID ) )
-             )
+        else
         {
-            $t->parse( "error_upload", "error_upload_permission" );
-            $error = true;
+            $parentFolder = new eZVirtualFolder( $ParentID );
+        
+            // not write and not upload
+            if ( !$error && eZObjectPermission::hasPermission( $ParentID, "filemanager_folder", "w" ) == false &&
+            eZObjectPermission::hasPermission( $ParentID, "filemanager_folder", 'u') == false )
+            {
+                $t->parse( "error_write", "error_write_permission" );
+                $error = true;
+            }
+            // update and not write or owner
+            if ( ! $error && $Action == "Update" && (
+                eZObjectPermission::hasPermission( $ParentID, "filemanager_folder", 'w' ) == false ||
+                eZVirtualFolder::isOwner( $user, $FolderID ) )
+                 )
+            {
+                $t->parse( "error_upload", "error_upload_permission" );
+                $error = true;
+            }
         }
 
     }
