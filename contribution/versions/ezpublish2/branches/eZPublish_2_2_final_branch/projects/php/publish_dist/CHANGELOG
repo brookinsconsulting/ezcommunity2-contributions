@@ -9,6 +9,8 @@ Changes from 2.2.1 final to 2.2.2
 * Fixed display of $10 like text correctly
 * Fixed prefix on external link on system check
 * Fixed bug first time hosts are stored
+* Fixed bugs in imagecatalogue
+* Added navigator for unassigned images.
 
 Changes from 2.2 final to 2.2.1
 -------------------------------
