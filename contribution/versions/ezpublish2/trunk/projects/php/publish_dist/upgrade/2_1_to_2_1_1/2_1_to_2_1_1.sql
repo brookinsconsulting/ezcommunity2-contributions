@@ -815,6 +815,8 @@ CREATE TABLE eZUser_UserGroupDefinition (
   PRIMARY KEY (ID)
 );
 
+alter table eZArticle_Category add EditorGroupID int default 0;
+
 alter table eZSiteManager_Section add TemplateStyle varchar(255);
 
 CREATE TABLE eZMail_MailContactLink (
@@ -824,6 +826,10 @@ CREATE TABLE eZMail_MailContactLink (
   CompanyID int,
   PRIMARY KEY (ID)
 );
+
+ALTER TABLE eZArticle_ArticleImageLink ADD Placement int not null default 0;
+
+ALTER TABLE eZTrade_Product ADD ExpiryTime int not null default 0;
 
 ALTER TABLE eZArticle_ArticleImageLink ADD Placement int not null default 0;
 

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezuser.php,v 1.87 2001/08/13 06:58:07 jhe Exp $
+// $Id: ezuser.php,v 1.88 2001/08/21 11:23:58 ce Exp $
 //
 // Definition of eZUser class
 //
@@ -918,7 +918,7 @@ class eZUser
             $res = $db->query( "INSERT INTO eZUser_UserAddressLink
                                 ( ID, UserID, AddressID )
                                 VALUES
-                                ( '$nextID', UserID='$this->ID', AddressID='$addressID' )" );
+                                ( '$nextID', '$this->ID', '$addressID' )" );
 
             $db->unlock();
             
@@ -926,7 +926,6 @@ class eZUser
                 $db->rollback();
             else
                 $db->commit();
-            
         }
     }
 

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezobjectpermission.php,v 1.28 2001/08/17 13:36:01 jhe Exp $
+// $Id: ezobjectpermission.php,v 1.29 2001/08/21 11:23:58 ce Exp $
 //
 // Definition of eZObjectPermission class
 //
@@ -489,6 +489,17 @@ function getTableName( $name, $withDefinition=false )
 
         case "article_category" :
             $ret = "eZArticle_CategoryPermission";
+        break;
+
+        case "trade_product" :
+            if ( $withDefinition )
+                $ret = "eZTrade_ProductPermission as Object, eZTrade_CategoryPermission as Category, eZTrade_ProductCategoryDefinition as Definition";
+            else
+                $ret = "eZTrade_ProductPermission";
+            break;
+
+        case "trade_category" :
+            $ret = "eZTrade_CategoryPermission";
         break;
 
         case "imagecatalogue_image" :

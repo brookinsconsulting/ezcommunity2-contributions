@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezbulkmail.php,v 1.22 2001/08/17 13:35:58 jhe Exp $
+// $Id: ezbulkmail.php,v 1.23 2001/08/21 11:23:58 ce Exp $
 //
 // eZBulkMail class
 //
@@ -680,9 +680,6 @@ class eZBulkMail
 
         $bulkMail = new eZBulkMail( $mailID );
 
-        print( "<br>begynner aa sende mail" );
-        print( "<pre>" );
-                print_r( $bulkMail );
         $subscriber = new eZBulkMailSubscriptionAddress( $addressID );
         
         $subscriber = $subscriber->eMail();
@@ -700,7 +697,6 @@ class eZBulkMail
         $mail->setTo( $subscriber );
         $mail->send();
 
-        print_r( $mail );
         $bulkMail->addLogEntry( $subscriber );
         $bulkMail->store();
             

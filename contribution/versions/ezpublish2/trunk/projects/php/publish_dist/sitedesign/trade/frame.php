@@ -106,7 +106,6 @@ else
 	<td width="1%" bgcolor="#f6f6fa">
 
    	<!-- Right menu start -->
-	
     <?
 	include( "ezuser/user/userbox.php" ); 
 	?>
@@ -180,8 +179,6 @@ if ( $Design == 3 )
     eZHTTPTool::header( "Location: $redir" );
     exit();
 }
-
-
 
 ?>
 	<h2>Alternative sitedesigns:</h2>

@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: datasupplier.php,v 1.51 2001/08/15 14:45:52 ce Exp $
+// $Id: datasupplier.php,v 1.52 2001/08/21 11:23:58 ce Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -411,8 +411,6 @@ switch ( $url_array[2] )
             
             }
             break;
-            
-            
         }
     }
     break;

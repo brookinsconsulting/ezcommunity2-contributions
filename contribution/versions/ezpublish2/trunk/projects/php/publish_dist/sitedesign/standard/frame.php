@@ -103,7 +103,7 @@ else
 
    <?
     $CategoryID = 1;
-// include( "eznewsfeed/user/headlines.php" );
+ include( "eznewsfeed/user/headlines.php" );
    ?>
 
    <?
@@ -164,7 +164,8 @@ else
 
     <?
    $CategoryID = 1;
-    include( "ezarticle/user/smallarticlelist.php" );
+    // include( "ezarticle/user/smallarticlelist.php" );
+include( "ezarticle/user/headlines.php" );
     ?>
 
 

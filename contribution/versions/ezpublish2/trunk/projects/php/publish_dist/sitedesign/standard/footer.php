@@ -14,7 +14,8 @@
 
     <?
   	$CategoryID = 1;
-    include( "ezarticle/user/smallarticlelist.php" );
+//    include( "ezarticle/user/smallarticlelist.php" );
+    include( "ezarticle/user/headlines.php" );
     ?>
 
 

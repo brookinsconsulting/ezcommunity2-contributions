@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: ezaddress.php,v 1.13 2001/08/10 12:15:25 jhe Exp $
+// $Id: ezaddress.php,v 1.14 2001/08/21 11:23:58 ce Exp $
 //
 // Definition of eZAddress class
 //
@@ -97,6 +97,7 @@ class eZAddress
                                   WHERE ID='$this->ID'" );            
             $ret = true;            
         }
+
         eZDB::finish( $res, $db );
         return $ret;
     }
@@ -247,6 +248,7 @@ class eZAddress
                                   ('$addressID', '$userID')" );
             $db->unlock();
         }
+        
         eZDB::finish( $res, $db );
     }
     

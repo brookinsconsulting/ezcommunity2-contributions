@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: userwithaddress.php,v 1.67 2001/08/10 12:15:26 jhe Exp $
+// $Id: userwithaddress.php,v 1.68 2001/08/21 11:23:58 ce Exp $
 //
 // Created on: <10-ct-2000 12:52:42 bf>
 //
@@ -399,7 +399,11 @@ if ( isSet( $OK ) and $error == false )
             $address->setCountry( $CountryID );
         }
         $address->store();
+
         if ( $MainAddressID == $AddressID[$i] )
+            $main_id = $address->id();
+
+        if ( count ( $AddressID ) == 1 )
             $main_id = $address->id();
 
         // add the address to the user.

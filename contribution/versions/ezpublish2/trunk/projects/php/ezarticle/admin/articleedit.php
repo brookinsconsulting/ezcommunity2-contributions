@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: articleedit.php,v 1.110 2001/08/17 10:28:21 ce Exp $
+// $Id: articleedit.php,v 1.111 2001/08/21 11:23:58 ce Exp $
 //
 // Created on: <18-Oct-2000 15:04:39 bf>
 //
@@ -246,7 +246,6 @@ if ( $Action == "Update" ||  ( $Action == "Insert" ) )
         {
             eZObjectPermission::removePermissions( $article->id(), "article_article", 'r' );
         }
-
         
         // check if the contents is parseable
         if ( xmltree( $contents ) )
@@ -427,7 +426,6 @@ $t->set_var( "all_selected", "selected" );
 $t->set_var( "all_write_selected", "selected" );
 $writeGroupsID = array(); 
 $readGroupsID = array(); 
-
 
 if ( $Action == "New" )
 {
@@ -709,25 +707,25 @@ $groupList = $group->getAll();
 $t->set_var( "selected", "" );
 foreach ( $groupList as $groupItem )
 {
-    /* for the group owner selector */
-        $t->set_var( "module_owner_id", $groupItem->id() );
-        $t->set_var( "module_owner_name", $groupItem->name() );
-
-        if ( in_array( $groupItem->id(), $writeGroupsID ) )
-            $t->set_var( "is_selected", "selected" );
-        else
-            $t->set_var( "is_selected", "" );
+    //for the group owner selector */
+    $t->set_var( "module_owner_id", $groupItem->id() );
+    $t->set_var( "module_owner_name", $groupItem->name() );
     
-        $t->parse( "category_owner", "category_owner_tpl", true );
-
-        /* for the read access groups selector */
-        $t->set_var( "group_name", $groupItem->name() );
-        $t->set_var( "group_id", $groupItem->id() );
-        if ( in_array( $groupItem->id(), $readGroupsID ) )
-            $t->set_var( "selected", "selected" );
-        else
-            $t->set_var( "selected", "" );
-        $t->parse( "group_item", "group_item_tpl", true );
+    if ( in_array( $groupItem->id(), $writeGroupsID ) )
+        $t->set_var( "is_selected", "selected" );
+    else
+        $t->set_var( "is_selected", "" );
+    
+    $t->parse( "category_owner", "category_owner_tpl", true );
+    
+    // for the read access groups selector */
+    $t->set_var( "group_name", $groupItem->name() );
+    $t->set_var( "group_id", $groupItem->id() );
+    if ( in_array( $groupItem->id(), $readGroupsID ) )
+        $t->set_var( "selected", "selected" );
+    else
+        $t->set_var( "selected", "" );
+    $t->parse( "group_item", "group_item_tpl", true );
 }
 
 $t->pparse( "output", "article_edit_page_tpl" );
