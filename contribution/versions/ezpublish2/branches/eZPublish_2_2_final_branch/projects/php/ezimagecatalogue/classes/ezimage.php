@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezimage.php,v 1.88.2.1 2002/02/26 12:31:05 jhe Exp $
+// $Id: ezimage.php,v 1.88.2.2 2002/04/10 11:45:46 bf Exp $
 //
 // Definition of eZImage class
 //
@@ -1178,6 +1178,22 @@ class eZImage
             $db->query_single( $res, "SELECT ID, ((ID*0)+RAND()) AS Random FROM eZImageCatalogue_Image ORDER BY Random LIMIT 1" );
 
         return new eZImage( $res["ID"] );
+    }
+
+    /*!
+      Returns true if the current image has defined an image map.
+    */
+    function hasMap()
+    {
+        $db =& eZDB::globalDatabase();
+
+        $res = array();
+        $db->array_query( $res, "SELECT * FROM eZImageCatalogue_ImageMap WHERE ImageID='$this->ID'" );
+
+        if ( count( $res ) > 0 )
+            return true;
+        else
+            return false;        
     }
 
     var $ID;
