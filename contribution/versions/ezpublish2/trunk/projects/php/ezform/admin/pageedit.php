@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: pageedit.php,v 1.14 2001/12/19 14:42:17 br Exp $
+// $Id: pageedit.php,v 1.15 2001/12/19 14:57:05 br Exp $
 //
 // Definition of ||| class
 //
@@ -350,7 +350,7 @@ if ( $page->numberOfElements() == 0 )
 }
 
 
-
+// check the jump conditions.
 $elements = $page->pageElements();
 $count = $page->numberOfElements();
 
@@ -363,24 +363,7 @@ else if ( isSet( $PageID ) )
 {
     foreach( $elements as $element )
     {
-        $elementType = $element->elementType();
-        $name = $elementType->name();
-
-        if ( $element->elementInCondition() )
-        {
-            if ( $name == "multiple_select_item" ||
-            $name == "dropdown_item" ||
-            $name == "radiobox_item" ||
-            $name == "checkbox_item" ||
-            $name == "text_field_item" )
-            {
-                $elementChoiceID = $element->id();
-                break;
-            }
-        }
-        
-        if ( $elementChoiceID == 0 )
-            unset( $elementChoiceID );
+        $element->removeCondition();
     }
 }
 
@@ -559,45 +542,46 @@ if ( count( $errorMessages ) > 0 && !isSet( $NewElement ) && !isSet( $DeleteSele
 
 // parse the jump choices.
 
-if ( isSet( $elementChoiceID ) )
+$element = new eZFormElement( $elementChoiceID );
+if ( $element )
 {
-    $element = new eZFormElement( $elementChoiceID );
-    if ( $element )
+    $values =& $element->fixedValues();
+    
+    // parse the valid jump elements.
+    $elements = $page->pageElements();
+    
+    if ( count( $elements ) > 0 )
     {
-        $values =& $element->fixedValues();
-        
-        // parse the valid jump elements.
-        $elements = $page->pageElements();
-        
-        if ( count( $elements ) > 0 )
+        foreach ( $elements as $pageElement )
         {
-            foreach ( $elements as $pageElement )
+            $elementType =& $pageElement->elementType();
+            $name = $elementType->name();
+            
+            if ( $name == "multiple_select_item" ||
+            $name == "dropdown_item" ||
+            $name == "radiobox_item" ||
+            $name == "checkbox_item" ||
+            $name == "text_field_item" )
             {
-                $elementType =& $pageElement->elementType();
-                $name = $elementType->name();
-
-                if ( $name == "multiple_select_item" ||
-                $name == "dropdown_item" ||
-                $name == "radiobox_item" ||
-                $name == "checkbox_item" ||
-                $name == "text_field_item" )
+                if( $pageElement->id() == $elementChoiceID )
                 {
-                    if( $pageElement->id() == $elementChoiceID )
-                    {
-                        $t->set_var( "selected", "selected" );
-                    }
-                    else
-                    {
-                        $t->set_var( "selected", "" );
-                    }
-                    
-                    $t->set_var( "element_choice_id", $pageElement->id() );
-                    $t->set_var( "element_choice_name", $pageElement->name() );
-                    
-                    $t->parse( "element_choice", "element_choice_tpl", true );
+                    $t->set_var( "selected", "selected" );
                 }
+                else
+                {
+                    $t->set_var( "selected", "" );
+                }
+                
+                $t->set_var( "element_choice_id", $pageElement->id() );
+                $t->set_var( "element_choice_name", $pageElement->name() );
+                
+                $t->parse( "element_choice", "element_choice_tpl", true );
             }
         }
+    }
+    
+    if ( isSet( $elementChoiceID ) )
+    {
         
         $elementType =& $element->elementType();
         $name = $elementType->name();
@@ -647,11 +631,15 @@ if ( isSet( $elementChoiceID ) )
                         {
                             foreach ( $pages as $pageValue )
                             {
-                                $t->set_var( "page_id", $pageValue->id() );
-                                $t->set_var( "page_name", $pageValue->name() );
-                                $t->set_var( "selected", "" );
-                               
-                                $t->parse( "fixed_value", "fixed_value_tpl", true );
+                                if ( $page->id() != $pageValue->id() )
+                                {
+                                
+                                    $t->set_var( "page_id", $pageValue->id() );
+                                    $t->set_var( "page_name", $pageValue->name() );
+                                    $t->set_var( "selected", "" );
+                                    
+                                    $t->parse( "fixed_value", "fixed_value_tpl", true );
+                                }
                                 
                             }
                         }
