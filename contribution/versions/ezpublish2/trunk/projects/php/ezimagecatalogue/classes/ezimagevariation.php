@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezimagevariation.php,v 1.11 2001/02/02 12:27:20 ce Exp $
+// $Id: ezimagevariation.php,v 1.12 2001/03/05 15:41:00 jb Exp $
 //
 // Definition of eZImageVariation class
 //
@@ -230,34 +230,38 @@ class eZImageVariation
                     $imageFile->setType( "image/jpeg" );
                 }
 
-//                  $postfix = ".jpg";
-//                  if ( ereg( "gif$", $image->originalFileName() ) )
-//                  {
-//                      $postfix = ".gif";
-//                      $imageFile->setType( "image/gif" );
-//                  }
-
-//                if ( ereg( "png$", $image->originalFileName() ) )
-//                {
-//                    $postfix = ".png";
-//                    $imageFile->setType( "image/png" );
-//                }
-
                 $dest = "ezimagecatalogue/catalogue/variations/" . $image->id() . "-" . $variationGroup->width() . "x". $variationGroup->height() . $postfix;
 
-                $imageFile->scaleCopy( $dest, $variationGroup->width(), $variationGroup->height() );
+                $result = $imageFile->scaleCopy( $dest, $variationGroup->width(), $variationGroup->height() );
+                if ( !is_bool( $result ) and $result == "locked" )
+                {
+                    if ( $variation->getByGroupAndImage( $variationGroup->id(), $image->id() ) )
+                    {
+                        $ret =& $variation;
+                    }
+                    else
+                    {
+                        print( "<br><b>Timeout when retrieveing variation</b><br>" );
+                    }
+                }
+                else if ( $result )
+                {
+                    if ( !file_exists( $dest ) )
+                        return false;
+                    $size = GetImageSize( $dest );
+                    if ( !$size )
+                        return false;
 
-                $size = GetImageSize( $dest );
-                
-                $variation->setWidth( $size[0] );
-                $variation->setHeight( $size[1] );
-                $variation->setImagePath( $dest );
-                $variation->setImageID(  $image->id() );                
-                $variation->setVariationGroupID(  $variationGroup->id() );
+                    $variation->setWidth( $size[0] );
+                    $variation->setHeight( $size[1] );
+                    $variation->setImagePath( $dest );
+                    $variation->setImageID(  $image->id() );                
+                    $variation->setVariationGroupID(  $variationGroup->id() );
 
-                $variation->store();
+                    $variation->store();
 
-                $ret =& $variation;
+                    $ret =& $variation;
+                }
             }
         }
         

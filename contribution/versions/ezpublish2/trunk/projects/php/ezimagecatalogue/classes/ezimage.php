@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezimage.php,v 1.31 2001/02/28 13:03:23 ce Exp $
+// $Id: ezimage.php,v 1.32 2001/03/05 15:41:00 jb Exp $
 //
 // Definition of eZImage class
 //
@@ -638,6 +638,21 @@ class eZImage
     }
     
     /*!
+      Returns true if the file is a valid image.
+    */
+    function checkImage( &$file )
+    {
+       if ( get_class( $file ) == "ezimagefile" )
+       {
+           $name = $file->tmpName();
+           if ( !file_exists( $name ) )
+               return false;
+           return true;
+       }
+       return false;
+    }
+
+    /*!
       Makes a copy of the image and stores the image in the catalogue.
       
       If the image is not of the type .jpg or .gif the image is converted to .jpg.
@@ -650,6 +665,9 @@ class eZImage
        if ( get_class( $file ) == "ezimagefile" )
        {
            $this->OriginalFileName = $file->name();
+           $tmpname = $file->tmpName();
+           if ( !file_exists( $tmpname ) )
+               return false;
 
            $suffix = "";
            if ( ereg( "\\.([a-z]+)$", $this->OriginalFileName, $regs ) )
@@ -675,14 +693,8 @@ class eZImage
                $postfix = ".png";
            }
 
-//             if ( ereg( "\\.png$", $this->OriginalFileName ) )
-//             {
-//                 $postfix = ".png";
-//             }
-           
            // the path to the catalogue
 
-//           ( ereg( "\\.jpg$", $this->OriginalFileName ) || ereg( "\\.jpeg$", $this->OriginalFileName ));
            if ( $postfix != "" )
            {
                // Copy the file since we support it directly
@@ -691,7 +703,8 @@ class eZImage
            else
            {
                // Convert it to jpg.
-               $file->convertCopy( "ezimagecatalogue/catalogue/" . basename( $file->tmpName() ) . ".jpg" );
+               if ( !$file->convertCopy( "ezimagecatalogue/catalogue/" . basename( $file->tmpName() ) . ".jpg" ) )
+                   return false;
                $postfix = ".jpg";
            }
 
@@ -700,7 +713,9 @@ class eZImage
            $name = $file->name();
            
            $this->OriginalFileName =& $name;
+           return true;
        }
+       return false;
     }
 
     /*!
