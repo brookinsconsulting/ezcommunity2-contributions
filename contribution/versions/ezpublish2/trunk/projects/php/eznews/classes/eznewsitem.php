@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eznewsitem.php,v 1.11 2000/09/28 13:07:22 pkej-cvs Exp $
+// $Id: eznewsitem.php,v 1.12 2000/09/28 13:09:57 pkej-cvs Exp $
 //
 // Definition of eZNewsItem class
 //
@@ -143,6 +143,9 @@ class eZNewsItem
         }
     }
 
+    /*!
+        
+     */
     function storeImages()
     {
         $this->dbInit();
@@ -169,6 +172,9 @@ class eZNewsItem
         }
     }
     
+    /*!
+        
+     */
     function storeImage( $ImageID,  $thumbnail )
     {
         $this->dbInit();
@@ -192,6 +198,9 @@ class eZNewsItem
         $this->Database->query( $query );
     }
     
+    /*!
+        
+     */
     function storeFile( $FileID )
     {
         $this->dbInit();
@@ -215,6 +224,9 @@ class eZNewsItem
         $this->Database->query( $query );
     }
     
+    /*!
+        
+     */
     function storeParent( $ParentID, $canonical = 'N' )
     {
         $this->dbInit();
@@ -240,10 +252,16 @@ class eZNewsItem
         $this->Database->query( $query );
     }
     
+    /*!
+        
+     */
     function storeFiles()
     {
     }
     
+    /*!
+        
+     */
     function storeThis()
     {
         $this->dbInit();
@@ -413,6 +431,9 @@ class eZNewsItem
 
 
 
+    /*!
+        
+     */
     function getImages()
     {
         $this->dbInit();
@@ -536,6 +557,9 @@ class eZNewsItem
         return $returnValue;
     }
     
+    /*!
+        
+     */
     function getClass()
     {
         $this->dbInit();
@@ -559,6 +583,9 @@ class eZNewsItem
         return $itemTypeArray[0]["eZClass"];
     }
     
+    /*!
+        
+     */
     function polymorphSelf( $newClass )
     {   
         $returnValue = false;
@@ -578,6 +605,9 @@ class eZNewsItem
         return $returnValue;
     }
     
+    /*!
+        
+     */
     function getByName( $name )
     {
         if( $GLOBAL["NEWSDEBUG"] == true )
@@ -604,6 +634,9 @@ class eZNewsItem
         return $this->get( $itemArray[0][ "ID" ] );
     }
     
+    /*!
+        
+     */
     function getChangeLog()
     {
         if( $GLOBAL["NEWSDEBUG"] == true )
@@ -642,6 +675,9 @@ class eZNewsItem
 
 
 
+    /*!
+        
+     */
     function getChangeTypes( )
     {
         if( $GLOBAL["NEWSDEBUG"] == true )
@@ -952,6 +988,9 @@ class eZNewsItem
         return $returnArray;
     }
     
+    /*!
+        
+     */
     function getAllChildren( $inOrderBy = "name", $direction = "forward" )
     {
         if( $GLOBAL["NEWSDEBUG"] == true )
@@ -999,6 +1038,9 @@ class eZNewsItem
 
 
 
+    /*!
+        
+     */
     function getSubItemCounts( $inOrderBy = "name", $direction = "forward", $fetch = true )
     {
         if( $GLOBAL["NEWSDEBUG"] == true )
@@ -1380,6 +1422,9 @@ class eZNewsItem
     }
 
 
+    /*!
+        
+     */
     function checkInvariant()
     {
         $returnValue=false;
@@ -1407,6 +1452,9 @@ class eZNewsItem
         return $returnValue;        
     }
 
+    /*!
+        
+     */
     function objectInfo()
     {
         $output;
@@ -1437,6 +1485,9 @@ class eZNewsItem
         return $output;
     }
     
+    /*!
+        
+     */
     function objectHeader()
     {
         return sprintf("<TABLE WIDTH=100%%><TR><TD WIDTH=5%%>%s</TD><TD>%s</TD><TD WIDTH=5%%>%s</TD><TD WIDTH=5%%>%s</TD><TD WIDTH=10%%>%s</TD><TD WIDTH=10%%>%s</TD><TD WIDTH=3%%>%s</TD></TR></TABLE><hr><TABLE WIDTH=100%%>",
@@ -1449,6 +1500,9 @@ class eZNewsItem
                 "Vis"
                );
     }
+    /*!
+        
+     */
     function objectFooter()
     {
         return sprintf("</TABLE>");
@@ -1472,11 +1526,17 @@ class eZNewsItem
         }
     }
     
+    /*!
+        
+     */
     function state()
     {
         return $this->State_;
     }
     
+    /*!
+        
+     */
     function editVariables( $template )
     {
         if( $this->State_ == "Coherent" )
