@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eztemplate.php,v 1.46.2.7 2002/04/25 09:11:58 bf Exp $
+// $Id: eztemplate.php,v 1.46.2.8 2002/04/25 09:28:35 jhe Exp $
 //
 // Definition of eZTemplate class
 //
@@ -120,7 +120,7 @@ class eZTemplate
         $minor = $versionArray[1]; 
         $release = $versionArray[2];
 
-        if ( $major >= 4 && (($minor == 0 && $release >= 5) || ($minor > 0)) )
+        if ( $major >= 4 && ( ( $minor == 0 && $release >= 5 ) || ( $minor > 0 ) ) )
         {        
             $this->ReplaceFunc = "str_replace";
         }
@@ -136,7 +136,7 @@ class eZTemplate
         if ( isset( $GLOBALS["eZTemplateOverride"] ) and $GLOBALS["eZTemplateOverride"] != "" )
         {
             // override template dir
-            $templateDir = preg_replace( "#^(.*?)/(.*?)/(.*?)/(.*?)/$#", "\\1/\\2/\\3/".$GLOBALS["eZTemplateOverride"]."/", $templateDir );
+            $templateDir = preg_replace( "#^(.*?)/(.*?)/(.*?)/(.*?)/$#", "\\1/\\2/\\3/" . $GLOBALS["eZTemplateOverride"] . "/", $templateDir );
         }
         
         $this->intlDir =& $intlDir;
@@ -148,15 +148,15 @@ class eZTemplate
         $this->State = $state;
         $this->ExternModTime = $mod_time;
 
-        $this->set_root($templateDir);
-        $this->set_unknowns("remove");
+        $this->set_root( $templateDir );
+        $this->set_unknowns( "remove" );
 
         if ( is_array( $phpFile ) and is_array( $intlDir ) )
         {
             $this->languageFile = array();
             $this->Ini = INIFile::globalINI();
             $intl_dir =& each( $intlDir );
-            foreach( $phpFile as $php_file )
+            foreach ( $phpFile as $php_file )
             {
                 $lang_file = $intl_dir[1] . "/" . $language . "/" . $php_file . ".ini";
                 $this->languageFile[] = $lang_file;
@@ -223,7 +223,7 @@ class eZTemplate
         {
             reset( $this->TextStrings );
             $tmp =& each( $this->TextStrings );
-            while( $tmp )
+            while ( $tmp )
             {
                 $tmp_key = "intl-" . $tmp[0];
                 $this->set_var_internal( $tmp_key, $tmp[1] );
@@ -267,7 +267,7 @@ class eZTemplate
     {
         $tmpkeys = array();
         $tmpvals = array();
-        foreach( $except as $key )
+        foreach ( $except as $key )
         {
             if ( isset( $varkeys[$key] ) && isset( $varvals[$key] ) )
             {
@@ -414,8 +414,9 @@ class eZTemplate
             $root = $GlobalSiteIni->SiteDir . $root;
         }
 
-        if (!is_dir($root)) {
-            $this->halt("set_root: $root is not a directory.");
+        if ( !is_dir( $root ) )
+        {
+            $this->halt( "set_root: $root is not a directory." );
             return false;
         }
     
@@ -426,7 +427,7 @@ class eZTemplate
     /*!
      Sets what to do with uknown templates variables
     */
-    function set_unknowns($unknowns = "keep")
+    function set_unknowns( $unknowns = "keep" )
     {
         $this->unknowns = $unknowns;
     }
@@ -453,7 +454,7 @@ class eZTemplate
         {
             $this->files = array();
             reset( $handle );
-            while( list( $h, $f ) = each( $handle ) )
+            while ( list( $h, $f ) = each( $handle ) )
             {
                 $this->file[$h] = $this->filename( $f );
                 $this->files[] = $f;
@@ -485,16 +486,16 @@ class eZTemplate
             if ( $name == "" )
                 $name = $handle;
 
-            $str =& $this->get_var($parent);
+            $str =& $this->get_var( $parent );
             $reg = "/<!--\s+BEGIN $handle\s+-->(.*)\n\s*<!--\s+END $handle\s+-->/sm";
-            preg_match($reg, $str, $m);
-            $str =& preg_replace($reg, "{" . "$name}", $str);
-            $this->set_var_internal($handle, $m[1]);
-            $this->set_var_internal($parent, $str);
+            preg_match( $reg, $str, $m );
+            $str =& preg_replace( $reg, "{" . "$name}", $str );
+            $this->set_var_internal( $handle, $m[1] );
+            $this->set_var_internal( $parent, $str );
         }
         else
         {
-            foreach( $parent as $block )
+            foreach ( $parent as $block )
             {
                 $this->set_block( $block[0], $block[1], $block[2] );
             }
@@ -510,11 +511,11 @@ class eZTemplate
         if ( is_array( $parent ) )
         {
             reset( $parent );
-            while( list( $file, $val ) = each( $parent ) )
+            while ( list( $file, $val ) = each( $parent ) )
             {
                 if ( !$this->loadfile( $file ) )
                 {
-                    $this->halt("set_file_block: unable to load $parent.");
+                    $this->halt( "set_file_block: unable to load $parent." );
                     return false;
                 }
             }
@@ -523,7 +524,7 @@ class eZTemplate
         {
             if ( !$this->loadfile( $parent ) )
             {
-                $this->halt("set_file_block: unable to load $parent.");
+                $this->halt( "set_file_block: unable to load $parent." );
                 return false;
             }
         }
@@ -551,7 +552,7 @@ class eZTemplate
 
     function set_var_internal( &$varname, &$value )
     {
-        if (!is_array($varname))
+        if ( !is_array( $varname ) )
         {
             if ( $this->ReplaceFunc != "str_replace" )
             {
@@ -560,26 +561,26 @@ class eZTemplate
             }
             else
             {                
-              $var = "{".$varname."}";
-              $this->varkeys[$varname] =& $var;
-              $this->varvals[$varname] =& $value;
+                $var = "{".$varname."}";
+                $this->varkeys[$varname] =& $var;
+                $this->varvals[$varname] =& $value;
             }
         }
         else
         {
-            reset($varname);
-            while(list($k, $v) = each($varname))
+            reset( $varname );
+            while ( list( $k, $v ) = each( $varname ) )
             {
                 if ( $this->ReplaceFunc != "str_replace" )
                 {                
-                    $this->varkeys[$k] =& preg_quote("/{".$k."}/");
+                    $this->varkeys[$k] =& preg_quote( "/{".$k."}/" );
                     $this->varvals[$k] =& $v;
                 }
                 else
                 {
-                  $var = "{".$k."}";
-                  $this->varkeys[$k] =& $var;
-                  $this->varvals[$k] =& $v;
+                    $var = "{".$k."}";
+                    $this->varkeys[$k] =& $var;
+                    $this->varvals[$k] =& $v;
                 }
             }
         }
@@ -590,18 +591,18 @@ class eZTemplate
       Retrieves a template variable and subsistutes all variable in that with
       all defined template variables and returns it.
     */
-    function &subst($handle)
+    function &subst( $handle )
     {
-        if (!$this->loadfile($handle))
+        if ( !$this->loadfile( $handle ) )
         {
-            $this->halt("subst: unable to load $handle.");
+            $this->halt( "subst: unable to load $handle." );
             return false;
         }
 
-        $str = $this->get_var($handle);
+        $str = $this->get_var( $handle );
 
         $rFunc = $this->ReplaceFunc;
-        $str =& $rFunc( $this->varkeys, $this->varvals, $str);
+        $str =& $rFunc( $this->varkeys, $this->varvals, $str );
         
         return $str;
     }
@@ -609,9 +610,9 @@ class eZTemplate
     /*!
       Same as subst() but prints it.
     */
-    function psubst($handle)
+    function psubst( $handle )
     {
-        print $this->subst($handle);
+        print $this->subst( $handle );
     
         return false;
     }
@@ -626,41 +627,41 @@ class eZTemplate
         if ( is_array( $target ) )
         {
             reset( $target );
-            while( list($targ,$hndl) = each( $target ) )
+            while ( list( $targ,$hndl ) = each( $target ) )
             {
                 unset( $str );
-                $str =& $this->subst($hndl);
+                $str =& $this->subst( $hndl );
                 if ( $append )
                 {
                     $tmp = $this->get_var( $targ ) . $str;
-                    $this->set_var_internal($targ, $tmp );
+                    $this->set_var_internal( $targ, $tmp );
                 }
                 else
                 {
-                    $this->set_var_internal($targ, $str);
+                    $this->set_var_internal( $targ, $str );
                 }
             }
         }
-        else if (!is_array($handle))
+        else if ( !is_array( $handle ) )
         {
-            $str =& $this->subst($handle);
+            $str =& $this->subst( $handle );
             if ( $append )
             {
-                $tmp = $this->get_var($target) . $str;
-                $this->set_var_internal($target, $tmp );
+                $tmp = $this->get_var( $target ) . $str;
+                $this->set_var_internal( $target, $tmp );
             }
             else
             {
-                $this->set_var_internal($target, $str);
+                $this->set_var_internal( $target, $str );
             }
         }
         else
         {
-            reset($handle);
-            while(list($i, $h) = each($handle))
+            reset( $handle );
+            while ( list( $i, $h ) = each( $handle ) )
             {
-                $str =& $this->subst($h);
-                $this->set_var_internal($target, $str);
+                $str =& $this->subst( $h );
+                $this->set_var_internal( $target, $str );
             }
         }
         return $str;
@@ -670,9 +671,9 @@ class eZTemplate
       Same as parse() but prints it.
     */
 
-    function pparse($target, $handle, $append = false)
+    function pparse( $target, $handle, $append = false )
     {
-        print $this->parse($target, $handle, $append);
+        print $this->parse( $target, $handle, $append );
         return false;
     }
   
@@ -681,8 +682,8 @@ class eZTemplate
     */
     function &get_vars()
     {
-        reset($this->varkeys);
-        while(list($k, $v) = each($this->varkeys))
+        reset( $this->varkeys );
+        while ( list( $k, $v ) = each( $this->varkeys ) )
         {
             $result[$k] = $v;
         }
@@ -694,10 +695,10 @@ class eZTemplate
     /*!
       Returns the content of a specific template variable.
     */
-    function &get_var($varname)
+    function &get_var( $varname )
     {
         $err = false;
-        if (!is_array($varname))
+        if ( !is_array( $varname ) )
         {
             if ( isset( $this->varvals[$varname] ) )
             {
@@ -711,8 +712,8 @@ class eZTemplate
         }
         else
         {
-            reset($varname);
-            while(list($k, $v) = each($varname))
+            reset( $varname );
+            while ( list( $k, $v ) = each( $varname ) )
             {
                 $result[$k] =& $this->varvals[$k];
 //                  $result[$k] =& $this->varkeys[$k];
@@ -737,7 +738,7 @@ class eZTemplate
         $this->loadfile( $handle );
         preg_match( "#<!--\s+VAR\s+$var=(.*?)\s+-->#", $this->varvals[$handle], $matches );
         
-        if ( isset( $matches[1]  ) )
+        if ( isset( $matches[1] ) )
             return $matches[1];
         else
             return false;                  
@@ -748,25 +749,25 @@ class eZTemplate
     */
     function get_undefined($handle)
     {
-        if (!$this->loadfile($handle))
+        if ( !$this->loadfile( $handle ) )
         {
-            $this->halt("get_undefined: unable to load $handle.");
+            $this->halt( "get_undefined: unable to load $handle." );
             return false;
         }
 
-        preg_match_all("/\{([^}]+)\}/", $this->get_var($handle), $m);
+        preg_match_all( "/\{([^}]+)\}/", $this->get_var( $handle ), $m );
         $m = $m[1];
-        if (!is_array($m))
+        if ( !is_array( $m ) )
             return false;
 
-        reset($m);
-        while(list($k, $v) = each($m))
+        reset( $m );
+        while ( list( $k, $v ) = each( $m ) )
         {
-          if (!isset($this->varkeys[$v]))
-              $result[$v] = $v;
+            if ( !isset( $this->varkeys[$v] ) )
+                $result[$v] = $v;
         }
     
-        if (count($result))
+        if ( count( $result ) )
             return $result;
         else
             return false;
@@ -781,23 +782,23 @@ class eZTemplate
       "nbsp", changes all template variables into a non-breaking space
       \sa set_unknowns
      */
-    function &finish($str)
+    function &finish( $str )
     {
-        switch ($this->unknowns)
+        switch ( $this->unknowns )
         {
             case "keep":
                 break;
 
             case "remove":
-                $str =& preg_replace('/{[^ \t\r\n}]+}/', "", $str);
+                $str =& preg_replace( '/{[^ \t\r\n}]+}/', "", $str );
             break;
 
             case "comment":
-                $str =& preg_replace('/{([^ \t\r\n}]+)}/', "<!-- Template $handle: Variable \\1 undefined -->", $str);
+                $str =& preg_replace( '/{([^ \t\r\n}]+)}/', "<!-- Template $handle: Variable \\1 undefined -->", $str );
             break;
 
             case "nbsp":
-                $str =& preg_replace('/{[^ \t\r\n}]+}/', "&nbsp;", $str);
+                $str =& preg_replace( '/{[^ \t\r\n}]+}/', "&nbsp;", $str );
         }
         return $str;
     }
@@ -806,9 +807,9 @@ class eZTemplate
       Prints out the content of template variable after it has gone trough finish
       \sa finish(), get()
     */
-    function p($varname)
+    function p( $varname )
     {
-        print $this->finish($this->get_var($varname));
+        print $this->finish( $this->get_var( $varname ) );
     }
 
     /*!
@@ -816,16 +817,16 @@ class eZTemplate
       \sa finish(), p()
     */
 
-    function get($varname)
+    function get( $varname )
     {
-        return $this->finish($this->get_var($varname));
+        return $this->finish( $this->get_var( $varname ) );
     }
     
     /*!
       \private
       Returns a full filepath of the specified filename.
     */
-    function filename($filename)
+    function filename( $filename )
     {
         $root = $this->root;
         if ( is_array( $filename ) )
@@ -833,12 +834,13 @@ class eZTemplate
             $root = $filename[0];
             $filename = $filename[1];
         }
-        if (substr($filename, 0, 1) != "/") {
+        if ( substr( $filename, 0, 1 ) != "/" )
+        {
             $filename = $root."/".$filename;
         }
 
-        if (!file_exists($filename))
-            $this->halt("filename: file $filename does not exist.");
+        if ( !file_exists( $filename ) )
+            $this->halt( "filename: file $filename does not exist." );
 
         return $filename;
     }
@@ -846,16 +848,16 @@ class eZTemplate
     /*!
       Loads the template file and sets as a template variable.
     */
-    function loadfile($handle)
+    function loadfile( $handle )
     {
-        if (isset($this->varkeys[$handle]) and !empty($this->varvals[$handle]))
+        if ( isset( $this->varkeys[$handle] ) and !empty( $this->varvals[$handle] ) )
             return true;
 //          if (isset($this->varkeys[$handle]) and !empty($this->varkeys[$handle]))
 //              return true;
 
-        if (!isset($this->file[$handle]))
+        if ( !isset( $this->file[$handle] ) )
         {
-            $this->halt("loadfile: $handle is not a valid handle.");
+            $this->halt( "loadfile: $handle is not a valid handle." );
             return false;
         }
 
@@ -865,11 +867,11 @@ class eZTemplate
         if ( file_exists( $filename ) )
         {
             $fd = fopen( $filename, "r" );
-            $str =& fread($fd, filesize($filename));
+            $str =& fread( $fd, filesize( $filename ) );
             fclose( $fd );
-            if (empty($str))
+            if ( empty( $str ) )
             {
-                $this->halt("loadfile: While loading $handle, $filename does not exist or is empty.");
+                $this->halt( "loadfile: While loading $handle, $filename does not exist or is empty." );
                 return false;
             }
         }
@@ -879,7 +881,7 @@ class eZTemplate
             return false;
         }
 
-        $this->set_var_internal($handle, $str);
+        $this->set_var_internal( $handle, $str );
     
         return true;
     }
@@ -889,15 +891,15 @@ class eZTemplate
       Prints out an error message and halts.
       Whether to print or halt is controlled by the halt_on_error variable.
     */
-    function halt($msg)
+    function halt( $msg )
     {
         $this->last_error = $msg;
 
-        if ($this->halt_on_error != "no")
+        if ( $this->halt_on_error != "no" )
             $this->haltmsg($msg);
 
-        if ($this->halt_on_error == "yes")
-            die("<b>Halted.</b>");
+        if ( $this->halt_on_error == "yes" )
+            die( "<b>Halted.</b>" );
 
         return false;
     }
@@ -906,7 +908,7 @@ class eZTemplate
       \private
       Prints out the halt message
     */
-    function haltmsg($msg)
+    function haltmsg( $msg )
     {
         $err_msg = "<b>Template Error:</b> $msg<br>\n";
         if ( $GLOBALS["DEBUG"] == true )
