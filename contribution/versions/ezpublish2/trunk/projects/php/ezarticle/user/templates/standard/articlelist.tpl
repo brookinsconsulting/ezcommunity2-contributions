@@ -31,16 +31,25 @@
 <!-- BEGIN category_list_tpl -->
 <table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
 <tr>
+        <th>&nbsp;</th>
 	<th>{intl-category}:</th>
 	<th>{intl-description}:</th>
 </tr>
 
 <!-- BEGIN category_item_tpl -->
 <tr>
-	<td class="{td_class}">
+	<td class="{td_class}" width="1%" valign="top">
+	<!-- BEGIN image_item_tpl -->
+	<img src="{image_url}" alt="{image_caption}" width="{image_width}" height="{image_height}" border="0" />
+	<!-- END image_item_tpl -->
+	<!-- BEGIN no_image_tpl -->
+	&nbsp;
+	<!-- END no_image_tpl -->
+        </td>
+	<td width="49%" class="{td_class}" valign="top">
 	<a href="/article/archive/{category_id}/">{category_name}</a>&nbsp;
 	</td>
-	<td class="{td_class}">
+	<td width="50%" class="{td_class}" valign="top">
 	{category_description}&nbsp;
 	</td>
 </tr>

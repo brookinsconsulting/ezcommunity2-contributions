@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: articlelist.php,v 1.44 2001/04/10 09:47:19 jb Exp $
+// $Id: articlelist.php,v 1.45 2001/05/16 12:24:58 ce Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <18-Oct-2000 14:41:37 bf>
@@ -60,9 +60,14 @@ $t->set_block( "article_list_page_tpl", "path_item_tpl", "path_item" );
 $t->set_block( "article_list_page_tpl", "category_list_tpl", "category_list" );
 $t->set_block( "category_list_tpl", "category_item_tpl", "category_item" );
 
+// image
+$t->set_block( "category_item_tpl", "image_item_tpl", "image_item" );
+$t->set_block( "category_item_tpl", "no_image_tpl", "no_image" );
+
 // product
 $t->set_block( "article_list_page_tpl", "article_list_tpl", "article_list" );
 $t->set_block( "article_list_tpl", "article_item_tpl", "article_item" );
+
 
 $t->set_block( "article_item_tpl", "article_image_tpl", "article_image" );
 
@@ -125,7 +130,36 @@ foreach ( $categoryList as $categoryItem )
         $t->set_var( "category_name", $categoryItem->name() );
         
         $parent = $categoryItem->parent();
+
+        $image =& $categoryItem->image();
+
+        $t->set_var( "image_item", "" );
         
+        if ( ( get_class( $image ) == "ezimage" ) && ( $image->id() != 0 ) )
+        {
+            $imageWidth =& $ini->read_var( "eZArticleMain", "CategoryImageWidth" );
+            $imageHeight =& $ini->read_var( "eZArticleMain", "CategoryImageHeight" );
+
+            $variation =& $image->requestImageVariation( $imageWidth, $imageHeight );
+
+            $imageURL = "/" . $variation->imagePath();
+            $imageWidth =& $variation->width();
+            $imageHeight =& $variation->height();
+            $imageCaption =& $image->caption();
+            
+            $t->set_var( "image_width", $imageWidth );
+            $t->set_var( "image_height", $imageHeight );
+            $t->set_var( "image_url", $imageURL );
+            $t->set_var( "image_caption", $imageCaption );
+            $t->set_var( "no_image", "" );
+            $t->parse( "image_item", "image_item_tpl" );
+        }
+        else
+        {
+            $t->parse( "no_image", "no_image_tpl" );
+            $t->set_var( "image_item", "" );
+        }
+
         
         if ( ( $i % 2 ) == 0 )
         {
