@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: cart.php,v 1.10 2000/11/01 09:24:19 ce-cvs Exp $
+// $Id: cart.php,v 1.11 2000/11/02 20:26:19 bf-cvs Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <27-Sep-2000 11:57:49 bf>
@@ -116,7 +116,6 @@ if ( $Action == "AddToBasket" )
 
 if ( $Action == "Refresh" )
 {
-
     $i=0;
     if ( count( $CartIDArray ) > 0 )
     foreach ( $CartIDArray as $cartID )
@@ -126,7 +125,6 @@ if ( $Action == "Refresh" )
         $cartItem->store();
         $i++;
     }
-
 }
 
 // TODO add check for user's cart.

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ordersendt.php,v 1.9 2000/11/02 12:11:00 bf-cvs Exp $
+// $Id: ordersendt.php,v 1.10 2000/11/02 20:26:19 bf-cvs Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <06-Oct-2000 14:04:17 bf>
@@ -60,7 +60,24 @@ $order = new eZOrder( $OrderID );
 
 // get the customer
 
+
 $user = $order->user();
+
+$currentUser = eZUser::currentUser();
+
+// check if the user is logged i
+if ( !( $currentUser && $user ) ) 
+{
+    Header( "Location: /trade/cart/" );
+    exit();
+}
+
+// check if the user owns the order
+if ( $currentUser->id() != $user->id() )
+{
+    Header( "Location: /trade/cart/" );
+    exit();
+}
 
 if ( $user )
 {
