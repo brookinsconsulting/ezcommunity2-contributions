@@ -28,6 +28,38 @@ class eZCompanyPhoneDict
     }
 
     /*
+      Henter ut med ID == $id
+    */  
+    function getByPhone( $id )
+    {
+        $this->dbInit();    
+        if ( $id != "" )
+        {
+            array_query( $dict_array, "SELECT * FROM CompanyPhoneDict WHERE PhoneID='$id'" );
+            if ( count( $dict_array ) > 1 )
+            {
+                die( "Feil: Flere dicter med samme ID funnet i database, dette skal ikke være mulig. " );
+            }
+            else if ( count( $dict_array ) == 1 )
+            {
+                $this->ID = $dict_array[ 0 ][ "ID" ];
+                $this->FirstName = $dict_array[ 0 ][ "CompanyID" ];
+                $this->LastName = $dict_array[ 0 ][ "PhoneID" ];
+            }
+        }
+    }
+
+    /*
+      Sletter dicten med ID == $id;
+     */
+    function delete()
+    {
+        $this->dbInit();
+        
+        query( "DELETE FROM CompanyPhoneDict WHERE ID='$this->ID'" );
+    }
+
+    /*
       Henter ut alle telefonnummer lagret i databasen hvor CompanyID == $id.
     */
     function getByCompany( $id )

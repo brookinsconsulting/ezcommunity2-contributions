@@ -45,7 +45,6 @@ if ( $Action == "insert" )
     $dict->setAddressID( $aid );
     $dict->store();
 
-
     // telefonnummer
     $phone = new eZPhone( );
     $phone->setNumber( $PhoneNumber );
@@ -88,7 +87,12 @@ if ( $PhoneAction == "DeletePhone" )
 {
     $phone = new eZPhone( );
     $phone->get( $PhoneID );
+
+    $dict = new eZCompanyPhoneDict();
+    $dict->getByPhone( $phone->id() );
+    
     $phone->delete();
+    $dict->delete();
 }
 
 if ( $AddressAction == "AddAddress" )
@@ -240,6 +244,8 @@ if ( $Action == "edit" )
         $t->set_var( "phone_type_name", $phoneType->name() );
 
         $t->set_var( "phone_type_id", $phone_select_dict[ $phoneType->id() ] );
+
+        $t->set_var( "script_name", "companyedit.php" );
         
         $t->parse( "phone_list", "phone_item", true );                
     }
@@ -268,6 +274,7 @@ if ( $Action == "edit" )
     $t->set_var( "address_action", "AddAddress" );    
     $t->set_var( "address_action_value", "Legg til" );
     $t->set_var( "address_action_type", "submit" );    
+
 
     $t->set_var( "phone_action", "AddPhone" );
     $t->set_var( "phone_edit_id", "-1" );

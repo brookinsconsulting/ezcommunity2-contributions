@@ -105,10 +105,14 @@ if ( $PhoneAction == "deletePhone" )
 {
     $phone = new eZPhone();
     $phone->get( $PhoneID );
+
+    $dict = new eZPersonPhoneDict();
+    $dict->getByPhone( $phone->id() );
+    print( "dict id" . $dict->id() );
+    
     $phone->delete();
+    $dict->delete();
 }
-
-
 
 // sjekke session
 {
@@ -180,9 +184,13 @@ if ( $Action == "edit" )
 
         $t->set_var( "phone_type_id", $phone_select_dict[ $phoneType->id() ] );
 
+        $t->set_var( "script_name", "personedit.php" );
+        
         $t->parse( "phone_list", "phone_item", true );
     }
 
+    
+    
     $t->set_var( "phone_action", "AddPhone" );
     $t->set_var( "phone_edit_id", "-1" );
     $t->set_var( "phone_action_value", "Legg til" );

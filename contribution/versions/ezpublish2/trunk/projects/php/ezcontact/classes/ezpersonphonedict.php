@@ -39,6 +39,39 @@ class eZPersonPhoneDict
 
         return $phone_array;
     }
+    /*
+      Henter ut med ID == $id
+    */  
+    function getByPhone( $id )
+    {
+        $this->dbInit();    
+        if ( $id != "" )
+        {
+            array_query( $dict_array, "SELECT * FROM PersonPhoneDict WHERE PhoneID='$id'" );
+            if ( count( $dict_array ) > 1 )
+            {
+                die( "Feil: Flere dicter med samme ID funnet i database, dette skal ikke være mulig. " );
+            }
+            else if ( count( $dict_array ) == 1 )
+            {
+                $this->ID = $dict_array[ 0 ][ "ID" ];
+                $this->PersonID = $dict_array[ 0 ][ "PersonID" ];
+                $this->PhoneID = $dict_array[ 0 ][ "PhoneID" ];
+            }
+        }
+
+        print( "phoneid:" . $this->ID );
+    }
+
+    /*
+      Sletter dicten med ID == $id;
+     */
+    function delete()
+    {
+        $this->dbInit();
+        
+        query( "DELETE FROM PersonPhoneDict WHERE ID='$this->ID'" );
+    }
 
     /*
       Setter personID variablen.
@@ -70,6 +103,11 @@ class eZPersonPhoneDict
     function phoneID()
     {
         return $this->PhoneID;
+    }
+
+    function id()
+    {
+        return $this->ID;
     }
     
     /*
