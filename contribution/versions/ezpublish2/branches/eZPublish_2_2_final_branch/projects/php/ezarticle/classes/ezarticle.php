@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: ezarticle.php,v 1.183.2.17 2002/04/15 16:15:10 jhe Exp $
+// $Id: ezarticle.php,v 1.183.2.18 2002/04/22 07:50:26 bf Exp $
 //
 // Definition of eZArticle class
 //
@@ -1841,20 +1841,27 @@ class eZArticle
         {
             $groups =& $user->groups( false );
 
-            $i = 0;
             foreach ( $groups as $group )
             {
-                if ( $i == 0 )
-                    $groupSQL .= " eZArticle_ArticlePermission.GroupID=$group OR";
-                else
-                    $groupSQL .= " eZArticle_ArticlePermission.GroupID=$group OR";
-
-                $i++;
+                $groupSQL .= " ( Permission.GroupID='$group' AND CategoryPermission.GroupID='$group' ) OR
+                              ( Permission.GroupID='$group' AND CategoryPermission.GroupID='-1' ) OR
+                              ( Permission.GroupID='-1' AND CategoryPermission.GroupID='$group' ) OR
+                            ";
             }
             $currentUserID = $user->id();
             $loggedInSQL = "eZArticle_Article.AuthorID=$currentUserID OR";
+
+            if ( $user->hasRootAccess() )
+                $usePermission = false;
         }
 
+        $loggedInSQL = "( $currentUserSQL ( ( $groupSQL Permission.GroupID='-1' AND CategoryPermission.GroupID='-1' ) AND Permission.ReadPermission='1' AND CategoryPermission.ReadPermission='1' ) ) AND";
+
+        if ( $usePermission )
+            $permissionSQL = $loggedInSQL;
+       else
+           $permissionSQL = "";
+        
         // stop word frequency
         $ini =& INIFile::globalINI();
         $StopWordFrequency = $ini->read_var( "eZArticleMain", "StopWordFrequency" );
@@ -1870,11 +1877,7 @@ class eZArticle
         $catSQL = "";
         $typeTables = "";
         $typeSQL = "";
-	$sectionsSQL = "";
-
-        // need to check if the category is searchable
-        $catDefTable = "eZArticle_ArticleCategoryDefinition,";
-        $catTable = "eZArticle_Category,";
+        $sectionsSQL = "";
 
         if ( isSet( $params["FromDate"] ) )
         {
@@ -1899,14 +1902,13 @@ class eZArticle
             {
                 if ( $i > 0 )
                     $sql .= "OR ";
-                $sql .= "eZArticle_Category.ID = '$cat' ";
+                $sql .= "Category.ID = '$cat' ";
                 ++$i;
             }
             if ( count( $cats ) > 0 )
             {
-                $catSQL = "AND ( $sql ) AND eZArticle_Category.ID=eZArticle_ArticleCategoryLink.CategoryID
+                $catSQL = "AND ( $sql ) AND Category.ID=eZArticle_ArticleCategoryLink.CategoryID
                             AND eZArticle_Article.ID=eZArticle_ArticleCategoryLink.ArticleID";
-                $catTable = "eZArticle_Category,";
             }
         }
         if ( isSet( $params["Type"] ) )
@@ -1928,10 +1930,10 @@ class eZArticle
 	    $sectionsArray = explode( ",", $sectionsList );
 	    if ( is_numeric( $sectionsArray[0] ) )
 	    {
-		$sectionsSQL .= "AND ( eZArticle_Category.SectionID='$sectionsArray[0]'";
+		$sectionsSQL .= "AND ( Category.SectionID='$sectionsArray[0]'";
 		for ( $i=1; $i<count( $sectionsArray ); $i++ )
 	        {
-		     $sectionsSQL .= " OR eZArticle_Category.SectionID='$sectionsArray[$i]'";
+		     $sectionsSQL .= " OR Category.SectionID='$sectionsArray[$i]'";
 		}
 		$sectionsSQL .= " ) ";
             }
@@ -1949,7 +1951,7 @@ class eZArticle
         if ( $params["SearchExcludedArticles"] == "true" )
             $excludeFromSearchSQL = " ";
         else
-            $excludeFromSearchSQL = " AND eZArticle_Category.ExcludeFromSearch = '0' ";
+            $excludeFromSearchSQL = " AND Category.ExcludeFromSearch = '0' ";
 
         // special search for MySQL, mimic subselects ;)
         if ( $db->isA() == "mysql" )
@@ -1969,32 +1971,33 @@ class eZArticle
                  FROM eZArticle_Article,
                       eZArticle_ArticleWordLink,
                       eZArticle_Word,
-                      eZArticle_ArticleCategoryLink,
-                      $catDefTable
-                      $catTable
+                      eZArticle_ArticleCategoryLink as Link,
                       $typeTables
                       $photoTables
-                      eZArticle_ArticlePermission
+                      eZArticle_ArticleCategoryDefinition as Definition,
+                      eZArticle_ArticlePermission as Permission,
+                      eZArticle_Category AS Category,
+                      eZArticle_CategoryPermission as CategoryPermission
+
                  WHERE
+                       $permissionSQL
                        $searchSQL
                        $dateSQL
                        $catSQL
                        $typeSQL
                        $authorSQL
                        $photoSQL
-		       $sectionsSQL
+           		       $sectionsSQL
                        AND
                        ( eZArticle_Article.ID=eZArticle_ArticleWordLink.ArticleID
-                         AND eZArticle_ArticleCategoryDefinition.ArticleID=eZArticle_Article.ID
-                         AND eZArticle_ArticleCategoryDefinition.CategoryID=eZArticle_Category.ID
+                         AND Definition.ArticleID=eZArticle_Article.ID
+                         AND Definition.CategoryID=Category.ID
                          $excludeFromSearchSQL
                          AND eZArticle_ArticleWordLink.WordID=eZArticle_Word.ID
-                         AND eZArticle_ArticlePermission.ObjectID=eZArticle_Article.ID
+                         AND Permission.ObjectID=eZArticle_Article.ID
+                         AND CategoryPermission.ObjectID=Definition.CategoryID 
                          $fetchText
-                         AND eZArticle_ArticleCategoryLink.ArticleID=eZArticle_Article.ID AND
-                          ( $loggedInSQL ($groupSQL eZArticle_ArticlePermission.GroupID='-1')
-                            AND eZArticle_ArticlePermission.ReadPermission='1'
-                          )
+                         AND Link.ArticleID=eZArticle_Article.ID 
                         )
                        ORDER BY $OrderBy";
 
@@ -2134,6 +2137,13 @@ class eZArticle
         //    break;
         //}
 
+        $ini =& INIFile::globalINI();
+        $ExcludeCategories = "";
+        if ( $ini->has_var( "eZArticleMain", "ExcludeCategories" ) )
+        {
+            $ExcludeCategories = $ini->read_var( "eZArticleMain", "ExcludeCategories" );
+        }
+
 
         $return_array = array();
         $article_array = array();
@@ -2198,6 +2208,11 @@ class eZArticle
        else
            $excludeSQL = "";
 
+       
+
+       if ($ExcludeCategories && $ExcludeCategories<>"") $excludeSQL .= " AND Category.ID NOT IN (".$ExcludeCategories.")";
+  
+
         $query = "SELECT COUNT( DISTINCT Article.ID ) as Count
                   FROM eZArticle_ArticleCategoryDefinition as Definition,
                        eZArticle_Article AS Article,
@@ -2239,6 +2254,13 @@ class eZArticle
                 $OrderBy = "Article.Name DESC";
             }
             break;
+        }
+
+        $ini =& INIFile::globalINI();
+        $ExcludeCategories = "";
+        if ( $ini->has_var( "eZArticleMain", "ExcludeCategories" ) )
+        {
+            $ExcludeCategories = $ini->read_var( "eZArticleMain", "ExcludeCategories" );
         }
 
 
@@ -2302,7 +2324,9 @@ class eZArticle
                $publishedSQL = " AND Article.IsPublished = '2' AND ";
        }
 
-
+       
+        if ($ExcludeCategories && $ExcludeCategories<>"") $excludeSQL .= " AND Category.ID NOT IN (".$ExcludeCategories.")";
+        
         $query = "SELECT Article.ID as ArticleID
                   FROM eZArticle_ArticleCategoryDefinition as Definition,
                        eZArticle_Article AS Article,
