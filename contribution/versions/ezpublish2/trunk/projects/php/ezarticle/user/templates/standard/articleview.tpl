@@ -63,8 +63,8 @@
 <!-- BEGIN image_tpl -->
 <tr>
 	<td width="1%" class="{td_class}" valign="top">
-	<img src="{www_dir}{image_url}" width="{image_width}" height="{image_height}" border="2" align="left" />
-	<span class="small">{image_caption}</span>
+	<img src="{www_dir}{image_url}" width="{image_width}" height="{image_height}" border="0" alt="{image_caption}" align="left" />
+	<span class="p">{image_caption}</span>
 	</td>
 </tr>
 <!-- END image_tpl -->

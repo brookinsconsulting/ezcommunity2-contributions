@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: unpublishedlist.php,v 1.13 2001/08/15 14:45:52 ce Exp $
+// $Id: unpublishedlist.php,v 1.14 2001/08/24 12:38:08 th Exp $
 //
 // Created on: <18-Oct-2000 14:41:37 bf>
 //
@@ -112,8 +112,6 @@ $article = new eZArticle();
 
 $articleList =& $article->articles( "time", "only",  $Offset, $Limit );
 $articleCount = $article->articleCount( "only" );
-
-print( $articleCount );
 
 $i=0;
 $t->set_var( "article_list", "" );
