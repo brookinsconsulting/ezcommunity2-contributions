@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: bugedit.php,v 1.39 2001/05/07 15:09:28 fh Exp $
+// $Id: bugedit.php,v 1.40 2001/05/09 08:25:21 fh Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <28-Nov-2000 19:45:35 bf>
@@ -137,12 +137,13 @@ if ( $Action == "Update" )
             
             $bug = new eZBug( $BugID );
 
-            if ( $bug->IsHandled() )
+            
+            $bug->setIsHandled( true );
+
+            if ( $bug->isHandled() )
                 $isHandled = true;
             else
                 $isHandled = false;
-            
-            $bug->setIsHandled( true );
             
             $bug->setPriority( $priority );
             $bug->setStatus( $status );
@@ -167,8 +168,8 @@ if ( $Action == "Update" )
                 $bug->setIsPrivate( false );
             }
 
-            $bug->setName( addSlashes( $bug->name() ) );
-            $bug->setDescription( addSlashes( $bug->description() ) );
+//            $bug->setName( $bug->name() );
+//            $bug->setDescription( $bug->description() );
             
 
             $bug->removeFromModules();
@@ -179,11 +180,14 @@ if ( $Action == "Update" )
             $category->addBug( $bug );
             $module->addBug( $bug );
 
-            $log = new eZBugLog();
-            $log->setDescription( $LogMessage );
-            $log->setUser( eZUser::currentUser() );
-            $log->setBug( $bug );
-            $log->store();
+            if( $LogMessage != "" )
+            {
+                $log = new eZBugLog();
+                $log->setDescription( $LogMessage );
+                $log->setUser( eZUser::currentUser() );
+                $log->setBug( $bug );
+                $log->store();
+            }
 
             // check if the owner has changed
             if( get_class( $owner ) == "ezuser" && $OwnerID != $CurrentOwnerID )
@@ -613,15 +617,15 @@ function sendAssignedMail( $bug, $userEmail, $ini, $Language )
             
     $mailTemplate->set_var( "bug_url", "http://" . $host . "/bug/bugview/" . $bug->id() );
     $mailTemplate->set_var( "bug_id", $bug->id() );
-    $mailTemplate->set_var( "bug_title", $bug->name() );
-    $mailTemplate->set_var( "bug_module", $module->name() );
+    $mailTemplate->set_var( "bug_title", $bug->name( false ) );
+    $mailTemplate->set_var( "bug_module", $module->name( false ) );
     $mailTemplate->set_var( "bug_reporter", $reporter );
-    $mailTemplate->set_var( "bug_description", $bug->description() );
+    $mailTemplate->set_var( "bug_description", $bug->description( false ) );
     
     $languageIni = new INIFile( "ezbug/admin/" . "intl/" . $Language . "/mailgotbug.php.ini", false );
     $msg =  $languageIni->read_var( "strings", "assigned_to_you" );
 
-    $mail->setSubject( "[". $msg ."][" . $bug->id() ."] " . $bug->name() );
+    $mail->setSubject( "[". $msg ."][" . $bug->id() ."] " . $bug->name( false ) );
 
     $bodyText = ( $mailTemplate->parse( "dummy", "mailgotbug" ) );
     $mail->setBody( $bodyText );
