@@ -633,3 +633,12 @@ Maintainer(s) : jhe@ez.no
       admin/consultationlist.php
       admin/consultationview.php: fixed bug with getting ini file
 
+
+Module : ezcontact
+Repository path : /home/cvsroot/projects/php/ezcontact
+Maintainer(s) : jhe@ez.no
+2001-11-30  Kai Duebbert  <kai@duebbert.de>
+
+    * admin/consultationedit.php
+      admin/consultationlist.php: fixed wrong use of $ini initialization
+

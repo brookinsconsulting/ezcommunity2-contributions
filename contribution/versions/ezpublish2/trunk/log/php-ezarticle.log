@@ -2374,3 +2374,12 @@ Maintainer(s) : bf@ez.no
     * user/articleview.php:
     Fixed correct fetching of section id when storing article cache.
 
+
+Module : ezarticle
+Repository path : /home/cvsroot/projects/php/ezarticle
+Maintainer(s) : bf@ez.no
+2001-11-30  Kai Duebbert  <kai@duebbert.de>
+
+    * user/templates/standard/articletags.tpl:
+    fixed wrong handling off link_tpl for nVH setup
+
