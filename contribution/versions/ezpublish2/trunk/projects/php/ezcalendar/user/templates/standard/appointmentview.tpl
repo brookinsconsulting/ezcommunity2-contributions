@@ -2,8 +2,11 @@
 
 <hr noshade size="4" />
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
+
+<tr><td colspan="3"><br /></td></tr>
+
 <tr>
-	<th>
+	<th colspan="2">
 	{intl-title}:
 	</th>
 	<th>
@@ -16,10 +19,12 @@
 	</th>
 </tr>
 <tr>
-	<td>
+	<td colspan="2">
 	{appointment_title}
 	</td>
 </tr>
+
+<tr><td colspan="3"><br /></td></tr>
 
 <tr>
 	<th>
@@ -51,16 +56,21 @@
 	<!-- END high_tpl -->
 	</td>
 </tr>
+
+<tr><td colspan="3"><br /></td></tr>
+
 <tr>
-	<th>
+	<th colspan="3">
 	{intl-description}:
 	</th>
 </tr>
 <tr>
-	<td>
+	<td colspan="3">
 	{appointment_description}
 	</td>
 </tr>
+
+<tr><td colspan="3"><br /></td></tr>
 
 </table>
 
