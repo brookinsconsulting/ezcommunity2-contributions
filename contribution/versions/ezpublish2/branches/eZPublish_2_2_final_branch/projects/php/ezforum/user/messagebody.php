@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: messagebody.php,v 1.9.2.1 2002/02/05 10:39:07 jhe Exp $
+// $Id: messagebody.php,v 1.9.2.2 2002/05/22 11:24:54 jhe Exp $
 //
 // Created on: <21-Feb-2001 18:00:00 pkej>
 //
@@ -45,10 +45,9 @@ if ( $ShowMessage )
     $author = new eZUser( $msg->userID() );
     
     $MessageNotice = $msg->emailNotice();
-    
     if ( isSet( $NewMessageAuthor ) )
     {
-        if ( $msg->userName() )
+        if ( $msg->userName() && $Action != "reply" )
             $MessageAuthor = $msg->userName();
         else
             $MessageAuthor = $NewMessageAuthor;
@@ -62,7 +61,7 @@ if ( $ShowMessage )
 
         if ( $author->id() == 0 )
         {
-            if ( $msg->userName() )
+            if ( $msg->userName() && $Action != "reply" )
                 $MessageAuthor = $msg->userName();
             else
                 $MessageAuthor = $ini->read_var( "eZForumMain", "AnonymousPoster" );

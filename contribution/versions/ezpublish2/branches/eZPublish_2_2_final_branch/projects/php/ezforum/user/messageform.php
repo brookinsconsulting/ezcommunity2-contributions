@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: messageform.php,v 1.16.2.7 2002/05/21 09:19:02 jhe Exp $
+// $Id: messageform.php,v 1.16.2.8 2002/05/22 11:24:54 jhe Exp $
 //
 // Created on: <21-Feb-2001 18:00:00 pkej>
 //
@@ -129,29 +129,13 @@ if ( $ShowMessageForm )
         $MessageNotice = $msg->emailNotice();
         $ForumID = $msg->forumId();
         
-        if ( isSet( $NewMessageAuthor ) )
-        {
-            $MessageAuthor = $NewMessageAuthor;
-        }
-        else
-        {
-            if ( $msg->userName() != "" )
-            {
-                $MessageAuthor = $msg->userName();
-            }
-            else if ( !is_object( $author ) )
-            {
-                $author = new eZUser( $msg->userId() );
-            }
-        }
-
-        if ( $msg->isTemporary() )
-        {
-            $MessagePostedAt = $NewMessagePostedAt;
-        }
-        else
+        if ( !$msg->isTemporary() && $Action != "reply" )
         {
             $MessagePostedAt = $Locale->format( $msg->postingTime() );
+        }
+        else
+        {
+            $MessagePostedAt = $NewMessagePostedAt;
         }
         
         if ( isSet( $NewMessageNotice ) )
@@ -167,7 +151,7 @@ if ( $ShowMessageForm )
         }
         else
         {
-            if ( $msg->userName() != "" )
+            if ( $msg->userName() != "" && $Action != "reply" )
             {
                 $MessageAuthor = $msg->userName();
             }
@@ -190,7 +174,7 @@ if ( $ShowMessageForm )
     {
         $MessageAuthor = $author->firstName() . " " . $author->lastName();
     }
-    else if ( $msg->userName() != "" )
+    else if ( $msg->userName() != "" && $Action != "reply" )
     {
         $MessageAuthor = $msg->userName();
     }
@@ -198,7 +182,7 @@ if ( $ShowMessageForm )
     {
         $MessageAuthor = $ini->read_var( "eZForumMain", "AnonymousPoster" );
     }
-    
+
     switch ( $MessageNotice )
     {
         case "on":
