@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: productview.php,v 1.8 2000/11/12 20:50:05 bf-cvs Exp $
+// $Id: productview.php,v 1.9 2000/12/21 13:00:29 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <24-Sep-2000 12:20:32 bf>
@@ -55,6 +55,9 @@ $t->set_block( "product_view_tpl", "main_image_tpl", "main_image" );
 $t->set_block( "product_view_tpl", "option_tpl", "option" );
 $t->set_block( "option_tpl", "value_tpl", "value" );
 $t->set_block( "product_view_tpl", "external_link_tpl", "external_link" );
+
+$t->set_block( "product_view_tpl", "attribute_list_tpl", "attribute_list" );
+$t->set_block( "attribute_list_tpl", "attribute_tpl", "attribute" );
 
 
 $category = new eZProductCategory(  );
@@ -160,6 +163,32 @@ foreach ( $options as $option )
 
     $t->parse( "option", "option_tpl", true );    
 }
+
+// attribute list
+$type = $product->type();
+if ( $type )    
+{
+    $attributes = $type->attributes();
+
+    foreach ( $attributes as $attribute )
+    {
+        $t->set_var( "attribute_id", $attribute->id( ) );
+        $t->set_var( "attribute_name", $attribute->name( ) );
+        $t->set_var( "attribute_value", $attribute->value( $product ) );
+        
+        $t->parse( "attribute", "attribute_tpl", true );
+    }
+}
+
+if ( count ( $attributes ) > 0 )
+{
+    $t->parse( "attribute_list", "attribute_list_tpl" );
+}
+else
+{
+    $t->set_var( "attribute_list", "" );
+}
+
 
 $t->set_var( "product_id", $product->id() );
 

@@ -27,7 +27,31 @@ switch ( $url_array[2] )
             include( "eztrade/admin/categorylist.php" );
         }
         break;
+
+    case "typelist" :
+    {
+        include( "eztrade/admin/typelist.php" );
+    }
+    break;
+
+    case "typeedit" :
+    {
+        if ( $url_array[3] == "edit" )
+        {
+            $Action = "Edit";
+            $TypeID = $url_array[4];
+        }
+
+        if ( $url_array[3] == "delete" )
+        {
+            $Action = "Delete";
+            $TypeID = $url_array[4];
+        }
         
+        include( "eztrade/admin/typeedit.php" );
+    }
+    break;
+
     case "categoryedit" :
         if ( ( $url_array[3] == "insert") )
         {
@@ -111,6 +135,13 @@ switch ( $url_array[2] )
                 include( "eztrade/admin/optionlist.php" );
                 break;
 
+            case "attributeedit" :
+            {
+                $ProductID = $url_array[4];
+                include( "eztrade/admin/attributeedit.php" );
+            }
+            break;
+                
             case "optionedit" :
                 if ( $url_array[4] == "edit" )
                 {

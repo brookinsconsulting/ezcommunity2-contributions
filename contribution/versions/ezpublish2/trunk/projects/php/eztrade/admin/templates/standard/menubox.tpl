@@ -7,7 +7,11 @@
 	<img src="/images/{site_style}/menu-arrow.gif" width="20" height="10"><a class="menu" href="/trade/categorylist/">{intl-categorylist}</a><br>
 	<img src="/images/{site_style}/menu-arrow.gif" width="20" height="10"><a class="menu" href="/trade/categoryedit/">{intl-newcategory}</a><br>
 	<img src="/images/{site_style}/menu-arrow.gif" width="20" height="10"><a class="menu" href="/trade/productedit/">{intl-newproduct}</a><br>
+<br />
 	<img src="/images/{site_style}/menu-arrow.gif" width="20" height="10"><a class="menu" href="/trade/orderlist/">{intl-orderlist}</a><br>
+<br />
+	<img src="/images/{site_style}/menu-arrow.gif" width="20" height="10"><a class="menu" href="/trade/typelist/">{intl-typelist}</a><br>
+	<img src="/images/{site_style}/menu-arrow.gif" width="20" height="10"><a class="menu" href="/trade/typeedit/">{intl-newtype}</a><br>
 	</td>
 </tr>
 <tr>

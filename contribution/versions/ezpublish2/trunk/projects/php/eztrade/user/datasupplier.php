@@ -1,5 +1,34 @@
 <?
 
+include_once( "eztrade/classes/ezproducttype.php" );
+//  include_once( "eztrade/classes/ezproductattribute.php" );
+
+//  $product = new eZProduct( 1 );
+//  print( $product->name() . "<br>" );
+
+//  $type = new eZProductType( 1 );
+//  //  $type->setName( "Flowers" );
+//  //  $type->setDescription( "Flowers are nice" );
+//  //  $type->store();
+
+//  print( "<b>". $type->name() .":</b>" );
+
+//  $attribute = new eZProductAttribute();
+//  $attribute->setType( $type );
+//  $attribute->setName( "Doors" );
+//  //  $attribute->store();
+
+//  $attributes = $type->attributes();
+
+//  foreach ( $attributes as $attribute )
+//  {
+//      print( "<br>" . $attribute->name( ) . " : " );
+//      $attribute->setValue( $product, "this is a value" );
+
+//      print( $attribute->value( $product ) );    
+//  }
+
+
 $PageCaching = $ini->read_var( "eZTradeMain", "PageCaching");
 
 

@@ -132,6 +132,30 @@
 </table>
 <br /><br />
 
+<!-- BEGIN attribute_list_tpl -->
+<table width="100%" cellspacing="0" cellpadding="2" border="0">
+<tr>
+	<th>
+	{intl-attribute_name}
+	</th>
+	<th>
+	{intl-attribute_value}
+	</th>
+</tr>
+<!-- BEGIN attribute_tpl -->
+<tr>
+	<td>
+	{attribute_name} : 
+	</td>
+	<td>
+	{attribute_value}
+	</td>
+</tr>
+
+<!-- END attribute_tpl -->
+</table>
+<!-- END attribute_list_tpl -->
+
 <hr noshade="noshade" size="4" />
 
 <!-- BEGIN add_to_cart_tpl -->

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezproduct.php,v 1.24 2000/12/12 18:32:08 bf Exp $
+// $Id: ezproduct.php,v 1.25 2000/12/21 13:00:29 bf Exp $
 //
 // Definition of eZProduct class
 //
@@ -54,6 +54,8 @@ include_once( "classes/ezdb.php" );
 
 include_once( "eztrade/classes/ezoption.php" );
 include_once( "ezimagecatalogue/classes/ezimage.php" );
+include_once( "eztrade/classes/ezproducttype.php" );
+
 
 class eZProduct
 {
@@ -987,6 +989,80 @@ class eZProduct
 
        return $category;
     }
+
+    /*!
+      Sets the products type.
+    */
+    function setType( $type )
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+       
+       if ( get_class( $type ) == "ezproducttype" )
+       {
+            $this->dbInit();
+
+            $typeID = $type->id();
+
+            $this->Database->query( "DELETE FROM eZTrade_AttributeValue
+                                     WHERE ProductID='$this->ID'" );
+            
+            $this->Database->query( "DELETE FROM eZTrade_ProductTypeLink
+                                     WHERE ProductID='$this->ID'" );
+
+            $query = "INSERT INTO
+                           eZTrade_ProductTypeLink
+                      SET
+                           TypeID='$typeID',
+                           ProductID='$this->ID'";
+            
+            $this->Database->query( $query );
+       }       
+    }
+
+    /*!
+      Returns the product's type.
+    */
+    function type( )
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+       
+       $this->dbInit();
+
+       $this->Database->array_query( $res, "SELECT TypeID FROM
+                                            eZTrade_ProductTypeLink
+                                            WHERE ProductID='$this->ID'" );
+
+       $type = false;
+       
+       if ( count( $res ) == 1 )
+       {
+           $type = new eZProductType( $res[0]["TypeID"] );
+       }
+
+       return $type;
+    }
+
+    /*!
+      Removes the products type definition.
+    */
+    function removeType()
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+       
+       $this->dbInit();
+
+       // delete values
+       $this->Database->query( "DELETE FROM eZTrade_AttributeValue
+                                     WHERE ProductID='$this->ID'" );
+
+       $this->Database->query( "DELETE FROM eZTrade_ProductTypeLink
+                                     WHERE ProductID='$this->ID'" );
+            
+    }
+    
     
     /*!
       \private

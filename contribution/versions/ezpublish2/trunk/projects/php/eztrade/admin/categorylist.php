@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: categorylist.php,v 1.11 2000/11/01 09:24:18 ce-cvs Exp $
+// $Id: categorylist.php,v 1.12 2000/12/21 13:00:29 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <13-Sep-2000 14:56:11 bf>
@@ -140,8 +140,6 @@ if ( count( $productList ) > 0 )
     $t->parse( "product_list", "product_list_tpl" );
 else
     $t->set_var( "product_list", "" );
-
-$t->set_var( "document_root", $DOC_ROOT );
 
 $t->pparse( "output", "category_list_page_tpl" );
 

@@ -94,6 +94,30 @@
 </tr>
 </table>
 
+<!-- BEGIN attribute_list_tpl -->
+<table width="100%" cellspacing="0" cellpadding="2" border="0">
+<tr>
+	<th>
+	{intl-attribute_name}
+	</th>
+	<th>
+	{intl-attribute_value}
+	</th>
+</tr>
+<!-- BEGIN attribute_tpl -->
+<tr>
+	<td>
+	{attribute_name} : 
+	</td>
+	<td>
+	{attribute_value}
+	</td>
+</tr>
+
+<!-- END attribute_tpl -->
+</table>
+<!-- END attribute_list_tpl -->
+
 <br />
 
 <span class="boxtext">{intl-price}:</span> {product_price}

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: productedit.php,v 1.23 2000/12/14 11:46:54 ce Exp $
+// $Id: productedit.php,v 1.24 2000/12/21 13:00:29 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <19-Sep-2000 10:56:05 bf>
@@ -167,6 +167,14 @@ if ( $Action == "Insert" )
         Header( "Location: /trade/productedit/productpreview/$productID/" );
         exit();
     }
+   
+    // attribute
+    if ( isset( $Attribute ) )
+    {
+        Header( "Location: /trade/productedit/attributeedit/$productID/" );
+        exit();
+    }
+        
 
     // get the category to redirect to
     $category = $product->categoryDefinition( );
@@ -311,6 +319,13 @@ if ( $Action == "Update" )
         Header( "Location: /trade/productedit/productpreview/$productID/" );
         exit();
     }
+
+    // attribute
+    if ( isset( $Attribute ) )
+    {
+        Header( "Location: /trade/productedit/attributeedit/$productID/" );
+        exit();
+    }    
 
     // get the category to redirect to
     $category = $product->categoryDefinition( );
