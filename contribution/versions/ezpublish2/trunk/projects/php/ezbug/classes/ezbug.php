@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezbug.php,v 1.15 2001/02/20 12:20:08 fh Exp $
+// $Id: ezbug.php,v 1.16 2001/02/20 20:08:01 fh Exp $
 //
 // Definition of eZBug class
 //
@@ -726,8 +726,7 @@ class eZBug
     }
 
     /*!
-      Disconnects an eZImage from the bug.
-      NOTE: the image does not get deleted from the image catalogue
+      Deletes an eZImage screenshot from the bug.
      */
     function deleteImage( $image )
     {
@@ -739,6 +738,7 @@ class eZBug
             $this->dbInit();
 
             $imageID = $image->id();
+            $image->delete();
             $this->Database->query( "DELETE FROM eZBug_BugImageLink WHERE BugID='$this->ID' AND ImageID='$imageID'" );
         }
     }
@@ -787,8 +787,6 @@ class eZBug
 
     /*!
       Deletes an file from the article.
-
-      NOTE: the file does not get deleted from the file catalogue.
     */
     function deleteFile( $file )
     {
@@ -800,7 +798,7 @@ class eZBug
             $this->dbInit();
 
             $fileID = $file->id();
-            
+            $file->delete();
             $this->Database->query( "DELETE FROM eZBug_BugFileLink WHERE BugID='$this->ID' AND FileID='$fileID'" );
         }
     }
