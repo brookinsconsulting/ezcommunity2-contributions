@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: authorview.php,v 1.3 2001/02/16 16:19:37 jb Exp $
+// $Id: authorview.php,v 1.4 2001/02/20 13:38:52 jb Exp $
 //
 // Jan Borsodi <jb@ez.no>
 // Created on: <16-Feb-2001 15:36:13 amos>
@@ -68,8 +68,6 @@ $t->set_var( "author_lastname", $user->lastName() );
 $t->set_var( "author_mail", $user->email() );
 
 $t->set_var( "sort", $SortOrder );
-
-print( count( $articles ) );
 
 $t->set_var( "article_item", "" );
 $i = 0;
