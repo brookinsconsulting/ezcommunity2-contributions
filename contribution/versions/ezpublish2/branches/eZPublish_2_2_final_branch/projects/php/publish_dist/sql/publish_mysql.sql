@@ -2728,3 +2728,13 @@ CREATE INDEX UserGroupLink_UserID ON eZUser_UserGroupLink (UserID);
 CREATE INDEX UserGroupLink_GroupID ON eZUser_UserGroupLink (GroupID);
 
 CREATE UNIQUE INDEX User_Login ON eZUser_User (Login);  
+
+
+CREATE INDEX eZStats_Archive_RequestedPageMonth ON eZStats_Archive_RequestedPage (Month);
+CREATE INDEX eZStats_Archive_RequestedPageURI ON eZStats_Archive_RequestedPage (URI);
+
+CREATE INDEX eZStats_Archive_RefererURLMonth ON eZStats_Archive_RefererURL (Month);
+
+CREATE INDEX eZStats_Archive_RemoteHostIP ON eZStats_Archive_RemoteHost (IP);
+CREATE INDEX eZStats_Archive_PageViewHour ON eZStats_Archive_PageView (Hour);
+
