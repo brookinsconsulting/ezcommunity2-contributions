@@ -175,11 +175,11 @@ if( $Action == "insert" || $Action == "update" )
         $error = true;
     }
     
-    if( empty( $PersonNo ) )
-    {
-        $t->parse( "error_personno_item", "error_personno_item_tpl" );
-        $error = true;
-    }
+//     if( empty( $PersonNo ) )
+//     {
+//         $t->parse( "error_personno_item", "error_personno_item_tpl" );
+//         $error = true;
+//     }
     
     if( empty( $LoginName ) && empty( $UserID ) )
     {

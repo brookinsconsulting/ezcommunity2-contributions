@@ -102,8 +102,7 @@
         </table>
     </td>
     <td width="50%">
-        <p class="boxtext">{intl-personno}:</p>
-        <input type="text" size="20" name="PersonNo" value="{personno}"/>
+        &nbsp;
     </td>
 </tr>
 </table>
