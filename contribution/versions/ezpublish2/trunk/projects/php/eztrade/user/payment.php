@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: payment.php,v 1.5 2001/02/07 16:28:59 bf Exp $
+// $Id: payment.php,v 1.6 2001/02/08 10:53:03 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <02-Feb-2001 16:31:53 bf>
@@ -22,7 +22,6 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, US
 //
-
 
 unset( $PaymentSuccess );
 
@@ -56,7 +55,6 @@ $Language = $ini->read_var( "eZTradeMain", "Language" );
 $OrderSenderEmail = $ini->read_var( "eZTradeMain", "OrderSenderEmail" );
 $OrderReceiverEmail = $ini->read_var( "eZTradeMain", "OrderReceiverEmail" );
 $ShippingCost = $ini->read_var( "eZTradeMain", "ShippingCost" );
-
 
 // fetch the cart
 $cart = new eZCart();
