@@ -165,6 +165,7 @@ CREATE TABLE eZArticle_Category (
   Description text,
   ParentID int(11) DEFAULT '0',
   ExcludeFromSearch enum('true','false') DEFAULT 'false',
+  Placement int(11) default '0',
   SortMode int(11) DEFAULT '1' NOT NULL,
   PRIMARY KEY (ID)
 );
