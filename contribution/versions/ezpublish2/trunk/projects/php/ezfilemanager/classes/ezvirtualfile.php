@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezvirtualfile.php,v 1.23 2001/04/04 15:46:18 fh Exp $
+// $Id: ezvirtualfile.php,v 1.24 2001/04/07 13:53:23 bf Exp $
 //
 // Definition of eZVirtualFile class
 //
@@ -502,10 +502,14 @@ class eZVirtualfile
 
            $pageViewID = $pageView->id();
 
+           $this->Database->query( "LOCK TABLES eZFileManager_FilePageViewLink WRITE" );
+           
            $query = ( "INSERT INTO eZFileManager_FilePageViewLink
            SET PageViewID='$pageViewID', FileID='$this->ID' " );
            
            $this->Database->query( $query );
+
+           $this->Database->query( "UNLOCK TABLES" );
        }
     }
 
