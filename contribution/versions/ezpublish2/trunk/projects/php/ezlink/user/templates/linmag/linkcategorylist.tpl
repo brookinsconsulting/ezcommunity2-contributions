@@ -48,7 +48,7 @@
 </tr>
 <tr>
     <td class="{td_class}" width="99%" colspan="2">
-	<span class="p">{linkcategory_description}</span><br />
+	<span class="p">{linkcategory_description}</span>
 	</td>
     <td class="{td_class}" width="1%">
 	<!-- BEGIN image_item_tpl -->
@@ -56,7 +56,7 @@
 	<img src="{www_dir}{image_url}" alt="{image_caption}" width="{image_width}" height="{image_height}" border="0" /></a>
 	<!-- END image_item_tpl -->
 	<!-- BEGIN no_image_tpl -->
-	&nbsp;
+	<img src="/images/1x1.gif" height="1" width="1" border="0" alt="" /><br />
 	<!-- END no_image_tpl -->
     </td>
 </tr>
@@ -76,16 +76,17 @@
 	</td>
 </tr>
 <!-- BEGIN link_item_tpl -->
-<tr class="{td_class}">
+<tr>
 	<td class="{td_class}" valign="top" width="1%">
 	<img src="/images/link.gif" height="16" width="16" border="0" alt="" /><br />
 	</td>
-	<td valign="top" width="99%" colspan="2">
+	<td class="{td_class}" valign="top" width="99%" colspan="2">
 	<span class="boxtext"><a href="{www_dir}{index}/link/gotolink/addhit/{link_id}/?Url={link_url}" target="_blank">{link_name}</a></span>
 	</td>
 </tr>
+<tr>
     <td class="{td_class}" width="99%" valign="top" colspan="2">
-	<span class="p">{link_description}</span></br />
+	<span class="p">{link_description}</span>
 	</td>
     <td class="{td_class}" width="1%" valign="top">
 	<!-- BEGIN link_image_item_tpl -->
@@ -118,9 +119,6 @@
 	</td>
 </tr>
 <!-- END attribute_list_tpl -->
-<tr>
-	<td colspan="3" class="{td_class}"><span class="small">(Hits: {link_hits})</span></td>
-</tr>
 <!-- END link_item_tpl -->
 </table>
 <!-- END link_list_tpl -->
