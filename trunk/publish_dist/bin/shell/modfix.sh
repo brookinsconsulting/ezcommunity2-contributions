@@ -8,8 +8,8 @@ if [ -f "override/site.ini.append" ]; then
     chmod 666 override/site.ini.append
 fi
 
-touch error.log
-chmod 666 error.log
+touch bin/logs/error.log
+chmod 666 bin/logs/error.log
 
 # [cache section]
 # This part will create the cache dirs which are needed and make sure
