@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eztemplate.php,v 1.22 2001/01/24 11:31:13 jb Exp $
+// $Id: eztemplate.php,v 1.23 2001/01/24 14:23:48 jb Exp $
 //
 // Definition of eZTemplate class
 //
@@ -159,12 +159,52 @@ class eZTemplate
     }
 
     /*!
-      Returns the name of the cache file.
+      Returns the name of the cache file with path.
     */
     function &cacheFile()
     {
         $CacheFile = $this->CacheDir . "/" . $this->files[0] . "-" . $this->CacheSuffix;
         return $CacheFile;
+    }
+
+    /*!
+      Returns the name of the cache file.
+    */
+    function &cacheFileName()
+    {
+        $CacheFile = $this->files[0] . "-" . $this->CacheSuffix;
+        return $CacheFile;
+    }
+
+    /*!
+      Returns the path to the cache file.
+    */
+    function &cachePath()
+    {
+        $CachePath = $this->CacheDir;
+        return $CachePath;
+    }
+
+    /*!
+      Clears all template variables except the ones mentioned in the $except variable.
+    */
+
+    function clearVars( $except = array() )
+    {
+        $tmpkeys = array();
+        $tmpvals = array();
+        foreach( $except as $key )
+        {
+            if ( isset( $varkeys[$key] ) && isset( $varvals[$key] ) )
+            {
+                $tmpkeys[$key] =& $varkeys[$key];
+                $tmpvals[$key] =& $varvals[$key];
+            }
+        }
+        $varkeys = array();
+        $varvals = array();
+        $varkeys = $tmpkeys;
+        $varvals = $tmpvals;
     }
 
     /*!
