@@ -2185,3 +2185,15 @@ Maintainer(s) : bf@ez.no
       user/articleview.php
       classes/ezqdomgenerator.php: Added date and time values.
 
+
+Module : ezarticle
+Repository path : /home/cvsroot/projects/php/ezarticle
+Maintainer(s) : bf@ez.no
+2001-11-19  Baard Farstad  <bf@ez.no>
+
+    * classes/ezqdomgenerator.php: Fixed form bug with <pre> tag.
+
+    * user/articleedit.php: Fixed XML parsing dependencies.
+
+    * admin/articleedit.php: Removed libxml dependency.
+

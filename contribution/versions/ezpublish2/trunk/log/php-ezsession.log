@@ -95,3 +95,13 @@ Maintainer(s) : bf@ez.no
 
     * classes/ezsession.php: FIxed IE cookie bug.
 
+
+Module : ezsession
+Repository path : /home/cvsroot/projects/php/ezsession
+Maintainer(s) : bf@ez.no
+2001-11-19  Christoffer Elo  <ce@ez.no>
+
+    * classes/ezsession.php: Added data checking for the voucherinformation
+
+    * classes/ezsession.php: Added new patch
+

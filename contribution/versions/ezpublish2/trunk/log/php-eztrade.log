@@ -2030,3 +2030,33 @@ Maintainer(s) : ce@ez.no
       admin/intl/no_NO/imageedit.php.ini
       admin/intl/no_NO/productexpire.php.ini: Updated norwegian language
 
+
+Module : eztrade
+Repository path : /home/cvsroot/projects/php/eztrade
+Maintainer(s) : ce@ez.no
+2001-11-19  Christoffer Elo  <ce@ez.no>
+
+    * user/datasupplier.php: Fixed a case bug
+
+    * user/voucherinformation.php: Removed from checking
+
+    * user/cart.php: Removed debug
+
+    * user/cart.php
+      user/voucherinformation.php:
+    Added data checking for the voucherinformation
+
+2001-11-19  Bjoern Reiten  <br@ez.no>
+
+    * admin/pricegroups.php: removed up / down icons.
+
+    * admin/pricegroups.php: removed up / down links.
+
+2001-11-19  Baard Farstad  <bf@ez.no>
+
+    * admin/productedit.php: Removed libxml dependency.
+
+2001-11-19  Christoffer Elo  <ce@ez.no>
+
+    * user/productview.php: Fixed a add to cart bug
+

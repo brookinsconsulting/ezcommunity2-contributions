@@ -294,3 +294,12 @@ Maintainer(s) : fh@ez.no
       user/intl/fr_FR/mailview.php.ini
       user/intl/fr_FR/search.php.ini: updated fr_FR for 2.2 final
 
+
+Module : ezmail
+Repository path : /home/cvsroot/projects/php/ezmail
+Maintainer(s) : fh@ez.no
+2001-11-19  Jo Henrik Endrerud  <jhe@ez.no>
+
+    * user/fileedit.php:
+    changed new INIFile("site.ini") to INIFile::globalINI()
+

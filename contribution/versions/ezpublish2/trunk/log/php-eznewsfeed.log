@@ -222,3 +222,33 @@ Maintainer(s) : vl@ez.no
       user/intl/fr_FR/menubox.php.ini
       user/intl/fr_FR/newslist.php.ini: updated fr_FR for 2.2 final
 
+
+Module : eznewsfeed
+Repository path : /home/cvsroot/projects/php/eznewsfeed
+Maintainer(s) : vl@ez.no
+2001-11-19  Baard Farstad  <bf@ez.no>
+
+    * classes/ezrdfimporter.php: Fixed debug output.
+
+    * classes/ezbackslashimporter.php
+      classes/ezrdfimporter.php
+      classes/ezrssimporter.php: FIxed XML parsing.
+
+    * classes/ezrdfimporter.php
+      classes/ezrssimporter.php
+      classes/ezbackslashimporter.php: Fixed XML parsing dependencies.
+
+2001-11-19  Jo Henrik Endrerud  <jhe@ez.no>
+
+    * admin/categoryedit.php
+      admin/importnews.php
+      admin/newsarchive.php
+      admin/newsedit.php
+      admin/newssearch.php
+      admin/sourcesiteedit.php
+      admin/unpublished.php
+      user/allcategories.php
+      user/headlines.php
+      user/newslist.php
+      user/search.php: changed new INIFile("site.ini") to INIFile::globalINI()
+
