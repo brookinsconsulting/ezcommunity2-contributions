@@ -11,3 +11,6 @@
 <p class="error">{error_msg}</p>
 
 <hr noshade="noshade" size="1" />
+<form action="{redirect_url}" method="post">
+<input class="okbutton" type="submit" name="back" value="zurück">
+</form>
