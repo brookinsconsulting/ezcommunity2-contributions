@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezformpage.php,v 1.4 2001/12/17 17:04:55 br Exp $
+// $Id: ezformpage.php,v 1.5 2001/12/17 17:36:10 br Exp $
 //
 // Definition of ||| class
 //
@@ -353,35 +353,35 @@ class eZFormPage
         {
             $db =& eZDB::globalDatabase();
 
-            $formID = $this->id();
+            $pageID = $this->id();
             $elementID = $object->id();
             
             $db->query_single( $qry, "SELECT Placement FROM eZForm_PageElementDict
-                                      WHERE ElementID = '$elementID' AND FormID = '$formID' ORDER BY Placement DESC",
+                                      WHERE ElementID = '$elementID' AND PageID = '$pageID' ORDER BY Placement DESC",
                                       array( "Limit" => 1, "Offset" => 0) );
 
             $elementPlacement = $qry[$db->fieldName( "Placement" )];
 
             $db->query_single( $qry, "SELECT min( $db->fieldName( \"Placement\" ) ) as Placement
-                                      FROM eZForm_PageElementDict WHERE FormID='$formID'" );
+                                      FROM eZForm_PageElementDict WHERE PageID='$pageID'" );
             $min =& $qry[$db->fieldName( "Placement" )];
 
             if ( $min == $elementPlacement )
             {
                 $db->query_single( $qry, "SELECT max($db->fieldName( \"Placement\" ) ) as Placement
-                                          FROM eZForm_PageElementDict WHERE FormID='$formID'" );
+                                          FROM eZForm_PageElementDict WHERE PageID='$pageID'" );
                 
                 $newOrder =& $qry[$db->fieldName( "Placement" )];
                 
                 $db->query_single( $qry, "SELECT ElementID FROM eZForm_PageElementDict
-                                          WHERE FormID='$formID' AND Placement='$newOrder'" );
+                                          WHERE PageID='$pageID' AND Placement='$newOrder'" );
                 
                 $oldElementID =& $qry[$db->fieldName( "ElementID" )];
             }
             else
             {
-                $db->query_single( $qry, "SELECT FormID, ElementID, Placement FROM eZForm_PageElementDict
-                                          WHERE Placement < '$elementPlacement' AND FormID='$formID'
+                $db->query_single( $qry, "SELECT PageID, ElementID, Placement FROM eZForm_PageElementDict
+                                          WHERE Placement < '$elementPlacement' AND PageID='$pageID'
                                           ORDER BY Placement DESC",
                                           array( "Limit" => 1, "Offset" => 0 ) );
 
@@ -390,10 +390,10 @@ class eZFormPage
             }
 
             $res[] = $db->query( "UPDATE eZForm_PageElementDict SET Placement='$newOrder'
-                                 WHERE ElementID='$elementID' AND FormID='$formID'" );
+                                 WHERE ElementID='$elementID' AND PageID='$pageID'" );
                 
             $res[] = $db->query( "UPDATE eZForm_PageElementDict SET Placement='$elementPlacement'
-                                 WHERE ElementID='$oldElementID' AND FormID='$formID'" );
+                                 WHERE ElementID='$oldElementID' AND PageID='$pageID'" );
             eZDB::finish( $res, $db );
         }
     }
@@ -408,36 +408,36 @@ class eZFormPage
             $db =& eZDB::globalDatabase();
             $db->begin();
             
-            $formID = $this->id();
+            $pageID = $this->id();
             $elementID = $object->id();
             
             $db->query_single( $qry, "SELECT Placement FROM eZForm_PageElementDict
-                                      WHERE ElementID = '$elementID' AND FormID = '$formID' ORDER BY Placement DESC",
+                                      WHERE ElementID = '$elementID' AND PageID = '$pageID' ORDER BY Placement DESC",
                                       array( "Limit" => 1, "Offset" => 0 ) );
 
             $elementPlacement = $qry[$db->fieldName( "Placement" )];
 
             $db->query_single( $qry, "SELECT max($db->fieldName( \"Placement\" )) as Placement
-                                      FROM eZForm_PageElementDict WHERE FormID='$formID'" );
+                                      FROM eZForm_PageElementDict WHERE PageID='$pageID'" );
             
             $max =& $qry[$db->fieldName( "Placement" )];
 
             if ( $max == $elementPlacement )
             {
                 $db->query_single( $qry, "SELECT min($db->fieldName( \"Placement\" ) ) as Placement
-                                          FROM eZForm_PageElementDict WHERE FormID='$formID'" );
+                                          FROM eZForm_PageElementDict WHERE PageID='$pageID'" );
                 
                 $newOrder =& $qry[$db->fieldName( "Placement" )];
                 
                 $db->query_single( $qry, "SELECT ElementID FROM eZForm_PageElementDict
-                                          WHERE FormID='$formID' AND Placement='$newOrder'" );
+                                          WHERE PageID='$pageID' AND Placement='$newOrder'" );
                 
                 $oldElementID =& $qry[$db->fieldName( "ElementID" )];
             }
             else
             {
-                $db->query_single( $qry, "SELECT FormID, ElementID, Placement FROM eZForm_PageElementDict
-                                          WHERE Placement > '$elementPlacement' AND FormID='$formID' ORDER BY Placement",
+                $db->query_single( $qry, "SELECT PageID, ElementID, Placement FROM eZForm_PageElementDict
+                                          WHERE Placement > '$elementPlacement' AND PageID='$pageID' ORDER BY Placement",
                                           array( "Limit" => 1, "Offset" => 0) );
 
                 $newOrder = $qry[$db->fieldName( "Placement" )];
@@ -445,10 +445,10 @@ class eZFormPage
             }
 
             $res[] = $db->query( "UPDATE eZForm_PageElementDict SET Placement='$newOrder'
-                                  WHERE ElementID='$elementID' AND FormID='$formID'" );
+                                  WHERE ElementID='$elementID' AND PageID='$pageID'" );
             
             $res[] = $db->query( "UPDATE eZForm_PageElementDict SET Placement='$elementPlacement'
-                                  WHERE ElementID='$oldElementID' AND FormID='$formID'" );
+                                  WHERE ElementID='$oldElementID' AND PageID='$pageID'" );
             
             eZDB::finish( $res, $db );
         }
