@@ -25,11 +25,6 @@ else
 	mkdir -p ezimagecatalogue/catalogue/variations
 fi
 
-if [ -d eztrade/cache ]; then
-	echo "eztrade/cache already exist"
-else
-	mkdir -p eztrade/cache
-fi
 
 if [ -d ezpoll/cache ]; then
 	echo "ezpoll/cache already exist"
@@ -58,7 +53,6 @@ fi
 chmod 777 admin/tmp
 chmod 777 ezimagecatalogue/catalogue
 chmod 777 ezimagecatalogue/catalogue/variations
-chmod 777 eztrade/cache
 chmod 777 ezarticle/cache
 chmod 777 ezforum/cache
 chmod 777 ezlink/cache
@@ -101,11 +95,6 @@ else
 	ln -s ../classes admin/classes
 fi
 
-if [ -d admin/eztrade ]; then
-	echo "admin/eztrade already exist"
-else
-	ln -s ../eztrade admin/eztrade
-fi
 
 if [ -d admin/eznews ]; then
 	echo "admin/eznews already exist"
