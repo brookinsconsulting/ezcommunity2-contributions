@@ -3,11 +3,11 @@
 <h1>{intl-head_line}</h1>
 
 <hr noshade size="4"/>
-<img src="/images/path-arrow.gif" height="10" width="12" border="0" alt="" />
+<img src="/admin/images/path-arrow.gif" height="10" width="12" border="0" alt="" />
 <a class="path" href="/{module}/{module_list}/0/">{intl-top}</a>
 
 <!-- BEGIN path_tpl -->
-<img src="/images/path-slash.gif" height="10" width="16" border="0" alt="" />
+<img src="/admin/images/path-slash.gif" height="10" width="16" border="0" alt="" />
 <a class="path" href="/{module}/{module_list}/{category_id}/">{category_name}</a>
 <!-- END path_tpl -->
 
@@ -21,7 +21,7 @@
 	<td align="right">
 	<br />
 	<!-- BEGIN product_number_item_tpl -->
-	<span class="boxtext">{intl-nr}:</span> {product_number}
+	<div class="boxtext">{intl-nr}:</div><div class="small">{product_number}</div>
 	<!-- END product_number_item_tpl -->
 	</td>
 </tr>
