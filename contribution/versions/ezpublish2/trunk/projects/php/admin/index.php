@@ -196,14 +196,14 @@ include( "footer.php" );
 <?php
 ob_end_flush();
 
-//  $session = new eZSession( );
-//  $session->fetch();
+$session = new eZSession( );
+$session->fetch();
 
-//  print( "<font color=\"white\">" );
+print( "<font color=\"white\">" );
 
-//  print( "session: " . $session->id()  ."<br>");
-//  print( "htvar: " . print_r( getAllHeaders() )  ."<br>");
-//  print( "cookie: " . $TEST_COOKIE  ."<br>");
-//  print( "</font>" );
+print( "Session: " . $session->id()  ."<br>");
+print( "htvar: " . print_r( getAllHeaders() )  ."<br>");
+print( "cookie: " . $TEST_COOKIE  ."<br>");
+print( "</font>" );
 ?>
 

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezsession.php,v 1.6 2000/10/25 09:22:57 bf-cvs Exp $
+// $Id: ezsession.php,v 1.7 2000/10/25 09:29:30 bf-cvs Exp $
 //
 // Definition of eZCompany class
 //
@@ -157,7 +157,6 @@ class eZSession
 
         if ( count( $session_array ) == 1 )
         {
-            print( "found a cookie" );
             $ret = $this->get( $session_array[0]["ID"] );
         }
         
