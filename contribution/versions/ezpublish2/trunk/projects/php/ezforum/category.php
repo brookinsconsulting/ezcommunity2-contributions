@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: category.php,v 1.30 2000/10/11 11:43:33 bf-cvs Exp $
+    $Id: category.php,v 1.31 2000/10/11 12:33:56 bf-cvs Exp $
 
     Author: Lars Wilhelmsen <lw@ez.no>
     
@@ -14,17 +14,19 @@ include_once( "classes/INIFile.php" );
 $ini = new INIFile( "site.ini" ); // get language settings
 
 include_once( "common/ezphputils.php" );
-include_once( "classes/template.inc" );
+
+//  include_once( "classes/template.inc" );
+
+include_once( "classes/eztemplate.php" );
+
 include_once( "ezforum/classes/ezforumforum.php" );
 include_once( "ezforum/classes/ezforummessage.php" );
 include_once( "ezforum/classes/ezforumcategory.php" );
 
-$session = new eZSession;
-
-
 $Language = $ini->read_var( "eZForumMain", "Language" );
 
 $t = new eZTemplate( "ezforum/templates", "ezforum/intl", $Language, "category.php" );
+
 $t->setAllStrings();
 
 $t->set_file( "category_tpl", "category.tpl" );
@@ -33,37 +35,33 @@ $t->set_block( "category_tpl", "forum_tpl", "forum" );
 
 $t->set_var( "category_id", $category_id );
 
-$category = new eZForumCategory( );
-$category->get( $category_id );
+$category = new eZForumCategory( $category_id );
+
+print( $category->name( ) );
+
 $forumPath = "<img src=\"ezforum/images/pil.gif\" width=\"10\" height=\"10\" border=\"0\"> <a href=\"index.php?page=" . $DOC_ROOT .  "category.php&category_id=" . $category_id . "\">" . $category->name() . "</a>";
+
 $t->set_var( "forum_path", $forumPath );
 
-$forum = new eZForumForum();
-$forums = $forum->getAllForums( $category_id );
+$forums = $category->forums( );
 
-for ($i = 0; $i < count( $forums ); $i++)
+$i=0;
+foreach( $forums as $forum )
 {
-    arrayTemplate( $t, $forums[$i], Array( Array( "Id", "forum_id" ),
-                                           Array( "Name", "name" ),
-                                           Array( "Description", "description" ),
-                                           Array( "Id", "messages" )
-                                                  )
-                   );
+    $t->set_var( "name", $forum->name() );    
+    $t->set_var( "description", $forum->description() );    
 
-    $message = new eZForumMessage();
-    $t->set_var( "messages", $message->countMessages( $t->get_var( "forum_id" ) ) );
     if ( ( $i %2 ) == 0 )
         $t->set_var( "td_class", "bglight"  );
     else
         $t->set_var( "td_class", "bgdark"  );
 
     $t->parse( "forum", "forum_tpl", true );
+
+    $i++;
 }
 
-$t->set_var( "link1-url", "main.php");
-$t->set_var( "link2-url", "search.php");
-
-$t->set_var( "back-url", "main.php");
 
 $t->pparse( "output", "category_tpl" );
+
 ?>

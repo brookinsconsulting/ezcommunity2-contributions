@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezforumforum.php,v 1.13 2000/09/15 13:47:28 bf-cvs Exp $
+// $Id: ezforumforum.php,v 1.14 2000/10/11 12:33:57 bf-cvs Exp $
 //
 // Definition of eZCompany class
 //
@@ -13,9 +13,6 @@
 // your own programs or libraries.
 //
 
-//include("ezforum/dbsettings.php");
-//include_once("$DOCROOT/classes/ezdb.php");
-
 //!! eZForum
 //! The eZForumForum class handles forum's in the database.
 /*!
@@ -23,40 +20,145 @@
   \sa eZForumMessage \eZForumCategory
 */
 
+/*!TODO
+  Rename SQL tables and Id->ID.
+
+  CategoryId -> CategoryID
+  
+  Moderated='$this->Moderated',  Private='$this->Private' to use enum( 'true', 'false' )
+  and use bool in the class. Rename the functions an variables to IsModerated and IsPrivate.  
+*/
+
 class eZForumForum
 {
+
     /*!
-      
+      Constructs a new eZForumForum object.
     */
-    function get( $Id )
+    function eZForumForum( $id="", $fetch=true )
     {
-        $this->openDB();
-        
-        $query_id = mysql_query("SELECT CategoryId, Name, Description, Moderated, Private FROM ezforum_ForumTable WHERE Id='$Id'")
-             or die("eZforumForum::get($Id) failed, dying...");    
-            
-        $this->Id = $Id;
-        $this->CategoryId = mysql_result($query_id,0,"CategoryId");
-        $this->Name = mysql_result($query_id,0,"Name");
-        $this->Description = mysql_result($query_id,0,"Description");
-        $this->Moderated = mysql_result($query_id,0,"Moderated");
-        $this->Private = mysql_result($query_id,0,"Private");
+        $this->IsConnected = false;
+
+        if ( $id != "" )
+        {
+            $this->ID = $id;
+            if ( $fetch == true )
+            {
+                
+                $this->get( $this->ID );
+            }
+            else
+            {
+                $this->State_ = "Dirty";
+            }
+        }
+        else
+        {
+            $this->State_ = "New";
+        }
     }
-        
+
     /*!
-      
+      Stores a eZForumForum object to the database.
     */
-    function newForum()
+    function store()
     {
-        unset($this->Id);
-    }
+        $this->dbInit();
+
+        if ( !isset( $this->ID ) )
+        {
+            $this->Database->query( "INSERT INTO ezforum_CategoryTable SET
+		                         CategoryId='$this->CategoryID',
+		                         Name='$this->Name',
+		                         Description='$this->Description',
+		                         Moderated='$this->Moderated',
+		                         Private='$this->Private'
+                                 " );
+
+            $this->ID = mysql_insert_id();
+
+            $this->State_ = "Coherent";
+        }
+        else
+        {
+            $this->Database->query( "UPDATE ezforum_CategoryTable SET
+		                         CategoryId='$this->CategoryID',
+		                         Name='$this->Name',
+		                         Description='$this->Description',
+		                         Moderated='$this->Moderated',
+		                         Private='$this->Private'
+                                 WHERE ID='$this->ID'
+                                 " );
+
+            $this->State_ = "Coherent";
+        }
         
+        return true;
+    }
+
+    /*!
+      Deletes a eZForumCategory object from the database.
+    */
+    function delete()
+    {
+        $this->dbInit();
+
+        $this->Database->query( "DELETE FROM ezforum_ForumTable WHERE ID='$this->ID'" );
+        
+        return true;
+    }
+    
+
+    /*!
+      Fetches the object information from the database.
+    */
+    function get( $id="" )
+    {
+        $this->dbInit();
+        $ret = false;
+        
+        if ( $id != "" )
+        {
+            $this->Database->array_query( $forum_array, "SELECT * FROM ezforum_ForumTable WHERE ID='$id'" );
+            if ( count( $forum_array ) > 1 )
+            {
+                die( "Error: Forum's with the same ID was found in the database. This shouldent happen." );
+            }
+            else if( count( $forum_array ) == 1 )
+            {
+                $this->ID = $forum_array[0][ "ID" ];
+                $this->CategoryID = $forum_array[0][ "CategoryID" ];
+                $this->Name = $forum_array[0][ "Name" ];
+                $this->Description = $forum_array[0][ "Description" ];
+                $this->Moderated = $forum_array[0][ "Moderated" ];
+                $this->Private = $forum_array[0][ "Private" ];
+
+                $this->State_ = "Coherent";
+                $ret = true;
+            }
+        }
+        else
+        {
+            $this->State_ = "Dirty";
+        }
+        return $ret;
+    }
+    
+
+    /*!
+      Returns every forum.
+    */
+    function getAll( )
+    {
+
+    }
+    
     /*!
       
     */
     function getAllForums( $CategoryId = "" )
     {
-        $this->openDB();
+        $this->dbInit();
         
         if ($CategoryId)
         {
@@ -77,63 +179,7 @@ class eZForumForum
         return $resultArray;
     }
         
-    /*!
-      
-    */
-    function store()
-    {
-        global $PREFIX;
         
-        $this->openDB();
-            
-        $this->CategoryId = addslashes( $this->CategoryId );
-        $this->Name = addslashes( $this->Name );
-        $this->Description = addslashes( $this->Description );
-        $this->Moderated = addslashes( $this->Moderated );
-        $this->Private = addslashes( $this->Private );
-            
-        if ($this->Id)
-        {
-            //update
-            $query_id = mysql_query("UPDATE ezforum_ForumTable SET CategoryId='$this->CategoryId',
-                                                               Name='$this->Name',
-                                                               Description='$this->Description',
-                                                               Moderated='$this->Moderated',
-                                                               Private='$this->Private'
-                                         WHERE Id='$this->Id'")
-                 or die("store() near update");
-                
-            return $this->Id;
-        }
-        else
-        {
-                
-            $query_id = mysql_query("INSERT INTO ezforum_ForumTable(CategoryId,
-                                                                Name,
-                                                                Description,
-                                                                Moderated,
-                                                                Private)
-                                                         VALUES('$this->CategoryId',
-                                                                '$this->Name',
-                                                                '$this->Description',
-                                                                '$this->Moderated',
-                                                                '$this->Private') ")
-                 or die("store() near insert");
-            return mysql_insert_id();
-        }            
-    }
-        
-    /*!
-      
-    */
-    function delete($Id)
-    {
-        $this->openDB();
-            
-        mysql_query("DELETE FROM ezforum_ForumTable WHERE Id='$Id'")
-            or die("delete()");
-    }
-    
     /*!
       
     */
@@ -223,29 +269,32 @@ class eZForumForum
     }
 
     /*!
-      Privat funksjon, skal kun brukes ac ezuser klassen.
-      Funksjon for å åpne databasen.
+      \private
+      Opens the database for read and write.
     */
-    function openDB( )
+    function dbInit( )
     {
-        include_once( "classes/INIFile.php" );
-
-        $ini = new INIFile( "site.ini" );
-        
-        $SERVER = $ini->read_var( "site", "Server" );
-        $DATABASE = $ini->read_var( "site", "Database" );
-        $USER = $ini->read_var( "site", "User" );
-        $PWD = $ini->read_var( "site", "Password" );
-        
-        mysql_pconnect( $SERVER, $USER, $PWD ) or die( "Kunne ikke kople til database" );
-        mysql_select_db( $DATABASE ) or die( "Kunne ikke velge database" );
+        if ( $this->IsConnected == false )
+        {
+            $this->Database = new eZDB( "site.ini", "site" );
+            $this->IsConnected = true;
+        }
     }
 
-    var $Id;
-    var $CategoryId;
+    var $ID;
+    var $CategoryID;
     var $Name;
     var $Description;
     var $Moderated;
     var $Private;
+
+    ///  Variable for keeping the database connection.
+    var $Database;
+
+    /// Indicates the state of the object. In regard to database information.
+    var $State_;
+    /// Is true if the object has database connection, false if not.
+    var $IsConnected;
 }
+
 ?>

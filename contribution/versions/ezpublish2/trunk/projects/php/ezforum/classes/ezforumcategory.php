@@ -1,8 +1,8 @@
 <?
 // 
-// $Id: ezforumcategory.php,v 1.15 2000/10/11 11:43:34 bf-cvs Exp $
+// $Id: ezforumcategory.php,v 1.16 2000/10/11 12:33:57 bf-cvs Exp $
 //
-// Definition of eZCompany class
+// Definition of eZForumCategory class
 //
 // Lars Wilhelmsen <lw@ez.no>
 // Created on: <11-Sep-2000 22:10:06 bf>
@@ -13,14 +13,21 @@
 // your own programs or libraries.
 //
 
-//include_once( "$DOCROOT/classes/ezdb.php" );
-
 //!! eZForum
 //! The eZForumCategory class handles forum categories.
 /*!
   
   \sa eZForumForum
 */
+
+
+/*!TODO
+  Rename the SQL tables and Id -> ID.
+
+*/
+
+include_once( "classes/ezdb.php" );
+include_once( "ezforum/classes/ezforumforum.php" );
 
 class eZForumCategory
 {
@@ -59,37 +66,20 @@ class eZForumCategory
 
         if ( !isset( $this->ID ) )
         {
-            $this->Database->query( "INSERT INTO eZTrade_Order SET
-		                         UserID='$this->UserID',
-		                         AddressID='$this->AddressID',
-		                         ShippingCharge='$this->ShippingCharge'
+            $this->Database->query( "INSERT INTO ezforum_CategoryTable SET
+		                         Name='$this->Name',
+		                         Description='$this->Description'
                                  " );
 
             $this->ID = mysql_insert_id();
-
-            // store the status
-            $statusType = new eZOrderStatusType( );
-            $statusType = $statusType->getByName( "Initial" );
-
-            $status = new eZOrderStatus();
-            $status->setType( $statusType );
-
-            $status->setOrderID( $this->ID );
-
-//              $user = eZUser::currentUser();
-//              print( $user->id() );
-            
-            $status->setAdmin( $user );
-            $status->store();            
 
             $this->State_ = "Coherent";
         }
         else
         {
-            $this->Database->query( "UPDATE eZTrade_Order SET
-		                         UserID='$this->UserID',
-		                         AddressID='$this->AddressID',
-		                         ShippingCharge='$this->ShippingCharge'
+            $this->Database->query( "UPDATE ezforum_CategoryTable SET
+		                         Name='$this->Name',
+		                         Description='$this->Description'
                                  WHERE ID='$this->ID'
                                  " );
 
@@ -100,28 +90,14 @@ class eZForumCategory
     }
 
     /*!
-      Deletes a eZOrder object from the database.
+      Deletes a eZForumCategory object from the database.
     */
     function delete()
     {
         $this->dbInit();
 
-        $items = $this->items();
-
-        if  ( $items )
-        {
-            $i = 0;
-            foreach ( $items as $item )
-            {
-                $item->delete();
-            }
-        }
-
-        $this->Database->query( "DELETE FROM eZTrade_OrderStatus WHERE OrderID='$this->ID'" );
-
+        $this->Database->query( "DELETE FROM ezforum_CategoryTable WHERE ID='$this->ID'" );
         
-        $this->Database->query( "DELETE FROM eZTrade_Order WHERE ID='$this->ID'" );
-            
         return true;
     }
     
@@ -136,17 +112,16 @@ class eZForumCategory
         
         if ( $id != "" )
         {
-            $this->Database->array_query( $cart_array, "SELECT * FROM eZTrade_Order WHERE ID='$id'" );
-            if ( count( $cart_array ) > 1 )
+            $this->Database->array_query( $category_array, "SELECT * FROM ezforum_CategoryTable WHERE ID='$id'" );
+            if ( count( $category_array ) > 1 )
             {
-                die( "Error: Cart's with the same ID was found in the database. This shouldent happen." );
+                die( "Error: Category's with the same ID was found in the database. This shouldent happen." );
             }
-            else if( count( $cart_array ) == 1 )
+            else if( count( $category_array ) == 1 )
             {
-                $this->ID = $cart_array[0][ "ID" ];
-                $this->UserID = $cart_array[0][ "UserID" ];
-                $this->AddressID = $cart_array[0][ "AddressID" ];
-                $this->ShippingCharge = $cart_array[0][ "ShippingCharge" ];
+                $this->ID = $category_array[0][ "Id" ];
+                $this->Name = $category_array[0][ "Name" ];
+                $this->Description = $category_array[0][ "Description" ];
 
                 $this->State_ = "Coherent";
                 $ret = true;
@@ -158,43 +133,66 @@ class eZForumCategory
         }
         return $ret;
     }
-    
-    
-    /*!
-      
-    */
-    function newCategory()
-    {
-        unset( $this->Id );
-    }
-    
-    
-        
-    /*!
-      
-    */
-    function get( $Id )
-    {
-        $this->openDB();
-            
-        $query_id = mysql_query("SELECT Name, Description, Private FROM ezforum_CategoryTable WHERE Id='$Id'")
-             or die("eZforumCategory::get($id) failed, dying...");
 
-        if ( mysql_num_rows( $query_id ) == 1 )
-        {
-            $this->Id = $Id;
-            $this->Name = mysql_result($query_id, 0, "Name" );
-            $this->Description = mysql_result($query_id, 0, "Description" );
-            $this->Private = mysql_result($query_id, 0, "Private" );
-        }
+    /*!
+      Returns every category as an array of eZForumCategory objects.
+    */
+    function getAll( )
+    {
+        $this->dbInit();
+
+        $ret = array();
+
+        $this->dbInit();
+
+        $this->Database->array_query( $category_array, "SELECT Id as ID FROM
+                                                       ezforum_CategoryTable
+                                                       WHERE Id='$this->ID'" );
+
+        $ret = array();
+
+        foreach ( $category_array as $category )
+            {
+                $ret[] = new eZForumFourm( $category["ID"] );
+            }
+
+        return $ret;
     }
+
+    /*!
+      Returns every forum under the current category.
+    */
+    function forums()
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+        
+       $this->dbInit();
+
+       $this->Database->array_query( $forum_array, "SELECT Id as ID FROM
+                                                       ezforum_ForumTable
+                                                       WHERE CategoryId='$this->ID'" );
+
+       print( $this->ID );
+
+       $ret = array();
+
+       foreach ( $forum_array as $forum )
+       {
+           print( "en" );
+           $ret[] = new eZForumForum( $forum["ID"] );
+       }
+       
+       return $ret;
+    }
+    
         
     /*!
       
     */
     function getAllCategories()
     {
-        $this->openDB();
+        $this->dbInit();
 
         $query_id = mysql_query( "SELECT * FROM ezforum_CategoryTable" )
              or die("eZforumCategory::getAllCategories() failed, dying...");
@@ -205,59 +203,23 @@ class eZForumCategory
         }
         return $returnArray;
     }
-        
-    /*!
-      
-    */
-    function store()
-    {
-        $this->openDB();
-            
-        $this->Name = addslashes($this->Name);
-        $this->Description = addslashes($this->Description);
-        $this->Private = addslashes($this->Private);            
 
-        if ( $this->Id )
-        {
-            $query_id = mysql_query("UPDATE ezforum_CategoryTable SET Name='$this->Name',
-                                                             Description='$this->Description',
-                                                             Private='$this->Private'
-                                         WHERE Id='$this->Id'")
-                 or die("store() near UPDATE...");
-        }
-        else
-        {
-            $query_id = mysql_query("INSERT INTO ezforum_CategoryTable(Name, Description, Private)
-                                                     VALUES('$this->Name', '$this->Description', '$this->Private')")
-                 or die("store() near INSERT...");
-            return mysql_insert_id();
-        }
-    }
-        
-    /*!
-      
-    */
-    function delete($Id)
-    {
-        $this->openDB();
-        
-        mysql_query("DELETE FROM ezforum_CategoryTable WHERE Id='$Id'")
-            or die("delete($Id)");
-    }
-        
-    /*!
-      
+    /*
+      Returns the object id.
     */
     function id()
     {
-        return $this->Id;
+        return $this->ID;
     }
         
     /*!
       
     */
-    function setName($newName)
+    function setName( $newName )
     {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+        
         $this->Name = $newName;
     }
 
@@ -266,14 +228,20 @@ class eZForumCategory
     */
     function name()
     {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+        
         return $this->Name;
     }
         
     /*!
       
     */
-    function setDescription($newDescription)
+    function setDescription( $newDescription )
     {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+        
         $this->Description = $newDescription;
     }
         
@@ -282,47 +250,19 @@ class eZForumCategory
     */
     function description()
     {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+        
         return $this->Description;
     }
         
-    /*!
-      
-    */
-    function setPrivate($newPrivate)
-    {
-        $this->Private = $newPrivate;
-    }
-        
-    /*!
-      
-    */
-    function private()
-    {
-        return $this->Private;
-    }
 
-    /*!
-      
-    */
-    function categoryForumInfo($Id)
-    {
-        $this->openDB();
     
-        $query_id = mysql_query("SELECT ezforum_ForumTable.Name AS ForumName,
-                                ezforum_CategoryTable.Name AS CategoryName
-                                FROM ezforum_ForumTable, ezforum_CategoryTable
-                                WHERE ezforum_CategoryTable.Id = ezforum_ForumTable.CategoryId
-                                AND ezforum_ForumTable.Id = '$Id'")
-             or die("categoryForumInfo()");
-        
-        return mysql_fetch_array($query_id);
-    }
-
     /*!
       \private
       Opens the database for read and write.
     */
-    function openDB( )
+    function dbInit( )
     {
         if ( $this->IsConnected == false )
         {
@@ -331,10 +271,9 @@ class eZForumCategory
         }
     }
     
-    var $Id;
+    var $ID;
     var $Name;
     var $Description;
-    var $Private;
 
     ///  Variable for keeping the database connection.
     var $Database;
