@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: imageedit.php,v 1.20 2001/03/07 16:21:07 fh Exp $
+// $Id: imageedit.php,v 1.21 2001/05/07 12:40:33 ce Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <21-Sep-2000 10:32:36 bf>
@@ -76,9 +76,18 @@ if ( $Action == "Update" )
     if ( $file->getUploadedFile( "userfile" ) )
     {
         $article = new eZArticle( $ArticleID );
+
         $image = new eZImage( $ImageID );
+
+        $variations =& $image->variations();
+
         if( $image->checkImage( $file ) && $image->setImage( $file ) )
         {
+            if ( count ( $variations ) > 0 )
+            {
+                foreach( $variations as $variation )
+                    $variation->delete();
+            }
 //            $oldImage = new eZImage( $ImageID );
 //            $article->deleteImage( $oldImage );
 

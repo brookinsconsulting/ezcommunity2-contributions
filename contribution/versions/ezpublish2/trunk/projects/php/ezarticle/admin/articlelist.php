@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: articlelist.php,v 1.37 2001/05/04 13:21:24 ce Exp $
+// $Id: articlelist.php,v 1.38 2001/05/07 12:40:33 ce Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <18-Oct-2000 14:41:37 bf>
@@ -97,6 +97,7 @@ if( isset( $DeleteArticles ) )
 
                 // clear the cache files.
                 deleteCache( $TArticleID, $categoryID, $categoryIDArray );
+                exit();
                 $article->delete();
             }
         }
