@@ -2,7 +2,6 @@
 //print $REQUEST_URI;
 
 $url_array = explode( "/", $REQUEST_URI );
-
 switch ( $url_array[2] )
 {
     case "company":

@@ -28,14 +28,13 @@ $t->set_block( "company_list", "error_tpl", "error" );
 
 $company = new eZCompany();
 
-$companyList = $company->getAll( );
+$companyList = $company->getByCategory( $categoryID );
 
 if ( count( $companyList ) == 0 )
 {
     $t->set_var( "error_msg", $errorIni->read_var( "strings", "error_msg" ) );
     $t->set_var( "company_item", "" );
     $t->parse( "error", "error_tpl" );
-    
 }
 else
 {
@@ -75,15 +74,13 @@ else
                 $t->set_var( "telephone", $phoneList[$i]->number() );
             }
         }
-
         
         $color_count++;
 
         $t->set_var( "error", "" );
         $t->parse( "company_item", "company_item_tpl", true );
     }
-    $t->pparse( "output", "company_list");
-} 
+}
 
-
+$t->pparse( "output", "company_list");
 ?>

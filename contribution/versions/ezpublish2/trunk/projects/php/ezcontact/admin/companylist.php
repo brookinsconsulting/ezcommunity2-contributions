@@ -80,7 +80,6 @@ if ( count( $companyList ) == 0 )
 }
 else
 {
-    print( "neeei" );
     $color_count = 0;
     foreach( $companyList as $companyItem )
     {

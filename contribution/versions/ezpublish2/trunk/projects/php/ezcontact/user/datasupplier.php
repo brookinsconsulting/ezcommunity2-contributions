@@ -121,6 +121,16 @@ switch ( $url_array[2] )
     }
     break;
 
+    case "company":
+    {
+        if ( $url_array[3] == "list" )
+        {
+            $categoryID = $url_array[4];
+            include( "ezcontact/user/companylist.php" );
+        }
+    }
+    break;
+
 
 
     default :
