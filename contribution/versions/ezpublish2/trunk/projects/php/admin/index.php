@@ -37,7 +37,7 @@ if( $session->get( $AuthenticatedSession ) == 0 )
         include( "ezpublishadmin.php" );
 
     if ( $ini->read_var( "site", "eZForum" ) == "enabled" )
-        include( "ezforumadmin.php" );
+        include( "ezforum/admin/menubox.php" );
 
     if ( $ini->read_var( "site", "eZLink" ) == "enabled" )
         include( "ezlink/admin/menubox.php" );
@@ -53,8 +53,6 @@ if( $session->get( $AuthenticatedSession ) == 0 )
 
     include( "useradmin.php" );
 
-    $user = new eZUser( $session->userID() );
-    print( "<p class=\"small\"><b>User:</b><br>" . $user->firstName() . " " . $user->lastName() . "</p>" );
 
     // break the column an draw a horizontal line
     include( "separator.php" );
@@ -99,6 +97,8 @@ if( $session->get( $AuthenticatedSession ) == 0 )
 }
 else
 {
+    include( "separator.php" );
+    
     $t->set_file( "login", "./templates/login.tpl" );
     
     if( !isset( $message ) )

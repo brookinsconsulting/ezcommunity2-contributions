@@ -1,29 +1,86 @@
 body {
 	font-family: Verdana, Arial, Helvetica, Swiss, Futura, sans-serif;
 	font-size: 12px;
-	color: #ffffff;
-	background-color: #3c3c3c;
+	color: #000000;
 }
 
 p {
 	font-family: Verdana, Arial, Helvetica, Swiss, Futura, sans-serif;
-	text-align: left;
 	font-size: 12px;
 	color: #000000;
 }
 
-p.big {
-	font-family: Verdana, Arial, Helvetica, Swiss, Futura, sans-serif;
-	text-align: left;
-	font-size: 14px;
+h1 {
+	font-family: Verdana, Arial, Helvetica, Swiss, Futura, sans-serif;	
+	font-weight: bold;
+	font-size: 22px;
 	color: #000000;
+	margin-bottom: 8px;
 }
 
-p.small {
-	font-family: Verdana, Arial, Helvetica, Swiss, Futura, sans-serif;
-	text-align: left;
-	font-size: 10px;
+h2 {
+	font-family: Verdana, Arial, Helvetica, Swiss, Futura, sans-serif;	
+	font-weight: bold;
+	font-size: 18px;
 	color: #000000;
+	margin-bottom: 8px;	
+}
+
+a {
+	font-family: Verdana, Arial, Helvetica, Swiss, Futura, sans-serif;
+	font-size: 12px;		
+	color : #000000;
+	text-decoration : underline;
+}
+
+a:hover {
+	color : #a00000;
+}
+
+.small {
+	font-size: 10px;
+}
+
+.bold {
+	font-weight: bold;
+}
+
+.smallbold {
+	font-size: 10px;
+	font-weight: bold;
+}
+
+.red {
+	color : #a00000;
+}
+
+.menu {
+	font-size: 10px;
+	font-weight: bold;
+	text-decoration : none;
+}
+
+.byline {
+	font-style: italic;
+}
+
+.boxtext {
+	margin-bottom: 4px;
+}
+
+.check {
+	font-family: Verdana, Arial, Helvetica, Swiss, Futura, sans-serif;	
+	font-size: 12px;
+	color: #000000;
+	margin-bottom: 8px;
+}
+
+th {
+	font-family: Verdana, Arial, Helvetica, Swiss, Futura, sans-serif;	
+	font-size: 12px;
+	font-weight: bold;
+	color: #000000;
+	text-align: left;
 }
 
 td {
@@ -32,173 +89,12 @@ td {
 	color: #000000;
 }
 
-h1 {
-	font-family: Verdana, Arial, Helvetica, Swiss, Futura, sans-serif;	
-	font-weight: bold;
-	font-size: 20px;
-	color: #000000;	
+.bglight {
+	background-color: #f0f0f0;
 }
 
-h2 {
-	font-family: Verdana, Arial, Helvetica, Swiss, Futura, sans-serif;	
-	font-weight: bold;
-	font-size: 18px;
-	color: #000000;	
-}
-
-h3 {
-	font-family: Verdana, Arial, Helvetica, Swiss, Futura, sans-serif;	
-	font-weight: bold;
-	font-size: 16px;
-	color: #000000;	
-}
-
-a {
-	font-family: Verdana, Arial, Helvetica, Swiss, Futura, sans-serif;
-	font-weight: bold;
-	font-size: 12px;		
-	color : #000000;
-	text-decoration : none;
-}
-
-a.small {		
-	font-family: Verdana, Arial, Helvetica, Swiss, Futura, sans-serif;
-	font-weight: bold;
-	font-size: 10px;
-	color : #000000;
-}
-
-a.big {		
-	font-family: Verdana, Arial, Helvetica, Swiss, Futura, sans-serif;
-	font-weight: bold;
-	font-size: 14px;
-	color : #000000;
-}
-
-.white {
-	color : #ffffff;
-}
-
-p.smallhead {
-	font-family: Verdana, Arial, Helvetica, Swiss, Futura, sans-serif;
-	font-weight: bold;
-	text-align: center;
-	font-size: 10px;
-	color: #ffffff;
-}
-
-strong.h1 {
-	font-family: Verdana, Arial, Helvetica, Swiss, Futura, sans-serif;	
-	font-weight: bold;
-	font-size: 20px;
-	color: #ffffff;
-}
-
-strong.h2 {
-	font-family: Verdana, Arial, Helvetica, Swiss, Futura, sans-serif;	
-	font-weight: bold;
-	font-size: 16px;
-	color: #000000;	
-}
-
-strong {
-	font-family: Verdana, Arial, Helvetica, Swiss, Futura, sans-serif;
-	font-weight: normal;
-	font-size: 10px;
-        color : #444444;
-}
-
-strong.heading {
-	font-family: Verdana, Arial, Helvetica, Swiss, Futura, sans-serif;
-	font-weight: bold;
-	font-size: 18pt;
-        color : #1C116E;
-        margin-bottom: 2px;
-}
-
-strong.text {
-	font-family: Verdana, Arial, Helvetica, Swiss, Futura, sans-serif;
-	font-weight: normal;
-	font-size: 10px;
-        color : #000000;
-}
-
-strong.boldText {
-	font-family: Verdana, Arial, Helvetica, Swiss, Futura, sans-serif;
-	text-align: right;
-	font-weight: bold;
-	font-size: 8px;
-        color : #444444;
-}
-
-strong.title {
-	font-family: Verdana, Arial, Helvetica, Swiss, Futura, sans-serif;
-	font-weight: bold;
-	font-size: 16px;
-        color : #000000;
-}
-
-strong.info {
-	font-family: Verdana, Arial, Helvetica, Swiss, Futura, sans-serif;
-	font-weight: normal;
-	font-size: 10px;
-        color : #444444;
-}
-
-strong.intro {
-	font-family: Verdana, Arial, Helvetica, Swiss, Futura, sans-serif;
-	font-weight: bold;
-	font-size: 12px;
-	color : #444444;
-}
-
-strong.body {
-	font-family: Verdana, Arial, Helvetica, Swiss, Futura, sans-serif;
-	font-weight: normal;
-	font-size: 10px;
-        color : #444444;
-}
-
-strong.smallTitle {
-	font-family: Verdana, Arial, Helvetica, Swiss, Futura, sans-serif;
-	font-weight: bold;
-	font-size: 16px;
-        color : #000000;
-}
-
-strong.smallIntro {
-	font-family: Verdana, Arial, Helvetica, Swiss, Futura, sans-serif;
-	font-weight: normal;
-	font-size: 12px;
-        color : #444444;
-}
-
-strong.smallLink {
-	font-family: Verdana, Arial, Helvetica, Swiss, Futura, sans-serif;
-	font-weight: normal;
-	font-size: 10px;
-        color : #444444;
-}
-
-strong.linkHeader {
-	font-family: Verdana, Arial, Helvetica, Swiss, Futura, sans-serif;
-	font-weight: normal;
-	font-size: 8px;
-        color : #444444;
-}
-
-strong.linkHeaderBullet {
-	font-family: Verdana, Arial, Helvetica, Swiss, Futura, sans-serif;
-	font-weight: bold;
-	font-size: 8px;
-        color : #994444;
-}
-
-strong.linkTitle {
-	font-family: Verdana, Arial, Helvetica, Swiss, Futura, sans-serif;
-	font-weight: bold;
-	font-size: 12px;
-        color : #994444;
+.bgdark {
+	background-color: #dcdcdc;
 }
 
 select {
@@ -211,6 +107,10 @@ input {
 	font-family: Verdana, Arial, Helvetica, Swiss, Futura, sans-serif;
 	font-size: 12px;
 	color: #000000;
+}
+
+.button {
+	font-weight: bold;
 }
  
 textarea {

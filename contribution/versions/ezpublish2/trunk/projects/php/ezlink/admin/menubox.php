@@ -1,17 +1,16 @@
-
-<table width="100%" border="0" cellspacing="0" cellpadding="4">
-<tr bgcolor="#500A0A"> 
-<td> 
-<p class="smallhead">Linker</p>
-</td>
+<tr>
+    <td><img src="/images/standard/menu-t.gif" width="150" height="50"></td>
 </tr>
-<tr bgcolor="#C8B4B4"> 
-<td>
-<a class="small" href="/link/">Linkoversikt</a><br>
-<a class="small" href="/link/linkedit/">Ny link</a><br>
-<a class="small" href="/link/groupedit/">Ny kategori</a><br>
-</td>
+<tr> 
+    <td background="/images/standard/menu-m.gif">
+	<img src="/images/standard/pil.gif" width="20" height="10"><a class="menu" href="/link/">Linkoversikt</a><br>
+	<img src="/images/standard/pil.gif" width="20" height="10"><a class="menu" href="/link/linkedit/">Ny link</a><br>
+	<img src="/images/standard/pil.gif" width="20" height="10"><a class="menu" href="/link/groupedit/">Ny kategori</a><br>
+	</td>
 </tr>
-</table>
-
-<img src="images/1x1.gif" width="120" height="4" border="0"><br>
+<tr>
+    <td><img src="/images/standard/menu-b.gif" width="150" height="30"></td>
+</tr>
+<tr>
+	<td><img src="/images/standard/1x1.gif" width="10" height="10"></td>
+</tr>

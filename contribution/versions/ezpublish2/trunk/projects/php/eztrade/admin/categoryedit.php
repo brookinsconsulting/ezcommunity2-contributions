@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: categoryedit.php,v 1.1 2000/09/19 08:47:25 bf-cvs Exp $
+// $Id: categoryedit.php,v 1.2 2000/09/20 15:09:04 bf-cvs Exp $
 //
 // Definition of eZCompany class
 //
@@ -98,10 +98,13 @@ if ( $Action == "Edit" )
 
 foreach ( $categoryArray as $catItem )
 {
-    $t->set_var( "option_value", $catItem->id() );
-    $t->set_var( "option_name", $catItem->name() );
+    if ( $CategoryID != $catItem->id() )
+    {
+        $t->set_var( "option_value", $catItem->id() );
+        $t->set_var( "option_name", $catItem->name() );
 
-    $t->parse( "option_values", "option_item", true );    
+        $t->parse( "option_values", "option_item", true );
+    }
 }
 
 $t->pparse( "output", "category_edit_page" );

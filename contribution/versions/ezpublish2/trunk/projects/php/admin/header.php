@@ -1,63 +1,15 @@
-<html>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="no" lang="no">
+
 <head>
-<title>eZPublish administration</title>
-
-<link rel="stylesheet" type="text/css" href="/ez.css">
-
-<script language="JavaScript1.2">
-<!--//
-
-function NewWindow(bredde,hoyde,url)
-{
-    window.open(url,"_blank","menubars=0,scrollbars=1,resizable=0,height="+hoyde+",width="+bredde);
-}
-function verify( msg, url )
-{
-	if ( confirm( msg ) )
-	{
-        this.location = url;
-	}
-}
-//-->
-</script>  
+<title>eZ trade - test</title>
+<link rel="stylesheet" type="text/css" href="/ez.css"/>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1"/>
 </head>
 
-<body bgcolor="#202020" scroll="auto">
-<table width="100%" border="0" cellspacing="0" cellpadding="4" bgcolor="#000000">
-  <tr>
-    <td>
-      <table width="100%" border="0" cellspacing="0" cellpadding="4" bgcolor="#FFFFFF">
-        <tr> 
-          <td height="14" colspan="2" align="left">
-            <table width="100%" border="0" cellspacing="0" cellpadding="4">
-              <tr>
-                <td> 
-                        <img src="/images/topplogo.gif" width="430" height="32" border="0">
-                </td>
-                <td align="right"> 
-                        <a href="http://www.ez.no" target="_blank"><img src="/images/ez-logo.gif" width="160" height="32" border="0"></a>
-                </td>
-              </tr>
-            </table>
-          </td>
-        </tr>
-      </table>
-    </td>
-  </tr>
-</table>
+<body bgcolor="#000064">
 
-<img src="/images/1x1.gif" width="1" height="8" border="0"><br>
-    
-<table width="100%" border="0" cellspacing="0" cellpadding="4" bgcolor="#000000">
-  <tr>
-    <td> 
-
-      <table width="100%" border="0" cellspacing="0" cellpadding="8" bgcolor="#FFFFFF">
-        <tr>
-          <td>
-
-            <table width="100%" border="0" cellspacing="0" cellpadding="0" bgcolor="#FFFFFF">
-              <tr> 
-                <td width="120" valign="top"> 
-                  
-       
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+	<td width="1%" valign="top">
+    <table width="150" border="0" cellspacing="0" cellpadding="0">
