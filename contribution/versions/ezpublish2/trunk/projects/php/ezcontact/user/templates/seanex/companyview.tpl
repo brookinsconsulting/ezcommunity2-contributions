@@ -21,7 +21,8 @@
 <!-- END no_logo_tpl -->
 <!-- BEGIN logo_view_tpl -->
 
-<img src="{logo_image_src}" width="{image_width}" height="{image_height}" border="0" alt="{image_alt}" /><br />
+<br/>
+<img src="{logo_image_src}" width="{image_width}" height="{image_height}" border="0" alt="{image_alt}" /><br /><br />
 
 <!-- END logo_view_tpl -->
 
@@ -102,11 +103,12 @@
 <!-- END no_image_tpl -->
 
 
+<h2>{intl-description}</h2>
+
 <!-- BEGIN image_view_tpl -->
 <!--     <p class="boxtext">{intl-company_image}:</p> -->
-<img src="{image_src}" width="{image_width}" height="{image_height}" border="0" alt="{image_alt}" align="right" />
+<img src="{image_src}" width="{image_width}" height="{image_height}" border="0" alt="{image_alt}" align="left" vspace="2" hspace="6" />
 <!-- END image_view_tpl -->
 
-<p class="boxtext">{intl-description}:</p>
-{description}<br /><br />
+<p>{description}</p>
 
