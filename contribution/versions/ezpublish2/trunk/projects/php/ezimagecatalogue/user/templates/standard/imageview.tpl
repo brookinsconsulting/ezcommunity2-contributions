@@ -1,4 +1,5 @@
 <h1> image view</h1>
+<hr noshade size="4"/>
 
 <table align="center" cellspacing="0" cellpadding="0" border="0">
 <tr>
@@ -12,3 +13,7 @@
 	</td>
 </tr>
 </table>
+
+<hr noshade size="4"/>
+
+<a href="{referer_url}">{intl-back}</a>

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: imageview.php,v 1.1 2000/10/26 17:46:09 bf-cvs Exp $
+// $Id: imageview.php,v 1.2 2000/10/26 18:18:11 bf-cvs Exp $
 //
 // 
 //
@@ -31,12 +31,12 @@ $t->set_file( "image_view_tpl", "imageview.tpl" );
 
 $t->setAllStrings();
 
-$ImageID = 3;
-
 $image = new eZImage( $ImageID );
 
 $variation =& $image->requestImageVariation( $ini->read_var( "eZImageCatalogueMain", "ImageViewWidth" ),
                                              $ini->read_var( "eZImageCatalogueMain", "ImageViewHeight" ) );
+
+$t->set_var( "referer_url", $RefererURL );
 
 $t->set_var( "image_uri", "/" . $variation->imagePath() );
 $t->set_var( "image_width", $variation->width() );

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: productlist.php,v 1.2 2000/10/22 10:46:20 bf-cvs Exp $
+// $Id: productlist.php,v 1.3 2000/10/26 18:18:11 bf-cvs Exp $
 //
 // 
 //
@@ -111,6 +111,8 @@ $locale = new eZLocale( $Language );
 $i=0;
 foreach ( $productList as $product )
 {
+    $t->set_var( "product_id", $product->id() );
+
     // preview image
     $thumbnailImage = $product->thumbnailImage();
     if ( $thumbnailImage )
@@ -135,7 +137,6 @@ foreach ( $productList as $product )
     
     $t->set_var( "product_price", $locale->format( $price ) );
     $t->set_var( "product_intro_text", $product->brief() );
-    $t->set_var( "product_id", $product->id() );
     $t->set_var( "category_id", $category->id() );
 
     if ( ( $i % 2 ) == 0 )

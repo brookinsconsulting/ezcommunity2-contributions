@@ -51,7 +51,9 @@
 <table cellspacing="0" cellpadding="0" border="0">
 <tr>
 	<td valign="top">
+	<a href="/imagecatalogue/imageview/{image_id}/?RefererURL=/trade/productview/{product_id}/">
 	<img src="{image_url}" border="0" alt="{image_caption}" width="{image_width}" height="{image_height}"/>
+	</a>
 	</td>
 </tr>
 <tr>
