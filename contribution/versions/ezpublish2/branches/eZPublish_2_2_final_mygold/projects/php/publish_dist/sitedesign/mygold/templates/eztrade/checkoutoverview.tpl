@@ -1,0 +1,356 @@
+<!-- BEGIN address_path_tpl -->
+<img src="{www_dir}/images/path-slash.gif" height="10" width="16" border="0" alt="0" />
+<a class="path" href="{www_dir}{index}/trade/checkout/address/">{intl-address-path}</a>
+<!-- END address_path_tpl -->
+
+<!-- BEGIN address_dummy_path_tpl -->
+<img src="{www_dir}/images/path-slash.gif" height="10" width="16" border="0" alt="0" />
+{intl-address-path}
+<!-- END address_dummy_path_tpl -->
+
+<!-- BEGIN shipping_path_tpl -->
+<img src="{www_dir}/images/path-slash.gif" height="10" width="16" border="0" alt="0" />
+<a class="path" href="{www_dir}{index}/trade/checkout/shipping/">{intl-shipping-path}</a>
+<!-- END shipping_path_tpl -->
+
+<!-- BEGIN shipping_dummy_path_tpl -->
+<img src="{www_dir}/images/path-slash.gif" height="10" width="16" border="0" alt="0" />
+{intl-shipping-path}
+<!-- END shipping_dummy_path_tpl -->
+
+<!-- BEGIN packing_path_tpl -->
+<img src="{www_dir}/images/path-slash.gif" height="10" width="16" border="0" alt="0" />
+<a class="path" href="{www_dir}{index}/trade/checkout/packing/">{intl-packing-path}</a>
+<!-- END packing_path_tpl -->
+
+<!-- BEGIN packing_dummy_path_tpl -->
+<img src="{www_dir}/images/path-slash.gif" height="10" width="16" border="0" alt="0" />
+{intl-packing-path}
+<!-- END packing_dummy_path_tpl -->
+
+<!-- BEGIN payment_method_path_tpl -->
+<img src="{www_dir}/images/path-slash.gif" height="10" width="16" border="0" alt="0" />
+<a class="path" href="{www_dir}{index}/trade/checkout/paymentmethod/">{intl-payment_method-path}</a>
+<!-- END payment_method_path_tpl -->
+
+<!-- BEGIN payment_method_dummy_path_tpl -->
+<img src="{www_dir}/images/path-slash.gif" height="10" width="16" border="0" alt="0" />
+{intl-payment_method-path}
+<!-- END payment_method_dummy_path_tpl -->
+
+<!-- BEGIN overview_path_tpl -->
+<img src="{www_dir}/images/path-slash.gif" height="10" width="16" border="0" alt="0" />
+<a class="path" href="{www_dir}{index}/trade/checkout/overview/">{intl-overview-path}</a>
+<!-- END overview_path_tpl -->
+
+<!-- BEGIN overview_dummy_path_tpl -->
+<img src="{www_dir}/images/path-slash.gif" height="10" width="16" border="0" alt="0" />
+{intl-overview-path}
+<!-- END overview_dummy_path_tpl -->
+
+<!-- BEGIN payment_path_tpl -->
+<img src="{www_dir}/images/path-slash.gif" height="10" width="16" border="0" alt="0" />
+<a class="path" href="{www_dir}{index}/trade/checkout/payment/">{intl-payment-path}</a>
+<!-- END payment_path_tpl -->
+
+<!-- BEGIN payment_dummy_path_tpl -->
+<img src="{www_dir}/images/path-slash.gif" height="10" width="16" border="0" alt="0" />
+{intl-payment-path}
+<!-- END payment_dummy_path_tpl -->
+
+<!-- BEGIN ordersent_path_tpl -->
+<img src="{www_dir}/images/path-slash.gif" height="10" width="16" border="0" alt="0" />
+<a class="path" href="{www_dir}{index}/trade/checkout/ordersent/">{intl-ordersent-path}</a>
+<!-- END ordersent_path_tpl -->
+
+<!-- BEGIN ordersent_dummy_path_tpl -->
+<img src="{www_dir}/images/path-slash.gif" height="10" width="16" border="0" alt="0" />
+{intl-ordersent-path}
+<!-- END ordersent_dummy_path_tpl -->
+
+<br /><br />
+<hr noshade="noshade" size="4" />
+
+<form action="{www_dir}{index}/trade/checkout/overview/" method="post">
+
+<table width="100%" cellspacing="0" cellpadding="0" border="0">
+<tr>
+	<td>
+	<!-- BEGIN billing_address_tpl -->
+	<p class="boxtext">{intl-billing_address}:</p>
+	{customer_title} {customer_first_name} {customer_last_name} <br />
+	{billing_street1}<br />
+	{billing_street2}<br />
+	{billing_zip} {billing_place}<br />
+	{billing_country}<br />
+	<!-- END billing_address_tpl -->
+	<br />
+	</td>
+	<td>
+	<!-- BEGIN shipping_address_tpl -->
+	<p class="boxtext">{intl-shipping_address}:</p>
+	{shipping_title} {shipping_first_name} {shipping_last_name} <br />
+	{shipping_street1}<br />
+	{shipping_street2}<br />
+	{shipping_zip} {shipping_place}<br />
+	{shipping_country}<br />
+	<!-- END shipping_address_tpl -->
+	<br />
+	</td>
+</tr>
+<tr>
+	<td>
+	<p class="boxtext">{intl-payment_method}:</p>
+	<div class="p">{payment_method}</div>
+	</td>
+	<td>
+	<p class="boxtext">{intl-shipping_type}:</p>
+	<div class="p">{shipping_type}</div>
+	</td>
+</tr>
+</table>
+
+<!-- BEGIN empty_cart_tpl -->
+<h2>{intl-empty_cart}</h2>
+<!-- END empty_cart_tpl -->
+
+<!-- BEGIN full_cart_tpl -->
+<table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
+
+<!-- BEGIN cart_item_list_tpl -->
+<tr>
+    <th>&nbsp;</th>
+
+	<th>{intl-product_number}:</th>
+	<th>{intl-product_name}:</th>
+	<th class="right">{intl-product_price}:</th>
+
+	<th class="right">{intl-product_qty}:</th>
+
+	<!-- BEGIN header_savings_item_tpl -->
+	<th class="right">{intl-product_savings}:</th>
+	<!-- END header_savings_item_tpl -->
+
+	<!-- BEGIN header_ex_tax_item_tpl -->
+	<th class="right">{intl-product_total_ex_tax}:</th>
+	<!-- END header_ex_tax_item_tpl -->
+
+	<!-- BEGIN header_inc_tax_item_tpl -->
+	<th class="right">{intl-product_total_inc_tax}:</th>
+	<!-- END header_inc_tax_item_tpl -->
+
+	<th class="right">&nbsp;</th>
+</tr>
+
+<!-- BEGIN cart_item_tpl -->
+<tr>
+    <td class="{td_class}">&nbsp;</td>
+    <td class="{td_class}">{product_number}</td>
+    <td class="{td_class}"><a href="{www_dir}{index}/trade/productview/{product_id}">{product_name}</a></td>
+    <td class="{td_class}" align="right"><nobr>{product_price}</nobr></td>
+    
+    <td class="{td_class}" align="right">
+    {product_count}    
+<!--
+	    <input type="hidden" name="CartIDArray[]" value="{cart_item_id}" />
+	    <input size="3" type="text" name="CartCountArray[]" value="{product_count}" />
+	    -->
+    </td>
+    
+	<!-- BEGIN cart_savings_item_tpl -->
+    <td class="{td_class}" align="right"><nobr>{product_savings}</nobr></td>
+	<!-- END cart_savings_item_tpl -->
+    
+	<!-- BEGIN cart_ex_tax_item_tpl -->
+    <td class="{td_class}" align="right"><nobr>{product_total_ex_tax}</nobr></td>
+	<!-- END cart_ex_tax_item_tpl -->
+
+	<!-- BEGIN cart_inc_tax_item_tpl -->
+    <td class="{td_class}" align="right"><nobr>{product_total_inc_tax}</nobr></td>
+	<!-- END cart_inc_tax_item_tpl -->
+    
+    <td class="{td_class}"> <!-- <input type="checkbox" name="CartSelectArray[]" value="{cart_item_id}" /> --></td>
+</tr>
+
+<!-- BEGIN cart_item_basis_tpl -->
+<tr>
+    <td class="{td_class}">&nbsp;</td>
+    <td class="{td_class}">&nbsp;</td>
+    <td class="{td_class}"><span class="small">{intl-basis_price} <nobr>{basis_price}<nobr/></span></td>
+    <td class="{td_class}" align="right">&nbsp;</td>
+    
+	<!-- BEGIN basis_savings_item_tpl -->
+    <td class="{td_class}" align="right">&nbsp;</td>
+	<!-- END basis_savings_item_tpl -->
+    
+    <td class="{td_class}" align="right">&nbsp;</td>
+
+	<!-- BEGIN basis_inc_tax_item_tpl -->
+    <td class="{td_class}" align="right">&nbsp;</td>
+	<!-- END basis_inc_tax_item_tpl -->
+    
+	<!-- BEGIN basis_ex_tax_item_tpl -->
+    <td class="{td_class}" align="right">&nbsp;</td>
+	<!-- END basis_ex_tax_item_tpl -->
+
+    <td class="{td_class}">&nbsp;</td>
+</tr>
+<!-- END cart_item_basis_tpl -->
+
+<!-- BEGIN cart_item_option_tpl -->
+<tr>
+    <td class="{td_class}">&nbsp;</td>
+    <td class="{td_class}">&nbsp;</td>
+    <td class="{td_class}"><span class="small">{option_id} {option_name} {option_value} <nobr>{option_price}<nobr/></span></td>
+    <td class="{td_class}" align="right">&nbsp;</td>
+    
+	<!-- BEGIN option_savings_item_tpl -->
+    <td class="{td_class}" align="right">&nbsp;</td>
+	<!-- END option_savings_item_tpl -->
+    
+    <td class="{td_class}" align="right">&nbsp;</td>
+
+	<!-- BEGIN option_inc_tax_item_tpl -->
+    <td class="{td_class}" align="right">&nbsp;</td>
+	<!-- END option_inc_tax_item_tpl -->
+    
+	<!-- BEGIN option_ex_tax_item_tpl -->
+    <td class="{td_class}" align="right">&nbsp;</td>
+	<!-- END option_ex_tax_item_tpl -->
+
+    <td class="{td_class}">&nbsp;</td>
+</tr>
+<!-- END cart_item_option_tpl -->
+
+<!-- END cart_item_tpl -->
+
+<!-- END cart_item_list_tpl -->
+
+<tr>
+    <td>&nbsp;</td>
+    
+    <th colspan="{subtotals_span_size}" class="right">{intl-subtotal}:</th>
+
+	<!-- BEGIN subtotal_ex_tax_item_tpl -->
+    <td align="right"><nobr>{subtotal_ex_tax}</nobr></td>
+	<!-- END subtotal_ex_tax_item_tpl -->
+
+	<!-- BEGIN subtotal_inc_tax_item_tpl -->
+    <td align="right"><nobr>{subtotal_inc_tax}</nobr></td>
+	<!-- END subtotal_inc_tax_item_tpl -->
+    
+    <td>&nbsp;</td>
+</tr>
+
+<tr>
+    <td>&nbsp;</td>
+    <th colspan="{subtotals_span_size}" class="right">{intl-shipping}:</th>
+
+	<!-- BEGIN shipping_ex_tax_item_tpl -->
+    <td align="right"><nobr>{shipping_ex_tax}</nobr></td>
+	<!-- END shipping_ex_tax_item_tpl -->
+
+	<!-- BEGIN shipping_inc_tax_item_tpl -->
+    <td align="right"><nobr>{shipping_inc_tax}</nobr></td>
+	<!-- END shipping_inc_tax_item_tpl -->
+
+    <td>&nbsp;</td>
+</tr>
+
+<tr>
+    <td>&nbsp;</td>
+    <th colspan="{subtotals_span_size}" class="right">{intl-total}:</th>
+
+	<!-- BEGIN total_ex_tax_item_tpl -->
+    <td align="right"><nobr>{total_ex_tax}</nobr></td>
+	<!-- END total_ex_tax_item_tpl -->
+
+	<!-- BEGIN total_inc_tax_item_tpl -->
+    <td align="right"><nobr>{total_inc_tax}</nobr></td>
+	<!-- END total_inc_tax_item_tpl -->
+
+    <td>&nbsp;</td>
+</tr>
+
+
+<!-- BEGIN vouchers_tpl --> 
+        <!-- BEGIN voucher_item_tpl -->
+        <tr>
+	<td>&nbsp;</td>
+	<td colspan="{subtotals_span_size}" align="right"><span class="boxtext">{intl-voucher} {number}:</span></td>
+    <!-- BEGIN voucher_ex_tax_item_tpl -->
+	<td align="right">
+	<nobr>- {voucher_price_ex_vat}</nobr>
+	</td>
+    <!-- END voucher_ex_tax_item_tpl -->
+    <!-- BEGIN voucher_inc_tax_item_tpl -->
+	<td align="right">
+	<nobr>- {voucher_price_inc_vat}</nobr>
+	</td>
+    <!-- END voucher_inc_tax_item_tpl -->
+	</tr>
+        <!-- END voucher_item_tpl -->
+<!-- END vouchers_tpl --> 
+
+<!-- BEGIN payment_item_tpl --> 
+        <tr>
+	<td>&nbsp;</td>
+	<td colspan="{subtotals_span_size}" align="right"><span class="boxtext">Pay with {payment_method_name}:</span></td>
+    <!-- BEGIN payment_ex_tax_item_tpl -->
+	<td align="right">
+	<nobr>- {payment_ex_tax}</nobr>
+	</td>
+    <!-- END payment_ex_tax_item_tpl -->
+    <!-- BEGIN payment_inc_tax_item_tpl -->
+	<td align="right">
+	<nobr>- {payment_inc_tax}</nobr>
+	</td>
+    <!-- END payment_inc_tax_item_tpl -->
+	</tr>
+<!-- END payment_item_tpl --> 
+
+</table>
+
+<!-- BEGIN tax_specification_tpl -->
+<br />
+<br />
+<br />
+<br />
+
+<table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
+<tr>
+<th class="right">{intl-tax_basis}:</th>
+<th class="right">{intl-tax_percentage}:</th>
+<th class="right">{intl-tax}:</th>
+</tr>
+
+<!-- BEGIN tax_item_tpl -->
+
+<tr>
+    <td class="{td_class}" align="right">{sub_tax_basis}</td>
+    <td class="{td_class}" align="right">{sub_tax_percentage} %</td>
+    <td class="{td_class}" align="right">{sub_tax}</td>
+</tr>
+<!-- END tax_item_tpl -->
+
+<tr>
+    <th colspan="2" class="right">{intl-total}:</th>
+    <td align="right">{tax}</td>
+</tr>
+
+</table>
+<!-- END tax_specification_tpl -->
+<!-- END full_cart_tpl -->
+
+<input type="hidden" name="ShippingCost" value="{shipping_cost_value}" />
+<input type="hidden" name="ShippingVAT" value="{shipping_vat_value}" />
+<input type="hidden" name="TotalCost" value="{total_cost_value}" />
+<input type="hidden" name="TotalVAT" value="{total_vat_value}" />
+
+
+<br /><br />
+<hr noshade="noshade" size="4" />
+<input type="submit" name="Next" value="{intl-next}" />
+
+
+</form>

@@ -1,0 +1,13 @@
+<form action="{www_dir}{index}/trade/checkout/shipping/" method="post">
+
+<select name="ShippingTypeID">
+<!-- BEGIN shipping_type_tpl -->
+<option value="{shipping_type_id}" {type_selected}>{shipping_type_name}</option>
+<!-- END shipping_type_tpl -->
+</select>
+
+<br /><br />
+<hr noshade="noshade" size="4" />
+<input class="stdbutton" type="submit" name="Next" value="{intl-next}" />
+
+</form>
