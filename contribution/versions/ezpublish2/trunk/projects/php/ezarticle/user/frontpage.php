@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: frontpage.php,v 1.31 2001/12/10 18:06:40 br Exp $
+// $Id: frontpage.php,v 1.32 2002/05/14 11:48:51 chrism Exp $
 //
 // Created on: <30-May-2001 14:06:59 bf>
 //
@@ -49,6 +49,8 @@ $GrayScaleImageList = $ini->read_var( "eZArticleMain", "GrayScaleImageList" );
 
 $sectionObject =& eZSection::globalSectionObject( $GlobalSectionID );
 $sectionObject->setOverrideVariables();
+
+$SiteDescriptionOverride = $sectionObject->description();
 
 $t = new eZTemplate( "ezarticle/user/" . $ini->read_var( "eZArticleMain", "TemplateDir" ),
                      "ezarticle/user/intl/", $Language, "frontpage.php" );
