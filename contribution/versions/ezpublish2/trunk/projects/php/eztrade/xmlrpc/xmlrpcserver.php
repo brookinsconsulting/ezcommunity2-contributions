@@ -73,8 +73,6 @@ function &newOrders( $args )
 
         foreach ( $orderArray as $orderItem )
         {
-            print_r( $orderItem );
-            
             // set the order item to be exported
 //            $orderItem->setIsExported( true );
 //            $orderItem->store();
@@ -166,8 +164,6 @@ function &newOrders( $args )
         $tmp->setError( 100, "Authorization failed." );
     }
 
-    print_r( $tmp );
-    
     return $tmp;
 }
 
