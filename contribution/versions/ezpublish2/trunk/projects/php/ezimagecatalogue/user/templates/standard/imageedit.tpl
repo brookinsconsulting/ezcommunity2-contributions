@@ -1,4 +1,5 @@
-<form method="post" action="/imagecatalogue/image/{action_value}/{image_id}/" >
+<form method="post" action="/imagecatalogue/image/{action_value}/{image_id}/" enctype="multipart/form-data">
+<input type="hidden" name="max_file_size" value="30000000">
 
 <h1>{intl-imageupload}</h1>
 
