@@ -22,7 +22,7 @@ switch ( $url_array[2] )
             $CategoryID = 0;
 
         $ShowUnPublished = "only";
-        include( "eznewsfeed/admin/newsarchive.php" );
+        include( "eznewsfeed/admin/unpublished.php" );
     }
     break;
     

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: eznewscategory.php,v 1.6 2000/11/27 15:34:52 bf-cvs Exp $
+// $Id: eznewscategory.php,v 1.7 2000/11/29 17:41:54 bf-cvs Exp $
 //
 // Definition of eZNewsCategory class
 //
@@ -400,7 +400,8 @@ class eZNewsCategory
                 eZNewsFeed_Category.ID='$this->ID'
                 GROUP BY eZNewsFeed_News.ID ORDER BY $OrderBy LIMIT $offset,$limit" );
        }
-       else
+
+       if ( $fetchNonPublished  == "no" )
        {
            $this->Database->array_query( $news_array, "
                 SELECT eZNewsFeed_News.ID AS NewsID, eZNewsFeed_News.Name, eZNewsFeed_Category.ID, eZNewsFeed_Category.Name
@@ -416,6 +417,22 @@ class eZNewsCategory
                 GROUP BY eZNewsFeed_News.ID ORDER BY $OrderBy LIMIT $offset,$limit" );
        }
 
+       if ( $fetchNonPublished  == "only" )
+       {
+           $this->Database->array_query( $news_array, "
+                SELECT eZNewsFeed_News.ID AS NewsID, eZNewsFeed_News.Name, eZNewsFeed_Category.ID, eZNewsFeed_Category.Name
+                FROM eZNewsFeed_News, eZNewsFeed_Category, eZNewsFeed_NewsCategoryLink
+                WHERE 
+                eZNewsFeed_NewsCategoryLink.NewsID = eZNewsFeed_News.ID
+                AND
+                eZNewsFeed_News.IsPublished = 'false'
+                AND
+                eZNewsFeed_Category.ID = eZNewsFeed_NewsCategoryLink.CategoryID
+                AND
+                eZNewsFeed_Category.ID='$this->ID'
+                GROUP BY eZNewsFeed_News.ID ORDER BY $OrderBy LIMIT $offset,$limit" );
+       }
+       
        for ( $i=0; $i<count($news_array); $i++ )
        {
            $return_array[$i] = new eZNews( $news_array[$i]["NewsID"], false );
