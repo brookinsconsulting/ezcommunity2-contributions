@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: ezmysqldb.php,v 1.18 2001/07/31 22:34:03 kaid Exp $
+// $Id: ezmysqldb.php,v 1.19 2001/08/01 16:12:41 kaid Exp $
 //
 // Definition of eZMySQLDB class
 //
@@ -140,12 +140,12 @@ class eZMySQLDB
         {
             $params = $min;
             
-            if ( is_numeric( $params["Limit"] ) )
+            if ( isset( $params["Limit"] ) and is_numeric( $params["Limit"] ) )
             {
                 $limit = $params["Limit"];
             }
 
-            if ( is_numeric( $params["Offset"] ) )
+            if ( isset( $params["Offset"] ) and is_numeric( $params["Offset"] ) )
             {
                 $offset = $params["Offset"];
             }

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: index.php,v 1.90 2001/07/31 19:55:50 kaid Exp $
+// $Id: index.php,v 1.91 2001/08/01 16:12:41 kaid Exp $
 //
 // Created on: <09-Nov-2000 14:52:40 ce>
 //
@@ -160,7 +160,7 @@ $user =& eZUser::currentUser();
 $requireUserLogin =& $ini->read_var( "eZUserMain", "RequireUserLogin" );
 
 // Cookie auto login.
-if ( $HTTP_COOKIE_VARS["eZUser_AutoCookieLogin"] != false )
+if ( isset( $HTTP_COOKIE_VARS["eZUser_AutoCookieLogin"] ) and $HTTP_COOKIE_VARS["eZUser_AutoCookieLogin"] != false )
 {
     if ( ( !$user ) && ( $ini->read_var( "eZUserMain", "AutoCookieLogin" ) == "enabled" ) )
     {

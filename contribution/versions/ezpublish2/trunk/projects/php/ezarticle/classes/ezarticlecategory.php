@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezarticlecategory.php,v 1.75 2001/08/01 12:55:38 bf Exp $
+// $Id: ezarticlecategory.php,v 1.76 2001/08/01 16:12:41 kaid Exp $
 //
 // Definition of eZArticleCategory class
 //
@@ -294,7 +294,7 @@ class eZArticleCategory
 
       The categories are returned as an array of eZArticleCategory objects.      
     */
-    function getByParent( $parent, $showAll=false, $sortby=placement, $offset = 0, $max = -1 )
+    function getByParent( $parent, $showAll=false, $sortby='placement', $offset = 0, $max = -1 )
     {
         if ( get_class( $parent ) == "ezarticlecategory" )
         {
@@ -484,10 +484,15 @@ class eZArticleCategory
     */
     function name( $asHTML = true )
     {
-       if( $asHTML )
-           return htmlspecialchars( $this->Name );
+	   if ( isset( $this->Name ) )
+	   {
+           if( $asHTML )
+               return htmlspecialchars( $this->Name );
 
-       return $this->Name;
+           return $this->Name;
+	   }
+	   else
+	       return;
     }
     
     /*!
@@ -495,10 +500,15 @@ class eZArticleCategory
     */
     function description( $asHTML = true )
     {
-       if ( $asHTML )
-           return htmlspecialchars( $this->Description );
+	   if ( isset( $this->Description ) )
+	   {
+           if ( $asHTML )
+               return htmlspecialchars( $this->Description );
 
-       return $this->Description;
+           return $this->Description;
+	   }
+	   else
+	       return;
     }
 
     /*!

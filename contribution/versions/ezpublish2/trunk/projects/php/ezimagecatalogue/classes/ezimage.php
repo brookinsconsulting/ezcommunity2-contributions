@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezimage.php,v 1.72 2001/07/29 23:31:07 kaid Exp $
+// $Id: ezimage.php,v 1.73 2001/08/01 16:12:41 kaid Exp $
 //
 // Definition of eZImage class
 //
@@ -560,7 +560,10 @@ class eZImage
     */
     function id()
     {
-        return $this->ID;
+        if ( isset( $this->ID ) )
+            return $this->ID;
+        else
+            return;
     }
 
     

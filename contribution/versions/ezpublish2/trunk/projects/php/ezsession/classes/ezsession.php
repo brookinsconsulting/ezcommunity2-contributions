@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezsession.php,v 1.58 2001/07/31 11:33:11 jhe Exp $
+// $Id: ezsession.php,v 1.59 2001/08/01 16:12:42 kaid Exp $
 //
 // Definition of eZSession class
 //
@@ -256,7 +256,7 @@ class eZSession
     */
     function refresh( )
     {
-        if ( !$this->HasRefreshed )
+        if ( !isset( $this->HasRefreshed ) || !$this->HasRefreshed )
         {
             $db =& eZDB::globalDatabase();       
             $db->begin();
@@ -399,7 +399,7 @@ class eZSession
     */
     function idle( )
     {
-        if ( is_numeric( $this->StoredIdle ) )
+        if ( isset( $this->StoredIdle ) && is_numeric( $this->StoredIdle ) )
             return $this->StoredIdle;
 
         $db =& eZDB::globalDatabase();

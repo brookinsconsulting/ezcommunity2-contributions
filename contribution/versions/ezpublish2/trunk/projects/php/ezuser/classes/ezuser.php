@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezuser.php,v 1.83 2001/07/30 14:19:03 jhe Exp $
+// $Id: ezuser.php,v 1.84 2001/08/01 16:12:42 kaid Exp $
 //
 // Definition of eZUser class
 //
@@ -1088,7 +1088,7 @@ class eZUser
     */
     function timeoutValue()
     {
-        if ( is_numeric( $this->StoredTimeout ) )
+        if ( isset( $this->StoredTimeout ) && is_numeric( $this->StoredTimeout ) )
             return $this->StoredTimeout;
 
         $ret = 30;
