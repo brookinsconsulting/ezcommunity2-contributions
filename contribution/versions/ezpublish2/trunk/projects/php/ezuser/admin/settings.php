@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: settings.php,v 1.2 2001/04/19 07:36:07 jb Exp $
+// $Id: settings.php,v 1.3 2001/04/26 15:16:14 jb Exp $
 //
 // Jan Borsodi <jb@ez.no>
 // Created on: <11-Apr-2001 16:53:40 amos>
@@ -54,6 +54,7 @@ if ( $url == "/user/settings" )
 if ( isSet( $Cancel ) )
 {
     eZHTTPTool::header( "Location: $url" );
+    exit();
 }
 
 // Template
