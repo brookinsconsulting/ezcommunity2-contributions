@@ -1,6 +1,11 @@
 eZ trade changelog:
 -------------------
 
+Changes from version 1.0.4
+--------------------------
+* Fixed the article search.
+* Fixed the product search, does not output {next} and {prev}
+
 Changes from version 1.0.3
 --------------------------
 * Added French, German, Spanish and Czech translation

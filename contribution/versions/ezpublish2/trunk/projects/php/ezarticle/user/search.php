@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: search.php,v 1.4 2000/11/02 15:59:01 bf-cvs Exp $
+// $Id: search.php,v 1.5 2000/12/12 17:08:23 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <28-Oct-2000 15:56:58 bf>
@@ -53,12 +53,6 @@ $category = new eZArticleCategory( $CategoryID );
 $t->set_var( "current_category_id", $category->id() );
 $t->set_var( "current_category_name", $category->name() );
 $t->set_var( "current_category_description", $category->description() );
-
-
-if ( count( $categoryList ) > 0 )    
-    $t->parse( "category_list", "category_list_tpl" );
-else
-    $t->set_var( "category_list", "" );
 
 $t->set_var( "search_text", $SearchText );
 
