@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezcompany.php,v 1.74 2001/07/20 12:01:50 jakobn Exp $
+// $Id: ezcompany.php,v 1.75 2001/08/13 13:50:22 jhe Exp $
 //
 // Definition of eZProduct class
 //
@@ -78,7 +78,7 @@ class eZCompany
         $comment = $db->escapeString( $this->Comment );
         $type = $this->ContactType == "ezperson" ? 2 : 1;
         
-        if ( !isset( $this->ID ) or !is_numeric( $this->ID ) )
+        if ( !isSet( $this->ID ) or !is_numeric( $this->ID ) )
         {
             $db->lock( "eZContact_Company" );
             $this->ID = $db->nextID( "eZContact_Company", "ID" );
@@ -171,6 +171,7 @@ class eZCompany
                 $onlineDictID = $onlineItem[ $db->fieldName( "DID" ) ];
                 eZPhone::delete( $onlineDictID );
             }
+            
             $res[] = $db->query( "DELETE FROM eZContact_CompanyOnlineDict WHERE CompanyID='$id'" );
             $res[] = $db->query( "DELETE FROM eZContact_CompanyTypeDict WHERE CompanyID='$id'" );
             $res[] = $db->query( "DELETE FROM eZContact_Company WHERE ID='$id'" );
@@ -200,13 +201,13 @@ class eZCompany
             }
             else if ( count( $company_array ) == 1 )
             {
-                $this->ID = $company_array[0][ $db->fieldName( "ID" ) ];
-                $this->Name = $company_array[0][ $db->fieldName( "Name" ) ];
-                $this->Comment = $company_array[0][ $db->fieldName( "Comment" ) ];
-                $this->CreatorID = $company_array[0][ $db->fieldName( "CreatorID" ) ];
-                $this->CompanyNo = $company_array[0][ $db->fieldName( "CompanyNo" ) ];
-                $this->ContactID = $company_array[0][ $db->fieldName( "ContactID" ) ];
-                $type = $company_array[0][ $db->fieldName( "ContactType" ) ];
+                $this->ID = $company_array[0][$db->fieldName( "ID" )];
+                $this->Name = $company_array[0][$db->fieldName( "Name" )];
+                $this->Comment = $company_array[0][$db->fieldName( "Comment" )];
+                $this->CreatorID = $company_array[0][$db->fieldName( "CreatorID" )];
+                $this->CompanyNo = $company_array[0][$db->fieldName( "CompanyNo" )];
+                $this->ContactID = $company_array[0][$db->fieldName( "ContactID" )];
+                $type = $company_array[0][$db->fieldName( "ContactType" )];
                 $this->ContactType = $type == 2 ? "ezperson" : "ezuser";
                 $ret = true;
             }
@@ -242,9 +243,9 @@ class eZCompany
 
         $db->array_query( $company_array, "SELECT ID FROM eZContact_Company ORDER BY Name" );
 
-        foreach( $company_array as $companyItem )
+        foreach ( $company_array as $companyItem )
         {
-            $return_array[] =& new eZCompany( $companyItem[ $db->fieldName( "ID" ) ] );
+            $return_array[] =& new eZCompany( $companyItem[$db->fieldName( "ID" )] );
         }
         return $return_array;
     }
@@ -300,7 +301,7 @@ class eZCompany
 
         foreach ( $company_array as $companyItem )
         {
-            $return_array[] =& new eZCompany( $companyItem[ $db->fieldName( "CompanyID" ) ] );
+            $return_array[] =& new eZCompany( $companyItem[$db->fieldName( "CompanyID" )] );
         }
 
         return $return_array;
@@ -320,7 +321,7 @@ class eZCompany
                             WHERE eZContact_CompanyTypeDict.CompanyTypeID='$categoryID'
                             AND eZContact_Company.ID = eZContact_CompanyTypeDict.CompanyID" );
 
-        return $company_array[ $db->fieldName( "Count" ) ];
+        return $company_array[$db->fieldName( "Count" )];
     }
 
     /*!
@@ -334,7 +335,7 @@ class eZCompany
         
         $company_array = array();
         $return_array = array();
-        if( !empty( $query ) )
+        if ( !empty( $query ) )
         {
             $db->array_query( $company_array, "
                 SELECT 
@@ -350,12 +351,11 @@ class eZCompany
                     Comp.ID = Dict.CompanyID
                 ORDER BY Name" );
 
-            foreach( $company_array as $companyItem )
+            foreach ( $company_array as $companyItem )
             {
-                $return_array[] =& new eZCompany( $companyItem[ $db->fieldName( "ID" ) ] );
+                $return_array[] =& new eZCompany( $companyItem[$db->fieldName( "ID" )] );
             }
         }
-        
         return $return_array;
     }
 
@@ -374,9 +374,9 @@ class eZCompany
     
         $db->array_query( $company_array, "SELECT ID FROM eZContact_Company WHERE Name LIKE '%$query%' ORDER BY Name" );
 
-        foreach( $company_array as $companyItem )
+        foreach ( $company_array as $companyItem )
         {
-            $return_array[] =& new eZCompany( $companyItem[ $db->fieldName( "ID" ) ] );
+            $return_array[] =& new eZCompany( $companyItem[$db->fieldName( "ID" )] );
         }
         return $return_array;
     }
@@ -416,12 +416,12 @@ class eZCompany
                                               WHERE CompanyID='$companyID'",
                                               $limit_array );
 
-        foreach( $categories_array as $categoriesItem )
+        foreach ( $categories_array as $categoriesItem )
         {
             if ( $as_object )
-                $return_array[] =& new eZCompanyType( $categoriesItem[ $db->fieldName( "CompanyTypeID" ) ] );
+                $return_array[] =& new eZCompanyType( $categoriesItem[$db->fieldName( "CompanyTypeID" )] );
             else
-                $return_array[] =& $categoriesItem[ $db->fieldName( "CompanyTypeID" ) ];
+                $return_array[] =& $categoriesItem[$db->fieldName( "CompanyTypeID" )];
         }
         return $return_array;
     }
@@ -444,9 +444,9 @@ class eZCompany
                                            WHERE CAD.AddressID = A.ID AND A.AddressTypeID = AT.ID
                                                  AND CAD.CompanyID='$companyID' AND AT.Removed=0" );
 
-        foreach( $address_array as $addressItem )
+        foreach ( $address_array as $addressItem )
         {
-            $return_array[] =& new eZAddress( $addressItem[ $db->fieldName( "AddressID" ) ] );
+            $return_array[] =& new eZAddress( $addressItem[$db->fieldName( "AddressID" )] );
         }
 
         return $return_array;
@@ -485,9 +485,9 @@ class eZCompany
         $db->array_query( $address_array, "SELECT AddressID FROM eZContact_CompanyAddressDict
                                            WHERE CompanyID='$this->ID' " );
 
-        foreach( $address_array as $addressItem )
+        foreach ( $address_array as $addressItem )
         {
-            $addressID =& $addressItem[ $db->fieldName( "AddressID" ) ];
+            $addressID =& $addressItem[$db->fieldName( "AddressID" )];
             eZAddress::delete( $addressID );
         }
         $db->begin();
@@ -512,9 +512,9 @@ class eZCompany
                                          WHERE CPD.PhoneID = P.ID AND P.PhoneTypeID = PT.ID
                                                AND CPD.CompanyID='$companyID' AND PT.Removed=0" );
 
-        foreach( $phone_array as $phoneItem )
+        foreach ( $phone_array as $phoneItem )
         {
-            $return_array[] =& new eZPhone( $phoneItem[ $db->fieldName( "PhoneID" ) ] );
+            $return_array[] =& new eZPhone( $phoneItem[$db->fieldName( "PhoneID" )] );
         }
 
         return $return_array;
@@ -552,9 +552,9 @@ class eZCompany
         $db->array_query( $phone_array, "SELECT PhoneID FROM
                                          eZContact_CompanyPhoneDict WHERE CompanyID='$this->ID' " );
 
-        foreach( $phone_array as $phoneItem )
+        foreach ( $phone_array as $phoneItem )
         {
-            $phoneID =& $phoneItem[ $db->fieldName( "PhoneID" ) ];
+            $phoneID =& $phoneItem[$db->fieldName( "PhoneID" )];
             eZPhone::delete( $phoneID );
         }
         $res[] = $db->query( "DELETE FROM eZContact_CompanyPhoneDict WHERE CompanyID='$this->ID'" );
@@ -578,9 +578,9 @@ class eZCompany
                                           WHERE COD.OnlineID = O.ID AND O.OnlineTypeID = OT.ID
                                                 AND COD.CompanyID='$this->ID' AND OT.Removed=0" );
 
-        foreach( $online_array as $onlineItem )
+        foreach ( $online_array as $onlineItem )
         {
-            $return_array[] =& new eZOnline( $onlineItem[ $db->fieldName( "OnlineID" ) ] );
+            $return_array[] =& new eZOnline( $onlineItem[$db->fieldName( "OnlineID" )] );
         }
 
         return $return_array;
@@ -618,9 +618,9 @@ class eZCompany
         $db->array_query( $online_array, "SELECT OnlineID FROM eZContact_CompanyOnlineDict
                                           WHERE CompanyID='$this->ID' " );
 
-        foreach( $online_array as $onlineItem )
+        foreach ( $online_array as $onlineItem )
         {
-            $onlineID =& $onlineItem[ $db->fieldName( "OnlineID" ) ];
+            $onlineID =& $onlineItem[$db->fieldName( "OnlineID" )];
             eZOnline::delete( $onlineID );
         }
         
@@ -662,7 +662,7 @@ class eZCompany
 
         for ( $i = 0; $i < count( $image_array ); $i++ )
         {
-            $return_array[$i] =& new eZImage( $image_array[$i][ $db->fieldName( "ImageID" ) ], false );
+            $return_array[$i] =& new eZImage( $image_array[$i][$db->fieldName( "ImageID" )], false );
         }
        
         return $return_array;
@@ -695,10 +695,10 @@ class eZCompany
 
         if ( count( $res_array ) == 1 )
         {
-            if ( $res_array[0][ $db->fieldName( "LogoImageID" ) ] != "NULL"
-            and $res_array[0][ $db->fieldName( "LogoImageID" ) ] != "0" )
+            if ( $res_array[0][$db->fieldName( "LogoImageID" )] != "NULL"
+            and $res_array[0][$db->fieldName( "LogoImageID" )] != "0" )
             {
-                $ret = new eZImage( $res_array[0][ $db->fieldName( "LogoImageID" ) ], false );
+                $ret = new eZImage( $res_array[0][$db->fieldName( "LogoImageID" )], false );
             }
         }
         return $ret;
@@ -796,7 +796,7 @@ class eZCompany
             $db->array_query( $res_array, "SELECT COUNT(*) AS Number FROM eZContact_CompanyImageDefinition
                                            WHERE CompanyID='$id'" );
 
-            if ( $res_array[0][ $db->fieldName( "Number" ) ] == "1" )
+            if ( $res_array[0][$db->fieldName( "Number" )] == "1" )
             {            
                 $res[] = $db->query( "UPDATE eZContact_CompanyImageDefinition
                                       SET
@@ -837,7 +837,7 @@ class eZCompany
             if ( $res_array[0][ $db->fieldName( "CompanyImageID" ) ] != "NULL"
             and $res_array[0][ $db->fieldName( "CompanyImageID" ) ] != "0" )
             {
-                $ret = new eZImage( $res_array[0][ $db->fieldName( "CompanyImageID" ) ], false );
+                $ret = new eZImage( $res_array[0][$db->fieldName( "CompanyImageID" )], false );
             }
         }
 
@@ -974,9 +974,9 @@ class eZCompany
                            WHERE ((eZContact_Person.FirstName LIKE '%$query%' OR eZContact_Person.LastName LIKE '%$query%')
                            AND eZContact_Company.ID=eZContact_Person.Company) GROUP BY eZContact_Company.ID ORDER BY eZContact_Company.ID" );
 
-        foreach( $company_array as $companyItem )
+        foreach ( $company_array as $companyItem )
         {
-            $return_array[] =& new eZCompany( $companyItem[ $db->fieldName( "ID" ) ] );
+            $return_array[] =& new eZCompany( $companyItem[$db->fieldName( "ID" )] );
         }
         return $return_array;
     }    
@@ -993,9 +993,9 @@ class eZCompany
         $checkQuery = "SELECT ProjectID FROM eZContact_CompanyProjectDict WHERE CompanyID='$this->ID'";
         $db->array_query( $array, $checkQuery, 0, 1 );
 
-        if( count( $array ) == 1 )
+        if ( count( $array ) == 1 )
         {
-            $ret =& $array[0][ $db->fieldName( "ProjectID" ) ];
+            $ret =& $array[0][$db->fieldName( "ProjectID" )];
         }
 
         return $ret;
@@ -1075,7 +1075,7 @@ class eZCompany
         $db->query_single( $arr, "SELECT count( PersonID ) AS Count
                                   FROM eZContact_CompanyPersonDict
                                   WHERE CompanyID='$id'" );
-        return $arr[ $db->fieldName( "Count" ) ];
+        return $arr[$db->fieldName( "Count" )];
     }
 
     /*!
@@ -1097,14 +1097,14 @@ class eZCompany
         $ret = array();
         if ( $as_object )
         {
-            foreach( $arr as $row )
+            foreach ( $arr as $row )
             {
                 $ret[] = new eZPerson( $row[ $db->fieldName( "PersonID" ) ] );
             }
         }
         else
         {
-            foreach( $arr as $row )
+            foreach ( $arr as $row )
             {
                 $ret[] = $row[ $db->fieldName( "PersonID" ) ];
             }
@@ -1126,7 +1126,7 @@ class eZCompany
                                              CompanyID='$company_id'", 0, 1 );
         if ( count( $qry_array ) == 1 )
         {
-            $id = $qry_array[0][ $db->fieldName( "ID" ) ];
+            $id = $qry_array[0][$db->fieldName( "ID" )];
             $res[] = $db->query( "UPDATE eZContact_CompanyView
                                   SET Count=Count+1, Date='$timestamp'
                                   WHERE ID='$id'" );
@@ -1152,7 +1152,7 @@ class eZCompany
         $db =& eZDB::globalDatabase();
         $db->query_single( $row, "SELECT sum( Count ) AS Count FROM eZContact_CompanyView
                                   WHERE CompanyID='$this->ID'" );
-        return $row[ $db->fieldName( "Count" ) ];
+        return $row[$db->fieldName( "Count" )];
     }
 
     /*!
@@ -1170,7 +1170,7 @@ class eZCompany
             $date = new eZDate();
             $year = $date->year();
         }
-        for( $i = 0; $i < 12; $i++ )
+        for ( $i = 0; $i < 12; $i++ )
         {
             $month_num = $i + 1;
             $date = new eZDate( $year, $month_num, 1 );
@@ -1221,9 +1221,9 @@ class eZCompany
                                   FROM eZContact_CompanyView
                                   WHERE CompanyID='$this->ID' AND
                                         Date LIKE '$date'" );
-        if ( $row[ $db->fieldName( "Num" ) ] == 0 )
+        if ( $row[$db->fieldName( "Num" )] == 0 )
             return false;
-        return $row[ $db->fieldName( "Count" ) ];
+        return $row[$db->fieldName( "Count" )];
     }
 
     var $ID;

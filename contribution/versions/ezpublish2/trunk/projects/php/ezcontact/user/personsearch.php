@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: personsearch.php,v 1.1 2001/07/25 10:22:59 jhe Exp $
+// $Id: personsearch.php,v 1.2 2001/08/13 13:50:22 jhe Exp $
 //
 // Created on: <25-Jul-2001 12:43:04 jhe>
 //
@@ -44,14 +44,14 @@ $t->set_file( "search", "personsearch.tpl" );
 $t->set_block( "search", "current_type_tpl", "current_type" );
 $t->set_block( "search", "list_tpl", "list" );
 $t->set_block( "search", "not_root_tpl", "not_root" );
-
 $t->set_block( "search", "category_list_tpl", "category_list" );
-
 $t->set_block( "search", "no_type_item_tpl", "no_type_item" );
 $t->set_block( "search", "no_category_item_tpl", "no_category_item" );
 $t->set_block( "search", "person_item_tpl", "person_item" );
 $t->set_block( "search", "no_companies_tpl", "no_companies" );
 $t->set_block( "search", "companies_table_tpl", "companies_table" );
+$t->set_block( "search", "person_new_button_tpl", "person_new_button" );
+
 $t->set_block( "companies_table_tpl", "person_stats_header_tpl", "person_stats_header" );
 
 $t->set_block( "person_item_tpl", "person_view_button_tpl", "person_view_button" );
@@ -60,7 +60,6 @@ $t->set_block( "person_item_tpl", "person_consultation_button_tpl", "person_cons
 $t->set_block( "person_item_tpl", "person_edit_button_tpl", "person_edit_button" );
 $t->set_block( "person_item_tpl", "person_delete_button_tpl", "person_delete_button" );
 $t->set_block( "person_item_tpl", "person_stats_item_tpl", "person_stats_item" );
-$t->set_block( "search", "person_new_button_tpl", "person_new_button" );
 
 $t->set_var( "search_box", "" );
 $t->set_var( "search_results", "" );

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezmail.php,v 1.39 2001/08/10 12:15:26 jhe Exp $
+// $Id: ezmail.php,v 1.40 2001/08/13 13:50:22 jhe Exp $
 //
 // Definition of eZMail class
 //
@@ -617,7 +617,7 @@ class eZMail
     /*
       Returns the first folder that this mail is a member of.
      */
-    function folder( $AsObject = true )
+    function folder( $as_object = true )
     {
         $res = array();
         $db =& eZDB::globalDatabase();
@@ -625,10 +625,10 @@ class eZMail
 
         if ( count( $res ) > 0 )
         {
-            if ( $AsObject == true )
+            if ( $as_object )
                 return new eZMailFolder( $res[0][$db->fieldName( "FolderID" )] );
-
-            return $res[0][$db->fieldName( "FolderID" )];
+            else
+                return $res[0][$db->fieldName( "FolderID" )];
         }
 
         return false;
@@ -952,6 +952,29 @@ class eZMail
         return $multipart .= "--\n";
     }
 
+    /*!
+      \static
+
+      returns every mail that is containing the search string
+    */
+    function search( $text )
+    {
+        $db =& eZDB::globalDatabase();
+        $return_array = array();
+        
+        $db->array_query( $id_array, "SELECT ID FROM eZMail_Mail WHERE
+                                          ToField LIKE '%$text%' OR
+                                          FromField LIKE '%$text%' OR
+                                          CC LIKE '%$text%' OR
+                                          Subject LIKE '%$text%' OR
+                                          BodyText LIKE '%$text%'
+                                          ORDER BY Subject" );
+        foreach ( $id_array as $id )
+        {
+            $return_array[] =& new eZMail( $id[$db->fieldName( "ID" )] );
+        }
+        return $return_array;
+    }
 
     /// this variable is only used during the buildup of a mail that is beeing sent. NEVER access directly!!!
     var $parts;

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezvirtualfile.php,v 1.42 2001/08/03 07:13:17 jhe Exp $
+// $Id: ezvirtualfile.php,v 1.43 2001/08/13 13:50:22 jhe Exp $
 //
 // Definition of eZVirtualFile class
 //
@@ -332,7 +332,7 @@ class eZVirtualfile
             return false;
         
         $db =& eZDB::globalDatabase();
-        $dadb->query_single( $res, "SELECT UserID from eZFileManager_File WHERE ID='$file'");
+        $db->query_single( $res, "SELECT UserID from eZFileManager_File WHERE ID='$file'");
         $userID = $res[$db->fieldName( "UserID" )];
         if(  $userID == $user->id() )
             return true;
@@ -347,7 +347,7 @@ class eZVirtualfile
       If $relative is set to true the path is returned relative.
       Absolute is default.
     */
-    function &filePath( $relative=false )
+    function &filePath( $relative = false )
     {
         if ( $relative == true )
         {

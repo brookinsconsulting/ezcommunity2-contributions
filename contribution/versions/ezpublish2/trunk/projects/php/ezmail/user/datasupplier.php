@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: datasupplier.php,v 1.20 2001/07/20 11:18:28 jakobn Exp $
+// $Id: datasupplier.php,v 1.21 2001/08/13 13:50:22 jhe Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -25,13 +25,13 @@
 
 include_once( "classes/ezhttptool.php" );
 include_once( "ezmail/classes/ezmailaccount.php" );
-include_once( "ezuser/classes/ezuser.php" );
 include_once( "ezmail/classes/ezmailfolder.php" );
+include_once( "ezuser/classes/ezuser.php" );
 
 $ini =& INIFile::globalINI();
 $GlobalSectionID = $ini->read_var( "eZUserMain", "DefaultSection" );
 
-switch( $url_array[2] )
+switch ( $url_array[2] )
 {
     case "foldersort" : // change the sort mode of the folder list
     {
@@ -46,9 +46,9 @@ switch( $url_array[2] )
     {
         $FolderID = $url_array[3];
         $Offset = $url_array[4];
-        if( $Offset == "" )
+        if ( $Offset == "" )
             $Offset = 0;
-//        if( $FolderID == "" )
+//        if ( $FolderID == "" )
 //            $FolderID = get INBOX.
         
         include( "ezmail/user/maillist.php" );
@@ -65,7 +65,7 @@ switch( $url_array[2] )
     case "folderedit" :
     {
         $FolderID = $url_array[3];
-        if( $FolderID == "" )
+        if ( $FolderID == "" )
             $FolderID = 0;
         include( "ezmail/user/folderedit.php" );
     }
@@ -80,7 +80,7 @@ switch( $url_array[2] )
     case "mailedit" :
     {
         $MailID = $url_array[3];
-        if( $MailID == "" )
+        if ( $MailID == "" )
             $MailID = 0;
         include( "ezmail/user/mailedit.php" );
     }
@@ -89,7 +89,7 @@ switch( $url_array[2] )
     case "fileedit" :
     {
         $MailID = $url_array[3];
-        if( $MailID == "" )
+        if ( $MailID == "" )
             $MailID = 0;
         include( "ezmail/user/fileedit.php" );
     }
@@ -104,7 +104,7 @@ switch( $url_array[2] )
     case "accountedit" :
     {
         $AccountID = $url_array[3];
-        if( $AccountID == "" )
+        if ( $AccountID == "" )
             $AccountID = 0;
         include( "ezmail/user/accountedit.php" );
     }
@@ -113,12 +113,12 @@ switch( $url_array[2] )
     case "check" : // check the mail for this user!
     {
 
-        $user = eZUser::currentUser();
+        $user =& eZUser::currentUser();
         $accounts = eZMailAccount::getByUser( $user->id() );
 
-        foreach( $accounts as $account )
+        foreach ( $accounts as $account )
         {
-            if( $account->isActive() )
+            if ( $account->isActive() )
                 $account->checkMail();
         }
 
@@ -138,9 +138,15 @@ switch( $url_array[2] )
     case "filteredit" :
     {
         $FilterID = $url_array[3];
-        if( $FilterID == "" )
+        if ( $FilterID == "" )
             $FilterID = 0;
         include_once( "ezmail/user/filteredit.php" );
+    }
+    break;
+
+    case "search" :
+    {
+        include_once( "ezmail/user/search.php" );
     }
     break;
     

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezmailfolder.php,v 1.26 2001/07/20 11:18:28 jakobn Exp $
+// $Id: ezmailfolder.php,v 1.27 2001/08/13 13:50:22 jhe Exp $
 //
 // eZMailFolder class
 //
@@ -68,13 +68,13 @@ class eZMailFolder
     {
         $db =& eZDB::globalDatabase();
         
-        if( $id == -1 )
+        if ( $id == -1 )
             $id = $this->ID;
 
         $db->query( "DELETE FROM eZMail_Folder WHERE ID='$id'" );
 
         $mail = eZMailFolder::mail( "subject", 0, 10000, $id );
-        foreach( $mail as $mailItem )
+        foreach ( $mail as $mailItem )
             $mailItem->delete();
     }
 
@@ -87,7 +87,7 @@ class eZMailFolder
 
         $name = $db->escapeString( $this->Name );
         $db->begin();
-        if ( !isset( $this->ID ) )
+        if ( !isSet( $this->ID ) )
         {
             $db->lock( "eZMail_Folder" );
             $nextID = $db->nextID( "eZMail_Folder", "ID" );            
@@ -139,7 +139,7 @@ class eZMailFolder
             {
                 die( "Error: Mail folders with the same ID was found in the database. This should not happen." );
             }
-            else if( count( $account_array ) == 1 )
+            else if ( count( $account_array ) == 1 )
             {
 
                 $this->ID = $account_array[0][ $db->fieldName("ID") ];
@@ -175,7 +175,7 @@ class eZMailFolder
     */
     function setUser( $value )
     {
-        if( get_class( $value ) == "ezuser" )
+        if ( get_class( $value ) == "ezuser" )
             $value = $value->id();
         
         $this->UserID = $value;
@@ -251,7 +251,7 @@ class eZMailFolder
 
        $db =& eZDB::globalDatabase();
        $db->begin();
-       if( $removeFromOld == true )
+       if ( $removeFromOld == true )
            $results[] = $db->query( "DELETE FROM eZMail_MailFolderLink WHERE MailID='$mail'" );
        
        $query = "INSERT INTO eZMail_MailFolderLink ( FolderID, MailID ) VALUES
@@ -328,16 +328,16 @@ class eZMailFolder
      */
     function getByUser( $user = false, $withSpecialFolders=false, $parentFolder = -1 )
     {
-        if( get_class( $user ) != "ezuser" )
+        if ( get_class( $user ) != "ezuser" )
             $user = eZUser::currentUser();
 
         $noSpecial = "";
-        if( $withSpecialFolders == false )
+        if ( $withSpecialFolders == false )
         {
             $noSpecial = "AND FolderType='0'";
         }
         $parentFolderSQL = "";
-        if( $parentFolder != -1 )
+        if ( $parentFolder != -1 )
             $parentFolderSQL = "AND ParentID='$parentFolder'";
         
         $return_array = array();
@@ -386,7 +386,7 @@ class eZMailFolder
      */
     function &mail( $sortmode="subject_asc", $offset=0, $limit=50, $folderID = -1 )
     {
-        if( $folderID == -1 )
+        if ( $folderID == -1 )
             $folderID = $this->ID;
 
         $orderBySQL = "Mail.UDate ASC";
@@ -452,11 +452,11 @@ class eZMailFolder
     {
         $db =& eZDB::globalDatabase();
 
-        if( $folderID == -1 )
+        if ( $folderID == -1 )
             $folderID = $this->ID;
         
         $unreadSQL = "";
-        if( $unreadOnly == true )
+        if ( $unreadOnly == true )
             $unreadSQL = "AND Mail.Status='0'";
         
         $db->query_single( $res, "SELECT count( Mail.ID ) as Count from eZMail_Mail as Mail,
@@ -477,19 +477,19 @@ class eZMailFolder
      */
     function getSpecialFolder( $specialType, $user=false ) 
     {
-        if( get_class( $user ) != "ezuser" )
+        if ( get_class( $user ) != "ezuser" )
             $user =& eZUser::currentUser();
 
         $userid = $user->id();
 
-        if( $userid == 0 )
+        if ( $userid == 0 )
             return false;
 
         $db = eZDB::globalDatabase();
         $db->query_single( $res, "SELECT ID FROM eZMail_Folder WHERE FolderType='$specialType' AND UserID='$userid'" );
 
 //        echo $res[$db->fieldName( "ID" )];
-        if( $res[$db->fieldName( "ID" )] != "" ) 
+        if ( $res[$db->fieldName( "ID" )] != "" ) 
             return new eZMailFolder(  $res[$db->fieldName( "ID" )] );
 
         $ini =& INIFile::globalINI();
@@ -548,17 +548,17 @@ class eZMailFolder
         $return_value = false;
         $db =& eZDB::globalDatabase();
 
-        if( get_class( $folderID ) == "ezmailfolder" )
+        if ( get_class( $folderID ) == "ezmailfolder" )
             $folderID = $folderID->id();
 
-        if( $check_for_self == true && $folderID == $this->ID )
+        if ( $check_for_self == true && $folderID == $this->ID )
             return true;
         
-        while( $folderID != 0 )
+        while ( $folderID != 0 )
         {
             $db->query_single( $result, "SELECT ParentID FROM eZMail_Folder WHERE ID='$folderID'" );
             $folderID = $result[$db->fieldName("ParentID")];
-            if( $folderID == $this->ID )
+            if ( $folderID == $this->ID )
                 return true;
         }
         return $return_value;

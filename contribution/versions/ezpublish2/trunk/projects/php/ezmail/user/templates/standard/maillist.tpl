@@ -1,4 +1,16 @@
-<h1>{intl-mail} - {current_folder_name}</h1>
+<table width="100%" border="0">
+<tr>
+        <td valign="bottom">
+        <h1>{intl-mail} - {current_folder_name}</h1>
+        </td>
+              <td rowspan="2" align="right">  
+              <form action="{www_dir}{index}/mail/search/" method="post">
+              <input type="text" name="SearchText" size="12" />
+              <input class="stdbutton" type="submit" value="{intl-search}" />
+              </form>
+        </td>
+</tr>
+</table>
 
 <hr noshade="noshade" size="4" />
 
@@ -78,7 +90,7 @@
 	<b>{mail_size}</b>
 	</td>
 	<td class="{td_class}">
-	<b>{mail_date}</b>
+	<b><span class="small">{mail_date}</span></b>
 	</td>
 	<td class="{td_class}">
 	&nbsp;

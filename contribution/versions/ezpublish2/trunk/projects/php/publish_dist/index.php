@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: index.php,v 1.92 2001/08/01 16:22:22 kaid Exp $
+// $Id: index.php,v 1.93 2001/08/13 13:50:22 jhe Exp $
 //
 // Created on: <09-Nov-2000 14:52:40 ce>
 //
@@ -35,7 +35,7 @@ if ( file_exists( "sitedir.ini" ) )
 }
 
 // TODO: This needs a better analysis
-if ( isset( $siteDir ) and $siteDir != "" )
+if ( isSet( $siteDir ) and $siteDir != "" )
 {
     $includePath = ini_get( "include_path" );
     $includePath .= ":" . $siteDir;
@@ -160,7 +160,7 @@ $user =& eZUser::currentUser();
 $requireUserLogin =& $ini->read_var( "eZUserMain", "RequireUserLogin" );
 
 // Cookie auto login.
-if ( isset( $HTTP_COOKIE_VARS["eZUser_AutoCookieLogin"] ) and $HTTP_COOKIE_VARS["eZUser_AutoCookieLogin"] != false )
+if ( isSet( $HTTP_COOKIE_VARS["eZUser_AutoCookieLogin"] ) and $HTTP_COOKIE_VARS["eZUser_AutoCookieLogin"] != false )
 {
     if ( ( !$user ) && ( $ini->read_var( "eZUserMain", "AutoCookieLogin" ) == "enabled" ) )
     {
@@ -190,8 +190,16 @@ if ( ( $requireUserLogin == "disabled" ) ||
         if ( $ini->read_var( "site", "DefaultPage" ) == "disabled" )
         {
             $REQUEST_URI = "/article/archive/0/";
-            $url_array = explode( "/", $REQUEST_URI );
         }
+        if ( $user )
+        {
+            $mainGroup = $user->groupDefinition( true );
+            if ( ( $mainGroup ) && $mainGroup->groupURL() )
+            {
+                $REQUEST_URI = $mainGroup->groupURL();
+            }
+        }
+        $url_array = explode( "/", $REQUEST_URI );
     }
     
     // Load the main contents and store in a variable
@@ -202,11 +210,10 @@ if ( ( $requireUserLogin == "disabled" ) ||
     $SiteCache = $ini->read_var( "site", "SiteCache" );
 
     if ( $REQUEST_METHOD == "POST" ||
-    $url_array[1] == "forum" ||
-    $url_array[1] == "user" ||
-    $url_array[1] == "error" ||
-    $url_array[1] == "poll" 
-         )
+         $url_array[1] == "forum" ||
+         $url_array[1] == "user" ||
+         $url_array[1] == "error" ||
+         $url_array[1] == "poll" )
     {
         $SiteCache = "disabled";
     }
@@ -239,7 +246,7 @@ if ( ( $requireUserLogin == "disabled" ) ||
             }
         }        
     }
-        
+    
     if ( $StoreSiteCache || $SiteCache == "disabled" )
     {
         $buffer =& ob_get_contents();
@@ -302,7 +309,7 @@ if ( ( $requireUserLogin == "disabled" ) ||
 
 
         // include framework
-        if ( isset( $PrintableVersion ) and $PrintableVersion == "enabled" )
+        if ( isSet( $PrintableVersion ) and $PrintableVersion == "enabled" )
         {
             include( "sitedesign/$siteDesign/simpleframe.php" );
         }
@@ -315,13 +322,12 @@ if ( ( $requireUserLogin == "disabled" ) ||
         // store site cache
         if ( $StoreSiteCache == true )
         {
-            $fp = fopen ( $SiteCacheFile, "w+");
+            $fp = fopen( $SiteCacheFile, "w+");
 
             $SiteContents =& ob_get_contents();
-            fwrite ( $fp, $SiteContents );
+            fwrite( $fp, $SiteContents );
             fclose( $fp );
         }
-        
     }
     else
     {
@@ -331,7 +337,6 @@ if ( ( $requireUserLogin == "disabled" ) ||
 }
 else
 {
-
     // parse the URI
     $page = "";
 

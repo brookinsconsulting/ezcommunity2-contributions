@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: maillist.php,v 1.20 2001/07/26 14:33:45 fh Exp $
+// $Id: maillist.php,v 1.21 2001/08/13 13:50:22 jhe Exp $
 //
 // Created on: <19-Mar-2000 20:25:22 fh>
 //
@@ -38,16 +38,16 @@ include_once( "ezsession/classes/ezpreferences.php" );
 
 $Limit = 50;
 
-if( isset( $NewFolder ) )
+if ( isSet( $NewFolder ) )
 {
     eZHTTPTool::header( "Location: /mail/folderedit/" );
     exit();
 }
 
-if( isset( $Move ) && $FolderSelectID != -1 && count( $MailArrayID ) > 0 ) // really move to other folder
+if ( isSet( $Move ) && $FolderSelectID != -1 && count( $MailArrayID ) > 0 ) // really move to other folder
 {
     $folder = new eZMailFolder( $FolderSelectID );
-    foreach( $MailArrayID as $mailitemID )
+    foreach ( $MailArrayID as $mailitemID )
         $folder->addMail( $mailitemID );
 }
 
@@ -58,9 +58,7 @@ $t = new eZTemplate( "ezmail/user/" . $ini->read_var( "eZMailMain", "TemplateDir
                      "ezmail/user/intl/", $Language, "maillist.php" );
 $t->setAllStrings();
 
-$t->set_file( array(
-    "mail_list_page_tpl" => "maillist.tpl"
-    ) );
+$t->set_file( "mail_list_page_tpl", "maillist.tpl" );
 
 $t->set_var( "site_style", $SiteStyle );
 $t->set_block( "mail_list_page_tpl", "mail_item_tpl", "mail_item" );
@@ -89,36 +87,36 @@ $t->set_var( "mail_status_renderer", "" );
 
 $folder = new eZMailFolder( $FolderID );
 $isDraftsFolder = false;
-if( $folder->folderType() == DRAFTS )
+if ( $folder->folderType() == DRAFTS )
     $isDraftsFolder = true;
 
 
 // check if the sort mode is changed...
 $preferences = new eZPreferences();
-if( isset( $SortMethod ) ) // the sorting method has changed..
+if ( isSet( $SortMethod ) ) // the sorting method has changed..
 {
     $currentMethod = $preferences->variable( "MailSortMethod" );
     $newMethod = "";
-    switch( $SortMethod )
+    switch ( $SortMethod )
     {
         case "subject" :
         {
-            $newMethod = ( $currentMethod == "subject_asc" )? "subject_desc": "subject_asc";
+            $newMethod = ( $currentMethod == "subject_asc" ) ? "subject_desc" : "subject_asc";
         }
         break;
         case  "from" :
         {
-            $newMethod = ( $currentMethod == "from_asc" )? "from_desc": "from_asc";
+            $newMethod = ( $currentMethod == "from_asc" ) ? "from_desc" : "from_asc";
         }
         break;
         case "date" :
         {
-            $newMethod = ( $currentMethod == "date_asc" )? "date_desc": "date_asc";
+            $newMethod = ( $currentMethod == "date_asc" ) ? "date_desc" : "date_asc";
         }
         break;
         case "size" :
         {
-            $newMethod = ( $currentMethod == "size_asc" )? "size_desc": "size_asc";
+            $newMethod = ( $currentMethod == "size_asc" ) ? "size_desc" : "size_asc";
         }
         break;
         default :
@@ -137,13 +135,13 @@ $sort = $preferences->variable( "MailSortMethod");
 $mail = $folder->mail( $sort, $Offset, $Limit );
 $mailCount = $folder->mailCount();
 $i = 0;
-foreach( $mail as $mailItem )
+foreach ( $mail as $mailItem )
 {
     $t->set_var( "mail_id", $mailItem->id() );
     $t->set_var( "mail_subject", htmlspecialchars( $mailItem->subject() ), "-" );
     $t->set_var( "mail_sender", htmlspecialchars( $mailItem->sender() ) );
 
-    switch( $mailItem->status() )
+    switch ( $mailItem->status() )
     {
         case UNREAD : $t->parse( "mail_status_renderer", "mail_unread_tpl", false ); break;
         case READ : $t->parse( "mail_status_renderer", "mail_read_tpl", false ); break;
@@ -157,7 +155,7 @@ foreach( $mail as $mailItem )
     $t->set_var( "mail_date", date("D M d H:i Y ", $mailItem->uDate() ) );
     ( $i % 2 ) ? $t->set_var( "td_class", "bgdark" ) : $t->set_var( "td_class", "bglight" );
     
-    if( $mailItem->status() == UNREAD )
+    if ( $mailItem->status() == UNREAD )
         $t->parse( "mail_render", "mail_item_unread_tpl", true );
     else
     {
@@ -169,7 +167,7 @@ foreach( $mail as $mailItem )
 }
 
 /* insert the standard folders first */
-foreach( array( INBOX, SENT, DRAFTS, TRASH ) as $specialfolder )
+foreach ( array( INBOX, SENT, DRAFTS, TRASH ) as $specialfolder )
 {
     $folderItem = eZMailFolder::getSpecialFolder( $specialfolder );
     $t->set_var( "folder_id", $folderItem->id() );
@@ -178,7 +176,7 @@ foreach( array( INBOX, SENT, DRAFTS, TRASH ) as $specialfolder )
 }
 
 $folders = eZMailFolder::getByUser();
-foreach( $folders as $folderItem )
+foreach ( $folders as $folderItem )
 {
     $t->set_var( "folder_id", $folderItem->id() );
     $t->set_var( "folder_name", $folderItem->name() );
@@ -188,4 +186,5 @@ foreach( $folders as $folderItem )
 eZList::drawNavigator( $t, $mailCount, $Limit, $Offset, "mail_list_page_tpl" );
 
 $t->pparse( "output", "mail_list_page_tpl" );
+
 ?>

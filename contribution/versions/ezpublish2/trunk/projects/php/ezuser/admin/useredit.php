@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: useredit.php,v 1.27 2001/08/10 12:15:26 jhe Exp $
+// $Id: useredit.php,v 1.28 2001/08/13 13:50:22 jhe Exp $
 //
 // Created on: <20-Sep-2000 13:32:11 ce>
 //
@@ -334,6 +334,7 @@ else // either new or failed edit... must put htmlspecialchars on stuff we got f
     $Login = htmlspecialchars( $Login );
     $Signature = htmlspecialchars( $Signature );
     $Email = htmlspecialchars( $Email );
+    $user =& eZUser::currentUser();
 }
 
 $mainGroup = $user->groupDefinition();
