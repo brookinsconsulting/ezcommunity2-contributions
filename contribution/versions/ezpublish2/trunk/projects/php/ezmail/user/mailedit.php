@@ -77,9 +77,9 @@ if( isset( $Send ) )
     }
 }
 
-if( isset( $Cc ) )
+if( isset( $CcButton ) )
     $showcc = true;
-if( isset( $Bcc ) )
+if( isset( $BccButton ) )
     $showbcc = true;
 
 $ini =& INIFile::globalINI();
@@ -169,6 +169,19 @@ if( $MailID != 0 && eZMail::isOwner( eZUser::currentUser(), $MailID ) ) // load 
         $t->parse( "attachment_delete", "attachment_delete_tpl" );
         $t->parse( "inserted_attachments", "inserted_attachments_tpl", false );
     }
+}
+else if( $MailID == 0 && ( $showcc || $showbcc ) ) //mail not saved, but there is data
+{
+    $t->set_var( "to_value", htmlspecialchars( $To ) );
+    $t->set_var( "from_value", htmlspecialchars( $From ) );
+    $t->set_var( "cc_value", htmlspecialchars( $Cc ) );
+    $t->set_var( "bcc_value", htmlspecialchars( $Bcc ) );
+    $t->set_var( "subject_value",  htmlspecialchars( $Subject ) );
+    $t->set_var( "mail_body", htmlspecialchars( $MailBody ) );
+    if( $Cc != "" )
+        $showcc = true;
+    if( $Bcc != "" )
+        $showbcc = true;
 }
 
 // check if we have any errors... if yes. show them to the user

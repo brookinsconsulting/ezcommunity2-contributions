@@ -29,15 +29,15 @@
 <tr>
 <!-- 
   <td>
-    <input class="stdbutton" type="submit" name="To" value="{intl-to}:" />
+    <input class="stdbutton" type="submit" name="ToButton" value="{intl-to}:" />
   </td>
   <td>&nbsp;</td> -->
   <td>
-    <input class="stdbutton" type="submit" name="Cc" value="{intl-cc}:" />
+    <input class="stdbutton" type="submit" name="CcButton" value="{intl-cc}:" />
   </td>
   <td>&nbsp;</td>
   <td>
-    <input class="stdbutton" type="submit" name="Bcc" value="{intl-bcc}:" />
+    <input class="stdbutton" type="submit" name="BccButton" value="{intl-bcc}:" />
   </td>
 </tr>
 </table>
