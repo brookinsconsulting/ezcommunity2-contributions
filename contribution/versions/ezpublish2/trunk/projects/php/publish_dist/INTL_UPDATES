@@ -4,6 +4,10 @@ Example:
 mod: bug/user, fileedit.php.ini
 change: added user_edit=Some text
 --------------------------------------------------------------------
+### 2.0 - 2.0.1 ####################
+mod: ezbug/user/, menubox.php.ini
+change: added bug_unhandled
+
 
 #### PRE2 - 2.0 Final ####################
 
