@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: productedit.php,v 1.16 2000/10/29 10:32:11 bf-cvs Exp $
+// $Id: productedit.php,v 1.17 2000/10/31 20:47:36 bf-cvs Exp $
 //
 // Definition of eZCompany class
 //
@@ -157,33 +157,56 @@ if ( $Action == "Update" )
     $parentCategory->addProduct( $product );
 
 
-    // add options
-    if ( isset( $Option ) )
-    {
-        Header( "Location: /trade/productedit/optionlist/$productID/" );
-        exit();
-    }
-
-    // add images
-    if ( isset( $Image ) )
-    {
-        Header( "Location: /trade/productedit/imagelist/$productID/" );
-        exit();
-    }
+    // delete cache
+    // $cachedFile = "eztrade/cache/productview," .$ProductID . "," . $CategoryID .".cache";
     
-    // preview
-    if ( isset( $Preview ) )
-    {
-        Header( "Location: /trade/productedit/productpreview/$productID/" );
-        exit();
-    }
+    // clear the cache files.
+    $dir = dir( "eztrade/cache/" );
 
-    // get the category to redirect to
-    $categories = $product->categories();    
-    $categoryID = $categories[0]->id();
+    while( $entry = $dir->read() )
+    { 
+        if ( $entry != "." && $entry != ".." )
+        {
+            print( $entry );
+            if ( ereg( "productview,(.*?),.*", $entry, $regArray  ) )
+            {
+                if ( $regArray[1] == $ProductID )
+                {
+                    unlink( "eztrade/cache/" . $entry );
+                }
+            }
+        } 
+    } 
+    $dir->close();
+
+
+//      // add options
+//      if ( isset( $Option ) )
+//      {
+//          Header( "Location: /trade/productedit/optionlist/$productID/" );
+//          exit();
+//      }
+
+//      // add images
+//      if ( isset( $Image ) )
+//      {
+//          Header( "Location: /trade/productedit/imagelist/$productID/" );
+//          exit();
+//      }
     
-    Header( "Location: /trade/categorylist/parent/$categoryID" );
-    exit();
+//      // preview
+//      if ( isset( $Preview ) )
+//      {
+//          Header( "Location: /trade/productedit/productpreview/$productID/" );
+//          exit();
+//      }
+
+//      // get the category to redirect to
+//      $categories = $product->categories();    
+//      $categoryID = $categories[0]->id();
+    
+//      Header( "Location: /trade/categorylist/parent/$categoryID" );
+//      exit();
 }
 
 if ( $Action == "Cancel" )
