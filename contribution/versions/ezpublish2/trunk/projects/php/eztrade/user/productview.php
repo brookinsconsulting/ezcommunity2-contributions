@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: productview.php,v 1.61 2001/09/14 12:48:14 pkej Exp $
+// $Id: productview.php,v 1.62 2001/09/14 21:05:42 br Exp $
 //
 // Created on: <24-Sep-2000 12:20:32 bf>
 //
@@ -162,6 +162,7 @@ $t->set_var( "module_view", $ModuleView );
 $t->set_var( "module_print", $ModulePrint );
 $t->set_var( "attribute_header", "" );
 $t->set_var( "attribute_value", "" );
+$t->set_var( "price_range", "" );
 
 $product = new eZProduct( $ProductID );
 
