@@ -102,7 +102,7 @@ CREATE TABLE eZBug_Status (
 INSERT INTO eZBug_Status VALUES (1,'Fixed');
 
 CREATE TABLE eZBug_ModulePermission (
-  ID int NOT NULL auto_increment,
+  ID int NOT NULL,
   ObjectID int default NULL,
   GroupID int default NULL,
   ReadPermission int default '0',
