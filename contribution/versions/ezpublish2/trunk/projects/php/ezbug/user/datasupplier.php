@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: datasupplier.php,v 1.23 2001/08/29 10:37:22 jhe Exp $
+// $Id: datasupplier.php,v 1.24 2001/11/07 09:19:21 jhe Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -287,6 +287,12 @@ switch ( $url_array[2] )
     case "reportsuccess" :
     {
         include( "ezbug/user/reportsuccess.php" );
+    }
+    break;
+
+    case "cron":
+    {
+        include( "ezbug/admin/cron.php" );
     }
     break;
 
