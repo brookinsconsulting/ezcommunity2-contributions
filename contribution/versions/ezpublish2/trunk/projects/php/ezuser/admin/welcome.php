@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: welcome.php,v 1.11 2001/08/17 13:36:01 jhe Exp $
+// $Id: welcome.php,v 1.12 2001/11/08 09:48:40 bf Exp $
 //
 // Created on: <13-Nov-2000 10:57:15 bf>
 //
@@ -50,7 +50,6 @@ $t->set_file( array(
 $t->set_block( "welcome_tpl", "error_tpl", "error" );
 
 $t->set_block( "error_tpl", "libxml_error_tpl", "libxml_error" );
-$t->set_block( "error_tpl", "qtdom_error_tpl", "qtdom_error" );
 $t->set_block( "error_tpl", "convert_error_tpl", "convert_error" );
 
 $t->set_var( "error", "" );
@@ -68,17 +67,10 @@ if ( $user )
 
 if ( $ini->read_var( "site", "CheckDependence" ) == "enabled" )
 {
-    if ( function_exists( "xmltree" ) == false )
+    if ( function_exists( "1xmltree" ) == false )
     {
         $t->set_var( "libxml_location", "http://xmlsoft.org/#Downloads" );
         $t->parse( "libxml_error", "libxml_error_tpl" );
-        $error = true;
-    }
-
-    if ( function_exists( "qdom_tree" ) == false )
-    {
-        $t->set_var( "qtdom_location", "http://www.trolltech.com" );
-        $t->parse( "qtdom_error", "qtdom_error_tpl" );
         $error = true;
     }
 
