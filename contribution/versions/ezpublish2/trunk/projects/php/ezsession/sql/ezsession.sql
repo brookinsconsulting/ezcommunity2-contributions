@@ -32,18 +32,18 @@ CREATE TABLE eZSession_SessionVariable (
 #
 
 #
-# Table structure for table 'eZSession_SessionVariable'
+# Table structure for table 'eZSession_Preferences'
 #
-DROP TABLE IF EXISTS eZSession_SessionVariable;
-CREATE TABLE eZSession_SessionVariable (
+DROP TABLE IF EXISTS eZSession_Preferences;
+CREATE TABLE eZSession_Preferences (
   ID int(11) DEFAULT '0' NOT NULL auto_increment,
-  SessionID int(11),
-  Name char(25),
-  Value char(50),
+  UserID int(11),
+  Name char(50),
+  Value char(255),
   PRIMARY KEY (ID)
 );
 
 #
-# Dumping data for table 'eZSession_SessionVariable'
+# Dumping data for table 'eZSession_Preferences'
 #
 
