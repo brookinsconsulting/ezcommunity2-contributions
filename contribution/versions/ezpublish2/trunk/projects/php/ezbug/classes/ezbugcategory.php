@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezbugcategory.php,v 1.11 2001/08/09 14:17:42 jhe Exp $
+// $Id: ezbugcategory.php,v 1.12 2001/11/01 20:34:37 vl Exp $
 //
 // Definition of eZBugCategory class
 //
@@ -90,7 +90,7 @@ class eZBugCategory
         }
         else
         {
-            $db->query( "UPDATE eZBug_Category SET
+            $res = $db->query( "UPDATE eZBug_Category SET
 		                      Name='$name',
                               Description='$description'
                               WHERE ID='$this->ID'" );
