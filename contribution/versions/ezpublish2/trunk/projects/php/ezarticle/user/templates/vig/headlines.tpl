@@ -1,8 +1,4 @@
 <table width="100%" cellspacing="0" cellpadding="2" border="0">
-<tr>
-	<td colspan="2" class="menuhead">{intl-head_lines}</td>
-</tr>
-
 <!-- BEGIN path_item_tpl -->
 
 <!-- END path_item_tpl -->
@@ -21,15 +17,18 @@
 <!-- BEGIN article_item_tpl -->
 <tr>
 	<td>
-	<a class="menutext" href="/article/articleview/{article_id}/">
+	<a class="headlinemenu" href="/article/articleview/{article_id}/">
 	{article_name}
 	</a>
+	</td>
 </tr>
 <tr>
-	</td>
-	<td class="small" align="right">
+	<td class="small" align="left">
 	(&nbsp;{article_published}&nbsp;)
 	</td>
+</tr>
+<tr>
+	<td class="menuspacer">&nbsp;</td>
 </tr>
 <!-- END article_item_tpl -->
 <!-- END article_list_tpl -->

@@ -24,9 +24,9 @@
 	<a class="menutext" href="/article/articleview/{article_id}/">
 	{article_name}
 	</a>
+	</td>
 </tr>
 <tr>
-	</td>
 	<td class="small" align="right">
 	(&nbsp;{article_published}&nbsp;)
 	</td>

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: headlines.php,v 1.10 2001/04/19 13:37:53 bf Exp $
+// $Id: headlines.php,v 1.11 2001/04/19 16:05:08 th Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <30-Nov-2000 14:35:24 bf>
@@ -54,7 +54,16 @@ $t->set_block( "article_list_tpl", "article_item_tpl", "article_item" );
 // image dir
 $t->set_var( "image_dir", $ImageDir );
 
-$Limit = 10;
+if ( !isset( $Limit ) )
+{
+	$Limit = 10;
+}
+
+if ( !isset( $HeadlineOffset ) )
+{
+	$HeadlineOffset = 0;
+}
+
 $category = new eZArticleCategory( );
 
 if ( $CategoryID == 0 )
@@ -62,12 +71,12 @@ if ( $CategoryID == 0 )
     // do not set offset for the main page news
     // always sort by publishing date is the merged category
     $article = new eZArticle();
-    $articleList =& $article->articles( "time", false, 0, $Limit );
+    $articleList =& $article->articles( "time", false, $HeadlineOffset, $Limit );
     $articleCount = $article->articleCount( false );
 }
 else
 {
-    $articleList =& $category->articles( $category->sortMode(), false, true, 0, $Limit );
+    $articleList =& $category->articles( $category->sortMode(), false, true, $HeadlineOffset, $Limit );
     $articleCount = $category->articleCount( false, true  );
 }
 
