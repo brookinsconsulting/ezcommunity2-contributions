@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eztemplate.php,v 1.11 2000/10/12 09:06:07 bf-cvs Exp $
+// $Id: eztemplate.php,v 1.12 2000/10/12 10:33:31 pkej-cvs Exp $
 //
 // Definition of eZCompany class
 //
@@ -33,6 +33,7 @@ class eZTemplate extends Template
     */
     function eZTemplate( $templateDir = "", $intlDir = "", $language = "", $phpFile = "" )
     {
+        #echo "eZTemplate::eZTemplate( \$templateDir = $templateDir, \$intlDir = $intlDir, \$language = $language, \$phpFile = $phpFile )<br>";
         $this->intlDir =& $intlDir;
         $this->language =& $language;
         $this->phpFile =& $phpFile;
