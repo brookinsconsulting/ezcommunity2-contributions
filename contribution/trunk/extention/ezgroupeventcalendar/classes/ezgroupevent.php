@@ -1102,7 +1102,7 @@ class eZGroupEvent
     /*!
      Sets the event notification property.
     */
-    function setIsEventAlarmNotice( $value )
+    function setEventAlarmNotice( $value )
     {
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
