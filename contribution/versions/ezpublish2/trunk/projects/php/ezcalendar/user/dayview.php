@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: dayview.php,v 1.24 2001/01/25 10:35:34 gl Exp $
+// $Id: dayview.php,v 1.25 2001/01/25 11:34:52 gl Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <08-Jan-2001 12:48:35 bf>
@@ -44,15 +44,17 @@ $Locale = new eZLocale( $Language );
 
 $t = new eZTemplate( "ezcalendar/user/" . $ini->read_var( "eZCalendarMain", "TemplateDir" ),
                      "ezcalendar/user/intl", $Language, "dayview.php",
-                     "nostyle", "ezcalendar" . "/user", "$Year-$Month-$Day" );
+                     "default", "ezcalendar" . "/user", "$Year-$Month-$Day" );
 
 $t->set_file( "day_view_page_tpl", "dayview.tpl" );
 if ( $t->hasCache() )
 {
+//    print( "cached<br />" );
     print( $t->cache() );
 }
 else
 {
+//    print( "not cached<br />" );
     $t->setAllStrings();
 
     $t->set_block( "day_view_page_tpl", "user_item_tpl", "user_item" );

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: appointmentedit.php,v 1.22 2001/01/25 10:35:34 gl Exp $
+// $Id: appointmentedit.php,v 1.23 2001/01/25 11:34:52 gl Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <03-Jan-2001 12:47:22 bf>
@@ -259,6 +259,8 @@ if ( $Action == "Insert" || $Action == "Update" )
             $year = eZTime::addZero( $datetime->year() );
             $month = eZTime::addZero( $datetime->month() );
             $day = eZTime::addZero( $datetime->day() );
+            deleteCache( "default", $Language, $year, $month, $day );
+
             eZHTTPTool::header( "Location: /calendar/dayview/$year/$month/$day/" );
             exit();
         }
@@ -281,6 +283,7 @@ if ( $Action == "DeleteAppointment" )
     $year = eZTime::addZero( $datetime->year() );
     $month = eZTime::addZero( $datetime->month() );
     $day = eZTime::addZero( $datetime->day() );
+    deleteCache( "default", $Language, $year, $month, $day );
 
     eZHTTPTool::header( "Location: /calendar/dayview/$year/$month/$day/" );
     exit();
@@ -521,5 +524,12 @@ if ( $Action != "Edit" )
 
 $t->parse( "no_user_error", "no_user_error_tpl" );
 $t->pparse( "output", "appointment_edit_tpl" );
+
+
+// deletes the dayview cache file for a given day
+function deleteCache( $siteStyle, $language, $year, $month, $day )
+{
+    unlink( "ezcalendar/user/cache/dayview.tpl-$siteStyle-$language-$year-$month-$day.cache" );
+}
 
 ?>
