@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: forum.php,v 1.32 2000/09/07 15:44:44 bf-cvs Exp $
+    $Id: forum.php,v 1.33 2000/10/03 16:47:19 bf-cvs Exp $
 
     Author: Lars Wilhelmsen <lw@ez.no>
     
@@ -20,9 +20,10 @@ include_once( "classes/INIFile.php" );
 include_once( $DOC_ROOT . "classes/ezforummessage.php" );
 include_once( $DOC_ROOT . "classes/ezforumcategory.php" );
 include_once( $DOC_ROOT . "classes/ezforumforum.php" );
-include_once( "classes/ezuser.php" );
-include_once( "classes/ezsession.php" );
-include_once( "classes/eztemplate.php" );
+
+//  include_once( "classes/ezuser.php" );
+//  include_once( "classes/ezsession.php" );
+//  include_once( "classes/eztemplate.php" );
 
 $ini = new INIFile( "site.ini" ); // get language settings
 $Language = $ini->read_var( "eZForumMain", "Language" );
@@ -66,10 +67,10 @@ $t->set_var( "forum_path", $forumPath );
 //navbar setup
 if ( $session->get( $AuthenticatedSession ) == 0 )
 {
-    $UserID = $session->UserID();
+//      $UserID = $session->UserID();
 
     $user = new eZUser();
-    $t->set_var( "user", $user->resolveUser( $session->UserID() ) );
+//      $t->set_var( "user", $user->resolveUser( $session->UserID() ) );
 
     $t->parse( "logout-message", "logout", true );
 }

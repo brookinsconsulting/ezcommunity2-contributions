@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezforummessage.php,v 1.40 2000/09/15 13:47:28 bf-cvs Exp $
+// $Id: ezforummessage.php,v 1.41 2000/10/03 16:47:19 bf-cvs Exp $
 //
 // Definition of eZCompany class
 //
@@ -119,7 +119,7 @@ class eZForumMessage
         for ($i = 0;$i < mysql_num_rows($query_id); $i++)
         {
             $resultArray[$i] = mysql_fetch_array($query_id);
-            $resultArray[$i]["UserId"] = $usr->resolveUser( $resultArray[$i]["UserId"] );
+//              $resultArray[$i]["UserId"] = $usr->resolveUser( $resultArray[$i]["UserId"] );
         }
             
         return $resultArray;

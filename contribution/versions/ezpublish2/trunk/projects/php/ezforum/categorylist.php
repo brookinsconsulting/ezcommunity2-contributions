@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: categorylist.php,v 1.10 2000/09/07 15:44:44 bf-cvs Exp $
+    $Id: categorylist.php,v 1.11 2000/10/03 16:47:19 bf-cvs Exp $
 
     Author: Lars Wilhelmsen <lw@ez.no>
     
@@ -30,7 +30,7 @@ $t->set_var( "docroot", $DOC_ROOT);
 $category = new eZForumCategory();
 $categories = $category->getAllCategories();
 
-for ($i = 0; $i < count( $categories ); $i++ )
+for ( $i = 0; $i < count( $categories ); $i++ )
 {
     $t->set_var("id", $categories[$i]["Id"] );
     $t->set_var("name", $categories[$i]["Name"] );

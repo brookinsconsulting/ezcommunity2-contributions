@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: cart.php,v 1.7 2000/10/03 12:06:02 bf-cvs Exp $
+// $Id: cart.php,v 1.8 2000/10/03 16:47:19 bf-cvs Exp $
 //
 // Definition of eZCompany class
 //
@@ -135,11 +135,8 @@ $t->set_file( array(
 
 
 $t->set_block( "cart_page", "cart_header_tpl", "cart_header" );
-
 $t->set_block( "cart_page", "wishlist_header_tpl", "wishlist_header" );
-
 $t->set_block( "cart_page", "cart_checkout_tpl", "cart_checkout" );
-
 $t->set_block( "cart_page", "empty_cart_tpl", "empty_cart" );
 
 

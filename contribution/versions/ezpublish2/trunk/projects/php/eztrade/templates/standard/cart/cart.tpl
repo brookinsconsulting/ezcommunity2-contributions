@@ -1,5 +1,5 @@
 <!-- cart.tpl --> 
-<!-- $Id: cart.tpl,v 1.4 2000/10/03 10:51:47 bf-cvs Exp $ -->
+<!-- $Id: cart.tpl,v 1.5 2000/10/03 16:47:19 bf-cvs Exp $ -->
 
 <!-- BEGIN cart_header_tpl -->
 <h1>{intl-cart}</h1>
@@ -76,7 +76,7 @@
 <!-- END cart_item_list_tpl -->
 
 <!-- BEGIN cart_checkout_tpl -->
-<form action="/trade/checkout/" method="post">
+<form action="/trade/customerlogin/" method="post">
 <input type="submit" value="Gå til kasse" />
 </form>
 <!-- END cart_checkout_tpl -->

@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: newmessage.php,v 1.11 2000/09/08 13:10:05 bf-cvs Exp $
+    $Id: newmessage.php,v 1.12 2000/10/03 16:47:19 bf-cvs Exp $
 
     Author: Lars Wilhelmsen <lw@ez.no>
     
@@ -17,9 +17,9 @@ $DOC_ROOT = $ini->read_var( "eZForumMain", "DocumentRoot" );
 include_once( "common/ezphputils.php");
 include_once( $DOC_ROOT . "/classes/ezforumcategory.php" );
 include_once( $DOC_ROOT . "/classes/ezforummessage.php" );
-include_once( "classes/ezuser.php" );
-include_once( "classes/ezsession.php" );
-include_once( "classes/eztemplate.php" );
+//  include_once( "classes/ezuser.php" );
+//  include_once( "classes/ezsession.php" );
+//  include_once( "classes/eztemplate.php" );
 
 $msg = new eZforumMessage;
 
@@ -36,11 +36,11 @@ $t->set_file( Array( "newmessage" => "newmessage.tpl",
 $t->set_var( "category_id", $category_id);
 $t->set_var( "docroot", $DOC_ROOT);
 
-if ( $session->validate( $AuthenticatedSession ) == 0)
-{
-    $UserId = $session->UserID();
-}
-else
+//  if ( $session->validate( $AuthenticatedSession ) == 0)
+//  {
+//      $UserId = $session->UserID();
+//  }
+//  else
 {
     $UserId = 0;
 }
@@ -53,7 +53,7 @@ $infoString = $info["CategoryName"] . "::" . $info["ForumName"];
 $user = new eZUser();
 $t->set_var("info", $infoString );
 $t->set_var("forum_id", $forum_id);
-$t->set_var("user", $user->resolveUser( $UserId ) );
+//  $t->set_var("user", $user->resolveUser( $UserId ) );
 
 $t->set_var( "link1-url", "main.php" );
 $t->set_var( "link2-url", "search.php");

@@ -77,7 +77,7 @@ switch ( $url_array[2] )
         }
         else
         {
-            $CartType = "Cart";            
+            $CartType = "Cart";
         }
 
         if ( $url_array[3] == "add" )
@@ -97,9 +97,14 @@ switch ( $url_array[2] )
          include( "eztrade/cart.php" );    
         break;
 
+    case "customerlogin" :
+        include( "eztrade/customerlogin.php" );        
+        break;
+        
     case "checkout" :
         include( "eztrade/checkout.php" );        
         break;
+
         
 
     case "search" :

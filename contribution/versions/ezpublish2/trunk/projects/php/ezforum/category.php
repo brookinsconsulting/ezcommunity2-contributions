@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: category.php,v 1.26 2000/09/07 15:44:44 bf-cvs Exp $
+    $Id: category.php,v 1.27 2000/10/03 16:47:19 bf-cvs Exp $
 
     Author: Lars Wilhelmsen <lw@ez.no>
     
@@ -19,9 +19,9 @@ include_once( "classes/template.inc" );
 include_once( $DOC_ROOT . "classes/ezforumforum.php" );
 include_once( $DOC_ROOT . "classes/ezforummessage.php" );
 include_once( $DOC_ROOT . "classes/ezforumcategory.php" );
-include_once( "classes/ezsession.php" );
-include_once( "classes/ezuser.php" );
-include_once( "classes/eztemplate.php" );
+//  include_once( "classes/ezsession.php" );
+//  include_once( "classes/ezuser.php" );
+//  include_once( "classes/eztemplate.php" );
 
 $session = new eZSession;
 
@@ -56,7 +56,7 @@ $t->set_var( "forum_path", $forumPath );
 if ( $session->get( $AuthenticatedSession ) == 0 )
 {
     $user = new eZUser();
-    $t->set_var( "user", $user->resolveUser( $session->UserID() ) );
+//      $t->set_var( "user", $user->resolveUser( $session->UserID() ) );
     $t->parse( "logout-message", "logout", true );
 }
 else
