@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: eznewsitemtype.php,v 1.4 2000/10/01 14:01:01 pkej-cvs Exp $
+// $Id: eznewsitemtype.php,v 1.5 2000/10/01 16:37:53 pkej-cvs Exp $
 //
 // Definition of eZNewsItemType class
 //
@@ -73,7 +73,7 @@
     \sa eZNewsUtility eZNewsItem
 */
 /*!TODO
-    Add all examples needed.
+    Make getThis get parents class/table if missing from this.
  */
 
 include_once( "eznews/classes/eznewsutility.php" );       
@@ -248,6 +248,7 @@ class eZNewsItemType extends eZNewsUtility
             case 1:
                 $outID[] = $itemTypeArray[0][ "ID" ];
                 $this->Name = $itemTypeArray[0][ "Name" ];
+                $this->ParentID = $itemTypeArray[0][ "ParentID" ];
                 $this->eZClass = $itemTypeArray[0][ "eZClass" ];
                 $this->eZTable = $itemTypeArray[0][ "eZTable" ];
                 $value = true;
@@ -296,7 +297,7 @@ class eZNewsItemType extends eZNewsUtility
             the error message.
                       
      */
-    function getAll( &$returnArray, $inOrderBy, $direction , $startAt = 0, $noOfResults = "" )
+    function getAll( &$returnArray, $inOrderBy = "ID", $direction = "asc", $startAt = 0, $noOfResults = "" )
     {
         $this->dbInit();
         
@@ -339,7 +340,7 @@ class eZNewsItemType extends eZNewsUtility
         Sets the eZClass of the object.
         
         \in
-            \$inDescription    The new name of this object
+            \$inDescription    The new eZClass of this object
         \return
             Will always return true.
     */
@@ -375,7 +376,7 @@ class eZNewsItemType extends eZNewsUtility
         Sets the eZTable of the object.
         
         \in
-            \$inDescription    The new name of this object
+            \$inDescription    The new eZTable of this object
         \return
             Will always return true.
     */
@@ -403,6 +404,42 @@ class eZNewsItemType extends eZNewsUtility
         $this->dirtyUpdate();
         
         return $this->eZTable;
+    }
+
+
+
+    /*!
+        Sets the ParentID of the object.
+        
+        \in
+            \$inDescription    The new ParentID of this object
+        \return
+            Will always return true.
+    */
+    function setParentID( $inParentID )
+    {
+        $this->dirtyUpdate();
+        
+        $this->ParentID = $inParentID;
+        
+        $this->alterState();
+        
+        return true;
+    }
+    
+
+
+    /*!
+        Returns the object's ParentID.
+        
+        \return
+            Returns the ParentID of the object.
+    */
+    function parentID()
+    {
+        $this->dirtyUpdate();
+        
+        return $this->ParentID;
     }
 
 
@@ -444,6 +481,9 @@ class eZNewsItemType extends eZNewsUtility
     
     /// The table where this class is stored, empty means use parent or n/a.
     var $eZTable;
+    
+    /// The ID of the parent of this class.
+    var $ParentID;
 };
 
 ?>

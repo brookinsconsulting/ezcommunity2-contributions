@@ -1,8 +1,8 @@
 <?
 // 
-// $Id: eznewschangetype.php,v 1.8 2000/10/01 16:37:53 pkej-cvs Exp $
+// $Id: eznewschangeticket.php,v 1.1 2000/10/01 16:37:53 pkej-cvs Exp $
 //
-// Definition of eZNewsChangeType class
+// Definition of eZNewsChangeTicket class
 //
 // Paul K Egell-Johnsen <pkej@ez.no>
 // Created on: <14-Sep-2000 11:40:37 pkej>
@@ -14,51 +14,47 @@
 //
 
 //!! eZNews
-//! eZNewsChangeType handles change types for the eZNews log.
+//! eZNewsChangeTicket handles change tickets for the eZNews log.
 /*!
-    The eZNewsChangeType class is used to identify what kind of
-    changes one can do to a news item. The change type info can
-    be used to find certain types of changes (for example who
-    deleted what) to a news item.
-    
-    The change type is stored in a change ticket.
+    The eZNewsChangeTicket identifies which changes has been applied to
+    a news item.
     
     Example of usage:
     \code
     // Example of how to include this file.
-    include_once( "eznews/classes/eznewschangetype.php" );       
+    include_once( "eznews/classes/eznewschangeticket.php" );       
 
     // Example on how to create an empty object:    
-    $ct = new eZNewsChangeType();
+    $ct = new eZNewsChangeTicket();
     
-    // Example on how to check if a change type exists
+    // Example on how to check if a change ticket exists
     
-    $changeName = "create";
+    $changeTicketName = "create";
     
-    $ct = new eZNewsChangeType( $changeName, true );
+    $ct = new eZNewsChangeTicket( $changeTicketName, true );
     
     if( $ct->isCoherent() )
     {
-        echo "The object " . $ct->ID() . " represents the change type: " . $ct->Name();
-        echo " which is equal to $changeName";
+        echo "The object " . $ct->ID() . " represents the change ticket: " . $ct->Name();
+        echo " which is equal to $changeTicketName";
     }
     
-    // Example on how to create a change type.
+    // Example on how to create a change ticket.
     
-    $changeName = "submit";
+    $changeTicketName = "submit";
     
-    $ct = new eZNewsChangeType( $changeName, true );
+    $ct = new eZNewsChangeTicket( $changeTicketName, true );
     
     if( !$ct->isCoherent() )
     {
-        $ct->setName( $changeName );
-        $ct->setDescription( "The item has been submitted" );
+        $ct->setName( $changeTicketName );
+        $ct->setDescription( "The change ticket has been submitted" );
         $outID = 0;
         $ct->store( $outID );
         
         if( $outID != 0 )
         {
-            echo "The new change type: " .  $changeName . " was stored with id $outID<br>";
+            echo "The new change ticket: " .  $changeTicketName . " was stored with id $outID<br>";
         }
         else
         {
@@ -67,7 +63,7 @@
     }
     else
     {
-        echo "The change type: " $changeName . " exists with id $outID<br>";
+        echo "The change ticket: " $changeTicketName . " exists with id $outID<br>";
     }
     
     \endcode
@@ -75,15 +71,15 @@
     \sa eZNewsUtility eZNewsItem
 */
 /*!TODO
-    Add all examples needed.
+    Make getThis get parents class/table if missing from this.
  */
 
 include_once( "eznews/classes/eznewsutility.php" );       
 
-class eZNewsChangeType extends eZNewsUtility
+class eZNewsChangeTicket extends eZNewsUtility
 {
     /*!
-        Constructs a new eZNewsChangeType object.
+        Constructs a new eZNewsChangeTicket object.
 
         If $inData is set the object's values are fetched from the
         database. $inData might be a name or an ID. If it is an object name
@@ -94,14 +90,14 @@ class eZNewsChangeType extends eZNewsUtility
             \$inData    Either the ID or the Name of the row we want
             \$fetch     Should we fetch the row now, or later
     */
-    function eZNewsChangeType( $inData = "", $fetch = true )
+    function eZNewsChangeTicket( $inData = "", $fetch = true )
     {
         eZNewsUtility::eZNewsUtility( $inData, $fetch );
     }
     
     
     /*!
-        Update this eZNewsChangeType object and related items.
+        Update this eZNewsChangeTicket object and related items.
         
         \out
             \ID     The ID returned after the insert/update.
@@ -115,10 +111,11 @@ class eZNewsChangeType extends eZNewsUtility
         $query =
         "
             UPDATE
-                eZNews_ChangeType
+                eZNews_ItemType
             SET
                 Name = '%s',
-                Description = '%s'
+                eZClass = '%s',
+                eZTable = '%s'
             WHERE
                 ID = '%s'
         ";
@@ -127,7 +124,8 @@ class eZNewsChangeType extends eZNewsUtility
         (
             $query,
             $this->Name,
-            $this->Description,
+            $this->eZClass,
+            $this->eZTable,
             $this->ID
         );
         
@@ -147,7 +145,7 @@ class eZNewsChangeType extends eZNewsUtility
     
     
     /*!
-        Store this eZNewsChangeType object and related items.
+        Store this eZNewsChangeTicket object and related change tickets.
         
         \out
             \$outID     The ID returned after the insert/update.
@@ -161,17 +159,19 @@ class eZNewsChangeType extends eZNewsUtility
         $query =
         "
             INSERT INTO
-                eZNews_ChangeType
+                eZNews_ItemType
             SET
                 Name = '%s',
-                Description = '%s'
+                eZClass = '%s',
+                eZTable = '%s'
         ";
         
         $query = sprintf
         (
             $query,
             $this->Name,
-            $this->Description
+            $this->eZClass,
+            $this->eZTable
         );
         
         $this->Database->query( $query );
@@ -198,12 +198,12 @@ class eZNewsChangeType extends eZNewsUtility
         \out
             \$outID     An array of all IDs from the result of the query.
         \return
-            Returns true if only one data item was returned.
+            Returns true if only one data change ticket was returned.
     */
     function getThis( &$outID, &$inData )
     {
         $value = false;
-        $changeTypeArray = array();
+        $changeTicketArray = array();
         $outID = array();
         
         if( is_numeric( $inData ) )
@@ -212,7 +212,7 @@ class eZNewsChangeType extends eZNewsUtility
                 SELECT
                     *
                 FROM
-                    eZNews_ChangeType
+                    eZNews_ItemType
                 WHERE ID = %s
             ";
             
@@ -224,37 +224,39 @@ class eZNewsChangeType extends eZNewsUtility
                 SELECT
                     *
                 FROM
-                    eZNews_ChangeType
+                    eZNews_ItemType
                 WHERE Name = '%s'
             ";
             
             $query = sprintf( $query2, $inData );
         }
 
-        $this->Database->array_query( $changeTypeArray, $query );
+        $this->Database->array_query( $changeTicketArray, $query );
         
-        $count = count( $changeTypeArray );
+        $count = count( $changeTicketArray );
         
         #echo "count=: " . $count . "<br>";
-        #echo "item 0 id: " . $changeTypeArray[0][ "ID" ] . "<br>";
-        #echo "item 0 description: " . $changeTypeArray[0][ "Description" ] . "<br>";
+        #echo "change ticket 0 id: " . $changeTicketArray[0][ "ID" ] . "<br>";
+        #echo "change ticket 0 description: " . $changeTicketArray[0][ "Description" ] . "<br>";
         switch( $count )
         {
             case 0:
-                $this->Error[] = "intl-eznews-eznewschangetype-no-object-found";
+                $this->Error[] = "intl-eznews-eznewschangeticket-no-object-found";
                 break;
             case 1:
-                $outID[] = $changeTypeArray[0][ "ID" ];
-                $this->Name = $changeTypeArray[0][ "Name" ];
-                $this->Description = $changeTypeArray[0][ "Description" ];
+                $outID[] = $changeTicketArray[0][ "ID" ];
+                $this->Name = $changeTicketArray[0][ "Name" ];
+                $this->ParentID = $changeTicketArray[0][ "ParentID" ];
+                $this->eZClass = $changeTicketArray[0][ "eZClass" ];
+                $this->eZTable = $changeTicketArray[0][ "eZTable" ];
                 $value = true;
                 break;
             default:
-                $this->Error[] = "intl-eznews-eznewschangetype-more-than-one-object-found";
+                $this->Error[] = "intl-eznews-eznewschangeticket-more-than-one-object-found";
 
-                foreach( $changeTypeArray as $changeType )
+                foreach( $changeTicketArray as $changeTicket )
                 {
-                    $outID[] = $changeType[ "ID" ];
+                    $outID[] = $changeTicket[ "ID" ];
                 }
                 break;
         }
@@ -265,15 +267,16 @@ class eZNewsChangeType extends eZNewsUtility
 
 
         /*!
-            Returns all the change types found in the database.
+            Returns all the change tickets found in the database.
         
         \in
             \$inOrderBy  This is the columnname to order the returned array
                         by.
             \accepts
                 ID - The id of the row in the table
-                Name - Name of item
-                Description - The description of this change type.
+                Name - Name of change ticket
+                eZClass - The eZClass of this change ticket.
+                eZTable - The eZTable of this change ticket.
                 \default is ID
             \$direction  This is the direction to do the ordering in
             \accepts
@@ -292,19 +295,19 @@ class eZNewsChangeType extends eZNewsUtility
             the error message.
                       
      */
-    function getAll( &$returnArray, $inOrderBy = "ID", $direction = "asc" , $startAt = 0, $noOfResults = ""  )
+    function getAll( &$returnArray, $inOrderBy = "ID", $direction = "asc", $startAt = 0, $noOfResults = "" )
     {
         $this->dbInit();
         
         $returnArray = array();
-        $changeTypeArray = array();
+        $changeTicketArray = array();
         
         $query =
         "
             SELECT
                 ID
             FROM
-                eZNews_changeType
+                eZNews_ItemType
             %s
             %s
         ";
@@ -314,11 +317,11 @@ class eZNewsChangeType extends eZNewsUtility
         
         $query = sprintf( $query, $orderBy, $limits );
         
-        $this->Database->array_query( $changeTypeArray, $query );
+        $this->Database->array_query( $changeTicketArray, $query );
         
-        for ( $i=0; $i < count( $changeTypeArray ); $i++ )
+        for ( $i=0; $i < count( $changeTicketArray ); $i++ )
         {
-            $returnArray[$i] = new eZNewschangeType( $changeTypeArray[$i][ "ID" ], 0 );
+            $returnArray[$i] = new eZNewsChangeTicket( $changeTicketArray[$i][ "ID" ], 0 );
         }
         
         if( $returnArray )
@@ -332,18 +335,18 @@ class eZNewsChangeType extends eZNewsUtility
 
 
     /*!
-        Sets the descritption of the object.
+        Sets the eZClass of the object.
         
         \in
-            \$inDescription    The new name of this object
+            \$inDescription    The new eZClass of this object
         \return
             Will always return true.
     */
-    function setDescription( $inDescription )
+    function seteZClass( $ineZClass )
     {
         $this->dirtyUpdate();
         
-        $this->Description = $inDescription;
+        $this->eZClass = $ineZClass;
         
         $this->alterState();
         
@@ -353,16 +356,88 @@ class eZNewsChangeType extends eZNewsUtility
 
 
     /*!
-        Returns the object description.
+        Returns the object eZClass.
         
         \return
-            Returns the description of the object.
+            Returns the eZClass of the object.
     */
-    function description()
+    function eZClass()
     {
         $this->dirtyUpdate();
         
-        return $this->Description;
+        return $this->eZClass;
+    }
+
+
+
+    /*!
+        Sets the eZTable of the object.
+        
+        \in
+            \$inDescription    The new eZTable of this object
+        \return
+            Will always return true.
+    */
+    function seteZTable( $ineZTable )
+    {
+        $this->dirtyUpdate();
+        
+        $this->eZTable = $ineZTable;
+        
+        $this->alterState();
+        
+        return true;
+    }
+    
+
+
+    /*!
+        Returns the object eZTable.
+        
+        \return
+            Returns the eZTable of the object.
+    */
+    function eZTable()
+    {
+        $this->dirtyUpdate();
+        
+        return $this->eZTable;
+    }
+
+
+
+    /*!
+        Sets the ParentID of the object.
+        
+        \in
+            \$inDescription    The new ParentID of this object
+        \return
+            Will always return true.
+    */
+    function setParentID( $inParentID )
+    {
+        $this->dirtyUpdate();
+        
+        $this->ParentID = $inParentID;
+        
+        $this->alterState();
+        
+        return true;
+    }
+    
+
+
+    /*!
+        Returns the object's ParentID.
+        
+        \return
+            Returns the ParentID of the object.
+    */
+    function parentID()
+    {
+        $this->dirtyUpdate();
+        
+        return $this->ParentID;
     }
 
 
@@ -399,8 +474,14 @@ class eZNewsChangeType extends eZNewsUtility
 
     // The data members
 
-    /// The human readable description of this item.
-    var $Description;
+    /// The class name of this change ticket, empty means use parent or n/a.
+    var $eZClass;
+    
+    /// The table where this class is stored, empty means use parent or n/a.
+    var $eZTable;
+    
+    /// The ID of the parent of this class.
+    var $ParentID;
 };
 
 ?>

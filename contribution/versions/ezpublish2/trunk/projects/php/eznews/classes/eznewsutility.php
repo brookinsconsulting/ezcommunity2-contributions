@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: eznewsutility.php,v 1.2 2000/10/01 13:39:28 pkej-cvs Exp $
+// $Id: eznewsutility.php,v 1.3 2000/10/01 16:37:53 pkej-cvs Exp $
 //
 // Definition of eZNewsUtility class
 //
@@ -20,6 +20,35 @@
     different eZNews classes.
     
     Instead of coding these in each hiearchy, we create them here.
+    
+    Each child of this class must do the following:
+    
+    <ol>
+    <li>hava a use for both the ID and Name fields in this class...
+    <li>call the constructor of eZNewsUtility
+    <li>implement: invariantCheck() which calls this invariantCheck()
+    <li>implement: getThis() a function for fetching all data of the object.
+    <li>implement: storeThis() a function for storing all data of the object
+    <li>implement: setVariable() and variable() for each memeber variable of the object.
+    <li>implement: makeCoherent() which will create all data which can be inferred from other
+        data in the system....
+    <li>store ale error messages in $this->Errors
+    <li>store ale error messages concerning the database/SQL in $this->SQLErrors
+    <li>each setVariable() must have this form:
+    <code>
+        $this->dirtyUpdate();
+        $this->variable = $inVariable;
+        $this->alterState();
+    </code>
+    <li>each variable() must have this form:
+    <code>
+        $this->dirtyUpdate();
+        return $this->variable;
+    </code>
+    </ol>
+    
+    \sa eZNewsChangeType eZNewsItemType eZNewsItem for classes implementing this
+    interface.
 
  */
 
@@ -496,12 +525,9 @@ class eZNewsUtility
 
 
     /*!
-        This function will try to make this object coherent.
-        It will discard any ids of logs, images, files and
-        parents which doesn't exist.
+        Private function
         
-        It will create one id for an image and/lr parent if
-        the isFrontImage or the isCanonical variables are set.
+        This function will just check that the object isn't dirty.
         
         \return
             Returns true if an invariantCheck passes at the end
@@ -509,21 +535,15 @@ class eZNewsUtility
      */
     function makeCoherent()
     {
+        $value = false;
+        
         if( $this->State_ == "Dirty" )
         {
-            //check if possible $this->get( $this->ID );
+            $this->get();
+            $value = true;
         }
         
-        // do as invariant check
-        // is isCanonical is set and no ParentIDs exists
-        // then check if iscanonical id exists adn set
-        // a parentID as that id.
-        
-        // the same for isfrontimage.
-        
-        //
-        
-        return $this->invariantCheck();
+        return $value;
     }
 
     

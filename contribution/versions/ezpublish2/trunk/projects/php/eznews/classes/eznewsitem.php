@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eznewsitem.php,v 1.16 2000/10/01 14:01:00 pkej-cvs Exp $
+// $Id: eznewsitem.php,v 1.17 2000/10/01 16:37:53 pkej-cvs Exp $
 //
 // Definition of eZNewsItem class
 //
@@ -730,7 +730,7 @@ class eZNewsItem extends eZNewsUtility
             the error message.
                       
      */
-    function getChildren( &$returnArray, $inOrderBy, $direction , $startAt = 0, $noOfResults = ""  )
+    function getChildren( &$returnArray, $inOrderBy = "ID", $direction = "asc" , $startAt = 0, $noOfResults = ""  )
     {
         $this->dbInit();
         $value = false;
@@ -811,7 +811,7 @@ class eZNewsItem extends eZNewsUtility
             the error message.
                       
      */
-    function getParents( &$returnArray, $inOrderBy, $direction , $startAt = 0, $noOfResults = ""  )
+    function getParents( &$returnArray, $inOrderBy = "ID", $direction = "asc" , $startAt = 0, $noOfResults = ""  )
     {
         $this->dbInit();
         $value = false;
@@ -1031,6 +1031,37 @@ class eZNewsItem extends eZNewsUtility
         }
         #echo "invariantCheck returns: " . $value . "<br>";
         return $value;
+    }
+    
+    
+    
+    /*!
+        This function will try to make this object coherent.
+        It will discard any ids of logs, images, files and
+        parents which doesn't exist.
+        
+        It will create one id for an image and/lr parent if
+        the isFrontImage or the isCanonical variables are set.
+        
+        \return
+            Returns true if an invariantCheck passes at the end
+            of the function.
+     */
+    function makeCoherent()
+    {
+        if( eZUtility::makeCoherent() )
+        {
+        
+        // do as invariant check
+        // is isCanonical is set and no ParentIDs exists
+        // then check if iscanonical id exists adn set
+        // a parentID as that id.
+        
+        // the same for isfrontimage.
+        
+        //
+        }
+        return $this->invariantCheck();
     }
 
 
