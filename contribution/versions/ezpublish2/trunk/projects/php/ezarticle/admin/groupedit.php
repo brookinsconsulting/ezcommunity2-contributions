@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: groupedit.php,v 1.12 2000/12/12 12:28:37 pkej Exp $
+// $Id: groupedit.php,v 1.13 2001/01/21 16:45:14 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <18-Sep-2000 14:46:19 bf>
@@ -53,6 +53,8 @@ if ( $Action == "insert" )
     $category->setParent( $parentCategory );
     $category->setDescription( $Description );
 
+    $category->setSortMode( $SortMode );
+    
     if ( $ExcludeFromSearch == "on" )
     {
         $category->setExcludeFromSearch( true );
@@ -84,6 +86,10 @@ if ( $Action == "update" )
     $category->setName( $Name );
     $category->setParent( $parentCategory );
     $category->setDescription( $Description );
+
+    $category->setSortMode( $SortMode );
+
+    
 
     if ( $ExcludeFromSearch == "on" )
     {

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezarticlecategory.php,v 1.17 2001/01/16 17:32:45 bf Exp $
+// $Id: ezarticlecategory.php,v 1.18 2001/01/21 16:45:14 bf Exp $
 //
 // Definition of eZArticleCategory class
 //
@@ -81,6 +81,7 @@ class eZArticleCategory
 		                         Name='$this->Name',
                                  Description='$this->Description',
                                  ExcludeFromSearch='$this->ExcludeFromSearch',
+                                 SortMode='$this->SortMode',
                                  ParentID='$this->ParentID'" );
             $this->ID = mysql_insert_id();
         }
@@ -90,6 +91,7 @@ class eZArticleCategory
 		                         Name='$this->Name',
                                  Description='$this->Description',
                                  ExcludeFromSearch='$this->ExcludeFromSearch',
+                                 SortMode='$this->SortMode',
                                  ParentID='$this->ParentID' WHERE ID='$this->ID'" );
         }
         
@@ -135,6 +137,7 @@ class eZArticleCategory
                 $this->Description = $category_array[0][ "Description" ];
                 $this->ParentID = $category_array[0][ "ParentID" ];
                 $this->ExcludeFromSearch = $category_array[0][ "ExcludeFromSearch" ];
+                $this->SortMode = $category_array[0][ "SortMode" ];
             }
                  
             $this->State_ = "Coherent";
@@ -289,7 +292,7 @@ class eZArticleCategory
         
         return $this->Name;
     }
-
+    
     /*!
       Returns the group description.
     */
@@ -319,6 +322,21 @@ class eZArticleCategory
        }
     }
 
+    /*!
+      Returns the sort mode.
+
+      1 - publishing date
+      2 - alphabetic
+      3 - alphabetic desc
+      3 - absolute placement      
+    */
+    function sortMode()
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+        
+        return $this->SortMode;
+    }
 
     /*!
       Returns true if the category is to be excluded
@@ -376,6 +394,22 @@ class eZArticleCategory
        }
     }
 
+    /*!
+      Sets the sort mode.
+
+      1 - publishing date
+      2 - alphabetic
+      3 - alphabetic desc
+      3 - absolute placement      
+    */
+    function setSortMode( $value )
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+       
+       $this->SortMode = $value;
+    }
+    
     /*!
      Sets the exclude from search bit.
      The argumen can be true or false.
@@ -446,6 +480,12 @@ class eZArticleCategory
                $OrderBy = "eZArticle_Article.Name ASC";
            }
            break;
+
+           case "alphadesc" :
+           {
+               $OrderBy = "eZArticle_Article.Name DESC";
+           }
+           break;
        }
 
        $return_array = array();
@@ -489,6 +529,56 @@ class eZArticleCategory
        
        return $return_array;
     }
+
+    /*!
+      Returns the total number of articles in the current category.
+
+      If $fetchNonPublished is set to true the articles which is not published is
+      also counted. If the $getExcludedArticles is set to true the articles which are
+      excluded from search is also counted.
+    */
+    function articleCount( $fetchNonPublished=true, $getExcludedArticles=false )
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+       $this->dbInit();
+
+       $return_array = array();
+       $article_array = array();
+
+       if ( $getExcludedArticles == false )
+       {
+           $excludedCode = " AND eZArticle_Category.ExcludeFromSearch = 'false' ";
+       }
+       else
+       {
+           $excludedCode = "";           
+       }
+
+       if ( $fetchNonPublished  == true )
+       {
+           $nonPublishedCode = "";
+       }
+       else
+       {
+           $nonPublishedCode = " eZArticle_Article.IsPublished = 'true' AND";
+       }
+       
+       $this->Database->array_query( $article_array, "
+                SELECT count(*) AS Count
+                FROM eZArticle_Article, eZArticle_Category, eZArticle_ArticleCategoryLink
+                WHERE 
+                eZArticle_ArticleCategoryLink.ArticleID = eZArticle_Article.ID
+                AND
+                $nonPublishedCode
+                eZArticle_Category.ID = eZArticle_ArticleCategoryLink.CategoryID
+                AND
+                eZArticle_Category.ID='$this->ID'
+                $excludedCode " );
+
+       return $article_array[0]["Count"];
+    }
     
     /*!
       Private function.
@@ -508,6 +598,7 @@ class eZArticleCategory
     var $ParentID;
     var $Description;
     var $ExcludeFromSearch;
+    var $SortMode;
 
     ///  Variable for keeping the database connection.
     var $Database;

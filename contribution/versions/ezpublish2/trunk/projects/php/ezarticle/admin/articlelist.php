@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: articlelist.php,v 1.9 2001/01/16 17:32:45 bf Exp $
+// $Id: articlelist.php,v 1.10 2001/01/21 16:45:14 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <18-Oct-2000 14:41:37 bf>
@@ -128,6 +128,7 @@ if ( !isset( $Limit ) )
 
 // articles
 $articleList = $category->articles( "time", true, true, $Offset, $Limit );
+$articleCount = $category->articleCount( true, true );
 
 $locale = new eZLocale( $Language );
 $i=0;
@@ -163,6 +164,29 @@ foreach ( $articleList as $article )
 
     $t->parse( "article_item", "article_item_tpl", true );
     $i++;
+}
+
+$prevOffs = $Offset - $Limit;
+$nextOffs = $Offset + $Limit;
+        
+if ( $prevOffs >= 0 )
+{
+    $t->set_var( "prev_offset", $prevOffs  );
+    $t->parse( "previous", "previous_tpl" );
+}
+else
+{
+    $t->set_var( "previous", "" );
+}
+        
+if ( $nextOffs <= $articleCount )
+{
+    $t->set_var( "next_offset", $nextOffs  );
+    $t->parse( "next", "next_tpl" );
+}
+else
+{
+    $t->set_var( "next", "" );
 }
 
 if ( count( $articleList ) > 0 )    

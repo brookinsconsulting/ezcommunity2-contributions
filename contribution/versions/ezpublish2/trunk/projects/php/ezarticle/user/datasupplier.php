@@ -13,11 +13,15 @@ switch ( $url_array[2] )
         if  ( !isset( $CategoryID ) || ( $CategoryID == "" ) )
             $CategoryID = 0;
 
+        $Offset = $url_array[4];
+        if  ( !is_numeric( $Offset ) )
+            $Offset = 0;
+        
         if ( $PageCaching == "enabled" )
         {
             $CategoryID = $url_array[3];
 
-            $cachedFile = "ezarticle/cache/articlelist," . $CategoryID . ".cache";
+            $cachedFile = "ezarticle/cache/articlelist," . $CategoryID . "," . $Offset . ".cache";
 
             if ( file_exists( $cachedFile ) )
             {

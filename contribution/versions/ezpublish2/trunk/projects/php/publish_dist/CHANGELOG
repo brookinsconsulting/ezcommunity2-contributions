@@ -3,6 +3,9 @@ eZ publish changelog:
 
 Changes from version 1.0.5
 --------------------------
+* Added choosable sort mode on article categories
+* Added previous/next on article lists (admin & user )
+* Added RSS headlines
 * Added forum moderation
 * Added mailing when articles are published
 * Speeded up localisation of date and time

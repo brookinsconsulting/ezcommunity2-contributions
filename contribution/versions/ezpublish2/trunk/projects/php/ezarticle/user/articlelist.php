@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: articlelist.php,v 1.21 2001/01/19 20:27:44 bf Exp $
+// $Id: articlelist.php,v 1.22 2001/01/21 16:45:14 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <18-Oct-2000 14:41:37 bf>
@@ -39,6 +39,8 @@ $Language = $ini->read_var( "eZArticleMain", "Language" );
 $ImageDir = $ini->read_var( "eZArticleMain", "ImageDir" );
 $CapitalizeHeadlines = $ini->read_var( "eZArticleMain", "CapitalizeHeadlines" );
 $DefaultLinkText =  $ini->read_var( "eZArticleMain", "DefaultLinkText" );
+$UserListLimit = $ini->read_var( "eZArticleMain", "UserListLimit" );
+
 
 $t = new eZTemplate( "ezarticle/user/" . $ini->read_var( "eZArticleMain", "TemplateDir" ),
                      "ezarticle/user/intl/", $Language, "articlelist.php" );
@@ -61,6 +63,10 @@ $t->set_block( "article_list_page_tpl", "article_list_tpl", "article_list" );
 $t->set_block( "article_list_tpl", "article_item_tpl", "article_item" );
 
 $t->set_block( "article_item_tpl", "article_image_tpl", "article_image" );
+
+// prev/next
+$t->set_block( "article_list_page_tpl", "previous_tpl", "previous" );
+$t->set_block( "article_list_page_tpl", "next_tpl", "next" );
 
 // image dir
 $t->set_var( "image_dir", $ImageDir );
@@ -127,16 +133,52 @@ else
     $t->set_var( "category_list", "" );
 
 
+// set the offset/limit
+if ( !isset( $Offset ) )
+    $Offset = 0;
+
+if ( !isset( $Limit ) )
+    $Limit = $UserListLimit;
 
 
 if ( $CategoryID == 0 )
 {
+    // do not set offset for the main page news
+    // always sort by publishing date is the merged category
     $article = new eZArticle();
-    $articleList = $article->articles( $SortMode, false, 0, 10 );
+    $articleList = $article->articles( "time", false, 0, $Limit );
 } 
 else
 {
-    $articleList = $category->articles( $SortMode, false );
+    switch ( $category->sortMode() )
+    {
+        case 1 :
+        {
+            $SortMode = "time";
+        }
+        break;
+
+        case 2 :
+        {
+            $SortMode = "alpha";
+        }
+        break;
+
+        case 3 :
+        {
+            $SortMode = "alphadesc";
+        }
+        break;
+        
+        default :
+        {
+            $SortMode = "time";
+        }
+
+    }
+    
+    $articleList = $category->articles( $SortMode, false, false, $Offset, $Limit );
+    $articleCount = $category->articleCount( false, false );    
 }
 
 $locale = new eZLocale( $Language );
@@ -197,6 +239,31 @@ foreach ( $articleList as $article )
     $t->parse( "article_item", "article_item_tpl", true );
     $i++;
 }
+
+
+$prevOffs = $Offset - $Limit;
+$nextOffs = $Offset + $Limit;
+        
+if ( $prevOffs >= 0 )
+{
+    $t->set_var( "prev_offset", $prevOffs  );
+    $t->parse( "previous", "previous_tpl" );
+}
+else
+{
+    $t->set_var( "previous", "" );
+}
+        
+if ( $nextOffs <= $articleCount )
+{
+    $t->set_var( "next_offset", $nextOffs  );
+    $t->parse( "next", "next_tpl" );
+}
+else
+{
+    $t->set_var( "next", "" );
+}
+
 
 if ( count( $articleList ) > 0 )    
     $t->parse( "article_list", "article_list_tpl" );

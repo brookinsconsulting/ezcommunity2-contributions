@@ -143,16 +143,16 @@ onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezaa{article_id}-sle
 	<td>
 
 <!-- BEGIN previous_tpl -->
-<a href="/link/search/?Offset={prev_offset}&URLQueryString={url_query_string}">
-prev
+<a href="/article/archive/{category_id}/?Offset={prev_offset}">
+{intl-prev}
 </a>
 <!-- END previous_tpl -->
      </td>
      <td align="right">
 
 <!-- BEGIN next_tpl -->
-<a href="/link/search/?Offset={next_offset}&URLQueryString={url_query_string}">
-next
+<a href="/article/archive/{category_id}/?Offset={next_offset}">
+{intl-next}
 </a>
 <!-- END next_tpl -->
      </td>

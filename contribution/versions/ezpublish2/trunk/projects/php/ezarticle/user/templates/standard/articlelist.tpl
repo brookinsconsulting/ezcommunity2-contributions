@@ -100,3 +100,28 @@
 <!-- END article_item_tpl -->
 </table>
 <!-- END article_list_tpl -->
+
+
+
+<table width="100%" cellspacing="0" cellpadding="0" border="0">
+<tr>
+	<td>
+
+<!-- BEGIN previous_tpl -->
+<a href="/article/archive/{category_id}/{prev_offset}/">
+{intl-prev}
+</a>
+<!-- END previous_tpl -->
+     </td>
+     <td align="right">
+
+<!-- BEGIN next_tpl -->
+<a href="/article/archive/{category_id}/{next_offset}/">
+{intl-next}
+</a>
+<!-- END next_tpl -->
+     </td>
+</tr>
+</table>    
+
+

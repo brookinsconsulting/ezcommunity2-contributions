@@ -20,15 +20,36 @@
 
 <br />
 
-<p class="boxtext">{intl-place}:</p>
-<select name="ParentID">
-<option value="0">{intl-categoryroot}</option>
+<table width="100%" cellspacing="0" cellpadding="0" border="0">
+<tr>
+	<td>
 
-<!-- BEGIN value_tpl -->
-<option {selected} value="{option_value}">{option_level}{option_name}</option>
-<!-- END value_tpl -->
+	<p class="boxtext">{intl-place}:</p>
+	<select name="ParentID">
+	<option value="0">{intl-categoryroot}</option>
 
-</select>
+	<!-- BEGIN value_tpl -->
+	<option {selected} value="{option_value}">{option_level}{option_name}</option>
+	<!-- END value_tpl -->
+
+	</select>
+
+	</td>
+  	<td>
+	<p class="boxtext">{intl-sort_mode}:</p>
+	<select name="SortMode">
+
+	<option value="1">{intl-publishing_date}</option>
+	<option value="2">{intl-alphabetic_asc}</option>
+	<option value="3">{intl-alphabetic_desc}</option>
+	<option value="4">{intl-absolute_placement}</option>
+
+	</select>
+
+	</td>
+</tr>
+</table>
+
 
 <p class="boxtext">{intl-description}:</p>
 <textarea rows="5" cols="40" name="Description">{description_value}</textarea>
