@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: groupedit.php,v 1.23.2.1 2002/03/04 13:14:49 ce Exp $
+// $Id: groupedit.php,v 1.23.2.2 2002/05/15 16:02:04 bf Exp $
 //
 // Created on: <20-Sep-2000 13:32:11 ce>
 //
@@ -236,7 +236,7 @@ if ( $Action == "edit" )
 
 // List over all modules.
 $module = new eZModule();
-$moduleList = $module->getAll();
+$moduleList = $module->getAll( true );
 
 foreach ( $moduleList as $moduleItem )
 {

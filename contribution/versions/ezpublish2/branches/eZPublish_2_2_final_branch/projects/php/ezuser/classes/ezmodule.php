@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezmodule.php,v 1.13 2001/10/16 18:48:46 fh Exp $
+// $Id: ezmodule.php,v 1.13.2.1 2002/05/15 16:02:04 bf Exp $
 //
 // Definition of eZModule class
 //
@@ -167,15 +167,32 @@ class eZModule
     /*!
       Fetches the user id from the database. And returns a array of eZModule objects.
     */
-    function getAll()
+    function getAll( $returnOnlyActive=false)
     {
         $db =& eZDB::globalDatabase();
 
         $return_array = array();
         $module_array = array();
 
-        $db->array_query( $module_array, "SELECT ID,Name FROM eZUser_Module ORDER By Name" );
+        if ( $returnOnlyActive == true )
+        {
+            $modules = array();
+            $ini =& INIFile::globalINI();
+            foreach ( $ini->read_array( "site", "EnabledModules") as $mod)
+            {
+                $modules[] = "'" . $db->escapeString( $mod ) . "'";
+            }
 
+            $allModules = join(',', $modules);
+
+            $db->array_query( $module_array, "SELECT ID,Name FROM eZUser_Module WHERE Name IN ($allModules) ORDER BY Name" );
+        }
+        else
+        {
+            $db->array_query( $module_array, "SELECT ID,Name FROM eZUser_Module ORDER By Name" );
+
+        } 
+        
         for ( $i=0; $i<count ( $module_array ); $i++ )
         {
             $return_array[$i] = new eZModule( $module_array[$i][$db->fieldName("ID")], 0 );
