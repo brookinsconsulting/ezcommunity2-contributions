@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: reportsetup.php,v 1.3 2002/01/21 17:01:54 jhe Exp $
+// $Id: reportsetup.php,v 1.4 2002/01/22 09:30:17 jhe Exp $
 //
 // Created on: <17-Jan-2002 18:09:19 jhe>
 //
@@ -57,11 +57,22 @@ if ( $Action == "store" )
     }
 
     include_once( "classes/ezhttptool.php" );
-    if ( $TableID > 0 )
-        eZHTTPTool::header( "Location: /form/report/setup/$ReportID" );
-    else
-        eZHTTPTool::header( "Location: /form/report/edit/$ReportID" );
-    exit();
+    if ( isSet( $OK ) )
+    {
+        if ( $TableID > 0 )
+            eZHTTPTool::header( "Location: /form/report/setup/$ReportID" );
+        else
+            eZHTTPTool::header( "Location: /form/report/edit/$ReportID" );
+        exit();
+    }
+    else if ( isSet( $Update ) )
+    {
+        if ( $TableID > 0 )
+            eZHTTPTool::header( "Location: /form/report/setup/$ReportID/$TableID" );
+        else
+            eZHTTPTool::header( "Location: /form/report/setup/$ReportID" );
+        exit();
+    }       
 }
 
 $t = new eZTemplate( "ezform/admin/" . $ini->read_var( "eZFormMain", "AdminTemplateDir" ),

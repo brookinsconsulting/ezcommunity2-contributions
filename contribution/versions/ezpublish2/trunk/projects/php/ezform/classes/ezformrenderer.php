@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezformrenderer.php,v 1.55 2002/01/22 08:22:25 jhe Exp $
+// $Id: ezformrenderer.php,v 1.56 2002/01/22 09:30:18 jhe Exp $
 //
 // eZFormRenderer class
 //
@@ -89,6 +89,7 @@ class eZFormRenderer
         $this->Template->set_block( "form_renderer_page_tpl", "min_tpl", "min" );
         $this->Template->set_block( "form_renderer_page_tpl", "max_tpl", "max" );
         $this->Template->set_block( "form_renderer_page_tpl", "median_tpl", "median" );
+        $this->Template->set_block( "form_renderer_page_tpl", "percentile_tpl", "percentile" );
         $this->Template->set_block( "frequency_tpl", "frequency_element_tpl", "frequency_element" );
         $this->Template->set_block( "form_renderer_page_tpl", "count_tpl", "count" );
         
@@ -125,6 +126,7 @@ class eZFormRenderer
         $this->Template->set_block( "form_renderer_page_tpl", "error_list_tpl", "error_list" );
         $this->Template->set_block( "error_list_tpl", "error_item_tpl", "error_item" );
 
+        $this->Template->set_var( "percentile", "" );
         $this->Template->set_var( "madian", "" );
         $this->Template->set_var( "max", "" );
         $this->Template->set_var( "min", "" );

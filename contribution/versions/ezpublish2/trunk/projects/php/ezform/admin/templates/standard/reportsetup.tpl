@@ -34,4 +34,5 @@
 </table>
 <hr noshade="noshade" size="4" />
 <input class="okbutton" type="submit" name="OK" value="{intl-ok}" />
+<input class="okbutton" type="submit" name="Update" value="{intl-update}" />
 </form>

@@ -202,3 +202,7 @@
 <!-- BEGIN median_tpl -->
 {median}
 <!-- END median_tpl -->
+
+<!-- BEGIN percentile_tpl -->
+{percentile}%: {value}
+<!-- END percentile_tpl -->

@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: ezformreportelement.php,v 1.7 2002/01/22 08:22:25 jhe Exp $
+// $Id: ezformreportelement.php,v 1.8 2002/01/22 09:30:18 jhe Exp $
 //
 // Definition of eZFormReportElement class
 //
@@ -189,6 +189,18 @@ class eZFormReportElement
                 return $this->statMedian( &$template );
             }
             break;
+
+            case 8:
+            {
+                return $this->statPercentile( &$template, 25 );
+            }
+            break;
+
+            case 9:
+            {
+                return $this->statPercentile( &$template, 75 );
+            }
+            break;
         }
     }
 
@@ -326,6 +338,22 @@ class eZFormReportElement
         $output = $template->parse( $target, "median_tpl" );
         return $output;
     }
+
+    function statPercentile( &$template, $percentile )
+    {
+        $template->set_var( "percentile", "" );
+        $res = array();
+        $db =& eZDB::globalDatabase();
+        $db->array_query( $res, "SELECT Result FROM eZForm_FormElementResult
+                                 WHERE ElementID='$this->ElementID'
+                                 ORDER BY (Result+0)" );
+
+        $pos = round( ( count( $res ) / 100 ) * $percentile );
+        $template->set_var( "percentile", $percentile );
+        $template->set_var( "value", $res[$pos - 1]["Result"] );
+        $output = $template->parse( $target, "percentile_tpl" );
+        return $output;
+    }
     
     function types()
     {
@@ -337,7 +365,9 @@ class eZFormReportElement
             array( "Name" => "average", "Description" => "intl-average" ),
             array( "Name" => "min", "Description" => "intl-min" ),
             array( "Name" => "max", "Description" => "intl-max" ),
-            array( "Name" => "median", "Description" => "intl-median" )
+            array( "Name" => "median", "Description" => "intl-median" ),
+            array( "Name" => "25percentile", "Description" => "intl-25percentile" ),
+            array( "Name" => "75percentile", "Description" => "intl-75percentile" )
             );
         return $ret;
     }
