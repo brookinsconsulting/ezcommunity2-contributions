@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: datasupplier.php,v 1.27 2001/10/26 12:30:49 bf Exp $
+// $Id: datasupplier.php,v 1.28 2001/11/16 16:16:42 ce Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -197,6 +197,22 @@ if ( get_class( $user ) == "ezuser"  and eZPermission::checkPermission( $user, "
         case "titlelist" :
         {
             include( "ezuser/admin/titlelist.php" );
+        }
+        break;
+
+        case "additional" :
+        {
+            if ( $url_array[3] == "up" )
+            {
+                $AdditionalID = $url_array[4];
+                $Action = "up";
+            }
+            if ( $url_array[3] == "down" )
+            {
+                $AdditionalID = $url_array[4];
+                $Action = "down";
+            }
+            include( "ezuser/admin/additionallist.php" );
         }
         break;
 
