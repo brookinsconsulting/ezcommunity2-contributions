@@ -30,7 +30,7 @@
 <tr>
 	<td colspan="2">
 	<input type="hidden" name="PollID" value="{poll_id}" />
-	<input type="submit" value="{intl-vote}" />
+	<input class="stdbutton" type="submit" value="{intl-vote}" />
 	</td>
 </tr>
 </form>

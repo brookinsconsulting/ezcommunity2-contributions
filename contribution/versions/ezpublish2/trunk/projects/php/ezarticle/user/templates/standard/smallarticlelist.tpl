@@ -3,13 +3,14 @@
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
 	<td>
-	<div class="listheadline"><a class="listheadline" href="/article/articleview/{article_id}/">{article_name}</a></div>
+	<a class="listheadline" href="/article/articleview/{article_id}/">{article_name}</a>
 	</td>
 </tr>
 <!-- BEGIN article_item_tpl -->
 <tr>
 	<td>
 	<div class="spacer"><div class="p">{article_intro}</div></div>
+	<img src="/images/path-arrow.gif" height="10" width="12" border="0" alt="" />
 	<a class="path" href="/article/articleview/{article_id}/">{article_link_text}</a>
 	<br /><br />
 	</td>

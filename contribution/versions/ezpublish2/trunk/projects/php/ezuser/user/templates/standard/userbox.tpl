@@ -15,7 +15,7 @@
 </tr>
 <tr>
 	<td colspan="2">
-	<input type="submit" value="{intl-logout}" />
+	<input class="stdbutton" type="submit" value="{intl-logout}" />
 	</td>
 </tr>
 <tr>

@@ -25,7 +25,7 @@
 </tr>
 <tr>
 	<td colspan="2">
-	<input type="submit" value="{intl-ok}">
+	<input class="stdbutton" type="submit" value="{intl-ok}">
 	</td>
 </tr>
 <tr>
