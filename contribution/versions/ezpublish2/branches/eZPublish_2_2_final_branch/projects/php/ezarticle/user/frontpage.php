@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: frontpage.php,v 1.28.2.7 2001/11/22 11:21:55 pkej Exp $
+// $Id: frontpage.php,v 1.28.2.8 2001/12/10 17:34:28 br Exp $
 //
 // Created on: <30-May-2001 14:06:59 bf>
 //
@@ -120,13 +120,14 @@ $adCount = 0;
 //$sectionObject =& eZSection::globalSectionObject( $GlobalSectionID );
 
 // section
-$t->set_var( "section_id", "$GlobalSectionID" );
+$t->set_var( "section_id", $GlobalSectionID );
 
 $rows =& $sectionObject->frontPageRows();
 
 $page_element = array();
 
 $tempArticle = new eZArticle();
+unset( $articleList );
 
 if ( is_array ( $rows ) and count ( $rows ) > 0 )
 {
