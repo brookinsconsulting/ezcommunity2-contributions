@@ -761,3 +761,13 @@ Maintainer(s) : bf@ez.no
       locale/de_DE.ini
       locale/de_MG.ini: Major commit for the mygold project
 
+
+Module : classes
+Repository path : /home/cvsroot/projects/php/classes
+Maintainer(s) : bf@ez.no
+2002-04-24  jhe  <jhe@zev.ez.no>
+
+    * INIFile.php: coding standard fixes
+
+    * eztemplate.php: fixed bug when clearing cache using site.ini.php file
+

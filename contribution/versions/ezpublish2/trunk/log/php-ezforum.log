@@ -1185,3 +1185,13 @@ Maintainer(s) : jhe@ez.no
       admin/intl/no_NO/categoryedit.php.ini
       admin/intl/no_NO/messageedit.php.ini: epost -> e-post
 
+
+Module : ezforum
+Repository path : /home/cvsroot/projects/php/ezforum
+Maintainer(s) : jhe@ez.no
+2002-04-24  jhe  <jhe@zev.ez.no>
+
+    * user/messageedit.php
+      user/messageform.php:
+    posting time is not shown when message is temporary
+

@@ -1285,3 +1285,37 @@ Maintainer(s) : bf@ez.no
     * classes/ezobjectpermission.php:
     Fixed permission bug with category definition
 
+
+Module : ezuser
+Repository path : /home/cvsroot/projects/php/ezuser
+Maintainer(s) : bf@ez.no
+2002-04-24  bf  <bf@zev.ez.no>
+
+    * admin/intl/de_AT/Attic/menubox.php.ini:
+    Added translation for extended search.
+
+    * admin/intl/de_AT/Attic/menubox.php.ini: New file.
+
+    * admin/intl/de_AT/Attic/extsearch.php.ini:
+    Added translation for extended search.
+
+    * admin/intl/de_AT/Attic/extsearch.php.ini: New file.
+
+    * admin/intl/no_NO/Attic/extsearch.php.ini
+      admin/intl/no_NO/menubox.php.ini
+      admin/templates/standard/Attic/extsearch.tpl
+      classes/ezuser.php: Added extended user search.
+
+    * admin/intl/no_NO/Attic/extsearch.php.ini
+      admin/templates/standard/Attic/extsearch.tpl: New file.
+
+    * admin/Attic/extsearch.php
+      admin/datasupplier.php
+      admin/intl/en_GB/Attic/extsearch.php.ini
+      admin/intl/en_GB/menubox.php.ini
+      admin/menubox.php
+      admin/userlist.php: Added extended user search.
+
+    * admin/Attic/extsearch.php
+      admin/intl/en_GB/Attic/extsearch.php.ini: New file.
+

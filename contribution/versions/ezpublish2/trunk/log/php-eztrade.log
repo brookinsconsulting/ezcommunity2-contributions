@@ -3597,3 +3597,14 @@ Maintainer(s) : ce@ez.no
       classes/Attic/ezorderconfirmation.php
       classes/ezproduct.php: Added related products
 
+
+Module : eztrade
+Repository path : /home/cvsroot/projects/php/eztrade
+Maintainer(s) : ce@ez.no
+2002-04-24  br  <br@zev.ez.no>
+
+    * admin/Attic/transaction.php
+      admin/orderedit.php
+      admin/templates/standard/orderedit.tpl: updated payment:
+    A transaction can now be larger than the amount which is reserved on paynet.
+

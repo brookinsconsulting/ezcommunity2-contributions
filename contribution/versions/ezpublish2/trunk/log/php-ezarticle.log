@@ -3201,3 +3201,12 @@ Maintainer(s) : bf@ez.no
     * admin/datasupplier.php:
     cancel in category edit now redirects to the category
 
+
+Module : ezarticle
+Repository path : /home/cvsroot/projects/php/ezarticle
+Maintainer(s) : bf@ez.no
+2002-04-24  jhe  <jhe@zev.ez.no>
+
+    * admin/articlelist.php
+      admin/categoryedit.php: coding standard fixes
+

@@ -607,3 +607,12 @@ Maintainer(s) : ce@ez.no
       admin/intl/no_NO/templateedit.php.ini
       admin/intl/no_NO/templatelist.php.ini: updated no_NO for 2.2.4
 
+
+Module : ezsitemanager
+Repository path : /home/cvsroot/projects/php/ezsitemanager
+Maintainer(s) : ce@ez.no
+2002-04-24  jhe  <jhe@zev.ez.no>
+
+    * admin/cacheadmin.php
+      admin/datasupplier.php: coding standard fixes
+

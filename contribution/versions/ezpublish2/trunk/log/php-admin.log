@@ -335,3 +335,16 @@ Maintainer(s) : bf@ez.no
 
     * header.php: fixed typo
 
+
+Module : admin
+Repository path : /home/cvsroot/projects/php/admin
+Maintainer(s) : bf@ez.no
+2002-04-24  jb  <jb@zev.ez.no>
+
+    * header.php:
+    Fixed language settings in admin interface to keep the session variable
+    allthough a section will override the language.
+    Also made sure that the HTTP header Content-type has the appropriate charset.
+    NB: The current section code is hardcoded to test against url parameter 2 to
+    be archive, this should be changed someday.
+
