@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezformrenderer.php,v 1.42 2002/01/03 08:14:55 jhe Exp $
+// $Id: ezformrenderer.php,v 1.43 2002/01/03 09:42:46 jhe Exp $
 //
 // eZFormRenderer class
 //
@@ -206,7 +206,6 @@ class eZFormRenderer
             $this->Template->set_var( "field_name", $elementName );
             if ( !( isSet( $elementValue ) && $elementValue != "" ) )
                 $elementValue = $element->result();
-
             $this->Template->set_var( "field_value", $elementValue );
             $this->Template->set_var( "element_name", $element->name() );
 
@@ -276,14 +275,16 @@ class eZFormRenderer
             $checked = "";
             $elementType = $element->elementType();
             if ( $elementType == "checkbox_item" ||
-                 $elementType == "dropdown_item" ||
                  $elementType == "radiobox_item" )
             {
                 $checked = "checked";
             }
+            else if ( $elementType == "dropdown_item" )
+            {
+                $checked = "selected";
+            }
 
             $result = $element->result();
-            
             foreach ( $subItems as $subItem )
             {
                 if ( $subItem->value() == $result )
