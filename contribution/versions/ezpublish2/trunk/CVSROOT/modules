@@ -69,7 +69,7 @@ ezmediacatalogue	projects/php/ezmediacatalogue
 vidartest	projects/php/vidartest
 
 # Distribution
-publish_dist    projects/php/publish_dist &ezsession &ezuser &ezarticle &classes &ezimagecatalogue &ezpoll &ezcontact &ezforum &ezlink &admin &eztodo &ezad &eznewsfeed &ezbug &ezstats &eztrade &ezcalendar &ezaddress &ezfilemanager &ezerror &ezmail &ezbulkmail &ezmodule &ezsysinfo &ezurltranslator &ezform &ezsitemanager &ezquiz &ezform &ezmessage &ezsearch &ezmediacatalogue &ezxmlrpc
+publish_dist    projects/php/publish_dist &ezsession &ezuser &ezarticle &classes &ezimagecatalogue &ezpoll &ezcontact &ezforum &ezlink &admin &eztodo &ezad &eznewsfeed &ezbug &ezstats &eztrade &ezcalendar &ezaddress &ezfilemanager &ezerror &ezmail &ezbulkmail &ezmodule &ezsysinfo &ezurltranslator &ezform &ezsitemanager &ezquiz  &ezmessage &ezsearch &ezmediacatalogue &ezxmlrpc
 trade_dist      projects/php/trade_dist &ezsession &ezuser &eztrade &ezarticle &classes &ezimagecatalogue &ezcontact &admin &ezmodule
 
 # site alias
