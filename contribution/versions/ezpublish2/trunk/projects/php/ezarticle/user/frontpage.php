@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: frontpage.php,v 1.7 2001/08/23 11:48:35 bf Exp $
+// $Id: frontpage.php,v 1.8 2001/08/23 14:44:17 th Exp $
 //
 // Created on: <30-May-2001 14:06:59 bf>
 //
@@ -210,8 +210,10 @@ else
 function &renderFrontpageArticle( &$t, &$locale, &$article )
 {
     global $ini;
-
-    $aid = $article->id();
+	
+	$DefaultLinkText =  $ini->read_var( "eZArticleMain", "DefaultLinkText" );
+    
+	$aid = $article->id();
 
     if ( $CategoryID == 0 )
     {
@@ -293,7 +295,9 @@ function &renderFrontpageArticleDouble( &$t, &$locale, &$article1, &$article2 )
 {
     global $ini;
     $aid = $article1->id();
-
+	
+	$DefaultLinkText =  $ini->read_var( "eZArticleMain", "DefaultLinkText" );
+	
     if ( $CategoryID == 0 )
     {
         $category =& $article1->categoryDefinition();
@@ -447,7 +451,9 @@ function &renderShortSingleArticle( &$t, &$locale, &$article )
     global $ini;
 
     $aid = $article->id();
-
+	
+	$DefaultLinkText =  $ini->read_var( "eZArticleMain", "DefaultLinkText" );
+	
     if ( $CategoryID == 0 )
     {
         $category =& $article->categoryDefinition();

@@ -53,7 +53,7 @@
 	<img src="{www_dir}/images/path-arrow.gif" height="10" width="12" border="0" alt="" />
 	<a class="path" href="{www_dir}{index}/article/articleview/{article_id}/1/{category_id}/">{article_link_text}</a>
 	<br /><br />
-        <!-- END one_column_read_more_tpl -->
+    <!-- END one_column_read_more_tpl -->
 	</td>
 </tr>
 </table>
@@ -151,7 +151,7 @@
 </tr>
 
 <tr>
-	<td valign="top" width="100" align="center" >
+	<td valign="top" align="center">
 	
 	<a target="_blank" href="{www_dir}{index}/ad/goto/{ad_id}/"><img src="{www_dir}{image_src}" width="{image_width}" height="{image_height}" border="0" alt="" /></a>
 	</td>
