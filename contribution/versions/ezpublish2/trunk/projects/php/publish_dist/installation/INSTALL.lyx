@@ -2330,6 +2330,33 @@ Therefore you need to recompile PostgreSQL to support a larger value by
 in the file : src/include/postgres_ext.h
 \layout Subsubsection
 
+PostgreSQL setup
+\layout Standard
+
+On last configuration change is necessary.
+ This will allow TCP-IP connections to the database, not only unix sockets.
+ 
+\layout Standard
+
+In pqsql-root/data/postmaster.opts (for instance /var/lib/pgsql/data/postmaster.op
+ts) you need to apply a 
+\begin_inset Quotes eld
+\end_inset 
+
+-i
+\begin_inset Quotes erd
+\end_inset 
+
+ parameter.
+ The content of the file will then be like this:
+\layout Standard
+
+
+\family typewriter 
+\size scriptsize 
+/usr/bin/postmaster '-D' '/var/lib/pgsql/data/' '-i'
+\layout Subsubsection
+
 First time installation (PostgreSQL)
 \layout Standard
 

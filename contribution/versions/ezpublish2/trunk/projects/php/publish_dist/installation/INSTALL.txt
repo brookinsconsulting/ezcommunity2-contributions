@@ -49,8 +49,9 @@ Chapter 2 Installing eZ publish (standard method)
         2.4.2 Database 
             2.4.2.1 First time installation (MySQL)
             2.4.2.2 PostgreSQL configuration
-            2.4.2.3 First time installation (PostgreSQL)
-            2.4.2.4 Updating the Installation
+            2.4.2.3 PostgreSQL setup
+            2.4.2.4 First time installation (PostgreSQL)
+            2.4.2.5 Updating the Installation
     2.5 Now What?
         2.5.1 Post Install Checklist
     2.6 Troubleshooting
@@ -957,7 +958,18 @@ value by altering:
 
 in the file : src/include/postgres_ext.h
 
-2.4.2.3 First time installation (PostgreSQL)
+2.4.2.3 PostgreSQL setup
+
+On last configuration change is necessary. This will allow
+TCP-IP connections to the database, not only unix sockets. 
+
+In pqsql-root/data/postmaster.opts (for instance /var/lib/pgsql/data/postmaster.opts)
+you need to apply a "-i"
+parameter. The content of the file will then be like this:
+
+/usr/bin/postmaster '-D' '/var/lib/pgsql/data/' '-i'
+
+2.4.2.4 First time installation (PostgreSQL)
 
 Login as user postgres
 
@@ -985,7 +997,7 @@ so it reads:
 
 DatabaseImplementation=postgresql
 
-2.4.2.4 Updating the Installation
+2.4.2.5 Updating the Installation
 
 This section is for users who are updating from a previous
 version of eZ publish. There should be several files ending

@@ -765,8 +765,20 @@ PHP using magic quotes you can add the following line into each virtual
 host section:\\
 
 
-\texttt{\footnotesize ~~~~php\_flag magic\_quotes\_gpc off}~\\
+\texttt{\footnotesize ~~~~php\_flag magic\_quotes\_gpc off}{\footnotesize \par}
+
+\texttt{\footnotesize ~~~~php\_flag magic\_quotes\_runtime off}~\\
 {\footnotesize \par}
+
+
+\subsubsection{Configuring php.ini}
+
+Magic quotes may also be turned of in php. This will disable magic
+quotes:
+
+\texttt{\scriptsize magic\_quotes\_gpc = Off}{\scriptsize \par}
+
+\texttt{\scriptsize magic\_quotes\_runtime= Off}{\scriptsize \par}
 
 
 \subsubsection{Configuring Through .htaccess}
@@ -915,6 +927,19 @@ by altering:
 \#define NAMEDATALEN 64
 \end{verse}
 in the file : src/include/postgres\_ext.h
+
+
+\subsubsection{PostgreSQL setup}
+
+On last configuration change is necessary. This will allow TCP-IP
+connections to the database, not only unix sockets. 
+
+In pqsql-root/data/postmaster.opts (for instance /var/lib/pgsql/data/postmaster.opts)
+you need to apply a {}``-i'' parameter. The content of the file
+will then be like this:
+
+\texttt{\scriptsize /usr/bin/postmaster '-D' '/var/lib/pgsql/data/'
+'-i'}{\scriptsize \par}
 
 
 \subsubsection{First time installation (PostgreSQL)}
