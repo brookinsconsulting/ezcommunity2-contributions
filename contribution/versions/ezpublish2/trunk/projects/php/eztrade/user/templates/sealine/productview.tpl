@@ -38,14 +38,15 @@
 <!-- BEGIN attribute_list_tpl -->
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
-	<td align="center">
+	<td width="10%">&nbsp;</td>
+	<td width="80%" align="center">
 
-<table width="80%" cellspacing="0" cellpadding="2" border="0">
+<table width="100%" cellspacing="0" cellpadding="2" border="0">
 <!-- BEGIN attribute_tpl -->
 {begin_tr}
 	<td width="1%">&nbsp;</td>
 	<th>
-	{attribute_name} : 
+	{attribute_name}: 
 	</th>
 	<td align="right">
 	{attribute_value}
@@ -56,6 +57,7 @@
 </table>
 
 	</td>
+	<td width="10%">&nbsp;</td>
 </tr>
 </table>
 <!-- END attribute_list_tpl -->
