@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: dayview.php,v 1.47 2001/09/19 10:52:59 jhe Exp $
+// $Id: dayview.php,v 1.48 2001/09/24 14:04:19 jhe Exp $
 //
 // Created on: <08-Jan-2001 12:48:35 bf>
 //
@@ -368,9 +368,8 @@ else
                     $t->set_var( "rowspan_value", $tableCellsRowSpan[$row][$col] );
 
                     $t->parse( "private_appointment", "private_appointment_tpl", true );
-                }
-                // a public appointment
-                else
+                } 
+                else // a public appointment
                 {
                     $t->set_var( "td_class", "bglight" );
                     $t->set_var( "rowspan_value", $tableCellsRowSpan[$row][$col] );
@@ -383,9 +382,7 @@ else
                     $t->parse( "public_appointment", "public_appointment_tpl", true );
                 }
             }
-
-            // an empty space
-            else if ( $appointmentId == -2 )
+            else if ( $appointmentId == -2 ) // an empty space
             {
                 $t->set_var( "td_class", "bgdark" );
                 $t->set_var( "rowspan_value", $tableCellsRowSpan[$row][$col] );
@@ -590,19 +587,19 @@ function intersects( &$app, &$startTime, &$stopTime )
 
     // appstart is between start and stop
     if ( $startTime->isGreater( $appStartTime, true ) == true &&
-    $appStartTime->isGreater( $stopTime ) == true )
+         $appStartTime->isGreater( $stopTime ) == true )
     {
         $ret = true;
     }
     // appstop is between start and stop
     else if ( $startTime->isGreater( $appStopTime ) == true &&
-    $appStopTime->isGreater( $stopTime, true ) == true )
+              $appStopTime->isGreater( $stopTime, true ) == true )
     {
         $ret = true;
     }
     // appstart is before start, and appstop is after stop
     else if ( $appStartTime->isGreater( $startTime ) == true &&
-    $stopTime->isGreater( $appStopTime ) == true )
+              $stopTime->isGreater( $appStopTime ) == true )
     {
         $ret = true;
     }
@@ -622,6 +619,5 @@ function addZero( $value )
     }
     return $ret;
 }
-
 
 ?>

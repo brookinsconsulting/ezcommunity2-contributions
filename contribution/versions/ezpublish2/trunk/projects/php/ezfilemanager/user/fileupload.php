@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: fileupload.php,v 1.36 2001/09/17 19:53:11 fh Exp $
+// $Id: fileupload.php,v 1.37 2001/09/24 14:04:19 jhe Exp $
 //
 // Created on: <10-Dec-2000 15:49:57 bf>
 //
@@ -201,7 +201,7 @@ if ( $Action == "Insert" && $error == false )
     $FileID = $uploadedFile->id();
     $folder = new eZVirtualFolder( $FolderID );
 
-    if( eZObjectPermission::hasPermission( $FolderID, "filemanager_file", 'w' ) ) // user had write permission
+    if ( eZObjectPermission::hasPermission( $FolderID, "filemanager_file", 'w' ) ) // user had write permission
     {
         changePermissions( $FileID, $ReadGroupArrayID, 'r' );
         changePermissions( $FileID, $WriteGroupArrayID, 'w' );
@@ -237,7 +237,7 @@ if ( $Action == "Update" && $error == false )
     }    
 
     $uploadedFile->store();
-    if( eZObjectPermission::hasPermission( $FolderID, "filemanager_file", 'w' ) ) // user had write permission
+    if ( eZObjectPermission::hasPermission( $FolderID, "filemanager_file", 'w' ) ) // user had write permission
     {
         changePermissions( $FileID, $ReadGroupArrayID, 'r' );
         changePermissions( $FileID, $WriteGroupArrayID, 'w' );
@@ -468,7 +468,7 @@ function getFilesAndFolders( &$folderArray, &$fileArray, $fromFolder )
     $files = $fromFolder->files( "time", -1, -1 );
     $fileArray = array_merge( $files, $fileArray );
     
-    foreach( $result as $child )
+    foreach ( $result as $child )
     {
         getFilesAndFolders( $folderArray, $fileArray, $child );
     }
