@@ -1,6 +1,6 @@
 <?php
-// 
-// $Id: latestmessages.php,v 1.9 2001/09/28 13:24:30 jhe Exp $
+//
+// $Id: latestmessages.php,v 1.9.2.1 2002/02/22 08:01:19 bf Exp $
 //
 // Created on: <02-Jul-2001 11:45:17 bf>
 //
@@ -52,16 +52,26 @@ global $GlobalSiteDesign;
 
 $t->set_var( "message", "" );
 $i = 0;
+$time = new eZDateTime();
+$locale = new eZLocale( $Language );
 foreach ( $messages as $message )
 {
     $t->set_var( "sitedesign", $GlobalSiteDesign );
-	
+
     $nr = ( $i % 2 ) + 1;
     $t->set_var( "alt_nr", $nr );
 
     $t->set_var( "forum_id", $message[$db->fieldName( "ForumID" )] );
 
     $t->set_var( "message_id", $message[$db->fieldName( "ID" )] );
+    $t->set_var( "message_topic", htmlspecialchars( $message[$db->fieldName( "Topic" )] ) );
+
+    $messageUser = new eZUser( $message[$db->fieldName( "UserID" )] );
+    $t->set_var( "message_user", $messageUser->firstName() . " " . $messageUser->lastName() );
+
+    $time->setTimeStamp( $message[$db->fieldName( "PostingTime" )] );
+    $t->set_var( "message_postingtime", $locale->format( $time  ) );
+
     $t->set_var( "message_topic", htmlspecialchars( $message[$db->fieldName( "Topic" )] ) );
 
     $t->parse( "message", "message_tpl", true );
