@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezorderitem.php,v 1.18 2001/08/01 15:15:48 ce Exp $
+// $Id: ezorderitem.php,v 1.19 2001/08/03 14:08:19 jhe Exp $
 //
 // Definition of eZOrderItem class
 //
@@ -37,6 +37,7 @@
 
 include_once( "classes/ezdb.php" );
 include_once( "eztrade/classes/ezorderoptionvalue.php" );
+include_once( "eztrade/classes/ezproduct.php" );
 
 class eZOrderItem
 {
@@ -215,7 +216,7 @@ class eZOrderItem
     */
     function expiryDate()
     {
-        return $this->ExpiryDate();
+        return $this->ExpiryDate;
     }
     
     /*!
@@ -319,6 +320,14 @@ class eZOrderItem
             return false;
         
         $this->ExpiryDate = $timestamp;
+    }
+
+    /*!
+      Returns the order
+    */
+    function order()
+    {
+        return new eZOrder( $this->OrderID );
     }
     
     var $ID;

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezproduct.php,v 1.73 2001/08/01 15:15:48 ce Exp $
+// $Id: ezproduct.php,v 1.74 2001/08/03 14:08:19 jhe Exp $
 //
 // Definition of eZProduct class
 //
@@ -235,7 +235,7 @@ class eZProduct
                 $this->VATTypeID =& $category_array[0][$db->fieldName( "VATTypeID" )];
                 $this->ShippingGroupID =& $category_array[0][$db->fieldName( "ShippingGroupID" )];
                 $this->ProductType =& $category_array[0][$db->fieldName( "ProductType" )];
-                $this->ExpiryTime =& $cateogry_array[0][$db->fieldName( "ExpiryTime" )];
+                $this->ExpiryTime =& $category_array[0][$db->fieldName( "ExpiryTime" )];
                 if ( $this->Price == "NULL" )
                     unset( $this->Price );
 

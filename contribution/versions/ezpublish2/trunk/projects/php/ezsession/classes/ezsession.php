@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezsession.php,v 1.60 2001/08/02 08:32:20 kaid Exp $
+// $Id: ezsession.php,v 1.61 2001/08/03 14:08:19 jhe Exp $
 //
 // Definition of eZSession class
 //
@@ -438,15 +438,12 @@ class eZSession
         $timeStamp = eZDateTime::timeStamp( true );
         
         $db->array_query( $value_array, "SELECT ID, ( $timeStamp - LastAccessed  ) AS Idle
-                          FROM eZSession_Session
-                          HAVING Idle>(60*60*$maxIdle)" );
+                                         FROM eZSession_Session
+                                         HAVING Idle>(60*60*$maxIdle) ORDER BY ID DESC" );
 
-        foreach ( $value_array as $session )
-        {
-            $sid = $session["ID"];
-            $db->query( "DELETE FROM eZSession_SessionVariable WHERE SessionID='$sid'" );
-            $db->query( "DELETE FROM eZSession_Session WHERE ID='$sid'" );            
-        }        
+        $sid = $value_array[0]["ID"];
+        $db->query( "DELETE FROM eZSession_SessionVariable WHERE SessionID<='$sid'" );
+        $db->query( "DELETE FROM eZSession_Session WHERE ID<='$sid'" );            
     }
     
     /*!

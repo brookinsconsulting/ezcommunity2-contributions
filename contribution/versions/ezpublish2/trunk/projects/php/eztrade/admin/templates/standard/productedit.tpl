@@ -104,6 +104,19 @@ http://<input type="text" size="36" name="ExternalLink" value="{external_link}"/
 </tr>
 </table>
 
+<table cellspacing="0" cellpadding="0" border="0">
+<tr>
+        <th>
+        {intl-expiry_time}
+        </th>
+</tr>
+<tr>
+        <td>
+        <input type="text" size="3" name="Expiry" value="{expiry_value}">{intl-days}
+        </td>
+</tr>
+</table>
+
 <!-- BEGIN price_group_list_tpl -->
 <h2>{intl-price_groups}</h2>
 <!-- BEGIN price_groups_item_tpl -->
@@ -129,6 +142,7 @@ http://<input type="text" size="36" name="ExternalLink" value="{external_link}"/
 <p>{intl-no_price_groups}</p>
 <!-- END price_groups_no_item_tpl -->
 <!-- END price_group_list_tpl -->
+
 
 <br />
 

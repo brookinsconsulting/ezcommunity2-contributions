@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: productedit.php,v 1.55 2001/07/30 14:19:03 jhe Exp $
+// $Id: productedit.php,v 1.56 2001/08/03 14:08:19 jhe Exp $
 //
 // Created on: <19-Sep-2000 10:56:05 bf>
 //
@@ -160,6 +160,9 @@ if ( $Action == "Insert" )
     
     $product->setPrice( $Price );
     
+    if ( $Expiry > 0 )
+        $product->setExpiryTime( $Expiry );
+    
     $product->store();
 
     if ( $ShowQuantity )
@@ -303,9 +306,11 @@ if ( $Action == "Update" )
         $product->setIsHotDeal( false );
     }
     
-    
     $product->setPrice( $Price );
     
+    if ( $Expiry > 0 )
+        $product->setExpiryTime( $Expiry );
+
     $product->store();
 
     if ( $ShowQuantity )
@@ -516,6 +521,7 @@ $t->set_var( "name_value", "" );
 $t->set_var( "keywords_value", "" );
 $t->set_var( "product_nr_value", "" );
 $t->set_var( "price_value", "" );
+$t->set_var( "expiry_value", "" );
 
 $t->set_var( "showprice_checked", "" );
 $t->set_var( "showproduct_checked", "" );
@@ -539,7 +545,7 @@ if ( $Action == "Edit" )
     $t->set_var( "price_value", $product->price() );
     $t->set_var( "brief_value", $product->brief() );
     $t->set_var( "description_value", $product->description() );
-    
+    $t->set_var( "expiry_value", $product->expiryTime() );
     $t->set_var( "external_link", $product->externalLink() );
     
     $t->set_var( "action_value", "update" );

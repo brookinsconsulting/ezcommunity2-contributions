@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: payment.php,v 1.57 2001/08/01 15:15:48 ce Exp $
+// $Id: payment.php,v 1.58 2001/08/03 14:08:19 jhe Exp $
 //
 // Created on: <02-Feb-2001 16:31:53 bf>
 //
@@ -272,10 +272,10 @@ if ( $PaymentSuccess == "true" )
 
         $expiryTime = $product->expiryTime();
         if ( $expiryTime > 0 )
-            $orderItem->setExpiryDate( eZDateTime::timeStamp( true ) + $expiryTime );
+            $orderItem->setExpiryDate( eZDateTime::timeStamp( true ) + ( $expiryTime * 86400 ) );
         else
             $orderItem->setExpiryDate( 0 );
-
+        
         $orderItem->store();
         
         $optionValues =& $item->optionValues();
@@ -382,8 +382,7 @@ if ( $PaymentSuccess == "true" )
     $user = $order->user();
 
 
-    // name to ship to
-    
+    // name to ship to    
     $mailTemplate->set_var( "customer_first_name", $user->firstName() );
     $mailTemplate->set_var( "customer_last_name", $user->lastName() );
 
@@ -527,7 +526,6 @@ if ( $PaymentSuccess == "true" )
                         }
                         $high = new eZCurrency( max( $priceArray ) );
                         $low = new eZCurrency( min( $priceArray ) );
-                        
                     }
                 }
             }

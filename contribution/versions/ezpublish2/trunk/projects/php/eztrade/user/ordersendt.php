@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ordersendt.php,v 1.33 2001/08/01 15:15:48 ce Exp $
+// $Id: ordersendt.php,v 1.34 2001/08/03 14:08:19 jhe Exp $
 //
 // Created on: <06-Oct-2000 14:04:17 bf>
 //
@@ -47,11 +47,11 @@ $t->set_file( "order_sendt_tpl", "ordersendt.tpl" );
 
 $t->set_block( "order_sendt_tpl", "billing_address_tpl", "billing_address" );
 $t->set_block( "order_sendt_tpl", "shipping_address_tpl", "shipping_address" );
-
 $t->set_block( "order_sendt_tpl", "order_item_list_tpl", "order_item_list" );
-$t->set_block( "order_item_list_tpl", "order_item_tpl", "order_item" );
-$t->set_block( "order_item_tpl", "order_image_tpl", "order_image" );
 
+$t->set_block( "order_item_list_tpl", "order_item_tpl", "order_item" );
+
+$t->set_block( "order_item_tpl", "order_image_tpl", "order_image" );
 $t->set_block( "order_item_tpl", "order_item_option_tpl", "order_item_option" );
 
 $order = new eZOrder( $OrderID );
@@ -59,7 +59,7 @@ $order = new eZOrder( $OrderID );
 // get the customer
 $user = $order->user();
 
-$currentUser = eZUser::currentUser();
+$currentUser =& eZUser::currentUser();
 
 // check if the user is logged i
 if ( !( $currentUser && $user ) ) 

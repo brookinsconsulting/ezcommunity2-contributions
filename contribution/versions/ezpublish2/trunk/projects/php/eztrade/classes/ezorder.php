@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezorder.php,v 1.41 2001/08/01 15:15:48 ce Exp $
+// $Id: ezorder.php,v 1.42 2001/08/03 14:08:19 jhe Exp $
 //
 // Definition of eZOrder class
 //
@@ -329,9 +329,9 @@ class eZOrder
     */
     function date()
     {
-       $dateTime = new eZDateTime();
-       $dateTime->setTimeStamp( $this->Date );
-       return $dateTime;
+        $dateTime = new eZDateTime();
+        $dateTime->setTimeStamp( $this->Date );
+        return $dateTime;
     }    
     
     /*!
@@ -809,7 +809,27 @@ class eZOrder
         return $ret;        
     }
 
+    function expiringOrders( $startdate, $time = 86400 )
+    {
+        if ( get_class( $startdate ) == "ezdate" || get_class( $startdate ) == "ezdatetime" )
+        {
+            $startdate = $startdate->timeStamp();
+        }
+        $enddate = $startdate + $time;
 
+        $db =& eZDB::globalDatabase();
+        $db->array_query( $orders, "SELECT ID FROM eZTrade_OrderItem
+                                    WHERE ExpiryDate >= '" . $startdate . "'
+                                    AND ExpiryDate < '" . $enddate . "'" );
+        $return_array = array();
+        
+        foreach ( $orders as $order )
+        {
+            $return_array[] = $order[$db->fieldName( "ID" )];
+        }
+        return $return_array;
+    }
+    
     var $ID;
     var $UserID;
     var $ShippingAddressID;
