@@ -72,8 +72,8 @@ if ( $Action == "change" )
 }
 
 // Template
-$t = new eZTemplate( "ezuser/" . $iniSite->read_var( "eZUserMain", "TemplateDir" ),
-                     "ezuser/intl", $Language, "forgot.php" );
+$t = new eZTemplate( "ezuser/user/" . $iniSite->read_var( "eZUserMain", "TemplateDir" ),
+                     "ezuser/user/intl", $Language, "forgot.php" );
 $t->setAllStrings();
 
 $t->set_file( array(
