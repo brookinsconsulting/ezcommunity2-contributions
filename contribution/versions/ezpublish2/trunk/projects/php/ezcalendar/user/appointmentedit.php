@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: appointmentedit.php,v 1.31 2001/02/20 12:33:38 gl Exp $
+// $Id: appointmentedit.php,v 1.32 2001/02/26 14:54:06 pkej Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <03-Jan-2001 12:47:22 bf>
@@ -193,12 +193,13 @@ if ( $Action == "DeleteAppointment" )
 
             exit();
         }
+        
+        $year = addZero( $datetime->year() );
+        $month = addZero( $datetime->month() );
+        $day = addZero( $datetime->day() );
+        deleteCache( "default", $Language, $year, $month, $day, $userID );
     }
 
-    $year = addZero( $datetime->year() );
-    $month = addZero( $datetime->month() );
-    $day = addZero( $datetime->day() );
-    deleteCache( "default", $Language, $year, $month, $day, $userID );
 
     eZHTTPTool::header( "Location: /calendar/dayview/$year/$month/$day/" );
     exit();
