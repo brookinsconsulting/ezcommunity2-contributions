@@ -35,7 +35,7 @@ $link = new eZLink();
 if ( $Action == "search" )
 {
     $link_array = $link->getQuery( $QueryText, $limit, $offset );
-//      $thit_count = count( $link->getQuery( $QueryText ) );
+    $thit_count = count( $link->getQuery( $QueryText ) );
     $tlink_message = "Søk resultater";
 }
 
@@ -90,12 +90,6 @@ else
     }
 }
 
-
-//  if ( $Action == "search" )
-//  {
-//      $link_array = $link->getQuery( $QueryText, $limit, $offset );
-//      $tlink_message = "Søk resultater";
-//  }
 
 
 $t->set_var( "hit_count", $thit_count );
