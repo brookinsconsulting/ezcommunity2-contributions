@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: mailtofriend.php,v 1.5 2001/07/19 12:19:21 jakobn Exp $
+// $Id: mailtofriend.php,v 1.6 2001/09/13 14:12:23 nca Exp $
 //
 // Created on: <18-Jun-2001 16:37:47 br>
 //
@@ -52,6 +52,8 @@ $tpl->set_block( "first_page_tpl", "err_from_tpl", "err_from" );
 
 $tpl->set_block( "mailtofriend_tpl", "success_tpl", "success" );
 $tpl->set_block( "success_tpl", "user_comment_tpl", "user_comment" );
+
+$tpl->set_var( "section_id", $GlobalSectionID );
 
 // Own eZTemplate object for create the mail.message to send.
 
@@ -167,6 +169,12 @@ function sendmail ( $article_id, $tpl, $sendmail_tpl, $real_name, $to_name, $fro
     $tpl->set_var( "intro_text", $intro );
     $tpl->set_var( "site_url", $site_url );
     $tpl->set_var( "art_id", $article->id() );
+    $category = $article->categoryDefinition();
+    if ( $category )
+    {
+        $tpl->set_var( "category_name", $category->name() );
+        $tpl->set_var( "category_id", $category->id() );
+    }
     $tpl->parse( "success", "success_tpl" );
     $tpl->pparse( "output", "mailtofriend_tpl" );
 }
@@ -221,6 +229,13 @@ function printForm ( $ArticleID, $tpl, $real_name="", $send_to="", $from="", $te
     
     $name = $article->name( );
     $intro = strip_tags( $renderer->renderIntro( ) );
+
+    $category = $article->categoryDefinition();
+    if ( $category )
+    {
+        $tpl->set_var( "category_name", $category->name() );
+        $tpl->set_var( "category_id", $category->id() );
+    }
     
     $tpl->set_var( "Topic", $name );
     $tpl->set_var( "Intro", $intro );
