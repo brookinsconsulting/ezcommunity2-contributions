@@ -29,3 +29,12 @@ Maintainer(s) : br@ez.no
 
     * user/templates/standard/onepagelinklist.tpl: fixed missing VH-less tags
 
+
+Module : ezlink
+Repository path : /home/cvsroot/projects/php/ezlink
+Maintainer(s) : br@ez.no
+2001-09-19  Baard Farstad  <bf@ez.no>
+
+    * admin/linkcategorylist.php
+      classes/ezlinkcategory.php: Fixed adding links in more than 2 levels.
+

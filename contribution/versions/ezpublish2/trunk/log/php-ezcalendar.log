@@ -69,3 +69,20 @@ Maintainer(s) : jhe@rz.no
     * user/intl/en_GB/trustees.php.ini
       user/appointmentedit.php: fixed cancel button in appointmentedit
 
+
+Module : ezcalendar
+Repository path : /home/cvsroot/projects/php/ezcalendar
+Maintainer(s) : jhe@ez.no
+2001-09-19  Jo Henrik Endrerud  <jhe@ez.no>
+
+    * user/appointmentedit.php
+      user/appointmentview.php: small bugfixes
+
+    * user/appointmentedit.php
+      user/dayview.php: fixed bug with trustees and caching
+
+    * user/appointmentedit.php:
+    small bug fix when deleting appointment in a trustees calendar
+
+    * user/appointmentedit.php: fixed permission bug
+

@@ -109,3 +109,12 @@ Maintainer(s) : jhe@ez.no
       admin/folder.php:
     fixed permission problem when linking contact and filemanager
 
+
+Module : ezcontact
+Repository path : /home/cvsroot/projects/php/ezcontact
+Maintainer(s) : jhe@ez.no
+2001-09-19  Jo Henrik Endrerud  <jhe@ez.no>
+
+    * admin/personview.php
+      admin/templates/standard/consultationdetaillist.tpl: small bugfixes
+

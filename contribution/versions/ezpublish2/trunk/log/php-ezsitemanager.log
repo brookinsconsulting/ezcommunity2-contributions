@@ -19,3 +19,12 @@ Maintainer(s) : vl@ez.no
 
     * admin/intl/no_NO/sectionedit.php.ini: added translation.
 
+
+Module : ezsitemanager
+Repository path : /home/cvsroot/projects/php/ezsitemanager
+Maintainer(s) : vl@ez.no
+2001-09-19  Baard Farstad  <bf@ez.no>
+
+    * classes/ezsection.php:
+    Fixed Section support with Language and template override in eZ article.
+

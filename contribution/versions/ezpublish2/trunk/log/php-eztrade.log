@@ -405,3 +405,30 @@ Maintainer(s) : ce@ez.no
     * user/checkout.php:
     set total_cost_value to be $total["inctax"] instead of $sum.
 
+
+Module : eztrade
+Repository path : /home/cvsroot/projects/php/eztrade
+Maintainer(s) : ce@ez.no
+2001-09-19  Christofer Elo  <ce@ez.no>
+
+    * admin/templates/standard/categoryedit.tpl
+      admin/templates/standard/categorylist.tpl
+      admin/templates/standard/productedit.tpl
+      classes/ezcartitem.php
+      classes/ezproductcategory.php
+      user/cart.php
+      user/checkout.php
+      user/datasupplier.php
+      user/intl/en_GB/productview.php.ini
+      user/payment.php
+      user/productview.php
+      user/templates/standard/productview.tpl
+      user/templates/standard/voucherinformation.tpl
+      user/voucherinformation.php
+      admin/categoryedit.php
+      admin/categorylist.php
+      admin/intl/en_GB/categoryedit.php.ini
+      admin/intl/no_NO/categoryedit.php.ini
+      admin/productedit.php: Added better voucher information
+    Added sections edit to trade
+

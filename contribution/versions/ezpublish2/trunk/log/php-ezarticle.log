@@ -776,3 +776,29 @@ Maintainer(s) : bf@ez.no
       user/templates/standard/frontpage.tpl:
     Fixed showing of HTML banner on the frontpage.
 
+
+Module : ezarticle
+Repository path : /home/cvsroot/projects/php/ezarticle
+Maintainer(s) : bf@ez.no
+2001-09-19  Baard Farstad  <bf@ez.no>
+
+    * user/templates/standard/articletags.tpl: Fixed <pre> tag.
+
+2001-09-19  Thomas Hellstroem  <th@ez.no>
+
+    * user/templates/linmag/articleprint.tpl: Layout
+
+2001-09-19  Jan Borsodi  <jb@ez.no>
+
+    * xmlrpc/tag.php: Returns a list of custom tags defined in site.ini.
+
+    * xmlrpc/datasupplier.php: Added support for taglist.
+
+2001-09-19  Baard Farstad  <bf@ez.no>
+
+    * user/articleedit.php: Fixed setting author from the user submit article.
+
+    * user/articlelist.php
+      user/articleview.php:
+    Fixed Section support with Language and template override in eZ article.
+

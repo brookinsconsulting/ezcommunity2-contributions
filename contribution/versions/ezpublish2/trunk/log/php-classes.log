@@ -63,3 +63,13 @@ Maintainer(s) : bf@ez.no
 
     * eztemplate.php: Added support for user defined variables.
 
+
+Module : classes
+Repository path : /home/cvsroot/projects/php/classes
+Maintainer(s) : bf@ez.no
+2001-09-19  Baard Farstad  <bf@ez.no>
+
+    * ezpublish.php
+      eztemplate.php:
+    Fixed Section support with Language and template override in eZ article.
+
