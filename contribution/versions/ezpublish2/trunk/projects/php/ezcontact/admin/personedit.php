@@ -119,11 +119,11 @@ else
     $t->set_block( "person_item_tpl", "day_item_tpl", "day_item" );
 }
 
-$t->set_block( "edit_tpl", "address_item_tpl", "address_item" );
-$t->set_block( "address_item_tpl", "address_table_item_tpl", "address_table_item" );
-$t->set_block( "address_table_item_tpl", "address_item_select_tpl", "address_item_select" );
+$t->set_block( "edit_tpl", "address_table_item_tpl", "address_table_item" );
+$t->set_block( "address_table_item_tpl", "address_item_tpl", "address_item" );
+$t->set_block( "address_item_tpl", "address_item_select_tpl", "address_item_select" );
 
-$t->set_block( "address_table_item_tpl", "country_item_select_tpl", "country_item_select" );
+$t->set_block( "address_item_tpl", "country_item_select_tpl", "country_item_select" );
 
 $t->set_block( "edit_tpl", "phone_table_item_tpl", "phone_table_item" );
 $t->set_block( "phone_table_item_tpl", "phone_item_tpl", "phone_item" );
@@ -138,6 +138,8 @@ $t->set_block( "project_item_tpl", "contact_group_item_select_tpl", "contact_gro
 $t->set_block( "project_item_tpl", "contact_item_select_tpl", "contact_item_select" );
 $t->set_block( "project_item_tpl", "project_item_select_tpl", "project_item_select" );
 
+$t->set_block( "person_edit", "delete_item_tpl", "delete_item" );
+
 $t->set_block( "edit_tpl", "errors_tpl", "errors_item" );
 
 if ( isset( $CompanyEdit ) )
@@ -149,7 +151,6 @@ else
     $t->set_block( "errors_tpl", "error_firstname_item_tpl", "error_firstname_item" );
     $t->set_block( "errors_tpl", "error_lastname_item_tpl", "error_lastname_item" );
     $t->set_block( "errors_tpl", "error_birthdate_item_tpl", "error_birthdate_item" );
-    $t->set_block( "errors_tpl", "error_personno_item_tpl", "error_personno_item" );
 }
 
 $t->set_block( "errors_tpl", "error_address_item_tpl", "error_address_item" );
@@ -174,12 +175,13 @@ if( $Action == "delete" )
         else
         {
             $t->set_var( "person_id", $PersonID );
-            $person = new eZCompany( $PersonID );
+            $person = new eZPerson( $PersonID );
             $t->set_var( "firstname", $person->firstName() );
             $t->set_var( "lastname", $person->lastName() );
         }
         $t->set_var( "edit_item", "" );
         $t->set_var( "action_value", $Action );
+        $t->set_var( "delete_item", "" );
         $t->parse( "confirm_item", "confirm_tpl" );
     }
 }
@@ -198,7 +200,6 @@ if ( !$confirm )
     {
         $t->set_var( "firstname", "" );
         $t->set_var( "lastname", "" );
-        $t->set_var( "personno", "" );
         $t->set_var( "birthdate", "" );
         $t->set_var( "comment", "" );
         $t->set_var( "person_id", "" );
@@ -221,7 +222,6 @@ if ( !$confirm )
             $t->set_var( "error_firstname_item", "" );
             $t->set_var( "error_lastname_item", "" );
             $t->set_var( "error_birthdate_item", "" );
-            $t->set_var( "error_personno_item", "" );
         }
 
         $t->set_var( "error_address_item", "" );
@@ -417,7 +417,6 @@ if ( !$confirm )
 
             $Birth = new eZDate( $BirthYear, $BirthMonth, $BirthDay );
             $person->setBirthDay( $Birth->mySQLDate() );
-            $person->setPersonNo( $PersonNo );
             $person->setContact( $ContactID );
             $person->setComment( $Comment );
             $person->store();
@@ -718,6 +717,13 @@ if ( !$confirm )
             $AddressDelete = array();
         }
 
+        $AddressMinimum = $ini->read_var( "eZContactMain", "AddressMinimum" );
+        $PhoneMinimum = $ini->read_var( "eZContactMain", "PhoneMinimum" );
+        $OnlineMinimum = $ini->read_var( "eZContactMain", "OnlineMinimum" );
+        $AddressWidth = $ini->read_var( "eZContactMain", "AddressWidth" );
+        $PhoneWidth = $ini->read_var( "eZContactMain", "PhoneWidth" );
+        $OnlineWidth = $ini->read_var( "eZContactMain", "OnlineWidth" );
+
         if ( isset( $NewAddress ) )
         {
             $AddressTypeID[] = "";
@@ -730,11 +736,16 @@ if ( !$confirm )
         }
         $count = max( count( $AddressTypeID ), count( $AddressID ),
                       count( $Street1 ), count( $Street2 ),
-                      count( $Zip ), count( $Place ), 1 );
+                      count( $Zip ), count( $Place ), $AddressMinimum );
         $item = 0;
         $AddressDeleteValues =& array_values( $AddressDelete );
         for ( $i = 0; $i < $count || $item < $count; $i++ )
         {
+            if ( ( $item % $AddressWidth == 0 ) && $item > 0 )
+            {
+                $t->parse( "address_table_item", "address_table_item_tpl", true );
+                $t->set_var( "address_item" );
+            }
             if ( !in_array( $i, $AddressDeleteValues ) )
             {
                 $t->set_var( "street1", $Street1[$i] );
@@ -766,11 +777,13 @@ if ( !$confirm )
                     $t->parse( "country_item_select", "country_item_select_tpl", true );
                 }
 
-                $t->parse( "address_table_item", "address_table_item_tpl", true );
+                $t->parse( "address_item", "address_item_tpl", true );
                 $item++;
             }
         }
-        $t->parse( "address_item", "address_item_tpl" );
+        $t->parse( "address_table_item", "address_table_item_tpl", true );
+
+//          $t->parse( "address_item", "address_item_tpl" );
 
         if ( isset( $NewPhone ) )
         {
@@ -778,12 +791,12 @@ if ( !$confirm )
             $PhoneID[] = "";
             $Phone[] = "";
         }
-        $count = max( count( $PhoneTypeID ), count( $PhoneID ), count( $Phone ), 3 );
+        $count = max( count( $PhoneTypeID ), count( $PhoneID ), count( $Phone ), $PhoneMinimum );
         $item = 0;
         $PhoneDeleteValues =& array_values( $PhoneDelete );
         for ( $i = 0; $i < $count || $item < $count; $i++ )
         {
-            if ( ( $item % 3 == 0 ) && $item > 0 )
+            if ( ( $item % $PhoneWidth == 0 ) && $item > 0 )
             {
                 $t->parse( "phone_table_item", "phone_table_item_tpl", true );
                 $t->set_var( "phone_item" );
@@ -819,12 +832,12 @@ if ( !$confirm )
             $OnlineID[] = "";
             $Online[] = "";
         }
-        $count = max( count( $OnlineTypeID ), count( $OnlineID ), count( $Online ), 2 );
+        $count = max( count( $OnlineTypeID ), count( $OnlineID ), count( $Online ), $OnlineMinimum );
         $item = 0;
         $OnlineDeleteValues =& array_values( $OnlineDelete );
         for ( $i = 0; $i < $count || $item < $count; $i++ )
         {
-            if ( ( $item % 3 == 0 ) && $item > 0 )
+            if ( ( $item % $OnlineWidth == 0 ) && $item > 0 )
             {
                 $t->parse( "online_table_item", "online_table_item_tpl", true );
                 $t->set_var( "online_item" );
@@ -965,6 +978,11 @@ if ( !$confirm )
     }
 
 // Template variabler.
+
+    if ( is_numeric( $CompanyID ) || is_numeric( $PersonID ) )
+        $t->parse( "delete_item", "delete_item_tpl" );
+    else
+        $t->set_var( "delete_item", "" );
 
     $t->set_var( "action_value", $Action_value );
 
