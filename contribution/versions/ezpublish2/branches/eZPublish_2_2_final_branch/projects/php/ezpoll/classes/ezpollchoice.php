@@ -1,5 +1,5 @@
 <?php
-// $Id: ezpollchoice.php,v 1.18 2001/07/20 11:22:30 jakobn Exp $
+// $Id: ezpollchoice.php,v 1.18.2.1 2001/11/01 21:32:06 bf Exp $
 //
 // Definition of eZPollChoice class
 //
@@ -102,12 +102,12 @@ class eZPollChoice
     */
     function delete()
     {
-        $this->dbInit();
+        $db =& eZDB::globalDatabase();
 
         if ( isset ( $this->ID ) )
         {
-            $this->Database->query( "DELETE FROM eZPoll_Vote WHERE ChoiceID='$this->ID'" );
-            $this->Database->query( "DELETE FROM eZPoll_PollChoice WHERE ID='$this->ID'" );
+            $db->query( "DELETE FROM eZPoll_Vote WHERE ChoiceID='$this->ID'" );
+            $db->query( "DELETE FROM eZPoll_PollChoice WHERE ID='$this->ID'" );
         }
         return true;
     }
