@@ -262,6 +262,15 @@ class INIFile
     } 
 
     /*!
+      Returns true if the group and variable exists.
+    */
+    function has_var( $group, $var_name )
+    {
+        $group = strtolower( $group );
+        return isset( $this->GROUPS[$group] ) and isset( $this->GROUPS[$group][$var_name] );
+    }
+
+    /*!
       Reads a variable from a group.
     */
     function read_var( $group, $var_name )
@@ -283,9 +292,9 @@ class INIFile
     */
     function read_array( $group, $var_name )
     {
-        $var_value =& $this->read_var( $group, $var_name );
-        if ( $var_value )
+        if ( $this->has_var( $group, $var_name ) )
         {
+            $var_value =& $this->read_var( $group, $var_name );
             $var_array =& explode( ";", $var_value );
             return $var_array;
         }
