@@ -30,9 +30,19 @@
 <form method="post" onSubmit="return formCheck(this)" name="EventEdit" action="{www_dir}{index}/groupeventcalendar/eventedit/{action_value}/{event_id}/">
 
 <br />
-<div class="gcalWrapFrm">	
+<table width="100%" border="0" cellpadding="0" cellspacing="0" class="gcalEventEditMain">
+<tr>
+	<td id="gcalBigHeader" style="border: 0px; background: url('{www_dir}{index}/ezgroupeventcalendar/user/templates/standard/images/gcalShortTimeBg.png') repeat;" colspan=7>
+	<span class="gcalBigHeader">
+    {intl-event_edit}
+    </span>
+	</td>
+</tr>
+<tr>
+<td width="100%"align="center">
+<div class="gcalWrapFrm">
 <p class="boxtext">{intl-event_title}:</p>
-<input class="gcalTextFrm" type="text" size="50" name="Name" value="{name_value}"  
+<input class="gcalTextFrm" type="text" size="50" name="Name" value="{name_value}"
  onFocus="this.className='gcalTextFocusFrm'"
  onBlur="this.className='gcalTextFrm'" />
 
@@ -47,11 +57,10 @@ onFocus="this.className='gcalTextFocusFrm'"
  onBlur="this.className='gcalTextFrm'" />
 
 <p class="boxtext">{intl-event_description}:</p>
-<textarea class="gcalTextFrm" name="Description" cols="50" rows="7" wrap="soft" 
+<textarea class="gcalTextFrm" name="Description" cols="50" rows="7" wrap="soft"
 onFocus="this.className='gcalTextFocusFrm'"
  onBlur="this.className='gcalTextFrm'" >{description_value}</textarea>
 </div> <!-- end gcalWrapFrm -->
-<br />
 <div class="gcalWrapFrm">
 <div class="gcalGroupBoxFrm">
 <!-- BEGIN group_name_edit_tpl -->
@@ -174,7 +183,7 @@ onmouseover="this.className='gcalSubmitOverFrm'">
 		<i>{intl-minute}</i>
 	</td>
 </tr>
-<tr> 
+<tr>
 	<td>
 		<!-- BEGIN start_ampm_radio_tpl -->
                 <input type="radio" name="Start_AM_PM" value="am" {start_am}>&nbsp;&nbsp;am&nbsp;&nbsp;
@@ -197,10 +206,10 @@ onmouseover="this.className='gcalSubmitOverFrm'">
 <!-- start recurring_event stuff -->
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
 <tr>
-	<td><p class="boxtext">{intl-recurring_event}:</p></td>
+	<td align="center"><p class="boxtext">{intl-recurring_event}:</p></td>
 </tr>
 <tr>
-	<td valign="top">
+	<td valign="top" align="center">
 		<span id="gcalRecurSpan" class="gcalRCheckFrm">
 		 <input {is_recurring} type="checkbox" name="IsRecurring" 
 		 onclick="toggleRecurringEventForm()" />&nbsp;{intl-make_recurring}
@@ -216,7 +225,7 @@ onmouseover="this.className='gcalSubmitOverFrm'">
    <option value="month" {rtselect_month}>{intl-event_month}</option>
    <option value="year" {rtselect_year}>{intl-event_year}</option>
  </select>
- 
+
  <div id="gcalRecurringWeekly" class="gcalGroupBoxFrm">
  <input type="checkbox" value="mon" name="RecurWeekly[]" id="RecurWeekly" {recur_weekly_mon} />&nbsp;<span class="check">{intl-mon}</span><br />
  <input type="checkbox" value="tue" name="RecurWeekly[]" id="RecurWeekly" {recur_weekly_tue} />&nbsp;<span class="check">{intl-tue}</span><br />
@@ -244,14 +253,14 @@ onmouseover="this.className='gcalSubmitOverFrm'">
  onBlur="this.className='gcalTextFrm'"
  />
  <br />
- <input type="radio" name="RepeatOptions"  value="untilDate" {repeat_until} /> {intl-repeat_until} <input class="gcalCalTextFrm" type="text" size="20" name="UntilDate" value='{until_date}' id="untilDate" readonly><input class="gcalSubmitFrm" style="height: 25px; border-left: 0px;" type="reset" value=" ... " 
+ <input type="radio" name="RepeatOptions"  value="untilDate" {repeat_until} /> {intl-repeat_until} <input class="gcalCalTextFrm" type="text" size="20" name="UntilDate" value='{until_date}' id="untilDate" readonly><input class="gcalSubmitFrm" style="height: 25px; border-left: 0px;" type="reset" value=" ... "
 onmouseout="this.className='gcalSubmitFrm'"
 onmouseover="this.className='gcalSubmitOverFrm'"
  onclick="return showCalendar('untilDate', '%Y-%m-%d');" >
  </div>
  <div class="gcalGroupBoxFrm">
 {intl-repeat_exceptions} <br />
- <a onclick='addToList()' style="font-size: 9px;" class="gcalSubmitFrm">{intl-repeat_exception_add}</a> 
+ <a onclick='addToList()' style="font-size: 9px;" class="gcalSubmitFrm">{intl-repeat_exception_add}</a>
  <a onclick='removeFromList("ExceptSelect")' style="font-size: 9px;" class="gcalSubmitFrm">{intl-repeat_exception_remove}</a><br /><br />
  <input type="text" class="gcalCalTextFrm" size=12 name="RecurExceptions" id="RecurExceptions" readonly /><input class="gcalSubmitFrm" style="height: 25px; border-left: 0px;" type="reset" value=" ... " 
  onmouseout="this.className='gcalSubmitFrm'"
@@ -264,9 +273,10 @@ onmouseover="this.className='gcalSubmitOverFrm'"
  </select>
  </div>
 </div>
+</td>
+</tr>
+</table>
 <!-- End recurring event stuff -->
-<br />
-
 
 <script language="JavaScript">
 <!--hide this script from non-javascript-enabled browsers
@@ -814,10 +824,10 @@ if (frm.IsRecurring.checked) {
 
 // stop hiding -->
 </script>
-
-<input class="gcalSubmitFrm" type="submit" name="AddFile" value="{intl-event_file_list}" 
-onmouseout="this.className='gcalSubmitFrm'"
-onmouseover="this.className='gcalSubmitOverFrm'"
+ <br />
+<input class="gcalSwitchBox" type="submit" name="AddFile" value="{intl-event_file_list}"
+onmouseout="this.className='gcalSwitchBox'"
+onmouseover="this.className='gcalSwitchBoxSelect'"
 />
 
 <hr noshade size="4" />
@@ -825,22 +835,22 @@ onmouseover="this.className='gcalSubmitOverFrm'"
 <table border="0" cellspacing="0" cellpadding="0" width="100%">
 <tr>
     <td>
-        <input class="gcalSubmitFrm" type="submit" name="Submit" value="{intl-ok}" 
-	onmouseout="this.className='gcalSubmitFrm'"
-	onmouseover="this.className='gcalSubmitOverFrm'"
+        <input class="gcalSwitchBox" type="submit" name="Submit" value="{intl-ok}" 
+	onmouseout="this.className='gcalSwitchBox'"
+	onmouseover="this.className='gcalSwitchBoxSelect'"
 	/>
-        <input class="gcalSubmitFrm" type="submit" name="Cancel" value="{intl-cancel}" 
-	onmouseout="this.className='gcalSubmitFrm'"
-	onmouseover="this.className='gcalSubmitOverFrm'"
+        <input class="gcalSwitchBox" type="submit" name="Cancel" value="{intl-cancel}" 
+	onmouseout="this.className='gcalSwitchBox'"
+	onmouseover="this.className='gcalSwitchBoxSelect'"
 	/>
         <input type="hidden" name="Action" value="{action_value}" />
         <input type="hidden" name="eventID" value="{event_id}" />
     </td>
     <td align="right">
         <input type="hidden" name="eventArrayID[]" value={event_id}>
-        <input class="gcalSubmitFrm" type="submit" name="DeleteEvents" value="{intl-delete_events}"
-	onmouseout="this.className='gcalSubmitFrm'"
-	onmouseover="this.className='gcalSubmitOverFrm'"
+        <input class="gcalSwitchBox" type="submit" name="DeleteEvents" value="{intl-delete_events}"
+	onmouseout="this.className='gcalSwitchBox'"
+	onmouseover="this.className='gcalSwitchBoxSelect'"
 	>
     </td>
 </tr>

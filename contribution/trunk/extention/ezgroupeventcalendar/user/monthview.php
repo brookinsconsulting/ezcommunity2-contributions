@@ -22,7 +22,30 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, US
 //
-
+ // debug stuff
+require_once('Var_Dump.php');
+Var_Dump::displayInit(
+    array(
+        'display_mode' => 'HTML4_Table'
+    ),
+    array(
+        'show_caption'   => FALSE,
+        'bordercolor'    => '#DDDDDD',
+        'bordersize'     => '2',
+        'captioncolor'   => 'white',
+        'cellpadding'    => '4',
+        'cellspacing'    => '0',
+        'color1'         => '#FFFFFF',
+        'color2'         => '#F4F4F4',
+        'before_num_key' => '<font color="#CC5450"><b>',
+        'after_num_key'  => '</b></font>',
+        'before_str_key' => '<font color="#5450CC">',
+        'after_str_key'  => '</font>',
+        'before_value'   => '<i>',
+        'after_value'    => '</i>'
+    )
+);
+// end debug stuff
 include_once( "classes/INIFile.php" );
 include_once( "classes/eztemplate.php" );
 include_once( "classes/ezlog.php" );
@@ -288,26 +311,25 @@ if( $user )
                     $tmpDate->setDay( $date->day() );
 
 					// Fetch all the appointments
-					if( $eventGroup->id() == 0 && $type->id() == 0) 
-						$appointments =& $tmpGroupEvent->getAllByDate( $tmpDate, true );
+					if( $eventGroup->id() == 0 && $type->id() == 0)  {// die('getAllByDate');
+						$appointments =& $tmpGroupEvent->getAllByDate( $tmpDate, true ); }
 					// Fetch all appointments by type
-					elseif( $eventGroup->id() == 0 && $type->id() != 0 )
-						$appointments =& $tmpGroupEvent->getAllByType( $tmpDate, $type, true );
+					elseif( $eventGroup->id() == 0 && $type->id() != 0 ) {// die('getAllByType');
+						$appointments =& $tmpGroupEvent->getAllByType( $tmpDate, $type, true ); }
 					// Fetch all appointments by Group and Type
-					elseif( $eventGroup->id() != 0 && $type->id() != 0 )
-						$appointments =& $tmpGroupEvent->getByGroupType( $tmpDate, $eventGroup, $type, true );
+					elseif( $eventGroup->id() != 0 && $type->id() != 0 ) {// die('getByGroupType');
+						$appointments =& $tmpGroupEvent->getByGroupType( $tmpDate, $eventGroup, $type, true ); }
 					// Fetch all appointments by Group
-					else
-						$appointments =& $tmpGroupEvent->getByDate( $tmpDate, $eventGroup, true );
+					else {// die('getByDate');
+						$appointments =& $tmpGroupEvent->getByDate( $tmpDate, $eventGroup, true ); }
 
                     $t->set_var( "public_appointment", "" );
                     $t->set_var( "private_appointment", "" );
 
 
 
-
                     foreach ( $appointments as $appointment )
-                    {	
+                    {
 		      // kracker : trim apointment name to keep the calendar easy to read
 		      $appointmentName = $appointment->name();
 		      $appointmentFullName = $appointment->name();
@@ -330,6 +352,7 @@ if( $user )
                 $event_stop_time =  addZero($eStopTime->hour()) . ':'. addZero( $eStopTime->minute() );
                 $t->set_var ( "event_start_time", $event_start_time  );
                 $t->set_var ( "event_stop_time", $event_stop_time );
+
 						if( $groupsList != "-1" )
 						{
 							foreach ( $groupsList as $groups )

@@ -23,29 +23,6 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, US
 //
 // debug stuff
-require_once('Var_Dump.php');
-Var_Dump::displayInit(
-    array(
-        'display_mode' => 'HTML4_Table'
-    ),
-    array(
-        'show_caption'   => FALSE,
-        'bordercolor'    => '#DDDDDD',
-        'bordersize'     => '2',
-        'captioncolor'   => 'white',
-        'cellpadding'    => '4',
-        'cellspacing'    => '0',
-        'color1'         => '#FFFFFF',
-        'color2'         => '#F4F4F4',
-        'before_num_key' => '<font color="#CC5450"><b>',
-        'after_num_key'  => '</b></font>',
-        'before_str_key' => '<font color="#5450CC">',
-        'after_str_key'  => '</font>',
-        'before_value'   => '<i>',
-        'after_value'    => '</i>'
-    )
-);
-// end debug stuff
 include_once( "classes/INIFile.php" );
 include_once( "classes/eztemplate.php" );
 include_once( "classes/ezlog.php" );

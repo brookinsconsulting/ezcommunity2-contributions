@@ -91,7 +91,6 @@ if (typeof ol_bgclass=='undefined') var ol_bgclass="";
 if (typeof ol_textfontclass=='undefined') var ol_textfontclass="";
 if (typeof ol_captionfontclass=='undefined') var ol_captionfontclass="";
 if (typeof ol_closefontclass=='undefined') var ol_closefontclass="";
-
 ////////
 // ARRAY CONFIGURATION
 ////////
