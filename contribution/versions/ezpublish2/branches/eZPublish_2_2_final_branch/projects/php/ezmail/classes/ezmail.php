@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezmail.php,v 1.44.2.5 2002/04/02 18:42:04 fh Exp $
+// $Id: ezmail.php,v 1.44.2.6 2002/04/16 08:46:55 jhe Exp $
 //
 // Definition of eZMail class
 //
@@ -1032,26 +1032,26 @@ class eZMail
         $encoding = "base64";
 	
 	//EP - different charsets for the MIME mail ---------------
-        global $GlobalSectionID;
+//        global $GlobalSectionID;
+//
+//        include_once("ezsitemanager/classes/ezsection.php");
+//        $sectionObject =& eZSection::globalSectionObject( $GlobalSectionID );
+//        $Locale = new eZLocale( $sectionObject->language() );
+//        $iso =& $Locale->languageISO();
 
-        include_once("ezsitemanager/classes/ezsection.php");
-        $sectionObject =& eZSection::globalSectionObject( $GlobalSectionID );
-        $Locale = new eZLocale( $sectionObject->language() );
-        $iso =& $Locale->languageISO();
+//        $subj = $this->subject();
+//        $subj = "=?$iso?B?" . trim( chunk_split( base64_encode( $subj ))) . "?=";
+//        $this->setSubject ( $subj );
 
-        $subj = $this->subject();
-        $subj = "=?$iso?B?" . trim( chunk_split( base64_encode( $subj ))) . "?=";
-        $this->setSubject ( $subj );
-
-        return "Content-Type: " . $part["ctype"] . ";\n\tcharset=\"$iso\"" .
-            ( $part["name"] ? "; name = \"" . $part["name"] . "\"" : "" ) .
-            "\nContent-Transfer-Encoding: $encoding\n\n$message\n";	
+//        return "Content-Type: " . $part["ctype"] . ";\n\tcharset=\"$iso\"" .
+//            ( $part["name"] ? "; name = \"" . $part["name"] . "\"" : "" ) .
+//            "\nContent-Transfer-Encoding: $encoding\n\n$message\n";	
 	
 	//EP	---------------------------------------------------
 	
-//        return "Content-Type: " . $part["ctype"] . 
-//            ( $part["name"] ? "; name = \"" . $part["name"] . "\"" : "" ) .
-//            "\nContent-Transfer-Encoding: $encoding\n\n$message\n";
+        return "Content-Type: " . $part["ctype"] . 
+            ( $part["name"] ? "; name = \"" . $part["name"] . "\"" : "" ) .
+            "\nContent-Transfer-Encoding: $encoding\n\n$message\n";
     }
     
     /*!
