@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eznewsitem.php,v 1.35 2000/10/13 08:22:43 pkej-cvs Exp $
+// $Id: eznewsitem.php,v 1.36 2000/10/13 08:32:12 pkej-cvs Exp $
 //
 // Definition of eZNewsItem class
 //
@@ -335,15 +335,13 @@ class eZNewsItem extends eZNewsUtility
     /*!
         Creates the relationship between this object and one image.
         
-        Will fail if an image is marked as a front image, but an
-        front image already exists.
-        
         If the object is dirty it will not accept any new references.
         
         This funciton needs store() afterwards if you want to apply
         the change to the database.
         
-        Only one image can be the front image.
+        Only one image can be the front image. Only the latest added
+        front image will be set as the front image.
         
         \in
             \$ImageID   The id of the image that shall be added

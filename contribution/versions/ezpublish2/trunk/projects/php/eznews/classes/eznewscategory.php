@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: eznewscategory.php,v 1.7 2000/10/13 08:22:43 pkej-cvs Exp $
+// $Id: eznewscategory.php,v 1.8 2000/10/13 08:32:12 pkej-cvs Exp $
 //
 // Definition of eZNewsCategory class
 //
@@ -207,7 +207,7 @@ class eZNewsCategory extends eZNewsItem
      */
     function setPublicDescriptionID( $inPPID )
     {
-         #echo "eZNews "eZNewsCategory::setPublicDescriptionID( \$inPPID=$inPPID )<br />\n";
+        #echo "eZNews "eZNewsCategory::setPublicDescriptionID( \$inPPID=$inPPID )<br />\n";
         $oldPPID = $this->PublicDescriptionID;
         
         $value = false;
@@ -247,7 +247,7 @@ class eZNewsCategory extends eZNewsItem
      */
     function publicDescriptionID()
     {
-         #echo "eZNews "eZNewsCategory::publicDescriptionID()<br />\n";
+        #echo "eZNews "eZNewsCategory::publicDescriptionID()<br />\n";
         $this->dirtyUpdate();
         
         return $this->PublicDescriptionID;
@@ -269,7 +269,7 @@ class eZNewsCategory extends eZNewsItem
      */
     function setPrivateDescriptionID( $inPPID )
     {
-         #echo "eZNews "eZNewsCategory::setPrivateDescriptionID( \$inPPID=$inPPID )<br />\n";
+        #echo "eZNews "eZNewsCategory::setPrivateDescriptionID( \$inPPID=$inPPID )<br />\n";
         $oldPPID = $this->PrivateDescriptionID;
         
         $value = false;
