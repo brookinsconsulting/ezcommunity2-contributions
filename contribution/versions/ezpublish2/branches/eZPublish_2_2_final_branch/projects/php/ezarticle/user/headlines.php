@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: headlines.php,v 1.18.2.4 2002/04/10 13:51:01 br Exp $
+// $Id: headlines.php,v 1.18.2.5 2002/04/29 12:55:13 bf Exp $
 //
 // Created on: <30-Nov-2000 14:35:24 bf>
 //
@@ -61,11 +61,13 @@ function createHeadlinesMenu( $menuCacheFile=false )
     global $Language;
     global $GlobalSiteDesign;
     global $CategoryID;
+    global $Limit;
+
 
     include_once( "ezarticle/classes/ezarticlecategory.php" );
     include_once( "ezarticle/classes/ezarticle.php" );
     include_once( "ezarticle/classes/ezarticlerenderer.php" );
-    
+
     $t = new eZTemplate( "ezarticle/user/" . $ini->read_var( "eZArticleMain", "TemplateDir" ),
                          "ezarticle/user/intl/", $Language, "headlines.php" );
 
