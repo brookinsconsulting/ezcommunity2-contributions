@@ -73,7 +73,24 @@
 
 </tr>
 </table>
+
 <br />
+
+<!-- BEGIN list_logs_tpl -->
+<table width="100%" cellpadding="0" cellspacing="0" border="0">
+<tr>
+        <th>{intl-log_header}</th>
+</tr>
+<!-- BEGIN log_item_tpl -->
+<th>{log_created}</th>
+<tr>
+	<td>
+	{log_view}
+	</td>
+</tr>
+<!-- END log_item_tpl -->
+</table>
+<!-- END list_logs_tpl -->
 
 <!-- BEGIN mark_as_done -->
 <!--<input class="stdbutton" type="submit" Name="Done" value="{intl-mark_as_done}">-->

@@ -1,5 +1,5 @@
 <?
-// $Id: todoedit.php,v 1.19 2001/04/30 14:33:41 ce Exp $
+// $Id: todoedit.php,v 1.20 2001/05/09 13:36:35 ce Exp $
 //
 // Definition of todo list.
 //
@@ -119,6 +119,7 @@ $t->set_var( "errors", "&nbsp;" );
 $t->set_var( "name", "$Name" );
 $t->set_var( "description", "$Description" );
 $t->set_var( "list_logs", "" );
+$t->set_var( "send_mail", "" );
 $t->set_var( "log_item", "" );
 
 $error = false;

@@ -1,5 +1,5 @@
 <?
-// $Id: todoview.php,v 1.6 2001/05/04 10:40:50 ce Exp $
+// $Id: todoview.php,v 1.7 2001/05/09 13:36:35 ce Exp $
 //
 // Definition of todo list.
 //
@@ -50,6 +50,10 @@ $t->set_block( "todo_edit_page", "todo_is_private_tpl", "todo_is_private" );
 //$t->set_block( "todo_edit_page", "mark_as_done", "mark_done" );
 $t->set_block( "todo_edit_page", "user_item_tpl", "user_item" );
 
+$t->set_block( "todo_edit_page", "list_logs_tpl", "list_logs" );
+$t->set_block( "list_logs_tpl", "log_item_tpl", "log_item" );
+
+
 $t->set_block( "todo_edit_page", "errors_tpl", "errors" );
 $t->set_var( "errors", "&nbsp;" );
 
@@ -72,6 +76,19 @@ $t->set_var( "todo_name", $todo->name() );
 $t->set_var( "todo_description", $todo->description() );
 $t->set_var( "todo_id", $todo->id() );
 
+$logs = $todo->logs();
+
+if ( count ( $logs ) > 0 )
+{
+    foreach ( $logs as $log )
+    {
+        $t->set_var( "log_view", $log->log() );
+        $t->set_var( "log_created", $locale->format( $log->created() ) );
+        
+        $t->parse( "log_item", "log_item_tpl", true );
+    }
+}
+$t->parse( "list_logs", "list_logs_tpl" );
 
 $owner = new eZUser( $todo->ownerID() );
 $t->set_var( "first_name", $owner->firstName() );
