@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eztemplate.php,v 1.43 2001/09/19 11:24:57 bf Exp $
+// $Id: eztemplate.php,v 1.44 2001/09/25 11:51:10 bf Exp $
 //
 // Definition of eZTemplate class
 //
@@ -153,7 +153,10 @@ class eZTemplate
                 }
                 else
                 {
-                    print( "<br><b>Error: language file, $lang_file, could not be found.</b><br>" );
+                    if ( $GLOBALS["DEBUG"] == true )
+                    {
+                        print( "<br><b>Error: language file, $lang_file, could not be found.</b><br>" );
+                    }
                 }
                 $intl_dir =& each( $intlDir );
             }
@@ -169,12 +172,18 @@ class eZTemplate
             }
             else
             {
-                print( "<br><b>Error: language file, $this->languageFile, could not be found.</b><br>" );
+                if ( $GLOBALS["DEBUG"] == true )
+                {
+                    print( "<br><b>Error: language file, $this->languageFile, could not be found.</b><br>" );
+                }
             }
         }
         else
         {
+            if ( $GLOBALS["DEBUG"] == true )
+            {                    
                 print( "<br><b>Error: $" . "intlDir and $" . "phpFile must either be arrays or strings.</b><br>" );
+            }
         }
 
         if ( empty( $this->Style ) || empty( $this->ModuleDir ) )
@@ -329,7 +338,10 @@ class eZTemplate
         $CacheFile =& $this->cacheFile();
         if ( !eZFile::file_exists( $this->CacheDir ) )
         {
-            print( "<br /><b>TemplateCache: directory $this->CacheDir does not exist, cannot create cache file</b><br />" );
+            if ( $GLOBALS["DEBUG"] == true )
+            {                    
+                print( "<br /><b>TemplateCache: directory $this->CacheDir does not exist, cannot create cache file</b><br />" );
+            }
         }
         else
         {
@@ -354,7 +366,10 @@ class eZTemplate
         $CacheFile =& $this->cacheFile();
         if ( !eZFile::file_exists( $this->CacheDir ) )
         {
-            print( "<br /><b>TemplateCache: directory $this->CacheDir does not exist, cannot delete cache file</b><br />" );
+            if ( $GLOBALS["DEBUG"] == true )
+            {
+                print( "<br /><b>TemplateCache: directory $this->CacheDir does not exist, cannot delete cache file</b><br />" );
+            }
         }
         else
         {
@@ -867,7 +882,10 @@ class eZTemplate
     function haltmsg($msg)
     {
         $err_msg = "<b>Template Error:</b> $msg<br>\n";
-        print( $err_msg );
+        if ( $GLOBALS["DEBUG"] == true )
+        {
+            print( $err_msg );
+        }
         eZLog::writeNotice( $err_msg );
     }
 
