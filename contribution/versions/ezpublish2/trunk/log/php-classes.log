@@ -599,3 +599,17 @@ Maintainer(s) : bf@ez.no
 
     * ezmysqldb.php: Fixes
 
+
+Module : classes
+Repository path : /home/cvsroot/projects/php/classes
+Maintainer(s) : bf@ez.no
+2002-02-06  Jo Henrik Endrerud  <jhe@ez.no>
+
+    * ezpostgresqldb.php: fixed bug when ampty offset or limit
+
+    * ezlocale.php: fixed bug
+
+    * ezlocale.php: fixed problem in formatNumber
+
+    * ezlocale.php: added formatNumber()
+

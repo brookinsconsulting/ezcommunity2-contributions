@@ -682,3 +682,12 @@ Maintainer(s) : jhe@ez.no
     * user/folderedit.php
       classes/ezvirtualfolder.php: fixed problem with permissions
 
+
+Module : ezfilemanager
+Repository path : /home/cvsroot/projects/php/ezfilemanager
+Maintainer(s) : jhe@ez.no
+2002-02-06  Jo Henrik Endrerud  <jhe@ez.no>
+
+    * user/filelist.php:
+    not printing row for folders where the user doesn't have permission
+

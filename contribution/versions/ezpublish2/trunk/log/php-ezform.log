@@ -1299,3 +1299,22 @@ Maintainer(s) : pkej@ez.no
     * user/templates/standard/viewreport.tpl
       user/viewreport.php: fixed printable url
 
+
+Module : ezform
+Repository path : /home/cvsroot/projects/php/ezform
+Maintainer(s) : pkej@ez.no
+2002-02-06  Jo Henrik Endrerud  <jhe@ez.no>
+
+    * classes/ezformreportelement.php: fixed bug
+
+    * classes/ezformreportelement.php: fixed bug in frequency table
+
+    * classes/ezformrenderer.php: fixed bug
+
+    * classes/ezformrenderer.php
+      user/datasupplier.php: fixed clearing of values when editing results
+
+    * classes/ezformreportelement.php
+      admin/templates/standard/formrenderer.tpl
+      classes/ezformelement.php: fixed nuber format
+

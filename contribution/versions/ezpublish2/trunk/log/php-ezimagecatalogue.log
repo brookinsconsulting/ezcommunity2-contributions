@@ -901,3 +901,12 @@ Maintainer(s) : br@ez.no
       xmlrpc/categorylist.php:
     Made sure the returned web urls are rewritten for non virtualhost setups.
 
+
+Module : ezimagecatalogue
+Repository path : /home/cvsroot/projects/php/ezimagecatalogue
+Maintainer(s) : br@ez.no
+2002-02-06  Jo Henrik Endrerud  <jhe@ez.no>
+
+    * user/imagelist.php:
+    removed row when user hasn't read permission to the folder
+

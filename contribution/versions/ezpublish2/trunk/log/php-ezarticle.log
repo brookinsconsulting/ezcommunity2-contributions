@@ -2776,3 +2776,18 @@ Maintainer(s) : bf@ez.no
     * classes/eztechrenderer.php:
     small bug with empty articles (foreach error)
 
+
+Module : ezarticle
+Repository path : /home/cvsroot/projects/php/ezarticle
+Maintainer(s) : bf@ez.no
+2002-02-06  Baard Farstad  <bf@ez.no>
+
+    * classes/ezqdomgenerator.php: Removed debug.
+
+    * classes/ezqdomgenerator.php: Removed libxml dependency.
+
+    * user/templates/standard/articletags.tpl:
+    Fixed problem with external links and nvh setup.
+
+    * classes/eztechrenderer.php: Fixed check for array.
+
