@@ -11,7 +11,7 @@
 <br /><br />
 
 <!-- BEGIN attribute_list_tpl -->
-<table width="100%" cellspacing="0" cellpadding="4" border="0">
+<table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
 <tr>
 	<th>
 	{intl-attribute_name}:
@@ -20,16 +20,16 @@
 </tr>
 <!-- BEGIN attribute_tpl -->
 <tr class="{td_class}">
-	<td width="1%">
+	<td width="96%">
 	<input type="hidden" name="AttributeID[]" value="{attribute_id}" />
-	<input type="text" name="AttributeName[]" value="{attribute_name}" />
+	<input class="halfbox" size="20" type="text" name="AttributeName[]" value="{attribute_name}" />
 	</td>
 <!-- BEGIN item_move_down_tpl -->
-	<td width="1%"><a href="/article/type/down/{type_id}/{attribute_id}"><img src="/admin/images/move-down.gif" height="12" width="12" border="0" alt="Move down" /></a></td>
+	<td width="1%" align="right"><a href="/article/type/down/{type_id}/{attribute_id}"><img src="/admin/images/move-down.gif" height="12" width="12" border="0" alt="Move down" /></a></td>
 <!-- END item_move_down_tpl -->
 
 <!-- BEGIN no_item_move_down_tpl -->
-	<td width="1%"> &nbsp; </td>
+	<td width="1%" align="right"> &nbsp; </td>
 <!-- END no_item_move_down_tpl -->
 
 <!-- BEGIN item_separator_tpl -->
@@ -40,10 +40,10 @@
 <!-- END no_item_separator_tpl -->
 
 <!-- BEGIN item_move_up_tpl -->
-	<td width="1%"><a href="/article/type/up/{type_id}/{attribute_id}"><img src="/admin/images/move-up.gif" height="12" width="12" border="0" alt="Move up" /></a></td>
+	<td width="1%" align="right"><a href="/article/type/up/{type_id}/{attribute_id}"><img src="/admin/images/move-up.gif" height="12" width="12" border="0" alt="Move up" /></a></td>
 <!-- END item_move_up_tpl -->
 <!-- BEGIN no_item_move_up_tpl -->
-	<td width="1%"> &nbsp; </td>
+	<td width="1%" align="right"> &nbsp; </td>
 <!-- END no_item_move_up_tpl -->
 	<td>
 	<input type="checkbox" name="DeleteAttributes[]" value="{attribute_id}" />

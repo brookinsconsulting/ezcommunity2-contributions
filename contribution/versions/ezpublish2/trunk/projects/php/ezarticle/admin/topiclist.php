@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: topiclist.php,v 1.2 2001/06/05 12:40:48 bf Exp $
+// $Id: topiclist.php,v 1.3 2001/06/14 13:53:19 th Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <01-Jun-2001 11:58:53 bf>
@@ -86,13 +86,25 @@ $topic = new eZTopic( );
 
 $topicArray = $topic->getAll();
 
+$i=0;
 foreach ( $topicArray as $topic )
 {
     $t->set_var( "id", $topic->id() );
     $t->set_var( "topic_name", $topic->name() );
     $t->set_var( "topic_description", $topic->description() );
 
+    if ( ( $i % 2 ) == 0 )
+    {
+        $t->set_var( "td_class", "bglight" );
+    }
+    else
+    {
+        $t->set_var( "td_class", "bgdark" );
+    }
+    
     $t->parse( "topic_item", "topic_item_tpl", true );
+    $i++;
+	
 }
 $t->parse( "topic_list", "topic_list_tpl" );
 

@@ -4,6 +4,7 @@
 
 <!-- BEGIN type_list_tpl -->
 <form method="post" action="/article/type/list/">
+
 <table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
 <tr>
 	<tr>
@@ -15,7 +16,7 @@
 <!-- BEGIN type_item_tpl -->
 <tr>
 	<td class="{td_class}">
-	<a href="/article/type/edit/{type_id}/">{type_name}&nbsp;</a>
+	<a href="/article/type/edit/{type_id}/">{type_name}</a>
 	</td>
 	<td width="1%" class="{td_class}">
 	<a href="/article/type/edit/{type_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('eztc{type_id}-red','','/admin/images/{site_style}/redigerminimrk.gif',1)"><img name="eztc{type_id}-red" border="0" src="/admin/images/{site_style}/redigermini.gif" width="16" height="16" align="top"></a>
