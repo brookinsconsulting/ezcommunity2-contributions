@@ -1,1 +1,1 @@
-ALTER TABLE eZArticle_Category add ImageID int; 
+ALTER TABLE eZArticle_Category add ImageID int default 0; 

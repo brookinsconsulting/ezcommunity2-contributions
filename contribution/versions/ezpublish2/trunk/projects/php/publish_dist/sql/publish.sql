@@ -3520,3 +3520,4 @@ insert into eZUser_Permission set ModuleID='12', Name='WriteToRoot';
 
 insert into eZUser_Module set Name='eZSiteManager';    
 insert into eZUser_Permission set ModuleID='16', Name='ModuleEdit';   
+ALTER TABLE eZArticle_Category add ImageID int; 

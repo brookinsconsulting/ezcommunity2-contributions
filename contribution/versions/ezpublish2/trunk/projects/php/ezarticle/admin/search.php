@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: search.php,v 1.9 2001/05/16 11:32:31 ce Exp $
+// $Id: search.php,v 1.10 2001/05/16 15:16:11 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <28-Oct-2000 15:56:58 bf>
@@ -40,7 +40,7 @@ if( isset( $Delete ) && count( $ArticleArrayID ) > 0 )
 {
     foreach( $ArticleArrayID as $articleID )
     {
-        if( eZObjectPermisson::hasPermission( $articleID, "article_article", 'w' ) )
+        if( eZObjectPermission::hasPermission( $articleID, "article_article", 'w' ) )
         {
             $article = new eZArticle( $articleID );
             $article->delete();

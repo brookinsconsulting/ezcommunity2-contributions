@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezuser.php,v 1.67 2001/05/15 13:18:46 bf Exp $
+// $Id: ezuser.php,v 1.68 2001/05/16 15:16:11 bf Exp $
 //
 // Definition of eZUser class
 //
@@ -667,9 +667,10 @@ class eZUser
         
         if ( $session->fetch( false ) )
         {
-            $val =& $session->variable( "AuthenticatedUser" );
-
-            $user = new eZUser( $val );
+            $user = new eZUser( $session->variable("AuthenticatedUser" ) );
+            
+//            $val =& $session->variable( "AuthenticatedUser" );
+//            $user = new eZUser( $val );
 
 //              print( $session->variable( "AuthenticatedUser" ) );
 
