@@ -27,7 +27,7 @@ if ( $Action == "insert" )
     $type->setTitle( $Title );
     $type->store();
 
-    Header( "Location: index.php?page=" . $DOC_ROOT . "prioritytypelist.php" );
+    Header( "Location: /todo/prioritytypelist/" );
 }
 
 // Update a priority.
@@ -38,7 +38,7 @@ if ( $Action == "update" )
     $type->setTitle( $Title );
     $type->update();
 
-    Header( "Location: index.php?page=" . $DOC_ROOT . "prioritytypelist.php" );
+    Header( "Location: /todo/prioritytypelist/" );
 }
 
 // Delete a priority.
@@ -48,7 +48,7 @@ if ( $Action == "delete" )
     $type->get( $PriorityID );
     $type->delete();
 
-    Header( "Location: index.php?page=" . $DOC_ROOT . "prioritytypelist.php" );
+    Header( "Location: /todo/prioritytypelist/" );
 }
 
 $t = new eZTemplate( $DOC_ROOT . "/" . $ini->read_var( "eZTodoMain", "TemplateDir" ), $DOC_ROOT . "/intl", $Language, "prioritytypeedit.php" );

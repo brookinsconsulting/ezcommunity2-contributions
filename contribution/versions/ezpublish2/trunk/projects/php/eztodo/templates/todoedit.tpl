@@ -1,4 +1,4 @@
-<form method="post" action="index.php?page={document_root}todoedit.php">
+<form method="post" action="/todo/todoedit/">
 <h1>{head_line}</h1>
 
 <p>

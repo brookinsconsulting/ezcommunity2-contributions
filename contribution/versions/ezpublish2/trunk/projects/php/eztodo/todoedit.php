@@ -1,5 +1,5 @@
 <?
-// $Id: todoedit.php,v 1.4 2000/09/14 12:57:26 ce-cvs Exp $
+// $Id: todoedit.php,v 1.5 2000/09/18 11:09:52 ce-cvs Exp $
 //
 // Definition of todo list.
 //
@@ -73,7 +73,7 @@ if ( $Action == "insert" )
 //    $todo->setDue( $Year . $Mnd . $Hour );
 
     $todo->store();
-    Header( "Location: index.php?page=" . $DOC_ROOT . "todolist.php" );
+    Header( "Location: /todo/todolist" );
 }
 
 // Update a todo in the database.
@@ -109,7 +109,7 @@ if ( $Action == "update" )
     
     $todo->update();
 
-    Header( "Location: index.php?page=" . $DOC_ROOT . "todolist.php" );
+    Header( "Location: /todo/todolist/" );
 }
 
 // Delete a todo in the database.
@@ -119,7 +119,7 @@ if ( $Action == "delete" )
     $todo->get( $TodoID );
     $todo->delete();
 
-    Header( "Location: index.php?page=" . $DOC_ROOT . "todolist.php" );
+    Header( "Location: /todo/todolist/" );
 }
 
 // Mark a todo as done or undone.
@@ -131,14 +131,14 @@ if ( $Action == "done" )
         $todo->get( $TodoID );
         $todo->setStatus( "Y" );
         $todo->update();
-        Header( "Location: index.php?page=" . $DOC_ROOT . "todolist.php" );
+        Header( "Location: /todo/todolist/" );
     }
     if ( $Status == "Y" )
     {
         $todo->get( $TodoID );
         $todo->setStatus( "N" );
         $todo->update();
-        Header( "Location: index.php?page=" . $DOC_ROOT . "todolist.php" );
+        Header( "Location: /todo/todolist/" );
     }
 }
 

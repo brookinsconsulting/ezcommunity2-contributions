@@ -3,4 +3,4 @@
 {priority_type_list}
 </table>
 <br>
-<a href="index.php?page={document_root}prioritytypeedit.php">{intl-newpriority}</a>
+<a href="/todo/prioritytypeedit/">{intl-newpriority}</a>

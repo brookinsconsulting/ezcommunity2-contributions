@@ -1,5 +1,5 @@
 <h1>TODO LISTE   bruker: {user}</h1>
-<form method="post" action="index.php?page={document_root}todolist.php">
+<form method="post" action="/todo/todolist/">
 <p>
 {intl-user}<br>
 <select name="GetByUserID">
@@ -53,4 +53,4 @@
 {todos}
 </table>
 <br>
-<a href="index.php?page={document_root}todoedit.php">Ny todo (ikke støttet)</a>
+<a href="/todo/todoedit/">Ny todo</a>

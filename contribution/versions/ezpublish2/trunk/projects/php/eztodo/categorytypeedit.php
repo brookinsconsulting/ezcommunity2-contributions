@@ -27,7 +27,7 @@ if ( $Action == "insert" )
     $type->setTitle( $Title );
     $type->store();
 
-    Header( "Location: index.php?page=" . $DOC_ROOT . "categorytypelist.php" );
+    Header( "Location: /todo/categorytypelist/" );
 }
 
 // Update a category.
@@ -38,7 +38,7 @@ if ( $Action == "update" )
     $type->setTitle( $Title );
     $type->update();
 
-    Header( "Location: index.php?page=" . $DOC_ROOT . "categorytypelist.php" );
+    Header( "Location: /todo/categorytypelist/" );
 }
 
 // Delete a category.
@@ -48,7 +48,7 @@ if ( $Action == "delete" )
     $type->get( $CategoryID );
     $type->delete();
 
-    Header( "Location: index.php?page=" . $DOC_ROOT . "categorytypelist.php" );
+    Header( "Location: /todo/categorytypelist/" );
 }
 
 $t = new eZTemplate( $DOC_ROOT . "/" . $ini->read_var( "eZTodoMain", "TemplateDir" ), $DOC_ROOT . "/intl", $Language, "categorytypeedit.php" );

@@ -1,4 +1,4 @@
-<form method="post" action="index.php?page={document_root}categorytypeedit.php">
+<form method="post" action="/todo/categorytypeedit/">
 <h1>{head_line}</h1>
 
 <p>{intl-name}<br>
