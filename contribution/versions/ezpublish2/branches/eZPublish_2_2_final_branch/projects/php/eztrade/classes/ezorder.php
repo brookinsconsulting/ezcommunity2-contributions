@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezorder.php,v 1.61.2.4 2002/05/28 13:30:27 jhe Exp $
+// $Id: ezorder.php,v 1.61.2.5 2002/09/18 12:54:37 br Exp $
 //
 // Definition of eZOrder class
 //
@@ -890,7 +890,7 @@ class eZOrder
         
         $db->array_query( $status_array, "SELECT ID FROM eZTrade_OrderStatus
                                                     WHERE OrderID='$this->ID'
-                                                    ORDER BY Altered" );
+                                                    ORDER BY Altered DESC" );
         $ret = false;
         if ( count( $status_array ) )
         {
