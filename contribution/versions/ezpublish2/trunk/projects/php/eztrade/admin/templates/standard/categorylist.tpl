@@ -42,10 +42,10 @@
 <!-- BEGIN category_item_tpl -->
 <tr>
 	<td width="49%" class="{td_class}">
-	<a href="/trade/categorylist/parent/{category_id}/">{category_name}&nbsp;</a>
+	<a href="/trade/categorylist/parent/{category_id}/">{category_name}</a>
 	</td>
 	<td width="49%" class="{td_class}">
-	{category_description}&nbsp;
+	{category_description}
 	</td>
 	<td width="1%" class="{td_class}">
 	<a href="/trade/categoryedit/edit/{category_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('eztc{category_id}-red','','/admin/images/{site_style}/redigerminimrk.gif',1)"><img name="eztc{category_id}-red" border="0" src="/admin/images/{site_style}/redigermini.gif" width="16" height="16" align="top" border="0" alt="Edit" /></a>
@@ -84,7 +84,7 @@
 <!-- BEGIN product_item_tpl -->
 <tr>
 	<td class="{td_class}">
-	<a href="/trade/productedit/productpreview/{product_id}/">{product_name}&nbsp;</a>
+	<a href="/trade/productedit/productpreview/{product_id}/">{product_name}</a>
 	<input type="hidden" name="ProductEditArrayID[]" value="{product_id}" />
 	</td>
 	<!-- BEGIN product_active_item_tpl -->
@@ -98,7 +98,7 @@
 	</td>
 	<!-- END product_inactive_item_tpl -->
 	<td class="{td_class}" align="right">
-	{product_price}&nbsp;
+	{product_price}
 	</td>
 	<td class="{td_class}" align="right">
 	<input type="text" name="Price[]" size="8" value="" />

@@ -291,8 +291,13 @@ else
 eZDB::close();
 
 // Stop benchmark test and print the result.
+<<<<<<< index.php
+ $bench->stop();
+// $bench->printResults();
+=======
 $bench->stop();
 $bench->printResults();
+>>>>>>> 1.75
 
 ob_end_flush();
 

@@ -3,18 +3,18 @@
 <!-- END header_item_tpl -->
 
 
-<table width="100%" border="0" cellspacing="0" cellpadding="0" bgcolor="#FF9900">
+<table width="100%" border="0" cellspacing="0" cellpadding="0" bgcolor="#f08c00">
 <tr>
-        <td width="1"><img src="/images/1x1.gif" width="1" height="38"></td>
-	<td align="left" class="path" width="100%">
+    <td class="toppath" width="1"><img src="/images/1x1.gif" width="1" height="38"></td>
+	<td class="toppath" align="left" class="path" width="100%">
 	<!-- BEGIN path_item_tpl -->	
 	<b>/</b>
-	<a class="path" href="/article/archive/{category_id}/">{category_name}</a> 
+	<a class="toppath" href="/article/archive/{category_id}/">{category_name}</a> 
 	<!-- END path_item_tpl -->
 	</td>
 </tr>
 <tr>
-	<td bgcolor="Black" width="160" colspan="2"><img src="/images/1x1.gif" width="160" height="1"></td>
+	<td class="toppathbottom" width="160" colspan="2"><img src="/images/1x1.gif" width="160" height="1"></td>
 </tr>	
 </table>
 

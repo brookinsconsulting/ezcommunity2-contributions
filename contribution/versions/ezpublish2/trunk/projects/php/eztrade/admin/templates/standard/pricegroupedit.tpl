@@ -1,6 +1,6 @@
 <form method="post" action="/trade/pricegroups/new">
 
-<h1>{intl-price_edit}:</h1>
+<h1>{intl-price_edit}</h1>
 
 <hr noshade="noshade" size="4" />
 

@@ -1,3 +1,13 @@
+<table width="100%" border="0" cellspacing="0" cellpadding="0" bgcolor="#f08c00">
+<tr>
+    <td class="toppath" width="1"><img src="/images/1x1.gif" width="1" height="38"></td>
+	<td class="toppath" align="left" class="path" width="100%">&nbsp;</td>
+</tr>
+<tr>
+	<td class="toppathbottom" width="160" colspan="2"><img src="/images/1x1.gif" width="160" height="1"></td>
+</tr>	
+</table>
+
 <form method="post" action="/article/articleedit/{action_value}/{article_id}/" >
 
 <h1>{intl-head_line}</h1>
@@ -5,10 +15,6 @@
 <!-- BEGIN error_message_tpl -->
 <h3 class="error">{intl-error_parsing_xml}</h3>
 <!-- END error_message_tpl -->
-
-<hr noshade="noshade" size="4" />
-
-<br />
 
 <p class="boxtext">{intl-article_name}:</p>
 <input type="text" name="Name" size="40" value="{article_name}" />
@@ -34,9 +40,6 @@
 <p class="boxtext">{intl-link_text}:</p>
 <input type="text" name="LinkText" size="20" value="{link_text}" />
 <br /><br />
-
-
-<hr noshade="noshade" size="4" />
 
 <table cellspacing="0" cellpadding="0" border="0">
 <tr>
