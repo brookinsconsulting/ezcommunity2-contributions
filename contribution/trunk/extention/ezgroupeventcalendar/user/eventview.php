@@ -87,6 +87,11 @@ $t->set_block( "recurring_event_tpl", "recurring_exceptions_tpl", "recurring_exc
 
 $t->set_var( "sitedesign", $SiteDesign );
 
+$curDate = new eZDate();
+$t->set_var("day_cur", $curDate->day());
+$t->set_var("month_cur", $curDate->month());
+$t->set_var("year_cur", $curDate->year());
+
 $user = eZUser::currentUser();
 $session =& eZSession::globalSession();
 $session->fetch();
@@ -191,7 +196,9 @@ else
     $eventCategory = $event->category();
 
     $datetime = $event->dateTime();
-
+    $t->set_var( "the_month", $datetime->month());
+    $t->set_var( "the_year", $datetime->year());
+    $t->set_var( "the_day", $datetime->day());
     $t->set_var( "event_id", $event->id() );
     $t->set_var( "event_title", $event->name() );
 
@@ -230,7 +237,7 @@ else
        $t->parse("recurring_days_week", "recurring_days_week_tpl");
       } else {  
        $t->set_var( "recur_days_week", '');
-       $t->set_var( "recurring_days_week_tpl", '');
+       $t->set_var( "recurring_days_week", '');
       }
      if ($event->recurType() == 'month') {
       if ($event->recurMonthlyType() == 'numdayname') 
@@ -248,7 +255,7 @@ else
      }
       else {
       $t->set_var( "recur_monthly_type", '' );
-      $t->parse( "recurring_monthly_type", "recurring_monthly_type_tpl" );
+      $t->set_var( "recurring_monthly_type", '');
      }
      
      if ( $event->repeatTimes() ) 

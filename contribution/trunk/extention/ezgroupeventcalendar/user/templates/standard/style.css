@@ -187,10 +187,11 @@ a.gcalBoxText:visited		{ color: #0066FF; }
 a.gcalBoxText:active		{ color: #3366CC; }
 a.gcalBoxText:hover		{ color: #000099; text-decoration: underline; }
 
-.gcalViewLabel { font-weight: bold; text-align: right; vertical-align: top; }
-.gcalViewBg {text-align: left; background-color: #e9edf2; color: black; vertical-align: top;}
-.gcalViewResult  { background-color: #fff; padding: 3px; border: 2px solid black; }
-
+.gcalViewLabel { font-weight: bold; text-align: right;  }
+.gcalViewBg {text-align: left; background-color: #e9edf2; border: 1px solid gray; color: black; vertical-align: top;}
+.gcalViewResult  { height: 24px; background-color: #fff; padding: 3px; border: 1px solid black; }
+.gcalRecurInfo { font-size: 110%; padding-top: 10px; padding-bottom: 10px; font-weight: bold;}
+span.gcalViewResult { margin-left: 10px; }
 .gcalDayEventText		{ font-size: 10px; font-weight: normal;  }
 a.gcalDayEventText		{ text-decoration: none; font-size: 11px; font-weight: bold;}
 a.gcalDayEventText:link		{ color: #fff; }

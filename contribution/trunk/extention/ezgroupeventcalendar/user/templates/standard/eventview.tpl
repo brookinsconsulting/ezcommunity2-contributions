@@ -1,18 +1,42 @@
 <table width="100%" cellspacing="0" cellpadding="2" border="0" align="center">
+
   <tr>
-    <td align="left"> 
-     <h1>{intl-event_view}</h1>
-    </td>
-  </tr>
-  <tr>
-    <td align="right">
-	<form method="post" action="{www_dir}{index}/groupeventcalendar/eventedit/edit/">
-	 <input class="stdbutton" type="submit" name="GoDay" value="{intl-day}">
-	 <input class="stdbutton" type="submit" name="GoWeek" value="{intl-week}">
-	 <input class="stdbutton" type="submit" name="GoMonth" value="{intl-month}">
-	 <input class="stdbutton" type="submit" name="GoYear" value="{intl-year}">
-	 <input class="stdbutton" type="submit" name="GoToday" value="{intl-today}">
-	</form>
+    <td align="right"><!-- BEGIN valid_editor_tpl -->
+	<form method="post" action="{www_dir}{index}/groupeventcalendar/eventedit/edit/{event_id}/">
+	<td align="right" colspan="10" style="padding: 5px;">
+	<input type="hidden" name="eventArrayID[]" value={event_id}>
+     <input class="gcalSwitchBox" onmouseover="this.className='gcalSwitchBoxSelect'" onmouseout="this.className='gcalSwitchBox'" type="submit"  value="{intl-edit_event}">&nbsp;
+	 <input class="gcalSwitchBox" onmouseover="this.className='gcalSwitchBoxSelect'" onmouseout="this.className='gcalSwitchBox'" type="submit" name="DeleteEvents" value="{intl-delete_events}">
+      </form>
+       <!-- END valid_editor_tpl -->
+      <span class="gcalSwitchBox" onmouseover="this.className='gcalSwitchBoxSelect'"
+      onmouseout="this.className='gcalSwitchBox'"
+      onclick="location.href = '{www_dir}{index}/groupeventcalendar/dayview/{the_year}/{the_month}/{the_day}/'">
+      {intl-day}
+      </span>
+      <span class="gcalSwitchBox" onmouseover="this.className='gcalSwitchBoxSelect'"
+      onmouseout="this.className='gcalSwitchBox'"
+      onclick="location.href = '{www_dir}{index}/groupeventcalendar/weekview/{the_year}/{the_month}/{the_day}/'">
+      {intl-week}
+      </span>
+      <span class="gcalSwitchBox" onmouseover="this.className='gcalSwitchBoxSelect'"
+      onmouseout="this.className='gcalSwitchBox'"
+      onclick="location.href = '{www_dir}{index}/groupeventcalendar/monthview/{the_year}/{the_month}/'">
+      {intl-month}
+      </span>
+      <span class="gcalSwitchBox" onmouseover="this.className='gcalSwitchBoxSelect'"
+      onmouseout="this.className='gcalSwitchBox'"
+      onclick="location.href = '{www_dir}{index}/groupeventcalendar/yearview/{the_year}/'">
+      {intl-year}
+      </span>
+      <span class="gcalSwitchBox" onmouseover="this.className='gcalSwitchBoxSelect'"
+      onmouseout="this.className='gcalSwitchBox'"
+      onclick="location.href = '{www_dir}{index}/groupeventcalendar/dayview/{year_cur}/{month_cur}/{day_cur}/'">
+      {intl-today}
+      </span>
+
+
+	</td>
     </td>
   </tr>
 </table>
@@ -22,97 +46,84 @@
 <!-- END error_tpl -->
 
 <!-- BEGIN view_tpl -->
-<table width="100%" cellspacing="0" cellpadding="0" border="0">
+
+<table width="100%" cellspacing="0" cellpadding="0" border="0" class="gcalViewBg">
 <tr>
-	<th>
-	<h2>{event_title}</h2>
-	</th>
-	<td width="10%" align="right">
+	<td id="gcalBigHeader" style="border: 0px; background: url('{www_dir}{index}/ezgroupeventcalendar/user/templates/standard/images/gcalShortTimeBg.png') repeat;" colspan=7>
+	<span class="gcalBigHeader">
+    {event_title}
+    </span>
+	</td>
+</tr>
+<tr><td>
+<table width="100%" cellspacing="4" cellpadding="0" border="0">
+<tr>
+	<td colspan=2 align="left">
 	<!-- BEGIN private_tpl -->
-	<b><i>{intl-private}</i></b>
+	<i>{intl-private}</i><br />
 	<!-- END private_tpl -->
 	<!-- BEGIN public_tpl -->
-	<b><i>{intl-public}</i></b>
+	<i>{intl-public}</i><br />
 	<!-- END public_tpl -->
 	</td>
 </tr>
-</table>
-
-<br />
-
-<table width="100%" cellspacing="0" cellpadding="0" border="0">
-
 <tr>
-        <th colspan="2">
+        <td style="width: 100px;" class="gcalViewLabel">
         {intl-description}:
-        </th>
-</tr>
-<tr>
-        <td colspan="3" class="bglight">
-
-        <table width="100%" cellspacing="0" cellpadding="4" border="0">
-        <tr>
-                <td>
+        </td> <td  class="gcalViewResult">
                 {event_description}
                 </td>
-        </tr>
-        </table>
-
-        </td>
 </tr>
 
-<tr><td colspan="2"><br /></td></tr>
 
 <tr>
-        <th>
+        <td class="gcalViewLabel">
         {intl-date}:
-        </th>
-        <th>
-        {intl-time}:
-        </th>
-</tr>
-<tr>
-        <td>
+        </td>
+        <td class="gcalViewResult">
         {event_date}
         </td>
-        <td>
+</tr>
+<tr>
+        <td class="gcalViewLabel">
+        {intl-time}:
+        </td>
+
+        <td class="gcalViewResult">
         {event_starttime} - {event_stoptime}
         </td>
 </tr>
 
-<tr><td colspan="2"><br /></td></tr>
-
 <tr>
-	<th>
+	<td class="gcalViewLabel">
 	{intl-group}:
-	</th>
-        <th>
-        {intl-type}:
-        </th>
-</tr>
-<tr>
-        <td>
+	</td>
+        <td class="gcalViewResult">
         {event_owner}
         </td>
-	<td>
+</tr>
+<tr>
+        <td class="gcalViewLabel">
+        {intl-type}:
+        </td>
+	<td class="gcalViewResult">
 	{event_type}
 	</td>
 </tr>
 
-<tr><td colspan="2"><br /></td></tr>
 <tr>
-	<th width="50%">
+	<td class="gcalViewLabel">
 	{intl-category}:
-	</th>
-	<th width="50%">
-	{intl-priority}:
-	</th>
-</tr>
-<tr>
-	<td>
+	</td>
+	<td class="gcalViewResult">
 	{event_category}
 	</td>
-	<td>
+</tr>
+<tr>
+		<td class="gcalViewLabel">
+	{intl-priority}:
+	</td>
+	<td class="gcalViewResult">
         <!-- BEGIN lowest_tpl -->
         {intl-lowest}
         <!-- END lowest_tpl -->
@@ -134,21 +145,19 @@
 	</td>
 </tr>
 
-<tr><td colspan="2"><br /></td></tr>
-
 <tr>
-        <th>
+        <td class="gcalViewLabel">
         {intl-location}:
-        </th>
-        <th>
-        {intl-status}:
-        </th>
-</tr>
-<tr>
-        <td>
+        </td>
+        <td class="gcalViewResult">
         {event_location}
         </td>
-        <td>
+</tr>
+<tr>
+        <td class="gcalViewLabel">
+        {intl-status}:
+        </td>
+        <td class="gcalViewResult">
         <!-- BEGIN tentative_tpl -->
         {intl-tentative}
         <!-- END tentative_tpl -->
@@ -160,58 +169,73 @@
         <!-- END cancelled_tpl -->
         </td>
 </tr>
-
-<tr><td colspan="2"><br /></td></tr>
-<tr><th colspan="2">{intl-url}:</th>
+<tr>
+<td class="gcalViewLabel">{intl-url}:</td>
+<td class="gcalViewResult"><a href="{event_url}" target="_blank" style="text-decoration: none;">{event_url}</a></td>
+</tr>
+<!-- BEGIN recurring_event_tpl -->
+<tr>
+<td colspan="2" align="left" class="gcalRecurInfo">
+{intl-recur_info}
+</td>
 </tr>
 <tr>
-<td colspan="2"><a href="{event_url}" target="_blank" style="text-decoration: none;">{event_url}</a></td></tr>
-</table>
-
-<!-- BEGIN recurring_event_tpl -->
-<table width="100%" cellspacing="0" cellpadding="0" border="0">
-<tr>
-<td width="50%">
-<p class="boxtext">Recurrance Frequency</p>
+<td class="gcalViewLabel">
+{intl-freq}:
+</td>
+<td class="gcalViewResult">
 {recur_freq}
 </td>
-<td width="50%">
-<p class="boxtext">Recurrance Type</p>
+</tr>
+<tr>
+<td class="gcalViewLabel">
+{intl-type}:
+</td>
+<td class="gcalViewResult">
 {recur_type}
 </td>
 </tr>
+<!-- BEGIN recurring_days_week_tpl -->
 <tr>
-<!-- BEGIN recurring_days_week -->
-<td>
-<p class="boxtext">Days of Week (weekly only)</p>
-<!-- BEGIN recurring_days -->
+<td class="gcalViewLabel">Days of Week</td>
+<td class="gcalViewResult">
+<!-- BEGIN recurring_days_tpl -->
 {recur_days_week}
-<!-- END recurring_days -->
+<!-- END recurring_days_tpl -->
 </td>
-<!-- END recurring_days_week -->
-
-<!-- BEGIN recurring_monthly_type -->
-<td>
-<p class="boxtext">Month Recurrance Type</p>
+</tr>
+<!-- END recurring_days_week_tpl -->
+<tr>
+<!-- BEGIN recurring_monthly_type_tpl -->
+<td class="gcalViewLabel">
+{intl-month_type}:
+</td>
+<td class="gcalViewResult">
 {recur_monthly_type}
 </td>
-<!-- END recurring_monthly_type -->
+<!-- END recurring_monthly_type_tpl -->
 </tr>
 <tr>
-<td>
-<p class="boxtext">{repeat_type}</p> 
+<td class="gcalViewLabel">
+{repeat_type}:
+</td>
+<td class="gcalViewResult">
 {repeat_message}
 </td>
-<td>
-<p class="boxtext">Recurring Exceptions</p>
+</tr>
+<td class="gcalViewLabel">
+{intl-exceptions}:
+</td>
+<td class="gcalViewResult">
 <!-- BEGIN recurring_exceptions_tpl -->
 <div class="gcalMultiListing">{recur_exception}</div>
 <!-- END recurring_exceptions_tpl -->
+<!-- END recurring_event_tpl -->
 </td>
 </tr>
 </table>
-<!-- END recurring_event_tpl -->
-
+</td></tr>
+</table>
 <!-- BEGIN attached_file_list_tpl -->
 <br />
 <table width="100%" cellspacing="2" cellpadding="0" border="0">
@@ -226,7 +250,7 @@
      </td>
 </tr>
 <tr>
-     <td colspan="2" valign="top" class="{td_class}"> 
+     <td colspan="2" valign="top" class="{td_class}">
 	{file_description}
      </td>
 </tr>
@@ -234,25 +258,5 @@
 </table>
 <br />
 <!-- END attached_file_list_tpl -->
-
-<!-- BEGIN valid_editor_tpl -->
-<hr noshade size="4" />
-
-<form method="post" action="{www_dir}{index}/groupeventcalendar/eventedit/edit/{event_id}/">
-<table border="0" cellspacing="0" cellpadding="0" width="100%">
-<tr>
-    <td>
-	<input type="hidden" name="eventArrayID[]" value={event_id}>
-	<input class="stdbutton" type="submit" value="{intl-edit_event}">
-    </td>
-    <td align="right">
-	<input class="stdbutton" type="submit" name="DeleteEvents" value="{intl-delete_events}">
-    </td>
-</tr>
-</table>
-</form>
-
-<hr noshade size="4" />
-<!-- END valid_editor_tpl -->
 
 <!-- END view_tpl -->
