@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: login.php,v 1.10 2000/11/07 13:31:50 ce-cvs Exp $
+// $Id: login.php,v 1.11 2000/11/07 13:35:00 bf-cvs Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <20-Sep-2000 13:32:11 ce>
@@ -30,6 +30,7 @@ include_once( "classes/ezlog.php" );
 $ini = new INIFIle( "site.ini" );
 
 $Language = $ini->read_var( "eZUserMain", "Language" );
+$UserWithAddress = $ini->read_var( "eZUserMain", "UserWithAddress" );
 
 include_once( "ezuser/classes/ezuser.php" );
 include_once( "ezuser/classes/ezusergroup.php" );
@@ -45,7 +46,14 @@ if ( isSet( $Forgot ) )
 
 if ( isSet( $Register ) )
 {
-    Header( "Location: /user/userwithaddress/new/" );
+    if ( $UserWidthAddress == "enabled" )
+    {
+        Header( "Location: /user/userwithaddress/new/" );
+    }
+    else
+    {
+        Header( "Location: /user/user/new/" );        
+    }
     exit();
 }
 
