@@ -44,6 +44,8 @@ switch ( $url_array[2] )
         }
         break;
 
+        /** MARKED FOR DELETION BEFORE V2.0 **/
+        /*    
     case "choiceedit":
     {
         if ( ( $url_array[3] == "new" ) )
@@ -80,7 +82,7 @@ switch ( $url_array[2] )
         }
         break;
     }
-     
+        */
 }
 
 ?>
