@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezxmlrpcclient.php,v 1.7 2001/03/13 16:11:34 ce Exp $
+// $Id: ezxmlrpcclient.php,v 1.8 2001/03/14 14:51:57 ce Exp $
 //
 // Definition of eZXMLRPCClient class
 //
@@ -126,9 +126,15 @@ class eZXMLRPCClient
             // send the XML-RPC call
             if ( $fp != 0 )
             {
+                if ( ( $this->login() != "" ) )
+                {
+                    $authentification = "Authorization: Basic " . base64_encode( $this->login() . ":" . $this->password() . "\r\n" );
+                }
+                
                 $HTTPCall = "POST " . $this->Path . " HTTP/1.0\r\n" .
                      "User-Agent: eZ xmlrpc client\r\n" .
                      "Host: " . $this->Server . "\r\n" .
+                     $authentification .
                      "Content-Type: text/xml\r\n" .
                      "Content-Length: " . strlen( $payload ) . "\r\n\r\n" .
                      $payload;
@@ -157,6 +163,39 @@ class eZXMLRPCClient
         $response->decodeStream( $rawResponse );
         
         return $response;
+    }
+
+    /*!
+      Set the login.
+     */
+    function setLogin( $value )
+    {
+        
+        $this->Login = $value;
+    }
+
+    /*!
+      Set the username.
+     */
+    function setPassword( $value )
+    {
+        $this->Password = $value;
+    }
+
+    /*!
+      Returns the login.
+    */
+    function login()
+    {
+        return $this->Login;
+    }
+
+    /*!
+      Returns the password.
+    */
+    function password()
+    {
+        return $this->Password;
     }
 
     /// The name or IP of the server to communicate with
