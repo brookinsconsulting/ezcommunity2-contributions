@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: buglist.php,v 1.12 2001/07/19 12:29:04 jakobn Exp $
+// $Id: buglist.php,v 1.12.2.1 2001/11/19 09:46:45 jhe Exp $
 //
 // Created on: <27-Nov-2000 19:06:23 bf>
 //
@@ -33,7 +33,7 @@ include_once( "ezbug/classes/ezbug.php" );
 
 include_once( "ezuser/classes/ezuser.php" );
 
-$ini = new INIFIle( "site.ini" );
+$ini = INIFile::globalINI();
 
 $Language = $ini->read_var( "eZBugMain", "Language" );
 

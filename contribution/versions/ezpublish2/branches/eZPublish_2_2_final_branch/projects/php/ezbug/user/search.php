@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: search.php,v 1.3 2001/07/19 12:29:04 jakobn Exp $
+// $Id: search.php,v 1.3.2.1 2001/11/19 09:46:46 jhe Exp $
 //
 // Created on: <04-Dec-2000 11:40:06 bf>
 //
@@ -34,7 +34,7 @@ include_once( "ezbug/classes/ezbug.php" );
 
 include_once( "ezuser/classes/ezuser.php" );
 
-$ini = new INIFIle( "site.ini" );
+$ini = INIFile::globalINI();
 
 $Language = $ini->read_var( "eZBugMain", "Language" );
 $UserLimit = $ini->read_var( "eZBugMain", "UserSearchLimit" );

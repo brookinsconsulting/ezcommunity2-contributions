@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: fileedit.php,v 1.4 2001/10/14 16:20:00 fh Exp $
+// $Id: fileedit.php,v 1.4.2.1 2001/11/19 09:46:46 jhe Exp $
 //
 // Created on: <16-Feb-2001 14:33:48 fh>
 //
@@ -68,7 +68,7 @@ if( isset( $Cancel ) )
     exit();
 }
 
-$ini = new INIFIle( "site.ini" );
+$ini = INIFile::globalINI();
 $Language = $ini->read_var( "eZMailMain", "Language" );
 $session = new eZSession();
 $t = new eZTemplate( "ezmail/user/" . $ini->read_var( "eZMailMain", "TemplateDir" ),

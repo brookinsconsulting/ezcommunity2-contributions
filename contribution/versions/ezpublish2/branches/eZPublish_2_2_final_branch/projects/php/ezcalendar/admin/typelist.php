@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: typelist.php,v 1.6 2001/09/25 08:17:19 jhe Exp $
+// $Id: typelist.php,v 1.6.2.1 2001/11/19 09:46:46 jhe Exp $
 //
 // Created on: <20-Dec-2000 18:18:28 gl>
 //
@@ -27,7 +27,7 @@ include_once( "classes/INIFile.php" );
 include_once( "classes/eztemplate.php" );
 include_once( "classes/ezlocale.php" );
 
-// $ini = new INIFile( "site.ini" );
+$ini = INIFile::globalINI();
 $Language = $ini->read_var( "eZCalendarMain", "Language" );
 
 include_once( "ezcalendar/classes/ezappointment.php" );

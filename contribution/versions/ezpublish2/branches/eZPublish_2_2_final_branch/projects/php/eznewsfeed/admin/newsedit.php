@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: newsedit.php,v 1.12 2001/07/29 23:31:08 kaid Exp $
+// $Id: newsedit.php,v 1.12.2.1 2001/11/19 09:46:46 jhe Exp $
 //
 // Created on: <16-Nov-2000 13:02:32 bf>
 //
@@ -223,7 +223,7 @@ if ( $Action == "Delete" )
 }
 
 
-$ini = new INIFIle( "site.ini" );
+$ini = INIFile::globalINI();
 
 $Language = $ini->read_var( "eZNewsfeedMain", "Language" );
 $ImageDir = $ini->read_var( "eZNewsfeedMain", "ImageDir" );

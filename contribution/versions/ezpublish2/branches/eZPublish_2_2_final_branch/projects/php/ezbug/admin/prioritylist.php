@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: prioritylist.php,v 1.5 2001/07/19 12:29:04 jakobn Exp $
+// $Id: prioritylist.php,v 1.5.2.1 2001/11/19 09:46:45 jhe Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -27,7 +27,7 @@
   Shows a list of priorities, and lets the user edit and add new priorities.
 */
 include_once( "classes/INIFile.php" );
-$ini = new INIFIle( "site.ini" );
+$ini = INIFile::globalINI();
 $Language = $ini->read_var( "eZBugMain", "Language" );
 $LanguageIni = new INIFIle( "ezbug/admin/intl/" . $Language . "/prioritylist.php.ini", false );
 

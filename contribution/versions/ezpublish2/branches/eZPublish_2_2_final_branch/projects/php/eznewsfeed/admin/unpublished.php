@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: unpublished.php,v 1.14 2001/08/17 13:36:00 jhe Exp $
+// $Id: unpublished.php,v 1.14.2.1 2001/11/19 09:46:46 jhe Exp $
 //
 // Created on: <29-Nov-2000 18:10:27 bf>
 //
@@ -108,7 +108,7 @@ if( $Action == "DeleteCat" )
     }
 }
 
-$ini = new INIFIle( "site.ini" );
+$ini = INIFile::globalINI();
 
 $Language = $ini->read_var( "eZNewsfeedMain", "Language" );
 
@@ -204,7 +204,7 @@ $newsList =& $category->newsList( "time", "only", $Offset, $Limit );
 $newsListCount = $category->newsListCount( "time", "only" );
 
 $locale = new eZLocale( $Language );
-$i=0;
+$i = 0;
 $t->set_var( "news_list", "" );
 foreach ( $newsList as $news )
 {

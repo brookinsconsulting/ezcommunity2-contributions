@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: newslist.php,v 1.14 2001/07/29 23:31:09 kaid Exp $
+// $Id: newslist.php,v 1.14.2.1 2001/11/19 09:46:46 jhe Exp $
 //
 // Created on: <29-Nov-2000 11:35:19 bf>
 //
@@ -31,7 +31,7 @@ include_once( "classes/ezdatetime.php" );
 include_once( "classes/ezlocale.php" );
 include_once( "classes/eztemplate.php" );
 
-$ini = new INIFIle( "site.ini" );
+$ini = INIFile::globalINI();
 
 $Language = $ini->read_var( "eZNewsfeedMain", "Language" );
 

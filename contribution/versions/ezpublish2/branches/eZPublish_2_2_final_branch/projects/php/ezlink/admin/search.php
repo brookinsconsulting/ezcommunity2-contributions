@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: search.php,v 1.24 2001/07/29 23:31:07 kaid Exp $
+// $Id: search.php,v 1.24.2.1 2001/11/19 09:46:46 jhe Exp $
 //
 // Created on: <15-Sep-2000 14:40:06 bf>
 //
@@ -29,7 +29,7 @@
 
 include_once( "classes/INIFile.php" );
 
-// $ini = new INIFile( "site.ini" );
+$ini = INIFile::globalINI();
 $Language = $ini->read_var( "eZLinkMain", "Language" );
 $AdminLimit = $ini->read_var( "eZLinkMain", "AdminSearchLimit" );
 

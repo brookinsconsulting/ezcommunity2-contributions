@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: sourcesiteedit.php,v 1.10 2001/07/20 11:21:41 jakobn Exp $
+// $Id: sourcesiteedit.php,v 1.10.2.1 2001/11/19 09:46:46 jhe Exp $
 //
 // Created on: <26-Nov-2000 17:55:31 bf>
 //
@@ -26,7 +26,7 @@
 include_once( "classes/INIFile.php" );
 include_once( "classes/ezhttptool.php" );
 
-$ini = new INIFIle( "site.ini" );
+$ini = INIFile::globalINI();
 
 $Language = $ini->read_var( "eZNewsfeedMain", "Language" );
 $ImageDir = $ini->read_var( "eZNewsfeedMain", "ImageDir" );

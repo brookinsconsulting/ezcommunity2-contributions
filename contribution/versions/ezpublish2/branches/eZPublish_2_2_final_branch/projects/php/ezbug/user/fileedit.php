@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: fileedit.php,v 1.6 2001/07/19 12:29:04 jakobn Exp $
+// $Id: fileedit.php,v 1.6.2.1 2001/11/19 09:46:46 jhe Exp $
 //
 // Created on: <16-Feb-2001 14:33:48 fh>
 //
@@ -32,7 +32,7 @@ include_once( "classes/ezfile.php" );
 include_once( "ezbug/classes/ezbug.php" );
 include_once( "ezfilemanager/classes/ezvirtualfile.php" );
 
-$ini = new INIFIle( "site.ini" );
+$ini = INIFile::globalINI();
 
 $Language = $ini->read_var( "eZBugMain", "Language" );
 

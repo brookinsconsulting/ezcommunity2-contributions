@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: reportsuccess.php,v 1.4 2001/07/29 23:31:02 kaid Exp $
+// $Id: reportsuccess.php,v 1.4.2.1 2001/11/19 09:46:46 jhe Exp $
 //
 // Created on: <27-Nov-2000 21:55:26 bf>
 //
@@ -24,7 +24,6 @@
 //
 
 include_once( "classes/INIFile.php" );
-// $ini = new INIFile( "site.ini" );
 $ini =& INIFile::globalINI();
 
 $Language = $ini->read_var( "eZBugMain", "Language" );

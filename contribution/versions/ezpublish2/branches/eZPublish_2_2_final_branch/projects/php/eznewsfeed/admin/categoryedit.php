@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: categoryedit.php,v 1.7 2001/07/20 11:21:41 jakobn Exp $
+// $Id: categoryedit.php,v 1.7.2.1 2001/11/19 09:46:46 jhe Exp $
 //
 // Created on: <16-Nov-2000 13:02:32 bf>
 //
@@ -65,9 +65,9 @@ if ( $Action == "Delete" )
     eZHTTPTool::header( "Location: /newsfeed/archive/" );
     exit();
 }
-$news = new eZNews( );
+$news = new eZNews();
 
-$ini = new INIFIle( "site.ini" );
+$ini = INIFile::globalINI();
 
 $Language = $ini->read_var( "eZNewsfeedMain", "Language" );
 $ImageDir = $ini->read_var( "eZNewsfeedMain", "ImageDir" );

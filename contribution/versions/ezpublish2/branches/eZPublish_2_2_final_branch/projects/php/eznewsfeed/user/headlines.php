@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: headlines.php,v 1.18 2001/07/29 23:31:09 kaid Exp $
+// $Id: headlines.php,v 1.18.2.1 2001/11/19 09:46:46 jhe Exp $
 //
 // Created on: <16-Nov-2000 10:51:34 bf>
 //
@@ -58,7 +58,7 @@ function printNewsHeaderList( $CategoryID, $GenerateStaticPage, $cachedFile )
     
     $news = new eZNews( );
     
-    $ini = new INIFIle( "site.ini" );
+    $ini = INIFile::globalINI();
     
     $Language = $ini->read_var( "eZNewsfeedMain", "Language" );
     $ImageDir = $ini->read_var( "eZNewsfeedMain", "ImageDir" );

@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: norights.php,v 1.9 2001/07/29 23:31:07 kaid Exp $
+// $Id: norights.php,v 1.9.2.1 2001/11/19 09:46:46 jhe Exp $
 //
 // Created on: <26-Oct-2000 14:56:23 ce>
 //
@@ -25,7 +25,7 @@
 
 include_once( "classes/INIFile.php" );
 
-// $ini = new INIFile( "site.ini" );
+$ini = INIFile::globalINI();
 $DOC_ROOT = $ini->read_var( "eZLinkMain", "DocumentRoot" );
 $Language = $ini->read_var( "eZLinkMain", "Language" );
 

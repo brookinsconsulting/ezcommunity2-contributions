@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: search.php,v 1.5 2001/07/20 11:21:41 jakobn Exp $
+// $Id: search.php,v 1.5.2.1 2001/11/19 09:46:46 jhe Exp $
 //
 // Created on: <27-Nov-2000 11:52:01 bf>
 //
@@ -30,7 +30,7 @@ include_once( "eznewsfeed/classes/eznewsimporter.php" );
 include_once( "classes/ezdatetime.php" );
 include_once( "classes/ezlocale.php" );
 
-$ini = new INIFIle( "site.ini" );
+$ini = INIFile::globalINI();
 
 $Language = $ini->read_var( "eZNewsfeedMain", "Language" );
 
