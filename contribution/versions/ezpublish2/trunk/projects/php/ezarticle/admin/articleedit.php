@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: articleedit.php,v 1.49 2001/03/01 14:06:24 jb Exp $
+// $Id: articleedit.php,v 1.50 2001/03/01 14:16:00 fh Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <18-Oct-2000 15:04:39 bf>
@@ -152,7 +152,7 @@ if ( $Action == "Insert" )
 
     if( isset( $WriteGroupArray ) )
     {
-        if( $WriteGroupArray[0] )
+        if( $WriteGroupArray[0] == 0 )
         {
             eZObjectPermission::setPermission( -1, $article->id(), "article_article", 'w' );
         }
@@ -179,6 +179,7 @@ if ( $Action == "Insert" )
         }
         else // some groups are selected.
         {
+        eZObjectPermission::removePermissions( $article->id(), "article_article", 'r' );
             foreach ( $GroupArray as $groupID )
             {
                 eZObjectPermission::setPermission( $groupID, $categoryID, "article_article", 'r' );
@@ -331,7 +332,7 @@ if ( $Action == "Update" )
 
     if( isset( $WriteGroupArray ) )
     {
-        if( $WriteGroupArray[0] )
+        if( $WriteGroupArray[0] == 0 )
         {
             eZObjectPermission::setPermission( -1, $article->id(), "article_article", 'w' );
         }
@@ -358,6 +359,7 @@ if ( $Action == "Update" )
         }
         else // some groups are selected.
         {
+            eZObjectPermission::removePermissions( $article->id(), "article_article", 'r' );
             foreach ( $GroupArray as $groupID )
             {
                 eZObjectPermission::setPermission( $groupID, $categoryID, "article_article", 'r' );
@@ -611,8 +613,8 @@ if ( $Action == "Edit" )
         $t->set_var( "all_selected", "selected" );
         }*/
 
-    $writeGroupsID = eZObjectPermission::getGroups( $CategoryID, "article_article", 'w' , false );
-    $readGroupsID = eZObjectPermission::getGroups( $CategoryID, "article_article", 'r', false );
+    $writeGroupsID = eZObjectPermission::getGroups( $ArticleID, "article_article", 'w' , false );
+    $readGroupsID = eZObjectPermission::getGroups( $ArticleID, "article_article", 'r', false );
 
     if( $writeGroupsID[0] != -1 )
         $t->set_var( "all_write_selected", "" );
@@ -632,7 +634,7 @@ $user = eZUser::currentUser();
 
 foreach ( $treeArray as $catItem )
 {
-    if ( eZObjectPermission::hasPermission( $catItem[0]->id(), "article_category", 'r', $user ) == true  )
+    if ( eZObjectPermission::hasPermission( $catItem[0]->id(), "article_category", 'w', $user ) == true  )
     {    
         if ( $Action == "Edit" )
         {
