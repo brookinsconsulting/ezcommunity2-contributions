@@ -10,9 +10,15 @@ else
     {
         case "categorylist" :
         {
+            $ID = $URL_ARRAY[2];
             include( "ezarticle/xmlrpc/categorylist.php" );
         } break;
         
+        case "category" :
+        {
+            $ID = $URL_ARRAY[2];
+            include( "ezarticle/xmlrpc/category.php" );
+        } break;
         
         default :
         {

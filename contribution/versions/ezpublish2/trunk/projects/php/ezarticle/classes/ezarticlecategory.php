@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezarticlecategory.php,v 1.63 2001/05/16 09:09:35 ce Exp $
+// $Id: ezarticlecategory.php,v 1.64 2001/05/28 20:03:40 fh Exp $
 //
 // Definition of eZArticleCategory class
 //
@@ -380,23 +380,29 @@ class eZArticleCategory
     /*!
       Returns the name of the category.
     */
-    function name()
+    function name( $asHTML = true )
     {
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
-        
-        return htmlspecialchars( $this->Name );
+
+       if( $asHTML )
+           return htmlspecialchars( $this->Name );
+
+       return $this->Name;
     }
     
     /*!
       Returns the group description.
     */
-    function description()
+    function description( $asHTML = true )
     {
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
-        
-        return htmlspecialchars( $this->Description );
+
+       if( $asHTML )
+           return htmlspecialchars( $this->Description );
+
+       return $this->Description;
     }
 
     /*!

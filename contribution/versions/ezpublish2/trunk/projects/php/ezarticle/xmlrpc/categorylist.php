@@ -3,7 +3,7 @@
 include_once( "ezarticle/classes/ezarticlecategory.php" );
 include_once( "ezarticle/classes/ezarticle.php" );
 
-$category = new eZArticleCategory();
+$category = new eZArticleCategory( $ID );
 
 $categoryList =& $category->getByParent( $category, true, "placement" );
 
@@ -17,7 +17,16 @@ foreach ( $categoryList as $catItem )
     
 }
 
-$ReturnData = new eZXMLRPCStruct( array( "Catalogues" => $cat,
-                                         "Elements" => array() ) );
+$articleList =& $category->articles( "alpha", true, true, 0, 100000 );
+$art = array();
+foreach( $articleList as $artItem )
+{
+    $art[] = new eZXMLRPCStruct( array( "ID" => new eZXMLRPCInt( $artItem->id() ),
+                                        "Name" => new eZXMLRPCString( $artItem->name() )
+                                        )
+                                 );
+}
 
+$ReturnData = new eZXMLRPCStruct( array( "Catalogues" => $cat,
+                                         "Elements" => $art ) );
 ?>
