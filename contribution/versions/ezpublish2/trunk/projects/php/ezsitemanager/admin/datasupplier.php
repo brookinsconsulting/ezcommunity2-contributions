@@ -14,6 +14,29 @@ $url_array = explode( "/", $REQUEST_URI );
 
 switch ( $url_array[2] )
 {
+    case "siteconfig":
+    {
+        include( "ezsitemanager/admin/siteconfig.php" );        
+    }break;
+    
+    case "file":
+    {
+        switch ( $url_array[3] )
+        {
+            case "list" :
+            {
+                include( "ezsitemanager/admin/filelist.php" );
+            }break;
+
+            case "edit" :
+            {
+                $fileName = $url_array[4];
+                include( "ezsitemanager/admin/fileedit.php" );
+            }break;
+        }
+    }
+    break;
+    
     case "sqladmin":
     {
         include( "ezsitemanager/admin/sqlquery.php" );

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: menubox.php,v 1.3 2001/07/05 14:16:33 bf Exp $
+// $Id: menubox.php,v 1.4 2001/07/12 08:23:05 bf Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <10-May-2001 14:51:43 ce>
@@ -27,7 +27,9 @@
 
 $menuItems = array(
     array( "/sitemanager/section/list/", "{intl-section_list}" ),
-    array( "/sitemanager/cache/", "{intl-cache_admin}" )
+    array( "/sitemanager/cache/", "{intl-cache_admin}" ),
+    array( "/sitemanager/file/list/", "{intl-file_list}" ),
+    array( "/sitemanager/siteconfig/", "{intl-site_config}" )
 //    array( "/sitemanager/sqladmin/query/", "{intl-sql_admin}" )
     );
 
