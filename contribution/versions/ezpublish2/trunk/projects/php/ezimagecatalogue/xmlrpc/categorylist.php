@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: categorylist.php,v 1.5 2001/09/06 10:02:12 jb Exp $
+// $Id: categorylist.php,v 1.6 2001/09/06 10:46:23 jb Exp $
 //
 // Created on: <26-Oct-2000 19:40:18 bf>
 //
@@ -159,7 +159,7 @@ else if ( $Command == "search" )
         $texts[] = $keyword->value();
     }
     $elements = array();
-    $result =& eZImageCategory::search( $texts );
+    $result =& eZImageCategory::search( $texts, false, "name", $User );
     foreach( $result as $item )
     {
         $catid = $item->parent( false );

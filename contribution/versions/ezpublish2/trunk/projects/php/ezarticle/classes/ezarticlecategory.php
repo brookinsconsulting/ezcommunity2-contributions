@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezarticlecategory.php,v 1.92 2001/09/06 09:14:54 jb Exp $
+// $Id: ezarticlecategory.php,v 1.93 2001/09/06 10:46:11 jb Exp $
 //
 // Definition of eZArticleCategory class
 //
@@ -253,7 +253,7 @@ class eZArticleCategory
 
         Returns an array of eZArticleCategory.
     */
-    function &search( $name )
+    function &search( $name, $showAll = false, $sortby='placement', $user = false )
     {
         $db =& eZDB::globalDatabase();
         $topic = array();
@@ -266,9 +266,9 @@ class eZArticleCategory
                 $n = $db->escapeString( $n );
                 if ( $searches != "" )
                     $searches .= "OR ";
-                $searches .= "Name='$n' OR Description='$n'";
+                $searches .= "Category.Name='$n' OR Category.Description='$n'";
             }
-            $search = "WHERE $searches";
+            $search = "$searches";
         }
         else if( $name == "" )
         {
@@ -277,11 +277,56 @@ class eZArticleCategory
         else
         {
             $name = $db->escapeString( $name );
-            $search = "WHERE Name='$name'";
+            $search = "Category.Name='$name' OR Category.Description='$name'";
         }
 
+        $sortbySQL = "Name";
+        switch( $sortby )
+        {
+            case "name" : $sortbySQL = "Name"; break;
+            case "placement" : $sortbySQL = "Placement"; break;
+        }
+
+        if ( get_class( $user ) != "ezuser" )
+            $user =& eZUser::currentUser();
+
+        $show_str = "";
+        $usePermission = true;
+        if ( !$showAll )
+            $show_str = "AND Category.ExcludeFromSearch='0'";
+
+        if ( $user )
+        {
+            $groups =& $user->groups( true );
+
+            $i = 0;
+            foreach ( $groups as $group )
+            {
+                if ( $i == 0 )
+                    $groupSQL .= " Permission.GroupID=$group OR";
+                else
+                    $groupSQL .= " Permission.GroupID=$group OR";
+                $i++;
+            }
+            $currentUserID = $user->id();
+
+            if ( $user->hasRootAccess() )
+                $usePermission = false;
+        }
+
+        if ( $usePermission )
+            $permissionSQL = "( ($groupSQL Permission.GroupID='-1') AND Permission.ReadPermission='1' ) AND ";
+        else
+            $permissionSQL = "";
+
         $db->array_query( $author_array,
-                          "SELECT ID FROM eZArticle_Category $search" );
+                          "SELECT Category.ID
+                           FROM eZArticle_Category AS Category,
+                                eZArticle_CategoryPermission as Permission
+                           WHERE $permissionSQL ($search)
+                                 AND Permission.ObjectID=Category.ID
+                           GROUP BY Category.ID, Category.Placement
+                           ORDER BY $sortbySQL" );
 
         foreach( $author_array as $author )
         {

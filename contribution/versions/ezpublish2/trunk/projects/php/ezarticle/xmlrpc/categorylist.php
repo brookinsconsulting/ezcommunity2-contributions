@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: categorylist.php,v 1.16 2001/09/06 10:01:41 jb Exp $
+// $Id: categorylist.php,v 1.17 2001/09/06 10:46:11 jb Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -185,7 +185,7 @@ else if ( $Command == "search" )
         $texts[] = $keyword->value();
     }
     $elements = array();
-    $result =& eZArticleCategory::search( $texts );
+    $result =& eZArticleCategory::search( $texts, true, "name", $User );
     foreach( $result as $item )
     {
         $itemid = $item->id();

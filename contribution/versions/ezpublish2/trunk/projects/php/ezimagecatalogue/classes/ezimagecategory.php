@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezimagecategory.php,v 1.31 2001/09/06 09:05:27 ce Exp $
+// $Id: ezimagecategory.php,v 1.32 2001/09/06 10:46:23 jb Exp $
 //
 // Definition of eZImageCategory class
 //
@@ -98,18 +98,60 @@ class eZImageCategory
         return true;
     }
 
-    function &search( $name, $literal = false )
+    function &search( $name, $literal = false, $sortby='name', $user = false )
     {
         $db =& eZDB::globalDatabase();
         $topic = array();
 
-        $query = new eZQuery( array( "Name", "Description" ),
+        $sortbySQL = "Category.Name";
+        switch( $sortby )
+        {
+            case "name" : $sortbySQL = "Category.Name"; break;
+        }
+
+        $query = new eZQuery( array( "Category.Name", "Category.Description" ),
                               $name );
         $query->setIsLiteral( $literal );
         $where =& $query->buildQuery();
 
+        if ( get_class( $user ) != "ezuser" )
+            $user =& eZUser::currentUser();
+
+        $show_str = "";
+        $usePermission = true;
+
+        if ( $user )
+        {
+            $groups =& $user->groups( true );
+
+            $i = 0;
+            foreach ( $groups as $group )
+            {
+                if ( $i == 0 )
+                    $groupSQL .= " Permission.GroupID=$group OR";
+                else
+                    $groupSQL .= " Permission.GroupID=$group OR";
+                $i++;
+            }
+            $currentUserID = $user->id();
+
+            if ( $user->hasRootAccess() )
+                $usePermission = false;
+        }
+
+        if ( $usePermission )
+            $permissionSQL = "( ($groupSQL Permission.GroupID='-1') AND Permission.ReadPermission='1' ) AND ";
+        else
+            $permissionSQL = "";
+
         $db->array_query( $author_array,
-                          "SELECT ID FROM eZImageCatalogue_Category WHERE $where" );
+                          "SELECT Category.ID
+                           FROM eZImageCatalogue_Category AS Category,
+                                eZImageCatalogue_CategoryPermission AS Permission
+                           WHERE $permissionSQL $where
+                                 AND Permission.ObjectID=Category.ID
+                           GROUP BY Category.ID
+                           ORDER BY $sortbySQL" );
 
         foreach( $author_array as $author )
         {
