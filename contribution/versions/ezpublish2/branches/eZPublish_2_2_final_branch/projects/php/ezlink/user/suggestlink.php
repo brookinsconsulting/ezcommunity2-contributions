@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: suggestlink.php,v 1.20 2001/07/20 11:15:21 jakobn Exp $
+// $Id: suggestlink.php,v 1.20.2.1 2001/10/31 08:48:33 jhe Exp $
 //
 // Created on: <26-Oct-2000 14:58:57 ce>
 //
@@ -42,9 +42,9 @@ include_once( "ezlink/classes/ezlinktype.php" );
 include_once( "ezlink/classes/ezlinkattribute.php" );
 include_once( "ezlink/classes/ezmeta.php" );
 
-require( "ezuser/admin/admincheck.php" );
+//require( "ezuser/admin/admincheck.php" );
 
-if ( isSet ( $DeleteLinks ) )
+if ( isSet( $DeleteLinks ) )
 {
     $Action = "DeleteLinks";
 }
@@ -68,7 +68,7 @@ if ( isSet( $Back ) )
 $Accepted = $ini->read_var( "eZLinkMain", "AcceptSuggestedLinks" );
 
 // Get images from the image browse function.
-if ( ( isSet ( $AddImages ) ) and ( is_numeric( $LinkID ) ) and ( is_numeric ( $LinkID ) ) )
+if ( ( isSet( $AddImages ) ) and ( is_numeric( $LinkID ) ) and ( is_numeric( $LinkID ) ) )
 {
     $image = new eZImage( $ImageID );
     $link = new eZLink( $LinkID );
@@ -92,7 +92,7 @@ if ( $GetSite )
         {
             $error_msg = $error->read_var( "strings", "error_nosite" );
         }
-        else if( count( $metaList ) == 0 )
+        else if ( count( $metaList ) == 0 )
         {
             $error_msg = $error->read_var( "strings", "error_nometa" );
         }
@@ -107,8 +107,8 @@ if ( $GetSite )
         else
             $tkeywords = $keywords;
         
-        if ( $metaList["name"] )
-            $tname = $metaList["name"];
+        if ( $metaList["title"] )
+            $tname = $metaList["title"];
         else if ( $metaList["abstract"] )
             $tname = $metaList["abstract"];
         else
@@ -118,7 +118,6 @@ if ( $GetSite )
 //          $tname = $Name;
         
         $turl = $Url;
-
     }
 
     $action_value = "insert";
@@ -129,218 +128,208 @@ if ( $GetSite )
 // Update a link.
 if ( $Action == "update" )
 {
-    if ( eZPermission::checkPermission( $user, "eZLink", "LinkModify" ) )
+    if ( $Name != "" && $LinkCategoryID != "" && $Url != "" )
     {
-        if ( $Name != "" &&
-             $LinkCategoryID != "" &&
-             $Url != "" )
+        $link = new eZLink();
+        $link->get( $LinkID );
+      
+        $link->setName( $Name );
+        $link->setDescription( $Description );
+        $link->setKeyWords( $Keywords );
+        $link->setUrl( $Url );
+	
+        $link->setCategoryDefinition( $LinkCategoryID );
+	
+        // Calculate new and unused categories
+        
+        $old_maincategory = $link->categoryDefinition();
+        $old_categories =& array_unique( array_merge( $old_maincategory->id(),
+                                         $link->categories( false ) ) );
+	
+        $new_categories = array_unique( array_merge( $CategoryID, $CategoryArray ) );
+        
+        $remove_categories = array_diff( $old_categories, $new_categories );
+        $add_categories = array_diff( $new_categories, $old_categories );
+        
+        $categoryIDArray = array();
+        
+        foreach ( $categoryArray as $cat )
         {
-            $link = new eZLink();
-            $link->get( $LinkID );
+            $categoryIDArray[] = $cat->id();
+        }
+        
+        foreach ( $remove_categories as $categoryItem )
+        {
+            eZLinkCategory::removeLink( $link, $categoryItem );
+        }
+        
+        // add to categories
+        $category = new eZLinkCategory( $LinkCategoryID );
+        $link->setCategoryDefinition( $category );
+        $category->addLink( $link );
+        
+        foreach ( $add_categories as $categoryItem )
+        {
+            eZLinkCategory::addLink( $link, $categoryItem );
+        }
+      
+        if ( $Accepted == "1" && eZPermission::checkPermission( $user, "eZLink", "LinkModify" ) )
+            $link->setAccepted( true );
+        else
+            $link->setAccepted( false );
+      
+        $link->setUrl( $Url );
+        
+        $file = new eZImageFile();
+        if ( $file->getUploadedFile( "ImageFile" ) )
+        {
+     	    $image = new eZImage( );
+            $image->setName( "LinkImage" );
+            $image->setImage( $file );
             
-            $link->setName( $Name );
-            $link->setDescription( $Description );
-            $link->setKeyWords( $Keywords );
-            $link->setUrl( $Url );
+            $image->store();
             
-            $link->setCategoryDefinition( $LinkCategoryID );
-            
-            // Calculate new and unused categories
-            
-            $old_maincategory = $link->categoryDefinition();
-            $old_categories =& array_unique( array_merge( $old_maincategory->id(),
-            $link->categories( false ) ) );
-            
-            $new_categories = array_unique( array_merge( $CategoryID, $CategoryArray ) );
-            
-            $remove_categories = array_diff( $old_categories, $new_categories );
-            $add_categories = array_diff( $new_categories, $old_categories );
-            
-            $categoryIDArray = array();
-            
-            foreach ( $categoryArray as $cat )
-            {
-                $categoryIDArray[] = $cat->id();
-            }
-            
-            foreach ( $remove_categories as $categoryItem )
-            {
-                eZLinkCategory::removeLink( $link, $categoryItem );
-            }
-            
-            // add to categories
-            $category = new eZLinkCategory( $LinkCategoryID );
-            $link->setCategoryDefinition( $category );
-            $category->addLink( $link );
-            
-            foreach ( $add_categories as $categoryItem )
-            {
-                eZLinkCategory::addLink( $link, $categoryItem );
-            }
-
-            if ( $Accepted == "1" ) 
-                $link->setAccepted( true );
-            else
-                $link->setAccepted( false );
-            
-            $link->setUrl( $Url );
-            
-            $file = new eZImageFile();
-            if ( $file->getUploadedFile( "ImageFile" ) )
-            {
-                $image = new eZImage( );
-                $image->setName( "LinkImage" );
-                $image->setImage( $file );
-                
-                $image->store();
-                
-                $link->setImage( $image );
-            }
-
-            if ( $TypeID == -1 )
-            {
-                $link->removeType();
-            }
-            else
-            {
-                $link->removeType();
-                
-                $link->setType( new eZLinkType( $TypeID ) );
-                
-                $i = 0;
-                if ( count( $AttributeValue ) > 0 )
-                {
-                    foreach ( $AttributeValue as $attribute )
-                    {
-                        $att = new eZLinkAttribute( $AttributeID[$i] );
-                        
-                        $att->setValue( $link, $attribute );
-                        
-                        $i++;
-                    }
-                }
-            }
-            
-            $link->update();
-
-            if ( $DeleteImage )
-            {
-                $link->deleteImage();
-            }
-            
-            eZHTTPTool::header( "Location: /link/category/$LinkCategoryID" );
-            exit();
+            $link->setImage( $image );
+        }
+        
+        if ( $TypeID == -1 )
+        {
+            $link->removeType();
         }
         else
         {
-            $error_msg = $error->read_var( "strings", "error_missingdata" );
+            $link->removeType();
+            
+            $link->setType( new eZLinkType( $TypeID ) );
+            
+            $i = 0;
+            if ( count( $AttributeValue ) > 0 )
+            {
+                foreach ( $AttributeValue as $attribute )
+                {
+                    $att = new eZLinkAttribute( $AttributeID[$i] );
+                    
+                    $att->setValue( $link, $attribute );
+                    
+                    $i++;
+                }
+            }
         }
+        
+        $link->update();
+        
+        if ( $DeleteImage )
+        {
+            $link->deleteImage();
+        }
+        
+        eZHTTPTool::header( "Location: /link/category/$LinkCategoryID" );
+        exit();
     }
     else
     {
-        eZHTTPTool::header( "Location: /link/norights" );
-        exit();
+        $error_msg = $error->read_var( "strings", "error_missingdata" );
     }
 }
+//else
+//{
+//    eZHTTPTool::header( "Location: /link/norights" );
+//    exit();
+//}
 
 
 // Insert a link.
 if ( $Action == "insert" )
 {
-
-    if ( eZPermission::checkPermission( $user, "eZLink", "LinkAdd") )
+    if ( $Name != "" && $LinkCategoryID != "" && $Url != "" )
     {
-        if ( $Name != "" &&
-        $LinkCategoryID != "" &&
-        $Url != "" )
+        $link = new eZLink();
+        
+        $link->setName( $Name );
+        $link->setDescription( $Description );
+        $link->setKeyWords( $Keywords );
+        if ( $Accepted == "1" && eZPermission::checkPermission( $user, "eZLink", "LinkAdd" ) )
+            $link->setAccepted( true );
+        else
+            $link->setAccepted( false );
+        
+        $link->setUrl( $Url );
+        
+        $tname = $Name;
+        $turl = $Url;
+        if ( !$GetSite )
         {
-            $link = new eZLink();
-
-            $link->setName( $Name );
-            $link->setDescription( $Description );
-            $link->setKeyWords( $Keywords );
-            if ( $Accepted == "1" )
-                $link->setAccepted( true );
-            else
-                $link->setAccepted( false );
-
-            $link->setUrl( $Url );
-
-            $tname = $Name;
-            $turl = $Url;
-            if ( !$GetSite )
+            $tkeywords = $Keywords;
+            $tdescription = $Description;
+        }
+        
+        $file = new eZImageFile();
+        if ( $file->getUploadedFile( "ImageFile" ) )
+        {
+            $image = new eZImage( );
+            $image->setName( "LinkImage" );
+            $image->setImage( $file );
+            
+            $image->store();
+            
+            $link->setImage( $image );
+        }
+        
+        $link->store();
+        
+        if ( $TypeID == -1 )
+        {
+            $link->removeType();
+        }
+        else
+        {
+            $link->setType( new eZLinkType( $TypeID ) );
+            
+            $i = 0;
+            if ( count( $AttributeValue ) > 0 )
             {
-                $tkeywords = $Keywords;
-                $tdescription = $Description;
-            }
-
-            $file = new eZImageFile();
-            if ( $file->getUploadedFile( "ImageFile" ) )
-            {
-                $image = new eZImage( );
-                $image->setName( "LinkImage" );
-                $image->setImage( $file );
-
-                $image->store();
-                
-                $link->setImage( $image );
-            }
-
-            $link->store();
-                
-            if ( $TypeID == -1 )
-            {
-                $link->removeType();
-            }
-            else
-            {
-                $link->setType( new eZLinkType( $TypeID ) );
-                
-                $i = 0;
-                if ( count( $AttributeValue ) > 0 )
+                foreach ( $AttributeValue as $attribute )
                 {
-                    foreach ( $AttributeValue as $attribute )
-                    {
-                        $att = new eZLinkAttribute( $AttributeID[$i] );
-                        $att->setValue( $link, $attribute );
-                        $i++;
-                    }
+                    $att = new eZLinkAttribute( $AttributeID[$i] );
+                    $att->setValue( $link, $attribute );
+                    $i++;
                 }
             }
-    
-            // Add to categories.
-            $cat = new eZLinkCategory( $LinkCategoryID );
-            $cat->addLink( $link );
-            $link->setCategoryDefinition( $cat );
-            if ( count( $CategoryArray ) > 0 )
-            {
-                foreach ( $CategoryArray as $categoryItem )
-                {
-                    if ( $categoryItem != $cat->id() )
-                        eZLinkCategory::addLink( $link, $categoryItem );
-                }
-            }
-
-            $linkID = $link->id();
-
-            eZHTTPTool::header( "Location: /link/category/$LinkCategoryID" );
-            exit();
         }
-        else if ( !isSet( $Update ) )
+        
+        // Add to categories.
+        $cat = new eZLinkCategory( $LinkCategoryID );
+        $cat->addLink( $link );
+        $link->setCategoryDefinition( $cat );
+        if ( count( $CategoryArray ) > 0 )
         {
-            $error_msg = $error->read_var( "strings", "error_missingdata" );
+            foreach ( $CategoryArray as $categoryItem )
+            {
+                if ( $categoryItem != $cat->id() )
+                    eZLinkCategory::addLink( $link, $categoryItem );
+            }
         }
+        
+        $linkID = $link->id();
+        
+        eZHTTPTool::header( "Location: /link/category/$LinkCategoryID" );
+        exit();
     }
-    else
+    else if ( !isSet( $Update ) )
     {
-        eZHTTPTool::header( "Location: /link/norights" );
+        $error_msg = $error->read_var( "strings", "error_missingdata" );
     }
 }
+//else
+//{
+//    eZHTTPTool::header( "Location: /link/norights" );
+//}
+
 
 // set the template files.
 
 $t = new eZTemplate( "ezlink/user/" . $ini->read_var( "eZLinkMain", "TemplateDir" ),
-"ezlink/user/" . "/intl", $Language, "suggestlink.php" );
+                     "ezlink/user/" . "/intl", $Language, "suggestlink.php" );
 $t->setAllStrings();
 
 $t->set_file( "link_edit", "suggestlink.tpl" );
@@ -357,7 +346,7 @@ $t->set_block( "link_edit", "attribute_list_tpl", "attribute_list" );
 $t->set_block( "attribute_list_tpl", "attribute_tpl", "attribute" );
 
 
-$languageIni = new INIFIle( "ezlink/user/intl/" . $Language . "/suggestlink.php.ini", false );
+$languageIni = new INIFile( "ezlink/user/intl/" . $Language . "/suggestlink.php.ini", false );
 $headline = $languageIni->read_var( "strings", "headline_insert" );
 
 $linkselect = new eZLinkCategory();
@@ -370,10 +359,10 @@ $submit = "Legg til";
 
 $action_value = "update";
 
-if ( !eZPermission::checkPermission( $user, "eZLink", "LinkAdd" ) )
-{
-    eZHTTPTool::header( "Location: /link/norights" );
-}
+//if ( !eZPermission::checkPermission( $user, "eZLink", "LinkAdd" ) )
+//{
+//    eZHTTPTool::header( "Location: /link/norights" );
+//}
 
 $action_value = "insert";
 
@@ -396,7 +385,7 @@ if ( $Action == "AttributeList" )
     $t->set_var( "image_item", "" );
     
 
-    if ( $Accepted == true )
+    if ( $Accepted )
     {
         $yes_selected = "selected";
         $no_selected = "";
@@ -415,10 +404,10 @@ $link_select_dict = "";
 $catCount = count( $linkCategoryList );
 $t->set_var( "num_select_categories", min( $catCount, 10 ) );
 $i = 0;
-foreach( $linkCategoryList as $linkCategoryItem )
+foreach ( $linkCategoryList as $linkCategoryItem )
 {
-    $t->set_var("link_category_id", $linkCategoryItem[0]->id() );
-    $t->set_var("link_category_name", $linkCategoryItem[0]->name() );
+    $t->set_var( "link_category_id", $linkCategoryItem[0]->id() );
+    $t->set_var( "link_category_name", $linkCategoryItem[0]->name() );
 
     if ( $LinkCategoryID == $linkCategoryItem[0]->id() )
     {
@@ -434,10 +423,10 @@ foreach( $linkCategoryList as $linkCategoryItem )
     else
         $t->set_var( "option_level", "" );
 
-    $link_select_dict[ $linkCategoryItem[0]->id() ] = $i;
+    $link_select_dict[$linkCategoryItem[0]->id()] = $i;
 
-    if ( is_array($LinkCategoryIDArray ) and in_array( $linkCategoryItem[0]->id(), $LinkCategoryIDArray )
-         and (  $LinkCategoryID != $linkCategoryItem[0]->id() ) )
+    if ( is_array( $LinkCategoryIDArray ) and in_array( $linkCategoryItem[0]->id(), $LinkCategoryIDArray )
+         and ( $LinkCategoryID != $linkCategoryItem[0]->id() ) )
     {
         $t->set_var( "multiple_selected", "selected" );
         $i++;
@@ -455,7 +444,7 @@ foreach( $linkCategoryList as $linkCategoryItem )
 $type = new eZLinkType();
 $types = $type->getAll();
 
-if ( isset( $TypeID ) )
+if ( isSet( $TypeID ) )
     $linkType = new eZLinkType( $TypeID );
 
 foreach ( $types as $typeItem )
