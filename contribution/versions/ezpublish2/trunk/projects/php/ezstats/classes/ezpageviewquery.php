@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezpageviewquery.php,v 1.17 2001/07/05 12:19:59 jhe Exp $
+// $Id: ezpageviewquery.php,v 1.18 2001/07/09 20:02:10 bf Exp $
 //
 // Definition of eZPageViewQuery class
 //
@@ -167,7 +167,7 @@ class eZPageViewQuery
         $return_array = array();
 
         $db->array_query( $pageview_array,
-        "SELECT ID FROM eZStats_PageView
+        "SELECT ID, Date FROM eZStats_PageView
          ORDER BY Date DESC",
         array( "Limit" => $limit,
                "Offset" => $offset ) );
