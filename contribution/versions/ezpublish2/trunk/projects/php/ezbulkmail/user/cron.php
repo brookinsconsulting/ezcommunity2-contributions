@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: cron.php,v 1.1 2001/08/13 12:31:09 ce Exp $
+// $Id: cron.php,v 1.2 2001/09/10 11:37:29 ce Exp $
 //
 // Created on: <18-Apr-2001 11:15:33 fh>
 //
@@ -31,8 +31,8 @@ include_once( "classes/ezhttptool.php" );
 include_once( "classes/eztemplate.php" );
 include_once( "classes/INIFile.php" );
 
-$category = new eZBulkMailCategory();
+$mail= new eZBulkMail();
 
-$category->sendDealyedMail();
+$mail->sendDelayedMail();
 
 ?>

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezbulkmailusersubscripter.php,v 1.3 2001/09/10 10:04:23 ce Exp $
+// $Id: ezbulkmailusersubscripter.php,v 1.4 2001/09/10 11:37:29 ce Exp $
 //
 // eZBulkMailUserSubscription class
 //
@@ -41,12 +41,14 @@ class eZBulkMailUserSubscripter
 {
     /*!
     */
-    function eZBulkMailUserSubscripter( $user )
+    function eZBulkMailUserSubscripter( $user, $categoryID=false )
     {
         if ( get_class ( $user ) )
             $this->setUser( $user );
         else if ( is_numeric ( $user ) )
             $this->setUser( new eZUser ( $user ) );
+
+        $this->CategoryID = $categoryID;
     }
 
     function setUser( $user )
@@ -60,6 +62,14 @@ class eZBulkMailUserSubscripter
     function user()
     {
         return $this->User;
+    }
+
+    /*!
+      Returns the category id.
+    */
+    function categoryID()
+    {
+        return $this->CategoryID;
     }
 
     /*!

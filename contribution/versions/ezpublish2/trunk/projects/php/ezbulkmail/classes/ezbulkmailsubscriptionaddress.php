@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezbulkmailsubscriptionaddress.php,v 1.19 2001/09/08 12:57:09 fh Exp $
+// $Id: ezbulkmailsubscriptionaddress.php,v 1.20 2001/09/10 11:37:29 ce Exp $
 //
 // eZBulkMailSubscriptionAddress class
 //
@@ -39,7 +39,7 @@ class eZBulkMailSubscriptionAddress
 {
     /*!
     */
-    function eZBulkMailSubscriptionAddress( $id=-1 )
+    function eZBulkMailSubscriptionAddress( $id=-1, $categoryID=false )
     {
         if ( $id != -1 )
         {

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezbulkmail.php,v 1.24 2001/09/08 12:16:19 ce Exp $
+// $Id: ezbulkmail.php,v 1.25 2001/09/10 11:37:29 ce Exp $
 //
 // eZBulkMail class
 //
@@ -495,14 +495,14 @@ class eZBulkMail
                     $settings = eZBulkMailCategory::settings( $subscriber, $categoryID );
                     if ( $settings )
                     {
-                        $delay = $settings->sendDelay();
+                        $delay = $settings->delay();
                         if ( $delay == 0 )
                         {
                             $subscriber = $subscriber->email();
                             $canSend = true;
                         }
                         else
-                            eZBulkMailCategory::addDelay( $subscriber, $categoryID, $delay );
+                            eZBulkMailCategory::addDelayMail( $subscriber, $categoryID, $delay, $this );
                     }
                     else
                     {
@@ -515,14 +515,15 @@ class eZBulkMail
                     $settings = eZBulkMailCategory::settings( $subscriber, $categoryID );
                     if ( $settings )
                     {
-                        $delay = $settings->sendDelay();
+                        $delay = $settings->delay();
+                        
                         if ( $delay == 0 )
                         {
                             $subscriber = $subscriber->email();
                             $canSend = true;
                         }
                         else
-                            eZBulkMailCategory::addDelay( $subscriber, $categoryID, $delay );
+                            eZBulkMailCategory::addDelayMail( $subscriber, $categoryID, $delay, $this );
                     }
                     else
                     {
@@ -562,13 +563,16 @@ class eZBulkMail
 
         $categoryID = $this->ID();
         $subscribe_array = array();
+        $user_array = array();
         $return_array = array();
 
         if ( !$this->haveSentHourly( ) )
         {
             $db->array_query_append( $subscribe_array, "SELECT * FROM eZBulkMail_CategoryDelay WHERE Delay='1'" );
+            $db->array_query_append( $user_array, "SELECT * FROM eZBulkMail_UserCategoryDelay WHERE Delay='1'" );
             $db->begin();
             $result = $db->query( "DELETE FROM eZBulkMail_CategoryDelay WHERE Delay='1'" );
+            $result = $db->query( "DELETE FROM eZBulkMail_UserCategoryDelay WHERE Delay='1'" );
             if ( $result == false )
                 $db->rollback( );
             else
@@ -579,8 +583,10 @@ class eZBulkMail
         if ( !$this->haveSentDaily( ) )
         {
             $db->array_query_append( $subscribe_array, "SELECT * FROM eZBulkMail_CategoryDelay WHERE Delay='2'" );
+            $db->array_query_append( $user_array, "SELECT * FROM eZBulkMail_UserCategoryDelay WHERE Delay='2'" );
             $db->begin();
             $result = $db->query( "DELETE FROM eZBulkMail_CategoryDelay WHERE Delay='2'" );
+            $result = $db->query( "DELETE FROM eZBulkMail_UserCategoryDelay WHERE Delay='2'" );
             if ( $result == false )
                 $db->rollback( );
             else
@@ -591,8 +597,10 @@ class eZBulkMail
         if ( !$this->haveSentWeekly( ) )
         {
             $db->array_query_append( $subscribe_array, "SELECT * FROM eZBulkMail_CategoryDelay WHERE Delay='3'" );
+            $db->array_query_append( $user_array, "SELECT * FROM eZBulkMail_UserCategoryDelay WHERE Delay='3'" );
             $db->begin();
             $result = $db->query( "DELETE FROM eZBulkMail_CategoryDelay WHERE Delay='3'" );
+            $result = $db->query( "DELETE FROM eZBulkMail_UserCategoryDelay WHERE Delay='3'" );
             if ( $result == false )
                 $db->rollback( );
             else
@@ -603,8 +611,10 @@ class eZBulkMail
         if ( !$this->haveSentMonthly( ) )
         {
             $db->array_query_append( $subscribe_array, "SELECT * FROM eZBulkMail_CategoryDelay WHERE Delay='4'" );
+            $db->array_query_append( $user_array, "SELECT * FROM eZBulkMail_UserCategoryDelay WHERE Delay='4'" );
             $db->begin();
             $result = $db->query( "DELETE FROM eZBulkMail_CategoryDelay WHERE Delay='4'" );
+            $result = $db->query( "DELETE FROM eZBulkMail_UserCategoryDelay WHERE Delay='4'" );
             if ( $result == false )
                 $db->rollback( );
             else
@@ -615,8 +625,13 @@ class eZBulkMail
 
         for( $i=0; $i<count($subscribe_array); $i++ )
         {
-            $this->sendSingle( $subscribe_array[$i]["AddressID"], $subscribe_array[$i]["MailID"] );
+            $this->sendSingle( $subscribe_array[$i]["AddressID"], $subscribe_array[$i]["MailID"], false );
         }
+        for( $i=0; $i<count($user_array); $i++ )
+        {
+            $this->sendSingle( $user_array[$i]["UserID"], $user_array[$i]["MailID"], true );
+        }
+
         return $return_array;
 
     }
@@ -697,16 +712,25 @@ class eZBulkMail
     /*!
       
     */
-    function sendSingle( $addressID, $mailID )
+    function sendSingle( $addressID, $mailID, $user=false )
     {
         if ( !is_numeric ( $addressID ) )
             return false;
 
         $bulkMail = new eZBulkMail( $mailID );
 
-        $subscriber = new eZBulkMailSubscriptionAddress( $addressID );
+        if ( $user )
+        {
+            $subscriber = new eZBulkMailUserSubscripter( $addressID );
+            $user = $subscriber->user();
+            $subscriber = $user->email();
+        }
+        else
+        {
+            $subscriber = new eZBulkMailSubscriptionAddress( $addressID );
+            $subscriber = $subscriber->eMail();
+        }
         
-        $subscriber = $subscriber->eMail();
         $template = $bulkMail->template();
         if( is_object( $template ) )
             $bulkMail->setBodyText( $template->header( false ) . $bulkMail->body() . $template->footer( false ) );

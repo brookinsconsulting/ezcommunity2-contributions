@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezbulkmailcategory.php,v 1.23 2001/09/10 10:04:23 ce Exp $
+// $Id: ezbulkmailcategory.php,v 1.24 2001/09/10 11:37:29 ce Exp $
 //
 // Definition of eZBulkMailCategory class
 //
@@ -37,6 +37,7 @@
 
 include_once( "classes/ezdb.php" );
 include_once( "ezbulkmail/classes/ezbulkmailsubscriptionaddress.php" );
+include_once( "ezbulkmail/classes/ezbulkmailusersubscripter.php" );
 include_once( "ezbulkmail/classes/ezbulkmail.php" );
 include_once( "ezbulkmail/classes/ezbulkmailcategorysettings.php" );
 include_once( "ezbulkmail/classes/ezbulkmailusercategorysettings.php" );
@@ -417,7 +418,7 @@ class eZBulkMailCategory
 
         for( $i=0; $i<count($subscribe_array); $i++ )
         {
-            $return_array[$i] = new eZBulkMailUserSubscripter( $subscribe_array[$i][$db->fieldName( "ID" )] );
+            $return_array[$i] = new eZBulkMailUserSubscripter( $subscribe_array[$i][$db->fieldName( "UserID" )], $this->ID );
         }
         return $return_array;
     }
@@ -513,6 +514,7 @@ class eZBulkMailCategory
             $db =& eZDB::globalDatabase();
 
             $user = $address->user();
+
             $userID = $user->id();
 
             $db->array_query( $result_array, "SELECT ID FROM eZBulkMail_UserCategorySettings WHERE CategoryID='$categoryID' AND UserID='$userID'" );
@@ -530,7 +532,7 @@ class eZBulkMailCategory
       \static
       
      */
-    function addDelayMail( $address, $category, $delay )
+    function addDelayMail( $address, $category, $delay, $mail )
     {
         if ( is_numeric ( $category ) )
             $categoryID = $category;
@@ -538,6 +540,11 @@ class eZBulkMailCategory
             $categoryID = $category->id();
         else
             $categoryID = $this->ID;
+
+        if ( get_class ( $mail ) == "ezbulkmail" )
+            $mailID = $mail->id();
+        else
+            return false;
             
         $ret = false;
         if ( get_class ( $address ) == "ezbulkmailsubscriptionaddress" )
@@ -550,12 +557,13 @@ class eZBulkMailCategory
             $nextID = $db->nextID( "eZBulkMail_CategoryDelay", "ID" );
 
             $result = $db->query( "INSERT INTO eZBulkMail_CategoryDelay
-                         ( ID, CategoryID, AddressID, Delay )
+                         ( ID, CategoryID, AddressID, Delay, MailID )
                          VALUES
                          ( '$nextID',
                            '$categoryID',
                            '$addressID',
-                           '$delay' ) " );
+                           '$delay',
+                           '$mailID') " );
 
             $db->unlock();
             if ( $result == false )
@@ -563,6 +571,32 @@ class eZBulkMailCategory
             else
                 $db->commit();
         }
+        else if ( get_class ( $address ) == "ezbulkmailusersubscripter" )
+        {
+            $db =& eZDB::globalDatabase();
+            $db->begin();
+
+            $user = $address->user();
+            $userID = $user->id();
+            $db->lock( "eZBulkMail_UserCategoryDelay" );
+            $nextID = $db->nextID( "eZBulkMail_UserCategoryDelay", "ID" );
+
+            $result = $db->query( "INSERT INTO eZBulkMail_UserCategoryDelay
+                         ( ID, CategoryID, UserID, Delay, MailID )
+                         VALUES
+                         ( '$nextID',
+                           '$categoryID',
+                           '$userID',
+                           '$delay',
+                           '$mailID' ) " );
+
+            $db->unlock();
+            if ( $result == false )
+                $db->rollback( );
+            else
+                $db->commit();
+        }
+
         return $ret;
     }
 
