@@ -8,18 +8,20 @@
 
 
 <!-- BEGIN visa_tpl -->
+
+{intl-visa_manual_confirmation}:<br />
+
+{intl-print_out_this_page}<br />
+
+{intl-fill_in_the_info}<br />
+
+{intl-make_a_copy}<br />
+
+{intl-fax_it_to_us}<br />
+
+{intl-were_exploring_options}<br />
+
 <pre>
-{intl-visa_manual_confirmation}:
-
-{intl-print_out_this_page}
-
-{intl-fill_in_the_info}
-
-{intl-make_a_copy}
-
-{intl-fax_it_to_us}
-
-{intl-were_exploring_options}
 
 {intl-order_number}: {order_id}
 
@@ -47,18 +49,20 @@
 <!-- END visa_tpl -->
 
 <!-- BEGIN mastercard_tpl -->
+
+{intl-mastercard_manual_confirmation}:<br />
+
+{intl-print_out_this_page}.<br />
+
+{intl-fill_in_the_info}.<br />
+
+{intl-make_a_copy}.<br />
+
+{intl-fax_it_to_us}.<br />
+
+{intl-were_exploring_options}.<br />
+
 <pre>
-{intl-mastercard_manual_confirmation}:
-
-{intl-print_out_this_page}.
-
-{intl-fill_in_the_info}.
-
-{intl-make_a_copy}.
-
-{intl-fax_it_to_us}
-
-{intl-were_exploring_options}.
 
 {intl-order_number}: {order_id}
 
@@ -154,12 +158,12 @@
 </tr>
 <!-- END order_item_tpl -->
 <tr>
-	<td colspan="2">&nbsp;</td>
+	<td colspan="3">&nbsp;</td>
 	<td class="boxtext">{intl-shipping_and_handling}:</td>
 	<td align="right">{shipping_cost}</td>
 </tr>
 <tr>
-	<td colspan="2">&nbsp;</td>
+	<td colspan="3">&nbsp;</td>
 	<td class="boxtext">{intl-total}:</td>
 	<td align="right">{order_sum}</td>
 </tr>
