@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: index_admin.php,v 1.19.2.1 2001/11/19 10:12:46 bf Exp $
+// $Id: index_admin.php,v 1.19.2.2 2001/12/03 15:55:32 kaid Exp $
 //
 // Created on: <09-Nov-2000 14:52:40 ce>
 //
@@ -34,6 +34,9 @@ if ( file_exists( "sitedir.ini" ) )
     include_once( "sitedir.ini" );
 }
 
+if ( !isset( $siteDir ) )
+	$siteDir = "";
+
 // Preparing variables for nVH setup
 if ( isset( $siteDir ) and $siteDir != "" )
 {
@@ -65,6 +68,7 @@ else
 {
     $wwwDir = "";
     $index = "";
+	$siteDir = "";
 }
 
 // Remove url parameters
@@ -113,6 +117,7 @@ $GlobalSiteIni =& $ini;
 // Set the global nVH variables.
 $GlobalSiteIni->Index = $index;
 $GlobalSiteIni->WWWDir = $wwwDir;
+$GlobalSiteIni->SiteDir = $siteDir;
 unset($index);
 unset($wwwDir);
 

@@ -8,6 +8,7 @@ Changes from 2.2.2 to 2.2.3
 * Fixed wrong computation of VAT/Tax in options
 * Fixed wrong display of prices in product lists.
 * Fixed wrong lookup of price groups in prices.
+* Speedup through better handling of $siteDir.
 
 Changes from 2.2.1 final to 2.2.2
 ---------------------------------

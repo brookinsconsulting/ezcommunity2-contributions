@@ -1,6 +1,6 @@
 <?php 
 // 
-// $Id: INIFile.php,v 1.47 2001/10/12 07:09:23 jakobn Exp $
+// $Id: INIFile.php,v 1.47.2.1 2001/12/03 15:55:32 kaid Exp $
 //
 // Implements a simple INI-file parser
 //
@@ -427,5 +427,6 @@ class INIFile
     var $WRITE_ACCESS = "";    
     var $Index = "";
     var $WWWDir = "";
+	var $SiteDir = "";
 } 
 ?>

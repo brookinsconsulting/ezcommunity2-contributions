@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eztemplate.php,v 1.46.2.2 2001/12/02 12:48:02 kaid Exp $
+// $Id: eztemplate.php,v 1.46.2.3 2001/12/03 15:55:32 kaid Exp $
 //
 // Definition of eZTemplate class
 //
@@ -411,10 +411,10 @@ class eZTemplate
     */  
     function set_root($root)
     {
-        if ( file_exists( "sitedir.ini" ) && $root != "" )
+        if ( $root != "" )
         {
-            include( "sitedir.ini" );
-            $root = $siteDir . $root;
+			global $GlobalSiteIni;
+            $root = $GlobalSiteIni->SiteDir . $root;
         }
 
         if (!is_dir($root)) {

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: index.php,v 1.119.2.9 2001/12/02 12:48:02 kaid Exp $
+// $Id: index.php,v 1.119.2.10 2001/12/03 15:55:32 kaid Exp $
 //
 // Created on: <09-Nov-2000 14:52:40 ce>
 //
@@ -35,8 +35,11 @@ if ( file_exists( "sitedir.ini" ) )
     include_once( "sitedir.ini" );
 }
 
+if ( !isset( $siteDir ) )
+	$siteDir = "";
+
 // Preparing variables for nVH setup
-if ( isSet( $siteDir ) and $siteDir != "" )
+if ( $siteDir != "" )
 {
     $includePath = ini_get( "include_path" );
 
@@ -66,6 +69,7 @@ else
 {
     $wwwDir = "";
     $index = "";
+	$siteDir = "";
 }
 
 
@@ -104,6 +108,7 @@ $GlobalSiteIni =& $ini;
 // Set the global nVH variables.
 $GlobalSiteIni->Index = $index;
 $GlobalSiteIni->WWWDir = $wwwDir;
+$GlobalSiteIni->SiteDir = $siteDir;
 unset( $index );
 unset( $wwwDir );
 
@@ -133,7 +138,7 @@ if ( $StoreStats == "enabled" )
     include_once( "ezstats/classes/ezpageview.php" );
 
     // if we are using nVH setup, we need to store our stats here
-    if ( isSet( $siteDir ) and $siteDir != "" )
+    if ( isSet( $GlobalSiteIni->SiteDir ) and $GlobalSiteIni->SiteDir != "" )
     {
         // create a global page view object for statistics
         // and store the stats
