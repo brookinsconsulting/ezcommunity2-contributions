@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezbulkmail.php,v 1.14 2001/06/29 09:57:00 pkej Exp $
+// $Id: ezbulkmail.php,v 1.15 2001/06/29 10:00:36 pkej Exp $
 //
 // eZBulkMail class
 //
@@ -208,7 +208,7 @@ class eZBulkMail
     /*!
       Sets the sender's name.      
     */
-    function setSender( $newSender )
+    function setFromName( $newSender )
     {
         $this->FromName = $newSender;
     }
