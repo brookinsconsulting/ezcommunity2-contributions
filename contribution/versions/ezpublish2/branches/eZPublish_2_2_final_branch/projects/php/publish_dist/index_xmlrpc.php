@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: index_xmlrpc.php,v 1.27.2.12 2002/06/10 12:01:18 bf Exp $
+// $Id: index_xmlrpc.php,v 1.27.2.13 2002/07/31 11:25:38 gl Exp $
 //
 // Created on: <09-Nov-2000 14:52:40 ce>
 //
@@ -376,7 +376,8 @@ function Call( $args )
         $datasupplier = $Module . "/xmlrpc/datasupplier.php";
         if ( ( $Command == "search" && $Module == "" && $RequestType == "" ) ||
              eZFile::file_exists( $datasupplier )  ||
-             ( $Module == "ezpublish" && $RequestType == "modules" ) )
+             ( $Module == "ezpublish" && $RequestType == "modules" ) ||
+             $Command == "logout" )
         {
             // check for module implementation
             if ( $Command == "search" && $Module == "" && $RequestType == "" )
@@ -391,6 +392,11 @@ function Call( $args )
                         include( $search_file );
                     }
                 }
+            }
+            else if ( $Command == "logout" )
+            {
+                eZUser::logout();
+                $ReturnData = new eZXMLRPCString( "Logged out" );
             }
             else if ( $Module == "ezpublish" && $RequestType == "modules" )
             {
@@ -420,7 +426,6 @@ function Call( $args )
             }
             else
             {
-
 //                  eZLog::writeNotice( "XML-RPC returning standard data." );
                 include( $datasupplier );
 
