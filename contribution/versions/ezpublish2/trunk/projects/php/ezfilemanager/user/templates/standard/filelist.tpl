@@ -103,7 +103,23 @@
 <!-- END file_list_tpl -->
 
 <hr noshade="noshade" size="4" />
+
 <!-- BEGIN write_menu_tpl -->
+
+<table cellspacing="0" cellpadding="0" border="0">
+<tr>
+    <td>
+	<input class="stdbutton" type="submit" name="DeleteFiles" value="{intl-delete_files}">
+	</td>
+    <td>&nbsp;</td>
+    <td>
+	<input class="stdbutton" type="submit" name="DeleteFolders" value="{intl-delete_folders}">
+	</td>
+</tr>
+</table>
+
+<hr noshade="noshade" size="4" />
+
 <table cellspacing="0" cellpadding="0" border="0">
 <tr>
     <td>
@@ -114,15 +130,9 @@
 	<input class="stdbutton" type="submit" name="NewFolder" value="{intl-new_folder}">
 	<input type="hidden" name="FolderID" value="{main_folder_id}">
 	</td>
-	<td>&nbsp;</td>
-    <td>
-	<input class="stdbutton" type="submit" name="DeleteFiles" value="{intl-delete_files}">
-	</td>
-    <td>
-	<input class="stdbutton" type="submit" name="DeleteFolders" value="{intl-delete_folders}">
-	</td>
-
 </tr>
 </table>
+
 <!-- END write_menu_tpl -->
+
 </form>

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: categoryedit.php,v 1.11 2001/03/01 14:06:25 jb Exp $
+// $Id: categoryedit.php,v 1.12 2001/03/02 14:17:01 th Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <08-Jan-2001 11:13:29 ce>
@@ -67,7 +67,7 @@ $t->set_block( "category_edit_tpl", "errors_tpl", "errors" );
 $t->set_block( "category_edit_tpl", "write_group_item_tpl", "write_group_item" );
 $t->set_block( "category_edit_tpl", "read_group_item_tpl", "read_group_item" );
 
-$t->set_var( "errors", "&nbsp;" );
+$t->set_var( "errors", "" );
 $t->set_var( "category_name", "$Name" );
 $t->set_var( "category_description", "$Description" );
 

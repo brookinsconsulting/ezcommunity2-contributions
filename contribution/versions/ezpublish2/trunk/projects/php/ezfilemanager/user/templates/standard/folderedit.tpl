@@ -40,11 +40,11 @@
 
 <!-- END errors_tpl -->
 
-<br /><br />
+<br />
 
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
-    <td>
+    <td colspan="2">
     <p class="boxtext">{intl-folder}:</p>
     <select name="ParentID">
     <option value="0" {selected}>{intl-top_folder}</option>
@@ -58,6 +58,8 @@
 
     <p class="boxtext">{intl-folder_description}:</p>
     <textarea name="Description" cols="40" rows="5" wrap="soft">{description_value}</textarea>
+	<br />
+	<br />
     </td>
 </tr>
 
@@ -71,11 +73,7 @@
     <!-- END read_group_item_tpl -->
     </select>
     </td>
-</tr>
-
-<tr>    
     <td>
-    <br /><br />
     <p class="boxtext">{intl-write_permissions}</p>
     <select multiple size="5" name="WriteGroupArrayID[]">
     <option value="0" {write_everybody}>{intl-everybody}</option>
@@ -86,8 +84,7 @@
     </td>
 </tr>
 </table>
-    <br /><br />
-
+<br />
 
 <hr noshade="noshade" size="4" />
 

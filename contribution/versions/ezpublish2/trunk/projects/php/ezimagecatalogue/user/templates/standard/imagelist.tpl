@@ -95,20 +95,7 @@
 
 <!-- END image_list_tpl -->
 
-<hr noshade="noshade" size="4" />
-
 <!-- BEGIN write_menu_tpl -->
-<table cellspacing="0" cellpadding="0" border="0">
-<tr>
-    <td>
-	<input class="stdbutton" type="submit" name="NewImage" value="{intl-new_image}">
-	</td>
-	<td>&nbsp;</td>
-    <td>
-	<input class="stdbutton" type="submit" name="NewCategory" value="{intl-new_category}">
-	</td>
-</tr>
-</table>
 
 <!-- BEGIN default_delete_tpl -->
 
@@ -133,6 +120,20 @@
 </tr>
 </table>
 <!-- END default_delete_tpl -->
+
+<hr noshade="noshade" size="4" />
+
+<table cellspacing="0" cellpadding="0" border="0">
+<tr>
+    <td>
+	<input class="stdbutton" type="submit" name="NewImage" value="{intl-new_image}">
+	</td>
+	<td>&nbsp;</td>
+    <td>
+	<input class="stdbutton" type="submit" name="NewCategory" value="{intl-new_category}">
+	</td>
+</tr>
+</table>
 
 <!-- END write_menu_tpl -->
 </form>

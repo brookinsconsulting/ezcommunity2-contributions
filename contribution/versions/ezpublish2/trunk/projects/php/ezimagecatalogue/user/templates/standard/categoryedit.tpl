@@ -1,14 +1,12 @@
-
 <form method="post" action="/imagecatalogue/category/{action_value}/{category_id}" enctype="multipart/form-data">
 <input type="hidden" name="max_file_size" value="30000000">
 
 <h1>{intl-category_edit}</h1>
 
-
 <hr noshade="noshade" size="4" />
 
 <!-- BEGIN errors_tpl -->
-<h3 class="error">{intl-error_headline}</h3>
+<div class="error">{intl-error_headline}</div>
 <ul>
     <!-- BEGIN error_write_permission -->
     <li>{intl-error_write_permission}
@@ -37,7 +35,7 @@
 
 <hr noshade size="4"/>
 
-<br />
+
 <!-- END errors_tpl -->
 
 <p class="boxtext">{intl-category}:</p>
@@ -50,23 +48,24 @@
 
 </select>
 
-<br />
+<br /><br />
 
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
-    <td>
+    <td colspan="2">
     <p class="boxtext">{intl-category_name}:</p>
     <input type="text" size="40" name="Name" value="{category_name}"/>
 
     <p class="boxtext">{intl-category_description}:</p>
 	
 	<textarea name="Description" cols="40" rows="5" wrap="soft">{category_description}</textarea>
+	<br />
+	<br />
 	
     </td>
 </tr>
 <tr>
     <td>
-    <br />
     <p class="boxtext">{intl-read_permissions}</p>
     <select multiple size="5" name="ReadGroupArrayID[]">
     <option value="0" {read_everybody}>{intl-everybody}</option>
@@ -76,9 +75,7 @@
     </select>
     <br /><br />
     </td>
-</tr>
-<tr>    
-    <td>
+   <td>
     <p class="boxtext">{intl-write_permissions}</p>
     <select multiple size="5" name="WriteGroupArrayID[]">
     <option value="0" {write_everybody}>{intl-everybody}</option>
@@ -90,7 +87,6 @@
     </td>
 </tr>
 </table>
-<br />
 
 <hr noshade="noshade" size="4" />
 
