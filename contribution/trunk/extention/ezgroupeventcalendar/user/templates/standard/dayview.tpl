@@ -1,9 +1,13 @@
+<script>
+ function objChangeVisiblity(objName){
+  document.getElementById(objName).style.visibility = 'hidden';
+ }
+</script>
  <div id="overDiv" style="position:absolute; visibility:hidden; z-index:1000;"></div>
 <form method="post" action="{www_dir}{index}/groupeventcalendar/dayview/">
  <table border="0" cellspacing="0" cellpadding="0" id="gcalDayViewSortBy">
  <tr>
-  <td id="gcalDayViewSortByHeader"><img src="{www_dir}{index}/ezgroupeventcalendar/user/templates/standard/images/gcalX.png" style="z-index: 1001; margin-right:7px;"  alt="close"
-    onclick="document.getElementById('gcalDayViewSortBy').style.visibility = 'hidden';" />
+  <td id="gcalDayViewSortByHeader"><a href="javascript:objChangeVisiblity('gcalDayViewSortBy')" style="text-decoration: none;"><img src="{www_dir}{index}/ezgroupeventcalendar/user/templates/standard/images/gcalX.png" style="z-index: 1001; margin-right:7px; margin-top: 2px;" alt="close" border="0" /></a>
  </td>
  </tr>
 <tr>
@@ -30,17 +34,12 @@
 </tr>
 </table>
 </form>
-<table width="100%" border="0" cellspacing="0" cellpadding="0">
 
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
 <tr><td>
 
-	<table width="160" border="0" cellspacing="0" cellpadding="0" id="gcalDayViewMonthTable">
-	<tr><td colspan=7 id="gcalDayViewMonthTableHeader"
-    style="height: 12px;
-    background: no-repeat url('{www_dir}{index}/ezgroupeventcalendar/user/templates/standard/images/gcalDayViewMonthTableHeader.png');
-    font-size: 2px;"><img src="{www_dir}{index}/ezgroupeventcalendar/user/templates/standard/images/gcalX.png" style="z-index: 1001; margin-right:7px;"  alt="close"
-    onclick="document.getElementById('gcalDayViewMonthTable').style.visibility = 'hidden';" /></td>
-
+	<table width="160" border="2" cellspacing="0" cellpadding="0" id="gcalDayViewMonthTable">
+	<tr><td colspan="7" id="gcalDayViewMonthTableHeader" style="height: 12px; background: no-repeat url('{www_dir}{index}/ezgroupeventcalendar/user/templates/standard/images/gcalDayViewMonthTableHeader.png'); font-size: 2px;"><a href="javascript:objChangeVisiblity('gcalDayViewMonthTable')" style="text-decoration: none;"><img src="{www_dir}{index}/ezgroupeventcalendar/user/templates/standard/images/gcalX.png" style="z-index: 1001; margin-right:7px;" alt="close" border="0" /></a></td>
 </tr></td></tr>
     <tr>
 	<td align="center" colspan=7 width="100%" style="background: no-repeat url('{www_dir}{index}/ezgroupeventcalendar/user/templates/standard/images/gcalDayViewMonthTableSubHeader.png');">
@@ -67,8 +66,10 @@
 		<!-- END week_tpl -->
 
 		</table>
-        </td>
+
+</td>
 <td valign="bottom">
+
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
 <tr>
 	<form method="post" action="{www_dir}{index}/groupeventcalendar/eventedit/edit/">
