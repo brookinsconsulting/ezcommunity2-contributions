@@ -1,6 +1,6 @@
 <?php
-// 
-// $Id: fileedit.php,v 1.3 2001/07/29 23:31:10 kaid Exp $
+//
+// $Id: fileedit.php,v 1.3.2.1 2002/03/04 12:56:24 ce Exp $
 //
 // Created on: <11-Jul-2001 17:48:44 bf>
 //
@@ -52,7 +52,7 @@ $t->setAllStrings();
 
 $t->set_file( "file_edit_tpl", "fileedit.tpl" );
 
-$lines = file( "ezsitemanager/staticfiles/$fileName" );
+$lines = eZFile::file( "ezsitemanager/staticfiles/$fileName" );
 $contents = "";
 foreach ( $lines as $line )
 {

@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: templatelist.php,v 1.1.2.1 2002/02/07 09:48:26 jhe Exp $
+// $Id: templatelist.php,v 1.1.2.2 2002/03/04 12:56:24 ce Exp $
 //
 // Created on: <24-Sep-2001 14:12:07 bf>
 //
@@ -57,10 +57,9 @@ while ( $entry = $dir->read() )
     {
         if ( count( $filePathArray ) == 1 )
         {
-            // top level modules            
+            // top level modules
             if ( preg_match( "#^ez[a-z]+$#", $entry ) )
             {
-//                print( "<a href=\"/sitemanager/template/list/$entry\">$entry</a>" . "<br>" );
                 $t->set_var( "file_name", $entry  );
                 $t->set_var( "file_href", "/sitemanager/template/list/$entry" );
                 $t->parse( "file_item", "file_item_tpl", true );
@@ -71,10 +70,9 @@ while ( $entry = $dir->read() )
             if ( $entry == "user" || $entry == "admin" )
             {
                 // user/admin select
-//                print( "<a href=\"/sitemanager/template/list/" . $filePathArray[1] . "-$entry\">$entry</a>" . "<br>" );
-                $t->set_var( "file_name", $entry  );                
+                $t->set_var( "file_name", $entry  );
                 $t->set_var( "file_href", "/sitemanager/template/list/" . $filePathArray[1] . "-$entry"  );
-                $t->parse( "file_item", "file_item_tpl", true );                
+                $t->parse( "file_item", "file_item_tpl", true );
             }
         }
         else if ( count( $filePathArray ) == 3 )
@@ -83,30 +81,23 @@ while ( $entry = $dir->read() )
             {
                 $t->set_var( "file_href", "/sitemanager/template/list/" . $filePathArray[1] . "-" . $filePathArray[2] . "-templates" . "-$entry"  );
                 $t->set_var( "file_name", $entry  );
-                
-                $t->parse( "file_item", "file_item_tpl", true );                
 
-//                 print( "<a href=\"/sitemanager/template/list/" . $filePathArray[1] . "-" . $filePathArray[2] . "-templates" . "-$entry\">$entry</a>" . "<br>" );
+                $t->parse( "file_item", "file_item_tpl", true );
             }
-        }else if ( count( $filePathArray ) == 5 )
+        }
+        else if ( count( $filePathArray ) == 5 )
         {
-            if ( preg_match( "#[a-z]+\.tpl$#", $entry ) 
+            if ( preg_match( "#[a-z]+\.tpl$#", $entry )
                  )
             {
-
                 $t->set_var( "file_href", "/sitemanager/template/edit/" . $filePathArray[1] . "-" . $filePathArray[2] . "-templates" . "-" . $filePathArray[4] . "-$entry"  );
                 $t->set_var( "file_name", $entry  );
-                
+
                 $t->parse( "file_item", "file_item_tpl", true );
-                
-//                print( "<a href=\"/sitemanager/template/edit/" . $filePathArray[1] . "-" . $filePathArray[2] . "-templates" . "-" . $filePathArray[4] . "-$entry\">$entry</a>" . "<br>" );
             }
         }
     }
 }
 
-
 $t->pparse( "output", "template_list_tpl" );
-
-
 ?>

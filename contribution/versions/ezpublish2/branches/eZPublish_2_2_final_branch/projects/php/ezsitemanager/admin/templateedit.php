@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: templateedit.php,v 1.1 2001/09/24 12:55:15 bf Exp $
+// $Id: templateedit.php,v 1.1.2.1 2002/03/04 12:56:24 ce Exp $
 //
 // Created on: <24-Sep-2001 15:16:31 bf>
 //
@@ -48,7 +48,7 @@ $t->setAllStrings();
 
 $t->set_file( "site_config_tpl", "templateedit.tpl" );
 
-$lines = file( $realPath );
+$lines = eZFile::file( $realPath );
 $contents = "";
 foreach ( $lines as $line )
 {
