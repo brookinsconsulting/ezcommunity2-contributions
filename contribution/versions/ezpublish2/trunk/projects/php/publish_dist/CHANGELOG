@@ -26,6 +26,7 @@ Changes from 2.1.0B1 to 2.1.0B2
 * Bugfix of infinite category loops when assigning categories to themselves or own subcategories.
 * Checkbox delete on consultations.
 * Improvements on company/person edit redirect.
+* Bug fixes.
  
 Changes from 2.0.0 to 2.1.0B1
 ---------------------------
