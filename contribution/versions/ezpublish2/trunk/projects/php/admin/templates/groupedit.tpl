@@ -104,6 +104,48 @@
       Slette link
     </td>
   </tr>
+
+
+
+
+  <tr>
+    <td colspan="2"><b>eZ Contact</b></td>
+  </tr>
+
+  <tr>
+    <td><input type="checkbox" name="eZContact_Person" {eZContact_Person}></td>
+    <td>
+      Rettigheter til personer
+    </td>
+  </tr>
+    
+  <tr>
+    <td><input type="checkbox" name="eZContact_Company" {eZContact_Company}></td>
+    <td>
+      Rettigheter til firma
+    </td>
+  </tr>
+    
+  <tr>
+    <td><input type="checkbox" name="eZContact_Address" {eZContact_Address}></td>
+    <td>
+      Rettigheter til addresser
+    </td>
+  </tr>
+
+  <tr>
+    <td><input type="checkbox" name="eZConmtact_Consult" {eZContact_Consult}></td>
+    <td>
+      Rettigheter til konsultasjoner
+    </td>
+  </tr>
+
+
+
+
+
+
+
     
   <tr>
      <td colspan="2"><br><b>eZ Forum</b></td>
