@@ -3,6 +3,7 @@ eZ publish changelog:
 
 Changes from 2.1 to
 -----------------
+* Added internal messaging with the module eZ message.
 * Added logging on articles, history of article changes.
 * Added author list and author select on eZ article.
 * Added topic to eZ article.
