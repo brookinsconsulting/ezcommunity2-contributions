@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezxmlrpccall.php,v 1.6 2001/02/25 12:20:30 bf Exp $
+// $Id: ezxmlrpccall.php,v 1.7 2001/03/15 18:00:50 bf Exp $
 //
 // Definition of eZXMLRPCCall class
 //
@@ -218,7 +218,7 @@ class eZXMLRPCCall
                     }
 
                     // parameters
-                    if ( $callItem->name == "params" )
+                    if ( $callItem->name == "params" && is_array($callItem->children) )
                     {
                         foreach ( $callItem->children as $param )
                         {
