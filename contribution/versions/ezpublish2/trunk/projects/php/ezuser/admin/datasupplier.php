@@ -2,35 +2,9 @@
 include_once( "ezuser/classes/ezpermission.php" );
 include_once( "classes/ezhttptool.php" );
 
-$user = eZUser::currentUser();
-if ( get_class( $user ) == "ezuser" )
+// These should allways be available
+switch( $url_array[2] ) 
 {
-    if( eZPermission::checkPermission( $user, "eZUser", "ModuleEdit" ) == false )
-    {
-        eZHTTPTool::header( "Location: /error/403" );
-        exit();
-    }
-} 
-
-switch ( $url_array[2] )
-{
-    case "welcome" :
-    {
-        include( "ezuser/admin/welcome.php" );
-    }
-    break;
-
-    case "sessioninfo" :
-    {
-        if ( $url_array[3] == "delete" )
-        {
-            $Action = "Delete";
-            $SessionID = $url_array[4];
-        }
-        include( "ezuser/admin/sessioninfo.php" );
-    }
-    break;
-    
     case "login" :
     {
         $Action = $url_array[3];
@@ -65,7 +39,40 @@ switch ( $url_array[2] )
         include( "ezuser/admin/settings.php" );
     }
     break;
+}
 
+
+
+$user = eZUser::currentUser();
+if ( get_class( $user ) == "ezuser" )
+{
+    if( eZPermission::checkPermission( $user, "eZUser", "ModuleEdit" ) == false )
+    {
+        eZHTTPTool::header( "Location: /error/403" );
+        exit();
+    }
+} 
+
+// These should only be available if the user has permissions...
+switch ( $url_array[2] )
+{
+    case "welcome" :
+    {
+        include( "ezuser/admin/welcome.php" );
+    }
+    break;
+
+    case "sessioninfo" :
+    {
+        if ( $url_array[3] == "delete" )
+        {
+            $Action = "Delete";
+            $SessionID = $url_array[4];
+        }
+        include( "ezuser/admin/sessioninfo.php" );
+    }
+    break;
+    
     case "userlist" :
     {
         $Index = $url_array[3];
@@ -154,6 +161,5 @@ switch ( $url_array[2] )
         include( "ezuser/admin/login.php" );
     }
     break;
-
 }
 ?>
