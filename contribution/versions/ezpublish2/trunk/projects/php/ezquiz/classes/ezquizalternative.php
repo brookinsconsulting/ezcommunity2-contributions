@@ -1,10 +1,9 @@
-<?
+<?php
 // 
-// $Id: ezquizalternative.php,v 1.6 2001/06/29 18:23:55 bf Exp $
+// $Id: ezquizalternative.php,v 1.7 2001/07/17 06:09:38 jhe Exp $
 //
 // eZQuizAlternative class
 //
-// Christoffer A. Elo <ce@ez.no>
 // Created on: <22-May-2001 16:22:08 ce>
 //
 // This source file is part of eZ publish, publishing software.
@@ -46,7 +45,7 @@ class eZQuizAlternative
       If $id is set the object's values are fetched from the
       database.
     */
-    function eZQuizAlternative( $id=-1, $fetch=true )
+    function eZQuizAlternative( $id = -1 )
     {
         if ( is_array( $id ) )
         {
@@ -55,10 +54,7 @@ class eZQuizAlternative
         else if ( $id != -1 )
         {
             $this->ID = $id;
-            if ( $fetch == true )
-            {
-                $this->get( $this->ID );
-            }
+            $this->get( $this->ID );
         }
     }
 
@@ -68,52 +64,57 @@ class eZQuizAlternative
     function store()
     {
         $db =& eZDB::globalDatabase();
-
-        $name =& addslashes( $this->Name );
+        $db->begin();
+        
+        $name =& $db->escapeString( $this->Name );
         $questionID = $this->Question->id();
 
-        if ( !isset( $this->ID ) )
-        {
-            $db->query( "INSERT INTO eZQuiz_Alternative SET
-                                     Name='$name',
-                                     QuestionID='$questionID',
-                                     IsCorrect='$this->IsCorrect'
-                                     " );
 
-			$this->ID = $db->insertID();
+        if ( !isSet( $this->ID ) )
+        {
+            $db->lock( "eZQuiz_Alternative" );
+            $this->ID = $db->nextID( "eZQuiz_Alternative", "ID" );
+            $res[] = $db->query( "INSERT INTO eZQuiz_Alternative
+                                  (ID, Name, QuestionID, IsCorrect)
+                                  VALUES
+                                  ('$this->ID', '$name', '$questionID', '$this->IsCorrect')" );
+            $db->unlock();
         }
         elseif ( is_numeric( $this->ID ) )
         {
-            $db->query( "UPDATE eZQuiz_Alternative SET
+            $res[] = $db->query( "UPDATE eZQuiz_Alternative SET
                                      Name='$name',
                                      QuestionID='$questionID',
                                      IsCorrect='$this->IsCorrect'
                                      WHERE ID='$this->ID'" );
         }
+        eZDB::finish( $res, $db );
         return true;
     }
 
     /*!
       Deletes a eZQuizAlternative object from the database.
     */
-    function delete( $catID=-1 )
+    function delete( $catID = -1 )
     {
         if ( $catID == -1 )
             $catID = $this->ID;
 
         $db =& eZDB::globalDatabase();
-
+        $db->begin();
+        
 //        $answers =& $this->answers();
 
         if ( is_array ( $answers ) )
         {
-            foreach( $answers as $answer )
+            foreach ( $answers as $answer )
             {
                 $answer->delete();
             }
         }
 
-        $db->query( "DELETE FROM eZQuiz_Alternative WHERE ID='$catID'" );
+        $res[] = $db->query( "DELETE FROM eZQuiz_Alternative WHERE ID='$catID'" );
+        eZDB::finish( $res, $db );
     }
 
     /*!
@@ -121,7 +122,7 @@ class eZQuizAlternative
 
       True is retuned if successful, false (0) if not.
     */
-    function get( $id=-1 )
+    function get( $id = -1 )
     {
         $db =& eZDB::globalDatabase();
 
@@ -135,15 +136,14 @@ class eZQuizAlternative
         if ( $id != "" )
         {
             $GLOBALS["DEBUG"] = true;
-            $db->array_query( $alternativeArray, "SELECT * FROM eZQuiz_Alternative WHERE ID='$id'",
-                              0, 1 );
+            $db->array_query( $alternativeArray, "SELECT * FROM eZQuiz_Alternative WHERE ID='$id'", 0, 1 );
 
-            if( count( $alternativeArray ) == 1 )
+            if ( count( $alternativeArray ) == 1 )
             {
                 $this->fill( &$alternativeArray[0] );
                 $ret = true;
             }
-            elseif( count( $alternativeArray ) == 1 )
+            elseif ( count( $alternativeArray ) == 1 )
             {
                 $this->ID = 0;
             }
@@ -156,10 +156,10 @@ class eZQuizAlternative
     */
     function fill( &$alternativeArray )
     {
-        $this->ID =& $alternativeArray[ "ID" ];
-        $this->Name =& $alternativeArray[ "Name" ];
-        $this->IsCorrect =& $alternativeArray[ "IsCorrect" ];
-        $this->Question = new eZQuizQuestion( $alternativeArray[ "QuestionID" ] );
+        $this->ID =& $alternativeArray[ $db->fieldName( "ID" ) ];
+        $this->Name =& $alternativeArray[ $db->fieldName( "Name" ) ];
+        $this->IsCorrect =& $alternativeArray[ $db->fieldName( "IsCorrect" ) ];
+        $this->Question = new eZQuizQuestion( $alternativeArray[  $db->fieldName( "QuestionID" ) ] );
     }
 
     /*!
@@ -167,7 +167,7 @@ class eZQuizAlternative
 
       The categories are returned as an array of eZQuizAlternative objects.
     */
-    function getAll( $offset=0, $limit=20)
+    function getAll( $offset = 0, $limit = 20)
     {
         $db =& eZDB::globalDatabase();
         
@@ -178,9 +178,9 @@ class eZQuizAlternative
                                            FROM eZQuiz_Alternative
                                            " );
         
-        for ( $i=0; $i < count($alternativeArray); $i++ )
+        for ( $i = 0; $i < count( $alternativeArray ); $i++ )
         {
-            $returnArray[$i] = new eZQuizAlternative( $alternativeArray[$i]["ID"] );
+            $returnArray[$i] = new eZQuizAlternative( $alternativeArray[$i][ $db->fieldName( "ID" ) ] );
         }
         
         return $returnArray;
@@ -196,7 +196,7 @@ class eZQuizAlternative
 
         $db->query_single( $result, "SELECT COUNT(ID) as Count
                                      FROM eZQuiz_Alternative" );
-        $ret = $result["Count"];
+        $ret = $result[ $db->fieldName( "Count" ) ];
         return $ret;
     }
 
@@ -288,9 +288,9 @@ class eZQuizAlternative
         $db =& eZDB::globalDatabase();
         $db->array_query( $questionArray, "SELECT ID FROM eZQuiz_Answer WHERE AlternativeID='$this->ID'" );
 
-       for ( $i=0; $i < count($questionArray); $i++ )
+       for ( $i = 0; $i < count( $questionArray ); $i++ )
        {
-           $returnArray[$i] = new eZQuizAnswer( $questionArray[$i]["ID"], true );
+           $returnArray[$i] = new eZQuizAnswer( $questionArray[$i][ $db->fieldName( "ID" ) ], true );
        }
        return $returnArray;
     }

@@ -1,10 +1,9 @@
-<?
+<?php
 // 
-// $Id: ezquizanswer.php,v 1.4 2001/06/29 18:23:55 bf Exp $
+// $Id: ezquizanswer.php,v 1.5 2001/07/17 06:09:38 jhe Exp $
 //
 // eZQuizAnswer class
 //
-// Paul K Egell-Johnsen <pkej@ez.no>
 // Created on: <29-May-2001 14:01:35 pkej>
 //
 // This source file is part of eZ publish, publishing software.
