@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezquote.php,v 1.9 2001/02/05 16:12:28 jb Exp $
+// $Id: ezquote.php,v 1.10 2001/02/05 17:39:17 jb Exp $
 //
 // Definition of eZQuote class
 //
@@ -100,10 +100,10 @@ class eZQuote
         {
             $db->query( "DELETE FROM eZExchange_UserProductQuoteDict
                          WHERE QuoteID='$id'" );
-            if ( type() == OFFER_TYPE )
+            if ( $this->quoteState() == OFFER_TYPE )
                 $db->query( "DELETE FROM eZExchange_OfferRFQDict
                              WHERE OfferID='$id'" );
-            else if ( type() == RFQ_TYPE )
+            else if ( $this->quoteState() == RFQ_TYPE )
                 $db->query( "DELETE FROM eZExchange_OfferRFQDict
                              WHERE RFQID='$id'" );
             $db->query( "DELETE FROM eZExchange_Quote WHERE ID='$id'" );
