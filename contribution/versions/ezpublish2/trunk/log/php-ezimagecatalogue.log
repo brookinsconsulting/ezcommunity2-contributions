@@ -369,3 +369,12 @@ Maintainer(s) : br@ez.no
 
     Removed absolete permission functions in classes.
 
+
+Module : ezimagecatalogue
+Repository path : /home/cvsroot/projects/php/ezimagecatalogue
+Maintainer(s) : br@ez.no
+2001-09-30  Baard Farstad  <bf@ez.no>
+
+    * user/intl/en_GB/menucategorylist.php.ini
+      user/menucategorylist.php: Added menu categorylist.
+

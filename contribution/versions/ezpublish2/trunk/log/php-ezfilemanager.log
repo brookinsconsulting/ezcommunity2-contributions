@@ -244,3 +244,12 @@ Maintainer(s) : jhe@ez.no
     * user/templates/standard/filelist.tpl
       user/templates/standard/search.tpl: fixed missing nVH tags
 
+
+Module : ezfilemanager
+Repository path : /home/cvsroot/projects/php/ezfilemanager
+Maintainer(s) : jhe@ez.no
+2001-09-30  Baard Farstad  <bf@ez.no>
+
+    * user/intl/en_GB/menufolderlist.php.ini
+      user/menufolderlist.php: Added menu folder list script.
+

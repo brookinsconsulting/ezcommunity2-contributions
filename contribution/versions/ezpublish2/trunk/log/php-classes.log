@@ -159,3 +159,11 @@ Maintainer(s) : bf@ez.no
       eztemplate.php:
     $index and $wwwDir go to $GlobalSiteIni->Index and $GlobalSiteIni->WWWDir. Fixes namespace problems.
 
+
+Module : classes
+Repository path : /home/cvsroot/projects/php/classes
+Maintainer(s) : bf@ez.no
+2001-09-30  Baard Farstad  <bf@ez.no>
+
+    * ezpublish.php: Changed version info.
+

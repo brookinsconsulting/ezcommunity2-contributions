@@ -1044,3 +1044,12 @@ Maintainer(s) : bf@ez.no
 
     * user/sitemap.php: initialization of $Language was missing
 
+
+Module : ezarticle
+Repository path : /home/cvsroot/projects/php/ezarticle
+Maintainer(s) : bf@ez.no
+2001-09-30  Baard Farstad  <bf@ez.no>
+
+    * classes/ezqdomrenderer.php
+      classes/eztechrenderer.php: Fixed bugs.
+

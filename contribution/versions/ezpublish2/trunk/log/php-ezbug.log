@@ -79,3 +79,12 @@ Maintainer(s) : vl@ez.no
       user/bugview.php:
     $index and $wwwDir go to $GlobalSiteIni->Index and $GlobalSiteIni->WWWDir. Fixes namespace problems.
 
+
+Module : ezbug
+Repository path : /home/cvsroot/projects/php/ezbug
+Maintainer(s) : vl@ez.no
+2001-09-30  Baard Farstad  <bf@ez.no>
+
+    * user/intl/en_GB/menumodulelist.php.ini
+      user/menumodulelist.php: New menu module list.
+

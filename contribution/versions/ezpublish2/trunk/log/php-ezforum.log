@@ -311,3 +311,12 @@ Maintainer(s) : jhe@ez.no
       user/templates/standard/messagelist.tpl
       user/templates/standard/search.tpl: small fixes in search
 
+
+Module : ezforum
+Repository path : /home/cvsroot/projects/php/ezforum
+Maintainer(s) : jhe@ez.no
+2001-09-30  Baard Farstad  <bf@ez.no>
+
+    * user/intl/en_GB/menuforumlist.php.ini
+      user/menuforumlist.php: Menu forum list.
+
