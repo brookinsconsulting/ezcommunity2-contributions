@@ -4,6 +4,18 @@
 	<h1>{intl-head_line} - {current_category_name}</h1>
 	</td>
 	<td rowspan="2" align="right">
+	<form action="/article/archive/{current_category_id}/" method="post">
+
+	<select name="ArticleSelection" >
+	<option value="Published"> {intl-published_articles} </option>
+	<option value="Unpublished"> {intl-un_published_articles} </option>
+	<option value="All"> {intl-all_articles} </option>
+	</select>
+
+	<input class="stdbutton" type="submit" name="StoreSelection" value="{intl-ok}" />
+	</form>	
+	</td>
+	<td rowspan="2" align="right">
 	<form action="/article/search/" method="post">
 	<input type="text" name="SearchText" size="12" />	
 	<input class="stdbutton" type="submit" value="{intl-search}" />

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: articlelist.php,v 1.33 2001/04/27 12:12:39 jb Exp $
+// $Id: articlelist.php,v 1.34 2001/04/27 14:03:18 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <18-Oct-2000 14:41:37 bf>
@@ -29,7 +29,6 @@ include_once( "classes/ezlocale.php" );
 
 include_once( "ezarticle/classes/ezarticlecategory.php" );
 include_once( "ezarticle/classes/ezarticle.php" );
-include_once( "ezarticle/classes/ezarticletool.php" );
 include_once( "ezuser/classes/ezobjectpermission.php" );
 include_once( "classes/ezcachefile.php" );
 include_once( "classes/ezlist.php" );
@@ -41,6 +40,38 @@ $Locale = new eZLocale( $Language );
 $AdminListLimit = $ini->read_var( "eZArticleMain", "AdminListLimit" );
 $languageIni = new INIFIle( "ezarticle/admin/intl/" . $Language . "/articlelist.php.ini", false );
 
+$session =& eZSession::globalSession();
+
+
+if ( isset( $StoreSelection ) )
+{
+    switch ( $ArticleSelection )
+    {
+        case "Published" :
+        {
+            $session->setVariable( "MixUnpublished", "Published" ); 
+        }break;
+
+        case "Unpublished" :
+        {
+            $session->setVariable( "MixUnpublished", "Unpublished" ); 
+        }break;
+        
+        case "All" :
+        default  :
+        {
+            $session->setVariable( "MixUnpublished", "All" ); 
+        }
+        
+    }
+}
+
+$articleMix = $session->variable( "MixUnpublished" );
+
+if ( $articleMix == "" )
+{
+    $articleMix = "All";
+}
 
 
 if( isset( $DeleteArticles ) )
@@ -67,7 +98,7 @@ if( isset( $DeleteArticles ) )
                 $categoryID = $categoryID->id();
 
                 // clear the cache files.
-                eZArticleTool::deleteCache( $TArticleID, $categoryID, $categoryIDArray );
+                deleteCache( $TArticleID, $categoryID, $categoryIDArray );
                 $article->delete();
             }
         }
@@ -269,15 +300,27 @@ if ( !isset( $Limit ) )
 // articles
 if ( is_numeric( $CategoryID ) && ( $CategoryID > 0 ) )
 {
-    if( $ini->read_var( "eZArticleMain", "MixUnpublished" ) == "enabled" )
+    switch ( $ArticleSelection )
     {
-        $articleList =& $category->articles( $category->sortMode(), true, true, $Offset, $Limit );
-        $articleCount = $category->articleCount( true, true  );        
-    }
-    else
-    {
-        $articleList =& $category->articles( $category->sortMode(), false, true, $Offset, $Limit );
-        $articleCount = $category->articleCount( false, true  );
+        case "Published" :
+        {
+            $articleList =& $category->articles( $category->sortMode(), false, true, $Offset, $Limit );
+            $articleCount = $category->articleCount( false, true  );        
+        }break;
+
+        case "Unpublished" :
+        {
+            $articleList =& $category->articles( $category->sortMode(), false, false, $Offset, $Limit );
+            $articleCount = $category->articleCount( false, false  );
+        }break;
+        
+        case "All" :
+        default  :
+        {
+            $articleList =& $category->articles( $category->sortMode(), true, true, $Offset, $Limit );
+            $articleCount = $category->articleCount( true, true  );        
+        }
+        
     }
 }
 else
@@ -307,14 +350,6 @@ foreach ( $articleList as $article )
             $t->set_var( "article_name", "&nbsp;" );
         else
             $t->set_var( "article_name", $article->name() );
-
-        $publised =& $article->published();
-        if ( get_class ( $publised ) == "ezdatetime" )
-        {
-            $t->set_var( "article_published_date", $Locale->format( $publised ) );
-        }
-        else
-            $t->set_var( "article_published_date", "" );
 
         $t->set_var( "article_id", $article->id() );
 
@@ -366,45 +401,46 @@ if ( $i > 0 )
 else
     $t->set_var( "article_list", "" );
 
+
 $t->pparse( "output", "article_list_page_tpl" );
 
-//  /*!
-//    Delete cache.
-//  */
-//  function deleteCache( $ArticleID, $CategoryID, $CategoryArray )
-//  {
-//      $user = eZUser::currentUser();
-//      $groupstr = "";
-//      if( get_class( $user ) == "ezuser" )
-//      {
-//          $groupIDArray = $user->groups( true );
-//          sort( $groupIDArray );
-//          $first = true;
-//          foreach( $groupIDArray as $groupID )
-//          {
-//              $first ? $groupstr .= "$groupID" : $groupstr .= "-$groupID";
-//              $first = false;
-//          }
-//      }
+/*!
+  Delete cache.
+*/
+function deleteCache( $ArticleID, $CategoryID, $CategoryArray )
+{
+    $user = eZUser::currentUser();
+    $groupstr = "";
+    if( get_class( $user ) == "ezuser" )
+    {
+        $groupIDArray = $user->groups( true );
+        sort( $groupIDArray );
+        $first = true;
+        foreach( $groupIDArray as $groupID )
+        {
+            $first ? $groupstr .= "$groupID" : $groupstr .= "-$groupID";
+            $first = false;
+        }
+    }
 
-//      $files = eZCacheFile::files( "ezarticle/cache/",
-//                                   array( array( "articleprint", "articleview", "articlestatic" ),
-//                                          $ArticleID, NULL, $groupstr ), "cache", "," );
-//      foreach( $files as $file )
-//      {
-//          $file->delete();
-//      }
+    $files = eZCacheFile::files( "ezarticle/cache/",
+                                 array( array( "articleprint", "articleview", "articlestatic" ),
+                                        $ArticleID, NULL, $groupstr ), "cache", "," );
+    foreach( $files as $file )
+    {
+        $file->delete();
+    }
 
-//      $files = eZCacheFile::files( "ezarticle/cache/",
-//                                   array( "articlelist",
-//                                          array_merge( 0, $CategoryID, $CategoryArray ),
-//                                          NULL, array( "", $groupstr ) ),
-//                                   "cache", "," );
-//      foreach( $files as $file )
-//      {
-//          $file->delete();
-//      }
-//  }
+    $files = eZCacheFile::files( "ezarticle/cache/",
+                                 array( "articlelist",
+                                        array_merge( 0, $CategoryID, $CategoryArray ),
+                                        NULL, array( "", $groupstr ) ),
+                                 "cache", "," );
+    foreach( $files as $file )
+    {
+        $file->delete();
+    }
+}
 
 
 ?>

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezarticle.php,v 1.74 2001/04/27 13:47:01 ce Exp $
+// $Id: ezarticle.php,v 1.75 2001/04/27 14:03:18 bf Exp $
 //
 // Definition of eZArticle class
 //
@@ -1240,11 +1240,21 @@ class eZArticle
 
        $this->dbInit();
 
+       $OrderBy = "Article.Published DESC";
+       switch( $sortMode )
+       {
+           case "alpha" :
+           {
+               $OrderBy = "Article.Name DESC";
+           }
+           break;
+       }
+
+       
        $return_array = array();
        $article_array = array();
 
-
-       $user = eZUser::currentUser();
+       $user =& eZUser::currentUser();
         $currentUserSQL = "";
         if ( $user )
         {
@@ -1256,38 +1266,45 @@ class eZArticle
             foreach ( $groups as $group )
             {
                 if ( $i == 0 )
-                    $groupSQL .= "P.GroupID=$group OR";
+                    $groupSQL .= "Permission.GroupID=$group OR";
                 else
-                    $groupSQL .= " P.GroupID=$group OR";
+                    $groupSQL .= " Permission.GroupID=$group OR";
                
                 $i++;
             }
             $currentUserID = $user->id();
-            $currentUserSQL = "A.AuthorID=$currentUserID OR";
+            $currentUserSQL = "Article.AuthorID=$currentUserID OR";
         }
-        $loggedInSQL = "( $currentUserSQL ( ( $groupSQL P.GroupID='-1' ) AND P.ReadPermission='1') ) AND";
+        $loggedInSQL = "( $currentUserSQL ( ( $groupSQL Permission.GroupID='-1' ) AND Permission.ReadPermission='1') ) AND";
 
-       if ( !$fetchNonPublished )
+        $publishedCode = "";
+       if ( $fetchNonPublished == false )
        {
-           $fetch_text = "AND A.IsPublished = 'true'";
+           $publishedCode = "AND Article.IsPublished = 'true'";
        }
-       $this->Database->query_single( $article_array, "
-                    SELECT count( A.ID ) AS Count
-                    FROM eZArticle_Article AS A, eZArticle_ArticlePermission AS P,
-                    eZArticle_Category, eZArticle_ArticleCategoryLink 
-                    WHERE
-                    $loggedInSQL
-                    A.ID=P.ObjectID
-                    AND
-                    eZArticle_ArticleCategoryLink.ArticleID = A.ID
-                    AND
-                    eZArticle_Category.ID = eZArticle_ArticleCategoryLink.CategoryID
-                    $fetch_text
-                    AND
-                    eZArticle_Category.ExcludeFromSearch = 'false'
-                    GROUP BY A.ID" );
+       else if ( $fetchNonPublished == "only" )
+       {
+           $publishedCode = "AND Article.IsPublished = 'false'";
+       }
 
-       return  $article_array[ "Count" ];
+       $query = "SELECT COUNT( DISTINCT Article.ID ) as Count
+                  FROM eZArticle_Article AS Article,
+                       eZArticle_ArticleCategoryLink as Link,
+                       eZArticle_ArticlePermission AS Permission,
+                       eZArticle_Category AS Category
+                  WHERE (
+                        ( $loggedInSQL ($groupSQL Permission.GroupID='-1') AND Permission.ReadPermission='1' )
+                        )
+                        $publishedCode
+                        AND Permission.ObjectID=Article.ID
+                        AND Link.ArticleID=Article.ID
+                        AND Category.ID=Link.CategoryID
+                        AND Category.ID=Link.CategoryID
+                        AND Category.ExcludeFromSearch = 'false'";
+       
+       $this->Database->array_query( $article_array, $query  );
+
+       return  $article_array[0][ "Count" ];
     }
 
     /*!
@@ -1317,7 +1334,7 @@ class eZArticle
        $return_array = array();
        $article_array = array();
 
-       $user = eZUser::currentUser();
+       $user =& eZUser::currentUser();
         $currentUserSQL = "";
         if ( $user )
         {
@@ -1345,6 +1362,10 @@ class eZArticle
        {
            $publishedCode = "AND Article.IsPublished = 'true'";
        }
+       else if ( $fetchNonPublished == "only" )
+       {
+           $publishedCode = "AND Article.IsPublished = 'false'";
+       }
 
        $query = "SELECT DISTINCT Article.ID as ArticleID
                   FROM eZArticle_Article AS Article,
@@ -1364,23 +1385,6 @@ class eZArticle
                  LIMIT $offset,$limit";
        
        $this->Database->array_query( $article_array, $query  );
-       /* before optimisation
-         "
-                    SELECT A.ID AS ArticleID, A.Name, eZArticle_Category.ID, eZArticle_Category.Name
-                    FROM eZArticle_Article AS A LEFT JOIN eZArticle_ArticlePermission AS P ON A.ID=P.ObjectID,
-                    eZArticle_Category, eZArticle_ArticleCategoryLink 
-                    WHERE
-                    $loggedInSQL
-                    eZArticle_ArticleCategoryLink.ArticleID = A.ID
-                    $fetch_text
-                    AND 
-                    eZArticle_Category.ID = eZArticle_ArticleCategoryLink.CategoryID
-                    AND
-                    eZArticle_Category.ExcludeFromSearch = 'false'
-                    GROUP BY A.ID ORDER BY $OrderBy
-                    LIMIT $offset,$limit" );
-       */
-           
 
        for ( $i=0; $i < count($article_array); $i++ )
        {
