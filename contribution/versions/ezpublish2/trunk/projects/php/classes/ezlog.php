@@ -1,11 +1,12 @@
 <?php
 // 
-// $Id: ezlog.php,v 1.6 2001/07/19 10:07:11 ce Exp $
+// $Id: ezlog.php,v 1.7 2001/07/19 11:33:57 jakobn Exp $
 //
 // Definition of eZLog class
 //
-// Bård Farstad <bf@ez.no>
 // Created on: <15-Oct-2000 13:28:44 bf>
+//
+// This source file is part of eZ publish, publishing software.
 //
 // Copyright (C) 1999-2001 eZ Systems.  All rights reserved.
 //

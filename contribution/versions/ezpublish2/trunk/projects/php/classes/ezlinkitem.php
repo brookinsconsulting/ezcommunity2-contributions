@@ -1,11 +1,12 @@
 <?php
 // 
-// $Id: ezlinkitem.php,v 1.6 2001/07/09 07:18:20 jakobn Exp $
+// $Id: ezlinkitem.php,v 1.7 2001/07/19 11:33:57 jakobn Exp $
 //
 // Definition of eZLinkItem class
 //
-// Jan Borsodi <jb@ez.no>
 // Created on: <19-Mar-2001 13:15:16 amos>
+//
+// This source file is part of eZ publish, publishing software.
 //
 // Copyright (C) 1999-2001 eZ Systems.  All rights reserved.
 //

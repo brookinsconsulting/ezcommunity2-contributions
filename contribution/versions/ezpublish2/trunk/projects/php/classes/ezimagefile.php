@@ -1,11 +1,12 @@
-<?
+<?php
 // 
-// $Id: ezimagefile.php,v 1.15 2001/07/09 07:18:20 jakobn Exp $
+// $Id: ezimagefile.php,v 1.16 2001/07/19 11:33:57 jakobn Exp $
 //
 // Definition of eZCompany class
 //
-// Bård Farstad <bf@ez.no>
 // Created on: <21-Sep-2000 11:22:21 bf>
+//
+// This source file is part of eZ publish, publishing software.
 //
 // Copyright (C) 1999-2001 eZ Systems.  All rights reserved.
 //
@@ -22,9 +23,6 @@
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, US
-//
-// IMPORTANT NOTE: You may NOT copy this file or any part of it into
-// your own programs or libraries.
 //
 
 //!! eZCommon

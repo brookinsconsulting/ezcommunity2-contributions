@@ -1,9 +1,10 @@
 <?php
 // 
-// $Id: linkmove.php,v 1.4 2001/07/09 07:18:21 jakobn Exp $
+// $Id: linkmove.php,v 1.5 2001/07/19 11:33:57 jakobn Exp $
 //
-// Jan Borsodi <jb@ez.no>
 // Created on: <03-May-2001 17:57:46 amos>
+//
+// This source file is part of eZ publish, publishing software.
 //
 // Copyright (C) 1999-2001 eZ Systems.  All rights reserved.
 //

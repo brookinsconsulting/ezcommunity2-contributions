@@ -1,11 +1,12 @@
 <?php
 // 
-// $Id: ezcctool.php,v 1.3 2001/07/09 07:18:20 jakobn Exp $
+// $Id: ezcctool.php,v 1.4 2001/07/19 11:33:57 jakobn Exp $
 //
 // Definition of eZCCTool class
 //
-// Christoffer A. Elo <ce@ez.ez.no>
 // Created on: <07-Feb-2001 10:59:41 ce>
+//
+// This source file is part of eZ publish, publishing software.
 //
 // Copyright (C) 1999-2001 eZ Systems.  All rights reserved.
 //

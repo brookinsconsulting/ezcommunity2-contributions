@@ -1,13 +1,14 @@
 <?php
 // 
-// $Id: eztemplate.php,v 1.36 2001/07/09 07:18:20 jakobn Exp $
+// $Id: eztemplate.php,v 1.37 2001/07/19 11:33:57 jakobn Exp $
 //
 // Definition of eZTemplate class
 //
 // Based upon template.inc by Kristian Koehntopp @ NetUSE GmbH
 //
-// Lars Wilhelmsen <lw@ez.no>
 // Created on: <11-Sep-2000 22:10:06 bf>
+//
+// This source file is part of eZ publish, publishing software.
 //
 // Copyright (C) 1999-2001 eZ Systems.  All rights reserved.
 //

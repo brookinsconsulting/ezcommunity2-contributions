@@ -1,11 +1,12 @@
 <?php
 // 
-// $Id: ezlist.php,v 1.11 2001/07/09 07:18:20 jakobn Exp $
+// $Id: ezlist.php,v 1.12 2001/07/19 11:33:57 jakobn Exp $
 //
 // Definition of eZList class
 //
-// Jan Borsodi <jb@ez.no>
 // Created on: <06-Feb-2001 15:31:37 amos>
+//
+// This source file is part of eZ publish, publishing software.
 //
 // Copyright (C) 1999-2001 eZ Systems.  All rights reserved.
 //

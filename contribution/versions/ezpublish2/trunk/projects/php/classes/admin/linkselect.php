@@ -1,9 +1,10 @@
 <?php
 // 
-// $Id: linkselect.php,v 1.7 2001/07/09 07:18:21 jakobn Exp $
+// $Id: linkselect.php,v 1.8 2001/07/19 11:33:57 jakobn Exp $
 //
-// Jan Borsodi <jb@ez.no>
 // Created on: <30-Apr-2001 18:33:53 amos>
+//
+// This source file is part of eZ publish, publishing software.
 //
 // Copyright (C) 1999-2001 eZ Systems.  All rights reserved.
 //

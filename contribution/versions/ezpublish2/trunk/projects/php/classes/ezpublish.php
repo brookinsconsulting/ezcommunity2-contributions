@@ -1,11 +1,12 @@
 <?php
 // 
-// $Id: ezpublish.php,v 1.5 2001/07/09 07:18:20 jakobn Exp $
+// $Id: ezpublish.php,v 1.6 2001/07/19 11:33:57 jakobn Exp $
 //
 // Definition of eZPublish class
 //
-// Bård Farstad <bf@ez.no>
 // Created on: <30-Apr-2001 17:11:32 bf>
+//
+// This source file is part of eZ publish, publishing software.
 //
 // Copyright (C) 1999-2001 eZ Systems.  All rights reserved.
 //

@@ -1,11 +1,12 @@
-<?
+<?php
 // 
-// $Id: ezdatetime.php,v 1.30 2001/07/11 09:34:15 bf Exp $
+// $Id: ezdatetime.php,v 1.31 2001/07/19 11:33:57 jakobn Exp $
 //
 // Definition of eZDateTime class
 //
-// Bård Farstad <bf@ez.no>
 // Created on: <07-Sep-2000 15:20:51 bf>
+//
+// This source file is part of eZ publish, publishing software.
 //
 // Copyright (C) 1999-2001 eZ Systems.  All rights reserved.
 //

@@ -1,11 +1,12 @@
 <?php
 // 
-// $Id: ezhttptool.php,v 1.11 2001/07/11 09:34:15 bf Exp $
+// $Id: ezhttptool.php,v 1.12 2001/07/19 11:33:57 jakobn Exp $
 //
 // Definition of eZTextTool class
 //
-// Bård Farstad <bf@ez.no>
 // Created on: <23-Jan-2001 12:34:54 bf>
+//
+// This source file is part of eZ publish, publishing software.
 //
 // Copyright (C) 1999-2001 eZ Systems.  All rights reserved.
 //

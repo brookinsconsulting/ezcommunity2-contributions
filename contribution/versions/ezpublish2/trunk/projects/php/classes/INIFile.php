@@ -1,14 +1,14 @@
 <?php 
 // 
-// $Id: INIFile.php,v 1.33 2001/07/09 07:18:20 jakobn Exp $
+// $Id: INIFile.php,v 1.34 2001/07/19 11:33:56 jakobn Exp $
 //
 // Implements a simple INI-file parser
 //
 // Based upon class.INIfile.php by Mircho Mirev <mircho@macropoint.com>
 //
-// Modified by Jo Henrik Endrerud <jhe@ez.no>
-// Modified by Bård Farstad <bf@ez.no>
-// Modified by Jan Borsodi <jb@ez.no>
+// Created on: <09-Jun-2001 07:18:20 bf>
+//
+// This source file is part of eZ publish, publishing software.
 //
 // Copyright (C) 1999-2001 eZ Systems.  All rights reserved.
 //
