@@ -9,6 +9,8 @@ $ini = new INIFIle( "site.ini" );
 $Language = $ini->read_var( "eZContactMain", "Language" );
 
 include_once( "classes/eztemplate.php" );
+include_once( "classes/ezlocale.php" );
+include_once( "classes/ezdate.php" );
 
 include_once( "ezcontact/classes/ezperson.php" );
 
@@ -69,19 +71,12 @@ if ( $Action == "view" )
     $t->set_var( "firstname", $person->firstName() );
     $t->set_var( "lastname", $person->lastName() );
     $t->set_var( "personno", $person->personNo() );
-    
-    $BirthDate = $person->birthDate();
-    
-    $t->set_var( "birthdate", $BirthDate );
-    
-    include_once( "classes/ezdate.php" );
-    
-    $date = new eZDate();
-    $date->setMySQLDate( $BirthDate );
-    
-    $t->set_var( "birthyear", $date->year() );
-    $t->set_var( "birthmonth", $date->month() );
-    $t->set_var( "birthday", $date->day() );
+
+    $Birth = new eZDate();
+    $Birth->setMySQLDate( $person->birthDate() );
+
+    $locale = new eZLocale( $Language );
+    $t->set_var( "birthdate", $locale->format( $Birth ) );
     
     $t->set_var( "comment", $person->comment() );
 
@@ -126,7 +121,9 @@ if ( $Action == "view" )
             $t->set_var( "street2", $addressItem->street2() );
             $t->set_var( "zip", $addressItem->zip() );
             $t->set_var( "place", $addressItem->place() );
-            
+            $country = $addressItem->country();
+            $t->set_var( "country", $country->name() );
+
             $addressType = $addressItem->addressType();
 
             $t->set_var( "address_type_id", $addressType->id() );
@@ -153,16 +150,40 @@ if ( $Action == "view" )
     {
         for( $i=0; $i<count ( $OnlineList ); $i++ )
         {
-            $t->set_var( "online_id", $OnlineList[$i]->id() );
-            $t->set_var( "online", $OnlineList[$i]->URL() );
-            $t->set_var( "online_url_type", $OnlineList[$i]->URLType() );
-
             $onlineType = $OnlineList[$i]->onlineType();
 
-            $t->set_var( "online_type_id", $onlineType->id() );
-//              $t->set_var( "online_type_name", $intl->read_var( "strings", "online_" . $onlineType->name() ) );
+            $t->set_var( "online_id", $OnlineList[$i]->id() );
+            $prefix = $onlineType->URLPrefix();
+            $vis_prefix = $prefix;
+            $url = $OnlineList[$i]->URL();
+            if ( $onlineType->prefixLink() )
+            {
+                if ( strncasecmp( $url, $prefix, count( $prefix ) ) == 0 )
+                {
+                    $prefix = "";
+                }
+            }
+            else
+            {
+                    $prefix = "";
+            }
+            if ( $onlineType->prefixVisual() )
+            {
+                if ( strncasecmp( $url, $vis_prefix, count( $vis_prefix ) ) == 0 )
+                {
+                    $vis_prefix = "";
+                }
+            }
+            else
+            {
+                $vis_prefix = "";
+            }
+            $t->set_var( "online_prefix", $prefix );
+            $t->set_var( "online_visual_prefix", $vis_prefix );
+            $t->set_var( "online", $url );
+            $t->set_var( "online_url_type", $OnlineList[$i]->URLType() );
+
             $t->set_var( "online_type_name", $onlineType->name() );
-            $t->set_var( "online_url_type", $OnlineList[$i]->urlType() );
 
             $t->parse( "online_line", "online_line_tpl", true );
         }
