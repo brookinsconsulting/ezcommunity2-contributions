@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezobjectpermission.php,v 1.7 2001/02/27 17:51:11 ce Exp $
+// $Id: ezobjectpermission.php,v 1.8 2001/02/28 09:27:29 fh Exp $
 //
 // Definition of eZCompany class
 //
@@ -124,7 +124,7 @@ class eZObjectPermission
     /*!
       \static
       Sets a permissions for on an object for a eZUserGroup. To set a permission for all use -1 as group.
-      $group is of type eZUserGroup and is the group that gets the permission
+      $group is of type eZUserGroup or the group ID and is the group that gets the permission
       $objectID is the ID of the object you are interested in. This could be a bug, an article etc..
       $modulTable is the nickname of the table where the permission is found. The nicknames can be found in site.ini
       $permission either 'r' for readpermission or 'w' for writepermission.
@@ -139,9 +139,9 @@ class eZObjectPermission
         {
             $groupID = -1;
         }
-        else // bogus group input
+        else
         {
-            return false;
+            $groupID = $group;
         }
 
         $SQLPermission = "";
