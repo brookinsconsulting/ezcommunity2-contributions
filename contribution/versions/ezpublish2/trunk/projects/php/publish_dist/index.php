@@ -51,6 +51,9 @@ include_once( "ezuser/classes/ezuser.php" );
 
 $session =& eZSession::globalSession();
 
+//
+// the section setting code below is obsolete and will
+// be removed in 2.1 final
 unset( $siteDesign );
 unset( $GlobalSiteDesign );
 if ( $session->fetch() == false )
@@ -68,6 +71,7 @@ else
 }
 // Store the site design in a global variable
 $GlobalSiteDesign = $siteDesign;
+
 
 $StoreStats = $ini->read_var( "eZStatsMain", "StoreStats" );
 
@@ -155,28 +159,13 @@ if ( ( $requireUserLogin == "disabled" ) ||
     ob_start();
     print( $buffer );
 
-
-    if ( is_numeric( $GlobalSectionID ) )
-    {
-        switch ( $GlobalSectionID )
-        {
-            case "1":
-                $siteDesign = "news";
-                break;
-            case "2":
-                $siteDesign = "trade";
-                break;
-                
-            default:
-                $siteDesign = "standard";                
-                break;
-        }
-//        print( "<b>" . $GlobalSectionID . "</b>" );
-    }
-    else
-//        print( "<b>Section not set</b>" );
+    // set the sitedesign from the section
+    include_once( "ezsitemanager/classes/ezsection.php" );
+    print( eZSection::siteDesign( $GlobalSectionID ) );
+    
+    $siteDesign = eZSection::siteDesign( $GlobalSectionID );
     $GlobalSiteDesign = $siteDesign;
-
+    
     $meta_page = "ez" . $url_array[1] . "/metasupplier.php";
 
     // include some html
