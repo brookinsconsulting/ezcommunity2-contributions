@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezhttptool.php,v 1.10 2001/07/09 07:18:20 jakobn Exp $
+// $Id: ezhttptool.php,v 1.11 2001/07/11 09:34:15 bf Exp $
 //
 // Definition of eZTextTool class
 //
@@ -27,6 +27,10 @@
 //!! eZCommon
 //! Provied utility functions for http.
 /*!
+  \code
+  // will return the HTTP post variable $CategoryID if set, false if not.
+  eZHTTPTool::getVar( "CategoryID", true );
+  \endcode
 */
 
 class eZHTTPTool
