@@ -1,5 +1,5 @@
 <?
-// $Id: todoedit.php,v 1.10 2001/01/16 15:59:54 ce Exp $
+// $Id: todoedit.php,v 1.11 2001/01/16 16:09:53 ce Exp $
 //
 // Definition of todo list.
 //
@@ -72,6 +72,9 @@ $t->set_block( "todo_edit_page", "user_item_tpl", "user_item" );
 $t->set_block( "todo_edit_page", "errors_tpl", "errors" );
 $t->set_var( "errors", "&nbsp;" );
 
+
+$t->set_var( "name", "$Name" );
+$t->set_var( "description", "$Description" );
 
 $error = false;
 $nameCheck = true;
@@ -311,7 +314,9 @@ if ( $Action == "new" || $error )
     $t->set_var( "current_date", $locale->format( $datetime ) );
     $t->set_var( "first_name", $user->firstName() );
     $t->set_var( "last_name", $user->lastName() );
-    
+    $t->set_var( "todo_id", "" );
+    $t->set_var( "action_value", "insert" );
+    $userID = $user->id();
 }
 
 // Edit a todo.
@@ -319,33 +324,34 @@ if ( $Action == "edit" )
 {
     // Return the current time
     
-    $todo = new eZTodo();
-    $todo->get( $TodoID );
+    $todo = new eZTodo( $TodoID );
 
     if ( $todo->status() == true )
     {
-        $Status = "checked";
+        $t->set_var( "status", "checked" );
     }
     else
     {
-        $Status = "";
+        $t->set_var( "status", "" );
     }
 
     if ( $todo->permission() == "Public" )
     {
-        $Permission = "checked";
+        $t->set_var( "permission", "checked" );
     }
     else
     {
-        $Permission = "";
+        $t->set_var( "permission", "" );
     }
-//    $todo->due(  $Year . $Mnd . $Hour );
-    $name = $todo->name();
-    $description = $todo->description();
+
+    $t->set_var( "todo_id", $todo->id() );
+    $t->set_var( "name", $todo->name() );
+    $t->set_var( "description", $todo->description() );
+
     $categoryID = $todo->categoryID();
     $priorityID = $todo->priorityID();
-    $userid = $todo->userID();
-    $ownerid = $todo->ownerID();
+    $userID = $todo->userID();
+    $ownerID = $todo->ownerID();
 
     // Get the owner
     $owner = new eZUser( $todo->ownerID() );
@@ -355,12 +361,7 @@ if ( $Action == "edit" )
     $headline = "Rediger todo";
     $submit_description = "Rediger";
 
-    $t->set_var( "todo_id", $TodoID );
-    $action_value = "update";
-
-    $PriorityID = $todo->priorityID();
-    $CategoryID = $todo->categoryID();
-    $UserID = $todo->userID();
+    $t->set_var( "action_value", "update" );
 }
 
 // Category selector.
@@ -393,7 +394,7 @@ for( $i=0; $i<count( $priority_array ); $i++ )
     $t->set_var( "priority_id", $priority_array[$i]->id() );
     $t->set_var( "priority_name", $priority_array[$i]->name() );
     
-    if ( $PriorityID == $priority_array[$i]->id() )
+    if ( $priorityID == $priority_array[$i]->id() )
     {
         $t->set_var( "is_selected", "selected" );
     }
@@ -417,7 +418,7 @@ foreach( $user_array as $userItem )
     $t->set_var( "user_lastname", $userItem->lastName() );
 
     // User select
-    if ( $UserID == $userItem->id() )
+    if ( $userID == $userItem->id() )
     {
         $t->set_var( "user_is_selected", "selected" );
     }
@@ -430,25 +431,6 @@ foreach( $user_array as $userItem )
 }
 
 // Template variables.
-
-$t->set_var( "todo_id", $TodoID );
-$t->set_var( "submit_description", $submit_description );
-$t->set_var( "head_line", $headline );
-$t->set_var( "name", $name );
-$t->set_var( "description", $description );
-$t->set_var( "year", $year );
-$t->set_var( "mnd", $mnd );
-$t->set_var( "day", $day );
-$t->set_var( "hour", $hour );
-$t->set_var( "min", $min );
-$t->set_var( "status", $Status );
-$t->set_var( "permission", $Permission );
-
-$t->set_var( "action_value", $action_value );
-$t->set_var( "head_line", $headline );
-
-
-$t->set_var( "document_root", $DOC_ROOT );
 
 $t->pparse( "output", "todo_edit_page" );
 
