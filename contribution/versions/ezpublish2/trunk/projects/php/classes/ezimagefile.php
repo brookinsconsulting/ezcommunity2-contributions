@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezimagefile.php,v 1.13 2001/04/06 10:07:19 bf Exp $
+// $Id: ezimagefile.php,v 1.14 2001/07/09 06:47:04 bf Exp $
 //
 // Definition of eZCompany class
 //
@@ -163,7 +163,7 @@ class eZImageFile extends eZFile
         $grayCode = "";
         if ( $convertToGray == true )
             $grayCode = " -colorspace GRAY ";
-        $execstr = "$image_prog $grayCode -geometry \"$width" . "x" . "$height" . ">\" "  . $this->TmpFileName . " " . $dest;
+        $execstr = "$image_prog  -colorspace Transparent $grayCode -geometry \"$width" . "x" . "$height" . ">\" "  . $this->TmpFileName . " " . $dest;
         // print( "<br><b>$execstr</b><br>" );
 
         $err = system( $execstr, $ret_code );
@@ -207,7 +207,7 @@ class eZImageFile extends eZFile
         $image_prog = "convert";
         if ( $ini->has_var( "classes", "ImageConversionProgram" ) )
             $image_prog = $ini->read_var( "classes", "ImageConversionProgram" );
-        $execstr = "$image_prog -quality 95 " . $this->TmpFileName . " " . $dest;
+        $execstr = "$image_prog -colorspace Transparent -quality 95 " . $this->TmpFileName . " " . $dest;
         // print( "<br><b>$execstr</b><br>" );
 
         $err = system( $execstr, $ret_code );
