@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezarticle.php,v 1.99 2001/06/27 08:15:30 bf Exp $
+// $Id: ezarticle.php,v 1.100 2001/06/27 13:52:23 jb Exp $
 //
 // Definition of eZArticle class
 //
@@ -736,9 +736,9 @@ class eZArticle
 
       If there is no topic selected for the article false is returned.
     */
-    function topic()
+    function topic( $as_object = true )
     {
-        return new eZTopic( $this->TopicID );
+        return $as_object ? new eZTopic( $this->TopicID ) : $this->TopicID;
     }
     
     /*!
@@ -1100,7 +1100,7 @@ class eZArticle
     /*!
       Returns every file to a article as a array of eZFile objects.
     */
-    function files()
+    function files( $as_object = true )
     {
         $db =& eZDB::globalDatabase();
        
@@ -1111,7 +1111,8 @@ class eZArticle
        
         for ( $i=0; $i < count($file_array); $i++ )
         {
-            $return_array[$i] = new eZVirtualFile( $file_array[$i][$db->fieldName("FileID")], false );
+            $id = $file_array[$i][$db->fieldName("FileID")];
+            $return_array[$i] = $as_object ? new eZVirtualFile( $id, false ) : $id;
         }
        
         return $return_array;
@@ -1135,7 +1136,7 @@ class eZArticle
     /*!
       Returns every attribute belonging to an article as an array of eZArticleAttribute objects.
     */
-    function attributes()
+    function attributes( $as_object = true )
     {
         $db =& eZDB::globalDatabase();
        
@@ -1146,7 +1147,8 @@ class eZArticle
        
         for ( $i=0; $i < count( $attribute_array ); $i++ )
         {
-            $return_array[$i] = new eZArticleAttribute( $attribute_array[$i][$db->fieldName("AttributeID")], false );
+            $id = $attribute_array[$i][$db->fieldName("AttributeID")];
+            $return_array[$i] = $as_object ? new eZArticleAttribute( $id, false ) : $id;
         }
        
         return $return_array;
@@ -1185,7 +1187,7 @@ class eZArticle
     /*!
       Returns every attribute type belonging to an article as an array of eZArticleType objects.
     */
-    function types()
+    function types( $as_object = true )
     {
         $db =& eZDB::globalDatabase();
        
@@ -1196,7 +1198,8 @@ class eZArticle
        
         for ( $i=0; $i < count( $type_array ); $i++ )
         {
-            $return_array[$i] = new eZArticleType( $type_array[$i][$db->fieldName("TypeID")] );
+            $id = $type_array[$i][$db->fieldName("TypeID")];
+            $return_array[$i] = $as_object ? new eZArticleType( $id, false ) : $id;
         }
        
         return $return_array;
