@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezimagecategory.php,v 1.36 2001/09/17 07:48:34 ce Exp $
+// $Id: ezimagecategory.php,v 1.37 2001/09/21 13:25:59 br Exp $
 //
 // Definition of eZImageCategory class
 //
@@ -75,8 +75,8 @@ class eZImageCategory
             $this->ID = $db->nextID( "eZImageCatalogue_Category", "ID" );
             
             $db->query( "INSERT INTO eZImageCatalogue_Category
-                                     ( ID, Name, Description, UserID, ParentID ) VALUES
-                                     ( '$this->ID', '$name', '$description', '$this->UserID', '$this->ParentID' )" );
+                                     ( ID, Name, Description, UserID, ParentID, SectionID ) VALUES
+                                     ( '$this->ID', '$name', '$description', '$this->UserID', '$this->ParentID', '$this->SectionID' )" );
             $db->unlock();
         }
         else
@@ -85,7 +85,8 @@ class eZImageCategory
                                      Name='$name',
                                      Description='$description',
                                      UserID='$this->UserID',
-                                     ParentID='$this->ParentID' WHERE ID='$this->ID'" );
+                                     ParentID='$this->ParentID',
+                                     SectionID='$this->SectionID' WHERE ID='$this->ID'" );
         }
 
     
@@ -220,6 +221,7 @@ class eZImageCategory
                 $this->Description =& $category_array[0][$db->fieldName("Description")];
                 $this->ParentID =& $category_array[0][$db->fieldName("ParentID")];
                 $this->UserID =& $category_array[0][$db->fieldName("UserID")];
+                $this->SectionID =& $category_array[0][$db->fieldName("SectionID")];
             }
         }
     }
@@ -954,11 +956,31 @@ class eZImageCategory
        $this->Database->query( "DELETE FROM eZImageCatalogue_CategoryWriteGroupLink WHERE FolderID='$this->ID'" );
     }
 
+
+   /*!
+      Sets the section of the category
+    */
+    function setSectionID( $value )
+    {
+        $this->SectionID = $value;
+    }
+
+    /*!
+      Returns the section of the category
+    */
+    function sectionID()
+    {
+        return $this->SectionID;
+    }
+
+
+    
     var $ID;
     var $Name;
     var $ParentID;
     var $Description;
     var $UserID;
+    var $SectionID;
 
 }
 
