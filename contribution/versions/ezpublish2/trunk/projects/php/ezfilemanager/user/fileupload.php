@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: fileupload.php,v 1.34 2001/09/13 21:22:36 fh Exp $
+// $Id: fileupload.php,v 1.35 2001/09/13 21:31:05 fh Exp $
 //
 // Created on: <10-Dec-2000 15:49:57 bf>
 //
@@ -146,30 +146,6 @@ if ( $Action == "Insert" || $Action == "Update" )
         }
     }
 
-    if ( count( $ReadGroupArrayID ) > 1 )
-    {
-        foreach ( $ReadGroupArrayID as $Read )
-        {
-            if ( $Read == 0 )
-            {
-                $t->parse( "error_read_everybody_permission", "error_read_everybody_permission_tpl" );
-                $error = true;
-            }
-        }
-    }
-
-    if ( count( $WriteGroupArrayID ) > 1 )
-    {
-        foreach ( $WriteGroupArrayID as $Write )
-        {
-            if ( $Write == 0 )
-            {
-                $t->parse( "error_write_everybody_permission", "error_write_everybody_permission_tpl" );
-                $error = true;
-            }
-        }
-    }
-
     if ( $nameCheck )
     {
         
@@ -220,32 +196,9 @@ if ( $Action == "Insert" && $error == false )
     
     $uploadedFile->store();
 
-    if ( count( $ReadGroupArrayID ) > 0 )
-    {
-        foreach ( $ReadGroupArrayID as $Read )
-        {
-            if ( $Read == 0 )
-                $group = -1;
-            else
-                $group = new eZUserGroup( $Read );
+    changePermissions( $FileID, $ReadGroupArrayID, 'r' );
+    changePermissions( $FileID, $WriteGroupArrayID, 'w' );
 
-            eZObjectPermission::setPermission( $group, $uploadedFile->id(), "filemanager_file", "r" );
-        }
-    }
-
-    if ( count( $WriteGroupArrayID ) > 0 )
-    {
-        foreach ( $WriteGroupArrayID as $Write )
-        {
-            if ( $Write == 0 )
-                $group = -1;
-            else
-                $group = new eZUserGroup( $Write );
-            
-            eZObjectPermission::setPermission( $group, $uploadedFile->id(), "filemanager_file", "w" );
-        }
-    }
-    
     $folder = new eZVirtualFolder( $FolderID );
     
     $folder->addFile( $uploadedFile );
@@ -270,34 +223,8 @@ if ( $Action == "Update" && $error == false )
     }    
 
     $uploadedFile->store();
-
-    eZObjectPermission::removePermissions( $FileID, "filemanager_file", 'r' );    
-    if ( count( $ReadGroupArrayID ) > 0 )
-    {
-        foreach ( $ReadGroupArrayID as $Read )
-        {
-            if ( $Read == 0 )
-                $group = -1;
-            else
-                $group = new eZUserGroup( $Read );
-
-            eZObjectPermission::setPermission( $group, $uploadedFile->id(), "filemanager_file", "r" );
-        }
-    }
-
-    eZObjectPermission::removePermissions( $FileID, "filemanager_file", 'w' );
-    if ( count( $WriteGroupArrayID ) > 0 )
-    {
-        foreach ( $WriteGroupArrayID as $Write )
-        {
-            if ( $Write == 0 )
-                $group = -1;
-            else
-                $group = new eZUserGroup( $Write );
-            
-            eZObjectPermission::setPermission( $group, $uploadedFile->id(), "filemanager_file", "w" );
-        }
-    }
+    changePermissions( $FileID, $ReadGroupArrayID, 'r' );
+    changePermissions( $FileID, $WriteGroupArrayID, 'w' );
 
     $folder = new eZVirtualFolder( $FolderID );
 
@@ -490,5 +417,24 @@ foreach ( $folderList as $folderItem )
 }
 
 $t->pparse( "output", "file_upload_tpl" );
+
+/******* FUNCTIONS ****************************/
+function changePermissions( $objectID, $groups , $permission )
+{
+    eZObjectPermission::removePermissions( $objectID, "filemanager_file", $permission );
+    if ( count( $groups ) > 0 )
+    {
+        foreach ( $groups as $groupItem )
+        {
+            if ( $groupItem == 0 )
+                $group = -1;
+            else
+                $group = new eZUserGroup( $groupItem );
+            
+            eZObjectPermission::setPermission( $group, $objectID, "filemanager_file", $permission );
+        }
+    }
+
+}
 ?>
 
