@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: messagereply.php,v 1.38 2001/05/16 09:12:47 wojciechp Exp $
+// $Id: messagereply.php,v 1.39 2001/05/28 16:26:54 descala Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <24-Sep-2000 12:20:32 bf>
@@ -117,7 +117,17 @@ if ( $StartAction == "reply" )
             {
                 $user =& eZUser::currentUser();
                 $headersInfo = ( getallheaders() );
-                $mailTemplate->set_var( "author", $user->firstName() . " " . $user->lastName() );
+
+                // $user may be false (answering an anonymous forum, with user not logged in)
+                if ($user)
+                {
+                    $mailTemplate->set_var( "author", $user->firstName() . " " . $user->lastName() );
+                }
+                else
+                {
+                    $mailTemplate->set_var( "author", "Anonymous" );
+                }                    
+                
                 $mailTemplate->set_var( "posted_at", $locale->format( $msg->postingTime() ) );
 
                 $subject_line = $mailTemplate->Ini->read_var( "strings", "subject_prepend" );
