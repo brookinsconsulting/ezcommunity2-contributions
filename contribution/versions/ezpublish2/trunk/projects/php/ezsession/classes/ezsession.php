@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezsession.php,v 1.65 2001/09/05 08:16:01 ce Exp $
+// $Id: ezsession.php,v 1.66 2001/09/26 07:10:26 ce Exp $
 //
 // Definition of eZSession class
 //
@@ -525,12 +525,15 @@ class eZSession
             if ( $string )
                 $string .= ";";
         }
+
+        $i=0;
         while( list($key,$val) = each( $array ) )
         {
-            if ( !$string )
+            if ( ( !$string ) || ( $i == 0 ) )
                 $string .= $key . "->" . $val;
             else
                 $string .= ";" . $key . "->" . $val;
+            $i++;
         }
         if ( !$string )
             $string = "";
@@ -552,6 +555,7 @@ class eZSession
                 
                 $returnArray[$key] = $value;
             }
+
             return $returnArray;
         }
         return array();
