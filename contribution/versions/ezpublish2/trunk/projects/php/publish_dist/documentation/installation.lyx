@@ -76,6 +76,11 @@ g/copyleft/gpl.html), its primary point of distribution and information is
 \layout Chapter
 
 Introduction
+\begin_inset LatexCommand \label{chptr: introduction}
+
+\end_inset 
+
+
 \layout Quote
 
 
@@ -116,19 +121,44 @@ Finding packages can be done dirctly from vendor sites, though you might
 Different distribution sites for different Unix systems are:
 \layout Itemize
 
+AIX http://www-frec.bull.com/docs/download.htm
+\layout Itemize
+
 Debian http://www.debian.org/distrib/ftplist
 \layout Itemize
 
 IRIX http://freeware.sgi.com/
 \layout Itemize
 
-Red Hat Linux http://www.redhat.com/apps/download
+HP-UX http://hpux.connect.org.uk/
+\layout Itemize
+
+Red Hat Linux http://www.redhat.com/apps/download and http://rpmfind.net.
+\layout Itemize
+
+SCOOpen Server/Unixware http://www.sco.com/skunkware/
 \layout Itemize
 
 SuSE Linux http://www.suse.com/us/support/download/index.html
 \layout Itemize
 
 Sun http://www.sunfreeware.com/
+\layout Standard
+
+You can also try 
+\begin_inset Quotes eld
+\end_inset 
+
+The Written Word
+\begin_inset Quotes erd
+\end_inset 
+
+ 
+\size footnotesize 
+(ftp://ftp.thewrittenword.com/packages/free/by-name/gcc-2.95.2/) 
+\size default 
+for binaries for Solaris 2.5.1, 2.6, 2.7/SPARC, 2.7/Intel, IRIX 6.2, 6.5, Digital
+ UNIX 4.0D, HP-UX 10.20, and HP-UX.
 \layout Standard
 
 The addresses to the software developers will be given where apropriate
@@ -144,6 +174,29 @@ A line starting with a hash-sign
 \end_inset 
 
  are input from the user to the shell.
+\layout Section
+
+Pre-Configured Hosting
+\layout Standard
+
+It is possible to get pre-configured hosting services where you can install
+ and manage your eZ publish site with ease.
+ Read more about our hosting partners at eZ systems web site 
+\size footnotesize 
+(http://en.ez.no/article/articlestatic/73)
+\size default 
+.
+\layout Section
+
+Pre-Configured Hardware
+\layout Standard
+
+It is possible to order pre-configured hardware from eZ systems.
+ You can order through or web shop 
+\size footnotesize 
+(http://sourceprovider.com/)
+\size default 
+.
 \layout Chapter
 
 Pre-requisites
@@ -164,7 +217,36 @@ For the standard installation (and for the moment the only method) of eZ
 Access to Apache's httpd.conf
 \layout Itemize
 
+\begin_float footnote 
+\layout Standard
+
+You will have to install the gcc compiler on your system, see chapter 
+\begin_inset LatexCommand \ref{chptr: introduction}
+
+\end_inset 
+
+ for a list of sites providing software for different Unixes.
+\end_float 
 Access to compiler
+\layout Itemize
+
+\begin_float footnote 
+\layout Standard
+
+You must run certain scripts during installation.
+ Some of them are just creating links to different directories; you might
+ therefore just create those links via FTP.
+\end_float 
+Access to a shell
+\layout Itemize
+
+\begin_float footnote 
+\layout Standard
+
+Only needed if you want to use the eZ news feed module for regular updates
+ of headlines imported from other sites.
+\end_float 
+Access to cron jobs
 \layout Itemize
 
 Access to Apache's modules
@@ -189,18 +271,53 @@ You also need to download and install the following packages, if they aren't
  present on your system already:
 \layout Itemize
 
+\begin_float footnote 
+\layout Standard
+
+eZ publish requires MySQL for storage of its data.
+\end_float 
 MySQL (http://www.mysql.com) version 3.23 or later.
 \layout Itemize
 
-libXml (http://xmlsoft.org/#Downloads) version 2.2.7
+\begin_float footnote 
+\layout Standard
+
+Needed by eZ article.
+ If you wish to use the default article renderer you need libXml2 installed.
+ You can create your own renderers if you don't want to use the default.
+\end_float 
+libXml2 (http://xmlsoft.org/#Downloads) version 2.2.7 or later.
 \layout Itemize
 
-libQdom () version 
+\begin_float footnote 
+\layout Standard
+
+Needed by eZ news feeds parsers.
+ If you wish to include headlines from external sites (example developer.ez.no
+ or slashdot.org) then you need this installed.
+ You can create your own parsers if you don't want to use the default.
+\end_float 
+libQdom (http://www.trolltech.com) is a part of QT, you need version 2.2.3 or
+ later.
 \layout Itemize
 
+\begin_float footnote 
+\layout Standard
+
+Needed by eZ article, eZ image catalogue, and all modules using images.
+ You need only the command line version.
+\end_float 
 ImageMagick (http://www.imagemagick.org/) newest version
 \layout Itemize
 
+\begin_float footnote 
+\layout Standard
+
+It is always recommended to run the latest Apache release, though eZ publish
+ shouldn't be very picky with the Apache versions.
+ We've used eZ publish with Apache 1.3.13, some have reported that Apache
+ 1.3.9 isn't useful.
+\end_float 
 Apache (http://httpd.apache.org/) latest 1.3 release.
 \layout Itemize
 
@@ -208,6 +325,12 @@ Any and all modules you need for apache in addition to mod_php.
  (http://modules.apache.org/)
 \layout Itemize
 
+\begin_float footnote 
+\layout Standard
+
+eZ publish uses references for objects and foreach loops.
+ Only version 4.0.4pl1 and later supports both of these features satisfactorily.
+\end_float 
 PHP (http://www.php.net/) version 4.0.4pl1 or later, you need the source code
  version.
 \layout Itemize
@@ -337,18 +460,11 @@ libxmld-1.8.7-80
 
 \family typewriter 
 /usr/share/doc/packages/libxml/TODO
-\layout Section
-
-FreeBSD
 \layout Standard
 
-When installing and compiling PHP on a FreeBSD system you might encounter
- an error when using --with-dom which says you have a conifgure error on
- the lib.
- It turns out that the current port of libxml installs itself as /usr/local/lib/
-libxml2.a|so and it goes unrecognised by configure.
- You can easily get around this problem by linking the libs to libxml.a|so.
-\layout Section
+You should test for qt, libxml and imagemagik to check if those are installed
+ and working.
+\layout Subsection
 
 IRIX
 \layout Standard
@@ -358,7 +474,7 @@ By accessing the software manager (you must be root) you can get a list
  you're interested in.
  Double click on the tabs to the left to get information about where specific
  files are installed.
-\layout Section
+\layout Subsection
 
 Other Systems
 \layout Standard
@@ -422,6 +538,27 @@ If you've had to download source code you will find instructions on how
 
 This manual will only cover configuration of the software needed and compilation
  of PHP to use the other software.
+\layout Subsection
+
+Important Notice
+\layout Standard
+
+You should read all the README, INSTALL and similar files found with the
+ software packages you download.
+ They often contain tips on how to configure, compile and install the software
+ on your system.
+ It will save you a lot of time and aggravation if you follow instructions
+ supplied with the software.
+\layout Standard
+
+If problems arise during installation of the software, please turn to the
+ suppliers support forums, mailing list archives and FAQs, your questions
+ will often be answered there.
+ If the supplier's forums doesn't seem to help you, you should check the
+ support forums at our site.
+\layout Standard
+
+You should always do a search of the forums before posting any questions.
 \layout Chapter
 
 Compile Configuration
@@ -760,12 +897,28 @@ RewriteEngine On
 \layout Standard
 \pextra_type 1 \pextra_width 4mm
 
+\begin_float footnote 
+\layout Standard
+
+This line and the next should be written on the same line in your apache.conf
+ file.
+\end_float 
+
+\family typewriter 
+\size scriptsize 
+RewriteRule ^/filemanager/filedownload/([^/]+)/(.*)$ 
+\newline 
+[/your/apache/documentroot]/publish_dist/ezfilemanager/files/$1 [T="application/
+oct-stream",S=1]
+\layout Standard
+\pextra_type 1 \pextra_width 4mm
+
 
 \family typewriter 
 \size scriptsize 
 RewriteRule !
 \backslash 
-.(gif|css|jpg|png)$ [/your/apache/documentroot/index.php] 
+.(gif|css|jpg|png)$ [/your/apache/documentroot]/index.php
 \layout Standard
 \pextra_type 1 \pextra_width 4mm
 
@@ -821,7 +974,7 @@ ServerAlias [www.yourdomain.org]
 
 \family typewriter 
 \size scriptsize 
-<Directory [/your/apache/documentroot/admin]> 
+<Directory [/your/apache/documentroot]/admin> 
 \layout Standard
 \pextra_type 1 \pextra_width 6mm
 
@@ -858,7 +1011,7 @@ RewriteEngine On
 \size scriptsize 
 RewriteRule !
 \backslash 
-.(gif|css|jpg|png)$ [/your/apache/documentroot/admin/index.php]
+.(gif|css|jpg|png)$ [/your/apache/documentroot]/admin/index.php
 \layout Standard
 \pextra_type 1 \pextra_width 4mm
 
@@ -872,7 +1025,7 @@ ServerAdmin [your_mail@domain.no]
 
 \family typewriter 
 \size scriptsize 
-DocumentRoot [/your/apache/documentroot/admin]
+DocumentRoot [/your/apache/documentroot/]admin
 \layout Standard
 \pextra_type 1 \pextra_width 4mm
 
@@ -906,6 +1059,8 @@ httpd.conf
 
  file is covered at http://httpd.apache.org/docs/ for a complete understanding
  of the above information you'll need to read that documentation.
+ You should note that you can't use any rewrite ruels inside the <directory>
+ part within the <VirtualHost>.
 \layout Standard
 
 If you didn't compile PHP with magic quotes; or other software relies on
@@ -930,7 +1085,7 @@ Now you need to create a database in MySQL, the default name we use is publish,
 
 
 \family typewriter 
-# mysql -uroot -p publish < sql/publish.sql
+# mysqladmin create publish
 \layout Standard
 
 Add a publish user in MySQL.
@@ -1067,4 +1222,57 @@ When you're finished with the design and the initial testing you can head
  programming, or you can visit http://developer.ez.no for updates, articles
  about eZ publish and how to work with it, as well as keeping abreast of
  new developments.
+\layout Chapter
+
+Trouble Shooting
+\layout Section
+
+Problems During Installation
+\layout Subsection
+
+FreeBSD 4.2 and libxml2
+\layout Standard
+
+The current version (2.2.11) installs itself as /usr/local/lib/libxml2.a|so
+ and goes unrecognized by configure (PHP).
+ Link the fiels to /usr/local/lib/libxml.a|so.
+\layout Subsection
+
+Missing Compiler/Can not Compile (C++/C)
+\layout Standard
+
+The ImageMagick package requires the GCC compiler.
+ You'll need to download that compiler and install it on your system.
+ In the introduction (see chapter 
+\begin_inset LatexCommand \ref{chptr: introduction}
+
+\end_inset 
+
+) I listed some sites where you can download pre-compiled versions of software
+ for some different Unix versions.
+\layout Standard
+
+If you can't find a pre-compiled version try the GCC Home Page (http://gcc.gnu.org
+/).
+\layout Section
+
+Problems After Installation
+\layout Subsection
+
+Permission Denied
+\layout Standard
+
+
+\family typewriter 
+\size small 
+Warning: fopen("site.ini","r+")
+\layout Standard
+
+
+\family typewriter 
+\size small 
+Permission denied in classes/INIFile.php on line 80
+\layout Standard
+
+If you get this error message you need to run the modfix.sh script.
 \the_end

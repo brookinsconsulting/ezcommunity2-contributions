@@ -57,7 +57,7 @@ its primary point of distribution and information is http://devel.ez.no/
 \tableofcontents{}
 
 
-\chapter{Introduction}
+\chapter{Introduction\label{chptr: introduction}}
 
 \begin{quote}
 \textbf{{}``He who asks is a fool for five minutes, but he who does
@@ -81,17 +81,37 @@ developer.
 Different distribution sites for different Unix systems are:
 
 \begin{itemize}
+\item AIX http://www-frec.bull.com/docs/download.htm
 \item Debian http://www.debian.org/distrib/ftplist
 \item IRIX http://freeware.sgi.com/
-\item Red Hat Linux http://www.redhat.com/apps/download
+\item HP-UX http://hpux.connect.org.uk/
+\item Red Hat Linux http://www.redhat.com/apps/download and http://rpmfind.net.
+\item SCOOpen Server/Unixware http://www.sco.com/skunkware/
 \item SuSE Linux http://www.suse.com/us/support/download/index.html
 \item Sun http://www.sunfreeware.com/
 \end{itemize}
+You can also try {}``The Written Word{}'' {\footnotesize (ftp://ftp.thewrittenword.com/packages/free/by-name/gcc-2.95.2/)}
+for binaries for Solaris 2.5.1, 2.6, 2.7/SPARC, 2.7/Intel, IRIX 6.2,
+6.5, Digital UNIX 4.0D, HP-UX 10.20, and HP-UX.
+
 The addresses to the software developers will be given where apropriate
 in the text.
 
 A line starting with a hash-sign {}``\#{}'' are input from the user
 to the shell.
+
+
+\section{Pre-Configured Hosting}
+
+It is possible to get pre-configured hosting services where you can
+install and manage your eZ publish site with ease. Read more about
+our hosting partners at eZ systems web site {\footnotesize (http://en.ez.no/article/articlestatic/73)}.
+
+
+\section{Pre-Configured Hardware}
+
+It is possible to order pre-configured hardware from eZ systems. You
+can order through or web shop {\footnotesize (http://sourceprovider.com/)}.
 
 
 \chapter{Pre-requisites\label{chptr: pre-requisites}}
@@ -105,7 +125,20 @@ system:
 
 \begin{itemize}
 \item Access to Apache's httpd.conf
-\item Access to compiler
+\item \footnote{%
+You will have to install the gcc compiler on your system, see chapter
+\ref{chptr: introduction} for a list of sites providing software
+for different Unixes.
+}Access to compiler
+\item \footnote{%
+You must run certain scripts during installation. Some of them are
+just creating links to different directories; you might therefore
+just create those links via FTP.
+}Access to a shell
+\item \footnote{%
+Only needed if you want to use the eZ news feed module for regular
+updates of headlines imported from other sites.
+}Access to cron jobs
 \item Access to Apache's modules
 \item Access to a MySQL database
 \item You might also need the privilege to add new libraries to your system.
@@ -123,13 +156,36 @@ You also need to download and install the following packages, if they
 aren't present on your system already:
 
 \begin{itemize}
-\item MySQL (http://www.mysql.com) version 3.23 or later.
-\item libXml (http://xmlsoft.org/\#Downloads) version 2.2.7
-\item libQdom () version 
-\item ImageMagick (http://www.imagemagick.org/) newest version
-\item Apache (http://httpd.apache.org/) latest 1.3 release.
+\item \footnote{%
+eZ publish requires MySQL for storage of its data.
+}MySQL (http://www.mysql.com) version 3.23 or later.
+\item \footnote{%
+Needed by eZ article. If you wish to use the default article renderer
+you need libXml2 installed. You can create your own renderers if you
+don't want to use the default.
+}libXml2 (http://xmlsoft.org/\#Downloads) version 2.2.7 or later.
+\item \footnote{%
+Needed by eZ news feeds parsers. If you wish to include headlines
+from external sites (example developer.ez.no or slashdot.org) then
+you need this installed. You can create your own parsers if you don't
+want to use the default.
+}libQdom (http://www.trolltech.com) is a part of QT, you need version
+2.2.3 or later.
+\item \footnote{%
+Needed by eZ article, eZ image catalogue, and all modules using images.
+You need only the command line version.
+}ImageMagick (http://www.imagemagick.org/) newest version
+\item \footnote{%
+It is always recommended to run the latest Apache release, though
+eZ publish shouldn't be very picky with the Apache versions. We've
+used eZ publish with Apache 1.3.13, some have reported that Apache
+1.3.9 isn't useful.
+}Apache (http://httpd.apache.org/) latest 1.3 release.
 \item Any and all modules you need for apache in addition to mod\_php. (http://modules.apache.org/)
-\item PHP (http://www.php.net/) version 4.0.4pl1 or later, you need the
+\item \footnote{%
+eZ publish uses references for objects and foreach loops. Only version
+4.0.4pl1 and later supports both of these features satisfactorily.
+}PHP (http://www.php.net/) version 4.0.4pl1 or later, you need the
 source code version.
 \item eZ publish (http://developer.ez.no/) verision 2.0 or later stable
 releases.
@@ -186,18 +242,11 @@ is one of the returned names from the previous command, example:
 
 \end{LyXParagraphIndent}
 
-
-\section{FreeBSD}
-
-When installing and compiling PHP on a FreeBSD system you might encounter
-an error when using --with-dom which says you have a conifgure error
-on the lib. It turns out that the current port of libxml installs
-itself as /usr/local/lib/libxml2.a|so and it goes unrecognised by
-configure. You can easily get around this problem by linking the libs
-to libxml.a|so.
+You should test for qt, libxml and imagemagik to check if those are
+installed and working.
 
 
-\section{IRIX}
+\subsection{IRIX}
 
 By accessing the software manager (you must be root) you can get a
 list of installed software, scroll or search that list to find the
@@ -205,7 +254,7 @@ packages you're interested in. Double click on the tabs to the left
 to get information about where specific files are installed.
 
 
-\section{Other Systems}
+\subsection{Other Systems}
 
 On other systems you should read the documentation for that system
 to learn how to find out what software is already installed.
@@ -234,6 +283,22 @@ only undertake this if you feel confident about the job.
 
 This manual will only cover configuration of the software needed and
 compilation of PHP to use the other software.
+
+
+\subsection{Important Notice}
+
+You should read all the README, INSTALL and similar files found with
+the software packages you download. They often contain tips on how
+to configure, compile and install the software on your system. It
+will save you a lot of time and aggravation if you follow instructions
+supplied with the software.
+
+If problems arise during installation of the software, please turn
+to the suppliers support forums, mailing list archives and FAQs, your
+questions will often be answered there. If the supplier's forums doesn't
+seem to help you, you should check the support forums at our site.
+
+You should always do a search of the forums before posting any questions.
 
 
 \chapter{Compile Configuration}
@@ -388,8 +453,16 @@ remove the brackets.
 
 \texttt{\scriptsize RewriteEngine On}{\scriptsize \par}
 
+\footnote{%
+This line and the next should be written on the same line in your
+apache.conf file.
+}\texttt{\scriptsize RewriteRule \textasciicircum{}/filemanager/filedownload/({[}\textasciicircum{}/{]}+)/(.{*})\$
+}~\\
+\texttt{\scriptsize {[}/your/apache/documentroot{]}/publish\_dist/ezfilemanager/files/\$1
+{[}T=\char`\"{}application/oct-stream\char`\"{},S=1{]}}{\scriptsize \par}
+
 \texttt{\scriptsize RewriteRule !\textbackslash{}.(gif|css|jpg|png)\$
-{[}/your/apache/documentroot/index.php{]} }{\scriptsize \par}
+{[}/your/apache/documentroot{]}/index.php}{\scriptsize \par}
 
 \texttt{\scriptsize ServerAdmin {[}your\_mail@domain.no{]}}{\scriptsize \par}
 
@@ -405,7 +478,7 @@ remove the brackets.
 
 \texttt{\scriptsize <VirtualHost admin.yourdomain.org> }{\scriptsize \par}
 
-\texttt{\scriptsize <Directory {[}/your/apache/documentroot/admin{]}> }{\scriptsize \par}
+\texttt{\scriptsize <Directory {[}/your/apache/documentroot{]}/admin> }{\scriptsize \par}
 
 \texttt{\scriptsize Options FollowSymLinks Indexes ExecCGI }{\scriptsize \par}
 
@@ -416,11 +489,11 @@ remove the brackets.
 \texttt{\scriptsize RewriteEngine On }{\scriptsize \par}
 
 \texttt{\scriptsize RewriteRule !\textbackslash{}.(gif|css|jpg|png)\$
-{[}/your/apache/documentroot/admin/index.php{]}}{\scriptsize \par}
+{[}/your/apache/documentroot{]}/admin/index.php}{\scriptsize \par}
 
 \texttt{\scriptsize ServerAdmin {[}your\_mail@domain.no{]}}{\scriptsize \par}
 
-\texttt{\scriptsize DocumentRoot {[}/your/apache/documentroot/admin{]}}{\scriptsize \par}
+\texttt{\scriptsize DocumentRoot {[}/your/apache/documentroot/{]}admin}{\scriptsize \par}
 
 \texttt{\scriptsize ServerName {[}admin.yourdomain.org{]}}{\scriptsize \par}
 
@@ -432,7 +505,8 @@ remove the brackets.
 
 The format of the {}``httpd.conf{}'' file is covered at http://httpd.apache.org/docs/
 for a complete understanding of the above information you'll need
-to read that documentation.
+to read that documentation. You should note that you can't use any
+rewrite ruels inside the <directory> part within the <VirtualHost>.
 
 If you didn't compile PHP with magic quotes; or other software relies
 on PHP not using magic quotes you can add the following line into
@@ -451,7 +525,7 @@ Now you need to create a database in MySQL, the default name we use
 is publish, but you can change that to whatever pleases you.
 
 \begin{itemize}
-\item \texttt{\# mysql -uroot -p publish < sql/publish.sql}
+\item \texttt{\# mysqladmin create publish}
 \end{itemize}
 Add a publish user in MySQL. To add a user you can use the MySQL client
 to log on to mysql and then create the user:
@@ -522,4 +596,39 @@ head over to http://zez.org/ for articles about community building
 as well as programming, or you can visit http://developer.ez.no for
 updates, articles about eZ publish and how to work with it, as well
 as keeping abreast of new developments.
+
+
+\chapter{Trouble Shooting}
+
+
+\section{Problems During Installation}
+
+
+\subsection{FreeBSD 4.2 and libxml2}
+
+The current version (2.2.11) installs itself as /usr/local/lib/libxml2.a|so
+and goes unrecognized by configure (PHP). Link the fiels to /usr/local/lib/libxml.a|so.
+
+
+\subsection{Missing Compiler/Can not Compile (C++/C)}
+
+The ImageMagick package requires the GCC compiler. You'll need to
+download that compiler and install it on your system. In the introduction
+(see chapter \ref{chptr: introduction}) I listed some sites where
+you can download pre-compiled versions of software for some different
+Unix versions.
+
+If you can't find a pre-compiled version try the GCC Home Page (http://gcc.gnu.org/).
+
+
+\section{Problems After Installation}
+
+
+\subsection{Permission Denied}
+
+\texttt{\small Warning: fopen(\char`\"{}site.ini\char`\"{},\char`\"{}r+\char`\"{})}{\small \par}
+
+\texttt{\small Permission denied in classes/INIFile.php on line 80}{\small \par}
+
+If you get this error message you need to run the modfix.sh script.
 \end{document}
