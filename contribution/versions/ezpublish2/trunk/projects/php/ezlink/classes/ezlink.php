@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezlink.php,v 1.71 2001/10/16 13:36:29 br Exp $
+// $Id: ezlink.php,v 1.72 2001/10/16 13:44:57 jhe Exp $
 //
 // Definition of eZLink class
 //
@@ -413,7 +413,7 @@ class eZLink
         $return_array = array();
 
         $query = new eZQuery( array( "KeyWords", "Name", "Description" ), $query );
-        
+        $query->setPartialCompare( true );
         $query_str =  "SELECT ID, Name FROM eZLink_Link WHERE (" .
              $query->buildQuery()  .
              ") AND Accepted='1' GROUP BY Name, ID ORDER BY Name";
@@ -519,7 +519,7 @@ class eZLink
     /*!
       Returns the link's definition category
     */
-    function categoryDefinition()
+    function categoryDefinition( $as_object = true )
     {
         $db =& eZDB::globalDatabase();
 
@@ -530,7 +530,10 @@ class eZLink
         $category = false;
         if ( count( $res ) == 1 )
         {
-            $category = new eZLinkCategory( $res[0][$db->fieldName("CategoryID")] );
+            if ( $as_object )
+                $category = new eZLinkCategory( $res[0][$db->fieldName( "CategoryID" )] );
+            else
+                $category = $res[0][$db->fieldName( "CategoryID" )];
         }
         else
         {
@@ -690,7 +693,7 @@ class eZLink
         {
             $this->ImageID = $value->id();
         }
-        elseif( is_numeric( $value ) )
+        elseif ( is_numeric( $value ) )
         {
             $this->ImageID = $value;
         }

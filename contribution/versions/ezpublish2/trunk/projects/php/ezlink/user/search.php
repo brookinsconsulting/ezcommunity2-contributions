@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: search.php,v 1.16 2001/07/20 11:15:21 jakobn Exp $
+// $Id: search.php,v 1.17 2001/10/16 13:44:57 jhe Exp $
 //
 // Created on: <15-Sep-2000 14:40:06 bf>
 //
@@ -41,9 +41,7 @@ $t = new eZTemplate( "ezlink/user/" . $ini->read_var( "eZLinkMain", "TemplateDir
 
 $t->setAllStrings();
 
-$t->set_file( array(
-    "search_list" => "searchlist.tpl"
-    ) );
+$t->set_file( "search_list", "searchlist.tpl" );
 
 $t->set_block( "search_list", "search_item_tpl", "search_item" );
 
@@ -69,7 +67,7 @@ if ( $QueryString != "" )
 
     $t->set_var( "query_string", urlencode( $QueryString ) );
     $t->set_var( "empty_result", "" );
-    $i=0;
+    $i = 0;
     if ( count ( $link_array ) > 0 )
     {
         foreach( $link_array as $linkItem )
@@ -84,9 +82,9 @@ if ( $QueryString != "" )
             }  
 
             $t->set_var( "link_id", $linkItem->id() );
-            $t->set_var( "link_title", $linkItem->title() );
+            $t->set_var( "link_title", $linkItem->name() );
             $t->set_var( "link_description", $linkItem->description() );
-            $t->set_var( "link_groupid", $linkItem->linkgroupid() );
+            $t->set_var( "link_groupid", $linkItem->categoryDefinition( false ) );
             $t->set_var( "link_keywords", $linkItem->keywords() );
             $t->set_var( "link_created", $linkItem->created() );
             $t->set_var( "link_modified", $linkItem->modified() );
