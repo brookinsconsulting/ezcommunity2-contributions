@@ -103,6 +103,7 @@ for ( $i=0; $i<count( $company_array ); $i++ )
           if ( $usrGroup->personDelete() == 'Y' )
           {
               $t->parse( "delete_person", "delete_person_item" );
+              
 //                $t->set_var( "delete_person",
 //                             "<a href=\"#\" onClick=\"verify( 'Slette kontakt person?', 'index.php?prePage=" . $DOCUMENTROOT . "personedit.php&Action=delete&PID=" .  $person_array[$j][ "ID" ] . "'); return false;\"><img src=\"" . $DOCUMENTROOT ."images/slettmini.gif\" width=\"16\" height=\"16\"  border=\"0\"></a>" );
           }
@@ -118,7 +119,9 @@ for ( $i=0; $i<count( $company_array ); $i++ )
   // utøve rettigheter
   if ( $usrGroup->companyDelete() == 'Y' )
   {
-  	$t->set_var( "delete_company", "<a href=\"#\" onClick=\"verify( 'Slette firma?', 'index.php?prePage=" . $DOCUMENTROOT .  "companyedit.php&Action=delete&CID=" . $cid . "'); return false;\"><img src=\"" . $DOCUMENTROOT ."images/slettmini.gif\" width=\"16\" height=\"16\"  border=\"0\" align=\"top\"></a>" );
+      $t->parse( "delete_company", "delete_company_item" );
+      
+//    	$t->set_var( "delete_company", "<a href=\"#\" onClick=\"verify( 'Slette firma?', 'index.php?prePage=" . $DOCUMENTROOT .  "companyedit.php&Action=delete&CID=" . $cid . "'); return false;\"><img src=\"" . $DOCUMENTROOT ."images/slettmini.gif\" width=\"16\" height=\"16\"  border=\"0\" align=\"top\"></a>" );
   }
   else
   {
