@@ -1,6 +1,10 @@
 <?php
-// 
-// $Id: vote.php,v 1.15 2001/07/25 06:29:01 fh Exp $
+//
+// $Id: vote.php,v 1.16 2001/07/25 10:04:24 chrism Exp $
+//
+// $Id: vote.php,v 1.16 2001/07/25 10:04:24 chrism Exp $
+//
+// $Id: vote.php,v 1.16 2001/07/25 10:04:24 chrism Exp $
 //
 // Created on: <20-Sep-2000 13:32:11 ce>
 //
@@ -31,6 +35,9 @@ $ini =& $GLOBALS["GlobalSiteIni"];
 
 $Language = $ini->read_var( "eZPollMain", "Language" );
 $DOC_ROOT = $ini->read_var( "eZPollMain", "DocumentRoot" );
+if ( $ini->read_var( "eZPollMain", "AllowDoubleVotes" ) == "enabled" )
+   $AllowDoubleVotes = true;
+
 
 include_once( $DOC_ROOT . "/classes/ezpoll.php" );
 include_once( $DOC_ROOT . "/classes/ezvote.php" );
@@ -63,9 +70,24 @@ if ( !$poll->anonymous() )
 }
 else
 {
-    $Voted = eZVote::ipHasVoted( $REMOTE_ADDR, $PollID )::
-}
 
+    $vote = new eZVote();
+    //check if user has or can vote twice
+
+    if ( $AllowDoubleVotes )
+    {
+       $Voted = false;
+    }
+    elseif ( $vote->ipHasVoted( $REMOTE_ADDR, $PollID ) == true )
+    {
+       $Voted = true;
+    }
+    else
+    {
+       $Voted = false;
+    }
+
+}
 
 if ( $pollUser )
 {
