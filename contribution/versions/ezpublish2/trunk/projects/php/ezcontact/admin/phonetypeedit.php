@@ -29,7 +29,7 @@ if( $session->get( $AuthenticatedSession ) == 0 )
             $type->setName( $PhoneTypeName );
             $type->store();
 
-            Header( "Location: index.php?page=" . $DOC_ROOT . "phonetypelist.php" ); 
+            Header( "Location: /contact/phonetypelist/" ); 
         }
 
         // Oppdatere
@@ -41,7 +41,7 @@ if( $session->get( $AuthenticatedSession ) == 0 )
             $type->setName( $PhoneTypeName );
             $type->update();
 
-            Header( "Location: index.php?page=" . $DOC_ROOT . "phonetypelist.php" ); 
+            Header( "Location: /contact/phonetypelist/" ); 
         }
 
         // Slette
@@ -51,7 +51,7 @@ if( $session->get( $AuthenticatedSession ) == 0 )
             $type->get( $PID );
             $type->delete( );
 
-            Header( "Location: index.php?page=" . $DOC_ROOT . "phonetypelist.php" ); 
+            Header( "Location: /contact/phonetypelist/" ); 
         }
 
         $t = new eZTemplate( $DOC_ROOT . "/" . $ini->read_var( "eZContactMain", "TemplateDir" ), $DOC_ROOT . "/intl", $Language, "phonetypeedit.php" );
@@ -94,7 +94,7 @@ if( $session->get( $AuthenticatedSession ) == 0 )
 }
 else
 {
-    Header( "Location: index.php?page=common/error.php" );
+    Header( "Location: /common/error/" );
 }
 
 

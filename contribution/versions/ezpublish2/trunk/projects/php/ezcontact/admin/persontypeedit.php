@@ -33,7 +33,7 @@ if( $session->get( $AuthenticatedSession ) == 0 )
             $type->setDescription( $PersonTypeDescription );
             $type->store();
 
-            Header( "Location: index.php?page=" . $DOC_ROOT . "persontypelist.php" ); 
+            Header( "Location: /contact/persontypelist/" ); 
         }
 
         // Oppdatere
@@ -47,7 +47,7 @@ if( $session->get( $AuthenticatedSession ) == 0 )
             $type->setDescription( $PersonTypeDescription );
             $type->update();
 
-            Header( "Location: index.php?page=" . $DOC_ROOT . "persontypelist.php" ); 
+            Header( "Location: /contact/persontypelist/" ); 
         }
 
         // Slette
@@ -56,7 +56,7 @@ if( $session->get( $AuthenticatedSession ) == 0 )
             $type = new eZPersonType();
             $type->get( $PID );
             $type->delete( );
-            Header( "Location: index.php?page=" . $DOC_ROOT . "persontypelist.php" ); 
+            Header( "Location: /contact/persontypelist/" ); 
         }
 
         $t = new eZTemplate( $DOC_ROOT . "/" . $ini->read_var( "eZContactMain", "TemplateDir" ), $DOC_ROOT . "/intl", $Language, "persontypeedit.php" );
@@ -101,7 +101,7 @@ if( $session->get( $AuthenticatedSession ) == 0 )
 }
 else
 {
-    Header( "Location: index.php?page=common/error.php" );
+    Header( "Location: /common/error/" );
 }
 
 

@@ -30,7 +30,7 @@ if( $session->get( $AuthenticatedSession ) == 0 )
             $type->setName( $AddressTypeName );
             $type->store();    
 
-            Header( "Location: index.php?page=" . $DOC_ROOT . "addresstypelist.php" );
+            Header( "Location: /contact/addresstypelist/" );
         }
 
         // Oppdatere
@@ -41,7 +41,7 @@ if( $session->get( $AuthenticatedSession ) == 0 )
             $type->setName( $AddressTypeName );
             $type->update();
 
-            Header( "Location: index.php?page=" . $DOC_ROOT . "addresstypelist.php" );
+            Header( "Location: /contact/addresstypelist" );
         }
 
         // Slette
@@ -51,7 +51,7 @@ if( $session->get( $AuthenticatedSession ) == 0 )
             $type->get( $AID );
             $type->delete( );
 
-            Header( "Location: index.php?page=" . $DOC_ROOT . "addresstypelist.php" ); 
+            Header( "Location: /contact/addresstypelist" ); 
         }
 
         $t = new eZTemplate( $DOC_ROOT . "/" . $ini->read_var( "eZContactMain", "TemplateDir" ), $DOC_ROOT . "/intl", $Language, "addresstypeedit.php" );
@@ -94,7 +94,7 @@ if( $session->get( $AuthenticatedSession ) == 0 )
 }
 else
 {
-    Header( "Location: index.php?page=common/error.php" );
+    Header( "Location: /common/error/" );
 }
 
 ?>
