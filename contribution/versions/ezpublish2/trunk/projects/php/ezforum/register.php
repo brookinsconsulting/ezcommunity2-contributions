@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: register.php,v 1.5 2000/07/26 15:12:50 lw-cvs Exp $
+    $Id: register.php,v 1.6 2000/08/11 09:58:50 lw-cvs Exp $
 
     Author: Lars Wilhelmsen <lw@ez.no>
     
@@ -11,8 +11,7 @@
 include( "ezforum/dbsettings.php" );
 include_once( "template.inc" );
 include_once( "ezphputils.php" );
-include_once( "$DOCROOT/classes/ezdb.php" );
-include_once( "$DOCROOT/classes/ezuser.php" );
+include_once( "classes/ezuser.php" );
 
 $t = new Template( "." );
 $t->set_file(Array( "register" => "$DOCROOT/templates/register.tpl",
