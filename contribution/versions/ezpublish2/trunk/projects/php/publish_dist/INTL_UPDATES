@@ -3,6 +3,11 @@ Example:
 mod: bug/user, fileedit.php.ini
 change: added user_edit=Some text
 --------------------------------------------------------------------
+mod: ezforum/user, forumlist.php.ini
+change: added
+no_forums=There are no forums available
+no_forums_for_you=There are no forums which you can view
+
 mod: ezarticle/ admin , search.php.ini
 change: added delete=Delete selected articles
 
