@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: datasupplier.php,v 1.32 2001/08/31 12:18:31 jhe Exp $
+// $Id: datasupplier.php,v 1.33 2001/08/31 12:58:01 jhe Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -173,6 +173,7 @@ switch ( $url_array[2] )
     case "company":
     {
         $Action = $url_array[3];
+        $CompanyID = $url_array[4];
         switch ( $Action )
         {
             case "new":

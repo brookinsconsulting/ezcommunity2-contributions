@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: personedit.php,v 1.46 2001/08/17 08:43:48 jhe Exp $
+// $Id: personedit.php,v 1.47 2001/08/31 12:58:01 jhe Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -190,7 +190,6 @@ if ( isSet( $FileButton ) )
         }
         $element = new eZPerson( $item_id );
     }
-
     $id = eZVirtualFolder::getIDByParent( $element->name(), $parent );
     if ( !$id )
     {
