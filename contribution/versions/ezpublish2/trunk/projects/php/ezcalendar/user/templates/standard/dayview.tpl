@@ -64,7 +64,7 @@
 
 	<!-- BEGIN public_appointment_tpl -->
 	<td class="{td_class}" valign="top" rowspan="{rowspan_value}" >
-	<table width="100%" cellspacing="0" cellpadding="0" border="0" >
+	<table width="100%" cellspacing="0" cellpadding="4" border="0" >
 	<tr>
 		<td width="98%" valign="top">
 		<a href="/calendar/appointmentview/{appointment_id}/"><b>{appointment_name}</b></a><br />
