@@ -322,7 +322,7 @@ if( $user )
 
         $interval->setSecond( 0 );
     }
-    $dayArray = array('Monday', 'Tuesday', 'Wedensday', 'Thursday', 'Friday', 'Saturday', 'Sunday');
+    $dayArray = array('Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday');
 
     foreach ($dayArray as $dayname)
     {
@@ -349,15 +349,17 @@ if( $user )
     $midNight->setSecondsElapsed( 0 );
     $lastInterval = $midNight->subtract( $interval );
     $firstInterval = $midNight->add( $interval );
-    for ($i=0;$i<sizeof($events); $i++)
+    for ($i=0;$i<=sizeof($events); $i++)
     {
 
         $appStartTime =& $events[$i]->startTime();
         $appStopTime =& $events[$i]->stopTime();
-     // adding all_day_event filtering
-        if ($appStartTime == $startTime && $appStopTime == $stopTime
-        || ($appStartTime->hour() . addZero($appStartTime->minute())) < ($startTime->hour() . addZero($startTime->minute()) )
-        && ($appStopTime->hour() . addZero($appStopTime->minute()) > ($appStopTime->hour() . $appStopTime->minute())) )
+        $appStartStr = $appStartTime->hour() . addZero($appStartTime->minute());
+        $appStopStr  = $appStopTime->hour() . addZero($appStopTime->minute());
+        $startStr = $startTime->hour() . addZero($startTime->minute());
+        $stopStr = $stopTime->hour() . addZero($stopTime->minute());
+      // adding all_day_event filtering
+        if ( ($appStartTime == $startTime && $appStopTime == $stopTime) || ( ($appStartStr <= $startStr) && ( $appStopStr >= $stopStr ) ) )
         {
          $allDayEvents[] = $events[$i];
          unset($events[$i]);
@@ -732,7 +734,7 @@ if (isset($allDayEvents))
     }
 
 	//type list
-	$typeList = $type->getAll(); 
+	$typeList = $type->getAll();
 
 	foreach( $typeList as $type )
 	{

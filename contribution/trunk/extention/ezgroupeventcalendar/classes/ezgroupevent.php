@@ -329,7 +329,7 @@ class eZGroupEvent
 
             $groupID = $group->id();
             $stamp   = $date->year() . $month . $day;
-
+            $longstamp = $stamp . '235959';
 			include_once( "classes/INIFile.php" );
 			$ini =& $GLOBALS["GlobalSiteIni"];
 			
@@ -360,19 +360,27 @@ class eZGroupEvent
 			{
 				$this->Database->array_query( $event_array,
 				"SELECT ID FROM eZGroupEventCalendar_Event
-				 WHERE ( Date LIKE '$stamp%' AND IsPrivate='0' AND $selectGroups ) OR ( Date LIKE '$stamp%' AND IsPrivate='0' AND GroupID='0' ) OR ( IsRecurring='1' AND RecurFinishDate>'$stamp' AND IsPrivate='0' AND $selectGroups) OR ( IsRecurring='1' AND RecurFinishDate>'$stamp' AND UsPrivate='0' AND GroupID='0' ) ORDER BY Date ASC", true );
+				 WHERE ( Date LIKE '$stamp%' AND IsPrivate='0' AND $selectGroups ) 
+                 OR ( Date LIKE '$stamp%' AND IsPrivate='0' AND GroupID='0' )
+                 OR ( IsRecurring='1' AND RecurFinishDate>='$longstamp' AND Date<='$longstamp' AND IsPrivate='0' AND $selectGroups)
+                 OR ( IsRecurring='1' AND RecurFinishDate>='$longstamp' AND Date<='$longstamp' AND IsPrivate='0' AND GroupID='0')
+                 ORDER BY Date ASC", true );
 			}
 			else
 			{
 				$this->Database->array_query( $event_array,
 				"SELECT ID FROM eZGroupEventCalendar_Event
-				WHERE ( Date LIKE '$stamp%' AND $selectGroups ) OR ( Date LIKE '$stamp%' AND GroupID='0' ) OR ( IsRecurring='1' AND RecurFinishDate>'$stamp' AND $selectGroups) OR ( IsRecurring='1' AND RecurFinishDate>'$stamp' AND GroupID='0' ) ORDER BY Date ASC" );
+				WHERE ( Date LIKE '$stamp%' AND $selectGroups ) OR ( Date LIKE '$stamp%' AND GroupID='0' ) 
+                OR ( IsRecurring='1' AND RecurFinishDate>='$longstamp' AND Date<='$longstamp' AND IsPrivate='0' AND $selectGroups)
+                OR ( IsRecurring='1' AND RecurFinishDate>='$longstamp' AND Date<='$longstamp' AND IsPrivate='0' AND GroupID='0')
+                ORDER BY Date ASC" );
 			}
 			//			print(" SELECT ID FROM eZGroupEventCalendar_Event WHERE ( Date LIKE '$stamp%' AND GroupID='$groupID' ) ORDER BY Date ASC <br />");
 			for ( $i=0; $i<count($event_array); $i++ )
 			{
-
-				$return_array[] = new eZGroupEvent( $event_array[$i]["ID"], 0 );
+				$recurCheck = filterRecurring($event_array[$i], $date);
+                if ($recurCheck)
+				 $return_array[] = new eZGroupEvent( $event_array[$i]["ID"], 0 );
 			}
 
             $ret =& $return_array;
@@ -433,23 +441,29 @@ class eZGroupEvent
 			$typeID  = $type->id(); 
             
             $stamp = $date->year() . $month . $day;
-
+            $longstamp = $stamp . '235959';
             if ( $showPrivate == false )
             {
                 $this->Database->array_query( $event_array,
                 "SELECT ID FROM eZGroupEventCalendar_Event
-                 WHERE Date LIKE '$stamp%' AND IsPrivate='0' AND $selectGroups AND EventTypeID='$typeID' ORDER BY Date ASC", true );
+                 WHERE Date LIKE '$stamp%' AND IsPrivate='0' AND $selectGroups AND EventTypeID='$typeID' 
+                 OR ( IsRecurring='1' AND $selectGroups AND EventTypeID='$typeID' AND RecurFinishDate>='$longstamp' AND Date<='$longstamp' AND IsPrivate='0' )
+                 ORDER BY Date ASC", true );
             }
             else
             {
                 $this->Database->array_query( $event_array,
                 "SELECT ID FROM eZGroupEventCalendar_Event
-                 WHERE Date LIKE '$stamp%' AND $selectGroups AND EventTypeID='$typeID' ORDER BY Date ASC" );
+                 WHERE Date LIKE '$stamp%' AND $selectGroups AND EventTypeID='$typeID' 
+                 OR ( IsRecurring='1' AND $selectGroups AND EventTypeID='$typeID' AND RecurFinishDate>='$longstamp' AND Date<='$longstamp')
+                 ORDER BY Date ASC" );
             }
 
             for ( $i=0; $i<count($event_array); $i++ )
             {
-                $return_array[] = new eZGroupEvent( $event_array[$i]["ID"], 0 );
+            	$recurCheck = filterRecurring($event_array[$i], $date);
+                if ($recurCheck)
+                 $return_array[] = new eZGroupEvent( $event_array[$i]["ID"], 0 );
             }
 
             $ret =& $return_array;
@@ -488,17 +502,17 @@ class eZGroupEvent
                 "SELECT ID, GroupID, IsRecurring, RecurType, RecurFreq, RecurMonthlyType, RepeatTimes, RecurDay, RecurMonthlyTypeInfo, Date
 		 FROM eZGroupEventCalendar_Event
                  WHERE ( Date LIKE '$stamp%' AND IsPrivate='0' )
-		 OR ( IsRecurring='1' AND RecurFinishDate>='$longstamp' AND Date<='$longstamp' AND RecurExceptions NOT LIKE '$stamp%' AND IsPrivate='0' ) 
+		 OR ( IsRecurring='1' AND RecurFinishDate>='$longstamp' AND Date<='$longstamp' AND IsPrivate='0' )
 		 ORDER BY Date ASC", true );
-		 
+
             }
             else
             {
                 $this->Database->array_query( $event_array,
                 "SELECT ID, GroupID, IsRecurring, RecurType, RecurFreq, RepeatTimes, RecurDay, RecurFinishDate, RecurMonthlyType, RecurMonthlyTypeInfo, RecurExceptions, Date
 		 FROM eZGroupEventCalendar_Event
-                 WHERE ( Date LIKE '$stamp%') 
-		 OR ( IsRecurring='1' AND RecurFinishDate>='$longstamp' AND Date<='$longstamp') 
+                 WHERE ( Date LIKE '$stamp%')
+		 OR ( IsRecurring='1' AND RecurFinishDate>='$longstamp' AND Date<='$longstamp')
 		 ORDER BY Date ASC" );
             }
 
@@ -510,173 +524,8 @@ class eZGroupEvent
 			}
             for ( $i=0; $i<=count($event_array); $i++ )
 	    {
-	    // spectrum: implementing recurring event sorting
-				if ($event_array[$i]["IsRecurring"]) {
-				  /* 
-				  there are four things we must check to
-				  decide if a recurring event should be included
-				  the bool value IsRecurring (above)
-				  With any recurring events using RepeatUntilDate or RepeatTimes,
-				  we store the last date this event can occur in the column RecurFinishDate.
-				  The sql statement checks to see if the current date object is past RecurFinishDate,
-				  and also if the current date is in the Exceptions table for each recurring event.
-				  Then finally after we have filtered these, we check the RecurType.
-				  If the RecurType is day, we check to see if the day matches, 
-				  then we check the RecurFreq and calculate from the day started.
-				  If the RecurType is week, we check RecurFreq to see if it will be this week, 
-				  then we check which days have been selected, and if that day is today, include it. 
-				  If the RecurType is month, we check RecurFreq to see if this month is 
-				  skipped, then we check RecurMonthType 
-				  If RecurMonthType is daily(26th of the month), we simply check to see 
-				  if this day matches RecurMonthTypeInfo
-				  If RecurMonthType is weekdaynum( Last Tuesday of the month), we first check 
-				  to see if it is the day in question in RecurMonthTypeInfo, 
-				  then if it is, we check to see if the week matches.
-				  If RecurMonthType numdayname(Second Friday of the month), we check to see if 
-				  the day matches, then check to see if what number day it is and see if they match.
-				  Finally, if RecurType is yearly, check RecurFreq first of course, and then 
-				  find out if the month matches, then move to day.
-				  */
-				  // filter out recur exceptions if todays date matches
-				  if ($event_array[$i]['RecurExceptions']) {
-				     $recurExArr = explode(':', $event_array[$i]['RecurExceptions']);
-				    $strMonth = eZDateTime::addZero( $date->month() );
-				     $strDay = eZDateTime::addZero( $date->day());
-				     $fullDateStr = $date->year().'-'.$strMonth.'-'.$strDay;
-				     foreach ($recurExArr as $exKey) 
-				     {
-				      if ($exKey == $fullDateStr)
-				      $event_array[$i]['unset'] = true;
-				     }
-				   }
-				  // for each of these cases we will be needing dates to compare. 
-				  // The first has already been created at the beginning of this method 
-				  // as an object, $date. The second is a set of strings made from the
-				  // timestamp $event_array[$i]['Date'];
-				  // we will get the year, month, and day substr function
-				  $rYear = substr($event_array[$i]['Date'], 0, 4);
-				  $rMonth = substr($event_array[$i]['Date'], 4, 2);
-				  $rDay = substr($event_array[$i]['Date'], 6, 2);
-				  // now lets make the eZDate object
-				  $rDate = new eZDate( $rYear, $rMonth, $rDay );
-				  $rType = $event_array[$i]['RecurType'];
-				  // for readability and ease of use, define extra variables
-				  $rFreq = $event_array[$i]['RecurFreq'];
-				  // This switch statement switches out the recurType, because
-				  // we need to know what type of recurring event it is to
-				  // do proper
-				  // first we do a check to see if recurFreq is more than one, because if
-				  // it is, we will need to run the dateDiff function which will help decide
-				  // if we need to do further checks or just remove the key from the array
-				    if ($rFreq > 1) {
-				     // so let's create a couple arrays that the dateDiff function can read
-				     $firstDate = array('year' => $rDate->year(), 'month' => $rDate->month(), 'day' => $rDate->day());
-				     $secondDate = array('year' => $date->year(), 'month' => $date->month(), 'day' => $date->day());
-				     // This dateDiff function returns an array that holds
-				     // the date differences in year, month, and day 
-				     $arrDiff = date_diff($rDate, $date);
-				    }
-				  switch($rType) {
-				    // if the type is day...
-				    case 'day':
-				  //  echo($event_array[$i]['ID'].' has a datediff of '.$arrDiff["days"].'<br>');
-				    // if $arrDiff['days'] is true, we know that $rFreq is more than 1
-				    // and therefore should check to see if $rFreq renders this date
-				    // invalid.
-				    if ($arrDiff['days']) {
-				    // set $diffDiv var as the difference of days divided by the
-				    // recurrance frequency
-				     $diffDiv = ($arrDiff['days']) / $rFreq;
-				    // this checks to see if the number has a decimal in it
-				    // (ie check to see if it is a whole number)
-				    // if this does NOT return false, it is NOT a whole number
-				     if ( strstr( $diffDiv, '.' ) || (!$diffDiv) ) {
-				     // it's not a whole number or it's 0, so this date shouldn't be considered
-				     // let's remove it from the array
-				      $event_array[$i]['unset'] = true;
-				     }
-				    }
-				    // if the recur freq is 1, then we will be repeating every day
-				    // so we leave this event in the array 
-				    break;
-				    case 'week':
-				    // to understand most of this section, see the day section calculations
-				    if ($arrDiff['weeks']) {
-				     $diffDiv = $arrDiff['weeks'] / $rFreq;
-				     if ( strstr( $diffDiv, '.' ) ) $event_array[$i]['unset'] = true;
-				    } else {
-				    }
-				    if (isset($event_array[$i])) { //if it's still there, we do the next set of checks
-				    // this next section we will be doing week specific checks
-				    // involving the RecurDay string.
-				    // this line is fairly simple, it does a case insentive check
-				    // to see if the name of the current day is in the RecurDay string
-				    $RecurDay = $event_array[$i]['RecurDay'];
-				    if ( !stristr( $RecurDay, $date->dayName(true) ) ) {
-				      // if it's not, unset the array
-				      $event_array[$i]['unset'] = true;
-				     }
-				     }
-				    break;
-				    case 'month':
-				    // to understand most of this section, see the day section calculations
-				    if (  $arrDiff['months'] ) {
-				    $diffDiv = $arrDiff['months'] / $rFreq;
-				    if ( strstr( $diffDiv, '.' ) ) $event_array[$i]['unset'] = true;
-				    }
-				    // this next section isn't pretty, and it's rather complex
-				    // and was generally just a pain in the neck
-				    $RecurMonthlyType = $event_array[$i]['RecurMonthlyType'];
-				    if ( $RecurMonthlyType == 'daily') {
-				    // daily is the easy part. if it is not the same day, unset the array
-				     if ( $date->day() != $rDate->day() ) $event_array[$i]['unset'] = true;
-				     // we may want to add some extra logic to get the amount
-				     // of days in the month and if a day is over the 28th check
-				     // and see if we need to put the event on the closest
-				     // day to the end of the month
-				    }
-				    if ( $RecurMonthlyType == 'numdayname' ) {
-				     // in this section we assign the $weekNum var
-				     // with first, second, third, fourth, or last
-				     if ( $date->day() < 8) { $weekNum = 'first'; }
-				     elseif ( $date->day() < 15) { $weekNum = 'second'; } 
-				     elseif ( $date->day() < 22) { $weekNum = 'third'; }
-				     elseif ( $date->day() < 29) { $weekNum = 'fourth'; }
-				     // we only offer options up to the fourth week, otherwise they
-				     // must check last, so that's why we don't need to worry
-				     // about anything over the 28th in this section
-				     else { $event_array[$i]['unset'] = true; } 
-				      // we see if these match. If they don't, unset array
-				     if ($event_array[$i]['RecurMonthlyTypeInfo'] != $weekNum) $event_array[$i]['unset'] = true;
-				      // finally we have to check
-				      if ( $date->dayName(true) != $rDate->dayName(true) ) $event_array[$i]['unset'] = true;
-				      }
-				   if ( $RecurMonthlyType == 'strdayname' ) {
-				    // the only value this will ever be is 'last'
-				    // we have to find the amount of days in this month
-				    // then calculate when the last one will happen
-				    // the first thing to do is check if the day is before the 22nd
-				    // because if it is, it's not going to be in the last week
-				    // next if the day plus seven is less than or equal to
-				    // the number of days in the month, it is not the last day.
-				     if ( $date->day() < 22 || ( $date->day() + 7 ) <= $date->daysInMonth() || $date->dayName(true) != $rDate->dayName(true) ) 
-				       $event_array[$i]['unset'] = true; 
-
-				
-				    }
-				    break;
-				    case 'year':
-				    if ($arrDiff['years']) {
-				     $diffDiv = $arrDiff['years'] / $rFreq;
-				     if ( strstr( $diffDiv, '.' ) ) $event_array[$i]['unset'] = true;
-				     }
-				     // if at this point the month and day match, we are golden
-				     // note the dash inbetween, its needed to seperate the two otherwise 11-5 and 1-15 are the same  :)
-				     if ( ( $date->month() . '-' . $date->day() ) != ( $rDate->month() . '-' . $rDate->day() ) )
-				       $event_array[$i]['unset'] = true;
-				    break;
-				  }
-				}
+     // spectrum: implementing recurring event sorting
+				$recurCheck = filterRecurring($event_array[$i], $date);
                 if( $groupNoShow == true )
 				{
 					$displayGroup = true;
@@ -691,7 +540,7 @@ class eZGroupEvent
 				{
 					$displayGroup = true;
 				}
-				if( $displayGroup == true && isset($event_array[$i]["ID"]) && !$event_array[$i]['unset'])
+				if( $displayGroup == true && isset($event_array[$i]["ID"]) && $recurCheck)
 					$return_array[] = new eZGroupEvent( $event_array[$i]["ID"], 0 );
             }
 
@@ -712,7 +561,7 @@ class eZGroupEvent
         if ( ( get_class( $date ) == "ezdate" ) && ( get_class( $type ) == "ezgroupeventtype" ) )
         {
             $this->dbInit();
-        
+
             $return_array = array();
             $event_array = array();
 
@@ -723,20 +572,24 @@ class eZGroupEvent
             $day = eZDateTime::addZero( $day );
 
 			$typeID = $type->id();
-            
-            $stamp = $date->year() . $month . $day;
 
+            $stamp = $date->year() . $month . $day;
+            $longstamp = $stamp . '235959';
             if ( $showPrivate == false )
             {
                 $this->Database->array_query( $event_array,
                 "SELECT ID, GroupID FROM eZGroupEventCalendar_Event
-                 WHERE Date LIKE '$stamp%' AND IsPrivate='0' AND EventTypeID='$typeID' ORDER BY Date ASC", true );
+                 WHERE Date LIKE '$stamp%' AND IsPrivate='0' AND EventTypeID='$typeID'
+                OR ( IsRecurring='1' AND IsPrivate='0' AND EventTypeID='$typeID' AND RecurFinishDate>='$longstamp' AND Date<='$longstamp' )
+                 ORDER BY Date ASC", true );
             }
             else
             {
                 $this->Database->array_query( $event_array,
                 "SELECT ID, GroupID FROM eZGroupEventCalendar_Event
-                 WHERE Date LIKE '$stamp%' AND EventTypeID='$typeID' ORDER BY Date ASC" );
+                 WHERE Date LIKE '$stamp%' AND EventTypeID='$typeID'
+                 OR ( IsRecurring='1' AND EventTypeID='$typeID' AND RecurFinishDate>='$longstamp' AND Date<='$longstamp')
+                 ORDER BY Date ASC" );
             }
 
 			// groups not to include
@@ -762,8 +615,8 @@ class eZGroupEvent
 				{
 					$displayGroup = true;
 				}
-
-				if( $displayGroup == true )
+                $recurCheck = filterRecurring($event_array[$i], $date);
+				if( $displayGroup == true && $recurCheck)
 					$return_array[] = new eZGroupEvent( $event_array[$i]["ID"], 0 );
             }
 
@@ -795,7 +648,8 @@ class eZGroupEvent
             {
                 $this->Database->array_query( $event_array,
                 "SELECT ID FROM eZGroupEventCalendar_Event
-                 WHERE IsPrivate='0' AND EventTypeID='$typeID' ORDER BY Date ASC", true );
+                 WHERE IsPrivate='0' AND EventTypeID='$typeID'
+                 ORDER BY Date ASC", true );
             }
             else
             {
@@ -988,7 +842,7 @@ class eZGroupEvent
     {
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
-       
+
        $date = new eZDateTime();
        $date->setMySQLTimeStamp( $this->Date );
 
@@ -2100,6 +1954,176 @@ class eZGroupEvent
     /// Is true if the object has database connection, false if not.
     var $IsConnected;
 }
+function filterRecurring($event_array, &$date)
+{
+if ($event_array["IsRecurring"])
+{
+                   /*
+				  there are four things we must check to
+				  decide if a recurring event should be included
+				  the bool value IsRecurring (above)
+				  With any recurring events using RepeatUntilDate or RepeatTimes,
+				  we store the last date this event can occur in the column RecurFinishDate.
+				  The sql statement checks to see if the current date object is past RecurFinishDate,
+				  and also if the current date is in the Exceptions table for each recurring event.
+				  Then finally after we have filtered these, we check the RecurType.
+				  If the RecurType is day, we check to see if the day matches, 
+				  then we check the RecurFreq and calculate from the day started.
+				  If the RecurType is week, we check RecurFreq to see if it will be this week, 
+				  then we check which days have been selected, and if that day is today, include it. 
+				  If the RecurType is month, we check RecurFreq to see if this month is 
+				  skipped, then we check RecurMonthType 
+				  If RecurMonthType is daily(26th of the month), we simply check to see 
+				  if this day matches RecurMonthTypeInfo
+				  If RecurMonthType is weekdaynum( Last Tuesday of the month), we first check 
+				  to see if it is the day in question in RecurMonthTypeInfo, 
+				  then if it is, we check to see if the week matches.
+				  If RecurMonthType numdayname(Second Friday of the month), we check to see if 
+				  the day matches, then check to see if what number day it is and see if they match.
+				  Finally, if RecurType is yearly, check RecurFreq first of course, and then 
+				  find out if the month matches, then move to day.
+				  */
+				  // filter out recur exceptions if todays date matches
+				  if ($event_array['RecurExceptions']) {
+				     $recurExArr = explode(':', $event_array['RecurExceptions']);
+				    $strMonth = eZDateTime::addZero( $date->month() );
+				     $strDay = eZDateTime::addZero( $date->day());
+				     $fullDateStr = $date->year().'-'.$strMonth.'-'.$strDay;
+				     foreach ($recurExArr as $exKey) 
+				     {
+				      if ($exKey == $fullDateStr)
+				      return false;
+				     }
+				   }
+				  // for each of these cases we will be needing dates to compare.
+				  // The first has already been created at the beginning of this method 
+				  // as an object, $date. The second is a set of strings made from the
+				  // timestamp $event_array['Date'];
+				  // we will get the year, month, and day substr function
+				  $rYear = substr($event_array['Date'], 0, 4);
+				  $rMonth = substr($event_array['Date'], 4, 2);
+				  $rDay = substr($event_array['Date'], 6, 2);
+				  // now lets make the eZDate object
+				  $rDate = new eZDate( $rYear, $rMonth, $rDay );
+				  $rType = $event_array['RecurType'];
+				  // for readability and ease of use, define extra variables
+				  $rFreq = $event_array['RecurFreq'];
+				  // This switch statement switches out the recurType, because
+				  // we need to know what type of recurring event it is to
+				  // do proper
+				  // first we do a check to see if recurFreq is more than one, because if
+				  // it is, we will need to run the dateDiff function which will help decide
+				  // if we need to do further checks or just remove the key from the array
+				    if ($rFreq > 1) {
+				     // so let's create a couple arrays that the dateDiff function can read
+				     $firstDate = array('year' => $rDate->year(), 'month' => $rDate->month(), 'day' => $rDate->day());
+				     $secondDate = array('year' => $date->year(), 'month' => $date->month(), 'day' => $date->day());
+				     // This dateDiff function returns an array that holds
+				     // the date differences in year, month, and day 
+				     $arrDiff = date_diff($rDate, $date);
+				    }
+				  switch($rType) {
+				    // if the type is day...
+				    case 'day':
+				  //  echo($event_array['ID'].' has a datediff of '.$arrDiff["days"].'<br>');
+				    // if $arrDiff['days'] is true, we know that $rFreq is more than 1
+				    // and therefore should check to see if $rFreq renders this date
+				    // invalid.
+				    if ($arrDiff['days']) {
+				    // set $diffDiv var as the difference of days divided by the
+				    // recurrance frequency
+				     $diffDiv = ($arrDiff['days']) / $rFreq;
+				    // this checks to see if the number has a decimal in it
+				    // (ie check to see if it is a whole number)
+				    // if this does NOT return false, it is NOT a whole number
+				     if ( strstr( $diffDiv, '.' ) || (!$diffDiv) ) {
+				     // it's not a whole number or it's 0, so this date shouldn't be considered
+				     // let's remove it from the array
+				      return false;
+				     }
+				    }
+				    // if the recur freq is 1, then we will be repeating every day
+				    // so we leave this event in the array 
+				    break;
+				    case 'week':
+				    // to understand most of this section, see the day section calculations
+				    if ($arrDiff['weeks']) {
+				     $diffDiv = $arrDiff['weeks'] / $rFreq;
+				     if ( strstr( $diffDiv, '.' ) ) return false;
+				    } else {
+				    }
+				    if (isset($event_array)) { //if it's still there, we do the next set of checks
+				    // this next section we will be doing week specific checks
+				    // involving the RecurDay string.
+				    // this line is fairly simple, it does a case insentive check
+				    // to see if the name of the current day is in the RecurDay string
+				    $RecurDay = $event_array['RecurDay'];
+				    if ( !stristr( $RecurDay, $date->dayName(true) ) ) {
+				      // if it's not, unset the array
+				      return false;
+				     }
+				     }
+				    break;
+				    case 'month':
+				    // to understand most of this section, see the day section calculations
+				    if (  $arrDiff['months'] ) {
+				    $diffDiv = $arrDiff['months'] / $rFreq;
+				    if ( strstr( $diffDiv, '.' ) ) return false;
+				    }
+				    // this next section isn't pretty, and it's rather complex
+				    // and was generally just a pain in the neck
+				    $RecurMonthlyType = $event_array['RecurMonthlyType'];
+				    if ( $RecurMonthlyType == 'daily') {
+				    // daily is the easy part. if it is not the same day, unset the array
+				     if ( $date->day() != $rDate->day() ) return false;
+				     // we may want to add some extra logic to get the amount
+				     // of days in the month and if a day is over the 28th check
+				     // and see if we need to put the event on the closest
+				     // day to the end of the month
+				    }
+				    if ( $RecurMonthlyType == 'numdayname' ) {
+				     // in this section we assign the $weekNum var
+				     // with first, second, third, fourth, or last
+				     if ( $date->day() < 8) { $weekNum = 'first'; }
+				     elseif ( $date->day() < 15) { $weekNum = 'second'; } 
+				     elseif ( $date->day() < 22) { $weekNum = 'third'; }
+				     elseif ( $date->day() < 29) { $weekNum = 'fourth'; }
+				     // we only offer options up to the fourth week, otherwise they
+				     // must check last, so that's why we don't need to worry
+				     // about anything over the 28th in this section
+				     else { return false; }
+				      // we see if these match. If they don't, unset array
+				     if ($event_array['RecurMonthlyTypeInfo'] != $weekNum) return false;
+				      // finally we have to check
+				      if ( $date->dayName(true) != $rDate->dayName(true) ) return false;
+				      }
+				   if ( $RecurMonthlyType == 'strdayname' ) {
+				    // the only value this will ever be is 'last'
+				    // we have to find the amount of days in this month
+				    // then calculate when the last one will happen
+				    // the first thing to do is check if the day is before the 22nd
+				    // because if it is, it's not going to be in the last week
+				    // next if the day plus seven is less than or equal to
+				    // the number of days in the month, it is not the last day.
+				     if ( $date->day() < 22 || ( $date->day() + 7 ) <= $date->daysInMonth() || $date->dayName(true) != $rDate->dayName(true) ) 
+				       return false;
 
+				
+				    }
+				    break;
+				    case 'year':
+				    if ($arrDiff['years']) {
+				     $diffDiv = $arrDiff['years'] / $rFreq;
+				     if ( strstr( $diffDiv, '.' ) ) return false;
+				     }
+				     // if at this point the month and day match, we are golden
+				     // note the dash inbetween, its needed to seperate the two otherwise 11-5 and 1-15 are the same  :)
+				     if ( ( $date->month() . '-' . $date->day() ) != ( $rDate->month() . '-' . $rDate->day() ) )
+				       return false;
+				    break;
+				  }
+				}
+				return true;
+       }
 ?>
 

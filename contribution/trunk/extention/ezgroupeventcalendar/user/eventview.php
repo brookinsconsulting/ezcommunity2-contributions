@@ -217,7 +217,7 @@ else
     recur frequency (recur_freq)
     recurrance type (recur_type)
     if type is weekly, what days of week (recur_days_week)
-    if type is monthly, what type of month recurrance - every 26th of the month, First Friday of the month, Last Wedensday of month (recur_monthly_type)
+    if type is monthly, what type of month recurrance - every 26th of the month, First Friday of the month, Last Wednesday of month (recur_monthly_type)
     repeat type (repeat_type)
     if until date is set, (until_date)
     if number of times is set, (num_times)

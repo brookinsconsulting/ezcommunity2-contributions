@@ -73,8 +73,10 @@
 <tr>
 	<form method="post" action="{www_dir}{index}/groupeventcalendar/eventedit/edit/">
 	<td align="right" colspan="10" style="padding: 5px;">
+	<!-- BEGIN valid_editor_tpl -->
      <input class="gcalSwitchBox" onmouseover="this.className='gcalSwitchBoxSelect'" onmouseout="this.className='gcalSwitchBox'" type="submit" name="GoNew" value="{intl-new_event}">&nbsp;
 	 <input class="gcalSwitchBox" onmouseover="this.className='gcalSwitchBoxSelect'" onmouseout="this.className='gcalSwitchBox'" type="submit" name="DeleteEvents" value="{intl-delete_events}">
+    <!-- END valid_editor_tpl --> 
      <span class="gcalSwitchBox" onmouseover="this.className='gcalSwitchBoxSelect'"
       onmouseout="this.className='gcalSwitchBox'"
       onclick="document.getElementById('gcalDayViewSortBy').style.visibility = 'visible';
