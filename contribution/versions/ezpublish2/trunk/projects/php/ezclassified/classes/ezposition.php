@@ -294,7 +294,7 @@ class eZPosition extends eZClassified
 */
 function getPositionTypes()
 {
-    $database = eZGlobalDatabase();
+    $database = eZDB::globalDatabase();
     $res_array = array();
     $qry_array = array();
 
@@ -312,7 +312,7 @@ function getPositionTypes()
 */
 function getInitiateTypes()
 {
-    $database = eZGlobalDatabase();
+    $database = eZDB::globalDatabase();
     $res_array = array();
     $qry_array = array();
 
@@ -330,7 +330,7 @@ function getInitiateTypes()
 */
 function positionTypeName( $position_type )
 {
-    $database = eZGlobalDatabase();
+    $database = eZDB::globalDatabase();
     $res_array = array();
     $name = false;
 
@@ -353,7 +353,7 @@ function positionTypeName( $position_type )
 */
 function initiateTypeName( $initiate_type )
 {
-    $database = eZGlobalDatabase();
+    $database = eZDB::globalDatabase();
 
     $res_array = array();
     $name = false;
@@ -378,7 +378,7 @@ function initiateTypeName( $initiate_type )
 
 function getPositionContactPersons( $position_id )
 {
-    $database = eZGlobalDatabase();
+    $database = eZDB::globalDatabase();
 
     $qry_array = array();
 
