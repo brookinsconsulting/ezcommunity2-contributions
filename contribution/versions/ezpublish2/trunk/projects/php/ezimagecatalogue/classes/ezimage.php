@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezimage.php,v 1.40 2001/03/10 13:46:28 bf Exp $
+// $Id: ezimage.php,v 1.41 2001/03/13 13:12:40 fh Exp $
 //
 // Definition of eZImage class
 //
@@ -867,8 +867,8 @@ class eZImage
     function &variations()
     {
         $this->dbInit();
-
-        $variationArray = array();
+        
+        $returnArray = array();
 
         $this->Database->array_query( $variationArray, "SELECT ID
                                                         FROM eZImageCatalogue_ImageVariation
