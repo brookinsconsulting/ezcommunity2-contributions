@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: newsgroup.php,v 1.4 2001/08/24 08:37:20 bf Exp $
+// $Id: newsgroup.php,v 1.5 2001/08/24 10:26:37 bf Exp $
 //
 // Created on: <30-May-2001 14:06:59 bf>
 //
@@ -41,14 +41,27 @@ $CapitalizeHeadlines = $ini->read_var( "eZArticleMain", "CapitalizeHeadlines" );
 $DefaultLinkText =  $ini->read_var( "eZArticleMain", "DefaultLinkText" );
 $GrayScaleImageList = $ini->read_var( "eZArticleMain", "GrayScaleImageList" );
 
-$t = new eZTemplate( "ezarticle/user/" . $ini->read_var( "eZArticleMain", "TemplateDir" ),
+$TemplateDir = $ini->read_var( "eZArticleMain", "TemplateDir" );
+
+$t = new eZTemplate( "ezarticle/user/" . $TemplateDir,
                      "ezarticle/user/intl/", $Language, "newsgroup.php" );
 
 $articleLimit = 2;
 
 $t->setAllStrings();
 
-$t->set_file( "news_group_tpl", "newsgroup.tpl" );
+
+// override template for the current category
+$override = "_override_$CategoryID";
+
+if ( eZFile::file_exists( "ezarticle/user/$TemplateDir/newsgroup" . $override  . ".tpl" ) )
+{
+    $t->set_file( "news_group_tpl", "newsgroup" . $override  . ".tpl"  );
+}
+else
+{    
+    $t->set_file( "news_group_tpl", "newsgroup.tpl" );
+}
 
 $t->set_block( "news_group_tpl", "category_item_tpl", "category_item" );
 
@@ -62,7 +75,6 @@ $t->set_block( "category_item_tpl", "end_without_break_tpl", "end_without_break"
 
 $t->set_block( "article_item_tpl", "article_image_tpl", "article_image" );
 $t->set_block( "article_item_tpl", "no_image_tpl", "no_image" );
-
 
 
 // image dir

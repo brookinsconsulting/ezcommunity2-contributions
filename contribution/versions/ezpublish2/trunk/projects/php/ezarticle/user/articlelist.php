@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: articlelist.php,v 1.60 2001/08/16 13:57:04 jhe Exp $
+// $Id: articlelist.php,v 1.61 2001/08/24 10:26:37 bf Exp $
 //
 // Created on: <18-Oct-2000 14:41:37 bf>
 //
@@ -53,6 +53,10 @@ $t->setAllStrings();
 
 // override template for the current category
 $override = "_override_$CategoryID";
+// override template for current section
+// category override will be prefered
+$sectionOverride = "_sectionoverride_$GlobalSectionID";
+
 
 
 if ( eZFile::file_exists( "ezarticle/user/$TemplateDir/articlelist" . $override  . ".tpl" ) )
@@ -61,7 +65,15 @@ if ( eZFile::file_exists( "ezarticle/user/$TemplateDir/articlelist" . $override 
 }
 else
 {
-    $t->set_file( "article_list_page_tpl", "articlelist.tpl"  );
+    
+    if ( eZFile::file_exists( "ezarticle/user/$TemplateDir/articlelist" . $sectionOverride  . ".tpl" ) )
+    {
+        $t->set_file( "article_list_page_tpl", "articlelist" . $sectionOverride  . ".tpl"  );
+    }
+    else
+    {
+        $t->set_file( "article_list_page_tpl", "articlelist.tpl"  );
+    }
 }
 
 $t->set_block( "article_list_page_tpl", "header_item_tpl", "header_item" );

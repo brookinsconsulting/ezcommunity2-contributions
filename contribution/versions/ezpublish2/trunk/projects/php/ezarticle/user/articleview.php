@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: articleview.php,v 1.69 2001/08/24 09:47:47 bf Exp $
+// $Id: articleview.php,v 1.70 2001/08/24 10:26:37 bf Exp $
 //
 // Created on: <18-Oct-2000 16:34:51 bf>
 //
@@ -65,6 +65,9 @@ if ( $url_array[2] == "static" || $url_array[2] == "articlestatic"  )
 
 // override template for the current category
 $override = "_override_$CategoryID";
+// override template for current section
+// category override will be prefered
+$sectionOverride = "_sectionoverride_$GlobalSectionID";
 
 if ( $StaticPage == true )
 {
@@ -81,10 +84,23 @@ else
     }
     else
     {
+        // category override
         if ( eZFile::file_exists( "ezarticle/user/$TemplateDir/articleview" . $override  . ".tpl" ) )
+        {
             $t->set_file( "article_view_page_tpl", "articleview" . $override  . ".tpl"  );
+        }
         else
-            $t->set_file( "article_view_page_tpl", "articleview.tpl"  );
+        {
+            // section override
+            if ( eZFile::file_exists( "ezarticle/user/$TemplateDir/articleview" . $sectionOverride  . ".tpl" ) )
+            {
+                $t->set_file( "article_view_page_tpl", "articleview" . $sectionOverride  . ".tpl"  );
+            }
+            else
+            {
+                $t->set_file( "article_view_page_tpl", "articleview.tpl"  );
+            }
+        }
     }
 }
 
