@@ -73,3 +73,13 @@ Maintainer(s) : bf@ez.no
       eztemplate.php:
     Fixed Section support with Language and template override in eZ article.
 
+
+Module : classes
+Repository path : /home/cvsroot/projects/php/classes
+Maintainer(s) : bf@ez.no
+2001-09-20  Gunnstein Lye  <gl@ez.no>
+
+    * admin/intl/fr_FR/linklist.php.ini
+      admin/intl/fr_FR/linkselect.php.ini
+      locale/fr_FR.ini: updated fr_FR
+

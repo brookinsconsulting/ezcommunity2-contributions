@@ -86,3 +86,21 @@ Maintainer(s) : jhe@ez.no
 
     * user/appointmentedit.php: fixed permission bug
 
+
+Module : ezcalendar
+Repository path : /home/cvsroot/projects/php/ezcalendar
+Maintainer(s) : jhe@ez.no
+2001-09-20  Gunnstein Lye  <gl@ez.no>
+
+    * admin/intl/fr_FR/menubox.php.ini
+      admin/intl/fr_FR/typelist.php.ini
+      user/intl/fr_FR/appointmentview.php.ini
+      user/intl/fr_FR/dayview.php.ini
+      user/intl/fr_FR/monthview.php.ini: updated fr_FR
+
+2001-09-20  Jo Henrik Endrerud  <jhe@ez.no>
+
+    * user/intl/no_NO/appointmentedit.php.ini
+      user/intl/no_NO/menubox.php.ini:
+    fixed no_NO translation for eZcalendar, eZcontact, eZfilemanager and eZforum
+

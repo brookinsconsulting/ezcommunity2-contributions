@@ -802,3 +802,46 @@ Maintainer(s) : bf@ez.no
       user/articleview.php:
     Fixed Section support with Language and template override in eZ article.
 
+
+Module : ezarticle
+Repository path : /home/cvsroot/projects/php/ezarticle
+Maintainer(s) : bf@ez.no
+2001-09-20  Gunnstein Lye  <gl@ez.no>
+
+    * admin/intl/fr_FR/articleedit.php.ini
+      admin/intl/fr_FR/articlelist.php.ini
+      admin/intl/fr_FR/articlepreview.php.ini
+      admin/intl/fr_FR/categoryedit.php.ini
+      admin/intl/fr_FR/fileedit.php.ini
+      admin/intl/fr_FR/filelist.php.ini
+      admin/intl/fr_FR/imageedit.php.ini
+      admin/intl/fr_FR/imagelist.php.ini
+      admin/intl/fr_FR/mailtemplate.php.ini
+      admin/intl/fr_FR/menubox.php.ini
+      admin/intl/fr_FR/search.php.ini
+      admin/intl/fr_FR/sitemap.php.ini
+      admin/intl/fr_FR/unpublishedlist.php.ini
+      user/intl/fr_FR/articleedit.php.ini
+      user/intl/fr_FR/articleheaderlist.php.ini
+      user/intl/fr_FR/articlelinks.php.ini
+      user/intl/fr_FR/articlelist.php.ini
+      user/intl/fr_FR/articleview.php.ini
+      user/intl/fr_FR/authorlist.php.ini
+      user/intl/fr_FR/authorview.php.ini
+      user/intl/fr_FR/extendedsearch.php.ini
+      user/intl/fr_FR/headlines.php.ini
+      user/intl/fr_FR/index.php.ini
+      user/intl/fr_FR/menubox.php.ini
+      user/intl/fr_FR/search.php.ini
+      user/intl/fr_FR/smallarticlelist.php.ini
+      user/intl/fr_FR/urlsupplier.php.ini: updated fr_FR
+
+2001-09-20  Christofer Elo  <ce@ez.no>
+
+    * classes/ezarticlecategory.php
+      classes/ezarticle.php: Added the right permisssions
+
+2001-09-20  Baard Farstad  <bf@ez.no>
+
+    * classes/ezarticlecategory.php: Fixed permission bug.
+

@@ -162,3 +162,27 @@ Maintainer(s) : br@ez.no
       user/datasupplier.php:
     Added customimage, scales an image to the requested size.
 
+
+Module : ezimagecatalogue
+Repository path : /home/cvsroot/projects/php/ezimagecatalogue
+Maintainer(s) : br@ez.no
+2001-09-20  Gunnstein Lye  <gl@ez.no>
+
+    * admin/intl/fr_FR/menubox.php.ini
+      user/intl/fr_FR/categoryedit.php.ini
+      user/intl/fr_FR/imageedit.php.ini
+      user/intl/fr_FR/imagelist.php.ini
+      user/intl/fr_FR/imageview.php.ini
+      admin/intl/fr_FR/imageview.php.ini: updated fr_FR
+
+2001-09-20  Jan Borsodi  <jb@ez.no>
+
+    * xmlrpc/image.php:
+    Added support for image category definition in both "data" and "storedata"
+    modes.
+
+    * xmlrpc/datasupplier.php: Added unassigned list to supplier.
+
+    * xmlrpc/unassignedlist.php:
+    New list which displays all unassigned images.
+

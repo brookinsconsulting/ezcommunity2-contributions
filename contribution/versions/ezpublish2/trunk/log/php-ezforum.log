@@ -123,3 +123,46 @@ Maintainer(s) : jhe@ez.no
     * user/templates/standard/messagelist.tpl:
     fixed bug when showing indenting on replies
 
+
+Module : ezforum
+Repository path : /home/cvsroot/projects/php/ezforum
+Maintainer(s) : jhe@ez.no
+2001-09-20  Gunnstein Lye  <gl@ez.no>
+
+    * admin/intl/fr_FR/categoryedit.php.ini
+      admin/intl/fr_FR/categorylist.php.ini
+      admin/intl/fr_FR/forumedit.php.ini
+      admin/intl/fr_FR/forumlist.php.ini
+      admin/intl/fr_FR/mailreject.php.ini
+      admin/intl/fr_FR/menubox.php.ini
+      admin/intl/fr_FR/message.php.ini
+      admin/intl/fr_FR/messageedit.php.ini
+      admin/intl/fr_FR/messagelist.php.ini
+      admin/intl/fr_FR/noright.php.ini
+      admin/intl/fr_FR/search.php.ini
+      admin/intl/fr_FR/unapprovedlist.php.ini
+      user/intl/fr_FR/categorylist.php.ini
+      user/intl/fr_FR/forumlist.php.ini
+      user/intl/fr_FR/mailreply.php.ini
+      user/intl/fr_FR/menubox.php.ini
+      user/intl/fr_FR/message.php.ini
+      user/intl/fr_FR/messagelist.php.ini
+      user/intl/fr_FR/messagesimplelist.php.ini
+      user/intl/fr_FR/search.php.ini
+      user/intl/fr_FR/userlogin.php.ini: updated fr_FR
+
+2001-09-20  Jo Henrik Endrerud  <jhe@ez.no>
+
+    * classes/ezforum.php
+      user/forumlist.php
+      user/latestmessages.php
+      user/messagelist.php
+      user/messagesimplelist.php
+      user/search.php: fixed serious bug with searching
+
+    * admin/intl/no_NO/forumedit.php.ini
+      user/intl/no_NO/Attic/forumsimplelist.php.ini
+      user/intl/no_NO/Attic/messagelistflat.php.ini
+      user/intl/no_NO/Attic/messagereply.php.ini:
+    fixed no_NO translation for eZcalendar, eZcontact, eZfilemanager and eZforum
+

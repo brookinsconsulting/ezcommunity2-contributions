@@ -19,3 +19,18 @@ Maintainer(s) : fh@ez.no
 
     * classes/ezmail.php: Fixed strange ->$ bug..
 
+
+Module : ezmail
+Repository path : /home/cvsroot/projects/php/ezmail
+Maintainer(s) : fh@ez.no
+2001-09-20  Gunnstein Lye  <gl@ez.no>
+
+    * user/intl/fr_FR/accountedit.php.ini
+      user/intl/fr_FR/configure.php.ini
+      user/intl/fr_FR/filteredit.php.ini
+      user/intl/fr_FR/folderlist.php.ini
+      user/intl/fr_FR/mailedit.php.ini
+      user/intl/fr_FR/maillist.php.ini
+      user/intl/fr_FR/mailview.php.ini
+      user/intl/fr_FR/menubox.php.ini: updated fr_FR
+

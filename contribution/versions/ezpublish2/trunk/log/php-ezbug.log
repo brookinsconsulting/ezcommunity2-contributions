@@ -20,3 +20,32 @@ Maintainer(s) : vl@ez.no
     * admin/bugedit.php:
     Fixed anyoing bug that caused screenshots with empty captions to be unviewable
 
+
+Module : ezbug
+Repository path : /home/cvsroot/projects/php/ezbug
+Maintainer(s) : vl@ez.no
+2001-09-20  Gunnstein Lye  <gl@ez.no>
+
+    * admin/intl/fr_FR/bugedit.php.ini
+      admin/intl/fr_FR/buglist.php.ini
+      admin/intl/fr_FR/bugpreview.php.ini
+      admin/intl/fr_FR/categorylist.php.ini
+      admin/intl/fr_FR/mailgotbug.php.ini
+      admin/intl/fr_FR/mailreply.php.ini
+      admin/intl/fr_FR/menubox.php.ini
+      admin/intl/fr_FR/moduleedit.php.ini
+      admin/intl/fr_FR/modulelist.php.ini
+      admin/intl/fr_FR/prioritylist.php.ini
+      admin/intl/fr_FR/search.php.ini
+      admin/intl/fr_FR/statuslist.php.ini
+      admin/intl/fr_FR/unhandledbugs.php.ini
+      user/intl/fr_FR/buglist.php.ini
+      user/intl/fr_FR/bugreport.php.ini
+      user/intl/fr_FR/bugview.php.ini
+      user/intl/fr_FR/fileedit.php.ini
+      user/intl/fr_FR/imageedit.php.ini
+      user/intl/fr_FR/mailnewbug.php.ini
+      user/intl/fr_FR/menubox.php.ini
+      user/intl/fr_FR/search.php.ini
+      user/intl/fr_FR/unhandledbugs.php.ini: updated fr_FR
+

@@ -11,3 +11,12 @@ Maintainer(s) : bf@ez.no
 Module : admin
 Repository path : /home/cvsroot/projects/php/admin
 Maintainer(s) : bf@ez.no
+
+Module : admin
+Repository path : /home/cvsroot/projects/php/admin
+Maintainer(s) : bf@ez.no
+2001-09-20  Gunnstein Lye  <gl@ez.no>
+
+    * intl/fr_FR/error.ini
+      intl/fr_FR/help_header.php.ini: updated fr_FR
+

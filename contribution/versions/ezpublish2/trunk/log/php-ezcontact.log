@@ -118,3 +118,73 @@ Maintainer(s) : jhe@ez.no
     * admin/personview.php
       admin/templates/standard/consultationdetaillist.tpl: small bugfixes
 
+
+Module : ezcontact
+Repository path : /home/cvsroot/projects/php/ezcontact
+Maintainer(s) : jhe@ez.no
+2001-09-20  Gunnstein Lye  <gl@ez.no>
+
+    * admin/intl/fr_FR/companyedit.php.ini
+      admin/intl/fr_FR/companystats.php.ini
+      admin/intl/fr_FR/companytype.php.ini
+      admin/intl/fr_FR/companyview.php.ini
+      admin/intl/fr_FR/consultationdetaillist.php.ini
+      admin/intl/fr_FR/consultationedit.php.ini
+      admin/intl/fr_FR/consultationlist.php.ini
+      admin/intl/fr_FR/consultationmail.ini
+      admin/intl/fr_FR/consultationtype.php.ini
+      admin/intl/fr_FR/error.php.ini
+      admin/intl/fr_FR/menubox.php.ini
+      admin/intl/fr_FR/nopermission.php.ini
+      admin/intl/fr_FR/personedit.php.ini
+      admin/intl/fr_FR/personview.php.ini
+      admin/intl/fr_FR/projecttype.php.ini
+      user/intl/fr_FR/menubox.php.ini
+      user/intl/fr_FR/urlsupplier.php.ini: updated fr_FR
+
+2001-09-20  Jo Henrik Endrerud  <jhe@ez.no>
+
+    * admin/templates/seanex/companytypeedit.tpl
+      admin/templates/seanex/companytypelist.tpl
+      admin/templates/standard/companytypeedit.tpl
+      admin/templates/standard/companytypelist.tpl
+      user/companysearch.php
+      user/intl/en_GB/companysearch.php.ini
+      user/intl/en_GB/personsearch.php.ini
+      user/intl/en_GB/search.php.ini
+      user/personsearch.php
+      user/templates/standard/companysearch.tpl
+      user/templates/standard/personsearch.tpl
+      admin/companytypeedit.php
+      admin/companytypelist.php
+      admin/intl/cn_CN/companytype.php.ini
+      admin/intl/de_DE/companytype.php.ini
+      admin/intl/en_GB/companytype.php.ini
+      admin/intl/en_US/companytype.php.ini
+      admin/intl/es_AR/companytype.php.ini
+      admin/intl/es_MX/companytype.php.ini
+      admin/intl/fi_FI/companytype.php.ini
+      admin/intl/fr_FR/companytype.php.ini
+      admin/intl/it_IT/companytype.php.ini
+      admin/intl/no_NO/companytype.php.ini
+      admin/intl/zh_TW/companytype.php.ini
+      admin/templates/arkaden/companytypeedit.tpl
+      admin/templates/arkaden/companytypelist.tpl:
+    removed commands from intl files
+
+    * admin/personedit.php
+      user/consultationlist.php
+      user/intl/no_NO/menubox.php.ini: fixed small bugs
+
+    * admin/intl/no_NO/personview.php.ini
+      user/intl/en_GB/companysearch.php.ini
+      user/intl/en_GB/personsearch.php.ini
+      user/intl/en_GB/search.php.ini
+      admin/intl/en_GB/personedit.php.ini
+      admin/intl/no_NO/Attic/personlist.php.ini
+      admin/intl/no_NO/companytype.php.ini
+      admin/intl/no_NO/companyview.php.ini
+      admin/intl/no_NO/consultationedit.php.ini
+      admin/intl/no_NO/personedit.php.ini:
+    fixed no_NO translation for eZcalendar, eZcontact, eZfilemanager and eZforum
+

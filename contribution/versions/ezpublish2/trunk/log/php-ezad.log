@@ -19,3 +19,14 @@ Maintainer(s) : br@ez.no
 
     * admin/intl/no_NO/adedit.php.ini: added translation.
 
+
+Module : ezad
+Repository path : /home/cvsroot/projects/php/ezad
+Maintainer(s) : br@ez.no
+2001-09-20  Gunnstein Lye  <gl@ez.no>
+
+    * admin/intl/fr_FR/adlist.php.ini
+      admin/intl/fr_FR/menubox.php.ini
+      admin/intl/fr_FR/adstatistics.php.ini
+      admin/intl/fr_FR/categoryedit.php.ini: updated fr_FR
+

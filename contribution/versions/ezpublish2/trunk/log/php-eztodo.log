@@ -44,3 +44,23 @@ Maintainer(s) : ce@ez.no
 
     * sql/mysql/eztodo.sql: added missing sql information
 
+
+Module : eztodo
+Repository path : /home/cvsroot/projects/php/eztodo
+Maintainer(s) : ce@ez.no
+2001-09-20  Gunnstein Lye  <gl@ez.no>
+
+    * admin/intl/fr_FR/categorytypeedit.php.ini
+      admin/intl/fr_FR/categorytypelist.php.ini
+      admin/intl/fr_FR/menubox.php.ini
+      admin/intl/fr_FR/prioritytypeedit.php.ini
+      admin/intl/fr_FR/prioritytypelist.php.ini
+      admin/intl/fr_FR/statustypeedit.php.ini
+      admin/intl/fr_FR/statustypelist.php.ini
+      user/intl/fr_FR/maillog.php.ini
+      user/intl/fr_FR/sendmail.php.ini
+      user/intl/fr_FR/todoedit.php.ini
+      user/intl/fr_FR/todolist.php.ini
+      user/intl/fr_FR/todomenulist.php.ini
+      user/intl/fr_FR/todoview.php.ini: updated fr_FR
+

@@ -432,3 +432,19 @@ Maintainer(s) : ce@ez.no
       admin/productedit.php: Added better voucher information
     Added sections edit to trade
 
+
+Module : eztrade
+Repository path : /home/cvsroot/projects/php/eztrade
+Maintainer(s) : ce@ez.no
+2001-09-20  Gunnstein Lye  <gl@ez.no>
+
+    * admin/intl/fr_FR/linkselect.php.ini
+      admin/intl/fr_FR/optionedit.php.ini
+      admin/intl/fr_FR/orderedit.php.ini
+      admin/intl/fr_FR/productedit.php.ini
+      admin/intl/fr_FR/shippingtypes.php.ini
+      user/intl/fr_FR/customerlogin.php.ini
+      user/intl/fr_FR/mailorder.php.ini
+      user/intl/fr_FR/ordersendt.php.ini
+      user/intl/fr_FR/sendwishlist.php.ini: updated fr_FR
+

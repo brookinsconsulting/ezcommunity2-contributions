@@ -11,3 +11,14 @@ Maintainer(s) : vl@ez.no
 Module : ezsysinfo
 Repository path : /home/cvsroot/projects/php/ezsysinfo
 Maintainer(s) : vl@ez.no
+
+Module : ezsysinfo
+Repository path : /home/cvsroot/projects/php/ezsysinfo
+Maintainer(s) : vl@ez.no
+2001-09-20  Gunnstein Lye  <gl@ez.no>
+
+    * admin/intl/fr_FR/fileinfo.php.ini
+      admin/intl/fr_FR/menubox.php.ini
+      admin/intl/fr_FR/netinfo.php.ini
+      admin/intl/fr_FR/sysinfo.php.ini: updated fr_FR
+

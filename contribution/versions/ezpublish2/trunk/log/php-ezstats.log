@@ -19,3 +19,17 @@ Maintainer(s) : br@ez.no
 
     * admin/pageviewlist.php: fixed placement of drawNavigator (bugfix)
 
+
+Module : ezstats
+Repository path : /home/cvsroot/projects/php/ezstats
+Maintainer(s) : br@ez.no
+2001-09-20  Gunnstein Lye  <gl@ez.no>
+
+    * admin/intl/fr_FR/entryexitpages.php.ini
+      admin/intl/fr_FR/menubox.php.ini
+      admin/intl/fr_FR/monthreport.php.ini
+      admin/intl/fr_FR/pageviewlist.php.ini
+      admin/intl/fr_FR/productreport.php.ini
+      admin/intl/fr_FR/visitorlist.php.ini
+      admin/intl/fr_FR/yearreport.php.ini: updated fr_FR
+

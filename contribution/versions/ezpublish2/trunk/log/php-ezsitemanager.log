@@ -28,3 +28,13 @@ Maintainer(s) : vl@ez.no
     * classes/ezsection.php:
     Fixed Section support with Language and template override in eZ article.
 
+
+Module : ezsitemanager
+Repository path : /home/cvsroot/projects/php/ezsitemanager
+Maintainer(s) : vl@ez.no
+2001-09-20  Gunnstein Lye  <gl@ez.no>
+
+    * admin/intl/fr_FR/menubox.php.ini
+      admin/intl/fr_FR/sectionedit.php.ini
+      admin/intl/fr_FR/sectionlist.php.ini: updated fr_FR
+

@@ -38,3 +38,24 @@ Maintainer(s) : br@ez.no
     * admin/linkcategorylist.php
       classes/ezlinkcategory.php: Fixed adding links in more than 2 levels.
 
+
+Module : ezlink
+Repository path : /home/cvsroot/projects/php/ezlink
+Maintainer(s) : br@ez.no
+2001-09-20  Gunnstein Lye  <gl@ez.no>
+
+    * admin/intl/fr_FR/groupedit.php.ini
+      admin/intl/fr_FR/grouplist.php.ini
+      admin/intl/fr_FR/linkedit.php.ini
+      admin/intl/fr_FR/linkgrouplist.php.ini
+      admin/intl/fr_FR/menubox.php.ini
+      admin/intl/fr_FR/noright.php.ini
+      admin/intl/fr_FR/search.php.ini
+      admin/intl/fr_FR/unacceptedlist.php.ini
+      user/intl/fr_FR/categorylist.php.ini
+      user/intl/fr_FR/linkgrouplist.php.ini
+      user/intl/fr_FR/linklist.php.ini
+      user/intl/fr_FR/search.php.ini
+      user/intl/fr_FR/success.php.ini
+      user/intl/fr_FR/suggestlink.php.ini: updated fr_FR
+

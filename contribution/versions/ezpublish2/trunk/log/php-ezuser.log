@@ -151,3 +151,32 @@ Maintainer(s) : bf@ez.no
     Added test for OverrideOverrideUserWithAddress. Will use another directory
     if defined.
 
+
+Module : ezuser
+Repository path : /home/cvsroot/projects/php/ezuser
+Maintainer(s) : bf@ez.no
+2001-09-20  Gunnstein Lye  <gl@ez.no>
+
+    * user/intl/fr_FR/forgot.php.ini
+      user/intl/fr_FR/forgotmessage.php.ini
+      user/intl/fr_FR/login.php.ini
+      user/intl/fr_FR/norights.php.ini
+      user/intl/fr_FR/userbox.php.ini
+      user/intl/fr_FR/useredit.php.ini
+      user/intl/fr_FR/userwithaddress.php.ini
+      admin/intl/fr_FR/groupedit.php.ini
+      admin/intl/fr_FR/grouplist.php.ini
+      admin/intl/fr_FR/login.php.ini
+      admin/intl/fr_FR/menubox.php.ini
+      admin/intl/fr_FR/passwordchange.php.ini
+      admin/intl/fr_FR/sessioninfo.php.ini
+      admin/intl/fr_FR/settings.php.ini
+      admin/intl/fr_FR/useredit.php.ini
+      admin/intl/fr_FR/userlist.php.ini
+      admin/intl/fr_FR/welcome.php.ini
+      user/intl/fr_FR/addressedit.php.ini: updated fr_FR
+
+2001-09-20  Jo Henrik Endrerud  <jhe@ez.no>
+
+    * classes/ezuser.php: fixed getAll() (searching did not work correctly)
+

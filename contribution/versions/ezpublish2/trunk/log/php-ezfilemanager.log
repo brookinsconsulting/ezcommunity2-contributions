@@ -97,3 +97,21 @@ Maintainer(s) : jhe@ez.no
 
     * user/folderedit.php: fixed small bug
 
+
+Module : ezfilemanager
+Repository path : /home/cvsroot/projects/php/ezfilemanager
+Maintainer(s) : jhe@ez.no
+2001-09-20  Gunnstein Lye  <gl@ez.no>
+
+    * admin/intl/fr_FR/menubox.php.ini
+      user/intl/fr_FR/filelist.php.ini
+      user/intl/fr_FR/fileupload.php.ini
+      user/intl/fr_FR/fileview.php.ini
+      user/intl/fr_FR/folderedit.php.ini
+      user/intl/fr_FR/search.php.ini: updated fr_FR
+
+2001-09-20  Jo Henrik Endrerud  <jhe@ez.no>
+
+    * user/intl/no_NO/folderedit.php.ini:
+    fixed no_NO translation for eZcalendar, eZcontact, eZfilemanager and eZforum
+
