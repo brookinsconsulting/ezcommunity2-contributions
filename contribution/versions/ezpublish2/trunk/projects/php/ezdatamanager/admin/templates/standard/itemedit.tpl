@@ -11,6 +11,7 @@
 <!-- END item_type_option_tpl -->
 </select>
 
+<input class="stdbutton" type="submit" name="SelectType" value="{intl-select}" />
 
 <p class="boxtext">{intl-item_owner_group}:</p>
 <select name="ItemOwnerGroupID" >
@@ -20,7 +21,7 @@
 <!-- END item_owner_group_tpl -->
 </select>
 
-<input class="stdbutton" type="submit" name="SelectType" value="{intl-select}" />
+
 
 <p class="boxtext">{intl-item_name}:</p>
 <input class="box" type="text" name="ItemName" value="{item_name}" />

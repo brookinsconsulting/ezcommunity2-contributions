@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: typelist.php,v 1.2 2001/11/21 17:06:41 ce Exp $
+// $Id: typelist.php,v 1.3 2002/02/09 14:37:57 bf Exp $
 //
 // Created on: <20-Nov-2001 15:04:53 bf>
 //
@@ -54,6 +54,7 @@ if ( isset( $DeleteItems ) )
 }     
 
 $Language = $ini->read_var( "eZDataManagerMain", "Language" );
+$ListLimit = $ini->read_var( "eZDataManagerMain", "ListLimit" );
 
 $t = new eZTemplate( "ezdatamanager/admin/" . $ini->read_var( "eZDataManagerMain", "AdminTemplateDir" ),
                      "ezdatamanager/admin/intl", $Language, "typelist.php" );
@@ -70,8 +71,14 @@ $t->setAllStrings();
 $t->set_var( "current_type_name", "" );
 $t->set_var( "current_type_id", "" );
 
-if ( !isset ( $limit ) )
+if ( !isset ( $ListLimit ) )
+{
     $limit = 10;
+}
+else
+{
+    $limit = $ListLimit;
+}
 
 if ( !isset ( $offset ) )
     $offset = 0;
