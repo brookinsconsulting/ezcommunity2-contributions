@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezformrenderer.php,v 1.38 2001/12/22 18:34:27 jhe Exp $
+// $Id: ezformrenderer.php,v 1.39 2001/12/22 18:43:26 jhe Exp $
 //
 // eZFormRenderer class
 //
@@ -659,6 +659,8 @@ class eZFormRenderer
             
             if ( $elementType->name() == "numerical_integer_item" )
             {
+                if ( $value == "" )
+                    $value = 0;
                 $numElement = new eZFormElementNumerical( $element->id() );
                 if ( !$numElement->validNumber( $value ) )
                 {
@@ -669,6 +671,8 @@ class eZFormRenderer
 
             if ( $elementType->name() == "numerical_float_item" )
             {
+                if ( $value == "" )
+                    $value = 0;
                 $numElement = new eZFormElementNumerical( $element->id() );
                 if ( $numElement->id() == 0 )
                 {
