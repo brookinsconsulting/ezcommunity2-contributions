@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: precheckout.php,v 1.6 2001/10/16 08:18:24 bf Exp $
+// $Id: precheckout.php,v 1.7 2002/01/23 14:40:23 chrism Exp $
 //
 // Created on: <28-Sep-2000 15:52:08 bf>
 //
@@ -87,4 +87,5 @@ elseif ( $ForceSSL == "choose" )
 
     $t->pparse( "output", "precheckout_tpl" );
 }
+        eZHTTPTool::header( "Location: https://" . $HTTP_HOST . "/trade/checkout" );
 ?>
