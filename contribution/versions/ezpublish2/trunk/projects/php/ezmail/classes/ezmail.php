@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezmail.php,v 1.47 2001/11/06 12:34:37 jhe Exp $
+// $Id: ezmail.php,v 1.48 2001/12/16 13:24:18 fh Exp $
 //
 // Definition of eZMail class
 //
@@ -75,7 +75,6 @@ class eZMail
         else
         {
             // default values
-            $this->IsPublished = 0;
             $this->UDate = time();
         }
     }

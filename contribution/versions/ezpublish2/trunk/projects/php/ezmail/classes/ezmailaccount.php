@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezmailaccount.php,v 1.32 2001/11/01 17:46:27 jhe Exp $
+// $Id: ezmailaccount.php,v 1.33 2001/12/16 13:24:18 fh Exp $
 //
 // eZMailAccount class
 //
@@ -55,6 +55,9 @@ include_once( "ezmail/classes/ezmail.php" );
 include_once( "ezmail/classes/ezmailfunctions.php" );
 include_once( "ezmail/classes/ezmailfilterrule.php" );
 include_once( "classes/ezhttptool.php" );
+
+define( "POP3", 0 ); // port 110
+define( "IMAP", 1 ); // port 143
 
 class eZMailAccount
 {
@@ -364,8 +367,9 @@ class eZMailAccount
       \static
       
       Returns all mail accounts for a selected user as an array of eZMailAccount objects.
+      Defaults to return all accounts, but can with a parameter return accounts of only one type pop3/imap.
      */
-    function getByUser( $user )
+    function getByUser( $user, $type = -1 )
     {
         if ( get_class( $user ) == "ezuser" )
             $user = $user->id();
@@ -374,8 +378,14 @@ class eZMailAccount
 
         $return_array = array();
         $account_array = array();
- 
-        $db->array_query( $account_array, "SELECT ID FROM eZMail_Account WHERE UserID='$user'" );
+
+        $typeSQL = "";
+        if( $type == POP3 || $type == IMAP )
+        {
+            $typeSQL = "AND ServerType='$type'";
+        }
+        
+        $db->array_query( $account_array, "SELECT ID FROM eZMail_Account WHERE UserID='$user' $typeSQL" );
  
         for ( $i = 0; $i < count( $account_array ); $i++ )
         {

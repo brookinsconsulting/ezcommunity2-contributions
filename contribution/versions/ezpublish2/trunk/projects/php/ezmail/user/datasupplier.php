@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: datasupplier.php,v 1.22 2001/08/17 08:43:48 jhe Exp $
+// $Id: datasupplier.php,v 1.23 2001/12/16 13:24:18 fh Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -29,7 +29,7 @@ include_once( "ezmail/classes/ezmailfolder.php" );
 include_once( "ezuser/classes/ezuser.php" );
 
 $ini =& INIFile::globalINI();
-$GlobalSectionID = $ini->read_var( "eZUserMain", "DefaultSection" );
+$GlobalSectionID = $ini->read_var( "eZMailMain", "DefaultSection" );
 
 switch ( $url_array[2] )
 {
@@ -154,6 +154,12 @@ switch ( $url_array[2] )
     {
         $MailID = $url_array[3];
         include( "ezmail/user/link.php" );
+    }
+    break;
+
+    case "imap" :
+    {
+        include( "ezmail/user/imap.php" );
     }
     break;
     

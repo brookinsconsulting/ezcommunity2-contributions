@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: menubox.php,v 1.10 2001/09/04 13:20:15 fh Exp $
+// $Id: menubox.php,v 1.11 2001/12/16 13:24:18 fh Exp $
 //
 // Created on: <23-Mar-2001 10:57:04 fh>
 //
@@ -34,6 +34,7 @@ include_once( "classes/eztemplate.php" );
 include_once( "classes/ezdb.php" );
 include_once( "ezmail/classes/ezmailfolder.php" );
 include_once( "ezsession/classes/ezpreferences.php" );
+include_once( "ezmail/classes/ezmailaccount.php" );
 
 $user =& eZUser::currentUser();
 if( $user )
@@ -49,13 +50,15 @@ if( $user )
 
     $t->set_block( "menu_box_tpl", "mail_folder_tpl", "mail_folder" );
     $t->set_block( "menu_box_tpl", "mail_check_tpl", "mail_check" );
+    $t->set_block( "menu_box_tpl", "imap_account_tpl", "imap_account" );
+    $t->set_block( "imap_account_tpl", "imap_folder_tpl", "imap_folder" );
     $t->set_var( "mail_check", "" );
+    $t->set_var( "imap_account", "" );
     
     // auto check mail if enabled.
     if( eZPreferences::variable( "eZMail_AutoCheckMail" ) == "true" )
     {
-        include_once( "ezmail/classes/ezmailaccount.php" );
-        $accounts = eZMailAccount::getByUser( $user->id() );
+        $accounts = eZMailAccount::getByUser( $user->id(), POP3 ); // only pop3 accounts can do this.
         foreach( $accounts as $account )
         {
             if( $account->isActive() )
@@ -67,6 +70,7 @@ if( $user )
         $t->parse( "mail_check", "mail_check_tpl", false );
     }
 
+    // show special folders
     $showUnread = eZPreferences::variable( "eZMail_ShowUnread" ) == "true" ? true : false;
     foreach( array( INBOX, SENT, DRAFTS, TRASH ) as $specialfolder )
     {
@@ -84,6 +88,7 @@ if( $user )
         $t->parse( "mail_folder", "mail_folder_tpl", true );
     }
 
+    // show user defined folders
     $userFolders = eZMailFolder::getTree( 0, -1);
     foreach( $userFolders as $folderItem )
     {
@@ -99,6 +104,34 @@ if( $user )
         }
         $t->parse( "mail_folder", "mail_folder_tpl", true );
     }
+
+    // show imap folders
+    $imapAccounts = eZMailAccount::getByUser( $user, IMAP );
+    if( count( $imapAccounts ) > 0 )
+    {
+        include_once( "ezmail/classes/imapfunctions.php" );
+        foreach( $imapAccounts as $imapAccount )
+        {
+            $t->set_var( "account_name", $imapAccount->name() );
+
+            // fetch folders of imap account
+            $t->set_var( "imap_folder", "" ); // default to none.
+            $boxes = imapGetFolderTree( $imapAccount );
+            if( count( $boxes ) > 0 )
+            {
+                foreach( $boxes as $mailBox ) // show each mailbox for this account
+                {
+                    $t->set_var( "account_id", $imapAccount->id() );
+                    $t->set_var( "folder_name", $mailBox->Name );
+                    $t->set_var( "indent", "" );
+                    $t->parse( "imap_folder", "imap_folder_tpl", true );
+                }
+            }
+
+            $t->parse( "imap_account", "imap_account_tpl", true );
+        }
+    }
+
     
     $t->set_var( "sitedesign", $GlobalSiteDesign );
 

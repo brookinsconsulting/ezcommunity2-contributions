@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: ezmailfunctions.php,v 1.11 2001/11/01 17:46:27 jhe Exp $
+// $Id: ezmailfunctions.php,v 1.12 2001/12/16 13:24:18 fh Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -35,6 +35,7 @@ crouded.*/
 
 /*!
   Gets all the headers from a mail, and puts them into an eZMail object.
+  NOTE: Do we really need to fetch them again?!?
  */
 function getHeaders( &$mail, $imap_stream, $msgno )
 {

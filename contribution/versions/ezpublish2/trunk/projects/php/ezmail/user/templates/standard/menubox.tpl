@@ -43,6 +43,21 @@
 
 
 <tr>
+	<td colspan="2" class="menusubhead">{intl-imap_folders}:</td>
+</tr>
+<!-- BEGIN imap_account_tpl -->
+<tr>
+   <td colspan="2">{account_name}</td>
+</tr>
+<!-- BEGIN imap_folder_tpl -->
+<tr>
+<td width="100%"><a class="menu" href="{www_dir}{index}/mail/imap/{account_id}/folder/{folder_name}">{indent}{folder_name} {unread}</a></td>
+</tr>
+<!-- END imap_folder_tpl -->
+
+<!-- END imap_account_tpl -->
+
+<tr>
 	<td colspan="2" class="menuspacer">&nbsp;</td>
 </tr>
 </table>
