@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: index.php,v 1.127 2001/11/15 18:34:32 ce Exp $
+// $Id: index.php,v 1.128 2001/12/18 10:11:47 fh Exp $
 //
 // Created on: <09-Nov-2000 14:52:40 ce>
 //
@@ -299,6 +299,11 @@ if ( ( $requireUserLogin == "disabled" ) ||
             if ( $ini->read_var( "site", "DefaultPage" ) != "disabled" )
             {
                 include( $ini->read_var( "site", "DefaultPage" ) );
+            }
+            else // unknown URL: 404
+            {
+                eZHTTPTool::header( "Location: /error/404/" );
+                exit();
             }
         }
 
