@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eztemplate.php,v 1.46.2.3 2001/12/03 15:55:32 kaid Exp $
+// $Id: eztemplate.php,v 1.46.2.4 2002/01/03 12:59:00 kaid Exp $
 //
 // Definition of eZTemplate class
 //
@@ -130,11 +130,8 @@ class eZTemplate
         }            
         
         // section override variables
-        $languageOverride = $GLOBALS["eZLanguageOverride"];
         if ( isset( $GLOBALS["eZLanguageOverride"] ) and $GLOBALS["eZLanguageOverride"] != "" )
             $language = $GLOBALS["eZLanguageOverride"];
-
-        $templateOverride = $GLOBALS["eZTemplateOverride"];
 
         if ( isset( $GLOBALS["eZTemplateOverride"] ) and $GLOBALS["eZTemplateOverride"] != "" )
         {
