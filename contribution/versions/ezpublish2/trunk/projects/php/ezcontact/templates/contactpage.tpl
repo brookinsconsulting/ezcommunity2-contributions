@@ -1,11 +1,5 @@
-Personsøk:
 <form method="post" action="index.php4?page={document_root}contactlist.php4">
-<input type="text" name="PersonQuery">
-<input type="submit" value="søk">
-</form>
-Firmasøk:
-<form method="post" action="index.php4?page={document_root}contactlist.php4">
- <input type="text" name="CompanyQuery">
+ <input type="text" name="Query">
 <input type="submit" value="søk">
 </form>
 

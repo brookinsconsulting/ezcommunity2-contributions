@@ -1,1 +1,1 @@
-<b>{phone_number}</b> - {phone_type}<br>
+{phone_type}: <b>{phone_number}</b><br>
