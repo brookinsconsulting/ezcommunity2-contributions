@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: image.php,v 1.4 2001/07/04 14:25:00 jb Exp $
+// $Id: image.php,v 1.5 2001/07/05 14:48:51 jb Exp $
 //
 // Jan Borsodi <jb@ez.no>
 // Created on: <14-Jun-2001 13:18:27 amos>
@@ -95,6 +95,69 @@ if( $Command == "data" ) // Dump image info!
     {
         $Error = createErrorMessage( EZERROR_CUSTOM, "Missing width and height in image request",
                                      EZIMAGECATALOGUE_SIZE_MISSING );
+    }
+}
+else if ( $Command == "storedata" )
+{
+//          ob_start();
+//          print_r( $Data );
+//          eZLog::writeNotice( "image: #0 " . ob_get_contents() );
+//          ob_end_flush();
+    eZLog::writeNotice( "image: $ID" );
+    if ( isset( $Data["Title"] ) and isset( $Data["Caption"] ) and isset( $Data["Description"] ) )
+    {
+        eZLog::writeNotice( "image: #1" );
+        $title = $Data["Title"]->value();
+        eZLog::writeNotice( "image: #2" );
+        $caption = $Data["Caption"]->value();
+        eZLog::writeNotice( "image: #3" );
+        $description = $Data["Description"]->value();
+        eZLog::writeNotice( "image: #4" );
+        $image = new eZImage();
+        eZLog::writeNotice( "image: #5" );
+        if ( $ID != 0 )
+        {
+            if ( !$image->get( $ID ) )
+                $Error = createErrorMessage( EZERROR_NONEXISTING_OBJECT );
+        }
+        eZLog::writeNotice( "image: #6" );
+        if ( !$Error )
+        {
+            $image->setName( $title );
+            $image->setCaption( $caption );
+            $image->setDescription( $description );
+            if ( isset( $Data["Image"] ) and isset( $Data["ImageFileName"] ) )
+            {
+                $image_data = $Data["Image"]->value();
+                $orig_file = $Data["ImageFileName"]->value();
+                $image_file = new eZImageFile();
+                $image_file->dumpDataToFile( $image_data, $orig_file );
+                if ( !$image->setImage( $image_file ) )
+                {
+                    $Error = createErrorMessage( EZERROR_CUSTOM, "Failed to set image sent by client to image $ID",
+                                                 EZIMAGECATALOGUE_BAD_IMAGE );
+                }
+            }
+            if ( !$Error )
+            {
+                $image->store();
+
+                $ID = $image->id();
+
+                $ReturnData = new eZXMLRPCStruct( array( "Location" => createURLStruct( "ezimagecatalogue", "image", $ID ),
+                                                         // TODO: Fix Path
+                                                         "Path" => new eZXMLRPCArray( array() ),
+                                                         "UpdateType" => new eZXMLRPCString( $Command )
+                                                         )
+                                                  );
+                $Command = "update";
+            }
+        }
+        eZLog::writeNotice( "image: #7" );
+    }
+    else
+    {
+        $Error = createErrorMessage( EZERROR_BAD_REQUEST_DATA );
     }
 }
 
