@@ -76,7 +76,7 @@ if ( $iso != false )
 include_once( "ezsession/classes/ezsession.php" );
 include_once( "ezuser/classes/ezuser.php" );
 
-apd_set_session_trace(35);
+// apd_set_session_trace(35);
 
 $session =& eZSession::globalSession();
 
