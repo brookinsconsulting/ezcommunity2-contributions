@@ -7,8 +7,13 @@ header("Pragma: no-cache");
 // Start the buffer cache
 ob_start();
 
-// start session handling
-session_start();
+$UsePHPSessions = false;
+
+if ( $UsePHPSessions == true )
+{
+    // start session handling
+    session_start();
+}
 
 // settings for sessions
 // max timeout is set to 48 hours

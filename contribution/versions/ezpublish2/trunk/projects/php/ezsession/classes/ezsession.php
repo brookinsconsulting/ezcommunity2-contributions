@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezsession.php,v 1.35 2001/04/09 11:44:35 bf Exp $
+// $Id: ezsession.php,v 1.36 2001/04/29 14:37:31 bf Exp $
 //
 // Definition of eZSession class
 //
@@ -90,10 +90,11 @@ class eZSession
 //          $HTTP_SESSION_VARS["eZSession"] = $this->Hash;
 //          print( "new session" );
 
-        session_register( "eZSession" );
-        
-        $GLOBALS["eZSession"] =& $this->Hash;
-
+        if ( $GLOBALS["UsePHPSessions"] == true )
+        {
+            session_register( "eZSession" );
+            $GLOBALS["eZSession"] =& $this->Hash;
+        }
         setcookie ( "eZSessionCookie", $this->Hash, 0, "/",  "", 0 )
             or print( "Error: could not set cookie." );        
 
@@ -196,8 +197,11 @@ class eZSession
                 $hash = $GLOBALS["eZSessionCookie"];
             }
             else
-            {                 
-                $hash = $GLOBALS["eZSession"];
+            {
+                if ( $GLOBALS["UsePHPSessions"] == true )
+                {                    
+                    $hash = $GLOBALS["eZSession"];
+                }
             }
 
             $db->array_query( $session_array, "SELECT *

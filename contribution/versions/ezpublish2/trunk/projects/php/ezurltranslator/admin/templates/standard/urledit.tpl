@@ -34,7 +34,6 @@
 </table>
 
 <!-- END url_list_tpl -->
-</form>
 
 <hr size="4" noshade="noshade" />
 <input type="submit" name="NewURL" value="{intl-new}" />
@@ -44,3 +43,4 @@
 <input type="submit" name="Store" value="{intl-store}" />
 
 
+</form>

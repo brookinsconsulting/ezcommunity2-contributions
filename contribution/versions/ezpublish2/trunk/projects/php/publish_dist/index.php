@@ -8,14 +8,18 @@ include_once( "classes/ezbenchmark.php" );
 $bench = new eZBenchmark();
 $bench->start();
   
-
 $GLOBALS["DEBUG"] = true;
+
+$UsePHPSessions = false;
 
 // Turn on output buffering with gz compression
 ob_start("ob_gzhandler");
 
-// start session handling
-session_start();
+if ( $UsePHPSessions == true )
+{
+    // start session handling
+    session_start();
+}
 
 // settings for sessions
 // max timeout is set to 48 hours
