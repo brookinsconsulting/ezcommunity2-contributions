@@ -131,7 +131,7 @@
       <p class="boxtext">{intl-products}:</p>
       <!-- BEGIN product_item_tpl -->
       <tr><td class="{td_class}" >
-      <a href="{www_dir}{index}/trade/productview/{product_id}/">{product_name}</a>
+      <a href="{www_dir}{index}/trade/productedit/productpreview/{product_id}/">{product_name}</a>
       </td></tr>
       <!-- END product_item_tpl -->
 </td>

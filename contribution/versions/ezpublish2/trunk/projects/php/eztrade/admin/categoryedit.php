@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: categoryedit.php,v 1.20 2001/08/21 11:21:40 ce Exp $
+// $Id: categoryedit.php,v 1.21 2001/09/03 15:53:29 ce Exp $
 //
 // Created on: <18-Sep-2000 14:46:19 bf>
 //
@@ -311,6 +311,15 @@ if ( $Action == "DeleteCategories" )
     exit();
 }
 
+if ( $Action == "CopyCategoires" )
+{
+    if ( count ( $CategoryArrayID ) > 0 )
+    {
+        foreach( $CategoryArrayID as $ID )
+        {
+        }
+    }
+}
 
 $t = new eZTemplate( "eztrade/admin/" . $ini->read_var( "eZTradeMain", "AdminTemplateDir" ),
                      "eztrade/admin/intl/", $Language, "categoryedit.php" );

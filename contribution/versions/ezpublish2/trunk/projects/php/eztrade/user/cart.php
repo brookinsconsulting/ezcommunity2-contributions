@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: cart.php,v 1.53 2001/09/03 12:27:22 ce Exp $
+// $Id: cart.php,v 1.54 2001/09/03 15:53:29 ce Exp $
 //
 // Created on: <27-Sep-2000 11:57:49 bf>
 //
@@ -335,7 +335,9 @@ foreach ( $items as $item )
     $product =& $item->product();
     if ( $product->discontinued() )
         $can_checkout = false;
-
+    
+    $t->set_var( "product_price", "" );
+    
     // thumbnail
     $image = $product->thumbnailImage();
     if  ( $image )
@@ -422,6 +424,8 @@ foreach ( $items as $item )
                 $price = $item->price( true, false );
             }
         }
+        $currency->setValue( $price );
+        $t->set_var( "product_price", $locale->format( $currency ) );
     }
     else
     {
@@ -432,8 +436,8 @@ foreach ( $items as $item )
         }
         else
         {
-            $totalVAT = $product->extractVAT( $item->price() );
-            $price = $item->price();
+            $totalVAT = $product->extractVAT( $item->price( true, true ) );
+            $price = $item->price( true, true );
         }
     }
 
@@ -442,7 +446,6 @@ foreach ( $items as $item )
     $t->set_var( "product_id", $product->id() );
     $t->set_var( "product_name", $product->name() );
     $t->set_var( "cart_item_count", $item->count() );
-    $t->set_var( "product_price", $locale->format( $currency ) );
 
 
     // Print all the options

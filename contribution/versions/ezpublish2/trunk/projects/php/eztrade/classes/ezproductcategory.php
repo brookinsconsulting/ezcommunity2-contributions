@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezproductcategory.php,v 1.45 2001/08/21 11:21:41 ce Exp $
+// $Id: ezproductcategory.php,v 1.46 2001/09/03 15:53:29 ce Exp $
 //
 // Definition of eZProductCategory class
 //
@@ -110,7 +110,7 @@ class eZProductCategory
         $db =& eZDB::globalDatabase();
         $db->begin();
 
-        if ( !isSet( $this->ID ) )
+        if ( $this->ID == false )
         {
             $name = $db->escapeString( $this->Name );
             $description = $db->escapeString( $this->Description );
@@ -130,6 +130,7 @@ class eZProductCategory
                                   '$this->ImageID',
                                   '$this->Parent' )
                                 " );
+
             $db->unlock();
 			$this->ID = $nextID;
         }
@@ -143,7 +144,7 @@ class eZProductCategory
                                  ImageID='$this->ImageID',
                                  Parent='$this->Parent' WHERE ID='$this->ID'" );
         }
-    
+
         if ( $res == false )
             $db->rollback( );
         else
@@ -866,6 +867,29 @@ class eZProductCategory
        }
 
        return $category;
+    }
+
+    /*!
+      Clone a current object.
+    */
+    function clone( )
+    {
+        if ( is_object ( $this ) )
+        {
+            $clone = $this;
+            $clone->ID = false;
+            return $clone;
+        }
+        else
+            return false;
+    }
+
+
+    /*!
+      Check if there are a category where RemoteID == $id. Return the category if true.
+    */
+    function copy( $recursive=true, $id=false  )
+    {
     }
 
     /*!

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: categorylist.php,v 1.28 2001/08/30 11:09:39 ce Exp $
+// $Id: categorylist.php,v 1.29 2001/09/03 15:53:29 ce Exp $
 //
 // Created on: <13-Sep-2000 14:56:11 bf>
 //
@@ -91,6 +91,10 @@ $t->set_block( "product_list_tpl", "absolute_placement_header_tpl", "absolute_pl
 $t->set_block( "product_item_tpl", "absolute_placement_item_tpl", "absolute_placement_item" );
 
 $t->set_var( "site_style", $SiteStyle );
+
+$category = new eZProductCategory( 1 );
+// $category->copy( true );
+
 
 $category = new eZProductCategory();
 $category->get( $ParentID );
