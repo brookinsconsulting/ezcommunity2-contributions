@@ -1,0 +1,11 @@
+Maintainers:
+
+bf (bf@ez.no)     - ezarticle, ezsession, ezuser, classes, admin, ezmodule, ezmessage
+ce (ce@ez.no)     - eztrade, eztodo, ezaddress, ezmediacatalogue
+pkej (pkej@ez.no) - ezquiz, ezform, ezlearning
+fh (fh@ez.no)     - ezmail, ezbulkmail
+jhe (jhe@ez.no)   - ezcontact, ezcalendar, ezfilemanager, ezforum
+br (br@ez.no)     - ezimagecatalogue, ezlink, ezstats, ezad
+vl (vl@ez.no)     - ezsitemanager, ezsysinfo, eznewsfeed, ezurltranslator, ezbug
+th (th@ez.no)     - templates, stylesheets, general user interface
+
