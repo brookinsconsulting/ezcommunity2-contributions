@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: messageedit.php,v 1.27 2001/02/26 18:27:13 pkej Exp $
+// $Id: messageedit.php,v 1.28 2001/02/26 19:00:50 pkej Exp $
 //
 // Paul K Egell-Johnsen <pkej@ez.no>
 // Created on: <21-Feb-2001 18:00:00 pkej>
@@ -45,11 +45,8 @@ if( $Action == "preview" )
     
     if( empty( $NewMessageTopic ) || empty( $NewMessageBody ) )
     {
-        $MessageTopic = $NewMessageTopic;
-        $MessageBody = $NewMessageBody;
-        
         $Error = true;
-        $Action = "edit";
+        $Action = $StartAction;
     }
 }
 
@@ -348,23 +345,28 @@ switch( $Action )
         unset( $NewMessageAuthor );
         unset( $NewMessagePostedAt );
         
-        $ActionValue = "preview";
         $msg = new eZForumMessage( $MessageID );
-        $ForumID = $msg->forumID();
+
+        if( $msg->id() >= 1 )
+        {
+            $ForumID = $msg->forumID();
+        }
+        
+        $ActionValue = "preview";
         
         $CheckMessageID = $MessageID;
         $CheckForumID = $ForumID;
+        
+        
         include( "ezforum/user/messagepermissions.php" );
 
-        if( $MessageEdit == false )
+        if( $MessageEdit == false && $Error == false )
         {
             include_once( "classes/ezhttptool.php" );
             eZHTTPTool::header( "Location: /forum/messageedit/forbidden/?Tried=$Action&TriedMessage=$CheckMessageID&TriedForum=$CheckForumID" );
         }
         
-        $ShowMessage = true;
-        include_once( "ezforum/user/messagebody.php" );
-
+        
         $doParse = true;
         $ShowPath = true;
         $isPreview = false;
@@ -596,7 +598,6 @@ switch( $Action )
     break;
 }
 
-// print( "Dette kan ikke fungere! <br>" );
 // print( "ActionValue = $ActionValue <br>" );
 // print( "NewMessageBody = $NewMessageBody <br>" );
 // print( "MessageBody = $MessageBody <br>" );
@@ -605,6 +606,7 @@ switch( $Action )
 // print( "OriginalID = $OriginalID <br>" );
 // print( "MessageID = $MessageID <br>" );
 // print( "RedirectURL = $RedirectURL <br>" );
+// print( "ForumID = $ForumID <br>" );
 
 $t->set_var( "start_action", $StartAction );      
 $t->set_var( "end_action", $EndAction );      

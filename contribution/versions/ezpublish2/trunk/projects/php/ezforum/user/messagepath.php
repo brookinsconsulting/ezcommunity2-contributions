@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: messagepath.php,v 1.2 2001/02/24 13:16:31 pkej Exp $
+// $Id: messagepath.php,v 1.3 2001/02/26 19:00:50 pkej Exp $
 //
 // Paul K Egell-Johnsen <pkej@ez.no>
 // Created on: <21-Feb-2001 18:00:00 pkej>
@@ -40,6 +40,7 @@ if( $ShowPath == true )
     {
         $msg = new eZForumMessage( $MessageID );
     }
+    
     $MessageTopic = $msg->topic();
     $ForumID = $msg->forumId();
     

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: messageform.php,v 1.3 2001/02/26 18:27:13 pkej Exp $
+// $Id: messageform.php,v 1.4 2001/02/26 19:00:50 pkej Exp $
 //
 // Paul K Egell-Johnsen <pkej@ez.no>
 // Created on: <21-Feb-2001 18:00:00 pkej>
@@ -76,7 +76,7 @@ if( $ShowMessageForm )
         
         $t->parse( "errors_item", "errors_tpl" );
     }
-    
+
     if( $ShowEmptyMessageForm == false )
     {
         if( !is_object( $msg ) )
@@ -192,6 +192,7 @@ if( $ShowMessageForm )
             }
             break;
         }
+    
     $t->set_var( "message_topic", htmlspecialchars( $MessageTopic ) );
     $t->set_var( "new_message_topic", $MessageTopic );
     $t->set_var( "message_body", htmlspecialchars( $MessageBody ) );
@@ -213,6 +214,7 @@ if( $ShowMessageForm )
     $t->set_var( "end_action", $EndAction );      
     $t->set_var( "start_action", $StartAction );      
     $t->set_var( "action_value", $ActionValue );
+    
     $AllowedTags = $ini->read_var( "eZForumMain", "AllowedTags" );
     $t->set_var( "allowed_tags", htmlspecialchars( $AllowedTags ) );      
 
