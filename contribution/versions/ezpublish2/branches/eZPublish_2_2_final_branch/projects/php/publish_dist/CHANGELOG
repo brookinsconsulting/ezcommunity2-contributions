@@ -4,6 +4,7 @@ eZ publish changelog:
 Changes from 2.2.4 to 2.2.5
 ---------------------------
 * Fixed bug where wrong confirmation page for generated password was shown.
+* Fixed bug with default page.
 
 Changes from 2.2.3 to 2.2.4
 ---------------------------
