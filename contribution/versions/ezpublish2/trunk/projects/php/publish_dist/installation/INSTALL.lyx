@@ -1433,7 +1433,7 @@ RewriteEngine On
 
 
 \family typewriter 
-\size footnotesize 
+\size scriptsize 
 \SpecialChar ~
 \SpecialChar ~
 \SpecialChar ~
@@ -1628,27 +1628,13 @@ RewriteEngine On
 
 
 \family typewriter 
-\size footnotesize 
+\size scriptsize 
 \SpecialChar ~
 \SpecialChar ~
 \SpecialChar ~
 \SpecialChar ~
 RewriteRule .*/ezmediacatalogue/catalogue/(.*)$ /your/docroot/ezmediacatalogue/cat
-alogue/$1 [T="application/oct-stream",S=2]
-\layout Standard
-
-
-\family typewriter 
-\size footnotesize 
-\SpecialChar ~
-\SpecialChar ~
-\SpecialChar ~
-\SpecialChar ~
-
-\size scriptsize 
-RewriteRule ^/mediacatalogue/catalogue/(.*)$\SpecialChar ~
- /your/docroot/ezmediacatalogue/catal
-ogue/$1 [T="application/oct-stream",S=1]
+alogue/$1 [T="application/oct-stream",S=1]
 \layout Standard
 
 
@@ -2006,29 +1992,6 @@ S=1
 
  part means that if we match this rule, we should skip one rule ahead before
  trying to match again.
-\layout Standard
-
-The next rewrite rule:
-\layout Standard
-
-
-\family typewriter 
-\size scriptsize 
-\SpecialChar ~
-\SpecialChar ~
-\SpecialChar ~
-\SpecialChar ~
-\SpecialChar ~
-\SpecialChar ~
-RewriteRule ^/mediacatalogue/catalogue/(.*)$\SpecialChar ~
- /your/docroot/ezmediacatalogue/catal
-ogue/$1 [T="application/oct-stream",S=1]
-\newline 
-
-\layout Standard
-
-This rewriterule basicly does the same as the previously, but it fixes so
- that the files stored in the media catalogue is served correctly
 \newline 
 
 \layout Standard
@@ -3851,18 +3814,13 @@ r/files/$1 [T="application/oct-stream",S=2]
 
 
 \family typewriter 
-\size footnotesize 
-\SpecialChar ~
-
 \size scriptsize 
 \SpecialChar ~
 \SpecialChar ~
 \SpecialChar ~
 \SpecialChar ~
 \SpecialChar ~
-\SpecialChar ~
-RewriteRule ^/mediacatalogue/catalogue/(.*)$\SpecialChar ~
- /your/site/root/ezmediacatalogue/cat
+RewriteRule .*/ezmediacatalogue/catalogue/(.*)$ /your/docroot/ezmediacatalogue/cat
 alogue/$1 [T="application/oct-stream",S=1]
 \layout Standard
 
@@ -4008,21 +3966,20 @@ RewriteEngine On
 \family typewriter 
 \size footnotesize 
 \SpecialChar ~
-\SpecialChar ~
-\SpecialChar ~
-\SpecialChar ~
-\SpecialChar ~
-\SpecialChar ~
 
 \size scriptsize 
-RewriteRule ^/mediacatalogue/catalogue/(.*)$\SpecialChar ~
- /your/site/root/ezmediacatalogue/cat
-alogue/$1 [T="application/oct-stream",S=1]
-\layout Standard
-
-
-\family typewriter 
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+RewriteRule ^/filemanager/filedownload/([^/]+)/(.*)$\SpecialChar ~
+ /your/site/root/ezfilemanage
+r/files/$1 [T="application/oct-stream",S=1]
 \size footnotesize 
+
+\newline 
 \SpecialChar ~
 \SpecialChar ~
 \SpecialChar ~
@@ -5441,7 +5398,11 @@ RewriteEngine On
 
 \family typewriter 
 \size footnotesize 
-RewriteRule ^/stats/store/(.*).gif$ /ezstats/user/storestats.php [S=2]
+RewriteRule ^/stats/store/(.*).gif$ /ezstats/user/storestats.php [S=3]
+\newline 
+RewriteRule .*/ezmediacatalogue/catalogue/(.*)$\SpecialChar ~
+ /var/www/publish/ezmediacatalogue/
+catalogue/$1 [T="application/oct-stream",S=2]
 \layout Standard
 
 
@@ -5576,6 +5537,14 @@ RewriteEngine On
 \family typewriter 
 \size footnotesize 
 #RewriteLogLevel 9
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+RewriteRule .*/ezmediacatalogue/catalogue/(.*)$\SpecialChar ~
+ /var/www/publish/ezmediacatalogue/
+catalogue/$1 [T="application/oct-stream",S=1]
 \layout Standard
 
 

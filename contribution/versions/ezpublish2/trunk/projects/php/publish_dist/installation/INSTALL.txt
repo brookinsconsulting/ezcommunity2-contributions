@@ -721,9 +721,6 @@ Admin Site
     RewriteEngine On
 
     RewriteRule .*/ezmediacatalogue/catalogue/(.*)$
-/your/docroot/ezmediacatalogue/catalogue/$1 [T="application/oct-stream",S=2]
-
-    RewriteRule ^/mediacatalogue/catalogue/(.*)$ 
 /your/docroot/ezmediacatalogue/catalogue/$1 [T="application/oct-stream",S=1]
 
     RewriteRule !\.(gif|css|jpg|png|jar) /your/docroot/index_admin.php
@@ -824,16 +821,6 @@ mime type ("application/oct-stream",
 ie. binary download). The "S=1"
 part means that if we match this rule, we should skip one
 rule ahead before trying to match again.
-
-The next rewrite rule:
-
-      RewriteRule ^/mediacatalogue/catalogue/(.*)$ 
-/your/docroot/ezmediacatalogue/catalogue/$1 [T="application/oct-stream",S=1]
-
-
-This rewriterule basicly does the same as the previously,
-but it fixes so that the files stored in the media catalogue
-is served correctly
 
 
 The last rewrite rule
@@ -1477,8 +1464,8 @@ For example:
        RewriteRule ^/filemanager/filedownload/([^/]+)/(.*)$ 
 /your/site/root/ezfilemanager/files/$1 [T="application/oct-stream",S=2]
 
-       RewriteRule ^/mediacatalogue/catalogue/(.*)$ 
-/your/site/root/ezmediacatalogue/catalogue/$1 [T="application/oct-stream",S=1]
+     RewriteRule .*/ezmediacatalogue/catalogue/(.*)$
+/your/docroot/ezmediacatalogue/catalogue/$1 [T="application/oct-stream",S=1]
 
        RewriteRule !\.(gif|css|jpg|png|jar)$
 /your/site/root/index.php
@@ -1504,9 +1491,8 @@ For example:
 
       RewriteEngine On
 
-      RewriteRule ^/mediacatalogue/catalogue/(.*)$ 
-/your/site/root/ezmediacatalogue/catalogue/$1 [T="application/oct-stream",S=1]
-
+       RewriteRule ^/filemanager/filedownload/([^/]+)/(.*)$ 
+/your/site/root/ezfilemanager/files/$1 [T="application/oct-stream",S=1]
       RewriteRule !\.(gif|css|jpg|png|jar)
 /your/site/root/index_admin.php
 
@@ -2096,7 +2082,9 @@ RewriteEngine On
 #RewriteLogLevel 9
 
 RewriteRule ^/stats/store/(.*).gif$ /ezstats/user/storestats.php
-[S=2]
+[S=3]
+RewriteRule .*/ezmediacatalogue/catalogue/(.*)$ 
+/var/www/publish/ezmediacatalogue/catalogue/$1 [T="application/oct-stream",S=2]
 
 # The lines above should appear on the same line in your
 configuration file!
@@ -2141,6 +2129,9 @@ RewriteEngine On
 #RewriteLog rewrite_admin.log
 
 #RewriteLogLevel 9
+
+RewriteRule .*/ezmediacatalogue/catalogue/(.*)$ 
+/var/www/publish/ezmediacatalogue/catalogue/$1 [T="application/oct-stream",S=1]
 
 RewriteRule !\.(gif|css|jpg|png)$ /index_admin.php
 

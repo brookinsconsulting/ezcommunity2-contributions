@@ -633,8 +633,8 @@ online tool.
 
 \texttt{\scriptsize ~~~~~~RewriteEngine On}{\scriptsize \par}
 
-\texttt{\footnotesize ~~~~~RewriteRule .{*}/ezmediacatalogue/catalogue/(.{*})\$
-/your/docroot/ezmediacatalogue/catalogue/\$1 {[}T=\char`\"{}application/oct-stream\char`\"{},S=4{]}}{\footnotesize \par}
+\texttt{\scriptsize ~~~~~RewriteRule .{*}/ezmediacatalogue/catalogue/(.{*})\$
+/your/docroot/ezmediacatalogue/catalogue/\$1 {[}T=\char`\"{}application/oct-stream\char`\"{},S=4{]}}{\scriptsize \par}
 
 \texttt{\scriptsize ~~~~~~RewriteRule \textasciicircum{}/stats/store/(.{*}).gif\$~
 /your/docroot/ezstats/user/storestats.php {[}S=3{]}}{\scriptsize \par}
@@ -673,10 +673,7 @@ online tool.
 
 \texttt{\footnotesize ~~~~}\texttt{\scriptsize RewriteEngine On}{\scriptsize \par}
 
-\texttt{\footnotesize ~~~~RewriteRule .{*}/ezmediacatalogue/catalogue/(.{*})\$
-/your/docroot/ezmediacatalogue/catalogue/\$1 {[}T=\char`\"{}application/oct-stream\char`\"{},S=2{]}}{\footnotesize \par}
-
-\texttt{\footnotesize ~~~~}\texttt{\scriptsize RewriteRule \textasciicircum{}/mediacatalogue/catalogue/(.{*})\$~
+\texttt{\scriptsize ~~~~RewriteRule .{*}/ezmediacatalogue/catalogue/(.{*})\$
 /your/docroot/ezmediacatalogue/catalogue/\$1 {[}T=\char`\"{}application/oct-stream\char`\"{},S=1{]}}{\scriptsize \par}
 
 \texttt{\footnotesize ~~~~}\texttt{\scriptsize RewriteRule !\textbackslash{}.(gif|css|jpg|png|jar)
@@ -772,16 +769,7 @@ The part \texttt{\scriptsize {}``{[}T=\char`\"{}application/oct-stream\char`\"{}
 means that everything which is matched shall be of the specific mime
 type ({}``application/oct-stream'', ie. binary download). The {}``S=1''
 part means that if we match this rule, we should skip one rule ahead
-before trying to match again.
-
-The next rewrite rule:
-
-\texttt{\scriptsize ~~~~~~RewriteRule \textasciicircum{}/mediacatalogue/catalogue/(.{*})\$~
-/your/docroot/ezmediacatalogue/catalogue/\$1 {[}T=\char`\"{}application/oct-stream\char`\"{},S=1{]}}~\\
-{\scriptsize \par}
-
-This rewriterule basicly does the same as the previously, but it fixes
-so that the files stored in the media catalogue is served correctly\\
+before trying to match again.\\
 
 
 The last rewrite rule
@@ -1424,9 +1412,8 @@ For example:\\
 \textasciicircum{}/filemanager/filedownload/({[}\textasciicircum{}/{]}+)/(.{*})\$~
 /your/site/root/ezfilemanager/files/\$1 {[}T=\char`\"{}application/oct-stream\char`\"{},S=2{]}}{\scriptsize \par}
 
-\texttt{\footnotesize ~}\texttt{\scriptsize ~~~~~~RewriteRule
-\textasciicircum{}/mediacatalogue/catalogue/(.{*})\$~ /your/site/root/ezmediacatalogue/catalogue/\$1
-{[}T=\char`\"{}application/oct-stream\char`\"{},S=1{]}}{\scriptsize \par}
+\texttt{\scriptsize ~~~~~RewriteRule .{*}/ezmediacatalogue/catalogue/(.{*})\$
+/your/docroot/ezmediacatalogue/catalogue/\$1 {[}T=\char`\"{}application/oct-stream\char`\"{},S=1{]}}{\scriptsize \par}
 
 \texttt{\footnotesize ~}\texttt{\scriptsize ~~~~~~RewriteRule
 !\textbackslash{}.(gif|css|jpg|png|jar)\$ /your/site/root/index.php}{\scriptsize \par}
@@ -1452,10 +1439,9 @@ For example:\\
 
 \texttt{\footnotesize ~~~~~~RewriteEngine On}{\footnotesize \par}
 
-\texttt{\footnotesize ~~~~~~}\texttt{\scriptsize RewriteRule
-\textasciicircum{}/mediacatalogue/catalogue/(.{*})\$~ /your/site/root/ezmediacatalogue/catalogue/\$1
-{[}T=\char`\"{}application/oct-stream\char`\"{},S=1{]}}{\scriptsize \par}
-
+\texttt{\footnotesize ~}\texttt{\scriptsize ~~~~~~RewriteRule
+\textasciicircum{}/filemanager/filedownload/({[}\textasciicircum{}/{]}+)/(.{*})\$~
+/your/site/root/ezfilemanager/files/\$1 {[}T=\char`\"{}application/oct-stream\char`\"{},S=1{]}}\texttt{\footnotesize }~\\
 \texttt{\footnotesize ~~~~~~}\texttt{\scriptsize RewriteRule
 !\textbackslash{}.(gif|css|jpg|png|jar) /your/site/root/index\_admin.php}{\scriptsize \par}
 
@@ -2040,7 +2026,9 @@ need to make the appropriate changes here.
 \texttt{\footnotesize \#RewriteLogLevel 9}{\footnotesize \par}
 
 \texttt{\footnotesize RewriteRule \textasciicircum{}/stats/store/(.{*}).gif\$
-/ezstats/user/storestats.php {[}S=2{]}}{\footnotesize \par}
+/ezstats/user/storestats.php {[}S=3{]}}~\\
+\texttt{\footnotesize RewriteRule .{*}/ezmediacatalogue/catalogue/(.{*})\$~
+/var/www/publish/ezmediacatalogue/catalogue/\$1 {[}T=\char`\"{}application/oct-stream\char`\"{},S=2{]}}{\footnotesize \par}
 
 \texttt{\footnotesize \# The lines above should appear on the same
 line in your configuration file!}{\footnotesize \par}
@@ -2086,6 +2074,9 @@ line in your configuration file!}{\footnotesize \par}
 \texttt{\footnotesize \#RewriteLog rewrite\_admin.log}{\footnotesize \par}
 
 \texttt{\footnotesize \#RewriteLogLevel 9}{\footnotesize \par}
+
+\texttt{\footnotesize RewriteRule .{*}/ezmediacatalogue/catalogue/(.{*})\$~
+/var/www/publish/ezmediacatalogue/catalogue/\$1 {[}T=\char`\"{}application/oct-stream\char`\"{},S=1{]}}{\footnotesize \par}
 
 \texttt{\footnotesize RewriteRule !\textbackslash{}.(gif|css|jpg|png)\$
 /index\_admin.php}{\footnotesize \par}
