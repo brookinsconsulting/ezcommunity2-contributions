@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: folderedit.php,v 1.6 2001/07/20 11:18:28 jakobn Exp $
+// $Id: folderedit.php,v 1.7 2001/10/03 08:44:34 fh Exp $
 //
 // Created on: <16-Feb-2001 14:33:48 fh>
 //
@@ -26,6 +26,13 @@
 include_once( "ezmail/classes/ezmailfolder.php" );
 include_once( "classes/ezhttptool.php" );
 include_once( "classes/eztemplate.php" );
+
+// check that the folder beeing viewed is your folder
+if ( $FolderID != 0 && !eZMailFolder::isOwner( eZUser::currentUser(), $FolderID ) )
+{
+    eZHTTPTool::header( "Location: /error/403/" );
+    exit();
+}
 
 $ini =& INIFile::globalINI();
 $Language = $ini->read_var( "eZMailMain", "Language" ); 

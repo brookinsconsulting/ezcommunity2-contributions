@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: mailedit.php,v 1.18 2001/09/04 10:34:55 fh Exp $
+// $Id: mailedit.php,v 1.19 2001/10/03 08:44:34 fh Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -31,6 +31,12 @@ include_once( "ezfilemanager/classes/ezvirtualfile.php" );
 include_once( "ezmail/classes/ezmail.php" );
 include_once( "ezuser/classes/ezuser.php" );
 include_once( "ezsession/classes/ezpreferences.php" );
+
+if ( !eZMail::isOwner( eZUser::currentUser(), $MailID ) )
+{
+    eZHTTPTool::header( "Location: /error/403/" );
+    exit();
+}
 
 if ( isSet( $Cancel ) )
 {

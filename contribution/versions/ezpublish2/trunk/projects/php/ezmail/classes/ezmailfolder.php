@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezmailfolder.php,v 1.29 2001/08/17 13:35:59 jhe Exp $
+// $Id: ezmailfolder.php,v 1.30 2001/10/03 08:44:34 fh Exp $
 //
 // eZMailFolder class
 //
@@ -561,6 +561,25 @@ class eZMailFolder
         }
         return $return_value;
     }
+
+    /*!
+      \static  
+      
+      Returns true if the given mail belongs to the given user.
+     */
+    function isOwner( $user, $folderID )
+    {
+        if ( get_class( $user ) == "ezuser" ) 
+            $user = $user->id(); 
+        
+        $db =& eZDB::globalDatabase(); 
+        $db->query_single( $res, "SELECT UserID from eZMail_Folder WHERE ID='$folderID'" );
+        if ( $res[$db->fieldName( "UserID" )] == $user )
+            return true;
+        
+        return false;
+    }
+
     
     var $ID;
     var $UserID;

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: maillist.php,v 1.23 2001/09/04 13:20:15 fh Exp $
+// $Id: maillist.php,v 1.24 2001/10/03 08:44:34 fh Exp $
 //
 // Created on: <19-Mar-2000 20:25:22 fh>
 //
@@ -35,6 +35,14 @@ include_once( "ezmail/classes/ezmailfolder.php" );
 
 include_once( "classes/ezlist.php" );
 include_once( "ezsession/classes/ezpreferences.php" );
+
+// check that the folder beeing viewed is your folder
+if ( !eZMailFolder::isOwner( eZUser::currentUser(), $FolderID ) )
+{
+    eZHTTPTool::header( "Location: /error/403/" );
+    exit();
+}
+
 
 if ( isSet( $NewFolder ) )
 {
