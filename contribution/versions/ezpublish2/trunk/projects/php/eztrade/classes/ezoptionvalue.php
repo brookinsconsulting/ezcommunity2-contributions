@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezoptionvalue.php,v 1.29 2001/07/30 07:11:55 br Exp $
+// $Id: ezoptionvalue.php,v 1.30 2001/07/31 11:33:11 jhe Exp $
 //
 // Definition of eZOptionValue class
 //
@@ -95,7 +95,7 @@ class eZOptionValue
                                  '$placement',
                                  '$this->RemoteID',
                                  '$this->OptionID' )" );
-
+            $db->unlock();
 			$this->ID = $nextID;
         }
         else
@@ -226,6 +226,7 @@ class eZOptionValue
                                       VALUES
                                       ('$id',
                                        '$q_id' )" );
+        $db->unlock();
         eZDB::finish( $ret, $db );
     }
 
@@ -336,6 +337,7 @@ class eZOptionValue
                                     '$placement')" );
             $placement++;
         }
+        $db->unlock();
         eZDB::finish( $ret, $db );
     }
 

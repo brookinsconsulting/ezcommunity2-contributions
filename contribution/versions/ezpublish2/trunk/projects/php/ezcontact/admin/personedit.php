@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: personedit.php,v 1.43 2001/07/30 14:19:03 jhe Exp $
+// $Id: personedit.php,v 1.44 2001/07/31 11:33:11 jhe Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -29,7 +29,7 @@
 
 include_once( "classes/INIFile.php" );
 
-$ini = new INIFIle( "site.ini" );
+$ini = new INIFile( "site.ini" );
 $Language = $ini->read_var( "eZContactMain", "Language" );
 
 include_once( "ezmail/classes/ezmail.php" );
@@ -55,9 +55,6 @@ function deleteCache( $siteStyle )
 
 function unlink_wild( $dir, $rege )
 {
-    // $d = opendir( $dir );
-    //while ( $f = readdir( $d ) )
-
     $d = eZFile::dir( $root );
     while( $f = $d->read() )
     {
@@ -66,7 +63,6 @@ function unlink_wild( $dir, $rege )
             eZFile::unlink( $dir . $f );
         }
     }
-    // closedir( $d );
 }
 
 
@@ -82,14 +78,12 @@ if ( isSet( $BuyButton ) )
 {
     include_once( "eztrade/classes/ezcart.php" );
     $cart = new eZCart();
-    if ( isSet( $CompanyEdit ) )
-    {
-        $cart->setCompanyID( $CompanyID );
-    }
-    else
-    {
-        $cart->setPersonID( $PersonID );
-    }
+    $session =& eZSession::globalSession();
+    $cart->setSession( $session );
+    $cart->setCompanyID( $CompanyID );
+    $cart->setPersonID( $PersonID );
+    
+    $cart->store();
     include_once( "classes/ezhttptool.php" );
     eZHTTPTool::header( "Location: /trade/productlist/0/" );
     exit();

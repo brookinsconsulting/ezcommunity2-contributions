@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezwishlistitem.php,v 1.12 2001/07/29 23:31:11 kaid Exp $
+// $Id: ezwishlistitem.php,v 1.13 2001/07/31 11:33:11 jhe Exp $
 //
 // Definition of eZWishItem class
 //
@@ -93,7 +93,7 @@ class eZWishListItem
  		                            '$this->Count',
 		                            '$this->IsBought' )
                                   " );
-
+            $db->unlock();
 			$this->ID = $nextID;
         }
         else
@@ -106,7 +106,6 @@ class eZWishListItem
                                  WHERE ID='$this->ID'
                                  " );
         }
-        $db->unlock();
     
         if ( $res == false )
             $db->rollback( );

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezshippingtype.php,v 1.8 2001/07/30 07:11:55 br Exp $
+// $Id: ezshippingtype.php,v 1.9 2001/07/31 11:33:11 jhe Exp $
 //
 // Definition of eZShippingType class
 //
@@ -81,7 +81,7 @@ class eZShippingType
 		                 '$this->VATTypeID',
 		                 '$this->IsDefault',
 		                 '$timeStamp' )" );
-
+            $db->unlock();
 			$this->ID = $nextID;
         }
         else

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezwishlistoptionvalue.php,v 1.8 2001/07/20 11:42:02 jakobn Exp $
+// $Id: ezwishlistoptionvalue.php,v 1.9 2001/07/31 11:33:11 jhe Exp $
 //
 // Definition of eZWishListOptionValue class
 //
@@ -66,12 +66,12 @@ class eZWishListOptionValue
         $db =& eZDB::globalDatabase();
         $db->begin();
         
-        if ( !isset( $this->ID ) )
+        if ( !isSet( $this->ID ) )
         {
             $db->lock( "eZTrade_WishListOptionValue" );
             $nextID = $db->nextID( "eZTrade_WishListOptionValue", "ID" );            
 
-            $res = $db->query( "INSERT INTO eZTrade_WishListOptionValue
+            $res[] = $db->query( "INSERT INTO eZTrade_WishListOptionValue
                                   ( ID, WishListItemID, OptionID, OptionValueID )
                                   VALUES
                                   ( '$nextID',
@@ -79,19 +79,19 @@ class eZWishListOptionValue
 		                            '$this->OptionID',
 		                            '$this->OptionValueID' )
                                   " );
-
+            $db->unlock();
 			$this->ID = $nextID;
         }
         else
         {
-            $db->query( "UPDATE eZTrade_WishListOptionValue SET
-		                         WishListItemID='$this->WishListItemID',
-		                         OptionID='$this->OptionID',
-		                         OptionValueID='$this->OptionValueID'
-                                 WHERE ID='$this->ID'
-                                 " );
+            $res[] = $db->query( "UPDATE eZTrade_WishListOptionValue SET
+		                          WishListItemID='$this->WishListItemID',
+		                          OptionID='$this->OptionID',
+		                          OptionValueID='$this->OptionValueID'
+                                  WHERE ID='$this->ID'
+                                  " );
         }
-        
+        eZDB::finish( $res, $db );
         return true;
     }    
 

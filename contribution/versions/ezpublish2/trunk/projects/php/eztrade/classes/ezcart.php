@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezcart.php,v 1.20 2001/07/30 14:19:03 jhe Exp $
+// $Id: ezcart.php,v 1.21 2001/07/31 11:33:11 jhe Exp $
 //
 // Definition of eZCart class
 //
@@ -101,6 +101,7 @@ class eZCart
                                   '$this->PersonID',
                                   '$this->CompanyID' )
                                " );
+            $db->unlock();
 
             $this->ID = $nextID;
         }
@@ -113,7 +114,6 @@ class eZCart
                                  WHERE ID='$this->ID'
                                  " );
         }
-        $db->unlock();
     
         if ( $res == false )
             $db->rollback( );
@@ -259,7 +259,7 @@ class eZCart
     /*!
       Sets the company we are shopping for
     */
-    function setCompanyID( $ID )
+    function setCompanyID( $id )
     {
         if ( is_numeric( $id ) )
         {

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezproducttype.php,v 1.9 2001/07/30 07:45:46 br Exp $
+// $Id: ezproducttype.php,v 1.10 2001/07/31 11:33:11 jhe Exp $
 //
 // Definition of eZProductType class
 //
@@ -79,7 +79,7 @@ class eZProductType
                                ( '$nextID',
 		                         '$this->Name',
                                  '$this->Description' )" );
-
+            $db->unlock();
 			$this->ID = $nextID;
         }
         else

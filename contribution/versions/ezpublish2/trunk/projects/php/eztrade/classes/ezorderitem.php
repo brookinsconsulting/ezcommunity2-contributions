@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezorderitem.php,v 1.16 2001/07/30 14:19:03 jhe Exp $
+// $Id: ezorderitem.php,v 1.17 2001/07/31 11:33:11 jhe Exp $
 //
 // Definition of eZOrderItem class
 //
@@ -82,7 +82,7 @@ class eZOrderItem
 		                            '$this->Price',
 		                            '$this->ProductID',
                                     '$this->ExpiryDate' )" );
-
+            $db->unlock();
 			$this->ID = $nextID;
 
         }

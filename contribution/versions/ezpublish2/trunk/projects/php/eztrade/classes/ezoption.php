@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezoption.php,v 1.21 2001/07/30 07:11:55 br Exp $
+// $Id: ezoption.php,v 1.22 2001/07/31 11:33:11 jhe Exp $
 //
 // Definition of eZOption class
 //
@@ -115,7 +115,7 @@ class eZOption
                                ( '$nextID',
                                  '$this->Name',
                                  '$this->Description' )" );
-            
+            $db->unlock();
 			$this->ID = $nextID;
         }
         else
@@ -311,6 +311,7 @@ class eZOption
                            '$placement' )" );
             $placement++;
         }
+        $db->unlock();
         eZDB::finish( $res, $db );
     }
 

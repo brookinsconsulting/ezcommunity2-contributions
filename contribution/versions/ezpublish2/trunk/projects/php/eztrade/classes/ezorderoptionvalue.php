@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezorderoptionvalue.php,v 1.12 2001/07/30 07:45:46 br Exp $
+// $Id: ezorderoptionvalue.php,v 1.13 2001/07/31 11:33:11 jhe Exp $
 //
 // Definition of eZOrderOptionValue class
 //
@@ -83,6 +83,7 @@ class eZOrderOptionValue
 		                         '$this->RemoteID',
 		                         '$this->ValueName' )" );
 
+            $db->unlock();
 			$this->ID = $nextID;
         }
         else

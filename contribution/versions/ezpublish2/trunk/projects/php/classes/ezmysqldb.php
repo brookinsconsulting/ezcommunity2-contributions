@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: ezmysqldb.php,v 1.16 2001/07/29 23:30:57 kaid Exp $
+// $Id: ezmysqldb.php,v 1.17 2001/07/31 11:33:11 jhe Exp $
 //
 // Definition of eZMySQLDB class
 //
@@ -150,14 +150,12 @@ error_log("server: $server db: $db user: $user pass: $password lala: $databaseIm
             {
                 $offset = $params["Offset"];
             }
-
         }
 
         if ( $limit != -1 )
         {
             $sql .= " LIMIT $offset, $limit ";
         }
-
         $result =& $this->query( $sql );
 
         if ( $result == false )

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezsession.php,v 1.57 2001/07/30 14:19:03 jhe Exp $
+// $Id: ezsession.php,v 1.58 2001/07/31 11:33:11 jhe Exp $
 //
 // Definition of eZSession class
 //
@@ -262,11 +262,10 @@ class eZSession
             $db->begin();
             
             $timeStamp = eZDateTime::timeStamp( true );
-            
             // update session
             $ret = $db->query( "UPDATE eZSession_Session SET
-                                 LastAccessed='$timeStamp'
-                                 WHERE ID='$this->ID'" );
+                                  LastAccessed='$timeStamp'
+                                  WHERE ID='$this->ID'" );
             if ( $ret == false )
             {
                 $db->rollback();

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezshippinggroup.php,v 1.7 2001/07/30 07:11:55 br Exp $
+// $Id: ezshippinggroup.php,v 1.8 2001/07/31 11:33:11 jhe Exp $
 //
 // Definition of eZShippingGroup class
 //
@@ -76,7 +76,7 @@ class eZShippingGroup
 		               ( '$nextID',
                          '$this->Name',
 		                 '$timeStamp' )" );
-        
+            $db->unlock();
 			$this->ID = $nextID;
         }
         else
@@ -204,7 +204,7 @@ class eZShippingGroup
                                  '$addValue',
                                  '$typeID',
                                  '$this->ID' )" );
-
+                $db->unlock();
             }
         }
         eZDB::finish( $res, $db );

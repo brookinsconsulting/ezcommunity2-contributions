@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: checkout.php,v 1.67 2001/07/30 14:19:03 jhe Exp $
+// $Id: checkout.php,v 1.68 2001/07/31 11:33:12 jhe Exp $
 //
 // Created on: <28-Sep-2000 15:52:08 bf>
 //
@@ -22,7 +22,6 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, US
 //
-
 
 include_once( "classes/INIFile.php" );
 include_once( "classes/eztemplate.php" );
@@ -67,13 +66,7 @@ include_once( "ezsession/classes/ezsession.php" );
 include_once( "ezmail/classes/ezmail.php" );
 
 $cart = new eZCart();
-$session = new eZSession();
-
-// if no session exist create one.
-if ( !$session->fetch() )
-{
-    $session->store();
-}
+$session =& eZSession::globalSession();
 
 // get the cart or create it
 $cart = $cart->getBySession( $session, "Cart" );
@@ -98,8 +91,8 @@ $t->set_block( "cart_item_option_tpl", "cart_item_option_availability_tpl", "car
 $t->set_block( "cart_item_tpl", "cart_image_tpl", "cart_image" );
 
 $t->set_block( "cart_item_list_tpl", "shipping_type_tpl", "shipping_type" );
-
 $t->set_block( "cart_item_list_tpl", "product_available_header_tpl", "product_available_header" );
+
 $t->set_block( "cart_item_tpl", "product_available_item_tpl", "product_available_item" );
 
 $t->set_block( "checkout_tpl", "shipping_address_tpl", "shipping_address" );
@@ -150,7 +143,7 @@ foreach ( $types as $type )
     
     if ( is_numeric( $currentTypeID ) )
     {
-        if (  $currentTypeID == $type->id() )
+        if ( $currentTypeID == $type->id() )
         {
             $currentShippingType = $type;
             $t->set_var( "type_selected", "selected" );
@@ -171,7 +164,6 @@ foreach ( $types as $type )
 
     $t->parse( "shipping_type", "shipping_type_tpl", true );
 }
-
 // calculate the vat of the shiping
 $shippingCost = $cart->shippingCost( $currentShippingType );
 $t->set_var( "shipping_cost_value", $shippingCost );

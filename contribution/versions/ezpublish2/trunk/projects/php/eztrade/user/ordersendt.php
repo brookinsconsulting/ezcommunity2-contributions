@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ordersendt.php,v 1.31 2001/07/30 14:19:03 jhe Exp $
+// $Id: ordersendt.php,v 1.32 2001/07/31 11:33:12 jhe Exp $
 //
 // Created on: <06-Oct-2000 14:04:17 bf>
 //
@@ -23,18 +23,17 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, US
 //
 
-
 include_once( "classes/eztemplate.php" ); 
 include_once( "classes/ezlocale.php" );
 include_once( "classes/ezcurrency.php" ); 
-include_once( "ezcontact/classes/ezperson.php" );
-include_once( "ezcontact/classes/ezcompany.php" );
-include_once( "eztrade/classes/ezorder.php" ); 
-include_once( "eztrade/classes/ezproduct.php" ); 
-include_once( "eztrade/classes/ezcheckout.php" ); 
-
 include_once( "classes/ezhttptool.php" );
 
+include_once( "ezcontact/classes/ezperson.php" );
+include_once( "ezcontact/classes/ezcompany.php" );
+
+include_once( "eztrade/classes/ezorder.php" ); 
+include_once( "eztrade/classes/ezproduct.php" ); 
+include_once( "eztrade/classes/ezcheckout.php" );
 
 $Language = $ini->read_var( "eZTradeMain", "Language" );
 $ShowPriceGroups = $ini->read_var( "eZTradeMain", "PriceGroupsEnabled" ) == "true";
@@ -209,8 +208,6 @@ foreach ( $items as $item )
         $t->set_var( "order_image", "" );
     }
 
-
-
     $priceobj = new eZCurrency();
 
     if ( ( !$RequireUserLogin or get_class( $user ) == "ezuser" ) and
@@ -237,13 +234,13 @@ foreach ( $items as $item )
         $priceArray = "";
         $priceArray = "";
         $options =& $product->options();
-        if ( count ( $options ) == 1 )
+        if ( count( $options ) == 1 )
         {
             $option = $options[0];
-            if ( get_class ( $option ) == "ezoption" )
+            if ( get_class( $option ) == "ezoption" )
             {
                 $optionValues =& $option->values();
-                if ( count ( $optionValues ) > 1 )
+                if ( count( $optionValues ) > 1 )
                 {
                     $i=0;
                     foreach ( $optionValues as $optionValue )
@@ -322,7 +319,6 @@ if ( $shippingType )
 {    
     $t->set_var( "shipping_type", $shippingType->name() );
 }
-
 
 $shippingCost = $order->shippingCharge();
 $shippingVAT = $order->shippingVAT();

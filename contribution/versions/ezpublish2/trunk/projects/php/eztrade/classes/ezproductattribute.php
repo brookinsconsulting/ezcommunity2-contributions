@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezproductattribute.php,v 1.12 2001/07/30 12:15:57 ce Exp $
+// $Id: ezproductattribute.php,v 1.13 2001/07/31 11:33:11 jhe Exp $
 //
 // Definition of eZProductAttribute class
 //
@@ -99,7 +99,7 @@ class eZProductAttribute
 		                         '$place',
 		                         '$this->Unit',
 		                         '$timeStamp' )" );
-
+            $db->unlock();
 			$this->ID = $nextID;
         }
         else
@@ -312,6 +312,7 @@ class eZProductAttribute
                                  '$productID',
                                  '$this->ID',
                                  '$value' )" );
+                $db->unlock();
             }
         }
         eZDB::finish( $res, $db );

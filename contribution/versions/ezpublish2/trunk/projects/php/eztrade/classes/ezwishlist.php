@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezwishlist.php,v 1.8 2001/07/20 11:42:01 jakobn Exp $
+// $Id: ezwishlist.php,v 1.9 2001/07/31 11:33:11 jhe Exp $
 //
 // Definition of eZWishList class
 //
@@ -96,8 +96,8 @@ class eZWishList
                                   VALUES
                                   ( '$nextID',
                                     '$this->UserID',
-                                    '$this->IsPublic' )
-                                  " );
+                                    '$this->IsPublic' )" );
+            $db->unlock();
 			$this->ID = $nextID;
         }
         else
@@ -108,7 +108,6 @@ class eZWishList
                                  WHERE ID='$this->ID'
                                  " );
         }
-        $db->unlock();
     
         if ( $res == false )
             $db->rollback( );

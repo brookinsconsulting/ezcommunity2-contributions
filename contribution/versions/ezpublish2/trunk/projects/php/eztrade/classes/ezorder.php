@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezorder.php,v 1.39 2001/07/30 14:19:03 jhe Exp $
+// $Id: ezorder.php,v 1.40 2001/07/31 11:33:11 jhe Exp $
 //
 // Definition of eZOrder class
 //
@@ -106,7 +106,7 @@ class eZOrder
 		                            '$this->ShippingCharge',
                                     '$this->PersonID',
                                     '$this->CompanyID' )" );
-
+            $db->unlock();
 			$this->ID = $nextID;
 
             // store the status
@@ -587,7 +587,7 @@ class eZOrder
     /*!
       Sets the company we are shopping for
     */
-    function setCompanyID( $ID )
+    function setCompanyID( $id )
     {
         if ( is_numeric( $id ) )
         {

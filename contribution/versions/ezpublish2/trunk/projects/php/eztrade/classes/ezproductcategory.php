@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezproductcategory.php,v 1.42 2001/07/24 07:29:09 ce Exp $
+// $Id: ezproductcategory.php,v 1.43 2001/07/31 11:33:11 jhe Exp $
 //
 // Definition of eZProductCategory class
 //
@@ -129,6 +129,7 @@ class eZProductCategory
                                '$this->ImageID',
                                '$this->Parent' )
                              " );
+            $db->unlock();
 			$this->ID = $nextID;
         }
         else
@@ -141,7 +142,6 @@ class eZProductCategory
                                  ImageID='$this->ImageID',
                                  Parent='$this->Parent' WHERE ID='$this->ID'" );
         }
-        $db->unlock();
     
         if ( $res == false )
             $db->rollback( );

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezorderstatus.php,v 1.11 2001/07/30 07:45:46 br Exp $
+// $Id: ezorderstatus.php,v 1.12 2001/07/31 11:33:11 jhe Exp $
 //
 // Definition of eZOrderStatus class
 //
@@ -83,7 +83,7 @@ class eZOrderStatus
 		                        '$this->AdminID',
 		                        '$this->Comment',
 		                        '$this->OrderID' )" );
-
+            $db->unlock();
 			$this->ID = $nextID;
         }
         else

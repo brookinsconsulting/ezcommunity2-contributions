@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezvattype.php,v 1.5 2001/07/30 07:11:55 br Exp $
+// $Id: ezvattype.php,v 1.6 2001/07/31 11:33:11 jhe Exp $
 //
 // Definition of eZVATType class
 //
@@ -75,6 +75,7 @@ class eZVATType
                                  '$this->Name',
 		                         '$this->VATValue',
 		                         '$timeStamp' )" );
+            $db->unlock();
 			$this->ID = $nextID;
         }
         else

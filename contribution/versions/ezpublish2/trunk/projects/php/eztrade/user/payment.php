@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: payment.php,v 1.55 2001/07/30 14:19:03 jhe Exp $
+// $Id: payment.php,v 1.56 2001/07/31 11:33:12 jhe Exp $
 //
 // Created on: <02-Feb-2001 16:31:53 bf>
 //
@@ -48,6 +48,9 @@ include_once( "eztrade/classes/ezorderoptionvalue.php" );
 include_once( "eztrade/classes/ezwishlist.php" );
 include_once( "eztrade/classes/ezcheckout.php" );
 
+include_once( "ezcontact/classes/ezperson.php" );
+include_once( "ezcontact/classes/ezcompany.php" );
+
 include_once( "ezsession/classes/ezsession.php" );
 include_once( "ezmail/classes/ezmail.php" );
 include_once( "classes/ezgpg.php" );
@@ -78,13 +81,15 @@ function deleteCache( $ProductID, $CategoryID, $CategoryArray, $Hotdeal )
     {
         $file->delete();
     }
-    $files = eZCacheFile::files( "eztrade/cache/", array( "productlist",
-                                                          array_merge( $CategoryID, $CategoryArray ) ),
+    $files = eZCacheFile::files( "eztrade/cache/",
+                                 array( "productlist",
+                                        array_merge( $CategoryID, $CategoryArray ) ),
                                  "cache", "," );
     foreach ( $files as $file )
     {
         $file->delete();
     }
+    
     if ( $Hotdeal )
     {
         $files = eZCacheFile::files( "eztrade/cache/", array( "hotdealslist", NULL ),
@@ -96,13 +101,7 @@ function deleteCache( $ProductID, $CategoryID, $CategoryArray, $Hotdeal )
     }
 }
 
-$session = new eZSession();
-
-// if no session exist create one.
-if ( !$session->fetch() )
-{
-    $session->store();
-}
+$session =& eZSession::globalSession();
 
 // fetch the cart
 $cart = new eZCart();
@@ -110,14 +109,13 @@ $cart = $cart->getBySession( $session, "Cart" );
 
 if ( !$cart )
 {
-    eZHTTPTool::header("Location: /trade/cart/" );
+    eZHTTPTool::header( "Location: /trade/cart/" );
 }
 
 $items = $cart->items();
 
 // generate a new checkout instance, must have a unique number
 // for VISA clearing etc.
-
 
 // this is the value to charge the customer with
 $ChargeTotal = $session->variable( "TotalCost" ) ;
@@ -147,7 +145,7 @@ if ( $PaymentSuccess == "true" )
     
     // create a new order
     $order = new eZOrder();
-    $user = eZUser::currentUser();
+    $user =& eZUser::currentUser();
     $order->setUser( $user );
 
     if ( $ini->read_var( "eZTradeMain", "ShowBillingAddress" ) != "enabled" )
@@ -166,6 +164,7 @@ if ( $PaymentSuccess == "true" )
     $order->setPaymentMethod( $session->variable( "PaymentMethod" ) );
 
     $order->setShippingTypeID( $session->variable( "ShippingTypeID" ) );
+
     $order->setPersonID( $cart->personID() );
     $order->setCompanyID( $cart->companyID() );
     
@@ -285,8 +284,6 @@ if ( $PaymentSuccess == "true" )
         }
     }
 
-//      $cart->clear();
-
     //
     // Send mail confirmation
     //  
@@ -314,7 +311,7 @@ if ( $PaymentSuccess == "true" )
     $mailTemplate->set_block( "mail_order_tpl", "shipping_address_tpl", "shipping_address" );
     
     // fetch the cart items
-    $items = $order->items( );
+    $items = $order->items();
 
     // Get the strings for the headers
 
@@ -373,15 +370,33 @@ if ( $PaymentSuccess == "true" )
     
     $mailTemplate->set_var( "customer_first_name", $user->firstName() );
     $mailTemplate->set_var( "customer_last_name", $user->lastName() );
-    
-    $shippingUser = $order->shippingUser();
-    
-    if ( $shippingUser )
-    {
-        $mailTemplate->set_var( "shipping_customer_first_name", $shippingUser->firstName() );
-        $mailTemplate->set_var( "shipping_customer_last_name", $shippingUser->lastName() );
-    }
 
+    if ( $order->companyID() == 0 && $order->personID() == 0 )
+    {
+        $shippingUser = $order->shippingUser();
+    
+        if ( $shippingUser )
+        {
+            $mailTemplate->set_var( "shipping_customer_first_name", $shippingUser->firstName() );
+            $mailTemplate->set_var( "shipping_customer_last_name", $shippingUser->lastName() );
+        }
+    }
+    else
+    {
+        if ( $order->companyID() > 0 )
+        {
+            $customer = new eZCompany( $order->companyID() );
+            $mailTemplate->set_var( "shipping_customer_first_name", $customer->name() );
+            $mailTemplate->set_var( "shipping_customer_last_name", "" );
+        }
+        else
+        {
+            $customer = new eZPerson( $order->personID() );
+            $mailTemplate->set_var( "shipping_customer_first_name", $customer->firstName() );
+            $mailTemplate->set_var( "shipping_customer_last_name", $customer->lastName() );
+        }
+    }
+    
     // the shipping type text
     $shippingType = $order->shippingType();
     if ( $shippingType )
@@ -439,7 +454,7 @@ if ( $PaymentSuccess == "true" )
 
 
     $totalPrice = 0;
-    foreach( $items as $item )
+    foreach ( $items as $item )
     {
         $product = $item->product();
 
@@ -467,13 +482,13 @@ if ( $PaymentSuccess == "true" )
         {
             $priceArray = "";
             $options =& $product->options();
-            if ( count ( $options ) == 1 )
+            if ( count( $options ) == 1 )
             {
                 $option = $options[0];
-                if ( get_class ( $option ) == "ezoption" )
+                if ( get_class( $option ) == "ezoption" )
                 {
                     $optionValues =& $option->values();
-                    if ( count ( $optionValues ) > 1 )
+                    if ( count( $optionValues ) > 1 )
                     {
                         $i=0;
                         foreach ( $optionValues as $optionValue )
@@ -482,7 +497,7 @@ if ( $PaymentSuccess == "true" )
                             if ( $ShowPriceGroups and $PriceGroup > 0 )
                             {
                                 $priceArray[$i] = eZPriceGroup::correctPrice( $product->id(), $PriceGroup, $option->id(), $optionValue->id() );
-                                if( $priceArray[$i] )
+                                if ( $priceArray[$i] )
                                 {
                                     $found_price = true;
                                     $priceArray[$i] = $priceArray[$i];
@@ -611,7 +626,6 @@ if ( $PaymentSuccess == "true" )
     //check to see if the email should be encrypted for the administrator
     $mailEncrypt = $ini->read_var( "eZTradeMain", "MailEncrypt" );
     
-    
 	if ( $mailEncrypt == "GPG" )
 	{	
 	    //initialize GPG class 
@@ -641,9 +655,8 @@ if ( $PaymentSuccess == "true" )
 
     // get the cart or create it
     $cart = new eZCart();
-    $cart = $cart->getBySession( $session, "Cart" );
-
-    foreach( $cart->items() as $item )
+    $cart = $cart->getBySession( $session );
+    foreach ( $cart->items() as $item )
     {
         // set the wishlist item to bought if the cart item is
         // fetched from a wishlist
@@ -657,18 +670,19 @@ if ( $PaymentSuccess == "true" )
 
     // Decrease product/option quantity
     $items =& $cart->items();
-    foreach( $items as $item )
+    foreach ( $items as $item )
     {
         $product =& $item->product();
         $count = $item->count();
         $quantity = $product->totalQuantity();
         $values =& $item->optionValues();
         $selected_values = array();
-        foreach( $values as $value )
+        foreach ( $values as $value )
         {
             $option_value =& $value->optionValue();
             $selected_values[] = $option_value->id();
         }
+
         $changed_quantity = false;
         if ( !(is_bool( $quantity ) and !$quantity) )
         {

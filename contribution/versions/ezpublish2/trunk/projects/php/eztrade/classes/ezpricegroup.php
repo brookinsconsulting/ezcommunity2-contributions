@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezpricegroup.php,v 1.10 2001/07/30 07:11:55 br Exp $
+// $Id: ezpricegroup.php,v 1.11 2001/07/31 11:33:11 jhe Exp $
 //
 // Definition of eZPriceGroup class
 //
@@ -91,6 +91,7 @@ class eZPriceGroup
                      '$this->Name',
                      '$this->Description',
                      '$this->Placement' )" );
+            $db->unlock();
             $this->ID = $nextID;
         }
 

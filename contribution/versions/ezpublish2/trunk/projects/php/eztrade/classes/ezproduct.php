@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezproduct.php,v 1.71 2001/07/30 14:19:03 jhe Exp $
+// $Id: ezproduct.php,v 1.72 2001/07/31 11:33:11 jhe Exp $
 //
 // Definition of eZProduct class
 //
@@ -169,6 +169,7 @@ class eZProduct
                                     '$this->ShippingGroupID',
                                     '$timeStamp',
                                     '$this->ExpiryTime' )" );
+            $db->unlock();
 			$this->ID = $nextID;
         }
         else
@@ -193,7 +194,6 @@ class eZProduct
                                  WHERE ID='$this->ID'
                                  " );
         }
-        $db->unlock();
     
         if ( $res == false )
         {
@@ -895,6 +895,7 @@ class eZProduct
                                    ( ID, ProductID, MainImageID )
                                    VALUES ( '$nextID', '$this->ID', '$imageID' )
                                    " );
+                $db->unlock();
             }
         }
         else if ( $image == false )
@@ -912,7 +913,6 @@ class eZProduct
                                          ProductID='$this->ID'" );
             }
         }
-        $db->unlock();
 
         if ( in_array( false, $res ) )
             $db->rollback( );
@@ -957,6 +957,7 @@ class eZProduct
                                    ( '$nextID',
                                      '$this->ID',
                                      '$imageID' )" ) ;
+                $db->unlock();
             }
         }
         else if ( $image == false )
@@ -974,7 +975,6 @@ class eZProduct
                                          ProductID='$this->ID'" );
             }
         }
-        $db->unlock();
         
         if ( in_array( false, $res ) )
             $db->rollback( );
@@ -1374,7 +1374,7 @@ class eZProduct
                          ( '$nextID',   
                            '$categoryID',
                            '$this->ID' )";
-
+           $db->unlock();
            $res[] = $db->query( $query );
 
            eZDB::finish( $res, $db );
@@ -1436,7 +1436,7 @@ class eZProduct
                          ( '$nextID',
                            '$typeID',
                            '$this->ID' )";
-
+            $db->unlock();
             $res[] = $db->query( $query );
             eZDB::finish( $res, $db );
        }       

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: cart.php,v 1.40 2001/07/30 14:19:03 jhe Exp $
+// $Id: cart.php,v 1.41 2001/07/31 11:33:12 jhe Exp $
 //
 // Created on: <27-Sep-2000 11:57:49 bf>
 //
@@ -24,8 +24,6 @@
 //
 
 include_once( "classes/ezhttptool.php" );
-
-
 
 include_once( "classes/INIFile.php" );
 include_once( "classes/eztemplate.php" );
@@ -55,9 +53,9 @@ include_once( "ezsession/classes/ezsession.php" );
 include_once( "ezimagecatalogue/classes/ezimage.php" );
 include_once( "eztrade/classes/ezpricegroup.php" );
 
-if ( ( $Action == "Refresh" ) || isset( $DoCheckOut ) )
+if ( ( $Action == "Refresh" ) || isSet( $DoCheckOut ) )
 {
-    $i=0;
+    $i = 0;
     if ( count( $CartIDArray ) > 0 )
     foreach ( $CartIDArray as $cartID )
     {
@@ -82,17 +80,12 @@ if ( isSet( $DoCheckOut ) )
     exit();
 }
 
-$session = new eZSession();
-// if no session exist create one.
-if ( !$session->fetch() )
-{
-    $session->store();
-}
+$session =& eZSession::globalSession();
+
 $cart = new eZCart();
-
-$user = eZUser::currentUser();
-
 $cart = $cart->getBySession( $session );
+
+$user =& eZUser::currentUser();
 
 if ( !$cart )
 {
@@ -106,8 +99,8 @@ if ( !$cart )
 
 if ( $Action == "AddToBasket" )
 {
-    $product = new eZProduct( );
-    if ( !$product->get($ProductID ) )
+    $product = new eZProduct();
+    if ( !$product->get( $ProductID ) )
     {
         eZHTTPTool::header( "Location: /error/404/" );
         exit();

@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: companyedit.php,v 1.37 2001/07/20 12:01:50 jakobn Exp $
+// $Id: companyedit.php,v 1.38 2001/07/31 11:33:11 jhe Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -24,8 +24,8 @@
 //
 
 /*
-  Handle companies, this php file has been merged into personedit.php since it has so many
-  similar elements.
+  Handle companies, this php file has been merged into personedit.php since
+  it has so many similar elements.
 */
 
 $CompanyEdit = true;

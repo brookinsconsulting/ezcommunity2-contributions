@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezcartoptionvalue.php,v 1.11 2001/07/20 11:42:01 jakobn Exp $
+// $Id: ezcartoptionvalue.php,v 1.12 2001/07/31 11:33:11 jhe Exp $
 //
 // Definition of eZCartOptionValue class
 //
@@ -78,6 +78,7 @@ class eZCartOptionValue
 		                         RemoteID='$this->RemoteID',
 		                         OptionValueID='$this->OptionValueID'
                                  " );
+            $db->unlock();
 
 			$this->ID = $nextID;
         }
@@ -90,7 +91,6 @@ class eZCartOptionValue
                                  WHERE ID='$this->ID'
                                  " );
         }
-        $db->unlock();
     
         if ( $res == false )
             $db->rollback( );

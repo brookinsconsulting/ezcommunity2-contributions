@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezproductcurrency.php,v 1.7 2001/07/30 07:11:55 br Exp $
+// $Id: ezproductcurrency.php,v 1.8 2001/07/31 11:33:11 jhe Exp $
 //
 // Definition of eZProductCurrency class
 //
@@ -80,6 +80,7 @@ class eZProductCurrency
 		                 '$this->Value',
 		                 '$timeStamp',
 		                 '$this->PrefixSign' )" );
+            $db->unlock();
 			$this->ID = $nextID;
         }
         else
