@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: bugreport.php,v 1.16 2001/02/26 16:40:09 fh Exp $
+// $Id: bugreport.php,v 1.17 2001/02/26 16:42:15 fh Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <27-Nov-2000 20:31:00 bf>
@@ -250,6 +250,7 @@ $t->set_var( "title_value", "" );
 $t->set_var( "file", "" );
 $t->set_var( "image", "" );
 $t->set_var( "private_checked", "" );
+$t->set_var( "usr_email", "" );
 
 if( $Action == "Edit" ) // load values from database
 {
@@ -265,9 +266,7 @@ if( $Action == "Edit" ) // load values from database
         $catName = $category->name();
 
     $user = eZUser::currentUser();
-    if( $user )
-        $t->set_var( "usr_email", "" );
-    else
+    if( !$user )
         $t->set_var( "usr_email", $bug->userEmail() );
 
     
