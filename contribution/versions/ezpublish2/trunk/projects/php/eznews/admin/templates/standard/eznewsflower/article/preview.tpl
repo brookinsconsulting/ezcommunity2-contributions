@@ -26,11 +26,11 @@
 {this_price}
 </p>
 
-<hr noshade size="4" />
-
-<br />
 
 <form method="post" action="/{this_path}/{this_id}?edit+this">
+
+<hr noshade size="4" />
+
 <input class="okbutton" type="submit" value="{intl-edit}">
 
 <input class="okbutton" name="form_publish" type="submit" value="{intl-publish}">
