@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: filelist.php,v 1.14 2001/01/30 11:46:19 jb Exp $
+// $Id: filelist.php,v 1.15 2001/01/30 15:11:04 jb Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <10-Dec-2000 16:16:20 bf>
@@ -184,7 +184,7 @@ foreach ( $fileList as $file )
     $t->set_var( "file_name", $file->name() );
     $t->set_var( "file_url", $file->name() );
 
-    $size_short = $file->shortenedFileSize();
+    $size_short = $file->siFileSize();
     $t->set_var( "size_unit", $size_short["unit"] );
     $t->set_var( "file_size", $size_short["size-string"] );
 

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: fileview.php,v 1.4 2001/01/30 11:46:12 jb Exp $
+// $Id: fileview.php,v 1.5 2001/01/30 15:11:00 jb Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <04-Jan-2001 16:47:23 ce>
@@ -72,7 +72,7 @@ if ( $FileID != 0 )
         $t->parse( "edit", "edit_tpl" );
     }
 
-    $size_short = $file->shortenedFileSize();
+    $size_short = $file->siFileSize();
     $t->set_var( "size_unit", $size_short["unit"] );
     $t->set_var( "file_size", $size_short["size-string"] );
 
