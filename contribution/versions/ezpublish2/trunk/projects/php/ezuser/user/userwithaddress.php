@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: userwithaddress.php,v 1.64 2001/07/11 09:37:50 th Exp $
+// $Id: userwithaddress.php,v 1.65 2001/07/11 09:50:45 th Exp $
 //
 //
 // Christoffer A. Elo <ce@ez.no>
@@ -567,7 +567,7 @@ $t->set_var( "first_name_value", $FirstName );
 $t->set_var( "last_name_value", $LastName );
 $t->set_var( "is_cookie_selected", "$cookieCheck" );
 
-if( $user->infoSubscription() == true )
+if( ( get_class( $user ) == "ezuser" ) and $user->infoSubscription() == true )
     $InfoSubscription = "checked";
 else
     $InfoSubscription = "";
