@@ -1,6 +1,6 @@
 <?php
-// 
-// $Id: forgot.php,v 1.20.2.2 2002/03/18 17:23:07 br Exp $
+//
+// $Id: forgot.php,v 1.20.2.3 2002/05/16 08:14:55 ce Exp $
 //
 // Created on: <20-Sep-2000 13:32:11 ce>
 //
@@ -53,15 +53,14 @@ if ( $user )
         eZHTTPTool::header( "Location: /user/missingemail/" );
         exit();
     }
-    
+
     $subjectText = ( $languageIni->read_var( "strings", "subject_text" ) . " " . $headersInfo["Host"] );
     $bodyText = $languageIni->read_var( "strings", "body_text" );
-    
+
     $bodyFooter = $languageIni->read_var( "strings", "body_footer" );                      //SF
-    $reminderMailFromAddress = $ini->read_var( "eZUserMain", "ReminderMailFromAddress" );  //SF     
+    $reminderMailFromAddress = $ini->read_var( "eZUserMain", "ReminderMailFromAddress" );  //SF
 
     $forgot = new eZForgot();
-    $forgot->get( $user->id() );
     $forgot->setUserID( $user->id() );
     $userID = $user->id();
     $forgot->store();
@@ -70,14 +69,18 @@ if ( $user )
     $mailpassword->setTo( $user->email() );
     $mailpassword->setSubject( $subjectText );
     $mailpassword->setFrom( $reminderMailFromAddress  );                                               //SF
-    
+
     $body = ( $bodyText . "\n");
     $body .= ( "http://" . $headersInfo["Host"] . $ini->WWWDir . $ini->Index . "/user/forgot/change/" . $forgot->Hash() );
     $body .= ( $bodyFooter );                                                                      //SF
-    
+
     $mailpassword->setBody( $body );
     $mailpassword->send();
-    
+
+            print_r( $mailpassword );
+        exit();
+
+
     eZHTTPTool::header( "Location: /user/successfull/" );
     exit();
 }
@@ -91,10 +94,10 @@ if ( $Action == "change" )
     {
         $change->get( $change->check( $Hash ) );
         $subjectNewPassword = $languageIni->read_var( "strings", "subject_text_password" );
-        
-        $reminderMailFromAddress = $ini->read_var( "eZUserMain", "ReminderMailFromAddress" );  //SF     
+
+        $reminderMailFromAddress = $ini->read_var( "eZUserMain", "ReminderMailFromAddress" );  //SF
         $bodyFooter = $languageIni->read_var( "strings", "body_footer" );                      //SF
-	
+
         $bodyNewPassword = $languageIni->read_var( "strings", "body_text_password" );
         $passwordText = $languageIni->read_var( "strings", "password" );
         $userID = $change->userID();
@@ -105,14 +108,14 @@ if ( $Action == "change" )
         $mail = new eZMail();
         $mail->setTo( $user->email() );
         $mail->setSubject( $subjectNewPassword . " " . $headersInfo["Host"] );
-	
+
         $mail->setFrom( $reminderMailFromAddress );                                            //SF
-	
+
         $body = ( $bodyNewPassword . "\nhttp://" . $headersInfo["Host"] . $ini->WWWDir . $ini->Index . "/user/login/.\n" ); //SF
         $body .= ( $passwordText . ": "  .  $password );
-        
+
         $body .= ( $bodyFooter );                                                              //SF
-	
+
         $mail->setBody( $body );
         $mail->send();
 
