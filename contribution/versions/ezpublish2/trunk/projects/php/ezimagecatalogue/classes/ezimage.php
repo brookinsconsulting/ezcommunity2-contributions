@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezimage.php,v 1.22 2000/11/25 15:57:33 bf-cvs Exp $
+// $Id: ezimage.php,v 1.23 2000/12/08 15:30:30 bf-cvs Exp $
 //
 // Definition of eZImage class
 //
@@ -32,7 +32,7 @@
   // Fetch an uploaded file and store it in the imagecatalogue.
     $file = new eZImageFile();
 
-    // userfile is the name of the <input ..> in the html form
+    // userfile is the name of the input in the html form
     if ( $file->getUploadedFile( "userfile" ) )
     { 
         $image = new eZImage();
