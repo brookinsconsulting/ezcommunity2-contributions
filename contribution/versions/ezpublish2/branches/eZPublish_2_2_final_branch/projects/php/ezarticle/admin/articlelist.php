@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: articlelist.php,v 1.50.2.2 2002/02/18 18:53:52 master Exp $
+// $Id: articlelist.php,v 1.50.2.3 2002/04/19 16:38:50 br Exp $
 //
 // Created on: <18-Oct-2000 14:41:37 bf>
 //
@@ -41,6 +41,12 @@ $Locale = new eZLocale( $Language );
 $AdminListLimit = $ini->read_var( "eZArticleMain", "AdminListLimit" );
 
 $session =& eZSession::globalSession();
+
+if ( isSet( $GoTo ) && is_Numeric( $GoToCategoryID ) )
+{
+    eZHTTPTool::header( "Location: /article/archive/$GoToCategoryID" );
+    exit();
+}
 
 if ( isset( $StoreSelection ) )
 {

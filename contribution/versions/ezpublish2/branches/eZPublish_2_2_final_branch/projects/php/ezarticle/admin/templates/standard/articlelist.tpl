@@ -21,13 +21,13 @@
 	<td>
 	<p class="boxtext">{intl-goto}:</p>
 	<form action="{www_dir}{index}/article/archive/" method="post">
-	<select name="CategoryID">
+	<select name="GoToCategoryID">
 
 	<!-- BEGIN category_tree_id_tpl -->
 	<option value="{category_id}" {selected}>{category_level}{category_name}</option>
 	<!-- END category_tree_id_tpl -->
 	</select>
-	<input type="submit" class="stdbutton" value="{intl-go}" />
+	<input type="submit" name="GoTo" class="stdbutton" value="{intl-go}" />
 	</form>
 	</td>
 	<td>
