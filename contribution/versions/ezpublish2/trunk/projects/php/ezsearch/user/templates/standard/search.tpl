@@ -8,7 +8,14 @@
 <tr>
 	<th colspan="2">
 	{intl-search_in_module}: {module_name}
-	<br />
+	</th>
+</tr>
+<!-- BEGIN search_sub_module_tpl -->
+<tr>
+        <th colspan="2">
+<!-- BEGIN search_sub_module_name_tpl -->
+        {sub_module_name}<br />
+<!-- END search_sub_module_name_tpl -->
 	{intl-search_count}: {search_count}
 	</th>
 </tr>
@@ -27,5 +34,6 @@
 	{intl-full_search}: <a href="{www_dir}{index}{search_more_link}">{intl-click_here}</a>
 	</td>
 </tr>
+<!-- END search_sub_module_tpl -->
 </table>
 <!-- END search_type_tpl -->

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: search.php,v 1.6 2001/10/05 18:38:17 br Exp $
+// $Id: search.php,v 1.7 2001/10/09 08:58:10 jhe Exp $
 //
 // Created on: <08-Jun-2001 13:10:36 bf>
 //
@@ -37,13 +37,12 @@ $moduleArray = explode( ";", $SearchModules );
 $t = new eZTemplate( "ezsearch/user/" . $ini->read_var( "eZSearchMain", "TemplateDir" ),
                      "ezsearch/user/intl/", $Language, "search.php" );
 
-
-
 $t->set_file( "search_tpl", "search.tpl" );
 
 $t->set_block( "search_tpl", "search_type_tpl", "search_type" );
-$t->set_block( "search_type_tpl", "search_item_tpl", "search_item" );
-
+$t->set_block( "search_type_tpl", "search_sub_module_tpl", "search_sub_module" );
+$t->set_block( "search_sub_module_tpl", "search_sub_module_name_tpl", "search_sub_module_name" );
+$t->set_block( "search_sub_module_tpl", "search_item_tpl", "search_item" );
 
 $t->setAllStrings();
 
@@ -55,39 +54,59 @@ $t->set_var( "search_text", $SearchText );
 foreach ( $moduleArray as $module )
 {
     $module = strtolower( $module );
-
+    unset( $SearchResult );
     if ( eZFile::file_exists( "$module/user/searchsupplier.php" ) )
     {
         include( "$module/user/searchsupplier.php" );
-
+        
         $t->set_var( "search_item", "" );
         $t->set_var( "module_name", $ModuleName );
         $i = 0;
-        if ( count( $SearchResult ) > 0 )
+        if ( !is_array( $SearchResult[0] ) )
         {
-            foreach ( $SearchResult as $res )
-            {
-                if ( ( $i % 2 ) == 0 )
-                    $t->set_var( "td_class", "bglight" );
-                else
-                    $t->set_var( "td_class", "bgdark" );
-                
-                $t->set_var( "search_link", $DetailViewPath . $res->id() );
-                $t->set_var( "search_name", $res->name() );
-                $t->set_var( "icon_src", $IconPath );            
-                $t->parse( "search_item", "search_item_tpl", true );
-                $i++;
-            }
+            $SearchResult = array( $SearchResult );
         }
-        $t->set_var( "search_more_link", $DetailedSearchPath ."?" . $DetailedSearchVariable . "=". urlencode( $SearchText ) );
-
-        $t->set_var( "search_count", $SearchCount );
-
+        
+        $t->set_var( "search_sub_module", "" );
+        foreach ( $SearchResult as $Result )
+        {
+            if ( count( $Result ) > 0 && count( $Result["Result"] ) > 0 )
+            {
+                $ResultArray = $Result["Result"];
+                foreach ( $ResultArray as $res )
+                {
+                    if ( ( $i % 2 ) == 0 )
+                        $t->set_var( "td_class", "bglight" );
+                    else
+                        $t->set_var( "td_class", "bgdark" );
+                    
+                    $t->set_var( "search_link", $Result["DetailViewPath"] . $res->id() );
+                    $t->set_var( "search_name", $res->name() );
+                    $t->set_var( "icon_src", $Result["IconPath"] );            
+                    $t->parse( "search_item", "search_item_tpl", true );
+                    $i++;
+                }
+            }
+            $t->set_var( "search_more_link", $Result["DetailedSearchPath"] . "?" .
+                         $Result["DetailedSearchVariable"] . "=". urlencode( $SearchText ) );
+            $t->set_var( "search_count", $Result["SearchCount"] ? $Result["SearchCount"] : "0" );
+            if ( isSet( $Result["SubModuleName"] ) )
+            {
+                $t->set_var( "sub_module_name", $Result["SubModuleName"] );
+                $t->parse( "search_sub_module_name", "search_sub_module_name_tpl" );
+            }
+            else
+            {
+                $t->set_var( "search_sub_module_name", "" );
+            }
+                     
+            $t->parse( "search_sub_module", "search_sub_module_tpl", true );
+            $t->set_var( "search_item", "" );
+        }
         $t->parse( "search_type", "search_type_tpl", true );
     }
 }
 
 $t->pparse( "output", "search_tpl" );
-
 
 ?>
