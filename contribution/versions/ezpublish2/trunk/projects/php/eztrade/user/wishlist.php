@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: wishlist.php,v 1.6 2000/11/23 10:16:30 bf-cvs Exp $
+// $Id: wishlist.php,v 1.7 2000/12/08 10:41:41 bf-cvs Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <21-Oct-2000 18:09:45 bf>
@@ -207,7 +207,8 @@ foreach ( $items as $item )
     $i++;
 }
 
-$shippingCost = 100.0;
+$shippingCost = $ini->read_var( "eZTradeMain", "ShippingCost" );
+
 $currency->setValue( $shippingCost );
 $t->set_var( "shipping_cost", $locale->format( $currency ) );
 
