@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: articleview.php,v 1.82 2001/09/19 11:24:57 bf Exp $
+// $Id: articleview.php,v 1.83 2001/10/15 11:04:57 jhe Exp $
 //
 // Created on: <18-Oct-2000 16:34:51 bf>
 //
@@ -321,7 +321,7 @@ if ( $article->get( $ArticleID ) )
 
     $t->set_var( "article_id", $article->id() );
 
-    $locale = new eZLocale();
+    $locale = new eZLocale( $Language );
     $published = $article->published();
 
     $t->set_var( "article_created", $locale->format( $published ) );

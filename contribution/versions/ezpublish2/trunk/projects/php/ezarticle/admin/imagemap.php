@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: imagemap.php,v 1.5 2001/07/19 12:19:21 jakobn Exp $
+// $Id: imagemap.php,v 1.6 2001/10/15 11:04:57 jhe Exp $
 //
 // Created on: <12-Jun-2001 14:47:19 jhe>
 //
@@ -54,7 +54,7 @@ switch ( $Action )
         $t->set_var( "article_id", $ArticleID );
         $t->set_var( "image", $image->filePath( true ) );
         
-        $elements = $map->get();
+        $elements = $map->elements();
         $t->set_var( "element", "" );
         
         for ( $i = 0; $i < count( $elements ); $i++ )

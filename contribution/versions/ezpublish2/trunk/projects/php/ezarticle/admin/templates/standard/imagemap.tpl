@@ -13,9 +13,9 @@ function getValue()
 <hr noshade="noshade" size="4" />
 
 <applet codebase="/" code="eZMapEditor.class" archive="ezimagemap.jar" width=600 height=400 name="ImageMapEditor">
-<param name="Image" value="{image}">
+<param name="Image" value="{image}" >
 <!-- BEGIN element_tpl -->
-<param name="Element{element_id}" value="{value}">
+<param name="Element{element_id}" value="{value}" />
 <!-- END element_tpl -->
 </applet>
 

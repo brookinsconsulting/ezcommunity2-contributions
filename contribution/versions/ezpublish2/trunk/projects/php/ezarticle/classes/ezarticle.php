@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezarticle.php,v 1.179 2001/10/01 18:19:19 br Exp $
+// $Id: ezarticle.php,v 1.180 2001/10/15 11:04:57 jhe Exp $
 //
 // Definition of eZArticle class
 //
@@ -416,9 +416,10 @@ class eZArticle
             {
 //                $file->delete();
             }
-
             $db->begin();
 
+            $forum = $this->forum();
+            $forum->delete();
             $res = array();
             
             $res[] = $db->query( "DELETE FROM eZArticle_ArticleCategoryLink WHERE ArticleID='$this->ID'" );
@@ -2699,18 +2700,20 @@ class eZArticle
     /*!
       Returns the forum for the article.
     */
-    function &forum()
+    function forum( $as_object = true )
     {
         $db =& eZDB::globalDatabase();
 
         $db->array_query( $res, "SELECT ForumID FROM
                                             eZArticle_ArticleForumLink
                                             WHERE ArticleID='$this->ID'" );
-       
         $forum = false;
         if ( count( $res ) == 1 )
         {
-            $forum = new eZForum( $res[0][$db->fieldName("ForumID")] );
+            if ( $as_object )
+                $forum = new eZForum( $res[0][$db->fieldName( "ForumID" )] );
+            else
+                $forum = $res[0][$db->fieldName( "ForumID" )];
         }
         else
         {
@@ -2739,10 +2742,11 @@ class eZArticle
                 $db->commit();
             
 
-            $forum = new eZForum( $forumID );
+            if ( $as_object )
+                $forum = new eZForum( $forumID );
+            else
+                $forum = $forumID;
         }
-
-
         return $forum;
     }
 

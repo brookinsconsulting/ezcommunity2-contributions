@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezimagemap.php,v 1.4 2001/08/16 13:57:04 jhe Exp $
+// $Id: ezimagemap.php,v 1.5 2001/10/15 11:04:57 jhe Exp $
 //
 // Created on: <12-Jun-2001 17:41:10 jhe>
 //
@@ -36,29 +36,33 @@ class eZImageMap
 {
     function eZImageMap( $image )
     {
-        $this->ID = $image;
+        $this->Elements = array();
+        $this->get( $image );
     }
     
-    function get()
+    function get( $id )
     {
         $db =& eZDB::globalDatabase();
-        
-        $elements = array();
-        
+        $this->ID = $id;
         $db->array_query( $article_array, "SELECT Link, AltText, Shape, StartPosX, StartPosY, EndPosX, EndPosY FROM eZImageCatalogue_ImageMap WHERE ImageID='$this->ID'" );
-
+        
         for ( $i = 0; $i < count( $article_array ); $i++ )
         {
-            $elements[$i] = $article_array[$i][0] . "|" . $article_array[$i][1] . "|" . $article_array[$i][2] . "|" . $article_array[$i][3] . "|" . $article_array[$i][4] . "|" . $article_array[$i][5] . "|" . $article_array[$i][6];
+            $this->Elements[$i] = $article_array[$i][0] . "|" . $article_array[$i][1] . "|" . $article_array[$i][2] . "|" . $article_array[$i][3] . "|" . $article_array[$i][4] . "|" . $article_array[$i][5] . "|" . $article_array[$i][6];
         }
-        return $elements;  
-    }	
+    }
+
+    function elements()
+    {
+        return $this->Elements;
+    }
     
     function store( $elements )
     {
         $db =& eZDB::globalDatabase();
-    	
-        $db->query( "DELETE FROM eZImageCatalogue_ImageMap WHERE ImageID='$this->ID'" );
+        $db->begin();
+        $res = array();
+        $res[] = $db->query( "DELETE FROM eZImageCatalogue_ImageMap WHERE ImageID='$this->ID'" );
         
         $list = array();
         $element_list = array();
@@ -70,8 +74,8 @@ class eZImageMap
             if ( $element_list[$i] != "" )
             {
                 $list = split( "\|", $element_list[$i] );
-                $id = $this->Database->nextID( "eZImageCatalogue_ImageMap", "ID" );
-                $res[] = $this->Database->query( "INSERT INTO eZImageCatalogue_ImageMap
+                $id = $db->nextID( "eZImageCatalogue_ImageMap", "ID" );
+                $res[] = $db->query( "INSERT INTO eZImageCatalogue_ImageMap
                                          (ID,
                                           ImageID,
                                           Link,
@@ -94,11 +98,12 @@ class eZImageMap
         }
         $db->unlock();
         if ( in_array( false, $res ) )
-            $db->rollback( );
+            $db->rollback();
         else
             $db->commit();            
     }
-    
+
+    var $Elements;
 }
 
 ?>
