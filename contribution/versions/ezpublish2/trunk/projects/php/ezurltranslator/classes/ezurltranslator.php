@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezurltranslator.php,v 1.7 2001/06/28 08:14:55 bf Exp $
+// $Id: ezurltranslator.php,v 1.8 2001/07/11 09:33:50 bf Exp $
 //
 // Definition of eZURLTranslator class
 //
@@ -145,7 +145,7 @@ class eZURLTranslator
         $return_array = array();
         $url_array = array();
         
-        $db->array_query( $url_array, "SELECT ID FROM eZURLTranslator_URL ORDER BY Created" );
+        $db->array_query( $url_array, "SELECT ID, Created FROM eZURLTranslator_URL ORDER BY Created" );
         
         for ( $i=0; $i<count($url_array); $i++ )
         {
