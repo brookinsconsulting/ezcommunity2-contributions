@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: imageedit.php,v 1.12 2001/01/23 12:57:06 jb Exp $
+// $Id: imageedit.php,v 1.13 2001/02/20 20:55:04 gl Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <21-Sep-2000 10:32:36 bf>
@@ -106,13 +106,19 @@ if ( $Action == "Update" )
 if ( $Action == "Delete" )
 {
     $article = new eZArticle( $ArticleID );
-    $image = new eZImage( $ImageID );
-        
-    $article->deleteImage( $image );
-    
+
+    if ( count ( $ImageArrayID ) != 0 )
+    {
+        foreach( $ImageArrayID as $ImageID )
+        {
+            $image = new eZImage( $ImageID );
+            $article->deleteImage( $image );
+        }
+    }
+
     include_once( "classes/ezhttptool.php" );
     eZHTTPTool::header( "Location: /article/articleedit/imagelist/" . $ArticleID . "/" );
-    exit();    
+    exit();
 }
 
 // store the image definition
@@ -120,10 +126,17 @@ if ( $Action == "StoreDef" )
 {
     $article = new eZArticle( $ArticleID );
 
-    if ( isset( $ThumbnailImageID ) &&  ( $ThumbnailImageID != 0 ) &&  ( $ThumbnailImageID != "" ) )
+    if ( isset( $ThumbnailImageID ) && ( $ThumbnailImageID != 0 ) && ( $ThumbnailImageID != "" ) )
     {
-        $thumbnail = new eZImage( $ThumbnailImageID );
-        $article->setThumbnailImage( $thumbnail );
+        if ( isset( $NoFrontImage ) )
+        {
+            $article->setThumbnailImage( false );
+        }
+        else
+        {
+            $thumbnail = new eZImage( $ThumbnailImageID );
+            $article->setThumbnailImage( $thumbnail );
+        }
     }
 
     if ( isset( $NewImage ) )

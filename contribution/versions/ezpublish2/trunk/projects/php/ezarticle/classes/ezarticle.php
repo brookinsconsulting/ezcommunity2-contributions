@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezarticle.php,v 1.35 2001/02/16 16:44:36 jb Exp $
+// $Id: ezarticle.php,v 1.36 2001/02/20 20:55:04 gl Exp $
 //
 // Definition of eZArticle class
 //
@@ -572,13 +572,13 @@ class eZArticle
     /*!
       Sets the thumbnail image for the article.
 
-      The argument must be a eZImage object.
+      The argument must be an eZImage object, or false to unset the thumbnail image.
     */
     function setThumbnailImage( $image )
     {
-       if ( $this->State_ == "Dirty" )
+        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
-        
+
         if ( get_class( $image ) == "ezimage" )
         {
             $this->dbInit();
@@ -586,24 +586,38 @@ class eZArticle
             $imageID = $image->id();
 
             $this->Database->array_query( $res_array, "SELECT COUNT(*) AS Number FROM eZArticle_ArticleImageDefinition
-                                     WHERE
-                                     ArticleID='$this->ID'
-                                   " );
+                                                       WHERE
+                                                       ArticleID='$this->ID'" );
 
             if ( $res_array[0]["Number"] == "1" )
-            {            
+            {
                 $this->Database->query( "UPDATE eZArticle_ArticleImageDefinition
-                                     SET
-                                     ThumbnailImageID='$imageID'
-                                     WHERE
-                                     ArticleID='$this->ID'" );
+                                         SET
+                                         ThumbnailImageID='$imageID'
+                                         WHERE
+                                         ArticleID='$this->ID'" );
             }
             else
             {
                 $this->Database->query( "INSERT INTO eZArticle_ArticleImageDefinition
-                                     SET
-                                     ArticleID='$this->ID',
-                                     ThumbnailImageID='$imageID'" );
+                                         SET
+                                         ArticleID='$this->ID',
+                                         ThumbnailImageID='$imageID'" );
+            }
+        }
+        else if ( $image == false )
+        {
+            $this->dbInit();
+
+            $this->Database->array_query( $res_array, "SELECT COUNT(*) AS Number FROM eZArticle_ArticleImageDefinition
+                                                       WHERE
+                                                       ArticleID='$this->ID'" );
+
+            if ( $res_array[0]["Number"] == "1" )
+            {
+                $this->Database->query( "DELETE FROM eZArticle_ArticleImageDefinition
+                                         WHERE
+                                         ArticleID='$this->ID'" );
             }
         }
     }

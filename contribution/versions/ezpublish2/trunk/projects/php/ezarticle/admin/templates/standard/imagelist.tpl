@@ -31,8 +31,8 @@
 	<td width="1%" class="{td_class}">
 	<a href="/article/articleedit/imageedit/edit/{image_id}/{article_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('eztp{image_id}-red','','/images/{site_style}/redigerminimrk.gif',1)"><img name="eztp{image_id}-red" border="0" src="/images/{site_style}/redigermini.gif" width="16" height="16" align="top" border="0" alt="Edit" /></a>
 	</td>
-	<td width="1%" class="{td_class}">
-	<a href="/article/articleedit/imageedit/delete/{image_id}/{article_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('eztp{image_id}-slett','','/images/{site_style}/slettminimrk.gif',1)"><img name="eztp{image_id}-slett" border="0" src="/images/{site_style}/slettmini.gif" width="16" height="16" align="top" border="0" alt="Delete"></a>
+	<td class="{td_class}" width="1%" align="center">
+	<input type="checkbox" name="ImageArrayID[]" value="{image_id}">
 	</td>
 </tr>
 <!-- END image_tpl -->
@@ -43,7 +43,21 @@
 
 <hr noshade="noshade" size="4" />
 
-<input class="stdbutton" type="submit" name="NewImage"value="{intl-image_upload}" />
+<table cellspacing="0" cellpadding="0" border="0">
+<tr>
+	<td valign="top">
+	<input class="stdbutton" type="submit" name="NewImage" value="{intl-image_upload}" />
+	</td>
+	<td>&nbsp;</td>
+	<td>
+	<input class="stdbutton" type="submit" name="NoFrontImage" value="{intl-image_no_front}" />
+	</td>
+	<td>&nbsp;</td>
+	<td>
+	<input class="stdbutton" type="submit" name="DeleteSelected" value="{intl-delete_selected}" />
+	</td>
+</tr>
+</table>
 
 <hr noshade="noshade" size="4" />
 

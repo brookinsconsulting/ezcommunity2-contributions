@@ -129,19 +129,11 @@ switch ( $url_array[2] )
                     }
                     break;
 
-                    case "delete" :
-                    {
-                        $Action = "Delete";
-                        $ArticleID = $url_array[6];
-                        $ImageID = $url_array[5];
-                        include( "ezarticle/admin/imageedit.php" );
-                    }
-                    break;
-                    
-                    
                     case "storedef" :
                     {
                         $Action = "StoreDef";
+                        if ( isset( $DeleteSelected ) )
+                            $Action = "Delete";
                         $ArticleID = $url_array[5];
                         include( "ezarticle/admin/imageedit.php" );
                     }
