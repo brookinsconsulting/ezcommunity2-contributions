@@ -9,7 +9,7 @@
 
 <p class="boxtext">{intl-offset}</p>
 <input type="text" size="20" name="Offset" value="{offset_value}"/>
-<br></br>
+<br />
 
 <hr noshade size="4">
 

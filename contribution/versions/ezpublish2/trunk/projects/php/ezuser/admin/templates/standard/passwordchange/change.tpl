@@ -14,7 +14,7 @@
 
 <p class="boxtext">{intl-verifypassword}</p>
 <input type="password" size="20" name="VerifyPassword"/>
-<br><br>
+<br /><br />
 
 <hr noshade size="4">
 

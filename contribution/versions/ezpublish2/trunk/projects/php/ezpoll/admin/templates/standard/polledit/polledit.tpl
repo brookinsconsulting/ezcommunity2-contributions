@@ -44,7 +44,7 @@
 <p class="boxtext">{intl-desc}</p>
 <textarea rows="5" cols="20" name="Description">{description_value}</textarea>
 
-<br></br>
+<br />
 
 <div class="check"><input type="checkbox" name="IsEnabled" {is_enabled}>&nbsp;Aktiv</div>
 <div class="check"><input type="checkbox" name="IsClosed" {is_closed}>&nbsp;Avsluttet</div>
@@ -60,7 +60,7 @@
 <div class="check"><input type="checkbox" name="Number" {number}> Antall stemmer</div
 <div class="check"><input type="checkbox" name="Percent" {percent}> Prosent</div>
 
-<br></br>
+<br />
 
 <table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
 <tr>
@@ -92,7 +92,7 @@
 </tr>
 </table>
 
-<br></br>
+<br />
 
 <hr noshade size="4"/>
 

@@ -84,7 +84,7 @@
 <!-- BEGIN link_list_tpl -->
 <tr>
 	<td bgcolor="{bg_color}">
-	<a href="/link/linkedit/edit/{link_id}/">{link_title}</a><br></br>
+	<a href="/link/linkedit/edit/{link_id}/">{link_title}</a><br />
     {link_description}
 	</td>
 	<td bgcolor="{bg_color}" width="80" align="right">

@@ -23,7 +23,7 @@
 
 	<!-- END module_list_header_tpl -->
 
-<br></br>
+<br />
 
 
 <hr noshade size="4"/>

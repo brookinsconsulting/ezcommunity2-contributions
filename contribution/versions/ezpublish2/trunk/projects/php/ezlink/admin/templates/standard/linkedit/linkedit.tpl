@@ -25,12 +25,12 @@ http://<input type="text" name="url" size="40" value="{url}">
 <!-- {intl-search} -->
 <textarea rows="5" cols="40" name="keywords">{keywords}</textarea>
 
-<br></br>
+<br />
 
 <p class="boxtext">{intl-desc}</p>
 <!-- {intl-discedit} -->
 <textarea rows="5" cols="40" name="description">{description}</textarea>
-<br></br>
+<br />
 
 <p class="boxtext">{intl-accepted}</p>
 <select name="accepted">
@@ -38,7 +38,7 @@ http://<input type="text" name="url" size="40" value="{url}">
 <option {yes_selected} value="Y">Ja</option>
 </select>
 
-<br></br>
+<br />
 
 <hr noshade size="4"/>
 
