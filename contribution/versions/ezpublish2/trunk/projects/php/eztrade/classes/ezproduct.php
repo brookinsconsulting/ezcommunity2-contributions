@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezproduct.php,v 1.29 2001/02/08 09:59:14 jb Exp $
+// $Id: ezproduct.php,v 1.30 2001/02/08 10:17:06 jb Exp $
 //
 // Definition of eZProduct class
 //
@@ -943,6 +943,10 @@ class eZProduct
        if ( count( $res ) == 1 )
        {
            $category = new eZProductCategory( $res[0]["CategoryID"] );
+       }
+       else
+       {
+           print( "<br><b>Failed to fetch product category definition for ID $this->ID</b><br>" );
        }
 
        return $category;
