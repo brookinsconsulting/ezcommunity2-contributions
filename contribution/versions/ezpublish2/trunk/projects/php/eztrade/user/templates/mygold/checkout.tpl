@@ -38,7 +38,7 @@
     </td>    
     <td class="{td_class}"><nobr>&nbsp;{product_number}</nobr></td>
     <td class="{td_class}">&nbsp;
-      <a href="{www_dir}{index}/trade/productview/{product_id}">{product_name}</a>
+      <a href="{www_dir}{index}/trade/{url_action}">{product_name}</a>
       <!-- BEGIN cart_item_option_tpl -->
       <br />&nbsp;<span class="small">&nbsp;Gr&ouml;&szlig;e: {option_value}</span>
       <!-- BEGIN option_savings_item_tpl -->

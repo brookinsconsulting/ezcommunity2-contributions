@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: checkout.php,v 1.95 2001/10/06 11:23:44 bf Exp $
+// $Id: checkout.php,v 1.96 2001/10/12 11:42:48 ce Exp $
 //
 // Created on: <28-Sep-2000 15:52:08 bf>
 //
@@ -338,6 +338,11 @@ foreach ( $items as $item )
     $t->set_var( "cart_item_option", "" );
     $t->set_var( "cart_item_basis", "" );
 
+    if ( $product->productType() == 2 )
+        $useVoucher = true;
+    else
+        $useVoucher = false;
+
     foreach ( $optionValues as $optionValue )
     {
         turnColumnsOnOff( "option" );
@@ -460,7 +465,7 @@ if ( $ShowCart == true )
     }
     else
         $t->set_var( "remove_voucher", "" );
-    
+
     if ( is_array ( $voucherSession ) )
     {
         $t->parse( "vouchers", "vouchers_tpl" );
@@ -663,8 +668,8 @@ if ( $total["inctax"] )
     $checkout = new eZCheckout();
     
     $instance =& $checkout->instance();
-    
-    $paymentMethods =& $instance->paymentMethods();
+
+    $paymentMethods =& $instance->paymentMethods( $useVoucher );
     
     foreach ( $paymentMethods as $paymentMethod )
     {

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezproduct.php,v 1.116 2001/10/11 09:46:20 ce Exp $
+// $Id: ezproduct.php,v 1.117 2001/10/12 11:42:47 ce Exp $
 //
 // Definition of eZProduct class
 //
@@ -60,6 +60,8 @@ include_once( "eztrade/classes/ezproductcategory.php" );
 include_once( "ezimagecatalogue/classes/ezimage.php" );
 include_once( "eztrade/classes/ezproducttype.php" );
 include_once( "eztrade/classes/ezvattype.php" );
+include_once( "eztrade/classes/ezvoucher.php" );
+include_once( "eztrade/classes/ezvoucherinformation.php" );
 include_once( "eztrade/classes/ezproductcategory.php" );
 include_once( "eztrade/classes/ezshippinggroup.php" );
 
@@ -1908,8 +1910,6 @@ class eZProduct
 
        }
 
-
-
        if ( ( $useVAT ) and ( is_numeric( $this->VATTypeID ) ) and ( $this->VATTypeID > 0 ) )
        {
            $ret = new eZVATType( $this->VATTypeID );
@@ -2178,6 +2178,57 @@ class eZProduct
        }
        return $return_array;
     }
+
+    /*!
+      Returns the voucher if this product is a voucher.
+    */
+    function voucher()
+    {
+        $db =& eZDB::globalDatabase();
+
+        $ProductID = $this->ID;
+        
+        $ret = false;
+        
+        $query = "SELECT ID FROM eZTrade_Voucher
+                      WHERE ProductID='$ProductID'
+                      ";
+        
+        $db->query_single( $ret, $query );
+
+        if ( is_numeric ( $ret["ID"] ) )
+        {
+            $ret = new eZVoucher( $ret["ID"] );
+        }
+        
+        return $ret;
+    }
+
+    /*!
+      Returns the voucher information if this product is a voucher.
+    */
+    function voucherInformation()
+    {
+        $db =& eZDB::globalDatabase();
+
+        $ProductID = $this->ID;
+        
+        $ret = false;
+        
+        $query = "SELECT ID FROM eZTrade_VoucherInformation
+                      WHERE ProductID='$ProductID'
+                      ";
+        
+        $db->query_single( $ret, $query );
+
+        if ( is_numeric ( $ret["ID"] ) )
+        {
+            $ret = new eZVoucherInformation( $ret["ID"] );
+        }
+        
+        return $ret;
+    }
+
    
     var $ID;
     var $Name;

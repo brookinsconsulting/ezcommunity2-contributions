@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezcart.php,v 1.34 2001/10/10 12:30:18 ce Exp $
+// $Id: ezcart.php,v 1.35 2001/10/12 11:42:47 ce Exp $
 //
 // Definition of eZCart class
 //
@@ -304,6 +304,8 @@ class eZCart
         $tax = "";
         $total = "";
 
+        $products = false;
+        
         if ( !$voucher )
         {
             $items = $this->items( );
@@ -314,6 +316,18 @@ class eZCart
                 
                 $exTax = $item->correctPrice( true, true, false );
                 $incTax = $item->correctPrice( true, true, true );
+
+                if ( $product->productType() != 2 )
+                {
+                    $products = true;
+                }
+                else
+                {
+                    $info =& $product->voucherInformation();
+
+                    if ( $info->mailMethod() == 2 )
+                        $products = true;
+                }
                 
                 $totalExTax += $exTax;
                 $totalIncTax += $incTax;
@@ -345,7 +359,8 @@ class eZCart
         $total["subextax"] = $totalExTax;
         $total["subtax"] = $totalIncTax - $totalExTax;
 
-        if ( !$voucher )
+
+        if ( $products == true )
         {
             $type = new eZShippingType( );
             $shippingType =& $type->defaultType();
@@ -353,6 +368,7 @@ class eZCart
             $shippingVAT = $this->shippingVAT( $shippingType );
             $shippingVATPercentage = $this->extractShippingVATPercentage( $shippingType );
         }
+
 
         $user =& eZUser::currentUser();
         $useVAT = true;
