@@ -11,6 +11,7 @@ $Language = $ini->read_var( "eZClassifiedMain", "Language" );
 include_once( "ezclassified/classes/ezposition.php" );
 include_once( "ezclassified/classes/ezcategory.php" );
 include_once( "ezcontact/classes/ezcompany.php" );
+include_once( "ezcontact/classes/ezperson.php" );
 include_once( "ezcontact/classes/ezonline.php" );
 include_once( "ezcontact/classes/ezaddress.php" );
 
@@ -42,12 +43,21 @@ $t->set_block( "company_view_tpl", "image_view_tpl", "image_view" );
 $t->set_block( "company_view_tpl", "logo_view_tpl", "logo_view" );
 $t->set_block( "company_view_tpl", "no_image_tpl", "no_image" );
 $t->set_block( "company_view_tpl", "no_logo_tpl", "no_logo" );
-
+$t->set_block( "classified_edit", "person_item_tpl", "person_item" );
+$t->set_block( "classified_edit", "no_person_item_tpl", "no_person_item" );
+$t->set_block( "person_item_tpl", "person_mail_item_tpl", "person_mail_item" );
+$t->set_block( "person_item_tpl", "person_phone_item_tpl", "person_phone_item" );
+$t->set_block( "person_item_tpl", "person_fax_item_tpl", "person_fax_item" );
 
 $position = new eZPosition( $PositionID );
 
 $t->set_var( "classified_title", $position->title() );
 $t->set_var( "classified_duedate", $position->dueDate() );
+$reference = $position->reference();
+if ( $reference )
+    $t->set_var( "classified_reference", $reference );
+else
+    $t->set_var( "classified_reference", $position->id() );
 $t->set_var( "classified_position_type", positionTypeName( $position->positionType() ) );
 $t->set_var( "classified_initiate_type", initiateTypeName( $position->initiateType() ) );
 $t->set_var( "classified_id", $position->id() );
@@ -163,6 +173,55 @@ else
     $t->set_var( "zip", "" );
 
     $t->parse( "address_item", "address_item_tpl", true );
+}
+
+// Contact persons
+
+$contactList = getPositionContactPersons( $position->id() );
+
+$t->set_var( "person_item", "" );
+$t->set_var( "no_person_item", "" );
+
+if ( count ( $contactList ) >= 1 )
+{
+    foreach( $contactList as $contactID )
+    {
+        $contactPerson = new eZPerson( $contactID );
+        $t->set_var( "person_name", $contactPerson->firstName() . " " . $contactPerson->lastName() );
+        $t->set_var( "person_title", $contactPerson->title( $company->id() ) );
+        $t->set_var( "person_mail_item", "" );
+        $mail = $contactPerson->emailAddress();
+        if ( $mail )
+        {
+            $t->set_var( "person_mail", $mail );
+            $t->parse( "person_mail_item", "person_mail_item_tpl", true );
+        }
+        else
+            $t->set_var( "person_mail", "" );
+        $t->set_var( "person_phone_item", "" );
+        $work_phone = $contactPerson->workPhone();
+        if ( $work_phone )
+        {
+            $t->set_var( "person_phone", $work_phone );
+            $t->parse( "person_phone_item", "person_phone_item_tpl", true );
+        }
+        else
+            $t->set_var( "person_phone", "" );
+        $t->set_var( "person_fax_item", "" );
+        $fax_phone = $contactPerson->faxPhone();
+        if ( $fax_phone )
+        {
+            $t->set_var( "person_fax", $fax_phone );
+            $t->parse( "person_fax_item", "person_fax_item_tpl", true );
+        }
+        else
+            $t->set_var( "person_fax", "" );
+        $t->parse( "person_item", "person_item_tpl", true );
+    }
+}
+else
+{
+    $t->parse( "no_person_item", "no_person_item_tpl", true );
 }
 
 // Online list
