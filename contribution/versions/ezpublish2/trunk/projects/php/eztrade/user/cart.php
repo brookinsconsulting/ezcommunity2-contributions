@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: cart.php,v 1.24 2001/03/11 13:33:29 bf Exp $
+// $Id: cart.php,v 1.25 2001/03/13 14:18:05 th Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <27-Sep-2000 11:57:49 bf>
@@ -25,12 +25,6 @@
 
 include_once( "classes/ezhttptool.php" );
 
-// checkout
-if ( isset( $DoCheckOut ) )
-{
-    eZHTTPTool::header( "Location: /trade/customerlogin/" );
-    exit();
-}
 
 
 include_once( "classes/INIFile.php" );
@@ -54,6 +48,29 @@ include_once( "eztrade/classes/ezcartoptionvalue.php" );
 include_once( "ezsession/classes/ezsession.php" );
 include_once( "ezimagecatalogue/classes/ezimage.php" );
 include_once( "eztrade/classes/ezpricegroup.php" );
+
+
+
+if ( ( $Action == "Refresh" ) || isset( $DoCheckOut ) )
+{
+    $i=0;
+    if ( count( $CartIDArray ) > 0 )
+    foreach ( $CartIDArray as $cartID )
+    {
+        $cartItem = new eZCartItem( $cartID );
+        $cartItem->setCount( $CartCountArray[$i] );
+        $cartItem->store();
+        $i++;
+    }
+}
+
+
+// checkout
+if ( isset( $DoCheckOut ) )
+{
+    eZHTTPTool::header( "Location: /trade/customerlogin/" );
+    exit();
+}
 
 $cart = new eZCart();
 $session = new eZSession();
@@ -182,18 +199,6 @@ if ( $Action == "AddToBasket" )
     exit();
 }
 
-if ( $Action == "Refresh" )
-{
-    $i=0;
-    if ( count( $CartIDArray ) > 0 )
-    foreach ( $CartIDArray as $cartID )
-    {
-        $cartItem = new eZCartItem( $cartID );
-        $cartItem->setCount( $CartCountArray[$i] );
-        $cartItem->store();
-        $i++;
-    }
-}
 
 // TODO add check for user's cart.
 // So the user can't delete cart items from other users:)
@@ -205,6 +210,8 @@ if ( $Action == "RemoveFromBasket" )
     eZHTTPTool::header( "Location: /trade/cart/" );
     exit();
 }
+
+
 
 $t = new eZTemplate( "eztrade/user/" . $ini->read_var( "eZTradeMain", "TemplateDir" ),
                      "eztrade/user/intl/", $Language, "cart.php" );

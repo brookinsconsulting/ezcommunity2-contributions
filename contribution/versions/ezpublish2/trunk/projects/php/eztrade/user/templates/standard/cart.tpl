@@ -68,16 +68,14 @@
 <hr noshade="noshade" size="4" />
 <!-- BEGIN cart_checkout_tpl -->
 
-<table border="0">
+<table cellpadding="0" cellspacing="0" border="0">
 <tr>
-
 	<td>
 	<input class="okbutton" type="submit" name="DoCheckOut" value="{intl-checkout}" />
 	</td>
-
+	<td>&nbsp;</td>
 	<td>
 	<input class="okbutton" type="submit" value="{intl-update}" />
-	
 	</td>
 </td>
 </table>

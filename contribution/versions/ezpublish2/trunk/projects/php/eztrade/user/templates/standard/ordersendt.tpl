@@ -10,33 +10,36 @@
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
 	<td>
+	<!-- BEGIN billing_address_tpl -->
+	<p class="boxtext">{intl-billing_address}:</p>
+	{customer_first_name} {customer_last_name} <br />
+	{billing_street1}<br />
+	{billing_street2}<br />
+	{billing_zip} {billing_place}<br />
+	{billing_country}<br />
+	<!-- END billing_address_tpl -->
+	<br />
+	</td>
+	<td>
+	<!-- BEGIN shipping_address_tpl -->
+	<p class="boxtext">{intl-shipping_address}:</p>
+	{shipping_first_name} {shipping_last_name} <br />
+	{shipping_street1}<br />
+	{shipping_street2}<br />
+	{shipping_zip} {shipping_place}<br />
+	{shipping_country}<br />
+	<!-- END shipping_address_tpl -->
+	<br />
+	</td>
+</tr>
+<tr>
+	<td>
 	<p class="boxtext">{intl-payment_method}:</p>
 	<div class="p">{payment_method}</div>
 	</td>
 	<td>
 	<p class="boxtext">{intl-shipping_type}:</p>
 	<div class="p">{shipping_type}</div>
-	</td>
-</tr>	
-	<td>
-<!-- BEGIN billing_address_tpl -->
-<p class="boxtext">{intl-billing_address}:</p>
-{customer_first_name} {customer_last_name} <br />
-{billing_street1}<br />
-{billing_street2}<br />
-{billing_zip} {billing_place}<br />
-{billing_country}<br />
-<!-- END billing_address_tpl -->
-	</td>
-	<td>
-	<!-- BEGIN shipping_address_tpl -->
-<p class="boxtext">{intl-shipping_address}:</p>
-{shipping_first_name} {shipping_last_name} <br />
-{shipping_street1}<br />
-{shipping_street2}<br />
-{shipping_zip} {shipping_place}<br />
-{shipping_country}<br />
-<!-- END shipping_address_tpl -->
 	</td>
 </tr>
 </table>

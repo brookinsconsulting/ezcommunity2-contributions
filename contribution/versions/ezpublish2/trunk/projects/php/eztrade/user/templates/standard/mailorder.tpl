@@ -6,13 +6,8 @@
 <!-- END subject_user_tpl -->
 http://yourshop.com {intl-headline}
 
-{intl-payment_method}:
-{payment_method}
-
-{intl-shipping_type}:
-{shipping_type}
-
 {intl-order_no}: {order_number}
+
 <!-- BEGIN billing_address_tpl -->
 {intl-billing_address}:
 {customer_first_name} {customer_last_name}
@@ -20,6 +15,10 @@ http://yourshop.com {intl-headline}
 {billing_zip} {billing_place}
 {billing_country}
 <!-- END billing_address_tpl -->
+
+{intl-payment_method}:
+{payment_method}
+
 <!-- BEGIN shipping_address_tpl -->
 {intl-shipping_address}:
 {shipping_customer_first_name} {shipping_customer_last_name}
@@ -27,6 +26,10 @@ http://yourshop.com {intl-headline}
 {shipping_zip} {shipping_place}
 {shipping_country}
 <!-- END shipping_address_tpl -->
+
+{intl-shipping_type}:
+{shipping_type}
+
 
 {product_string}{count_string}{price_string}
 {stringline}
