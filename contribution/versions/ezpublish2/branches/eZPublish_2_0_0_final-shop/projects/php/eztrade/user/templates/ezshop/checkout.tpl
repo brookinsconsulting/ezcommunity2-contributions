@@ -32,7 +32,7 @@
 	</td>
 	<td class="{td_class}">
         <!-- BEGIN cart_item_option_tpl -->
-	<span class="small>{option_name}: {option_value}</span><br>
+	<span class="small">{option_name}: {option_value}</span><br>
         <!-- END cart_item_option_tpl -->
 	&nbsp;
 	</td>
