@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: vote.php,v 1.14 2001/07/20 11:22:30 jakobn Exp $
+// $Id: vote.php,v 1.15 2001/07/25 06:29:01 fh Exp $
 //
 // Created on: <20-Sep-2000 13:32:11 ce>
 //
@@ -63,25 +63,7 @@ if ( !$poll->anonymous() )
 }
 else
 {
-    $vote = new eZVote();
-    if ( $vote->ipHasVoted( $REMOTE_ADDR, $PollID ) == true )
-    {
-        $Voted = false;
-    }
-    else
-    {
-        $Voted = true;
-    }
-    
-//      if ( $session->variable( "VoteOnID".$PollID ) )
-//      {
-//          $Voted = true;
-//      }
-//      else
-//      {
-//          $session->setVariable( "VoteOnID".$PollID, "true" );
-//          $Voted = false;
-//      }
+    $Voted = eZVote::ipHasVoted( $REMOTE_ADDR, $PollID )::
 }
 
 
