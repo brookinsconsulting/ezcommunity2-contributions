@@ -6,13 +6,15 @@
 
 <input type="submit" value="send" />
 
+
 </form>
 
 
 <?
 if ( isset( $Value ) )
 {
-    print( "You entered: " . $Value );
+    print( "<pre>" . $Value . "</pre>" );
+    print( "You entered: -" . nl2br( $Value ) . "-" );
 }
 
 
