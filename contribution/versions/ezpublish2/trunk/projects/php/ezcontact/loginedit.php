@@ -5,11 +5,11 @@ require "ezphputils.php";
 
 if ( isset( $Login ) )
 {
-  $message = "<h2>Kunne ikke logge på, sjekk brukernavn og passord!</h2>";
+  $message = "Kunne ikke logge på, sjekk brukernavn og passord!";
 }
 else
 {
-  $message = "<h2>Tast inn et gyldig brukernavn og passord!</h2>";
+  $message = "Tast inn et gyldig brukernavn og passord!";
 }
 
 $t = new Template( "." );
