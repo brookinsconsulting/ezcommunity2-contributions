@@ -1,14 +1,14 @@
-<?
+<?php
 // 
-// $Id: ezadcategory.php,v 1.21 2001/06/29 18:03:20 bf Exp $
+// $Id: ezadcategory.php,v 1.22 2001/07/19 11:56:33 jakobn Exp $
 //
 // Definition of eZAdCategory class
 //
-// Bård Farstad <bf@ez.no>
 // Created on: <22-Nov-2000 20:32:30 bf>
 //
 // This source file is part of eZ publish, publishing software.
-// Copyright (C) 1999-2001 eZ systems as
+//
+// Copyright (C) 1999-2001 eZ Systems.  All rights reserved.
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License

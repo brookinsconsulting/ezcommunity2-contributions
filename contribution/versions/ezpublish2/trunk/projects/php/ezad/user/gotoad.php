@@ -1,12 +1,12 @@
-<?
+<?php
 // 
-// $Id: gotoad.php,v 1.5 2001/04/09 08:50:31 bf Exp $
+// $Id: gotoad.php,v 1.6 2001/07/19 11:56:33 jakobn Exp $
 //
-// Bård Farstad <bf@ez.no>
 // Created on: <25-Nov-2000 16:26:08 bf>
 //
 // This source file is part of eZ publish, publishing software.
-// Copyright (C) 1999-2001 eZ systems as
+//
+// Copyright (C) 1999-2001 eZ Systems.  All rights reserved.
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License
