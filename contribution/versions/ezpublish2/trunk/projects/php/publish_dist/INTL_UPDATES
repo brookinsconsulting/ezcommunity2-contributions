@@ -18,13 +18,23 @@ mod: ezcontact/admin, companytype.php.ini
 change: added views=Views
 
 mod: eztrade/admin, productedit.php.ini
-mod: added links=Links
+change: added links=Links
 
 mod: eztrade/admin, linklist.php.ini
-mod: new file
+change: new file
 
 mod: eztrade/admin, linkselect.php.ini
-mod: new file
+change: new file
+
+mod: eztrade/user, categorylist.php.ini
+change: added products=Products
+
+mod: eztrade/user, extendedsearch.php.ini
+change: all_category=All
+
+mod: eztrade/admin, productedit.php.ini
+changed: added
+discontinued=Discontinued
 
 #### PRE2 - 2.0 Final ####################
 
