@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eztechrenderer.php,v 1.51 2001/02/04 18:10:48 bf Exp $
+// $Id: eztechrenderer.php,v 1.52 2001/02/06 14:28:05 bf Exp $
 //
 // Definition of eZTechRenderer class
 //
@@ -707,9 +707,9 @@ class eZTechRenderer
         // bullet list
         if ( $paragraph->name == "bullet" )
         {
-            $tmpContent = $paragraph->children[0]->content;
+            $tmpContent =& trim( $paragraph->children[0]->content );
             
-            $tmpContent = preg_replace( "#^(.*)$#m", "<li>\\1</li>", $tmpContent );
+            $tmpContent =& preg_replace( "#^(.*)$#m", "<li>\\1</li>", $tmpContent );
             
             $pageContent .= "<ul>" . $tmpContent . "</ul>";
         }

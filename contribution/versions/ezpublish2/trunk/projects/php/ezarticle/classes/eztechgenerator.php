@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eztechgenerator.php,v 1.32 2001/02/04 18:10:48 bf Exp $
+// $Id: eztechgenerator.php,v 1.33 2001/02/06 14:28:05 bf Exp $
 //
 // Definition of eZTechGenerator class
 //
@@ -43,6 +43,7 @@ class eZTechGenerator
     */
     function eZTechGenerator( &$contents )
     {
+        $this->Level = 0;
         $this->PageCount = 0;
         $this->Contents = $contents;
     }
@@ -292,25 +293,7 @@ class eZTechGenerator
                     {
                         if ( $article->name == "intro" )
                         {
-                            if ( count( $article->children ) > 0 )
-                                foreach ( $article->children as $paragraph )
-                                {                        
-                                    // ordinary text
-                                    if ( $paragraph->name == "text" || $paragraph->name == "#text" )
-                                    {
-                                        $intro .= $paragraph->content;
-                                    }
-                                    
-                                    $intro = $this->decodeStandards( $intro, $paragraph );
-                                    
-                                    $intro = $this->decodeCode( $intro, $paragraph );
-                                    
-                                    $intro = $this->decodeImage( $intro, $paragraph );
-                                    
-                                    $intro = $this->decodeLink( $intro, $paragraph );
-                                    
-                                    $intro = $this->decodeModule( $intro, $paragraph );
-                                }
+                            $intro = $this->decodePage( $article );
                         }                        
                         
                         if ( $article->name == "body" )
@@ -330,26 +313,8 @@ class eZTechGenerator
             foreach ( $body as $page )
             {
                 $pageContent = "";
-                // loop on the contents of the pages
-                if ( count( $page->children ) > 0 )
-                foreach ( $page->children as $paragraph )
-                {
-                    // ordinary text
-                    if ( $paragraph->name == "text" || $paragraph->name == "#text" )
-                    {
-                        $pageContent .= $paragraph->content;
-                    }
 
-                    $pageContent = $this->decodeStandards( $pageContent, $paragraph );
-
-                    $pageContent = $this->decodeCode( $pageContent, $paragraph );
-
-                    $pageContent = $this->decodeImage( $pageContent, $paragraph );
-
-                    $pageContent = $this->decodeLink( $pageContent, $paragraph );
-
-                    $pageContent = $this->decodeModule( $pageContent, $paragraph );
-                }
+                $pageContent = $this->decodePage( $page );
 
                 if ( $i > 0 )
                     $bodyContents .=  "<page>" . $pageContent;
@@ -364,6 +329,46 @@ class eZTechGenerator
 
         return $contentsArray;
     }
+
+    /*!
+      \private
+
+    */
+    function decodePage( $page )
+    {
+        $value = "";
+        if ( count( $page->children ) > 0 )
+        {            
+            foreach ( $page->children as $paragraph )
+            {
+                // ordinary text
+                if ( $this->Level == 0  )
+                {
+                    if ( $paragraph->name == "text" || $paragraph->name == "#text" )
+                    {
+                        $value .= $paragraph->content;
+                    }
+                }
+
+                // decode sub items
+                $this->Level = $this->Level + 1;
+                $subitem = $this->decodePage( $paragraph );
+                $this->Level = $this->Level - 1;
+
+                // can have sub items
+                $value = $this->decodeStandards( $value, $paragraph, $subitem );
+
+                // can not have sub items
+                $value = $this->decodeImage( $value, $paragraph );
+                $value = $this->decodeLink( $value, $paragraph );
+                $value = $this->decodeModule( $value, $paragraph );
+                $value = $this->decodeCode( $value, $paragraph );                
+            }
+        }
+
+        return $value;
+    }
+    
 
     function &decodeCode( $pageContent, $paragraph )
     {
@@ -595,8 +600,9 @@ class eZTechGenerator
         return $pageContent;        
     }
 
-    function &decodeStandards( $pageContent, $paragraph )
+    function &decodeStandards( $pageContent, $paragraph, $subitem )
     {
+        
         // header
         if ( $paragraph->name == "header" )
         {
@@ -642,7 +648,7 @@ class eZTechGenerator
         // bullet list
         if ( $paragraph->name == "bullet" )
         {
-            $pageContent .= "<bullet>" . $paragraph->children[0]->content . "</bullet>";
+            $pageContent .= "<bullet>" . $paragraph->children[0]->content . $subitem . "</bullet>";
         }
         
         return $pageContent;
@@ -658,6 +664,8 @@ class eZTechGenerator
 
     var $Contents;
     var $PageCount;
+
+    var $Level;
 }
 
 ?>
