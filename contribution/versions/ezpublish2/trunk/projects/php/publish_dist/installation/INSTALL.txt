@@ -16,17 +16,21 @@ of distribution and information is http://devel.ez.no/
 Table of Contents
 
 Chapter 1 Introduction
+    1.1 Pre-Configured Hosting
+    1.2 Pre-Configured Hardware
 Chapter 2 Pre-requisites
     2.1 Needed Privileges
     2.2 Needed Software
     2.3 Which Software is Already Installed?
         2.3.1 Systems Using RPM
     2.4 FreeBSD
-    2.5 IRIX
-    2.6 RAQ 3
-    2.7 Windows
-    2.8 Other Systems
-    2.9 Installation of Required Software
+    2.5 Debian
+    2.6 IRIX
+    2.7 RAQ 3
+    2.8 Windows
+    2.9 Other Systems
+    2.10 Installation of Required Software
+    2.11 Important Notice
 Chapter 3 Compile Configuration
     3.1 PHP
         3.1.1 Unpacking
@@ -48,22 +52,33 @@ Chapter 4 Apache Configuration
             4.1.2.2 Admin Site
 Chapter 5 eZ publish Installation
     5.1 Database
+        5.1.1 First Time Installation
+            5.1.1.1 Adding Pre-Defined Data
+        5.1.2 Updating the Installation
     5.2 Program Files
 Chapter 6 Now What?
     6.1 Post Install Checklist
-Chapter 7 Installing on RAQ 3
-Chapter 8 Installing on Windows 
-    8.1 Programs to Install
-    8.2 Configuration of PHP
-    8.3 Apache Configuration
-    8.4 Configuration of Virtual Host for win2000
-        8.4.1 User Site
-        8.4.2 Admin Site
-    8.5 eZ publish Installation
+Chapter 7 Trouble Shooting
+    7.1 Problems During Installation
+        7.1.1 FreeBSD 4.2 and libxml2
+        7.1.2 Missing Compiler/Can not Compile (C++/C)
+    7.2 Problems After Installation
+        7.2.1 Permission Denied
+Chapter 8 Installing on RAQ 3
+Chapter 9 Installing on Windows 
+    9.1 Programs to Install
+    9.2 Configuration of PHP
+    9.3 Apache Configuration
+    9.4 Configuration of Virtual Host for win2000
+        9.4.1 User Site
+        9.4.2 Admin Site
+    9.5 eZ publish Installation
+Chapter 10 Debian
+    10.1 Download the Following
 
 
 
-Introduction
+Introduction<chptr: introduction>
 
 "He who asks is a fool for five minutes, but he who does
 not ask remains a fool forever."
@@ -87,18 +102,35 @@ directly from the software developer.
 
 Different distribution sites for different Unix systems are:
 
-* Debian http://www.debian.org/distrib/ftplist
+* Debian (http://www.debian.org/distrib/ftplist) See also
+  chapter [chptr: debian].
 
-* IRIX http://freeware.sgi.com/
+* IRIX (http://freeware.sgi.com/)
 
-* Red Hat Linux http://www.redhat.com/apps/download
+* Red Hat Linux (http://www.redhat.com/apps/download)
 
-* SuSE Linux http://www.suse.com/us/support/download/index.html
+* SuSE Linux (http://www.suse.com/us/support/download/index.html)
 
-* Sun http://www.sunfreeware.com/
+* Sun (http://www.sunfreeware.com/)
 
 The addresses to the software developers will be given where
 apropriate in the text.
+
+You can also try "The Written Word" (ftp://ftp.thewrittenword.com/packages/free/by-name/gcc-2.95.2/)
+for binaries for Solaris 2.5.1, 2.6, 2.7/SPARC, 2.7/Intel,
+IRIX 6.2, 6.5, Digital UNIX 4.0D, HP-UX 10.20, and HP-UX.
+
+1.1 Pre-Configured Hosting
+
+It is possible to get pre-configured hosting services where
+you can install and manage your eZ publish site with ease.
+Read more about our hosting partners at eZ systems web site
+(http://en.ez.no/article/articlestatic/73).
+
+1.2 Pre-Configured Hardware
+
+It is possible to order pre-configured hardware from eZ systems.
+You can order through or web shop (http://sourceprovider.com/).
 
 A line starting with a hash-sign "#"
 are input from the user to the shell.
@@ -113,7 +145,20 @@ privileges on your system:
 
 * Access to Apache's httpd.conf
 
-* Access to compiler
+* Access to compiler (You will have to install the gcc compiler
+  on your system, see chapter [chptr: introduction]
+  for a list of sites providing software for different Unixes.)
+
+* Access to a shell (You must run certain scripts during
+  installation. Some of them are just creating links to
+  different directories; you might therefore just create
+  those links via FTP.)
+
+* Access to a shell
+
+* Access to cron jobs (Only needed if you want to use the
+  eZ news feed module for regular updates of headlines imported
+  from other sites.)
 
 * Access to Apache's modules
 
@@ -133,21 +178,39 @@ for inclusion in future versions of this manual.
 You also need to download and install the following packages,
 if they aren't present on your system already:
 
-* MySQL (http://www.mysql.com) version 3.23 or later.
+* MySQL (http://www.mysql.com) version 3.23 or later. (eZ
+  publish requires MySQL for storage of its data.)
 
-* libXml (http://xmlsoft.org/#Downloads) version 2.2.7
+* libXml (http://xmlsoft.org/#Downloads) version 2.2.7, 2.2.8
+  or 2.2.9. (Needed by eZ article. If you wish to use the
+  default article renderer you need libXml2 installed. You
+  can create your own renderers if you don't want to use
+  the default.)
 
-* libQdom () version 
+* libQdom (http://www.trolltech.com) is a part of QT, you
+  need version 2.2.3 or later. (Needed by eZ news feed's
+  parsers. If you wish to include headlines from external
+  sites (example developer.ez.no or slashdot.org) then you
+  need this installed. You can create your own parsers if
+  you don't want to use the default.)
 
 * ImageMagick (http://www.imagemagick.org/) newest version
+  (Needed by eZ article, eZ image catalogue, and all modules
+  using images. You need only the command line version.)
 
-* Apache (http://httpd.apache.org/) latest 1.3 release.
+* Apache (http://httpd.apache.org/) latest 1.3 release. (It
+  is always recommended to run the latest Apache release,
+  though eZ publish shouldn't be very picky with the Apache
+  versions. We've used eZ publish with Apache 1.3.13, some
+  have reported that Apache 1.3.9 isn't useful.)
 
 * Any and all modules you need for apache in addition to
   mod_php. (http://modules.apache.org/)
 
 * PHP (http://www.php.net/) version 4.0.4pl1 or later, you
-  need the source code version.
+  need the source code version. (eZ publish uses references
+  for objects and foreach loops. Only version 4.0.4pl1 and
+  later supports both of these features satisfactorily.)
 
 * eZ publish (http://developer.ez.no/) verision 2.0 or later
   stable releases.
@@ -212,7 +275,12 @@ the current port of libxml installs itself as /usr/local/lib/libxml2.a|so
 and it goes unrecognised by configure. You can easily get
 around this problem by linking the libs to libxml.a|so.
 
-2.5 IRIX
+2.5 Debian
+
+First read chapter [chptr: debian], then
+continue reading the manual from here.
+
+2.6 IRIX
 
 By accessing the software manager (you must be root) you
 can get a list of installed software, scroll or search that
@@ -220,17 +288,17 @@ list to find the packages you're interested in. Double click
 on the tabs to the left to get information about where specific
 files are installed.
 
-2.6 RAQ 3
+2.7 RAQ 3
 
 There is a separate chapter ([chptr: raq 3])
 in this manual describing installation on a RAQ 3 server.
 It was kindly provided by Chris Mason, 
 
-2.7 Windows
+2.8 Windows
 
 Windows installation is described in its own chapter ([chptr: windows]).
 
-2.8 Other Systems
+2.9 Other Systems
 
 On other systems you should read the documentation for that
 system to learn how to find out what software is already
@@ -246,7 +314,7 @@ computer. Therefore we urge you to learn how to use the
 proper installation features of your system to find the
 software already installed.
 
-2.9 Installation of Required Software
+2.10 Installation of Required Software
 
 If you've found pre-compiled versions of all the software
 packaged for use with an installation tool, you just have
@@ -263,6 +331,24 @@ confident about the job.
 
 This manual will only cover configuration of the software
 needed and compilation of PHP to use the other software.
+
+2.11 Important Notice
+
+You should read all the README, INSTALL and similar files
+found with the software packages you download. They often
+contain tips on how to configure, compile and install the
+software on your system. It will save you a lot of time
+and aggravation if you follow instructions supplied with
+the software.
+
+If problems arise during installation of the software, please
+turn to the suppliers support forums, mailing list archives
+and FAQs, your questions will often be answered there. If
+the supplier's forums doesn't seem to help you, you should
+check the support forums at our site.
+
+You should always do a search of the forums before posting
+any questions.
 
 Compile Configuration
 
@@ -385,7 +471,7 @@ command:
 Apache Configuration
 
 For the moment we have only one solution for configuring
-apache. 
+apache, and that is using two virtual hosts.
 
 4.1 Dual Virtual Host
 
@@ -587,6 +673,8 @@ eZ publish Installation
 
 5.1 Database
 
+5.1.1 First Time Installation
+
 Now you need to create a database in MySQL, the default name
 we use is publish, but you can change that to whatever pleases
 you.
@@ -609,6 +697,46 @@ eZ publish data into your newly created database:
 
 
     # mysql -uroot -p publish < sql/publish.sql
+
+5.1.1.1 Adding Pre-Defined Data
+
+If you want to add the pre-defined data of the distribution
+you shouldn't add any data manually to the site before executing
+these commands.
+
+First we need to add files and images which are needed by
+the database.
+
+
+    # tar zpxvf data.tar.gz
+
+
+Then we need to run modfix to make sure that everything is
+readable.
+
+
+    # ./modfix.sh
+
+
+Then we need to send the SQL data into the database:
+
+
+    # mysql -upublish -ppublish publish < sql/data.sql
+
+
+Finally we run clearcache to make sure that everything presented
+is cached correctly:
+
+
+    # ./clearcache.sh
+
+5.1.2 Updating the Installation
+
+This section is for users who are updating from a previous
+version of eZ publish. There should be a file called SQL_UPDATES
+in the distribution root. Run the commands in each section
+starting at the version after your current and for each
+version after that until the current version.
 
 5.2 Program Files
 
@@ -706,6 +834,38 @@ developments.
 6. Start browsing the public part of your site, just to check
   that everything is working; some of the articles supplied
   as default will inform you about features of the software.
+
+Trouble Shooting
+
+7.1 Problems During Installation
+
+7.1.1 FreeBSD 4.2 and libxml2
+
+The current version (2.2.11) installs itself as /usr/local/lib/libxml2.a|so
+and goes unrecognized by configure (PHP). Link the fiels
+to /usr/local/lib/libxml.a|so.
+
+7.1.2 Missing Compiler/Can not Compile (C++/C)
+
+The ImageMagick package requires the GCC compiler. You'll
+need to download that compiler and install it on your system.
+In the introduction (see chapter [chptr: introduction])
+I listed some sites where you can download pre-compiled
+versions of software for some different Unix versions.
+
+If you can't find a pre-compiled version try the GCC Home
+Page (http://gcc.gnu.org/).
+
+7.2 Problems After Installation
+
+7.2.1 Permission Denied
+
+Warning: fopen("site.ini","r+")
+
+Permission denied in classes/INIFile.php on line 80
+
+If you get this error message you need to run the modfix.sh
+script.
 
 Installing on RAQ 3<chptr: raq 3>
 
@@ -1048,7 +1208,7 @@ This is untested by eZ systems, and we provide this "as
 is" without any form of guarantee or endorsement, either
 explicitly or implicitly.
 
-8.1 Programs to Install
+9.1 Programs to Install
 
 Install Apache1.3.x (http://httpd.apache.org/dist/binaries/win32/)
 
@@ -1056,7 +1216,7 @@ Install PHP 4.0.x (http://www.php.net/downloads.php)
 
 Install MySQL 3.23.x (http://www.mysql.com/downloads/os-win32.html)
 
-8.2 Configuration of PHP
+9.2 Configuration of PHP
 
 Remember to place php_domxml.dll in the "extension_dir" directory
 of apache. Modify php.ini:
@@ -1067,7 +1227,7 @@ of apache. Modify php.ini:
 this line in the ini file.
     extension_dir=C:\Program Files\Apache Group\Apache\extensions 
 
-8.3 Apache Configuration
+9.3 Apache Configuration
 
 Create the virtual hosts for apache. Use the file virtualhosts.conf
 in this package as a template
@@ -1086,9 +1246,9 @@ Also remember to enable the rewrite module in httpd.conf:
 
 LoadModule rewrite_module modules/ApacheModuleRewrite.dll
 
-8.4 Configuration of Virtual Host for win2000
+9.4 Configuration of Virtual Host for win2000
 
-8.4.1 User Site
+9.4.1 User Site
 
     # User site
 
@@ -1108,7 +1268,7 @@ LoadModule rewrite_module modules/ApacheModuleRewrite.dll
 
     ServerAlias [www.yourdomain.org]
 
-8.4.2 Admin Site
+9.4.2 Admin Site
 
     # Admin site
     Options FollowSymLinks Indexes ExecCGI
@@ -1128,7 +1288,7 @@ LoadModule rewrite_module modules/ApacheModuleRewrite.dll
     ServerName [admin.yourdomain.org] 
     ServerAlias [admin.yourdomain.org]
 
-8.5 eZ publish Installation
+9.5 eZ publish Installation
 
 Decompress eZ publish to "c:\ezpublish",
 then run "modfix.bat" from
@@ -1149,3 +1309,19 @@ distribution to "c:\ezpublish\classes":
 
 * replace c:\ezpublish\admin\index.php with the file from the
   "ezpublish-win.files.zip" distribution.
+
+Debian<chptr: debian>
+
+Thanks to Mark Polsen for giving us this information.
+
+This is untested by eZ systems, and we provide this "as
+is" without any form of guarantee or endorsement, either
+explicitly or implicitly.
+
+10.1 Download the Following
+
+Download what you need from http://developer.ez.no/filemanager/list/23/
+and install the rpms!
+
+That's all; read the manual from the start after that, and
+install eZ publish as described.

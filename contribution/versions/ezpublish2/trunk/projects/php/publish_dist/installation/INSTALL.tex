@@ -51,7 +51,7 @@ its primary point of distribution and information is http://devel.ez.no/
 \tableofcontents{}
 
 
-\chapter{Introduction}
+\chapter{Introduction\label{chptr: introduction}}
 
 \begin{quote}
 \textbf{{}``He who asks is a fool for five minutes, but he who does
@@ -75,14 +75,32 @@ developer.
 Different distribution sites for different Unix systems are:
 
 \begin{itemize}
-\item Debian http://www.debian.org/distrib/ftplist
-\item IRIX http://freeware.sgi.com/
-\item Red Hat Linux http://www.redhat.com/apps/download
-\item SuSE Linux http://www.suse.com/us/support/download/index.html
-\item Sun http://www.sunfreeware.com/
+\item Debian \texttt{\footnotesize (http://www.debian.org/distrib/ftplist)}
+See also chapter \ref{chptr: debian}.
+\item IRIX \texttt{\footnotesize (http://freeware.sgi.com/)}{\footnotesize \par}
+\item Red Hat Linux \texttt{\footnotesize (http://www.redhat.com/apps/download})
+\item SuSE Linux (\texttt{\footnotesize http://www.suse.com/us/support/download/index.html)}{\footnotesize \par}
+\item Sun \texttt{\footnotesize (http://www.sunfreeware.com/)}{\footnotesize \par}
 \end{itemize}
 The addresses to the software developers will be given where apropriate
 in the text.
+
+You can also try \char`\"{}The Written Word\char`\"{} (\texttt{\footnotesize ftp://ftp.thewrittenword.com/packages/free/by-name/gcc-2.95.2/})
+for binaries for Solaris 2.5.1, 2.6, 2.7/SPARC, 2.7/Intel, IRIX 6.2,
+6.5, Digital UNIX 4.0D, HP-UX 10.20, and HP-UX.
+
+
+\section{Pre-Configured Hosting}
+
+It is possible to get pre-configured hosting services where you can
+install and manage your eZ publish site with ease. Read more about
+our hosting partners at eZ systems web site (\texttt{\footnotesize http://en.ez.no/article/articlestatic/73}).
+
+
+\section{Pre-Configured Hardware}
+
+It is possible to order pre-configured hardware from eZ systems. You
+can order through or web shop (\texttt{\footnotesize http://sourceprovider.com/}).
 
 A line starting with a hash-sign {}``\#{}'' are input from the user
 to the shell.
@@ -99,7 +117,15 @@ system:
 
 \begin{itemize}
 \item Access to Apache's httpd.conf
-\item Access to compiler
+\item Access to compiler (You will have to install the gcc compiler on your
+system, see chapter \ref{chptr: introduction} for a list of sites
+providing software for different Unixes.)
+\item Access to a shell (You must run certain scripts during installation.
+Some of them are just creating links to different directories; you
+might therefore just create those links via FTP.)
+\item Access to a shell
+\item Access to cron jobs (Only needed if you want to use the eZ news feed
+module for regular updates of headlines imported from other sites.)
 \item Access to Apache's modules
 \item Access to a MySQL database
 \item You might also need the privilege to add new libraries to your system.
@@ -117,14 +143,29 @@ You also need to download and install the following packages, if they
 aren't present on your system already:
 
 \begin{itemize}
-\item MySQL (http://www.mysql.com) version 3.23 or later.
-\item libXml (http://xmlsoft.org/\#Downloads) version 2.2.7
-\item libQdom () version 
-\item ImageMagick (http://www.imagemagick.org/) newest version
-\item Apache (http://httpd.apache.org/) latest 1.3 release.
+\item MySQL (http://www.mysql.com) version 3.23 or later. (eZ publish requires
+MySQL for storage of its data.)
+\item libXml (http://xmlsoft.org/\#Downloads) version 2.2.7, 2.2.8 or 2.2.9.
+(Needed by eZ article. If you wish to use the default article renderer
+you need libXml2 installed. You can create your own renderers if you
+don't want to use the default.)
+\item libQdom (http://www.trolltech.com) is a part of QT, you need version
+2.2.3 or later. (Needed by eZ news feed's parsers. If you wish to
+include headlines from external sites (example developer.ez.no or
+slashdot.org) then you need this installed. You can create your own
+parsers if you don't want to use the default.)
+\item ImageMagick (http://www.imagemagick.org/) newest version (Needed by
+eZ article, eZ image catalogue, and all modules using images. You
+need only the command line version.)
+\item Apache (http://httpd.apache.org/) latest 1.3 release. (It is always
+recommended to run the latest Apache release, though eZ publish shouldn't
+be very picky with the Apache versions. We've used eZ publish with
+Apache 1.3.13, some have reported that Apache 1.3.9 isn't useful.)
 \item Any and all modules you need for apache in addition to mod\_php. (http://modules.apache.org/)
 \item PHP (http://www.php.net/) version 4.0.4pl1 or later, you need the
-source code version.
+source code version. (eZ publish uses references for objects and foreach
+loops. Only version 4.0.4pl1 and later supports both of these features
+satisfactorily.)
 \item eZ publish (http://developer.ez.no/) verision 2.0 or later stable
 releases.
 \end{itemize}
@@ -189,6 +230,12 @@ configure. You can easily get around this problem by linking the libs
 to libxml.a|so.
 
 
+\section{Debian}
+
+First read chapter \ref{chptr: debian}, then continue reading the
+manual from here.
+
+
 \section{IRIX}
 
 By accessing the software manager (you must be root) you can get a
@@ -237,6 +284,22 @@ only undertake this if you feel confident about the job.
 
 This manual will only cover configuration of the software needed and
 compilation of PHP to use the other software.
+
+
+\section{Important Notice}
+
+You should read all the README, INSTALL and similar files found with
+the software packages you download. They often contain tips on how
+to configure, compile and install the software on your system. It
+will save you a lot of time and aggravation if you follow instructions
+supplied with the software.
+
+If problems arise during installation of the software, please turn
+to the suppliers support forums, mailing list archives and FAQs, your
+questions will often be answered there. If the supplier's forums doesn't
+seem to help you, you should check the support forums at our site.
+
+You should always do a search of the forums before posting any questions.
 
 
 \chapter{Compile Configuration}
@@ -362,7 +425,8 @@ To install your new PHP package you need to run the following command:\\
 
 \chapter{Apache Configuration}
 
-For the moment we have only one solution for configuring apache. 
+For the moment we have only one solution for configuring apache, and
+that is using two virtual hosts.
 
 
 \section{Dual Virtual Host}
@@ -572,6 +636,9 @@ rule. Its slightly different to the line used in the httpd.conf method.
 
 \section{Database}
 
+
+\subsection{First Time Installation}
+
 Now you need to create a database in MySQL, the default name we use
 is publish, but you can change that to whatever pleases you.\\
 
@@ -594,6 +661,45 @@ publish data into your newly created database:\\
 
 
 \texttt{\footnotesize ~~~~\# mysql -uroot -p publish < sql/publish.sql}{\footnotesize \par}
+
+
+\subsubsection{Adding Pre-Defined Data}
+
+If you want to add the pre-defined data of the distribution you shouldn't
+add any data manually to the site before executing these commands.
+
+First we need to add files and images which are needed by the database.\\
+
+
+\texttt{\footnotesize ~~~~\# tar zpxvf data.tar.gz}~\\
+{\footnotesize \par}
+
+Then we need to run modfix to make sure that everything is readable.\\
+
+
+\texttt{\footnotesize ~~~~\# ./modfix.sh}~\\
+{\footnotesize \par}
+
+Then we need to send the SQL data into the database:\\
+
+
+\texttt{\footnotesize ~~~~\# mysql -upublish -ppublish publish
+< sql/data.sql}~\\
+{\footnotesize \par}
+
+Finally we run clearcache to make sure that everything presented is
+cached correctly:\\
+
+
+\texttt{\footnotesize ~~~~\# ./clearcache.sh}{\footnotesize \par}
+
+
+\subsection{Updating the Installation}
+
+This section is for users who are updating from a previous version
+of eZ publish. There should be a file called SQL\_UPDATES in the distribution
+root. Run the commands in each section starting at the version after
+your current and for each version after that until the current version.
 
 
 \section{Program Files}
@@ -682,6 +788,41 @@ know.
 is working; some of the articles supplied as default will inform you
 about features of the software.
 \end{enumerate}
+
+\chapter{Trouble Shooting}
+
+
+\section{Problems During Installation}
+
+
+\subsection{FreeBSD 4.2 and libxml2}
+
+The current version (2.2.11) installs itself as /usr/local/lib/libxml2.a|so
+and goes unrecognized by configure (PHP). Link the fiels to /usr/local/lib/libxml.a|so.
+
+
+\subsection{Missing Compiler/Can not Compile (C++/C)}
+
+The ImageMagick package requires the GCC compiler. You'll need to
+download that compiler and install it on your system. In the introduction
+(see chapter \ref{chptr: introduction}) I listed some sites where
+you can download pre-compiled versions of software for some different
+Unix versions.
+
+If you can't find a pre-compiled version try the GCC Home Page (http://gcc.gnu.org/).
+
+
+\section{Problems After Installation}
+
+
+\subsection{Permission Denied}
+
+\texttt{\small Warning: fopen(\char`\"{}site.ini\char`\"{},\char`\"{}r+\char`\"{})}{\small \par}
+
+\texttt{\small Permission denied in classes/INIFile.php on line 80}{\small \par}
+
+If you get this error message you need to run the modfix.sh script.
+
 
 \chapter{Installing on RAQ 3\label{chptr: raq 3}}
 
@@ -1125,6 +1266,23 @@ with the file from the {}``ezpublish-win.files.zip{}'' distribution.
 with the file from the {}``ezpublish-win.files.zip{}'' distribution.
 \item replace c:\textbackslash{}ezpublish\textbackslash{}admin\textbackslash{}index.php
 with the file from the \char`\"{}ezpublish-win.files.zip\char`\"{}
-distribution.\end{itemize}
+distribution.
+\end{itemize}
 
+\chapter{Debian\label{chptr: debian}}
+
+Thanks to Mark Polsen for giving us this information.
+
+This is untested by eZ systems, and we provide this {}``as is{}''
+without any form of guarantee or endorsement, either explicitly or
+implicitly.
+
+
+\section{Download the Following}
+
+Download what you need from \texttt{\footnotesize http://developer.ez.no/filemanager/list/23/}
+and install the rpms!
+
+That's all; read the manual from the start after that, and install
+eZ publish as described.
 \end{document}
