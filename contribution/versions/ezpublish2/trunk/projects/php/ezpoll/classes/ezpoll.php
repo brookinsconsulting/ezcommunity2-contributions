@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezpoll.php,v 1.22 2001/06/29 07:08:39 bf Exp $
+// $Id: ezpoll.php,v 1.23 2001/07/03 14:33:33 bf Exp $
 //
 // Definition of eZPoll class
 //
@@ -378,7 +378,7 @@ class eZPoll
         
         $db->array_query( $votecount, "SELECT COUNT(*) AS NUMBER FROM eZPoll_Vote WHERE PollID='$this->ID'" );
         
-        return $votecount[0][$db->fieldName("NUMBER")];
+        return (int)$votecount[0][$db->fieldName("NUMBER")];
     }
 
     /*!

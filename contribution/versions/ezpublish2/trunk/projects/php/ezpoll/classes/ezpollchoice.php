@@ -1,5 +1,5 @@
 <?
-// $Id: ezpollchoice.php,v 1.16 2001/06/26 11:31:35 bf Exp $
+// $Id: ezpollchoice.php,v 1.17 2001/07/03 14:33:33 bf Exp $
 //
 // Definition of eZPollChoice class
 //
@@ -232,7 +232,7 @@ class eZPollChoice
         $db =& eZDB::globalDatabase();
         $db->array_query( $votecount, "SELECT COUNT(*) AS NUMBER FROM eZPoll_Vote WHERE ChoiceID='$this->ID'" );
         
-        return $votecount[0][$db->fieldName("NUMBER")];
+        return (int)$votecount[0][$db->fieldName("NUMBER")];
     }
     
     var $ID;
