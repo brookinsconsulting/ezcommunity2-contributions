@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: optionedit.php,v 1.20 2001/03/14 10:48:37 bf Exp $
+// $Id: optionedit.php,v 1.21 2001/03/14 17:21:56 jb Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <20-Sep-2000 10:18:33 bf>
@@ -36,12 +36,16 @@ $StdHeaders = $ini->read_array( "eZTradeMain", "StandardOptionHeaders" );
 $MinHeaders = $ini->read_var( "eZTradeMain", "MinimumOptionHeaders" );
 $MinValues = $ini->read_var( "eZTradeMain", "MinimumOptionValues" );
 $SimpleOptionHeaders = $ini->read_var( "eZTradeMain", "SimpleOptionHeaders" ) == "true";
+$ShowQuantity = $ini->read_var( "eZTradeMain", "ShowQuantity" ) == "true";
 
 include_once( "eztrade/classes/ezproductcategory.php" );
 include_once( "eztrade/classes/ezproduct.php" );
 include_once( "eztrade/classes/ezoption.php" );
 include_once( "eztrade/classes/ezoptionvalue.php" );
 include_once( "eztrade/classes/ezpricegroup.php" );
+
+if ( !isset( $OptionPrice ) or !is_array( $OptionPrice ) )
+    $OptionPrice = array();
 
 if ( isset( $DeleteOption ) )
 {
@@ -76,6 +80,7 @@ if ( isset( $Delete ) )
             $OptionValueID = array_values( $OptionValueID );
             unset( $OptionPrice[$del] );
             unset( $OptionMainPrice[$del] );
+            unset( $OptionQuantity[$del] );
         }
     }
     if ( isset( $OptionDescriptionDelete ) )
@@ -141,10 +146,14 @@ if ( isset( $OK ) )
                 $value = new eZOptionValue( $OptionValueID[$i] );
             else
                 $value = new eZOptionValue();
-            
             $value->setPrice( $OptionMainPrice[$i] );
             $value->setOptionID( $option->ID );
             $value->store();
+
+            if ( $ShowQuantity )
+            {
+                $value->setTotalQuantity( is_numeric( $OptionQuantity[$i] ) ? $OptionQuantity[$i] : false );
+            }
 
             $value->removeDescriptions();
             $value->addDescription( $name );
@@ -189,6 +198,7 @@ $t->set_file( "option_edit_page", "optionedit.tpl" );
 
 $t->set_block( "option_edit_page", "value_header_item_tpl", "value_header_item" );
 $t->set_block( "option_edit_page", "group_item_tpl", "group_item" );
+$t->set_block( "option_edit_page", "option_quantity_header_tpl", "option_quantity_header" );
 
 $t->set_block( "option_edit_page", "value_headers_tpl", "value_headers" );
 
@@ -198,6 +208,7 @@ $t->set_block( "value_description_item_tpl", "value_description_item_checkbox_tp
 $t->set_block( "option_edit_page", "option_item_tpl", "option_item" );
 $t->set_block( "option_item_tpl", "value_item_tpl", "value_item" );
 $t->set_block( "option_item_tpl", "option_price_item_tpl", "option_price_item" );
+$t->set_block( "option_item_tpl", "option_quantity_item_tpl", "option_quantity_item" );
 
 $t->set_block( "option_edit_page", "new_description_tpl", "new_description" );
 
@@ -248,6 +259,7 @@ if ( $Action == "Edit" )
     $OptionValue = array();
     $OptionMainPrice = array();
     $OptionPrice = array();
+    $OptionQuantity = array();
     $i = 0;
     foreach ( $values as $value )
     {
@@ -255,6 +267,7 @@ if ( $Action == "Edit" )
         $OptionValue[$i][] = "";
         $OptionMainPrice[] = $value->price();
         $OptionValueID[$i] = $value->id();
+        $OptionQuantity[$i] = $value->totalQuantity();
         $valueid = $value->id();
         $ValueID[] = $valueid;
         $prices = eZPriceGroup::prices( $ProductID, $OptionID, $value->id() );
@@ -314,6 +327,10 @@ if ( isset( $NewDescription ) )
 
 $value_count = max( $MinHeaders, $ValueCount );
 
+$t->set_var( "option_quantity_header", "" );
+if ( $ShowQuantity )
+    $t->parse( "option_quantity_header", "option_quantity_header_tpl" );
+
 $t->set_var( "value_count", $value_count );
 
 $t->set_var( "value_headers", "" );
@@ -364,6 +381,13 @@ foreach ( $OptionValue as $value )
         $t->set_var( "index", $i );
         $t->parse( "option_price_item", "option_price_item_tpl", true );
         $i++;
+    }
+
+    $t->set_var( "option_quantity_item", "" );
+    if ( $ShowQuantity )
+    {
+        $t->set_var( "quantity_value", $OptionQuantity[$index] );
+        $t->parse( "option_quantity_item", "option_quantity_item_tpl" );
     }
 
     $t->parse( "option_item", "option_item_tpl", true );

@@ -142,6 +142,9 @@
 	<!-- BEGIN value_price_item_tpl -->
 	{value_price}
 	<!-- END value_price_item_tpl -->
+	<!-- BEGIN value_availability_item_tpl -->
+	({value_availability})
+	<!-- END value_availability_item_tpl -->
 	 </option>
 
 	<!-- BEGIN value_price_currency_list_tpl -->
@@ -197,6 +200,11 @@
 </tr>
 </table>
 <br />
+
+<!-- BEGIN quantity_item_tpl -->
+<p class="boxtext">{intl-availability}:</p>
+{product_quantity}
+<!-- END quantity_item_tpl -->
 
 {extra_product_info}
 <br />

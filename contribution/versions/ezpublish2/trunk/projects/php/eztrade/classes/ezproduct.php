@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezproduct.php,v 1.44 2001/03/13 09:58:25 ce Exp $
+// $Id: ezproduct.php,v 1.45 2001/03/14 17:21:57 jb Exp $
 //
 // Definition of eZProduct class
 //
@@ -254,17 +254,25 @@ class eZProduct
             $this->Database->query( "DELETE FROM eZTrade_ProductImageLink WHERE ProductID='$this->ID'" );
             $this->Database->query( "DELETE FROM eZTrade_ProductImageDefinition WHERE ProductID='$this->ID'" );
 
+            $this->Database->array_query( $qry_array, "SELECT QuantityID FROM eZTrade_ProductQuantityDict
+                                                       WHERE ProductID='$this->ID'" );
+            foreach( $qry_array as $row )
+            {
+                $id = $row["QuantityID"];
+                $this->Database->query( "DELETE FROM eZTrade_Quantity WHERE ID='$id'" );
+            }
+            $this->Database->query( "DELETE FROM eZTrade_ProductQuantityDict WHERE ProductID='$this->ID'" );
+
             $options = $this->options();
             foreach ( $options as $option )
             {
                 $option->delete();
             }            
-            
+
             $this->Database->query( "DELETE FROM eZTrade_Product WHERE ID='$this->ID'" );
         }
-        
         return true;
-    }    
+    }
 
     /*!
       Returns the object ID to the product. This is the unique ID stored in the database.
@@ -383,11 +391,99 @@ class eZProduct
        {
            $value =& $vatType->value();
            $vat = ( $calcPrice / ( $value + 100  ) ) * $value;        
-       }       
-       
+       }
        return $vat;
     }
-    
+
+    /*!
+      Sets the total quantity of the product.
+    */
+    function setTotalQuantity( $quantity )
+    {
+        $id = $this->ID;
+        $db =& eZDB::globalDatabase();
+        $db->array_query( $qry_array,
+                          "SELECT Q.ID
+                           FROM eZTrade_Quantity AS Q, eZTrade_ProductQuantityDict AS PQD
+                           WHERE Q.ID=PQD.QuantityID AND ProductID='$id'" );
+        $db->query( "DELETE FROM eZTrade_ProductQuantityDict WHERE ProductID='$id'" );
+        foreach( $qry_array as $row )
+        {
+            $q_id = $row["ID"];
+            $db->query( "DELETE FROM eZTrade_Quantity WHERE ID='$q_id'" );
+        }
+        if ( is_bool( $quantity ) and !$quantity )
+            return;
+        $db->query( "INSERT INTO eZTrade_Quantity VALUES('','$quantity')" );
+        $q_id = $db->insertID();
+        $db->query( "INSERT INTO eZTrade_ProductQuantityDict VALUES('$id','$q_id')" );
+    }
+
+    /*!
+      \static
+      Returns the total quantity of this product.
+    */
+    function totalQuantity( $id = false )
+    {
+        if ( !$id )
+            $id = $this->ID;
+        $db =& eZDB::globalDatabase();
+        $db->array_query( $qry_array,
+                          "SELECT Q.Quantity
+                           FROM eZTrade_Quantity AS Q, eZTrade_ProductQuantityDict AS PQD
+                           WHERE Q.ID=PQD.QuantityID AND ProductID='$id'" );
+        $quantity = 0;
+        if ( count( $qry_array ) > 0 )
+        {
+            foreach( $qry_array as $row )
+            {
+                if ( $row["Quantity"] == "NULL" )
+                    return false;
+                $quantity += $row["Quantity"];
+            }
+        }
+        else
+            return false;
+        return $quantity;
+    }
+
+    /*!
+      Returns a textual version of the quantity, this allows a site to hide the
+      exact quantity but instead give indications.
+      If no named quantity can be found the quantity is returned.
+    */
+    function namedQuantity( $quantity )
+    {
+        $db =& eZDB::globalDatabase();
+        if ( is_bool( $quantity ) and !$quantity )
+        {
+            $db->array_query( $qry_array, "SELECT Name FROM eZTrade_QuantityRange
+                                       WHERE MaxRange=-1 LIMIT 1", 0, 1 );
+            $name = $qry_array[0]["Name"];
+        }
+        else
+        {
+            $db->array_query( $qry_array, "SELECT Name FROM eZTrade_QuantityRange
+                                       WHERE MaxRange IS NOT NULL AND MaxRange>=$quantity
+                                       ORDER BY MaxRange LIMIT 1", 0, 1 );
+            $name = "";
+            if ( count( $qry_array ) == 1 )
+            {
+                $name = $qry_array[0]["Name"];
+            }
+            else
+            {
+                $db->array_query( $qry_array, "SELECT Name FROM eZTrade_QuantityRange
+                                           WHERE MaxRange IS NULL LIMIT 1", 0, 1 );
+                if ( count( $qry_array ) == 1 )
+                    $name = $qry_array[0]["Name"];
+                else
+                    $name = $quantity;
+            }
+        }
+        return $name;
+    }
+
     /*!
       Returns the keywords of the product.
     */

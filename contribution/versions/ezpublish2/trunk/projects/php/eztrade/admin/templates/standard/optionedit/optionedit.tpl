@@ -20,6 +20,9 @@
 	<!-- BEGIN group_item_tpl -->
 	<th>{price_group_name}:</th>
 	<!-- END group_item_tpl -->
+	<!-- BEGIN option_quantity_header_tpl -->
+	<th>{intl-availability}:</th>
+	<!-- END option_quantity_header_tpl -->
 	<th>&nbsp;</th>
 </tr>
 <!-- BEGIN value_headers_tpl -->
@@ -40,7 +43,7 @@
 	<!-- BEGIN option_item_tpl -->
 <tr>
 	<th>
-	{intl-value} {value_pos}:
+	{intl-value} {value_pos}: {option_value_id}
 	<input type="hidden" name="OptionValueID[{value_index}]" value="{option_value_id}" />
 	</th>
 	<!-- BEGIN value_item_tpl -->
@@ -56,6 +59,11 @@
 	<input type="text" size="6" name="OptionPrice[{value_index}][{price_group}]" value="{price_value}" />
 	</td>
 	<!-- END option_price_item_tpl -->
+	<!-- BEGIN option_quantity_item_tpl -->
+	<td>
+	<input type="text" size="6" name="OptionQuantity[{value_index}]" value="{quantity_value}" />
+	</td>
+	<!-- END option_quantity_item_tpl -->
 	<td>
 	<div class="check"><input type="checkbox" name="OptionDelete[]" value="{value_index}" />{intl-delete}</div>
 	</td>

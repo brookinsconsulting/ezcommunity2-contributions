@@ -57,6 +57,14 @@ http://<input type="text" size="36" name="ExternalLink" value="{external_link}"/
 	<input type="text" size="10" name="Price" value="{price_value}" />
 	<br /><br />
 	</td>
+
+	<!-- BEGIN quantity_item_tpl -->
+	<td valign="top">
+	<p class="boxtext">{intl-quantity}:</p>
+	<input type="text" size="10" name="Quantity" value="{quantity_value}" />
+	</td>
+	<!-- END quantity_item_tpl -->
+
 	<td valign="top">
 	<p class="boxtext">{intl-vat_type}:</p>
 	<select name="VATTypeID">
@@ -67,6 +75,7 @@ http://<input type="text" size="36" name="ExternalLink" value="{external_link}"/
 
 	</select>
 	</td>
+
 	<td valign="top">
 	<p class="boxtext">{intl-shipping_group}:</p>
 	<select name="ShippingGroupID">

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: smallcart.php,v 1.8 2001/03/11 13:33:29 bf Exp $
+// $Id: smallcart.php,v 1.9 2001/03/14 17:21:57 jb Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <12-Dec-2000 15:21:10 bf>
@@ -33,6 +33,7 @@ include_once( "ezuser/classes/ezuser.php" );
 $ini =& INIFile::globalINI();
 
 $Language = $ini->read_var( "eZTradeMain", "Language" );
+$RequireQuantity = $ini->read_var( "eZTradeMain", "RequireQuantity" ) == "true";
 
 include_once( "eztrade/classes/ezproduct.php" );
 include_once( "eztrade/classes/ezoption.php" );
@@ -64,7 +65,6 @@ if ( !$cart )
     $cart->store();
 }
 
-
 $t = new eZTemplate( "eztrade/user/" . $ini->read_var( "eZTradeMain", "TemplateDir" ),
                      "eztrade/user/intl/", $Language, "smallcart.php" );
 
@@ -93,6 +93,7 @@ $sum = 0.0;
 $totalVAT = 0.0;
 foreach ( $items as $item )
 {
+    $t->set_var( "td_class", ( $i % 2 ) == 0 ? "bglight" : "bgdark" );
     $t->set_var( "cart_item_id", $item->id() );
     
     $product = $item->product();
@@ -115,10 +116,28 @@ foreach ( $items as $item )
     
     $t->set_var( "product_price", $locale->format( $currency ) );
 
-    if ( ( $i % 2 ) == 0 )
-        $t->set_var( "td_class", "bglight" );
-    else
-        $t->set_var( "td_class", "bgdark" );
+    $optionValues =& $item->optionValues();
+    $Quantity = $product->totalQuantity();
+    if ( !$product->hasPrice() )
+    {
+        $min_quantity = 0;
+        foreach ( $optionValues as $optionValue )
+        {
+            $option =& $optionValue->option();
+            $value =& $optionValue->optionValue();
+            $value_quantity = $value->totalQuantity();
+            if ( !(is_bool( $value_quantity ) and !$value_quantity) )
+            {
+                if ( is_bool( $min_quantity ) )
+                    $min_quantity =  $value_quantity;
+                else
+                    $min_quantity = min( $min_quantity , $value_quantity );
+            }
+        }
+    }
+    if ( !(is_bool( $min_quantity ) and !$min_quantity) and
+         $RequireQuantity and $min_quantity == 0 )
+        $can_checkout = false;
 
     $t->parse( "cart_item", "cart_item_tpl", true );
         
@@ -132,7 +151,7 @@ $t->set_var( "cart_sum", $locale->format( $currency ) );
 $currency->setValue( $totalVAT );
 $t->set_var( "cart_vat_sum", $locale->format( $currency ) );
 
-if ( count( $items ) > 0 )
+if ( count( $items ) > 0 and $can_checkout )
 {
     $t->parse( "cart_checkout", "cart_checkout_tpl" );
 }

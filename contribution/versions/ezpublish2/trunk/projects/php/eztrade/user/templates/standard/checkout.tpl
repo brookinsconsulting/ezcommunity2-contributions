@@ -12,6 +12,9 @@
 	<th>{intl-picture}:</th>
 	<th>{intl-product_name}:</th>
 	<th>{intl-options}:</th>
+	<!-- BEGIN product_available_header_tpl -->
+	<th>{intl-product_availability}:</th>
+	<!-- END product_available_header_tpl -->
 	<th>{intl-qty}:</th>
 	<td class="path" align="right">{intl-price}</td>
 </tr>
@@ -28,10 +31,17 @@
 	</td>
 	<td class="{td_class}">
         <!-- BEGIN cart_item_option_tpl -->
-	<span class="small">{option_name}: {option_value}</span><br />
+	<span class="small">{option_name}: {option_value}<!-- BEGIN cart_item_option_availability_tpl -->({option_availability})
+<!-- END cart_item_option_availability_tpl --></span><br />
         <!-- END cart_item_option_tpl -->
 	&nbsp;
 	</td>
+	<!-- BEGIN product_available_item_tpl -->
+	<td class="{td_class}">
+	{product_availability}
+	<!-- BEGIN product_available_item_tpl -->
+	</td>
+	<!-- END product_available_item_tpl -->
 	<td class="{td_class}">
 	{cart_item_count}
 	</td>
@@ -116,8 +126,9 @@
 <input type="hidden" name="ShippingVAT" value="{shipping_vat_value}" />
 <input type="hidden" name="TotalCost" value="{total_cost_value}" />
 
-
+<!-- BEGIN sendorder_item_tpl -->
 <input class="okbutton" type="submit" name="SendOrder" value="{intl-send}" />
+<!-- END sendorder_item_tpl -->
 
 </form>
 

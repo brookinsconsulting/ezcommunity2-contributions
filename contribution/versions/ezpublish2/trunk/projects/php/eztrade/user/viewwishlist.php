@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: viewwishlist.php,v 1.4 2001/03/09 11:41:57 jb Exp $
+// $Id: viewwishlist.php,v 1.5 2001/03/14 17:21:57 jb Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <21-Oct-2000 18:09:45 bf>
@@ -243,7 +243,6 @@ else
     $t->parse( "empty_wishlist", "empty_wishlist_tpl" );
     $t->set_var( "wishlist_item_list", "" );
 }
-
 
 $t->pparse( "output", "wishlist_page_tpl" );
 

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: checkout.php,v 1.50 2001/03/13 13:24:45 bf Exp $
+// $Id: checkout.php,v 1.51 2001/03/14 17:21:57 jb Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <28-Sep-2000 15:52:08 bf>
@@ -36,6 +36,10 @@ $Language = $ini->read_var( "eZTradeMain", "Language" );
 $OrderSenderEmail = $ini->read_var( "eZTradeMain", "OrderSenderEmail" );
 $OrderReceiverEmail = $ini->read_var( "eZTradeMain", "OrderReceiverEmail" );
 $ForceSSL = $ini->read_var( "eZTradeMain", "ForceSSL" );
+$ShowQuantity = $ini->read_var( "eZTradeMain", "ShowQuantity" ) == "true";
+$ShowNamedQuantity = $ini->read_var( "eZTradeMain", "ShowNamedQuantity" ) == "true";
+$RequireQuantity = $ini->read_var( "eZTradeMain", "RequireQuantity" ) == "true";
+$ShowOptionQuantity = $ini->read_var( "eZTradeMain", "ShowOptionQuantity" ) == "true";
 
 include_once( "ezuser/classes/ezuser.php" );
 include_once( "eztrade/classes/ezproduct.php" );
@@ -106,16 +110,20 @@ $t->set_block( "checkout_tpl", "payment_method_tpl", "payment_method" );
 $t->set_block( "checkout_tpl", "cart_item_list_tpl", "cart_item_list" );
 $t->set_block( "cart_item_list_tpl", "cart_item_tpl", "cart_item" );
 $t->set_block( "cart_item_tpl", "cart_item_option_tpl", "cart_item_option" );
+$t->set_block( "cart_item_option_tpl", "cart_item_option_availability_tpl", "cart_item_option_availability" );
 $t->set_block( "cart_item_tpl", "cart_image_tpl", "cart_image" );
 
-                
 $t->set_block( "cart_item_list_tpl", "shipping_type_tpl", "shipping_type" );
+
+$t->set_block( "cart_item_list_tpl", "product_available_header_tpl", "product_available_header" );
+$t->set_block( "cart_item_tpl", "product_available_item_tpl", "product_available_item" );
 
 $t->set_block( "checkout_tpl", "shipping_address_tpl", "shipping_address" );
 $t->set_block( "checkout_tpl", "billing_address_tpl", "billing_address" );
 $t->set_block( "billing_address_tpl", "billing_option_tpl", "billing_option" );
 $t->set_block( "checkout_tpl", "wish_user_tpl", "wish_user" );
 
+$t->set_block( "checkout_tpl", "sendorder_item_tpl", "sendorder_item" );
 
 if ( isset( $SendOrder ) ) 
 {
@@ -243,6 +251,8 @@ foreach ( $types as $type )
 
 
 
+$can_checkout = true;
+
 // print the cart contents
 {
 // fetch the cart items
@@ -255,10 +265,16 @@ foreach ( $types as $type )
     $sum = 0.0;
     $totalVAT = 0.0;
 
+    $t->set_var( "product_available_header", "" );
+    if ( $ShowQuantity )
+        $t->parse( "product_available_header", "product_available_header_tpl" );
+
     $ShippingCostValues = array();
     
     foreach ( $items as $item )
     {
+        $t->set_var( "td_class", ( $i % 2 ) == 0 ? "bglight" : "bgdark" );
+
         $product = $item->product();
 
         $image = $product->thumbnailImage();
@@ -323,28 +339,69 @@ foreach ( $types as $type )
         $t->set_var( "product_price", $locale->format( $currency ) );
 
         $t->set_var( "cart_item_count", $item->count() );
-        
-        if ( ( $i % 2 ) == 0 )
-            $t->set_var( "td_class", "bglight" );
-        else
-            $t->set_var( "td_class", "bgdark" );
 
         $optionValues =& $item->optionValues();
 
+        $Quantity = $product->totalQuantity();
+        if ( !$product->hasPrice() )
+        {
+            $Quantity = 0;
+            foreach ( $optionValues as $optionValue )
+            {
+                $option =& $optionValue->option();
+                $value =& $optionValue->optionValue();
+                $value_quantity = $value->totalQuantity();
+                if ( $value_quantity > 0 )
+                    $Quantity = $value_quantity;
+            }
+        }
+        $t->set_var( "product_available_item", "" );
+        if ( $ShowQuantity )
+        {
+            $NamedQuantity = $Quantity;
+            if ( $ShowNamedQuantity )
+                $NamedQuantity = eZProduct::namedQuantity( $Quantity );
+            $t->set_var( "product_availability", $NamedQuantity );
+            $t->parse( "product_available_item", "product_available_item_tpl" );
+        }
+
         $t->set_var( "cart_item_option", "" );
+        $min_quantity = $Quantity;
         foreach ( $optionValues as $optionValue )
         {
             $option =& $optionValue->option();
             $value =& $optionValue->optionValue();
-                 
+            $value_quantity = $value->totalQuantity();
+
             $t->set_var( "option_name", $option->name() );
 
             $descriptions = $value->descriptions();
             $t->set_var( "option_value", $descriptions[0] );
             
+            $t->set_var( "cart_item_option_availability", "" );
+            if ( !(is_bool( $value_quantity ) and !$value_quantity) )
+            {
+                if ( is_bool( $min_quantity ) )
+                    $min_quantity =  $value_quantity;
+                else
+                    $min_quantity = min( $min_quantity , $value_quantity );
+                $named_quantity = $value_quantity;
+                if ( $ShowNamedQuantity )
+                    $named_quantity = eZProduct::namedQuantity( $value_quantity );
+                if ( $ShowOptionQuantity )
+                {
+                    $t->set_var( "option_availability", $named_quantity );
+                    $t->parse( "cart_item_option_availability", "cart_item_option_availability_tpl" );
+                }
+            }
+
             $t->parse( "cart_item_option", "cart_item_option_tpl", true );
         }
         
+        if ( !(is_bool( $min_quantity ) and !$min_quantity) and
+             $RequireQuantity and $min_quantity == 0 )
+            $can_checkout = false;
+
         $t->parse( "cart_item", "cart_item_tpl", true );
 
         $i++;
@@ -445,8 +502,10 @@ foreach ( $paymentMethods as $paymentMethod )
     $t->parse( "payment_method", "payment_method_tpl", true );
 }
 
+$t->set_var( "sendorder_item", "" );
+if ( $can_checkout )
+    $t->parse( "sendorder_item", "sendorder_item_tpl" );
 
-   
 $t->pparse( "output", "checkout_tpl" );
 
 

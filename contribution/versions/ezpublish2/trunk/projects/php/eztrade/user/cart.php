@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: cart.php,v 1.25 2001/03/13 14:18:05 th Exp $
+// $Id: cart.php,v 1.26 2001/03/14 17:21:57 jb Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <27-Sep-2000 11:57:49 bf>
@@ -37,6 +37,10 @@ include_once( "ezuser/classes/ezuser.php" );
 $ini =& INIFile::globalINI();
 
 $Language = $ini->read_var( "eZTradeMain", "Language" );
+$ShowQuantity = $ini->read_var( "eZTradeMain", "ShowQuantity" ) == "true";
+$ShowNamedQuantity = $ini->read_var( "eZTradeMain", "ShowNamedQuantity" ) == "true";
+$RequireQuantity = $ini->read_var( "eZTradeMain", "RequireQuantity" ) == "true";
+$ShowOptionQuantity = $ini->read_var( "eZTradeMain", "ShowOptionQuantity" ) == "true";
 
 include_once( "eztrade/classes/ezproduct.php" );
 include_once( "eztrade/classes/ezoption.php" );
@@ -101,96 +105,100 @@ if ( $Action == "AddToBasket" )
 
     // check if a product like this is already in the basket.
     // if so-> add the count value.
-
-    $productAddedToBasket = false;
+    $Quantity = $product->totalQuantity();
+    if ( (is_bool($Quantity) and !$Quantity) or
+         !$RequireQuantity or ( $RequireQuantity and $Quantity > 0 ) )
     {
-        // fetch the cart items
-        $items = $cart->items( );
-
-        foreach ( $items as $item )
+        $productAddedToBasket = false;
         {
-            $productItem =  $item->product();
-            // the same product
-            if ( ( $ProductID == $productItem->id() ) && ( $productAddedToBasket == false ) )
+            // fetch the cart items
+            $items = $cart->items( );
+
+            foreach ( $items as $item )
             {
-                $optionValues =& $item->optionValues();
+                $productItem =  $item->product();
+                // the same product
+                if ( ( $ProductID == $productItem->id() ) && ( $productAddedToBasket == false ) )
+                {
+                    $optionValues =& $item->optionValues();
 
-                if ( count( $optionValues ) > 0 )
-                { // product with options
-                    $hasTheSameOptions = true;
+                    if ( count( $optionValues ) > 0 )
+                    { // product with options
+                        $hasTheSameOptions = true;
                     
-                    foreach ( $optionValues as $optionValue )
-                    {
-                        $option =& $optionValue->option();
-                        $value =& $optionValue->optionValue();                        
-
-                        $optionValueFound = false;
-                        
-                        if ( count( $OptionValueArray ) > 0 )
+                        foreach ( $optionValues as $optionValue )
                         {
-                            $i=0;
-                            foreach ( $OptionValueArray as $valueItem )
+                            $option =& $optionValue->option();
+                            $value =& $optionValue->optionValue();                        
+
+                            $optionValueFound = false;
+                        
+                            if ( count( $OptionValueArray ) > 0 )
                             {
-                                if ( ( $OptionIDArray[$i] == $option->id() )
-                                     && ( $valueItem == $value->id() ) )
+                                $i=0;
+                                foreach ( $OptionValueArray as $valueItem )
                                 {
-                                    $optionValueFound = true;
+                                    if ( ( $OptionIDArray[$i] == $option->id() )
+                                         && ( $valueItem == $value->id() ) )
+                                    {
+                                        $optionValueFound = true;
+                                    }
+                                    $i++;
                                 }
-                                $i++;
+                            }
+                        
+                            if ( $optionValueFound == false )
+                            {
+                                $hasTheSameOptions = false;
                             }
                         }
-                        
-                        if ( $optionValueFound == false )
+
+                        if ( $hasTheSameOptions == true )
                         {
-                            $hasTheSameOptions = false;
+                            $item->setCount( $item->count() + 1 );
+                            $item->store();
+                            $productAddedToBasket = true;
                         }
                     }
-
-                    if ( $hasTheSameOptions == true )
-                    {
-                        $item->setCount( $item->count() + 1 );
-                        $item->store();
-                        $productAddedToBasket = true;
-                    }
-                }
-                else
-                { // product without options
-                    if ( count( $OptionValueArray ) == 0 )
-                    {
-                        $item->setCount( $item->count() + 1 );
-                        $item->store();
-                        $productAddedToBasket = true;
+                    else
+                    { // product without options
+                        if ( count( $OptionValueArray ) == 0 )
+                        {
+                            $item->setCount( $item->count() + 1 );
+                            $item->store();
+                            $productAddedToBasket = true;
+                        }
                     }
                 }
             }
         }
-    }
 
-    if ( $productAddedToBasket == false )
-    {
-        $cartItem = new eZCartItem();
-
-        $cartItem->setProduct( $product );
-        $cartItem->setCart( $cart );
-
-        $cartItem->store();
-
-        if ( count( $OptionValueArray ) > 0 )
+        if ( $productAddedToBasket == false )
         {
-            $i = 0;
-            foreach ( $OptionValueArray as $value )
-            {
-                $option = new eZOption( $OptionIDArray[$i] );
-                $optionValue = new eZOptionValue( $value );
-                
-                $cartOption = new eZCartOptionValue();
-                $cartOption->setCartItem( $cartItem );
-                $cartOption->setOption( $option );
-                $cartOption->setOptionValue( $optionValue );
+            $cartItem = new eZCartItem();
 
-                $cartOption->store();
+            $cartItem->setProduct( $product );
+            $cartItem->setCart( $cart );
+
+            $cartItem->store();
+
+            if ( count( $OptionValueArray ) > 0 )
+            {
+                $i = 0;
+                foreach ( $OptionValueArray as $value )
+                {
+                    $option = new eZOption( $OptionIDArray[$i] );
+                    $optionValue = new eZOptionValue( $value );
                 
-                $i++;
+                    $cartOption = new eZCartOptionValue();
+                    $cartOption->setCartItem( $cartItem );
+                    $cartOption->setOption( $option );
+                    $cartOption->setOptionValue( $optionValue );
+
+                    $cartOption->store();
+                
+                    $i++;
+                }
             }
         }
     }
@@ -224,15 +232,17 @@ $t->set_file( array(
 
 
 $t->set_block( "cart_page_tpl", "cart_checkout_tpl", "cart_checkout" );
+$t->set_block( "cart_checkout_tpl", "cart_checkout_button_tpl", "cart_checkout_button" );
 $t->set_block( "cart_page_tpl", "empty_cart_tpl", "empty_cart" );
-
 
 $t->set_block( "cart_page_tpl", "cart_item_list_tpl", "cart_item_list" );
 $t->set_block( "cart_item_list_tpl", "cart_item_tpl", "cart_item" );
+$t->set_block( "cart_item_list_tpl", "product_available_header_tpl", "product_available_header" );
 
 $t->set_block( "cart_item_tpl", "cart_item_option_tpl", "cart_item_option" );
+$t->set_block( "cart_item_option_tpl", "cart_item_option_availability_tpl", "cart_item_option_availability" );
 $t->set_block( "cart_item_tpl", "cart_image_tpl", "cart_image" );
-
+$t->set_block( "cart_item_tpl", "product_available_item_tpl", "product_available_item" );
 
 // fetch the cart items
 $items = $cart->items( );
@@ -243,15 +253,18 @@ $currency = new eZCurrency();
 $i = 0;
 $sum = 0.0;
 $totalVAT = 0.0;
+
+$t->set_var( "product_available_header", "" );
+if ( $ShowQuantity )
+    $t->parse( "product_available_header", "product_available_header_tpl" );
+
+$can_checkout = true;
+
 foreach ( $items as $item )
 {
-    if ( ( $i % 2 ) == 0 )
-        $t->set_var( "td_class", "bglight" );
-    else
-        $t->set_var( "td_class", "bgdark" );
+    $t->set_var( "td_class", ( $i % 2 ) == 0 ? "bglight" : "bgdark" );
 
     $t->set_var( "cart_item_id", $item->id() );
-    
     $product =& $item->product();
 
     // thumbnail
@@ -272,19 +285,61 @@ foreach ( $items as $item )
     }
 
 
+    $Quantity = $product->totalQuantity();
+    if ( !$product->hasPrice() )
+    {
+        $Quantity = 0;
+        foreach ( $optionValues as $optionValue )
+        {
+            $option =& $optionValue->option();
+            $value =& $optionValue->optionValue();
+            $value_quantity = $value->totalQuantity();
+            if ( $value_quantity > 0 )
+                $Quantity = $value_quantity;
+        }
+    }
+    $t->set_var( "product_available_item", "" );
+    if ( $ShowQuantity )
+    {
+        $NamedQuantity = $Quantity;
+        if ( $ShowNamedQuantity )
+            $NamedQuantity = eZProduct::namedQuantity( $Quantity );
+        $t->set_var( "product_availability", $NamedQuantity );
+        $t->parse( "product_available_item", "product_available_item_tpl" );
+    }
+
     // product options
     $optionValues =& $item->optionValues();
 
     $t->set_var( "cart_item_option", "" );
+    $min_quantity = $Quantity;
     foreach ( $optionValues as $optionValue )
     {
         $option =& $optionValue->option();
         $value =& $optionValue->optionValue();
-                 
+        $value_quantity = $value->totalQuantity();
+
         $t->set_var( "option_name", $option->name() );
 
         $descriptions = $value->descriptions();
         $t->set_var( "option_value", $descriptions[0] );
+
+        $t->set_var( "cart_item_option_availability", "" );
+        if ( !(is_bool( $value_quantity ) and !$value_quantity) )
+        {
+            if ( is_bool( $min_quantity ) )
+                $min_quantity =  $value_quantity;
+            else
+                $min_quantity = min( $min_quantity , $value_quantity );
+            $named_quantity = $value_quantity;
+            if ( $ShowNamedQuantity )
+                $named_quantity = eZProduct::namedQuantity( $value_quantity );
+            if ( $ShowOptionQuantity )
+            {
+                $t->set_var( "option_availability", $named_quantity );
+                $t->parse( "cart_item_option_availability", "cart_item_option_availability_tpl" );
+            }
+        }
 
         $t->parse( "cart_item_option", "cart_item_option_tpl", true );
     }
@@ -296,17 +351,15 @@ foreach ( $items as $item )
     $sum += $price;
     
     $totalVAT += $product->vat( $price );
-    
-    
+
     $t->set_var( "product_id", $product->id() );
     $t->set_var( "product_name", $product->name() );
-
     $t->set_var( "cart_item_count", $item->count() );
-    
     $t->set_var( "product_price", $locale->format( $currency ) );
-    
 
-        
+    if ( !(is_bool( $min_quantity ) and !$min_quantity) and
+         $RequireQuantity and $min_quantity == 0 )
+        $can_checkout = false;
     $t->parse( "cart_item", "cart_item_tpl", true );
         
     $i++;
@@ -318,14 +371,14 @@ $t->set_var( "cart_sum", $locale->format( $currency ) );
 $currency->setValue( $totalVAT );
 $t->set_var( "cart_vat_sum", $locale->format( $currency ) );
 
+$t->set_var( "cart_checkout", "" );
 if ( count( $items ) > 0 )
-{
     $t->parse( "cart_checkout", "cart_checkout_tpl" );
-}
-else
-{
-    $t->set_var( "cart_checkout", "" );
-}
+
+$t->set_var( "cart_checkout_button", "" );
+if ( $can_checkout )
+    $t->parse( "cart_checkout_button", "cart_checkout_button_tpl" );
+
 
 if ( count( $items ) > 0 )
 {

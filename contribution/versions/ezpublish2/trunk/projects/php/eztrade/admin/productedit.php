@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: productedit.php,v 1.45 2001/03/14 09:35:29 fh Exp $
+// $Id: productedit.php,v 1.46 2001/03/14 17:21:56 jb Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <19-Sep-2000 10:56:05 bf>
@@ -69,6 +69,7 @@ $ini =& INIFile::globalINI();
 
 $Language = $ini->read_var( "eZTradeMain", "Language" );
 $ShowPriceGroups = $ini->read_var( "eZTradeMain", "PriceGroupsEnabled" ) == "true";
+$ShowQuantity = $ini->read_var( "eZTradeMain", "ShowQuantity" ) == "true";
 
 include_once( "eztrade/classes/ezproduct.php" );
 include_once( "eztrade/classes/ezproductcategory.php" );
@@ -84,7 +85,7 @@ if ( isset( $SubmitPrice ) )
             $product = new eZProduct( $ProductEditArrayID[$i] );
             $product->setPrice( $Price[$i] );
             $product->store();
-            deleteCache( $product, false, false, false );
+          deleteCache( $product, false, false, false );
         }
     }
     if ( isset( $Query ) )
@@ -151,6 +152,11 @@ if ( $Action == "Insert" )
     $product->setPrice( $Price );
     
     $product->store();
+
+    if ( $ShowQuantity )
+    {
+        $product->setTotalQuantity( is_numeric( $Quantity ) ? $Quantity : false );
+    }
 
 //      eZPriceGroup::removePrices( $ProductID, -1 );
     $count = max( count( $PriceGroup ), count( $PriceGroupID ) );
@@ -281,6 +287,11 @@ if ( $Action == "Update" )
     $product->setPrice( $Price );
     
     $product->store();
+
+    if ( $ShowQuantity )
+    {
+        $product->setTotalQuantity( is_numeric( $Quantity ) ? $Quantity : false );
+    }
 
     eZPriceGroup::removePrices( $ProductID, -1 );
     $count = max( count( $PriceGroup ), count( $PriceGroupID ) );
@@ -451,6 +462,7 @@ $t->set_block( "product_edit_tpl", "multiple_value_tpl", "multiple_value" );
 
 $t->set_block( "product_edit_tpl", "vat_select_tpl", "vat_select" );
 $t->set_block( "product_edit_tpl", "shipping_select_tpl", "shipping_select" );
+$t->set_block( "product_edit_tpl", "quantity_item_tpl", "quantity_item" );
 
 $t->set_block( "product_edit_tpl", "price_group_list_tpl", "price_group_list" );
 $t->set_block( "price_group_list_tpl", "price_groups_item_tpl", "price_groups_item" );
@@ -505,6 +517,8 @@ if ( $Action == "Edit" )
         $t->set_var( "is_hot_deal_checked", "checked" );
 
     $VatType =& $product->vatType();
+
+    $Quantity = $product->totalQuantity();
 
     $prices = eZPriceGroup::prices( $ProductID );
     $PriceGroup = array();
@@ -612,6 +626,12 @@ foreach ( $groups as $group )
 
     $t->parse( "shipping_select", "shipping_select_tpl", true );
 }
+
+// Show quantity
+$t->set_var( "quantity_item", "" );
+$t->set_var( "quantity_value", $Quantity );
+if ( $ShowQuantity )
+    $t->parse( "quantity_item", "quantity_item_tpl" );
 
 // Show price groups
 

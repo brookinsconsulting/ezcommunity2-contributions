@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezoptionvalue.php,v 1.21 2001/03/14 10:48:37 bf Exp $
+// $Id: ezoptionvalue.php,v 1.22 2001/03/14 17:21:57 jb Exp $
 //
 // Definition of eZOptionValue class
 //
@@ -70,7 +70,7 @@ class eZOptionValue
     function store()
     {
         $db =& eZDB::globalDatabase();
-        $price = $this->Price == "" ? "0" : "'$this->Price'";
+        $price = $this->Price == "" ? "NULL" : "'$this->Price'";
 
         $GLOBALS["DEBUG"] = true;
         if ( !isset( $this->ID ) )
@@ -117,6 +117,8 @@ class eZOptionValue
             {
                 $this->ID =& $optionValue_array[0][ "ID" ];
                 $this->Price =& $optionValue_array[0][ "Price" ];
+                if ( $this->Price == "NULL" )
+                    $this->Price = false;
                 $this->OptionID =& $optionValue_array[0][ "OptionID" ];
                 $this->RemoteID =& $optionValue_array[0][ "RemoteID" ];
             }
@@ -173,6 +175,58 @@ class eZOptionValue
         {
             return 0;
         }
+    }
+
+    /*!
+      Sets the total quantity of the option value.
+    */
+    function setTotalQuantity( $quantity )
+    {
+        $id = $this->ID;
+        $db =& eZDB::globalDatabase();
+        $db->array_query( $qry_array,
+                          "SELECT Q.ID
+                           FROM eZTrade_Quantity AS Q, eZTrade_ValueQuantityDict AS VQD
+                           WHERE Q.ID=VQD.QuantityID AND ValueID='$id'" );
+        $db->query( "DELETE FROM eZTrade_ValueQuantityDict WHERE ValueID='$id'" );
+        foreach( $qry_array as $row )
+        {
+            $q_id = $row["ID"];
+            $db->query( "DELETE FROM eZTrade_Quantity WHERE ID='$q_id'" );
+        }
+        if ( is_bool( $quantity ) and !$quantity )
+            return;
+        $db->query( "INSERT INTO eZTrade_Quantity VALUES('','$quantity')" );
+        $q_id = $db->insertID();
+        $db->query( "INSERT INTO eZTrade_ValueQuantityDict VALUES('$id','$q_id')" );
+    }
+
+    /*!
+      \static
+      Returns the total quantity of this value.
+    */
+    function totalQuantity( $id = false )
+    {
+        if ( !$id )
+            $id = $this->ID;
+        $db =& eZDB::globalDatabase();
+        $db->array_query( $qry_array,
+                          "SELECT Q.Quantity
+                           FROM eZTrade_Quantity AS Q, eZTrade_ValueQuantityDict AS VQD
+                           WHERE Q.ID=VQD.QuantityID AND ValueID='$id'" );
+        $quantity = 0;
+        if ( count( $qry_array ) > 0 )
+        {
+            foreach( $qry_array as $row )
+            {
+                if ( $row["Quantity"] == "NULL" )
+                    return false;
+                $quantity += $row["Quantity"];
+            }
+        }
+        else
+            return false;
+        return $quantity;
     }
 
     /*!
