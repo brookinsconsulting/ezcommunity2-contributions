@@ -4,6 +4,7 @@ eZ publish changelog:
 Changes from version 2.0 beta 3 to pre-release 2
 ------------------------------------------------
 * Deletion of company, person and consultation in eZ contact has been fixed.
+* Image views no longer displays error messages, instead a standard image explaining the fault is shown.
 
 
 Changes from version 2.0 beta 3 to pre-release 1
