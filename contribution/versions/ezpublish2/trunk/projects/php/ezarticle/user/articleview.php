@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: articleview.php,v 1.80 2001/09/15 12:53:56 bf Exp $
+// $Id: articleview.php,v 1.81 2001/09/15 13:06:03 bf Exp $
 //
 // Created on: <18-Oct-2000 16:34:51 bf>
 //
@@ -138,15 +138,20 @@ $t->set_block( "attribute_list_tpl", "type_item_tpl", "type_item" );
 $t->set_block( "type_item_tpl", "attribute_item_tpl", "attribute_item" );
 
 
-$var = $t->get_user_variable( "article_view_page_tpl",  "eZFoo" );
+// read user override variables for image size
+$ListImageWidth = $ini->read_var( "eZArticleMain", "ListImageWidth" );
+$ListImageHeight = $ini->read_var( "eZArticleMain", "ListImageHeight" );
 
-if ( $var )
+$listImageWidthOverride =& $t->get_user_variable( "article_view_page_tpl",  "ListImageWidth" );
+if ( $listImageWidthOverride )
 {
-    print( "User defined variable: $var found" );
+    $ListImageWidth = $listImageWidthOverride;
 }
-else
+
+$listImageHeightOverride =& $t->get_user_variable( "article_view_page_tpl",  "ListImageHeight" );
+if ( $listImageHeightOverride )
 {
-    print( "User defined variable not found" );
+    $ListImageHeight = $listImageHeightOverride;
 }
 
 

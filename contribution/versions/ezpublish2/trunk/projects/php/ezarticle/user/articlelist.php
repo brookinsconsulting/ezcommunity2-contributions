@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: articlelist.php,v 1.74 2001/09/14 11:32:24 bf Exp $
+// $Id: articlelist.php,v 1.75 2001/09/15 13:06:03 bf Exp $
 //
 // Created on: <18-Oct-2000 14:41:37 bf>
 //
@@ -123,7 +123,26 @@ else
     $t->parse( "category_headline_item", "category_headline_tpl" );
     $t->set_var( "latest_headline_item", "" );
 }
-	
+
+
+
+// read user override variables for image size
+$ThumbnailImageWidth = $ini->read_var( "eZArticleMain", "ThumbnailImageWidth" );
+$ThumbnailImageHeight = $ini->read_var( "eZArticleMain", "ThumbnailImageHeight" );
+    
+$thumbnailImageWidthOverride =& $t->get_user_variable( "article_list_page_tpl",  "ThumbnailImageWidth" );
+if ( $thumbnailImageWidthOverride )
+{
+    $ThumbnailImageWidth = $thumbnailImageWidthOverride;
+}
+
+$thumbnailImageHeightOverride =& $t->get_user_variable( "article_list_page_tpl",  "ThumbnailImageHeight" );
+if ( $thumbnailImageHeightOverride )
+{
+    $ThumbnailImageHeight = $thumbnailImageHeightOverride;
+}
+
+
 // image dir
 $t->set_var( "image_dir", $ImageDir );
 
@@ -344,8 +363,7 @@ foreach ( $articleList as $article )
         else
             $convertToGray = false;
 
-        $variation =& $thumbnailImage->requestImageVariation( $ini->read_var( "eZArticleMain", "ThumbnailImageWidth" ),
-        $ini->read_var( "eZArticleMain", "ThumbnailImageHeight" ), $convertToGray );
+        $variation =& $thumbnailImage->requestImageVariation( $ThumbnailImageWidth, $ThumbnailImageHeight, $convertToGray );
     
         $t->set_var( "thumbnail_image_uri", "/" . $variation->imagePath() );
         $t->set_var( "thumbnail_image_width", $variation->width() );
