@@ -59,11 +59,22 @@ if ( isset( $MetaRedirectLocation ) && isset( $MetaRedirectTimer ) )
 //-->
 </script>
 
-<meta name="author" content="eZ systems" />
-<meta name="copyright" content="eZ systems &copy; 2001" />
+<!-- set the content meta information -->
+
+<meta name="author" content="<?php
+
+    $SiteAuthor = $ini->read_var( "site", "SiteAuthor" );
+    print( $SiteAuthor );
+
+?>" />
+<meta name="copyright" content="<?php
+
+    $SiteCopyright = $ini->read_var( "site", "SiteCopyright" );
+    print( $SiteCopyright );
+
+?>" />
 <meta name="description" content="<?php
 
-// set the content meta information
 if ( isset( $SiteDescriptionOverride ) )
 {
     print( $SiteDescriptionOverride );
@@ -75,8 +86,6 @@ else
 }
 
 ?>" />
-
-<meta name="MSSmartTagsPreventParsing" content="TRUE">
 <meta name="keywords" content="<?php
 if ( isset( $SiteKeywordsOverride ) )
 {
@@ -84,11 +93,12 @@ if ( isset( $SiteKeywordsOverride ) )
 }
 else
 {
-    $Keywords = $ini->read_var( "site", "Keywords" );
-    print( $Keywords );
+    $SiteKeywords = $ini->read_var( "site", "SiteKeywords" );
+    print( $SiteKeywords );
 }
 
 ?>" />
+<meta name="MSSmartTagsPreventParsing" content="TRUE">
 
 </head>
 
@@ -96,40 +106,40 @@ else
 
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
 <tr>
-	<td>
+   <td>
 
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
 <tr>
-	<td class="tdmini" width="99%">
+   <td class="tdmini" width="99%">
 <img src="<? print $GlobalSiteIni->WWWDir; ?>/sitedesign/<? print ($GlobalSiteDesign); ?>/images/ezpublish-yourcontentmadeeasy.gif" height="20" width="290" border="0" alt="" /><br />
-	</td>
-	<td class="tdmini" width="1%" align="right">
+   </td>
+   <td class="tdmini" width="1%" align="right">
 
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
 <tr>
-	<td class="tdmini" width="1%">
-	<img src="<? print $GlobalSiteIni->WWWDir; ?>/sitedesign/<? print ($GlobalSiteDesign); ?>/images/tab-mrk-left.gif" height="20" width="20" border="0" alt="" /><br />
-	</td>
-	<td class="tab" bgcolor="#ffffff" width="23%">&nbsp;&nbsp;<a href="<? print $GlobalSiteIni->WWWDir . $GlobalSiteIni->Index; ?>/section-standard/">Standard</a>&nbsp;&nbsp;</td>
-	<td class="tdmini" width="1%">
-	<img src="<? print $GlobalSiteIni->WWWDir; ?>/sitedesign/<? print ($GlobalSiteDesign); ?>/images/tab-mrk-unmrk.gif" height="20" width="20" border="0" alt="" /><br />
-	</td>
-	<td class="tab" bgcolor="#dcdcdc" width="23%">&nbsp;&nbsp;<a href="<? print $GlobalSiteIni->WWWDir . $GlobalSiteIni->Index; ?>/section-intranet/">Intranet</a>&nbsp;&nbsp;</td>
-	<td class="tdmini" width="1%">
-	<img src="<? print $GlobalSiteIni->WWWDir; ?>/sitedesign/<? print ($GlobalSiteDesign); ?>/images/tab-unmrk-unmrk.gif" height="20" width="20" border="0" alt="" /><br />
-	</td>
-	<td class="tab" bgcolor="#dcdcdc" width="23%">&nbsp;&nbsp;<a href="<? print $GlobalSiteIni->WWWDir . $GlobalSiteIni->Index; ?>/section-trade/">Trade</a>&nbsp;&nbsp;</td>
-	<td class="tdmini" width="1%">
-	<img src="<? print $GlobalSiteIni->WWWDir; ?>/sitedesign/<? print ($GlobalSiteDesign); ?>/images/tab-unmrk-unmrk.gif" height="20" width="20" border="0" alt="" /><br />
-	</td>
-	<td class="tab" bgcolor="#dcdcdc" width="23%">&nbsp;&nbsp;<a href="<? print $GlobalSiteIni->WWWDir . $GlobalSiteIni->Index; ?>/section-news/">News</a>&nbsp;&nbsp;</td>
-	<td class="tdmini" width="1%">
-	<img src="<? print $GlobalSiteIni->WWWDir; ?>/sitedesign/<? print ($GlobalSiteDesign); ?>/images/tab-unmrk-right.gif" height="20" width="20" border="0" alt="" /><br />
-	</td>
+   <td class="tdmini" width="1%">
+   <img src="<? print $GlobalSiteIni->WWWDir; ?>/sitedesign/<? print ($GlobalSiteDesign); ?>/images/tab-mrk-left.gif" height="20" width="20" border="0" alt="" /><br />
+   </td>
+   <td class="tab" bgcolor="#ffffff" width="23%">&nbsp;&nbsp;<a href="<? print $GlobalSiteIni->WWWDir . $GlobalSiteIni->Index; ?>/section-standard/">Standard</a>&nbsp;&nbsp;</td>
+   <td class="tdmini" width="1%">
+   <img src="<? print $GlobalSiteIni->WWWDir; ?>/sitedesign/<? print ($GlobalSiteDesign); ?>/images/tab-mrk-unmrk.gif" height="20" width="20" border="0" alt="" /><br />
+   </td>
+   <td class="tab" bgcolor="#dcdcdc" width="23%">&nbsp;&nbsp;<a href="<? print $GlobalSiteIni->WWWDir . $GlobalSiteIni->Index; ?>/section-intranet/">Intranet</a>&nbsp;&nbsp;</td>
+   <td class="tdmini" width="1%">
+   <img src="<? print $GlobalSiteIni->WWWDir; ?>/sitedesign/<? print ($GlobalSiteDesign); ?>/images/tab-unmrk-unmrk.gif" height="20" width="20" border="0" alt="" /><br />
+   </td>
+   <td class="tab" bgcolor="#dcdcdc" width="23%">&nbsp;&nbsp;<a href="<? print $GlobalSiteIni->WWWDir . $GlobalSiteIni->Index; ?>/section-trade/">Trade</a>&nbsp;&nbsp;</td>
+   <td class="tdmini" width="1%">
+   <img src="<? print $GlobalSiteIni->WWWDir; ?>/sitedesign/<? print ($GlobalSiteDesign); ?>/images/tab-unmrk-unmrk.gif" height="20" width="20" border="0" alt="" /><br />
+   </td>
+   <td class="tab" bgcolor="#dcdcdc" width="23%">&nbsp;&nbsp;<a href="<? print $GlobalSiteIni->WWWDir . $GlobalSiteIni->Index; ?>/section-news/">News</a>&nbsp;&nbsp;</td>
+   <td class="tdmini" width="1%">
+   <img src="<? print $GlobalSiteIni->WWWDir; ?>/sitedesign/<? print ($GlobalSiteDesign); ?>/images/tab-unmrk-right.gif" height="20" width="20" border="0" alt="" /><br />
+   </td>
 </tr>
 </table>
 
-	</td>
+   </td>
 </tr>
 </table>
 
@@ -174,7 +184,7 @@ else
     <?
     $CategoryID = 1;
     $Limit = 1;
-	include( "ezad/user/adlist.php" );
+   include( "ezad/user/adlist.php" );
     ?>
 -->
 
@@ -201,12 +211,12 @@ else
 
     <?
     $NoAddress = true;
-	include( "ezuser/user/userbox.php" );
+   include( "ezuser/user/userbox.php" );
     ?>
 
     <?
     // a short list of articles from the given category
-    // shows $Limit number starting from offset $Offset    
+    // shows $Limit number starting from offset $Offset
     $CategoryID=1;
     $Offset=1;
     $Limit=1;
@@ -215,7 +225,7 @@ else
 
     <?
     $CategoryID = 1;
-	include( "ezarticle/user/headlines.php" );
+   include( "ezarticle/user/headlines.php" );
     ?>
 
     <?
@@ -224,19 +234,19 @@ else
 
 <table width="100%" cellspacing="0" cellpadding="2" border="0">
 <tr>
-	<td class="menuhead">Site search</td>
+   <td class="menuhead">Site search</td>
 </tr>
 <tr>
-	<td>
+   <td>
 <form action="<? print $GlobalSiteIni->WWWDir . $GlobalSiteIni->Index; ?>/search/" method="get" style="margin-top: 0px; margin-bottom: 0px; padding: 0px;">
     <input type="hidden" name="SectionIDOverride" value="1" />
     <input type="text" size="10" name="SearchText" value="" style="font-family: verdana; width: 130px; font-size: 9px; margin: 0px;" />
     <input type="submit" name="Search" value="search" style="font-size: 9px; margin: 0px; padding: 0px;" />
 </form>
-	</td>
+   </td>
 </tr>
 <tr>
-	<td class="menuspacer">&nbsp;</td>
+   <td class="menuspacer">&nbsp;</td>
 </tr>
 </table>
 
