@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: sendmail.php,v 1.2 2001/08/31 12:18:31 jhe Exp $
+// $Id: sendmail.php,v 1.3 2001/09/04 12:06:16 jhe Exp $
 //
 // Created on: <14-Aug-2001 15:43:17 jhe>
 //
@@ -53,7 +53,6 @@ if ( isSet( $ContactArrayID ) )
     }
 }
 $toArray["CompanyEdit"] = $CompanyEdit;
-
 include( "ezmail/user/mailedit.php" );
 
 ?>

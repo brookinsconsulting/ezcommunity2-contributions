@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: datasupplier.php,v 1.50 2001/08/14 14:12:15 jhe Exp $
+// $Id: datasupplier.php,v 1.51 2001/09/04 12:06:16 jhe Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -35,6 +35,7 @@ if ( eZPermission::checkPermission( $user, "eZContact", "ModuleEdit" ) == false 
 }
 
 $url_array = eZURITool::split( $REQUEST_URI );
+
 $ListType = $url_array[2];
 switch ( $ListType )
 {

@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: consultationtypelist.php,v 1.7 2001/08/17 13:35:59 jhe Exp $
+// $Id: consultationtypelist.php,v 1.8 2001/09/04 12:06:16 jhe Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -22,7 +22,6 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, US
 //
-
 
 include_once( "ezcontact/classes/ezconsultationtype.php" );
 
@@ -48,7 +47,7 @@ $language_file = "consultationtype.php";
 $page_path = "/contact/consultationtype";
 $item_type_array = eZConsultationType::findTypes();
 $move_item = true;
-$SortPage = "/contact/consultation/type/list";
+$SortPage = "/contact/consultationtype/edit";
 
 include( "ezcontact/admin/typelist.php" );
 

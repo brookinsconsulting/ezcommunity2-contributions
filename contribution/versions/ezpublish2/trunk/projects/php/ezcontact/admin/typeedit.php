@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: typeedit.php,v 1.6 2001/07/20 12:01:50 jakobn Exp $
+// $Id: typeedit.php,v 1.7 2001/09/04 12:06:16 jhe Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -53,9 +53,9 @@ $t->setAllStrings();
 
 $item_error = true;
 
-if( empty( $HTTP_REFERER ) )
+if ( empty( $HTTP_REFERER ) )
 {
-    if( empty( $BackUrl ) )
+    if ( empty( $BackUrl ) )
     {
         $back_command = "$page_path/list";
     }
@@ -111,15 +111,15 @@ if ( $Action == "down" )
     exit();
 }
 
-if( $Action == "insert" or $Action == "update" )
+if ( $Action == "insert" or $Action == "update" )
 {
     if ( $Action == "insert" )
         unset( $item_type->ID );
 
-    if ( isset( $func_call_set ) and is_array( $func_call_set ) )
+    if ( isSet( $func_call_set ) and is_array( $func_call_set ) )
     {
         reset( $func_call_set );
-        while( list($key,$val) = each( $func_call_set ) )
+        while( list( $key, $val ) = each( $func_call_set ) )
         {
             $item_type->$key( ${$val} );
         }
@@ -133,9 +133,9 @@ if( $Action == "insert" or $Action == "update" )
     eZHTTPTool::header( "Location: $page_path/list" );
 }
 
-if ( !isset( $typeedit ) )
+if ( !isSet( $typeedit ) )
     $typeedit = "typeedit.tpl";
-if ( isset( $template_array ) and isset( $block_array ) and
+if ( isSet( $template_array ) and isSet( $block_array ) and
      is_array( $template_array ) and is_array( $block_array ) )
 {
     $standard_array = array( "list_page" => $typeedit );
@@ -173,12 +173,12 @@ $t->set_var( "item_name", $ItemName );
 $t->set_var( "back_url", $back_command );
 $t->set_var( "item_back_command", $back_command );
 
-if( $Action == "confirm" )
+if ( $Action == "confirm" )
 {
     $t->set_var( "error_count_change_item", "" );
     $t->set_var( "error_no_confirm_item", "" );
 
-    if( isset( $TypeCount ) )
+    if ( isSet( $TypeCount ) )
     {
         if ( $TypeCount != $item_type->count() )
         {
@@ -186,45 +186,45 @@ if( $Action == "confirm" )
             $error = true;
         }
     }
-    if ( isset( $TypeError ) )
+    if ( isSet( $TypeError ) )
     {
         $t->parse( "error_no_confirm_item", "error_no_confirm_item_tpl" );
         $error = true;
     }
         
-    if( $error == true )
+    if ( $error == true )
     {
         $t->parse( "errors", "errors_tpl" );
-   }
+    }
 }
 
-if( $error == false )
+if ( $error == false )
 {
     $t->set_var( "errors", "" );
 }
 
-if ( isset( $func_call ) and is_array( $func_call ) )
+if ( isSet( $func_call ) and is_array( $func_call ) )
 {
     reset( $func_call );
-    while( list($key,$val) = each( $func_call ) )
+    while( list( $key,$val ) = each( $func_call ) )
     {
         $t->set_var( $key, $item_type->$val() );
     }
 }
 else
 {
-    if( is_numeric( $item_type->id() ) )
+    if ( is_numeric( $item_type->id() ) )
     {
         $t->set_var( "item_id", $item_type->id() );
         $t->set_var( "item_name", $item_type->name() );
     }
 }
 
-if( $Action == "edit" )
+if ( $Action == "edit" )
 {
     $action_value = "update";
 
-    if( is_numeric( $item_type->id() ) )
+    if ( is_numeric( $item_type->id() ) )
     {
         $item_error = false;
     }
@@ -237,14 +237,13 @@ if ( $Action == "confirm" )
     $t->set_var( "item_count", $item_type->count() );
 }
 
-if( $Action == "new" )
+if ( $Action == "new" )
 {
     $action_value = "insert";
-
     $item_error = false;
 }
 
-if( $item_error == true )
+if ( $item_error == true )
 {
     $t->parse( "no_line_item", "no_line_item_tpl" );
 }

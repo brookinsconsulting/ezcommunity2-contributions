@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: projecttypelist.php,v 1.5 2001/08/17 13:35:59 jhe Exp $
+// $Id: projecttypelist.php,v 1.6 2001/09/04 12:06:16 jhe Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -22,7 +22,6 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, US
 //
-
 
 include_once( "ezcontact/classes/ezprojecttype.php" );
 include_once( "ezuser/classes/ezusergroup.php" );
@@ -47,7 +46,7 @@ $language_file = "projecttype.php";
 $page_path = "/contact/projecttype";
 $item_type_array = eZProjectType::findTypes();
 $move_item = true;
-$SortPage = "/contact/project/type/list";
+$SortPage = "/contact/projecttype/edit";
 
 include( "ezcontact/admin/typelist.php" );
 

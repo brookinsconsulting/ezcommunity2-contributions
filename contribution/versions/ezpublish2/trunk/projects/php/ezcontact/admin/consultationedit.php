@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: consultationedit.php,v 1.22 2001/08/17 13:35:58 jhe Exp $
+// $Id: consultationedit.php,v 1.23 2001/09/04 12:06:16 jhe Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -56,18 +56,25 @@ function addZero( $value )
     return $ret;
 }
 
+if ( isSet( $new_consultation ) )
+{
+    include_once( "classes/ezhttptool.php" );
+    eZHTTPTool::header( "Location: contact/consultation/person/new" );
+    exit();
+}    
+
 $user =& eZUser::currentUser();
 if ( get_class( $user ) != "ezuser" )
 {
     include_once( "classes/ezhttptool.php" );
-    eZHTTPTool::header( "Location: /contact/nopermission/login" );
+    eZHTTPTool::header( "Location: contact/nopermission/login" );
     exit();
 }
 
 if ( !eZPermission::checkPermission( $user, "eZContact", "Consultation" ) )
 {
     include_once( "classes/ezhttptool.php" );
-    eZHTTPTool::header( "Location: /contact/nopermission/consultation" );
+    eZHTTPTool::header( "Location: contact/nopermission/consultation" );
     exit();
 }
 
@@ -104,12 +111,12 @@ if ( $Action == "delete" or isSet( $Delete ) )
     if ( isSet( $contact_type ) && isSet( $contact_id ) )
     {
         include_once( "classes/ezhttptool.php" );
-        eZHTTPTool::header( "Location: /contact/consultation/$contact_type/list/$contact_id" );
+        eZHTTPTool::header( "Location: contact/consultation/$contact_type/list/$contact_id" );
     }
     else
     {
         include_once( "classes/ezhttptool.php" );
-        eZHTTPTool::header( "Location: /contact/consultation/list" );
+        eZHTTPTool::header( "Location: contact/consultation/list" );
     }
     exit;
 }
@@ -174,7 +181,7 @@ $t->set_var( "company_id_item", "" );
 
 if ( isSet( $PersonID ) and !isSet( $PersonContact ) )
     $PersonContact = $PersonID;
-if ( isset( $CompanyID ) and !isSet( $CompanyContact ) )
+if ( isSet( $CompanyID ) and !isSet( $CompanyContact ) )
     $CompanyContact = $CompanyID;
 
 if ( isSet( $PersonID ) )

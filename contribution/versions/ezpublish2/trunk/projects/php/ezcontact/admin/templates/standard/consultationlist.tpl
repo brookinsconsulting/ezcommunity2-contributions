@@ -43,8 +43,8 @@
 <p>{intl-consultation_no_persons}</p>
 <!-- END no_persons_item_tpl -->
 
-<!-- BEGIN person_table_item_tpl -->
 <form action="{www_dir}{index}/contact/consultation/person/delete/" method="post">
+<!-- BEGIN person_table_item_tpl -->
 <table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
 <tr>
 	<th>{intl-person_name}:</th>
@@ -76,5 +76,5 @@
 <!-- END person_table_item_tpl -->
 <hr noshade="noshade" size="4" />
 <input class="stdbutton" type="submit" name="new_consultation" value="{intl-new_consultation}" />
-<input class="stdbutton" type="submit" value="{intl-delete_consultation}" />
+<input class="stdbutton" type="submit" value="{intl-delete_selected}" />
 </form>

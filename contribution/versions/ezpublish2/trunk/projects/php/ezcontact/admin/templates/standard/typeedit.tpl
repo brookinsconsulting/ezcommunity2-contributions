@@ -1,5 +1,5 @@
 <!-- BEGIN list_page -->
-<form method="post" href="{www_dir}{index}{form_path}/{action_value}/{item_id}/" enctype="multipart/form-data">
+<form method="post" action="{www_dir}{index}{form_path}/{action_value}/{item_id}/" enctype="multipart/form-data">
 
 <!-- BEGIN type_edit_tpl -->
 <h1>{intl-edit_headline}</h1>
@@ -9,14 +9,14 @@
 <br />
 
 <!-- BEGIN line_item_tpl -->
-<input type="hidden" name="ItemID" value="{item_id}">
-<input type="hidden" name="BackUrl" value="{back_url}">
+<input type="hidden" name="ItemID" value="{item_id}" />
+<input type="hidden" name="BackUrl" value="{back_url}" />
 
 <table>
 <tr>
 	<td>
 	<p class="boxtext">{intl-name}:</p>
-	<input type="text" size="40" name="ItemName" value="{item_name}"/><br>
+	<input type="text" size="40" name="ItemName" value="{item_name}" /><br>
 	</td>
 	{extra_type_input}
 </tr>
@@ -35,7 +35,7 @@
 	<td>&nbsp;</td>
 	<td>
 	<form method="post" action="{www_dir}{index}{item_back_command}/">
-	<input class="okbutton" type="submit" name="Back" value="{intl-back}">
+	<input class="okbutton" type="submit" name="Back" value="{intl-back}" />
 	</form>
 	</td>
 </tr>

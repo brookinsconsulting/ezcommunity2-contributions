@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: typelist.php,v 1.6 2001/08/14 14:12:15 jhe Exp $
+// $Id: typelist.php,v 1.7 2001/09/04 12:06:16 jhe Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -22,7 +22,6 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, US
 //
-
 
 /*
   This code can be reused for simple type lists. It requires an object with the following functions:
@@ -51,14 +50,15 @@ include_once( "ezuser/classes/ezpermission.php" );
 
 require( "ezuser/admin/admincheck.php" );
 
-$t = new eZTemplate( $DOC_ROOT . "/admin/" . $ini->read_var( "eZContactMain", "AdminTemplateDir" ), $DOC_ROOT . "admin/intl", $Language, $language_file );
+$t = new eZTemplate( $DOC_ROOT . "/admin/" . $ini->read_var( "eZContactMain", "AdminTemplateDir" ),
+                     $DOC_ROOT . "admin/intl", $Language, $language_file );
 $t->setAllStrings();
 
 $item_error = true;
 
-if( empty( $HTTP_REFERER ) )
+if ( empty( $HTTP_REFERER ) )
 {
-    if( empty( $BackUrl ) )
+    if ( empty( $BackUrl ) )
     {
         $back_command = "$page_path/list";
     }
@@ -72,16 +72,16 @@ else
     $back_command = $HTTP_REFERER;
 }
 
-if ( !isset( $typelist ) )
+if ( !isSet( $typelist ) )
     $typelist = "typelist.tpl";
 
-if ( isset( $template_array ) and isset( $variable_array ) and
+if ( isSet( $template_array ) and isSet( $variable_array ) and
      is_array( $template_array ) and is_array( $variable_array ) )
 {
     $standard_array = array( "list_page" => $typelist );
     $t->set_file( array_merge( $standard_array, $template_array ) );
     $t->set_file_block( $template_array );
-    if ( isset( $block_array ) and is_array( $block_array ) )
+    if ( isSet( $block_array ) and is_array( $block_array ) )
         $t->set_block( $block_array );
     $t->parse( $variable_array );
 }
@@ -136,13 +136,13 @@ $t->set_var( "type", $ListType );
 $t->set_var( "search_form_text", $SearchText );
 $t->set_var( "search_text", $search_encoded );
 
-if ( isset( $Searchable ) )
+if ( isSet( $Searchable ) )
     $t->parse( "search_item", "search_item_tpl" );    
 
 $count = count( $item_type_array );
 
 $i = 0;
-foreach( $item_type_array as $item )
+foreach ( $item_type_array as $item )
 {
     $t->set_var( "item_move_up", "" );
     $t->set_var( "no_item_move_up", "" );
@@ -159,10 +159,10 @@ foreach( $item_type_array as $item )
     else
         $t->set_var( "bg_color", "bgdark" );
 
-    if ( isset( $func_call ) and is_array( $func_call ) )
+    if ( isSet( $func_call ) and is_array( $func_call ) )
     {
         reset( $func_call );
-        while( list($key,$val) = each( $func_call ) )
+        while( list( $key,$val ) = each( $func_call ) )
         {
             $t->set_var( $key, $item->$val() );
         }
@@ -173,7 +173,7 @@ foreach( $item_type_array as $item )
         $t->set_var( "item_name", $item->name() );
     }
 
-    if ( isset( $SortPage ) )
+    if ( isSet( $SortPage ) )
     {
         $t->set_var( "item_sort_command", $SortPage );
         $t->parse( "item_linked", "item_linked_tpl" );
@@ -183,7 +183,7 @@ foreach( $item_type_array as $item )
         $t->parse( "item_plain", "item_plain_tpl" );
     }
 
-    if ( $i > 0 && isset( $move_item ) )
+    if ( $i > 0 && isSet( $move_item ) )
     {
         $t->parse( "item_move_up", "item_move_up_tpl" );
     }
@@ -192,7 +192,7 @@ foreach( $item_type_array as $item )
         $t->parse( "no_item_move_up", "no_item_move_up_tpl" );
     }
 
-    if ( $i > 0 && $i < $count - 1 && isset( $move_item ) )
+    if ( $i > 0 && $i < $count - 1 && isSet( $move_item ) )
     {
         $t->parse( "item_separator", "item_separator_tpl" );
     }
@@ -201,7 +201,7 @@ foreach( $item_type_array as $item )
         $t->parse( "no_item_separator", "no_item_separator_tpl" );
     }
 
-    if ( $i < $count - 1 && isset( $move_item ) )
+    if ( $i < $count - 1 && isSet( $move_item ) )
     {
         $t->parse( "item_move_down", "item_move_down_tpl" );
     }
@@ -213,9 +213,9 @@ foreach( $item_type_array as $item )
     $t->parse( "line_item", "line_item_tpl", true );
 
     $i++;
-} 
+}
 
-if( $count < 1 )
+if ( $count < 1 )
 {
     $t->parse( "no_line_item", "no_line_item_tpl" );
 }
@@ -271,4 +271,5 @@ else
 }
 
 $t->pparse( "output", "list_page" );
+
 ?>

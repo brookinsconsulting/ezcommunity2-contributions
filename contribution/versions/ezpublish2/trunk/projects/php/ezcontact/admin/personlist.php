@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: personlist.php,v 1.15 2001/08/14 14:12:15 jhe Exp $
+// $Id: personlist.php,v 1.16 2001/09/04 12:06:16 jhe Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -96,6 +96,8 @@ if ( $session->fetch() != false )
 {
     if ( !isSet( $LimitType ) )
     {
+        if ( $session->variable( "PersonLimitType" ) == false )
+            $session->setVariable( "PersonLimitType", "all" );
         $LimitType =& $session->variable( "PersonLimitType" );
     }
     else
@@ -232,8 +234,7 @@ array( "type_list" => "person_list",
        "item_inactive" => "person_list_inactive_item",
        "item_index" => "item_index",
        "item_list" => "person_list_item_list",
-       "item_name" => "item_name" )
-                       );
+       "item_name" => "item_name" ) );
 
 $t->pparse( "output", "person_page" );
 
