@@ -146,7 +146,7 @@
 <table width="{table_width}" >
 <tr>
 <td bgcolor="#aaaaaa">
-<table width="{table_width}" border="{table_border}" cellpadding="2" cellspacing="2">
+<table width="100%" border="{table_border}" cellpadding="2" cellspacing="2">
 <!-- BEGIN tr_tpl -->
 <tr>
 <!-- BEGIN td_tpl -->
