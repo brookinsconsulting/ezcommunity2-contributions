@@ -27,15 +27,16 @@
 //
 //    Modified by Jo Henrik Endrerud <jhe@ez.no> for eZ systems
 //
-class  INIFile { 
 
+class  INIFile
+{ 
     var $INI_FILE_NAME =  ""; 
     var $ERROR =  ""; 
     var $GROUPS = array(); 
     var $CURRENT_GROUP =  "";
     var $WRITE_ACCESS = ""; 
      
-    function INIFile($inifilename= "", $write = "true") 
+    function INIFile( $inifilename="", $write=true )
     { 
         $this->WRITE_ACCESS = $write;
         if(!empty($inifilename)) 
@@ -53,7 +54,7 @@ class  INIFile {
     { 
         $this->INI_FILE_NAME = $inifilename; 
         if( $this->WRITE_ACCESS )
-            $fp = fopen($inifilename, "r+"); 
+            $fp = fopen($inifilename, "r+" ); 
         else
             $fp = fopen($inifilename, "r");
         $contents = fread($fp, filesize($inifilename)); 

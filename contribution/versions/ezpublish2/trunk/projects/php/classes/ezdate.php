@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezdate.php,v 1.1 2000/09/07 15:44:44 bf-cvs Exp $
+// $Id: ezdate.php,v 1.2 2000/09/08 12:13:53 bf-cvs Exp $
 //
 // Definition of eZCompany class
 //
@@ -17,12 +17,11 @@
 //!! eZCommon
 //! The eZDate class provides date functions.
 /*!
-
+  
 */
 
 class eZDate
 {
-    //! constructor
     /*!
       Constructs a new eZDate object. If the parameters are set the date
       is set accordingly. If not the current local time is used.
@@ -45,7 +44,6 @@ class eZDate
         }
     }
 
-    //! Returns the year value.
     /*!
       The year is returned in Y2K compatible format.      
     */
@@ -54,7 +52,6 @@ class eZDate
         return $this->Year;
     }
 
-    //! Returns the month value.
     /*!
       The month value is returned.      
     */
@@ -63,7 +60,6 @@ class eZDate
         return $this->Month;
     }
 
-    //! Returns the day value.
     /*!
       Returns the day of the month.
     */
@@ -71,8 +67,52 @@ class eZDate
     {
         return $this->Day;
     }
-    
-    
+
+    /*!
+      Sets the year value.
+    */
+    function setYear( $value )
+    {
+        $this->Year = $value;
+        setType( $this->Year, "integer" );
+    }
+
+    /*!
+      Sets the month value.
+    */
+    function setMonth( $value )
+    {
+        $this->Month = $value;
+        setType( $this->Month, "integer" );
+    }
+
+    /*!
+      Sets the day value;
+    */
+    function setDay( $value )
+    {
+        $this->Day = $value;
+        setType( $this->Day, "integer" );
+    }
+
+    /*!
+      Sets the date according to the MySQL date given as parameter.      
+      If the parameter is invalid nothing is set and an error is printed.
+    */
+    function setMySQLDate( $value )
+    {
+        if ( ereg( "([0-9]{4})-([0-9]{2})-([0-9]{2})", $value, $valueArray ) )
+        {
+            $this->setYear( $valueArray[1] );
+            $this->setMonth( $valueArray[2] );
+            $this->setDay( $valueArray[3] );
+        }
+        else
+        {
+            print( "<b>Error:</b> eZDate::setMySQLDate() received wrong MySQL date format." );
+        }
+    }
+        
     var $Year;
     var $Month;
     var $Day;
