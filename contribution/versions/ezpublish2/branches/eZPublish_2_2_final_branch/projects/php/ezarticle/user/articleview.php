@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: articleview.php,v 1.84.2.2 2001/11/01 18:22:12 master Exp $
+// $Id: articleview.php,v 1.84.2.3 2001/11/01 19:43:38 bf Exp $
 //
 // Created on: <18-Oct-2000 16:34:51 bf>
 //
@@ -333,7 +333,6 @@ if ( $article->get( $ArticleID ) )
     
     {
         $i=0;
-
         foreach ( $images as $imageArray )
         {
             $image = $imageArray["Image"];
