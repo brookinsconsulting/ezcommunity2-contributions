@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezqdomrenderer.php,v 1.32 2001/08/21 15:13:32 bf Exp $
+// $Id: ezqdomrenderer.php,v 1.33 2001/08/21 15:23:53 master Exp $
 //
 // Definition of eZQDomRenderer class
 //
@@ -176,18 +176,18 @@ class eZQDomrenderer
         $this->Template->set_block( "articletags_tpl", "media_tpl", "media"  );
         $this->Template->set_block( "image_tpl", "image_link_tpl", "image_link"  );
         $this->Template->set_block( "image_tpl", "ext_link_tpl", "ext_link"  );
-
+	$this->Template->set_block( "image_tpl", "no_link_tpl", "no_link"  );
+	
         $this->Template->set_block( "image_tpl", "image_text_tpl", "image_text"  );
-
 
         $this->Template->set_block( "articletags_tpl", "image_float_tpl", "image_float" );
         $this->Template->set_block( "image_float_tpl", "image_link_float_tpl", "image_link_float" );
         $this->Template->set_block( "image_float_tpl", "ext_link_float_tpl", "ext_link_float"  );        
+	$this->Template->set_block( "image_float_tpl", "no_link_float_tpl", "no_link_float"  );
 
         $this->Template->set_block( "articletags_tpl", "link_tpl", "link"  );        
         
         $this->Template->set_block( "articletags_tpl", "hr_tpl", "hr"  );
-        
 	
         $this->Template->set_block( "articletags_tpl", "bold_tpl", "bold"  );
         $this->Template->set_block( "articletags_tpl", "italic_tpl", "italic"  );
@@ -552,18 +552,26 @@ class eZQDomrenderer
 
                 if ( $imageAlignment != "float"  )
                 {                
-                    if ( $imageHref != "" )
+		    if ( $imageHref == "0" )
+		    {
+                        $this->Template->set_var( "ext_link", "" );
+                        $this->Template->set_var( "image_link", "" );
+                        $this->Template->parse( "no_link", "no_link_tpl" );
+                    }
+                    elseif ( $imageHref != "" )
                     {
                         // convert link
                         if ( !preg_match( "%^(([a-z]+://)|/|#)%", $imageHref ) )
                             $imageHref = "http://" . $imageHref;
                         $this->Template->set_var( "image_href", $imageHref );
                         $this->Template->set_var( "image_link", "" );
+                        $this->Template->set_var( "no_link", "" );
                         $this->Template->parse( "ext_link", "ext_link_tpl" );
                     }
                     else
                     {
                         $this->Template->set_var( "ext_link", "" );
+                        $this->Template->set_var( "no_link", "" );
                         $this->Template->parse( "image_link", "image_link_tpl" );
                     }
 
@@ -580,18 +588,26 @@ class eZQDomrenderer
                 }
                 else
                 {                    
-                    if ( $imageHref != "" )
+		    if ( $imageHref == "0" )
+                    {
+                        $this->Template->set_var( "ext_link_float", "" );
+                        $this->Template->set_var( "image_link_float", "" );
+                        $this->Template->parse( "no_link_float", "no_link_float_tpl" );
+                    }
+                    elseif ( $imageHref != "" )
                     {
                         // convert link
                         if ( !preg_match( "%^(([a-z]+://)|/|#)%", $imageHref ) )
                             $imageHref = "http://" . $imageHref;
                         $this->Template->set_var( "image_href", $imageHref );
                         $this->Template->set_var( "image_link_float", "" );
+                        $this->Template->set_var( "no_link_float", "" );
                         $this->Template->parse( "ext_link_float", "ext_link_float_tpl" );
                     }
                     else
                     {
                         $this->Template->set_var( "ext_link_float", "" );
+                        $this->Template->set_var( "no_link_float", "" );
                         $this->Template->parse( "image_link_float", "image_link_float_tpl" );
                     }
 
