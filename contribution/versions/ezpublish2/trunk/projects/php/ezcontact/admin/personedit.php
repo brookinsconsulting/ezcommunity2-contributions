@@ -30,7 +30,8 @@ else
 
 if ( isset( $NewConsultation ) )
 {
-    header( "Location: /contact/consultation/$item_type/new/$item_id" );
+    include_once( "classes/ezhttptool.php" );
+    eZHTTPTool::header( "Location: /contact/consultation/$item_type/new/$item_id" );
     exit;
 }
 
@@ -42,7 +43,8 @@ if ( isset( $Back ) )
         $categories = $company->categories( false, false );
         $id = $categories[0];
     }
-    header( "Location: /contact/$item_type/list/$id" );
+    include_once( "classes/ezhttptool.php" );
+    eZHTTPTool::header( "Location: /contact/$item_type/list/$id" );
     exit;
 }
 
@@ -66,7 +68,8 @@ if( $Action == "delete" )
             eZPerson::delete( $PersonID );
         }
 
-        header( "Location: /contact/$item_type/list/$id" );
+        include_once( "classes/ezhttptool.php" );
+        eZHTTPTool::header( "Location: /contact/$item_type/list/$id" );
         exit;
     }
 }
@@ -493,7 +496,8 @@ if ( !$confirm )
         $t->set_var( "person_id", $PersonID );
         $t->set_var( "company_id", $CompanyID );
 
-        header( "Location: /contact/$item_type/view/$item_id" );
+        include_once( "classes/ezhttptool.php" );
+        eZHTTPTool::header( "Location: /contact/$item_type/view/$item_id" );
     }
 
 /*

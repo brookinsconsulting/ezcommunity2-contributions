@@ -22,11 +22,13 @@ if( $Action == "delete" )
 
     if ( isset( $contact_type ) && isset( $contact_id ) )
     {
-        header( "Location: /contact/consultation/$contact_type/list/$contact_id" );
+        include_once( "classes/ezhttptool.php" );
+        eZHTTPTool::header( "Location: /contact/consultation/$contact_type/list/$contact_id" );
     }
     else
     {
-        header( "Location: /contact/consultation/list" );
+        include_once( "classes/ezhttptool.php" );
+        eZHTTPTool::header( "Location: /contact/consultation/list" );
     }
     exit;
 }
@@ -159,7 +161,8 @@ $user = eZUser::currentUser();
 
 if ( !$user )
 {
-    header( "Location: /user/login" );
+    include_once( "classes/ezhttptool.php" );
+    eZHTTPTool::header( "Location: /user/login" );
     exit();
 }
 
@@ -260,11 +263,13 @@ if( ( $Action == "insert" || $Action == "update" ) && $error == false )
 
     if ( isset( $contact_type ) && isset( $contact_id ) )
     {
-        header( "Location: /contact/consultation/$contact_type/list/$contact_id" );
+        include_once( "classes/ezhttptool.php" );
+        eZHTTPTool::header( "Location: /contact/consultation/$contact_type/list/$contact_id" );
     }
     else
     {
-        header( "Location: /contact/consultation/list" );
+        include_once( "classes/ezhttptool.php" );
+        eZHTTPTool::header( "Location: /contact/consultation/list" );
     }
     exit();
 }
@@ -278,7 +283,8 @@ if( $Action == "new" )
 {
     if( $ConsultationID != 0 ) // 1
     {
-        header( "Location: /contact/consultation/edit/$ConsultationID" );
+        include_once( "classes/ezhttptool.php" );
+        eZHTTPTool::header( "Location: /contact/consultation/edit/$ConsultationID" );
         exit();
     }
 

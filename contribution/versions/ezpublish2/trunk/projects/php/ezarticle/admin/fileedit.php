@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: fileedit.php,v 1.2 2001/01/22 14:42:59 jb Exp $
+// $Id: fileedit.php,v 1.3 2001/01/23 12:57:06 jb Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <21-Dec-2000 18:01:48 bf>
@@ -63,7 +63,8 @@ if ( $Action == "Insert" )
         print( $file->name() . " not uploaded successfully" );
     }
 
-    header( "Location: /article/articleedit/filelist/" . $ArticleID . "/" );
+    include_once( "classes/ezhttptool.php" );
+    eZHTTPTool::header( "Location: /article/articleedit/filelist/" . $ArticleID . "/" );
     exit();
 }
 
@@ -96,7 +97,8 @@ if ( $Action == "Update" )
 //          $filer->store();
 //      }
     
-    header( "Location: /article/articleedit/filelist/" . $ArticleID . "/" );
+    include_once( "classes/ezhttptool.php" );
+    eZHTTPTool::header( "Location: /article/articleedit/filelist/" . $ArticleID . "/" );
     exit();
 }
 
@@ -108,7 +110,8 @@ if ( $Action == "Delete" )
         
     $article->deleteFiler( $filer );
     
-    header( "Location: /article/articleedit/filelist/" . $ArticleID . "/" );
+    include_once( "classes/ezhttptool.php" );
+    eZHTTPTool::header( "Location: /article/articleedit/filelist/" . $ArticleID . "/" );
     exit();    
 }
 

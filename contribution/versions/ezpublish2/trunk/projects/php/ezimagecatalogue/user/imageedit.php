@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: imageedit.php,v 1.5 2001/01/22 14:43:01 jb Exp $
+// $Id: imageedit.php,v 1.6 2001/01/23 12:57:06 jb Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <09-Jan-2001 10:45:44 ce>
@@ -30,7 +30,8 @@ if ( isSet ( $NewCategory ) )
 }
 if ( isSet ( $Cancel ) )
 {
-    header( "Location: /imagecatalogue/image/list/" . $CategoryID . "/" );
+    include_once( "classes/ezhttptool.php" );
+    eZHTTPTool::header( "Location: /imagecatalogue/image/list/" . $CategoryID . "/" );
     exit();
 }
 
@@ -211,7 +212,8 @@ if ( $Action == "Insert" && $error == false )
     
     eZLog::writeNotice( "Picture added to catalogue: $image->name() from IP: $REMOTE_ADDR" );
 
-    header( "Location: /imagecatalogue/image/list/" . $CategoryID . "/" );
+    include_once( "classes/ezhttptool.php" );
+    eZHTTPTool::header( "Location: /imagecatalogue/image/list/" . $CategoryID . "/" );
     exit();
 }
 
@@ -242,7 +244,8 @@ if ( $Action == "Update" && $error == false )
         $image->store();
     }
     
-    header( "Location: /imagecatalogue/image/list/" . $CategoryID . "/" );
+    include_once( "classes/ezhttptool.php" );
+    eZHTTPTool::header( "Location: /imagecatalogue/image/list/" . $CategoryID . "/" );
     exit();
 }
 
@@ -253,7 +256,8 @@ if ( $Action == "Delete" )
         
     $article->deleteImage( $image );
     
-    header( "Location: /imagecatalogue/image/list/" . $CategoryID . "/" );
+    include_once( "classes/ezhttptool.php" );
+    eZHTTPTool::header( "Location: /imagecatalogue/image/list/" . $CategoryID . "/" );
     exit();    
 }
 

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: imageedit.php,v 1.11 2001/01/22 14:42:59 jb Exp $
+// $Id: imageedit.php,v 1.12 2001/01/23 12:57:06 jb Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <21-Sep-2000 10:32:36 bf>
@@ -63,7 +63,8 @@ if ( $Action == "Insert" )
         print( $file->name() . " not uploaded successfully" );
     }
 
-    header( "Location: /article/articleedit/imagelist/" . $ArticleID . "/" );
+    include_once( "classes/ezhttptool.php" );
+    eZHTTPTool::header( "Location: /article/articleedit/imagelist/" . $ArticleID . "/" );
     exit();
 }
 
@@ -96,7 +97,8 @@ if ( $Action == "Update" )
         $image->store();
     }
     
-    header( "Location: /article/articleedit/imagelist/" . $ArticleID . "/" );
+    include_once( "classes/ezhttptool.php" );
+    eZHTTPTool::header( "Location: /article/articleedit/imagelist/" . $ArticleID . "/" );
     exit();
 }
 
@@ -108,7 +110,8 @@ if ( $Action == "Delete" )
         
     $article->deleteImage( $image );
     
-    header( "Location: /article/articleedit/imagelist/" . $ArticleID . "/" );
+    include_once( "classes/ezhttptool.php" );
+    eZHTTPTool::header( "Location: /article/articleedit/imagelist/" . $ArticleID . "/" );
     exit();    
 }
 
@@ -126,11 +129,13 @@ if ( $Action == "StoreDef" )
     if ( isset( $NewImage ) )
     {
         print( "new image" );
-        header( "Location: /article/articleedit/imageedit/new/$ArticleID/" );
+        include_once( "classes/ezhttptool.php" );
+        eZHTTPTool::header( "Location: /article/articleedit/imageedit/new/$ArticleID/" );
         exit();
     }
 
-    header( "Location: /article/articleedit/edit/" . $ArticleID . "/" );
+    include_once( "classes/ezhttptool.php" );
+    eZHTTPTool::header( "Location: /article/articleedit/edit/" . $ArticleID . "/" );
     exit();
 }
 

@@ -19,7 +19,8 @@ if( $Action == "delete" )
     $person->get( $PersonID );
     $person->delete();
 
-    header( "Location: /contact/person/list/" );
+    include_once( "classes/ezhttptool.php" );
+    eZHTTPTool::header( "Location: /contact/person/list/" );
     exit;
 }
 
@@ -34,7 +35,8 @@ if( $Action == "new" )
         {
             $PersonID = $person->id();
 
-            header( "Location: /contact/person/view/$PersonID" );
+            include_once( "classes/ezhttptool.php" );
+            eZHTTPTool::header( "Location: /contact/person/view/$PersonID" );
             exit;
         }
     }
@@ -340,11 +342,13 @@ if( ( $Action == "insert" || $Action == "update" ) && $error == false && $Add_Us
     
     if( !empty( $AddCV ) )
     {    
-        header( "Location: /cv/cv/edit?PersonID=$PersonID" );
+        include_once( "classes/ezhttptool.php" );
+        eZHTTPTool::header( "Location: /cv/cv/edit?PersonID=$PersonID" );
         exit();
     }
     
-    header( "Location: /contact/person/view/$PersonID" );
+    include_once( "classes/ezhttptool.php" );
+    eZHTTPTool::header( "Location: /contact/person/view/$PersonID" );
     exit();
 }
 
@@ -357,7 +361,8 @@ if( $Action == "new" )
 {
     if( $PersonID != 0 ) // 1
     {
-        header( "Location: contact/user/edit/$PersonID" );
+        include_once( "classes/ezhttptool.php" );
+        eZHTTPTool::header( "Location: contact/user/edit/$PersonID" );
         exit();
     }
     
@@ -417,18 +422,21 @@ if( $Action == "edit" )
             {
                 $person = $person->getByUserID( $UserID );
                 $PersonID = $person->id();
-                header( "Location: /contact/person/edit/$PersonID" );
+                include_once( "classes/ezhttptool.php" );
+                eZHTTPTool::header( "Location: /contact/person/edit/$PersonID" );
                 exit();
             }
         }
         else
         {
-            header( "Location: /contact/person/new" );
+            include_once( "classes/ezhttptool.php" );
+            eZHTTPTool::header( "Location: /contact/person/new" );
         }
     }
     else
     {
-        header( "Location: /contact/person/new" );
+        include_once( "classes/ezhttptool.php" );
+        eZHTTPTool::header( "Location: /contact/person/new" );
         exit();
     }
     

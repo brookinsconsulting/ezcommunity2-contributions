@@ -77,7 +77,8 @@ switch ( $url_array[2] )
             }
             default:
             {
-                header( "Location: /contact/error?Type=404&Uri=$REQUEST_URI&Query=$QUERY_STRING&BackUrl=$HTTP_REFERER" );
+                include_once( "classes/ezhttptool.php" );
+                eZHTTPTool::header( "Location: /contact/error?Type=404&Uri=$REQUEST_URI&Query=$QUERY_STRING&BackUrl=$HTTP_REFERER" );
                 break;
             }
         }
@@ -119,7 +120,8 @@ switch ( $url_array[2] )
 
             default:
             {
-                header( "Location: /contact/error?Type=404&Uri=$REQUEST_URI&Query=$QUERY_STRING&BackUrl=$HTTP_REFERER" );
+                include_once( "classes/ezhttptool.php" );
+                eZHTTPTool::header( "Location: /contact/error?Type=404&Uri=$REQUEST_URI&Query=$QUERY_STRING&BackUrl=$HTTP_REFERER" );
                 break;
             }
         }
@@ -151,7 +153,8 @@ switch ( $url_array[2] )
             }
             default:
             {
-                header( "Location: /contact/error?Type=404&Uri=$REQUEST_URI&Query=$QUERY_STRING&BackUrl=$HTTP_REFERER" );
+                include_once( "classes/ezhttptool.php" );
+                eZHTTPTool::header( "Location: /contact/error?Type=404&Uri=$REQUEST_URI&Query=$QUERY_STRING&BackUrl=$HTTP_REFERER" );
                 break;
             }
         }
@@ -251,7 +254,8 @@ switch ( $url_array[2] )
 
             default:
             {
-                header( "Location: /contact/error?Type=404&Uri=$REQUEST_URI&Query=$QUERY_STRING&BackUrl=$HTTP_REFERER" );
+                include_once( "classes/ezhttptool.php" );
+                eZHTTPTool::header( "Location: /contact/error?Type=404&Uri=$REQUEST_URI&Query=$QUERY_STRING&BackUrl=$HTTP_REFERER" );
                 break;
             }
         }

@@ -66,7 +66,8 @@ if( is_object( $user ) )
 }
 else
 {
-    header( "Location: /contact/person/new/" );
+    include_once( "classes/ezhttptool.php" );
+    eZHTTPTool::header( "Location: /contact/person/new/" );
     exit();
 }
 
@@ -76,7 +77,8 @@ if( $UserID > 0 )
 }
 else
 {
-    header( "Location: /contact/person/new/" );
+    include_once( "classes/ezhttptool.php" );
+    eZHTTPTool::header( "Location: /contact/person/new/" );
     exit();
 }
 
@@ -89,13 +91,15 @@ if( is_object( $user[0] ) )
         // info.
         $person = $person->getByUserID( $UserID );
         $PersonID = $person->id();
-        header( "Location: /contact/person/view/$PersonID" );
+        include_once( "classes/ezhttptool.php" );
+        eZHTTPTool::header( "Location: /contact/person/view/$PersonID" );
         exit();
     }
 }
 else
 {
-    header( "Location: /contact/person/list" );
+    include_once( "classes/ezhttptool.php" );
+    eZHTTPTool::header( "Location: /contact/person/list" );
 }
 
 /*

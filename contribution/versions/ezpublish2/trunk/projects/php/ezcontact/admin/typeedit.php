@@ -66,7 +66,8 @@ if( $Action == "delete" )
         // The counts are the same as when confirming so we can delete
 
         $item_type->delete( true );
-        header( "Location: $page_path/list" );
+        include_once( "classes/ezhttptool.php" );
+        eZHTTPTool::header( "Location: $page_path/list" );
         exit();
     }
 }
@@ -74,14 +75,16 @@ if( $Action == "delete" )
 if( $Action == "up" )
 {
     $item_type->moveUp();
-    header( "Location: $page_path/list" );
+    include_once( "classes/ezhttptool.php" );
+    eZHTTPTool::header( "Location: $page_path/list" );
     exit();
 }
 
 if( $Action == "down" )
 {
     $item_type->moveDown();
-    header( "Location: $page_path/list" );
+    include_once( "classes/ezhttptool.php" );
+    eZHTTPTool::header( "Location: $page_path/list" );
     exit();
 }
 
@@ -90,14 +93,16 @@ if( $Action == "insert" )
     unset( $item_type->ID );
     $item_type->setName( $ItemName );
     $item_type->store();
-    header( "Location: $page_path/list" );
+    include_once( "classes/ezhttptool.php" );
+    eZHTTPTool::header( "Location: $page_path/list" );
 }
 
 if( $Action == "update" )
 {
     $item_type->setName( $ItemName );
     $item_type->store();
-    header( "Location: $page_path/list" );
+    include_once( "classes/ezhttptool.php" );
+    eZHTTPTool::header( "Location: $page_path/list" );
 }
 
 $t->set_file( array(
