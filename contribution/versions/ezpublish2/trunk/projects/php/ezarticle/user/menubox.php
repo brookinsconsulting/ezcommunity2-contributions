@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: menubox.php,v 1.18 2001/04/27 13:49:07 jb Exp $
+// $Id: menubox.php,v 1.19 2001/05/09 08:28:39 bf Exp $
 //
 // 
 //
@@ -33,7 +33,6 @@ include_once( "ezuser/classes/ezobjectpermission.php" );
 $Language = $ini->read_var( "eZArticleMain", "Language" );
 
 $PageCaching = $ini->read_var( "eZArticleMain", "PageCaching");
-
 
 
 // do the caching 

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: message.php,v 1.21 2001/05/07 10:18:34 ce Exp $
+// $Id: message.php,v 1.22 2001/05/09 08:28:40 bf Exp $
 //
 // Lars Wilhelmsen <lw@ez.no>
 // Created on: <11-Sep-2000 22:10:06 bf>
@@ -27,6 +27,7 @@ include_once( "classes/INIFile.php" );
 
 $ini =& INIFile::globalINI();
 $Language = $ini->read_var( "eZForumMain", "Language" );
+$NewMessageLimit = $ini->read_var( "eZForumMain", "NewMessageLimit" );
 
 include_once( "classes/ezlocale.php" );
 include_once( "classes/eztexttool.php" );
@@ -47,6 +48,9 @@ $t->set_file( "message_tpl", "message.tpl"  );
 $t->set_block( "message_tpl", "message_item_tpl", "message_item" );
 $t->set_block( "message_tpl", "edit_current_message_item_tpl", "edit_current_message_item" );
 $t->set_block( "message_item_tpl", "edit_message_item_tpl", "edit_message_item" );
+
+$t->set_block( "message_item_tpl", "new_icon_tpl", "new_icon" );
+$t->set_block( "message_item_tpl", "old_icon_tpl", "old_icon" );
 
 $t->set_var( "edit_current_message_item", "" );
 
@@ -168,6 +172,19 @@ foreach ( $messages as $message )
         $t->set_var( "spacer", "" );
     
     $t->set_var( "reply_topic", $message->topic() );
+
+    $messageAge = round( $message->age() / ( 60 * 60 * 24 ) );
+    if ( $messageAge <= $NewMessageLimit )
+    {
+        $t->parse( "new_icon", "new_icon_tpl" );
+        $t->set_var( "old_icon", "" );
+    }
+    else
+    {
+        $t->parse( "old_icon", "old_icon_tpl" );
+        $t->set_var( "new_icon", "" );
+    }
+    
 
     $time = $message->postingTime();
     $t->set_var( "postingtime", $locale->format( $time ) );

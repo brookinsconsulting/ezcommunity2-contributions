@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: messagelist.php,v 1.27 2001/05/08 10:49:56 ce Exp $
+// $Id: messagelist.php,v 1.28 2001/05/09 08:28:40 bf Exp $
 //
 // Lars Wilhelmsen <lw@ez.no>
 // Created on: <11-Sep-2000 22:10:06 bf>
@@ -39,6 +39,8 @@ include_once( "ezforum/classes/ezforum.php" );
 
 $Language = $ini->read_var( "eZForumMain", "Language" );
 $UserLimit = $ini->read_var( "eZForumMain", "MessageUserLimit" );
+$NewMessageLimit = $ini->read_var( "eZForumMain", "NewMessageLimit" );
+
 $t = new eZTemplate( "ezforum/user/" . $ini->read_var( "eZForumMain", "TemplateDir" ),
                      "ezforum/user/intl", $Language, "messagelist.php" );
 
@@ -46,8 +48,10 @@ $t->set_file( "messagelist", "messagelist.tpl"  );
 
 $t->set_block( "messagelist", "message_item_tpl", "message_item" );
 $t->set_block( "message_item_tpl", "edit_message_item_tpl", "edit_message_item" );
-$t->set_block( "messagelist", "previous_tpl", "previous" ); 
-$t->set_block( "messagelist", "next_tpl", "next" );
+$t->set_block( "messagelist", "previous_tpl", "previous" );
+
+$t->set_block( "message_item_tpl", "new_icon_tpl", "new_icon" );
+$t->set_block( "message_item_tpl", "old_icon_tpl", "old_icon" );
 
 $t->set_block( "messagelist", "show_threads_tpl", "show_threads" );
 $t->set_block( "messagelist", "hide_threads_tpl", "hide_threads" ); 
@@ -150,7 +154,19 @@ else
         $t->set_var( "postingtime", $locale->format( $time  ) );
 
         $t->set_var( "message_id", $message["ID"] );
-        
+
+        $messageAge = round( $message["Age"] / ( 60 * 60 * 24 ) );
+        if ( $messageAge <= $NewMessageLimit )
+        {
+            $t->parse( "new_icon", "new_icon_tpl" );
+            $t->set_var( "old_icon", "" );
+        }
+        else
+        {
+            $t->parse( "old_icon", "old_icon_tpl" );
+            $t->set_var( "new_icon", "" );
+        }
+
         $userID = $message["UserID"];
 
         $user->get( $userID );

@@ -10,3 +10,4 @@ classes/templates/standard/linklist.tpl
 classes/templates/standard/linkselect.tpl
 ezuser/admin/templates/standard/sessioninfo.tpl (changed intl names)
 ezbug/user/templates/standard/search.tpl (added navigation)
+ezforum/user/templates/standard/messagelist.tpl ( added new/old messages icon )

@@ -107,7 +107,12 @@
 
 		<td width="1%">{spacer}{spacer}</td>
 		<td width="99%">
+		<!-- BEGIN new_icon_tpl -->
+                <img src="/images/message_new.gif" width="16" height="16" border="0" />&nbsp;
+		<!-- END new_icon_tpl -->
+		<!-- BEGIN old_icon_tpl -->
                 <img src="/images/message.gif" width="16" height="16" border="0" />&nbsp;
+		<!-- END old_icon_tpl -->	
 		<a class="{link_color}" href="/forum/message/{message_id}/">{reply_topic}</a>
 		</td>
 	</tr>

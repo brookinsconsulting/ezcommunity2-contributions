@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezforummessage.php,v 1.87 2001/05/05 11:16:04 bf Exp $
+// $Id: ezforummessage.php,v 1.88 2001/05/09 08:28:39 bf Exp $
 //
 // Definition of eZCompany class
 //
@@ -264,7 +264,10 @@ class eZForumMessage
         
         if ( $id != "" )
         {
-            $db->array_query( $message_array, "SELECT * FROM eZForum_Message WHERE ID='$id'" );
+            $db->array_query( $message_array, "SELECT *,
+                             ( UNIX_TIMESTAMP( now() + 0 )  - UNIX_TIMESTAMP( PostingTime )) AS Age
+                              FROM eZForum_Message WHERE ID='$id'" );
+            
             if ( count( $message_array ) > 1 )
             {
                 die( "Error: Message's with the same ID was found in the database. This shouldn't happen." );
@@ -286,6 +289,8 @@ class eZForumMessage
                 $this->ThreadID =& $message_array[0][ "ThreadID" ];
                 $this->TreeID =& $message_array[0][ "TreeID" ];                
                 $this->Depth =& $message_array[0][ "Depth" ];
+
+                $this->Age =& $message_array[0][ "Age" ];
                 
                 
                 $this->State_ = "Coherent";
@@ -520,6 +525,18 @@ class eZForumMessage
         return $this->UserID;
     }
 
+    /*!
+      Returns the number of seconds since the message was posted.
+    */      
+    function age()
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+        
+        
+        return $this->Age;
+    }
+    
     /*!
       Returns the user as a eZUser object.
     */      
@@ -766,6 +783,9 @@ class eZForumMessage
     var $EmailNotice;
     var $IsApproved;
     var $IsTemporary;
+
+    /// Number of seconds since the message was posted
+    var $Age;
 
     /// indicates the position in the tree.
     var $TreeID;

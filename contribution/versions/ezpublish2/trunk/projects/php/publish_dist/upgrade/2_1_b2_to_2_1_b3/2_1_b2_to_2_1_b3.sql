@@ -9,7 +9,7 @@
 # First run this file...
 # Then find the ID of the administrators group...
 # select * from eZUser_Group; 
-# It's most probably ID 1.
+# It is most probably ID 1.
 # Now run:
 # update eZUser_Group set IsRoot='1' WHERE ID='xxx'; #where xxx is the id you just found.
 # You can now log in with your admin user and set the correct permissions...
@@ -57,6 +57,6 @@ ALTER TABLE eZSession_Preferences ADD INDEX (GroupName,Name);
 
 alter table eZTrade_CartOptionValue add RemoteID varchar(100);
 
-ALTER TABLE eZTrade_Product MODIFY Price float(10,5);  
+ALTER TABLE eZTrade_Product MODIFY Price float(10,5);
 
 insert into eZUser_Permission set ModuleID='12', Name='WriteToRoot';

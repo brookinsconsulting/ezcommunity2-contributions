@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezforum.php,v 1.29 2001/05/08 09:55:04 ce Exp $
+// $Id: ezforum.php,v 1.30 2001/05/09 08:28:39 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <11-Sep-2000 22:10:06 bf>
@@ -320,7 +320,9 @@ class eZForum
 
        if ( $showReplies )
        {
-           $db->array_query( $message_array, "SELECT ID, Topic, UserID, PostingTime, Depth FROM
+           $db->array_query( $message_array, "SELECT ID, Topic, UserID, PostingTime, Depth,
+                                          ( UNIX_TIMESTAMP( now() + 0 )  - UNIX_TIMESTAMP( PostingTime )) AS Age
+                                          FROM
                                           eZForum_Message
                                           WHERE ForumID='$this->ID'
                                           AND IsTemporary='0'
@@ -330,7 +332,8 @@ class eZForum
        }
        else
        {
-           $db->array_query( $message_array, "SELECT COUNT(ThreadID) as Count, ID, Topic, UserID, PostingTime, Depth
+           $db->array_query( $message_array, "SELECT COUNT(ThreadID) as Count, ID, Topic, UserID, PostingTime, Depth,
+                                          ( UNIX_TIMESTAMP( now() + 0 )  - UNIX_TIMESTAMP( PostingTime )) AS Age
                                           FROM eZForum_Message
                                           WHERE ForumID='$this->ID'
                                           AND IsTemporary='0'
