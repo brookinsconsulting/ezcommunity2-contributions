@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezlinksection.php,v 1.1 2001/03/21 13:38:56 jb Exp $
+// $Id: ezlinksection.php,v 1.2 2001/05/03 14:27:07 jb Exp $
 //
 // Definition of eZLinkSection class
 //
@@ -92,7 +92,7 @@ class eZLinkSection
     {
         $db =& eZDB::globalDatabase();
         $table_name = $this->Module . "_Link";
-        $db->array_query( $qry_array, "SELECT ID, Name, URL, Placement FROM $table_name
+        $db->array_query( $qry_array, "SELECT ID, Name, URL, Placement, ModuleType FROM $table_name
                                        WHERE SectionID='$this->ID'" );
         $ret = array();
         foreach( $qry_array as $row )

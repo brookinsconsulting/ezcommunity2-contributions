@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezlinkitem.php,v 1.1 2001/03/21 13:38:56 jb Exp $
+// $Id: ezlinkitem.php,v 1.2 2001/05/03 14:27:07 jb Exp $
 //
 // Definition of eZLinkItem class
 //
@@ -50,7 +50,7 @@ class eZLinkItem
     {
         $db =& eZDB::globalDatabase();
         $table_name = $this->Module . "_Link";
-        $db->query_single( $row, "SELECT ID, Name, URL, Placement FROM $table_name WHERE ID='$id'" );
+        $db->query_single( $row, "SELECT ID, Name, URL, Placement, ModuleType FROM $table_name WHERE ID='$id'" );
         $this->fill( $row );
     }
 
@@ -75,7 +75,8 @@ class eZLinkItem
                      SET SectionID='$this->Section',
                          Name='$this->Name',
                          URL='$this->URL',
-                         Placement='$this->Placement' $qry_where" );
+                         Placement='$this->Placement',
+                         ModuleType='$this->ModuleType' $qry_where" );
         $this->ID = $db->insertID();
     }
 
@@ -96,6 +97,7 @@ class eZLinkItem
         $this->Name = $row["Name"];
         $this->URL = $row["URL"];
         $this->Placement = $row["Placement"];
+        $this->ModuleType = $row["ModuleType"];
     }
 
     function setSection( $section )
@@ -133,12 +135,45 @@ class eZLinkItem
         return $this->URL;
     }
 
+    function type( $as_name = false )
+    {
+        if ( !$as_name )
+        {
+            return $this->ModuleType;
+        }
+        else
+        {
+            $db =& eZDB::globalDatabase();
+            $db->query_single( $row, "SELECT Module, Type FROM eZModule_LinkModuleType
+                                      WHERE ID='$this->ModuleType'" );
+            return $row;
+        }
+    }
+
+    function setType( $module, $type )
+    {
+        $db =& eZDB::globalDatabase();
+        $db->array_query( $rows, "SELECT ID FROM eZModule_LinkModuleType
+                                  WHERE Module='$module' AND Type='$type'", 0, 1, "ID" );
+        if ( count( $rows ) == 0 )
+        {
+            $db->query( "INSERT INTO eZModule_LinkModuleType
+                         SET Module='$module', Type='$type'" );
+            $this->ModuleType = $db->insertID();
+        }
+        else
+        {
+            $this->ModuleType = $rows[0];
+        }
+    }
+
     var $ID;
     var $Section;
     var $Name;
     var $URL;
     var $Placement;
     var $Module;
+    var $ModuleType;
 }
 
 ?>
