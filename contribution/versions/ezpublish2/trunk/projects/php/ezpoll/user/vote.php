@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: vote.php,v 1.1 2000/10/25 10:07:45 ce-cvs Exp $
+// $Id: vote.php,v 1.2 2000/10/26 10:05:03 ce-cvs Exp $
 //
 // Definition of eZPoll class
 //
@@ -75,6 +75,7 @@ if ( !$Voted )
     $vote->setVotingIP( $REMOTE_ADDR );
     if ( $user )
         $vote->setUserID( $user->id() );
+    if ( !$ChoiceID == 0 )
     $vote->store();
 }
 
