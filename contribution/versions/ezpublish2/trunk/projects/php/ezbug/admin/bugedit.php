@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: bugedit.php,v 1.4 2000/12/03 16:31:33 bf-cvs Exp $
+// $Id: bugedit.php,v 1.5 2000/12/03 18:37:28 bf-cvs Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <28-Nov-2000 19:45:35 bf>
@@ -27,6 +27,7 @@ include_once( "classes/INIFile.php" );
 include_once( "classes/eztemplate.php" );
 include_once( "classes/ezlog.php" );
 include_once( "classes/ezlocale.php" );
+include_once( "classes/eztexttool.php" );
 
 $ini = new INIFIle( "site.ini" );
 
@@ -105,9 +106,15 @@ if ( $Action == "Update" )
                 $bug->setIsClosed( true );
             else
                 $bug->setIsClosed( false );
-            
+
+            $bug->removeFromModules();
+            $bug->removeFromCategories();
             $bug->store();
             
+
+            $category->addBug( $bug );
+            $module->addBug( $bug );
+
             $log = new eZBugLog();
             $log->setDescription( $LogMessage );
             $log->setUser( $user );
@@ -180,7 +187,7 @@ if ( $Action == "Edit" )
     
     $t->set_var( "bug_id", $bug->id() );
     $t->set_var( "name_value", $bug->name() );
-    $t->set_var( "description_value", $bug->description() );
+    $t->set_var( "description_value", eZTextTool::nl2br( $bug->description() ) );
     $t->set_var( "action_value", "Update" );
 
     $bugLog = new eZBugLog();

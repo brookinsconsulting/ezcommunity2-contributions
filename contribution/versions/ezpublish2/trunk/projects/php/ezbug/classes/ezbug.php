@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezbug.php,v 1.5 2000/12/03 17:16:15 bf-cvs Exp $
+// $Id: ezbug.php,v 1.6 2000/12/03 18:37:29 bf-cvs Exp $
 //
 // Definition of eZBug class
 //
@@ -497,6 +497,88 @@ class eZBug
         }
 
         return $ret;        
+    }
+
+    /*!
+      Returns the module which the bug is a part of.
+
+      If the bug is not assigned to any module false is returned.
+    */
+    function module()
+    {
+        if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+        $this->dbInit();
+        
+        $this->Database->array_query( $module_array, "SELECT ModuleID
+                                                   FROM eZBug_BugModuleLink
+                                                   WHERE BugID='$this->ID'" );
+
+        $ret = false;
+        if ( count( $module_array ) == 1 )
+        {
+            $ret = new eZBugModule( $module_array[0]["ModuleID"] );
+        }
+
+        return $ret;
+    }
+
+    /*!
+      Returns the category which the bug is a part of.
+
+      If the bug is not assigned to any category false is returned.
+    */
+    function category()
+    {
+        if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+        $this->dbInit();
+        
+        $this->Database->array_query( $category_array, "SELECT CategoryID
+                                                   FROM eZBug_BugCategoryLink
+                                                   WHERE BugID='$this->ID'" );
+
+        $ret = false;
+        if ( count( $category_array ) == 1 )
+        {
+            $ret = new eZBugCategory( $category_array[0]["CategoryID"] );
+        }
+
+        return $ret;
+    }
+
+    /*!
+      Removes the category assignments.
+    */
+    function removeFromCategories()
+    {
+        if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+        $this->dbInit();
+        
+        $this->Database->query( $category_array, "DELETE
+                                                   FROM eZBug_BugCategoryLink
+                                                   WHERE BugID='$this->ID'" );
+
+    }
+
+    /*!
+      Removes the module assignments.
+    */
+    function removeFromModules()
+    {
+        if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+        $this->dbInit();
+        
+        $this->Database->query( $module_array, "DELETE
+                                                   FROM eZBug_BugModuleLink
+                                                   WHERE BugID='$this->ID'" );
+
     }
     
     /*!

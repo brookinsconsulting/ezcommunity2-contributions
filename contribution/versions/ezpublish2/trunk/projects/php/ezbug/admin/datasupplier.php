@@ -10,6 +10,15 @@ switch ( $url_array[2] )
     }
     break;
 
+    case "bugpreview" :
+    case "view" :        
+    {
+        $BugID = $url_array[3];
+        
+        include( "ezbug/admin/bugpreview.php" );
+    }
+    break;
+    
     case "unhandled" :
     {
         include( "ezbug/admin/unhandledbugs.php" );

@@ -7,7 +7,7 @@
 <tr>
 	<td valign="top" width="50%">
 
-<table cellspacing="0" cellpadding="0" border="0">
+<table cellspacing="0" cellpadding="0" border="0" width="100%">
 <tr>
 	<td>
 	<p class="boxtext">{intl-bug_module}:</p>
@@ -30,13 +30,25 @@
 </table>
 
 <p class="boxtext">{intl-bug_title}:</p>
-{name_value}
+<table cellspacing="0" cellpadding="0" border="0" width="100%">
+<tr>
+	<td class="bglight">
+	{name_value}
+	</td>
+</tr>
+</table>
 
 <p class="boxtext">{intl-bug_description}:</p>
-{description_value}
+<table cellspacing="0" cellpadding="0" border="0" width="100%">
+<tr>
+	<td class="bglight">
+	{description_value}
+	</td>
+</tr>
+</table>
 <br />
 
-<table cellspacing="0" cellpadding="0" border="0">
+<table cellspacing="0" cellpadding="0" border="0" width="100%">
 <tr>
 	<td>
 	<p class="boxtext">{intl-assigned_priority}:</p>
