@@ -1,6 +1,4 @@
-<div onLoad="MM_preloadImages('{www_dir}/ezarticle/admin/images/redigerminimrk.gif','{www_dir}/ezarticle/admin/images/slettminimrk.gif')"></div>
-
-<table width="100%" border="0">
+<table width="100%" cellpadding="0" cellspacing="0" border="0">
 <tr>
 	<td valign="bottom">
 	<td>
@@ -36,7 +34,7 @@
 <!-- BEGIN article_item_tpl -->
 <tr>
 	<td class="{td_class}">
-	<img src="{www_dir}/ezarticle/admin/images/document.gif" height="16" width="16" border="0" alt="" />&nbsp;
+	<img src="{www_dir}/admin/images/document.gif" height="16" width="16" border="0" alt="" />&nbsp;
 	<a href="{www_dir}{index}/article/articlepreview/{article_id}/">
 	{article_name}
 	</a>
