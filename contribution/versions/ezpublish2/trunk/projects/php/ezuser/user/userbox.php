@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: userbox.php,v 1.9 2000/11/07 13:45:06 bf-cvs Exp $
+// $Id: userbox.php,v 1.10 2000/11/07 14:03:48 ce-cvs Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <20-Sep-2000 13:32:11 ce>
@@ -30,7 +30,6 @@ $ini = new INIFIle( "site.ini" );
 
 $Language = $ini->read_var( "eZUserMain", "Language" );
 $UserWithAddress = $ini->read_var( "eZUserMain", "UserWithAddress" );
-
 include_once( "ezuser/classes/ezuser.php" );
 include_once( "ezuser/classes/ezusergroup.php" );
 include_once( "ezuser/classes/ezmodule.php" );
@@ -48,7 +47,7 @@ if ( !$user )
         "login" => "loginmain.tpl"
         ) );
 
-    if ( $UserWidthAddress == "enabled" )
+    if ( $UserWithAddress == "enabled" )
     {
         $t->set_var( "user_edit_url", "/user/userwithaddress/new/" );
     }
@@ -79,9 +78,11 @@ else
     $t->set_var( "user_id", $user->id() );
     $t->set_var( "style", $SiteStyle );
 
-    if ( $UserWidthAddress == "enabled" )
+    
+    if ( $UserWithAddress == "enabled" )
     {
-        $t->set_var( "user_edit_url", "/user/userwithaddress/new/" );
+        
+        $t->set_var( "user_edit_url", "/user/userwithaddress/edit/" );
     }
     else
     {
