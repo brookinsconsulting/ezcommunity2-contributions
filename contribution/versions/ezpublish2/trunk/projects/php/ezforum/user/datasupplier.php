@@ -93,6 +93,15 @@ switch ( $url_array[2] )
     case "messagelist":
     {
         $ForumID = $url_array[3];
+        if( empty( $Offset ) )
+        {
+            $Offset = $url_array[4];
+        }
+
+        if( empty( $Limit ) )
+        {
+            $Limit = $url_array[5];
+        }
         include( "ezforum/user/messagelist.php" );
     }
     break;

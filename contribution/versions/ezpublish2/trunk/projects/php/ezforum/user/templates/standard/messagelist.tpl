@@ -59,13 +59,13 @@
 <tr>
 <!-- BEGIN previous_tpl -->
 	<td>
-	<a class="path" href="/forum/messagelist/{forum_id}/?Offset={prev_offset}&Limit={limit}">&lt;&lt;&nbsp;{intl-previous}</a>
+	<a class="path" href="/forum/messagelist/{forum_id}/{prev_offset}/{limit}">&lt;&lt;&nbsp;{intl-previous}</a>
 	</td>
 <!-- END previous_tpl -->
 
 <!-- BEGIN next_tpl -->
 	<td align="right">
-	<a class="path" href="/forum/messagelist/{forum_id}/?Offset={next_offset}&Limit={limit}">{intl-next}&nbsp;&gt;&gt;</a>
+	<a class="path" href="/forum/messagelist/{forum_id}/{next_offset}/{limit}">{intl-next}&nbsp;&gt;&gt;</a>
 	</td>
 <!-- END next_tpl -->
 </tr>
