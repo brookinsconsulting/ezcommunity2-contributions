@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezorder.php,v 1.17 2001/01/18 14:18:26 ce Exp $
+// $Id: ezorder.php,v 1.18 2001/01/25 19:23:17 bf Exp $
 //
 // Definition of eZOrder class
 //
@@ -44,6 +44,9 @@ include_once( "eztrade/classes/ezorderstatus.php" );
 include_once( "eztrade/classes/ezorderitem.php" );
 
 include_once( "ezuser/classes/ezuser.php" );
+
+include_once( "ezcontract/classes/ezaddress.php" );
+
 
 class eZOrder
 {
