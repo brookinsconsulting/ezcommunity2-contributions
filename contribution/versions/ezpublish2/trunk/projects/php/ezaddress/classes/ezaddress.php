@@ -1,5 +1,5 @@
 <?
-// $Id: ezaddress.php,v 1.1 2001/01/25 17:05:23 jb Exp $
+// $Id: ezaddress.php,v 1.2 2001/01/26 10:13:51 jb Exp $
 //
 // Definition of eZAddress class
 //
@@ -240,8 +240,6 @@ class eZAddress
     */
     function mainAddress( $user )
     {
-//          $return_array = false;
-        
         if ( get_class ( $user ) == "ezuser" )
         {
             $db =& eZDB::globalDatabase();
