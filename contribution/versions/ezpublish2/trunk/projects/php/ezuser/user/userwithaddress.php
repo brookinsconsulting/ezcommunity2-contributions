@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: userwithaddress.php,v 1.8 2000/11/03 09:56:02 ce-cvs Exp $
+// $Id: userwithaddress.php,v 1.9 2000/11/03 10:39:35 ce-cvs Exp $
 //
 // 
 //
@@ -138,7 +138,7 @@ if ( $Action == "Update" )
             $address->setStreet2( $Street2 );
             $address->setZip( $Zip );
             $address->setPlace( $Place );
-            
+
             if ( isset( $CountryID ) )
             {
                 $country = new eZCountry( $CountryID );
@@ -150,7 +150,8 @@ if ( $Action == "Update" )
             if ( !$PasswordError )
                 $user->store();
 
-            if ( isSet( $RedirectURL ) )
+
+            if ( isSet( $RedirectURL )  && ( $RedirectURL != "" ) )
             {
                 Header( "Location: $RedirectURL" );
                 exit();
