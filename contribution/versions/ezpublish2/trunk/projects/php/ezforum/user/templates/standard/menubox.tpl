@@ -1,5 +1,5 @@
 <tr>
-	<td class="menuhead" bgcolor="#c82828">Forums</td>
+	<td class="menuhead" bgcolor="#c82828">{intl-forum}</td>
 </tr>
 
 <!-- BEGIN category_tpl -->

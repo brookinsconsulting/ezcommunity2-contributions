@@ -55,8 +55,8 @@
 
 <table class="list" width="100%" border="0" cellspacing="0" cellpadding="4">
     <tr>
-        <th>Navn:</th>
-        <th>Beskrivelse:</th>
+        <th>{intl-name}</th>
+        <th>{intl-desc}</th>
         <th colspan="2">&nbsp;</td>
     </tr>
 

@@ -1,7 +1,7 @@
 <tr bgcolor="#C85028"> 
 	<td>
         <p class="smallhead">
-	Forums
+	{intl-forum}
         </p>
         </td>
 </tr>

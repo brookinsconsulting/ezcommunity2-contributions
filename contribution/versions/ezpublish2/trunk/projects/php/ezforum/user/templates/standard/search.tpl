@@ -16,7 +16,7 @@
 
 <hr noshade size="4" />
 
-<h2>Search for: "{query_string}"</h2>
+<h2>{intl-searchfor} "{query_string}"</h2>
 <br>
 
 <!-- BEGIN empty_result_tpl -->
@@ -52,7 +52,7 @@
 
 <!-- BEGIN previous_tpl -->
 <a href="/forum/search/?Offset={prev_offset}&URLQueryString={url_query_string}">
-prev
+{intl-prev}
 </a>
 <!-- END previous_tpl -->
 
@@ -60,6 +60,6 @@ prev
 
 <!-- BEGIN next_tpl -->
 <a href="/forum/search/?Offset={next_offset}&URLQueryString={url_query_string}">
-next
+{intl-next}
 </a>
 <!-- END next_tpl -->

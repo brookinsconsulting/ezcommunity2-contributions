@@ -74,7 +74,7 @@
 <table cellpadding="0" cellspacing="0" border="0">
 <tr>
 	<td>
-	<input class="okbutton" type="submit" name="modify" value="OK">
+	<input class="okbutton" type="submit" name="modify" value="{intl-ok}">
 	</form>
 	</td>
 	<td>

@@ -1,8 +1,21 @@
-<form action="/forum/reply/insert/{msg_id}/" method="post">
+<table width="100%" cellspacing="0" cellpadding="0" border="0">
+  <tr>
+    <td align="left" valign="bottom">
+        <h1>{topic}</h1>
+     </td>
+     <td align="right">
+        <form action="/forum/search/" method="post">
+           <input type="text" name="QueryString">
+           <input type="submit" name="search" value="{intl-search}">
+        </form>
+     </td>
+  </tr>
+</table>
 
-<h1>{intl-headline}</h1>
 
 <hr noshade="noshade" size="4" />
+
+<form action="/forum/reply/insert/{msg_id}/" method="post">
 
 	<img src="/ezforum/images/path-arrow.gif" height="10" width="15" border="0">
 	<a class="path" href="/forum/categorylist/">{intl-forum-main}</a>
@@ -30,11 +43,11 @@
 </tr>
 </table>
 
-<p class="boxtext">Tekst:</p>
+<p class="boxtext">{intl-text}</p>
 <textarea wrap="soft" name="Body" rows="15" cols="40" rows="10">{body}</textarea>
 <br /><br />
     
-<input type="checkbox" name="notice">Email notis
+<input type="checkbox" name="notice"> {intl-email_notice}
 <br /><br />
 
 <hr noshade="noshade" size="4" />
@@ -48,8 +61,8 @@
 	</td>
 	<td>&nbsp;</td>
 	<td>
-	<form>
-	{intl-abort}knapp!
+	<form method="post" action="/forum/messagelist/{forum_id}">
+	<input class="okbutton" type="submit" value="{intl-abort}">
 	</form>
 	</td>
 </tr>
