@@ -15,3 +15,16 @@ change: added next, previous
 
 mod: ezmail/user/ mailview.php.ini, folderedit.php.ini
 change: added cancel
+
+mod: classes/admin, linklist.php.ini
+changed: added
+name=Name
+type=Type
+delete=Delete?
+
+mod: classes/admin, linkselect.php.ini
+changed: added
+root=Root
+link_type=Link type
+url_type=URL
+browse=Change type
