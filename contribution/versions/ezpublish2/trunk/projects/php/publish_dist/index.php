@@ -139,6 +139,17 @@ if ( ( $requireUserLogin == "disabled" ) ||
     // site cache check
     $SiteCacheFile = "classes/cache/" . md5( $REQUEST_URI ) . ".php";
     $SiteCache = $ini->read_var( "site", "SiteCache" );
+
+    if ( $REQUEST_METHOD == "POST" ||
+    $url_array[1] == "forum" ||
+    $url_array[1] == "user" ||
+    $url_array[1] == "error" ||
+    $url_array[1] == "poll" 
+         )
+    {
+        $SiteCache = "disabled";
+    }
+
          
     // check to use site cache
     if ( ( $SiteCache == "enabled" ) and !file_exists( $SiteCacheFile ) )
