@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezsession.php,v 1.29 2001/01/30 17:03:07 jb Exp $
+// $Id: ezsession.php,v 1.30 2001/01/30 17:25:12 jb Exp $
 //
 // Definition of eZSession class
 //
@@ -137,6 +137,12 @@ class eZSession
     */
     function get( $id="" )
     {
+        if ( is_array( $id ) )
+        {
+            $this->fill( $id );
+            return true;
+        }
+
         $db =& eZDB::globalDatabase();
         $ret = false;
         
@@ -149,16 +155,23 @@ class eZSession
             }
             else if ( count( $session_array ) == 1 )
             {
-                $this->ID =& $session_array[0][ "ID" ];
-                $this->Hash =& $session_array[0][ "Hash" ];
-                $this->LastAccessed =& $session_array[0][ "LastAccessed" ];
-                $this->SecondLastAccessed =& $session_array[0][ "SecondLastAccessed" ];
-                $this->Created =& $session_array[0][ "Created" ];
-
+                $this->fill( $session_array[0] );
                 $ret = true;
             }
         }
         return $ret;
+    }
+
+    /*!
+      Fills in object information from the database array.
+    */
+    function fill( $session_array )
+    {
+        $this->ID =& $session_array[ "ID" ];
+        $this->Hash =& $session_array[ "Hash" ];
+        $this->LastAccessed =& $session_array[ "LastAccessed" ];
+        $this->SecondLastAccessed =& $session_array[ "SecondLastAccessed" ];
+        $this->Created =& $session_array[ "Created" ];
     }
 
     /*!
@@ -193,13 +206,13 @@ class eZSession
         
 //              $hash = $GLOBALS["eZSession"];
             
-            $db->array_query( $session_array, "SELECT ID
+            $db->array_query( $session_array, "SELECT *
                                       FROM eZSession_Session
                                       WHERE Hash='$hash'" );
             
             if ( count( $session_array ) == 1 )
             {
-                $ret = $this->get( $session_array[0]["ID"] );
+                $ret = $this->get( $session_array[0] );
 
                 if ( $ret == true )
                 {
@@ -306,7 +319,7 @@ class eZSession
     */
     function setHash( $value )
     {
-       $this->Hash = $value;
+        $this->Hash = $value;
     }
 
     /*!
@@ -316,18 +329,22 @@ class eZSession
     */
     function variable( $name )
     {
-       $ret = false;
+        if ( isset( $this->StoredVariables[$name] ) )
+        {
+            return $this->StoredVariables[$name];
+        }
+        $ret = false;
         $db =& eZDB::globalDatabase();
 
-       $db->array_query( $value_array, "SELECT Value FROM eZSession_SessionVariable
-                                                    WHERE SessionID='$this->ID' AND Name='$name'" );       
+        $db->array_query( $value_array, "SELECT Value FROM eZSession_SessionVariable
+                                                    WHERE SessionID='$this->ID' AND Name='$name'" );
+        if ( count( $value_array ) == 1 )
+        {
+            $ret = $value_array[0]["Value"];
+            $this->StoredVariables[$name] = $ret;
+        }
 
-       if ( count( $value_array ) == 1 )
-       {
-           $ret = $value_array[0]["Value"];
-       }
-
-       return $ret;
+        return $ret;
     }
 
     /*!
@@ -336,20 +353,20 @@ class eZSession
     */    
     function getByVariable( $name )
     {
-       $ret = array();
+        $ret = array();
         $db =& eZDB::globalDatabase();
 
-       $db->array_query( $value_array, "SELECT eZSession_Session.ID
+        $db->array_query( $value_array, "SELECT eZSession_Session.ID
                                                     FROM eZSession_Session, eZSession_SessionVariable
                                                     WHERE eZSession_Session.ID=eZSession_SessionVariable.SessionID
                                                     AND eZSession_SessionVariable.Name='AuthenticatedUser'" );
 
-       foreach ( $value_array as $value )
-       {
-           $ret[] =& $value["ID"];
-       }
+        foreach ( $value_array as $value )
+        {
+            $ret[] =& $value["ID"];
+        }
 
-       return $ret;
+        return $ret;
     }
     
     /*!
@@ -357,27 +374,31 @@ class eZSession
     */
     function idle( )
     {
+        if ( is_numeric( $this->StoredIdle ) )
+            return $this->StoredIdle;
+
         $db =& eZDB::globalDatabase();
 
-       $value_array = array();
-       $db->array_query( $value_array, "SELECT ID,UNIX_TIMESTAMP( LastAccessed ) AS LAST, UNIX_TIMESTAMP( now() + 0 ) AS NOW, LastAccessed
+        $value_array = array();
+        $db->array_query( $value_array, "SELECT ID,UNIX_TIMESTAMP( LastAccessed ) AS LAST, UNIX_TIMESTAMP( now() + 0 ) AS NOW, LastAccessed
                                                     FROM eZSession_Session WHERE ID='$this->ID'" );
-       
-       $ret = false;            
-       if ( count( $value_array ) == 1 )
-       {
-           $now = $value_array[0]["NOW"];
-           $lastAccessed = $value_array[0]["LAST"];
 
-           $diff = $now - $lastAccessed;
+        $ret = false;            
+        if ( count( $value_array ) == 1 )
+        {
+            $now = $value_array[0]["NOW"];
+            $lastAccessed = $value_array[0]["LAST"];
+
+            $diff = $now - $lastAccessed;
 //             print( "$lastAccessed - $now = $diff<br>" );
 //             echo "now: " .  date( "l dS of F Y h:i:s A", $now ) . "<br>";
 //             echo "last: " .  date( "l dS of F Y h:i:s A", $lastAccessed ) . "<br>";
-           
-           $ret = $diff;
-       }
 
-       return $ret;
+            $ret = $diff;
+            $this->StoredIdle = $ret;
+        }
+
+        return $ret;
     }
     
     /*!
@@ -386,7 +407,12 @@ class eZSession
     function setVariable( $name, $value )
     {
         $db =& eZDB::globalDatabase();
-        
+
+        if ( isset( $this->StoredVariables[$name] ) )
+        {
+            $this->StoredVariables[$name] = $value;
+        }
+
         $db->array_query( $value_array, "SELECT ID FROM eZSession_SessionVariable
                                                     WHERE SessionID='$this->ID' AND Name='$name'" );       
         if ( count( $value_array ) == 1 )
@@ -431,6 +457,9 @@ class eZSession
     var $Created;
     var $LastAccessed;
     var $SecondLastAccessed;
+
+    var $StoredVariables;
+    var $StoredIdle;
 
     var $HasRefreshed;
     var $IsFetched;
