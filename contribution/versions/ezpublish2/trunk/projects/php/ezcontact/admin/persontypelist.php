@@ -4,7 +4,7 @@
 */
 include_once( "classes/INIFile.php" );
 
-$ini = new INIFIle( "site.ini" );
+$ini =& $GlobalSiteIni;
 $Language = $ini->read_var( "eZContactMain", "Language" );
 $DOC_ROOT = $ini->read_var( "eZContactMain", "DocumentRoot" );
 

@@ -1,16 +1,10 @@
 <?
-/*
-  Viser liste over adresse typer.
-*/
 
-include_once( "classes/INIFile.php" );
-
-$ini = new INIFIle( "site.ini" );
+$ini =& $GlobalSiteIni;
 $Language = $ini->read_var( "eZContactMain", "Language" );
 $DOC_ROOT = $ini->read_var( "eZContactMain", "DocumentRoot" );
 
 include_once( "classes/eztemplate.php" );
-include_once( "common/ezphputils.php" );
 
 include_once( "ezuser/classes/ezuser.php" );
 include_once( "ezuser/classes/ezusergroup.php" );
@@ -21,36 +15,76 @@ include_once( "ezcontact/classes/ezaddresstype.php" );
 
 require( "ezuser/admin/admincheck.php" );
 
-// Sette template.
-$t = new eZTemplate( $DOC_ROOT . "/" . $ini->read_var( "eZContactMain", "TemplateDir" ), $DOC_ROOT . "/intl", $Language, "addresstypelist.php" );
+$t = new eZTemplate( $DOC_ROOT . "/admin/" . $ini->read_var( "eZContactMain", "AdminTemplateDir" ), $DOC_ROOT . "admin/intl", $Language, "addresstype.php" );
 $t->setAllStrings();
 
-$t->set_file( array(
-    "address_type_page" => "addresstypelist.tpl",
-    "address_type_item" => "addresstypeitem.tpl"
-    ) );
+$item_type = new eZAddressType( $AddressTypeID );
+$page_path = "/contact/addresstype";
+$item_error = true;
 
-// Liste telefon typer.
-$address_type = new eZAddressType();
-$address_type_array = $address_type->getAll();
-
-for ( $i=0; $i<count( $address_type_array ); $i++ )
+if( empty( $HTTP_REFERER ) )
 {
-    if ( ( $i % 2 ) == 0 )
+    if( empty( $BackUrl ) )
     {
-        $t->set_var( "bg_color", "#eeeeee" );
+        $back_command = "$page_path/list";
     }
     else
     {
-        $t->set_var( "bg_color", "#dddddd" );
-    }  
+        $back_command = $BackUrl;
+    }
+}
+else
+{
+    $back_command = $HTTP_REFERER;
+}
+$t->set_file( array(
+    "list_page" =>  "typelist.tpl",
+    ) );
+$t->set_block( "list_page", "list_item_tpl", "list_item" );
+$t->set_block( "list_item_tpl", "line_item_tpl", "line_item" );
+$t->set_block( "list_page", "no_line_item_tpl", "no_line_item" );
 
-    $t->set_var( "address_type_id", $address_type_array[$i][ "ID" ] );
-    $t->set_var( "address_type_name", $address_type_array[$i][ "Name" ] );
+$t->set_var( "no_line_item", "" );    
+$t->set_var( "line_item", "" );    
+$t->set_var( "list_item", "" );    
 
-    $t->parse( "address_type_list", "address_type_item", true );
+$t->set_var( "item_edit_command", "$page_path/edit" );
+$t->set_var( "item_delete_command", "$page_path/delete" );
+$t->set_var( "item_view_command", "$page_path/view" );
+$t->set_var( "item_list_command", "$page_path/list" );
+$t->set_var( "item_new_command", "$page_path/new" );
+$t->set_var( "item_id", $ItemID );
+$t->set_var( "item_name", $ItemName );
+$t->set_var( "back_url", $back_command );
+$t->set_var( "item_back_command", $back_command );
+
+$item_type = new eZAddressType();
+$item_type_array = $item_type->getAll();
+$count = count( $item_type_array );
+
+$i = 0;
+foreach( $item_type_array as $item )
+{
+    if ( ( $i %2 ) == 0 )
+        $t->set_var( "bg_color", "bglight" );
+    else
+        $t->set_var( "bg_color", "bgdark" );
+    $i++;
+
+    $t->set_var( "item_id", $item->id() );
+    $t->set_var( "item_name", $item->name() );
+
+    $t->parse( "line_item", "line_item_tpl", true );
 } 
 
-$t->set_var( "document_root", $DOC_ROOT );
-$t->pparse( "output", "address_type_page" );
+if( $count < 1 )
+{
+    $t->parse( "no_line_item", "no_line_item_tpl" );
+}
+else
+{
+    $t->parse( "list_item", "list_item_tpl" );
+}
+
+$t->pparse( "output", "list_page" );
 ?>

@@ -1,108 +1,118 @@
 <?
-/*
-  Editerer en kontakt type
-*/
-include_once( "classes/INIFile.php" );
 
-$ini = new INIFIle( "site.ini" );
+$ini =& $GlobalSiteIni;
 $Language = $ini->read_var( "eZContactMain", "Language" );
 $DOC_ROOT = $ini->read_var( "eZContactMain", "DocumentRoot" );
 
 include_once( "classes/eztemplate.php" );
-include_once( "common/ezphputils.php" );
 
 include_once( "ezuser/classes/ezuser.php" );
 include_once( "ezuser/classes/ezusergroup.php" );
 include_once( "ezuser/classes/ezmodule.php" );
 include_once( "ezuser/classes/ezpermission.php" );
 
-include_once( "../ezcontact/classes/ezphonetype.php" );
+include_once( "ezcontact/classes/ezphonetype.php" );
 
 require( "ezuser/admin/admincheck.php" );
 
-// Legge til
-if ( $Action == "insert" )
-{
-    if ( eZPermission::checkPermission( $user, "eZContact", "AdminAdd" ) )
-    {
-        $type = new eZPhoneType();
-        $type->setName( $PhoneTypeName );
-        $type->store();
-
-        Header( "Location: /contact/phonetypelist/" );
-    }
-    else
-    {
-        print( "Du har ikke rettigheter.");
-    }
-}
-
-// Oppdatere
-if ( $Action == "update" )
-{
-    if ( eZPermission::checkPermission( $user, "eZContact", "AdminModify" ) )
-    {
-        $type = new eZPhoneType();
-        $type->get( $PID );
-        print ( "$PID" );
-        $type->setName( $PhoneTypeName );
-        $type->update();
-
-        Header( "Location: /contact/phonetypelist/" );
-    }
-    else
-    {
-        print( "Du har ikke rettigheter.");
-    }
-}
-
-// Slette
-if ( $Action == "delete" )
-{
-    if ( eZPermission::checkPermission( $user, "eZContact", "AdminDelete" ) )
-    {
-        $type = new eZPhoneType();
-        $type->get( $PID );
-        $type->delete( );
-
-        Header( "Location: /contact/phonetypelist/" );
-    }
-    else
-    {
-        print( "Du har ikke rettigheter.");
-    }
-}
-
-$t = new eZTemplate( $DOC_ROOT . "/" . $ini->read_var( "eZContactMain", "TemplateDir" ), $DOC_ROOT . "/intl", $Language, "phonetypeedit.php" );
+$t = new eZTemplate( $DOC_ROOT . "/admin/" . $ini->read_var( "eZContactMain", "AdminTemplateDir" ), $DOC_ROOT . "admin/intl", $Language, "phonetype.php" );
 $t->setAllStrings();
 
-$t->set_file( array(
-"phone_type_edit_page" => "phonetypeedit.tpl"
-) );    
+$item_type = new eZPhoneType( $PhoneTypeID );
+$page_path = "/contact/phonetype";
+$item_error = true;
 
-$t->set_var( "submit_text", "Legg til" );
-$t->set_var( "action_value", "insert" );
-$t->set_var( "phone_type_id", "" );
-$t->set_var( "head_line", "Legg til nytt kontaktmedium" );
-
-// Editere
-if ( $Action == "edit" )
+if( empty( $HTTP_REFERER ) )
 {
-$type = new eZPhoneType();
-$type->get( $PID );
-$type->name( $PhoneTypeName );
-
-$t->set_var( "submit_text", "Lagre endringer" );
-$t->set_var( "action_value", "update" );
-$t->set_var( "phone_type_id", $PID  );
-$t->set_var( "head_line", "Rediger kontaktmedium" );
-
-$PhoneTypeName = $type->name();
+    if( empty( $BackUrl ) )
+    {
+        $back_command = "$page_path/list";
+    }
+    else
+    {
+        $back_command = $BackUrl;
+    }
+}
+else
+{
+    $back_command = $HTTP_REFERER;
 }
 
-// Sette template variabler
-$t->set_var( "document_root", $DOC_ROOT );
-$t->set_var( "phone_type_name", $PhoneTypeName );
+if( $Action == "delete" )
+{
+    $item_type->delete();
+    header( "Location: $back_command" );
+}
 
-$t->pparse( "output", "phone_type_edit_page" );
+if( $Action == "insert" )
+{
+    unset( $item_type->ID );
+    $item_type->setName( $ItemName );
+    $item_type->store();
+    header( "Location: $page_path/list" );
+}
+
+if( $Action == "update" )
+{
+    $item_type->setName( $ItemName );
+    $item_type->store();
+    header( "Location: $page_path/list" );
+}
+
+$t->set_file( array(
+    "list_page" =>  "typeedit.tpl",
+    ) );
+$t->set_block( "list_page", "line_item_tpl", "line_item" );
+$t->set_block( "list_page", "no_line_item_tpl", "no_line_item" );
+
+$t->set_var( "no_line_item", "" );    
+$t->set_var( "line_item", "" );    
+
+$t->set_var( "item_edit_command", "$page_path/edit" );
+$t->set_var( "item_delete_command", "$page_path/delete" );
+$t->set_var( "item_view_command", "$page_path/view" );
+$t->set_var( "item_list_command", "$page_path/list" );
+$t->set_var( "item_new_command", "$page_path/new" );
+$t->set_var( "item_id", $ItemID );
+$t->set_var( "item_name", $ItemName );
+$t->set_var( "back_url", $back_command );
+$t->set_var( "item_back_command", $back_command );
+
+if( is_numeric( $item_type->id() ) )
+{
+    $t->set_var( "item_id", $item_type->id() );
+    $t->set_var( "item_name", $item_type->name() );
+}
+
+if( $Action == "edit" )
+{
+    $action_value = "update";
+    
+    
+    if( is_numeric( $item_type->id() ) )
+    {
+        $item_error = false;
+    }
+}
+
+if( $Action == "new" )
+{
+    $action_value = "insert";
+
+    $item_error = false;
+}
+
+if( $item_error == true )
+{
+    $t->parse( "no_line_item", "no_line_item_tpl" );
+}
+else
+{
+    $t->parse( "line_item", "line_item_tpl" );
+}
+
+$t->set_var( "form_path", $page_path );
+$t->set_var( "action_value", $action_value );
+$t->pparse( "output", "list_page" );
+
 ?>
