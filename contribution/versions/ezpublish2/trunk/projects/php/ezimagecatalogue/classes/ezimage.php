@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezimage.php,v 1.12 2000/10/22 13:10:40 bf-cvs Exp $
+// $Id: ezimage.php,v 1.13 2000/10/27 13:35:49 bf-cvs Exp $
 //
 // Definition of eZImage class
 //
@@ -343,7 +343,7 @@ class eZImage
     /*!
       Makes a copy of the image and stores the image in the catalogue.
       
-      If the image is not of the type .jpg the image is converted.
+      If the image is not of the type .jpg or .gif the image is converted to .jpg.
     */
     function setImage( &$file )
     {
@@ -355,11 +355,22 @@ class eZImage
            print( "storing image" );
 
            $this->OriginalFileName = $file->name();
+
+           $postfix = ".jpg";
+           if ( ereg( "gif$", $this->OriginalFileName ) )
+           {
+               $postfix = ".gif";
+           }
+
+//           if ( ereg( "png$", $this->OriginalFileName ) )
+//           {
+//               $postfix = ".png";
+//           }
            
            // the path to the catalogue
-           $file->convertCopy( "ezimagecatalogue/catalogue/" . basename( $file->tmpName() ) . ".jpg" );
+           $file->convertCopy( "ezimagecatalogue/catalogue/" . basename( $file->tmpName() ) . $postfix );
 
-           $this->FileName = basename( $file->tmpName() ) . ".jpg";
+           $this->FileName = basename( $file->tmpName() ) . $postfix;
 
            $name = $file->name();
 

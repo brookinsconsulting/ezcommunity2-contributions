@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezimagevariation.php,v 1.4 2000/10/06 13:46:24 bf-cvs Exp $
+// $Id: ezimagevariation.php,v 1.5 2000/10/27 13:35:49 bf-cvs Exp $
 //
 // Definition of eZCompany class
 //
@@ -166,7 +166,20 @@ class eZImageVariation
                 $imageFile->getFile( $image->filePath( true ) );
                 $imageFile->setType( "image/jpeg" );
 
-                $dest = "ezimagecatalogue/catalogue/variations/" . $image->id() . "-" . $variationGroup->width() . "x". $variationGroup->height() . ".jpg";
+                $postfix = ".jpg";
+                if ( ereg( "gif$", $image->originalFileName() ) )
+                {
+                    $postfix = ".gif";
+                    $imageFile->setType( "image/gif" );
+                }
+
+//                if ( ereg( "png$", $image->originalFileName() ) )
+//                {
+//                    $postfix = ".png";
+//                    $imageFile->setType( "image/png" );
+//                }
+                
+                $dest = "ezimagecatalogue/catalogue/variations/" . $image->id() . "-" . $variationGroup->width() . "x". $variationGroup->height() . $postfix;
 
                 $imageFile->scaleCopy( $dest, $variationGroup->width(), $variationGroup->height() );
 
