@@ -45,7 +45,7 @@
 
 <!-- BEGIN day_tpl -->
 <td class="{td_class}" valign="top" >
-<a href="/calendar/dayview/{year_number}/{month_number}/{day_number}">{day_number}</a>
+<a class="boxtext" href="/calendar/dayview/{year_number}/{month_number}/{day_number}">{day_number}</a>
 <br />
 <img src="/images/1x1.gif" height="4" width="2" border="0" alt="" /><br />
 
