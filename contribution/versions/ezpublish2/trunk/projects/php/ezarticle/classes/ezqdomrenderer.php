@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezqdomrenderer.php,v 1.33 2001/08/21 15:23:53 master Exp $
+// $Id: ezqdomrenderer.php,v 1.34 2001/08/23 13:29:11 bf Exp $
 //
 // Definition of eZQDomRenderer class
 //
@@ -156,7 +156,6 @@ class eZQDomrenderer
 
         if ( file_exists( "ezarticle/user/" . $ini->read_var( "eZArticleMain", "TemplateDir" ) . "articletags_$template.tpl" ) )
         {
-            print( "menu" );
             $this->Template->set_file( "articletags_tpl", "articletags_$template.tpl"  );
         }
         else
