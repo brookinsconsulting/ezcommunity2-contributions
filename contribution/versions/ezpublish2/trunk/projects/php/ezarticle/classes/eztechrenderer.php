@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eztechrenderer.php,v 1.31 2000/11/01 12:34:47 bf-cvs Exp $
+// $Id: eztechrenderer.php,v 1.32 2000/11/01 13:47:59 bf-cvs Exp $
 //
 // Definition of eZTechRenderer class
 //
@@ -292,7 +292,7 @@ class eZTechRenderer
                     }
                 }
 
-            if ( !preg_match( "/^([a-z]+:\\/\\/)|\\//", $href ) )
+            if ( !preg_match( "%^(([a-z]+://)|/|#)%", $href ) )
                 $href = "http://" . $href;
             $pageContent .= "<a href=\"$href\">" . $text . "</a>";
         }
@@ -788,6 +788,9 @@ class eZTechRenderer
             else if ( $char == '(' )
             {
                 $end = strpos( $string, " ", $index + 1 );
+                $end_paren = strpos( $string, ")", $index + 1 );
+                if ( $end_paren  < $end )
+                    $end = $end_paren;
                 if ( $end === false )
                 {
                     $tmpstring .= "(";
@@ -839,7 +842,7 @@ class eZTechRenderer
                 }
                 else
                 {
-                    $tmpstring .= "<font color=\"green\">" . $this->sptobsp( substr( $string, $index + 1, $end - $index - 1 ) ) . "\"</font>";
+                    $tmpstring .= "<font color=\"green\">\"" . $this->sptobsp( substr( $string, $index + 1, $end - $index - 1 ) ) . "\"</font>";
                     $index = $end + 1;
                 }
             }
@@ -886,7 +889,7 @@ class eZTechRenderer
 
     function &sptobsp( $string )
     {
-        preg_replace( "# #", "&nbsp;", $string );
+        preg_replace( "# #m", "&nbsp;", $string );
         return $string;
     }
 
