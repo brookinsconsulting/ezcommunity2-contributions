@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: ezarticle.php,v 1.183.2.13 2002/03/04 13:30:10 bf Exp $
+// $Id: ezarticle.php,v 1.183.2.14 2002/04/02 18:21:34 bf Exp $
 //
 // Definition of eZArticle class
 //
@@ -75,7 +75,6 @@ include_once( "ezarticle/classes/ezarticlecategory.php" );
 include_once( "ezarticle/classes/ezarticlecategory.php" );
 include_once( "ezarticle/classes/ezarticleattribute.php" );
 include_once( "ezarticle/classes/ezarticletype.php" );
-include_once( "classes/INIFile.php" );
 
 class eZArticle
 {
@@ -1831,6 +1830,8 @@ class eZArticle
             $fetchText = "AND eZArticle_Article.IsPublished = '1'";
         }
 
+        $usePermission = true;
+        
         $user =& eZUser::currentUser();
 
         // Build the permission
@@ -1838,7 +1839,7 @@ class eZArticle
         $groupSQL = "";
         if ( $user )
         {
-            $groups = $user->groups( false );
+            $groups =& $user->groups( false );
 
             $i = 0;
             foreach ( $groups as $group )

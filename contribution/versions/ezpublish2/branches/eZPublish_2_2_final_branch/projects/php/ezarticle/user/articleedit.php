@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: articleedit.php,v 1.24.2.2 2001/11/19 11:52:27 bf Exp $
+// $Id: articleedit.php,v 1.24.2.3 2002/04/02 18:21:34 bf Exp $
 //
 // Created on: <18-Oct-2000 15:04:39 bf>
 //
@@ -38,6 +38,9 @@ include_once( "ezarticle/classes/ezarticlerenderer.php" );
 include_once( "ezuser/classes/ezobjectpermission.php" );
 include_once( "ezuser/classes/ezauthor.php" );
 include_once( "ezxml/classes/ezxml.php" );
+
+include_once( "ezbulkmail/classes/ezbulkmail.php" );
+include_once( "ezbulkmail/classes/ezbulkmailcategory.php" );
 
 $ini =& INIFile::globalINI();
 
