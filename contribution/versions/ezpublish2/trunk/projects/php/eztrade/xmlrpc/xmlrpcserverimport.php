@@ -4,6 +4,7 @@ ob_start();
 
 chdir( "/home/ce/projects/php/mygold/" );
 
+
 include_once( "ezxmlrpc/classes/ezxmlrpcserver.php" );
 include_once( "ezxmlrpc/classes/ezxmlrpcstring.php" );
 include_once( "ezxmlrpc/classes/ezxmlrpcint.php" );
@@ -25,6 +26,7 @@ include_once( "classes/ezlog.php" );
 include_once( "classes/INIFile.php" );
 include_once( "ezmail/classes/ezmail.php" );
 include_once( "ezimagecatalogue/classes/ezimage.php" );
+include_once( "ezurltranslator/classes/ezurltranslator.php" );
 
 set_time_limit( 0 );
 $server = new eZXMLRPCServer( );
@@ -134,7 +136,7 @@ function &addToGroup( $groupName, $product, $parentName, $design, $material, $pa
             case "B07":
             case "B04":
             {
-                eZLog::writeNotice( "Material: Added product " . $product->productNumber() . " to Gold" );
+//                eZLog::writeNotice( "Material: Added product " . $product->productNumber() . " to Gold" );
                 $matCatArray = createIfNotExists( "Gold", $mat->id() );
                 $matCat = $matCatArray[0];
                 $matCategoryArray[] = array( $matCat, $material, $matCatArray[1] );
@@ -164,7 +166,7 @@ function &addToGroup( $groupName, $product, $parentName, $design, $material, $pa
             case "O05":
             case "D09":
             {
-                eZLog::writeNotice( "Material: Added product " . $product->productNumber() . " to Diamond" );
+//                eZLog::writeNotice( "Material: Added product " . $product->productNumber() . " to Diamond" );
                 $matCatArray = createIfNotExists( "Diamant", $mat->id() );
                 $matCat = $matCatArray[0];
                 $matCategoryArray[] = array( $matCat, $material, $matCatArray[1] );
@@ -180,7 +182,7 @@ function &addToGroup( $groupName, $product, $parentName, $design, $material, $pa
             case "S04":
             case "S03":
             {
-                eZLog::writeNotice( "Material: Added product " . $product->productNumber() . " to Ketten" );
+//                eZLog::writeNotice( "Material: Added product " . $product->productNumber() . " to Ketten" );
                 $matCatArray = createIfNotExists( "Ketten", $place->id() );
                 $matCat = $matCatArray[0];
                 $matCategoryArray[] = array( $matCat, $material, $matCatArray[1] );
@@ -217,7 +219,7 @@ function &addToGroup( $groupName, $product, $parentName, $design, $material, $pa
             // Saphire
             case "SA":
             {
-                eZLog::writeNotice( "Material: Added product " . $product->productNumber() . " to Saphire" );
+//                eZLog::writeNotice( "Material: Added product " . $product->productNumber() . " to Saphire" );
                 $matCatArray = createIfNotExists( "Safir", $mat->id() );
                 $matCat = $matCatArray[0];
                 $matCategoryArray[] = array( $matCat, $material, $matCatArray[1] );
@@ -227,7 +229,7 @@ function &addToGroup( $groupName, $product, $parentName, $design, $material, $pa
             // Bluetopas
             case "BT":
             {
-                eZLog::writeNotice( "Material: Added product " . $product->productNumber() . " to Bluetopas" );
+//                eZLog::writeNotice( "Material: Added product " . $product->productNumber() . " to Bluetopas" );
                 $matCatArray = createIfNotExists( "Blautopas", $mat->id() );
                 $matCat = $matCatArray[0];
                 $matCategoryArray[] = array( $matCat, $material, $matCatArray[1] );
@@ -237,7 +239,7 @@ function &addToGroup( $groupName, $product, $parentName, $design, $material, $pa
             // Zirkonia
             case "ZI":
             {
-                eZLog::writeNotice( "Material: Added product " . $product->productNumber() . " to Zirkonia" );
+//                eZLog::writeNotice( "Material: Added product " . $product->productNumber() . " to Zirkonia" );
                 $matCatArray = createIfNotExists( "Zirkonia", $mat->id() );
                 $matCat = $matCatArray[0];
                 $matCategoryArray[] = array( $matCat, $material, $matCatArray[1] );
@@ -250,7 +252,7 @@ function &addToGroup( $groupName, $product, $parentName, $design, $material, $pa
             case "BW":
             case "TA":
             {
-                eZLog::writeNotice( "Material: Added product " . $product->productNumber() . " to Pearls" );
+//                eZLog::writeNotice( "Material: Added product " . $product->productNumber() . " to Pearls" );
                 $matCatArray = createIfNotExists( "Perlen", $mat->id() );
                 $matCat = $matCatArray[0];
                 $matCategoryArray[] = array( $matCat, $material, $matCatArray[1] );
@@ -262,7 +264,7 @@ function &addToGroup( $groupName, $product, $parentName, $design, $material, $pa
             {
                 if ( $others )
                 {
-                    eZLog::writeNotice( "Material: Added product " . $product->productNumber() . " to Others" );
+//                    eZLog::writeNotice( "Material: Added product " . $product->productNumber() . " to Others" );
                     $matCatArray = createIfNotExists( "Weitere", $mat->id() );
                     $matCat = $matCatArray[0];
                     $matCategoryArray[] = array( $matCat, $material, $matCatArray[1] );
@@ -309,7 +311,7 @@ function translate( $name, $file )
     
     $ret = $ini->read_var( "strings", $name );
 
-    eZLog::writeNotice( "Translate: from " . $name . " to " . $ret );
+//    eZLog::writeNotice( "Translate: from " . $name . " to " . $ret );
 
     return $ret;
 }
@@ -331,7 +333,7 @@ function addProductToGroup( $group, $product, $checkProduct=false )
         }
         else
         {
-            eZLog::writeNotice( "Category: Added product to category " . $group->name() );
+//            eZLog::writeNotice( "Category: Added product to category " . $group->name() );
             $group->addProduct( $product );
             return true;
         }
@@ -438,7 +440,7 @@ function createIfNotExists( $categoryName, $parentID, $remoteID=0, $checkParent=
         $category->setRemoteID ( $remoteID );
         $category->store();
 
-        eZLog::writeNotice( "Category: Stored " . $categoryName . " to the database" );
+//        eZLog::writeNotice( "Category: Stored " . $categoryName . " to the database" );
 
         $ret = array( $category, false );
         return $ret;
@@ -607,8 +609,62 @@ function addToCategory ( $categoryID, $product )
     $category->addProduct( $product );
     $product->setCategoryDefinition( $category );
 
-    eZLog::writeNotice( "Category: Added product to category " . $category->name() );
+//    eZLog::writeNotice( "Category: Added product to category " . $category->name() );
     return true;
+}
+
+function generateUrlTranslator( $parent, $category, $product )
+{
+    $productID = $product->id();
+    $db =& eZDB::globalDatabase();
+    $db->array_query( $checkArray, "SELECT UrlTranslatorID FROM eZTrade_ProductUrlTranslatorLink WHERE ProductID='$productID'" );
+
+    if ( $checkArray[0]["UrlTranslatorID"] )
+        return false;
+    
+    $source = ( ( "/home/" . $parent ) . ( "/" . ereg_replace( " ", "_", $category->name() ) ) . ( "/" . ereg_replace( " ", "_", $product->name() ) ) );
+    $source = ereg_replace( ",", "", $source );
+    $source = ereg_replace( "ä", "ae", $source );
+    $source = ereg_replace( "ö", "oe", $source );
+    $source = ereg_replace( "ü", "ue", $source );
+    $source = ereg_replace( "ß", "ss", $source );
+    $source = strtolower( $source );
+
+    $dest = "/trade/productview/". $product->id() . "/";
+
+    $i = 0;
+    $addNumber = 1;
+    $done = false;
+    $sourceReal = $source;
+    while( ( !$done ) )
+    {
+        $db->array_query( $checkNameArray, "SELECT ID FROM eZURLTranslator_URL WHERE Source LIKE '$source/'" );
+
+        if ( count ( $checkNameArray ) > 0 )
+        {
+            $source = $sourceReal;
+            $source .= "_" . $addNumber;
+            
+        }
+        else
+        {
+            $source = $source;
+            $done = true;
+        }
+
+        eZLog::writeNotice( "Duplicate: " . $source ); 
+
+        $i++;
+        $addNumber++;
+    }
+    $source .= "/";
+    
+    $url = new eZUrlTranslator( );
+    $url->setSource( $source );
+    $url->setDest ( $dest );
+    $url->store();
+
+    $db->query( "INSERT INTO eZTrade_ProductUrlTranslatorLink SET ProductID='$productID', UrlTranslatorID='$urlID'" );
 }
 
 
@@ -710,7 +766,7 @@ function insert( $args )
     {
         $nummer = $product->productNumber();
 
-        eZLog::writeNotice( "HotDeal: Added product " . $nummer . " to hotdeal" );
+//        eZLog::writeNotice( "HotDeal: Added product " . $nummer . " to hotdeal" );
         $product->setIsHotDeal( true );
         $product->setTotalQuantity( false );
     }
@@ -751,6 +807,14 @@ function insert( $args )
         {
             $optionArray = $product->options();
             $option = $optionArray[0];
+            if ( get_class( $option ) != "ezoption" )
+            {
+                $option = new eZOption();
+                $option->setName( "Groesse" );
+                $option->setDescription( $productDescription );
+                $option->store();
+                $product->addOption( $option );
+            }
         }
 
         $checkOptionPriceStruct = $options[0]->value();
@@ -840,7 +904,7 @@ function insert( $args )
     elseif ( count ( $parents ) == 1 )
         $category = addToGroup( $productCategory, $product, $parents[0], $oldDesign, $oldCategoryName, true );
 
-    
+    generateUrlTranslator( $parents[0], $category, $product );
     if ( $productPicture )
     {
         if ( is_file( "tmp/" . $productPictureName ) )

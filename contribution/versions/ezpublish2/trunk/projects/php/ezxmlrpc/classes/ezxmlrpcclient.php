@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezxmlrpcclient.php,v 1.19 2001/06/11 08:02:16 bf Exp $
+// $Id: ezxmlrpcclient.php,v 1.20 2001/06/20 10:23:12 ce Exp $
 //
 // Definition of eZXMLRPCClient class
 //
@@ -155,7 +155,6 @@ class eZXMLRPCClient
                         $authentification = "Authorization: Basic " . base64_encode( $this->login() . ":" . $this->password() ) . "\r\n" ;
                     }
 
-                
                     $HTTPCall = "POST " . $this->Path . " HTTP/1.0\r\n" .
                          "User-Agent: eZ xmlrpc client\r\n" .
                          "Host: " . $this->Server . "\r\n" .
@@ -173,12 +172,14 @@ class eZXMLRPCClient
             
                 $rawResponse = "";
                 unSet( $rawResponse );
+
                 // fetch the XML-RPC response
                 while( $data=fread( $fp, 32768 ) )
                 {
                     $rawResponse .= $data;
                 }
 
+                print( $rawResponse );
                 if ( $this->Debug == true )
                 {
                     print( "<pre>" );
@@ -188,6 +189,8 @@ class eZXMLRPCClient
             
                 // close the socket
                 fclose( $fp );
+
+
             }
         }
         else
