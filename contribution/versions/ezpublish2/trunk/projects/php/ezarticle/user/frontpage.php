@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: frontpage.php,v 1.18 2001/10/02 15:29:02 pkej Exp $
+// $Id: frontpage.php,v 1.19 2001/10/02 15:52:40 pkej Exp $
 //
 // Created on: <30-May-2001 14:06:59 bf>
 //
@@ -157,6 +157,9 @@ if ( is_array ( $rows ) and count ( $rows ) > 0 )
         $page_elements[] = $value;
     }
 }
+
+#print_r( $articleList );
+#print_r( $productList );
 
 $category = new eZArticleCategory( $FrontPageCategory );
 $productCategory = new eZProductCategory( $FrontPageProductCategory );

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezproductcategory.php,v 1.51 2001/10/02 14:39:51 ce Exp $
+// $Id: ezproductcategory.php,v 1.52 2001/10/02 15:52:40 pkej Exp $
 //
 // Definition of eZProductCategory class
 //
@@ -720,6 +720,7 @@ class eZProductCategory
            $nonActiveCode = " eZTrade_Product.ShowProduct='1' AND";
        }
        $discontinuedCode = "";
+       
        if ( !$fetchDiscontinued )
            $discontinuedCode = " eZTrade_Product.Discontinued='0' AND";
        $db->array_query( $product_array, "
