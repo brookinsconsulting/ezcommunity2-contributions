@@ -6,6 +6,9 @@
 
 */
 
+include_once( "classes/ezdb.php" );
+include_once( "ezcontact/classes/ezphonetype.php" );
+
 class eZPhone
 {
     /*
@@ -108,7 +111,31 @@ class eZPhone
         if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
 
-        $this->PhoneTypeID = $value;
+        if( is_numeric( $value ) )
+        {
+            $this->PhoneTypeID = $value;
+        }
+        
+        if( get_class( $value ) == "ezphonetype" )
+        {
+            $this->PhoneTypeID = $value->id();
+        }
+    }
+
+    function setPhoneType( $value )
+    {
+        if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+        if( is_numeric( $value ) )
+        {
+            $this->PhoneTypeID = $value;
+        }
+        
+        if( get_class( $value ) == "ezphonetype" )
+        {
+            $this->PhoneTypeID = $value->id();
+        }
     }
 
     function setID( $value )
@@ -133,6 +160,15 @@ class eZPhone
             $this->get( $this->ID );
 
         return $this->PhoneTypeID;
+    }
+    
+    function phoneType( )
+    {
+        if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+        $phoneType = new eZPhoneType( $this->PhoneTypeID );
+        return $phoneType;
     }
     
     function id( )
