@@ -1361,3 +1361,11 @@ Maintainer(s) : bf@ez.no
     * user/datasupplier.php:
     Adding first (final?) verions of the terms of service click through.
 
+
+Module : ezuser
+Repository path : /home/cvsroot/projects/php/ezuser
+Maintainer(s) : bf@ez.no
+2002-05-16  Christoffer Elo  <ce@ez.no>
+
+    * user/forgot.php: Fixed a bug
+
