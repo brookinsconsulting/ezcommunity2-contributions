@@ -81,9 +81,9 @@ $dot = '1';
 
 foreach ( $treeArray as $catItem )
 {
-//    if ( eZObjectPermission::hasPermission( $catItem[0]->id(), "file_category", 'w', $user ) == true  ||
-//         eZVirtualFolder::isOwner( eZUser::currentUser(), $catItem[0]->id() ) )
-    if ( $dot == '1')
+  //    if ( $dot == '1')
+    if ( eZObjectPermission::hasPermission( $catItem[0]->id(), "filemanager_folder", 'r', $user ) == true  ||
+         eZVirtualFolder::isOwner( eZUser::currentUser(), $catItem[0]->id() ) )
     {
         $placement = $catItem[1] - 1;
         $option_level = str_repeat( "&nbsp;&nbsp;&nbsp;&nbsp;", $placement );

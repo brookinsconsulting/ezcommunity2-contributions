@@ -30,13 +30,9 @@ include_once( "ezuser/classes/ezobjectpermission.php" );
 include_once( "ezsession/classes/ezsession.php" );
 
 $ini =& INIFile::globalINI();
-
 $user =& eZUser::currentUser();
-
 $file = new eZVirtualFile( $FileID );
-
 $fileName = $file->name();
-
 
 if ( $ini->read_var( "eZFileManagerMain", "DownloadOriginalFilename" ) == "true" )
     $originalFileName = $file->originalFileName();
@@ -44,97 +40,117 @@ else
     $originalFileName = $file->name();
 
 $filePath = $file->filePath( true );
+$userID = $user->ID;
 
+$file_debug = false;
+$download_style_inline = true;
 
-if ( $user->ID < 2 ) {
+//###################################################
+// nsb non-requred nsb authentication
 
-if ( $user->ID != '' ) {
-// print ("USER ID : '". $user->ID ."'");
+/*
+if( $userID == '')
+     die("sucka!!");
+*/
 
-// if ( eZObjectPermission::hasPermission( $file->id(), "filemanager_file", "r", $user ) == false )
- {
-  print ("USER With Permission : '". $user->ID ."'<br>");
- }
-}
+/*
+if ( $userID < 2 ) {
+if ( $userID != '' ) {
+// print ("USER ID : '". $userID ."'");
 
-print ("USER ID : is Null"); 
- //exit();
-
-}
-
-
-
-
-
-
-
-
-
-
-
-
-if ( ( $user->ID != '' ) && ( $user->ID != 0 ) )
+ if ( eZObjectPermission::hasPermission( $file->id(), "filemanager_file", "r", $user ) == false )
 {
-	include_once( "ezstats/classes/ezpageview.php" );
-
-	if ( get_class( $GlobalPageView ) != "ezpageview" )
-	{
-	    $GlobalPageView = new eZPageView();
-	    $GlobalPageView->store();
-	}
-
-	$editedFileName = str_replace( " ", "%20", $originalFileName );
-
-	// store the statistics
-	$file->addPageView( $GlobalPageView );
- 
-	$filePath = preg_replace( "#.*/(.*)#", "\\1", $filePath );
- 
-	//  print( $filePath );
-
-	//print( "Location: /filemanager/filedownload/$filePath/$editedFileName"  );
-	//exit();
+  print ("USER With Permission : '". $userID ."'<br>");
 }
 
+}
+
+  // print ("USER ID : is Null"); 
+  //exit();
+}
+*/
+
+//###################################################
+// nsb non-requred nsb authentication
+
+/*
+if ( ( $userID != '' ) && ( $userID != 0 ) )
+{
+*/
+//###################################################
+
+include_once( "ezstats/classes/ezpageview.php" );
+
+if ( get_class( $GlobalPageView ) != "ezpageview" )
+{
+  $GlobalPageView = new eZPageView();
+  $GlobalPageView->store();
+}
+
+ $editedFileName = str_replace( " ", "%20", $originalFileName );
+ 
+ // store the statistics
+ $file->addPageView( $GlobalPageView );
+ 
+ $filePath = preg_replace( "#.*/(.*)#", "\\1", $filePath );
+ 
+if($file_debug){
+  print( $filePath );
+
+  print( "Location: /filemanager/filedownload/$filePath/$editedFileName"  );
+  exit();
+}
+
+
+/*
+}
+*/
+
+//###################################################
+// nsb required user authentication download
+//###################################################
+
+/* 
 // $host = $SERVER_NAME;
 // $location = "Location: http://" . $SERVER_NAME . ":" . $SERVER_PORT . "/" . $wwwDir . $index . "filemanager/filedownload/$filePath/$editedFileName";
 
 //if ( eZObjectPermission::hasPermission( $file->id(), "filemanager_file", "r", $user ) == false )
-if ( ( $user->ID == '' ) && ($user->ID == 0 ) )
+
+if ( ( $userID == '' ) && ($userID == 0 ) )
 {
+ // include( "ezuser/user/login.php" );
+ $fileID = $file->id();
 
-//        include( "ezuser/user/login.php" );
-$fileID = $file->id();
-
-// $RedirectURL = "/filemanager/download/$fileID";
+ // $RedirectURL = "/filemanager/download/$fileID";
 
  // Create a new session, store it to the database and set a cookie.
-//  $session =& eZSession::globalSession( );
-//  $session->store();
+ //  $session =& eZSession::globalSession( );
+ //  $session->store();
 
   // get the session from the client
   // The page must reload before the session cookie is accessable.
-//  $session->fetch();
+  // $session->fetch();
 
   // set a session variable
   // $session->setVariable( "RedirectURL", "$RedirectURL" );
 
   // fetch the CartID session variable
-//  $cartID = $session->variable( "CartID" );
+  // $cartID = $session->variable( "CartID" );
 
 
-//  eZHTTPTool::header( "Location: $RedirectURL" );
+  //  eZHTTPTool::header( "Location: $RedirectURL" );
+  //  die($RedirectURL);
 
-// die($RedirectURL);
-
-    eZHTTPTool::header( "Location: /error/nouser/" );
-    exit();
+  //  eZHTTPTool::header( "Location: /error/nouser/" );
+  //  exit();
 }
-
 
 
 // print( $location );
 // Header( $location );
+*/
+
+//###################################################
 
 // Rewrote to be compatible with virtualhost-less install
 $size = eZFile::filesize( "ezfilemanager/files/$filePath" );
@@ -144,12 +160,15 @@ $suffix = $nameParts[count( $nameParts ) - 1];
 
 $suffix = strtolower( $suffix );
 
-// die("your file is: " . $suffix );
-// die("your file is: " . $editedFileName );
-// die("your file is: " . $originalFileName );
-
+ if($file_debug) {
+  print("your file is: " . $suffix ."<br />");
+  print("your file is: " . $editedFileName ."<br />");
+  die("your file is: " . $originalFileName );
+ }
+ 
 // clear what might be in the output buffer and stop the buffer.
 ob_end_clean();
+
 switch ( $suffix )
 {
    case "gif" :
@@ -193,25 +212,28 @@ switch ( $suffix )
         break;
 }
 
-//die("PDF: " . $suffix);
+if($file_debug){
+  die("PDF: " . $suffix);
+}
 
 header( "Cache-Control:" );
 header( "Content-Length: $size" );
-//header( "Content-disposition: attachment; filename=$editedFileName" );
-//header( "Content-disposition: filename=$editedFileName" );
-header( "Content-disposition: inline; filename=$editedFileName" );
 
-
-header( "Content-Transfer-Encoding: binary" );
+if(!$download_style_inline){
+// can you make them download outside the main window ... not like this
+ header( "Content-disposition: attachment; filename=$editedFileName" );
+// header( "Content-disposition: filename=$editedFileName" );
+} else {
+// inline download (for pdfs)
+  header( "Content-disposition: inline; filename=$editedFileName" );
+  header( "Content-Transfer-Encoding: binary" );
+}
 
 $fh = eZFile::fopen( "ezfilemanager/files/$filePath", "rb" );
 fpassthru( $fh );
-
-
 exit();
 
-//break();
-
-
+// original exit method
+// break();
 
 ?>
