@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: datasupplier.php,v 1.5 2001/07/20 11:45:40 jakobn Exp $
+// $Id: datasupplier.php,v 1.6 2001/08/22 13:13:15 jb Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -27,17 +27,43 @@ switch ( $RequestType )
 {
     case "user" :
     {
-        include( "ezuser/xmlrpc/user.php" );
+        switch( $Command )
+        {
+            case "list":
+            case "data":
+            case "currentuser":
+            {
+                include( "ezuser/xmlrpc/user.php" );
+                break;
+            }
+        }
     } break;
 
     case "author" :
     {
-        include( "ezuser/xmlrpc/author.php" );
+        switch( $Command )
+        {
+            case "list":
+            case "storedata":
+            {
+                include( "ezuser/xmlrpc/author.php" );
+                break;
+            }
+            default:
+                $Error = true;
+        }
     } break;
-        
+
     case "group" :
     {
-        include( "ezuser/xmlrpc/group.php" );
+        switch( $Command )
+        {
+            case "list":
+            {
+                include( "ezuser/xmlrpc/group.php" );
+                break;
+            }
+        }
     } break;
 
     default :

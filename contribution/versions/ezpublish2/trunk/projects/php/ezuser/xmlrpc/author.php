@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: author.php,v 1.2 2001/07/20 11:45:40 jakobn Exp $
+// $Id: author.php,v 1.3 2001/08/22 13:13:15 jb Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -28,6 +28,7 @@ include_once( "ezxmlrpc/classes/ezxmlrpcstruct.php" );
 include_once( "ezxmlrpc/classes/ezxmlrpcint.php" );
 include_once( "ezxmlrpc/classes/ezxmlrpcstring.php" );
 include_once( "ezxmlrpc/classes/ezxmlrpcbool.php" );
+
 if( $Command == "list" ) // Return a list of authors and their ID's 
 {
     $authorList = eZAuthor::getAll();
@@ -42,9 +43,25 @@ if( $Command == "list" ) // Return a list of authors and their ID's
     $ReturnData = new eZXMLRPCStruct( array( "Catalogues" => array(),
                                              "Elements" => $authors ) );
 }
-else
+else if( $Command == "storedata" )
 {
-    $Error = true;
+    if ( isset( $Data["Name"] ) && isset( $Data["Email"] ) )
+    {
+        $author = new eZAuthor();
+        if ( $ID != 0 )
+            $author->get( $ID );
+        $author->setName( $Data["Name"]->value() );
+        $author->setEmail( $Data["Email"]->value() );
+        $author->store();
+
+        $ID = $author->id();
+        $ReturnData = new eZXMLRPCStruct( array( "Location" => createURLStruct( "ezuser", "author", $ID ),
+                                                 "UpdateType" => new eZXMLRPCString( $Command )
+                                             ) );
+        $Command = "update";
+    }
+    else
+        $Error = createErrorMessage( EZERROR_BAD_REQUEST_DATA );
 }
 
 ?>
