@@ -25,11 +25,11 @@
 
 <img src="{www_dir}/images/path-arrow.gif" height="10" width="12" border="0" alt="" />
 
-<a class="path" href="{www_dir}{index}/{intl-module_name}/{intl-command_type}/{intl-command_list}/0">{intl-root_category}</a>
+<a class="path" href="{www_dir}{index}/contact/{command_type}/list/0">{intl-root_category}</a>
 
 <!-- BEGIN path_item_tpl -->
 <img src="{www_dir}/images/path-slash.gif" height="10" width="16" border="0" alt="" />
-<a class="path" href="{www_dir}{index}/{intl-module_name}/{intl-command_type}/{intl-command_list}/{parent_id}">{parent_name}</a>
+<a class="path" href="{www_dir}{index}/contact/{command_type}/list/{parent_id}">{parent_name}</a>
 <!-- END path_item_tpl -->
 
 <hr noshade="noshade" size="4" />
@@ -79,7 +79,7 @@
 <!-- END current_type_tpl -->
 
 <!-- BEGIN not_root_tpl -->
-<!-- <p><a href="{www_dir}{index}/{intl-module_name}/{intl-command_type}/{intl-command_edit}/{current_id}">{intl-button_edit}</a></p> -->
+<!-- <p><a href="{www_dir}{index}/contact/{command_type}/edit/{current_id}">{intl-button_edit}</a></p> -->
 <!-- END not_root_tpl -->
 
 <!-- BEGIN category_list_tpl -->
@@ -87,8 +87,8 @@
 <h2>{intl-headline_categories}</h2>
 <table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
 <tr>
-    <th><a href="{www_dir}{index}/{intl-module_name}/{intl-command_type}/{intl-command_list}/{current_id}?OrderBy=Name">{intl-th_type_name}:</a></th>
-    <th><a href="{www_dir}{index}/{intl-module_name}/{intl-command_type}/{intl-command_list}/{current_id}?OrderBy=Description">{intl-th_type_description}:</a></th>
+    <th><a href="{www_dir}{index}/contact/{command_type}/list/{current_id}?OrderBy=Name">{intl-th_type_name}:</a></th>
+    <th><a href="{www_dir}{index}/contact/{command_type}/list/{current_id}?OrderBy=Description">{intl-th_type_description}:</a></th>
     <th colspan="2">&nbsp;</th>
 </tr>
 
@@ -105,22 +105,22 @@
 <h2>{intl-headline_types}</h2>
 <table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
 <tr>
-    <th><a href="{www_dir}{index}/{intl-module_name}/{intl-command_type}/{intl-command_list}/{current_id}?OrderBy=Name">{intl-th_type_name}:</a></th>
-    <th><a href="{www_dir}{index}/{intl-module_name}/{intl-command_type}/{intl-command_list}/{current_id}?OrderBy=Description">{intl-th_type_description}:</a></th>
+    <th><a href="{www_dir}{index}/contact/{command_type}/list/{current_id}?OrderBy=Name">{intl-th_type_name}:</a></th>
+    <th><a href="{www_dir}{index}/contact/{command_type}/list/{current_id}?OrderBy=Description">{intl-th_type_description}:</a></th>
     <th colspan="2">&nbsp;</th>
 </tr>
 
 <!-- BEGIN type_item_tpl -->
 <tr class="{theme-type_class}">
-    <td><a href="{www_dir}{index}/{intl-module_name}/{intl-command_type}/{intl-command_list}/{type_id}/">{type_name}</a></td>
+    <td><a href="{www_dir}{index}/contact/{command_type}/list/{type_id}/">{type_name}</a></td>
     <td>{type_description}</td>
 
     <!-- BEGIN type_edit_button_tpl -->
-    <td width="1%"><a href="{www_dir}{index}/{intl-module_name}/{intl-category_command_type}/{intl-command_edit}/{type_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezuser{type_id}-red','','/admin/images/redigerminimrk.gif',1)"><img name="ezuser{type_id}-red" border="0" src="{www_dir}/admin/images/redigermini.gif" width="16" height="16" align="top" alt="Edit" /></a></td>
+    <td width="1%"><a href="{www_dir}{index}/contact/companycategory/edit/{type_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezuser{type_id}-red','','/admin/images/redigerminimrk.gif',1)"><img name="ezuser{type_id}-red" border="0" src="{www_dir}/admin/images/redigermini.gif" width="16" height="16" align="top" alt="Edit" /></a></td>
     <!-- END type_edit_button_tpl -->
 
     <!-- BEGIN type_delete_button_tpl -->
-    <td width="1%"><a href="{www_dir}{index}/{intl-module_name}/{intl-category_command_type}/{intl-command_delete}/{type_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezuser{type_id}-slett','','/admin/images/slettminimrk.gif',1)"><img name="ezuser{type_id}-slett" border="0" src="{www_dir}/admin/images/slettmini.gif" width="16" height="16" align="top" alt="Delete" /></a></td>
+    <td width="1%"><a href="{www_dir}{index}/contact/companycategory/delete/{type_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezuser{type_id}-slett','','/admin/images/slettminimrk.gif',1)"><img name="ezuser{type_id}-slett" border="0" src="{www_dir}/admin/images/slettmini.gif" width="16" height="16" align="top" alt="Delete" /></a></td>
 </tr>
     <!-- END type_delete_button_tpl -->
 

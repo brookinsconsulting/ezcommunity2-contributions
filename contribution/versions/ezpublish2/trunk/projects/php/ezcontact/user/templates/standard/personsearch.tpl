@@ -19,7 +19,7 @@
 
 <img src="{www_dir}/images/path-arrow.gif" height="10" width="12" border="0" alt="" />
 
-<a class="path" href="{www_dir}{index}/{intl-module_name}/{intl-command_type}/{intl-command_list}/0">{intl-root_category}</a>
+<a class="path" href="{www_dir}{index}/contact/{command_type}/list/0">{intl-root_category}</a>
 
 <hr noshade="noshade" size="4" />
 

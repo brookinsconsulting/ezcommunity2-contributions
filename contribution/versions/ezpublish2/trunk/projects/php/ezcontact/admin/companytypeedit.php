@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: companytypeedit.php,v 1.30 2001/09/05 11:57:06 jhe Exp $
+// $Id: companytypeedit.php,v 1.31 2001/09/20 11:34:23 jhe Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -159,9 +159,8 @@ $t = new eZTemplate( "ezcontact/admin/" . $ini->read_var( "eZContactMain", "Admi
                      "ezcontact/admin/intl/", $Language, "companytype.php" );
 $t->setAllStrings();
 
-$t->set_file( array(
-    "type_page" => "companytypeedit.tpl",
-    ) );    
+$t->set_file( "type_page", "companytypeedit.tpl" );
+
 $t->set_block( "type_page", "current_type_tpl", "current_type" );
 $t->set_block( "type_page", "path_tpl", "path" );
 $t->set_block( "path_tpl", "path_item_tpl", "path_item" );
@@ -170,6 +169,7 @@ $t->set_block( "current_type_tpl", "parent_item_tpl", "parent_item" );
 $t->set_block( "current_type_tpl", "image_item_tpl", "image_item" );
 $t->set_block( "current_type_tpl", "no_image_item_tpl", "no_image_item" );
 
+$t->set_var( "command_type", "company" );
 $t->set_var( "page_args", $args );
 $t->set_var( "no_image_item", "" );
 $t->set_var( "image_item", "" );

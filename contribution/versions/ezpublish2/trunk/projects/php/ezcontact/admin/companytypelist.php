@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: companytypelist.php,v 1.32 2001/09/14 12:21:33 jhe Exp $
+// $Id: companytypelist.php,v 1.33 2001/09/20 11:34:23 jhe Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -119,7 +119,8 @@ else
     $t->set_block( "type_page", "company_new_button_tpl", "company_new_button" );
 
     $t->set_var( "image_item", "" );
-
+    $t->set_var( "command_type", "company" );
+    
     if ( empty( $OrderBy ) )
     {
         $OrderBy = "Name";

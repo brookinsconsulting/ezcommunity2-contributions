@@ -41,11 +41,11 @@
 
 <img src="{www_dir}/admin/images/path-arrow.gif" height="10" width="15" border="0">
 
-<a class="path" href="{www_dir}{index}/{intl-module_name}/{intl-command_type}/{intl-command_list}/0">{intl-root_category}</a>
+<a class="path" href="{www_dir}{index}/{intl-module_name}/{command_type}/{intl-command_list}/0">{intl-root_category}</a>
 
 <!-- BEGIN path_item_tpl -->
 <img src="{www_dir}/admin/images/path-slash.gif" height="10" width="20" border="0">
-<a class="path" href="{www_dir}{index}/{intl-module_name}/{intl-command_type}/{intl-command_list}/{parent_id}">{parent_name}</a>
+<a class="path" href="{www_dir}{index}/{intl-module_name}/{command_type}/{intl-command_list}/{parent_id}">{parent_name}</a>
 <!-- END path_item_tpl -->
 
 <hr noshade="noshade" size="4" />
@@ -62,7 +62,7 @@
 <!-- END current_type_tpl -->
 
 <!-- BEGIN not_root_tpl -->
-<p><a href="{www_dir}{index}/{intl-module_name}/{intl-command_type}/{intl-command_edit}/{current_id}">{intl-button_edit}</a></p>
+<p><a href="{www_dir}{index}/{intl-module_name}/{command_type}/{intl-command_edit}/{current_id}">{intl-button_edit}</a></p>
 <!-- END not_root_tpl -->
 
 
@@ -71,19 +71,19 @@
 <h3>{intl-headline_categories}</h3>
 <table class="list" width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
-    <th><a href="{www_dir}{index}/{intl-module_name}/{intl-command_type}/{intl-command_list}/{current_id}?OrderBy=ID">{intl-th_type_id}</a></th>
-    <th><a href="{www_dir}{index}/{intl-module_name}/{intl-command_type}/{intl-command_list}/{current_id}?OrderBy=Name">{intl-th_type_name}</a></th>
-    <th><a href="{www_dir}{index}/{intl-module_name}/{intl-command_type}/{intl-command_list}/{current_id}?OrderBy=Description">{intl-th_type_description}</a></th>
+    <th><a href="{www_dir}{index}/{intl-module_name}/{command_type}/{intl-command_list}/{current_id}?OrderBy=ID">{intl-th_type_id}</a></th>
+    <th><a href="{www_dir}{index}/{intl-module_name}/{command_type}/{intl-command_list}/{current_id}?OrderBy=Name">{intl-th_type_name}</a></th>
+    <th><a href="{www_dir}{index}/{intl-module_name}/{command_type}/{intl-command_list}/{current_id}?OrderBy=Description">{intl-th_type_description}</a></th>
     <th colspan="2">&nbsp;</th>
 </tr>
 
 <!-- BEGIN category_item_tpl -->
 <tr class="{theme-type_class}">
     <td>{type_id}</td>
-    <td><a href="{www_dir}{index}/{intl-module_name}/{intl-command_type}/{intl-command_list}/{type_id}/">{type_name}</a></td>
+    <td><a href="{www_dir}{index}/{intl-module_name}/{command_type}/{intl-command_list}/{type_id}/">{type_name}</a></td>
     <td>{type_description}</td>
-    <td width="1%"><a href="{www_dir}{index}/{intl-module_name}/{intl-command_type}/{intl-command_edit}/{type_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezuser{type_id}-red','','/admin/images/redigerminimrk.gif',1)"><img name="ezuser{type_id}-red" border="0" src="{www_dir}/admin/images/redigermini.gif" width="16" height="16" align="top"></a></td>
-    <td width="1%"><a href="{www_dir}{index}/{intl-module_name}/{intl-command_type}/{intl-command_delete}/{type_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezuser{type_id}-slett','','/admin/images/slettminimrk.gif',1)"><img name="ezuser{type_id}-slett" border="0" src="{www_dir}/admin/images/slettmini.gif" width="16" height="16" align="top"></a></td>
+    <td width="1%"><a href="{www_dir}{index}/{intl-module_name}/{command_type}/{intl-command_edit}/{type_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezuser{type_id}-red','','/admin/images/redigerminimrk.gif',1)"><img name="ezuser{type_id}-red" border="0" src="{www_dir}/admin/images/redigermini.gif" width="16" height="16" align="top"></a></td>
+    <td width="1%"><a href="{www_dir}{index}/{intl-module_name}/{command_type}/{intl-command_delete}/{type_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezuser{type_id}-slett','','/admin/images/slettminimrk.gif',1)"><img name="ezuser{type_id}-slett" border="0" src="{www_dir}/admin/images/slettmini.gif" width="16" height="16" align="top"></a></td>
 </tr>
 <!-- END category_item_tpl -->
 
@@ -101,19 +101,19 @@
 <h3>{intl-headline_types}</h3>
 <table class="list" width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
-    <th><a href="{www_dir}{index}/{intl-module_name}/{intl-command_type}/{intl-command_list}/{current_id}?OrderBy=ID">{intl-th_type_id}</a></th>
-    <th><a href="{www_dir}{index}/{intl-module_name}/{intl-command_type}/{intl-command_list}/{current_id}?OrderBy=Name">{intl-th_type_name}</a></th>
-    <th><a href="{www_dir}{index}/{intl-module_name}/{intl-command_type}/{intl-command_list}/{current_id}?OrderBy=Description">{intl-th_type_description}</a></th>
+    <th><a href="{www_dir}{index}/{intl-module_name}/{command_type}/{intl-command_list}/{current_id}?OrderBy=ID">{intl-th_type_id}</a></th>
+    <th><a href="{www_dir}{index}/{intl-module_name}/{command_type}/{intl-command_list}/{current_id}?OrderBy=Name">{intl-th_type_name}</a></th>
+    <th><a href="{www_dir}{index}/{intl-module_name}/{command_type}/{intl-command_list}/{current_id}?OrderBy=Description">{intl-th_type_description}</a></th>
     <th colspan="2">&nbsp;</th>
 </tr>
 
 <!-- BEGIN type_item_tpl -->
 <tr class="{theme-type_class}">
     <td>{type_id}</td>
-    <td><a href="{www_dir}{index}/{intl-module_name}/{intl-command_type}/{intl-command_view}/{type_id}/">{type_name}</a></td>
+    <td><a href="{www_dir}{index}/{intl-module_name}/{command_type}/{intl-command_view}/{type_id}/">{type_name}</a></td>
     <td>{type_description}</td>
-    <td width="1%"><a href="{www_dir}{index}/{intl-module_name}/{intl-command_type}/{intl-command_edit}/{type_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezuser{type_id}-red','','/admin/images/redigerminimrk.gif',1)"><img name="ezuser{type_id}-red" border="0" src="{www_dir}/admin/images/redigermini.gif" width="16" height="16" align="top"></a></td>
-    <td width="1%"><a href="{www_dir}{index}/{intl-module_name}/{intl-command_type}/{intl-command_delete}/{type_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezuser{type_id}-slett','','/admin/images/slettminimrk.gif',1)"><img name="ezuser{type_id}-slett" border="0" src="{www_dir}/admin/images/slettmini.gif" width="16" height="16" align="top"></a></td>
+    <td width="1%"><a href="{www_dir}{index}/{intl-module_name}/{command_type}/{intl-command_edit}/{type_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezuser{type_id}-red','','/admin/images/redigerminimrk.gif',1)"><img name="ezuser{type_id}-red" border="0" src="{www_dir}/admin/images/redigermini.gif" width="16" height="16" align="top"></a></td>
+    <td width="1%"><a href="{www_dir}{index}/{intl-module_name}/{command_type}/{intl-command_delete}/{type_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezuser{type_id}-slett','','/admin/images/slettminimrk.gif',1)"><img name="ezuser{type_id}-slett" border="0" src="{www_dir}/admin/images/slettmini.gif" width="16" height="16" align="top"></a></td>
 </tr>
 <!-- END type_item_tpl -->
 
