@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: messageedit.php,v 1.43 2001/04/23 11:39:02 pkej Exp $
+// $Id: messageedit.php,v 1.44 2001/04/25 11:51:45 jb Exp $
 //
 // Paul K Egell-Johnsen <pkej@ez.no>
 // Created on: <21-Feb-2001 18:00:00 pkej>
@@ -24,6 +24,7 @@
 //
 
 include_once( "classes/ezlocale.php" );
+include_once( "classes/eztemplate.php" );
 include_once( "ezforum/classes/ezforum.php" );
 include_once( "ezforum/classes/ezforummessage.php" );
 include_once( "ezforum/classes/ezforumcategory.php" );
