@@ -385,7 +385,7 @@ if( $Action == "edit" )
     
     $t->set_var( "birthdate", $BirthDate );
     
-    include( "classes/ezdate.php" );
+    include_once( "classes/ezdate.php" );
     
     $date = new eZDate();
     $date->setMySQLDate( $BirthDate );
