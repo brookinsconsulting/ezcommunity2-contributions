@@ -17,6 +17,17 @@ ezarticle/cache
 eznewsfeed/cache
 ezforum/cache
 ezlink/cache
+ezarticle/admin/cache
+ezad/admin/cache
+ezarticle/admin/cache
+ezcontact/admin/cache
+ezforum/admin/cache
+ezlink/admin/cache
+eznewsfeed/admin/cache
+ezpoll/admin/cache
+ezstats/admin/cache
+eztodo/admin/cache
+ezuser/admin/cache
 "
 
 for dir in $dirs

@@ -7,6 +7,12 @@ ezforum
 ezpoll
 eztrade
 ezarticle
+ezcontact
+eztodo
+ezstats
+eznewsfeed
+ezad
+ezuser
 "
 
 for dir in $dirs
@@ -14,6 +20,9 @@ do
     if [ -d $dir ]; then
 	    echo "Clearing $dir"
         rm -f $dir/cache/*.cache
+	if [ -d $dir/admin/cache/ ]; then
+	    rm -f $dir/admin/cache/*.cache
+	fi
     else
         echo "Creating $dir"
 	    mkdir -p $dir
