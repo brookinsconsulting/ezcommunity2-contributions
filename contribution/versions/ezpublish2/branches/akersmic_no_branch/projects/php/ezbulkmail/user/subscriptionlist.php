@@ -1,6 +1,6 @@
 <?php
-// 
-// $Id: subscriptionlist.php,v 1.10.2.2 2001/11/02 08:23:41 ce Exp $
+//
+// $Id: subscriptionlist.php,v 1.10.2.2.4.1 2002/01/30 17:02:14 ce Exp $
 //
 // Created on: <18-Apr-2001 13:36:21 fh>
 //
@@ -32,8 +32,8 @@ include_once( "classes/ezhttptool.php" );
 include_once( "classes/eztemplate.php" );
 include_once( "classes/INIFile.php" );
 
-$Language = $ini->read_var( "eZBulkMailMain", "Language" ); 
-$TemplateDir = $ini->read_var( "eZBulkMailMain", "TemplateDir" ); 
+$Language = $ini->read_var( "eZBulkMailMain", "Language" );
+$TemplateDir = $ini->read_var( "eZBulkMailMain", "TemplateDir" );
 
 if ( $ini->read_var( "eZBulkMailMain", "UseEZUser" ) == "enabled" )
 {
@@ -53,18 +53,33 @@ else
         eZHTTPTool::header( "Location: /bulkmail/login" );
         exit();
     }
-    
-} 
 
-
+}
 
 if( isset ( $Ok ) )
 {
     $subscriptionaddress->unsubscribe( true );
-    
-    foreach( $CategoryArrayID as $categoryID )
+
+    if ( count ( $Multimedia ) > 0 )
     {
-        $subscriptionaddress->subscribe( $categoryID );
+        foreach( $Multimedia as $multi )
+        {
+            $subscriptionaddress->subscribe( $multi );
+        }
+    }
+    if ( count ( $DVD ) > 0 )
+    {
+        foreach( $DVD as $DVDItem )
+        {
+            $subscriptionaddress->subscribe( $DVDItem );
+        }
+    }
+    if ( count ( $Musikk ) > 0 )
+    {
+        foreach( $Musikk as $MusikkItem )
+        {
+            $subscriptionaddress->subscribe( $MusikkItem );
+        }
     }
 
     for( $i=0;$i<count($CategoryAll);$i++ )
@@ -81,24 +96,133 @@ $t = new eZTemplate( "ezbulkmail/user/" . $ini->read_var( "eZBulkMailMain", "Tem
                      "ezbulkmail/user/intl", $Language, "subscriptionlist.php" );
 
 $t->set_file( array(
-    "subscription_list_tpl" => "subscriptionlist.tpl"
-    ) );
+                  "subscription_list_tpl" => "subscriptionlist.tpl"
+                  ) );
 
 $t->setAllStrings();
 $t->set_var( "site_style", $SiteStyle );
 
-$t->set_block( "subscription_list_tpl", "category_tpl", "category" );
-$t->set_block( "category_tpl", "category_item_tpl", "category_item" );
+//$t->set_block( "subscription_list_tpl", "category_tpl", "category" );
+//$t->set_block( "category_tpl", "category_item_tpl", "category_item" );
 $t->set_block( "subscription_list_tpl", "no_categories_tpl", "no_categories" );
+
+$t->set_block( "subscription_list_tpl", "multimedia_tpl", "multimedia" );
+$t->set_block( "multimedia_tpl", "consoll_tpl", "consoll" );
+$t->set_block( "multimedia_tpl", "multimedia_sub_category_tpl", "multimedia_sub_category" );
+$t->set_block( "multimedia_sub_category_tpl", "button_tpl", "button" );
+
+$t->set_block( "subscription_list_tpl", "musikk_tpl", "musikk" );
+$t->set_block( "musikk_tpl", "musikk_item_tpl", "musikk_item" );
+
+$t->set_block( "subscription_list_tpl", "dvd_tpl", "dvd" );
+$t->set_block( "dvd_tpl", "dvd_item_tpl", "dvd_item" );
+
 $t->set_var( "category", "" );
 $t->set_var( "category_item", "" );
 $t->set_var( "email_value", "" );
 $t->set_var( "current_email", "" );
+$t->set_var( "no_categories", "" );
 
 // List all the avaliable categories if there is a valid current address
 $haystack = $subscriptionaddress->subscriptions( false );
-        
-$categories = eZBulkMailCategory::getAll( false );
+
+if ( !$CategoryID )
+    $CategoryID = 0;
+
+$catArray = eZBulkMailCategory::getByParent(0 );
+foreach( $catArray as $cat )
+{
+    // Multimedia
+    if ( $cat->id() == 39 )
+    {
+        $multimedia = eZBulkMailCategory::getByParent( 39 );
+        $printed = true;
+
+        for( $i=0; $i < count ( $multimedia ); $i++ )
+        {
+            $tmpArray = eZBulkMailCategory::getByParent( $multimedia[$i]->id() );
+            $j = 0;
+            foreach( $tmpArray as $tmp )
+            {
+                $categoryNames[$i][$j] = array( "Name" => $tmp->name(),
+                                            "ID" => $tmp->id(),
+                                            "ParentID" => $multimedia[$i]->id() );
+                $j++;
+            }
+            $t->set_var( "consoll_name", $multimedia[$i]->name() );
+            $t->parse( "consoll", "consoll_tpl", true );
+        }
+
+        for( $j=0; $j < count ( $categoryNames[0] ); $j++ )
+        {
+            $i=0;
+            $printed = true;
+            $t->set_var( "button", "" );
+            foreach( $multimedia as $consoll )
+            {
+                if ( $categoryNames[$i][$j]["ParentID"] == $consoll->id() )
+                {
+                    if( isset ( $haystack ) && in_array ( $categoryNames[$i][$j]["ID"], $haystack ) )
+                        $t->set_var( "is_checked", "checked" );
+                    else
+                        $t->set_var( "is_checked", "" );
+
+                    $t->set_var( "button_id", $categoryNames[$i][$j]["ID"] );
+                    $t->parse( "button", "button_tpl", true );
+                }
+                $i++;
+            }
+            $t->set_var( "multimedia_sub_category_name", $categoryNames[0][$j]["Name"] );
+            if ( $printed )
+                $t->parse( "multimedia_sub_category", "multimedia_sub_category_tpl", true );
+            $printed = false;
+        }
+        $t->parse( "multimedia", "multimedia_tpl" );
+    }
+
+    // CD
+    if ( $cat->id() == 19 )
+    {
+        $musikkArray = eZBulkMailCategory::getByParent( 19 );
+
+        foreach( $musikkArray as $cd )
+        {
+            if( isset ( $haystack ) && in_array ( $cd->id(), $haystack ) )
+                $t->set_var( "is_checked", "checked" );
+            else
+                $t->set_var( "is_checked", "" );
+
+            $t->set_var( "musikk_name", $cd->name() );
+            $t->set_var( "musikk_id", $cd->id() );
+            $t->parse( "musikk_item", "musikk_item_tpl", true );
+        }
+        $t->parse( "musikk", "musikk_tpl" );
+    }
+
+    // DVD
+    if ( $cat->id() == 19 )
+    {
+        $DVDArray = eZBulkMailCategory::getByParent( 7 );
+
+        foreach( $DVDArray as $dvd )
+        {
+            if( isset ( $haystack ) && in_array ( $dvd->id(), $haystack ) )
+                $t->set_var( "is_checked", "checked" );
+            else
+                $t->set_var( "is_checked", "" );
+
+            $t->set_var( "dvd_name", $dvd->name() );
+            $t->set_var( "dvd_id", $dvd->id() );
+            $t->parse( "dvd_item", "dvd_item_tpl", true );
+        }
+        $t->parse( "dvd", "dvd_tpl" );
+    }
+}
+
+
+
+/*
+$categories = eZBulkMailCategory::getByParent( $CategoryID );
 foreach ( $categories as $categoryitem )
 {
     $t->set_var( "category_name", $categoryitem->name() );
@@ -131,7 +255,7 @@ foreach ( $categories as $categoryitem )
     }
     else
         $t->set_var( "delay_0", "selected" );
- 
+
 
     $t->parse( "category_item", "category_item_tpl", true );
     $i++;
@@ -144,7 +268,8 @@ if ( $i > 0 )
 else
 {
     $t->parse( "no_categories", "no_categories_tpl" );
-} 
+}
+*/
 
 $t->pparse( "output", "subscription_list_tpl" );
 ?>

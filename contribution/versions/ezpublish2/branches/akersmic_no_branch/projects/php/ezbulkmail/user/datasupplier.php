@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: datasupplier.php,v 1.14 2001/10/14 18:10:26 fh Exp $
+// $Id: datasupplier.php,v 1.14.8.1 2002/01/30 17:02:14 ce Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -47,6 +47,7 @@ switch ( $url_array[2] )
         $New = "new";
     case "login" :
     {
+        $CategoryID = $url_array[3];
         if ( $ini->read_var( "eZBulkMailMain", "UseEZUser" ) == "enabled" )
         {
             $user =& eZUser::currentUser();
@@ -85,7 +86,7 @@ switch ( $url_array[2] )
         include( "ezbulkmail/user/singlelist.php" );
     }
     break;
-    
+
     case "singlelistunsubscribe" :
     {
         $UnSubscribe = "yes";
