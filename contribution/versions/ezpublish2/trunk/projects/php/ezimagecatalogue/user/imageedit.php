@@ -1,6 +1,6 @@
 <?php
-// 
-// $Id: imageedit.php,v 1.38 2001/07/20 11:06:38 jakobn Exp $
+//
+// $Id: imageedit.php,v 1.39 2001/08/24 11:47:01 chrism Exp $
 //
 // Created on: <09-Jan-2001 10:45:44 ce>
 //
@@ -62,7 +62,7 @@ if ( isSet( $DeleteCategories ) )
 {
     $Action = "DeleteCategories";
 }
-    
+
 include_once( "classes/INIFile.php" );
 include_once( "classes/eztemplate.php" );
 include_once( "classes/ezlog.php" );
@@ -166,10 +166,10 @@ if ( $Action == "Insert" || $Action == "Update" )
             $t->parse( "error_write_everybody_permission", "error_write_everybody_permission_tpl" );
             $error = true;
         }
-        
+
     }
 
-    
+
     if ( $fileCheck )
     {
         $file = new eZImageFile();
@@ -251,24 +251,24 @@ if ( $Action == "Insert" && $error == false )
                 $group = -1;
             else
                 $group = new eZUserGroup( $Write );
-            
+
             eZObjectPermission::setPermission( $group, $image->id(), "imagecatalogue_image", "w" );
         }
     }
 
     $category = new eZImageCategory( $CategoryID );
-    
+
     $image->setCategoryDefinition( $category );
 
     $categories = array_unique( array_merge( $CategoryArray, $CategoryID ) );
-    
+
     foreach ( $categories as $categoryItem )
     {
         eZImageCategory::addImage( $image, $categoryItem );
     }
     eZLog::writeNotice( "Picture added to catalogue: $image->name() from IP: $REMOTE_ADDR" );
 
-    
+
     eZHTTPTool::header( "Location: /imagecatalogue/image/list/" . $CategoryID . "/" );
     exit();
 }
@@ -280,9 +280,9 @@ if ( $Action == "Update" && $error == false )
     $image->setName( $Name );
     $image->setPhotographer( $PhotoID );
     $image->setCaption( $Caption );
-    
+
     $image->setDescription( $Description );
-    
+
     eZObjectPermission::removePermissions( $ImageID, "imagecatalogue_image", 'r' );
     if ( count ( $ReadGroupArrayID ) > 0 )
     {
@@ -292,11 +292,11 @@ if ( $Action == "Update" && $error == false )
                 $group = -1;
             else
                 $group = new eZUserGroup( $Read );
-            
+
             eZObjectPermission::setPermission( $group, $image->id(), "imagecatalogue_image", "r" );
         }
     }
-    
+
     eZObjectPermission::removePermissions( $ImageID, "imagecatalogue_image", 'w' );
     if ( count ( $WriteGroupArrayID ) > 0 )
     {
@@ -306,7 +306,7 @@ if ( $Action == "Update" && $error == false )
                 $group = -1;
             else
                 $group = new eZUserGroup( $Write );
-            
+
             eZObjectPermission::setPermission( $group, $image->id(), "imagecatalogue_image", "w" );
         }
     }
@@ -314,7 +314,7 @@ if ( $Action == "Update" && $error == false )
     $categoryArray = $image->categories();
     // Calculate new and unused categories
     $old_maincategory = $image->categoryDefinition();
-    
+
     if ( $old_maincategory > -1 )
         $old_categories =& array_unique( array_merge( $old_maincategory->id(),
                                                       $image->categories( false ) ) );
@@ -339,7 +339,7 @@ if ( $Action == "Update" && $error == false )
     {
         $image->setImage( $file );
     }
-    
+
     $image->store();
 
     include_once( "classes/ezhttptool.php" );
@@ -380,7 +380,7 @@ if( $Action == "DeleteCategories" )
 
     include_once( "classes/ezhttptool.php" );
     eZHTTPTool::header( "Location: /imagecatalogue/image/list/" . $CurrentCategoryID . "/" );
-    exit();    
+    exit();
 }
 
 // Set the default values to null
@@ -391,7 +391,7 @@ if ( $Action == "New" || $error )
     $t->set_var( "image_id", "" );
 
 // author select
-    
+
     $author = new eZAuthor();
     $authorArray = $author->getAll();
     foreach ( $authorArray as $author )
@@ -400,27 +400,27 @@ if ( $Action == "New" || $error )
         $t->set_var( "photo_name", $author->name() );
         $t->parse( "photographer_item", "photographer_item_tpl", true );
     }
-    
+
 }
 
 // Sets the values to the current image
 if ( $Action == "Edit" )
 {
     $image = new eZImage( $ImageID );
-    
+
     $t->set_var( "image_id", $image->id() );
     $t->set_var( "name_value", $image->name() );
     $t->set_var( "caption_value", $image->caption() );
     $t->set_var( "image_description", $image->description() );
     $t->set_var( "action_value", "update" );
-    
+
     $t->set_var( "image_alt", $image->caption() );
-    
+
     $photographer = $image->photographer();
     $PhotographerID = $photographer->id();
-    
+
 // author select
-    
+
     $author = new eZAuthor();
     $authorArray = $author->getAll();
     foreach ( $authorArray as $author )
@@ -437,17 +437,17 @@ if ( $Action == "Edit" )
         $t->set_var( "photo_name", $author->name() );
         $t->parse( "photographer_item", "photographer_item_tpl", true );
     }
-    
+
     $variation = $image->requestImageVariation( 150, 150 );
-    
+
     $t->set_var( "image_src", "/" .$variation->imagePath() );
     $t->set_var( "image_width", $variation->width() );
     $t->set_var( "image_height", $variation->height() );
     $t->set_var( "image_file_name", $image->originalFileName() );
     $t->parse( "image", "image_tpl" );
-    
+
     $objectPermission = new eZObjectPermission();
-    
+
     $readGroupArrayID =& $objectPermission->getGroups( $image->id(), "imagecatalogue_image", "r", false );
     $writeGroupArrayID =& $objectPermission->getGroups( $image->id(), "imagecatalogue_image", "w", false );
 }
@@ -472,7 +472,7 @@ foreach ( $treeArray as $catItem )
         if ( $Action == "Edit" )
         {
             $defCat = $image->categoryDefinition();
-        
+
             if ( get_class( $defCat ) == "ezimagecategory" )
             {
                 if ( $image->existsInCategory( $catItem[0] ) &&
@@ -489,7 +489,7 @@ foreach ( $treeArray as $catItem )
             {
                 $t->set_var( "multiple_selected", "" );
             }
-            
+
             if ( get_class( $defCat ) == "ezimagecategory" )
             {
                 if ( $defCat->id() == $catItem[0]->id() )
@@ -512,20 +512,20 @@ foreach ( $treeArray as $catItem )
                 $t->set_var( "selected", "selected" );
             else
                 $t->set_var( "selected", "" );
-            
+
             $t->set_var( "multiple_selected", "" );
         }
-        
-    
+
+
         $t->set_var( "option_value", $catItem[0]->id() );
         $t->set_var( "option_name", $catItem[0]->name() );
-        
+
         if ( $catItem[1] > 0 )
             $t->set_var( "option_level", str_repeat( "&nbsp;", $catItem[1] ) );
         else
             $t->set_var( "option_level", "" );
-        
-        
+
+
         $t->parse( "value", "value_tpl", true );
         $t->parse( "multiple_value", "multiple_value_tpl", true );
     }
@@ -564,7 +564,7 @@ foreach ( $groups as $group )
 
     if ( $Action = "new" )
         $t->set_var( "read_everybody", "selected" );
-    $t->parse( "read_group_item", "read_group_item_tpl", true );
+        $t->parse( "read_group_item", "read_group_item_tpl", true );
 
     if ( $writeGroupArrayID )
     {
@@ -580,11 +580,15 @@ foreach ( $groups as $group )
             }
             else
             {
-                $t->set_var( "is_write_selected", "" );
+                $t->set_var( "is_write_selected", "selected" );
             }
         }
     }
-    
+    else
+    {
+               $t->set_var( "write_everybody", "selected" );
+    }
+
     $t->parse( "write_group_item", "write_group_item_tpl", true );
 }
 
