@@ -17,6 +17,21 @@ switch ( $url_array[2] )
         include_once( "ezbulkmail/admin/categoryedit.php" );
     }
     break;
+
+    case "templatelist" :
+    {
+        include_once( "ezbulkmail/admin/templatelist.php" );
+    }
+    break;
+
+    case "templateedit" :
+    {
+        $TemplateID = $url_array[3];
+        if( !is_numeric( $TemplateID ) )
+            $TemplateIDID = 0;
+        include_once( "ezbulkmail/admin/templateedit.php" );
+    }
+    break;
     
     default:
     {

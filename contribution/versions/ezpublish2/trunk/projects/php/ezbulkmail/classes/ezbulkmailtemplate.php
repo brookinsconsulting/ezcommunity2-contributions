@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezbulkmailtemplate.php,v 1.1 2001/04/17 12:30:12 fh Exp $
+// $Id: ezbulkmailtemplate.php,v 1.2 2001/04/18 14:39:52 fh Exp $
 //
 // eZBulkMailTemplate class
 //
@@ -87,17 +87,14 @@ class eZBulkMailTemplate
       Deletes a eZBulkMail object from the database.
 
     */
-    function delete()
+    function delete( $id = -1)
     {
-        $this->dbInit();
+        $db = eZDB::globalDatabase();
 
-        if ( isset( $this->ID ) )
-        {
-            // delete actual group entry
-            $this->Database->query( "DELETE FROM eZBulkMail_Template WHERE ID='$this->ID'" );            
-        }
-        
-        return true;
+        if( $id == -1 )
+            $id = $this->ID;
+
+        $db->query( "DELETE FROM eZBulkMail_Template WHERE ID='$this->ID'" );            
     }
     
     /*!
@@ -130,6 +127,28 @@ class eZBulkMailTemplate
         }
     }
 
+    /*!
+      Returns all the templates found in the database.
+
+      The categories are returned as an array of eZBulkMailTemplate objects.
+    */
+    function getAll()
+    {
+        $db = eZDB::globaldatabase();
+        $return_array = array();
+        $template_array = array();
+        
+        $db->array_query( $template_array, "SELECT ID FROM eZBulkMail_Template ORDER BY Name" );
+        
+        for ( $i=0; $i<count($template_array); $i++ )
+        {
+            $return_array[$i] = new eZBulkMailTemplate( $template_array[$i]["ID"] );
+        }
+        
+        return $return_array;
+    }
+
+    
     /*!
       Returns the header
      */

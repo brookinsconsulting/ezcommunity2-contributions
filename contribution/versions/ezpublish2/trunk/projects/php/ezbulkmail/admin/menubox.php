@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: menubox.php,v 1.1 2001/04/17 14:20:50 fh Exp $
+// $Id: menubox.php,v 1.2 2001/04/18 14:39:52 fh Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <25-Nov-2000 17:53:52 bf>
@@ -28,7 +28,7 @@
 $menuItems = array(
     array( "/bulkmail/categorylist/", "{intl-category_list}" ),
     array( "/bulkmail/new/", "{intl-new_mail}" ),
-    array( "/bulkmail/templates/", "{intl-templates}" ),
+    array( "/bulkmail/templatelist/", "{intl-templates}" ),
     array( "/bulkmail/newtemplate/", "{intl-new_template}" ),
     );
 
