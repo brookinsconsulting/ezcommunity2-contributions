@@ -137,7 +137,7 @@ http://<input type="text" size="36" name="ExternalLink" value="{external_link}"/
 	<br /><br />
 	</td>
         <!-- END price_range_tpl -->
-
+$
         <!-- BEGIN normal_price_tpl -->
 	<td valign="top">
 	<p class="boxtext">{intl-price}:</p>

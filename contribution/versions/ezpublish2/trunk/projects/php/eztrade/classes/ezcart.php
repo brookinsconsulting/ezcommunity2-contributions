@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezcart.php,v 1.30 2001/09/17 09:27:50 pkej Exp $
+// $Id: ezcart.php,v 1.31 2001/09/21 09:53:02 ce Exp $
 //
 // Definition of eZCart class
 //
@@ -299,20 +299,37 @@ class eZCart
     /*
         This function calculates the totals of the cart contents.
      */
-    function cartTotals( &$tax, &$total )
+    function cartTotals( &$tax, &$total, $voucher=false )
     {
-        $items = $this->items( );
-        
         $tax = "";
         $total = "";
-        
-        foreach( $items as $item )
+
+        if ( !$voucher )
         {
-            $product =& $item->product();
+            $items = $this->items( );
+            foreach( $items as $item )
+            {
+                $product =& $item->product();
+                $vatPercentage = $product->vatPercentage();
+                
+                $exTax = $item->correctPrice( true, true, false );
+                $incTax = $item->correctPrice( true, true, true );
+                
+                $totalExTax += $exTax;
+                $totalIncTax += $incTax;
+                
+                $tax["$vatPercentage"]["basis"] += $exTax;
+                $tax["$vatPercentage"]["tax"] += $incTax - $exTax;
+                $tax["$vatPercentage"]["percentage"] = $vatPercentage;
+            }
+        }
+        else if ( get_class ( $voucher ) == "ezvoucher" )
+        {
+            $product =& $voucher->product();
             $vatPercentage = $product->vatPercentage();
-            
-            $exTax = $item->correctPrice( true, true, false );
-            $incTax = $item->correctPrice( true, true, true );
+
+            $exTax = $voucher->correctPrice( false );
+            $incTax = $voucher->correctPrice( true );
 
             $totalExTax += $exTax;
             $totalIncTax += $incTax;
@@ -325,12 +342,15 @@ class eZCart
         $total["subinctax"] = $totalIncTax;
         $total["subextax"] = $totalExTax;
         $total["subtax"] = $totalIncTax - $totalExTax;
-        
-        $type = new eZShippingType( );
-        $shippingType =& $type->defaultType();
-        $shippingCost = $this->shippingCost( $shippingType );
-        $shippingVAT = $this->shippingVAT( $shippingType );
-        $shippingVATPercentage = $this->extractShippingVATPercentage( $shippingType );
+
+        if ( !$voucher )
+        {
+            $type = new eZShippingType( );
+            $shippingType =& $type->defaultType();
+            $shippingCost = $this->shippingCost( $shippingType );
+            $shippingVAT = $this->shippingVAT( $shippingType );
+            $shippingVATPercentage = $this->extractShippingVATPercentage( $shippingType );
+        }
 
         $tax["$shippingVATPercentage"]["basis"] += $shippingCost - $shippingVAT;
         $tax["$shippingVATPercentage"]["tax"] += $shippingVAT;
@@ -344,8 +364,6 @@ class eZCart
         $total["extax"] = $total["subextax"] + $total["shipextax"];
         $total["tax"] = $total["subtax"] + $total["shiptax"];
     }
-
-
 
     /*!
       Calculates the shipping cost with the given
@@ -366,7 +384,7 @@ class eZCart
            if ( $shippingGroup )
            {
                $values =& $shippingGroup->startAddValue( $shippingType );
-
+               
                $shipid = $shippingGroup->id();
                $count = $item->count() + $ShippingCostValues[$shipid]["Count"];
                $ShippingCostValues[$shipid]["Count"] = $count;

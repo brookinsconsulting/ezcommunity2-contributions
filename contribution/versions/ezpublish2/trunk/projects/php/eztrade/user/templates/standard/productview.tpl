@@ -279,7 +279,7 @@
 	{intl-email}: <input type="radio" value="1" name="MailMethod" />&nbsp;
 	{intl-smail}: <input type="radio" value="2" name="MailMethod" />
 	</td>
-	<!-- BEGIN mail_method -->
+	<!-- END mail_method_tpl -->
 </tr>
 </table>
 <br />

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: voucherinformation.php,v 1.6 2001/09/19 12:58:01 ce Exp $
+// $Id: voucherinformation.php,v 1.7 2001/09/21 09:53:02 ce Exp $
 //
 // Created on: <06-Aug-2001 13:02:18 ce>
 //
@@ -32,6 +32,7 @@ include_once( "classes/ezhttptool.php" );
 $ini =& INIFile::globalINI();
 
 $Language = $ini->read_var( "eZTradeMain", "Language" );
+$locale = new eZLocale( $Language );
 
 include_once( "ezuser/classes/ezuser.php" );
 include_once( "ezuser/classes/ezuser.php" );
@@ -39,6 +40,7 @@ include_once( "ezuser/classes/ezuser.php" );
 include_once( "eztrade/classes/ezproduct.php" );
 include_once( "eztrade/classes/ezvoucherinformation.php" );
 include_once( "eztrade/classes/ezproduct.php" );
+include_once( "eztrade/classes/ezproductpricerange.php" );
 include_once( "ezsession/classes/ezsession.php" );
 
 $t = new eZTemplate( "eztrade/user/" . $ini->read_var( "eZTradeMain", "TemplateDir" ),
@@ -50,6 +52,8 @@ $t->set_file( "voucher_tpl", "voucherinformation.tpl" );
 
 $t->set_block( "voucher_tpl", "email_tpl", "email" );
 $t->set_block( "voucher_tpl", "smail_tpl", "smail" );
+
+setType( $PriceRange, "integer" );
 
 $t->set_var( "email_var", "" );
 $t->set_var( "smail_var", "" );
@@ -89,15 +93,23 @@ if ( $product && isSet( $OK ) )
         $address->store();
         $voucherInfo->setAddress( $address );
     }
+
+    $voucherInfo->setMailMethod( $MailMethod );
     
     $voucherInfo->setDescription( $Description );
-    $voucherInfo->setPrice( $PriceRange );
+
+    if ( $PriceRange == 0 )
+    {
+        $priceRange =& $product->priceRange();
+        $voucherInfo->setPrice( $priceRange->min() );
+    }
+    else
+        $voucherInfo->setPrice( $PriceRange );
 
     $voucherInfo->store();
 
     $voucherInformationID = $voucherInfo->id();
 
-    $session->setVariable( "MailMethod", $MailMethod );
     $session->setVariable( "VoucherInformationID", $voucherInformationID );
 
     if ( isSet ( $OK ) && $voucherInformationID )
@@ -122,7 +134,22 @@ else if ( $product )
     $t->set_var( "mail_method", $MailMethod );
     $t->set_var( "product_name", $product->name() );
     $t->set_var( "product_id", $product->id() );
-    $t->set_var( "product_price", $PriceRange );
+
+    $currency = new eZCurrency();
+    
+    if ( $PriceRange == 0 )
+    {
+        $priceRange =& $product->priceRange();
+        $currency->setValue( $priceRange->min() );
+        $t->set_var( "product_price", $locale->format( $currency ) );
+        $t->set_var( "price_range", $priceRange->min() );
+    }
+    else
+    {
+        $currency->setValue( $PriceRange );
+        $t->set_var( "price_range", $PriceRange );
+        $t->set_var( "product_price", $locale->format( $currency ) );
+    }
 }
 
 

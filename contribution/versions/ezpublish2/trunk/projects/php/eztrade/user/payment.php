@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: payment.php,v 1.73 2001/09/19 12:58:01 ce Exp $
+// $Id: payment.php,v 1.74 2001/09/21 09:53:02 ce Exp $
 //
 // Created on: <02-Feb-2001 16:31:53 bf>
 //
@@ -892,6 +892,7 @@ if ( $PaymentSuccess == "true" )
             $voucherInfo->setVoucher( $voucher );
             $voucherInfo->store();
             $voucherInfo->sendMail();
+
         }
     }
     
@@ -901,7 +902,7 @@ if ( $PaymentSuccess == "true" )
         include( "checkout/user/postpayment.php" );
     }
     
-//    $cart->clear();
+    $cart->clear();
 
     $OrderID = $order->id();
 
@@ -930,10 +931,11 @@ if ( $PaymentSuccess == "true" )
             
         }
         $session->setVariable( "PayedWith", "" );
+        $session->setVariable( "PayWithVoucher", "" );
     }
     
     $cart->delete();
-    
+
     // call the payment script after the payment is successful.
     // some systems needs this, e.g. to print out the OrderID which was cleared..
     $Action = "PostPayment";
@@ -943,8 +945,6 @@ if ( $PaymentSuccess == "true" )
 
     $session->setVariable( "SSLMode", "" );
 
-
-    exit();
     eZHTTPTool::header( "Location: http://$HTTP_HOST/trade/ordersendt/$OrderID/" );
     exit();
 }

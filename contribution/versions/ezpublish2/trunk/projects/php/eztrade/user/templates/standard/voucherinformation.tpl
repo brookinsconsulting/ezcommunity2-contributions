@@ -79,7 +79,7 @@
 
 <input type="hidden" name="MailMethod" value="{mail_method}" />
 <input type="hidden" name="ProductID" value="{product_id}" />
-<input type="hidden" name="PriceRange" value="{product_price}" />
+<input type="hidden" name="PriceRange" value="{price_range}" />
 
 <input type="submit" name="OK" value="{intl-ok}" />&nbsp;
 

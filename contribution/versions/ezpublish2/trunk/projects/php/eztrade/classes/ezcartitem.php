@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezcartitem.php,v 1.25 2001/09/19 12:58:01 ce Exp $
+// $Id: ezcartitem.php,v 1.26 2001/09/21 09:53:02 ce Exp $
 //
 // Definition of eZCartItem class
 //
@@ -84,7 +84,7 @@ class eZCartItem
         {
             $db->lock( "eZTrade_CartItem" );
             $nextID = $db->nextID( "eZTrade_CartItem", "ID" );            
-            
+
             $res = $db->query( "INSERT INTO eZTrade_CartItem
                       ( ID, ProductID, CartID, Count, WishListItemID, VoucherInformationID )
                       VALUES
@@ -95,7 +95,6 @@ class eZCartItem
                         '$this->WishListItemID',
                         '$this->VoucherInformationID' )
                       " );
-
             $db->unlock();
             
 			$this->ID = $nextID;
@@ -251,7 +250,7 @@ class eZCartItem
             foreach ( $optionValues as $optionValue )
             {
                 $option =& $optionValue->option();
-                $value =& $optionValue->optionValue();            
+                $value =& $optionValue->optionValue();
                     
                 $price = $value->correctPrice( $calcVAT, $product );
                         
@@ -376,19 +375,18 @@ class eZCartItem
     }
 
     /*!
-      Sets the mailmethod of products.
+      Sets the voucherinformation.
     */
-    function setMailMethod( $value )
+    function setVoucherInformation( $value )
     {
-       $this->MailMethod = $value;
-    }
-
-    /*!
-      Sets the mail.
-    */
-    function setMail( $value )
-    {
-       $this->MailID = $value;
+        if ( get_class ( $value ) == "ezvoucherinformation" )
+        {
+            $this->VoucherInformationID = $value->id();
+        }
+        else if ( is_numeric ( $value ) )
+        {
+            $this->VoucherInformationID = $value;
+        }
     }
 
     /*!
@@ -420,17 +418,6 @@ class eZCartItem
     }
 
     /*!
-      Sets the wishlist item.
-    */
-    function setVoucherInformation( $value )
-    {
-       if ( get_class( $value ) == "ezvoucherinformation" )
-           $this->InformationID = $value->id();
-       else if ( is_numeric ( $value ) )
-           $this->InformationID = $value;
-    }
-
-    /*!
       Returns the wishlist item as a eZWishListItem object. 0 if the 
     */
     function &wishListItem()
@@ -451,7 +438,7 @@ class eZCartItem
     function &voucherInformation()
     {
        $ret = false;
-       
+
        if ( ( $this->VoucherInformationID != 0 ) && is_numeric( $this->VoucherInformationID ) )
        {
            $ret = new eZVoucherInformation( $this->VoucherInformationID );

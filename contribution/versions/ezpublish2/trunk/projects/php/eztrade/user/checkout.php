@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: checkout.php,v 1.92 2001/09/19 12:58:01 ce Exp $
+// $Id: checkout.php,v 1.93 2001/09/21 09:53:02 ce Exp $
 //
 // Created on: <28-Sep-2000 15:52:08 bf>
 //
@@ -130,8 +130,7 @@ $t->set_block( "full_cart_tpl", "shipping_inc_tax_item_tpl", "shipping_inc_tax_i
 
 $t->set_block( "full_cart_tpl", "vouchers_tpl", "vouchers_tpl" );
 $t->set_block( "vouchers_tpl", "voucher_item_tpl", "voucher_item" );
-$t->set_block( "voucher_item_tpl", "voucher_ex_tax_item_tpl", "shipping_ex_tax_item" );
-$t->set_block( "voucher_item_tpl", "voucher_inc_tax_item_tpl", "shipping_inc_tax_item" );
+$t->set_block( "checkout_page_tpl", "remove_voucher_tpl", "remove_voucher" );
 
 $t->set_block( "full_cart_tpl", "total_ex_tax_item_tpl", "total_ex_tax_item" );
 $t->set_block( "full_cart_tpl", "total_inc_tax_item_tpl", "total_inc_tax_item" );
@@ -151,14 +150,29 @@ $t->set_block( "checkout_page_tpl", "sendorder_item_tpl", "sendorder_item" );
 $t->set_block( "checkout_page_tpl", "show_payment_tpl", "show_payment" );
 $t->set_block( "show_payment_tpl", "payment_method_tpl", "payment_method" );
 
-$t->set_block( "checkout_page_tpl", "remove_voucher_tpl", "remove_voucher" );
 
-$t->set_block( "cart_item_list_tpl", "vouchers_tpl", "vouchers" );
 
 $t->set_var( "show_payment", "" );
 $t->set_var( "price_ex_vat", "" );
 $t->set_var( "price_inc_vat", "" );
 $t->set_var( "cart_item", "" );
+
+if ( isSet ( $RemoveVoucher ) )
+{
+    if ( count ( $RemoveVoucherArray ) > 0 )
+    {
+        $newArray = array();
+        $payWithVoucher = $session->arrayValue( "PayWithVoucher" );
+
+        while( list($key,$voucherID) = each( $payWithVoucher ) )
+        {
+            if ( !in_array ( $voucherID, $RemoveVoucherArray ) )
+                 $newArray[$voucherID] = $price;
+        }
+
+        $session->setVariable( "PayWithVoucher", "" );
+    }
+}
 
 if ( isSet( $SendOrder ) ) 
 {
@@ -364,15 +378,81 @@ $t->setAllStrings();
 
 turnColumnsOnOff( "header" );
 
+$locale = new eZLocale( $Language );
+$currency = new eZCurrency();
+
 if ( $ShowCart == true )
 {
-    
-    $cart->cartTotals( $tax, $total );
+    // Vouchers
 
-    $locale = new eZLocale( $Language );
-    $currency = new eZCurrency();
+    $cart->cartTotals( $tax, $total );
     
     $t->set_var( "empty_cart", "" );
+    $t->set_var( "voucher_item", "" );
+
+    $vouchers = $session->arrayValue( "PayWithVoucher" );
+    if ( count ( $vouchers ) > 0 )
+    {
+        $t->set_var( "vouchers", "" );
+        $t->set_var( "voucher_item", "" );
+        $i=1;
+        $continue = true;
+
+        foreach( $vouchers as $voucherID )
+        {
+            if ( $continue )
+            {
+                $voucher = new eZVoucher( $voucherID );
+            
+                $voucherID = $voucher->id();
+
+                $voucherPrice = $voucher->price();
+
+                $cart->cartTotals( $tax, $voucherPrice, $voucher );
+
+                if ( $voucherPrice["inctax"] > $total["inctax"] )
+                {
+                    $subtractIncVAT["inctax"] = $total["inctax"];
+                    $currency->setValue( $total["inctax"] );
+                    $t->set_var( "voucher_price_inc_vat", $locale->format( $currency ) );
+
+                    $subtractExTax["extax"] = $total["extax"];
+                    $currency->setValue( $total["extax"] );
+                    $t->set_var( "voucher_price_ex_vat", $locale->format( $currency ) );
+                    $continue = false;
+                }
+                else
+                {
+                    $subtractIncVAT["inctax"] = $voucherPrice["inctax"];
+                    $currency->setValue( $voucherPrice["inctax"] );
+                    $t->set_var( "voucher_price_inc_vat", $locale->format( $currency ) );
+
+                    $subtractExTax["extax"] = $voucherPrice["extax"];
+                    $currency->setValue( $voucherPrice["extax"] );
+                    $t->set_var( "voucher_price_ex_vat", $locale->format( $currency ) );
+                }
+                
+                $voucherSession[$voucherID] = $subtractIncVAT["inctax"];
+                $t->set_var( "number", $i );
+                
+                $t->parse( "voucher_item", "voucher_item_tpl", true );
+
+                $total["extax"] -= $subtractExTax["extax"];
+                $total["inctax"] -= $subtractIncVAT["inctax"];
+                
+                $i++;
+            }
+        }
+        $t->parse( "remove_voucher", "remove_voucher_tpl" );
+    }
+    else
+        $t->set_var( "remove_voucher", "" );
+    
+    if ( is_array ( $voucherSession ) )
+    {
+        $t->parse( "vouchers", "vouchers_tpl" );
+        $session->setArray( "PayedWith", $voucherSession );
+    }
 
     $currency->setValue( $total["subinctax"] );
     $t->set_var( "subtotal_inc_tax", $locale->format( $currency ) );
@@ -570,7 +650,7 @@ else
 
 // show the checkout types
 
-if ( $total["subextax"] )
+if ( $total["inctax"] )
 {
     $checkout = new eZCheckout();
     
@@ -593,55 +673,10 @@ else
 }
 $t->set_var( "sendorder_item", "" );
 
-
-
-// Vouchers
-$vouchers = $session->arrayValue( "PayWithVoucher" );
-
-$i=1;
-$t->set_var( "vouchers", "" );
-$t->set_var( "voucher_item", "" );
-foreach( $vouchers as $voucher )
-{
-    $t->set_var( "voucher_ex_tax_item", "" );
-    $t->set_var( "voucher_inc_tax_item", "" );
-    $voucher = new eZVoucher( $voucher );
-    $voucherPrice = $voucher->price();
-    $voucherID = $voucher->id();
-    if ( $voucherPrice > $total["inctax"] )
-    {
-        $voucherPrice = $total["inctax"];
-        $currency->setValue( $voucherPrice );
-        $t->set_var( "voucher_price", $locale->format( $currency ) );
-    }
-    else
-    {
-        $currency->setValue( $voucherPrice );
-        $t->set_var( "voucher_price", $locale->format( $currency ) );
-    }
-    
-    $totalVoucher[] = $voucherPrice;
-    $voucherSession[$voucherID] = $voucherPrice;
-    $t->set_var( "number", $i );
-    $t->parse( "voucher_inc_tax_item", "voucher_inc_tax_item_tpl" );
-    $t->parse( "voucher_item", "voucher_item_tpl", true );
-    $i++;
-}
-
-if ( is_array ( $totalVoucher ) )
-{
-    $t->parse( "vouchers", "vouchers_tpl" );
-    $session->setArray( "PayedWith", $voucherSession );
-    $totalVoucher = array_sum ( $totalVoucher );
-}
-
-if ( count ( $vouchers ) > 0 )
-    $t->parse( "remove_voucher", "remove_voucher_tpl" );
-else
-    $t->set_var( "remove_voucher", "" );
-
 // Print the total sum.
-$total["inctax"] -= $totalVoucher;
+
+$total["inctax"] = $total["inctax"] - $totalVoucher["inctax"];
+
 $currency->setValue( $total["inctax"] );
 $t->set_var( "cart_sum", $locale->format( $currency ) );
 $t->set_var( "cart_colspan", 1 + $i );

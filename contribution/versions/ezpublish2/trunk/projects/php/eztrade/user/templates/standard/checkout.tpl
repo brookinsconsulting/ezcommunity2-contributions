@@ -158,29 +158,22 @@
 </tr>
 
 <!-- BEGIN vouchers_tpl --> 
-<tr>
         <!-- BEGIN voucher_item_tpl -->
+        <tr>
 	<td>&nbsp;</td>
 	<td colspan="{subtotals_span_size}" align="right"><span class="boxtext">{intl-voucher} {number}:</span></td>
 
-	<!-- BEGIN voucher_ex_tax_item_tpl -->
 	<td align="right">
-	<nobr>- {voucher_price}</nobr>
+	<nobr>- {voucher_price_ex_vat}</nobr>
+	</td>
+	<td align="right">
+	<nobr>- {voucher_price_inc_vat}</nobr>
 	</td>
 	<td>
 	<input type="checkbox" name="RemoveVoucherArray[]" value="{number}" />
 	</td>
-	<!-- END voucher_ex_tax_item_tpl -->
-	<!-- BEGIN voucher_inc_tax_item_tpl -->
-	<td align="right">
-	<nobr>- {voucher_price}</nobr>
-	</td>
-	<td>
-	<input type="checkbox" name="RemoveVoucherArray[]" value="{number}" />
-	</td>
-	<!-- END voucher_inc_tax_item_tpl -->
+	</tr>
         <!-- END voucher_item_tpl -->
-</tr>
 <!-- END vouchers_tpl --> 
 
 <tr>

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: voucher.php,v 1.2 2001/09/05 08:16:01 ce Exp $
+// $Id: voucher.php,v 1.3 2001/09/21 09:53:02 ce Exp $
 //
 // Created on: <08-Feb-2001 14:11:48 ce>
 //
@@ -42,11 +42,16 @@ if ( $Action == "Verify" )
     $voucher = eZVoucher::getFromKeyNumber( $KeyNumber );
     if ( get_class ( $voucher ) == "ezvoucher" )
     {
-        $vouchers = $session->arrayValue( "PayWithVoucher" );
+        $array[] = $voucher->id();
 
-        $vocuhers[] = $voucher->id();
-        
-        $session->setArray( "PayWithVoucher", $vocuhers );
+
+        $append = $session->arrayValue( "PayWithVoucher" );
+
+
+        $array = array_merge( $array, $append );
+
+        $session->setArray( "PayWithVoucher", $array );
+        $session->arrayValue( "PayWithVoucher" );
 
         eZHTTPTool::header( "Location: /trade/checkout/" );
         exit();

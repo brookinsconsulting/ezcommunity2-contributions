@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezvoucher.php,v 1.8 2001/09/07 09:54:44 ce Exp $
+// $Id: ezvoucher.php,v 1.9 2001/09/21 09:53:02 ce Exp $
 //
 // eZVoucher class
 //
@@ -89,16 +89,15 @@ class eZVoucher
             $password = md5( $this->Password );
 
             $res = $db->query( "INSERT INTO eZTrade_Voucher
-                      ( ID, Created, Price, Available, KeyNumber, MailMethod, UserID )
+                      ( ID, Created, Price, Available, KeyNumber, UserID, ProductID )
                       VALUES
                       ( '$nextID',
                         '$timeStamp',
                         '$this->Price',
                         '$this->Available',
                         '$this->KeyNumber',
-                        '$this->MailMethod',
-                        '$this->UserID'
-
+                        '$this->UserID',
+                        '$this->ProductID'
                             )" );
 
 			$this->ID = $nextID;
@@ -109,9 +108,9 @@ class eZVoucher
                                      Created=Created,
                                      Price='$this->Price',
                                      Available='$this->Available',
-                                     MailMethod='$this->MailMethod',
                                      KeyNumber='$this->KeyNumber',
-                                     UserID='$this->UserID'
+                                     UserID='$this->UserID',
+                                     ProductID='$this->ProductID'
                                      WHERE ID='$this->ID'" );
         }
         $db->unlock();
@@ -180,8 +179,8 @@ class eZVoucher
         $this->Price =& $voucherArray[ "Price" ];
         $this->Available =& $voucherArray[ "Available" ];
         $this->KeyNumber =& $voucherArray[ "KeyNumber" ];
-        $this->MailMethod =& $voucherArray[ "MailMethod" ];
         $this->UserID =& $voucherArray[ "UserID" ];
+        $this->ProductID =& $voucherArray[ "ProductID" ];
     }
 
     /*!
@@ -281,6 +280,19 @@ class eZVoucher
     }
 
     /*!
+      Returns the product
+    */
+    function &product( $asObject=true )
+    {
+        if ( $asObject )
+            $ret = new eZProduct( $this->ProductID );
+        else
+            $ret = $this->ProductID;
+        
+        return $ret;
+    }
+
+    /*!
       Sets if the voucher is available or not.
     */
     function setAvailable( $value )
@@ -312,14 +324,6 @@ class eZVoucher
     }
 
     /*!
-      Sets the voucher mail method.
-    */
-    function setMailMethod( $value )
-    {
-       $this->MailMethod = $value;
-    }
-
-    /*!
       Sets the user of this object.
     */
     function setUser( &$user )
@@ -331,6 +335,17 @@ class eZVoucher
     }
 
     /*!
+      Sets the product of this object.
+    */
+    function setProduct( &$product )
+    {
+        if ( get_class ( $product ) == "ezproduct" )
+            $this->ProductID = $product->id();
+        elseif ( is_numeric ( $user ) )
+            $this->ProductID = $product;
+    }
+
+    /*!
       Returns the price of the voucher.
     */
     function &price( )
@@ -339,63 +354,51 @@ class eZVoucher
     }
 
     /*!
-      Returns the mail method of the voucher.
+      Returns the correct price of the voucher based on the logged in user, and the
+      VAT status and use.
     */
-    function mailMethod( )
+    function &correctPrice( $calcVAT )
     {
-        return $this->MailMethod;
-    }
-
-    /*!
-      Returns the price of the voucher.
-    */
-    function sendMail( )
-    {
-        $db =& eZDB::globalDatabase();
-        $db->query_single( $res, "SELECT MailMethod FROM eZTrade_Voucher WHERE ID='$this->ID'" );
-
-        if ( $res[$db->fieldName( "MailMethod" )] == 1 )
-            $this->sendEMail();
-        elseif ( $res[$db->fieldName( "MailMethod" )] == 2 )
-            $this->sendSMail();
+        $product =& $this->product();
         
-        return $this->Price;
-    }
-
-    /*!
-      \private
-      Mail the user.
-    */
-    function sendEMail()
-    {
-        $db =& eZDB::globalDatabase();
-        $db->query_single( $res, "SELECT * FROM eZTrade_VoucherEMail WHERE VoucherID='$this->ID'" );
-
-        $ini =& INIFile::globalINI();
-        $fromUser = $this->user();
+        $price = $this->Price;
         
-        $Language = $ini->read_var( "eZTradeMain", "Language" );
-        
-        $t = new eZTemplate( "eztrade/user/" . $ini->read_var( "eZTradeMain", "TemplateDir" ),
-                             "eztrade/user/intl/", $Language, "voucheremail.php" );
+       $vatType =& $product->vatType();
+       
+        if ( $calcVAT == true )
+        {
+            if ( $product->excludedVAT() )
+            {
+                $vatType =& $product->vatType();
+                $vat = 0;
+       
+                if ( $vatType )
+                {
+                    $vat =& $vatType->value();
+                }
+                
+                $price = ( $price * $vat / 100 ) + $price;
+            }
+        }
+        else
+        {
+            if ( $product->includesVAT() )
+            {
+                $vatType =& $product->vatType();
+                $vat = 0;
+                
+                if ( $vatType )
+                {
+                    $vat =& $vatType->value();
+                }
+                
+                $price = $price - ( $price / ( 100 + $vat ) ) * $vat;
+                
+            }
+        }
+        return $price;
+    }    
 
-        $t->setAllStrings();
-        
-        $t->set_file( "voucheremail", "voucheremail.tpl" );
-
-        $mail = new eZMail();
-
-        $t->set_var( "description", $res[$db->fieldName( "Description" )] );
-        $t->set_var( "from_name", $fromUser->firstName() . " " . $fromUser->lastName() );
-        $t->set_var( "key_number", $this->keyNumber() );
-        
-        $mailAddress = new eZOnline( $res[$db->fieldName( "OnlineID" )] );
-
-        $mail->setTo( $mailAddress->url() );
-        $mail->setBody( $t->parse( "dummy", "voucheremail" ) );
-        $mail->setFrom( $fromUser->email() );
-        $mail->send();
-    }
 
     /*!
       Get a voucher from a key number.
@@ -407,7 +410,7 @@ class eZVoucher
         if ( !$key )
             return false;
         
-        $db->query_single( $res, "SELECT ID FROM eZTrade_Voucher WHERE KeyNumber='$key'" );
+        $db->query_single( $res, "SELECT ID FROM eZTrade_Voucher WHERE KeyNumber='$key' AND Available='1'" );
 
         if ( $res["ID"] )
         {
@@ -438,56 +441,13 @@ class eZVoucher
         return $ret;
     }
 
-    /*!
-      Return the email.
-    */
-    function email( $id=false )
-    {
-        $db =& eZDB::globalDatabase();
-        $ret = array();
-
-        if ( !$id )
-            $id = $this->ID;
-        
-        $db->query_single( $res, "SELECT ID FROM eZTrade_VoucherEMail WHERE VoucherID='$id'" );
-
-        if ( $res["ID"] )
-        {
-            $ret = new eZVoucherEMail( $res["ID"] );
-        }
-
-        return $ret;
-    }
-    
-    /*!
-      Return the smail.
-    */
-    function smail( $id=false )
-    {
-        $db =& eZDB::globalDatabase();
-        $ret = array();
-
-        if ( !$id )
-            $id = $this->ID;
-        
-        $db->query_single( $res, "SELECT ID FROM eZTrade_VoucherSMail WHERE VoucherID='$id'" );
-
-        if ( $res["ID"] )
-        {
-            $ret = new eZVoucherSMail( $res["ID"] );
-        }
-
-        return $ret;
-    }
-
-
     var $ID;
     var $KeyNumber;
     var $Created;
     var $Available;
     var $Price;
     var $UserID;
-    var $MailMethod;
+    var $ProductID;
 }
 
 ?>

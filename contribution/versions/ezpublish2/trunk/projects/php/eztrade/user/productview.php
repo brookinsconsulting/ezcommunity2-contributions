@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: productview.php,v 1.65 2001/09/19 12:58:01 ce Exp $
+// $Id: productview.php,v 1.66 2001/09/21 09:53:02 ce Exp $
 //
 // Created on: <24-Sep-2000 12:20:32 bf>
 //
@@ -105,6 +105,7 @@ $t->set_block( "product_view_tpl", "product_number_item_tpl", "product_number_it
 $t->set_block( "product_view_tpl", "price_tpl", "price" );
 
 $t->set_block( "product_view_tpl", "price_range_tpl", "price_range" );
+$t->set_block( "product_view_tpl", "mail_method_tpl", "mail_method" );
 $t->set_block( "price_range_tpl", "price_range_min_unlimited_tpl", "price_range_min_unlimited" );
 $t->set_block( "price_range_tpl", "price_range_min_limited_tpl", "price_range_min_limited" );
 $t->set_block( "price_range_tpl", "price_range_max_unlimited_tpl", "price_range_max_unlimited" );
@@ -607,13 +608,18 @@ if ( ( !$RequireUserLogin or get_class( $user ) == "ezuser"  ) and
     }
 
     $t->set_var( "price_range", "" );
+    $t->set_var( "mail_method", "" );
     $t->parse( "price", "price_tpl" );
 }
 else
 {
+    $t->set_var( "price_range", "" );
+    $t->set_var( "mail_method", "" );
+
     $priceRange =& $product->priceRange();
     $currency = new eZCurrency( );
-    if ( get_class ( $priceRange ) == "ezproductpricerange" )
+
+    if ( ( get_class ( $priceRange ) == "ezproductpricerange" ) && is_numeric ( $priceRange->id() ) )
     {
         $min = $priceRange->min();
         $max = $priceRange->max();
@@ -642,6 +648,7 @@ else
             $t->parse( "price_range_max_unlimited", "price_range_max_unlimited_tpl" );
         }
 
+        $t->parse( "mail_method", "mail_method_tpl" );
         $t->parse( "price_range", "price_range_tpl" );
     }
 }
