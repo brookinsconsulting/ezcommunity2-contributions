@@ -1,7 +1,7 @@
 <?
 
 // 
-// $Id: ezcompanytype.php,v 1.26 2001/03/09 16:27:36 jb Exp $
+// $Id: ezcompanytype.php,v 1.27 2001/03/21 13:24:59 jb Exp $
 //
 // Definition of eZCompanyType class
 //
@@ -241,6 +241,8 @@ class eZCompanyType
             {
                 $LimitClause = $LimitClause . ", $LimitBy";
             }
+            else
+                $LimitClause = "$LimitClause, -1";
         }
         else
         {

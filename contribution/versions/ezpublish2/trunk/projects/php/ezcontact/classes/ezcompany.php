@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezcompany.php,v 1.66 2001/03/09 16:27:36 jb Exp $
+// $Id: ezcompany.php,v 1.67 2001/03/21 13:24:59 jb Exp $
 //
 // Definition of eZProduct class
 //
@@ -47,9 +47,7 @@ include_once( "ezcontact/classes/ezcompanytype.php" );
 include_once( "ezaddress/classes/ezphone.php" );
 include_once( "classes/ezimagefile.php" );
 include_once( "ezimagecatalogue/classes/ezimage.php" );
-// include_once( "ezclassified/classes/ezclassified.php" );
-
-// include_once( "ezaddress/classes/ezonline.php" );
+include_once( "classes/ezdate.php" );
 
 class eZCompany
 {
@@ -236,17 +234,22 @@ class eZCompany
       
       The companies are returned as an array of eZCompany objects.
     */
-    function &getByCategory( $categoryID )
+    function &getByCategory( $categoryID, $offset = 0, $limit = -1 )
     {
         $db =& eZDB::globalDatabase();
 
         $company_array = array();
         $return_array = array();
 
+        if ( $limit > 0 )
+        {
+            $limit_text = "LIMIT $offset, $limit";
+        }
+
         $db->array_query( $company_array, "SELECT CompanyID FROM eZContact_CompanyTypeDict, eZContact_Company
                                            WHERE eZContact_CompanyTypeDict.CompanyTypeID='$categoryID'
                                            AND eZContact_Company.ID = eZContact_CompanyTypeDict.CompanyID
-                                           ORDER BY eZContact_Company.Name" );
+                                           ORDER BY eZContact_Company.Name $limit_text" );
 
         foreach( $company_array as $companyItem )
         {
@@ -254,6 +257,23 @@ class eZCompany
         }
 
         return $return_array;
+    }
+
+    /*!
+      Returns all the companies found in the database in a specific category.
+      
+      The companies are returned as an array of eZCompany objects.
+    */
+    function countByCategory( $categoryID )
+    {
+        $db =& eZDB::globalDatabase();
+        $db->query_single( $company_array,
+                           "SELECT count( CompanyID ) as Count
+                            FROM eZContact_CompanyTypeDict, eZContact_Company
+                            WHERE eZContact_CompanyTypeDict.CompanyTypeID='$categoryID'
+                            AND eZContact_Company.ID = eZContact_CompanyTypeDict.CompanyID" );
+
+        return $company_array["Count"];
     }
 
     /*!
@@ -987,6 +1007,115 @@ class eZCompany
             }
         }
         return $ret;
+    }
+
+    /*!
+      Adds another view hit for this company for this day.
+    */
+    function addViewHit( $company_id = false )
+    {
+        if ( !$company_id )
+            $company_id = $this->ID;
+        $db =& eZDB::globalDatabase();
+        $db->array_query( $qry_array, "SELECT ID FROM eZContact_CompanyView
+                                       WHERE Date=now() AND
+                                             CompanyID='$company_id'", 0, 1 );
+        if ( count( $qry_array ) == 1 )
+        {
+            $id = $qry_array[0]["ID"];
+            $db->query( "UPDATE eZContact_CompanyView
+                         SET Count=Count+1
+                         WHERE Date=now() AND
+                               CompanyID='$company_id' AND
+                               ID='$id'" );
+        }
+        else
+        {
+            $db->query( "INSERT INTO eZContact_CompanyView
+                         SET CompanyID='$company_id', Count=1, Date=now()" );
+        }
+    }
+
+    /*!
+      Returns the total number of views for this company.
+    */
+    function totalViewCount()
+    {
+        $db =& eZDB::globalDatabase();
+        $db->query_single( $row, "SELECT sum( Count ) AS Count FROM eZContact_CompanyView
+                                  WHERE CompanyID='$this->ID'" );
+        return $row["Count"];
+    }
+
+    /*!
+      Returns array of months in a year, where each month contains
+      the total view count for that month.
+      Each month is an array with these keys:
+      count: The total count for the month
+      month: The month number (starting at 1)
+    */
+    function &yearViewCounts( $year = false )
+    {
+        $ret = array();
+        if ( is_bool( $year ) )
+        {
+            $date = new eZDate();
+            $year = $date->year();
+        }
+        for( $i = 0; $i < 12; $i++ )
+        {
+            $month_num = $i + 1;
+            $date = new eZDate( $year, $month_num, 1 );
+            $count = $this->viewCount( $date, "month" );
+            $month = array( "count" => $count,
+                            "month" => $month_num );
+            $ret[] = $month;
+        }
+        return $ret;
+    }
+
+    /*!
+      Returns the number of views for this company on a given date or date range,
+      default is this day. Date ranges are either "day", "month" or "year"
+    */
+    function viewCount( $date = false, $type = "day" )
+    {
+        if ( is_bool( $date ) )
+            $date = new eZDate();
+        $year = $date->year();
+        $month = $date->month();
+        if ( $month < 10 )
+            $month = "0" . $month;
+        $day = $date->day();
+        if ( $day < 10 )
+            $day = "0" . $day;
+        switch( $type )
+        {
+            case "year":
+            {
+                $date = "$year-%";
+                break;
+            }
+            case "month":
+            {
+                $date = $year . "-" . $month . "-%";
+                break;
+            }
+            default:
+            case "day":
+            {
+                $date = "$year-$month-$day";
+                break;
+            }
+        }
+        $db =& eZDB::globalDatabase();
+        $db->query_single( $row, "SELECT sum( Count ) as Count, count( Count ) as Num
+                                  FROM eZContact_CompanyView
+                                  WHERE CompanyID='$this->ID' AND
+                                        Date LIKE '$date'" );
+        if ( $row["Num"] == 0 )
+            return false;
+        return $row["Count"];
     }
 
     var $ID;
