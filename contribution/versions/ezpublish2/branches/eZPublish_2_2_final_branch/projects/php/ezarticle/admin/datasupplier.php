@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: datasupplier.php,v 1.56.2.2 2002/02/20 10:41:59 jhe Exp $
+// $Id: datasupplier.php,v 1.56.2.3 2002/04/23 08:25:40 jhe Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -447,7 +447,7 @@ switch ( $url_array[2] )
         if ( $url_array[3] == "cancel" )        
         {
             $Action = "Cancel";
-            $ArticleID = $url_array[4];
+            $CategoryID = $url_array[4];
             eZHTTPTool::header( "Location: /article/archive/$CategoryID/" );
             exit();
         }        
