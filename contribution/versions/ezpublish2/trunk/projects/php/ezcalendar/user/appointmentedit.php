@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: appointmentedit.php,v 1.15 2001/01/21 18:15:51 jb Exp $
+// $Id: appointmentedit.php,v 1.16 2001/01/22 14:18:52 jb Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <03-Jan-2001 12:47:22 bf>
@@ -32,7 +32,7 @@ if ( isSet ( $GoDay ) )
 {
     include_once( "classes/ezdate.php" );
 
-    $session = eZSession::globalSession();
+    $session =& eZSession::globalSession();
     $session->fetch();
 
     $year = $session->variable( "Year" );
@@ -48,7 +48,7 @@ if ( isSet ( $GoDay ) )
 }
 else if ( isSet ( $GoMonth ) )
 {
-    $session = eZSession::globalSession();
+    $session =& eZSession::globalSession();
     $session->fetch();
 
     $year = $session->variable( "Year" );
@@ -59,7 +59,7 @@ else if ( isSet ( $GoMonth ) )
 }
 else if ( isSet ( $GoYear ) )
 {
-    $session = eZSession::globalSession();
+    $session =& eZSession::globalSession();
     $session->fetch();
 
     $year = $session->variable( "Year" );

@@ -23,13 +23,13 @@
 	<!-- Oppslagstavle fram til hit! -->
 
     <?
-$session = eZSession::globalSession();
+$session =& eZSession::globalSession();
 
 
 if ( $session->fetch() == false )
 {
-    $session = eZSession::globalSession();
-    $session->store();
+    $session =& eZSession::globalSession();
+    $session->store();    
 }
 
 if ( $Design == 2 )

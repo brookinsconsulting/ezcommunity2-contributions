@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: sessioninfo.php,v 1.6 2001/01/21 18:12:08 jb Exp $
+// $Id: sessioninfo.php,v 1.7 2001/01/22 14:18:52 jb Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <01-Nov-2000 14:34:30 bf>
@@ -37,7 +37,7 @@ require( "ezuser/admin/admincheck.php" );
 
 if ( $Action == "Delete" )
 {
-    $session = eZSession::globalSession( $SessionID );
+    $session =& eZSession::globalSession( $SessionID );
     $session->delete();
     
     Header( "Location: /user/sessioninfo/" );

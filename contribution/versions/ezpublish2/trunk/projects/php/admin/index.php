@@ -20,7 +20,7 @@ include_once( "ezuser/classes/ezpermission.php" );
 $ini = new INIFile( "site.ini" );
 $GlobalSiteIni =& $ini;
 
-//  $session = eZSession::globalSession();
+//  $session =& eZSession::globalSession();
 //  $session->fetch();
 //  print( $session->hash() );
 

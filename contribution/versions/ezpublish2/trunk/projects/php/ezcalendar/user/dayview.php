@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: dayview.php,v 1.17 2001/01/22 12:55:42 gl Exp $
+// $Id: dayview.php,v 1.18 2001/01/22 14:18:52 jb Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <08-Jan-2001 12:48:35 bf>
@@ -54,7 +54,7 @@ $t->set_block( "appointment_tpl", "delete_check_tpl", "delete_check" );
 
 $user = eZUser::currentUser();
 
-$session = eZSession::globalSession();
+$session =& eZSession::globalSession();
 $session->fetch();
 
 if ( ( $session->variable( "ShowOtherCalenderUsers" ) == false ) )

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: monthview.php,v 1.13 2001/01/22 12:53:46 gl Exp $
+// $Id: monthview.php,v 1.14 2001/01/22 14:18:52 jb Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <27-Dec-2000 14:09:56 bf>
@@ -54,7 +54,7 @@ $t->set_block( "day_tpl", "appointment_tpl", "appointment" );
 $t->set_block( "month_view_page_tpl", "user_item_tpl", "user_item" );
 
 $user = eZUser::currentUser();
-$session = eZSession::globalSession();
+$session =& eZSession::globalSession();
 
 $session->fetch();
 

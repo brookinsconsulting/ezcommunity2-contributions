@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: yearview.php,v 1.7 2001/01/22 12:53:46 gl Exp $
+// $Id: yearview.php,v 1.8 2001/01/22 14:18:52 jb Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <27-Dec-2000 11:29:22 bf>
@@ -47,7 +47,7 @@ $t->set_block( "month_tpl", "week_tpl", "week" );
 $t->set_block( "week_tpl", "day_tpl", "day" );
 $t->set_block( "week_tpl", "empty_day_tpl", "empty_day" );
 
-$session = eZSession::globalSession();
+$session =& eZSession::globalSession();
 $session->fetch();
 
 $date = new eZDate( );

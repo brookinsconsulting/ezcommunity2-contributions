@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezsession.php,v 1.22 2001/01/22 13:41:11 bf Exp $
+// $Id: ezsession.php,v 1.23 2001/01/22 14:18:52 jb Exp $
 //
 // Definition of eZSession class
 //
@@ -30,7 +30,7 @@
 
   \code
   // Create a new session, store it to the database and set a cookie.
-  $session = eZSession::globalSession( );
+  $session =& eZSession::globalSession( );
   $session->store();
 
   // get the session from the client

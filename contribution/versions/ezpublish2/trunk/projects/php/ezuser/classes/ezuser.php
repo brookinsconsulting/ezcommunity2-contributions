@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezuser.php,v 1.41 2001/01/22 12:49:37 jb Exp $
+// $Id: ezuser.php,v 1.42 2001/01/22 14:18:52 jb Exp $
 //
 // Definition of eZCompany class
 //
@@ -483,7 +483,7 @@ class eZUser
 
         if ( get_class( $user ) == "ezuser" )
         {
-            $session = eZSession::globalSession();
+            $session =& eZSession::globalSession();
 
             if ( !$session->fetch() )
             {
@@ -505,7 +505,7 @@ class eZUser
     */
     function logout( )
     {
-        $session = eZSession::globalSession();
+        $session =& eZSession::globalSession();
         if ( $session->fetch() )
         {
             $session->setVariable( "AuthenticatedUser", "" );
