@@ -113,7 +113,7 @@ class eZLog
     function notice( $notice )
     {
         $time = strftime ("%b %d %Y %H:%M:%S", strtotime( "now" ) );        
-        $notice = "[ " . $time . " ] [notice] " . $this->phpFile . ">> " . $notice . "\n"; 
+        $notice = "[ " . $time . " ] [notice] " . $notice . "\n"; 
         fwrite( $this->LogFile, $notice );
     }
 
@@ -123,7 +123,7 @@ class eZLog
     function warning( $warning )
     {
         $time = strftime ("%b %d %Y %H:%M:%S", strtotime( "now" ) );        
-        $warning = "[ " . $time . " ] [warning] " . $this->phpFile . ">> " . $warning . "\n"; 
+        $warning = "[ " . $time . " ] [warning] " . $warning . "\n"; 
         fwrite( $this->LogFile, $warning );
     }
 
@@ -134,7 +134,7 @@ class eZLog
     function error( $error )
     {
         $time = strftime ("%b %d %Y %H:%M:%S", strtotime( "now" ) );        
-        $error = "[ " . $time . " ] [error] " . $this->phpFile . ">> " . $error . "\n"; 
+        $error = "[ " . $time . " ] [error] " . $error . "\n"; 
         fwrite( $this->LogFile, $error );
     }
 
