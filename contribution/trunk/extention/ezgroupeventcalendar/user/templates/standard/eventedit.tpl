@@ -128,7 +128,7 @@
   <option value="1" {1_status_selected}>{intl-confirmed_status}</option>
   <option value="2" {2_status_selected}>{intl-cancelled_status}</option>
 </select>
-
+[ in development | not tested ]
 	</td>
 </tr>
 </table>
@@ -238,7 +238,7 @@
 <tr>
 	<td><p class="boxtext">{intl-recurring_event}:</p></td>
 </tr>
-<tr><select name="Start_Hour" onChange="resetAllDayCheck();">
+<tr>
 	<td valign="top">
 		<input {is_recurring} type="checkbox" name="IsRecurring" onChange="toggleRecurringEventForm()" />&nbsp;<span class="check">{intl-make_recurring}</span>
 	</td>
@@ -263,27 +263,27 @@
   <span class="check">{intl-sun}</span>&nbsp;<input {recurring_daily_tuesday} type="checkbox" name="RecurringDailySun" />
  </div>
  <div id="gcalRecurringMonthly">
-   <input type="radio" name="recurType" value="daily" {start_daily} />&nbsp;&nbsp;
+   <input type="radio" name="RecurTypeMonth" value="daily" {start_daily} />&nbsp;&nbsp;
    On the {today_date} of the month.
    <br />
-   <input type="radio" name="recurType" value="strdayname" {start_StrDayName} />&nbsp;&nbsp;
+   <input type="radio" name="RecurTypeMonth" value="strdayname" {start_StrDayName} />&nbsp;&nbsp;
    {week_number_str} {today_day_name} of the month.
    <br />
-   <input type="radio" name="recurType" value="numdayname" {start_NumDayName} />&nbsp;&nbsp;
+   <input type="radio" name="RecurTypeMonth" value="numdayname" {start_NumDayName} />&nbsp;&nbsp;
    {day_number_str} {today_day_name} of the month.
  </div>
  <br /><br />
  <input type="radio" name="repeatOptions" value="forever" /> Forever
  <br />
- <input type="radio" name="repeatOptions" value="" /> Number of Times <input type="text" size="10" name="numberOfTimes" />
+ <input type="radio" name="repeatOptions" value="numTimes" /> Number of Times <input type="text" size="10" name="numberOfTimes" />
  <br />
- <input type="radio" name="repeatOptions" value="" /> Until Date <input type="text" size="20" name="untilDate" />
+ <input type="radio" name="repeatOptions" value="UntilDate" /> Until Date <input type="text" size="20" name="untilDate" />
  <br />
  <br />
  Exceptions<br />
  <a href="#">Add</a> <a href="#">Remove</a><br /><br />
  <input type="text" size=7 name="untilDate" /> <br /><br />
- <select name="select" size=5 multiple>
+ <select name="select" multiple>
  <option>08/19/1983</option>
  </select>
 </div>
