@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: visa.php,v 1.1 2001/03/07 11:37:47 bf Exp $
+// $Id: visa.php,v 1.2 2001/03/13 13:24:45 bf Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <08-Feb-2001 14:11:48 ce>
@@ -36,6 +36,7 @@ $Language = $ini->read_var( "eZTradeMain", "Language" );
 
 if ( $Action == "Verify" )
 {
+    // add clearing code here
     $PaymentSuccess = "true";        
 }
 
@@ -45,6 +46,8 @@ $t = new eZTemplate( "eztrade/user/" . $ini->read_var( "eZTradeMain", "TemplateD
 $t->set_file( "visa_tpl", "visa.tpl" );
 
 $t->setAllStrings();
+
+// $ChargeTotal is the value to charge the customer with
 
 $t->set_var( "order_id", $OrderID );
 $t->set_var( "payment_type", $PaymentType );

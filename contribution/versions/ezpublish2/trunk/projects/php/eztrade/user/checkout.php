@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: checkout.php,v 1.49 2001/03/12 13:54:55 bf Exp $
+// $Id: checkout.php,v 1.50 2001/03/13 13:24:45 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <28-Sep-2000 15:52:08 bf>
@@ -143,6 +143,9 @@ if ( isset( $SendOrder ) )
     $order->setShippingVAT( eZHTTPTool::getVar( "ShippingVAT", true ) );
     $order->setPaymentMethod( $PaymentMethod );
 
+    $order->setShippingTypeID( eZHTTPTool::getVar( "ShippingTypeID" ) );
+
+
     $order->store();
 
     $order_id = $order->id();
@@ -190,6 +193,7 @@ if ( isset( $SendOrder ) )
    
 //      $cart->clear();
 
+    $session->setVariable( "TotalCost", $TotalCost );
     $session->setVariable( "PaymentMethod", $PaymentMethod );
     $session->setVariable( "OrderID", $order_id );
 
@@ -353,7 +357,7 @@ foreach ( $types as $type )
     // calculate the vat of the shiping
     $shippingVAT = $cart->shippingVAT( $currentShippingType );
     $t->set_var( "shipping_vat_value", $shippingVAT );
-    
+
     
     $currency->setValue( $shippingCost );
     $t->set_var( "shipping_cost", $locale->format( $currency ) );
@@ -364,6 +368,9 @@ foreach ( $types as $type )
     
     $currency->setValue( $totalVAT + $shippingVAT );
     $t->set_var( "cart_vat_sum", $locale->format( $currency ) );
+
+    // the total cost of the payment
+    $t->set_var( "total_cost_value", $sum );    
 }
 
 

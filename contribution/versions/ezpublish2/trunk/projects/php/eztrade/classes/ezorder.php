@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezorder.php,v 1.25 2001/03/12 13:30:50 bf Exp $
+// $Id: ezorder.php,v 1.26 2001/03/13 13:24:44 bf Exp $
 //
 // Definition of eZOrder class
 //
@@ -37,6 +37,7 @@ include_once( "classes/ezdb.php" );
 include_once( "eztrade/classes/ezorderstatustype.php" );
 include_once( "eztrade/classes/ezorderstatus.php" );
 include_once( "eztrade/classes/ezorderitem.php" );
+include_once( "eztrade/classes/ezshippingtype.php" );
 
 include_once( "ezuser/classes/ezuser.php" );
 
@@ -92,6 +93,7 @@ class eZOrder
 		                         IsExported='$this->IsExported',
                                  IsActive='$this->IsActive',
                                  ShippingVAT='$this->ShippingVAT',
+                                 ShippingTypeID='$this->ShippingTypeID',
 		                         Date=now(),
 		                         ShippingCharge='$this->ShippingCharge'
                                  " );
@@ -125,6 +127,7 @@ class eZOrder
 		                         IsExported='$this->IsExported',
                                  IsActive='$this->IsActive',
                                  ShippingVAT='$this->ShippingVAT',
+                                 ShippingTypeID='$this->ShippingTypeID',
 		                         Date=Date,
 		                         ShippingCharge='$this->ShippingCharge'
                                  WHERE ID='$this->ID'
@@ -186,6 +189,7 @@ class eZOrder
                 $this->BillingAddressID = $cart_array[0][ "BillingAddressID" ];
                 $this->ShippingCharge = $cart_array[0][ "ShippingCharge" ];
                 $this->ShippingVAT = $cart_array[0][ "ShippingVAT" ];
+                $this->ShippingTypeID = $cart_array[0][ "ShippingTypeID" ];
                 $this->PaymentMethod = $cart_array[0][ "PaymentMethod" ];
                 $this->IsActive = $cart_array[0][ "IsActive" ];
 
@@ -436,6 +440,25 @@ class eZOrder
     }
 
     /*!
+      Returns the shipping type as a eZShippingType object.
+
+      Will return false if an error occured.
+    */
+    function shippingType()
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+       $ret = false;
+       if ( $this->ShippingTypeID > 0 )
+       {
+           $ret = new eZShippingType( $this->ShippingTypeID );
+       }
+       
+       return $ret;
+    }
+    
+    /*!
       Returns the payment method text.
     */
     function paymentMethod()
@@ -556,6 +579,17 @@ class eZOrder
        }
     }
 
+    /*!
+      Sets the shipping type ID of the order.
+    */
+    function setShippingTypeID( $type )
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+       $this->ShippingTypeID = $type;
+    }
+    
     /*!
       Sets the order to be exported or not. This is used for integration with
       other systems. So you know if you have fetched this order or not.
@@ -780,6 +814,8 @@ class eZOrder
     var $PaymentMethod;
     var $Date;
     var $IsActive;
+
+    var $ShippingTypeID;
     
     var $OrderStatus_;
 

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: payment.php,v 1.17 2001/03/12 10:34:38 bf Exp $
+// $Id: payment.php,v 1.18 2001/03/13 13:24:45 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <02-Feb-2001 16:31:53 bf>
@@ -71,7 +71,9 @@ $items = $cart->items();
 
 $order = new eZOrder( $session->variable( "OrderID" ) );
 
-$ChargeTotal = $order->totalPrice() + $ShippingCost;
+
+// this is the value to charge the customer with
+$ChargeTotal = $session->variable( "TotalCost" ) ;
 
 $checkout = new eZCheckout();
 $instance =& $checkout->instance();
@@ -80,8 +82,6 @@ $billingAddress = $order->billingAddress();
 $shippingAddress = $order->shippingAddress();
 
 $paymentMethod = $session->variable( "PaymentMethod" );
-
-print( $paymentMethod );
 
 include( $instance->paymentFile( $paymentMethod ) );
 

@@ -1,5 +1,5 @@
 <!-- orderlist.tpl --> 
-<!-- $Id: orderedit.tpl,v 1.18 2001/03/13 09:53:52 th Exp $ -->
+<!-- $Id: orderedit.tpl,v 1.19 2001/03/13 13:24:44 bf Exp $ -->
 
 <h1>{intl-head_line}</h1>
 
@@ -41,7 +41,7 @@
 	</td>
 	<td>
 	<p class="boxtext">{intl-shipping_method}:</p>
-	<div class="p">Fyll inn her!</div>
+	<div class="p">{shipping_method}</div>
 	</td>
 </tr>
 </table>

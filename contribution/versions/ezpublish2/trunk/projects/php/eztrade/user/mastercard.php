@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: mastercard.php,v 1.1 2001/03/07 11:37:47 bf Exp $
+// $Id: mastercard.php,v 1.2 2001/03/13 13:24:45 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <02-Feb-2001 17:42:45 bf>
@@ -46,6 +46,8 @@ $t = new eZTemplate( "eztrade/user/" . $ini->read_var( "eZTradeMain", "TemplateD
 $t->set_file( "mastercard_tpl", "mastercard.tpl" );
 
 $t->setAllStrings();
+
+// $ChargeTotal is the value to charge the customer with
 
 $t->set_var( "order_id", $OrderID );
 $t->set_var( "payment_type", $PaymentType );
