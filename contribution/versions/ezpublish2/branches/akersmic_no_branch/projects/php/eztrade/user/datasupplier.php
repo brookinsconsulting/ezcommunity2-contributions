@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: datasupplier.php,v 1.54.8.3 2002/01/17 11:31:10 bf Exp $
+// $Id: datasupplier.php,v 1.54.8.4 2002/01/17 12:41:48 bf Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -100,10 +100,37 @@ switch ( $url_array[2] )
     }
 
     case "productview" :
+    {
+        $ProductID = $url_array[3];
+        $CategoryID = $url_array[4];
+        
+        // forum
+        {
+            $buffer =& ob_get_contents();
+            ob_end_clean();
+
+            // fetch the forum
+            ob_start();
+
+            $RedirectURL = "/trade/productview/$ProductID/";
+            $product = new eZProduct( $ProductID );
+            if ( ( $product->id() >= 1 ) )
+            {
+                $forum = $product->forum();
+                $ForumID = $forum->id();
+                include( "ezforum/user/messagesimplelist.php" );
+            }
+            
+            $forumHTMLContents .= ob_get_contents();
+            ob_end_clean();
+
+            // fill the buffer with the old values
+            ob_start();
+            print( $buffer );
+        }
+
         if ( $PageCaching == "enabled" )
         {
-            $ProductID = $url_array[3];
-            $CategoryID = $url_array[4];
 
             include_once( "classes/ezcachefile.php" );
             $CacheFile = new eZCacheFile( "eztrade/cache/",
@@ -125,18 +152,8 @@ switch ( $url_array[2] )
             $CategoryID = $url_array[4];
             include( "eztrade/user/productview.php" );
         }
-
-        // forum
-        $RedirectURL = "/trade/productview/$ProductID/";
-        $product = new eZProduct( $ProductID );
-        if ( ( $product->id() >= 1 ) )
-        {
-            $forum = $product->forum();
-            $ForumID = $forum->id();
-            include( "ezforum/user/messagesimplelist.php" );
-        }
-        
-        break;
+    }
+    break;
         
     case "print" :
     case "productprint" :

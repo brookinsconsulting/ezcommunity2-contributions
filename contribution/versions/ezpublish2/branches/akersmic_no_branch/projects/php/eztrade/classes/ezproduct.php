@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: ezproduct.php,v 1.119.2.1.4.5 2002/01/16 17:17:18 bf Exp $
+// $Id: ezproduct.php,v 1.119.2.1.4.6 2002/01/17 12:41:48 bf Exp $
 //
 // Definition of eZProduct class
 //
@@ -1626,8 +1626,8 @@ class eZProduct
        
         $query = new eZQuery( "eZTrade_Word.Word", $queryText );
         $query->setIsLiteral( true );
-        $query->setStopWordColumn(  "eZTrade_Word.Frequency" );
-        $query->setStopWordPercent( $StopWordFrequency );
+//        $query->setStopWordColumn(  "eZTrade_Word.Frequency" );
+//        $query->setStopWordPercent( 1 );
         $searchSQL = $query->buildQuery();        
 
         {
@@ -1640,7 +1640,7 @@ class eZProduct
             {                
                 $queryWord = trim( $queryWord );
 
-                $searchSQL = " ( eZTrade_Word.Word = '$queryWord' AND eZTrade_Word.Frequency < '$StopWordFrequency' ) ";
+                $searchSQL = " ( eZTrade_Word.Word = '$queryWord'  ) ";
                 
 
                 if ( $productTypeID != 0 )
@@ -1662,7 +1662,6 @@ class eZProduct
                     $typeSQL = "";
                 }
 
-                     
                 $queryString = "INSERT INTO eZTrade_SearchTemp ( ProductID ) SELECT DISTINCT eZTrade_Product.ID AS ProductID
                  FROM eZTrade_Product,
                       eZTrade_ProductWordLink,
@@ -1681,17 +1680,15 @@ class eZProduct
                 $db->query( $queryString );
 
                 // check if this is a stop word
-                $queryString = "SELECT Frequency FROM eZTrade_Word WHERE Word='$queryWord'";
-
-
-                $db->query_single( $WordFreq, $queryString, array( "LIMIT" => 1 ) );
-
-                if ( $WordFreq["Frequency"] <= $StopWordFrequency )                    
-                    $count += 1;
+//                $queryString = "SELECT Frequency FROM eZTrade_Word WHERE Word='$queryWord'";
+//                $db->query_single( $WordFreq, $queryString, array( "LIMIT" => 1 ) );
+//                if ( $WordFreq["Frequency"] <= $StopWordFrequency )
+                
+                $count += 1;
             }
             $count -= 1;
 
-            $queryString = "SELECT ProductID, Count(*) AS Count FROM eZTrade_SearchTemp GROUP BY ProductID HAVING Count>='$count'";
+            $queryString = "SELECT ProductID, Count(*) AS Count FROM eZTrade_SearchTemp GROUP BY ProductID HAVING Count='$count'";
             
             $db->array_query( $product_array, $queryString );
 
