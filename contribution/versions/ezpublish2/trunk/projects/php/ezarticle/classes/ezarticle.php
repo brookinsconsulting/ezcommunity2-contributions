@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezarticle.php,v 1.147 2001/08/16 11:32:43 ce Exp $
+// $Id: ezarticle.php,v 1.148 2001/08/17 08:45:58 ce Exp $
 //
 // Definition of eZArticle class
 //
@@ -59,6 +59,8 @@
 
 include_once( "classes/ezdb.php" );
 include_once( "classes/ezdatetime.php" );
+include_once( "classes/eztemplate.php" );
+include_once( "ezmail/classes/ezmail.php" );
 include_once( "ezuser/classes/ezuser.php" );
 include_once( "ezuser/classes/ezusergroup.php" );
 include_once( "ezuser/classes/ezauthor.php" );
@@ -597,9 +599,13 @@ class eZArticle
     function isPublished()
     {
         $ret = false;
-        if ( ( $this->IsPublished == "1" ) || ( $this->IsPublished == "2" ) )
+        if ( $this->IsPublished == "1" )
         {
-            $ret = true;
+            $ret = 1;
+        }
+        elseif ( $this->IsPublished == "2" )
+        {
+            $ret = 2;
         }
         return $ret;
     }
@@ -1117,11 +1123,15 @@ class eZArticle
 
         if ( is_numeric ( $editorID ) && ( $editorID > 0 ) )
         {
-            $group = new eZUserGroup();
+            $group = new eZUserGroup( $editorID );
+            $user =& eZUser::currentUser();
             if ( $group->isMember( eZUser::currentUser() ) )
                 $this->IsPublished = "1";
             else
+            {
                 $this->IsPublished = "2";
+                $this->sendPendingMail( );
+            }
         }
         else if ( $value == true )
         {
@@ -2603,6 +2613,41 @@ class eZArticle
         return $returnArray;
     }
 
+    /*!
+      \private
+      Send mail to the editors that will tell them that a new article is ready to be published.
+    */
+    function sendPendingMail()
+    {
+        $ini =& INIFile::globalINI();
+        $definition = $this->categoryDefinition();
+
+        $editorGroup = $definition->editorGroup();
+             
+
+        $mailTemplate = new eZTemplate( "ezarticle/admin/" . $ini->read_var( "eZArticleMain", "AdminTemplateDir" ),
+                                        "ezarticle/admin/intl", $Language, "pendingmail.php" );
+
+        $mailTemplate->set_file( "pending_mail_tpl", "pendingmail.tpl" );
+
+        $mailBody = $mailTemplate->parse( "dummy", "pending_mail_tpl" );
+
+        $authorEmail = $this->authorEmail();
+        $authorText = $this->authorText();
+        if ( $authorEmail )
+        {
+            $mail = new eZMail();
+            $mail->setFrom( $authorEmail );
+            $mail->setBody( $mailBody );
+        }
+
+        $users = $editorGroup->users();
+        foreach ( $users as $user )
+        {
+            $mail->setTo( $user->email() );
+            $mail->send();
+        }
+    }
 
     /*!
       Returns all the articles that is not valid now.

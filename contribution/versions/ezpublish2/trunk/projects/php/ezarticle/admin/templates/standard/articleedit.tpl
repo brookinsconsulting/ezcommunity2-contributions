@@ -15,18 +15,22 @@
 
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
+        <!-- BEGIN author_information_tpl -->
 	<td valign="top">
 	<p class="boxtext">{intl-article_author}:</p>
-
 	<select name="ContentsWriterID">
-	
 	<!-- BEGIN author_item_tpl -->
 	<option value="{author_id}" {selected}>{author_name}</option>
 	<!-- END author_item_tpl -->
-	
 	</select>
-
 	</td>
+        <!-- END author_information_tpl -->
+        <!-- BEGIN author_pending_information_tpl -->
+	<td valign="top">
+	<p class="boxtext">{intl-article_author}:</p>
+	<p>{author_text} {author_email}</p>
+	</td>
+        <!-- END author_pending_information_tpl -->
 </tr>
 <tr>
 	<td colspan="3">&nbsp;</td>
@@ -237,10 +241,17 @@
 	</td>
 </tr>
 <tr>
+        <td>&nbsp;</td>
+</tr>
+<tr>
+        <!-- BEGIN article_pending_tpl -->
+	<td>
+	<p>{intl-article_is_pending}</p>
+	</td>
+        <!-- END article_pending_tpl -->
 	<td colspan="2">&nbsp;</td>
 </tr>
 <tr>
-
 	<td>
 	<input type="checkbox" name="IsPublished" {article_is_published} />
 	<span class="boxtext">{intl-article_is_published}</span><br />
