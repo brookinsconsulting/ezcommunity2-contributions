@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: monthview.php,v 1.9 2001/01/18 14:55:20 gl Exp $
+// $Id: monthview.php,v 1.10 2001/01/18 15:42:03 gl Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <27-Dec-2000 14:09:56 bf>
@@ -151,7 +151,7 @@ for ( $week=0; $week<6; $week++ )
                     $t->parse( "appointment", "appointment_tpl", true );
                 }
 
-                if ( $currentDay == $today->day() )
+                if ( $tmpDate->month() == $today->month() && $currentDay == $today->day() )
                     $t->set_var( "td_class", "bgcurrent" );
                 else if ( $day > 5 )
                     $t->set_var( "td_class", "bgweekend" );
@@ -159,6 +159,8 @@ for ( $week=0; $week<6; $week++ )
                     $t->set_var( "td_class", "bglight" );
 
                 $t->set_var( "day_number", $currentDay );
+                $t->set_var( "month_number", $Month );
+                $t->set_var( "year_number", $Year );
             }
             else
             {
@@ -181,6 +183,8 @@ for ( $week=0; $week<6; $week++ )
 
                     $prevMonth->setDay( $prevMonth->daysInMonth() - $firstDay + $day + 1 );
                     $t->set_var( "day_number", $prevMonth->day() );
+                    $t->set_var( "month_number", $prevMonth->month() );
+                    $t->set_var( "year_number", $prevMonth->year() );
                 }
                 else
                 {
@@ -205,6 +209,8 @@ for ( $week=0; $week<6; $week++ )
 
                     $nextMonth->setDay( ( 7 - $tmp - 6 ) + $day );
                     $t->set_var( "day_number", $nextMonth->day() );
+                    $t->set_var( "month_number", $nextMonth->month() );
+                    $t->set_var( "year_number", $nextMonth->year() );
                 }
                 
                 $t->set_var( "td_class", "bgdark" );                
