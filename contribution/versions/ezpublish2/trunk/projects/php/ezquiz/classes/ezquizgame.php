@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezquizgame.php,v 1.4 2001/05/28 14:03:16 pkej Exp $
+// $Id: ezquizgame.php,v 1.5 2001/05/28 15:19:02 pkej Exp $
 //
 // ezquizgame class
 //
@@ -291,7 +291,7 @@ class eZQuizGame
         $db =& eZDB::globalDatabase();
         $db->query_single( $question, "SELECT ID FROM eZQuiz_Question WHERE GameID='$this->ID' AND Placement='$placement'" );
 
-        $return = new eZQuizQuestion( $question[$i]["ID"], true );
+        $return = new eZQuizQuestion( $question["ID"], true );
            
         return $return;
     }
