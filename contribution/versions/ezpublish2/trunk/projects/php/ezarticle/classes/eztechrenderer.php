@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eztechrenderer.php,v 1.71 2001/07/29 23:30:58 kaid Exp $
+// $Id: eztechrenderer.php,v 1.72 2001/08/01 16:15:12 kaid Exp $
 //
 // Definition of eZTechRenderer class
 //
@@ -162,7 +162,7 @@ class eZTechRenderer
             $articleID = $this->Article->id();
 
             $i=0;
-            $this->$PrevTag = "";
+            $this->PrevTag = "";
             foreach ( $xml->children as $child )
             {
                 if ( $child->name == "article" )
@@ -224,7 +224,7 @@ class eZTechRenderer
             $intro = "";
             $body = "";
 
-            $this->$PrevTag = "";
+            $this->PrevTag = "";
             $articleImages =& $this->Article->images();
             $articleID = $this->Article->id();
             
@@ -268,7 +268,7 @@ class eZTechRenderer
             foreach ( $body as $page )
             {
                 $pageContent = "";
-                $this->$PrevTag = "";
+                $this->PrevTag = "";
                 // loop on the contents of the pages
                 if ( count( $page->children ) > 0 )
                 foreach ( $page->children as $paragraph )
@@ -601,7 +601,10 @@ class eZTechRenderer
                 $imageCaption = $image->caption();
                 $imageID = $image->id();
 
-                $viewMode = $GLOBALS["ViewMode"];
+                if ( isset( $GLOBALS["ViewMode"] ) )
+                    $viewMode = $GLOBALS["ViewMode"];
+                else
+                    $viewMode = "";
 
                 if ( $viewMode == "" )
                 {
