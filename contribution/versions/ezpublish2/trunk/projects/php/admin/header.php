@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: header.php,v 1.33 2001/04/26 10:00:57 jb Exp $
+// $Id: header.php,v 1.34 2001/05/07 08:46:04 fh Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <23-Jan-2001 16:06:07 bf>
@@ -33,8 +33,8 @@ $ini =& INIFile::globalINI();
 $Language =& $ini->read_var( "eZUserMain", "Language" );
 $Locale = new eZLocale( $Language );
 $iso = $Locale->languageISO();
-$site_modules = $ini->read_array( "site", "EnabledModules" );
-
+//$site_modules = $ini->read_array( "site", "EnabledModules" );
+$site_modules = eZModuleHandler::all();
 include_once( "ezmodule/classes/ezmodulehandler.php" );
 
 $ModuleTab = eZModuleHandler::activeTab();

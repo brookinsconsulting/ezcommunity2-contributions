@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezmodulehandler.php,v 1.3 2001/04/19 07:32:32 jb Exp $
+// $Id: ezmodulehandler.php,v 1.4 2001/05/07 08:46:59 fh Exp $
 //
 // Definition of eZModuleHandler class
 //
@@ -52,6 +52,7 @@
 */
 
 include_once( "ezsession/classes/ezpreferences.php" );
+include_once( "ezuser/classes/ezpermission.php" );
 
 class eZModuleHandler
 {
@@ -114,12 +115,19 @@ class eZModuleHandler
 
     /*!
       \static
-      Returns all available modules as an array.
+      Returns all available modules that you are allowed to see as an array.
     */
     function &all()
     {
+        $return_array = array();
         $ini =& INIFile::globalINI();
-        return $ini->read_array( "site", "EnabledModules" );
+        $allModules = $ini->read_array( "site", "EnabledModules" );
+        foreach( $allModules as $moduleItem )
+        {
+            if( eZPermission::checkPermission( eZUser::currentUser(), $moduleItem, "ModuleEdit" ) )
+                $return_array[] = $moduleItem;
+        }
+        return $return_array;
     }
 
     /*!
