@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: article.php,v 1.21 2001/10/24 12:42:37 jb Exp $
+// $Id: article.php,v 1.22 2001/10/27 11:23:31 jb Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -91,7 +91,7 @@ else if( $Command == "data" ) // return all the data in the category
         $cats = array_diff( $cats, array( $cat_def_id ) );
 
         $art_contents = $article->contents( false );
-        $art_contents = preg_replace( "/&amp;/", "&", $art_contents );
+//         $art_contents = preg_replace( "/&amp;/", "&", $art_contents );
 
         $ret = array( "Location" => createURLStruct( "ezarticle", "article", $article->id() ),
                       "AuthorID" => new eZXMLRPCInt( $article->author( false ) ),
@@ -136,7 +136,7 @@ else if( $Command == "storedata" )
     $article->setAuthor( $Data["AuthorID"]->value() );
     $article->setName( $Data["Name"]->value() ); // title
     $art_contents = $Data["Contents"]->value();
-    $art_contents = preg_replace( "/&/", "&amp;", $art_contents );
+//     $art_contents = preg_replace( "/&/", "&amp;", $art_contents );
     $article->setContents( $art_contents );
     $article->setContentsWriter( $Data["ContentsWriterID"]->value() );
     $article->setLinkText( $Data["LinkText"]->value() );
