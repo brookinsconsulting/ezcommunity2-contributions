@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: checkout.php,v 1.31 2001/02/07 16:28:59 bf Exp $
+// $Id: checkout.php,v 1.32 2001/02/09 12:54:43 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <28-Sep-2000 15:52:08 bf>
@@ -23,6 +23,7 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, US
 //
 
+
 include_once( "classes/INIFile.php" );
 include_once( "classes/eztemplate.php" );
 include_once( "classes/ezlocale.php" );
@@ -34,6 +35,7 @@ $Language = $ini->read_var( "eZTradeMain", "Language" );
 $OrderSenderEmail = $ini->read_var( "eZTradeMain", "OrderSenderEmail" );
 $OrderReceiverEmail = $ini->read_var( "eZTradeMain", "OrderReceiverEmail" );
 $ShippingCost = $ini->read_var( "eZTradeMain", "ShippingCost" );
+$ForceSSL = $ini->read_var( "eZTradeMain", "ForceSSL" );
 
 include_once( "ezuser/classes/ezuser.php" );
 include_once( "eztrade/classes/ezproduct.php" );
@@ -62,6 +64,23 @@ if ( !$session->fetch() )
 {
     $session->store();
 }
+
+// set SSL mode and redirect if not already in SSL mode.
+if ( $ForceSSL == "enabled" )
+{
+    print( $session->variable( "SSLMode" ) );
+    
+    $session->setVariable( "SSLMode", "enabled" );
+    
+    // force SSL if supposed to
+    if ( $SERVER_PORT != '443' )
+    {
+        print( "<font color=\"#333333\">Start: Location: https://" . $HTTP_HOST . $REQUEST_URI . "</font>" );
+        //      header ("Location: https://" . $HTTP_HOST . $REQUEST_URI );
+        //      exit;
+    }
+}
+
 
 // get the cart or create it
 $cart = $cart->getBySession( $session, "Cart" );
