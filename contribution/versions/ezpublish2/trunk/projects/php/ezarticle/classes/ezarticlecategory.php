@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezarticlecategory.php,v 1.72 2001/07/18 14:54:30 bf Exp $
+// $Id: ezarticlecategory.php,v 1.73 2001/07/18 15:14:37 jb Exp $
 //
 // Definition of eZArticleCategory class
 //
@@ -238,6 +238,51 @@ class eZArticleCategory
             }
         }
         
+        return $topic;
+    }
+
+    /*!
+        \static
+        Searches for a category called $name, if $name is empty all categories are returned,
+        if $name is an array it will search for categories matching any of the names in
+        the array.
+
+        Returns an array of eZArticleCategory.
+    */
+    function &search( $name )
+    {
+        $db =& eZDB::globalDatabase();
+        $topic = array();
+
+        if ( is_array( $name ) )
+        {
+            $searches = "";
+            foreach( $name as $n )
+            {
+                $n = $db->escapeString( $n );
+                if ( $searches != "" )
+                    $searches .= "OR ";
+                $searches .= "Name='$n' OR Description='$n'";
+            }
+            $search = "WHERE $searches";
+        }
+        else if( $name == "" )
+        {
+            $search = "";
+        }
+        else
+        {
+            $name = $db->escapeString( $name );
+            $search = "WHERE Name='$name'";
+        }
+
+        $db->array_query( $author_array,
+                          "SELECT ID FROM eZArticle_Category $search" );
+
+        foreach( $author_array as $author )
+        {
+            $topic[] =& new eZArticleCategory( $author[$db->fieldName("ID")] );
+        }
         return $topic;
     }
 
