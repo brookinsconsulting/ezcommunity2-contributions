@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezvirtualfile.php,v 1.38 2001/07/19 13:01:02 jakobn Exp $
+// $Id: ezvirtualfile.php,v 1.39 2001/07/26 08:29:48 jhe Exp $
 //
 // Definition of eZVirtualFile class
 //
@@ -79,6 +79,7 @@ class eZVirtualfile
                                            '$originalfilename',
                                            '$this->UserID' )
                                   " );
+            $db->unlock();
 			$this->ID = $nextID;
 
         }
@@ -93,7 +94,6 @@ class eZVirtualfile
                                  " );
         }
 
-        $db->unlock();
         if ( $result == false )
             $db->rollback( );
         else
@@ -108,7 +108,7 @@ class eZVirtualfile
         // Delete from the database
         $db =& eZDB::globalDatabase();
         
-        if ( isset( $this->ID ) )
+        if ( isSet( $this->ID ) )
         {
             $this->removeWritePermissions();
             $this->removeReadPermissions();
@@ -117,7 +117,6 @@ class eZVirtualfile
 
             $results[] = $db->query( "DELETE FROM eZFileManager_File WHERE ID='$this->ID'" );
             $results[] = $db->query( "DELETE FROM eZFileManager_FileFolderLink WHERE FileID='$this->ID'" );
-            
             $results[] = $db->query( "DELETE FROM eZFileManager_FilePermission WHERE ObjectID='$this->ID'" );
 
             $commit = true;

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: folderedit.php,v 1.24 2001/07/19 13:01:02 jakobn Exp $
+// $Id: folderedit.php,v 1.25 2001/07/26 08:29:49 jhe Exp $
 //
 // Created on: <08-Jan-2001 11:13:29 ce>
 //
@@ -40,7 +40,7 @@ $user =& eZUser::currentUser();
 
 //om folder ID finnes 
 
-if( isset( $FolderID ) && $FolderID != 0 && !eZObjectPermission::hasPermission( $FolderID, "filemanager_folder", 'w' ) &&
+if ( isSet( $FolderID ) && $FolderID != 0 && !eZObjectPermission::hasPermission( $FolderID, "filemanager_folder", 'w' ) &&
                             !eZVirtualFolder::isOwner( $user, $FolderID ) ) 
 {
     eZHTTPTool::header( "Location: /error/403/" );
@@ -53,7 +53,7 @@ if ( isSet ( $Cancel ) )
 
     $parent = $folder->parent();
 
-    if( !isset( $parentID ) )
+    if( !isSet( $parentID ) )
         $parentID = "0";
     
     if ( $parent )
@@ -61,7 +61,6 @@ if ( isSet ( $Cancel ) )
 
     eZHTTPTool::header( "Location: /filemanager/list/" . $parentID );
     exit();
-
 }
 
 $ini =& INIFile::globalINI();
@@ -110,7 +109,7 @@ $t->set_var( "error_write_everybody_permission", "&nbsp;" );
 
 if ( $Action == "Insert" || $Action == "Update" )
 {
-    if ( count ( $ReadGroupArrayID ) > 1 )
+    if ( count( $ReadGroupArrayID ) > 1 )
     {
         foreach ( $ReadGroupArrayID as $Read )
         {
@@ -122,7 +121,7 @@ if ( $Action == "Insert" || $Action == "Update" )
         }
     }
 
-    if ( count ( $WriteGroupArrayID ) > 1 )
+    if ( count( $WriteGroupArrayID ) > 1 )
     {
         foreach ( $WriteGroupArrayID as $Write )
         {

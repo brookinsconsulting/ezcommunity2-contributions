@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: fileupload.php,v 1.30 2001/07/19 13:01:02 jakobn Exp $
+// $Id: fileupload.php,v 1.31 2001/07/26 08:29:48 jhe Exp $
 //
 // Created on: <10-Dec-2000 15:49:57 bf>
 //
@@ -345,14 +345,14 @@ if ( $Action == "Delete" )
 if ( $Action == "DeleteFolders" )
 {
     $oldFolder = 0;
-    if ( count ( $FolderArrayID ) > 0 )
+    if ( count( $FolderArrayID ) > 0 )
     {
         foreach ( $FolderArrayID as $FolderID )
         {
             $folder = new eZVirtualFolder( $FolderID );
             $oldParent = $folder->parent();
 
-            if( $oldParent )
+            if ( $oldParent )
                 $oldFolder = $oldParent->id();
 
             $folder->delete();

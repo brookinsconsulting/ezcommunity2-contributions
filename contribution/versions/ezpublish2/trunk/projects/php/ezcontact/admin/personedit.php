@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: personedit.php,v 1.40 2001/07/25 12:49:14 jhe Exp $
+// $Id: personedit.php,v 1.41 2001/07/26 08:29:48 jhe Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -139,7 +139,56 @@ if ( isSet( $NewConsultation ) )
 
 if ( isSet( $FileButton ) )
 {
+    include_once( "ezfilemanager/classes/ezvirtualfolder.php" );
+    $top = eZVirtualFolder::getIDByParent( "Contact" );
+    if ( !$top )
+    {
+        $contact = new eZVirtualFolder();
+        $contact->setName( "Contact" );
+        $contact->setParent( new eZVirtualFolder( 0 ) );
+        $contact->store();
+        $top = $contact->ID();
+    }
     
+    if ( isSet( $CompanyEdit ) )
+    {
+        $parent = eZVirtualFolder::getIDByParent( "Company", $top );
+        if ( !$parent )
+        {
+            $companyFolder = new eZVirtualFolder();
+            $companyFolder->setName( "Company" );
+            $companyFolder->setParent( new eZVirtualFolder( $top ) );
+            $companyFolder->store();
+            $parent = $companyFolder->ID();
+        }
+        $element = new eZCompany( $item_id );
+    }
+    else
+    {
+        $parent = eZVirtualFolder::getIDByParent( "Person", $top );
+        if ( !$parent )
+        {
+            $personFolder = new eZVirtualFolder();
+            $personFolder->setName( "Person" );
+            $personFolder->setParent( new eZVirtualFolder( $top ) );
+            $personFolder->store();
+            $parent = $personFolder->ID();
+        }
+        $element = new eZPerson( $item_id );
+    }
+
+    $id = eZVirtualFolder::getIDByParent( $element->name(), $parent );
+    if ( !$id )
+    {
+        $newFolder = new eZVirtualFolder();
+        $newFolder->setName( $element->name() );
+        $newFolder->setParent( new eZVirtualFolder( $parent ) );
+        $newFolder->store();
+        $id = $newFolder->ID();
+    }
+    include_once( "classes/ezhttptool.php" );
+    eZHTTPTool::header( "Location: /filemanager/list/$id/" );
+    exit;
 }
 
 if ( isSet( $Back ) )

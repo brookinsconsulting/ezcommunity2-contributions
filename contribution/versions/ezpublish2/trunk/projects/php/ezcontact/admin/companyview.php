@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: companyview.php,v 1.25 2001/07/23 14:54:24 jhe Exp $
+// $Id: companyview.php,v 1.26 2001/07/26 08:29:48 jhe Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -197,9 +197,9 @@ else
 
 // Address list
     $addressList = $company->addresses( $company->id() );
-    if ( count ( $addressList ) != 0 )
+    if ( count( $addressList ) != 0 )
     {
-        foreach( $addressList as $addressItem )
+        foreach ( $addressList as $addressItem )
         {
             $t->set_var( "address_id", $addressItem->id() );
             $t->set_var( "street1", eZTextTool::htmlspecialchars( $addressItem->street1() ) );
@@ -231,9 +231,9 @@ else
 
     $count = count( $phoneList );
 
-    if( $count != 0 )
+    if ( $count != 0 )
     {
-        for( $i=0; $i < $count; $i++ )
+        for ( $i = 0; $i < $count; $i++ )
         {
             $t->set_var( "phone_id", $phoneList[$i]->id() );
             $t->set_var( "phone", eZTextTool::htmlspecialchars( $phoneList[$i]->number() ) );
@@ -258,7 +258,7 @@ else
     $count = count( $OnlineList );
     if ( $count != 0)
     {
-        for( $i=0; $i< $count; $i++ )
+        for ( $i = 0; $i < $count; $i++ )
         {
             $t->set_var( "online_id", $OnlineList[$i]->id() );
             $onlineType = $OnlineList[$i]->onlineType();

@@ -169,8 +169,11 @@
 <!-- BEGIN consultation_buttons_tpl -->
 <input class="stdbutton" type="submit" name="ListConsultation" value="{intl-consultation_list}">
 <input class="stdbutton" type="submit" name="NewConsultation" value="{intl-consultation}">
-<hr noshade="noshade" size="4" />
+<!-- BEGIN file_button_tpl -->
+<input class="stdbutton" type="submit" name="FileButton" value="{intl-files}">
+<!-- END file_button_tpl -->
 <!-- END consultation_buttons_tpl -->
+<hr noshade="noshade" size="4" />
 
 <input class="okbutton" type="submit" name="Edit" value="{intl-edit}">
 </form>
