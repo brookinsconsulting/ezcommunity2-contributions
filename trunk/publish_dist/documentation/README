@@ -1,4 +1,4 @@
-eZ publish 2.2.7
+eZ publish 2.3.0
 ----------------
 
 eZ publish is a content management system for e-commerce, e-publishing and intranets. 
@@ -17,20 +17,16 @@ NOTE: There are structural changes in the database that might make your old arti
 L I N K S:
 ----------
 
-For developer information / contribution information contact Bård Farstad (bf@ez.no).
+For developer information / contribution / internationalisation issues / documentation issues and information contact Graham Brookins (info at brookinsconsulting dot com).
 
-For internationalisation issues contact Gunnstein Lye (gl@ez.no).
-
-For documentation issues contact Paul K Egell-Johnsen (pkej@ez.no).
-
-eZ publish homepage:
-http://developer.ez.no
+eZ Community : eZ publish 2 homepage:
+http://ezcommunity.net
 
 Latest eZ publish documentation:
-http://developer.ez.no/filemanager/list/1/
+http://ezcommunity.net/filemanager/list/1/
 
-Latest eZ publish version:
-http://developer.ez.no/filemanager/list/3/
+Latest eZ publish 2 version:
+http://ezcommunity.net/filemanager/list/3/
 
 
 U P G R A D E:
