@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: articlelist.php,v 1.19 2000/12/08 09:32:35 bf-cvs Exp $
+// $Id: articlelist.php,v 1.20 2000/12/11 12:11:12 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <18-Oct-2000 14:41:37 bf>
@@ -22,6 +22,7 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, US
 //
+
 
 
 include_once( "classes/INIFile.php" );

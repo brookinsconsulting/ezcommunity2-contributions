@@ -193,6 +193,13 @@ switch ( $url_array[2] )
     }
     break;
 
+    case "rssheadlines":
+    {
+        include( "ezarticle/user/articlelistrss.php" );
+
+    }
+    break;
+    
 }
 
 ?>
