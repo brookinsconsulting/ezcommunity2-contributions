@@ -1,11 +1,11 @@
 <?
 // 
-// $Id: eznewschangeticket.php,v 1.1 2000/10/01 16:37:53 pkej-cvs Exp $
+// $Id: eznewschangeticket.php,v 1.2 2000/10/01 17:36:21 pkej-cvs Exp $
 //
 // Definition of eZNewsChangeTicket class
 //
 // Paul K Egell-Johnsen <pkej@ez.no>
-// Created on: <14-Sep-2000 11:40:37 pkej>
+// Created on: <10-Oct-2000 18:39:01 pkej>
 //
 // Copyright (C) 1999-2000 eZ Systems.  All rights reserved.
 //
@@ -71,7 +71,10 @@
     \sa eZNewsUtility eZNewsItem
 */
 /*!TODO
-    Make getThis get parents class/table if missing from this.
+    Add more error checking (in get/set functions)
+    Add error logging
+    Add debug logging
+    More examples
  */
 
 include_once( "eznews/classes/eznewsutility.php" );       
@@ -111,11 +114,14 @@ class eZNewsChangeTicket extends eZNewsUtility
         $query =
         "
             UPDATE
-                eZNews_ItemType
+                eZNews_ChangeTicket
             SET
                 Name = '%s',
-                eZClass = '%s',
-                eZTable = '%s'
+                ChangeInfo = %s,
+                ChangeTypeID = %s,
+                ChangedBy = %s,
+                ChangedAt = '%s',
+                ChangeIP = '%s'
             WHERE
                 ID = '%s'
         ";
@@ -124,8 +130,11 @@ class eZNewsChangeTicket extends eZNewsUtility
         (
             $query,
             $this->Name,
-            $this->eZClass,
-            $this->eZTable,
+            $this->ChangeInfo,
+            $this->ChangeTypeID,
+            $this->ChangedBy,
+            $this->ChangeIP,
+            $this->ChangeIP,
             $this->ID
         );
         
@@ -159,19 +168,25 @@ class eZNewsChangeTicket extends eZNewsUtility
         $query =
         "
             INSERT INTO
-                eZNews_ItemType
+                eZNews_ChangeTicket
             SET
                 Name = '%s',
-                eZClass = '%s',
-                eZTable = '%s'
+                ChangeInfo = %s,
+                ChangeTypeID = %s,
+                ChangedBy = %s,
+                ChangedAt = '%s',
+                ChangeIP = '%s'
         ";
         
         $query = sprintf
         (
             $query,
             $this->Name,
-            $this->eZClass,
-            $this->eZTable
+            $this->ChangeInfo,
+            $this->ChangeTypeID,
+            $this->ChangedBy,
+            $this->ChangeIP,
+            $this->ChangeIP
         );
         
         $this->Database->query( $query );
@@ -212,7 +227,7 @@ class eZNewsChangeTicket extends eZNewsUtility
                 SELECT
                     *
                 FROM
-                    eZNews_ItemType
+                    eZNews_ChangeTicket
                 WHERE ID = %s
             ";
             
@@ -224,7 +239,7 @@ class eZNewsChangeTicket extends eZNewsUtility
                 SELECT
                     *
                 FROM
-                    eZNews_ItemType
+                    eZNews_ChangeTicket
                 WHERE Name = '%s'
             ";
             
@@ -246,9 +261,11 @@ class eZNewsChangeTicket extends eZNewsUtility
             case 1:
                 $outID[] = $changeTicketArray[0][ "ID" ];
                 $this->Name = $changeTicketArray[0][ "Name" ];
-                $this->ParentID = $changeTicketArray[0][ "ParentID" ];
-                $this->eZClass = $changeTicketArray[0][ "eZClass" ];
-                $this->eZTable = $changeTicketArray[0][ "eZTable" ];
+                $this->ChangeInfo = $changeTicketArray[0][ "ChangeInfo" ];
+                $this->ChangeTypeID = $changeTicketArray[0][ "ChangeTypeID" ];
+                $this->ChangedBy = $changeTicketArray[0][ "ChangedBy" ];
+                $this->ChangedAt = $changeTicketArray[0][ "ChangedAt" ];
+                $this->ChangeIP = $changeTicketArray[0][ "ChangeIP" ];
                 $value = true;
                 break;
             default:
@@ -307,7 +324,7 @@ class eZNewsChangeTicket extends eZNewsUtility
             SELECT
                 ID
             FROM
-                eZNews_ItemType
+                eZNews_ChangeTicket
             %s
             %s
         ";
@@ -335,18 +352,18 @@ class eZNewsChangeTicket extends eZNewsUtility
 
 
     /*!
-        Sets the eZClass of the object.
+        Sets the ChangedBy of the object.
         
         \in
-            \$inDescription    The new eZClass of this object
+            \$inDescription    The new ChangedBy of this object
         \return
             Will always return true.
     */
-    function seteZClass( $ineZClass )
+    function setChangedBy( $inChangedBy )
     {
         $this->dirtyUpdate();
         
-        $this->eZClass = $ineZClass;
+        $this->ChangedBy = $inChangedBy;
         
         $this->alterState();
         
@@ -356,33 +373,33 @@ class eZNewsChangeTicket extends eZNewsUtility
 
 
     /*!
-        Returns the object eZClass.
+        Returns the object ChangedBy.
         
         \return
-            Returns the eZClass of the object.
+            Returns the ChangedBy of the object.
     */
-    function eZClass()
+    function changedBy()
     {
         $this->dirtyUpdate();
         
-        return $this->eZClass;
+        return $this->ChangedBy;
     }
 
 
 
     /*!
-        Sets the eZTable of the object.
+        Sets the ChangedAt of the object.
         
         \in
-            \$inDescription    The new eZTable of this object
+            \$inDescription    The new ChangedAt of this object
         \return
             Will always return true.
     */
-    function seteZTable( $ineZTable )
+    function setChangedAt( $inChangedAt )
     {
         $this->dirtyUpdate();
         
-        $this->eZTable = $ineZTable;
+        $this->ChangedAt = $inChangedAt;
         
         $this->alterState();
         
@@ -392,33 +409,33 @@ class eZNewsChangeTicket extends eZNewsUtility
 
 
     /*!
-        Returns the object eZTable.
+        Returns the object ChangedAt.
         
         \return
-            Returns the eZTable of the object.
+            Returns the ChangedAt of the object.
     */
-    function eZTable()
+    function changedAt()
     {
         $this->dirtyUpdate();
         
-        return $this->eZTable;
+        return $this->ChangedAt;
     }
 
 
 
     /*!
-        Sets the ParentID of the object.
+        Sets the ChangeIP of the object.
         
         \in
-            \$inDescription    The new ParentID of this object
+            \$inDescription    The new ChangeIP of this object
         \return
             Will always return true.
     */
-    function setParentID( $inParentID )
+    function setChangeIP( $inChangeIP )
     {
         $this->dirtyUpdate();
         
-        $this->ParentID = $inParentID;
+        $this->ChangeIP = $inChangeIP;
         
         $this->alterState();
         
@@ -428,16 +445,200 @@ class eZNewsChangeTicket extends eZNewsUtility
 
 
     /*!
-        Returns the object's ParentID.
+        Returns the object ChangeIP.
         
         \return
-            Returns the ParentID of the object.
+            Returns the ChangeIP of the object.
     */
-    function parentID()
+    function changeIP()
     {
         $this->dirtyUpdate();
         
-        return $this->ParentID;
+        return $this->ChangeIP;
+    }
+
+
+
+    /*!
+        Sets the ChangeTypeID of the object.
+        
+        \in
+            \$inDescription    A valid ChangeType ID or name.
+        \return
+            Returns true if the item is changed.
+    */
+    function setChangeTypeID( $inChangeTypeID )
+    {
+        $value = false;
+        
+        include_once( "eznews/classes/eznewschangetype.php" );
+        
+        $ct = new eZNewsChangeType( $inChangeTypeID, true );
+
+        if( $ct->isCoherent() )
+        {
+            $this->dirtyUpdate();
+        
+            $this->ChangeTypeID = $inChangeTypeID;
+        
+            $this->alterState();
+        
+            $value = true;
+        }
+        
+        return $value;
+    }
+    
+
+
+    /*!
+        Returns the object ChangeTypeID.
+        
+        \return
+            Returns the ChangeTypeID of the object.
+    */
+    function changeTypeID()
+    {
+        $this->dirtyUpdate();
+        
+        return $this->ChangeTypeID;
+    }
+
+
+
+    /*!
+        Sets the ChangeInfo of the object.
+        
+        \in
+            \$inDescription    A valid name or id of an article.
+        \return
+            Returns true if changed.
+    */
+    function setChangeInfo( $inChangeInfo )
+    {
+        $value = false;
+        
+        include_once( "eznews/classes/eznewsarticle.php" );
+        
+        $item = new eZNewsChangeType( $inChangeInfo, true );
+
+        if( $item->isCoherent() )
+        {
+            $this->dirtyUpdate();
+
+            $this->ChangeInfo = $item->ID();
+
+            $this->alterState();
+            
+            $value = true;
+        }
+        
+        return $value;
+    }
+    
+
+
+    /*!
+        Returns the object's ChangeInfo.
+        
+        \return
+            Returns the ChangeInfo of the object.
+    */
+    function changeInfo()
+    {
+        $this->dirtyUpdate();
+        
+        return $this->ChangeInfo;
+    }
+
+
+
+    /*!
+        Start or stop creator check.
+        
+        \in
+            \$check True enables creator checking, false disables it.
+                    Default is true.
+        \return
+            Returns the new status.
+     */
+    function doCreatorCheck( $check = true )
+    {
+        if( $check == false )
+        {
+            $this->checkCreator = false;
+        }
+        else
+        {
+            $this->checkCreator = true;
+        }
+        
+        return $this->checkCreator();
+    }
+
+    
+
+    /*!
+        Should we check out who the creator is?
+       
+        \return
+            Returns true if we should check the
+            creator.
+     */
+    function checkCreator()
+    {
+        $value = false;
+        
+        if( $this->checkCreator == true )
+        {
+            $value = true;
+        }
+        
+        return $value;
+    }
+
+
+
+    /*!
+        Start or stop article requirement.
+        
+        \in
+            \$check True enables article requirement, false disables it.
+                    Default is true.
+        \return
+            Returns the new status.
+     */
+    function doLogging( $check = true )
+    {
+        if( $check == false )
+        {
+            $this->isArticleRequired = false;
+        }
+        else
+        {
+            $this->isArticleRequired = true;
+        }
+        
+        return requireArticle();
+    }
+
+    /*!
+        Check if this object is requiring an article detailing
+        the resaons for the change.
+       
+        \return
+            Returns true if an article is required.
+     */
+    function requireArticle()
+    {
+        $value = false;
+        
+        if( $this->isArticleRequired == true )
+        {
+            $value = true;
+        }
+        
+        return $value;
     }
 
 
@@ -454,10 +655,20 @@ class eZNewsChangeTicket extends eZNewsUtility
         $value = false;
         
         eZNewsUtility::invariantCheck();
-
-        if( empty( $this->Description ) )
+        
+        if( !isset( $this->ChangeInfo ) && $this->requireArticle() )
         {
-            $this->Errors[] = "intl-description-required";
+            $this->Errors[] = "intl-logitem-required";
+        }
+
+        if( empty( $this->ChangeTypeID ) )
+        {
+            $this->Errors[] = "intl-itemtypeid-required";
+        }
+
+        if( $this->CreatedBy == 0 && $this->checkCreator() )
+        {
+            $this->Errors[] = "intl-createdby-required";
         }
 
         if( !count( $this->Errors ) )
@@ -474,14 +685,30 @@ class eZNewsChangeTicket extends eZNewsUtility
 
     // The data members
 
-    /// The class name of this change ticket, empty means use parent or n/a.
-    var $eZClass;
+    /// ID of an article which details this change.
+    var $ChangeInfo;
     
-    /// The table where this class is stored, empty means use parent or n/a.
-    var $eZTable;
+    /// The type of change performed.
+    var $ChangeTypeID;
     
-    /// The ID of the parent of this class.
-    var $ParentID;
+    /// The user id of the person which did the change.
+    var $ChangedBy = 0;
+    
+    /// The time stamp of the change.
+    var $ChangedAt = '';
+
+    /// The ip address of the computer the user used for this change.
+    var $ChangeIP = '';
+
+
+
+    // Object preferences
+
+    /// Is an detailed info about the change needed?
+    var $isArticleRequired = true;
+       
+    /// Check creator id
+    var $checkCreator = true;
 };
 
 ?>

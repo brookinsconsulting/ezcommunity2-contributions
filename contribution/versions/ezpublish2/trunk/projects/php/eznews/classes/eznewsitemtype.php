@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: eznewsitemtype.php,v 1.5 2000/10/01 16:37:53 pkej-cvs Exp $
+// $Id: eznewsitemtype.php,v 1.6 2000/10/01 17:36:21 pkej-cvs Exp $
 //
 // Definition of eZNewsItemType class
 //
@@ -342,17 +342,24 @@ class eZNewsItemType extends eZNewsUtility
         \in
             \$inDescription    The new eZClass of this object
         \return
-            Will always return true.
+            Will return true if a valid string is entered.
     */
     function seteZClass( $ineZClass )
     {
-        $this->dirtyUpdate();
+        $value = false;
         
-        $this->eZClass = $ineZClass;
+        if( is_string( $ineZClass ) )
+        {
+            $this->dirtyUpdate();
         
-        $this->alterState();
+            $this->eZClass = $ineZClass;
         
-        return true;
+            $this->alterState();
+             
+            $value = true;
+        }
+
+        return $value;
     }
     
 
@@ -378,17 +385,23 @@ class eZNewsItemType extends eZNewsUtility
         \in
             \$inDescription    The new eZTable of this object
         \return
-            Will always return true.
+            Will return true if a valid string is entered.
     */
     function seteZTable( $ineZTable )
     {
-        $this->dirtyUpdate();
+        $value = false;
         
-        $this->eZTable = $ineZTable;
+        if( is_string( $ineZTable ) )
+        {
+            $this->dirtyUpdate();
         
-        $this->alterState();
+            $this->eZTable = $ineZTable;
         
-        return true;
+            $this->alterState();
+            
+            $value = true;
+        }
+        return $value;
     }
     
 
@@ -412,19 +425,28 @@ class eZNewsItemType extends eZNewsUtility
         Sets the ParentID of the object.
         
         \in
-            \$inDescription    The new ParentID of this object
+            \$inDescription    A valid item type id or name.
         \return
-            Will always return true.
+            Will return true if the item type id was changed.
     */
     function setParentID( $inParentID )
     {
-        $this->dirtyUpdate();
+        $value = false;
         
-        $this->ParentID = $inParentID;
+        $it = new eZNewsItemType( $inParentID, true );
+
+        if( $it->isCoherent() )
+        {
+            $this->dirtyUpdate();
+
+            $this->ParentID = $it->ID();
+
+            $this->alterState();
+            
+            $value = true;
+        }
         
-        $this->alterState();
-        
-        return true;
+        return $value;
     }
     
 

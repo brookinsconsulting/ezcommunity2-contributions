@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eznewsitem.php,v 1.17 2000/10/01 16:37:53 pkej-cvs Exp $
+// $Id: eznewsitem.php,v 1.18 2000/10/01 17:36:21 pkej-cvs Exp $
 //
 // Definition of eZNewsItem class
 //
@@ -84,6 +84,8 @@
     getThis() must also  fetch info about referenced objects.
     
     createLogItem() must do its job ;)
+    
+    makeCoherent() mus do its job.
     
     updateThis(), needs to be implemented, togheter with cascading updates
     of dependant tables.
@@ -1062,6 +1064,98 @@ class eZNewsItem extends eZNewsUtility
         //
         }
         return $this->invariantCheck();
+    }
+
+
+
+    /*!
+        Sets the item type id of the object.
+        
+        \in
+            \$inDescription    A valid item type id or name.
+        \return
+            Will return true if the item type id was changed.
+    */
+    function setItemTypeID( $inItemTypeID )
+    {
+        $value = false;
+        
+        include_once( "eznews/classes/eznewsitemtype.php" );
+        $it = new eZNewsItemType( $inItemTypeID, true );
+
+        if( $it->isCoherent() )
+        {
+            $this->dirtyUpdate();
+        
+            $this->ChangeTypeID = $it->ID();
+        
+            $this->alterState();
+        
+            $value = true;
+        }
+        
+        return $value;
+    }
+    
+
+
+    /*!
+        Returns the object ItemTypeID.
+        
+        \return
+            Returns the ItemTypeID of the object.
+    */
+    function changeItemTypeID()
+    {
+        $this->dirtyUpdate();
+        
+        return $this->ItemTypeID;
+    }
+
+
+
+    /*!
+        Sets the Status of the object.
+        
+        \in
+            \$inDescription    A valid change type id or name.
+        \return
+            Will return true if the Status was changed.
+    */
+    function setStatus( $inStatus )
+    {
+        $value = false;
+        
+        include_once( "eznews/classes/eznewschangetype.php" );
+        $ct = new eZNewsChangeType( $inItemTypeID, true );
+
+        if( $ct->isCoherent() )
+        {
+            $this->dirtyUpdate();
+        
+            $this->Status = $ct->ID();
+        
+            $this->alterState();
+        
+            $value = true;
+        }
+        
+        return $value;
+    }
+    
+
+
+    /*!
+        Returns the object Status.
+        
+        \return
+            Returns the Status of the object.
+    */
+    function changeStatus()
+    {
+        $this->dirtyUpdate();
+        
+        return $this->Status;
     }
 
 

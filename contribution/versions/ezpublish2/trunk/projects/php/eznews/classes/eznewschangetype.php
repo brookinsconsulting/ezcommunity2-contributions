@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: eznewschangetype.php,v 1.8 2000/10/01 16:37:53 pkej-cvs Exp $
+// $Id: eznewschangetype.php,v 1.9 2000/10/01 17:36:21 pkej-cvs Exp $
 //
 // Definition of eZNewsChangeType class
 //
@@ -52,7 +52,11 @@
     if( !$ct->isCoherent() )
     {
         $ct->setName( $changeName );
-        $ct->setDescription( "The item has been submitted" );
+        if( !$ct->setDescription( "The item has been submitted" ) )
+        {
+            echo "You need to use a real description string.<br>";
+        }
+        
         $outID = 0;
         $ct->store( $outID );
         
@@ -75,7 +79,9 @@
     \sa eZNewsUtility eZNewsItem
 */
 /*!TODO
-    Add all examples needed.
+    Go through the error handling
+    Add error logging
+    Add debug logging
  */
 
 include_once( "eznews/classes/eznewsutility.php" );       
@@ -335,19 +341,25 @@ class eZNewsChangeType extends eZNewsUtility
         Sets the descritption of the object.
         
         \in
-            \$inDescription    The new name of this object
+            \$inDescription    The new description of this object
         \return
-            Will always return true.
+            Will return true if a non-null string is sent in.
     */
     function setDescription( $inDescription )
     {
-        $this->dirtyUpdate();
+        $value = false;
         
-        $this->Description = $inDescription;
-        
-        $this->alterState();
-        
-        return true;
+        if( is_string( $inDescription ) )
+        {
+            $this->dirtyUpdate();
+
+            $this->Description = $inDescription;
+
+            $this->alterState();
+            
+            $value = true;
+        }
+        return $value;
     }
     
 
