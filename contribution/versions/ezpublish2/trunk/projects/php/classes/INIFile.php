@@ -1,6 +1,6 @@
 <?php 
 // 
-// $Id: INIFile.php,v 1.37 2001/08/02 16:01:52 kaid Exp $
+// $Id: INIFile.php,v 1.38 2001/08/09 12:08:47 bf Exp $
 //
 // Implements a simple INI-file parser
 //
@@ -170,7 +170,9 @@ class INIFile
              $this->CURRENT_GROUP=false;
         if ( !isset( $this->GROUPS ) or !$append )
              $this->GROUPS=array();
+
         $contents =& fread($fp, eZFile::filesize($inifilename));
+        $contents .= "\n";
         $ini_data =& split( "\n",$contents);
 
         for ( $i = 0; $i < count( $ini_data ); $i++ )
