@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: appointmentedit.php,v 1.34 2001/03/05 09:47:33 gl Exp $
+// $Id: appointmentedit.php,v 1.35 2001/03/08 14:40:23 fh Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <03-Jan-2001 12:47:22 bf>
@@ -116,6 +116,8 @@ else if ( $Action == "New"  )
     $app = new eZAppointment();
 else
     $app = new eZAppointment( $AppointmentID );
+
+$session->setVariable( "ShowOtherCalenderUsers", $userID );
 
 
 $t = new eZTemplate( "ezcalendar/user/" . $ini->read_var( "eZCalendarMain", "TemplateDir" ),
