@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: appointmentedit.php,v 1.5 2001/01/17 10:44:34 ce Exp $
+// $Id: appointmentedit.php,v 1.6 2001/01/17 12:05:33 gl Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <03-Jan-2001 12:47:22 bf>
@@ -33,7 +33,7 @@ include_once( "classes/eztime.php" );
 include_once( "ezcalendar/classes/ezappointment.php" );
 include_once( "ezcalendar/classes/ezappointmenttype.php" );
 
-$ini = new INIFIle( "site.ini" );
+$ini =& $GLOBALS["GlobalSiteIni"];
 
 $Language = $ini->read_var( "eZCalendarMain", "Language" );
 
@@ -116,10 +116,8 @@ if ( $Action == "Insert" || $Action == "Update" )
 
         $date = new eZDateTime( $Year, $Month, $Day,
         $startTime->hour(), $startTime->minute(), 0 );
-            
-        $appointment->setDate( $date );
-        $locate = new eZLocale( $Language );
 
+        $appointment->setDate( $date );
 
         $duration = new eZTime( $stopTime->hour() - $startTime->hour(),
         $stopTime->minute() - $startTime->minute() );
