@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: articleview.php,v 1.84.2.6 2001/11/28 10:30:34 bf Exp $
+// $Id: articleview.php,v 1.84.2.7 2001/12/05 13:56:11 fh Exp $
 //
 // Created on: <18-Oct-2000 16:34:51 bf>
 //
@@ -274,7 +274,7 @@ if ( $article->get( $ArticleID ) )
     // check for topic
     $topic =& $article->topic();
 
-    if ( get_class( $topic ) == "eztopic" )
+    if ( get_class( $topic ) == "eztopic" && $topic->name() != "" )
     {
         $t->set_var( "topic_id", $topic->id() );
         $t->set_var( "topic_name", $topic->name() );
