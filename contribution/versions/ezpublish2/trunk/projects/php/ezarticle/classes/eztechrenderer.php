@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eztechrenderer.php,v 1.56 2001/03/01 14:06:25 jb Exp $
+// $Id: eztechrenderer.php,v 1.57 2001/03/07 09:43:35 jb Exp $
 //
 // Definition of eZTechRenderer class
 //
@@ -208,6 +208,7 @@ class eZTechRenderer
     */
     function &renderPage( $pageNumber=0 )
     {
+        $this->PageNumber = $pageNumber;
         $xml =& xmltree( $this->Article->contents() );
 
 //          $xml =& qdom_tree( $this->Article->contents() );
@@ -591,7 +592,7 @@ class eZTechRenderer
                     $imageTags = "<br clear=\"all\"><table width=\"$imageWidth\" align=\"$imageAlignment\" border=\"0\" cellspacing=\"0\" cellpadding=\"4\">
                                             <tr>
                                             <td>
-                                                     	<a href=\"/imagecatalogue/imageview/$imageID/?RefererURL=/article/$viewMode/$articleID/\">
+                                                     	<a href=\"/imagecatalogue/imageview/$imageID/?RefererURL=/article/$viewMode/$articleID/$this->PageNumber\">
                                                         <img src=\"$imageURL\" border=\"0\" width=\"$imageWidth\" height=\"$imageHeight\" alt=\"\" />
                                                         </a>   
                                                         </td>
@@ -605,7 +606,7 @@ class eZTechRenderer
                 }
                 else
                 {                    
-                    $imageTags = "<a href=\"/imagecatalogue/imageview/$imageID/?RefererURL=/article/$viewMode/$articleID/\"><img src=\"$imageURL\" border=\"0\" width=\"$imageWidth\" height=\"$imageHeight\" alt=\"\" /></a>";
+                    $imageTags = "<a href=\"/imagecatalogue/imageview/$imageID/?RefererURL=/article/$viewMode/$articleID/$this->PageNumber\"><img src=\"$imageURL\" border=\"0\" width=\"$imageWidth\" height=\"$imageHeight\" alt=\"\" /></a>";
                 }
                 $pageContent .=  $imageTags;
             }
@@ -1149,6 +1150,7 @@ class eZTechRenderer
     
     var $Article;
     var $PrevTag;
+    var $PageNumber;
 }
 
 ?>
