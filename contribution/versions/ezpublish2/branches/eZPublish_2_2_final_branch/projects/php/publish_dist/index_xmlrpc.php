@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: index_xmlrpc.php,v 1.27.2.11 2002/04/26 14:59:09 jb Exp $
+// $Id: index_xmlrpc.php,v 1.27.2.12 2002/06/10 12:01:18 bf Exp $
 //
 // Created on: <09-Nov-2000 14:52:40 ce>
 //
@@ -84,8 +84,20 @@ $REQUEST_URI = $regs[1];
 ob_end_clean();
 ob_start();
 
-define( "EZPUBLISH_SERVER_VERSION", 2.2 );
-define( "EZPUBLISH_SERVER_RELEASE", 3 );
+// server information
+include_once( "classes/ezpublish.php" );
+$version_string = eZPublish::version();
+if ( ereg( "([0-9]+.[0-9]+).([0-9]+)", $version_string, $regs ) )
+{
+    define( "EZPUBLISH_SERVER_VERSION", $regs[1] );
+    define( "EZPUBLISH_SERVER_RELEASE", $regs[2] );
+}
+else
+{
+    define( "EZPUBLISH_SERVER_VERSION", 0.0 );
+    define( "EZPUBLISH_SERVER_RELEASE", 0 );
+}
+
 
 // Error codes
 define( "EZERROR_BAD_LOGIN", 1 );
