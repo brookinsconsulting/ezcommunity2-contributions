@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eztechrenderer.php,v 1.58 2001/03/07 09:48:54 jb Exp $
+// $Id: eztechrenderer.php,v 1.59 2001/03/12 15:58:49 bf Exp $
 //
 // Definition of eZTechRenderer class
 //
@@ -197,7 +197,7 @@ class eZTechRenderer
             }
                 
 //            $newArticle = eZTextTool::nl2br( $intro );
-                $newArticle = $intro;
+            $newArticle = $intro;
         }
         
         return $newArticle;
@@ -293,7 +293,7 @@ class eZTechRenderer
 
             if ( $pageNumber == -1 )
             {
-                $newArticle = $intro . "\n</p><p>\n";
+                $newArticle = $intro . "\n";
                 if ( count( $pageArray ) > 0 )
                     foreach ( $pageArray as $page )
                     {
@@ -307,7 +307,7 @@ class eZTechRenderer
             else
             {
 //                  $newArticle = eZTextTool::nl2br( $intro ) . "</p><p>". $pageArray[$pageNumber];
-                $newArticle = $intro . "\n</p><p>\n". $pageArray[$pageNumber];
+                $newArticle = $intro . "\n\n". $pageArray[$pageNumber];
             }
                 
         }
@@ -326,7 +326,7 @@ class eZTechRenderer
                 if ( $this->PrevTag != "link" )
                     $paragraph_text[0] = " ";
             }
-            $pageContent .= eZTextTool::nl2br( $paragraph_text );
+            $pageContent .= "<p>" . eZTextTool::nl2br( $paragraph_text ). "</p>";
         }
         return $pageContent;
     }
