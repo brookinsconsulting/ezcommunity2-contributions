@@ -1,6 +1,6 @@
 <?
 //
-// $Id: groupedit.php,v 1.41 2001/02/23 15:23:56 ce Exp $
+// $Id: groupedit.php,v 1.42 2001/03/06 13:03:31 fh Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <26-Oct-2000 14:57:28 ce>
@@ -250,7 +250,7 @@ if ( $Action == "edit" )
 
         $image =& $linkGroup->image();
         
-        if ( $image->id() != 0 )
+        if ( get_class( $image ) == "ezimage" && $image->id() != 0 )
         {
             $imageWidth =& $ini->read_var( "eZLinkMain", "CategoryImageWidth" );
             $imageHeight =& $ini->read_var( "eZLinkMain", "CategoryImageHeight" );
