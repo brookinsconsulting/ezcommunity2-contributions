@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: category.php,v 1.5 2000/07/25 09:59:15 lw-cvs Exp $
+    $Id: category.php,v 1.6 2000/07/25 10:08:18 lw Exp $
 
     Author: Lars Wilhelmsen <lw@ez.no>
     
@@ -69,6 +69,11 @@ for ($i = 0; $i < count($forums); $i++)
     }
 if ( count( $forums) == 0 )
     $t->set_var( "forums", "<tr><td colspan=\"3\"><b>Ingen tilgjengelige forum</td></tr></b>");
+
+$t->set_var( "link1-url", "main.php");
+$t->set_var( "link1-caption", "Gå til topp");
+$t->set_var( "link2-url", "search.php");
+$t->set_var( "link2-caption", "Søk");
 
 $t->set_var( "back-url", "main.php");
 $t->parse( "navigation-bar-bottom", "navigation-bottom", true);

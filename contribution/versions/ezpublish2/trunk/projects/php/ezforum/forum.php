@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: forum.php,v 1.9 2000/07/25 09:59:15 lw-cvs Exp $
+    $Id: forum.php,v 1.10 2000/07/25 10:08:18 lw Exp $
 
     Author: Lars Wilhelmsen <lw@ez.no>
     
@@ -126,6 +126,11 @@ else
         $t->set_var( "messages", "<tr><td colspan=\"4\">Ingen meldinger</td></tr>");
      
     $t->set_var("newmessage", $newmessage);
+
+    $t->set_var( "link1-url", "newmessage.php" );
+    $t->set_var( "link1-caption", "Ny Melding" );
+    $t->set_var( "link2-url", "search.php" );
+    $t->set_var( "link2-caption", "Søk" );
 
     $t->set_var( "back-url", "category.php");
     $t->parse( "navigation-bar-bottom", "navigation-bottom", true);
