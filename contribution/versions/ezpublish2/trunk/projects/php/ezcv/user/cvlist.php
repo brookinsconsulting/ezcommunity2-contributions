@@ -95,7 +95,7 @@ else
     if( $UserID > 0 )
     {
         $person = $person->getByUserID( $UserID );
-        if( $person->id() > 0 )
+        if( is_object( $person ) )
         {
             $cv = $cv->getByPerson( $person );
             if( $cv->id() > 0 )
@@ -474,6 +474,8 @@ if( $Action == "list" )
     
     $cvs = $cv->getAllValid();
     $noItems = true;
+    // Has the scope changed? On line 29 I'm doing exactly what I'm doing on the next line....
+    $person = new eZPerson();
     
     $i=0;
     foreach( $cvs as $cv )
