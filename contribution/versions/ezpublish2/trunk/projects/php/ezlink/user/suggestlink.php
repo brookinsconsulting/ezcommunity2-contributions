@@ -1,8 +1,8 @@
 <?
-// $Id: suggestlink.php,v 1.14 2001/03/09 11:05:35 jb Exp $
+// $Id: suggestlink.php,v 1.15 2001/07/02 07:29:12 bf Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
-// Created on: <26-Oct-2000 14:54:13 ce>   
+// Created on: <26-Oct-2000 14:58:57 ce>
 //
 // This source file is part of eZ publish, publishing software.
 // Copyright (C) 1999-2001 eZ systems as
@@ -22,30 +22,70 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, US
 //
 
+
 include_once( "classes/INIFile.php" );
-include_once( "classes/eztemplate.php" );
 include_once( "classes/ezhttptool.php" );
+include_once( "ezuser/classes/ezpermission.php" );
 
 $ini =& $GLOBALS["GlobalSiteIni"];
 
 $Language = $ini->read_var( "eZLinkMain", "Language" );
-$DOC_ROOT = $ini->read_var( "eZLinkMain", "DocumentRoot" );
+$error = new INIFile( "ezuser/user/intl/" . $Language . "/suggestlink.php.ini", false );
 
-include_once( "ezlink/classes/ezlinkgroup.php" );
-include_once( "ezlink/classes/ezlink.php" );
-include_once( "ezlink/classes/ezhit.php" );
+include_once( "classes/eztemplate.php" );
+
+include( "ezlink/classes/ezlinkcategory.php" );
+include( "ezlink/classes/ezlink.php" );
+include( "ezlink/classes/ezhit.php" );
+
+include_once( "ezlink/classes/ezlinktype.php" );
+include_once( "ezlink/classes/ezlinkattribute.php" );
+
 include_once( "ezlink/classes/ezmeta.php" );
+require( "ezuser/admin/admincheck.php" );
+
+if ( isSet ( $DeleteLinks ) )
+{
+    $Action = "DeleteLinks";
+}
+
+if ( isSet( $Delete ) )
+{
+    $Action = "delete";
+}
+
+if ( isSet( $Back ) )
+{
+    $link = new eZLink();
+    $link->get( $LinkID );
+    $catDef = $link->categoryDefinition();
+    $LinkCategoryID = $catDef->id();
+
+    eZHTTPTool::header( "Location: /link/category/$LinkCategoryID/" );
+    exit();
+}
+
+// Get images from the image browse function.
+if ( ( isSet ( $AddImages ) ) and ( is_numeric( $LinkID ) ) and ( is_numeric ( $LinkID ) ) )
+{
+    $image = new eZImage( $ImageID );
+    $link = new eZLink( $LinkID );
+    $link->setImage( $image );
+    $link->update();
+    $Action = "edit";
+}
 
 if ( $GetSite )
 {
-    if ( $url )
+    if ( $Url )
     {
-        if ( !preg_match( "%^([a-z]+://)%", $url ) )
-            $real_url = "http://" . $url;
+        if ( !preg_match( "%^([a-z]+://)%", $Url ) )
+            $real_url = "http://" . $Url;
         else
-            $real_url = $url;
+            $real_url = $Url;
 
         $metaList = fetchURLInfo( $real_url );
+
         if ( $metaList == false )
         {
             // Change this to use an external message
@@ -61,91 +101,473 @@ if ( $GetSite )
             $tdescription = $metaList["description"];
         else
             $tdescription = $description;
+        
         if ( $metaList["keywords"] )
             $tkeywords = $metaList["keywords"];
         else
             $tkeywords = $keywords;
-        if ( $metaList["title"] )
-            $ttitle = $metaList["title"];
+        
+        if ( $metaList["name"] )
+            $tname = $metaList["name"];
         else if ( $metaList["abstract"] )
-            $ttitle = $metaList["abstract"];
+            $tname = $metaList["abstract"];
         else
-            $ttitle = $title;
-        $turl = $url;
+            $tname = $Name;
+//          $tdescription = $metaList["description"];
+//          $tkeywords = $metaList["keywords"];
+//          $tname = $Name;
+        
+        $turl = $Url;
 
     }
-    $Action = "";
+
+    $action_value = "insert";
+    $Action = "new";
+
 }
 
-if ( $Action == "insert" )
+// Update a link.
+if ( $Action == "update" )
 {
-    $newlink = new eZLink();
-
-    if ( ( $title == "" ) || ( $url == "" ) || ( $description == "" ) || ( $keywords == "" ) ) 
+    if ( eZPermission::checkPermission( $user, "eZLink", "LinkModify" ) )
     {
-        $inierror = new INIFile( "ezlink/user/" . "/intl/" . $Language . "/suggestlink.php.ini", false );
-        $terror_msg =  $inierror->read_var( "strings", "empty_error" );
+        if ( $Name != "" &&
+             $LinkCategoryID != "" &&
+             $Accepted != "" &&
+             $Url != "" )
+        {
+            $link = new eZLink();
+            $link->get( $LinkID );
+            
+            $link->setName( $Name );
+            $link->setDescription( $Description );
+            $link->setKeyWords( $Keywords );
+            $link->setUrl( $Url );
+            
+            $link->setCategoryDefinition( $LinkCategoryID );
+            
+            // Calculate new and unused categories
+            
+            $old_maincategory = $link->categoryDefinition();
+            $old_categories =& array_unique( array_merge( $old_maincategory->id(),
+            $link->categories( false ) ) );
+            
+            $new_categories = array_unique( array_merge( $CategoryID, $CategoryArray ) );
+            
+            $remove_categories = array_diff( $old_categories, $new_categories );
+            $add_categories = array_diff( $new_categories, $old_categories );
+            
+            $categoryIDArray = array();
+            
+            foreach ( $categoryArray as $cat )
+            {
+                $categoryIDArray[] = $cat->id();
+            }
+            
+            foreach ( $remove_categories as $categoryItem )
+            {
+                eZLinkCategory::removeLink( $link, $categoryItem );
+            }
+            
+            // add to categories
+            $category = new eZLinkCategory( $LinkCategoryID );
+            $link->setCategoryDefinition( $category );
+            $category->addLink( $link );
+            
+            foreach ( $add_categories as $categoryItem )
+            {
+                eZLinkCategory::addLink( $link, $categoryItem );
+            }
 
-        $ttitle = $title;
-        $turl = $url;
-        if ( !$GetSite )
-        {
-            $tkeywords = $keywords;
-            $tdescription = $description;
-        }
-    }
-    else
-    {
-        $newlink->setTitle( $title );
-        $newlink->setUrl( $url );
-        $newlink->setKeyWords( $keywords );
-        $newlink->setDescription( $description );
-        $newlink->setLinkGroupID( $linkgroup );
-        $newlink->setAccepted( "N" );
-     
-        if ( $newlink->checkUrl( $url ) == 0 )
-        {
-            $newlink->store();
-            eZHTTPTool::header( "Location: /link/success/" );
+            
+            if ( $Accepted == "1" )
+                $link->setAccepted( true );
+            else
+                $link->setAccepted( false );
+            
+            $link->setUrl( $Url );
+            
+            $file = new eZImageFile();
+            if ( $file->getUploadedFile( "ImageFile" ) )
+            {
+                $image = new eZImage( );
+                $image->setName( "LinkImage" );
+                $image->setImage( $file );
+                
+                $image->store();
+                
+                $link->setImage( $image );
+            }
+
+            if ( $TypeID == -1 )
+            {
+                $link->removeType();
+            }
+            else
+            {
+                $link->removeType();
+                
+                $link->setType( new eZLinkType( $TypeID ) );
+                
+                $i = 0;
+                if ( count( $AttributeValue ) > 0 )
+                {
+                    foreach ( $AttributeValue as $attribute )
+                    {
+                        $att = new eZLinkAttribute( $AttributeID[$i] );
+                        
+                        $att->setValue( $link, $attribute );
+                        
+                        $i++;
+                    }
+                }
+            }
+            
+            $link->update();
+
+            if ( $DeleteImage )
+            {
+                $link->deleteImage();
+            }
+            
+            eZHTTPTool::header( "Location: /link/category/$LinkCategoryID" );
             exit();
         }
         else
         {
-            $inierror = new INIFile( "ezlink/user/" . "/intl/" . $Language . "/suggestlink.php.ini", false );
-            $terror_msg =  $inierror->read_var( "strings", "link_error_msg" );
+            $error_msg = $error->read_var( "strings", "error_missingdata" );
+        }
+    }
+    else
+    {
+        eZHTTPTool::header( "Location: /link/norights" );
+        exit();
+    }
+}
 
-            $ttitle = $title;
-            $turl = $url;
-            $tkeywords = $keywords;
-            $tdescription = $description;
+// Delete a link.
+if ( $Action == "delete" )
+{
+    if ( eZPermission::checkPermission( $user, "eZLink", "LinkDelete" ) )
+    {
+        $deletelink = new eZLink();
+        $deletelink->get( $LinkID );
+        $deletelink->delete();
+
+        if ( $deletelink->accepted() == false )
+        {
+            eZHTTPTool::header( "Location: /link/category/incoming" );
+            exit();
+        }
+    }
+    else
+    {
+        eZHTTPTool::header( "Location: /link/norights" );
+    }
+}
+
+if ( $Action == "DeleteLinks" )
+{
+    if ( count ( $LinkArrayID ) != 0 )
+    {
+        foreach( $LinkArrayID as $LinkID )
+        {
+            $deletelink = new eZLink();
+            $deletelink->get( $LinkID );
+            $deletelink->delete();
+            
+        }
+        if ( $deletelink )
+        {
+            if ( $deletelink->accepted() == false )
+            {
+                eZHTTPTool::header( "Location: /link/category/incoming" );
+                exit();
+            }
+        }
+        eZHTTPTool::header( "Location: /link/category/$LinkCategoryID" );
+        exit();
+    }
+}
+
+// Insert a link.
+if ( $Action == "insert" )
+{
+
+    if ( eZPermission::checkPermission( $user, "eZLink", "LinkAdd") )
+    {
+        if ( $Name != "" &&
+        $LinkCategoryID != "" &&
+        $Accepted != "" &&
+        $Url != "" )
+        {
+            $link = new eZLink();
+
+            $link->setName( $Name );
+            $link->setDescription( $Description );
+            $link->setKeyWords( $Keywords );
+            if ( $Accepted == "1" )
+                $link->setAccepted( true );
+            else
+                $link->setAccepted( false );
+
+            $link->setUrl( $Url );
+
+            $tname = $Name;
+            $turl = $Url;
+            if ( !$GetSite )
+            {
+                $tkeywords = $Keywords;
+                $tdescription = $Description;
+            }
+
+            $file = new eZImageFile();
+            if ( $file->getUploadedFile( "ImageFile" ) )
+            {
+                $image = new eZImage( );
+                $image->setName( "LinkImage" );
+                $image->setImage( $file );
+
+                $image->store();
+                
+                $link->setImage( $image );
+            }
+
+            $link->store();
+                
+            if ( $TypeID == -1 )
+            {
+                $link->removeType();
+            }
+            else
+            {
+                $link->setType( new eZLinkType( $TypeID ) );
+                
+                $i = 0;
+                if ( count( $AttributeValue ) > 0 )
+                {
+                    foreach ( $AttributeValue as $attribute )
+                    {
+                        $att = new eZLinkAttribute( $AttributeID[$i] );
+                        
+                        $att->setValue( $link, $attribute );
+                        
+                        $i++;
+                    }
+                }
+            }
+    
+            // Add to categories.
+            $cat = new eZLinkCategory( $LinkCategoryID );
+            $cat->addLink( $link );
+            
+            $link->setCategoryDefinition( $cat );
+            
+            if ( count( $CategoryArray ) > 0 )
+            {
+                foreach ( $CategoryArray as $categoryItem )
+                {
+                    if ( $categoryItem != $cat->id() )
+                    {
+                        $cat = new eZLinkCategory( $categoryItem );
+                        $cat->addLink( $link );
+                    }
+                }
+            }
+
+            $linkID = $link->id();
+            
+            
+            eZHTTPTool::header( "Location: /link/category/$LinkCategoryID" );
+            exit();
+        }
+        else if ( !isSet( $Update ) )
+        {
+            $error_msg = $error->read_var( "strings", "error_missingdata" );
+        }
+    }
+    else
+    {
+        eZHTTPTool::header( "Location: /link/norights" );
+    }
+}
+
+// set the template files.
+
+$t = new eZTemplate( "ezlink/user/" . $ini->read_var( "eZLinkMain", "TemplateDir" ),
+"ezlink/user/" . "/intl", $Language, "suggestlink.php" );
+$t->setAllStrings();
+
+$t->set_file( "link_edit", "suggestlink.tpl" );
+
+$t->set_block( "link_edit", "link_category_tpl", "link_category" );
+
+$t->set_block( "link_edit", "image_item_tpl", "image_item" );
+$t->set_block( "link_edit", "no_image_item_tpl", "no_image_item" );
+
+$t->set_block( "link_edit", "multiple_category_tpl", "multiple_category" );
+
+$t->set_block( "link_edit", "type_tpl", "type" );
+
+$t->set_block( "link_edit", "attribute_list_tpl", "attribute_list" );
+$t->set_block( "attribute_list_tpl", "attribute_tpl", "attribute" );
+
+
+$languageIni = new INIFIle( "ezlink/admin/intl/" . $Language . "/suggestlink.php.ini", false );
+$headline = $languageIni->read_var( "strings", "headline_insert" );
+
+$linkselect = new eZLinkCategory();
+
+$linkCategoryList =& $linkselect->getTree();
+
+// Template variables.
+$message = "Legg til link";
+$submit = "Legg til";
+
+$action_value = "update";
+
+if ( $Action == "new" )
+{
+    if ( !eZPermission::checkPermission( $user, "eZLink", "LinkAdd" ) )
+    {
+        eZHTTPTool::header( "Location: /link/norights" );
+    }
+
+    $action_value = "insert";
+
+    $t->set_var( "image_item", "" );
+    $t->set_var( "no_image_item", "" );
+}
+// set accepted link as default.
+$yes_selected = "selected";
+$no_selected = "";
+
+// editere
+if ( $Action == "edit" )
+{
+
+    $languageIni = new INIFIle( "ezlink/admin/intl/" . $Language . "/suggestlink.php.ini", false );
+    $headline =  $languageIni->read_var( "strings", "headline_edit" );
+
+    if ( !eZPermission::checkPermission( $user, "eZLink", "LinkModify" ) )
+    {
+        eZHTTPTool::header( "Location: /link/norights" );
+    }
+    else
+    {
+        if ( !isSet( $editLink ) )
+        {
+            $editLink = new eZLink();
+            $editLink->get( $LinkID );
+        }
+
+        $name = $editLink->Name;
+
+        $cateDef = $editLink->categoryDefinition();
+        $LinkCategoryID = $cateDef->id();
+        $LinkCategoryIDArray = $editLink->categories( false );
+
+        $name = $editLink->name();
+        $description = $editLink->description();
+        $keywords = $editLink->keyWords();
+        $accepted = $editLink->accepted();
+        $url = $editLink->url();
+
+        $action_value = "update";
+        $message = "Rediger link";
+        $submit = "Rediger";
+              
+        $tname = $editLink->name();
+        $tdescription = $editLink->description();
+        $tkeywords = $editLink->keywords();
+        $turl = $editLink->url();
+
+        $linkType = $editLink->type();
+
+        $image = $editLink->image();
+
+        if ( $image )
+        {
+            $imageWidth =& $ini->read_var( "eZLinkMain", "CategoryImageWidth" );
+            $imageHeight =& $ini->read_var( "eZLinkMain", "CategoryImageHeight" );
+            
+            $variation =& $image->requestImageVariation( $imageWidth, $imageHeight );
+            
+            $imageURL = "/" . $variation->imagePath();
+            $imageWidth = $variation->width();
+            $imageHeight = $variation->height();
+            $imageCaption = $image->caption();
+            
+            $t->set_var( "image_width", $imageWidth );
+            $t->set_var( "image_height", $imageHeight );
+            $t->set_var( "image_url", $imageURL );
+            $t->set_var( "image_caption", $imageCaption );
+            $t->set_var( "no_image", "" );
+            $t->parse( "image_item", "image_item_tpl" );
+
+            $t->set_var( "no_image_item", "" );
+        }
+        else
+        {
+            $t->parse( "no_image_item", "no_image_item_tpl" );
+            $t->set_var( "image_item", "" );
+        }
+        
+        
+
+        if ( $editLink->accepted() == true )
+        {
+            $yes_selected = "selected";
+            $no_selected = "";
+        }
+        else
+        {
+            $yes_selected = "";
+            $no_selected = "selected";
         }
     }
 }
 
-$t = new eZTemplate( "ezlink/user/" . $ini->read_var( "eZLinkMain", "TemplateDir" ),
-"ezlink/user/intl", $Language, "suggestlink.php" );
-$t->setAllStrings();
-
-$t->set_file( array(
-    "suggest_link" => "suggestlink.tpl"
-    ));
-
-$t->set_block( "suggest_link", "group_select_tpl", "group_select" );
-
-$groupselect = new eZLinkGroup();
-$groupList = $groupselect->getAll( );
-
-// Selecter
-$group_select_dict = "";
-
-$i=0;
-foreach( $groupList as $groupItem )
+if ( $Action == "AttributeList" )
 {
-    $i++;
-    $t->set_var( "grouplink_id", $groupItem->id() );
-    $t->set_var( "grouplink_title", $groupItem->title() );
+    $tname = $Name;
+    $tkeywords = $Keywords;
+    $tdescription = $Description;
+    $turl = $Url;
+    
+    $action_value = "update";
+    $message = "Rediger link";
+    $submit = "Rediger";
+    
+    $t->parse( "no_image_item", "no_image_item_tpl" );
+    $t->set_var( "image_item", "" );
+    
 
-    if ( ( $groupItem->id() ) == $LinkGroupID )
+    if ( $Accepted == true )
+    {
+        $yes_selected = "selected";
+        $no_selected = "";
+    }
+    else
+    {
+        $yes_selected = "";
+        $no_selected = "selected";
+    }
+    
+    $action_value = $url_array[3];
+}
+
+// Selector
+$link_select_dict = "";
+$catCount = count( $linkCategoryList );
+$t->set_var( "num_select_categories", min( $catCount, 10 ) );
+$i = 0;
+foreach( $linkCategoryList as $linkCategoryItem )
+{
+    $t->set_var("link_category_id", $linkCategoryItem[0]->id() );
+    $t->set_var("link_category_name", $linkCategoryItem[0]->name() );
+
+    if ( $LinkCategoryID == $linkCategoryItem[0]->id() )
     {
         $t->set_var( "is_selected", "selected" );
     }
@@ -153,21 +575,105 @@ foreach( $groupList as $groupItem )
     {
         $t->set_var( "is_selected", "" );
     }
+   
+    if ( $linkCategoryItem[1] > 0 )
+        $t->set_var( "option_level", str_repeat( "&nbsp;", $linkCategoryItem[1] ) );
+    else
+        $t->set_var( "option_level", "" );
 
-    $group_select_dict[ ( $groupItem->id() ) ] = $i;
+    $link_select_dict[ $linkCategoryItem[0]->id() ] = $i;
 
-    $t->parse( "group_select", "group_select_tpl", true );
+    if ( is_array($LinkCategoryIDArray ) and  in_array( $linkCategoryItem[0]->id(), $LinkCategoryIDArray )
+         and (  $LinkCategoryID != $linkCategoryItem[0]->id() ) )
+    {
+        $t->set_var( "multiple_selected", "selected" );
+        $i++;
+    }
+    else
+    {
+        $t->set_var( "multiple_selected", "" );
+    }
+    
+    $t->parse( "link_category", "link_category_tpl", true );
+    $t->parse( "multiple_category", "multiple_category_tpl", true );
 }
 
-$t->set_var( "error_msg", $terror_msg );
 
-$t->set_var( "title", $ttitle );
+$type = new eZLinkType();
+$types = $type->getAll();
+
+if ( isset( $TypeID ) )
+    $linkType = new eZLinkType( $TypeID );
+
+foreach ( $types as $typeItem )
+{
+    if ( get_class( $linkType ) == "ezlinktype"  )
+    {
+        if ( $linkType->id() == $typeItem->id() )
+        {
+            $t->set_var( "selected", "selected" );
+        }
+        else
+        {
+            $t->set_var( "selected", "" );
+        }
+    }
+    else
+    {
+        $t->set_var( "selected", "" );
+    }
+    
+    $t->set_var( "type_id", $typeItem->id( ) );
+    $t->set_var( "type_name", $typeItem->name( ) );
+    
+    $t->parse( "type", "type_tpl", true );
+}
+
+
+if ( get_class( $linkType) == "ezlinktype" )    
+{
+    $attributes = $linkType->attributes();
+
+    foreach ( $attributes as $attribute )
+    {
+        $t->set_var( "attribute_id", $attribute->id( ) );
+        $t->set_var( "attribute_name", $attribute->name( ) );
+
+        $t->set_var( "attribute_value", $attribute->value( $editLink ) );
+        
+        $t->parse( "attribute", "attribute_tpl", true );
+    }
+}
+
+if ( count( $attributes ) > 0 || !isSet( $type ) )
+{
+    $t->parse( "attribute_list", "attribute_list_tpl" );
+}
+else
+{
+    $t->set_var( "attribute_list", "" );
+}
+
+
+$t->set_var( "yes_selected", $yes_selected );
+$t->set_var( "no_selected", $no_selected );
+
+$t->set_var( "submit_text", $submit );
+$t->set_var( "action_value", $action_value );
+$t->set_var( "message", $message );
+
+
+$t->set_var( "name", $tname );
 $t->set_var( "url", $turl );
 $t->set_var( "keywords", $tkeywords );
-$t->set_var( "description", $tdescription ); 
+$t->set_var( "description", $tdescription );
+// $t->set_var( "accepted", $taccepted );
 
-$t->set_var( "document_root", $DOC_ROOT );
+$t->set_var( "headline", $headline );
 
-$t->pparse( "output", "suggest_link" );
+$t->set_var( "error_msg", $error_msg );
+
+$t->set_var( "link_id", $LinkID );
+$t->pparse( "output", "link_edit" );
 
 ?>
