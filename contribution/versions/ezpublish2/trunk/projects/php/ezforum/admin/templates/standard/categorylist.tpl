@@ -48,6 +48,7 @@
 
 <hr noshade="noshade" size="4" />
 
+<img src="/ezforum/images/path-arrow.gif" height="10" width="15" border="0">
 <a class="path" href="/forum/categorylist/">{intl-forum-main}</a> 
 
 <hr noshade="noshade" size="4" />

@@ -48,12 +48,12 @@
 
 <hr noshade="noshade" size="4" />
 
-	/
-	<a class="path" href="/forum/categorylist/">{intl-forum-main}</a>
-	/
-    <a class="path" href="/forum/category/{category_id}/">{category_name}</a>
-	/
-	<a class="path" href="/forum/category/forum/{forum_id}/">{forum_name}</a>
+<img src="/ezforum/images/path-arrow.gif" height="10" width="15" border="0">
+<a class="path" href="/forum/categorylist/">{intl-forum-main}</a>
+<img src="/ezforum/images/path-slash.gif" height="10" width="20" border="0">
+<a class="path" href="/forum/category/{category_id}/">{category_name}</a>
+<img src="/ezforum/images/path-slash.gif" height="10" width="20" border="0">
+<a class="path" href="/forum/category/forum/{forum_id}/">{forum_name}</a>
 
 <hr noshade="noshade" size="4" />
 
@@ -77,7 +77,7 @@
      {message_user}
      </td>
      <td class="{td_class}">
-     {message_postingtime}
+     <span class="small">{message_postingtime}</span>
      </td>
      <td class="{td_class}">
      {emailnotice}&nbsp;

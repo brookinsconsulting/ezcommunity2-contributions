@@ -48,10 +48,10 @@
 
 <hr noshade="noshade" size="4" />
 
-	/
-	<a class="path" href="/forum/categorylist/">{intl-forum-main}</a> 
-	/
-    <a class="path" href="/forum/category/{category_id}/">{category_name}</a>
+<img src="/ezforum/images/path-arrow.gif" height="10" width="15" border="0">
+<a class="path" href="/forum/categorylist/">{intl-forum-main}</a> 
+<img src="/ezforum/images/path-slash.gif" height="10" width="20" border="0">
+<a class="path" href="/forum/category/{category_id}/">{category_name}</a>
 
 <hr noshade="noshade" size="4" />
 
@@ -79,14 +79,3 @@
 <!-- END forum_item_tpl -->
 
 </table>
-
-<br />
-
-<form method="post" action="/index.php?page={docroot}/admin/category.php">
-
-<hr noshade="noshade" size="4" />
-
-<input class="okbutton" type="submit" value="Tilbake">
-</form>
-
-<a href="index.php?page={docroot}/admin/category.php">[Tilbake]</a>
