@@ -7,14 +7,41 @@
 <link rel="stylesheet" type="text/css" href="/{site_style}.css"/>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1"/>
 
+<SCRIPT LANGUAGE="JavaScript1.2">
+<!--//
+
+	function MM_swapImgRestore() 
+	{
+		var i,x,a=document.MM_sr; for(i=0;a&&i<a.length&&(x=a[i])&&x.oSrc;i++) x.src=x.oSrc;
+	}
+
+	function MM_preloadImages() 
+	{
+		var d=document; if(d.images){ if(!d.MM_p) d.MM_p=new Array();
+		var i,j=d.MM_p.length,a=MM_preloadImages.arguments; for(i=0; i<a.length; i++)
+		if (a[i].indexOf("#")!=0){ d.MM_p[j]=new Image; d.MM_p[j++].src=a[i];}}
+	}
+
+	function MM_findObj(n, d) 
+	{
+		var p,i,x;  if(!d) d=document; if((p=n.indexOf("?"))>0&&parent.frames.length) {
+		d=parent.frames[n.substring(p+1)].document; n=n.substring(0,p);}
+		if(!(x=d[n])&&d.all) x=d.all[n]; for (i=0;!x&&i<d.forms.length;i++) x=d.forms[i][n];
+		for(i=0;!x&&d.layers&&i<d.layers.length;i++) x=MM_findObj(n,d.layers[i].document); return x;
+	}
+
+	function MM_swapImage() 
+	{
+		var i,j=0,x,a=MM_swapImage.arguments; document.MM_sr=new Array; for(i=0;i<(a.length-2);i+=3)
+		if ((x=MM_findObj(a[i]))!=null){document.MM_sr[j++]=x; if(!x.oSrc) x.oSrc=x.src; x.src=a[i+2];}
+	}
+	
+//-->
+</SCRIPT> 
 
 </head>
 
-
-
-<body bgcolor="#777777">
-
-
+<body bgcolor="#777777" topmargin="6" marginheight="6" leftmargin="6" marginwidth="6">
 
 <table width="100%" cellpadding="0" cellspacing="0" border="0">
 <tr>
@@ -30,24 +57,30 @@
 <table width="100%" cellpadding="0" cellspacing="0" border="0">
 <tr>
 	<td width="1%" class="tdmini">
-	<img src="/images/{site_style}/ezpublish-logo2.gif" width="200" height="40" border="0" /><br />
+	<img src="/images/{site_style}/ezpublish-logo2.gif" width="200" height="40" border="0" alt="" /><br />
 	</td>
-	<td width="96%">
-	&nbsp;
+	<td width="92%">
+	<img src="/images/1x1.gif" width="20" height="10" border="0" alt="" />
 	</td>
+	<td width="1%">
+	<span class="top">Nettsted:</span><br />
+	<span class="topusername"><nobr>Developer.ez.no</nobr></span>
+	</td>
+	<td width="1%"><img src="/images/1x1.gif" width="20" height="10" border="0" alt="" /></td>
 	<td width="1%">
 	<span class="top">Brukernavn:</span><br />
 	<span class="topusername"><nobr>Thomas Hellstrøm</nobr></span>
 	</td>
+	<td width="1%"><img src="/images/1x1.gif" width="20" height="10" border="0" alt="" /></td>
 	<td width="1%">
-	<img src="/images/{site_style}/top-arrow.gif" width="10" height="12" border="0" /><span class="top"><nobr>&nbsp;Endre brukerinfo</nobr></span><br />
-
+	<nobr><img src="/images/{site_style}/top-arrow.gif" width="10" height="13" border="0" alt="" /><span class="top">&nbsp;Endre brukerinfo</span></nobr><br />
 	</td>
-	<td width="1%">
+	<td width="1%"><img src="/images/1x1.gif" width="20" height="10" border="0" alt="" /></td>
+	<td width="1%" align="right">
+	<img src="/images/{site_style}/top-logout.gif" width="35" height="40" border="0" alt="" />
 	</td>
 </tr>
 </table>
-
 
 	</td>
     <td class="repeaty" width="1%" background="/images/{site_style}/top-r02.gif" valign="top"><img src="/images/{site_style}/1x1.gif" width="10" height="10" border="0" /><br /></td>

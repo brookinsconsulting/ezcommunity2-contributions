@@ -52,6 +52,11 @@
 <tr>
     <td class="repeaty" width="1%" background="/images/{site_style}/box-l04.gif" valign="top"><img src="/images/{site_style}/1x1.gif" width="10" height="10" border="0" /><br /></td>
     <td bgcolor="#ffffff">
+	
+	<table width="100%" cellpadding="4" cellspacing="0" border="0">
+	<tr>
+		<td>
+	
 
 
  

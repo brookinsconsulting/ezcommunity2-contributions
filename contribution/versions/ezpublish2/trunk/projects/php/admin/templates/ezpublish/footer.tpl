@@ -1,4 +1,7 @@
-<img src="/images/{site_style}/1x1.gif" width="1" height="18" border="0" /><br />
+	</td>
+</tr>
+</table>
+	
 	</td>
     <td class="repeaty" width="1%" background="/images/{site_style}/box-r04.gif" valign="top"><img src="/images/{site_style}/1x1.gif" width="10" height="10" border="0" /><br /></td>
 </tr>
