@@ -1,0 +1,158 @@
+INSTALATION
+############################################################
+
+This is a brief / simplified introduction of a bulk of the core dependancies required by this module.
+For a proven installation example see ezgroupeventcalendar/doc/frame.php and ezgroupeventcalendar/doc/site.ini.add
+
+
+Step 1: Copy entire directory structure of eZGroupEventCalendar into 
+	the documentment root of eZPublish.
+
+
+Step 2.0: Prepare / Edit the sql file located in
+        .../ezgroupeventcalendar/sql/eZGroupEventCalendar.sql
+        from your command prompt.
+
+RE: eZGroupEventCalender : eZ publish 2 : eZUser_Module & eZUser_Permissions Problems
+
+First this is a required part of the installation process that is manual and must be done with care and by hand.
+
+The original eZGroupEventCalendar's Installation attempted to do this automaticly but the sql in most cases failed
+to do so properly instead inserting improper values into the eZUser_Module & eZUser_Permissions Tables.
+
+To properly install a user most find the next greatest id not used in eZUser_Module and place that id 
+in place of the 000 in ezgroupeventcalendar/sql/eZGroupEventCalendar.sql in the INSERT entry for eZUser_Module.
+
+The same ID must be used in the INSERT entry for eZUser_Permissions as the ModuleID for the entries for Read & WriteToRoot
+
+If your upgrading a previous version of eZGroupEventCalendar you must manualy make sure that there are not 
+duplicate or invalid entries in the above tables for the calendar to work proplerly.
+
+If this is a brand new installation you must still manualy decide the proper ID values which won't conflict 
+with existing ID values.
+
+
+This is a *required* step that must be completed properly for the calendar edit mode to work properly.
+(We are looking for an automated solution to this step, suggestions gladly welcome :)
+
+Step 2.1: Execute the sql located in
+        .../ezgroupeventcalendar/sql/eZGroupEventCalendar.sql
+        from your command prompt.
+
+	example for mysql v4.0 and below:
+        # mysql -uroot -p publish < ezgroupeventcalendar/sql/eZGroupEventCalendar.sql
+
+        example for mysql v4.1 and above:
+        # mysql -uroot -p publish < ezgroupeventcalendar/sql/eZGroupEventCalendar_mysql_v4.1+.sql
+
+        If you are using another database besides MySQL check the 
+	sql syntext located in/ezgroupeventcalendar/sql/ezGroupEventCalendar.sql 
+	for compatability with your SQL server
+
+
+Step 3: Add the following lines to your eZ publish's site.ini file and modify the settings as needed.  For more information about these lines please read /ezgroupeventcalendar/site.ini.add
+
+        [eZGroupEventCalendarMain]
+	AdminTemplateDir=templates/standard/
+	TemplateDir=templates/standard/
+	ImageDir=/images/standard/
+	Language=en_US
+	DayStartTime=00:00
+	DayStopTime=24:00
+	DayInterval=00:15
+	Priority=2
+	Status=0
+	SubGroupSelect=disabled
+	TwelveHourSelect=enabled
+	MinutesSelectInterval=15
+	UserComments=enabled
+	TruncateTitle=enabled
+	TruncateTitleSize=20
+	LinkModules=eZGroupEventCalendar:1000
+	YearsPrint=19
+
+
+Step 4: Add these lines to the head of your sitedesign frame, in the html head section, just below the default eZ publish stylesheet include (in ie: sitedesign/standard/frame.php), for a proven installation example see ezgroupeventcalendar/doc/frame.php and ezgroupeventcalendar/doc/site.ini.add
+
+<style type="text/css">
+@import url(/ezgroupeventcalendar/user/templates/standard/style/style.css);
+</style>
+
+<script type="text/javascript" src="/ezgroupeventcalendar/user/templates/standard/overlib/overlib.js"></script>
+<script type="text/javascript" src="/ezgroupeventcalendar/user/templates/standard/js/dom-drag.js"></script>
+
+<!-- eZGroupEventCalendar:jscalendar style dependancies -->
+<link rel="alternate stylesheet" type="text/css" media="all" href="/ezgroupeventcalendar/user/templates/standard/jscalendar/calendar-system.css" title="system" />
+
+<!-- eZGroupEventCalendar:jscalendar script dependancies -->
+  <script type="text/javascript" src="/ezgroupeventcalendar/user/templates/standard/jscalendar/calendar.js"></script>
+  <script type="text/javascript" src="/ezgroupeventcalendar/user/templates/standard/jscalendar/calendar-setup.js"></script>
+  <script type="text/javascript" src="/ezgroupeventcalendar/user/templates/standard/jscalendar/lang/calendar-en.js"></script>
+  <script type="text/javascript" src="/ezgroupeventcalendar/user/templates/standard/jscalendar/calendar-setup-instance.js"></script>
+
+
+Step 5: To access the Group Event Calendar the URL is as follows 
+        http://YourWebsiteUrl/groupeventcalendar/monthview/
+
+Step 6: Calendar Edit Privileges
+
+To Administer the Group Event Calendar (Add,Edit,Delete Events), first login to the eZ publish site
+with a user account which is in the Administrator Group and asign the calendar user group module / permissions.
+
+By default all users of all groups are calendar editors, until the administrator changes the privileges 
+in the calendar admin. Yet by default none of the groups have the calendar privileges until the administrated 
+enables them in each group's eZUser : Group Administrator.
+
+*You must* perform these steps to assign privileges to the user groups required.
+1) Login to you administrator
+2) Select the eZUser Module
+3) Select the group list
+4) Edit a group
+5) Find the section called eZGroupEventCalendar and enable both options (read & write to root)
+6) Save your changes
+7) Your group now has calendar edit privileges, you can limit these privileges to individual users in each group in the eZGroupEvent Admin Module under Calendar Editors
+
+Then visit the URL : http://YourWebsiteUrl/groupeventcalendar/monthview/
+
+Step 7: (Optional) Edit the clearcache.sh script and add the ezgroupeventcalendar module name to the list of modules to clear cache directories. Variable:
+dirs="
+ezad
+ezgroupeventcalendar
+
+Alternalty you may use the version provided in ezgroupeventcalendar/doc/clearcache2.sh
+
+############################################################
+
+
+
+
+Support / Still Having Problems ?
+############################################################
+eZ publish 2 Community Support : http://ezcommunity.net/
+eZ publish 2 Support / Development : http://brookinsconsulting.com/
+
+See doc/BUGS for full description of the problem and our solution.
+
+                      
+(optinal) Replacment eZ publish Clear Cache Script
+############################################################
+See doc/clearcache2.sh
+
+(optional) Example .htaccess
+############################################################
+See doc/.htacess
+
+(optional) Example frame.php
+############################################################
+See doc/frame.php
+                               
+(optional) Example site.ini.add
+############################################################
+See doc/site.ini.add
+
+
+
+
+
+############################################################
+
