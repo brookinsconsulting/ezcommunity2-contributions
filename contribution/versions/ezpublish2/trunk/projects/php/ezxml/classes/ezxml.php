@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: ezxml.php,v 1.20 2001/12/11 10:09:57 bf Exp $
+// $Id: ezxml.php,v 1.21 2001/12/20 11:49:04 bf Exp $
 //
 // Definition of eZXML class
 //
@@ -209,19 +209,21 @@ class eZXML
                     {
                         $attributePart =& substr( $tagName, $tagNameEnd, strlen( $tagName ) );
 
+
 //                        $attributeArray = preg_split ("/\" /", $attributePart );
                         
 //                        $attributeArray = explode( " ", $attributePart );
 
                         preg_match_all( "/([a-zA-Z:]+=\".*?\")/i",  $attributePart, $attributeArray );
 
+                        
                         foreach ( $attributeArray[0] as $attributePart )
                         {
                             $attributePart = $attributePart;
 
                             if ( trim( $attributePart ) != "" && trim( $attributePart ) != "/" )
                             {
-                                $attributeTmpArray = explode( "=", $attributePart );
+                                $attributeTmpArray = explode( "=\"", $attributePart );
 
                                 $attributeName = $attributeTmpArray[0];
 
@@ -234,7 +236,7 @@ class eZXML
                                 $attributeValue = $attributeTmpArray[1];
 
                                 // remove " from value part
-                                $attributeValue = substr( $attributeValue, 1, strlen( $attributeValue ) - 2);
+                                $attributeValue = substr( $attributeValue, 0, strlen( $attributeValue ) - 1);
 
                                 // start tag
                                 unset( $attrNode );
