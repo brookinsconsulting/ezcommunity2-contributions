@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: adlist.php,v 1.13 2001/01/24 16:18:05 gl Exp $
+// $Id: adlist.php,v 1.14 2001/02/09 14:54:28 gl Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <25-Nov-2000 15:44:37 bf>
@@ -31,7 +31,6 @@ include_once( "ezuser/classes/ezuser.php" );
 
 include_once( "ezad/classes/ezad.php" );
 include_once( "ezad/classes/ezadcategory.php" );
-//  include_once( "ezad/classes/ezadview.php" );
 
 $category = new eZAdCategory( $CategoryID );
 
