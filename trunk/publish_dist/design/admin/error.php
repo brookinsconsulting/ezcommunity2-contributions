@@ -25,15 +25,15 @@
 
 
 $t = new Template( "templates" );
-$t->set_file( "feil", "error.tpl" );
+$t->set_file( "error", "error.tpl" );
 
-$standardMessage = "Du har ikke rettigheter til å gjøre dette";
+$standardMessage = "You have no rights to access this resource, sorry.";
 
 if( !isset( $message ) )
     $message = $standardMessage;
 
 $t->set_var( "error", $message );
 
-$t->pparse( "output", "feil" );
+$t->pparse( "output", "error" );
 
 ?>
