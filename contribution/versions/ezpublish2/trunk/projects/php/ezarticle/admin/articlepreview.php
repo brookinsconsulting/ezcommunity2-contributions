@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: articlepreview.php,v 1.14 2001/03/01 14:06:24 jb Exp $
+// $Id: articlepreview.php,v 1.15 2001/04/30 09:10:52 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <18-Oct-2000 16:34:51 bf>
@@ -61,7 +61,12 @@ $renderer = new eZArticleRenderer( $article );
 $t->set_var( "article_name", $article->name() );
 $t->set_var( "author_text", $article->authorText() );
 
-$t->set_var( "article_body", $renderer->renderPage( $PageNumber - 1 ) );
+
+$articleContents = $renderer->renderPage( $PageNumber -1 );
+        
+$t->set_var( "article_intro", $articleContents[0] );
+$t->set_var( "article_body", $articleContents[1] );
+
 
 
 $t->set_var( "link_text", $article->linkText() );
