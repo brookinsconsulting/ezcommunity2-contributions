@@ -1,8 +1,10 @@
 <!-- BEGIN text_field_item_tpl -->
+<p class="boxtext">{element_name}:</p>
 <input type="text" size="{element_size}" name="{field_name}" value="{field_value}" />
 <!-- END text_field_item_tpl -->
 
 <!-- BEGIN text_area_item_tpl -->
+<p class="boxtext">{element_name}:</p>
 <textarea class="box" name="{field_name}" cols="40" rows="5" wrap="soft">{field_value}</textarea>
 <!-- END text_area_item_tpl -->
 
@@ -11,11 +13,11 @@
 <!-- END text_label_item_tpl -->
 
 <!-- BEGIN text_header_1_item_tpl -->
-<h1>{field_value}</h1>
+<h1>{element_name}</h1>
 <!-- END text_header_1_item_tpl -->
 
 <!-- BEGIN text_header_2_item_tpl -->
-<h2>{field_value}</h2>
+<h2>{element_name}</h2>
 <!-- END text_header_2_item_tpl -->
 
 <!-- BEGIN hr_line_item_tpl -->
@@ -26,7 +28,18 @@
 
 <!-- END empty_item_tpl -->
 
+<!-- BEGIN numerical_float_item_tpl -->
+<p class="boxtext">{element_name}:</p>
+<input type="text" size="{element_size}" name="{field_name}" value="{field_value}" />
+<!-- END numerical_float_item_tpl -->
+
+<!-- BEGIN numerical_integer_item_tpl -->
+<p class="boxtext">{element_name}:</p>
+<input type="text" size="{element_size}" name="{field_name}" value="{field_value}" />
+<!-- END numerical_integer_item_tpl -->
+
 <!-- BEGIN multiple_select_item_tpl -->
+<p class="boxtext">{element_name}:</p>
 <select name="{field_name}[]" multiple="multiple" >
 <!-- BEGIN multiple_select_item_sub_item_tpl -->
 <option value="{sub_value}">{sub_value}</option>
@@ -35,6 +48,7 @@
 <!-- END multiple_select_item_tpl -->
 
 <!-- BEGIN dropdown_item_tpl -->
+<p class="boxtext">{element_name}:</p>
 <select name="{field_name}">
 <!-- BEGIN dropdown_item_sub_item_tpl -->
 <option value="{sub_value}">{sub_value}</option>
@@ -43,12 +57,14 @@
 <!-- END dropdown_item_tpl -->
 
 <!-- BEGIN radiobox_item_tpl -->
+<p class="boxtext">{element_name}:</p>
 <!-- BEGIN radiobox_item_sub_item_tpl -->
 {sub_value}: <input type="radio" value="{sub_value}" name="{field_name}" />
 <!-- END radiobox_item_sub_item_tpl -->
 <!-- END radiobox_item_tpl -->
 
 <!-- BEGIN checkbox_item_tpl -->
+<p class="boxtext">{element_name}:</p>
 <!-- BEGIN checkbox_item_sub_item_tpl -->
 {sub_value}: <input type="checkbox" value="{sub_value}" name="{field_name}[]" />
 <!-- END checkbox_item_sub_item_tpl -->
@@ -98,9 +114,6 @@
 <tr>
 <!-- BEGIN form_item_tpl -->
 	<td {colspan} >
-	<p class="boxtext">
-	{element_name}:
-	</p>
 	{element}<br /><br />
 	</td>
 <!-- BEGIN break_tpl -->

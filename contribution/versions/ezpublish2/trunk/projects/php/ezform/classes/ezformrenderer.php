@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezformrenderer.php,v 1.25 2001/12/18 09:59:32 pkej Exp $
+// $Id: ezformrenderer.php,v 1.26 2001/12/18 11:41:01 pkej Exp $
 //
 // eZFormRenderer class
 //
@@ -74,6 +74,8 @@ class eZFormRenderer
         $this->Template->set_block( "form_renderer_page_tpl", "text_header_2_item_tpl", "text_header_2_item" );
         $this->Template->set_block( "form_renderer_page_tpl", "hr_line_item_tpl", "hr_line_item" );
         $this->Template->set_block( "form_renderer_page_tpl", "empty_item_tpl", "empty_item" );
+        $this->Template->set_block( "form_renderer_page_tpl", "numerical_float_item_tpl", "numerical_float_item" );
+        $this->Template->set_block( "form_renderer_page_tpl", "numerical_integer_item_tpl", "numerical_integer_item" );
         $this->Template->set_block( "form_renderer_page_tpl", "multiple_select_item_tpl", "multiple_select_item" );
         $this->Template->set_block( "multiple_select_item_tpl", "multiple_select_item_sub_item_tpl", "multiple_select_item_sub_item" );
         $this->Template->set_block( "form_renderer_page_tpl", "dropdown_item_tpl", "dropdown_item" );
@@ -170,6 +172,7 @@ class eZFormRenderer
             
             $this->Template->set_var( "field_name", $elementName );
             $this->Template->set_var( "field_value", $elementValue );
+            $this->Template->set_var( "element_name", $element->name() );
 
             if ( $element->size() == 0 )
             {
@@ -303,7 +306,6 @@ class eZFormRenderer
                     $tableString = $this->Template->parse( "table_item", "table_item_tpl" );
                     
                     $this->Template->set_var( "element", $tableString );
-                    $this->Template->set_var( "element_name", $element->name() );
                     $this->Template->set_var( "colspan", " colspan=\"$maxBreakCount\"" );
                     
                     $this->Template->parse( "break", "break_tpl" );
@@ -314,8 +316,6 @@ class eZFormRenderer
                     $output = $this->renderElement( $element );
                     
                     $this->Template->set_var( "element", $output );
-                    $this->Template->set_var( "element_name", $element->name() );
-
 
                     if ( $eType->name() != "text_field_item" )
                         $this->Template->set_var( "colspan", " colspan=\"$maxBreakCount\"" );
@@ -454,6 +454,24 @@ class eZFormRenderer
                 if ( empty( $value ) )
                 {
                      $errorMessages[] = "required_field";
+                     $errorMessagesAdditionalInfo[] = "\"" .  $element->name() . "\"" ;
+                }
+            }
+            
+            if ( $element->name() == "numerical_integer_item" )
+            {
+                if ( !empty( $value ) && !is_integer( $value ) )
+                {
+                     $errorMessages[] = "integer_field";
+                     $errorMessagesAdditionalInfo[] = "\"" .  $element->name() . "\"" ;
+                }
+            }
+
+            if ( $element->name() == "numerical_float_item" )
+            {
+                if ( !empty( $value ) && !is_float( $value ) )
+                {
+                     $errorMessages[] = "float_field";
                      $errorMessagesAdditionalInfo[] = "\"" .  $element->name() . "\"" ;
                 }
             }

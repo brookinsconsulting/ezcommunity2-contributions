@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: tableedit.php,v 1.6 2001/12/14 14:25:43 jhe Exp $
+// $Id: tableedit.php,v 1.7 2001/12/18 11:41:01 pkej Exp $
 //
 // Created on: <13-Dec-2001 10:51:41 jhe>
 //
@@ -239,7 +239,9 @@ for ( $col = 0; $col < $table->cols(); $col++ )
                 $elementTemplate->set_var( "selected", "selected" );
 
                 $elementTemplate->set_var( "element_nr", $i );
-                if ( $name == "text_field_item" )
+                if ( $name == "text_field_item" ||
+                     $name == "numerical_float_item" ||
+                     $name == "numerical_integer_item" )
                 {
                     $elementTemplate->parse( "size", "size_tpl" );
                     $elementTemplate->parse( "break", "break_tpl" );

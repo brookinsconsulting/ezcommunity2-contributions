@@ -50,6 +50,13 @@ CREATE TABLE eZForm_FormElementFixedValueLink (
   PRIMARY KEY (ID)
 );
 
+CREATE TABLE eZForm_NumericalElement (
+  ElementID NOT NULL default '0',
+  MaxValue varchar(10),
+  MinValue varchar(10),
+  PRIMARY KEY (ID)
+);
+
 INSERT INTO eZForm_FormElementType VALUES (1,'text_field_item','HTML text field (input type="text")');
 INSERT INTO eZForm_FormElementType VALUES (2,'text_area_item','HTML text area (textarea)');
 INSERT INTO eZForm_FormElementType VALUES (3,'dropdown_item','HTML Select');
@@ -61,5 +68,7 @@ INSERT INTO eZForm_FormElementType VALUES (8,'text_label_item','Text label');
 INSERT INTO eZForm_FormElementType VALUES (9,'text_header_1_item','Header Level 1');
 INSERT INTO eZForm_FormElementType VALUES (10,'text_header_2_item','Header Level 2');
 INSERT INTO eZForm_FormElementType VALUES (11,'hr_line_item','Horizontal rule');
+INSERT INTO eZForm_FormElementType VALUES (12,'numerical_float_item','Float value');
+INSERT INTO eZForm_FormElementType VALUES (13,'numerical_integer_item','Integer value');
 INSERT INTO eZForm_FormElementType VALUES (100,'empty_item','Nothing');
 

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: pageedit.php,v 1.9 2001/12/18 09:34:45 br Exp $
+// $Id: pageedit.php,v 1.10 2001/12/18 11:41:01 pkej Exp $
 //
 // Definition of ||| class
 //
@@ -358,7 +358,9 @@ if ( $count > 0 )
                 $elementTemplate->set_var( "selected", "selected" );
 
                 $elementTemplate->set_var( "element_nr", $i );
-                if ( $name == "text_field_item" )
+                if ( $name == "text_field_item" ||
+                     $name == "numerical_float_item" ||
+                     $name == "numerical_integer_item" )
                 {
                     $elementTemplate->parse( "size", "size_tpl" );
                     $elementTemplate->parse( "break", "break_tpl" );
