@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: articlelistrss.php,v 1.6 2001/07/19 12:19:21 jakobn Exp $
+// $Id: articlelistrss.php,v 1.6.2.1 2002/02/27 08:40:19 bf Exp $
 //
 // Created on: <11-Dec-2000 09:44:51 bf>
 //
@@ -40,6 +40,7 @@ $Language = $ini->read_var( "eZArticleRSS", "Language" );
 ob_end_clean();
 
 // xml header
+header( "Content-type text/xml" );
 print( "<?xml version=\"1.0\"?>\n\n" );
 
 // rss header

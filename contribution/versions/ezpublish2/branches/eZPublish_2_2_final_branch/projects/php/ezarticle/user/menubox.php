@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: menubox.php,v 1.26.2.2 2002/02/04 15:51:40 bf Exp $
+// $Id: menubox.php,v 1.26.2.3 2002/02/27 08:40:19 bf Exp $
 //
 // 
 //
@@ -89,9 +89,9 @@ if ( !(function_exists('createArticleMenu') ) )
                     $t->set_var( "articlecategory_title", $categoryItem->name() );
 
 					if (
-					(( $url_array[2] == "archive" ) && ( $url_array[3] == $categoryItem->id() ))
-					|| (( $url_array[2] == "articleview" ) && ( $url_array[5] == $categoryItem->id() ))
-					)
+                        (( $url_array[2] == "archive" ) && ( $url_array[3] == $categoryItem->id() ))
+                        || (( $url_array[2] == "articleview" ) && ( $url_array[5] == $categoryItem->id() ))
+                        )
 					{
 					    $t->set_var( "mark", "menumark" );
 					}
@@ -105,7 +105,7 @@ if ( !(function_exists('createArticleMenu') ) )
                 }
             }
 
-            if( $i == 0 )
+            if ( $i == 0 )
                 $t->set_var( "article_category", "" );
 
 
@@ -151,13 +151,11 @@ if ( $PageCaching == "enabled" )
     
 //    $menuCachedFile = "ezarticle/cache/menubox," . $groupstr . ",". $GlobalSiteDesign . "," . $CategoryID. ".cache";
 
+    unset( $menuCacheFile );
     $menuCacheFile = new eZCacheFile( "ezarticle/cache",
                                       array( "menubox",
                                              $groupstr,
                                              $GlobalSiteDesign,
-											 $url_array[2],
-											 $url_array[3],
-											 $url_array[5],
                                              $CategoryID
                                              ),
                                       "cache", "," );
