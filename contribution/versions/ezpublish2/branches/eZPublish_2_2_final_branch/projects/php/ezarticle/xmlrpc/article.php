@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: article.php,v 1.20.2.7 2002/05/10 09:22:44 jb Exp $
+// $Id: article.php,v 1.20.2.8 2002/06/10 12:01:49 bf Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -163,13 +163,6 @@ else if( $Command == "storedata" )
     $article->setLinkText( $Data["LinkText"]->value() );
     $article->setManualKeywords( $Data["ManualKeyWords"]->value() );
     $article->setDiscuss( $Data["Discuss"]->value() );
-    if ( $Data["Thumbnail"]->value() > 0 )
-    {
-        $thumbImage = new eZImage( $Data["Thumbnail"]->value() );
-    }
-    else
-        $thumbImage = false;
-    $article->setThumbnailImage( $thumbImage );
     $article->setTopic( $Data["Topic"]->value() );
 
     if ( isset( $Data["StartDate"] ) )
@@ -268,6 +261,13 @@ else if( $Command == "storedata" )
         $article->addImage( $add_id, $add_ix );
     }
 
+    if ( $Data["Thumbnail"]->value() > 0 )
+    {
+        $thumbImage = new eZImage( $Data["Thumbnail"]->value() );
+    }
+    else
+        $thumbImage = false;
+    $article->setThumbnailImage( $thumbImage );
 
     // files
     $files = $Data["Files"]->value();
@@ -354,7 +354,7 @@ else if( $Command == "storedata" )
     if ( !$article->isPublished() )
     {
         $waspublished = false;
-    }    
+    }
 
     // Set is published and store again
     $article->setIsPublished( $Data["IsPublished"]->value(), $User );
@@ -363,7 +363,7 @@ else if( $Command == "storedata" )
     if ( $article->isPublished() && !$waspublished )
     {
         eZArticleTool::notificationMessage( $article );
-    }    
+    }
 
     // categories
     $category = new eZArticleCategory( eZArticle::categoryDefinitionStatic( $ID ) );
