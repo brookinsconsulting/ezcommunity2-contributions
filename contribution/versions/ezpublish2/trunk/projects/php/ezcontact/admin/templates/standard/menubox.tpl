@@ -3,8 +3,10 @@
 </tr>
 <tr> 
     <td class="repeaty" background="/images/{site_style}/menu-m.gif">
-    <img src="/images/{site_style}/menu-arrow.gif" width="20" height="10"><a class="menu" href="/contact/companylist/">{intl-companylist}</a><br>
-    <img src="/images/{site_style}/menu-arrow.gif" width="20" height="10"><a class="menu" href="/contact/companyedit/new/">{intl-companyadd}</a><br>
+    <img src="/images/{site_style}/menu-arrow.gif" width="20" height="10"><a class="menu" href="/contact/company/list/">{intl-companylist}</a><br>
+    <img src="/images/{site_style}/menu-arrow.gif" width="20" height="10"><a class="menu" href="/contact/company/new/">{intl-companyadd}</a><br>
+    <img src="/images/{site_style}/menu-arrow.gif" width="20" height="10"><a class="menu" href="/contact/companytype/new/">{intl-companytypeadd}</a><br>
+    <img src="/images/{site_style}/menu-arrow.gif" width="20" height="10"><a class="menu" href="/contact/companytype/list/">{intl-companytypelist}</a><br>
 	</td>
 </tr>
 <tr>

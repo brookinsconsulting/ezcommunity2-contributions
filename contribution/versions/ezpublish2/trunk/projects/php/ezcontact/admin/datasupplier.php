@@ -9,17 +9,16 @@ switch ( $url_array[2] )
         include( "ezcontact/admin/phonetypelist.php" );        
         break;
 
-    case "companylist":
-    {
-        $CategoryID = $url_array[3];
-        include( "ezcontact/admin/companylist.php" );
-    }
-    break;
-    
-    case "companyedit":
+    case "company":
     {
         switch ( $url_array[3] )
         {
+            case "list":
+            {
+                $CategoryID = $url_array[4];
+                include( "ezcontact/admin/companylist.php" );
+            }
+            break;
             case "new":
             {
                 $Action = "new";
