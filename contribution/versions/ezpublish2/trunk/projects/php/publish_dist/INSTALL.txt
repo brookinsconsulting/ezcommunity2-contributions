@@ -1,0 +1,135 @@
+
+
+eZ Publish guide
+
+1 Dependencies
+
+* MySQL-3.22.32 (www.mysql.org)
+
+* PHP-4.0.3 (www.php.net)
+
+* ImageMagick-4.2.9 (www.imagemagick.org)
+
+* Apache-1.3.14 (www.apache.org)
+
+* libxml-2.1.1 (www.xmlsoft.org)
+
+2 PHP install:
+
+2.1 Unpack your php-4.0.x.tar.gz package: 
+
+# tar zxvf php-4.0.x.tar.gz
+
+2.2 Howto configure php 
+
+# cd php-4.0.x 
+
+# ./configure --with-xml --enable-trans-sid --with-mysql --with-magic-quotes
+--with-apxs --with-dom
+
+2.3 Compile and install the PHP package 
+
+# make # make install
+
+3 Apache config
+
+3.1 Apache modules
+
+The rewrite and php modules needs to be active to use publish. 
+
+3.2 Apache configuration
+
+This is an example of a httpd.conf virtalhost (change publish.org to
+your own domain).
+
+# User site 
+
+<VirtualHost publish.org> 
+
+  <Directory /home/publish/www> 
+
+         Options FollowSymLinks Indexes ExecCGI 
+
+         AllowOverride None 
+
+  </Directory> 
+
+RewriteEngine On 
+
+RewriteRule !\.(gif|css|jpg|png) /home/publish/www/index.php 
+
+ServerAdmin your_mail@domain.no 
+
+DocumentRoot /home/publish/www
+
+ServerName publish.org 
+
+ServerAlias www.publish.org 
+
+</VirtualHost>
+
+# Admin site 
+
+<VirtualHost admin.publish.org> 
+
+  <Directory /home/publish/www/admin> 
+
+         Options FollowSymLinks Indexes ExecCGI 
+
+         AllowOverride None 
+
+  </Directory> 
+
+RewriteEngine On 
+
+RewriteRule !\.(gif|css|jpg|png) /home/publish/www/admin/index.php 
+
+ServerAdmin your_mail@domain.no 
+
+DocumentRoot /home/publish/admin/www 
+
+ServerName admin.publish.org 
+
+ServerAlias admin.publish.org 
+
+</VirtualHost>
+
+4 Install eZ publish
+
+4.1 Database install
+
+* Create a database, name it publish or whatever you like .
+
+# mysqladmin -uroot -p create database publish
+
+* Add a publish user in MySQL, to add a user you can use the MySQL
+  client
+
+mysql>grant all on publish.* to publish@localhost identified by "secret";
+
+* Dump all the sql data from sql/publish.sql into your database
+
+# mysql -uroot -p publish < sql/publish.sql
+
+4.2 Install the php files
+
+* Put all the publish files in your apache documentroot.
+
+# cd /path/to/apache/documentroot/ 
+
+# tar zxvf /path/to/ezpublish-1.0.tar.gz
+
+* Edit site.ini and add all the modules you need, and set the username
+  and password.
+
+* Run modfix, this is important. This script will create symbolic links
+  needed and set permissions.
+
+# ./modfix.sh
+
+* Start konqueror and have fun!
+
+# konqueror http://yoursite.com
+
+* NOTE!: The default admin username and password will be admin/publish.
+  Remember to change the password!! 
