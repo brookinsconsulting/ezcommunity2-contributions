@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: category.php,v 1.3 2000/07/19 09:18:58 lw-cvs Exp $
+    $Id: category.php,v 1.4 2000/07/19 09:22:09 lw-cvs Exp $
 
     Author: Lars Wilhelmsen <lw@ez.no>
     
@@ -21,6 +21,7 @@ $t->set_file(array( "category" => "$DOCROOT/admin/templates/category.tpl",
                     "category-modify" => "$DOCROOT/admin/templates/category-modify.tpl",
                     "listelements" => "$DOCROOT/admin/templates/category-list-elements.tpl"
                     ) );
+$t->set_var( "docroot", $DOCROOT);
 
 if ($add)
 {
@@ -72,8 +73,6 @@ else
     
 $cat = new eZforumCategory();
 $categories = $cat->getAllCategories();
-
-$t->set_var("php_self", $PHP_SELF);
 
 for ($i = 0; $i < count($categories); $i++)
 {
