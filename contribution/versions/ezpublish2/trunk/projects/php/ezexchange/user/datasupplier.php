@@ -17,8 +17,62 @@ switch ( $ListType )
     case "search" :
     {
         include( "eztrade/user/productsearch.php" );
+        break;
     }
-    break;
+    case "customer":
+    {
+        $ModuleUserNew = "customer";
+        $Action = $url_array[3];
+        if ( $Action == "new" )
+            $Action = "New";
+        else if ( $Action == "insert" )
+            $Action = "Insert";
+        else if ( $Action == "edit" )
+        {
+            $Action = "Edit";
+            $UserID = $url_array[4];
+        }
+        else if ( $Action == "update" )
+        {
+            $Action = "Update";
+            $UserID = $url_array[4];
+        }
+        else
+        {
+            include_once( "classes/ezhttptool.php" );
+            eZHTTPTool::header( "Location: /exchange/error?Type=404&Uri=$REQUEST_URI&Query=$QUERY_STRING&BackUrl=$HTTP_REFERER" );
+            break;
+        }
+        include( "ezexchange/user/customeredit.php" );
+        break;
+    }
+    case "supplier":
+    {
+        $ModuleUserNew = "supplier";
+        $Action = $url_array[3];
+        if ( $Action == "new" )
+            $Action = "New";
+        else if ( $Action == "insert" )
+            $Action = "Insert";
+        else if ( $Action == "edit" )
+        {
+            $Action = "Edit";
+            $UserID = $url_array[4];
+        }
+        else if ( $Action == "update" )
+        {
+            $Action = "Update";
+            $UserID = $url_array[4];
+        }
+        else
+        {
+            include_once( "classes/ezhttptool.php" );
+            eZHTTPTool::header( "Location: /exchange/error?Type=404&Uri=$REQUEST_URI&Query=$QUERY_STRING&BackUrl=$HTTP_REFERER" );
+            break;
+        }
+        include( "ezexchange/user/supplieredit.php" );
+        break;
+    }
     case "product":
     {
         $Action = $url_array[3];

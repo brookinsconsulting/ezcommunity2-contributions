@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: quoteedit.php,v 1.10 2001/02/05 17:39:17 jb Exp $
+// $Id: quoteedit.php,v 1.11 2001/02/06 13:26:38 jb Exp $
 //
 // Jan Borsodi <jb@ez.no>
 // Created on: <30-Jan-2001 14:54:24 amos>
@@ -37,6 +37,7 @@ function sendMails( &$ini, &$locale, &$quote, &$offer, $quote_quantity, $offer_q
 {
     $admin = $ini->read_var( "eZExchangeMain", "SiteAdmin" );
     $admin_mail = $ini->read_var( "eZExchangeMain", "SiteAdminMail" );
+    $admin_mail = eZMail::splitList( $admin_mail );
 
     $mail_c_t = new eZTemplate( "ezexchange/user/" . $ini->read_var( "eZExchangeMain", "TemplateDir" ),
                                 "ezexchange/user/intl", $Language, "mail" );
@@ -63,7 +64,7 @@ function sendMails( &$ini, &$locale, &$quote, &$offer, $quote_quantity, $offer_q
 
     $customer_mail = new eZMail();
     $customer_mail->setFromName( $admin );
-    $customer_mail->setFrom( $admin_mail );
+    $customer_mail->setFrom( $admin_mail[0] );
 
     $mail_c_t->parse( "subject", "subject_tpl" );
     $mail_c_t->parse( "body", "body_tpl" );
@@ -99,7 +100,7 @@ function sendMails( &$ini, &$locale, &$quote, &$offer, $quote_quantity, $offer_q
 
     $supplier_mail = new eZMail();
     $supplier_mail->setFromName( $admin );
-    $supplier_mail->setFrom( $admin_mail );
+    $supplier_mail->setFrom( $admin_mail[0] );
 
     $mail_s_t->parse( "subject", "subject_tpl" );
     $mail_s_t->parse( "body", "body_tpl" );
@@ -154,7 +155,7 @@ function sendMails( &$ini, &$locale, &$quote, &$offer, $quote_quantity, $offer_q
 
     $siteadmin_mail = new eZMail();
     $siteadmin_mail->setFromName( $admin );
-    $siteadmin_mail->setFrom( $admin_mail );
+    $siteadmin_mail->setFrom( $admin_mail[0] );
 
     $mail_a_t->parse( "subject", "subject_tpl" );
     $mail_a_t->parse( "body", "body_tpl" );
@@ -162,8 +163,11 @@ function sendMails( &$ini, &$locale, &$quote, &$offer, $quote_quantity, $offer_q
     $siteadmin_mail->setSubject( $mail_a_t->get_var( "subject" ) );
     $siteadmin_mail->setBody( $mail_a_t->get_var( "body" ) );
 
-    $siteadmin_mail->setTo( $admin_mail );
-    $siteadmin_mail->send();
+    foreach( $admin_mail as $mail_item )
+    {
+        $siteadmin_mail->setTo( $mail_item );
+        $siteadmin_mail->send();
+    }
 }
 
 function showNotice( &$ini, &$locale, &$module, &$Language, &$quote, &$used_quantity,
