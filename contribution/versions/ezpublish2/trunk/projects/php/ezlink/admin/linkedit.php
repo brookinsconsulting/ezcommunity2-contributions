@@ -1,5 +1,5 @@
 <?
-// $Id: linkedit.php,v 1.45 2001/02/23 15:23:56 ce Exp $
+// $Id: linkedit.php,v 1.46 2001/03/06 17:30:23 bf Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <26-Oct-2000 14:58:57 ce>
@@ -275,7 +275,7 @@ if ( $Action == "insert" )
 
 // Sette template filer.
 
-$t = new eZTemplate( "ezlink/admin/" . $ini->read_var( "eZLinkMain", "TemplateDir" ),
+$t = new eZTemplate( "ezlink/admin/" . $ini->read_var( "eZLinkMain", "AdminTemplateDir" ),
 "ezlink/admin/" . "/intl", $Language, "linkedit.php" );
 $t->setAllStrings();
 
