@@ -33,7 +33,18 @@
 
 <hr noshade size="4"/>
 
-<input class="okbutton" type="submit" value="{intl-submit_text}">
-<form method="post" action="/link/group/"><input class="okbutton" type="submit" name="Back" value="{intl-back}"></form>
-
+<table cellspacing="0" cellpadding="0" border="0">
+<tr>
+	<td valign="top">
+	<input class="okbutton" type="submit" value="{intl-submit_text}">
+	</td>
+	<td>&nbsp;</td>
+	<td>
+	<form method="post" action="/link/group/">
+	<input class="okbutton" type="submit" name="Back" value="{intl-back}">
+	</form>
+	</td>
+</tr>
+</table>
+	
 </form>
