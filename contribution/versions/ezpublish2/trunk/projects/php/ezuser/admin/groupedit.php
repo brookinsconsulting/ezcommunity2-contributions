@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: groupedit.php,v 1.21 2001/07/30 14:19:03 jhe Exp $
+// $Id: groupedit.php,v 1.22 2001/08/10 12:15:26 jhe Exp $
 //
 // Created on: <20-Sep-2000 13:32:11 ce>
 //
@@ -54,7 +54,6 @@ if ( isSet( $Back ) )
     exit();
 }
 
-
 if ( $Action == "insert" )
 {
     if ( eZPermission::checkPermission( $user, "eZUser", "GroupAdd" ) )
@@ -70,7 +69,8 @@ if ( $Action == "insert" )
             $group->setName( $Name );
             $group->setDescription( $Description );
             $group->setSessionTimeout( $SessionTimeout );
-
+            $group->setGroupURL( $GroupURL );
+            
             if ( isSet( $IsRoot ) )
                 $group->setIsRoot( true );
             else
@@ -132,6 +132,7 @@ if ( $Action == "update" )
         $group = new eZUserGroup();
         $group->get( $GroupID );
         $group->setName( $Name );
+        $group->setGroupURL( $GroupURL );
         $group->setDescription( $Description );
         $group->setSessionTimeout( $SessionTimeout );
 
@@ -183,6 +184,7 @@ if ( $Action == "new" )
 {
     $Name = "";
     $Description = "";
+    $GroupURL = "";
 } 
 $ActionValue = "insert";
 
@@ -192,8 +194,9 @@ if ( $Action == "edit" )
     $group = new eZUserGroup();
     $group->get( $GroupID );
 
-    $Name = $group->Name();
+    $Name = $group->name();
     $Description = $group->description();
+    $GroupURL = $group->groupURL();
     $SessionTimeout = $group->sessionTimeout();
     $IsRoot = $group->isRoot();
     $ActionValue = "update";
@@ -240,6 +243,7 @@ foreach ( $moduleList as $moduleItem )
 $t->set_var( "error_msg", $error_msg );
 $t->set_var( "name_value", $Name );
 $t->set_var( "description_value", $Description );
+$t->set_var( "group_url_value", $GroupURL );
 $t->set_var( "session_timeout_value", $SessionTimeout );
 $t->set_var( "action_value", $ActionValue );
 ( $IsRoot == true ) ? $t->set_var( "root_checked", "checked" ) : $t->set_var( "root_checked", "" );

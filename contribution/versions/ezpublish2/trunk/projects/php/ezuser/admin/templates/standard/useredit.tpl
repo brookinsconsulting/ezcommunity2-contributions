@@ -41,6 +41,15 @@
 	</td>
 </tr>
 <tr>
+        <td colspan="2">
+        <p class="boxtext">{intl-main_group}:</p>
+	<select name="MainGroup">
+        <!-- BEGIN main_group_item_tpl -->
+	<option value="{group_id}" {main_selected}>{group_name}</option>
+	<!-- END main_group_item_tpl -->
+        </select>
+        </td>
+
 	<td colspan="2">
 	<p class="boxtext">{intl-groups}:</p>
 	<select name="GroupArray[]" multiple size="5">

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezusergroup.php,v 1.27 2001/07/20 11:45:40 jakobn Exp $
+// $Id: ezusergroup.php,v 1.28 2001/08/10 12:15:26 jhe Exp $
 //
 // Definition of eZCompany class
 //
@@ -70,7 +70,7 @@ class eZUserGroup
       If $id is set the object's values are fetched from the
       database.
     */
-    function eZUserGroup( $id=-1, $fetch=true )
+    function eZUserGroup( $id = -1, $fetch = true )
     {
         if ( is_array( $id ) )
         {
@@ -94,21 +94,21 @@ class eZUserGroup
         $db =& eZDB::globalDatabase();
 
         $dbError = false;
-        $db->begin( );
+        $db->begin();
         
-        $name = addslashes( $this->Name );
-        $description = addslashes( $this->Description );
+        $name = $db->escapeString( $this->Name );
+        $description = $db->escapeString( $this->Description );
              
-        if ( !isset( $this->ID ) )
+        if ( !isSet( $this->ID ) )
         {
             $db->lock( "eZUser_Group" );
 
             $nextID = $db->nextID( "eZUser_Group", "ID" );
 
             $db->query( "INSERT INTO eZUser_Group
-                         ( ID, Name, Description, SessionTimeout, IsRoot )
+                         (ID, Name, Description, SessionTimeout, IsRoot, GroupURL)
                          VALUES
-                         ( '$nextID', '$name', '$description', '$this->SessionTimeout', '$this->IsRoot' )" );
+                         ('$nextID', '$name', '$description', '$this->SessionTimeout', '$this->IsRoot', '$this->GroupURL')" );
 
             $this->ID = $nextID;
 
@@ -119,7 +119,8 @@ class eZUserGroup
                                  Name='$name',
                                  Description='$description',
                                  SessionTimeout='$this->SessionTimeout',
-                                 IsRoot='$this->IsRoot'
+                                 IsRoot='$this->IsRoot',
+                                 GroupURL='$this->GroupURL'
                                  WHERE ID='$this->ID'" );            
         }
 
@@ -143,7 +144,7 @@ class eZUserGroup
         if ( !$id )
             $id = $this->ID;
 
-        if ( isset( $id ) )
+        if ( isSet( $id ) )
         {
             $db->query( "DELETE FROM eZUser_UserGroupLink WHERE GroupID='$id'" );
             $db->query( "DELETE FROM eZUser_GroupPermissionLink WHERE GroupID='$id'" );
@@ -162,8 +163,9 @@ class eZUserGroup
         
         if ( $id != "" )
         {
-            $db->array_query( $user_group_array, "SELECT * FROM eZUser_Group WHERE ID='$id'", 0, 1 );
-            if( count( $user_group_array ) == 1 )
+            $db->array_query( $user_group_array, "SELECT * FROM eZUser_Group WHERE ID='$id'",
+                              array( "Offset" => 0, "Limit" => 1 ) );
+            if ( count( $user_group_array ) == 1 )
             {
                 $this->fill( $user_group_array[0] );
             }
@@ -177,9 +179,10 @@ class eZUserGroup
     {
         $db =& eZDB::globalDatabase();
         
-        $this->ID = $user_group_array[$db->fieldName("ID")];
-        $this->Name = $user_group_array[$db->fieldName("Name")];
-        $this->Description = $user_group_array[$db->fieldName("Description")];
+        $this->ID = $user_group_array[$db->fieldName( "ID" )];
+        $this->Name = $user_group_array[$db->fieldName( "Name" )];
+        $this->Description = $user_group_array[$db->fieldName( "Description" )];
+        $this->GroupURL = $user_group_array[$db->fieldName( "GroupURL" )];
         $this->SessionTimeout = $user_group_array[$db->fieldName("SessionTimeout")];
         $this->IsRoot = $user_group_array[$db->fieldName("IsRoot")];
     }
@@ -205,16 +208,16 @@ class eZUserGroup
 
         if ( $as_object )
         {
-            for ( $i=0; $i < count ( $group_array ); $i++ )
+            for ( $i = 0; $i < count( $group_array ); $i++ )
             {
                 $return_array[$i] = new eZUserGroup( $group_array[$i] );
             }
         }
         else
         {
-            for ( $i=0; $i < count ( $group_array ); $i++ )
+            for ( $i = 0; $i < count( $group_array ); $i++ )
             {
-                $return_array[$i] =& $group_array[$db->fieldName("ID")];
+                $return_array[$i] =& $group_array[$db->fieldName( "ID" )];
             }
         }
 
@@ -242,12 +245,12 @@ class eZUserGroup
 
             $db->array_query( $group_array, "SELECT GroupID FROM eZUser_UserGroupLink WHERE UserID='$userID'" );
 
-            for ( $i=0; $i<count ( $group_array ); $i++ )
-            {
-                $return_array[$i] = new eZUserGroup( $group_array[$i][$db->fieldName("GroupID")], 0 );
+            for ( $i = 0; $i < count( $group_array ); $i++ )
+            { 
+                $return_array[$i] = new eZUserGroup( $group_array[$i][$db->fieldName( "GroupID" )], 0 ); 
             }
         }
-        return $return_array;        
+        return $return_array;
     }
     
     /*!
@@ -256,12 +259,12 @@ class eZUserGroup
      */
     function isMember( $user )
     {
-        if( get_class( $user ) == "ezuser" )
+        if ( get_class( $user ) == "ezuser" )
         {
             $userList = $this->users( $this->$ID );
-            if( count( $userList ) > 0 )
+            if ( count( $userList ) > 0 )
             {
-                foreach( $userList as $usr )
+                foreach ( $userList as $usr )
                 {
                     if ( $user->id() == $usr->id() )
                         return true;
@@ -282,7 +285,7 @@ class eZUserGroup
     /*!
       Returns the users who is a member of the eZUserGroup object.
     */
-    function users( $GroupID = false, $order="Login", $search = false )
+    function users( $GroupID = false, $order = "Login", $search = false )
     {
         switch ( $order )
         {
@@ -315,19 +318,19 @@ class eZUserGroup
             break;
         }
 
-        if( is_array( $GroupID ) )
+        if ( is_array( $GroupID ) )
         {
             $first = true;
-            foreach( $GroupID as $item )
+            foreach ( $GroupID as $item )
             {
-                if( $first )
+                if ( $first )
                     $userSQL = "UGL.GroupID='$item' ";
                 else
                     $userSQL .= "OR UGL.GroupID='$item' ";
                 $first = false;
             }
         }
-        else if( !is_numeric( $GroupID ) )
+        else if ( !is_numeric( $GroupID ) )
         {
             $GroupID = $this->ID;
             $userSQL = "UGL.GroupID='$GroupID'";
@@ -352,7 +355,7 @@ class eZUserGroup
                                                    ORDER By $orderBy" );
         foreach ( $user_array as $user )
         {
-            $ret[] = new eZUser( $user[$db->fieldName("UserID")] );
+            $ret[] = new eZUser( $user[$db->fieldName( "UserID" )] );
         }
         
         return $ret;
@@ -408,6 +411,14 @@ class eZUserGroup
     }
 
     /*!
+      Returns the user group url
+    */
+    function groupURL()
+    {
+        return $this->GroupURL;
+    }
+
+    /*!
       Returns the session timeout value in minutes.
     */
     function sessionTimeout()
@@ -429,6 +440,11 @@ class eZUserGroup
     function setDescription( $value )
     {
        $this->Description = $value;
+    }
+
+    function setGroupURL( $url )
+    {
+        $this->GroupURL = $url;
     }
 
     /*!
@@ -458,7 +474,7 @@ class eZUserGroup
            $db->begin( );
 
            $userID = $user->id();
-
+           $db->lock( "eZUser_UserGroupLink" );
            $nextID = $db->nextID( "eZUser_UserGroupLink", "ID" );
 
 //             if ( $this->ID > 1 )
@@ -467,13 +483,13 @@ class eZUserGroup
                             ( ID, UserID, GroupID )
                             VALUES
                             ( '$nextID', '$userID', '$this->ID' )" );
-
+               $db->unlock();
+               
                if ( $res == false )
                    $dbError = true;
                $ret = true;
            }
            
-           $db->unlock();
     
            if ( $dbError == true )
                $db->rollback( );
@@ -487,6 +503,7 @@ class eZUserGroup
     var $ID;
     var $Name;
     var $Description;
+    var $GroupURL;
     var $SessionTimeout;
     var $IsRoot;
 }

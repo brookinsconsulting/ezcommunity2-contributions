@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: ezaddress.php,v 1.12 2001/07/19 12:06:56 jakobn Exp $
+// $Id: ezaddress.php,v 1.13 2001/08/10 12:15:25 jhe Exp $
 //
 // Definition of eZAddress class
 //
@@ -241,12 +241,10 @@ class eZAddress
         else
         {
             $db->begin();
-            $db->lock( "eZAddress_AddressDefinition" );
-            $nextID = $db->nextID( "eZAddress_AddressDefinition", "ID" );
             $res[] = $db->query( "INSERT INTO eZAddress_AddressDefinition
-                                  (ID, AddressID, UserID)
+                                  (AddressID, UserID)
                                   VALUES
-                                  ('$nextID', '$addressID', '$userID')" );
+                                  ('$addressID', '$userID')" );
             $db->unlock();
         }
         eZDB::finish( $res, $db );
@@ -267,9 +265,13 @@ class eZAddress
         $db->array_query( $addressArray, "SELECT AddressID FROM eZAddress_AddressDefinition
                                      WHERE UserID='$userID'", 0, 1 );
 
-        if ( count ( $addressArray ) == 1 )
+        if ( count( $addressArray ) == 1 )
         {
-            return new eZAddress( $addressArray[0][ $db->fieldName( "AddressID" ) ] );
+            return new eZAddress( $addressArray[0][$db->fieldName( "AddressID" )] );
+        }
+        else
+        {
+            return false;
         }
     }
 

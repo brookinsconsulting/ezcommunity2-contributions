@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: userwithaddress.php,v 1.66 2001/07/20 11:45:40 jakobn Exp $
+// $Id: userwithaddress.php,v 1.67 2001/08/10 12:15:26 jhe Exp $
 //
 // Created on: <10-ct-2000 12:52:42 bf>
 //
@@ -126,7 +126,7 @@ if ( $AutoCookieLogin == "on" )
     $t->set_var( "is_cookie_selected", "checked" );
 }
 
-$user = eZUser::currentUser();
+$user =& eZUser::currentUser();
 
 $t->set_var( "ok_button", "" );
 $t->set_var( "submit_button", "" );
@@ -190,7 +190,7 @@ else
 }
 
 // Check for errors when inserting, updating and inserting a new address
-if ( isset( $OK ) )
+if ( isSet( $OK ) )
 {
     if ( $loginCheck )
     {
@@ -311,7 +311,7 @@ if ( isset( $OK ) )
 }
 
 // Add a new address
-if ( isset( $NewAddress ) )
+if ( isSet( $NewAddress ) )
 {
     if ( count( $AddressID ) > 0 )
         $AddressID[] = $AddressID[count( $AddressID ) - 1] + 1;
@@ -322,14 +322,14 @@ if ( isset( $NewAddress ) )
     $Zip[] = "";
     $Place[] = "";
     $country_id = $ini->read_var( "eZUserMain", "DefaultCountry" );
-    if ( count( $CountryID ) > 0 and is_numeric( $CountryID[count($CountryID)-1] ) )
-        $CountryID[] = $CountryID[count($CountryID)-1];
+    if ( count( $CountryID ) > 0 and is_numeric( $CountryID[count( $CountryID ) - 1] ) )
+        $CountryID[] = $CountryID[count( $CountryID ) - 1];
     else
         $CountryID[] = $country_id;
 }
 
 // Insert a user with address
-if ( isset( $OK ) and $error == false )
+if ( isSet( $OK ) and $error == false )
 {
     $new_user = false;
     if ( get_class( $user ) != "ezuser" )
@@ -371,6 +371,11 @@ if ( isset( $OK ) and $error == false )
     $group = new eZUserGroup( $AnonymousUserGroup );
     $group->addUser( $user_insert );
 
+    $MainAddressID = eZAddress::mainAddress( $user );
+
+    if ( !$MainAddressID && count( $AddressID ) > 0 )
+        $MainAddressID = $AddressID[0];
+        
     if ( !$new_user )
         $user_insert->removeAddresses();
 
@@ -384,7 +389,7 @@ if ( isset( $OK ) and $error == false )
         $address->setZip( $Zip[$i] );
         $address->setPlace( $Place[$i] );
 
-        if ( $SelectCountry == "enabled" and isset( $CountryID[$i] ) )
+        if ( $SelectCountry == "enabled" and isSet( $CountryID[$i] ) )
         {
             $address->setCountry( $CountryID[$i] );
         }
@@ -414,7 +419,7 @@ if ( isset( $OK ) and $error == false )
     if ( !$new_user )
         $Updated = true;
 
-    if( !isset( $RedirectURL ) )
+    if( !isSet( $RedirectURL ) )
         $RedirectURL = $session->variable( "RedirectURL" );
 
     if ( isSet( $RedirectURL )  && ( $RedirectURL != "" ) )
@@ -432,7 +437,7 @@ if ( isset( $OK ) and $error == false )
 
 $info_array = array();
 $t->set_var( "info_item", "" );
-if ( isset( $Updated ) )
+if ( isSet( $Updated ) )
 {
     $info_array[] = "info_updated";
 }
@@ -456,15 +461,15 @@ if ( get_class( $user_insert ) == "ezuser" )
 // this is done the first the page loads
 if ( get_class( $user ) == "ezuser" )
 {
-    if ( !isset( $UserID ) )
+    if ( !isSet( $UserID ) )
         $UserID = $user->id();
-    if ( !isset( $Login ) )
+    if ( !isSet( $Login ) )
         $Login = $user->Login();
-    if ( !isset( $Email ) )
+    if ( !isSet( $Email ) )
         $Email = $user->Email();
-    if ( !isset( $FirstName ) )
+    if ( !isSet( $FirstName ) )
         $FirstName = $user->FirstName();
-    if ( !isset( $LastName ) )
+    if ( !isSet( $LastName ) )
          $LastName = $user->LastName();
 
     $cookieCheck = "";
@@ -476,19 +481,19 @@ if ( get_class( $user ) == "ezuser" )
     {
     }
     
-    if ( !isset( $AddressID ) )
+    if ( !isSet( $AddressID ) )
     {
-        if ( !isset( $AddressID ) )
+        if ( !isSet( $AddressID ) )
             $AddressID = array();
-        if ( !isset( $Street1 ) )
+        if ( !isSet( $Street1 ) )
             $Street1 = array();
-        if ( !isset( $Street2 ) )
+        if ( !isSet( $Street2 ) )
             $Street2 = array();
-        if ( !isset( $Zip ) )
+        if ( !isSet( $Zip ) )
             $Zip = array();
-        if ( !isset( $Place ) )
+        if ( !isSet( $Place ) )
             $Place = array();
-        if ( !isset( $CountryID ) )
+        if ( !isSet( $CountryID ) )
             $CountryID = array();
 
         $mainAddress = eZAddress::mainAddress( $user );
@@ -498,19 +503,19 @@ if ( get_class( $user ) == "ezuser" )
         $i = 0;
         foreach ( $addressArray as $address )
         {
-            if ( ( get_class( $mainAddress ) == "ezaddress" ) and ( $address->id() == $mainAddress->id()  ) and !isset( $MainAddressID ) )
+            if ( ( get_class( $mainAddress ) == "ezaddress" ) and ( $address->id() == $mainAddress->id()  ) and !isSet( $MainAddressID ) )
                 $MainAddressID = $i + 1;
-            if ( !isset( $AddressID[$i] ) )
+            if ( !isSet( $AddressID[$i] ) )
                 $AddressID[$i] = $i + 1;
-            if ( !isset( $Street1[$i] ) )
+            if ( !isSet( $Street1[$i] ) )
                 $Street1[$i] = $address->street1();
-            if ( !isset( $Street2[$i] ) )
+            if ( !isSet( $Street2[$i] ) )
                 $Street2[$i] = $address->street2();
-            if ( !isset( $Zip[$i] ) )
+            if ( !isSet( $Zip[$i] ) )
                 $Zip[$i] = $address->zip();
-            if ( !isset( $Place[$i] ) )
+            if ( !isSet( $Place[$i] ) )
                 $Place[$i] = $address->place();
-            if ( !isset( $CountryID[$i] ) )
+            if ( !isSet( $CountryID[$i] ) )
             {
                 $country = $address->country();
                 if ( $country )
@@ -524,23 +529,23 @@ if ( get_class( $user ) == "ezuser" )
 }
 else
 {
-    if ( !isset( $AddressID ) )
+    if ( !isSet( $AddressID ) )
         $AddressID = array( 1 );
-    if ( !isset( $Street1 ) )
+    if ( !isSet( $Street1 ) )
         $Street1 = array( "" );
-    if ( !isset( $Street2 ) )
+    if ( !isSet( $Street2 ) )
         $Street2 = array( "" );
-    if ( !isset( $Zip ) )
+    if ( !isSet( $Zip ) )
         $Zip = array( "" );
-    if ( !isset( $Place ) )
+    if ( !isSet( $Place ) )
         $Place = array( "" );
-    if ( !isset( $CountryID ) )
+    if ( !isSet( $CountryID ) )
         $CountryID = array( $ini->read_var( "eZUserMain", "DefaultCountry" ) );
-    if ( !isset( $MainAddressID ) )
+    if ( !isSet( $MainAddressID ) )
          $MainAddressID = 1;
 }
 
-if ( !isset( $DeleteAddressArrayID ) )
+if ( !isSet( $DeleteAddressArrayID ) )
     $DeleteAddressArrayID = array();
 
 $t->set_var( "login_value", $Login );
@@ -588,7 +593,7 @@ for ( $i = 0; $i < count( $AddressID ); ++$i )
 {
     $address_id = $AddressID[$i];
     $variable = "DeleteAddressButton$address_id";
-    if ( in_array( $AddressID[$i], $DeleteAddressArrayID ) or isset( $$variable ) )
+    if ( in_array( $AddressID[$i], $DeleteAddressArrayID ) or isSet( $$variable ) )
     {
         if ( $AddressID[$i] == $MainAddressID )
             $deleted = true;
@@ -601,7 +606,7 @@ if ( $deleted )
     {
         $address_id = $AddressID[$i];
         $variable = "DeleteAddressButton$address_id";
-        if ( !in_array( $AddressID[$i], $DeleteAddressArrayID ) and !isset( $$variable ) )
+        if ( !in_array( $AddressID[$i], $DeleteAddressArrayID ) and !isSet( $$variable ) )
         {
             $MainAddressID = $AddressID[$i];
             break;
@@ -629,7 +634,7 @@ if ( $ini->read_var( "eZUserMain", "UserWithAddress" ) == "enabled" )
     {
         $address_id = $AddressID[$i];
         $variable = "DeleteAddressButton$address_id";
-        if ( !in_array( $AddressID[$i], $DeleteAddressArrayID ) and !isset( $$variable ) )
+        if ( !in_array( $AddressID[$i], $DeleteAddressArrayID ) and !isSet( $$variable ) )
         {
             $t->set_var( "address_id", $AddressID[$i] );
 

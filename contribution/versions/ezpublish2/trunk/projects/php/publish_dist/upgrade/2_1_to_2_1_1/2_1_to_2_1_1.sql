@@ -806,3 +806,12 @@ alter table eZBug_Bug change IsClosed IsClosed int default 0;
 alter table eZBug_Bug change IsPrivate IsPrivate int default 0;
 
 alter table eZBug_Log change Created Created int;
+
+alter table eZUser_Group add GroupURL varchar(200);
+
+CREATE TABLE eZUser_UserGroupDefinition (
+  ID int NOT NULL,
+  UserID int NOT NULL default '0',
+  GroupID int NOT NULL default '0',
+  PRIMARY KEY (ID)
+);

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: checkout.php,v 1.69 2001/08/01 15:15:48 ce Exp $
+// $Id: checkout.php,v 1.70 2001/08/10 12:15:26 jhe Exp $
 //
 // Created on: <28-Sep-2000 15:52:08 bf>
 //
@@ -115,6 +115,8 @@ if ( isSet( $SendOrder ) )
     // set the variables as session variables and make sure that it is not read by
     // the HTTP GET variables for security.
 
+    $currentTypeID = eZHTTPTool::getVar( "ShippingTypeID" );
+    
     $preOrder = new eZPreOrder();
     $preOrder->store();
     
@@ -126,9 +128,12 @@ if ( isSet( $SendOrder ) )
     $session->setVariable( "TotalCost", eZHTTPTool::getVar( "TotalCost", true ) );
     $session->setVariable( "PaymentMethod", eZHTTPTool::getVar( "PaymentMethod", true ) );
 
-    $session->setVariable( "ShippingCost", eZHTTPTool::getVar( "ShippingCost", true ) );
-    $session->setVariable( "ShippingVAT", eZHTTPTool::getVar( "ShippingVAT", true ) );
+//    $session->setVariable( "ShippingCost", eZHTTPTool::getVar( "ShippingCost", true ) );
+//    $session->setVariable( "ShippingVAT", eZHTTPTool::getVar( "ShippingVAT", true ) );
 
+    $session->setVariable( "ShippingCost", $cart->shippingCost( new eZShippingType( $currentTypeID ) ) );
+    $session->setVariable( "ShippingVAT", $cart->shippingVAT( new eZShippingType( $currentTypeID ) ) );
+    
     $session->setVariable( "ShippingTypeID", eZHTTPTool::getVar( "ShippingTypeID", true ) );
     $session->setVariable( "IncludeVAT", eZHTTPTool::getVar( "IncludeVAT", true ) );
 
@@ -148,7 +153,6 @@ foreach ( $types as $type )
 {
     $t->set_var( "shipping_type_id", $type->id() );
     $t->set_var( "shipping_type_name", $type->name() );
-
     
     if ( is_numeric( $currentTypeID ) )
     {
@@ -184,7 +188,7 @@ $can_checkout = true;
 // print the cart contents
 {
 // fetch the cart items
-    $items = $cart->items( );
+    $items = $cart->items();
 
     $locale = new eZLocale( $Language );
     $currency = new eZCurrency();
@@ -204,7 +208,6 @@ $can_checkout = true;
         $t->set_var( "td_class", ( $i % 2 ) == 0 ? "bglight" : "bgdark" );
 
         $product = $item->product();
-
         $image = $product->thumbnailImage();
 
         if ( $image )
@@ -238,7 +241,6 @@ $can_checkout = true;
                 if ( get_class( $wishUser ) == "ezuser" )
                 {
                     $address = new eZAddress();
-                
                     $mainAddress =& $address->mainAddress( $wishUser );
 
                     if ( get_class( $mainAddress ) == "ezaddress" )
@@ -279,7 +281,6 @@ $can_checkout = true;
         }
         else
         {
-            $priceArray = "";
             $priceArray = "";
             $options =& $product->options();
             if ( count( $options ) == 1 )
@@ -371,7 +372,7 @@ $can_checkout = true;
             $t->set_var( "option_value", $descriptions[0] );
             
             $t->set_var( "cart_item_option_availability", "" );
-            if ( !(is_bool( $value_quantity ) and !$value_quantity) )
+            if ( !( is_bool( $value_quantity ) and !$value_quantity ) )
             {
                 if ( is_bool( $min_quantity ) )
                     $min_quantity =  $value_quantity;
@@ -390,7 +391,7 @@ $can_checkout = true;
             $t->parse( "cart_item_option", "cart_item_option_tpl", true );
         }
         
-        if ( !(is_bool( $min_quantity ) and !$min_quantity) and
+        if ( !( is_bool( $min_quantity ) and !$min_quantity ) and
              $RequireQuantity and $min_quantity == 0 )
             $can_checkout = false;
 
@@ -409,7 +410,7 @@ $can_checkout = true;
     }
     else
     {
-        $address = new eZAddress( );
+        $address = new eZAddress();
         $mainAddress = $address->mainAddress( $user );
         $country =& $mainAddress->country();
         if ( !$country->hasVAT() )
@@ -477,7 +478,7 @@ $can_checkout = true;
 
 $t->parse( "cart_item_list", "cart_item_list_tpl" );
 
-$user = eZUser::currentUser();
+$user =& eZUser::currentUser();
 
 // print out the addresses
 

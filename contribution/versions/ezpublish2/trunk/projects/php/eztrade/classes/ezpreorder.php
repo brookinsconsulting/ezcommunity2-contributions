@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezpreorder.php,v 1.9 2001/07/31 11:33:11 jhe Exp $
+// $Id: ezpreorder.php,v 1.10 2001/08/10 12:15:26 jhe Exp $
 //
 // Definition of eZPreOrder class
 //
@@ -75,7 +75,7 @@ class eZPreOrder
 		                         OrderID,
 		                         Created )
                                VALUES
-		                       ( '$nextID'
+		                       ( '$nextID',
                                  '$this->OrderID',
 		                         '$timeStamp' )" );
             $db->unlock();

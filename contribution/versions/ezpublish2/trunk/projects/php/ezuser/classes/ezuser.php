@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezuser.php,v 1.85 2001/08/01 16:41:25 kaid Exp $
+// $Id: ezuser.php,v 1.86 2001/08/10 12:15:26 jhe Exp $
 //
 // Definition of eZUser class
 //
@@ -633,6 +633,24 @@ class eZUser
             $this->CookieLogin = 0;
     }
 
+    function setGroupDefinition( $group )
+    {
+        if ( get_class( $group ) == "ezusergroup" )
+            $group = $group->ID();
+
+        $db =& eZDB::globalDatabase();
+        $db->begin();
+        $res[] = $db->query( "DELETE FROM eZUser_UserGroupDefinition WHERE UserID='" . $this->ID . "'" );
+        $db->lock( "eZUser_UserGroupDefinition" );
+        $nextID = $db->nextID( "eZUser_UserGroupDefinition", "ID" );
+        $res[] = $db->query( "INSERT INTO eZUser_UserGroupDefinition
+                              (ID, UserID, GroupID)
+                              VALUES
+                              ('$nextID', '$this->ID', '$group')" );
+        $db->unlock();
+        eZDB::finish( $res, $db );
+    }
+
     /*!
       \static
       Logs in the user given argument. The $user argument must be a eZUser object.
@@ -822,7 +840,6 @@ class eZUser
 
     /*!
       Returns the user groups the current user is a member of.
-
       The result is returned as an array of eZUserGroup objects if $IDOnly = false. If not only an array with the ID's is returned.
     */
     function groups( $IDOnly=false )
@@ -835,10 +852,26 @@ class eZUser
 
         foreach ( $user_group_array as $group )
         {
-            $IDOnly ? $ret[] = $group[$db->fieldName("GroupID")]:$ret[] = new eZUserGroup( $group[$db->fieldName("GroupID")] );
+            $IDOnly ? $ret[] = $group[$db->fieldName( "GroupID" )] : $ret[] = new eZUserGroup( $group[$db->fieldName( "GroupID" )] );
         }
 
         return $ret;
+    }
+
+    function groupDefinition( $as_object = false )
+    {
+        $db =& eZDB::globalDatabase();
+
+        $db->array_query( $groups, "SELECT * FROM eZUser_UserGroupDefinition WHERE UserID='" . $this->ID . "'" );
+
+        if ( count( $groups ) > 1 )
+            die( "Error in database" );
+        else if ( count( $groups ) == 0 )
+            return false;
+        else if ( $as_object )
+            return new eZUserGroup( $groups[0][$db->fieldName( "GroupID" )] );
+        else
+            return $groups[0][$db->fieldName( "GroupID" )];
     }
 
     /*!
@@ -953,14 +986,14 @@ class eZUser
         {
             foreach ( $address_array as $address )
             {
-                $ret[] = new eZAddress( $address[$db->fieldName("AddressID")] );
+                $ret[] = new eZAddress( $address[$db->fieldName( "AddressID" )] );
             }
         }
         else
         {
             foreach ( $address_array as $address )
             {
-                $ret[] = $address[$db->fieldName("AddressID")];
+                $ret[] = $address[$db->fieldName( "AddressID" )];
             }
         }
 

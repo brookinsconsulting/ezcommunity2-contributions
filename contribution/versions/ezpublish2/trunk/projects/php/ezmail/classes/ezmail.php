@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezmail.php,v 1.38 2001/08/09 14:17:42 jhe Exp $
+// $Id: ezmail.php,v 1.39 2001/08/10 12:15:26 jhe Exp $
 //
 // Definition of eZMail class
 //
@@ -32,7 +32,7 @@
 
   Functions that are used when sending mail have ideas from:
     Sascha Schumann <sascha@schumann.cx>
-    Tobias Ratschiller <tobias@dnet.it
+    Tobias Ratschiller <tobias@dnet.it>
   extended and modified to fit eZ publish needs by
      Frederik Holljen <fh@ez.no>
   
@@ -61,7 +61,7 @@ class eZMail
       If $id is set the object's values are fetched from the
       database.
     */
-    function eZMail( $id="" )
+    function eZMail( $id = "" )
     {
         $this->$FilesAttached = false;
         
@@ -76,7 +76,7 @@ class eZMail
         else
         {
             // default values
-            $this->IsPublished = "false";
+            $this->IsPublished = 0;
             $this->UDate = time();
         }
     }
@@ -138,7 +138,7 @@ class eZMail
                                  '$this->UDate'
                                  )
                        " );
-
+            $db->unlock();
 			$this->ID = $nextID;
         }
         else
@@ -160,7 +160,6 @@ class eZMail
                                  WHERE ID='$this->ID'
                                  " );
         }
-        $db->unlock();
         if ( $result == false )
             $db->rollback( );
         else
@@ -172,7 +171,7 @@ class eZMail
     /*!
       Fetches the object information from the database.
     */
-    function get( $id="" )
+    function get( $id = "" )
     {
         $db =& eZDB::globalDatabase();
         $ret = false;
@@ -263,7 +262,6 @@ class eZMail
     */
     function setReceiver( $newReceiver )
     {
-
         $this->To = $newReceiver;
     }
 
@@ -339,9 +337,6 @@ class eZMail
      */
     function references()
     {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
         return $this->References;
     }
 
@@ -472,7 +467,7 @@ class eZMail
         $size = $this->Size;
         $shortsize = $this->Size;
 
-        while ( list($unit_key,$val) = each( $units ) )
+        while ( list( $unit_key, $val ) = each( $units ) )
         {
             if ( $size >= $val )
             {
@@ -594,7 +589,7 @@ class eZMail
         $db->query_single( $res, "SELECT count(*) as Count FROM eZMail_FetchedMail WHERE UserID='$userID' AND MessageID='$mailident'" );
 
         $ret = true;
-        if ( $res[$db->fieldName("Count")] == 0 )
+        if ( $res[$db->fieldName( "Count" )] == 0 )
             $ret = false;
         
         return $ret;    
@@ -646,7 +641,7 @@ class eZMail
     function getByUser( $user = false, $onlyUnread = false )
     {
         if ( get_class( $user ) != "ezuser" )
-            $user = eZUser::currentUser();
+            $user =& eZUser::currentUser();
 
         $unreadOnlySQL = "";
         if ( $onlyUnread == false )
@@ -733,7 +728,9 @@ class eZMail
         {
             $imageID = $image->id();
             $db =& eZDB::globalDatabase();
-            $db->query( "INSERT INTO eZMail_MailImageLink (MailID, ImageID ) VALUES ('$this->ID', '$imageID')" );
+            $db->begin();
+            $res[] = $db->query( "INSERT INTO eZMail_MailImageLink (MailID, ImageID ) VALUES ('$this->ID', '$imageID')" );
+            eZDB::finish( $res, $db );
         }
     }
  
@@ -747,7 +744,9 @@ class eZMail
             $imageID = $image->id();
             $image->delete();
             $db =& eZDB::globalDatabase();
-            $db->query( "DELETE FROM eZMail_MailImageLink WHERE MailID='$this->ID' AND ImageID='$imageID'" );
+            $db->begin();
+            $res[] = $db->query( "DELETE FROM eZMail_MailImageLink WHERE MailID='$this->ID' AND ImageID='$imageID'" );
+            eZDB::finish( $res, $db );
         }
     }
  
@@ -764,7 +763,7 @@ class eZMail
  
        for ( $i = 0; $i < count( $image_array ); $i++ )
        {
-           $return_array[$i] = new eZImage( $image_array[$i]["ImageID"], false );
+           $return_array[$i] = new eZImage( $image_array[$i][$db->fieldName( "ImageID" )], false );
        }
        return $return_array;
     }
@@ -876,7 +875,7 @@ class eZMail
             foreach ( $files as $file )
             {
                 $filename = "ezfilemanager/files/" . $file->fileName();
-                $attachment = fread( eZFile::fopen( $filename, "r"), eZFile::filesize( $filename ) );
+                $attachment = fread( eZFile::fopen( $filename, "r" ), eZFile::filesize( $filename ) );
                 $this->add_attachment( $attachment, $file->originalFileName(), "image/jpeg" );
             }
         }
@@ -948,9 +947,9 @@ class eZMail
         
         for ( $i = count( $this->parts ) - 1; $i >= 0; $i-- )
         {
-            $multipart .= "\n".$this->build_message( $this->parts[$i] )."--$boundary";
+            $multipart .= "\n" . $this->build_message( $this->parts[$i] ) . "--$boundary";
         }
-        return $multipart.= "--\n";
+        return $multipart .= "--\n";
     }
 
 

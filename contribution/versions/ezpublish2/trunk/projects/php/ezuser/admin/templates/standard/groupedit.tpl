@@ -19,6 +19,9 @@
 <p class="boxtext">{intl-session_timeout}:</p>
 <input type="text" size="10" name="SessionTimeout" value="{session_timeout_value}" />
 
+<p class="boxtext">{intl-group_url}:</p>
+<input type="text" class="box" size="40" name="GroupURL" value="{group_url_value}" />
+
 <br /><br />
 
         <h2>{intl-module_permissions}</h2>

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: orderedit.php,v 1.24 2001/08/08 12:34:57 jhe Exp $
+// $Id: orderedit.php,v 1.25 2001/08/10 12:15:26 jhe Exp $
 //
 // Created on: <30-Sep-2000 13:03:13 bf>
 //
@@ -315,6 +315,7 @@ foreach ( $items as $item )
     $i++;
 }
 $shippingCost = $order->shippingCharge();
+
 $currency->setValue( $shippingCost );
 $t->set_var( "shipping_cost", $locale->format( $currency ) );
 

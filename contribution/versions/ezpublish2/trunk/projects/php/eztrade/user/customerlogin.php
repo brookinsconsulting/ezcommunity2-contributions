@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: customerlogin.php,v 1.18 2001/07/20 11:42:02 jakobn Exp $
+// $Id: customerlogin.php,v 1.19 2001/08/10 12:15:26 jhe Exp $
 //
 // Created on: <03-Oct-2000 16:45:30 bf>
 //
@@ -35,7 +35,7 @@ $Language = $ini->read_var( "eZTradeMain", "Language" );
 include_once( "ezuser/classes/ezuser.php" );
 
 
-$user = eZUser::currentUser();
+$user =& eZUser::currentUser();
 if ( $user  )
 {
     if ( isset( $RedirectURL ) && ( $RedirectURL != "" ) )
@@ -43,7 +43,7 @@ if ( $user  )
         eZHTTPTool::header( "Location: $RedirectURL" );
         exit();
     }
-        
+    
     if ( count( $user->addresses() ) == 0 )
     {
         $session->setVariable( "RedirectURL", "/trade/customerlogin/" );
@@ -52,7 +52,7 @@ if ( $user  )
         exit();
 
     }
-    elseif ( count ( $user->addresses() ) > 0 )
+    else if ( count( $user->addresses() ) > 0 )
     {
         $addresses =& $user->addresses();
 

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: useredit.php,v 1.26 2001/07/20 11:45:40 jakobn Exp $
+// $Id: useredit.php,v 1.27 2001/08/10 12:15:26 jhe Exp $
 //
 // Created on: <20-Sep-2000 13:32:11 ce>
 //
@@ -55,10 +55,10 @@ if ( $Action == "insert" )
     if ( eZPermission::checkPermission( $user, "eZUser", "UserAdd" ) )
     {
         if ( $Login != "" &&
-        $Email != "" &&
-        $FirstName != "" &&
-        $LastName != "" &&
-        $SimultaneousLogins != "")
+             $Email != "" &&
+             $FirstName != "" &&
+             $LastName != "" &&
+             $SimultaneousLogins != "")
         {
             if ( ( $Password == $VerifyPassword ) && ( strlen( $VerifyPassword ) > 2 ) )
             {
@@ -85,18 +85,22 @@ if ( $Action == "insert" )
                         eZLog::writeNotice( "User created: $FirstName $LastName ($Login) $Email $SimultaneousLogins  from IP: $REMOTE_ADDR" );
                         
                         // Add user to groups
-                        if ( isset( $GroupArray ) )
+                        if ( isSet( $GroupArray ) )
                         {
+                            $GroupArray = array_unique( array_merge( $GroupArray, $MainGroup ) );
                             $group = new eZUserGroup();
                             $user->get( $user->id() );
+                            $user->removeGroups();
                             foreach ( $GroupArray as $GroupID )
-                                {
-                                    $group->get( $GroupID );
-                                    $group->adduser( $user );
-                                    $groupname = $group->name();
-                                    eZLog::writeNotice( "User added to group: $groupname from IP: $REMOTE_ADDR" );     
-                                }
+                            {
+                                $group->get( $GroupID );
+                                $group->adduser( $user );
+                                $groupname = $group->name();
+                                eZLog::writeNotice( "User added to group: $groupname from IP: $REMOTE_ADDR" );     
+                            }
                         }
+
+                        $user->setGroupDefinition( $MainGroup );
 
                         eZHTTPTool::header( "Location: /user/userlist/" );
                         exit();
@@ -175,8 +179,10 @@ if ( $Action == "update" )
                         // Add user to groups
                         if ( isset( $GroupArray ) )
                         {
+                            $GroupArray = array_unique( array_merge( $GroupArray, $MainGroup ) );
                             $group = new eZUserGroup();
                             $user->get( $user->id() );
+                            $user->removeGroups();
                             foreach ( $GroupArray as $GroupID )
                             {
                                 $group->get( $GroupID );
@@ -184,6 +190,8 @@ if ( $Action == "update" )
                                 eZLog::writeNotice( "User added to group: $groupname from IP: $REMOTE_ADDR" );
                             }
                         }
+
+                        $user->setGroupDefinition( $MainGroup );
 
                         eZHTTPTool::header( "Location: /user/userlist/" );
                         exit();
@@ -266,6 +274,7 @@ $t->set_file( array(
     "user_edit" => "useredit.tpl"
      ) );
 
+$t->set_block( "user_edit", "main_group_item_tpl", "main_group_item" );
 $t->set_block( "user_edit", "group_item_tpl", "group_item" );
 
 if ( $Action == "new" )
@@ -311,7 +320,7 @@ if ( $Action == "edit" )
     $Signature = $user->signature();
     $SimultaneousLogins = $user->simultaneousLogins();
     
-    $headline = new INIFIle( "ezuser/admin/intl/" . $Language . "/useredit.php.ini", false );
+    $headline = new INIFile( "ezuser/admin/intl/" . $Language . "/useredit.php.ini", false );
     $t->set_var( "head_line", $headline->read_var( "strings", "head_line_edit" ) );
 
     $t->set_var( "read_only", "readonly=readonly" );
@@ -327,25 +336,30 @@ else // either new or failed edit... must put htmlspecialchars on stuff we got f
     $Email = htmlspecialchars( $Email );
 }
 
-
-foreach( $groupList as $groupItem )
+$mainGroup = $user->groupDefinition();
+$groupArray = $user->groups();
+foreach ( $groupList as $groupItem )
 {
     $t->set_var( "group_name", $groupItem->name() );
     $t->set_var( "group_id", $groupItem->id() );
-
+    
+    if ( $mainGroup == $groupItem->id() )
+        $t->set_var( "main_selected", "selected" );
+    else
+        $t->set_var( "main_selected", "" );
+    
     // add validation code here. $user->isValid();
     if ( $user )
     {
-        $groupArray = $user->groups();
         $found = false;
         foreach ( $groupArray as $group )
         {
-            if ( $group->id() == $groupItem->id() )
+            if ( $group->id() == $groupItem->id() && $group->id() != $mainGroup )
             {
                 $found = true;
             }
         }
-        if ( $found  == true )
+        if ( $found == true )
             $t->set_var( "selected", "selected" );
         else
             $t->set_var( "selected", "" );
@@ -355,6 +369,7 @@ foreach( $groupList as $groupItem )
         $t->set_var( "selected", "" );
     }
 
+    $t->parse( "main_group_item", "main_group_item_tpl", true );
     $t->parse( "group_item", "group_item_tpl", true );
 }
 

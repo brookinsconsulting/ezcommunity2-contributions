@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: login.php,v 1.33 2001/07/20 11:45:40 jakobn Exp $
+// $Id: login.php,v 1.34 2001/08/10 12:15:26 jhe Exp $
 //
 // Created on: <20-Sep-2000 13:32:11 ce>
 //
@@ -97,10 +97,9 @@ if ( $Action == "login" )
                 $MaxLogins = $user->simultaneousLogins();
             }
             
-            if ( ( $logins < $MaxLogins ) || ( $MaxLogins  == "0" ) )
-            {      
+            if ( ( $MaxLogins  == "0" ) || ( $logins < $MaxLogins ) )
+            {
                 eZLog::writeNotice( "User login: $Username from IP: $REMOTE_ADDR" );
-                
                 eZUser::loginUser( $user );
                 
                 if ( $user->cookieLogin() == true )
@@ -108,7 +107,13 @@ if ( $Action == "login" )
                     $user->setCookieValues();
                 }
 
-                if ( isSet( $RedirectURL ) )
+                $mainGroup = $user->groupDefinition();
+                if ( $mainGroup->groupURL() )
+                {
+                    eZHTTPTool::header( $mainGroup->groupURL() );
+                    exit();
+                }
+                else if ( isSet( $RedirectURL ) )
                 {
                     $stringTmp = split( "/", $RedirectURL );
                     
@@ -137,7 +142,6 @@ if ( $Action == "login" )
             else
             {
                 eZLog::writeWarning( "Max limit reached: $Username from IP: $REMOTE_ADDR" );
-        
                 eZHTTPTool::header( "Location: /user/norights/?Error=MaxLogins&RedirectURL=$RedirectURL" );
                 exit();
             }
@@ -145,7 +149,6 @@ if ( $Action == "login" )
         else
         {
             eZLog::writeError( "Couldn't recieve userinformastion on : $Username from IP: $REMOTE_ADDR" );
-
             eZHTTPTool::header( "Location: /user/norights/?Error=UnknownError&RedirectURL=$RedirectURL" );
             exit();
         }
@@ -153,7 +156,6 @@ if ( $Action == "login" )
     else
     {
         eZLog::writeWarning( "Bad login: $Username from IP: $REMOTE_ADDR" );
-        
         eZHTTPTool::header( "Location: /user/norights/?Error=WrongPassword&RedirectURL=$RedirectURL" );
         exit();
     }
@@ -166,15 +168,12 @@ else
 if ( $Action == "logout" )
 {
     eZUser::clearAutoCookieLogin();
-    
     eZUser::logout();
-
     eZHTTPTool::header( "Location: /" );
     exit();
 }
 
 $t->set_var( "redirect_url", $RedirectURL );
-
 $t->set_var( "action_value", "login" );
 
 $t->pparse( "output", "login" );

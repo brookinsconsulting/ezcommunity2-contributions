@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezorder.php,v 1.44 2001/08/08 12:34:57 jhe Exp $
+// $Id: ezorder.php,v 1.45 2001/08/10 12:15:26 jhe Exp $
 //
 // Definition of eZOrder class
 //
@@ -75,7 +75,7 @@ class eZOrder
         
         $this->TextPaymentMethod = $db->escapeString( $this->PaymentMethod );
         
-        if ( !isset( $this->ID ) )
+        if ( !isSet( $this->ID ) )
         {
             $timeStamp =& eZDateTime::timeStamp( true );
             $db->lock( "eZTrade_Order" );
@@ -194,19 +194,19 @@ class eZOrder
             }
             else if ( count( $cart_array ) == 1 )
             {
-                $this->ID =& $cart_array[0][$db->fieldName("ID")];
-                $this->UserID =& $cart_array[0][$db->fieldName("UserID")];
-                $this->ShippingAddressID =& $cart_array[0][$db->fieldName("ShippingAddressID")];
-                $this->BillingAddressID =& $cart_array[0][$db->fieldName("BillingAddressID")];
-                $this->ShippingCharge =& $cart_array[0][$db->fieldName("ShippingCharge")];
-                $this->ShippingVAT =& $cart_array[0][$db->fieldName("ShippingVAT")];
-                $this->ShippingTypeID =& $cart_array[0][$db->fieldName("ShippingTypeID")];
-                $this->PaymentMethod =& $cart_array[0][$db->fieldName("PaymentMethod")];
-                $this->Date =& $cart_array[0][$db->fieldName("Date")];
-                $this->IsVATInc =& $cart_array[0][ "IsVATInc" ];
-                $this->IsExported =& $cart_array[0][$db->fieldName("IsExported")];
-                $this->PersonID =& $cart_array[0][$db->fieldName("PersonID")];
-                $this->CompanyID =& $cart_array[0][$db->fieldName("CompanyID")];
+                $this->ID =& $cart_array[0][$db->fieldName( "ID" )];
+                $this->UserID =& $cart_array[0][$db->fieldName( "UserID" )];
+                $this->ShippingAddressID =& $cart_array[0][$db->fieldName( "ShippingAddressID" )];
+                $this->BillingAddressID =& $cart_array[0][$db->fieldName( "BillingAddressID" )];
+                $this->ShippingCharge =& $cart_array[0][$db->fieldName( "ShippingCharge" )];
+                $this->ShippingVAT =& $cart_array[0][$db->fieldName( "ShippingVAT" )];
+                $this->ShippingTypeID =& $cart_array[0][$db->fieldName( "ShippingTypeID" )];
+                $this->PaymentMethod =& $cart_array[0][$db->fieldName( "PaymentMethod" )];
+                $this->Date =& $cart_array[0][$db->fieldName( "Date" )];
+                $this->IsVATInc =& $cart_array[0][$db->fieldName( "IsVATInc" )];
+                $this->IsExported =& $cart_array[0][$db->fieldName( "IsExported" )];
+                $this->PersonID =& $cart_array[0][$db->fieldName( "PersonID" )];
+                $this->CompanyID =& $cart_array[0][$db->fieldName( "CompanyID" )];
                 $ret = true;
             }
         }
