@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: exportform.php,v 1.5 2002/01/09 14:24:40 jhe Exp $
+// $Id: exportform.php,v 1.6 2002/01/09 16:08:36 jhe Exp $
 //
 // Created on: <07-Jan-2002 12:54:53 jhe>
 //
@@ -33,7 +33,7 @@ ob_end_clean();
 $form = new eZForm( $FormID );
 
 $filename = $form->name() . ".txt";
-
+ini_alter( "max_execution_time", "600" );
 header( "Cache-Control:" );
 header( "Content-disposition: attachment; filename=$filename" );
 header( "Content-Type: application/vnd.ms-excel" );
@@ -56,6 +56,8 @@ for ( $i = 0; $i < count( $elementList ); $i++ )
     }
 }
 
+unset( $elementList );
+
 if ( count( $results ) > 0 )
 {
     foreach ( $elements as $el )
@@ -66,9 +68,11 @@ if ( count( $results ) > 0 )
 
     foreach ( $results as $res )
     {
-        foreach ( $elements as $el )
+        $values = eZFormElement::getThisUsersResults( $elements, $res );
+
+        foreach ( $values as $v )
         {
-            $resValue = $el->result( $res );
+            $resValue = $v["Result"];
             $resValue = str_replace( "\n", "<br>", $resValue );
             $resValue = str_replace( "\r", "", $resValue );
             if ( $resValue )
@@ -76,7 +80,9 @@ if ( count( $results ) > 0 )
             else
                 print "\t";
         }
-        print "\r\n";
+        print "\r\n<br>";
+        unset( $values );
+        
     }
 }
 

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezformelement.php,v 1.28 2002/01/07 17:21:23 jhe Exp $
+// $Id: ezformelement.php,v 1.29 2002/01/09 16:08:36 jhe Exp $
 //
 // ezformelement class
 //
@@ -572,6 +572,46 @@ class eZFormElement
         return $returnArray;
     }
 
+
+    function getThisUsersResults( $elements, $resultID )
+    {
+        $result = array();
+        $db =& eZDB::globalDatabase();
+
+        $i = 0;
+
+        $db->array_query( $qa, "SELECT ElementID, Result FROM eZForm_FormElementResult WHERE ResultID='$resultID'" );
+
+        $i = 0;
+        $elementString = $db->fieldName( "ElementID" );
+        
+        foreach ( $elements as $e )
+        {
+            $result[$i]["ElementID"] = $e->id();
+            $id = -1;
+            $qaI = 0;
+            $eID = $e->id();
+
+            while ( $id == -1 && $qaI < count( $qa ) )
+            {
+                if ( $qa[$qaI][$elementString] == $eID )
+                    $id = $qaI;
+                $qaI++;
+            }
+            
+            if ( $id > -1 )
+                $result[$i]["Result"] = $qa[$id][$db->fieldName( "Result" )];
+            else
+                $result[$i]["Result"] = "";
+
+            $i++;
+        }
+        unset( $qa );
+        unset( $elements );
+        
+        return $result;
+    }
+    
     function getAllResults( $getAll = true )
     {
         $result = array();
@@ -579,11 +619,11 @@ class eZFormElement
         if ( !getAll )
             $where = "WHERE IsRegistered=1";
 
-        $db->array_query( $qa, "SELECT UserHash FROM eZForm_FormResults $where" );
+        $db->array_query( $qa, "SELECT ID FROM eZForm_FormResults $where" );
 
         foreach ( $qa as $q )
         {
-            $result[] = $q[$db->fieldName( "UserHash" )];
+            $result[] = $q[$db->fieldName( "ID" )];
         }
         return $result;
     }
