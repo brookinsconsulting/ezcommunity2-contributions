@@ -16,7 +16,7 @@
 </tr>
 </table>
 
-<hr noshade="noshade" size="4" />
+<hr noshade="noshade" size="1" />
 
 
 <!-- BEGIN path_item_tpl -->
