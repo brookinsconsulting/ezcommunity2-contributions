@@ -442,7 +442,7 @@ alter table eZPoll_Poll drop ShowResult;
 alter table eZPoll_Poll change ShowResultTmp ShowResult int;
 
 
-alter table eZImageCatalogue_Image add Photographer int;
+alter table eZImageCatalogue_Image add PhotographerID int;
 alter table eZImageCatalogue_Image add Created int;
 
 

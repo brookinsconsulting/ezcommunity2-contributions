@@ -21,12 +21,7 @@ $t->set_block( "slideshow_tpl", "next_tpl", "next" );
 if ( $Position == "" )
     $Position = 0;
 
-//print "<h1>-- $Position --</h1><br>";
-//die();
-
-
 $slideshow = new eZSlideshow( $CategoryID, eZUser::currentUser(), $Position );
-
 $image = $slideshow->image();
 
 if ( !$image )

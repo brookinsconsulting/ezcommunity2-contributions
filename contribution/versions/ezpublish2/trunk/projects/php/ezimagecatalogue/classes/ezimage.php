@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezimage.php,v 1.60 2001/06/28 10:31:30 jb Exp $
+// $Id: ezimage.php,v 1.61 2001/06/28 13:23:29 jhe Exp $
 //
 // Definition of eZImage class
 //
@@ -128,7 +128,7 @@ class eZImage
                                              WritePermission,
                                              ReadPermission,
                                              OriginalFileName,
-                                             Photographer,
+                                             PhotographerID,
                                              Created )
                                     VALUES ( '$this->ID',
                                              '$name',
@@ -160,7 +160,7 @@ class eZImage
                                  WritePermission='$this->WritePermission',
                                  ReadPermission='$this->ReadPermission',
                                  OriginalFileName='$originalfilename',
-                                 Photographer='$this->PhotographerID'
+                                 PhotographerID='$this->PhotographerID'
                                  WHERE ID='$this->ID'
                                  " );
         }
@@ -229,7 +229,7 @@ class eZImage
                 $this->UserID =& $image_array[0][$db->fieldName("UserID")];
                 $this->WritePermission =& $image_array[0][$db->fieldName("WritePermission")];
                 $this->ReadPermission =& $image_array[0][$db->fieldName("ReadPermission")];
-                $this->PhotographerID =& $image_array[0][$db->fieldName("Photographer")];
+                $this->PhotographerID =& $image_array[0][$db->fieldName("PhotographerID")];
 
                 $ret = true;
             }
@@ -1016,7 +1016,7 @@ class eZImage
     /*!
       Check if the user have read permissions. Returns true if the user have permissions. False if not.
     */
-    function hasReadPermissions( $user=false )
+    function hasReadPermissions( $user = false )
     {
         $db =& eZDB::globalDatabase();
    
@@ -1032,9 +1032,9 @@ class eZImage
            
            $groups = $user->groups();
        }
-       $db->array_query( $readPermissions, "SELECT GroupID FROM eZImageCatalogue_ImageReadGroupLink WHERE ImageID='$this->ID'" );
+       $db->array_query( $readPermissions, "SELECT ReadPermission FROM eZImageCatalogue_Image WHERE ID='$this->ID'" );
 
-       for ( $i=0; $i < count ( $readPermissions ); $i++ )
+       for ( $i = 0; $i < count( $readPermissions ); $i++ )
        {
            if ( $readPermissions[$i][$db->fieldName("GroupID")] == 0 )
            {
@@ -1042,7 +1042,7 @@ class eZImage
            }
            else
            {
-               if ( count ( $groups ) > 0 )
+               if ( count( $groups ) > 0 )
                {                   
                    foreach ( $groups as $group )
                    {
