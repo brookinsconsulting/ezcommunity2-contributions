@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezproduct.php,v 1.76 2001/08/27 07:59:53 ce Exp $
+// $Id: ezproduct.php,v 1.77 2001/08/27 10:37:53 ce Exp $
 //
 // Definition of eZProduct class
 //
@@ -496,11 +496,10 @@ class eZProduct
             return;
 
         $db->lock( "eZTrade_Quantity" );
-        
         $nextQuantityID = $db->nextID( "eZTrade_Quantity", "ID" );
-
         $res[] = $db->query( "INSERT INTO eZTrade_Quantity ( ID, Quantity ) VALUES ('$nextQuantityID','$quantity')" );
         $q_id = $nextQuantityID;
+        $db->lock( "eZTrade_ProductQuantityDict" );
         $res[] = $db->query( "INSERT INTO eZTrade_ProductQuantityDict ( ProductID, QuantityID ) VALUES ('$id','$q_id')" );
 
         $db->unlock();

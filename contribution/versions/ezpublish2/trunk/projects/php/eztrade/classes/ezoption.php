@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezoption.php,v 1.23 2001/08/24 07:21:07 ce Exp $
+// $Id: ezoption.php,v 1.24 2001/08/27 10:37:53 ce Exp $
 //
 // Definition of eZOption class
 //
@@ -306,7 +306,7 @@ class eZOption
                            OptionID,
                            Placement )
                          VALUES
-                         ( '$nextID'
+                         ( '$nextID',
                            '$header_val',
                            '$id',
                            '$placement' )" );

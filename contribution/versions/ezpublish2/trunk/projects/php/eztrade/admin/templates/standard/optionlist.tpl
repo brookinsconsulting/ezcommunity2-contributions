@@ -1,3 +1,5 @@
+<form action="{www_dir}{index}/trade/productedit/optionedit/new/{product_id}/" method="post">
+
 <h1>{intl-optionlist}: {product_name}</h1>
 
 <hr noshade="noshade" size="4" />
@@ -9,8 +11,6 @@
 	<th>&nbsp;</th>
 </tr>
 
-<form action="{www_dir}{index}/trade/productedit/optionedit/new/{product_id}/" method="post">
-
 <!-- BEGIN option_tpl -->
 <tr>
 	<td class="{td_class}">
@@ -21,8 +21,6 @@
 	</td>
 	<td class="{td_class}" width="1%" align="center">
 	<input type="checkbox" name="DeleteOptionID[]" value="{option_id}">
-<!--  	<td width="1%" class="{td_class}"> -->
-<!--  	<a href="#" onClick="verify( '{intl-delete}', '/trade/productedit/optionedit/delete/{option_id}/{product_id}/'); return false;" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezto{option_id}-slett','','/admin/images/{site_style}/slettminimrk.gif',1)"><img name="ezto{option_id}-slett" border="0" src="{www_dir}/admin/images/{site_style}/slettmini.gif" width="16" height="16" align="top"></a> -->
 	</td>
 </tr>
 <!-- END option_tpl -->
@@ -34,22 +32,24 @@
 <table cellspacing="0" cellpadding="0" border="0">
 <tr>
 	<td>
-<input class="stdbutton" type="submit" value="{intl-newoption}" />
-<input class="stdbutton" type="submit" name="DeleteOption" value="{intl-delete_selected}" />
+	<input class="stdbutton" type="submit" value="{intl-newoption}" />
+	</td>
+	<td>&nbsp;</td>
+	<td>
+	<input class="stdbutton" type="submit" name="DeleteOption" value="{intl-delete_selected}" />
 	</td>
 </tr>
 </table>
 
 <hr noshade="noshade" size="4" />
 
+</form>
 <table cellspacing="0" cellpadding="0" border="0">
 <tr>
 	<td>
-</form>
-<form action="{www_dir}{index}/trade/productedit/edit/{product_id}/" method="post">
-<input class="okbutton" type="submit" value="{intl-back}" />
-</form>
+	<form action="{www_dir}{index}/trade/productedit/edit/{product_id}/" method="post">
+	<input class="okbutton" type="submit" value="{intl-back}" />
+	</form>
 	</td>
 </tr>
 </table>
-

@@ -107,9 +107,8 @@
 	<td>
 	<input class="okbutton" type="submit" name="Abort" value="{intl-abort}" />	
 	</td>
-	</form>
 </tr>
 </table>
-
+</form>
 
 
