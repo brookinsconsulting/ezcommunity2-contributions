@@ -1,7 +1,4 @@
-<table width="100%" cellspacing="0" cellpadding="2" border="0">
-<tr>
-	<td colspan="2" class="menuhead">{intl-head_lines}</td>
-</tr>
+<table width="100%" cellspacing="0" cellpadding="8" border="0">
 
 <!-- BEGIN path_item_tpl -->
 
@@ -28,11 +25,7 @@
 	<a class="menutext" href="{www_dir}{index}/article/articleview/{article_id}/">
 	{article_name}
 	</a>
-	</td>
-</tr>
-<tr>
-	<td class="small" align="right">
-	(&nbsp;{article_published}&nbsp;)
+	<div class="small" align="right">(&nbsp;{article_published}&nbsp;)</div>
 	</td>
 </tr>
 <!-- END article_item_tpl -->

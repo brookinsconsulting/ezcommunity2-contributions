@@ -12,39 +12,28 @@
 	<td>
 	<h1>{article_name}</h1>
 	</td>
-	<td align="right">
-	<form action="{www_dir}{index}/article/search/" method="post">
-	<input class="searchbox" type="text" name="SearchText" size="10" />	
-	<input class="stdbutton" type="submit" value="{intl-search}" />
-	</form>	
-	</td>
 </tr>
 </table>
 
 <hr noshade="noshade" size="4" />
-
-<img src="{www_dir}/images/path-arrow.gif" height="10" width="12" border="0" alt="">
-<a class="path" href="{www_dir}{index}/article/archive/0/">{intl-top_level}</a>
 
 <!-- BEGIN path_item_tpl -->
-<img src="{www_dir}/images/path-slash.gif" height="10" width="16" border="0" alt="">
-<a class="path" href="{www_dir}{index}/article/archive/{category_id}/">{category_name}</a>
+
 <!-- END path_item_tpl -->
 
-<hr noshade="noshade" size="4" />
 <br />
-<!-- BEGIN article_header_tpl -->
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
+<!-- BEGIN article_header_tpl -->
 	<td>
-	<p class="byline">{intl-article_author}: <a class="byline" href="{www_dir}{index}/article/author/view/{author_id}">{author_text}</a></p>
+	<p class="byline"><a class="byline" href="{www_dir}{index}/article/author/view/{author_id}">{author_text}</a></p>
 	</td>
+<!-- END article_header_tpl -->
 	<td align="right">
-	<p class="byline">{intl-article_date}: {article_created}</p>
+	<p class="byline">( {article_created} )</p>
 	</td>
 </tr>
 </table>
-<!-- END article_header_tpl -->
 
 <p>
 {article_intro}
@@ -101,30 +90,6 @@
 </table>
 <!-- END attached_file_list_tpl -->
 
-<form method="post" action="{www_dir}{index}/article/mailtofriend/{article_id}">
-<table width="100%" cellpadding="5" cellspacing="0" border="0">
-<tr>
-    <td>
-	<p class="boxtext">{intl-send_to}:</p>
-	<input type="text" class="box" size="5" name="SendTo" value="{send_to}" />*
-	<br /><br />
-    </td>
-</tr>
-<tr>
-    <td>
-	<p class="boxtext">{intl-from_mail}:</p>
-	<input type="text" class="box" size="5" name="From" value="{from}">*
-	<br />
-    </td>
-</tr>
-<tr>
-    <td>
-        <input class="stdbutton" type="submit" value="{intl-send_mail}">
-    </td>
-</tr>
-</table>
-</form>
-
 <br clear="all" />
 
 <div align="center">
@@ -148,13 +113,11 @@
 <br /><br />
 
 <!-- BEGIN numbered_page_link_tpl -->
-| <a class="path" href="{www_dir}{index}/article/articleview/{article_id}/0/">{intl-numbered_page}</a>
+| <a class="path" href="{www_dir}{index}/article/articleview/{article_id}/0/">{intl-numbered_page}</a> |
 <!-- END numbered_page_link_tpl -->
 
 <!-- BEGIN print_page_link_tpl -->
-| <a class="path" href="{www_dir}{index}/article/articleprint/{article_id}/">{intl-print_page}</a>
+| <a class="path" href="{www_dir}{index}/article/articleprint/{article_id}/">{intl-print_page}</a> |
 <!-- END print_page_link_tpl -->
-
-| <a class="path" href="{www_dir}{index}/article/mailtofriend/{article_id}/">{intl-send_mailtofriend}</a> |
 
 </div>

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: headlines.php,v 1.17 2001/08/15 14:45:52 ce Exp $
+// $Id: headlines.php,v 1.18 2001/08/31 09:21:59 th Exp $
 //
 // Created on: <30-Nov-2000 14:35:24 bf>
 //
@@ -66,7 +66,7 @@ if ( !isset( $HeadlineOffset ) )
 }
 
 // $category = new eZArticleCategory( $CategoryID );
-$category = new eZArticleCategory( 98 );
+$category = new eZArticleCategory( $CategoryID );
 
 if ( $CategoryID == 0 )
 {

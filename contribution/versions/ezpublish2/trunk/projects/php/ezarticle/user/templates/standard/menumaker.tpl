@@ -9,7 +9,6 @@
 	<td width="99%"><a class="menu" href="{www_dir}{index}/article/static/{article_id}/">{article_link_text}</a></td>
 </tr>
 <!-- END menu_article_tpl -->
-<tr><td>&nbsp;</td></tr>
 <!-- BEGIN menu_category_tpl -->
 <tr>
 	<td width="1%" valign="top"><img src="{www_dir}/sitedesign/{sitedesign}/images/dot.gif" width="10" height="12" border="0" alt="" /><br /></td>

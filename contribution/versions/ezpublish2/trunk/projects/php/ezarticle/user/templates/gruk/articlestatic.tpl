@@ -24,8 +24,11 @@
 <hr noshade="noshade" size="4" />
 
 <!-- BEGIN path_item_tpl -->
-
+<img src="{www_dir}/images/path-slash.gif" height="10" width="16" border="0" alt="">
+<a class="path" href="{www_dir}{index}/article/archive/{category_id}/">{category_name}</a>
 <!-- END path_item_tpl -->
+
+<hr noshade="noshade" size="4" />
 
 <br />
 <!-- BEGIN article_header_tpl -->

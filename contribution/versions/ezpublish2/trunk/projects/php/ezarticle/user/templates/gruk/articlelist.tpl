@@ -37,12 +37,6 @@
 
 <!-- BEGIN category_list_tpl -->
 <table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
-<tr>
-        <th>&nbsp;</th>
-	<th>{intl-category}:</th>
-	<th>{intl-description}:</th>
-</tr>
-
 <!-- BEGIN category_item_tpl -->
 <tr>
 	<td class="{td_class}" width="1%">

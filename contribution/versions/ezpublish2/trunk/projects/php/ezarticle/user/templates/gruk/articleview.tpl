@@ -32,11 +32,13 @@
 <br />
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
-	<td>
 <!-- BEGIN article_header_tpl -->
-	<p class="byline">{intl-article_author}: <a class="byline" href="{www_dir}{index}/article/author/view/{author_id}">{author_text}</a></p>
+	<td>
+	<p class="byline"><a class="byline" href="{www_dir}{index}/article/author/view/{author_id}">{author_text}</a></p>
+	</td>
 <!-- END article_header_tpl -->
-	<p class="byline">{intl-article_date}: {article_created}</p>
+	<td align="right">
+	<p class="byline">( {article_created} )</p>
 	</td>
 </tr>
 </table>
@@ -126,9 +128,6 @@
 <!-- END numbered_page_link_tpl -->
 
 <!-- BEGIN print_page_link_tpl -->
-| <a class="path" href="{www_dir}{index}/article/articleprint/{article_id}/">{intl-print_page}</a>
+| <a class="path" href="{www_dir}{index}/article/articleprint/{article_id}/">{intl-print_page}</a> |
 <!-- END print_page_link_tpl -->
-
-| <a class="path" href="{www_dir}{index}/article/mailtofriend/{article_id}/">{intl-send_mailtofriend}</a> |
-
 </div>
