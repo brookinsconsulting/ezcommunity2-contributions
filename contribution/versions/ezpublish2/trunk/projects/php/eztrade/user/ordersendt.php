@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ordersendt.php,v 1.8 2000/11/01 09:24:19 ce-cvs Exp $
+// $Id: ordersendt.php,v 1.9 2000/11/02 12:11:00 bf-cvs Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <06-Oct-2000 14:04:17 bf>
@@ -154,7 +154,7 @@ $t->set_var( "visa", "" );
 $t->set_var( "mastercard", "" );
 $t->set_var( "cod", "" );
 $t->set_var( "invoice", "" );
-switch ( $order->PaymentMethod() )
+switch ( $order->paymentMethod() )
 {
     case "1" :
     {// VISA

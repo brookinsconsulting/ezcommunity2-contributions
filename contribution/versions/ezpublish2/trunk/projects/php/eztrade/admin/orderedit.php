@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: orderedit.php,v 1.7 2000/11/01 12:26:40 bf-cvs Exp $
+// $Id: orderedit.php,v 1.8 2000/11/02 12:10:59 bf-cvs Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <30-Sep-2000 13:03:13 bf>
@@ -85,6 +85,12 @@ $t->set_file( array(
     ) );
 
 $t->set_block( "order_edit_tpl", "address_tpl", "address" );
+
+
+$t->set_block( "order_edit_tpl", "visa_tpl", "visa" );
+$t->set_block( "order_edit_tpl", "mastercard_tpl", "mastercard" );
+$t->set_block( "order_edit_tpl", "cod_tpl", "cod" );
+$t->set_block( "order_edit_tpl", "invoice_tpl", "invoice" );
 
 $t->set_block( "order_edit_tpl", "order_status_option_tpl", "order_status_option" );
 
@@ -216,6 +222,35 @@ foreach ( $historyArray as $status )
     $t->parse( "order_status_history", "order_status_history_tpl", true );
     $i++;
 }
+
+$t->set_var( "visa", "" );
+$t->set_var( "mastercard", "" );
+$t->set_var( "cod", "" );
+$t->set_var( "invoice", "" );
+switch ( $order->paymentMethod() )
+{
+    case "1" :
+    {// VISA
+        $t->parse( "visa", "visa_tpl" );        
+    }
+    break;
+    case "2" :
+    {// Mastercard
+        $t->parse( "mastercard", "mastercard_tpl" );
+    }
+    break;
+    case "3" :
+    {// Cash on delivery
+        $t->parse( "cod", "cod_tpl" );
+    }
+    break;
+    case "4" :
+    {// Invoice
+        $t->parse( "invoice", "invoice_tpl" );
+    }
+    break;
+}
+
 
 $t->set_var( "order_id", $order->id() );
 
