@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: groupedit.php,v 1.4 2000/10/06 09:59:15 ce-cvs Exp $
+// $Id: groupedit.php,v 1.5 2000/10/16 12:42:56 ce-cvs Exp $
 //
 // Definition of eZUser class
 //
@@ -32,31 +32,38 @@ if ( $Action == "insert" )
 {
     if ( eZPermission::checkPermission( $user, "eZUser", "GroupAdd" ) )
     {
+        if ( $Name == "" || $Description == "" )
+        {
+            $error = new INIFIle( "ezuser/admin/intl/" . $Language . "/groupedit.php.ini", false );
+            $error_msg =  $error->read_var( "strings", "error_msg" );
+        }
+        else
+        {
+            $group = new eZUserGroup();
+            $group->setName( $Name );
+            $group->setDescription( $Description );
 
-        $group = new eZUserGroup();
-        $group->setName( $Name );
-        $group->setDescription( $Description );
+            $permission = new eZPermission(); 
 
-        $permission = new eZPermission(); 
+            $group->store();
 
-        $group->store();
+            $group->get( $group->id() );
 
-        $group->get( $group->id() );
+            $permissionList = $permission->getAll();
 
-        $permissionList = $permission->getAll();
-
-        foreach( $permissionList as $permissionItem )
-            {
-                $permissionItem->setEnabled( $group, false );
-            }
+            foreach( $permissionList as $permissionItem )
+                {
+                    $permissionItem->setEnabled( $group, false );
+                }
     
-        foreach( $PermissionArray as $PermissionID )
-            {
-                $permission->get( $PermissionID );
-                $permission->setEnabled( $group, true );
-            }
-        Header( "Location: /user/grouplist/" );
-        exit();
+            foreach( $PermissionArray as $PermissionID )
+                {
+                    $permission->get( $PermissionID );
+                    $permission->setEnabled( $group, true );
+                }
+            Header( "Location: /user/grouplist/" );
+            exit();
+        }
     }
     else
     {
@@ -133,8 +140,11 @@ $t->set_block( "permission_list_tpl", "permission_enabled_tpl", "is_enabled_item
 $headline = new INIFIle( "ezuser/admin/intl/" . $Language . "/groupedit.php.ini", false );
 $t->set_var( "head_line", $headline->read_var( "strings", "head_line_insert" ) );
 
-$Name = "";
-$Description = "";
+if ( $Action == "new" )
+{
+    $Name = "";
+    $Description = "";
+} 
 $ActionValue = "insert";
 
 // Edit
@@ -185,6 +195,7 @@ foreach ( $moduleList as $moduleItem )
     $t->parse( "module_header", "module_list_header_tpl", true );
 }
 
+$t->set_var( "error_msg", $error_msg );
 $t->set_var( "name_value", $Name );
 $t->set_var( "description_value", $Description );
 $t->set_var( "action_value", $ActionValue );

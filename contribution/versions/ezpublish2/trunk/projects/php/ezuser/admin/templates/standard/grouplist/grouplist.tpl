@@ -43,6 +43,10 @@
 	</th>
 
 	<th>
+	{intl-description}
+	</th>
+
+	<th>
 	&nbsp;
 	</th>
 

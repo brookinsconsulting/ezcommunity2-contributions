@@ -45,6 +45,7 @@ switch ( $url_array[2] )
     {
         if ( $url_array[3] == "new" )
         {
+            $Action = "new";
             include( "ezuser/admin/useredit.php" );
         }
         else if ( $url_array[3] == "insert" )

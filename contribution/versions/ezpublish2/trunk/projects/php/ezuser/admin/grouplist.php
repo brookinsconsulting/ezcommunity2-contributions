@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: grouplist.php,v 1.3 2000/10/08 13:07:11 bf-cvs Exp $
+// $Id: grouplist.php,v 1.4 2000/10/16 12:42:56 ce-cvs Exp $
 //
 // Definition of eZUser class
 //
@@ -50,6 +50,7 @@ foreach( $groupList as $groupItem )
 
     $t->set_var( "group_id", $groupItem->id() );
     $t->set_var( "group_name", $groupItem->name() );
+    $t->set_var( "group_description", $groupItem->description() );
 
     $t->parse( "group_list", "group_item", true );
     $i++;

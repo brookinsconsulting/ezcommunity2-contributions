@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: useredit.php,v 1.5 2000/10/10 13:17:57 bf-cvs Exp $
+// $Id: useredit.php,v 1.6 2000/10/16 12:42:56 ce-cvs Exp $
 //
 // Definition of eZUser class
 //
@@ -20,7 +20,10 @@ $ini = new INIFIle( "site.ini" );
 
 $Language = $ini->read_var( "eZUserMain", "Language" );
 $DOC_ROOT = $ini->read_var( "eZUserMain", "DocumentRoot" );
+$error = new INIFIle( "ezuser/admin/intl/" . $Language . "/useredit.php.ini", false );
 
+include_once( "classes/ezmail.php" );
+include_once( "classes/ezlog.php" );
 include_once( "ezuser/classes/ezuser.php" );
 include_once( "ezuser/classes/ezusergroup.php" );
 
@@ -30,89 +33,141 @@ if ( $Action == "insert" )
 {
     if ( eZPermission::checkPermission( $user, "eZUser", "UserAdd" ) )
     {
-        if ( ( $Password == $VerifyPassword ) && ( strlen( $VerifyPassword ) > 2 ) )
+        if ( $Login != "" &&
+        $Email != "" &&
+        $FirstName != "" &&
+        $LastName != "" )
         {
-            $user = new eZUser();
-            
-            $user->setLogin( $Login );
-
-            if ( !$user->exists( $user->login() ) )
+            if ( ( $Password == $VerifyPassword ) && ( strlen( $VerifyPassword ) > 2 ) )
             {
-                $user->setPassword( $Password );
-                $user->setEmail( $Email );
-                $user->setFirstName( $FirstName );
-                $user->setLastName( $LastName );
-
-                $user->store();
-                
-                // Add user to groups
-                if ( isset( $GroupArray ) )
+                $user = new eZUser();
+                $user->setLogin( $Login );
+                if ( !$user->exists( $user->login() ) )
                 {
-                    $group = new eZUserGroup();
-                    $user->get( $user->id() );
-                    foreach ( $GroupArray as $GroupID )
+                    if ( eZMail::validate( $Email ) )
                     {
-                        $group->get( $GroupID );
-                        $group->adduser( $user );
+                        $user->setPassword( $Password );
+                        $user->setEmail( $Email );
+                        $user->setFirstName( $FirstName );
+                        $user->setLastName( $LastName );
+                        
+                        $user->store();
+                        eZLog::writeNotice( "User created: $FirstName $LastName ($Login) $Email from IP: $REMOTE_ADDR" );
+                        
+                        // Add user to groups
+                        if ( isset( $GroupArray ) )
+                        {
+                            $group = new eZUserGroup();
+                            $user->get( $user->id() );
+                            foreach ( $GroupArray as $GroupID )
+                                {
+                                    $group->get( $GroupID );
+                                    $group->adduser( $user );
+                                    $groupname = $group->name();
+                                    eZLog::writeNotice( "User added to group: $groupname from IP: $REMOTE_ADDR" );     
+                                }
+                        }
+                        Header( "Location: /user/userlist/" );
+                        exit();
+                    }
+                    else
+                    {
+                        $error_msg = $error->read_var( "strings", "error_email" );
                     }
                 }
-                Header( "Location: /user/userlist/" );
-                exit();
+                else
+                {
+                    $error_msg = $error->read_var( "strings", "error_user_exists" );
+                }
+                
             }
-            print( "Bruker finnes i databasen" );
+            else
+            {
+                $error_msg = $error->read_var( "strings", "error_password" );
+            }
         }
-        print( "Passordene machet ikke, eller var mindre enn 3 bokstaver" );
+        else
+        {
+            $error_msg = $error->read_var( "strings", "error_missingdata" );
+        }
     }
     else
     {
-        print( "Du har ikke rettigheter.");
+        $error_msg = $error->read_var( "strings", "error_norights" );
     }
 }
-
-
 
 if ( $Action == "update" )
 {
     if ( eZPermission::checkPermission( $user, "eZUser", "UserModify" ) )
     {
-        $user = new eZUser();
-        $user->get( $UserID );
-
-        $user->setLogin( $Login );
-
-        if ( ( $Password == $VerifyPassword ) && ( strlen( $VerifyPassword ) > 2 ) )
+        if ( $Login != "" &&
+        $Email != "" &&
+        $FirstName != "" &&
+        $LastName != "" )
         {
-            $user->setPassword( $Password );
-        }
-            
-        $user->setEmail( $Email );
-        $user->setFirstName( $FirstName );
-        $user->setLastName( $LastName );
-
-        $user->store();
-
-        // remove user from groups
-        $user->removeGroups();
-            
-        // Add user to groups
-        if ( isset( $GroupArray ) )
-        {
-            $group = new eZUserGroup();
-            $user->get( $user->id() );
-            foreach ( $GroupArray as $GroupID )
+            if ( ( $Password == $VerifyPassword ) && ( strlen( $VerifyPassword ) > 2 ) )
             {
-                $group->get( $GroupID );
-                $group->adduser( $user );
-            }
-        }            
+                $user->setLogin( $Login );
+                if ( !$user->exists( $user->login() ) )
+                {
+                    if ( eZMail::validate( $Email ) )
+                    {
+                        $user = new eZUser();
+                        $user->get( $UserID );
+                        $user->setLogin( $Login );
+                        $user->setEmail( $Email );
+                        $user->setFirstName( $FirstName );
+                        $user->setLastName( $LastName );
+                        $user->setPassword( $Password );
 
-        Header( "Location: /user/userlist/" );
-        exit();
+                        $user->store();
+                        eZLog::writeNotice( "User updated: $FirstName $LastName ($Login) $Email from IP: $REMOTE_ADDR" );
+
+                        // Remove user from groups
+                        $user->removeGroups();
+                        
+                        // Add user to groups
+                        if ( isset( $GroupArray ) )
+                        {
+                            $group = new eZUserGroup();
+                            $user->get( $user->id() );
+                            foreach ( $GroupArray as $GroupID )
+                            {
+                                $group->get( $GroupID );
+                                $group->adduser( $user );
+                                eZLog::writeNotice( "User added to group: $groupname from IP: $REMOTE_ADDR" );
+                            }
+                        }
+                        Header( "Location: /user/userlist/" );
+                        exit();
+                    }
+                    else
+                    {
+                        $error_msg = $error->read_var( "strings", "error_email" );
+                    }
+                }
+                else
+                {
+                    $error_msg = $error->read_var( "strings", "error_user_exists" );
+                }
+                
+            }
+            else
+            {
+                $error_msg = $error->read_var( "strings", "error_password" );
+            }
+        }
+        else
+        {
+            $error_msg = $error->read_var( "strings", "error_missingdata" );
+        }
     }
     else
     {
-        print( "Du har ikke rettigheter.");
+        $error_msg = $error->read_var( "strings", "error_norights" );
     }
+    $ActionValue = "update";
 }
 
 if ( $Action == "delete" )
@@ -121,14 +176,19 @@ if ( $Action == "delete" )
     {
         $user = new eZUser();
         $user->get( $UserID );
-
+        $firstName = $user->firstName();
+        $lastName = $user->lastName();
+        $email = $user->email();
+        $login = $user->login();
         $user->delete();
+        
+        eZLog::writeNotice( "User deleted: $firstname $lastname ($login) $email from IP: $REMOTE_ADDR" );
         Header( "Location: /user/userlist/" );
         exit();
     }
     else
     {
-        print( "Du har ikke rettigheter.");
+        $error_msg = $error->read_var( "strings", "error_norights" );
     }
 }
 
@@ -141,11 +201,18 @@ $t->set_file( array(
     "group_list" => "groupitem.tpl"
     ) );
 
-$FirstName = "";
-$Lastname = "";
-$Email = "";
-$Login = "";
+if ( $Action == "new" )
+{
+    $FirstName = "";
+    $Lastname = "";
+    $Email = "";
+    $Login = "";
+}
 $ActionValue = "insert";
+if ( $Action == "update" )
+{
+    $ActionValue = "update";
+}
 
 $headline = new INIFIle( "ezuser/admin/intl/" . $Language . "/useredit.php.ini", false );
 $t->set_var( "head_line", $headline->read_var( "strings", "head_line_insert" ) );
@@ -203,6 +270,7 @@ foreach( $groupList as $groupItem )
     $t->parse( "group_item", "group_list", true );
 }
 
+$t->set_var( "error", $error_msg );
 $t->set_var( "first_name_value", $FirstName );
 $t->set_var( "last_name_value", $LastName );
 $t->set_var( "email_value", $Email );

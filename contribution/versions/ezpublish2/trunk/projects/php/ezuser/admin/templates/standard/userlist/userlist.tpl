@@ -65,6 +65,11 @@
 	</th>
 
 	<th>
+	{intl-email}
+	</th>
+
+
+	<th>
 	{intl-login}
 	</th>
 
@@ -81,6 +86,10 @@
 <tr>
 	<td class="{td_class}">
 	{first_name} {last_name}
+	</td>
+
+	<td class="{td_class}">
+	{email}
 	</td>
 
 	<td class="{td_class}">

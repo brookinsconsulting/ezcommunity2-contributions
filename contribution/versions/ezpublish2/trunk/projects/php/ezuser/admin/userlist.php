@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: userlist.php,v 1.6 2000/10/16 07:14:28 ce-cvs Exp $
+// $Id: userlist.php,v 1.7 2000/10/16 12:42:56 ce-cvs Exp $
 //
 // Definition of eZUser class
 //
@@ -63,6 +63,7 @@ foreach( $userList as $userItem )
     $t->set_var( "first_name", $userItem->firstName() );
     $t->set_var( "last_name", $userItem->lastName() );
     $t->set_var( "login_name", $userItem->login() );
+    $t->set_var( "email", $userItem->email() );
     $t->set_var( "user_id", $userItem->id() );
 
     $t->parse( "user_item", "user_item_tpl", true );

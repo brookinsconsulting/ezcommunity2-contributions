@@ -7,6 +7,7 @@
 <br />
 
 <table width="100%" cellpadding="0" cellspacing="0" border="0">
+<h3 class="error">{error}</h3>
 <tr>
 	<td>
 	<p class="boxtext">{intl-firstname}</p>

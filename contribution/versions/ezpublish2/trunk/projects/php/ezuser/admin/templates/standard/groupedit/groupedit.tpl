@@ -4,6 +4,8 @@
 
 <hr noshade size="4"/>
 
+<p class="boxtext">{error_msg}</p>
+
 <p class="boxtext">{intl-name}</p>
 <input type="text" size="20" name="Name" value="{name_value}"/>
 
