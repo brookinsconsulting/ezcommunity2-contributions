@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezsection.php,v 1.8 2001/07/20 11:26:45 jakobn Exp $
+// $Id: ezsection.php,v 1.9 2001/08/20 09:40:34 bf Exp $
 //
 // ezsection class
 //
@@ -68,7 +68,8 @@ class eZSection
         $name = $db->escapeString( $this->Name );
         $description = $db->escapeString( $this->Description );
         $sitedesign = $db->escapeString( $this->SiteDesign );
-        
+        $templateStyle = $db->escapeString( $this->TemplateStyle );
+             
         if ( !isset( $this->ID ) )
         {
             $db->lock( "eZSiteManager_Section" );
@@ -78,21 +79,24 @@ class eZSection
             $timeStamp = eZDateTime::timeStamp( true );
 
             $res = $db->query( "INSERT INTO eZSiteManager_Section
-                                     ( ID,  Name, Created, Description,  SiteDesign )
+                                     ( ID,  Name, Created, Description, TemplateStyle, SiteDesign )
                                      VALUES
                                      ( '$nextID',
                                        '$name',
                                        '$timeStamp',
                                        '$description',
+                                       '$templateStyle',
                                        '$sitedesign' )" );
 
 			$this->ID = $nextID;
         }
         else
         {
+        print( $templateStyle );
             $res = $db->query( "UPDATE eZSiteManager_Section SET
 		                             Name='$name',
 		                             SiteDesign='$sitedesign',
+		                             TemplateStyle='$templateStyle',
                                      Description='$description'
                                      WHERE ID='$this->ID'" );
         }
@@ -140,6 +144,7 @@ class eZSection
                 $this->ID = $section_array[0][$db->fieldName("ID")];
                 $this->Name = $section_array[0][$db->fieldName("Name")];
                 $this->SiteDesign = $section_array[0][$db->fieldName("SiteDesign")];
+                $this->TemplateStyle = $section_array[0][$db->fieldName("TemplateStyle")];
                 $this->Description = $section_array[0][$db->fieldName("Description")];
                 $this->Created = $section_array[0][$db->fieldName("Created")];
                 $ret = true;
@@ -222,6 +227,22 @@ class eZSection
        else
            return htmlspecialchars( $this->SiteDesign );
     }
+
+
+    /*!
+      Returns the template style for this section.
+    */
+    function templateStyle( $sectionID=false )
+    {
+       if ( is_numeric ( $sectionID ) )
+       {
+           $db =& eZDB::globalDatabase();
+           $db->query_single( $templateStyle, "SELECT TemplateStyle FROM eZSiteManager_Section WHERE ID='$sectionID'" );
+           return $templateStyle[$db->fieldName("TemplateStyle")];
+       }
+       else
+           return htmlspecialchars( $this->TemplateStyle );
+    }
     
     /*!
       Returns the section description.
@@ -238,7 +259,7 @@ class eZSection
     {
         $this->Name = $value;
     }
-
+    
     /*!
       Sets the SiteDesign of the section.
     */
@@ -247,6 +268,14 @@ class eZSection
         $this->SiteDesign = $value;
     }
 
+    /*!
+      Sets the TemplateStyle of the section.
+    */
+    function setTemplateStyle( $value )
+    {
+        $this->TemplateStyle = $value;
+    }
+    
     /*!
       Sets the description of the section.
     */
@@ -259,6 +288,7 @@ class eZSection
     var $ID;
     var $Name;
     var $SiteDesign;
+    var $TemplateStyle;
     var $Description;
     var $Created;
 

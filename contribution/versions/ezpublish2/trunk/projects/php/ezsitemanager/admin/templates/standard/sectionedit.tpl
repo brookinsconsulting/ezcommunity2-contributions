@@ -13,6 +13,10 @@
 <input type="text" class="box" size="40" name="SiteDesign" value="{section_sitedesign}" />
 <br />
 
+<p class="boxtext">{intl-templatestyle}:</p>
+<input type="text" class="box" size="40" name="TemplateStyle" value="{section_templatestyle}" />
+<br />
+
 <p class="boxtext">{intl-description}:</p>
 <textarea name="Description" class="box" wrap="soft" cols="40" rows="10">{section_description}</textarea>
 <br /><br />

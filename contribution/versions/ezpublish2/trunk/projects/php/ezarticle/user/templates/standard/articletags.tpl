@@ -1,31 +1,3 @@
-<!-- BEGIN hr_tpl -->
-<hr>
-<!-- END hr_tpl -->
-
-<!-- BEGIN tstart_tpl -->
-<table width=100%>
-<tr>
-<td>
-<!-- END tstart_tpl -->
-
-<!-- BEGIN telem_tpl -->
-</td>
-<td>
-<!-- END telem_tpl -->
-
-<!-- BEGIN trow_tpl -->
-</td>
-</tr>
-<tr>
-<td>
-<!-- END trow_tpl -->
-
-<!-- BEGIN tend_tpl -->
-</td>
-</tr>
-</table>
-<!-- END tend_tpl -->
-
 <!-- BEGIN header_1_tpl -->
 <h1>{contents}</h1>
 <!-- END header_1_tpl -->
@@ -157,3 +129,18 @@
 <embed src="{www_dir}{media_uri}" {attribute_string} />
 <!-- END media_tpl -->
 
+
+<!-- BEGIN table_tpl -->
+<br clear="all" />
+<table width="100%" border="1" >
+<!-- BEGIN tr_tpl -->
+<tr>
+<!-- BEGIN td_tpl -->
+	<td>
+	{contents}
+	</td>
+<!-- END td_tpl -->
+</tr>
+<!-- END tr_tpl -->
+</table>
+<!-- END table_tpl -->

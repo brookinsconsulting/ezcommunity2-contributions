@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: ezmysqldb.php,v 1.22 2001/08/15 06:56:46 ce Exp $
+// $Id: ezmysqldb.php,v 1.23 2001/08/20 09:40:33 bf Exp $
 //
 // Definition of eZMySQLDB class
 //
@@ -104,6 +104,7 @@ class eZMySQLDB
             }
             return false;
         }
+        mysql_free_result( $result );
     }
     
     /*!

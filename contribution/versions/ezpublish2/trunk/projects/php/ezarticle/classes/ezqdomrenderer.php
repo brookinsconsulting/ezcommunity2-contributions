@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezqdomrenderer.php,v 1.28 2001/08/17 12:57:42 bf Exp $
+// $Id: ezqdomrenderer.php,v 1.29 2001/08/20 09:40:34 bf Exp $
 //
 // Definition of eZQDomRenderer class
 //
@@ -178,12 +178,6 @@ class eZQDomrenderer
         $this->Template->set_block( "articletags_tpl", "hr_tpl", "hr"  );
         
 	
-        $this->Template->set_block( "articletags_tpl", "tstart_tpl", "tstart"  );
-        $this->Template->set_block( "articletags_tpl", "telem_tpl", "telem"  );
-        $this->Template->set_block( "articletags_tpl", "trow_tpl", "trow"  );
-        $this->Template->set_block( "articletags_tpl", "tend_tpl", "tend"  );
-        
-	
         $this->Template->set_block( "articletags_tpl", "bold_tpl", "bold"  );
         $this->Template->set_block( "articletags_tpl", "italic_tpl", "italic"  );
         $this->Template->set_block( "articletags_tpl", "underline_tpl", "underline"  );
@@ -198,6 +192,11 @@ class eZQDomrenderer
 
         $this->Template->set_block( "articletags_tpl", "list_tpl", "list"  );
         $this->Template->set_block( "list_tpl", "list_item_tpl", "list_item"  );
+
+        // table
+        $this->Template->set_block( "articletags_tpl", "table_tpl", "table"  );
+        $this->Template->set_block( "table_tpl", "tr_tpl", "tr"  );
+        $this->Template->set_block( "tr_tpl", "td_tpl", "td"  );
         
         $this->Article = $article;
     }
@@ -892,28 +891,28 @@ class eZQDomrenderer
         if ( $paragraph->name == "mail" )
         {
             foreach ( $paragraph->attributes as $mailItem )
+            {
+                switch ( $mailItem->name )
                 {
-                    switch ( $mailItem->name )
+                    case "to" :
                     {
-                        case "to" :
-                        {
-                            $to = $mailItem->children[0]->content;
-                        }
-                        break;
-
-                        case "subject" :
-                        {
-                            $subject = $mailItem->children[0]->content;
-                        }
-                        break;
-
-                        case "text" :
-                        {
-                            $text = $mailItem->children[0]->content;
-                        }
-                        break;
+                        $to = $mailItem->children[0]->content;
                     }
+                    break;
+
+                    case "subject" :
+                    {
+                        $subject = $mailItem->children[0]->content;
+                    }
+                    break;
+
+                    case "text" :
+                    {
+                        $text = $mailItem->children[0]->content;
+                    }
+                    break;
                 }
+            }
 
             $this->Template->set_var( "href", "mailto:$to?subject=$subject" );
             $this->Template->set_var( "link_text", $text );
@@ -939,37 +938,70 @@ class eZQDomrenderer
         {
             $pageContent =& $this->Template->parse( "hr", "hr_tpl" );
         }
-	return $pageContent;
+        return $pageContent;
     }
-    
 
+    /*!
+      Renders a table object.
+    */
     function &renderTable( $paragraph )
     {
-        $pageContent = "";
-        if ( $paragraph->name == "tstart" )
+        if ( $paragraph->name == "table" )
         {
-            $pageContent =& $this->Template->parse( "tstart", "tstart_tpl" );
+            $this->Template->set_var( "tr", "" );
+            $this->Template->set_var( "td", "" );
+
+            foreach ( $paragraph->children as $row )
+            {
+                if ( $row->name == "tr" )            
+                {
+                    $this->Template->set_var( "td", "" );
+                                
+                    foreach ( $row->children as $data )
+                    {
+                        if ( $data->name == "td" )
+                        {
+                            $childrenData =& $this->renderChildren( $data );
+                            $this->Template->set_var( "contents", $childrenData );
+                            $this->Template->parse( "td", "td_tpl", true );
+                        }
+                    }
+                    $this->Template->parse( "tr", "tr_tpl", true );
+                }
+            }
+            $pageContent =& $this->Template->parse( "table", "table_tpl" );
         }
-	
-	if ( $paragraph->name == "telem" )
-        {
-            $pageContent =& $this->Template->parse( "telem", "telem_tpl" );
-        }
-	
-	if ( $paragraph->name == "trow" )
-        {
-            $pageContent =& $this->Template->parse( "trow", "trow_tpl" );
-        }
-	
-	if ( $paragraph->name == "tend" )
-        {
-            $pageContent =& $this->Template->parse( "tend", "tend_tpl" );
-        }
-	
-	
-	return $pageContent;
+        
+        return $pageContent;
     }
-    
+
+    /*!
+      \private
+      Renders the children for this paragraph and returns the contents.
+     */
+    function &renderChildren( $paragraph )
+    {
+        // render children
+        if ( count( $paragraph->children ) )
+            foreach ( $paragraph->children as $child )
+            {
+                if ( $child->name == "text" )
+                {                
+                    $tmpContent .= eZTextTool::nl2br( $child->content );
+                }
+                else
+                {
+                    $tmpContent .= $this->renderStandards( $child );
+                    $tmpContent .= $this->renderLink( $child );
+                    $tmpContent .= $this->renderImage( $child );
+                    $tmpContent .= $this->renderMedia( $media );
+                    $tmpContent .= $this->renderHeader( $child );
+                    $tmpContent .= $this->renderHr( $child );
+                    $tmpContent .= $this->renderTable( $child );
+                }
+            }
+        return $tmpContent;
+    }
 
     var $UsedImageList;
     var $Article;

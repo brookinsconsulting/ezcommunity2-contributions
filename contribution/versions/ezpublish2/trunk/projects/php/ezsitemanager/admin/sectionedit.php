@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: sectionedit.php,v 1.6 2001/07/29 23:31:10 kaid Exp $
+// $Id: sectionedit.php,v 1.7 2001/08/20 09:40:34 bf Exp $
 //
 // Created on: <10-May-2001 16:17:29 ce>
 //
@@ -56,6 +56,7 @@ $t->set_file( array(
 
 $t->set_var( "section_name", "$Name" );
 $t->set_var( "section_sitedesign", "$SiteDesign" );
+$t->set_var( "section_templatestyle", "$TemplateStyle" );
 $t->set_var( "section_description", "$Description" );
 
 $warning = true;
@@ -79,8 +80,10 @@ if ( ( $Action == "Insert" ) || ( $Action == "Update" ) && ( $user ) )
 
     $section->setName( $Name );
     $section->setSiteDesign( $SiteDesign );
+    $section->setTemplateStyle( $TemplateStyle );
     $section->setDescription( $Description );
     $section->store();
+
 
     eZHTTPTool::header( "Location: /sitemanager/section/list/" );
     exit();
@@ -107,6 +110,7 @@ if ( is_numeric( $SectionID ) )
     $t->set_var( "section_name", $section->name() );
     $t->set_var( "section_description", $section->description() );
     $t->set_var( "section_sitedesign", $section->siteDesign() );
+    $t->set_var( "section_templatestyle", $section->templateStyle() );
 }
 
 $t->pparse( "output", "section_edit_page" );

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezqdomgenerator.php,v 1.23 2001/08/14 10:14:19 bf Exp $
+// $Id: ezqdomgenerator.php,v 1.24 2001/08/20 09:40:34 bf Exp $
 //
 // Definition of eZQDomGenerator class
 //
@@ -326,8 +326,8 @@ class eZQDomGenerator
                 $value .= $this->decodeImage( $paragraph );
                 $value .= $this->decodeMedia( $paragraph );
                 $value .= $this->decodeLink( $paragraph );
-		$value .= $this->decodeHr( $paragraph );
-		$value .= $this->decodeTable( $paragraph );
+                $value .= $this->decodeHr( $paragraph );
+                $value .= $this->decodeTable( $paragraph );
             }
         }
 
@@ -462,37 +462,11 @@ class eZQDomGenerator
 
     function &decodeHr( $paragraph )
     {
-	if ( $paragraph->name == "hr" )
-        {
-        
+        if ( $paragraph->name == "hr" )
+        {            
             $pageContent = "<hr>";
-	}
-	return $pageContent;
-    }
-    
-    function &decodeTable( $paragraph )
-    {
-	if ( $paragraph->name == "tstart" )
-        {
-        
-            $pageContent = "<tstart>";
-	}
-	if ( $paragraph->name == "telem" )
-        {
-        
-            $pageContent = "<telem>";
-	}
-	if ( $paragraph->name == "trow" )
-        {
-        
-            $pageContent = "<trow>";
-	}
-	if ( $paragraph->name == "tend" )
-        {
-        
-            $pageContent = "<tend>";
-	}
-	return $pageContent;
+        }
+        return $pageContent;
     }
     
 
@@ -579,7 +553,53 @@ class eZQDomGenerator
         
         return $pageContent;
     }
-    
+
+
+    /*!
+      \private
+    */
+    function &decodeTable( $paragraph )
+    {
+        if ( $paragraph->name == "table" )
+        {
+            $tmpContent = "";
+            foreach ( $paragraph->children as $row )
+            {
+                if ( $row->name == "tr" )            
+                {
+                    $tdContent = "";
+                    foreach ( $row->children as $data )
+                    {
+                        if ( $data->name == "td" )
+                        {
+                            $tmpData = "";
+                            foreach ( $data->children as $contents )
+                            {
+                                if ( $contents->name == "#text" or $contents->name == "text" )
+                                {
+                                    $tmpData .= $contents->content;
+                                }
+                                else
+                                {
+                                    $tmpData .= $this->decodeStandards( $contents );
+                                }                                
+                            }
+                            $tdContent .= "<td>$tmpData</td>";
+                            
+                        }
+                    }
+                    
+                    $tmpContent .= "<tr>\n$tdContent</tr>\n";
+                }
+            }
+            
+            $pageContent = "<table>\n$tmpContent</table>"; 
+        }
+        
+        
+        return $pageContent;
+    }
+
     /*!
       \private
       
@@ -602,6 +622,7 @@ class eZQDomGenerator
                     $content = $this->decodeStandards( $child );
                     $content .= $this->decodeLink( $child );
                     $content .= $this->decodeImage( $child );
+                    $content .= $this->decodeTable( $child );
                     $content .= $this->decodeMedia( $child );
                     $content .= $this->decodeHeader( $child );
                 }
@@ -709,6 +730,7 @@ class eZQDomGenerator
         
         return $pageContent;
     }
+
 
     /*!
       Returns the number of pages found in the article.
