@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: customerlogin.php,v 1.14 2001/04/25 08:39:35 ce Exp $
+// $Id: customerlogin.php,v 1.15 2001/05/10 08:56:16 ce Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <03-Oct-2000 16:45:30 bf>
@@ -46,9 +46,9 @@ if ( $user  )
         
     if ( count( $user->addresses() ) == 0 )
     {
+        $session->setVariable( "RedirectURL", "/trade/customerlogin/" );
         $userID = $user->id();
         eZHTTPTool::header( "Location: /user/userwithaddress/edit/$userID/MissingAddress" );
-//        Header( "Location: /user/address/new/?RedirectURL=/trade/customerlogin/" );
         exit();
 
     }

@@ -1,10 +1,10 @@
 <?
 // 
-// $Id: userwithaddress.php,v 1.50 2001/04/25 13:10:48 ce Exp $
+// $Id: userwithaddress.php,v 1.51 2001/05/10 08:56:16 ce Exp $
 //
 //
 // Christoffer A. Elo <ce@ez.no>
-// Created on: <10-Oct-2000 12:52:42 bf>
+// Created on: <10-ct-2000 12:52:42 bf>
 //
 // Copyright (C) 1999-2001 eZ Systems.  All rights reserved.
 //
@@ -385,8 +385,11 @@ if ( isset( $OK ) and $error == false )
     if ( !$new_user )
         $Updated = true;
 
+    $RedirectURL = $session->variable( "RedirectURL" );
+
     if ( isSet( $RedirectURL )  && ( $RedirectURL != "" ) )
     {
+        $session->setVariable( "RedirectURL", "" );
         eZHTTPTool::header( "Location: $RedirectURL" );
         exit();
     }
