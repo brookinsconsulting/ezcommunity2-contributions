@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezarticle.php,v 1.82 2001/05/10 11:35:16 ce Exp $
+// $Id: ezarticle.php,v 1.83 2001/05/16 11:32:31 ce Exp $
 //
 // Definition of eZArticle class
 //
@@ -1036,24 +1036,22 @@ class eZArticle
     */
     function &search( &$queryText, $sortMode=time, $fetchNonPublished=true, $offset=0, $limit=10 )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
+       $db =& eZDB::globalDatabase();
 
-       $this->dbInit();
-
-       $OrderBy = "eZArticle_Article.Published DESC";
+       // Build the ORDER BY
+       $OrderBy = "Article.Published DESC";
        switch( $sortMode )
        {
            case "alpha" :
            {
-               $OrderBy = "eZArticle_Article.Name DESC";
+               $OrderBy = "Article.Name DESC";
            }
            break;
        }
-
+       
        if ( $fetchNonPublished == true )
        {
-           $fetchText = "eZArticle_Article.IsPublished = 'true'
+           $fetchText = "Article.IsPublished = 'true'
                     AND";           
        }
        else
@@ -1061,9 +1059,9 @@ class eZArticle
            $fetchText = "";
        }
 
-       // this code works. do not EDIT !! :)
        $user = eZUser::currentUser();
 
+       // Build the permission
        $loggedInSQL = "";
        if ( $user )
        {
@@ -1082,34 +1080,28 @@ class eZArticle
                $i++;
            }
            $currentUserID = $user->id();
-           $loggedInSQL = "eZArticle_Article.AuthorID=$currentUserID OR";
+           $loggedInSQL = "Article.AuthorID=$currentUserID OR";
        }
 
-       
-       $return_array = array();
-       $article_array = array();
+       // Build the search
+       $query = new eZQuery( array( "Keywords", "Name" ), $queryText );
+       $search = $query->buildQuery();
 
-       $this->Database->array_query( $article_array,
-                    "SELECT eZArticle_Article.ID AS ArticleID, eZArticle_Article.Name, eZArticle_Category.ID, eZArticle_Category.Name
-                    FROM eZArticle_Article LEFT JOIN eZArticle_ArticlePermission AS Permission
-                    ON eZArticle_Article.ID=Permission.ObjectID,
-                    eZArticle_Category, eZArticle_ArticleCategoryLink 
-                    WHERE 
-                    ( 
-                    eZArticle_Article.Name LIKE '%$queryText%' OR
-                    eZArticle_Article.Keywords LIKE '%$queryText%'
-                    )
-                    AND
-                    ( $loggedInSQL ($groupSQL Permission.GroupID='-1') AND Permission.ReadPermission='1' )
-                    AND
-                    eZArticle_ArticleCategoryLink.ArticleID = eZArticle_Article.ID
-                    AND
-                    eZArticle_Category.ID = eZArticle_ArticleCategoryLink.CategoryID
-                    AND
-                    eZArticle_Category.ExcludeFromSearch = 'false'
-                    GROUP BY eZArticle_Article.ID ORDER BY $OrderBy LIMIT $offset, $limit" );
+       $queryString = "SELECT DISTINCT Article.ID AS ArticleID
+                 FROM eZArticle_Article AS Article,
+                      eZArticle_ArticleCategoryLink AS Link,
+                      eZArticle_ArticlePermission AS Permission
+                 WHERE (
+                       ( $loggedInSQL ($groupSQL Permission.GroupID='-1') AND Permission.ReadPermission='1' )
+                       AND $search
+                       )
+                       $publishedCode
+                       AND Permission.ObjectID=Article.ID
+                       AND Link.ArticleID=ArticleID
+                       ORDER BY $OrderBy
+                       LIMIT $offset, $limit";
 
-
+       $db->array_query( $article_array, $queryString );
        for ( $i=0; $i < count($article_array); $i++ )
        {
            $return_array[$i] = new eZArticle( $article_array[$i]["ArticleID"], false );
@@ -1122,23 +1114,10 @@ class eZArticle
         /*!
       Does a search in the article archive.
     */
-    function searchCount( $queryText, $sortMode=time, $fetchNonPublished=true )
+    function searchCount( $queryText,  $fetchNonPublished=true )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
-       $this->dbInit();
-
-       $OrderBy = "eZArticle_Article.Published DESC";
-       switch( $sortMode )
-       {
-           case "alpha" :
-           {
-               $OrderBy = "eZArticle_Article.Name DESC";
-           }
-           break;
-       }
-
+       $db =& eZDB::globalDatabase();
+       
        if ( $fetchNonPublished == true )
        {
            $fetchText = "eZArticle_Article.IsPublished = 'true'
@@ -1170,35 +1149,30 @@ class eZArticle
                $i++;
            }
            $currentUserID = $user->id();
-           $loggedInSQL = "eZArticle_Article.AuthorID=$currentUserID OR";
+           $loggedInSQL = "Article.AuthorID=$currentUserID OR";
        }
 
-       
-       $return_array = array();
-       $article_array = array();
+       // Build the search
+       $query = new eZQuery( array( "Keywords", "Name" ), $queryText );
+       $search = $query->buildQuery();
 
+       $queryString = "SELECT COUNT(DISTINCT Article.ID) AS Count
+                 FROM eZArticle_Article AS Article,
+                      eZArticle_ArticleCategoryLink AS Link,
+                      eZArticle_ArticlePermission AS Permission
+                 WHERE (
+                       ( $loggedInSQL ($groupSQL Permission.GroupID='-1') AND Permission.ReadPermission='1' )
+                       AND $search
+                       )
+                       $publishedCode
+                       AND Permission.ObjectID=Article.ID
+                       AND Link.ArticleID=ArticleID
+                       GROUP BY ArticleID
+                       LIMIT 0, 1";
 
-       $this->Database->array_query( $article_array,
-                    "SELECT COUNT(*) AS Count
-                    FROM eZArticle_Article LEFT JOIN eZArticle_ArticlePermission AS Permission
-                    ON eZArticle_Article.ID=Permission.ObjectID,
-                    eZArticle_Category, eZArticle_ArticleCategoryLink 
-                    WHERE 
-                    ( 
-                    eZArticle_Article.Name LIKE '%$queryText%' OR
-                    eZArticle_Article.Keywords LIKE '%$queryText%'
-                    )
-                    AND
-                    ( $loggedInSQL ($groupSQL Permission.GroupID='-1') AND Permission.ReadPermission='1' )
-                    AND
-                    eZArticle_ArticleCategoryLink.ArticleID = eZArticle_Article.ID
-                    AND
-                    eZArticle_Category.ID = eZArticle_ArticleCategoryLink.CategoryID
-                    AND
-                    eZArticle_Category.ExcludeFromSearch = 'false'
-                    " );
+       $db->query_single( $count, $queryString );
 
-       return $article_array[0]["Count"];
+       return $count["Count"];
     }
 
     /*!

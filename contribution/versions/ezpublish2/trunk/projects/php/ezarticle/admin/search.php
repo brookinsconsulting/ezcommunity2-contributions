@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: search.php,v 1.8 2001/04/26 11:54:04 ce Exp $
+// $Id: search.php,v 1.9 2001/05/16 11:32:31 ce Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <28-Oct-2000 15:56:58 bf>
@@ -79,11 +79,11 @@ if ( count( $categoryList ) > 0 )
 else
 $t->set_var( "category_list", "" );
 
-// if ( $SearchText )
+if ( $SearchText )
 {
     $article = new eZArticle();
     $articleList = $article->search( $SearchText, "time", true, $Offset, $Limit );
-    $totalCount = $article->searchCount( $SearchText, "time", false );
+    $totalCount = $article->searchCount( $SearchText, true );
 
     $t->set_var( "search_text", $SearchText );
     $t->set_var( "url_text", urlencode ( $SearchText ) );
