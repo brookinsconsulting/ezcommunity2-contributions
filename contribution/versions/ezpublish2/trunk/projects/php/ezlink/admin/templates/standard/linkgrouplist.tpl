@@ -74,7 +74,7 @@
 <!-- BEGIN group_list_tpl -->
 <tr>
 	<td bgcolor="{bg_color}">
-	<a href="/link/group/{linkgroup_id}/">{linkgroup_title}</a> &nbsp;({total_links}, {new_links} nye)
+	<a href="/link/group/{linkgroup_id}/">{linkgroup_title}</a>
 	</td>
 
 	<td width="1%" bgcolor="{bg_color}">

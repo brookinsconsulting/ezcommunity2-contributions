@@ -35,7 +35,7 @@
 <!-- BEGIN group_list_tpl -->
 {start_tr}
 	<td class="{td_class}">
-	<a href="/link/group/{linkgroup_id}/">{linkgroup_title}</a> &nbsp;({total_links}, {new_links} {intl-new})
+	<a href="/link/group/{linkgroup_id}/">{linkgroup_title}</a>
 	</td>
 {stop_tr}
 <!-- END group_list_tpl -->

@@ -80,7 +80,7 @@
 	<a href="/poll/polledit/edit/{poll_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezp{poll_id}-red','','/images/redigerminimrk.gif',1)"><img name="ezp{poll_id}-red" border="0" src="/images/redigermini.gif" width="16" height="16" align="top"></a>
 	</td>
 	<td width="1%" class="{td_class}">
-	<a href="/poll/polledit/delete/{poll_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezp{poll_id}-slett','','/images/slettminimrk.gif',1)"><img name="ezp{poll_id}-slett" border="0" src="/images/slettmini.gif" width="16" height="16" align="top"></a>
+	<a href="#" onClick="verify( '{intl-delete}', '/poll/polledit/delete/{poll_id}/'); return false;" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezp{poll_id}-slett','','/images/slettminimrk.gif',1)"><img name="ezp{poll_id}-slett" border="0" src="/images/slettmini.gif" width="16" height="16" align="top"></a>
 	</td>
 	</tr>
 	<!-- END poll_item_tpl -->
