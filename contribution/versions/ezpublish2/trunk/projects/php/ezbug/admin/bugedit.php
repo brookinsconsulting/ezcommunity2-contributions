@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: bugedit.php,v 1.10 2001/02/02 12:22:27 fh Exp $
+// $Id: bugedit.php,v 1.11 2001/02/02 13:13:31 fh Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <28-Nov-2000 19:45:35 bf>
@@ -192,9 +192,18 @@ if ( $Action == "Edit" )
     
     $t->set_var( "bug_id", $bug->id() );
     $t->set_var( "name_value", $bug->name() );
+    $bug_user = $bug->user();
+    if( $bug_user )
+    {
+        $t->set_var( "reporter_name_value", $bug_user->namedEmail() );
+    }
+    else
+    {
+        $t->set_var( "reporter_name_value", "Unknown" );
+    }
     $t->set_var( "description_value", eZTextTool::nl2br( $bug->description() ) );
     $t->set_var( "action_value", "Update" );
-
+    
     $date =& $bug->created();
     $t->set_var( "bug_date", $locale->format( $date ) );    
 
