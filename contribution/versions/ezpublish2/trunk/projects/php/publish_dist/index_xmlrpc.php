@@ -243,7 +243,7 @@ function xmlrpcErrorHandler ($errno, $errmsg, $filename, $linenum, $vars)
 //          mail("phpdev@mydomain.com","Critical User Error",$err);
 }
 
-function &createErrorMessage( $error_id, $error_msg = false )
+function &createErrorMessage( $error_id, $error_msg = false, $error_sub_id = false )
 {
     global $ID;
     global $Command;
@@ -296,7 +296,7 @@ function &createErrorMessage( $error_id, $error_msg = false )
             $error_text = "Unknown error";
         }
     }
-    $ret->setError( $error_id, $error_text );
+    $ret->setError( $error_id, $error_text, $error_sub_id );
     return $ret;
 }
 
@@ -342,6 +342,18 @@ function createDateTimeStruct( $datetime )
                                       "Minute" => new eZXMLRPCInt( $datetime->minute() ),
                                       "Second" => new eZXMLRPCInt( $datetime->second() ) ) );
     return $ret;
+}
+
+function createDateTime( $struct )
+{
+    $datetime = new eZDateTime();
+    $datetime->setYear( $struct["Year"]->value() );
+    $datetime->setMonth( $struct["Month"]->value() );
+    $datetime->setDay( $struct["Day"]->value() );
+    $datetime->setHour( $struct["Hour"]->value() );
+    $datetime->setMinute( $struct["Minute"]->value() );
+    $datetime->setSecond( $struct["Second"]->value() );
+    return $datetime;
 }
 
 ob_end_flush();
