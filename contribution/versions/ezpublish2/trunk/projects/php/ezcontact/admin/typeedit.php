@@ -1,7 +1,7 @@
 <?
 
 /*
-  This code can be reused for simple type lists. It requires an object with the following functions:
+  This code can be reused for simple type edits. It requires an object with the following functions:
   name() and setName(): Used for reading and setting the name of the type.
   id(): Used for retrieving the id of the type in the database
   count(): Used for calculating the number of external items dependent on this type
@@ -56,21 +56,17 @@ if( $Action == "delete" )
     {
         $Action = "confirm";
         $TypeError = true;
-//          header( $reconfirm );
-//          exit();
     }
     else if ( $count != $TypeCount )
     {
-//          header( $reconfirm );
-//          exit();
         $Action = "confirm";
     }
     else
     {
         // The counts are the same as when confirming so we can delete
 
-        $item_type->delete();
-        header( "Location: $back_command" );
+        $item_type->delete( true );
+        header( "Location: $page_path/list" );
         exit();
     }
 }
