@@ -10,6 +10,7 @@ Changes from 2.2.4 to 2.2.5
 * Fixed bug with default page.
 * Fixed bug when downloading binary files from Windows servers
 * Fixed article count bug on article list from all categories.
+* Removed &nbsp; for the root of the sitemap in eZ article.
 
 Changes from 2.2.3 to 2.2.4
 ---------------------------
