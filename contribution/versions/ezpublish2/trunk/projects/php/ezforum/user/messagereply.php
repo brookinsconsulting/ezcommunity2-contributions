@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: messagereply.php,v 1.13 2000/11/22 13:09:35 bf-cvs Exp $
+// $Id: messagereply.php,v 1.14 2000/11/24 14:55:50 bf-cvs Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <24-Sep-2000 12:20:32 bf>
@@ -49,8 +49,8 @@ if ( $Action == "insert" )
     $reply->setForumID( $original->forumID() );
 
     $reply->setTopic( strip_tags( $Topic ) );
-    $Body = ereg_replace ( "(<)", "&lt;", $Body );        
-    $Body = ereg_replace ( "(>)", "&gt;", $Body );        
+    $Body = ereg_replace ( "(<)", "&lt;", $Body );
+    $Body = ereg_replace ( "(>)", "&gt;", $Body );
          
     $reply->setBody( strip_tags( $Body, "<b>,<i>,<u>,<font>" ) );
 
@@ -175,7 +175,14 @@ $t->set_var( "forum_id", $ForumID );
 
 $t->set_var( "msg_id", $msg->id() );
 
-$t->set_var( "topic", ( $ReplyPrefix . stripslashes( $msg->topic() ) ) );
+$topic =  stripslashes( $msg->topic() );
+
+if ( !ereg( "^$ReplyPrefix", $topic ) )
+{
+    $topic = $ReplyPrefix . $topic;
+}
+
+$t->set_var( "topic", $topic );
 
 $t->set_var( "user", $user->firstName() . " " . $user->lastName() );
 
