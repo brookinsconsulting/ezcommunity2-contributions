@@ -13,8 +13,8 @@
   <!-- BEGIN cart_item_list_tpl -->
   <tr align="left">
     <th class="right" width="1%"><nobr>{intl-product_qty}:</nobr></th>      
-    <th width="1%"><nobr>{intl-product_number}:</nobr></th>
-    <th><nobr>{intl-product_name}:</nobr></th>
+    <th width="1%"><nobr>&nbsp;{intl-product_number}:</nobr></th>
+    <th><nobr>&nbsp;{intl-product_name}:</nobr></th>
     <!-- BEGIN header_savings_item_tpl -->
     <th width="1%"><nobr>{intl-product_savings}:</nobr></th>
     <!-- END header_savings_item_tpl -->
@@ -36,11 +36,11 @@
       <input size="3" type="text" name="CartCountArray[]" value="{product_count}" />
       -->
     </td>    
-    <td class="{td_class}"><nobr>{product_number}</nobr></td>
-    <td class="{td_class}">
-      <a href="/trade/productview/{product_id}">{product_name}</a><br />
+    <td class="{td_class}"><nobr>&nbsp;{product_number}</nobr></td>
+    <td class="{td_class}">&nbsp;
+      <a href="/trade/productview/{product_id}">{product_name}</a>
       <!-- BEGIN cart_item_option_tpl -->
-      <span class="small">Gr&ouml;&szlig;e: {option_value}</span>
+      <br />&nbsp;<span class="small">&nbsp;Gr&ouml;&szlig;e: {option_value}</span>
       <!-- BEGIN option_savings_item_tpl -->
       &nbsp;
       <!-- END option_savings_item_tpl -->
@@ -123,7 +123,9 @@
     <!-- END total_inc_tax_item_tpl -->
   </tr>
 </table>
-<br />
+
+<hr size="1" noshade="noshade" />
+
 <b>{intl-shipping_method}:</b><br />
 <select name="ShippingTypeID">
   <!-- BEGIN shipping_type_tpl -->
