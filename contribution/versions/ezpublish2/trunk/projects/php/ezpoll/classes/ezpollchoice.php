@@ -1,5 +1,5 @@
 <?
-// $Id: ezpollchoice.php,v 1.7 2000/10/26 12:44:58 ce-cvs Exp $
+// $Id: ezpollchoice.php,v 1.8 2000/10/31 09:46:45 ce-cvs Exp $
 //
 // Definition of eZPollChoice class
 //
@@ -267,4 +267,8 @@ class eZPollChoice
     var $Name;
     var $PollID;
     var $Offset;
+
+    var $Database;
+    var $State_;
+    var $IsConnected;
 }

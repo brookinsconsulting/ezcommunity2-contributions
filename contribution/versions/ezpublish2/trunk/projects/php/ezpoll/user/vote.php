@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: vote.php,v 1.4 2000/10/30 08:32:17 ce-cvs Exp $
+// $Id: vote.php,v 1.5 2000/10/31 09:46:45 ce-cvs Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <20-Sep-2000 13:32:11 ce>
@@ -36,6 +36,11 @@ include_once( $DOC_ROOT . "/classes/ezvote.php" );
 include_once( $DOC_ROOT . "/classes/ezpollchoice.php" );
 include_once( "ezsession/classes/ezsession.php" );
 
+$session = new eZSession();
+
+if( !$session->fetch() )
+    $session->store();
+
 // Check if poll is closed.
 $poll = new eZPoll( $PollID );
 if ( $poll->isClosed() )
@@ -57,17 +62,15 @@ if ( !$poll->anonymous() )
 }
 else
 {
-    if ( $HTTP_COOKIE_VARS["eZPoll"] == "Voted" )
+    if ( $session->variable( "VoteOnID".$PollID ) )
     {
         $Voted = true;
     }
     else
     {
-        setcookie( "eZPoll", "Voted" );
+        $session->setVariable( "VoteOnID".$PollID, "true" );
         $Voted = false;
     }
-    if ( !$HTTP_COOKIE_VARS["eZPoll"] )
-        $Voted = true;
 }
 
 

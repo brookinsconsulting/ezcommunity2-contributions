@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezvote.php,v 1.12 2000/10/26 12:44:58 ce-cvs Exp $
+// $Id: ezvote.php,v 1.13 2000/10/31 09:46:45 ce-cvs Exp $
 //
 // Definition of eZVote class
 //
@@ -265,10 +265,15 @@ class eZVote
         }
     }
 
+    var $ID;
     var $IP;
     var $PollID;
     var $ChoiceIP;
     var $UserID;
+
+    var $Database;
+    var $State_;
+    var $IsConnected;
 }
 
 ?>

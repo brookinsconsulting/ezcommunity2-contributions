@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezpoll.php,v 1.10 2000/10/26 12:44:58 ce-cvs Exp $
+// $Id: ezpoll.php,v 1.11 2000/10/31 09:46:45 ce-cvs Exp $
 //
 // Definition of eZPoll class
 //
@@ -456,4 +456,8 @@ class eZPoll
     var $IsClosed;
     var $ShowResult;
     var $Anonymous;
+
+    var $Database;
+    var $State_;
+    var $IsConnected;
 }
