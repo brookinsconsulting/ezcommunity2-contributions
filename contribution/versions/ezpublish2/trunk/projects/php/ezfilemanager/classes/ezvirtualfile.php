@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezvirtualfile.php,v 1.31 2001/06/27 11:48:09 ce Exp $
+// $Id: ezvirtualfile.php,v 1.32 2001/06/28 14:52:36 jb Exp $
 //
 // Definition of eZVirtualFile class
 //
@@ -314,11 +314,11 @@ class eZVirtualfile
     /*!
       Returns a eZUser object.
     */
-    function &user()
+    function &user( $as_object = true )
     {
         if ( $this->UserID != 0 )
         {
-            $ret = new eZUser( $this->UserID );
+            $ret = $as_object ? new eZUser( $this->UserID ) : $this->UserID;
         }
         
         return $ret;
