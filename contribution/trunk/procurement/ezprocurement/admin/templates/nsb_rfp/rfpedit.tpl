@@ -1,4 +1,4 @@
-<form method="post" action="{www_dir}{index}/procurement/edit/{action_value}/{rfp_id}/" >
+<form method="post" name="RFPEDIT" action="{www_dir}{index}/procurement/edit/{action_value}/{rfp_id}/" >
 
 <h1>{intl-head_line}</h1>
 
@@ -257,10 +257,10 @@
 
 
         <p class="boxtext">{intl-groups_write}:</p>
-		
+
         <select name="WriteGroupArray[]" size="3" multiple>
         <option value="0" {all_write_selected}>{intl-all}</option>
-        
+
         <option value="1" selected>Administrators</option>
         <option value="3" selected>Bidders</option>
         <option value="4" >Holders</option>
@@ -276,8 +276,59 @@
 </tr>
 </table>
 <br />
-
 -->
+<!-- BEGIN bid_list_tpl -->
+<tr><td>
+<select name="BidList"
+onchange="fillBid(document.forms.RFPEDIT.BidList.options[document.forms.RFPEDIT.BidList.selectedIndex].value)">
+<!-- BEGIN bid_list_options_tpl -->
+<option value="{bid_list_string}">{bid_list_name}</option>
+<!-- END bid_list_options_tpl -->
+</select><br /><br />
+</td></tr>
+<tr><td>
+<table width="100%" style="border: 1px solid black" cellpadding="2" cellspacing="2">
+<tr><td width="100">
+<input type="hidden" name="CurrentBid" value="0" />
+Company:
+</td><td><select name="BidCompany" />
+<!-- BEGIN bid_company_tpl -->
+<option value="{bid_company_id}">{bid_company_name}</option>
+<!-- END bid_company_tpl -->
+</select>
+</td></tr>
+<tr><td>
+Person: 
+</td><td><select name="BidPerson"  />
+<!-- BEGIN bid_person_tpl -->
+<option value="{bid_person_id}">{bid_person_name}</option>
+<!-- END bid_person_tpl -->
+</select></td>
+</tr><tr>
+<td>
+Rank: </td>
+<td>
+<select name="BidRank" />
+<!-- BEGIN bid_rank_tpl -->
+<option value="{bid_rank_id}">{bid_rank_name}</option>
+<!-- END bid_rank_tpl -->
+</select></td></tr>
+<tr><td>
+Amount: </td><td><input type="text" name="BidAmount" size="6" /></td>
+</tr><tr><td>
+Winner: </td><td><input type="checkbox" name="IsWinner" /> </td>
+</tr>
+</table>
+<tr>
+<td>
+<input class="stdbutton" type="submit" name="BidModify" value="Modify Bid" />
+<input class="stdbutton" type="submit" name="BidDelete" value="Delete Bid" />
+<!-- END bid_list_tpl -->
+<!--BEGIN no_bid_tpl -->
+<br />
+<b>There are no bids yet for this procurement.</b>
+<!-- END no_bid_tpl -->
+</td></tr>
 <tr>
 	<td colspan="4">
         	<span class="boxtext">{intl-rfp_author}:<br />{selected}<br /></span>
@@ -409,6 +460,46 @@
 	</form>
 </tr>
 </table>
+<script language="JavaScript">
+function fillBid(val)
+{
+var valArr = explode(val, '|');
+var frm = document.forms.RFPEDIT;
+frm.CurrentBid[frm.CurrentBid.selectedIndex].value = valArr[0];
+frm.BidPerson[frm.BidPerson.selectedIndex].value = valArr[1];
+frm.BidCompany[frm.BidCompany.selectedIndex].value = valArr[2];
+frm.BidRank[frm.BidRank.selectedIndex].value = valArr[3];
+frm.BidAmount.value = valArr[4];
+frm.BidUser[frm.BidUser.selectedIndex].value = valArr[5];
+}
 
+function explode(inputstring, separators, includeEmpties) {
+inputstring = new String(inputstring);
+separators = new String(separators);
+
+if(separators == "undefined") {
+separators = " :;";
+}
+
+fixedExplode = new Array(1);
+currentElement = "";
+count = 0;
+
+for(x=0; x < inputstring.length; x++) {
+char = inputstring.charAt(x);
+if(separators.indexOf(char) != -1) {
+if ( ( (includeEmpties <= 0) || (includeEmpties == false)) && (currentElement == "")) { }
+else {
+fixedExplode[count] = currentElement;
+count++;
+currentElement = ""; } }
+else { currentElement += char; }
+}
+
+if (( ! (includeEmpties <= 0) && (includeEmpties != false)) || (currentElement != "")) {
+fixedExplode[count] = currentElement; }
+return fixedExplode;
+}
+</script>
 
 
