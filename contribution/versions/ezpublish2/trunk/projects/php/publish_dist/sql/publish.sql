@@ -2295,13 +2295,20 @@ INSERT INTO eZUser_GroupPermissionLink VALUES (33,1,27,'true');
 INSERT INTO eZUser_GroupPermissionLink VALUES (34,1,28,'true');
 INSERT INTO eZUser_GroupPermissionLink VALUES (35,1,29,'true');
 INSERT INTO eZUser_GroupPermissionLink VALUES (36,1,30,'true');
+INSERT INTO eZUser_GroupPermissionLink VALUES (37,1,31,'true');
+INSERT INTO eZUser_GroupPermissionLink VALUES (38,1,32,'true');
 INSERT INTO eZUser_GroupPermissionLink VALUES (39,1,33,'true');
+INSERT INTO eZUser_GroupPermissionLink VALUES (40,1,34,'true');
 INSERT INTO eZUser_GroupPermissionLink VALUES (74,1,35,'true');
 INSERT INTO eZUser_GroupPermissionLink VALUES (75,1,36,'true');
 INSERT INTO eZUser_GroupPermissionLink VALUES (76,1,37,'true');
 INSERT INTO eZUser_GroupPermissionLink VALUES (77,1,38,'true');
 INSERT INTO eZUser_GroupPermissionLink VALUES (78,1,39,'true');
 INSERT INTO eZUser_GroupPermissionLink VALUES (79,1,40,'true');
+INSERT INTO eZUser_GroupPermissionLink VALUES (80,1,41,'true');
+INSERT INTO eZUser_GroupPermissionLink VALUES (81,1,42,'true');
+INSERT INTO eZUser_GroupPermissionLink VALUES (82,1,43,'true');
+INSERT INTO eZUser_GroupPermissionLink VALUES (83,1,44,'true');
 
 
 
