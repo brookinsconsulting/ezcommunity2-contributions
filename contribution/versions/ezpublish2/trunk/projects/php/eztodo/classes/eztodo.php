@@ -1,5 +1,5 @@
 <?
-// $Id: eztodo.php,v 1.3 2000/09/12 07:54:39 bf-cvs Exp $
+// $Id: eztodo.php,v 1.4 2000/09/12 11:41:22 bf-cvs Exp $
 //
 // Definition of eZTodo class
 //
@@ -134,7 +134,6 @@ class eZTodo
     function getAll()
     {
         $this->dbInit();
-        $todo_array = 0;
 
         $return_array = array();
         $todo_array = array();

@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: ezdb.php,v 1.4 2000/09/08 13:17:17 bf-cvs Exp $
+    $Id: ezdb.php,v 1.5 2000/09/12 11:41:22 bf-cvs Exp $
 
     Author: Bård Farstad <bf@ez.no>
     
@@ -10,8 +10,11 @@
 */
 
 //!! eZCommon
-//! The eZDB class provides database.
+//! The eZDB class provides database functions.
 /*!
+  The eZDB class hanles database connections and is a wrapper
+  to query functions.
+
   
 */
 
@@ -19,18 +22,30 @@
 class eZDB
 {
     /*!
-      Constructor.
-    */
-    function eZDB( $server, $db, $user, $pwd )
-    {
-        $this->Server = $server;
-        $this->DB = $db;
-        $this->User = $user;
-        $this->Password = $pwd;
+      Constructs a new eZDB object, connects to the database and
+      selects the desired table.
 
-        mysql_pconnect( $this->Server, $this->User, $this->Password );
+      The eZDB constructor takes a .ini file as an argumen.
+      The second argument defines under what category in the .ini
+      file the database information is located.
+    */
+    function eZDB( $iniFile, $category )
+    {
+        include_once( "classes/INIFile.php" );
         
-        mysql_select_db( $this->DB );
+        $ini = new INIFile( "site.ini" );
+        
+        $this->Server = $ini->read_var( "eZTradeMain", "Server" );
+        $this->DB = $ini->read_var( "eZTradeMain", "Database" );
+        $this->User = $ini->read_var( "eZTradeMain", "User" );
+        $this->Password = $ini->read_var( "eZTradeMain", "Password" );
+        
+        
+        mysql_pconnect( $this->Server, $this->User, $this->Password )
+            or warn( "Error: could not connect to the database." );
+        
+        mysql_select_db( $this->DB )
+            or warn( "Error: could not connect to the database." );;
     }
 
     /*

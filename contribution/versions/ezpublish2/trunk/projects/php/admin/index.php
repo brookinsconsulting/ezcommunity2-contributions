@@ -50,7 +50,7 @@ if( $session->get( $AuthenticatedSession ) == 0 )
         include( "ezcontactadmin.php" );
 
     if ( $ini->read_var( "site", "eZTrade" ) == "enabled" )
-        include( "eztradeadmin.php" );
+        include( "../eztrade/admin/eztradeadminmenu.php" );
 
     include( "useradmin.php" );
 
