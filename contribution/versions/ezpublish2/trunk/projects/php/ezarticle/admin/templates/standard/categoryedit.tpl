@@ -3,17 +3,22 @@
 <h1>{intl-headline}</h1>
 
 <hr noshade="noshade" size="4" />
+<br />
 
-<p class="boxtext">{intl-name}</p>
-<input type="text" size="20" name="Name" value="{name_value}"/>
+<table width="100%" cellspacing="0" cellpadding="0" border="0">
+<tr>
+	<td>
+	<p class="boxtext">{intl-name}</p>
+	<input type="text" size="40" name="Name" value="{name_value}"/>
+	</td>	
+	<td>
+	<input type="checkbox" name="ExcludeFromSearch" {exclude_checked} />
+	<span class="boxtext">{intl-exclude_from_search}</span>
+	</td>
+</tr>
+</table>
 
 <br />
-<input type="checkbox" name="ExcludeFromSearch" {exclude_checked} />
-<span class="boxtext">{intl-exclude_from_search}</span>
-
-
-
-
 
 <p class="boxtext">{intl-place}</p>
 <select name="ParentID">
