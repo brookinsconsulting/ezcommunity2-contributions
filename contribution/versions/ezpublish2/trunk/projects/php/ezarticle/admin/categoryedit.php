@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: categoryedit.php,v 1.27 2001/08/15 14:45:52 ce Exp $
+// $Id: categoryedit.php,v 1.28 2001/09/08 16:06:06 bf Exp $
 //
 // Created on: <18-Sep-2000 14:46:19 bf>
 //
@@ -399,6 +399,7 @@ $t->set_var( "1_selected", "" );
 $t->set_var( "2_selected", "" );
 $t->set_var( "3_selected", "" );
 $t->set_var( "4_selected", "" );
+$t->set_var( "5_selected", "" );
 
 // edit
 if ( $Action == "edit" )

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezarticlecategory.php,v 1.93 2001/09/06 10:46:11 jb Exp $
+// $Id: ezarticlecategory.php,v 1.94 2001/09/08 16:06:06 bf Exp $
 //
 // Definition of eZArticleCategory class
 //
@@ -751,13 +751,11 @@ class eZArticleCategory
       1 - publishing date
       2 - alphabetic
       3 - alphabetic desc
-      3 - absolute placement      
+      4 - absolute placement     
+      5 - modification date
     */
     function sortMode( $return_id = false )
     {
-       if ( isset( $this->State_ ) and $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
        switch( $this->SortMode )
        {
            case 1 :
@@ -781,6 +779,12 @@ class eZArticleCategory
            case 4 :
            {
                $SortMode = "absolute_placement";
+           }
+           break;
+
+           case 5 :
+           {
+               $SortMode = "modification";
            }
            break;
            
@@ -1057,12 +1061,19 @@ class eZArticleCategory
                $OrderBy = "Link.Placement ASC";
            }
            break;
+
+           case "modification" :
+           {
+               $OrderBy = "Article.Modified DESC";
+           }
+           break;
            
            default :
            {
                $OrderBy = "Article.Published DESC";
            }
        }
+
        $return_array = array();
        $article_array = array();
 

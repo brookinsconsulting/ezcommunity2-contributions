@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: articlelist.php,v 1.47 2001/09/08 13:58:21 bf Exp $
+// $Id: articlelist.php,v 1.48 2001/09/08 16:06:06 bf Exp $
 //
 // Created on: <18-Oct-2000 14:41:37 bf>
 //
@@ -369,6 +369,7 @@ if ( is_numeric( $CategoryID ) && ( $CategoryID > 0 ) )
 {
     switch ( $ArticleSelection )
     {
+        
         case "Published" :
         {
             $articleList =& $category->articles( $category->sortMode(), false, true, $Offset, $Limit );
