@@ -28,6 +28,7 @@ include_once( "ezuser/classes/ezuser.php" );
 include_once( "ezuser/classes/ezusergroup.php" );
 include_once( "ezuser/classes/ezmodule.php" );
 include_once( "ezuser/classes/ezpermission.php" );
+include_once( "ezmodule/classes/ezmodulehandler.php" );
 
 include_once( "classes/ezhttptool.php" );
 
@@ -67,29 +68,13 @@ if ( $user )
         include_once( "ezsession/classes/ezpreferences.php" );
         $preferences = new eZPreferences();
 
-        $modules =& $preferences->variableArray( "EnabledModules" );
         $site_modules = $ini->read_array( "site", "EnabledModules" );
-        $ModuleTab = $ini->read_var( "site", "ModuleTab" ) == "enabled";
-        if ( !$ModuleTab )
-        {
-            if ( $modules )
-            {
-                $modules = array_intersect( $modules, $site_modules );
-                $extra_modules = array_diff( $site_modules, $modules );
-                $modules = array_merge( $modules, $extra_modules );
-                $modules = array_diff( $modules, array( "" ) );
-            }
-            else
-            {
-                $modules = array_diff( $site_modules, array( "" ) );
-            }
-        }
+        $modules =& eZModuleHandler::active();
 
         $uri =& $GLOBALS["REQUEST_URI"];
 
         if ( $PrintableVersion != "enabled" )
         {
-
             if ( !empty( $GLOBALS["ToggleMenu"] ) )
             {
                 foreach( $modules as $module )
@@ -97,18 +82,7 @@ if ( $user )
                     $module_dir = strtolower( $module );
                     if ( $GLOBALS["ToggleMenu"] == $module_dir )
                     {
-                        $menuStatus =& $preferences->variable( $module_dir . "_status" );
-
-                        if ( $menuStatus == "open" || empty( $menuStatus ) )
-                        {
-                            $preferences->setVariable( $module_dir . "_status", "closed" );
-                        }
-                        else
-                        {
-                            $preferences->setVariable( $module_dir . "_status", "open" );                
-                        }
-
-                        $menuStatus =& $preferences->variable( $module_dir . "_status" );
+                        eZModuleHandler::toggle( $module_dir );
                         $uri = eZHTTPTool::removeVariable( $uri, "ToggleMenu" );
                         eZHTTPTool::header( "Location: $uri" );
                         exit;
@@ -116,65 +90,19 @@ if ( $user )
                 }
             }
 
-            reset( $modules );
-            $i = 0;
             $moved_module = false;
-            while( list( $key, $module ) = each( $modules ) )
+            eZModuleHandler::moveUp( $modules, $GLOBALS["MoveUp"], $moved_module );
+            if ( !$moved_module )
             {
-                $module_low =& strtolower( $module );
-                if ( !empty( $module ) )
-                {
-                    if ( $GLOBALS["MoveUp"] == $module_low )
-                    {
-                        $pos = $i;
-                        if ( $i > 0 )
-                        {
-                            $pos_above = $i - 1;
-                            $module_above = $modules[$pos_above];
-                            $modules[$pos_above] = $module;
-                            $modules[$pos] = $module_above;
-                            $moved_module = true;
-                            break;
-                        }
-                        else
-                        {
-                            $module_item = array_shift( $modules );
-                            $modules = array_merge( $modules, $module_item );
-                            $moved_module = true;
-                            break;
-                        }
-                    }
-                    else if ( $GLOBALS["MoveDown"] == $module_low )
-                    {
-                        $pos = $i;
-                        if ( $i < count( $modules ) - 1 )
-                        {
-                            $pos_below = $i + 1;
-                            $module_below = $modules[$pos_below];
-                            $modules[$pos_below] = $module;
-                            $modules[$pos] = $module_below;
-                            $moved_module = true;
-                            break;
-                        }
-                        else
-                        {
-                            $module_item = array_pop( $modules );
-                            $modules = array_merge( $module_item, $modules );
-                            $moved_module = true;
-                            break;
-                        }
-                    }
-                }
-                $i++;
+                eZModuleHandler::moveDown( $modules, $GLOBALS["MoveDown"], $moved_module );
             }
 
             $uri = eZHTTPTool::removeVariable( $uri, "MoveUp" );
             $uri = eZHTTPTool::removeVariable( $uri, "MoveDown" );
 
-            $preferences->setVariable( "EnabledModules", $modules );
-
             if ( $moved_module )
             {
+                $preferences->setVariable( "EnabledModules", $modules );
                 eZHTTPTool::header( "Location: $uri" );
                 exit;
             }

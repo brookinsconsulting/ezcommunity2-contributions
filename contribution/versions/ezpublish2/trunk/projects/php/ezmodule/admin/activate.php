@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: activate.php,v 1.2 2001/04/11 15:11:57 jb Exp $
+// $Id: activate.php,v 1.3 2001/04/18 12:50:03 jb Exp $
 //
 // Jan Borsodi <jb@ez.no>
 // Created on: <11-Apr-2001 15:07:58 amos>
@@ -24,27 +24,18 @@
 //
 
 include_once( "classes/INIFile.php" );
+include_once( "ezsession/classes/ezpreferences.php" );
+include_once( "ezmodule/classes/ezmodulehandler.php" );
 
 $ini =& INIFile::globalINI();
-$all_modules = $ini->read_array( "site", "EnabledModules" );
-
-include_once( "ezsession/classes/ezpreferences.php" );
 $preferences = new eZPreferences();
-
-$modules =& $preferences->variableArray( "EnabledModules" );
 $single_module = $preferences->variable( "SingleModule" );
-if ( !is_bool( $single_module ) )
-{
-    $single_module =  $single_module == "enabled";
-}
-else
-{
-    $single_module = true;
-}
+$single_module = is_bool( $single_module ) ? true : $single_module == "enabled";
 
 if ( $single_module )
 {
     $modules = array( $ModuleName );
+    eZModuleHandler::setOpen( $ModuleName );
 }
 else
 {
@@ -52,7 +43,7 @@ else
     {
         case "all":
         {
-            $modules = $all_modules;
+            $modules =& eZModuleHandler::all();
             break;
         }
         case "none":
@@ -62,18 +53,19 @@ else
         }
         default:
         {
+            $modules =& eZModuleHandler::active();
             if ( $Activate )
             {
-                $modules = array_unique( array_merge( $modules, $ModuleName ) );
+                $modules =& eZModuleHandler::append( $modules, $ModuleName );
             }
             else
             {
-                $modules = array_diff( $modules, array( $ModuleName ) );
+                $modules =& eZModuleHandler::remove( $modules, $ModuleName );
             }
         }
     }
 }
-$preferences->setVariable( "EnabledModules", $modules );
+eZModuleHandler::setActive( $modules );
 
 //      $uri =& $GLOBALS["REQUEST_URI"];
 //      $uri = eZHTTPTool::removeVariable( $uri, "ToggleMenu" );
