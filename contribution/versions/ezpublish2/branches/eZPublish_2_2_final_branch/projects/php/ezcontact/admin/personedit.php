@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: personedit.php,v 1.57.2.4 2002/02/05 17:18:43 jhe Exp $
+// $Id: personedit.php,v 1.57.2.5 2002/02/26 12:31:45 jhe Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -417,7 +417,7 @@ if ( !$confirm )
             }
         }
     
-        $count = max( count( $AddressTypeID ), count( $AddressID ),
+        $count = max( count( $AddressTypeID ), count( $AddressDelete ),
                       count( $Street1 ), count( $Street2 ),
                       count( $Zip ), count( $Place ), 1 );
         for ( $i = 0; $i < $count; $i++ )
@@ -663,16 +663,18 @@ if ( !$confirm )
 
         // address
         $item->removeAddresses();
-        $count = max( count( $AddressTypeID ), count( $AddressID ),
+        if ( !is_array( $AddressDelete ) )
+            $AddressDelete = array( $AddressDelete );
+        $count = max( count( $AddressTypeID ), count( $AddressDelete ),
                       count( $Street1 ), count( $Street2 ),
                       count( $Zip ), count( $Place ) );
         
         for ( $i = 0; $i < $count; $i++ )
         {
             if ( $Street1[$i] != "" && $Place[$i] != "" &&
-                 $Country[$i] != "" && $AddressTypeID != -1 )
+                 $Country[$i] != "" && $AddressTypeID[$i] != -1 )
             {
-                if ( in_array( $i + 1, $AddressID ) && $AddressTypeID[$i] != -1 )
+                if ( !in_array( $i + 1, $AddressDelete ) && $AddressTypeID[$i] != -1 )
                 {
                     $address = new eZAddress();
                     $address->setStreet1( $Street1[$i] );
@@ -689,6 +691,8 @@ if ( !$confirm )
         }
 
         $item->removePhones();
+        if ( !is_array( $PhoneDelete ) )
+            $PhoneDelete = array( $PhoneDelete );
         $count = max( count( $PhoneID ), count( $Phone ) );
         for ( $i = 0; $i < $count; $i++ )
         {
@@ -704,6 +708,9 @@ if ( !$confirm )
         }
 
         $item->removeOnlines();
+        if ( !is_array( $OnlineDelete ) )
+            $OnlineDelete = array( $OnlineDelete );
+
         $count = max( count( $OnlineID ), count( $Online ) );
         for ( $i = 0; $i < $count; $i++ )
         {
@@ -732,7 +739,6 @@ if ( !$confirm )
         $t->set_var( "user_id", $UserID );
         $t->set_var( "person_id", $PersonID );
         $t->set_var( "company_id", $CompanyID );
-
         include_once( "classes/ezhttptool.php" );
         eZHTTPTool::header( "Location: /contact/$item_type/view/$item_cat_id" );
     }
@@ -780,10 +786,11 @@ if ( !$confirm )
 
         $addresses = $item->addresses();
         $i = 1;
+
         foreach ( $addresses as $address )
         {
             $AddressTypeID[$i - 1] = $address->addressTypeID();
-            $AddressID[$i - 1] = $i;
+//            $AddressDelete[$i - 1] = $i;
             $Street1[$i - 1] = $address->street1();
             $Street2[$i - 1] = $address->street2();
             $Zip[$i - 1] = $address->zip();
@@ -838,6 +845,9 @@ if ( !$confirm )
             else if ( $Action == "new" )
                 $Action = "insert";
         }
+
+        if ( $Action == "edit" )
+            $AddressDelete = array();
 
         if ( $CompanyEdit )
         {
@@ -998,7 +1008,6 @@ if ( !$confirm )
         if ( isSet( $NewAddress ) )
         {
             $AddressTypeID[] = "";
-            $AddressID[] = count( $AddressID ) > 0 ? $AddressID[count( $AddressID ) - 1] + 1 : 1;
             $Street1[] = "";
             $Street2[] = "";
             $Zip[] = "";
@@ -1006,30 +1015,25 @@ if ( !$confirm )
             $Country[] = count( $Country ) > 0 ? $Country[count( $Country ) - 1] : "";
         }
 
-        $count = max( count( $AddressTypeID ), count( $AddressID ),
+        $count = max( count( $AddressTypeID ), count( $AddressDelete ),
                       count( $Street1 ), count( $Street2 ),
                       count( $Zip ), count( $Place ) );
         $item = 0;
         $AddressDeleteValues =& array_values( $AddressDelete );
         $last_id = 0;
-        for ( $i = 0; $i < $count || $item < $AddressMinimum; $i++ )
+
+        for ( $i = 0; $i < $count || $i < $AddressMinimum; $i++ )
         {
-            if ( ( $item % $AddressWidth == 0 ) && $item > 0 )
+            if ( !isSet( $AddressDelete[$i] ) || !is_numeric( $AddressDelete[$i] ) )
+                 $AddressDelete[$i] = ++$last_id;
+            if ( !in_array( $AddressDelete[$i], $AddressDeleteValues ) )
             {
-                $t->parse( "address_table_item", "address_table_item_tpl", true );
-                $t->set_var( "address_item" );
-            }
-            if ( !isSet( $AddressID[$i] ) or !is_numeric( $AddressID[$i] ) )
-                 $AddressID[$i] = ++$last_id;
-            if ( !in_array( $AddressID[$i], $AddressDeleteValues ) )
-            {
-                $last_id = $AddressID[$i];
                 $t->set_var( "street1", eZTextTool::htmlspecialchars( $Street1[$i] ) );
                 $t->set_var( "street2", eZTextTool::htmlspecialchars( $Street2[$i] ) );
                 $t->set_var( "zip", eZTextTool::htmlspecialchars( $Zip[$i] ) );
                 $t->set_var( "place", eZTextTool::htmlspecialchars( $Place[$i] ) );
-                $t->set_var( "address_id", $AddressID[$i] );
-                $t->set_var( "address_index", $AddressID[$i] );
+                $t->set_var( "address_id", $AddressDelete[$i] );
+                $t->set_var( "address_index", $AddressDelete[$i] );
                 $t->set_var( "address_position", $i + 1 );
 
                 $t->set_var( "address_item_select", "" );
@@ -1058,14 +1062,13 @@ if ( !$confirm )
                 }
 
                 $t->parse( "address_item", "address_item_tpl", true );
-                $item++;
             }
             else
-                $AddressDeleteValues = array_diff( $AddressDeleteValues, array( $AddressID[$i] ) );
+                $AddressDeleteValues = array_diff( $AddressDeleteValues, array( $AddressDelete[$i] ) );
         }
-        $t->parse( "address_table_item", "address_table_item_tpl", true );
 
-//          $t->parse( "address_item", "address_item_tpl" );
+        $t->parse( "address_table_item", "address_table_item_tpl" );
+
 
         if ( isSet( $NewPhone ) )
         {
