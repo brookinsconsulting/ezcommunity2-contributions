@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: forum.php,v 1.10 2000/07/25 10:08:18 lw Exp $
+    $Id: forum.php,v 1.11 2000/07/25 10:31:20 bf-cvs Exp $
 
     Author: Lars Wilhelmsen <lw@ez.no>
     
@@ -95,7 +95,7 @@ else
         $Id = $headers[$i]["Id"];
         $Topic  = $headers[$i]["Topic"];
         $User = $headers[$i]["UserId"];
-        $PostingTime = $headers[$i]["PostingTime"];
+        $PostingTime = $headers[$i]["PostingTimeFormated"];
         
         $j = $i + 1;
          

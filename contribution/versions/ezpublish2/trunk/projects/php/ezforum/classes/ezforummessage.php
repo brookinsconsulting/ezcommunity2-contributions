@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: ezforummessage.php,v 1.13 2000/07/25 09:59:15 lw-cvs Exp $
+    $Id: ezforummessage.php,v 1.14 2000/07/25 10:31:20 bf-cvs Exp $
 
     Author: Lars Wilhelmsen <lw@ez.no>
     
@@ -73,7 +73,7 @@ class eZforumMessage
         }
             
         $query_string = "SELECT Id,Topic, Body, UserId,
-                 DATE_FORMAT(PostingTime,'%k:%i:%s %e/%c/%y') AS PostingTime
+                 DATE_FORMAT(PostingTime,'%k:%i:%s %e/%c/%y') AS PostingTimeFormated
                  FROM MessageTable WHERE ForumId='$forum_id' AND " . $optstr . " ORDER BY PostingTime";
             
         $query_id = mysql_query( $query_string )
