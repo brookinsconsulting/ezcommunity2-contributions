@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezpageviewquery.php,v 1.21.2.7 2002/06/19 15:02:28 br Exp $
+// $Id: ezpageviewquery.php,v 1.21.2.8 2003/01/07 14:26:43 br Exp $
 //
 // Definition of eZPageViewQuery class
 //
@@ -85,10 +85,9 @@ class eZPageViewQuery
             if ( $day < 10 )
                 $day = "0" . $day;
 
-            $dateStamp = new eZDateTime( $year, $month, $day );
+            $dateStamp = new eZDateTime( $year, $month, $day, 0, 0, 0 );
 
             $endStamp = new eZDateTime( $year, $month, $day, 23, 59, 59 );
-            
             $db->array_query( $pageview_array,
             "SELECT count(ID) AS Count
              FROM eZStats_PageView
@@ -128,7 +127,7 @@ class eZPageViewQuery
             if ( $month < 10 )
                 $month = "0" . $month;
 
-            $dateStamp = new eZDateTime( $year, $month, 1 );
+            $dateStamp = new eZDateTime( $year, $month, 1, 0, 0, 0 );
 
             if ( $month == 12 )
                 $endDate = new eZDateTime( $year + 1, 1, 1, 0, 0, 0 );
@@ -539,7 +538,7 @@ class eZPageViewQuery
         // loop over the days
         for ( $month = 1; $month <= 12; $month++ )
         {
-            $stamp = new eZDateTime( $year, $month, 1 );
+            $stamp = new eZDateTime( $year, $month, 1, 0, 0, 0 );
             if ( $smonth == 12 )
                 $end = new eZDateTime( $year + 1, 1, 1, 0, 0, 0 );
             else
@@ -588,7 +587,7 @@ class eZPageViewQuery
             else
                 $sday = $day;
         
-            $stamp = new eZDateTime( $year, $month, $sday );
+            $stamp = new eZDateTime( $year, $month, $sday, 0, 0 ,0 );
             if ( $sday == $date->daysInMonth() )
                 $end = new eZDateTime( $year, $month + 1, 1, 0, 0, 0 );
             else
@@ -626,9 +625,9 @@ class eZPageViewQuery
 
         $TotalPages = 0;
         // loop over the days
-        for ( $hour = 1; $hour <= 24; ++$hour )
+        for ( $hour = 0; $hour <= 23; ++$hour )
         {
-            $stamp = new eZDateTime( $year, $month, $day, $hour );
+            $stamp = new eZDateTime( $year, $month, $day, $hour, 0, 0 );
             $db->array_query( $visitor_array,
             "SELECT Count FROM eZStats_Archive_PageView WHERE Hour='" . $stamp->timeStamp() . "'" );
 
