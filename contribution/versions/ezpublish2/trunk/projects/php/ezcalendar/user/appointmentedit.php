@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: appointmentedit.php,v 1.11 2001/01/18 17:10:47 gl Exp $
+// $Id: appointmentedit.php,v 1.12 2001/01/18 18:39:44 gl Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <03-Jan-2001 12:47:22 bf>
@@ -30,17 +30,17 @@ if ( isSet ( $DeleteAppointments ) )
 
 if ( isSet ( $GoDay ) )
 {
-    Header( "Location: /calendar/dayview" );
+    Header( "Location: /calendar/dayview/$CurrentYear/$CurrentMonth/$CurrentDay" );
     exit();
 }
 else if ( isSet ( $GoMonth ) )
 {
-    Header( "Location: /calendar/monthview" );
+    Header( "Location: /calendar/monthview/$CurrentYear/$CurrentMonth" );
     exit();
 }
 else if ( isSet ( $GoYear ) )
 {
-    Header( "Location: /calendar/yearview" );
+    Header( "Location: /calendar/yearview/$CurrentYear" );
     exit();
 }
 
