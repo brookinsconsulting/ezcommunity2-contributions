@@ -52,7 +52,7 @@
 </tr>
 </table>
 
-<form method="post" action="/todo/todoedit/edit/{todo_id}">
+<form method="post" action="/todo/todoedit/edit/{todo_id}/">
 <hr noshade size="4"/>
 <table cellpadding="0" cellspacing="0" border="0">
 <tr>
