@@ -14,16 +14,20 @@
 	</td>
     </tr>
 </table>
-<hr noshade="noshade" size="1" />
+<hr noshade="noshade" size="1" />
 <br />
 
 <!-- BEGIN article_header_tpl -->
 <!-- END article_header_tpl -->
 <p>
 {article_body}
-</p>
-<br />
+</p>
+<br />
 <p>
+
+<!-- BEGIN path_item_tpl -->
+
+<!-- END path_item_tpl -->
 
 <!-- BEGIN attached_file_list_tpl -->
 <h3>{intl-attached_files}:</h3>
