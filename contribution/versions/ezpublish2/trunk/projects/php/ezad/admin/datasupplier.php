@@ -45,7 +45,10 @@ switch ( $url_array[2] )
             $Action = "Delete";
         }
         
-        $AdID = $url_array[4];
+        if( empty( $AdID ) )
+        {
+            $AdID = $url_array[4];
+        }
         include( "ezad/admin/adedit.php" );
     }
     break;
@@ -77,8 +80,10 @@ switch ( $url_array[2] )
         {
             $Action = "Delete";
         }
-        
-        $CategoryID = $url_array[4];
+        if( empty( $CategoryID ) )
+        {
+            $CategoryID = $url_array[4];
+        }
         include( "ezad/admin/categoryedit.php" );
     }
     break;
