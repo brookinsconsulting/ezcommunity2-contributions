@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: login.php,v 1.27 2001/04/11 14:18:42 th Exp $
+// $Id: login.php,v 1.28 2001/04/17 14:56:52 ce Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <20-Sep-2000 13:32:11 ce>
@@ -66,6 +66,15 @@ $t = new eZTemplate( "ezuser/user/" . $ini->read_var( "eZUserMain", "TemplateDir
 $t->setAllStrings();
 
 $t->set_file( array("login" => "login.tpl") );
+
+$t->set_block( "login", "buttons_tpl", "buttons" );
+
+$t->set_var( "buttons", "" );
+if ( $ini->read_var( "eZUserMain", "RequireUserLogin" ) != "enabled" )
+    $t->parse( "buttons", "buttons_tpl" );
+else
+$t->set_var( "buttons", "" );
+
 
 if ( $Action == "login" )
 {
