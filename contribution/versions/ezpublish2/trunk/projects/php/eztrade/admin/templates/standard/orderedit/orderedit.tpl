@@ -1,13 +1,14 @@
 <!-- orderlist.tpl --> 
-<!-- $Id: orderedit.tpl,v 1.17 2001/03/13 09:51:21 th Exp $ -->
+<!-- $Id: orderedit.tpl,v 1.18 2001/03/13 09:53:52 th Exp $ -->
 
 <h1>{intl-head_line}</h1>
 
 <hr noshade="noshade" size="4" />
 
 <p class="boxtext">{intl-customer_email}:</p>
-<div class="p">{customer_email}</div>
+<div class="p"><a href="mailto:{customer_email}">{customer_email}</a></div>
 <br />
+
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
 	<td>
