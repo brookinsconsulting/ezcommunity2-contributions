@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: searchform.php,v 1.1.2.1 2001/11/01 13:12:12 master Exp $
+// $Id: searchform.php,v 1.1.2.2 2002/04/30 09:01:53 br Exp $
 //
 // Created on: <08-Sep-2001 10:32:19 fh>
 //
@@ -78,7 +78,7 @@ $t->set_var( "num_select_categories", min( $catCount + 1, 10 ) );
 
 foreach ( $treeArray as $catItem )
 {
-    if ( eZObjectPermission::hasPermission( $catItem[0]->id(), "article_category", 'w', $user ) == true  ||
+    if ( eZObjectPermission::hasPermission( $catItem[0]->id(), "article_category", 'r', $user ) == true  ||
          eZArticleCategory::isOwner( eZUser::currentUser(), $catItem[0]->id() ) )
     {    
         $t->set_var( "category_id", $catItem[0]->id() );
