@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: unassigned.php,v 1.9 2001/09/12 09:28:04 ce Exp $
+// $Id: unassigned.php,v 1.10 2001/09/28 09:36:51 br Exp $
 //
 // Created on: <26-Oct-2000 19:40:18 bf>
 //
@@ -99,9 +99,7 @@ $imageList =& eZImage::getUnassigned( $Offset, $Limit );
 if ( $imageList )
     $imageCount =& eZImage::countUnassigned();
 else
-
-
-$imageCount = 0;
+    $imageCount = 0;
 
 
 $t->set_var( "limit", $Limit );

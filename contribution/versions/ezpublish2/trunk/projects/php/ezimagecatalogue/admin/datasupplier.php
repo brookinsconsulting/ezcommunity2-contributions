@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: datasupplier.php,v 1.8 2001/09/27 11:48:27 br Exp $
+// $Id: datasupplier.php,v 1.9 2001/09/28 09:36:51 br Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -81,6 +81,7 @@ switch ( $url_array[2] )
         $Limit = $url_array[4];
         include( "ezimagecatalogue/admin/unassigned.php" );
     }
+    break;
 
     case "imageview" :
     {
