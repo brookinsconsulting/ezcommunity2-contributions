@@ -1,4 +1,4 @@
-<table width="100%" border="0">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
 <tr>
 	<td>
 	<h1>{intl-files}</h1>

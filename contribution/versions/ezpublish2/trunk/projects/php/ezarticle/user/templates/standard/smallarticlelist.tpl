@@ -2,7 +2,7 @@
 <!-- BEGIN article_list_tpl -->
 <table width="100%" cellspacing="0" cellpadding="2" border="0">
 <tr>
-	<td colspan="2" class="menuhead">{current_category_name}aa</td>
+	<td colspan="2" class="menuhead">{current_category_name}</td>
 </tr>
 <!-- BEGIN article_item_tpl -->
 <tr>

@@ -1,4 +1,3 @@
-
 <!-- BEGIN header_1_tpl -->
 <h1>{contents}</h1>
 <!-- END header_1_tpl -->
@@ -94,7 +93,6 @@
 </table>
 <!-- END factbox_tpl -->
 
-
 <!-- BEGIN bullet_tpl -->
 <ul>
 	<!-- BEGIN bullet_item_tpl -->
@@ -127,3 +125,22 @@
 </pre>
 <!-- END pre_tpl -->
 
+<!-- BEGIN media_tpl -->
+<embed src="{www_dir}{media_uri}" {attribute_string} />
+<!-- END media_tpl -->
+
+
+<!-- BEGIN table_tpl -->
+<br clear="all" />
+<table width="100%" border="1" >
+<!-- BEGIN tr_tpl -->
+<tr>
+<!-- BEGIN td_tpl -->
+	<td>
+	{contents}
+	</td>
+<!-- END td_tpl -->
+</tr>
+<!-- END tr_tpl -->
+</table>
+<!-- END table_tpl -->
