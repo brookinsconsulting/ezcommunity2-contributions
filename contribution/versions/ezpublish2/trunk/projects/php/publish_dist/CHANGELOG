@@ -7,6 +7,7 @@ Changes from 2.2 Beta 1 to 2.2 Beta 2
 * Added image caption override tag
 * Added better search in eZ article. Now handles stop words and word freqyency.
 * Fixed problems with searching in eZ filemanager
+* Added site.ini setting to set if a user can see the calendar of every user
 
 Changes from 2.2 Alpha to 2.2 Beta 1
 -----------------------------------
