@@ -143,7 +143,7 @@ switch ( $url_array[2] )
             {
                 $PersonID = $url_array[4];
                 $Action = "insert";
-                include( "ezcontact/admin/personview.php" );
+                include( "ezcontact/admin/personedit.php" );
                 break;
             }
             case "view":
