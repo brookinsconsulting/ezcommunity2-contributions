@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: articleedit.php,v 1.23 2001/08/20 11:07:07 ce Exp $
+// $Id: articleedit.php,v 1.24 2001/09/19 11:43:23 bf Exp $
 //
 // Created on: <18-Oct-2000 15:04:39 bf>
 //
@@ -36,6 +36,7 @@ include_once( "ezarticle/classes/ezarticle.php" );
 include_once( "ezarticle/classes/ezarticlegenerator.php" );
 include_once( "ezarticle/classes/ezarticlerenderer.php" );
 include_once( "ezuser/classes/ezobjectpermission.php" );
+include_once( "ezuser/classes/ezauthor.php" );
 
 $ini =& INIFile::globalINI();
 
@@ -60,8 +61,22 @@ if ( ( $Action == "Insert" ) || ( $Action == "Update" ) )
     $article->setContents( $contents );
 
     $article->setPageCount( $generator->pageCount() );
-    
-    $article->setAuthorText( $AuthorText );
+
+
+    // check if author exists in the database, else create
+    $author = new eZAuthor();
+    if ( !$author->getByName( trim( $AuthorText ) ) )
+    {
+        $author = new eZAuthor( );
+        $author->setName( $AuthorText );
+        $author->store();
+        
+        $article->setContentsWriter( $author );
+    }
+    else
+    {
+        $article->setContentsWriter( $author );
+    }
     
     $article->setLinkText( $LinkText );
     $article->store(); // to get ID
