@@ -33,7 +33,7 @@ if ( $Action == "update" )
     $module->setName( $Name );
     $parent = new eZBugModule( $ParentID );
     $module->setParent( $parent );
-    $ownerGroup = new eZUserGroup( $OwnerID );
+//    $ownerGroup = new eZUserGroup( $OwnerID );
 
     if( isset( $Recursive ) )
     {
@@ -58,7 +58,8 @@ if ( $Action == "update" )
     }
     else
     {
-        $module->setOwnerGroup( $ownerGroup, false );
+        eZObjectPermission::removePermissions( $ModuleID, "bug_module", "w" );
+        eZObjectPermission::setPermission( $WriteGroupArrayID[0], $ModuleID, "bug_module", 'w' );
     }
 
     $module->store();

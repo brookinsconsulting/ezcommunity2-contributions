@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: bugedit.php,v 1.27 2001/03/09 10:11:06 fh Exp $
+// $Id: bugedit.php,v 1.28 2001/03/09 10:47:04 fh Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <28-Nov-2000 19:45:35 bf>
@@ -534,8 +534,9 @@ foreach ( $statuses as $status )
     $t->parse( "status_item", "status_item_tpl", true );
 }
 
-/*
+
 // list the possible owners
+/* FIX THIS, MUST FIX NEW FUNCTION IN eZUSER....
 $module = new eZBugModule( $moduleID );
 $ownerGroup = $module->ownerGroup();
 $owner = $bug->owner();
