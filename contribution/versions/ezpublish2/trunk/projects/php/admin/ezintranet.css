@@ -176,6 +176,12 @@ td
 	background-color: #dcdcdc;
 }
 
+.bgselect
+{
+	color: #ffffff;
+	background-color: #787878;
+}
+
 select 
 {
 	font-family: Verdana, Arial, Helvetica, Swiss, Futura, sans-serif;
