@@ -16,6 +16,8 @@ CREATE TABLE eZForm_FormElement (
   Name varchar(255) default NULL,
   Required int(1) default '0',
   ElementTypeID int(11) default NULL,
+  Size int(11) default '0',	
+  Break int(11) default '0',		
   PRIMARY KEY (ID)
 ) TYPE=MyISAM;
 

@@ -16,6 +16,8 @@ CREATE TABLE eZForm_FormElement (
   Name varchar(255) default NULL,
   Required int default '0',
   ElementTypeID int default NULL,
+  Size int default '0',	
+  Break int default '0',		
   PRIMARY KEY (ID)
 );
 
