@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezbugmodule.php,v 1.6 2001/02/06 10:17:57 fh Exp $
+// $Id: ezbugmodule.php,v 1.7 2001/02/06 10:42:58 fh Exp $
 //
 // Definition of eZBugModule class
 //
@@ -450,7 +450,6 @@ class eZBugModule
                 ";
        
        $this->Database->array_query( $bug_array, $query );
-       print( $bug_array[0]["Count"] );
        $ret =& $bug_array[0]["Count"];
 
        return $ret;
