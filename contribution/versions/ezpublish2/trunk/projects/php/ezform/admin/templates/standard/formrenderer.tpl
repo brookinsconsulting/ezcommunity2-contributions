@@ -84,14 +84,14 @@
 <!-- BEGIN radiobox_item_tpl -->
 {header_line}
 <!-- BEGIN radiobox_item_sub_item_tpl -->
-{sub_value}: <input type="radio" value="{sub_value}" name="{field_name}" {selected} />
+<input type="radio" value="{sub_value}" name="{field_name}" {selected} />{sub_value}<br />
 <!-- END radiobox_item_sub_item_tpl -->
 <!-- END radiobox_item_tpl -->
 
 <!-- BEGIN checkbox_item_tpl -->
 {header_line}
 <!-- BEGIN checkbox_item_sub_item_tpl -->
-{sub_value}: <input type="checkbox" value="{sub_value}" name="{field_name}[]" {selected} />
+<input type="checkbox" value="{sub_value}" name="{field_name}[]" {selected} />{sub_value}<br />
 <!-- END checkbox_item_sub_item_tpl -->
 <!-- END checkbox_item_tpl -->
 

@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: ezformreportelement.php,v 1.28 2002/02/06 13:40:57 jhe Exp $
+// $Id: ezformreportelement.php,v 1.29 2002/02/15 15:04:15 jhe Exp $
 //
 // Definition of eZFormReportElement class
 //
@@ -323,7 +323,7 @@ class eZFormReportElement
                 if ( $element->ElementType->name() == "numerical_float_item" ||
                      $element->ElementType->name() == "numerical_integer_item" )
                 {
-                    $t->set_var( "result", $locale->formatNumber( $result[$db->fieldName( "Result" )] ) );
+                    $t->set_var( "result", $locale->formatNumber( trim( $result[$db->fieldName( "Result" )] ) ) );
                 }
                 else
                 {
@@ -357,7 +357,7 @@ class eZFormReportElement
         $element = new eZFormElement( $this->ElementID );
         if ( $element->ElementType->name() == "numerical_float_item" ||
              $element->ElementType->name() == "numerical_integer_item" )
-            $t->set_var( "count", $locale->formatNumber( $res[$db->fieldName( "Count" )] ) );
+            $t->set_var( "count", $locale->formatNumber( trim( $res[$db->fieldName( "Count" )] ) ) );
         else
             $t->set_var( "count", $res[$db->fieldName( "Count" )] );
 
@@ -381,7 +381,7 @@ class eZFormReportElement
         $element = new eZFormElement( $this->ElementID );
         if ( $element->ElementType->name() == "numerical_float_item" ||
              $element->ElementType->name() == "numerical_integer_item" )
-            $t->set_var( "sum", $locale->formatNumber( $res[$db->fieldName( "Sum" )] ) );
+            $t->set_var( "sum", $locale->formatNumber( trim( $res[$db->fieldName( "Sum" )] ) ) );
         else
             $t->set_var( "sum", $res[$db->fieldName( "Sum" )] );
 
@@ -406,7 +406,7 @@ class eZFormReportElement
         $element = new eZFormElement( $this->ElementID );
         if ( $element->ElementType->name() == "numerical_float_item" ||
              $element->ElementType->name() == "numerical_integer_item" )
-            $t->set_var( "average", $locale->formatNumber( $res[$db->fieldName( "Avg" )] ) );
+            $t->set_var( "average", $locale->formatNumber( trim( $res[$db->fieldName( "Avg" )] ) ) );
         else
             $t->set_var( "average", $res[$db->fieldName( "Avg" )] );
 
@@ -431,7 +431,7 @@ class eZFormReportElement
         $element = new eZFormElement( $this->ElementID );
         if ( $element->ElementType->name() == "numerical_float_item" ||
              $element->ElementType->name() == "numerical_integer_item" )
-            $t->set_var( "min", $locale->formatNumber( $res[$db->fieldName( "Min" )] ) );
+            $t->set_var( "min", $locale->formatNumber( trim( $res[$db->fieldName( "Min" )] ) ) );
         else
             $t->set_var( "min", $res[$db->fieldName( "Min" )] );
 
@@ -456,7 +456,7 @@ class eZFormReportElement
         $element = new eZFormElement( $this->ElementID );
         if ( $element->ElementType->name() == "numerical_float_item" ||
              $element->ElementType->name() == "numerical_integer_item" )
-            $t->set_var( "max", $locale->formatNumber( $res[$db->fieldName( "Max" )] ) );
+            $t->set_var( "max", $locale->formatNumber( trim( $res[$db->fieldName( "Max" )] ) ) );
         else
             $t->set_var( "max", $res[$db->fieldName( "Max" )] );
         
