@@ -13,6 +13,7 @@ ezarticle/user/templates/standard/extendedsearch.tpl
 ezarticle/user/templates/standard.index.tpl (new)
 ezarticle/admin/templates/standard/unpublishedlist.tpl
 ezarticle/user/templates/standard/menubox.tpl
+ezarticle/admin/categoryedit.tpl (added bulkmail select )
 ezmail/user/templates/standard/mailedit.tpl
 ezerror/admin/templates/standard/error.tpl
 ezbug/user/templates/standard/bugreport.tpl (added Version text field)

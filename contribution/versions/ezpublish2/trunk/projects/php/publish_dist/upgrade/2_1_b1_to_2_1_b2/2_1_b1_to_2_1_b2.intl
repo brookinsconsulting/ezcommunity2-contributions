@@ -45,3 +45,6 @@ index=Index
 mod: ezarticle/user, index.php.ini
 change: new file
 head_line=Keyword index
+
+mod: ezarticle/admin categoryedit.php.ini
+change: added bulkmail_category_select, no_bulkmail
