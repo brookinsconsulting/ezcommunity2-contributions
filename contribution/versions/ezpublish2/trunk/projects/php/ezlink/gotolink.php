@@ -4,9 +4,9 @@
 */
 
 
-include "template.inc";
+include_once( "template.inc" );
 require "ezlink/dbsettings.php";
-require "ezphputils.php";
+include_once( "ezphputils.php" );
 
 require $DOCUMENTROOT . "classes/ezlinkgroup.php";
 require $DOCUMENTROOT . "classes/ezlink.php";

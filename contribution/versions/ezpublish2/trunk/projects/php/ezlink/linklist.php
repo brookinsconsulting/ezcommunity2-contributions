@@ -4,9 +4,9 @@
   listlink.php viser alle kategorier
 */
 
-include "template.inc";
-require "ezlink/dbsettings_local.php";
-require "ezphputils.php";
+include_once( "template.inc" );
+require "ezlink/dbsettings.php";
+include_once( "ezphputils.php" );
 
 require $DOCUMENTROOT . "classes/ezlinkgroup.php";
 require $DOCUMENTROOT . "classes/ezlink.php";
