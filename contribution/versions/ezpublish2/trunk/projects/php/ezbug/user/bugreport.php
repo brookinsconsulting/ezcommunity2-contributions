@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: bugreport.php,v 1.3 2000/11/30 09:21:39 bf-cvs Exp $
+// $Id: bugreport.php,v 1.4 2000/12/03 16:53:04 bf-cvs Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <27-Nov-2000 20:31:00 bf>
@@ -45,6 +45,8 @@ $t->set_file( array(
 
 $t->set_block( "bug_report_tpl", "module_item_tpl", "module_item" );
 $t->set_block( "bug_report_tpl", "category_item_tpl", "category_item" );
+$t->set_block( "bug_report_tpl", "email_address_tpl", "email_address" );
+$t->set_block( "bug_report_tpl", "all_fields_error_tpl", "all_fields_error" );
 
 if ( $Action == "Insert" )
 {
@@ -52,26 +54,54 @@ if ( $Action == "Insert" )
 
     if ( $user )
     {
-        $category = new eZBugCategory( $CategoryID );
-        $module = new eZBugModule( $ModuleID );
-        
-        $bug = new eZBug();
-        $bug->setName( $Name );
-        $bug->setDescription( $Description );
-        $bug->setUser( $user );
-        $bug->setIsHandled( false );
-        $bug->store();
-
-        $category->addBug( $bug );
-        $module->addBug( $bug );
-        
-        Header( "Location: /bug/reportsuccess/" );
-        exit();
+        if ( ( $Name != "" ) && ( $Description != "" ) )
+        {
+            $category = new eZBugCategory( $CategoryID );
+            $module = new eZBugModule( $ModuleID );
+            
+            $bug = new eZBug();
+            $bug->setName( $Name );
+            $bug->setDescription( $Description );
+            $bug->setUser( $user );
+            $bug->setIsHandled( false );
+            $bug->store();
+            
+            $category->addBug( $bug );
+            $module->addBug( $bug );
+            
+            Header( "Location: /bug/reportsuccess/" );
+            exit();
+        }
+        else
+        {
+            $AllFieldsError = true;
+        }
     }
+}
+
+if ( $AllFieldsError == true )
+{
+    $t->parse( "all_fields_error", "all_fields_error_tpl" );
+}
+else
+{
+    $t->set_var( "all_fields_error", "" );
 }
 
 $category = new eZBugCategory();
 $module = new eZBugModule();
+
+// show email address field if the user is not logged in
+$user = eZUser::currentUser();
+
+if ( $user )
+{
+    $t->set_var( "email_address", "" );
+}
+else
+{
+    $t->parse( "email_address", "email_address_tpl" );
+}
 
 // list the categories
 $categories = $category->getAll();

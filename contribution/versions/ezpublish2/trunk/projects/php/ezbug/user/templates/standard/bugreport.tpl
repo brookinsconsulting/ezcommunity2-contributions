@@ -2,6 +2,10 @@
 
 <h1>{intl-report_a_bug}</h1>
 
+<!-- BEGIN all_fields_error_tpl -->
+<span class="error">{intl-all_fields_error}</span>
+<!-- END all_fields_error_tpl -->
+
 <hr noshade="noshade" size="4">
 
 <br />
@@ -26,6 +30,11 @@
 	</td>
 </tr>
 </table>
+
+<!-- BEGIN email_address_tpl -->
+<p class="boxtext">{intl-email_address} ({intl-if_you_are_a registered_user_please_log_in}):</p>
+<input type="text" size="40" name="Email" />
+<!-- END email_address_tpl -->
 
 <p class="boxtext">{intl-bug_title}:</p>
 <input type="text" size="40" name="Name" />
