@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: folder.php,v 1.2 2001/09/17 07:54:12 jhe Exp $
+// $Id: folder.php,v 1.3 2001/09/25 08:16:33 jhe Exp $
 //
 // Created on: <14-Sep-2001 14:39:54 jhe>
 //
@@ -31,7 +31,7 @@ if ( !$top )
 {
     $contact = new eZVirtualFolder();
     $contact->setName( "Contact" );
-    $contact->setParent( new eZVirtualFolder( 0 ) );
+    $contact->setParent( 0 );
     $contact->store();
     $top = $contact->ID();
 }
@@ -43,7 +43,7 @@ if ( isSet( $CompanyEdit ) )
     {
         $companyFolder = new eZVirtualFolder();
         $companyFolder->setName( "Company" );
-        $companyFolder->setParent( new eZVirtualFolder( $top ) );
+        $companyFolder->setParent( $top );
         $companyFolder->store();
         $parent = $companyFolder->ID();
     }
@@ -56,7 +56,7 @@ else
     {
         $personFolder = new eZVirtualFolder();
         $personFolder->setName( "Person" );
-        $personFolder->setParent( new eZVirtualFolder( $top ) );
+        $personFolder->setParent( $top );
         $personFolder->store();
         $parent = $personFolder->ID();
     }
@@ -67,7 +67,7 @@ if ( !$id )
 {
     $newFolder = new eZVirtualFolder();
     $newFolder->setName( $element->name() );
-    $newFolder->setParent( new eZVirtualFolder( $parent ) );
+    $newFolder->setParent( $parent );
     $newFolder->store();
     eZObjectPermission::setPermission( -1, $newFolder, "filemanager_folder", "r" );
     eZObjectPermission::setPermission( -1, $newFolder, "filemanager_folder", "w" );
