@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: useredit.php,v 1.9 2000/11/02 17:47:11 bf-cvs Exp $
+// $Id: useredit.php,v 1.10 2000/11/07 12:41:10 ce-cvs Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <10-Oct-2000 12:52:42 bf>
@@ -79,13 +79,15 @@ if ( $Action == "Insert" )
                     eZLog::writeNotice( "Anonyous user created: $FirstName $LastName ($Login) $Email from IP: $REMOTE_ADDR" );                    
                     eZLog::writeNotice( "User login: $Login from IP: $REMOTE_ADDR" );
 
-                    if ( $RedirectURL )
+                    if ( isSet( $RedirectURL )  && ( $RedirectURL != "" ) )
                     {
                         Header( "Location: $RedirectURL" );
+                        exit();
                     }
                     else
                     {
                         Header( "Location: /" );
+                        exit();
                     }
                 }
                 else
@@ -153,6 +155,7 @@ if ( $Action == "Update" )
     if ( $EmailError == false )
     {
         Header( "Location: /" );
+        exit();
     }
 }
         
@@ -183,9 +186,14 @@ if ( $Action == "Edit" )
     {
         $getUser = eZUser::currentUser();
         if ( !$getUser )
+        {
             Header( "Location: /user/login" );
+            exit();
+        }
         else
+        {
             $UserID = $getUser->id();
+        }
     }
 
     if( $user->infoSubscription() == "true" )

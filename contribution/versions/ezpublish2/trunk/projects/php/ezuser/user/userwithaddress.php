@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: userwithaddress.php,v 1.11 2000/11/07 09:29:25 ce-cvs Exp $
+// $Id: userwithaddress.php,v 1.12 2000/11/07 12:41:10 ce-cvs Exp $
 //
 // 
 //
@@ -90,12 +90,11 @@ if ( $Action == "Insert" )
 
                 $user->loginUser( $user );
 
-                if ( isset( $RedirectURL ) )
+                if ( isSet( $RedirectURL )  && ( $RedirectURL != "" ) )
                 {
                     Header( "Location: $RedirectURL" );
                     exit();
                 }
-                
                 Header( "Location: /" );
                 exit();
             }
