@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezfile.php,v 1.19 2001/10/08 16:59:33 kaid Exp $
+// $Id: ezfile.php,v 1.20 2001/10/15 07:38:43 fh Exp $
 //
 // Definition of eZCompany class
 //
@@ -43,6 +43,7 @@
   \endcode
   
 */
+include_once( "classes/INIFile.php" );
 
 class eZFile
 {
@@ -88,7 +89,9 @@ class eZFile
     function dumpDataToFile( $data, $fileName )
     {
         $this->FileName = $fileName;
-        $tmpfileName = tempnam( "/tmp", "att" );
+        $ini =& INIFile::globalINI();
+        $tmpDir = $ini->read_var( "site", "SiteTmpDir" );
+        $tmpfileName = tempnam( $tmpDir, "att" );
         $this->TmpFileName = $tmpfileName;
         $fh = fopen( $tmpfileName, 'wb' );
         fwrite( $fh, $data );
