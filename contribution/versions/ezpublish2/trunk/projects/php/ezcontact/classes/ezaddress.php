@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezaddress.php,v 1.19 2000/11/01 17:59:18 ce-cvs Exp $
+// $Id: ezaddress.php,v 1.20 2000/11/29 11:24:23 pkej-cvs Exp $
 //
 // Definition of eZAddress class
 //
@@ -34,6 +34,7 @@
 
 include_once( "classes/ezdb.php" );
 include_once( "ezcontact/classes/ezcountry.php" );
+include_once( "ezcontact/classes/ezaddresstype.php" );
 
 class eZAddress
 {
@@ -203,7 +204,34 @@ class eZAddress
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
 
-       $this->AddressType = $value;
+        if( is_numeric( $value )
+        {
+            $this->AddressType = $value;
+        }
+        
+        if( get_class( $value ) == "ezaddresstype" )
+        {
+            $this->AddressType = $value->id();
+        }
+    }
+
+    /*!
+      Setter adressetype.
+    */
+    function setAddressTypeID( $value )
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+        if( is_numeric( $value )
+        {
+            $this->AddressType = $value;
+        }
+        
+        if( get_class( $value ) == "ezaddresstype" )
+        {
+            $this->AddressType = $value->id();
+        }
     }
 
     /*!
@@ -250,15 +278,27 @@ class eZAddress
     }
 
     /*!
-      Returnerer adressetype.
+      Returnerer adressetype id.
     */
-    function addressType(  )
+    function addressTypeID()
     {
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
 
         
         return $this->AddressType;
+    }
+
+    /*!
+      Returnerer adressetype.
+    */
+    function addressType()
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+        $addressType = new eZAddressType( $this->AddressType );
+        return $AddressType;
     }
 
     /*!
