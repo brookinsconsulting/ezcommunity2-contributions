@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezproducttype.php,v 1.2 2001/01/06 16:21:01 bf Exp $
+// $Id: ezproducttype.php,v 1.3 2001/03/13 15:54:47 fh Exp $
 //
 // Definition of eZProductType class
 //
@@ -162,9 +162,9 @@ class eZProductType
         {
             $attribute->delete();
         }
-        
-        $this->Database->array_query( $type_array, "DELETE FROM eZTrade_ProductTypeLink WHERE TypeID='$this->ID'" );
-        $this->Database->array_query( $type_array, "DELETE FROM eZTrade_Type WHERE ID='$this->ID'" );
+
+        $this->Database->query( "DELETE FROM eZTrade_ProductTypeLink WHERE TypeID='$this->ID'" );
+        $this->Database->query( "DELETE FROM eZTrade_Type WHERE ID='$this->ID'" );
     }
 
     /*!

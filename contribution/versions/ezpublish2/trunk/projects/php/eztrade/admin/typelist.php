@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: typelist.php,v 1.3 2001/03/01 14:06:26 jb Exp $
+// $Id: typelist.php,v 1.4 2001/03/13 15:54:47 fh Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <20-Dec-2000 18:18:28 bf>
@@ -35,6 +35,16 @@ $Language = $ini->read_var( "eZTradeMain", "Language" );
 
 include_once( "eztrade/classes/ezproductcategory.php" );
 include_once( "eztrade/classes/ezproduct.php" );
+include_once( "eztrade/classes/ezproducttype.php" );
+
+if( isset( $Delete ) )
+{
+    foreach( $DeleteArrayID as $typeid )
+    {
+        $typed = new eZProductType( $typeid );
+        $typed->delete();
+    }
+}
 
 $t = new eZTemplate( "eztrade/admin/" . $ini->read_var( "eZTradeMain", "AdminTemplateDir" ),
                      "eztrade/admin/intl/", $Language, "typelist.php" );
