@@ -1,14 +1,9 @@
 <?
 // 
-// $Id: linklist.php,v 1.3 2000/10/26 12:59:18 ce-cvs Exp $
+// $Id: linklist.php,v 1.4 2000/10/26 13:02:41 ce-cvs Exp $
 //
 // <real-name> <<mail-name>>
-// Created on: <17-Oct-2000 12:17:13 bf>
-//
-// Copyright (C) 1999-2000 eZ Systems.  All rights reserved.
-//
-// IMPORTANT NOTE: You may NOT copy this file or any part of it into
-// your own programs or libraries.
+// Created on: <26-Oct-2000 15:02:09 ce>
 //
 // This source file is part of eZ publish, publishing software.
 // Copyright (C) 1999-2000 eZ systems as
