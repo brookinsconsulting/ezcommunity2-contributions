@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: login.php,v 1.7 2000/10/25 16:44:19 ce-cvs Exp $
+// $Id: login.php,v 1.8 2000/10/25 19:03:06 bf-cvs Exp $
 //
 // Definition of eZUser class
 //
@@ -20,7 +20,6 @@ include_once( "classes/ezlog.php" );
 $ini = new INIFIle( "site.ini" );
 
 $Language = $ini->read_var( "eZUserMain", "Language" );
-$DOC_ROOT = $ini->read_var( "eZUserMain", "DocumentRoot" );
 
 include_once( "ezuser/classes/ezuser.php" );
 include_once( "ezuser/classes/ezusergroup.php" );
@@ -30,8 +29,8 @@ include_once( "ezsession/classes/ezsession.php" );
 
 
 // Template
-$t = new eZTemplate( $DOC_ROOT . "/admin/" .  $ini->read_var( "eZUserMain", "TemplateDir" ),
-                     $DOC_ROOT . "/admin/" . "/intl", $Language, "login.php" );
+$t = new eZTemplate( "ezuser/admin/" .  $ini->read_var( "eZUserMain", "AdminTemplateDir" ),
+                     "ezuser/admin/" . "/intl", $Language, "login.php" );
 $t->setAllStrings();
 
 $t->set_file( array(
