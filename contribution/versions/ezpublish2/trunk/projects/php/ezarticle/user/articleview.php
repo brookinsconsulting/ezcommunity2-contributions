@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: articleview.php,v 1.42 2001/06/06 12:00:08 pkej Exp $
+// $Id: articleview.php,v 1.43 2001/06/06 12:12:25 pkej Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <18-Oct-2000 16:34:51 bf>
@@ -222,7 +222,7 @@ if( $typeCount > 0 )
             {
                 $t->set_var( "attribute_id", $attribute->id() );
                 $t->set_var( "attribute_name", $attribute->name() );
-                $t->set_var( "attribute_value", $attribute->value( $article ) );
+                $t->set_var( "attribute_value", nl2br( $attribute->value( $article ) ) );
                 $t->parse( "attribute_item", "attribute_item_tpl", true );
             }
             $t->parse( "type_item", "type_item_tpl", true );

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: typeedit.php,v 1.1 2001/06/01 14:02:29 pkej Exp $
+// $Id: typeedit.php,v 1.2 2001/06/06 12:12:24 pkej Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <20-Dec-2000 18:24:06 bf>
@@ -45,7 +45,7 @@ include_once( "ezarticle/classes/ezarticleattribute.php" );
 if ( $Action == "insert" )
 {
     $type = new eZArticleType();
-    $type->setName( $Name );
+    $type->setName( htmlspecialchars( $Name ) );
 
     $type->store();
 
@@ -69,7 +69,7 @@ if ( ( $Action == "update" ) || ( isset ( $Update ) ) )
         foreach ( $AttributeName as $attribute )
         {
             $att = new eZArticleAttribute( $AttributeID[$i] );
-            $att->setName( $attribute );
+            $att->setName( htmlspecialchars( $attribute ) );
             $att->store();            
 
             $i++;

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: attributeedit.php,v 1.1 2001/06/06 11:30:08 pkej Exp $
+// $Id: attributeedit.php,v 1.2 2001/06/06 12:12:24 pkej Exp $
 //
 // Paul K Egell-Johnsen <pkej@ez.no>
 // Created on: <05-Jun-2001 13:07:24 pkej>
@@ -47,7 +47,7 @@ if( isset( $OK ) )
     for( $i = 0; $i < $count; $i++ )
     {
         $attribute = new eZArticleAttribute( $AttributeID[$i] );
-        $attribute->setValue( $article, $AttributeValue[$i] );
+        $attribute->setValue( $article, htmlspecialchars( $AttributeValue[$i] ) );
     }
     eZHTTPTool::header( "Location: /article/articleedit/attributelist/$ArticleID" );
     exit();
