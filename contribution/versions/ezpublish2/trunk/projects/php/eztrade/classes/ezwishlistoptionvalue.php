@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezwishlistoptionvalue.php,v 1.1 2000/10/21 16:49:38 bf-cvs Exp $
+// $Id: ezwishlistoptionvalue.php,v 1.2 2000/10/21 17:01:09 bf-cvs Exp $
 //
 // Definition of eZCompany class
 //
@@ -143,7 +143,7 @@ class eZWishListOptionValue
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
 
-       return new eZWishlistItem( $this->WishlistItemID );
+       return new eZWishListItem( $this->WishListItemID );
     }
 
     /*!
@@ -171,14 +171,14 @@ class eZWishListOptionValue
     /*!
       Sets the wishlist item object id.
     */
-    function setWishlistItem( &$wishlistItem )
+    function setWishListItem( &$wishlistItem )
     {
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
 
        if ( get_class( $wishlistItem ) == "ezwishlistitem" )
        {
-           $this->WishlistItemID = $wishlistItem->id();
+           $this->WishListItemID = $wishlistItem->id();
        }
     }
 

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: checkout.php,v 1.6 2000/10/10 14:04:10 bf-cvs Exp $
+// $Id: checkout.php,v 1.7 2000/10/21 17:01:09 bf-cvs Exp $
 //
 // 
 //
@@ -55,7 +55,7 @@ if ( !$cart )
     print( "ERROR: no cart." );
 }
 
-$t = new eZTemplate( "eztrade/" . $ini->read_var( "eZTradeMain", "TemplateDir" ) . "/checkout/",
+$t = new eZTemplate( "eztrade/" . $ini->read_var( "eZTradeMain", "TemplateDir" ),
                      "eztrade/intl/", $Language, "checkout.php" );
 
 $t->setAllStrings();

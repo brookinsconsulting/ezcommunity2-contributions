@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: cart.php,v 1.13 2000/10/21 16:49:37 bf-cvs Exp $
+// $Id: cart.php,v 1.14 2000/10/21 17:01:09 bf-cvs Exp $
 //
 // 
 //
@@ -97,7 +97,7 @@ if ( $Action == "AddToBasket" )
     exit();
 }
 
-$t = new eZTemplate( "eztrade/" . $ini->read_var( "eZTradeMain", "TemplateDir" ) . "/cart/",
+$t = new eZTemplate( "eztrade/" . $ini->read_var( "eZTradeMain", "TemplateDir" ),
                      "eztrade/intl/", $Language, "cart.php" );
 
 $t->setAllStrings();

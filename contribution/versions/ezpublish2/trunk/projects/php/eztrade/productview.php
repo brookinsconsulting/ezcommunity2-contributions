@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: productview.php,v 1.6 2000/10/21 12:10:44 bf-cvs Exp $
+// $Id: productview.php,v 1.7 2000/10/21 17:01:09 bf-cvs Exp $
 //
 // Definition of eZCompany class
 //
@@ -26,7 +26,7 @@ include_once( "eztrade/classes/ezproduct.php" );
 include_once( "eztrade/classes/ezproductcategory.php" );
 include_once( "eztrade/classes/ezoption.php" );
 
-$t = new eZTemplate( "eztrade/" . $ini->read_var( "eZTradeMain", "TemplateDir" ) . "/productview/",
+$t = new eZTemplate( "eztrade/" . $ini->read_var( "eZTradeMain", "TemplateDir" ),
                      "eztrade/intl/", $Language, "productview.php" );
 
 $t->setAllStrings();
