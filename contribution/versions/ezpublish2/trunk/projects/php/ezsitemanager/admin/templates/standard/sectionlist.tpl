@@ -11,8 +11,6 @@
 </tr>
 </table>
 
-
-
 <hr noshade="noshade" size="4" />
 
 <form action="{www_dir}{index}/sitemanager/section/edit/" method="post">

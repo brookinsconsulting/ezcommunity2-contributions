@@ -13,6 +13,6 @@
 <!-- END cache_results_tpl -->
 
 
-<input type="submit" name="ClearCache" value="{intl-clear_cache}" />
+<input class="stdbutton" type="submit" name="ClearCache" value="{intl-clear_cache}" />
 
 </form>

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: filelist.php,v 1.3 2001/07/29 23:31:10 kaid Exp $
+// $Id: filelist.php,v 1.4 2001/08/22 08:54:04 th Exp $
 //
 // Created on: <11-Jul-2001 15:37:33 bf>
 //
@@ -27,7 +27,6 @@ include_once( "classes/INIFile.php" );
 include_once( "classes/eztemplate.php" );
 include_once( "classes/ezhttptool.php" );
 include_once( "classes/ezfile.php" );
-
 
 if ( isset( $Delete ) )
 {
@@ -81,14 +80,25 @@ $t->set_block( "file_list_tpl", "image_tpl", "image" );
 
 $t->set_var( "file", "" );
 $t->set_var( "image", "" );
+
+$t->set_var( "site_style", $SiteStyle );
+
 $dir = eZFile::dir( "ezsitemanager/staticfiles/" );
 $ret = array();
+$i=0;
+
 while ( $entry = $dir->read() )
 {
-    if ( $entry != "." && $entry != ".." && $entry != "images" )
+	if ( $entry != "." && $entry != ".." && $entry != "images" )
     {
-        $t->set_var( "file_name", $entry );
+        if ( ( $i %2 ) == 0 )
+        $t->set_var( "td_class", "bglight" );
+    else
+        $t->set_var( "td_class", "bgdark" );
+
+    $t->set_var( "file_name", $entry );
         $t->parse( "file", "file_tpl", true );
+	$i++;
     }
 }
 
@@ -98,8 +108,14 @@ while ( $entry = $dir->read() )
 {
     if ( $entry != "." && $entry != ".." )
     {
+        if ( ( $i %2 ) == 0 )
+        $t->set_var( "td_class", "bglight" );
+    else
+        $t->set_var( "td_class", "bgdark" );
+
         $t->set_var( "file_name", $entry );
         $t->parse( "image", "image_tpl", true );
+	$i++;
     }
 }
 $t->pparse( "output", "file_list_tpl" );
