@@ -179,6 +179,43 @@ switch ( $url_array[2] )
         }
     }
     break;
+    case "person" :
+    {
+        if ( $url_array[3] == "list" )
+        {
+            include( "ezcontact/admin/personlist.php" );
+        }
+        elseif ( $url_array[3] == "new" )
+        {
+            include( "ezcontact/admin/personedit.php" );
+        }
+        else if ( $url_array[3] == "insert" )
+        {
+            $AID = $url_array[4];
+            $Action = "insert";
+            include( "ezcontact/admin/addresstypeedit.php" );
+        }
+
+        else if ( $url_array[3] == "edit" )
+        {
+            $AID = $url_array[4];
+            $Action = "edit";
+            include( "ezcontact/admin/addresstypeedit.php" );
+        }
+        else if ( $url_array[3] == "update" )
+        {
+            $AID = $url_array[4];
+            $Action = "update";
+            include( "ezcontact/admin/addresstypeedit.php" );
+        }
+        else if ( $url_array[3] == "delete" )
+        {
+            $AID = $url_array[4];
+            $Action = "delete";
+            include( "ezcontact/admin/addresstypeedit.php" );
+        }
+    }
+    break;
 
 
 
