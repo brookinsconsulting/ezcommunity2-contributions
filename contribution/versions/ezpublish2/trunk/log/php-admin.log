@@ -255,3 +255,11 @@ Maintainer(s) : bf@ez.no
       templates/ezpublish/loginheader.tpl
       templates/ezpublish/print_header.tpl: fixed missing www_dir
 
+
+Module : admin
+Repository path : /home/cvsroot/projects/php/admin
+Maintainer(s) : bf@ez.no
+2002-02-15  Jo Henrik Endrerud  <jhe@ez.no>
+
+    * print_footer.php: fixed bug in template directory
+

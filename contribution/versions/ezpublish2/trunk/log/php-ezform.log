@@ -1318,3 +1318,12 @@ Maintainer(s) : pkej@ez.no
       admin/templates/standard/formrenderer.tpl
       classes/ezformelement.php: fixed nuber format
 
+
+Module : ezform
+Repository path : /home/cvsroot/projects/php/ezform
+Maintainer(s) : pkej@ez.no
+2002-02-15  Jo Henrik Endrerud  <jhe@ez.no>
+
+    * admin/templates/standard/formrenderer.tpl
+      classes/ezformreportelement.php: fixed radioboxes and checkboxes
+

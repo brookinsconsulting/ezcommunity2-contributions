@@ -3206,3 +3206,24 @@ Maintainer(s) : ce@ez.no
     * classes/ezpricegroup.php:
     fixed bug when there is no groups. (will then return an empty array)
 
+
+Module : eztrade
+Repository path : /home/cvsroot/projects/php/eztrade
+Maintainer(s) : ce@ez.no
+2002-02-15  Christoffer Elo  <ce@ez.no>
+
+    * admin/templates/standard/categoryedit.tpl
+      admin/templates/standard/productedit.tpl
+      classes/ezorder.php
+      classes/ezproduct.php
+      classes/ezproductcategory.php
+      user/Attic/biglist.php
+      user/Attic/similarproducts.php
+      user/orderlist.php
+      user/orderview.php
+      user/productlist.php
+      user/productview.php
+      admin/datasupplier.php
+      admin/orderedit.php
+      admin/productedit.php: Added fixes
+

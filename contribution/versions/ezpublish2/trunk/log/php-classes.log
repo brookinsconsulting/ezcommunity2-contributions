@@ -621,3 +621,13 @@ Maintainer(s) : bf@ez.no
 
     * ezpostgresqldb.php: Fixed escaping for postgrsql.
 
+
+Module : classes
+Repository path : /home/cvsroot/projects/php/classes
+Maintainer(s) : bf@ez.no
+2002-02-15  Christoffer Elo  <ce@ez.no>
+
+    * ezcachefile.php
+      ezlist.php
+      ezmysqldb.php: Added fixes
+

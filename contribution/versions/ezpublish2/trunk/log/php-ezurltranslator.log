@@ -184,3 +184,12 @@ Maintainer(s) : vl@ez.no
     * classes/ezurltranslator.php:
     new method getbydest - to receive id by destination url
 
+
+Module : ezurltranslator
+Repository path : /home/cvsroot/projects/php/ezurltranslator
+Maintainer(s) : vl@ez.no
+2002-02-15  Vlad Pavlenko  <vlad@epasaule.lv>
+
+    * classes/ezurltranslator.php:
+    getbydest - new method - get translation by Dest parameter
+

@@ -2823,3 +2823,26 @@ Maintainer(s) : bf@ez.no
 
     * user/datasupplier.php: Fixed removal of comments if permission denied.
 
+
+Module : ezarticle
+Repository path : /home/cvsroot/projects/php/ezarticle
+Maintainer(s) : bf@ez.no
+2002-02-15  Vlad Pavlenko  <vlad@epasaule.lv>
+
+    * admin/articleedit.php: urltrans, controlled from site.ini
+
+    * admin/templates/standard/articleedit.tpl: urltrans in article edit
+
+    * admin/intl/en_GB/articleedit.php.ini: new strings for urltrans
+
+    * user/templates/standard/mailtofriend.tpl: back in mail to friend
+
+    * user/intl/en_GB/mailtofriend.php.ini: back in mailtofriend
+
+    * user/frontpage.php: small fix : correct categoryid for the articles
+
+2002-02-15  Baard Farstad  <bf@ez.no>
+
+    * classes/ezqdomrenderer.php:
+    Fixed bug where <file> tag does not appear inside factbox and bold
+

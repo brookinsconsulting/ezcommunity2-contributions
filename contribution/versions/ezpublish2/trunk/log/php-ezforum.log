@@ -1065,3 +1065,12 @@ Maintainer(s) : jhe@ez.no
       user/templates/standard/messagereply.tpl:
     fixed small bug with <br> at start of message
 
+
+Module : ezforum
+Repository path : /home/cvsroot/projects/php/ezforum
+Maintainer(s) : jhe@ez.no
+2002-02-15  Christoffer Elo  <ce@ez.no>
+
+    * classes/ezforummessage.php
+      user/messageedit.php: Added fixes
+
