@@ -7,8 +7,11 @@ include_once( "classes/INIFile.php" );
 
 $ini = new INIFIle( "site.ini" );
 $Language = $ini->read_var( "eZContactMain", "Language" );
+$MaxCompanyList = $ini->read_var( "eZContactMain", "MaxCompanyList" );
+$CompanyOrder = $ini->read_var( "eZContactMain", "CompanyOrder" );
 
 include_once( "classes/eztemplate.php" );
+include_once( "classes/ezlist.php" );
 include_once( "ezcontact/classes/ezcompanytype.php" );
 include_once( "ezcontact/classes/ezcompany.php" );
 include_once( "ezuser/classes/ezuser.php" );
@@ -269,8 +272,14 @@ else
     if ( eZPermission::checkPermission( $user, "eZContact", "CategoryAdd" ) )
         $t->parse( "type_new_button", "type_new_button_tpl" );
 
+    if ( !is_numeric( $Offset ) )
+        $Offset = 0;
+    if ( !is_numeric( $MaxCompanyList ) )
+        $MaxCompanyList = 10;
+
     // List all the companies.
-    $companyList = $company->getByCategory( $TypeID );
+    $companyList = $company->getByCategory( $TypeID, $Offset, $MaxCompanyList, $CompanyOrder );
+    $total_companies = $company->countByCategory( $TypeID );
 
     $t->set_var( "company_consultation_button", "" );
     $t->set_var( "company_edit_button", "" );
@@ -374,6 +383,10 @@ else
         $t->set_var( "category_list", "" );
         $t->parse( "no_category_item", "no_category_item_tpl" );
     }
+
+    eZList::drawNavigator( $t, $total_companies, $MaxCompanyList, $Offset, "type_page",
+    array( "type_list" => "company_list" )
+                           );
 
     $t->pparse( "output", "type_page" );
 }

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezcompany.php,v 1.67 2001/03/21 13:24:59 jb Exp $
+// $Id: ezcompany.php,v 1.68 2001/03/28 09:56:34 jb Exp $
 //
 // Definition of eZProduct class
 //
@@ -234,7 +234,7 @@ class eZCompany
       
       The companies are returned as an array of eZCompany objects.
     */
-    function &getByCategory( $categoryID, $offset = 0, $limit = -1 )
+    function &getByCategory( $categoryID, $offset = 0, $limit = -1, $order = "name" )
     {
         $db =& eZDB::globalDatabase();
 
@@ -246,10 +246,37 @@ class eZCompany
             $limit_text = "LIMIT $offset, $limit";
         }
 
+        $dir = "ASC";
+        if ( $order[0] == "-" )
+        {
+            $order = substr( $order, 1 );
+            $dir = "DESC";
+        }
+        else if ( $order[0] == "+" )
+        {
+            $order = substr( $order, 1 );
+            $dir = "ASC";
+        }
+        switch( $order )
+        {
+            default:
+                print( "<br /><b>Unknown order type in eZCompany::getByCategory(), got \"$order\"</b><br />" );
+            case "name":
+            {
+                $order_text = "Name";
+                break;
+            }
+            case "id":
+            {
+                $order_text = "ID";
+                break;
+            }
+        }
+
         $db->array_query( $company_array, "SELECT CompanyID FROM eZContact_CompanyTypeDict, eZContact_Company
                                            WHERE eZContact_CompanyTypeDict.CompanyTypeID='$categoryID'
                                            AND eZContact_Company.ID = eZContact_CompanyTypeDict.CompanyID
-                                           ORDER BY eZContact_Company.Name $limit_text" );
+                                           ORDER BY eZContact_Company.$order_text $dir $limit_text" );
 
         foreach( $company_array as $companyItem )
         {

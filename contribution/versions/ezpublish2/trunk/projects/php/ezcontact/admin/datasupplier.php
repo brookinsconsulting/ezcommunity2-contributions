@@ -101,6 +101,7 @@ switch ( $ListType )
             case "list":
             {
                 $TypeID = $url_array[4];
+                $Offset = $url_array[5];
                 $ShowStats = true;
                 include( "ezcontact/admin/companytypelist.php" );
                 break;
