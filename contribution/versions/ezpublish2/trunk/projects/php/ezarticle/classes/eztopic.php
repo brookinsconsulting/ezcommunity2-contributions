@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eztopic.php,v 1.6 2001/07/19 12:19:21 jakobn Exp $
+// $Id: eztopic.php,v 1.7 2001/08/13 12:47:37 pkej Exp $
 //
 // Definition of eZTopic class
 //
@@ -107,7 +107,9 @@ class eZTopic
 
         if ( isset( $this->ID ) )
         {
+            $db->query( "UPDATE eZArticle_Article SET TopicID=0 WHERE TopicID='$this->ID'" );
             $db->query( "DELETE FROM eZArticle_Topic WHERE ID='$this->ID'" );
+            
         }
         
         return true;
