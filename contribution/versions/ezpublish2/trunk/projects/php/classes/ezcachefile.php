@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezcachefile.php,v 1.9 2001/02/26 12:31:05 jb Exp $
+// $Id: ezcachefile.php,v 1.10 2001/06/05 09:16:26 bf Exp $
 //
 // Definition of eZCacheFile class
 //
@@ -234,7 +234,7 @@ class eZCacheFile
             }
             else
             {
-                $reg .= "[^" . $separator . "]+";
+                $reg .= "[^" . $separator . "]*";
             }
             ++$i;
         }
