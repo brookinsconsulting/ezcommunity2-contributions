@@ -94,7 +94,7 @@
 	<!-- BEGIN poll_choice_tpl -->
 	<tr>
 		<td class="{td_class}">
-			<a href="/poll/polledit/{choice_id}/">{poll_choice_name}</a>
+			{poll_choice_name}
 		</td>
 		<td class="{td_class}">&nbsp;</td>
 		<td class="{td_class}" align="right">

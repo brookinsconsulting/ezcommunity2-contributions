@@ -1,16 +1,15 @@
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
-	<td width="35%">
-	<h1>Links</h1>
-	</td>
-	<td width="45%" align="right">
-	<form method="post" action="/link/search/">
-	<input type="text" name="QueryText" size="20" value=""><input type="submit" value="Search">
-	<input type="hidden" name="Action" value="search">
-	</form>
-	</td>
-	</td>
-<tr>
+    <td align="left" valign="bottom">
+        <h1>{intl-search}</h1>
+     </td>
+     <td align="right">
+	 <form action="/link/search/" method="post">
+	       <input type="text" name="QueryString">
+	       <input type="submit" name="search" value="{intl-search}">
+         </form>
+     </td>
+</tr>
 </table>
 
 <hr noshade size="4">

@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: groupedit.php,v 1.25 2000/10/20 15:43:38 ce-cvs Exp $
+    $Id: groupedit.php,v 1.26 2000/10/23 09:31:23 ce-cvs Exp $
 
     Author: Bård Farstad <bf@ez.no>
     
@@ -30,7 +30,7 @@ require( "ezuser/admin/admincheck.php" );
 // Insert a group.
 if ( $Action == "insert" )
 {
-    if ( eZPermission::checkPermission( $user, "eZLink", "GroupAdd" ) )
+    if ( eZPermission::checkPermission( $user, "eZLink", "LinkGroupAdd" ) )
     {
         if ( $Title != "" &&
         $ParentCategory != "" )
@@ -58,7 +58,7 @@ if ( $Action == "insert" )
 // Delete a group.
 if ( $Action == "delete" )
 {
-    if ( eZPermission::checkPermission( $user, "eZLink", "GroupDelete" ) )
+    if ( eZPermission::checkPermission( $user, "eZLink", "LinkGroupDelete" ) )
     {
         $group = new eZLinkGroup();
         $group->get( $LinkGroupID );
@@ -76,7 +76,7 @@ if ( $Action == "delete" )
 // Update a group.
 if ( $Action == "update" )
 {
-    if ( eZPermission::checkPermission( $user, "eZLink", "GroupModify" ) )
+    if ( eZPermission::checkPermission( $user, "eZLink", "LinkGroupModify" ) )
     {
         if ( $Title != "" &&
         $ParentCategory != "" )
@@ -117,7 +117,7 @@ $groupLinkList = $groupselect->getAll( );
 
 if ( $Action == "new" )
 {
-    if ( !eZPermission::checkPermission( $user, "eZLink", "GroupAdd" ) )
+    if ( !eZPermission::checkPermission( $user, "eZLink", "LinkGroupAdd" ) )
     {
         Header( "Location: /link/norights" );
     }
