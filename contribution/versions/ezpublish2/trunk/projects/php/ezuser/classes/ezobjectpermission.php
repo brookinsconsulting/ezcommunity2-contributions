@@ -1,8 +1,8 @@
 <?php
 // 
-// $Id: ezobjectpermission.php,v 1.13 2001/03/02 08:34:13 ce Exp $
+// $Id: ezobjectpermission.php,v 1.14 2001/03/05 10:21:22 fh Exp $
 //
-// Definition of eZCompany class
+// Definition of eZObjectPermission class
 //
 // Frederik Holljen <fh@ez.no>
 // Created on: <27-Feb-2001 08:05:56 fh>
@@ -31,6 +31,15 @@
 
   Example code:
   \code
+  Check if a user has permission to an article object:
+  if( eZObjectPermission::hasPermission( $objectID, "article_article", 'r' ) )
+  {
+  currentuser has permission
+  }
+  else
+  {
+  He did not.
+  }
 
   \endcode
   \sa eZUser eZUserGroup eZModule eZForgot
