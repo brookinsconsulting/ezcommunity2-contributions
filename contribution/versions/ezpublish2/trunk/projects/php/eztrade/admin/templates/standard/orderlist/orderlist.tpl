@@ -1,5 +1,5 @@
 <!-- orderlist.tpl --> 
-<!-- $Id: orderlist.tpl,v 1.7 2001/02/01 12:05:03 th Exp $ -->
+<!-- $Id: orderlist.tpl,v 1.8 2001/03/03 17:38:48 th Exp $ -->
 
 <table width="100%" border="0">
 <tr>
@@ -9,7 +9,7 @@
 	<td align="right">
 	<form action="/trade/orderlist/" method="post">
 	<input type="text" name="QueryText" />
-	<input type="submit" value="{intl-search}">
+	<input class="stdbutton" type="submit" value="{intl-search}">
 	</form>
 	</td>
 </tr>

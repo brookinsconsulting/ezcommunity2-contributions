@@ -6,7 +6,7 @@
 	<td rowspan="2" align="right">
 	<form action="/newsfeed/search/" method="post">
 	<input type="text" name="SearchText" size="12" />	
-	<input type="submit" value="{intl-search}" />
+	<input class="stdbutton" type="submit" value="{intl-search}" />
 	</form>	
 	</td>
 </tr>
@@ -135,19 +135,20 @@
 <table cellspacing="0" cellpadding="0" border="0">
 <tr>
   <td>
-    <input type="submit" name="Publish" value="{intl-publish_marked}" />
+  <input class="stdbutton" type="submit" name="Delete" value="{intl-delete_marked}" />
   </td>
   <td>&nbsp;</td>
   <td>
-    <input type="submit" name="Delete" value="{intl-delete_marked}" />
+  <input class="stdbutton" type="submit" name="DeleteCat" value="{intl-delete_marked_categories}" />
   </td>
-  <td>&nbsp;</td>
-  <td>
-    <input type="submit" name="DeleteCat" value="{intl-delete_marked_categories}" />
-  </td>
-      <input type="hidden" name="CategoryID" value="{current_category_id}" />
 </tr>
 </table>
+
+<hr noshade="noshade" size="4" />
+
+<input class="stdbutton" type="submit" name="Publish" value="{intl-publish_marked}" />
+
+<input type="hidden" name="CategoryID" value="{current_category_id}" />
 
 </form>
 

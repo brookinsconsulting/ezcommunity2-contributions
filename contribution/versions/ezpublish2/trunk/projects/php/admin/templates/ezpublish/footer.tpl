@@ -1,3 +1,5 @@
+<!-- Main view: End -->
+
 	</td>
 </tr>
 </table>

@@ -5,12 +5,12 @@
 	    <h1>{intl-headline_list}</h1>
 	</td>
 	<td rowspan="2" align="right">
-	    <table>
 	    <form action="/contact/company/search/" method="post">
+	    <table>
 		<tr>
 	        <td>
 	    	<input type="text" name="SearchText" size="12" />
-		<input type="submit" value="{intl-search}" />
+			<input class="stdbutton" type="submit" value="{intl-search}" />
 	    	<input type="hidden" name="SearchCategory" value="{current_id}" />
 	        </td>
 	    </tr>
@@ -20,8 +20,8 @@
 		<span class="boxtext">{intl-only_current_category}</span>
 	        </td>
 	    </tr>
-		</form>
 	    </table>
+		</form>
 	</td>
 </tr>
 </table>

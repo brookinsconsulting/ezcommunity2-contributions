@@ -6,7 +6,7 @@
      <td align="right">
 	 <form action="/forum/search/" method="post">
 	       <input type="text" name="QueryString">
-	       <input type="submit" name="search" value="{intl-search}">
+	       <input class="stdbutton" type="submit" name="search" value="{intl-search}">
          </form>
      </td>
 </tr>
@@ -54,6 +54,8 @@
 </tr>
 </table>
 <br />
+
+<hr noshade="noshade" size="4" />
 
 <table border="0" cellspacing="0" cellpadding="0">
 <tr>

@@ -1,3 +1,5 @@
+	<!-- Menues: End -->
+
     <img src="/images/1x1.gif" width="140" height="1" border="0" /><br />
 	</td>
 
@@ -7,7 +9,6 @@
 	</td>
 	<td width="98%" valign="top">
 
-    <!-- main view -->
     <table width="100%" cellpadding="0" cellspacing="0" border="0">
 <tr>
     <td class="repeaty" rowspan="2" width="1%" background="/images/{site_style}/box-l02.gif" valign="top"><img src="/images/{site_style}/box-l01.gif" width="10" height="10" border="0" /><br /></td>
@@ -22,9 +23,9 @@
 		<td width="1%">
 
 		<a href="/">
-		<!-- Ikon: Start -->
+		<!-- Icon: Start -->
 		<img src="/ez{module_name}/admin/images/module_icon.gif" width="32" height="32" border="0" align="absmiddle" />
-		<!-- Ikon: Slutt -->
+		<!-- Icon: End -->
 		</a>
 
 		</td>
@@ -34,9 +35,9 @@
 		<td width="98%">
 		<span class="modulename">
 
-		<!-- Modulenavn: Start -->
+		<!-- Modulename: Start -->
 		{intl-module_name}
-		<!-- Modulnavn: Slutt -->
+		<!-- Modulname: End -->
 
 		</span>
 		</td>
@@ -57,7 +58,7 @@
 	<table width="100%" cellpadding="4" cellspacing="0" border="0">
 	<tr>
 		<td>
-	
 
+<!-- Main view: Start -->
 
  

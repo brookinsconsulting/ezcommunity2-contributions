@@ -1,4 +1,4 @@
-<!-- Menyboks: Start --->
+<!-- Menubox: Start --->
 
 <table width="100%" cellpadding="0" cellspacing="0" border="0">
 <tr>
@@ -77,10 +77,14 @@
     <td class="repeatx" width="98%" background="/images/{site_style}/box-m03.gif" valign="bottom"><img src="/images/{site_style}/1x1.gif" width="120" height="11" border="0" /><br /></td>
     <td class="tdmini" width="1%" valign="bottom"><img src="/images/{site_style}/box-r05.gif" width="10" height="19" border="0" /><br /></td>
 </tr>
+<tr>
+	<td class="tdmini" colspan="3">
+	<img src="/images/{site_style}/1x1.gif" width="1" height="6" border="0" /><br />
+	</td>
+</tr>
 </table>
-<img src="/images/{site_style}/1x1.gif" width="130" height="6" border="0" /><br />
 
-<!-- Menyboks: Slutt -->
+<!-- Menubox: End -->
 
 
 

@@ -103,10 +103,15 @@
     <td class="repeatx" width="50%" background="/images/{site_style}/top-m02.gif" valign="absmiddle" align="left" bgcolor="#b5b5b5"><img src="/images/{site_style}/1x1.gif" width="120" height="6" border="0" /><br /></td>
     <td class="repeaty" width="1" valign="top" align="left"><img src="/images/{site_style}/top-r03.gif" width="10" height="10" border="0" /><br /></td>
 </tr>
+<tr>
+	<td colspan="4" class="tdmini">
+	<img src="/images/{site_style}/1x1.gif" width="6" height="6" border="0" /><br />
+	</td>
+</tr>
 </table>
-<img src="/images/{site_style}/1x1.gif" width="6" height="6" border="0" /><br />
 
 <table width="100%" cellpadding="0" cellspacing="0" border="0">
 <tr>
 	<td width="1%" valign="top">
 
+	<!-- Menues: Start -->
