@@ -51,7 +51,7 @@
 <!-- END path_tpl -->
 
 <!-- BEGIN current_type_tpl -->
-<form method="post" action="/{intl-module_name}/{intl-command_type}/{intl-command_insert}/{current_id}/">
+<form method="post" action="/{intl-module_name}/{intl-command_type}/{action_value}/{current_id}/">
 <p class="boxtext">{intl-th_type_name}:</p>
 <input type="text" size="40" name="TypeName" value="{current_name}">
 

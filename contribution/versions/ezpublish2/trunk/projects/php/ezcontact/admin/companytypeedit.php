@@ -11,6 +11,36 @@ $Language = $ini->read_var( "eZContactMain", "Language" );
 include_once( "classes/eztemplate.php" );
 include_once( "ezcontact/classes/ezcompanytype.php" );
 
+if( eZPermission::checkPermission( $user, "eZContact", "TypeAdd" ) && $Action == "new" )
+{
+    header( "Location: /error.php?type=500&reason=missingpermission&permission=TypeAdd&tried=new&module=ezcontact" );
+    exit();
+}
+
+if( eZPermission::checkPermission( $user, "eZContact", "TypeAdd" ) && $Action == "insert" )
+{
+    header( "Location: /error.php?type=500&reason=missingpermission&permission=TypeAdd&tried=insert&module=ezcontact" );
+    exit();
+}
+
+if( eZPermission::checkPermission( $user, "eZContact", "TypeModify" ) && $Action == "update" )
+{
+    header( "Location: /error.php?type=500&reason=missingpermission&permission=TypeModify&tried=update&module=ezcontact" );
+    exit();
+}
+
+if( eZPermission::checkPermission( $user, "eZContact", "TypeModify" ) && $Action == "edit" )
+{
+    header( "Location: /error.php?type=500&reason=missingpermission&permission=TypeModify&tried=edit&module=ezcontact" );
+    exit();
+}
+
+if( eZPermission::checkPermission( $user, "eZContact", "TypeDelete" ) && $Action == "delete" )
+{
+    header( "Location: /error.php?type=500&reason=missingpermission&permission=TypeDelete&tried=delete&module=ezcontact" );
+    exit();
+}
+
 if( empty( $TypeID ) )
 {
     $TypeID = 0;
@@ -19,28 +49,22 @@ if( empty( $TypeID ) )
 $type = new eZCompanyType();
 $type->get( $TypeID );
 
-if ( $Action == "insert" || $Action == "update" )
+if( $Action == "insert" || $Action == "update" )
 {
-    if( true || eZPermission::checkPermission( $user, "eZContact", "AdminModify" ) )
+    $type = new eZCompanyType();
+
+    if( !empty( $TypeID ) )
     {
-        $type = new eZCompanyType();
-
-        if( !empty( $TypeID ) )
-        {
-            $type->get( $TypeID );
-        }
-        $type->setName( $TypeName );
-        $type->setDescription( $TypeDescription );
-        $type->setParentID( $SelectParentID ); 
-        $type->store();
-        $TypeID = $type->id();
-
-        header( "Location: /contact/companytype/view/$TypeID" );
+        $type->get( $TypeID );
     }
-    else
-    {
-        header( "Location: /error.php?type=500&reason=missingpermission&permission=AdminModify&tried=update&module=ezcontact" );
-   }
+    $type->setName( $TypeName );
+    $type->setDescription( $TypeDescription );
+    $type->setParentID( $SelectParentID ); 
+    $type->store();
+    $TypeID = $type->id();
+
+    header( "Location: /contact/companytype/view/$TypeID" );
+
 }
 
 if( !$type->id() && $Action != "new"  )
@@ -52,7 +76,7 @@ else
 {
     if ( $Action == "delete" )
     {
-        if ( true || eZPermission::checkPermission( $user, "eZContact", "AdminDelete" ) )
+        if ( eZPermission::checkPermission( $user, "eZContact", "TypeDelete" ) )
         {
             $type = new eZCompanyType();
             $type->get( $TypeID );
@@ -63,7 +87,7 @@ else
         }
         else
         {
-            header( "Location: /error.php?type=500&reason=missingpermission&permission=AdminDelete&tried=delete&module=ezcontact" );
+            header( "Location: /error.php?type=500&reason=missingpermission&permission=TypeDelete&tried=delete&module=ezcontact" );
         }
     }
 
@@ -112,8 +136,16 @@ else
         $t->parse( "path", "path_tpl" );
     }
     
-    if ( $Action == "edit" || $Action == "new" )
+    if( $Action == "edit" || $Action == "new" )
     {
+        if( $Action == "edit" )
+        {
+            $t->set_var( "action_value", "update" );
+        }
+        else
+        {
+            $t->set_var( "action_value", "insert" );
+        }
         $type = new eZCompanyType();
         $type->get( $TypeID );
 

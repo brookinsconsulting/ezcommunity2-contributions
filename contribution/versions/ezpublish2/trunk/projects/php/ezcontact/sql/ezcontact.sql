@@ -4,6 +4,21 @@
 #--------------------------------------------------------
 # Server version	3.22.32
 
+INSERT INTO eZUser_Permission ( ModuleID, Name ) SELECT DISTINCT Module.ID, 'PersonAdd' FROM eZUser_Module AS Module WHERE Module.Name='eZContact';
+INSERT INTO eZUser_Permission ( ModuleID, Name ) SELECT DISTINCT Module.ID, 'CompanyAdd' FROM eZUser_Module AS Module WHERE Module.Name='eZContact';
+INSERT INTO eZUser_Permission ( ModuleID, Name ) SELECT DISTINCT Module.ID, 'CVAdd' FROM eZUser_Module AS Module WHERE Module.Name='eZContact';
+INSERT INTO eZUser_Permission ( ModuleID, Name ) SELECT DISTINCT Module.ID, 'TypeAdd' FROM eZUser_Module AS Module WHERE Module.Name='eZContact';
+
+INSERT INTO eZUser_Permission ( ModuleID, Name ) SELECT DISTINCT Module.ID, 'PersonDelete' FROM eZUser_Module AS Module WHERE Module.Name='eZContact';
+INSERT INTO eZUser_Permission ( ModuleID, Name ) SELECT DISTINCT Module.ID, 'CompanyDelete' FROM eZUser_Module AS Module WHERE Module.Name='eZContact';
+INSERT INTO eZUser_Permission ( ModuleID, Name ) SELECT DISTINCT Module.ID, 'CVDelete' FROM eZUser_Module AS Module WHERE Module.Name='eZContact';
+INSERT INTO eZUser_Permission ( ModuleID, Name ) SELECT DISTINCT Module.ID, 'TypeDelete' FROM eZUser_Module AS Module WHERE Module.Name='eZContact';
+
+INSERT INTO eZUser_Permission ( ModuleID, Name ) SELECT DISTINCT Module.ID, 'PersonModify' FROM eZUser_Module AS Module WHERE Module.Name='eZContact';
+INSERT INTO eZUser_Permission ( ModuleID, Name ) SELECT DISTINCT Module.ID, 'CompanyModify' FROM eZUser_Module AS Module WHERE Module.Name='eZContact';
+INSERT INTO eZUser_Permission ( ModuleID, Name ) SELECT DISTINCT Module.ID, 'CVModify' FROM eZUser_Module AS Module WHERE Module.Name='eZContact';
+INSERT INTO eZUser_Permission ( ModuleID, Name ) SELECT DISTINCT Module.ID, 'TypeModify' FROM eZUser_Module AS Module WHERE Module.Name='eZContact';
+
 #
 # Table structure for table 'eZContact_Company'
 #

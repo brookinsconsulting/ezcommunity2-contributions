@@ -27,7 +27,121 @@ include_once( "ezcontact/classes/ezcompanytype.php" );
 include_once( "classes/ezimagefile.php" );
 include_once( "ezimagecatalogue/classes/ezimage.php" );
 
-if ( $Action == "insert" )
+if( !eZPermission::checkPermission( $user, "eZContact", "CompanyAdd" ) && $Action == "new" )
+{
+    header( "Location: /error.php?type=500&reason=missingpermission&permission=CompanyAdd&tried=new&module=ezcontact" );
+    exit();
+}
+
+if( !eZPermission::checkPermission( $user, "eZContact", "CompanyAdd" ) && $Action == "insert" )
+{
+    header( "Location: /error.php?type=500&reason=missingpermission&permission=CompanyAdd&tried=insert&module=ezcontact" );
+    exit();
+}
+
+if( !eZPermission::checkPermission( $user, "eZContact", "CompanyModify" ) && $Action == "update" )
+{
+    header( "Location: /error.php?type=500&reason=missingpermission&permission=CompanyModify&tried=update&module=ezcontact" );
+    exit();
+}
+
+if( !eZPermission::checkPermission( $user, "eZContact", "CompanyModify" ) && $Action == "edit" )
+{
+    header( "Location: /error.php?type=500&reason=missingpermission&permission=CompanyModify&tried=edit&module=ezcontact" );
+    exit();
+}
+
+if( !eZPermission::checkPermission( $user, "eZContact", "CompanyDelete" ) && $Action == "delete" )
+{
+    header( "Location: /error.php?type=500&reason=missingpermission&permission=CompanyDelete&tried=delete&module=ezcontact" );
+    exit();
+}
+
+if( $Action == "delete" )
+{
+    $company = new eZCompany();
+    $company->get( $CompanyID );
+    $company->delete();
+
+    header( "Location: /contact/company/list/" );
+}
+
+$t = new eZTemplate( "ezcontact/admin/" . $ini->read_var( "eZContactMain", "AdminTemplateDir" ),
+                     "ezcontact/admin/intl", $Language, "companyedit.php" );
+$t->setAllStrings();
+
+$t->set_file( array(                    
+    "company_edit" => "companyedit.tpl"
+    ) );
+
+$t->set_block( "company_edit", "company_item_tpl", "company_item" );
+
+$t->set_block( "company_edit", "address_item_tpl", "address_item" );
+
+$t->set_block( "company_edit", "phone_item_tpl", "phone_item" );
+$t->set_block( "company_edit", "fax_item_tpl", "fax_item" );
+
+$t->set_block( "company_edit", "web_item_tpl", "web_item" );
+$t->set_block( "company_edit", "email_item_tpl", "email_item" );
+
+$t->set_block( "company_edit", "logo_add_tpl", "logo_add" );
+$t->set_block( "company_edit", "image_add_tpl", "image_add" );
+$t->set_block( "company_edit", "logo_edit_tpl", "logo_edit" );
+$t->set_block( "company_edit", "image_edit_tpl", "image_edit" );
+
+$t->set_block( "company_edit", "company_type_select_tpl", "company_type_select" );
+
+$t->set_block( "company_edit", "errors_tpl", "errors_item" );
+
+$t->set_block( "errors_tpl", "error_name_item_tpl", "error_name_item" );
+$t->set_block( "errors_tpl", "error_email_item_tpl", "error_email_item" );
+$t->set_block( "errors_tpl", "error_companyno_item_tpl", "error_companyno_item" );
+$t->set_block( "errors_tpl", "error_address_item_tpl", "error_address_item" );
+
+$message = "Registrer nytt kontaktfirma";
+
+$t->set_var( "name", "" );
+$t->set_var( "description", "" );
+$t->set_var( "street1", "" );
+$t->set_var( "street2", "" );
+$t->set_var( "zip", "" );
+$t->set_var( "place", "" );
+$t->set_var( "telephone", "" );
+$t->set_var( "fax", "" );
+$t->set_var( "email", "" );
+$t->set_var( "web", "" );
+$t->set_var( "companyno", "" );
+$t->set_var( "company_id", "" );
+
+$t->set_var( "address_action_type", "hidden" );
+$t->set_var( "address_list", "" );
+
+
+$error = false;
+
+if( 0 || $Action == "insert" || $Action == "update" )
+{
+    if( empty( $Street1 ) || empty( $Place ) || empty( $Zip ) )
+    {
+        $t->parse( "error_address_item", "error_address_item_tpl" );
+        $error = true;
+    }
+    else
+    {
+        $t->set_var( "error_address_item", "" );
+    }
+    if( empty( $Name ) )
+    {
+        $t->parse( "error_name_item", "error_name_item_tpl" );
+        $error = true;
+    }
+    else
+    {
+        $t->set_var( "error_name_item", "" );
+    }
+}
+
+if ( $Action == "insert" && $error == false )
 {
     $company = new eZCompany();
     $company->setName( $Name );  
@@ -113,13 +227,12 @@ if ( $Action == "insert" )
 
     // Add to user object
     $company->addAddress( $address );
-    
-    Header( "Location: /contact/companylist/" );
+    header( "Location: /contact/company/list/" );
     exit();
 }
 
 // Oppdaterer et firma.
-if ( $Action == "update" )
+if ( $Action == "update" && $error == false )
 {
     $company = new eZCompany();
     $company->get( $CompanyID  );
@@ -247,65 +360,9 @@ if ( $Action == "update" )
 
     $company->store();
 
-    Header( "Location: /contact/companylist/" );
+    header( "Location: /contact/company/list/" );
     exit();
 }
-
-// Slette fra company list.
-if ( $Action == "delete" )
-{
-    $company = new eZCompany();
-    $company->get( $CompanyID );
-    $company->delete();
-
-    Header( "Location: /contact/companylist/" );
-}
-
-// Setter template.
-$t = new eZTemplate( "ezcontact/admin/" . $ini->read_var( "eZContactMain", "AdminTemplateDir" ),
-                     "ezcontact/admin/intl", $Language, "companyedit.php" );
-$t->setAllStrings();
-
-$t->set_file( array(                    
-    "company_edit" => "companyedit.tpl"
-    ) );
-
-$t->set_block( "company_edit", "company_item_tpl", "company_item" );
-
-$t->set_block( "company_edit", "address_item_tpl", "address_item" );
-
-$t->set_block( "company_edit", "phone_item_tpl", "phone_item" );
-$t->set_block( "company_edit", "fax_item_tpl", "fax_item" );
-
-$t->set_block( "company_edit", "web_item_tpl", "web_item" );
-$t->set_block( "company_edit", "email_item_tpl", "email_item" );
-
-$t->set_block( "company_edit", "logo_add_tpl", "logo_add" );
-$t->set_block( "company_edit", "image_add_tpl", "image_add" );
-$t->set_block( "company_edit", "logo_edit_tpl", "logo_edit" );
-$t->set_block( "company_edit", "image_edit_tpl", "image_edit" );
-
-$t->set_block( "company_edit", "company_type_select_tpl", "company_type_select" );
-
-if ( !isset( $Action ) )
-    $Action = "insert";
-
-$message = "Registrer nytt kontaktfirma";
-
-$t->set_var( "name", "" );
-$t->set_var( "description", "" );
-$t->set_var( "street1", "" );
-$t->set_var( "street2", "" );
-$t->set_var( "zip", "" );
-$t->set_var( "place", "" );
-$t->set_var( "telephone", "" );
-$t->set_var( "fax", "" );
-$t->set_var( "email", "" );
-$t->set_var( "web", "" );
-$t->set_var( "companyno", "" );
-
-$t->set_var( "address_action_type", "hidden" );
-$t->set_var( "address_list", "" );
 
 if ( $Action == "new" )
 {
@@ -314,7 +371,7 @@ if ( $Action == "new" )
 
     $t->set_var( "logo_edit", "" );
     $t->set_var( "image_edit", "" );
-    $Action_value = "Insert";
+    $Action_value = "insert";
 
     $t->parse( "address_item", "address_item_tpl" );
     $t->parse( "phone_item", "phone_item_tpl" );
@@ -430,7 +487,7 @@ if ( $Action == "edit" )
         }
     }
     // Template variabler.
-    $Action_value = "Update";
+    $Action_value = "update";
     
 }
     
@@ -451,7 +508,6 @@ foreach( $companyTypeList as $companyTypeItem )
         {
             if ( $category->id() == $companyTypeItem->id() )
             {
-                print( "hey" );
                 $found = true;
             }
         }
@@ -468,6 +524,7 @@ foreach( $companyTypeList as $companyTypeItem )
 
     $t->parse( "company_type_select", "company_type_select_tpl", true );
 }
+
 
 
 // Template variabler.

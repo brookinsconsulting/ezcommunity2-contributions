@@ -12,6 +12,15 @@ include_once( "classes/eztemplate.php" );
 
 include_once( "ezcontact/classes/ezperson.php" );
 
+if( $Action == "delete" )
+{
+    $person = new eZPerson();
+    $person->get( $CompanyID );
+    $person->delete();
+
+    header( "Location: /contact/person/list/" );
+}
+
 $error = false;
 
 $t = new eZTemplate( "ezcontact/admin/" . $ini->read_var( "eZContactMain", "AdminTemplateDir" ),
@@ -52,6 +61,7 @@ $t->set_var( "birthday", "" );
 $t->set_var( "birthmonth", "" );
 $t->set_var( "birthyear", "" );
 $t->set_var( "comment", "" );
+$t->set_var( "person_id", "" );
 
 $t->set_var( "user_name", "" );
 $t->set_var( "old_password", "" );
@@ -96,7 +106,6 @@ $t->set_var( "cv_email_online_id", "" );
 
 if( $Action == "insert" || $Action == "update" )
 {
-    $t->set_var( "person_id", "" );
     if( empty( $Online[0] ) )
     {
         $t->parse( "error_email_item", "error_email_item_tpl" );
@@ -266,7 +275,7 @@ if( ( $Action == "insert" || $Action == "update" ) && $error == false && $Add_Us
     $t->set_var( "user_id", $UserID );
     $t->set_var( "person_id", $PersonID );
     
-    header( "Redirect: /contact/user/view/$PersonID" );
+    header( "Location: /contact/user/view/$PersonID" );
 }
 
 /*
@@ -278,7 +287,7 @@ if( $Action == "new" )
 {
     if( $PersonID != 0 ) // 1
     {
-        header( "Redirect: contact/user/edit/$PersonID" );
+        header( "Location: contact/user/edit/$PersonID" );
         exit();
     }
     

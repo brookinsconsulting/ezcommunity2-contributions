@@ -65,12 +65,12 @@
 <!-- BEGIN category_list_tpl -->
 <h3>{intl-headline_categories}</h3>
 <table class="list" width="100%" cellspacing="0" cellpadding="0" border="0">
-<th>
-    <td><a href="/{intl-module_name}/{intl-command_type}/{intl-command_list}/{current_id}?OrderBy=ID">{intl-th_type_id}</a></td>
-    <td><a href="/{intl-module_name}/{intl-command_type}/{intl-command_list}/{current_id}?OrderBy=Name">{intl-th_type_name}</a></td>
-    <td><a href="/{intl-module_name}/{intl-command_type}/{intl-command_list}/{current_id}?OrderBy=Description">{intl-th_type_description}</a></td>
-    <td colspan="2">&nbsp;</td>
-</th>
+<tr>
+    <th><a href="/{intl-module_name}/{intl-command_type}/{intl-command_list}/{current_id}?OrderBy=ID">{intl-th_type_id}</a></th>
+    <th><a href="/{intl-module_name}/{intl-command_type}/{intl-command_list}/{current_id}?OrderBy=Name">{intl-th_type_name}</a></th>
+    <th><a href="/{intl-module_name}/{intl-command_type}/{intl-command_list}/{current_id}?OrderBy=Description">{intl-th_type_description}</a></th>
+    <th colspan="2">&nbsp;</th>
+</tr>
 
 <!-- BEGIN category_item_tpl -->
 <tr class="{theme-type_class}">
@@ -95,12 +95,12 @@
 <!-- BEGIN type_list_tpl -->
 <h3>{intl-headline_types}</h3>
 <table class="list" width="100%" cellspacing="0" cellpadding="0" border="0">
-<th>
-    <td><a href="/{intl-module_name}/{intl-command_type}/{intl-command_list}/{current_id}?OrderBy=ID">{intl-th_type_id}</a></td>
-    <td><a href="/{intl-module_name}/{intl-command_type}/{intl-command_list}/{current_id}?OrderBy=Name">{intl-th_type_name}</a></td>
-    <td><a href="/{intl-module_name}/{intl-command_type}/{intl-command_list}/{current_id}?OrderBy=Description">{intl-th_type_description}</a></td>
-    <td colspan="2">&nbsp;</td>
-</th>
+<tr>
+    <th><a href="/{intl-module_name}/{intl-command_type}/{intl-command_list}/{current_id}?OrderBy=ID">{intl-th_type_id}</a></th>
+    <th><a href="/{intl-module_name}/{intl-command_type}/{intl-command_list}/{current_id}?OrderBy=Name">{intl-th_type_name}</a></th>
+    <th><a href="/{intl-module_name}/{intl-command_type}/{intl-command_list}/{current_id}?OrderBy=Description">{intl-th_type_description}</a></th>
+    <th colspan="2">&nbsp;</th>
+</tr>
 
 <!-- BEGIN type_item_tpl -->
 <tr class="{theme-type_class}">

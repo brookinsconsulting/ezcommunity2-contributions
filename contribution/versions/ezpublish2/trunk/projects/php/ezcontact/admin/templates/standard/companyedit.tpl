@@ -1,4 +1,4 @@
-<form method="post" action="/contact/companyedit/{action_value}/{company_id}/" enctype="multipart/form-data">
+<form method="post" action="/contact/company/{action_value}/{company_id}/" enctype="multipart/form-data">
 <input type="hidden" name="max_file_size" value="3000000">
 
 <h1>{intl-headline}</h1>
@@ -6,6 +6,29 @@
 <hr noshade size="4"/>
 
 <br />
+
+<!-- BEGIN errors_tpl -->
+<h3 class="error">{intl-error_headline}</h3>
+<ul>
+
+<!-- BEGIN error_name_item_tpl -->
+<li>{intl-error_name}
+<!-- END error_name_item_tpl -->
+
+<!-- BEGIN error_companyno_item_tpl -->
+<li>{intl-error_companyno}
+<!-- END error_companyno_item_tpl -->
+
+<!-- BEGIN error_email_item_tpl -->
+<li>{intl-error_email}
+<!-- END error_email_item_tpl -->
+
+<!-- BEGIN error_address_item_tpl -->
+<li>{intl-error_address}
+<!-- END error_address_item_tpl -->
+
+</ul>
+<!-- END errors_tpl -->
 
 <table width="100%" cellpadding="0" cellspacing="0" border="0">
 <h3 class="error">{error}</h3>
