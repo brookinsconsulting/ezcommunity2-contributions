@@ -43,6 +43,9 @@
 		<span class="subdiv">{intl-rfp_date}: {rfp_created}</span><br />
 		<span class="subdiv">{intl-rfp_updated_date}: {rfp_modified}</span><br />
 		<span class="subdiv">{intl-rfp_responce_due_date}: {rfp_responce_due_date}</span><br />
+		<!-- BEGIN bid_award_date_item_tpl -->
+                <span class="subdiv">{intl-bid_award_date}: {bid_award_date}</span><br />
+		<!-- END bid_award_date_item_tpl -->
 
 		<!-- BEGIN rfp_estimate_tpl -->
 		<span class="subdiv">{intl-rfp_project_estimate}: {intl-rfp_project_estimate_cash_sign} {rfp_project_estimate}</span>
@@ -79,14 +82,32 @@
                 <!-- BEGIN bid_tpl -->
                 <div class="{td_class}" style="position:relative; left:0px; right:0px; padding: 3px; z-index:1">
                    <span class="{td_class}" style="color: #7c7a6e; font-size: 12px;">
-                     <span style="Z-index:2;"> <span style="font-size: 11px"> {bid_date}</span> : <a href="{www_dir}{index}/procurement/company/{bidder_company_id}/">{bidder_company_name}</a></span>
-			<span class="{td_class}" style="font-size: 9px; padding: 7px; position:absolute; right:0px; Z-index:0;">
-                         <a href="{www_dir}{index}/filemanager/download/{file_id}/{bidxxx}"> {intl-bid_currency_symbol}&nbsp;{bid_amount}</a>
+                     <span style="padding-left: 3px; Z-index:2;"> 
+
+	                <!-- BEGIN bid_winner_tpl -->
+                        <span style="font-size: 11px; color: green;">{bid_iswinner}</span> :
+                        <!-- END bid_winner_tpl -->
+                        <!-- BEGIN bid_rank_tpl -->
+                        <span style="font-size: 11px; {rank_color}">{bid_rank_alpha}</span> :
+                        <!-- END bid_rank_tpl -->
+
+
+
+<!--
+			<span style="font-size: 11px"> {bid_date}</span> : 
+-->
+
+<span>			<a href="{www_dir}{index}/procurement/company/view/{bid_company_id}/">{bid_company_name}</a></span> :  <a href="{www_dir}{index}/procurement/holder/view/{bidder_id}/">{bidder_name}</a>
+
+
+			<span class="{td_class}" style="font-size: 9px; padding: 1px; padding-right: 4px;  position:absolute; right:0px; Z-index:0;">
+                         <span>{intl-bid_currency_symbol}&nbsp;{bid_amount}</span>
                         </span>
 
-
-                     <span style="font-size: 11px"><br />blank</span>
-
+		</span>
+<!--
+                     <span style="font-size: 11px"><br /></span>
+-->
 
 
                    </span>

@@ -164,6 +164,9 @@ $t->set_block( "attached_file_list_tpl", "attached_file_tpl", "attached_file" );
 
 $t->set_block( "rfp_view_page_tpl", "bid_list_tpl", "bid_list" );
 $t->set_block( "bid_list_tpl", "bid_tpl", "bid" );
+$t->set_block( "bid_tpl", "bid_winner_tpl", "bid_winner" );
+$t->set_block( "bid_tpl", "bid_rank_tpl", "bid_rank" );
+
 
 $t->set_block( "rfp_view_page_tpl", "image_list_tpl", "image_list" );
 $t->set_block( "image_list_tpl", "image_tpl", "image" );
@@ -666,8 +669,11 @@ else
 }
 
 
+//include_once("ezprocurement/classes/fnc_viewArray2.php");
 // bids
 $bids = $rfp->bids();
+//print "files : "; viewArray($files);
+//print "<br />bids : "; viewArray($bids);
 
 if ( count( $bids ) > 0 )
 {
@@ -683,20 +689,56 @@ if ( count( $bids ) > 0 )
 	$t->set_var( "td_class", "bgdark" );
       }
 
+      // bid information
       $t->set_var( "bid_id", $bid->id() );
-      $t->set_var( "bid_date", $bid->bidDate() );
       $t->set_var( "bid_amount", $bid->amount() );
-      $t->set_var( "bid_description", $bid->description() );
+      //$t->set_var( "bid_description", $bid->description() );
+      //      $t->set_var( "bid_date", $bid->bidDate() );
 
-      $t->set_var( "bid_rank", $bid->rank() );
-      $t->set_var( "bid_winner", $bid->winner() );
+      $bid_winner = $bid->winner();
 
-      $t->set_var( "bid_planholder", $bid->planholder() );
-      // these are placeholders
-      $t->set_var( "bid_planholder_id", $bid->planholderNameID() );
-      $t->set_var( "bid_planholder_name", $bid->planholderName() );
-      $t->set_var( "bid_planholder_company_name", $bid->planholderOrganizationName() );
-      $t->set_var( "bid_planholder_company_id", $bid->planholderOrganizationID() );
+      if ( $bid_winner ) {
+	$t->set_var( "bid_iswinner", "Winner" );
+	$t->parse( "bid_winner", "bid_winner_tpl" );
+      } else {
+	$t->set_var( "bid_iswinner", "");
+        $t->set_var( "bid_winner", "");
+      }
+
+      if ($bid->rank() != ""){
+	$t->set_var("rank_color", "color: grey;" );
+
+      if ( $bid_winner )
+	 $t->set_var("rank_color", "color: green;" );
+
+         $t->set_var( "bid_rank_alpha", $bid->rank() );
+	 $t->parse( "bid_rank", "bid_rank_tpl" );
+      } else {
+        $t->set_var( "bid_rank_alpha", "");
+	$t->set_var( "bid_rank", "");
+      }
+
+      // bidder information
+      $bid_company_id = $bid->companyID();
+      $bid_company = new eZCompany($bid_company_id);
+
+
+      $bid_person_id = $bid->personID();
+      $bid_user_id = $bid->userID();
+
+      $bid_person = new eZPerson($bid_person_id);
+      $bid_user = new eZUser($bid_user_id);
+
+      $bid_user_name = $bid_user->name();
+      $bid_person_name = $bid_person->name();
+
+
+      $t->set_var( "bid_company_name", $bid_company->name() );
+      $t->set_var( "bid_company_id", $bid_company_id );
+
+      $t->set_var( "bidder_id", $bid_person_id );
+      $t->set_var( "bidder_name", $bid_person_name );
+
 
   $i++;
   $t->parse( "bid", "bid_tpl", true );

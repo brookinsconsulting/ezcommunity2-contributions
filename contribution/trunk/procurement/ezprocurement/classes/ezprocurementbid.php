@@ -90,7 +90,8 @@ class eZProcurementBid
         $procurement = $this->ProcurementID;
 	$user = $this->UserID;
         $person = $this->PersonID;
-        $company = $this->CompanyID:
+        $company = $this->CompanyID;
+
 	$winner = $this->Winner;
         $removed = $this->Removed;
 
@@ -273,21 +274,56 @@ class eZProcurementBid
     function fill( $bid_array )
     {
         $db =& eZDB::globalDatabase();
+
         $this->ID =& $bid_array[$db->fieldName("ID")];
         $this->Amount =& $bid_array[$db->fieldName("Amount")];
         $this->ProcurementID =& $bid_array[$db->fieldName("ProcurementID")];
+
         $this->UserID =& $bid_array[$db->fieldName("UserID")];
         $this->PersonID =& $bid_array[$db->fieldName("PersonID")];
         $this->CompanyID =& $bid_array[$db->fieldName("CompanyID")];
-        $this->Winner =& $article_array[$db->fieldName("Winner")];
-        $this->Removed =& $bid_array[$db->fieldName("Removed")];
+
+        $this->Winner =& $bid_array[$db->fieldName("Winner")];
+
+	// rank alpha numeric
+        $this->RankID =& $bid_array[$db->fieldName("RankID")];
+        $tt = $bid_array[$db->fieldName("RankID")];
+
+	$rank_array = array();
+	$ranking =& eZDB::globalDatabase();
+
+	$ranking->array_query( $rank_array, "SELECT ID, Name, AlphaNumericName FROM eZProcurement_BidRank WHERE ID='$this->RankID'" );
 
 	/*
-        if ( $this->PublishDate == 0 )
-            $this->PublishDate = false;
-        if ( $this->ResponseDueDate == 0 )
-            $this->ResponseDueDate = false;
+	v_array($rank_array);
+	print( $rank_array[0][2] );
 	*/
+
+	if( count( $rank_array ) == 1 )
+	{
+	  // $this->Rank =& new eZProcurementBidRank( $rank_array[0] );
+	  // $this->Rank =& $rank_array[$ranking->fieldName("ID")];
+	  $this->Rank =& $rank_array[0][2];
+	  //	  print("<br/> hit this $this->Rank -- ". $rank_array[0] );
+	}
+	else {
+	  // die( count( $bid_rank_array ) );
+	}
+
+	//	print("<br />ranking: ". $this->Rank ."<br />");
+
+        $this->Removed =& $bid_array[$db->fieldName("Removed")];
+	
+        if ( $this->Winner == 1 )
+             $this->Winner = true;
+        if ( $this->Winner == 0 )
+            $this->Winner = false;
+
+	if ( $this->Removed == 1 )
+	  $this->Removed = true;
+        if ( $this->Removed == 0 )
+	  $this->Removed = false;
+
     }
 
     /*!
@@ -413,7 +449,7 @@ class eZProcurementBid
     function &amount( $asFormated = true )
     {
         if( $asFormated == true )
-            return number_format($this->Amount);
+            return number_format($this->Amount, 2);
 
         return $this->Amount;
     }
@@ -421,8 +457,11 @@ class eZProcurementBid
     /*!
       Returns the bid's procurement id
     */
-    function &procurementID( )
+    function &procurement( $as_object = false )
     {
+      if( $as_object )
+        return new eZProcurement($this->ProcurementID);
+
         return $this->ProcurementID;
     }
 
@@ -445,9 +484,9 @@ class eZProcurementBid
     /*!
       Returns the bid rank id
     */
-    function &rankID( )
+    function &rank( )
     {
-        return $this->RankID;
+        return $this->Rank;
     }
 
     /*!
@@ -463,7 +502,23 @@ class eZProcurementBid
     */
     function &winner( )
     {
-        return $this->Winner;
+      /*
+      if($this->Winner == true)
+       print("winner? : ". $this->Winner);
+      */
+
+      /*
+      $ret = false;
+
+      print("winner? : ". $this->Winner);
+
+      if ($this->Winner == 1)
+        $ret = true;
+
+	return $ret;
+      */
+
+      return $this->Winner;
     }
 
     /*!
@@ -487,15 +542,19 @@ class eZProcurementBid
     /*!
       Sets the bid's procurement id
     */
-    function setProcurementID( $value )
+    function setProcurement( $value, $as_object = false )
     {
+      if( $as_object ) {
+	$this->ProcurementID = $value->id();
+      } else {
         $this->ProcurementID = $value;
+      }
     }
 
     /*!
       Sets the bid rank id
     */
-    function setRankID( $value )
+    function setRank( $value )
     {
         $this->RankID = $value;
     }
@@ -562,6 +621,58 @@ class eZProcurementBid
     // #################################################################################
 
     /*!
+      Returns all the bids for a given procurement
+
+      The bids are returned as an array of eZProcurementBid objects.
+    */
+    function &getAllByProcurement( $procurement, $as_object=false )
+    {
+        $db =& eZDB::globalDatabase();
+
+        $returnArray = array();
+        $bidArray = array();
+
+        if ( $as_object)
+	  $procurement = "  ProcurementID='$procurement->id()' ";
+        else
+	  $procurement = "  ProcurementID='$procurement' ";
+
+        $db->array_query( $bidArray, "SELECT *
+                                          FROM eZProcurement_Bid
+                                          WHERE $procurement
+                                          ORDER BY RankID, ID
+                                          " );
+
+        for ( $i=0; $i < count($bidArray); $i++ )
+	  {
+            $returnArray[$i] = new eZProcurementBid( $bidArray[$i] );
+	  }
+
+        return $returnArray;
+
+
+	/*
+        $db =& eZDB::globalDatabase();
+
+        $return_array = array();
+        $file_array = array();
+
+        $db->array_query( $file_array, "SELECT FileID, Created FROM eZRfp_RfpFileLink WHERE RfpID='$this->ID' ORDER BY Created" );
+
+        for ( $i=0; $i < count($file_array); $i++ )
+          {
+            $id = $file_array[$i][$db->fieldName("FileID")];
+            $return_array[$i] = $as_object ? new eZVirtualFile( $id, false ) : $id;
+          }
+
+          return $return_array;
+	*/
+
+      }
+
+    // #################################################################################
+
+    /*!
       Returns all the bids that is not valid now.
 
       The bids are returned as an array of eZProcurementBid objects.
@@ -599,9 +710,10 @@ class eZProcurementBid
     var $ID;
     var $ProcurementID;
     var $RankID;
+    var $Rank;
 
     var $UserID;
-    var $PersonID:
+    var $PersonID;
     var $CompanyID;
 
     var $Amount;

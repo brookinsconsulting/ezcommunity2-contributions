@@ -78,9 +78,10 @@ include_once( "ezrfp/classes/ezrfpcategory.php" );
 include_once( "ezrfp/classes/ezrfpcategory.php" );
 include_once( "ezrfp/classes/ezrfpattribute.php" );
 include_once( "ezrfp/classes/ezrfptype.php" );
+include_once( "ezprocurement/classes/ezprocurementbid.php" );
 
 include_once( "ezrfp/classes/fnc_viewArray.php" );
-
+include_once( "ezrfp/classes/fnc_viewArray3.php" );
 
 // #####################################################################################
 
@@ -93,38 +94,6 @@ function in_array_multi($needle, $haystack) {
    }
    return false;
 }
-
-// #####################################################################################
-
-function v_array($arr)
-{
-echo '<table cellpadding="0" cellspacing="0" border="1">';
-foreach ($arr as $key1 => $elem1) {
-echo '<tr>';
-echo '<td>'.$key1.'&nbsp;</td>';
-if (is_array($elem1)) { ext_array($elem1); }
-else { echo '<td>'.$elem1.'&nbsp;</td>'; }
-echo '</tr>';
-}
-echo '</table>';
-}
-
-function ext_array($arr)
-{
-echo '<td>';
-echo '<table cellpadding="0" cellspacing="0" border="1">';
-foreach ($arr as $key => $elem) {
-echo '<tr>';
-echo '<td>'.$key.'&nbsp;</td>';
-if (is_array($elem)) { ext_array($elem); }
-else { echo '<td>'.htmlspecialchars($elem).'&nbsp;</td>'; }
-echo '</tr>';
-}
-echo '</table>';
-echo '</td>';
-}
-
-// ######################################################################################
 
 function diff_days($start_date, $end_date)
 {
@@ -2862,24 +2831,15 @@ if ( !empty($writersArray) ){
     /*!
       Returns every bid to a rfp as a array of eZRfpBid objects.
     */
-    function bids( $as_object = true )
-      {
-        $db =& eZDB::globalDatabase();
+    function bids( $as_object = true)
+    {
 
-        $return_array = array();
-        $file_array = array();
-	/*
-        $db->array_query( $file_array, "SELECT FileID, Created FROM eZRfp_RfpFileLink WHERE RfpID='$this->ID' ORDER BY Created" );
+        // use eZProcurement:Bids Instead
+        $bid = new eZProcurementBid();
+        // $bids = $bid->getAll();
+	$bids = $bid->getAllByProcurement($this->ID, false); // $as_object);
 
-        for ( $i=0; $i < count($file_array); $i++ )
-	  {
-            $id = $file_array[$i][$db->fieldName("FileID")];
-            $return_array[$i] = $as_object ? new eZVirtualFile( $id, false ) : $id;
-	  }
-	*/
-
-	//        return $return_array;
-	//        return 0;
+	return $bids;
       }
 
 
@@ -4767,18 +4727,23 @@ xxxxxx
     var $Project;
     var $ProjectEstimate;
     var $ProjectNumber;
+    var $ProjectManager;
 
     var $PublishDate;
     var $ResponseDueDate;
-    var $ImportID;
 
+    var $BidAwardDate;
+    
     // tell eZ publish to show the rfp to the public
     var $IsPublished;
 
     // variable for storing the number of pages in the rfp.
     var $PageCount;
+    var $ImportID;
 
-
+    // undefined aditional results
+    var $AdditionalBidResults;
+ 
 }
 
 ?>
