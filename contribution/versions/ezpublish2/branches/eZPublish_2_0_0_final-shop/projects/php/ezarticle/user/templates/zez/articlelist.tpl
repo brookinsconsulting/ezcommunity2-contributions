@@ -13,8 +13,6 @@
 </tr>
 </table>
 
-{intl-head_line}
-
 <hr noshade="noshade" size="4" />
 <!-- END header_item_tpl -->
 

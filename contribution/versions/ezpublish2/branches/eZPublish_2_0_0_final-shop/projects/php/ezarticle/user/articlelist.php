@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: articlelist.php,v 1.36 2001/03/10 00:36:37 fh Exp $
+// $Id: articlelist.php,v 1.36.4.1 2001/03/16 14:29:47 pkej Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <18-Oct-2000 14:41:37 bf>
@@ -77,7 +77,16 @@ $t->set_var( "image_dir", $ImageDir );
 
 $category = new eZArticleCategory( $CategoryID );
 
-$t->set_var( "current_category_name", $category->name() );
+$categoryName = $category->name();
+
+if( empty( $categoryName ) )
+{
+    $t->set_var( "current_category_name", $t->Ini->read_var( "strings", "no_name_category" ) );
+}
+else
+{
+    $t->set_var( "current_category_name", $category->name() );
+}
 $t->set_var( "current_category_description", $category->description() );
 
 if ( isset( $NoArticleHeader ) and $NoArticleHeader )
