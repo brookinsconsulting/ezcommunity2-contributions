@@ -1,48 +1,38 @@
-<h1>Bildeopplasting - {product_name}</h1>
-
 <form method="post" action="/trade/productedit/imageedit/" enctype="multipart/form-data">
 <input type="hidden" name="max_file_size" value="3000000">
 
-<table width="100%" cellspacing="0" cellpadding="0" border="0">
+<h1>Bildeopplasting: {product_name}</h1>
+
+<hr noshade="noshade" size="4" />
+
+<p class="boxtext">Tittel:</p>
+<input type="text" size="40" name="Name" value="{name_value}"/>
+
+<p class="boxtext">Bildetekst:</p>
+<input type="text" size="40" name="Caption" value="{caption_value}"/>
+
+<p class="boxtext">Bilde:</p>
+<input size="40" name="userfile" type="file" />
+
+<br /><br />
+
+<hr noshade="noshade" size="4" />
+
+<table cellspacing="0" cellpadding="0" border="0">
 <tr>
 	<td>
-	Tittel:
+	<input type="hidden" name="ProductID" value="{product_id}" />
+	<input type="hidden" name="ImageID" value="{image_id}" />
+	<input type="hidden" name="Action" value="{action_value}" />
+	<input class="okbutton" type="submit" value="OK" />
+	</form>
 	</td>
-</tr>
-<tr>
+	<td>&nbsp;</td>
 	<td>
-	<input type="text" size="20" name="Name" value="{name_value}"/>
-	</td>
-</tr>
-<tr>
-	<td>
-	Bildetekst:
-	</td>
-</tr>
-<tr>
-	<td>
-	<input type="text" size="20" name="Caption" value="{caption_value}"/>
-	</td>
-</tr>
-<tr>
-	<td>
-	Bilde:
-	</td>
-</tr>
-<tr>
-	<td>
-	<input name="userfile" type="file" />
-	</td>
-</tr>
-<tr>
-	<td>
-    <input type="hidden" name="ProductID" value="{product_id}" />
-    <input type="hidden" name="ImageID" value="{image_id}" />
-    <input type="hidden" name="Action" value="{action_value}" />
-    <input type="submit" value="OK" />
+	Avbrytknapp!
 	</td>
 </tr>
 </table>
-</form>
+
 
 

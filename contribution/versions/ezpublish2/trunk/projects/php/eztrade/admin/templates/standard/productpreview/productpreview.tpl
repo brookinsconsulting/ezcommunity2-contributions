@@ -1,28 +1,37 @@
 <h1>Produktvisning</h1>
 
-<hr noshade>
+<hr noshade="noshade" size="4" />
 
-<h2>{title_text}</h2>
+<table width="100%" cellspacing="0" cellpadding="0" border="0">
+<tr>
+	<td>
+	<h2>{title_text}</h2>
+	</td>
+	<td align="right">
+	<br />
+	<span class="boxtext">Best. Nr:</span> [Bestillingsnummer]
+	</td>
+</tr>
+<tr>
+	<td colspan="2">
 
-<p>
-<table align="right">
+<br />
+<table align="right" cellspacing="0" cellpadding="0" border="0">
 <tr>
 	<td>
 	<img src="{main_image_uri}" border="0" width="{main_image_width}" height="{main_image_height}" />
 	</td>
 </tr>
 <tr>
-	<td>
+	<td class="pictext">
 	{main_image_caption}
 	</td>
 </tr>
 </table>
-{intro_text}
-</p>
 
-<p>
-{description_text}
-</p>
+<p>{intro_text}</p>
+
+<p>{description_text}</p>
 
 <table width="100%" cellspacing="0" cellpadding="7">
 <tr>
@@ -30,7 +39,7 @@
 <!-- BEGIN image_tpl -->
 <td class="bglight">
 
-<table>
+<table cellspacing="0" cellpadding="0" border="0">
 <tr>
 	<td valign="top">
 	<img src="{image_url}" border="0" alt="{image_caption}" width="{image_width}" height="{image_height}"/>
@@ -38,7 +47,7 @@
 </tr>
 <tr>
 	<td valign="top">
-	<p class="small">
+	<p class="pictext">
 	{image_caption}
 	</p>
 	</td>
@@ -53,9 +62,10 @@
 </table>
 
 <!-- BEGIN option_tpl -->
-<table width="100%" border="0">
+<table width="100%" cellpadding="0" cellspacing="0" border="0">
 <tr>
 	<th colspan="2">
+	<br />
 	{option_name}
 	</th>
 </tr>
@@ -76,9 +86,20 @@
 
 <!-- END option_tpl -->
 
+	</td>
+</tr>
+</table>
+
+<br />
+
+<span class="boxtext">Pris:</span> [pris]
+
+<br />
+
 <form action="/trade/productedit/edit/{product_id}/" method="post">
 
-<input type="submit" value="tilbake" />
+<hr noshade="noshade" size="4" />
 
+<input class="okbutton" type="submit" value="tilbake" />
 </form>
 
