@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezarticle.php,v 1.22 2000/11/02 15:59:01 bf-cvs Exp $
+// $Id: ezarticle.php,v 1.23 2000/11/02 16:40:59 bf-cvs Exp $
 //
 // Definition of eZArticle class
 //
@@ -24,6 +24,7 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, US
 //
+
 //!! eZArticle
 //! eZArticle handles articles.
 /*!

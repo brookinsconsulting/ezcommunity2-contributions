@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezezgenerator.php,v 1.6 2000/11/01 09:30:59 ce-cvs Exp $
+// $Id: ezezgenerator.php,v 1.7 2000/11/02 16:40:59 bf-cvs Exp $
 //
 // Definition of eZEzGenerator class
 //
@@ -24,6 +24,7 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, US
 //
+
 //!! eZArticle
 //! eZEzGenerator generates  XML contents for articles.
 /*!

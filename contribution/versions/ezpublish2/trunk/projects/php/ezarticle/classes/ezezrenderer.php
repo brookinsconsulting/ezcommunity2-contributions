@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezezrenderer.php,v 1.14 2000/11/02 11:24:59 bf-cvs Exp $
+// $Id: ezezrenderer.php,v 1.15 2000/11/02 16:40:59 bf-cvs Exp $
 //
 // Definition of eZEzRenderer class
 //
@@ -24,6 +24,7 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, US
 //
+
 //!! eZArticle
 //! eZEzRenderer renders XML contents into html articles.
 /*!

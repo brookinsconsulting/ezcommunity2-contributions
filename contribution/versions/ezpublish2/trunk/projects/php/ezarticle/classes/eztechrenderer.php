@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eztechrenderer.php,v 1.33 2000/11/02 11:24:59 bf-cvs Exp $
+// $Id: eztechrenderer.php,v 1.34 2000/11/02 16:41:00 bf-cvs Exp $
 //
 // Definition of eZTechRenderer class
 //
@@ -24,6 +24,7 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, US
 //
+
 //!! eZArticle
 //! eZTechRenderer renders XML contents into html articles.
 /*!
