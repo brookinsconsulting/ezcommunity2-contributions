@@ -163,6 +163,21 @@
 <br /><br />
 
 <div class="boxtext"><input {info_subscription} type="checkbox" name="InfoSubscription" />&nbsp;{intl-infosubscription}</div>
+
+<!-- BEGIN paper_subscription_tpl -->
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td>
+<div class="boxtext"><input {info_paper_subscription} type="checkbox" name="InfoPaperSubscription" />&nbsp;Jeg er abonent av Linux Magazinet</div>
+<td>
+<!-- BEGIN paper_subscription_number_tpl -->
+<td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+<td><div class="boxtext">Mitt abonentnummer er:&nbsp;</div></td>
+<td><input type="text" name="InfoPaperSubscriptionNumber" /></td>
+<!-- END paper_subscription_number_tpl -->
+</tr>
+</table>
+<!-- END paper_subscription_tpl -->
 <br />
 
 <!-- BEGIN address_actions_tpl -->
