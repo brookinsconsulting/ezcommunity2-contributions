@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: index.php,v 1.119.2.6 2001/11/15 18:33:44 ce Exp $
+// $Id: index.php,v 1.119.2.7 2001/11/19 10:12:46 bf Exp $
 //
 // Created on: <09-Nov-2000 14:52:40 ce>
 //
@@ -39,7 +39,10 @@ if ( file_exists( "sitedir.ini" ) )
 if ( isSet( $siteDir ) and $siteDir != "" )
 {
     $includePath = ini_get( "include_path" );
-    $includePath .= ":" . $siteDir;
+
+    if ( trim( $includePath ) != "" )
+        $includePath .= ":" . $siteDir;
+    
     ini_set( "include_path", $includePath );
  
     // For non-virtualhost, non-rewrite setup
