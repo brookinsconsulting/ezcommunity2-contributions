@@ -3,6 +3,7 @@ eZ publish changelog:
  
 Changes from 2.1.0B2 to 2.1.0B2
 -------------------------------
+* Optimized eZ forum for speed.
 * Added Icons for new vs ols messages in eZ forum.
 * Added buttons so the user can toggle the threading in eZ forum.
 * Added more file details in article view.
