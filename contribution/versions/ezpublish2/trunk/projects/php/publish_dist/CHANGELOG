@@ -6,3 +6,5 @@ Changes from version 1.0
 * Disabled the possibility to set an unactive poll to 
   main poll.
 * Fixed editing of user addresses, if enabled.
+* Fixed editing and deleting of forum messsages in the admin interface.
+* Added more logging.
