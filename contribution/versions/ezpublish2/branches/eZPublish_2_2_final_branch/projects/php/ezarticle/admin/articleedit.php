@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: articleedit.php,v 1.116.2.5 2002/02/27 12:05:09 master Exp $
+// $Id: articleedit.php,v 1.116.2.6 2002/02/27 14:10:21 master Exp $
 //
 // Created on: <18-Oct-2000 15:04:39 bf>
 //
@@ -194,7 +194,6 @@ if ( $Action == "Update" || ( $Action == "Insert" ) )
                 eZArticleCategory::addArticle( $article, $categoryItem );
             }
         
-
             //EP: URL translation inside articles -------------------------
 	
             if ( $UrltranslatorEnabled )
@@ -439,17 +438,21 @@ $t->set_var( "article_id", "" );
 $t->set_var( "article_name", stripslashes( $Name ) );
 
 //EP: URL translation : new article -------------------------------------------
-$t->set_var( "article_url", "" );
-$t->set_var( "article_urltranslator", "" );
-$t->set_var( "urltranslator", "" );
 
 if ( $ini->read_var( "eZArticleMain", "AdminURLTranslator" ) == "enabled" )
 {
-    $t->set_var( "article_url", "Not defined yet" );
+    $t->set_var( "article_url", "" );
+    $t->set_var( "article_urltranslator", "" );
     $t->parse( "urltranslator", "urltranslator_tpl" );  
 }
-//EP --------------------------------------------------------------------------
-	            
+else
+{
+    $t->set_var( "article_url", "" );
+    $t->set_var( "intl-article_nourl", "" );
+    $t->set_var( "article_urltranslator", "" );
+    $t->set_var( "urltranslator", "" );
+}
+//EP --------------------------------------------------------------------------        
 
 $t->set_var( "article_keywords", stripslashes( $Keywords ) );
 $t->set_var( "article_contents_0", stripslashes( $Contents[0] ) );
@@ -587,7 +590,8 @@ if ( $Action == "Edit" )
         $category = $article->categoryDefinition();
         $url1 = "/article/articleview/" . $article->id() . "/1/" . $category->id();
         $t->set_var( "article_url", $url1 );
-	
+	$t->set_var( "intl-article_nourl", "" );
+
         include_once( "ezurltranslator/classes/ezurltranslator.php" );
         $urltranslator = new eZURLTranslator();
         $urltranslator->getbydest ( $url1 );

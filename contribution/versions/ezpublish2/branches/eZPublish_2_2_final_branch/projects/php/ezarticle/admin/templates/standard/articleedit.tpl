@@ -23,7 +23,7 @@
         <input type="hidden" name="UrltranslatorEnabled" value="1" />
         </td>
         <td valign="top">
-        <p class="boxtext">{intl-article_url}:</p><span class="halfbox">{article_url}</span>
+        <p class="boxtext">{intl-article_url}:</p><span class="halfbox">{article_url}{intl-article_nourl}</span>	
         </td>
 </tr>
 </table>
