@@ -1733,7 +1733,7 @@ ServerAdmin your_mail@domain.no
 \SpecialChar ~
 \SpecialChar ~
 \SpecialChar ~
-DocumentRoot /your/apache/documentroot/admin
+DocumentRoot /your/apache/documentroot/publish_dist
 \layout Standard
 
 
