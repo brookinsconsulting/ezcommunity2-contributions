@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: categorylist.php,v 1.1 2000/07/26 11:27:47 lw-cvs Exp $
+    $Id: categorylist.php,v 1.2 2000/07/26 12:45:08 lw-cvs Exp $
 
     Author: Lars Wilhelmsen <lw@ez.no>
     
@@ -9,8 +9,8 @@
     Copyright (C) 2000 eZ systems. All rights reserved.
 */
 include( "ezforum/dbsettings.php" );
-include( "template.inc" );
-include( "$DOCROOT/classes/ezforumcategory.php" );
+include_once( "template.inc" );
+include_once( "$DOCROOT/classes/ezforumcategory.php" );
 
 $t = new Template( "." );
 $t->set_file( Array( "list" => "$DOCROOT/templates/categorylist.tpl",
@@ -19,6 +19,7 @@ $t->set_file( Array( "list" => "$DOCROOT/templates/categorylist.tpl",
               );
 
 $t->set_var( "docroot", $DOCROOT);
+$cat = new eZforumCategory;
 $categories = $cat->getAllCategories();
 
 

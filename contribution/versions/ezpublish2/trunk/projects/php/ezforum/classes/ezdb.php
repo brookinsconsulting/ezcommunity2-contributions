@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: ezdb.php,v 1.2 2000/07/14 13:07:07 lw-cvs Exp $
+    $Id: ezdb.php,v 1.3 2000/07/26 12:45:08 lw-cvs Exp $
 
     Author: Lars Wilhelmsen <lw@ez.no>
     
@@ -21,7 +21,7 @@ function openDB()
     global $PWD;
     global $DB;
     
-    mysql_connect($HOST,$USER,$PWD);
+    mysql_pconnect($HOST,$USER,$PWD);
     mysql_select_db($DB);
 }
 ?>
