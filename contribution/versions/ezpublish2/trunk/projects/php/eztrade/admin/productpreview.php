@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: productpreview.php,v 1.7 2000/10/28 14:31:41 ce-cvs Exp $
+// $Id: productpreview.php,v 1.8 2000/10/29 10:24:25 bf-cvs Exp $
 //
 // Definition of eZCompany class
 //
@@ -19,14 +19,13 @@ include_once( "classes/eztemplate.php" );
 $ini = new INIFIle( "site.ini" );
 
 $Language = $ini->read_var( "eZTradeMain", "Language" );
-$DOC_ROOT = $ini->read_var( "eZTradeMain", "DocumentRoot" );
 
-include_once( $DOC_ROOT . "/classes/ezproduct.php" );
-include_once( $DOC_ROOT . "/classes/ezproductcategory.php" );
-include_once( $DOC_ROOT . "/classes/ezoption.php" );
+include_once( "eztrade/classes/ezproduct.php" );
+include_once( "eztrade/classes/ezproductcategory.php" );
+include_once( "eztrade/classes/ezoption.php" );
 
-$t = new eZTemplate( $DOC_ROOT . $ini->read_var( "eZTradeMain", "AdminTemplateDir" ) . "/productpreview/",
-                     $DOC_ROOT . "/admin/intl/", $Language, "productpreview.php" );
+$t = new eZTemplate( "eztrade/admin/". $ini->read_var( "eZTradeMain", "AdminTemplateDir" ) . "/productpreview/",
+                     "eztrade/admin/intl/", $Language, "productpreview.php" );
 
 $t->setAllStrings();
 
