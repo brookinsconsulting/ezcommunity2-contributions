@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezmail.php,v 1.15 2001/03/01 16:39:18 jb Exp $
+// $Id: ezmail.php,v 1.16 2001/03/07 11:28:00 fh Exp $
 //
 // Definition of eZCompany class
 //
@@ -198,7 +198,7 @@ class eZMail
         $headers .= "Return-Path: <$this->From>\n";  // Return path for errors
         
         mail( $this->To, $this->Subject, $this->Body, $headers )
-            or warn( "Error: could not send email." );
+            or print( "Error: could not send email." );
     }
 
     /*!
