@@ -85,6 +85,7 @@ INSERT INTO eZForm_FormElementType VALUES (4,'multiple_select_item','HTML Multip
 INSERT INTO eZForm_FormElementType VALUES (6,'radiobox_item','HTML RadioBox');
 INSERT INTO eZForm_FormElementType VALUES (5,'checkbox_item','HTML CheckBox');
 
-create table eZUser_UserShippingLink ( ID int NOT NULL primary key, UserID int default 0, AddressID int default 0 );  =======
+create table eZUser_UserShippingLink ( ID int NOT NULL primary key, UserID int default 0, AddressID int default 0 );
+insert into eZUser_UserShippingLink (ID, AddressID, UserID) select eZTrade_Order.ShippingAddressID, eZTrade_Order.ShippingAddressID, eZUser_UserAddressLink.UserID from eZTrade_Order, eZUser_UserAddressLink where eZTrade_Order.ShippingAddressID = eZUser_UserAddressLink.AddressID GROUP BY eZTrade_Order.ShippingAddressID;
 
 ALTER TABLE eZLink_Hit CHANGE RemoteIP RemoteIP varchar(15);
