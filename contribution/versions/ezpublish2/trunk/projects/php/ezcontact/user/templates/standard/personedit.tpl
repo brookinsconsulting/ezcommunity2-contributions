@@ -72,22 +72,7 @@
 <table width="100%" cellpadding="0" cellspacing="0" border="0">
 <tr>
     <td width="50%" valign="bottom">
-        <table cellpadding="0" cellspacing="0" border="0">
-        <tr valign="bottom">
-            <td>
-                <p class="boxtext">{intl-year}</p>
                 <input type="text" size="4" name="BirthYear" value="{birthyear}"/>
-            </td>
-            <td>
-                <p class="boxtext">{intl-month}</p>
-                <input type="text" size="2" name="BirthMonth" value="{birthmonth}"/>
-            </td>
-            <td>
-                <p class="boxtext">{intl-day}</p>
-                <input type="text" size="2" name="BirthDay" value="{birthday}"/>
-            </td>
-        </tr>
-        </table>
     </td>
     <td width="50%">
         <p class="boxtext">{intl-personno}:</p>

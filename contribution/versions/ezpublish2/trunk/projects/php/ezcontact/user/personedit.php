@@ -55,6 +55,7 @@ $t->set_block( "person_edit", "address_item_tpl", "address_item" );
 
 $t->set_block( "person_edit", "home_phone_item_tpl", "home_phone_item" );
 $t->set_block( "person_edit", "work_phone_item_tpl", "work_phone_item" );
+$t->set_block( "person_edit", "mobile_phone_item_tpl", "mobile_phone_item" );
 
 $t->set_block( "person_edit", "web_item_tpl", "web_item" );
 $t->set_block( "person_edit", "email_item_tpl", "email_item" );
@@ -81,6 +82,7 @@ $t->set_var( "birthmonth", "" );
 $t->set_var( "birthyear", "" );
 $t->set_var( "comment", "" );
 $t->set_var( "person_id", "" );
+$t->set_var( "user_id", $UserID );
 
 $t->set_var( "user_name", "" );
 $t->set_var( "old_password", "" );
@@ -92,6 +94,7 @@ $t->set_var( "place", "" );
 
 $t->set_var( "home_phone", "" );
 $t->set_var( "work_phone", "" );
+$t->set_var( "mobile_phone", "" );
 
 $t->set_var( "web", "" );
 $t->set_var( "email", "" );
@@ -103,10 +106,11 @@ $t->set_var( "email", "" );
  */
 
 $HOME_PHONE_TYPE_ID = 1;
-$WORK_PHONE_TYPE_ID = 2;
-$WEB_ONLINE_TYPE_ID = 1;
-$EMAIL_ONLINE_TYPE_ID = 2;
-$CONTACT_TYPE_ID = 1;
+$WORK_PHONE_TYPE_ID = 4;
+$MOBILE_PHONE_TYPE_ID = 3;
+$WEB_ONLINE_TYPE_ID = 2;
+$EMAIL_ONLINE_TYPE_ID = 1;
+$CONTACT_TYPE_ID = 3;
 $ADDRESS_TYPE_ID = 1;
 
 $t->set_var( "cv_contact_type_id", "$CONTACT_TYPE_ID" );
@@ -114,10 +118,12 @@ $t->set_var( "cv_address_type_id", "$ADDRESS_TYPE_ID" );
 $t->set_var( "cv_address_id", "" );
 $t->set_var( "cv_home_phone_type_id", "$HOME_PHONE_TYPE_ID" );
 $t->set_var( "cv_work_phone_type_id", "$WORK_PHONE_TYPE_ID" );
+$t->set_var( "cv_mobile_phone_type_id", "$MOBILE_PHONE_TYPE_ID" );
 $t->set_var( "cv_web_online_type_id", "$WEB_ONLINE_TYPE_ID" );
 $t->set_var( "cv_email_online_type_id", "$EMAIL_ONLINE_TYPE_ID" );
 $t->set_var( "cv_home_phone_id", "" );
 $t->set_var( "cv_work_phone_id", "" );
+$t->set_var( "cv_mobile_phone_id", "" );
 $t->set_var( "cv_web_online_id", "" );
 $t->set_var( "cv_email_online_id", "" );
 
@@ -244,7 +250,7 @@ if( ( $Action == "insert" || $Action == "update" ) && $error == false && $Add_Us
     $user->setEmail( $Online[0] );
     $user->store();
     
-    $person = new eZPerson( $PersonID, fetch );
+    $person = new eZPerson( $PersonID, true );
     $person->setFirstName( $FirstName );
     $person->setLastName( $LastName );
     
@@ -331,6 +337,7 @@ if( $Action == "new" )
     $t->parse( "address_item", "address_item_tpl" );
     $t->parse( "home_phone_item", "home_phone_item_tpl" );
     $t->parse( "work_phone_item", "work_phone_item_tpl" );
+    $t->parse( "mobile_phone_item", "mobile_phone_item_tpl" );
     $t->parse( "web_item", "web_item_tpl" );
     $t->parse( "email_item", "email_item_tpl" );
 }
@@ -351,6 +358,10 @@ if( $Action == "edit" )
     $t->set_var( "lastname", $person->lastName() );
     $t->set_var( "personno", $person->personNo() );
     
+    $user = $person->user();
+    
+    $t->set_var( "user_id", $user[0]->id() );
+
     $BirthDate = $person->birthDate();
     
     $t->set_var( "birthdate", $BirthDate );
@@ -370,7 +381,7 @@ if( $Action == "edit" )
     $phoneList = $person->phones( $person->id() );
 
     $count = count( $phoneList );
-    if( $count <= 2 && $count != 0 )
+    if( $count != 0 )
     {
         for( $i=0; $i < $count; $i++ )
         {
@@ -381,6 +392,7 @@ if( $Action == "edit" )
             }
             
             $t->parse( "home_phone_item", "home_phone_item_tpl" );
+
             if ( $phoneList[$i]->phoneTypeID() == $WORK_PHONE_TYPE_ID )
             {
                 $t->set_var( "cv_work_phone_id", $phoneList[$i]->id() );
@@ -388,18 +400,27 @@ if( $Action == "edit" )
             }
 
             $t->parse( "work_phone_item", "work_phone_item_tpl" );
+
+            if ( $phoneList[$i]->phoneTypeID() == $MOBILE_PHONE_TYPE_ID )
+            {
+                $t->set_var( "cv_mobile_phone_id", $phoneList[$i]->id() );
+                $t->set_var( "mobile_phone", $phoneList[$i]->number() );
+            }
+
+            $t->parse( "mobile_phone_item", "mobile_phone_item_tpl" );
         }
     }
     else
     {
         $t->parse( "home_phone_item", "home_phone_item_tpl" );
         $t->parse( "work_phone_item", "work_phone_item_tpl" );
+        $t->parse( "mobile_phone_item", "mobile_phone_item_tpl" );
     }
 
 
     // Address list
     $addressList = $person->addresses( $person->id() );
-    if( count ( $addressList ) == 1 )
+    if( count ( $addressList ) > 0 )
     {
         foreach( $addressList as $addressItem )
         {
@@ -411,7 +432,7 @@ if( $Action == "edit" )
             
             $t->set_var( "script_name", "personedit.php" );
 
-            $t->parse( "address_item", "address_item_tpl", true );            
+            $t->parse( "address_item", "address_item_tpl" );            
         }
     }
     else
@@ -422,7 +443,7 @@ if( $Action == "edit" )
     // Online list
     $OnlineList = $person->onlines( $person->id() );
     $count = count( $OnlineList );
-    if ( $count <= 2 && $count != 0)
+    if ( $count != 0)
     {
         for( $i=0; $i<count ( $OnlineList ); $i++ )
         {
@@ -477,6 +498,7 @@ if( $Action == "formdata" )
 
     $t->set_var( "home_phone", $HomePhone );
     $t->set_var( "work_phone", $WorkPhone );
+    $t->set_var( "mobile_phone", $MobilePhone );
 
     $t->set_var( "web", $Online[1] );
     $t->set_var( "email", $Online[0] );
@@ -496,6 +518,7 @@ if( $Action == "formdata" )
     $t->parse( "address_item", "address_item_tpl", true );            
     $t->parse( "home_phone_item", "home_phone_item_tpl" );
     $t->parse( "work_phone_item", "work_phone_item_tpl" );
+    $t->parse( "mobile_phone_item", "mobile_phone_item_tpl" );
 }
 // Template variabler.
 
