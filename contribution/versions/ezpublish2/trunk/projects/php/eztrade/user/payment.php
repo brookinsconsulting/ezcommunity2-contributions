@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: payment.php,v 1.29 2001/03/22 17:13:26 bf Exp $
+// $Id: payment.php,v 1.30 2001/03/23 16:16:20 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <02-Feb-2001 16:31:53 bf>
@@ -117,15 +117,15 @@ $ChargeTotal = $session->variable( "TotalCost" ) ;
 $checkout = new eZCheckout();
 $instance =& $checkout->instance();
 
-print( $ChargeTotal );
+//print( $ChargeTotal );
 
 $PreOrderID = $session->variable( "PreOrderID" ) ;
 
-print( "Checkout number: " . $PreOrderID . "<br>" );
+// print( "Checkout number: " . $PreOrderID . "<br>" );
 
 $paymentMethod = $session->variable( "PaymentMethod" );
 
-print( $paymentMethod );
+// print( $paymentMethod );
 
 include( $instance->paymentFile( $paymentMethod ) );
 
