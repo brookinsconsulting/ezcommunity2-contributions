@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: imagelist.php,v 1.20 2001/08/17 12:57:42 bf Exp $
+// $Id: imagelist.php,v 1.20.8.1 2002/01/17 08:04:23 ce Exp $
 //
 // Created on: <21-Sep-2000 10:32:19 bf>
 //
@@ -81,14 +81,12 @@ if ( count( $images ) == 0 )
 else
 {
     $t->set_var( "no_images", "" );
- 
     $i=0;
     foreach ( $images as $image )
     {
         $placement = $image["Placement"];
         $image = $image["Image"];
 
-        
         if ( ( $i % 2 ) == 0 )
             $t->set_var( "td_class", "bglight" );
         else

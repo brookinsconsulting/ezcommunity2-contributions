@@ -1,6 +1,6 @@
 <?php
-// 
-// $Id: articleedit.php,v 1.116.2.1 2001/11/19 10:10:58 bf Exp $
+//
+// $Id: articleedit.php,v 1.116.2.1.4.1 2002/01/17 08:04:22 ce Exp $
 //
 // Created on: <18-Oct-2000 15:04:39 bf>
 //
@@ -56,16 +56,16 @@ if ( isset( $PublishArticle ) )
     if ( $article->get(  $ArticleID ) )
     {
         $article->setIsPublished( true );
-        $article->store();        
+        $article->store();
     }
-    
+
     $category =& $article->categoryDefinition( );
-    
+
     if ( $category )
     {
         $categoryID = $category->id();
-    }        
-    
+    }
+
     eZHTTPTool::header( "Location: /article/archive/$categoryID/" );
     exit();
 }
@@ -75,7 +75,7 @@ if ( $Action == "Cancel" )
     $article = new eZArticle( $ArticleID );
 
     $category = $article->categoryDefinition( );
-    
+
     if ( $category )
     {
         $categoryID = $category->id();
@@ -142,21 +142,21 @@ if ( $Action == "Update" ||  ( $Action == "Insert" ) )
         // check if the contents is parseable
         if ( eZXML::domTree( $contents ) )
         {
-        
+
             // to get ID
             $article->store();
 
             // add to categories
             $category = new eZArticleCategory( $CategoryID );
             $article->setCategoryDefinition( $category );
-            
+
             $iniVar = $ini->read_var( "eZArticleMain", "LowerCaseManualKeywords" );
-        
+
             if( $iniVar == "enabled" )
                 $toLower = true;
             else
                 $toLower = false;
-        
+
             $article->setManualKeywords( $Keywords, $toLower );
 
             $categoryArray =& $article->categories();
@@ -195,7 +195,7 @@ if ( $Action == "Update" ||  ( $Action == "Insert" ) )
             {
                 eZArticleCategory::addArticle( $article, $categoryItem );
             }
-        
+
 
             // add check for publishing rights here
             if ( $IsPublished == "on" )
@@ -213,22 +213,22 @@ if ( $Action == "Update" ||  ( $Action == "Insert" ) )
             {
                 $article->setIsPublished( false );
             }
-        
+
             // Time publishing
             if ( checkdate ( $StartMonth, $StartDay, $StartYear ) )
             {
                 $startDate = new eZDateTime( $StartYear,  $StartMonth, $StartDay, $StartHour, $StartMinute, 0 );
-            
+
                 $article->setStartDate( &$startDate );
             }
-        
+
             if ( checkdate ( $StopMonth, $StopDay, $StopYear ) )
             {
                 $stopDate = new eZDateTime( $StopYear, $StopMonth, $StopDay, $StopHour, $StopMinute, 0 );
-            
+
                 $article->setStopDate( &$stopDate );
-            }            
-        
+            }
+
             eZObjectPermission::removePermissions( $article->id(), "article_article", 'w' );
             if( isset( $WriteGroupArray ) )
             {
@@ -269,7 +269,7 @@ if ( $Action == "Update" ||  ( $Action == "Insert" ) )
             {
                 eZObjectPermission::removePermissions( $article->id(), "article_article", 'r' );
             }
-        
+
             // generate keywords
             $contents = strip_tags( $contents );
             $contents = ereg_replace( "#\n#", "", $contents );
@@ -295,7 +295,7 @@ if ( $Action == "Update" ||  ( $Action == "Insert" ) )
                 switch( $ItemToAdd )
                 {
                     case "Image":
-                    {   
+                    {
                         // add images
                         eZHTTPTool::header( "Location: /article/articleedit/imagelist/$ArticleID/" );
                         exit();
@@ -303,7 +303,7 @@ if ( $Action == "Update" ||  ( $Action == "Insert" ) )
                     break;
 
                     case "Media":
-                    {   
+                    {
                         // add media
                         eZHTTPTool::header( "Location: /article/articleedit/medialist/$ArticleID/" );
                         exit();
@@ -351,7 +351,7 @@ if ( $Action == "Update" ||  ( $Action == "Insert" ) )
                 exit();
             }
 
-            // get the category to redirect to            
+            // get the category to redirect to
             $category = $article->categoryDefinition( );
             $categoryID = $category->id();
 
@@ -366,13 +366,13 @@ if ( $Action == "Update" ||  ( $Action == "Insert" ) )
         else
         {
             $invalidContents = $contents;
-            
+
             if ( $Action == "Insert" )
                 $Action = "New";
             else
                 $Action = "Edit";
-            
-            $ErrorParsing = true;        
+
+            $ErrorParsing = true;
         }
     }
 }
@@ -444,8 +444,8 @@ $t->set_var( "stop_minute", stripslashes($StopMinute  ));
 $t->set_var( "action_value", "insert" );
 $t->set_var( "all_selected", "selected" );
 $t->set_var( "all_write_selected", "selected" );
-$writeGroupsID = array(); 
-$readGroupsID = array(); 
+$writeGroupsID = array();
+$readGroupsID = array();
 
 if ( $Action == "New" )
 {
@@ -521,7 +521,7 @@ if ( $Action == "Edit" )
         $t->set_var( "stop_year", "" );
         $t->set_var( "stop_hour", "" );
         $t->set_var( "stop_minute", "" );
-        
+
         if ( get_class( $stopDate ) == "ezdatetime" )
         {
             $t->set_var( "stop_day", $startDate->addZero( $stopDate->day() ) );
@@ -531,12 +531,12 @@ if ( $Action == "Edit" )
             $t->set_var( "stop_minute", $startDate->addZero( $stopDate->minute() ) );
         }
     }
-    
-    if ( !isset( $Name ) )        
+
+    if ( !isset( $Name ) )
         $t->set_var( "article_name", $article->name() );
 
     $generator = new eZArticleGenerator();
-    
+
     $contentsArray = $generator->decodeXML( $article->contents() );
 
     $i=0;
@@ -561,7 +561,7 @@ if ( $Action == "Edit" )
     {
         $t->set_var( "author_pending_information", "" );
     }
-    
+
     $t->set_var( "link_text", $article->linkText() );
 
     $t->set_var( "action_value", "update" );
@@ -591,7 +591,7 @@ if ( $Action == "Edit" )
     if ( $article->isPublished() == true )
     {
         $t->parse( "published", "published_tpl" );
-        $t->set_var( "un_published", "" );        
+        $t->set_var( "un_published", "" );
     }
     else
     {
@@ -600,7 +600,7 @@ if ( $Action == "Edit" )
     }
 
     $t->parse( "publish_dates", "publish_dates_tpl" );
-    
+
 }
 
 
@@ -658,11 +658,11 @@ foreach ( $treeArray as $catItem )
 {
     if ( eZObjectPermission::hasPermission( $catItem[0]->id(), "article_category", 'w', $user ) == true  ||
          eZArticleCategory::isOwner( eZUser::currentUser(), $catItem[0]->id() ) )
-    {    
+    {
         if ( $Action == "Edit" )
         {
             $defCat = $article->categoryDefinition( );
-        
+
             if ( get_class( $defCat ) == "ezarticlecategory" )
             {
                 if ( $article->existsInCategory( $catItem[0] ) &&
@@ -679,7 +679,7 @@ foreach ( $treeArray as $catItem )
             {
                 $t->set_var( "selected", "" );
             }
-            
+
             if ( get_class( $defCat ) == "ezarticlecategory" )
             {
                 if ( $defCat->id() == $catItem[0]->id() )
@@ -700,9 +700,9 @@ foreach ( $treeArray as $catItem )
         {
             $t->set_var( "selected", "" );
             $t->set_var( "multiple_selected", "" );
-        }    
-        
-    
+        }
+
+
         $t->set_var( "option_value", $catItem[0]->id() );
         $t->set_var( "option_name", $catItem[0]->name() );
 
@@ -711,8 +711,8 @@ foreach ( $treeArray as $catItem )
         else
             $t->set_var( "option_level", "" );
 
-    
-        $t->parse( "value", "value_tpl", true );    
+
+        $t->parse( "value", "value_tpl", true );
         $t->parse( "multiple_value", "multiple_value_tpl", true );
     }
 }
@@ -727,14 +727,14 @@ foreach ( $groupList as $groupItem )
     //for the group owner selector */
     $t->set_var( "module_owner_id", $groupItem->id() );
     $t->set_var( "module_owner_name", $groupItem->name() );
-    
+
     if ( in_array( $groupItem->id(), $writeGroupsID ) )
         $t->set_var( "is_selected", "selected" );
     else
         $t->set_var( "is_selected", "" );
-    
+
     $t->parse( "category_owner", "category_owner_tpl", true );
-    
+
     // for the read access groups selector */
     $t->set_var( "group_name", $groupItem->name() );
     $t->set_var( "group_id", $groupItem->id() );

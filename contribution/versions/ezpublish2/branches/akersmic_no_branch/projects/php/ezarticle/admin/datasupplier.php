@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: datasupplier.php,v 1.56 2001/09/24 15:29:53 bf Exp $
+// $Id: datasupplier.php,v 1.56.8.1 2002/01/17 08:04:23 ce Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -444,14 +444,26 @@ switch ( $url_array[2] )
 
     case "categoryedit":
     {
+        if ( isSet ( $Browse ) )
+        {
+            include ( "ezarticle/admin/categorybrowse.php" );
+            break;
+        }
+
         // make switch
-        if ( $url_array[3] == "cancel" )        
+        if ( $url_array[3] == "cancel" )
         {
             $Action = "Cancel";
             $ArticleID = $url_array[4];
             eZHTTPTool::header( "Location: /article/archive/$CategoryID/" );
             exit();
-        }        
+        }
+
+        if ( $url_array[3] == "browse" )
+        {
+            $CategoryID = $url_array[4];
+            include( "ezarticle/admin/categoryedit.php" );
+        }
 
         if ( $url_array[3] == "insert" )
         {

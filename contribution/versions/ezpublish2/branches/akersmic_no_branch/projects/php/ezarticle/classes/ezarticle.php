@@ -1,6 +1,6 @@
 <?php
-// 
-// $Id: ezarticle.php,v 1.183.2.2.4.1 2002/01/02 11:37:34 bf Exp $
+//
+// $Id: ezarticle.php,v 1.183.2.2.4.2 2002/01/17 08:04:23 ce Exp $
 //
 // Definition of eZArticle class
 //
@@ -34,17 +34,17 @@
   $category = new eZArticleCategory();
   $category->setName( "Programming" );
   $category->setDescription( "Lots of programming articles" );
-  
+
   $category->store();
-    
+
   $article = new eZArticle( );
   $article->setName( "C++" );
   $article->setContents( "An article about the fine art of C++ .... .... ... ... .... ... " );
   $article->setAuthorText( "Bård Farstad" );
   $article->setLinkText( "Read the article" );
-  
+
   $article->store();
-    
+
   $category->addArticle( $article );
   \endcode
 
@@ -92,7 +92,7 @@ class eZArticle
         $this->StopDate = 0;
 
         $this->PublishedOverride = 0;
-        
+
         if ( $id != "" )
         {
             $this->ID = $id;
@@ -120,17 +120,17 @@ class eZArticle
             $startDate = $this->StartDate->timeStamp();
         else
             $startDate = "0";
-        
+
         if ( is_object( $this->StopDate ) and $this->StopDate->isValid() )
             $stopDate = $this->StopDate->timeStamp();
         else
             $stopDate = "0";
-        
+
         if ( !isSet( $this->ID ) )
         {
             $db->lock( "eZArticle_Article" );
 
-            $nextID = $db->nextID( "eZArticle_Article", "ID" );            
+            $nextID = $db->nextID( "eZArticle_Article", "ID" );
 
             $timeStamp =& eZDateTime::timeStamp( true );
 
@@ -138,24 +138,24 @@ class eZArticle
                 $published = $this->PublishedOverride;
             else
                 $published = $timeStamp;
-                
-            
+
+
             // fix for informix blob field
             $contentsStr = "'$contents'";
 
             if ( $db->isA() == "informix" )
-            {                
+            {
                 $textid = ifx_create_blob( 0, 0, $this->Contents );
-                
-//                $textid = ifx_create_char( $contents );                
-                $blobIDArray[] = $textid;                
-                $contentsStr = "?";                
+
+//                $textid = ifx_create_char( $contents );
+                $blobIDArray[] = $textid;
+                $contentsStr = "?";
                 $db->setBlobArray( $blobIDArray );
-                
+
             }
-            
-            $ret = $db->query( "INSERT INTO eZArticle_Article 
-		                        ( ID, 
+
+            $ret = $db->query( "INSERT INTO eZArticle_Article
+		                        ( ID,
                                  Name,
                                  Contents,
                                  AuthorID,
@@ -206,7 +206,7 @@ class eZArticle
                 $db->array_query( $res, "SELECT ID, Contents FROM eZArticle_Article WHERE ID='$this->ID'" );
 
 
-                $bid = $res[0][$db->fieldName("Contents")];                
+                $bid = $res[0][$db->fieldName("Contents")];
                 // fetch the blob id
                 $res = ifx_update_blob( $bid, $this->Contents );
 
@@ -218,7 +218,7 @@ class eZArticle
 
                 $blobIDArray[] = $bid;
                 $db->setBlobArray( $blobIDArray );
-                
+
                 $contentsStr = "Contents=?,";
                 ifx_textasvarchar(1);
             }
@@ -226,18 +226,18 @@ class eZArticle
 
             $db->array_query( $res, "SELECT ID FROM eZArticle_Article WHERE IsPublished='0' AND ID='$this->ID'" );
 
-            $timeStamp =& eZDateTime::timeStamp( true );            
+            $timeStamp =& eZDateTime::timeStamp( true );
 
             if ( $this->PublishedOverride != 0 )
                 $published = $this->PublishedOverride;
             else
                 $published = $timeStamp;
-            
+
             if ( ( count( $res ) > 0 ) && ( $this->IsPublished == "1" ) )
-            {                
+            {
                 $ret = $db->query( "UPDATE eZArticle_Article SET
 		                         Name='$name',
-                                 $contentsStr                                 
+                                 $contentsStr
                                  LinkText='$linktext',
                                  PageCount='$this->PageCount',
                                  AuthorID='$this->AuthorID',
@@ -260,7 +260,7 @@ class eZArticle
                     $published = $this->PublishedOverride;
                 else
                     $published = $this->Published;
-                
+
                 $ret = $db->query( "UPDATE eZArticle_Article SET
 		                         Name='$name',
                                  $contentsStr
@@ -283,7 +283,7 @@ class eZArticle
         }
 
         $db->unlock();
-    
+
         if ( $ret == false )
             $db->rollback( );
         else
@@ -291,7 +291,7 @@ class eZArticle
 
         // index this article
         $this->createIndex();
-        
+
         return true;
     }
 
@@ -302,7 +302,7 @@ class eZArticle
     {
         $db =& eZDB::globalDatabase();
         $ret = false;
-        
+
         if ( $id != "" )
         {
             $db->array_query( $article_array, "SELECT * FROM eZArticle_Article WHERE ID='$id'" );
@@ -344,15 +344,15 @@ class eZArticle
     /*!
         \static
         Returns the one, and only if one exists, article with the name
-        
+
         Returns an object of eZArticle.
      */
     function &getByName( $name )
     {
         $db =& eZDB::globalDatabase();
-        
+
         $topic =& new eZArticle();
-        
+
         $name = $db->escapeString( $name );
 
         if( $name != "" )
@@ -364,21 +364,21 @@ class eZArticle
                 $topic =& new eZArticle( $author_array[0][$db->fieldName("ID")] );
             }
         }
-        
+
         return $topic;
     }
     /*!
         \static
         Returns the one, and only if one exists, article with the import id
-        
+
         Returns an object of eZArticle.
      */
     function &getByImportID( $name )
     {
         $db =& eZDB::globalDatabase();
-        
+
         $topic =& new eZArticle();
-        
+
         $name = $db->escapeString( $name );
 
         if( $name != "" )
@@ -390,7 +390,7 @@ class eZArticle
                 $topic =& new eZArticle( $author_array[0][$db->fieldName("ID")] );
             }
         }
-        
+
         return $topic;
     }
 
@@ -401,7 +401,7 @@ class eZArticle
     function delete()
     {
         $db =& eZDB::globalDatabase();
-        
+
         if ( isSet( $this->ID ) )
         {
             $imageList =& $this->images();
@@ -421,7 +421,7 @@ class eZArticle
             $forum = $this->forum();
             $forum->delete();
             $res = array();
-            
+
             $res[] = $db->query( "DELETE FROM eZArticle_ArticleCategoryLink WHERE ArticleID='$this->ID'" );
             $res[] = $db->query( "DELETE FROM eZArticle_ArticleCategoryDefinition WHERE ArticleID='$this->ID'" );
             $res[] = $db->query( "DELETE FROM eZArticle_ArticleImageLink WHERE ArticleID='$this->ID'" );
@@ -433,10 +433,10 @@ class eZArticle
             if ( in_array( false, $res ) )
                 $db->rollback( );
             else
-                $db->commit();            
-            
+                $db->commit();
+
         }
-        
+
         return true;
     }
 
@@ -474,7 +474,7 @@ class eZArticle
     function &contents()
     {
         $db =& eZDB::globalDatabase();
-                
+
         return $this->Contents;
     }
 
@@ -484,7 +484,7 @@ class eZArticle
     function &authorText( $asHTML = true )
     {
         $author = new eZAuthor( $this->ContentsWriterID );
-        
+
         if( $asHTML == true )
             return htmlspecialchars( $author->name() );
         return $author->name();
@@ -496,13 +496,13 @@ class eZArticle
     function &authorEmail( $asHTML = true )
     {
         $author = new eZAuthor( $this->ContentsWriterID );
-        
+
         if( $asHTML == true )
             return htmlspecialchars( $author->email() );
         return $author->email();
     }
 
-    
+
     /*!
       Returns the link text.
     */
@@ -542,7 +542,7 @@ class eZArticle
     {
         $dateTime = new eZDateTime();
         $dateTime->setTimeStamp( $this->Created );
-       
+
         return $dateTime;
     }
 
@@ -555,10 +555,10 @@ class eZArticle
     {
         $dateTime = new eZDateTime();
         $dateTime->setTimeStamp( $this->Modified );
-       
+
         return $dateTime;
     }
-    
+
     /*!
       Returns the keywords of an article.
     */
@@ -580,7 +580,7 @@ class eZArticle
         return $ret;
     }
 
-    
+
     /*!
       Returns the last time the article was published.
 
@@ -590,10 +590,10 @@ class eZArticle
     {
         $dateTime = new eZDateTime();
         $dateTime->setTimeStamp( $this->Published );
-       
+
         return $dateTime;
     }
-    
+
     /*!
       Returns true if the article is published false if not.
     */
@@ -713,14 +713,14 @@ class eZArticle
     */
     function setKeywords( $keywords )
     {
-        // replace newlines with space        
+        // replace newlines with space
         $keywords = str_replace ("\n\r", " ", $keywords );
         $keywords = str_replace ("\r\n", " ", $keywords );
         $keywords = str_replace ("\n", " ", $keywords );
         $keywords = str_replace ("\r", " ", $keywords );
-        $this->Keywords = $keywords;        
+        $this->Keywords = $keywords;
     }
-    
+
     /*!
       \private
       will index the article keywords (fetched from Contents) and name for fulltext search.
@@ -732,7 +732,7 @@ class eZArticle
 
         $tmpContents = str_replace ("</intro>", " ", $tmpContents );
         $tmpContents = str_replace ("</page>", " ", $tmpContents );
-        
+
         $contents = strtolower( strip_tags( $tmpContents ) ) . " " . $this->Name;
         $contents = str_replace ("\n", "", $contents );
         $contents = str_replace ("\r", "", $contents );
@@ -761,12 +761,12 @@ class eZArticle
 
         $contents_array =& split( " ", $contents );
         $contents_array =& array_merge( $contents_array, $this->manualKeywords( true ) );
-       
+
         $totalWordCount = count( $contents_array );
         $wordCount = array_count_values( $contents_array );
 
         $contents_array = array_unique( $contents_array );
-        
+
         $keywords = "";
         foreach ( $contents_array as $word )
         {
@@ -785,8 +785,8 @@ class eZArticle
 
         // get total number of articles
         $db->array_query( $article_array, "SELECT COUNT(*) AS Count FROM eZArticle_Article" );
-        $articleCount = $article_array[0][$db->fieldName( "Count" )];        
-        
+        $articleCount = $article_array[0][$db->fieldName( "Count" )];
+
         foreach ( $contents_array as $word )
         {
             if ( strlen( $word ) >= 2 )
@@ -801,13 +801,13 @@ class eZArticle
                 $count = $wordCount[$indexWord];
 
                 $freq = ( $count / $totalWordCount );
-                
+
                 $query = "SELECT ID FROM eZArticle_Word
                       WHERE Word='$indexWord'";
 
                 $db->array_query( $word_array, $query );
 
-               
+
                 if ( count( $word_array ) == 1 )
                 {
                     // word exists create reference
@@ -821,8 +821,8 @@ class eZArticle
 
                     // update word frequency
                     $ret[] = $db->query( "UPDATE  eZArticle_Word SET Frequency='$wordFreq' WHERE ID='$wordID'" );
-                    
-                
+
+
                     $ret[] = $db->query( "INSERT INTO eZArticle_ArticleWordLink ( ArticleID, WordID, Frequency ) VALUES
                                       ( '$this->ID',
                                         '$wordID',
@@ -847,13 +847,13 @@ class eZArticle
                                       ( '$this->ID',
                                         '$nextID',
                                         '$freq' )" );
-                
+
                 }
             }
         }
         eZDB::finish( $ret, $db );
     }
-    
+
     /*!
       Sets the discuss value to an article.
     */
@@ -893,11 +893,11 @@ class eZArticle
         foreach( $keywords as $keyword )
         {
             $db->begin( );
-        
+
             $db->lock( "eZArticle_ArticleKeyword" );
 
             $nextID = $db->nextID( "eZArticle_ArticleKeyword", "ID" );
-            
+
             $res = $db->query( "INSERT INTO eZArticle_ArticleKeyword
                          ( ID,
                          ArticleID,
@@ -909,16 +909,16 @@ class eZArticle
                           '$keyword',
                          '0' )" );
 
-           
+
             $db->unlock();
 
-            
+
             // Create first letter cache table
             $db->array_query( $letter_array, "SELECT SUBSTRING( Keyword from 1 for 1 ) AS Letter
                                                FROM eZArticle_ArticleKeyword GROUP BY Letter" );
-            
+
             $db->lock( "eZArticle_ArticleKeywordFirstLetter" );
-            
+
             $db->query( "DELETE FROM eZArticle_ArticleKeywordFirstLetter" );
 
             foreach ( $letter_array as $letter )
@@ -926,17 +926,17 @@ class eZArticle
                 $nextID = $db->nextID( "eZArticle_ArticleKeywordFirstLetter", "ID" );
 
                 $letter = strToLower( $letter[$db->fieldName("Letter")] );
-            
+
                 $res = $db->query( "INSERT INTO eZArticle_ArticleKeywordFirstLetter
                          ( ID,
                          Letter )
                          VALUES
                         ( '$nextID',
-                          '$letter' )" );                
+                          '$letter' )" );
             }
 
             $db->unlock();
-            
+
             if ( $res == false )
                 $db->rollback( );
             else
@@ -987,7 +987,7 @@ class eZArticle
                 {
                     $this->PublishedOverride = $startDate;
                     $this->IsPublished = 1;
-                    $this->StartDate = 0;            
+                    $this->StartDate = 0;
                 }
             }
         }
@@ -1043,7 +1043,7 @@ class eZArticle
                     $groupSQL .= "Permission.GroupID=$group OR";
                 else
                     $groupSQL .= " Permission.GroupID=$group OR";
-               
+
                 $i++;
             }
             $currentUserID = $user->id();
@@ -1097,7 +1097,7 @@ class eZArticle
         else
             return $this->ContentsWriterID;
     }
-    
+
 
     /*!
       Sets the topic.
@@ -1117,7 +1117,7 @@ class eZArticle
         include_once( "ezarticle/classes/eztopic.php" );
         return $as_object ? new eZTopic( $this->TopicID ) : $this->TopicID;
     }
-    
+
     /*!
       \static
       Returns an array of articles which match short contents and the keywords.
@@ -1155,7 +1155,7 @@ class eZArticle
         if ( $user )
         {
             $groups = $user->groups( false );
-           
+
             $i = 0;
             foreach ( $groups as $group )
             {
@@ -1163,7 +1163,7 @@ class eZArticle
                     $groupSQL .= "Permission.GroupID=$group OR";
                 else
                     $groupSQL .= " Permission.GroupID=$group OR";
-               
+
                 $i++;
             }
             $currentUserID = $user->id();
@@ -1212,38 +1212,20 @@ class eZArticle
     }
 
     /*!
-     Sets the article to published or not. 
+     Sets the article to published or not.
     */
     function setIsPublished( $value, $user = false )
     {
-        if ( get_class( $user ) != "ezuser" )
-            $user =& eZUser::currentUser();
-        
-        $category = $this->categoryDefinition();
-        if ( get_class( $category ) == "ezarticlecategory" )
-            $editorID = $category->editorGroup( false );
-
-        if ( is_numeric ( $editorID ) && ( $editorID > 0 ) )
-        {
-            $group = new eZUserGroup( $editorID );
-            if ( $group->isMember( $user ) or ( $user->hasRootAccess() )  )
-                $this->IsPublished = "1";
-            else
-            {
-                $this->IsPublished = "2";
-                $this->sendPendingMail( );
-            }
-        }
-        else if ( $value == true )
+        if ( $value == true )
         {
             $this->IsPublished = "1";
         }
         else
         {
-            $this->IsPublished = "0";           
+            $this->IsPublished = "0";
         }
     }
-    
+
 
     /*!
       Returns the categories an article is assigned to.
@@ -1274,7 +1256,7 @@ class eZArticle
 
         return $ret;
     }
-    
+
     /*!
       Removes every category assignments from the current article.
     */
@@ -1282,16 +1264,16 @@ class eZArticle
     {
         $db =& eZDB::globalDatabase();
 
-        $db->query( "DELETE FROM eZArticle_ArticleCategoryLink WHERE ArticleID='$this->ID'" );        
+        $db->query( "DELETE FROM eZArticle_ArticleCategoryLink WHERE ArticleID='$this->ID'" );
     }
-    
+
     /*!
       Adds an image to the article, unless the image is allready added for this article.
     */
     function addImage( $value, $placement = false )
     {
         $db =& eZDB::globalDatabase();
-        
+
         if( get_class( $value ) == "ezimage" )
             $value = $value->id();
 
@@ -1299,13 +1281,13 @@ class eZArticle
         if( $res[$db->fieldName("Count")] == 0 )
         {
             $db->begin( );
-    
+
             $db->lock( "eZArticle_ArticleImageLink" );
 
             if ( is_bool( $placement ) )
             {
-                $db->array_query( $image_array, "SELECT ID, ImageID, Placement, Created FROM eZArticle_ArticleImageLink WHERE ArticleID='$this->ID' ORDER BY Placement DESC" );                
-                if ( $image_array[0][$db->fieldName("Placement")] == "0" ) 
+                $db->array_query( $image_array, "SELECT ID, ImageID, Placement, Created FROM eZArticle_ArticleImageLink WHERE ArticleID='$this->ID' ORDER BY Placement DESC" );
+                if ( $image_array[0][$db->fieldName("Placement")] == "0" )
                 {
                     $placement=1;
                     for ( $i=0; $i < count($image_array); $i++ )
@@ -1318,17 +1300,17 @@ class eZArticle
                 }
                 $placement = $image_array[0][$db->fieldName("Placement")] + 1;
             }
-            
+
             $nextID = $db->nextID( "eZArticle_ArticleImageLink", "ID" );
             $timeStamp = eZDateTime::timeStamp( true );
-            
+
             $res = $db->query( "INSERT INTO eZArticle_ArticleImageLink
                          ( ID, ArticleID, ImageID, Created, Placement )
                          VALUES
                          ( '$nextID',  '$this->ID', '$value', '$timeStamp', '$placement' )" );
 
             $db->unlock();
-    
+
             if ( $res == false )
                 $db->rollback( );
             else
@@ -1351,22 +1333,22 @@ class eZArticle
             $imageID = $value;
 
         $db =& eZDB::globalDatabase();
-            
+
         $db->query( "DELETE FROM eZArticle_ArticleImageDefinition WHERE ArticleID='$this->ID' AND ThumbnailImageID='$imageID'" );
 
         $db->query( "DELETE FROM eZArticle_ArticleImageLink WHERE ArticleID='$this->ID' AND ImageID='$imageID'" );
     }
-    
+
     /*!
       Returns every image to a article as a array of eZImage objects.
     */
     function images( $asObject = true )
     {
         $db =& eZDB::globalDatabase();
-       
+
         $return_array = array();
         $image_array = array();
-       
+
         $db->array_query( $image_array, "SELECT ID, ImageID, Placement, Created FROM eZArticle_ArticleImageLink WHERE ArticleID='$this->ID' ORDER BY Created" );
 
         // convert the database if placement is not set
@@ -1374,24 +1356,24 @@ class eZArticle
         {
             if ( $image_array[0][$db->fieldName("Placement")] == "0" )
             {
-                $placement=1;                
+                $placement=1;
                 for ( $i=0; $i < count($image_array); $i++ )
                 {
                     $imageLinkID = $image_array[$i][$db->fieldName("ID")];
                     $db->query( "UPDATE eZArticle_ArticleImageLink SET Placement='$placement' WHERE ID='$imageLinkID'" );
-                    
+
                     $image_array[$i][$db->fieldName("Placement")] = $placement;
                     $placement++;
                 }
             }
         }
-        
+
         for ( $i=0; $i < count($image_array); $i++ )
         {
             $return_array[$i]["Image"] = $asObject ? new eZImage( $image_array[$i][$db->fieldName("ImageID")] ) : $image_array[$i][$db->fieldName("ImageID")];
-            $return_array[$i]["Placement"] = $image_array[$i][$db->fieldName("Placement")];         
+            $return_array[$i]["Placement"] = $image_array[$i][$db->fieldName("Placement")];
         }
-       
+
         return $return_array;
     }
 
@@ -1423,19 +1405,19 @@ class eZArticle
             else
             {
                 $db->begin( );
-    
-                
+
+
                 $res = $db->query( "INSERT INTO eZArticle_ArticleImageDefinition
                                          ( ArticleID, ThumbnailImageID )
                                          VALUES
                                          ( '$this->ID', '$imageID' )" );
                 $db->unlock();
-    
+
                 if ( $res == false )
                     $db->rollback( );
                 else
                     $db->commit();
-                
+
             }
         }
         else if ( $image == false )
@@ -1486,7 +1468,7 @@ class eZArticle
     function addMedia( $value )
     {
         $db =& eZDB::globalDatabase();
-        
+
         if( get_class( $value ) == "ezmedia" )
             $value = $value->id();
 
@@ -1494,19 +1476,19 @@ class eZArticle
         if( $res[$db->fieldName("Count")] == 0 )
         {
             $db->begin( );
-    
+
             $db->lock( "eZArticle_ArticleMediaLink" );
 
             $nextID = $db->nextID( "eZArticle_ArticleMediaLink", "ID" );
             $timeStamp = eZDateTime::timeStamp( true );
-            
+
             $res = $db->query( "INSERT INTO eZArticle_ArticleMediaLink
                          ( ID, ArticleID, MediaID, Created )
                          VALUES
                          ( '$nextID',  '$this->ID', '$value', '$timeStamp' )" );
 
             $db->unlock();
-    
+
             if ( $res == false )
                 $db->rollback( );
             else
@@ -1529,29 +1511,29 @@ class eZArticle
             $mediaID = $value;
 
         $db =& eZDB::globalDatabase();
-            
+
         $db->query( "DELETE FROM eZArticle_ArticleMediaDefinition WHERE ArticleID='$this->ID' AND ThumbnailMediaID='$mediaID'" );
 
         $db->query( "DELETE FROM eZArticle_ArticleMediaLink WHERE ArticleID='$this->ID' AND MediaID='$mediaID'" );
     }
-    
+
     /*!
       Returns every media to a article as a array of eZMedia objects.
     */
     function media( $asObject = true )
     {
         $db =& eZDB::globalDatabase();
-       
+
         $return_array = array();
         $media_array = array();
-       
+
         $db->array_query( $media_array, "SELECT MediaID, Created FROM eZArticle_ArticleMediaLink WHERE ArticleID='$this->ID' ORDER BY Created" );
-       
+
         for ( $i=0; $i < count($media_array); $i++ )
         {
             $return_array[$i] = $asObject ? new eZMedia( $media_array[$i][$db->fieldName("MediaID")] ) : $media_array[$i][$db->fieldName("MediaID")];
         }
-       
+
         return $return_array;
     }
 
@@ -1572,7 +1554,7 @@ class eZArticle
         $db =& eZDB::globalDatabase();
 
         $db->begin( );
-    
+
         $db->lock( "eZArticle_ArticleFileLink" );
 
         $nextID = $db->nextID( "eZArticle_ArticleFileLink", "ID" );
@@ -1581,13 +1563,13 @@ class eZArticle
 
         $res = $db->query( "INSERT INTO eZArticle_ArticleFileLink
                          ( ID, ArticleID, FileID, Created ) VALUES ( '$nextID', '$this->ID', '$fileID', '$timeStamp' )" );
-            
+
         $db->unlock();
-            
+
         if ( $res == false )
             $db->rollback( );
         else
-            $db->commit();            
+            $db->commit();
     }
 
     /*!
@@ -1601,7 +1583,7 @@ class eZArticle
         if ( get_class( $value ) == "ezvirtualfile" )
         {
             $fileID = $value->id();
-            
+
         }
         else
             $fileID = $value;
@@ -1609,28 +1591,28 @@ class eZArticle
         $db =& eZDB::globalDatabase();
         $db->query( "DELETE FROM eZArticle_ArticleFileLink WHERE ArticleID='$this->ID' AND FileID='$fileID'" );
     }
-    
+
     /*!
       Returns every file to a article as a array of eZFile objects.
     */
     function files( $as_object = true )
     {
         $db =& eZDB::globalDatabase();
-       
+
         $return_array = array();
         $file_array = array();
-       
+
         $db->array_query( $file_array, "SELECT FileID, Created FROM eZArticle_ArticleFileLink WHERE ArticleID='$this->ID' ORDER BY Created" );
-       
+
         for ( $i=0; $i < count($file_array); $i++ )
         {
             $id = $file_array[$i][$db->fieldName("FileID")];
             $return_array[$i] = $as_object ? new eZVirtualFile( $id, false ) : $id;
         }
-       
+
         return $return_array;
-    }    
-    
+    }
+
     /*!
       Deletes an attribute from an article.
     */
@@ -1641,7 +1623,7 @@ class eZArticle
             $db =& eZDB::globalDatabase();
 
             $attributeID = $value->id();
-            
+
             $db->query( "DELETE FROM eZArticle_AttributeValue WHERE ArticleID='$this->ID' AND AttributeID='$attributeID'" );
         }
     }
@@ -1652,23 +1634,23 @@ class eZArticle
     function attributes( $as_object = true )
     {
         $db =& eZDB::globalDatabase();
-       
+
         $return_array = array();
         $attribute_array = array();
-       
+
         $db->array_query( $attribute_array, "SELECT Value.AttributeID, Attr.Placement FROM eZArticle_AttributeValue as Value, eZArticle_Attribute as Attr
                                              WHERE Attr.ID = Value.AttributeID AND Value.ArticleID='$this->ID' ORDER BY Attr.TypeID, Attr.Placement" );
-       
+
         for ( $i=0; $i < count( $attribute_array ); $i++ )
         {
             $id = $attribute_array[$i][$db->fieldName("AttributeID")];
             $return_array[$i] = $as_object ? new eZArticleAttribute( $id, false ) : $id;
         }
-       
+
         return $return_array;
     }
-    
-    
+
+
     /*!
       Deletes all attributes defined for this article which belongs to a certain type.
     */
@@ -1679,9 +1661,9 @@ class eZArticle
         if ( get_class( $type ) == "ezarticletype" )
         {
             $db =& eZDB::globalDatabase();
-            
+
             $typeID = $type->id();
-            
+
             $return_array = array();
             $attribute_array = array();
 
@@ -1693,33 +1675,33 @@ class eZArticle
                $valueID =  $attribute_array[$i][$db->fieldName("ID")];
                $db->query( "DELETE FROM eZArticle_AttributeValue WHERE ID='$valueID'" );
             }
-            
+
             $ret = true;
         }
         return $ret;
     }
-    
+
     /*!
       Returns every attribute type belonging to an article as an array of eZArticleType objects.
     */
     function types( $as_object = true )
     {
         $db =& eZDB::globalDatabase();
-       
+
         $return_array = array();
         $type_array = array();
-       
+
         $db->array_query( $type_array, "SELECT Attr.TypeID AS TypeID FROM eZArticle_Attribute AS Attr, eZArticle_AttributeValue AS Value WHERE Value.ArticleID='$this->ID' AND Attr.ID = Value.AttributeID GROUP BY Attr.TypeID" );
-       
+
         for ( $i=0; $i < count( $type_array ); $i++ )
         {
             $id = $type_array[$i][$db->fieldName("TypeID")];
             $return_array[$i] = $as_object ? new eZArticleType( $id, false ) : $id;
         }
-       
+
         return $return_array;
     }
-    
+
      /*!
       Returns true if the type given exists for this article.
     */
@@ -1744,7 +1726,7 @@ class eZArticle
         }
         return $ret;
     }
-    
+
    /*!
       Returns true if the article is assigned to the category given
       as argument. False if not.
@@ -1763,7 +1745,7 @@ class eZArticle
             if ( count( $ret_array ) == 1 )
             {
                 $ret = true;
-            }           
+            }
         }
         return $ret;
     }
@@ -1791,7 +1773,7 @@ class eZArticle
         $db =& eZDB::globalDatabase();
 
         $queryText = $db->escapeString( $queryText );
-        
+
         // Build the ORDER BY
         $OrderBy = "eZArticle_ArticleWordLink.Frequency DESC";
         switch( $sortMode )
@@ -1820,7 +1802,7 @@ class eZArticle
         if ( $user )
         {
             $groups = $user->groups( false );
-           
+
             $i = 0;
             foreach ( $groups as $group )
             {
@@ -1828,7 +1810,7 @@ class eZArticle
                     $groupSQL .= " eZArticle_ArticlePermission.GroupID=$group OR";
                 else
                     $groupSQL .= " eZArticle_ArticlePermission.GroupID=$group OR";
-               
+
                 $i++;
             }
             $currentUserID = $user->id();
@@ -1838,23 +1820,23 @@ class eZArticle
         // stop word frequency
         $ini =& INIFile::globalINI();
         $StopWordFrequency = $ini->read_var( "eZArticleMain", "StopWordFrequency" );
-       
+
 
         $query = new eZQuery( "eZArticle_Word.Word", $queryText );
         $query->setIsLiteral( true );
         $query->setStopWordColumn(  "eZArticle_Word.Frequency" );
         $query->setStopWordPercent( $StopWordFrequency );
         $searchSQL = $query->buildQuery();
-        
+
         $dateSQL = "";
         $catSQL = "";
         $typeTables = "";
         $typeSQL = "";
 
-        // need to check if the category is searchable 
+        // need to check if the category is searchable
         $catDefTable = "eZArticle_ArticleCategoryDefinition,";
         $catTable = "eZArticle_Category,";
-        
+
         if ( isSet( $params["FromDate"] ) )
         {
             $fromdate = $params["FromDate"];
@@ -1915,7 +1897,7 @@ class eZArticle
             $excludeFromSearchSQL = " ";
         else
             $excludeFromSearchSQL = " AND eZArticle_Category.ExcludeFromSearch = '0' ";
-        
+
         // special search for MySQL, mimic subselects ;)
         if ( $db->isA() == "mysql" )
         {
@@ -1925,11 +1907,11 @@ class eZArticle
 
             $count = 1;
             foreach ( $queryArray as $queryWord )
-            {                
+            {
                 $queryWord = trim( $queryWord );
 
                 $searchSQL = " ( eZArticle_Word.Word = '$queryWord' AND eZArticle_Word.Frequency < '$StopWordFrequency' ) ";
-                
+
                 $queryString = "INSERT INTO eZArticle_SearchTemp ( ArticleID ) SELECT DISTINCT eZArticle_Article.ID AS ArticleID
                  FROM eZArticle_Article,
                       eZArticle_ArticleWordLink,
@@ -1966,10 +1948,10 @@ class eZArticle
 
                 // check if this is a stop word
                 $queryString = "SELECT Frequency FROM eZArticle_Word WHERE Word='$queryWord'";
-                
+
                 $db->query_single( $WordFreq, $queryString, array( "LIMIT" => 1 ) );
 
-                if ( $WordFreq["Frequency"] <= $StopWordFrequency )                    
+                if ( $WordFreq["Frequency"] <= $StopWordFrequency )
                     $count += 1;
             }
             $count -= 1;
@@ -1977,14 +1959,14 @@ class eZArticle
             $queryString = "SELECT ArticleID, Count(*) AS Count FROM eZArticle_SearchTemp GROUP BY ArticleID HAVING Count='$count'";
 
             $db->array_query( $article_array, $queryString );
-            
+
 //            $db->array_query( $article_array, $queryString, array( "Limit" => $limit, "Offset" => $offset ) );
 
             $db->query( "DROP  TABLE eZArticle_SearchTemp" );
 
             $SearchTotalCount = count( $article_array );
             if ( $limit >= 0 )
-                $article_array =& array_slice( $article_array, $offset, $limit );            
+                $article_array =& array_slice( $article_array, $offset, $limit );
         }
         else
         {
@@ -2023,7 +2005,7 @@ class eZArticle
             $db->array_query( $article_array, $queryString, array( "Limit" => $limit, "Offset" => $offset ) );
 
             $db->array_query( $article_array, $queryString );
-            
+
             $SearchTotalCount = count( $article_array );
             $article_array =& array_slice( $article_array, $offset, $limit );
         }
@@ -2032,7 +2014,7 @@ class eZArticle
         {
             $return_array[$i] = new eZArticle( $article_array[$i][$db->fieldName("ArticleID")], false );
         }
-       
+
         return $return_array;
     }
 
@@ -2053,7 +2035,7 @@ class eZArticle
         //    break;
         //}
 
-       
+
         $return_array = array();
         $article_array = array();
 
@@ -2063,7 +2045,7 @@ class eZArticle
         if ( $user )
         {
             $groups =& $user->groups( false );
-           
+
             foreach ( $groups as $group )
             {
                 $groupSQL .= " ( Permission.GroupID='$group' AND CategoryPermission.GroupID='$group' ) OR
@@ -2073,7 +2055,7 @@ class eZArticle
             }
             $currentUserID = $user->id();
             $currentUserSQL = "Article.AuthorID=$currentUserID OR";
-            
+
             if ( $user->hasRootAccess() )
                 $usePermission = false;
         }
@@ -2085,7 +2067,7 @@ class eZArticle
             $permissionSQL = "";
 
        // fetch only published articles
-       if ( $fetchNonPublished  == true )  
+       if ( $fetchNonPublished  == true )
        {
            if ( $permissionSQL == "" )
                $publishedSQL = " Article.IsPublished = '0' AND ";
@@ -2093,7 +2075,7 @@ class eZArticle
                $publishedSQL = " AND Article.IsPublished = '0' AND ";
        }
        // fetch only non-published articles
-       else                                  
+       else
        {
            if ( $permissionSQL == "" )
                $publishedSQL = " Article.IsPublished = '1' AND ";
@@ -2102,7 +2084,7 @@ class eZArticle
        }
 
        // fetch only published articles
-       if ( $fetchNonPublished  == "pending" )  
+       if ( $fetchNonPublished  == "pending" )
        {
            if ( $permissionSQL == "" )
                $publishedSQL = " Article.IsPublished = '2' AND ";
@@ -2114,7 +2096,7 @@ class eZArticle
            $excludeSQL = " AND Category.ExcludeFromSearch = '0'";
        else
            $excludeSQL = "";
-           
+
         $query = "SELECT COUNT( DISTINCT Article.ID ) as Count
                   FROM eZArticle_ArticleCategoryDefinition as Definition,
                        eZArticle_Article AS Article,
@@ -2158,7 +2140,7 @@ class eZArticle
             break;
         }
 
-       
+
         $return_array = array();
         $article_array = array();
 
@@ -2171,7 +2153,7 @@ class eZArticle
             $groups =& $user->groups( false );
 
             foreach ( $groups as $group )
-            { 
+            {
                 $groupSQL .= " ( Permission.GroupID='$group' AND CategoryPermission.GroupID='$group' ) OR
                               ( Permission.GroupID='$group' AND CategoryPermission.GroupID='-1' ) OR
                               ( Permission.GroupID='-1' AND CategoryPermission.GroupID='$group' ) OR
@@ -2191,7 +2173,7 @@ class eZArticle
            $permissionSQL = "";
 
        // fetch only published articles
-       if ( $fetchNonPublished  == true )  
+       if ( $fetchNonPublished  == true )
        {
            if ( $permissionSQL == "" )
                $publishedSQL = " Article.IsPublished = '0' AND ";
@@ -2199,7 +2181,7 @@ class eZArticle
                $publishedSQL = " AND Article.IsPublished = '0' AND ";
        }
        // fetch only non-published articles
-       else                                  
+       else
        {
            if ( $permissionSQL == "" )
                $publishedSQL = " Article.IsPublished = '1' AND ";
@@ -2208,7 +2190,7 @@ class eZArticle
        }
 
        // fetch only published articles
-       if ( $fetchNonPublished  == "pending" )  
+       if ( $fetchNonPublished  == "pending" )
        {
            if ( $permissionSQL == "" )
                $publishedSQL = " Article.IsPublished = '2' AND ";
@@ -2242,7 +2224,7 @@ class eZArticle
         {
             $return_array[$i] = new eZArticle( $article_array[$i][$db->fieldName("ArticleID")], false );
         }
-       
+
         return $return_array;
     }
 
@@ -2251,19 +2233,19 @@ class eZArticle
       Additional categories can be added with eZArticleCategory::addArticle();
     */
     function setCategoryDefinition( $value )
-    {       
+    {
         if ( get_class( $value ) == "ezarticlecategory" )
         {
             $db =& eZDB::globalDatabase();
 
             $categoryID = $value->id();
-      
+
             $db->begin( );
 
             $res[] = $db->query( "DELETE FROM eZArticle_ArticleCategoryDefinition
                                      WHERE ArticleID='$this->ID'" );
 
-            
+
             $db->lock( "eZArticle_ArticleCategoryDefinition" );
             $nextID = $db->nextID( "eZArticle_ArticleCategoryDefinition", "ID" );
 
@@ -2271,16 +2253,16 @@ class eZArticle
                            eZArticle_ArticleCategoryDefinition
                            ( ID, CategoryID, ArticleID )
                       VALUES
-                           ( '$nextID', 
+                           ( '$nextID',
                              '$categoryID',
                              '$this->ID' )";
-            
-            
+
+
             $res[] = $db->query( $query );
 
 
             $db->unlock();
-    
+
             if ( in_array( false, $res ) )
                 $db->rollback();
             else
@@ -2293,7 +2275,7 @@ class eZArticle
     */
     function categoryDefinition( $as_object = true )
     {
-        $db =& eZDB::globalDatabase();        
+        $db =& eZDB::globalDatabase();
 
         $db->array_query( $res, "SELECT CategoryID FROM
                                             eZArticle_ArticleCategoryDefinition
@@ -2333,7 +2315,7 @@ class eZArticle
         else
             return false;
     }
-    
+
     /*!
       Creates a discussion forum for the article.
     */
@@ -2369,23 +2351,23 @@ class eZArticle
             $forumID = $forum->id();
 
             $db->begin( );
-    
+
             $db->lock( "eZArticle_ArticleForumLink" );
 
             $nextID = $db->nextID( "eZArticle_ArticleForumLink", "ID" );
-            
+
             $res = $db->query( "INSERT INTO eZArticle_ArticleForumLink
                                 ( ID, ArticleID, ForumID )
                                 VALUES
                                 ( '$nextID', '$this->ID', '$forumID' )" );
 
             $db->unlock();
-    
+
             if ( $res == false )
                 $db->rollback( );
             else
                 $db->commit();
-            
+
 
             if ( $as_object )
                 $forum = new eZForum( $forumID );
@@ -2406,7 +2388,7 @@ class eZArticle
     {
         if( get_class( $user ) != "ezuser" )
             return false;
-        
+
         $db =& eZDB::globalDatabase();
         $db->query_single( $res, "SELECT AuthorID from eZArticle_Article WHERE ID='$articleID'");
         $authorID = $res[$db->fieldName("AuthorID")];
@@ -2415,7 +2397,7 @@ class eZArticle
 
         return false;
     }
-    
+
     /*!
       Returns the article which a forum is connected to.
      */
@@ -2461,14 +2443,14 @@ class eZArticle
         }
 
         $db =& eZDB::globalDatabase();
-        
+
         $db->array_query( $qry_array, "SELECT count( eZArticle_Article.ID ) AS Count, eZUser_Author.Name AS ContentsWriter, eZUser_Author.ID AS ContentsWriterID
                                        FROM eZArticle_Article, eZArticle_ArticleCategoryDefinition, eZUser_Author
                                        WHERE IsPublished='1' AND eZArticle_Article.ID=ArticleID
                                        AND eZArticle_Article.ContentsWriterID=eZUser_Author.ID
                                        GROUP BY eZUser_Author.ID, eZUser_Author.Name $sort_text ",
         array( "Limit" => $limit, "Offset" => $offset ) );
-        
+
         return $qry_array;
     }
 
@@ -2504,7 +2486,7 @@ class eZArticle
                 }
             }
         }
-        
+
 
         $user =& eZUser::currentUser();
         $currentUserSQL = "";
@@ -2520,14 +2502,14 @@ class eZArticle
                     $groupSQL .= "P.GroupID=$group OR";
                 else
                     $groupSQL .= " P.GroupID=$group OR";
-               
+
                 $i++;
             }
             $currentUserID = $user->id();
             $currentUserSQL = "A.AuthorID=$currentUserID OR";
         }
         $loggedInSQL = "( $currentUserSQL ( ( $groupSQL P.GroupID='-1' ) AND P.ReadPermission='1') ) AND";
-        
+
 
         $query = "SELECT A.ID, A.Name, Author.Name as AuthorName, A.Published, C.ID as CategoryID, C.Name as CategoryName
                      FROM eZArticle_Article AS A, eZArticle_Category as C, eZArticle_ArticleCategoryDefinition as ACL, eZArticle_ArticlePermission AS P, eZUser_Author as Author
@@ -2537,10 +2519,10 @@ class eZArticle
 
         $db =& eZDB::globalDatabase();
         $db->array_query( $qry_array, $query, array( "Limit" => $limit, "Offset" => $offset ) );
-        
+
         return $qry_array;
     }
-    
+
     /*!
       Returns the number of articles this author has written that the user is allowed to see.
     */
@@ -2560,16 +2542,16 @@ class eZArticle
                     $groupSQL .= "P.GroupID=$group OR";
                 else
                     $groupSQL .= " P.GroupID=$group OR";
-               
+
                 $i++;
             }
             $currentUserID = $user->id();
             $currentUserSQL = "A.AuthorID=$currentUserID OR";
         }
         $loggedInSQL = "( $currentUserSQL ( ( $groupSQL P.GroupID='-1' ) AND P.ReadPermission='1') ) AND";
-       
 
-        $query = "SELECT count( A.ID ) AS Count 
+
+        $query = "SELECT count( A.ID ) AS Count
                      FROM eZArticle_Article AS A,
                      eZArticle_ArticlePermission AS P,
                      eZUser_Author as Author
@@ -2594,10 +2576,10 @@ class eZArticle
         $userID = $user->id();
 
         $db->begin( );
-    
+
         $db->lock( "eZArticle_Log" );
 
-        $nextID = $db->nextID( "eZArticle_Log", "ID" );        
+        $nextID = $db->nextID( "eZArticle_Log", "ID" );
 
         $timeStamp =& eZDateTime::timeStamp( true );
 
@@ -2609,15 +2591,15 @@ class eZArticle
                     '$timeStamp',
                     '$message',
                     '$userID' )";
-        
+
         $res = $db->query( $query );
 
         $db->unlock();
-    
+
         if ( $res == false )
             $db->rollback( );
         else
-            $db->commit();        
+            $db->commit();
     }
 
     /*!
@@ -2626,7 +2608,7 @@ class eZArticle
     function deleteForms()
     {
         $db =& eZDB::globalDatabase();
-        
+
         $ArticleID = $this->ID;
 
         $query = "DELETE FROM eZArticle_ArticleFormDict
@@ -2642,32 +2624,32 @@ class eZArticle
     function addForm( $form )
     {
         $db =& eZDB::globalDatabase();
-        
+
         if( get_class( $form ) == "ezform" )
         {
             $ArticleID = $this->ID;
             $FormID = $form->id();
-            
+
             $db->begin( );
-    
+
             $db->lock( "eZArticle_ArticleFormDict" );
 
-            $nextID = $db->nextID( "eZArticle_ArticleFormDict", "ID" );        
+            $nextID = $db->nextID( "eZArticle_ArticleFormDict", "ID" );
 
             $query = "INSERT INTO eZArticle_ArticleFormDict
                       ( ID, ArticleID, FormID )
                       VALUES ( '$nextID', '$ArticleID', '$FormID' )
                       ";
             $res = $db->query( $query );
-            
+
             $db->unlock();
-    
+
             if ( $res == false )
                 $db->rollback( );
             else
-                $db->commit();        
-            
-        }        
+                $db->commit();
+
+        }
     }
 
     /*!
@@ -2678,15 +2660,15 @@ class eZArticle
         $db =& eZDB::globalDatabase();
 
         include_once( "ezform/classes/ezform.php" );
-        
+
         $ArticleID = $this->ID;
-        
+
         $return_array = array();
-        
+
         $query = "SELECT FormID FROM eZArticle_ArticleFormDict
                       WHERE ArticleID=$ArticleID
                       ";
-        
+
         $db->array_query( $ret_array, $query );
         $count = count( $ret_array );
         for( $i = 0; $i < $count; $i++ )
@@ -2706,7 +2688,7 @@ class eZArticle
     {
         $db =& eZDB::globalDatabase();
         $ret = array();
-        
+
         $query = "SELECT * FROM  eZArticle_Log
                   WHERE ArticleID='$this->ID'
                   ORDER BY Created
@@ -2723,13 +2705,13 @@ class eZArticle
 
     /*!
       Returns all the articles in the database.
-      
+
       The articles are returned as an array of eZArticle objects.
     */
     function &getAll( )
     {
         $db =& eZDB::globalDatabase();
-        
+
         $returnArray = array();
         $articleArray = array();
 
@@ -2744,16 +2726,16 @@ class eZArticle
 
         return $returnArray;
     }
-    
+
     /*!
       Returns all the articles that is valid now.
-      
+
       The articles are returned as an array of eZArticle objects.
     */
     function &getAllValid( $isPublished=false )
     {
         $db =& eZDB::globalDatabase();
-        
+
         $returnArray = array();
         $articleArray = array();
 
@@ -2791,7 +2773,7 @@ class eZArticle
         $definition = $this->categoryDefinition();
 
         $editorGroup = $definition->editorGroup();
-             
+
 
         $mailTemplate = new eZTemplate( "ezarticle/admin/" . $ini->read_var( "eZArticleMain", "AdminTemplateDir" ),
                                         "ezarticle/admin/intl", $Language, "pendingmail.php" );
@@ -2810,7 +2792,7 @@ class eZArticle
         $mail->setBody( $mailBody );
 
         $mail->setFrom( $authorEmail );
-        
+
         $users = $editorGroup->users();
         foreach ( $users as $userItem )
         {
@@ -2821,13 +2803,13 @@ class eZArticle
 
     /*!
       Returns all the articles that is not valid now.
-      
+
       The articles are returned as an array of eZArticle objects.
     */
     function &getAllUnValid( $isPublished=true )
     {
         $db =& eZDB::globalDatabase();
-        
+
         $returnArray = array();
         $articleArray = array();
 
@@ -2837,7 +2819,7 @@ class eZArticle
             $published = "  IsPublished='1' ";
 
         $now =& eZDateTime::timeStamp( true );
-        
+
         $db->array_query( $articleArray, "SELECT ID
                                           FROM eZArticle_Article
                                           WHERE $published
@@ -2845,7 +2827,7 @@ class eZArticle
                                           AND StopDate <= $now
                                           ORDER BY ID
                                           " );
-        
+
         for ( $i=0; $i < count($articleArray); $i++ )
         {
             $returnArray[$i] = new eZArticle( $articleArray[$i][$db->fieldName("ID")] );
@@ -2872,14 +2854,14 @@ class eZArticle
     var $StartDate;
     var $StopDate;
     var $ImportID;
-    
+
     // tell eZ publish to show the article to the public
     var $IsPublished;
 
     // variable for storing the number of pages in the article.
     var $PageCount;
-   
-    
+
+
 }
 
 ?>
