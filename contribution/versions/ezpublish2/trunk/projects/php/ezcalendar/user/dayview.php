@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: dayview.php,v 1.23 2001/01/24 19:58:19 gl Exp $
+// $Id: dayview.php,v 1.24 2001/01/25 10:35:34 gl Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <08-Jan-2001 12:48:35 bf>
@@ -36,6 +36,10 @@ include_once( "ezcalendar/classes/ezappointment.php" );
 $ini =& $GLOBALS["GlobalSiteIni"];
 
 $Language = $ini->read_var( "eZCalendarMain", "Language" );
+$StartTimeStr = $ini->read_var( "eZCalendarMain", "DayStartTime" );
+$StopTimeStr = $ini->read_var( "eZCalendarMain", "DayStopTime" );
+$IntervalStr = $ini->read_var( "eZCalendarMain", "DayInterval" );
+
 $Locale = new eZLocale( $Language );
 
 $t = new eZTemplate( "ezcalendar/user/" . $ini->read_var( "eZCalendarMain", "TemplateDir" ),
@@ -114,9 +118,44 @@ else
     // fetch the appointments for the selected day
     $appointments =& $tmpAppointment->getByDate( $tmpDate, $tmpUser, $showPrivate );
 
-    $startTime =& $tmpAppointment->dayStartTime();
-    $interval =& $tmpAppointment->dayInterval();
-    $stopTime =& $tmpAppointment->dayStopTime();
+
+    // set start/stop and interval times
+    $startTime = new eZTime();
+    $stopTime = new eZTime();
+    $interval = new eZTime();
+
+    if ( preg_match( "#(^([0-9]{1,2})[^0-9]{0,1}([0-9]{0,2})$)#", $StartTimeStr, $startArray ) )
+    {
+        $hour = $startArray[2];
+        $startTime->setHour( $hour );
+
+        $min = $startArray[3];
+        $startTime->setMinute( $min );
+
+        $startTime->setSecond( 0 );
+    }
+
+    if ( preg_match( "#(^([0-9]{1,2})[^0-9]{0,1}([0-9]{0,2})$)#", $StopTimeStr, $stopArray ) )
+    {
+        $hour = $stopArray[2];
+        $stopTime->setHour( $hour );
+
+        $min = $stopArray[3];
+        $stopTime->setMinute( $min );
+
+        $stopTime->setSecond( 0 );
+    }
+
+    if ( preg_match( "#(^([0-9]{1,2})[^0-9]{0,1}([0-9]{0,2})$)#", $IntervalStr, $intervalArray ) )
+    {
+        $hour = $intervalArray[2];
+        $interval->setHour( $hour );
+
+        $min = $intervalArray[3];
+        $interval->setMinute( $min );
+
+        $interval->setSecond( 0 );
+    }
 
 
     // places appointments into columns, creates extra columns as necessary

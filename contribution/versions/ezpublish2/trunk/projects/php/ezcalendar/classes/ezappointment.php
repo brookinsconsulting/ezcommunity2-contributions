@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezappointment.php,v 1.12 2001/01/24 13:17:06 gl Exp $
+// $Id: ezappointment.php,v 1.13 2001/01/25 10:35:34 gl Exp $
 //
 // Definition of eZAppointment class
 //
@@ -553,30 +553,6 @@ class eZAppointment
        }
     }
     
-    /*!
-      Returns start time for the day view timetable
-    */
-    function &dayStartTime()
-    {
-        return new eZTime( 8, 0, 0 );
-    }
-
-    /*!
-      Returns stop time for the day view timetable
-    */
-    function &dayStopTime()
-    {
-        return new eZTime( 18, 0, 0 );
-    }
-
-    /*!
-      Returns interval for the day view timetable
-    */
-    function &dayInterval()
-    {
-        return new eZTime( 0, 30, 0 );
-    }
-
     /*!
       Private function.
       Open the database for read and write. Gets all the database information from site.ini.

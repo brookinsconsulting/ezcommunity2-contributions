@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: appointmentedit.php,v 1.21 2001/01/24 13:17:07 gl Exp $
+// $Id: appointmentedit.php,v 1.22 2001/01/25 10:35:34 gl Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <03-Jan-2001 12:47:22 bf>
@@ -84,6 +84,9 @@ include_once( "ezcalendar/classes/ezappointmenttype.php" );
 $ini =& $GLOBALS["GlobalSiteIni"];
 
 $Language = $ini->read_var( "eZCalendarMain", "Language" );
+$StartTimeStr = $ini->read_var( "eZCalendarMain", "DayStartTime" );
+$StopTimeStr = $ini->read_var( "eZCalendarMain", "DayStopTime" );
+
 $Locale = new eZLocale( $Language );
 
 
@@ -148,12 +151,6 @@ if ( $Action == "Insert" || $Action == "Update" )
         else
             $appointment->setIsPrivate( false );
 
-        $startTime = new eZTime();
-        $stopTime = new eZTime();
-
-        $startTime->setSecond( 0 );
-        $stopTime->setSecond( 0 );
-
         if ( $Name != "" )
         {
             $appointment->setName( $Name );
@@ -162,6 +159,39 @@ if ( $Action == "Insert" || $Action == "Update" )
         {
             $TitleError = true;
         }
+
+        // start/stop time for the day
+        $dayStartTime = new eZTime();
+        $dayStopTime = new eZTime();
+
+        if ( preg_match( "#(^([0-9]{1,2})[^0-9]{0,1}([0-9]{0,2})$)#", $StartTimeStr, $dayStartArray ) )
+        {
+            $hour = $dayStartArray[2];
+            $dayStartTime->setHour( $hour );
+
+            $min = $dayStartArray[3];
+            $dayStartTime->setMinute( $min );
+
+            $dayStartTime->setSecond( 0 );
+        }
+
+        if ( preg_match( "#(^([0-9]{1,2})[^0-9]{0,1}([0-9]{0,2})$)#", $StopTimeStr, $dayStopArray ) )
+        {
+            $hour = $dayStopArray[2];
+            $dayStopTime->setHour( $hour );
+
+            $min = $dayStopArray[3];
+            $dayStopTime->setMinute( $min );
+
+            $dayStopTime->setSecond( 0 );
+        }
+
+        // start/stop time for the appointment
+        $startTime = new eZTime();
+        $stopTime = new eZTime();
+
+        $startTime->setSecond( 0 );
+        $stopTime->setSecond( 0 );
 
         if ( preg_match( "#(^([0-9]{1,2})[^0-9]{0,1}([0-9]{0,2})$)#", $Start, $startArray ) )
         {
@@ -178,7 +208,7 @@ if ( $Action == "Insert" || $Action == "Update" )
 
             $startTime->setMinute( $min );
 
-            if ( $startTime->isGreater( $appointment->dayStartTime() ) )
+            if ( $startTime->isGreater( $dayStartTime ) )
                 $StartTimeError = true;
         }
         else
@@ -201,7 +231,6 @@ if ( $Action == "Insert" || $Action == "Update" )
 
             $stopTime->setMinute( $min );
 
-            $dayStopTime = $appointment->dayStopTime();
             if ( $dayStopTime->isGreater( $stopTime ) )
                 $StopTimeError = true;
         }
