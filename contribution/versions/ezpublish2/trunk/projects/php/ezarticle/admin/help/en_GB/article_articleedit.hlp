@@ -3,7 +3,8 @@
 
 
 <h2>Tags which you can use</h2>
-Note that you can't cascade tags, ie. you can't have tags within tags. If you need more sophisticated rendering of the text use the &lt;html> and &lt;/html> around plain html which does what you want.
+<p>Note that you can't cascade tags, ie. you can't have tags within tags. If you need more sophisticated rendering of the text use the &lt;html> and &lt;/html> around plain html which does what you want.</p>
+<p>Note also that these are the tags working in the <i>default</i> renderer when eZ publish is installed. If diffrent renderer is in use ignore these.</p>
 <dl>
     <dt>&lt;bold> &lt;/bold></dt>
     <dd><p>Turns on <b>bold</b> text.</p></dd>
