@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: imageedit.php,v 1.17 2001/03/06 16:46:08 fh Exp $
+// $Id: imageedit.php,v 1.18 2001/03/06 19:42:29 fh Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <09-Jan-2001 10:45:44 ce>
@@ -101,6 +101,7 @@ $nameCheck = true;
 $captionCheck = true;
 $descriptionCheck = true;
 $fileCheck = true;
+$permissionCheck = true;
 
 $t->set_block( "errors_tpl", "error_name_tpl", "error_name" );
 $t->set_var( "error_name", "&nbsp;" );
@@ -151,6 +152,22 @@ if ( $Action == "Insert" || $Action == "Update" )
         }
     }
 
+    if ( $permissionCheck )
+    {
+        if ( empty( $ReadGroupArrayID )  )
+        {
+            $t->parse( "error_read_everybody_permission", "error_read_everybody_permission_tpl" );
+            $error = true;
+        }
+        if ( empty( $WriteGroupArrayID )  )
+        {
+            $t->parse( "error_write_everybody_permission", "error_write_everybody_permission_tpl" );
+            $error = true;
+        }
+
+    }
+
+    
     if ( $fileCheck )
     {
         $file = new eZImageFile();
