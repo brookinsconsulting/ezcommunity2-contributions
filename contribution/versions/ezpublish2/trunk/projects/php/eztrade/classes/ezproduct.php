@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezproduct.php,v 1.55 2001/03/26 19:18:32 jb Exp $
+// $Id: ezproduct.php,v 1.56 2001/03/27 09:14:59 bf Exp $
 //
 // Definition of eZProduct class
 //
@@ -1106,7 +1106,7 @@ class eZProduct
             if ( $price || $categorySQL )
                 $text = "AND (" . $query->buildQuery()  . ")";
             else
-                $text = "(" . $query->buildQuery()  . ")";
+                $text = "AND (" . $query->buildQuery()  . ")";
         }
 
         $tables = array();
@@ -1198,7 +1198,7 @@ class eZProduct
             if ( $price || $categorySQL )
                 $text = "AND (" . $query->buildQuery()  . ")";
             else
-                $text = "(" . $query->buildQuery()  . ")";
+                $text = "AND (" . $query->buildQuery()  . ")";
         }
 
         $tables = array();
