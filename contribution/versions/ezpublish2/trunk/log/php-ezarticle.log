@@ -2996,3 +2996,17 @@ Maintainer(s) : bf@ez.no
       user/articlelist.php:
     Fixed article count bug on article list from all categories.
 
+
+Module : ezarticle
+Repository path : /home/cvsroot/projects/php/ezarticle
+Maintainer(s) : bf@ez.no
+2002-04-03  bf  <bf@zev.ez.no>
+
+    * classes/ezarticle.php: Fixed count error in some cases.
+
+    * user/articleedit.php
+      user/articlelist.php:
+    Fixed problem with notification mails not beeing sent when articles are submitted from the user site.
+    Fixed storing article category position when adding images to articles on user site
+    Fixed premature publishing when submitting articles from user site
+
