@@ -1,12 +1,12 @@
-<?
+<?php
 // 
-// $Id: sectionedit.php,v 1.4 2001/07/05 14:16:33 bf Exp $
+// $Id: sectionedit.php,v 1.5 2001/07/20 11:26:45 jakobn Exp $
 //
-// Christoffer A. Elo <ce@ez.no>
 // Created on: <10-May-2001 16:17:29 ce>
 //
 // This source file is part of eZ publish, publishing software.
-// Copyright (C) 1999-2001 eZ systems as
+//
+// Copyright (C) 1999-2001 eZ Systems.  All rights reserved.
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License
