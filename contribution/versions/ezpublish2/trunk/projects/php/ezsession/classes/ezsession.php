@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezsession.php,v 1.34 2001/04/09 10:19:20 bf Exp $
+// $Id: ezsession.php,v 1.35 2001/04/09 11:44:35 bf Exp $
 //
 // Definition of eZSession class
 //
@@ -113,7 +113,6 @@ class eZSession
             $this->setVariable( "SessionIP", $remoteIP );
             $this->HasRefreshed = true;
 
-            die( "insert" );
         }
         else
         {
@@ -128,7 +127,6 @@ class eZSession
 
             $this->setVariable( "SessionIP", $remoteIP );
 
-            die( "update $this->ID" );
         }
         
         return true;
