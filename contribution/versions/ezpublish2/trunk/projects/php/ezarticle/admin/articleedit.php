@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: articleedit.php,v 1.70 2001/04/23 11:02:53 fh Exp $
+// $Id: articleedit.php,v 1.71 2001/04/25 13:48:01 fh Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <18-Oct-2000 15:04:39 bf>
@@ -26,7 +26,6 @@
 include_once( "classes/INIFile.php" );
 include_once( "classes/eztemplate.php" );
 include_once( "classes/ezlocale.php" );
-include_once( "classes/ezmail.php" );
 include_once( "classes/ezcachefile.php" );
 
 include_once( "ezuser/classes/ezuser.php" );
@@ -37,6 +36,9 @@ include_once( "ezarticle/classes/ezarticlecategory.php" );
 include_once( "ezarticle/classes/ezarticle.php" );
 include_once( "ezarticle/classes/ezarticlegenerator.php" );
 include_once( "ezarticle/classes/ezarticlerenderer.php" );
+
+include_once( "ezbulkmail/classes/ezbulkmail.php" );
+include_once( "ezbulkmail/classes/ezbulkmailcategory.php" );
 
 function notificationMessage( &$article )
 {
@@ -78,9 +80,29 @@ function notificationMessage( &$article )
     $noticeMail->setTo( $PublishNoticeReceiver );
 
     $noticeMail->setSubject( $subjectLine );
-    $noticeMail->setBody( $bodyText );
+    $noticeMail->setBodyText( $bodyText );
 
-    $noticeMail->send();                        
+    $noticeMail->send();
+
+    // Send bulkmail also
+    $BulkMailGroup = $ini->read_var( "eZArticleMain", "BulkMailNotifyGroup" );
+    $category = eZBulkMailCategory::getByName( $BulkMailGroup );
+
+    if( is_object( $category ) ) // send a mail to this group
+    {
+        $bulkmail = new eZBulkMail();
+        $bulkmail->setOwner( eZUser::currentUser() );
+
+        $bulkmail->setSender( $PublishNoticeSender  ); // from NAME
+        $bulkmail->setSubject( $subjectLine );
+        $bulkmail->setBodyText( $bodyText );
+
+        $bulkmail->setIsDraft( false );
+    
+        $bulkmail->store();
+        $category->addMail( $bulkmail );
+        $bulkmail->send();
+    }
 }
 
 
