@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: exportform.php,v 1.2 2002/01/07 18:07:08 jhe Exp $
+// $Id: exportform.php,v 1.3 2002/01/09 11:54:01 jhe Exp $
 //
 // Created on: <07-Jan-2002 12:54:53 jhe>
 //
@@ -39,7 +39,21 @@ header( "Content-Type: application/vnd.ms-excel" );
 
 $results = eZFormElement::getAllResults();
 
-$elements = $form->formElements();
+$elementList = $form->formElements();
+
+$elements = array();
+
+for ( $i = 0; $i < count( $elementList ); $i++ )
+{
+    if ( $elementList[$i]->ElementType->name() == "table_item" )
+    {
+        $elements = array_merge( $elements, eZFormTable::tableElements( $elementList[$i]->id() ) );
+    }
+    else
+    {
+        $elements[] = $elementList[$i];
+    }
+}
 
 if ( count( $results ) > 0 )
 {
