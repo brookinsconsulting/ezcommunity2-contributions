@@ -39,7 +39,7 @@
 <tr><td>
 
 	<table width="160" border="0" cellspacing="0" cellpadding="0" id="gcalDayViewMonthTable">
-	<tr><td colspan="7" id="gcalDayViewMonthTableHeader" style="height: 12px; background: no-repeat url('{www_dir}{index}/ezgroupeventcalendar/user/templates/standard/images/gcalDayViewMonthTableHeader.png'); font-size: 2px;"><a href="javascript:objChangeVisiblity('gcalDayViewMonthTable')" style="text-decoration: none;"><img src="{www_dir}{index}/ezgroupeventcalendar/user/templates/standard/images/gcalX.png" style="z-index: 1001; margin-right:7px;" alt="close" border="0" /></a></td>
+	<tr><td colspan="7" id="gcalDayViewMonthTableHeader" style="height: 12px; background: no-repeat url('{www_dir}{index}/ezgroupeventcalendar/user/templates/standard/images/gcalDayViewMonthTableHeader.png'); font-size: 2px;"><a href="javascript:objChangeVisiblity('gcalDayViewMonthTable')" style="text-decoration: none;"><img src="{www_dir}{index}/ezgroupeventcalendar/user/templates/standard/images/gcalX.png" style="height: 12px; z-index: 1001; margin-right:7px;" alt="close" border="0" /></a></td>
 </tr></td></tr>
     <tr>
 	<td align="center" colspan=7 width="100%" style="background: no-repeat url('{www_dir}{index}/ezgroupeventcalendar/user/templates/standard/images/gcalDayViewMonthTableSubHeader.png');">
