@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezform.php,v 1.22 2002/01/17 08:19:33 jhe Exp $
+// $Id: ezform.php,v 1.23 2002/01/17 09:38:52 jhe Exp $
 //
 // ezform class
 //
@@ -505,9 +505,52 @@ class eZForm
         return $returnArray;
     }
 
-    function deleteResults()
+    function deleteResults( $resultID )
     {
+        $res = array();
         $db =& eZDB::globalDatabase();
+        $db->array_query( $elements, "SELECT eZForm_FormElement.ID AS ID
+                          FROM eZForm_PageElementDict, eZForm_FormPage, eZForm_FormElement, eZForm_FormTableElementDict, eZForm_FormTable WHERE
+                          (eZForm_PageElementDict.PageID=eZForm_FormPage.ID AND
+                           eZForm_FormPage.FormID=$this->ID AND
+                           eZForm_PageElementDict.ElementID=eZForm_FormElement.ID) OR
+                          (eZForm_FormTableElementDict.ElementID=eZForm_FormElement.ID AND
+                           eZForm_FormElement.ID=eZForm_FormTableElementDict.ElementID AND
+                           eZForm_FormTable.ElementID=eZForm_FormTableElementDict.TableID AND
+                           eZForm_FormTable.ElementID=eZForm_PageElementDict.ElementID AND
+                           eZForm_FormPage.FormID=$this->ID AND
+                           eZForm_PageElementDict.PageID=eZForm_FormPage.ID) group by eZForm_FormElement.ID" );
+        
+        $i = 0;
+        foreach ( $elements as $element )
+        {
+            if ( $i != 0 )
+                $whereStr .= " OR ";
+            
+            $whereStr .= "ElementID = '" . $element[$db->fieldName( "ID" )] . "'";
+            $i++;
+        }
+
+        if ( is_array ( $resultID ) )
+        {
+            $i = 0;
+            foreach ( $resultID as $resultElement )
+            {
+                if ( $i != 0 )
+                    $result .= " OR ";
+
+                $result .= "ResultID = '$resultElement'";
+                $i++;
+            }
+        }
+        else
+        {
+            $result = "ResultID = '$resultID'";
+        }
+
+        $db->begin();
+        $res[] = $db->query( "DELETE FROM eZForm_FormElementResult WHERE ($whereStr) AND ($result)" );
+        eZDB::finish( $res, $db );
     }
 
     function &formPage( $page = -1, $as_object = true )

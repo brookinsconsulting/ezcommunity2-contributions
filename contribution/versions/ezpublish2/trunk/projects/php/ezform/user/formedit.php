@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: formedit.php,v 1.1 2002/01/17 08:19:33 jhe Exp $
+// $Id: formedit.php,v 1.2 2002/01/17 09:38:52 jhe Exp $
 //
 // Created on: <15-Jan-2002 11:30:20 jhe>
 //
@@ -32,7 +32,12 @@ if ( $user && $user->hasRootAccess() )
 {
     if ( $Action == "delete" )
     {
-//        eZForm::
+        $form = new eZForm( $FormID );
+        $form->deleteResults( $DeleteArrayID );
+
+        include_once( "classes/ezhttptool.php" );
+        eZHTTPTool::header( "Location: /form/results/$FormID/" );
+        exit();
     }
     else if ( $Action == "edit" )
     {
