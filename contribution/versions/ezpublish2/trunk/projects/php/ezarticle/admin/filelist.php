@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: filelist.php,v 1.8 2001/07/19 12:19:20 jakobn Exp $
+// $Id: filelist.php,v 1.9 2001/08/30 07:55:56 bf Exp $
 //
 // Created on: <21-Dec-2000 17:43:40 bf>
 //
@@ -41,9 +41,7 @@ $t = new eZTemplate( "ezarticle/admin/" . $ini->read_var( "eZArticleMain", "Admi
 
 $t->setAllStrings();
 
-$t->set_file( array(
-    "file_list_page_tpl" => "filelist.tpl"
-    ) );
+$t->set_file(  "file_list_page_tpl", "filelist.tpl" );
 
 $t->set_block( "file_list_page_tpl", "no_files_tpl", "no_files" );
 $t->set_block( "file_list_page_tpl", "file_list_tpl", "file_list" );
@@ -51,7 +49,7 @@ $t->set_block( "file_list_tpl", "file_tpl", "file" );
 
 $article = new eZArticle( $ArticleID );
 
-$session = eZSession::globalSession();
+$session =& eZSession::globalSession();
 $session->setVariable( "FileListReturnTo", $REQUEST_URI );
 $session->setVariable( "NameInBrowse", $article->name() );
 
@@ -71,7 +69,7 @@ $t->set_var( "article_name", $article->name() );
 
 $t->set_var( "site_style", $SiteStyle );
 
-$files = $article->files();
+$files =& $article->files();
 if ( count( $files ) == 0 )
 {
     $t->set_var( "file_list", "" );

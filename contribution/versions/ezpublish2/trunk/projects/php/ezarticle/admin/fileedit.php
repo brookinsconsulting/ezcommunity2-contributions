@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: fileedit.php,v 1.6 2001/07/19 12:19:20 jakobn Exp $
+// $Id: fileedit.php,v 1.7 2001/08/30 07:55:56 bf Exp $
 //
 // Created on: <21-Dec-2000 18:01:48 bf>
 //
@@ -128,9 +128,7 @@ $t = new eZTemplate( "ezarticle/admin/" . $ini->read_var( "eZArticleMain", "Admi
 
 $t->setAllStrings();
 
-$t->set_file( array(
-    "file_edit_page" => "fileedit.tpl",
-    ) );
+$t->set_file( "file_edit_page", "fileedit.tpl" );
 
 
 //default values

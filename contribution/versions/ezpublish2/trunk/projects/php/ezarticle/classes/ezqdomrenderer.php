@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezqdomrenderer.php,v 1.36 2001/08/29 12:49:16 bf Exp $
+// $Id: ezqdomrenderer.php,v 1.37 2001/08/30 07:55:56 bf Exp $
 //
 // Definition of eZQDomRenderer class
 //
@@ -290,7 +290,10 @@ class eZQDomrenderer
 
             $this->PrevTag = "";
             $articleImages =& $this->Article->images();
-            $articleMedia =& $this->Article->media();
+
+            if ( get_class( $this->Article ) == "ezarticle" )
+                $articleMedia =& $this->Article->media();
+            
             $articleID = $this->Article->id();
             
             foreach ( $xml->children as $child )
