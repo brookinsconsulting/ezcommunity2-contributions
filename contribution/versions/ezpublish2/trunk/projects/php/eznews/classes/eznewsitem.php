@@ -1,6 +1,6 @@
-<?
+<?php
 // 
-// $Id: eznewsitem.php,v 1.10 2000/09/28 10:34:03 pkej-cvs Exp $
+// $Id: eznewsitem.php,v 1.11 2000/09/28 13:07:22 pkej-cvs Exp $
 //
 // Definition of eZNewsItem class
 //
@@ -85,7 +85,7 @@ class eZNewsItem
       If $inID is set the object's values are fetched from the
       database.
     */
-    function eZNewsItem( $inID = -1, $fetch = true )
+    function eZNewsItem( $inData = "", $fetch = true )
     {
     
         if( $GLOBAL["NEWSDEBUG"] == true )
@@ -93,11 +93,24 @@ class eZNewsItem
             echo "eZNewsItem( $inID, $fetch ) <br>\n";
         }
         
+        $inName = "";
+        $inID = -1;
+        
+        if( is_numeric( $inData ) )
+        {
+            $inID = $inData;
+        }
+        else
+        {
+            $inName = $inData;
+        }
+        
         $this->dbInit();
 
         $this->IsConnected = false;
         
-        if( $id != -1 )
+        
+        if( $inID != -1  )
         {
             $this->ID = $inID;
 
@@ -109,6 +122,19 @@ class eZNewsItem
             {
                 $this->State_ = "Dirty";
             }
+        }
+        else if( $inName != "" )
+        {
+            $this->Name = $inName;
+
+            if( $fetch == true )
+            {
+                $this->getByName( $inName );
+            }
+            else
+            {
+                $this->State_ = "Dirty";
+            }            
         }
         else
         {
@@ -479,9 +505,32 @@ class eZNewsItem
             $this->getImages();
                  
         }
+        else if( $this->Name != "" )
+        {
+            $this->getByName( $this->Name );
+        }
         else
         {
             $this->State_ = "Dirty";
+        }
+        
+        if( $this->ItemTypeID != "0" )
+        {
+            $query =
+            "
+                SELECT
+                    Name
+                FROM
+                    eZNews_ItemType
+                WHERE
+                    ID='%s'
+            ";
+            $query = sprintf( $query, $this->ItemTypeID );
+            
+            $this->Database->array_query( $itemArray, $query );
+            $rowsFound = count( $itemArray );
+
+            $this->polymorphSelf( $itemArray[0]["Name"] );
         }
         
         return $returnValue;
