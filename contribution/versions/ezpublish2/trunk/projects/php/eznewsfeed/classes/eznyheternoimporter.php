@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eznyheternoimporter.php,v 1.5 2001/05/05 11:16:04 bf Exp $
+// $Id: eznyheternoimporter.php,v 1.6 2001/07/18 07:36:47 br Exp $
 //
 // Definition of eZNyhterNOImporter class
 //
@@ -57,6 +57,7 @@ class eZNyheterNOImporter
     */
     function &news( )
     {
+        $db =& eZDB::globalDatabase();
         print( $this->Login . "<br>" );
         print( $this->Password . "<br>" );
         
@@ -151,9 +152,9 @@ class eZNyheterNOImporter
                                 
                                 $news = new eZNews( );
 
-                                $news->setName( addslashes( $name ) );
-                                $news->setIntro( addslashes( $description ) );
-                                $news->setIsPublished( false );
+                                $news->setName( $db->escapeString( $name ) );
+                                $news->setIntro( $db->escapeString( $description ) );
+                                $news->setIsPublished( 1 );
 
                                 $news->setOrigin( $origin );
                                 $news->setURL( $url );

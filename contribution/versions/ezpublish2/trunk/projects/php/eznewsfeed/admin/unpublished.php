@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: unpublished.php,v 1.10 2001/02/09 14:48:43 fh Exp $
+// $Id: unpublished.php,v 1.11 2001/07/18 07:36:46 br Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <29-Nov-2000 18:10:27 bf>
@@ -29,7 +29,9 @@ include_once( "eznewsfeed/classes/eznewsimporter.php" );
 
 include_once( "classes/ezdatetime.php" );
 include_once( "classes/ezlocale.php" );
+include_once( "classes/ezdb.php" );
 
+$db = eZDB::globalDatabase();
 if ( isset( $Publish ) )
     $Action = "Publish";
 
@@ -43,12 +45,11 @@ if ( $Action == "Publish" )
 {
     if ( count( $NewsPublishIDArray ) > 0 )
     {
-        
         foreach ( $NewsPublishIDArray as $newsID )
         {
             $news = new eZNews( $newsID );
-            $news->setName( addSlashes( $news->name() ) );
-            $news->setIntro( addSlashes( $news->intro() ) );
+            $news->setName( $db->escapeString( $news->name() ) );
+            $news->setIntro(  $db->escapeString( $news->intro() ) );
             $news->setIsPublished( true );
             
             $news->store();
@@ -201,8 +202,6 @@ if ( !isSet( $Offset ) )
 // news
 $newsList =& $category->newsList( "time", "only", $Offset, $Limit );
 $newsListCount = $category->newsListCount( "time", "only" );
-
-//  print( "news count: " . $newsListCount );
 
 $locale = new eZLocale( $Language );
 $i=0;

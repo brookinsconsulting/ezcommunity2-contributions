@@ -24,7 +24,7 @@
 	<a href="/newsfeed/sourcesite/edit/{source_site_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('eznf{source_site_id}-red','','/admin/images/{site_style}/redigerminimrk.gif',1)"><img name="eznf{source_site_id}-red" border="0" src="/admin/images/{site_style}/redigermini.gif" width="16" height="16" align="top" alt="Edit" /></a>
 	</td>
 	<td width="1%" class="{td_class}">
-	<a href="#" onClick="verify( '{intl-delete}', '/newsfeed/sourcesite/delete/{source_site_id}/'); return false;" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('eznf{source_site_id}-slett','','/admin/images/{site_style}/slettminimrk.gif',1)"><img name="eznf{source_site_id}-slett" border="0" src="/admin/images/{site_style}/slettmini.gif" width="16" height="16" align="top" alt="Delete" /></a>
+	<input type="checkbox" name="DeleteArray[]" value="{source_site_id}"/>
 	</td>
 </tr>
 
@@ -34,7 +34,7 @@
 <!-- END source_site_list_tpl -->
 
 <hr noshade="noshade" size="4" />
-
+<input type="submit" class="okbutton" name="Delete" value="{intl-delete_button}">
 <input type="hidden" name="Action" value="ImportNews" />
 <input type="submit" class="okbutton" value="{intl-import_news}" />
 </form>

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: categoryedit.php,v 1.5 2001/03/09 09:43:10 bf Exp $
+// $Id: categoryedit.php,v 1.6 2001/07/18 07:36:46 br Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <16-Nov-2000 13:02:32 bf>
@@ -41,7 +41,7 @@ if ( $Action == "Insert" )
     $category->setName( $CategoryName );
     $category->setDescription( $CategoryDescription );
     $category->store();
-
+    
     eZHTTPTool::header( "Location: /newsfeed/archive/" );
     exit();
 }
@@ -65,7 +65,6 @@ if ( $Action == "Delete" )
     eZHTTPTool::header( "Location: /newsfeed/archive/" );
     exit();
 }
-
 $news = new eZNews( );
 
 $ini = new INIFIle( "site.ini" );
@@ -101,7 +100,6 @@ if ( $Action == "Edit" )
 
 
 $t->pparse( "output", "category_edit_page_tpl" );
-
 
 ?>
 

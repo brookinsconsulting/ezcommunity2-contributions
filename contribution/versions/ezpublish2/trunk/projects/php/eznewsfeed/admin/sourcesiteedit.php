@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: sourcesiteedit.php,v 1.8 2001/03/09 09:43:10 bf Exp $
+// $Id: sourcesiteedit.php,v 1.9 2001/07/18 07:36:46 br Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <26-Nov-2000 17:55:31 bf>
@@ -39,7 +39,6 @@ include_once( "eznewsfeed/classes/ezsourcesite.php" );
 
 include_once( "eznewsfeed/classes/eznewscategory.php" );
 
-
 if ( $Action == "Insert" )
 {
     $sourcesite = new eZSourceSite();
@@ -54,11 +53,11 @@ if ( $Action == "Insert" )
 
     if ( $SourceSiteIsActive == "on" )
     {
-        $sourcesite->setIsActive( "true" );
+        $sourcesite->setIsActive( true );
     }
     else
     {
-        $sourcesite->setIsActive( "false" );
+        $sourcesite->setIsActive( false );
     }
 
 
@@ -92,11 +91,11 @@ if ( $Action == "Update" )
 
     if ( $SourceSiteIsActive == "on" )
     {
-        $sourcesite->setIsActive( "true" );
+        $sourcesite->setIsActive( true );
     }
     else
     {
-        $sourcesite->setIsActive( "false" );
+        $sourcesite->setIsActive( false );
     }
 
     if ( $SourceSiteAutoPublish == "on" )
@@ -113,17 +112,6 @@ if ( $Action == "Update" )
     eZHTTPTool::header( "Location: /newsfeed/importnews/" );
     exit();
 }
-
-if ( $Action == "Delete" )
-{
-    $sourcesite = new eZSourceSite( $SourceSiteID );
-    $sourcesite->delete();
-
-    eZHTTPTool::header( "Location: /newsfeed/importnews/" );
-    exit();
-
-}
-
 
 
 $t = new eZTemplate( "eznewsfeed/admin/" . $ini->read_var( "eZNewsfeedMain", "AdminTemplateDir" ),
@@ -184,11 +172,14 @@ if ( $Action == "Edit" )
     }  
 }
 
+
+
+
 // decoder select
 $decoders = eZNewsImporter::listDecoders();
 foreach( $decoders as $decoderItem )
 {
-    if( isset( $decoderChoice ) && $decoderChoice == $decoderItem )
+    if( isset( $decoderChoice ) && trim( $decoderChoice ) == $decoderItem )
     {
         $t->set_var( "choice_selected", "selected" );
     }
@@ -233,4 +224,3 @@ foreach ( $categoryArray as $catItem )
 $t->pparse( "output", "news_edit_page_tpl" );
 
 ?>
-

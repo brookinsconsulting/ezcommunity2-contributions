@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eznews.php,v 1.15 2001/05/05 11:16:04 bf Exp $
+// $Id: eznews.php,v 1.16 2001/07/18 07:36:47 br Exp $
 //
 // Definition of eZNews class
 //
@@ -41,7 +41,7 @@
   $news->setURL( "http://ez.no" );
   
   $dateTime = new eZDateTime( 2000, 11, 13, 14, 0, 15 );
-  print( $dateTime->mysqlTimeStamp() );
+  print( $dateTime->timeStamp() );
   
   $news->setOriginalPublishingDate( $dateTime );
   
@@ -66,31 +66,12 @@ class eZNews
       If $id is set the object's values are fetched from the
       database.
     */
-    function eZNews( $id="", $fetch=true )
+    function eZNews( $id=""  )
     {
-        $this->IsConnected = false;
-
-        // default value
-        $this->IsPublished = "false";
-        
         if ( $id != "" )
         {
-
             $this->ID = $id;
-            if ( $fetch == true )
-            {                
-                $this->get( $this->ID );
-            }
-            else
-            {
-                $this->State_ = "Dirty";
-                
-            }
-        }
-        else
-        {
-            $this->State_ = "New";
-            
+            $this->get( $this->ID );
         }
     }
 
@@ -101,19 +82,21 @@ class eZNews
     */
     function store()
     {
-        $this->dbInit();
-
-        $name = addslashes( $this->Name );
-        $intro = addslashes( $this->Intro );
-        $url = addslashes( $this->URL );
-        $keywords = addslashes( $this->KeyWords );
-        $origin = addslashes( $this->Origin );
+        $db =& eZDB::globalDatabase();
+        $db->begin();
         
-        $ret = false;
+        $timeStamp = eZDateTime::timeStamp( true );
+        
+        $name = $db->escapeString( $this->Name );
+        $intro = $db->escapeString( $this->Intro );
+        $url = $db->escapeString( $this->URL );
+        $keywords = $db->escapeString( $this->KeyWords );
+        $origin = $db->escapeString( $this->Origin );
+        
         if ( !isset( $this->ID ) )
         {
             // check if the news is already stored.
-            $this->Database->array_query( $ret, "SELECT ID FROM eZNewsFeed_News WHERE
+            $db->array_query( $ret, "SELECT ID FROM eZNewsFeed_News WHERE
 		                         Name='$name' AND
                                  Intro='$intro' AND
                                  URL='$url'
@@ -121,37 +104,49 @@ class eZNews
             
             if ( count( $ret ) == 0 )
             {
-                $this->Database->query( "INSERT INTO eZNewsFeed_News SET
-		                         Name='$name',
-                                 Intro='$intro',
-                                 IsPublished='$this->IsPublished',
-                                 PublishingDate=now(),
-                                 OriginalPublishingDate='$this->OriginalPublishingDate',
-                                 KeyWords='$keywords',
-                                 Origin='$this->Origin',
-                                 URL='$url'
-                                 " );
+                
+                $db->lock( "eZNewsFeed_News" );
+                $nextID = $db->nextID( "eZNewsFeed_News", "ID" );
 
-				$this->ID = $this->Database->insertID();
-                $ret = true;
-                $this->State_ = "Coherent";
+                $ret[] = $db->query( "INSERT INTO eZNewsFeed_News 
+                               ( ID,
+                                 Name,
+                                 Intro,
+                                 IsPublished,
+                                 PublishingDate,
+                                 OriginalPublishingDate,
+                                 KeyWords,
+                                 Origin,
+                                 URL )
+                               VALUES
+                               ( '$nextID',
+                                 '$name',
+                                 '$intro',
+                                 '$this->IsPublished',
+                                 '$timeStamp',
+                                 '$this->OriginalPublishingDate',
+                                 '$keywords',
+                                 '$this->Origin',
+                                 '$url' )" );
+
+				$this->ID = $nextID;
+                
             }
             else
             {
-                $ret = false;
+                $ret[] = false;
             }
         }
         else
         {
-            $this->Database->array_query( $res, "SELECT ID FROM eZNewsFeed_News WHERE IsPublished='false' AND ID='$this->ID'" );
-            
-            if ( ( count( $res ) > 0 ) && ( $this->IsPublished == "true" ) )
+            $db->array_query( $res, "SELECT ID FROM eZNewsFeed_News WHERE IsPublished='0' AND ID='$this->ID'" );
+            if ( ( count( $res ) > 0 ) && ( $this->IsPublished == "1" ) )
             {
-                $this->Database->query( "UPDATE eZNewsFeed_News SET
+                $db->query( "UPDATE eZNewsFeed_News SET
 		                         Name='$name',
                                  Intro='$intro',
-                                 IsPublished='true',
-                                 PublishingDate=now(),
+                                 IsPublished='1',
+                                 PublishingDate='$timeStamp',
                                  OriginalPublishingDate='$this->OriginalPublishingDate',
                                  KeyWords='$keywords',
                                  Origin='$origin',
@@ -161,7 +156,7 @@ class eZNews
             }
             else
             {
-                $this->Database->query( "UPDATE eZNewsFeed_News SET
+                $db->query( "UPDATE eZNewsFeed_News SET
 		                         Name='$name',
                                  Intro='$intro',
                                  IsPublished='$this->IsPublished',
@@ -174,11 +169,12 @@ class eZNews
                                  " );
             }
 
-            $this->State_ = "Coherent";
-            $ret = true;
+            $ret[] = true;
         }
-        
-        return $ret;
+
+        eZDB::finish( $ret, $db );
+
+        return !in_array( false, $ret );
     }
 
     /*!
@@ -186,35 +182,30 @@ class eZNews
     */
     function get( $id="" )
     {
-        $this->dbInit();
+        $db =& eZDB::globalDatabase();
         $ret = false;
         
         if ( $id != "" )
         {
-            $this->Database->array_query( $news_array, "SELECT * FROM eZNewsFeed_News WHERE ID='$id'" );
+            $db->array_query( $news_array, "SELECT * FROM eZNewsFeed_News WHERE ID='$id'" );
             if ( count( $news_array ) > 1 )
             {
                 die( "Error: News's with the same ID was found in the database. This shouldent happen." );
             }
             else if( count( $news_array ) == 1 )
             {
-                $this->ID =& $news_array[0][ "ID" ];
-                $this->Name =& $news_array[0][ "Name" ];
-                $this->Intro =& $news_array[0][ "Intro" ];
-                $this->IsPublished =& $news_array[0][ "IsPublished" ];
-                $this->PublishingDate =& $news_array[0][ "PublishingDate" ];
-                $this->OriginalPublishingDate =& $news_array[0][ "OriginalPublishingDate" ];
-                $this->Origin =& $news_array[0][ "Origin" ];
-                $this->KeyWords =& $news_array[0][ "KeyWords" ];
-                $this->URL =& $news_array[0][ "URL" ];
+                $this->ID =& $news_array[0][$db->fieldName("ID")];
+                $this->Name =& $news_array[0][$db->fieldName("Name")];
+                $this->Intro =& $news_array[0][$db->fieldName("Intro")];
+                $this->IsPublished =& $news_array[0][$db->fieldName("IsPublished")];
+                $this->PublishingDate =& $news_array[0][$db->fieldName("PublishingDate")];
+                $this->OriginalPublishingDate =& $news_array[0][$db->fieldName("OriginalPublishingDate")];
+                $this->Origin =& $news_array[0][$db->fieldName("Origin")];
+                $this->KeyWords =& $news_array[0][$db->fieldName("KeyWords")];
+                $this->URL =& $news_array[0][$db->fieldName("URL")];
 
-                $this->State_ = "Coherent";
                 $ret = true;
             }
-        }
-        else
-        {
-            $this->State_ = "Dirty";
         }
         return $ret;
     }
@@ -224,16 +215,23 @@ class eZNews
     */
     function delete()
     {
-        $this->dbInit();
-
+        $db =& eZDB::globalDatabase();
+        
         if ( isset( $this->ID ) )
         {
-            $this->Database->query( "DELETE FROM eZNewsFeed_NewsCategoryLink WHERE NewsID='$this->ID'" );
+            $db->begin();
             
-            $this->Database->query( "DELETE FROM eZNewsFeed_News WHERE ID='$this->ID'" );
+            $res[] = $db->query( "DELETE FROM eZNewsFeed_NewsCategoryLink WHERE NewsID='$this->ID'" );
+            
+            $res[] = $db->query( "DELETE FROM eZNewsFeed_News WHERE ID='$this->ID'" );
+
+            if ( in_array( false, $res ) )
+                $db->rollback( );
+            else
+                $db->commit();            
         }
         
-        return true;
+        return in_array( false, $res );
     }
 
     /*!
@@ -249,9 +247,6 @@ class eZNews
     */
     function &name()
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
        return htmlspecialchars( $this->Name );
     }
 
@@ -260,9 +255,6 @@ class eZNews
     */
     function &intro()
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
        return $this->Intro;
     }
 
@@ -271,9 +263,6 @@ class eZNews
     */
     function &url()
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
        return $this->URL;
     }
 
@@ -284,11 +273,8 @@ class eZNews
     */
     function &publishingDate()
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
        $dateTime = new eZDateTime();
-       $dateTime->setMySQLTimeStamp( $this->PublishingDate );
+       $dateTime->setTimeStamp( $this->PublishingDate );
        
        return $dateTime;
     }
@@ -300,11 +286,8 @@ class eZNews
     */
     function &originalPublishingDate()
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
        $dateTime = new eZDateTime();
-       $dateTime->setMySQLTimeStamp( $this->OriginalPublishingDate );
+       $dateTime->setTimeStamp( $this->OriginalPublishingDate );
        
        return $dateTime;
     }
@@ -314,9 +297,6 @@ class eZNews
     */
     function origin( )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
        return $this->Origin;
     }
 
@@ -325,9 +305,6 @@ class eZNews
     */
     function keywords( )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
        return $this->KeyWords;
     }
     
@@ -336,15 +313,12 @@ class eZNews
     */
     function isPublished()
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
-       $ret = false;
-       if ( $this->IsPublished == "true" )
-       {
-           $ret = true;
-       }
-       return $ret;
+        $ret = false;
+        if ( $this->IsPublished == 1 )
+        {
+            $ret = true;
+        }
+        return $ret;
     }
       
     
@@ -353,10 +327,7 @@ class eZNews
     */
     function setName( $value )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
-       $this->Name = $value;
+        $this->Name = $value;
     }
 
     /*!
@@ -364,10 +335,7 @@ class eZNews
     */
     function setIntro( $value )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
-       $this->Intro = $value;
+        $this->Intro = $value;
     }
 
     /*!
@@ -375,10 +343,7 @@ class eZNews
     */
     function setURL( $value )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
-       $this->URL = $value;
+        $this->URL = $value;
     }
 
     /*!
@@ -386,10 +351,7 @@ class eZNews
     */
     function setOrigin( $value )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
-       $this->Origin = $value;
+        $this->Origin = $value;
     }
     
 
@@ -398,10 +360,7 @@ class eZNews
     */
     function setKeyWords( $value )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
-       $this->KeyWords = $value;
+        $this->KeyWords = $value;
     }
     
     /*!
@@ -411,13 +370,11 @@ class eZNews
     */
     function setOriginalPublishingDate( $time)
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
-       if ( get_class( $time ) == "ezdatetime" )
-       {
-           $this->OriginalPublishingDate = $time->mysqlTimeStamp();
-       }
+        if ( get_class( $time ) == "ezdatetime" )
+        {
+            $this->OriginalPublishingDate = $time->timeStamp();
+          
+        }
     }
     
     /*!
@@ -425,16 +382,13 @@ class eZNews
     */
     function setIsPublished( $value )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
        if ( $value == true )
        {
-           $this->IsPublished = "true";
+           $this->IsPublished = 1;
        }
        else
        {
-           $this->IsPublished = "false";           
+           $this->IsPublished = 0;           
        }
     }
     
@@ -446,20 +400,17 @@ class eZNews
     */
     function categories()
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
+        $db =& eZDB::globalDatabase();
 
-       $this->dbInit();
+        $ret = array();
+        $db->array_query( $category_array, "SELECT * FROM eZNewsFeed_NewsCategoryLink WHERE NewsID='$this->ID'" );
 
-       $ret = array();
-       $this->Database->array_query( $category_array, "SELECT * FROM eZNewsFeed_NewsCategoryLink WHERE NewsID='$this->ID'" );
+        foreach ( $category_array as $category )
+        {
+            $ret[] = new eZNewsCategory( $category[$db->fieldName("CategoryID")] );
+        }
 
-       foreach ( $category_array as $category )
-       {
-           $ret[] = new eZNewsCategory( $category["CategoryID"] );
-       }
-
-       return $ret;
+        return $ret;
     }
     
     /*!
@@ -467,12 +418,11 @@ class eZNews
     */
     function removeFromCategories()
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
+        $db =& eZDB::globalDatabase();
 
-       $this->dbInit();
-
-       $this->Database->query( "DELETE FROM eZNewsFeed_NewsCategoryLink WHERE NewsID='$this->ID'" );       
+        $db->begin();
+        $ret[] = $db->query( "DELETE FROM eZNewsFeed_NewsCategoryLink WHERE NewsID='$this->ID'" );
+        eZDB::finish( $ret, $db );
         
     }
 
@@ -483,16 +433,13 @@ class eZNews
      */
     function existsInCategory( $category )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
        $ret = false;
        if ( get_class( $category ) == "eznewscategory" )
        {
-           $this->dbInit();
+           $db =& eZDB::globalDatabase();
            $catID = $category->id();
 
-           $this->Database->array_query( $ret_array, "SELECT ID FROM eZNewsFeed_NewsCategoryLink
+           $db->array_query( $ret_array, "SELECT ID FROM eZNewsFeed_NewsCategoryLink
                                     WHERE NewsID='$this->ID' AND CategoryID='$catID'" );
 
            if ( count( $ret_array ) == 1 )
@@ -509,25 +456,21 @@ class eZNews
     */
     function &search( $queryText, $fetchNonPublished=false, $offset=0, $limit=20 )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
+        $db =& eZDB::globalDatabase();
 
-       $this->dbInit();
-
-
-       if ( $fetchNonPublished == true )
-       {
-           $fetchText = "eZNewsFeed_News.IsPublished = 'true' AND";
-       }
-       else
-       {           
-           $fetchText = "";
-       }
+        if ( $fetchNonPublished == true )
+        {
+            $fetchText = "eZNewsFeed_News.IsPublished = '1' AND";
+        }
+        else
+        {           
+            $fetchText = "";
+        }
 
        $return_array = array();
        $news_array = array();
 
-       $this->Database->array_query( $news_array,
+       $db->array_query( $news_array,
                     "SELECT eZNewsFeed_News.ID AS NewsID, eZNewsFeed_News.Name
                     FROM eZNewsFeed_News
                     WHERE 
@@ -535,11 +478,11 @@ class eZNews
                     eZNewsFeed_News.Name LIKE '%$queryText%' OR
                     eZNewsFeed_News.Intro LIKE '%$queryText%'
                     )
-                    ORDER BY PublishingDate LIMIT $offset,$limit" );
+                    ORDER BY PublishingDate", array( "Limit" => $limit, "Offset" => $offset ) );
  
        for ( $i=0; $i<count($news_array); $i++ )
        {
-           $return_array[$i] = new eZNews( $news_array[$i]["NewsID"], false );
+           $return_array[$i] = new eZNews( $news_array[$i][$db->fieldName("NewsID")], false );
        }
        
        return $return_array;
@@ -550,14 +493,11 @@ class eZNews
     */
     function &searchCount( $queryText, $fetchNonPublished=false )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
-       $this->dbInit();
+       $db =& eZDB::globalDatabase();
 
        if ( $fetchNonPublished == true )
        {
-           $fetchText = "eZNewsFeed_News.IsPublished = 'true' AND";
+           $fetchText = "eZNewsFeed_News.IsPublished = '1' AND";
        }
        else
        {           
@@ -567,7 +507,7 @@ class eZNews
        $return_array = array();
        $news_array = array();
 
-       $this->Database->array_query( $news_array,
+       $db->array_query( $news_array,
                     "SELECT count( eZNewsFeed_News.ID ) AS Count
                     FROM eZNewsFeed_News
                     WHERE 
@@ -578,7 +518,7 @@ class eZNews
                     " );
  
        
-       return $news_array[0]["Count"];
+       return $news_array[0][$db->fieldName("Count")];
     }
     
     /*!
@@ -589,10 +529,7 @@ class eZNews
                        $offset=0,
                        $limit=25 )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
-       $this->dbInit();
+       $db =& eZDB::globalDatabase();
 
        $OrderBy = "eZNewsFeed_News.PublishingDate DESC";
        switch( $sortMode )
@@ -610,45 +547,33 @@ class eZNews
 
        if ( $fetchNonPublished == true )
        {
-          $this->Database->array_query( $news_array, "
+           $db->array_query( $news_array, "
                     SELECT eZNewsFeed_News.ID AS NewsID, eZNewsFeed_News.Name
                     FROM eZNewsFeed_News
-                    GROUP BY eZNewsFeed_News.ID ORDER BY $OrderBy
-                    LIMIT $offset,$limit" );
+                    GROUP BY eZNewsFeed_News.ID ORDER BY $OrderBy", array( "Limit" => $limit, "Offset" => $offset ) );
        }
        else
        {
-           $this->Database->array_query( $news_array, "
+           $db->array_query( $news_array, "
                     SELECT eZNewsFeed_News.ID AS NewsID, eZNewsFeed_News.Name
                     FROM eZNewsFeed_News
                     WHERE 
                     eZNewsFeed_NewsCategoryLink.NewsID = eZNewsFeed_News.ID
                     AND
-                    eZNewsFeed_News.IsPublished = 'true'
+                    eZNewsFeed_News.IsPublished = '1'
                     GROUP BY eZNewsFeed_News.ID ORDER BY $OrderBy
-                    LIMIT $offset,$limit" );
+                    ", array( "Limit" => $limit, "Offset" => $offset ) );
        }
 
        for ( $i=0; $i<count($news_array); $i++ )
        {
-           $return_array[$i] = new eZNews( $news_array[$i]["NewsID"], false );
+           $return_array[$i] = new eZNews( $news_array[$i][$db->fieldName("NewsID")], false );
        }
        
        return $return_array;
-    }
     
-    /*!
-      \private
-      
-      Open the database for read and write. Gets all the database information from site.ini.
-    */
-    function dbInit()
-    {
-        if ( $this->IsConnected == false )
-        {
-            $this->Database = new eZDB( "site.ini", "site" );
-            $this->IsConnected = true;
-        }
+    
+    
     }
 
     var $ID;
@@ -660,15 +585,6 @@ class eZNews
     var $KeyWords;
     var $Origin;
     var $URL;
-    
-    
-    ///  Variable for keeping the database connection.
-    var $Database;
-
-    /// Indicates the state of the object. In regard to database information.
-    var $State_;
-    /// Is true if the object has database connection, false if not.
-    var $IsConnected;
 }
 
 

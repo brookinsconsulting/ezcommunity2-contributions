@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: newsedit.php,v 1.9 2001/03/13 12:00:51 fh Exp $
+// $Id: newsedit.php,v 1.10 2001/07/18 07:36:46 br Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <16-Nov-2000 13:02:32 bf>
@@ -54,11 +54,11 @@ if ( $Action == "Insert" )
     
     if ( $IsPublished == "on" )
     {
-        $news->setIsPublished( true );
+        $news->setIsPublished( 1 );
     }
     else
     {
-        $news->setIsPublished( false );
+        $news->setIsPublished( 0 );
     }
 
     $news->setKeywords( $NewsKeywords );
@@ -97,8 +97,7 @@ if ( $Action == "Insert" )
         }
     } 
     $dir->close();
-    
-    if ( $news->isPublished() == true )
+    if ( $news->isPublished() == 1 )
     {
         Header( "Location: /newsfeed/archive/$CategoryID/" );
     }
@@ -121,11 +120,11 @@ if ( $Action == "Update" )
 
     if ( $IsPublished == "on" )
     {
-        $news->setIsPublished( true );
+        $news->setIsPublished( 1 );
     }
     else
     {
-        $news->setIsPublished( false );
+        $news->setIsPublished( 0 );
     }
     
 
@@ -169,7 +168,7 @@ if ( $Action == "Update" )
     } 
     $dir->close();
 
-    if ( $news->isPublished() == true )
+    if ( $news->isPublished() == 1 )
     {
         Header( "Location: /newsfeed/archive/$CategoryID/" );
     }
@@ -281,7 +280,7 @@ if ( $Action == "Edit" )
     $t->set_var( "action_value", "Update" );
 
 
-    if ( $news->isPublished() == true )
+    if ( $news->isPublished() == 1 )
     {
         $t->set_var( "news_is_published", "checked" );
     }
@@ -323,10 +322,5 @@ foreach ( $categoryArray as $catItem )
     $t->parse( "value", "value_tpl", true );    
 }
 
-
 $t->pparse( "output", "news_edit_page_tpl" );
-
-
-
-
 ?>

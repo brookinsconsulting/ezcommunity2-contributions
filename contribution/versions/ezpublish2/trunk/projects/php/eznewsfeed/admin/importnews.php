@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: importnews.php,v 1.9 2001/05/08 12:18:19 bf Exp $
+// $Id: importnews.php,v 1.10 2001/07/18 07:36:46 br Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <16-Nov-2000 13:02:19 bf>
@@ -35,8 +35,6 @@ if ( $Action == "Fetch" )
 {
     $site = new eZSourceSite( $SourceSiteID );
 
-    print( "importing news from :" .  $site->url() );
-    
     $newsImporter = new eZNewsImporter( $site->decoder(),
                                         $site->url(),
                                         $site->category(),
@@ -47,7 +45,7 @@ if ( $Action == "Fetch" )
 }
 
 // fetch every site
-if ( $Action == "ImportNews" )
+if ( $Action == "ImportNews" && !isset( $Delete ) )
 {
     $sourceSite = new eZSourceSite();
     
@@ -55,15 +53,30 @@ if ( $Action == "ImportNews" )
     
     foreach ( $sourceSiteList as $site )
     {
-        unset( $newsImporter );
-        $newsImporter = new eZNewsImporter( $site->decoder(),
-                                            $site->url(),
-                                            $site->category(),
-                                            $site->login(),
-                                            $site->password(),
-                                            $site->autoPublish() );
-        $newsImporter->importNews();
-    }    
+        if ( $site->IsActive() == 1 )
+        {
+            unset( $newsImporter );
+            $newsImporter = new eZNewsImporter( $site->decoder(),
+                                                $site->url(),
+                                                $site->category(),
+                                                $site->login(),
+                                                $site->password(),
+                                                $site->autoPublish() );
+            $newsImporter->importNews();
+        }
+    }
+}
+
+// Delete selected sites.
+if ( isset( $Delete ) )
+{
+    if ( count( $DeleteArray ) > 0 )
+    {
+        foreach( $DeleteArray as $row )
+        {
+            eZSourceSite::delete( $row );
+        }
+    }
 }
 
 $ini = new INIFIle( "site.ini" );
@@ -81,6 +94,7 @@ $t->set_file( array(
 
 $t->set_block( "import_news_tpl", "source_site_list_tpl", "source_site_list" );
 $t->set_block( "source_site_list_tpl", "source_site_tpl", "source_site" );
+$t->set_var( "source_site", "" );
 
 $t->set_var( "site_style", $SiteStyle );
 
@@ -94,7 +108,7 @@ foreach ( $sourceSiteList as $site )
     $t->set_var( "source_site_id", $site->id() );
     $t->set_var( "source_site_name", $site->name() );
     $t->set_var( "source_site_url", $site->url() );
-
+    
     if ( ( $i % 2 ) == 0 )
     {
         $t->set_var( "td_class", "bglight" );
@@ -119,5 +133,7 @@ $sourceSite = new eZSourceSite();
 //  $newsImporter->importNews();
 
 $t->pparse( "output", "import_news_tpl" );
+
+
 
 ?>

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezsourcesite.php,v 1.7 2001/05/05 11:16:04 bf Exp $
+// $Id: ezsourcesite.php,v 1.8 2001/07/18 07:36:47 br Exp $
 //
 // Definition of eZSourceSite class
 //
@@ -47,31 +47,15 @@ class eZSourceSite
       If $id is set the object's values are fetched from the
       database.
     */
-    function eZSourceSite( $id="", $fetch=true )
+    function eZSourceSite( $id="" )
     {
-        $this->IsConnected = false;
-
         // default value
-        $this->IsPublished = "false";
+        $this->IsPublished = "0";
         
         if ( $id != "" )
         {
-
             $this->ID = $id;
-            if ( $fetch == true )
-            {                
-                $this->get( $this->ID );
-            }
-            else
-            {
-                $this->State_ = "Dirty";
-                
-            }
-        }
-        else
-        {
-            $this->State_ = "New";
-            
+            $this->get( $this->ID );
         }
     }
 
@@ -80,35 +64,45 @@ class eZSourceSite
     */
     function store()
     {
-        $this->dbInit();
-        $name = addslashes( $this->Name );
-        $login = addslashes( $this->Login );
-        $password = addslashes( $this->Password );
-        $url = addslashes( $this->URL );
+        $db = eZDB::globalDatabase();
+        $db->begin();
+        
+        $name = $db->escapeString( $this->Name );
+        $login = $db->escapeString( $this->Login );
+        $password = $db->escapeString( $this->Password );
+        $url = $db->escapeString( $this->URL );
                 
         $ret = false;
         if ( !isset( $this->ID ) )
         {
-            $this->Database->query( "INSERT INTO eZNewsFeed_SourceSite SET
-		                         Name='$name',
-                                 URL='$url',
-                                 Login='$login',
-                                 Password='$password',
-                                 CategoryID='$this->CategoryID',
-                                 IsActive='$this->IsActive',
-                                 Decoder='$this->Decoder',
-                                 AutoPublish='$this->AutoPublish'
-                                 " );
+            $db->lock( "eZNewsFeed_SourceSite" );
+            $nextID = $db->nextID( "eZNewsFeed_SourceSite", "ID" );
+            $ret[] = $db->query( "INSERT INTO eZNewsFeed_SourceSite 
+		                       ( ID,
+                                 Name,
+                                 URL,
+                                 Login,
+                                 Password,
+                                 CategoryID,
+                                 IsActive,
+                                 Decoder,
+                                 AutoPublish )
+                               VALUES
+                               ( '$nextID',
+                                 '$name',
+                                 '$url',
+                                 '$login',
+                                 '$password',
+                                 '$this->CategoryID',
+                                 '$this->IsActive',
+                                 '$this->Decoder',
+                                 '$this->AutoPublish' )" );
 
-			$this->ID = $this->Database->insertID();
-
-            $this->State_ = "Coherent";
-            $ret = true;
-            
+			$this->ID = $nextID;
         }
         else
         {
-            $this->Database->query( "UPDATE eZNewsFeed_SourceSite SET
+            $ret[] = $db->query( "UPDATE eZNewsFeed_SourceSite SET
 		                         Name='$name',
                                  URL='$url',
                                  Login='$login',
@@ -119,12 +113,9 @@ class eZSourceSite
                                  AutoPublish='$this->AutoPublish'
                                  WHERE ID='$this->ID'
                                  " );
-
-            $this->State_ = "Coherent";
-            $ret = true;
         }
-        
-        return $ret;
+        eZDB::finish( $ret, $db );
+        return in_array( false, $ret );
     }
 
     /*!
@@ -132,35 +123,30 @@ class eZSourceSite
     */
     function get( $id="" )
     {
-        $this->dbInit();
+        $db = eZDB::globalDatabase();
         $ret = false;
         
         if ( $id != "" )
         {
-            $this->Database->array_query( $news_array, "SELECT * FROM eZNewsFeed_SourceSite WHERE ID='$id'" );
+            $db->array_query( $news_array, "SELECT * FROM eZNewsFeed_SourceSite WHERE ID='$id'" );
             if ( count( $news_array ) > 1 )
             {
                 die( "Error: News's with the same ID was found in the database. This shouldent happen." );
             }
             else if( count( $news_array ) == 1 )
             {
-                $this->ID =& $news_array[0][ "ID" ];
-                $this->Name =& $news_array[0][ "Name" ];
-                $this->URL =& $news_array[0][ "URL" ];
-                $this->Login =& $news_array[0][ "Login" ];
-                $this->Password =& $news_array[0][ "Password" ];
-                $this->CategoryID =& $news_array[0][ "CategoryID" ];
-                $this->Decoder =& $news_array[0][ "Decoder" ];
-                $this->IsActive =& $news_array[0][ "IsActive" ];
-                $this->AutoPublish =& $news_array[0][ "AutoPublish" ];
+                $this->ID =& $news_array[0][$db->fieldName("ID")];
+                $this->Name =& $news_array[0][$db->fieldName("Name")];
+                $this->URL =& $news_array[0][$db->fieldName("URL")];
+                $this->Login =& $news_array[0][$db->fieldName("Login")];
+                $this->Password =& $news_array[0][$db->fieldName("Password")];
+                $this->CategoryID =& $news_array[0][$db->fieldName("CategoryID")];
+                $this->Decoder =& $news_array[0][$db->fieldName("Decoder")];
+                $this->IsActive =& $news_array[0][$db->fieldName("IsActive")];
+                $this->AutoPublish =& $news_array[0][$db->fieldName("AutoPublish")];
 
-                $this->State_ = "Coherent";
                 $ret = true;
             }
-        }
-        else
-        {
-            $this->State_ = "Dirty";
         }
         return $ret;
     }
@@ -168,16 +154,19 @@ class eZSourceSite
     /*!
       Deletes a eZSourceSite object from the database.
     */
-    function delete()
+    function delete( $id = -1 )
     {
-        $this->dbInit();
-
-        if ( isset( $this->ID ) )
-        {
-            $this->Database->query( "DELETE FROM eZNewsFeed_SourceSite WHERE ID='$this->ID'" );
-        }
+        $db = eZDB::globalDatabase();
+        if( $id == -1 )
+            $id = $this->ID;
         
-        return true;
+        $db->begin();
+
+        $ret[] = $db->query( "DELETE FROM eZNewsFeed_SourceSite WHERE ID='$id'" );
+
+        eZDB::finish( $ret, $db );
+        
+        return in_array( false, $ret );
     }
 
     /*!
@@ -185,16 +174,16 @@ class eZSourceSite
     */
     function getAll()
     {
-        $this->dbInit();
+        $db = eZDB::globalDatabase();
         
         $return_array = array();
         $source_site_array = array();
         
-        $this->Database->array_query( $source_site_array, "SELECT ID FROM eZNewsFeed_SourceSite ORDER BY Name" );
+        $db->array_query( $source_site_array, "SELECT ID FROM eZNewsFeed_SourceSite ORDER BY Name" );
         
         for ( $i=0; $i<count($source_site_array); $i++ )
         {
-            $return_array[$i] = new eZSourceSite( $source_site_array[$i]["ID"], 0 );
+            $return_array[$i] = new eZSourceSite( $source_site_array[$i][$db->fieldName("ID")], 0 );
         }
         
         return $return_array;
@@ -214,10 +203,7 @@ class eZSourceSite
     */
     function &name()
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
-       return htmlspecialchars( $this->Name );
+      return htmlspecialchars( $this->Name );
     }
 
     /*!
@@ -225,9 +211,6 @@ class eZSourceSite
     */
     function &url()
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
        return $this->URL;
     }
 
@@ -236,9 +219,6 @@ class eZSourceSite
     */
     function &login()
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
        return $this->Login;
     }
 
@@ -247,9 +227,6 @@ class eZSourceSite
     */
     function &password()
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
        return $this->Password;
     }
 
@@ -258,9 +235,6 @@ class eZSourceSite
     */
     function &decoder()
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
        return $this->Decoder;
     }
 
@@ -269,9 +243,6 @@ class eZSourceSite
     */
     function &category()
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
        $ret = new eZNewsCategory( $this->CategoryID );
 
        return $ret;
@@ -282,11 +253,8 @@ class eZSourceSite
     */
     function &isActive()
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
        $ret = false;
-       if ( $this->IsActive == "true" )
+       if ( $this->IsActive == "1" )
            $ret = true;
 
        return $ret;
@@ -297,9 +265,6 @@ class eZSourceSite
     */
     function setName( $value )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
        $this->Name = $value;
     }
 
@@ -308,9 +273,6 @@ class eZSourceSite
     */
     function setURL( $value )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
        $this->URL = $value;
     }
 
@@ -319,9 +281,6 @@ class eZSourceSite
     */
     function setLogin( $value )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
        $this->Login = $value;
     }
 
@@ -330,9 +289,6 @@ class eZSourceSite
     */
     function setPassword( $value )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
        $this->Password = $value;
     }
 
@@ -341,9 +297,6 @@ class eZSourceSite
     */
     function setCategory( $category )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
        if ( get_class( $category ) == "eznewscategory" )
        {
            $this->CategoryID = $category->id();
@@ -355,9 +308,6 @@ class eZSourceSite
     */
     function setDecoder( $value )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
        $this->Decoder = $value;
     }
 
@@ -366,11 +316,14 @@ class eZSourceSite
     */
     function setIsActive( $value )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
-       $this->IsActive = $value;
-
+        if ( $value == true )
+        {
+            $this->IsActive = 1;
+        }
+        else
+        {
+            $this->IsActive = 0;
+        }
     }
 
     /*!
@@ -378,9 +331,6 @@ class eZSourceSite
     */
     function setAutoPublish( $value )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-        
         if ( $value == true )
         {
             $this->AutoPublish = 1;
@@ -397,9 +347,6 @@ class eZSourceSite
     */
     function autoPublish()
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
        if ( $this->AutoPublish == 1 )
            $ret = true;
        else
@@ -409,19 +356,6 @@ class eZSourceSite
     }
     
     
-    /*!      
-      \private      
-      Open the database for read and write. Gets all the database information from site.ini.
-    */
-    function dbInit()
-    {
-        if ( $this->IsConnected == false )
-        {
-            $this->Database = new eZDB( "site.ini", "site" );
-            $this->IsConnected = true;
-        }
-    }
-
     var $ID;
     var $Name;
     var $URL;
@@ -433,14 +367,6 @@ class eZSourceSite
     
     /// bool represented as an int. For automatically publishing of articles.
     var $AutoPublish;
-    
-    ///  Variable for keeping the database connection.
-    var $Database;
-
-    /// Indicates the state of the object. In regard to database information.
-    var $State_;
-    /// Is true if the object has database connection, false if not.
-    var $IsConnected;
 }
 
 

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eznewsimporter.php,v 1.10 2001/05/05 11:16:04 bf Exp $
+// $Id: eznewsimporter.php,v 1.11 2001/07/18 07:36:47 br Exp $
 //
 // Definition of eZNewsImporter class
 //
@@ -78,8 +78,8 @@ class eZNewsImporter
     function importNews( )
     {
         $category = new eZNewsCategory( $this->CategoryID );
-        
-          switch ( $this->Decoder )
+        $this->Decoder = trim( $this->Decoder );
+        switch ( $this->Decoder )
           {
             case "nyheter.no" :
             {
@@ -119,11 +119,11 @@ class eZNewsImporter
                   {
                       if ( $this->AutoPublish == true )
                       {
-                          $newsItem->setIsPublished( true );
+                          $newsItem->setIsPublished( 1 );
                       }
                       else
                       {
-                          $newsItem->setIsPublished( false );
+                          $newsItem->setIsPublished( 0 );
                       }
                       $newsItem->store();
                         

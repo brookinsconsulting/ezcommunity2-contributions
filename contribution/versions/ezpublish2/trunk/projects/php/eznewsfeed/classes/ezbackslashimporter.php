@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezbackslashimporter.php,v 1.4 2001/05/05 11:16:04 bf Exp $
+// $Id: ezbackslashimporter.php,v 1.5 2001/07/18 07:36:47 br Exp $
 //
 // Definition of ezbackslashimporter class
 //
@@ -57,6 +57,7 @@ class eZBackslashImporter
     */
     function &news( )
     {
+        $db = eZDB::globalDatabase();
         $return_array = array();
         $fp = fopen( $this->Site, "r" );
         $output = fread ( $fp, 100000000 );
@@ -109,9 +110,9 @@ class eZBackslashImporter
                             }
                         }
 
-                        $news = new eZNews(  );
-                        $news->setName( addslashes( $title ) );
-                        $news->setURL( addslashes($link ) );
+                        $news = new eZNews();
+                        $news->setName( $db->escapeString( $title ) );
+                        $news->setURL( $db->escapeString( $link ) );
 
                         if ( ereg( "([0-9]{4})-([0-9]{2})-([0-9]{2}) ([0-9]{2}):([0-9]{2}):([0-9]{2})", $publishingDate, $valueArray ) )
                         {
@@ -125,7 +126,6 @@ class eZBackslashImporter
                             $dateTime = new eZDateTime( $year, $month, $day, $hour, $minute, $second );
                             $news->setOriginalPublishingDate( $dateTime );
                         }
-                        
 
                         $return_array[] = $news;
                     }

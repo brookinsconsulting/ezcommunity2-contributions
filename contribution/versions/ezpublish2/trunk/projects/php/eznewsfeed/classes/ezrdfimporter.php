@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezrdfimporter.php,v 1.8 2001/05/05 11:16:04 bf Exp $
+// $Id: ezrdfimporter.php,v 1.9 2001/07/18 07:36:47 br Exp $
 //
 // Definition of ezrdfimporter class
 //
@@ -57,11 +57,12 @@ class eZRDFImporter
     */
     function &news( )
     {
+        $db = eZDB::globalDatabase();
         $return_array = array();
         $fp = fopen( $this->Site, "r" );
         $output = fread ( $fp, 10000000 );
         fclose( $fp );
-
+        
         $doc = qdom_tree( $output );
         if ( count( $doc->children ) > 0 )
         foreach ( $doc->children as $child )
@@ -113,12 +114,12 @@ class eZRDFImporter
                                     }
                                 }
 
-                                $news = new eZNews(  );
-                                $news->setName( addslashes( $title ) );
-                                $news->setIntro( addslashes( $description ) );
-                                $news->setURL( addslashes($link ) );
+                                $news = new eZNews();
+                                $news->setName( $db->escapeString( $title ) );
+                                $news->setIntro( $db->escapeString( $description ) );
+                                $news->setURL( $db->escapeString($link ) );
 
-                                $dateTime = new eZDateTime( );
+                                $dateTime = new eZDateTime();
                                 $news->setOriginalPublishingDate( $dateTime );
                                 
                                 $return_array[] = $news;
