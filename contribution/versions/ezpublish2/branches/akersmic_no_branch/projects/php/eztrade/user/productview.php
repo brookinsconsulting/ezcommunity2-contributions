@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: productview.php,v 1.77.2.2.4.5 2002/01/22 16:46:34 bf Exp $
+// $Id: productview.php,v 1.77.2.2.4.6 2002/01/28 13:39:14 bf Exp $
 //
 // Created on: <24-Sep-2000 12:20:32 bf>
 //
@@ -181,6 +181,10 @@ $t->set_block( "product_view_tpl", "section_item_tpl", "section_item" );
 
 $t->set_block( "section_item_tpl", "link_item_tpl", "link_item" );
 
+$t->set_block( "product_view_tpl", "product_line_tpl", "product_line" );
+$t->set_block( "product_line_tpl", "product_item_tpl", "product_item" );
+$t->set_block( "product_line_tpl", "product_item_button_tpl", "product_item_button" );
+
 if ( !isSet( $ModuleName ) )
     $ModuleName = "trade";
 if ( !isSet( $ModuleList ) )
@@ -252,9 +256,9 @@ if ( $mainImage )
 }
 else
 {
-    $t->set_var( "main_image_uri", "/sitedesign/am/img/a_95x95.gif" );
-    $t->set_var( "main_image_width", "95" );
-    $t->set_var( "main_image_height", "95" );
+    $t->set_var( "main_image_uri", "/sitedesign/am/img/a_100x100.gif" );
+    $t->set_var( "main_image_width", "100" );
+    $t->set_var( "main_image_height", "100" );
     $t->set_var( "main_image_caption", "" );
     
     $t->parse( "main_image", "main_image_tpl" );
@@ -521,6 +525,87 @@ $SiteTitleAppend = $product->name();
 $SiteDescriptionOverride = str_replace( "\"", "", strip_tags( $product->brief() ) );
 $SiteKeywordsOverride = str_replace( "\"", "", strip_tags( $product->keywords() ) );
 
+// similar products:
+{
+    $catID = 316;
+    $limit = 12;
+    $offset = 0;
+    $db =& eZDB::globalDatabase();
+
+    $OrderBy = "eZTrade_Product.Published DESC";
+
+    $return_array = array();
+    $product_array = array();
+
+    $nonActiveCode = " eZTrade_Product.ShowProduct='1' AND";
+    $discontinuedCode = "";
+
+    $db->array_query( $product_array, "
+                SELECT eZTrade_Product.ID AS ID, eZTrade_Product.Name, eZTrade_Product.Price AS Price,
+                       eZTrade_Category.ID as CatID, eZTrade_Category.Name as CatName
+                FROM eZTrade_Product, eZTrade_Category,
+                     eZTrade_ProductCategoryLink
+                WHERE
+                eZTrade_ProductCategoryLink.ProductID = eZTrade_Product.ID
+                AND
+                $nonActiveCode
+                eZTrade_Category.ID = eZTrade_ProductCategoryLink.CategoryID
+                AND
+                eZTrade_Category.ID='$catID'
+                ORDER BY $OrderBy", array( "Limit" => $limit, "Offset" => $offset ) );
+
+
+    $i=0;
+    foreach ( $product_array as $product )
+    {
+        // get thumbnail image, if exists
+        $thumbnailImage = false;
+        $db->array_query( $res_array, "SELECT * FROM eZTrade_ProductImageDefinition WHERE ProductID='" . $product["ID"] . "'" );
+        
+        if ( count( $res_array ) == 1 )
+        {
+           if ( is_numeric( $res_array[0][$db->fieldName( "ThumbnailImageID" )] ) )
+           {
+               $thumbnailImage = new eZImage( $res_array[0][$db->fieldName( "ThumbnailImageID" )], false );
+           }
+        }
+
+        if ( $thumbnailImage )
+        {
+            $variation =& $thumbnailImage->requestImageVariation( 60, 60 );
+    
+            $t->set_var( "image_uri", "/" . $variation->imagePath() );
+            $t->set_var( "image_width", $variation->width() );
+            $t->set_var( "image_height", $variation->height() );
+        }
+        else
+        {
+            $t->set_var( "image_uri", "/sitedesign/am/img/a_95x95.gif" );
+            $t->set_var( "image_width", "60" );
+            $t->set_var( "image_height", "60" );
+        }
+        
+        $t->set_var( "artist_name", $product["CatName"] );
+        $t->set_var( "small_product_name", $product["Name"] );
+        $t->set_var( "small_product_id", $product["ID"] );
+        $t->set_var( "small_product_price", number_format( $product["Price"], 0, " ", " " ) );
+
+        $t->parse( "product_item", "product_item_tpl",true );
+        $t->parse( "product_item_button", "product_item_button_tpl",true );
+
+        $i++;
+
+        if ( $i == 2 )
+        {
+            $t->parse( "product_line", "product_line_tpl",true );
+            $t->set_var( "product_item", "" );
+            $t->set_var( "product_item_button", "" );
+
+            $i = 0;
+        }
+        
+    }
+}
 
 
 if ( $GenerateStaticPage == "true" && !$useVoucher )

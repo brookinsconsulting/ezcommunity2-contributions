@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: cart.php,v 1.71.8.4 2002/01/24 12:50:40 bf Exp $
+// $Id: cart.php,v 1.71.8.5 2002/01/28 13:39:14 bf Exp $
 //
 // Created on: <27-Sep-2000 11:57:49 bf>
 //
@@ -50,7 +50,7 @@ $ColSpanSizeTotals = $ini->read_var( "eZTradeMain", "ColSpanSizeTotals" );
 
 if ( isset( $ShopMore ) ) 
 {
-    eZHTTPTool::header( "Location: /trade/productlist/1" );
+    eZHTTPTool::header( "Location: /" );
     exit();
 }
 
