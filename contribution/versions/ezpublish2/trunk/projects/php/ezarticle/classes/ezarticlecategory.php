@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezarticlecategory.php,v 1.24 2001/02/14 15:45:03 gl Exp $
+// $Id: ezarticlecategory.php,v 1.25 2001/02/19 13:41:48 bf Exp $
 //
 // Definition of eZArticleCategory class
 //
@@ -692,7 +692,7 @@ class eZArticleCategory
            $placement = $qry["Placement"];
            
            $db->query_single( $qry, "SELECT ID, Placement FROM eZArticle_ArticleCategoryLink
-                                    WHERE Placement<='$placement' AND eZArticle_ArticleCategoryLink.CategoryID='$this->ID'
+                                    WHERE Placement<'$placement' AND eZArticle_ArticleCategoryLink.CategoryID='$this->ID'
                                     ORDER BY Placement DESC LIMIT 1" );
 
            $newPlacement = $qry["Placement"];
@@ -732,7 +732,7 @@ class eZArticleCategory
            $placement = $qry["Placement"];
            
            $db->query_single( $qry, "SELECT ID, Placement FROM eZArticle_ArticleCategoryLink
-                                    WHERE Placement>='$placement' AND eZArticle_ArticleCategoryLink.CategoryID='$this->ID' ORDER BY Placement ASC LIMIT 1" );
+                                    WHERE Placement>'$placement' AND eZArticle_ArticleCategoryLink.CategoryID='$this->ID' ORDER BY Placement ASC LIMIT 1" );
 
            $newPlacement = $qry["Placement"];
            $listid = $qry["ID"];
