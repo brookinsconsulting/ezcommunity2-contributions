@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: imagelist.php,v 1.38 2001/09/06 08:52:15 ce Exp $
+// $Id: imagelist.php,v 1.39 2001/09/06 11:21:22 br Exp $
 //
 // Created on: <10-Dec-2000 16:16:20 bf>
 //
@@ -116,6 +116,9 @@ $t->set_block( "category_tpl", "category_read_tpl", "category_read" );
 $t->set_var( "read", "" );
 $t->set_var( "variation", "" );
 $t->set_var( "write_menu", "" );
+
+$t->set_var( "next", "" );
+$t->set_var( "prev", "" );
 
 $t->set_var( "delete_images_button" , "" );
 $t->set_var( "delete_categories_button" , "" );
