@@ -134,7 +134,7 @@ if ( $user )
                     if ( isset( $menuItems ) )
                         eZMenuBox::createBox( $module, $module_dir, "admin",
                         $SiteStyle, $menuItems, true, false,
-                        "$module_dir/admin/menubox.php" );
+                        "$module_dir/admin/menubox.php", false, true );
                 }
             }
         }
