@@ -1,10 +1,10 @@
 <?php
 //
-// $Id: vote.php,v 1.17 2001/07/25 10:06:12 chrism Exp $
+// $Id: vote.php,v 1.18 2001/07/25 10:09:18 chrism Exp $
 //
-// $Id: vote.php,v 1.17 2001/07/25 10:06:12 chrism Exp $
+// $Id: vote.php,v 1.18 2001/07/25 10:09:18 chrism Exp $
 //
-// $Id: vote.php,v 1.17 2001/07/25 10:06:12 chrism Exp $
+// $Id: vote.php,v 1.18 2001/07/25 10:09:18 chrism Exp $
 //
 // Created on: <20-Sep-2000 13:32:11 ce>
 //
@@ -37,7 +37,6 @@ $Language = $ini->read_var( "eZPollMain", "Language" );
 $DOC_ROOT = $ini->read_var( "eZPollMain", "DocumentRoot" );
 if ( $ini->read_var( "eZPollMain", "AllowDoubleVotes" ) == "enabled" )
    $AllowDoubleVotes = true;
-
 
 include_once( $DOC_ROOT . "/classes/ezpoll.php" );
 include_once( $DOC_ROOT . "/classes/ezvote.php" );
