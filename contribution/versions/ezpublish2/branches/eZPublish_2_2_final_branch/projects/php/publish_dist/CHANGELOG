@@ -1,12 +1,9 @@
 eZ publish changelog:
 ---------------------
 
-Changes from 2.2.7 to 2.2.8
----------------------------
-* Removed qdom from meta keywords.
-
 Changes from 2.2.6 to 2.2.7
 ---------------------------
+* Removed qdom from meta keywords.
 * Made it possible to reuse headlines more than one time pr page.
 * Fixed bug when editing a table with rowspan or colspan set.
 * Fixed bug when editing unassigned images.
