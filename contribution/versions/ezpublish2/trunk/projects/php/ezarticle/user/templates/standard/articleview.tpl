@@ -46,14 +46,15 @@
 </table>
 <!-- END article_header_tpl -->
 
+<!-- BEGIN article_intro_tpl -->
 <p>
 {article_intro}
 </p>
+<!-- END article_intro_tpl -->
 
 <p>
 {article_body}
 </p>
-
 
 <!-- BEGIN attribute_list_tpl -->
 <!-- BEGIN type_item_tpl -->
