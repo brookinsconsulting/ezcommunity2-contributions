@@ -14,12 +14,12 @@
 
 <table width="100%" height="4" cellspacing="0" cellpadding="0" border="0">
 <tr>
-	<td bgcolor="ffffff"><img src="ezlink/images/1x1.gif" width="1" height="6" border="0"></td>
+	<td bgcolor="ffffff"><img src="ezforum/images/1x1.gif" width="1" height="6" border="0"></td>
 </tr>
 <tr>
-	<td bgcolor="3c3c3c"><img src="ezlink/images/1x1.gif" width="1" height="4" border="0"></td>
+	<td bgcolor="3c3c3c"><img src="ezforum/images/1x1.gif" width="1" height="4" border="0"></td>
 </tr>
 <tr>
-	<td bgcolor="ffffff"><img src="ezlink/images/1x1.gif" width="1" height="6" border="0"></td>
+	<td bgcolor="ffffff"><img src="ezforum/images/1x1.gif" width="1" height="6" border="0"></td>
 </tr>
 </table>
