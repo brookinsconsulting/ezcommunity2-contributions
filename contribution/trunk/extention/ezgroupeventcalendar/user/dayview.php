@@ -22,6 +22,30 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, US
 //
+// debug stuff
+require_once('Var_Dump.php');
+Var_Dump::displayInit(
+    array(
+        'display_mode' => 'HTML4_Table'
+    ),
+    array(
+        'show_caption'   => FALSE,
+        'bordercolor'    => '#DDDDDD',
+        'bordersize'     => '2',
+        'captioncolor'   => 'white',
+        'cellpadding'    => '4',
+        'cellspacing'    => '0',
+        'color1'         => '#FFFFFF',
+        'color2'         => '#F4F4F4',
+        'before_num_key' => '<font color="#CC5450"><b>',
+        'after_num_key'  => '</b></font>',
+        'before_str_key' => '<font color="#5450CC">',
+        'after_str_key'  => '</font>',
+        'before_value'   => '<i>',
+        'after_value'    => '</i>'
+    )
+);
+// end debug stuff
 include_once( "classes/INIFile.php" );
 include_once( "classes/eztemplate.php" );
 include_once( "classes/ezlog.php" );
@@ -181,13 +205,14 @@ if( $user )
     $t->set_block( "day_view_page_tpl", "group_item_tpl", "group_item" );
 	$t->set_block( "day_view_page_tpl", "type_item_tpl", "type_item" );
 	$t->set_block( "day_view_page_tpl", "group_print_tpl", "group_print" );
+	$t->set_block( "day_view_page_tpl", "time_display_tpl", "time_display");
     $t->set_block( "day_view_page_tpl", "time_table_tpl", "time_table" );
 	$t->set_block( "day_view_page_tpl", "valid_editor_tpl", "valid_editor" );
     $t->set_block( "time_table_tpl", "no_event_tpl", "no_event" );
     $t->set_block( "time_table_tpl", "private_event_tpl", "private_event" );
     $t->set_block( "time_table_tpl", "public_event_tpl", "public_event" );
-    $t->set_block( "time_table_tpl", "new_event_link_tpl", "new_event_link" );
-    $t->set_block( "time_table_tpl", "no_new_event_link_tpl", "no_new_event_link" );
+    $t->set_block( "time_display_tpl", "new_event_link_tpl", "new_event_link" );
+    $t->set_block( "time_display_tpl", "no_new_event_link_tpl", "no_new_event_link" );
     $t->set_block( "public_event_tpl", "delete_check_tpl", "delete_check" );
     $t->set_block( "public_event_tpl", "no_delete_check_tpl", "no_delete_check" );
     $t->set_block( "day_view_page_tpl", "week_tpl", "week" );
@@ -200,16 +225,6 @@ if( $user )
     $t->set_var( "day_number", $Day );
     $t->set_var( "long_date", $Locale->format( $date, false ) );
 
-	if( $editor == true )
-	{
-		$t->parse( "new_event_link", "new_event_link_tpl" );
-		$t->set_var( "no_new_event_link", "" );
-	}
-	else
-	{
-		$t->parse( "no_new_event_link", "no_new_event_link_tpl" );
-		$t->set_var( "new_event_link", "" );
-	}
 
 	if ( $tmpGroup->id() != 0 )
 	{
@@ -222,6 +237,37 @@ if( $user )
 		$t->set_var( "group_print_id", $tmpGroup->id() );
 		$t->set_var( "group_print", "" );
 	}
+ for ($i=0;$i<24;$i++)
+ {
+  $t->set_var("short_time", $i);
+
+ if ($editor == true)
+ {
+ 	$t->parse( "new_event_link", "new_event_link_tpl" );
+	$t->set_var( "no_new_event_link", "" );
+ }
+ else
+ {
+	$t->parse( "no_new_event_link", "no_new_event_link_tpl" );
+	$t->set_var( "new_event_link", "" );
+ }
+   $t->parse("time_display", "time_display_tpl", true);
+ }
+/*    if( $editor == true && $tmpTime->minute() == '00' )
+	{
+		$t->parse( "new_event_link", "new_event_link_tpl" );
+		$t->set_var( "no_new_event_link", "" );
+	}
+	else
+	{
+		$t->parse( "no_new_event_link", "no_new_event_link_tpl" );
+		$t->set_var( "new_event_link", "" );
+	}
+	else
+	{
+		$t->set_var( "no_new_event_link", "" );
+		$t->set_var( "new_event_link", "" );
+	}*/
 
     $today = new eZDate();
     $tmpDate = new eZDate( $date->year(), $date->month(), $date->day() );
@@ -276,7 +322,7 @@ if( $user )
 
         $interval->setSecond( 0 );
     }
-
+   //  Var_Dump::display($intervalArray);
     // increase schedule span to fit early/late events
     $midNight = new eZTime();
     $midNight->setSecondsElapsed( 0 );
@@ -337,7 +383,7 @@ if( $user )
             $nextInterval = $tmpTime->add( $interval );
             if ( $nextInterval->isGreater( $tmpTime ) )
                 $nextInterval = new eZTime( 23, 59 );
-
+       
             // if this event should be inserted into the table now
             if ( $eventDone[$event->id()] == false &&
                  intersects( $event, $tmpTime, $nextInterval ) == true )
@@ -417,8 +463,8 @@ if( $user )
     while ( $tmpTime->isGreater( $stopTime ) == true )
     {
     // spectrum : this if block is a way to get the 23rd hour displayed
-        if ($tmpTime->hour() == 22 && $toggle23) $tmpTime = $tmpTime->add( $interval );
-	$t->set_var( "short_time", $Locale->format( $tmpTime, true ) );
+   //     if ($tmpTime->hour() == 22 && $toggle23) $tmpTime = $tmpTime->add( $interval );
+    //	$t->set_var( "short_time", $Locale->format( $tmpTime, true ) );
         $t->set_var( "start_time", addZero( $tmpTime->hour() ) . addZero( $tmpTime->minute() ) );
 
         $drawnColumn = array();
@@ -512,7 +558,6 @@ if( $user )
         }
 
         $t->set_var( "td_class", "" );
-
 // Mark current time with bgcurrent. Does not currently go well together with caching.
 //        if ( $date->equals( $today ) && $nowSet == false &&
 //        $tmpTime->isGreater( $now, true ) && $now->isGreater( $tmpTime->add( $interval ) ) )
@@ -520,15 +565,16 @@ if( $user )
 //            $t->set_var( "td_class", "bgcurrent" );
 //            $nowSet = true;
 //        }
-        if ( !isset($toggle23) )
-	    $toggle23 = false;
+//        if ( !isset($toggle23) )
+//	    $toggle23 = false;
         if ( $tmpTime > $tmpTime->add( $interval ) )
             $tmpTime = new eZTime( 23, 59 );
 	// this elseif block is a hack to get isGreater to display the 23rd hour    
-        elseif ($stopTime->hour() == 23 && $tmpTime->hour() == 22 && $toggle23 == false)
-	    $toggle23 = true;
+//        elseif ($stopTime->hour() == 23 && $tmpTime->hour() == 22 && $toggle23 == false)
+//	    $toggle23 = true;
 	else
             $tmpTime = $tmpTime->add( $interval );
+
 	$row++;
 
 		if ( ( $i %2 ) == 0 )
@@ -537,7 +583,7 @@ if( $user )
 			$t->set_var( "td_class", "bgdark" );
 
 		$i++;
-	if ($i > 30) die();
+//	if ($i > 30) die();
         $t->parse( "time_table", "time_table_tpl", true );
     }
 
@@ -713,9 +759,14 @@ if( $user )
 
 
 // returns the number of rows an event covers.
-function eventRowSpan( &$event, &$startTime, &$interval )
+function eventRowSpan( &$event ) //  &$startTime, &$interval )
 {
-    $ret = 0;
+    $ret=0;
+    $dur = $event->duration();
+    $min = $dur->secondsElapsed() / 60;
+    $ret =  $min / 15;
+    return $ret;
+/*    $ret = 0;
     $tmpTime = new eZTime();
     $tmpTime->setSecondsElapsed( $startTime->secondsElapsed() );
     $aStop =& $event->stopTime();
@@ -730,7 +781,7 @@ function eventRowSpan( &$event, &$startTime, &$interval )
         $ret++;
     }
 
-    return $ret;
+    return $ret;*/
 }
 
 
@@ -775,14 +826,6 @@ function addZero( $value )
     }
     return $ret;
 }
-/*!
-Unsets any events that can't be viewed.
-*/
-function removeRestrictedEvents($events )
-{
- 
-}
-
 /*!
 Calculates and returns height of the event div based on the 1px = 1 minute background image.
 */

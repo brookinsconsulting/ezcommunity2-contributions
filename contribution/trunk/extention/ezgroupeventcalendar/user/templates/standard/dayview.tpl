@@ -110,28 +110,32 @@
 </tr>
 </table>
 
-<table width="100%" border="0" cellspacing="0" cellpadding="2" class="gcalBorder" style="background: url('{www_dir}{index}/ezgroupeventcalendar/user/templates/standard/images/gcalDayViewBg.png') repeat;">
-<!-- BEGIN time_table_tpl -->
+<table width="100%" border="0" cellspacing="0" cellpadding="0" class="gcalBorder" style="background: url('{www_dir}{index}/ezgroupeventcalendar/user/templates/standard/images/gcalDayViewBg.png') repeat;">
+<tr>
+<td width=5% valign="top">
+<table height="100%" width="100%" cellspacing="0" cellpadding="0">
+<!-- BEGIN time_display_tpl -->
 <tr>
 	<!-- BEGIN new_event_link_tpl -->
-	<td class="{td_class}" width="5%" style="height: 60px; overlap:none; border: 1px solid gray; border-right: 2px solid gray;">
-	<a class="path" href="{www_dir}{index}/groupeventcalendar/eventedit/new/{year_number}/{month_number}/{day_number}/{start_time}/{group_print_id}/">{short_time}</a>
+	<td class="{td_class}" width="100%" style="height: 60px; border: 1px solid gray; border-right: 2px solid gray;">
+	<a class="path" style="font-size: 12px;" href="{www_dir}{index}/groupeventcalendar/eventedit/new/{year_number}/{month_number}/{day_number}/{start_time}/{group_print_id}/">{short_time}</a>
 	</td>
 	<!-- END new_event_link_tpl -->
 
 	<!-- BEGIN no_new_event_link_tpl -->
-	<td class="{td_class}" width="5%" style="height: 60px;" >{short_time}</td>
+	<td class="{td_class}" width="100%" style="height: 60px; border: 1px solid gray; border-right: 2px solid gray;" >{short_time}</td>
 	<!-- END no_new_event_link_tpl -->
-
-	<!-- BEGIN public_event_tpl -->
-	
-	<td valign="top" rowspan="{rowspan_value}" >  <div style="height: 300px; margin-top: 15px; ">
+	</tr>
+<!-- END time_display_tpl -->
+</table></td>
+<td width="95%" valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0" style=" border: 1px solid black; height: 1440px;">
+<!-- BEGIN time_table_tpl -->
+<tr><td style="height: 13px; width:20px; background-color: black; border-bottom:1px solid white;"> </td>
+   <!-- BEGIN public_event_tpl -->
+	<td class="{td_class}" valign="top" rowspan="{rowspan_value}" style="height: 100px; overflow: hidden; background-color: #6699CC;">
 	<table width="100%" cellspacing="0" cellpadding="4" border="0" >
 	<tr>
 		<td width="98%" valign="top" class="gcalEventTopBar">
-		<!--
-		<a class='gcalDayEventText' href="{www_dir}{index}/groupeventcalendar/eventview/{event_id}/">{event_groupName} - {event_name}</a><br />
--->
 		<a class='gcalDayEventText' href="{www_dir}{index}/groupeventcalendar/eventview/{event_id}/">{event_name}</a><br />
 
 		</td>
@@ -145,17 +149,17 @@
 		  <input type="checkbox" name="eventArrayID[]" value={event_id}>
 		</td>
 		<!-- END delete_check_tpl -->
-		
+
 		<!-- BEGIN no_delete_check_tpl -->
 		<td width="1%" valign="top" align="right" class="gcalEventTopBar">&nbsp;</td>
 		<td width="1%" valign="top" align="right" class="gcalEventTopBar">&nbsp;</td>
 		<!-- END no_delete_check_tpl -->
 	</tr>
-	<tr>
+<!--	<tr>
 		<td colspan="3">
 		{event_description}&nbsp;
 		</td>
-	</tr>
+	</tr> -->
 	</table></div>
 	</td>
 	<!-- END public_event_tpl -->
@@ -165,10 +169,11 @@
 	</td>
 	<!-- END private_event_tpl -->
 	<!-- BEGIN no_event_tpl -->
-	<td  valign="top" rowspan="{rowspan_value}">&nbsp;</td>
+	<td valign="top" rowspan="{rowspan_value}" style="height:15px;">&nbsp;</td>
 	<!-- END no_event_tpl -->
 </tr>
 <!-- END time_table_tpl -->
+</td></tr>
 </table>
 
 </form>
