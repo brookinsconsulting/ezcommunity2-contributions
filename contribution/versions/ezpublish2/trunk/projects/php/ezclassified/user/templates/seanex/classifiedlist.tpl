@@ -1,19 +1,33 @@
-<table width="100%" border="0">
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
 <tr>
-        <td valign="bottom">
-        <h1>{intl-headline}</h1>
-        </td>
-        <td rowspan="2" align="right">
-        <form action="/contact/search/company" method="post">
-        <input type="text" name="SearchText" size="12" />       
-        <input type="submit" value="{intl-search}" />
-        </form>
-        </td>
+	<td width="1%" class="tdmini" bgcolor="#465da1" align="left" valign="top"><img src="/images/box-tl.gif" width="4" height="4" border="0" alt="" /><br /></td>
+	<td width="98%" bgcolor="#465da1" class="tdminipath" rowspan="3" valign="middle"><div class="smallpath"><span class="smallbold">Jobbmarked</span> | Stillingsannonser</div></td>
+	<td width="1%" class="tdmini" bgcolor="#465da1" align="right" valign="top"><img src="/images/box-tr.gif" width="4" height="4" border="0" alt="" /><br /></td>
+</tr>
+<tr>
+	<td width="1%" class="tdmini" bgcolor="#465da1"><img src="/images/1x1.gif" width="1" height="1" border="0" alt="" /><br /></td>
+	<td width="1%" class="tdmini" bgcolor="#465da1"><img src="/images/1x1.gif" width="1" height="1" border="0" alt="" /><br /></td>
+</tr>
+<tr>
+	<td width="1%" class="tdmini" bgcolor="#465da1" align="left" valign="bottom"><img src="/images/box-bl.gif" width="4" height="4" /><br /></td>
+	<td width="1%" class="tdmini" bgcolor="#465da1" align="right" valign="bottom"><img src="/images/box-br.gif" width="4" height="4" /><br /></td>
+</tr>
+</table>
+<br />
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+	<td valign="top" class="h2">Søk i stillingsannonsene:&nbsp;&nbsp;</td>
+	<td>
+	<form action="/contact/search/company" method="post">
+	<input type="text" name="SearchText" size="12" />       
+	<input type="submit" value="{intl-search}" />
+	</form>
+	</td>
 </tr>
 </table>
 
 <hr noshade="noshade" size="4"/ >
-
+		
 <!-- BEGIN path_tpl -->
 
 <img src="/images/path-arrow.gif" height="10" width="15" border="0">
