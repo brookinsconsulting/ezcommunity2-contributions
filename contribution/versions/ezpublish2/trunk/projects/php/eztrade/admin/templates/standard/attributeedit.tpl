@@ -3,6 +3,8 @@
 <hr noshade size="4" />
 <form method="post" action="/trade/productedit/attributeedit/{product_id}/" >
 
+<br />
+
 <select name="TypeID">
 <option value="-1">{intl-no_attributes}</option>
 <!-- BEGIN type_tpl -->
@@ -37,7 +39,7 @@
 
 <hr noshade size="4" />
 
-<input type="submit" name="Update" value="{intl-update}" />
+<input class="stdbutton" type="submit" name="Update" value="{intl-update}" />
 
 <hr noshade size="4" />
 

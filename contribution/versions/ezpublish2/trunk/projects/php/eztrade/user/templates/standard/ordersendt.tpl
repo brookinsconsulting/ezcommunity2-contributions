@@ -7,29 +7,36 @@
 <p>{intl-email_notice}</p>
 
 
-<b>{intl-payment_method}</b>:
-{payment_method}
-
+<p class="boxtext">{intl-payment_method}:</p>
+<div class="p">{payment_method}</div>
 
 <br />
 
+<table width="100%" cellspacing="0" cellpadding="0" border="0">
+<tr>
+	<td>
 <!-- BEGIN billing_address_tpl -->
-<h3>{intl-billing_address}</h3>
+<p class="boxtext">{intl-billing_address}:</p>
 {customer_first_name} {customer_last_name} <br />
 {billing_street1}<br />
 {billing_street2}<br />
 {billing_zip} {billing_place}<br />
 {billing_country}<br />
 <!-- END billing_address_tpl -->
-
-<!-- BEGIN shipping_address_tpl -->
-<h3>{intl-shipping_address}</h3>
+	</td>
+	<td>
+	<!-- BEGIN shipping_address_tpl -->
+<p class="boxtext">{intl-shipping_address}:</p>
 {shipping_first_name} {shipping_last_name} <br />
 {shipping_street1}<br />
 {shipping_street2}<br />
 {shipping_zip} {shipping_place}<br />
 {shipping_country}<br />
 <!-- END shipping_address_tpl -->
+	</td>
+</tr>
+</table>
+<br />
 
 <h2>{intl-goods_list}</h2>
 
