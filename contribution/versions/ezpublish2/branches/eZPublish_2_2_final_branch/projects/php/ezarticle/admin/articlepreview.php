@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: articlepreview.php,v 1.21 2001/09/25 11:50:50 bf Exp $
+// $Id: articlepreview.php,v 1.21.2.1 2001/11/01 19:12:53 bf Exp $
 //
 // Created on: <18-Oct-2000 16:34:51 bf>
 //
@@ -58,6 +58,9 @@ $t->set_block( "article_preview_page_tpl", "prev_page_link_tpl", "prev_page_link
 $t->set_block( "article_preview_page_tpl", "attribute_list_tpl", "attribute_list" );
 $t->set_block( "attribute_list_tpl", "type_item_tpl", "type_item" );
 $t->set_block( "type_item_tpl", "attribute_item_tpl", "attribute_item" );
+
+$t->set_block( "article_preview_page_tpl", "image_list_tpl", "image_list" );
+$t->set_block( "image_list_tpl", "image_tpl", "image" );
 
 
 $article = new eZArticle( );
@@ -135,6 +138,66 @@ if( $typeCount > 0 )
 
     $t->parse( "attribute_list", "attribute_list_tpl" );
 }
+
+// image list
+
+$usedImages = $renderer->usedImageList();
+$images =& $article->images();
+    
+{
+    $i=0;
+    foreach ( $images as $imageArray )
+    {
+        $image = $imageArray["Image"];
+        $placement = $imageArray["Placement"];
+
+        $showImage = true;
+
+        if ( is_array( $usedImages ) == true )
+        {
+            if ( in_array( $placement, $usedImages ) )
+            {
+                $showImage = false;
+            }
+        }
+            
+        if (  $showImage  )
+        {
+            if ( ( $i % 2 ) == 0 )
+            {
+                $t->set_var( "td_class", "bglight" );
+            }
+            else
+            {
+                $t->set_var( "td_class", "bgdark" );
+            }
+
+            if ( $image->caption() == "" )
+                $t->set_var( "image_caption", "&nbsp;" );
+            else
+                $t->set_var( "image_caption", $image->caption() );
+
+            
+            $t->set_var( "image_id", $image->id() );
+            $t->set_var( "article_id", $ArticleID );
+
+            $variation =& $image->requestImageVariation( 150, 150 );
+
+            $t->set_var( "image_url", "/" . $variation->imagePath() );
+            $t->set_var( "image_width", $variation->width() );
+            $t->set_var( "image_height",$variation->height() );
+
+            $t->parse( "image", "image_tpl", true );
+            $i++;
+        }
+        $imageNumber++;
+    }
+
+    $t->parse( "image_list", "image_list_tpl", true );
+}
+if ( $i == 0 )
+    $t->set_var( "image_list", "" );    
+
 
 $pageCount = $article->pageCount();
 
