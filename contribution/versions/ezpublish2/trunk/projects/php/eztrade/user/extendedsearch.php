@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: extendedsearch.php,v 1.8 2001/03/21 16:08:37 bf Exp $
+// $Id: extendedsearch.php,v 1.9 2001/03/22 08:31:20 ce Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <10-Oct-2000 17:49:05 bf>
@@ -43,6 +43,7 @@ include_once( "eztrade/classes/ezcartoptionvalue.php" );
 include_once( "ezuser/classes/ezuser.php" );
 include_once( "ezsession/classes/ezsession.php" );
 include_once( "ezimagecatalogue/classes/ezimage.php" );
+include_once( "classes/ezlist.php" );
 
 if ( isSet ( $SearchButton ) )
 {

@@ -207,6 +207,11 @@ switch ( $url_array[2] )
 
     case "search" :
     {
+        if ( $url_array[3] == "move" )
+        {
+            $Query = urldecode( $url_array[4] );
+            $Offset = urldecode ( $url_array[5] );
+        }
         include( "eztrade/user/productsearch.php" );
     }
     break;

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: productsearch.php,v 1.13 2001/03/01 14:06:26 jb Exp $
+// $Id: productsearch.php,v 1.14 2001/03/22 08:31:20 ce Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <10-Oct-2000 17:49:05 bf>
@@ -41,6 +41,7 @@ include_once( "eztrade/classes/ezcartoptionvalue.php" );
 include_once( "ezuser/classes/ezuser.php" );
 include_once( "ezsession/classes/ezsession.php" );
 include_once( "ezimagecatalogue/classes/ezimage.php" );
+include_once( "classes/ezlist.php" );
 
 $user = eZUser::currentUser();
 
@@ -93,6 +94,7 @@ if ( isset( $URLQueryString ) )
 $productList =& $product->activeProductSearch( $Query, $Offset, $Limit );
 $total_count = $product->activeProductSearchCount( $Query );
 
+$t->set_var( "url_text", urlencode( $Query ) );
 
 $locale = new eZLocale( $Language );
 $i=0;
@@ -189,6 +191,13 @@ if ( isSet( $Query ) )
         $i++;
     }
 }
+
+print( "template:" . $t ."\n" .
+       "total:" . $total_count . "\n" . 
+       "limit:" . $Limit . "\n" .
+       "offset:" . $Offset . "\n" );
+
+eZList::drawNavigator( $t, $total_count, $Limit, $Offset, "product_search_tpl" );
 
 $t->set_var( "url_query_string", $Query );
 $t->set_var( "query_string", $Query );
