@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: userwithaddress.php,v 1.5 2000/11/01 17:59:19 ce-cvs Exp $
+// $Id: userwithaddress.php,v 1.6 2000/11/02 11:31:17 ce-cvs Exp $
 //
 // 
 //
@@ -141,7 +141,6 @@ if ( $Action == "Update" )
             {
                 $country = new eZCountry( $CountryID );
                 $address->setCountry( $country );
-                
             }
                 
             $address->store();
@@ -206,7 +205,7 @@ if ( $Action == "Edit" )
         $Zip = $address->zip();
         $Place = $address->place();
 
-        $t->set_var( "address_id", $address->id() );
+       $t->set_var( "address_id", $address->id() );
 
 //        $country = $address->country();
 //        $t->set_var( "country", $country->name() );
@@ -273,6 +272,18 @@ if ( $SelectCountry == "enabled" )
     
     foreach ( $countryList as $country )
     {
+        if ( $Action == "Edit" )
+        {
+            $countryID = $address->country();
+            
+            if ( $country["ID"] == $countryID->id() )
+            {
+                $t->set_var( "is_selected", "selected" );
+            }
+            else
+                $t->set_var( "is_selected", "" );
+        }
+        
         $t->set_var( "country_id", $country["ID"] );
         $t->set_var( "country_name", $country["Name"] );
         $t->parse( "country_option", "country_option_tpl", true );

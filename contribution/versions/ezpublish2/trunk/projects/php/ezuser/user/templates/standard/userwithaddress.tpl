@@ -53,7 +53,7 @@
 <p class="boxtext">{intl-country}:</p>
 <select name="CountryID" size="5">
 <!-- BEGIN country_option_tpl -->
-<option value="{country_id}">{country_name}</option>
+<option {is_selected} value="{country_id}">{country_name}</option>
 <!-- END country_option_tpl -->
 </select>
 <!-- END country_tpl -->
