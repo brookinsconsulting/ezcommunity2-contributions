@@ -44,12 +44,12 @@ class eZPhone
     */
     function store()
     {
-        $this->dbInit();
+        $db = eZDB::globalDatabase();
         
         $ret = false;
         if ( !isset( $this->ID ) )
         {
-            $this->Database->query( "INSERT INTO eZContact_Phone set Number='$this->Number', PhoneTypeID='$this->PhoneTypeID' " );
+            $db->query( "INSERT INTO eZContact_Phone set Number='$this->Number', PhoneTypeID='$this->PhoneTypeID' " );
             $this->ID = mysql_insert_id();
 
             $this->State_ = "Coherent";
@@ -57,7 +57,7 @@ class eZPhone
         }
         else
         {
-            $this->Database->query( "UPDATE eZContact_Phone set Number='$this->Number', PhoneTypeID='$this->PhoneTypeID' WHERE ID='$this->ID' " );
+            $db->query( "UPDATE eZContact_Phone set Number='$this->Number', PhoneTypeID='$this->PhoneTypeID' WHERE ID='$this->ID' " );
 
             $this->State_ = "Coherent";
             $ret = true;            
@@ -71,9 +71,8 @@ class eZPhone
     */
     function delete()
     {
-        $this->dbInit();
-        
-        $this->Database->query( "DELETE FROM eZContact_Phone WHERE ID='$this->ID' " );
+        $db = eZDB::globalDatabase();
+        $db->query( "DELETE FROM eZContact_Phone WHERE ID='$this->ID' " );
     }
     
     /*
@@ -81,10 +80,10 @@ class eZPhone
     */  
     function get( $id )
     {
-        $this->dbInit();    
+        $db = eZDB::globalDatabase();
         if ( $id != "" )
         {
-            $this->Database->array_query( $phone_array, "SELECT * FROM eZContact_Phone WHERE ID='$id'" );
+            $db->array_query( $phone_array, "SELECT * FROM eZContact_Phone WHERE ID='$id'" );
             if ( count( $phone_array ) > 1 )
             {
                 die( "Feil: Flere telefonnummer med samme ID funnet i database, dette skal ikke være mulig. " );
@@ -178,32 +177,13 @@ class eZPhone
 
         return $this->ID;
     }
-    
-    /*!
-      \private
-      Open the database.
-    */
-    function dbInit()
-    {
-        if ( $this->IsConnected == false )
-        {
-            $this->Database = new eZDB( "site.ini", "site" );
-            $this->IsConnected = true;
-        }
-    }
 
     var $ID;
     var $Number;
     var $PhoneTypeID;
 
-    ///  Variable for keeping the database connection.
-    var $Database;
-
     /// Indicates the state of the object. In regard to database information.
     var $State_;
-    /// Is true if the object has database connection, false if not.
-    var $IsConnected;
-
 }
 
 ?>

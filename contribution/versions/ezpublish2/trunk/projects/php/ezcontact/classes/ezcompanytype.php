@@ -1,7 +1,7 @@
 <?
 
 // 
-// $Id: ezcompanytype.php,v 1.21 2000/12/15 09:30:16 ce Exp $
+// $Id: ezcompanytype.php,v 1.22 2001/01/19 12:15:26 jb Exp $
 //
 // Definition of eZCompanyType class
 //
@@ -43,8 +43,6 @@ class eZCompanyType
     */
     function eZCompanyType( $id="-1", $fetch=true )
     {
-        $this->IsConnected = false;
-        
         if ( $id != -1 )
         {
             $this->ID = $id;
@@ -70,13 +68,13 @@ class eZCompanyType
     */
     function store()
     {
-        $this->dbInit();
+        $db = eZDB::globalDatabase();
         
         $ret = false;
         
         if ( !isSet( $this->ID ) )
         {
-            $this->Database->query( "INSERT INTO eZContact_CompanyType set Name='$this->Name', Description='$this->Description',  ImageID='$this->ImageID', ParentID='$this->ParentID'" );
+            $db->query( "INSERT INTO eZContact_CompanyType set Name='$this->Name', Description='$this->Description',  ImageID='$this->ImageID', ParentID='$this->ParentID'" );
 
             $this->ID = mysql_insert_id();
 
@@ -85,7 +83,7 @@ class eZCompanyType
         }
         else
         {
-            $this->Database->query( "UPDATE eZContact_CompanyType set Name='$this->Name', Description='$this->Description', ImageID='$this->ImageID', ParentID='$this->ParentID' WHERE ID='$this->ID'" );
+            $db->query( "UPDATE eZContact_CompanyType set Name='$this->Name', Description='$this->Description', ImageID='$this->ImageID', ParentID='$this->ParentID' WHERE ID='$this->ID'" );
 
             $this->State_ = "Coherent";
             $ret = true;
@@ -99,9 +97,9 @@ class eZCompanyType
      */
     function delete()
     {
-        $this->dbInit();
-        $this->Database->query( "DELETE FROM eZContact_CompanyTypeDict WHERE CompanyTypeID='$this->ID'" );
-        $this->Database->query( "DELETE FROM eZContact_CompanyType WHERE ID='$this->ID'" );
+        $db = eZDB::globalDatabase();
+        $db->query( "DELETE FROM eZContact_CompanyTypeDict WHERE CompanyTypeID='$this->ID'" );
+        $db->query( "DELETE FROM eZContact_CompanyType WHERE ID='$this->ID'" );
     }
 
     /*
@@ -109,10 +107,10 @@ class eZCompanyType
     */  
     function get( $id )
     {
-        $this->dbInit();    
+        $db = eZDB::globalDatabase();
         if ( $id != "" )
         {
-            $this->Database->array_query( $company_type_array, "SELECT * FROM eZContact_CompanyType WHERE ID='$id'" );
+            $db->array_query( $company_type_array, "SELECT * FROM eZContact_CompanyType WHERE ID='$id'" );
             
             if ( count( $company_type_array ) > 1 )
             {
@@ -134,7 +132,7 @@ class eZCompanyType
      */
     function getAll( $OrderBy = "ID", $LimitStart = "None", $LimitBy = "None" )
     {
-        $this->dbInit();
+        $db = eZDB::globalDatabase();
         
         switch( strtolower( $OrderBy ) )
         {
@@ -176,7 +174,7 @@ class eZCompanyType
         $return_array = array();
 
         
-        $this->Database->array_query( $company_type_array, "SELECT ID FROM eZContact_CompanyType $OrderBy $LimitClause" );
+        $db->array_query( $company_type_array, "SELECT ID FROM eZContact_CompanyType $OrderBy $LimitClause" );
 
         foreach( $company_type_array as $companyTypeItem )
         {
@@ -190,7 +188,7 @@ class eZCompanyType
      */
     function getByParentID( $parent = 0, $OrderBy = "ID", $LimitStart = "None", $LimitBy = "None" )
     {
-        $this->dbInit();
+        $db = eZDB::globalDatabase();
 
         if ( get_class( $parent ) == "ezcompanytype" )
         {
@@ -240,7 +238,7 @@ class eZCompanyType
         $company_type_array = array();
         $return_array = array();
         
-        $this->Database->array_query( $company_type_array, "SELECT ID FROM eZContact_CompanyType WHERE ParentID='$id' $OrderBy $LimitClause" );
+        $db->array_query( $company_type_array, "SELECT ID FROM eZContact_CompanyType WHERE ParentID='$id' $OrderBy $LimitClause" );
 
         foreach( $company_type_array as $companyTypeItem )
         {
@@ -263,10 +261,10 @@ class eZCompanyType
         
         if( is_numeric( $id ) )
         {
-            $this->dbInit();
+            $db = eZDB::globalDatabase();
             
             $company_type_array = array();
-            $this->Database->array_query( $company_type_array, "SELECT ParentID FROM eZContact_CompanyType WHERE ParentID='$id'" );
+            $db->array_query( $company_type_array, "SELECT ParentID FROM eZContact_CompanyType WHERE ParentID='$id'" );
             $childrenCount = count( $company_type_array );
             
             if( $childrenCount != 0 )
@@ -283,7 +281,7 @@ class eZCompanyType
     */
     function path( $categoryID = 0 )
     {
-        $this->dbInit();
+        $db = eZDB::globalDatabase();
         
         if( $categoryID == 0 )
         {
@@ -347,13 +345,13 @@ class eZCompanyType
 
        if ( get_class( $company ) )
        {
-           $this->dbInit();
+           $db = eZDB::globalDatabase();
 
            $companyID = $company->id();
 
 //             if ( $this->ID > 1 )
            {
-               $this->Database->query( "INSERT INTO eZContact_CompanyTypeDict
+               $db->query( "INSERT INTO eZContact_CompanyTypeDict
                                     SET
                                     CompanyID='$companyID',
                                     CompanyTypeID='$this->ID'" );
@@ -465,21 +463,6 @@ class eZCompanyType
 
         return $this->ImageID;
     }
-    
-    
-    
-    /*!
-      \private
-      Open the database.
-    */
-    function dbInit()
-    {
-        if ( $this->IsConnected == false )
-        {
-            $this->Database = new eZDB( "site.ini", "site" );
-            $this->IsConnected = true;
-        }
-    }
 
     var $ID;
     var $ParentID;
@@ -487,14 +470,8 @@ class eZCompanyType
     var $Description;
     var $ImageID;
 
-    ///  Variable for keeping the database connection.
-    var $Database;
-
     /// Indicates the state of the object. In regard to database information.
     var $State_;
-    /// Is true if the object has database connection, false if not.
-    var $IsConnected;
-
 }
 
 ?>

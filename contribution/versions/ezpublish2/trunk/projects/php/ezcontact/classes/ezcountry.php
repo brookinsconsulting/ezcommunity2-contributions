@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezcountry.php,v 1.2 2000/11/01 09:35:23 ce-cvs Exp $
+// $Id: ezcountry.php,v 1.3 2001/01/19 12:15:26 jb Exp $
 //
 // Definition of eZCountry class
 //
@@ -39,8 +39,6 @@ class eZCountry
     */
     function eZCountry( $id="", $fetch=true )
     {
-        $this->IsConnected = false;
-
         if ( $id != "" )
         {
 
@@ -67,13 +65,13 @@ class eZCountry
     */  
     function store()
     {
-        $this->dbInit();
+        $db = eZDB::globalDatabase();
 
         $ret = false;
         
         if ( !isset( $this->ID ) )
         {
-            $this->Database->query( "INSERT INTO eZContact_Country
+            $db->query( "INSERT INTO eZContact_Country
                     SET ISO='$this->ISO',
                     Name='$this->Name'" );            
 
@@ -84,7 +82,7 @@ class eZCountry
         }
         else
         {
-            $this->Database->query( "UPDATE eZContact_Country
+            $db->query( "UPDATE eZContact_Country
                     SET ISO='$this->ISO',
                     Name='$this->Name'
                     WHERE ID='$this->ID'" );            
@@ -103,10 +101,10 @@ class eZCountry
     */  
     function get( $id="" )
     {
-        $this->dbInit();    
+        $db = eZDB::globalDatabase();
         if ( $id != "" )
         {
-            $this->Database->array_query( $country_array, "SELECT * FROM eZContact_Country WHERE ID='$id'" );
+            $db->array_query( $country_array, "SELECT * FROM eZContact_Country WHERE ID='$id'" );
             if ( count( $country_array ) > 1 )
             {
                 die( "Feil: Flere countryer med samme ID funnet i database, dette skal ikke være mulig. " );
@@ -125,11 +123,11 @@ class eZCountry
     */
     function &getAll( )
     {
-        $this->dbInit();    
+        $db = eZDB::globalDatabase();
         $country_array = 0;
         $return_array = array();
     
-        $this->Database->array_query( $country_array, "SELECT * FROM eZContact_Country ORDER BY Name" );
+        $db->array_query( $country_array, "SELECT * FROM eZContact_Country ORDER BY Name" );
 
         foreach ( $country_array as $country )
         {
@@ -144,10 +142,10 @@ class eZCountry
     */
     function &getAllArray( )
     {
-        $this->dbInit();    
+        $db = eZDB::globalDatabase();
         $country_array = 0;
     
-        $this->Database->array_query( $country_array, "SELECT * FROM eZContact_Country ORDER BY Name" );
+        $db->array_query( $country_array, "SELECT * FROM eZContact_Country ORDER BY Name" );
     
         return $country_array;
     }
@@ -157,9 +155,8 @@ class eZCountry
      */
     function delete()
     {
-        $this->dbInit();
-        
-        $this->Database->query( "DELETE FROM eZContact_Country WHERE ID='$this->ID'" );
+        $db = eZDB::globalDatabase();    
+        $db->query( "DELETE FROM eZContact_Country WHERE ID='$this->ID'" );
     }    
     
 
@@ -214,31 +211,13 @@ class eZCountry
 
        $this->Name = $value;
     }
-
-    /*!
-      \private
-      Open the database.
-    */
-    function dbInit()
-    {
-        if ( $this->IsConnected == false )
-        {
-            $this->Database = new eZDB( "site.ini", "site" );
-            $this->IsConnected = true;
-        }
-    }
   
     var $ID;
     var $ISO;
     var $Name;
 
-    ///  Variable for keeping the database connection.
-    var $Database;
-
     /// Indicates the state of the object. In regard to database information.
     var $State_;
-    /// Is true if the object has database connection, false if not.
-    var $IsConnected;
 }
 
 ?>

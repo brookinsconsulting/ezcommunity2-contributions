@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezonline.php,v 1.6 2000/11/29 11:26:51 pkej-cvs Exp $
+// $Id: ezonline.php,v 1.7 2001/01/19 12:15:26 jb Exp $
 //
 // Definition of eZOnline class
 //
@@ -50,8 +50,6 @@ class eZOnline
     */
     function eZOnline( $id="", $fetch=true )
     {
-        $this->IsConnected = false;
-
         if ( !empty( $id ) )
         {
             $this->ID = $id;
@@ -77,13 +75,13 @@ class eZOnline
     */  
     function store()
     {
-        $this->dbInit();
+        $db = eZDB::globalDatabase();
 
         $ret = false;
         
         if ( !isset( $this->ID ) )
         {
-            $this->Database->query( "INSERT INTO eZContact_Online SET
+            $db->query( "INSERT INTO eZContact_Online SET
                     URL='$this->URL',
                     URLType='$this->URLType',
                     OnlineTypeID='$this->OnlineTypeID'" );
@@ -95,7 +93,7 @@ class eZOnline
         }
         else
         {
-            $this->Database->query( "UPDATE eZContact_Online SET
+            $db->query( "UPDATE eZContact_Online SET
                     URL='$this->URL',
                     URLType='$this->URLType',
                     OnlineTypeID='$this->OnlineTypeID'
@@ -114,9 +112,9 @@ class eZOnline
      */
     function delete()
     {
-        $this->dbInit();
+        $db = eZDB::globalDatabase();
 
-        $this->Database->query( "DELETE FROM eZContact_Online WHERE ID='$this->ID'" );
+        $db->query( "DELETE FROM eZContact_Online WHERE ID='$this->ID'" );
     }    
 
 
@@ -125,10 +123,10 @@ class eZOnline
     */  
     function get( $id=-1 )
     {
-        $this->dbInit();    
+        $db = eZDB::globalDatabase();
         if ( $id != "" )
         {
-            $this->Database->array_query( $online_array, "SELECT * FROM eZContact_Online WHERE ID='$id'" );
+            $db->array_query( $online_array, "SELECT * FROM eZContact_Online WHERE ID='$id'" );
             if ( count( $online_array ) > 1 )
             {
                 die( "Feil: Flere onlineer med samme ID funnet i database, dette skal ikke være mulig. " );
@@ -148,13 +146,13 @@ class eZOnline
     */
     function getAll( )
     {
-        $this->dbInit();    
+        $db = eZDB::globalDatabase();
         $online_array = 0;
 
         $online_array = array();
         $return_array = array();
     
-        $this->Database->array_query( $online_array, "SELECT ID FROM eZContact_Online" );
+        $db->array_query( $online_array, "SELECT ID FROM eZContact_Online" );
 
         foreach ( $online_array as $addresItem )
         {
@@ -282,8 +280,8 @@ class eZOnline
      */
     function workStatusTypes()
     {
-        $this->dbInit();
-        $this->Database->array_query( $itemArray, $query="SHOW COLUMNS FROM eZContact_Online LIKE 'URLType'" );
+        $db = eZDB::globalDatabase();
+        $db->array_query( $itemArray, $query="SHOW COLUMNS FROM eZContact_Online LIKE 'URLType'" );
         $items=preg_split( "/'|\,/", $itemArray[0]["Type"], 0, PREG_SPLIT_NO_EMPTY );
         
         $count=count( $items );
@@ -296,19 +294,6 @@ class eZOnline
         return $returnArray;
     }
 
-    /*!
-      \private
-      Open the database.
-    */
-    function dbInit()
-    {
-        if ( $this->IsConnected == false )
-        {
-            $this->Database = new eZDB( "site.ini", "site" );
-            $this->IsConnected = true;
-        }
-    }
-  
     var $ID;
     var $URL;
     var $URLTypeID;
@@ -317,13 +302,8 @@ class eZOnline
     /// Relation to an eZOnlineType
     var $OnlineTypeID;
 
-    ///  Variable for keeping the database connection.
-    var $Database;
-
     /// Indicates the state of the object. In regard to database information.
     var $State_;
-    /// Is true if the object has database connection, false if not.
-    var $IsConnected;
 }
 
 ?>

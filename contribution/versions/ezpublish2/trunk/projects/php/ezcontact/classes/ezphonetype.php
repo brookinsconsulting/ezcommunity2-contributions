@@ -16,8 +16,6 @@ class eZPhoneType
     */
     function eZPhoneType( $id="-1", $fetch=true )
     {
-        $this->IsConnected = false;
-
         if ( $id != -1 )
         {
             $this->ID = $id;
@@ -43,10 +41,10 @@ class eZPhoneType
     */  
     function get( $id )
     {
-        $this->dbInit();    
+        $db = eZDB::globalDatabase();
         if ( $id != "" )
         {
-            $this->Database->array_query( $phone_type_array, "SELECT * FROM eZContact_PhoneType WHERE ID='$id'" );
+            $db->array_query( $phone_type_array, "SELECT * FROM eZContact_PhoneType WHERE ID='$id'" );
             if ( count( $phone_type_array ) > 1 )
             {
                 die( "Feil: Flere phonetype med samme ID funnet i database, dette skal ikke være mulig. " );
@@ -66,16 +64,17 @@ class eZPhoneType
     }
 
     /*
-    Henter ut alle telefontypene lagret i databasen.
-  */
+      \static
+      Henter ut alle telefontypene lagret i databasen.
+    */
     function getAll( )
     {
-        $this->dbInit();
+        $db = eZDB::globalDatabase();
 
         $phone_type_edit = array();
         $return_array = array();
     
-        $this->Database->array_query( $phone_type_array, "SELECT ID FROM eZContact_PhoneType ORDER BY ListOrder" );
+        $db->array_query( $phone_type_array, "SELECT ID FROM eZContact_PhoneType ORDER BY ListOrder" );
 
         foreach( $phone_type_array as $phoneTypeItem )
         {
@@ -247,31 +246,11 @@ class eZPhoneType
         $db->query( "UPDATE eZContact_PhoneType SET ListOrder='$this->ListOrder' WHERE ID='$listid'" );
     }
 
-    /*!
-      \private
-      Open the database.
-    */
-    function dbInit()
-    {
-        if ( $this->IsConnected == false )
-        {
-            $this->Database = new eZDB( "site.ini", "site" );
-            $this->IsConnected = true;
-        }
-    }
-
     var $ID;
     var $Name;
 
-    ///  Variable for keeping the database connection.
-    var $Database;
-
     /// Indicates the state of the object. In regard to database information.
     var $State_;
-    /// Is true if the object has database connection, false if not.
-    var $IsConnected;
-
-    
 }
 
 ?>

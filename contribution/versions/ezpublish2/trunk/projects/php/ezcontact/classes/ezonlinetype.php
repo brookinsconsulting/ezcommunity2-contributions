@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezonlinetype.php,v 1.6 2001/01/12 17:50:18 jb Exp $
+// $Id: ezonlinetype.php,v 1.7 2001/01/19 12:15:26 jb Exp $
 //
 // Definition of eZOnline class
 //
@@ -50,8 +50,6 @@ class eZOnlineType
     */
     function eZOnlineType( $id="-1", $fetch=true )
     {
-        $this->IsConnected = false;
-
         if ( $id != -1 )
         {
             $this->ID = $id;
@@ -164,10 +162,10 @@ class eZOnlineType
   */  
     function get( $id )
     {
-        $this->dbInit();    
+        $db = eZDB::globalDatabase();
         if ( $id != "" )
         {
-            $this->Database->array_query( $online_type_array, "SELECT * FROM eZContact_OnlineType WHERE ID='$id'" );
+            $db->array_query( $online_type_array, "SELECT * FROM eZContact_OnlineType WHERE ID='$id'" );
             if ( count( $online_type_array ) > 1 )
             {
                 die( "Feil: Flere onlinetype med samme ID funnet i database, dette skal ikke være mulig. " );
@@ -191,13 +189,13 @@ class eZOnlineType
   */
     function getAll( )
     {
-        $this->dbInit();    
+        $db = eZDB::globalDatabase();
         $online_type_array = 0;
 
         $online_type_array = array();
         $return_array = array();
     
-        $this->Database->array_query( $online_type_array, "SELECT ID FROM eZContact_OnlineType ORDER BY ListOrder" );
+        $db->array_query( $online_type_array, "SELECT ID FROM eZContact_OnlineType ORDER BY ListOrder" );
 
         foreach ( $online_type_array as $onlineTypeItem )
         {
@@ -290,31 +288,12 @@ class eZOnlineType
         $db->query( "UPDATE eZContact_OnlineType SET ListOrder='$this->ListOrder' WHERE ID='$listid'" );
     }
 
-    /*!
-      \private
-      Open the database.
-    */
-    function dbInit()
-    {
-        if ( $this->IsConnected == false )
-        {
-            $this->Database = new eZDB( "site.ini", "site" );
-            $this->IsConnected = true;
-        }
-    }
-
     var $ID;
     var $Name;
     var $ListOrder;
 
-    ///  Variable for keeping the database connection.
-    var $Database;
-
     /// Indicates the state of the object. In regard to database information.
     var $State_;
-    /// Is true if the object has database connection, false if not.
-    var $IsConnected;
- 
 }
 
 ?>

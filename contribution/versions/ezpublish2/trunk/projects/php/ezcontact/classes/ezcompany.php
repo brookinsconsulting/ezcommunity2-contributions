@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezcompany.php,v 1.51 2001/01/12 17:51:28 jb Exp $
+// $Id: ezcompany.php,v 1.52 2001/01/19 12:15:26 jb Exp $
 //
 // Definition of eZProduct class
 //
@@ -61,7 +61,6 @@ class eZCompany
     */
     function eZCompany( $id="-1", $fetch=true )
     {
-        $this->IsConnected = false;
         if ( $id != -1 )
         {
             $this->ID = $id;
@@ -85,12 +84,12 @@ class eZCompany
     */
     function store( )
     {
-        $this->dbInit();
+        $db = eZDB::globalDatabase();
 
         if ( !isSet( $this->ID ) )
         {
         
-            $this->Database->query( "INSERT INTO eZContact_Company set Name='$this->Name',
+            $db->query( "INSERT INTO eZContact_Company set Name='$this->Name',
 	                                              Comment='$this->Comment',
                                                   CompanyNo='$this->CompanyNo',
 	                                              CreatorID='$this->CreatorID'" );
@@ -100,7 +99,7 @@ class eZCompany
         }
         else
         {
-            $this->Database->query( "UPDATE eZContact_Company set Name='$this->Name',
+            $db->query( "UPDATE eZContact_Company set Name='$this->Name',
                                             	 Comment='$this->Comment',
                                                  CompanyNo='$this->CompanyNo',
                                                	 CreatorID='$this->CreatorID' WHERE ID='$this->ID'" );
@@ -164,8 +163,8 @@ class eZCompany
             }
             $db->query( "DELETE FROM eZContact_CompanyOnlineDict WHERE CompanyID='$id'" );
 
-            $this->Database->query( "DELETE FROM eZContact_CompanyTypeDict WHERE CompanyID='$this->ID'" );
-            $this->Database->query( "DELETE FROM eZContact_Company WHERE ID='$this->ID'" );
+            $db->query( "DELETE FROM eZContact_CompanyTypeDict WHERE CompanyID='$this->ID'" );
+            $db->query( "DELETE FROM eZContact_Company WHERE ID='$this->ID'" );
         }
         return true;
     }
@@ -176,12 +175,12 @@ class eZCompany
     */
     function get( $id=-1 )
     {
-        $this->dbInit();
+        $db = eZDB::globalDatabase();
         $ret = false;
 
         if ( $id != "" )
         {
-            $this->Database->array_query( $company_array, "SELECT * FROM eZContact_Company WHERE ID='$id'" );
+            $db->array_query( $company_array, "SELECT * FROM eZContact_Company WHERE ID='$id'" );
             if ( count( $company_array ) > 1 )
             {
                 die( "Error: More than one company with the same id was found. " );
@@ -213,12 +212,12 @@ class eZCompany
     */
     function getAll( )
     {
-        $this->dbInit();
-        
+        $db = eZDB::globalDatabase();
+
         $company_array = array();
         $return_array = array();
     
-        $this->Database->array_query( $company_array, "SELECT ID FROM eZContact_Company ORDER BY Name" );
+        $db->array_query( $company_array, "SELECT ID FROM eZContact_Company ORDER BY Name" );
 
         foreach( $company_array as $companyItem )
             {
@@ -234,12 +233,12 @@ class eZCompany
     */
     function getByCategory( $categoryID )
     {
-        $this->dbInit();
+        $db = eZDB::globalDatabase();
 
         $company_array = array();
         $return_array = array();
 
-        $this->Database->array_query( $company_array, "SELECT CompanyID FROM eZContact_CompanyTypeDict, eZContact_Company
+        $db->array_query( $company_array, "SELECT CompanyID FROM eZContact_CompanyTypeDict, eZContact_Company
                                                        WHERE eZContact_CompanyTypeDict.CompanyTypeID='$categoryID'
                                                        AND eZContact_Company.ID = eZContact_CompanyTypeDict.CompanyID
                                                        ORDER BY eZContact_Company.Name" );
@@ -257,13 +256,13 @@ class eZCompany
     */
     function searchByCategory( $categoryID, $query )
     {
-        $this->dbInit();
+        $db = eZDB::globalDatabase();
         
         $company_array = array();
         $return_array = array();
         if( !empty( $query ) )
         {
-            $this->Database->array_query( $company_array, "
+            $db->array_query( $company_array, "
                 SELECT 
                     Comp.ID 
                 FROM
@@ -292,11 +291,11 @@ class eZCompany
     */
     function search( $query )
     {
-        $this->dbInit();    
+        $db = eZDB::globalDatabase();
         $company_array = array();
         $return_array = array();
     
-        $this->Database->array_query( $company_array, "SELECT ID FROM eZContact_Company WHERE Name LIKE '%$query%' ORDER BY Name" );
+        $db->array_query( $company_array, "SELECT ID FROM eZContact_Company WHERE Name LIKE '%$query%' ORDER BY Name" );
 
         foreach( $company_array as $companyItem )
         {
@@ -314,9 +313,9 @@ class eZCompany
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
 
-       $this->dbInit();
+        $db = eZDB::globalDatabase();
        
-       $this->Database->query( "DELETE FROM eZContact_CompanyTypeDict
+       $db->query( "DELETE FROM eZContact_CompanyTypeDict
                                 WHERE CompanyID='$this->ID'" );
     }
 
@@ -329,9 +328,9 @@ class eZCompany
             $this->get( $this->ID );
         
         $return_array = array();
-        $this->dbInit();
+        $db = eZDB::globalDatabase();
 
-        $this->Database->array_query( $categories_array, "SELECT CompanyTypeID
+        $db->array_query( $categories_array, "SELECT CompanyTypeID
                                                  FROM eZContact_CompanyTypeDict
                                                  WHERE CompanyID='$companyID'" );
 
@@ -353,9 +352,9 @@ class eZCompany
             $this->get( $this->ID );
         
         $return_array = array();
-        $this->dbInit();
+        $db = eZDB::globalDatabase();
 
-        $this->Database->array_query( $address_array, "SELECT AddressID
+        $db->array_query( $address_array, "SELECT AddressID
                                                  FROM eZContact_CompanyAddressDict
                                                  WHERE CompanyID='$companyID'" );
 
@@ -377,12 +376,12 @@ class eZCompany
 
         $ret = false;
        
-        $this->dbInit();
+        $db = eZDB::globalDatabase();
         if ( get_class( $address ) == "ezaddress" )
         {
             $addressID = $address->id();
 
-            $this->Database->query( "INSERT INTO eZContact_CompanyAddressDict
+            $db->query( "INSERT INTO eZContact_CompanyAddressDict
                                 SET CompanyID='$this->ID', AddressID='$addressID'" );
 
             $ret = true;
@@ -398,8 +397,9 @@ class eZCompany
         if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
 
-        
-        $this->Database->array_query( $address_array, "SELECT eZContact_Address.ID AS 'AID', eZContact_CompanyAddressDict.CompanyID AS 'DID'
+        $db = eZDB::globalDatabase();
+
+        $db->array_query( $address_array, "SELECT eZContact_Address.ID AS 'AID', eZContact_CompanyAddressDict.CompanyID AS 'DID'
                                                FROM eZContact_Address, eZContact_CompanyAddressDict
                                                WHERE eZContact_Address.ID=eZContact_CompanyAddressDict.AddressID AND eZContact_CompanyAddressDict.CompanyID='$this->ID' " );
         
@@ -407,8 +407,8 @@ class eZCompany
         {
             $addressID = $addressItem["AID"];
             $addressDictID = $addressItem["DID"];
-            $this->Database->query( "DELETE FROM eZContact_Address WHERE ID='$addressID'" );
-            $this->Database->query( "DELETE FROM eZContact_CompanyAddressDict WHERE CompanyID='$this->ID'" );
+            $db->query( "DELETE FROM eZContact_Address WHERE ID='$addressID'" );
+            $db->query( "DELETE FROM eZContact_CompanyAddressDict WHERE CompanyID='$this->ID'" );
         }
     }
 
@@ -421,9 +421,9 @@ class eZCompany
             $this->get( $this->ID );
         
         $return_array = array();
-        $this->dbInit();
+        $db = eZDB::globalDatabase();
 
-        $this->Database->array_query( $phone_array, "SELECT PhoneID
+        $db->array_query( $phone_array, "SELECT PhoneID
                                                  FROM eZContact_CompanyPhoneDict
                                                  WHERE CompanyID='$companyID'" );
 
@@ -445,12 +445,12 @@ class eZCompany
 
         $ret = false;
        
-        $this->dbInit();
+        $db = eZDB::globalDatabase();
         if ( get_class( $phone ) == "ezphone" )
         {
             $phoneID = $phone->id();
 
-            $this->Database->query( "INSERT INTO eZContact_CompanyPhoneDict
+            $db->query( "INSERT INTO eZContact_CompanyPhoneDict
                                 SET CompanyID='$this->ID', PhoneID='$phoneID'" );
 
             $ret = true;
@@ -463,7 +463,8 @@ class eZCompany
     */
     function removePhones()
     {
-        $this->Database->array_query( $phone_array, "SELECT eZContact_Phone.ID AS 'PID', eZContact_CompanyPhoneDict.CompanyID AS 'DID'
+        $db = eZDB::globalDatabase();
+        $db->array_query( $phone_array, "SELECT eZContact_Phone.ID AS 'PID', eZContact_CompanyPhoneDict.CompanyID AS 'DID'
                                      FROM eZContact_Phone, eZContact_CompanyPhoneDict
                                      WHERE eZContact_Phone.ID=eZContact_CompanyPhoneDict.PhoneID AND eZContact_CompanyPhoneDict.CompanyID='$this->ID' " );
         
@@ -471,8 +472,8 @@ class eZCompany
         {
             $phoneID = $phoneItem["PID"];
             $phoneDictID = $phoneItem["DID"];
-            $this->Database->query( "DELETE FROM eZContact_Phone WHERE ID='$phoneID'" );
-            $this->Database->query( "DELETE FROM eZContact_CompanyPhoneDict WHERE CompanyID='$this->ID'" );
+            $db->query( "DELETE FROM eZContact_Phone WHERE ID='$phoneID'" );
+            $db->query( "DELETE FROM eZContact_CompanyPhoneDict WHERE CompanyID='$this->ID'" );
         }
     }
 
@@ -485,9 +486,9 @@ class eZCompany
             $this->get( $this->ID );
         
         $return_array = array();
-        $this->dbInit();
+        $db = eZDB::globalDatabase();
 
-        $this->Database->array_query( $online_array, "SELECT OnlineID
+        $db->array_query( $online_array, "SELECT OnlineID
                                                  FROM eZContact_CompanyOnlineDict
                                                  WHERE CompanyID='$this->ID'" );
 
@@ -509,13 +510,13 @@ class eZCompany
 
         $ret = false;
        
-        $this->dbInit();
+        $db = eZDB::globalDatabase();
 
         if ( get_class( $online ) == "ezonline" )
         {
             $onlineID = $online->id();
 
-            $this->Database->query( "INSERT INTO eZContact_CompanyOnlineDict
+            $db->query( "INSERT INTO eZContact_CompanyOnlineDict
                                 SET CompanyID='$this->ID', OnlineID='$onlineID'" );
 
             $ret = true;
@@ -528,8 +529,8 @@ class eZCompany
     */
     function removeOnlines()
     {
-            
-        $this->Database->array_query( $online_array, "SELECT eZContact_Online.ID AS 'OID', eZContact_CompanyOnlineDict.CompanyID AS 'DID'
+        $db = eZDB::globalDatabase();
+        $db->array_query( $online_array, "SELECT eZContact_Online.ID AS 'OID', eZContact_CompanyOnlineDict.CompanyID AS 'DID'
                                      FROM eZContact_Online, eZContact_CompanyOnlineDict
                                      WHERE eZContact_Online.ID=eZContact_CompanyOnlineDict.OnlineID AND eZContact_CompanyOnlineDict.CompanyID='$this->ID' " );
         
@@ -537,8 +538,8 @@ class eZCompany
         {
             $onlineID = $onlineItem["OID"];
             $onlineDictID = $onlineItem["DID"];
-            $this->Database->query( "DELETE FROM eZContact_Online WHERE ID='$onlineID'" );
-            $this->Database->query( "DELETE FROM eZContact_CompanyOnlineDict WHERE CompanyID='$this->ID'" );
+            $db->query( "DELETE FROM eZContact_Online WHERE ID='$onlineID'" );
+            $db->query( "DELETE FROM eZContact_CompanyOnlineDict WHERE CompanyID='$this->ID'" );
         }
     }
     
@@ -552,13 +553,13 @@ class eZCompany
 
         $ret = false;
        
-        $this->dbInit();
+        $db = eZDB::globalDatabase();
 
         if ( get_class ( $image ) == "ezimage" )
         {
             $imageID = $image->id();
 
-            $this->Database->query( "INSERT INTO eZContact_CompanyImageDict
+            $db->query( "INSERT INTO eZContact_CompanyImageDict
                                      SET CompanyID='$this->ID', ImageID='$imageID'" );
         }
     }
@@ -571,12 +572,12 @@ class eZCompany
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
 
-       $this->dbInit();
+        $db = eZDB::globalDatabase();
        
        $return_array = array();
        $image_array = array();
        
-       $this->Database->array_query( $image_array, "SELECT ImageID FROM eZContact_CompanyImageDict WHERE CompanyID='$this->ID'" );
+       $db->array_query( $image_array, "SELECT ImageID FROM eZContact_CompanyImageDict WHERE CompanyID='$this->ID'" );
        
        for ( $i=0; $i<count($image_array); $i++ )
        {
@@ -594,9 +595,9 @@ class eZCompany
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
 
-       $this->dbInit();
+        $db = eZDB::globalDatabase();
         
-       $this->Database->query( "DELETE FROM eZContact_CompanyImageDefinition WHERE CompanyID='$this->ID'" );
+       $db->query( "DELETE FROM eZContact_CompanyImageDefinition WHERE CompanyID='$this->ID'" );
     }
 
     /*!
@@ -608,9 +609,9 @@ class eZCompany
             $this->get( $this->ID );
 
        $ret = false;
-       $this->dbInit();
+        $db = eZDB::globalDatabase();
        
-       $this->Database->array_query( $res_array, "SELECT * FROM eZContact_CompanyImageDefinition
+       $db->array_query( $res_array, "SELECT * FROM eZContact_CompanyImageDefinition
                                      WHERE
                                      CompanyID='$this->ID'
                                    " );
@@ -638,17 +639,17 @@ class eZCompany
         
         if ( get_class( $image ) == "ezimage" )
         {
-            $this->dbInit();
+            $db = eZDB::globalDatabase();
 
             $imageID = $image->id();
 
-            $this->Database->array_query( $res_array, "SELECT COUNT(*) AS Number FROM eZContact_CompanyImageDefinition
+            $db->array_query( $res_array, "SELECT COUNT(*) AS Number FROM eZContact_CompanyImageDefinition
                                      WHERE
                                      CompanyID='$this->ID'" );
 
             if ( $res_array[0]["Number"] == "1" )
             {            
-                $this->Database->query( "UPDATE eZContact_CompanyImageDefinition
+                $db->query( "UPDATE eZContact_CompanyImageDefinition
                                      SET
                                      LogoImageID='$imageID'
                                      WHERE
@@ -656,7 +657,7 @@ class eZCompany
             }
             else
             {
-                $this->Database->query( "INSERT INTO eZContact_CompanyImageDefinition
+                $db->query( "INSERT INTO eZContact_CompanyImageDefinition
                                      SET
                                      CompanyID='$this->ID',
                                      LogoImageID='$imageID'" );
@@ -669,7 +670,7 @@ class eZCompany
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
         
-       $this->Database->query( "UPDATE eZContact_CompanyImageDefinition SET CompanyImageID='0' WHERE CompanyID='$this->ID'" );
+       $db->query( "UPDATE eZContact_CompanyImageDefinition SET CompanyImageID='0' WHERE CompanyID='$this->ID'" );
     }
 
     function deleteLogo( )
@@ -677,9 +678,9 @@ class eZCompany
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
         
-       $this->dbInit();
+        $db = eZDB::globalDatabase();
        
-       $this->Database->query( "UPDATE eZContact_CompanyImageDefinition SET LogoImageID='0' WHERE CompanyID='$this->ID'" );
+       $db->query( "UPDATE eZContact_CompanyImageDefinition SET LogoImageID='0' WHERE CompanyID='$this->ID'" );
     }
 
 
@@ -695,17 +696,16 @@ class eZCompany
         
         if ( get_class( $image ) == "ezimage" )
         {
-            $this->dbInit();
-
+            $db = eZDB::globalDatabase();
             $imageID = $image->id();
 
-            $this->Database->array_query( $res_array, "SELECT COUNT(*) AS Number FROM eZContact_CompanyImageDefinition
+            $db->array_query( $res_array, "SELECT COUNT(*) AS Number FROM eZContact_CompanyImageDefinition
                                      WHERE
                                      CompanyID='$this->ID'" );
 
             if ( $res_array[0]["Number"] == "1" )
             {            
-                $this->Database->query( "UPDATE eZContact_CompanyImageDefinition
+                $db->query( "UPDATE eZContact_CompanyImageDefinition
                                      SET
                                      CompanyImageID='$imageID'
                                      WHERE
@@ -713,7 +713,7 @@ class eZCompany
             }
             else
             {
-                $this->Database->query( "INSERT INTO eZContact_CompanyImageDefinition
+                $db->query( "INSERT INTO eZContact_CompanyImageDefinition
                                      SET
                                      CompanyID='$this->ID',
                                      CompanyImageID='$imageID'" );
@@ -731,9 +731,9 @@ class eZCompany
             $this->get( $this->ID );
 
        $ret = false;
-       $this->dbInit();
+        $db = eZDB::globalDatabase();
 
-       $this->Database->array_query( $res_array, "SELECT * FROM eZContact_CompanyImageDefinition
+       $db->array_query( $res_array, "SELECT * FROM eZContact_CompanyImageDefinition
                                      WHERE
                                      CompanyID='$this->ID'
                                    " );
@@ -858,11 +858,11 @@ class eZCompany
     */
     function searchByPerson( $query )
     {
-        $this->dbInit();    
+        $db = eZDB::globalDatabase();
         $company_array = array();
         $return_array = array();
     
-        $this->Database->array_query( $company_array, "SELECT eZContact_Company.ID as ID
+        $db->array_query( $company_array, "SELECT eZContact_Company.ID as ID
                                       FROM eZContact_Company, eZContact_Person
                                       WHERE ((eZContact_Person.FirstName LIKE '%$query%' OR eZContact_Person.LastName LIKE '%$query%')
                                       AND eZContact_Company.ID=eZContact_Person.Company) GROUP BY eZContact_Company.ID ORDER BY eZContact_Company.ID" );
@@ -874,22 +874,6 @@ class eZCompany
         return $return_array;
     }    
 
-
-    /*!
-      \private
-      Private function.
-      Open the database for read and write. Gets all the database information from site.ini.
-    */
-    function dbInit( )
-    {
-        if ( $this->IsConnected == false )
-        {
-            $this->Database = new eZDB( "site.ini", "site" );
-            $this->IsConnected = true;
-        }
-    }
-
-
     var $ID;
     var $CreatorID;
     var $Name;
@@ -897,13 +881,8 @@ class eZCompany
     var $Online;
     var $CompanyNo;
 
-    ///  Variable for keeping the database connection.
-    var $Database;
-
     /// Indicates the state of the object. In regard to database information.
     var $State_;
-    /// Is true if the object has database connection, false if not.
-    var $IsConnected;
 }
 
 ?>

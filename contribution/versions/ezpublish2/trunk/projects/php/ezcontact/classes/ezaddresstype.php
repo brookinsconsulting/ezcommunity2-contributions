@@ -15,8 +15,6 @@ class eZAddressType
     */
     function eZAddressType( $id="-1", $fetch=true)
     {
-        $this->IsConnected = false;
-
         if ( $id != -1 )
         {
             $this->ID = $id;
@@ -126,10 +124,10 @@ class eZAddressType
   */  
     function get( $id )
     {
-        $this->dbInit();    
+        $db = eZDB::globalDatabase();
         if ( $id != "" )
         {
-            $this->Database->array_query( $address_type_array, "SELECT * FROM eZContact_AddressType WHERE ID='$id'" );
+            $db->array_query( $address_type_array, "SELECT * FROM eZContact_AddressType WHERE ID='$id'" );
             if ( count( $address_type_array ) > 1 )
             {
                 die( "Feil: Flere addresstype med samme ID funnet i database, dette skal ikke være mulig. " );
@@ -153,13 +151,13 @@ class eZAddressType
   */
     function getAll( )
     {
-        $this->dbInit();    
+        $db = eZDB::globalDatabase();
         $online_type_array = 0;
 
         $address_type_array = array();
         $return_array = array();
     
-        $this->Database->array_query( $address_type_array, "SELECT ID FROM eZContact_AddressType ORDER BY ListOrder" );
+        $db->array_query( $address_type_array, "SELECT ID FROM eZContact_AddressType ORDER BY ListOrder" );
 
         foreach( $address_type_array as $addressTypeItem )
         {
@@ -252,30 +250,12 @@ class eZAddressType
         $db->query( "UPDATE eZContact_AddressType SET ListOrder='$this->ListOrder' WHERE ID='$listid'" );
     }
 
-    /*!
-      \private
-      Open the database.
-    */
-    function dbInit()
-    {
-        if ( $this->IsConnected == false )
-        {
-            $this->Database = new eZDB( "site.ini", "site" );
-            $this->IsConnected = true;
-        }
-    }
-
     var $ID;
     var $Name;
     var $ListOrder;
 
-    ///  Variable for keeping the database connection.
-    var $Database;
-
     /// Indicates the state of the object. In regard to database information.
     var $State_;
-    /// Is true if the object has database connection, false if not.
-    var $IsConnected;
 
 }
 

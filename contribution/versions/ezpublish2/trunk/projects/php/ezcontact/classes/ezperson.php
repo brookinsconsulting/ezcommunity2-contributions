@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezperson.php,v 1.35 2001/01/15 14:43:14 jb Exp $
+// $Id: ezperson.php,v 1.36 2001/01/19 12:15:26 jb Exp $
 //
 // Definition of eZPerson class
 //
@@ -51,7 +51,6 @@ class eZPerson
     */
     function eZPerson( $id="", $fetch=true  )
     {
-        $this->IsConnected = false;
         if( !empty( $id ) )
         {
             $this->ID = $id;
@@ -75,11 +74,11 @@ class eZPerson
     */  
     function store()
     {
-        $this->dbInit();
+        $db = eZDB::globalDatabase();
         if( !isSet( $this->ID ) )
         {
         
-            $this->Database->query( "INSERT INTO eZContact_Person set
+            $db->query( "INSERT INTO eZContact_Person set
                                                     FirstName='$this->FirstName',
                                                     LastName='$this->LastName',
 	                                                Comment='$this->Comment',
@@ -92,7 +91,7 @@ class eZPerson
         }
         else
         {
-            $this->Database->query( "UPDATE eZContact_Person set
+            $db->query( "UPDATE eZContact_Person set
                                                     FirstName='$this->FirstName',
                                                     LastName='$this->LastName',
 	                                                Comment='$this->Comment',
@@ -170,10 +169,10 @@ class eZPerson
     */
     function get( $id )
     {
-        $this->dbInit();
+        $db = eZDB::globalDatabase();
         if( $id != "" )
         {
-            $this->Database->array_query( $person_array, "SELECT * FROM eZContact_Person WHERE ID='$id'" );
+            $db->array_query( $person_array, "SELECT * FROM eZContact_Person WHERE ID='$id'" );
             if( count( $person_array ) > 1 )
             {
                 die( "Feil: Flere personer med samme ID funnet i database, dette skal ikke være mulig. " );
@@ -197,13 +196,13 @@ class eZPerson
      */
     function getByUserID( $id )
     {
-        $this->dbInit();
+        $db = eZDB::globalDatabase();
         
         $query = "SELECT PersonID FROM eZContact_UserPersonDict WHERE UserID='$id'";
 
         $return_item = 0;
 
-        $this->Database->array_query( $person_array, $query );
+        $db->array_query( $person_array, $query );
         foreach( $person_array as $personItem )
         {
             $return_item = new eZPerson( $personItem["PersonID"], false );
@@ -214,12 +213,12 @@ class eZPerson
     
     function getAllCount( $search_types = "" )
     {
-        $this->dbInit();
+        $db = eZDB::globalDatabase();
 
         if ( empty( $search_types ) )
         {
             $qry = "SELECT count( ID ) AS Count FROM eZContact_Person ORDER BY LastName, FirstName";
-            $this->Database->query_single( $persons, $qry );
+            $db->query_single( $persons, $qry );
             return $persons["Count"];
         }
         else
@@ -241,7 +240,7 @@ class eZPerson
                     ")
                     GROUP BY A.ID
                     ORDER BY A.LastName, A.FirstName";
-            $this->Database->array_query( $persons, $qry );
+            $db->array_query( $persons, $qry );
             return count( $persons );
         }
     }
@@ -251,14 +250,14 @@ class eZPerson
     */
     function getAll( $search_types = "", $limit_index = 0, $limit = 1 )
     {
-        $this->dbInit();
+        $db = eZDB::globalDatabase();
         $person_array = 0;
 
         if ( empty( $search_types ) )
         {
             $qry = "SELECT ID FROM eZContact_Person ORDER BY LastName, FirstName
                     LIMIT $limit_index, $limit";
-            $this->Database->array_query( $person_array, $qry );
+            $db->array_query( $person_array, $qry );
         }
         else
         {
@@ -280,7 +279,7 @@ class eZPerson
                     GROUP BY A.ID
                     ORDER BY A.LastName, A.FirstName
                     LIMIT $limit_index, $limit";
-            $this->Database->array_query( $person_array, $qry );
+            $db->array_query( $person_array, $qry );
         }
 
         foreach( $person_array as $personItem )
@@ -295,10 +294,10 @@ class eZPerson
     */
     function search( $query )
     {
-        $this->dbInit();    
+        $db = eZDB::globalDatabase();
         $person_array = 0;
     
-        $this->Database->array_query( $person_array, "SELECT * FROM eZContact_Person WHERE FirstName LIKE '%$query%' OR LastName LIKE '%$query%' ORDER BY LastName" );
+        $db->array_query( $person_array, "SELECT * FROM eZContact_Person WHERE FirstName LIKE '%$query%' OR LastName LIKE '%$query%' ORDER BY LastName" );
     
         foreach( $person_array as $personItem )
         {
@@ -316,12 +315,12 @@ class eZPerson
             $this->get( $this->ID );
         
         $return_array = array();
-        $this->dbInit();
+        $db = eZDB::globalDatabase();
 
         $PersonID = $this->ID;
 
 
-        $this->Database->array_query( $address_array, "SELECT AddressID
+        $db->array_query( $address_array, "SELECT AddressID
                                                  FROM eZContact_PersonAddressDict
                                                  WHERE PersonID='$PersonID'" );
 
@@ -343,20 +342,20 @@ class eZPerson
 
         $ret = false;
        
-        $this->dbInit();
+        $db = eZDB::globalDatabase();
         if( get_class( $address ) == "ezaddress" )
         {
             $addressID = $address->id();
 
             $checkQuery = "SELECT PersonID FROM eZContact_PersonAddressDict WHERE AddressID='$addressID'";
             
-            $this->Database->array_query( $address_array, $checkQuery );
+            $db->array_query( $address_array, $checkQuery );
 
             $count = count( $address_array );
 
             if( $count == 0 )
             {
-                $this->Database->query( "INSERT INTO eZContact_PersonAddressDict
+                $db->query( "INSERT INTO eZContact_PersonAddressDict
                                 SET PersonID='$this->ID', AddressID='$addressID'" );
             }
             $ret = true;
@@ -373,11 +372,11 @@ class eZPerson
             $this->get( $this->ID );
         
         $return_array = array();
-        $this->dbInit();
+        $db = eZDB::globalDatabase();
 
         $PersonID = $this->ID;
 
-        $this->Database->array_query( $phone_array, "SELECT PhoneID
+        $db->array_query( $phone_array, "SELECT PhoneID
                                                  FROM eZContact_PersonPhoneDict
                                                  WHERE PersonID='$PersonID'" );
 
@@ -399,19 +398,19 @@ class eZPerson
 
         $ret = false;
        
-        $this->dbInit();
+        $db = eZDB::globalDatabase();
         if( get_class( $phone ) == "ezphone" )
         {
             $phoneID = $phone->id();
 
             $checkQuery = "SELECT PersonID FROM eZContact_PersonPhoneDict WHERE PhoneID='$phoneID'";
 
-            $this->Database->array_query( $phone_array, $checkQuery );
+            $db->array_query( $phone_array, $checkQuery );
 
             $count = count( $phone_array );
             if( $count == 0 )
             {
-                $this->Database->query( "INSERT INTO eZContact_PersonPhoneDict
+                $db->query( "INSERT INTO eZContact_PersonPhoneDict
                                 SET PersonID='$this->ID', PhoneID='$phoneID'" );
             }
 
@@ -429,11 +428,11 @@ class eZPerson
             $this->get( $this->ID );
         
         $return_array = array();
-        $this->dbInit();
+        $db = eZDB::globalDatabase();
         
         $PersonID = $this->ID;
 
-        $this->Database->array_query( $online_array, "SELECT OnlineID
+        $db->array_query( $online_array, "SELECT OnlineID
                                                  FROM eZContact_PersonOnlineDict
                                                  WHERE PersonID='$PersonID'" );
 
@@ -511,13 +510,13 @@ class eZPerson
         if( $this->State_ == "Dirty" )
             $this->get( $this->ID );
 
-        $this->dbInit();
+        $db = eZDB::globalDatabase();
         $checkQuery = "SELECT Title FROM eZContact_CompanyPersonDict
                                     WHERE CompanyID='$companyID' and PersonID='$this->ID'";
 
         $title_array = array();
 
-        $this->Database->array_query( $title_array, $checkQuery );
+        $db->array_query( $title_array, $checkQuery );
 
         return count( $title_array ) > 0;
     }
@@ -532,13 +531,13 @@ class eZPerson
 
         $ret = false;
 
-        $this->dbInit();
+        $db = eZDB::globalDatabase();
         $checkQuery = "SELECT Title FROM eZContact_CompanyPersonDict
                                     WHERE CompanyID='$companyID' and PersonID='$this->ID'";
 
         $title_array = array();
 
-        $this->Database->array_query( $title_array, $checkQuery );
+        $db->array_query( $title_array, $checkQuery );
 
         $title = false;
 
@@ -563,7 +562,7 @@ class eZPerson
 
         $ret = false;
        
-        $this->dbInit();
+        $db = eZDB::globalDatabase();
 
         if( get_class( $online ) == "ezonline" )
         {
@@ -571,13 +570,13 @@ class eZPerson
 
             $checkQuery = "SELECT PersonID FROM eZContact_PersonOnlineDict WHERE OnlineID='$onlineID'";
             
-            $this->Database->array_query( $online_array, $checkQuery );
+            $db->array_query( $online_array, $checkQuery );
 
             $count = count( $online_array );
 
             if( $count == 0 )
             {
-                $this->Database->query( "INSERT INTO eZContact_PersonOnlineDict
+                $db->query( "INSERT INTO eZContact_PersonOnlineDict
                                 SET PersonID='$this->ID', OnlineID='$onlineID'" );
             }
 
@@ -595,9 +594,9 @@ class eZPerson
             $this->get( $this->ID );
         
         $return_array = array();
-        $this->dbInit();
+        $db = eZDB::globalDatabase();
 
-        $this->Database->array_query( $user_array, "SELECT UserID
+        $db->array_query( $user_array, "SELECT UserID
                                                  FROM eZContact_UserPersonDict
                                                  WHERE PersonID='$this->ID'" );
 
@@ -619,20 +618,20 @@ class eZPerson
 
         $ret = false;
         
-        $this->dbInit();
+        $db = eZDB::globalDatabase();
 
         if( get_class( $user ) == "ezuser" )
         {
             $userID = $user->id();
             
             $checkQuery = "SELECT PersonID FROM eZContact_UserPersonDict WHERE UserID=$userID";
-            $this->Database->array_query( $user_array, $checkQuery );
+            $db->array_query( $user_array, $checkQuery );
             
             $count = count( $user_array );
             
             if( $count == 0 )
             {
-                $this->Database->query( "INSERT INTO eZContact_UserPersonDict
+                $db->query( "INSERT INTO eZContact_UserPersonDict
                                 SET PersonID='$this->ID', UserID='$userID'" );
             }
             $ret = true;
@@ -819,19 +818,6 @@ class eZPerson
         return $this->BirthDate;
     }
 
-    /*!
-      \private
-      Used by this class to connect to the database.
-    */
-    function dbInit()
-    {
-        if( $this->IsConnected == false )
-        {
-            $this->Database = new eZDB( "site.ini", "site" );
-            $this->IsConnected = true;
-        }
-    }
-
     var $ID;
     var $FirstName;
     var $LastName;
@@ -841,13 +827,8 @@ class eZPerson
     var $ContactType;
     var $Comment;
 
-    ///  Variable for keeping the database connection.
-    var $Database;
-
     /// Indicates the state of the object. In regard to database information.
     var $State_;
-    /// Is true if the object has database connection, false if not.
-    var $IsConnected;
 };
 
 ?>
