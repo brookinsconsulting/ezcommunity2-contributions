@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: linklist.php,v 1.1 2000/10/19 09:32:09 ce-cvs Exp $
+// $Id: linklist.php,v 1.2 2000/10/23 07:16:09 ce-cvs Exp $
 //
 // 
 //
@@ -138,7 +138,7 @@ else
         $t->set_var( "link_url", $linkItem->url() );
 
         $hit = new eZHit();
-        $hits = $hit->getLinkHits( $link_array[ $i ][ "ID" ] );
+        $hits = $hit->getLinkHits( $linkItem->id() );
         $t->set_var( "link_hits", $hits );
 
         $t->parse( "link_list", "link_list_tpl", true );
