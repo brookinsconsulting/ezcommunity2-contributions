@@ -11,7 +11,7 @@
 <tr>
 	<td>
 	<!-- BEGIN billing_address_tpl -->
-	<p class="boxtext">{intl-billing_address}:</p>
+	<p><b>{intl-billing_address}:</b></p>
 	{customer_first_name} {customer_last_name} <br />
 	{billing_street1}<br />
 	{billing_street2}<br />
@@ -22,7 +22,7 @@
 	</td>
 	<td>
 	<!-- BEGIN shipping_address_tpl -->
-	<p class="boxtext">{intl-shipping_address}:</p>
+	<p><b>{intl-shipping_address}:</b></p>
 	{shipping_first_name} {shipping_last_name} <br />
 	{shipping_street1}<br />
 	{shipping_street2}<br />
@@ -34,12 +34,12 @@
 </tr>
 <tr>
 	<td>
-	<p class="boxtext">{intl-payment_method}:</p>
-	<div class="p">{payment_method}</div>
+	<p><b>{intl-payment_method}:</b></p>
+	{payment_method}
 	</td>
 	<td>
-	<p class="boxtext">{intl-shipping_type}:</p>
-	<div class="p">{shipping_type}</div>
+	<p><b>{intl-shipping_type}:</b></p>
+	{shipping_type}
 	</td>
 </tr>
 </table>
@@ -49,16 +49,16 @@
 
 <!-- BEGIN order_item_list_tpl -->
 <table width="100%" cellspacing="0" cellpadding="3" border="0">
-<tr>
+<tr align="left">
 	<th>{intl-picture}:</th>
 	<th>{intl-product_name}:</th>
 	<th>{intl-options}:</th>
 	<th>{intl-qty}:</th>
-	<td class="path" align="right">{intl-price}:</td>
+	<th align="right">{intl-price}:</th>
 </tr>
 <!-- BEGIN order_item_tpl -->
 
-<tr>
+<tr align="left">
 	<td class="{td_class}">
 	<!-- BEGIN order_image_tpl -->
 	<img src="{product_image_path}" border="0" width="{product_image_width}" height="{product_image_height}" alt="{product_image_caption}"/>
