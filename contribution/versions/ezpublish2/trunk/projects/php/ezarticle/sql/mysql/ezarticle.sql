@@ -178,7 +178,6 @@ CREATE TABLE eZArticle_Type (
 
 
 CREATE INDEX Article_Name ON eZArticle_Article (Name);
-CREATE INDEX Article_Keywords ON eZArticle_Article (Keywords);
 CREATE INDEX Article_Published ON eZArticle_Article (Published);
 
 CREATE INDEX Link_ArticleID ON eZArticle_ArticleCategoryLink (ArticleID);
