@@ -3,9 +3,11 @@ include_once( "ezuser/classes/ezpermission.php" );
 include_once( "classes/ezhttptool.php" );
 
 
+
 // These should allways be available
 switch( $url_array[2] ) 
 {
+
     case "login" :
     {
         $Action = $url_array[3];
@@ -17,6 +19,14 @@ switch( $url_array[2] )
     {
         $Action = $url_array[3];
         include( "ezuser/admin/success.php" );
+    }
+    break;
+
+    default :
+    {
+        $user =& eZUser::currentUser();
+        if ( $user == "false" )            
+            include( "ezuser/admin/login.php" );
     }
     break;
 
@@ -157,10 +167,5 @@ switch ( $url_array[2] )
     }
     break;
 
-    default :
-    {
-//        include( "ezuser/admin/login.php" );
-    }
-    break;
 }
 ?>

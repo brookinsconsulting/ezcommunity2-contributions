@@ -216,8 +216,12 @@ else
 
     $LoginSeparator = true;
 
-//      include( "separator.php" );
-    
+    if ( $REQUEST_URI == "/" )
+    {
+        $REQUEST_URI = "/user/login";
+        $url_array =& explode( "/", $REQUEST_URI );
+    }
+
     // parse the URI
     $page = "";
 
@@ -231,7 +235,6 @@ else
 
     // html footer
     include( "admin/loginfooter.php" );
-
 }
 
 
