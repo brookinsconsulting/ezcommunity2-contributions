@@ -52,7 +52,10 @@
 	<td>
 	<br />
 	<p class="boxtext">{intl-status}:</p>
+	<!-- BEGIN status_select_tpl -->
 	{todo_status}
+	<!-- END status_select_tpl -->
+
 	</td>
 	<td >
 	<br />
@@ -76,7 +79,7 @@
 	<!-- BEGIN mark_as_done -->
     <td>&nbsp;</td>
 	<td>
-	<input class="okbutton" type="submit" Name="Done" value="{intl-mark_as_done}">
+	<!--<input class="okbutton" type="submit" Name="Done" value="{intl-mark_as_done}">-->
 	</td>
 	<!-- END mark_as_done -->
 </tr>

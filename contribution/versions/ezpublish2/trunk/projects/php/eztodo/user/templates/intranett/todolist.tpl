@@ -45,17 +45,34 @@
 </select>
 
 <input type="hidden" name="Action" value="ShowTodosByUser">
-<input class="stdbutton" type="submit" value="Vis">
+<input class="stdbutton" type="submit" value="{intl-show}">
 
 <br />
 
+<!--
 <select name="Show">
 <option {all_selected} value="All">{intl-show_all}</option>
 <option {not_done_selected} value="All">{intl-show_not_done}</option>
 <option {done_selected} value="All">{intl-show_done}</option>
 </select>
+-->
 
-<input class="stdbutton" type="submit" value="{intl-show}">
+<select name="StatusTodoID">
+<option {is_selected} value="0">{intl-status_all}</option>
+<!-- BEGIN status_item_tpl -->
+<option {is_selected} value="{status_id}">{status_name}</option>
+<!-- END status_item_tpl -->
+</select>
+
+
+&nbsp;
+<select name="CategoryTodoID">
+<option {is_selected} value="0">{intl-category_all}</option>
+<!-- BEGIN category_item_tpl -->
+<option {is_selected} value="{category_id}">{category_name}</option>
+<!-- END category_item_tpl -->
+</select>
+<input class="stdbutton" type="submit" name="ShowButton" value="{intl-show}" />
 
 </form>
 
