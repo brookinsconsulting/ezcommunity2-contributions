@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: result.php,v 1.6 2001/01/22 14:43:01 jb Exp $
+// $Id: result.php,v 1.7 2001/02/26 16:46:30 pkej Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <20-Sep-2000 13:32:11 ce>
@@ -115,7 +115,7 @@ foreach ( $pollArray as $poll )
     else
     {
         $languageIni = new INIFile( "ezpoll/user/intl/" . $Language . "/result.php.ini", false );
-        $languageIni =  $ini->read_var( "strings", "no_result" );
+        $result = $languageIni->read_var( "strings", "no_result" );
 
         $t->set_var( "result_list", $result );
     }
