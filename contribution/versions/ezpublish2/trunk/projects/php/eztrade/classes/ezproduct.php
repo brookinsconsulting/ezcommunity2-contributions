@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezproduct.php,v 1.80 2001/08/30 07:47:03 ce Exp $
+// $Id: ezproduct.php,v 1.81 2001/08/30 12:24:26 ce Exp $
 //
 // Definition of eZProduct class
 //
@@ -439,6 +439,7 @@ class eZProduct
            $value =& $vatType->value();
            $vat = ( $calcPrice / ( $value + 100  ) ) * $value;        
        }
+
        return $vat;
     }
 
@@ -1654,10 +1655,24 @@ class eZProduct
     function vatType( )
     {
        $db =& eZDB::globalDatabase();
-
+       $user =& eZUser::currentUser();
        $ret = false;
-       if ( is_numeric( $this->VATTypeID ) and ( $this->VATTypeID > 0 ) )
+       $useVAT = true;
+       
+       if ( get_class ( $user ) == "ezuser" )
        {
+           $mainAddress = $user->mainAddress();
+           if ( get_class ( $mainAddress ) == "ezaddress" )
+           {
+               $country = $mainAddress->country();
+               if ( ( get_class ( $country ) == "ezcountry" ) and ( !$country->hasVAT() ) )
+                   $useVAT = false;
+           }
+       }
+              
+       if ( ( $useVAT ) and ( is_numeric( $this->VATTypeID ) ) and ( $this->VATTypeID > 0 ) )
+       {
+           print( "hm" );
            $ret = new eZVATType( $this->VATTypeID );
        }
 
