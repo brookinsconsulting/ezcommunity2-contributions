@@ -28,13 +28,13 @@
 
 <!-- BEGIN category_item_tpl -->
 <tr bgcolor="{color}">
-    <td class={td_class}>
+    <td class={td_class} width="1%">
     <img src="/images/folder.gif" width="16" height="16" border="0" />
 	</td>
-    <td class={td_class}>
+    <td class={td_class} width="50%">
     <a href="/forum/forumlist/{category_id}/">{category_name}</a>
     </td>
-    <td class={td_class}>
+    <td class={td_class} width="49%">
     <span class="small">{category_description}</span>
     </td>
 </tr>

@@ -13,11 +13,11 @@
 
 <!-- BEGIN forum_message_tpl -->
 	<img src="/sitedesign/designsection1/images/path-arrow-top.gif" width="16" height="10" border="0" alt="" />
-	<a class="path" href="/forum/categorylist/">{intl-forum-main}</a>
+	<a class="toppath" href="/forum/categorylist/">{intl-forum-main}</a>
 	<img src="/sitedesign/designsection1/images/path-arrow-top.gif" width="16" height="10" border="0" alt="" />
-    <a class="path" href="/forum/forumlist/{category_id}/">{category_name}</a>
+    <a class="toppath" href="/forum/forumlist/{category_id}/">{category_name}</a>
 	<img src="/sitedesign/designsection1/images/path-arrow-top.gif" width="16" height="10" border="0" alt="" />
-	<a class="path" href="/forum/messagelist/{forum_id}">{forum_name}</a>
+	<a class="toppath" href="/forum/messagelist/{forum_id}">{forum_name}</a>
     <!-- BEGIN forum_topic_tpl -->
 
     <!-- END forum_topic_tpl -->

@@ -36,25 +36,21 @@
     <tr>
         <th colspan="2">{intl-forum}:</th>
         <th>{intl-forum_description}:</th>
-        <th>{intl-threads}:</th>
-        <th>{intl-messages}:</th>
+        <th class="right">{intl-threads}/<br />{intl-messages}:</th>
     </tr>
     <!-- BEGIN forum_item_tpl -->
     <tr>
 	<td class="{td_class}" width="1%">
 	    <img src="/images/forum.gif" width="16" height="16" border="0" alt="Forum" />
 	</td>
-	<td class="{td_class}" width="47%">
+	<td class="{td_class}" width="50%">
 	    <a href="/forum/messagelist/{forum_id}/">{name}</a>
         </td>
-	<td class="{td_class}" width="50%">
-	    {description}
+	<td class="{td_class}" width="48%">
+	    <span class="small">{description}</span>
         </td>
-	<td class="{td_class}" width="1%">
-	    {threads}
-        </td>
-	<td class="{td_class}" width="1%">
-	    {messages}
+	<td class="{td_class}" align="right" width="1%">
+	    {threads} / {messages}
         </td>
     </tr>
     <!-- END forum_item_tpl -->
