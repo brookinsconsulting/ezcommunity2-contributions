@@ -41,7 +41,7 @@ CREATE TABLE eZAd_View (
   AdID int default NULL,
   ViewCount int NOT NULL,
   ViewOffsetCount int NOT NULL,
-  ViewPrice float NOT NULL,
+  ViewPrice decimal(10,2) NOT NULL,
   Date int default NULL,
   PRIMARY KEY (ID)
 );
