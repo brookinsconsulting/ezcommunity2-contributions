@@ -49,10 +49,10 @@
 <!-- BEGIN short_news_item_tpl -->
 <tr>
 	<td valign="top">
-	<a href="{news_url}/"><b>{news_name}</b></a>
-	</td>
-	<td class="small" align="right">
+	<a href="{news_url}/"><b>{news_name}</b></a>&nbsp;&nbsp;
+	<span class="small">
 	( {news_origin} - {news_date} )
+	</span>
 	</td>
 <!--
 	<td valign="top" align="right">
