@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: pageviewlist.php,v 1.5 2001/03/01 14:06:25 jb Exp $
+// $Id: pageviewlist.php,v 1.6 2001/04/17 15:35:10 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <06-Jan-2001 17:11:01 bf>
@@ -31,6 +31,7 @@ $Language = $ini->read_var( "eZStatsMain", "Language" );
 include_once( "classes/eztemplate.php" );
 include_once( "classes/ezdate.php" );
 include_once( "classes/ezlist.php" );
+include_once( "classes/ezlocale.php" );
 
 include_once( "ezstats/classes/ezpageview.php" );
 include_once( "ezstats/classes/ezpageviewquery.php" );
@@ -56,6 +57,8 @@ $t->set_var( "item_end", $Offset + $ViewLimit );
 $t->set_var( "item_count", $ItemCount );
 $t->set_var( "item_limit", $ViewLimit );
 
+$locale = new eZLocale( $Language );
+
 if ( count( $latest ) > 0 )
 {
     $i = 0;
@@ -65,7 +68,10 @@ if ( count( $latest ) > 0 )
             $t->set_var( "bg_color", "bglight" );
         else
             $t->set_var( "bg_color", "bgdark" );
-
+        
+        $dateTime = $pageview->dateTime();
+        $time =& $dateTime->time();        
+        $t->set_var( "request_time", $locale->format( $time ) );
         $t->set_var( "remote_ip", $pageview->remoteIP() );
         $t->set_var( "remote_host_name", $pageview->remoteHostName() );
         $t->set_var( "request_page", $pageview->requestPage() );

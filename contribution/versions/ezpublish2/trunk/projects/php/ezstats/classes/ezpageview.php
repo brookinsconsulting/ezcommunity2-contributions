@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezpageview.php,v 1.7 2001/03/20 13:26:08 bf Exp $
+// $Id: ezpageview.php,v 1.8 2001/04/17 15:35:10 bf Exp $
 //
 // Definition of eZPageView class
 //
@@ -321,6 +321,17 @@ class eZPageView
         return $this->RemoteIP;
     }
 
+    /*!
+      Returns the time as a eZ time object.
+    */
+    function &dateTime()
+    {
+        $time = new eZDateTime();
+        $time->setMySQLTimeStamp( $this->Date );
+       
+        return $time;
+    }
+    
     /*!
       Returns the remote host name.
     */

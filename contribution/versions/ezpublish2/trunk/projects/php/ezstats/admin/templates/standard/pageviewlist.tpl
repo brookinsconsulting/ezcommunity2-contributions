@@ -7,6 +7,9 @@
 <table class="list" width="100%" border="0" cellspacing="0" cellpadding="4">
 <tr>
 	<th>
+	{intl-request_time}
+	</th>
+	<th>
 	{intl-remote_ip}:
 	</th>
 	<th>
@@ -18,6 +21,9 @@
 </tr>
 <!-- BEGIN page_view_tpl -->
 <tr class="{bg_color}">
+	<td>
+	{request_time}
+	</td>
 	<td>
 	{remote_ip}
 	</td>
