@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezmedia.php,v 1.4.2.3 2001/11/01 17:32:53 ce Exp $
+// $Id: ezmedia.php,v 1.4.2.4 2002/02/28 08:30:16 jhe Exp $
 //
 // Definition of eZMedia class
 //
@@ -328,9 +328,9 @@ class eZMedia
                                         ON Media.ID=Link.MediaID
                                         WHERE MediaID IS NULL" );
 
-        foreach( $mediaArray as $media )
+        foreach ( $mediaArray as $media )
         {
-            $returnArray[] = new eZMedia( $media[$db->fieldName("ID")] );
+            $returnArray[] = new eZMedia( $media[$db->fieldName( "ID" )] );
         }
 
         return $returnArray;
@@ -365,7 +365,7 @@ class eZMedia
     */
     function &name( $html = true )
     {
-       if( $html )
+       if ( $html )
            return htmlspecialchars( $this->Name );
        else
            return $this->Name;
@@ -376,7 +376,7 @@ class eZMedia
     */
     function &caption( $html = true )
     {
-       if( $html )
+       if ( $html )
            return htmlspecialchars( $this->Caption );
        else
            return $this->Caption;
@@ -387,7 +387,7 @@ class eZMedia
     */
     function &description( $html = true )
     {
-        if( $html )
+        if ( $html )
             return htmlspecialchars( $this->Description );
         else
             return $this->Description;
@@ -413,11 +413,11 @@ class eZMedia
     {
        if ( $relative == true )
        {
-           $path = "ezmediacatalogue/catalogue/" .$this->FileName;
+           $path = "ezmediacatalogue/catalogue/" . $this->FileName;
        }
        else
        {
-           $path = "/ezmediacatalogue/catalogue/" .$this->FileName;
+           $path = "/ezmediacatalogue/catalogue/" . $this->FileName;
        }
        
        $relPath = "ezmediacatalogue/catalogue/" . $this->FileName;
@@ -456,7 +456,7 @@ class eZMedia
     /*!
       Same as filePath()
      */
-    function &mediaPath( $relative=false )
+    function &mediaPath( $relative = false )
     {
         return $this->filePath( $relative );
     }    
