@@ -32,6 +32,13 @@
       <input type="text" name="FromName" value="{from_name}" />
       </td>
 </tr>
+<th>{intl-from_email}</th>
+<tr>
+
+      <td>
+      <input type="text" name="FromEmail" value="{from_email}" />
+      </td>
+</tr>
 <th>{intl-text}</th>
 <tr>
       <td>

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: voucherinformation.php,v 1.8 2001/09/27 07:53:31 ce Exp $
+// $Id: voucherinformation.php,v 1.9 2001/09/27 10:50:57 ce Exp $
 //
 // Created on: <06-Aug-2001 13:02:18 ce>
 //
@@ -70,6 +70,7 @@ $t->set_var( "place_value", "" );
 $t->set_var( "country_name", "" );
 $t->set_var( "smail", "" );
 $t->set_var( "email", "" );
+$t->set_var( "from_email", "" );
 
 $user =& eZUser::currentUser();
 
@@ -98,7 +99,12 @@ if ( $product && isSet( $OK ) )
         $voucherInfo->setAddress( $address );
     }
 
+    $online = new eZOnline();
+    $online->setUrl( $FromEmail );
+    $online->store();
+    $voucherInfo->setFromEmail( $online );
     $voucherInfo->setMailMethod( $MailMethod );
+    $voucherInfo->setFromName( $FromName );
     $voucherInfo->setFromName( $FromName );
     $voucherInfo->setToName( $ToName );
     
