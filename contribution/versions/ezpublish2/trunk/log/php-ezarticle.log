@@ -3463,3 +3463,13 @@ Maintainer(s) : bf@ez.no
     * user/headlines.php:
     Made it possible to reuse headlines more than one time pr page.
 
+
+Module : ezarticle
+Repository path : /home/cvsroot/projects/php/ezarticle
+Maintainer(s) : bf@ez.no
+2002-08-07  Bjoern Reiten  <br@ez.no>
+
+    * user/sitemap.php:
+    set sitemap to list the articles which belong to the root category except
+    for root category 0.
+
