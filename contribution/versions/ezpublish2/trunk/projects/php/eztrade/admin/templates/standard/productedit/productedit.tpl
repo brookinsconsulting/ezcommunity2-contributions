@@ -40,7 +40,7 @@
 <br /><br />
 
 <p class="boxtext">{intl-description}:</p>
-<textarea rows="5" cols="40" name="Description" wrap="soft">{description_value}</textarea>
+<textarea rows="15" cols="40" name="Description" wrap="soft">{description_value}</textarea>
 <br /><br />
 
 <p class="boxtext">{intl-external_link}:</p>
