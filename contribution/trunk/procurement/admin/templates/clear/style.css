@@ -241,6 +241,13 @@ hr
 	width: 440px;
 }
 
+textarea.box {
+background-color: #efefde;
+border: 1px solid #6D90C1;
+padding-left: 5px;
+padding-right: 5px;
+padding-top: 3px;
+}
 .halfbox
 {
 	width: 200px;
