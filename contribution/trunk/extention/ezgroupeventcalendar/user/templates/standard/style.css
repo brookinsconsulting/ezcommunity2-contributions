@@ -203,7 +203,7 @@ a.gcalSmallLink:active	{ color: #3366CC; }
 a.gcalSmallLink:hover	{ color: #000099; text-decoration: underline; }
 
 .gcalEventTopBar		{ background-color: #557CA3;  }
-.gcalBorder			{ border: 1px solid gray; }
+.gcalBorder			{ border: 1px solid white; }
 .gcalDayViewTopBar		{ border: 1px solid white; text-align: center; padding-top: 5px; padding-bottom: 5px; background-color: #E9EDF2; cursor: pointer; }
 .gcalDayViewTopBarSelect	{ border: 1px solid white; text-align: center; padding-top: 5px; padding-bottom: 5px; color: white; background-color: #6699cc; cursor: pointer; }
 #gcalDayViewLongDateHeader { border: 1px solid gray; padding: 10px; text-align:center;}
