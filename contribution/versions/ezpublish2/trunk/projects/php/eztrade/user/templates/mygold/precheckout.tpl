@@ -1,3 +1,5 @@
+<form name="" method="post" action="/trade/precheckout/">
+
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
     <tr>
 	<td>
@@ -78,19 +80,13 @@ Sie betreten in Kürze den gesicherten Bereich der MyGold.com Webseite. In dem Ih
  Das ist besonders bei Kreditkarten- und EC-Karten Bezahlung problematisch.<br />
  Sollten Sie sich für die unverschlüsselte Übertragung entscheiden,
 
-    <table border="0" cellspacing="10" cellpadding="10" align="center">
+  <table border="0" cellspacing="10" cellpadding="10" align="center">
   <tr>
   <td>
-
-   <form name="" method="post" action="/trade/precheckout">
     <input type="submit" name="WithSSL" value="Weiter mit SSL Verschlüsselung" class="okbutton" />
-    </form>
    </td>
   <td>
-          <form name="form1" method="post" action="">
-
     <input type="submit" name="WithOutSSL" value="Weiter ohne SSL Verschlüsselung" class="okbutton" />
-    </form>
    </td>
  </tr>
 </table>
@@ -114,5 +110,6 @@ Sie betreten in Kürze den gesicherten Bereich der MyGold.com Webseite. In dem Ih
 </p>
 <br />
 <p>
+</form>
 
 

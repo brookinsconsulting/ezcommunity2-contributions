@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: precheckout.php,v 1.1 2001/04/25 08:42:01 ce Exp $
+// $Id: precheckout.php,v 1.2 2001/04/25 08:48:53 ce Exp $
 //
 // Christoffer A. Elo <bf@ez.no>
 // Created on: <28-Sep-2000 15:52:08 bf>
@@ -58,13 +58,15 @@ elseif ( $ForceSSL == "choose" )
     
     if( isSet ( $WithSSL ) )
     {
-        eZHTTPTool::header( "Location: /trade/search/$Offset/$Query" );
+        eZHTTPTool::header( "Location: https://" . $HTTP_HOST . "/trade/checkout" );
+        exit();
             
     }
 
     if( isSet ( $WithOutSSL ) )
     {
-        eZHTTPTool::header( "Location: /trade/search/$Offset/$Query" );
+        eZHTTPTool::header( "Location: http://" . $HTTP_HOST . "/trade/checkout" );
+        exit();
             
     }
 
