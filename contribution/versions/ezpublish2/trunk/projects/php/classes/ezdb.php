@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezdb.php,v 1.25 2001/01/11 11:46:00 ce Exp $
+// $Id: ezdb.php,v 1.26 2001/01/11 22:11:43 jb Exp $
 //
 // Definition of eZDB class
 //
@@ -39,6 +39,8 @@
   class found in ezlink/class/ezquery.
 */
 
+include_once( "classes/ezlog.php" );
+
 class eZDB
 {
     /*!
@@ -72,7 +74,9 @@ class eZDB
     function &query( $sql )
     {
         $result = mysql_query( $sql );
-  
+
+//          eZLog::writeNotice( $sql );
+
         if ( $result )
         {
             return $result;
@@ -122,6 +126,7 @@ class eZDB
         if ( $result == false )
         {
             print( $this->Error );
+            eZLog::writeWarning( $this->Error );
             return false;
         }
 
