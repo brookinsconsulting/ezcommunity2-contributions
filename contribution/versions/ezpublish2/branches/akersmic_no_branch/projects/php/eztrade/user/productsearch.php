@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: productsearch.php,v 1.20.8.20 2002/04/15 07:02:59 bf Exp $
+// $Id: productsearch.php,v 1.20.8.21 2002/05/02 10:30:32 bf Exp $
 //
 // Created on: <10-Oct-2000 17:49:05 bf>
 //
@@ -46,6 +46,8 @@ include_once( "ezuser/classes/ezuser.php" );
 include_once( "ezsession/classes/ezsession.php" );
 include_once( "ezimagecatalogue/classes/ezimage.php" );
 include_once( "classes/ezlist.php" );
+
+
 
 $user =& eZUser::currentUser();
 
@@ -142,7 +144,7 @@ if ( $Query  || ( $SearchType == "AdvancedMusic" ) || ( $SearchType == "Advanced
         $SearchType = "AdvancedHIFI";
         $Query = $Query;
     }
-    
+
     $MusicType = urldecode ( $MusicType );
     $productList =& $product->search( $Query, $Offset, $Limit, array( "ProductType" => $Type,
                                                                       "SearchType" => $SearchType,
@@ -156,6 +158,97 @@ if ( $Query  || ( $SearchType == "AdvancedMusic" ) || ( $SearchType == "Advanced
                                                                       "MultimediaType" => $MultimediaType,
                                                                       "GameTitle" => $GameTitle
                                                                       ), $total_count, $ignoredWords );
+
+    if ( ( $total_count == 0 ) && ( $Type == 6 ) )
+    {
+        $Artist = preg_replace( "#(.*?)\s+(.*)#", "$2, $1", $Artist );
+
+        $productList =& $product->search( $Query, $Offset, $Limit, array( "ProductType" => $Type,
+                                                                      "SearchType" => $SearchType,
+                                                                      "MusicType" => $MusicType,
+                                                                      "AlbumTitle" => $AlbumTitle,
+                                                                      "Artist" => $Artist,
+                                                                      "Recording" => $Recording,
+                                                                      "DVDTitle" => $DVDTitle,
+                                                                      "DVDActor" => $DVDActor,
+                                                                      "DVDDirector" => $DVDDirector,
+                                                                      "MultimediaType" => $MultimediaType,
+                                                                      "GameTitle" => $GameTitle
+                                                                      ), $total_count, $ignoredWords );
+    }
+
+
+    if ( ( $total_count == 0 ) && ( $Type == 10 ) )
+    {
+        $DVDActor = preg_replace( "#(.+?),\s*(.+)#", "$2 $1", $DVDActor );
+
+        $productList =& $product->search( $Query, $Offset, $Limit, array( "ProductType" => $Type,
+                                                                      "SearchType" => $SearchType,
+                                                                      "MusicType" => $MusicType,
+                                                                      "AlbumTitle" => $AlbumTitle,
+                                                                      "Artist" => $Artist,
+                                                                      "Recording" => $Recording,
+                                                                      "DVDTitle" => $DVDTitle,
+                                                                      "DVDActor" => $DVDActor,
+                                                                      "DVDDirector" => $DVDDirector,
+                                                                      "MultimediaType" => $MultimediaType,
+                                                                      "GameTitle" => $GameTitle
+                                                                      ), $total_count, $ignoredWords );
+    }
+
+    if ( ( $total_count == 0 ) && ( $Type == 9 ) )
+    {
+        $DVDDirector = preg_replace( "#(.*?) (.*)#", "$2, $1", $DVDDirector );
+
+        $productList =& $product->search( $Query, $Offset, $Limit, array( "ProductType" => $Type,
+                                                                      "SearchType" => $SearchType,
+                                                                      "MusicType" => $MusicType,
+                                                                      "AlbumTitle" => $AlbumTitle,
+                                                                      "Artist" => $Artist,
+                                                                      "Recording" => $Recording,
+                                                                      "DVDTitle" => $DVDTitle,
+                                                                      "DVDActor" => $DVDActor,
+                                                                      "DVDDirector" => $DVDDirector,
+                                                                      "MultimediaType" => $MultimediaType,
+                                                                      "GameTitle" => $GameTitle
+                                                                      ), $total_count, $ignoredWords );
+    }
+
+    if ( ( $total_count == 0 ) && ( $Type == 6 ) )
+    {
+        $Type = 1;
+        unset( $SearchType );
+        $productList =& $product->search( $Query, $Offset, $Limit, array( "ProductType" => $Type,
+                                                                      "SearchType" => $SearchType,
+                                                                      "MusicType" => $MusicType,
+                                                                      "AlbumTitle" => $AlbumTitle,
+                                                                      "Artist" => $Artist,
+                                                                      "Recording" => $Recording,
+                                                                      "DVDTitle" => $DVDTitle,
+                                                                      "DVDActor" => $DVDActor,
+                                                                      "DVDDirector" => $DVDDirector,
+                                                                      "MultimediaType" => $MultimediaType,
+                                                                      "GameTitle" => $GameTitle
+                                                                      ), $total_count, $ignoredWords );
+    }
+
+    if ( ( $total_count == 0 ) && ( ( $Type == 8 ) || ( $Type == 9 ) || ( $Type == 10 ) ) )
+    {
+        $Type = 2;
+        unset( $SearchType );
+        $productList =& $product->search( $Query, $Offset, $Limit, array( "ProductType" => $Type,
+                                                                      "SearchType" => $SearchType,
+                                                                      "MusicType" => $MusicType,
+                                                                      "AlbumTitle" => $AlbumTitle,
+                                                                      "Artist" => $Artist,
+                                                                      "Recording" => $Recording,
+                                                                      "DVDTitle" => $DVDTitle,
+                                                                      "DVDActor" => $DVDActor,
+                                                                      "DVDDirector" => $DVDDirector,
+                                                                      "MultimediaType" => $MultimediaType,
+                                                                      "GameTitle" => $GameTitle
+                                                                      ), $total_count, $ignoredWords );
+    }
 }
 
 $t->set_var( "url_text", urlencode( $Query ) );
