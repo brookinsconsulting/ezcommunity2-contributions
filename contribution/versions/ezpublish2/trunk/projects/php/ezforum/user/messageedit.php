@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: messageedit.php,v 1.35 2001/03/13 13:09:55 pkej Exp $
+// $Id: messageedit.php,v 1.36 2001/03/13 13:26:26 pkej Exp $
 //
 // Paul K Egell-Johnsen <pkej@ez.no>
 // Created on: <21-Feb-2001 18:00:00 pkej>
@@ -272,13 +272,24 @@ switch( $Action )
                 $mailTemplate->setAllStrings();
                 
                 $headersInfo = ( getallheaders() );
-                $mailTemplate->set_var( "author", $moderator->firstName() . " " . $moderator->lastName() );
+                
+                $author = $msg->user();
+                
+                if( $author->id() == 0 )
+                {
+                    $mailTemplate->set_var( "author", $ini->read_var( "eZForumMain", "AnonymousPoster" ) );
+                }
+                else
+                {
+                    $mailTemplate->set_var( "author", $author->firstName() . " " . $author->lastName() );
+                }
                 $mailTemplate->set_var( "posted_at", $locale->format( $msg->postingTime() ) );
 
                 $subject_line = $mailTemplate->Ini->read_var( "strings", "moderator_subject" );
 
                 $mailTemplate->set_var( "topic", $msg->topic() );
                 $mailTemplate->set_var( "body", $msg->body( false ) );
+                $mailTemplate->set_var( "your_link", "http://"  . $headersInfo["Host"] . "/forum/messagelist/" . $forum->id() );
                 $mailTemplate->set_var( "link", "http://admin." . $headersInfo["Host"] . "/forum/messageedit/edit/" . $msg->id() );
                 $mailTemplate->set_var( "intl-info_message_1", $mailTemplate->Ini->read_var( "strings", "moderator_info_message_1" ) );
                 $mailTemplate->set_var( "intl-info_message_2", $mailTemplate->Ini->read_var( "strings", "moderator_info_message_2" ) );

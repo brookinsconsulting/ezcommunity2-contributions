@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: messagereply.php,v 1.29 2001/03/05 10:43:14 pkej Exp $
+// $Id: messagereply.php,v 1.30 2001/03/13 13:26:26 pkej Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <24-Sep-2000 12:20:32 bf>
@@ -59,11 +59,21 @@ if ( $StartAction == "reply" )
     
     if( is_object( $moderator ) )
     {
+        $author = $msg->user();
         $headersInfo = ( getallheaders() );
-        $mailTemplate->set_var( "author", $moderator->firstName() . " " . $moderator->lastName() );
+        
+        if( $author->id() == 0 )
+        {
+            $mailTemplate->set_var( "author", $ini->read_var( "eZForumMain", "AnonymousPoster" ) );
+        }
+        else
+        {
+            $mailTemplate->set_var( "author", $author->firstName() . " " . $author->lastName() );
+        }
         $mailTemplate->set_var( "posted_at", $locale->format( $msg->postingTime() ) );
 
         $subject_line = $mailTemplate->Ini->read_var( "strings", "moderator_subject" );
+        
 
         $mailTemplate->set_var( "topic", $msg->topic() );
         $mailTemplate->set_var( "body", $msg->body( false ) );
