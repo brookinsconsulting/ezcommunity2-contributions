@@ -2643,3 +2643,14 @@ Maintainer(s) : bf@ez.no
 
     * classes/ezqdomrenderer.php: fixed problem with null instead of array
 
+
+Module : ezarticle
+Repository path : /home/cvsroot/projects/php/ezarticle
+Maintainer(s) : bf@ez.no
+2002-01-10  Kai Duebbert  <kai@duebbert.de>
+
+    * user/datasupplier.php: small fix
+
+    * user/articleview.php
+      classes/ezqdomrenderer.php: small fixes
+
