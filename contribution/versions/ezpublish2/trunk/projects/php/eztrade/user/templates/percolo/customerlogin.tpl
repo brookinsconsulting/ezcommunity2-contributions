@@ -33,7 +33,7 @@
 <p>{intl-reg_text}</p>
 
 <form method="post" action="/user/login/login/">
-<p class="boxtext">{intl-username}:</p>
+<p class="boxtext">Brukernavn:</p>
 <input type="text" size="20" name="Username"/>
 
 <p class="boxtext">{intl-password}:</p>
