@@ -29,6 +29,7 @@
 	
 //-->
 </SCRIPT> 
+
 <!-- BEGIN list_tpl -->
 <h1>{intl-headline_list}</h1>
 <!-- END list_tpl -->
@@ -71,7 +72,6 @@
 <h3>{intl-headline_categories}</h3>
 <table class="list" width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
-    <th><a href="/cv/certificatetype/list/{current_id}?OrderBy=ID">{intl-th_type_id}</a></th>
     <th><a href="/cv/certificatetype/list/{current_id}?OrderBy=Name">{intl-th_type_name}</a></th>
     <th><a href="/cv/certificatetype/list/{current_id}?OrderBy=Description">{intl-th_type_description}</a></th>
     <th colspan="2">&nbsp;</th>
@@ -79,7 +79,6 @@
 
 <!-- BEGIN category_item_tpl -->
 <tr class="{theme-type_class}">
-    <td>{type_id}</td>
     <td><a href="/cv/certificatetype/list/{type_id}/">{type_name}</a></td>
     <td>{type_description}</td>
     <td width="1%"><a href="/cv/certificatetype/edit/{type_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezuser{type_id}-red','','/images/redigerminimrk.gif',1)"><img name="ezuser{type_id}-red" border="0" src="/images/redigermini.gif" width="16" height="16" align="top"></a></td>
@@ -101,7 +100,6 @@
 <h3>{intl-headline_types}</h3>
 <table class="list" width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
-    <th><a href="/cv/certificatetype/list/{current_id}?OrderBy=ID">{intl-th_type_id}</a></th>
     <th><a href="/cv/certificatetype/list/{current_id}?OrderBy=Name">{intl-th_type_name}</a></th>
     <th><a href="/cv/certificatetype/list/{current_id}?OrderBy=Description">{intl-th_type_description}</a></th>
     <th colspan="2">&nbsp;</th>
@@ -109,7 +107,6 @@
 
 <!-- BEGIN type_item_tpl -->
 <tr class="{theme-type_class}">
-    <td>{type_id}</td>
     <td><a href="/cv/certificatetype/view/{type_id}/">{type_name}</a></td>
     <td>{type_description}</td>
     <td width="1%"><a href="/cv/certificatetype/edit/{type_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezuser{type_id}-red','','/images/redigerminimrk.gif',1)"><img name="ezuser{type_id}-red" border="0" src="/images/redigermini.gif" width="16" height="16" align="top"></a></td>

@@ -70,6 +70,7 @@
 
 
 <!-- BEGIN category_list_tpl -->
+
 <h2>{intl-headline_categories}</h2>
 <table class="list" width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>

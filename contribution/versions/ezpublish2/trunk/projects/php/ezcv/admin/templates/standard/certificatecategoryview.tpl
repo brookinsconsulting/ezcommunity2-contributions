@@ -69,18 +69,6 @@
 
 <hr noshade="noshade" size="4" />
 
-<table cellspacing="0" cellpadding="0" border="0">
-<tr>
-	<td>
-	&nbsp;
-	</form>
-	</td>
-	<td>&nbsp;</td>
-	<td>
-	&nbsp;
-	</td>
-</tr>
-</table>
 <!-- END current_type_tpl -->
 
 
@@ -93,7 +81,6 @@
 <h2>{intl-category_certificate_category_list}</h2>
 <table class="list" width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
-    <th>{intl-th_category_id}:</th>
     <th>{intl-th_category_name}:</th>
     <th>{intl-th_category_institution}:</th>
     <th>{intl-th_category_description}:</th>
@@ -101,7 +88,6 @@
 </tr>
 <!-- BEGIN category_item_tpl -->
 <tr class="{theme-type_class}">
-    <td>{item_id}&nbsp;</td>
     <td><a href="/cv/certificatecategory/list/{item_id}">{item_name}&nbsp;</a></td>
     <td>{item_institution}&nbsp;</td>
     <td>{item_description}&nbsp;</td>
@@ -122,14 +108,12 @@
 <h2>{intl-category_certificate_types_list}</h2>
 <table class="list" width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
-    <th>{intl-th_certificate_id}:</th>
     <th>{intl-th_certificate_name}:</th>
     <th>{intl-th_certificate_description}:</th>
     <th colspan="2">&nbsp;</th>
 </tr>
 <!-- BEGIN certificate_item_tpl -->
 <tr class="{theme-type_class}">
-    <td>{item_id}&nbsp;</td>
     <td><a href="/cv/certificatetype/view/{item_id}">{item_name}&nbsp;</a></td>
     <td>{item_description}&nbsp;</td>
     <td width="1%"><a href="/cv/certificatetype/edit/{item_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezcvcrt{item_id}-red','','/images/redigerminimrk.gif',1)"><img name="ezcvcrt{item_id}-red" border="0" src="/images/redigermini.gif" width="16" height="16" align="top"></a></td>

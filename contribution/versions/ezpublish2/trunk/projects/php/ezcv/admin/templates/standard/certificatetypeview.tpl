@@ -26,19 +26,6 @@
 <!-- END parent_item_tpl -->
 
 <p class="boxtext">{intl-th_certificate_description}:</p>
-{current_description}
+<div class="text">{current_description}</div>
 
-<hr noshade="noshade" size="4" />
-
-<table cellspacing="0" cellpadding="0" border="0">
-<tr>
-	<td>
-	&nbsp;
-	</td>
-	<td>&nbsp;</td>
-	<td>
-	&nbsp;
-	</td>
-</tr>
-</table>
 <!-- END current_type_tpl -->
