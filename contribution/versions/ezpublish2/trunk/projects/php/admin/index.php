@@ -13,6 +13,7 @@ session_start();
 include_once( "classes/ezdb.php" );
 include_once( "classes/INIFile.php" );
 include_once( "classes/template.inc" );
+include_once( "classes/ezmenubox.php" );
 
 include_once( "ezsession/classes/ezsession.php" );
 include_once( "ezuser/classes/ezuser.php" );
@@ -47,8 +48,11 @@ if ( $user )
 
         foreach ( $modules as $module )
         {
-            $module_dir =& strtolower( $module ); 
+            $module_dir =& strtolower( $module );
+            unset( $menuItems );
             include( "$module_dir/admin/menubox.php" );
+            if ( isset( $menuItems ) )
+                eZMenuBox::createBox( $module, $module_dir, "admin", $SiteStyle, $menuItems );
         }
         
         // parse the URI

@@ -1,8 +1,6 @@
 <?
 // 
-// $Id: menubox.php,v 1.2 2001/01/22 14:43:01 jb Exp $
-//
-// 
+// $Id: menubox.php,v 1.3 2001/01/23 17:46:33 jb Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <23-Oct-2000 17:53:46 bf>
@@ -25,25 +23,11 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, US
 //
 
-include_once( "classes/INIFile.php" );
-$ini = new INIFile( "site.ini" );
+// Supply $menuItems to get a menubox
 
-$Language = $ini->read_var( "eZTodoMain", "Language" );
-
-include_once( "classes/eztemplate.php" );
-
-$t = new eZTemplate( "eztodo/admin/" . $ini->read_var( "eZTodoMain", "AdminTemplateDir" ),
-                     "eztodo/admin/intl", $Language, "menubox.php" );
-
-$t->setAllStrings();
-
-$t->set_file( array(
-    "menu_box_tpl" => "menubox.tpl"
-    ) );
-    
-$t->set_var( "site_style", $SiteStyle );
-
-$t->pparse( "output", "menu_box_tpl" );
-    
+$menuItems = array(
+    array( "/todo/categorytypelist/", "{intl-categorytypelist}" ),
+    array( "/todo/prioritytypelist/", "{intl-prioritytypelist}" )
+    );
 
 ?>

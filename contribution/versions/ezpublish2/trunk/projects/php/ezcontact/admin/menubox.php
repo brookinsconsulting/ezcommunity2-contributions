@@ -1,8 +1,6 @@
 <?
 // 
-// $Id: menubox.php,v 1.2 2001/01/22 14:43:00 jb Exp $
-//
-// 
+// $Id: menubox.php,v 1.3 2001/01/23 17:45:43 jb Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <23-Oct-2000 17:53:46 bf>
@@ -25,25 +23,29 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, US
 //
 
-include_once( "classes/INIFile.php" );
-$ini = new INIFile( "site.ini" );
+// Supply $menuItems to get a menubox
 
-$Language = $ini->read_var( "eZUserMain", "Language" );
-
-include_once( "classes/eztemplate.php" );
-
-$t = new eZTemplate( "ezcontact/admin/" . $ini->read_var( "eZContactMain", "AdminTemplateDir" ),
-                     "ezcontact/admin/intl", $Language, "menubox.php" );
-
-$t->setAllStrings();
-
-$t->set_file( array(
-    "menu_box_tpl" => "menubox.tpl"
-    ) );
-    
-$t->set_var( "site_style", $SiteStyle );
-
-$t->pparse( "output", "menu_box_tpl" );
-    
+$menuItems = array(
+    array( "/contact/company/list/", "{intl-companytypelist}" ),
+    array( "/contact/person/list/", "{intl-personlist}" ),
+    array( "/contact/consultation/list/", "{intl-consultationlist}" ),
+    array( "/contact/company/new/", "{intl-companyadd}" ),
+    array( "/contact/person/new/", "{intl-personadd}" ),
+    array( "/contact/companycategory/new/", "{intl-companytypeadd}" ),
+    array( "/contact/consultation/new/", "{intl-newconsultation}" ),
+    "break",
+    array( "/contact/phonetype/list/", "{intl-phonetypelist}" ),
+    array( "/contact/addresstype/list/", "{intl-addresstypelist}" ),
+    array( "/contact/onlinetype/list/", "{intl-onlinetypelist}" ),
+    array( "/contact/consultationtype/list/", "{intl-consultationtypelist}" ),
+    array( "/contact/projecttype/list/", "{intl-projecttypelist}" ),
+    array( "/contact/country/list/", "{intl-countrylist}" ),
+    array( "/contact/phonetype/new/", "{intl-phonetypeadd}" ),
+    array( "/contact/addresstype/new/", "{intl-addresstypeadd}" ),
+    array( "/contact/onlinetype/new/", "{intl-onlinetypeadd}" ),
+    array( "/contact/consultationtype/new/", "{intl-newconsultationtype}" ),
+    array( "/contact/projecttype/new/", "{intl-newprojecttype}" ),
+    array( "/contact/country/new/", "{intl-newcountry}" )
+    );
 
 ?>

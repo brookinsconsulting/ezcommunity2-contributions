@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: menubox.php,v 1.2 2001/01/22 14:42:59 jb Exp $
+// $Id: menubox.php,v 1.3 2001/01/23 17:45:06 jb Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <23-Oct-2000 17:53:46 bf>
@@ -23,25 +23,12 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, US
 //
 
-include_once( "classes/INIFile.php" );
-$ini = new INIFile( "site.ini" );
+// Supply $menuItems to get a menubox
 
-$Language = $ini->read_var( "eZAdMain", "Language" );
-
-include_once( "classes/eztemplate.php" );
-
-$t = new eZTemplate( "ezad/admin/" . $ini->read_var( "eZAdMain", "AdminTemplateDir" ),
-                     "ezad/admin/intl", $Language, "menubox.php" );
-
-$t->setAllStrings();
-
-$t->set_file( array(
-    "menu_box_tpl" => "menubox.tpl"
-    ) );
-
-$t->set_var( "site_style", $SiteStyle );
-
-$t->pparse( "output", "menu_box_tpl" );
-    
+$menuItems = array(
+    array( "/ad/archive/", "{intl-ad_list}" ),
+    array( "/ad/category/new/", "{intl-new_category}" ),
+    array( "/ad/ad/new/", "{intl-new_ad}" )
+    );
 
 ?>

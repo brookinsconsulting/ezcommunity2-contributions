@@ -1,8 +1,6 @@
 <?
 // 
-// $Id: menubox.php,v 1.13 2001/01/22 14:43:00 jb Exp $
-//
-// 
+// $Id: menubox.php,v 1.14 2001/01/23 17:45:54 jb Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <23-Oct-2000 17:53:46 bf>
@@ -25,25 +23,13 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, US
 //
 
-include_once( "classes/INIFile.php" );
-$ini =& $GLOBALS["GlobalSiteIni"];
+// Supply $menuItems to get a menubox
 
-$Language = $ini->read_var( "eZForumMain", "Language" );
-
-include_once( "classes/eztemplate.php" );
-
-$t = new eZTemplate( "ezforum/admin/" . $ini->read_var( "eZForumMain", "AdminTemplateDir" ),
-                     "ezforum/admin/intl", $Language, "menubox.php" );
-
-$t->setAllStrings();
-
-$t->set_file( array(
-    "menu_box_tpl" => "menubox.tpl"
-    ) );
-    
-$t->set_var( "site_style", $SiteStyle );
-
-$t->pparse( "output", "menu_box_tpl" );
-    
+$menuItems = array(
+    array( "/forum/categorylist/", "{intl-categorylist}" ),
+    array( "/forum/unapprovedlist/", "{intl-unapproved_list}" ),
+    array( "/forum/categoryedit/new/", "{intl-newcategory}" ),
+    array( "/forum/forumedit/new/", "{intl-newforum}" )
+    );
 
 ?>
