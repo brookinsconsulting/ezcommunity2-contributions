@@ -1,5 +1,5 @@
 <?
-// $Id: todolist.php,v 1.14 2001/04/04 11:59:46 wojciechp Exp $
+// $Id: todolist.php,v 1.15 2001/04/30 14:33:41 ce Exp $
 //
 // Definition of todo list.
 //
@@ -81,6 +81,9 @@ $t->set_block( "todo_list_page", "user_item_tpl", "user_item" );
 $t->set_block( "todo_list_page", "no_found_tpl", "no_found" );
 $t->set_block( "todo_list_page", "category_item_tpl", "category_item" );
 $t->set_block( "todo_list_page", "status_item_tpl", "status_item" );
+
+$t->set_block( "todo_item_tpl", "todo_is_public_tpl", "todo_is_public" );
+$t->set_block( "todo_item_tpl", "todo_is_not_public_tpl", "todo_is_not_public" );
 
 
 if ( isSet ( $ShowButton ) )
@@ -189,13 +192,15 @@ foreach( $todo_array as $todoItem )
     $stat = new eZStatus( $todoItem->statusID() );
     $t->set_var( "todo_status", $stat->name() );
     
-    if ( $todoItem->permission() == "Public" )
+    if ( $todoItem->isPublic() )
     {
-        $t->set_var( "todo_permission", $iniLanguage->read_var( "strings", "public" ) );    
+        $t->set_var( "todo_is_not_public", "" );
+        $t->parse( "todo_is_public", "todo_is_public_tpl" );
     }
     else
     {
-        $t->set_var( "todo_permission", $iniLanguage->read_var( "strings", "private" ) );    
+        $t->parse( "todo_is_not_public", "todo_is_not_public_tpl" );
+        $t->set_var( "todo_is_public", "" );
     }
     
     $t->set_var( "todo_date", $locale->format( $todoItem->date() ) );

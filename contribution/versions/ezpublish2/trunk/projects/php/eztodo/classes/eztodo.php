@@ -1,5 +1,5 @@
 <?
-// $Id: eztodo.php,v 1.20 2001/04/05 16:04:06 fh Exp $
+// $Id: eztodo.php,v 1.21 2001/04/30 14:33:41 ce Exp $
 //
 // Definition of eZTodo class
 //
@@ -18,6 +18,7 @@
   Handles the todo informasjon stored in the database.
 */
 
+include_once( "eztodo/classes/eztodolog.php" );
 include_once( "classes/ezdatetime.php" );
 
 class eZTodo
@@ -70,7 +71,7 @@ class eZTodo
                                      OwnerID='$this->OwnerID',
                                      Status='$this->Status',
                                      Date=now(),
-                                     Permission='$this->Permission'" );
+                                     IsPublic='$this->IsPublic'" );
             $this->ID =  mysql_insert_id();
 
             $this->State_ = "Coherent";
@@ -86,7 +87,7 @@ class eZTodo
                                      UserID='$this->UserID',
                                      OwnerID='$this->OwnerID',
                                      Status='$this->Status',
-                                     Permission='$this->Permission',
+                                     IsPublic='$this->IsPublic',
                                      Date=Date
                                      WHERE ID='$this->ID' ");
 
@@ -137,7 +138,7 @@ class eZTodo
                 $this->UserID = $todo_array[0][ "UserID" ];
                 $this->OwnerID = $todo_array[0][ "OwnerID" ];
                 $this->Status = $todo_array[0][ "Status" ];
-                $this->Permission = $todo_array[0][ "Permission" ];
+                $this->IsPublic = $todo_array[0][ "IsPublic" ];
 
                 $ret = true;
             }
@@ -147,6 +148,7 @@ class eZTodo
         {
             $this->State_ = "Dirty";
         }
+
         return $ret;
     }
 
@@ -217,7 +219,7 @@ class eZTodo
         $return_array = array();
         $todo_array = array();
 
-        $this->Database->array_query( $todo_array, "SELECT ID FROM eZTodo_Todo WHERE ( UserID='$id' or OwnerID='$id' ) AND Permission='Public' ORDER BY Priority");
+        $this->Database->array_query( $todo_array, "SELECT ID FROM eZTodo_Todo WHERE ( UserID='$id' or OwnerID='$id' ) AND IsPublic='1' ORDER BY Priority");
        
         for ( $i=0; $i<count($todo_array); $i++ )
         {
@@ -235,7 +237,7 @@ class eZTodo
     {
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
-       
+
        return htmlspecialchars( $this->Name );
     }
 
@@ -493,23 +495,77 @@ class eZTodo
       Permission of the todo.
       Returns the permission of the todo as a string.
     */
-    function permission()
+    function isPublic()
     {
         if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
-        return $this->Permission;
+
+
+        if ( $this->IsPublic == 1 )
+            return true;
+        else
+            return false;
     }
 
     /*!
       Sets the permission of the todo.
       The new permission of the todo is passed as a paramenter ( $value ).
      */
-    function setPermission( $value )
+    function setIsPublic( $value )
     {
         if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
-        $this->Permission = $value;
+
+        if ( $value == true )
+            $this->IsPublic = 1;
+        else
+            $this->IsPublic = 0;
     }
+
+    /*!
+      Returns the logs over this todo.
+
+      The logs is returned as array of eZTodoLog objects.
+    */
+    function logs()
+    {
+        if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+        $db =& eZDB::globalDatabase();
+
+        $db->array_query( $logsArray, "SELECT LogID from eZTodo_TodoLogLink where TodoID='$this->ID'" );
+
+        if ( count ( $logsArray ) > 0 )
+        {
+            foreach ( $logsArray as $log )
+            {
+                $returnArray[] = new eZTodoLog( $log["LogID"] );
+            }
+        }
+
+        return $returnArray;
+    }
+
+    /*!
+      Adds an log to the todo.
+    */
+    function addLog( &$value )
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+        
+        if ( get_class( $value ) == "eztodolog" )
+        {
+            $db =& eZDB::globalDatabase();
+
+            $logID = $value->id();
+
+
+            $this->Database->query( "INSERT INTO eZTodo_TodoLogLink SET TodoID='$this->ID', LogID='$logID'" );
+        }
+    }
+
 
     /*!
       Id of the todo.
@@ -519,6 +575,7 @@ class eZTodo
     {
         if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
+
         return $this->ID;
     }
 
@@ -538,7 +595,7 @@ class eZTodo
 
     var $OwnerID;
     var $UserID;
-    var $Permission;
+    var $IsPublic;
     var $Description;
     var $Due;
     var $Date;

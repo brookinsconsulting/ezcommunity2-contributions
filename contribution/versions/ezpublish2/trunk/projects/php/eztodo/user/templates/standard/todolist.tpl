@@ -83,7 +83,7 @@
 	<th>{intl-category}:</th>
 	<th>{intl-date}:</th>
 	<th>{intl-priority}:</th>
-	<th>{intl-view}:</th>
+	<th>{intl-is_public}:</th>
 	<th>{intl-status}:</th>
 	<th>&nbsp;</th>
 	<th>&nbsp;</th>
@@ -107,9 +107,17 @@
 	{todo_priority_id}
 	</td>
 
+	<!-- BEGIN todo_is_public_tpl -->
 	<td class="{td_class}">
-	{todo_permission}
+	{intl-todo_is_public}
 	</td>
+	<!-- END todo_is_public_tpl -->
+
+	<!-- BEGIN todo_is_not_public_tpl -->
+	<td class="{td_class}">
+	{intl-todo_is_not_public}
+	</td>
+	<!-- END todo_is_not_public_tpl -->
 
 	<td class="{td_class}">
 	{todo_status}

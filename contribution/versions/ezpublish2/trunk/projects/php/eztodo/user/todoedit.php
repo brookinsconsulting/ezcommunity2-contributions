@@ -1,5 +1,5 @@
 <?
-// $Id: todoedit.php,v 1.18 2001/04/04 11:59:46 wojciechp Exp $
+// $Id: todoedit.php,v 1.19 2001/04/30 14:33:41 ce Exp $
 //
 // Definition of todo list.
 //
@@ -12,7 +12,10 @@
 // IMPORTANT NOTE: You may NOT copy this file or any part of it into
 // your own programs or libraries.
 //
+
 include_once( "classes/ezhttptool.php" );
+
+
 if ( isSet ( $Delete ) )
 {
     $Action = "delete";
@@ -54,7 +57,7 @@ include_once( "classes/ezlocale.php" );
 include_once( "classes/ezdate.php" );
 include_once( "classes/eztime.php" );
 include_once( "classes/ezmail.php" );
-
+include_once( "eztodo/classes/eztodolog.php" );
 
 include_once( "ezuser/classes/ezuser.php" );
 include_once( "ezuser/classes/ezpermission.php" );
@@ -63,6 +66,19 @@ include_once( "ezuser/classes/ezusergroup.php" );
 $locale = new eZLocale( $Language );
 
 $user = eZUser::currentUser();
+$redirect = true;
+
+if ( isset ( $AddLog ) )
+{
+    $log = new eZTodoLog();
+    $log->setLog( $Log );
+    $log->store();
+    $todo = new eZTodo( $TodoID );
+    $todo->addLog( $log );
+
+    $Action = "update";
+    $redirect = false;
+}
 
 if ( !$user )
 {
@@ -77,9 +93,6 @@ $Name = eZHTTPTool::getVar( "Name", true );
 $Description = eZHTTPTool::getVar( "Description", true );
 $StatusID = eZHTTPTool::getVar( "StatusID", true );
 
-
-
-// Setup template.
 $t = new eZTemplate( "eztodo/user/" . $ini->read_var( "eZTodoMain", "TemplateDir" ),
                      "eztodo/user/intl", $Language, "todoedit.php" );
 $t->setAllStrings();
@@ -92,12 +105,21 @@ $t->set_block( "todo_edit_page", "category_select_tpl", "category_select" );
 $t->set_block( "todo_edit_page", "priority_select_tpl", "priority_select" );
 $t->set_block( "todo_edit_page", "status_select_tpl", "status_select" );
 $t->set_block( "todo_edit_page", "user_item_tpl", "user_item" );
+$t->set_block( "todo_edit_page", "send_mail_tpl", "send_mail" );
+
+$t->set_block( "todo_edit_page", "list_logs_tpl", "list_logs" );
+$t->set_block( "list_logs_tpl", "log_item_tpl", "log_item" );
+
+$t->set_block( "user_item_tpl", "todo_is_public_tpl", "todo_is_public" );
+$t->set_block( "user_item_tpl", "todo_is_not_public_tpl", "todo_is_not_public" );
 
 $t->set_block( "todo_edit_page", "errors_tpl", "errors" );
 $t->set_var( "errors", "&nbsp;" );
 
 $t->set_var( "name", "$Name" );
 $t->set_var( "description", "$Description" );
+$t->set_var( "list_logs", "" );
+$t->set_var( "log_item", "" );
 
 $error = false;
 $nameCheck = true;
@@ -170,7 +192,6 @@ if ( $error )
 if ( $Action == "insert" && $error == false )
 {
     $todo = new eZTodo();
-    $GLOBALS["DEBUG"] = true;
     $todo->setName( $Name );
     $todo->setDescription( $Description );
     $todo->setCategoryID( $CategoryID );
@@ -180,47 +201,58 @@ if ( $Action == "insert" && $error == false )
     $todo->setStatusID( $StatusID );
     $date = new eZDateTime();
 
-    if ( $Permission == "on" )
+    if ( $IsPublic == "on" )
     {
-        $todo->setPermission( "Public" );
+        $todo->setIsPublic( true );
     }
     else
     {
-        $todo->setPermission( "Private" );
+        $todo->setIsPublic( false );
     }
 
     $todo->store();
 
     if ( $SendMail == "on" )
     {
+        $mailTemplate = new eZTemplate( "eztodo/user/" . $ini->read_var( "eZTodoMain", "TemplateDir" ),
+                                        "eztodo/user/intl", $Language, "sendmail.php" );
+
+        $mailTemplate->setAllStrings();
+        $mailTemplate->set_file( "send_mail_tpl", "sendmail.tpl" );
+        
+        $mailTemplate->set_block( "send_mail_tpl", "todo_is_public_tpl", "todo_is_public" );
+        $mailTemplate->set_block( "send_mail_tpl", "todo_is_not_public_tpl", "todo_is_not_public" );
+
         $category = new eZCategory( $CategoryID );
         $priority = new eZPriority( $PriorityID );
-	$status = new ezStatus ( $StatusID );
+        $status = new ezStatus ( $StatusID );
         $owner = new eZUser( $user->id() );
         $user = new eZUser( $UserID );
 
-        $iniName = $iniLanguage->read_var( "strings", "mail_name" );
-        $iniCategory = $iniLanguage->read_var( "strings", "mail_category" );
-        $iniPriority = $iniLanguage->read_var( "strings", "mail_priority" );
-        $iniStatus = $iniLanguage->read_var( "strings", "mail_status" );
-	$iniIsPublic = $iniLanguage->read_var( "strings", "mail_is_public" );
-        $iniOwner = $iniLanguage->read_var( "strings", "mail_owner" );
-
+        if ( $todo->IsPublic() )
+        {
+            $mailTemplate->set_var( "todo_is_not_public_tpl", "" );
+            $mailTemplate->parse( "todo_is_public", "todo_is_public_tpl" );
+        }
+        else
+        {
+            $mailTemplate->set_var( "todo_is_public_tpl", "" );
+            $mailTemplate->parse( "todo_is_not_public", "todo_is_not_public_tpl" );
+        }
+        
+        $mailTemplate->set_var( "todo_name", $Name );
+        $mailTemplate->set_var( "todo_category", $category->name() );
+        $mailTemplate->set_var( "todo_priority", $priority->name() );
+        $mailTemplate->set_var( "todo_status", $status->name() );
+        $mailTemplate->set_var( "todo_is_public", $isPublic );
+        $mailTemplate->set_var( "todo_owner", $owner->firstName() . " " . $owner->lastName() );
+        $mailTemplate->set_var( "todo_description", $Description );
+        
         $mail = new eZMail();
-
-        $body = ( $iniName . ": " . $Name . "\n" );
-        $body .= ( $iniCategory . ": " . $category->name() . "\n" );
-        $body .= ( $iniPriority . ": " . $priority->name() . "\n" );
-        $body .= ( $iniStatus . ": " . $status->name() . "\n" );
-	$body .= ( $iniIsPublic . ": " . $todo->permission() . "\n" );
-        $body .= ( $iniOwner . ": " . ( $owner->firstName() . " " . $owner->lastName() ) . "\n" );
-        $body .= "-------------\n";
-        $body .= ( $Description );
-
         $mail->setSubject( "Todo: " . $Name );
         $mail->setFrom( $owner->email() );
         $mail->setTo( $user->email() );
-        $mail->setBody( $body );
+        $mail->setBody( $mailTemplate->parse( "dummy", "send_mail_tpl" ) );
 
         $mail->send();
     }
@@ -246,36 +278,75 @@ if ( $Action == "update" && $error == false )
     $todo->setStatusID( $StatusID );
 
     
-    if ( $Permission == "on" )
+    if ( $IsPublic == "on" )
     {
-        $todo->setPermission( "Public" );
+        $todo->setIsPublic( true );
     }
     else
     {
-        $todo->setPermission( "Private" );
+        $todo->setIsPublic( false );
     }
     $todo->store();
 
-    if ( ( $sendMail == true ) && ( $oldstatus != $todo->statusID() ) && ( $todo->userID() != $todo->ownerID() ) )
+    if ( ( $MailLog ) && ( get_class ( $log ) == "eztodolog" ) )
     {
-	$status = new eZStatus();  		 //need for status name in subject
-	
+        $mailTemplate = new eZTemplate( "eztodo/user/" . $ini->read_var( "eZTodoMain", "TemplateDir" ),
+                                        "eztodo/user/intl", $Language, "maillog.php" );
+
+        $mailTemplate->setAllStrings();
+        
+        $mailTemplate->set_file( "send_mail_tpl", "maillog.tpl" );
+
+        $mailTemplate->set_block( "send_mail_tpl", "todo_is_public_tpl", "todo_is_public" );
+        $mailTemplate->set_block( "send_mail_tpl", "todo_is_not_public_tpl", "todo_is_not_public" );
+
+        $category = new eZCategory( $CategoryID );
+        $priority = new eZPriority( $PriorityID );
+        $status = new ezStatus ( $StatusID );
+        $owner = new eZUser( $user->id() );
+        $user = new eZUser( $UserID );
+
+        if ( $todo->IsPublic() )
+        {
+            $mailTemplate->set_var( "todo_is_not_public_tpl", "" );
+            $mailTemplate->parse( "todo_is_public", "todo_is_public_tpl" );
+        }
+        else
+        {
+            $mailTemplate->set_var( "todo_is_public_tpl", "" );
+            $mailTemplate->parse( "todo_is_not_public", "todo_is_not_public_tpl" );
+        }
+
+        $locale = new eZLocale( $Language );
+        $mailTemplate->set_var( "todo_name", $Name );
+        $mailTemplate->set_var( "todo_category", $category->name() );
+        $mailTemplate->set_var( "todo_priority", $priority->name() );
+        $mailTemplate->set_var( "todo_status", $status->name() );
+        $mailTemplate->set_var( "todo_is_public", $isPublic );
+        $mailTemplate->set_var( "todo_owner", $owner->firstName() . " " . $owner->lastName() );
+        $mailTemplate->set_var( "todo_description", $Description );
+
+        $mailTemplate->set_var( "time", $locale->format( $log->created() ) );
+        $mailTemplate->set_var( "log", $log->log() );
+        
         $mail = new eZMail();
-        $owner = new eZUser( $todo->ownerID() );
-        $user = new eZUser( $todo->userID() );
-
-        $body = $iniLanguage->read_var( "strings", "mail_status_changed" );
-
-        $mail->setSubject( $iniLanguage->read_var( "strings", "subject_status_changed" ) . "Todo: " . $Name . "Status: " . $status->name() );
-        $mail->setFrom( $user->email() );
-        $mail->setTo( $owner->email() );
-        $mail->setBody( $body );
+        $mail->setSubject( "Todo log: " . $Name );
+        $mail->setFrom( $owner->email() );
+        $mail->setTo( $user->email() );
+        $mail->setBody( $mailTemplate->parse( "dummy", "send_mail_tpl" ) );
 
         $mail->send();
+
     }
 
-    eZHTTPTool::header( "Location: /todo/todolist/" );
-    exit();
+    if ( $redirect )
+    {
+        eZHTTPTool::header( "Location: /todo/todolist/" );
+        exit();
+    }
+    else
+        $Action = "edit";
+    
 }
 
 // Delete a todo in the database.
@@ -299,6 +370,7 @@ if ( $Action == "new" || $error )
     $hour = "";
     $min = "";
     $t->set_var( "text", "" );
+    $t->parse( "send_mail", "send_mail_tpl" );
 }
 
 // default user
@@ -333,13 +405,13 @@ if ( $Action == "edit" )
         $t->set_var( "status", "" );
     }
 
-    if ( $todo->permission() == "Public" )
+    if ( $todo->IsPublic() )
     {
-        $t->set_var( "permission", "checked" );
+        $t->set_var( "todo_is_public", "checked" );
     }
     else
     {
-        $t->set_var( "permission", "" );
+        $t->set_var( "todo_is_public", "" );
     }
 
     $t->set_var( "todo_id", $todo->id() );
@@ -356,6 +428,20 @@ if ( $Action == "edit" )
     $owner = new eZUser( $todo->ownerID() );
     $t->set_var( "first_name", $owner->firstName() );
     $t->set_var( "last_name", $owner->lastName() );
+
+    $logs = $todo->logs();
+
+    if ( count ( $logs ) > 0 )
+    {
+        foreach ( $logs as $log )
+        {
+            $t->set_var( "log_view", $log->log() );
+            $t->set_var( "log_created", $locale->format( $log->created() ) );
+
+            $t->parse( "log_item", "log_item_tpl", true );
+        }
+    }
+    $t->parse( "list_logs", "list_logs_tpl" );
     
     $headline = "Rediger todo";
     $submit_description = "Rediger";

@@ -21,6 +21,7 @@
 	include( "ezcontact/user/menubox.php" );
 	?>
 
+    
 	<?
 	include( "ezforum/user/menubox.php" );
 	?>

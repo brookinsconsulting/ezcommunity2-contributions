@@ -98,14 +98,43 @@
 	</td>
 
 	<td>
-	<div class="check"><input type="checkbox" name="Permission" {permission}>&nbsp;{intl-view_others}</div>
+	<div class="check"><input type="checkbox" name="IsPublic" {todo_is_public} >&nbsp;{intl-is_public}</div>
 	</td>
+	<!-- BEGIN send_mail_tpl -->
 	<td>
-	<div class="check"><input type="checkbox" name="SendMail">&nbsp;{intl-send_mail}</div>
+	<div class="check"><input type="checkbox" name="SendMail"  >&nbsp;{intl-send_mail}</div>
 	</td>
-
+	<!-- END send_mail_tpl -->
 </tr>
 </table>
+
+<!-- BEGIN list_logs_tpl -->
+<table width="100%" cellpadding="0" cellspacing="0" border="0">
+<!-- BEGIN log_item_tpl -->
+<th>{log_created}</th>
+<tr>
+	<td>
+	{log_view}
+	</td>
+</tr>
+<!-- END log_item_tpl -->
+
+<hr noshade size="4"/>
+<br />
+<tr>
+        <td>
+	<textarea wrap="soft" cols="40" rows="5" name="Log"></textarea>
+	&nbsp;<input type="checkbox" name="MailLog">&nbsp;{intl-mail_log}
+	</td>
+</tr>
+<tr>
+        <td>
+	<input type="submit" name="AddLog" value="{intl-add_log}">
+	</td>
+</tr>
+</table>
+<!-- END list_logs_tpl -->
+
 
 <hr noshade size="4"/>
 
