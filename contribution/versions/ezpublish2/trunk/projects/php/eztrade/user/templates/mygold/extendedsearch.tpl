@@ -101,16 +101,16 @@
 	    <!-- END price_tpl -->
 	</td>
     </tr>
+    <tr>
+	<td>
+	    <hr noshade="noshade" size="1" />
     <!-- END product_tpl -->
 </table>
 <!-- END product_search_list_tpl -->        
 
-<table width="100%" cellspacing="0" cellpadding="0" border="0">
-    <tr>
-	<td>
 	    <!-- BEGIN type_list_tpl -->
 	    <br />
-	    <table cellpadding="0" cellspacing="0" border="0">
+	    <table cellpadding="0" cellspacing="0" border="0" align="center">
 		<tr>
 		    <!-- BEGIN type_list_previous_tpl -->
 		    <td>
@@ -154,6 +154,3 @@
 		</tr>
 	    </table>
 	    <!-- END type_list_tpl -->
-	</td>
-    </tr>
-</table>
