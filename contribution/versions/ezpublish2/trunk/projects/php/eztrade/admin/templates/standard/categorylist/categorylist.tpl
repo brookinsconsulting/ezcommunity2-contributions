@@ -60,7 +60,7 @@
 <!-- BEGIN category_item_tpl -->
 <tr>
 	<td class="{td_class}">
-	<a href="/trade/categorylist/parent/{category_id}/">{category_name}</a>
+	<a href="/trade/categorylist/parent/{category_id}/">{category_name}&nbsp;</a>
 	</td>
 	<td class="{td_class}">
 	{category_description}&nbsp;
@@ -92,7 +92,7 @@ onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('eztc{category_id}-sl
 <!-- BEGIN product_item_tpl -->
 <tr>
 	<td class="{td_class}">
-	<a href="/trade/productedit/productpreview/{product_id}/">{product_name}</a>
+	<a href="/trade/productedit/productpreview/{product_id}/">{product_name}&nbsp;</a>
 	</td>
 	<td class="{td_class}" align="right">
 	{product_price}
