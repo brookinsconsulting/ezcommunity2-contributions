@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezxmlrpccall.php,v 1.8 2001/03/16 09:48:52 bf Exp $
+// $Id: ezxmlrpccall.php,v 1.8.2.1 2001/11/15 19:36:18 bf Exp $
 //
 // Definition of eZXMLRPCCall class
 //
@@ -199,6 +199,20 @@ class eZXMLRPCCall
 
         $domTree =& qdom_tree( $rawResponse );
 
+        // coose XML parser
+        if ( function_exists( "xmltree" ) )
+        {
+            $domTree =& xmltree( $rawResponse );
+        }
+        else if ( function_exists( "qdom_tree" ) )
+        {
+            $domTree =& qdom_tree( $rawResponse );
+        }
+        else
+        {
+            $domTree->children = array();
+        }
+        
         foreach ( $domTree->children as $call )
         {
             if ( $call->name == "methodCall" )
