@@ -46,20 +46,19 @@
 
 <!-- BEGIN link_list_tpl -->
 <table width="100%" cellspacing="0" cellpadding="4" border="0">
+
 <!-- BEGIN link_item_tpl -->
 <tr>
 	<td class="{td_class}" valign="top" width="1%">
 	<img src="/images/link.gif" height="16" width="16" border="0" alt="" /><br />
 	</td>
-	<td class="{td_class}" valign="top" width="99%" colspan="2">
+	<td class="{td_class}" valign="top" width="99%">
 	<span class="boxtext"><a href="/link/gotolink/addhit/{link_id}/?Url={link_url}"  target="_blank">{link_name}</a></span>
    	</td>
 </tr>
 <tr>
     <td class="{td_class}" width="99%" valign="top" colspan="2">
-    	<span class="p">{link_description}</span>
-	</td>
-    <td class="{td_class}" width="1%" valign="top">
+   	<span class="p">{link_description}</span>
 	<!-- BEGIN link_image_item_tpl -->
 	<a href="{www_dir}{index}/link/gotolink/addhit/{link_id}/?Url={link_url}"  target="_blank"><img src="{www_dir}{image_url}" alt="{image_caption}" width="{image_width}" height="{image_height}" border="0" align="right" /></a>
 	<!-- END link_image_item_tpl -->
@@ -69,7 +68,8 @@
 
 <!-- BEGIN attribute_list_tpl -->
 <tr>
-	<td colspan="3" class="{td_class}" align="center">
+	<td colspan="2" class="{td_class}">
+	<div align="center">
 	<table width="50%" cellspacing="0" cellpadding="2" border="0">
 
 <!-- BEGIN attribute_tpl -->
@@ -94,6 +94,7 @@
 <!-- END attribute_header_tpl -->
 
 	</table>
+	</div>
 	</td>
 </tr>
 
