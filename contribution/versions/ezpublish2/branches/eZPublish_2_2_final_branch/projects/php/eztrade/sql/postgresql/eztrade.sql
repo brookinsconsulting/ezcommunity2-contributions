@@ -395,45 +395,45 @@ CREATE TABLE eZTrade_ValueQuantityDict (
 );
 
 CREATE TABLE eZTrade_Voucher (
-  ID int(11) NOT NULL default '0',
-  Created int(11) default '0',
+  ID int NOT NULL default '0',
+  Created int default '0',
   Price float default '0',
-  Available int(11) default '0',
+  Available int default '0',
   KeyNumber varchar(50) default NULL,
-  MailMethod int(11) default '1',
-  UserID int(11) default '0',
-  ProductID int(11) default '0',
-  VoucherID int(11) default '0',	
-  TotalValue int(11) default '0',	
-  PRIMARY KEY  (ID)
-) TYPE=MyISAM;
+  MailMethod int default '1',
+  UserID int default '0',
+  ProductID int default '0',
+  VoucherID int default '0',	
+  TotalValue int default '0',	
+  PRIMARY KEY (ID)
+);
 
 CREATE TABLE eZTrade_VoucherInformation (
-  ID int(11) NOT NULL default '0',
-  VoucherID int(11) default '0',
-  OnlineID int(11) default '0',
-  ToAddressID int(11) default '0',
+  ID int NOT NULL default '0',
+  VoucherID int default '0',
+  OnlineID int default '0',
+  ToAddressID int default '0',
   Description text,
-  PreOrderID int(11) default '0',
-  Price int(11) default '0',
-  MailMethod int(11) default '1',
+  PreOrderID int default '0',
+  Price int default '0',
+  MailMethod int default '1',
   ToName varchar(80) default NULL,
   FromName varchar(80) default NULL,
-  FromOnlineID int(11) default '0',
-  FromAddressID int(11) default '0',
-  ProductID int(11) default '0',
+  FromOnlineID int default '0',
+  FromAddressID int default '0',
+  ProductID int default '0',
   PRIMARY KEY  (ID)
-) TYPE=MyISAM;
+);
 
 CREATE TABLE eZTrade_VoucherUsed (
-  ID int(11) NOT NULL default '0',
-  Used int(11) default '0',
+  ID int NOT NULL default '0',
+  Used int default '0',
   Price float default NULL,
-  VoucherID int(11) default '0',
-  OrderID int(11) default '0',
-  UserID int(11) default '0',
+  VoucherID int default '0',
+  OrderID int default '0',
+  UserID int default '0',
   PRIMARY KEY  (ID)
-) TYPE=MyISAM;
+);
 
 CREATE TABLE eZTrade_WishList (
   ID int NOT NULL,

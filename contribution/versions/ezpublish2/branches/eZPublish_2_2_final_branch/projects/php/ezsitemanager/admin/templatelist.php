@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: templatelist.php,v 1.1 2001/09/24 12:55:15 bf Exp $
+// $Id: templatelist.php,v 1.1.2.1 2002/02/07 09:48:26 jhe Exp $
 //
 // Created on: <24-Sep-2001 14:12:07 bf>
 //
@@ -49,6 +49,7 @@ $t->setAllStrings();
 $t->set_file( "template_list_tpl", "templatelist.tpl" );
 
 $t->set_block( "template_list_tpl", "file_item_tpl", "file_item" );
+$t->set_var( "file_item", "" );
 
 while ( $entry = $dir->read() )
 {
