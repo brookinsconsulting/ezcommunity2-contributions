@@ -41,5 +41,14 @@
 
 
 <!-- BEGIN next_page_link_tpl -->
-| <a class="path" href="/article/articleview/{article_id}/{next_page_number}/">{intl-next_page} &gt;&gt;</a>
+| <a href="/article/articleview/{article_id}/{next_page_number}/">{intl-next_page}</a>
 <!-- END next_page_link_tpl -->
+
+<!-- BEGIN numbered_page_link_tpl -->
+| <a class="path" href="/article/articleview/{article_id}/0/">{intl-numbered_page}</a> |
+<!-- END numbered_page_link_tpl -->
+
+<!-- BEGIN print_page_link_tpl -->
+| <a class="path" href="/article/articleprint/{article_id}/">{intl-print_page}</a> |
+<!-- END print_page_link_tpl -->
+</p>
