@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezproductcategory.php,v 1.1 2000/09/12 11:05:59 bf-cvs Exp $
+// $Id: ezproductcategory.php,v 1.2 2000/09/12 11:41:03 bf-cvs Exp $
 //
 // Definition of eZCompany class
 //
@@ -18,7 +18,7 @@
 /*!
   The eZProductCategory class handles product groups, the relation to products
   in the productgroup and the options connected to the product group.
-
+  
   Example of usage:
 
   \code
@@ -41,7 +41,6 @@
     print( $catItem->name() . "<br>" . $catItem->description() . "..<br>" );
   }
   
-
   \endcode
 
   \sa eZProdct eZOption eZOptionValue
@@ -222,16 +221,7 @@ class eZProductCategory
     {
         if ( $IsConnected == false )
         {
-            include_once( "classes/INIFile.php" );
-
-            $ini = new INIFile( "site.ini" );
-        
-            $SERVER = $ini->read_var( "eZTradeMain", "Server" );
-            $DATABASE = $ini->read_var( "eZTradeMain", "Database" );
-            $USER = $ini->read_var( "eZTradeMain", "User" );
-            $PWD = $ini->read_var( "eZTradeMain", "Password" );
-
-            $this->Database = new eZDB( $SERVER, $DATABASE, $USER, $PWD );
+            $this->Database = new eZDB( "site.ini", "eZTradeMain" );
         
             $IsConnected = true;
         }
