@@ -14,8 +14,6 @@
 <h2>{intl-empty_cart}</h2>
 <!-- END empty_cart_tpl -->
 
-<form action="{www_dir}{index}/trade/cart/" method="post">
-
 <!-- BEGIN full_cart_tpl -->
 <table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
 
@@ -231,10 +229,6 @@
 <!-- END tax_specification_tpl -->
 <!-- END full_cart_tpl -->
 
-
-
-
-<input type="hidden" name="Action" value="Refresh" />
 
 
 

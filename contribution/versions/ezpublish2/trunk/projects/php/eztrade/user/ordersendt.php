@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ordersendt.php,v 1.43 2001/09/15 12:37:18 pkej Exp $
+// $Id: ordersendt.php,v 1.44 2001/09/15 14:44:31 pkej Exp $
 //
 // Created on: <06-Oct-2000 14:04:17 bf>
 //
@@ -22,6 +22,8 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, US
 //
+
+echo "hokken? HOt horre?";
 
 include_once( "classes/eztemplate.php" ); 
 include_once( "classes/ezlocale.php" );
