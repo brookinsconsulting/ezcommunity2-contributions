@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezcachefile.php,v 1.1 2001/02/07 14:01:36 jb Exp $
+// $Id: ezcachefile.php,v 1.2 2001/02/07 14:05:00 jb Exp $
 //
 // Definition of eZCacheFile class
 //
@@ -44,7 +44,7 @@
 
 class eZCacheFile
 {
-    function eZCacheFile( $root, $component, $suffix = "cache", $separator = "," )
+    function eZCacheFile( $root, $component, $suffix = "cache", $separator = "-" )
     {
         if ( strlen( $root ) > 1 and $root[strlen($root) - 1] != "/" )
             $root .= "/";
@@ -168,7 +168,7 @@ class eZCacheFile
       // For instance "articleview,1,2.cache" and "articleview,2,2.cache" matches.
       $files = eZCacheFile::files( "ezarticle/cache", array( "articleview", array( "1", 2" ), "2" ), "cache", "," );
     */
-    function files( $root, $components, $suffix = "cache", $separator = "," )
+    function files( $root, $components, $suffix = "cache", $separator = "-" )
     {
         if ( strlen( $root ) > 1 and $root[strlen($root) - 1] != "/" )
             $root .= "/";
