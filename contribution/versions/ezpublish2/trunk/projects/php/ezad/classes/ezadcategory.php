@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezadcategory.php,v 1.1 2000/11/25 11:40:52 bf-cvs Exp $
+// $Id: ezadcategory.php,v 1.2 2000/11/27 11:54:13 bf-cvs Exp $
 //
 // Definition of eZAdCategory class
 //
@@ -394,7 +394,7 @@ class eZAdCategory
       Returns every ad in a category as a array of eZAd objects.
 
     */
-    function ads( $sortMode="time",
+    function &ads( $sortMode="time",
                        $offset=0,
                        $limit=50 )
     {

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: eznewscategory.php,v 1.4 2000/11/19 11:10:02 bf-cvs Exp $
+// $Id: eznewscategory.php,v 1.5 2000/11/27 11:54:13 bf-cvs Exp $
 //
 // Definition of eZNewsCategory class
 //
@@ -358,8 +358,8 @@ class eZNewsCategory
       If $fetchNonPublished is set to true the news which is not published is
       also returned. 
     */
-    function newsList( $sortMode="time",
-                       $fetchNonPublished=true,
+    function &newsList( $sortMode="time",
+                       $fetchNonPublished=false,
                        $offset=0,
                        $limit=50 )
     {
@@ -410,7 +410,7 @@ class eZNewsCategory
                 eZNewsFeed_Category.ID='$this->ID'
                 GROUP BY eZNewsFeed_News.ID ORDER BY $OrderBy LIMIT $offset,$limit" );
        }
- 
+
        for ( $i=0; $i<count($news_array); $i++ )
        {
            $return_array[$i] = new eZNews( $news_array[$i]["NewsID"], false );

@@ -14,6 +14,7 @@
 <br />
 {intl-total_view_count}: {ad_view_count} <br />
 {intl-total_click_count}: {ad_click_count} <br />
+{intl-total_click_percentage}: {ad_click_percent} % <br />
 
 
 <hr noshade="noshade" size="4" />

@@ -1,12 +1,5 @@
-{intl-ads}:
-
-
 <!-- BEGIN ad_list_tpl -->
 <table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
-<tr>
-	<th>{intl-ad}:</th>
-</tr>
-
 <!-- BEGIN ad_item_tpl -->
 <tr>
 	<td>

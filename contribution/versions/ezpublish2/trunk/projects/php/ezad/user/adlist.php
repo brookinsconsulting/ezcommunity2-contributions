@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: adlist.php,v 1.3 2000/11/27 11:23:47 bf-cvs Exp $
+// $Id: adlist.php,v 1.4 2000/11/27 11:54:13 bf-cvs Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <25-Nov-2000 15:44:37 bf>
@@ -69,7 +69,7 @@ $user = eZUser::currentUser();
 
 
 // ads
-$adList = $category->ads( "time" );
+$adList =& $category->ads( "time" );
 
 $locale = new eZLocale( $Language );
 $i=0;
@@ -95,9 +95,6 @@ foreach ( $adList as $ad )
     }
 
     // store the view statistics
-
-    $ad = new eZAd();
-
     $view = new eZAdView();
     $view->setAd( $ad );
     $view->setUser( $user );
