@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: bugedit.php,v 1.28 2001/03/09 10:47:04 fh Exp $
+// $Id: bugedit.php,v 1.29 2001/03/09 11:50:36 fh Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <28-Nov-2000 19:45:35 bf>
@@ -31,6 +31,7 @@ include_once( "classes/ezlocale.php" );
 include_once( "classes/eztexttool.php" );
 include_once( "ezfilemanager/classes/ezvirtualfile.php" );
 include_once( "ezimagecatalogue/classes/ezimage.php" );
+include_once( "ezuser/classes/ezobjectpermission.php" );
 
 $ini =& $GLOBALS["GlobalSiteIni"];
 
@@ -535,15 +536,13 @@ foreach ( $statuses as $status )
 }
 
 
-// list the possible owners
-/* FIX THIS, MUST FIX NEW FUNCTION IN eZUSER....
-$module = new eZBugModule( $moduleID );
-$ownerGroup = $module->ownerGroup();
+$ownerGroup = eZObjectPermission::getGroups( $moduleID, "bug_module", 'w', false );
 $owner = $bug->owner();
 $currentOwner = -1;
-if( get_class( $ownerGroup ) == "ezusergroup" )
+if( $ownerGroup[0]  != "" )
 {
-    $users = $ownerGroup->users( $ownerGroup );
+    $users = eZUserGroup::users( $ownerGroup );
+   print( "<pre>"); print_r( $users );   print( "</pre>");
     if( count( $users ) > 0 )
     {
         foreach( $users as $userItem )
@@ -559,7 +558,7 @@ if( get_class( $ownerGroup ) == "ezusergroup" )
             {
                 $t->set_var( "selected", "" );
             }
-            $t->parse( "owner_item", "owner_item_tpl" );
+            $t->parse( "owner_item", "owner_item_tpl", true );
         }
     }
     else
@@ -569,7 +568,6 @@ else
 {
     $t->set_var( "owner_item", "" );
 }
-*/
 
 $t->set_var( "current_owner_id", $currentOwner );
 $t->pparse( "output", "bug_edit_tpl" );
