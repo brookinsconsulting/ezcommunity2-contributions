@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezmail.php,v 1.3 2000/10/02 11:58:14 bf-cvs Exp $
+// $Id: ezmail.php,v 1.4 2000/10/08 13:54:21 bf-cvs Exp $
 //
 // Definition of eZCompany class
 //
@@ -17,8 +17,22 @@
 //!! eZCommon
 //! The eZMail class is a wrapper class for the mail() function in php.
 /*!
+Example code:
+\code
+// Create a new eZMail object
+$mail = new eZMail();
 
-  
+// set the sender and receiver
+$mail->setFrom( "bf@ez.no" );
+$mail->setTo( "ce@ez.no" );
+
+// set the subject and body
+$mail->setSubject( "Ny ordre" );
+$mail->setBody( "Ny ordre" );
+
+// off you go
+$mail->send();
+\endcode
 */
 
 /*!TODO

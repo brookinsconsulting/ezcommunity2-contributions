@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezuser.php,v 1.4 2000/10/08 13:07:11 bf-cvs Exp $
+// $Id: ezuser.php,v 1.5 2000/10/08 13:54:22 bf-cvs Exp $
 //
 // Definition of eZCompany class
 //
@@ -102,11 +102,19 @@ class eZUser
         {
             $this->Database->query( "UPDATE eZUser_User SET
 		                         Login='$this->Login',
-                                 Password=PASSWORD('$this->Password'),
                                  Email='$this->Email',
                                  FirstName='$this->FirstName',
                                  LastName='$this->LastName'
                                  WHERE ID='$this->ID'" );
+
+            // update password if set.
+            if ( isset( $this->Password ) )
+            {
+                $this->Database->query( "UPDATE eZUser_User SET
+                                 Password=PASSWORD('$this->Password')
+                                 WHERE ID='$this->ID'" );
+            }
+            
         }
         
         return true;
@@ -151,7 +159,7 @@ class eZUser
             {
                 $this->ID = $user_array[0][ "ID" ];
                 $this->Login = $user_array[0][ "Login" ];
-                $this->Password = $user_array[0][ "Password" ];
+//                  $this->Password = $user_array[0][ "Password" ];
                 $this->Email = $user_array[0][ "Email" ];
                 $this->FirstName = $user_array[0][ "FirstName" ];
                 $this->LastName = $user_array[0][ "LastName" ];

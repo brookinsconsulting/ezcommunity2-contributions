@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: passwordchange.php,v 1.2 2000/10/06 09:59:15 ce-cvs Exp $
+// $Id: passwordchange.php,v 1.3 2000/10/08 13:54:21 bf-cvs Exp $
 //
 // Definition of eZUser class
 //
@@ -49,6 +49,7 @@ if ( !$user )
 if ( $Action == "update" )
 {
     $checkuser = $user->validateUser( $user->login(), $OldPassword );
+    
     if ( !$checkuser )
     {
         print( "Gammelt passord var feil." );
@@ -66,8 +67,8 @@ if ( $Action == "update" )
         print( "Passordet ble oppgradert!" );
 
     }
-    
 }
+
 if ( $Action == "change" )
 {
     
