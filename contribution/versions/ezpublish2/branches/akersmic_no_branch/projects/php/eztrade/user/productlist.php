@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: productlist.php,v 1.41.8.15 2002/02/01 11:10:00 ce Exp $
+// $Id: productlist.php,v 1.41.8.16 2002/02/04 11:02:13 ceaker Exp $
 //
 // Created on: <23-Sep-2000 14:46:20 bf>
 //
@@ -150,11 +150,11 @@ foreach ( $categoryList as $categoryItem )
 
     if ( ( $i % 2 ) == 0 )
     {
-        $t->set_var( "td_class", "bglight" );
+        $t->set_var( "td_class", "categorylist1" );
     }
     else
     {
-        $t->set_var( "td_class", "bgdark" );
+        $t->set_var( "td_class", "categorylist2" );
     }
 
     $t->parse( "category", "category_tpl", true );
@@ -236,11 +236,11 @@ foreach ( $productList as $product )
 
     if ( ( $i % 2 ) == 0 )
     {
-        $t->set_var( "td_class", "bglight" );
+        $t->set_var( "td_class", "categorylist1" );
     }
     else
     {
-        $t->set_var( "td_class", "bgdark" );
+        $t->set_var( "td_class", "categorylist2" );
     }
 
     $t->parse( "product", "product_tpl", true );
