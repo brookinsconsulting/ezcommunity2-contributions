@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezbulkmailcategory.php,v 1.16 2001/07/19 12:36:31 jakobn Exp $
+// $Id: ezbulkmailcategory.php,v 1.17 2001/08/13 12:31:09 ce Exp $
 //
 // Definition of eZBulkMailCategory class
 //
@@ -36,7 +36,9 @@
 */
 
 include_once( "classes/ezdb.php" );
+include_once( "ezbulkmail/classes/ezbulkmailsubscriptionaddress.php" );
 include_once( "ezbulkmail/classes/ezbulkmail.php" );
+include_once( "ezbulkmail/classes/ezbulkmailcategorysettings.php" );
 
 class eZBulkMailCategory
 {
@@ -301,6 +303,7 @@ class eZBulkMailCategory
     
     /*!
       Returns all the groups that are subscribed to this category.
+      \sa subscriptions
      */
     function groupSubscriptions( $asObjects = true )
     {
@@ -320,12 +323,18 @@ class eZBulkMailCategory
 
     */
     function mail( $offset=0,
-                       $limit=50 )
+                   $limit=50,
+                   $getDrafs=true )
     {
         $db =& eZDB::globalDatabase();
         
         $return_array = array();
         $mail_array = array();
+
+        if ( !$getDrafs )
+        {
+            $getDraftsSQL = "AND IsDraft = '0'";
+        }
 
         $db->array_query( $mail_array, "
                 SELECT eZBulkMail_Mail.ID AS MailID
@@ -333,10 +342,11 @@ class eZBulkMailCategory
                 WHERE eZBulkMail_MailCategoryLink.MailID = eZBulkMail_Mail.ID
                 AND eZBulkMail_Category.ID = eZBulkMail_MailCategoryLink.CategoryID
                 AND eZBulkMail_Category.ID='$this->ID'
+                $getDraftsSQL
                 GROUP BY eZBulkMail_Mail.ID",
                 array( "Limit" => $limit,
                        "Offset" => $offset ) );
- 
+
         for( $i=0; $i<count($mail_array); $i++ )
         {
             $return_array[$i] = new eZBulkMail( $mail_array[$i][$db->fieldName( "MailID" )] );
@@ -350,7 +360,7 @@ class eZBulkMailCategory
      */
     function mailCount()
     {
-        $db = eZDB::globalDatabase();
+        $db =& eZDB::globalDatabase();
 
         $db->query_single( $result, "
                 SELECT COUNT( eZBulkMail_Mail.ID ) AS Count
@@ -362,20 +372,24 @@ class eZBulkMailCategory
     
     /*!
       Returns an array with all addresses that are subscribed to this category.
+      \sa groupSubscriptions
      */
-    function subscribers()
+    function subscribers( $asObject=false, $categoryID )
     {
-        $db = eZDB::globalDatabase();
+        $db =& eZDB::globalDatabase();
 
         $subscribe_array = array();
         $return_array = array();
-        $db->array_query( $subscribe_array, "SELECT EMail FROM eZBulkMail_SubscriptionAddress, eZBulkMail_SubscriptionLink
+        $db->array_query( $subscribe_array, "SELECT ID, EMail FROM eZBulkMail_SubscriptionAddress, eZBulkMail_SubscriptionLink
                                              WHERE eZBulkMail_SubscriptionAddress.ID=eZBulkMail_SubscriptionLink.AddressID
                                              AND eZBulkMail_SubscriptionLink.CategoryID='$this->ID'" );
 
         for( $i=0; $i<count($subscribe_array); $i++ )
         {
-            $return_array[$i] = $subscribe_array[$i][$db->fieldName( "EMail" )];
+            if ( $asObject )
+                $return_array[$i] = new eZBulkMailSubscriptionAddress( $subscribe_array[$i][$db->fieldName( "ID" )], $this->ID );
+            else
+                $return_array[$i] = $subscribe_array[$i][$db->fieldName( "EMail" )];
         }
         return $return_array;
     }
@@ -385,7 +399,7 @@ class eZBulkMailCategory
      */
     function subscriberCount()
     {
-        $db = eZDB::globalDatabase();
+        $db =& eZDB::globalDatabase();
 
         $db->query_single( $result, "SELECT COUNT( EMail ) as Count FROM eZBulkMail_SubscriptionAddress, eZBulkMail_SubscriptionLink
                                              WHERE eZBulkMail_SubscriptionAddress.ID=eZBulkMail_SubscriptionLink.AddressID
@@ -400,9 +414,9 @@ class eZBulkMailCategory
      */
     function setSingleList( $value )
     {
-        $db = eZDB::globalDatabase();
-
+        $db =& eZDB::globalDatabase();
         $db->begin();
+
         $result = $db->query( "UPDATE eZBulkMail_Category SET IsSingleCategory='0'" );
         if ( $result == false )
             $db->rollback( );
@@ -429,15 +443,84 @@ class eZBulkMailCategory
      */
     function singleList( $asObject = true )
     {
-        $db = eZDB::globalDatabase();
+        $db =& eZDB::globalDatabase();
         $return_value = false;
         $result_array = array();
-        $db->array_query( $result_array, "SELECT ID from eZBulkMail_Category WHERE IsSingleCategory='1'" );
+        $db->array_query( $result_array, "SELECT ID FROM eZBulkMail_Category WHERE IsSingleCategory='1'" );
 
         if( count( $result_array ) > 0 )
             $return_value = ( $asObject == true ) ? new eZBulkMailCategory( $result_array[0][$db->fieldName( "ID" )] ) : $result_array[0][$db->fieldName( "ID" )];
 
         return $return_value;
+    }
+
+    /*!
+      \static
+      Retuns the settings for a category, the function is static if a ID or object is given.
+     */
+    function settings( $address, $category=false )
+    {
+        if ( is_numeric ( $category ) )
+            $categoryID = $category;
+        else if ( get_class ( $category ) == "ezbulkmailcategory" )
+            $categoryID = $category->id();
+        else
+            $categoryID = $this->ID;
+            
+        $ret = false;
+        if ( get_class ( $address ) == "ezbulkmailsubscriptionaddress" )
+        {
+            $db =& eZDB::globalDatabase();
+
+            $addressID = $address->id();
+            $db->array_query( $result_array, "SELECT ID FROM eZBulkMail_SubscriptionCategorySettings WHERE CategoryID='$categoryID' AND AddressID='$addressID'" );
+            $ret = $result_array[0][$db->fieldName("ID")];
+            if ( is_numeric ( $ret ) )
+            {
+                $ret = new eZBulkMailCategorySettings( $ret );
+            }
+        }
+        return $ret;
+    }
+
+    /*!
+      \static
+      
+     */
+    function addDelayMail( $address, $category, $delay )
+    {
+        if ( is_numeric ( $category ) )
+            $categoryID = $category;
+        else if ( get_class ( $category ) == "ezbulkmailcategory" )
+            $categoryID = $category->id();
+        else
+            $categoryID = $this->ID;
+            
+        $ret = false;
+        if ( get_class ( $address ) == "ezbulkmailsubscriptionaddress" )
+        {
+            $db =& eZDB::globalDatabase();
+            $db->begin();
+
+            $addressID = $address->id();
+            $db->lock( "eZBulkMail_CategoryDelay" );
+            $nextID = $db->nextID( "eZBulkMail_CategoryDelay", "ID" );
+
+            $result = $db->query( "INSERT INTO eZBulkMail_CategoryDelay
+                         ( ID, CategoryID, AddressID, Delay )
+                         VALUES
+                         ( '$nextID',
+                           '$categoryID',
+                           '$addressID',
+                           '$delay' ) " );
+
+            $db->unlock();
+            if ( $result == false )
+                $db->rollback( );
+            else
+                $db->commit();
+        }
+        return $ret;
     }
 
     var $ID;

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezbulkmail.php,v 1.20 2001/07/19 12:36:31 jakobn Exp $
+// $Id: ezbulkmail.php,v 1.21 2001/08/13 12:31:09 ce Exp $
 //
 // eZBulkMail class
 //
@@ -37,6 +37,7 @@
 include_once( "classes/ezdatetime.php" );
 include_once( "ezbulkmail/classes/ezbulkmailcategory.php" );
 include_once( "ezbulkmail/classes/ezbulkmailtemplate.php" );
+include_once( "ezbulkmail/classes/ezbulkmailsubscriptionaddress.php" );
 include_once( "ezmail/classes/ezmail.php" );
 
 class eZBulkMail
@@ -221,6 +222,14 @@ class eZBulkMail
     function fromName()
     {
         return $this->FromName;
+    }
+
+    /*!
+      Returns the sender's name.
+    */
+    function from()
+    {
+        return $this->From;
     }
 
     /*!
@@ -457,17 +466,50 @@ class eZBulkMail
             // normal subscribers...
             foreach( $categories as $categoryItem )
             {
-                $subscribers = array_merge( $subscribers,  $categoryItem->subscribers() );
+                $subscribers = array_merge( $subscribers, $categoryItem->subscribers( true, $categoryItem->id() ) );
 
                 $groups = $categoryItem->groupSubscriptions();
                 foreach( $groups as $group )
-                    $subscribers = array_merge( $subscribers, $group->userEmails() );
+                    $subscribers = array_merge( $subscribers, $group->users() );
+
             }
-            
-            foreach( $subscribers as $subscriber )
+
+            for( $i=0; $i < count ( $subscribers ); $i++ )
             {
+                $subscriber = $subscribers[$i]; 
                 set_time_limit( 5 );
-                if( !$this->isSent( $subscriber ) )
+                $canSend = false;
+
+                $categoryID = $subscriber->categoryID();
+                if ( get_class ( $subscriber ) == "ezuser" )
+                {
+                    $canSend = true;
+                    $subscriber = $subscriber->email();
+                }
+
+                if ( get_class ( $subscriber ) == "ezbulkmailsubscriptionaddress" )
+                {
+
+                    $settings = eZBulkMailCategory::settings( $subscriber, $categoryID );
+                    if ( $settings )
+                    {
+                        $delay = $settings->sendDelay();
+                        if ( $delay == 0 )
+                        {
+                            $subscriber = $subscriber->email();
+                            $canSend = true;
+                        }
+                        else
+                            eZBulkMailCategory::addDelay( $subscriber, $categoryID, $delay );
+                    }
+                    else
+                    {
+                        $canSend = true;
+                        $subscriber = $subscriber->email();
+                    }
+                }
+
+                if( !$this->isSent( $subscriber ) && $canSend )
                 {
                     $mail->setTo( $subscriber );
                     $mail->send();
@@ -485,7 +527,233 @@ class eZBulkMail
                 $db->rollback( );
             else
                 $db->commit();
+
+            $i++;
         }
+    }
+
+    function sendDelayedMail( )
+    {
+        $db =& eZDB::globalDatabase();
+
+        $categoryID = $this->ID();
+        $subscribe_array = array();
+        $return_array = array();
+
+        if ( $this->haveSentHourly( ) )
+        {
+            $db->array_query_append( $subscribe_array, "SELECT * FROM eZBulkMail_CategoryDelay WHERE Delay='1'" );
+            $db->begin();
+            $result = $db->query( "DELETE FROM eZBulkMail_CategoryDelay WHERE Delay='1'" );
+            if ( $result == false )
+                $db->rollback( );
+            else
+                $db->commit();
+
+            $this->setOffset( 1 );
+        }
+        if ( !$this->haveSentDaily( ) )
+        {
+            $db->array_query_append( $subscribe_array, "SELECT * FROM eZBulkMail_CategoryDelay WHERE Delay='2'" );
+            $db->begin();
+            $result = $db->query( "DELETE FROM eZBulkMail_CategoryDelay WHERE Delay='2'" );
+            if ( $result == false )
+                $db->rollback( );
+            else
+                $db->commit();
+
+            $this->setOffset( 2 );
+        }
+        if ( !$this->haveSentWeekly( ) )
+        {
+            $db->array_query_append( $subscribe_array, "SELECT * FROM eZBulkMail_CategoryDelay WHERE Delay='3'" );
+            $db->begin();
+            $result = $db->query( "DELETE FROM eZBulkMail_CategoryDelay WHERE Delay='3'" );
+            if ( $result == false )
+                $db->rollback( );
+            else
+                $db->commit();
+
+            $this->setOffset( 3 );
+        }
+        if ( !$this->haveSentMonthly( ) )
+        {
+            $db->array_query_append( $subscribe_array, "SELECT * FROM eZBulkMail_CategoryDelay WHERE Delay='4'" );
+            $db->begin();
+            $result = $db->query( "DELETE FROM eZBulkMail_CategoryDelay WHERE Delay='4'" );
+            if ( $result == false )
+                $db->rollback( );
+            else
+                $db->commit();
+
+            $this->setOffset( 4 );
+        }
+
+        for( $i=0; $i<count($subscribe_array); $i++ )
+        {
+            $this->sendSingle( $subscribe_array[$i]["AddressID"], $subscribe_array[$i]["MailID"] );
+        }
+        return $return_array;
+
+    }
+
+    /*!
+      Return true if the current timestamp is one hour more than the offset
+      \private
+     */
+    function haveSentHourly( )
+    {
+        $db =& eZDB::globalDatabase();
+        $now = eZDateTime::timestamp( true );
+        $db->query_single( $offset, "SELECT Hour FROM eZBulkMail_Offset" );
+
+        $check = $now - $offset["Hour"];
+
+        if ( $check <= 3600 )
+        {
+            return true;
+        }
+        else
+            return false;
+    }
+    
+    /*!
+      Return true if the current timestamp is one day more than the offset
+      \private
+     */
+    function haveSentDaily( )
+    {
+        $db =& eZDB::globalDatabase();
+        $now = eZDateTime::timestamp( true );
+        $db->query_single( $offset, "SELECT Daily FROM eZBulkMail_Offset" );
+
+        $check = $now - $offset["Daily"];
+        if ( $check <= 86400 )
+            return true;
+        else
+            return false;
+    }
+
+
+    /*!
+      Return true if the current timestamp is seven days more than the offset
+      \private
+     */
+    function haveSentWeekly( )
+    {
+        $db =& eZDB::globalDatabase();
+        $now = eZDateTime::timestamp( true );
+        $db->query_single( $offset, "SELECT Weekly FROM eZBulkMail_Offset" );
+
+        $check = $now - $offset["Weekly"];
+        if ( $check <= 604800 )
+            return true;
+        else
+            return false;
+    }
+
+
+    /*!
+      Return true if the current timestamp is one month more than the offset
+      \private
+     */
+    function haveSentMonthly( )
+    {
+        $db =& eZDB::globalDatabase();
+        $now = eZDateTime::timestamp( true );
+        $db->query_single( $offset, "SELECT Monthly FROM eZBulkMail_Offset" );
+
+        $check = $now - $offset["Monthly"];
+        if ( $check <= 2678400 )
+            return true;
+        else
+            return false;
+    }
+
+    /*!
+      
+    */
+    function sendSingle( $addressID, $mailID )
+    {
+        if ( !is_numeric ( $addressID ) )
+            return false;
+
+        $bulkMail = new eZBulkMail( $mailID );
+
+        print( "<br>begynner aa sende mail" );
+        print( "<pre>" );
+                print_r( $bulkMail );
+        $subscriber = new eZBulkMailSubscriptionAddress( $addressID );
+        
+        $subscriber = $subscriber->eMail();
+        $template = $bulkMail->template();
+        if( is_object( $template ) )
+            $bulkMail->setBodyText( $template->header( false ) . $bulkMail->body() . $template->footer( false ) );
+        
+        $bulkMail->useTemplate( false );
+        
+        $mail = new eZMail();
+        $mail->setBodyText( $bulkMail->body() );
+        $mail->setSubject( $bulkMail->subject() );
+        $mail->setSender( $bulkMail->from() );
+        $mail->setFromName( $bulkMail->fromName() );
+        $mail->setTo( $subscriber );
+        $mail->send();
+
+        print_r( $mail );
+        $bulkMail->addLogEntry( $subscriber );
+        $bulkMail->store();
+            
+        // The mail was sent.. now lets set the timestamp
+        $db =& eZDB::globalDatabase();
+        $db->begin();
+        $timeStamp =& eZDateTime::timeStamp( true );
+        $id = $bulkMail->id();
+        $result = $db->query( "UPDATE eZBulkMail_Mail SET SentDate='$timestamp' WHERE ID='$id'");
+        if ( $result == false )
+            $db->rollback( );
+        else
+            $db->commit();
+    }
+
+    /*!
+      \private
+      Sets the offset to the current time.
+    */
+    function setOffset( $delay )
+    {
+        $db =& eZDB::globalDatabase();
+        $db->begin();
+        $db->lock( "eZBulkMail_Offset" );
+        $timeStamp =& eZDateTime::timeStamp( true );
+
+        if ( $delay == 1 )
+            $delay = "Hour";
+        if ( $delay == 2 )
+            $delay = "Daily";
+        if ( $delay == 3 )
+            $delay = "Weekly";
+        if ( $delay == 4 )
+            $delay = "Monthly";
+
+        $db->array_query( $checkArray, "SELECT * FROM eZBulkMail_Offset" );
+        if ( count ( $checkArray ) == 0 )
+        {
+            $result = $db->query( "INSERT INTO eZBulkMail_Offset
+                  ( $delay )
+                  VALUES
+                  ( '$timeStamp' )
+                  " );
+        }
+        else
+            $result = $db->query( "UPDATE eZBulkMail_Offset SET $delay='$timeStamp'" );
+
+
+        $db->unlock();
+        if ( $result == false )
+            $db->rollback( );
+        else
+            $db->commit();
     }
 
     /*!

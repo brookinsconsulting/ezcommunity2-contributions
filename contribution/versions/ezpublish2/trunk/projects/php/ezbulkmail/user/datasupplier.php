@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: datasupplier.php,v 1.9 2001/07/19 12:36:31 jakobn Exp $
+// $Id: datasupplier.php,v 1.10 2001/08/13 12:31:09 ce Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -33,6 +33,13 @@ switch ( $url_array[2] )
     case "subscriptionlist":
     {
         include( "ezbulkmail/user/subscriptionlist.php" );
+    }
+    break;
+
+    case "bulklist":
+    {
+        $CategoryID = $url_array[3];
+        include( "ezbulkmail/user/bulklist.php" );
     }
     break;
 
@@ -72,7 +79,14 @@ switch ( $url_array[2] )
         include( "ezbulkmail/user/singlelist.php" );
     }
     break;
-    
+
+    case "categoryedit" :
+    {
+        $CategoryID = $url_array[3];
+        include( "ezbulkmail/user/categoryedit.php" );
+    }
+    break;
+
     case "successfull" :
     {
         $mailConfirm = "";

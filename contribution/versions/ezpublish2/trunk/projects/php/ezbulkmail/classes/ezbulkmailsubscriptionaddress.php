@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezbulkmailsubscriptionaddress.php,v 1.14 2001/07/19 12:36:31 jakobn Exp $
+// $Id: ezbulkmailsubscriptionaddress.php,v 1.15 2001/08/13 12:31:09 ce Exp $
 //
 // eZBulkMailSubscriptionAddress class
 //
@@ -45,6 +45,7 @@ class eZBulkMailSubscriptionAddress
         {
             $this->ID = $id;
             $this->get( $this->ID );
+            $this->CategoryID = $categoryID;
         }
     }
 
@@ -59,7 +60,7 @@ class eZBulkMailSubscriptionAddress
         $db->begin();
         if ( !isset( $this->ID ) )
         {
-            $db->lock( "eZBulkMail_Forgot" );
+            $db->lock( "eZBulkMail_SubscriptionAddress" );
             $nextID = $db->nextID( "eZBulkMail_Mail", "ID" );
 
             $result = $db->query( "INSERT INTO eZBulkMail_SubscriptionAddress ( ID, EMail, Password )
@@ -134,9 +135,9 @@ class eZBulkMailSubscriptionAddress
             }
             else if( count( $address_array ) == 1 )
             {
-                $this->ID = $address_array[0][ "ID" ];
-                $this->EMail = $address_array[0][ "EMail" ];
-                $this->Password = $address_array[0][ "Password" ];
+                $this->ID = $address_array[0][$db->fieldName( "ID" ) ];
+                $this->EMail = $address_array[0][$db->fieldName("EMail" ) ];
+                $this->Password = $address_array[0][$db->fieldName("Password" ) ];
             }
         }
     }
@@ -147,10 +148,11 @@ class eZBulkMailSubscriptionAddress
      */
     function getByEmail( $email )
     {
-        $db = eZDB::globalDatabase();
+        $db =& eZDB::globalDatabase();
         $email = addslashes( $email );
         $db->array_query( $address_array, "SELECT ID FROM eZBulkMail_SubscriptionAddress WHERE EMail='$email'" );
 
+        
         $return_value = false;
         if( count( $address_array ) > 1 )
         {
@@ -158,7 +160,8 @@ class eZBulkMailSubscriptionAddress
         }
         else if( count( $address_array ) == 1 )
         {
-            $id = $address_array[0]["ID"];
+
+            $id = $address_array[0][$db->fieldName("ID")];
             $return_value = new eZBulkMailSubscriptionAddress( $id );
         }
         else
@@ -205,6 +208,22 @@ class eZBulkMailSubscriptionAddress
     {
         return $this->EMail;
     }
+    
+    /*!
+      Returns the email address of this user.
+    */
+    function id()
+    {
+        return $this->ID;
+    }
+
+    /*!
+      Returns the category id.
+    */
+    function categoryID()
+    {
+        return $this->CategoryID;
+    }
 
     /*!
       Sets the email address.
@@ -240,7 +259,7 @@ class eZBulkMailSubscriptionAddress
         if( count( $result_array ) > 0 )
         {
             foreach( $result_array as $result )
-                $final_result[] = $asObjects ? new eZBulkMailCategory( $result[ "CategoryID" ] ) : $result[ "CategoryID" ];
+                $final_result[] = $asObjects ? new eZBulkMailCategory( $result[$db->fieldName( "CategoryID" )] ) : $result[$db->fieldName( "CategoryID" )];
         }
         return $final_result;
     }
@@ -264,7 +283,7 @@ class eZBulkMailSubscriptionAddress
         $result = false;
         if ( count ( $check ) == 0 )
         {
-            $db->query( "INSERT INTO eZBulkMail_SubscriptionLink SET AddressID='$this->ID', CategoryID='$categoryID'" );
+            $result = $db->query( "INSERT INTO eZBulkMail_SubscriptionLink ( AddressID, CategoryID ) VALUES ( '$this->ID', '$categoryID' )" );
 
             $db->unlock();
             if ( $result == false )
@@ -299,6 +318,26 @@ class eZBulkMailSubscriptionAddress
     }
 
     /*!
+      Unsubscribes this user from the given category. If the supplied argument is true, the user is unsubscibed from all categories.
+     */
+    function addDelay( $category, $delay )
+    {
+        $db =& eZDB::globalDatabase();
+        $db->begin();
+        $db->lock( "eZBulkMail_SubscriptionCategorySettings" );
+
+        $res[] = $db->query( "DELETE FROM eZBulkMail_SubscriptionCategorySettings WHERE CategoryID='$category'" );
+        $nextID = $db->nextID( "eZBulkMail_SubscriptionCategorySettings", "ID" );
+        $res[] = $db->query( "INSERT INTO  eZBulkMail_SubscriptionCategorySettings ( ID, CategoryID, AddressID, Delay ) VALUES ( '$nextID','$category','$this->ID','$delay' )" );
+
+        $db->unlock();
+        if ( in_array( false, $res ) )
+            $db->rollback();
+        else
+            $db->commit();
+    }
+
+    /*!
       Checks if the email and passwords have a match. Returns true if yes, and false if not.
     */
     function validate( $email, $password )
@@ -317,8 +356,8 @@ class eZBulkMailSubscriptionAddress
     
     var $ID;
     var $EMail;
-    
     var $Password;
+    var $CategoryID;
 }
 
 ?>
