@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezcountry.php,v 1.11 2001/10/18 12:15:37 ce Exp $
+// $Id: ezcountry.php,v 1.12 2001/10/18 12:25:05 ce Exp $
 //
 // Definition of eZCountry class
 //
@@ -25,7 +25,7 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, US
 //
 
-//!! eZAddress
+//!! eZCountry
 //! eZCountry handles countries.
 /*!
     Example code:
