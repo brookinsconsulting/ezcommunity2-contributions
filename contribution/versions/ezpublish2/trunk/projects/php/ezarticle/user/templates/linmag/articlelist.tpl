@@ -24,12 +24,18 @@
 
 <!-- END path_item_tpl -->
 
+<!--
 <div class="spacer">
+-->
 <!-- BEGIN current_image_item_tpl -->
+<!--
 <img src="{www_dir}{current_image_url}" alt="{current_image_caption}" width="{current_image_width}" height="{current_image_height}" border="0" />
+-->
 <!-- END current_image_item_tpl -->
+<!--
 <div class="p">{current_category_description}</div>
 </div>
+-->
 
 <!-- BEGIN category_list_tpl -->
 <table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
