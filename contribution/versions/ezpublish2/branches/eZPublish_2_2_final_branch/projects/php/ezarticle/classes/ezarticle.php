@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: ezarticle.php,v 1.183.2.18 2002/04/22 07:50:26 bf Exp $
+// $Id: ezarticle.php,v 1.183.2.19 2002/04/25 12:15:56 bf Exp $
 //
 // Definition of eZArticle class
 //
@@ -1831,7 +1831,7 @@ class eZArticle
         }
 
         $usePermission = true;
-        
+
         $user =& eZUser::currentUser();
 
         // Build the permission
@@ -1861,7 +1861,7 @@ class eZArticle
             $permissionSQL = $loggedInSQL;
        else
            $permissionSQL = "";
-        
+
         // stop word frequency
         $ini =& INIFile::globalINI();
         $StopWordFrequency = $ini->read_var( "eZArticleMain", "StopWordFrequency" );
@@ -1987,7 +1987,7 @@ class eZArticle
                        $typeSQL
                        $authorSQL
                        $photoSQL
-           		       $sectionsSQL
+		       $sectionsSQL
                        AND
                        ( eZArticle_Article.ID=eZArticle_ArticleWordLink.ArticleID
                          AND Definition.ArticleID=eZArticle_Article.ID
@@ -1995,9 +1995,9 @@ class eZArticle
                          $excludeFromSearchSQL
                          AND eZArticle_ArticleWordLink.WordID=eZArticle_Word.ID
                          AND Permission.ObjectID=eZArticle_Article.ID
-                         AND CategoryPermission.ObjectID=Definition.CategoryID 
+                         AND CategoryPermission.ObjectID=Definition.CategoryID
                          $fetchText
-                         AND Link.ArticleID=eZArticle_Article.ID 
+                         AND Link.ArticleID=eZArticle_Article.ID
                         )
                        ORDER BY $OrderBy";
 
@@ -2098,9 +2098,9 @@ class eZArticle
             $categoryText = "AND eZArticle_ArticleCategoryLink.CategoryID = '$categoryID'";
         else
             $categoryText = "";
-        
+
         $usePermission = true;
-        
+
         $user =& eZUser::currentUser();
 
         $query = "SELECT eZArticle_Article.ID AS ArticleID FROM eZArticle_Article, eZArticle_ArticleCategoryLink WHERE
@@ -2108,7 +2108,7 @@ class eZArticle
                   eZArticle_Article.ID = eZArticle_ArticleCategoryLink.ArticleID
                   $fetchText
                   $categoryText GROUP BY eZArticle_Article.ID ORDER BY eZArticle_Article.Published";
-        
+
         $db->array_query( $article_array, $query );
         $SearchTotalCount = count( $article_array );
 
@@ -2149,7 +2149,7 @@ class eZArticle
         $article_array = array();
 
         $usePermission = true;
-        
+
         $user =& eZUser::currentUser();
         $currentUserSQL = "";
         $groupSQL = "";
@@ -2208,10 +2208,10 @@ class eZArticle
        else
            $excludeSQL = "";
 
-       
+
 
        if ($ExcludeCategories && $ExcludeCategories<>"") $excludeSQL .= " AND Category.ID NOT IN (".$ExcludeCategories.")";
-  
+
 
         $query = "SELECT COUNT( DISTINCT Article.ID ) as Count
                   FROM eZArticle_ArticleCategoryDefinition as Definition,
@@ -2296,10 +2296,10 @@ class eZArticle
            $permissionSQL = "";
 
        $excludeSQL = " AND Category.ExcludeFromSearch = '0'";
-        
+
        // fetch only published articles
        if ( $fetchNonPublished  == true )
-       {           
+       {
            $excludeSQL = "";
            if ( $permissionSQL == "" )
                $publishedSQL = " Article.IsPublished = '0' AND ";
@@ -2324,9 +2324,9 @@ class eZArticle
                $publishedSQL = " AND Article.IsPublished = '2' AND ";
        }
 
-       
+
         if ($ExcludeCategories && $ExcludeCategories<>"") $excludeSQL .= " AND Category.ID NOT IN (".$ExcludeCategories.")";
-        
+
         $query = "SELECT Article.ID as ArticleID
                   FROM eZArticle_ArticleCategoryDefinition as Definition,
                        eZArticle_Article AS Article,
@@ -2442,15 +2442,15 @@ class eZArticle
         else
             return false;
     }
-    
+
     /*!
       Returns the ID of a category
     */
     function GetCategory( $articleSectionID = 0 )
     {
-    
+
         $db =& eZDB::globalDatabase();
-	
+
         $categoryQueryWithSection="SELECT DISTINCT eZArticle_Category.ID AS CategoryID
             FROM
             eZArticle_Article, eZArticle_Category, eZArticle_ArticleCategoryLink
@@ -2459,15 +2459,15 @@ class eZArticle
 	    AND eZArticle_Article.ID=eZArticle_ArticleCategoryLink.ArticleID
 	    AND eZArticle_Article.ID=$this->ID
 	    AND eZArticle_Category.SectionID='$articleSectionID'";
-	    
+
 	$categoryQueryWithoutSection="SELECT DISTINCT eZArticle_ArticleCategoryDefinition.CategoryID AS CategoryID
             FROM
             eZArticle_Article, eZArticle_ArticleCategoryDefinition
 	    WHERE
 	    eZArticle_Article.ID=eZArticle_ArticleCategoryDefinition.ArticleID
 	    AND eZArticle_Article.ID=$this->ID";
-	    
-	
+
+
 	if ( $articleSectionID > 0 )
 	{
 	    $db->array_query( $category_array, $categoryQueryWithSection );
@@ -2483,8 +2483,8 @@ class eZArticle
 
 	return $category_array[0][$db->fieldName("CategoryID")];
     }
-    
-    
+
+
     /*!
       Creates a discussion forum for the article.
     */
@@ -2928,7 +2928,7 @@ eZUser_Author as Author
                                           FROM eZArticle_Article
                                           WHERE $published
                                           AND ( StartDate !='0' AND StartDate <= $now )
-                                          AND ( StopDate !='0' OR StopDate >= $now )
+                                          AND ( StopDate ='0' OR StopDate >= $now )
                                           ORDER BY ID
                                           " );
 

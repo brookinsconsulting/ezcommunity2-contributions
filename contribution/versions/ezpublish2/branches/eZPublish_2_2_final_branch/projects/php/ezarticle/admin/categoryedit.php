@@ -1,6 +1,6 @@
 <?php
-// 
-// $Id: categoryedit.php,v 1.29.2.2 2002/04/24 07:35:26 jhe Exp $
+//
+// $Id: categoryedit.php,v 1.29.2.3 2002/04/25 12:15:56 bf Exp $
 //
 // Created on: <18-Sep-2000 14:46:19 bf>
 //

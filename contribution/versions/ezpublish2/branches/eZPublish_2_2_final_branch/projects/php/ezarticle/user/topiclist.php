@@ -1,6 +1,6 @@
 <?php
-// 
-// $Id: topiclist.php,v 1.4 2001/09/28 10:03:02 bf Exp $
+//
+// $Id: topiclist.php,v 1.4.2.1 2002/04/25 12:15:57 bf Exp $
 //
 // Created on: <03-Sep-2001 15:35:07 bf>
 //
@@ -34,7 +34,7 @@ $Language = $ini->read_var( "eZArticleMain", "Language" );
 $t = new eZTemplate( "ezarticle/user/" . $ini->read_var( "eZArticleMain", "TemplateDir" ),
                      "ezarticle/user/intl", $Language, "topiclist.php" );
 
-$locale = new eZLocale( $Language ); 
+$locale = new eZLocale( $Language );
 
 $t->set_file( "topic_page_tpl", "topiclist.tpl" );
 
@@ -73,7 +73,7 @@ foreach ( $topicArray as $topic )
         $t->set_var( "td_class", "bgdark" );
     }
 
-    $articles = $topic->articles();
+    $articles =& $topic->articles();
 
     $t->set_var( "article_item", "" );
     foreach ( $articles as $article )
@@ -82,22 +82,17 @@ foreach ( $topicArray as $topic )
 
         $t->set_var( "category_id", $category->id() );
         $t->set_var( "category_name", $category->name() );
-        
+
         $t->set_var( "article_id", $article->id() );
         $t->set_var( "article_name", $article->name() );
-        $t->parse( "article_item", "article_item_tpl", true );        
+        $t->parse( "article_item", "article_item_tpl", true );
     }
-    
-    
+
     $t->parse( "topic_item", "topic_item_tpl", true );
     $i++;
-	
 }
 $t->parse( "topic_list", "topic_list_tpl" );
 
 $t->pparse( "output", "topic_page_tpl" );
-
-
-
 
 ?>
