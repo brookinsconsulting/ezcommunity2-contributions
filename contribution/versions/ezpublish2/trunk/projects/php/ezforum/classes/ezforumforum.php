@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezforumforum.php,v 1.20 2000/10/12 15:43:06 bf-cvs Exp $
+// $Id: ezforumforum.php,v 1.21 2000/10/12 16:29:29 bf-cvs Exp $
 //
 // Definition of eZCompany class
 //
@@ -179,7 +179,7 @@ class eZForumForum
     /*!
       Returns all the messages and submessages as a tree.
     */
-    function &messageTree( $offset, $limit )
+    function &messageTree( $offset=0, $limit=10 )
     {
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
@@ -189,6 +189,30 @@ class eZForumForum
        $this->Database->array_query( $message_array, "SELECT Id as ID FROM
                                                        ezforum_MessageTable
                                                        WHERE ForumId='$this->ID' ORDER BY TreeID DESC LIMIT $offset,$limit" );
+
+       $ret = array();
+
+       foreach ( $message_array as $message )
+       {
+           $ret[] = new eZForumMessage( $message["ID"] );
+       }
+       
+       return $ret;
+    }
+
+    /*!
+      Returns all the messages and submessages of a thread as a tree.
+    */
+    function &messageThreadTree( $threadID, $offset=0, $limit=10 )
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+        
+       $this->dbInit();
+
+       $this->Database->array_query( $message_array, "SELECT Id as ID FROM
+                                                       ezforum_MessageTable
+                                                       WHERE ForumId='$this->ID' AND ThreadID='$threadID' ORDER BY TreeID DESC LIMIT $offset,$limit" );
 
        $ret = array();
 

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: forum.php,v 1.42 2000/10/12 15:43:06 bf-cvs Exp $
+// $Id: forum.php,v 1.43 2000/10/12 16:29:29 bf-cvs Exp $
 //
 // 
 //
@@ -90,9 +90,16 @@ $messages = $forum->messageTree( $Offset, $Limit );
 //  $messages = $forum->messages();
 
 $level = 0;
+$i = 0;
 foreach ( $messages as $message )
 {
+    if ( ( $i % 2 ) == 0 )
+        $t->set_var( "td_class", "bglight" );
+    else
+        $t->set_var( "td_class", "bgdark" );
+    
     $level = $message->level();
+    
     
     if ( $level > 0 )
         $t->set_var( "spacer", str_repeat( "&nbsp;", $level ) );
@@ -114,6 +121,7 @@ foreach ( $messages as $message )
     $t->set_var( "next_offset", $Offset + $Limit );    
     
     $t->parse( "message", "message_tpl", true );
+    $i++;
 }
     
 $t->set_var( "newmessage", $newmessage );

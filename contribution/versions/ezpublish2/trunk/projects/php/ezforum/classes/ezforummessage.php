@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezforummessage.php,v 1.47 2000/10/12 15:43:06 bf-cvs Exp $
+// $Id: ezforummessage.php,v 1.48 2000/10/12 16:29:29 bf-cvs Exp $
 //
 // Definition of eZCompany class
 //
@@ -73,7 +73,7 @@ class eZForumMessage
         {
 
             if ( $this->ParentID == 0 )
-            { // new node -- simple
+            { // new node
 
                 // find the biggest treeID
                 $this->Database->array_query( $result, "SELECT TreeID FROM ezforum_MessageTable ORDER BY TreeID DESC LIMIT 1" );
@@ -86,6 +86,19 @@ class eZForumMessage
                 {
                     $this->TreeID = 0;
                 }
+
+                // get the biggest thread ID
+                $this->Database->array_query( $result, "SELECT ThreadID FROM ezforum_MessageTable WHERE Parent='0' ORDER BY TreeID DESC LIMIT 1" );
+
+                if ( count( $result ) > 0 )
+                {
+                    $this->ThreadID = $result[0]["ThreadID"] + 1;
+                }
+                else
+                {
+                    $this->ThreadID = 0;
+                }
+                
                      
                 $this->Database->query( "INSERT INTO ezforum_MessageTable SET
 		                         ForumId='$this->ForumID',
@@ -94,25 +107,26 @@ class eZForumMessage
 		                         UserId='$this->UserID',
 		                         Parent='$this->ParentID',
 		                         TreeID='$this->TreeID',
+		                         ThreadID='$this->ThreadID',
 		                         EmailNotice='$this->EmailNotice'
                                  " );
 
                 $this->ID = mysql_insert_id();
             }
             else
-            { // child... guess
+            { // child node
 
-                // find the tree ID of the parent
-                $this->Database->array_query( $result, "SELECT TreeID FROM ezforum_MessageTable
+                // find the treeID and ThreadID of the parent
+                $this->Database->array_query( $result, "SELECT TreeID, ThreadID FROM ezforum_MessageTable
                                                         WHERE ID='$this->ParentID'
                                                         ORDER BY TreeID DESC LIMIT 1" );
 
                 if ( count( $result ) == 1 )
                 {
-                    print( "parent place:" . $result[0]["TreeID"] );
-
                     $parentID = $result[0]["TreeID"];
                     $this->TreeID =  $parentID;
+
+                    $this->ThreadID = $result[0]["ThreadID"];
 
                     $parentID += 1;
                     
@@ -134,6 +148,7 @@ class eZForumMessage
 		                         UserId='$this->UserID',
 		                         Parent='$this->ParentID',
 		                         TreeID='$this->TreeID',
+		                         ThreadID='$this->ThreadID',
 		                         EmailNotice='$this->EmailNotice'
                                  " );
 
@@ -201,6 +216,9 @@ class eZForumMessage
                 $this->PostingTime = $message_array[0][ "PostingTime" ];
                 $this->EmailNotice = $message_array[0][ "EmailNotice" ];
 
+                $this->ThreadID = $message_array[0][ "ThreadID" ];
+                $this->TreeID = $message_array[0][ "TreeID" ];
+                
                 $this->State_ = "Coherent";
                 $ret = true;
             }
@@ -435,6 +453,17 @@ class eZForumMessage
        
        return $dateTime;
     }
+
+    /*!
+      Returns the threadID
+    */
+    function threadID()
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+       return $this->ThreadID;
+    }
     
 
     /*!
@@ -572,6 +601,9 @@ class eZForumMessage
 
     /// indicates the position in the tree.
     var $TreeID;
+
+    // contains the thread id
+    var $ThreadID;
 
     ///  Variable for keeping the database connection.
     var $Database;

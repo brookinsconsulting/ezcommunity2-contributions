@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: message.php,v 1.28 2000/10/12 12:26:18 bf-cvs Exp $
+// $Id: message.php,v 1.29 2000/10/12 16:29:29 bf-cvs Exp $
 //
 // 
 //
@@ -77,7 +77,7 @@ $topMessage = $message->threadTop( $message );
 
 // print out the replies tree
 
-$messages = $forum->messageTree( $forum->id(), $topMessage, 2 );
+$messages = $forum->messageThreadTree( $message->threadID() );
 
 //  $messages = $forum->messages();
 
