@@ -40,7 +40,8 @@ else
 }
 foreach( $path as $item )
 {
-    $par[] = createURLStruct( "ezarticle", "category", $item[0] );
+    if ( $item[0] != $category->id() )
+        $par[] = createURLStruct( "ezarticle", "category", $item[0] );
 }
 
 $ReturnData = new eZXMLRPCStruct( array( "Catalogues" => $cat,
