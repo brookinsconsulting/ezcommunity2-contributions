@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: voucherinformation.php,v 1.12.4.4 2001/10/22 12:56:23 sascha Exp $
+// $Id: voucherinformation.php,v 1.12.4.5 2001/10/26 10:29:53 ce Exp $
 //
 // Created on: <06-Aug-2001 13:02:18 ce>
 //
@@ -103,8 +103,8 @@ $user =& eZUser::currentUser();
 if ( ( $product ) and ( isSet( $OK ) and $error == false ) )
 {
     $voucherInfo = new eZVoucherInformation( $VoucherInformationID );
+    $voucherInfo->setUser( $user );
     
-            
     if ( $Mail == 1 )
     {
         $online = new eZOnline();
@@ -185,6 +185,14 @@ else if ( $product ) // Print out the addresses forms
     if ( $VoucherInformationID != 0 )
     {
         $info = new eZVoucherInformation( $VoucherInformationID );
+
+        $infoUser =& $info->user();
+        if ( $user->id() != $infoUser->id() )
+        {
+            eZHTTPTool::header( "Location: /error/403/" );
+            exit();
+        }
+        
         $t->set_var( "description", $info->description() );
 
         if ( $info->mailMethod() == 1 )

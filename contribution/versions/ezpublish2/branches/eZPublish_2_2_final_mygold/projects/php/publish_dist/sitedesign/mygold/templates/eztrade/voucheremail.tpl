@@ -22,9 +22,9 @@ MyGold.com
 {intl-from}: {from_name}
 {intl-description}: 
 {description}
-		    
+{intl-valid}: {intl-never_expire}
 {intl-key_number}: {key_number}
-{intl-valid}: {valid}
+
 <!-- END intro_bought_tpl -->
 <!-- BEGIN intro_free_tpl -->
 Guten Tag {to_name},
@@ -48,7 +48,10 @@ MyGold.com
 {intl-to}: {to_name}
 {intl-voucher_value}: {voucher_value}
 {intl-key_number}: {key_number}
-{intl-valid}: {valid}
+<!-- BEGIN never_expire_tpl -->
+{intl-valid}: {intl-never_expire}
+<!-- END never_expire_tpl -->
+
 <!-- END intro_free_tpl -->
 =========================================================================
 			    
