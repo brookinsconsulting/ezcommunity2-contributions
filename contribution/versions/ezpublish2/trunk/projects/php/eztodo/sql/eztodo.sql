@@ -71,7 +71,7 @@ CREATE TABLE eZTodo_Status (
 );
 
 #
-# Dumping data for table 'eZTodo_Category'
+# Dumping data for table 'eZTodo_Status'
 #
 
 INSERT INTO eZTodo_Status VALUES (NULL,1,'Not done');
