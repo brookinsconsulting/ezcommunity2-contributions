@@ -3,6 +3,8 @@ eZ publish changelog:
  
 Changes from 2.0.0 to 2.0.1
 ---------------------------
+* Changed the handling of modules in the admin interface, the user can now select
+  which modules are active at any time.
 * Fixed a counting bug in eZAd.
 * Added todo status in eZTodo module, now user can create/edit todo status.
 * Added article category placement.

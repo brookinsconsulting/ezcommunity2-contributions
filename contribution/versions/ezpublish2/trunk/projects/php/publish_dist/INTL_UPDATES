@@ -5,6 +5,9 @@ mod: bug/user, fileedit.php.ini
 change: added user_edit=Some text
 --------------------------------------------------------------------
 
+mod: ezuser/admin, settings.php.ini
+changed: new file
+
 mod: eztrade/user, menubox.php.ini
 change: added
 headline=Customer
