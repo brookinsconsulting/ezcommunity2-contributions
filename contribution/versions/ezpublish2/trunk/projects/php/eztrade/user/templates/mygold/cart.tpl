@@ -1,6 +1,6 @@
 <h1>{intl-cart}</h1>
 
-<hr noshade="noshade" size="4" />
+<hr noshade="noshade" size="1" />
 
 <!-- BEGIN empty_cart_tpl -->
 <h2>{intl-empty_cart}</h2>
@@ -10,7 +10,7 @@
 <form action="/trade/cart/" method="post">
 <!-- BEGIN cart_item_list_tpl -->
 <table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
-<tr>
+<tr align="left">
 	<th>{intl-product_image}:</th>
 	<th>{intl-product_name}:</th>
 	<th>{intl-product_options}:</th>
@@ -19,12 +19,12 @@
 	<!-- END product_available_header_tpl -->
 	<th>{intl-product_qty}:</th>
 
-	<td class="path" align="right">{intl-product_price}:</td>
-	<td class="path" align="right">&nbsp;</td>
+	<th align="right">{intl-product_price}:</th>
+	<th align="right">&nbsp;</th>
 </tr>
 
 <!-- BEGIN cart_item_tpl -->
-<tr>
+<tr align="left">
 	<td class="{td_class}">
 	<!-- BEGIN cart_image_tpl -->
 	<img src="{product_image_path}" border="0" width="{product_image_width}" height="{product_image_height}" alt="{product_image_caption}"/>
@@ -35,8 +35,10 @@
 	</td>
 	<td class="{td_class}">
         <!-- BEGIN cart_item_option_tpl -->
-	<div class="small">{option_name}: {option_value}<!-- BEGIN cart_item_option_availability_tpl -->({option_availability})
-<!-- END cart_item_option_availability_tpl --><div>
+	{option_value}
+	<!-- BEGIN cart_item_option_availability_tpl -->
+	({option_availability})
+	<!-- END cart_item_option_availability_tpl -->
         <!-- END cart_item_option_tpl -->
 	&nbsp;</td>
 	<!-- BEGIN product_available_item_tpl -->
@@ -58,23 +60,25 @@
 <!-- END cart_item_tpl -->
 
 <tr>
-	<td colspan="2">&nbsp;</td>
-	<th colspan="2">{intl-vat}:</th>
+	<td colspan="3">&nbsp;</td>
+	<td colspan="2">{intl-vat}:</td>
 	<td align="right">
 	{cart_vat_sum}
 	</td>
+	<td>&nbsp;</td>
 </tr>
 <tr>
-	<td colspan="2">&nbsp;</td>
-	<th colspan="2">{intl-total}:</th>
+	<td colspan="3">&nbsp;</td>
+	<td colspan="2">{intl-total}:</td>
 	<td align="right">
 	{cart_sum}
 	</td>
+	<td>&nbsp;</td>
 </tr>
 </table>
 <!-- END cart_item_list_tpl -->
 
-<hr noshade="noshade" size="4" />
+<hr noshade="noshade" size="1" />
 <!-- BEGIN cart_checkout_tpl -->
 
 <table cellpadding="0" cellspacing="0" border="0">
