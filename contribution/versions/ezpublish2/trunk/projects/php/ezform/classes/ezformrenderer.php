@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezformrenderer.php,v 1.59 2002/01/23 16:14:08 jhe Exp $
+// $Id: ezformrenderer.php,v 1.60 2002/01/24 10:27:37 jhe Exp $
 //
 // eZFormRenderer class
 //
@@ -204,7 +204,7 @@ class eZFormRenderer
             $name = $type->name();
 
             if ( ( $result &&
-                   ( $name == "user_email_item" ||
+                 ( $name == "user_email_item" ||
                      $name == "numerical_float_item" ||
                      $name == "numerical_integer_item" ||
                      $name == "dropdown_item" ||
@@ -420,12 +420,17 @@ class eZFormRenderer
                 $hide = true;
 
             $table = false;
-            if ( $report && $element->ElementType->name() == "table_item" )
+            if ( $report )
             {
-                $table = true;
+                if ( $element->ElementType->name() == "table_item" )
+                    $table = true;
                 $repElement = new eZFormReportElement( $element->id(), $resultID );
                 if ( $repElement->statisticsType( false ) == "Hide" )
+                {
                     $hide = true;
+//                    $this->Template->set_var( "form_item", "" );
+//                    $this->Template->set_var( "break", "" );
+                }
             }
             
             if ( !$hide )

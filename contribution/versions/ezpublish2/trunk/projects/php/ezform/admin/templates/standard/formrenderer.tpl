@@ -143,7 +143,6 @@
 </tr>
 <tr>
 <!-- END break_tpl -->
-
 <!-- END form_item_tpl -->
 </tr>
 </table>
