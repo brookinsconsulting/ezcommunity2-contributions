@@ -39,8 +39,8 @@ else
 //	$siteDir = "./";
 
 // required: change $siteDir to match your site root
-$siteDir = "/home/web/ezcommunity.net/html/";
-// $siteDir = "/home/web/beta.ezcommunity/html/";
+$siteDir = "/home/web/ezcommunity/ezcommunity.net/html/";
+// $siteDir = "/home/web/ezcommunity/beta.ezcommunity/html/";
 
 $serverDateCMD = "/bin/date";
 $serverCalendarCronLog = 'bin/logs/calendar_event_notification_cron.log';
@@ -128,6 +128,7 @@ $today = date("F j, Y, g:i a");
 
 // What other information would be usefull here.
 // Emailed Users List Names, Email Adresses, UserID, Date, EventID
+print("\n executing cmd: $serverDateCMD >> $siteDir$serverCalendarCronLog");
   
 system( $serverDateCMD .' >> '. $siteDir . $serverCalendarCronLog);
 
