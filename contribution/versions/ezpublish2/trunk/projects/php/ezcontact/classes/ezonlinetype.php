@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezonlinetype.php,v 1.8 2001/01/19 21:53:50 jb Exp $
+// $Id: ezonlinetype.php,v 1.9 2001/01/21 18:12:56 jb Exp $
 //
 // Definition of eZOnline class
 //
@@ -48,7 +48,11 @@ class eZOnlineType
     */
     function eZOnlineType( $id="-1", $fetch=true )
     {
-        if ( $id != -1 )
+        if ( is_array( $id ) )
+        {
+            $this->fill( $id );
+        }
+        else if ( $id != -1 )
         {
             $this->ID = $id;
             if ( $fetch == true )
@@ -56,15 +60,6 @@ class eZOnlineType
                 
                 $this->get( $this->ID );
             }
-            else
-            {
-                $this->State_ = "Dirty";
-                
-            }
-        }
-        else
-        {
-            $this->State_ = "New";
         }
     }
     
@@ -73,7 +68,7 @@ class eZOnlineType
     */
     function store()
     {
-        $db = eZDB::globalDatabase();
+        $db =& eZDB::globalDatabase();
 
         $ret = false;
         if ( !isSet( $this->ID ) )
@@ -91,7 +86,6 @@ class eZOnlineType
 
             $this->ID = mysql_insert_id();
 
-            $this->State_ = "Coherent";
             $ret = true;
         }
         else
@@ -104,7 +98,6 @@ class eZOnlineType
                                      PrefixVisual='$this->PrefixVisual'
                                      WHERE ID='$this->ID'" );
 
-            $this->State_ = "Coherent";
             $ret = true;
         }
         return $ret;
@@ -117,7 +110,7 @@ class eZOnlineType
      */
     function delete( $relations = false )
     {
-        $db = eZDB::globalDatabase();
+        $db =& eZDB::globalDatabase();
         if ( $relations == "full" )
         {
             $db->array_query( $person_qry, "SELECT Pe.ID
@@ -163,52 +156,71 @@ class eZOnlineType
         $db->query( "DELETE FROM eZContact_OnlineType WHERE ID='$this->ID'" );
     }
     
-  /*
-    Fetches out a online type where id = $id
-  */  
+    /*
+      Fetches out a online type where id = $id
+    */
     function get( $id )
     {
-        $db = eZDB::globalDatabase();
+        $db =& eZDB::globalDatabase();
         if ( $id != "" )
         {
-            $db->array_query( $online_type_array, "SELECT * FROM eZContact_OnlineType WHERE ID='$id'" );
-            if ( count( $online_type_array ) > 1 )
+            $db->array_query( $online_type_array, "SELECT * FROM eZContact_OnlineType WHERE ID='$id'",
+                              0, 1 );
+            if ( count( $online_type_array ) == 1 )
             {
-                die( "Feil: Flere onlinetype med samme ID funnet i database, dette skal ikke være mulig. " );
-            }
-            else if ( count( $online_type_array ) == 1 )
-            {
-                $this->ID = $online_type_array[ 0 ][ "ID" ];
-                $this->Name = $online_type_array[ 0 ][ "Name" ];
-                $this->ListOrder = $online_type_array[ 0 ][ "ListOrder" ];
-                $this->URLPrefix = $online_type_array[ 0 ][ "URLPrefix" ];
-                $this->PrefixLink = $online_type_array[ 0 ][ "PrefixLink" ];
-                $this->PrefixVisual = $online_type_array[ 0 ][ "PrefixVisual" ];
+                $this->fill( $online_type_array[0] );
             }
             else
             {
                 $this->ID = "";
-                $this->State_ = "New";
             }
         }
     }
 
-    /*
-    Fetches out all the online types that is stored in the database.
-  */
-    function getAll( )
+    /*!
+      Fills in information to the object taken from the array.
+    */
+    function fill( &$online_type_array )
     {
-        $db = eZDB::globalDatabase();
+        $this->ID = $online_type_array[ "ID" ];
+        $this->Name = $online_type_array[ "Name" ];
+        $this->ListOrder = $online_type_array[ "ListOrder" ];
+        $this->URLPrefix = $online_type_array[ "URLPrefix" ];
+        $this->PrefixLink = $online_type_array[ "PrefixLink" ];
+        $this->PrefixVisual = $online_type_array[ "PrefixVisual" ];
+    }
+
+    /*
+      Fetches out all the online types that is stored in the database.
+    */
+    function &getAll( $as_object = true )
+    {
+        $db =& eZDB::globalDatabase();
         $online_type_array = 0;
 
         $online_type_array = array();
         $return_array = array();
-    
-        $db->array_query( $online_type_array, "SELECT ID FROM eZContact_OnlineType ORDER BY ListOrder" );
 
-        foreach ( $online_type_array as $onlineTypeItem )
+        if ( $as_object )
+            $select = "*";
+        else
+            $select = "ID";
+
+        $db->array_query( $online_type_array, "SELECT $select FROM eZContact_OnlineType ORDER BY ListOrder" );
+
+        if ( $as_object )
         {
-            $return_array[] = new eZOnlineType( $onlineTypeItem["ID"] );
+            foreach ( $online_type_array as $onlineTypeItem )
+            {
+                $return_array[] = new eZOnlineType( $onlineTypeItem );
+            }
+        }
+        else
+        {
+            foreach ( $online_type_array as $onlineTypeItem )
+            {
+                $return_array[] = $onlineTypeItem["ID"];
+            }
         }
     
         return $return_array;
@@ -296,11 +308,9 @@ class eZOnlineType
       Returns the number of external items using this item.
     */
 
-    function count()
+    function &count()
     {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-        $db = eZDB::globalDatabase();
+        $db =& eZDB::globalDatabase();
         $db->array_query( $person_qry,  "SELECT count( Pe.ID ) as Count
                                          FROM eZContact_Person AS Pe, eZContact_PersonOnlineDict AS POD,
                                               eZContact_Online AS Online, eZContact_OnlineType AS OT
@@ -323,9 +333,7 @@ class eZOnlineType
 
     function moveUp()
     {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-        $db = eZDB::globalDatabase();
+        $db =& eZDB::globalDatabase();
         $db->query_single( $qry, "SELECT ID, ListOrder FROM eZContact_OnlineType
                                   WHERE ListOrder<'$this->ListOrder' ORDER BY ListOrder DESC LIMIT 1" );
         $listorder = $qry["ListOrder"];
@@ -340,9 +348,7 @@ class eZOnlineType
 
     function moveDown()
     {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-        $db = eZDB::globalDatabase();
+        $db =& eZDB::globalDatabase();
         $db->query_single( $qry, "SELECT ID, ListOrder FROM eZContact_OnlineType
                                   WHERE ListOrder>'$this->ListOrder' ORDER BY ListOrder ASC LIMIT 1" );
         $listorder = $qry["ListOrder"];
@@ -357,9 +363,6 @@ class eZOnlineType
     var $URLPrefix;
     var $PrefixLink;
     var $PrefixVisual;
-
-    /// Indicates the state of the object. In regard to database information.
-    var $State_;
 }
 
 ?>

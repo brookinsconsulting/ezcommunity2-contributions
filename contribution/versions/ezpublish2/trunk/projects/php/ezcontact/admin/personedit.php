@@ -57,17 +57,13 @@ if( $Action == "delete" )
     {
         if ( isset( $CompanyEdit ) )
         {
-            $company = new eZCompany();
-            $company->get( $CompanyID );
-            $categories = $company->categories( false, false );
-            $id = $categories[0];
-            $company->delete();
+            $categories =& eZCompany::categories( $CompanyID, false, 1 );
+            $id =& $categories[0];
+            eZCompany::delete( $CompanyID );
         }
         else
         {
-            $person = new eZPerson();
-            $person->get( $PersonID );
-            $person->delete();
+            eZPerson::delete( $PersonID );
         }
 
         header( "Location: /contact/$item_type/list/$id" );
@@ -444,7 +440,7 @@ if ( !$confirm )
             if ( !empty( $Street1[$i] ) && !empty( $Place[$i] ) &&
                  !empty( $Zip[$i] ) && !empty( $Country[$i] ) && !empty( $AddressTypeID ) )
             {
-                $address = new eZAddress( $AddressID[$i], true );
+                $address = new eZAddress( false, true );
                 $address->setStreet1( $Street1[$i] );
                 $address->setStreet2( $Street2[$i] );
                 $address->setZip( $Zip[$i] );
@@ -463,7 +459,7 @@ if ( !$confirm )
         {
             if( !empty( $PhoneTypeID[$i] ) && !empty( $Phone[$i] ) )
             {
-                $phone = new eZPhone( $PhoneID[$i], true );
+                $phone = new eZPhone( false, true );
                 $phone->setNumber( $Phone[$i] );
                 $phone->setPhoneTypeID( $PhoneTypeID[$i] );
                 $phone->store();
@@ -478,7 +474,7 @@ if ( !$confirm )
         {
             if( !empty( $OnlineTypeID[$i] ) && !empty( $Online[$i] ) )
             {
-                $online = new eZOnline( $OnlineID[$i], true );
+                $online = new eZOnline( false, true );
                 $online->setURL( $Online[$i] );
                 $online->setOnlineTypeID( $OnlineTypeID[$i] );
                 $online->store();
@@ -583,16 +579,14 @@ if ( !$confirm )
 
             if ( is_numeric( $CompanyID ) )
             {
-                $company = new eZCompany( $CompanyID );
-
                 if ( isset( $DeleteImage ) )
                 {
-                    $company->deleteImage( );
+                    eZCompany::deleteImage( $CompanyID );
                 }
 
                 if ( isset( $DeleteLogo ) )
                 {
-                    $company->deleteLogo( );
+                    eZCompany::deleteLogo( $CompanyID );
                 }
             }
 
@@ -603,9 +597,10 @@ if ( !$confirm )
             $t->set_var( "companyno", $CompanyNo );
 
             // Company type selector
-            $companyType = new eZCompanyType();
-            $companyTypeList = $companyType->getTree();
+            $companyTypeList = eZCompanyType::getTree();
 
+            $categoryList =& eZCompany::categories( $CompanyID, false );
+            $category_values = array_values( $categoryList );
             foreach( $companyTypeList as $companyTypeItem )
             {
                 $t->set_var( "company_type_name", $companyTypeItem[0]->name() );
@@ -615,20 +610,11 @@ if ( !$confirm )
                     $t->set_var( "company_type_level", str_repeat( "&nbsp;", $companyTypeItem[1] ) );
                 else
                     $t->set_var( "company_type_level", "" );
-    
+
                 if ( $company )
                 {
-                    $categoryList = $company->categories( $CompanyID );
-                    $found = false;
-
-                    foreach ( $categoryList as $category )
-                    {
-                        if ( $category->id() == $companyTypeItem[0]->id() )
-                        {
-                            $found = true;
-                        }
-                    }
-                    if ( $found  == true )
+                    $found = in_array( $companyTypeItem[0]->id(), $category_values );
+                    if ( $found == true )
                     {
                         $t->set_var( "is_selected", "selected" );
                     }
@@ -683,43 +669,29 @@ if ( !$confirm )
                 $t->parse( "day_item", "day_item_tpl", true );
             }
 
-            $t->set_var( "select_january", "" );
-            $t->set_var( "select_feburary", "" );
-            $t->set_var( "select_march", "" );
-            $t->set_var( "select_april", "" );
-            $t->set_var( "select_may", "" );
-            $t->set_var( "select_june", "" );
-            $t->set_var( "select_july", "" );
-            $t->set_var( "select_august", "" );
-            $t->set_var( "select_september", "" );
-            $t->set_var( "select_october", "" );
-            $t->set_var( "select_november", "" );
-            $t->set_var( "select_december", "" );
+            $birth_array = array( 1 => "select_january",
+                                  2 => "select_februrary",
+                                  3 => "select_march",
+                                  4 => "select_april",
+                                  5 => "select_may",
+                                  6 => "select_june",
+                                  7 => "select_july",
+                                  8 => "select_august",
+                                  9 => "select_september",
+                                  10 => "select_october",
+                                  11 => "select_november",
+                                  12 => "select_december" );
 
-            if ( $BirthMonth == 2 )
-                $t->set_var( "select_february", "selected" );
-            else if ( $BirthMonth == 3 )
-                $t->set_var( "select_march", "selected" );
-            else if ( $BirthMonth == 4 )
-                $t->set_var( "select_april", "selected" );
-            else if ( $BirthMonth == 5 )
-                $t->set_var( "select_may", "selected" );
-            else if ( $BirthMonth == 6 )
-                $t->set_var( "select_june", "selected" );
-            else if ( $BirthMonth == 7 )
-                $t->set_var( "select_july", "selected" );
-            else if ( $BirthMonth == 8 )
-                $t->set_var( "select_august", "selected" );
-            else if ( $BirthMonth == 9 )
-                $t->set_var( "select_september", "selected" );
-            else if ( $BirthMonth == 10 )
-                $t->set_var( "select_october", "selected" );
-            else if ( $BirthMonth == 11 )
-                $t->set_var( "select_november", "selected" );
-            else if ( $BirthMonth == 12 )
-                $t->set_var( "select_december", "selected" );
-            else
-                $t->set_var( "select_january", "selected" );
+            foreach( $birth_array as $month )
+            {
+                $t->set_var( $month, "" );
+            }
+
+            $var_name =& $birth_array[$BirthMonth];
+            if ( empty( $var_name ) )
+                $var_name =& $birth_array[1];
+
+            $t->set_var( $var_name, "selected" );
 
             $t->set_var( "birthyear", $BirthYear );
 
@@ -728,10 +700,10 @@ if ( !$confirm )
             $t->parse( "person_item", "person_item_tpl" );
         }
 
-        $phone_types = eZPhoneType::getAll();
-        $online_types = eZOnlineType::getAll();
-        $address_types = eZAddressType::getAll();
-        $countries = eZCountry::getAll();
+        $phone_types =& eZPhoneType::getAll();
+        $online_types =& eZOnlineType::getAll();
+        $address_types =& eZAddressType::getAll();
+        $countries =& eZCountry::getAllArray();
 
         if ( !isset( $PhoneDelete ) )
         {
@@ -760,9 +732,10 @@ if ( !$confirm )
                       count( $Street1 ), count( $Street2 ),
                       count( $Zip ), count( $Place ), 1 );
         $item = 0;
+        $AddressDeleteValues =& array_values( $AddressDelete );
         for ( $i = 0; $i < $count || $item < $count; $i++ )
         {
-            if ( !in_array( $i, array_values( $AddressDelete ) ) )
+            if ( !in_array( $i, $AddressDeleteValues ) )
             {
                 $t->set_var( "street1", $Street1[$i] );
                 $t->set_var( "street2", $Street2[$i] );
@@ -785,10 +758,10 @@ if ( !$confirm )
                 }
                 foreach( $countries as $country )
                 {
-                    $t->set_var( "type_id", $country->id() );
-                    $t->set_var( "type_name", $country->name() );
+                    $t->set_var( "type_id", $country["ID"] );
+                    $t->set_var( "type_name", $country["Name"] );
                     $t->set_var( "selected", "" );
-                    if ( $country->id() == $Country[$i] )
+                    if ( $country["ID"] == $Country[$i] )
                         $t->set_var( "selected", "selected" );
                     $t->parse( "country_item_select", "country_item_select_tpl", true );
                 }
@@ -807,6 +780,7 @@ if ( !$confirm )
         }
         $count = max( count( $PhoneTypeID ), count( $PhoneID ), count( $Phone ), 3 );
         $item = 0;
+        $PhoneDeleteValues =& array_values( $PhoneDelete );
         for ( $i = 0; $i < $count || $item < $count; $i++ )
         {
             if ( ( $item % 3 == 0 ) && $item > 0 )
@@ -814,7 +788,7 @@ if ( !$confirm )
                 $t->parse( "phone_table_item", "phone_table_item_tpl", true );
                 $t->set_var( "phone_item" );
             }
-            if ( !in_array( $i, array_values( $PhoneDelete ) ) )
+            if ( !in_array( $i, $PhoneDeleteValues ) )
             {
                 $t->set_var( "phone_number", $Phone[$i] );
                 $t->set_var( "phone_id", $PhoneID[$i] );
@@ -847,6 +821,7 @@ if ( !$confirm )
         }
         $count = max( count( $OnlineTypeID ), count( $OnlineID ), count( $Online ), 2 );
         $item = 0;
+        $OnlineDeleteValues =& array_values( $OnlineDelete );
         for ( $i = 0; $i < $count || $item < $count; $i++ )
         {
             if ( ( $item % 3 == 0 ) && $item > 0 )
@@ -854,7 +829,7 @@ if ( !$confirm )
                 $t->parse( "online_table_item", "online_table_item_tpl", true );
                 $t->set_var( "online_item" );
             }
-            if ( !in_array( $i, array_values( $OnlineDelete ) ) )
+            if ( !in_array( $i, $OnlineDeleteValues ) )
             {
                 $t->set_var( "online_value", $Online[$i] );
                 $t->set_var( "online_id", $OnlineID[$i] );
@@ -879,7 +854,7 @@ if ( !$confirm )
         }
         $t->parse( "online_table_item", "online_table_item_tpl", true );
 
-        $groups = eZUserGroup::getAll();
+        $groups =& eZUserGroup::getAll();
         foreach( $groups as $group )
         {
             $t->set_var( "type_id", $group->id() );
@@ -892,12 +867,12 @@ if ( !$confirm )
 
         if ( $ContactGroupID < 1 )
         {
-            $users = eZUser::getAll( "name" );
+            $users =& eZUser::getAll( "name" );
         }
         else
         {
             $group = new eZUserGroup();
-            $users = $group->users( $ContactGroupID, "name" );
+            $users =& $group->users( $ContactGroupID, "name" );
         }
 
         foreach( $users as $user )
@@ -911,7 +886,7 @@ if ( !$confirm )
             $t->parse( "contact_item_select", "contact_item_select_tpl", true );
         }
 
-        $project_types = eZProjectType::findTypes();
+        $project_types =& eZProjectType::findTypes();
         foreach( $project_types as $project_type )
         {
             $t->set_var( "type_id", $project_type->id() );

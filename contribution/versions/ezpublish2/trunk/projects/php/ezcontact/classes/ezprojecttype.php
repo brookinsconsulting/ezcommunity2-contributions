@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezprojecttype.php,v 1.1 2001/01/19 21:52:23 jb Exp $
+// $Id: ezprojecttype.php,v 1.2 2001/01/21 18:12:56 jb Exp $
 //
 // Definition of eZProjectType class
 //
@@ -56,21 +56,17 @@ class eZProjectType
     */
     function eZProjectType( $id="-1", $fetch=true )
     {
-        if ( $id != -1 )
+        if ( is_array( $id ) )
+        {
+            $this->fill( $id );
+        }
+        else if ( $id != -1 )
         {
             $this->ID = $id;
             if ( $fetch == true )
             {
                 $this->get( $this->ID );
             }
-            else
-            {
-                $this->State_ = "Dirty";
-            }
-        }
-        else
-        {
-            $this->State_ = "New";
         }
     }
 
@@ -79,7 +75,7 @@ class eZProjectType
     */
     function store( )
     {
-        $db = eZDB::globalDatabase();
+        $db =& eZDB::globalDatabase();
         if ( !isSet( $this->ID ) )
         {
             $db->query_single( $qry, "SELECT ListOrder from eZContact_ProjectType ORDER BY ListOrder DESC LIMIT 1" );
@@ -89,7 +85,6 @@ class eZProjectType
                                                   Name='$this->Name',
                                                   ListOrder='$listorder'" );
             $this->ID = mysql_insert_id();
-            $this->State_ = "Coherent";
         }
         else
         {
@@ -97,7 +92,6 @@ class eZProjectType
                                                   Name='$this->Name',
                                                   ListOrder='$this->ListOrder'
                                                   WHERE ID='$this->ID'" );
-            $this->State_ = "Coherent";
         }
 
         return true;
@@ -110,7 +104,7 @@ class eZProjectType
     {
         if ( isSet( $this->ID ) )
         {
-            $db = eZDB::globalDatabase();
+            $db =& eZDB::globalDatabase();
             $db->query( "DELETE FROM eZContact_PersonProjectDict WHERE ProjectID='$this->ID'" );
             $db->query( "DELETE FROM eZContact_CompanyProjectDict WHERE ProjectID='$this->ID'" );
             $db->query( "DELETE FROM eZContact_ProjectType WHERE ID='$this->ID'" );
@@ -127,20 +121,23 @@ class eZProjectType
 
         if ( $id != "" )
         {
-            $db = eZDB::globalDatabase();
+            $db =& eZDB::globalDatabase();
             $db->query_single( $consulttype_array, "SELECT * FROM eZContact_ProjectType WHERE ID='$id'" );
-            $this->ID = $consulttype_array["ID"];
-            $this->Name = $consulttype_array["Name"];
-            $this->ListOrder = $consulttype_array["ListOrder"];
+            $this->fill( $consulttype_array );
 
             $ret = true;
-            $this->State_ = "Coherent";
-        }
-        else
-        {
-            $this->State_ = "Dirty";
         }
         return $ret;
+    }
+
+    /*!
+      Fills in information to the object taken from the array.
+    */
+    function fill( &$consulttype_array )
+    {
+        $this->ID = $consulttype_array["ID"];
+        $this->Name = $consulttype_array["Name"];
+        $this->ListOrder = $consulttype_array["ListOrder"];
     }
 
     /*!
@@ -149,8 +146,6 @@ class eZProjectType
 
     function setName( $name )
     {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
         $this->Name = $name;
     }
 
@@ -160,8 +155,6 @@ class eZProjectType
 
     function id()
     {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
         return $this->ID;
     }
 
@@ -171,8 +164,6 @@ class eZProjectType
 
     function name()
     {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
         return $this->Name;
     }
 
@@ -180,11 +171,9 @@ class eZProjectType
       Returns the number of external items using this item.
     */
 
-    function count()
+    function &count()
     {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-        $db = eZDB::globalDatabase();
+        $db =& eZDB::globalDatabase();
         $db->query_single( $person_qry, "SELECT count( PersonID ) as Count
                                          FROM eZContact_PersonProjectDict
                                          WHERE ProjectID='$this->ID'" );
@@ -200,9 +189,7 @@ class eZProjectType
 
     function moveUp()
     {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-        $db = eZDB::globalDatabase();
+        $db =& eZDB::globalDatabase();
         $db->query_single( $qry, "SELECT ID, ListOrder FROM eZContact_ProjectType
                                   WHERE ListOrder<'$this->ListOrder' ORDER BY ListOrder DESC LIMIT 1" );
         $listorder = $qry["ListOrder"];
@@ -217,9 +204,7 @@ class eZProjectType
 
     function moveDown()
     {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-        $db = eZDB::globalDatabase();
+        $db =& eZDB::globalDatabase();
         $db->query_single( $qry, "SELECT ID, ListOrder FROM eZContact_ProjectType
                                   WHERE ListOrder>'$this->ListOrder' ORDER BY ListOrder ASC LIMIT 1" );
         $listorder = $qry["ListOrder"];
@@ -234,25 +219,36 @@ class eZProjectType
       Returns an array with eZProjectType objects taken from the database.
     */
 
-    function findTypes()
+    function &findTypes( $as_object = true )
     {
         $qry_array = array();
-        $db = eZDB::globalDatabase();
-        $db->array_query( $qry_array, "SELECT ID FROM eZContact_ProjectType ORDER BY ListOrder" );
+        $db =& eZDB::globalDatabase();
+        if ( $as_object )
+            $select = "*";
+        else
+            $select = "ID";
+        $db->array_query( $qry_array, "SELECT $select FROM eZContact_ProjectType ORDER BY ListOrder" );
         $ret_array = array();
-        foreach ( $qry_array as $qry )
+        if ( $as_object )
+        {
+            foreach ( $qry_array as $qry )
             {
-                $ret_array[] = new eZProjectType( $qry["ID"] );
+                $ret_array[] = new eZProjectType( $qry );
             }
+        }
+        else
+        {
+            foreach ( $qry_array as $qry )
+            {
+                $ret_array[] = $qry["ID"];
+            }
+        }
         return $ret_array;
     }
 
     var $ID;
     var $Name;
     var $ListOrder;
-
-    /// Indicates the state of the object. In regard to database information.
-    var $State_;
 }
 
 ?>

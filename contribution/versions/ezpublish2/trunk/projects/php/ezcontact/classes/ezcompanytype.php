@@ -1,7 +1,7 @@
 <?
 
 // 
-// $Id: ezcompanytype.php,v 1.22 2001/01/19 12:15:26 jb Exp $
+// $Id: ezcompanytype.php,v 1.23 2001/01/21 18:12:56 jb Exp $
 //
 // Definition of eZCompanyType class
 //
@@ -186,7 +186,7 @@ class eZCompanyType
     /*!
         Fetches all the company types in the db and return them as an array of objects.
      */
-    function getByParentID( $parent = 0, $OrderBy = "ID", $LimitStart = "None", $LimitBy = "None" )
+    function &getByParentID( $parent = 0, $OrderBy = "ID", $LimitStart = "None", $LimitBy = "None" )
     {
         $db = eZDB::globalDatabase();
 
@@ -242,7 +242,7 @@ class eZCompanyType
 
         foreach( $company_type_array as $companyTypeItem )
         {
-            $return_array[] = new eZCompanyType( $companyTypeItem["ID"] );
+            $return_array[] =& new eZCompanyType( $companyTypeItem["ID"] );
         }
         return $return_array;
     }
@@ -309,23 +309,20 @@ class eZCompanyType
         return $path;
     }
 
-    function getTree( $parentID=0, $level=0 )
+    function &getTree( $parentID=0, $level=0 )
     {
-        $category = new eZCompanyType( $parentID );
-
-        $categoryList = $category->getByParentID( $category );
+        $categoryList =& eZCompanyType::getByParentID( $parentID );
 
         $tree = array();
         $level++;
         foreach ( $categoryList as $category )
         {
-            array_push( $tree, array( $returnObj = new eZCompanyType( $category->id() ), $level ) );
+            array_push( $tree, array( $category , $level ) );
 
             if ( $category != 0 )
             {
-                $tree = array_merge( $tree, $this->getTree( $category->id(), $level ) );
+                $tree = array_merge( $tree, eZCompanyType::getTree( $category->id(), $level ) );
             }
-
         }
 
         return $tree;

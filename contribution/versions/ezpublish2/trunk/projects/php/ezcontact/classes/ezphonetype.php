@@ -16,22 +16,17 @@ class eZPhoneType
     */
     function eZPhoneType( $id="-1", $fetch=true )
     {
-        if ( $id != -1 )
+        if ( is_array( $id ) )
+        {
+            $this->fill( $id );
+        }
+        else if ( $id != -1 )
         {
             $this->ID = $id;
             if ( $fetch == true )
             {
                 $this->get( $this->ID );
             }
-            else
-            {
-                $this->State_ = "Dirty";
-                
-            }
-        }
-        else
-        {
-            $this->State_ = "New";
         }
     }
 
@@ -41,44 +36,64 @@ class eZPhoneType
     */  
     function get( $id )
     {
-        $db = eZDB::globalDatabase();
+        $db =& eZDB::globalDatabase();
         if ( $id != "" )
         {
-            $db->array_query( $phone_type_array, "SELECT * FROM eZContact_PhoneType WHERE ID='$id'" );
-            if ( count( $phone_type_array ) > 1 )
+            $db->array_query( $phone_type_array, "SELECT * FROM eZContact_PhoneType WHERE ID='$id'",
+                              0, 1 );
+            if ( count( $phone_type_array ) == 1 )
             {
-                die( "Feil: Flere phonetype med samme ID funnet i database, dette skal ikke være mulig. " );
-            }
-            else if ( count( $phone_type_array ) == 1 )
-            {
-                $this->ID = $phone_type_array[ 0 ][ "ID" ];
-                $this->Name = $phone_type_array[ 0 ][ "Name" ];
-                $this->ListOrder = $phone_type_array[ 0 ][ "ListOrder" ];
+                $this->fill( $phone_type_array[0] );
             }
             else
             {
                 $this->ID = "";
-                $this->State_ = "New";
             }
         }
+    }
+
+    /*!
+      Extracts the information from the array and puts it in the object.
+    */
+    function fill( &$phone_type_array )
+    {
+        $this->ID = $phone_type_array[ "ID" ];
+        $this->Name = $phone_type_array[ "Name" ];
+        $this->ListOrder = $phone_type_array[ "ListOrder" ];
     }
 
     /*
       \static
       Henter ut alle telefontypene lagret i databasen.
     */
-    function getAll( )
+    function getAll( $as_object = true )
     {
-        $db = eZDB::globalDatabase();
+        $db =& eZDB::globalDatabase();
 
         $phone_type_edit = array();
         $return_array = array();
-    
-        $db->array_query( $phone_type_array, "SELECT ID FROM eZContact_PhoneType ORDER BY ListOrder" );
 
-        foreach( $phone_type_array as $phoneTypeItem )
+        if ( $as_object )
+            $select = "*";
+        else
+            $select = "ID";
+
+        $db->array_query( $phone_type_array,
+                          "SELECT $select FROM eZContact_PhoneType ORDER BY ListOrder" );
+
+        if ( $as_object )
         {
-            $return_array[] = new eZPhoneType( $phoneTypeItem["ID"] );
+            foreach( $phone_type_array as $phoneTypeItem )
+            {
+                $return_array[] = new eZPhoneType( $phoneTypeItem );
+            }
+        }
+        else
+        {
+            foreach( $phone_type_array as $phoneTypeItem )
+            {
+                $return_array[] = $phoneTypeItem["ID"];
+            }
         }
         return $return_array;
     }
@@ -89,7 +104,7 @@ class eZPhoneType
     */
     function store()
     {
-        $db = eZDB::globalDatabase();
+        $db =& eZDB::globalDatabase();
 
         $ret = false;
         if ( !isSet( $this->ID ) )
@@ -102,14 +117,12 @@ class eZPhoneType
             
             $this->ID = mysql_insert_id();
 
-            $this->State_ = "Coherent";
             $ret = true;
         }
         else
         {
             $db->query( "UPDATE eZContact_PhoneType set Name='$this->Name', ListOrder='$this->ListOrder' WHERE ID='$this->ID'" );
             
-            $this->State_ = "Coherent";
             $ret = true;
         }
         return $ret;
@@ -122,7 +135,7 @@ class eZPhoneType
     */
     function delete( $relations = false )
     {
-        $db = eZDB::globalDatabase();
+        $db =& eZDB::globalDatabase();
         if ( $relations == "full" )
         {
             $db->array_query( $person_qry, "SELECT Pe.ID
@@ -170,15 +183,11 @@ class eZPhoneType
 
     function setName( $value )
     {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
         $this->Name = $value;
     }
 
     function name(  )
     {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
         return $this->Name;
     }  
 
@@ -191,11 +200,9 @@ class eZPhoneType
       Returns the number of external items using this item.
     */
 
-    function count()
+    function &count()
     {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-        $db = eZDB::globalDatabase();
+        $db =& eZDB::globalDatabase();
         $db->array_query( $person_qry,  "SELECT count( Pe.ID ) as Count
                                          FROM eZContact_Person AS Pe, eZContact_PersonPhoneDict AS PPD,
                                               eZContact_Phone AS Ph, eZContact_PhoneType AS PT
@@ -218,9 +225,7 @@ class eZPhoneType
 
     function moveUp()
     {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-        $db = eZDB::globalDatabase();
+        $db =& eZDB::globalDatabase();
         $db->query_single( $qry, "SELECT ID, ListOrder FROM eZContact_PhoneType
                                   WHERE ListOrder<'$this->ListOrder' ORDER BY ListOrder DESC LIMIT 1" );
         $listorder = $qry["ListOrder"];
@@ -235,9 +240,7 @@ class eZPhoneType
 
     function moveDown()
     {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-        $db = eZDB::globalDatabase();
+        $db =& eZDB::globalDatabase();
         $db->query_single( $qry, "SELECT ID, ListOrder FROM eZContact_PhoneType
                                   WHERE ListOrder>'$this->ListOrder' ORDER BY ListOrder ASC LIMIT 1" );
         $listorder = $qry["ListOrder"];
@@ -248,9 +251,6 @@ class eZPhoneType
 
     var $ID;
     var $Name;
-
-    /// Indicates the state of the object. In regard to database information.
-    var $State_;
 }
 
 ?>

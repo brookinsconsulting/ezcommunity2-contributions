@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezcompany.php,v 1.53 2001/01/20 23:18:55 jb Exp $
+// $Id: ezcompany.php,v 1.54 2001/01/21 18:13:24 jb Exp $
 //
 // Definition of eZProduct class
 //
@@ -68,14 +68,6 @@ class eZCompany
             {
                 $this->get( $this->ID );
             }
-            else
-            {
-                $this->State_ = "Dirty";
-            }
-        }
-        else
-        {
-            $this->State_ = "New";
         }
     }
 
@@ -84,7 +76,7 @@ class eZCompany
     */
     function store( )
     {
-        $db = eZDB::globalDatabase();
+        $db =& eZDB::globalDatabase();
 
         if ( !isSet( $this->ID ) )
         {
@@ -95,8 +87,6 @@ class eZCompany
                                                   ContactType='$this->ContactType',
 	                                              CreatorID='$this->CreatorID'" );
             $this->ID = mysql_insert_id();
-            
-            $this->State_ = "Coherent";
         }
         else
         {
@@ -105,18 +95,17 @@ class eZCompany
                                                  CompanyNo='$this->CompanyNo',
                                                  ContactType='$this->ContactType',
                                                	 CreatorID='$this->CreatorID' WHERE ID='$this->ID'" );
-            $this->State_ = "Coherent";
         }
 
         return true;
     }
 
-    /*
+    /*!
       Deletes a eZCompany object  from the database.
     */
     function delete( $id = false )
     {
-        $db = eZDB::globalDatabase();
+        $db =& eZDB::globalDatabase();
 
         if ( !$id )
             $id = $this->ID;
@@ -177,7 +166,7 @@ class eZCompany
     */
     function get( $id=-1 )
     {
-        $db = eZDB::globalDatabase();
+        $db =& eZDB::globalDatabase();
         $ret = false;
 
         if ( $id != "" )
@@ -198,68 +187,63 @@ class eZCompany
                      
                 $ret = true;
             }
-            $this->State_ = "Coherent";
-        }
-        else
-        {
-            $this->State_ = "Dirty";
         }
         return $ret;
     }
     
 
-    /*
+    /*!
       Returns all the company found in the database.
       
       The company are returned as an array of eZCompany objects.
     */
-    function getAll( )
+    function &getAll( )
     {
-        $db = eZDB::globalDatabase();
+        $db =& eZDB::globalDatabase();
 
         $company_array = array();
         $return_array = array();
-    
+
         $db->array_query( $company_array, "SELECT ID FROM eZContact_Company ORDER BY Name" );
 
         foreach( $company_array as $companyItem )
-            {
-                $return_array[] = new eZCompany( $companyItem["ID"] );
-            }
+        {
+            $return_array[] =& new eZCompany( $companyItem["ID"] );
+        }
         return $return_array;
     }
 
-    /*
+    /*!
       Returns all the companies found in the database.
       
       The company are returned as an array of eZCompany objects.
     */
-    function getByCategory( $categoryID )
+    function &getByCategory( $categoryID )
     {
-        $db = eZDB::globalDatabase();
+        $db =& eZDB::globalDatabase();
 
         $company_array = array();
         $return_array = array();
 
         $db->array_query( $company_array, "SELECT CompanyID FROM eZContact_CompanyTypeDict, eZContact_Company
-                                                       WHERE eZContact_CompanyTypeDict.CompanyTypeID='$categoryID'
-                                                       AND eZContact_Company.ID = eZContact_CompanyTypeDict.CompanyID
-                                                       ORDER BY eZContact_Company.Name" );
+                                           WHERE eZContact_CompanyTypeDict.CompanyTypeID='$categoryID'
+                                           AND eZContact_Company.ID = eZContact_CompanyTypeDict.CompanyID
+                                           ORDER BY eZContact_Company.Name" );
 
-            foreach( $company_array as $companyItem )
-            {
-                $return_array[] = new eZCompany( $companyItem["CompanyID"] );
-            }
+        foreach( $company_array as $companyItem )
+        {
+            $return_array[] =& new eZCompany( $companyItem["CompanyID"] );
+        }
 
         return $return_array;
     }
 
-    /*
+    /*!
       Search the company database in a single category, using query as the search string in company name.
     */
-    function searchByCategory( $categoryID, $query )
+    function &searchByCategory( $categoryID, $query )
     {
-        $db = eZDB::globalDatabase();
+        $db =& eZDB::globalDatabase();
         
         $company_array = array();
         $return_array = array();
@@ -281,7 +265,7 @@ class eZCompany
 
             foreach( $company_array as $companyItem )
             {
-                $return_array[] = new eZCompany( $companyItem["ID"] );
+                $return_array[] =& new eZCompany( $companyItem["ID"] );
             }
         }
         
@@ -289,12 +273,12 @@ class eZCompany
     }
 
 
-    /*
+    /*!
       Henter ut alle firma i databasen som inneholder søkestrengen.
     */
-    function search( $query )
+    function &search( $query )
     {
-        $db = eZDB::globalDatabase();
+        $db =& eZDB::globalDatabase();
         $company_array = array();
         $return_array = array();
     
@@ -302,7 +286,7 @@ class eZCompany
 
         foreach( $company_array as $companyItem )
         {
-            $return_array[] = new eZCompany( $companyItem["ID"] );
+            $return_array[] =& new eZCompany( $companyItem["ID"] );
         }
         return $return_array;
     }
@@ -313,39 +297,39 @@ class eZCompany
     */
     function removeCategories()
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
-        $db = eZDB::globalDatabase();
+        $db =& eZDB::globalDatabase();
        
-       $db->query( "DELETE FROM eZContact_CompanyTypeDict
+        $db->query( "DELETE FROM eZContact_CompanyTypeDict
                                 WHERE CompanyID='$this->ID'" );
     }
 
     /*!
       Returns the categories that belong to this eZCompany object.
     */
-    function categories( $companyID = false, $as_object = true )
+    function &categories( $companyID = false, $as_object = true, $limit = -1 )
     {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
         if ( !$companyID )
             $companyID = $this->ID;
 
         $return_array = array();
-        $db = eZDB::globalDatabase();
+        $db =& eZDB::globalDatabase();
+
+        if ( $limit != -1 )
+        {
+            $limit_qry = "LIMIT $limit";
+        }
 
         $db->array_query( $categories_array, "SELECT CompanyTypeID
-                                                 FROM eZContact_CompanyTypeDict
-                                                 WHERE CompanyID='$companyID'" );
+                                              FROM eZContact_CompanyTypeDict
+                                              WHERE CompanyID='$companyID'
+                                              $limit_qry" );
 
         foreach( $categories_array as $categoriesItem )
         {
             if ( $as_object )
-                $return_array[] = new eZCompanyType( $categoriesItem["CompanyTypeID"] );
+                $return_array[] =& new eZCompanyType( $categoriesItem["CompanyTypeID"] );
             else
-                $return_array[] = $categoriesItem["CompanyTypeID"];
+                $return_array[] =& $categoriesItem["CompanyTypeID"];
         }
         return $return_array;
     }
@@ -354,25 +338,22 @@ class eZCompany
     /*!
       Returns the address that belong to this eZCompany object.
     */
-    function addresses( $companyID = false )
+    function &addresses( $companyID = false )
     {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
         if ( !$companyID )
             $companyID = $this->ID;
         
         $return_array = array();
-        $db = eZDB::globalDatabase();
+        $db =& eZDB::globalDatabase();
 
         $db->array_query( $address_array, "SELECT AddressID
                                                  FROM eZContact_CompanyAddressDict
                                                  WHERE CompanyID='$companyID'" );
 
         foreach( $address_array as $addressItem )
-            {
-                $return_array[] = new eZAddress( $addressItem["AddressID"] );
-            }
+        {
+            $return_array[] =& new eZAddress( $addressItem["AddressID"] );
+        }
 
         return $return_array;
     }
@@ -380,14 +361,10 @@ class eZCompany
     /*!
       Adds an address to the current Company.
     */
-    function addAddress( $address )
+    function addAddress( &$address )
     {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
         $ret = false;
-       
-        $db = eZDB::globalDatabase();
+        $db =& eZDB::globalDatabase();
         if ( get_class( $address ) == "ezaddress" )
         {
             $addressID = $address->id();
@@ -405,10 +382,7 @@ class eZCompany
     */
     function removeAddresses()
     {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
-        $db = eZDB::globalDatabase();
+        $db =& eZDB::globalDatabase();
 
         $db->array_query( $address_array, "SELECT eZContact_Address.ID AS 'AID', eZContact_CompanyAddressDict.CompanyID AS 'DID'
                                                FROM eZContact_Address, eZContact_CompanyAddressDict
@@ -416,8 +390,8 @@ class eZCompany
         
         foreach( $address_array as $addressItem )
         {
-            $addressID = $addressItem["AID"];
-            $addressDictID = $addressItem["DID"];
+            $addressID =& $addressItem["AID"];
+            $addressDictID =& $addressItem["DID"];
             $db->query( "DELETE FROM eZContact_Address WHERE ID='$addressID'" );
             $db->query( "DELETE FROM eZContact_CompanyAddressDict WHERE CompanyID='$this->ID'" );
         }
@@ -426,16 +400,13 @@ class eZCompany
     /*!
       Returns the phones that belong to this eZCompany object.
     */
-    function phones( $companyID = false )
+    function &phones( $companyID = false )
     {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-        
         if ( !$companyID )
             $companyID = $this->ID;
 
         $return_array = array();
-        $db = eZDB::globalDatabase();
+        $db =& eZDB::globalDatabase();
 
         $db->array_query( $phone_array, "SELECT PhoneID
                                                  FROM eZContact_CompanyPhoneDict
@@ -443,7 +414,7 @@ class eZCompany
 
         foreach( $phone_array as $phoneItem )
         {
-            $return_array[] = new eZPhone( $phoneItem["PhoneID"] );
+            $return_array[] =& new eZPhone( $phoneItem["PhoneID"] );
         }
 
         return $return_array;
@@ -452,17 +423,13 @@ class eZCompany
     /*!
       Adds an phone to the current Company.
     */
-    function addPhone( $phone )
+    function addPhone( &$phone )
     {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
         $ret = false;
-       
-        $db = eZDB::globalDatabase();
+        $db =& eZDB::globalDatabase();
         if ( get_class( $phone ) == "ezphone" )
         {
-            $phoneID = $phone->id();
+            $phoneID =& $phone->id();
 
             $db->query( "INSERT INTO eZContact_CompanyPhoneDict
                                 SET CompanyID='$this->ID', PhoneID='$phoneID'" );
@@ -477,15 +444,14 @@ class eZCompany
     */
     function removePhones()
     {
-        $db = eZDB::globalDatabase();
+        $db =& eZDB::globalDatabase();
         $db->array_query( $phone_array, "SELECT eZContact_Phone.ID AS 'PID', eZContact_CompanyPhoneDict.CompanyID AS 'DID'
                                      FROM eZContact_Phone, eZContact_CompanyPhoneDict
                                      WHERE eZContact_Phone.ID=eZContact_CompanyPhoneDict.PhoneID AND eZContact_CompanyPhoneDict.CompanyID='$this->ID' " );
-        
+
         foreach( $phone_array as $phoneItem )
         {
-            $phoneID = $phoneItem["PID"];
-            $phoneDictID = $phoneItem["DID"];
+            $phoneID =& $phoneItem["PID"];
             $db->query( "DELETE FROM eZContact_Phone WHERE ID='$phoneID'" );
             $db->query( "DELETE FROM eZContact_CompanyPhoneDict WHERE CompanyID='$this->ID'" );
         }
@@ -494,16 +460,13 @@ class eZCompany
     /*!
       Returns the onlines that belong to this eZCompany object.
     */
-    function onlines( $onlineID = false )
+    function &onlines( $onlineID = false )
     {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-        
         if ( !$onlineID )
             $onlineID = $this->ID;
 
         $return_array = array();
-        $db = eZDB::globalDatabase();
+        $db =& eZDB::globalDatabase();
 
         $db->array_query( $online_array, "SELECT OnlineID
                                                  FROM eZContact_CompanyOnlineDict
@@ -511,7 +474,7 @@ class eZCompany
 
         foreach( $online_array as $onlineItem )
         {
-            $return_array[] = new eZOnline( $onlineItem["OnlineID"] );
+            $return_array[] =& new eZOnline( $onlineItem["OnlineID"] );
         }
 
         return $return_array;
@@ -520,18 +483,14 @@ class eZCompany
     /*!
       Adds an online to the current Company.
     */
-    function addOnline( $online )
+    function addOnline( &$online )
     {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
         $ret = false;
-       
-        $db = eZDB::globalDatabase();
+        $db =& eZDB::globalDatabase();
 
         if ( get_class( $online ) == "ezonline" )
         {
-            $onlineID = $online->id();
+            $onlineID =& $online->id();
 
             $db->query( "INSERT INTO eZContact_CompanyOnlineDict
                                 SET CompanyID='$this->ID', OnlineID='$onlineID'" );
@@ -546,15 +505,15 @@ class eZCompany
     */
     function removeOnlines()
     {
-        $db = eZDB::globalDatabase();
+        $db =& eZDB::globalDatabase();
         $db->array_query( $online_array, "SELECT eZContact_Online.ID AS 'OID', eZContact_CompanyOnlineDict.CompanyID AS 'DID'
                                      FROM eZContact_Online, eZContact_CompanyOnlineDict
                                      WHERE eZContact_Online.ID=eZContact_CompanyOnlineDict.OnlineID AND eZContact_CompanyOnlineDict.CompanyID='$this->ID' " );
         
         foreach( $online_array as $onlineItem )
         {
-            $onlineID = $onlineItem["OID"];
-            $onlineDictID = $onlineItem["DID"];
+            $onlineID =& $onlineItem["OID"];
+            $onlineDictID =& $onlineItem["DID"];
             $db->query( "DELETE FROM eZContact_Online WHERE ID='$onlineID'" );
             $db->query( "DELETE FROM eZContact_CompanyOnlineDict WHERE CompanyID='$this->ID'" );
         }
@@ -563,18 +522,14 @@ class eZCompany
     /*!
       Adds a image to the current 
      */
-    function addImage( $image )
+    function addImage( &$image )
     {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
         $ret = false;
-       
-        $db = eZDB::globalDatabase();
+        $db =& eZDB::globalDatabase();
 
         if ( get_class ( $image ) == "ezimage" )
         {
-            $imageID = $image->id();
+            $imageID =& $image->id();
 
             $db->query( "INSERT INTO eZContact_CompanyImageDict
                                      SET CompanyID='$this->ID', ImageID='$imageID'" );
@@ -584,24 +539,21 @@ class eZCompany
     /*!
       Returns every image to a product as a array of eZImage objects.
     */
-    function images()
+    function &images()
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
+        $db =& eZDB::globalDatabase();
+       
+        $return_array = array();
+        $image_array = array();
 
-        $db = eZDB::globalDatabase();
+        $db->array_query( $image_array, "SELECT ImageID FROM eZContact_CompanyImageDict WHERE CompanyID='$this->ID'" );
+
+        for ( $i=0; $i<count($image_array); $i++ )
+        {
+            $return_array[$i] =& new eZImage( $image_array[$i]["ImageID"], false );
+        }
        
-       $return_array = array();
-       $image_array = array();
-       
-       $db->array_query( $image_array, "SELECT ImageID FROM eZContact_CompanyImageDict WHERE CompanyID='$this->ID'" );
-       
-       for ( $i=0; $i<count($image_array); $i++ )
-       {
-           $return_array[$i] = new eZImage( $image_array[$i]["ImageID"], false );
-       }
-       
-       return $return_array;
+        return $return_array;
     }
 
     /*!
@@ -609,12 +561,9 @@ class eZCompany
     */
     function removeImages()
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
-        $db = eZDB::globalDatabase();
+        $db =& eZDB::globalDatabase();
         
-       $db->query( "DELETE FROM eZContact_CompanyImageDefinition WHERE CompanyID='$this->ID'" );
+        $db->query( "DELETE FROM eZContact_CompanyImageDefinition WHERE CompanyID='$this->ID'" );
     }
 
     /*!
@@ -622,26 +571,22 @@ class eZCompany
     */
     function logoImage( )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
+        $ret = false;
+        $db =& eZDB::globalDatabase();
 
-       $ret = false;
-        $db = eZDB::globalDatabase();
-       
-       $db->array_query( $res_array, "SELECT * FROM eZContact_CompanyImageDefinition
+        $db->array_query( $res_array, "SELECT * FROM eZContact_CompanyImageDefinition
                                      WHERE
                                      CompanyID='$this->ID'
                                    " );
 
-       if ( count( $res_array ) == 1 )
-       {
-           if ( $res_array[0]["LogoImageID"] != "NULL" )
-           {
-               $ret = new eZImage( $res_array[0]["LogoImageID"], false );
-           }               
-       }
-       
-       return $ret;
+        if ( count( $res_array ) == 1 )
+        {
+            if ( $res_array[0]["LogoImageID"] != "NULL" )
+            {
+                $ret =& new eZImage( $res_array[0]["LogoImageID"], false );
+            }               
+        }
+        return $ret;
     }
 
     /*!
@@ -649,16 +594,13 @@ class eZCompany
 
       The argument must be a eZImage object.
     */
-    function setLogoImage( $image )
+    function setLogoImage( &$image )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-        
         if ( get_class( $image ) == "ezimage" )
         {
-            $db = eZDB::globalDatabase();
+            $db =& eZDB::globalDatabase();
 
-            $imageID = $image->id();
+            $imageID =& $image->id();
 
             $db->array_query( $res_array, "SELECT COUNT(*) AS Number FROM eZContact_CompanyImageDefinition
                                      WHERE
@@ -682,22 +624,28 @@ class eZCompany
         }
     }
 
-    function deleteImage( $value )
+    /*!
+      Deletes the image for the company.
+    */
+    function deleteImage( $id = false )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-        
-       $db->query( "UPDATE eZContact_CompanyImageDefinition SET CompanyImageID='0' WHERE CompanyID='$this->ID'" );
+        if ( !$id )
+            $id = $this->ID;
+        $db =& eZDB::globalDatabase();
+        $db->query( "UPDATE eZContact_CompanyImageDefinition
+                     SET CompanyImageID='0' WHERE CompanyID='$id'" );
     }
 
-    function deleteLogo( )
+    /*!
+      Deletes the logo for the company.
+    */
+    function deleteLogo( $id = false )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-        
-        $db = eZDB::globalDatabase();
-       
-       $db->query( "UPDATE eZContact_CompanyImageDefinition SET LogoImageID='0' WHERE CompanyID='$this->ID'" );
+        if ( !$id )
+            $id = $this->ID;
+        $db =& eZDB::globalDatabase();
+        $db->query( "UPDATE eZContact_CompanyImageDefinition
+                     SET LogoImageID='0' WHERE CompanyID='$id'" );
     }
 
 
@@ -706,15 +654,12 @@ class eZCompany
 
       The argument must be a eZImage object.
     */
-    function setCompanyImage( $image )
+    function setCompanyImage( &$image )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-        
         if ( get_class( $image ) == "ezimage" )
         {
-            $db = eZDB::globalDatabase();
-            $imageID = $image->id();
+            $db =& eZDB::globalDatabase();
+            $imageID =& $image->id();
 
             $db->array_query( $res_array, "SELECT COUNT(*) AS Number FROM eZContact_CompanyImageDefinition
                                      WHERE
@@ -744,26 +689,21 @@ class eZCompany
     */
     function companyImage( )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
+        $ret = false;
+        $db =& eZDB::globalDatabase();
 
-       $ret = false;
-        $db = eZDB::globalDatabase();
+        $db->array_query( $res_array, "SELECT * FROM eZContact_CompanyImageDefinition
+                                       WHERE CompanyID='$this->ID'" );
 
-       $db->array_query( $res_array, "SELECT * FROM eZContact_CompanyImageDefinition
-                                     WHERE
-                                     CompanyID='$this->ID'
-                                   " );
+        if ( count( $res_array ) == 1 )
+        {
+            if ( $res_array[0]["CompanyImageID"] != "NULL" )
+            {
+                $ret =& new eZImage( $res_array[0]["CompanyImageID"], false );
+            }
+        }
 
-       if ( count( $res_array ) == 1 )
-       {
-           if ( $res_array[0]["CompanyImageID"] != "NULL" )
-           {
-               $ret = new eZImage( $res_array[0]["CompanyImageID"], false );
-           }
-       }
-
-       return $ret;
+        return $ret;
     }
 
 
@@ -772,9 +712,6 @@ class eZCompany
     */
     function setName( $value )
     {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
         $this->Name = $value;
     }
 
@@ -783,38 +720,28 @@ class eZCompany
     */
     function setComment( $value )
     {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
         $this->Comment = $value;
     }
 
     /*!
       Sets the creatorID of the company.
     */
-    function setCreatorID( $user )
+    function setCreatorID( &$user )
     {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
         if ( get_class( $user ) == "ezuser" )
         {
-            $userID = $user->id();
-
+            $userID =& $user->id();
             $this->CreatorID = $userID;
         }
     }
+
     /*!
       Sets the contact type of the company.
     */
     function setCompanyNo( $value )
     {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
         $this->CompanyNo = $value;
     }
-
 
     /*!
       Returnerer ID.
@@ -829,9 +756,6 @@ class eZCompany
     */
     function name()
     {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
         return $this->Name;
     }
 
@@ -840,9 +764,6 @@ class eZCompany
     */
     function creatorID()
     {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
         return $this->CreatorID;
     }
     
@@ -851,9 +772,6 @@ class eZCompany
     */
     function comment()
     {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
         return $this->Comment;
     }  
     
@@ -862,9 +780,6 @@ class eZCompany
     */
     function companyNo()
     {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
         return $this->CompanyNo;
     }
 
@@ -874,9 +789,6 @@ class eZCompany
      */
     function setContact( $value )
     {
-        if( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
         $this->ContactType = $value;
     }
 
@@ -885,9 +797,6 @@ class eZCompany
     */
     function contact( )
     {
-        if( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
         return $this->ContactType;
     }
 
@@ -895,42 +804,40 @@ class eZCompany
       Henter ut alle firma i databasen hvor en eller flere tilhørende personer    
       inneholder søkestrengen.
     */
-    function searchByPerson( $query )
+    function &searchByPerson( $query )
     {
-        $db = eZDB::globalDatabase();
+        $db =& eZDB::globalDatabase();
         $company_array = array();
         $return_array = array();
     
-        $db->array_query( $company_array, "SELECT eZContact_Company.ID as ID
-                                      FROM eZContact_Company, eZContact_Person
-                                      WHERE ((eZContact_Person.FirstName LIKE '%$query%' OR eZContact_Person.LastName LIKE '%$query%')
-                                      AND eZContact_Company.ID=eZContact_Person.Company) GROUP BY eZContact_Company.ID ORDER BY eZContact_Company.ID" );
+        $db->array_query( $company_array,
+                          "SELECT eZContact_Company.ID as ID
+                           FROM eZContact_Company, eZContact_Person
+                           WHERE ((eZContact_Person.FirstName LIKE '%$query%' OR eZContact_Person.LastName LIKE '%$query%')
+                           AND eZContact_Company.ID=eZContact_Person.Company) GROUP BY eZContact_Company.ID ORDER BY eZContact_Company.ID" );
 
         foreach( $company_array as $companyItem )
-            {
-                $return_array[] = new eZCompany( $companyItem["ID"] );
-            }
+        {
+            $return_array[] =& new eZCompany( $companyItem["ID"] );
+        }
         return $return_array;
     }    
 
     /*!
       Returns the project state of this company.
     */
-    function projectState()
+    function &projectState()
     {
-        if( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
         $ret = "";
 
-        $db = eZDB::globalDatabase();
+        $db =& eZDB::globalDatabase();
 
         $checkQuery = "SELECT ProjectID FROM eZContact_CompanyProjectDict WHERE CompanyID='$this->ID'";
         $db->array_query( $array, $checkQuery, 0, 1 );
 
         if( count( $array ) == 1 )
         {
-            $ret = $array[0]["ProjectID"];
+            $ret =& $array[0]["ProjectID"];
         }
 
         return $ret;
@@ -941,10 +848,7 @@ class eZCompany
     */
     function setProjectState( $value )
     {
-        if( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
-        $db = eZDB::globalDatabase();
+        $db =& eZDB::globalDatabase();
         $db->query( "DELETE FROM eZContact_CompanyProjectDict WHERE CompanyID='$this->ID'" );
 
         if ( is_numeric( $value )  )
@@ -965,9 +869,6 @@ class eZCompany
     var $Online;
     var $ContactType;
     var $CompanyNo;
-
-    /// Indicates the state of the object. In regard to database information.
-    var $State_;
 }
 
 ?>

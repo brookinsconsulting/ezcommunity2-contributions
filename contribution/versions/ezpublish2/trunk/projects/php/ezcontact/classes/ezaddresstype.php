@@ -15,7 +15,11 @@ class eZAddressType
     */
     function eZAddressType( $id="-1", $fetch=true)
     {
-        if ( $id != -1 )
+        if ( is_array( $id ) )
+        {
+            $this->fill( $id );
+        }
+        else if ( $id != -1 )
         {
             $this->ID = $id;
             if ( $fetch == true )
@@ -23,15 +27,6 @@ class eZAddressType
                 
                 $this->get( $this->ID );
             }
-            else
-            {
-                $this->State_ = "Dirty";
-                
-            }
-        }
-        else
-        {
-            $this->State_ = "New";
         }
     }
     
@@ -40,7 +35,7 @@ class eZAddressType
     */
     function store()
     {
-        $db = eZDB::globalDatabase();
+        $db =& eZDB::globalDatabase();
 
         $ret = false;
         if ( !isSet( $this->ID ) )
@@ -52,14 +47,12 @@ class eZAddressType
             $db->query( "INSERT INTO eZContact_AddressType set Name='$this->Name', ListOrder='$this->ListOrder'" );
             $this->ID = mysql_insert_id();
 
-            $this->State_ = "Coherent";
             $ret = true;
         }
         else
         {
             $db->query( "UPDATE eZContact_AddressType set Name='$this->Name', ListOrder='$this->ListOrder' WHERE ID='$this->ID'" );
 
-            $this->State_ = "Coherent";
             $ret = true;
         }
         return $ret;
@@ -73,7 +66,7 @@ class eZAddressType
 
     function delete( $relations = false )
     {
-        $db = eZDB::globalDatabase();
+        $db =& eZDB::globalDatabase();
         if ( $relations == "full" )
         {
             $db->array_query( $person_qry, "SELECT Pe.ID
@@ -119,57 +112,76 @@ class eZAddressType
         $db->query( "DELETE FROM eZContact_AddressType WHERE ID='$this->ID'" );
     }
     
-  /*
-    Henter ut en adressetype med ID == $id
-  */  
+    /*
+      Henter ut en adressetype med ID == $id
+    */
     function get( $id )
     {
-        $db = eZDB::globalDatabase();
+        $db =& eZDB::globalDatabase();
         if ( $id != "" )
         {
-            $db->array_query( $address_type_array, "SELECT * FROM eZContact_AddressType WHERE ID='$id'" );
-            if ( count( $address_type_array ) > 1 )
+            $db->array_query( $address_type_array, "SELECT * FROM eZContact_AddressType WHERE ID='$id'",
+                              0, 1 );
+            if ( count( $address_type_array ) == 1 )
             {
-                die( "Feil: Flere addresstype med samme ID funnet i database, dette skal ikke være mulig. " );
-            }
-            else if ( count( $address_type_array ) == 1 )
-            {
-                $this->ID = $address_type_array[ 0 ][ "ID" ];
-                $this->Name = $address_type_array[ 0 ][ "Name" ];
-                $this->ListOrder = $address_type_array[ 0 ][ "ListOrder" ];
+                $this->fill( $address_type_array[0] );
             }
             else
             {
                 $this->ID = "";
-                $this->State_ = "New";
             }
         }
+    }
+
+    /*!
+      Fills in information to the object taken from the array.
+    */
+    function fill( &$address_type_array )
+    {
+        $this->ID = $address_type_array[ "ID" ];
+        $this->Name = $address_type_array[ "Name" ];
+        $this->ListOrder = $address_type_array[ "ListOrder" ];
     }
 
     /*
     Henter ut alle adresstypene lagret i databasen.
   */
-    function getAll( )
+    function &getAll( $as_object = true )
     {
-        $db = eZDB::globalDatabase();
+        $db =& eZDB::globalDatabase();
         $online_type_array = 0;
 
         $address_type_array = array();
         $return_array = array();
-    
-        $db->array_query( $address_type_array, "SELECT ID FROM eZContact_AddressType ORDER BY ListOrder" );
 
-        foreach( $address_type_array as $addressTypeItem )
-        {
-            $return_array[] = new eZAddressType( $addressTypeItem["ID"] );
-        }
+        if ( $as_object )
+            $select = "*";
+        else
+            $select = "ID";
     
+        $db->array_query( $address_type_array, "SELECT $select FROM eZContact_AddressType ORDER BY ListOrder" );
+
+        if ( $as_object )
+        {
+            foreach( $address_type_array as $addressTypeItem )
+            {
+                $return_array[] = new eZAddressType( $addressTypeItem );
+            }
+        }
+        else
+        {
+            foreach( $address_type_array as $addressTypeItem )
+            {
+                $return_array[] = $addressTypeItem["ID"];
+            }
+        }
+
         return $return_array;
     }
 
     /*!
-    Setter navnet.
-  */
+      Setter navnet.
+    */
     function setName( $value )
     {
         $this->Name = $value;
@@ -195,11 +207,9 @@ class eZAddressType
       Returns the number of external items using this item.
     */
 
-    function count()
+    function &count()
     {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-        $db = eZDB::globalDatabase();
+        $db =& eZDB::globalDatabase();
         $db->array_query( $person_qry,  "SELECT count( Pe.ID ) as Count
                                          FROM eZContact_Person AS Pe, eZContact_PersonAddressDict AS PAD,
                                               eZContact_Address AS Ad, eZContact_AddressType AS AT
@@ -222,9 +232,7 @@ class eZAddressType
 
     function moveUp()
     {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-        $db = eZDB::globalDatabase();
+        $db =& eZDB::globalDatabase();
         $db->query_single( $qry, "SELECT ID, ListOrder FROM eZContact_AddressType
                                   WHERE ListOrder<'$this->ListOrder' ORDER BY ListOrder DESC LIMIT 1" );
         $listorder = $qry["ListOrder"];
@@ -239,9 +247,7 @@ class eZAddressType
 
     function moveDown()
     {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-        $db = eZDB::globalDatabase();
+        $db =& eZDB::globalDatabase();
         $db->query_single( $qry, "SELECT ID, ListOrder FROM eZContact_AddressType
                                   WHERE ListOrder>'$this->ListOrder' ORDER BY ListOrder ASC LIMIT 1" );
         $listorder = $qry["ListOrder"];
@@ -253,10 +259,6 @@ class eZAddressType
     var $ID;
     var $Name;
     var $ListOrder;
-
-    /// Indicates the state of the object. In regard to database information.
-    var $State_;
-
 }
 
 ?>
