@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezlocale.php,v 1.42 2001/09/28 06:29:32 jhe Exp $
+// $Id: ezlocale.php,v 1.42.4.1 2001/10/26 10:55:36 ce Exp $
 //
 // Definition of eZLocale class
 //
@@ -159,7 +159,7 @@ class eZLocale
       If isShort is set to false then the long version of the string is used,
       if it exists.
     */
-    function &format( &$obj, $isShort = true )
+    function &format( &$obj, $isShort = true, $nbsp=true )
     {
         $returnString = "<b>Locale error</b>: object or type not supported.";
 
@@ -274,22 +274,34 @@ class eZLocale
                 {
                     if ( $this->NegativePrefixCurrencySymbol == "yes" )
                     {
-                        $value = "-&nbsp;" . $this->CurrencySymbol . "&nbsp;" . $value;
+                        if ( $nbsp == false )
+                            $value = "- " . $this->CurrencySymbol . " " . $value;
+                        else
+                            $value = "-&nbsp;" . $this->CurrencySymbol . "&nbsp;" . $value;
                     }
                     else
                     {
-                        $value = "-&nbsp;" . $value . "&nbsp;" . $this->CurrencySymbol;
+                        if ( $nbsp == false )
+                            $value = "- " . $value . " " . $this->CurrencySymbol;
+                        else
+                            $value = "-&nbsp;" . $value . "&nbsp;" . $this->CurrencySymbol;
                     }
                 }
                 else
                 {
                     if ( $this->PositivePrefixCurrencySymbol == "yes" )
                     {
-                        $value = $this->CurrencySymbol . "&nbsp;" . $value;
+                        if ( $nbsp == false )
+                            $value = $this->CurrencySymbol . " " . $value;
+                        else
+                            $value = $this->CurrencySymbol . "&nbsp;" . $value;
                     }
                     else
                     {
-                        $value = $value . "&nbsp;" . $this->CurrencySymbol;
+                        if ( $nbsp == false )
+                            $value = $value . " " . $this->CurrencySymbol;
+                        else
+                            $value = $value . "&nbsp;" . $this->CurrencySymbol;
                     }                    
                 }
 
@@ -300,6 +312,7 @@ class eZLocale
                 break;
             }
         }
+
         return $returnString;
     }
 
