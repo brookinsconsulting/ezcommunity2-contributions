@@ -2,11 +2,14 @@
 <!-- BEGIN article_list_tpl -->
 <table width="100%" cellspacing="0" cellpadding="2" border="0">
 <tr>
+	<td colspan="2" class="menuhead">{current_category_name}</td>
+</tr>
+<!-- BEGIN article_item_tpl -->
+<tr>
 	<td colspan="2">
 	<a class="path" href="/article/articleview/{article_id}/">{article_name}</a>
 	</td>
 </tr>
-<!-- BEGIN article_item_tpl -->
 <tr>
 	<td class="menutext" colspan="2">
 	{article_intro}

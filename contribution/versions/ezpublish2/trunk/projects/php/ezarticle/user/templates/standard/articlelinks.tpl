@@ -1,5 +1,8 @@
-
 <!-- BEGIN article_list_tpl -->
+<table width="100%" cellspacing="0" cellpadding="2" border="0">
+<tr>
+	<td colspan="2" class="menuhead">{current_category_name}</td>
+</tr>
 
 <!-- BEGIN article_item_tpl -->
 <tr>
@@ -8,4 +11,8 @@
 </tr>
 <!-- END article_item_tpl -->
 
+<tr>
+	<td colspan="2" class="menuspacer">&nbsp;</td>
+</tr>
+</table>
 <!-- END article_list_tpl -->

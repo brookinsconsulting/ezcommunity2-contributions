@@ -7,21 +7,21 @@
    	<!-- Oppslagstavle kommer her! -->
     
     <?
-          include( "ezuser/user/userbox.php" );
+        include( "ezuser/user/userbox.php" );
 	?>
 
     <?
-    $CategoryID = 1;
-          include( "ezarticle/user/smallarticlelist.php" );
+    	$CategoryID = 1;
+        include( "ezarticle/user/smallarticlelist.php" );
     ?>
 
 
     <?
-          include( "ezpoll/user/votebox.php" );
+        include( "ezpoll/user/votebox.php" );
     ?>
 
     <?
-          include( "ezquiz/user/menubox.php" );
+        include( "ezquiz/user/menubox.php" );
     ?>
         
 	<!-- Oppslagstavle fram til hit! -->
