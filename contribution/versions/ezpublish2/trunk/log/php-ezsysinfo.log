@@ -35,3 +35,13 @@ Maintainer(s) : vl@ez.no
       admin/intl/he_IL/netinfo.php.ini
       admin/intl/he_IL/sysinfo.php.ini: Added he_IL (Hebrew) translation
 
+
+Module : ezsysinfo
+Repository path : /home/cvsroot/projects/php/ezsysinfo
+Maintainer(s) : vl@ez.no
+2001-10-12  Sascha Frinken  <sascha@impetex.de>
+
+    * admin/datasupplier.php
+      admin/intl/en_GB/menubox.php.ini
+      admin/menubox.php: Added mygold design
+

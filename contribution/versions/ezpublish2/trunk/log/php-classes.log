@@ -231,3 +231,21 @@ Maintainer(s) : bf@ez.no
 
     * ezpublish.php: Version change.
 
+
+Module : classes
+Repository path : /home/cvsroot/projects/php/classes
+Maintainer(s) : bf@ez.no
+2001-10-12  Jakob Nielsen  <jakob.nielsen@nhst.no>
+
+    * INIFile.php: Added a ^ to the line
+
+    if( ereg( "\[([[:alnum:]]+)\]", $data, $out ) )
+
+    in parse_data. This will make sure that the the line only will be looked upon as a group if the line starts with a [. Without this fix you can't have the [....] brackets inside a string in the ini-files. Specially a problem in the language files.
+
+    So the line now looks like this:
+
+    if( ereg( "^\[([[:alnum:]]+)\]", $data, $out ) )
+
+    It is possible to make this regexp more advanced, but this will do it for now, I think!
+

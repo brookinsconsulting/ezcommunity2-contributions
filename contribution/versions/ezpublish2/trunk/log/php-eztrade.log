@@ -1155,3 +1155,42 @@ Maintainer(s) : ce@ez.no
       user/intl/de_MG/extendedsearch.php.ini
       user/intl/de_MG/vouchermain.php.ini: sf
 
+
+Module : eztrade
+Repository path : /home/cvsroot/projects/php/eztrade
+Maintainer(s) : ce@ez.no
+2001-10-12  Christoffer Elo  <ce@ez.no>
+
+    * user/orderlist.php
+      user/templates/mygold/orderlist.tpl: Fixed a ini bug
+
+2001-10-12  Sascha Frinken  <sascha@impetex.de>
+
+    * user/templates/mygold/orderlist.tpl
+      user/templates/mygold/orderview.tpl
+      user/templates/mygold/voucheremailsample.tpl
+      user/templates/mygold/voucherview.tpl: Added files
+
+2001-10-12  Christoffer Elo  <ce@ez.no>
+
+    * user/cart.php
+      user/checkout.php
+      user/templates/mygold/checkout.tpl
+      classes/ezcart.php
+      classes/ezproduct.php: Fixed some bugs.
+
+2001-10-12  Sascha Frinken  <sascha@impetex.de>
+
+    * user/datasupplier.php
+      user/intl/de_MG/productview.php.ini
+      user/intl/de_MG/voucherinformation.php.ini
+      user/templates/mygold/productview.tpl
+      user/templates/mygold/voucheremail.tpl
+      user/templates/mygold/vouchermain.tpl: Added mygold design
+
+2001-10-12  Christoffer Elo  <ce@ez.no>
+
+    * classes/ezoptionvalue.php: Fixed a bug
+
+    * user/productview.php: Don't show the value option price if its 0
+

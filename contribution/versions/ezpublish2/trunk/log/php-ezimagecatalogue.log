@@ -480,3 +480,16 @@ Maintainer(s) : br@ez.no
       user/intl/de_MG/menubox.php.ini
       user/templates/mygold/imageview.tpl: sf
 
+
+Module : ezimagecatalogue
+Repository path : /home/cvsroot/projects/php/ezimagecatalogue
+Maintainer(s) : br@ez.no
+2001-10-12  Bjoern Reiten  <br@ez.no>
+
+    * admin/unassigned.php:
+    fixed bug when assigning an image to a category. removed offset to array.
+
+2001-10-12  Christoffer Elo  <ce@ez.no>
+
+    * classes/ezimage.php: Fixed a bug
+

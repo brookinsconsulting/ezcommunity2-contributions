@@ -447,3 +447,12 @@ Maintainer(s) : jhe@ez.no
     * sql/mysql/ezforum.sql
       sql/postgresql/ezforum.sql: updated sql scheemas, ready for release
 
+
+Module : ezforum
+Repository path : /home/cvsroot/projects/php/ezforum
+Maintainer(s) : jhe@ez.no
+2001-10-12  Jo Henrik Endrerud  <jhe@ez.no>
+
+    * classes/ezforummessage.php
+      user/messageedit.php: fixed bug with slashs
+

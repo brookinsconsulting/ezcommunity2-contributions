@@ -1241,3 +1241,26 @@ Maintainer(s) : bf@ez.no
 
     * user/datasupplier.php: Layout
 
+
+Module : ezarticle
+Repository path : /home/cvsroot/projects/php/ezarticle
+Maintainer(s) : bf@ez.no
+2001-10-12  Sascha Frinken  <sascha@impetex.de>
+
+    * admin/intl/de_DE/articlepreview.php.ini
+      admin/intl/de_MG/articlepreview.php.ini
+      admin/intl/de_MG/menubox.php.ini
+      user/templates/mygold/articlelist.tpl
+      user/templates/mygold/articlestatic.tpl
+      user/templates/mygold/articleview.tpl
+      user/templates/mygold/sitemap.tpl: Added mygold design
+
+2001-10-12  Christoffer Elo  <ce@ez.no>
+
+    * user/frontpage.php: Fixed a bug
+
+2001-10-12  Bjoern Reiten  <br@ez.no>
+
+    * user/frontpage.php
+      user/templates/linmag/frontpage.tpl: Fixed support for ads.
+

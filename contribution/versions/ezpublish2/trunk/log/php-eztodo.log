@@ -104,3 +104,18 @@ Maintainer(s) : ce@ez.no
     * sql/mysql/eztodo.sql
       sql/postgresql/eztodo.sql: updated sql scheemes, ready for release
 
+
+Module : eztodo
+Repository path : /home/cvsroot/projects/php/eztodo
+Maintainer(s) : ce@ez.no
+2001-10-12  Jo Henrik Endrerud  <jhe@ez.no>
+
+    * user/todoedit.php
+      classes/ezcategory.php
+      classes/ezpriority.php
+      classes/ezstatus.php
+      classes/eztodo.php
+      classes/eztodolog.php: fixed a lots of bugs
+
+    * classes/eztodo.php: fixed bug if user is not logged in
+

@@ -60,3 +60,11 @@ Maintainer(s) : ce@ez.no
     * sql/mysql/ezaddress.sql
       sql/postgresql/ezaddress.sql: updated sql scheemes, ready for release
 
+
+Module : ezaddress
+Repository path : /home/cvsroot/projects/php/ezaddress
+Maintainer(s) : ce@ez.no
+2001-10-12  Christoffer Elo  <ce@ez.no>
+
+    * classes/ezaddress.php: Added a default ID value
+

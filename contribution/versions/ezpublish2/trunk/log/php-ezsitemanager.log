@@ -219,3 +219,14 @@ Maintainer(s) : vl@ez.no
       sql/postgresql/ezsitemanager.sql:
     updated sql scheemes, ready for release
 
+
+Module : ezsitemanager
+Repository path : /home/cvsroot/projects/php/ezsitemanager
+Maintainer(s) : vl@ez.no
+2001-10-12  Bjoern Reiten  <br@ez.no>
+
+    * admin/sectionedit.php
+      admin/templates/standard/sectionedit.tpl: removed unnecessarily code.
+
+    * admin/sectionedit.php: added choices for ads and 1short.
+

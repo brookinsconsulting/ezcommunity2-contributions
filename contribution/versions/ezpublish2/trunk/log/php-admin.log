@@ -68,3 +68,17 @@ Maintainer(s) : bf@ez.no
       images/button-folder-ro.gif
       images/button-folder.gif: New buttons
 
+
+Module : admin
+Repository path : /home/cvsroot/projects/php/admin
+Maintainer(s) : bf@ez.no
+2001-10-12  Sascha Frinken  <sascha@impetex.de>
+
+    * templates/ezpublish/header.tpl
+      header.php
+      intl/de_MG/header.php.ini: Added mygold design
+
+2001-10-12  Vlad Pavlenko  <vlad@epasaule.lv>
+
+    * loginheader.php: version on login screen
+

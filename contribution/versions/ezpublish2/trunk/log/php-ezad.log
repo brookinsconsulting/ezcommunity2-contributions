@@ -90,3 +90,13 @@ Maintainer(s) : br@ez.no
       sql/informix/ezad.sql
       sql/mysql/ezad.sql: updated sql scheemes, ready for release
 
+
+Module : ezad
+Repository path : /home/cvsroot/projects/php/ezad
+Maintainer(s) : br@ez.no
+2001-10-12  Bjoern Reiten  <br@ez.no>
+
+    * admin/adstatistics.php: set clickRevenue to 0 if clickCount is 0
+
+    * admin/adstatistics.php: fixed some bugs.
+

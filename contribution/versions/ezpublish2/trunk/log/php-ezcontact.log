@@ -293,3 +293,25 @@ Maintainer(s) : jhe@ez.no
     * sql/mysql/ezcontact.sql
       sql/postgresql/ezcontact.sql: updated sql scheemas, ready for release
 
+
+Module : ezcontact
+Repository path : /home/cvsroot/projects/php/ezcontact
+Maintainer(s) : jhe@ez.no
+2001-10-12  Jo Henrik Endrerud  <jhe@ez.no>
+
+    * admin/datasupplier.php
+      admin/folder.php
+      admin/personedit.php
+      user/datasupplier.php: small bugfixes
+
+    * admin/intl/en_GB/companyview.php.ini
+      admin/intl/en_GB/personview.php.ini
+      admin/intl/no_NO/companyview.php.ini
+      admin/intl/no_NO/personview.php.ini
+      admin/personedit.php
+      admin/personview.php
+      admin/templates/standard/companyview.tpl
+      admin/templates/standard/personview.tpl
+      classes/ezperson.php: small bugfixes
+    send mail button in contact view
+
