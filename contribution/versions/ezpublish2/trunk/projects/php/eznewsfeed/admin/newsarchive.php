@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: newsarchive.php,v 1.8 2000/11/27 15:34:52 bf-cvs Exp $
+// $Id: newsarchive.php,v 1.9 2000/11/29 17:59:28 bf-cvs Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <13-Nov-2000 16:56:48 bf>
@@ -116,11 +116,11 @@ else
 // news
 if ( $ShowUnPublished = "no" )
 {
-    $newsList = $category->newsList( "time", "no" );
+    $newsList =& $category->newsList( "time", "no" );
 }
 else
 {
-    $newsList = $category->newsList( "time", "only" );
+    $newsList =& $category->newsList( "time", "only" );
 }
 
 $locale = new eZLocale( $Language );

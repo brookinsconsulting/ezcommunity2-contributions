@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: unpublished.php,v 1.1 2000/11/29 17:42:17 bf-cvs Exp $
+// $Id: unpublished.php,v 1.2 2000/11/29 17:59:28 bf-cvs Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <29-Nov-2000 18:10:27 bf>
@@ -114,7 +114,7 @@ foreach ( $pathArray as $path )
     $t->parse( "path_item", "path_item_tpl", true );
 }
 
-$categoryList = $category->getByParent( $category, true );
+$categoryList =& $category->getByParent( $category, true );
 
 
 // categories
@@ -151,7 +151,7 @@ else
 
 
 // news
-$newsList = $category->newsList( "time", "only" );
+$newsList =& $category->newsList( "time", "only" );
 
 $locale = new eZLocale( $Language );
 $i=0;

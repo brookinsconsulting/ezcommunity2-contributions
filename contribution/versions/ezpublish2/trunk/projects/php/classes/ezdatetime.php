@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezdatetime.php,v 1.12 2000/11/15 14:04:15 bf-cvs Exp $
+// $Id: ezdatetime.php,v 1.13 2000/11/29 17:59:28 bf-cvs Exp $
 //
 // Definition of eZCompany class
 //
@@ -43,6 +43,7 @@
 
 /*!TODO
 */
+
 
 class eZDateTime
 {
@@ -229,6 +230,18 @@ class eZDateTime
     {
         $this->Second = $value;
         setType( $this->Second, "integer" );
+    }
+
+    /*!
+      Returns the date component of the date time object
+      as a eZDate object.
+    */
+    function &date()
+    {
+        include_once( "classes/ezdate.php" );
+
+        $date = new eZDate( $this->year(), $this->month(), $this->day() );
+        return $date;        
     }
     
     /*!

@@ -1,4 +1,4 @@
-<h1>Siste nytt</h1>
+<h1>{intl-latest_news}</h1>
 
 <hr noshade="noshade" size="4" />
 
@@ -55,7 +55,7 @@
 	<td align="center">
 	<form action="/newsfeed/search/" method="post">
 	<span class="path">Søk i nyhetsarkivet: </span><input type="text" name="SearchText" size="20" />	
-	<input type="submit" value="Søk!" />
+	<input type="submit" value="{search}" />
 	</form>
 	</td>
 </tr>

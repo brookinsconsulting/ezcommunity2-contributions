@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezlocale.php,v 1.11 2000/11/24 14:15:54 bf-cvs Exp $
+// $Id: ezlocale.php,v 1.12 2000/11/29 17:59:28 bf-cvs Exp $
 //
 // Definition of eZCompany class
 //
@@ -188,6 +188,7 @@ class eZLocale
                 break;
 
             }
+            
             case "ezdate" :
             {
                 $date = $this->DateFormat;
