@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eztemplate.php,v 1.41 2001/08/15 06:56:46 ce Exp $
+// $Id: eztemplate.php,v 1.42 2001/09/15 13:08:16 bf Exp $
 //
 // Definition of eZTemplate class
 //
@@ -664,6 +664,28 @@ class eZTemplate
             }
             return $result;
         }
+    }
+
+    /*!
+      Returns the contents of a template defined variable.
+      You can define variables in the template like this:
+      <!-- VAR VariableName=value -->
+
+      This is useful when using override templates and want to define some values
+      just for this template. These variables can be read from the script and override
+      the site.ini settings.
+
+      Returns the value if found else false is returned.
+    */
+    function &get_user_variable( $handle, $var )
+    {
+        $this->loadfile( $handle );
+        preg_match( "#<!--\s+VAR\s+$var=(.*?)\s+-->#", $this->varvals[$handle], $matches );
+        
+        if ( isset( $matches[1]  ) )
+            return $matches[1];
+        else
+            return false;                  
     }
   
     /*!
