@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezcountry.php,v 1.5 2001/01/22 14:43:00 jb Exp $
+// $Id: ezcountry.php,v 1.6 2001/01/23 11:24:19 jb Exp $
 //
 // Definition of eZCountry class
 //
@@ -39,7 +39,11 @@ class eZCountry
     */
     function eZCountry( $id="", $fetch=true )
     {
-        if ( $id != "" )
+        if ( is_array( $id ) )
+        {
+            $this->fill( $id );
+        }
+        else if ( $id != "" )
         {
 
             $this->ID = $id;
@@ -111,27 +115,81 @@ class eZCountry
             }
             else if ( count( $country_array ) == 1 )
             {
-                $this->ID =& $country_array[ 0 ][ "ID" ];
-                $this->ISO =& $country_array[ 0 ][ "ISO" ];
-                $this->Name =& $country_array[ 0 ][ "Name" ];
+                $this->fill( $country_array[0] );
             }
         }
     }
 
     /*!
-      Returns every country as a eZCountry object
+      Extracts the information from the array and puts it in the object.
     */
-    function &getAll( )
+    function fill( &$country_array )
+    {
+        $this->ID =& $country_array[ "ID" ];
+        $this->ISO =& $country_array[ "ISO" ];
+        $this->Name =& $country_array[ "Name" ];
+    }
+
+    /*!
+      Returns the total number of countries
+    */
+    function &getAllCount( $search = "" )
     {
         $db = eZDB::globalDatabase();
+
+        if ( !empty( $search ) )
+        {
+            $search_arg = "WHERE Name like '%$search%'";
+        }
+
+        $db->query_single( $countries, "SELECT count( ID ) as Count FROM eZContact_Country
+                                        $search_arg
+                                        ORDER BY Name" );
+        return $countries["Count"];
+    }
+
+    /*!
+      Returns every country as a eZCountry object
+    */
+    function &getAll( $as_object = true, $search = "", $offset = 0, $max = -1 )
+    {
+        $db = eZDB::globalDatabase();
+
         $country_array = 0;
         $return_array = array();
     
-        $db->array_query( $country_array, "SELECT * FROM eZContact_Country ORDER BY Name" );
-
-        foreach ( $country_array as $country )
+        if ( $max >= 0 && is_numeric( $offset ) && is_numeric( $max ) )
         {
-            $return_array[] = new eZCountry( $country["ID"] );
+            $limit = "LIMIT $offset, $max";
+        }
+
+        if ( !empty( $search ) )
+        {
+            $search_arg = "WHERE Name like '%$search%'";
+        }
+
+        if ( $as_object )
+            $select = "*";
+        else
+            $select = "ID";
+
+        $db->array_query( $country_array, "SELECT $select FROM eZContact_Country
+                                           $search_arg
+                                           ORDER BY Name $limit" );
+
+        if ( $as_object )
+        {
+            foreach ( $country_array as $country )
+            {
+                $return_array[] = new eZCountry( $country );
+            }
+        }
+        else
+        {
+            foreach ( $country_array as $country )
+            {
+                $return_array[] = $country["ID"];
+            }
         }
     
         return $return_array;
