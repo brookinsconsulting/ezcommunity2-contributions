@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: articlelist.php,v 1.32 2001/02/23 18:46:55 jb Exp $
+// $Id: articlelist.php,v 1.33 2001/02/26 20:29:37 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <18-Oct-2000 14:41:37 bf>
@@ -111,32 +111,36 @@ foreach ( $pathArray as $path )
 
 $categoryList = $category->getByParent( $category );
 
+$user =& eZUser::currentUser();
 
 // categories
 $i=0;
 $t->set_var( "category_list", "" );
 foreach ( $categoryList as $categoryItem )
 {
-    $t->set_var( "category_id", $categoryItem->id() );
+    if ( eZArticleCategory::hasReadPermission( $user, $categoryItem->id() ) == true )
+    {    
+        $t->set_var( "category_id", $categoryItem->id() );
+        
+        $t->set_var( "category_name", $categoryItem->name() );
+        
+        $parent = $categoryItem->parent();
+        
+        
+        if ( ( $i % 2 ) == 0 )
+        {
+            $t->set_var( "td_class", "bglight" );
+        }
+        else
+        {
+            $t->set_var( "td_class", "bgdark" );
+        }
 
-    $t->set_var( "category_name", $categoryItem->name() );
+        $t->set_var( "category_description", $categoryItem->description() );
 
-    $parent = $categoryItem->parent();
-    
-
-    if ( ( $i % 2 ) == 0 )
-    {
-        $t->set_var( "td_class", "bglight" );
+        $t->parse( "category_item", "category_item_tpl", true );
+        $i++;
     }
-    else
-    {
-        $t->set_var( "td_class", "bgdark" );
-    }
-
-    $t->set_var( "category_description", $categoryItem->description() );
-
-    $t->parse( "category_item", "category_item_tpl", true );
-    $i++;
 }
 
 if ( count( $categoryList ) > 0 )
@@ -172,68 +176,69 @@ $locale = new eZLocale( $Language );
 $i=0;
 $t->set_var( "article_list", "" );
 
-$user = eZUser::currentUser();
+
 foreach ( $articleList as $article )
 {
     // check if user has permission, if not break to next article.
     $aid = $article->id();
-    if( eZArticle::hasReadPermission( $user, $aid ) != true )
-        break;
-    
-    $t->set_var( "article_id", $article->id() );
-    $t->set_var( "article_name", $article->name() );
-
-    $t->set_var( "author_text", $article->authorText() );
-    
-    // preview image
-    $thumbnailImage = $article->thumbnailImage();
-    if ( $thumbnailImage )
+    if ( eZArticle::hasReadPermission( $user, $aid ) == true )
     {
-        $variation =& $thumbnailImage->requestImageVariation( $ini->read_var( "eZArticleMain", "ThumbnailImageWidth" ),
-                                                              $ini->read_var( "eZArticleMain", "ThumbnailImageHeight" ));
     
-        $t->set_var( "thumbnail_image_uri", "/" . $variation->imagePath() );
-        $t->set_var( "thumbnail_image_width", $variation->width() );
-        $t->set_var( "thumbnail_image_height", $variation->height() );
-        $t->set_var( "thumbnail_image_caption", $thumbnailImage->caption() );
+        $t->set_var( "article_id", $article->id() );
+        $t->set_var( "article_name", $article->name() );
 
-        $t->parse( "article_image", "article_image_tpl" );
-    }
-    else
-    {
-        $t->set_var( "article_image", "" );    
-    }
+        $t->set_var( "author_text", $article->authorText() );
     
+        // preview image
+        $thumbnailImage = $article->thumbnailImage();
+        if ( $thumbnailImage )
+        {
+            $variation =& $thumbnailImage->requestImageVariation( $ini->read_var( "eZArticleMain", "ThumbnailImageWidth" ),
+            $ini->read_var( "eZArticleMain", "ThumbnailImageHeight" ));
+    
+            $t->set_var( "thumbnail_image_uri", "/" . $variation->imagePath() );
+            $t->set_var( "thumbnail_image_width", $variation->width() );
+            $t->set_var( "thumbnail_image_height", $variation->height() );
+            $t->set_var( "thumbnail_image_caption", $thumbnailImage->caption() );
 
-    if ( ( $i % 2 ) == 0 )
-    {
-        $t->set_var( "td_class", "bglight" );
-    }
-    else
-    {
-        $t->set_var( "td_class", "bgdark" );
-    }
-
-    $published = $article->published();
-
-    $t->set_var( "article_published", $locale->format( $published ) );
+            $t->parse( "article_image", "article_image_tpl" );
+        }
+        else
+        {
+            $t->set_var( "article_image", "" );    
+        }
     
 
-    $renderer = new eZArticleRenderer( $article );
+        if ( ( $i % 2 ) == 0 )
+        {
+            $t->set_var( "td_class", "bglight" );
+        }
+        else
+        {
+            $t->set_var( "td_class", "bgdark" );
+        }
 
-    $t->set_var( "article_intro", $renderer->renderIntro(  ) );
+        $published = $article->published();
 
-    if ( $article->linkText() != "" )
-    {
-        $t->set_var( "article_link_text", $article->linkText() );
+        $t->set_var( "article_published", $locale->format( $published ) );
+    
+
+        $renderer = new eZArticleRenderer( $article );
+
+        $t->set_var( "article_intro", $renderer->renderIntro(  ) );
+
+        if ( $article->linkText() != "" )
+        {
+            $t->set_var( "article_link_text", $article->linkText() );
+        }
+        else
+        {
+            $t->set_var( "article_link_text", $DefaultLinkText );
+        }
+
+        $t->parse( "article_item", "article_item_tpl", true );
+        $i++;
     }
-    else
-    {
-        $t->set_var( "article_link_text", $DefaultLinkText );
-    }
-
-    $t->parse( "article_item", "article_item_tpl", true );
-    $i++;
 }
 
 eZList::drawNavigator( $t, $articleCount, $Limit, $Offset, "article_list_page_tpl" );
