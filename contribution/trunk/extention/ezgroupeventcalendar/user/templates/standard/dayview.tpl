@@ -10,7 +10,7 @@
 	<td valign="top" style="text-align: center; padding: 5px;">
 		<span>{intl-group}:</span><br />
 		<select class="gcalDayViewSelect" name="GetByGroupID">
-		<option value="0">{intl-def       ault}</option>
+		<option value="0">{intl-default}</option>
 		<!-- BEGIN group_item_tpl -->
 		<option {group_is_selected} value="{group_id}">{group_name}</option>
 		<!-- END group_item_tpl -->

@@ -56,7 +56,7 @@ switch ( $url_array[2] )
         $Month = $url_array[4];
         $Day = $url_array[5];
 
-        include( "ezgroupeventcalendar/user/dayview.php" );
+        include( "ezgroupeventcalendar/user/weekview.php" );
     }
     break;
     

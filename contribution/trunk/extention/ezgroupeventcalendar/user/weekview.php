@@ -1,9 +1,7 @@
 <?php
 // 
-// $Id: dayview.php,v 1.38 2001/03/12 13:55:47 fh Exp $
+// $Id: weekview.php
 //
-// Adam Fallert <FallertA@umsystem.edu>
-// Created on: <3-Oct-2001 14:36:00>
 //
 // This source file is part of eZ publish, publishing software.
 // Copyright (C) 1999-2001 eZ systems as
@@ -22,37 +20,14 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, US
 //
-// debug stuff
-require_once('Var_Dump.php');
-Var_Dump::displayInit(
-    array(
-        'display_mode' => 'HTML4_Table'
-    ),
-    array(
-        'show_caption'   => FALSE,
-        'bordercolor'    => '#DDDDDD',
-        'bordersize'     => '2',
-        'captioncolor'   => 'white',
-        'cellpadding'    => '4',
-        'cellspacing'    => '0',
-        'color1'         => '#FFFFFF',
-        'color2'         => '#F4F4F4',
-        'before_num_key' => '<font color="#CC5450"><b>',
-        'after_num_key'  => '</b></font>',
-        'before_str_key' => '<font color="#5450CC">',
-        'after_str_key'  => '</font>',
-        'before_value'   => '<i>',
-        'after_value'    => '</i>'
-    )
-);
-// end debug stuff
+
 include_once( "classes/INIFile.php" );
 include_once( "classes/eztemplate.php" );
 include_once( "classes/ezlog.php" );
 include_once( "classes/ezlocale.php" );
 
+include_once( "classes/ezdatetime.php" );
 include_once( "classes/ezdate.php" );
-include_once( "classes/eztime.php" );
 
 include_once( "ezuser/classes/ezusergroup.php" );
 include_once( "ezuser/classes/ezpermission.php" );
@@ -62,15 +37,24 @@ include_once( "ezgroupeventcalendar/classes/ezgroupeventtype.php" );
 include_once( "ezgroupeventcalendar/classes/ezgroupnoshow.php" );
 include_once( "ezgroupeventcalendar/classes/ezgroupeditor.php" );
 
-$ini =& $GLOBALS["GlobalSiteIni"];
-$SiteDesign = $ini->read_var( "site", "SiteDesign" );
+function shortenText($text, $chars=25) {
+  //$text = $text."||";
+  // print(strlen($text));
+  $text = substr($text,0,$chars);
+  //$text = substr($text,0,strrpos($text,'||'));
+  //  die($text);
+  $text .= "...";
 
-$Language = $ini->read_var( "eZGroupEventCalendarMain", "Language" );
-$StartTimeStr = $ini->read_var( "eZGroupEventCalendarMain", "DayStartTime" );
-$StopTimeStr = $ini->read_var( "eZGroupEventCalendarMain", "DayStopTime" );
-//$IntervalStr = $ini->read_var( "eZGroupEventCalendarMain", "DayInterval" );
-$IntervalStr = '00:15';
-$Locale = new eZLocale( $Language );
+  return $text;
+}
+
+$ini =& $GLOBALS["GlobalSiteIni"];
+
+$SiteDesign = $ini->read_var( "site", "SiteDesign" );
+$Language   = $ini->read_var( "eZGroupEventCalendarMain", "Language" );
+$Sitedesign = $ini->read_var( "site", "SiteDesign" );
+$TruncateTitle = $ini->read_var( "eZGroupEventCalendarMain", "TruncateTitle" );
+$Locale     = new eZLocale( $Language );
 
 $user = eZUser::currentUser();
 $session =& eZSession::globalSession();
@@ -80,8 +64,8 @@ $URL = split( "/", $REQUEST_URI );
 
 if( count( $URL ) <= 5 )
 {
-	if ( is_numeric( $URL[6] ) )
-		$groupID = $URL[6];
+	if ( is_numeric( $URL[3] ) )
+		$groupID = $URL[3];
 	else
 		$groupID = 0;
 }
@@ -95,16 +79,15 @@ if( !isset( $GetByGroup ) )
 	$GetByGroup = $groupID;
 
 if ( $GetByGroupID == false )
-	$GetByGroupID = $groupID;
+    $GetByGroupID = $groupID;
 
-$type = new eZGroupEventType( $Type );
 
 if ( ( $session->variable( "ShowOtherCalendarGroups" ) == false ) || ( isSet( $GetByGroup ) ) )
 {
     $session->setVariable( "ShowOtherCalendarGroups", $GetByGroupID );
 }
-$tmpGroup = new eZUserGroup( $session->variable( "ShowOtherCalendarGroups" ) );
 
+$eventGroup = new eZUserGroup( $session->variable( "ShowOtherCalendarGroups" ) );
 
 //Get the TYPE session data
 if ( ( $session->variable( "ShowOtherCalendarTypes" ) == false ) || ( isSet( $GetByTypeID ) ) )
@@ -114,6 +97,7 @@ if ( ( $session->variable( "ShowOtherCalendarTypes" ) == false ) || ( isSet( $Ge
 
 	$session->setVariable( "ShowOtherCalendarTypes", $GetByTypeID );
 }
+
 $type = new eZGroupEventType( $session->variable( "ShowOtherCalendarTypes" ) );
 
 if( !isSet( $GetByTypeID ) )
@@ -134,479 +118,287 @@ else
     $Day = $date->day();
 }
 
+$Week = date("W",$date->timestamp());
+
 $session->setVariable( "Year", $Year );
 $session->setVariable( "Month", $Month );
 $session->setVariable( "Day", $Day );
+$session->setVariable ( "Week", $Week );
 
-$zMonth = addZero( $Month );
-$zDay = addZero( $Day );
-$isMyCalendar = ( $userID && $userID == $GetByUserID )? "-private" : "";
+$zMonth = addZero($Month);
+$isMyCalendar = ( $groupID && $groupID == $GetByGroupID )? "-private" :"";
+
+
+
 $t = new eZTemplate( "ezgroupeventcalendar/user/" . $ini->read_var( "eZGroupEventCalendarMain", "TemplateDir" ),
-                     "ezgroupeventcalendar/user/intl", $Language, "dayview.php",
-                     "default", "ezgroupeventcalendar" . "/user", "$Year-$zMonth-$zDay-$GetByUserID".$isMyCalendar );
+                     "ezgroupeventcalendar/user/intl", $Language, "weekview.php",
+                     "default", "ezgroupeventcalendar" . "/user", "$Year-$zMonth-$Day-$GetByGroupID" . $isMyCalendar );
 
-$t->set_file( "day_view_page_tpl", "dayview.tpl" );
+$t->set_file( "week_view_page_tpl", "weekview.tpl" );
+$nextDate = $date;
+$prevDate = $date;
+    // next previous values.
+$nextDate->move(0, 0, 7);
+$prevDate->move(0, 0, -7);
+$t->set_var( "next_year_number", $nextDate->year() );
+$t->set_var( "next_day_number", $nextDate->day() );
+$t->set_var( "next_month_number",$nextDate->month() );
+$t->set_var( "prev_year_number", $prevDate->year() );
+$t->set_var( "prev_day_number", $prevDate->day() );
+$t->set_var( "prev_month_number", $prevDate->month() );
+
+// group not to include
+$noShowGroup = new eZGroupNoShow();
 
 $user_groupID = "-1";
 $groupsList   = "-1";
 
-// groups not to include
-$noShowGroup = new eZGroupNoShow();
-
-// Determin the users group membership and access
+// retreive all the groups the user is a member of
 if( $user )
 {
+	// if the user has root access, then the user has access to all groups
 	if( $user->hasRootAccess() == true || eZPermission::checkPermission( $user, "eZGroupEventCalendar", "WriteToRoot" ) )
 	{
-		$groups = new eZUserGroup();
+		$groups     = new eZUserGroup();
 		$groupsList = $groups->getAll( true );
 		$rootAccess = true;
 	}
 	else
 		$groupsList = $user->groups();
+}
 
+$permission = new eZGroupEditor();
 
-	$permission = new eZGroupEditor();
-
-	// Determin if the user get the time stamps as "new event" links or not
-	if( $permission->hasEditPermission( $user->id(), $tmpGroup->id() ) == true || $rootAccess == true )
-		$editor = true;
-	elseif( $permission->getByGroup( $tmpGroup->id() ) == false )
+// Determin if the user get the time stamps as "new event" links or not
+if( $user )
+	if( $permission->hasEditPermission( $user->id(), $eventGroup->id() ) == true || $rootAccess == true )
+		$new_event_link = true;
+	elseif( $permission->getByGroup( $eventGroup->id() ) == false )
 	{
 		foreach( $groupsList as $groups )
 		{
 			if( $permission->groupHasEditor( $groups->id() ) == false && $noShowGroup->groupEntry( $groups->id() ) == false )
 			{
-				if( $tmpGroup->id() != 0 && $groups->id() == $tmpGroup->id() )
+				if( $eventGroup->id() != 0 && $groups->id() == $eventGroup->id() )
 				{
-					$editor = true;
+					$new_event_link = true;
 					break;
 				}
-				elseif( $tmpGroup->id() == 0 )
+				elseif( $eventGroup->id() == 0 )
 				{
-					$editor = true;
-					break;				
+					$new_event_link = true;
+					break;
 				}
 			}
 		}
 	}
-}
 
-//if ( $t->hasCache() && !isSet( $GetByGroup ) )
+//if ( $t->hasCache() )
 //{
-   // print( "cached and $GetByGroup<br />" );
-   // print( $t->cache() );
+//    print( "cached<br />" );
+//    print( $t->cache() );
 //}
 //else
 //{
 //    print( "not cached<br />" );
     $t->setAllStrings();
 
-    $t->set_block( "day_view_page_tpl", "group_item_tpl", "group_item" );
-	$t->set_block( "day_view_page_tpl", "type_item_tpl", "type_item" );
-	$t->set_block( "day_view_page_tpl", "group_print_tpl", "group_print" );
-	$t->set_block( "day_view_page_tpl", "time_display_tpl", "time_display");
-    $t->set_block( "day_view_page_tpl", "time_table_tpl", "time_table" );
-	$t->set_block( "day_view_page_tpl", "valid_editor_tpl", "valid_editor" );
-    $t->set_block( "time_table_tpl", "no_event_tpl", "no_event" );
-    $t->set_block( "time_table_tpl", "private_event_tpl", "private_event" );
-    $t->set_block( "time_table_tpl", "public_event_tpl", "public_event" );
-    $t->set_block( "time_display_tpl", "new_event_link_tpl", "new_event_link" );
-    $t->set_block( "time_display_tpl", "no_new_event_link_tpl", "no_new_event_link" );
-    $t->set_block( "public_event_tpl", "delete_check_tpl", "delete_check" );
-    $t->set_block( "public_event_tpl", "no_delete_check_tpl", "no_delete_check" );
-    $t->set_block( "day_view_page_tpl", "week_tpl", "week" );
+    $t->set_block( "week_view_page_tpl", "group_item_tpl", "group_item" );
+	$t->set_block( "week_view_page_tpl", "type_item_tpl", "type_item" );
+	$t->set_block( "week_view_page_tpl", "group_print_tpl", "group_print" );
+    $t->set_block( "week_view_page_tpl", "week_tpl", "week" );
+    $t->set_block( "week_view_page_tpl", "new_event_form_tpl", "new_event_form" );
+    $t->set_block( "week_tpl", "week_day_tpl", "week_day" );
     $t->set_block( "week_tpl", "day_tpl", "day" );
-    $t->set_block( "week_tpl", "empty_day_tpl", "empty_day" );
-    $t->set_block( "day_view_page_tpl", "day_links_tpl", "day_links" );
+
+    $t->set_block( "day_tpl", "day_link_tpl", "day_link" );
+    $t->set_block( "day_tpl", "day_no_link_tpl", "day_no_link" );
+
+    $t->set_block( "day_tpl", "public_appointment_tpl", "public_appointment" );
+    $t->set_block( "day_tpl", "private_appointment_tpl", "private_appointment" );
+    $t->set_block( "day_tpl", "new_event_link_tpl", "new_event_link" );
+    $t->set_block( "day_tpl", "no_new_event_link_tpl", "no_new_event_link" );
 
     $t->set_var( "sitedesign", $SiteDesign );
-	$t->set_var( "month_number", $Month );
-    $t->set_var( "year_number", $Year );
-    $t->set_var( "day_number", $Day );
-    $t->set_var( "long_date", $Locale->format( $date, false ) );
+	$t->set_var( "month_name", $Locale->monthName( $date->monthName(), false ) );
+    $t->set_var( "month_number", $Month );
+    $t->set_var( "current_year_number", $Year );
+    $t->set_var( "week", "" );
+	$t->set_var( "sitedesign", $Sitedesign );
+    $t->set_var("date_month", $date->month());
+    $t->set_var("date_year", $date->year());
+    $t->set_var("date_day", $date->day());
+    $t->set_var( "week_num", $Week );
 
 
-	if ( $tmpGroup->id() != 0 )
-	{
-		$t->set_var( "group_print_name", $tmpGroup->name() );
-		$t->set_var( "group_print_id", $tmpGroup->id() );
-		$t->parse( "group_print", "group_print_tpl", true );
-	}
-	else
-	{
-		$t->set_var( "group_print_id", $tmpGroup->id() );
-		$t->set_var( "group_print", "" );
-	}
-
-/*    if( $editor == true && $tmpTime->minute() == '00' )
+	if( $new_event_link == true )
 	{
 		$t->parse( "new_event_link", "new_event_link_tpl" );
+		$t->parse( "new_event_form", "new_event_form_tpl" );
 		$t->set_var( "no_new_event_link", "" );
 	}
 	else
 	{
 		$t->parse( "no_new_event_link", "no_new_event_link_tpl" );
+		$t->set_var( "new_event_form", "" );
 		$t->set_var( "new_event_link", "" );
+	}
+
+
+	if ( $eventGroup->id() != 0 )
+	{
+		$t->set_var( "group_print_name", $eventGroup->name() );
+		$t->set_var( "group_print_id", $eventGroup->id() );
+		$t->parse( "group_print", "group_print_tpl", true );
 	}
 	else
 	{
-		$t->set_var( "no_new_event_link", "" );
-		$t->set_var( "new_event_link", "" );
-	}*/
+		$t->set_var( "group_print", "" );
+	}
+
+    // Draw the week day header.
+    $headerDate = new eZDate();
+    $headerDate->setYear( 2001 );
+    if ( $Locale->mondayFirst() )
+    {
+        // January 2001 starts on a Monday
+        $headerDate->setMonth( 1 );
+    }
+    else
+    {
+        // April 2001 starts on a Sunday
+        $headerDate->setMonth( 4 );
+    }
+
+    for ( $week_day=1; $week_day<=7; $week_day++ )
+    {
+        $headerDate->setDay( $week_day );
+        $t->set_var( "week_day_name", $Locale->dayName( $headerDate->dayName( $Locale->mondayFirst() ), false ) );
+
+        $t->parse( "week_day", "week_day_tpl", true );
+    }
 
     $today = new eZDate();
-    $tmpDate = new eZDate( $date->year(), $date->month(), $date->day() );
+    $tmpDate = new eZDate();
     $tmpGroupEvent = new eZGroupEvent();
 
-	// Fetch all the events for day
-	if( $tmpGroup->id() == 0 && $type->id() == 0)
-		$events =& $tmpGroupEvent->getAllByDate( $tmpDate, true );
-	// Fetch all appointments by type
-	elseif( $tmpGroup->id() == 0 && $type->id() != 0 )
-		$events =& $tmpGroupEvent->getAllByType( $tmpDate, $type, true );
-	// Fetch all appointments by Group and Type
-	elseif( $tmpGroup->id() != 0 && $type->id() != 0 )
-		$events =& $tmpGroupEvent->getByGroupType( $tmpDate, $tmpGroup, $type, true );
-	// Fetch all appointments by Group
-	else
-		$events =& $tmpGroupEvent->getByDate( $tmpDate, $tmpGroup, true );
-    // set start/stop and interval times
-    $startTime = new eZTime();
-    $stopTime = new eZTime();
-    $interval = new eZTime();
-
-    if ( preg_match( "#(^([0-9]{1,2})[^0-9]{0,1}([0-9]{0,2})$)#", $StartTimeStr, $startArray ) )
+ /*   for ( $week=0; $week<7; $week++ )
     {
-        $hour = $startArray[2];
-        $startTime->setHour( $hour );
-
-        $min = $startArray[3];
-        $startTime->setMinute( $min );
-
-        $startTime->setSecond( 0 );
-    }
-
-    if ( preg_match( "#(^([0-9]{1,2})[^0-9]{0,1}([0-9]{0,2})$)#", $StopTimeStr, $stopArray ) )
-    {
-        $hour = $stopArray[2];
-        $stopTime->setHour( $hour );
-
-        $min = $stopArray[3];
-        $stopTime->setMinute( $min );
-
-        $stopTime->setSecond( 0 );
-    }
-
-    if ( preg_match( "#(^([0-9]{1,2})[^0-9]{0,1}([0-9]{0,2})$)#", $IntervalStr, $intervalArray ) )
-    {
-        $hour = $intervalArray[2];
-        $interval->setHour( $hour );
-
-        $min = $intervalArray[3];
-        $interval->setMinute( $min );
-
-        $interval->setSecond( 0 );
-    }
-    $dayArray = array('Monday', 'Tuesday', 'Wedensday', 'Thursday', 'Friday', 'Saturday', 'Sunday');
-
-    foreach ($dayArray as $dayname)
-    {
-     $shortDayName = strtolower(substr($dayname, 0, 3));
-     $dayDistance = getDayDiff($date->dayName(false), $shortDayName);
-     $compDate = $date;
-     $compDate->move(0,0, $dayDistance);
-     $t->set_var("top_day_number", $compDate->day() );
-     $t->set_var("top_month_number", $compDate->month() );
-     $t->set_var("top_year_number", $compDate->year() );
-     $t->set_var("day_name", $dayname);
-     if ( $date->dayName(true) == $shortDayName )
-      $t->set_var("class_name", 'gcalDayViewTopBarSelect');
-     else
-      $t->set_var("class_name", 'gcalDayViewTopBar');
-     $t->parse("day_links","day_links_tpl", true);
-    }
-   //  Var_Dump::display($intervalArray);
-    // increase schedule span to fit early/late events
-    $midNight = new eZTime();
-    $midNight->setSecondsElapsed( 0 );
-    $lastInterval = $midNight->subtract( $interval );
-    $firstInterval = $midNight->add( $interval );
-
-    foreach ( $events as $event )
-    {
-        $appStartTime =& $event->startTime();
-        $appStopTime =& $event->stopTime();
-
-        if ( $appStartTime->isGreater( $firstInterval ) )
-            $startTime = $midNight;
-
-        while ( $appStartTime->isGreater( $startTime ) )
+        $t->set_var( "day", "" );
+    */
+ /*       if ( ( ( $week * 7 ) - $firstDay + 1 ) < ( $date->daysInMonth()  ) )
         {
-            $startTime = $startTime->subtract( $interval );
-        }
-
-        if ( $lastInterval->isGreater( $appStopTime ) )
-            $stopTime = new eZTime( 23, 59 );
-
-        while ( $stopTime->isGreater( $appStopTime ) )
-        {
-            $stopTime = $stopTime->add( $interval );
-        }
-    }
-    
-    for ($i=$startTime->hour();$i<=$stopTime->hour();$i++)
- {
-  $t->set_var("short_time", $i . ':00');
-
- if ($editor == true)
- {
- 	$t->parse( "new_event_link", "new_event_link_tpl" );
-	$t->set_var( "no_new_event_link", "" );
- }
- else
- {
-	$t->parse( "no_new_event_link", "no_new_event_link_tpl" );
-	$t->set_var( "new_event_link", "" );
- }
-   $t->parse("time_display", "time_display_tpl", true);
- }
-
-    // places events into columns, creates extra columns as necessary
-    $numRows = 0;
-    $numCols = 1;
-    $tableCellsId = array();       // appointmend id for a cell
-    $tableCellsRowSpan = array();  // rowspan for a cell
-    $colTaken = array();           // number of non free rows in the current column, after the last event. 0 means col free.
-    $emptyRows = array();          // number of empty rows in the current column, after the last event
-    $eventDone = array();          // true when the event has been inserted into the table
-    $tmpTime = new eZTime();
-    $tmpTime->setSecondsElapsed( $startTime->secondsElapsed() );
-    while ( $tmpTime->isGreater( $stopTime ) == true )
-    {
-        $numRows++;
-        $tableCellsId[$numRows-1] = array();
-        $tableCellsRowSpan[$numRows-1] = array();
-
-        // marks cells as taken, -1
-        for ( $col=0; $col<$numCols; $col++ )
-        {
-            if ( $colTaken[$col] > 0 )
+            $date->setDay( 1 );
+            $firstDay = $date->dayOfWeek( $Locale->mondayFirst() );
+   */
+          $tmpMove = moveToWeekBegin($date, $Locale->mondayFirst());
+            $date->move(0,0, -$tmpMove);
+            for ( $day=1; $day<=7; $day++ )
             {
-                $tableCellsId[$numRows-1][$col] = -1;
-            }
-        }
 
-        foreach ( $events as $event )
-        {
-            // avoid wrapping around midnight
-            $nextInterval = $tmpTime->add( $interval );
-            if ( $nextInterval->isGreater( $tmpTime ) )
-                $nextInterval = new eZTime( 23, 59 );
+                    // fetch the appointments for today
+                    $tmpDate->setYear( $date->year() );
+                    $tmpDate->setMonth( $date->month() );
+                    $tmpDate->setDay( $date->day() );
 
-            // if this event should be inserted into the table now
-            if ( $eventDone[$event->id()] == false &&
-                 intersects( $event, $tmpTime, $nextInterval ) == true )
-            {
-                $foundFreeColumn = false;
-                $col = 0;
-                while ( $foundFreeColumn == false  )
-                {
-                    // the column is free, insert event here
-                    if ( $tableCellsId[$numRows-1][$col] == 0 )
-                    {
-                        $tableCellsId[$numRows-1][$col] = $event->id();
-                        $tableCellsRowSpan[$numRows-1][$col] = eventRowSpan( $event, $tmpTime, $interval );
-                        $colTaken[$col] = $tableCellsRowSpan[$numRows-1][$col];
-                        $eventDone[$event->id()] = true;
-                        $foundFreeColumn = true;
+					// Fetch all the appointments
+					if( $eventGroup->id() == 0 && $type->id() == 0)
+						$appointments =& $tmpGroupEvent->getAllByDate( $tmpDate, true );
+					// Fetch all appointments by type
+					elseif( $eventGroup->id() == 0 && $type->id() != 0 )
+						$appointments =& $tmpGroupEvent->getAllByType( $tmpDate, $type, true );
+					// Fetch all appointments by Group and Type
+					elseif( $eventGroup->id() != 0 && $type->id() != 0 )
+						$appointments =& $tmpGroupEvent->getByGroupType( $tmpDate, $eventGroup, $type, true );
+					// Fetch all appointments by Group
+					else
+						$appointments =& $tmpGroupEvent->getByDate( $tmpDate, $eventGroup, true );
+
+                    $t->set_var( "public_appointment", "" );
+                    $t->set_var( "private_appointment", "" );
 
 
-                        // if we created a new column, mark leading empty spaces
-                        if ( $col >= $numCols )
-                            $emptyRows[$col] = $numRows - 1;
 
-                        if ( $emptyRows[$col] > 0 )
+
+               foreach ( $appointments as $appointment )
+              {
+		      // kracker : trim apointment name to keep the calendar easy to read
+		      $appointmentName = $appointment->name();
+				$t->set_var ( "appointment_name", $appointmentName );
+				$t->set_var ( "appointment_full_name", $appointmentName );
+				$t->set_var ( "appointment_id" , $appointment->id() );
+                $t->set_var ( "event_description", $appointment->description() );
+                $eStartTime = $appointment->startTime();
+                $eStopTime = $appointment->stopTime();
+                $event_start_time = addZero($eStartTime->hour()) . ':'. addZero( $eStartTime->minute() );
+                $event_stop_time =  addZero($eStopTime->hour()) . ':'. addZero( $eStopTime->minute() );
+                $t->set_var ( "event_start_time", $event_start_time  );
+                $t->set_var ( "event_stop_time", $event_stop_time );
+						if( $groupsList != "-1" )
+						{
+							foreach ( $groupsList as $groups )
+							{
+								//If the user has a matching group set their group id to the matching group else there group id will be -1.
+								if( $appointment->groupID() == $groups->id() )
+								{
+									$user_groupID = $groups->id();
+									break;
+								}
+							}
+						}
+
+						$groupName = new eZUserGroup( $appointment->groupID() );
+						$t->set_var ( "appointment_group", $groupName->name() );
+
+                        if ( ( $appointment->isPrivate() == true && $user_groupID == $appointment->groupID() ) || ( $appointment->isPrivate() == true && eZPermission::checkPermission( $user, "eZGroupEventCalendar", "Read" ) ) || $appointment->isPrivate() == false )
                         {
-                            $tableCellsId[ $numRows - 1 - $emptyRows[$col] ][$col] = -2;
-                            $tableCellsRowSpan[ $numRows - 1 - $emptyRows[$col] ][$col] = $emptyRows[$col];
-                            $emptyRows[$col] = 0;
+                            $t->parse( "public_appointment", "public_appointment_tpl", true );
+                        }
+                        else
+                        {
+                            $t->parse( "private_appointment", "private_appointment_tpl", true );
                         }
                     }
 
-                    // the column was not free, try the next one
-                    $col++;
-                    if ( $col > $numCols )
-                        $numCols++;
-                }
+                    $t->set_var( "day_number", $currentDay );
+                    $t->set_var( "month_number_p", $Month );
+                    $t->set_var( "year_number", $Year );
+
+		    $t->set_var( "day_link", "" );
+
+		// if ( count($appointments) > 0 && $day_loop_count < 30 )
+		//  print(count($appointments) ." | $a1 |" ."<br />\n");
+
+		// print(count($appointments) ." | $a1 |" ."<br />\n");
+		// print(count($appointments) ."<br />\n");
+		
+		$day_appointment_count = count($appointments);
+		$day_appointment_day = $currentDay;
+
+		if ( $day_appointment_count > 0 ) { 
+		  // needs calculation to say start / end of month begin / reached, note that items on the
+		  // first and last few days of every month do not render their events only within the 
+		  // calendar's current month (? bug, negative feature), this is a hack fix to prevent 
+		  // the display of the links to days without events.
+		  if ( $day_appointment_count > 0 && $day_loop_count <= 33 ){  
+		    // print("Rare:  $day_appointment_day | $day_appointment_count | $day_loop_count <br />");
+                    $t->set_var( "day_no_link", "" );
+                    $t->parse( "day_link", "day_link_tpl" );
+		  } else {   
+		    // print("Rare2:  $day_appointment_day | $day_appointment_count | $day_loop_count <br />");
+
+		    $t->set_var( "day_link", "" );
+		    $t->parse( "day_no_link", "day_no_link_tpl" );
+		  }
+		} else {
+		  $t->set_var( "day_link", "" );
+		  $t->parse( "day_no_link", "day_no_link_tpl" );
+		  }
+
+          $t->parse( "day", "day_tpl", true );
+          $date->move(0,0,1);
             }
-        }
-
-        // decrease/increase counts as we move down
-        for ( $col=0; $col<$numCols; $col++ )
-        {
-            if ( $colTaken[$col] > 0 )
-            {
-                $colTaken[$col]--;
-            }
-
-            if ( $tableCellsId[$numRows-1][$col] == 0 )
-            {
-                $emptyRows[$col]++;
-            }
-        }
-
-        if ( $tmpTime > $tmpTime->add( $interval ) )
-            $tmpTime = new eZTime( 23, 59 );
-        else
-            $tmpTime = $tmpTime->add( $interval );
-    }
-
-    // mark remaining empty spaces as empty, -2
-    for ( $col=0; $col<$numCols; $col++ )
-    {
-        if ( $emptyRows[$col] > 0 )
-        {
-            $tableCellsId[ $numRows - $emptyRows[$col] ][$col] = -2;
-            $tableCellsRowSpan[ $numRows - $emptyRows[$col] ][$col] = $emptyRows[$col];
-        }
-    }
-
-
-    // prints out the time table
-    $emptyDone = false;
-    $now = new eZTime();
-    $nowSet = false;
-    $row = 0;
-    $tmpTime = new eZTime();
-    $tmpTime->setSecondsElapsed( $startTime->secondsElapsed() );
-    while ( $tmpTime->isGreater( $stopTime, true ) == true )
-    {
-    // spectrum : this if block is a way to get the 23rd hour displayed
-   //     if ($tmpTime->hour() == 22 && $toggle23) $tmpTime = $tmpTime->add( $interval );
-    //	$t->set_var( "short_time", $Locale->format( $tmpTime, true ) );
-        $t->set_var( "start_time", addZero( $tmpTime->hour() ) . addZero( $tmpTime->minute() ) );
-
-        $drawnColumn = array();
-
-        $t->set_var( "public_event", "" );
-        $t->set_var( "private_event", "" );
-        $t->set_var( "no_event", "" );
-        $t->set_var( "delete_check", "" );
-
-        for ( $col=0; $col<$numCols; $col++ )
-        {
-            $eventId      = $tableCellsId[$row][$col];
-			$event_editor = false;
-			$groupMember  = false;
-
-            // an event
-            if ( $eventId > 0 )
-            {
-                $event = new eZGroupEvent( $eventId );
-
-				if( $rootAccess == true )
-				{
-					$groupMember = true;
-				}
-				elseif( $groupsList != "-1" && $rootAccess == false )
-				{
-					foreach ( $groupsList as $groups )
-					{
-						//If the user has a matching group set their group id to the matching group else there group id will be -1.
-						if( $event->groupID() == $groups->id() )
-						{
-							$user_groupID = $groups->id();
-							$groupMember = true;
-							break;
-						}
-					}
-				}
-
-				// Determine editing permissions for mixed group dayviews
-				if( $groupMember == true && $editor == true )
-				{
-					$event_editor = true;
-				}
-
-
-				$group = new eZUserGroup( $event->groupID() );
-				$t->set_var( "event_groupName", $group->name() );
-
-                // a private event
-                if ( $event->isPrivate() == true && $groupMember != true && !eZPermission::checkPermission( $user, "eZGroupEventCalendar", "Read" ) )
-                {
-                    $t->set_var( "td_class", "bgdark" );
-                    $t->set_var( "rowspan_value", $tableCellsRowSpan[$row][$col] );
-
-                    $t->parse( "private_event", "private_event_tpl", true );
-                }
-                // a public event or a private event that a non group member can read
-                elseif( $event->isPrivate() == false || ( $event->isPrivate() == true && eZPermission::checkPermission( $user, "eZGroupEventCalendar", "Read" ) ) )
-                {
-                    $t->set_var( "td_class", "bgdark" );
-                    $t->set_var( "rowspan_value", $tableCellsRowSpan[$row][$col] );
-                    $t->set_var( "event_id", $event->id() );
-                    $t->set_var( "event_name", $event->name() );
-                    $t->set_var( "event_description", $event->description(false) );
-                    $t->set_var( "edit_button", "Edit" );
-                    $eventDivHeight = getEventHeight( $event );
-                    $t->set_var( "event_div_height", $eventDivHeight );
-					$permission = new eZGroupEditor();
-					if( $event_editor == true )
-					{
-						$t->parse( "delete_check", "delete_check_tpl" );
-						$t->set_var( "no_delete_check", "" );
-					}
-					else
-					{
-						$t->parse( "no_delete_check", "no_delete_check_tpl" );
-						$t->set_var( "delete_check", "" );
-					}
-
-                    $t->parse( "public_event", "public_event_tpl", true );
-                }
-            }
-
-            // an empty space
-            else if ( $eventId == -2 )
-            {
-                $t->set_var( "td_class", "bgweekend" );
-                $t->set_var( "rowspan_value", $tableCellsRowSpan[$row][$col] );
-
-                $t->parse( "no_event", "no_event_tpl", true );
-            }
-        }
-
-        $t->set_var( "td_class", "" );
-// Mark current time with bgcurrent. Does not currently go well together with caching.
-//        if ( $date->equals( $today ) && $nowSet == false &&
-//        $tmpTime->isGreater( $now, true ) && $now->isGreater( $tmpTime->add( $interval ) ) )
-//        {
-//            $t->set_var( "td_class", "bgcurrent" );
-//            $nowSet = true;
-//        }
-//        if ( !isset($toggle23) )
-//	    $toggle23 = false;
-     //   if ( $tmpTime > $tmpTime->add( $interval ) )
-   //         $tmpTime = new eZTime( 23, 59 );
-	// this elseif block is a hack to get isGreater to display the 23rd hour
-//        elseif ($stopTime->hour() == 23 && $tmpTime->hour() == 22 && $toggle23 == false)
-//	    $toggle23 = true;
-//	else
-            $tmpTime = $tmpTime->add( $interval );
-
-	$row++;
-
-		if ( ( $i %2 ) == 0 )
-			$t->set_var( "td_class", "bglight" );
-		else
-			$t->set_var( "td_class", "bgdark" );
-
-		$i++;
-//	if ($i > 30) die();
-        $t->parse( "time_table", "time_table_tpl", true );
-    }
+        $t->parse( "week", "week_tpl", true );
 
     // group list
     $group = new eZUserGroup();
@@ -619,12 +411,12 @@ if( $user )
 			$t->set_var( "group_id", $groupItem->id() );
 			$t->set_var( "group_name", $groupItem->Name() );
 
-			if ( $tmpGroup->id() == $groupItem->id() )
+			if ( $eventGroup->id() == $groupItem->id() )
 			{
-				$t->set_var( "selected_group_id", $tmpGroup->id() );
+				$t->set_var( "selected_group_id", $eventGroup->id() );
 				$t->set_var( "group_is_selected", "selected" );
 			}
-			elseif ( $tmpGroup->id() == 0 )
+			elseif ( $eventGroup->id() == 0 )
 				$t->set_var( "selected_group_id", 0 );
 			else
 				$t->set_var( "group_is_selected", "" );
@@ -652,188 +444,8 @@ if( $user )
 		$t->parse( "type_item", "type_item_tpl", true );
 	}
 
-	if( $editor == true )
-		$t->parse( "valid_editor", "valid_editor_tpl", true );
-	else
-		$t->set_var( "valid_editor", "" );
-
-    // previous day link
-    $date->setYear( $Year );
-    $date->setMonth( $Month );
-
-    $date->setDay( $Day - 1 );
-    if ( $date->day() < 1 )
-    {
-        $date->setMonth( $Month - 1 );
-        if ( $date->month() < 1 )
-        {
-            $date->setMonth( 12 );
-            $date->setYear( $Year - 1 );
-        }
-        $date->setDay( $date->daysInMonth() );
-    }
-    $t->set_var( "pd_year_number", $date->year() );
-    $t->set_var( "pd_month_number", $date->month() );
-    $t->set_var( "pd_day_number", $date->day() );
-
-    // next day link
-    $date->setYear( $Year );
-    $date->setMonth( $Month );
-
-    $date->setDay( $Day + 1 );
-    if ( $date->day() > $date->daysInMonth() )
-    {
-        $date->setDay( 1 );
-        $date->setMonth( $Month + 1 );
-        if ( $date->month() > 12 )
-        {
-            $date->setMonth( 1 );
-            $date->setYear( $Year + 1 );
-        }
-    }
-    $t->set_var( "nd_year_number", $date->year() );
-    $t->set_var( "nd_month_number", $date->month() );
-    $t->set_var( "nd_day_number", $date->day() );
-
-    // previous month link
-    $date->setYear( $Year );
-    $date->setDay( $Day );
-
-    $date->setMonth( $Month - 1 );
-    if ( $date->month() < 1 )
-    {
-        $date->setMonth( 12 );
-        $date->setYear( $Year - 1 );
-    }
-    if ( $date->day() > $date->daysInMonth() )
-        $date->setDay( $date->daysInMonth() );
-    $t->set_var( "pm_year_number", $date->year() );
-    $t->set_var( "pm_month_number", $date->month() );
-    $t->set_var( "pm_day_number", $date->day() );
-
-    // next month link
-    $date->setYear( $Year );
-    $date->setDay( $Day );
-
-    $date->setMonth( $Month + 1 );
-    if ( $date->month() > 12 )
-    {
-        $date->setMonth( 1 );
-        $date->setYear( $Year + 1 );
-    }
-    if ( $date->day() > $date->daysInMonth() )
-        $date->setDay( $date->daysInMonth() );
-    $t->set_var( "nm_year_number", $date->year() );
-    $t->set_var( "nm_month_number", $date->month() );
-    $t->set_var( "nm_day_number", $date->day() );
-
-
-    // parse month table
-    $date->setYear( $Year );
-    $date->setMonth( $Month );
-    $date->setDay( $Day );
-
-    $t->set_var( "month_number", $date->month() );
-    $t->set_var( "month_name", $Locale->monthName( $date->monthName(), false ) );
-
-    $t->set_var( "week", "" );
-    for ( $week=0; $week<6; $week++ )
-    {
-        $t->set_var( "day", "" );
-        $t->set_var( "empty_day", "" );
-
-        for ( $day=1; $day<=7; $day++ )
-        {
-            $date->setDay( 1 );
-            $firstDay = $date->dayOfWeek( $Locale->mondayFirst() );
-
-            $currentDay = $day + ( $week * 7 ) - $firstDay + 1;
-
-            if ( ( ( $day + ( $week * 7 ) )  >= $firstDay ) &&
-                 ( $currentDay <= $date->daysInMonth() ) )
-            {
-                $date->setDay( $currentDay );
-
-                $t->set_var( "td_class", "bglight" );
-//                if ( $date->equals( $today ) )
-//                    $t->set_var( "td_class", "bgcurrent" );
-
-                $t->set_var( "day_number", $currentDay );
-                $t->parse( "day", "day_tpl", true );
-            }
-            else
-            {
-                $t->set_var( "td_class", "bglight" );                
-                $t->parse( "day", "empty_day_tpl", true );
-            }
-        }
-        $t->parse( "week", "week_tpl", true );
-
-        if ( $currentDay >= $date->daysInMonth() )
-        {
-            $week = 6;
-        }
-    }
-
-    $t->storeCache( "output", "day_view_page_tpl", true );
+    $t->storeCache( "output", "week_view_page_tpl", true );
 //}
-
-
-// returns the number of rows an event covers.
-function eventRowSpan( &$event ) //  &$startTime, &$interval )
-{
-    $ret=0;
-    $dur = $event->duration();
-    $min = $dur->secondsElapsed() / 60;
-    $ret =  $min / 15;
-    return $ret;
-/*    $ret = 0;
-    $tmpTime = new eZTime();
-    $tmpTime->setSecondsElapsed( $startTime->secondsElapsed() );
-    $aStop =& $event->stopTime();
-
-    while ( $tmpTime->isGreater( $aStop ) )
-    {
-        if ( $tmpTime > $tmpTime->add( $interval ) )
-            $tmpTime = new eZTime( 23, 59 );
-        else
-            $tmpTime = $tmpTime->add( $interval );
-
-        $ret++;
-    }
-
-    return $ret;*/
-}
-
-
-// checks if an event intersects with a given time interval
-function intersects( &$app, &$startTime, &$stopTime )
-{
-    $ret = false;
-    $appStartTime =& $app->startTime();
-    $appStopTime =& $app->stopTime();
-
-    // appstart is between start and stop
-    if ( $startTime->isGreater( $appStartTime, true ) == true &&
-    $appStartTime->isGreater( $stopTime ) == true )
-    {
-        $ret = true;
-    }
-    // appstop is between start and stop
-    else if ( $startTime->isGreater( $appStopTime ) == true &&
-    $appStopTime->isGreater( $stopTime, true ) == true )
-    {
-        $ret = true;
-    }
-    // appstart is before start, and appstop is after stop
-    else if ( $appStartTime->isGreater( $startTime ) == true &&
-    $stopTime->isGreater( $appStopTime ) == true )
-    {
-        $ret = true;
-    }
-
-    return $ret;
-}
 
 
 //Adds a "0" in front of the value if it's below 10.
@@ -847,102 +459,34 @@ function addZero( $value )
     }
     return $ret;
 }
-/*!
-Calculates and returns height of the event descrip div based on the 1px = 1 minute background image, and a 16 pix heading.
-*/
-function getEventHeight( $event )
+//Returns the day of week numerically 1-7
+function moveToWeekBegin ( $date, $mondayFirst )
 {
-  $ret=0;
-  $dur = $event->duration();
-  $min = $dur->secondsElapsed() / 60;
-  $ret =  $min - 30;
-  echo $event->name() . " $ret<br>";
-  return $ret;
+ switch ($date->dayName( $mondayFirst ) )
+ {
+ 	case 'mon':
+ 	$ret = 0;
+ 	break;
+ 	case 'tue':
+ 	$ret = 1;
+ 	break;
+ 	case 'wed':
+ 	$ret = 2;
+ 	break;
+ 	case 'thu':
+ 	$ret = 3;
+ 	break;
+ 	case 'fri':
+ 	$ret = 4;
+ 	break;
+ 	case 'sat':
+ 	$ret = 5;
+ 	break;
+ 	case 'sun':
+ 	$ret = 6;
+ 	break;
+ }
+ return $ret;
 }
 
-/*;
-Returns the difference between 2 text days
-*/
-function getDayDiff($d1, $d2)
-{
- switch($d1) 
- {
-  case 'mon':
-  $d1 = 1;
-  break;
-  case 'tue':
-  $d1 = 2;
-  break;
-  case 'wed':
-  $d1 = 3;
-  break;
-  case 'thu':
-  $d1 = 4;
-  break;
-  case 'fri':
-  $d1 = 5;
-  break;
-  case 'sat':
-  $d1 = 6;
-  break;
-  case 'sun':
-  $d1 = 7;
-  break;
- }
- switch($d2)
- {
-  case 'mon':
-  $d2 = 1;
-  break;
-  case 'tue':
-  $d2 = 2;
-  break;
-  case 'wed':
-  $d2 = 3;
-  break;
-  case 'thu':
-  $d2 = 4;
-  break;
-  case 'fri':
-  $d2 = 5;
-  break;
-  case 'sat':
-  $d2 = 6;
-  break;
-  case 'sun':
-  $d2 = 7;
-  break;
- }
- $diff = $d2 -$d1;
- return $diff;
-}
-/*!
-Returns true if the two events overlap (in time only)
-*/
-
-function EventTimeOverlaps($ev1, $ev2)
-{
-if (!is_object($ev1))
-{
-$ev1 = new eZGroupEvent( $ev1 );
-$ev1->get($ev1->id());
-}
-if (!is_object($ev2))
-{
- $ev2 = new eZGroupEvent( $ev2 );
- $ev2->get($ev2->id());
-}
-$start1 = $ev1->startTime();
-$start2 = $ev2->startTime();
-$stop1 = $ev1->stopTime();
-$stop2 = $ev2->stopTime();
-$s1 = $start1->hour(). addZero($start1->minute());
-$s2 = $start2->hour(). addZero($start2->minute());
-$e1 = $stop1->hour(). addZero($stop1->minute());
-$e2 = $stop2->hour(). addZero($stop2->minute());
- if ( ( $s1 > $s2 && $e2 > $s1) || ( $s2 > $s1 && $e1 > $s2 ) )
-  return true;
- else
-  return false;
-}
 ?>
