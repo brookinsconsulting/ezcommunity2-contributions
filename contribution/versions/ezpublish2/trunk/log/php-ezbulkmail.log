@@ -11,3 +11,29 @@ Maintainer(s) : fh@ez.no
 Module : ezbulkmail
 Repository path : /home/cvsroot/projects/php/ezbulkmail
 Maintainer(s) : fh@ez.no
+
+Module : ezbulkmail
+Repository path : /home/cvsroot/projects/php/ezbulkmail
+Maintainer(s) : fh@ez.no
+2001-09-08  fh  <fh@zev.ez.no>
+
+    * classes/ezbulkmailsubscriptionaddress.php:
+    Fixed unsubscription bug when unsubscribing from all.
+
+2001-09-08  Christofer Elo  <ce@ez.no>
+
+    * admin/mailview.php
+      classes/ezbulkmail.php
+      classes/ezbulkmailcategory.php
+      classes/ezbulkmailcategorysettings.php
+      classes/ezbulkmailsubscriptionuser.php
+      classes/ezbulkmailusersubscripter.php
+      user/datasupplier.php
+      user/intl/en_GB/mailview.php.ini
+      user/intl/no_NO/mailview.php.ini
+      user/mailview.php
+      user/subscriptionlist.php
+      user/templates/standard/mailview.tpl:
+    Added sending with ezuser subscripters.
+    Added mailview in at the user bulklist
+

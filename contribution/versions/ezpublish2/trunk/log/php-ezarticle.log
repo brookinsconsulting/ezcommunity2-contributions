@@ -160,3 +160,58 @@ Maintainer(s) : bf@ez.no
 
     * user/templates/gruk/index.tpl: Layout
 
+
+Module : ezarticle
+Repository path : /home/cvsroot/projects/php/ezarticle
+Maintainer(s) : bf@ez.no
+2001-09-08  fh  <fh@zev.ez.no>
+
+    * admin/datasupplier.php
+      admin/intl/en_GB/menubox.php.ini
+      admin/intl/en_GB/searchform.php.ini
+      admin/search.php
+      admin/templates/standard/search.tpl
+      admin/templates/standard/searchform.tpl
+      classes/ezarticle.php:
+    Advanced search works now. EXCEPT! there is no multipage for it..
+
+    * admin/datasupplier.php
+      admin/intl/en_GB/searchform.php.ini
+      admin/menubox.php
+      admin/searchform.php
+      admin/templates/standard/search.tpl
+      admin/templates/standard/searchform.tpl:
+    Added files for searching... I might not finish so I do a temp commit.
+
+2001-09-08  Baard Farstad  <bf@ez.no>
+
+    * admin/articlelist.php
+      admin/templates/standard/articlelist.tpl:
+    Fixed returning to current category after deleting an article.
+
+    * admin/intl/en_GB/categoryedit.php.ini
+      admin/intl/no_NO/categoryedit.php.ini: Added translation.
+
+    * admin/articlelist.php
+      admin/categoryedit.php
+      admin/templates/standard/categoryedit.tpl
+      classes/ezarticlecategory.php: Added modification sorting on articles.
+
+    * user/templates/standard/articlelist.tpl
+      user/templates/standard/articletags.tpl
+      admin/articlelist.php
+      classes/ezqdomgenerator.php
+      classes/ezqdomrenderer.php
+      user/articlelist.php: Added popuplink.
+
+2001-09-08  fh  <fh@zev.ez.no>
+
+    * admin/intl/en_GB/mediaedit.php.ini
+      admin/mediaedit.php
+      admin/templates/standard/mediaedit.tpl:
+    Creator edit in media add in article..
+
+2001-09-08  Thomas Hellstroem  <th@ez.no>
+
+    * admin/templates/standard/articlelist.tpl: Fix
+

@@ -45,3 +45,16 @@ Maintainer(s) : ce@ez.no
 
     * admin/intl/no_NO/productedit.php.ini: added translation.
 
+
+Module : eztrade
+Repository path : /home/cvsroot/projects/php/eztrade
+Maintainer(s) : ce@ez.no
+2001-09-08  Bjoern Reiten  <br@ez.no>
+
+    * classes/ezcart.php: added extractShippingVAT and addShippingVAT
+
+2001-09-08  Baard Farstad  <bf@ez.no>
+
+    * admin/templates/standard/optionedit.tpl:
+    Fixed bug related to index variable.
+

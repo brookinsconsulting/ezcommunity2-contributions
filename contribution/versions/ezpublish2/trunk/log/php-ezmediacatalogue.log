@@ -11,3 +11,19 @@ Maintainer(s) : ce@ez.no
 Module : ezmediacatalogue
 Repository path : /home/cvsroot/projects/php/ezmediacatalogue
 Maintainer(s) : ce@ez.no
+
+Module : ezmediacatalogue
+Repository path : /home/cvsroot/projects/php/ezmediacatalogue
+Maintainer(s) : ce@ez.no
+2001-09-08  Christofer Elo  <ce@ez.no>
+
+    * sql/postgresql/ezmediacatalogue.sql
+      sql/mysql/ezmediacatalogue.sql: added a table
+
+2001-09-08  fh  <fh@zev.ez.no>
+
+    * admin/intl/en_GB/mediaedit.php.ini
+      admin/mediaedit.php
+      admin/templates/standard/mediaedit.tpl:
+    Add possibility to enter new creator
+

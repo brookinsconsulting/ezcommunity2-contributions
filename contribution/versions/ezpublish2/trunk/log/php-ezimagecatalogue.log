@@ -68,3 +68,16 @@ Maintainer(s) : br@ez.no
     * user/imagelist.php
       classes/ezimagecategory.php: fixed some permission stuff
 
+
+Module : ezimagecatalogue
+Repository path : /home/cvsroot/projects/php/ezimagecatalogue
+Maintainer(s) : br@ez.no
+2001-09-08  fh  <fh@zev.ez.no>
+
+    * user/imageedit.php: Fixed multiple category bug.
+
+2001-09-08  Jan Borsodi  <jb@ez.no>
+
+    * xmlrpc/categorylist.php:
+    Fixed &quot; problem in categoryTree() function.
+
