@@ -402,3 +402,13 @@ Maintainer(s) : bf@ez.no
       ezmediafile.php: Fixed a SQL bug in the typelist.
     Added wmf to ezmediafile
 
+
+Module : classes
+Repository path : /home/cvsroot/projects/php/classes
+Maintainer(s) : bf@ez.no
+2001-11-13  Jan Borsodi  <jb@ez.no>
+
+    * ezlog.php: Removed the session test code.
+
+    * ezlog.php: Conflict fixes.
+

@@ -444,3 +444,11 @@ Maintainer(s) : br@ez.no
       user/templates/standard/suggestlink.tpl:
     Fixed bug when someone press Chancel in Suggest link.
 
+
+Module : ezlink
+Repository path : /home/cvsroot/projects/php/ezlink
+Maintainer(s) : br@ez.no
+2001-11-13  Bjoern Reiten  <br@ez.no>
+
+    * user/templates/linmag/linkcategorylist.tpl: Fixed temlate blocks.
+

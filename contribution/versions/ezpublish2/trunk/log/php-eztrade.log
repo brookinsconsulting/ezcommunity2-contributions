@@ -1947,3 +1947,11 @@ Maintainer(s) : ce@ez.no
       user/voucherinformation.php
       user/wishlist.php: Added voucher features
 
+
+Module : eztrade
+Repository path : /home/cvsroot/projects/php/eztrade
+Maintainer(s) : ce@ez.no
+2001-11-13  Bjoern Reiten  <br@ez.no>
+
+    * user/checkout.php: fixed bug when wish_user is emty.
+

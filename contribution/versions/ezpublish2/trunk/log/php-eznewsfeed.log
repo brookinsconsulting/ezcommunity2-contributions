@@ -192,3 +192,12 @@ Maintainer(s) : vl@ez.no
       admin/intl/no_NO/unpublished.php.ini
       user/intl/no_NO/allcategories.php.ini: fixed no_NO translation
 
+
+Module : eznewsfeed
+Repository path : /home/cvsroot/projects/php/eznewsfeed
+Maintainer(s) : vl@ez.no
+2001-11-13  Bjoern Reiten  <br@ez.no>
+
+    * user/templates/linmag/headlines.tpl:
+    set links to be opened in a new window.
+

@@ -440,3 +440,11 @@ Maintainer(s) : vl@ez.no
 
     * admin/intl/no_NO/menubox.php.ini: fixed several bugs in no_NO files
 
+
+Module : ezsitemanager
+Repository path : /home/cvsroot/projects/php/ezsitemanager
+Maintainer(s) : vl@ez.no
+2001-11-13  Bjoern Reiten  <br@ez.no>
+
+    * admin/templates/standard/sectionlist.tpl: Fixed bug when field is emty.
+
