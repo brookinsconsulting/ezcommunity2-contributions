@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezaddress.php,v 1.21 2000/11/29 11:26:50 pkej-cvs Exp $
+// $Id: ezaddress.php,v 1.22 2000/11/29 11:51:17 pkej-cvs Exp $
 //
 // Definition of eZAddress class
 //
@@ -86,7 +86,7 @@ class eZAddress
                     Zip='$this->Zip',
                     Place='$this->Place',
                     CountryID='$this->CountryID',
-                    AddressType='$this->AddressType'" );            
+                    AddressTypeID='$this->AddressTypeID'" );            
 
             $this->ID = mysql_insert_id();
 
@@ -100,7 +100,7 @@ class eZAddress
                     Street2='$this->Street2',
                     Zip='$this->Zip',
                     Place='$this->Place',
-                    AddressType='$this->AddressType',
+                    AddressTypeID='$this->AddressTypeID',
                     CountryID='$this->CountryID'
                     WHERE ID='$this->ID'" );            
 
@@ -134,7 +134,7 @@ class eZAddress
                 $this->Place =& $address_array[ 0 ][ "Place" ];
                 $this->CountryID =& $address_array[ 0 ][ "CountryID" ];
                 
-                $this->AddressType =& $address_array[ 0 ][ "AddressType" ];
+                $this->AddressTypeID =& $address_array[ 0 ][ "AddressTypeID" ];
             }
         }
     }
@@ -206,12 +206,12 @@ class eZAddress
 
         if( is_numeric( $value ) )
         {
-            $this->AddressType = $value;
+            $this->AddressTypeID = $value;
         }
         
         if( get_class( $value ) == "ezaddresstype" )
         {
-            $this->AddressType = $value->id();
+            $this->AddressTypeID = $value->id();
         }
     }
 
@@ -225,12 +225,12 @@ class eZAddress
 
         if( is_numeric( $value ) )
         {
-            $this->AddressType = $value;
+            $this->AddressTypeID = $value;
         }
         
         if( get_class( $value ) == "ezaddresstype" )
         {
-            $this->AddressType = $value->id();
+            $this->AddressTypeID = $value->id();
         }
     }
 
@@ -286,7 +286,7 @@ class eZAddress
             $this->get( $this->ID );
 
         
-        return $this->AddressType;
+        return $this->AddressTypeID;
     }
 
     /*!
@@ -297,8 +297,8 @@ class eZAddress
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
 
-        $addressType = new eZAddressType( $this->AddressType );
-        return $AddressType;
+        $addressType = new eZAddressType( $this->AddressTypeID );
+        return $addressType;
     }
 
     /*!
@@ -372,8 +372,8 @@ class eZAddress
     var $CountryID;
     
 
-    /// Relation to an eZAddressType
-    var $AddressType;
+    /// Relation to an eZAddressTypeID
+    var $AddressTypeID;
 
     ///  Variable for keeping the database connection.
     var $Database;
