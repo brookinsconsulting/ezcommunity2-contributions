@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: dayview.php,v 1.30 2001/01/27 22:13:58 gl Exp $
+// $Id: dayview.php,v 1.31 2001/01/29 18:28:12 gl Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <08-Jan-2001 12:48:35 bf>
@@ -298,7 +298,7 @@ else
                 $appointment = new eZAppointment( $appointmentId );
 
                 // a private appointment
-                if ( $appointment->isPrivate() == true )
+                if ( $appointment->isPrivate() == true && $appointment->userID() != $userID )
                 {
                     $t->set_var( "td_class", "bgdark" );
                     $t->set_var( "rowspan_value", $tableCellsRowSpan[$row][$col] );
