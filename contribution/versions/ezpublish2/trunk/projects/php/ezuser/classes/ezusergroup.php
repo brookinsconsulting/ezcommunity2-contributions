@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezusergroup.php,v 1.7 2001/01/06 16:21:01 bf Exp $
+// $Id: ezusergroup.php,v 1.8 2001/01/20 23:30:22 jb Exp $
 //
 // Definition of eZCompany class
 //
@@ -72,7 +72,6 @@ class eZUserGroup
     */
     function eZUserGroup( $id=-1, $fetch=true )
     {
-        $this->IsConnected = false;
         if ( $id != -1 )
         {
             $this->ID = $id;
@@ -96,11 +95,11 @@ class eZUserGroup
     */
     function store()
     {
-        $this->dbInit();
+        $db = eZDB::globalDatabase();
 
         if ( !isset( $this->ID ) )
         {
-            $this->Database->query( "INSERT INTO eZUser_Group SET
+            $db->query( "INSERT INTO eZUser_Group SET
                                  Name='$this->Name',
                                  Description='$this->Description',
                                  SessionTimeout='$this->SessionTimeout'" );
@@ -108,7 +107,7 @@ class eZUserGroup
         }
         else
         {
-            $this->Database->query( "UPDATE eZUser_Group SET
+            $db->query( "UPDATE eZUser_Group SET
                                  Name='$this->Name',
                                  Description='$this->Description',
                                  SessionTimeout='$this->SessionTimeout'
@@ -123,15 +122,15 @@ class eZUserGroup
     */
     function delete()
     {
-        $this->dbInit();
+        $db = eZDB::globalDatabase();
 
         if ( isset( $this->ID ) )
         {
-            $this->Database->query( "DELETE FROM eZUser_UserGroupLink WHERE GroupID='$this->ID'" );
+            $db->query( "DELETE FROM eZUser_UserGroupLink WHERE GroupID='$this->ID'" );
 
-            $this->Database->query( "DELETE FROM eZUser_GroupPermissionLink WHERE GroupID='$this->ID'" );
+            $db->query( "DELETE FROM eZUser_GroupPermissionLink WHERE GroupID='$this->ID'" );
 
-            $this->Database->query( "DELETE FROM eZUser_Group WHERE ID='$this->ID'" );
+            $db->query( "DELETE FROM eZUser_Group WHERE ID='$this->ID'" );
         }
         
         return true;
@@ -142,11 +141,11 @@ class eZUserGroup
     */
     function get( $id=-1 )
     {
-        $this->dbInit();
+        $db = eZDB::globalDatabase();
         
         if ( $id != "" )
         {
-            $this->Database->array_query( $user_group_array, "SELECT * FROM eZUser_Group WHERE ID='$id'" );
+            $db->array_query( $user_group_array, "SELECT * FROM eZUser_Group WHERE ID='$id'" );
             if ( count( $user_group_array ) > 1 )
             {
                 die( "Error: User groups with the same ID was found in the database. This shouldent happen." );
@@ -168,17 +167,18 @@ class eZUserGroup
     }
 
     /*!
+      \static
       Returns every user group from the database. The result is returned as an
       array of eZUserGroup objects.
     */
     function getAll()
     {
-        $this->dbInit();
+        $db = eZDB::globalDatabase();
 
         $return_array = array();
         $group_array = array();
 
-        $this->Database->array_query( $group_array, "SELECT ID FROM eZUser_Group ORDER By Name" );
+        $db->array_query( $group_array, "SELECT ID FROM eZUser_Group ORDER By Name" );
 
         for ( $i=0; $i<count ( $group_array ); $i++ )
         {
@@ -190,6 +190,7 @@ class eZUserGroup
     }
 
     /*!
+      \static
       Fetches every group the user is a member of.
 
       The result is returned as an array of eZUserGroup object. An empty array
@@ -201,13 +202,13 @@ class eZUserGroup
         
         if ( get_class( $user ) == "ezuser" )
         {
-            $this->dbInit();
+            $db = eZDB::globalDatabase();
         
             $group_array = array();
 
             $userID = $user->id();
 
-            $this->Database->array_query( $group_array, "SELECT GroupID FROM eZUser_UserGroupLink WHERE UserID='$userID'" );
+            $db->array_query( $group_array, "SELECT GroupID FROM eZUser_UserGroupLink WHERE UserID='$userID'" );
 
             for ( $i=0; $i<count ( $group_array ); $i++ )
             {
@@ -228,16 +229,51 @@ class eZUserGroup
     /*!
       Returns the users who is a member of the eZUserGroup object.
     */
-    function users( $GroupID )
+    function users( $GroupID = false, $order="Login" )
     {
         if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
 
-        $ret = array();
-        $this->dbInit();
+        switch ( $order )
+        {
+            case "name" :
+            {
+                $orderBy = "U.LastName, U.FirstName";
+            }
+            break;
+            
+            case "lastname" :
+            {
+                $orderBy = "U.LastName";
+            }
+            break;
 
-        $this->Database->array_query( $user_array, "SELECT * FROM eZUser_UserGroupLink
-                                                   WHERE GroupID='$GroupID'" );
+            case "firstname" :
+            {
+                $orderBy = "U.FirstName";
+            }
+            break;
+
+            case "email" :
+            {
+                $orderBy = "U.Email";
+            }
+            break;
+            
+            default :
+                $orderBy = "U.Login";
+            break;
+        }
+
+        if ( !is_numeric( $GroupID ) )
+            $GroupID = $this->ID;
+
+        $ret = array();
+        $db = eZDB::globalDatabase();
+
+        $db->array_query( $user_array, "SELECT UGL.UserID FROM eZUser_UserGroupLink AS UGL,
+                                                               eZUser_User AS U
+                                                   WHERE UGL.GroupID='$GroupID' AND UGL.UserID=U.ID ORDER By $orderBy" );
         foreach ( $user_array as $user )
         {
             $ret[] = new eZUser( $user["UserID"] );
@@ -328,13 +364,13 @@ class eZUserGroup
 
        if ( get_class( $user ) == "ezuser" )
        {
-           $this->dbInit();
+           $db = eZDB::globalDatabase();
 
            $userID = $user->id();
 
 //             if ( $this->ID > 1 )
            {
-               $this->Database->query( "INSERT INTO eZUser_UserGroupLink
+               $db->query( "INSERT INTO eZUser_UserGroupLink
                                     SET
                                     UserID='$userID',
                                     GroupID='$this->ID'" );
@@ -344,31 +380,13 @@ class eZUserGroup
        return $ret;
     }
     
-    /*!
-      Private function.
-      Open the database for read and write. Gets all the database information from site.ini.
-    */
-    function dbInit( )
-    {
-        if ( $this->IsConnected == false )
-        {
-            $this->Database = eZDB::globalDatabase();
-            $this->IsConnected = true;
-        }
-    }
-
     var $ID;
     var $Name;
     var $Description;
     var $SessionTimeout;
         
-    ///  Variable for keeping the database connection.
-    var $Database;
-
     /// Indicates the state of the object. In regard to database information.
     var $State_;
-    /// Is true if the object has database connection, false if not.
-    var $IsConnected;
 }
 
 ?>
