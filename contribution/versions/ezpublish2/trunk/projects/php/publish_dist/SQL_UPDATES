@@ -502,6 +502,12 @@ CREATE TABLE eZTrade_ProductPriceLink (
   PRIMARY KEY (ProductID,PriceID,OptionID,ValueID)
 ) TYPE=MyISAM;
 
+CREATE TABLE eZTrade_GroupPriceLink (
+  GroupID int(11) NOT NULL default '0',
+  PriceID int(11) NOT NULL default '0',
+  PRIMARY KEY (GroupID,PriceID)
+) TYPE=MyISAM;
+
 # Alternative currency
 create table eZTrade_AlternativeCurrency( ID int primary key auto_increment, Name char(100) not null, PrefixSign int not null default 0, Sign char(5) not null, Value float not null default 1 );
 alter table eZTrade_AlternativeCurrency add Created timestamp;
