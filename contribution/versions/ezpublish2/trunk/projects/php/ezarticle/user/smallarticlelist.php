@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: smallarticlelist.php,v 1.10 2001/08/09 15:06:36 th Exp $
+// $Id: smallarticlelist.php,v 1.11 2001/10/16 07:27:42 jhe Exp $
 //
 // Created on: <18-Oct-2000 14:41:37 bf>
 //
@@ -22,8 +22,6 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, US
 //
-
-
 
 include_once( "classes/INIFile.php" );
 include_once( "classes/eztemplate.php" );
@@ -70,22 +68,18 @@ function createSmallArticleList( $generateStaticPage = false )
     global $CategoryID;
     global $Offset;
     global $Limit;
-
-    $Language = $ini->read_var( "eZArticleMain", "Language" );
+    global $Language;
 
     $t = new eZTemplate( "ezarticle/user/" . $ini->read_var( "eZArticleMain", "TemplateDir" ),
                          "ezarticle/user/intl/", $Language, "smallarticlelist.php" );
 
     $t->setAllStrings();
 
-    $t->set_file( array(
-        "article_list_page_tpl" => "smallarticlelist.tpl"
-        ) );
+    $t->set_file( "article_list_page_tpl", "smallarticlelist.tpl" );
 
     $t->set_block( "article_list_page_tpl", "article_list_tpl", "article_list" );
     $t->set_block( "article_list_tpl", "article_item_tpl", "article_item" );
     $t->set_block( "article_item_tpl", "read_more_tpl", "read_more_item" );
-
 
     $category = new eZArticleCategory( $CategoryID );
 
@@ -97,7 +91,7 @@ function createSmallArticleList( $generateStaticPage = false )
     $articleList = $category->articles( $category->sortMode(), false, true, $Offset, $Limit );
 
     $locale = new eZLocale( $Language );
-    $i=0;
+    $i = 0;
     $t->set_var( "article_list", "" );
     foreach ( $articleList as $article )
     {
@@ -133,8 +127,7 @@ function createSmallArticleList( $generateStaticPage = false )
         $t->set_var( "article_list", "" );
 
 
-
-    if ( $generateStaticPage == true )
+    if ( $generateStaticPage )
     {
         $fp = eZFile::fopen( $menuCachedFile, "w+");
 
@@ -147,8 +140,8 @@ function createSmallArticleList( $generateStaticPage = false )
     }
     else
     {
-    $t->pparse( "output", "article_list_page_tpl" );
+        $t->pparse( "output", "article_list_page_tpl" );
     }
 }
-?>
 
+?>
