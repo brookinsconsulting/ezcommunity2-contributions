@@ -126,6 +126,12 @@
 	<!-- BEGIN image_tpl -->
 	<!-- END image_tpl -->
 	<!-- END image_list_tpl -->
+
+	<!-- BEGIN section_item_tpl -->
+	<!-- BEGIN link_item_tpl -->
+	<!-- END link_item_tpl -->
+	<!-- END section_item_tpl -->
+
 	<!-- BEGIN external_link_tpl -->
 	<!-- END external_link_tpl -->
 	{extra_product_info}

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: productview.php,v 1.39 2001/03/21 13:39:22 jb Exp $
+// $Id: productview.php,v 1.40 2001/03/21 15:30:26 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <24-Sep-2000 12:20:32 bf>
@@ -391,6 +391,7 @@ foreach ( $options as $option )
 // link list
 $module_link = new eZModuleLink( "eZTrade", "Product", $product->id() );
 $sections =& $module_link->sections();
+$t->set_var( "section_item", "" );
 foreach( $sections as $section )
 {
     $t->set_var( "link_item", "" );
