@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezuser.php,v 1.91 2001/09/12 11:23:48 ce Exp $
+// $Id: ezuser.php,v 1.92 2001/09/20 10:05:50 jhe Exp $
 //
 // Definition of eZUser class
 //
@@ -332,10 +332,11 @@ class eZUser
 
         if ( $search )
         {
-            $query = new eZQuery( array( "FirstName", "LastName",
-                                     "Login", "Email" ), $search );
             $db->array_query( $user_array, "SELECT $select FROM eZUser_User
-                                            WHERE " . $query->buildQuery() . "
+                                            WHERE FirstName LIKE '%$search%' OR
+                                            LastName LIKE '%$search%' OR
+                                            Login LIKE '%$search%' OR
+                                            Email LIKE '%$search%'
                                             ORDER By $orderBy",
                               array( "Limit" => $max,
                                      "Offset" => $index ) );
