@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eznewsitemviewer.php,v 1.11 2000/10/12 13:49:06 pkej-cvs Exp $
+// $Id: eznewsitemviewer.php,v 1.12 2000/10/12 14:32:22 pkej-cvs Exp $
 //
 // Definition of eZNewsItemViewer class
 //
@@ -420,55 +420,72 @@ class eZNewsItemViewer
         #echo "eZNewsItemViewer::doAdminBrowse( \$inItemNo = $inItemNo )<br>\n";
         $value = true;
         
-        $this->IniObject->readAdminTemplate( "eznewsitem", "eznewsitem.php" );
-        if( $this->initalizeItem( $inItemNo ) )
+        // Checks if we''re dealing with a special customer.
+        $special = $this->IniObject->GlobalIni->read_var( "eZNewsMain", "Customer" );
+        if( !strcmp( $special, "true" ) )
         {
-            $this->IniObject->set_file( array( "eznewsitem" => "eznewsitem.tpl" ) );
-            $this->IniObject->set_block( "eznewsitem", "item_template", "item" );
-        
-            $this->fillInHiearchy( "parent" );
-            $this->fillInHiearchy( "child" );
-            $this->fillInHiearchy( "image" );
-            $this->fillInHiearchy( "file" );
-            $this->fillInHiearchy( "error" );
-        
+            $tempItem = new eZNewsItem( $inItemNo );
+            $itemType = new eZNewsItemType( $tempItem->itemTypeID() );
+
+            $class = $itemType->eZClass();
+            $class = $class . "Creator";
+
+            include_once( strtolower( "eznews/admin/eznewsitem/" . $class . ".php" ) );
+            
+            $object = new $class( $this->inNewsConfigFileName, $inItemNo );
+            $object->doAction( "view", "this" );
         }
         else
         {
-            $this->IniObject->set_file( array( "eznewsitem" => "eznewsitem.tpl" ) );
-            $this->IniObject->set_block( "eznewsitem", "item_template", "item" );
-            $this->IniObject->set_block( "eznewsitem", "image_template", "image" );
-            $this->IniObject->set_block( "eznewsitem", "images_template", "images" );
-            $this->IniObject->set_block( "eznewsitem", "no_images_template", "no_images" );
-            $this->IniObject->set_block( "eznewsitem", "parents_template", "parents" );
-            $this->IniObject->set_block( "eznewsitem", "no_parents_template", "no_parents" );
-            $this->IniObject->set_block( "eznewsitem", "children_template", "children" );
-            $this->IniObject->set_block( "eznewsitem", "no_children_template", "no_children" );
-            $this->IniObject->set_block( "eznewsitem", "file_template", "file" );
-            $this->IniObject->set_block( "eznewsitem", "files_template", "files" );
-            $this->IniObject->set_block( "eznewsitem", "no_files_template", "no_files" );
-            
-            $this->IniObject->set_var( "item", "" );
-            $this->IniObject->set_var( "image", "" );
-            $this->IniObject->set_var( "images", "" );
-            $this->IniObject->set_var( "no_images", "" );
-            $this->IniObject->set_var( "parents", "" );
-            $this->IniObject->set_var( "no_parents", "" );
-            $this->IniObject->set_var( "children", "" );
-            $this->IniObject->set_var( "no_children", "" );
-            $this->IniObject->set_var( "file", "" );
-            $this->IniObject->set_var( "files", "" );
-            $this->IniObject->set_var( "no_files", "" );
-           
-            $this->fillInHiearchy( "error" );
-        }
+            $this->IniObject->readAdminTemplate( "eznewsitem", "eznewsitem.php" );
+            if( $this->initalizeItem( $inItemNo ) )
+            {
+                $this->IniObject->set_file( array( "eznewsitem" => "eznewsitem.tpl" ) );
+                $this->IniObject->set_block( "eznewsitem", "item_template", "item" );
 
-        $this->doThis();
-        $this->IniObject->setAllStrings();
-        
-        // Output the admin page
-        $this->IniObject->pparse( "output", "eznewsitem" );
-        
+                $this->fillInHiearchy( "parent" );
+                $this->fillInHiearchy( "child" );
+                $this->fillInHiearchy( "image" );
+                $this->fillInHiearchy( "file" );
+                $this->fillInHiearchy( "error" );
+
+            }
+            else
+            {
+                $this->IniObject->set_file( array( "eznewsitem" => "eznewsitem.tpl" ) );
+                $this->IniObject->set_block( "eznewsitem", "item_template", "item" );
+                $this->IniObject->set_block( "eznewsitem", "image_template", "image" );
+                $this->IniObject->set_block( "eznewsitem", "images_template", "images" );
+                $this->IniObject->set_block( "eznewsitem", "no_images_template", "no_images" );
+                $this->IniObject->set_block( "eznewsitem", "parents_template", "parents" );
+                $this->IniObject->set_block( "eznewsitem", "no_parents_template", "no_parents" );
+                $this->IniObject->set_block( "eznewsitem", "children_template", "children" );
+                $this->IniObject->set_block( "eznewsitem", "no_children_template", "no_children" );
+                $this->IniObject->set_block( "eznewsitem", "file_template", "file" );
+                $this->IniObject->set_block( "eznewsitem", "files_template", "files" );
+                $this->IniObject->set_block( "eznewsitem", "no_files_template", "no_files" );
+
+                $this->IniObject->set_var( "item", "" );
+                $this->IniObject->set_var( "image", "" );
+                $this->IniObject->set_var( "images", "" );
+                $this->IniObject->set_var( "no_images", "" );
+                $this->IniObject->set_var( "parents", "" );
+                $this->IniObject->set_var( "no_parents", "" );
+                $this->IniObject->set_var( "children", "" );
+                $this->IniObject->set_var( "no_children", "" );
+                $this->IniObject->set_var( "file", "" );
+                $this->IniObject->set_var( "files", "" );
+                $this->IniObject->set_var( "no_files", "" );
+
+                $this->fillInHiearchy( "error" );
+            }
+
+            $this->doThis();
+            $this->IniObject->setAllStrings();
+
+            // Output the admin page
+            $this->IniObject->pparse( "output", "eznewsitem" );
+        }
         return $value;
     }
     
