@@ -9,7 +9,7 @@
 
 <br />
 
-<hr noshade size="4" />
+<hr noshade size="3" />
 
 <br />
 
@@ -26,9 +26,7 @@
 {this_price}
 </p>
 
-<br />
-
-<hr noshade size="4" />
+<hr noshade size="3" />
 
 <br />
 

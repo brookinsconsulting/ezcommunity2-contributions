@@ -1,14 +1,18 @@
 <!-- BEGIN this_item_template -->
 <h1>{this_name}</h1>
 
-<hr noshade size="4" />
+<hr noshade size="6" />
 
 <!-- END this_item_template -->
 
 <p>{this_public_description}</p>
 
+<hr noshade size="3" />
+
+<br />
+
 <!-- BEGIN go_to_parent_template -->
-<a href="/{this_path}/{this_canonical_parent_id}">{intl-go_to_parent} {this_canonical_parent_name}</a>
+<!-- <a href="/{this_path}/{this_canonical_parent_id}">{intl-go_to_parent} {this_canonical_parent_name}</a> -->
 <!-- END go_to_parent_template -->
 
 
