@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: userwithaddress.php,v 1.32 2001/02/06 16:50:20 ce Exp $
+// $Id: userwithaddress.php,v 1.33 2001/02/08 13:07:12 ce Exp $
 //
 //
 // Christoffer A. Elo <ce@ez.no>
@@ -467,7 +467,7 @@ if ( $Action == "Update" )
 // Set up the default values when creating a new user
 if ( $Action == "New" )
 {
-    if ( $error == false )
+    if  ( ( $error == false ) || ( ( $error == true ) && ( isset ( $NewAddress ) ) ) )
     {
         $t->set_var( "address_number", 1 );
         $t->set_var( "address_id", "-1" );
@@ -514,7 +514,6 @@ if ( $Action == "New" )
         $t->set_var( "country", "" );
     }
     $t->set_var( "action_value", "insert" );
-
 }
 
 // Set the values to the user when editing

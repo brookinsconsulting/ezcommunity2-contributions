@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezcctool.php,v 1.1 2001/02/07 11:11:24 ce Exp $
+// $Id: ezcctool.php,v 1.2 2001/02/08 13:07:12 ce Exp $
 //
 // Definition of eZCCTool class
 //
@@ -19,7 +19,7 @@
 
 class eZCCTool
 {
-    function checkCC( $CCNumber, $year, $month )
+    function checkCC( $CCNumber,$month,$year )
     {
         $ret = false;
         
