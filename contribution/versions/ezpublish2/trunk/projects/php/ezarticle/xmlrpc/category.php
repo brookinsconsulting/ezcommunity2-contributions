@@ -38,9 +38,8 @@ if( $Command == "data" ) // Dump category info!
 }
 else if( $Command == "storedata" ) // save the category data!
 {
+//      eZLog::writeNotice( "article category $ID" );
 
-    $ID = $Data["ID"]->value();
-    
     if( $ID == 0 )
         $category = new eZArticleCategory();
     else
@@ -48,57 +47,63 @@ else if( $Command == "storedata" ) // save the category data!
         $category = new eZArticleCategory( $ID );
         $category->setOwner( $User );
     }
-
     $category->setName( $Data["Name"]->value() );
     $category->setDescription( $Data["Description"]->value() );
 
-//    $category->setParent( $Data["ParentID"]->value() );
-    $category->setParent( 0 );
-    $category->setExcludeFromSearch( $Data["ExcludeFromSearch"]->value() );
-    
-    $category->setBulkMailCategory( $Data["BulkMailID"]->value() );
-    $category->setSortMode( $Data["SortMode"]->value() );
-    $category->setSectionID( $Data["SectionID"]->value() );
-//    $category->setImage( $Data["ImageID"]->value() );
-    $category->store();
-    $ID = $category->id();
-
-    
-    eZObjectPermission::removePermissions( $ID, "article_category", 'r' );
-    $readGroups = $Data["ReadGroups"]->value();
-    foreach( $readGroups as $readGroup )
+    $parent = new eZArticleCategory();
+    $parentid = $Data["ParentID"]->value();
+    if ( $parentid == 0 or $parent->get( $parentid ) )
     {
-        eZObjectPermission::setPermission( $readGroup->value(), $ID, "article_category", 'r' );
-    }
+        $category->setParent( $parent );
+//      $category->setParent( 0 );
+        $category->setExcludeFromSearch( $Data["ExcludeFromSearch"]->value() );
+    
+        $category->setBulkMailCategory( $Data["BulkMailID"]->value() );
+        $category->setSortMode( $Data["SortMode"]->value() );
+        $category->setSectionID( $Data["SectionID"]->value() );
+        $category->setImage( $Data["ImageID"]->value() );
+        $category->store();
+        $ID = $category->id();
 
-    eZObjectPermission::removePermissions( $ID, "article_category", 'w' );
-    foreach( $Data["WriteGroups"]->value() as $writeGroup )
-        eZObjectPermission::setPermission( $writeGroup->value(), $ID, "article_category", 'w' );
+        eZObjectPermission::removePermissions( $ID, "article_category", 'r' );
+        $readGroups = $Data["ReadGroups"]->value();
+        foreach( $readGroups as $readGroup )
+        {
+            eZObjectPermission::setPermission( $readGroup->value(), $ID, "article_category", 'r' );
+        }
 
+        eZObjectPermission::removePermissions( $ID, "article_category", 'w' );
+        foreach( $Data["WriteGroups"]->value() as $writeGroup )
+            eZObjectPermission::setPermission( $writeGroup->value(), $ID, "article_category", 'w' );
 
-    // create the path array
-    $path =& $category->path();
-    if ( $category->id() != 0 )
-    {
-        $par[] = createURLStruct( "ezarticle", "category", 0 );
+        // create the path array
+        $path =& $category->path();
+        if ( $category->id() != 0 )
+        {
+            $par[] = createURLStruct( "ezarticle", "category", 0 );
+        }
+        else
+        {
+            $par[] = createURLStruct( "ezarticle", "" );
+        }
+        foreach( $path as $item )
+        {
+            if ( $item[0] != $category->id() )
+                $par[] = createURLStruct( "ezarticle", "category", $item[0] );
+        }
+
+        $ReturnData = new eZXMLRPCStruct( array( "Location" => createURLStruct( "ezarticle", "category", $ID ),
+                                                 "Path" => new eZXMLRPCArray( $par ),
+                                                 "UpdateType" => new eZXMLRPCString( $Command )
+                                                 )
+                                          );
+        $Command = "update";
     }
     else
     {
-        $par[] = createURLStruct( "ezarticle", "" );
+        $Error = createErrorMessage( EZERROR_CUSTOM, "Parent ($parentid) of $Module:/$RequestType/$ID is not an existing parent",
+                                     EZARTICLE_NONEXISTING_PARENT );
     }
-    foreach( $path as $item )
-    {
-        if ( $item[0] != $category->id() )
-            $par[] = createURLStruct( "ezarticle", "category", $item[0] );
-    }
-
-    
-    $ReturnData = new eZXMLRPCStruct( array( "Location" => createURLStruct( "ezarticle", "category", $ID ),
-                                             "Path" => new eZXMLRPCArray( $par ),
-                                             "UpdateType" => new eZXMLRPCString( $Command )
-                                             )
-                                      );
-    $Command = "update";
 }
 else if( $Command == "delete" )
 {

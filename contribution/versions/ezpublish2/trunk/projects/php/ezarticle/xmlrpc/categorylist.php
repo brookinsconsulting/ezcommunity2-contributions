@@ -2,6 +2,9 @@
 // eZ article classes
 include_once( "ezarticle/classes/ezarticlecategory.php" );
 include_once( "ezarticle/classes/ezarticle.php" );
+include_once( "ezxmlrpc/classes/ezxmlrpcarray.php" );
+include_once( "ezxmlrpc/classes/ezxmlrpcstruct.php" );
+include_once( "ezxmlrpc/classes/ezxmlrpcstring.php" );
 
 if ( $Command == "list" )
 {
@@ -128,6 +131,36 @@ else if ( $Command == "tree" )
     $cat->setName( "test" );
     $tree =& categoryTree( $cat );
     $ReturnData = createTreeStruct( $tree, "ezarticle", "category" );
+}
+else if ( $Command == "search" )
+{
+    $keywords = $Data["Keywords"]->value();
+    $texts = array();
+    foreach( $keywords as $keyword )
+    {
+        $texts[] = $keyword->value();
+    }
+    $elements = array();
+    $result =& eZArticleCategory::search( $texts );
+    foreach( $result as $item )
+    {
+        $catid = $item->parent( false);
+        $cat = new eZArticleCategory();
+        $cat->get( $catid );
+        $element = array();
+        $element["Name"] = new eZXMLRPCString( $item->name() );
+        $element["CategoryName"] = new eZXMLRPCString( $cat->name() );
+        $element["Location"] =  createURLStruct( "ezarticle", "category", $item->id() );
+        $element["CategoryLocation"] = createURLStruct( "ezarticle", "category", $catid );
+        $elements[] = new eZXMLRPCStruct( $element );
+    }
+    $ret = array( "Elements" => new eZXMLRPCArray( $elements ) );
+    if ( isset( $Data["NextSearch"] ) )
+    {
+        $ret["NextSearch"] = $Data["NextSearch"];
+        $ret["Keywords"] = $Data["Keywords"];
+    }
+    $ReturnData = new eZXMLRPCStruct( $ret );
 }
 
 function &categoryTree( $cat )
