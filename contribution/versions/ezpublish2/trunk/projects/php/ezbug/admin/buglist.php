@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: buglist.php,v 1.9 2001/03/05 11:48:47 fh Exp $
+// $Id: buglist.php,v 1.10 2001/03/07 10:15:44 fh Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <27-Nov-2000 19:06:23 bf>
@@ -58,6 +58,9 @@ $t->set_block( "bug_list_page_tpl", "bug_list_tpl", "bug_list" );
 $t->set_block( "bug_list_tpl", "bug_item_tpl", "bug_item" );
 $t->set_block( "bug_item_tpl", "bug_is_closed_tpl", "bug_is_closed" );
 $t->set_block( "bug_item_tpl", "bug_is_open_tpl", "bug_is_open" );
+
+// delete button
+$t->set_block( "bug_list_page_tpl", "bug_delete_button_tpl", "bug_delete_button" );
 
 $t->set_var( "site_style", $SiteStyle );
 
@@ -196,10 +199,16 @@ foreach ( $bugList as $bug )
     $i++;
 }
 
-if ( count( $bugList ) > 0 )    
+if ( count( $bugList ) > 0 )
+{
+    $t->parse( "bug_delete_button", "bug_delete_button_tpl" );
     $t->parse( "bug_list", "bug_list_tpl" );
+}
 else
+{
+    $t->set_var( "bug_delete_button", "" );
     $t->set_var( "bug_list", "" );
+}
 
 $t->pparse( "output", "bug_list_page_tpl" );
 

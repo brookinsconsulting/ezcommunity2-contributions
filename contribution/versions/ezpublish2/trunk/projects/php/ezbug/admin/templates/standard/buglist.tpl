@@ -134,7 +134,9 @@
 
 <hr noshade size="4"/>
 
+<!-- BEGIN bug_delete_button_tpl -->
 <input class="stdbutton" type="submit" name="Delete" value="{intl-delete_bugs}" />
+<!-- END bug_delete_button_tpl -->
 
 </form>
 
