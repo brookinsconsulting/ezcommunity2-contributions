@@ -19,7 +19,7 @@
 	<a href="{www_dir}{index}/article/type/edit/{type_id}/">{type_name}</a>
 	</td>
 	<td width="1%" class="{td_class}">
-	<a href="{www_dir}{index}/article/type/edit/{type_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('eztc{type_id}-red','','/admin/images/{site_style}/redigerminimrk.gif',1)"><img name="eztc{type_id}-red" border="0" src="{www_dir}/admin/images/{site_style}/redigermini.gif" width="16" height="16" align="top"></a>
+	<a href="{www_dir}{index}/article/type/edit/{type_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('eztc{type_id}-red','','{www_dir}/admin/images/{site_style}/redigerminimrk.gif',1)"><img name="eztc{type_id}-red" border="0" src="{www_dir}/admin/images/{site_style}/redigermini.gif" width="16" height="16" align="top"></a>
 	</td>
 	<td width="1%" class="{td_class}">
 <!--	<a href="#" onClick="verify( '{intl-delete}?', '/article/type/edit/delete/{type_id}/'); return false;"

@@ -65,7 +65,7 @@
 	{category_description}&nbsp;
 	</td>
 	<td width="1%" class="{td_class}">
-	<a href="{www_dir}{index}/article/categoryedit/edit/{category_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezac{category_id}-red','','/ezarticle/images/redigerminimrk.gif',1)"><img name="ezac{category_id}-red" border="0" src="{www_dir}/ezarticle/images/redigermini.gif" width="16" height="16" align="top"></a>
+	<a href="{www_dir}{index}/article/categoryedit/edit/{category_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezac{category_id}-red','','{www_dir}/ezarticle/images/redigerminimrk.gif',1)"><img name="ezac{category_id}-red" border="0" src="{www_dir}/ezarticle/images/redigermini.gif" width="16" height="16" align="top"></a>
 	</td>
 	<td width="1%" class="{td_class}">
 	<a href="{www_dir}{index}/article/categoryedit/delete/{category_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezac{category_id}-slett','','/ezarticle/images/slettminimrk.gif',1)"><img name="ezac{category_id}-slett" border="0" src="{www_dir}/ezarticle/images/slettmini.gif" width="16" height="16" align="top"></a>
@@ -92,7 +92,7 @@
 	</a>
 	</td>
 	<td width="1%" class="{td_class}">
-	<a href="{www_dir}{index}/article/articleedit/edit/{article_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezaa{article_id}-red','','/ezarticle/images/redigerminimrk.gif',1)"><img name="ezaa{article_id}-red" border="0" src="{www_dir}/ezarticle/images/redigermini.gif" width="16" height="16" align="top"></a>
+	<a href="{www_dir}{index}/article/articleedit/edit/{article_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezaa{article_id}-red','','{www_dir}/ezarticle/images/redigerminimrk.gif',1)"><img name="ezaa{article_id}-red" border="0" src="{www_dir}/ezarticle/images/redigermini.gif" width="16" height="16" align="top"></a>
 	</td>
 	<td width="1%" class="{td_class}">
 
