@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: datasupplier.php,v 1.92 2001/10/08 06:55:46 bf Exp $
+// $Id: datasupplier.php,v 1.93 2001/10/11 07:02:04 th Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -83,6 +83,7 @@ switch ( $url_array[2] )
         else
             $user = 0;
 
+$PageCaching = false;
         if ( $PageCaching == "enabled" )
         {
             include_once( "classes/ezcachefile.php" );
