@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezarticlecategory.php,v 1.27 2001/02/21 17:15:33 fh Exp $
+// $Id: ezarticlecategory.php,v 1.28 2001/02/22 10:41:03 fh Exp $
 //
 // Definition of eZArticleCategory class
 //
@@ -394,7 +394,7 @@ class eZArticleCategory
 
        $this->dbInit();
 
-       $this->Database->query( "DELETE FROM eZArticle_ArticleReaderLink WHERE ArticleID='$this->ID'" );       
+       $this->Database->query( "DELETE FROM eZArticle_CategoryReaderLink WHERE CategoryID='$this->ID'" );       
     }
 
     
@@ -412,8 +412,8 @@ class eZArticleCategory
         {
             $this->dbInit();
             $groupID = $newGroup->id();
-            $this->Database->query( "INSERT INTO  eZArticle_ArticleReaderLink SET
-                                     ArticleID='$this->ID',
+            $this->Database->query( "INSERT INTO  eZArticle_CategoryReaderLink SET
+                                     CategoryID='$this->ID',
                                      GroupID='$groupID',
                                      Created=now()" );       
         }
@@ -421,22 +421,30 @@ class eZArticleCategory
     }
 
     /*!
-      Returns all the groups that have readpermission for this article as an array of eZUserGroup objects.
+      Returns all the groups that have readpermission for this article as an array of eZUserGroup objects if the parameter is false.
+      If the parameter is true, it returns the groups as an array of ID's.
      */
-    function readGroups()
+    function readGroups( $IDOnly=false )
     {
+        if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
         $ret = array();
-        $this->Database->array_query( $res, "SELECT GroupID FROM eZArticle_ArticleReaderLink
-                                       WHERE ArticleID='$this->ID'" );
+        $this->Database->array_query( $res, "SELECT GroupID FROM eZArticle_CategoryReaderLink
+                                       WHERE CategoryID='$this->ID'" );
         if( count( $res ) > 0 )
         {
             $i = 0;
-            foreach( $res as $groupID )
+            foreach( $res as $groupItem )
             {
-                $ret[i] = new eZUserGroup( $groupID );
+                if( $IDOnly == true )
+                    $ret[$i] = $groupItem[0]["GroupID"];
+                else
+                    $ret[$i] = new eZUserGroup( $groupID[0]["GroupID"] );
                 $i++;
             }
         }
+
         return $ret;
     }
 
@@ -563,10 +571,10 @@ class eZArticleCategory
         if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
 
-        if( is_digit( $value ) && $value >=0 && $value <=2)
+        if( $value >=0 && $value <=2)
         {
             if( $value != 1 )
-                removeReadGroups();
+                $this->removeReadGroups();
 
             $this->ReadPermission = $value;
         }

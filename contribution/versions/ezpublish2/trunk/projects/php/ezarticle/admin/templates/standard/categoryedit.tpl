@@ -72,6 +72,16 @@
   </td>
 </tr>
 </table>
+<p class="boxtext">{intl-groups}:</p>
+
+<select name="GroupArray[]" multiple size="7">
+<option value="0" {all_selected}>{intl-all}</option>
+<!-- BEGIN group_item_tpl -->
+<option value="{group_id}" {selected}>{group_name}</option>
+<!-- END group_item_tpl -->
+</select>
+
+
 
 <hr noshade="noshade" size="4" />
 

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: categoryedit.php,v 1.2 2001/02/21 13:58:22 fh Exp $
+// $Id: categoryedit.php,v 1.3 2001/02/22 10:41:03 fh Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <18-Sep-2000 14:46:19 bf>
@@ -77,6 +77,30 @@ if ( $Action == "insert" )
     else
         $category->setOwnerGroup( $ownerGroup, false );
 
+
+    /* read access thingy */
+    if ( isset( $GroupArray ) )
+    {
+        if( $GroupArray[0] == 0 )
+        {
+            $category->setReadPermission( 2 );
+        }
+        else // some groups are selected.
+        {
+            $category->removeReadGroups();
+            $category->setReadPermission( 1 );
+            foreach ( $GroupArray as $groupID )
+            {
+                $readGroup = new eZUserGroup( $groupID );
+                $category->addReadGroup( $readGroup );
+            }
+        }
+    }
+    else
+    {
+        $category->setReadPermission( 0 );
+    }
+
     
     $category->store();
 
@@ -103,8 +127,6 @@ if ( $Action == "update" )
 
     $category->setSortMode( $SortMode );
 
-    
-
     if ( $ExcludeFromSearch == "on" )
     {
         $category->setExcludeFromSearch( true );
@@ -120,10 +142,33 @@ if ( $Action == "update" )
     else
         $category->setOwnerGroup( $ownerGroup, false );
     
+    /* read access thingy */
+    if ( isset( $GroupArray ) )
+    {
+        if( $GroupArray[0] == 0 )
+        {
+            $category->setReadPermission( 2 );
+        }
+        else // some groups are selected.
+        {
+            $category->removeReadGroups();
+            $category->setReadPermission( 1 );
+            foreach ( $GroupArray as $groupID )
+            {
+                $readGroup = new eZUserGroup( $groupID );
+                $category->addReadGroup( $readGroup );
+            }
+        }
+    }
+    else
+    {
+        $category->setReadPermission( 0 );
+    }
+
     $category->store();
 
     $categoryID = $category->id();
-
+    
     eZHTTPTool::header( "Location: /article/archive/$ParentID/" );
     exit();
 }
@@ -172,6 +217,7 @@ $t->set_file( array( "category_edit_tpl" => "categoryedit.tpl" ) );
 
 $t->set_block( "category_edit_tpl", "value_tpl", "value" );
 $t->set_block( "category_edit_tpl", "category_owner_tpl", "category_owner" );
+$t->set_block( "category_edit_tpl", "group_item_tpl", "group_item" );
 
 $category = new eZArticleCategory();
 
@@ -214,6 +260,17 @@ if ( $Action == "edit" )
     $ownerGroup = $category->ownerGroup();
     if( get_class( $ownerGroup ) == "ezusergroup" )
         $ownerGroupID = $ownerGroup->id();
+
+    $readPermission = $category->readPermission();
+    $t->set_var( "all_selected", "" );
+    if( $readPermission == 1 )
+    {
+        $readGroupsID = $category->readGroups( true );
+    }
+    else if( $readPermission == 2 )
+    {
+        $t->set_var( "all_selected", "selected" );
+    }
 }
 
 $category = new eZArticleCategory();
@@ -248,8 +305,10 @@ foreach( $tree as $item )
 $group = new eZUserGroup();
 $groupList = $group->getAll();
 
+$t->set_var( "selected", "" );
 foreach( $groupList as $groupItem )
 {
+    /* for the group owner selector */
 //    if( eZPermission::checkPermission( $groupItem , "eZBug", "BugEdit" ) )
 //    {
         $t->set_var( "module_owner_id", $groupItem->id() );
@@ -262,6 +321,17 @@ foreach( $groupList as $groupItem )
     
         $t->parse( "category_owner", "category_owner_tpl", true );
 //    }
+        /* for the read access groups selector */
+        $t->set_var( "group_name", $groupItem->name() );
+        $t->set_var( "group_id", $groupItem->id() );
+        if( isset( $readPermission ) && $readPermission == 1 )
+        {
+            if( in_array( $groupItem->id(), $readGroupsID ) )
+                $t->set_var( "selected", "selected" );
+            else
+                $t->set_var( "selected", "" );
+        }
+        $t->parse( "group_item", "group_item_tpl", true );
 }
 
 $t->pparse( "output", "category_edit_tpl" );
