@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezvirtualfile.php,v 1.14 2001/01/30 14:18:39 jb Exp $
+// $Id: ezvirtualfile.php,v 1.15 2001/01/30 15:11:26 jb Exp $
 //
 // Definition of eZVirtualFile class
 //
@@ -515,7 +515,7 @@ class eZVirtualfile
       "unit" - The unit for the shortened size.
     */
 
-    function &shortenedFileSize()
+    function &siFileSize()
     {
         $size = $this->fileSize();
         $units = array( "GB" => 10737741824,
