@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: search.php,v 1.8.2.2 2002/05/02 13:18:59 bf Exp $
+// $Id: search.php,v 1.8.2.3 2003/06/02 08:00:43 jhe Exp $
 //
 // Created on: <08-Jun-2001 13:10:36 bf>
 //
@@ -61,7 +61,6 @@ $Offset = 0;
 $tmpSearchText = str_replace( "<", "&lt;", $SearchText );
 $tmpSearchText = str_replace( ">", "&gt;", $tmpSearchText );
 $t->set_var( "search_text", $tmpSearchText );
-
 foreach ( $moduleArray as $module )
 {
     $module = strtolower( $module );
@@ -91,7 +90,7 @@ foreach ( $moduleArray as $module )
                     else
                         $t->set_var( "td_class", "bgdark" );
                     
-                    $t->set_var( "search_link", $Result["DetailViewPath"] . $res->id() );
+                    $t->set_var( "search_link", $Result["DetailViewPath"] . $res->id() . "/" );
                     $t->set_var( "search_name", $res->name() );
                     $t->set_var( "icon_src", $Result["IconPath"] );            
                     $t->parse( "search_item", "search_item_tpl", true );
