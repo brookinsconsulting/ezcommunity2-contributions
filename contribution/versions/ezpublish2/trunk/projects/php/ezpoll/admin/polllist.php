@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: polllist.php,v 1.2 2000/10/03 07:13:48 ce-cvs Exp $
+// $Id: polllist.php,v 1.3 2000/10/03 13:08:56 bf-cvs Exp $
 //
 // Definition of eZPoll class
 //
@@ -19,13 +19,18 @@ include_once( "classes/eztemplate.php" );
 $ini = new INIFIle( "site.ini" );
 
 $Language = $ini->read_var( "eZPollMain", "Language" );
-$DOC_ROOT = $ini->read_var( "eZPollMain", "DocumentRoot" );
 
-include_once( $DOC_ROOT . "/classes/ezpoll.php" );
+include_once( "ezpoll/classes/ezpoll.php" );
+
+if ( isset( $MainPollID ) )
+{
+    $tmpPoll = new eZPoll( $MainPollID );
+    $tmpPoll->setMainPoll( $tmpPoll );
+}
 
 
-$t = new eZTemplate( $DOC_ROOT . "/admin/" . $ini->read_var( "eZPollMain", "TemplateDir" ) . "/polllist/",
-                     $DOC_ROOT . "/admin/intl/", $Language, "polllist.php" );
+$t = new eZTemplate( "ezpoll/admin/" . $ini->read_var( "eZPollMain", "TemplateDir" ) . "/polllist/",
+                     "ezpoll/admin/intl/", $Language, "polllist.php" );
 
 $t->setAllStrings();
 
@@ -34,21 +39,33 @@ $t->set_file( array(
     "poll_item" => "pollitem.tpl"
     ) );
 
-
 $poll = new eZPoll();
 
 $pollList = $poll->getAll( );
 
+$mainPoll = $poll->mainPoll();
+if ( $mainPoll )
+{
+    $mainPollID = $mainPoll->id();
+}
+
+$i=0;
 foreach( $pollList as $pollItem )
 {
-    if ( $pollItem->isEnabled() == "true" )
-    {
-        $t->set_var( "poll_is_enabled", "Ja" );
-    }
+    if ( ( $i %2 ) == 0 )
+        $t->set_var( "td_class", "bgdark" );
     else
-    {
+        $t->set_var( "td_class", "bglight" );
+        
+    if ( $pollItem->isEnabled() == "true" )
+        $t->set_var( "poll_is_enabled", "Ja" );
+    else
         $t->set_var( "poll_is_enabled", "Nei" );
-    }
+
+    if ( $pollItem->id() == $mainPollID )
+        $t->set_var( "is_checked", "checked" );
+    else
+        $t->set_var( "is_checked", "" );        
 
     if ( $pollItem->isClosed() == "true" )
     {
@@ -63,9 +80,8 @@ foreach( $pollList as $pollItem )
     $t->set_var( "poll_description", $pollItem->description() );
 
     $t->parse( "poll_list", "poll_item", true );
+    $i++;
 }
-
-$t->set_var( "document_root", $DOC_ROOT );
 
 $t->pparse( "output", "poll_list_page" );
 

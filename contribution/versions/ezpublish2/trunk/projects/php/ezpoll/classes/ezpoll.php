@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezpoll.php,v 1.4 2000/10/03 12:28:55 bf-cvs Exp $
+// $Id: ezpoll.php,v 1.5 2000/10/03 13:08:56 bf-cvs Exp $
 //
 // Definition of eZPoll class
 //
@@ -251,6 +251,26 @@ class eZPoll
     }
 
     /*!
+      Returns the main poll as a eZPoll object.
+
+      False is returned if no poll is set as main poll.
+    */
+    function mainPoll(  )
+    {
+        $this->dbInit();
+        
+        // sets the current poll as main poll
+        $this->Database->array_query( $poll_array, "SELECT PollID FROM eZPoll_MainPoll" );
+
+        $ret = false;
+        if ( count( $poll_array ) == 1 )
+        {
+            $ret = new eZPoll( $poll_array[0]["PollID"] );
+        }
+        return $ret;
+    }
+    
+    /*!
       Sets the name of the poll.
     */
     function setName( $value )
@@ -323,6 +343,26 @@ class eZPoll
         $this->Database->array_query( $votecount, "SELECT COUNT(*) AS NUMBER FROM eZPoll_Vote WHERE PollID='$this->ID'" );
         
         return $votecount[0][ "NUMBER" ];
+    }
+
+    /*!
+      Sets the active poll to the current poll.
+    */
+    function setMainPoll( $poll)
+    {
+        if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+        if ( get_class( $poll ) == "ezpoll" )
+        {
+            $this->dbInit();
+            
+            // delete old main poll
+            $this->Database->query( "DELETE FROM eZPoll_MainPoll" );
+            
+            // sets the current poll as main poll
+            $this->Database->query( "INSERT INTO eZPoll_MainPoll SET PollID='$this->ID'" );
+        }
     }
     
 

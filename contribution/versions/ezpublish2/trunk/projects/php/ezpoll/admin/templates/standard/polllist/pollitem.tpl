@@ -1,23 +1,27 @@
 <tr>
-	<td>
+	<td class="{td_class}">
 	<a href="/poll/polledit/edit/{poll_id}/">{poll_name}</a>
 	</td>
-	<td>
-	{poll_description}</a>
+	<td class="{td_class}">
+	{poll_description}
 	</td>
 
-	<td>
+	<td class="{td_class}">
 	{poll_is_enabled}
 	</td>
 
-	<td>
-	{poll_is_closed}</a>
+	<td class="{td_class}">
+	{poll_is_closed}
 	</td>
 
-	<td>
+	<td class="{td_class}">
+	<input type="radio" name="MainPollID" value="{poll_id}" {is_checked} />
+	</td>
+
+	<td class="{td_class}">
 	<a href="/poll/polledit/edit/{poll_id}/">[ Rediger ]</a>
 	</td>
-	<td>
+	<td class="{td_class}">
 	<a href="/poll/polledit/delete/{poll_id}/">[ slett ]</a>
 	</td>	
 </tr>
