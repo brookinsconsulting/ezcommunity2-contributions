@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: votebox.php,v 1.3 2000/10/27 10:20:53 ce-cvs Exp $
+// $Id: votebox.php,v 1.4 2000/11/01 07:20:12 bf-cvs Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <20-Sep-2000 13:32:11 ce>
@@ -40,6 +40,10 @@ $t = new eZTemplate( "ezpoll/user/" . $ini->read_var( "eZPollMain", "TemplateDir
 $t->setAllStrings();
 
 $poll = new eZPoll( $PollID );
+$poll = $poll->mainPoll();
+$PollID = $poll->id();
+$poll = new eZPoll( $PollID );
+
 
 if ( $poll->isClosed() )
 {
