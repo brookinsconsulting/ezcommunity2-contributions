@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eztexttool.php,v 1.19 2001/07/19 11:33:57 jakobn Exp $
+// $Id: eztexttool.php,v 1.20 2001/09/24 15:29:53 bf Exp $
 //
 // Definition of eZTextTool class
 //
@@ -63,6 +63,11 @@ class eZTextTool
     */
     function &nl2br( $string, $xhtml=true )
     {
+        if ( !is_bool( $xhtml ) )
+        {
+            return str_replace( "\n", "$xhtml \n", $string );
+        }
+        
         if ( $xhtml == true )            
             return ereg_replace( "\n", "<br />\n", $string );
         else

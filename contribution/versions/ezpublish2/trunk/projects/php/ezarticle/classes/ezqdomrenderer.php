@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezqdomrenderer.php,v 1.47 2001/09/13 13:52:08 bf Exp $
+// $Id: ezqdomrenderer.php,v 1.48 2001/09/24 15:29:53 bf Exp $
 //
 // Definition of eZQDomRenderer class
 //
@@ -219,7 +219,10 @@ class eZQDomrenderer
         {
             $this->Template->set_block( "articletags_tpl", $tag . "_tpl", "$tag"  );
         }
-        
+
+        // get custom <br> command, needed for other renderes than html
+        $this->BrOverride = $this->Template->get_user_variable( "articletags_tpl",  "br" );
+
         $this->Article = $article;
     }
 
@@ -591,6 +594,8 @@ class eZQDomrenderer
                 }
 
                 
+                $this->Template->set_var( "image_file_name", $image->fileName() );
+
                 $this->Template->set_var( "image_width", $imageWidth );
                 $this->Template->set_var( "image_height", $imageHeight );
                 $this->Template->set_var( "image_alignment", $imageAlignment );
@@ -791,7 +796,7 @@ class eZQDomrenderer
                 if ( $this->PrevTag != "link" )
                     $paragraph_text[0] = " ";
             }
-            $pageContent .= eZTextTool::nl2br( $paragraph_text );
+            $pageContent .= eZTextTool::nl2br( $paragraph_text, $this->BrOverride );
         }
         return $pageContent;
     }
@@ -910,7 +915,7 @@ class eZQDomrenderer
                 {
                     if ( $child->name == "text" )
                     {                
-                        $tmpContent .= eZTextTool::nl2br( $child->content );
+                        $tmpContent .= eZTextTool::nl2br( $child->content, $this->BrOverride );
                     }
                     else
                     {
@@ -993,7 +998,7 @@ class eZQDomrenderer
                 {
                     if ( $child->name == "text" )
                     {                
-                        $tmpContent .= eZTextTool::nl2br( $child->content );
+                        $tmpContent .= eZTextTool::nl2br( $child->content, $this->BrOverride );
                     }
                     else
                     {
@@ -1264,7 +1269,7 @@ class eZQDomrenderer
             {
                 if ( $child->name == "text" )
                 {                
-                    $tmpContent .= eZTextTool::nl2br( $child->content );
+                    $tmpContent .= eZTextTool::nl2br( $child->content, $this->BrOverride );
                 }
                 else
                 {
@@ -1286,6 +1291,9 @@ class eZQDomrenderer
     var $Article;
     var $PrevTag;
     var $Template;
+
+    /// stores the <br/> override variable.
+    var $BrOverride = true;
 
     /// stores the custom tags array
     var $CustomTagsArray;

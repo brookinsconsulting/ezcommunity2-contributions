@@ -71,7 +71,7 @@
 <!-- BEGIN image_tpl -->
 {begin_tr}
 	<!-- BEGIN read_tpl -->
-	<td  align="center" valign="center">
+	<td   width="{image_width}" align="center" valign="center">
 	<a href="{www_dir}{index}/imagecatalogue/imageview/{image_id}/?RefererURL=/imagecatalogue/image/list/{main_category_id}/"><img src="{www_dir}{image_src}" width="{image_width}" height="{image_height}" border="0" alt="{image_alt}" /></a><div class="pictext">{image_caption}</div>
 	</td>
 	<!-- END read_tpl -->
@@ -89,7 +89,7 @@
 <!-- BEGIN detail_view_tpl -->
 <tr>
 	<!-- BEGIN detail_read_tpl -->
-	<td  >
+	<td >
 	<a href="{www_dir}{index}/imagecatalogue/imageview/{image_id}/?RefererURL=/imagecatalogue/image/list/{main_category_id}/"><img src="{www_dir}{image_src}" width="{image_width}" height="{image_height}" border="0" alt="{image_alt}" /></a>
 	</td>
 	<td >
