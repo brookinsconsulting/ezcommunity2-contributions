@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: suggestlink.php,v 1.5 2000/10/25 15:20:42 ce-cvs Exp $
+    $Id: suggestlink.php,v 1.6 2000/10/26 08:42:03 ce-cvs Exp $
 
     Author: Christoffer A. Elo <ce@ez.no>
     
@@ -26,11 +26,21 @@ if ( $GetSite )
     if ( $url )
     {
         
-    $metaList =  get_meta_tags ( "http://" . $url );
+        $metaList =  get_meta_tags ( "http://" . $url );
 
-    $tdescription = $metaList["description"];
-    $tkeywords = $metaList["keywords"];
+        if( count( $metaList ) == 0 )
+        {
+            $inierror = new INIFile( "ezlink/user/" . "/intl/" . $Language . "/suggestlink.php.ini", false );
+            $terror_msg = $inierror->read_var( "strings", "nometa" );
+        }
+
+        $tdescription = $metaList["description"];
+        $tkeywords = $metaList["keywords"];
+        $ttitle = $title;
+        $turl = $url;
+
     }
+    $Action = "";
 }
 
 if ( $Action == "insert" )
