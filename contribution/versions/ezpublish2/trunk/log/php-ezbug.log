@@ -596,3 +596,15 @@ Maintainer(s) : vl@ez.no
       user/intl/hr_HR/search.php.ini
       user/intl/hr_HR/unhandledbugs.php.ini: Croatian (hr_HR) for 2.2.2
 
+
+Module : ezbug
+Repository path : /home/cvsroot/projects/php/ezbug
+Maintainer(s) : vl@ez.no
+2001-12-07  Kai Duebbert  <kai@duebbert.de>
+
+    * admin/templates/standard/buglist.tpl
+      admin/templates/standard/modulelist.tpl
+      admin/templates/standard/search.tpl
+      admin/templates/standard/unhandledbugs.tpl:
+    fixed missing {www_dir} in templates
+

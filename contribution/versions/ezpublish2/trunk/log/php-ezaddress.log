@@ -231,3 +231,13 @@ Maintainer(s) : ce@ez.no
       admin/intl/hr_HR/onlinetype.php.ini
       admin/intl/hr_HR/phonetype.php.ini: Croatian (hr_HR) for 2.2.2
 
+
+Module : ezaddress
+Repository path : /home/cvsroot/projects/php/ezaddress
+Maintainer(s) : ce@ez.no
+2001-12-07  Kai Duebbert  <kai@duebbert.de>
+
+    * admin/templates/standard/onlinelist.tpl
+      admin/templates/standard/typelist.tpl:
+    fixed missing {www_dir} in templates
+

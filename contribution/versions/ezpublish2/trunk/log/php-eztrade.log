@@ -2500,3 +2500,24 @@ Maintainer(s) : ce@ez.no
       user/intl/hr_HR/wishlist.php.ini
       user/intl/hr_HR/wishlistmail.php.ini: Croatian (hr_HR) for 2.2.2
 
+
+Module : eztrade
+Repository path : /home/cvsroot/projects/php/eztrade
+Maintainer(s) : ce@ez.no
+2001-12-07  Kai Duebbert  <kai@duebbert.de>
+
+    * admin/templates/standard/imagelist.tpl
+      admin/templates/standard/optionlist.tpl
+      admin/templates/standard/orderlist.tpl
+      admin/templates/standard/productsearch.tpl
+      admin/templates/standard/typelist.tpl
+      admin/templates/standard/voucherlist.tpl
+      admin/templates/flomatik/categorylist.tpl
+      admin/templates/flomatik/imagelist.tpl
+      admin/templates/flomatik/optionlist.tpl
+      admin/templates/flomatik/orderlist.tpl
+      admin/templates/flomatik/productsearch.tpl
+      admin/templates/flomatik/typelist.tpl
+      admin/templates/standard/categorylist.tpl:
+    fixed missing {www_dir} in templates
+

@@ -275,3 +275,12 @@ Maintainer(s) : br@ez.no
       admin/intl/hr_HR/categoryedit.php.ini
       admin/intl/hr_HR/menubox.php.ini: Croatian (hr_HR) for 2.2.2
 
+
+Module : ezad
+Repository path : /home/cvsroot/projects/php/ezad
+Maintainer(s) : br@ez.no
+2001-12-07  Kai Duebbert  <kai@duebbert.de>
+
+    * admin/templates/standard/adlist.tpl:
+    fixed missing {www_dir} in templates
+

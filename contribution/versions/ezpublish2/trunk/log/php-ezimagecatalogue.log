@@ -833,3 +833,13 @@ Maintainer(s) : br@ez.no
       user/intl/hr_HR/menubox.php.ini
       user/intl/hr_HR/slideshow.php.ini: Croatian (hr_HR) for 2.2.2
 
+
+Module : ezimagecatalogue
+Repository path : /home/cvsroot/projects/php/ezimagecatalogue
+Maintainer(s) : br@ez.no
+2001-12-07  Kai Duebbert  <kai@duebbert.de>
+
+    * admin/templates/standard/imagelist.tpl
+      admin/templates/standard/unassigned.tpl:
+    fixed missing {www_dir} in templates
+

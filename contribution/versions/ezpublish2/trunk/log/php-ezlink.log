@@ -600,3 +600,24 @@ Maintainer(s) : br@ez.no
       user/intl/hr_HR/success.php.ini
       user/intl/hr_HR/suggestlink.php.ini: Croatian (hr_HR) for 2.2.2
 
+
+Module : ezlink
+Repository path : /home/cvsroot/projects/php/ezlink
+Maintainer(s) : br@ez.no
+2001-12-07  Bjoern Reiten  <br@ez.no>
+
+    * user/templates/vig/latest.tpl
+      user/templates/vig/linkgrouplist.tpl
+      user/templates/vig/menubox.tpl
+      user/templates/vig/searchlist.tpl
+      user/templates/vig/success.tpl
+      user/templates/vig/suggestlink.tpl: removed template files.
+
+2001-12-07  Kai Duebbert  <kai@duebbert.de>
+
+    * admin/templates/standard/linkcategorylist.tpl
+      admin/templates/standard/linkpage.tpl
+      admin/templates/standard/searchlist.tpl
+      admin/templates/standard/typelist.tpl:
+    fixed missing {www_dir} in templates
+

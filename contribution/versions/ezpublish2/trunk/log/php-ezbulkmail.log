@@ -567,3 +567,26 @@ Maintainer(s) : fh@ez.no
       user/intl/hr_HR/subscriptionmail.php.ini
       user/intl/hr_HR/usermessages.php.ini: Croatian (hr_HR) for 2.2.2
 
+
+Module : ezbulkmail
+Repository path : /home/cvsroot/projects/php/ezbulkmail
+Maintainer(s) : fh@ez.no
+2001-12-07  Bjoern Reiten  <br@ez.no>
+
+    * classes/ezbulkmailforgot.php
+      classes/ezbulkmailsubscriptionaddress.php: fixed some database bugs.
+
+2001-12-07  Kai Duebbert  <kai@duebbert.de>
+
+    * admin/templates/standard/categorylist.tpl
+      admin/templates/standard/maillist.tpl
+      admin/templates/standard/templatelist.tpl:
+    fixed missing {www_dir} in templates
+
+2001-12-07  Bjoern Reiten  <br@ez.no>
+
+    * user/templates/vig/menubox.tpl
+      user/templates/vig/subscriptionlist.tpl
+      user/templates/vig/subscriptionlogin.tpl
+      user/templates/vig/usermessages.tpl: removed templatefiles
+

@@ -858,3 +858,39 @@ Maintainer(s) : jhe@ez.no
       user/intl/hr_HR/search.php.ini
       user/intl/hr_HR/userlogin.php.ini: Croatian (hr_HR) for 2.2.2
 
+
+Module : ezforum
+Repository path : /home/cvsroot/projects/php/ezforum
+Maintainer(s) : jhe@ez.no
+2001-12-07  Bjoern Reiten  <br@ez.no>
+
+    * user/templates/vig/categorylist.tpl
+      user/templates/vig/categorymenu.tpl
+      user/templates/vig/forumlist.tpl
+      user/templates/vig/mailreply.tpl
+      user/templates/vig/menubox.tpl
+      user/templates/vig/message.tpl
+      user/templates/vig/messagebody.tpl
+      user/templates/vig/messagedelete.tpl
+      user/templates/vig/messageedit.tpl
+      user/templates/vig/messageerror.tpl
+      user/templates/vig/messageform.tpl
+      user/templates/vig/messagehiddenform.tpl
+      user/templates/vig/messagelist.tpl
+      user/templates/vig/messagepath.tpl
+      user/templates/vig/messagepost.tpl
+      user/templates/vig/messageposted.tpl
+      user/templates/vig/messagepreview.tpl
+      user/templates/vig/messagereply.tpl
+      user/templates/vig/messagesimplelist.tpl
+      user/templates/vig/search.tpl
+      user/templates/vig/userlogin.tpl: removed templatefiles
+
+2001-12-07  Kai Duebbert  <kai@duebbert.de>
+
+    * admin/templates/standard/categorylist.tpl
+      admin/templates/standard/forumlist.tpl
+      admin/templates/standard/messagelist.tpl
+      admin/templates/standard/search.tpl:
+    fixed missing {www_dir} in templates
+

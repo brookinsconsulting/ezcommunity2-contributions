@@ -365,3 +365,14 @@ Maintainer(s) : ce@ez.no
       user/intl/hr_HR/todomenulist.php.ini
       user/intl/hr_HR/todoview.php.ini: Croatian (hr_HR) for 2.2.2
 
+
+Module : eztodo
+Repository path : /home/cvsroot/projects/php/eztodo
+Maintainer(s) : ce@ez.no
+2001-12-07  Kai Duebbert  <kai@duebbert.de>
+
+    * admin/templates/standard/categorytypelist.tpl
+      admin/templates/standard/prioritytypelist.tpl
+      admin/templates/standard/statustypelist.tpl:
+    fixed missing {www_dir} in templates
+

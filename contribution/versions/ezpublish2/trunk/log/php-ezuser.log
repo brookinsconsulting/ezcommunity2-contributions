@@ -841,3 +841,19 @@ Maintainer(s) : bf@ez.no
       user/intl/hr_HR/useredit.php.ini
       user/intl/hr_HR/userwithaddress.php.ini: Croatian (hr_HR) for 2.2.2
 
+
+Module : ezuser
+Repository path : /home/cvsroot/projects/php/ezuser
+Maintainer(s) : bf@ez.no
+2001-12-07  Bjoern Reiten  <br@ez.no>
+
+    * classes/ezusergroup.php: fixed sql for postgresql.
+
+    * classes/ezusergroup.php: Fixed sql for postgresql.
+
+2001-12-07  Kai Duebbert  <kai@duebbert.de>
+
+    * admin/templates/standard/grouplist.tpl
+      admin/templates/standard/userlist.tpl:
+    fixed missing {www_dir} in templates
+

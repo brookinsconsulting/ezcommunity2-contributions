@@ -669,3 +669,23 @@ Maintainer(s) : jhe@ez.no
       user/intl/hr_HR/search.php.ini
       user/intl/hr_HR/urlsupplier.php.ini: Croatian (hr_HR) for 2.2.2
 
+
+Module : ezcontact
+Repository path : /home/cvsroot/projects/php/ezcontact
+Maintainer(s) : jhe@ez.no
+2001-12-07  Kai Duebbert  <kai@duebbert.de>
+
+    * admin/templates/arkaden/companylist.tpl
+      admin/templates/arkaden/companytypelist.tpl
+      admin/templates/seanex/companylist.tpl
+      admin/templates/seanex/companytypelist.tpl
+      admin/templates/seanex/personlist.tpl
+      admin/templates/standard/companytypelist.tpl
+      admin/templates/standard/companyview.tpl
+      admin/templates/standard/consultationdetaillist.tpl
+      admin/templates/standard/consultationlist.tpl
+      admin/templates/standard/personlist.tpl
+      admin/templates/standard/personview.tpl
+      admin/templates/standard/typelist.tpl:
+    fixed missing {www_dir} in templates
+

@@ -2458,3 +2458,44 @@ Maintainer(s) : bf@ez.no
       user/intl/hr_HR/topiclist.php.ini
       user/intl/hr_HR/urlsupplier.php.ini: Croatian (hr_HR) for 2.2.2
 
+
+Module : ezarticle
+Repository path : /home/cvsroot/projects/php/ezarticle
+Maintainer(s) : bf@ez.no
+2001-12-07  Kai Duebbert  <kai@duebbert.de>
+
+    * admin/templates/flower/articlelist.tpl
+      admin/templates/standard/typelist.tpl
+      user/templates/standard/articlelist.tpl
+      user/templates/standard/frontpage.tpl:
+    fixed missing {www_dir} in templates
+
+2001-12-07  Bjoern Reiten  <br@ez.no>
+
+    * user/templates/vig/articleedit.tpl
+      user/templates/vig/articleheaderlist.tpl
+      user/templates/vig/articlelinks.tpl
+      user/templates/vig/articlelist.tpl
+      user/templates/vig/articlestatic.tpl
+      user/templates/vig/articleview.tpl
+      user/templates/vig/authorlist.tpl
+      user/templates/vig/authorview.tpl
+      user/templates/vig/extendedsearch.tpl
+      user/templates/vig/headlines.tpl
+      user/templates/vig/menubox.tpl
+      user/templates/vig/search.tpl
+      user/templates/vig/smallarticlelist.tpl: removed files.
+
+2001-12-07  Kai Duebbert  <kai@duebbert.de>
+
+    * admin/templates/flower/articlelist.tpl
+      admin/templates/standard/articlelist.tpl
+      admin/templates/standard/attributelist.tpl
+      admin/templates/standard/filelist.tpl
+      admin/templates/standard/imagelist.tpl
+      admin/templates/standard/pendinglist.tpl
+      admin/templates/standard/search.tpl
+      admin/templates/standard/sitemap.tpl
+      admin/templates/standard/typelist.tpl
+      admin/templates/standard/unpublishedlist.tpl: fixed missing {www_dir}
+

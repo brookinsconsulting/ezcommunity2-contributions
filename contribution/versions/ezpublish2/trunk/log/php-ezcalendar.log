@@ -354,3 +354,12 @@ Maintainer(s) : jhe@ez.no
       user/intl/hr_HR/trustees.php.ini
       user/intl/hr_HR/yearview.php.ini: Croatian (hr_HR) for 2.2.2
 
+
+Module : ezcalendar
+Repository path : /home/cvsroot/projects/php/ezcalendar
+Maintainer(s) : jhe@ez.no
+2001-12-07  Kai Duebbert  <kai@duebbert.de>
+
+    * admin/templates/standard/typelist.tpl:
+    fixed missing {www_dir} in templates
+

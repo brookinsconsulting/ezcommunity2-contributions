@@ -315,3 +315,15 @@ Maintainer(s) : vl@ez.no
       user/intl/hr_HR/newslist.php.ini
       user/intl/hr_HR/search.php.ini: Croatian (hr_HR) for 2.2.2
 
+
+Module : eznewsfeed
+Repository path : /home/cvsroot/projects/php/eznewsfeed
+Maintainer(s) : vl@ez.no
+2001-12-07  Kai Duebbert  <kai@duebbert.de>
+
+    * admin/templates/standard/importnews.tpl
+      admin/templates/standard/newsarchive.tpl
+      admin/templates/standard/newssearch.tpl
+      admin/templates/standard/unpublished.tpl:
+    fixed missing {www_dir} in templates
+

@@ -204,3 +204,13 @@ Maintainer(s) : pkej@ez.no
       user/datasupplier.php
       user/quizplay.php: fixed several bugs, db independency
 
+
+Module : ezquiz
+Repository path : /home/cvsroot/projects/php/ezquiz
+Maintainer(s) : pkej@ez.no
+2001-12-07  Kai Duebbert  <kai@duebbert.de>
+
+    * admin/templates/standard/gameedit.tpl
+      admin/templates/standard/gamelist.tpl:
+    fixed missing {www_dir} in templates
+

@@ -518,3 +518,14 @@ Maintainer(s) : vl@ez.no
       admin/intl/hr_HR/templateedit.php.ini
       admin/intl/hr_HR/templatelist.php.ini: Croatian (hr_HR) for 2.2.2
 
+
+Module : ezsitemanager
+Repository path : /home/cvsroot/projects/php/ezsitemanager
+Maintainer(s) : vl@ez.no
+2001-12-07  Kai Duebbert  <kai@duebbert.de>
+
+    * admin/templates/standard/filelist.tpl
+      admin/templates/standard/menulist.tpl
+      admin/templates/standard/sectionlist.tpl:
+    fixed missing {www_dir} in templates
+
