@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eztechrenderer.php,v 1.42 2000/12/01 06:31:38 bf-cvs Exp $
+// $Id: eztechrenderer.php,v 1.43 2000/12/01 10:29:54 bf-cvs Exp $
 //
 // Definition of eZTechRenderer class
 //
@@ -454,7 +454,7 @@ class eZTechRenderer
                 }
                 if ( $imageAlignment != "float"  )
                 {                            
-                    $imageTags = "<table width=\"$imageWidth\" align=\"$imageAlignment\" border=\"0\" cellspacing=\"0\" cellpadding=\"4\">
+                    $imageTags = "<br clear=\"all\"><table width=\"$imageWidth\" align=\"$imageAlignment\" border=\"0\" cellspacing=\"0\" cellpadding=\"4\">
                                             <tr>
                                             <td>
                                                      	<a href=\"/imagecatalogue/imageview/$imageID/?RefererURL=/article/$viewMode/$articleID/\">

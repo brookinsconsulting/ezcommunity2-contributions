@@ -36,7 +36,9 @@
 	<h2>{article_name}</h2>
 	</a>
 	
-
+	<table width="100%" cellspacing="0" cellpadding="0" border="0"
+	<tr>
+	<td valign="top">
 	<!-- BEGIN article_image_tpl -->
 	    <table align="left">
 	        <tr>
@@ -53,18 +55,19 @@
              </table>
         <!-- END article_image_tpl -->
 
+	     </td>
+		<td valign="top">
+		<p>
+		{article_intro}
+		</p>
+		</td>
+	</tr>
+	</table>
 
-	<p>
-	{article_intro}
-	</p>
-	<br clear="all" />
 	<img src="/images/path-arrow.gif" height="10" width="15" border="0" alt="">
 	<a class="path" href="/article/articleview/{article_id}/">
-	{article_link_text}
-	</a>
-	<br />
-	<br />
-	<br />
+	{article_link_text}</a>
+
 	</td>
 </tr>
 <!-- END article_item_tpl -->
