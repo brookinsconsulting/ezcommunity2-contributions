@@ -92,6 +92,15 @@ switch( $url_array[2] )
 //        imap_close( $mbox );
     }
     break;
+
+    case "filteredit" :
+    {
+        $FilterID = $url_array[3];
+        if( $FilterID == "" )
+            $FilterID = 0;
+        include_once( "ezmail/user/filteredit.php" );
+    }
+    break;
     
     default:
     {
