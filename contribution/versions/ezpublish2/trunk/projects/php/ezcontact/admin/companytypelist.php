@@ -133,6 +133,7 @@ else
 
     if( is_numeric( $ImageID ) && $ImageID != 0 )
     {
+
         $ini = new INIFile( "site.ini" );
         $imageWidth = $ini->read_var( "eZContactMain", "CategoryImageWidth" );
         $imageHeight = $ini->read_var( "eZContactMain", "CategoryImageHeight" );
@@ -156,34 +157,41 @@ else
     $t->parse( "current_type", "current_type_tpl" );
     if( $TypeID != 0 && $Action == "view" )
     {
+
         $t->parse( "not_root", "not_root_tpl" );
     }
     else
     {
+
         $t->set_var( "not_root", "" );
     }
     
     if( $Action == "view" )
     {
+
         $t->parse( "view", "view_tpl" );
         $t->set_var( "list", "" );
     }
     
     if( $Action == "list" )
     {
+
         $t->set_var( "view", "" );
         $t->parse( "list", "list_tpl" );
     }
     if( $type_count != 0 )
     {
+
         for( $i = 0; $i < $type_count; $i++ )
         {
             if ( ( $i % 2 ) == 0 )
             {
+
                 $t->set_var( "theme-type_class", "bglight" );
             }
             else
             {
+
                 $t->set_var( "theme-type_class", "bgdark" );
             }  
 
@@ -195,27 +203,33 @@ else
 
             if( empty( $name ) )
             {
+
                 $t->set_var( "type_name", "&nbsp;" );
             }
             else
             {
+
                 $t->set_var( "type_name", $name );
             }
             if( empty( $desc ) )
             {
+
                 $t->set_var( "type_description", "&nbsp;" );
             }
             else
             {
+
                 $t->set_var( "type_description", $desc );
             }
-            if( !$type_array[$i]->hasChildren( $childrenCount ) )
+            if( 1 )
             {
+
                 $t->parse( "type_item", "type_item_tpl", true );
                 $typesDone = true;
             }
             else
             {
+
                 $t->parse( "category_item", "category_item_tpl", true );
                 $categoriesDone = true;
             }
@@ -227,11 +241,13 @@ else
 
     if ( count ( $companyList ) == 0 )
     {
+
         $t->set_var( "company_item", "" );
         $t->parse( "no_companies", "no_companies_tpl" );
     }
     else
     {
+
         for( $index = 0; $index < count( $companyList ); $index++ )
         {
             if ( ( $index %2 ) == 0 )
@@ -267,11 +283,13 @@ else
     
     if( $typesDone == true )
     {
+
         $t->set_var( "no_type_item", "" );    
         $t->parse( "type_list", "type_list_tpl" );
     }
     else
     {
+
         $t->set_var( "type_list", "" );
         $t->parse( "no_type_item", "no_type_item_tpl" );
     }
