@@ -24,8 +24,9 @@ Chapter 2 Pre-requisites
     2.4 FreeBSD
     2.5 IRIX
     2.6 RAQ 3
-    2.7 Other Systems
-    2.8 Installation of Required Software
+    2.7 Windows
+    2.8 Other Systems
+    2.9 Installation of Required Software
 Chapter 3 Compile Configuration
     3.1 PHP
         3.1.1 Unpacking
@@ -50,6 +51,11 @@ Chapter 5 eZ publish Installation
     5.2 Program Files
 Chapter 6 Now What?
 Chapter 7 Installing on RAQ 3
+Chapter 8 Install eZ publish on a Windows System Running Apache
+    8.1 Programs to Install
+    8.2 Configuration of PHP
+    8.3 Apache Configuration
+    8.4 eZ publish Installation
 
 
 
@@ -212,11 +218,15 @@ files are installed.
 
 2.6 RAQ 3
 
-There is a separate chapter at the end of this manual describing
-installation on a RAQ 3 server. It was kindly provided by
-Chris Mason, 
+There is a separate chapter ([chptr: raq 3])
+in this manual describing installation on a RAQ 3 server.
+It was kindly provided by Chris Mason, 
 
-2.7 Other Systems
+2.7 Windows
+
+Windows installation is described in its own chapter ([chptr: windows]).
+
+2.8 Other Systems
 
 On other systems you should read the documentation for that
 system to learn how to find out what software is already
@@ -232,7 +242,7 @@ computer. Therefore we urge you to learn how to use the
 proper installation features of your system to find the
 software already installed.
 
-2.8 Installation of Required Software
+2.9 Installation of Required Software
 
 If you've found pre-compiled versions of all the software
 packaged for use with an installation tool, you just have
@@ -982,3 +992,59 @@ Then chown httpd.httpd * on both the domain and admin.domain
 directories to get it to work.
 
 If all is well, your site should work.
+
+Install eZ publish on a Windows System Running Apache<chptr: windows>
+
+Thanks to Øyvind Wærendskjold <werenskjold@disippel.net>
+for giving us this information.
+
+8.1 Programs to Install
+
+Install Apache1.3.x (http://httpd.apache.org/dist/binaries/win32/)
+
+Install PHP 4.0.x (http://www.php.net/downloads.php)
+
+Install MySQL 3.23.x (http://www.mysql.com/downloads/os-win32.html)
+
+8.2 Configuration of PHP
+
+Remember to place php_domxml.dll in the "extension_dir" directory.
+Modify php.ini:
+
+
+    session.save_path = \WinNT\temp
+    extension=php_domxml.dll
+    extension_dir = C:\Program Files\Apache Group\Apache\extensions 
+
+8.3 Apache Configuration
+
+Create the virtual hosts for apache. Use the file virtualhosts.conf
+in this package as a template
+
+If you don't want to include the virtualhost config directly
+in httpd.conf, remember to use the include directive instead.
+Copy your virtualhost file to the apache configure directory
+and add the following line at the bottom of httpd.conf should
+do the trick:
+
+    include conf/virtualhosts.conf
+
+
+Also remember to enable the rewrite module in httpd.conf:
+
+
+LoadModule rewrite_module modules/ApacheModuleRewrite.dll
+ 
+
+8.4 eZ publish Installation
+
+Decompress eZ publish to "c:\ezpublish"
+
+Add the file "winINIFile.php"
+to "c:\ezpublish\classes":
+
+replace c:\ezpublish\classes\INIFile.php
+
+replace c:\ezpublish\classes\eztemplate.php
+
+replace c:\ezpublish\admin\index.php
