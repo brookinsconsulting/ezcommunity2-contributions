@@ -85,17 +85,22 @@ class INIFile
     function parse( $inifilename )
     { 
         $this->INI_FILE_NAME = $inifilename;
-        
-        if( $this->WRITE_ACCESS )
-            $fp = fopen( $inifilename, "r+" ); 
-        else
-            $fp = fopen( $inifilename, "r" );
+
+        $fp = fopen( $inifilename, $this->WRITE_ACCESS ? "r+" : "r" ); 
 
         $this->CURRENT_GROUP=false;
         $this->GROUPS=array();
         $contents =& fread($fp, filesize($inifilename)); 
-        $ini_data =& split( "\n",$contents); 
-         
+        $ini_data =& split( "\n",$contents);
+
+        for ( $i = 0; $i < count( $init_data ); $i++ )
+        {
+            $data =& $init_data[$i];
+            // Remove MS-DOS Carriage return from end of line
+            if ( ord( $data[strlen($data) - 1] ) == 13 )
+                $data = substr( $data, 0, strlen($data) - 1 );
+        }
+
         while( list($key, $data) = each($ini_data) ) 
         { 
             $this->parse_data($data); 
@@ -114,9 +119,6 @@ class INIFile
         {
             $data = $m[1];
         }
-        // Remove MS-DOS Carriage return from end of line
-        if ( ord( $data[strlen($data) - 1] ) == 13 )
-            $data = substr( $data, 0, strlen($data) - 1 );
 
         if( ereg( "\[([[:alnum:]]+)\]", $data, $out ) )
         {
