@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: datasupplier.php,v 1.54 2001/10/12 10:52:59 sascha Exp $
+// $Id: datasupplier.php,v 1.54.2.1 2002/01/02 21:42:12 kaid Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -164,7 +164,7 @@ switch ( $url_array[2] )
         {
             include( "eztrade/user/wishlist.php" );
 
-//              Header( "Location: /trade/wishlist/add/$ProductID" );
+//               eZHTTPTool::header( "Location: /trade/wishlist/add/$ProductID" );
 //              exit();
         }
         else

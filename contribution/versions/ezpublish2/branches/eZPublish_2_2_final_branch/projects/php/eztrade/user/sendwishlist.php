@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: sendwishlist.php,v 1.7 2001/08/17 13:36:00 jhe Exp $
+// $Id: sendwishlist.php,v 1.7.2.1 2002/01/02 21:42:12 kaid Exp $
 //
 // Created on: <15-Jan-2001 14:17:36 bf>
 //
@@ -52,7 +52,7 @@ $user =& eZUser::currentUser();
 
 if ( !$user )
 {
-    Header( "Location: /trade/customerlogin/?RedirectURL=/trade/wishlist/" );
+     eZHTTPTool::header( "Location: /trade/customerlogin/?RedirectURL=/trade/wishlist/" );
     exit();
 }
 
@@ -65,7 +65,7 @@ if ( !$wishlist )
     $wishlist->setUser( $user );
 
     $wishlist->store();
-    Header( "Location: /trade/wishlist/" );
+     eZHTTPTool::header( "Location: /trade/wishlist/" );
     exit();    
 }
 
@@ -136,7 +136,7 @@ if ( $Action == "SendWishlist" )
             $mail->send();
         }
 
-        Header( "Location: /trade/sendwishlist/success/" );
+         eZHTTPTool::header( "Location: /trade/sendwishlist/success/" );
         exit();        
     }
     else

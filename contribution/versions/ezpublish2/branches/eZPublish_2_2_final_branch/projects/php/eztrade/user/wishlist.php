@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: wishlist.php,v 1.20.2.1 2001/11/01 13:05:51 ce Exp $
+// $Id: wishlist.php,v 1.20.2.2 2002/01/02 21:42:12 kaid Exp $
 //
 // Created on: <21-Oct-2000 18:09:45 bf>
 //
@@ -64,7 +64,7 @@ $user =& eZUser::currentUser();
 
 if ( !$user )
 {
-    Header( "Location: /trade/customerlogin/?RedirectURL=/trade/wishlist/" );
+    eZHTTPTool::header( "Location: /trade/customerlogin/?RedirectURL=/trade/wishlist/" );
     exit();
 }
 
@@ -179,7 +179,7 @@ if ( $Action == "AddToBasket" )
         }
     }
 
-    Header( "Location: /trade/wishlist/" );
+    eZHTTPTool::header( "Location: /trade/wishlist/" );
 
     exit();
 }
@@ -193,7 +193,7 @@ if ( $Action == "RemoveFromWishlist" )
         $wishListItem->delete();
     }
 
-    Header( "Location: /trade/wishlist/" );
+    eZHTTPTool::header( "Location: /trade/wishlist/" );
 
     exit();
 }
@@ -261,7 +261,7 @@ if ( $Action == "MoveToCart" )
         }
     }
 
-    Header( "Location: /trade/cart/" );
+    eZHTTPTool::header( "Location: /trade/cart/" );
     exit();
 }
 

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: orderview.php,v 1.2 2001/10/16 09:21:05 ce Exp $
+// $Id: orderview.php,v 1.2.2.1 2002/01/02 21:42:12 kaid Exp $
 //
 // Created on: <30-Sep-2000 13:03:13 bf>
 //
@@ -25,7 +25,7 @@
 
 if ( isSet( $Cancel ) )
 {
-    Header( "Location: /trade/orderlist/" );
+    eZHTTPTool::header( "Location: /trade/orderlist/" );
     exit();
 }
 

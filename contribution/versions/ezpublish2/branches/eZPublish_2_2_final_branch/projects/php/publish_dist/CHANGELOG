@@ -12,6 +12,7 @@ Changes from 2.2.2 to 2.2.3
 * Improved process of connecting to mySQL server.
 * Fixed installation in web root without virtual hosting
 * Fixed search for links in admin area
+* Fixed wrong redirection in Trade module for nVH setup
 
 Changes from 2.2.1 final to 2.2.2
 ---------------------------------

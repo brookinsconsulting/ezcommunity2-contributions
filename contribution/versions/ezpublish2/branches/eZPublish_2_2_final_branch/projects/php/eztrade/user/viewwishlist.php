@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: viewwishlist.php,v 1.8 2001/08/17 13:36:01 jhe Exp $
+// $Id: viewwishlist.php,v 1.8.2.1 2002/01/02 21:42:12 kaid Exp $
 //
 // Created on: <21-Oct-2000 18:09:45 bf>
 //
@@ -68,7 +68,7 @@ if ( $Action == "MoveToCart" )
         }
     }
 
-    Header( "Location: /trade/cart/" );
+     eZHTTPTool::header( "Location: /trade/cart/" );
     exit();
 }
 
@@ -88,7 +88,7 @@ if ( is_numeric( $url_array[3] ) )
 }
 else
 {
-    Header( "Location: /trade/customerlogin/?RedirectURL=/trade/wishlist/" );
+     eZHTTPTool::header( "Location: /trade/customerlogin/?RedirectURL=/trade/wishlist/" );
     exit();    
 }
 
@@ -102,13 +102,13 @@ else
         // do not show non public wish lists (unless owned by one)
         if ( $wishlist->isPublic() == false )
         {
-            Header( "Location: /" );
+             eZHTTPTool::header( "Location: /" );
             exit();
         }
     }
     else
     {
-        Header( "Location: /" );
+         eZHTTPTool::header( "Location: /" );
         exit();
     }
 }
