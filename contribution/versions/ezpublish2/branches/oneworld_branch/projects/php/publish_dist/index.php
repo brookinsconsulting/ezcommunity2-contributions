@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: index.php,v 1.119.2.20 2002/04/24 13:45:31 jb Exp $
+// $Id: index.php,v 1.119.2.20.2.1 2002/05/22 12:16:08 pkej Exp $
 //
 // Created on: <09-Nov-2000 14:52:40 ce>
 //
@@ -137,23 +137,6 @@ $siteDesign =& $ini->read_var( "site", "SiteDesign" );
 // Store the site design in a global variable
 $GlobalSiteDesign = $siteDesign;
 
-
-$StoreStats = $ini->read_var( "eZStatsMain", "StoreStats" );
-
-if ( $StoreStats == "enabled" )
-{
-    // do the statistics
-    include_once( "ezstats/classes/ezpageview.php" );
-
-    // if we are using nVH setup, we need to store our stats here
-    if ( isSet( $GlobalSiteIni->SiteDir ) and $GlobalSiteIni->SiteDir != "" )
-    {
-        // create a global page view object for statistics
-        // and store the stats
-        $GlobalPageView = new eZPageView();
-        $GlobalPageView->store();
-    }
-}
 
 // parse the URI
 $meta_page = "";
@@ -418,4 +401,24 @@ $db =& eZDB::globalDatabase();
 $db->close();
 
 ob_end_flush();
+
+$StoreStats = $ini->read_var( "eZStatsMain", "StoreStats" );
+
+if ( $StoreStats == "enabled" )
+{
+    // do the statistics
+    include_once( "ezstats/classes/ezpageview.php" );
+
+    // if we are using nVH setup, we need to store our stats here
+    if ( isSet( $GlobalSiteIni->SiteDir ) and $GlobalSiteIni->SiteDir != "" )
+    {
+        // create a global page view object for statistics
+        // and store the stats
+        $GlobalPageView = new eZPageView();
+        $GlobalPageView->store();
+    }
+}
+
+
+
 ?>
