@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: article.php,v 1.11 2001/07/19 12:19:21 jakobn Exp $
+// $Id: article.php,v 1.12 2001/07/25 10:35:04 jb Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -319,7 +319,24 @@ else if ( $Command == "search" )
     }
     $elements = array();
     $article = new eZArticle();
-    $result =& $article->search( $text, "alpha", true, 0, -1 );
+    $params = array();
+    if ( isset( $Data["Parameters"] ) )
+    {
+        $par = $Data["Parameters"]->value();
+        if ( isset( $par["FromDate"] ) )
+            $params["FromDate"] = createDateTime( $par["FromDate"]->value() );
+        if ( isset( $par["ToDate"] ) )
+            $params["ToDate"] = createDateTime( $par["ToDate"]->value() );
+        if ( isset( $par["Categories"] ) )
+            $params["Categories"] = $par["Categories"]->toArray();
+        if ( isset( $par["Type"] ) )
+            $params["Type"] = $par["Type"]->value();
+        if ( isset( $par["AuthorID"] ) )
+            $params["AuthorID"] = $par["AuthorID"]->value();
+        if ( isset( $par["PhotographerID"] ) )
+            $params["PhotographerID"] = $par["PhotographerID"]->value();
+    }
+    $result =& $article->search( $text, "alpha", true, 0, -1, $params );
     foreach( $result as $item )
     {
         $cat =& $item->categoryDefinition();
@@ -329,11 +346,7 @@ else if ( $Command == "search" )
                                                  "CategoryLocation" => createURLStruct( "ezarticle", "category", $cat->id() ) ) );
     }
     $ret = array( "Elements" => new eZXMLRPCArray( $elements ) );
-    if ( isset( $Data["NextSearch"] ) )
-    {
-        $ret["NextSearch"] = $Data["NextSearch"];
-        $ret["Keywords"] = $Data["Keywords"];
-    }
+    handleSearchData( $ret );
     $ReturnData = new eZXMLRPCStruct( $ret );
 }
 
