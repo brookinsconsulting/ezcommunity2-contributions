@@ -1,32 +1,51 @@
-<img src="/sitedesign/nca1/images/sidebeskrivelser/forsiden.gif" width="530" height="54" border="0" alt="">
-<div class="path">
-	<!-- BEGIN path_item_tpl -->
-	<a href="{www_dir}{index}/{module}/{module_list}/{category_id}/">{category_name}</a>
-	<img src="/sitedesign/nca1/images/path_arrow.gif" width="14" height="12" border="0" alt="">
-	<!-- END path_item_tpl -->
-</div>
-<img src="/sitedesign/nca1/images/header/header_section_{section_id}_type2.gif" width="530" height="25" border="0" alt="">
-<table width="530" cellspacing="0" cellpadding="0" border="0">
-	<tr>
-		<td colspan="2"><img src="/sitedesign/nca1/images/spacer.gif" width="530" height="10" border="0" alt=""></td>
-	</tr>
-	<!-- BEGIN category_list_tpl -->
-	<!-- BEGIN category_tpl -->
-	<tr>
-		<td>&nbsp;</td>
-		<td>
-			<p>
-				<span class="h3"><a href="{www_dir}{index}/{module}/{module_list}/{category_id}/">{category_name}</a></span>
-				<br>
-				{category_description}
-				<br>
-				<br>
-			</p>
-		</td>
-	</tr>
-	<!-- END category_tpl -->
-	<!-- END category_list_tpl -->
+<table width="100%" cellspacing="0" cellpadding="0" border="0">
+<tr>
+	<td>
+	<h1>{intl-productlist}</h1>
+	</td>
+     <td align="right">
+	 <form action="{www_dir}{index}/{module}/search/" method="post">
+	       <input type="text" name="Query">
+	       <input class="stdbutton" type="submit" name="search" value="{intl-search_button}">
+         </form>
+     </td>
+</tr>
 </table>
+
+<hr noshade="noshade" size="4"/>
+
+<img src="{www_dir}/images/path-arrow.gif" height="10" width="12" border="0" alt="" />
+<a class="path" href="{www_dir}{index}/{module}/{module_list}/0/">{intl-top}</a>
+
+<!-- BEGIN path_tpl -->
+<img src="{www_dir}/images/path-slash.gif" height="10" width="16" border="0" alt="" />
+<a class="path" href="{www_dir}{index}/{module}/{module_list}/{category_id}/">{category_name}</a>
+<!-- END path_tpl -->
+
+<hr noshade="noshade" size="4" />
+<!-- BEGIN category_list_tpl -->
+
+<table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
+<tr>
+	<th>{intl-category}:</th>
+	<th>{intl-description}:</th>
+</tr>
+
+<!-- BEGIN category_tpl -->
+<tr>
+	<td class="{td_class}">
+	<a href="{www_dir}{index}/{module}/{module_list}/{category_id}/">{category_name}</a>&nbsp;
+	</td>
+	<td class="{td_class}">
+	{category_description}&nbsp;
+	</td>
+</tr>
+<!-- END category_tpl -->
+
+</table>
+
+<!-- END category_list_tpl -->
+
 
 <!-- BEGIN product_list_tpl -->
 
