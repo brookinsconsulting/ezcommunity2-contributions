@@ -67,6 +67,29 @@
 
 <!-- END main_image_tpl -->
 
+
+<!-- BEGIN attribute_list_tpl -->
+<table width="60%" cellspacing="0" cellpadding="2" border="0" align="center">
+<!-- BEGIN attribute_tpl -->
+
+<!-- END attribute_tpl -->
+
+<!-- BEGIN attribute_value_tpl -->
+<tr> 
+	<td>{attribute_name}:</td>
+	<td align="right">{attribute_value_var} {attribute_unit}</td>
+</tr>
+<!-- END attribute_value_tpl -->
+<!-- BEGIN attribute_header_tpl -->
+<tr> 
+	<th colspan="2">{attribute_name}:</th>
+</tr>
+<!-- END attribute_header_tpl -->
+
+</table>
+<!-- END attribute_list_tpl -->
+
+
 <p>{intro_text}</p>
 
 <div class="p">{description_text}</div>
@@ -137,26 +160,6 @@
 </tr>
 </table>
 
-<!-- BEGIN attribute_list_tpl -->
-<table width="60%" cellspacing="0" cellpadding="2" border="0" align="center">
-<!-- BEGIN attribute_tpl -->
-
-<!-- END attribute_tpl -->
-
-<!-- BEGIN attribute_value_tpl -->
-<tr> 
-	<td>{attribute_name}:</td>
-	<td align="right">{attribute_value_var} {attribute_unit}</td>
-</tr>
-<!-- END attribute_value_tpl -->
-<!-- BEGIN attribute_header_tpl -->
-<tr> 
-	<th colspan="2">{attribute_name}:</th>
-</tr>
-<!-- END attribute_header_tpl -->
-
-</table>
-<!-- END attribute_list_tpl -->
 
 <form action="{www_dir}{index}/{module}/{action_url}/{product_id}/" method="post">
 
@@ -235,7 +238,7 @@
 	<td>
 	<!-- BEGIN price_tpl -->
 	<p class="boxtext">{intl-price}:</p>
-	{product_price}
+	<h2>{product_price}</h2>
 
 	<!-- BEGIN alternative_currency_list_tpl -->
 	<p class="boxtext">{intl-alternative_currency}:</p>

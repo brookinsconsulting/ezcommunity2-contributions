@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezarticle.php,v 1.183.2.2 2001/11/01 18:57:34 bf Exp $
+// $Id: ezarticle.php,v 1.183.2.2.4.1 2002/01/02 11:37:34 bf Exp $
 //
 // Definition of eZArticle class
 //
@@ -2282,10 +2282,10 @@ class eZArticle
             $db->unlock();
     
             if ( in_array( false, $res ) )
-                $db->rollback( );
+                $db->rollback();
             else
-                $db->commit();            
-        }       
+                $db->commit();
+        }
     }
 
     /*!

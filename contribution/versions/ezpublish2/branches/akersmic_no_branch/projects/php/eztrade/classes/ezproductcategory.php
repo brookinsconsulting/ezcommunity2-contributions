@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezproductcategory.php,v 1.52 2001/10/02 15:52:40 pkej Exp $
+// $Id: ezproductcategory.php,v 1.52.8.1 2002/01/02 11:37:34 bf Exp $
 //
 // Definition of eZProductCategory class
 //
@@ -914,6 +914,29 @@ class eZProductCategory
        return $category;
     }
 
+    /*!
+      Returns the (first!) category object with the applied name which is a subcategory of the current.
+    */
+    function &getSubCategoryByName( $name )
+    {
+        $db =& eZDB::globalDatabase();
+
+        $name = $db->escapeString( $name );
+        
+        $category = false;
+
+        $db->array_query( $res, "SELECT ID FROM
+                                    eZTrade_Category
+                                           WHERE Parent='$this->ID' AND Name='$name' " );
+
+       if ( count( $res ) == 1 )
+       {
+           $category = new eZProductCategory( $res[0][$db->fieldName( "ID" )] );
+       }
+
+       return $category;
+    }
+    
     /*!
       Clone a current object.
     */

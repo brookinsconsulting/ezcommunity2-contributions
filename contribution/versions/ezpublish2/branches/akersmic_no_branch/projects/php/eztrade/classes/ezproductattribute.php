@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezproductattribute.php,v 1.13 2001/07/31 11:33:11 jhe Exp $
+// $Id: ezproductattribute.php,v 1.13.8.1 2002/01/02 11:37:34 bf Exp $
 //
 // Definition of eZProductAttribute class
 //
@@ -279,10 +279,10 @@ class eZProductAttribute
     */
     function setValue( $product, $value )
     {
-        $db =& eZDB::globalDatabase();
-
         if ( get_class( $product ) == "ezproduct" )
         {
+            $db =& eZDB::globalDatabase();
+            
             $value = $db->escapeString( $value );
             $productID = $product->id();
             
@@ -294,7 +294,7 @@ class eZProductAttribute
             {
                 $valueID = $value_array[0][$db->fieldName( "ID" )];
                 
-                $res = $db->query( "UPDATE eZTrade_AttributeValue SET
+                $res[] = $db->query( "UPDATE eZTrade_AttributeValue SET
                                  Value='$value'
                                  WHERE ID='$valueID'" );
             }
@@ -314,8 +314,8 @@ class eZProductAttribute
                                  '$value' )" );
                 $db->unlock();
             }
+            eZDB::finish( $res, $db );
         }
-        eZDB::finish( $res, $db );
     }
     
     /*!

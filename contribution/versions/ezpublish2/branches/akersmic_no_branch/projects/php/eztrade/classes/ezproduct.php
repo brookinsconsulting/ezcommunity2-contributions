@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezproduct.php,v 1.119.2.1 2001/11/01 13:05:51 ce Exp $
+// $Id: ezproduct.php,v 1.119.2.1.4.1 2002/01/02 11:37:34 bf Exp $
 //
 // Definition of eZProduct class
 //
@@ -1703,14 +1703,24 @@ class eZProduct
            $db->begin();
 
            $categoryID = $value->id();
-           
-           $db->query( "DELETE FROM eZTrade_ProductCategoryDefinition
-                                     WHERE ProductID='$this->ID'" );
-            
-           $db->lock( "eZTrade_ProductCategoryDefinition" );
-           $nextID = $db->nextID( "eZTrade_ProductCategoryDefinition", "ID" );
 
-           $query = "INSERT INTO eZTrade_ProductCategoryDefinition
+           // check if product has category definition, if not create one 
+           $db->array_query( $def_array, "SELECT ID FROM eZTrade_ProductCategoryDefinition
+                                    WHERE ProductID='$this->ID'" );
+
+           if ( count( $def_array ) == 1 )
+           {
+               $defID = $def_array[0][$db->fieldName( "ID" )];
+               
+               $query = "UPDATE eZTrade_ProductCategoryDefinition
+                         SET CategoryID='$categoryID' WHERE ID='$defID'";
+           }
+           else
+           {           
+               $db->lock( "eZTrade_ProductCategoryDefinition" );
+               $nextID = $db->nextID( "eZTrade_ProductCategoryDefinition", "ID" );
+               
+               $query = "INSERT INTO eZTrade_ProductCategoryDefinition
                          ( ID,
                            CategoryID,
                            ProductID )
@@ -1718,11 +1728,13 @@ class eZProduct
                          ( '$nextID',   
                            '$categoryID',
                            '$this->ID' )";
-           $db->unlock();
+           }
+           
            $res[] = $db->query( $query );
+           $db->unlock();
 
            eZDB::finish( $res, $db );
-       }       
+       }
     }
 
     /*!
@@ -1781,6 +1793,7 @@ class eZProduct
                            '$typeID',
                            '$this->ID' )";
             $db->unlock();
+            
             $res[] = $db->query( $query );
             eZDB::finish( $res, $db );
        }       

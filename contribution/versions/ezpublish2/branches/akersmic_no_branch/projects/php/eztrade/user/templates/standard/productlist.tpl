@@ -58,7 +58,7 @@
 	<div class="listproducts"><a class="listproducts" href="{www_dir}{index}/{module}/{module_view}/{product_id}/{category_id}/">{product_name}</a></div>
 
 <!-- BEGIN product_image_tpl -->
-    <table align="right">
+    <table align="right"   width="{thumbnail_image_width}">
     <tr>
         <td>
 	<a href="{www_dir}{index}/{module}/{module_view}/{product_id}/{category_id}/">

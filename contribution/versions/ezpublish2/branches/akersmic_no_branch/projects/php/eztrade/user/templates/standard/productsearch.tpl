@@ -24,10 +24,11 @@
 
 	<a href="{www_dir}{index}/{module}/{module_view}/{product_id}/{category_id}/"><h2>{product_name}</h2></a><br>
     <!-- BEGIN image_tpl -->
-    <table align="right">
+    <table align="right" width="{thumbnail_image_width}">
     <tr>
         <td>
-        <img src="{www_dir}{thumbnail_image_uri}" border="0" width="{thumbnail_image_width}" height="{thumbnail_image_height}" />
+	<a href="{www_dir}{index}/{module}/{module_view}/{product_id}/{category_id}/">
+        <img src="{www_dir}{thumbnail_image_uri}" border="0" width="{thumbnail_image_width}" height="{thumbnail_image_height}" /></a>
         </td>
     </tr>
     <tr>
