@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezsectionfrontpage.php,v 1.1 2001/10/02 14:03:27 ce Exp $
+// $Id: ezsectionfrontpage.php,v 1.2 2001/10/11 20:21:32 br Exp $
 //
 // ezsectionfrontpage class
 //
@@ -178,6 +178,19 @@ class eZSectionFrontPage
         return $this->ID;
     }
 
+    function &settingByRowID( $id )
+    {
+        $db =& eZDB::globalDatabase();
+                
+        $db->query_single( $setting, "SELECT Name FROM
+                                           eZSiteManager_SectionFrontPageSetting,
+                                           eZSiteManager_SectionFrontPageRow WHERE
+                                           eZSiteManager_SectionFrontPageRow.ID='$id' AND
+                                           SettingID=eZSiteManager_SectionFrontPageSetting.ID" );
+
+        return $setting[$db->fieldName( "Name" )];
+    }
+    
     function &settingNames()
     {
         $db =& eZDB::globalDatabase();
@@ -195,7 +208,7 @@ class eZSectionFrontPage
         $db->query_single( $setting, "SELECT Name
                                            FROM eZSiteManager_SectionFrontPageSetting WHERE ID='$id'" );
 
-        return $setting["Name"];
+        return $setting[$db->fieldName( "Name" )];
     }
 
     /*!

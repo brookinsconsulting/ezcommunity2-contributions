@@ -30,6 +30,13 @@
 <hr noshade="noshade" size="4" /><br />
 <!-- BEGIN setting_list_tpl -->
 <table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
+<tr>
+         <th>{intl-settings}</th>
+	 <th>{intl-category}</th>
+	 <th>&nbsp;</th>
+	 <th>&nbsp;</th>
+	 <th>&nbsp;</th>
+</tr>
 <!-- BEGIN setting_item_tpl -->
 <tr class="{td_class}">
 	<td width="98%">
@@ -40,8 +47,9 @@
         <!-- END settings_tpl -->
         </select>
         </td>
-
 	<td width="98%">
+	<!-- BEGIN category_block_tpl -->
+
 	<!-- BEGIN article_category_list_tpl -->
         <select Name="CategoryID[]">
 	<!-- BEGIN article_category_item_tpl -->
@@ -57,8 +65,10 @@
         </select>
 	<!-- END product_category_list_tpl -->
 
+	<!-- END category_block_tpl -->
 	&nbsp;
         </td>
+	
 
 <!-- BEGIN item_move_down_tpl -->
 	<td width="1%"><a href="{www_dir}{index}/sitemanager/section/edit/{section_id}/down/{row_id}/"><img src="{www_dir}/admin/images/move-down.gif" height="12" width="12" border="0" alt="Move down" /></a></td>

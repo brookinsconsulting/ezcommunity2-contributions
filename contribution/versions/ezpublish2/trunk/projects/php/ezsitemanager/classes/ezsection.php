@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezsection.php,v 1.13 2001/10/02 14:03:27 ce Exp $
+// $Id: ezsection.php,v 1.14 2001/10/11 20:21:32 br Exp $
 //
 // ezsection class
 //
@@ -370,7 +370,7 @@ class eZSection
         $returnArray = array();
         
         $db->array_query( $rows, "SELECT eZSiteManager_SectionFrontPageRow.ID as ID FROM eZSiteManager_SectionFrontPageRowLink, eZSiteManager_SectionFrontPageRow
-                                           WHERE eZSiteManager_SectionFrontPageRowLink.SectionID='$this->ID' AND eZSiteManager_SectionFrontPageRowLink.FrontPageID = eZSiteManager_SectionFrontPageRow.ID ORDER BY eZSiteManager_SectionFrontPageRow.Placement DESC" );
+                                           WHERE eZSiteManager_SectionFrontPageRowLink.SectionID='$this->ID' AND eZSiteManager_SectionFrontPageRowLink.FrontPageID = eZSiteManager_SectionFrontPageRow.ID ORDER BY eZSiteManager_SectionFrontPageRow.Placement" );
 
         foreach( $rows as $row )
         {

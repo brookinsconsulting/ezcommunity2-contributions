@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: sectionedit.php,v 1.11 2001/10/10 07:08:14 ce Exp $
+// $Id: sectionedit.php,v 1.12 2001/10/11 20:21:32 br Exp $
 //
 // Created on: <10-May-2001 16:17:29 ce>
 //
@@ -63,11 +63,13 @@ $t->set_block( "section_edit_page", "setting_list_tpl", "setting_list" );
 $t->set_block( "setting_list_tpl", "setting_item_tpl", "setting_item" );
 $t->set_block( "setting_item_tpl", "settings_tpl", "settings" );
 
+
 $t->set_block( "setting_item_tpl", "article_category_list_tpl", "article_category_list" );
 $t->set_block( "article_category_list_tpl", "article_category_item_tpl", "article_category_item" );
 
 $t->set_block( "setting_item_tpl", "product_category_list_tpl", "product_category_list" );
 $t->set_block( "product_category_list_tpl", "product_category_item_tpl", "product_category_item" );
+
 
 $t->set_block( "setting_item_tpl", "item_move_up_tpl", "item_move_up" );
 $t->set_block( "setting_item_tpl", "item_separator_tpl", "item_separator" );
@@ -87,6 +89,9 @@ $t->set_var( "setting_list", "" );
 $warning = true;
 
 if ( isSet ( $AddRow ) )
+    $Action = "Update";
+
+if ( isSet ( $OK ) )
     $Action = "Update";
 
 if ( isSet ( $Store ) )
@@ -146,20 +151,28 @@ if ( ( $Action == "Insert" ) || ( $Action == "Update" ) && ( $user ) )
     $section->setDescription( $Description );
     $section->store();
 
-
-    if ( isSet ( $Store ) )
+    if ( isSet ( $Store )  || isSet( $OK ) )
     {
         $i=0;
+        $j=0;
+        
         foreach( $RowArrayID as $RowID )
         {
+
             $pageRow = new eZSectionFrontPage( $RowID );
             $pageRow->setCategoryID( $CategoryID[$i] );
-            $pageRow->setSettingID( $SettingID[$i] );
+            $pageRow->setSettingID( $SettingID[$j] );
             $pageRow->store();
-            $i++;
+            
+            // increase $i if the Row have at least one category.
+            $settingName =& eZSectionFrontPage::settingByRowID( $RowID );
+            if ( $settingName != "1short" && $settingName != "ad" )
+            {
+                $i++;
+            }
+            $j++;
         }
     }
-
     if ( isSet ( $AddRow ) )
     {
         $pageRow = new eZSectionFrontPage();
@@ -202,6 +215,8 @@ if ( is_numeric( $SectionID ) )
 if ( $section )
     $rows = $section->frontPageRows();
 $settingNames =& eZSectionFrontPage::settingNames();
+
+
 if ( count ( $rows ) > 0 )
 {
     $tree = new eZArticleCategory();
@@ -211,7 +226,7 @@ if ( count ( $rows ) > 0 )
     $productCategoryArray =& $category->getTree( );
         
     $i=0;
-    $count = count ( $rows );
+    $count = count( $rows );
     foreach ( $rows as $row )
     {
         $t->set_var( "item_move_up", "" );
@@ -227,26 +242,24 @@ if ( count ( $rows ) > 0 )
             $t->set_var( "td_class", "bgdark" );
 
         $t->set_var( "row_id", $row->id() );
-
         $settingName = $row->settingByID( $row->settingID() );
 
-        $t->set_var( "article_category_list", "" );
-        $t->set_var( "article_category_item", "" );
         $t->set_var( "product_category_list", "" );
-        $t->set_var( "product_category_item", "" );
+        $t->set_var( "article_category_list", "" );
 
         switch( $settingName )
         {
             case "1column":
             case "2column":
             {
+                $t->set_var( "article_category_item", "" );
                 if ( count ( $articleTreeArray ) > 0 )
                 {
                     foreach ( $articleTreeArray as $catItem )
                     {
                         $t->set_var( "option_value", $catItem[0]->id() );
                         $t->set_var( "option_name", $catItem[0]->name() );
-
+                        
                         if ( $catItem[0]->id() == $row->categoryID() )
                             $t->set_var( "selected", "selected" );
                         else
@@ -259,21 +272,23 @@ if ( count ( $rows ) > 0 )
                         
                         $t->parse( "article_category_item", "article_category_item_tpl", true );    
                     }
-                    $t->parse( "article_category_list", "article_category_list_tpl" );    
+                    $t->parse( "article_category_list", "article_category_list_tpl", true );
                 }
+                
             }
             break;
             
             case "1columnProduct":
             case "2columnProduct":
             {
+                $t->set_var( "product_category_item", "" );
                 if ( count ( $productCategoryArray ) > 0 )
                 {
                     foreach ( $productCategoryArray as $catItem )
                     {
                         $t->set_var( "option_value", $catItem[0]->id() );
                         $t->set_var( "option_name", $catItem[0]->name() );
-
+                        
                         if ( $catItem[0]->id() == $row->categoryID() )
                             $t->set_var( "selected", "selected" );
                         else
@@ -283,10 +298,10 @@ if ( count ( $rows ) > 0 )
                             $t->set_var( "option_level", str_repeat( "&nbsp;", $catItem[1] ) );
                         else
                             $t->set_var( "option_level", "" );
-
+                        
                         $t->parse( "product_category_item", "product_category_item_tpl", true );    
                     }
-                    $t->parse( "product_category_list", "product_category_list_tpl" );    
+                    $t->parse( "product_category_list", "product_category_list_tpl", true );
                 }
             }
             break;
@@ -305,7 +320,6 @@ if ( count ( $rows ) > 0 )
             
             $t->parse( "settings", "settings_tpl", true );
         }
-
         if ( $i > 0 && isset( $move_item ) )
         {
             $t->parse( "item_move_up", "item_move_up_tpl" );
