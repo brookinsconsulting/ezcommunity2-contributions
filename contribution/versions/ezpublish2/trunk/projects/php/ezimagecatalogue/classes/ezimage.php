@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezimage.php,v 1.38 2001/03/08 21:26:29 fh Exp $
+// $Id: ezimage.php,v 1.39 2001/03/09 09:34:01 bf Exp $
 //
 // Definition of eZImage class
 //
@@ -470,15 +470,18 @@ class eZImage
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
 
+       $relPath = "ezimagecatalogue/catalogue/" . $this->FileName;
+       
        if ( $relative == true )
        {
-           $path = "ezimagecatalogue/catalogue/" .$this->FileName;
+           $path = "ezimagecatalogue/catalogue/" . $this->FileName;
        }
        else
        {
-           $path = "/ezimagecatalogue/catalogue/" .$this->FileName;
+           $path = "/ezimagecatalogue/catalogue/" . $this->FileName;
        }
-       if ( !file_exists( $path ) or !is_file( $path ) )
+       
+       if ( !file_exists( $relPath ) or !is_file( $relPath ) )
        {
            $path = "ezimagecatalogue/admin/images/failedimage.gif";
            if ( !$relative )
