@@ -1,12 +1,5 @@
 <!-- BEGIN empty_cart_tpl -->
-<table width="100%" cellspacing="5" cellpadding="1" border="0">
-<tr>
-	<td class="menusubhead">{intl-cart}:</td>
-</tr>
-<tr>
-	<td class="menutext">{intl-empty_cart}</td>
-</tr>
-</table>
+
 <!-- END empty_cart_tpl -->
 
 

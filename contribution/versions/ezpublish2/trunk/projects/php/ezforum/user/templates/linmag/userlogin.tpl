@@ -21,12 +21,10 @@
 <input type="password" class="halfbox" size="20" name="Password"/><br />
 <br />
 
-<hr noshade="noshade" size="4" />
-
 <input class="okbutton" type="submit" value="{intl-login}" />
 <input type="hidden" name="RedirectURL" value="{redirect_url}" />
 </form>
-<br />
+<br /><br />
 
 <h2>{intl-new_user}</h2>
 
