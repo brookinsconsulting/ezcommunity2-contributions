@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: productlist.php,v 1.32 2001/09/17 08:36:50 pkej Exp $
+// $Id: productlist.php,v 1.33 2001/09/17 09:18:59 br Exp $
 //
 // Created on: <23-Sep-2000 14:46:20 bf>
 //
@@ -190,6 +190,7 @@ foreach ( $productList as $product )
     elseif( $product->showPrice() == false )
     {
         $t->set_var( "product_price", "" );
+        $t->parse( "price", "price_tpl" );
     }
     else
     {
