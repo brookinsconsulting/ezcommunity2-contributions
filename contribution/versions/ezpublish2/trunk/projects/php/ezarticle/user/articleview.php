@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: articleview.php,v 1.35 2001/04/30 09:20:45 ce Exp $
+// $Id: articleview.php,v 1.36 2001/04/30 10:17:14 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <18-Oct-2000 16:34:51 bf>
@@ -165,10 +165,14 @@ if ( $article->get( $ArticleID ) )
     if ( $PageNumber > $pageCount )
         $PageNumber = $pageCount;
 
+
     if ( $PageNumber == -1 )
-        $t->set_var( "article_body", $renderer->renderPage( -1 ) );
+        $articleContents = $renderer->renderPage( -1 );
     else
-        $t->set_var( "article_body", $renderer->renderPage( $PageNumber - 1 ) );
+        $articleContents = $renderer->renderPage( $PageNumber -1 );
+    
+    $t->set_var( "article_intro", $articleContents[0] );
+    $t->set_var( "article_body", $articleContents[1] );
 
     $t->set_var( "link_text", $article->linkText() );
 
