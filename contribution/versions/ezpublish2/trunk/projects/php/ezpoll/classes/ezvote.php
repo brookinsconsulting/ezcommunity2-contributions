@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezvote.php,v 1.1 2000/09/20 11:07:15 ce-cvs Exp $
+// $Id: ezvote.php,v 1.2 2000/09/20 11:13:46 ce-cvs Exp $
 //
 // Definition of eZVote class
 //
@@ -13,7 +13,7 @@
 // your own programs or libraries.
 //
 
-//!! eZVote
+//!! eZPoll
 //! The eZVote class handles the options for votes.
 /*!
   The eZVote class handles vote options. The class has function for storing and fetching from

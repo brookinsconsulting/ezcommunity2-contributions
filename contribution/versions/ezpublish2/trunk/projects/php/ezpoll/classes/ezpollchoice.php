@@ -1,5 +1,5 @@
 <?// 
-// $Id: ezpollchoice.php,v 1.1 2000/09/20 11:07:15 ce-cvs Exp $
+// $Id: ezpollchoice.php,v 1.2 2000/09/20 11:13:46 ce-cvs Exp $
 //
 // Definition of eZPollChoice class
 //
@@ -12,7 +12,7 @@
 // your own programs or libraries.
 //
 
-//!! eZPollChoice
+//!! eZPoll
 //! The eZPollChoice class handles the options for polls.
 /*!
   The eZPollChoice class handles poll options. The class has function for storing and fetching from
@@ -41,7 +41,7 @@ class eZPollChoice
         {
             $this->ID = $id;
             if ( $fetch == true )
-            {
+y            {
                 $this->get( $this->ID );
             }
             else
