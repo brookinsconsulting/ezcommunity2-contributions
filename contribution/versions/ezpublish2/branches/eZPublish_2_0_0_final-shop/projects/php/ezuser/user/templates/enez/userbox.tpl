@@ -1,11 +1,11 @@
 <table width="100%" cellspacing="0" cellpadding="2" border="0">
 <form method="post" action="/user/login/logout/">
 <tr>
-	<td colspan="2" class="menuhead">Kunde</td>
+	<td colspan="2" class="menuhead">Customer</td>
 </tr>
 <tr>
 	<td colspan="2" class="menubold">
-	Innlogget kunde:
+	Current customer:
 	</td>
 </tr>
 <tr>
@@ -20,7 +20,7 @@
 </tr>
 <tr>
 	<td width="1%" valign="top"><img src="/images/dot.gif" width="10" height="12" border="0" alt="" /><br /></td>
-	<td width="99%"><a class="menu" href="{user_edit_url}/{user_id}/">Endre kundeinfo</a></td>
+	<td width="99%"><a class="menu" href="{user_edit_url}/{user_id}/">Change customer info</a></td>
 </tr>
 <tr>
 	<td colspan="2" class="menuspacer">&nbsp;</td>
