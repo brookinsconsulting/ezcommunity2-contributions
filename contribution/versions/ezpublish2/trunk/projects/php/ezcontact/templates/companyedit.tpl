@@ -231,7 +231,7 @@
 &nbsp;&nbsp;
 
 <br>
-&nbsp;&nbsp;<textarea rows="5" cols="40" name="ConsultBody">{consult_body}</textarea>
+&nbsp;&nbsp;<textarea rows="5" cols="40" wrap="soft"name="ConsultBody">{consult_body}</textarea>
 
 <input type="hidden" name="ConsultID" value="{consult_edit_id}">
 <input type="hidden" name="ConsultAction" value="{consult_action}"><br><br>

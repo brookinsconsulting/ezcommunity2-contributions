@@ -211,7 +211,7 @@
 	</td>
 </tr>
 
-
+En kunde av dem ønsker å få tilsendt faks fra et webgrensesnitt. Avtalt pris for slikt arbeid er 7,5 timer a 650. Oppdraget er enten 1) installere faksmodem og hylafax hos oss. Kunde forwarder mail en en boks her. Det faktueres for initial oppsett ( lavere enn ovenfor ), samt vedlikehold. 2) Kunden installere faksmodem og oppdraget kun å installere hylafaks etter spesifikasjon. Det bør i dette tilfellet også sikres mot misbruk av modemet. Arbeidet tenkes utført innen 1 uke
 
 
 
@@ -240,13 +240,13 @@
 &nbsp;&nbsp;
 
 <br>
-&nbsp;&nbsp;-><input type="text" name="ConsultTitle" value="{consult_title}">
+&nbsp;&nbsp;<input type="text" name="ConsultTitle" value="{consult_title}">
 <br><br>
 &nbsp;&nbsp;Tekst beskrivelse:<br>
 &nbsp;&nbsp;
 
 <br>
-&nbsp;&nbsp;<textarea rows="5" cols="40" name="ConsultBody">{consult_body}</textarea>
+&nbsp;&nbsp;<textarea rows="5" cols="40" wrap="soft" name="ConsultBody">{consult_body}</textarea>
 
 <input type="hidden" name="ConsultID" value="{consult_edit_id}">
 <input type="hidden" name="ConsultAction" value="{consult_action}"><br><br>
