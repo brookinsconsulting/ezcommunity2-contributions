@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezcompany.php,v 1.83 2001/10/23 13:30:50 jhe Exp $
+// $Id: ezcompany.php,v 1.83.4.1 2002/06/04 07:19:53 jhe Exp $
 //
 // Definition of eZProduct class
 //
@@ -89,7 +89,12 @@ class eZCompany
                                    CompanyNo,
                                    ContactID,
                                    ContactType,
-                                   CreatorID)
+                                   CreatorID,
+                                   Approved,
+                                   ExpiryDate,
+                                   WarningDate,
+                                   SentWarning,
+                                   UserID)
                                   VALUES
                                   ('$this->ID',
                                    '$name',
@@ -113,7 +118,12 @@ class eZCompany
                                   CompanyNo='$this->CompanyNo',
                                   ContactID='$this->ContactID',
                                   ContactType='$type',
-                                  CreatorID='$this->CreatorID'
+                                  CreatorID='$this->CreatorID',
+                                  Approved='$this->Approved',
+                                  ExpiryDate='$this->ExpiryDate',
+                                  WarningDate='$this->WarningDate',
+                                  SentWarning='$this->SentWarning',
+                                  UserID='$this->UserID'
                                   WHERE ID='$this->ID'" );
             $name = strtolower( $name );
             $res[] = $db->query( "UPDATE eZContact_CompanyIndex SET
@@ -225,6 +235,11 @@ class eZCompany
                 $this->ContactID = $company_array[0][$db->fieldName( "ContactID" )];
                 $type = $company_array[0][$db->fieldName( "ContactType" )];
                 $this->ContactType = $type == 2 ? "ezperson" : "ezuser";
+                $this->Approved = $company_array[0][$db->fieldName( "Approved" )];
+                $this->ExpiryDate = $company_array[0][$db->fieldName( "ExpiryDate" )];
+                $this->WarningDate = $company_array[0][$db->fieldName( "WarningDate" )];
+                $this->SentWarning = $company_array[0][$db->fieldName( "SentWarning" )];
+                $this->UserID = $company_array[0][$db->fieldName( "UserID" )];
                 $ret = true;
             }
         }
@@ -271,7 +286,7 @@ class eZCompany
       
       The companies are returned as an array of eZCompany objects.
     */
-    function &getByCategory( $categoryID, $offset = 0, $limit = -1, $order = "name" )
+    function &getByCategory( $categoryID, $offset = 0, $limit = -1, $order = "name", $userID = false, $show_all = false )
     {
         $db =& eZDB::globalDatabase();
 
@@ -310,9 +325,24 @@ class eZCompany
             }
         }
 
+        $userString = "";
+        $showString = "";
+        
+        if ( $userID )
+        {
+            $userString = "AND eZContact_Company.UserID='$userID' ";
+        }
+
+        if ( !$show_all )
+        {
+            $showString = "AND eZContact_Company.Approved='1' ";
+        }
+
         $db->array_query( $company_array, "SELECT CompanyID FROM eZContact_CompanyTypeDict, eZContact_Company
                                            WHERE eZContact_CompanyTypeDict.CompanyTypeID='$categoryID'
                                            AND eZContact_Company.ID = eZContact_CompanyTypeDict.CompanyID
+                                           $userString
+                                           $showString
                                            ORDER BY eZContact_Company.$order_text $dir", $limit_array );
 
         foreach ( $company_array as $companyItem )
@@ -1041,16 +1071,81 @@ class eZCompany
         {
             if ( $value > 0 )
             {
+                $timeStamp = eZDateTime::timeStamp( true );
+                $res[] = $db->query_single( $exp, "SELECT ExpiryTime, WarningTime FROM eZContact_ProjectType WHERE ID='$value'" );
+                $this->setExpiryDate( $timeStamp + $exp[$db->fieldName( "ExpiryTime" )] );
+                $this->setWarningDate( $timeStamp + $exp[$db->fieldName( "WarningTime" )] );
                 $checkQuery = "INSERT INTO eZContact_CompanyProjectDict
                                (CompanyID, ProjectID)
                                VALUES
                                ('$this->ID', '$value')";
                 $res[] = $db->query( $checkQuery );
+                $db->query_single( $newname, "SELECT Name FROM eZContact_ProjectType WHERE ID='$value'" );
+                $consultation = new eZConsultation();
+                $consultation->setShortDescription( "Changed status" );
+                $consultation->setDescription( "Changed status from " . $name[$db->fieldName( "Name" )] . " to " . $newname[$db->fieldName( "Name" )] . "." );
+                $consultation->setDate( new eZDateTime() );
+                $consultation->setSystemMessage( true );
+//                $consultation->setState( $StatusID );
+                $consultation->store();
+                $consultation->addConsultationToCompany( $this->ID, $user->id() );
             }
         }
         eZDB::finish( $res, $db );
     }
 
+    function setExpiryDate( $date )
+    {
+        $this->ExpiryDate = $date;
+        $this->setSentWarning( false );
+    }
+
+    function expiryDate( $as_object = false )
+    {
+        return $as_object ? new eZDateTime( $this->ExpiryDate ) : $this->ExpiryDate;
+    }
+
+    function setWarningDate( $date )
+    {
+        $this->WarningDate = $date;
+        $this->setSentWarning( false );
+    }
+
+    function warningDate( $as_object = false )
+    {
+        return $as_object ? new eZDateTime( $this->WarningDate ) : $this->WarningDate;
+    }
+
+    function setSentWarning( $value )
+    {
+        $this->SentWarning = $value ? 1 : 0;
+    }
+
+    function sentWarning()
+    {
+        return $this->SentWarning == 1 ? true : false;
+    }
+
+    function setUser( $user )
+    {
+        $this->UserID = get_class( $user ) == "ezuser" ? $user->id() : $user;
+    }
+
+    function user( $as_object = false, $companyID = false )
+    {
+        $db =& eZDB::globalDatabase();
+        if ( $companyID )
+        {
+            $db->query_single( $res, "SELECT UserID FROM eZContact_Company WHERE ID=$companyID" );
+            $userID = $res[$db->fieldName( "UserID" )];
+        }
+        else
+        {
+            $userID = $this->UserID;
+        }
+        return $as_object ? new eZUser( $userID ) : $userID;
+    }
+    
     /*!
       Makes the person a part of the company.
     */

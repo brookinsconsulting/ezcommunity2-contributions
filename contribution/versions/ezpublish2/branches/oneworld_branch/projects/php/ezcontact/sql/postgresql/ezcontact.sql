@@ -199,3 +199,25 @@ CREATE TABLE eZContact_CompanyImageDict (
   PRIMARY KEY (CompanyID,ImageID)
 );
 
+CREATE TABLE eZContact_Package (
+  ID int NOT NULL,
+  Name varchar(50),
+  Description text,
+  PRIMARY KEY (ID)
+);
+
+CREATE TABLE eZContact_PackageCompanyLink (
+  ID int NOT NULL,
+  PackageID int,
+  CompanyID int,
+  PRIMARY KEY (ID)
+);
+
+CREATE TABLE eZContact_PackagePermission (
+  ID int NOT NULL,
+  ObjectID int,
+  GroupID int,
+  ReadPermission int DEFAULT '0',
+  WritePermission int DEFAULT '0',
+  PRIMARY KEY (ID)
+);

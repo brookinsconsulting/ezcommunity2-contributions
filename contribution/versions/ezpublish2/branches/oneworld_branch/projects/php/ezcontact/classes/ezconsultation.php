@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezconsultation.php,v 1.30 2001/11/08 11:45:36 jhe Exp $
+// $Id: ezconsultation.php,v 1.30.4.1 2002/06/04 07:19:53 jhe Exp $
 //
 // Definition of eZConsultation class
 //
@@ -95,7 +95,8 @@ class eZConsultation
                                    '$description',
                                    '$this->State',
                                    '$emailnotice',
-	                               '$date')" );
+	                               '$date',
+                                   '$this->systemMessage')" );
             $db->unlock();
         }
         else

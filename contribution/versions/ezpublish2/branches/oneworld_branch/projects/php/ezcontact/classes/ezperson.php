@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezperson.php,v 1.66 2002/05/28 13:29:59 jhe Exp $
+// $Id: ezperson.php,v 1.66.4.1 2002/06/04 07:19:53 jhe Exp $
 //
 // Definition of eZPerson class
 //
@@ -1001,7 +1001,7 @@ class eZPerson
     */
     function hasBirthDate()
     {
-        return isset( $this->BirthDate );
+        return ( isSet( $this->BirthDate ) && $this->BirthDate > 0 );
     }
 
     function removeCompanies( $id = false )
