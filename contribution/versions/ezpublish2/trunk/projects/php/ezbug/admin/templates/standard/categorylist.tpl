@@ -8,7 +8,7 @@
 <!-- BEGIN category_item_tpl -->
 <tr>
 	<td class="{td_class}">
-	  <input type="text" name="CategoryID[]" value="{category_id}" />
+	  <input type="hidden" name="CategoryID[]" value="{category_id}" />
 	  <input type="text" name="CategoryName[]" value="{category_name}" />
 	</td>
 	<td width="1%" class="{td_class}">
