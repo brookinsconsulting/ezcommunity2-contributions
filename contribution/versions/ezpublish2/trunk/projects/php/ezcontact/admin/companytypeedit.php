@@ -7,10 +7,8 @@ include_once( "classes/INIFile.php" );
 
 $ini = new INIFIle( "site.ini" );
 $Language = $ini->read_var( "eZContactMain", "Language" );
-$DOC_ROOT = $ini->read_var( "eZContactMain", "DocumentRoot" );
 
 include_once( "classes/eztemplate.php" );
-include_once( "common/ezphputils.php" );
 
 include_once( "ezuser/classes/ezuser.php" );
 include_once( "ezuser/classes/ezusergroup.php" );
@@ -78,7 +76,8 @@ if ( $Action == "delete" )
 }
 
 // Setter template.
-$t = new eZTemplate( $DOC_ROOT . "/" . $ini->read_var( "eZContactMain", "TemplateDir" ), $DOC_ROOT . "/intl", $Language, "companytypeedit.php" );
+$t = new eZTemplate( "ezcontact/admin/" . $ini->read_var( "eZContactMain", "AdminTemplateDir" ),
+                     "ezcontact/admin/intl/", $Language, "companytype.php" );
 $t->setAllStrings();
 
 $t->set_file( array(
@@ -104,9 +103,6 @@ if ( $Action == "edit" )
     $t->set_var( "companytype_id", $CID );
     $t->set_var( "head_line", "Rediger firmatype" );
 }
-
-// Sette template variabler.
-$t->set_var( "document_root", $DOC_ROOT );
 
 $t->set_var( "companytype_name", $CompanyTypeName );
 $t->set_var( "description", $CompanyTypeDescription );
