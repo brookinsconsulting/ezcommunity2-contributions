@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezuser.php,v 1.69 2001/05/25 13:50:37 ce Exp $
+// $Id: ezuser.php,v 1.70 2001/05/28 08:22:40 ce Exp $
 //
 // Definition of eZUser class
 //
@@ -609,15 +609,21 @@ class eZUser
             {
                 $user = new eZUser( $userArray[0]["UserID"] );
                 if ( $user )
+                {
                     eZUser::loginUser( $user );
+                    return true;
+                }
             }
         }
+        return false;
     }
 
     function clearAutoCookieLogin()
     {
         $user = eZUser::currentUser();
         $db =& eZDB::globalDatabase();
+
+        setCookie( "eZUser_AutoCookieLogin", "", 0, "/",  "", 0 );
 
         if ( $user )
         {
@@ -894,7 +900,7 @@ class eZUser
                                Hash='$hash',
                                UserID='$userID'" );
 
-            setCookie( "eZUser_AutoCookieLogin", $hash, 0, "/",  "", 0 );
+            setCookie( "eZUser_AutoCookieLogin", $hash, time()+1209600, "/",  "", 0 );
         }
     }
 

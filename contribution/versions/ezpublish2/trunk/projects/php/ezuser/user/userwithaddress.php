@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: userwithaddress.php,v 1.56 2001/05/25 14:05:55 ce Exp $
+// $Id: userwithaddress.php,v 1.57 2001/05/28 08:22:41 ce Exp $
 //
 //
 // Christoffer A. Elo <ce@ez.no>
@@ -385,6 +385,11 @@ if ( isset( $OK ) and $error == false )
     eZAddress::setMainAddress( $main_id, $user_insert );
 
     $user_insert->loginUser( $user_insert );
+
+    if ( $user_insert->cookieLogin() == true )
+    {
+        $user_insert->setCookieValues();
+    }
 
     if ( !$new_user )
         $Updated = true;

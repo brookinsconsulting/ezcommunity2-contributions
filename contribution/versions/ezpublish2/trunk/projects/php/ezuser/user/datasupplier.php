@@ -1,5 +1,6 @@
 <?
 
+
 $ini =& INIFile::globalINI();
 $GlobalSectionID = $ini->read_var( "site", "DefaultSection" );
 
