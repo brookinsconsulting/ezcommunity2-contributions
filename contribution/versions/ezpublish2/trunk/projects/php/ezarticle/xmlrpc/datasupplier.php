@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: datasupplier.php,v 1.13 2001/07/19 12:19:22 jakobn Exp $
+// $Id: datasupplier.php,v 1.14 2001/08/21 15:11:27 jb Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -26,6 +26,8 @@
 define( "EZARTICLE_NONEXISTING_ARTICLE", 1 );
 define( "EZARTICLE_NONEXISTING_CATEGORY", 2 );
 define( "EZARTICLE_NONEXISTING_PARENT", 3 );
+define( "EZARTICLE_WRONG_CATEGORY_COUNT", 4 );
+define( "EZARTICLE_WRONG_ARTICLE_COUNT", 5 );
 
 switch ( $RequestType )
 {
