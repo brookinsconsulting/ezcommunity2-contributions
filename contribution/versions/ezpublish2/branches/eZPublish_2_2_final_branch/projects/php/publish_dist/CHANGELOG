@@ -8,6 +8,7 @@ Changes from 2.2.7 to 2.2.8
 * Fixed bug when adding/editing ads in "Section edit" if no productcategories 
   exist in eZ trade.
 * Fixed cache bug in eZTrade (productlist)
+* Made keywords available in articleview.tpl and as a variable which can be used in frame.php
 
 Changes from 2.2.6 to 2.2.7
 ---------------------------
