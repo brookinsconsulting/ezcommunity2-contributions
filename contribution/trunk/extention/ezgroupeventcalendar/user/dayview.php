@@ -549,7 +549,7 @@ if (isset($allDayEvents))
     $tmpTime->setSecondsElapsed( $startTime->secondsElapsed() );
     while ( $tmpTime->isGreater( $stopTime, true ) == true )
     {
-    // spectrum : this if block is a way to get the 23rd hour displayed
+    // this if block is a way to get the 23rd hour displayed
    //     if ($tmpTime->hour() == 22 && $toggle23) $tmpTime = $tmpTime->add( $interval );
     //	$t->set_var( "short_time", $Locale->format( $tmpTime, true ) );
         $t->set_var( "start_time", addZero( $tmpTime->hour() ) . addZero( $tmpTime->minute() ) );

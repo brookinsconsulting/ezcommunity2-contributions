@@ -211,9 +211,10 @@ else
     $t->set_var( "event_starttime", $locale->format( $event->startTime(), true ) );
     $t->set_var( "event_stoptime", $locale->format( $event->stopTime(), true ) );
     $t->set_var( "event_description", $event->description(false) );
+
     // recurring stuff here
     /*
-    spectrum : we need the following stuff
+    we need the following stuff
     recur frequency (recur_freq)
     recurrance type (recur_type)
     if type is weekly, what days of week (recur_days_week)
@@ -303,12 +304,12 @@ else
     }
     */
 
-    // kracker : seems the bellow statement treats groupID = 0 as false instead of a numarical 
+    // seems the bellow statement treats groupID = 0 as false instead of a numarical 
     // if ( $groupID != false )
 
     if ( $groupID != "" )
     {
-      // kracker : if event->groupID() == 0 then it's an all groups event. new
+      // if event->groupID() == 0 then it's an all groups event. new
       if ( $groupID != 0 ){
         $group = new eZUserGroup( $groupID );
         $t->set_var( "event_owner", $group->name() );

@@ -113,7 +113,7 @@ class eZGroupEvent
     */
     function store()
     {
-    // spectrum : commenting out all the recurring stuff until the UI is implemented
+    // commenting out all the recurring stuff until the UI is implemented
         $this->dbInit();
 
 		$Name        = addslashes( $this->Name );
@@ -351,7 +351,7 @@ class eZGroupEvent
 			}
 			else
 			{
-			        // kracker : Add Support for Events in All Groups
+			        // Add Support for Events in All Groups
 			        $selectGroups = "GroupID='$groupID'";
 			        // $selectGroups = "GroupID='$groupID' OR GroupID=0";
 			}
@@ -430,7 +430,7 @@ class eZGroupEvent
 			}
 			else
 			{
-			        // kracker : Add Support for Events in All Groups
+			        // Add Support for Events in All Groups
 			         $selectGroups = "GroupID='$groupID'";
 			     //   $selectGroups = "GroupID='$groupID' OR GroupID=0";
 			}
@@ -522,7 +522,7 @@ class eZGroupEvent
 			}
             for ( $i=0; $i<=count($event_array); $i++ )
 	    {
-     // spectrum: implementing recurring event sorting
+     // : implementing recurring event sorting
 				$recurCheck = filterRecurring($event_array[$i], $date);
                 if( $groupNoShow == true )
 				{
@@ -1495,7 +1495,7 @@ class eZGroupEvent
 	}
       return $EventID;
     }
-// spectrum : methods for processing recurring information
+// methods for processing recurring information
     /*!
       Returns true if the event is recurring.
     */
