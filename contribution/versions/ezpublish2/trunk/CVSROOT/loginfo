@@ -26,41 +26,42 @@
 #DEFAULT (echo ""; id; echo %{sVv}; date; cat) >> $CVSROOT/CVSROOT/commitlog
 DEFAULT (echo ""; id; echo %{sVv}; date; cat) >> $CVSROOT/CVSROOT/commitlog
 
-projects/php/[a-zA-Z_]+/[a-zA-Z_]+/intl/.+ (echo "Change from" `id -un`; echo %s; date; cat; echo) >> $CVSROOT/php-intl-log
-projects/php/[a-zA-Z_]+/intl/.+ (echo "Change from" `id -un`; echo %s; date; cat; echo) >> $CVSROOT/php-intl-log
-projects/php/[a-zA-Z_]+/[a-zA-Z_]+/templates/.+ (echo "Change from" `id -un`; echo %s; date; cat; echo) >> $CVSROOT/php-template-log
-projects/php/[a-zA-Z_]+/templates/.+ (echo "Change from" `id -un`; echo %s; date; cat; echo) >> $CVSROOT/php-template-log
-projects/php/admin/.+ (echo "Change from" `id -un`; echo %s; date; cat; echo) >> $CVSROOT/php-admin-log
-projects/php/classes/.+ (echo "Change from" `id -un`; echo %s; date; cat; echo) >> $CVSROOT/php-classes-log
-projects/php/ezad/.+ (echo "Change from" `id -un`; echo %s; date; cat; echo) >> $CVSROOT/php-ezad-log
-projects/php/ezaddress/.+ (echo "Change from" `id -un`; echo %s; date; cat; echo) >> $CVSROOT/php-ezaddress-log
-projects/php/ezarticle/.+ (echo "Change from" `id -un`; echo %s; date; cat; echo) >> $CVSROOT/php-ezarticle-log
-projects/php/ezbug/.+ (echo "Change from" `id -un`; echo %s; date; cat; echo) >> $CVSROOT/php-ezbug-log
-projects/php/ezcalendar/.+ (echo "Change from" `id -un`; echo %s; date; cat; echo) >> $CVSROOT/php-ezcalendar-log
-projects/php/ezclassified/.+ (echo "Change from" `id -un`; echo %s; date; cat; echo) >> $CVSROOT/php-ezclassified-log
-projects/php/ezcontact/.+ (echo "Change from" `id -un`; echo %s; date; cat; echo) >> $CVSROOT/php-ezcontact-log
-projects/php/ezcv/.+ (echo "Change from" `id -un`; echo %s; date; cat; echo) >> $CVSROOT/php-ezcv-log
-projects/php/ezfilemanager/.+ (echo "Change from" `id -un`; echo %s; date; cat; echo) >> $CVSROOT/php-ezfilemanager-log
-projects/php/ezforum/.+ (echo "Change from" `id -un`; echo %s; date; cat; echo) >> $CVSROOT/php-ezforum-log
-projects/php/ezimagecatalogue/.+ (echo "Change from" `id -un`; echo %s; date; cat; echo) >> $CVSROOT/php-ezimagecatalogue-log
-projects/php/ezlink/.+ (echo "Change from" `id -un`; echo %s; date; cat; echo) >> $CVSROOT/php-ezlink-log
-projects/php/eznews/.+ (echo "Change from" `id -un`; echo %s; date; cat; echo) >> $CVSROOT/php-eznews-log
-projects/php/eznewsfeed/.+ (echo "Change from" `id -un`; echo %s; date; cat; echo) >> $CVSROOT/php-eznewsfeed-log
-projects/php/ezpoll/.+ (echo "Change from" `id -un`; echo %s; date; cat; echo) >> $CVSROOT/php-ezpoll-log
-projects/php/ezsession/.+ (echo "Change from" `id -un`; echo %s; date; cat; echo) >> $CVSROOT/php-ezsession-log
-projects/php/ezsite/.+ (echo "Change from" `id -un`; echo %s; date; cat; echo) >> $CVSROOT/php-ezsite-log
-projects/php/ezstats/.+ (echo "Change from" `id -un`; echo %s; date; cat; echo) >> $CVSROOT/php-ezstats-log
-projects/php/eztodo/.+ (echo "Change from" `id -un`; echo %s; date; cat; echo) >> $CVSROOT/php-eztodo-log
-projects/php/eztrade/.+ (echo "Change from" `id -un`; echo %s; date; cat; echo) >> $CVSROOT/php-eztrade-log
-projects/php/ezuser/.+ (echo "Change from" `id -un`; echo %s; date; cat; echo) >> $CVSROOT/php-ezuser-log
-projects/php/publish_dist/.+ (echo "Change from" `id -un`; echo %s; date; cat; echo) >> $CVSROOT/php-publish_dist-log
-projects/php/trade_dist/.+ (echo "Change from" `id -un`; echo %s; date; cat; echo) >> $CVSROOT/php-trade_dist-log
+# projects/php/[a-zA-Z_]+/[a-zA-Z_]+/intl/.+ (echo "Change from" `id -un`; echo %s; date; cat; echo) >> $CVSROOT/php-intl-log
+# projects/php/[a-zA-Z_]+/intl/.+ (echo "Change from" `id -un`; echo %s; date; cat; echo) >> $CVSROOT/php-intl-log
+# projects/php/[a-zA-Z_]+/[a-zA-Z_]+/templates/.+ (echo "Change from" `id -un`; echo %s; date; cat; echo) >> $CVSROOT/php-template-log
+# projects/php/[a-zA-Z_]+/templates/.+ (echo "Change from" `id -un`; echo %s; date; cat; echo) >> $CVSROOT/php-template-log
+# projects/php/admin/.+ (echo "Change from" `id -un`; echo %s; date; cat; echo) >> $CVSROOT/php-admin-log
+# projects/php/classes/.+ (echo "Change from" `id -un`; echo %s; date; cat; echo) >> $CVSROOT/php-classes-log
+# projects/php/ezad/.+ (echo "Change from" `id -un`; echo %s; date; cat; echo) >> $CVSROOT/php-ezad-log
+# projects/php/ezaddress/.+ (echo "Change from" `id -un`; echo %s; date; cat; echo) >> $CVSROOT/php-ezaddress-log
+# projects/php/ezarticle/.+ (echo "Change from" `id -un`; echo %s; date; cat; echo) >> $CVSROOT/php-ezarticle-log
+# projects/php/ezbug/.+ (echo "Change from" `id -un`; echo %s; date; cat; echo) >> $CVSROOT/php-ezbug-log
+# projects/php/ezcalendar/.+ (echo "Change from" `id -un`; echo %s; date; cat; echo) >> $CVSROOT/php-ezcalendar-log
+# projects/php/ezclassified/.+ (echo "Change from" `id -un`; echo %s; date; cat; echo) >> $CVSROOT/php-ezclassified-log
+# projects/php/ezcontact/.+ (echo "Change from" `id -un`; echo %s; date; cat; echo) >> $CVSROOT/php-ezcontact-log
+# projects/php/ezcv/.+ (echo "Change from" `id -un`; echo %s; date; cat; echo) >> $CVSROOT/php-ezcv-log
+# projects/php/ezfilemanager/.+ (echo "Change from" `id -un`; echo %s; date; cat; echo) >> $CVSROOT/php-ezfilemanager-log
+# projects/php/ezforum/.+ (echo "Change from" `id -un`; echo %s; date; cat; echo) >> $CVSROOT/php-ezforum-log
+# projects/php/ezimagecatalogue/.+ (echo "Change from" `id -un`; echo %s; date; cat; echo) >> $CVSROOT/php-ezimagecatalogue-log
+# projects/php/ezlink/.+ (echo "Change from" `id -un`; echo %s; date; cat; echo) >> $CVSROOT/php-ezlink-log
+# projects/php/eznews/.+ (echo "Change from" `id -un`; echo %s; date; cat; echo) >> $CVSROOT/php-eznews-log
+# projects/php/eznewsfeed/.+ (echo "Change from" `id -un`; echo %s; date; cat; echo) >> $CVSROOT/php-eznewsfeed-log
+# projects/php/ezpoll/.+ (echo "Change from" `id -un`; echo %s; date; cat; echo) >> $CVSROOT/php-ezpoll-log
+# projects/php/ezsession/.+ (echo "Change from" `id -un`; echo %s; date; cat; echo) >> $CVSROOT/php-ezsession-log
+# projects/php/ezsite/.+ (echo "Change from" `id -un`; echo %s; date; cat; echo) >> $CVSROOT/php-ezsite-log
+# projects/php/ezstats/.+ (echo "Change from" `id -un`; echo %s; date; cat; echo) >> $CVSROOT/php-ezstats-log
+# projects/php/eztodo/.+ (echo "Change from" `id -un`; echo %s; date; cat; echo) >> $CVSROOT/php-eztodo-log
+# projects/php/eztrade/.+ (echo "Change from" `id -un`; echo %s; date; cat; echo) >> $CVSROOT/php-eztrade-log
+# projects/php/ezuser/.+ (echo "Change from" `id -un`; echo %s; date; cat; echo) >> $CVSROOT/php-ezuser-log
+# projects/php/publish_dist/.+ (echo "Change from" `id -un`; echo %s; date; cat; echo) >> $CVSROOT/php-publish_dist-log
+# projects/php/trade_dist/.+ (echo "Change from" `id -un`; echo %s; date; cat; echo) >> $CVSROOT/php-trade_dist-log
 
 # projects/php/vidartest.* (echo "Change from" `id -un`; echo %s; date; cat; echo) >> $CVSROOT/php-vidartest-log
-projects/php/vidartest.* $CVSROOT/CVSROOT/loginfo.pl vl@ez.no $USER %{sVv}
+# projects/php/vidartest.* $CVSROOT/CVSROOT/loginfo.pl vl@ez.no $USER %{sVv}
+# projects/php/vidartest.* $CVSROOT/CVSROOT/loginfo.sh vl@ez.no $USER %{sVv}
 
 
-projects/php/.+ (echo "Change from" `id -un`; echo %s; date; cat; echo) >> $CVSROOT/php-log
+# projects/php/.+ (echo "Change from" `id -un`; echo %s; date; cat; echo) >> $CVSROOT/php-log
 
 
 
