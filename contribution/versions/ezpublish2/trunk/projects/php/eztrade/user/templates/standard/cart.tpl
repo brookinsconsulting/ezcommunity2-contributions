@@ -194,10 +194,7 @@
 
 </table>
 <!-- END tax_specification_tpl -->
-<!-- END full_cart_tpl -->
 
-
-<!-- BEGIN cart_checkout_tpl -->
 <hr noshade="noshade" size="4" />
 
 <table width="100%" cellpadding="0" cellspacing="0" border="0">
@@ -212,6 +209,12 @@
 </td>
 </table>
 <hr noshade="noshade" size="4" />
+<!-- END full_cart_tpl -->
+
+
+<!-- BEGIN cart_checkout_tpl -->
+<hr noshade="noshade" size="4" />
+
 <table width="100%" cellpadding="0" cellspacing="0" border="0">
 <tr>
 	<td>
