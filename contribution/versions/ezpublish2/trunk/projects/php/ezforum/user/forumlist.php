@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: forumlist.php,v 1.10 2001/03/08 10:04:34 pkej Exp $
+// $Id: forumlist.php,v 1.11 2001/03/16 10:17:08 pkej Exp $
 //
 // Lars Wilhelmsen <lw@ez.no>
 // Created on: <11-Sep-2000 22:10:06 bf>
@@ -52,6 +52,7 @@ $category = new eZForumCategory( $CategoryID );
 
 $t->set_var( "category_id", $category->id( ) );
 $t->set_var( "category_name", $category->name( ) );
+$t->set_var( "category_description", $category->name( ) );
 
 $forumList =& $category->forums( );
 
