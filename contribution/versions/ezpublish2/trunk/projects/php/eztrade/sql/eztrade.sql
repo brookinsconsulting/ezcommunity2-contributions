@@ -474,7 +474,3 @@ CREATE TABLE eZTrade_WishListOptionValue (
 #
 # Dumping data for table 'eZTrade_WishListOptionValue'
 #
-
-
-
-
