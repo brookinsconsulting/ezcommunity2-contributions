@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezonline.php,v 1.4 2000/11/16 18:55:36 pkej-cvs Exp $
+// $Id: ezonline.php,v 1.5 2000/11/29 11:23:43 pkej-cvs Exp $
 //
 // Definition of eZOnline class
 //
@@ -41,6 +41,7 @@
 */
 
 include_once( "classes/ezdb.php" );
+include_once( "ezcontact/classes/ezonlinetype.php" );
 
 class eZOnline
 {
@@ -166,7 +167,7 @@ class eZOnline
     /*!
       Returns the object ID.
     */
-    function id( )
+    function id()
     {
         return $this->ID;
     }
@@ -174,7 +175,7 @@ class eZOnline
     /*!
       Returns the URL of the object.
     */
-    function url( )
+    function url()
     {
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
@@ -185,7 +186,7 @@ class eZOnline
     /*!
       Returns the URLType of the object.
     */
-    function urlType( )
+    function urlType()
     {
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
@@ -196,12 +197,24 @@ class eZOnline
     /*!
       Returns the OnlineTypeID of the object.
     */
-    function onlineTypeID( )
+    function onlineTypeID()
     {
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
 
         return $this->OnlineTypeID;
+    }
+
+    /*!
+      Returns the OnlineType of the object.
+    */
+    function onlineType()
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+        $onlineType = new eZOnlineType( $this->OnlineTypeID );
+        return $onlineType;
     }
 
     /*!
@@ -234,7 +247,53 @@ class eZOnline
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
         
-        $this->OnlineTypeID= $value;
+        if( is_numeric( $value )
+        {
+            $this->OnlineTypeID= $value;
+        }
+        
+        if( get_class( $value ) == "ezonlinetype" )
+        {
+            $this->OnlineTypeID = $value->id();
+        }
+    }
+
+    /*!
+      Sets the OnlineType of the object.
+    */
+    function setOnlineType( $value )
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+        
+        if( is_numeric( $value )
+        {
+            $this->OnlineTypeID= $value;
+        }
+        
+        if( get_class( $value ) == "ezonlinetype" )
+        {
+            $this->OnlineTypeID = $value->id();
+        }
+    }
+
+    /*!
+        Returns the url type options
+     */
+    function workStatusTypes()
+    {
+        $this->dbInit();
+        $this->Database->array_query( $itemArray, $query="SHOW COLUMNS FROM eZContact_Online LIKE 'URLType'" );
+        $items=preg_split( "/'|\,/", $itemArray[0]["Type"], 0, PREG_SPLIT_NO_EMPTY );
+        
+        $count=count( $items );
+        
+        for( $i=1; $i < $count - 1; $i++ )
+        {
+            $returnArray[]=$items[$i];
+        }
+        
+        return $returnArray;
     }
 
     /*!
