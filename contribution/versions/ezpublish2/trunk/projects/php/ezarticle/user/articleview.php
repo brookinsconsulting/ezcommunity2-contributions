@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: articleview.php,v 1.85 2001/10/22 11:21:13 ce Exp $
+// $Id: articleview.php,v 1.86 2001/10/30 13:21:48 bf Exp $
 //
 // Created on: <18-Oct-2000 16:34:51 bf>
 //
@@ -143,6 +143,9 @@ $t->set_block( "article_view_page_tpl", "mail_to_tpl", "mail_to" );
 $t->set_block( "article_view_page_tpl", "attribute_list_tpl", "attribute_list" );
 $t->set_block( "attribute_list_tpl", "type_item_tpl", "type_item" );
 $t->set_block( "type_item_tpl", "attribute_item_tpl", "attribute_item" );
+
+$t->set_block( "article_view_page_tpl", "related_article_list_tpl", "related_article_list" );
+$t->set_block( "related_article_list_tpl", "related_article_tpl", "related_article" );
 
 
 // read user override variables for image size
@@ -565,7 +568,24 @@ else
     $t->set_var( "next_page_link", "" );
 }
 
+$relatedArticles =& $article->relatedArticles();
 
+$db =& eZDB::globalDatabase();
+
+foreach ( $relatedArticles as $related )
+{
+    $t->set_var( "article_id", $related["ID"] );
+    $t->set_var( "article_name", $related["Name"] );
+
+    $t->parse( "related_article", "related_article_tpl", true );
+}
+
+if ( count( $relatedArticles ) > 0 )
+    $t->parse( "related_article_list", "related_article_list_tpl" );
+else
+    $t->set_var( "related_article_list", "" );
+
+    
 // set variables for meta information
 $SiteTitleAppend = $article->name();
 $SiteDescriptionOverride = str_replace( "\"", "", strip_tags( $articleContents[0] ) );

@@ -142,6 +142,15 @@
 
 <br clear="all" />
 
+<!-- BEGIN related_article_list_tpl -->
+<h2>{intl-related_articles}</h2>
+
+<!-- BEGIN related_article_tpl -->
+* <a class="path" href="{www_dir}{index}/article/view/{article_id}/"> {article_name}</a><br />
+<!-- END related_article_tpl -->
+
+<!-- END related_article_list_tpl -->
+
 <div align="center">
 <!-- BEGIN prev_page_link_tpl -->
 <a class="path" href="{www_dir}{index}/article/articleview/{article_id}/{prev_page_number}/{category_id}/">&lt;&lt; {intl-prev_page}</a>

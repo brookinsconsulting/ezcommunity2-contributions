@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: datasupplier.php,v 1.56 2001/09/24 15:29:53 bf Exp $
+// $Id: datasupplier.php,v 1.57 2001/10/30 13:21:48 bf Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -43,12 +43,20 @@ if( eZPermission::checkPermission( $user, "eZArticle", "ModuleEdit" ) == false )
 
 switch ( $url_array[2] )
 {
+    case "rating":
+    {
+        if ( $url_array[3] == "list" )
+            include( "ezarticle/admin/ratinglist.php" );
+        
+    }
+    break;
+
     case "export":
     {
         include( "ezarticle/admin/export.php" );
     }
     break;
-
+    
     case "topiclist":
     {
         include( "ezarticle/admin/topiclist.php" );

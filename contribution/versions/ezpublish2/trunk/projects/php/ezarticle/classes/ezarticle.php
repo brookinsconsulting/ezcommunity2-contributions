@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezarticle.php,v 1.183 2001/10/16 11:33:52 ce Exp $
+// $Id: ezarticle.php,v 1.184 2001/10/30 13:21:48 bf Exp $
 //
 // Definition of eZArticle class
 //
@@ -3209,6 +3209,45 @@ class eZArticle
         }
 
         return $returnArray;
+    }
+
+    /*!
+      Returns the related articles. This is articles with atleast one common keyword.
+
+      Will return an array with ArticleID and ArticleName: array( ArticleID => $id, ArticleName => $name );
+    */
+    function relatedArticles()
+    {
+        $db =& eZDB::globalDatabase();
+        
+        $keywordArray = array();
+
+        $db->array_query( $keywordArray, "SELECT Keyword 
+                                          FROM eZArticle_ArticleKeyword
+                                          WHERE ArticleID='$this->ID'
+                                          " );
+
+        $keywordString = "";
+        $i=0;             
+        foreach ( $keywordArray as $keyword )
+        {
+            if ( $i == 0 )
+                $keywordString .= " Keyword='" . $keyword[$db->fieldName("Keyword")] . "' ";
+            else
+                $keywordString .= " OR Keyword='" . $keyword[$db->fieldName("Keyword")] . "' ";
+            $i++;
+        }
+
+        $db->array_query( $articleArray, "SELECT Keyword.ArticleID AS ID, Article.Name AS Name
+                                          FROM eZArticle_ArticleKeyword AS Keyword,
+                                          eZArticle_Article AS Article
+                                          WHERE Article.ID=Keyword.ArticleID AND
+                                          ( $keywordString )
+                                          AND Article.ID <> '$this->ID'
+                                          GROUP BY ArticleID
+                                          " );
+        return $articleArray;
+
     }
 
 
