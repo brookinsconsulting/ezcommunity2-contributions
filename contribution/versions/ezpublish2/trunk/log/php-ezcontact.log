@@ -890,3 +890,11 @@ Maintainer(s) : jhe@ez.no
     * user/companysearch.php
       user/personsearch.php: fixed security bug with java script in search.
 
+
+Module : ezcontact
+Repository path : /home/cvsroot/projects/php/ezcontact
+Maintainer(s) : jhe@ez.no
+2003-06-03  Jo Henrik Endrerud  <jhe@ez.no>
+
+    * admin/personedit.php: fixed bug with addresses
+

@@ -752,3 +752,11 @@ Maintainer(s) : fh@ez.no
 
     * classes/ezbulkmailforgot.php: Fixed sequrity bug with hash values.
 
+
+Module : ezbulkmail
+Repository path : /home/cvsroot/projects/php/ezbulkmail
+Maintainer(s) : fh@ez.no
+2003-06-03  Jo Henrik Endrerud  <jhe@ez.no>
+
+    * admin/mailedit.php: added fix when fields are empty
+

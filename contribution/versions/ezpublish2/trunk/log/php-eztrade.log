@@ -3677,3 +3677,11 @@ Maintainer(s) : ce@ez.no
 
     * user/productsearch.php: fixed security bug with java script in search.
 
+
+Module : eztrade
+Repository path : /home/cvsroot/projects/php/eztrade
+Maintainer(s) : ce@ez.no
+2003-06-03  Jo Henrik Endrerud  <jhe@ez.no>
+
+    * classes/ezorder.php: improved mysql 4 support in eZ trade
+
