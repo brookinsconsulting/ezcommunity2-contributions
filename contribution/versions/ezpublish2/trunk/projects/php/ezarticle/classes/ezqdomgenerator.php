@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezqdomgenerator.php,v 1.11 2001/07/06 11:14:01 bf Exp $
+// $Id: ezqdomgenerator.php,v 1.12 2001/07/09 13:06:00 bf Exp $
 //
 // Definition of eZQDomGenerator class
 //
@@ -473,6 +473,7 @@ class eZQDomGenerator
                     $content = $this->decodeStandards( $child );
                     $content .= $this->decodeLink( $child );
                     $content .= $this->decodeImage( $child );
+                    $content .= $this->decodeHeader( $child );
                 }
                 
                 $tmpContent .=  $content;
