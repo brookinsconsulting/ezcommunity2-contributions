@@ -55,10 +55,9 @@
 	</td>
 	<td align="top">
 	
-	<!-- {intl-groups_write -->
-	<p class="boxtext">{intl-owner_group}:</p>
-	<select name="OwnerGroupID">
-	<option value="0">{intl-none}</option>
+	<p class="boxtext">{intl-groups_write}:</p>
+	<select name="WriteGroupArray" multiple>
+	<option value="0" {all_write_selected}>{intl-all}</option>
 	<!-- BEGIN category_owner_tpl -->
 	<option value="{module_owner_id}" {is_selected}>{module_owner_name}</option>
 	<!-- END category_owner_tpl -->

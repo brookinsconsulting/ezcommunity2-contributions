@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: articleedit.php,v 1.47 2001/02/28 11:42:59 jb Exp $
+// $Id: articleedit.php,v 1.48 2001/02/28 16:39:08 fh Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <18-Oct-2000 15:04:39 bf>
@@ -30,6 +30,7 @@ include_once( "classes/ezmail.php" );
 include_once( "classes/ezcachefile.php" );
 
 include_once( "ezuser/classes/ezuser.php" );
+include_once( "ezuser/classes/ezobjectpermission.php" );
 include_once( "classes/ezhttptool.php" );
 
 include_once( "ezarticle/classes/ezarticlecategory.php" );
@@ -147,31 +148,46 @@ if ( $Action == "Insert" )
     
     $article->setLinkText( $LinkText );
 
-    $ownerGroup = new eZUserGroup( $OwnerGroupID );
-    $article->setOwnerGroup( $ownerGroup );
     $article->store(); // to get the ID
 
-    /* read access thingy */
-    if ( isset( $GroupArray ) )
+    if( isset( $WriteGroupArray ) )
     {
-        if( $GroupArray[0] == 0 )
+        if( $WriteGroupArray[0] )
         {
-            $article->setReadPermission( 2 );
+            eZObjectPermission::setPermission( -1, $article->id(), "article_article", 'w' );
         }
-        else // some groups are selected.
+        else
         {
-            $article->removeReadGroups();
-            $article->setReadPermission( 1 );
-            foreach ( $GroupArray as $groupID )
+            eZObjectPermission::removePermissions( $article->id(), "article_article", 'w' );
+            foreach ( $WriteGroupArray as $groupID )
             {
-                $readGroup = new eZUserGroup( $groupID );
-                $article->addReadGroup( $readGroup );
+                eZObjectPermission::setPermission( $groupID, $categoryID, "article_article", 'w' );
             }
         }
     }
     else
     {
-        $article->setReadPermission( 0 );
+        eZObjectPermission::removePermissions( $article->id(), "article_article", 'w' );
+    }
+    
+    /* read access thingy */
+    if ( isset( $GroupArray ) )
+    {
+        if( $GroupArray[0] == 0 )
+        {
+            eZObjectPermission::setPermission( -1, $article->id(), "article_article", 'r' );
+        }
+        else // some groups are selected.
+        {
+            foreach ( $GroupArray as $groupID )
+            {
+                eZObjectPermission::setPermission( $groupID, $categoryID, "article_article", 'r' );
+            }
+        }
+    }
+    else
+    {
+        eZObjectPermission::removePermissions( $article->id(), "article_article", 'r' );
     }
     
     // add check for publishing rights here
@@ -312,32 +328,47 @@ if ( $Action == "Update" )
     
     $article->setLinkText( $LinkText );
 
-    $ownerGroup = new eZUserGroup( $OwnerGroupID );
-    $article->setOwnerGroup( $ownerGroup );
 
-    /* read access thingy */
-    if ( isset( $GroupArray ) )
+    if( isset( $WriteGroupArray ) )
     {
-        if( $GroupArray[0] == 0 )
+        if( $WriteGroupArray[0] )
         {
-            $article->setReadPermission( 2 );
+            eZObjectPermission::setPermission( -1, $article->id(), "article_article", 'w' );
         }
-        else // some groups are selected.
+        else
         {
-            $article->removeReadGroups();
-            $article->setReadPermission( 1 );
-            foreach ( $GroupArray as $groupID )
+            eZObjectPermission::removePermissions( $article->id(), "article_article", 'w' );
+            foreach ( $WriteGroupArray as $groupID )
             {
-                $readGroup = new eZUserGroup( $groupID );
-                $article->addReadGroup( $readGroup );
+                eZObjectPermission::setPermission( $groupID, $categoryID, "article_article", 'w' );
             }
         }
     }
     else
     {
-        $article->setReadPermission( 0 );
+        eZObjectPermission::removePermissions( $article->id(), "article_article", 'w' );
     }
     
+    /* read access thingy */
+    if ( isset( $GroupArray ) )
+    {
+        if( $GroupArray[0] == 0 )
+        {
+            eZObjectPermission::setPermission( -1, $article->id(), "article_article", 'r' );
+        }
+        else // some groups are selected.
+        {
+            foreach ( $GroupArray as $groupID )
+            {
+                eZObjectPermission::setPermission( $groupID, $categoryID, "article_article", 'r' );
+            }
+        }
+    }
+    else
+    {
+        eZObjectPermission::removePermissions( $article->id(), "article_article", 'r' );
+    }
+
     // add check for publishing rights here
     if ( $IsPublished == "on" )
     {
@@ -514,6 +545,11 @@ $t->set_var( "author_text", stripslashes($AuthorText ) );
 $t->set_var( "link_text", stripslashes($LinkText  ));
 
 $t->set_var( "action_value", "insert" );
+$t->set_var( "all_selected", "selected" );
+$t->set_var( "all_write_selected", "selected" );
+$writeGroupsID = array(); 
+$readGroupsID = array(); 
+
 
 if ( $Action == "New" )
 {
@@ -560,7 +596,7 @@ if ( $Action == "Edit" )
     
     $t->set_var( "action_value", "update" );
 
-    $ownerGroup = $article->ownerGroup();
+/*    $ownerGroup = $article->ownerGroup();
     if( get_class( $ownerGroup ) == "ezusergroup" )
         $ownerGroupID = $ownerGroup->id();
 
@@ -573,7 +609,15 @@ if ( $Action == "Edit" )
     else if( $readPermission == 2 )
     {
         $t->set_var( "all_selected", "selected" );
-    }
+        }*/
+
+    $writeGroupsID = eZObjectPermission::getGroups( $CategoryID, "article_article", 'w' , false );
+    $readGroupsID = eZObjectPermission::getGroups( $CategoryID, "article_article", 'r', false );
+
+    if( $writeGroupsID[0] != -1 )
+        $t->set_var( "all_write_selected", "" );
+    if( $readGroupsID[0] != -1 )
+        $t->set_var( "all_selected", "" );
 
 }
 
@@ -588,7 +632,7 @@ $user = eZUser::currentUser();
 
 foreach ( $treeArray as $catItem )
 {
-    if ( ( eZArticleCategory::hasWritePermission( $user, $catItem[0]->id() ) == true ) )
+    if ( eZObjectPermission::hasPermission( $catItem[0]->id(), "article_category", 'r', $user ) == true  )
     {    
         if ( $Action == "Edit" )
         {
@@ -656,28 +700,23 @@ $t->set_var( "selected", "" );
 foreach( $groupList as $groupItem )
 {
     /* for the group owner selector */
-//    if( eZPermission::checkPermission( $groupItem , "eZBug", "BugEdit" ) )
-//    {
         $t->set_var( "module_owner_id", $groupItem->id() );
         $t->set_var( "module_owner_name", $groupItem->name() );
 
-        if( isset( $ownerGroup ) && $ownerGroupID == $groupItem->id() )
+        if( in_array( $groupItem->id(), $writeGroupsID ) )
             $t->set_var( "is_selected", "selected" );
         else
             $t->set_var( "is_selected", "" );
     
         $t->parse( "category_owner", "category_owner_tpl", true );
-//    }
+
         /* for the read access groups selector */
         $t->set_var( "group_name", $groupItem->name() );
         $t->set_var( "group_id", $groupItem->id() );
-        if( isset( $readPermission ) && $readPermission == 1 )
-        {
-            if( in_array( $groupItem->id(), $readGroupsID ) )
-                $t->set_var( "selected", "selected" );
-            else
-                $t->set_var( "selected", "" );
-        }
+        if( in_array( $groupItem->id(), $readGroupsID ) )
+            $t->set_var( "selected", "selected" );
+        else
+            $t->set_var( "selected", "" );
         $t->parse( "group_item", "group_item_tpl", true );
 }
 

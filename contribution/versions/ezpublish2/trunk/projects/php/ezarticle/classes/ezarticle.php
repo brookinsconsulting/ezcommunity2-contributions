@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezarticle.php,v 1.44 2001/02/23 10:21:36 fh Exp $
+// $Id: ezarticle.php,v 1.45 2001/02/28 16:39:09 fh Exp $
 //
 // Definition of eZArticle class
 //
@@ -126,7 +126,8 @@ class eZArticle
                                  Published=now(),
                                  Created=now(),
                                  OwnerGroupID='$this->OwnerGroupID',
-                                 ReadPermission='$this->ReadPermission'
+                                 ReadPermission='$this->ReadPermission',
+                                 WritePermission='$this->WritePermission'
                                  " );
 
             $this->ID = mysql_insert_id();
@@ -151,7 +152,8 @@ class eZArticle
                                  Published=now(),
                                  Modified=now(),
                                  OwnerGroupID='$this->OwnerGroupID',
-                                 ReadPermission='$this->ReadPermission'
+                                 ReadPermission='$this->ReadPermission',
+                                 WritePermission='$this->WritePermission'
                                  WHERE ID='$this->ID'
                                  " );
             }
@@ -168,7 +170,8 @@ class eZArticle
                                  Keywords='$this->Keywords',
                                  Modified=now(),
                                  OwnerGroupID='$this->OwnerGroupID',
-                                 ReadPermission='$this->ReadPermission'
+                                 ReadPermission='$this->ReadPermission',
+                                 WritePermission='$this->WritePermission'
                                  WHERE ID='$this->ID'
                                  " );
             }
@@ -210,6 +213,7 @@ class eZArticle
                 $this->Keywords =& $article_array[0][ "Keywords" ];
                 $this->OwnerGroupID =& $article_array[0][ "OwnerGroupID" ];
                 $this->ReadPermission =& $article_array[0][ "ReadPermission" ];
+                $this->WritePerission =& $article_array[0][ "WritePermission" ];
 
                 $this->State_ = "Coherent";
                 $ret = true;
@@ -542,7 +546,21 @@ class eZArticle
 
         return $this->ReadPermission;
     }
-    
+
+    /*!
+      Returns the write permission for this article.
+      0 means that only the user has permission to read the article
+      1 means that only users in selected groups can read the article
+      2 means that evryone can read the article
+     */
+    function writePermission()
+    {
+        if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+        return $this->WritePermission;
+    }
+
     /*!
       Returns the categories an article is assigned to.
 
@@ -603,6 +621,20 @@ class eZArticle
        $this->Database->query( "DELETE FROM eZArticle_ArticleReaderLink WHERE ArticleID='$this->ID'" );       
     }
 
+
+    /*!
+      Removes every group that can write to  this article.
+    */
+    function removeWriteGroups()
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+       $this->dbInit();
+
+       $this->Database->query( "DELETE FROM eZArticle_ArticleReadGroupLink WHERE ArticleID='$this->ID'" );       
+    }
+
     
     /*!
       Adds a group that can read this article.
@@ -626,6 +658,29 @@ class eZArticle
         
     }
 
+    /*!
+      Adds a group that can write to this article.
+
+      Note: calling this function will set the ReadPermission variable to 1 if not allready set.
+     */
+    function addWriteGroup( $newGroup )
+    {
+        if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+        if( get_class( $newGroup ) == "ezusergroup" )
+        {
+            $this->dbInit();
+            $groupID = $newGroup->id();
+            $this->Database->query( "INSERT INTO  eZArticle_ArticleWriteGroupLink SET
+                                     ArticleID='$this->ID',
+                                     GroupID='$groupID',
+                                     Created=now()" );       
+        }
+        
+    }
+
+    
     /*!
       Returns all the groups that have readpermission for this article as an array of eZUserGroup objects if IDOnly = false (default),
       if not it will return an array of groupID's
@@ -653,6 +708,34 @@ class eZArticle
 
         return $ret;
     }
+
+    /*!
+      Returns all the groups that have writepermission for this article as an array of eZUserGroup objects if IDOnly = false (default),
+      if not it will return an array of groupID's
+     */
+    function writeGroups( $IDOnly = false )
+    {
+        if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+        $ret = array();
+        $this->Database->array_query( $res, "SELECT GroupID FROM eZArticle_ArticleWriteGroupLink
+                                       WHERE ArticleID='$this->ID'" );
+        if( count( $res ) > 0 )
+        {
+            $i = 0;
+            foreach( $res as $groupItem )
+            {
+                if( $IDOnly == true )
+                    $ret[$i] = $groupItem[0]["GroupID"];
+                else
+                    $ret[$i] = new eZUserGroup( $groupID[0]["GroupID"] );
+                $i++;
+            }
+        }
+        return $ret;
+    }
+
     
     /*!
       Adds an image to the article.
@@ -1211,6 +1294,23 @@ class eZArticle
 
         return false;
     }
+
+    /*!
+      \static
+      Returns true if the given user is the owner of the given object.
+      $user is either a userID or an eZUser.
+      $article is the articleID
+     */
+    function isAuthor( $user, $articleID )
+    {
+        $database =& eZDB::globalDatabase();
+        $database->query_single( $res, "SELECT AuthorID from eZArticle_Article WHERE ID='$articleID'");
+        $authorID = $res[ "AuthorID" ];
+        if( $authorID == $user->id() )
+            return true;
+
+        return false;
+    }
     
     /*!
       Returns the article which a forum is connected to.
@@ -1351,6 +1451,7 @@ class eZArticle
     var $Keywords;
     var $OwnerGroupID;
     var $ReadPermission=0;
+    var $WritePermission=0;
     
     // telll eZ publish to show the article to the public
     var $IsPublished;

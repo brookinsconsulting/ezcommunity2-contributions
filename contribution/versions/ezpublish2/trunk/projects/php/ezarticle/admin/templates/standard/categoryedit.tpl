@@ -57,12 +57,12 @@
 
 <!-- {intl-owner_group -->
 <table width="100%" cellpadding="0" cellspacing="0" border="0">
-<th class "boxtext" width="50%">{intl-owner}:</th>
+<th class "boxtext" width="50%">{intl-write_groups}:</th>
 <th class "boxtext" width="50%">{intl-recursive}:</th>
 <tr>
   <td>
-    <select name="OwnerID">
-    <option value="0">{intl-none}</option>
+    <select name="WriteGroupArray[]" multiple size="7">
+    <option value="0" {all_write_selected}>{intl-all}</option>
     <!-- BEGIN category_owner_tpl -->
     <option value="{module_owner_id}" {is_selected}>{module_owner_name}</option>
     <!-- END category_owner_tpl -->

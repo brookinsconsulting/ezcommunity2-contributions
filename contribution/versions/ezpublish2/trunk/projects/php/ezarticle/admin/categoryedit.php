@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: categoryedit.php,v 1.5 2001/02/28 11:24:59 fh Exp $
+// $Id: categoryedit.php,v 1.6 2001/02/28 16:39:08 fh Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <18-Sep-2000 14:46:19 bf>
@@ -303,6 +303,8 @@ $t->set_var( "action_value", "insert" );
 $t->set_var( "exclude_checked", "" );
 $t->set_var( "all_selected", "selected" );
 $t->set_var( "all_write_selected", "selected" );
+$writeGroupsID = array(); 
+$readGroupsID = array(); 
 
 
 $t->set_var( "1_selected", "" );
@@ -335,7 +337,6 @@ if ( $Action == "edit" )
         $t->set_var( "exclude_checked", "checked" );
     }
 
-    /* FIX THIS */
     $writeGroupsID = eZObjectPermission::getGroups( $CategoryID, "article_category", 'w' , false );
     $readGroupsID = eZObjectPermission::getGroups( $CategoryID, "article_category", 'r', false );
 
@@ -343,21 +344,6 @@ if ( $Action == "edit" )
         $t->set_var( "all_write_selected", "" );
     if( $readGroupsID[0] != -1 )
         $t->set_var( "all_selected", "" );
-        
-//    $ownerGroup = $category->ownerGroup();
-//    if( get_class( $ownerGroup ) == "ezusergroup" )
-//        $ownerGroupID = $ownerGroup->id();
-
-//    $readPermission = $category->readPermission();
-//    $t->set_var( "all_selected", "" );
-//    if( $readPermission == 1 )
-//    {
-//        $readGroupsID = $category->readGroups( true );
-//    }
-//    else if( $readPermission == 2 )
-//    {
-//        $t->set_var( "all_selected", "selected" );
-//    }
 }
 
 $category = new eZArticleCategory();

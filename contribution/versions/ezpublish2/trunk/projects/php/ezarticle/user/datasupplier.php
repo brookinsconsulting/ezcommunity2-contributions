@@ -3,6 +3,9 @@
 include_once( "ezarticle/classes/ezarticle.php" );
 include_once( "ezarticle/classes/ezarticlecategory.php" );
 
+include_once( "ezuser/classes/ezusergroup.php" );
+include_once( "ezuser/classes/ezobjectpermission.php" );
+
 include_once( "ezuser/classes/ezuser.php" );
 
 $PageCaching = $ini->read_var( "eZArticleMain", "PageCaching" );
@@ -304,6 +307,28 @@ switch ( $url_array[2] )
     }
     break;
 
+//    case "fhtest";
+//    {
+//        $user = new eZUser( 31 );
+//        $group = new eZUserGroup( 3 );
+//        eZObjectPermission::setPermission( $group, 5, "article_article", 'w' );
+//        eZObjectPermission::setPermission( -1, 5, "article_article", 'w' );
+//        eZObjectPermission::setPermission( $group, 3, "article_article", 'w' );
+//        eZObjectPermission::setPermission( -1, 6, "article_article", 'r' );
+//
+//        if( eZObjectPermission::hasPermission( 5, "article_article", 'w' ) )
+//        {
+//            print( "has permission.. should be right<br />" );
+//        }
+//        else
+//        {
+//            print( "doesn't have  permission.. wrong<br />" );
+//        }
+            
+//        eZObjectPermission::removePermissions( 5, "article_article", 'w' );
+        
+//    }
+//    break;
 }
 
 ?>
