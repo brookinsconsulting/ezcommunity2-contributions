@@ -157,7 +157,7 @@
 <!-- END article_item_tpl -->
 <tr>
         <td>
-	<input type="submit" Name="DeleteArticles" value="{intl-deletearticels}">
+	<input type="submit" Name="DeleteArticles" value="{intl-deletearticles}">
 	</td>
 </tr>
 </form>
