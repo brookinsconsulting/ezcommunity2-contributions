@@ -34,7 +34,7 @@
 <tr>
 	<td class="tdmini">
 	<a href="/article/articlestatic/65/">
-	<img src="/images/pt-wh.gif" width="220" height="84" border="0" alt="" /><br />
+	<img src="/images/pt-is.gif" width="220" height="84" border="0" alt="" /><br />
 	</a>
 	</td>
 </tr>
