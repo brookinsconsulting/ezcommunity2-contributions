@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: ezqdomrenderer.php,v 1.55.2.14 2002/02/27 09:09:11 bf Exp $
+// $Id: ezqdomrenderer.php,v 1.55.2.15 2002/04/10 11:34:02 bf Exp $
 //
 // Definition of eZQDomRenderer class
 //
@@ -534,6 +534,50 @@ class eZQDomrenderer
                 $imageHref = $image->filePath();;
             }
 
+            $hasMap = false;
+            $mapString = "";
+            if ( $image->hasMap() == true )
+            {
+                $hasMap = true;
+                include_once( "ezarticle/classes/ezimagemap.php" );
+                $map = new eZImageMap( $image->id() );
+
+                $elements =& $map->elements();
+
+                // generate HTML map:
+                $mapName = "eZMap_" . $image->id();
+                $mapString = "<map name=\"$mapName\">\n";
+
+                foreach ( $elements as $element )
+                {
+                    $elementParts = explode( "|", $element );
+//                    print_r( $elementParts  );
+
+                    $imageMapHref = $elementParts[0];
+                    if ( !preg_match( "%^(([a-z]+://)|/|#)%", $imageMapHref  ) )
+                            $imageMapHref = "http://" . $imageMapHref;
+
+                    if ( $elementParts[2] == "1" )
+                    {
+                        $mapString .= "<area shape=\"circle\" coords=\"" .
+                         $elementParts[3] . "," .
+                         $elementParts[4] . "," .
+                         $elementParts[5] . "," . 
+                         $elementParts[6] . "\" href=\"" . $imageMapHref . "\" />\n";
+                    }
+                    else
+                    {
+                        $mapString .= "<area shape=\"rect\" coords=\"" .
+                             $elementParts[3] . "," .
+                             $elementParts[4] . "," .
+                             $elementParts[5] . "," . 
+                             $elementParts[6] . "\" href=\"" . $imageMapHref . "\" />\n";
+                    }
+                }
+                
+                $mapString .= "</map>\n";
+            }
+            
 
             // add image if a valid image was found, else report an error in the log.
             if ( get_class( $image ) == "ezimage" )
@@ -543,38 +587,46 @@ class eZQDomrenderer
                 // store the relative ID to the image
                 $this->UsedImageList[] = $imageID;
 
-                switch ( $imageSize )
+                if ( $hasMap == false )
                 {
-                    case "small" :
+                    switch ( $imageSize )
                     {
-                        $variation =& $image->requestImageVariation( $ini->read_var( "eZArticleMain", "SmallImageWidth" ),
-                        $ini->read_var( "eZArticleMain", "SmallImageHeight" ) );
-                    }
-                    break;
-                    case "medium" :
-                    {
-                        $variation =& $image->requestImageVariation( $ini->read_var( "eZArticleMain", "MediumImageWidth" ),
-                        $ini->read_var( "eZArticleMain", "MediumImageHeight" ) );
-                    }
-                    break;
-                    case "large" :
-                    {
-                        $variation =& $image->requestImageVariation( $ini->read_var( "eZArticleMain", "LargeImageWidth" ),
-                        $ini->read_var( "eZArticleMain", "LargeImageHeight" ) );
-                    }
-                    break;
+                        case "small" :
+                        {
+                            $variation =& $image->requestImageVariation( $ini->read_var( "eZArticleMain", "SmallImageWidth" ),
+                            $ini->read_var( "eZArticleMain", "SmallImageHeight" ) );
+                        }
+                        break;
+                        case "medium" :
+                        {
+                            $variation =& $image->requestImageVariation( $ini->read_var( "eZArticleMain", "MediumImageWidth" ),
+                            $ini->read_var( "eZArticleMain", "MediumImageHeight" ) );
+                        }
+                        break;
+                        case "large" :
+                        {
+                            $variation =& $image->requestImageVariation( $ini->read_var( "eZArticleMain", "LargeImageWidth" ),
+                            $ini->read_var( "eZArticleMain", "LargeImageHeight" ) );
+                        }
+                        break;
 
-                    case "original" :
-                    {
-                        $variation =& $image;
-                    }
-                    break;
+                        case "original" :
+                        {
+                            $variation =& $image;
+                        }
+                        break;
 
-                    default :
-                    {
-                        $variation =& $image->requestImageVariation( $ini->read_var( "eZArticleMain", "MediumImageWidth" ),
-                        $ini->read_var( "eZArticleMain", "MediumImageHeight" ) );
+                        default :
+                        {
+                            $variation =& $image->requestImageVariation( $ini->read_var( "eZArticleMain", "MediumImageWidth" ),
+                            $ini->read_var( "eZArticleMain", "MediumImageHeight" ) );
+                        }
                     }
+                }
+                else
+                {
+                    // use original image if it's an image map.
+                    $variation =& $image;
                 }
 
                 if ( get_class( $variation ) == "ezimage" )
@@ -628,8 +680,16 @@ class eZQDomrenderer
                 $this->Template->set_var( "caption", $imageCaption );
                 $this->Template->set_var( "target", $imageTarget );
 
+                $this->Template->set_var( "map_name", "usemap=\"#" . $mapName . "\"" );
+                $this->Template->set_var( "map_string", $mapString );
+                
                 $this->Template->set_var( "referer_url", $GLOBALS["REQUEST_URI"] );
 
+                if ( $hasMap == true )
+                {
+                    $imageHref = "0";
+                }
+                
                 if ( $imageAlignment != "float"  )
                 {
                     if ( $imageHref == "0" )
