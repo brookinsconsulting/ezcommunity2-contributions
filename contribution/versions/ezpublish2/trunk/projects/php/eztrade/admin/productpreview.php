@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: productpreview.php,v 1.20 2001/03/23 14:26:24 pkej Exp $
+// $Id: productpreview.php,v 1.21 2001/03/23 14:50:33 pkej Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <22-Sep-2000 16:13:32 bf>
@@ -507,7 +507,6 @@ if (
     $t->set_var( "product_price", $locale->format( $price ) );
 
     // show alternative currencies
-echo "er jeg eher?";
     $currency = new eZProductCurrency( );
     $currencies =& $currency->getAll();
 
