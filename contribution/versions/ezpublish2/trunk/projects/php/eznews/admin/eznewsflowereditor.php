@@ -3,7 +3,7 @@ class eZNewsFlowerEditor
 {
     function eZNewsFlowerEditor( $url_array )
     {
-            echo "eZNewsFlowerEditor::eZNewsFlowerEditor( url_array = $url_array ) <br>\n";
+        #   echo "eZNewsFlowerEditor::eZNewsFlowerEditor( url_array = $url_array ) <br>\n";
         if( empty( $url_array[3] ) )
         {
             // Okay give some search and stuff.
@@ -42,7 +42,7 @@ class eZNewsFlowerEditor
     
     function create( $url_array )
     {
-            echo "eZNewsFlowerEditor::create( url_array = $url_array ) <br>\n";
+        #   echo "eZNewsFlowerEditor::create( url_array = $url_array ) <br>\n";
         include_once( "classes/INIFile.php" );
         include_once( "classes/eztemplate.php" );
 
@@ -77,7 +77,7 @@ class eZNewsFlowerEditor
     
     function insert()
     {
-            echo "eZNewsFlowerEditor::insert(  ) <br>\n";
+        #   echo "eZNewsFlowerEditor::insert(  ) <br>\n";
         global $Price;
         global $Story;
         global $Title;
@@ -124,7 +124,7 @@ class eZNewsFlowerEditor
 
     function validateForm( )
     {
-            echo "eZNewsFlowerEditor::validateForm(  ) <br>\n";
+        #   echo "eZNewsFlowerEditor::validateForm(  ) <br>\n";
         unset($returnErrors);
 
         global $Price;
@@ -151,7 +151,7 @@ class eZNewsFlowerEditor
 
     function fillInForm( $action, $errors )
     {
-            echo "eZNewsFlowerEditor::fillInForm( action = $action, errors = $errors ) <br>\n";
+        #   echo "eZNewsFlowerEditor::fillInForm( action = $action, errors = $errors ) <br>\n";
         global $Price;
         global $Story;
         global $Title;
@@ -225,7 +225,7 @@ class eZNewsFlowerEditor
     
     function storeArticle( $status )
     {
-            echo "eZNewsFlowerEditor::storeArticle( status = $status ) <br>\n";
+        #    echo "eZNewsFlowerEditor::storeArticle( status = $status ) <br>\n";
         global $PictureID;
         global $Title;
         global $Story;
@@ -282,7 +282,7 @@ EOD;
     
     function storeImage()
     {
-            echo "eZNewsFlowerEditor::storeImage(  ) <br>\n";
+        #    echo "eZNewsFlowerEditor::storeImage(  ) <br>\n";
         global $Picture;
         global $Title;
         global $PictureID;
@@ -323,7 +323,7 @@ EOD;
     
     function fillInCategories( &$t )
     {
-            echo "eZNewsFlowerEditor::fillInCategories( t = $t ) <br>\n";
+        #    echo "eZNewsFlowerEditor::fillInCategories( t = $t ) <br>\n";
         global $ParentID;
         
         include_once( "eznews/classes/eznewscategory.php" );
@@ -334,9 +334,9 @@ EOD;
         
         $cat->getByName( "Heistad Hagesenter" );
         
-        $cat->objectHeader();
-        $cat->objectInfo();
-        $cat->objectFooter();
+        #$cat->objectHeader();
+        #$cat->objectInfo();
+        #$cat->objectFooter();
         
         $categories = $cat->getAllChildrenCategories();
 
@@ -368,7 +368,7 @@ EOD;
     
     function browse( $url_array )
     {
-            echo "eZNewsFlowerEditor::browse( url_array = $url_array ) <br>\n";
+        #   echo "eZNewsFlowerEditor::browse( url_array = $url_array ) <br>\n";
         include_once( "eznews/classes/eznewsitem.php" );
         include_once( "eznews/classes/eznewsarticle.php" );
         $t= new eZNewsArticle();
