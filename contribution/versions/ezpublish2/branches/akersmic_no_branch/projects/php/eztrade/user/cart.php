@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: cart.php,v 1.71.8.1 2002/01/22 16:46:34 bf Exp $
+// $Id: cart.php,v 1.71.8.2 2002/01/23 08:28:38 ceaker Exp $
 //
 // Created on: <27-Sep-2000 11:57:49 bf>
 //
@@ -410,7 +410,7 @@ $i = 0;
 
 foreach ( $items as $item )
 {
-    $t->set_var( "td_class", ( $i % 2 ) == 0 ? "bglight" : "bgdark" );
+    $t->set_var( "td_class", ( $i % 2 ) == 0 ? "cart1" : "cart2" );
     $i++;
     $t->set_var( "cart_item_id", $item->id() );
     $product =& $item->product();
