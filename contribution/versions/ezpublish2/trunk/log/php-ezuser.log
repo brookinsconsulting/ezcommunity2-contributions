@@ -948,3 +948,11 @@ Maintainer(s) : bf@ez.no
     * user/userwithaddress.php:
     made compatible for use of image buttons ($OK_x)
 
+
+Module : ezuser
+Repository path : /home/cvsroot/projects/php/ezuser
+Maintainer(s) : bf@ez.no
+2002-01-17  Christoffer Elo  <ce@ez.no>
+
+    * classes/ezauthor.php: hm
+

@@ -999,3 +999,33 @@ Maintainer(s) : pkej@ez.no
       user/templates/standard/viewresult.tpl
       user/viewresult.php: fixed printable version
 
+
+Module : ezform
+Repository path : /home/cvsroot/projects/php/ezform
+Maintainer(s) : pkej@ez.no
+2002-01-17  Jo Henrik Endrerud  <jhe@ez.no>
+
+    * classes/ezformrenderer.php: removed debug info
+
+    * classes/ezform.php
+      user/formedit.php: fixed delete of results
+
+    * user/results.php
+      user/templates/standard/results.tpl:
+    removed delete button when not logged in
+
+    * user/intl/en_GB/results.php.ini
+      user/intl/no_NO/results.php.ini: added delete
+
+    * user/intl/en_GB/formedit.php.ini
+      user/intl/no_NO/formedit.php.ini
+      user/templates/standard/formedit.tpl
+      user/templates/standard/results.tpl
+      admin/templates/standard/formrenderer.tpl
+      classes/ezform.php
+      classes/ezformelement.php
+      classes/ezformrenderer.php
+      user/datasupplier.php
+      user/formedit.php
+      user/results.php: added edit of records
+
