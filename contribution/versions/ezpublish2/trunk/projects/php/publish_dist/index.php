@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: index.php,v 1.126 2001/11/15 18:02:12 ce Exp $
+// $Id: index.php,v 1.127 2001/11/15 18:34:32 ce Exp $
 //
 // Created on: <09-Nov-2000 14:52:40 ce>
 //
@@ -33,9 +33,6 @@ if ( file_exists( "sitedir.ini" ) )
 {
     include_once( "sitedir.ini" );
 }
-
-// apd_set_session_trace(35);
-
 
 // Preparing variables for nVH setup
 if ( isSet( $siteDir ) and $siteDir != "" )
