@@ -503,3 +503,16 @@ Maintainer(s) : bf@ez.no
 
     * eztemplate.php: small fixes to uninitialized variables.
 
+
+Module : classes
+Repository path : /home/cvsroot/projects/php/classes
+Maintainer(s) : bf@ez.no
+2001-12-03  Kai Duebbert  <kai@duebbert.de>
+
+    * ezmysqldb.php:
+    improved connection handling to mysql server. tries 5 times with break of 5 seconds in between.
+
+    * INIFile.php
+      ezfile.php
+      eztemplate.php: improved handling of $siteDir.
+

@@ -2383,3 +2383,14 @@ Maintainer(s) : bf@ez.no
     * user/templates/standard/articletags.tpl:
     fixed wrong handling off link_tpl for nVH setup
 
+
+Module : ezarticle
+Repository path : /home/cvsroot/projects/php/ezarticle
+Maintainer(s) : bf@ez.no
+2001-12-03  Kai Duebbert  <kai@duebbert.de>
+
+    * classes/ezarticlerenderer.php: small fix.
+
+    * classes/ezarticlecategory.php
+      classes/ezqdomrenderer.php: small fixes.
+
