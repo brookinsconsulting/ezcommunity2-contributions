@@ -1,6 +1,6 @@
 <?php 
 // 
-// $Id: INIFile.php,v 1.39 2001/08/15 06:56:46 ce Exp $
+// $Id: INIFile.php,v 1.40 2001/08/16 07:33:55 bf Exp $
 //
 // Implements a simple INI-file parser
 //
@@ -64,8 +64,9 @@ class INIFile
         // echo "INIFile::INIFile( \$inifilename = $inifilename,\$write = $write )<br />\n";
         // $this->load_data( $inifilename, $write );
 
-        $cachedFile = "classes/cache/" . md5( $inifilename ) . ".php";
+        $cachedFile = "classes/cache/" . md5(  realpath( $inifilename ) ) . ".php";
 
+        
         // check for modifications
         $cacheTime = eZFile::filemtime( $cachedFile );
         $origTime = eZFile::filemtime( $inifilename );
