@@ -40,6 +40,8 @@
 
 <br />
 
+<p class="error">{error_msg}</p>
+
 <table class="list" width="100%" cellspacing="0" cellpadding="2" border="0">
 <tr>
 	<th>{intl-poll}</th>
