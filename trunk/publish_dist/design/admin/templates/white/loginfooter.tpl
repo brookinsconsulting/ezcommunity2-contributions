@@ -13,8 +13,12 @@
     <td class="tdmini" width="1" valign="bottom" align="left"><img src="{www_dir}/design/admin/images/{site_style}/box-r05.gif" width="10" height="19" border="0" alt="" /><br /></td>
 </tr>
 </table>
-<a href="http://www.ez.no" target="_vblank"><img src="{www_dir}/design/admin/images/{site_style}/ezsystems-minilogo.gif" width="100" height="25" border="0" align="right" alt="" /></a><br />
 
+<div align="right" style="padding-top: 6px;"><a href="http://ezcommunity.net" target="_vblank" style="font-weight: bold; text-decoration: none;">eZ Community</a></div>
+
+<!--
+<a href="http://www.ez.no" target="_vblank"><img src="{www_dir}/design/admin/images/{site_style}/ezsystems-minilogo.gif" width="100" height="25" border="0" align="right" alt="" /></a><br />
+-->
 	</td>
 </tr>
 </table>
