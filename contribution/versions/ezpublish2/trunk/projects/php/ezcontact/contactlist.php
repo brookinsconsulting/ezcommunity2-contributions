@@ -98,14 +98,12 @@ for ( $i=0; $i<count( $company_array ); $i++ )
           // utøve rettigheter
           if ( $usrGroup->personDelete() == 'Y' )
           {
-              $t->set_var( "delete_person", "<a href=\"#\" onClick=\"verify( 'Slette kontakt person?', 'index.php?prePage=" . $DOCUMENTROOT . "personedit.php&Action=delete&PID={person_id}'); return false;\">Slette person</a>" );
+              $t->set_var( "delete_person", "<a href=\"#\" onClick=\"verify( 'Slette kontakt person?', 'index.php?prePage=" . $DOCUMENTROOT . "personedit.php&Action=delete&PID=" .  $person_array[$j][ "ID" ] . "'); return false;\">Slette person</a>" );
           }
           else
           {
               $t->set_var( "delete_person", "" );
-          }
-          
-          
+          }          
           $t->parse( "person_list", "person_item", true );          
       }
   }
@@ -113,7 +111,7 @@ for ( $i=0; $i<count( $company_array ); $i++ )
   // utøve rettigheter
   if ( $usrGroup->companyDelete() == 'Y' )
   {
-      $t->set_var( "delete_company", "<a href=\"#\" onClick=\"verify( 'Slette firma?', 'index.php?prePage=" . $DOCUMENTROOT . "companyedit.php&Action=delete&CID={company_id}'); return false;\">Slette firma</a>" );
+      $t->set_var( "delete_company", "<a href=\"#\" onClick=\"verify( 'Slette firma?', 'index.php?prePage=" . $DOCUMENTROOT . "companyedit.php&Action=delete&CID=" . $cid . "'); return false;\">Slette firma</a>" );
   }
   else
   {

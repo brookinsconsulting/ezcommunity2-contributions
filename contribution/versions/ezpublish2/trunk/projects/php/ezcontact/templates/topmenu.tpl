@@ -18,6 +18,8 @@
   <td align="right"  valign="top">
 <form method="post" action="index.php4" >
 <select name="page" size="1">
+<option value="{document_root}passwordedit.php4">Forandre passord</option>
+
 <option value="{document_root}phonetypelist.php4">Telefontyper</option>
 <option value="{document_root}addresstypelist.php4">Adressetyper</option>
 <option value="{document_root}userlist.php4">Brukere</option>
