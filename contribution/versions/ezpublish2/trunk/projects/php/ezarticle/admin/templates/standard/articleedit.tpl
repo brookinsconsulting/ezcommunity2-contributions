@@ -40,7 +40,7 @@
 <br /><br />
 
 <p class="boxtext">{intl-contents}:</p>
-<textarea name="Contents[]" cols="50" rows="20" wrap="soft">{article_contents_1}</textarea>
+<textarea name="Contents[]" cols="40" rows="20" wrap="soft">{article_contents_1}</textarea>
 <br /><br />
 
 <p class="boxtext">{intl-link_text}:</p>
