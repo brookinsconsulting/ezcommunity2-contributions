@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: forgot.php,v 1.20 2001/09/07 10:46:54 pkej Exp $
+// $Id: forgot.php,v 1.20.2.1 2002/02/27 10:11:27 bf Exp $
 //
 // Created on: <20-Sep-2000 13:32:11 ce>
 //
@@ -72,15 +72,16 @@ if ( $user )
     $mailpassword->setFrom( $reminderMailFromAddress  );                                               //SF
     
     $body = ( $bodyText . "\n");
-    $body .= ( "http://" . $headersInfo["Host"] . "/user/forgot/change/" . $forgot->Hash() );
+    $body .= ( "http://" . $headersInfo["Host"] . $ini->WWWDir . $ini->Index . "/user/forgot/change/" . $forgot->Hash() );
     $body .= ( $bodyFooter );                                                                      //SF
     
     $mailpassword->setBody( $body );
     $mailpassword->send();
-
+    
     eZHTTPTool::header( "Location: /user/successfull/" );
     exit();
 }
+
 
 if ( $Action == "change" )
 {
@@ -107,7 +108,7 @@ if ( $Action == "change" )
 	
         $mail->setFrom( $reminderMailFromAddress );                                            //SF
 	
-        $body = ( $bodyNewPassword . "\nhttp://" . $headersInfo["Host"] ."/user/login/.\n" ); //SF
+        $body = ( $bodyNewPassword . "\nhttp://" . $headersInfo["Host"] . $ini->WWWDir . $ini->Index . "/user/login/.\n" ); //SF
         $body .= ( $passwordText . ": "  .  $password );
         
         $body .= ( $bodyFooter );                                                              //SF
