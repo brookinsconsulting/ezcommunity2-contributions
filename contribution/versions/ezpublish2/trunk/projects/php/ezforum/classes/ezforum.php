@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: ezforum.php,v 1.48 2001/09/20 12:14:27 jhe Exp $
+// $Id: ezforum.php,v 1.49 2001/09/25 10:56:42 jhe Exp $
 //
 // Created on: <11-Sep-2000 22:10:06 bf>
 //
@@ -220,23 +220,23 @@ class eZForum
     */
     function &search( $query, $offset, $limit )
     {
-       $db =& eZDB::globalDatabase();
-       $query = $db->escapeString( $query );
-       $query = new eZQuery( array( "Topic", "Body" ), $query );
-       $query->setPartialCompare( true );
-       $query_str = "SELECT ID, PostingTime FROM eZForum_Message WHERE (" .
+        $db =& eZDB::globalDatabase();
+        $query = $db->escapeString( $query );
+        $query = new eZQuery( array( "Topic", "Body" ), $query );
+        $query->setPartialCompare( true );
+        $query_str = "SELECT ID, PostingTime FROM eZForum_Message WHERE (" .
              $query->buildQuery()  .
              ") GROUP BY ID, PostingTime ORDER BY PostingTime";
 
-       $db->array_query( $message_array, $query_str, array( "Limit" => $limit, "Offset" => $offset ) );
-       $ret = array();
-
-       foreach ( $message_array as $message )
-       {
-           $ret[] = new eZForumMessage( $message[$db->fieldName( "ID" )] );
-       }
-
-       return $ret;
+        $db->array_query( $message_array, $query_str, array( "Limit" => $limit, "Offset" => $offset ) );
+        $ret = array();
+        
+        foreach ( $message_array as $message )
+        {
+            $ret[] = new eZForumMessage( $message[$db->fieldName( "ID" )] );
+        }
+        
+        return $ret;
     }
 
 
@@ -250,6 +250,7 @@ class eZForum
         $message_array = 0;
 
         $query = new eZQuery( array( "Topic", "Body" ), $queryString );
+        $query->setPartialCompare( true );
 
         $query_str = "SELECT count(*) AS Count FROM eZForum_Message WHERE (" . $query->buildQuery() . ")";
 
@@ -270,29 +271,29 @@ class eZForum
     */
     function &messageTree( $offset=0, $limit=30, $showUnApproved=false )
     {
-       $db =& eZDB::globalDatabase();
+        $db =& eZDB::globalDatabase();
 
-       $approvedCode = "";
-       if ( $showUnApproved == false )
-       {
-           $approvedCode = " AND IsApproved=1 ";
-       }
+        $approvedCode = "";
+        if ( $showUnApproved == false )
+        {
+            $approvedCode = " AND IsApproved=1 ";
+        }
+        
+        $db->array_query( $message_array, "SELECT ID, TreeID FROM
+                                           eZForum_Message
+                                           WHERE ForumID='$this->ID' $approvedCode
+                                           AND IsTemporary='0' ORDER BY TreeID
+                                           DESC",
+                          array( "Limit" => $limit, "Offset" => $offset ) );
 
-       $db->array_query( $message_array, "SELECT ID, TreeID FROM
-                                          eZForum_Message
-                                          WHERE ForumID='$this->ID' $approvedCode
-                                          AND IsTemporary='0' ORDER BY TreeID
-                                          DESC",
-                         array( "Limit" => $limit, "Offset" => $offset ) );
+        $ret = array();
+        
+        foreach ( $message_array as $message )
+        {
+            $ret[] =& new eZForumMessage( $message[$db->fieldName("ID")] );
+        }
 
-       $ret = array();
-
-       foreach ( $message_array as $message )
-       {
-           $ret[] =& new eZForumMessage( $message[$db->fieldName("ID")] );
-       }
-
-       return $ret;
+        return $ret;
     }
 
     /*!
@@ -302,17 +303,17 @@ class eZForum
     */
     function &messageTreeArray( $offset=0, $limit=30, $showUnApproved=false, $showReplies=true )
     {
-       $db =& eZDB::globalDatabase();
+        $db =& eZDB::globalDatabase();
 
-       $approvedCode = "";
-       if ( $showUnApproved == false )
-       {
-           $approvedCode = " AND IsApproved=1 ";
-       }
-
-       $timeStamp =& eZDateTime::timeStamp( true );            
-       if ( $showReplies )
-       {
+        $approvedCode = "";
+        if ( $showUnApproved == false )
+        {
+            $approvedCode = " AND IsApproved=1 ";
+        }
+        
+        $timeStamp =& eZDateTime::timeStamp( true );            
+        if ( $showReplies )
+        {
             $db->array_query( $message_array, "SELECT ID, Topic, UserID, PostingTime, Depth, UserName, 
                                           ( $timeStamp  - PostingTime ) AS Age, TreeID, Body
                                           FROM
@@ -323,19 +324,19 @@ class eZForum
                                           ORDER BY TreeID
                                           DESC",
                               array( "Limit" => $limit, "Offset" => $offset ) );
-       }
-       else
-       {
-           $db->array_query( $message_array, "SELECT ID, Topic, UserID, PostingTime, Depth, UserName, 
+        }
+        else
+        {
+            $db->array_query( $message_array, "SELECT ID, Topic, UserID, PostingTime, Depth, UserName, 
                                           ( $timeStamp  -  PostingTime ) AS Age, TreeID, ThreadID, Body
                                           FROM eZForum_Message
                                           WHERE ForumID='$this->ID' AND Depth='0'
                                           AND IsTemporary='0'
                                           $approvedCode
                                           ORDER BY TreeID DESC ",
-                             array( "Limit" => $limit, "Offset" => $offset ) );
-       }
-       return $message_array;
+                              array( "Limit" => $limit, "Offset" => $offset ) );
+        }
+        return $message_array;
     }
 
     /*!
@@ -517,23 +518,31 @@ class eZForum
     /*!
       Sets the forum moderator.
     */
-    function setModerator( &$group )
+    function setModerator( $group )
     {
-       if ( get_class( $group  ) == "ezusergroup" )
-       {
-          $this->ModeratorID = $group->id();
-       }
+        if ( get_class( $group  ) == "ezusergroup" )
+        {
+            $this->ModeratorID = $group->id();
+        }
+        else if ( is_numeric( $group ) )
+        {
+            $this->ModeratorID = $group;
+        }
     }
 
     /*!
       Sets the forum moderator.
     */
-    function setGroup( &$group )
+    function setGroup( $group )
     {
-       if ( get_class( $group  ) == "ezusergroup" )
-       {
-           $this->GroupID = $group->id();
-       }
+        if ( get_class( $group  ) == "ezusergroup" )
+        {
+            $this->GroupID = $group->id();
+        }
+        else if ( is_numeric( $group ) )
+        {
+            $this->GroupID = $group;
+        }
     }
 
 

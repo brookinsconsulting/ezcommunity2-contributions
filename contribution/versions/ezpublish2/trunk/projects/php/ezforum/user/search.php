@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: search.php,v 1.14 2001/09/20 12:14:27 jhe Exp $
+// $Id: search.php,v 1.15 2001/09/25 10:56:42 jhe Exp $
 //
 // Created on: <12-Oct-2000 20:33:02 bf>
 //
@@ -52,7 +52,8 @@ $t->set_block( "search_tpl", "search_result_tpl", "search_result" );
 $t->set_block( "message_tpl", "new_icon_tpl", "new_icon" );
 $t->set_block( "message_tpl", "old_icon_tpl", "old_icon" );
 
-if ( !isSet ( $Offset ) )
+
+if ( !isSet( $Offset ) )
     $Offset = 0;
 
 $t->set_var( "url_text", "" );
@@ -126,6 +127,7 @@ else
 {
     $t->parse( "empty_result", "empty_result_tpl" );
 }
+
 eZList::drawNavigator( $t, $total_count, $Limit, $Offset, "search_tpl" );
 
 $t->set_var( "forum_start", $Offset + 1 );
@@ -135,4 +137,5 @@ $t->set_var( "forum_total", $total_count );
 $t->set_var( "url_query_string", urlencode( $QueryString ) );
 
 $t->pparse("output","search_tpl");
+
 ?>

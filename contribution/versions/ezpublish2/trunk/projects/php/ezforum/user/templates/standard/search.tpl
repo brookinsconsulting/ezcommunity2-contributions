@@ -72,7 +72,7 @@
 		    
 		    <!-- BEGIN type_list_previous_inactive_tpl -->
 		    <td class="inactive">
-			{intl-previous}&nbsp;
+			&lt;&lt;&nbsp;{intl-previous}&nbsp;
 		    </td>
 		    <!-- END type_list_previous_inactive_tpl -->
 
