@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: frontpage.php,v 1.12 2001/09/25 14:22:49 bf Exp $
+// $Id: frontpage.php,v 1.13 2001/10/01 11:55:42 ce Exp $
 //
 // Created on: <30-May-2001 14:06:59 bf>
 //
@@ -98,6 +98,7 @@ $t->set_var( "image_dir", $ImageDir );
 // parse the settings
 $page_elements = explode( ";", $FrontPageSettings );
 $articleCount = 0;
+$productCount = 0;
 $adCount = 0;
 foreach ( $page_elements as $element )    
 {
@@ -105,9 +106,12 @@ foreach ( $page_elements as $element )
         $articleCount++;
     if ( $element == "ad"  )
         $adCount++;
+    if ( $element == "1columnProduct" )
+        $productCount++;
 }
 
 $category = new eZArticleCategory( $FrontPageCategory );
+$productCategory = new eZProductCategory( $FrontPageProductCategory );
 
 $user =& eZUser::currentUser();
 
@@ -128,6 +132,21 @@ else
     $sectionObject->setOverrideVariables();
     
     $articleList =& $category->articles( $category->sortMode(), false, true, 0, $articleCount );
+    $articleCount = $articleCount;
+}
+
+if ( $FrontPageProductCategory == 0 )
+{
+    // do not set offset for the main page news
+    // always sort by publishing date is the merged category
+    $product = new eZProduct();
+    $productList =& $product->activeProducts( "time", 0, $productCount );
+    $productCount = $productCount;
+
+}
+else
+{
+    $articleList =& $productCategory->products( $category->sortMode(), false, true, 0, $productCount );
     $articleCount = $articleCount;
 }
 
@@ -195,7 +214,16 @@ foreach ( $page_elements as $element )
                     
             $adOffset++;
         }break;
-        
+
+        case "1columnProduct":
+        {            
+            $product =& $productList[0];
+
+//            if ( get_class( $product ) == "ezproduct" )
+//                $pageContents .= renderFrontpageProduct( $t, $locale, $product );
+            
+            $productOffset++;
+        }break;
     }
 }
 $t->set_var( "element_list", $pageContents );

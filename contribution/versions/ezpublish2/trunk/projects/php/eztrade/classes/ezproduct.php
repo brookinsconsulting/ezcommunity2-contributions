@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezproduct.php,v 1.107 2001/10/01 10:07:23 pkej Exp $
+// $Id: ezproduct.php,v 1.108 2001/10/01 11:55:42 ce Exp $
 //
 // Definition of eZProduct class
 //
@@ -2068,6 +2068,92 @@ class eZProduct
         return $return_array;
     }
 
+    /*!
+      Returns every active product as a array of eZProduct objects.
+    */
+    function &activeProducts( $sortMode="time",
+                              $offset=0,
+                              $limit=50 )
+    {
+       return $this->products( $sortMode, false, $offset, $limit );
+    }
+
+
+        /*!
+      Returns every product to a category as a array of eZProduct objects.
+    */
+    function &products( $sortMode="time",
+                        $fetchNonActive=false,
+                        $offset=0,
+                        $limit=50,
+                        $fetchDiscontinued=false )
+    {
+       $db =& eZDB::globalDatabase();
+
+       switch( $sortMode )
+       {
+           case "time" :
+           {
+               $OrderBy = "eZTrade_Product.Published DESC";
+           }
+           break;
+
+           case "alpha" :
+           {
+               $OrderBy = "eZTrade_Product.Name ASC";
+           }
+           break;
+
+           case "alphadesc" :
+           {
+               $OrderBy = "eZTrade_Product.Name DESC";
+           }
+           break;
+
+           default :
+           {
+               $OrderBy = "eZTrade_Product.Published DESC";
+           }
+       }       
+       
+       $return_array = array();
+       $product_array = array();
+
+       $user =& eZUser::currentUser();
+       if ( $user )
+       {
+           $groups = $user->groups();
+       }
+       else
+       {
+           $groups = array();
+       }
+       
+       if ( $fetchNonActive  == true )
+       {
+           $nonActiveCode = "";
+       }
+       else
+       {
+           $nonActiveCode = " eZTrade_Product.ShowProduct='1' AND";
+       }
+       $discontinuedCode = "";
+       if ( !$fetchDiscontinued )
+           $discontinuedCode = " eZTrade_Product.Discontinued='0'";
+       $db->array_query( $product_array, "
+                SELECT eZTrade_Product.ID AS ProductID, eZTrade_Product.Name
+                FROM eZTrade_Product
+                WHERE 
+                $nonActiveCode
+                $discontinuedCode
+                ORDER BY $OrderBy", array( "Limit" => $limit, "Offset" => $offset ) );
+
+       for ( $i = 0; $i < count( $product_array ); $i++ )
+       {
+           $return_array[$i] = new eZProduct( $product_array[$i][$db->fieldName( "ProductID" )], false );
+       }
+       return $return_array;
+    }
    
     var $ID;
     var $Name;
