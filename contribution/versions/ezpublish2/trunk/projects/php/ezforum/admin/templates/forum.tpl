@@ -9,7 +9,6 @@
    </tr>
    {forums}
 </table>
-<form action="index.php4" method="post">
-<input type="hidden" name="page" value="{docroot}/admin/category.php4">
-<input type="submit" value="Gå tilbake til kategorier">
-</form>
+<br>
+<hr noshade side="3" color="#000000">
+<a href="index.php4?page={docroot}/admin/category.php4">Tilbake</a>
