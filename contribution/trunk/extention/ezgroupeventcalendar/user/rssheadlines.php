@@ -35,6 +35,7 @@ include_once( "ezgroupeventcalendar/classes/ezgroupeditor.php" );
 
 include_once( "classes/ezdatetime.php" );
 
+include_once( "classes/ezvardump.php" );
 
 // get ini variables
 $ini =& INIFile::globalINI();
@@ -48,90 +49,132 @@ $Image = $ini->read_var( "eZGroupEventCalendarRSS", "Image" );
 // $CategoryID = $ini->read_var( "eZGroupEventCalendarRSS", "CategoryID" );
 $GroupID = $ini->read_var( "eZGroupEventCalendarRSS", "GroupID" );
 $Limit = $ini->read_var( "eZGroupEventCalendarRSS", "Limit" );
+$LimitDirectionForward = true;
 $RssVersion = $ini->read_var( "eZGroupEventCalendarRSS", "RssVersion" );
 
 $headerInfo = ( getallheaders() );
 $Host =  $headerInfo["Host"] ;
 
+//debug : disable rss output
+$Debug = false;
+
 // clear what might be in the output buffer
 ob_end_clean();
 
-if ( $RssVersion == "0.9" ){
- // xml header
- header( "Content-type: text/xml" );
- print( "<?xml version=\"1.0\" encoding=\"$Encoding\"?>\n\n" );
+if (!$Debug){
+  if ( $RssVersion == "0.9" ){
+  // xml header
+  header( "Content-type: text/xml" );
+  print( "<?xml version=\"1.0\" encoding=\"$Encoding\"?>\n\n" );
 
- // rss header
- //print( "<!DOCTYPE rss PUBLIC \"-//Netscape Communications//DTD RSS 0.91//EN\" \"http://my.netscape.com/publish/formats/rss-0.91.dtd\">\n\n" );
- print( "<rss version=\"0.92\">\n" );
+  // rss header
+  //print( "<!DOCTYPE rss PUBLIC \"-//Netscape Communications//DTD RSS 0.91//EN\" \"http://my.netscape.com/publish/formats/rss-0.91.dtd\">\n\n" );
+  print( "<rss version=\"0.92\">\n" );
 
- print( "<channel>\n" );
- print( "<title>$Title</title>\n" );
- print( "<link>$Link</link>\n" );
- print( "<description>$Description</description>\n" );
- print( "<language>$Language</language>\n" );
- //print( "<language/>");
+  print( "<channel>\n" );
+  print( "<title>$Title</title>\n" ); 
+  print( "<link>$Link</link>\n" );
+  print( "<description>$Description</description>\n" );
+  print( "<language>$Language</language>\n" );
+  //print( "<language/>");
 
- // Print Channel Image Tag
- print( "<image>\n" );
- print( "<url>http://".$Host.$Image."</url>\n" );
- print( "<link>http://".$Link."</link>\n" );
- print( "<title>".Title."</title>\n" );
- print( "</image>\n" );
-}elseif ( $RssVersion == "1.0" ) {
+  // Print Channel Image Tag
+  print( "<image>\n" );
+  print( "<url>http://".$Host.$Image."</url>\n" );
+  print( "<link>http://".$Link."</link>\n" );
+  print( "<title>".Title."</title>\n" );
+  print( "</image>\n" );
+ }elseif ( $RssVersion == "1.0" ) {
 
   // xml header
   header( "Content-type: text/xml" );
   print( "<?xml version=\"1.0\" encoding=\"$Encoding\"?>\n\n" );
 
   // rss header
- print( '<rdf:RDF 
- xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
- xmlns="http://purl.org/rss/1.0/"
- xmlns:dc="http://purl.org/dc/elements/1.1/">'. "\n" );
+  print( '<rdf:RDF 
+  xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+  xmlns="http://purl.org/rss/1.0/"
+  xmlns:dc="http://purl.org/dc/elements/1.1/">'. "\n" );
 
- print( '<channel rdf:about="http://'. $Host .'/groupcalendar/listrss">'. "\n" );
- print( "<title>$Title</title>\n" );
- print( "<link>$Link</link>\n" );
- print( "<description>$Description</description>\n" );
+  print( '<channel rdf:about="http://'. $Host .'/groupcalendar/rss">'. "\n" );
+  print( "<title>$Title</title>\n" );
+  print( "<link>$Link</link>\n" );
+  print( "<description>$Description</description>\n" );
 
- // print( "<language>$Language</language>\n" );
- // Print Channel Image Tag
+  // print( "<language>$Language</language>\n" );
+  // Print Channel Image Tag
 	// print( "<image>\n" );
 	// print( "<url>http://".$Host.$Image."</url>\n" );
 	//  print( "<link>http://".$Link."</link>\n" );
 	// print( "<title>".Title."</title>\n" );
 	// print( "</image>\n" );
-}
+ }
+} //end if(!$Debug)
 
 
-// get articles. Always sort by date/time (newest first)
-// if ( $CategoryID == 0 )
-if ( $GroupID == 0)
-{
-  /*
-    $articleList = $article->articles( "time", false, 0 , $Limit);
-  */
+// get articles. Always sort by date/time (newest first) + $Limit (5|7|30 days)
+for ($i=0; $i<=$Limit; $i++){
+  if($Debug)
+    print("<br /> it - $i || ");
 
+  $currentDate = new eZDateTime();
+  $currentDate = $currentDate->date();
+
+  if($LimitDirectionForward){
+    $currentDate->move(0,0,"+$i");
+  }else{ 
+    $currentDate->move(0,0,"-$i");
+  }
+
+  $dateLimit = $currentDate;
+
+  $dateYear = $dateLimit->year();
+  $dateMonth = addZero( $dateLimit->month() );
+  $dateDay = addZero( $dateLimit->day() );
+  $date = $dateYear ."-". $dateMonth ."-". $dateDay ; //." ".  $dateHour .":". $dateMinute;
+
+  if($Debug)
+    print "$date <br />";
+
+  if ( $GroupID == 0)
+  {
     $event = new eZGroupEvent();
-    $eventList = $event->getAll();   
-} 
-else
-{
-  /*
-    $category = new eZArticleCategory( $CategoryID );
-    $articleList = $category->articles( "time", false, true, 0 , $Limit );
-  */ 
-
+    if($Limit){
+      $eventList = $event->getAllByDate($dateLimit);
+    }else {
+      $eventList = $event->getAll();
+    }
+  } 
+  else
+  {
     $event = new eZGroupEvent();
     $eventList = $event->getByGroup($GroupID);
+  }
+
+  // build combined result set
+  if($Debug){
+    // Var_Dump::display($eventList);
+    print("EventListIterationCount: ". sizeof($eventList)."<br />");
+  }
+
+  for ($e=0; $e<sizeof($eventList); $e++){
+    $it = $eventList[$e];
+    if( $it != false)
+      $eventListLimited[] = $it;
+    if($Debug)
+      print "$e : EventListIterationObj: ". $eventList[$e] ."<br />";
+  }
 }
 
+if($Debug)
+   print("<br />|| ". sizeof($eventListLimited)." || <br />");
+
+// Var_Dump::display($eventListLimited);
 
 if ( $RssVersion != "0.9" ){
   print("<items>\n");
   print("<rdf:Seq>\n");
-  foreach( $eventList as $event )
+  foreach( $eventListLimited as $event )
   {
     $eventID = $event->id();
     print('<rdf:li resource="http://'. $Host .'/groupeventcalendar/eventview/'. $eventID .'/"/>'. "\n");    
@@ -141,24 +184,25 @@ if ( $RssVersion != "0.9" ){
   print("</channel>\n");
 }
 
-
  $locale = new eZLocale( $Language );
 
- foreach( $eventList as $event )
+ foreach( $eventListLimited as $event )
  {
-  //    $articleID = $article->id();
     $eventID = $event->id();
     $description = $event->description();
 
     /* 
-    prefix relative Links in href and src attributes with the Hostname, so the feed does not contain relative links and feedreaders can parse the links and show the images.
+     prefix relative Links in href and src attributes with the Hostname, 
+     so the feed does not contain relative links and feedreaders can parse the links and show the images.
     */
     $description = str_replace("href=\"/", "href=\"http://".$Host."/", $description);
     $description = str_replace("src=\"/", "src=\"http://".$Host."/", $description);
 
     $date = $event->dateTime();
+
     /*
-         $date = $date->month() ."/". $date->day() ."/". $date->year() ." ". $date->hour() .":". $date->minute() .":". $date->second();
+     $date = $date->month() ."/". $date->day() ."/". $date->year() ." ". $date->hour() 
+     .":". $date->minute() .":". $date->second();
     */
 
     $dateYear = $date->year();
@@ -171,12 +215,16 @@ if ( $RssVersion != "0.9" ){
     // $date = $dateMonth ."/". $dateDay ."/". $date->year() ." ". $dateHour .":". $dateMinute .":". $dateSecond;
     // $date = $date->year() ."-". $dateMonth ."-". $dateDay;
     //" ". $dateHour .":". $dateMinute .":". $dateSecond;
-
     //    $date = $dateYear ."-". $dateMonth ."-". $dateDay;
        $date = $dateYear ."-". $dateMonth ."-". $dateDay ." ".  $dateHour .":". $dateMinute;
     // $date = $dateYear ."-". $dateMonth ."-". $dateDay;
 
-    $description .= "\n". "Start: $date";
+    $isRepeat = "";
+    if($event->isRecurring())
+      $isRepeat = "(Repeat Event)";
+      //      $isRepeat = "(Repeat Event : $eventDates)";
+
+    $description .= "\n". "Start: $date $isRepeat";
     $description = strip_tags( $description );
 
     $description = strip_tags( $description , "<a>");
