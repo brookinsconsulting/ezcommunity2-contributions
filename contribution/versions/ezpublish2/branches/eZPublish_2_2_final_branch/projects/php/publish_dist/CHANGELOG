@@ -2,7 +2,7 @@ eZ publish changelog:
 ---------------------
 
 Changes from 2.2.6 to 2.2.7
----------------------------
+* Added better logic to the forgot password page
 * Fixed several bugs with the referer list in eZ stats.
 
 Changes from 2.2.5 to 2.2.6
@@ -61,7 +61,7 @@ Changes from 2.2.3 to 2.2.4
 * Fixed bug in timepublising
 * Fixed permission bug in author view.
 * Fixed permission problem with only set categorypermission and non logged in users
-* Added default .htaccess file 
+* Added default .htaccess file
 * Fixed problem with html in eZ forum
 * Fixed bug when changing permissions
 * Fixed permission problems in eZ article
@@ -101,7 +101,7 @@ Changes from 2.2.2 to 2.2.3
 * Added new eztag: <ezarticle id text> links to article with "id" and linktext "text"
 * Added new eztag: <ezcategory id text> links to category with "id" and linktext "text"
 * Added new eztag: <ezstatic id text> links to static article with "id" and linktext "text"
-* Fixed bug when using multiple standard ezpublish tags in custom tag. 
+* Fixed bug when using multiple standard ezpublish tags in custom tag.
 
 Changes from 2.2.1 final to 2.2.2
 ---------------------------------
@@ -220,7 +220,7 @@ Changes from 2.1.0B3 to 2.1
 * Added sections on eZ article
 * Bugfixes
 
- 
+
 Changes from 2.1.0B2 to 2.1.0B3
 -------------------------------
 * Added possibility to set a moderator group in eZ forum
@@ -259,7 +259,7 @@ Changes from 2.1.0B1 to 2.1.0B2
 * Checkbox delete on consultations.
 * Improvements on company/person edit redirect.
 * Bug fixes.
- 
+
 Changes from 2.0.0 to 2.1.0B1
 ---------------------------
 * Added modular help system, you can have context sensitive help.
@@ -294,7 +294,7 @@ Changes from 2.0.0 to 2.1.0B1
 
 Changes from version 2.0 PRE 2 to 2.0.0
 ---------------------------------------
-* Fixed better handling of special characters ( " ' / ) in eZ forum, eZ poll, 
+* Fixed better handling of special characters ( " ' / ) in eZ forum, eZ poll,
   eZ filemanager, eZ imagecatalogue, eZ bug
 * Fixed bug eZContact which caused companies to disappear (or look empty)
   when they were created directly from a category.
@@ -420,7 +420,7 @@ Changes from version 1.0.5 to version 2.0 beta 1
 * Added newsfeed module
 * Added statistics module
 * Added todo module
-* Added cookie-less sessions 
+* Added cookie-less sessions
 * Added absolute positioning of products and articles
 * Added choosable sort mode on article categories
 * Added choosable sort mode on product categories
@@ -455,7 +455,7 @@ Changes from version 1.0.4
 * Speedup by 20-50%, due to more efficient ini file reading.
 * Fixed the article search.
 * Fixed a bug when changing the linkcatalog
-* Added tree list in linkedit and groupedit                              
+* Added tree list in linkedit and groupedit
 
 Changes from version 1.0.3
 --------------------------
@@ -498,7 +498,7 @@ Changes from version 1.0
 * Added printable version of the articles
 * Fixed broken search in links
 * Fixed broken search in article admin
-* Disabled the possibility to set an unactive poll to 
+* Disabled the possibility to set an unactive poll to
   main poll.
 * Fixed editing of user addresses, if enabled.
 * Fixed editing and deleting of forum messsages in the admin interface.
