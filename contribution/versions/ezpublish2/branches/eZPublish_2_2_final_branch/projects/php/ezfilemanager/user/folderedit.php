@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: folderedit.php,v 1.40 2001/10/09 16:06:21 fh Exp $
+// $Id: folderedit.php,v 1.40.2.1 2002/01/04 08:41:10 jhe Exp $
 //
 // Created on: <08-Jan-2001 11:13:29 ce>
 //
@@ -217,12 +217,9 @@ if ( ( $Action == "Insert" || $Action == "Update" ) && $error == false )
          eZObjectPermission::hasPermission( $ParentID, "filemanager_folder", 'w' ) == false &&
          $parent->user( false ) != $user->id() )
     {
-        changePermissions(
-            $FolderID, eZObjectPermission::getGroups( $ParentID, "filemanager_folder", 'r', false ), 'r' );
-        changePermissions(
-            $FolderID, eZObjectPermission::getGroups( $ParentID, "filemanager_folder", 'w', false ), 'w' );
-        changePermissions(
-            $FolderID, eZObjectPermission::getGroups( $ParentID, "filemanager_folder", 'u', false ), 'u' );
+        changePermissions( $FolderID, eZObjectPermission::getGroups( $ParentID, "filemanager_folder", 'r', false ), 'r' );
+        changePermissions( $FolderID, eZObjectPermission::getGroups( $ParentID, "filemanager_folder", 'w', false ), 'w' );
+        changePermissions( $FolderID, eZObjectPermission::getGroups( $ParentID, "filemanager_folder", 'u', false ), 'u' );
         $folder->setUser( $parent->user() );
         $folder->store();
     }

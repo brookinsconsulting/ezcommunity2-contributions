@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: fileupload.php,v 1.44.2.4 2001/11/23 08:55:05 jhe Exp $
+// $Id: fileupload.php,v 1.44.2.5 2002/01/04 08:41:10 jhe Exp $
 //
 // Created on: <10-Dec-2000 15:49:57 bf>
 //
@@ -225,8 +225,7 @@ if ( $Action == "Insert" && !$error )
     }
     else // user had upload permission only, change ownership, set special rights..
     {
-        eZObjectPermission::removePermissions( $FileID, "filemanager_file", 'w' ); // no write
-        eZObjectPermission::removePermissions( $FileID, "filemanager_file", 'r' ); // all read
+        eZObjectPermission::removePermissions( $FileID, "filemanager_file", "wr" ); // no write/read
         eZObjectPermission::setPermission( -1, $FileID, "filemanager_file", 'r' );
         $uploadedFile->setUser( $folder->user() );
         $uploadedFile->store();
