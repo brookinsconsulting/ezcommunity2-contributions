@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: fileview.php,v 1.14 2001/08/17 13:35:59 jhe Exp $
+// $Id: fileview.php,v 1.15 2001/09/22 11:07:37 master Exp $
 //
 // Created on: <04-Jan-2001 16:47:23 ce>
 //
@@ -32,6 +32,7 @@ include_once( "ezfilemanager/classes/ezvirtualfile.php" );
 include_once( "ezfilemanager/classes/ezvirtualfolder.php" );
 include_once( "ezuser/classes/ezuser.php" );
 include_once( "ezuser/classes/ezobjectpermission.php" );
+
 
 $ini =& INIFile::globalINI();
 
@@ -65,6 +66,20 @@ if ( $FileID != 0 )
         exit();
     }
     
+    // sections
+    include_once( "ezsitemanager/classes/ezsection.php" );
+
+    $parent_folder = $file->folder();
+
+    if ( $parent_folder != 0 )
+    {
+	$GlobalSectionID = eZVirtualFolder::sectionIDstatic ( $parent_folder->id() );
+    }
+    
+    // init the section
+    $sectionObject =& eZSection::globalSectionObject( $GlobalSectionID );
+    $sectionObject->setOverrideVariables();
+
     $t->set_var( "file_name", $file->name() );
     $t->set_var( "file_id", $file->id() );
     $t->set_var( "file_description", $file->description() );
