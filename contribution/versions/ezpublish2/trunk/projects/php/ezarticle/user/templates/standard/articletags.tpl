@@ -135,13 +135,13 @@
 <table width="100%" >
 <tr>
 <td bgcolor="#aaaaaa">
-<table width="100%" cellpadding="2" cellspacing="2">
+<table width="{table_width}" border="{table_border}" cellpadding="2" cellspacing="2">
 <!-- BEGIN tr_tpl -->
 <tr>
 <!-- BEGIN td_tpl -->
-	<td valign="top"  bgcolor="#ffffff">
-	{contents}
-	</td>
+    <td width="{td_width}" colspan="{td_colspan}" rowspan="{td_rowspan}" valign="top"  bgcolor="#ffffff">
+    {contents}
+    </td>
 <!-- END td_tpl -->
 </tr>
 <!-- END tr_tpl -->
