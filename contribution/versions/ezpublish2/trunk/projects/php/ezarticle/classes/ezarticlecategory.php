@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezarticlecategory.php,v 1.44 2001/03/01 19:39:48 fh Exp $
+// $Id: ezarticlecategory.php,v 1.45 2001/03/04 15:00:28 fh Exp $
 //
 // Definition of eZArticleCategory class
 //
@@ -84,6 +84,7 @@ class eZArticleCategory
                                  Description='$this->Description',
                                  ExcludeFromSearch='$this->ExcludeFromSearch',
                                  SortMode='$this->SortMode',
+                                 OwnerID='$this->OwnerID',
                                  ParentID='$this->ParentID'" );
             $this->ID = mysql_insert_id();
         }
@@ -94,6 +95,7 @@ class eZArticleCategory
                                  Description='$this->Description',
                                  ExcludeFromSearch='$this->ExcludeFromSearch',
                                  SortMode='$this->SortMode',
+                                 OwnerID='$this->OwnerID',
                                  ParentID='$this->ParentID' WHERE ID='$this->ID'" );
         }
         
@@ -163,6 +165,7 @@ class eZArticleCategory
                 $this->ParentID = $category_array[0][ "ParentID" ];
                 $this->ExcludeFromSearch = $category_array[0][ "ExcludeFromSearch" ];
                 $this->SortMode = $category_array[0][ "SortMode" ];
+                $this->OwnerID = $category_array[0][ "OwnerID" ];
             }
                  
             $this->State_ = "Coherent";
@@ -353,7 +356,48 @@ class eZArticleCategory
        }
     }
 
+    /*!
+      Returns the creator of this category. Returns only the ID if given parameter is false.
+     */
+    function owner( $as_object = true )
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
 
+       if ( !$as_object )
+           return $this->OwnerID;
+       else if ( $this->OwnerID != 0 )
+       {
+           return new eZUser( $this->OwnerID );
+       }
+       else
+       {
+           return 0;           
+       }
+
+    }
+
+    /*!
+      \Static
+      Returns true if the given user is the author of the given object.
+      $user is of type eZUser.
+      $categoryID is the categoryID.
+     */
+    function isAuthor( $user, $categoryID )
+    {
+        if( get_class( $user ) != "ezuser" )
+            return false;
+        
+        $database =& eZDB::globalDatabase();
+        $database->query_single( $res, "SELECT OwnerID from eZArticle_Category WHERE ID='$categoryID'");
+        $ownerID = $res[ "OwnerID" ];
+        if( $ownerID == $user->id() )
+            return true;
+
+        return false;
+    }
+
+    
     /*!
       Returns the sort mode.
 
@@ -459,6 +503,21 @@ class eZArticleCategory
        if ( get_class( $value ) == "ezarticlecategory" )
        {
            $this->ParentID = $value->id();
+       }
+    }
+
+
+    /*!
+      Sets the owner of this category.
+    */
+    function setOwner( $value )
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+       if ( get_class( $value ) == "ezuser" )
+       {
+           $this->OwnerID = $value->id();
        }
     }
 
@@ -905,6 +964,8 @@ class eZArticleCategory
     var $Description;
     var $ExcludeFromSearch;
     var $SortMode;
+    var $OwnerID;
+    
     ///  Variable for keeping the database connection.
     var $Database;
 

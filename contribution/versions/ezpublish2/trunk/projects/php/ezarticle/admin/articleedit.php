@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: articleedit.php,v 1.50 2001/03/01 14:16:00 fh Exp $
+// $Id: articleedit.php,v 1.51 2001/03/04 15:00:28 fh Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <18-Oct-2000 15:04:39 bf>
@@ -161,7 +161,7 @@ if ( $Action == "Insert" )
             eZObjectPermission::removePermissions( $article->id(), "article_article", 'w' );
             foreach ( $WriteGroupArray as $groupID )
             {
-                eZObjectPermission::setPermission( $groupID, $categoryID, "article_article", 'w' );
+                eZObjectPermission::setPermission( $groupID, $article->id(), "article_article", 'w' );
             }
         }
     }
@@ -179,10 +179,10 @@ if ( $Action == "Insert" )
         }
         else // some groups are selected.
         {
-        eZObjectPermission::removePermissions( $article->id(), "article_article", 'r' );
+            eZObjectPermission::removePermissions( $article->id(), "article_article", 'r' );
             foreach ( $GroupArray as $groupID )
             {
-                eZObjectPermission::setPermission( $groupID, $categoryID, "article_article", 'r' );
+                eZObjectPermission::setPermission( $groupID, $article->id(), "article_article", 'r' );
             }
         }
     }
@@ -341,7 +341,7 @@ if ( $Action == "Update" )
             eZObjectPermission::removePermissions( $article->id(), "article_article", 'w' );
             foreach ( $WriteGroupArray as $groupID )
             {
-                eZObjectPermission::setPermission( $groupID, $categoryID, "article_article", 'w' );
+                eZObjectPermission::setPermission( $groupID, $article->id(), "article_article", 'w' );
             }
         }
     }
@@ -362,7 +362,7 @@ if ( $Action == "Update" )
             eZObjectPermission::removePermissions( $article->id(), "article_article", 'r' );
             foreach ( $GroupArray as $groupID )
             {
-                eZObjectPermission::setPermission( $groupID, $categoryID, "article_article", 'r' );
+                eZObjectPermission::setPermission( $groupID, $article->id(), "article_article", 'r' );
             }
         }
     }

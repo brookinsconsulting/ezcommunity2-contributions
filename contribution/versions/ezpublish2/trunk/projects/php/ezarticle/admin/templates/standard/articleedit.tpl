@@ -67,7 +67,7 @@
 	<td>
 	<br />
 	<p class="boxtext">{intl-groups_write}:</p>
-	<select name="WriteGroupArray" multiple>
+	<select name="WriteGroupArray[]" multiple>
 	<option value="0" {all_write_selected}>{intl-all}</option>
 	<!-- BEGIN category_owner_tpl -->
 	<option value="{module_owner_id}" {is_selected}>{module_owner_name}</option>

@@ -16,7 +16,8 @@ switch ( $url_array[2] )
         if  ( !isset( $CategoryID ) || ( $CategoryID == "" ) )
             $CategoryID = 0;
 
-        if( $CategoryID == 0 || eZObjectPermission::hasPermission( $CategoryID, "article_category", 'r' ) )
+        if( $CategoryID == 0 || eZObjectPermission::hasPermission( $CategoryID, "article_category", 'r' )  ||
+        eZArticleCategory::isOwner( $user, $CategoryID) )
             include( "ezarticle/admin/articlelist.php" );
     }
     break;
@@ -27,7 +28,8 @@ switch ( $url_array[2] )
         if  ( !isset( $CategoryID ) || ( $CategoryID == "" ) )
             $CategoryID = 0;
 
-        if( $CategoryID == 0 || eZObjectPermission::hasPermission( $CategoryID, "article_category", 'r' ) )
+        if( $CategoryID == 0 || eZObjectPermission::hasPermission( $CategoryID, "article_category", 'r' ) ||
+            eZArticleCategory::isOwner( $user, $CategoryID) )
             include( "ezarticle/admin/unpublishedlist.php" );
     }
     break;
@@ -126,7 +128,7 @@ switch ( $url_array[2] )
             case "imagelist" :
             {
                 $ArticleID = $url_array[4];
-                if( eZObjectPermission::hasWritePermission( $ArticleID, "article_article", 'w' )
+                if( eZObjectPermission::hasPermission( $ArticleID, "article_article", 'w' )
                     || eZArticle::isAuthor( $user, $ArticleID ) )
                     include( "ezarticle/admin/imagelist.php" );
             }
@@ -269,14 +271,16 @@ switch ( $url_array[2] )
         {
             $CategoryID = $url_array[4];
             $Action = "update";
-            if( eZObjectPermission::hasPermission( $CategoryID, "article_category", 'w' ) )
+            if( eZObjectPermission::hasPermission( $CategoryID, "article_category", 'w' )
+                || eZArticleCategory::isOwner( $user, $CategoryID) )
                 include( "ezarticle/admin/categoryedit.php" );
         }
         if ( $url_array[3] == "delete" )
         {
             $CategoryID = $url_array[4];
             $Action = "delete";
-            if( eZObjectPermission::hasPermission( $CategoryID, "article_category", 'w' ) )
+            if( eZObjectPermission::hasPermission( $CategoryID, "article_category", 'w' )  ||
+                eZArticleCategory::isOwner( $user, $CategoryID) )
                 include( "ezarticle/admin/categoryedit.php" );
         }
         if ( $url_array[3] == "edit" )

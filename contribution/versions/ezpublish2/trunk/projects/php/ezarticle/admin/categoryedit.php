@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: categoryedit.php,v 1.9 2001/03/01 17:24:51 fh Exp $
+// $Id: categoryedit.php,v 1.10 2001/03/04 15:00:28 fh Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <18-Sep-2000 14:46:19 bf>
@@ -73,12 +73,8 @@ if ( $Action == "insert" )
         $category->setExcludeFromSearch( false );
     }
 
-//    $ownerGroup = new eZUserGroup( $OwnerID );
-//    if( isset( $Recursive ) )
-//        $category->setOwnerGroup( $ownerGroup, true );
-//    else
-//        $category->setOwnerGroup( $ownerGroup, false );
-
+    $category->setOwner( eZUser::currentUser() );
+    
     $category->store();
     $categoryID = $category->id();
     
@@ -170,25 +166,26 @@ if ( $Action == "update" )
 //    else
 //        $category->setOwnerGroup( $ownerGroup, false );
 
+    $categoryID = $category->id();
     /* write access select */
     if( isset( $WriteGroupArray ) )
     {
         if( $WriteGroupArray[0] == 0 )
         {
-            eZObjectPermission::setPermission( -1, $CategoryID, "article_category", 'w' );
+            eZObjectPermission::setPermission( -1, $categoryID, "article_category", 'w' );
         }
         else
         {
-            eZObjectPermission::removePermissions( $CategoryID, "article_category", 'w' ); //not really necessary..
+            eZObjectPermission::removePermissions( $categoryID, "article_category", 'w' ); //not really necessary..
             foreach( $WriteGroupArray as $groupID )
             {
-                eZObjectPermission::setPermission( $groupID, $CategoryID, "article_category", 'w' );
+                eZObjectPermission::setPermission( $groupID, $categoryID, "article_category", 'w' );
             }
         }
     }
     else
     {
-        eZObjectPermission::removePermissions( $CategoryID, "article_category", 'w' );
+        eZObjectPermission::removePermissions( $categoryID, "article_category", 'w' );
     }
 
     /* read access thingy */
@@ -196,20 +193,20 @@ if ( $Action == "update" )
     {
         if( $GroupArray[0] == 0 )
         {
-            eZObjectPermission::setPermission( -1, $CategoryID, "article_category", 'r' );
+            eZObjectPermission::setPermission( -1, $categoryID, "article_category", 'r' );
         }
         else // some groups are selected.
         {
-            eZObjectPermission::removePermissions( $CategoryID, "article_category", 'r' ); 
+            eZObjectPermission::removePermissions( $categoryID, "article_category", 'r' ); 
             foreach ( $GroupArray as $groupID )
             {
-                eZObjectPermission::setPermission( $groupID, $CategoryID, "article_category", 'r' );
+                eZObjectPermission::setPermission( $groupID, $categoryID, "article_category", 'r' );
             }
         }
     }
     else
     {
-        eZObjectPermission::removePermissions( $CategoryID, "article_category", 'r' );
+        eZObjectPermission::removePermissions( $categoryID, "article_category", 'r' );
     }
     
     $category->store();

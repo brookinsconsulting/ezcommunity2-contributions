@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezarticle.php,v 1.48 2001/03/01 19:39:47 fh Exp $
+// $Id: ezarticle.php,v 1.49 2001/03/04 15:00:28 fh Exp $
 //
 // Definition of eZArticle class
 //
@@ -1018,10 +1018,13 @@ class eZArticle
      */
     function isAuthor( $user, $articleID )
     {
+        if( get_class( $user ) != "ezuser" )
+            return false;
+        
         $database =& eZDB::globalDatabase();
         $database->query_single( $res, "SELECT AuthorID from eZArticle_Article WHERE ID='$articleID'");
         $authorID = $res[ "AuthorID" ];
-        if( $authorID == $user->id() )
+        if(  $authorID == $user->id() )
             return true;
 
         return false;

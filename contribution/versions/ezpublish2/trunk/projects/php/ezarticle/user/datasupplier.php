@@ -77,7 +77,8 @@ switch ( $url_array[2] )
             {
                 include( $cachedFile );
             }
-            else if( $CategoryID == 0 || eZObjectPermission::hasPermission( $CategoryID, "article_category", 'r' ) )
+            else if( $CategoryID == 0 || eZObjectPermission::hasPermission( $CategoryID, "article_category", 'r' ) ||
+                     eZArticleCategory::isOwner( $user, $CategoryID) )
                              // check if user really has permissions to browse this category
             {
                 $GenerateStaticPage = "true";
@@ -85,7 +86,8 @@ switch ( $url_array[2] )
                 include( "ezarticle/user/articlelist.php" );
             }            
         }
-        else if( $CategoryID == 0 || eZObjectPermission::hasPermission( $CategoryID, "article_category", 'r' ) )
+        else if( $CategoryID == 0 || eZObjectPermission::hasPermission( $CategoryID, "article_category", 'r' ) ||
+                 eZArticleCategory::isOwner( $user, $CategoryID) )
         {
             include( "ezarticle/user/articlelist.php" );
         }
