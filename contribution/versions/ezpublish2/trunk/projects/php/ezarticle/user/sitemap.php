@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: sitemap.php,v 1.3 2001/07/19 12:19:21 jakobn Exp $
+// $Id: sitemap.php,v 1.4 2001/09/16 18:44:57 bf Exp $
 //
 // Created on: <06-Jun-2001 17:05:38 bf>
 //
@@ -71,15 +71,18 @@ foreach ( $treeArray as $catItem )
 
         $category = new eZArticleCategory( $catItem[0]->id() );
 
-        $articleList =& $category->articles( 1, false, true, 0, 50 );
-
-        foreach ( $articleList as $article )
+        if ( $category->excludeFromSearch() == false )
         {
-            $t->set_var( "option_level", "&nbsp;&nbsp;&nbsp;&nbsp;" . $option_level );
-        
-            $t->set_var( "option_value", $article->id() );
-            $t->set_var( "option_name", $article->name() );
-            $t->parse( "value", "article_value_tpl", true );    
+            $articleList =& $category->articles( 1, false, true, 0, 50 );
+
+            foreach ( $articleList as $article )
+            {
+                $t->set_var( "option_level", "&nbsp;&nbsp;&nbsp;&nbsp;" . $option_level );
+                
+                $t->set_var( "option_value", $article->id() );
+                $t->set_var( "option_name", $article->name() );
+                $t->parse( "value", "article_value_tpl", true );    
+            }
         }
         unset ($articleList);
         unset ($category);
