@@ -5,7 +5,7 @@
  * (C) Copyright 1999-2000 NetUSE GmbH
  *                    Kristian Koehntopp
  *
- * $Id: template.inc,v 1.3 2000/11/02 16:32:11 pkej-cvs Exp $
+ * $Id: template.inc,v 1.4 2001/01/21 16:02:23 jb Exp $
  *
  */ 
 
@@ -112,43 +112,46 @@ class Template {
     $this->set_var($parent, $str);
   }
   
-  /* public: set_var(array $values)
-   * values: array of variable name, value pairs.
-   *
-   * public: set_var(string $varname, string $value)
-   * varname: name of a variable that is to be defined
-   * value:   value of that variable
-   */
-  function set_var($varname, $value = "") {
-    if (!is_array($varname)) {
-      if (!empty($varname))
-        if ($this->debug) print "scalar: set *$varname* to *$value*<br>\n";
-        $this->varkeys[$varname] = "/".$this->varname($varname)."/";
-        $this->varvals[$varname] = $value;
-    } else {
-      reset($varname);
-      while(list($k, $v) = each($varname)) {
-        if (!empty($k))
-          if ($this->debug) print "array: set *$k* to *$v*<br>\n";
-          $this->varkeys[$k] = "/".$this->varname($k)."/";
-          $this->varvals[$k] = $v;
-      }
-    }
-  }
-
-  /* public: subst(string $handle)
-   * handle: handle of template where variables are to be substituted.
-   */
-  function subst($handle) {
-    if (!$this->loadfile($handle)) {
-      $this->halt("subst: unable to load $handle.");
-      return false;
+    /* public: set_var(array $values)
+     * values: array of variable name, value pairs.
+     *
+     * public: set_var(string $varname, string $value)
+     * varname: name of a variable that is to be defined
+     * value:   value of that variable
+     */
+    function set_var($varname, $value = "")
+    {
+        if (!is_array($varname))
+        {
+            $this->varkeys[$varname] =& preg_quote("/{".$varname."}/");
+            $this->varvals[$varname] =& $value;
+        }
+        else
+        {
+            reset($varname);
+            while(list($k, $v) = each($varname))
+            {
+                $this->varkeys[$k] =& preg_quote("/{".$k."}/");
+                $this->varvals[$k] =& $v;
+            }
+        }
     }
 
-    $str = $this->get_var($handle);
-    $str = @preg_replace($this->varkeys, $this->varvals, $str);
-    return $str;
-  }
+    /* public: subst(string $handle)
+     * handle: handle of template where variables are to be substituted.
+     */
+    function &subst($handle)
+    {
+        if (!$this->loadfile($handle))
+        {
+            $this->halt("subst: unable to load $handle.");
+            return false;
+        }
+
+        $str = $this->get_var($handle);
+        $str =& preg_replace( $this->varkeys, $this->varvals, $str);
+        return $str;
+    }
   
   /* public: psubst(string $handle)
    * handle: handle of template where variables are to be substituted.
@@ -159,30 +162,37 @@ class Template {
     return false;
   }
 
-  /* public: parse(string $target, string $handle, boolean append)
-   * public: parse(string $target, array  $handle, boolean append)
-   * target: handle of variable to generate
-   * handle: handle of template to substitute
-   * append: append to target handle
-   */
-  function parse($target, $handle, $append = false) {
-    if (!is_array($handle)) {
-      $str = $this->subst($handle);
-      if ($append) {
-        $this->set_var($target, $this->get_var($target) . $str);
-      } else {
-        $this->set_var($target, $str);
-      }
-    } else {
-      reset($handle);
-      while(list($i, $h) = each($handle)) {
-        $str = $this->subst($h);
-        $this->set_var($target, $str);
-      }
+    /* public: parse(string $target, string $handle, boolean append)
+     * public: parse(string $target, array  $handle, boolean append)
+     * target: handle of variable to generate
+     * handle: handle of template to substitute
+     * append: append to target handle
+     */
+    function parse( $target, $handle, $append = false )
+    {
+        if (!is_array($handle))
+        {
+            $str =& $this->subst($handle);
+            if ($append)
+            {
+                $this->set_var($target, $this->get_var($target) . $str);
+            }
+            else
+            {
+                $this->set_var($target, $str);
+            }
+        }
+        else
+        {
+            reset($handle);
+            while(list($i, $h) = each($handle))
+            {
+                $str =& $this->subst($h);
+                $this->set_var($target, $str);
+            }
+        }
+        return $str;
     }
-    
-    return $str;
-  }
   
   function pparse($target, $handle, $append = false) {
     print $this->parse($target, $handle, $append);
@@ -200,24 +210,28 @@ class Template {
     return $result;
   }
   
-  /* public: get_var(string varname)
-   * varname: name of variable.
-   *
-   * public: get_var(array varname)
-   * varname: array of variable names
-   */
-  function get_var($varname) {
-    if (!is_array($varname)) {
-      return $this->varvals[$varname];
-    } else {
-      reset($varname);
-      while(list($k, $v) = each($varname)) {
-        $result[$k] = $this->varvals[$k];
-      }
-      
-      return $result;
+    /* public: get_var(string varname)
+     * varname: name of variable.
+     *
+     * public: get_var(array varname)
+     * varname: array of variable names
+     */
+    function &get_var($varname)
+    {
+        if (!is_array($varname))
+        {
+            return $this->varvals[$varname];
+        }
+        else
+        {
+            reset($varname);
+            while(list($k, $v) = each($varname))
+            {
+                $result[$k] =& $this->varvals[$k];
+            }
+            return $result;
+        }
     }
-  }
   
   /* public: get_undefined($handle)
    * handle: handle of a template.
@@ -294,12 +308,14 @@ class Template {
     return $filename;
   }
   
-  /* private: varname($varname)
-   * varname: name of a replacement variable to be protected.
-   */
-  function varname($varname) {
-    return preg_quote("{".$varname."}");
-  }
+    /* private: varname($varname)
+     * varname: name of a replacement variable to be protected.
+     * unused.
+     */
+    function &varname($varname)
+    {
+        return preg_quote("/{".$varname."}/");
+    }
 
   /* private: loadfile(string $handle)
    * handle:  load file defined by handle, if it is not loaded yet.
