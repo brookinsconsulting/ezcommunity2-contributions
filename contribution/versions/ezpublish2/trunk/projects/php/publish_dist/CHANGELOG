@@ -1,14 +1,11 @@
 eZ publish changelog:
 ---------------------
 
-Changes from version 2.0 beta 3
--------------------------------
+
+Changes from version 2.0 beta 2 to version 2.0 beta 3
+-----------------------------------------------------
 * Added VAT handling in eZ trade
 * Added images to link groups and links
-
-
-Changes from version 2.0 beta 2
--------------------------------
 * Latest article cache is properly deleted when articles change.
 * Article placement is kept when updating the article.
 * Cache files for article are properly deleted when a category is newed, updated or deleted.
@@ -30,7 +27,16 @@ Changes from version 2.0 beta 2
 * Unhadled bugs informs user of module they belong to.
 * Auto redirect URL hackers in bugs to default page.
 * Added banner ads in templates
-* Fixed some permissions in eZ forum
+* eZ forum
+  * Unified system, now all postings/editing are done through the same forms
+  * Preview of postings
+  * No duplicates possible (visually, they exist as temporary objects, temporaries might be duplicated in one case only).
+  * Deletion of temporaries missing.
+  * Probably no spamming possible.
+  * Permission checks for all operations w/regards to posting
+  * Added user side delete (no menu, yet).
+  * Anonymous posting has been prepared.
+  * Cleaned up templates.
 * Documentation updated
 * Removed some status/type admin pages, added buttons in listings instead
 * Changed over to use mass update forms for category types and similar short lists with litle information
@@ -42,8 +48,8 @@ Changes from version 2.0 beta 2
 * Quite a few language fixes
 * Fixed bugs in all modules
 
-Changes from version 2.0 beta 1
--------------------------------
+Changes from version 2.0 beta 1 to version 2.0 beta 2
+-----------------------------------------------------
 * Forums can be assigned to certain user groups for posting and reading
 * Templates changed
 * Top referers and read pages working in stats
@@ -69,8 +75,8 @@ Changes from version 2.0 beta 1
 * Fixed bugs
 
 
-Changes from version 1.0.5
---------------------------
+Changes from version 1.0.5 to version 2.0 beta 1
+------------------------------------------------
 * Merged eZ trade with eZ publish
 * Added about module
 * Added ad module
