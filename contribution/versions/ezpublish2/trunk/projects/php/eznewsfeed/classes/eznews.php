@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eznews.php,v 1.6 2000/11/19 11:10:02 bf-cvs Exp $
+// $Id: eznews.php,v 1.7 2000/11/19 12:32:58 bf-cvs Exp $
 //
 // Definition of eZNews class
 //
@@ -132,7 +132,6 @@ class eZNews
             }
             else
             {
-                print( "news exists" );
                 $ret = false;
             }
         }

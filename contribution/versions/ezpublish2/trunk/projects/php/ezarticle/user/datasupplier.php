@@ -1,6 +1,7 @@
 <?
 
 $PageCaching = $ini->read_var( "eZArticleMain", "PageCaching" );
+$UserComments = $ini->read_var( "eZArticleMain", "UserComments" );
 
 switch ( $url_array[2] )
 {
@@ -86,7 +87,7 @@ switch ( $url_array[2] )
             
         }
         
-        if  ( $PrintableVersion != "enabled" )
+        if  ( ( $PrintableVersion != "enabled" ) && ( $UserComments == "enabled" ) )
         {
             $forum = $article->forum();
             $ForumID = $forum->id();

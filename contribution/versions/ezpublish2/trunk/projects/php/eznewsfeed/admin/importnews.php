@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: importnews.php,v 1.2 2000/11/19 11:10:02 bf-cvs Exp $
+// $Id: importnews.php,v 1.3 2000/11/19 12:32:57 bf-cvs Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <16-Nov-2000 13:02:19 bf>
@@ -38,6 +38,7 @@ if ( $Action == "ImportNews" )
     
     foreach ( $sourceSiteList as $site )
     {
+        unset( $newsImporter );
         $newsImporter = new eZNewsImporter( $site->decoder(),
                                             $site->url(),
                                             $site->category(),
@@ -63,13 +64,16 @@ $t->set_file( array(
 $t->set_block( "import_news_tpl", "source_site_list_tpl", "source_site_list" );
 $t->set_block( "source_site_list_tpl", "source_site_tpl", "source_site" );
 
-//  $newsCategory = new eZNewsCategory( 2 );
+//  $newsCategory = new eZNewsCategory( 7 );
 
 $sourceSite = new eZSourceSite();
 
-//  $sourceSite->setName( "Freshmeat" );
+
+//  $sourceSite->setName( "Linux.com" );
 //  $sourceSite->setDecoder( "rdf" );
-//  $sourceSite->setURL( "http://freshmeat.net/backend/fm.rdf" );
+//  $sourceSite->setURL( "http://www.linux.com/mrn/front_page.rss" );
+//  //  $sourceSite->setLogin( "seanexftp" );
+//  //  $sourceSite->setPassword( "20-nye-fisk" );
 //  $sourceSite->setCategory( $newsCategory );
 //  $sourceSite->store();
 

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezrdfimporter.php,v 1.3 2000/11/19 11:10:02 bf-cvs Exp $
+// $Id: ezrdfimporter.php,v 1.4 2000/11/19 12:32:58 bf-cvs Exp $
 //
 // Definition of ezrdfimporter class
 //
@@ -45,7 +45,7 @@ class eZRDFImporter
     /*!
       Constructor.
     */
-    function eZRDFImporter( $site, $login="", $password="")
+    function eZRDFImporter( $site, $login="", $password="" )
     {
         $this->Site = $site;
         $this->Login = $login;
@@ -114,9 +114,9 @@ class eZRDFImporter
                                 }
 
                                 $news = new eZNews(  );
-                                $news->setName( $title );
-                                $news->setIntro( $description );
-                                $news->setURL( $link );
+                                $news->setName( addslashes( $title ) );
+                                $news->setIntro( addslashes( $description ) );
+                                $news->setURL( addslashes($link ) );
 
                                 $return_array[] = $news;
                             }

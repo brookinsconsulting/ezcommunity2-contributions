@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eznewsimporter.php,v 1.2 2000/11/19 11:10:02 bf-cvs Exp $
+// $Id: eznewsimporter.php,v 1.3 2000/11/19 12:32:58 bf-cvs Exp $
 //
 // Definition of eZNewsImporter class
 //
@@ -72,9 +72,25 @@ class eZNewsImporter
             {
                 include_once( "eznewsfeed/classes/eznyheternoimporter.php" );
                 
-                $importer = new eZNyheterNOImporter();
+                $importer = new eZNyheterNOImporter( $this->Site, $this->Login, $this->Password );
+
                 $importer->news();
+                $newsList =& $importer->news();
+
+                foreach ( $newsList as $newsItem )
+                {
+                    if ( $newsItem->store() == true )
+                    {
+                        $category->addNews( $newsItem );
+                        print( "storing: -" .$newsItem->name() . "<br>");
+                    }
+                    else
+                    {
+                        print( "already stored: -" .$newsItem->name() . "<br>");
+                    }
+                }
             }
+            break;
 
             case "rdf" :
             {
@@ -96,6 +112,7 @@ class eZNewsImporter
                     }
                 }
             }
+            break;            
         }
     }
 

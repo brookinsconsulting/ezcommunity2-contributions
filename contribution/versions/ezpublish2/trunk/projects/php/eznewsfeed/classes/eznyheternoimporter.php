@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eznyheternoimporter.php,v 1.1 2000/11/15 18:14:15 bf-cvs Exp $
+// $Id: eznyheternoimporter.php,v 1.2 2000/11/19 12:32:58 bf-cvs Exp $
 //
 // Definition of eZNyhterNOImporter class
 //
@@ -45,17 +45,19 @@ class eZNyheterNOImporter
     /*!
       Constructor.
     */
-    function eZNyheterNOImporter()
+    function eZNyheterNOImporter( $site, $login="", $password="" )
     {
-
+        $this->Site = $site;
+        $this->Login = $login;
+        $this->Password = $password;
     }
 
     /*!
       Imports news from the given site.
     */
-    function news( )
+    function &news( )
     {
-
+        $return_array = array();
         $fp = fopen( "/home/bf/nyheter.xml", "r" );
         $output = fread ( $fp, 100000000 );
         fclose( $fp );
@@ -77,8 +79,6 @@ class eZNyheterNOImporter
                             
                             if ( $article->name == "ARTICLE" )
                             {
-                                print( "New: " .$article->name  . "<br>");
-
                                 $name = "";
                                 $description = "";
                                 $urlSource = "";
@@ -88,7 +88,6 @@ class eZNyheterNOImporter
                                 
                                 foreach ( $article->children as $articleElement )
                                 {
-                                    print( "<h2>" . $articleElement->name . "</h2> <br>" );
                                     $content = "";                                    
                                     foreach ( $articleElement->children as $value )
                                     {
@@ -107,31 +106,31 @@ class eZNyheterNOImporter
                                     {
                                         case "URLSOURCE" :
                                         {
-                                            $origin = trim( $content );
+                                            $origin =& trim( $content );
                                         }
                                         break;
 
                                         case "URL" :
                                         {
-                                            $url = trim( $content );
+                                            $url =& trim( $content );
                                         }
                                         break;
                                         
                                         case "URLTIME" :
                                         {
-                                            $publishingDate = trim( $content );
+                                            $publishingDate =& trim( $content );
                                         }
                                         break;
 
                                         case "LINKTEXT" :
                                         {
-                                            $name = trim( $content );
+                                            $name =& trim( $content );
                                         }
                                         break;
 
                                         case "CAPTION" :
                                         {
-                                            $description = trim( $content );
+                                            $description =& trim( $content );
                                         }
                                         break;
                                         
@@ -145,32 +144,44 @@ class eZNyheterNOImporter
                                 $news->setIntro( addslashes( $description ) );
                                 $news->setIsPublished( false );
 
-//                                  $news->setKeywords( "one two" );
-                                
                                 $news->setOrigin( $origin );
                                 $news->setURL( $url );
+
+//                                  print( "-$publishingDate-"  );
+
+                                if ( ereg( "([0-9]{4})([0-9]{2})([0-9]{2})-([0-9]{2})([0-9]{2})([0-9]{2})", $publishingDate, $valueArray ) )
+                                {
+                                    $year = ( $valueArray[1] );
+                                    $month = ( $valueArray[2] );
+                                    $day = ( $valueArray[3] );
+                                    $hour = ( $valueArray[4] );
+                                    $minute = ( $valueArray[5] );
+                                    $second = ( $valueArray[6] );
+                                    
+                                    $dateTime = new eZDateTime( $year, $month, $day, $hour, $minute, $second );
+                                    $news->setOriginalPublishingDate( $dateTime );
+                                    
+                                }
+                                else
+                                {
+                                    print( "<b>Error:</b> eZDateTime::setMySQLDate() received wrong MySQL date format." );
+                                }
                                 
-                                $dateTime = new eZDateTime( 2000, 11, 13, 14, 0, 15 );
-                                $news->setOriginalPublishingDate( $dateTime );
-
-                                $news->store();
-
-                                print( $content );                                    
-                            
-                                print( "<hr>");
-
-
-                                // free some memory
-                                unset( $news );
-                            
-                                $articleCount++;
                                 
+                                $return_array[] = $news;
+                            
+
+                                $articleCount++;                                
                             }
                         }
                     }
                 }
             }
         }
+        return $return_array;
     }
-    
+
+    var $Site;
+    var $Login;
+    var $Password;    
 }
