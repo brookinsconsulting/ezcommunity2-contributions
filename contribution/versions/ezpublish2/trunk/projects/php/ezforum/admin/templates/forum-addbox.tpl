@@ -14,7 +14,7 @@
 </tr>
 <tr>
    <td><input type="text" name="name"><td>
-   <td><input type="description" name="desription"></td>
+   <td><input type="description" name="description"></td>
    <td><input type="checkbox" name="moderated"></td>
    <td><input type="checkbox" name="private"></td>
    <td><input type="submit" name="add" value="Legg til"></td>

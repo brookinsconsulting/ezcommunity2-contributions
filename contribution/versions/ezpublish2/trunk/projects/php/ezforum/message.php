@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: message.php,v 1.11 2000/08/03 10:33:25 lw-cvs Exp $
+    $Id: message.php,v 1.12 2000/08/03 13:22:16 lw-cvs Exp $
 
     Author: Lars Wilhelmsen <lw@ez.no>
     
@@ -63,32 +63,6 @@ $top_message = $msg->getTopMessage( $message_id );
     
 $messages = $msg->printHeaderTree( $forum_id, $top_message, 0, $DOCROOT, $category_id );
 $t->set_var( "replies", $messages );
-
-//  $replies = $msg->getHeaders( $forum_id, $message_id );
-
-//  if ( ($replies == 0) || (!$replies) )
-//  {
-//      $t->set_var("replies", "<tr><td colspan=\"4\"><b>Ingen svar</b></td></tr>");
-//  }
-//  else
-//  {
-//      for ($i = 0; $i < count($replies); $i++)
-//      {
-//          $j = $i + 1;
-//          $Id = $replies[$i]["Id"];
-//          $User = $replies[$i]["UserId"];
-//          $Topic = $replies[$i]["Topic"];
-//          $PostingTime = $replies[$i]["PostingTime"];
-            
-//          $t->set_var( "reply-id", $Id);
-//          $t->set_var( "reply-nr", $j);
-//          $t->set_var( "reply-user", $User);
-//          $t->set_var( "reply-topic", stripslashes( $Topic ) );
-//          $t->set_var( "reply-postingtime", $PostingTime);
-        
-//          $t->parse("replies", "elements", true);
-//      }
-//  }
 
 $t->set_var( "link1-url", "main.php");
 $t->set_var( "link1-caption", "Gå til topp");

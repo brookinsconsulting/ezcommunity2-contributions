@@ -1,5 +1,5 @@
-<form action="index.php4" method="get">
-    <input type="hidden" name="page" value="admin/category.php4">
+<form action="index.php4" method="post">
+    <input type="hidden" name="page" value="{docroot}/admin/category.php4">
     <table border="0" cellspacing="1" cellpadding="5">
         <tr class="head">
             <td colspan="4">

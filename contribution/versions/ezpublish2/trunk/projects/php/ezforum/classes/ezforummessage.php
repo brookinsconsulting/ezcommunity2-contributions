@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: ezforummessage.php,v 1.28 2000/08/01 10:14:20 lw-cvs Exp $
+    $Id: ezforummessage.php,v 1.29 2000/08/03 13:22:16 lw-cvs Exp $
 
     Author: Lars Wilhelmsen <lw@ez.no>
     
@@ -388,7 +388,6 @@ class eZforumMessage
         $t->set_var( "category_id", $category_id );
         $t->set_var( "forum_id", $forum_id );
     
-    
         $headers = $msg->getHeaders( $forum_id, $parent_id );
 
         for ($i = 0; $i < count($headers); $i++)
@@ -398,11 +397,7 @@ class eZforumMessage
             $User = $headers[$i]["UserId"];
             $PostingTime = $headers[$i]["PostingTimeFormated"];
         
-            $nr = $i + 1;
-         
             $t->set_var( "id", $Id );
-            $t->set_var( "forum_id", $forum_id );
-
 
             $replies = eZforumMessage::countReplies( $Id );
             
@@ -473,4 +468,3 @@ class eZforumMessage
     
 }
 ?>
-

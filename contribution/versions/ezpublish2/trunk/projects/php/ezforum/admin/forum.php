@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: forum.php,v 1.11 2000/07/26 14:37:09 lw-cvs Exp $
+    $Id: forum.php,v 1.12 2000/08/03 13:22:16 lw-cvs Exp $
 
     Author: Lars Wilhelmsen <lw@ez.no>
     
@@ -13,11 +13,11 @@ include_once( "template.inc" );
 include_once( "$DOCROOT/classes/ezforumcategory.php" );
 include_once( "$DOCROOT/classes/ezforumforum.php" );
 
-$t = new Template( "." );
-$t->set_file(Array("forum" => "$DOCROOT/admin/templates/forum.tpl",
-                   "elements" => "$DOCROOT/admin/templates/forum-elements.tpl",
-                   "addbox" => "$DOCROOT/admin/templates/forum-addbox.tpl",
-                   "modifybox" => "$DOCROOT/admin/templates/forum-modifybox.tpl"
+$t = new Template( "$DOCROOT/admin/templates" );
+$t->set_file(Array("forum" => "forum.tpl",
+                   "elements" => "forum-elements.tpl",
+                   "addbox" => "forum-addbox.tpl",
+                   "modifybox" => "forum-modifybox.tpl"
                    )
              );
 
@@ -28,7 +28,8 @@ $t->set_var( "category_id", $category_id);
 if ( $add )
 {
     $forum = new eZforumForum;
-    $forum->new();
+    $forum->newForum();
+    $forum->setCategoryId( $category_id );
     $forum->setName( $name );
     $forum->setDescription( $description );
     
@@ -107,11 +108,8 @@ for ($i = 0; $i < count( $forums ); $i++)
     $t->set_var( "moderated", $forums[$i]["Moderated"] );
     $t->set_var( "private",  $forums[$i]["Private"] );
 
-    if ( ($i % 2) != 0)
-        $t->set_var( "color", "#eeeeee" );
-    else
-        $t->set_var( "color", "#bbbbbb" );
-            
+    $t->set_var( "color", switchColor( $i, "#f0f0f0", "#dcdcdc" ) );
+
     $t->parse( "forums", "elements", true);
 }
 $t->pparse( "output", "forum");
