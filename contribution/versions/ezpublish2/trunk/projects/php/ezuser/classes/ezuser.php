@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezuser.php,v 1.63 2001/04/19 13:07:24 ce Exp $
+// $Id: ezuser.php,v 1.64 2001/05/04 09:58:09 fh Exp $
 //
 // Definition of eZCompany class
 //
@@ -767,6 +767,22 @@ class eZUser
         return $ret;
     }
 
+    /*!
+      Static function..check if the user given has root access
+     */
+    function hasRootAccess( )
+    {
+        $db =& eZDB::globalDatabase();
+        $db->query_single( $result, "SELECT count( * ) as Count FROM eZUser_UserGroupLink, eZUser_Group
+                                                    WHERE eZUser_UserGroupLink.UserID='$this->ID'
+                                                    AND eZUser_Group.ID=eZUser_UserGroupLink.GroupID
+                                                    AND eZUser_Group.IsRoot='1'" );
+        if( $result["Count"] > 0 )
+            return true;
+        return false;
+    }
+
+    
     /*!
       Removes the user from every user group.
     */

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezpermission.php,v 1.10 2001/04/25 13:10:48 ce Exp $
+// $Id: ezpermission.php,v 1.11 2001/05/04 09:58:09 fh Exp $
 //
 // Definition of eZCompany class
 //
@@ -418,6 +418,7 @@ class eZPermission
     /*!
       \static
       Static function for checking permissions.
+      Note: If the user has root permissions this function allways returns true.
     */
     function checkPermission( $user, $moduleName, $permissionName )
     {
@@ -431,7 +432,7 @@ class eZPermission
             // connect to the db
             if ( $this->IsConnected == false )
             {
-                $this->Database = eZDB::globalDatabase();
+                $this->Database =& eZDB::globalDatabase();
                 $this->IsConnected = true;
             }
 
@@ -458,9 +459,10 @@ class eZPermission
 
                     foreach ( $groupArray as $group )
                     {
-                        if ( $permission->isEnabled( $group ) )
+                        if ( $permission->isEnabled( $group ) || $group->isRoot() )
                         {
                             $ret = true;
+                            break;
                         }
                     }
                 }

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezobjectpermission.php,v 1.14 2001/03/05 10:21:22 fh Exp $
+// $Id: ezobjectpermission.php,v 1.15 2001/05/04 09:58:09 fh Exp $
 //
 // Definition of eZObjectPermission class
 //
@@ -74,11 +74,14 @@ class eZObjectPermission
      */
     function hasPermission( $objectID, $modulTable, $permission, $user=false )
     {
-        if( $user == false )
+        if( get_class( $user ) != "ezuser" )
         {
             $user = eZUser::currentUser();
         }
 
+        if( is_object( $user ) && $user->hasRootAccess() )
+            return true;
+        
         $SQLGroups = "GroupID = '-1'";
         if( get_class( $user ) == "ezuser" )
         {
@@ -295,6 +298,7 @@ class eZObjectPermission
             $user = eZUser::currentUser();
         }
 
+        
         $SQLReturn = $count == true ? "count( ObjectID ) AS ObjectID" : "ObjectID";
         
         $SQLGroups = "GroupID = '-1'";
@@ -340,8 +344,13 @@ class eZObjectPermission
             return $ret;
         }
 
-        $query = "SELECT $SQLReturn FROM $tableName WHERE ( $SQLGroups ) AND $SQLPermission";
         $database =& eZDB::globalDatabase();
+        if( $user->hasRootAccess() )
+            $query =  "SELECT $SQLReturn FROM $tableName";
+        else
+            $query = "SELECT $SQLReturn FROM $tableName WHERE ( $SQLGroups ) AND $SQLPermission";
+            
+        
         $database->array_query( $res, $query );
         if( $count == true )
         {
@@ -354,7 +363,7 @@ class eZObjectPermission
                 $i = 0;
                 foreach( $res as $groupID )
                 {
-                    $ret[$i] = $groupID["GroupID"];
+                    $ret[$i] = $groupID["ObjectID"];
                     $i++;
                 }
             }

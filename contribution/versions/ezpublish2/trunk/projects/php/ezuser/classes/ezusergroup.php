@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezusergroup.php,v 1.21 2001/05/04 08:20:45 fh Exp $
+// $Id: ezusergroup.php,v 1.22 2001/05/04 09:58:09 fh Exp $
 //
 // Definition of eZCompany class
 //
@@ -352,7 +352,7 @@ class eZUserGroup
         0, -1, "Email" );
         return $mail_array;
     }
-    
+
     /*!
       Returns true if this group has root permissions.
      */
