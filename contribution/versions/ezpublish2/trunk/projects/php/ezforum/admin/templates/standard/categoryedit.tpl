@@ -52,9 +52,9 @@
 
 <hr noshade="noshade" size="4" />
 
-<p class="error">{error_msg}</p><br>
+<p class="error">{error_msg}</p>
 
-<p class="boxtext">{intl-name}</p><br>
+<p class="boxtext">{intl-name}</p>
 <input type="text" size="20" value="{category_name}" name="Name">
 
 <p class="boxtext">{intl-description}</p>

@@ -73,18 +73,14 @@
 
 <hr noshade="noshade" size="4" />
 
-
-
 <input class="stdbutton" type="submit" name="NewImage"value="nytt bilde" />
-
 
 <hr noshade="noshade" size="4" />
 
 <table cellspacing="0" cellpadding="0" border="0">
 <tr>
-	<td>
+	<td valign="top">
 	<input class="okbutton" type="submit" value="OK" />
-	</form>
 	</td>
 	<td>&nbsp;</td>
 	<td>
@@ -98,4 +94,5 @@
 </tr>
 </table>
 
+</form>
 
