@@ -1,5 +1,5 @@
 <?php
-// $Id: categorylist.php,v 1.19 2001/07/19 13:17:54 jakobn Exp $
+// $Id: categorylist.php,v 1.20 2001/09/21 11:34:16 jhe Exp $
 //
 // Created on: Created on: <14-Jul-2000 13:41:35 lw>
 //
@@ -40,8 +40,8 @@ $t = new eZTemplate( "ezforum/admin/" . $ini->read_var( "eZForumMain", "AdminTem
 "ezforum//admin/" . "/intl", $Language, "categorylist.php" );
 $t->setAllStrings();
 
-$t->set_file(array( "category_page" => "categorylist.tpl",
-                    ) );
+$t->set_file( "category_page", "categorylist.tpl" );
+
 $t->set_block( "category_page", "category_item_tpl", "category_item" );
 
 $t->set_var( "site_style", $SiteStyle );
@@ -58,22 +58,23 @@ if ( !$categoryList )
 }
 else
 {
-    $i=0;
-    foreach( $categoryList as $categoryItem )
-        {
-            if ( ( $i %2 ) == 0 )
-                $t->set_var( "td_class", "bgdark" );
-            else
-                $t->set_var( "td_class", "bglight" );
-
-            $t->set_var( "category_id", $categoryItem->id() );
-            $t->set_var( "category_name", $categoryItem->name() );
-            $t->set_var( "category_description", $categoryItem->description() );
-
-            $t->parse( "category_item", "category_item_tpl", true );
-            $i++;
-        }
+    $i = 0;
+    foreach ( $categoryList as $categoryItem )
+    {
+        if ( ( $i %2 ) == 0 )
+            $t->set_var( "td_class", "bgdark" );
+        else
+            $t->set_var( "td_class", "bglight" );
+        
+        $t->set_var( "category_id", $categoryItem->id() );
+        $t->set_var( "category_name", $categoryItem->name() );
+        $t->set_var( "category_description", $categoryItem->description() );
+        
+        $t->parse( "category_item", "category_item_tpl", true );
+        $i++;
+    }
 } 
 
 $t->pparse( "output", "category_page" );
+
 ?>

@@ -1,5 +1,5 @@
 <?php
-// $Id: unapprovededit.php,v 1.8 2001/07/19 13:17:54 jakobn Exp $
+// $Id: unapprovededit.php,v 1.9 2001/09/21 11:34:16 jhe Exp $
 //
 // Created on: <21-Jan-2001 13:34:48 bf>
 //
@@ -41,7 +41,7 @@ require( "ezuser/admin/admincheck.php" );
 
 $message = new eZForumMessage();
 
-for( $i=0; $i < count ( $ActionValueArray ); $i++ )
+for ( $i = 0; $i < count ( $ActionValueArray ); $i++ )
 {
     $message = new eZForumMessage( $MessageID[$i] );
 
@@ -100,12 +100,11 @@ for( $i=0; $i < count ( $ActionValueArray ); $i++ )
                 $mail->send();
             }
         }
-
         $message->delete();
     }
 }
+
 eZHTTPTool::header( "Location: /forum/unapprovedlist/" );
 exit();
-
 
 ?>

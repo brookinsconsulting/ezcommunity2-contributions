@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezforumcategory.php,v 1.39 2001/09/21 11:12:52 jhe Exp $
+// $Id: ezforumcategory.php,v 1.40 2001/09/21 11:34:16 jhe Exp $
 //
 // Definition of eZForumCategory class
 //
@@ -44,11 +44,11 @@ class eZForumCategory
     /*!
       Constructs a new eZForumCategory object.
     */
-    function eZForumCategory( $id="" )
+    function eZForumCategory( $id = "" )
     {
         if ( $id != "" )
         {
-            $this->get( $this->ID );
+            $this->get( $id );
         }
     }
 
@@ -165,7 +165,6 @@ class eZForumCategory
         $db->array_query( $category_array, "SELECT ID FROM eZForum_Category" );
                                                     
         $ret = array();
-
         foreach ( $category_array as $category )
         {
             $ret[] = new eZForumCategory( $category[$db->fieldName( "ID" )] );
