@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: visa.php,v 1.4 2001/06/21 09:08:37 ce Exp $
+// $Id: visa.php,v 1.5 2001/06/26 08:38:01 ce Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <08-Feb-2001 14:11:48 ce>
@@ -34,13 +34,13 @@ $ini =& INIFile::globalINI();
 
 $Language = $ini->read_var( "eZTradeMain", "Language" );
 
-if ( $Action == "Verify" )
+$checkVar = eZHTTPTool::getVar( "a" );
+
+if ( $checkVar == true )
 {
     // add clearing code here
-    if ( eZCCTool::checkCC( $CCNumber, $ExpierMonth, $ExpierYear ) )
-         $PaymentSuccess = "true";
-    else
-        $PaymentSuccess = "false";
+//    if ( eZCCTool::checkCC( $CCNumber, $ExpierMonth, $ExpierYear ) )
+    $PaymentSuccess = "true";
 }
 
 $t = new eZTemplate( "eztrade/user/" . $ini->read_var( "eZTradeMain", "TemplateDir" ),

@@ -401,11 +401,11 @@ update eZLink_Link set CreatedTmp= UNIX_TIMESTAMP( Created );
 alter table eZLink_Link drop Created; 
 alter table eZLink_Link change CreatedTmp Created int; 
 
-
-
 # Speed up listing of categories;
 
 alter table eZArticle_ArticleCategoryLink add index ( ArticleID );
 alter table eZArticle_ArticleCategoryLink add index ( CategoryID );
 alter table eZArticle_ArticleCategoryLink add index ( Placement );
 
+# Product type
+alter table eZTrade_Product add ProductType int default 1;
