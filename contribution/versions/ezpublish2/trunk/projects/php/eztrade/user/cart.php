@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: cart.php,v 1.22 2001/03/09 11:45:35 jb Exp $
+// $Id: cart.php,v 1.23 2001/03/11 12:59:04 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <27-Sep-2000 11:57:49 bf>
@@ -178,8 +178,8 @@ if ( $Action == "AddToBasket" )
         }
     }
     
-//      Header( "Location: /trade/cart/" );
-//      exit();
+    eZHTTPTool::header( "Location: /trade/cart/" );
+    exit();
 }
 
 if ( $Action == "Refresh" )
@@ -203,7 +203,6 @@ if ( $Action == "RemoveFromBasket" )
     $cartItem->delete();
     
     eZHTTPTool::header( "Location: /trade/cart/" );
-    
     exit();
 }
 
@@ -239,12 +238,17 @@ $sum = 0.0;
 $totalVAT = 0.0;
 foreach ( $items as $item )
 {
+    if ( ( $i % 2 ) == 0 )
+        $t->set_var( "td_class", "bglight" );
+    else
+        $t->set_var( "td_class", "bgdark" );
+
     $t->set_var( "cart_item_id", $item->id() );
     
-    $product = $item->product();
-    
-    $image = $product->thumbnailImage();
+    $product =& $item->product();
 
+    // thumbnail
+    $image = $product->thumbnailImage();
     if  ( $image )
     {
         $thumbnail =& $image->requestImageVariation( 35, 35 );        
@@ -259,27 +263,9 @@ foreach ( $items as $item )
     {
         $t->set_var( "cart_image", "" );
     }
-    
-    $price = $product->price() * $item->count();
-    
-    $currency->setValue( $price );
 
-    $sum += $price;
-    
-    $totalVAT += $product->vat() * $item->count();
-    
-    $t->set_var( "product_id", $product->id() );
-    $t->set_var( "product_name", $product->name() );
 
-    $t->set_var( "cart_item_count", $item->count() );
-    
-    $t->set_var( "product_price", $locale->format( $currency ) );
-
-    if ( ( $i % 2 ) == 0 )
-        $t->set_var( "td_class", "bglight" );
-    else
-        $t->set_var( "td_class", "bgdark" );
-
+    // product options
     $optionValues =& $item->optionValues();
 
     $t->set_var( "cart_item_option", "" );
@@ -293,25 +279,25 @@ foreach ( $items as $item )
         $descriptions = $value->descriptions();
         $t->set_var( "option_value", $descriptions[0] );
 
-        // get the value price if exists
-        $price = eZPriceGroup::correctPrice( $product->id(), $PriceGroup,
-                                             $option->id(), $value->id() );
-        
-        if ( $price )
-        {
-            $found_price = true;
-            $price = new eZCurrency( $price );
-        }
-
-        // if not fetch the standard price
-        if ( !$found_price )
-        {
-            $price = new eZCurrency( $value->price() );
-        }
-
         $t->parse( "cart_item_option", "cart_item_option_tpl", true );
     }
 
+    // product price
+    $price = $item->price();    
+    $currency->setValue( $price );
+    
+    $sum += $price;
+    
+    $totalVAT += $product->vat() * $item->count();
+    
+    
+    $t->set_var( "product_id", $product->id() );
+    $t->set_var( "product_name", $product->name() );
+
+    $t->set_var( "cart_item_count", $item->count() );
+    
+    $t->set_var( "product_price", $locale->format( $currency ) );
+    
 
         
     $t->parse( "cart_item", "cart_item_tpl", true );

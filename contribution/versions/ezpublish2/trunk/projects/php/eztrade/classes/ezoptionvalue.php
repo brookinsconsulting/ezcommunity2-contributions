@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezoptionvalue.php,v 1.16 2001/03/07 16:57:52 ce Exp $
+// $Id: ezoptionvalue.php,v 1.17 2001/03/11 12:59:04 bf Exp $
 //
 // Definition of eZOptionValue class
 //
@@ -60,10 +60,7 @@ class eZOptionValue
         if ( $id != -1 )
         {
             $this->ID = $id;
-            if ( $fetch == true )
-            {
-                $this->get( $this->ID );
-            }
+            $this->get( $this->ID );
         }
     }
 
@@ -107,20 +104,21 @@ class eZOptionValue
     function get( $id=-1 )
     {
         $db =& eZDB::globalDatabase();
-        if ( $id != "" )
+
+        if ( $id != "-1" )
         {
             $db->array_query( $optionValue_array, "SELECT * FROM eZTrade_OptionValue WHERE ID='$id'" );
             if ( count( $optionValue_array ) > 1 )
             {
                 die( "Error: OptionValue's with the same ID was found in the database. This shouldent happen." );
             }
-            else if( count( $optionValue_array ) == 1 )
+            else if ( count( $optionValue_array ) == 1 )
             {
                 $this->ID =& $optionValue_array[0][ "ID" ];
                 $this->Price =& $optionValue_array[0][ "Price" ];
                 $this->OptionID =& $optionValue_array[0][ "OptionID" ];
                 $this->RemoteID =& $optionValue_array[0][ "RemoteID" ];
-            }                 
+            }
         }
     }
 

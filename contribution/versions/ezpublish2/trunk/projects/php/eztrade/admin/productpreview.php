@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: productpreview.php,v 1.14 2001/03/01 14:06:26 jb Exp $
+// $Id: productpreview.php,v 1.15 2001/03/11 12:59:04 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <22-Sep-2000 16:13:32 bf>
@@ -124,10 +124,12 @@ foreach ( $options as $option )
     $t->set_var( "value", "" );    
     foreach ( $values as $value )
     {
-        $valueText .= $value->name() . "\n";
-        $id = $value->id();
+//        $valueText .= $value->name() . "\n";
         
-        $t->set_var( "value_name", $value->name() );
+        $id = $value->id();
+
+        $descriptions =& $value->descriptions();
+        $t->set_var( "value_name", $descriptions[0] );
         $t->set_var( "value_id", $value->id() );
         
         $t->parse( "value", "value_tpl", true );    

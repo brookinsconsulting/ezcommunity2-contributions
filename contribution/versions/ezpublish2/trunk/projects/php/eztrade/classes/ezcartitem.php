@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezcartitem.php,v 1.8 2001/01/17 10:23:29 bf Exp $
+// $Id: ezcartitem.php,v 1.9 2001/03/11 12:59:04 bf Exp $
 //
 // Definition of eZCartItem class
 //
@@ -50,6 +50,7 @@ include_once( "classes/ezdb.php" );
 include_once( "eztrade/classes/ezcartoptionvalue.php" );
 include_once( "eztrade/classes/ezwishlistitem.php" );
 include_once( "eztrade/classes/ezproduct.php" );
+include_once( "eztrade/classes/ezpricegroup.php" );
 
 class eZCartItem
 {
@@ -65,22 +66,11 @@ class eZCartItem
 
         if ( $id != "" )
         {
-
             $this->ID = $id;
-            if ( $fetch == true )
-            {
-                
-                $this->get( $this->ID );
-            }
-            else
-            {
-                $this->State_ = "Dirty";
-                
-            }
+            $this->get( $this->ID );
         }
         else
         {
-            $this->State_ = "New";
             $this->Count = 1;
         }
     }
@@ -184,9 +174,6 @@ class eZCartItem
     */
     function product()
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
        $ret = false;
 
        $prod = new eZProduct( );
@@ -203,9 +190,6 @@ class eZCartItem
     */
     function cart()
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
        $ret = false;
 
        $cart = new eZCart( );
@@ -222,10 +206,53 @@ class eZCartItem
     */
     function count( )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
        
        return $this->Count;
+    }
+
+    /*!
+      Returns the price of the cart item.
+
+      Options and count is calculated.
+    */
+    function price()
+    {
+        $optionValues =& $this->optionValues();
+        $product =& $this->product();
+
+        $optionPrice = 0.0;
+        foreach ( $optionValues as $optionValue )
+        {
+            $option =& $optionValue->option();
+            $value =& $optionValue->optionValue();            
+
+            // the pricegroup is set in the datasupplier
+            
+            $PriceGroup = $GLOBALS["PriceGroup"];
+
+            // get the value price if exists
+            $price = eZPriceGroup::correctPrice( $product->id(), $PriceGroup,
+            $option->id(), $value->id() );
+        
+            $found_price = false;
+
+            if ( $price )
+            {
+                $found_price = true;
+            }
+            
+            // if not fetch the standard price
+            if ( !$found_price )
+            {
+                $price = $value->price();
+            }
+            
+            $optionPrice += $price;
+        }
+
+        $price = ( $product->price() + $optionPrice )  * $this->count();
+
+        return $price;        
     }
 
     /*!
@@ -233,9 +260,6 @@ class eZCartItem
     */
     function setProduct( $product )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
        if ( get_class( $product ) == "ezproduct" )
        {
            $this->ProductID = $product->id();
@@ -247,9 +271,6 @@ class eZCartItem
     */
     function setCart( $cart )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
        if ( get_class( $cart ) == "ezcart" )
        {
            $this->CartID = $cart->id();
@@ -261,9 +282,6 @@ class eZCartItem
     */
     function setCount( $count )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
        $this->Count = $count;
     }
 
@@ -272,9 +290,6 @@ class eZCartItem
     */
     function setWishListItem( $wishlist )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
        if ( get_class( $wishlist ) == "ezwishlistitem" )
        {
            $this->WishListItemID = $wishlist->id();
@@ -284,11 +299,8 @@ class eZCartItem
     /*!
       Returns the wishlist item as a eZWishListItem object. 0 if the 
     */
-    function wishListItem()
+    function &wishListItem()
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
        $ret = false;
        
        if ( ( $this->WishListItemID != 0 ) && is_numeric( $this->WishListItemID ) )
@@ -305,11 +317,8 @@ class eZCartItem
 
       An empty array is returned if none exists.
     */
-    function optionValues( )
+    function &optionValues( )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-       
        $return_array = array();
        $this->dbInit();
        
@@ -333,7 +342,7 @@ class eZCartItem
     {
         if ( $this->IsConnected == false )
         {
-            $this->Database = eZDB::globalDatabase();
+            $this->Database =& eZDB::globalDatabase();
             $this->IsConnected = true;
         }
     }

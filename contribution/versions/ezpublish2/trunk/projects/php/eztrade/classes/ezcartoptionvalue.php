@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezcartoptionvalue.php,v 1.5 2001/01/06 16:21:01 bf Exp $
+// $Id: ezcartoptionvalue.php,v 1.6 2001/03/11 12:59:04 bf Exp $
 //
 // Definition of eZCartOptionValue class
 //
@@ -51,22 +51,11 @@ class eZCartOptionValue
 
         if ( $id != "" )
         {
-
             $this->ID = $id;
-            if ( $fetch == true )
-            {
-                
-                $this->get( $this->ID );
-            }
-            else
-            {
-                $this->State_ = "Dirty";
-                
-            }
+            $this->get( $this->ID );
         }
         else
         {
-            $this->State_ = "New";
             $this->Count = 1;
         }
     }
@@ -87,8 +76,6 @@ class eZCartOptionValue
                                  " );
 
             $this->ID = mysql_insert_id();
-
-            $this->State_ = "Coherent";
         }
         else
         {
@@ -98,8 +85,6 @@ class eZCartOptionValue
 		                         OptionValueID='$this->OptionValueID'
                                  WHERE ID='$this->ID'
                                  " );
-
-            $this->State_ = "Coherent";
         }
         
         return true;
@@ -127,7 +112,6 @@ class eZCartOptionValue
                 $this->OptionID =& $cart_array[0][ "OptionID" ];
                 $this->OptionValueID =& $cart_array[0][ "OptionValueID" ];
 
-                $this->State_ = "Coherent";
                 $ret = true;
             }
         }
@@ -151,9 +135,6 @@ class eZCartOptionValue
     */
     function &cartItem()
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
        return new eZCartItem( $this->CartItemID );
     }
 
@@ -162,9 +143,6 @@ class eZCartOptionValue
     */
     function &option()
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
        return new eZOption( $this->OptionID );
     }
 
@@ -173,9 +151,6 @@ class eZCartOptionValue
     */
     function &optionValue()
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
        return new eZOptionValue( $this->OptionValueID );
     }
     
@@ -184,9 +159,6 @@ class eZCartOptionValue
     */
     function setCartItem( &$cartItem )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
        if ( get_class( $cartItem ) == "ezcartitem" )
        {
            $this->CartItemID = $cartItem->id();
@@ -198,9 +170,6 @@ class eZCartOptionValue
     */
     function setOption( &$option )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
        if ( get_class( $option ) == "ezoption" )
        {
            $this->OptionID = $option->id();
@@ -212,9 +181,6 @@ class eZCartOptionValue
     */
     function setOptionValue( &$optionValue )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
        if ( get_class( $optionValue ) == "ezoptionvalue" )
        {
            $this->OptionValueID = $optionValue->id();
@@ -229,7 +195,7 @@ class eZCartOptionValue
     {
         if ( $this->IsConnected == false )
         {
-            $this->Database = eZDB::globalDatabase();
+            $this->Database =& eZDB::globalDatabase();
             $this->IsConnected = true;
         }
     }

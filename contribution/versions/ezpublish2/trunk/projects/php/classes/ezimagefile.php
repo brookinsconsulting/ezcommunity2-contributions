@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezimagefile.php,v 1.11 2001/03/08 18:47:00 bf Exp $
+// $Id: ezimagefile.php,v 1.12 2001/03/11 12:59:04 bf Exp $
 //
 // Definition of eZCompany class
 //
@@ -107,6 +107,7 @@ class eZImageFile extends eZFile
                               "jpeg" => array( ".jpg", "image/jpeg" ),
                               "gif" => array( ".gif", "image/gif" ),
                               "png" => array( ".png", "image/png" ) );
+        
         $postfix = $suffix_list[$suffix];
         $ret["suffix"] = $suffix;
         $ret["dot-suffix"] = $postfix[0];
