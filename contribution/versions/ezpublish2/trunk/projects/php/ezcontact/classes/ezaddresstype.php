@@ -78,7 +78,7 @@ class eZAddressType
         $this->dbInit();    
         if ( $id != "" )
         {
-            array_query( $address_type_array, "SELECT * FROM eZContact_AddressType WHERE ID='$id'" );
+            $this->Database->array_query( $address_type_array, "SELECT * FROM eZContact_AddressType WHERE ID='$id'" );
             if ( count( $address_type_array ) > 1 )
             {
                 die( "Feil: Flere addresstype med samme ID funnet i database, dette skal ikke være mulig. " );

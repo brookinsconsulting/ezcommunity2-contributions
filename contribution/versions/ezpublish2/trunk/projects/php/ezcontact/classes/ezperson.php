@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezperson.php,v 1.28 2000/11/23 14:00:49 pkej-cvs Exp $
+// $Id: ezperson.php,v 1.29 2000/11/28 14:38:57 pkej-cvs Exp $
 //
 // Definition of eZPerson class
 //
@@ -198,13 +198,15 @@ class eZPerson
         
         $query = "SELECT PersonID FROM eZContact_UserPersonDict WHERE UserID='$id'";
 
+        $return_item = 0;
+
         $this->Database->array_query( $person_array, $query );
         foreach( $person_array as $personItem )
         {
-            $return_array[] = new eZPerson( $personItem["PersonID"], false );
+            $return_item = new eZPerson( $personItem["PersonID"], false );
         }
         
-        return $return_array;
+        return $return_item;
     }
     
     /*!

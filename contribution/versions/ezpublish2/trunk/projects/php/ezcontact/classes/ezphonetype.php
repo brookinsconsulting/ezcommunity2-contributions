@@ -44,7 +44,7 @@ class eZPhoneType
         $this->dbInit();    
         if ( $id != "" )
         {
-            array_query( $phone_type_array, "SELECT * FROM eZContact_PhoneType WHERE ID='$id'" );
+            $this->Database->array_query( $phone_type_array, "SELECT * FROM eZContact_PhoneType WHERE ID='$id'" );
             if ( count( $phone_type_array ) > 1 )
             {
                 die( "Feil: Flere phonetype med samme ID funnet i database, dette skal ikke være mulig. " );
