@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: articleedit.php,v 1.41 2001/02/22 12:50:22 fh Exp $
+// $Id: articleedit.php,v 1.42 2001/02/22 13:57:00 jb Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <18-Oct-2000 15:04:39 bf>
@@ -338,38 +338,41 @@ if ( $Action == "Update" )
 
         $article->setKeywords( $keywords );
 
-        
         $article->store();
 
         $categoryArray = $article->categories();
+        // Calculate new and unused categories
+        $old_maincategory = $article->categoryDefinition();
+        $old_categories =& array_unique( array_merge( $old_maincategory->id(),
+                                                      $article->categories( false ) ) );
+
+        $new_categories = array_unique( array_merge( $CategoryID, $CategoryArray ) );
+
+        $remove_categories = array_diff( $old_categories, $new_categories );
+        $add_categories = array_diff( $new_categories, $old_categories );
 
         $categoryIDArray = array();
-        
+
         foreach ( $categoryArray as $cat )
         {
             $categoryIDArray[] = $cat->id();
         }
 
         // clear the cache files.
-        deleteCache( $ArticleID, $CategoryID, $CategoryArray );
-        
-        // remove all category references
-        $article->removeFromCategories();
+        deleteCache( $ArticleID, $CategoryID, $old_categories );
+
+        foreach ( $remove_categories as $categoryItem )
+        {
+            eZArticleCategory::removeArticle( $article, $categoryItem );
+        }
 
         // add to categories
         $category = new eZArticleCategory( $CategoryID );
-        $category->addArticle( $article );
-
         $article->setCategoryDefinition( $category );
 
-        if ( count( $CategoryArray ) > 0 )
-        foreach ( $CategoryArray as $categoryItem )
+        foreach ( $add_categories as $categoryItem )
         {
-            if ( $categoryItem != $CategoryID )
-            {
-                $category = new eZArticleCategory( $categoryItem );
-                $category->addArticle( $article );
-            }
+            eZArticleCategory::addArticle( $article, $categoryItem );
         }
 
         // add images
@@ -385,7 +388,6 @@ if ( $Action == "Update" )
             eZHTTPTool::header( "Location: /article/articleedit/filelist/$ArticleID/" );
             exit();
         }
-        
 
         // preview
         if ( isset( $Preview ) )
@@ -430,7 +432,7 @@ if ( $Action == "DeleteArticles" )
             // clear the cache files.
             deleteCache( $ArticleID, $CategoryID, $CategoryArray );
 
-            $categories = $article->categories();    
+            $categories = $article->categories();
             $categoryID = $categories[0]->id();
     
             $article->delete();

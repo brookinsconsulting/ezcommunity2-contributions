@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezarticlecategory.php,v 1.28 2001/02/22 10:41:03 fh Exp $
+// $Id: ezarticlecategory.php,v 1.29 2001/02/22 13:57:01 jb Exp $
 //
 // Definition of eZArticleCategory class
 //
@@ -192,7 +192,7 @@ class eZArticleCategory
         
         $this->Database->array_query( $category_array, "SELECT ID FROM eZArticle_Category ORDER BY Name" );
         
-        for ( $i=0; $i<count($category_array); $i++ )
+        for ( $i=0; $i < count($category_array); $i++ )
         {
             $return_array[$i] = new eZArticleCategory( $category_array[$i]["ID"], 0 );
         }
@@ -232,7 +232,7 @@ class eZArticleCategory
                                           ORDER BY Name" );
             }
 
-            for ( $i=0; $i<count($category_array); $i++ )
+            for ( $i=0; $i < count($category_array); $i++ )
             {
                 $return_array[$i] = new eZArticleCategory( $category_array[$i]["ID"], 0 );
             }
@@ -333,16 +333,18 @@ class eZArticleCategory
         
         return $this->Description;
     }
-    
+
     /*!
       Returns the parent if one exist. If not 0 is returned.
     */
-    function parent()
+    function parent( $as_object = true )
     {
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
 
-       if ( $this->ParentID != 0 )
+       if ( !$as_object )
+           return $this->ParentID;
+       else if ( $this->ParentID != 0 )
        {
            return new eZArticleCategory( $this->ParentID );
        }
@@ -644,34 +646,59 @@ class eZArticleCategory
 
     
     /*!
-      Adds a article to the category.
+      \static
+      Removes an article from the category.
+      Can be used as a static function if $categoryid is supplied
     */
-    function addArticle( $value )
+    function removeArticle( $value, $categoryid = false )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
-
-       if ( get_class( $value ) == "ezarticle" )
-       {
-            $this->dbInit();
-
+        if ( get_class( $value ) == "ezarticle" )
             $articleID = $value->id();
+        else if ( is_numeric( $value ) )
+            $articleID = $value;
+        else
+            return false;
 
-            $this->Database->query_single( $qry, "SELECT ID, Placement FROM eZArticle_ArticleCategoryLink
-                                    ORDER BY Placement DESC LIMIT 1" );
+        if ( !$categoryid )
+            $categoryid = $this->ID;
 
-            $place = $qry["Placement"] + 1; 
-            
-            $query = "INSERT INTO
-                           eZArticle_ArticleCategoryLink
-                      SET
-                           CategoryID='$this->ID',
-                           ArticleID='$articleID',
-                           Placement='$place'";
+        $db =& eZDB::globalDatabase();
+        $query = "DELETE FROM eZArticle_ArticleCategoryLink
+                  WHERE CategoryID='$categoryid' AND
+                        ArticleID='$articleID'";
 
-            $this->Database->query( $query );
-       }       
+        $db->query( $query );
+    }
+
+    /*!
+      \static
+      Adds an article to the category.
+      Can be used as a static function if $categoryid is supplied
+    */
+    function addArticle( $value, $categoryid = false )
+    {
+        if ( get_class( $value ) == "ezarticle" )
+            $articleID = $value->id();
+        else if ( is_numeric( $value ) )
+            $articleID = $value;
+        else
+            return false;
+
+        if ( !$categoryid )
+            $categoryid = $this->ID;
+
+        $db =& eZDB::globalDatabase();
+        $db->array_query( $qry, "SELECT ID, Placement FROM eZArticle_ArticleCategoryLink
+                                 WHERE CategoryID='$categoryid'
+                                 ORDER BY Placement DESC LIMIT 1", 0, 1 );
+
+        $place = count( $qry ) == 1 ? $qry[0]["Placement"] + 1 : 1;
+        $query = "INSERT INTO eZArticle_ArticleCategoryLink
+                  SET CategoryID='$categoryid',
+                      ArticleID='$articleID',
+                      Placement='$place'";
+
+        $db->query( $query );
     }
 
     /*!

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezarticle.php,v 1.39 2001/02/22 13:25:46 pkej Exp $
+// $Id: ezarticle.php,v 1.40 2001/02/22 13:57:01 jb Exp $
 //
 // Definition of eZArticle class
 //
@@ -544,11 +544,11 @@ class eZArticle
     }
     
     /*!
-      Returns the categrories an article is assigned to.
+      Returns the categories an article is assigned to.
 
       The categories are returned as an array of eZArticleCategory objects.
     */
-    function categories()
+    function categories( $as_object = true )
     {
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
@@ -558,9 +558,19 @@ class eZArticle
        $ret = array();
        $this->Database->array_query( $category_array, "SELECT * FROM eZArticle_ArticleCategoryLink WHERE ArticleID='$this->ID'" );
 
-       foreach ( $category_array as $category )
+       if ( $as_object )
        {
-           $ret[] = new eZArticleCategory( $category["CategoryID"] );
+           foreach ( $category_array as $category )
+           {
+               $ret[] = new eZArticleCategory( $category["CategoryID"] );
+           }
+       }
+       else
+       {
+           foreach ( $category_array as $category )
+           {
+               $ret[] = $category["CategoryID"];
+           }
        }
 
        return $ret;
