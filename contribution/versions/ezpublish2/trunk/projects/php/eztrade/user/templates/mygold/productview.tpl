@@ -106,43 +106,46 @@
 		<!-- BEGIN option_tpl -->
 		Gr&ouml;&szlig;e:
 
-		<input type="hidden" name="OptionIDArray[]" value="{option_id}" />
-		<!-- BEGIN value_price_header_tpl -->
+	<input type="hidden" name="OptionIDArray[]" value="{option_id}" />
+	<!-- BEGIN value_price_header_tpl -->
 
-		<!-- BEGIN value_description_header_tpl -->
+	<!-- BEGIN value_description_header_tpl -->
 
-		<!-- END value_description_header_tpl -->
+	<!-- END value_description_header_tpl -->
 
-		<!-- BEGIN value_price_header_item_tpl -->
+	<!-- BEGIN value_price_header_item_tpl -->
 
-		<!-- END value_price_header_item_tpl -->
+	<!-- END value_price_header_item_tpl -->
 
-		<!-- BEGIN value_currency_header_item_tpl -->
+	<!-- BEGIN value_currency_header_item_tpl -->
 
-		<!-- END value_currency_header_item_tpl -->
+	<!-- END value_currency_header_item_tpl -->
 
-		<!-- END value_price_header_tpl -->
-		<select name="OptionValueArray[]">
+	<!-- END value_price_header_tpl -->
+	<select name="OptionValueArray[]">
 
-		    <!-- BEGIN value_tpl -->
-		    <!-- BEGIN value_description_tpl -->
-		    <option value="{value_id}">{value_name}
-		    <!-- END value_description_tpl -->
-			<!-- BEGIN value_price_item_tpl -->
-			{value_price}
-			<!-- END value_price_item_tpl -->
-		    </option>
+	<!-- BEGIN value_tpl -->
+	<!-- BEGIN value_description_tpl -->
+	<option value="{value_id}">{value_name}
+	<!-- END value_description_tpl -->
+	<!-- BEGIN value_price_item_tpl -->
+	{value_price}
+	<!-- END value_price_item_tpl -->
+	<!-- BEGIN value_availability_item_tpl -->
+	({value_availability})
+	<!-- END value_availability_item_tpl -->
+	 </option>
 
-		    <!-- BEGIN value_price_currency_list_tpl -->
+	<!-- BEGIN value_price_currency_list_tpl -->
 
-		    <!-- BEGIN value_price_currency_item_tpl -->
+	<!-- BEGIN value_price_currency_item_tpl -->
 
-		    <!-- END value_price_currency_item_tpl -->
+	<!-- END value_price_currency_item_tpl -->
 
-		    <!-- END value_price_currency_list_tpl -->
+	<!-- END value_price_currency_list_tpl -->
 
-		    <!-- END value_tpl -->
-		</select>
+	<!-- END value_tpl -->
+	</select>
 
 		{option_description}
 		<!-- END option_tpl -->

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: extendedsearch.php,v 1.1 2001/03/15 19:18:23 ce Exp $
+// $Id: extendedsearch.php,v 1.2 2001/03/15 19:27:08 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <10-Oct-2000 17:49:05 bf>
@@ -28,6 +28,7 @@ include_once( "classes/INIFile.php" );
 include_once( "classes/eztemplate.php" );
 include_once( "classes/ezlocale.php" );
 include_once( "classes/ezcurrency.php" );
+include_once( "classes/ezhttptool.php" );
 
 $ini =& INIFile::globalINI();
 
