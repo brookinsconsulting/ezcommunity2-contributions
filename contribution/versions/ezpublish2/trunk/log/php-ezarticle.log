@@ -3562,3 +3562,11 @@ Maintainer(s) : bf@ez.no
     fixed bug when loosing attribute data when adding a existing type
     and some template fixes.
 
+
+Module : ezarticle
+Repository path : /home/cvsroot/projects/php/ezarticle
+Maintainer(s) : bf@ez.no
+2003-02-06  Baard Farstad  <bf@ez.no>
+
+    * classes/ezqdomrenderer.php: Fixed rendering of nexted tables.
+
