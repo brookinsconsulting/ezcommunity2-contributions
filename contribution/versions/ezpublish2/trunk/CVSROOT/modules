@@ -49,8 +49,24 @@ ezclassified    projects/php/ezclassified
  
  
 # Distribution
-publish_dist    projects/php/publish_dist &ezsession &ezuser &eztrade &ezarticle &classes &ezimagecatalogue &ezpoll &ezcontact &ezforum &ezlink &admin
+publish_dist    projects/php/publish_dist &ezsession &ezuser &ezarticle &classes &ezimagecatalogue &ezpoll &ezcontact &ezforum &ezlink &admin
 trade_dist      projects/php/trade_dist &ezsession &ezuser &eztrade &ezarticle &classes &ezimagecatalogue &ezcontact &admin
+
+# site alias
+zez_modules  &ezsession &eztrade &ezarticle &classes &ezimagecatalogue &ezpoll &ezcontact &ezforum &ezlink &admin   
+no_ez_modules &ezsession &ezuser &eztrade &ezarticle &classes &ezimagecatalogue &ezcontact &admin
+en_ez_modules &ezsession &ezuser &eztrade &ezarticle &classes &ezimagecatalogue &ezcontact
+shop_ez_modules &ezsession &ezuser &eztrade &ezarticle &classes &ezimagecatalogue &ezcontact
+developer_modeules  &ezsession &eztrade &ezarticle &classes &ezimagecatalogue &ezpoll &ezcontact &ezforum &ezlink &admin &ezbug 
+sourceprovider_modules &ezsession &eztrade &ezarticle &classes &ezimagecatalogue &ezpoll &ezcontact &ezforum &ezlink &admin &eztrade
+
+seanex_modules &ezsession &eztrade &ezarticle &classes &ezimagecatalogue &ezpoll &ezcontact &ezforum &ezlink &admin &ezclassified &eznewsfeed &ezad
+
+arkaden_modules &ezsession &eztrade &ezarticle &classes &ezimagecatalogue &ezpoll &ezcontact &ezforum &ezlink &admin
+sealine_modules &ezsession &eztrade &ezarticle &classes &ezimagecatalogue &ezpoll &ezcontact &ezforum &ezlink &admin
+
+
+
 
 
 
