@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: productlist.php,v 1.41 2001/10/16 11:33:52 ce Exp $
+// $Id: productlist.php,v 1.42 2001/11/22 11:31:55 pkej Exp $
 //
 // Created on: <23-Sep-2000 14:46:20 bf>
 //
@@ -195,53 +195,17 @@ foreach ( $productList as $product )
 
     $t->set_var( "product_intro_text", eZTextTool::nl2br( $product->brief() ) );
 
-    if ( $ShowPrice and $product->showPrice() == true and $product->hasPrice() )
-    {
-        $t->set_var( "product_price", $product->localePrice( $PricesIncludeVAT ) );
-        $priceRange = $product->correctPriceRange( $PricesIncludeVAT );
-
-        if ( ( empty( $priceRange["min"] ) and empty( $priceRange["max"] ) ) and !($product->correctPrice( $PricesIncludeVAT ) > 0) )
-        {
-            $t->set_var( "product_price", "" );
-        }
-        $t->parse( "price", "price_tpl" );
-    }
-    elseif( $product->showPrice() == false )
+    if( $product->showPrice() == false )
     {
         $t->set_var( "product_price", "" );
-        $t->parse( "price", "price_tpl" );
     }
-    else
+
+    if ( $ShowPrice and $product->showPrice() == true )
     {
-        $priceArray = "";
-        $options =& $product->options();
-        if ( count( $options ) == 1 )
-        {
-            $option = $options[0];
-            if ( get_class( $option ) == "ezoption" )
-            {
-                $optionValues =& $option->values();
-                if ( count( $optionValues ) > 1 )
-                {
-                    $i=0;
-                    foreach ( $optionValues as $optionValue )
-                    {
-                        $priceArray[$i] = $optionValue->localePrice( $PricesIncludeVAT, $product );
-                        $i++;
-                    }
-                    $high = max( $priceArray );
-                    $low = min( $priceArray );
-                    
-                    $t->set_var( "product_price", $low . " - " . $high );
-                    
-                    $t->parse( "price", "price_tpl" );
-                }
-            }
-        }
-        else
-            $t->set_var( "price", "" );
+        $t->set_var( "product_price", $product->localePrice( $PricesIncludeVAT ) );
     }
-    
+    $t->parse( "price", "price_tpl" );
+        
     $t->set_var( "category_id", $category->id() );
 
     if ( ( $i % 2 ) == 0 )
