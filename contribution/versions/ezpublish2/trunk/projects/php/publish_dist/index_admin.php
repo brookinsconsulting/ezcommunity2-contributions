@@ -15,6 +15,8 @@ if ( $UsePHPSessions == true )
     session_start();
 }
 
+// apc_reset_cache();
+
 // settings for sessions
 // max timeout is set to 48 hours
 ini_alter("session.gc_maxlifetime", "172800");

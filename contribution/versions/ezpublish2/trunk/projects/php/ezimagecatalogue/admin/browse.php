@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: browse.php,v 1.2 2001/05/15 12:46:17 ce Exp $
+// $Id: browse.php,v 1.3 2001/05/16 09:09:35 ce Exp $
 //
 // Christoffer A. Elo
 // Created on: <15-May-2001 15:01:28 ce>
@@ -68,6 +68,9 @@ $t->set_block( "image_list_tpl", "detail_view_tpl", "detail_view" );
 
 $t->set_block( "detail_view_tpl", "detail_read_tpl", "detail_read" );
 $t->set_block( "detail_view_tpl", "detail_write_tpl", "detail_write" );
+
+$t->set_block( "detail_read_tpl", "single_images_tpl", "single_images" );
+$t->set_block( "detail_read_tpl", "multi_images_tpl", "multi_images" );
 
 $t->set_block( "image_list_page_tpl", "category_list_tpl", "category_list" );
 $t->set_block( "category_list_tpl", "category_tpl", "category" );
@@ -159,9 +162,12 @@ else
     $t->set_var( "category_list", "" );
 }
 
-
 // Print out all the images
 $imageList =& $category->images();
+
+$selectImages = $session->variable( "SelectImages" );
+if( !$selectImages )
+    $selectImages = "single";
 
 $i = 0;
 $counter = 0;
@@ -175,6 +181,19 @@ foreach ( $imageList as $image )
     $t->set_var( "image_name", $image->name() );
     $t->set_var( "image_caption", $image->name() );
     $t->set_var( "image_url", $image->name() );
+
+    if ( $selectImages == "single" )
+    {
+        $t->set_var( "image_id", $image->id() );
+        $t->set_var( "multi_images", "" );
+        $t->parse( "single_images", "single_images_tpl" );
+    }
+    elseif ( $selectImages == "multi" )
+    {
+        $t->set_var( "image_id", $image->id() );
+        $t->set_var( "single_images", "" );
+        $t->parse( "multi_images", "multi_images_tpl" );
+    }
 
     $width =& $ini->read_var( "eZImageCatalogueMain", "ThumbnailViewWidth" );
     

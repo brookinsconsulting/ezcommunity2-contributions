@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezarticlecategory.php,v 1.62 2001/05/10 16:02:11 ce Exp $
+// $Id: ezarticlecategory.php,v 1.63 2001/05/16 09:09:35 ce Exp $
 //
 // Definition of eZArticleCategory class
 //
@@ -89,6 +89,7 @@ class eZArticleCategory
                                  Placement='$this->Placement',  
                                  OwnerID='$this->OwnerID',
                                  SectionID='$this->SectionID',
+                                 ImageID='$this->ImageID',
                                  ParentID='$this->ParentID'" );
 			$this->ID = $this->Database->insertID();
 
@@ -104,6 +105,7 @@ class eZArticleCategory
                                  Placement='$this->Placement',  
                                  OwnerID='$this->OwnerID',
                                  SectionID='$this->SectionID',
+                                 ImageID='$this->ImageID',
                                  ParentID='$this->ParentID' WHERE ID='$this->ID'" );
         }
         
@@ -175,6 +177,7 @@ class eZArticleCategory
                 $this->OwnerID = $category_array[0][ "OwnerID" ];
                 $this->Placement = $category_array[0][ "Placement" ];
                 $this->SectionID = $category_array[0][ "SectionID" ];
+                $this->ImageID = $category_array[0][ "ImageID" ];
             }
                  
             $this->State_ = "Coherent";
@@ -335,6 +338,22 @@ class eZArticleCategory
             return $sectionID;
         else
             return false;
+    }
+
+    /*!
+      Returns the Image ID.
+    */
+    function &image( $AsObject = true )
+    {
+        if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+        if ( $AsObject )
+            $image = new eZImage( $this->ImageID );
+        else
+            $image = $this->ImageID;
+
+        return $image;
     }
 
     /*!
@@ -534,6 +553,20 @@ class eZArticleCategory
             $this->get( $this->ID );
         
         $this->SectionID = $value;
+    }
+
+    /*!
+      Sets the image of the category.
+    */
+    function setImage( $value )
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+       
+       if ( get_class( $value ) == "ezimage" )
+           $value = $value->id();
+
+       $this->ImageID = $value;
     }
 
     /*!
@@ -1102,6 +1135,7 @@ class eZArticleCategory
     var $OwnerID;
     var $Placement;
     var $SectionID;
+    var $ImageID;
     
     ///  Variable for keeping the database connection.
     var $Database;

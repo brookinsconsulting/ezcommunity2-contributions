@@ -58,9 +58,16 @@
 	<td class="{td_class}" valign="top">
 	{image_size}&nbsp;{image_unit}
 	</td>
+	<!-- BEGIN multi_images_tpl -->
 	<td>
 	<input type="checkbox" name="ImageArrayID[]" value="{image_id}">
 	</td>
+	<!-- END multi_images_tpl -->
+	<!-- BEGIN single_images_tpl -->
+	<td>
+	<input type="radio" name="ImageID" value="{image_id}">
+	</td>
+	<!-- END single_images_tpl -->
 	<!-- END detail_read_tpl -->
 
 </tr>

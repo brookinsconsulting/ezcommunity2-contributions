@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: categoryedit.php,v 1.19 2001/05/11 07:56:42 bf Exp $
+// $Id: categoryedit.php,v 1.20 2001/05/16 09:09:35 ce Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <18-Sep-2000 14:46:19 bf>
@@ -55,6 +55,16 @@ if ( ( $Action == "insert" ) || ( $Action == "update" ) )
     }
 }
 
+// Get images from the image browse function.
+if ( ( isSet ( $AddImages ) ) and ( is_numeric( $CategoryID ) ) and ( is_numeric ( $ImageID ) ) )
+{
+    $image = new eZImage( $ImageID );
+    $category = new eZArticleCategory( $CategoryID );
+    $category->setImage( $image );
+    $category->store();
+    $Action = "edit";
+}
+
 // Direct actions
 if ( $Action == "insert" && !$error )
 {
@@ -87,6 +97,17 @@ if ( $Action == "insert" && !$error )
         $category->setExcludeFromSearch( false );
     }
 
+    $file = new eZImageFile();
+    if ( $file->getUploadedFile( "ImageFile" ) )
+    {
+        $image = new eZImage( );
+        $image->setName( "Image" );
+        $image->setImage( $file );
+        
+        $image->store();
+        $category->setImage( $image );
+    }
+
     $category->setOwner( eZUser::currentUser() );
     
     $category->store();
@@ -96,6 +117,9 @@ if ( $Action == "insert" && !$error )
         $category->setBulkMailCategory( $BulkMailID );
     else
         $category->setBulkMailCategory( false );
+
+    if ( $DeleteImage == "on" )
+        $category->setImage( 0 );
 
     /* write access select */
     if( isset( $WriteGroupArray ) )
@@ -149,6 +173,15 @@ if ( $Action == "insert" && !$error )
         $file->delete();
     }
 
+    if ( isSet ( $Browse ) )
+    {
+        $session = new eZSession();
+        $session->setVariable( "SelectImages", "single" );
+        $session->setVariable( "ImageListReturnTo", "/article/categoryedit/edit/$categoryID/" );
+        eZHTTPTool::header( "Location: /imagecatalogue/browse/" );
+        exit();
+    }
+
     eZHTTPTool::header( "Location: /article/archive/$categoryID/" );
     exit();
 }
@@ -175,6 +208,20 @@ if ( $Action == "update" && !$error )
     $category->setSectionID( $SectionID );
 
     $category->setSortMode( $SortMode );
+
+    $file = new eZImageFile();
+    if ( $file->getUploadedFile( "ImageFile" ) )
+    {
+        $image = new eZImage( );
+        $image->setName( "Image" );
+        $image->setImage( $file );
+        
+        $image->store();
+        $category->setImage( $image );
+    }
+
+    if ( $DeleteImage == "on" )
+        $category->setImage( 0 );
 
     if ( $ExcludeFromSearch == "on" )
     {
@@ -251,6 +298,16 @@ if ( $Action == "update" && !$error )
     {
         $file->delete();
     }
+
+    if ( isSet ( $Browse ) )
+    {
+        $session = new eZSession();
+        $session->setVariable( "SelectImages", "single" );
+        $session->setVariable( "ImageListReturnTo", "/article/categoryedit/edit/$categoryID/" );
+        eZHTTPTool::header( "Location: /imagecatalogue/browse/" );
+        exit();
+    }
+
     eZHTTPTool::header( "Location: /article/archive/$ParentID/" );
     exit();
 }
@@ -299,6 +356,9 @@ $t->set_block( "category_edit_tpl", "bulkmail_category_item_tpl", "bulkmail_cate
 $t->set_block( "category_edit_tpl", "section_item_tpl", "section_item" );
 $t->set_block( "category_edit_tpl", "error_permission_tpl", "error_permission" );
 
+$t->set_block( "category_edit_tpl", "image_item_tpl", "image_item" );
+
+
 $category = new eZArticleCategory();
 
 $categoryArray = $category->getAll( );
@@ -311,6 +371,8 @@ $t->set_var( "all_selected", "selected" );
 $t->set_var( "all_write_selected", "selected" );
 $t->set_var( "bulkmail_category_item", "" );
 $t->set_var( "no_bulkmail_selected", "selected" );
+
+$t->set_var( "image_item", "" );
 
 $writeGroupsID = array(); 
 $readGroupsID = array(); 
@@ -340,7 +402,31 @@ if ( $Action == "edit" )
     $sectionID = $category->sectionID();
 
     // set the current sortmode to selected
-    $t->set_var( $category->sortMode( true ) . "_selected", "selected" );    
+    $t->set_var( $category->sortMode( true ) . "_selected", "selected" );
+
+    $image =& $category->image();
+    if ( get_class( $image ) == "ezimage" && $image->id() != 0 )
+    {
+        $imageWidth =& $ini->read_var( "eZArticleMain", "CategoryImageWidth" );
+        $imageHeight =& $ini->read_var( "eZArticleMain", "CategoryImageHeight" );
+        
+        $variation =& $image->requestImageVariation( $imageWidth, $imageHeight );
+        
+        $imageURL = "/" . $variation->imagePath();
+        $imageWidth = $variation->width();
+        $imageHeight = $variation->height();
+        $imageCaption = $image->caption();
+        
+        $t->set_var( "image_width", $imageWidth );
+        $t->set_var( "image_height", $imageHeight );
+        $t->set_var( "image_url", $imageURL );
+        $t->set_var( "image_caption", $imageCaption );
+        $t->parse( "image_item", "image_item_tpl" );
+    }
+    else
+    {
+
+    }
 
     if( is_object( $parent ) )
     {
