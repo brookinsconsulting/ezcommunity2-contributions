@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: newsedit.php,v 1.2 2000/11/16 15:26:52 bf-cvs Exp $
+// $Id: newsedit.php,v 1.3 2000/11/16 18:31:50 bf-cvs Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <16-Nov-2000 13:02:32 bf>
@@ -32,9 +32,12 @@ include_once( "eznewsfeed/classes/eznews.php" );
 include_once( "classes/ezdatetime.php" );
 
 include_once( "eznewsfeed/classes/eznews.php" );
+include_once( "eznewsfeed/classes/eznewscategory.php" );
 
 if ( $Action == "Insert" )
 {
+    $category = new eZNewsCategory( $CategoryID );
+    
     $news = new eZNews( );
 
     $news->setName( $NewsTitle );
@@ -48,6 +51,10 @@ if ( $Action == "Insert" )
     $news->setOriginalPublishingDate( $dateTime );
 
     $news->store();
+
+    $category->addNews( $news );
+    Header( "Location: /newsfeed/archive/$CategoryID/" );
+    exi();
 }
 
 

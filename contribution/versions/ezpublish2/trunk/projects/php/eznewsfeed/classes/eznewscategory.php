@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: eznewscategory.php,v 1.2 2000/11/16 15:53:21 bf-cvs Exp $
+// $Id: eznewscategory.php,v 1.3 2000/11/16 18:31:50 bf-cvs Exp $
 //
 // Definition of eZArticleCategory class
 //
@@ -340,13 +340,13 @@ class eZNewsCategory
        {
             $this->dbInit();
 
-            $articleID = $value->id();
+            $newsID = $value->id();
             
             $query = "INSERT INTO
                            eZNewsFeed_NewsCategoryLink
                       SET
                            CategoryID='$this->ID',
-                           ArticleID='$articleID'";
+                           NewsID='$newsID'";
             
             $this->Database->query( $query );
        }       

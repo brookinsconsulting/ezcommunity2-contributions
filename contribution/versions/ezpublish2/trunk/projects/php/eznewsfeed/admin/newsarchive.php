@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: newsarchive.php,v 1.5 2000/11/16 15:26:52 bf-cvs Exp $
+// $Id: newsarchive.php,v 1.6 2000/11/16 18:31:50 bf-cvs Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <13-Nov-2000 16:56:48 bf>
@@ -126,7 +126,7 @@ else
 
 
 // newss
-$newsList = $category->newsList( "time", true, true );
+$newsList = $category->newsList( "time", true );
 
 $locale = new eZLocale( $Language );
 $i=0;
