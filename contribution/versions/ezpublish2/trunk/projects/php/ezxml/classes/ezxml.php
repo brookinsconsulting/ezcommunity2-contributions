@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: ezxml.php,v 1.25 2002/01/07 09:03:17 bf Exp $
+// $Id: ezxml.php,v 1.26 2002/01/11 11:15:37 bf Exp $
 //
 // Definition of eZXML class
 //
@@ -252,11 +252,11 @@ class eZXML
                     $subNode->type = 3;
 
                     // convert special chars
-                    $tagContent =& str_replace("&amp;", "&", $tagContent );
                     $tagContent =& str_replace("&gt;", ">", $tagContent );
                     $tagContent =& str_replace("&lt;", "<", $tagContent );
                     $tagContent =& str_replace("&apos;", "'", $tagContent );
                     $tagContent =& str_replace("&quot;", '"', $tagContent );
+                    $tagContent =& str_replace("&amp;", "&", $tagContent );
                     
                     $subNode->content = $tagContent;
                     
