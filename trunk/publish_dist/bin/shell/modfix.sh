@@ -16,7 +16,7 @@ fi
 
 # Set permissions for log dir & files
 if [ -d "bin/logs/" ]; then
-    chmod -R 666 bin/logs/
+    chmod -R 777 bin/logs/
 fi
 
 
