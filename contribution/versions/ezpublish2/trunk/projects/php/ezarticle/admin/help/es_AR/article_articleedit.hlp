@@ -1,83 +1,186 @@
-<h2>Article edit</h2>
-<p>This is the help file for the eZ article page Article edit.</p>
+<h2>Edición de Artículos</h2>
 
 
-<h2>Tags which you can use</h2>
-Note that you can't cascade tags, ie. you can't have tags within tags. If you need more sophisticated rendering of the text use the &lt;html> and &lt;/html> around plain html which does what you want.
-<dl>
-    <dt>&lt;bold> &lt;/bold></dt>
-    <dd><p>Turns on <b>bold</b> text.</p></dd>
-    <dt>&lt;bullet> &lt;/bullet></dt>
-    <dd><p>Every new line within these tags will be prefixed with a bullet.</p></dd>
-    <dt>&lt;cpp> &lt;/cpp></dt>
-    <dd><p>Insert c++ code within these two tags and the renderer will recognize keywords and colorize the code.</p></dd>
-    <dt>&lt;ezanchor <i>anchor</i>></dt>
-    <dd><p>Add an html anchor (&lt;a name="<i>anchor</i>">&lt;/a>) named <i>anchor</i> into the code.</p></dd>
-    <dt>&lt;ezhtml> &lt;/ezhtml></dt>
-    <dd><p>Everything between these two tags will be rendered as html. Use these tags to create effects which you can't create with the normal tags.</p></dd>
-    <dt>&lt;header> &lt;/header></dt>
-    <dd><p>Creates a heading.</p></dd>
-    <dt>&lt;html> &lt;/html></dt>
-    <dd><p>Everything between these two tags will be rendered as html. Use these tags to create effects which you can't create with the normal tags.</p></dd>
-    <dt>&lt;image <i>number</i> <i>position</i> <i>size</i>></dt>
-    <dd><p>Use this tag to insert an image into the text. The images can be
-        uploaded by pressing the "Images" button.</p>
+<p>Este es el archivo de ayuda para la página de edición de artículos de eZ Article.
+Se mostrarán los diferentes tags que pueden usarse en un artículo.<br>
+<b>Nota:</b> Todos los tags pueden ser modificados en el template.
+</p>
+
+<h2>Tags para formateo básico</h2>
+
+<p>
+Todos estos tags pueden tener subtags excepto el tag header.
+</p>
+
+<h3>&lt;header nivel> &lt;/header></h3>
+<p>
+Mostrará un título de nivel 1 a 5. Si no se indica nivel se creará el título con nivel 1 (el más grande).
+</p>
+
+<h3>&lt;bold> &lt;/bold></h3>
+<p>
+El texto entre estos tags se imprime en <b>negrita</b>.
+</p>
+
+<h3>&lt;italic> &lt;/italic></h3>
+<p>
+El texto entre estos tags se imprime en <i>itálica</i>.
+</p>
+
+<h3>&lt;strike> &lt;/strike></h3>
+<p>
+El texto entre estos tags se imprime <s>tachado</s>.
+</p>
+
+<h3>&lt;underline> &lt;/underline></h3>
+<p>
+El texto entre estos tags se imprime <u>subrayado</u>.
+</p>
+
+<h3>&lt;strong> &lt;/strong></h3>
+<p>
+El texto entre estos tags se imprime <strong>remarcado</strong>.
+</p>
+
+<h3>&lt;pre> &lt;/pre></h3>
+<p>
+Se mostrará un texto predefinido.
+</p>
+
+<h3>&lt;quote> &lt;/quote></h3>
+<p>
+Se mostrará el texto entre estos tags como una cita.
+</p>
+
+<h3>&lt;factbox> &lt;/factbox></h3>
+<p>
+Se mostrará un recuadro a la derecha, el cuál puede tener subtags.
+</p>
+
+<h3>&lt;bullet> &lt;/bullet></h3>
+<p>
+Cada línea nueva entre estos tags será precedida por un círculo, creando una lista no numerada.
+</p>
+
+<h3>&lt;list> &lt;/list></h3>
+<p>
+Cada línea nueva entre estos tags será precedida por un número, creando una lista ordenada.
+</p>
+
+<h3>&lt;page></h3>
+<p>
+Fuerza un salto de página en el documento.
+</p>
+
+<h2>Tags para Imágenes</h2>
+Se pueden ubicar imágenes en cualquier posicion dentro del artículo. Los tags para
+imágenes se ingresan en un formato simple y son convertidos a XML antes de almacenarlos.
+Si quiere utilizar tags para imágenes avanzados, debe escribirlos en XML.
+
+<h3>&lt;image <i>número</i>></h3>
+<p>
+Esta es la versión más simple de este tag, el cuál mostrará la imagen número "número"
+centrada y de tamaño mediano.
+</p>
+
+<h3>&lt;image <i>número</i> <i>posición</i> <i>tamaño</i>></h3>
+<p>
+Esta versión del tag le permitirá especificar la posición y el tamaño de la imagen.
+Las posiciones disponibles son: left, center, right y float. Los tamaños disponibles
+son: small, medium, large y original.
+</p>
+
+<h3>&lt;image <i>número</i> <i>posición</i> <i>tamaño</i> <i>enlace</i>></h3>
+<p>
+Esta versión del tag le permitirá especificar la posición y el tamaño de la imagen.
+Las posiciones disponibles son: left, center, right y float. Los tamaños disponibles
+son: small, medium, large y original. Tambien puede especificar un enlace al cuál ir 
+cuando se pulse sobre la imagen, esto es opcional.
+</p>
+<br>
+Los siguientes son explicaciones de cada argumento de las opciones anteriores.
     <ul>
-        <li>number
-        <p>This is the number of the image as it appears in the "Images" screen.</p></li>
-        <li>position<p>This is the position where you want the image to appear on the page, you can select between:</p>
+        <li>número
+        <p>Es el número de la imagen que aparece en la pantalla "Imágenes".</p></li>
+        <li>posición<p>Esta es la posición donde queres que la imagen aparezca en la página, podes elegir entre las siguientes:</p>
             <dl>
             <dt>center</dt>
-            <dd>Center the image on the page</dd>
+            <dd>Centra la imagen en la página</dd>
             <dt>float</dt>
-            <dd>The image will appear in-line in the text. Use this for small images, for example bullets</dd>
+            <dd>La imagen aparecerá en línea con el texto. Usa esto para imágenes pequeñas, como por ejemplo bullets</dd>
             <dt>left</dt>
-            <dd>Place the image to the left of the page. The text will flow around this image.</dd>
+            <dd>Ubica la imagen a la izquierda de la página. El texto circulará alrededor de la imagen.</dd>
             <dt>right</dt>
-            <dd>Place the image to the right of the page. The text will flow around this image.</dd>
+            <dd>Ubica la imagen a la derecha de la página. El texto circulará alrededor de la imagen.</dd>
             </dl>
         </li>
-        <li>size<p>This is the size of the image</p>
+        <li>tamaño<p>indica el tamaño de la imagen</p>
         <dl>
         <dt>large</dt>
-        <dd>This uses the sizes defined in LargeImageWidth and LargeImageHeight in the eZArticle section of the site.ini file</dd>
+        <dd>Usa los tamaños definidos en LargeImageWidth y LargeImageHeight en la sección eZArticle del archivo site.ini</dd>
         <dt>original</dt>
-        <dd>This is the original size of the image</dd>
+        <dd>Usa el tamaño original de la imagen</dd>
         <dt>medium</dt>
-        <dd>This uses the sizes defined in MediumImageWidth and MediumImageHeight in the eZArticle section of the site.ini file</dd>
+        <dd>Usa los tamaños definidos en MediumImageWidth y MediumImageHeight en la sección eZArticle del archivo site.ini </dd>
         <dt>small</dt>
-        <dd>This uses the sizes defined in SmallImageWidth and SmallImageHeight in the eZArticle section of the site.ini file</dd>
+        <dd>Usa los tamaños definidos en SmallImageWidth y SmallImageHeight en la sección eZArticle del archivo site.ini </dd>
         </dl></li>
     </ul>
-    </dd>
-    <dt>&lt;java> &lt;/java></dt>
-    <dd><p>Insert java code within these two tags and the renderer will recognize keywords and colorize the code.</p></dd>
-    <dt>&lt;link <i>url text</i>></dt>
-    <dd><p>Creates a link. The url is <i>url</i> and the name of the link (the text used) is <i>text</i>. You can omit http:// in front of web sites.</p></dd>
-    <dt>&lt;lisp> &lt;/lisp></dt>
-    <dd><p>Insert lisp code within these two tags and the renderer will recognize keywords and colorize the code.</p></dd>
-    <dt>&lt;iconlink <i>url text</i>></dt>
-    <dd><p></p></dd>
-    <dt>&lt;italic> &lt;/italic></dt>
-    <dd><p>Turns on <i>italic</i> text.</p></dd>
-    <dt>&lt;module <i>modulename</i>></dt>
-    <dd><p>Insert the contents of file <i>modulename</i>.php into the text (the .php part is added automatically). The file should reside in the modules directory in the eZ publish root.</p></dd>
-    <dt>&lt;page></dt>
-    <dd><p>A page break.</p></dd>
-    <dt>&lt;perl> &lt;/perl></dt>
-    <dd><p>Insert perl code within these two tags and the renderer will recognize keywords and colorize the code.</p></dd>
-    <dt>&lt;php> &lt;/php></dt>
-    <dd><p>Insert php code within these two tags and the renderer will recognize keywords and colorize the code.</p></dd>
-    <dt>&lt;pre> &lt;/pre></dt>
-    <dd><p>The text between these tags are printed pre-formatted.</p></dd>
-    <dt>&lt;shell> &lt;/shell></dt>
-    <dd><p>Insert shell code within these two tags and the renderer will recognize keywords and colorize the code.</p></dd>
-    <dt>&lt;sql> &lt;/sql></dt>
-    <dd><p>Insert sql code within these two tags and the renderer will recognize keywords and colorize the code.</p></dd>
-    <dt>&lt;strike> &lt;/pre></strike>
-    <dd><p>The text between these tags are printed strike through.</p></dd>
-    <dt>&lt;underline> &lt;/pre></underline>
-    <dd><p>The text between these tags are underlined.</p></dd>
-    <dt>&lt;verbatim> &lt;/verbatim></dt>
-    <dd><p>The texts between these tags are printed verbatim.</p></dd>
-</dl>
+<br>
+
+<h3>&lt;image <i>id="número"</i> <i>align="posición"</i> <i>size="tamaño"</i> <i>caption="subítulo¨</i> <i>href="enlace"</i> <i>target="objetivo"</i>></h3>
+<p>
+Si se especifica la versión XML de este tag, usted podrá especificar un caption de usuario,
+el objetivo para el enlace, el url y el href url.
+Si el caption es "_blank" no se mostrará un subtítulo. Todos estos valores son opcionales.
+</p>
+
+<h2>Tags para hipervínculos</h2>
+
+<h3>&lt;link url texto></h3>
+<p>
+Se puede crear un enlace con su descripción con este tag.
+</p>
+
+<h3>&lt;mail dirección sujeto, texto></h3>
+<p>
+Este tab creará un tag "mailto:" para facilitar el envío de emails.
+</p>
+
+
+<h2>Tags para objetos</h2>
+
+<h3>&lt;file número></h3>
+<p>
+Mostrará un enlace hacia el archivo adjuntado.
+</p>
+
+<h3>&lt;media número></h3>
+<p>
+Ubicará un objeto multimedia en el artículo.
+</p>
+
+<h3>&lt;form></h3>
+<p>
+Ubicará el formulario elegido en el artículo.
+</p>
+
+<h2>Tags avanzados</h2>
+
+<h3>&lt;html> &lt;/html></h3>
+<p>
+Se mostrará el html incluído en en artículo. <br><b>Nota:</b> No está recomendado 
+usar este tag, ya que limita la posibilidad de exportar el artículo a otros formatos.
+Se debiera crear un tag de usuario, en su lugar. 
+</p>
+
+
+<h3>&lt;table width border>&lt;tr>&lt;td> Datos de la celda&lt;/td>&lt;/tr>&lt;/table></h3>
+<p>
+Se dibujará una tabla.
+</p>
+
+
+
+
+
