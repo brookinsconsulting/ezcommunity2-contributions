@@ -10,8 +10,6 @@
 	<div class="p"><u>En annen nyhetssak</u></div><br />
 	<div class="p"><u>En annen nyhetssak</u></div><br />
 	<div class="p"><u>En annen nyhetssak</u></div><br />
-	<div class="p"><u>En annen nyhetssak</u></div><br />
-	<div class="p"><u>En annen nyhetssak</u></div><br />
 	</td>
 	<td width="1%"><img src="/images/1x1.gif" height="1" width="10" alt="" border="0" /></td>
 	<td width="98%" valign="top">
@@ -34,15 +32,15 @@
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
 <!-- BEGIN article_item_tpl -->
 <tr>
-	<td>
-	<div class="listheadline"><a class="listheadline" href="/article/articleview/{article_id}/">{article_name}</a></div>
+	<td width="100%">
+	<a class="listheadline" href="/article/articleview/{article_id}/">{article_name}</a>
 	<div class="small">( {article_published} )</div>
 
 	<!-- BEGIN article_image_tpl -->
-	    <table align="right">
+	    <table width="1%" cellpadding="0" cellspacing="0" border="0" align="right">
 	        <tr>
 			<td>
-			<a href="/article/articleview/{article_id}/"><img src="{thumbnail_image_uri}" border="0" width="{thumbnail_image_width}" height="{thumbnail_image_height}" /></a>
+			<a href="/article/articleview/{article_id}/1/{category_id}/"><img src="{thumbnail_image_uri}" border="0" width="{thumbnail_image_width}" height="{thumbnail_image_height}" /></a>
             </td>
                 </tr>
                 <tr>

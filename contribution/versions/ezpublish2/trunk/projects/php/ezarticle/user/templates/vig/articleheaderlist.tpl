@@ -1,12 +1,12 @@
 
 <h1>Arkiv</h1>
-
 <!-- BEGIN path_item_tpl -->
 
 <!-- END path_item_tpl -->
 
 <hr noshade="noshade" size="4" />
-<br />
+
+<h2>{current_category_name}</h2><br />
 
 <!-- BEGIN category_list_tpl -->
 
