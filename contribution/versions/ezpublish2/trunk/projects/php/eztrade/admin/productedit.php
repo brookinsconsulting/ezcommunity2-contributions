@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: productedit.php,v 1.43 2001/03/09 09:02:00 bf Exp $
+// $Id: productedit.php,v 1.44 2001/03/12 10:44:10 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <19-Sep-2000 10:56:05 bf>
@@ -106,13 +106,13 @@ if ( $Action == "Insert" )
 
 
     $product = new eZProduct();
-    $product->setName( strip_tags( $Name ) );
-    $product->setDescription( strip_tags( $Description ) );
-    $product->setBrief( strip_tags( $Brief ) );
-    $product->setKeywords( strip_tags( $Keywords ) );
-    $product->setProductNumber( strip_tags( $ProductNumber ) );
+    $product->setName( $Name );
+    $product->setDescription( $Description );
+    $product->setBrief(  $Brief );
+    $product->setKeywords( $Keywords );
+    $product->setProductNumber( $ProductNumber );
 
-    $product->setExternalLink( strip_tags( $ExternalLink ) );
+    $product->setExternalLink( $ExternalLink );
 
     $vattype = new eZVATType( $VATTypeID );
     $product->setVATType( $vattype );
@@ -236,12 +236,12 @@ if ( $Action == "Update" )
     $product = new eZProduct();
     $product->get( $ProductID );
     $was_hotdeal = $product->isHotDeal();
-    $product->setName( strip_tags( $Name ) );
-    $product->setDescription( strip_tags( $Description ) );
-    $product->setBrief( strip_tags( $Brief ) );
-    $product->setKeywords( strip_tags( $Keywords ) );
-    $product->setProductNumber( strip_tags( $ProductNumber  ) );
-    $product->setExternalLink( strip_tags( $ExternalLink ) );
+    $product->setName( $Name );
+    $product->setDescription( $Description );
+    $product->setBrief( $Brief );
+    $product->setKeywords( $Keywords  );
+    $product->setProductNumber( $ProductNumber );
+    $product->setExternalLink( $ExternalLink );
 
     $vattype = new eZVATType( $VATTypeID );
     $product->setVATType( $vattype );
