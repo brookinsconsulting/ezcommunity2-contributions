@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezbulkmail.php,v 1.10 2001/04/30 15:04:23 fh Exp $
+// $Id: ezbulkmail.php,v 1.11 2001/04/30 15:17:34 fh Exp $
 //
 // eZBulkMail class
 //
@@ -298,7 +298,7 @@ class eZBulkMail
            $db->query( "DELETE FROM eZBulkMail_MailCategoryLink WHERE MailID='$this->ID'");
        else
        {
-           $db->query_single( $result, "SELECT count( ID ) AS Count FROM eZBulkMail_MailCategoryLink WHERE CategoryID='$value' AND MailID='$this->ID'" );
+           $db->query_single( $result, "SELECT count( * ) AS Count FROM eZBulkMail_MailCategoryLink WHERE CategoryID='$value' AND MailID='$this->ID'" );
            if( $result["Count"] == 0 )
                $db->query( "INSERT INTO eZBulkMail_MailCategoryLink SET CategoryID='$value', MailID='$this->ID'" );
        }
