@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: userlogin.php,v 1.14 2001/09/24 11:53:43 jhe Exp $
+// $Id: userlogin.php,v 1.14.8.1 2002/01/24 10:46:57 bf Exp $
 //
 // Created on: <14-Oct-2000 15:41:17 bf>
 //
@@ -37,7 +37,7 @@ if ( eZUser::currentUser() )
 {
     if ( isset( $RedirectURL ) )
     {
-        $AdditionalURLInfo="?RedirectURL=$RedirectURL";
+        $AdditionalURLInfo="?RedirectURL=$RedirectURL&ProductID=$ProductID&ProductName=" . urlencode( $ProductName ) . "";
     }
 
     if ( $Action == "newsimple" )

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: messagesimplelist.php,v 1.15 2001/09/21 07:56:43 jhe Exp $
+// $Id: messagesimplelist.php,v 1.15.8.1 2002/01/24 10:46:57 bf Exp $
 //
 // Created on: <11-Sep-2000 22:10:06 bf>
 //
@@ -53,6 +53,8 @@ $t->set_block( "message_list_tpl", "message_item_tpl", "message_item" );
 
 $t->setAllStrings();
 
+
+
 $forum = new eZForum( $ForumID );
 
 $locale = new eZLocale( $Language );
@@ -103,6 +105,9 @@ else
     $t->parse( "message_list", "message_list_tpl", true );
 }
 eZList::drawNavigator( $t, $messageCount, $SimpleUserList, $Offset, "messagelist" );
+
+$t->set_var( "product_id", $ProductID );
+$t->set_var( "product_name", $ProductName );
 
 $t->set_var( "redirect_url", $RedirectURL );
 

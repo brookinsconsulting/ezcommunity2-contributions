@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: messageedit.php,v 1.58.2.4 2001/11/01 11:25:46 jhe Exp $
+// $Id: messageedit.php,v 1.58.2.4.4.1 2002/01/24 10:46:57 bf Exp $
 //
 // Created on: <21-Feb-2001 18:00:00 pkej>
 //
@@ -342,7 +342,7 @@ switch ( $Action )
             }
         }
 
-        eZHTTPTool::header( "Location: /forum/messageedit/$ActionValue/$OriginalID?ReplyToID=$ReplyToID&ActionStart=$ActionStart&RedirectURL=$RedirectURL" );
+        eZHTTPTool::header( "Location: /forum/messageedit/$ActionValue/$OriginalID?ReplyToID=$ReplyToID&ActionStart=$ActionStart&RedirectURL=$RedirectURL&ProductID=$ProductID&ProductName=$ProductName&RedirectURL=$RedirectURL" );
     }
     break;
 
@@ -682,6 +682,9 @@ switch ( $Action )
 // print( "RedirectURL = $RedirectURL <br>" );
 // print( "ForumID = $ForumID <br>" );
 
+$t->set_var( "product_id", $ProductID );
+$t->set_var( "product_name", $ProductName );
+$t->set_var( "redirect_url", $RedirectURL );
 
 $t->set_var( "start_action", $StartAction );
 $t->set_var( "end_action", $EndAction );
