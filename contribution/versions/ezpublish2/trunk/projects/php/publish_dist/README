@@ -383,3 +383,5 @@ CREATE TABLE eZBug_BugImageLink (
   PRIMARY KEY (ID)
 );
 
+# Add more info to eZForum_Message.
+ALTER TABLE eZForum_Message ADD IsTemporary int(1) DEFAULT '0' NOT NULL;
