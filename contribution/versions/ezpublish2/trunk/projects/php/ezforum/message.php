@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: message.php,v 1.4 2000/07/25 12:01:15 lw Exp $
+    $Id: message.php,v 1.5 2000/07/26 07:59:21 lw-cvs Exp $
 
     Author: Lars Wilhelmsen <lw@ez.no>
     
@@ -31,7 +31,7 @@ $t->parse( "navigation-bar", "navigation", true );
 $msg->get( $message_id );
     
 $t->set_var( "topic", stripslashes( $msg->topic() ) );
-$t->set_var( "user", $usr->resolveUser( $msg->user() ) );
+$t->set_var( "user", $usr->resolveUser( $msg->userId() ) );
 $t->set_var( "postingtime", $msg->postingTime() );
 $t->set_var( "body", nl2br( stripslashes( $msg->body() ) ) );
 $t->set_var( "reply_id", $message_id );
