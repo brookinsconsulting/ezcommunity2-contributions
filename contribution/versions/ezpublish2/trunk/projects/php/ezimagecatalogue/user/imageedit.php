@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: imageedit.php,v 1.11 2001/02/02 14:07:06 ce Exp $
+// $Id: imageedit.php,v 1.12 2001/02/06 16:34:43 jb Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <09-Jan-2001 10:45:44 ce>
@@ -89,19 +89,23 @@ $t->set_var( "image_description", "$Description" );
 $t->set_var( "caption_value", "$Caption" );
 
 
-if ( $Read == "User" )
-    $t->set_var( "user_read_checked", "checked" );
 if ( $Read == "Group" )
     $t->set_var( "group_read_checked", "checked" );
-if ( $Read == "All" )
+else if ( $Read == "All" )
     $t->set_var( "all_read_checked", "checked" );
+else if ( $Read == "User" )
+    $t->set_var( "user_read_checked", "checked" );
+else
+    $t->set_var( "user_read_checked", "checked" );
 
-if ( $Write == "User" )
-    $t->set_var( "user_write_checked", "checked" );
 if ( $Write == "Group" )
     $t->set_var( "group_write_checked", "checked" );
-if ( $Write == "All" )
+else if ( $Write == "All" )
     $t->set_var( "all_write_checked", "checked" );
+else if ( $Write == "User" )
+    $t->set_var( "user_write_checked", "checked" );
+else
+    $t->set_var( "user_write_checked", "checked" );
 
 $error = false;
 $nameCheck = true;
@@ -275,14 +279,8 @@ if ( $Action == "DeleteImages" )
 // Set the default values to null
 if ( $Action == "New" || $error )
 {
-    $t->set_var( "name_value", "" );
-    $t->set_var( "caption_value", "" );
-    $t->set_var( "description_value", "" );
     $t->set_var( "action_value", "Insert" );
-    $t->set_var( "option_id", "" );
     $t->set_var( "image", "" );
-    $t->set_var( "user_read_checked", "checked" );
-    $t->set_var( "user_write_checked", "checked" );
     $t->set_var( "image_id", "" );
 }
 
