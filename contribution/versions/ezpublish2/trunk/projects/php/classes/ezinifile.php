@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezinifile.php,v 1.1 2001/11/01 11:43:29 bf Exp $
+// $Id: ezinifile.php,v 1.2 2001/11/01 20:58:17 bf Exp $
 //
 // Definition of eZINIFile class
 //
@@ -189,6 +189,14 @@ class eZINIFile
         return $ret;
     }
 
+    /*!
+      Checks if a variable is set. Returns true if the variable exists, false if not.
+    */
+    function &hasVar( $blockName, $varName )
+    {
+        return isSet( $this->BlockValues["$blockName"]["$varName"] );
+    }
+    
     /*!
       Reads a variable from the ini file. The variable
       will be returned as an array. ; is used as delimiter.
