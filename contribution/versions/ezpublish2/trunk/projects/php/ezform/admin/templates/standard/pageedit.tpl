@@ -16,6 +16,36 @@
 </select>
 <br />
 <br />
+<!-- BEGIN fixed_value_list_tpl -->
+<p class="boxtext">{intl-fixed_values}:</p>
+<table cellspacing="2" cellpadding="0" border="0">
+<!-- BEGIN fixed_value_item_tpl -->
+<tr>
+<td width="100">{fixed_value_name}</td>
+<!-- BEGIN fixed_value_select_tpl -->
+<td>
+<!-- BEGIN fixed_value_text_field_tpl -->
+    <input type="text" size="4" name="TextFieldFrom" value="{from_value}" /> - 
+    <input type="text" size="4" name="TextFieldTo" value="{to_value}" />
+    <input type="hidden" name="ElementRange[]" value="{element_range}">
+<!-- END fixed_value_text_field_tpl -->
+<select name="FixedPage_{fixed_value_id}[]">
+   <!-- BEGIN fixed_value_tpl -->
+   <option value="{page_id}" {selected}>{page_name}</option>
+   <!-- END fixed_value_tpl -->
+</select></td>
+<!-- END fixed_value_select_tpl -->
+</tr>
+<!-- BEGIN add_more_ranges_tpl -->
+<tr>
+<td colspace="2"><input class="stdbutton" type="submit" name="NewTextFieldRange" value="{intl-add_range}" /></td>
+</tr>
+<!-- END add_more_ranges_tpl -->
+<!-- END fixed_value_item_tpl -->
+</table>
+<!-- END fixed_value_list_tpl -->
+
+
 <hr noshade="noshade" size="4" />
 
 {element_list}

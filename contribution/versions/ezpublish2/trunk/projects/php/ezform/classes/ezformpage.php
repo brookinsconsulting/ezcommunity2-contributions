@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezformpage.php,v 1.6 2001/12/18 09:37:40 jhe Exp $
+// $Id: ezformpage.php,v 1.7 2001/12/18 16:54:14 br Exp $
 //
 // Definition of ||| class
 //
@@ -85,7 +85,7 @@ class eZFormPage
         }
         elseif ( is_numeric( $this->ID ) )
         {
-            $res[] = $db->query( "UPDATE eZForm_Form SET
+            $res[] = $db->query( "UPDATE eZForm_FormPage SET
                                     Name='$name',
                                     FormID='$this->FormID',
                                     Placement='$this->Placement'
@@ -459,7 +459,7 @@ class eZFormPage
     /*!
       Set the name for the page.
     */
-    function setName( $value )
+    function &setName( $value )
     {
         $this->Name = $value;
     }
