@@ -94,7 +94,6 @@
 </table>
 <!-- END factbox_tpl -->
 
-
 <!-- BEGIN bullet_tpl -->
 <ul>
 	<!-- BEGIN bullet_item_tpl -->

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: imagelist.php,v 1.31 2001/07/20 11:06:38 jakobn Exp $
+// $Id: imagelist.php,v 1.32 2001/07/25 08:05:25 ce Exp $
 //
 // Created on: <10-Dec-2000 16:16:20 bf>
 //
@@ -26,6 +26,7 @@
 include_once( "classes/INIFile.php" );
 include_once( "classes/eztemplate.php" );
 include_once( "classes/ezlog.php" );
+include_once( "classes/ezfile.php" );
 
 include_once( "ezuser/classes/ezuser.php" );
 include_once( "ezuser/classes/ezpermission.php" );

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: mediaview.php,v 1.1 2001/07/24 15:42:35 ce Exp $
+// $Id: mediaview.php,v 1.2 2001/07/25 08:05:26 ce Exp $
 //
 // Created on: <24-Jul-2001 17:08:10 ce>
 //
@@ -54,7 +54,7 @@ $media = new eZMedia( $MediaID );
 //}
 
 
-$t->set_var( "media_uri", "/" . $media->mediaPath() );
+$t->set_var( "media_uri", $media->mediaPath() );
 $t->set_var( "media_caption", $media->caption() );
 $t->set_var( "media_name", $media->name() );
 $t->set_var( "media_description", $media->description() );

@@ -684,3 +684,27 @@ alter table eZBulkMail_Forgot add TimeTmp int;
 update eZBulkMail_Forgot set TimeTmp= UNIX_TIMESTAMP( Time );
 alter table eZBulkMail_Forgot drop Time; 
 alter table eZBulkMail_Forgot change TimeTmp Time int; 
+
+# eZ mediacatalogue
+
+DROP TABLE IF EXISTS eZMediaCatalouge_Category;
+CREATE TABLE eZMediaCatalouge_Category (
+  ID int(11) DEFAULT '0' NOT NULL auto_increment,
+  Name varchar(100),
+  Description text,
+  ParentID int(11),
+  UserID int(11),
+  WritePermission int(11) DEFAULT '1',
+  ReadPermission int(11) DEFAULT '1',
+  PRIMARY KEY (ID)
+);
+
+DROP TABLE IF EXISTS eZMediaCatalouge_CategoryPermission;
+CREATE TABLE eZMediaCatalouge_CategoryPermission (
+  ID int(11) NOT NULL auto_increment,
+  ObjectID int(11) default NULL,
+  GroupID int(11) default NULL,
+  ReadPermission int(11) default '0',
+  WritePermission int(11) default '0',
+  PRIMARY KEY (ID)
+) TYPE=MyISAM;

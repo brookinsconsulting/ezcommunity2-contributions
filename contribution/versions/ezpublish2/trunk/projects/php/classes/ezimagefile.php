@@ -1,8 +1,8 @@
 <?php
 // 
-// $Id: ezimagefile.php,v 1.16 2001/07/19 11:33:57 jakobn Exp $
+// $Id: ezimagefile.php,v 1.17 2001/07/25 08:05:25 ce Exp $
 //
-// Definition of eZCompany class
+// Definition of eZImageFile class
 //
 // Created on: <21-Sep-2000 11:22:21 bf>
 //
