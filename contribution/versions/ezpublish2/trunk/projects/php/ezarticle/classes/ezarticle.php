@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezarticle.php,v 1.33 2001/02/16 16:06:51 jb Exp $
+// $Id: ezarticle.php,v 1.34 2001/02/16 16:19:37 jb Exp $
 //
 // Definition of eZArticle class
 //
@@ -975,9 +975,9 @@ class eZArticle
             $limit_text = "LIMIT $offset, $limit";
         }
         $db =& eZDB::globalDatabase();
-        $db->array_query( $qry_array, "SELECT count( ID ) AS Count, AuthorID
-                                       FROM eZArticle_Article
-                                       WHERE IsPublished='true'
+        $db->array_query( $qry_array, "SELECT count( eZArticle_Article.ID ) AS Count, AuthorID
+                                       FROM eZArticle_Article, eZArticle_ArticleCategoryLink
+                                       WHERE IsPublished='true' AND eZArticle_Article.ID=ArticleID
                                        GROUP BY AuthorID $sort_text $limit_text" );
         return $qry_array;
     }
@@ -1033,9 +1033,10 @@ class eZArticle
     function authorArticleCount( $authorid )
     {
         $db =& eZDB::globalDatabase();
-        $db->query_single( $qry_array, "SELECT count( ID) AS Count
-                                        FROM eZArticle_Article
-                                        WHERE IsPublished='true' AND AuthorID='$authorid'" );
+        $db->query_single( $qry_array, "SELECT count( eZArticle_Article.ID ) AS Count
+                                        FROM eZArticle_Article, eZArticle_ArticleCategoryLink
+                                        WHERE IsPublished='true' AND eZArticle_Article.ID=ArticleID
+                                        AND AuthorID='$authorid'" );
         return $qry_array["Count"];
     }
 
