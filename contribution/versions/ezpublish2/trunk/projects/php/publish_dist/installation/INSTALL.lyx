@@ -1433,6 +1433,18 @@ RewriteEngine On
 
 
 \family typewriter 
+\size footnotesize 
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+RewriteRule .*/ezmediacatalogue/catalogue/(.*)$ /your/docroot/ezmediacatalogue/cat
+alogue/$1 [T="application/oct-stream",S=4]
+\layout Standard
+
+
+\family typewriter 
 \size scriptsize 
 \SpecialChar ~
 \SpecialChar ~
@@ -1621,6 +1633,17 @@ RewriteEngine On
 \SpecialChar ~
 \SpecialChar ~
 \SpecialChar ~
+RewriteRule .*/ezmediacatalogue/catalogue/(.*)$ /your/docroot/ezmediacatalogue/cat
+alogue/$1 [T="application/oct-stream",S=2]
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
 
 \size scriptsize 
 RewriteRule ^/mediacatalogue/catalogue/(.*)$\SpecialChar ~
@@ -1725,10 +1748,130 @@ apache -s
 Explanation of the Rewrite Rules
 \layout Standard
 
-The rewrite rules do the following:
+A rewrite rule contains three arguments.
+ The third argument is optional.
+ The first argument describes a (reg exp
+\begin_float footnote 
+\layout Standard
+
+For an introduction to regular expressions, take a look at http://zez.org/article
+/articleview/11/
+\end_float 
+) pattern which is applied to the URI.
+ If the URI match the regular expression, the URI is substituted with the
+ second argument .
+ A last argument can be used to give mod_rewrite special flags so that it's
+ behaviour will differ from the default.
+ The syntax for a rewrite rule can be written in this general form:
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+RewriteRule Pattern Substitution [FLAGS]
+\family default 
+\size default 
+
+\newline 
+
+\layout Standard
+
+The rewrite rules for eZ publish do the following:
 \newline 
 
 \newline 
+
+\family typewriter 
+\size footnotesize 
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+RewriteRule .*/ezmediacatalogue/catalogue/(.*)$ /your/docroot/ezmediacatalogue/cat
+alogue/$1 [T="application/oct-stream",S=4]
+\layout Standard
+
+This rewrite rule states that every URLs containing the string 
+\begin_inset Quotes eld
+\end_inset 
+
+
+\family typewriter 
+\size footnotesize 
+/ezmediacatalogue/catalogue/
+\family default 
+\size default 
+
+\begin_inset Quotes erd
+\end_inset 
+
+ shall be served from 
+\begin_inset Quotes eld
+\end_inset 
+
+
+\family typewriter 
+\size footnotesize 
+/your/docroot/ezmediacatalogue/catalogue/
+\family default 
+\size default 
+
+\begin_inset Quotes erd
+\end_inset 
+
+.
+ The 
+\begin_inset Quotes eld
+\end_inset 
+
+
+\family typewriter 
+\size footnotesize 
+.*
+\family default 
+\size default 
+
+\begin_inset Quotes erd
+\end_inset 
+
+ means zero or more characters of any type.
+ When this is written in parenthesis like at the end of the argument, these
+ characters in inserted in the variable $1.
+ The result of this is that the filename is inserted into the variable $1.
+ The trailing $ in the pattern argument is a special meaning in a regular
+ expression.
+ It is the a symbol for the end of the line.
+ In the substitution argument, the content of variable $1 is then appended
+ to the path 
+\begin_inset Quotes eld
+\end_inset 
+
+
+\family typewriter 
+\size footnotesize 
+/your/docroot/ezmediacatalogue/catalogue/
+\family default 
+\size default 
+
+\begin_inset Quotes erd
+\end_inset 
+
+ so that the correct file is served.
+\newline 
+An result of this rewrite rule is that a file in the mediacatalog will be
+ served independet if which user is logget on.
+ Permissions on the media file will not checked if the user knows the filename.
+ This will be fixed in a later version of eZ publish.
+\newline 
+
+\layout Standard
+
 
 \family typewriter 
 \size scriptsize 

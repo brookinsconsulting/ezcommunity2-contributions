@@ -681,6 +681,9 @@ User Site
 
       RewriteEngine On
 
+     RewriteRule .*/ezmediacatalogue/catalogue/(.*)$
+/your/docroot/ezmediacatalogue/catalogue/$1 [T="application/oct-stream",S=4]
+
       RewriteRule ^/stats/store/(.*).gif$ 
 /your/docroot/ezstats/user/storestats.php [S=3]
 
@@ -717,6 +720,9 @@ Admin Site
 
     RewriteEngine On
 
+    RewriteRule .*/ezmediacatalogue/catalogue/(.*)$
+/your/docroot/ezmediacatalogue/catalogue/$1 [T="application/oct-stream",S=2]
+
     RewriteRule ^/mediacatalogue/catalogue/(.*)$ 
 /your/docroot/ezmediacatalogue/catalogue/$1 [T="application/oct-stream",S=1]
 
@@ -749,7 +755,41 @@ can read to check for errors.
 
 Explanation of the Rewrite Rules
 
-The rewrite rules do the following:
+A rewrite rule contains three arguments. The third argument
+is optional. The first argument describes a (reg exp([footnote] For an introduction to regular expressions, take
+a look at http://zez.org/article/articleview/11/) ) pattern which is applied to the URI. If the URI match the
+regular expression, the URI is substituted with the second
+argument . A last argument can be used to give mod_rewrite
+special flags so that it's behaviour will differ from the
+default. The syntax for a rewrite rule can be written in
+this general form:
+
+     RewriteRule Pattern Substitution [FLAGS]
+
+
+The rewrite rules for eZ publish do the following:
+
+     RewriteRule .*/ezmediacatalogue/catalogue/(.*)$
+/your/docroot/ezmediacatalogue/catalogue/$1 [T="application/oct-stream",S=4]
+
+This rewrite rule states that every URLs containing the string
+"/ezmediacatalogue/catalogue/"
+shall be served from "/your/docroot/ezmediacatalogue/catalogue/".
+The ".*" means zero or more characters of any
+type. When this is written in parenthesis like at the end
+of the argument, these characters in inserted in the variable
+$1. The result of this is that the filename is inserted
+into the variable $1. The trailing $ in the pattern argument
+is a special meaning in a regular expression. It is the
+a symbol for the end of the line. In the substitution argument,
+the content of variable $1 is then appended to the path
+"/your/docroot/ezmediacatalogue/catalogue/"
+so that the correct file is served.
+An result of this rewrite rule is that a file in the mediacatalog
+will be served independet if which user is logget on. Permissions
+on the media file will not checked if the user knows the
+filename. This will be fixed in a later version of eZ publish.
+
 
       RewriteRule ^/stats/store/(.*).gif$ 
 /your/docroot/ezstats/user/storestats.php [S=3]
