@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eztechrenderer.php,v 1.6 2000/10/20 15:42:26 bf-cvs Exp $
+// $Id: eztechrenderer.php,v 1.7 2000/10/21 19:33:11 bf-cvs Exp $
 //
 // Definition of eZTechRenderer class
 //
@@ -120,6 +120,26 @@ class eZTechRenderer
                     {
                         $pageContent .= $this->phpHighlight( $paragraph->children[0]->content );
                     }
+
+
+                    // sql code 
+                    if ( $paragraph->name == "sql" )
+                    {
+                        $pageContent .= $this->sqlHighlight( $paragraph->children[0]->content );
+                    }
+
+                    // c++ code 
+                    if ( $paragraph->name == "cpp" )
+                    {
+                        $pageContent .= $this->cppHighlight( $paragraph->children[0]->content );
+                    }
+
+                    // shell code 
+                    if ( $paragraph->name == "shell" )
+                    {
+                        $pageContent .= $this->shellHighlight( $paragraph->children[0]->content );
+                    }
+                    
 
                     // image
                     if ( $paragraph->name == "image" )
@@ -246,24 +266,111 @@ class eZTechRenderer
         
         $string = preg_replace( "/(\$[a-zA-Z0-9]+)/", "<font color=\"#00ffff\">\\1</font>", $string );
              
-        //  	    $source =~ s/( [0-9]+)/\<span class=\"number\"\>$1\<\/span\>/g;
+        $string = "<pre>" . $string . "</pre>";
+        return $string;
+    }
+
+    /*!
+      Returns a sql highlighted string.
+    */
+    function &sqlHighlight( $string )
+    {
         
-//    	    $source =~ s/\</\&lt;/g;
-//    	    $source =~ s/\>/\&gt;/g;
-
-
-//  	    $source =~ s/(\"[^\"]{0,}\")/\<span class=\"string\"\>$1\<\/span\>/g;
-//  	    $source =~ s/( [0-9]+)/\<span class=\"number\"\>$1\<\/span\>/g;
-
-
-//  	    $source =~ s/([(){}+-])/\<span class\=\"specialChar\"\>$1\<\/span\>/g;
-//  	    $source =~ s/function/\<span class\=\"reservedWord\"\>function\<\/span\>/g;
-//  	    $source =~ s/class /\<span class\=\"reservedWord\"\>class \<\/span\>/g;
-//  	    $source =~ s/var /\<span class\=\"reservedWord\"\>var \<\/span\>/g;
-//  	    $source =~ s/(\$[a-zA-Z0-9]+)/\<span class\=\"variable\"\>$1\<\/span\>/g;
-//  	    $source =~ s/(\/\/.*\n)/\<span class\=\"comment\"\>$1\<\/span\>/g;
-//  	    $source =~ s/(\/\*[^*]*\*\/)/\<span class\=\"comment\"\>$1\<\/span\>/g;
+        $string = preg_replace( "/(\([0-9]+\))/", "<font color=\"green\">\\1</font>", $string );
+        $string = preg_replace( "/('[0-9]+')/", "<font color=\"red\">\\1</font>", $string );
         
+        $reservedWords = array( "/(DROP )/i",
+                                "/(CREATE )/i",
+                                "/(TABLE )/i",
+                                "/(DELETE )/i",
+                                "/(DROP )/i",
+                                "/(IF )/i",
+                                "/(EXISTS )/i",
+                                "/(DEFAULT )/i",
+                                "/(AUTO_INCREMENT)/i",
+                                "/(PRIMARY )/i",
+                                "/(KEY )/i",
+                                "/(NULL )/i",
+                                "/(NULL,)/i",
+                                "/(INT)/i",
+                                "/(INT,)/i",
+                                "/(CHAR )/i",
+                                "/( TEXT,)/i",
+                                "/( TEXT )/i",
+                                "/(TIMESTAMP)/i",
+                                "/(VARCHAR)/i",
+                                "/( NOT )/i",
+                                "/( AND )/i"
+                                );
+
+        
+        
+        $string = preg_replace( $reservedWords, "<font color=\"blue\">\\1</font>", $string );
+
+        // some special characters
+        $string = ereg_replace ( "([;,])", "<font color=\"red\">\\1</font>", $string );
+        
+        $string = "<pre>" . $string . "</pre>";
+        return $string;
+    }
+
+    /*!
+      Returns a c++ highlighted string.
+    */
+    function &cppHighlight( $string )
+    {        
+        $string = ereg_replace ( "(<)", "&lt;", $string );
+        $string = ereg_replace ( "(>)", "&gt;", $string );
+        
+        // some special characters
+        $string = ereg_replace ( "([(){}+-]|=|\[|\])", "<font color=\"red\">\\1</font>", $string );
+
+        // reserved words
+//          $string = ereg_replace ( "(foreach|function|for|while|switch|as)", "<font color=\"blue\">\\1</font>", $string );
+
+        // comments
+        $string = ereg_replace ( "(//[^\n]+)", "<font color=\"orange\">\\1</font>", $string );
+        $string = ereg_replace ( "(/\*[^\*]+\*/)", "<font color=\"orange\">\\1</font>", $string );
+
+        $reservedWords = array( "/(function)/",
+                                "/( as )/",
+                                "/(class )/",
+                                "/(var )/",
+                                "/( for)/"
+                                );
+        
+        $string = preg_replace( $reservedWords, "<font color=\"blue\">\\1</font>", $string );
+
+
+        $string = preg_replace( "/( [0-9]+)/", "<font color=\"green\">\\1</font>", $string );
+
+        
+        $string = preg_replace( "/(\$[a-zA-Z0-9]+)/", "<font color=\"#00ffff\">\\1</font>", $string );
+             
+
+        $string = "<pre>" . $string . "</pre>";
+        return $string;
+    }
+
+    /*!
+      Returns a shell script highlighted string.
+    */
+    function &shellHighlight( $string )
+    {
+        $reservedWords = array( "/(IF )/i",
+                                "/(FI )/i",
+                                "/(FI\n)/i",
+                                "/( THEN)/i"      
+                                );
+        
+        $string = preg_replace( $reservedWords, "<font color=\"blue\">\\1</font>", $string );
+
+
+        // comment
+        $string = ereg_replace ( "(\#[^\n]+)", "<font color=\"orange\">\\1</font>", $string );
+        
+        // some special characters
+        $string = ereg_replace ( "([;,]|\]|\[)", "<font color=\"red\">\\1</font>", $string );
 
         
         $string = "<pre>" . $string . "</pre>";

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eztechgenerator.php,v 1.6 2000/10/21 17:06:14 bf-cvs Exp $
+// $Id: eztechgenerator.php,v 1.7 2000/10/21 19:33:11 bf-cvs Exp $
 //
 // Definition of eZTechGenerator class
 //
@@ -52,22 +52,32 @@ class eZTechGenerator
         //add the contents
         $newContents .= "<intro>" . strip_tags( $this->Contents[0] ) . "</intro>";
 
+        // get every page in an array
         $pages = split( "<page>" , $this->Contents[1] );
 
         $body = "";
         foreach ( $pages as $page )
         {
+            $tmpPage = $page;
 
-            $tmpPage = strip_tags( $page, "<page>,<php>,</php>,<image>,</image>,<cpp>,</cpp>,<shell>,</shell>,<sql>,</sql>" );
-            
             // replace & with &amp; to prevent killing the xml parser..
             // is that a bug in the xmltree(); function ? answer to bf@ez.no
             $tmpPage = ereg_replace ( "&", "&amp;", $tmpPage );
+            
+            // make unknown tags readable.. look-ahead assertion is used ( ?! )
+            $tmpPage = preg_replace( "/<(?!(page|php|\/|image|cpp|shell|sql))/", "&lt;", $tmpPage );
+
+            // look-behind assertion is used here (?<!)
+            // the expression must be fixed with eg just use the 3 last letters of the tag
+            $tmpPage = preg_replace( "/(?<!(age|php|age|cpp|ell|sql))>/", "&gt;", $tmpPage );
+
+            // strip for tags, not much sense to have this here... will problably remove this later
+            $tmpPage = strip_tags( $tmpPage, "<page>,<php>,</php>,<image>,</image>,<cpp>,</cpp>,<shell>,</shell>,<sql>,</sql>" );
+
             $body .= "<page>" . $tmpPage  . "</page>";        
-
         }
-
-
+        
+        
         $this->PageCount = count( $pages );
 
         
@@ -135,6 +145,24 @@ class eZTechGenerator
                     if ( $paragraph->name == "image" )
                     {
                         $pageContent .= "<image>" . $paragraph->children[0]->content . "</image>";
+                    }
+
+                    // sql code
+                    if ( $paragraph->name == "sql" )
+                    {
+                        $pageContent .= "<sql>" . $paragraph->children[0]->content . "</sql>";
+                    }
+
+                    // shell code
+                    if ( $paragraph->name == "shell" )
+                    {
+                        $pageContent .= "<shell>" . $paragraph->children[0]->content . "</shell>";
+                    }
+
+                    // c++  code
+                    if ( $paragraph->name == "cpp" )
+                    {
+                        $pageContent .= "<cpp>" . $paragraph->children[0]->content . "</cpp>";
                     }
                 }
 

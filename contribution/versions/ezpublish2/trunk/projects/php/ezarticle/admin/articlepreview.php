@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: articlepreview.php,v 1.3 2000/10/21 11:08:58 bf-cvs Exp $
+// $Id: articlepreview.php,v 1.4 2000/10/21 19:33:10 bf-cvs Exp $
 //
 // 
 //
@@ -12,6 +12,7 @@
 // IMPORTANT NOTE: You may NOT copy this file or any part of it into
 // your own programs or libraries.
 //
+
 
 include_once( "classes/INIFile.php" );
 include_once( "classes/eztemplate.php" );
