@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezvoucher.php,v 1.5 2001/09/05 09:28:48 ce Exp $
+// $Id: ezvoucher.php,v 1.6 2001/09/05 09:32:48 ce Exp $
 //
 // eZVoucher class
 //
@@ -375,6 +375,7 @@ class eZVoucher
 
         $t->set_var( "description", $res[$db->fieldName( "Description" )] );
         $t->set_var( "from_name", $fromUser->firstName() . " " . $fromUser->lastName() );
+        $t->set_var( "key_number", $this->keyNumber() );
         
         $mailAddress = new eZOnline( $res[$db->fieldName( "OnlineID" )] );
 

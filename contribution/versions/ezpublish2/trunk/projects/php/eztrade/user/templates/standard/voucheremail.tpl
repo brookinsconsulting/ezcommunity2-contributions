@@ -1,5 +1,7 @@
 {intl-introduction}
 
-{from_name}
+{intl-from}: {from_name}
+{intl-key_number}: {key_number}
 
 {description}
+
