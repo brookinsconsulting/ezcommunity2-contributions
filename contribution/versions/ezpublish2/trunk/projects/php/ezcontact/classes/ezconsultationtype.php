@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezconsultationtype.php,v 1.4 2001/01/30 11:17:42 bf Exp $
+// $Id: ezconsultationtype.php,v 1.5 2001/04/05 09:27:29 fh Exp $
 //
 // Definition of eZConsultationType class
 //
@@ -80,13 +80,14 @@ class eZConsultationType
     function store( )
     {
         $db = eZDB::globalDatabase();
+        $name = addslashes( $this->Name );
         if ( !isSet( $this->ID ) )
         {
             $db->query_single( $qry, "SELECT ListOrder from eZContact_ConsultationType ORDER BY ListOrder DESC LIMIT 1" );
             $listorder = $qry["ListOrder"] + 1;
             $this->ListOrder = $listorder;
             $db->query( "INSERT INTO eZContact_ConsultationType SET
-                                                  Name='$this->Name',
+                                                  Name='$name',
                                                   ListOrder='$listorder'" );
             $this->ID = mysql_insert_id();
             $this->State_ = "Coherent";
@@ -94,7 +95,7 @@ class eZConsultationType
         else
         {
             $db->query( "UPDATE eZContact_ConsultationType SET
-                                                  Name='$this->Name',
+                                                  Name='$name',
                                                   ListOrder='$this->ListOrder'
                                                   WHERE ID='$this->ID'" );
             $this->State_ = "Coherent";

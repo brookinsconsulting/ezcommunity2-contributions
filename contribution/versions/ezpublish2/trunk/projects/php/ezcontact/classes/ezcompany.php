@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezcompany.php,v 1.68 2001/03/28 09:56:34 jb Exp $
+// $Id: ezcompany.php,v 1.69 2001/04/05 09:27:29 fh Exp $
 //
 // Definition of eZProduct class
 //
@@ -85,9 +85,11 @@ class eZCompany
             $query_type = "UPDATE";
             $query_cond = "WHERE ID='$this->ID'";
         }
+        $name = addslashes( $this->Name );
+        $comment = addslashes( $this->Comment );
         $type = $this->ContactType == "ezperson" ? 2 : 1;
-        $db->query( "$query_type eZContact_Company set Name='$this->Name',
-                                 Comment='$this->Comment',
+        $db->query( "$query_type eZContact_Company set Name='$name',
+                                 Comment='$comment',
                                  CompanyNo='$this->CompanyNo',
                                  ContactID='$this->ContactID',
                                  ContactType='$type',

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezconsultation.php,v 1.11 2001/04/03 13:52:46 jakobn Exp $
+// $Id: ezconsultation.php,v 1.12 2001/04/05 09:27:29 fh Exp $
 //
 // Definition of eZConsultation class
 //
@@ -87,11 +87,13 @@ class eZConsultation
     {
         $db = eZDB::globalDatabase();
         $date = $this->Date->mySQLDateTime();
+        $shortdesc = addslashes( $this->ShortDesc );
+        $description = addslashes( $this->Description );
         if ( !isset( $this->ID ) )
         {
             $db->query( "INSERT INTO eZContact_Consultation set
-                                                  ShortDesc='$this->ShortDesc',
-	                                              Description='$this->Description',
+                                                  ShortDesc='$shortdesc',
+	                                              Description='$description',
                                                   StateID='$this->State',
                                                   EmailNotifications='$this->EmailNotice',
 	                                              Date='$date'" );
@@ -101,8 +103,8 @@ class eZConsultation
         else
         {
             $db->query( "UPDATE eZContact_Consultation set
-                                                  ShortDesc='$this->ShortDesc',
-	                                              Description='$this->Description',
+                                                  ShortDesc='$shortdesc',
+	                                              Description='$description',
                                                   StateID='$this->State',
                                                   EmailNotifications='$this->EmailNotice',
 	                                              Date='$date'

@@ -1,7 +1,7 @@
 <?
 
 // 
-// $Id: ezcompanytype.php,v 1.27 2001/03/21 13:24:59 jb Exp $
+// $Id: ezcompanytype.php,v 1.28 2001/04/05 09:27:29 fh Exp $
 //
 // Definition of eZCompanyType class
 //
@@ -72,10 +72,11 @@ class eZCompanyType
         $db = eZDB::globalDatabase();
         
         $ret = false;
-        
+        $name = addslashes( $this->Name );
+        $description = addslashes( $this->Description );
         if ( !isSet( $this->ID ) )
         {
-            $db->query( "INSERT INTO eZContact_CompanyType set Name='$this->Name', Description='$this->Description',  ImageID='$this->ImageID', ParentID='$this->ParentID'" );
+            $db->query( "INSERT INTO eZContact_CompanyType set Name='$name', Description='$description',  ImageID='$this->ImageID', ParentID='$this->ParentID'" );
 
             $this->ID = mysql_insert_id();
 
@@ -84,7 +85,7 @@ class eZCompanyType
         }
         else
         {
-            $db->query( "UPDATE eZContact_CompanyType set Name='$this->Name', Description='$this->Description', ImageID='$this->ImageID', ParentID='$this->ParentID' WHERE ID='$this->ID'" );
+            $db->query( "UPDATE eZContact_CompanyType set Name='$name', Description='$description', ImageID='$this->ImageID', ParentID='$this->ParentID' WHERE ID='$this->ID'" );
 
             $this->State_ = "Coherent";
             $ret = true;

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezperson.php,v 1.49 2001/03/09 11:17:31 jb Exp $
+// $Id: ezperson.php,v 1.50 2001/04/05 09:27:29 fh Exp $
 //
 // Definition of eZPerson class
 //
@@ -67,12 +67,15 @@ class eZPerson
         $birth = "NULL";
         if ( isset( $this->BirthDate ) and $this->BirthDate != "" )
             $birth = "'$this->BirthDate'";
+        $firstname = addslashes( $this->FirstName );
+        $lastname = addslashes( $this->LastName );
+        $comment = addslashes( $this->Comment );
         if( !isSet( $this->ID ) )
         {
             $db->query( "INSERT INTO eZContact_Person set
-                                                    FirstName='$this->FirstName',
-                                                    LastName='$this->LastName',
-	                                                Comment='$this->Comment',
+                                                    FirstName='$firstname',
+                                                    LastName='$lastname',
+	                                                Comment='$comment',
 	                                                BirthDate=$birth,
                                                     ContactTypeID='$this->ContactType'" );
             $this->ID = mysql_insert_id();
@@ -80,9 +83,9 @@ class eZPerson
         else
         {
             $db->query( "UPDATE eZContact_Person set
-                                                    FirstName='$this->FirstName',
-                                                    LastName='$this->LastName',
-	                                                Comment='$this->Comment',
+                                                    FirstName='$firstname',
+                                                    LastName='$lastname',
+	                                                Comment='$comment',
 	                                                BirthDate=$birth,
                                                     ContactTypeID='$this->ContactType'
                                                     WHERE ID='$this->ID'" );
