@@ -36,5 +36,12 @@ switch ( $url_array[2] )
     }
     break;
 
+    case "userlogin" :
+    {
+        $VoteID = $url_array[4];
+        include( "ezpoll/user/userlogin.php" );
+    }    
+    break;
+
 }
 ?>
