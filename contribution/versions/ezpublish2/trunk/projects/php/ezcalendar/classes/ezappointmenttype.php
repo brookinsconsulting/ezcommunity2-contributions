@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezappointmenttype.php,v 1.10 2001/07/20 11:57:16 jakobn Exp $
+// $Id: ezappointmenttype.php,v 1.11 2001/09/25 08:17:19 jhe Exp $
 //
 // Definition of eZAppointmentType class
 //
@@ -333,10 +333,14 @@ class eZAppointmentType
     */
     function setParent( $value )
     {
-       if ( get_class( $value ) == "ezappointmenttype" )
-       {
-           $this->ParentID = $value->id();
-       }
+        if ( get_class( $value ) == "ezappointmenttype" )
+        {
+            $this->ParentID = $value->id();
+        }
+        else if ( is_numeric( $value ) )
+        {
+            $this->ParentID = $value;
+        }
     }
 
     var $ID;

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: typelist.php,v 1.5 2001/07/29 23:31:02 kaid Exp $
+// $Id: typelist.php,v 1.6 2001/09/25 08:17:19 jhe Exp $
 //
 // Created on: <20-Dec-2000 18:18:28 gl>
 //
@@ -38,10 +38,7 @@ $t = new eZTemplate( "ezcalendar/admin/" . $ini->read_var( "eZCalendarMain", "Ad
 
 $t->setAllStrings();
 
-$t->set_file( array(
-    "type_list_page_tpl" => "typelist.tpl"
-    ) );
-
+$t->set_file( "type_list_page_tpl", "typelist.tpl" );
 
 $t->set_block( "type_list_page_tpl", "type_list_tpl", "type_list" );
 $t->set_block( "type_list_tpl", "type_item_tpl", "type_item" );
@@ -51,7 +48,7 @@ $t->set_var( "site_style", $SiteStyle );
 $type = new eZAppointmentType();
 $typeList = $type->getTree();
 
-$i=0;
+$i = 0;
 foreach ( $typeList as $typeSubList )
 {
     $typeItem = $typeSubList[0];

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: typeedit.php,v 1.10 2001/09/21 08:00:10 jhe Exp $
+// $Id: typeedit.php,v 1.11 2001/09/25 08:17:19 jhe Exp $
 //
 // Created on: <20-Dec-2000 18:24:06 gl>
 //
@@ -34,7 +34,6 @@ include_once( "classes/eztemplate.php" );
 include_once( "classes/ezhttptool.php" );
 include_once( "classes/ezlog.php" );
 
-// $ini = new INIFIle( "site.ini" );
 $ini =& INIFile::globalINI();
 $Language = $ini->read_var( "eZCalendarMain", "Language" );
 $LanguageIni = new INIFile( "ezcalendar/admin/intl/" . $Language . "/typeedit.php.ini", false );
@@ -50,7 +49,7 @@ if ( $Action == "Insert" )
 
     if ( $ParentID != 0 && $ParentID != $type->id() )
     {
-        $type->setParent( new eZAppointmentType( $ParentID ) );
+        $type->setParent( $ParentID );
     }
 
     $type->store();
@@ -67,7 +66,7 @@ if ( $Action == "Update" )
 
     if ( $ParentID != $type->id() )
     {
-        $type->setParent( new eZAppointmentType( $ParentID ) );
+        $type->setParent( $ParentID );
     }
 
     $type->store();
@@ -89,9 +88,9 @@ if ( $Action == "Delete" )
 
             eZLog::writeNotice( "Appointment Type deleted: $typeName from IP: $REMOTE_ADDR" );
         }
-        eZHTTPTool::header( "Location: /calendar/typelist/" );
-        exit();
     }
+    eZHTTPTool::header( "Location: /calendar/typelist/" );
+    exit();
 }
 
 
@@ -100,10 +99,9 @@ $t = new eZTemplate( "ezcalendar/admin/" . $ini->read_var( "eZCalendarMain", "Ad
 
 $t->setAllStrings();
 
-$t->set_file( array( "type_edit_tpl" => "typeedit.tpl" ) );
+$t->set_file( "type_edit_tpl", "typeedit.tpl" );
 
 $t->set_block( "type_edit_tpl", "parent_item_tpl", "parent_item" );
-
 
 $t->set_var( "no_parent_is_selected", "selected" );
 
