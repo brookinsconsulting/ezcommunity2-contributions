@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: bugview.php,v 1.5 2001/02/06 17:23:06 fh Exp $
+// $Id: bugview.php,v 1.6 2001/02/20 10:08:44 fh Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <04-Dec-2000 11:44:31 bf>
@@ -55,6 +55,10 @@ $t->set_block( "bug_edit_tpl", "log_item_tpl", "log_item" );
 $t->set_block( "bug_edit_tpl", "yes_tpl", "yes" );
 $t->set_block( "bug_edit_tpl", "no_tpl", "no" );
 
+$t->set_block( "bug_edit_tpl", "screenshots_tpl", "screenshots" );
+$t->set_block( "screenshots_tpl", "screenshot_item_tpl", "screenshot_item" );
+$t->set_block( "bug_edit_tpl", "patches_tpl", "patches" );
+$t->set_block( "patches_tpl", "patch_item_tpl", "patch_item" );
 
 $locale = new eZLocale( $Language );
 $bug = new eZBug( $BugID );
@@ -143,6 +147,69 @@ else
 {
     $t->parse( "no", "no_tpl" );
     $t->set_var( "yes", "" );
+}
+
+/* screenshot */
+$images = $bug->images();
+if( count( $images ) > 0 )
+{
+    $i = 0;
+    foreach( $images as $image )
+    {
+        if ( ( $i % 2 ) == 0 )
+        {
+            $t->set_var( "td_class", "bglight" );
+        }
+        else
+        {
+            $t->set_var( "td_class", "bgdark" );
+        }
+        $t->set_var( "image_number", $i + 1 );
+        $t->set_var( "image_id", $image->id() );
+
+        $t->set_var( "image_name", "<a href=\"/imagecatalogue/imageview/" . $image->id()  . "\">" . $image->caption() . "</a>" );
+        $t->parse( "screenshot_item", "screenshot_item_tpl", true );
+    
+        $i++;
+    }
+    $t->parse( "screenshots", "screenshots_tpl", true );
+
+}
+else
+{
+    $t->set_var( "screenshots", "" );
+}
+
+/* Pathes */
+    $files = $bug->files();
+if( count( $files ) > 0 )
+{
+    $i = 0;
+    foreach( $files as $file )
+    {
+        if ( ( $i % 2 ) == 0 )
+        {
+            $t->set_var( "td_class", "bglight" );
+        }
+        else
+        {
+            $t->set_var( "td_class", "bgdark" );
+        }
+
+        $t->set_var( "file_number", $i + 1 );
+//        $t->set_var( "file_id", $file->id() );
+        
+        $t->set_var( "file_name", "<a href=\"/filemanager/download/" . $file->id() . "/" . $file->originalFileName() . "\">" . $file->name() . "</a>" );
+    
+        $t->parse( "patch_item", "patch_item_tpl", true );
+    
+        $i++;
+    }
+    $t->parse( "patches", "patches_tpl", true );
+}
+else
+{
+    $t->set_var( "patches", "" );
 }
 
 

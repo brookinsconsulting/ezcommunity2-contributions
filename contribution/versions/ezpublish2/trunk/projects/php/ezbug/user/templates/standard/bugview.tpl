@@ -84,6 +84,47 @@
 <div class="p">{intl-no}</div>
 <!-- END no_tpl -->
 
+<!-- BEGIN screenshots_tpl -->
+<p class="boxtext">{intl-screenshots}:</p>
+<table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
+<tr>
+	<th>{intl-image_id}:</th>
+	<th>{intl-image_name}:</th>
+</tr>
+<!-- BEGIN screenshot_item_tpl -->
+<tr>
+	<td width="1%" class="{td_class}">
+	{image_number}
+	</td>
+	<td width="99%" class="{td_class}">
+	{image_name}
+	</td>
+</tr>
+<!-- END screenshot_item_tpl -->
+</table>
+<!-- END screenshots_tpl -->
+
+<!-- BEGIN patches_tpl -->
+<p class="boxtext">{intl-patches}:</p>
+<table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
+<tr>
+	<th>{intl-file_id}:</th>
+	<th>{intl-file_name}:</th>
+</tr>
+<!-- BEGIN patch_item_tpl -->
+<tr>
+	<td width="1%" class="{td_class}">
+	{file_number}
+	</td>
+	<td width="99%" class="{td_class}">
+	{file_name}
+	</td>
+</tr>
+<!-- END patch_item_tpl -->
+</table>
+<!-- END patches_tpl -->
+
+
 <br />
 <br />
 <!-- BEGIN log_item_tpl -->

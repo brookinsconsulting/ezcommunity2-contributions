@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezbug.php,v 1.13 2001/02/19 18:33:54 fh Exp $
+// $Id: ezbug.php,v 1.14 2001/02/20 10:08:44 fh Exp $
 //
 // Definition of eZBug class
 //
@@ -121,7 +121,8 @@ class eZBug
                                  UserEmail='$this->UserEmail',
                                  Created=now(),
                                  UserID='$this->UserID',
-                                 OwnerID='$this->OwnerID'" );
+                                 OwnerID='$this->OwnerID',
+                                 IsPrivate='$this->IsPrivate'" );
             $this->ID = mysql_insert_id();
         }
         else
@@ -136,7 +137,8 @@ class eZBug
                                  StatusID='$this->StatusID',
                                  UserEmail='$this->UserEmail',
                                  UserID='$this->UserID',
-                                 OwnerID='$this->OwnerID'
+                                 OwnerID='$this->OwnerID',
+                                 IsPrivate='$this->IsPrivate'
                                  WHERE ID='$this->ID'" );
         }
         
@@ -188,6 +190,7 @@ class eZBug
                 $this->PriorityID = $module_array[0][ "PriorityID" ];
                 $this->StatusID = $module_array[0][ "StatusID" ];
                 $this->OwnerID = $module_array[0][ "OwnerID" ];
+                $this->IsPrivate = $module_array[0][ "IsPrivate" ];
             }
                  
             $this->State_ = "Coherent";
@@ -336,6 +339,18 @@ class eZBug
            $ret = true;
        }
        return $ret;
+    }
+
+    /*!
+      This function returns true if the bug is private, false if not. A private bug can only be seen by priveliged
+      users and admins.
+     */
+    function isPrivate()
+    {
+        if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+        return $Private;
     }
     
     /*!
@@ -516,8 +531,20 @@ class eZBug
        }
     }
 
-    
     /*!
+      Sets the bug to be private if the parameter is true. A private bug can only be seen by priveliged users
+      and admins.
+     */
+    function setIsPrivate( $priv )
+    {
+        if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+        if( is_bool( $priv ) )
+            $Private = $priv;
+    }
+    
+   /*!
       Returns the priority assigned to the bug as an
       eZBugPriority object.
 
@@ -814,6 +841,7 @@ class eZBug
     var $PriorityID;
     var $StatusID;    
     var $OwnerID;
+    var $IsPrivate;
     
     ///  Variable for keeping the database connection.
     var $Database;
