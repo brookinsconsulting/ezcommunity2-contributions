@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezform.php,v 1.6 2001/10/01 10:46:30 pkej Exp $
+// $Id: ezform.php,v 1.6.2.1 2001/11/01 18:02:12 jhe Exp $
 //
 // ezform class
 //
@@ -46,7 +46,7 @@ class eZForm
       If $id is set the object's values are fetched from the
       database.
     */
-    function eZForm( $id=-1 )
+    function eZForm( $id = -1 )
     {
         if ( is_array( $id ) )
         {
@@ -76,16 +76,6 @@ class eZForm
         $sendAsUser =& $this->SendAsUser;
         $counter =& $this->Counter;
         
-        $setValues = "
-            Name='$name',
-            Receiver='$receiver',
-            CompletedPage='$completedPage',
-            CC='$cc',
-            InstructionPage='$instructionPage',
-            Counter='$counter',
-            SendAsUser='$sendAsUser',
-            Sender='$sender'
-        ";
         if ( empty( $this->ID ) )
         {
             $db->lock( "eZForm_Form" );
@@ -146,7 +136,7 @@ class eZForm
         $formElements =& $this->formElements();
         if ( is_array ( $formElements ) )
         {
-            foreach( $formElements as $element )
+            foreach ( $formElements as $element )
             {
                 $element->delete();
             }
@@ -170,12 +160,12 @@ class eZForm
         {
             $db->array_query( $formArray, "SELECT * FROM eZForm_Form WHERE ID='$id'",
                               0, 1 );
-            if( count( $formArray ) == 1 )
+            if ( count( $formArray ) == 1 )
             {
                 $this->fill( &$formArray[0] );
                 $ret = true;
             }
-            elseif( count( $formArray ) != 1 )
+            elseif ( count( $formArray ) != 1 )
             {
                 $this->ID = 0;
             }
@@ -228,7 +218,7 @@ class eZForm
                                            array( "Limit" => $limit, "Offset" => $offset ) );
         }
 
-        for ( $i=0; $i < count($formArray); $i++ )
+        for ( $i = 0; $i < count( $formArray ); $i++ )
         {
             $returnArray[$i] = new eZForm( $formArray[$i][$db->fieldName( "ID" )] );
         }
@@ -350,7 +340,7 @@ class eZForm
     */
     function setSendAsUser( $value = true )
     {
-        if( $value == false )
+        if ( $value == false )
         {
             $this->SendAsUser = 0;
         }
@@ -413,7 +403,7 @@ class eZForm
         $db->array_query( $formArray, "SELECT ElementID FROM eZForm_FormElementDict WHERE
                                        FormID='$this->ID' ORDER BY Placement" );
 
-        for ( $i=0; $i < count($formArray); $i++ )
+        for ( $i = 0; $i < count( $formArray ); $i++ )
         {
             $returnArray[$i] = new eZFormElement( $formArray[$i][$db->fieldName( "ElementID" )], true );
         }
@@ -471,7 +461,7 @@ class eZForm
      */
     function addElement( &$object )
     {
-        if( get_class( $object ) == "ezformelement" )
+        if ( get_class( $object ) == "ezformelement" )
         {
             $elementID = $object->id();
             $elementName = $object->name();
@@ -500,7 +490,7 @@ class eZForm
     */
     function moveUp( $object )
     {
-        if( get_class( $object ) == "ezformelement" )
+        if ( get_class( $object ) == "ezformelement" )
         {
             $db =& eZDB::globalDatabase();
 
@@ -517,7 +507,7 @@ class eZForm
                                       FROM eZForm_FormElementDict WHERE FormID='$formID'" );
             $min =& $qry[$db->fieldName( "Placement" )];
 
-            if( $min == $elementPlacement )
+            if ( $min == $elementPlacement )
             {
                 $db->query_single( $qry, "SELECT max($db->fieldName( \"Placement\" ) ) as Placement
                                           FROM eZForm_FormElementDict WHERE FormID='$formID'" );
@@ -554,7 +544,7 @@ class eZForm
     */
     function moveDown( $object )
     {
-        if( get_class( $object ) == "ezformelement" )
+        if ( get_class( $object ) == "ezformelement" )
         {
             $db =& eZDB::globalDatabase();
             $db->begin();
@@ -573,7 +563,7 @@ class eZForm
             
             $max =& $qry[$db->fieldName( "Placement" )];
 
-            if( $max == $elementPlacement )
+            if ( $max == $elementPlacement )
             {
                 $db->query_single( $qry, "SELECT min($db->fieldName( \"Placement\" ) ) as Placement
                                           FROM eZForm_FormElementDict WHERE FormID='$formID'" );

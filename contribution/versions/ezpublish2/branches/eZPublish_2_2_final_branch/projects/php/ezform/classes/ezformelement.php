@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezformelement.php,v 1.9 2001/10/16 13:41:01 ce Exp $
+// $Id: ezformelement.php,v 1.9.2.1 2001/11/01 18:02:12 jhe Exp $
 //
 // ezformelement class
 //
@@ -73,7 +73,7 @@ class eZFormElement
         $size =& $db->escapeString( $this->Size );
         $required =& $this->Required;
         
-        if( get_class( $this->ElementType ) == "ezformelementtype" )
+        if ( get_class( $this->ElementType ) == "ezformelementtype" )
         {
             $elementTypeID =& $this->ElementType->id();
         }
@@ -109,11 +109,20 @@ class eZFormElement
     /*!
       Deletes a eZFormElement object from the database.
     */
-    function delete( $elementID=-1 )
+    function delete( $elementID = -1 )
     {
         if ( $elementID == -1 )
             $elementID = $this->ID;
 
+        $fixedValues =& $this->fixedValues();
+        if ( $fixedValues )
+        {
+            foreach ( $fixedValues as $value )
+            {
+                $value->delete();
+            }
+        }
+        
         $db =& eZDB::globalDatabase();
         $db->begin();
 
@@ -412,7 +421,7 @@ class eZFormElement
         return true;
     }
 
-        /*!
+    /*!
       Returns true if this type has fixed values.
     */
     function &fixedValues()
