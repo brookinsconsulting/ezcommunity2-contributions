@@ -20,6 +20,15 @@
 <!-- <span class="boxtext">{intl-link_text}:</span> {link_text} -->
 
 
+<!-- BEGIN attached_file_list_tpl -->
+<h3>{intl-attached_files}:</h3>
+<!-- BEGIN attached_file_tpl -->
+{file_name} <br />
+<!-- END attached_file_tpl -->
+
+<!-- END attached_file_list_tpl -->
+
+
 <!-- BEGIN page_menu_separator_tpl -->
 <hr noshade="noshade" size="4" />
 <!-- END page_menu_separator_tpl -->

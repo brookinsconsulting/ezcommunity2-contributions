@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: articleedit.php,v 1.29 2000/12/12 11:06:40 ce Exp $
+// $Id: articleedit.php,v 1.30 2000/12/23 14:23:49 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <18-Oct-2000 15:04:39 bf>
@@ -156,13 +156,20 @@ if ( $Action == "Insert" )
         } 
         $dir->close();
         
-    // add images
+        // add images
         if ( isset( $Image ) )
         {
             Header( "Location: /article/articleedit/imagelist/$articleID/" );
             exit();
         }
 
+        // add files
+        if ( isset( $File ) )
+        {
+            Header( "Location: /article/articleedit/filelist/$articleID/" );
+            exit();
+        }
+        
         // preview
         if ( isset( $Preview ) )
         {
@@ -320,12 +327,20 @@ if ( $Action == "Update" )
             }
         }
 
-    // add images
+        // add images
         if ( isset( $Image ) )
         {
             Header( "Location: /article/articleedit/imagelist/$ArticleID/" );
             exit();
         }
+
+        // add files
+        if ( isset( $File ) )
+        {
+            Header( "Location: /article/articleedit/filelist/$ArticleID/" );
+            exit();
+        }
+        
 
         // preview
         if ( isset( $Preview ) )

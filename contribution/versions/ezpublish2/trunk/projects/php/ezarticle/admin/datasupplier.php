@@ -89,6 +89,13 @@ switch ( $url_array[2] )
             }
             break;
 
+            case "filelist" :
+            {
+                $ArticleID = $url_array[4];
+                include( "ezarticle/admin/filelist.php" );
+            }
+            break;
+            
             case "imageedit" :
             {
                 switch ( $url_array[4] )
@@ -137,6 +144,47 @@ switch ( $url_array[2] )
             
             }
             break;
+
+            case "fileedit" :
+            {
+                switch ( $url_array[4] )
+                {
+                    case "new" :
+                    {
+                        $Action = "New";
+                        $ArticleID = $url_array[5];
+                        include( "ezarticle/admin/fileedit.php" );
+                    }
+                    break;
+
+                    case "edit" :
+                    {
+                        $Action = "Edit";
+                        $ArticleID = $url_array[6];
+                        $FileID = $url_array[5];
+                        include( "ezarticle/admin/fileedit.php" );
+                    }
+                    break;
+
+                    case "delete" :
+                    {
+                        $Action = "Delete";
+                        $ArticleID = $url_array[6];
+                        $FileID = $url_array[5];
+                        include( "ezarticle/admin/fileedit.php" );
+                    }
+                    break;
+                    
+                    default :
+                    {
+                        include( "ezarticle/admin/fileedit.php" );
+                    }
+                    
+                }
+            
+            }
+            break;
+            
             
         }
     }

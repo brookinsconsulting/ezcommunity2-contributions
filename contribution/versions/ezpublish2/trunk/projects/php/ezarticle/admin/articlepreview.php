@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: articlepreview.php,v 1.9 2000/11/01 09:30:57 ce-cvs Exp $
+// $Id: articlepreview.php,v 1.10 2000/12/23 14:23:49 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <18-Oct-2000 16:34:51 bf>
@@ -46,6 +46,10 @@ $t->set_file( array(
 
 $t->set_block( "article_preview_page_tpl", "page_menu_separator_tpl", "page_menu_separator" );
 
+$t->set_block( "article_preview_page_tpl", "attached_file_list_tpl", "attached_file_list" );
+$t->set_block( "attached_file_list_tpl", "attached_file_tpl", "attached_file" );
+
+
 $t->set_block( "article_preview_page_tpl", "page_link_tpl", "page_link" );
 $t->set_block( "article_preview_page_tpl", "next_page_link_tpl", "next_page_link" );
 $t->set_block( "article_preview_page_tpl", "prev_page_link_tpl", "prev_page_link" );
@@ -61,6 +65,23 @@ $t->set_var( "article_body", $renderer->renderPage( $PageNumber - 1 ) );
 
 $t->set_var( "link_text", $article->linkText() );
 $t->set_var( "article_id", $article->id() );
+
+$files = $article->files();
+
+if ( count( $files ) > 0 )
+{
+    foreach ( $files as $file )
+    {
+        $t->set_var( "file_name", $file->name() );
+        $t->parse( "attached_file", "attached_file_tpl", true );
+    }
+
+    $t->parse( "attached_file_list", "attached_file_list_tpl" );
+}
+else
+{
+    $t->set_var( "attached_file_list", "" );
+}
 
 
 $pageCount = $article->pageCount();

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: articleview.php,v 1.21 2000/11/24 10:18:13 bf-cvs Exp $
+// $Id: articleview.php,v 1.22 2000/12/23 14:23:50 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <18-Oct-2000 16:34:51 bf>
@@ -47,6 +47,9 @@ $t->set_file( array(
     ) );
 
 $t->set_block( "article_view_page_tpl", "article_header_tpl", "article_header" );
+
+$t->set_block( "article_view_page_tpl", "attached_file_list_tpl", "attached_file_list" );
+$t->set_block( "attached_file_list_tpl", "attached_file_tpl", "attached_file" );
 
 $t->set_block( "article_view_page_tpl", "page_link_tpl", "page_link" );
 $t->set_block( "article_view_page_tpl", "current_page_link_tpl", "current_page_link" );
@@ -112,6 +115,29 @@ if ( $article->get( $ArticleID ) )
     $t->set_var( "article_created", $locale->format( $published ) );
  
 }
+
+$files = $article->files();
+
+if ( count( $files ) > 0 )
+{
+    foreach ( $files as $file )
+    {
+        
+        $t->set_var( "file_id", $file->id() );
+        $t->set_var( "original_file_name", $file->originalFileName() );
+        $t->set_var( "file_name", $file->name() );
+        $t->set_var( "file_url", $file->name() );
+        
+        $t->parse( "attached_file", "attached_file_tpl", true );
+    }
+
+    $t->parse( "attached_file_list", "attached_file_list_tpl" );
+}
+else
+{
+    $t->set_var( "attached_file_list", "" );
+}
+
 
 $t->set_var( "current_page_link", "" );
 

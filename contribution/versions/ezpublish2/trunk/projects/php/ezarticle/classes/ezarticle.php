@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezarticle.php,v 1.27 2000/11/19 09:41:02 bf-cvs Exp $
+// $Id: ezarticle.php,v 1.28 2000/12/23 14:23:49 bf Exp $
 //
 // Definition of eZArticle class
 //
@@ -62,6 +62,7 @@ include_once( "classes/ezdatetime.php" );
 include_once( "ezuser/classes/ezuser.php" );
 
 include_once( "ezimagecatalogue/classes/ezimage.php" );
+include_once( "ezfilemanager/classes/ezvirtualfile.php" );
 
 include_once( "ezforum/classes/ezforum.php" );
 
@@ -634,6 +635,71 @@ class eZArticle
        return $ret;
        
     }
+
+    /*!
+      Adds an file to the article.
+    */
+    function addFile( $value )
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+        
+        if ( get_class( $value ) == "ezvirtualfile" )
+        {
+            $this->dbInit();
+
+            $fileID = $value->id();
+
+
+            $this->Database->query( "INSERT INTO eZArticle_ArticleFileLink SET ArticleID='$this->ID', FileID='$fileID'" );
+        }
+    }
+
+    /*!
+      Deletes an file from the article.
+
+      NOTE: the file does not get deleted from the file catalogue.
+    */
+    function deleteFile( $value )
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+        
+        if ( get_class( $value ) == "ezvirtualfile" )
+        {
+            $this->dbInit();
+
+            $fileID = $value->id();
+            
+            $this->Database->query( "DELETE FROM eZArticle_ArticleFileDefinition WHERE ArticleID='$this->ID' AND ThumbnailFileID='$fileID'" );
+
+            $this->Database->query( "DELETE FROM eZArticle_ArticleFileLink WHERE ArticleID='$this->ID' AND FileID='$fileID'" );
+        }
+    }
+    
+    /*!
+      Returns every file to a article as a array of eZFile objects.
+    */
+    function files()
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+       $this->dbInit();
+       
+       $return_array = array();
+       $file_array = array();
+       
+       $this->Database->array_query( $file_array, "SELECT FileID FROM eZArticle_ArticleFileLink WHERE ArticleID='$this->ID' ORDER BY Created" );
+       
+       for ( $i=0; $i<count($file_array); $i++ )
+       {
+           $return_array[$i] = new eZVirtualFile( $file_array[$i]["FileID"], false );
+       }
+       
+       return $return_array;
+    }
+    
     
     /*!
       Returns true if the product is assigned to the category given

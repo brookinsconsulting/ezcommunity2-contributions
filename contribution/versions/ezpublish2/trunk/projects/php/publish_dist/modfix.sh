@@ -11,6 +11,7 @@ dirs="
 admin/tmp
 ezimagecatalogue/catalogue
 ezimagecatalogue/catalogue/variations
+ezfilemanager/files
 ezpoll/cache
 ezarticle/cache
 eznewsfeed/cache
@@ -40,6 +41,7 @@ classes
 ezclassified
 eznews
 ezimagecatalogue
+ezfilemanager
 ezpoll
 ezuser
 ezsession

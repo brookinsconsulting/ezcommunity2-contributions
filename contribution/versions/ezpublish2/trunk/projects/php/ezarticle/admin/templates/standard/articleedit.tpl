@@ -62,6 +62,7 @@
 <hr noshade="noshade" size="4" />
 
 <input class="stdbutton" type="submit" name="Image" value="{intl-pictures}" />
+<input class="stdbutton" type="submit" name="File" value="{intl-files}" />
 <input class="stdbutton" type="submit" name="Preview" value="{intl-preview}" />
 
 <hr noshade="noshade" size="4" />
