@@ -5,11 +5,11 @@
 {intl-mail_subject_user} shop.ez.no
 <!-- END subject_user_tpl -->
 
-http://shop.ez.no {intl-headline}
+http://shop.ez.no <!-- {intl-headline} -->
 
 {intl-lead_in}
 
-<!-- BEGIN billing_address_tpl -->{intl-billing_address}
+<!-- BEGIN billing_address_tpl -->{intl-billing_address}:
 
 {billing_street1}
 {billing_street2}
@@ -17,7 +17,7 @@ http://shop.ez.no {intl-headline}
 {billing_country}
 <!-- END billing_address_tpl -->
 
-<!-- BEGIN shipping_address_tpl -->{intl-shipping_address}
+<!-- BEGIN shipping_address_tpl -->{intl-shipping_address}:
 
 {shipping_street1}
 {shipping_street2}
