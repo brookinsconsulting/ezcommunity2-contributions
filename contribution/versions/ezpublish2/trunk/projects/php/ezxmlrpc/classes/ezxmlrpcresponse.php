@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezxmlrpcresponse.php,v 1.17 2001/11/05 10:53:28 bf Exp $
+// $Id: ezxmlrpcresponse.php,v 1.18 2001/11/08 15:11:05 jb Exp $
 //
 // Definition of eZXMLRPCResponse class
 //
@@ -32,6 +32,7 @@
 */
 
 // datatypes
+include_once( "ezxmlrpc/classes/ezxmlrpcserver.php" );
 include_once( "ezxmlrpc/classes/ezxmlrpcstring.php" );
 include_once( "ezxmlrpc/classes/ezxmlrpcint.php" );
 include_once( "ezxmlrpc/classes/ezxmlrpcdouble.php" );
@@ -78,7 +79,9 @@ class eZXMLRPCResponse
         else
         {
             $domTree->children = array();
-            $this->setError( 10, "XML parser not found. Server not properly configured." );
+            $this->setError( EZXMLRPC_NO_DOM_PARSER,
+                             "DOM XML parser not found. Server not properly configured.\n" .
+                             "Please install either libxml or QDom.\n");
         }            
 
         foreach ( $domTree->children as $response )
@@ -140,13 +143,23 @@ class eZXMLRPCResponse
     }
 
     /*!
+      Sets the version number, it's expected to be a float with a major and minor version.
+      Example: 2.2
+    */
+    function setVersion( $version )
+    {
+        $this->Version = $version;
+    }
+
+    /*!
       Sets an error message.
     */
     function setError( $faultCode, $faultString, $faultSubCode = false )
     {
         $this->IsFault = true;
         $error = array( "faultCode" => new eZXMLRPCInt( $faultCode ),
-                        "faultString" => new eZXMLRPCString( $faultString ) );
+                        "faultString" => new eZXMLRPCString( $faultString ),
+                        "version" => new eZXMLRPCDouble( $this->Version ) );
         if ( !is_bool( $faultSubCode ) )
             $error["faultSubCode"] = $faultSubCode;
         $this->Error = new eZXMLRPCStruct( $error );
@@ -256,6 +269,9 @@ class eZXMLRPCResponse
 
     /// Is true if the response is a fault
     var $IsFault;
+
+    /// The version number, is sent on error responses
+    var $Version;
 }
 
 ?>

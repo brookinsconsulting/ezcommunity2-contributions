@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: categorylist.php,v 1.20 2001/10/16 14:01:06 jb Exp $
+// $Id: categorylist.php,v 1.21 2001/11/08 15:11:05 jb Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -105,6 +105,7 @@ if ( $Command == "list" )
             {
                 $topic =& $artItem->topic();
                 $cols = array( "Publish date" => createDateTimeStruct( $artItem->published() ),
+                               "Published" => new eZXMLRPCBool( $artItem->isPublished() ),
                                "Modification date" => createDateTimeStruct( $artItem->modified() ),
                                "Author" => new eZXMLRPCString( $artItem->authorText( false ) ),
                                "Topic" => new eZXMLRPCString( $topic->name() ),
@@ -155,6 +156,7 @@ if ( $Command == "list" )
 
     if ( $offset == 0 )
         $cols = new eZXMLRPCStruct( array( "Author" => new eZXMLRPCString( "text" ),
+                                           "Published" => new eZXMLRPCString( "bool" ),
                                            "Topic" => new eZXMLRPCString( "text" ),
                                            "Publish date" => new eZXMLRPCString( "datetime" ),
                                            "Modification date" => new eZXMLRPCString( "datetime" )
