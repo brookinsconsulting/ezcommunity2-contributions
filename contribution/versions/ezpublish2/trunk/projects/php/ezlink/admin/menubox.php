@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: menubox.php,v 1.17 2001/03/13 16:40:10 th Exp $
+// $Id: menubox.php,v 1.18 2001/06/30 11:29:40 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <23-Oct-2000 17:53:46 bf>
@@ -27,8 +27,10 @@
 
 $menuItems = array(
     array( "/link/unacceptedlist/", "{intl-notaccepted}" ),
-    array( "/link/", "{intl-linklist}" ),
-    array( "/link/groupedit/new/", "{intl-newcategory}" ),
+    array( "/link/category/0/", "{intl-linklist}" ),
+    array( "/link/typelist/", "{intl-typelist}" ),
+    array( "/link/typeedit/", "{intl-newtype}" ),
+    array( "/link/categoryedit/new/", "{intl-newcategory}" ),
     array( "/link/linkedit/new/", "{intl-newlink}" )
     );
 

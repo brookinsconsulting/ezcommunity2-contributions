@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: typeedit.php,v 1.1 2001/06/29 12:54:26 jhe Exp $
+// $Id: typeedit.php,v 1.2 2001/06/30 11:29:40 bf Exp $
 //
 // Jo Henrik Endrerud <jhe@ez.no>
 // Created on: <29-Jan-2001 11:44:23 jhe>
@@ -70,7 +70,6 @@ if ( ( $Action == "Update" ) || ( isset ( $Update ) ) )
         {
             $att = new eZLinkAttribute( $AttributeID[$i] );
             $att->setName( $attribute );
-            $att->setUnit( $Unit[$i] );
             $att->store();
 
             $i++;
@@ -190,7 +189,6 @@ if ( $Action == "Edit" )
 
         $t->set_var( "attribute_id", $attribute->id( ) );
         $t->set_var( "attribute_name", $attribute->name( ) );
-        $t->set_var( "attribute_unit", $attribute->unit( ) );
 
         $t->set_var( "is_1_selected", "" );
         $t->set_var( "is_2_selected", "" );

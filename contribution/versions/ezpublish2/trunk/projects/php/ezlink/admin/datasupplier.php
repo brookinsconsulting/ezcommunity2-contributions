@@ -1,7 +1,7 @@
 <?
 // $url_array = explode( "/", $REQUEST_URI );
 
-$user = eZUser::currentUser();
+$user =& eZUser::currentUser();
 include_once( "ezuser/classes/ezpermission.php" );
 include_once( "classes/ezhttptool.php" );
 
@@ -15,13 +15,13 @@ switch ( $url_array[2] )
 {
     case "" :
     {
-        include( "ezlink/admin/linkgrouplist.php" );
+        include( "ezlink/admin/linkcategorylist.php" );
     }
     break;
     case "link" :
     {
         $LID = $url_array[3];
-        include( "ezlink/admin/linkgrouplist.php" );
+        include( "ezlink/admin/linkcategorylist.php" );
     }
     break;
 
@@ -60,12 +60,12 @@ switch ( $url_array[2] )
     }
     break;
     
-    case "group" :
+    case "category" :
     {
         if ( $url_array[4] == "parent" )
             $Offset = $url_array[5];
-        $LinkGroupID = $url_array[3];
-        include( "ezlink/admin/linkgrouplist.php" );
+        $LinkCategoryID = $url_array[3];
+        include( "ezlink/admin/linkcategorylist.php" );
     }
     break;
 
@@ -142,37 +142,37 @@ switch ( $url_array[2] )
     }
     break;
 
-    case "groupedit" :
+    case "categoryedit" :
     {
         if ( $url_array[3] == "new" )
         {
             $Action = "new";
-            include( "ezlink/admin/groupedit.php" );
+            include( "ezlink/admin/categoryedit.php" );
         }
         else if ( $url_array[3] == "insert" )
         {
-            $LinkGroupID = $url_array[4];
+            $LinkCategoryID = $url_array[4];
             $Action = "insert";
-            include( "ezlink/admin/groupedit.php" );
+            include( "ezlink/admin/categoryedit.php" );
         }
 
         else if ( $url_array[3] == "edit" )
         {
-            $LinkGroupID = $url_array[4];
+            $LinkCategoryID = $url_array[4];
             $Action = "edit";
-            include( "ezlink/admin/groupedit.php" );
+            include( "ezlink/admin/categoryedit.php" );
         }
         else if ( $url_array[3] == "update" )
         {
-            $LinkGroupID = $url_array[4];
+            $LinkCategoryID = $url_array[4];
             $Action = "update";
-            include( "ezlink/admin/groupedit.php" );
+            include( "ezlink/admin/categoryedit.php" );
         }
         else if ( $url_array[3] == "delete" )
         {
-            $LinkGroupID = $url_array[4];
+            $LinkCategoryID = $url_array[4];
             $Action = "delete";
-            include( "ezlink/admin/groupedit.php" );
+            include( "ezlink/admin/categoryedit.php" );
         }
     }
     break;

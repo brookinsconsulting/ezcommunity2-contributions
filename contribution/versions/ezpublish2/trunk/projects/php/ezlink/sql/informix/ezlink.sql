@@ -37,11 +37,21 @@ CREATE TABLE eZLink_LinkCategoryLink (
 );
 
 
-CREATE TABLE eZLink_LinkGroup (
+CREATE TABLE eZLink_Category (
   ID int NOT NULL,
-  Parent int,
-  Title varchar(100) default NULL,
-  ImageID int default NULL,
+  Parent int NOT NULL,
+  Name varchar(100) default NULL,
+  ImageID int NOT NULL,
   Description lvarchar,
   PRIMARY KEY (ID)
 );
+
+
+CREATE TABLE eZLink_Attribute (
+  ID int NOT NULL,
+  TypeID int default NULL,
+  Name varchar(150) default NULL,
+  Created int default NULL,
+  Placement int default 0,
+  PRIMARY KEY (ID)
+)

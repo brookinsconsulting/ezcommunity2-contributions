@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezlinkcategory.php,v 1.1 2001/06/29 07:54:49 br Exp $
+// $Id: ezlinkcategory.php,v 1.2 2001/06/30 11:29:40 bf Exp $
 //
 // Definition of eZLinkCategory class
 //
@@ -53,7 +53,7 @@ class eZLinkCategory
     {
         $db =& eZDB::globalDatabase();
 
-        $title = $db->escapeString( $this->Title );
+        $name = $db->escapeString( $this->Name );
         $description = $db->escapeString( $this->Description );
 
         $db->begin( );
@@ -62,11 +62,11 @@ class eZLinkCategory
 
         $nextID = $db->nextID( "eZLink_Category", "ID" );        
         $res = $db->query( "INSERT INTO eZLink_Category
-                ( ID, Parent, Title, Name, ImageID, Description )
+                ( ID, Parent, Name, ImageID, Description )
                 VALUES
                 ( '$nextID',
                   '$this->Parent',
-                  '$title',
+                  '$name',
                   '$this->ImageID',
                   '$description')" );
 
@@ -87,13 +87,13 @@ class eZLinkCategory
     {
         $db =& eZDB::globalDatabase();
         
-        $title = $db->escapeString( $this->Title );
+        $name = $db->escapeString( $this->Name );
         $description = $db->escapeString( $this->Description );
 
         $db->begin( );
 
-        $res = $db->query( "UPDATE eZLinkCategory SET 
-                Title='$title',
+        $res = $db->query( "UPDATE eZLink_Category SET 
+                Name='$name',
                 Description='$description',
                 Parent='$this->Parent',
                 ImageID='$this->ImageID'
@@ -159,7 +159,8 @@ class eZLinkCategory
     function delete( )
     {
         $db =& eZDB::globalDatabase();
-        $db->query( "DELETE FROM eZLink_Link WHERE LinkCategory='$this->ID'" );
+        $db->query( "DELETE FROM eZLink_LinkCategoryLink WHERE CategoryID='$this->ID'" );
+        $db->query( "DELETE FROM eZLink_LinkCategoryDefinition WHERE CategoryID='$this->ID'" );
         $db->query( "DELETE FROM eZLink_Category WHERE ID='$this->ID'" );
     }
 
@@ -177,7 +178,7 @@ class eZLinkCategory
         else if ( count( $linkcategory_array ) == 1 )
         {
             $this->ID =& $linkcategory_array[0][$db->fieldName("ID")];
-            $this->Title =& $linkcategory_array[0][$db->fieldName("Title")];
+            $this->Name =& $linkcategory_array[0][$db->fieldName("Name")];
             $this->Description =& $linkcategory_array[0][$db->fieldName("Description")];
             $this->Parent =& $linkcategory_array[0][$db->fieldName("Parent")];
             $this->ImageID = $linkcategory_array[0][$db->fieldName("ImageID")];
@@ -208,11 +209,11 @@ class eZLinkCategory
         }
         else
         {
-//              array_push( $path, $category->title() );
+//              array_push( $path, $category->name() );
         }
 
         if ( $categoryID != 0 )
-            array_push( $path, array( $category->id(), $category->title() ) );                                
+            array_push( $path, array( $category->id(), $category->name() ) );                                
         
         return $path;
     }
@@ -232,8 +233,8 @@ class eZLinkCategory
         $parent_array = array();
         $return_array = array();
 
-        $db->array_query( $parent_array, "SELECT ID FROM eZLink_LinkCategory
-                                                 WHERE Parent='$id' ORDER BY Title" );
+        $db->array_query( $parent_array, "SELECT ID FROM eZLink_Category
+                                                 WHERE Parent='$id' ORDER BY Name" );
 
         for( $i=0; $i<count( $parent_array ); $i++ )
         {
@@ -243,65 +244,6 @@ class eZLinkCategory
         return $return_array;                   
     }
 
-    /*!
-      Returns the count for subgroup in a group.
-    */
-    function &getTotalSubLinks( $id, $start_id )
-    {
-        $db =& eZDB::globalDatabase();
-        
-        $count = 0;
-        $sibling_array = $this->getByParent( $id );
-
-        if ( $id == $start_id )
-        {
-            $db->array_query( $link_count, "SELECT COUNT(ID) AS LinkCount FROM eZLink_Link WHERE LinkCategory='$id' AND Accepted='1'" );
-            $count += $link_count[0][$db->fieldName("LinkCount")];
-        }
-        
-        for ( $i=0; $i<count( $sibling_array ); $i++ )
-        {
-            $category_id =  $sibling_array[ $i][$db->fieldName("ID")];
-            $count += $this->getTotalSubLinks( $category_id, $start_id );
-            $db->array_query( $link_count, "SELECT COUNT(ID) AS LinkCount FROM eZLink_Link WHERE LinkCategory='$category_id' AND Accepted='1'" );
-            $count += $link_count[0][$db->fieldName("LinkCount")];            
-        }
-
-        return $count;
-    }
-
-    /*!
-      Returns the count for new links under the group.
-      All the links that newer than $new_limit is marked as new.
-     */
-    function &getNewSubLinks( $id, $start_id, $new_limit )
-    {
-        $db =& eZDB::globalDatabase();
-        
-        $count = 0;
-        $sibling_array = $this->getByParent( $id );
-
-        $new_limit = $new_limit*60*60*24;
-             
-        if ( $id == $start_id )
-        {
-            $timeStamp =& eZDate::timeStamp( true );
-
-            $db->array_query( $link_count, "SELECT COUNT( ID ) AS LinkCount from eZLink_Link WHERE LinkCategory='$id'
-                                                        AND Accepted='1' AND ( ( $timeStamp - Created ) <= $new_limit  ) ORDER BY Title" );
-            $count += $link_count[0][$db->fieldName("LinkCount")];
-        }
-        
-        for ( $i=0; $i<count( $sibling_array ); $i++ )
-        {
-            $category_id =  $sibling_array[ $i][$db->fieldName("ID")];
-            $count += $this->getNewSubLinks( $category_id, $start_id, $new_limit );
-            $db->array_query( $link_count, "SELECT COUNT( ID ) AS LinkCount  from eZLink_Link WHERE LinkCategory='$category_id'
-                                                        AND Accepted='1' AND ( ( $timeStamp - Created ) <= $new_limit  )  ORDER BY Title" );
-            $count += $link_count[0][$db->fieldName("LinkCount")];
-        }
-        return $count;
-    }
 
     /*!
       Return the count of links in incoming.
@@ -326,7 +268,7 @@ class eZLinkCategory
         $parnet_array = array();
         $return_array = array();
 
-        $db->array_query( $parent_array, "SELECT ID FROM eZLink_Category ORDER BY Title" );
+        $db->array_query( $parent_array, "SELECT ID FROM eZLink_Category ORDER BY Name" );
 
         for( $i=0; $i<count( $parent_array ); $i++ )
         {
@@ -375,14 +317,16 @@ class eZLinkCategory
         if ( $fetchUnAccepted )
             $fetchUnAccepted = "";
         else
-            $fetchUnAccepted = " AND Accepted='1' ";
+            $fetchUnAccepted = " AND eZLink_Link.Accepted='1' ";
         
         $db->array_query( $linkArray,
-                          "SELECT ID
-                           FROM eZLink_Link
-                           WHERE LinkCategory='$this->ID'
-                           $fetchUnAccepted
-                           ORDER BY Title",
+                          "SELECT eZLink_Link.ID, eZLink_Link.Name
+                           FROM eZLink_LinkCategoryLink, eZLink_Link
+                           WHERE
+                                eZLink_Link.ID=eZLink_LinkCategoryLink.LinkID AND
+                                eZLink_LinkCategoryLink.CategoryID='$this->ID'
+                               $fetchUnAccepted
+                           ORDER BY eZLink_Link.Name",
                            array( "Limit" => $limit, "Offset" => $offset ) );
         
         foreach( $linkArray as $link )
@@ -403,12 +347,14 @@ class eZLinkCategory
         if ( $fetchUnAccepted )
             $fetchUnAccepted = "";
         else
-            $fetchUnAccepted = " AND Accepted='1' ";
+            $fetchUnAccepted = " AND eZLink_Link.Accepted='1' ";
 
-        $query = "SELECT count( ID ) AS Count 
-                  FROM eZLink_Link
-                  WHERE LinkCategory='$this->ID'
-                  $fetchUnAccepted";
+        $query = "SELECT count( eZLink_Link.ID ) AS Count 
+                  FROM  eZLink_LinkCategoryLink, eZLink_Link
+                  WHERE
+                        eZLink_Link.ID=eZLink_LinkCategoryLink.LinkID AND
+                        eZLink_LinkCategoryLink.CategoryID='$this->ID'
+                        $fetchUnAccepted";
 
         $db->array_query( $linkArray, $query );
         
@@ -424,11 +370,11 @@ class eZLinkCategory
     }
 
     /*!
-      Sets the title of a group.
+      Sets the name of a group.
     */
-    function setTitle( &$value )
+    function setName( &$value )
     {
-        $this->Title = ( $value );
+        $this->Name = ( $value );
     }
 
     /*!
@@ -448,15 +394,15 @@ class eZLinkCategory
     }
 
     /*!
-      Return the title of the link.
+      Return the name of the link.
     */
-    function &title()
+    function &name()
     {
-        return htmlspecialchars( $this->Title );
+        return htmlspecialchars( $this->Name );
     }
 
     /*!
-      Return the title of the link.
+      Return the name of the link.
     */
     function &description()
     {
@@ -519,7 +465,7 @@ class eZLinkCategory
     }
     
     var $ID;
-    var $Title;
+    var $Name;
     var $Description;
     var $Parent;
     var $ImageID;

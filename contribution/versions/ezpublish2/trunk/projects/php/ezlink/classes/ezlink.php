@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezlink.php,v 1.57 2001/06/29 18:46:50 jhe Exp $
+// $Id: ezlink.php,v 1.58 2001/06/30 11:29:40 bf Exp $
 //
 // Definition of eZLink class
 //
@@ -33,7 +33,7 @@
   \code
   // Create a new link and set some values.
   $link = new eZLink();
-  $link->setTitle( "ZEZ website" );
+  $link->setName( "ZEZ website" );
   $link->Description( "zez.org is a page dedicated to all kinds of computer programming." );
   $link->KeyWords( "code programing c++ php sql python" );
   $link->setAccepted( true );
@@ -45,15 +45,15 @@
   // Check if the url exist in the database.
   $link->checkUrl( "zez.org" );
 
-  // Get all the links in a group.
-  $link->getByGroup( $linkGroupID );
+  // Get all the links in a category.
+  $link->getByCategory( $linkCategoryID );
 
   // Get all the not accepted links.
   $link->getNotAccepted();
 
   \endcode
   
-  \sa eZLinkGroup eZHit eZQuery
+  \sa eZLinkCategory eZHit eZQuery
 */
 
 include_once( "classes/ezquery.php" );
@@ -85,7 +85,7 @@ class eZLink
         $db->begin( );
 
         $description = $db->escapeString( $this->Description );
-        $title = $db->escapeString( $this->Title );
+        $name = $db->escapeString( $this->Name );
         $url = $db->escapeString( $this->Url );
         $keywords = $db->escapeString( $this->KeyWords );
 
@@ -97,9 +97,8 @@ class eZLink
 
         $res = $db->query( "INSERT INTO eZLink_Link 
                 ( ID,
-                  Title,
+                  Name,
                   Description,
-                  LinkGroup,
                   KeyWords,
                   Created,
                   Modified,
@@ -108,9 +107,8 @@ class eZLink
                   Accepted )
                 VALUES
                 ( '$nextID',
-                  '$title',
+                  '$name',
                   '$description',
-                  '$this->LinkGroupID',
                   '$keywords',
                   '$timeStamp',
                   '$timeStamp',
@@ -122,9 +120,8 @@ class eZLink
 
         print "INSERT INTO eZLink_Link 
                 ( ID,
-                  Title,
+                  Name,
                   Description,
-                  LinkGroup,
                   KeyWords,
                   Created,
                   Modified,
@@ -133,9 +130,8 @@ class eZLink
                   Accepted )
                 VALUES
                 ( '$nextID',
-                  '$title',
+                  '$name',
                   '$description',
-                  '$this->LinkGroupID',
                   '$keywords',
                   '$timeStamp',
                   '$timeStamp',
@@ -230,7 +226,7 @@ class eZLink
         $db->begin( );
 
         $description = $db->escapeString( $this->Description );
-        $title = $db->escapeString( $this->Title );
+        $name = $db->escapeString( $this->Name );
         $url = $db->escapeString( $this->Url );
         $keywords = $db->escapeString( $this->KeyWords );
 
@@ -239,9 +235,8 @@ class eZLink
 
         
         $res = $db->query( "UPDATE eZLink_Link SET
-                Title='$title',
+                Name='$name',
                 Description='$description',
-                LinkGroup='$this->LinkGroupID',
                 KeyWords='$keywords',
                 Modified='$timeStamp',
                 Url='$url',
@@ -286,9 +281,8 @@ class eZLink
             else if ( count( $link_array ) == 1 )
             {
                 $this->ID =& $link_array[0][$db->fieldName("ID")];
-                $this->Title =& $link_array[0][$db->fieldName("Title")];
+                $this->Name =& $link_array[0][$db->fieldName("Name")];
                 $this->Description =& $link_array[0][$db->fieldName("Description")];
-                $this->LinkGroupID =& $link_array[0][$db->fieldName("LinkGroup")];
                 $this->KeyWords =& $link_array[0][$db->fieldName("KeyWords")];
                 $this->Created =& $link_array[0][$db->fieldName("Created")];
                 $this->Modified =& $link_array[0][$db->fieldName("Modified")];
@@ -301,16 +295,16 @@ class eZLink
     }
 
     /*!
-      Fetchs out the links where the linkgroup=$id. Fetchs only accepted links.
+      Fetchs out the links where the linkcategory=$id. Fetchs only accepted links.
     */
-    function &getByGroup( $id )
+    function &getByCategory( $id )
     {
         $db =& eZDB::globalDatabase();
         
         $link_array = array();
         $return_array = array();
         
-        $db->array_query( $link_array, "SELECT ID, Title FROM eZLink_Link WHERE LinkGroup='$id' AND Accepted='1' ORDER BY Title" );
+        $db->array_query( $link_array, "SELECT ID, Name FROM eZLink_Link WHERE LinkCategory='$id' AND Accepted='1' ORDER BY Name" );
 
         for( $i=0; $i < count( $link_array ); $i++ )
         {
@@ -333,8 +327,8 @@ class eZLink
         $link_array = array();
         $return_array = array();
         
-        $db->array_query( $link_array, "SELECT ID, Title FROM eZLink_Link
-                                        WHERE Accepted='0' ORDER BY Title",
+        $db->array_query( $link_array, "SELECT ID, Name FROM eZLink_Link
+                                        WHERE Accepted='0' ORDER BY Name",
                           array( "Limit" => $limit, "Offset" => $offset ) );
 
         for ( $i=0; $i < count( $link_array ); $i++ )
@@ -391,7 +385,7 @@ class eZLink
         $link_array = 0;
         
         $db->array_query( $link_array,
-            "SELECT * FROM eZLink_Link WHERE Accepted='1' ORDER BY Title DESC",
+            "SELECT * FROM eZLink_Link WHERE Accepted='1' ORDER BY Name DESC",
              array( "Limit" => $limit, "Offset" => $offset ) );
 
         return $link_array;
@@ -408,11 +402,11 @@ class eZLink
         $link_array = array();
         $return_array = array();
 
-        $query = new eZQuery( array( "KeyWords", "Title", "Description" ), $query );
+        $query = new eZQuery( array( "KeyWords", "Name", "Description" ), $query );
         
-        $query_str =  "SELECT ID, Title FROM eZLink_Link WHERE (" .
+        $query_str =  "SELECT ID, Name FROM eZLink_Link WHERE (" .
              $query->buildQuery()  .
-             ") AND Accepted='1' GROUP BY Title, ID ORDER BY Title";
+             ") AND Accepted='1' CATEGORY BY Name, ID ORDER BY Name";
 
         $db->array_query( $link_array,
         $query_str,  array( "Limit" => $limit, "Offset" => $offset ) );
@@ -435,11 +429,11 @@ class eZLink
         $db =& eZDB::globalDatabase();
         $link_array = 0;
 
-        $query = new eZQuery( array( "KeyWords", "Title", "Description" ), $query );
+        $query = new eZQuery( array( "KeyWords", "Name", "Description" ), $query );
         
-        $query_str = "SELECT count(ID) AS Count, Title FROM eZLink_Link WHERE (" .
+        $query_str = "SELECT count(ID) AS Count, Name FROM eZLink_Link WHERE (" .
              $query->buildQuery()  .
-             ") AND Accepted='1' GROUP BY Title ORDER BY Title";
+             ") AND Accepted='1' CATEGORY BY Name ORDER BY Name";
 
         $db->array_query( $link_array, $query_str );
 
@@ -457,11 +451,11 @@ class eZLink
     function &getAll()
     {
         $db =& eZDB::globalDatabase();
-        $group_array = 0;
+        $category_array = 0;
 
-        $db->array_query( $group_array, "SELECT * FROM eZLink_Link ORDER BY Title" );
+        $db->array_query( $category_array, "SELECT * FROM eZLink_Link ORDER BY Name" );
 
-        return $group_array;
+        return $category_array;
     }
 
     /*!
@@ -523,7 +517,7 @@ class eZLink
         $category = false;
         if ( count( $res ) == 1 )
         {
-            $category = new eZLinkCategory( $res[0]["CategoryID"] );
+            $category = new eZLinkCategory( $res[0][$db->fieldName("CategoryID")] );
         }
         else
         {
@@ -563,11 +557,11 @@ class eZLink
 
     
     /*!
-      Sets the link title.
+      Sets the link name.
     */
-    function setTitle( &$value )
+    function setName( &$value )
     {
-        $this->Title = $value;
+        $this->Name = $value;
     }
 
     /*!
@@ -579,11 +573,11 @@ class eZLink
     }
 
     /*!
-      Sets the linkgroupID.
+      Sets the linkcategoryID.
     */
-    function setLinkGroupID( $value )
+    function setLinkCategoryID( $value )
     {
-        $this->LinkGroupID = $value;
+        $this->LinkCategoryID = $value;
     }
 
     /*!
@@ -614,11 +608,11 @@ class eZLink
     }
 
     /*!
-      Returns the link title.
+      Returns the link name.
     */
-    function &title()
+    function &name()
     {
-        return htmlspecialchars( $this->Title );
+        return htmlspecialchars( $this->Name );
     }
 
 
@@ -631,11 +625,11 @@ class eZLink
     }
 
     /*!
-      Returns the linkgroupID.
+      Returns the linkcategoryID.
     */
-    function linkGroupID()
+    function linkCategoryID()
     {
-        return htmlspecialchars( $this->LinkGroupID );
+        return htmlspecialchars( $this->LinkCategoryID );
     }
 
     /*!
@@ -740,9 +734,9 @@ class eZLink
 
 
     var $ID;
-    var $Title;
+    var $Name;
     var $Description;
-    var $LinkGroupID;
+    var $LinkCategoryID;
     var $KeyWords;
     var $Created;
     var $Modified;

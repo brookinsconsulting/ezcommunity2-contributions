@@ -19,28 +19,27 @@
 
 <p class="error">{error_msg}</p>
 
-<p class="boxtext">{intl-title}:</p>
-<!-- {intl-titleedit} -->
-<input type="text" class="box" name="Title" size="40" value="{title}">
+<p class="boxtext">{intl-name}:</p>
+<!-- {intl-nameedit} -->
+<input type="text" class="box" name="Name" size="40" value="{name}">
 <br />
 <br />
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
     <td align="left" valign="top">
-    <p class="boxtext">{intl-linkgroup}:</p>
-    <!-- {intl-choosegroup} -->
-    <select name="LinkGroupID">
-        <option value="0">{intl-no_topic}</option>
-	<!-- BEGIN link_group_tpl -->
-	<option {is_selected} value="{link_group_id}">{option_level}{link_group_title}</option>
-	<!-- END link_group_tpl -->
+    <p class="boxtext">{intl-linkcategory}:</p>
+    <!-- {intl-choosecategory} -->
+    <select name="LinkCategoryID">
+	<!-- BEGIN link_category_tpl -->
+	<option {is_selected} value="{link_category_id}">{option_level}{link_category_name}</option>
+	<!-- END link_category_tpl -->
     </select>
     </td align="left" valign="top">
     <td>
-    <p class="boxtext">{intl-add_linkgroup}:</p>
+    <p class="boxtext">{intl-add_linkcategory}:</p>
     <select multiple size="{num_select_categories}" name="CategoryArray[]">
         <!-- BEGIN multiple_category_tpl -->
-	<option value="{link_group_id}" {multiple_selected}>&nbsp;{option_level} {link_group_title}</option>
+	<option value="{link_category_id}" {multiple_selected}>&nbsp;{option_level} {link_category_name}</option>
         <!-- END multiple_category_tpl -->
     </select>
     </td>

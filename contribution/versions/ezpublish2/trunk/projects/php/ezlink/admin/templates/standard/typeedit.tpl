@@ -16,9 +16,6 @@
 	<th>
 	{intl-attribute_name}:
 	</th>
-	<th>
-	{intl-unit}:
-	</th>
 	<th colspan="4">&nbsp;</th>
 </tr>
 <!-- BEGIN attribute_tpl -->
@@ -26,9 +23,6 @@
 	<td width="1%">
 	<input type="hidden" name="AttributeID[]" value="{attribute_id}" />
 	<input type="text" name="AttributeName[]" value="{attribute_name}" />
-	</td>
-	<td width="95%">
-	<input type="text" size="5" name="Unit[]" value="{attribute_unit}" />
 	</td>
 <!-- BEGIN item_move_down_tpl -->
 	<td width="1%"><a href="/link/typeedit/down/{type_id}/{attribute_id}"><img src="/admin/images/move-down.gif" height="12" width="12" border="0" alt="Move down" /></a></td>

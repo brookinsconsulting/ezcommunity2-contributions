@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: linkgrouplist.php,v 1.15 2001/05/09 16:41:25 ce Exp $
+// $Id: linkgrouplist.php,v 1.16 2001/06/30 11:29:40 bf Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <26-Oct-2000 15:02:09 ce>
@@ -99,10 +99,7 @@ else
         $t->set_var( "linkgroup_description", $groupItem->description() );
         $t->set_var( "linkgroup_parent", $groupItem->parent() );
 
-        $t->set_var( "total_links", $total_sub_links );
-        $t->set_var( "new_links", $new_sub_links );
- 
-        $image = $groupItem->image();
+        $image =& $groupItem->image();
 
         $t->set_var( "image_item" , "" );
         

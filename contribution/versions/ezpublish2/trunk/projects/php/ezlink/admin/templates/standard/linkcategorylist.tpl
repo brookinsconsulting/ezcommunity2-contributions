@@ -19,7 +19,7 @@
 
 <img src="/admin/images/{site_style}/path-arrow.gif" height="10" width="12" border="0" alt="" />
 
-<a class="path" href="/link/group/0/">{intl-top}</a>
+<a class="path" href="/link/category/0/">{intl-top}</a>
 
 <!-- END path_tpl -->
 
@@ -27,25 +27,25 @@
 
 <img src="/admin/images/{site_style}/path-slash.gif" height="10" width="16" border="0" alt="" />
 
-<a class="path" href="/link/group/{group_id}/">{group_name}</a>
+<a class="path" href="/link/category/{category_id}/">{category_name}</a>
 <!-- END path_item_tpl -->
 
 <hr noshade size="4" />
-<!-- BEGIN group_list_tpl -->
-<form method="post" action="/link/groupedit/edit/" enctype="multipart/form-data">
+<!-- BEGIN category_list_tpl -->
+<form method="post" action="/link/categoryedit/edit/" enctype="multipart/form-data">
 <table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
 <tr>
 	<td colspan="6">
 	<h2>{categories}</h2>
 	</td>
 </tr>
-<!-- BEGIN group_item_tpl -->
+<!-- BEGIN category_item_tpl -->
 <tr>
 	<td width="1%" bgcolor="{bg_color}">
 	<img src="/admin/images/folder.gif" height="16" width="16" border="0" alt="" align="top" />
 	</td>
 	<td bgcolor="{bg_color}">
-	<a href="/link/group/{linkgroup_id}/">{linkgroup_title}</a>
+	<a href="/link/category/{linkcategory_id}/">{linkcategory_name}</a>
 	</td>
 	<td bgcolor="{bg_color}">
 	{category_description}&nbsp;
@@ -59,18 +59,18 @@
 	<!-- END no_image_tpl -->
         </td>
 	<td width="1%" bgcolor="{bg_color}">
-	<a href="/link/groupedit/edit/{linkgroup_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ela{linkgroup_id}-red','','/admin/images/{site_style}/redigerminimrk.gif',1)"><img name="ela{linkgroup_id}-red" border="0" src="/admin/images/{site_style}/redigermini.gif" width="16" height="16" align="top" border="0" alt="Edit" /></a>
+	<a href="/link/categoryedit/edit/{linkcategory_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ela{linkcategory_id}-red','','/admin/images/{site_style}/redigerminimrk.gif',1)"><img name="ela{linkcategory_id}-red" border="0" src="/admin/images/{site_style}/redigermini.gif" width="16" height="16" align="top" border="0" alt="Edit" /></a>
 	</td>
 	<td bgcolor="{bg_color}" width="1%" align="center">
-	<input type="checkbox" name="CategoryArrayID[]" value="{linkgroup_id}">
+	<input type="checkbox" name="CategoryArrayID[]" value="{linkcategory_id}">
 	</td>
 </tr>
-<!-- END group_item_tpl -->
+<!-- END category_item_tpl -->
 </table>
 <hr noshade="noshade" size="4" />
 <input class="stdbutton" type="submit" Name="DeleteCategories" value="{intl-deletecategories}">
 </form>
-<!-- END group_list_tpl -->
+<!-- END category_list_tpl -->
 
 
 <!-- BEGIN link_list_tpl -->
@@ -88,7 +88,7 @@
 	<img src="/admin/images/link.gif" height="16" width="16" border="0" alt="" align="top" />
 	</td>
 	<td width="97%" class="{td_class}">
-	<b><a href="/link/gotolink/addhit/{link_id}/?Url={link_url}" target="_blank">{link_title}</a></b><br />
+	<b><a href="/link/gotolink/addhit/{link_id}/?Url={link_url}" target="_blank">{link_name}</a></b><br />
 	{link_description}
 	</td>
         <td class="{td_class}">
@@ -122,7 +122,7 @@
 <tr>
 	<!-- BEGIN type_list_previous_tpl -->
 	<td>
-	<a class="path" href="/link/group/{group_id}/parent/{item_previous_index}">&lt;&lt;&nbsp;{intl-previous}</a>&nbsp;
+	<a class="path" href="/link/category/{category_id}/parent/{item_previous_index}">&lt;&lt;&nbsp;{intl-previous}</a>&nbsp;
 	</td>
 	<!-- END type_list_previous_tpl -->
 
@@ -136,7 +136,7 @@
 
 	<!-- BEGIN type_list_item_tpl -->
 	<td>
-	|&nbsp;<a class="path" href="/link/group/{group_id}/parent/{item_index}">{type_item_name}</a>&nbsp;
+	|&nbsp;<a class="path" href="/link/category/{category_id}/parent/{item_index}">{type_item_name}</a>&nbsp;
 	</td>
 	<!-- END type_list_item_tpl -->
 
@@ -150,7 +150,7 @@
 
 	<!-- BEGIN type_list_next_tpl -->
 	<td>
-	|&nbsp;<a class="path" href="/link/group/{group_id}/parent/{item_next_index}">{intl-next}&nbsp;&gt;&gt;</a>
+	|&nbsp;<a class="path" href="/link/category/{category_id}/parent/{item_next_index}">{intl-next}&nbsp;&gt;&gt;</a>
 	</td>
 	<!-- END type_list_next_tpl -->
 

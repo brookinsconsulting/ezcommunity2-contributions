@@ -14,20 +14,20 @@
 
 <hr noshade size="4">
 
-<form method="post" action="/link/groupedit/{action_value}/{category_id}/" enctype="multipart/form-data">
+<form method="post" action="/link/categoryedit/{action_value}/{category_id}/" enctype="multipart/form-data">
 <input type="hidden" name="max_file_size" value="3000000">
 
 
 <p class="error">{error_msg}</p>
 
 <p class="boxtext">{intl-name}:</p>
-<input type="text" class="box" name="Title" size="40" value="{category_name}">
+<input type="text" class="box" name="Name" size="40" value="{category_name}">
 
 <p class="boxtext">{intl-where}:</p>
 <select name="ParentCategory">
 <option value="0">{intl-topcat}</option>
 <!-- BEGIN parent_category_tpl -->
-<option {is_selected} value="{grouplink_id}">{option_level}{grouplink_title}</option>
+<option {is_selected} value="{categorylink_id}">{option_level}{categorylink_name}</option>
 <!-- END parent_category_tpl -->
 </select>
 
@@ -58,7 +58,7 @@
 	<td>&nbsp;</td>
 	</form>
 	<td>
-	<form method="post" action="/link/group/">
+	<form method="post" action="/link/category/">
 	<input class="okbutton" type="submit" name="Back" value="{intl-back}">
 	</form>
 	</td>

@@ -1,5 +1,5 @@
 <?
-// $Id: linkedit.php,v 1.52 2001/06/29 18:46:50 jhe Exp $
+// $Id: linkedit.php,v 1.53 2001/06/30 11:29:40 bf Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <26-Oct-2000 14:58:57 ce>
@@ -36,7 +36,6 @@ $error = new INIFile( "ezuser/admin/intl/" . $Language . "/useredit.php.ini", fa
 include_once( "classes/eztemplate.php" );
 
 include( "ezlink/classes/ezlinkcategory.php" );
-include( "ezlink/classes/ezlinkgroup.php" );
 include( "ezlink/classes/ezlink.php" );
 include( "ezlink/classes/ezhit.php" );
 
@@ -60,9 +59,9 @@ if ( isSet( $Back ) )
 {
     $link = new eZLink();
     $link->get( $LinkID );
-    $LinkGroupID = $link->linkGroupID();
+    $LinkCategoryID = $link->linkCategoryID();
 
-    eZHTTPTool::header( "Location: /link/group/$LinkGroupID/" );
+    eZHTTPTool::header( "Location: /link/category/$LinkCategoryID/" );
     exit();
 }
 
@@ -108,15 +107,15 @@ if ( $GetSite )
         else
             $tkeywords = $keywords;
         
-        if ( $metaList["title"] )
-            $ttitle = $metaList["title"];
+        if ( $metaList["name"] )
+            $tname = $metaList["name"];
         else if ( $metaList["abstract"] )
-            $ttitle = $metaList["abstract"];
+            $tname = $metaList["abstract"];
         else
-            $ttitle = $Title;
+            $tname = $Name;
 //          $tdescription = $metaList["description"];
 //          $tkeywords = $metaList["keywords"];
-//          $ttitle = $Title;
+//          $tname = $Name;
         
         $turl = $Url;
 
@@ -132,21 +131,21 @@ if ( $Action == "update" )
 {
     if ( eZPermission::checkPermission( $user, "eZLink", "LinkModify" ) )
     {
-        if ( $Title != "" &&
-             $LinkGroupID != "" &&
+        if ( $Name != "" &&
+             $LinkCategoryID != "" &&
              $Accepted != "" &&
              $Url != "" )
         {
             $link = new eZLink();
             $link->get( $LinkID );
             
-            $link->setTitle( $Title );
+            $link->setName( $Name );
             $link->setDescription( $Description );
-            $link->setLinkGroupID( $LinkGroupID );
+            $link->setLinkCategoryID( $LinkCategoryID );
             $link->setKeyWords( $Keywords );
             $link->setUrl( $Url );
             
-            $link->setCategoryDefinition( $LinkGroupID );
+            $link->setCategoryDefinition( $LinkCategoryID );
             
             // Calculate new and unused categories
             
@@ -172,7 +171,7 @@ if ( $Action == "update" )
             }
             
             // add to categories
-            $category = new eZLinkCategory( $LinkGroupID );
+            $category = new eZLinkCategory( $LinkCategoryID );
             $link->setCategoryDefinition( $category );
             
             foreach ( $add_categories as $categoryItem )
@@ -208,10 +207,10 @@ if ( $Action == "update" )
             if ( isSet ( $Browse ) )
             {
                 $linkID = $link->id();
-                $session = new eZSession();
+                $session = eZSession::globalSession();
                 $session->setVariable( "SelectImages", "single" );
                 $session->setVariable( "ImageListReturnTo", "/link/linkedit/edit/$linkID/" );
-                $session->setVariable( "NameInBrowse", $link->title() );
+                $session->setVariable( "NameInBrowse", $link->name() );
                 eZHTTPTool::header( "Location: /imagecatalogue/browse/" );
                 exit();
             }
@@ -223,7 +222,7 @@ if ( $Action == "update" )
                 exit();
             }
             
-            eZHTTPTool::header( "Location: /link/group/$LinkGroupID" );
+            eZHTTPTool::header( "Location: /link/category/$LinkCategoryID" );
             exit();
         }
         else
@@ -245,12 +244,12 @@ if ( $Action == "delete" )
     {
         $deletelink = new eZLink();
         $deletelink->get( $LinkID );
-        $LinkGroupID = $deletelink->linkGroupID();
+        $LinkCategoryID = $deletelink->linkCategoryID();
         $deletelink->delete();
 
         if ( $deletelink->accepted() == false )
         {
-            eZHTTPTool::header( "Location: /link/group/incoming" );
+            eZHTTPTool::header( "Location: /link/category/incoming" );
             exit();
         }
     }
@@ -268,7 +267,7 @@ if ( $Action == "DeleteLinks" )
         {
             $deletelink = new eZLink();
             $deletelink->get( $LinkID );
-            $LinkGroupID = $deletelink->linkGroupID();
+            $LinkCategoryID = $deletelink->linkCategoryID();
             $deletelink->delete();
             
         }
@@ -276,11 +275,11 @@ if ( $Action == "DeleteLinks" )
         {
             if ( $deletelink->accepted() == false )
             {
-                eZHTTPTool::header( "Location: /link/group/incoming" );
+                eZHTTPTool::header( "Location: /link/category/incoming" );
                 exit();
             }
         }
-        eZHTTPTool::header( "Location: /link/group/$LinkGroupID" );
+        eZHTTPTool::header( "Location: /link/category/$LinkCategoryID" );
         exit();
     }
 }
@@ -291,16 +290,16 @@ if ( $Action == "insert" )
 
     if ( eZPermission::checkPermission( $user, "eZLink", "LinkAdd") )
     {
-        if ( $Title != "" &&
-        $LinkGroupID != "" &&
+        if ( $Name != "" &&
+        $LinkCategoryID != "" &&
         $Accepted != "" &&
         $Url != "" )
         {
             $link = new eZLink();
 
-            $link->setTitle( $Title );
+            $link->setName( $Name );
             $link->setDescription( $Description );
-            $link->setLinkGroupID( $LinkGroupID );
+            $link->setLinkCategoryID( $LinkCategoryID );
             $link->setKeyWords( $Keywords );
             if ( $Accepted == "1" )
                 $link->setAccepted( true );
@@ -309,7 +308,7 @@ if ( $Action == "insert" )
 
             $link->setUrl( $Url );
 
-            $ttitle = $Title;
+            $tname = $Name;
             $turl = $Url;
             if ( !$GetSite )
             {
@@ -353,7 +352,7 @@ if ( $Action == "insert" )
     
             $link->store();
             // Add to categories.
-            $cat = new eZLinkCategory( $LinkGroupID );
+            $cat = new eZLinkCategory( $LinkCategoryID );
             $cat->addLink( $link );
             
             $link->setCategoryDefinition( $cat );
@@ -383,7 +382,7 @@ if ( $Action == "insert" )
                 $session = new eZSession();
                 $session->setVariable( "SelectImages", "single" );
                 $session->setVariable( "ImageListReturnTo", "/link/linkedit/edit/$linkID/" );
-                $session->setVariable( "NameInBrowse", $link->title() );
+                $session->setVariable( "NameInBrowse", $link->name() );
                 eZHTTPTool::header( "Location: /imagecatalogue/browse/" );
                 exit();
             }
@@ -395,7 +394,7 @@ if ( $Action == "insert" )
                 exit();
             }
             
-            eZHTTPTool::header( "Location: /link/group/$LinkGroupID" );
+            eZHTTPTool::header( "Location: /link/category/$LinkCategoryID" );
             exit();
         }
         else if ( !isSet( $Update ) )
@@ -417,7 +416,7 @@ $t->setAllStrings();
 
 $t->set_file( "link_edit", "linkedit.tpl" );
 
-$t->set_block( "link_edit", "link_group_tpl", "link_group" );
+$t->set_block( "link_edit", "link_category_tpl", "link_category" );
 
 $t->set_block( "link_edit", "image_item_tpl", "image_item" );
 $t->set_block( "link_edit", "no_image_item_tpl", "no_image_item" );
@@ -433,9 +432,9 @@ $t->set_block( "attribute_list_tpl", "attribute_tpl", "attribute" );
 $languageIni = new INIFIle( "ezlink/admin/intl/" . $Language . "/linkedit.php.ini", false );
 $headline = $languageIni->read_var( "strings", "headline_insert" );
 
-$linkselect = new eZLinkGroup();
+$linkselect = new eZLinkCategory();
 
-$linkGroupList = $linkselect->getTree();
+$linkCategoryList = $linkselect->getTree();
 
 // Template variables.
 $message = "Legg til link";
@@ -478,13 +477,13 @@ if ( $Action == "edit" )
             $editlink->get( $LinkID );
         }
 
-        $title = $editlink->Title;
+        $name = $editlink->Name;
 
-        $LinkGroupID = $editlink->linkGroupID();
+        $LinkCategoryID = $editlink->linkCategoryID();
 
-        $title = $editlink->title();
+        $name = $editlink->name();
         $description = $editlink->description();
-        $linkgroup = $editlink->linkGroupID();
+        $linkcategory = $editlink->linkCategoryID();
         $keywords = $editlink->keyWords();
         $accepted = $editlink->accepted();
         $url = $editlink->url();
@@ -493,7 +492,7 @@ if ( $Action == "edit" )
         $message = "Rediger link";
         $submit = "Rediger";
               
-        $ttitle = $editlink->title();
+        $tname = $editlink->name();
         $tdescription = $editlink->description();
         $tkeywords = $editlink->keywords();
         $turl = $editlink->url();
@@ -544,7 +543,7 @@ if ( $Action == "edit" )
 
 if ( $Action == "AttributeList" )
 {
-    $ttitle = $Title;
+    $tname = $Name;
     $tkeywords = $Keywords;
     $tdescription = $Description;
     $turl = $Url;
@@ -573,15 +572,15 @@ if ( $Action == "AttributeList" )
     
 // Selector
 $link_select_dict = "";
-$catCount = count( $linkGroupList );
+$catCount = count( $linkCategoryList );
 $t->set_var( "num_select_categories", min( $catCount, 10 ) );
 $i = 0;
-foreach( $linkGroupList as $linkGroupItem )
+foreach( $linkCategoryList as $linkCategoryItem )
 {
-    $t->set_var("link_group_id", $linkGroupItem[0]->id() );
-    $t->set_var("link_group_title", $linkGroupItem[0]->title() );
+    $t->set_var("link_category_id", $linkCategoryItem[0]->id() );
+    $t->set_var("link_category_name", $linkCategoryItem[0]->name() );
 
-    if ( $LinkGroupID == $linkGroupItem[0]->id() )
+    if ( $LinkCategoryID == $linkCategoryItem[0]->id() )
     {
         $t->set_var( "is_selected", "selected" );
     }
@@ -590,14 +589,14 @@ foreach( $linkGroupList as $linkGroupItem )
         $t->set_var( "is_selected", "" );
     }
    
-    if ( $linkGroupItem[1] > 0 )
-        $t->set_var( "option_level", str_repeat( "&nbsp;", $linkGroupItem[1] ) );
+    if ( $linkCategoryItem[1] > 0 )
+        $t->set_var( "option_level", str_repeat( "&nbsp;", $linkCategoryItem[1] ) );
     else
         $t->set_var( "option_level", "" );
 
-    $link_select_dict[ $linkGroupItem[0]->id() ] = $i;
+    $link_select_dict[ $linkCategoryItem[0]->id() ] = $i;
 
-    if ( $CategoryArray[$i] == $linkGroupItem[0]->id() )
+    if ( $CategoryArray[$i] == $linkCategoryItem[0]->id() )
     {
         $t->set_var( "multiple_selected", "selected" );
         $i++;
@@ -607,7 +606,7 @@ foreach( $linkGroupList as $linkGroupItem )
         $t->set_var( "multiple_selected", "" );
     }
     
-    $t->parse( "link_group", "link_group_tpl", true );
+    $t->parse( "link_category", "link_category_tpl", true );
     $t->parse( "multiple_category", "multiple_category_tpl", true );
 }
 
@@ -676,7 +675,7 @@ $t->set_var( "action_value", $action_value );
 $t->set_var( "message", $message );
 
 
-$t->set_var( "title", $ttitle );
+$t->set_var( "name", $tname );
 $t->set_var( "url", $turl );
 $t->set_var( "keywords", $tkeywords );
 $t->set_var( "description", $tdescription );

@@ -1,5 +1,5 @@
 <?
-// $Id: linkgrouplist.php,v 1.20 2001/05/16 12:24:58 ce Exp $
+// $Id: linkcategorylist.php,v 1.1 2001/06/30 11:29:40 bf Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <26-Oct-2000 14:55:24 ce>
@@ -31,9 +31,9 @@ $ini =& $GLOBALS["GlobalSiteIni"];
 $Language = $ini->read_var( "eZLinkMain", "Language" );
 $AdminLimit = $ini->read_var( "eZLinkMain", "AdminLinkLimit" );
 $DOC_ROOT = $ini->read_var( "eZLinkMain", "DocumentRoot" );
-$languageIni = new INIFile( "ezlink/admin/intl/" . $Language . "/linkgrouplist.php.ini", false );
+$languageIni = new INIFile( "ezlink/admin/intl/" . $Language . "/linkcategorylist.php.ini", false );
 
-include_once( "ezlink/classes/ezlinkgroup.php" );
+include_once( "ezlink/classes/ezlinkcategory.php" );
 include_once( "ezlink/classes/ezlink.php" );
 include_once( "ezlink/classes/ezhit.php" );
 
@@ -47,18 +47,18 @@ include_once( "ezimagecatalogue/classes/ezimage.php" );
 require( "ezuser/admin/admincheck.php" );
 
 $t = new eZTemplate( "ezlink/admin/" . $ini->read_var( "eZLinkMain", "AdminTemplateDir" ),
-"ezlink/admin/intl/", $Language, "linkgrouplist.php" );
+"ezlink/admin/intl/", $Language, "linkcategorylist.php" );
 $t->setAllStrings();
 
 $t->set_file( array(
-    "link_page_tpl" => "linkgrouplist.tpl"
+    "link_page_tpl" => "linkcategorylist.tpl"
     ) );
 
-$t->set_block( "link_page_tpl", "group_list_tpl", "group_list" );
-$t->set_block( "group_list_tpl", "group_item_tpl", "group_item" );
+$t->set_block( "link_page_tpl", "category_list_tpl", "category_list" );
+$t->set_block( "category_list_tpl", "category_item_tpl", "category_item" );
 
-$t->set_block( "group_item_tpl", "image_item_tpl", "image_item" );
-$t->set_block( "group_item_tpl", "no_image_tpl", "no_image" );
+$t->set_block( "category_item_tpl", "image_item_tpl", "image_item" );
+$t->set_block( "category_item_tpl", "no_image_tpl", "no_image" );
 
 $t->set_block( "link_page_tpl", "link_list_tpl", "link_list" );
 $t->set_block( "link_list_tpl", "link_item_tpl", "link_item" );
@@ -75,39 +75,42 @@ if ( !$Offset )
     $Offset = 0;
 
 // List all the categoires
-$linkGroup = new eZLinkGroup();
+$linkCategory = new eZLinkCategory();
 
-$linkGroup->get ( $LinkGroupID );
+if( !is_numeric( $LinkCategoryID ) )
+    $LinkCategoryID = 0;
+    
+$linkCategory->get ( $LinkCategoryID );
 
 // path
-$pathArray = $linkGroup->path();
+$pathArray = $linkCategory->path();
 
 $t->set_var( "path_item", "" );
 foreach ( $pathArray as $path )
 {
-    $t->set_var( "group_id", $path[0] );
+    $t->set_var( "category_id", $path[0] );
 
-    $t->set_var( "group_name", $path[1] );
+    $t->set_var( "category_name", $path[1] );
     
     $t->parse( "path_item", "path_item_tpl", true );
 }
 
-$linkGroupList =& $linkGroup->getByParent( $LinkGroupID );
+$linkCategoryList =& $linkCategory->getByParent( $LinkCategoryID );
 
-if ( $LinkGroupID == "incoming" )
+if ( $LinkCategoryID == "incoming" )
 {
-    $linkGroupList = array();
+    $linkCategoryList = array();
 }
 
-if ( count( $linkGroupList ) == 0 )
+if ( count( $linkCategoryList ) == 0 )
 {
     $t->set_var( "categories", "" );
-    $t->set_var( "group_list", "" );
+    $t->set_var( "category_list", "" );
 }
 else
 {
     $i=0;
-    foreach( $linkGroupList as $linkGroupItem )
+    foreach( $linkCategoryList as $linkCategoryItem )
     {
         if ( ( ( $i ) % 2 ) == 0 )
         {
@@ -118,18 +121,18 @@ else
             $t->set_var( "bg_color", "#dcdcdc" );
         }  
         
-        $link_group_id = $linkGroupItem->id();
-        $t->set_var( "linkgroup_id", $link_group_id );
-        $t->set_var( "linkgroup_title", $linkGroupItem->title() );
-        $t->set_var( "category_description", $linkGroupItem->description() );
-        $t->set_var( "linkgroup_parent", $linkGroupItem->parent() );
+        $link_category_id = $linkCategoryItem->id();
+        $t->set_var( "linkcategory_id", $link_category_id );
+        $t->set_var( "linkcategory_name", $linkCategoryItem->name() );
+        $t->set_var( "category_description", $linkCategoryItem->description() );
+        $t->set_var( "linkcategory_parent", $linkCategoryItem->parent() );
         
         $t->set_var( "total_links", $total_sub_links );
         $t->set_var( "new_links", $new_sub_links );
         
         $t->set_var( "document_root", $DOC_ROOT );
 
-        $image =& $linkGroupItem->image();
+        $image =& $linkCategoryItem->image();
 
         $t->set_var( "image_item", "" );
         
@@ -160,23 +163,23 @@ else
         
         $categories = $languageIni->read_var( "strings", "categories" );
         
-        $t->parse( "group_item", "group_item_tpl", true );
+        $t->parse( "category_item", "category_item_tpl", true );
         $i++;
     }
-    $t->parse( "group_list", "group_list_tpl", true );
+    $t->parse( "category_list", "category_list_tpl", true );
 }
 
 // List all the links in category
 $link = new eZLink();
-if ( $LinkGroupID == "incoming" )
+if ( $LinkCategoryID == "incoming" )
 {
     $linkList =& $link->links( $Offset, $AdminLimit, true );
     $linkCount =& $link->links( true );
 }
 else
 {
-    $linkList =& $linkGroup->links( $Offset, $AdminLimit );
-    $linkCount =& $linkGroup->linkCount( );
+    $linkList =& $linkCategory->links( $Offset, $AdminLimit );
+    $linkCount =& $linkCategory->linkCount( );
 } 
 
 if ( !$linkList )
@@ -195,9 +198,9 @@ else
             $t->set_var( "td_class", "bgdark" );
         
         $t->set_var( "link_id", $linkItem->id() );
-        $t->set_var( "link_title", $linkItem->title() );
+        $t->set_var( "link_name", $linkItem->name() );
         $t->set_var( "link_description", $linkItem->description() );
-        $t->set_var( "link_groupid", $linkItem->linkgroupid() );
+        $t->set_var( "link_categoryid", $linkItem->linkcategoryid() );
         $t->set_var( "link_keywords", $linkItem->keywords() );
         $t->set_var( "link_created", $linkItem->created() );
         $t->set_var( "link_modified", $linkItem->modified() );

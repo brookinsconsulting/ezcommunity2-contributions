@@ -1,6 +1,6 @@
 <?
 //
-// $Id: groupedit.php,v 1.46 2001/05/29 14:00:57 ce Exp $
+// $Id: categoryedit.php,v 1.1 2001/06/30 11:29:40 bf Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <26-Oct-2000 14:57:28 ce>
@@ -24,10 +24,6 @@
 //
 
 
-/*
-  groupedit.php 
-*/
-
 include_once( "classes/INIFile.php" );
 $ini =& $GLOBALS["GlobalSiteIni"];
 
@@ -38,7 +34,7 @@ include_once( "classes/eztemplate.php" );
 include_once( "classes/ezhttptool.php" );
 include_once( "classes/ezcachefile.php" );
 
-include_once( "ezlink/classes/ezlinkgroup.php" );
+include_once( "ezlink/classes/ezlinkcategory.php" );
 include_once( "ezlink/classes/ezlink.php" );
 include_once( "ezlink/classes/ezhit.php" );
 
@@ -54,16 +50,16 @@ if ( isSet ( $DeleteCategories ) )
 }
 
 // Get images from the image browse function.
-if ( ( isSet ( $AddImages ) ) and ( is_numeric( $LinkGroupID ) ) and ( is_numeric ( $LinkGroupID ) ) )
+if ( ( isSet ( $AddImages ) ) and ( is_numeric( $LinkCategoryID ) ) and ( is_numeric ( $LinkCategoryID ) ) )
 {
     $image = new eZImage( $ImageID );
-    $category = new eZLinkGroup( $LinkGroupID );
+    $category = new eZLinkCategory( $LinkCategoryID );
     $category->setImage( $image );
     $category->update();
     $Action = "edit";
 }
 
-// Insert a group.
+// Insert a category.
 if ( $Action == "insert" )
 {
     // clear the menu cache
@@ -76,16 +72,16 @@ if ( $Action == "insert" )
         $file->delete();
     }
     
-    if ( eZPermission::checkPermission( $user, "eZLink", "LinkGroupAdd" ) )
+    if ( eZPermission::checkPermission( $user, "eZLink", "LinkCategoryAdd" ) )
     {
-        if ( $Title != "" &&
+        if ( $Name != "" &&
         $ParentCategory != "" )
         {
-            $group = new eZLinkGroup();
+            $category = new eZLinkCategory();
             
-            $group->setTitle( $Title );
-            $group->setDescription( $Description );
-            $group->setParent( $ParentCategory );
+            $category->setName( $Name );
+            $category->setDescription( $Description );
+            $category->setParent( $ParentCategory );
             $ttile = "";
 
             $file = new eZImageFile();
@@ -97,26 +93,26 @@ if ( $Action == "insert" )
 
                 $image->store();
                 
-                $group->setImage( $image );
+                $category->setImage( $image );
             }
             else
             {
             }
             
-            $group->store();
+            $category->store();
 
             if ( isSet ( $Browse ) )
             {
-                $groupID = $group->id();
+                $categoryID = $category->id();
 
-                $session = new eZSession();
+                $session =& eZSession::globalSession();                
                 $session->setVariable( "SelectImages", "single" );
-                $session->setVariable( "ImageListReturnTo", "/link/groupedit/edit/$groupID/" );
-                $session->setVariable( "NameInBrowse", $group->title() );
+                $session->setVariable( "ImageListReturnTo", "/link/categoryedit/edit/$categoryID/" );
+                $session->setVariable( "NameInBrowse", $category->name() );
                 eZHTTPTool::header( "Location: /imagecatalogue/browse/" );
                 exit();
             }
-            eZHTTPTool::header( "Location: /link/group/". $ParentCategory );
+            eZHTTPTool::header( "Location: /link/category/". $ParentCategory );
             exit();
         }
         else
@@ -132,7 +128,7 @@ if ( $Action == "insert" )
     }
 }
 
-// Delete a group.
+// Delete a category.
 if ( $Action == "delete" )
 {
     // clear the menu cache
@@ -145,13 +141,13 @@ if ( $Action == "delete" )
         $file->delete();
     }
 
-    if ( eZPermission::checkPermission( $user, "eZLink", "LinkGroupDelete" ) )
+    if ( eZPermission::checkPermission( $user, "eZLink", "LinkCategoryDelete" ) )
     {
-        $group = new eZLinkGroup();
-        $group->get( $LinkGroupID );
-        $group->delete();
+        $category = new eZLinkCategory();
+        $category->get( $LinkCategoryID );
+        $category->delete();
 
-        eZHTTPTool::header( "Location: /link/group/" );
+        eZHTTPTool::header( "Location: /link/category/" );
         exit();
     }
     else
@@ -172,18 +168,18 @@ if ( $Action == "DeleteCategories" )
         $file->delete();
     }
 
-    if ( eZPermission::checkPermission( $user, "eZLink", "LinkGroupDelete" ) )
+    if ( eZPermission::checkPermission( $user, "eZLink", "LinkCategoryDelete" ) )
     {
         if ( count ( $CategoryArrayID ) != 0 )
         {
             foreach( $CategoryArrayID as $CategoryID )
             {
-                $group = new eZLinkGroup();
-                $group->get( $CategoryID );
-                $parentID = $group->parent();
-                $group->delete();
+                $category = new eZLinkCategory();
+                $category->get( $CategoryID );
+                $parentID = $category->parent();
+                $category->delete();
             }
-            eZHTTPTool::header( "Location: /link/group/$parentID" );
+            eZHTTPTool::header( "Location: /link/category/$parentID" );
             exit();
         }
     }
@@ -193,7 +189,7 @@ if ( $Action == "DeleteCategories" )
     }
 }
 
-// Update a group.
+// Update a category.
 if ( $Action == "update" )
 {
     // clear the menu cache
@@ -206,16 +202,16 @@ if ( $Action == "update" )
         $file->delete();
     }
     
-    if ( eZPermission::checkPermission( $user, "eZLink", "LinkGroupModify" ) )
+    if ( eZPermission::checkPermission( $user, "eZLink", "LinkCategoryModify" ) )
     {
-        if ( $Title != "" &&
+        if ( $Name != "" &&
         $ParentCategory != "" )
         {
-            $group = new eZLinkGroup();
-            $group->get ( $LinkGroupID );
-            $group->setTitle ( $Title );
-            $group->setDescription( $Description );
-            $group->setParent( $ParentCategory );
+            $category = new eZLinkCategory();
+            $category->get ( $LinkCategoryID );
+            $category->setName ( $Name );
+            $category->setDescription( $Description );
+            $category->setParent( $ParentCategory );
 
             $file = new eZImageFile();
             if ( $file->getUploadedFile( "ImageFile" ) )
@@ -226,28 +222,28 @@ if ( $Action == "update" )
                 
                 $image->store();
                 
-                $group->setImage( $image );
+                $category->setImage( $image );
             }
 
-            $group->update();
+            $category->update();
 
             if ( $DeleteImage )
             {
-                $group->deleteImage();
+                $category->deleteImage();
             }
 
             if ( isSet ( $Browse ) )
             {
-                $groupID = $group->id();
+                $categoryID = $category->id();
                 $session = new eZSession();
                 $session->setVariable( "SelectImages", "single" );
-                $session->setVariable( "ImageListReturnTo", "/link/groupedit/edit/$groupID/" );
-                $session->setVariable( "NameInBrowse", $group->title() );
+                $session->setVariable( "ImageListReturnTo", "/link/categoryedit/edit/$categoryID/" );
+                $session->setVariable( "NameInBrowse", $category->name() );
                 eZHTTPTool::header( "Location: /imagecatalogue/browse/" );
                 exit();
             }
 
-            eZHTTPTool::header( "Location: /link/group/$ParentCategory" );
+            eZHTTPTool::header( "Location: /link/category/$ParentCategory" );
             exit();
         }
         else
@@ -262,26 +258,26 @@ if ( $Action == "update" )
 }
 
 $t = new eZTemplate( "ezlink/admin/" . $ini->read_var( "eZLinkMain", "AdminTemplateDir" ),
-                     "ezlink/admin/" . "/intl/", $Language, "groupedit.php" );
+                     "ezlink/admin/" . "/intl/", $Language, "categoryedit.php" );
 $t->setAllStrings();
 
 $t->set_file( array(
-    "group_edit" => "groupedit.tpl"
+    "category_edit" => "categoryedit.tpl"
     ));
 
-$languageIni = new INIFIle( "ezlink/admin/intl/" . $Language . "/groupedit.php.ini", false );
+$languageIni = new INIFIle( "ezlink/admin/intl/" . $Language . "/categoryedit.php.ini", false );
 $headline = $languageIni->read_var( "strings", "headline_insert" );
 
-$t->set_block( "group_edit", "parent_category_tpl", "parent_category" );
-$t->set_block( "group_edit", "image_item_tpl", "image_item" );
-$t->set_block( "group_edit", "no_image_item_tpl", "no_image_item" );
+$t->set_block( "category_edit", "parent_category_tpl", "parent_category" );
+$t->set_block( "category_edit", "image_item_tpl", "image_item" );
+$t->set_block( "category_edit", "no_image_item_tpl", "no_image_item" );
 
-$groupselect = new eZLinkGroup();
-$groupLinkList = $groupselect->getTree( );
+$categoryselect = new eZLinkCategory();
+$categoryLinkList = $categoryselect->getTree( );
 
 if ( $Action == "new" )
 {
-    if ( !eZPermission::checkPermission( $user, "eZLink", "LinkGroupAdd" ) )
+    if ( !eZPermission::checkPermission( $user, "eZLink", "LinkCategoryAdd" ) )
     {
         eZHTTPTool::header( "Location: /link/norights" );
     }
@@ -294,28 +290,28 @@ if ( $Action == "new" )
     $t->set_var( "action_value", "insert" );
 }
 
-// Modifing a group.
+// Modifing a category.
 if ( $Action == "edit" )
 {
-    $languageIni = new INIFIle( "ezlink/admin/intl/" . $Language . "/groupedit.php.ini", false );
+    $languageIni = new INIFIle( "ezlink/admin/intl/" . $Language . "/categoryedit.php.ini", false );
     $headline = $languageIni->read_var( "strings", "headline_edit" );
 
-    if ( !eZPermission::checkPermission( $user, "eZLink", "LinkGroupModify" ) )
+    if ( !eZPermission::checkPermission( $user, "eZLink", "LinkCategoryModify" ) )
     {
         eZHTTPTool::header( "Location: /link/norights" );
     }
     else
     {
-        $linkGroup = new eZLinkGroup();
-        $linkGroup->get ( $LinkGroupID );
+        $linkCategory = new eZLinkCategory();
+        $linkCategory->get ( $LinkCategoryID );
 
-        $parentID = $linkGroup->parent();
+        $parentID = $linkCategory->parent();
         
-        $t->set_var( "category_name", $linkGroup->title() );
-        $t->set_var( "category_description", $linkGroup->description() );
-        $t->set_var( "category_id", $linkGroup->id() );
+        $t->set_var( "category_name", $linkCategory->name() );
+        $t->set_var( "category_description", $linkCategory->description() );
+        $t->set_var( "category_id", $linkCategory->id() );
 
-        $image =& $linkGroup->image();
+        $image =& $linkCategory->image();
         
         if ( get_class( $image ) == "ezimage" && $image->id() != 0 )
         {
@@ -349,16 +345,16 @@ if ( $Action == "edit" )
 
 
 // Selecter
-$group_select_dict = "";
-foreach( $groupLinkList as $groupLinkItem )
+$category_select_dict = "";
+foreach( $categoryLinkList as $categoryLinkItem )
 {
-    $t->set_var( "grouplink_id", $groupLinkItem[0]->id() );
-    $t->set_var( "grouplink_title", $groupLinkItem[0]->title() );
-    $t->set_var( "grouplink_parent", $groupLinkItem[0]->parent() );
+    $t->set_var( "categorylink_id", $categoryLinkItem[0]->id() );
+    $t->set_var( "categorylink_name", $categoryLinkItem[0]->name() );
+    $t->set_var( "categorylink_parent", $categoryLinkItem[0]->parent() );
 
     if ( is_numeric( $parentID ) )
     {
-        if ( $parentID == $groupLinkItem[0]->id() )
+        if ( $parentID == $categoryLinkItem[0]->id() )
         {
             $t->set_var( "is_selected", "selected" );
         }
@@ -368,13 +364,13 @@ foreach( $groupLinkList as $groupLinkItem )
         }
     }
 
-    if ( $groupLinkItem[1] > 0 )
-        $t->set_var( "option_level", str_repeat( "&nbsp;", $groupLinkItem[1] ) );
+    if ( $categoryLinkItem[1] > 0 )
+        $t->set_var( "option_level", str_repeat( "&nbsp;", $categoryLinkItem[1] ) );
     else
         $t->set_var( "option_level", "" );
 
     
-    $group_select_dict[ $groupLinkItem[0]->id() ] = $i;
+    $category_select_dict[ $categoryLinkItem[0]->id() ] = $i;
 
     $t->parse( "parent_category", "parent_category_tpl", true );
 }
@@ -383,5 +379,5 @@ $t->set_var( "headline", $headline );
 
 $t->set_var( "error_msg", $error_msg );
 
-$t->pparse( "output", "group_edit" );
+$t->pparse( "output", "category_edit" );
 ?>
