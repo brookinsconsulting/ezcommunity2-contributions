@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezmail.php,v 1.8 2000/12/21 16:08:49 ce Exp $
+// $Id: ezmail.php,v 1.9 2000/12/21 19:42:03 pkej Exp $
 //
 // Definition of eZCompany class
 //
@@ -182,7 +182,6 @@ class eZMail
     {
         
         $pos = ( ereg('^[-!#$%&\'*+\\./0-9=?A-Z^_`a-z{|}~]+'.'@'.'[-!#$%&\'*+\\/0-9=?A-Z^_`a-z{|}~]+\.'.'[-!#$%&\'*+\\./0-9=?A-Z^_`a-z{|}~]+$', $address) );
-        print( "address = $address, pos = $pos \n\n" );
         
         return $pos;
     } 
