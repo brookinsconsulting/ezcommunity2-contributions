@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: userwithaddress.php,v 1.20 2001/01/19 10:26:35 ce Exp $
+// $Id: userwithaddress.php,v 1.21 2001/01/19 10:41:12 ce Exp $
 //
 // 
 //
@@ -110,6 +110,34 @@ if ( count ( $AddressID ) != 0 )
         $t->set_var( "street2_value", "$Street2[$i]" );
         $t->set_var( "zip_value", "$Zip[$i]" );
         $t->set_var( "place_value", "$Place[$i]" );
+
+        if ( $SelectCountry == "enabled" )
+        {
+            $countryList = "";
+
+            $ezcountry = new eZCountry();
+            $countryList =& $ezcountry->getAllArray();
+
+            $t->set_var( "country_option", "" );
+            foreach ( $countryList as $country )
+                {
+                    if ( $country["ID"] == $CountryID[$i] )
+                    {
+                        $t->set_var( "is_selected", "selected" );
+                    }
+                    else
+                        $t->set_var( "is_selected", "" );
+                    
+                    $t->set_var( "country_id", $country["ID"] );
+                    $t->set_var( "country_name", $country["Name"] );
+                    $t->parse( "country_option", "country_option_tpl", true );
+                }
+            $t->parse( "country", "country_tpl" );
+        }
+        else
+        {
+            $t->set_var( "country", "" );
+        }
 
         $t->parse( "address", "address_tpl", true );
     }
@@ -240,7 +268,8 @@ if ( $Action == "Insert" || $Action == "Update" || isSet ( $NewAddress ) )
 
         if ( $user )
         {
-            $Action = "Edit";
+            $t->set_var( "action_value", "update" );
+            $Action = "";
         }
         else
         {
@@ -428,6 +457,7 @@ if ( $Action == "New" )
     {
         $t->set_var( "country", "" );
     }
+    
     $t->set_var( "action_value", "insert" );
 }
 
