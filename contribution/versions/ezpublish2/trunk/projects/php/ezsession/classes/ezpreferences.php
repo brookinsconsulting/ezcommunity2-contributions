@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezpreferences.php,v 1.8 2001/05/04 12:35:04 jb Exp $
+// $Id: ezpreferences.php,v 1.9 2001/05/04 12:53:09 jb Exp $
 //
 // Definition of eZPreferences class
 //
@@ -146,7 +146,7 @@ class eZPreferences
             {
                 $valueID = $value_array[0]["ID"];
                 $db->query( "UPDATE eZSession_Preferences SET
-		                         Value='$value' WHERE ID='$valueID
+		                         Value='$value' WHERE ID='$valueID'
                                  " );
                 $ret = true;
             }
