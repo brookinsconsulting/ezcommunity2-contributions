@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: ezxml.php,v 1.17 2001/12/10 15:49:43 bf Exp $
+// $Id: ezxml.php,v 1.18 2001/12/10 16:03:34 bf Exp $
 //
 // Definition of eZXML class
 //
@@ -191,8 +191,10 @@ class eZXML
                         $subNode->type = 4;
                         
                         $currentNode->children[] =& $subNode;
-                        
+
+                        $pos = $endTagPos; 
                         $endTagPos += 2;
+                        
                     }
                     else
                     {                    
