@@ -8,10 +8,6 @@
 <br />
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
-    <td colspan="3">
-	Path til kategori og forum!
-	<br /><br />
-	</td>
 </tr>
 <tr>
     <td width="50%">
@@ -20,7 +16,7 @@
     </td>
 	<td>
 	<p class="boxtext">{intl-username}:</p>
-    Navnet på posteren
+	{message_user}
 	</td>
     <td>
         <p class="boxtext">{intl-postingtime}:</p>

@@ -1,5 +1,5 @@
 <?
-// $Id: unapprovedlist.php,v 1.4 2001/02/13 15:09:59 gl Exp $
+// $Id: unapprovedlist.php,v 1.5 2001/02/23 16:41:31 ce Exp $
 //
 // Author: Bård Farstad <bf@ez.no>
 // Created on: <21-Jan-2001 13:34:48 bf>
@@ -63,24 +63,36 @@ if ( !$messages )
 else
 {
     $i = 0;
-    foreach ( $messages as $message )
+    foreach ( $messages as $msg )
     {
         if ( ( $i % 2 ) == 0 )
             $t->set_var( "td_class", "bglight" );
         else
             $t->set_var( "td_class", "bgdark" );
-    
-    
-        $t->set_var( "message_topic", $message->topic() );
-        $t->set_var( "message_body", $message->body() );
+
+
+        $forum = new eZForum( $msg->forumID() );
+        $t->set_var( "forum_name", $forum->name() );
+
+        $categoryList =& $forum->categories();
+
+        //      print_R( $categoryList );
+        
+//        $categoryName = $categoryList[0]->name();
+
+        $t->set_var( "category_name", $cateogryName );
+
+        $t->set_var( "message_topic", $msg->topic() );
+
+        $t->set_var( "message_body", $msg->body() );
 
         $t->set_var( "reject_message", $languageIni->read_var( "strings", "reject_message" ) );
         
-        $t->set_var( "message_postingtime", $locale->format( $message->postingTime() ) );
+        $t->set_var( "message_postingtime", $locale->format( $msg->postingTime() ) );
 
-        $t->set_var( "message_id", $message->id() );
+        $t->set_var( "message_id", $msg->id() );
 
-        $user = $message->user();
+        $user = $msg->user();
     
         $t->set_var( "message_user", $user->firstName() . " " . $user->lastName() );
 
