@@ -3,7 +3,7 @@
 <form action="{www_dir}{index}/trade/wishlist/" method="post">
 
 <!-- BEGIN full_wishlist_tpl -->
-<table width="100%" border="0" cellspacing="0" cellpadding="0" align="center">
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
 <tr>
     <td>
     <h1>{intl-wishlist}</h1>
@@ -15,11 +15,16 @@
     <!-- BEGIN non_public_wishlist_tpl -->
     <input type="checkbox" name="IsPublic" />&nbsp;<span class="boxtext">{intl-is_public}</span>
     <!-- END non_public_wishlist_tpl -->
-    </td>
+	</td>
+</tr>
+</table>
+
+<hr noshade="noshade" size="4" />
+<br />
+<table width="100%" border="0" cellspacing="0" cellpadding="4">
 <tr>
     <td colspan="2">
 
-    <hr noshade size="4" />
     <!-- BEGIN empty_wishlist_tpl -->
     <h2>{intl-empty_wishlist}</h2>
     <!-- END empty_wishlist_tpl --> 
