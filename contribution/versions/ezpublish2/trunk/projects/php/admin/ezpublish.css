@@ -47,21 +47,6 @@ a
 	text-decoration : underline;
 }
 
-a:hover 
-{
-	color : #000064;
-}
-
-.small 
-{
-	font-size: 10px;
-}
-
-.bold 
-{
-	font-weight: bold;
-}
-
 .smallbold 
 {
 	font-size: 10px;
@@ -118,6 +103,7 @@ a:hover
 
 .boxtext 
 {
+	font-weight: bold;
 	margin-bottom: 4px;
 }
 
@@ -131,6 +117,7 @@ a:hover
 
 .checkhead
 {
+	font-weight: bold;
 	margin-bottom: 16px;
 }
 
@@ -200,7 +187,19 @@ textarea
 	color: #000000;
 }
 
+.error
+{
+	font-size: 14;
+	font-weight: bold;
+    color: #f07800;
+}
+
 hr
 {
 	color: #640000;
+}
+
+a:hover 
+{
+	color : #640000;
 }

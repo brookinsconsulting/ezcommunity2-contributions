@@ -1,47 +1,23 @@
 <form method="post" action="/user/passwordchange/{action_value}/">
-<table width="100%" cellspacing="0" cellpadding="0" border="0">
-<h3>Bytte passord for</h3>
-{first_name} {last_name}
-<br><br><br>
-<tr>
-	<td>
-	{intl-oldpassword}
-	</td>
-</tr>
-<tr>
-	<td>
-	<input type="password" size="20" name="OldPassword"/>
-	</td>
-</tr>
 
-<tr>
-	<td>
-	{intl-newpassword}
-	</td>
-</tr>
-<tr>
-	<td>
-	<input type="password" size="20" name="NewPassword"/>
-	</td>
-</tr>
+<h1>Endre passord</h1>
 
-<tr>
-	<td>
-	{intl-verifypassword}
-	</td>
-</tr>
-<tr>
-	<td>
-	<input type="password" size="20" name="VerifyPassword"/>
-	</td>
-</tr>
+<hr noshade size="4">
 
-<tr>
-	<td>
-	<input type="submit" value="OK" />
-	</td>
-</tr>
-<td>
-</table>
+<h2>{first_name} {last_name}</h2>
+
+<p class="boxtext">{intl-oldpassword}</p>
+<input type="password" size="20" name="OldPassword"/>
+
+<p class="boxtext">{intl-newpassword}</p>
+<input type="password" size="20" name="NewPassword"/>
+
+<p class="boxtext">{intl-verifypassword}</p>
+<input type="password" size="20" name="VerifyPassword"/>
+
+<hr noshade size="4">
+
+<input class="okbutton" type="submit" value="OK" />
+
 </form>
 

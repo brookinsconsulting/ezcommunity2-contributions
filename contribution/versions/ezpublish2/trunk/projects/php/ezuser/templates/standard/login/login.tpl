@@ -1,9 +1,9 @@
 <tr bgcolor="#C85028"> 
 	<td>
         <p class="smallhead">
-	Bruker informasjon
+		Brukerinformasjon
         </p>
-        </td>
+    </td>
 </tr>
 
 <tr>
