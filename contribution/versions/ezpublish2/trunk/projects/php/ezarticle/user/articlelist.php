@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: articlelist.php,v 1.31 2001/02/22 18:40:30 jb Exp $
+// $Id: articlelist.php,v 1.32 2001/02/23 18:46:55 jb Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <18-Oct-2000 14:41:37 bf>
@@ -159,7 +159,6 @@ if ( $CategoryID == 0 )
     $article = new eZArticle();
     $articleList = $article->articles( "time", false, $Offset, $Limit );
     $articleCount = $article->articleCount( false );
-    print( $articleCount );
 }
 else
 {
