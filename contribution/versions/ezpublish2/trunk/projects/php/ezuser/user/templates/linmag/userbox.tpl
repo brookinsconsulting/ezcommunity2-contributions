@@ -1,8 +1,5 @@
 <form method="post" action="{www_dir}{index}/user/login/logout/">
-<table width="100%" cellspacing="0" cellpadding="2" border="0">
-<tr>
-	<td colspan="2" class="menuhead">{intl-userinfo}</td>
-</tr>
+<table width="100%" cellspacing="5" cellpadding="1" border="0">
 <tr>
 	<td colspan="2" class="menubold">
 	{intl-userlogin}:

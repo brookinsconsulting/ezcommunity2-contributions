@@ -172,7 +172,7 @@
 <!-- END address_actions_tpl -->
 
 
-
+<br /><br />
 <input type="hidden" name="UserID" value="{user_id}" />
 <!-- BEGIN ok_button_tpl -->
 <input class="okbutton" type="submit" name="OK" value="{intl-ok}" />
