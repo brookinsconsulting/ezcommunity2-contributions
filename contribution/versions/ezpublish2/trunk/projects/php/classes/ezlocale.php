@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezlocale.php,v 1.14 2000/12/23 14:39:28 bf Exp $
+// $Id: ezlocale.php,v 1.15 2001/01/06 16:45:40 bf Exp $
 //
 // Definition of eZLocale class
 //
@@ -161,14 +161,15 @@ class eZLocale
                 // Date
                 $date = $this->DateFormat;
 
-                // d - day of the month, 2 digits with leading zeros; i.e. "01" to "31" 
-                $date = ereg_replace( "\%d", "" . $obj->day() . "", $date );
-              
+                // d - day of the month, 2 digits with leading zeros; i.e. "01" to "31"
+                
+                $date =& str_replace( "%d", "" . $obj->day() . "", $date );
+                     
                 // m - month; i.e. "01" to "12" 
-                $date = ereg_replace( "%m", "" . $obj->month(), $date );
+                $date =& str_replace( "%m", "" . $obj->month(), $date );
 
                 // Y - year, 4 digits; i.e. "1999"
-                $date = ereg_replace( "%Y", "" . $obj->year(), $date );
+                $date =& str_replace( "%Y", "" . $obj->year(), $date );
 
                 // Time
                 $time = $this->TimeFormat;
@@ -178,15 +179,15 @@ class eZLocale
                     $hour =  $obj->hour();
                 
                 // H - hour, 24-hour format; i.e. "00" to "23"
-                $time = ereg_replace( "\%H", "" . $hour . "", $time );
+                $time =& str_replace( "%H", "" . $hour . "", $time );
 
                 if ( $obj->minute()  < 10 )
                     $minute = "0" . $obj->minute();
                 else
-                    $minute =  $obj->minute();
+                    $minute = $obj->minute();
                 
                 // i - minutes; i.e. "00" to "59"
-                $time = ereg_replace( "\%i", "" . $minute . "", $time );
+                $time =& str_replace( "%i", "" . $minute . "", $time );
 
                 if ( $obj->second()  < 10 )
                     $second = "0" . $obj->second();
@@ -194,7 +195,7 @@ class eZLocale
                     $second =  $obj->second();
                     
                 // s - seconds; i.e. "00" to "59"
-                $time = ereg_replace( "\%s", "" . $second . "", $time );
+                $time = str_replace( "%s", "" . $second . "", $time );
 
                 $returnString = $date . " " . $time;
 
@@ -207,15 +208,15 @@ class eZLocale
                 $date = $this->DateFormat;
 
                 // d - day of the month, 2 digits with leading zeros; i.e. "01" to "31" 
-                $date = ereg_replace( "\%d", "" . $obj->day() . "", $date );
+                $date =& str_replace( "%d", "" . $obj->day() . "", $date );
                 
                 // m - month; i.e. "01" to "12" 
-                $date = ereg_replace( "%m", "" . $obj->month(), $date );
+                $date =& str_replace( "%m", "" . $obj->month(), $date );
 
                 // Y - year, 4 digits; i.e. "1999"
-                $date = ereg_replace( "%Y", "" . $obj->year(), $date );
+                $date =& str_replace( "%Y", "" . $obj->year(), $date );
                 
-                $returnString = $date;
+                $returnString =& $date;
                 break;
             }
             case "eztime" :
@@ -223,15 +224,15 @@ class eZLocale
                 $time = $this->TimeFormat;
                 
                 // H - hour, 24-hour format; i.e. "00" to "23"
-                $time = ereg_replace( "\%H", "" . $obj->hour() . "", $time );
+                $time =& str_replace( "%H", "" . $obj->hour() . "", $time );
                 
                 // i - minutes; i.e. "00" to "59"
-                $time = ereg_replace( "\%i", "" . $obj->minute() . "", $time );
+                $time =& str_replace( "%i", "" . $obj->minute() . "", $time );
 
                 // s - seconds; i.e. "00" to "59"
-                $time = ereg_replace( "\%s", "" . $obj->second() . "", $time );                                
+                $time =& str_replace( "%s", "" . $obj->second() . "", $time );                                
 
-                $returnString = $time;
+                $returnString =& $time;
                 break;
             }
             case "ezcurrency" :

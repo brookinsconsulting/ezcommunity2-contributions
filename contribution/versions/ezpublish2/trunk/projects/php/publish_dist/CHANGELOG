@@ -3,6 +3,7 @@ eZ publish changelog:
 
 Changes from version 1.0.5
 --------------------------
+* Speeded up localisation of date and time
 * Added file uploads on articles.
 * Added dynamically updating of menues with static pages.
 * Added file upload to eZ article
@@ -10,7 +11,6 @@ Changes from version 1.0.5
 * Removed strip tags from messages in eZ forum
 * Language updates
 * Fixed a ini bug in eZUser
-
 
 Changes from version 1.0.4
 --------------------------
@@ -32,7 +32,6 @@ Changes from version 1.0.3
 * Fixed so that users can change their password
 * Fixed so that admin can read forum messages.
 * Fixed a config reading problem with eZPoll
-
 
 Changes from version 1.0.2
 --------------------------
