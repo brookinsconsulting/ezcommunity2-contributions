@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: datasupplier.php,v 1.25.2.2 2002/05/02 17:03:07 br Exp $
+// $Id: datasupplier.php,v 1.25.2.3 2002/06/11 08:20:30 jhe Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -72,7 +72,8 @@ switch ( $url_array[2] )
     {
         include( "ezimagecatalogue/user/imagelist.php" );
         
-    }break;
+    }
+    break;
 
 
     case "image" :

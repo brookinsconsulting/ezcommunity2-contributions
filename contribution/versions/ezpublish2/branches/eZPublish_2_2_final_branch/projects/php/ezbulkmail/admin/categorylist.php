@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: categorylist.php,v 1.12.2.1 2001/11/19 11:29:37 jhe Exp $
+// $Id: categorylist.php,v 1.12.2.2 2002/06/11 08:19:26 jhe Exp $
 //
 // Created on: <18-Apr-2001 10:26:26 fh>
 //
@@ -105,11 +105,10 @@ foreach ( $categories as $categoryitem )
     $t->set_var( "category_description", $categoryitem->description() );
     $t->set_var( "subscription_count", $categoryitem->subscriberCount() );
     $t->set_var( "category_id", $categoryitem->id() );
-    if( $categoryitem->isPublic() )
+    if ( $categoryitem->isPublic() )
         $t->set_var( "category_is_public", $iniLanguage->read_var( "strings", "yes" ) );
     else
         $t->set_var( "category_is_public", $iniLanguage->read_var( "strings", "no" ) );
-                     
     
     ( $i % 2 ) ? $t->set_var( "td_class", "bgdark" ) : $t->set_var( "td_class", "bglight" );
     
@@ -117,30 +116,31 @@ foreach ( $categories as $categoryitem )
     $i++;
 
     // also parse of the upper category single list select
-    if( $singleListCategoryID == $categoryitem->id() )
+    if ( $singleListCategoryID == $categoryitem->id() )
         $t->set_var( "single_list_selected", "selected" );
     else
         $t->set_var( "single_list_selected", "" );
         
     $t->parse( "single_category_item", "single_category_item_tpl", true );
 }
-if( $i > 0 )
+
+if ( $i > 0 )
     $t->parse( "category", "category_tpl" );
 
-if( is_numeric( $CategoryID ) && $CategoryID > 0 )
+if ( is_numeric( $CategoryID ) && $CategoryID > 0 )
 {
     $category = new eZBulkMailCategory( $CategoryID );
     $t->set_var( "current_category_name", $category->name() );
     $t->set_var( "current_category_id", $category->id() );
-    $mail = $category->mail($Offset, 20);
+    $mail = $category->mail( $Offset, 20 );
     $mailCount = $category->mailCount();
     $i = 0;
-    foreach( $mail as $mailItem )
+    foreach ( $mail as $mailItem )
     {
         $t->set_var( "bulkmail_id", $mailItem->id() );
         $t->set_var( "bulkmail_subject", $mailItem->subject() );
 
-        if( !$mailItem->isDraft() )
+        if ( !$mailItem->isDraft() )
         {
             $t->set_var( "sent_date", $locale->format( $mailItem->date() ) );
         }
@@ -148,15 +148,17 @@ if( is_numeric( $CategoryID ) && $CategoryID > 0 )
         {
             $t->set_var( "sent_date", $iniLanguage->read_var( "strings", "not_sent" ) );
         }
+        
         ( $i % 2 ) ? $t->set_var( "td_class", "bgdark" ) : $t->set_var( "td_class", "bglight" );
     
         $t->parse( "bulkmail_item", "bulkmail_item_tpl", true );
         $i++;
     }
-    if( $i > 0 )
-    $t->parse( "bulkmail", "bulkmail_tpl" );
-
+    if ( $i > 0 )
+        $t->parse( "bulkmail", "bulkmail_tpl" );
 }
+
 eZList::drawNavigator( $t, $mailCount, 20, $Offset, "category_list_tpl" );
 $t->pparse( "output", "category_list_tpl" );
+
 ?>
