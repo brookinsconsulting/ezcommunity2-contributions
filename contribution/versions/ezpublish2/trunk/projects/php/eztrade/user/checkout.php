@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: checkout.php,v 1.48 2001/03/12 13:30:50 bf Exp $
+// $Id: checkout.php,v 1.49 2001/03/12 13:54:55 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <28-Sep-2000 15:52:08 bf>
@@ -387,8 +387,11 @@ foreach ( $addressArray as $address )
     $t->set_var( "place", $address->place() );
 
     $country = $address->country();
-    
-    $country = ", " . $country->name();
+
+    if ( $country )
+    {
+        $country = ", " . $country->name();
+    }
 
     if ( $ini->read_var( "eZUserMain", "SelectCountry" ) == "enabled" )
         $t->set_var( "country", $country );
