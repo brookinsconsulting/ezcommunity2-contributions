@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezlocale.php,v 1.31 2001/02/28 20:36:06 gl Exp $
+// $Id: ezlocale.php,v 1.32 2001/03/01 10:24:28 gl Exp $
 //
 // Definition of eZLocale class
 //
@@ -32,32 +32,31 @@
   eZLocale handles locale information and formats time, date, and currency
   information to the locale format.
 <p>
-  The following characters are regognized in the date/time format.
+  The following characters are recognized in the date/time format.
 <pre>
+a - "am" or "pm" 
+A - "AM" or "PM" 
 d - day of the month, 2 digits with leading zeros; i.e. "01" to "31" 
 D - day of the week, textual, 3 letters; i.e. "Fri" 
 E - day of the week, textual, long; i.e. "Friday" 
 F - month, textual, long; i.e. "January" 
-H - hour, 24-hour format; i.e. "00" to "23" 
+g - hour, 12-hour format without leading zeros; i.e. "1" to "12" 
 G - hour, 24-hour format without leading zeros; i.e. "0" to "23" 
+h - hour, 12-hour format; i.e. "01" to "12" 
+H - hour, 24-hour format; i.e. "00" to "23" 
 i - minutes; i.e. "00" to "59" 
-m - month; i.e. "01" to "12" 
+j - day of the month without leading zeros; i.e. "1" to "31" 
 M - month, textual, 3 letters; i.e. "Jan" 
+m - month; i.e. "01" to "12" 
+n - month without leading zeros; i.e. "1" to "12" 
 s - seconds; i.e. "00" to "59" 
 Y - year, 4 digits; i.e. "1999" 
 </pre>
 
   The following are not yet implemented.
 <pre>
-a - "am" or "pm" 
-A - "AM" or "PM" 
-g - hour, 12-hour format without leading zeros; i.e. "1" to "12" 
-h - hour, 12-hour format; i.e. "01" to "12" 
 I (capital i) - "1" if Daylight Savings Time, "0" otherwise. 
-j - day of the month without leading zeros; i.e. "1" to "31" 
-l (lowercase 'L') - day of the week, textual, long; i.e. "Friday" 
 L - boolean for whether it is a leap year; i.e. "0" or "1" 
-n - month without leading zeros; i.e. "1" to "12" 
 t - number of days in the given month; i.e. "28" to "31" 
 T - Timezone setting of this machine; i.e. "MDT" 
 U - seconds since the epoch 
@@ -180,8 +179,11 @@ class eZLocale
 
                 if ( $objClass != "eztime" )
                 {
-                    // d - day of the month, 2 digits with leading zeros; i.e. "01" to "31" 
-                    $date =& str_replace( "%d", "" . $obj->day() . "", $date );
+                    // d - day of the month, 2 digits with leading zeros; i.e. "01" to "31"
+                    $date =& str_replace( "%d", "" . $this->addZero( $obj->day() ) . "", $date );
+
+                    // j - day of the month without leading zeros; i.e. "1" to "31"
+                    $date =& str_replace( "%j", "" . $obj->day() . "", $date );
 
                     // D - day of the week, textual, 3 letters; i.e. "Fri"
                     $date =& str_replace( "%D", "" . $this->dayName(
@@ -197,8 +199,11 @@ class eZLocale
                     // M - month, textual, 3 letters; i.e. "Jan"
                     $date =& str_replace( "%M", "" . $this->monthName( $obj->month() ) . "", $date );
 
-                    // m - month; i.e. "01" to "12" 
-                    $date =& str_replace( "%m", "" . $obj->month(), $date );
+                    // m - month; i.e. "01" to "12"
+                    $date =& str_replace( "%m", "" . $this->addZero( $obj->month() ), $date );
+
+                    // n - month without leading zeros; i.e. "1" to "12"
+                    $date =& str_replace( "%n", "" . $obj->month(), $date );
 
                     // Y - year, 4 digits; i.e. "1999"
                     $date =& str_replace( "%Y", "" . $obj->year(), $date );
@@ -208,11 +213,24 @@ class eZLocale
 
                 if ( $objClass != "ezdate" )
                 {
+                    // a - "am" or "pm"
+                    $time =& str_replace( "%a", "" . $this->ampm( $obj->hour(), false ) . "", $time );
+
+                    // A - "AM" or "PM"
+                    $time =& str_replace( "%A", "" . $this->ampm( $obj->hour(), true ) . "", $time );
+
+                    // g - hour, 12-hour format without leading zeros; i.e. "1" to "12"
+                    $time =& str_replace( "%g", "" . $this->twelveHour( $obj->hour() ) . "", $time );
+
+                    // h - hour, 12-hour format; i.e. "01" to "12"
+                    $time =& str_replace( "%h", "" . $this->addZero( $this->twelveHour( $obj->hour() ) )
+                                          . "", $time );
+
+                    // G - hour, 24-hour format without leading zeros; i.e. "0" to "23"
+                    $time =& str_replace( "%G", "" . $obj->hour() . "", $time );
+
                     // H - hour, 24-hour format; i.e. "00" to "23"
                     $time =& str_replace( "%H", "" . $this->addZero( $obj->hour() ) . "", $time );
-
-                    // G - hour, 24-hour format without leading zeros; i.e. "0" to "23" 
-                    $time =& str_replace( "%H", "" . $obj->hour() . "", $time );
 
                     // i - minutes; i.e. "00" to "59"
                     $time =& str_replace( "%i", "" . $this->addZero( $obj->minute() ) . "", $time );
@@ -520,6 +538,38 @@ class eZLocale
         }
     }
       
+    /*!
+      Returns AM or PM based on the supplied hour value.
+      $hour must be between 0 and 23.
+      If $uppercase is true, the string will be returned in upper case, else in lower case.
+    */
+    function ampm( $hour, $uppercase=true )
+    {
+        if ( $hour < 12 )
+            $ret = "AM";
+        else
+            $ret = "PM";
+
+        if ( $uppercase == false )
+            return strtolower( $ret );
+        else
+            return $ret;
+    }
+
+    /*!
+      Returns the hour of the day in 12-hour format.
+      $hour must be between 0 and 23.
+    */
+    function twelveHour( $hour )
+    {
+        if ( $hour == 0 )
+            return 12;
+        else if ( $hour > 12 )
+            return $hour % 12;
+        else
+            return $hour;
+    }
+
 
     var $PositivePrefixCurrencySymbol;
     var $NegativePrefixCurrencySymbol;

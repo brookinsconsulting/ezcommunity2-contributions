@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezdate.php,v 1.19 2001/02/12 16:01:45 jb Exp $
+// $Id: ezdate.php,v 1.20 2001/03/01 10:24:28 gl Exp $
 //
 // Definition of eZCompany class
 //
@@ -387,16 +387,16 @@ class eZDate
     */
     function equals( $date )
     {
-        $ret = false;
-
         if ( $this->Year == $date->year() &&
              $this->Month == $date->month() &&
              $this->Day == $date->day() )
         {
-            $ret = true;
+            return true;
         }
-
-        return $ret;
+        else
+        {
+            return false;
+        }
     }
 
     /*!
