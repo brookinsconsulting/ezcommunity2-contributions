@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: articleedit.php,v 1.75 2001/04/27 12:12:39 jb Exp $
+// $Id: articleedit.php,v 1.76 2001/04/27 13:23:42 jb Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <18-Oct-2000 15:04:39 bf>
@@ -36,76 +36,11 @@ include_once( "ezarticle/classes/ezarticlecategory.php" );
 include_once( "ezarticle/classes/ezarticle.php" );
 include_once( "ezarticle/classes/ezarticlegenerator.php" );
 include_once( "ezarticle/classes/ezarticlerenderer.php" );
-include_once( "ezarticle/classes/ezarticletool.php" );
 
 include_once( "ezbulkmail/classes/ezbulkmail.php" );
 include_once( "ezbulkmail/classes/ezbulkmailcategory.php" );
 
-function notificationMessage( &$article )
-{
-    include_once( "classes/eztexttool.php" );
-    $ini =& INIFile::globalINI();
-
-    $PublishNoticeReceiver = $ini->read_var( "eZArticleMain", "PublishNoticeReceiver" );
-    $PublishNoticeSender = $ini->read_var( "eZArticleMain", "PublishNoticeSender" );
-    $PublishNoticePadding = $ini->read_var( "eZArticleMain", "PublishNoticePadding" );
-    $PublishSite = $ini->read_var( "site", "SiteTitle" );
-    $SiteURL = $ini->read_var( "site", "SiteURL" );
-
-    $mailTemplate = new eZTemplate( "ezarticle/admin/" . $ini->read_var( "eZArticleMain", "AdminTemplateDir" ),
-                                    "ezarticle/admin/intl", $ini->read_var( "eZArticleMain", "Language" ), "mailtemplate.php" );
-    
-    $mailTemplate->set_file( "mailtemplate", "mailtemplate.tpl" );
-    $mailTemplate->setAllStrings();
-
-    $renderer = new eZArticleRenderer( $article );
-
-    $subjectLine = $mailTemplate->Ini->read_var( "strings", "subject" );
-    $subjectLine = $subjectLine . " " . $PublishSite;
-
-    $intro = eZTextTool::linesplit(strip_tags( $renderer->renderIntro( ) ), $PublishNoticePadding, 76 );
-
-    $mailTemplate->set_var( "body", "$intro" );
-    $mailTemplate->set_var( "site", "$PublishSite" );
-    $mailTemplate->set_var( "title", $article->name( false ) );
-    $mailTemplate->set_var( "author", $article->authorText( false ) );
-    
-    $mailTemplate->set_var( "link", "http://" . $SiteURL . "/article/articleview/" . $article->id() );
-
-    $bodyText = $mailTemplate->parse( "dummy", "mailtemplate" );
-    
-    // send a notice mail
-    $noticeMail = new eZMail();
-
-    $noticeMail->setFrom( $PublishNoticeSender );
-    $noticeMail->setTo( $PublishNoticeReceiver );
-
-    $noticeMail->setSubject( $subjectLine );
-    $noticeMail->setBodyText( $bodyText );
-
-    $noticeMail->send();
-
-    // Send bulkmail also
-    $BulkMailGroup = $ini->read_var( "eZArticleMain", "BulkMailNotifyGroup" );
-    $category = eZBulkMailCategory::getByName( $BulkMailGroup );
-
-    if( is_object( $category ) ) // send a mail to this group
-    {
-        $bulkmail = new eZBulkMail();
-        $bulkmail->setOwner( eZUser::currentUser() );
-
-        $bulkmail->setSender( $PublishNoticeSender  ); // from NAME
-        $bulkmail->setSubject( $subjectLine );
-        $bulkmail->setBodyText( $bodyText );
-
-        $bulkmail->setIsDraft( false );
-    
-        $bulkmail->store();
-        $category->addMail( $bulkmail );
-        $bulkmail->send();
-    }
-}
-
+include_once( "ezarticle/classes/ezarticletool.php" );
 
 //  function deleteCache( $ArticleID, $CategoryID, $CategoryArray )
 //  {
@@ -221,7 +156,7 @@ if ( $Action == "Insert" )
     // add check for publishing rights here
     if ( $IsPublished == "on" )
     {
-        notificationMessage( $article );
+        eZArticleTool::notificationMessage( $article );
         
         $article->setIsPublished( true );
     }
@@ -412,7 +347,7 @@ if ( $Action == "Update" )
         // check if the article is published now
         if ( $article->isPublished() == false )
         {
-            notificationMessage( $article );
+            eZArticleTool::notificationMessage( $article );
         }
         
         $article->setIsPublished( true );
