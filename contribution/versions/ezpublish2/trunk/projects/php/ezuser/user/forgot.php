@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: forgot.php,v 1.15 2001/05/14 15:31:15 fh Exp $
+// $Id: forgot.php,v 1.16 2001/06/27 12:10:12 sascha Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <20-Sep-2000 13:32:11 ce>
@@ -56,7 +56,10 @@ if ( $user )
 {
     $subjectText = ( $languageIni->read_var( "strings", "subject_text" ) . " " . $headersInfo["Host"] );
     $bodyText = $languageIni->read_var( "strings", "body_text" );
-
+    
+    $bodyFooter = $languageIni->read_var( "strings", "body_footer" );                      //SF
+    $reminderMailFromAddress = $ini->read_var( "eZUserMain", "ReminderMailFromAddress" );  //SF     
+    
     $forgot = new eZForgot();
     $forgot->get( $user );
     $forgot->setUserID( $user->id() );
@@ -66,10 +69,12 @@ if ( $user )
     $mailpassword = new eZMail();
     $mailpassword->setTo( $user->email() );
     $mailpassword->setSubject( $subjectText );
-
+    $mailpassword->setFrom( $reminderMailFromAddress  );                                               //SF
+    
     $body = ( $bodyText . "\n");
     $body .= ( "http://" . $headersInfo["Host"] . "/user/forgot/change/" . $forgot->Hash() );
-
+    $body .= ( $bodyFooter );                                                                      //SF
+    
     $mailpassword->setBody( $body );
     $mailpassword->send();
 
@@ -85,7 +90,11 @@ if ( $Action == "change" )
     {
         $change->get( $change->check( $Hash ) );
         $subjectNewPassword = $languageIni->read_var( "strings", "subject_text_password" );
-        $bodyNewPassword = $languageIni->read_var( "strings", "body_text_password" );
+        
+	$reminderMailFromAddress = $ini->read_var( "eZUserMain", "ReminderMailFromAddress" );  //SF     
+        $bodyFooter = $languageIni->read_var( "strings", "body_footer" );                      //SF
+	
+	$bodyNewPassword = $languageIni->read_var( "strings", "body_text_password" );
         $passwordText = $languageIni->read_var( "strings", "password" );
         $userID = $change->userID();
         $user = new eZUser( $userID );
@@ -95,9 +104,14 @@ if ( $Action == "change" )
         $mail = new eZMail();
         $mail->setTo( $user->email() );
         $mail->setSubject( $subjectNewPassword . " " . $headersInfo["Host"] );
-
-        $body = ( $bodyNewPassword . " " . $headersInfo["Host"] .".\n" );
+	
+        $mail->setFrom( $reminderMailFromAddress );                                            //SF
+	
+        $body = ( $bodyNewPassword . "\nhttp://" . $headersInfo["Host"] ."/user/login/.\n" ); //SF
         $body .= ( $passwordText . ": "  .  $password );
+	
+	$body .= ( $bodyFooter );                                                              //SF
+	
         $mail->setBody( $body );
         $mail->send();
 
@@ -109,13 +123,10 @@ if ( $Action == "change" )
 }
 
 // Template
-$t = new eZTemplate( "ezuser/user/" . $ini->read_var( "eZUserMain", "TemplateDir" ),
-                     "ezuser/user/intl", $Language, "forgot.php" );
+$t = new eZTemplate( "ezuser/user/" . $ini->read_var( "eZUserMain", "TemplateDir" ), "ezuser/user/intl", $Language, "forgot.php" );
 $t->setAllStrings();
 
-$t->set_file( array(
-    "login" => "forgot.tpl"
-    ) );
+$t->set_file( array( "login" => "forgot.tpl" ) );
 
 $t->pparse( "output", "login" );
 

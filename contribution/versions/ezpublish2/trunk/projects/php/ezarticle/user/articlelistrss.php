@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: articlelistrss.php,v 1.4 2001/03/01 14:06:25 jb Exp $
+// $Id: articlelistrss.php,v 1.5 2001/06/27 12:10:12 sascha Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <11-Dec-2000 09:44:51 bf>
@@ -50,7 +50,7 @@ print( "<rss version=\"0.91\">\n" );
 print( "<channel>\n" );
 
 
-print( "<title>$Title</title>\n" );
+print( "<title></title>\n" );
 print( "<link>$Link</link>\n" );
 print( "<description>$Description</description>\n" );
 print( "<language>$Language</language>\n" );

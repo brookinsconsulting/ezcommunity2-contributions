@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: forgotmessage.php,v 1.1 2001/03/05 09:00:00 ce Exp $
+// $Id: forgotmessage.php,v 1.2 2001/06/27 12:10:12 sascha Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <02-Mar-2001 10:19:02 ce>
@@ -26,7 +26,7 @@
 include_once( "classes/INIFile.php" );
 include_once( "classes/eztemplate.php" );
 $ini =& $GLOBALS["GlobalSiteIni"];
-$Language = $ini->read_var( "eZErrorMain", "Language" );
+$Language = $ini->read_var( "eZUserMain", "Language" ); //SF eZUserMain was eZErrorMain ?? 
 
 $t = new eZTemplate( "ezuser/user/" . $ini->read_var( "eZUserMain", "TemplateDir" ),
                      "ezuser/user/intl/", $Language, "forgotmessage.php" );
