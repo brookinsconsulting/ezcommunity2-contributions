@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezformelement.php,v 1.32 2002/01/14 13:37:44 jhe Exp $
+// $Id: ezformelement.php,v 1.33 2002/01/15 09:15:40 jhe Exp $
 //
 // ezformelement class
 //
@@ -646,13 +646,47 @@ class eZFormElement
         return $result;
     }
 
-    function searchForResults( $elementID, $searchString )
+    function searchForResults( $elementID, $searchString, $operator )
     {
+        $whereStr = "";
+        switch ( $operator )
+        {
+            case "equal":
+            {
+                $whereStr = "Result = '$searchString'";
+            }
+            break;
+
+            case "substring":
+            {
+                $whereStr = "Result LIKE '%$searchString%'";
+            }
+            break;
+
+            case "not":
+            {
+                $whereStr = "Result != '$searchString'";
+            }
+            break;
+
+            case "greater":
+            {
+                $whereStr = "Result > $searchString";
+            }
+            break;
+
+            case "less":
+            {
+                $whereStr = "Result < $searchString";
+            }
+            break;
+        }
+        
         $db =& eZDB::globalDatabase();
 
         $db->array_query( $qa, "SELECT ResultID FROM eZForm_FormElementResult
                                 WHERE ElementID='$elementID'
-                                AND Result LIKE '%$searchString%'" );
+                                AND $whereStr" );
         $result = array();
         foreach ( $qa as $q )
         {

@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: results.php,v 1.2 2002/01/14 13:37:44 jhe Exp $
+// $Id: results.php,v 1.3 2002/01/15 09:15:40 jhe Exp $
 //
 // Created on: <10-Jan-2002 08:58:22 jhe>
 //
@@ -97,9 +97,57 @@ foreach ( $elements as $element )
 
 $t->set_var( "search_text", $SearchText );
 
+$t->set_var( "substring_selected", "" );
+$t->set_var( "equal_selected", "" );
+$t->set_var( "not_selected", "" );
+$t->set_var( "greater_selected", "" );
+$t->set_var( "less_selected", "" );
+
 if ( isSet( $Search ) )
 {
-    $results = eZFormElement::searchForResults( $ElementID, $SearchText );
+    switch ( $Operator )
+    {
+        case "substring":
+        {
+            $t->set_var( "substring_selected", "selected" );
+            $results = eZFormElement::searchForResults( $ElementID, $SearchText, $Operator );
+        }
+        break;
+
+        case "equal":
+        {
+            $t->set_var( "equal_selected", "selected" );
+            $results = eZFormElement::searchForResults( $ElementID, $SearchText, $Operator );
+        }
+        break;
+
+        case "not":
+        {
+            $t->set_var( "not_selected", "selected" );
+            $results = eZFormElement::searchForResults( $ElementID, $SearchText, $Operator );
+        }
+        break;
+        
+        case "greater":
+        {
+            $t->set_var( "greater_selected", "selected" );
+            $results = eZFormElement::searchForResults( $ElementID, $SearchText, $Operator );
+        }
+        break;
+
+        case "less":
+        {
+            $t->set_var( "less_selected", "selected" );
+            $results = eZFormElement::searchForResults( $ElementID, $SearchText, $Operator );
+        }
+        break;
+
+        default:
+        {
+            $results = array();
+        }
+        break;
+    }
 }
 else
 {
