@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezmenubox.php,v 1.8 2001/01/24 14:24:13 jb Exp $
+// $Id: ezmenubox.php,v 1.9 2001/01/25 00:12:57 jb Exp $
 //
 // Definition of eZMenuBox class
 //
@@ -57,7 +57,7 @@ class eZMenuBox
       $print print the box if true else return the box as text.
     */
 
-    function createBox( $ModuleName, $module_dir, $place, $SiteStyle, &$menuItems, $print = true )
+    function createBox( $ModuleName, $module_dir, $place, $SiteStyle, &$menuItems, $print = true, $templatefile = false )
     {
         include_once( "ezsession/classes/ezpreferences.php" );
         $preferences = new eZPreferences();
@@ -68,26 +68,16 @@ class eZMenuBox
 
         $menuStatus =& $preferences->variable( $module_dir . "_status" );
 
-        if ( $GLOBALS["ToggleMenu"] == $module_dir )
-        {
-            if ( $menuStatus == "open" || empty( $menuStatus ) )
-            {
-                $preferences->setVariable( $module_dir . "_status", "closed" );
-            }
-            else
-            {
-                $preferences->setVariable( $module_dir . "_status", "open" );                
-            }
-            
-            $menuStatus =& $preferences->variable( $module_dir . "_status" );
-        }
-
         if ( empty( $menuStatus ) )
         {
             $menuStatus = "open";
         }
 
         $uri = $GLOBALS["REQUEST_URI"];
+        $up_uri = $uri;
+        $down_uri = $uri;
+        $up_uri =& eZHTTPTool::addVariable( $up_uri, "MoveUp", $module_dir );
+        $down_uri =& eZHTTPTool::addVariable( $down_uri, "MoveDown", $module_dir );
         $uri =& eZHTTPTool::addVariable( $uri, "ToggleMenu", $module_dir );
 
         $t = new eZTemplate( "templates/" . $SiteStyle,
@@ -102,6 +92,9 @@ class eZMenuBox
         {
             $menubox_file = "menubox_closed.tpl";
         }
+
+        if ( $templatefile )
+            $menubox_file = $templatefile;
 
         $t->set_file( array(
             "menu_box_tpl" => $menubox_file
@@ -170,9 +163,6 @@ class eZMenuBox
             {
                 $t->set_var( "site_style", $SiteStyle );
                 $t->set_var( "module_dir", $module_dir );
-            
-                $uri = $GLOBALS["REQUEST_URI"];
-                $uri =& eZHTTPTool::addVariable( $uri, "ToggleMenu", $module_dir );
             }
             $t->setAllStrings();
         }
@@ -180,6 +170,8 @@ class eZMenuBox
         if ( $has_cache )
         {
             $t->set_var( "request_uri", $uri );
+            $t->set_var( "move_up_uri", $up_uri );
+            $t->set_var( "move_down_uri", $down_uri );
             if ( $print )
                 $t->pparse( "output", "menu_box_tpl" );
             else
@@ -192,6 +184,8 @@ class eZMenuBox
             $t->storeCache( "output", "menu_box_tpl", false );
             $t->clearVars( array( "menu_box_tpl" ) );
             $t->set_var( "request_uri", $uri );
+            $t->set_var( "move_up_uri", $up_uri );
+            $t->set_var( "move_down_uri", $down_uri );
             if ( $print )
                 $t->pparse( "output", "menu_box_tpl" );
             else
