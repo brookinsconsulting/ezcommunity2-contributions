@@ -13,7 +13,7 @@ include_once( "ezxmlrpc/classes/ezxmlrpcstruct.php" );
 $server = new eZXMLRPCServer( );
 
 $server->registerFunction( "myFunc" );
-$server->registerFunction( "myFunc2", array( new eZXMLRPCString() )  );
+$server->registerFunction( "myFunc2", array( new eZXMLRPCString(), new eZXMLRPCString() )  );
 $server->registerFunction( "myFile" );
 $server->registerFunction( "tellMe" );
 $server->registerFunction( "secret" );
@@ -74,6 +74,10 @@ function giveMeStruct( )
                                       "errorMessage" => new eZXMLRPCString( "Secret" ),
                                       "errorCode2" => new eZXMLRPCInt( 34 ),
                                       "errorMessage2" => new eZXMLRPCString( "Secret, not!" ),
+                                      "ArrayInside" => new eZXMLRPCArray(
+                                          array( new eZXMLRPCString( "first" ),
+                                                 new eZXMLRPCString( "level1_1" ) )
+                                          )
                                       )
                               );
     return $tmp;

@@ -13,7 +13,6 @@ $call->setMethodName( "myFunc2" );
 $call->addParameter( new eZXMLRPCString( "bla" ) );
 $call->addParameter( new eZXMLRPCString( "bla" ) );
 $call->addParameter( new eZXMLRPCString( "bla" ) );
-$call->addParameter( new eZXMLRPCString( "bla" ) );
 
 $response = $client->send( $call );
 
@@ -69,10 +68,14 @@ $result = $response->result();
 
 $struct = $result->value();
 
-//  print_r( $struct );
+print( "<pre>" );
+print_r( $struct );
+print( "</pre>" );
     
 print( $struct["errorCode"]->value() . "<br>" );
 print( $struct["errorMessage"]->value() . "<br>" );
+print( $struct["array"]->value() . "<br>" );
+
 
 
 $call = new eZXMLRPCCall( );
