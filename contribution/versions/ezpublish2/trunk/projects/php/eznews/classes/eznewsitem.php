@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: eznewsitem.php,v 1.6 2000/09/28 09:07:10 pkej-cvs Exp $
+// $Id: eznewsitem.php,v 1.7 2000/09/28 09:10:51 pkej-cvs Exp $
 //
 // Definition of eZNewsItem class
 //
@@ -1384,6 +1384,7 @@ class eZNewsItem
     function dbInit()
     {
             echo "eZNewsItem::dbInit(  ) <br>\n";
+            echo "isConnected is: " . $this->IsConnected . "<br>";
         if( $this->IsConnected == false )
         {
             $this->Database = new eZDB( "site.ini", "eZNewsMain" );
