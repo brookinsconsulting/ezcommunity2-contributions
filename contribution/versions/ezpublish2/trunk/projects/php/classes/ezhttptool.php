@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezhttptool.php,v 1.14 2001/09/29 12:35:14 kaid Exp $
+// $Id: ezhttptool.php,v 1.15 2001/11/14 10:18:53 bf Exp $
 //
 // Definition of eZTextTool class
 //
@@ -296,6 +296,20 @@ class eZHTTPTool
         }
     }
 
+    /*!
+      \static
+      
+      Will set a cookie variable.
+     */
+    function setCookie( $variable, $value, $timeout=365 )
+    {        
+        $exp= time() + ( $timeout * 86400 ); 
+        $exp=strftime("%a, %d-%b-%Y %H:%M:%S", $exp);
+        $exp="$exp GMT";
+        $host = $GLOBALS["HTTP_HOST"];
+        header("Set-Cookie: $variable=$value;expires=$exp;path=/;domain=.$host"); 
+    }
+    
     /*!
       \static
       Initalizes the global object, and static variables.
