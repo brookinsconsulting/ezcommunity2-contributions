@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: index.php,v 1.108 2001/09/21 15:18:44 bf Exp $
+// $Id: index.php,v 1.109 2001/09/21 15:25:57 bf Exp $
 //
 // Created on: <09-Nov-2000 14:52:40 ce>
 //
@@ -274,6 +274,7 @@ if ( ( $requireUserLogin == "disabled" ) ||
         if ( $languageOverride != "" )
         {
             $Language = $languageOverride;
+            print( $Language );
         }
         else
         {
