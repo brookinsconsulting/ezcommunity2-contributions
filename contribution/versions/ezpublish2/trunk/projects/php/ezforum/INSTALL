@@ -1,6 +1,6 @@
 eZ Forum - Installasjonsguide
 
- $Id: INSTALL,v 1.1 2000/07/14 12:55:45 lw-cvs Exp $
+ $Id: INSTALL,v 1.2 2000/08/02 13:53:06 lw-cvs Exp $
 
 (c) 2000 by eZ systems, All rights reserved.
 Author: Lars Wilhelmsen <lw@ez.no>
@@ -31,5 +31,8 @@ Den maa inneholde:
    .body .topic .author / .time
 
  ezforum.css ligger i treet og kan benyttes som mal / cut'n paste objekt
+
+ ezforum.ini-dist kopieres til $DOCROOT og rename's til ezforum.ini med
+ rettigheter 666.
  --
   Lars Wilhelmsen, 050700
