@@ -12,3 +12,4 @@ CREATE TABLE eZSiteManager_MenuType (
   ID int(11) NOT NULL default '0',
   Name varchar(30) default NULL
 ) TYPE=MyISAM;
+
