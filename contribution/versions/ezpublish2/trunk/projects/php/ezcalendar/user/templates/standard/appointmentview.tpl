@@ -85,6 +85,19 @@
 
 <tr><td colspan="3"><br /></td></tr>
 
+<tr>
+	<th colspan="3">
+	{intl-created_by}:
+	</th>
+</tr>
+<tr>
+	<td colspan="3">
+	{appointment_owner}
+	</td>
+</tr>
+
+<tr><td colspan="3"><br /></td></tr>
+
 </table>
 
 <form action="/calendar/appointmentedit/edit/{appointment_id}">

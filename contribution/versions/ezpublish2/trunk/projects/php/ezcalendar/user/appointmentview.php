@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: appointmentview.php,v 1.9 2001/01/26 09:50:13 gl Exp $
+// $Id: appointmentview.php,v 1.10 2001/02/01 11:25:55 gl Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <08-Jan-2001 11:53:05 bf>
@@ -112,6 +112,15 @@ else
     $t->set_var( "appointment_starttime", $locale->format( $appointment->startTime(), true ) );
     $t->set_var( "appointment_stoptime", $locale->format( $appointment->stopTime(), true ) );
     $t->set_var( "appointment_description", $appointment->description() );
+
+    $userID = $appointment->userID();
+    if ( $userID != false )
+    {
+        $user = new eZUser( $userID );
+        $t->set_var( "appointment_owner", $user->name() );
+    }
+    else
+        $t->set_var( "appointment_owner", "unknown user" );
 
     if ( $appointment->isPrivate() == true )
     {
