@@ -32,6 +32,27 @@
 
 <br />
 
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+	<td valign="top">
+
+<p class="boxtext">{intl-appointment_title}:</p>
+<input type="text" size="40" name="Name" value="{name_value}"/>
+	
+	<td valign="top">
+	<td align="right">
+
+	<input {is_private} type="checkbox" name="IsPrivate" />&nbsp;<span class="check">{intl-private_appointment}</span>
+
+	</td>
+</tr>
+</table>
+<br />
+
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+	<td valign="top">
+
 <p class="boxtext">{intl-type}:</p>
 
 <select name="TypeID">
@@ -42,12 +63,20 @@
 
 </select>
 
-<p class="boxtext">{intl-appointment_title}:</p>
-<input type="text" size="40" name="Name" value="{name_value}"/>
-	
-<p class="boxtext">{intl-appointment_description}:</p>
-<textarea name="Description" cols="40" rows="5" wrap="soft">{description_value}</textarea>
+	<td valign="top">
+	<td>
 
+<p class="boxtext">{intl-priority}:</p>
+
+<select name="Priority">
+<option value="0" {0_selected}>{intl-low_priority}</option>
+<option value="1" {1_selected}>{intl-normal_priority}</option>
+<option value="2" {2_selected}>{intl-high_priority}</option>
+</select>
+
+	</td>
+</tr>
+</table>
 <br />
 
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
@@ -72,38 +101,35 @@
 	</select>
 
 	</td>
-	<td valign="top">
+	<td width="40%" valign="top">
 	<p class="boxtext">{intl-appointment_year}:</p>
 	<input type="text" name="Year" value="{year_value}" />
 	</td>
 </tr>
 </table>
+<br />
 
-<table border="0" cellspacing="0" cellpadding="0">
+<table border="0" cellspacing="0" cellpadding="0" width="100%">
 <tr>
 	<td valign="top">
 	<p class="boxtext">{intl-appointment_start}:</p>
 	<input type="text" size="6" name="Start" value="{start_value}" />
 	</td>
+	<td>&nbsp;</td>
 	<td>
 	<p class="boxtext">{intl-appointment_stop}:</p>
 	<input type="text" size="6" name="Stop" value="{stop_value}" />
-
 	</td>
 </tr>
 </table>
 
 
-<p class="boxtext">{intl-priority}:</p>
+<p class="boxtext">{intl-appointment_description}:</p>
+<textarea name="Description" cols="40" rows="5" wrap="soft">{description_value}</textarea>
 
-<select name="Priority">
-<option value="0" {0_selected}>{intl-low_priority}</option>
-<option value="1" {1_selected}>{intl-normal_priority}</option>
-<option value="2" {2_selected}>{intl-high_priority}</option>
-</select>
+<br /><br />
 
-<p class="boxtext">{intl-private_appointment}:</p>
-<input {is_private} type="checkbox" name="IsPrivate" />
+
 
 <hr noshade="noshade" size="4" />
 

@@ -7,44 +7,23 @@
 <hr noshade size="4" />
 <!-- BEGIN view_tpl -->
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
-
-<tr><td colspan="3"><br /></td></tr>
-
 <tr>
-	<th>
-	{intl-title}:
+	<th width="50%">
+	<h2>{appointment_title}</h2>
 	</th>
-	<th>
-	{intl-type}:
-	</th>
-	<th>
+	<td width="50%" align="right">
 	<!-- BEGIN private_tpl -->
-	{intl-private}
+	<b><i>{intl-private}</i></b>
 	<!-- END private_tpl -->
 	<!-- BEGIN public_tpl -->
-	<i>{intl-public}</i>
+	<b><i>{intl-public}</i></b>
 	<!-- END public_tpl -->
-	</th>
-</tr>
-<tr>
-	<td>
-	{appointment_title}
-	</td>
-	<td>
-	{appointment_type}
-	</td>
-	<td>
 	</td>
 </tr>
-
-<tr><td colspan="3"><br /></td></tr>
-
+<tr><td colspan="2"><br /></td></tr>
 <tr>
 	<th>
-	{intl-date}:
-	</th>
-	<th>
-	{intl-time}:
+	{intl-type}:
 	</th>
 	<th>
 	{intl-priority}:
@@ -52,10 +31,7 @@
 </tr>
 <tr>
 	<td>
-	{appointment_date}
-	</td>
-	<td>
-	{appointment_starttime} - {appointment_stoptime}
+	{appointment_type}
 	</td>
 	<td>
 	<!-- BEGIN low_tpl -->
@@ -70,40 +46,67 @@
 	</td>
 </tr>
 
-<tr><td colspan="3"><br /></td></tr>
+<tr><td colspan="2"><br /></td></tr>
 
 <tr>
-	<th colspan="3">
+	<th>
+	{intl-date}:
+	</th>
+	<th>
+	{intl-time}:
+	</th>
+</tr>
+<tr>
+	<td>
+	{appointment_date}
+	</td>
+	<td>
+	{appointment_starttime} - {appointment_stoptime}
+	</td>
+</tr>
+
+<tr><td colspan="2"><br /></td></tr>
+
+<tr>
+	<th colspan="2">
 	{intl-description}:
 	</th>
 </tr>
 <tr>
-	<td colspan="3">
-	{appointment_description}
+	<td colspan="3" class="bglight">
+
+	<table width="100%" cellspacing="0" cellpadding="2" border="0">
+	<tr>
+		<td>
+		{appointment_description}
+		</td>
+	</tr>
+	</table>
+	
 	</td>
 </tr>
 
-<tr><td colspan="3"><br /></td></tr>
+<tr><td colspan="2"><br /></td></tr>
 
 <tr>
-	<th colspan="3">
+	<th colspan="2">
 	{intl-created_by}:
 	</th>
 </tr>
 <tr>
-	<td colspan="3">
+	<td colspan="2">
 	{appointment_owner}
 	</td>
 </tr>
 
-<tr><td colspan="3"><br /></td></tr>
+<tr><td colspan="2"><br /></td></tr>
 
 </table>
 
+<hr noshade size="4" />
 <form action="/calendar/appointmentedit/edit/{appointment_id}">
-<input type="submit" value="{intl-edit_appointment}">
+<input class="stdbutton" type="submit" value="{intl-edit_appointment}">
 </form>
-
 <hr noshade size="4" />
 <!-- END view_tpl -->
 
