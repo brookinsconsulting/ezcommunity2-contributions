@@ -53,8 +53,18 @@ CREATE TABLE eZTrade_VoucherInformation (
   MailMethod int(11) default '1'
 ) TYPE=MyISAM;
 
+CREATE TABLE eZTrade_VoucherUsed (
+  ID int(11) default '0',
+  Used int(11) default '0',
+  Price float default NULL,
+  VoucherID int(11) default '0',
+  OrderID int(11) default '0',
+  UserID int(11) default '0'
+) TYPE=MyISAM;
+
 alter table eZTrade_Voucher add VoucherInformationID int default 0;  
-alter table eZTrade_VoucherUsed add UserID int default 0;
+
+
 
 CREATE TABLE eZForum_MessageWordLink (
   MessageID int(11) NOT NULL default '0',
@@ -69,3 +79,5 @@ CREATE TABLE eZForum_Word (
 );
 
 alter table eZSession_SessionVariable change Value Value text;
+
+ create table eZSiteManager_Menu( ID int NOT NULL, Name varchar(40), Link varchar(40), Type int default 1, ParentID int default 0 ); 
