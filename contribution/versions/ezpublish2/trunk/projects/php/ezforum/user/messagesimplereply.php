@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: messagesimplereply.php,v 1.6 2001/01/23 13:16:57 jb Exp $
+// $Id: messagesimplereply.php,v 1.7 2001/01/26 09:30:18 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <24-Sep-2000 12:20:32 bf>
@@ -73,6 +73,8 @@ if ( $Action == "insert" )
         $reply->enableEmailNotice();
     else
         $reply->disableEmailNotice();
+
+    $message->setIsApproved( true  );    
 
     $reply->store();
 

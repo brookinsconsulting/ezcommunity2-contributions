@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezforummessage.php,v 1.65 2001/01/22 14:56:46 ce Exp $
+// $Id: ezforummessage.php,v 1.66 2001/01/26 09:30:18 bf Exp $
 //
 // Definition of eZCompany class
 //
@@ -47,6 +47,8 @@ class eZForumMessage
     {
         $this->IsConnected = false;
 
+        $this->IsApproved = true;
+        
         $this->ParentID = 0;
         
         if ( $id != "" )
