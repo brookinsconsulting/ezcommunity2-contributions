@@ -1,6 +1,6 @@
 <?php
-// 
-// $Id: ezauthor.php,v 1.9 2001/08/14 10:37:21 br Exp $
+//
+// $Id: ezauthor.php,v 1.9.8.1 2002/01/17 08:10:32 ce Exp $
 //
 // Definition of eZAuthor class
 //
@@ -59,7 +59,7 @@ class eZAuthor
         $dbError = false;
         $db->begin( );
 
-        
+
         $name = $db->escapeString( $this->Name );
         $email = $db->escapeString( $this->EMail );
 
@@ -70,9 +70,9 @@ class eZAuthor
 
             $res = $db->query( "INSERT INTO eZUser_Author
                          ( ID, Name, EMail )
-                         VALUES 
+                         VALUES
 		                 ( '$nextID', '$name', '$email' )" );
-            
+
 			$this->ID = $nextID;
         }
         else
@@ -81,12 +81,12 @@ class eZAuthor
 		                 Name='$name',
                          EMail='$email'
                         WHERE ID='$this->ID'" );
-            
+
 
         }
 
         $db->unlock();
-    
+
         if ( $res == false )
             $db->rollback( );
         else
@@ -113,10 +113,10 @@ class eZAuthor
         {
             $db->query( "DELETE FROM eZUser_Author WHERE ID='$this->ID'" );
         }
-        
+
         return true;
     }
-    
+
     /*!
       Fetches the object information from the database.
 
@@ -131,7 +131,7 @@ class eZAuthor
         {
             $db->array_query( $author_array, "SELECT * FROM eZUser_Author WHERE ID='$id'" );
             if( count( $author_array ) == 1 )
-            {                
+            {
                 $this->ID =& $author_array[0][$db->fieldName("ID")];
                 $this->Name =& $author_array[0][$db->fieldName("Name")];
                 $this->EMail =& $author_array[0][$db->fieldName("EMail")];
@@ -144,7 +144,6 @@ class eZAuthor
         }
         return $ret;
     }
-
 
     /*!
       Fetches the authour with the given name.
@@ -167,7 +166,28 @@ class eZAuthor
         return $ret;
     }
 
-    
+    /*!
+      Fetches the authour with the given email.
+
+      True is retuned if successful, false (0) if not.
+    */
+    function getByEmail( $email )
+    {
+        $db =& eZDB::globalDatabase();
+
+        $ret = false;
+        $db->array_query( $author_array, "SELECT * FROM eZUser_Author WHERE Email='$email'" );
+        if( count( $author_array ) == 1 )
+        {
+            $this->ID =& $author_array[0][$db->fieldName("ID")];
+            $this->Name =& $author_array[0][$db->fieldName("Name")];
+            $this->EMail =& $author_array[0][$db->fieldName("EMail")];
+            $ret = true;
+        }
+        return $ret;
+    }
+
+
     /*!
       Fetches the user id from the database. And returns a array of eZAuthor objects.
     */
@@ -195,7 +215,7 @@ class eZAuthor
     {
         return $this->ID;
     }
-    
+
     /*!
       Returns the name.
     */
@@ -222,7 +242,7 @@ class eZAuthor
     {
        $this->Name = $value;
     }
-    
+
     /*!
       Sets the email address to the user.
     */
@@ -230,7 +250,7 @@ class eZAuthor
     {
        $this->EMail = $value;
     }
-    
+
     var $ID;
     var $Name;
     var $EMail;
