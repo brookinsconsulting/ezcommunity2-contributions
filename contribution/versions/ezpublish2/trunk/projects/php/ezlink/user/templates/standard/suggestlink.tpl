@@ -1,8 +1,11 @@
+
 <form method="post" action="/link/suggestlink/insert">
 
 <h1>{intl-headline}</h1>
 
 <hr noshade size="4"/>
+
+<p class="error">{error_msg}</p>
 
 <p class="boxtext">{intl-name}</p>
 <input tabindex="1" type="text" name="title" size="40" value="{title}">
@@ -17,6 +20,7 @@
 <p class="boxtext">{intl-url}</p>
 
 http://<input tabindex="2" type="text" name="url" size="40" value="{url}"><br />
+<br />
 <input class="stdbutton" type="submit" value="{intl-meta}" name="GetSite" />
 
 <p class="boxtext">{intl-keywords}</p>

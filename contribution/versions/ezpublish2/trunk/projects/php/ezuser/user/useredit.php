@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: useredit.php,v 1.1 2000/10/25 07:59:56 ce-cvs Exp $
+// $Id: useredit.php,v 1.2 2000/10/25 15:20:43 ce-cvs Exp $
 //
 // 
 //
@@ -139,6 +139,10 @@ $t->set_file( array(
     "user_edit_tpl" => "useredit.tpl"
     ) );
 
+
+$headline = new INIFIle( "ezuser/intl/" . $Language . "/useredit.php.ini", false );
+$t->set_var( "head_line", $headline->read_var( "strings", "head_line_insert" ) );
+
 $actionValue = "insert";
 
 if ( $Action == "Edit" )
@@ -152,6 +156,8 @@ if ( $Action == "Edit" )
     $LastName = $user->lastName();
     $t->set_var( "read_only", "readonly=readonly" );
     $actionValue = "update";
+    $headline = new INIFIle( "ezuser/intl/" . $Language . "/useredit.php.ini", false );
+    $t->set_var( "head_line", $headline->read_var( "strings", "head_line_edit" ) );
 }
 
 

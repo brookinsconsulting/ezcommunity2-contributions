@@ -47,7 +47,9 @@
 	</td>
 	<td>&nbsp;</td>
 	<td>
-	{intl-abort}knapp!
+	<form method="post" action="/forum/messagelist/{forum_id}">
+	<input class="okbutton" type="submit" value="{intl-abort}">
+	</form>
 	</td>
 </tr>
 </table>

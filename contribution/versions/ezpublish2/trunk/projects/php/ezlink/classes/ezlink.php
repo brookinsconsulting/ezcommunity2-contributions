@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezlink.php,v 1.31 2000/10/25 10:21:44 ce-cvs Exp $
+// $Id: ezlink.php,v 1.32 2000/10/25 15:20:42 ce-cvs Exp $
 //
 // Definition of eZCompany class
 //
@@ -236,7 +236,6 @@ class eZLink
         $query_str =  "SELECT ID FROM eZLink_Link WHERE (" .
              $query->buildQuery()  .
              ") AND Accepted='Y' ORDER BY Title LIMIT $offset, $limit";
-
 
         $this->Database->array_query( $link_array, $query_str );
         $ret = array();

@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: suggestlink.php,v 1.4 2000/10/24 14:02:03 ce-cvs Exp $
+    $Id: suggestlink.php,v 1.5 2000/10/25 15:20:42 ce-cvs Exp $
 
     Author: Christoffer A. Elo <ce@ez.no>
     
@@ -39,7 +39,7 @@ if ( $Action == "insert" )
 
     if ( ( $title == "" ) || ( $url == "" ) || ( $description == "" ) || ( $keywords == "" ) ) 
     {
-        $inierror = new INIFile( "ezlink/user" . "/intl/" . $Language . "/suggestlink.php.ini", false );
+        $inierror = new INIFile( "ezlink/user/" . "/intl/" . $Language . "/suggestlink.php.ini", false );
         $terror_msg =  $inierror->read_var( "strings", "empty_error" );
 
         $ttitle = $title;
@@ -67,7 +67,7 @@ if ( $Action == "insert" )
         }
         else
         {
-            $inierror = new INIFile( "ezlink/" . "/intl/" . $Language . "/suggestlink.php.ini", false );
+            $inierror = new INIFile( "ezlink/user/" . "/intl/" . $Language . "/suggestlink.php.ini", false );
             $terror_msg =  $inierror->read_var( "strings", "link_error_msg" );
 
             $ttitle = $title;

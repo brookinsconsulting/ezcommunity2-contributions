@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: messagereply.php,v 1.4 2000/10/25 13:46:06 bf-cvs Exp $
+// $Id: messagereply.php,v 1.5 2000/10/25 15:20:42 ce-cvs Exp $
 //
 // 
 //
@@ -63,8 +63,7 @@ if ( $Action == "insert" )
     $mail->setFrom( "noreply@ez.no" );
     
     $mail->setSubject( "reply" );
-    
-   
+
     foreach ( $messages as $message )
     {
         if ( $message->id() != $reply->id() )

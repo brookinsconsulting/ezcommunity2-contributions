@@ -1,5 +1,5 @@
 <?// 
-// $Id: ezpollchoice.php,v 1.5 2000/10/07 09:43:13 bf-cvs Exp $
+// $Id: ezpollchoice.php,v 1.6 2000/10/25 15:20:42 ce-cvs Exp $
 //
 // Definition of eZPollChoice class
 //
@@ -94,6 +94,7 @@ class eZPollChoice
 
         if ( isset ( $this->ID ) )
         {
+            $this->Database->query( "DELETE FROM eZPoll_Vote WHERE ChoiceID='$this->ID'" );
             $this->Database->query( "DELETE FROM eZPoll_PollChoice WHERE ID='$this->ID'" );
         }
         return true;

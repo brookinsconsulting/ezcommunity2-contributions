@@ -48,7 +48,9 @@
 	</td>
 	<td>&nbsp;</td>
 	<td>
+	<form>
 	{intl-abort}knapp!
+	</form>
 	</td>
 </tr>
 </table>
