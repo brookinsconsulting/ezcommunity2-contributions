@@ -37,3 +37,5 @@ ALTER TABLE eZSession_SessionVariable ADD INDEX (GroupName,Name);
 ALTER TABLE eZSession_Preferences ADD INDEX (GroupName,Name);
 
 alter table eZTrade_CartOptionValue add RemoteID varchar(100);
+
+ALTER TABLE eZTrade_Product MODIFY Price float(10,5);  

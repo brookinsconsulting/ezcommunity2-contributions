@@ -3,6 +3,7 @@ eZ publish changelog:
  
 Changes from 2.1.0B2 to 2.1.0B2
 -------------------------------
+* Bugfix: you can now have more than 2 digits on prices in eZ trade.
 * Added site map in article admin
 * Added range checking on article id edit/preview in admin
 * Fixed reply all/forward buttons in ezmail
