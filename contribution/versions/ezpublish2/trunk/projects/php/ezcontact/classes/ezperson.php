@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezperson.php,v 1.63 2001/10/12 10:24:38 jhe Exp $
+// $Id: ezperson.php,v 1.64 2001/10/23 13:30:50 jhe Exp $
 //
 // Definition of eZPerson class
 //
@@ -179,7 +179,7 @@ class eZPerson
             $res[] = $db->query( "DELETE FROM eZContact_PersonOnlineDict WHERE PersonID='$id'" );
             $res[] = $db->query( "DELETE FROM eZContact_CompanyPersonDict WHERE PersonID='$id'" );
             $res[] = $db->query( "DELETE FROM eZContact_Person WHERE ID='$id'" );
-            $res[] = $db->query( "DELETE FROM eZContact_PersonIndex WHERE CompanyID='$id'" );
+            $res[] = $db->query( "DELETE FROM eZContact_PersonIndex WHERE PersonID='$id'" );
             $db->array_query( $res_array, "SELECT ID FROM eZTrade_Order WHERE PersonID='$id'" );
             include_once( "eztrade/classes/ezorder.php" );
             foreach ( $res_array as $order )

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezcompany.php,v 1.82 2001/10/11 08:05:58 jhe Exp $
+// $Id: ezcompany.php,v 1.83 2001/10/23 13:30:50 jhe Exp $
 //
 // Definition of eZProduct class
 //
@@ -118,7 +118,7 @@ class eZCompany
             $name = strtolower( $name );
             $res[] = $db->query( "UPDATE eZContact_CompanyIndex SET
                                   Value='$name'
-                                  WHERE ID='$this->ID' AND Type='0'" );
+                                  WHERE CompanyID='$this->ID' AND Type='0'" );
         }
         eZDB::finish( $res, $db );
 
@@ -1041,14 +1041,11 @@ class eZCompany
         {
             if ( $value > 0 )
             {
-                $db->lock( "eZContact_CompanyProjectDict" );
-                $nextID = $db->nextID( "eZContact_CompanyProjectDict", "ID" );
                 $checkQuery = "INSERT INTO eZContact_CompanyProjectDict
-                               (ID, CompanyID, ProjectID)
+                               (CompanyID, ProjectID)
                                VALUES
-                               ('$nextID', '$this->ID', '$value')";
+                               ('$this->ID', '$value')";
                 $res[] = $db->query( $checkQuery );
-                $db->unlock();
             }
         }
         eZDB::finish( $res, $db );
