@@ -6,6 +6,15 @@ include_once( "ezmail/classes/ezmailfolder.php" );
 
 switch( $url_array[2] )
 {
+    case "foldersort" : // change the sort mode of the folder list
+    {
+        $FolderID = $url_array[3];
+        $SortMethod = $url_array[4];
+        $Offset = 0;
+        include( "ezmail/user/maillist.php" );
+    }
+    break;
+
     case "folder" :
     {
         $FolderID = $url_array[3];

@@ -6,10 +6,10 @@
 <table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
 <tr>
     <th widht="1%">&nbsp;</th>
-	<th width="40%">{intl-subject}:</th>
-	<th width="26%">{intl-sender}:</th>
-	<th width="7%">{intl-size}:</th>
-	<th width="24%">{intl-date}:</th>
+	<th width="40%"><a href="/mail/foldersort/{current_folder_id}/subject">{intl-subject}:</a></th>
+	<th width="26%"><a href="/mail/foldersort/{current_folder_id}/from">{intl-sender}:</a></th>
+	<th width="7%"><a href="/mail/foldersort/{current_folder_id}/size">{intl-size}:</a></th>
+	<th width="24%"><a href="/mail/foldersort/{current_folder_id}/date">{intl-date}:</a></th>
 	<th width="1%">&nbsp;</th>
 	<th width="1%">&nbsp;</th>
 </tr>

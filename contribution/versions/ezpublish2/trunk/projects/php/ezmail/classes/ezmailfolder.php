@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezmailfolder.php,v 1.16 2001/05/02 11:32:13 fh Exp $
+// $Id: ezmailfolder.php,v 1.17 2001/05/02 13:01:18 fh Exp $
 //
 // eZMailFolder class
 //
@@ -417,7 +417,7 @@ class eZMailFolder
       $offset and $limit sets how many mail to return in one bunch and where in the list to start.
       Static if the folderID is supplied.
      */
-    function &mail( $sortmode="subject", $offset=0, $limit=50, $folderID = -1 )
+    function &mail( $sortmode="subject_asc", $offset=0, $limit=50, $folderID = -1 )
     {
         if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
@@ -428,7 +428,8 @@ class eZMailFolder
         $orderBySQL = "Mail.UDate ASC";
         switch( $sortmode )
         {
-            case "subject" : $orderBySQL = "Mail.Subject ASC"; break;
+            case "subject_asc" : $orderBySQL = "Mail.Subject ASC"; break;
+            case "subject_desc" : $orderBySQL = "Mail.Subject DESC"; break;
             case "date_asc" : $orderBySQL = "Mail.UDate ASC"; break;
             case "date_desc" : $orderBySQL = "Mail.UDate DESC"; break;
             case "from_asc" : $orderBySQL = "Mail.FromField ASC"; break;

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: maillist.php,v 1.17 2001/05/02 11:32:13 fh Exp $
+// $Id: maillist.php,v 1.18 2001/05/02 13:01:18 fh Exp $
 //
 // Frederik Holljen <fh@ez.no>
 // Created on: <19-Mar-2000 20:25:22 fh>
@@ -34,6 +34,7 @@ include_once( "ezmail/classes/ezmail.php" );
 include_once( "ezmail/classes/ezmailfolder.php" );
 
 include_once( "classes/ezlist.php" );
+include_once( "ezsession/classes/ezpreferences.php" );
 
 $Limit = 50;
 
@@ -77,10 +78,49 @@ $isDraftsFolder = false;
 if( $folder->folderType() == DRAFTS )
     $isDraftsFolder = true;
 
+
+// check if the sort mode is changed...
+$preferences = new eZPreferences();
+if( isset( $SortMethod ) ) // the sorting method has changed..
+{
+    $currentMethod = $preferences->variable( "MailSortMethod" );
+    $newMethod = "";
+    switch( $SortMethod )
+    {
+        case "subject" :
+        {
+            $newMethod = ( $currentMethod == "subject_asc" )? "subject_desc": "subject_asc";
+        }
+        break;
+        case  "from" :
+        {
+            $newMethod = ( $currentMethod == "from_asc" )? "from_desc": "from_asc";
+        }
+        break;
+        case "date" :
+        {
+            $newMethod = ( $currentMethod == "date_asc" )? "date_desc": "date_asc";
+        }
+        break;
+        case "size" :
+        {
+            $newMethod = ( $currentMethod == "size_asc" )? "size_desc": "size_asc";
+        }
+        break;
+        default :
+        {
+            $newMethod = "date_asc";
+        }
+    }
+    
+    $preferences->setVariable( "MailSortMethod", $newMethod );
+}
+
 $t->set_var( "current_folder_id", $FolderID );
 $t->set_var( "current_folder_name", htmlspecialchars( $folder->name() ) );
 
-$mail = $folder->mail( "date_desc", $Offset, $Limit );
+$sort = $preferences->variable( "MailSortMethod");
+$mail = $folder->mail( $sort, $Offset, $Limit );
 $mailCount = $folder->mailCount();
 $i = 0;
 foreach( $mail as $mailItem )
