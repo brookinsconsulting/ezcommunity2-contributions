@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: sitemap.php,v 1.6 2001/09/17 07:32:55 bf Exp $
+// $Id: sitemap.php,v 1.7 2001/09/17 07:34:30 bf Exp $
 //
 // Created on: <06-Jun-2001 17:05:38 bf>
 //
@@ -73,7 +73,7 @@ foreach ( $treeArray as $catItem )
             $t->set_var( "option_name", $catItem[0]->name() );
             $t->set_var( "option_level", $option_level );
 
-            if ( ( $i$itemCount % 2 ) == 0 )
+            if ( ( $itemCount % 2 ) == 0 )
             {
                 $t->set_var( "td_alt", "1" );
                 $t->set_var( "td_class", "bglight" );
@@ -90,7 +90,7 @@ foreach ( $treeArray as $catItem )
             $itemCount++;
             foreach ( $articleList as $article )
             {
-                if ( ( $i$itemCount % 2 ) == 0 )
+                if ( ( $itemCount % 2 ) == 0 )
                 {
                     $t->set_var( "td_alt", "1" );
                     $t->set_var( "td_class", "bglight" );
