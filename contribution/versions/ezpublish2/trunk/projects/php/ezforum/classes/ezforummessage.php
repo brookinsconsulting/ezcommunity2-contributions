@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: ezforummessage.php,v 1.19 2000/07/25 20:18:17 lw-cvs Exp $
+    $Id: ezforummessage.php,v 1.20 2000/07/25 20:22:26 lw Exp $
 
     Author: Lars Wilhelmsen <lw@ez.no>
     
@@ -58,6 +58,8 @@ class eZforumMessage
         
     function getAllHeaders( $forum_id )
     {
+	openDB();
+
         $query_string = "SELECT Id,Topic, Body, UserId, Parent, EmailNotice, 
                  DATE_FORMAT(PostingTime,'%k:%i:%s %e/%c/%y') AS PostingTimeFormated
                  FROM MessageTable WHERE ForumId='$forum_id' ORDER BY PostingTime DESC";
@@ -216,7 +218,7 @@ class eZforumMessage
         $this->Body = $newBody;
     }
     
-    function user()
+    function userId()
     {
         return $this->UserId;
     }
