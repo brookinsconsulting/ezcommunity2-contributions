@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezquizgame.php,v 1.7 2001/05/30 07:31:31 ce Exp $
+// $Id: ezquizgame.php,v 1.8 2001/05/30 10:39:40 pkej Exp $
 //
 // ezquizgame class
 //
@@ -329,6 +329,7 @@ class eZQuizGame
         $db->query_single( $result, "SELECT COUNT(ID) as Count
                                      FROM eZQuiz_Question WHERE GameID='$this->ID'" );
         $ret = $result["Count"];
+        
         return $ret;
     }
     
@@ -341,7 +342,7 @@ class eZQuizGame
         $ret = false;
 
         $db->query_single( $result, "SELECT COUNT(ID) as Count
-                                     FROM eZQuiz_Score WHERE GameID='$this->ID'" );
+                                     FROM eZQuiz_Score WHERE GameID='$this->ID' AND FinishedGame=1" );
         $ret = $result["Count"];
         return $ret;
     }

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: quizplay.php,v 1.3 2001/05/30 08:50:43 pkej Exp $
+// $Id: quizplay.php,v 1.4 2001/05/30 10:39:40 pkej Exp $
 //
 // Paul K Egell-Johnsen <pkej@ez.no>
 // Created on: <28-May-2001 11:24:41 pkej>
@@ -77,8 +77,6 @@ if( isset( $NextButton ) )
                 {
                     $scoreValue = 1;
                 }
-                
-                
             }
             $answer = new eZQuizAnswer();
             
@@ -87,11 +85,9 @@ if( isset( $NextButton ) )
             $game = $question->game();
             $score = new eZQuizScore();
             $score->getUserGame( $user, $game );
-            
+
             if( $answer->hasAnswered() )
             {
-                // Answered this question before!
-                
                 $QuestionNum = $score->nextQuestion();
             }
             else
@@ -100,7 +96,18 @@ if( isset( $NextButton ) )
                 $score->setTotalScore( $totalScore );
                 $score->setGame( $game );
                 $score->setUser( $user );
+                
                 $score->setNextQuestion( $QuestionNum );
+                
+                if( $QuestionNum > $game->numberOfQuestions() )
+                {
+                    $score->setFinishedGame( true );
+                }
+                else
+                {
+                    $score->setFinishedGame( false );
+                }
+                
                 $answer->store();
                 $score->store();
             }
@@ -115,11 +122,13 @@ $t->set_file( array(
     ) );
 
 $t->set_block( "question_page_tpl", "question_item_tpl", "question_item" );
+$t->set_block( "question_page_tpl", "high_score_item_tpl", "high_score_item" );
 $t->set_block( "question_page_tpl", "start_item_tpl", "start_item" );
 $t->set_block( "question_item_tpl", "alternative_item_tpl", "alternative_item" );
 
 $t->set_var( "start_item", "" );
 $t->set_var( "question_item", "" );
+$t->set_var( "high_score_item", "" );
 
 $game = new eZQuizGame( $GameID );
 $t->set_var( "game_id", $GameID );
@@ -127,6 +136,17 @@ $t->set_var( "user_id", $user->id() );
 $t->set_var( "game_name", $game->name() );
 $t->set_var( "questions", $game->numberOfQuestions() );
 $t->set_var( "players", $game->numberOfPlayers() );
+
+$score = new eZQuizScore();
+$highScorer = $score->highScore( $game );
+
+if( $highScorer->id() > 0 )
+{
+    $t->set_var( "high_score", $highScorer->totalScore() );
+    $highPlayer = $highScorer->user();
+    $t->set_var( "scorer", $highPlayer->login() );
+    $t->parse( "high_score_item", "high_score_item_tpl" );
+}
 
 // Find out which question this user should start on (has he saved earlier info).
 
@@ -136,11 +156,10 @@ if( $QuestionNum == 0 )
 }
 else
 {
-    $score = new eZQuizScore();
-    $score->getUserGame( $user, $game );
 
-    if( $score->nextQuestion() >= 1 )
+    if( $QuestionNum >= 1 )
     {
+        $score->getUserGame( $user, $game );
         $QuestionNum = $score->nextQuestion();
     }
     
@@ -154,16 +173,11 @@ else
     }
     else if( $QuestionNum <= $questionCount )
     {
-        // Sjekk at antall alternativer er større enn null.
-        // Sjekk at man ikke prøver å svare på et allerede svart spørsmål
-        // Sjekk at man ikke prøver å hoppe over et ubesvart spørsmål.
         $t->set_var( "question_id", $currentQuestion->id() );
 
         $t->set_var( "placement", $QuestionNum );
-        if( $QuestionNum < $questionCount )
-        {
-            $QuestionNum++;
-        }
+        $QuestionNum++;
+
         $t->set_var( "next_question_num", $QuestionNum );
         $t->set_var( "question_name", $currentQuestion->name() );
 

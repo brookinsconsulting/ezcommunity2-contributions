@@ -3,7 +3,9 @@
 <hr noshade="noshade" size="4" />
 
 <p>{players} people have played this game before you.</p>
+<!-- BEGIN high_score_item_tpl -->
 <p>Current high score is {high_score} by {scorer}</p>
+<!-- END high_score_item_tpl -->
 
 <!-- BEGIN start_item_tpl -->
 <h2>{intl-instructions}</h2>

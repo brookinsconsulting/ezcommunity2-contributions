@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezquizanswer.php,v 1.1 2001/05/30 08:30:01 pkej Exp $
+// $Id: ezquizanswer.php,v 1.2 2001/05/30 10:39:40 pkej Exp $
 //
 // eZQuizAnswer class
 //
@@ -195,7 +195,6 @@ class eZQuizAnswer
         {
             $QuestionID = $this->Alternative->QuestionID();
         }
-        
         
         $db =& eZDB::globalDatabase();
         $db->array_query( $result, "SELECT * FROM eZQuiz_Answer, eZQuiz_Alternative

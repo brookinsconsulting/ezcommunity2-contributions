@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: datasupplier.php,v 1.1 2001/05/28 15:18:42 pkej Exp $
+// $Id: datasupplier.php,v 1.2 2001/05/30 10:39:40 pkej Exp $
 //
 // Paul K Egell-Johnsen <pkej@ez.no>
 // Created on: <28-May-2001 11:24:41 pkej>
@@ -112,7 +112,6 @@ switch ( $url_array[2] )
                         if( $today->isGreater( $gameStop, true ) )
                         {
                             $QuestionNum = $url_array[5];
-
                             if  ( !is_numeric( $QuestionNum ) )
                             {
                                 $QuestionNum = 0;

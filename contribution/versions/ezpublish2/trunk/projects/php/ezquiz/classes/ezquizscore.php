@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezquizscore.php,v 1.2 2001/05/30 08:50:43 pkej Exp $
+// $Id: ezquizscore.php,v 1.3 2001/05/30 10:39:40 pkej Exp $
 //
 // eZQuizScore class
 //
@@ -312,7 +312,9 @@ class eZQuizScore
     */
     function nextQuestion()
     {
-        return $this->LastQuestion + 1;
+        $ret = $this->LastQuestion;
+        $ret++;
+        return $ret;
     }
     
     /*!
@@ -320,7 +322,7 @@ class eZQuizScore
     */
     function setFinishedGame( $finished = true )
     {
-        if( $finished == true )
+        if( $finished )
         {
             $this->FinishedGame = 1;
         }
@@ -345,6 +347,48 @@ class eZQuizScore
         return $ret;
     }
     
+    /*!
+        This function returns all the scores for a game.
+     */
+    function scores( &$game )
+    {
+        $db =& eZDB::globalDatabase();
+        
+        if ( get_class ( $game ) == "ezquizgame" )
+            $gameID = $game->id();
+        
+        
+        $returnArray = array();
+        $scoreArray = array();
+        
+        $db->array_query( $scoreArray, "SELECT ID FROM eZQuiz_Score WHERE GameID=$gameID AND FinishedGame=1 ORDER BY TotalScore DESC" );
+        
+        for ( $i=0; $i < count($scoreArray); $i++ )
+        {
+            $returnArray[$i] = new eZQuizScore( $scoreArray[$i]["ID"] );
+        }
+        
+        return $returnArray;
+    }
+
+     /*!
+        This function returns one score as the high scorer of a game.
+     */
+    function highScore( &$game )
+    {
+        $db =& eZDB::globalDatabase();
+        
+        if ( get_class ( $game ) == "ezquizgame" )
+            $gameID = $game->id();
+        
+        $scoreArray = array();
+        
+        $db->array_query( $scoreArray, "SELECT ID FROM eZQuiz_Score WHERE GameID=$gameID AND FinishedGame=1 ORDER BY TotalScore DESC" );
+        
+        $returnObject = new eZQuizScore( $scoreArray[0]["ID"] );
+        return $returnObject;
+    }
+   
 
     var $ID;
     var $User;

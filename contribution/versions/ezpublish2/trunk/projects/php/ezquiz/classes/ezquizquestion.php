@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezquizquestion.php,v 1.4 2001/05/30 08:30:01 pkej Exp $
+// $Id: ezquizquestion.php,v 1.5 2001/05/30 10:39:40 pkej Exp $
 //
 // eZQuizQuestion class
 //
@@ -77,6 +77,10 @@ class eZQuizQuestion
         $db->query_single( $result, "SELECT MAX(Placement)+1 FROM eZQuiz_Question WHERE GameID='$gameID' " );
 
         $place = $result[0];
+        if( $result[0] == NULL )
+        {
+            $place = 1;
+        }
 
         if ( !isset( $this->ID ) )
         {
