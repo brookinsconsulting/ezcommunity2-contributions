@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezobjectpermission.php,v 1.4 2001/02/27 16:59:35 fh Exp $
+// $Id: ezobjectpermission.php,v 1.5 2001/02/27 17:03:29 fh Exp $
 //
 // Definition of eZCompany class
 //
@@ -141,6 +141,7 @@ class eZObjectPermission
     }
 
     /*!
+      \static
       Sets a permissions for on an object for a eZUserGroup. To set a permission for all use -1 as group.
       $group is of type eZUserGroup and is the group that gets the permission
       $objectID is the ID of the object you are interested in. This could be a bug, an article etc..
@@ -204,6 +205,7 @@ class eZObjectPermission
     }
 
     /*!
+      \static
       Removes all permissions of a given type on an object.
      */
     function removePermissions( $objectID, $modulTable, $permission )
@@ -233,6 +235,7 @@ class eZObjectPermission
         $database->query( $query );
     }
 
+
 }
 
     
@@ -256,7 +259,5 @@ function getTableName( $name )
     }
     return $ret;
 }
-
-
 
 ?>
