@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: articleedit.php,v 1.116.2.7 2002/03/25 17:03:44 jhe Exp $
+// $Id: articleedit.php,v 1.116.2.8 2002/04/23 15:32:42 bf Exp $
 //
 // Created on: <18-Oct-2000 15:04:39 bf>
 //
@@ -503,6 +503,15 @@ if ( $Action == "Edit" )
         eZHTTPTool::header( "Location: /error/404/" );
         exit();
     }
+
+    $definition =& $article->categoryDefinition();
+    
+    if ( eZObjectPermission::hasPermissionWithDefinition( $article->id(), "article_article", 'w', $user, $definition->id() ) == true  )
+        print( "granted" );
+    else
+        print( "denied" );
+    
+    
 
     $t->set_var( "article_id", $ArticleID );
 

@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: datasupplier.php,v 1.95.2.8 2002/02/20 10:37:11 jhe Exp $
+// $Id: datasupplier.php,v 1.95.2.9 2002/04/23 15:32:42 bf Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -49,14 +49,14 @@ switch ( $url_array[2] )
         include( "ezarticle/user/topiclist.php" );
     }
     break;
-    
+
     case "sitemap":
     {
         if ( isset( $url_array[3] ) )
             $CategoryID = $url_array[3];
         else
             $CategoryID = "";
-        include( "ezarticle/user/sitemap.php" );        
+        include( "ezarticle/user/sitemap.php" );
     }
     break;
 
@@ -88,20 +88,20 @@ switch ( $url_array[2] )
             include_once( "classes/ezcachefile.php" );
             $file = new eZCacheFile( "ezarticle/cache/", array( "articlefrontpage", $GlobalSectionID, $groupstr ),
                                      "cache", "," );
-            
+
             $cachedFile = $file->filename( true );
-            
+
             if ( $file->exists() )
             {
                 include( $cachedFile );
             }
             else
             {
-                $GenerateStaticPage = "true";                
+                $GenerateStaticPage = "true";
                 include( "ezarticle/user/frontpage.php" );
             }
         }
-        else 
+        else
         {
             include( "ezarticle/user/frontpage.php" );
         }
@@ -116,7 +116,7 @@ switch ( $url_array[2] )
         else
             $CategoryID = "";
 
-        include( "ezarticle/user/newsgroup.php" );        
+        include( "ezarticle/user/newsgroup.php" );
     }
     break;
 
@@ -177,10 +177,10 @@ switch ( $url_array[2] )
             include_once( "classes/ezcachefile.php" );
             $file = new eZCacheFile( "ezarticle/cache/", array( "articlelist", $CategoryID, $Offset, $groupstr ),
                                      "cache", "," );
-            
+
             $cachedFile = $file->filename( true );
 //            print( "Cache file name: $cachedFile" );
-            
+
             if ( $file->exists() )
             {
                 include( $cachedFile );
@@ -190,7 +190,7 @@ switch ( $url_array[2] )
                 // check if user really has permissions to browse this category
             {
                 $GenerateStaticPage = "true";
-                
+
                 include( "ezarticle/user/articlelist.php" );
             }
         }
@@ -199,7 +199,6 @@ switch ( $url_array[2] )
         {
             include( "ezarticle/user/articlelist.php" );
         }
-        
     }
     break;
 
@@ -299,14 +298,14 @@ switch ( $url_array[2] )
     case "view":
     case "articleview":
     {
-        $StaticRendering = false;        
+        $StaticRendering = false;
         $ArticleID = $url_array[3];
         $PageNumber= $url_array[4];
         $CategoryID = $url_array[5];
         if ( $PageNumber != -1 )
             if ( !isset( $PageNumber ) || ( $PageNumber == "" ) || ( $PageNumber < 1 ) )
                 $PageNumber= 1;
-        
+
         // if file exists... evrything is ok..
         // if not.. check permission, then run page if ok
         $user =& eZUser::currentUser();
@@ -330,7 +329,7 @@ switch ( $url_array[2] )
 
         $showComments = false;
         if ( $PageCaching == "enabled" )
-        {            
+        {
             $cachedFile = "ezarticle/cache/articleview," . $ArticleID . ",". $PageNumber . "," . $CategoryID . "," . $PrintableVersion . "," . $groupstr  .".cache";
             if ( eZFile::file_exists( $cachedFile ) )
             {
@@ -341,9 +340,12 @@ switch ( $url_array[2] )
                       || eZArticle::isAuthor( $user, $ArticleID ) )
             {
                 $GenerateStaticPage = "true";
-                
+
                 include( "ezarticle/user/articleview.php" );
                 $showComments = true;
+            }
+            else
+            {
             }
         }
         else if ( eZObjectPermission::hasPermissionWithDefinition( $ArticleID, "article_article", 'r', false, $definition )
@@ -352,7 +354,7 @@ switch ( $url_array[2] )
             include( "ezarticle/user/articleview.php" );
             $showComments = true;
         }
-        
+
         /* Should there be permissions here? */
         if ( $showComments == true )
         {

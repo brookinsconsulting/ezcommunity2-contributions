@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: articleedit.php,v 1.24.2.4 2002/04/03 12:48:29 bf Exp $
+// $Id: articleedit.php,v 1.24.2.5 2002/04/23 15:32:42 bf Exp $
 //
 // Created on: <18-Oct-2000 15:04:39 bf>
 //
@@ -86,7 +86,11 @@ if ( ( $Action == "Insert" ) || ( $Action == "Update" ) )
     $article->setLinkText( $LinkText );
     $article->store(); // to get ID
 
-    // add to categories
+    // remove from category if update
+    if ( $Action == "Update" )
+        $article->removeFromCategories();
+    
+    // add to categories    
     $category = new eZArticleCategory( $CategoryIDSelect );
     $category->addArticle( $article );
 
