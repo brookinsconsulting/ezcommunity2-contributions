@@ -19,7 +19,23 @@ CREATE TABLE eZContact_Company (
 );
 
 #
-# Dumping data for table 'eZContact_Company'
+# Table structure for table 'eZContact_Person'
+#
+DROP TABLE IF EXISTS eZContact_Person;
+CREATE TABLE eZContact_Person (
+  ID int(11) DEFAULT '0' NOT NULL auto_increment,
+  CreatorID int(11) DEFAULT '0' NOT NULL,
+  FirstName varchar(50),
+  LastName varchar(50),
+  BirthDate date,
+  PersonNo varchar(50),
+  Comment text,
+  ContactType int(11),
+  PRIMARY KEY (ID)
+);
+
+#
+# Dumping data for table 'eZContact_Person'
 #
 
 
