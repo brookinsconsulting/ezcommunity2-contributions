@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezmail.php,v 1.44.2.1 2001/10/26 07:55:58 jhe Exp $
+// $Id: ezmail.php,v 1.44.2.2 2001/12/04 16:53:44 jhe Exp $
 //
 // Definition of eZMail class
 //
@@ -603,6 +603,22 @@ class eZMail
         return $pos;
     }
 
+    /*!
+      \static
+      Static function for extracting an e-mail from text
+
+      Returns the first valid e-mail in address, returns false if no e-mail addresses found
+    */
+    function stripEmail( $address )
+    {
+        $res = ereg( '[/0-9A-Za-z\.\?\-\_]+' . '@' .
+                     '[/0-9A-Za-z\.\?\-\_]+', $address, $email );
+        if ( $res )
+            return $email[0];
+        else
+            return 0;
+    }
+    
     /*!
       \static
       
