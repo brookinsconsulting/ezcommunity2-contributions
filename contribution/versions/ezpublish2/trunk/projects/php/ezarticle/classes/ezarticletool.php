@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezarticletool.php,v 1.2 2001/04/27 13:23:57 jb Exp $
+// $Id: ezarticletool.php,v 1.3 2001/04/30 09:54:08 fh Exp $
 //
 // Definition of eZArticleTool class
 //
@@ -137,9 +137,7 @@ class eZArticleTool
         $noticeMail->send();
 
         // Send bulkmail also
-        $BulkMailGroup = $ini->read_var( "eZArticleMain", "BulkMailNotifyGroup" );
-        $category = eZBulkMailCategory::getByName( $BulkMailGroup );
-
+        $category = eZBulkMailCategory::singleList();
         if( is_object( $category ) ) // send a mail to this group
         {
             $bulkmail = new eZBulkMail();
