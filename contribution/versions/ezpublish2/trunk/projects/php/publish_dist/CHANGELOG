@@ -3,6 +3,8 @@ eZ publish changelog:
 
 Changes from version 1.0.3
 --------------------------
+* Added French, German, Spanish and Czech translation
+* Added possibility to set session timeout to infinity (0)
 * Added clickable images in articlepreview in admin
 * Fixed a session timeout bug
 * Fixed max one "RE:" in reply of messages in forum.
