@@ -102,3 +102,6 @@ update eZArticle_Category set Placement=ID;
 
 DROP TABLE eZContact_ImageType;
 
+# Add auto cookie login
+alter table eZUser_User add CookieLogin int default 0; 
+create table eZUser_Cookie ( ID int auto_increment primary key, UserID int default 0, Hash char(33), Time timestamp );    

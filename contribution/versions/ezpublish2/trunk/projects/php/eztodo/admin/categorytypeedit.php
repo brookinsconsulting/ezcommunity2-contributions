@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: categorytypeedit.php,v 1.4 2001/02/09 14:48:20 pkej Exp $
+// $Id: categorytypeedit.php,v 1.5 2001/04/20 14:21:18 ce Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <18-Oct-2000 15:04:39 bf>
@@ -38,9 +38,14 @@ $ini =& $GLOBALS["GlobalSiteIni"];
 $Language = $ini->read_var( "eZTodoMain", "Language" );
 $DOC_ROOT = $ini->read_var( "eZTodoMain", "DocumentRoot" );
 
+if ( isset( $Cancel ) )
+{
+    eZHTTPTool::header( "Location: /todo/categorytypelist/" );
+    exit();
+}
+
 if ( $Action == "insert" )
 {
-
     $type = new eZCategory();
     $type->setName( $Name );
     $type->store();

@@ -12,5 +12,7 @@
 <input type="hidden" name="PriorityID" value="{priority_type_id}">
 <input type="hidden" name="Action" value="{action_value}">
 
-<input class="okbutton" type="submit" value="{intl-ok}">
+<input class="okbutton" type="submit" value="{intl-ok}">&nbsp;
+<input class="okbutton" type="submit" Name="Cancel" value="{intl-cancel}">
+
 </form>

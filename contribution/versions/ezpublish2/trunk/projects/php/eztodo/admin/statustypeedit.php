@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: statustypeedit.php,v 1.1 2001/04/04 10:53:17 wojciechp Exp $
+// $Id: statustypeedit.php,v 1.2 2001/04/20 14:21:18 ce Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <18-Oct-2000 15:04:39 bf>
@@ -39,9 +39,14 @@ $ini =& $GLOBALS["GlobalSiteIni"];
 $Language = $ini->read_var( "eZTodoMain", "Language" );
 $DOC_ROOT = $ini->read_var( "eZTodoMain", "DocumentRoot" );
 
+if ( isset( $Cancel ) )
+{
+    eZHTTPTool::header( "Location: /todo/statustypelist/" );
+    exit();
+}
+
 if ( $Action == "insert" )
 {
-
     $type = new eZStatus();
     $type->setName( $Name );
     $type->store();

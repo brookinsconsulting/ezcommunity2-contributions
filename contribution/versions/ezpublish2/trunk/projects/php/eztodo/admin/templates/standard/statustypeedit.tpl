@@ -12,6 +12,7 @@
 <input type="hidden" name="CategoryID" value="{status_type_id}">
 <input type="hidden" name="Action" value="{action_value}">
 
-<input class="okbutton" type="submit" value="{intl-submit_text}">
+<input class="okbutton" type="submit" value="{intl-submit_text}">&nbsp;
+<input class="okbutton" type="submit" Name="Cancel" value="{intl-cancel}">
 
 </form>

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: prioritytypelist.php,v 1.3 2001/02/09 14:53:33 pkej Exp $
+// $Id: prioritytypelist.php,v 1.4 2001/04/20 14:21:18 ce Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <18-Oct-2000 15:04:39 bf>
@@ -70,7 +70,11 @@ foreach( $priority_type_array as $priorityItem )
 
     $i++;
     $t->parse( "priority_item", "priority_item_tpl", true );
-} 
+}
+if ( count ( $priority_type_array ) == 0 )
+{
+    $t->set_var( "priority_item", "" );
+}
 
 $t->pparse( "output", "priority_type_page" );
 ?>

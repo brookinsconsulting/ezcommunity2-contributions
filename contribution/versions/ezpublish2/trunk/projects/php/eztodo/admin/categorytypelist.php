@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: categorytypelist.php,v 1.4 2001/02/09 14:55:03 pkej Exp $
+// $Id: categorytypelist.php,v 1.5 2001/04/20 14:21:18 ce Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <18-Oct-2000 15:04:39 bf>
@@ -67,7 +67,13 @@ foreach( $category_type_array as $categoryItem )
 
     $i++;;
     $t->parse( "category_item", "category_item_tpl", true );
-} 
+}
+
+if ( count ( $category_type_array ) == 0 )
+{
+    $t->set_var( "category_item", "" );
+}
+
 
 $t->pparse( "output", "category_type_page" );
     
