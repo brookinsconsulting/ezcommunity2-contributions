@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: imagemap.php,v 1.1 2001/06/18 08:07:04 jhe Exp $
+// $Id: imagemap.php,v 1.2 2001/06/19 07:37:34 jhe Exp $
 //
 // Jo Henrik Endrerud <jhe@ez.no>
 // Created on: <12-Jun-2001 14:47:19 jhe>
@@ -79,4 +79,3 @@ switch ( $Action )
 }
 
 ?>
-
