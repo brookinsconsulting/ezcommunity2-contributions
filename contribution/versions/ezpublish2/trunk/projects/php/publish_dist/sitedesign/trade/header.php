@@ -19,7 +19,7 @@
 		<td width="99%"><a class="menu" href="/article/archive/1/">Latest</a></td>
 	</tr>
 	<tr>
-		<td class="menuspacer">&nbsp;</td>
+		<td colspan="2" class="menuspacer">&nbsp;</td>
 	</tr>
 	</table>
 
@@ -46,7 +46,7 @@
 		<td width="99%"><a class="menu" href="/trade/findwishlist/">Find wishlist</a></td>
 	</tr>
 	<tr>
-		<td class="menuspacer">&nbsp;</td>
+		<td colspan="2" class="menuspacer">&nbsp;</td>
 	</tr>
 	</table>
 

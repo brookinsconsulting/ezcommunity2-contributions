@@ -22,7 +22,7 @@
 		<td width="99%"><a class="menu" href="/article/articleheaderlist/0/">Archive</a></td>
 	</tr>
 	<tr>
-		<td class="menuspacer">&nbsp;</td>
+		<td colspan="2" class="menuspacer">&nbsp;</td>
 	</tr>
 	</table>
 
@@ -39,7 +39,7 @@
 		<td width="99%"><a class="menu" href="/calendar/appointmentedit/new/">New appointment</a></td>
 	</tr>
 	<tr>
-		<td class="menuspacer">&nbsp;</td>
+		<td colspan="2" class="menuspacer">&nbsp;</td>
 	</tr>
 	</table>
 	
