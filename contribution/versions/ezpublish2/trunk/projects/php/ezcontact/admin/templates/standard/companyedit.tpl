@@ -158,6 +158,7 @@
 <input class="okbutton" type="submit" value="OK" />
 <input class="okbutton" type="submit" name="Update" value="{intl-update}">
 <input class="okbutton" type="submit" name="Back" value="{intl-back}">
+<input class="okbutton" type="submit" name="Preview" value="{intl-preview}">
 
 </form>
 

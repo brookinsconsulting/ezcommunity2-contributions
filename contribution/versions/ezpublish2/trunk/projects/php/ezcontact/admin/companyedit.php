@@ -57,6 +57,18 @@ include_once( "ezimagecatalogue/classes/ezimage.php" );
 //      exit();
 //  }
 
+if ( isSet ( $Back ) )
+{
+    header( "Location: /contact/companytype/list/" );
+    exit();
+}
+
+if ( isSet ( $Preview ) )
+{
+    header( "Location: /contact/company/view/$CompanyID" );
+    exit();
+}
+
 if( $Action == "delete" )
 {
     $company = new eZCompany();

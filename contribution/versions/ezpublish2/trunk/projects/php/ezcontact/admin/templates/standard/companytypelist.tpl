@@ -156,7 +156,7 @@
 <!-- BEGIN company_item_tpl -->
 <tr>
 	<td class="{td_class}">
-	{company_name}
+	<a href="/contact/company/view/{company_id}">{company_name}</a>
 	</td>
 	<td class="{td_class}">
 	<!-- BEGIN image_view_tpl -->

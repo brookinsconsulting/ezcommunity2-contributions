@@ -13,6 +13,7 @@ include_once( "classes/eztemplate.php" );
 include_once( "ezcontact/classes/ezperson.php" );
 include_once( "ezcontact/classes/ezpersontype.php" );
 include_once( "ezcontact/classes/ezcompany.php" );
+include_once( "ezcontact/classes/ezcompanytype.php" );
 
 // include_once( "ezcontact/topmenu.php" );
 
@@ -21,20 +22,71 @@ $t = new eZTemplate( "ezcontact/user/" . $ini->read_var( "eZContactMain", "Templ
 $t->setAllStrings();
 
 $t->set_file( array(
-    "company_list" => "companylist.tpl" ) );
+    "company_page_tpl" => "companylist.tpl" ) );
 
-$t->set_block( "company_list", "company_item_tpl", "company_item" );
-$t->set_block( "company_list", "error_tpl", "error" );
+$t->set_block( "company_page_tpl", "category_list_tpl", "category_list" );
+$t->set_block( "category_list_tpl", "category_item_tpl", "category_item" );
+
+$t->set_block( "company_page_tpl", "company_list_tpl", "company_list" );
+$t->set_block( "company_list_tpl", "company_item_tpl", "company_item" );
+
+$t->set_block( "company_page_tpl", "path_item_tpl", "path_item" );
+
+
+$companyType = new eZCompanyType( $CategoryID );
+
+// path
+$pathArray = $companyType->path();
+
+// print( count( $pathArray ) );
+$t->set_var( "path_item", "" );
+foreach ( $pathArray as $path )
+{
+    $t->set_var( "category_id", $path[0] );
+
+    $t->set_var( "category_name", $path[1] );
+    
+    $t->parse( "path_item", "path_item_tpl", true );
+}
+
+// Categorylist
+$companyTypeList = $companyType->getByParentID( $CategoryID );
+
+if ( count ( $companyTypeList ) == 0 )
+{
+    $t->set_var( "category_list", "" );
+}
+else
+{
+    $i=0;
+    foreach( $companyTypeList as $companyTypeItem )
+    {
+        if ( ( $i %2 ) == 0 )
+            $t->set_var( "td_class", "bglight" );
+        else
+            $t->set_var( "td_class", "bgdark" );
+                
+        $t->set_var( "category_id", $companyTypeItem->id() );
+        $t->set_var( "category_parent_id", $companyTypeItem->parentID() );
+        $t->set_var( "category_name", $companyTypeItem->name() );
+        
+        $t->set_var( "categories", "Kategorier" );
+
+        $i++;
+        $t->parse( "category_item", "category_item_tpl", true );
+    }
+    $t->parse( "category_list", "category_list_tpl", true );
+}
 
 $company = new eZCompany();
 
-$companyList = $company->getByCategory( $categoryID );
+$companyList = $company->getByCategory( $CategoryID );
 
 if ( count( $companyList ) == 0 )
 {
     $t->set_var( "error_msg", $errorIni->read_var( "strings", "error_msg" ) );
     $t->set_var( "company_item", "" );
-    $t->parse( "error", "error_tpl" );
+    //   $t->parse( "error", "error_tpl" );
 }
 else
 {
@@ -49,7 +101,7 @@ else
         {
             $t->set_var( "bg_color", "#DCDCDC" );
         }
-        
+
         $companyID = $companyItem->id();
         $t->set_var( "company_id", $companyID );
         $t->set_var( "company_name", $companyItem->name() );
@@ -80,7 +132,8 @@ else
         $t->set_var( "error", "" );
         $t->parse( "company_item", "company_item_tpl", true );
     }
+    $t->parse( "company_list", "company_list_tpl", true );
 }
 
-$t->pparse( "output", "company_list");
+$t->pparse( "output", "company_page_tpl");
 ?>

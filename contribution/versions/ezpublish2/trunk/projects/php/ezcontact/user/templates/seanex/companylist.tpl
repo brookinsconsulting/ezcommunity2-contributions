@@ -31,52 +31,55 @@
 </SCRIPT> 
 
 <h1>{intl-headline}</h1>
-<table width="100%" cellspacing="0" cellpadding="0" border="0">
+
+<!-- BEGIN path_tpl -->
+
+<img src="/ezarticle/admin/images/path-arrow.gif" height="10" width="15" border="0">
+
+<a class="path" href="/contact/company/list/0/">{intl-top}</a>
+
+<!-- END path_tpl -->
+
+<!-- BEGIN path_item_tpl -->
+
+<img src="/ezarticle/admin/images/path-slash.gif" height="10" width="20" border="0">
+
+<a class="path" href="/contact/company/list/{category_id}/">{category_name}</a>
+<!-- END path_item_tpl -->
+
+<hr noshade size="4"/>
+
+<!-- BEGIN category_list_tpl -->
+<table class="list" width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
-	<th>
-	{intl-logo}:
-	</th>
+	<td>
+	<h2>{categories}</h2>
+	</td>
+</tr>
+<!-- BEGIN category_item_tpl -->
+<tr>
+	<td class="{td_class}">
+	<a href=/contact/company/list/{category_id}>{category_name}&nbsp;</a>
+	</td>
+</tr>
+<!-- END category_item_tpl -->
+</table>
+<!-- END category_list_tpl -->
 
-	<th>
-	{intl-name}:
-	</th>
 
-	<th>
-	{intl-telephone}:
-	</th>
-
-	<th>
-	&nbsp;
-	</th>
-
-	<th>
-	&nbsp;
-	</th>
-
+<!-- BEGIN company_list_tpl -->
+<table class="list" width="100%" cellspacing="0" cellpadding="0" border="0">
+<tr>
+	<h2>{companies}</h2>
 </tr>
 <!-- BEGIN company_item_tpl -->
 <tr>
 	<td class="{td_class}">
-        <img src="{logo_image_src}" width="{image_width}" height="{image_height}" border="0" alt="{image_alt}" />
-	</td>
-	<td class="{td_class}">
-	{company_name}
-	</td>
-	<td class="{td_class}">
-	{telephone}
+	<a href="/contact/company/view/{company_id}/">{company_name}</a>
 	</td>
 </tr>
-
 <!-- END company_item_tpl -->
-
-<!-- BEGIN error_tpl -->
-<tr>
-	<td class="{td_class}">
-	<p class="error">{error_msg}</p>
-	</td>	
-</tr>
-<!-- END error_tpl -->
-
 </table>
+<!-- END company_list_tpl -->
 
 

@@ -43,6 +43,25 @@ switch ( $url_array[2] )
                 include( "ezcontact/admin/companyedit.php" );
                 break;
             }
+            case "view":
+            {
+                $CompanyID = $url_array[4];
+                include( "ezcontact/admin/companyview.php" );
+                break;
+            }
+
+            case "http":
+            {
+                $CompanyID = $url_array[4];
+                if ( isSet ( $Edit ) )
+                    $Action = "edit";
+                if ( isSet ( $Delete ) )
+                    $Action = "delete";
+
+                include( "ezcontact/admin/companyedit.php" );
+                break;
+            }
+
         }
         break;
     }

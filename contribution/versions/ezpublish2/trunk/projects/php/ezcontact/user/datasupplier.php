@@ -125,9 +125,15 @@ switch ( $url_array[2] )
     {
         if ( $url_array[3] == "list" )
         {
-            $categoryID = $url_array[4];
+            $CategoryID = $url_array[4];
             include( "ezcontact/user/companylist.php" );
         }
+        if ( $url_array[3] == "view" )
+        {
+            $CompanyID = $url_array[4];
+            include( "ezcontact/user/companyview.php" );
+        }
+
     }
     break;
 
