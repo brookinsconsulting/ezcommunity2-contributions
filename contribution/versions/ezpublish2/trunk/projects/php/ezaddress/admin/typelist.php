@@ -12,6 +12,9 @@
   You can also enable item placement by setting the $move_item variable to true, to make sure an
   item can be moved it must implement the moveUp() and moveDown() functions.
   If the $SortPage variable is set all items will have hyperlinked names linked to the variable content.
+  If $Searchable is set to true a search button is added.
+  If $template_array, $variable_array and $block_array is set they are used for extending the
+  list with extra information.
 */
 
 $ini =& $GlobalSiteIni;

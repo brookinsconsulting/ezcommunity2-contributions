@@ -65,10 +65,6 @@
 	<a href="{item_edit_command}/{item_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezc{item_id}-red','','/images/redigerminimrk.gif',1)"><img name="ezc{item_id}-red" border="0" src="/images/redigermini.gif" width="16" height="16" align="top" alt="Edit" /></a>
 	</td>
 
-<!--  	<td width="1%"> -->
-<!--  	<a href="{item_delete_command}/{item_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezc{item_id}-slett','','/images/slettminimrk.gif',1)"><img name="ezc{item_id}-slett" border="0" src="/images/slettmini.gif" width="16" height="16" align="top"></a> -->
-<!--  	</td>	 -->
-
 	<td width="1%">
 	<input type="checkbox" name="ItemArrayID[]" value="{item_id}">
 	</td>
@@ -137,7 +133,7 @@
 	</td>
 	<td>&nbsp;</td>
 	<td>
-    <input class="stdbutton" type="submit" name="Delete" value="{intl-delete_selected}">
+        <input class="stdbutton" type="submit" name="Delete" value="{intl-delete_selected}">
 	</td>
 </tr>
 </table>

@@ -17,8 +17,6 @@ switch ( $ListType )
             case "new":
             case "edit":
             case "update":
-            case "delete":
-            case "confirm":
             case "insert":
             case "up":
             case "down":
@@ -65,8 +63,6 @@ switch ( $ListType )
             case "new":
             case "edit":
             case "update":
-            case "delete":
-            case "confirm":
             case "insert":
             case "up":
             case "down":
@@ -114,8 +110,6 @@ switch ( $ListType )
             case "new":
             case "edit":
             case "update":
-            case "delete":
-            case "confirm":
             case "insert":
             case "up":
             case "down":
@@ -162,8 +156,6 @@ switch ( $ListType )
             case "new":
             case "edit":
             case "update":
-            case "delete":
-            case "confirm":
             case "insert":
             case "up":
             case "down":

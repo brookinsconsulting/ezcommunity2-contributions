@@ -10,6 +10,8 @@
   Also these following variables must be set properly.
   $language_file: The file used for reading language translations, for example: consultationtype.php
   $page_path: The base name of the url, for example: /address/consultationtype
+  If $template_array, $block_array, $func_call and $func_call_set is set they are used for
+  reading and writing extra information not available from the standard template.
 */
 
 $ini =& $GlobalSiteIni;
@@ -46,60 +48,15 @@ else
     $back_command = $HTTP_REFERER;
 }
 
-if( $Action == "delete" )
-{
-    // Check to see if the count has changed since the confirmation was done
-    $item_id = $item_type->id();
-    $reconfirm = "Location: $page_path/confirm/$item_id";
-    $count = $item_type->count();
-    if ( !isset( $TypeCount ) )
-    {
-        $Action = "confirm";
-        $TypeError = true;
-    }
-    else if ( $count != $TypeCount )
-    {
-        $Action = "confirm";
-    }
-    else
-    {
-        // The counts are the same as when confirming so we can delete
-
-        $item_type->delete( false );
-        include_once( "classes/ezhttptool.php" );
-        eZHTTPTool::header( "Location: $page_path/list" );
-        exit();
-    }
-}
-
 if ( isset( $Delete ) and isset( $ItemArrayID ) and isset( $item_types ) )
 {
-    $count = 0;
-    foreach( $item_types as $item_type_tmp )
+    foreach( $item_types as $item_type )
     {
-        // Check to see if the count has changed since the confirmation was done
-        $item_id = $item_type_tmp->id();
-        $count += $item_type_tmp->count();
-    }
-    $reconfirm = "Location: $page_path/confirm/$item_id";
-    if ( !isset( $TypeCount ) )
-    {
-        $Action = "confirm";
-        $TypeError = true;
-    }
-    else if ( $count != $TypeCount )
-    {
-        $Action = "confirm";
-    }
-    else
-    {
-        // The counts are the same as when confirming so we can delete
-
         $item_type->delete( false );
-        include_once( "classes/ezhttptool.php" );
-        eZHTTPTool::header( "Location: $page_path/list" );
-        exit();
     }
+    include_once( "classes/ezhttptool.php" );
+    eZHTTPTool::header( "Location: $page_path/list" );
+    exit();
 }
 
 if( $Action == "up" )
@@ -156,54 +113,18 @@ else
     $t->set_file( "list_page", $typeedit );
 }
 $t->set_block( "list_page", "type_edit_tpl", "type_edit" );
-$t->set_block( "list_page", "type_confirm_tpl", "type_confirm" );
 
 $t->set_block( "type_edit_tpl", "line_item_tpl", "line_item" );
 $t->set_block( "type_edit_tpl", "no_line_item_tpl", "no_line_item" );
 
-$t->set_block( "type_confirm_tpl", "errors_tpl", "errors" );
-$t->set_block( "errors_tpl", "error_count_change_item_tpl", "error_count_change_item" );
-$t->set_block( "errors_tpl", "error_no_confirm_item_tpl", "error_no_confirm_item" );
-
 $t->set_var( "no_line_item", "" );
 $t->set_var( "line_item", "" );
-
-$t->set_var( "item_edit_command", "$page_path/edit" );
-$t->set_var( "item_delete_command", "$page_path/delete" );
-$t->set_var( "item_view_command", "$page_path/view" );
-$t->set_var( "item_list_command", "$page_path/list" );
-$t->set_var( "item_new_command", "$page_path/new" );
 
 $t->set_var( "item_id", $ItemID );
 $t->set_var( "item_name", $ItemName );
 
 $t->set_var( "back_url", $back_command );
 $t->set_var( "item_back_command", $back_command );
-
-if( $Action == "confirm" )
-{
-    $t->set_var( "error_count_change_item", "" );
-    $t->set_var( "error_no_confirm_item", "" );
-
-    if( isset( $TypeCount ) )
-    {
-        if ( $TypeCount != $item_type->count() )
-        {
-            $t->parse( "error_count_change_item", "error_count_change_item_tpl" );
-            $error = true;
-        }
-    }
-    if ( isset( $TypeError ) )
-    {
-        $t->parse( "error_no_confirm_item", "error_no_confirm_item_tpl" );
-        $error = true;
-    }
-        
-    if( $error == true )
-    {
-        $t->parse( "errors", "errors_tpl" );
-   }
-}
 
 if( $error == false )
 {
@@ -237,13 +158,6 @@ if( $Action == "edit" )
     }
 }
 
-if ( $Action == "confirm" )
-{
-    $action_value = "delete";
-    $t->set_var( "confirm_item", $item_type->name() );
-    $t->set_var( "item_count", $item_type->count() );
-}
-
 if( $Action == "new" )
 {
     $action_value = "insert";
@@ -260,16 +174,7 @@ else
     $t->parse( "line_item", "line_item_tpl" );
 }
 
-if ( $Action == "confirm" )
-{
-    $t->set_var( "type_edit", "" );
-    $t->parse( "type_confirm", "type_confirm_tpl", true );
-}
-else
-{
-    $t->parse( "type_edit", "type_edit_tpl", true );
-    $t->set_var( "type_confirm", "" );
-}
+$t->parse( "type_edit", "type_edit_tpl", true );
 
 $t->set_var( "form_path", $page_path );
 $t->set_var( "action_value", $action_value );

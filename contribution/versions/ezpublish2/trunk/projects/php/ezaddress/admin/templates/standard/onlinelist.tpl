@@ -1,10 +1,11 @@
 <!-- BEGIN list_page -->
+<form method="post" action="{item_new_command}/">
 
 <h1>{intl-list_headline}</h1>
 <hr noshade="noshade" size="4" />
 <br />
 <!-- BEGIN list_item_tpl -->
-<table class="list" width="100%" cellspacing="0" cellpadding="0" border="0">
+<table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
 <tr>
 	<th>{intl-name}:</th>
 	<th>{intl-prefix}:</th>
@@ -76,8 +77,8 @@
 	</td>
 
 	<td width="1%">
-	<a href="{item_delete_command}/{item_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezc{item_id}-slett','','/images/slettminimrk.gif',1)"><img name="ezc{item_id}-slett" border="0" src="/images/slettmini.gif" width="16" height="16" align="top" alt="Delete" /></a>
-	</td>	
+	<input type="checkbox" name="ItemArrayID[]" value="{item_id}">
+	</td>
 
 </tr>
 <!-- END line_item_tpl -->
@@ -87,11 +88,21 @@
 <!-- BEGIN no_line_item_tpl -->
 <p class="boxtext">{intl-no_item}</p>
 <!-- END no_line_item_tpl -->
-<form method="post" action="{item_new_command}/">
 
 <hr noshade="noshade" size="4" />
 
-<input class="stdbutton" type="submit" name="Back" value="{intl-new}">
+<table cellpadding="0" cellspacing="0" border="0">
+<tr>
+	<td>
+	<input class="stdbutton" type="submit" name="Back" value="{intl-new}">
+	</td>
+	<td>&nbsp;</td>
+	<td>
+        <input class="stdbutton" type="submit" name="Delete" value="{intl-delete_selected}">
+	</td>
+</tr>
+</table>
+<!--  <input class="stdbutton" type="submit" name="Back" value="{intl-new}"> -->
 </form>
 
 <!-- END list_page -->
