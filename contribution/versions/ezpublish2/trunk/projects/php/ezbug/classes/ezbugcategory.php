@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezbugcategory.php,v 1.2 2000/11/29 16:51:37 bf-cvs Exp $
+// $Id: ezbugcategory.php,v 1.3 2000/12/09 18:59:02 bf Exp $
 //
 // Definition of eZBugCategory class
 //
@@ -307,7 +307,8 @@ class eZBugCategory
        
        return $return_array;
     }
-    
+
+
     /*!
       Private function.
       Open the database for read and write. Gets all the database information from site.ini.

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezbug.php,v 1.7 2000/12/04 10:47:55 bf-cvs Exp $
+// $Id: ezbug.php,v 1.8 2000/12/09 18:59:02 bf Exp $
 //
 // Definition of eZBug class
 //
@@ -262,6 +262,17 @@ class eZBug
         
         return $this->Name;
     }
+
+    /*!
+      Returns the email address to the reporter.
+    */
+    function userEmail()
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+        
+        return $this->UserEmail;
+    }
     
     /*!
       Returns the group description.
@@ -325,14 +336,21 @@ class eZBug
     
     /*!
       Returns the user as a eZUser object.
+
+      Returns 0 if the user was not set.
     */
-    function &user()
+    function user()
     {
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
 
-       $user = new eZUser( $this->UserID );
-       return $user;
+       $ret = false;
+       $user = new eZUser( );
+       
+       if ( $user->get( $this->UserID ) )
+           $ret = $user;
+       
+       return $ret;
     }
     
     
@@ -608,8 +626,7 @@ class eZBug
         }
         return $ret;
     }
-    
-    
+
     /*!
       Private function.
       Open the database for read and write. Gets all the database information from site.ini.

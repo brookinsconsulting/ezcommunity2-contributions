@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezbugmodule.php,v 1.2 2000/11/29 16:51:37 bf-cvs Exp $
+// $Id: ezbugmodule.php,v 1.3 2000/12/09 18:59:02 bf Exp $
 //
 // Definition of eZBugModule class
 //
@@ -383,7 +383,7 @@ class eZBugModule
        $bug_array = array();
 
        $unhandledSQL = "";
-       if ( $fetchUnhandled = 'false' )
+       if ( $fetchUnhandled == false )
        {
            $unhandledSQL = "AND IsHandled='true'";
        }
@@ -407,6 +407,51 @@ class eZBugModule
        }
        
        return $return_array;
+    }
+
+    /*!
+      Returns the bug count in the module.
+
+      If $countUnhandled == true all bugs are counted if not only
+      handled bugs are counted.
+
+      If $excludeClosed == true the closed bugs does not get counted.
+    */
+    function countBugs( $countUnhandled=true, $excludeClosed=false )
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+       $this->dbInit();
+
+       $unhandledSQL = "";
+       if ( $countUnhandled == false )
+       {
+           $unhandledSQL = "AND IsHandled='true'";
+       }
+
+       $openSQL = "";
+       if ( $excludeClosed == true )
+       {
+           $openSQL = "AND IsClosed='false'";
+       }
+       
+       $this->Database->array_query( $bug_array, "
+                SELECT count( eZBug_Bug.ID ) AS Count
+                FROM eZBug_Bug, eZBug_Module, eZBug_BugModuleLink
+                WHERE 
+                eZBug_BugModuleLink.BugID = eZBug_Bug.ID
+                AND
+                eZBug_Module.ID = eZBug_BugModuleLink.ModuleID
+                $unhandledSQL
+                $openSQL
+                AND
+                eZBug_Module.ID='$this->ID'
+                " );
+ 
+       $ret =  $bug_array[0]["Count"];       
+
+       return $ret;
     }
     
     /*!
