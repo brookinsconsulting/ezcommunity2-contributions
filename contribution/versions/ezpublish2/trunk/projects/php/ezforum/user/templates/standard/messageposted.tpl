@@ -12,5 +12,5 @@
 
 <p>
 {intl-posted_info_2}. 
-{intl-posted_info_3}: <a href="/forum/messageedit/edit/{message_id}">{message_name}</a>
+{intl-posted_info_3}: <a href="/forum/messageedit/edit/{message_id}">{message_title}</a>
 </p>
