@@ -69,7 +69,7 @@
 <table width="100%" border="0" cellspacing="0" cellpadding="2">
 <tr>
 <!-- BEGIN week_day_tpl -->
-	<th width="14%" class='tablehead' style="border: #929292 solid 1px;">
+	<th width="14%" class='tablehead' style="text-align: center; border: #929292 solid 1px;">
 	{week_day_name}
 	</th>
 <!-- END week_day_tpl -->
@@ -122,7 +122,5 @@
 </tr>
 <!-- END week_tpl -->
 </table>
-<br />
-
 <!-- END month_tpl -->
 
