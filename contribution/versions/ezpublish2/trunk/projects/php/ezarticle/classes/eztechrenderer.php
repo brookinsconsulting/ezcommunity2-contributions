@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eztechrenderer.php,v 1.30 2000/11/01 11:49:10 bf-cvs Exp $
+// $Id: eztechrenderer.php,v 1.31 2000/11/01 12:34:47 bf-cvs Exp $
 //
 // Definition of eZTechRenderer class
 //
@@ -759,33 +759,134 @@ class eZTechRenderer
     */
     function &lispHighlight( $string )
     {
-        $string = ereg_replace ( "(<)", "&lt;", $string );
-        $string = ereg_replace ( "(>)", "&gt;", $string );
+        $len = strlen( $string );
+        $index = 0;
+        $tmpstring = "";
 
-        $string = ereg_replace( "(\"[^\"]*\")", "<font color=\"green\">\\1</font>", $string );
-
-        // some special characters
-        $string = ereg_replace ( "([(){}+-]|\[|\])", "<font color=\"red\">\\1</font>", $string );
-
-        $string = ereg_replace( "(defun|let|if|while)", "<font color=\"blue\">\\1</font>", $string );
-
-        // reserved words
-//          $string = ereg_replace ( "(foreach|function|for|while|switch|as)", "<font color=\"blue\">\\1</font>", $string );
-
-        // comments
-        $string = preg_replace ( "#(;.*$)#m", "<font color=\"orange\">\\1</font>", $string );
-
-
-        $string = preg_replace( "/( [0-9]+)/", "<font color=\"green\">\\1</font>", $string );
-
-        $string = preg_replace( "/(\$[a-zA-Z0-9]+)/", "<font color=\"#00ffff\">\\1</font>", $string );
-
-        // indenting
-        $string = preg_replace( "/^( )+/m", "&nbsp;", $string );
-        
+        while ( $index < $len )
+        {
+            $char = $string[$index];
+            if ( $char == ';' )
+            {
+                $end = strpos( $string, "\n", $index );
+                if ( $end === false )
+                {
+                    $tmpstring .= "<font color=\"orange\">" . $this->sptobsp( substr( $string, $index ) ) . "</font>\n";
+                    $index = $len;
+                }
+                else
+                {
+                    $tmpstring .= "<font color=\"orange\">" . $this->sptobsp( substr( $string, $index, $end - $index ) ) . "</font>\n";
+                    $index = $end + 1;
+                }
+            }
+            else if ( $char == ' ' )
+            {
+                $tmpstring .= "&nbsp;";
+                ++$index;
+            }
+            else if ( $char == '(' )
+            {
+                $end = strpos( $string, " ", $index + 1 );
+                if ( $end === false )
+                {
+                    $tmpstring .= "(";
+                    ++$index;
+                }
+                else
+                {
+                    $tmpstring .= "<font color=\"red\">(</font>";
+                    $command = substr( $string, $index + 1, $end - $index - 1 );
+                    if ( eregi( "(let|if|while)", $command ) )
+                    {
+                        $tmpstring .= "<font color=\"blue\">" . $command . "</font>";
+                    }
+                    else if ( eregi( "(defun|defvar)", $command ) )
+                    {
+                        $name_end = strpos( $string, " ", $end + 1 );
+                        if ( $name_end === false )
+                        {
+                            $tmpstring .= "<font color=\"blue\">" . $command . "</font>";
+                            $end = $len;
+                        }
+                        else
+                        {
+                            $name = substr( $string, $end + 1, $name_end - $end - 1 );
+                            $tmpstring .= "<font color=\"blue\">" . $command . "</font>&nbsp;";
+                            $tmpstring .= "<font color=\"magenta\">" . $name . "</font>";
+                            $end = $name_end;
+                        }
+                    }
+                    else
+                    {
+                        $tmpstring .= $command;
+                    }
+                    $index = $end;
+                }
+            }
+            else if ( $char == ')' )
+            {
+                $tmpstring .= "<font color=\"red\">)</font>";
+                ++$index;
+            }
+            else if ( $char == '"' )
+            {
+                $end = strpos( $string, "\"", $index + 1 );
+                if ( $end === false )
+                {
+                    $tmpstring .= "<font color=\"green\">\"" . $this->sptobsp( substr( $string, $index + 1 ) ) . "</font>";
+                    $index = $len;
+                }
+                else
+                {
+                    $tmpstring .= "<font color=\"green\">" . $this->sptobsp( substr( $string, $index + 1, $end - $index - 1 ) ) . "\"</font>";
+                    $index = $end + 1;
+                }
+            }
+            else
+            {
+                $tmpstring .= $char;
+                ++$index;
+            }
+        }
         $string = "<p><table width=\"100%\" cellspacing=\"0\" cellpadding=\"4\" border=\"0\"><tr><td bgcolor=\"#f0f0f0\"><pre>" .
-             $string . "</pre></td></tr></table></p>";
+             $tmpstring . "</pre></td></tr></table></p>";
+
+        return $string;
+
+//          $string = ereg_replace ( "(<)", "&lt;", $string );
+//          $string = ereg_replace ( "(>)", "&gt;", $string );
+
+//          // comments
+//          $string = preg_replace ( "#(;.*$)#m", "<font color=\"orange\">\\1</font>", $string );
+
+//          // indenting
+//          $string = preg_replace( "/( )/m", "&nbsp;", $string );
+
+//          $string = ereg_replace( "(\"[^\"]*\")", "<font color=\"green\">\\1</font>", $string );
+
+//          // some special characters
+//          $string = ereg_replace ( "([(){}+-]|\[|\])", "<font color=\"red\">\\1</font>", $string );
+
+//          $string = ereg_replace( "(defun|let|if|while)", "<font color=\"blue\">\\1</font>", $string );
+
+//          // reserved words
+//  //          $string = ereg_replace ( "(foreach|function|for|while|switch|as)", "<font color=\"blue\">\\1</font>", $string );
+
+
+//          $string = preg_replace( "/( [0-9]+)/", "<font color=\"green\">\\1</font>", $string );
+
+//          $string = preg_replace( "/(\$[a-zA-Z0-9]+)/", "<font color=\"#00ffff\">\\1</font>", $string );
         
+//          $string = "<p><table width=\"100%\" cellspacing=\"0\" cellpadding=\"4\" border=\"0\"><tr><td bgcolor=\"#f0f0f0\"><pre>" .
+//               $string . "</pre></td></tr></table></p>";
+        
+//          return $string;
+    }
+
+    function &sptobsp( $string )
+    {
+        preg_replace( "# #", "&nbsp;", $string );
         return $string;
     }
 
