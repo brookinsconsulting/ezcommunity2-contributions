@@ -17,16 +17,16 @@ LargeImageHeight:      Height of large image in article
 Language:              The language used in eZArticle
 Generator:             The renderer used in eZArticle
 PageCaching:           Enables page caching
-CapitalizeHeadlines:   
-UserComments:
-DefaultLinkText:
-AdminListLimit:
-UserListLimit:
-PublishNoticeReceiver: 
-PublishNoticeSender:
-AuthorLimit:
-AuthorArticleLimit:
-UserSubmitArticles:
+CapitalizeHeadlines:   Upper case headlines
+UserComments:          Allow user comments to articles
+DefaultLinkText:       Link to an article, e.g. "Read more"
+AdminListLimit:        Max length of article list in admin
+UserListLimit:         Max length of article list in user
+PublishNoticeReceiver: Who to notify about articles
+PublishNoticeSender:   Which address to send notify mails from
+AuthorLimit:           Max length of author list
+AuthorArticleLimit:    Max length of author's articles list
+UserSubmitArticles:    Enable/disble allowing article publishing in user
 
 Example group:
 [eZArticleMain]
