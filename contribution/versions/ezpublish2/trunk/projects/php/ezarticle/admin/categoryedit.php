@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: categoryedit.php,v 1.18 2001/05/10 16:02:11 ce Exp $
+// $Id: categoryedit.php,v 1.19 2001/05/11 07:56:42 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <18-Sep-2000 14:46:19 bf>
@@ -60,7 +60,7 @@ if ( $Action == "insert" && !$error )
 {
     // clear the menu cache
     $files = eZCacheFile::files( "ezarticle/cache/",
-                                 array( "menubox", NULL ),
+                                 array( "menubox", NULL, NULL, NULL ),
                                  "cache", "," );
     foreach( $files as $file )
     {
@@ -157,7 +157,7 @@ if ( $Action == "update" && !$error )
 {
     // clear the menu cache
     $files = eZCacheFile::files( "ezarticle/cache/",
-                                 array( "menubox", NULL ),
+                                 array( NULL, NULL, NULL, NULL ),
                                  "cache", "," );
     foreach( $files as $file )
     {
@@ -259,7 +259,7 @@ if ( $Action == "delete" )
 {
     // clear the menu cache
     $files = eZCacheFile::files( "ezarticle/cache/",
-                                 array( "menubox", NULL ),
+                                 array( "menubox", NULL, NULL, NULL ),
                                  "cache", "," );
     foreach( $files as $file )
     {

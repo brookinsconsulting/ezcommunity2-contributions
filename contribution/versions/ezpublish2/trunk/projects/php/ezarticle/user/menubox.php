@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: menubox.php,v 1.19 2001/05/09 08:28:39 bf Exp $
+// $Id: menubox.php,v 1.20 2001/05/11 07:56:42 bf Exp $
 //
 // 
 //
@@ -26,13 +26,15 @@
 //
 
 include_once( "classes/INIFile.php" );
+include_once( "classes/ezcachefile.php" );
+
 $ini =& INIFile::globalINI();
 
 include_once( "ezuser/classes/ezobjectpermission.php" );
 
 $Language = $ini->read_var( "eZArticleMain", "Language" );
 
-$PageCaching = $ini->read_var( "eZArticleMain", "PageCaching");
+$PageCaching = $ini->read_var( "eZArticleMain", "PageCaching" );
 
 
 // do the caching 
@@ -52,31 +54,40 @@ if ( $PageCaching == "enabled" )
         }
     }
     
-    $menuCachedFile = "ezarticle/cache/menubox," . $groupstr . ",". $GlobalSiteDesign .".cache";
-                    
-    if ( file_exists( $menuCachedFile ) )
+//    $menuCachedFile = "ezarticle/cache/menubox," . $groupstr . ",". $GlobalSiteDesign . "," . $CategoryID. ".cache";
+
+    $menuCacheFile = new eZCacheFile( "ezarticle/cache",
+                                      array( "menubox",
+                                             $groupstr,
+                                             $GlobalSiteDesign,
+                                             $CategoryID
+                                             ),
+                                      "cache", "," );
+
+    if ( $menuCacheFile->exists() )
     {
-        include( $menuCachedFile );
+        print( $menuCacheFile->contents() );
     }
     else
     {
-        $GenerateStaticPage = "true";
-        createArticleMenu( $menuCachedFile );
-    }            
+        createArticleMenu( $menuCacheFile );
+    }
 }
 else
 {
     createArticleMenu();
 }
 
-function createArticleMenu( $menuCachedFile="" )
+function createArticleMenu( $menuCachedFile=false )
 {
     global $ini;
     global $Language;
     global $menuCachedFile;
     global $GenerateStaticPage;
 	global $GlobalSiteDesign;
-    
+	global $CategoryID;
+
+        
     include_once( "classes/eztemplate.php" );
 
     include_once( "ezarticle/classes/ezarticlecategory.php" );
@@ -98,9 +109,12 @@ function createArticleMenu( $menuCachedFile="" )
 
     $t->set_var( "sitedesign", $GlobalSiteDesign );
 
-// Lister alle kategorier
-    
-    $articleCategory = new eZArticleCategory( 0 );
+    // Lister alle kategorier
+
+    if ( !isset( $CategoryID  ) )
+        $CategoryID = 0;
+         
+    $articleCategory = new eZArticleCategory( $CategoryID );
 
     $articleCategory_array = $articleCategory->getByParent( $articleCategory );
 
@@ -131,21 +145,16 @@ function createArticleMenu( $menuCachedFile="" )
     }
 
 
-    if ( $GenerateStaticPage == "true" and $menuCachedFile != "" )
+
+    if ( get_class( $menuCacheFile ) == "ezcachefile" )
     {
-        
-        $fp = fopen ( $menuCachedFile, "w+");
-
         $output = $t->parse( $target, "menu_box_tpl" );
-        // print the output the first time while printing the cache file.
-
+        $menuCacheFile->store( $output );
         print( $output );
-        fwrite ( $fp, $output );
-        fclose( $fp );
     }
     else
     {
-        $t->pparse( "output", "menu_box_tpl" );
+		$t->pparse( "output", "menu_box_tpl" );
     }
     
 }
