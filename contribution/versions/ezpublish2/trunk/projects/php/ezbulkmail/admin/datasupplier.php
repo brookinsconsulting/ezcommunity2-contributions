@@ -5,6 +5,7 @@ switch ( $url_array[2] )
 {
     case "categorylist":
     {
+        include_once( "ezbulkmail/admin/categorylist.php" );
     }
     break;
     
