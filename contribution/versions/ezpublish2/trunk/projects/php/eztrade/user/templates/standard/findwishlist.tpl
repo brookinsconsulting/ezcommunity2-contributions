@@ -7,15 +7,12 @@
 	</td>
 	<td align="right">
 	<input type="text" value="{search_text}" name="SearchText" /> &nbsp;
-	<input class="okbutton" type="submit" value="{intl-search}" />
+	<input class="stdbutton" type="submit" value="{intl-search}" />
 	</td>
 </tr>
 </table>
 
 <hr noshade size="4" />
-
-
-
 
 <table width="100%" cellspacing="0" cellpadding="2" border="0">
 <!-- BEGIN wishlist_tpl -->

@@ -1,8 +1,8 @@
 <!-- BEGIN article_url_item_tpl -->
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
-	<td>
-	<center><h3>{intl-found}: http://{article_url}</h3></center>
+	<td align="center">
+	<h3>{intl-found}: http://{article_url}</h3>
 	</td>
 </tr>
 </table>
