@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: adlist.php,v 1.21.2.2 2002/02/27 16:51:16 master Exp $
+// $Id: adlist.php,v 1.21.2.3 2002/06/17 15:51:12 bf Exp $
 //
 // Created on: <25-Nov-2000 15:44:37 bf>
 //
@@ -41,7 +41,7 @@ if ( !isset( $Limit ) )
     $Limit = 1;
 if ( !isset( $Offset ) )
     $Offset = 0;
-    
+
 // ads
 $adList =& $category->ads( "count", false, $Offset, $Limit );
 
@@ -71,11 +71,11 @@ foreach ( $adList as $ad )
 	//EP: check if it is external or internal banner --------------------
 	if ( preg_match( "/^([a-z]+:\/\/)/", $ad->URL() ) )
 	{
-	    print( "<a target=\"_blank\" href=\"".$GlobalSiteIni->WWWDir.$GlobalSiteIni->Index."/ad/goto/$adID/\">" );
+	    print( "<a target=\"_blank\" href=\"".$GlobalSiteIni->WWWDir.$GlobalSiteIni->Index."/ad/goto/$adID/\"><br/>" );
 	}
 	else
 	{
-	    print( "<a href=\"".$GlobalSiteIni->WWWDir.$GlobalSiteIni->Index."/ad/goto/$adID/\">" );
+	    print( "<a href=\"".$GlobalSiteIni->WWWDir.$GlobalSiteIni->Index."/ad/goto/$adID/\"><br/>" );
 	}
 	//EP ----------------------------------------------------------------
 							
