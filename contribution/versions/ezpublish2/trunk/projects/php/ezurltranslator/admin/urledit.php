@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: urledit.php,v 1.1 2001/04/24 09:39:43 bf Exp $
+// $Id: urledit.php,v 1.2 2001/06/11 07:15:04 ce Exp $
 //
 // Frederik Holljen <fh@ez.no>
 // Created on: <24-Apr-2001 11:09:30 bf>
@@ -74,6 +74,7 @@ $t->setAllStrings();
 
 $t->set_block( "url_edit_tpl", "url_list_tpl", "url_list" );
 $t->set_block( "url_list_tpl", "url_item_tpl", "url_item" );
+$t->set_var( "url_item", "" );
 
 $url = new eZURLTranslator( );
 
