@@ -229,7 +229,7 @@ if ( $count != 0)
         $url = $OnlineList[$i]->URL();
         if ( $onlineType->prefixLink() )
         {
-            if ( strncasecmp( $url, $prefix, count( $prefix ) ) == 0 )
+            if ( strncasecmp( $url, $prefix, strlen( $prefix ) ) == 0 )
             {
                 $prefix = "";
             }
@@ -240,7 +240,7 @@ if ( $count != 0)
         }
         if ( $onlineType->prefixVisual() )
         {
-            if ( strncasecmp( $url, $vis_prefix, count( $vis_prefix ) ) == 0 )
+            if ( strncasecmp( $url, $vis_prefix, strlen( $vis_prefix ) ) == 0 )
             {
                 $vis_prefix = "";
             }

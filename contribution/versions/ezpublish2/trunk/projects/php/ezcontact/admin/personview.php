@@ -202,7 +202,7 @@ if ( $Action == "view" )
     $count = count( $OnlineList );
     if ( $count != 0)
     {
-        for( $i=0; $i<count ( $OnlineList ); $i++ )
+        for( $i=0; $i < count ( $OnlineList ); $i++ )
         {
             $onlineType = $OnlineList[$i]->onlineType();
 
@@ -212,18 +212,18 @@ if ( $Action == "view" )
             $url = $OnlineList[$i]->URL();
             if ( $onlineType->prefixLink() )
             {
-                if ( strncasecmp( $url, $prefix, count( $prefix ) ) == 0 )
+                if ( strncasecmp( $url, $prefix, strlen( $prefix ) ) == 0 )
                 {
                     $prefix = "";
                 }
             }
             else
             {
-                    $prefix = "";
+                $prefix = "";
             }
             if ( $onlineType->prefixVisual() )
             {
-                if ( strncasecmp( $url, $vis_prefix, count( $vis_prefix ) ) == 0 )
+                if ( strncasecmp( $url, $vis_prefix, strlen( $vis_prefix ) ) == 0 )
                 {
                     $vis_prefix = "";
                 }
