@@ -11,6 +11,7 @@ Changes from 2.2.9 to 2.2.10
 * Added permission check on products in eZ trade.
 * Fixed bug with newlines when posting a new forum message.
 * Fixed bug with price and vat on singlepoduct on the frontpage.
+* fiexd bug with timestamp in eZ stats.
 
 Changes from 2.2.8 to 2.2.9
 ---------------------------
