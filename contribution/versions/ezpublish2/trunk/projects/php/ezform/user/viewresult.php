@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: viewresult.php,v 1.2 2002/01/15 08:23:38 jhe Exp $
+// $Id: viewresult.php,v 1.3 2002/01/28 12:18:07 jhe Exp $
 //
 // Created on: <10-Jan-2002 13:09:28 jhe>
 //
@@ -45,7 +45,7 @@ $renderer =& new eZFormRenderer( $form );
 
 $t->set_var( "form_name", $form->name() );
 
-$output = $renderer->renderResult( $ResultID );
+$output = $renderer->renderResult( $ResultID, true, false, false, false, false, $count );
 
 $t->set_var( "form", $output );
 
