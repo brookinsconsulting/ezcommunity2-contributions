@@ -153,23 +153,18 @@ else
    include( "ezarticle/user/menubox.php" );
    ?>
 
-   <?
-   include( "ezforum/user/menubox.php" );
-   include( "ezforum/user/latestmessages.php" );
-   ?>
+    <?
+    $CategoryID = 1;
+   include( "ezarticle/user/headlines.php" );
+    ?>
 
    <?
    include( "ezlink/user/menubox.php" );
    ?>
 
-    <?
-   include( "ezfilemanager/user/menubox.php" );
-   ?>
-
-
    <?
     // include the static pages for category 2
-    $CategoryID = 2;
+    $CategoryID = 1;
     include( "ezarticle/user/articlelinks.php" );
    ?>
 
@@ -224,11 +219,6 @@ else
     ?>
 
     <?
-    $CategoryID = 1;
-   include( "ezarticle/user/headlines.php" );
-    ?>
-
-    <?
     include( "ezpoll/user/votebox.php" );
     ?>
 
@@ -240,8 +230,8 @@ else
    <td>
 <form action="<? print $GlobalSiteIni->WWWDir . $GlobalSiteIni->Index; ?>/search/" method="get" style="margin-top: 0px; margin-bottom: 0px; padding: 0px;">
     <input type="hidden" name="SectionIDOverride" value="1" />
-    <input type="text" size="10" name="SearchText" value="" style="font-family: verdana; width: 130px; font-size: 9px; margin: 0px;" />
-    <input type="submit" name="Search" value="search" style="font-size: 9px; margin: 0px; padding: 0px;" />
+    <input type="text" size="10" name="SearchText" value="" style="width: 130px;" />
+    <input class="stdbutton" type="submit" name="Search" value="search" />
 </form>
    </td>
 </tr>
@@ -254,11 +244,12 @@ else
 
    <img src="<? print $GlobalSiteIni->WWWDir; ?>/images/1x1.gif" width="130" height="20" border="0" alt="" /><br />
 
+   <div align="center"><a class="path" href="?PrintableVersion=enabled">Printable page</a></div><br />
+
    <div align="center">
    <a target="_blank" href="http://developer.ez.no"><img src="<? print $GlobalSiteIni->WWWDir; ?>/images/powered-by-ezpublish-100x35-trans-lgrey.gif" width="100" height="35" border="0" alt="Powered by eZ publish" /></a>
    </div>
 
-    <a class="path" href="?PrintableVersion=enabled">Printable page</a>
    <img src="<? print $GlobalSiteIni->WWWDir; ?>/images/1x1.gif" width="130" height="8" border="0" alt="" /><br />
 
    </td>
