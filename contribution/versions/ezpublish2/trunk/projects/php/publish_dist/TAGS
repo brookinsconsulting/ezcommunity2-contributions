@@ -1,0 +1,10 @@
+# The various tags for eZ publish CVS.
+# The format is:
+# Tag-name Tag-description
+
+eZPublish_2_0_pre_2-trade_custom  Customization of trade, code not meant to be released for 2.0.
+eZPublish_2_0_pre_2               Prerelease 2 of 2.0 version
+eZPublish_2_0_pre                 Prelease 1 of 2.0 version
+eZPublish_2_0_Beta_2              Beta 2 of upcoming 2.0 version
+eZPublish-1_0_2                   1.0.2 version
+eZ-publish-1-FINAL                Final 1.0 version
