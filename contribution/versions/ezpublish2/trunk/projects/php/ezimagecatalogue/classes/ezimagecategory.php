@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezimagecategory.php,v 1.10 2001/03/08 21:26:29 fh Exp $
+// $Id: ezimagecategory.php,v 1.11 2001/03/10 13:46:28 bf Exp $
 //
 // Definition of eZImageCategory class
 //
@@ -286,7 +286,7 @@ class eZImageCategory
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
         
-        return $this->Name;
+        return htmlspecialchars( $this->Name );
     }
 
     /*!
@@ -297,7 +297,7 @@ class eZImageCategory
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
         
-        return $this->Description;
+        return htmlspecialchars( $this->Description );
     }
     
     /*!

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezbug.php,v 1.17 2001/02/20 20:59:41 fh Exp $
+// $Id: ezbug.php,v 1.18 2001/03/10 13:46:28 bf Exp $
 //
 // Definition of eZBug class
 //
@@ -267,7 +267,7 @@ class eZBug
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
         
-        return $this->Name;
+        return htmlspecialchars( $this->Name );
     }
 
     /*!
@@ -289,7 +289,7 @@ class eZBug
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
         
-        return $this->Description;
+        return htmlspecialchars( $this->Description );
     }
     
     /*!

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezpoll.php,v 1.15 2001/01/22 14:43:01 jb Exp $
+// $Id: ezpoll.php,v 1.16 2001/03/10 13:46:28 bf Exp $
 //
 // Definition of eZPoll class
 //
@@ -244,7 +244,7 @@ class eZPoll
         if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
 
-        return $this->Name;
+        return htmlspecialchars( $this->Name );
     }
 
     /*!
@@ -255,7 +255,7 @@ class eZPoll
         if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
 
-        return $this->Description;
+        return htmlspecialchars( $this->Description );
     }
 
     /*!

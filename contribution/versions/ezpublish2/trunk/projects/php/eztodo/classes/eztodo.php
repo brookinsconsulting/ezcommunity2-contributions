@@ -1,5 +1,5 @@
 <?
-// $Id: eztodo.php,v 1.16 2001/02/27 17:47:15 ce Exp $
+// $Id: eztodo.php,v 1.17 2001/03/10 13:46:28 bf Exp $
 //
 // Definition of eZTodo class
 //
@@ -245,7 +245,8 @@ class eZTodo
     {
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
-       return $this->Name;
+       
+       return htmlspecialchars( $this->Name );
     }
 
     /*! 
@@ -289,7 +290,8 @@ class eZTodo
     {
         if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
-        return $this->Description;
+        
+        return htmlspecialchars( $this->Description );
     }
 
     /*!

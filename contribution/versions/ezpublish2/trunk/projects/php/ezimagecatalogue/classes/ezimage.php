@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezimage.php,v 1.39 2001/03/09 09:34:01 bf Exp $
+// $Id: ezimage.php,v 1.40 2001/03/10 13:46:28 bf Exp $
 //
 // Definition of eZImage class
 //
@@ -400,7 +400,7 @@ class eZImage
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
         
-        return $this->Name;
+        return htmlspecialchars( $this->Name );
     }
 
     /*!
@@ -411,7 +411,7 @@ class eZImage
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
         
-        return $this->Caption;
+        return htmlspecialchars( $this->Caption );
     }
 
     /*!
@@ -422,7 +422,7 @@ class eZImage
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
         
-        return $this->Description;
+        return htmlspecialchars( $this->Description );
     }    
 
     /*!

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezbugcategory.php,v 1.4 2001/02/12 15:27:18 fh Exp $
+// $Id: ezbugcategory.php,v 1.5 2001/03/10 13:46:28 bf Exp $
 //
 // Definition of eZBugCategory class
 //
@@ -190,7 +190,7 @@ class eZBugCategory
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
         
-        return $this->Name;
+        return htmlspecialchars( $this->Name );
     }
 
     /*!
@@ -201,7 +201,7 @@ class eZBugCategory
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
         
-        return $this->Description;
+        return htmlspecialchars( $this->Description );
     }
     
     /*!

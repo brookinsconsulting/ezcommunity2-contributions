@@ -1,5 +1,5 @@
 <?
-// $Id: ezpriority.php,v 1.5 2001/01/22 14:43:02 jb Exp $
+// $Id: ezpriority.php,v 1.6 2001/03/10 13:46:28 bf Exp $
 //
 // Definition of eZPriority class
 //
@@ -147,7 +147,7 @@ class eZPriority
     {
         if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
-        return $this->Name;
+        return htmlspecialchars( $this->Name );
     }
 
     //! setName

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezarticlecategory.php,v 1.47 2001/03/06 09:53:47 fh Exp $
+// $Id: ezarticlecategory.php,v 1.48 2001/03/10 13:46:28 bf Exp $
 //
 // Definition of eZArticleCategory class
 //
@@ -322,7 +322,7 @@ class eZArticleCategory
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
         
-        return $this->Name;
+        return htmlspecialchars( $this->Name );
     }
     
     /*!
@@ -333,7 +333,7 @@ class eZArticleCategory
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
         
-        return $this->Description;
+        return htmlspecialchars( $this->Description );
     }
 
     /*!

@@ -6,11 +6,11 @@
 <p class="error">{error_msg}</p>
 
 <p class="boxtext">{intl-name}:</p>
-<textarea rows="3" cols="40" name="Name">{name_value}</textarea>
+<textarea wrap="soft" rows="3" cols="40" name="Name">{name_value}</textarea>
 <br /><br />
 
 <p class="boxtext">{intl-desc}:</p>
-<textarea rows="5" cols="40" name="Description">{description_value}</textarea>
+<textarea wrap="soft" rows="5" cols="40" name="Description">{description_value}</textarea>
 
 <br /><br />
 

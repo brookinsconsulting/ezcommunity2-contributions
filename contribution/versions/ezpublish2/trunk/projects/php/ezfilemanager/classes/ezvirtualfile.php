@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezvirtualfile.php,v 1.21 2001/03/08 11:22:34 jb Exp $
+// $Id: ezvirtualfile.php,v 1.22 2001/03/10 13:46:28 bf Exp $
 //
 // Definition of eZVirtualFile class
 //
@@ -217,7 +217,7 @@ class eZVirtualfile
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
         
-        return $this->Name;
+        return htmlspecialchars( $this->Name );
     }
 
     /*!
@@ -228,7 +228,7 @@ class eZVirtualfile
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
         
-        return $this->Description;
+        return htmlspecialchars( $this->Description );
     }    
 
     /*!

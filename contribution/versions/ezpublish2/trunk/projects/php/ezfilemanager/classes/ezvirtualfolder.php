@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezvirtualfolder.php,v 1.14 2001/03/08 10:28:33 fh Exp $
+// $Id: ezvirtualfolder.php,v 1.15 2001/03/10 13:46:28 bf Exp $
 //
 // Definition of eZVirtualFolder class
 //
@@ -292,7 +292,7 @@ class eZVirtualFolder
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
         
-        return $this->Name;
+        return htmlspecialchars( $this->Name );
     }
 
     /*!
@@ -303,7 +303,7 @@ class eZVirtualFolder
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
         
-        return $this->Description;
+        return htmlspecialchars( $this->Description );
     }
     
     /*!
