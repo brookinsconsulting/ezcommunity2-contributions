@@ -1,6 +1,6 @@
 <table width="100%" cellspacing="0" cellpadding="2" border="0">
 <tr>
-	<td colspan="2" class="menuhead">Articles</td>
+	<td colspan="2" class="menuhead">{intl-title}</td>
 </tr>
 
 <!-- BEGIN article_category_tpl -->
