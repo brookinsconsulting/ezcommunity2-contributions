@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: index.php,v 1.122 2001/11/09 14:15:48 jhe Exp $
+// $Id: index.php,v 1.123 2001/11/10 13:17:37 bf Exp $
 //
 // Created on: <09-Nov-2000 14:52:40 ce>
 //
@@ -360,9 +360,9 @@ if ( ( $requireUserLogin == "disabled" ) ||
     else
     {
         // load site cache
-        include( $SiteCacheFile );
+        $fp = fopen( $SiteCacheFile, r );
+        fpassthru( $fp );
     }
-
 }
 else
 {
