@@ -17,11 +17,12 @@
 <p>{intl-reg_text}</p>
 
 <form method="post" action="/user/login/login/">
+
 <p class="boxtext">{intl-username}:</p>
-<input type="text" size="20" name="Username"/>
+<input type="text" class="halfbox" size="20" name="Username"/>
 
 <p class="boxtext">{intl-password}:</p>
-<input type="password" size="20" name="Password"/><br />
+<input type="password" class="halfbox" size="20" name="Password"/><br />
 <br />
 
 <hr noshade="noshade" size="4" />

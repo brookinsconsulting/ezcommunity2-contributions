@@ -35,7 +35,7 @@
 <tr>
 	<td>
 	<p class="boxtext">{intl-topic}:</p>
-	<input type="text" name="Topic" size="40" value="{topic}">
+	<input type="text" class="box" name="Topic" size="40" value="{topic}">
 	</td>
 	<td>
 	<p class="boxtext">{intl-author}:</p>
@@ -45,7 +45,7 @@
 </table>
 
 <p class="boxtext">{intl-text}:</p>
-<textarea wrap="soft" name="Body" rows="15" cols="40" rows="10">{body}</textarea>
+<textarea wrap="soft" class="box" name="Body" rows="15" cols="40" rows="10">{body}</textarea>
 <br /><br />
     
 <input type="checkbox" name="notice"> {intl-email_notice}
