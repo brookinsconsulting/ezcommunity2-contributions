@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: search.php,v 1.11 2001/07/18 14:54:30 bf Exp $
+// $Id: search.php,v 1.12 2001/07/19 10:43:26 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <28-Oct-2000 15:56:58 bf>
@@ -54,6 +54,9 @@ $t->set_file( "article_list_page_tpl", "search.tpl" );
 $t->set_block( "article_list_page_tpl", "article_list_tpl", "article_list" );
 $t->set_block( "article_list_tpl", "article_item_tpl", "article_item" );
 
+$t->set_var( "search_text", "" );
+
+
 $category = new eZArticleCategory( $CategoryID );
 
 $t->set_var( "current_category_id", $category->id() );
@@ -69,6 +72,7 @@ if( !isset ( $Offset ) )
 
 if ( $SearchText )
 {
+    $t->set_var( "search_text", $SearchText );
     $article = new eZArticle();
     $articleList = $article->search( $SearchText, "time", false, $Offset, $Limit );
 

@@ -190,6 +190,11 @@ CREATE INDEX ArticleWord_Word ON eZArticle_Word (Word);
 CREATE INDEX ArticleWordLink_ArticleID ON eZArticle_ArticleWordLink (ArticleID);
 CREATE INDEX ArticleWordLink_WordID ON eZArticle_ArticleWordLink (WordID);
 
+CREATE INDEX ArticlePermissionObjectID ON eZArticle_ArticlePermission (ObjectID);
+CREATE INDEX ArticlePermissionGroupID ON eZArticle_ArticlePermission (GroupID);
+CREATE INDEX ArticlePermissionWritePermission ON eZArticle_ArticlePermission (WritePermission);
+CREATE INDEX ArticlePermissionReadPermission ON eZArticle_ArticlePermission (ReadPermission);
+
 
 CREATE INDEX Article_Name ON eZArticle_Article (Name);
 CREATE INDEX Article_Keywords ON eZArticle_Article (Keywords);

@@ -6,7 +6,7 @@
 	</td>
 	<td align="right">
 	<form action="/article/search/" method="post">
-	<input class="searchbox" type="text" name="SearchText" size="10" />	
+	<input class="searchbox" type="text" name="SearchText" value="{search_text}" size="10" />	
 	<input class="stdbutton" type="submit" value="{intl-search}" />
 	</form>	
 	</td>

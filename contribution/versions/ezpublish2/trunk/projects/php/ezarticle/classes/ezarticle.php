@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezarticle.php,v 1.126 2001/07/19 08:52:47 bf Exp $
+// $Id: ezarticle.php,v 1.127 2001/07/19 10:43:26 bf Exp $
 //
 // Definition of eZArticle class
 //
@@ -1591,17 +1591,10 @@ class eZArticle
 
         $queryArray = explode( " ", trim( $queryText ) );
 
-        $i = 0;
-        $searchSQL = "";
-        foreach ( $queryArray as $word )
-        {
-            if ( $i > 0 and $i < count( $queryArray ) )
-                $searchSQL .= " OR ";
-
-            $searchSQL .= " eZArticle_Word.Word='$word' ";
-            
-            $i++;
-        }
+        $query = new eZQuery( "eZArticle_Word.Word", $queryText );
+        $query->setIsLiteral( true );
+        $searchSQL = $query->buildQuery();
+        
 
         $queryString = "SELECT DISTINCT eZArticle_Article.ID AS ArticleID, eZArticle_Article.Published, eZArticle_Article.Name
                  FROM eZArticle_Article,
@@ -1622,6 +1615,7 @@ class eZArticle
                           )
                         )            
                        ORDER BY $OrderBy";
+
         
         $db->array_query( $article_array, $queryString, array( "Limit" => $limit, "Offset" => $offset ) );        
 
@@ -1674,6 +1668,10 @@ class eZArticle
             $loggedInSQL = "eZArticle_Article.AuthorID=$currentUserID OR";
         }
 
+        $query = new eZQuery( "eZArticle_Word.Word", $queryText );
+        $query->setIsLiteral( true );
+        $searchSQL = $query->buildQuery();
+
 
         $queryString = "SELECT count( DISTINCT eZArticle_Article.ID) AS Count
                  FROM eZArticle_Article,
@@ -1682,7 +1680,7 @@ class eZArticle
                       eZArticle_ArticleCategoryLink,
                       eZArticle_ArticlePermission
                  WHERE
-                       eZArticle_Word.Word='$queryText'
+                       $searchSQL
                        AND
                        ( eZArticle_Article.ID=eZArticle_ArticleWordLink.ArticleID
                          AND eZArticle_ArticleWordLink.WordID=eZArticle_Word.ID
@@ -1693,6 +1691,7 @@ class eZArticle
                             AND eZArticle_ArticlePermission.ReadPermission='1'
                           )
                         ) ";
+
         
         /*
         $queryString = "SELECT COUNT(DISTINCT Article.ID) AS Count
