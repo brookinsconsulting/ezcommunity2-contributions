@@ -162,11 +162,11 @@
 <br />
 
 <!-- BEGIN numbered_page_link_tpl -->
-<div align="center"><a class="path" href="/{module}/{module_view}/{product_id}/0/">| {intl-numbered_page} |</a></div>
+<div align="center"><a class="path" href="/{module}/{module_view}/{product_id}/0/">[ {intl-numbered_page} ]</a></div>
 <!-- END numbered_page_link_tpl -->
 
 <!-- BEGIN print_page_link_tpl -->
-<div align="center"> <a class="path" href="/{module}/{module_print}/{product_id}/">| {intl-print_page} |</a></div>
+<div align="center"> <a class="path" href="/{module}/{module_print}/{product_id}/">[ {intl-print_page} ]</a></div>
 <!-- END print_page_link_tpl -->
 
 </form>
