@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezimage.php,v 1.80 2001/09/12 09:28:04 ce Exp $
+// $Id: ezimage.php,v 1.81 2001/09/13 12:46:35 ce Exp $
 //
 // Definition of eZImage class
 //
@@ -1370,6 +1370,23 @@ class eZImage
         }
 
         return $articles;
+    }
+
+    /*!
+      Returns a random image from a category.
+    */
+    function randomImage( $categoryID=0 )
+    {
+        $db =& eZDB::globalDatabase();
+
+        $res = array();
+
+        if ( is_numeric ( $categoryID ) )
+            $db->query_single( $res, "SELECT ImageID, ((ImageID*0)+RAND()) AS Random FROM eZImageCatalogue_ImageCategoryLink ORDER BY Random LIMIT 1" );
+        else
+            $db->query_single( $res, "SELECT ID, ((ID*0)+RAND()) AS Random FROM eZImageCatalogue_Image ORDER BY Random LIMIT 1" );
+            
+        return new eZImage( $res["ID"] );
     }
 
     var $ID;
