@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: smallproductlist.php,v 1.2 2001/10/04 12:57:02 ce Exp $
+// $Id: smallproductlist.php,v 1.3 2001/10/04 14:41:42 bf Exp $
 //
 // Created on: <04-Oct-2001 12:20:03 ce>
 //
@@ -78,7 +78,7 @@ if ( $PureStatic != "true" )
 
     $category = new eZProductCategory( $CategoryID );
 
-    $productList =& $category->activeProducts( "time", 0, $Limit );
+    $productList =& $category->activeProducts( $category->sortMode(), 0, $Limit );
 
     $t->set_var( "sitedesign", $GlobalSiteDesign );
     $t->set_var( "category_id", $CategoryID );
