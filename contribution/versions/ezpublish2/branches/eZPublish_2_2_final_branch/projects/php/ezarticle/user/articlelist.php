@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: articlelist.php,v 1.81.2.6 2002/04/03 12:48:29 bf Exp $
+// $Id: articlelist.php,v 1.81.2.7 2003/07/24 11:07:55 br Exp $
 //
 // Created on: <18-Oct-2000 14:41:37 bf>
 //
@@ -36,12 +36,6 @@ include_once( "ezarticle/classes/ezarticlerenderer.php" );
 include_once( "ezuser/classes/ezobjectpermission.php" );
 include_once( "ezsitemanager/classes/ezsection.php" );
 
-$GlobalSectionID = eZArticleCategory::sectionIDStatic( $CategoryID );
-
-// init the section
-$sectionObject =& eZSection::globalSectionObject( $GlobalSectionID );
-$sectionObject->setOverrideVariables();
-
 $ini =& INIFile::globalINI();
 
 $Language = $ini->read_var( "eZArticleMain", "Language" );
@@ -51,11 +45,24 @@ $DefaultLinkText =  $ini->read_var( "eZArticleMain", "DefaultLinkText" );
 $UserListLimit = $ini->read_var( "eZArticleMain", "UserListLimit" );
 $GrayScaleImageList = $ini->read_var( "eZArticleMain", "GrayScaleImageList" );
 $ForceCategoryDefinition = $ini->read_var( "eZArticleMain", "ForceCategoryDefinition" );
+$TemplateDir = $ini->read_var( "eZArticleMain", "TemplateDir" );
+
+$GlobalSectionID = eZArticleCategory::sectionIDStatic( $CategoryID );
+
+// init the section
+$sectionObject =& eZSection::globalSectionObject( $GlobalSectionID );
+$sectionObject->setOverrideVariables();
+
+$templateDirTmp = $sectionObject->templateStyle();
+if ( trim( $templateDirTmp ) != "" )
+{
+    $TemplateDir = preg_replace( "/(.+)\/.+(\/?)/", "/\\1/$templateDirTmp\\2", $TemplateDir );
+}
+
 
 $t = new eZTemplate( "ezarticle/user/" . $ini->read_var( "eZArticleMain", "TemplateDir" ),
                      "ezarticle/user/intl/", $Language, "articlelist.php" );
 
-$TemplateDir = $ini->read_var( "eZArticleMain", "TemplateDir" );
 $t->setAllStrings();
 
 // override template for the current category
