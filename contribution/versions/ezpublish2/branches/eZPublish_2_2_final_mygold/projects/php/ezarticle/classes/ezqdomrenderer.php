@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezqdomrenderer.php,v 1.55 2001/10/16 07:52:08 bf Exp $
+// $Id: ezqdomrenderer.php,v 1.55.4.1 2001/10/25 07:44:51 ce Exp $
 //
 // Definition of eZQDomRenderer class
 //
@@ -926,7 +926,7 @@ class eZQDomrenderer
                 {
                     if ( $child->name == "text" )
                     {
-                        if ( $paragraph->name == "pre" )
+                        if ( $paragraph->name == "pre"  || $paragraph->name == "html")
                             $tmpContent .= $child->content;
                         else
                             $tmpContent .= eZTextTool::nl2br( $child->content, $this->BrOverride );
