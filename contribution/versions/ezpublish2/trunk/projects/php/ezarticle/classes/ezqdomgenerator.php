@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezqdomgenerator.php,v 1.40 2002/02/06 14:50:20 bf Exp $
+// $Id: ezqdomgenerator.php,v 1.41 2002/02/06 14:53:35 bf Exp $
 //
 // Definition of eZQDomGenerator class
 //
@@ -390,7 +390,6 @@ class eZQDomGenerator
                     {
                         if ( $article->name == "intro" )
                         {
-                            print_r( $article );
                             $intro = $this->decodePage( $article );
                         }
                         
