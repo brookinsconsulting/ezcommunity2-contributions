@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezuritool.php,v 1.1 2001/01/16 10:40:18 jb Exp $
+// $Id: ezuritool.php,v 1.2 2001/01/16 10:42:42 jb Exp $
 //
 // Definition of eZURITool class
 //
@@ -54,7 +54,7 @@ class eZURITool
       Splits the URI into an array and returns the array.
       \sa merge
     */
-    function &split( $uri )
+    function &split( &$uri )
     {
         $uri_array = explode( "/", $uri );
         return $uri_array;
@@ -65,7 +65,7 @@ class eZURITool
       Merges an split URI array into a full URI and returns it.
       \sa split
     */
-    function &merge( $uri_array )
+    function &merge( &$uri_array )
     {
         $uri = implode( "/", $uri_array );
         return $uri;
@@ -77,10 +77,8 @@ class eZURITool
       \sa encode
     */
 
-    function &decode( $text )
+    function &decode( &$text )
     {
-//          $text = preg_replace( "/[+]/", " ", $text );
-//          $text = preg_replace( "/[%2b]/i", "+", $text );
         $text = str_replace( "%20", " ", $text );
         return $text;
     }
@@ -91,11 +89,9 @@ class eZURITool
       \sa decode
     */
 
-    function &encode( $text )
+    function &encode( &$text )
     {
-//          $text = preg_replace( "/[+]/", "%2B", $text );
-//          $text = preg_replace( "/[ ]/", "+", $text );
-        $text = preg_replace( "/[ ]/", "%20", $text );
+        $text = str_replace( " ", "%20", $text );
         return $text;
     }
 }
