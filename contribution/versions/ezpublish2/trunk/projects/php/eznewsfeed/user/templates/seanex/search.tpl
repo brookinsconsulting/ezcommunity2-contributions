@@ -1,8 +1,20 @@
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+	<td width="1%" class="tdmini" bgcolor="#465da1" align="left" valign="top"><img src="/images/box-tl.gif" width="4" height="4" border="0" alt="" /><br /></td>
+	<td width="98%" bgcolor="#465da1" class="tdminipath" rowspan="3" valign="middle"><div class="smallpath"><span class="smallbold">Nyheter</span> | {intl-search_result}</div></td>
+	<td width="1%" class="tdmini" bgcolor="#465da1" align="right" valign="top"><img src="/images/box-tr.gif" width="4" height="4" border="0" alt="" /><br /></td>
+</tr>
+<tr>
+	<td width="1%" class="tdmini" bgcolor="#465da1"><img src="/images/1x1.gif" width="1" height="1" border="0" alt="" /><br /></td>
+	<td width="1%" class="tdmini" bgcolor="#465da1"><img src="/images/1x1.gif" width="1" height="1" border="0" alt="" /><br /></td>
+</tr>
+<tr>
+	<td width="1%" class="tdmini" bgcolor="#465da1" align="left" valign="bottom"><img src="/images/box-bl.gif" width="4" height="4" /><br /></td>
+	<td width="1%" class="tdmini" bgcolor="#465da1" align="right" valign="bottom"><img src="/images/box-br.gif" width="4" height="4" /><br /></td>
+</tr>
+</table>
 
-
-<h1>{intl-search_result}</h1>
-
-<hr noshade="noshade" size="4" />
+<br />
 
 <!-- BEGIN news_list_tpl -->
 <table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
@@ -22,9 +34,9 @@
 
 <hr noshade="noshade" size="4" />
 
-<center>
+<div align="right">
 <form action="/newsfeed/search/" method="post">
-<input type="text" name="SearchText" size="12" />	
-<input type="submit" value="{intl-search}" />
+<input type="text" name="SearchText" size="20" /><br />
+<input type="image" value="{intl-search}" src="/images/button-searchmain.gif" border="0" /><br />
 </form>	
-</center>
+</div>

@@ -1,7 +1,7 @@
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
 <tr>
 	<td width="1%" class="tdmini" bgcolor="#465da1" align="left" valign="top"><img src="/images/box-tl.gif" width="4" height="4" border="0" alt="" /><br /></td>
-	<td width="98%" bgcolor="#465da1" class="tdminipath" rowspan="3" valign="middle"><div class="smallpath"><span class="smallbold">Nyheter</span> | Søk i arkivet</div></td>
+	<td width="98%" bgcolor="#465da1" class="tdminipath" rowspan="3" valign="middle"><div class="smallpath"><span class="smallbold">Nyheter</span> | Søk i nyhetsarkivet</div></td>
 	<td width="1%" class="tdmini" bgcolor="#465da1" align="right" valign="top"><img src="/images/box-tr.gif" width="4" height="4" border="0" alt="" /><br /></td>
 </tr>
 <tr>
@@ -14,11 +14,19 @@
 </tr>
 </table>
 
-<h1>Slik søker du</h1>
-<p>Beskrivelse av hvordan man søker...</p>
-
 <form action="/newsfeed/search/" method="post">
-<input type="text" name="SearchText" size="20" />	
-<input type="submit" value="{intl-search}" />
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+	<td class="h2">Søk i nyhetsarkivet&nbsp;&nbsp;</td>
+	<td align="right" valign="bottom">
+	
+	<input type="text" name="SearchText" size="20" /><br />	
+	<input type="image" value="{intl-search}" src="/images/button-searchmain.gif" border="0" /><br />
+
+	</td>
+</tr>
+</table>
 </form>	
+
+<p>Beskrivelse av hvordan man søker...</p>
 

@@ -13,18 +13,20 @@
 	<td width="1%" class="tdmini" bgcolor="#465da1" align="right" valign="bottom"><img src="/images/box-br.gif" width="4" height="4" /><br /></td>
 </tr>
 </table>
-<br />
-<table border="0" cellspacing="0" cellpadding="0">
+
+<form action="/contact/search/company" method="post">
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
 <tr>
-	<td valign="top" class="h2">Søk i stillingsannonsene:&nbsp;&nbsp;</td>
-	<td>
-	<form action="/contact/search/company" method="post">
-	<input type="text" name="SearchText" size="12" />       
-	<input type="submit" value="{intl-search}" />
-	</form>
+	<td class="h2">Søk i stillingsannonsene&nbsp;&nbsp;</td>
+	<td align="right" valign="bottom">
+	
+	<input type="text" name="SearchText" size="12" /><br />   
+	<input type="image" value="{intl-search}" src="/images/button-searchmain.gif" border="0" />
+
 	</td>
 </tr>
 </table>
+</form>
 
 <hr noshade="noshade" size="4"/ >
 		
