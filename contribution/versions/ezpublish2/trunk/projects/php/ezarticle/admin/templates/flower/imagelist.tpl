@@ -66,7 +66,10 @@
 	<a href="/article/articleedit/imageedit/edit/{image_id}/{article_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('eztp{image_id}-red','','/ezarticle/images/redigerminimrk.gif',1)"><img name="eztp{image_id}-red" border="0" src="/ezarticle/images/redigermini.gif" width="16" height="16" align="top"></a>
 	</td>
 	<td width="1%" class="{td_class}">
-	<a href="/article/articleedit/imageedit/delete/{image_id}/{article_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('eztp{image_id}-slett','','/ezarticle/images/slettminimrk.gif',1)"><img name="eztp{image_id}-slett" border="0" src="/ezarticle/images/slettmini.gif" width="16" height="16" align="top"></a>
+
+<a href="#" onClick="verify( 'delete', '/article/articleedit/imageedit/delete/{image_id}/{article_id}/'); return false;"
+onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezaa{article_id}-slett','','/ezarticle/images/slettminimrk.gif',1)"><img name="ezaa{article_id}-slett" border="0" src="/ezarticle/images/slettmini.gif" width="16" height="16" align="top">
+</a>
 	</td>
 </tr>
 <!-- END image_tpl -->

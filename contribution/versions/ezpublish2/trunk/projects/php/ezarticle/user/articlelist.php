@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: articlelist.php,v 1.7 2000/10/25 12:25:59 bf-cvs Exp $
+// $Id: articlelist.php,v 1.8 2000/10/25 13:23:55 bf-cvs Exp $
 //
 // 
 //
@@ -103,9 +103,12 @@ else
     $t->set_var( "category_list", "" );
 
 
+print( "sorteringsmodus" . $SortMode );
 
 if ( $CategoryID == 0 )
 {
+
+    
     $article = new eZArticle();
     $articleList = $article->articles();
 } 
