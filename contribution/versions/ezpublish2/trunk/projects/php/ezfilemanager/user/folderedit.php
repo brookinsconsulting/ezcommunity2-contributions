@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: folderedit.php,v 1.12 2001/02/26 16:59:14 ce Exp $
+// $Id: folderedit.php,v 1.13 2001/02/26 17:16:13 ce Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <08-Jan-2001 11:13:29 ce>
@@ -222,13 +222,13 @@ if ( $Action == "Update" && $error == false )
 
     $folder->setUser( $user );
 
-    $parent = new eZVirtualFolder( $FolderID );
+    $parent = new eZVirtualFolder( $ParentID );
     $folder->setParent( $parent );
 
     $folder->store();
 
     $folder->removeReadPermissions();
-    $folder->removeritePermissions();
+    $folder->removeWritePermissions();
     
     if ( count ( $ReadGroupArrayID ) > 0 )
     {
@@ -282,6 +282,11 @@ if ( $Action == "Edit" )
     if ( $parent )
         $parentID = $parent->id();
 
+    $readPermissionList = $folder->readPermissions();
+
+    $writePermissionList = $folder->writePermissions();
+
+
     $t->set_var( "action_value", "update" );
 }
 
@@ -304,8 +309,54 @@ foreach ( $groups as $group )
     $t->set_var( "group_id", $group->id() );
     $t->set_var( "group_name", $group->name() );
 
-    $t->parse( "read_group_item", "read_group_item_tpl", true );
+        if ( $readPermissionList )
+    {
+        foreach ( $readPermissionList as $readGroup )
+        {
+            if ( get_class( $readGroup ) == "ezusergroup" )
+            {
+                if ( $readGroup->id() == $group->id() )
+                {
+                    $t->set_var( "is_read_selected", "selected" );
+                }
+                else
+                {
+                    $t->set_var( "is_read_selected", "" );
+                }
+            }
+            
+            if ( $readGroup == "Everybody" )
+            {
+                $t->set_var( "read_everybody", "selected" );
+            }
+        }
+    }
+
+    if ( $writePermissionList )
+    {
+        foreach ( $writePermissionList as $writeGroup )
+        {
+            if ( get_class( $writeGroup ) == "ezusergroup" )
+            {
+                if ( $writeGroup->id() == $group->id() )
+                {
+                    $t->set_var( "is_write_selected", "selected" );
+                }
+                else
+                {
+                    $t->set_var( "is_write_selected", "" );
+                }
+            }
+            
+            if ( $writeGroup == "Everybody" )
+            {
+                $t->set_var( "write_everybody", "selected" );
+            }
+        }
+    }
+
     $t->parse( "write_group_item", "write_group_item_tpl", true );
+    $t->parse( "read_group_item", "read_group_item_tpl", true );
 }
 
 // Print out all the folders.

@@ -86,6 +86,22 @@ switch ( $url_array[2] )
             }
             break;
 
+            case "edit" :
+            {
+                $FolderID = $url_array[4];
+                $Action = "Edit";
+                include( "ezfilemanager/user/folderedit.php" );
+            }
+            break;
+
+            case "update" :
+            {
+                $FolderID = $url_array[4];
+                $Action = "Update";
+                include( "ezfilemanager/user/folderedit.php" );
+            }
+            break;
+
         }
     }
     break;
