@@ -448,3 +448,14 @@ Maintainer(s) : vl@ez.no
 
     * admin/templates/standard/sectionlist.tpl: Fixed bug when field is emty.
 
+
+Module : ezsitemanager
+Repository path : /home/cvsroot/projects/php/ezsitemanager
+Maintainer(s) : vl@ez.no
+2001-11-15  Baard Farstad  <bf@ez.no>
+
+    * admin/sectionedit.php: Fixed bug when creating new section.
+
+    * admin/sectionedit.php:
+    Fixed redirect bug when creating a new row on a new session.
+

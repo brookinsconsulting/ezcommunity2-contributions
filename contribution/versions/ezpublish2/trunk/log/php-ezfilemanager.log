@@ -511,3 +511,21 @@ Maintainer(s) : jhe@ez.no
 
     * user/templates/linmag/filelist.tpl: fixed parent category block.
 
+
+Module : ezfilemanager
+Repository path : /home/cvsroot/projects/php/ezfilemanager
+Maintainer(s) : jhe@ez.no
+2001-11-15  Christoffer Elo  <ce@ez.no>
+
+    * classes/ezvirtualfile.php: Merged a fix from head branch
+
+    * classes/ezvirtualfile.php: Fixed a bug:
+     when updating a file, the old file is beeing deleted.
+
+2001-11-15  Jo Henrik Endrerud  <jhe@ez.no>
+
+    * user/fileupload.php:
+    new files now inherit permission from parent by default
+
+    * user/fileupload.php: files now default inherits permission from parent
+

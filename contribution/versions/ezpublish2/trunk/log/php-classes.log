@@ -431,3 +431,13 @@ Maintainer(s) : bf@ez.no
     * INIFile.php
       ezinifile.php: added parameter in constructor for choosing caching
 
+
+Module : classes
+Repository path : /home/cvsroot/projects/php/classes
+Maintainer(s) : bf@ez.no
+2001-11-15  Christoffer Elo  <ce@ez.no>
+
+    * ezmysqldb.php:
+    Added a exit() in the ezmysql class when it cant create a connection.
+    added some languages
+

@@ -452,3 +452,39 @@ Maintainer(s) : br@ez.no
 
     * user/templates/linmag/linkcategorylist.tpl: Fixed temlate blocks.
 
+
+Module : ezlink
+Repository path : /home/cvsroot/projects/php/ezlink
+Maintainer(s) : br@ez.no
+2001-11-15  Bjoern Reiten  <br@ez.no>
+
+    * admin/intl/no_NO/attributeedit.php.ini
+      admin/intl/no_NO/categorylist.php.ini: fixed translation.
+
+    * admin/intl/no_NO/menubox.php.ini
+      admin/intl/no_NO/unacceptedlist.php.ini
+      admin/intl/en_GB/linkedit.php.ini
+      admin/intl/en_GB/search.php.ini
+      admin/intl/en_GB/unacceptedlist.php.ini
+      admin/intl/no_NO/categoryedit.php.ini
+      admin/intl/no_NO/linkedit.php.ini
+      admin/intl/no_NO/search.php.ini: fixed translations.
+
+2001-11-15  Baard Farstad  <bf@ez.no>
+
+    * admin/intl/no_NO/linkcategorylist.php.ini
+      admin/intl/no_NO/linkedit.php.ini
+      admin/intl/no_NO/linkgrouplist.php.ini
+      admin/intl/no_NO/search.php.ini
+      admin/intl/no_NO/unacceptedlist.php.ini
+      user/intl/no_NO/linkgrouplist.php.ini
+      user/intl/no_NO/search.php.ini: Language fixes.
+
+2001-11-15  Bjoern Reiten  <br@ez.no>
+
+    * user/intl/no_NO/categorylist.php.ini
+      user/intl/no_NO/search.php.ini
+      user/intl/no_NO/suggestlink.php.ini: fixed translations.
+
+    * user/intl/no_NO/categorylist.php.ini: Added categories.
+

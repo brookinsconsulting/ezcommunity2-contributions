@@ -267,3 +267,11 @@ Maintainer(s) : ce@ez.no
 
     * admin/templates/standard/browse.tpl: Fixed a tempalte bug
 
+
+Module : ezmediacatalogue
+Repository path : /home/cvsroot/projects/php/ezmediacatalogue
+Maintainer(s) : ce@ez.no
+2001-11-15  Christoffer Elo  <ce@ez.no>
+
+    * admin/intl/no_NO/typeedit.php.ini: Updated norwegian language
+

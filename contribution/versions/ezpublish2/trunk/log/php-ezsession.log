@@ -65,3 +65,21 @@ Maintainer(s) : bf@ez.no
 
     * classes/ezsession.php: Added custom setcookie function.
 
+
+Module : ezsession
+Repository path : /home/cvsroot/projects/php/ezsession
+Maintainer(s) : bf@ez.no
+2001-11-15  Christoffer Elo  <ce@ez.no>
+
+    * classes/ezsession.php:
+    Added a exit() in the ezmysql class when it cant create a connection.
+    added some languages
+
+2001-11-15  Thomas Hellstroem  <th@ez.no>
+
+    * classes/ezsession.php: Fixed IE cookie bug
+
+2001-11-15  Baard Farstad  <bf@ez.no>
+
+    * classes/ezsession.php: Fixed cookie problem on IE* ;)
+

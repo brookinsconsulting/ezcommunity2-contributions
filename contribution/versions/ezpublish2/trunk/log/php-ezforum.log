@@ -713,3 +713,18 @@ Maintainer(s) : jhe@ez.no
     * user/templates/linmag/message.tpl
       user/templates/linmag/messagelist.tpl: fixed template blocks.
 
+
+Module : ezforum
+Repository path : /home/cvsroot/projects/php/ezforum
+Maintainer(s) : jhe@ez.no
+2001-11-15  Jo Henrik Endrerud  <jhe@ez.no>
+
+    * user/messagelist.php
+      user/templates/standard/message.tpl
+      user/templates/standard/messagelist.tpl: fixed problem in header
+
+    * user/messagereply.php:
+    fixed problem with link in e-mail for moderated forums
+
+    * user/messagereply.php: fixed bug in e-mail if forum is moderated
+

@@ -186,3 +186,11 @@ Maintainer(s) : bf@ez.no
     * intl/de_DE/error.ini
       intl/de_DE/header.php.ini: de_DE update for 2.2.1
 
+
+Module : admin
+Repository path : /home/cvsroot/projects/php/admin
+Maintainer(s) : bf@ez.no
+2001-11-15  Baard Farstad  <bf@ez.no>
+
+    * intl/no_NO/header.php.ini: Language fixes.
+

@@ -2083,3 +2083,44 @@ Maintainer(s) : bf@ez.no
       admin/help/no_NO/article_articleedit.hlp:
     Updated the help files for eZ article
 
+
+Module : ezarticle
+Repository path : /home/cvsroot/projects/php/ezarticle
+Maintainer(s) : bf@ez.no
+2001-11-15  Baard Farstad  <bf@ez.no>
+
+    * admin/intl/no_NO/articleedit.php.ini: Fixed translation..
+
+    * admin/intl/en_GB/medialist.php.ini
+      admin/intl/no_NO/articleedit.php.ini
+      admin/intl/no_NO/unpublishedlist.php.ini: Fixed translation.
+
+    * admin/templates/standard/attributelist.tpl: Fixed URL bug.
+
+    * user/intl/no_NO/articleedit.php.ini
+      user/intl/no_NO/imageedit.php.ini
+      user/intl/no_NO/newsgroup.php.ini
+      user/intl/no_NO/searchform.php.ini
+      admin/templates/standard/imagelist.tpl: Language fix.
+
+    * admin/intl/no_NO/articleedit.php.ini
+      admin/intl/no_NO/articlelog.php.ini
+      admin/intl/no_NO/attributelist.php.ini
+      admin/intl/no_NO/imagemap.php.ini
+      admin/intl/no_NO/mediaedit.php.ini
+      admin/intl/no_NO/medialist.php.ini
+      admin/intl/no_NO/typeedit.php.ini: Fixed norwegian translation.
+
+    * admin/intl/no_NO/articleedit.php.ini
+      admin/intl/no_NO/articlelog.php.ini
+      admin/intl/no_NO/attributelist.php.ini
+      admin/intl/no_NO/imagemap.php.ini
+      admin/intl/no_NO/mediaedit.php.ini
+      admin/intl/no_NO/medialist.php.ini
+      admin/intl/no_NO/menubox.php.ini
+      admin/intl/no_NO/pendingmail.php.ini
+      admin/intl/no_NO/searchform.php.ini
+      admin/intl/no_NO/typeedit.php.ini: Added norwegian translation.
+
+    * admin/intl/no_NO/attributelist.php.ini: New file.
+

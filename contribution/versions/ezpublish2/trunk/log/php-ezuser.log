@@ -631,3 +631,11 @@ Maintainer(s) : bf@ez.no
 
     * user/userbox.php: Change logout redirect to $RedirectURL
 
+
+Module : ezuser
+Repository path : /home/cvsroot/projects/php/ezuser
+Maintainer(s) : bf@ez.no
+2001-11-15  Baard Farstad  <bf@ez.no>
+
+    * admin/intl/en_GB/menubox.php.ini: Language fix.
+

@@ -1968,3 +1968,65 @@ Maintainer(s) : ce@ez.no
 
     * classes/ezcart.php: Fixed the IE cookie bug
 
+
+Module : eztrade
+Repository path : /home/cvsroot/projects/php/eztrade
+Maintainer(s) : ce@ez.no
+2001-11-15  Christoffer Elo  <ce@ez.no>
+
+    * admin/intl/no_NO/productexpire.php.ini
+      admin/intl/no_NO/voucheredit.php.ini: Added norsk language
+
+    * admin/intl/no_NO/customerview.php.ini
+      admin/intl/no_NO/imageedit.php.ini:
+    Added a exit() in the ezmysql class when it cant create a connection.
+    added some languages
+
+    * admin/intl/no_NO/customerview.php.ini
+      admin/intl/no_NO/imageedit.php.ini: Updated norwegian language
+
+    * admin/intl/no_NO/categoryedit.php.ini
+      admin/intl/no_NO/categorylist.php.ini
+      admin/intl/no_NO/customerlist.php.ini
+      admin/intl/no_NO/customerview.php.ini
+      admin/intl/no_NO/formlist.php.ini
+      admin/intl/no_NO/imageedit.php.ini
+      admin/intl/no_NO/imagelist.php.ini
+      admin/intl/no_NO/menubox.php.ini
+      admin/intl/no_NO/optionedit.php.ini
+      admin/intl/no_NO/optionlist.php.ini
+      admin/intl/no_NO/orderedit.php.ini
+      admin/intl/no_NO/orderlist.php.ini
+      admin/intl/no_NO/productedit.php.ini
+      admin/intl/no_NO/productsearch.php.ini
+      admin/intl/no_NO/typeedit.php.ini
+      admin/intl/no_NO/vattypes.php.ini: Updated the norwegian language
+
+    * user/intl/no_NO/cart.php.ini
+      user/intl/no_NO/categorylist.php.ini
+      user/intl/no_NO/checkout.php.ini
+      user/intl/no_NO/extendedsearch.php.ini
+      user/intl/no_NO/mailorder.php.ini
+      user/intl/no_NO/mastercard.php.ini
+      user/intl/no_NO/orderlist.php.ini
+      user/intl/no_NO/ordersendt.php.ini
+      user/intl/no_NO/orderview.php.ini
+      user/intl/no_NO/precheckout.php.ini
+      user/intl/no_NO/productlist.php.ini
+      user/intl/no_NO/productsearch.php.ini
+      user/intl/no_NO/productview.php.ini
+      user/intl/no_NO/smallproductlist.php.ini
+      user/intl/no_NO/viewwishlist.php.ini
+      user/intl/no_NO/visa.php.ini
+      user/intl/no_NO/voucher.php.ini
+      user/intl/no_NO/voucheremail.php.ini
+      user/intl/no_NO/voucherinformation.php.ini
+      user/intl/no_NO/voucherview.php.ini
+      user/intl/no_NO/wishlist.php.ini: Updated the norwegian language:
+
+    * user/intl/en_GB/ordersendt.php.ini
+      user/intl/no_NO/ordersendt.php.ini
+      user/intl/no_NO/wishlist.php.ini
+      admin/intl/no_NO/imageedit.php.ini
+      admin/intl/no_NO/productexpire.php.ini: Updated norwegian language
+

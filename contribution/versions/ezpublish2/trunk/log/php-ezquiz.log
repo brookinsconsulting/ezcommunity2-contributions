@@ -122,3 +122,17 @@ Maintainer(s) : pkej@ez.no
 
     * admin/intl/en_GB/gamelist.php.ini: added next and previous
 
+
+Module : ezquiz
+Repository path : /home/cvsroot/projects/php/ezquiz
+Maintainer(s) : pkej@ez.no
+2001-11-15  Bjoern Reiten  <br@ez.no>
+
+    * user/intl/no_NO/menubox.php.ini
+      user/intl/no_NO/quiz.php.ini: Added translation.
+
+    * admin/intl/no_NO/gameedit.php.ini
+      admin/intl/no_NO/gamelist.php.ini
+      admin/intl/no_NO/menubox.php.ini
+      admin/intl/no_NO/questionedit.php.ini: added translation.
+
