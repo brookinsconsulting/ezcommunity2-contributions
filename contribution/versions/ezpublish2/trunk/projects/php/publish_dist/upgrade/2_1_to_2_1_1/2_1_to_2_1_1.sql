@@ -347,3 +347,10 @@ alter table eZUser_GroupPermissionLink add IsEnabledTmp int default '0';
 update eZUser_GroupPermissionLink set IsEnabledTmp='1' where IsEnabled='true';
 alter table eZUser_GroupPermissionLink drop IsEnabled;
 alter table eZUser_GroupPermissionLink change IsEnabledTmp IsEnabled int;
+
+# Speed up listing of categories;
+
+alter table eZArticle_ArticleCategoryLink add index ( ArticleID );
+alter table eZArticle_ArticleCategoryLink add index ( CategoryID );
+alter table eZArticle_ArticleCategoryLink add index ( Placement );
+
