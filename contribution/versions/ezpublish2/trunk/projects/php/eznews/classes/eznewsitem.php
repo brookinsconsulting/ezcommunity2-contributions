@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eznewsitem.php,v 1.18 2000/10/01 17:36:21 pkej-cvs Exp $
+// $Id: eznewsitem.php,v 1.19 2000/10/01 17:41:07 pkej-cvs Exp $
 //
 // Definition of eZNewsItem class
 //
@@ -131,7 +131,7 @@ class eZNewsItem extends eZNewsUtility
 
     
     /*!
-        Private function
+        \Private
         
         Fetches the object information from the database.
       
@@ -449,7 +449,7 @@ class eZNewsItem extends eZNewsUtility
     
     
     /*!
-        Private function
+        \Private
         
         Stores the image data.
         
@@ -505,7 +505,7 @@ class eZNewsItem extends eZNewsUtility
 
     
     /*!
-        Private function
+        \Private
         
         Stores the log
          
@@ -538,7 +538,7 @@ class eZNewsItem extends eZNewsUtility
 
 
     /*!
-        Private function
+        \Private
         
         Store the relationship between this object and its files.
      */
@@ -569,7 +569,7 @@ class eZNewsItem extends eZNewsUtility
 
 
     /*!
-        Private function
+        \Private
         
         Store the relationship between this object and its parents.
      */
