@@ -1,17 +1,6 @@
 <?php
 ob_start();
 
-// brukes for sider som skal redirectes..
-if ( file_exists( $prePage ) )
-{
-  include( $prePage );
-  die();
-}
-
-?>
-
-<?php
-
 include_once( "../classes/ezdb.php" );
 include_once( "classes/INIFile.php" );
 include_once( "classes/template.inc" );
