@@ -1,5 +1,5 @@
 #
-# $Id: eznews.sql,v 1.2 2000/09/15 10:55:01 pkej-cvs Exp $
+# $Id: eznews.sql,v 1.3 2000/09/15 11:01:14 pkej-cvs Exp $
 #
 # eZNews database schema.
 #
@@ -41,6 +41,8 @@ CREATE TABLE eZNews_Item
     ID          int(11) DEFAULT '0' NOT NULL AUTO_INCREMENT,
     ItemTypeID  int(11) NOT NULL REFERENCES eZNews_ItemType(ID),
     Name        varchar(255) NOT NULL,
+    CreatedAt   timestamp DEFAULT 'now()' NOT NULL,
+    CreatedBy   int(11) NOT NULL REFERENCES ezCommon_User(ID),
         
     # We need to decide if the item is viewable,
     # other info is stored in the log, but we need this
@@ -185,7 +187,7 @@ CREATE TABLE eZNews_ChangeTicket
     ChangeType  int(11) NOT NULL REFERENCES eZNews_ChangeType(ID),
     ChangeText  varchar(255),
     ChangedBy   int(11) NOT NULL REFERENCES ezCommon_User(ID),
-    ChangedAt   timestamp DEFAULT 'now()',    
+    ChangedAt   timestamp DEFAULT 'now()' NOT NULL,    
     PRIMARY KEY (ID),
     KEY (ChangeInfo),
     KEY (ChangedBy),
