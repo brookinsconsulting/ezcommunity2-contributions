@@ -54,6 +54,7 @@ $t->set_file( array(
 $t->set_block( "list_page", "list_item_tpl", "list_item" );
 $t->set_block( "list_item_tpl", "line_item_tpl", "line_item" );
 $t->set_block( "list_page", "no_line_item_tpl", "no_line_item" );
+$t->set_block( "list_page", "search_item_tpl", "search_item" );
 
 $t->set_block( "line_item_tpl", "item_plain_tpl", "item_plain" );
 $t->set_block( "line_item_tpl", "item_linked_tpl", "item_linked" );
@@ -64,9 +65,17 @@ $t->set_block( "line_item_tpl", "no_item_move_up_tpl", "no_item_move_up" );
 $t->set_block( "line_item_tpl", "no_item_separator_tpl", "no_item_separator" );
 $t->set_block( "line_item_tpl", "no_item_move_down_tpl", "no_item_move_down" );
 
+$t->set_block( "list_page", "type_list_tpl", "type_list" );
+$t->set_block( "type_list_tpl", "type_list_previous_tpl", "type_list_previous" );
+$t->set_block( "type_list_tpl", "type_list_item_tpl", "type_list_item" );
+$t->set_block( "type_list_tpl", "type_list_next_tpl", "type_list_next" );
+$t->set_block( "type_list_tpl", "type_list_previous_inactive_tpl", "type_list_previous_inactive" );
+$t->set_block( "type_list_tpl", "type_list_next_inactive_tpl", "type_list_next_inactive" );
+
 $t->set_var( "no_line_item", "" );    
 $t->set_var( "line_item", "" );    
 $t->set_var( "list_item", "" );    
+$t->set_var( "search_item", "" );    
 
 $t->set_var( "item_up_command", "$page_path/up" );
 $t->set_var( "item_down_command", "$page_path/down" );
@@ -80,8 +89,16 @@ $t->set_var( "item_name", $ItemName );
 $t->set_var( "back_url", $back_command );
 $t->set_var( "item_back_command", $back_command );
 
-$count = count( $item_type_array );
+$t->set_var( "action", $Action );
+$t->set_var( "type", $ListType );
 
+$t->set_var( "search_form_text", $SearchText );
+$t->set_var( "search_text", $search_encoded );
+
+if ( isset( $Searchable ) )
+    $t->parse( "search_item", "search_item_tpl" );    
+
+$count = count( $item_type_array );
 
 $i = 0;
 foreach( $item_type_array as $item )
@@ -153,6 +170,52 @@ if( $count < 1 )
 else
 {
     $t->parse( "list_item", "list_item_tpl" );
+}
+
+if ( $total_types > $Max || $Index > 0 )
+{
+    $t->set_var( "type_list_previous", "" );
+    $t->set_var( "type_list_item", "" );
+    $t->set_var( "type_list_next", "" );
+    $t->set_var( "type_list_previous_inactive", "" );
+    $t->set_var( "type_list_next_inactive", "" );
+
+    if ( $Index > 0 )
+    {
+        $t->set_var( "item_previous_index", max( $Index - $Max, 0 ) );
+        $t->parse( "type_list_previous", "type_list_previous_tpl" );
+    }
+    else
+    {
+        $t->parse( "type_list_previous_inactive", "type_list_previous_inactive_tpl" );
+    }
+    if ( $Index + $Max < $total_types )
+    {
+        $t->set_var( "item_next_index", $Index + $Max );
+        $t->parse( "type_list_next", "type_list_next_tpl" );
+    }
+    else
+    {
+        $t->parse( "type_list_next_inactive", "type_list_next_inactive_tpl" );
+    }
+
+    $total = $total_types;
+    $i = 0;
+    while ( $total > 0 )
+    {
+        $t->set_var( "item_index", $i*$Max );
+        $t->set_var( "type_item_name", $i );
+        $t->parse( "type_list_item", "type_list_item_tpl", true );
+
+        $total = $total - $Max;
+        $i++;
+    }
+
+    $t->parse( "type_list", "type_list_tpl" );
+}
+else
+{
+    $t->set_var( "type_list", "" );
 }
 
 $t->pparse( "output", "list_page" );
