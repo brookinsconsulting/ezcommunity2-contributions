@@ -3,6 +3,11 @@
 
 $url_array = explode( "/", $REQUEST_URI );
 
+if( is_object( $user ) )
+{
+    $UserID = $user->id();
+}
+
 if( $UserID > 0 )
 {
     $Add_User = false;
