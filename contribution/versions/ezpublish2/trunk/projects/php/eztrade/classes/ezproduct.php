@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezproduct.php,v 1.50 2001/03/21 13:51:35 bf Exp $
+// $Id: ezproduct.php,v 1.51 2001/03/21 16:09:23 ce Exp $
 //
 // Definition of eZProduct class
 //
@@ -432,6 +432,7 @@ class eZProduct
                           "SELECT Q.Quantity
                            FROM eZTrade_Quantity AS Q, eZTrade_ProductQuantityDict AS PQD
                            WHERE Q.ID=PQD.QuantityID AND ProductID='$id'" );
+
         $quantity = 0;
         if ( count( $qry_array ) > 0 )
         {

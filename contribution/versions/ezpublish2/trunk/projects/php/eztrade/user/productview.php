@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: productview.php,v 1.40 2001/03/21 15:30:26 bf Exp $
+// $Id: productview.php,v 1.41 2001/03/21 16:09:23 ce Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <24-Sep-2000 12:20:32 bf>
@@ -477,6 +477,7 @@ $Quantity = $product->totalQuantity();
 if ( is_bool( $Quantity ) and !$Quantity )
     $ShowQuantity = false;
 $t->set_var( "quantity_item", "" );
+
 if ( $ShowQuantity and $product->hasPrice() )
 {
     $NamedQuantity = $Quantity;
