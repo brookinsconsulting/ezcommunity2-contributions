@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: messagelist.php,v 1.38 2001/08/31 14:01:59 jhe Exp $
+// $Id: messagelist.php,v 1.39 2001/09/04 16:27:17 jhe Exp $
 //
 // Created on: <11-Sep-2000 22:10:06 bf>
 //
@@ -62,29 +62,40 @@ $t->setAllStrings();
 $session =& eZSession::globalSession();
 $session->fetch();
 
+$user =& eZUser::currentUser();
+
 if ( isSet( $ForumMessages ) )
 {
-    $session->setVariable( "ForumMessages", $ForumMessages );
+    if ( $user )
+        eZPreference::setVariable( "eZForum_ForumMessages", $ForumMessages );
+    else
+        $session->setVariable( "eZForum_ForumMessages", $ForumMessages );
     $UserLimit = $ForumMessages;
 }
 else
 {
-    $UserLimit = $ini->read_var( "eZForumMain", "MessageUserLimit" );
-    if ( $session->variable( "ForumMessages" ) == false )
+    if ( $user )
     {
-        $session->setVariable( "ForumMessages", $UserLimit );
+        if ( eZPreference::variable( "eZForum_ForumMessages" ) )
+            $UserLimit = eZPreference::variable( "eZForum_ForumMessages" );
+        else
+            $UserLimit = $ini->read_var( "eZForumMain", "MessageUserLimit" );
     }
     else
     {
-        $UserLimit = $session->variable( "ForumMessages" );
+        if ( $session->variable( "eZForum_ForumMessages" ) )
+            $UserLimit = $session->variable( "eZForum_ForumMessages" );
+        else
+        {
+            $UserLimit = $ini->read_var( "eZForumMain", "MessageUserLimit" );
+            $session->setVariable( "eZForum_ForumMessages", $UserLimit );
+        }
     }
 }
 
 $forum = new eZForum( $ForumID );
 
 $categories =& $forum->categories();
-
-$user =& eZUser::currentUser();
 
 if ( $user )
 {
