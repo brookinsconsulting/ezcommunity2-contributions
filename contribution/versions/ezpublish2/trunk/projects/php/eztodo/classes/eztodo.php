@@ -1,5 +1,5 @@
 <?
-// $Id: eztodo.php,v 1.5 2000/09/14 12:57:26 ce-cvs Exp $
+// $Id: eztodo.php,v 1.6 2000/09/14 13:13:16 ce-cvs Exp $
 //
 // Definition of eZTodo class
 //

@@ -1,5 +1,5 @@
 <?
-// $Id: todolist.php,v 1.4 2000/09/14 12:57:26 ce-cvs Exp $
+// $Id: todolist.php,v 1.5 2000/09/14 13:13:16 ce-cvs Exp $
 //
 // Definition of todo list.
 //
@@ -23,7 +23,7 @@ include_once( "classes/ezsession.php" );
 include_once( "classes/ezuser.php" );
 include_once( "classes/ezusergroup.php" );
 include_once( "classes/ezdatetime.php" );
-include_once( "classes/ezlocale.php" );
+// include_once( "classes/ezlocale.php" );
 include_once( "common/ezphputils.php" );
 
 include_once( "eztodo/classes/eztodo.php" );
