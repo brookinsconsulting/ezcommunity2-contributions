@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: productview.php,v 1.77.4.6 2001/11/22 10:12:30 sascha Exp $
+// $Id: productview.php,v 1.77.4.7 2001/11/22 14:41:49 ce Exp $
 //
 // Created on: <24-Sep-2000 12:20:32 bf>
 //
@@ -693,7 +693,10 @@ else
 if ( ( $PurchaseProduct and !$product->discontinued() and $can_checkout ) and !$useVoucher )
     $t->parse( "add_to_cart", "add_to_cart_tpl" );
 else
-    $t->parse( "no_add_to_cart", "no_add_to_cart_tpl" );    //SF
+{
+    if ( !$useVoucher )
+        $t->parse( "no_add_to_cart", "no_add_to_cart_tpl" );    //SF
+}
 
 if ( ( $PurchaseProduct and !$product->discontinued() and $can_checkout ) and $useVoucher )
 {

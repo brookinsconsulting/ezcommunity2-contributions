@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezproduct.php,v 1.119.4.7 2001/11/22 14:26:33 ce Exp $
+// $Id: ezproduct.php,v 1.119.4.8 2001/11/22 14:41:49 ce Exp $
 //
 // Definition of eZProduct class
 //
@@ -1497,7 +1497,7 @@ class eZProduct
 
         $queryString = "SELECT eZTrade_Product.ID as PID
                         FROM eZTrade_Product  $table_from
-                        WHERE $table_sql AND eZTrade_Product.ID = $first_table.ProductID
+                        WHERE $table_sql $price $text AND eZTrade_Product.ID = $first_table.ProductID
                          GROUP BY PID LIMIT $offset, $limit";
 
         $db->array_query( $res_array, $queryString );
