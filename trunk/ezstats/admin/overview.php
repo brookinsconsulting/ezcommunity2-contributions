@@ -61,7 +61,8 @@ $t->set_var( "total_pages_this_month", $pagesThisMonth );
 $t->pparse( "output", "overview_tpl" );
 
 $menuItems = array(
-    array( "/stats/productreport/", "{intl-product_report}" )
+	   array( "/stats/productreport/", "{intl-product_report}" ), 
+	   array( "/stats/entryexitreport/", "{intl-entry_exit_report}" )
     );
 
 eZMenuBox::createBox( "eZStats", "ezstats", "admin",
