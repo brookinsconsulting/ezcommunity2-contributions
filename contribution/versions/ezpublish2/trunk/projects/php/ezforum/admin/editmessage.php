@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: editmessage.php,v 1.6 2000/07/26 14:37:09 lw-cvs Exp $
+    $Id: editmessage.php,v 1.7 2000/08/10 13:45:10 lw-cvs Exp $
 
     Author: Lars Wilhelmsen <lw@ez.no>
     
@@ -10,9 +10,9 @@
 */
 include( "ezforum/dbsettings.php" );
 include_once( "template.inc" );
-include_once( "$DOCROOT/classes/ezdb.php" );
+//include_once( "$DOCROOT/classes/ezdb.php" );
 include_once( "$DOCROOT/classes/ezforummessage.php" );
-include_once( "$DOCROOT/classes/ezuser.php" );
+include_once( "../classes/ezuser.php" );
 
 $t = new Template( "." );
 $t->set_file(Array( "edit" => "$DOCROOT/admin/templates/editmessage.tpl",
