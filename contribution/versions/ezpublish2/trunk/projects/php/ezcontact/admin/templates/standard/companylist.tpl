@@ -32,7 +32,19 @@
 
 <div onLoad="MM_preloadImages('/ezcontact/admin/images/redigerminimrk.gif','/ezcontact/admin/images/slettminimrk.gif')"></div>
 
-<h1>{intl-headline}</h1>aaa
+<table width="100%" border="0">
+<tr>
+	<td valign="bottom">
+	    <h1>{intl-headline}</h1>
+	</td>
+	<td rowspan="2" align="right">
+	    <form action="/contact/company/search/" method="post">
+	    	<input type="text" name="SearchText" size="12" />
+		<input type="submit" value="{intl-search}" />
+	    </form>
+	</td>
+</tr>
+</table>
 
 <!-- BEGIN path_tpl -->
 
@@ -88,6 +100,11 @@
 	<td class="{td_class}">
 	{company_name}
 	</td>
+
+	<td class="{td_class}" width="1%">
+	<a href="/contact/consultation/company/new/{company_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('eznew{company_id}-red','','/images/redigerminimrk.gif',1)"><img name="eznew{company_id}-red" border="0" src="/images/redigermini.gif" width="16" height="16" align="top"></a>
+	</td>
+
 	<td class="{td_class}" width="1%">
 	<a href="/contact/company/edit/{company_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezuser{company_id}-red','','/images/redigerminimrk.gif',1)"><img name="ezuser{company_id}-red" border="0" src="/images/redigermini.gif" width="16" height="16" align="top"></a>
 	</td>

@@ -32,6 +32,7 @@
 <h1>{intl-consultation_list_headline}</h1>
 <hr noshade="noshade" size="4" />
 <br />
+
 <!-- BEGIN no_companies_item_tpl -->
 <p>{intl-consultation_no_companies}:</p>
 <!-- END no_companies_item_tpl -->
@@ -50,12 +51,8 @@
         <a href="/contact/consultation/company/list/{company_id}">{company_name}&nbsp;</a>
 	</td>
 
-	<td>
-        {consultation_count}
-	</td>
-
 	<td width="1%">
-	<a href="/contact/consultation/company/list/{company_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezc{company_id}-red','','/images/redigerminimrk.gif',1)"><img name="ezc{company_id}-red" border="0" src="/images/redigermini.gif" width="16" height="16" align="top"></a>
+        {consultation_count}
 	</td>
 
 	<td width="1%">
@@ -85,12 +82,8 @@
         <a href="/contact/consultation/person/list/{person_id}">{person_lastname}, {person_firstname}&nbsp;</a>
 	</td>
 
-	<td>
-        {consultation_count}
-	</td>
-
 	<td width="1%">
-	<a href="/contact/consultation/person/list/{person_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezp{person_id}-red','','/images/redigerminimrk.gif',1)"><img name="ezp{person_id}-red" border="0" src="/images/redigermini.gif" width="16" height="16" align="top"></a>
+        {consultation_count}
 	</td>
 
 	<td width="1%">
