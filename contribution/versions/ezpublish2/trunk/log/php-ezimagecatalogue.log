@@ -186,3 +186,32 @@ Maintainer(s) : br@ez.no
     * xmlrpc/unassignedlist.php:
     New list which displays all unassigned images.
 
+
+Module : ezimagecatalogue
+Repository path : /home/cvsroot/projects/php/ezimagecatalogue
+Maintainer(s) : br@ez.no
+2001-09-21  Jo Henrik Endrerud  <jhe@ez.no>
+
+    * classes/ezimagecategory.php: fixed bugs in ezforum
+    changed ezuser::groups (see crew@lists.ez.no)
+
+2001-09-21  Bjoern Reiten  <br@ez.no>
+
+    * sql/informix/ezimagecatalogue.sql
+      sql/mysql/ezimagecatalogue.sql
+      sql/postgresql/ezimagecatalogue.sql: Added SectionID.
+
+    * user/categoryedit.php: removed debug info
+
+    * user/categoryedit.php
+      user/intl/en_GB/categoryedit.php.ini
+      user/intl/no_NO/categoryedit.php.ini
+      user/templates/standard/categoryedit.tpl: added sections.
+
+    * classes/ezimagecategory.php: Added sections
+
+2001-09-21  Baard Farstad  <bf@ez.no>
+
+    * admin/templates/standard/browse.tpl:
+    Fixed nested <form> bug in the template. Didn't work in IE.
+

@@ -448,3 +448,74 @@ Maintainer(s) : ce@ez.no
       user/intl/fr_FR/ordersendt.php.ini
       user/intl/fr_FR/sendwishlist.php.ini: updated fr_FR
 
+
+Module : eztrade
+Repository path : /home/cvsroot/projects/php/eztrade
+Maintainer(s) : ce@ez.no
+2001-09-21  Baard Farstad  <bf@ez.no>
+
+    * admin/customerlist.php
+      admin/customerview.php
+      admin/intl/en_GB/customerlist.php.ini
+      admin/intl/en_GB/customerview.php.ini
+      admin/templates/standard/customerlist.tpl
+      admin/templates/standard/customerview.tpl:
+    New files for customer view/list.
+
+    * classes/ezorder.php: Fixed returning orders for one customer.
+
+    * classes/ezorder.php
+      user/productlist.php
+      admin/datasupplier.php
+      admin/intl/en_GB/menubox.php.ini
+      admin/intl/no_NO/menubox.php.ini
+      admin/menubox.php: Fixed section bug. Added customer list/view.
+
+2001-09-21  Jo Henrik Endrerud  <jhe@ez.no>
+
+    * admin/orderedit.php
+      classes/ezoptionvalue.php
+      classes/ezproduct.php
+      classes/ezproductpermission.php
+      user/datasupplier.php
+      user/hotdealslist.php
+      user/productlist.php: fixed bugs in ezforum
+    changed ezuser::groups (see crew@lists.ez.no)
+
+2001-09-21  Christofer Elo  <ce@ez.no>
+
+    * classes/ezcartvoucheritem.php
+      classes/ezvoucherinformation.php: Added 2 files
+
+2001-09-21  Baard Farstad  <bf@ez.no>
+
+    * user/productlist.php
+      user/productview.php:
+    Added section support in product list and product view.
+
+2001-09-21  Christofer Elo  <ce@ez.no>
+
+    * admin/templates/standard/productedit.tpl
+      classes/ezcart.php
+      classes/ezcartitem.php
+      classes/ezvoucher.php
+      user/cart.php
+      user/checkout.php
+      user/payment.php
+      user/productview.php
+      user/templates/standard/checkout.tpl
+      user/templates/standard/productview.tpl
+      user/templates/standard/voucherinformation.tpl
+      user/voucher.php
+      user/voucherinformation.php: Added the rigth prises on vouchers
+
+2001-09-21  Baard Farstad  <bf@ez.no>
+
+    * classes/ezproductcategory.php:
+    Fixed escape string in ezproductcategory.php
+
+    * admin/categoryedit.php
+      classes/ezproductcategory.php
+      user/productlist.php:
+    Fixed section and escape string on product category.
+

@@ -845,3 +845,29 @@ Maintainer(s) : bf@ez.no
 
     * classes/ezarticlecategory.php: Fixed permission bug.
 
+
+Module : ezarticle
+Repository path : /home/cvsroot/projects/php/ezarticle
+Maintainer(s) : bf@ez.no
+2001-09-21  Unknown  <master@open.lv>
+
+    * user/templates/wap/articlelist.tpl
+      user/templates/wap/articletags.tpl
+      user/templates/wap/articleview.tpl: Templates for WAP sitedesign
+
+2001-09-21  Baard Farstad  <bf@ez.no>
+
+    * classes/ezarticlecategory.php: Fixed articles().
+
+2001-09-21  Jo Henrik Endrerud  <jhe@ez.no>
+
+    * classes/ezarticle.php
+      classes/ezarticlecategory.php
+      user/datasupplier.php
+      user/menubox.php: fixed bugs in ezforum
+    changed ezuser::groups (see crew@lists.ez.no)
+
+2001-09-21  Thomas Hellstroem  <th@ez.no>
+
+    * user/templates/standard/articlelist.tpl: Layout
+

@@ -59,3 +59,23 @@ Maintainer(s) : br@ez.no
       user/intl/fr_FR/success.php.ini
       user/intl/fr_FR/suggestlink.php.ini: updated fr_FR
 
+
+Module : ezlink
+Repository path : /home/cvsroot/projects/php/ezlink
+Maintainer(s) : br@ez.no
+2001-09-21  Bjoern Reiten  <br@ez.no>
+
+    * user/menubox.php: Just added translation on comment .. =)
+
+    * sql/Attic/ezlink.sql: removed ezlink.sql
+
+    * sql/informix/ezlink.sql
+      sql/mysql/ezlink.sql
+      sql/postgresql/ezlink.sql: Added SectionID for categories.
+
+    * admin/categoryedit.php
+      admin/intl/en_GB/categoryedit.php.ini
+      admin/templates/standard/categoryedit.tpl: added sections.
+
+    * classes/ezlinkcategory.php: Added sections.
+

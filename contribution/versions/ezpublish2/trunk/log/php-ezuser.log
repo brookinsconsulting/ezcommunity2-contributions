@@ -180,3 +180,17 @@ Maintainer(s) : bf@ez.no
 
     * classes/ezuser.php: fixed getAll() (searching did not work correctly)
 
+
+Module : ezuser
+Repository path : /home/cvsroot/projects/php/ezuser
+Maintainer(s) : bf@ez.no
+2001-09-21  Baard Farstad  <bf@ez.no>
+
+    * classes/ezuser.php: Fixed bug in returning ID/object.
+
+2001-09-21  Jo Henrik Endrerud  <jhe@ez.no>
+
+    * classes/ezobjectpermission.php
+      classes/ezuser.php: fixed bugs in ezforum
+    changed ezuser::groups (see crew@lists.ez.no)
+

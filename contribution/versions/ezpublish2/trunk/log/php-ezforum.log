@@ -166,3 +166,46 @@ Maintainer(s) : jhe@ez.no
       user/intl/no_NO/Attic/messagereply.php.ini:
     fixed no_NO translation for eZcalendar, eZcontact, eZfilemanager and eZforum
 
+
+Module : ezforum
+Repository path : /home/cvsroot/projects/php/ezforum
+Maintainer(s) : jhe@ez.no
+2001-09-21  Jo Henrik Endrerud  <jhe@ez.no>
+
+    * user/messagereply.php
+      admin/unapprovededit.php
+      classes/ezforummessage.php
+      user/message.php
+      user/messageedit.php
+      user/messageform.php: fixed bugs in ezforum
+    changed ezuser::groups (see crew@lists.ez.no)
+
+2001-09-21  Baard Farstad  <bf@ez.no>
+
+    * classes/ezforumcategory.php
+      user/forumlist.php
+      user/message.php
+      user/messagelist.php: Added section support in eZ forum.
+
+2001-09-21  Jo Henrik Endrerud  <jhe@ez.no>
+
+    * admin/categorylist.php
+      admin/unapprovededit.php
+      classes/ezforumcategory.php: fixed bug
+
+    * admin/categoryedit.php
+      admin/intl/en_GB/categoryedit.php.ini
+      admin/intl/no_NO/categoryedit.php.ini
+      admin/templates/standard/categoryedit.tpl
+      classes/ezforumcategory.php
+      sql/mysql/ezforum.sql: added section in categories
+
+    * classes/ezforummessage.php
+      user/datasupplier.php
+      user/intl/en_GB/message.php.ini
+      user/intl/no_NO/message.php.ini
+      user/message.php
+      user/messageedit.php
+      user/messagesimplelist.php
+      user/templates/standard/message.tpl: more internationalization
+

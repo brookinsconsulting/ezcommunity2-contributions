@@ -188,3 +188,18 @@ Maintainer(s) : jhe@ez.no
       admin/intl/no_NO/personedit.php.ini:
     fixed no_NO translation for eZcalendar, eZcontact, eZfilemanager and eZforum
 
+
+Module : ezcontact
+Repository path : /home/cvsroot/projects/php/ezcontact
+Maintainer(s) : jhe@ez.no
+2001-09-21  Jo Henrik Endrerud  <jhe@ez.no>
+
+    * admin/consultationview.php: fixed bugs in ezforum
+    changed ezuser::groups (see crew@lists.ez.no)
+
+    * user/intl/no_NO/companysearch.php.ini
+      user/intl/no_NO/personsearch.php.ini
+      user/intl/no_NO/search.php.ini: more internationalization
+
+    * admin/intl/fr_FR/companytype.php.ini: removed decapricated intl lines
+

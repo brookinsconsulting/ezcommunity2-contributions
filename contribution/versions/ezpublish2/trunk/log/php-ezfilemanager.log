@@ -115,3 +115,28 @@ Maintainer(s) : jhe@ez.no
     * user/intl/no_NO/folderedit.php.ini:
     fixed no_NO translation for eZcalendar, eZcontact, eZfilemanager and eZforum
 
+
+Module : ezfilemanager
+Repository path : /home/cvsroot/projects/php/ezfilemanager
+Maintainer(s) : jhe@ez.no
+2001-09-21  Jo Henrik Endrerud  <jhe@ez.no>
+
+    * classes/ezvirtualfile.php
+      user/filelist.php
+      user/templates/standard/filelist.tpl: fixed bugs in ezforum
+    changed ezuser::groups (see crew@lists.ez.no)
+
+2001-09-21  Christofer Elo  <ce@ez.no>
+
+    * classes/ezvirtualfolder.php
+      user/folderedit.php
+      user/templates/standard/folderedit.tpl: Added section id
+
+2001-09-21  Jo Henrik Endrerud  <jhe@ez.no>
+
+    * admin/intl/no_NO/browse.php.ini
+      admin/intl/no_NO/menubox.php.ini
+      user/intl/no_NO/filelist.php.ini
+      user/intl/no_NO/folderedit.php.ini
+      user/templates/standard/fileupload.tpl: more internationalization
+

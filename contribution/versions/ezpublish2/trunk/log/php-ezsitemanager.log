@@ -38,3 +38,12 @@ Maintainer(s) : vl@ez.no
       admin/intl/fr_FR/sectionedit.php.ini
       admin/intl/fr_FR/sectionlist.php.ini: updated fr_FR
 
+
+Module : ezsitemanager
+Repository path : /home/cvsroot/projects/php/ezsitemanager
+Maintainer(s) : vl@ez.no
+2001-09-21  Baard Farstad  <bf@ez.no>
+
+    * classes/ezsection.php:
+    Changes, fixed check in section if sections are enabled or not.
+

@@ -104,3 +104,16 @@ Maintainer(s) : jhe@ez.no
       user/intl/no_NO/menubox.php.ini:
     fixed no_NO translation for eZcalendar, eZcontact, eZfilemanager and eZforum
 
+
+Module : ezcalendar
+Repository path : /home/cvsroot/projects/php/ezcalendar
+Maintainer(s) : jhe@ez.no
+2001-09-21  Jo Henrik Endrerud  <jhe@ez.no>
+
+    * admin/intl/en_GB/typeedit.php.ini
+      admin/intl/no_NO/typeedit.php.ini
+      admin/templates/standard/typeedit.tpl
+      admin/typeedit.php
+      user/intl/no_NO/menubox.php.ini
+      user/intl/no_NO/trustees.php.ini: more internationalization
+
