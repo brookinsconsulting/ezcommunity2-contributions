@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: adlist.php,v 1.7 2000/11/29 14:50:48 bf-cvs Exp $
+// $Id: adlist.php,v 1.8 2000/12/01 10:01:47 bf-cvs Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <25-Nov-2000 15:44:37 bf>
@@ -59,7 +59,7 @@ foreach ( $adList as $ad )
     $view->setAd( $ad );
     $view->setUser( $user );
     $view->setVisitorIP( $REMOTE_ADDR );
-    $view->setPrice( 0.4 );
+    $view->setPrice( $ad->viewPrice() );
     $view->store();
 
 	print( "<a target=\"_blank\" href=\"/ad/goto/$adID/\"><img src=\"$imgSRC\" width=\"$imgWidth\" height=\"$imgHeight\" border=\"0\" alt=\"\" /></a><br />" );

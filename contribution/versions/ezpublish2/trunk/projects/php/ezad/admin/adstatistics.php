@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: adstatistics.php,v 1.3 2000/11/27 11:54:12 bf-cvs Exp $
+// $Id: adstatistics.php,v 1.4 2000/12/01 10:01:47 bf-cvs Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <26-Nov-2000 11:47:03 bf>
@@ -60,6 +60,15 @@ $t->set_var( "ad_id", $ad->id() );
 
 $t->set_var( "ad_view_count", $ad->viewCount() );
 $t->set_var( "ad_click_count", $ad->clickCount() );
+
+$clickRevenue =& $ad->totalClickRevenue();
+$viewRevenue =& $ad->totalViewRevenue();
+
+$t->set_var( "ad_view_revenue", $clickRevenue );
+$t->set_var( "ad_click_revenue", $viewRevenue );
+
+$t->set_var( "ad_total_revenue", $clickRevenue + $viewRevenue );
+
 
 $t->set_var( "ad_click_percent", ( $ad->clickCount() / $ad->viewCount() ) * 100 );
 

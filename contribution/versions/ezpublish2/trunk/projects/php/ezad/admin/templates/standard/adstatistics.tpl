@@ -18,7 +18,16 @@
 {ad_click_count}
 
 <p class="boxtext">{intl-total_click_percentage}:</p>
-{ad_click_percent} %
+{ad_click_percent}
+
+<p class="boxtext">{intl-total_view_revenue}:</p>
+{ad_view_revenue}
+
+<p class="boxtext">{intl-total_click_revenue}:</p>
+{ad_click_revenue}
+
+<p class="boxtext">{intl-total_revenue}:</p>
+{ad_total_revenue}
 
 
 <hr noshade="noshade" size="4" />

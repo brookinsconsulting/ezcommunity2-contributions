@@ -23,6 +23,12 @@
 <p class="boxtext">{intl-ad_url}:</p>
 <input type="text" size="40" name="AdURL" value="{ad_url_value}"/>
 
+<p class="boxtext">{intl-ad_click_price}:</p>
+<input type="text" size="40" name="ClickPrice" value="{ad_click_price_value}"/>
+
+<p class="boxtext">{intl-ad_view_price}:</p>
+<input type="text" size="40" name="ViewPrice" value="{ad_view_price_value}"/>
+
 <p class="boxtext">{intl-ad_image}:</p>
 <input size="40" name="AdImage" type="file" />
 

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: adedit.php,v 1.3 2000/11/27 15:34:51 bf-cvs Exp $
+// $Id: adedit.php,v 1.4 2000/12/01 10:01:47 bf-cvs Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <16-Nov-2000 13:02:32 bf>
@@ -53,6 +53,9 @@ if ( $Action == "Insert" )
     }
 
     $ad->setURL( $AdURL );
+    
+    $ad->setClickPrice( $ClickPrice );
+    $ad->setViewPrice( $ViewPrice );
 
     $file = new eZImageFile();
 
@@ -111,6 +114,10 @@ if ( $Action == "Update" )
     }
 
     $ad->setURL( $AdURL );
+
+    $ad->setClickPrice( $ClickPrice );
+    $ad->setViewPrice( $ViewPrice );
+    
 //      $dateTime = new eZDateTime( 2000, 11, 13, 14, 0, 15 );
 //      $ad->setOriginalPublishingDate( $dateTime );
 
@@ -180,6 +187,8 @@ $t->set_var( "ad_title_value", "" );
 $t->set_var( "ad_date_value", "" );
 $t->set_var( "ad_description_value", "" );
 $t->set_var( "ad_url_value", "" );
+$t->set_var( "ad_click_price_value", "" );
+$t->set_var( "ad_view_price_value", "" );
 $t->set_var( "ad_id", "" );
 
 if ( $Action == "Edit" )
@@ -192,6 +201,9 @@ if ( $Action == "Edit" )
     $t->set_var( "ad_id", $ad->id() );
     $t->set_var( "action_value", "Update" );
 
+    $t->set_var( "ad_click_price_value", $ClickPrice );
+    $t->set_var( "ad_view_price_value", $ViewPrice );
+    
     if ( $ad->isActive() == true )
     {
         $t->set_var( "ad_is_active", "checked" );

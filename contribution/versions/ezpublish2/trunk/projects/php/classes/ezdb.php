@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezdb.php,v 1.13 2000/11/19 14:42:35 bf-cvs Exp $
+// $Id: ezdb.php,v 1.14 2000/12/01 10:01:46 bf-cvs Exp $
 //
 // Definition of eZDB class
 //
@@ -45,7 +45,7 @@ class eZDB
       Constructs a new eZDB object, connects to the database and
       selects the desired table.
 
-      The eZDB constructor takes a .ini file as an argumen.
+      The eZDB constructor takes a .ini file as an argument.
       The second argument defines under what category in the .ini
       file the database information is located.
     */
@@ -53,7 +53,12 @@ class eZDB
     {
         include_once( "classes/INIFile.php" );
         
-        $ini = new INIFile( "site.ini" );
+//          $ini =& $GLOBALS["ini"];
+        
+//          if ( get_class( $ini ) != "inifile" )
+//          {
+            $ini = new INIFile( "site.ini" );
+//          }
         
         $this->Server =& $ini->read_var( "site", "Server" );
         $this->DB =& $ini->read_var( "site", "Database" );

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezad.php,v 1.5 2000/11/27 15:34:51 bf-cvs Exp $
+// $Id: ezad.php,v 1.6 2000/12/01 10:01:47 bf-cvs Exp $
 //
 // Definition of eZAd class
 //
@@ -92,6 +92,9 @@ class eZAd
                                  URL='$this->URL',
                                  ViewStartDate='$this->ViewStartDate',
                                  ViewStopDate='$this->ViewStopDate',
+                                 ClickPrice='$this->ClickPrice',
+                                 ViewPrice='$this->ViewPrice',
+                                 ViewStopDate='$this->ViewStopDate',
                                  ViewRule='$this->ViewRule'
                                  " );
 
@@ -109,6 +112,8 @@ class eZAd
                                  URL='$this->URL',
                                  ViewStartDate='$this->ViewStartDate',
                                  ViewStopDate='$this->ViewStopDate',
+                                 ClickPrice='$this->ClickPrice',
+                                 ViewPrice='$this->ViewPrice',
                                  ViewRule='$this->ViewRule'
                                  WHERE ID='$this->ID'
                                  " );
@@ -144,6 +149,8 @@ class eZAd
                 $this->ImageID =& $ad_array[0][ "ImageID" ];
                 $this->ViewStartDate =& $ad_array[0][ "ViewStartDate" ];
                 $this->ViewStopDate =& $ad_array[0][ "ViewStopDate" ];
+                $this->ViewPrice =& $ad_array[0][ "ViewPrice" ];
+                $this->ClickPrice =& $ad_array[0][ "ClickPrice" ];
                 $this->ViewRule =& $ad_array[0][ "ViewRule" ];
 
                 $this->State_ = "Coherent";
@@ -201,6 +208,39 @@ class eZAd
             $this->get( $this->ID );
 
        return htmlspecialchars( $this->Description );
+    }
+
+    /*!
+      Returns the ad's url.
+    */
+    function &url()
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+       return htmlspecialchars( $this->URL );
+    }
+
+    /*!
+      Returns the ad's click price.
+    */
+    function &clickPrice()
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+       return $this->ClickPrice;
+    }
+
+    /*!
+      Returns the ad's view price.
+    */
+    function &viewPrice()
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+       return $this->View;
     }
 
     /*!
@@ -290,6 +330,30 @@ class eZAd
             $this->get( $this->ID );
 
        $this->URL = $value;
+    }
+
+    /*!
+      Sets the click price.
+    */
+    function setClickPrice( $value )
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+       $this->ClickPrice = $value;
+       setType( $this->ClickPrice, "double" );
+    }
+
+    /*!
+      Sets the view price.
+    */
+    function setViewPrice( $value )
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+       $this->ViewPrice = $value;
+       setType( $this->ViewPrice, "double" );
     }
     
     /*!
@@ -423,7 +487,7 @@ class eZAd
 
        return $view_result[0]["Count"];
     }
-
+  
     /*!
       Returns the total number of times the banner has been clicked.
     */
@@ -441,6 +505,37 @@ class eZAd
        return $click_result[0]["Count"];
     }
     
+
+    /*!
+      Returns the banner's total view revenue.
+    */
+    function totalViewRevenue( )
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+       
+       $this->dbInit();
+
+       $this->Database->array_query( $view_result, "SELECT SUM(ViewPrice) AS Revenue FROM eZAd_View WHERE AdID='$this->ID'" );
+
+       return $view_result[0]["Revenue"];
+    }
+
+    /*!
+      Returns the banner's total click revenue.
+    */
+    function totalClickRevenue( )
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+       
+       $this->dbInit();
+
+       $this->Database->array_query( $click_result, "SELECT SUM(ClickPrice) AS Revenue FROM eZAd_Click WHERE AdID='$this->ID'" );
+
+       return $click_result[0]["Revenue"];
+    }
+
     /*!
       \private
       
@@ -461,6 +556,8 @@ class eZAd
     var $ImageID;
     var $URL;
     var $ViewStartDate;
+    var $ClickPrice;
+    var $ViewPrice;
 
     /// Indicates if the banner is active or not
     var $IsActive;
