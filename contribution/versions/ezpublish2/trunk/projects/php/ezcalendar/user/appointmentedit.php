@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: appointmentedit.php,v 1.13 2001/01/19 10:55:34 gl Exp $
+// $Id: appointmentedit.php,v 1.14 2001/01/19 15:04:15 gl Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <03-Jan-2001 12:47:22 bf>
@@ -86,7 +86,7 @@ $Locale = new eZLocale( $Language );
 
 
 // Allowed format for start and stop time:
-// 14 14:30 14:0 143 1430
+// 14 14:30 14:0 1430
 // the : can be replaced with any non number character
 
 if ( $Action == "Insert" || $Action == "Update" )
@@ -126,22 +126,23 @@ if ( $Action == "Insert" || $Action == "Update" )
 
         $startTime = new eZTime();
         $stopTime = new eZTime();
-    
+
         $startTime->setSecond( 0 );
         $stopTime->setSecond( 0 );
-    
+
         if ( preg_match( "#(^([0-9]{1,2})[^0-9]{0,1}([0-9]{0,2})$)#", $Start, $startArray ) )
         {
             $hour = $startArray[2];
             settype( $hour, "integer" );
-        
+
             $startTime->setHour( $hour );
-        
+
             $min = $startArray[3];
             settype( $min, "integer" );
-            if ( $min < 6 )
-                $min = $min*10;
-             
+// This causes trouble when you want e.g. 14:03
+//            if ( $min < 6 )
+//                $min = $min*10;
+
             $startTime->setMinute( $min );
         }
         else
@@ -153,14 +154,15 @@ if ( $Action == "Insert" || $Action == "Update" )
         {
             $hour = $stopArray[2];
             settype( $hour, "integer" );
-        
+
             $stopTime->setHour( $hour );
-        
+
             $min = $stopArray[3];
             settype( $min, "integer" );
-            if ( $min < 6 )
-                $min = $min*10;
-             
+// This causes trouble when you want e.g. 14:03
+//            if ( $min < 6 )
+//                $min = $min*10;
+
             $stopTime->setMinute( $min );
         }
         else
@@ -177,7 +179,7 @@ if ( $Action == "Insert" || $Action == "Update" )
         $stopTime->minute() - $startTime->minute() );
 
         $appointment->setDuration( $duration );
-        
+
         $appointment->store();
 
         $year = eZTime::addZero( $datetime->year() );
