@@ -46,7 +46,7 @@ class eZNewsCategoryViewer
         global $parsedXMLAttributes;
         
         $item->polymorphSelf( $this->className );
-        $this->Item = $item;
+        $this->Item = &$item;
         $theViewer = $this;
 
         $parsedXMLAttributes["categoryid"]["value"] = $this->Item->ID();
@@ -154,8 +154,32 @@ class eZNewsCategoryViewer
         global $template;
         if( !empty( $parsedXMLAttributes["categoryid"]["value"] ) )
         {
-            $template->set_var( "category_name", "Begravelse");
-            $template->set_var( "category_info", "infodajføldasjøl askløfjlkø");
+			
+
+			switch ($this->Item->ID())
+			{
+				case "8":
+					$template->set_var( "category_info", "Begravelser er en tung stund for familien.");
+            		$template->set_var( "category_name", "Begravelser");
+					break;
+				case "7":
+					$template->set_var( "category_info", "Buketter.");
+            		$template->set_var( "category_name", "Buketter");
+					break;
+				case "3":
+					$template->set_var( "category_info", "Blomster er morsomme.");
+            		$template->set_var( "category_name", "Blomster");
+					break;
+				case "5":
+					$template->set_var( "category_info", "Hundehus for alle hunder.");
+            		$template->set_var( "category_name", "Hundehus");
+					break;
+				default:
+					$template->set_var( "category_info", "");
+					$template->set_var( "category_info", "");
+					break;
+					
+			}
             $template->parse( "category", "category_tpl" );
             $parsedXMLAttributes["categoryid"]["value"] = '';
         }
