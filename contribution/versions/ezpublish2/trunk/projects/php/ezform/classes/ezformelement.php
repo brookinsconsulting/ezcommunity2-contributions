@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezformelement.php,v 1.30 2002/01/11 09:13:58 jhe Exp $
+// $Id: ezformelement.php,v 1.31 2002/01/11 13:47:56 jhe Exp $
 //
 // ezformelement class
 //
@@ -687,7 +687,8 @@ class eZFormElement
         $db->array_query( $result, "SELECT fer.Result AS Result FROM eZForm_FormResults AS fr,
                                      eZForm_FormElementResult AS fer WHERE
                                      fer.ResultID=fr.ID AND ElementID='$this->ID'
-                                     AND $where" );
+                                     AND $where", array( "Limit" => 1, "Offset" => 0 ) );
+        
         if ( count( $result ) == 1 )
             return $result[0][$db->fieldName( "Result" )];
         else
