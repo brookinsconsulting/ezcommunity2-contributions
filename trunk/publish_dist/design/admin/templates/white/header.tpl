@@ -78,10 +78,8 @@
 <table width="100%" cellpadding="0" cellspacing="0" border="0">
 <tr>
 	<td width="1%" class="tdmini">
-<!--
-{admin_site_protocol}://{admin_site_host}
--->
-	<a href="{www_dir}" target=""><img src="{www_dir}/design/admin/images/{site_style}/top-ezpublishlogo.gif" width="200" height="40" border="0" alt="" /></a><br />
+
+	<a href="{admin_site_protocol}://{admin_site_host}" target=""><img src="{www_dir}/design/admin/images/{site_style}/top-ezpublishlogo.gif" width="200" height="40" border="0" alt="" /></a><br />
 	</td>
 	<td width="1%"><img src="{www_dir}/design/admin/images/1x1.gif" width="10" height="10" border="0" alt="" /></td>
 	<td width="91%" valign="top">
