@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: maillist.php,v 1.19 2001/07/20 11:18:28 jakobn Exp $
+// $Id: maillist.php,v 1.20 2001/07/26 14:33:45 fh Exp $
 //
 // Created on: <19-Mar-2000 20:25:22 fh>
 //
@@ -73,6 +73,20 @@ $t->set_var( "mail_item", "" );
 $t->set_var( "mail_item_unread", "" );
 $t->set_var( "mail_render", "" );
 
+// set the pic blocks..
+$t->set_block( "mail_item_tpl", "mail_unread_tpl", "mail_unread" );
+$t->set_block( "mail_item_tpl", "mail_read_tpl", "mail_read" );
+$t->set_block( "mail_item_tpl", "mail_forwarded_tpl", "mail_forwarded" );
+$t->set_block( "mail_item_tpl", "mail_replied_tpl", "mail_replied" );
+$t->set_block( "mail_item_tpl", "mail_repliedall_tpl", "mail_repliedall" );
+$t->set_block( "mail_item_tpl", "mail_status_renderer_tpl", "mail_status_renderer" );
+$t->set_var( "mail_unread", "" );
+$t->set_var( "mail_read", "" );
+$t->set_var( "mail_forwarded", "" );
+$t->set_var( "mail_replied", "" );
+$t->set_var( "mail_repliedall", "" );
+$t->set_var( "mail_status_renderer", "" );
+
 $folder = new eZMailFolder( $FolderID );
 $isDraftsFolder = false;
 if( $folder->folderType() == DRAFTS )
@@ -131,13 +145,13 @@ foreach( $mail as $mailItem )
 
     switch( $mailItem->status() )
     {
-        case UNREAD : $t->set_var( "mail_status", 'U' ); break;
-        case READ : $t->set_var( "mail_status", '-' ); break;
-        case REPLIED : $t->set_var( "mail_status", 'R' ); break;
-        case FORWARDED : $t->set_var( "mail_status", 'F' ); break;
-        case MAIL_SENT : $t->set_var( "mail_status", 'S' ); break;
+        case UNREAD : $t->parse( "mail_status_renderer", "mail_unread_tpl", false ); break;
+        case READ : $t->parse( "mail_status_renderer", "mail_read_tpl", false ); break;
+        case REPLIED : $t->parse( "mail_status_renderer", "mail_replied_tpl", false ); break;
+        case FORWARDED : $t->parse( "mail_status_renderer", "mail_forwarded_tpl", false ); break;
+        case MAIL_SENT : $t->parse( "mail_status_renderer", "mail_read_tpl", false ); break;
     }
-    
+
     $siSize = $mailItem->siSize();
     $t->set_var( "mail_size" , $siSize["size-string"] . $siSize["unit"] );
     $t->set_var( "mail_date", date("D M d H:i Y ", $mailItem->uDate() ) );

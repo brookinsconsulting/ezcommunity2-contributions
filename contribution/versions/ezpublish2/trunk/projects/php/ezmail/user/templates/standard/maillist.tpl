@@ -14,9 +14,30 @@
 	<th width="1%">&nbsp;</th>
 </tr>
 <!-- BEGIN mail_item_tpl -->
-<tr>
+<tr> 
 	<td class="{td_class}">
-	{mail_status}
+	<!-- BEGIN mail_unread_tpl -->
+	<img src="/images/mail.gif" />
+	<!-- END mail_unread_tpl -->
+
+	<!-- BEGIN mail_read_tpl -->
+	<img src="/images/mail_read.gif" />
+	<!-- END mail_read_tpl -->
+
+	<!-- BEGIN mail_forwarded_tpl -->
+	<img src="/images/mail_forwarded.gif" />
+	<!-- END mail_forwarded_tpl -->
+
+	<!-- BEGIN mail_replied_tpl -->
+	<img src="/images/mail_replied.gif" />
+	<!-- END mail_replied_tpl -->
+
+	<!-- BEGIN mail_repliedall_tpl -->
+	<img src="/images/mail_repliedtoall.gif" />
+	<!-- END mail_repliedall_tpl -->
+	
+	<!-- BEGIN mail_status_renderer_tpl -->
+	<!-- END mail_status_renderer_tpl -->
 	</td>
 	<td class="{td_class}">
 	<a href="/mail/view/{mail_id}">{mail_subject}</a>
@@ -45,7 +66,7 @@
 <!-- BEGIN mail_item_unread_tpl -->
 <tr>
 	<td class="{td_class}">
-	<b>{mail_status}</b>
+	<img src="/images/mail.gif" />
 	</td>
 	<td class="{td_class}">
 	<b><a href="/mail/view/{mail_id}">{mail_subject}</a></b>

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezmail.php,v 1.34 2001/07/20 11:18:28 jakobn Exp $
+// $Id: ezmail.php,v 1.35 2001/07/26 14:33:45 fh Exp $
 //
 // Definition of eZMail class
 //
@@ -588,8 +588,8 @@ class eZMail
     */
     function isDownloaded( $mailident, $userID )
     {
-        $database =& eZDB::globalDatabase();
-        $database->query_single( $res, "SELECT count(*) as Count FROM eZMail_FetchedMail WHERE UserID='$userID' AND MessageID='$mailident'" );
+        $db =& eZDB::globalDatabase();
+        $db->query_single( $res, "SELECT count(*) as Count FROM eZMail_FetchedMail WHERE UserID='$userID' AND MessageID='$mailident'" );
 
         $ret = true;
         if( $res[$db->fieldName("Count")] == 0 )
