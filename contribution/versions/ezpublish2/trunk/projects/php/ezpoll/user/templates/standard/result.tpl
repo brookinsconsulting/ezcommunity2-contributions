@@ -19,7 +19,7 @@
 		<!-- {choice_number}: --> <b>{choice_name}</b> {choice_percent}%
 		</td>
 		<td align="right">
-		{choice_vote} votes
+		{choice_vote} stemmer
 		</td>
 	</tr>
 	<tr>
@@ -46,7 +46,7 @@
 </tr>
 <tr>
 	<td>
-	Total votes: {total_votes}
+	{intl-total_votes} {total_votes}
 	</td>
 </tr>
 </table>

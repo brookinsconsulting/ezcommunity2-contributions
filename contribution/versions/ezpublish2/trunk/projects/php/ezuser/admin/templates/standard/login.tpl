@@ -18,6 +18,6 @@
 
 <hr noshade size="4"/>
 
-<input class="okbutton" type="submit" value="OK" />
+<input class="okbutton" type="submit" value="{intl-ok}" />
 
 </form>

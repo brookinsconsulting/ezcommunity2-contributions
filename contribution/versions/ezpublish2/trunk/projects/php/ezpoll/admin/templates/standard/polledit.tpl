@@ -47,14 +47,14 @@
 <br /><br />
 
 <p class="checkhead">{intl-settings}</p>
-<div class="check"><input type="checkbox" name="IsEnabled" {is_enabled}>&nbsp;Aktiv</div>
-<div class="check"><input type="checkbox" name="IsClosed" {is_closed}>&nbsp;Avsluttet</div>
-<div class="check"><input type="checkbox" name="ShowResult" {show_result}>&nbsp;Vis resultat</div>
+<div class="check"><input type="checkbox" name="IsEnabled" {is_enabled}>&nbsp;{intl-active}</div>
+<div class="check"><input type="checkbox" name="IsClosed" {is_closed}>&nbsp;{intl-finish}</div>
+<div class="check"><input type="checkbox" name="ShowResult" {show_result}>&nbsp;{intl-show_result}</div>
 
-<div class="check"><input type="checkbox" name="Anonymous" {anonymous}> Anonym avstemming</div>
-<div class="check"><input type="checkbox" name="UserEditRule" {user_edit_rule}> Bruker kan redigere egen stemme</div>
+<div class="check"><input type="checkbox" name="Anonymous" {anonymous}> {intl-anonymous}</div>
+<!-- <div class="check"><input type="checkbox" name="UserEditRule" {user_edit_rule}> Bruker kan redigere egen stemme</div> -->
 
-<p class="checkhead">{intl-choices}</p>
+<!-- <p class="checkhead">{intl-choices}</p>
 <table width="100%" cellpadding="0" cellspacing="0" border="0">
 <tr>
 	<td width="50%">
@@ -63,10 +63,10 @@
 	<td>
 	<input value="Or" type="radio" name="And"> Eller</div>
 	</td>
-</tr>
-</table>
+</tr> 
+</table> -->
 
-<p class="checkhead">{intl-show}</p>
+<!-- <p class="checkhead">{intl-show}</p>
 <table width="100%" cellpadding="0" cellspacing="0" border="0">
 <tr>
 	<td width="50%">
@@ -76,15 +76,15 @@
 	<div class="check"><input type="checkbox" name="Percent" {percent}> Prosent</div>
 	</td>
 </tr>
-</table>
+</table> -->
 
 <br />
 
 <table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
 <tr>
-	<th width="50%">Svaralternativer:</th>
-	<th>Justering:</th>
-	<td align="right"><span class="boxtext">Antall stemmer:</span></td>
+	<th width="50%">{intl-answers}</th>
+	<th>{intl-adjust}</th>
+	<td align="right"><span class="boxtext">{intl-total_votes}</span></td>
 	<th colspan="3">&nbsp;</th>
 </tr>
 <tr>
@@ -116,12 +116,12 @@
 
 <hr noshade size="4"/>
 
-<input class="stdbutton" type="submit" name="Choice" value="Nytt svaralternativ">
+<input class="stdbutton" type="submit" name="Choice" value="{intl-newanswer}">
 
 <hr noshade size="4"/>
 
 <input type="hidden" name="PollID" value="{poll_id}" />
-<input class="okbutton" type="submit" value="OK" />
+<input class="okbutton" type="submit" value="{intl-ok}" />
 
 <form method="post" action="/poll/pollist/"><input class="okbutton" type="submit" name="Back" value="{intl-back}"></form>
 

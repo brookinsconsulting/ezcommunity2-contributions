@@ -68,10 +68,10 @@
 	</td>
 
 	<td class="{td_class}">
-	<a href="/poll/polledit/edit/{poll_id}/">[ Rediger ]</a>
+	<a href="/poll/polledit/edit/{poll_id}/">{intl-edit}</a>
 	</td>
 	<td class="{td_class}">
-	<a href="/poll/polledit/delete/{poll_id}/">[ slett ]</a>
+	<a href="/poll/polledit/delete/{poll_id}/">{intl-delete}</a>
 	</td>	
 	</tr>
 	<!-- END poll_item_tpl -->

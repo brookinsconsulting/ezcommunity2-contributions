@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: userbox.php,v 1.3 2000/10/25 16:44:19 ce-cvs Exp $
+// $Id: userbox.php,v 1.4 2000/10/26 08:57:33 ce-cvs Exp $
 //
 // Definition of eZUser class
 //
@@ -27,9 +27,10 @@ include_once( "ezuser/classes/ezmodule.php" );
 include_once( "ezuser/classes/ezpermission.php" );
 include_once( "ezsession/classes/ezsession.php" );
 
+
 // Template
-$t = new eZTemplate( $DOC_ROOT . "/admin/" . $ini->read_var( "eZUserMain", "TemplateDir" ),
-                     $DOC_ROOT . "/admin/" . "/intl", $Language, "userbox.php" );
+$t = new eZTemplate( "ezuser/admin/" . $ini->read_var( "eZUserMain", "TemplateDir" ),
+                     "ezuser/admin/intl", $Language, "userbox.php" );
 $t->setAllStrings();
 
 $t->set_file( array(
@@ -43,7 +44,6 @@ if ( !$user )
     Header( "Location: /user/login/" );
     exit();
 }
-
 $t->set_var( "first_name", $user->firstName() );
 $t->set_var( "last_name", $user->lastName() );
 $t->set_var( "style", $SiteStyle );

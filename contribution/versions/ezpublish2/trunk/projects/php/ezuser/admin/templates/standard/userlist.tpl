@@ -51,7 +51,7 @@
 	<option {is_selected} value="{group_id}">{group_name}</option>
 	<!-- END group_item_tpl -->
 	</select>
-	<input class="stdbutton" type="submit" value="Vis">
+	<input class="stdbutton" type="submit" value="{intl-show}">
 
 	</form>
 

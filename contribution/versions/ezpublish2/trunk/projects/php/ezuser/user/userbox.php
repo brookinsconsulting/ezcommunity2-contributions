@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: userbox.php,v 1.2 2000/10/25 16:44:19 ce-cvs Exp $
+// $Id: userbox.php,v 1.3 2000/10/26 08:57:33 ce-cvs Exp $
 //
 // Definition of eZUser class
 //
