@@ -58,7 +58,6 @@
 <hr noshade="noshade" size="4" />
 
 <input class="stdbutton" type="submit" name="NewAttribute" value="{intl-new_attribute}" />&nbsp;
-<input class="stdbutton" type="submit" name="Update" value="{intl-update}" />&nbsp;
 <input class="stdbutton" type="submit" name="DeleteSelected" value="{intl-delete_selected}" />
 
 <hr noshade="noshade" size="4" />
