@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: articleedit.php,v 1.27 2000/12/08 11:07:08 bf-cvs Exp $
+// $Id: articleedit.php,v 1.28 2000/12/11 15:56:43 ce Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <18-Oct-2000 15:04:39 bf>
@@ -504,7 +504,11 @@ if ( $Action == "Edit" )
 $category = new eZArticleCategory();
 $categoryArray = $category->getAll( );
 
-foreach ( $categoryArray as $catItem )
+
+$tree = new eZArticleCategory();
+$treeArray = $tree->getTree();
+
+foreach ( $treeArray as $catItem )
 {
     if ( $Action == "Edit" )
     {
@@ -512,8 +516,8 @@ foreach ( $categoryArray as $catItem )
         
         if ( get_class( $defCat ) == "ezarticlecategory" )
         {
-            if ( $article->existsInCategory( $catItem ) &&
-                ( $defCat->id() != $catItem->id() ) )
+            if ( $article->existsInCategory( $catItem[0] ) &&
+                ( $defCat->id() != $catItem[0]->id() ) )
             {
                 $t->set_var( "multiple_selected", "selected" );
             }
@@ -529,7 +533,7 @@ foreach ( $categoryArray as $catItem )
             
         if ( get_class( $defCat ) == "ezarticlecategory" )
         {
-            if ( $defCat->id() == $catItem->id() )
+            if ( $defCat->id() == $catItem[0]->id() )
             {
                 $t->set_var( "selected", "selected" );
             }
@@ -550,8 +554,14 @@ foreach ( $categoryArray as $catItem )
     }    
         
     
-    $t->set_var( "option_value", $catItem->id() );
-    $t->set_var( "option_name", $catItem->name() );
+    $t->set_var( "option_value", $catItem[0]->id() );
+    $t->set_var( "option_name", $catItem[0]->name() );
+
+    if ( $catItem[1] > 0 )
+        $t->set_var( "option_level", str_repeat( "&nbsp;", $catItem[1] ) );
+    else
+        $t->set_var( "option_level", "" );
+
     
     $t->parse( "value", "value_tpl", true );    
     $t->parse( "multiple_value", "multiple_value_tpl", true );

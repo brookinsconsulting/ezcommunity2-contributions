@@ -1,7 +1,7 @@
 <?
 
 // 
-// $Id: ezcertificatecategory.php,v 1.1 2000/12/11 12:08:19 pkej Exp $
+// $Id: ezcertificatecategory.php,v 1.2 2000/12/11 15:56:43 ce Exp $
 //
 // Definition of eZCertificateCategory class
 //
@@ -184,10 +184,19 @@ class eZCertificateCategory
     /*!
         Fetches all the company types in the db and return them as an array of objects.
      */
-    function getByParentID( $id = 0, $OrderBy = "ID", $LimitStart = "None", $LimitBy = "None" )
+    function getByParentID( $parent = 0, $OrderBy = "ID", $LimitStart = "None", $LimitBy = "None" )
     {
         $this->dbInit();
 
+        if ( get_class( $parent ) == "ezcertificatecategory" )
+        {
+            $id = $parent->id();
+        }
+        else
+        {
+            $id = $parent;
+        }
+        
         switch( strtolower( $OrderBy ) )
         {
             case "description":
@@ -297,6 +306,31 @@ class eZCertificateCategory
         
         return $path;
     }
+    
+    /*!
+     Fetches all the company types in the db and return them as an array of objects.
+    */
+    function getTree( $parentID=0, $level=0 )
+    {                   
+        $category = new eZCertificateCategory( $parentID );
+
+        $categoryList = $category->getByParentID( $category );
+        
+        $tree = array();
+        $level++;
+        foreach ( $categoryList as $category )
+        {
+            array_push( $tree, array( $returnObj = new eZCertificateCategory( $category->id() ), $level ) );
+
+            if ( $category != 0 )
+            {
+                $tree = array_merge( $tree, $this->getTree( $category->id(), $level ) );
+            }
+        }
+
+        return $tree;
+    }
+
 
     /*!
       Set the name.

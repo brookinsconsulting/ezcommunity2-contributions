@@ -734,13 +734,18 @@ if ( $Action == "edit" )
     
 // Company type selector
 $companyType = new eZCompanyType();
-$companyTypeList = $companyType->getAll();
+$companyTypeList = $companyType->getTree();
 
 foreach( $companyTypeList as $companyTypeItem )
 {
-    $t->set_var( "company_type_name", $companyTypeItem->name() );
-    $t->set_var( "company_type_id", $companyTypeItem->id() );
+    $t->set_var( "company_type_name", $companyTypeItem[0]->name() );
+    $t->set_var( "company_type_id", $companyTypeItem[0]->id() );
 
+    if ( $companyTypeItem[1] > 0 )
+        $t->set_var( "company_type_level", str_repeat( "&nbsp;", $companyTypeItem[1] ) );
+    else
+        $t->set_var( "company_type_level", "" );
+    
     if ( $company )
     {
         $categoryList = $company->categories( $CompanyID );
@@ -748,7 +753,7 @@ foreach( $companyTypeList as $companyTypeItem )
 
         foreach ( $categoryList as $category )
         {
-            if ( $category->id() == $companyTypeItem->id() )
+            if ( $category->id() == $companyTypeItem[0]->id() )
             {
                 $found = true;
             }

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezarticlecategory.php,v 1.12 2000/12/08 16:44:56 ce-cvs Exp $
+// $Id: ezarticlecategory.php,v 1.13 2000/12/11 15:56:43 ce Exp $
 //
 // Definition of eZArticleCategory class
 //
@@ -256,14 +256,14 @@ class eZArticleCategory
         $tree = array();
         $level++;
         foreach ( $categoryList as $category )
-            {
-                array_push( $tree, array( $category->id(), $category->name(), $level ) );
-
+        {
+            array_push( $tree, array( $return_array[] = new eZArticleCategory( $category->id() ), $level ) );
+            
             if ( $category != 0 )
             {
                 $tree = array_merge( $tree, $this->getTree( $category->id(), $level ) );
             }
-
+            
         }
 
         return $tree;

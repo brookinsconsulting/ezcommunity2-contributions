@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezcompany.php,v 1.39 2000/12/07 13:00:07 ce-cvs Exp $
+// $Id: ezcompany.php,v 1.40 2000/12/11 15:56:43 ce Exp $
 //
 // Definition of eZProduct class
 //
@@ -265,7 +265,6 @@ class eZCompany
         }
     }
 
-    
     /*
       Henter ut alle firma i databasen som inneholder søkestrengen.
     */

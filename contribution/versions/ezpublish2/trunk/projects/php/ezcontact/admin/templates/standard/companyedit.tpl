@@ -92,7 +92,7 @@
 <p class="boxtext">{intl-companytype}:</p>
 <select multiple size="10" name="CompanyCategoryID[]">
 <!-- BEGIN company_type_select_tpl -->
-<option value="{company_type_id}" {is_selected}>{company_type_name}</option>
+<option value="{company_type_id}" {is_selected}>{company_type_level}{company_type_name}</option>
 <!-- END company_type_select_tpl -->
 </select>
 

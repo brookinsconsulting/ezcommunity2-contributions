@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezadcategory.php,v 1.4 2000/12/08 16:44:56 ce-cvs Exp $
+// $Id: ezadcategory.php,v 1.5 2000/12/11 15:56:43 ce Exp $
 //
 // Definition of eZAdCategory class
 //
@@ -247,12 +247,12 @@ class eZAdCategory
         $category = new eZAdCategory( $parentID );
 
         $categoryList = $category->getByParent( $category );
-
+        
         $tree = array();
         $level++;
         foreach ( $categoryList as $category )
         {
-            array_push( $tree, array( $category->id(), $category->name(), $level ) );
+            array_push( $tree, array( $returnObj = new eZAdCategory( $category->id() ), $level ) );
 
             if ( $category != 0 )
             {
@@ -262,15 +262,6 @@ class eZAdCategory
         }
 
         return $tree;
-
-//          $tree = array();
-
-//          $id = $category->id();
-
-//          if( $parent != 0 )
-//          {
-//              $path = array( $path, $this->getTree( $parent->id() );
-//          }
     }
 
     

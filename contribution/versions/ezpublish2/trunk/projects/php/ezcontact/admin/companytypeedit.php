@@ -207,15 +207,15 @@ if( $Action == "edit" || $Action == "new" )
     
     foreach( $tree as $item )
     {
-        $t->set_var( "select_parent_id", $item[0] );
-        $t->set_var( "select_parent_name", $item[1] );
+        $t->set_var( "select_parent_id", $item[0]->id() );
+        $t->set_var( "select_parent_name", $item[0]->name() );
         
-        if ( $item[2] > 0 )
-            $t->set_var( "parent_level", str_repeat( "&nbsp;", $item[2] ) );
+        if ( $item[1] > 0 )
+            $t->set_var( "parent_level", str_repeat( "&nbsp;", $item[1] ) );
         else
             $t->set_var( "parent_level", "" );
 
-        if ( $item[0] == $parentid )
+        if ( $item[0]->id() == $parentid )
         {
             $t->set_var( "selected", "selected" );
             $selected = true;
@@ -227,28 +227,7 @@ if( $Action == "edit" || $Action == "new" )
         
         $t->parse( "parent_item", "parent_item_tpl", true );
     }
-    
-    
-//      $categories = $type->getAll();
-        
-//      $selected = false;
-        
-//      foreach( $categories as $category )
-//          {
-//              $t->set_var( "select_parent_id", $category->id() );
-//              $t->set_var( "select_parent_name", $category->name() );
-//              if( $category->id() == $parentid )
-//              {
-//                  $t->set_var( "selected", "selected" );
-//                  $selected = true;
-//              }
-//              else
-//              {
-//                  $t->set_var( "selected", "" );
-//              }            
-//              $t->parse( "parent_item", "parent_item_tpl", true );
-//          }
-
+   
     if( count( $tree ) == 0 )
     {
         $t->set_var( "parent_item", "" );

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: categoryedit.php,v 1.2 2000/12/08 16:44:56 ce-cvs Exp $
+// $Id: categoryedit.php,v 1.3 2000/12/11 15:56:43 ce Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <18-Sep-2000 14:46:19 bf>
@@ -123,6 +123,9 @@ if ( $Action == "Edit" )
     $t->set_var( "action_value", "update" );
     $t->set_var( "category_id", $category->id() );
 
+    $parent = $category->parent();
+    $parentID = $parent->id();
+
     if ( $category->excludeFromSearch() == true )
     {
         $t->set_var( "exclude_checked", "checked" );
@@ -135,13 +138,24 @@ $tree = $category->getTree();
 
 foreach( $tree as $item )
 {
-    $t->set_var( "option_value", $item[0] );
-    $t->set_var( "option_name", $item[1] );
+    $t->set_var( "option_value", $item[0]->id() );
+    $t->set_var( "option_name", $item[0]->name() );
 
-    if ( $item[2] > 0 )
-        $t->set_var( "option_level", str_repeat( "&nbsp;", $item[2] ) );
+    if ( $item[1] > 0 )
+        $t->set_var( "option_level", str_repeat( "&nbsp;", $item[1] ) );
     else
         $t->set_var( "option_level", "" );
+    
+    if ( $item[0]->id() == $parentID )
+    {
+        $t->set_var( "selected", "selected" );
+        $selected = true;
+    }
+    else
+    {
+        $t->set_var( "selected", "" );
+    }            
+
 
     $t->parse( "value", "value_tpl", true );
 }

@@ -31,7 +31,7 @@
 <select name="CategoryID">
 
 <!-- BEGIN value_tpl -->
-<option value="{option_value}" {selected}>{option_name}</option>
+<option value="{option_value}" {selected}>{option_level}{option_name}</option>
 <!-- END value_tpl -->
 
 </select>
@@ -42,7 +42,7 @@
 <select multiple name="CategoryArray[]">
 
 <!-- BEGIN multiple_value_tpl -->
-<option value="{option_value}" {multiple_selected}>{option_name}</option>
+<option value="{option_value}" {multiple_selected}>{option_level}{option_name}</option>
 <!-- END multiple_value_tpl -->
 
 </select>

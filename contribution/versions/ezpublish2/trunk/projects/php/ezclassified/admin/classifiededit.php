@@ -183,11 +183,16 @@ if ( $Action == "edit" )
 
 // Category selector
 $category = new eZCategory();
-$categoryTypeList = $category->getAll();
+$categoryTypeList = $category->getTree();
 for( $i=0; $i < count( $categoryTypeList ); $i++ )
 {
-    $t->set_var( "category_name", $categoryTypeList[$i]->name() );
-    $t->set_var( "category_id", $categoryTypeList[$i]->id() );
+    $t->set_var( "category_name", $categoryTypeList[$i][0]->name() );
+    $t->set_var( "category_id", $categoryTypeList[$i][0]->id() );
+
+    if ( $categoryTypeList[$i][1] > 0 )
+        $t->set_var( "category_level", str_repeat( "&nbsp;", $categoryTypeList[$i][1] ) );
+    else
+        $t->set_var( "category_level", "" );
 
     if ( $position )
     {
@@ -195,7 +200,7 @@ for( $i=0; $i < count( $categoryTypeList ); $i++ )
         $found = false;
         foreach ( $categoryList as $category )
             {
-                if ( $category->id() == $categoryTypeList[$i]->id() )
+                if ( $category->id() == $categoryTypeList[$i][0]->id() )
                 {
                     $found = true;
                 }

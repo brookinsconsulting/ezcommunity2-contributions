@@ -5,6 +5,7 @@
     <td class="repeaty" background="/images/{site_style}/menu-m.gif">
     <img src="/images/{site_style}/menu-arrow.gif" width="20" height="10"><a class="menu" href="/classified/list/">{intl-classifiedlist}</a><br>
     <img src="/images/{site_style}/menu-arrow.gif" width="20" height="10"><a class="menu" href="/classified/new/">{intl-classifiednew}</a><br>
+    <img src="/images/{site_style}/menu-arrow.gif" width="20" height="10"><a class="menu" href="/classified/category/new/">{intl-categorynew}</a><br>
     
 	</td>
 </tr>

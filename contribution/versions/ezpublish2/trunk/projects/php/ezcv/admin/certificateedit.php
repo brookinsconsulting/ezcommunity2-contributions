@@ -213,6 +213,7 @@ if( $Action == "edit" || $Action == "new" )
     $type = new eZCertificateType();
     $types = $type->getAll();
 
+
     byParent( 0, 0, $TypeID );
 
     if( count( $types ) == 0 )

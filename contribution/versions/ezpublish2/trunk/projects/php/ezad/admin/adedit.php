@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: adedit.php,v 1.4 2000/12/01 10:01:47 bf-cvs Exp $
+// $Id: adedit.php,v 1.5 2000/12/11 15:56:43 ce Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <16-Nov-2000 13:02:32 bf>
@@ -233,13 +233,13 @@ if ( $Action == "Edit" )
 
 // category select
 $category = new eZAdCategory();
-$categoryArray = $category->getAll( );
+$categoryArray = $category->getTree();
 
 foreach ( $categoryArray as $catItem )
 {
     if ( $Action == "Edit" )
     {
-        if ( $defCat->id() == $catItem->id() )
+        if ( $defCat->id() == $catItem[0]->id() )
         {
             $t->set_var( "selected", "selected" );
         }
@@ -252,9 +252,14 @@ foreach ( $categoryArray as $catItem )
     {
         $t->set_var( "selected", "" );
     }    
+
+    if ( $catItem[1] > 0 )
+        $t->set_var( "option_level", str_repeat( "&nbsp;", $catItem[1] ) );
+    else
+        $t->set_var( "option_level", "" );
     
-    $t->set_var( "option_value", $catItem->id() );
-    $t->set_var( "option_name", $catItem->name() );
+    $t->set_var( "option_value", $catItem[0]->id() );
+    $t->set_var( "option_name", $catItem[0]->name() );
 
     $t->parse( "value", "value_tpl", true );    
 }

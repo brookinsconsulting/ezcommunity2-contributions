@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: importnews.php,v 1.4 2000/11/27 10:06:15 bf-cvs Exp $
+// $Id: importnews.php,v 1.5 2000/12/11 15:56:43 ce Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <16-Nov-2000 13:02:19 bf>
@@ -96,12 +96,23 @@ $sourceSite = new eZSourceSite();
 
 $sourceSiteList = $sourceSite->getAll();
 
+$i=0;
 foreach ( $sourceSiteList as $site )
 {
     $t->set_var( "source_site_id", $site->id() );
     $t->set_var( "source_site_name", $site->name() );
     $t->set_var( "source_site_url", $site->url() );
-    
+
+    if ( ( $i % 2 ) == 0 )
+    {
+        $t->set_var( "td_class", "bglight" );
+    }
+    else
+    {
+        $t->set_var( "td_class", "bgdark" );
+    }
+
+    $i++;
     $t->parse( "source_site", "source_site_tpl", true );
 }
 

@@ -33,7 +33,7 @@
 
 <option {root_selected} value="0">{intl-root_category}</option>
 <!-- BEGIN parent_item_tpl -->
-<option {selected} value="{select_parent_id}">{select_parent_name}</option>
+<option {selected} value="{select_parent_id}">{select_parent_level}{select_parent_name}</option>
 <!-- END parent_item_tpl -->
 
 </select>

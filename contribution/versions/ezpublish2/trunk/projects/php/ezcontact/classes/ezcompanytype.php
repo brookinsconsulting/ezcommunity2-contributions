@@ -1,7 +1,7 @@
 <?
 
 // 
-// $Id: ezcompanytype.php,v 1.19 2000/12/08 16:44:57 ce-cvs Exp $
+// $Id: ezcompanytype.php,v 1.20 2000/12/11 15:56:43 ce Exp $
 //
 // Definition of eZCompanyType class
 //
@@ -188,10 +188,19 @@ class eZCompanyType
     /*!
         Fetches all the company types in the db and return them as an array of objects.
      */
-    function getByParentID( $id = 0, $OrderBy = "ID", $LimitStart = "None", $LimitBy = "None" )
+    function getByParentID( $parent = 0, $OrderBy = "ID", $LimitStart = "None", $LimitBy = "None" )
     {
         $this->dbInit();
 
+        if ( get_class( $parent ) == "ezcompanytype" )
+        {
+            $id = $parent->id();
+        }
+        else
+        {
+            $id = $parent;
+        }
+        
         switch( strtolower( $OrderBy ) )
         {
             case "description":
@@ -302,18 +311,17 @@ class eZCompanyType
         return $path;
     }
 
-
     function getTree( $parentID=0, $level=0 )
     {
         $category = new eZCompanyType( $parentID );
 
-        $categoryList = $category->getByParent( $category );
+        $categoryList = $category->getByParentID( $category );
 
         $tree = array();
         $level++;
         foreach ( $categoryList as $category )
         {
-            array_push( $tree, array( $category->id(), $category->name(), $level ) );
+            array_push( $tree, array( $returnObj = new eZCompanyType( $category->id() ), $level ) );
 
             if ( $category != 0 )
             {
@@ -324,7 +332,6 @@ class eZCompanyType
 
         return $tree;
     }
-
 
     /*!
       Adds a company to the current user category.

@@ -58,16 +58,37 @@ switch ( $url_array[2] )
     }
     break;
 
-    case "category":
+    case "category" :
     {
-        switch( $url_array[3] )
+        if ( $url_array[3] == "new" )
         {
-            case "edit":
-            {
-                
-            }
-            break;
+            $Action = "New";
         }
+
+        if ( $url_array[3] == "insert" )
+        {
+            $Action = "Insert";
+        }
+
+        if ( $url_array[3] == "edit" )
+        {
+            $Action = "Edit";
+            $CategoryID = $url_array[4];
+        }
+
+        if ( $url_array[3] == "Update" )
+        {
+            $Action = "Update";
+            $CategoryID = $url_array[4];
+        }
+
+        if ( $url_array[3] == "delete" )
+        {
+            $Action = "Delete";
+            $CategoryID = $url_array[4];
+        }
+        
+        include( "ezclassified/admin/classifiedcategoryedit.php" );
     }
     break;
 

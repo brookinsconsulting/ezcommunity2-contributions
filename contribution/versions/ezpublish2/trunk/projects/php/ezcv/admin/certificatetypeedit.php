@@ -169,10 +169,24 @@ if( $Action == "edit" || $Action == "new" )
     $t->set_var( "parent_id", $parentid );
 
     $category = new eZCertificateCategory();
-    $categories = $category->getAll();
+    $categories = $category->getTree();
 
+//    byParent( 0, 0, $parentid );
 
-    byParent( 0, 0, $parentid );
+    foreach( $categories as $item )
+    {
+        $t->set_var( "select_parent_id", $item[0]->id() );
+        $t->set_var( "select_parent_name", $item[0]->name() );
+
+        
+        if ( $item[1] > 0 )
+            $t->set_var( "select_parent_level", str_repeat( "&nbsp;", $item[1] ) );
+        else
+            $t->set_var( "select_parent_level", "" );
+        
+        $t->parse( "parent_item", "parent_item_tpl", true );
+    }
+
 
     if( count( $categories ) == 0 )
     {

@@ -1,7 +1,7 @@
 <?
 
 // 
-// $Id: ezcategory.php,v 1.2 2000/11/29 18:43:31 ce-cvs Exp $
+// $Id: ezcategory.php,v 1.3 2000/12/11 15:56:43 ce Exp $
 //
 // Definition of eZCategory class
 //
@@ -186,9 +186,18 @@ class eZCategory
     /*!
         Fetches all the category in the db and return them as an array of objects.
      */
-    function getByParentID( $id = 0, $OrderBy = "ID", $LimitStart = "None", $LimitBy = "None" )
+    function getByParentID( $parent = 0, $OrderBy = "ID", $LimitStart = "None", $LimitBy = "None" )
     {
         $this->dbInit();
+
+        if ( get_class( $parent ) == "ezcategory" )
+        {
+            $id = $parent->id();
+        }
+        else
+        {
+            $id = $parent;
+        }
 
         switch( strtolower( $OrderBy ) )
         {
@@ -271,6 +280,29 @@ class eZCategory
         return $path;
     }
 
+    function getTree( $parentID=0, $level=0 )
+    {
+        $category = new eZCategory( $parentID );
+
+        $categoryList = $category->getByParentID( $category );
+
+        $tree = array();
+        $level++;
+        foreach ( $categoryList as $category )
+        {
+            array_push( $tree, array( $returnObj = new eZCategory( $category->id() ), $level ) );
+
+            if ( $category != 0 )
+            {
+                $tree = array_merge( $tree, $this->getTree( $category->id(), $level ) );
+            }
+
+        }
+
+        return $tree;
+    }
+
+
     /*!
       Adds a classified to the current user category.
 
@@ -326,12 +358,16 @@ class eZCategory
     /*!
       Set parent
     */
-    function setParentID( $value )
+    function setParent( $value )
     {
         if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
 
-        $this->ParentID = $value;
+        if ( get_class( $value ) == "ezcategory" )
+        {
+            $id = $value->id();
+        }
+        $this->ParentID = $id;
     }
 
   

@@ -82,7 +82,7 @@
 <p class="boxtext">{intl-category}:</p>
 <select multiple size="10" name="CategoryArray[]">
 <!-- BEGIN category_item_tpl -->
-<option value="{category_id}" {is_selected}>{category_name}</option>
+<option value="{category_id}" {is_selected}>{category_level}{category_name}</option>
 <!-- END category_item_tpl -->
 </select>
 <br />
