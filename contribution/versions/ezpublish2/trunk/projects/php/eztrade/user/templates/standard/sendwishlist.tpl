@@ -1,7 +1,9 @@
 <!-- BEGIN wishlist_sendt_tpl -->
-<h1>{intl-wishlist_sendt}</h1>
+<h1>{intl-send_wishlist_to_friend}</h1>
 
-<hr noshade size="4" />
+<hr noshade="noshade" size="4" />
+
+<p>{intl-wishlist_sendt}</p>
 
 <!-- END wishlist_sendt_tpl -->
 
@@ -10,7 +12,7 @@
 
 <hr noshade="noshade" size="4" />
 
-{intl-add_something_to_wishlist_first}
+<p>{intl-add_something_to_wishlist_first}</p>
 
 <!-- END wishlist_empty_tpl -->
 
@@ -18,9 +20,9 @@
 <!-- BEGIN wishlist_private_tpl -->
 <h1>{intl-wishlist_is_private}</h1>
 
-<hr noshade size="4" />
+<hr noshade="noshade" size="4" />
 
-{intl-wishlist_must_be_public_to_send_it_to_others}
+<p>{intl-wishlist_must_be_public_to_send_it_to_others}</p>
 
 <!-- END wishlist_private_tpl -->
 
@@ -29,11 +31,11 @@
 <h1>{intl-send_wishlist_to_friend}</h1>
 
 
-<hr noshade size="4" />
+<hr noshade="noshade" size="4" />
 
 <form method="post" action="/trade/sendwishlist/" >
 
-<b>{intl-send_wishlist_to}</b>:<br />
+<p class="boxtext">{intl-send_wishlist_to}:</p>
 <input type="text" name="SendTo" value="" />
 
 <br />
@@ -42,6 +44,8 @@
 <p class="boxtext">{intl-personal_message}:</p>
 <textarea name="Message" cols="40" rows="5" wrap="soft">{intl-standard_message}</textarea>
 <br /><br />
+
+<hr noshade="noshade" size="4" />
 
 <input class="okbutton" type="submit" value="{intl-send_wishlist}" />
 <input type="hidden" name="Action" value="SendWishlist" />

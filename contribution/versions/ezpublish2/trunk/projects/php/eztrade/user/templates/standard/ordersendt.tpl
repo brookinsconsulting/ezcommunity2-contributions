@@ -69,8 +69,7 @@
 	</td>
 	<td class="{td_class}">
         <!-- BEGIN order_item_option_tpl -->
-	{option_name}:
-	{option_value}<br>
+	<span class="small">{option_name}: {option_value}</span><br />
         <!-- END order_item_option_tpl -->
 	&nbsp;
 	</td>
