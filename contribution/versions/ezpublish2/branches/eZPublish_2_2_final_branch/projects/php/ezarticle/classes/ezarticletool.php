@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezarticletool.php,v 1.12.2.6 2002/04/22 07:52:03 bf Exp $
+// $Id: ezarticletool.php,v 1.12.2.7 2003/07/10 08:30:01 br Exp $
 //
 // Definition of eZArticleTool class
 //
@@ -174,8 +174,19 @@ class eZArticleTool
         $mailTemplate->set_var( "site", $PublishSite );
         $mailTemplate->set_var( "title", $article->name( false ) );
         $mailTemplate->set_var( "author", $article->authorText( false ) );
-        
-        $mailTemplate->set_var( "link", "http://" . $SiteURL . "/article/articleview/" . $article->id() );
+
+
+        // Set the global nVH variables.
+        $index = $ini->Index;
+        $wwwDir = $ini->WWWDir;
+
+        // the index should be index.php for the usersite. 
+        if ( $index == "/index_admin.php" )
+        {
+           $index = "/index.php";
+        }
+    
+        $mailTemplate->set_var( "link", "http://" . $SiteURL . $wwwDir . $index . "/article/articleview/" . $article->id() );
         
         $bodyText = $mailTemplate->parse( "dummy", "mailtemplate" );
     
