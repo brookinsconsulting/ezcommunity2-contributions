@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezimagecategory.php,v 1.40 2001/09/23 12:34:18 br Exp $
+// $Id: ezimagecategory.php,v 1.41 2001/09/24 10:49:49 jb Exp $
 //
 // Definition of eZImageCategory class
 //
@@ -206,13 +206,14 @@ class eZImageCategory
     function get( $id = -1 )
     {
         $db =& eZDB::globalDatabase();
-        
+
         if ( $id != "" )
         {
             $db->array_query( $category_array, "SELECT * FROM eZImageCatalogue_Category WHERE ID='$id'" );
             if ( count( $category_array ) > 1 )
             {
-                die( "Error: Category's with the same ID was found in the database. This shouldent happen." );
+                eZLog::writeNotice( "Error: Category's with the same ID was found in the database. This shouldent happen." );
+                return false;
             }
             else if( count( $category_array ) == 1 )
             {
@@ -224,6 +225,7 @@ class eZImageCategory
                 $this->SectionID =& $category_array[0][$db->fieldName("SectionID")];
             }
         }
+        return true;
     }
 
     /*!
