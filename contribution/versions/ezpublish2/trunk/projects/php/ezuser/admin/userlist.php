@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: userlist.php,v 1.5 2000/10/10 15:02:54 ce-cvs Exp $
+// $Id: userlist.php,v 1.6 2000/10/16 07:14:28 ce-cvs Exp $
 //
 // Definition of eZUser class
 //
@@ -74,6 +74,9 @@ $groupList = $group->getAll();
 
 foreach( $groupList as $groupItem )
 {
+
+//  print( $GroupID . " " . $groupItem->id() . "<br>" );
+   
     if ( $groupItem->id() == $GroupID )
     {
         $t->set_var( "is_selected", "selected" );

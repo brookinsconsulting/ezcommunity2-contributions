@@ -43,11 +43,10 @@
 <tr>
 	<td>
 
-
 	<form method="post" action="/user/userlist/">
 
 	<select name="GroupID">
-	<option {is_selected} value="0">Alle</option>
+	<option value="0">Alle</option>
 	<!-- BEGIN group_item_tpl -->
 	<option {is_selected} value="{group_id}">{group_name}</option>
 	<!-- END group_item_tpl -->

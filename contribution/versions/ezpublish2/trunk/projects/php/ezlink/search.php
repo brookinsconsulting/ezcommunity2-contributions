@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: search.php,v 1.18 2000/10/13 09:38:35 bf-cvs Exp $
+// $Id: search.php,v 1.19 2000/10/16 07:14:28 ce-cvs Exp $
 //
 // 
 //
@@ -57,7 +57,7 @@ $link = new eZLink();
 if ( $Action == "search" )
 {
     $link_array = $link->getQuery( $QueryText, $limit, $offset );    
-    $total_count = $link->getQueryCount( $QueryText, $limit );
+    $total_count = $link->getQueryCount( $QueryText );
 }
 
 // Lister alle linker i kategori
