@@ -26,6 +26,24 @@ switch ( $url_array[2] )
     }
     break;
 
+    case "refererlist" :
+    {
+        $ViewMode = $url_array[3];
+        $ViewLimit = $url_array[4];
+        
+        include( "ezstats/admin/refererlist.php" );
+    }
+    break;
+
+    case "requestpagelist" :
+    {
+        $ViewMode = $url_array[3];
+        $ViewLimit = $url_array[4];
+        
+        include( "ezstats/admin/requestpagelist.php" );
+    }
+    break;
+    
     case "monthrepport" :
     {
         $Year = $url_array[3];

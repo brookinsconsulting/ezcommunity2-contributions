@@ -1,9 +1,9 @@
 <?
 // 
-// $Id: monthrepport.php,v 1.2 2001/01/07 16:50:10 bf Exp $
+// $Id: refererlist.php,v 1.1 2001/01/07 16:50:10 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
-// Created on: <07-Jan-2001 14:47:04 bf>
+// Created on: <07-Jan-2001 16:13:21 bf>
 //
 // This source file is part of eZ publish, publishing software.
 // Copyright (C) 1999-2000 eZ systems as
@@ -35,57 +35,43 @@ include_once( "ezstats/classes/ezpageview.php" );
 include_once( "ezstats/classes/ezpageviewquery.php" );
 
 $t = new eZTemplate( "ezstats/admin/" . $ini->read_var( "eZStatsMain", "AdminTemplateDir" ),
-                     "ezstats/admin/intl", $Language, "monthrepport.php" );
+                     "ezstats/admin/intl", $Language, "refererlist.php" );
 
 $t->setAllStrings();
 
 $t->set_file( array(
-    "month_repport_tpl" => "monthrepport.tpl"
+    "referer_page_tpl" => "refererlist.tpl"
     ) );
 
-$t->set_block( "month_repport_tpl", "result_list_tpl", "result_list" );
-$t->set_block( "result_list_tpl", "day_tpl", "day" );
+$t->set_block( "referer_page_tpl", "referer_list_tpl", "referer_list" );
+$t->set_block( "referer_list_tpl", "referer_tpl", "referer" );
 
 $query = new eZPageViewQuery();
 
-$monthRepport =& $query->monthStats( $Year, $Month );
+$latest =& $query->topReferers( $ViewLimit );
 
-if ( count( $monthRepport ) > 0 )
+if ( count( $latest ) > 0 )
 {
-    $i=1;
-    foreach ( $monthRepport["Days"] as $day )
+    foreach ( $latest as $referer )
     {
-        $count = $day["Count"];
-        $totalCount = $monthRepport["TotalPages"];
+        $t->set_var( "referer_domain", $referer["Domain"] );
+        $t->set_var( "referer_uri", $referer["URI"] );
         
-        $t->set_var( "page_view_count", $count );
-        $t->set_var( "current_day", $i );
+        $t->set_var( "page_view_count", $referer["Count"] );
 
-        $pageViewPercent = ( $count / $totalCount ) * 100;
-        $pageViewPercent = round($pageViewPercent);
-
-        $t->set_var( "page_view_percent", $pageViewPercent );
-        $t->set_var( "page_view_percent_inverted", 100 - $pageViewPercent );
-
-        $t->parse( "day", "day_tpl", true );
-        $i++;
+        $t->parse( "referer", "referer_tpl", true );
     }
-    $t->set_var( "total_page_views", $monthRepport["TotalPages"] );
-    $t->set_var( "pages_pr_day", $monthRepport["PagesPrDay"] );
 
-    $t->parse( "result_list", "result_list_tpl" );
+    $t->parse( "referer_list", "referer_list_tpl" );
 }
 else
 {
-    $t->set_var( "result_list", "" );
+    $t->set_var( "referer_list", "" );
 }
 
-$t->set_var( "this_month", $Month );
-$t->set_var( "this_year", $Year );
 
 
-
-$t->pparse( "output", "month_repport_tpl" );
+$t->pparse( "output", "referer_page_tpl" );
 
 
 ?>

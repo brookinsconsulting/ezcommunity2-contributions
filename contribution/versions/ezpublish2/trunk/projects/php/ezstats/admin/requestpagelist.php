@@ -1,9 +1,9 @@
 <?
 // 
-// $Id: monthrepport.php,v 1.2 2001/01/07 16:50:10 bf Exp $
+// $Id: requestpagelist.php,v 1.1 2001/01/07 16:50:10 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
-// Created on: <07-Jan-2001 14:47:04 bf>
+// Created on: <07-Jan-2001 16:25:31 bf>
 //
 // This source file is part of eZ publish, publishing software.
 // Copyright (C) 1999-2000 eZ systems as
@@ -35,57 +35,50 @@ include_once( "ezstats/classes/ezpageview.php" );
 include_once( "ezstats/classes/ezpageviewquery.php" );
 
 $t = new eZTemplate( "ezstats/admin/" . $ini->read_var( "eZStatsMain", "AdminTemplateDir" ),
-                     "ezstats/admin/intl", $Language, "monthrepport.php" );
+                     "ezstats/admin/intl", $Language, "requestpagelist.php" );
 
 $t->setAllStrings();
 
 $t->set_file( array(
-    "month_repport_tpl" => "monthrepport.tpl"
+    "request_page_tpl" => "requestpagelist.tpl"
     ) );
 
-$t->set_block( "month_repport_tpl", "result_list_tpl", "result_list" );
-$t->set_block( "result_list_tpl", "day_tpl", "day" );
+$t->set_block( "request_page_tpl", "request_list_tpl", "request_list" );
+$t->set_block( "request_list_tpl", "request_tpl", "request" );
 
 $query = new eZPageViewQuery();
 
-$monthRepport =& $query->monthStats( $Year, $Month );
+$latest =& $query->topRequests( $ViewLimit );
 
-if ( count( $monthRepport ) > 0 )
+$headers = getallheaders();
+$request_domain = $headers["Host"];
+
+$request_domain = preg_replace( "#^admin.#", "", $request_domain );
+
+
+if ( count( $latest ) > 0 )
 {
-    $i=1;
-    foreach ( $monthRepport["Days"] as $day )
+    foreach ( $latest as $request )
     {
-        $count = $day["Count"];
-        $totalCount = $monthRepport["TotalPages"];
+        $t->set_var( "request_domain", $request_domain );
         
-        $t->set_var( "page_view_count", $count );
-        $t->set_var( "current_day", $i );
+        $t->set_var( "request_uri", $request["URI"] );
+        
+        $t->set_var( "page_view_count", $request["Count"] );
 
-        $pageViewPercent = ( $count / $totalCount ) * 100;
-        $pageViewPercent = round($pageViewPercent);
-
-        $t->set_var( "page_view_percent", $pageViewPercent );
-        $t->set_var( "page_view_percent_inverted", 100 - $pageViewPercent );
-
-        $t->parse( "day", "day_tpl", true );
-        $i++;
+        $t->parse( "request", "request_tpl", true );
     }
-    $t->set_var( "total_page_views", $monthRepport["TotalPages"] );
-    $t->set_var( "pages_pr_day", $monthRepport["PagesPrDay"] );
 
-    $t->parse( "result_list", "result_list_tpl" );
+    $t->parse( "request_list", "request_list_tpl" );
 }
 else
 {
-    $t->set_var( "result_list", "" );
+    $t->set_var( "request_list", "" );
 }
 
-$t->set_var( "this_month", $Month );
-$t->set_var( "this_year", $Year );
 
 
-
-$t->pparse( "output", "month_repport_tpl" );
+$t->pparse( "output", "request_page_tpl" );
 
 
 ?>

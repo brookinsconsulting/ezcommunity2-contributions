@@ -6,7 +6,16 @@
 
 
 <table width="100%" cellspacing="0" cellpadding="4" border="0">
-
+<tr>
+	<td>
+	<b>{intl-total_page_views}</b>: {total_page_views}
+	</td>
+</tr>
+<tr>
+	<td>
+	<b>{intl-pages_pr_day}</b>: {pages_pr_day}
+	</td>
+</tr>
 <!-- BEGIN day_tpl -->
 <tr>
 	<td>
@@ -16,7 +25,7 @@
 		<b>{intl-day}:</b> {current_day}
 		</td>
 		<td align="right">
-		{page_view_count} {intl-pages}
+		{page_view_count} {intl-pages} ({page_view_percent}%)
 		</td>
 	</tr>
 	<tr>
@@ -24,11 +33,9 @@
 		<table width="100%" cellspacing="0" cellpadding="0">
 		<tr>
 		<td width="{page_view_percent}%" bgcolor="#ffee00">
-		&nbsp;
-		</td>
+		<img src="/images/1x1.gif" width="1" height="10" border="0"></td>
 		<td width="{page_view_inverted_percent}%"  bgcolor="#eeeeee">
-		&nbsp;
-		</td>
+		<img src="/images/1x1.gif" width="1" height="10" border="0"></td>
 		</tr>
 		</table>
 		</td>
@@ -37,15 +44,6 @@
 	</td>
 <tr>
 <!-- END day_tpl -->
-<tr>
-	<td>
-	</td>
-</tr>
-<tr>
-	<td>
-	{intl-total_page_views}: {total_page_views}
-	</td>
-</tr>
 </table>
 
 <!-- END result_list_tpl -->

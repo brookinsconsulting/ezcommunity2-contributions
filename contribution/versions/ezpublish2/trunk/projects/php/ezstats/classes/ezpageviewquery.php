@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezpageviewquery.php,v 1.2 2001/01/07 15:56:31 bf Exp $
+// $Id: ezpageviewquery.php,v 1.3 2001/01/07 16:50:10 bf Exp $
 //
 // Definition of eZPageViewQuery class
 //
@@ -181,6 +181,68 @@ class eZPageViewQuery
     }
 
     /*!
+      Returns the referers which is most frequent.
+
+      The files are returned as an assiciative array of
+      array( ID => $id, Domain => $domain, URI => $uri, Count => $count ).
+    */
+    function &topReferers( $limit=20 )
+    {
+        $this->dbInit();
+
+        $return_array = array();
+        $visitor_array = array();
+        
+        $this->Database->array_query( $visitor_array,
+        "SELECT count(eZStats_PageView.ID) AS Count, eZStats_RefererURL.ID, eZStats_RefererURL.Domain, eZStats_RefererURL.URI
+         FROM eZStats_PageView, eZStats_RefererURL WHERE eZStats_PageView.RefererURLID=eZStats_RefererURL.ID
+         GROUP BY eZStats_RefererURL.ID
+         ORDER BY Count DESC
+         LIMIT 0,$limit" );
+        
+        for ( $i=0; $i<count($visitor_array); $i++ )
+        {
+            $return_array[$i] = array( "ID" => $visitor_array[$i]["ID"],
+                                       "Domain" => $visitor_array[$i]["Domain"],
+                                       "URI" => $visitor_array[$i]["URI"],
+                                       "Count" => $visitor_array[$i]["Count"] );
+        }
+        
+        return $return_array;
+    }
+
+    /*!
+      Returns the requests which is most frequent.
+
+      The files are returned as an assiciative array of
+      array( ID => $id, URI => $uri, Count => $count ).
+    */
+    function &topRequests( $limit=20 )
+    {
+        $this->dbInit();
+
+        $return_array = array();
+        $visitor_array = array();
+        
+        $this->Database->array_query( $visitor_array,
+        "SELECT count(eZStats_PageView.ID) AS Count, eZStats_RequestPage.ID, eZStats_RequestPage.URI
+         FROM eZStats_PageView, eZStats_RequestPage
+         WHERE eZStats_PageView.RequestPageID=eZStats_RequestPage.ID
+         GROUP BY eZStats_RequestPage.ID
+         ORDER BY Count DESC
+         LIMIT 0,$limit" );
+        
+        for ( $i=0; $i<count($visitor_array); $i++ )
+        {
+            $return_array[$i] = array( "ID" => $visitor_array[$i]["ID"],
+                                       "URI" => $visitor_array[$i]["URI"],
+                                       "Count" => $visitor_array[$i]["Count"] );
+        }
+        
+        return $return_array;
+    }
+    
+    /*!
       Returns the statistics for one month.
 
       Returns an array of days with the statistics as an associative array:
@@ -216,7 +278,9 @@ class eZPageViewQuery
             $day_array[] = array( "Count" => $visitor_array[0]["Count"] );
         }
 
-        $return_array = array( "TotalPages" => $TotalPages, "Days" => $day_array );
+        $return_array = array( "TotalPages" => $TotalPages,
+                               "PagesPrDay" => round( $TotalPages/$date->daysInMonth() ),
+                               "Days" => $day_array );
         
         return $return_array;
     }
