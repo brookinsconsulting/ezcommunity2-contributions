@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: articleedit.php,v 1.12 2001/03/01 14:06:25 jb Exp $
+// $Id: articleedit.php,v 1.13 2001/04/27 08:43:34 ce Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <18-Oct-2000 15:04:39 bf>
@@ -71,7 +71,11 @@ if ( $Action == "Insert" )
     eZObjectPermission::setPermission( -1, $article->id(), "article_article", 'r' );
 
     // user-submitted articles are never directly published
-    $article->setIsPublished( false );
+
+    if ( $ini->read_var( "eZArticleMain", "CanUserPublish" ) == "enabled" )
+        $article->setIsPublished( true );
+    else
+        $article->setIsPublished( false );
 
     // check if the contents is parseable
     if ( xmltree( $contents ) )

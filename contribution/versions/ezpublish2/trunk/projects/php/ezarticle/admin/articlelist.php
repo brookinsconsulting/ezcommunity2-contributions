@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: articlelist.php,v 1.30 2001/04/07 14:16:48 bf Exp $
+// $Id: articlelist.php,v 1.31 2001/04/27 08:43:34 ce Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <18-Oct-2000 14:41:37 bf>
@@ -31,6 +31,7 @@ include_once( "ezarticle/classes/ezarticlecategory.php" );
 include_once( "ezarticle/classes/ezarticle.php" );
 include_once( "ezuser/classes/ezobjectpermission.php" );
 include_once( "classes/ezcachefile.php" );
+include_once( "classes/ezlist.php" );
 
 $ini =& INIFile::globalINI();
 
@@ -139,10 +140,6 @@ $t->set_block( "article_item_tpl", "article_not_published_tpl", "article_not_pub
 $t->set_block( "article_list_tpl", "absolute_placement_header_tpl", "absolute_placement_header" );
 $t->set_block( "article_item_tpl", "absolute_placement_item_tpl", "absolute_placement_item" );
 $t->set_block( "article_item_tpl", "article_edit_tpl", "article_edit" );
-
-// prev/next
-$t->set_block( "article_list_page_tpl", "previous_tpl", "previous" );
-$t->set_block( "article_list_page_tpl", "next_tpl", "next" );
 
 $t->set_var( "site_style", $SiteStyle );
 
@@ -253,6 +250,8 @@ foreach ( $categoryList as $categoryItem )
     }
 }
 
+$t->set_var( "archive_id", $CategoryID );
+
 if ($i > 0 )    
     $t->parse( "category_list", "category_list_tpl" );
 else
@@ -350,29 +349,8 @@ foreach ( $articleList as $article )
         $i++;
     }
 }
+eZList::drawNavigator( $t, $articleCount, $AdminListLimit, $Offset, "article_list_page_tpl" );
 
-$prevOffs = $Offset - $Limit;
-$nextOffs = $Offset + $Limit;
-        
-if ( $prevOffs >= 0 )
-{
-    $t->set_var( "prev_offset", $prevOffs  );
-    $t->parse( "previous", "previous_tpl" );
-}
-else
-{
-    $t->set_var( "previous", "" );
-}
-        
-if ( $nextOffs < $articleCount )
-{
-    $t->set_var( "next_offset", $nextOffs  );
-    $t->parse( "next", "next_tpl" );
-}
-else
-{
-    $t->set_var( "next", "" );
-}
 // $i is from the last foreach loop
 if ( $i > 0 )    
     $t->parse( "article_list", "article_list_tpl" );
@@ -382,7 +360,9 @@ else
 
 $t->pparse( "output", "article_list_page_tpl" );
 
-/************ FUNCTIONS **********************/
+/*!
+  Delete cache.
+*/
 function deleteCache( $ArticleID, $CategoryID, $CategoryArray )
 {
     $user = eZUser::currentUser();

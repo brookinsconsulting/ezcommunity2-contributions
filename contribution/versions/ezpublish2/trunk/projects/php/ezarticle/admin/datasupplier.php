@@ -16,6 +16,9 @@ switch ( $url_array[2] )
         if  ( !isset( $CategoryID ) || ( $CategoryID == "" ) )
             $CategoryID = 0;
 
+        if ( $url_array[4] == "move" )
+            $Offset = $url_array[5];
+
         if( $CategoryID == 0 || eZObjectPermission::hasPermission( $CategoryID, "article_category", 'r' )  ||
         eZArticleCategory::isOwner( $user, $CategoryID) )
             include( "ezarticle/admin/articlelist.php" );
