@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezproduct.php,v 1.12 2000/10/10 16:24:02 bf-cvs Exp $
+// $Id: ezproduct.php,v 1.13 2000/10/16 10:31:43 bf-cvs Exp $
 //
 // Definition of eZCompany class
 //
@@ -721,7 +721,47 @@ class eZProduct
        
        return $ret;
     }
-    
+
+
+    /*!
+      Removes every category assignments from the current product.
+    */
+    function removeFromCategories()
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+       $this->dbInit();
+
+       $this->Database->query( "DELETE FROM eZTrade_ProductCategoryLink WHERE ProductID='$this->ID'" );       
+        
+    }
+
+    /*!
+      Returns true if the product is assigned to the category given
+      as argument. False if not.
+     */
+    function existsInCategory( $category )
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+       $ret = false;
+       if ( get_class( $category ) == "ezproductcategory" )
+       {
+           $this->dbInit();
+           $catID = $category->id();
+        
+           $this->Database->array_query( $ret_array, "SELECT ID FROM eZTrade_ProductCategoryLink
+                                    WHERE ProductID='$this->ID' AND CategoryID='$catID'" );
+
+           if ( count( $ret_array ) == 1 )
+           {
+               $ret = true;
+           }           
+       }
+       return $ret;
+    }
     
     /*!
       \private

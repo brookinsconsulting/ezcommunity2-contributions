@@ -1,6 +1,6 @@
-<?
+<?php
 // 
-// $Id: productedit.php,v 1.7 2000/10/10 14:26:46 bf-cvs Exp $
+// $Id: productedit.php,v 1.8 2000/10/16 10:31:43 bf-cvs Exp $
 //
 // Definition of eZCompany class
 //
@@ -69,6 +69,7 @@ if ( $Action == "Insert" )
     
     $product->store();
 
+    // add a product to the category
     $parentCategory->addProduct( $product );
 
     $productID = $product->id();
@@ -144,6 +145,11 @@ if ( $Action == "Update" )
 
     $productID = $product->id();
 
+    // remove current category assignments and add a product to the category
+    $product->removeFromCategories();
+    $parentCategory->addProduct( $product );
+
+
     // add options
     if ( isset( $Option ) )
     {
@@ -211,7 +217,7 @@ if ( $Action == "Edit" )
 {
     $product = new eZProduct();
     $product->get( $ProductID );
-    
+
     $t->set_var( "name_value", $product->name() );
     $t->set_var( "keywords_value", $product->keywords() );
     $t->set_var( "product_nr_value", $product->productNumber() );
@@ -236,6 +242,11 @@ $categoryArray = $category->getAll( );
 
 foreach ( $categoryArray as $catItem )
 {
+    if ( $product->existsInCategory( $catItem ) )
+        $t->set_var( "selected", "selected" );
+    else
+        $t->set_var( "selected", "" );
+    
     $t->set_var( "option_value", $catItem->id() );
     $t->set_var( "option_name", $catItem->name() );
 
