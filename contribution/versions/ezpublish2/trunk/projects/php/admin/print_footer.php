@@ -1,9 +1,9 @@
 <?
 // 
-// $Id: separator.php,v 1.11 2001/03/04 13:10:12 bf Exp $
+// $Id: print_footer.php,v 1.1 2001/03/04 13:10:12 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
-// Created on: <23-Jan-2001 16:06:07 bf>
+// Created on: <04-Mar-2001 13:57:25 bf>
 //
 // This source file is part of eZ publish, publishing software.
 // Copyright (C) 1999-2001 eZ systems as
@@ -26,28 +26,21 @@
 include_once( "classes/INIFile.php" );
 $ini =& INIFile::globalINI();
 
-$Language = $ini->read_var( "eZ" . ucfirst( $moduleName ) . "Main", "Language" );
+$Language = $ini->read_var( "eZArticleMain", "Language" );
 
-include_once( "classes/eztemplate.php" );
+include_once( "classes/template.inc" );
 
-$t = new eZTemplate( "templates/" . $SiteStyle,
-                     "ez" . $moduleName . "/admin/intl/", $Language, "menubox.php" );
-
+$t = new Template( "templates/" . $SiteStyle );
 
 $t->set_file( array(
-    "separator_tpl" => "separator.tpl"
+    "print_footer_tpl" => "print_footer.tpl"
     ) );
 
 $t->set_var( "site_style", $SiteStyle );
-
-$t->set_var( "module_name", $moduleName );
-
-$t->set_var( "current_url", $REQUEST_URI );
+$t->set_var( "module_dir", $moduleName );
 
 
-$t->setAllStrings();
-
-$t->pparse( "output", "separator_tpl" );
+$t->pparse( "output", "print_footer_tpl" );
     
 
 ?>

@@ -22,12 +22,12 @@
 	<tr>
 		<td width="1%">
 
-		<a href="/">
 		<!-- Icon: Start -->
 		<img src="/ez{module_name}/admin/images/module_icon.gif" width="32" height="32" border="0" align="absmiddle" />
 		<!-- Icon: End -->
-		</a>
 
+		
+		
 		</td>
 		<td width="1%">
 		<img src="/images/{site_style}/1x1.gif" width="6" height="10" border="0" />
@@ -40,6 +40,13 @@
 		<!-- Modulname: End -->
 
 		</span>
+		</td>
+		<td>
+
+		<a href="{current_url}?PrintableVersion=enabled">
+		<img src="/images/{site_style}/icon-print.gif" width="32" height="32" border="0"/>
+		</a>
+
 		</td>
 	</tr>
 	</table>

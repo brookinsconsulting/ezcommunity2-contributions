@@ -48,7 +48,15 @@ $user =& eZUser::currentUser();
 if ( $user )
 {
     // html header
-    include( "header.php" );
+    if ( $PrintableVersion == "enabled" )
+    {        
+        include( "print_header.php" );
+    }
+    else
+    {
+        include( "header.php" );
+    }
+              
     
     require( "ezuser/admin/admincheck.php" );
     
@@ -73,107 +81,111 @@ if ( $user )
 
         $uri =& $GLOBALS["REQUEST_URI"];
 
-        if ( !empty( $GLOBALS["ToggleMenu"] ) )
+        if ( $PrintableVersion != "enabled" )
         {
-            foreach( $modules as $module )
+
+            if ( !empty( $GLOBALS["ToggleMenu"] ) )
             {
-                $module_dir = strtolower( $module );
-                if ( $GLOBALS["ToggleMenu"] == $module_dir )
+                foreach( $modules as $module )
                 {
-                    $menuStatus =& $preferences->variable( $module_dir . "_status" );
+                    $module_dir = strtolower( $module );
+                    if ( $GLOBALS["ToggleMenu"] == $module_dir )
+                    {
+                        $menuStatus =& $preferences->variable( $module_dir . "_status" );
 
-                    if ( $menuStatus == "open" || empty( $menuStatus ) )
-                    {
-                        $preferences->setVariable( $module_dir . "_status", "closed" );
-                    }
-                    else
-                    {
-                        $preferences->setVariable( $module_dir . "_status", "open" );                
-                    }
+                        if ( $menuStatus == "open" || empty( $menuStatus ) )
+                        {
+                            $preferences->setVariable( $module_dir . "_status", "closed" );
+                        }
+                        else
+                        {
+                            $preferences->setVariable( $module_dir . "_status", "open" );                
+                        }
 
-                    $menuStatus =& $preferences->variable( $module_dir . "_status" );
-                    $uri = eZHTTPTool::removeVariable( $uri, "ToggleMenu" );
-                    eZHTTPTool::header( "Location: $uri" );
-                    exit;
-                }
-            }
-        }
-
-        reset( $modules );
-        $i = 0;
-        $moved_module = false;
-        while( list( $key, $module ) = each( $modules ) )
-        {
-            $module_low =& strtolower( $module );
-            if ( !empty( $module ) )
-            {
-                if ( $GLOBALS["MoveUp"] == $module_low )
-                {
-                    $pos = $i;
-                    if ( $i > 0 )
-                    {
-                        $pos_above = $i - 1;
-                        $module_above = $modules[$pos_above];
-                        $modules[$pos_above] = $module;
-                        $modules[$pos] = $module_above;
-                        $moved_module = true;
-                        break;
-                    }
-                    else
-                    {
-                        $module_item = array_shift( $modules );
-                        $modules = array_merge( $modules, $module_item );
-                        $moved_module = true;
-                        break;
-                    }
-                }
-                else if ( $GLOBALS["MoveDown"] == $module_low )
-                {
-                    $pos = $i;
-                    if ( $i < count( $modules ) - 1 )
-                    {
-                        $pos_below = $i + 1;
-                        $module_below = $modules[$pos_below];
-                        $modules[$pos_below] = $module;
-                        $modules[$pos] = $module_below;
-                        $moved_module = true;
-                        break;
-                    }
-                    else
-                    {
-                        $module_item = array_pop( $modules );
-                        $modules = array_merge( $module_item, $modules );
-                        $moved_module = true;
-                        break;
+                        $menuStatus =& $preferences->variable( $module_dir . "_status" );
+                        $uri = eZHTTPTool::removeVariable( $uri, "ToggleMenu" );
+                        eZHTTPTool::header( "Location: $uri" );
+                        exit;
                     }
                 }
             }
-            $i++;
-        }
 
-        $uri = eZHTTPTool::removeVariable( $uri, "MoveUp" );
-        $uri = eZHTTPTool::removeVariable( $uri, "MoveDown" );
-
-        $preferences->setVariable( "EnabledModules", $modules );
-
-        if ( $moved_module )
-        {
-            eZHTTPTool::header( "Location: $uri" );
-            exit;
-        }
-
-        // draw modules
-        foreach ( $modules as $module )
-        {
-            if ( !empty( $module ) )
+            reset( $modules );
+            $i = 0;
+            $moved_module = false;
+            while( list( $key, $module ) = each( $modules ) )
             {
-                $module_dir =& strtolower( $module );
-                unset( $menuItems );
-                include( "$module_dir/admin/menubox.php" );
-                if ( isset( $menuItems ) )
-                    eZMenuBox::createBox( $module, $module_dir, "admin",
-                                          $SiteStyle, $menuItems, true, false,
-                                          "$module_dir/admin/menubox.php" );
+                $module_low =& strtolower( $module );
+                if ( !empty( $module ) )
+                {
+                    if ( $GLOBALS["MoveUp"] == $module_low )
+                    {
+                        $pos = $i;
+                        if ( $i > 0 )
+                        {
+                            $pos_above = $i - 1;
+                            $module_above = $modules[$pos_above];
+                            $modules[$pos_above] = $module;
+                            $modules[$pos] = $module_above;
+                            $moved_module = true;
+                            break;
+                        }
+                        else
+                        {
+                            $module_item = array_shift( $modules );
+                            $modules = array_merge( $modules, $module_item );
+                            $moved_module = true;
+                            break;
+                        }
+                    }
+                    else if ( $GLOBALS["MoveDown"] == $module_low )
+                    {
+                        $pos = $i;
+                        if ( $i < count( $modules ) - 1 )
+                        {
+                            $pos_below = $i + 1;
+                            $module_below = $modules[$pos_below];
+                            $modules[$pos_below] = $module;
+                            $modules[$pos] = $module_below;
+                            $moved_module = true;
+                            break;
+                        }
+                        else
+                        {
+                            $module_item = array_pop( $modules );
+                            $modules = array_merge( $module_item, $modules );
+                            $moved_module = true;
+                            break;
+                        }
+                    }
+                }
+                $i++;
+            }
+
+            $uri = eZHTTPTool::removeVariable( $uri, "MoveUp" );
+            $uri = eZHTTPTool::removeVariable( $uri, "MoveDown" );
+
+            $preferences->setVariable( "EnabledModules", $modules );
+
+            if ( $moved_module )
+            {
+                eZHTTPTool::header( "Location: $uri" );
+                exit;
+            }
+
+            // draw modules
+            foreach ( $modules as $module )
+            {
+                if ( !empty( $module ) )
+                {
+                    $module_dir =& strtolower( $module );
+                    unset( $menuItems );
+                    include( "$module_dir/admin/menubox.php" );
+                    if ( isset( $menuItems ) )
+                        eZMenuBox::createBox( $module, $module_dir, "admin",
+                        $SiteStyle, $menuItems, true, false,
+                        "$module_dir/admin/menubox.php" );
+                }
             }
         }
 
@@ -195,9 +207,13 @@ if ( $user )
 
         if ( $moduleName == "" )
             $moduleName = "user";
-    
-        // break the column an draw a horizontal line
-        include( "separator.php" );
+
+
+        if ( $PrintableVersion != "enabled" )
+        {
+            // break the column an draw a horizontal line
+            include( "separator.php" );
+        }
 
         if ( file_exists( $page ) )
         {
@@ -216,7 +232,15 @@ if ( $user )
     }
 
     // html footer
-    include( "footer.php" );
+    if ( $PrintableVersion == "enabled" )
+    {
+        include( "print_footer.php" );
+    }
+    else
+    {
+        include( "footer.php" );
+    }
+    
     
 }
 else

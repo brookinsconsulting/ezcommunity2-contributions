@@ -1,9 +1,9 @@
 <?
 // 
-// $Id: separator.php,v 1.11 2001/03/04 13:10:12 bf Exp $
+// $Id: print_header.php,v 1.1 2001/03/04 13:10:12 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
-// Created on: <23-Jan-2001 16:06:07 bf>
+// Created on: <04-Mar-2001 13:58:00 bf>
 //
 // This source file is part of eZ publish, publishing software.
 // Copyright (C) 1999-2001 eZ systems as
@@ -23,32 +23,53 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, US
 //
 
-include_once( "classes/INIFile.php" );
-$ini =& INIFile::globalINI();
-
-$Language = $ini->read_var( "eZ" . ucfirst( $moduleName ) . "Main", "Language" );
-
 include_once( "classes/eztemplate.php" );
+include_once( "classes/ezlocale.php" );
+include_once( "classes/ezhttptool.php" );
+
+$ini =& INIFile::globalINI();
+$Language =& $ini->read_var( "eZUserMain", "Language" );
+$Locale = new eZLocale( $Language );
+$iso = $Locale->languageISO();
+
 
 $t = new eZTemplate( "templates/" . $SiteStyle,
-                     "ez" . $moduleName . "/admin/intl/", $Language, "menubox.php" );
+                     "intl/", $Language, "print_header.php" );
 
 
 $t->set_file( array(
-    "separator_tpl" => "separator.tpl"
+    "print_header_tpl" => "print_header.tpl"
     ) );
+
+$SiteURL =& $ini->read_var( "site", "SiteURL" );
+
+$user =& eZUser::currentUser();
+
+if ( $user )
+{
+    $t->set_var( "first_name", $user->firstName() );
+    $t->set_var( "last_name", $user->lastName() );
+}
+else
+{
+    $t->set_var( "first_name", "" );
+    $t->set_var( "last_name", "" );
+}
+
+
+$t->set_var( "site_url", $SiteURL );
 
 $t->set_var( "site_style", $SiteStyle );
 
 $t->set_var( "module_name", $moduleName );
 
-$t->set_var( "current_url", $REQUEST_URI );
+$t->set_var( "current_url", eZHTTPTool::removeVariable( $REQUEST_URI, "PrintableVersion" ) );
 
+$t->set_var( "charset", $iso );
 
 $t->setAllStrings();
 
-$t->pparse( "output", "separator_tpl" );
+$t->pparse( "output", "print_header_tpl" );
     
 
 ?>
-
