@@ -37,14 +37,17 @@ include( "header.php" );
 if( $session->get( $AuthenticatedSession ) == 0 )
 {
 
-    if ( $Ini->read_var( "site", "eZPublish") == "enabled" )
+    if ( $Ini->read_var( "site", "eZPublish" ) == "enabled" )
         include( "ezpublishadmin.php" );
 
-    if ( $Ini->read_var( "site", "eZForum") == "enabled" )
+    if ( $Ini->read_var( "site", "eZForum" ) == "enabled" )
         include( "ezforumadmin.php" );
 
-    if ( $Ini->read_var( "site", "eZLink") == "enabled" )
-        include( "ezlinkadmin.php");
+    if ( $Ini->read_var( "site", "eZLink" ) == "enabled" )
+        include( "ezlinkadmin.php" );
+
+    if ( $Ini->read_var( "site", "eZContact" ) == "enabled" )
+        include( "ezcontactadmin.php" );
     
     include( "useradmin.php" );
 
