@@ -91,4 +91,4 @@ insert into eZUser_UserShippingLink (ID, AddressID, UserID) select eZTrade_Order
 
 ALTER TABLE eZLink_Hit CHANGE RemoteIP RemoteIP varchar(15);
 
-alter table eZTrade_VoucherInformation add TotalValue int default 0;        
+alter table eZTrade_Voucher add TotalValue int default 0;        
