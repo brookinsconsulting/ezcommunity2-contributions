@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezarticlecategory.php,v 1.14 2000/12/12 12:39:44 pkej Exp $
+// $Id: ezarticlecategory.php,v 1.15 2000/12/20 11:07:46 ce Exp $
 //
 // Definition of eZArticleCategory class
 //
@@ -402,7 +402,8 @@ class eZArticleCategory
     {
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
-       
+
+
        if ( get_class( $value ) == "ezarticle" )
        {
             $this->dbInit();
@@ -414,7 +415,7 @@ class eZArticleCategory
                       SET
                            CategoryID='$this->ID',
                            ArticleID='$articleID'";
-            
+
             $this->Database->query( $query );
        }       
     }
