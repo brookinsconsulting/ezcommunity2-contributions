@@ -1101,3 +1101,11 @@ Maintainer(s) : br@ez.no
 
     * user/datasupplier.php: coding standard fixes
 
+
+Module : ezimagecatalogue
+Repository path : /home/cvsroot/projects/php/ezimagecatalogue
+Maintainer(s) : br@ez.no
+2002-07-04  Gunnstein Lye  <gl@ez.no>
+
+    * classes/ezimagecategory.php: fix for imageCount() and linked images
+
