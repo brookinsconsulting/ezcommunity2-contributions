@@ -725,3 +725,13 @@ Maintainer(s) : fh@ez.no
 
     * admin/categorylist.php: coding standard fixes
 
+
+Module : ezbulkmail
+Repository path : /home/cvsroot/projects/php/ezbulkmail
+Maintainer(s) : fh@ez.no
+2002-08-20  fh  <fh@zev.ez.no>
+
+    * classes/ezbulkmailsubscriptionaddress.php
+      user/subscriptionlogin.php:
+    Bugfix: Do not allow multiple entries of same address.
+
