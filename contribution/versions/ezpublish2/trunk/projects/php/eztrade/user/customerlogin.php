@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: customerlogin.php,v 1.16 2001/05/29 15:04:39 pkej Exp $
+// $Id: customerlogin.php,v 1.17 2001/05/29 15:20:48 pkej Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <03-Oct-2000 16:45:30 bf>
@@ -92,7 +92,7 @@ else
     }
     else
     {
-        $t->set_var( "redirect_url", "/trade/customerlogin/" );
+        $t->set_var( "redirect_url", "/trade/customerlogin" );
     }
     
     $t->pparse( "output", "customer_login_tpl" );
