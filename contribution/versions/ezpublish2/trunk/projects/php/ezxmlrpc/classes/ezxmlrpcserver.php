@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: ezxmlrpcserver.php,v 1.6 2001/11/13 15:20:09 jb Exp $
+// $Id: ezxmlrpcserver.php,v 1.7 2001/12/17 14:13:15 jb Exp $
 //
 // Definition of eZXMLRPCServer class
 //
@@ -98,7 +98,7 @@ class eZXMLRPCServer
 
         if ( $HTTP_SERVER_VARS["REQUEST_METHOD"] != "POST" )
         {
-            print( "Error: this web page does only onderstand POST methods" );
+            print( "Error: this web page does only understand POST methods" );
             exit();
         }
 
