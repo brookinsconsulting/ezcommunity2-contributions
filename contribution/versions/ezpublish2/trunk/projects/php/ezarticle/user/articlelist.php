@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: articlelist.php,v 1.80 2001/10/17 06:38:16 jhe Exp $
+// $Id: articlelist.php,v 1.81 2001/10/17 10:45:08 th Exp $
 //
 // Created on: <18-Oct-2000 14:41:37 bf>
 //
@@ -351,7 +351,7 @@ foreach ( $articleList as $article )
     // check for topic
     $topic =& $article->topic();
 
-    if ( get_class( $topic ) == "eztopic" )
+    if ( ( get_class( $topic ) == "eztopic" ) && ( $topic->name() != "" ) )
     {
         $t->set_var( "topic_id", $topic->id() );
         $t->set_var( "topic_name", $topic->name() );

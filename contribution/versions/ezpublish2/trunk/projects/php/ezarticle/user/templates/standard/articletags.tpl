@@ -97,9 +97,9 @@
 <!-- END strong_tpl -->
 
 <!-- BEGIN factbox_tpl -->
-<table bgcolor="#555555" width="250" align="right" cellspacing="2" cellpadding="2" >
+<table width="250" align="right" cellspacing="4" cellpadding="4" >
 <tr>
-	<td bgcolor="#eeeeee" >
+	<td class="bglight">
 	{contents}
 	</td>
 </tr>
@@ -159,7 +159,7 @@
 <br clear="all" />
 <table width="{table_width}" cellpadding="0" cellspacing="0">
 <tr>
-<td bgcolor="#aaaaaa" valign="top">
+<td class="bgdark" valign="top">
 <table width="100%" cellpadding="2" cellspacing="{table_border}">
 <!-- BEGIN tr_tpl -->
 <tr>
