@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: importnews.php,v 1.8 2001/02/01 13:03:04 th Exp $
+// $Id: importnews.php,v 1.9 2001/05/08 12:18:19 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <16-Nov-2000 13:02:19 bf>
@@ -84,19 +84,7 @@ $t->set_block( "source_site_list_tpl", "source_site_tpl", "source_site" );
 
 $t->set_var( "site_style", $SiteStyle );
 
-//  $newsCategory = new eZNewsCategory( 7 );
-
 $sourceSite = new eZSourceSite();
-
-
-//  $sourceSite->setName( "Linux.com" );
-//  $sourceSite->setDecoder( "rdf" );
-//  $sourceSite->setURL( "http://www.linux.com/mrn/front_page.rss" );
-//  //  $sourceSite->setLogin( "seanexftp" );
-//  //  $sourceSite->setPassword( "20-nye-fisk" );
-//  $sourceSite->setCategory( $newsCategory );
-//  $sourceSite->store();
-
 
 $sourceSiteList = $sourceSite->getAll();
 

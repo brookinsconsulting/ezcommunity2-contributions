@@ -195,6 +195,7 @@ if ( ( $requireUserLogin == "disabled" ) ||
         include( "sitedesign/$siteDesign/defaultmetainfo.php" );
     }
 
+    
 
 // include more html
     if ( $PrintableVersion == "enabled" )
