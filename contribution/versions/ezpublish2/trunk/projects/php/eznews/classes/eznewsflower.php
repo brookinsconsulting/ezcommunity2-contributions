@@ -1,0 +1,7 @@
+<?
+
+class eZNewsArticleProduct extends eZNewsArticle
+{
+}
+
+?>
