@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: productlist.php,v 1.29 2001/09/15 12:40:01 pkej Exp $
+// $Id: productlist.php,v 1.30 2001/09/17 08:03:45 ce Exp $
 //
 // Created on: <23-Sep-2000 14:46:20 bf>
 //
@@ -240,7 +240,7 @@ foreach ( $productList as $product )
             }
         }
         else
-            $t->set_var( "product_price", "" );
+            $t->set_var( "price", "" );
     }
     
     $t->set_var( "category_id", $category->id() );
