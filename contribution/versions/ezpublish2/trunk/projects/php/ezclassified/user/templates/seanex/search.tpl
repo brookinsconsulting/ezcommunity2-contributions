@@ -39,13 +39,13 @@
 
 <table class="list" width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
-    <th>{intl-item_name}</th>
+    <th>{intl-item_title}</th>
     <th>{intl-item_description}</th>
     <th>{intl-item_categories}</th>
 </tr>
 <!-- BEGIN result_item_tpl -->
 <tr class="{item_color}">
-    <td><a href="{item_view_path}/{item_id}/">{item_name}</a></td>
+    <td><a href="{item_view_path}/{item_id}/">{item_title}</a></td>
     <td>{item_description}</td>
     <td>
     <!-- BEGIN result_category_tpl -->

@@ -147,7 +147,7 @@ if( $results == true )
         else
             $t->set_var( "item_color", "bgdark" );
         $i++;
-        $t->set_var( "item_name", $classified->name() );
+        $t->set_var( "item_title", $classified->title() );
         $t->set_var( "item_id", $classified->id() );
         $t->set_var( "item_description", $classified->description() );
         $t->set_var( "item_view_path", "/classified/view" );

@@ -90,7 +90,7 @@ else
         else
             $t->set_var( "td_class", "bgdark" );
         
-        $t->set_var( "classified_name", $positionList[$i]->name() );
+        $t->set_var( "classified_title", $positionList[$i]->title() );
         $t->set_var( "classified_id", $positionList[$i]->id() );
         $validUntil = $positionList[$i]->validUntil();
 

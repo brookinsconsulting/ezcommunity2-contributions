@@ -57,7 +57,7 @@ if ( isSet ( $Preview ) )
 if ( $Action == "insert" )
 {
     $position = new eZPosition();
-    $position->setName( $Name );
+    $position->setTitle( $Title );
     $position->setUser( $user );
     $position->setDescription( $Description );
     $position->setPrice( $Price );
@@ -92,7 +92,7 @@ if ( $Action == "insert" )
 if ( $Action == "update" )
 {
     $position = new eZPosition( $PositionID );
-    $position->setName( $Name );
+    $position->setTitle( $Title );
     $position->setUser( $user );
     $position->setDescription( $Description );
     $position->setPrice( $Price );
@@ -160,7 +160,7 @@ $t->set_block( "company_view_tpl", "no_logo_tpl", "no_logo" );
 
 if ( $Action == "new" )
 {
-    $t->set_var( "classified_name", "" );
+    $t->set_var( "classified_title", "" );
     $t->set_var( "classified_description", "" );
     $t->set_var( "classified_pay", "" );
     $t->set_var( "classified_worktime", "" );
@@ -178,7 +178,7 @@ if ( $Action == "edit" )
 {
     $position = new eZPosition( $PositionID );
 
-    $t->set_var( "classified_name", $position->name() );
+    $t->set_var( "classified_title", $position->title() );
     $t->set_var( "classified_id", $position->id() );
     $t->set_var( "classified_description", $position->description() );
     $t->set_var( "classified_contact_person", $position->contactPerson() );

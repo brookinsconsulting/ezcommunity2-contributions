@@ -67,8 +67,8 @@
 
 <form method="post" action="/classified/classifiededit/{action_value}/{classified_id}/">
 
-<p class="boxtext">{intl-name}:</p>
-<input type="text" size="20" name="Name" value="{classified_name}"/>
+<p class="boxtext">{intl-title}:</p>
+<input type="text" size="20" name="Title" value="{classified_title}"/>
 
 <p class="boxtext">{intl-description}:</p>
 <textarea cols="40" rows="8" name="Description">{classified_description}</textarea>
