@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezarticle.php,v 1.14 2000/10/25 08:52:08 bf-cvs Exp $
+// $Id: ezarticle.php,v 1.15 2000/10/25 13:36:59 bf-cvs Exp $
 //
 // Definition of eZArticle class
 //
@@ -538,18 +538,29 @@ class eZArticle
     /*!
       Returns every article in every category sorted by time.
     */
-    function articles()
+    function articles( $sortMode=time )
     {
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
 
        $this->dbInit();
+
+       $OrderBy = "Created DESC";
+       switch( $sortMode )
+       {
+           case "alpha" :
+           {
+               $OrderBy = "Name DESC";
+           }
+           break;
+       }
+
        
        $return_array = array();
        $article_array = array();
 
        $this->Database->array_query( $article_array, "SELECT ID FROM eZArticle_Article
-                                                      ORDER BY Created DESC" );
+                                                      ORDER BY $OrderBy" );
  
        for ( $i=0; $i<count($article_array); $i++ )
        {
