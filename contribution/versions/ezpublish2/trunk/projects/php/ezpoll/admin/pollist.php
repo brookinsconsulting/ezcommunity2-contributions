@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: pollist.php,v 1.5 2000/10/25 10:05:41 ce-cvs Exp $
+// $Id: pollist.php,v 1.6 2000/10/25 15:56:54 ce-cvs Exp $
 //
 // Definition of eZPoll class
 //
@@ -30,7 +30,7 @@ if ( $Action == "StoreMainPoll" )
     $mainPoll->setMainPoll( $mainPoll );
 }
 
-$t = new eZTemplate( "ezpoll/admin/" . $ini->read_var( "eZPollMain", "TemplateDir" ) . "/pollist/",
+$t = new eZTemplate( "ezpoll/admin/" . $ini->read_var( "eZPollMain", "TemplateDir" ),
                      "ezpoll/admin/intl/", $Language, "pollist.php" );
 
 $t->setAllStrings();

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: polledit.php,v 1.8 2000/10/25 10:05:41 ce-cvs Exp $
+// $Id: polledit.php,v 1.9 2000/10/25 15:56:54 ce-cvs Exp $
 //
 // Definition of eZPoll class
 //
@@ -152,7 +152,7 @@ if ( $Action == "Delete" )
     exit();
 }
 
-$t = new eZTemplate( $DOC_ROOT . "/admin/" . $ini->read_var( "eZPollMain", "TemplateDir" ) . "/polledit/",
+$t = new eZTemplate( $DOC_ROOT . "/admin/" . $ini->read_var( "eZPollMain", "TemplateDir" ),
                      $DOC_ROOT . "/admin/intl/", $Language, "polledit.php" );
 
 $t->setAllStrings();

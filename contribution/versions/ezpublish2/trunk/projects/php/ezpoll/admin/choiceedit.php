@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: choiceedit.php,v 1.3 2000/10/06 09:59:31 ce-cvs Exp $
+// $Id: choiceedit.php,v 1.4 2000/10/25 15:56:54 ce-cvs Exp $
 //
 // Definition of eZPollChoice class
 //
@@ -64,7 +64,7 @@ if ( $Action == "delete" )
     exit();
 }
 
-$t = new eZTemplate( $DOC_ROOT . "/admin/" . $ini->read_var( "eZPollMain", "TemplateDir" ) . "/choiceedit/",
+$t = new eZTemplate( $DOC_ROOT . "/admin/" . $ini->read_var( "eZPollMain", "TemplateDir" ),
                      $DOC_ROOT . "/admin/intl/", $Language, "choiceedit.php" );
 
 $t->setAllStrings();
