@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezad.php,v 1.14 2001/02/26 15:17:03 bf Exp $
+// $Id: ezad.php,v 1.15 2001/03/02 14:20:46 ce Exp $
 //
 // Definition of eZAd class
 //
@@ -378,7 +378,7 @@ class eZAd
 
       The categories are returned as an array of eZAdCategory objects.
     */
-    function categories()
+    function &categories()
     {
        $this->dbInit();
 

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: bugedit.php,v 1.21 2001/02/21 09:26:55 fh Exp $
+// $Id: bugedit.php,v 1.22 2001/03/02 14:20:46 ce Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <28-Nov-2000 19:45:35 bf>
@@ -22,6 +22,7 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, US
 //
+
 include_once( "classes/INIFile.php" );
 include_once( "classes/eztemplate.php" );
 include_once( "classes/ezlog.php" );
@@ -41,6 +42,22 @@ include_once( "ezbug/classes/ezbugmodule.php" );
 include_once( "ezbug/classes/ezbugpriority.php" );
 include_once( "ezbug/classes/ezbugstatus.php" );
 include_once( "ezbug/classes/ezbuglog.php" );
+
+if ( isSet ( $Cancel ) )
+{
+    $bug = new eZBug( $BugID );
+
+    if ( $bug->IsHandled() )
+    {
+        eZHTTPTool::header( "Location: /bug/archive/$ModuleID/" );
+        exit();
+    }
+    else
+    {
+        eZHTTPTool::header( "Location: /bug/unhandled/" );
+        exit();
+    }
+}
 
 $t = new eZTemplate( "ezbug/admin/" . $ini->read_var( "eZBugMain", "TemplateDir" ),
                      "ezbug/admin/intl", $Language, "bugedit.php" );
@@ -112,6 +129,11 @@ if ( $Action == "Update" )
                 $owner = NULL;
             
             $bug = new eZBug( $BugID );
+
+            if ( $bug->IsHandled() )
+                $isHandled = true;
+            else
+                $isHandled = false;
             
             $bug->setIsHandled( true );
             
@@ -205,8 +227,17 @@ if ( $Action == "Update" )
             $Action = "Edit";
             if( !isset( $InsertImage) && !isset( $InsertFile ) && !isset( $DeleteSelected ) )
             {
-                Header( "Location: /bug/archive/" );
-                exit();
+                if ( $isHandled )
+                {
+                    eZHTTPTool::header( "Location: /bug/archive/$ModuleID/" );
+                    exit();
+
+                }
+                else
+                {
+                    eZHTTPTool::header( "Location: /bug/unhandled/" );
+                    exit();
+                }
             }
         }
         else
@@ -351,7 +382,9 @@ if ( $Action == "Edit" )
         }
     }
     else
+    {
         $t->set_var( "file", "" );
+    }
 
     // get the images
     $images = $bug->images();
@@ -379,7 +412,9 @@ if ( $Action == "Edit" )
         }
     }
     else
+    {
         $t->set_var( "image", "" );
+    }
     
     if( count( $logList ) == 0 )
     {
@@ -484,6 +519,7 @@ foreach ( $statuses as $status )
     $t->parse( "status_item", "status_item_tpl", true );
 }
 
+/*
 // list the possible owners
 $module = new eZBugModule( $moduleID );
 $ownerGroup = $module->ownerGroup();
@@ -517,6 +553,7 @@ else
 {
     $t->set_var( "owner_item", "" );
 }
+*/
 
 $t->set_var( "current_owner_id", $currentOwner );
 $t->pparse( "output", "bug_edit_tpl" );
