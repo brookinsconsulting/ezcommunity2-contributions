@@ -20,53 +20,102 @@ if ( !$list_categories and !$list_articles )
     $list_articles = true;
 }
 
+$offset = 0;
+$max = -1;
+$total = 0;
+
+if ( is_object( $Data["Part"] ) )
+{
+    $Part = $Data["Part"]->value();
+    $offset = $Part["Offset"]->value();
+    $max = $Part["Max"]->value();
+//      eZLog::writeNotice( "Article: Offset: $offset, Max: $max" );
+}
+
+
 $category = new eZArticleCategory( $ID );
+
+$loc_max = $max;
+$loc_offset = $offset;
 
 $cat = array();
 if ( $list_categories )
 {
-    $categoryList =& $category->getByParent( $category, true, "placement" );
-
-    foreach ( $categoryList as $catItem )
+    $categoryCount = $category->countByParent( $category, true );
+    $total += $categoryCount;
+    if ( $loc_offset < $categoryCount )
     {
-        $cat[] = new eZXMLRPCStruct( array( "URL" => createURLStruct( "ezarticle", "category", $catItem->id() ),
-                                            "Name" => new eZXMLRPCString( $catItem->name() )
-                                            )
-                                     );
-    
+        $categoryList =& $category->getByParent( $category, true, "placement", $loc_offset, $loc_max );
+        $loc_max -= count( $categoryList );
+
+        foreach ( $categoryList as $catItem )
+        {
+            $cat[] = new eZXMLRPCStruct( array( "URL" => createURLStruct( "ezarticle",
+                                                                          "category",
+                                                                          $catItem->id() ),
+                                                "Name" => new eZXMLRPCString( $catItem->name() )
+                                                )
+                                         );
+        }
     }
+    $loc_offset = max( 0, $loc_offset - $categoryCount );
 }
 
 $art = array();
 if ( $list_articles )
 {
-    $articleList =& $category->articles( "alpha", true, true, 0, 100000 );
-    foreach( $articleList as $artItem )
+    $articleCount = $category->articleCount( true, true );
+    $total += $articleCount;
+    if ( $loc_max > 0 and $loc_offset >= 0 )
     {
-        $art[] = new eZXMLRPCStruct( array( "URL" => createURLStruct( "ezarticle", "article", $artItem->id() ),
-                                            "Name" => new eZXMLRPCString( $artItem->name() )
-                                            )
-                                     );
+        $articleList =& $category->articles( "alpha", true, true, $loc_offset, $loc_max );
+        foreach( $articleList as $artItem )
+        {
+            $art[] = new eZXMLRPCStruct( array( "URL" => createURLStruct( "ezarticle",
+                                                                          "article",
+                                                                          $artItem->id() ),
+                                                "Name" => new eZXMLRPCString( $artItem->name() )
+                                                )
+                                         );
+        }
+    }
+//      if ( $offset > 0 )
+//          usleep( 5000000 );
+}
+
+$par = array();
+if ( $offset == 0 )
+{
+    $path =& $category->path();
+    if ( $category->id() != 0 )
+    {
+        $par[] = createURLStruct( "ezarticle", "category", 0 );
+    }
+    else
+    {
+        $par[] = createURLStruct( "ezarticle", "" );
+    }
+    foreach( $path as $item )
+    {
+        if ( $item[0] != $category->id() )
+            $par[] = createURLStruct( "ezarticle", "category", $item[0] );
     }
 }
 
-$path =& $category->path();
-$par = array();
-if ( $category->id() != 0 )
+$part_arr = array( "Offset" => new eZXMLRPCInt( $offset ),
+                   "Total" => new eZXMLRPCInt( $total ) );
+if ( $offset == 0 )
 {
-    $par[] = createURLStruct( "ezarticle", "category", 0 );
+    $part_arr["Begin"] = new eZXMLRPCBool( true );
 }
-else
+if ( $total == $offset + count( $cat ) + count( $art ) )
 {
-    $par[] = createURLStruct( "ezarticle", "" );
+    $part_arr["End"] = new eZXMLRPCBool( true );
 }
-foreach( $path as $item )
-{
-    if ( $item[0] != $category->id() )
-        $par[] = createURLStruct( "ezarticle", "category", $item[0] );
-}
+$part = new eZXMLRPCStruct( $part_arr );
 
 $ReturnData = new eZXMLRPCStruct( array( "Catalogues" => $cat,
                                          "Elements" => $art,
-                                         "Path" => $par ) ); // array starting with top level catalogue, ending with parent.
+                                         "Path" => $par,
+                                         "Part" => $part ) ); // array starting with top level catalogue, ending with parent.
 ?>

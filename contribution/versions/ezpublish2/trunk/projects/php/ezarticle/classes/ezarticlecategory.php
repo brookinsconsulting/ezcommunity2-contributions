@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezarticlecategory.php,v 1.65 2001/05/29 17:41:24 fh Exp $
+// $Id: ezarticlecategory.php,v 1.66 2001/06/11 12:16:17 jb Exp $
 //
 // Definition of eZArticleCategory class
 //
@@ -218,7 +218,7 @@ class eZArticleCategory
 
       The categories are returned as an array of eZArticleCategory objects.      
     */
-    function getByParent( $parent, $showAll=false, $sortby=placement )
+    function getByParent( $parent, $showAll=false, $sortby=placement, $offset = 0, $max = -1 )
     {
         if ( get_class( $parent ) == "ezarticlecategory" )
         {
@@ -230,24 +230,25 @@ class eZArticleCategory
                 case "name" : $sortbySQL = "Name"; break;
                 case "placement" : $sortbySQL = "Placement"; break;
             }
-            
+
+            $limit_str = "";
+            if ( $max > -1 )
+            {
+                $limit_str = "LIMIT $offset, $max";
+            }
+
             $return_array = array();
             $category_array = array();
 
             $parentID = $parent->id();
 
-            if ( $showAll == true )
-            {
-                $this->Database->array_query( $category_array, "SELECT ID, Name FROM eZArticle_Category
-                                          WHERE ParentID='$parentID'
-                                          ORDER BY $sortbySQL" );
-            }
-            else
-            {
-                $this->Database->array_query( $category_array, "SELECT ID, Name FROM eZArticle_Category
-                                          WHERE ParentID='$parentID' AND ExcludeFromSearch='false'
-                                          ORDER BY $sortbySQL" );
-            }
+            $show_str = "";
+            if ( !$showAll )
+                $show_str = "AND ExcludeFromSearch='false'";
+
+            $this->Database->array_query( $category_array, "SELECT ID, Name FROM eZArticle_Category
+                                          WHERE ParentID='$parentID' $show_str
+                                          ORDER BY $sortbySQL $limit_str" );
 
             for ( $i=0; $i < count($category_array); $i++ )
             {
@@ -255,6 +256,42 @@ class eZArticleCategory
             }
 
             return $return_array;
+        }
+        else
+        {
+            return 0;
+        }
+    }
+
+    /*!
+      Returns the categories with the category given as parameter as parent.
+
+      If $showAll is set to true every category is shown. By default the categories
+      set as exclude from search is excluded from this query.
+
+      The categories are returned as an array of eZArticleCategory objects.      
+    */
+    function countByParent( $parent, $showAll=false )
+    {
+        if ( get_class( $parent ) == "ezarticlecategory" )
+        {
+            $this->dbInit();
+
+            $return_array = array();
+            $category_array = array();
+
+            $parentID = $parent->id();
+
+            $show_str = "";
+            if ( !$showAll )
+                $show_str = "AND ExcludeFromSearch='false'";
+
+            $this->Database->query_single( $category_array, "SELECT count( ID ) AS Count
+                                           FROM eZArticle_Category
+                                           WHERE ParentID='$parentID' $show_str",
+                                           "Count" );
+
+            return $category_array;
         }
         else
         {
