@@ -47,7 +47,7 @@
             <input id="{form_receiver}" type="text" class="halfbox" size="20" name="formReceiver" value="{form_receiver}" />
 	        </td>
             <td>
-	        <labels for="" class="boxtext">{intl-form_cc}:</label><br />
+	        <label for="" class="boxtext">{intl-form_cc}:</label><br />
             <input type="text" class="halfbox" size="20" name="formCC" value="{form_cc}" />
 	        </td>
         </tr>
