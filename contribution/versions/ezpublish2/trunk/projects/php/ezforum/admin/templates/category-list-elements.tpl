@@ -10,12 +10,12 @@
     </td>
     
     <td>
-        <a href="{php_self}?page=admin/category.php4&action=modify&category_id={list-Id}">Endre</a>
+        <a href="index.php4?page={docroot}/admin/category.php4&action=modify&category_id={list-Id}">Endre</a>
     </td>
     <td>
-        <a href="{php_self}?page=admin/category.php4&action=delete&category_id={list-Id}">Slett</a>
+        <a href="index.php4?page={docroot}/admin/category.php4&action=delete&category_id={list-Id}">Slett</a>
     </td>
     <td>
-        <a href="{php_self}?page=admin/forum.php4&category_id={list-Id}">Forum...</a>
+        <a href="index.php4?page={docroot}/admin/forum.php4&category_id={list-Id}">Forum...</a>
     </td>
 </tr>
