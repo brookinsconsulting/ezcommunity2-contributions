@@ -38,7 +38,7 @@
 </tr>
 </table>
 
-<h2>{intl-address_list}</h2>x
+<h2>{intl-address_list}</h2>
 
 <!-- BEGIN address_list_tpl -->
 <table width="100%" cellspacing="0" cellpadding="0" baddress="0">
