@@ -221,24 +221,9 @@ else
     <?
     include( "ezpoll/user/votebox.php" );
     ?>
-
-<table width="100%" cellspacing="0" cellpadding="2" border="0">
-<tr>
-   <td class="menuhead">Site search</td>
-</tr>
-<tr>
-   <td>
-<form action="<? print $GlobalSiteIni->WWWDir . $GlobalSiteIni->Index; ?>/search/" method="get" style="margin-top: 0px; margin-bottom: 0px; padding: 0px;">
-    <input type="hidden" name="SectionIDOverride" value="1" />
-    <input type="text" size="10" name="SearchText" value="" style="width: 130px;" />
-    <input class="stdbutton" type="submit" name="Search" value="search" />
-</form>
-   </td>
-</tr>
-<tr>
-   <td class="menuspacer">&nbsp;</td>
-</tr>
-</table>
+    <?
+    include( "ezsearch/user/menubox.php" );
+    ?>
 
 <!-- Right menu end -->
 
