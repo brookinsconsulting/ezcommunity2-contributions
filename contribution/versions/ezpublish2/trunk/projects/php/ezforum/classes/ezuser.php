@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: ezuser.php,v 1.7 2000/07/18 14:17:53 lw-cvs Exp $
+    $Id: ezuser.php,v 1.8 2000/07/18 14:22:13 lw-cvs Exp $
 
     Author: Lars Wilhelmsen <lw@ez.no>
     
@@ -115,7 +115,7 @@ class eZUser {
     {
         openDB();
 
-        if ($this->id) // an allready existing user record
+        if ($this->Id) // an allready existing user record
         {
             mysql_query("UPDATE UserTable SET
                            group_id='$this->groupID',
