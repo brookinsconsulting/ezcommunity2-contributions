@@ -9,6 +9,14 @@ Changes from version 2.0 beta 3
 
 Changes from version 2.0 beta 2
 -------------------------------
+* Article placement is kept when updating the article.
+* Cache files are properly deleted when a category is newed, updated or deleted.
+* Prints URL on top of the page when shown an printer-friendly version of an article.
+* Cache for products has been improved.
+* Products in eZ trade are shown with multiple pages if the list is long, both user and admin.
+* Allowed for an easier way to change prices of products in admin.
+* Persons in eZcontact can be assigned to one or more companies.
+* Fixed the permission handling in all of eZ contact.
 * E-mail sending on consultations.
 * Added listing of article authors.
 * Made it possible to connect eZContact Persons to Companies as well as normal users.
