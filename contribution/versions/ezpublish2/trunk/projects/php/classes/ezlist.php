@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezlist.php,v 1.4 2001/02/09 15:31:09 jb Exp $
+// $Id: ezlist.php,v 1.5 2001/02/12 14:45:10 jb Exp $
 //
 // Definition of eZList class
 //
@@ -111,7 +111,7 @@ class eZList
         if ( empty( $type_list ) )
             $type_list = "type_list";
 
-        if ( is_string( $parent ) )
+        if ( ( $total_types > $max_types || $index > 0 ) and is_string( $parent ) )
         {
             $t->set_block( $parent, $type_list . "_tpl", $type_list );
             $t->set_block( $type_list . "_tpl", $prev . "_tpl", $prev );
