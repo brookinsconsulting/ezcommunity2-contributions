@@ -11,6 +11,7 @@ CREATE TABLE eZBulkMail_Mail (
   Subject varchar(255),
   BodyText text,
   SentDate timestamp(14) NOT NULL,
+  IsDraft int(1) NOT NULL default '0',
   PRIMARY KEY (ID)
 );
 

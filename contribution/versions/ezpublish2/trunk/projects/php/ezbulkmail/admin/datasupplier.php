@@ -41,6 +41,12 @@ switch ( $url_array[2] )
         include_once( "ezbulkmail/admin/mailedit.php" );
     }
     break;
+
+    case "drafts" :
+    {
+        include_once( "ezbulkmail/admin/maillist.php" );
+    }
+    break;
     
     default:
     {

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezbulkmail.php,v 1.2 2001/04/17 11:46:24 fh Exp $
+// $Id: ezbulkmail.php,v 1.3 2001/04/19 09:45:22 fh Exp $
 //
 // eZBulkMail class
 //
@@ -37,7 +37,8 @@
   \endcode
 
 */
-	      
+include_once( "classes/ezdatetime.php" );
+
 class eZBulkMail
 {
     /*!
@@ -74,7 +75,8 @@ class eZBulkMail
                                  FromName='$fromname',
                                  ReplyTo='$replyto',
                                  Subject='$subject',
-                                 BodyText='$bodytext'
+                                 BodyText='$bodytext',
+                                 IsDraft='$this->IsDraft'
                                  " );
             $this->ID = mysql_insert_id();
         }
@@ -86,7 +88,8 @@ class eZBulkMail
                                  FromName='$fromname',
                                  ReplyTo='$replyto',
                                  Subject='$subject',
-                                 BodyText='$bodytext'
+                                 BodyText='$bodytext',
+                                 IsDraft='$this->IsDraft'
                                  WHERE ID='$this->ID'" );
         }
         
@@ -114,21 +117,10 @@ class eZBulkMail
     
     /*!
       Fetches the object information from the database.
-        ID int(11) DEFAULT '0' NOT NULL auto_increment,
-        UserID int(11) default '0', 
-        FromField varchar(100),
-        FromName varchar(100),
-        ReplyTo varchar(100),
-        Subject varchar(255),
-        BodyText text,
-        SentDate timestamp(14) NOT NULL,
-        PRIMARY KEY (ID)
-
     */
     function get( $id=-1 )
     {
         $this->dbInit();
-        
         if ( $id != "" )
         {
             $this->Database->array_query( $mail_array, "SELECT * FROM eZBulkMail_Mail WHERE ID='$id'" );
@@ -146,6 +138,7 @@ class eZBulkMail
                 $this->Subject = $mail_array[0][ "Subject" ];
                 $this->BodyText = $mail_array[0][ "BodyText" ];
                 $this->SentDate = $mail_array[0][ "SentDate" ];
+                $this->IsDraft = $mail_array[0][ "IsDraft" ];
             }
                  
             $this->State_ = "Coherent";
@@ -161,14 +154,18 @@ class eZBulkMail
 
       The categories are returned as an array of eZBulkMail objects.
     */
-    function getAll()
+    function getAll( $draftsOnly = false )
     {
-        $this->dbInit();
+        $db = eZDB::globalDatabase();
         
         $return_array = array();
         $mail_array = array();
+
+        $draftsSQL = "";
+        if( $draftsOnly == true )
+            $draftsSQL = "WHERE IsDraft='1'";
         
-        $this->Database->array_query( $mail_array, "SELECT ID FROM eZBulkMail_Mail ORDER BY Subject" );
+        $db->array_query( $mail_array, "SELECT ID FROM eZBulkMail_Mail $draftsSQL  ORDER BY SentDate" );
         
         for ( $i=0; $i<count($mail_array); $i++ )
         {
@@ -186,6 +183,114 @@ class eZBulkMail
         return $this->ID;
     }
 
+    /*!
+      Returns the sender address.
+    */
+    function sender()
+    {
+        return $this->From;
+    }
+
+    /*!
+      Sets the sender address.      
+    */
+    function setSender( $newSender )
+    {
+        $this->From = $newSender;
+    }
+    
+    /*!
+      Returns the subject.
+    */
+    function subject( $html = true )
+    {
+        if( $html )
+            return htmlspecialchars( $this->Subject );
+        return $this->Subject;
+    }
+
+    /*!
+      Sets the subject of the mail.
+    */
+    function setSubject( $newSubject )
+    {
+        $this->Subject = trim( $newSubject );
+    }
+
+    /*!
+      returns the body.
+    */
+    function body( $html )
+    {
+        if( $html )
+            return htmlspecialchars( $this->BodyText );
+        return $this->BodyText;
+    }
+
+    /*!
+      Sets the body.
+    */
+    function setBodyText( $newBody )
+    {
+        $this->BodyText = $newBody;
+    }
+
+    /*!
+      Returns the userID of the user that owns this object
+    */
+    function owner()
+    {
+        return $this->UserID;;
+    }
+
+    /*!
+      Sets the owner of this mail
+    */
+    function setOwner( $newOwner )
+    {
+        if( get_class( $newOwner ) == "ezuser" )
+            $this->UserID = $newOwner->id();
+        else
+            $this->UserID = $newOwner;
+    }
+
+    /*!
+      Returns the date that this mail was distributed
+     */
+    function date( $html = true )
+    {
+        $dateTime = new eZDateTime( );
+        $dateTime->setMySQLTimeStamp( $this->Date );        
+        
+        if( $html )
+            return htmlspecialchars( $dateTime );
+        return $dateTime;
+    }
+
+    /*!
+      Sets the date when this mail was sent.
+     */
+    function setDate( $value )
+    {
+        $this->Date = $value;
+    }
+
+    /*!
+      Returns true if this mail is a draft.
+     */
+    function isDraft()
+    {
+        return $this->IsDraft;
+    }
+
+    /*!
+      Set if this mail is a draft or not.
+     */
+    function setIsDraft( $value )
+    {
+        $this->IsDraft = $value;
+    }
+    
     /*!
       \private
       
@@ -208,7 +313,7 @@ class eZBulkMail
     var $Subject;
     var $BodyText;
     var $SentDate;
-    
+    var $IsDraft;
     ///  Variable for keeping the database connection.
     var $Database;
 
