@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezvirtualfile.php,v 1.36 2001/06/29 15:20:05 ce Exp $
+// $Id: ezvirtualfile.php,v 1.37 2001/07/10 13:20:08 jb Exp $
 //
 // Definition of eZVirtualFile class
 //
@@ -457,7 +457,9 @@ class eZVirtualfile
             $name = $file->name();
            
             $this->OriginalFileName =& $name;
+            return true;
         }
+        return false;
     }
     
     /*!
