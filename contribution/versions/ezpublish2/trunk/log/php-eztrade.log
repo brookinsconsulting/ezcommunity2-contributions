@@ -2882,3 +2882,33 @@ Maintainer(s) : ce@ez.no
       sql/mysql/eztrade.sql
       user/productsearch.php: Fixed advanced search.
 
+
+Module : eztrade
+Repository path : /home/cvsroot/projects/php/eztrade
+Maintainer(s) : ce@ez.no
+2002-01-23  Bjoern Reiten  <br@ez.no>
+
+    * admin/orderedit.php: added payment.
+
+2002-01-23  Baard Farstad  <bf@ez.no>
+
+    * user/datasupplier.php: Sat global variable.
+
+2002-01-23  Chris Mason  <chris@net.ai>
+
+    * user/precheckout.php:
+    dded patch to fix checkout bug where user is in https site but diverts to another page then clicks checkout button in smallcart.php
+
+2002-01-23  Baard Farstad  <bf@ez.no>
+
+    * classes/ezproduct.php: Fixed indexing of זרו
+
+    * classes/ezproduct.php
+      user/productsearch.php: Added product type to search list.
+
+    * user/productlist.php: Added default image on product list.
+
+2002-01-23  ceaker  <ceaker@zev.ez.no>
+
+    * user/cart.php: *** empty log message ***
+

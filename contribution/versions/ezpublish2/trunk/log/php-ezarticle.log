@@ -2724,3 +2724,14 @@ Maintainer(s) : bf@ez.no
     * user/templates/standard/mailtofriend.tpl:
     Fixed wrong link when running in nvh setup.
 
+
+Module : ezarticle
+Repository path : /home/cvsroot/projects/php/ezarticle
+Maintainer(s) : bf@ez.no
+2002-01-23  Christoffer Elo  <ce@ez.no>
+
+    * classes/ezqdomrenderer.php: Fixed a whitespace bug
+
+    * classes/ezqdomrenderer.php:
+    Added the filename at the end of the file uri.
+

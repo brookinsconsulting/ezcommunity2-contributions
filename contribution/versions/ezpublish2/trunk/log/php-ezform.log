@@ -1127,3 +1127,27 @@ Maintainer(s) : pkej@ez.no
       classes/ezformrenderer.php
       classes/ezformreportelement.php: added median
 
+
+Module : ezform
+Repository path : /home/cvsroot/projects/php/ezform
+Maintainer(s) : pkej@ez.no
+2002-01-23  Jo Henrik Endrerud  <jhe@ez.no>
+
+    * admin/templates/standard/formrenderer.tpl
+      classes/ezformrenderer.php
+      classes/ezformreportelement.php: added graphical presentation
+
+    * classes/ezformreportelement.php: fixed bug
+
+    * classes/ezformelementfixedvalue.php
+      classes/ezformreportelement.php: fixed bugs with checkboxes
+
+    * admin/intl/no_NO/reportsetup.php.ini
+      classes/ezformrenderer.php
+      classes/ezformreportelement.php
+      admin/intl/en_GB/reportsetup.php.ini: added "Hide"
+
+    * classes/ezformreportelement.php: fixed bug with cross reference
+
+    * admin/formreportlist.php: fixed bug in listing
+
