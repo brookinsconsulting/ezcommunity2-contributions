@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: userwithaddress.php,v 1.72 2001/09/10 16:03:38 br Exp $
+// $Id: userwithaddress.php,v 1.73 2001/10/04 14:25:19 bf Exp $
 //
 // Created on: <10-ct-2000 12:52:42 bf>
 //
@@ -691,6 +691,8 @@ if ( $ini->read_var( "eZUserMain", "UserWithAddress" ) == "enabled" )
     $t->parse( "address_actions", "address_actions_tpl" );
 }
 
+
+$t->set_var( "global_section_id", $GlobalSectionID );
 
 $t->set_var( "user_id", $UserID );
 

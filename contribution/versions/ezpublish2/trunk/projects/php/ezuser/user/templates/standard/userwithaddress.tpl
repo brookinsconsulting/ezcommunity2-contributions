@@ -187,7 +187,7 @@
 <!-- BEGIN submit_button_tpl -->
 <input class="okbutton" type="submit" name="OK" value="{intl-submit}" />
 <!-- END submit_button_tpl -->
-
+<input type="hidden" name="GlobalSectionID" value="{global_section_id}" />
 <input type="hidden" name="RedirectURL" value="{redirect_url}" />
 </form>
 
