@@ -1,6 +1,6 @@
 <h1>{intl-edit_page}</h1>
 
-<form action="{www_dir}{index}/form/form/pageedit/{form_id}/{page_id}" method="post">
+<form action="{www_dir}{index}/form/form/{action_value}/{form_id}/{page_id}/" method="post">
 <p class="boxtext">{intl-page_name}:</p>
 <input type="text" class="halfbox" size="20" name="PageName" value="{page_name}" />
 

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: pageedit.php,v 1.5 2001/12/17 11:57:05 jhe Exp $
+// $Id: pageedit.php,v 1.6 2001/12/17 13:29:17 br Exp $
 //
 // Definition of ||| class
 //
@@ -56,8 +56,8 @@ if ( isSet( $Cancel ) )
 
 if ( isSet( $OK ) && count( $errorMessages ) == 0 )
 {
-    eZHTTPTool::header( "Location: /form/form/list/" );
-    exit();
+  eZHTTPTool::header( "Location: /form/form/edit/$FormID" );
+  exit();
 }
 
 if ( isSet( $Preview ) && count( $errorMessages ) == 0 )
@@ -332,6 +332,10 @@ $elementListBody = $elementTemplate->parse( $target, "elementlist_tpl" );
 // print( $elementListBody );
 
 $t->set_var( "page_name", $page->name() );
+$t->set_var( "action_value", "pageedit" );
+$t->set_var( "page_id", $page->id() );
+$t->set_var( "form_id", $FormID  );
+
 $t->set_var( "element_list", $elementListBody );
 
 $t->pparse( "output", "pageedit_tpl" );
