@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: articlelist.php,v 1.38 2001/03/17 12:39:22 bf Exp $
+// $Id: articlelist.php,v 1.39 2001/03/27 09:54:41 jb Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <18-Oct-2000 14:41:37 bf>
@@ -252,7 +252,7 @@ else
     $t->set_var( "article_list", "" );
 
 
-if ( $GenerateStaticPage == "true" )
+if ( $GenerateStaticPage == "true" and $cachedFile != "" )
 {
     $fp = fopen ( $cachedFile, "w+");
 

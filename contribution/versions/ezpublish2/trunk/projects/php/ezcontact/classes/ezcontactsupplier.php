@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezcontactsupplier.php,v 1.1 2001/03/21 13:18:04 jb Exp $
+// $Id: ezcontactsupplier.php,v 1.2 2001/03/27 09:54:41 jb Exp $
 //
 // Definition of ezcontactsupplier class
 //
@@ -81,10 +81,10 @@ class eZContactSupplier
                 break;
             }
 
-            case "person":
-            {
-                break;
-            }
+//              case "person":
+//              {
+//                  break;
+//              }
         }
         return $ret;
     }
@@ -118,16 +118,16 @@ class eZContactSupplier
                 }
             }
 
-            case "person":
-            {
-                break;
-            }
+//              case "person":
+//              {
+//                  break;
+//              }
         }
         return $ret;
     }
 
-    var $UrlTypes = array( "company" => "{intl-contact_company}",
-                           "person" => "{intl-contact_person}" );
+    var $UrlTypes = array( "company" => "{intl-contact_company}" /*,
+                                                                   "person" => "{intl-contact_person}"*/ );
 }
 
 ?>
