@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: folderedit.php,v 1.20 2001/03/10 17:37:19 fh Exp $
+// $Id: folderedit.php,v 1.21 2001/03/12 10:21:32 fh Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <08-Jan-2001 11:13:29 ce>
@@ -53,7 +53,8 @@ if ( isSet ( $Cancel ) )
 
     $parent = $folder->parent();
 
-    $parentID = "0";
+    if( !isset( $parentID ) )
+        $parentID = "0";
     
     if ( $parent )
         $parentID = $parent->id();
@@ -289,11 +290,15 @@ if ( $Action == "Delete" && $error == false )
         }
     }
 }
-    
+
+$t->set_var( "write_everybody", "" );
+$t->set_var( "read_everybody", "" );
 if ( $Action == "New" || $error )
 {
     $t->set_var( "action_value", "insert" );
     $t->set_var( "folder_id", "" );
+    $t->set_var( "write_everybody", "selected" );
+    $t->set_var( "read_everybody", "selected" );
 }
 
 if ( $Action == "Edit" )

@@ -102,9 +102,9 @@
 </table>
 <!-- END file_list_tpl -->
 
-<hr noshade="noshade" size="4" />
 
-<!-- BEGIN write_menu_tpl -->
+<!-- BEGIN delete_menu_tpl -->
+<hr noshade="noshade" size="4" />
 
 <table cellspacing="0" cellpadding="0" border="0">
 <tr>
@@ -117,7 +117,9 @@
 	</td>
 </tr>
 </table>
+<!-- END delete_menu_tpl -->
 
+<!-- BEGIN write_menu_tpl -->
 <hr noshade="noshade" size="4" />
 
 <table cellspacing="0" cellpadding="0" border="0">
@@ -132,7 +134,6 @@
 	</td>
 </tr>
 </table>
-
 <!-- END write_menu_tpl -->
 
 </form>

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: filelist.php,v 1.30 2001/03/10 17:37:19 fh Exp $
+// $Id: filelist.php,v 1.31 2001/03/12 10:21:32 fh Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <10-Dec-2000 16:16:20 bf>
@@ -53,6 +53,7 @@ $t->set_block( "file_list_page_tpl", "current_folder_tpl", "current_folder" );
 $t->set_block( "file_list_page_tpl", "path_item_tpl", "path_item" );
 
 $t->set_block( "file_list_page_tpl", "write_menu_tpl", "write_menu" );
+$t->set_block( "file_list_page_tpl", "delete_menu_tpl", "delete_menu" );
 
 $t->set_block( "file_list_page_tpl", "file_list_tpl", "file_list" );
 $t->set_block( "file_list_tpl", "file_tpl", "file" );
@@ -87,6 +88,7 @@ if ( $FolderID == 0 )
 }
 
 $t->set_var( "write_menu", "" );
+$t->set_var( "delete_menu", "" );
 $t->set_var( "current_folder", "" );
 $t->set_var( "current_folder_description", "" );
 
@@ -117,6 +119,7 @@ foreach ( $pathArray as $path )
 $folderList =& $folder->getByParent( $folder );
 
 $i=0;
+$deleteFolders = false;
 foreach ( $folderList as $folderItem )
 {
     $t->set_var( "folder_name", $folderItem->name() );
@@ -136,21 +139,13 @@ foreach ( $folderList as $folderItem )
         eZVirtualFolder::isOwner( $user, $folderItem->id()) )
     {
         $t->parse( "folder_write", "folder_write_tpl" );
+        $deleteFolders = true;;
     }
 
     $t->parse( "folder", "folder_tpl", true );
     $i++;
 }
 
-if( $FolderID == 0 && eZPermission::checkPermission( eZUser::currentUser(), "eZFileManager", "WriteToRoot" ) )
-{
-    $t->parse( "write_menu", "write_menu_tpl" );
-}
-else if( eZObjectPermission::hasPermission( $FolderID, "filemanager_folder", 'w' ) ||
-    eZVirtualFolder::isOwner( eZUser::currentUser(), $FolderID ) )
-{
-    $t->parse( "write_menu", "write_menu_tpl" );
-}
 
 if( count( $folderList ) > 0 )
 {
@@ -166,6 +161,7 @@ else
 $fileList =& $folder->files();
 
 //$i=0;
+$deleteFiles = false;
 foreach ( $fileList as $file )
 {
     $t->set_var( "file_id", $file->id() );
@@ -197,6 +193,7 @@ foreach ( $fileList as $file )
         eZVirtualFile::isOwner( $user, $file->id() ))
     {
         $t->parse( "write", "write_tpl" );
+        $deleteFiles = true;
     }
     else
     {
@@ -217,6 +214,22 @@ else
 {
     $t->set_var( "file_list", "" );
 }
+
+if( $FolderID == 0 && eZPermission::checkPermission( eZUser::currentUser(), "eZFileManager", "WriteToRoot" ) )
+{
+    $t->parse( "write_menu", "write_menu_tpl" );
+}
+else if( eZObjectPermission::hasPermission( $FolderID, "filemanager_folder", 'w' ) ||
+    eZVirtualFolder::isOwner( eZUser::currentUser(), $FolderID ) )
+{
+    $t->parse( "write_menu", "write_menu_tpl" );
+}
+
+if( $deleteFolders || $deleteFiles )
+{
+    $t->parse( "delete_menu", "delete_menu_tpl" );
+}
+
 
 $t->set_var( "image_dir", $ImageDir );
 $t->set_var( "main_folder_id", $FolderID );

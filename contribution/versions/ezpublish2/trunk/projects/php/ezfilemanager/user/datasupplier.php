@@ -67,7 +67,7 @@ switch ( $url_array[2] )
            
             case "new" :
             {
-                $FolderID = $url_array[4];
+                $parentID = $url_array[4];
                 $Action = "New";
                 include( "ezfilemanager/user/folderedit.php" );
             }

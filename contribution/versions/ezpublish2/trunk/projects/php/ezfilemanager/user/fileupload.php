@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: fileupload.php,v 1.26 2001/03/10 17:37:19 fh Exp $
+// $Id: fileupload.php,v 1.27 2001/03/12 10:21:32 fh Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <10-Dec-2000 15:49:57 bf>
@@ -304,38 +304,48 @@ if ( $Action == "Update" && $error == false )
 
 if ( $Action == "DeleteFiles" )
 {
+    $oldFolder = 0;
     if ( count ( $FileArrayID ) != 0 )
     {
         foreach( $FileArrayID as $ID )
         {
             $file = new eZVirtualFile( $ID );
+            $oldParent = $file->folder();
+            if( $oldParent ) $oldFolder = $oldParent->id();
             $file->delete();
         }
     }
 
-    eZHTTPTool::header( "Location: /filemanager/list/" );
+    eZHTTPTool::header( "Location: /filemanager/list/$oldFolder/" );
     exit();
 }
 
 if ( $Action == "DeleteFolders" )
 {
+    $oldFolder = 0;
     if ( count ( $FolderArrayID ) > 0 )
     {
         foreach ( $FolderArrayID as $FolderID )
         {
             $folder = new eZVirtualFolder( $FolderID );
+            $oldParent = $folder->parent();
+            if( $oldParent ) $oldFolder = $oldParent->id();
             $folder->delete();
         }
     }
 
-    eZHTTPTool::header( "Location: /filemanager/list/" );
+    eZHTTPTool::header( "Location: /filemanager/list/$oldFolder/" );
     exit();
 }
-    
+
+$t->set_var( "write_everybody", "" );
+$t->set_var( "read_everybody", "" );
 if ( $Action == "New" || $error )
 {
     $t->set_var( "action_value", "insert" );
     $t->set_var( "file_id", "" );
+    $t->set_var( "write_everybody", "selected" );
+    $t->set_var( "read_everybody", "selected" );
 }
 
 if ( $Action == "Edit" )
