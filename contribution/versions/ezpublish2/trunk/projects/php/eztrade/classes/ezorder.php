@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezorder.php,v 1.4 2000/10/03 09:45:18 bf-cvs Exp $
+// $Id: ezorder.php,v 1.5 2000/10/03 14:09:48 bf-cvs Exp $
 //
 // Definition of eZOrder class
 //
@@ -111,7 +111,31 @@ class eZOrder
         }
         
         return true;
-    }    
+    }
+
+    /*!
+      Deletes a eZOrder object from the database.
+    */
+    function delete()
+    {
+        $this->dbInit();
+
+        $items = $this->items();
+
+        if  ( $items )
+        {
+            $i = 0;
+            foreach ( $items as $item )
+            {
+                $item->delete();
+            }
+        }
+            
+        $this->Database->query( "DELETE FROM eZTrade_Order WHERE ID='$this->ID'" );
+            
+        return true;
+    }
+    
 
     /*!
       Fetches the object information from the database.
@@ -351,7 +375,6 @@ class eZOrder
        
     }
 
-    
 
     /*!
       \private

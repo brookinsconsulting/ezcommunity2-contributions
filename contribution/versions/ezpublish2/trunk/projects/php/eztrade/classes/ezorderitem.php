@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezorderitem.php,v 1.4 2000/10/03 09:45:18 bf-cvs Exp $
+// $Id: ezorderitem.php,v 1.5 2000/10/03 14:09:48 bf-cvs Exp $
 //
 // Definition of eZOrderItem class
 //
@@ -126,6 +126,20 @@ class eZOrderItem
             $this->State_ = "Dirty";
         }
         return $ret;
+    }
+
+    /*!
+      Deletes a eZOrderItem object from the database.
+    */
+    function delete()
+    {
+        $this->dbInit();
+            
+        $this->Database->query( "DELETE FROM eZTrade_OrderOptionValue WHERE OrderItemID='$this->ID'" );
+
+        $this->Database->query( "DELETE FROM eZTrade_OrderItem WHERE ID='$this->ID'" );
+            
+        return true;
     }
 
     /*!

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: orderedit.php,v 1.1 2000/10/03 09:46:16 bf-cvs Exp $
+// $Id: orderedit.php,v 1.2 2000/10/03 14:09:48 bf-cvs Exp $
 //
 // 
 //
@@ -46,6 +46,15 @@ if ( $Action == "newstatus" )
     $status->setAdmin( $user );
     $status->store();            
 
+    Header( "Location: /trade/orderlist/" );
+    exit();
+}
+
+if ( $Action == "delete" )
+{
+    $order = new eZOrder( $OrderID );
+    $order->delete();
+    
     Header( "Location: /trade/orderlist/" );
     exit();
 }

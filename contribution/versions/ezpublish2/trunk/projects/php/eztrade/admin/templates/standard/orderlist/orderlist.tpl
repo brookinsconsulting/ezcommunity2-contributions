@@ -1,5 +1,5 @@
 <!-- orderlist.tpl --> 
-<!-- $Id: orderlist.tpl,v 1.1 2000/10/03 09:46:16 bf-cvs Exp $ -->
+<!-- $Id: orderlist.tpl,v 1.2 2000/10/03 14:09:48 bf-cvs Exp $ -->
 
 <h1>{intl-head_line}</h1>
 
@@ -49,7 +49,7 @@
 	<a href="/trade/orderedit/{order_id}/">[ rediger ]</a>
 	</td>
 	<td class="{td_class}" align="right">
-	[ slett ]
+	<a href="/trade/orderedit/{order_id}/delete/">[ slett ]</a>
 	</td>
 </tr>
 <!-- END order_item_tpl -->
