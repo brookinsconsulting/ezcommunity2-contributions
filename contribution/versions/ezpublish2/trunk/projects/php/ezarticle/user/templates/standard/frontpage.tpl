@@ -25,7 +25,7 @@
 <!-- END element_list_tpl -->
 
 <!-- BEGIN one_column_article_tpl -->
-<table width="100%" cellspacing="0" cellpadding="2" border="0">
+<table width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
 	<td valign="top" width="100%">
 	<div class="listheadline"><a class="listheadline" href="{www_dir}{index}/article/articleview/{article_id}/1/{category_id}/">{article_name}</a></div>
@@ -61,9 +61,9 @@
 
 
 <!-- BEGIN two_column_article_tpl -->
-<table width="100%" cellspacing="0" cellpadding="2" border="0">
+<table width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
-	<td valign="top" width="50%">
+	<td valign="top" width="48%">
 	<!-- BEGIN left_article_tpl -->
 	<div class="listheadline"><a class="listheadline" href="{www_dir}{index}/article/articleview/{article_id}/1/{category_id}/">{article_name}</a></div>
 	<div class="small">( {article_published} )</div>
@@ -94,8 +94,10 @@
 
 	<!-- END left_article_tpl -->
 	</td>
-
-	<td valign="top" width="50%">
+	
+	<td width="2%"><img src="{www_dir}/images/1x1.gif" height="10" width="4" border="0" alt="" /></td>
+	
+	<td valign="top" width="48%">
 	<!-- BEGIN right_article_tpl -->
 	<div class="listheadline"><a class="listheadline" href="{www_dir}{index}/article/articleview/{article_id}/1/{category_id}/">{article_name}</a></div>
 	<div class="small">( {article_published} )</div>
@@ -129,16 +131,13 @@
 <!-- END two_column_article_tpl -->
 
 <!-- BEGIN one_short_article_tpl -->
-<table width="100%" cellspacing="0" cellpadding="2" border="0">
+<table width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
-	<td valign="top" width="50%">
-	<div class="listheadline"><a class="listheadline" href="{www_dir}{index}/article/articleview/{article_id}/1/{category_id}/">{article_name}</a></div>
-	<div class="small">( {article_published} )</div>
+	<td width="70%">
+	<a class="path" href="{www_dir}{index}/article/articleview/{article_id}/1/{category_id}/">{article_name}</a></div>
 	</td>
-	<td valign="top" width="50%">
-	<img src="{www_dir}/images/path-arrow.gif" height="10" width="12" border="0" alt="" />
-	<a class="path" href="{www_dir}{index}/article/articleview/{article_id}/1/{category_id}/">{article_link_text}</a>
-	<br /><br />
+	<td align="right" width="30%">
+	<div class="small">( {article_published} )</div>
 	</td>
 </tr>
 </table>
@@ -146,12 +145,19 @@
 
 
 <!-- BEGIN ad_column_tpl -->
-<table width="100%" cellspacing="0" cellpadding="2" border="0">
+<table width="100%" cellspacing="0" cellpadding="0" border="0">
+<tr>
+	<td class="tdmini"><img src="{www_dir}/images/1x1.gif" height="4" width="4" border="0" alt="" /></td>
+</tr>
+
 <tr>
 	<td valign="top" width="100" align="center" >
 	
 	<a target="_blank" href="{www_dir}{index}/ad/goto/{ad_id}/"><img src="{www_dir}{image_src}" width="{image_width}" height="{image_height}" border="0" alt="" /></a>
 	</td>
+</tr>
+<tr>
+	<td class="tdmini"><img src="{www_dir}/images/1x1.gif" height="2" width="4" border="0" alt="" /></td>
 </tr>
 </table>
 <!-- END ad_column_tpl -->
