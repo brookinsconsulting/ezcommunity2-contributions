@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezcachefile.php,v 1.6 2001/02/07 14:37:39 jb Exp $
+// $Id: ezcachefile.php,v 1.7 2001/02/08 16:24:41 gl Exp $
 //
 // Definition of eZCacheFile class
 //
@@ -24,6 +24,8 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, US
 //
+
+include_once( "classes/ezdatetime.php" );
 
 //!! 
 //! The class eZCacheFile manages cache files in an easy way
@@ -104,6 +106,28 @@ class eZCacheFile
         {
             $mod = filemtime( $this->filename( true ) );
             return $modtime <= $mod;
+        }
+        return false;
+    }
+
+    /*!
+      Returns an eZDateTime object describing when the file was last modified.
+    */
+    function &lastModified()
+    {
+        if ( $this->exists() )
+        {
+            $mod = filemtime( $this->filename( true ) );
+            $datetime = new eZDateTime();
+
+            $datetime->setYear( date( "Y", $mod ) );
+            $datetime->setMonth( date( "m", $mod ) );
+            $datetime->setDay( date( "d", $mod ) );
+            $datetime->setHour( date( "H", $mod ) );
+            $datetime->setMinute( date( "i", $mod ) );
+            $datetime->setSecond( date( "s", $mod ) );
+
+            return $datetime;
         }
         return false;
     }
