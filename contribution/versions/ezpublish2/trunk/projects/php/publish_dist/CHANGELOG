@@ -7,6 +7,7 @@ Changes from version 1.0.5
 * Added about module
 * Added ad module
 * Added address module
+* Added bug tracking module
 * Added calendar module
 * Added contact module
 * Added newsfeed module
@@ -26,6 +27,7 @@ Changes from version 1.0.5
 * Added file upload to eZ article
 * Added word wrap of message replies in eZ forum. Nicer looking replies.
 * Added new tags in articles (bullet lists/includes of php files)
+* Made the menus in the admin module expandable/collapsable as well as moveable. This is remembered by the preferences for each user.
 * Removed java script which were a problem for lynx users.
 * Removed strip tags from messages in eZ forum
 * Speeded up localisation of date and time
