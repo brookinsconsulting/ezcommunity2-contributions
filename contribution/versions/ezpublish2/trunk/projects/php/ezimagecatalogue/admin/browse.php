@@ -1,9 +1,9 @@
 <?
 // 
-// $Id: browse.php,v 1.1 2001/05/15 12:45:04 ce Exp $
+// $Id: browse.php,v 1.2 2001/05/15 12:46:17 ce Exp $
 //
-// Bård Farstad <bf@ez.no>
-// Created on: <10-Dec-2000 16:16:20 bf>
+// Christoffer A. Elo
+// Created on: <15-May-2001 15:01:28 ce>
 //
 // This source file is part of eZ publish, publishing software.
 // Copyright (C) 1999-2001 eZ systems as
