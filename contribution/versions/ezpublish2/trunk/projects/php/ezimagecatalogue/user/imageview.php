@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: imageview.php,v 1.17 2001/08/17 13:35:59 jhe Exp $
+// $Id: imageview.php,v 1.18 2001/09/22 12:03:13 master Exp $
 //
 // Created on: <26-Oct-2000 19:40:18 bf>
 //
@@ -50,6 +50,21 @@ $t->setAllStrings();
 $user =& eZUser::currentUser();
 
 $image = new eZImage( $ImageID );
+
+// sections
+include_once( "ezsitemanager/classes/ezsection.php" );
+     
+$parent_category = $image->categories();
+
+// tempo fix for admin users - maybe in the future must be changed
+if ( $parent_category != 0 && ! eZPermission::checkPermission( $user, "eZUser", "AdminLogin" ) )
+{
+    $GlobalSectionID = eZImageCategory::sectionIDstatic ( $parent_category[0] ); // We use always first category ;-( [0]
+}
+
+// init the section
+$sectionObject =& eZSection::globalSectionObject( $GlobalSectionID );
+$sectionObject->setOverrideVariables();
 
 //if ( eZObjectPermission::hasPermission( $image->id(), "imagecatalogue_image", "r", $user ) == false )
 //{
