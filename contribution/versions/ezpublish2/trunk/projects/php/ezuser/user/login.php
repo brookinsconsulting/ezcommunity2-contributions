@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: login.php,v 1.14 2000/11/30 14:00:52 bf-cvs Exp $
+// $Id: login.php,v 1.15 2001/01/11 11:46:01 ce Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <20-Sep-2000 13:32:11 ce>
@@ -71,12 +71,13 @@ if ( $Action == "login" )
     $user = new eZUser();
     $user = $user->validateUser( $Username, $Password );
 
-
     if ( $user )
     {
+
         eZLog::writeNotice( "User login: $Username from IP: $REMOTE_ADDR" );
         
         eZUser::loginUser( $user );
+                exit();
 
         if ( isSet( $RedirectURL ) )
         {
@@ -85,17 +86,20 @@ if ( $Action == "login" )
             if ( $stringTmp[2] == "norights" )
             {
                 Header( "Location: /" );
+                exit();
             }
             else
             {
                 Header( "Location: $RedirectURL" );
+                exit();
             }
         }
         else
         {
             Header( "Location: /" );
+            exit();
         }
-        exit();
+
     }
     else
     {
@@ -104,6 +108,7 @@ if ( $Action == "login" )
         Header( "Location: /user/norights/?Error=WrongPassword" );
         exit();
     }
+    
 }
 
 if ( $Action == "logout" )

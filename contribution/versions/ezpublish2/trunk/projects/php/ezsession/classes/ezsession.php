@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezsession.php,v 1.17 2001/01/06 16:21:01 bf Exp $
+// $Id: ezsession.php,v 1.18 2001/01/11 11:46:01 ce Exp $
 //
 // Definition of eZSession class
 //
@@ -96,7 +96,7 @@ class eZSession
 //          session_register( "eZSession" );
 //          $HTTP_SESSION_VARS["eZSession"] = $this->Hash;
 //          print( "new session" );
-        
+
         setcookie ( "eZSession", $this->Hash, 0, "/",  "", 0 )
             or die( "Error: could not set cookie." );        
 

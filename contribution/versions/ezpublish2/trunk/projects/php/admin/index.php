@@ -1,8 +1,8 @@
 <?php
-header("Expires: Mon, 26 Jul 1997 05:00:00 GMT"); 
-header("Last-Modified: " . gmdate("D, d M Y H:i:s") . "GMT"); 
-header("Cache-Control: no-cache, must-revalidate"); 
-header("Pragma: no-cache");
+//  header("Expires: Mon, 26 Jul 1997 05:00:00 GMT"); 
+//  header("Last-Modified: " . gmdate("D, d M Y H:i:s") . "GMT"); 
+//  header("Cache-Control: no-cache, must-revalidate"); 
+//  header("Pragma: no-cache");
 
 // start the buffer cache
 ob_start();
@@ -49,6 +49,7 @@ include( "header.php" );
 $user = eZUser::currentUser();
 if ( $user )
 {
+    print( "eyt" );
     require( "ezuser/admin/admincheck.php" );
     if ( ! ( $HelpMode == "enabled" ) )
     {
