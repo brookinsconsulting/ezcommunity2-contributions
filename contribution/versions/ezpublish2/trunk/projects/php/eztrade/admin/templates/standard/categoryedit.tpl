@@ -42,6 +42,33 @@
 <textarea class="box" rows="5" cols="40" name="Description">{description_value}</textarea>
 <br /><br />
 
+<table width="100%" cellpadding="0" cellspacing="0" border="0">
+<tr>
+	<td>
+	<p class="boxtext">{intl-read_groups}:</p>
+	<select name="ReadGroupArray[]" multiple size="7">
+	<option value="0" {all_selected}>{intl-all}</option>
+	<!-- BEGIN read_group_item_tpl -->
+	<option value="{read_id}" {selected}>{read_name}</option>
+	<!-- END read_group_item_tpl -->
+	</select>
+	</td>
+	<td>
+	<!-- {intl-owner_group -->
+	<p class="boxtext">{intl-write_groups}:</p>
+	<!-- <th class "boxtext" width="50%">{intl-recursive}:</th> -->
+	    <select name="WriteGroupArray[]" multiple size="7">
+	    <option value="0" {all_write_selected}>{intl-all}</option>
+	    <!-- BEGIN write_group_item_tpl -->
+	    <option value="{write_id}" {is_selected}>{write_name}</option>
+	    <!-- END write_group_item_tpl -->
+	    </select>
+	<!--    <input type="checkbox" name="Recursive" /> -->
+	</td>
+</tr>
+</table>
+
+
 <p class="boxtext">{intl-th_type_current_image}:</p>
 
 <!-- BEGIN image_item_tpl -->

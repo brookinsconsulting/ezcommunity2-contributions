@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: checkout.php,v 1.71 2001/08/15 06:56:47 ce Exp $
+// $Id: checkout.php,v 1.72 2001/08/21 11:21:41 ce Exp $
 //
 // Created on: <28-Sep-2000 15:52:08 bf>
 //
@@ -112,7 +112,7 @@ $t->set_block( "checkout_tpl", "wish_user_tpl", "wish_user" );
 
 $t->set_block( "checkout_tpl", "sendorder_item_tpl", "sendorder_item" );
 
-if ( isSet ( $SendOrder ) ) 
+if ( isSet( $SendOrder ) ) 
 {
     
     // set the variables as session variables and make sure that it is not read by
@@ -140,17 +140,16 @@ if ( isSet ( $SendOrder ) )
     $session->setVariable( "ShippingTypeID", eZHTTPTool::getVar( "ShippingTypeID", true ) );
     $session->setVariable( "IncludeVAT", eZHTTPTool::getVar( "IncludeVAT", true ) );
 
-    if ( count ( $VoucherIDArray ) > 0 )
+    if ( count( $VoucherIDArray ) > 0 )
     {
         $i=0;
-        foreach( $VoucherIDArray as $voucher )
+        $voucherInfo = array();
+        foreach ( $VoucherIDArray as $voucher )
         {
-            if ( $i == 0 )
-                $voucherSession = $voucher . ":" . $MailType[$i];
-            else
-                $voucherSession .= "," . $voucher . ":" . $MailType[$i];
+            $voucherInfo[$voucher] = $MailType[$i];
             $i++;
         }
+        $session->setArray( "VoucherInformation", $voucherInfo );
         $session->setVariable( "VoucherInfo", $voucherSession );
         eZHTTPTool::header( "Location: /trade/voucherinformation/" );
         exit();
@@ -439,6 +438,7 @@ $can_checkout = true;
     {
         $address = new eZAddress();
         $mainAddress = $address->mainAddress( $user );
+
         $country =& $mainAddress->country();
         if ( !$country->hasVAT() )
             $vat = false;

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: smallcart.php,v 1.22 2001/08/17 13:36:00 jhe Exp $
+// $Id: smallcart.php,v 1.23 2001/08/21 11:21:41 ce Exp $
 //
 // Created on: <12-Dec-2000 15:21:10 bf>
 //
@@ -95,11 +95,12 @@ $sum = 0.0;
 $totalVAT = 0.0;
 $can_checkout = true;
 $t->set_var( "cart_item", "" );
+
 foreach ( $items as $item )
 {
     $t->set_var( "td_class", ( $i % 2 ) == 0 ? "bglight" : "bgdark" );
     $t->set_var( "cart_item_id", $item->id() );
-    
+
     $product = $item->product();
     if ( $product )
     {

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: productedit.php,v 1.57 2001/08/06 14:28:23 jhe Exp $
+// $Id: productedit.php,v 1.58 2001/08/21 11:21:40 ce Exp $
 //
 // Created on: <19-Sep-2000 10:56:05 bf>
 //
@@ -27,6 +27,7 @@ include_once( "classes/INIFile.php" );
 include_once( "classes/eztemplate.php" );
 include_once( "classes/ezcachefile.php" );
 include_once( "classes/ezhttptool.php" );
+include_once( "ezuser/classes/ezobjectpermission.php" );
 include_once( "eztrade/classes/ezpricegroup.php" );
 include_once( "eztrade/classes/ezproductpermission.php" );
 
@@ -202,23 +203,45 @@ if ( $Action == "Insert" )
 
     $productID = $product->id();
 
-    if ( count( $GroupArray ) > 0 )
+    eZObjectPermission::removePermissions( $productID, "trade_product", 'w' );
+    if( isset( $WriteGroupArray ) )
     {
-        if ( in_array( 0, $GroupArray ) )
+        if( $WriteGroupArray[0] == 0 )
         {
-            eZProductPermission::setPermission( $productID, -1 );
+            eZObjectPermission::setPermission( -1, $productID, "trade_product", 'w' );
         }
         else
         {
-            foreach ( $GroupArray as $groupItem )
+            foreach ( $WriteGroupArray as $groupID )
             {
-                eZProductPermission::setPermission( $productID, $groupItem );
+                eZObjectPermission::setPermission( $groupID, $productID, "trade_product", 'w' );
             }
         }
     }
     else
     {
-        eZProductPermission::setPermission( $productID, -1 );
+        eZObjectPermission::removePermissions( $productID, "trade_product", 'w' );
+    }
+    
+    /* read access thingy */
+    eZObjectPermission::removePermissions( $productID, "trade_product", 'r' );
+    if ( isset( $ReadGroupArray ) )
+    {
+        if( $ReadGroupArray[0] == 0 )
+        {
+            eZObjectPermission::setPermission( -1, $productID, "trade_product", 'r' );
+        }
+        else // some groups are selected.
+        {
+            foreach ( $ReadGroupArray as $groupID )
+            {
+                eZObjectPermission::setPermission( $groupID, $productID, "trade_product", 'r' );
+            }
+        }
+    }
+    else
+    {
+        eZObjectPermission::removePermissions( $productID, "trade_product", 'r' );
     }
     
     $categoryArray = $product->categories();
@@ -268,7 +291,8 @@ if ( $Action == "Insert" )
             break;
         }
     }
-    
+
+
     // preview
     if ( isSet ( $Preview ))
     {
@@ -351,24 +375,45 @@ if ( $Action == "Update" )
 
     $productID = $product->id();
 
-    eZProductPermission::removePermissions( $productID );
-    if ( count( $GroupArray ) > 0 )
+    eZObjectPermission::removePermissions( $productID, "trade_product", 'w' );
+    if( isset( $WriteGroupArray ) )
     {
-        if ( in_array( 0, $GroupArray ) )
+        if( $WriteGroupArray[0] == 0 )
         {
-            eZProductPermission::setPermission( $productID, -1 );
+            eZObjectPermission::setPermission( -1, $productID, "trade_product", 'w' );
         }
         else
         {
-            foreach ( $GroupArray as $groupItem )
+            foreach ( $WriteGroupArray as $groupID )
             {
-                eZProductPermission::setPermission( $productID, $groupItem );
+                eZObjectPermission::setPermission( $groupID, $productID, "trade_product", 'w' );
             }
         }
     }
     else
     {
-        eZProductPermission::setPermission( $productID, -1 );
+        eZObjectPermission::removePermissions( $productID, "trade_product", 'w' );
+    }
+    
+    /* read access thingy */
+    eZObjectPermission::removePermissions( $productID, "trade_product", 'r' );
+    if ( isset( $ReadGroupArray ) )
+    {
+        if( $ReadGroupArray[0] == 0 )
+        {
+            eZObjectPermission::setPermission( -1, $productID, "trade_product", 'r' );
+        }
+        else // some groups are selected.
+        {
+            foreach ( $GroupArray as $groupID )
+            {
+                eZObjectPermission::setPermission( $groupID, $productID, "trade_product", 'r' );
+            }
+        }
+    }
+    else
+    {
+        eZObjectPermission::removePermissions( $productID, "trade_product", 'r' );
     }
     
     // Calculate which categories are new and which are unused
@@ -549,6 +594,9 @@ $t->set_block( "product_edit_tpl", "vat_select_tpl", "vat_select" );
 $t->set_block( "product_edit_tpl", "shipping_select_tpl", "shipping_select" );
 $t->set_block( "product_edit_tpl", "quantity_item_tpl", "quantity_item" );
 
+$t->set_block( "product_edit_tpl", "read_group_item_tpl", "read_group_item" );
+$t->set_block( "product_edit_tpl", "write_group_item_tpl", "write_group_item" );
+
 $t->set_block( "product_edit_tpl", "price_group_list_tpl", "price_group_list" );
 $t->set_block( "price_group_list_tpl", "price_groups_item_tpl", "price_groups_item" );
 $t->set_block( "price_groups_item_tpl", "price_group_header_item_tpl", "price_group_header_item" );
@@ -574,6 +622,8 @@ $t->set_var( "external_link", "" );
 
 $t->set_var( "action_value", "insert" );
 
+$writeGroupsID = array(); 
+$readGroupsID = array(); 
 
 $VatType = false;
 // edit
@@ -612,11 +662,16 @@ if ( $Action == "Edit" )
     $prices = eZPriceGroup::prices( $ProductID );
     $PriceGroup = array();
     $PriceGroupID = array();
+
     foreach ( $prices as $price )
     {
         $PriceGroup[] = $price["Price"];
         $PriceGroupID[] = $price["PriceID"];
     }
+
+    $writeGroupsID = eZObjectPermission::getGroups( $ProductID, "trade_product", 'w' , false );
+    $readGroupsID = eZObjectPermission::getGroups( $ProductID, "trade_product", 'r', false );
+
     $VatType =& $product->vatType();    
     $ShippingGroup =& $product->shippingGroup();    
 }
@@ -796,30 +851,33 @@ $t->set_var( "module_linker_button", "" );
 if ( $ShowModuleLinker )
     $t->parse( "module_linker_button", "module_linker_button_tpl" );
 
-$productGroupsID = eZProductPermission::getPermissionList( $ProductID );
-
+// group selector
 $group = new eZUserGroup();
 $groupList = $group->getAll();
 
-if ( in_array( -1, $productGroupsID ) )
-{
-    $t->set_var( "all_selected", "selected" );
-}
-else
-{
-    $t->set_var( "all_selected", "" );
-}
-
+$t->set_var( "selected", "" );
 foreach ( $groupList as $groupItem )
 {
-    $t->set_var( "group_id", $groupItem->id() );
-    $t->set_var( "group_name", $groupItem->name() );
-    if ( in_array( $groupItem->id(), $productGroupsID ) )
+    // for the group owner selector
+    $t->set_var( "read_id", $groupItem->id() );
+    $t->set_var( "read_name", $groupItem->name() );
+    
+    if ( in_array( $groupItem->id(), $writeGroupsID ) )
         $t->set_var( "is_selected", "selected" );
     else
         $t->set_var( "is_selected", "" );
     
-    $t->parse( "group_item", "group_item_tpl", true );
+    $t->parse( "read_group_item", "read_group_item_tpl", true );
+    
+    // for the read access groups selector
+    $t->set_var( "write_name", $groupItem->name() );
+    $t->set_var( "write_id", $groupItem->id() );
+    if ( in_array( $groupItem->id(), $readGroupsID ) )
+        $t->set_var( "selected", "selected" );
+    else
+        $t->set_var( "selected", "" );
+
+    $t->parse( "write_group_item", "write_group_item_tpl", true );
 }
 
 $t->pparse( "output", "product_edit_tpl" );

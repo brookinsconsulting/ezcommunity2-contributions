@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezcart.php,v 1.22 2001/08/01 15:15:48 ce Exp $
+// $Id: ezcart.php,v 1.23 2001/08/21 11:21:41 ce Exp $
 //
 // Definition of eZCart class
 //
@@ -283,15 +283,15 @@ class eZCart
 
        if ( count( $cart_array ) > 0 )
        {
-           $return_array = array();
            foreach ( $cart_array as $item )
            {
-               $return_array[] = new eZCartItem( $item[$db->fieldName( "ID" )] );               
+               $ret[] = new eZCartItem( $item[$db->fieldName( "ID" )] );               
            }
-           $ret = $return_array;
        }
-
-       return $ret;       
+       if ( $ret )
+           return $ret;
+       else
+           return array();
     }
 
     /*!

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: productview.php,v 1.53 2001/08/07 13:26:40 jhe Exp $
+// $Id: productview.php,v 1.54 2001/08/21 11:21:41 ce Exp $
 //
 // Created on: <24-Sep-2000 12:20:32 bf>
 //
@@ -98,6 +98,7 @@ else
 //      "product_view_tpl" => "productview.tpl"
 //      ) );
 
+
 $t->set_block( "product_view_tpl", "product_number_item_tpl", "product_number_item" );
 $t->set_block( "product_view_tpl", "price_tpl", "price" );
 $t->set_block( "price_tpl", "alternative_currency_list_tpl", "alternative_currency_list" );
@@ -152,11 +153,6 @@ $t->set_var( "module_view", $ModuleView );
 $t->set_var( "module_print", $ModulePrint );
 $t->set_var( "attribute_header", "" );
 $t->set_var( "attribute_value", "" );
-
-if ( !eZProductPermission::hasPermission( $ProductID ) )
-{
-    $ProductID = 0;
-}
 
 $product = new eZProduct( $ProductID );
 

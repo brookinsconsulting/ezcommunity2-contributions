@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: datasupplier.php,v 1.43 2001/08/17 13:36:00 jhe Exp $
+// $Id: datasupplier.php,v 1.44 2001/08/21 11:21:41 ce Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -47,8 +47,11 @@ $ini =& INIFile::globalINI();
 $GlobalSectionID = $ini->read_var( "site", "DefaultSection" );
 
 $user =& eZUser::currentUser();
-$groupIDArray =& $user->groups( true );
-sort( $groupIDArray );
+if ( $user )
+{
+    $groupIDArray =& $user->groups( true );
+    sort( $groupIDArray );
+}
 
 switch ( $url_array[2] )
 {
@@ -78,7 +81,6 @@ switch ( $url_array[2] )
         {
             include( "eztrade/user/productlist.php" );
         }
-
         break;
     }
 
@@ -245,6 +247,7 @@ switch ( $url_array[2] )
     {
         include( "eztrade/user/voucherinformation.php" );
     }
+    break;
         
     case "ordersendt" :
         $OrderID = $url_array[3];

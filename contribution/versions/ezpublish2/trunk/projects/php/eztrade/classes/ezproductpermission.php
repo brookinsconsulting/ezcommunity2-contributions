@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezproductpermission.php,v 1.1 2001/08/09 14:19:05 jhe Exp $
+// $Id: ezproductpermission.php,v 1.2 2001/08/21 11:21:41 ce Exp $
 //
 // Definition of eZProductPermission class
 //
@@ -43,6 +43,8 @@ class eZProductPermission
             $user =& eZUser::currentUser();
         }
 
+        if ( !$user )
+            return false;
         $ret = false;
 
         $groups =& $user->groups( true );

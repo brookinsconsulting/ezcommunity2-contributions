@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: categoryedit.php,v 1.19 2001/07/29 23:31:10 kaid Exp $
+// $Id: categoryedit.php,v 1.20 2001/08/21 11:21:40 ce Exp $
 //
 // Created on: <18-Sep-2000 14:46:19 bf>
 //
@@ -24,6 +24,7 @@
 //
 
 include_once( "classes/ezhttptool.php" );
+include_once( "ezuser/classes/ezobjectpermission.php" );
 
 if ( isset( $Cancel ) )
 {
@@ -80,6 +81,50 @@ if ( $Action == "Insert" )
 
     $category->store();
 
+    $categoryID = $category->id();
+    
+    /* write access select */
+    if( isset( $WriteGroupArray ) )
+    {
+        if( $WriteGroupArray[0] == 0 )
+        {
+            eZObjectPermission::setPermission( -1, $categoryID, "trade_category", 'w' );
+        }
+        else
+        {
+            eZObjectPermission::removePermissions( $categoryID, "trade_category", 'w' ); 
+            foreach( $WriteGroupArray as $groupID )
+            {
+                eZObjectPermission::setPermission( $groupID, $categoryID, "trade_category", 'w' );
+            }
+        }
+    }
+    else
+    {
+        eZObjectPermission::removePermissions( $categoryID, "trade_category", 'w' );
+    }
+
+    /* read access thingy */
+    if ( isset( $ReadGroupArray ) )
+    {
+        if( $ReadGroupArray[0] == 0 )
+        {
+            eZObjectPermission::setPermission( -1, $categoryID, "trade_category", 'r' );
+        }
+        else // some groups are selected.
+        {
+            eZObjectPermission::removePermissions( $categoryID, "trade_category", 'r' ); 
+            foreach ( $ReadGroupArray as $groupID )
+            {
+                eZObjectPermission::setPermission( $groupID, $categoryID, "trade_category", 'r' );
+            }
+        }
+    }
+    else
+    {
+        eZObjectPermission::removePermissions( $categoryID, "trade_category", 'r' );
+    }
+
     include_once( "classes/ezcachefile.php" );
     $files = eZCacheFile::files( "eztrade/cache/", array( "productlist",
                                                           array( $ParentID, $category->id() ),
@@ -133,6 +178,51 @@ if ( $Action == "Update" )
         $category->setImage( 0 );
 
     $category->store();
+
+    $categoryID = $category->id();
+    
+    /* write access select */
+    if( isset( $WriteGroupArray ) )
+    {
+        if( $WriteGroupArray[0] == 0 )
+        {
+            eZObjectPermission::setPermission( -1, $categoryID, "trade_category", 'w' );
+        }
+        else
+        {
+            eZObjectPermission::removePermissions( $categoryID, "trade_category", 'w' ); 
+            foreach( $WriteGroupArray as $groupID )
+            {
+                eZObjectPermission::setPermission( $groupID, $categoryID, "trade_category", 'w' );
+            }
+        }
+    }
+    else
+    {
+        eZObjectPermission::removePermissions( $categoryID, "trade_category", 'w' );
+    }
+
+    /* read access thingy */
+    if ( isset( $ReadGroupArray ) )
+    {
+        if( $ReadGroupArray[0] == 0 )
+        {
+            eZObjectPermission::setPermission( -1, $categoryID, "trade_category", 'r' );
+        }
+        else // some groups are selected.
+        {
+            eZObjectPermission::removePermissions( $categoryID, "trade_category", 'r' ); 
+            foreach ( $ReadGroupArray as $groupID )
+            {
+                eZObjectPermission::setPermission( $groupID, $categoryID, "trade_category", 'r' );
+            }
+        }
+    }
+    else
+    {
+        eZObjectPermission::removePermissions( $categoryID, "trade_category", 'r' );
+    }
+
 
     include_once( "classes/ezcachefile.php" );
     $files = eZCacheFile::files( "eztrade/cache/", array( "productlist",
@@ -233,6 +323,9 @@ $t->set_file( array( "category_edit_tpl" => "categoryedit.tpl" ) );
 $t->set_block( "category_edit_tpl", "value_tpl", "value" );
 $t->set_block( "category_edit_tpl", "image_item_tpl", "image_item" );
 
+$t->set_block( "category_edit_tpl", "read_group_item_tpl", "read_group_item" );
+$t->set_block( "category_edit_tpl", "write_group_item_tpl", "write_group_item" );
+
 $headline = new INIFIle( "eztrade/admin/intl/" . $Language . "/categoryedit.php.ini", false );
 $t->set_var( "head_line", $headline->read_var( "strings", "head_line_insert" ) );
 
@@ -249,6 +342,9 @@ $t->set_var( "2_selected", "" );
 $t->set_var( "3_selected", "" );
 $t->set_var( "4_selected", "" );
 $t->set_var( "image_item", "" );
+
+$writeGroupsID = array(); 
+$readGroupsID = array(); 
 
 // edit
 if ( $Action == "Edit" )
@@ -313,6 +409,9 @@ if ( $Action == "Edit" )
 
     }
 
+    $writeGroupsID = eZObjectPermission::getGroups( $CategoryID, "trade_category", 'w' , false );
+    $readGroupsID = eZObjectPermission::getGroups( $CategoryID, "trade_category", 'r', false );
+
     $headline = new INIFIle( "eztrade/admin/intl/" . $Language . "/categoryedit.php.ini", false );
     $t->set_var( "head_line", $headline->read_var( "strings", "head_line_edit" ) );
 }
@@ -349,10 +448,40 @@ foreach ( $categoryArray as $catItem )
         else
             $t->set_var( "option_level", "" );
 
-
         $t->parse( "value", "value_tpl", true );
     }
 }
+
+// group selector
+$group = new eZUserGroup();
+$groupList = $group->getAll();
+
+$t->set_var( "selected", "" );
+foreach( $groupList as $groupItem )
+{
+    /* for the group owner selector */
+    $t->set_var( "read_id", $groupItem->id() );
+    $t->set_var( "read_name", $groupItem->name() );
+
+    if( in_array( $groupItem->id() , $readGroupsID ) )
+        $t->set_var( "selected", "selected" );
+    else
+        $t->set_var( "selected", "" );
+
+    $t->parse( "read_group_item", "read_group_item_tpl", true );
+        
+    /* for the read access groups selector */
+    $t->set_var( "write_id", $groupItem->id() );
+    $t->set_var( "write_name", $groupItem->name() );
+
+    if( in_array( $groupItem->id(), $writeGroupsID ) )
+        $t->set_var( "is_selected", "selected" );
+    else
+        $t->set_var( "is_selected", "" );
+
+    $t->parse( "write_group_item", "write_group_item_tpl", true );
+}
+
 
 $t->pparse( "output", "category_edit_tpl" );
 

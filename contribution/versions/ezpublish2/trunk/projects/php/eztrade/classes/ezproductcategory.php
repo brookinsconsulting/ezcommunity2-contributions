@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezproductcategory.php,v 1.44 2001/08/06 14:28:23 jhe Exp $
+// $Id: ezproductcategory.php,v 1.45 2001/08/21 11:21:41 ce Exp $
 //
 // Definition of eZProductCategory class
 //
@@ -594,17 +594,6 @@ class eZProductCategory
             }
         }       
         
-        $user =& eZUser::currentUser();
-        if ( $user )
-            $groups = $user->groups();
-        else
-            $groups = array();
-        $permissionString = "";
-        foreach ( $groups as $group )
-        {
-            $permissionString .= "eZTrade_ProductPermissionLink.GroupID='" . $group . "' OR ";
-        }
-        
         $nonActiveCode = $fetchNonActive ? "" : " eZTrade_Product.ShowProduct='1' AND";
         $discontinuedCode = "";
         if ( !$fetchDiscontinued )
@@ -612,13 +601,9 @@ class eZProductCategory
         
         $db->query_single( $products, "
                 SELECT COUNT( eZTrade_Product.ID ) AS Count
-                FROM eZTrade_Product, eZTrade_ProductCategoryLink, eZTrade_ProductPermissionLink
+                FROM eZTrade_Product, eZTrade_ProductCategoryLink
                 WHERE 
                 eZTrade_ProductCategoryLink.ProductID = eZTrade_Product.ID
-                AND
-                eZTrade_ProductPermissionLink.ProductID = eZTrade_Product.ID
-                AND
-                ( $permissionString eZTrade_ProductPermissionLink.GroupID='-1' )
                 AND
                 $nonActiveCode
                 $discontinuedCode
@@ -682,12 +667,6 @@ class eZProductCategory
            $groups = array();
        }
        
-       $permissionString = "";
-       foreach ( $groups as $group )
-       {
-           $permissionString .= "eZTrade_ProductPermissionLink.GroupID='" . $group->ID() . "' OR ";
-       }
-
        if ( $fetchNonActive  == true )
        {
            $nonActiveCode = "";
@@ -703,13 +682,9 @@ class eZProductCategory
                 SELECT eZTrade_Product.ID AS ProductID, eZTrade_Product.Name,
                        eZTrade_Category.ID, eZTrade_Category.Name
                 FROM eZTrade_Product, eZTrade_Category,
-                     eZTrade_ProductCategoryLink, eZTrade_ProductPermissionLink
+                     eZTrade_ProductCategoryLink
                 WHERE 
                 eZTrade_ProductCategoryLink.ProductID = eZTrade_Product.ID
-                AND
-                eZTrade_ProductPermissionLink.ProductID = eZTrade_Product.ID
-                AND
-                ($permissionString eZTrade_ProductPermissionLink.GroupID='-1')
                 AND
                 $nonActiveCode
                 $discontinuedCode

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: productlist.php,v 1.25 2001/08/07 13:26:40 jhe Exp $
+// $Id: productlist.php,v 1.26 2001/08/21 11:21:41 ce Exp $
 //
 // Created on: <23-Sep-2000 14:46:20 bf>
 //
@@ -144,6 +144,7 @@ $productList =& $category->activeProducts( $category->sortMode(), $Offset, $Limi
 
 $locale = new eZLocale( $Language );
 $i = 0;
+
 foreach ( $productList as $product )
 {
     $t->set_var( "product_id", $product->id() );
@@ -262,7 +263,8 @@ eZList::drawNavigator( $t, $TotalTypes, $Limit, $Offset, "product_list_page_tpl"
 
 if ( $GenerateStaticPage == "true" )
 {
-    $CategoryArray =& $user->groups( true );
+    if ( $user )
+        $CategoryArray =& $user->groups( true );
     $cache = new eZCacheFile( "eztrade/cache/", array( "productlist", $CategoryArray, $Offset, $PriceGroup ),
                               "cache", "," );
     $output = $t->parse( $target, "product_list_page_tpl" );
