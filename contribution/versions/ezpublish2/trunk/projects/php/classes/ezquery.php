@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezquery.php,v 1.5 2000/10/13 09:38:34 bf-cvs Exp $
+// $Id: ezquery.php,v 1.6 2000/10/13 09:41:33 bf-cvs Exp $
 //
 // Definition of eZQuery class
 //
@@ -17,7 +17,23 @@
 //! The eZQuery class builds SQL queries.
 /*!
   En klasse som håndterer SQL queries. Lager query setninger fra
-  tekststrenger. 
+  tekststrenger.
+  
+  Example code
+  \code
+  // create a new query and search in the columns Topic and Body
+  $query = new eZQuery( array( "Topic", "Body" ), $query );
+
+  // create a select 
+  $query_str = "SELECT ID FROM MyTable WHERE (" .
+             $query->buildQuery()  .
+             ") ORDER BY SomeColumn LIMIT $offset, $limit";
+
+  // do the query
+  $this->Database->array_query( $message_array, $query_str );
+  \endcode
+
+  \sa eZDB
   
 */
 
