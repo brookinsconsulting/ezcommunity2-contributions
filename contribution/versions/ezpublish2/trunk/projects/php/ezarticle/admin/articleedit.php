@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: articleedit.php,v 1.26 2000/11/20 15:29:10 ce-cvs Exp $
+// $Id: articleedit.php,v 1.27 2000/12/08 11:07:08 bf-cvs Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <18-Oct-2000 15:04:39 bf>
@@ -31,6 +31,7 @@ include_once( "ezuser/classes/ezuser.php" );
 include_once( "ezarticle/classes/ezarticlecategory.php" );
 include_once( "ezarticle/classes/ezarticle.php" );
 include_once( "ezarticle/classes/ezarticlegenerator.php" );
+
 
 if ( $Action == "Insert" )
 {
@@ -316,8 +317,6 @@ if ( $Action == "Update" )
             }
         }
 
-        
-
     // add images
         if ( isset( $Image ) )
         {
@@ -414,6 +413,7 @@ if ( $Action == "Delete" )
     exit();
 }
 
+
 $ini = new INIFIle( "site.ini" );
 
 $Language = $ini->read_var( "eZArticleMain", "Language" );
@@ -426,8 +426,6 @@ $t->setAllStrings();
 $t->set_file( array(
     "article_edit_page_tpl" => "articleedit.tpl"
     ) );
-
-
 
 $t->set_block( "article_edit_page_tpl", "value_tpl", "value" );
 $t->set_block( "article_edit_page_tpl", "multiple_value_tpl", "multiple_value" );
@@ -554,11 +552,10 @@ foreach ( $categoryArray as $catItem )
     
     $t->set_var( "option_value", $catItem->id() );
     $t->set_var( "option_name", $catItem->name() );
-
+    
     $t->parse( "value", "value_tpl", true );    
-    $t->parse( "multiple_value", "multiple_value_tpl", true );    
+    $t->parse( "multiple_value", "multiple_value_tpl", true );
 }
-
 
 $t->pparse( "output", "article_edit_page_tpl" );
 
