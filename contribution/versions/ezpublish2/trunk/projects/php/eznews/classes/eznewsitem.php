@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eznewsitem.php,v 1.24 2000/10/10 15:15:47 pkej-cvs Exp $
+// $Id: eznewsitem.php,v 1.25 2000/10/10 16:21:54 pkej-cvs Exp $
 //
 // Definition of eZNewsItem class
 //
@@ -460,7 +460,7 @@ class eZNewsItem extends eZNewsUtility
      */
     function setParent( $ParentID, $isCanonical = false )
     {
-        #echo "eZNewsItem::setParent( \$ParentID = $ParentID,\$isCanonical = $isCanonical )<br>";
+       #echo "eZNewsItem::setParent( \$ParentID = $ParentID,\$isCanonical = $isCanonical )<br>";
         $value = true;
         
         if( !is_numeric( $this->isCanonical ) && !$this->isDirty() )
@@ -1255,15 +1255,11 @@ class eZNewsItem extends eZNewsUtility
         
         $this->Database->array_query( $itemArray, $query );
         
-        for( $i = 0; $i != count( $itemArray ); $i++ )
+        $count = count( $itemArray );
+        
+        for( $i = 0; $i != $count; $i++ )
         {   
             $returnArray[$i] = new eZNewsItem( $itemArray[$i][ "ID" ], 0 );
-            $this->ParentID[$i] = $itemArray[$i][ "ID" ];
-            
-            if( $itemArray[$i][ "isCanonical" ] == 'Y' )
-            {
-                $this->isCanonical = $itemArray[$i][ "isCanonical" ];
-            }
         }
         
         if( $returnArray )
@@ -1568,7 +1564,15 @@ class eZNewsItem extends eZNewsUtility
 
         $this->Database->array_query( $itemArray, $query );
         
-        for( $i = 0; $i < count( $itemArray ); $i++ )
+        $count = count( $itemArray );
+        
+        if( $count > 0 )
+        {
+            unset( $this->ParentID );
+            $this->ParentID = array();
+        }
+        
+        for( $i = 0; $i < $count; $i++ )
         {   
             $returnArray[$i] = new eZNewsItem( $itemArray[$i][ "ID" ], 0 );
             $this->ParentID[$i] = $itemArray[$i][ "ID" ];
@@ -1976,7 +1980,6 @@ class eZNewsItem extends eZNewsUtility
     function getItemTypeID()
     {
         $this->dirtyUpdate();
-        echo $this->ItemTypeID . "        buahdklfjaøl<br>";
         return $this->ItemTypeID;
     }
 

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: eznewsutility.php,v 1.8 2000/10/10 15:01:35 pkej-cvs Exp $
+// $Id: eznewsutility.php,v 1.9 2000/10/10 16:21:54 pkej-cvs Exp $
 //
 // Definition of eZNewsUtility class
 //
@@ -112,8 +112,6 @@ class eZNewsUtility
         $storeAllowed = false;
         $stored = false;
         
-
-        
         if( $copy == true )
         {
             $this->ID = 0;
@@ -128,7 +126,7 @@ class eZNewsUtility
         {
             $storeAllowed = true;
         }
-        
+
         if( $storeAllowed )
         {
             if( $this->hasChanged() )
@@ -336,11 +334,13 @@ class eZNewsUtility
      */
     function createCreatedBy( )
     {
-        $value = 0;
-        
+        $value = false;
+
         if( $this->checkCreator() )
         {
-            // find user id.
+            $user = eZUser::currentUser();
+            $this->CreatedBy = $user->ID();
+            $value = true;
         }
         
         return $value;
@@ -550,22 +550,6 @@ class eZNewsUtility
 
     
     
-    /*!
-        Make shure that the object is in a legal state.
-        All errors are stored in $this->Errors.
-        
-        \return
-            Returns true if the object passes the check.
-     */
-    function invariantCheck()
-    {
-        $value = true;
-        
-        return $value;
-    }
-
-
-
     /*!
         Return error strings and reset errors.
         
@@ -814,6 +798,31 @@ class eZNewsUtility
             $this->State_ = "coherent";
         }
         return $value;
+    }
+
+
+    
+    /*!
+        Print all the errors in the object.
+     */
+    function printErrors()
+    {
+        foreach( $this->Errors as $error )
+        {
+            echo $error . "<br>";
+        }
+    }
+
+
+    /*!
+        Print all the slerrors in the object.
+     */
+    function printSQLErrors()
+    {
+        foreach( $this->SQLErrors as $error )
+        {
+            echo $error . "<br>";
+        }
     }
 
 

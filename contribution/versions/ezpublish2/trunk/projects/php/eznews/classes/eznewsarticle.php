@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: eznewsarticle.php,v 1.2 2000/10/10 15:01:35 pkej-cvs Exp $
+// $Id: eznewsarticle.php,v 1.3 2000/10/10 16:21:54 pkej-cvs Exp $
 //
 // Definition of eZNewsArticle class
 //
@@ -208,6 +208,20 @@ class eZNewsArticle extends eZNewsItem
 
 
     /*!
+        \static
+        
+        Returns an author text.
+     */
+    function createAuthorText()
+    {
+        $user = eZUser::currentUser();
+    
+        return $user->firstName() . " " . $user->lastName();
+    }
+
+
+
+    /*!
         Sets the meta field. 
      */
     function setMeta( $value )
@@ -277,7 +291,7 @@ class eZNewsArticle extends eZNewsItem
         return $this->LinkText;
     }
     
-    function checkInvariant()
+    function invariantCheck()
     {
         $value=false;
         
@@ -285,19 +299,19 @@ class eZNewsArticle extends eZNewsItem
                
         if( !isset( $this->Story ) )
         {
-            $this->Errors[]="Object is missing: Story";
+            $this->Errors[]="intl-eznews-eznewsarticle-missing-story";
         }
         
         if( !isset( $this->AuthorTex ) )
         {
-            $this->Errors[]="Object is missing: AuthorTex";
+            $this->Errors[]="intl-eznews-eznewsarticle-missing-author-text";
         }
 
         if( !count( $this->Errors ) )
         {
             $value = true;
         }
-        
+        #$this->printErrors();
         return $value;        
     }
     
