@@ -682,7 +682,8 @@ function insert( $args )
     {
         $product->setIsHotDeal( false );
     }
-    
+
+
     $product->setTotalQuantity( $productTotalQuantity );
 
     // If the product has options, dont show the price.
@@ -767,7 +768,12 @@ function insert( $args )
             $value->addDescription( $optionStruct["Groesse"]->value() );
             
             if ( $optionStruct["TotalQuentity"]->value() > 0 )
+            {
                 $value->setTotalQuantity( $optionStruct["TotalQuentity"]->value() );
+                $product->setTotalQuantity( false );
+            }
+            else
+                $value->setTotalQuantity( false );
         }
     }
     if( count( $options ) == 1 )
