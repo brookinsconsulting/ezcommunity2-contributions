@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: useredit.php,v 1.35 2001/10/26 12:30:49 bf Exp $
+// $Id: useredit.php,v 1.36 2001/10/29 14:35:49 bf Exp $
 //
 // Created on: <20-Sep-2000 13:32:11 ce>
 //
@@ -348,6 +348,8 @@ $t->set_var( "head_line", $headline->read_var( "strings", "head_line_insert" ) )
 $group = new eZUserGroup();
 
 $groupList = $group->getAll();
+
+
 
 
 $user = 0;

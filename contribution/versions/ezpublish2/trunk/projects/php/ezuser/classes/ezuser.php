@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezuser.php,v 1.101 2001/10/26 12:30:50 bf Exp $
+// $Id: ezuser.php,v 1.102 2001/10/29 14:35:49 bf Exp $
 //
 // Definition of eZUser class
 //
@@ -70,6 +70,7 @@ include_once( "classes/ezdatetime.php" );
 
 include_once( "ezsession/classes/ezsession.php" );
 include_once( "ezuser/classes/ezusergroup.php" );
+include_once( "ezuser/classes/eztitle.php" );
 
 class eZUser
 {
