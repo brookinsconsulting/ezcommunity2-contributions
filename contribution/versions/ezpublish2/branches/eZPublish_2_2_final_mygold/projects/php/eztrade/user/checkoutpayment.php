@@ -1,0 +1,97 @@
+<?php
+//
+// $Id: checkoutpayment.php,v 1.1.2.1 2002/06/07 09:41:20 ce Exp $
+//
+// Definition of ||| class
+//
+// <real-name> <<mail-name>>
+// Created on: <12-Dec-2001 10:29:49 ce>
+//
+// This source file is part of eZ publish, publishing software.
+// Copyright (C) 1999-2001 eZ systems as
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, US
+//
+
+//!!
+//! The class ||| does
+/*!
+
+*/
+
+include_once( "ezuser/classes/ezuser.php" );
+include_once( "eztrade/classes/ezcheckoutdisplayer.php" );
+include_once( "eztrade/classes/ezcart.php" );
+include_once( "classes/eztemplate.php" );
+include_once( "ezsession/classes/ezsession.php" );
+include_once( "classes/ezhttptool.php" );
+
+// if ( isSet ( $Next ) )
+// {
+//     $session->setVariable( "CurrentPayment", 1 );
+
+//     eZHTTPTool::header( "Location: /trade/checkout/payment/" );
+//     exit();
+// }
+
+$session =& eZSession::globalSession();
+
+$cart =& eZCart::getBySession( $session );
+$user =& eZUser::currentUser();
+
+$locale = new eZLocale( $Language );
+$currency = new eZCurrency();
+
+$ini =& INIFile::globalINI();
+
+$Language = $ini->read_var( "eZTradeMain", "Language" );
+
+$t = new eZTemplate( "eztrade/user/" . $ini->read_var( "eZTradeMain", "TemplateDir" ),
+                     "eztrade/user/intl/", $Language , "checkoutpayment.php" );
+
+$t->setAllStrings();
+
+$t->set_file( "checkout_payment_page_tpl", "checkoutpayment.tpl" );
+
+// Vouchers
+$t->set_block( "checkout_payment_page_tpl", "header_ex_item_tpl", "header_ex_item" );
+$t->set_block( "checkout_payment_page_tpl", "header_inc_item_tpl", "header_inc_item" );
+
+$t->set_block( "checkout_payment_page_tpl", "voucher_item_tpl", "voucher_item" );
+$t->set_block( "voucher_item_tpl", "voucher_ex_item_tpl", "voucher_ex_item" );
+$t->set_block( "voucher_item_tpl", "voucher_inc_item_tpl", "voucher_inc_item" );
+
+$t->set_block( "voucher_item_tpl", "delete_voucher_tpl", "delete_voucher" );
+$t->set_block( "checkout_payment_page_tpl", "delete_vouchers_tpl", "delete_vouchers" );
+$t->set_block( "checkout_payment_page_tpl", "delete_voucher_header_tpl", "delete_voucher_header" );
+
+$t->set_block( "checkout_payment_page_tpl", "rest_list_tpl", "rest_list" );
+$t->set_block( "rest_list_tpl", "rest_inc_tax_tpl", "rest_inc_tax" );
+$t->set_block( "rest_list_tpl", "rest_ex_tax_tpl", "rest_ex_tax" );
+
+$cart->cartTotals( $tax, $total );
+
+$checkoutDisplayer = new eZCheckoutDisplayer( $t, $cart );
+
+// $checkoutDisplayer->displayVouchers( $total );
+
+$checkoutDisplayer->path( "checkout_payment_page_tpl" );
+
+$t->pparse( "output", "checkout_payment_page_tpl" );
+
+
+include( "eztrade/user/payment.php" );
+
+?>

@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: datasupplier.php,v 1.54.4.5 2002/04/16 10:30:49 ce Exp $
+// $Id: datasupplier.php,v 1.54.4.6 2002/06/07 09:41:20 ce Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -32,6 +32,7 @@ include_once( "classes/ezhttptool.php" );
 $user =& eZUser::currentUser();
 
 $RequireUser = $ini->read_var( "eZTradeMain", "RequireUserLogin" ) == "enabled" ? true : false;
+$Checkout = $ini->read_var( "eZTradeMain", "Checkout" );
 $ShowPrice = $RequireUser ? get_class( $user ) == "ezuser" : true;
 
 $PriceGroup = 0;
@@ -120,7 +121,7 @@ switch ( $url_array[2] )
         }
 
         break;
-        
+
     case "print" :
     case "productprint" :
         if ( $PageCaching == "enabled" )
@@ -188,7 +189,7 @@ switch ( $url_array[2] )
             $Action = "AddToBasket";
             $ProductID = $url_array[4];
         }
-        
+
         if ( $url_array[3] == "movetocart" )
         {
             $Action = "MoveToCart";
@@ -212,11 +213,11 @@ switch ( $url_array[2] )
             $Action = "MoveToCart";
             $WishListItemID = $url_array[4];
         }
-        
+
         include( "eztrade/user/viewwishlist.php" );
     }
     break;
-    
+
     case "sendwishlist" :
     {
         include( "eztrade/user/sendwishlist.php" );
@@ -254,7 +255,53 @@ switch ( $url_array[2] )
 
     case "checkout" :
     {
-        include( "eztrade/user/checkout.php" );
+        if ( $Checkout == "compact" )
+        {
+            include( "eztrade/user/checkout.php" );
+            break;
+        }
+        elseif ( $Checkout == "extended" )
+        {
+            if ( $url_array[3] == "address" )
+            {
+                include( "eztrade/user/checkoutaddress.php" );
+                break;
+            }
+            if ( $url_array[3] == "shipping" )
+            {
+                include( "eztrade/user/checkoutshipping.php" );
+                break;
+            }
+            if ( $url_array[3] == "packing" )
+            {
+                include( "eztrade/user/checkoutpacking.php" );
+                break;
+            }
+            if ( $url_array[3] == "paymentmethod" )
+            {
+                include( "eztrade/user/checkoutpaymentmethod.php" );
+                break;
+            }
+            if ( $url_array[3] == "overview" )
+            {
+                include( "eztrade/user/checkoutoverview.php" );
+                break;
+            }
+            if ( $url_array[3] == "payment" )
+            {
+                include( "eztrade/user/payment.php" );
+                break;
+            }
+            if ( $url_array[3] == "ordersendt" )
+            {
+                $OrderID = $url_array[4];
+                include( "eztrade/user/ordersendt.php" );
+                break;
+            }
+
+            eZHTTPTool::header( "Location: /error/404" );
+            exit();
+        }
     }
     break;
 
@@ -273,7 +320,7 @@ switch ( $url_array[2] )
         include( "eztrade/user/voucherinformation.php" );
     }
     break;
-        
+
     case "ordersendt" :
     {
         $OrderID = $url_array[3];
@@ -298,7 +345,7 @@ switch ( $url_array[2] )
             $Offset = $url_array[3];
         else
             $Offset = 0;
-        
+
         include( "eztrade/user/orderlist.php" );
     }
     break;
@@ -318,11 +365,11 @@ switch ( $url_array[2] )
             $Action = "SearchButton";
             $Next = true;
         }
-                
+
         include( "eztrade/user/extendedsearch.php" );
     }
     break;
-    
+
     // XML rpc interface
     case "xmlrpc" :
     {
@@ -337,7 +384,7 @@ switch ( $url_array[2] )
     }
     break;
 
-        
+
     default :
     {
         eZHTTPTool::header( "Location: /error/404" );

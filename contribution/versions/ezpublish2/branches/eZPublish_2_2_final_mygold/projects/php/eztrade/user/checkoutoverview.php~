@@ -1,0 +1,226 @@
+<?php
+//
+// $Id: checkoutoverview.php~,v 1.1.2.1 2002/06/07 09:41:20 ce Exp $
+//
+// Definition of ||| class
+//
+// <real-name> <<mail-name>>
+// Created on: <11-Dec-2001 16:42:41 ce>
+//
+// This source file is part of eZ publish, publishing software.
+// Copyright (C) 1999-2001 eZ systems as
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, US
+//
+
+//!!
+//! The class ||| does
+/*!
+
+*/
+
+include_once( "ezuser/classes/ezuser.php" );
+include_once( "eztrade/classes/ezcheckoutdisplayer.php" );
+include_once( "eztrade/classes/ezcart.php" );
+include_once( "classes/eztemplate.php" );
+include_once( "ezsession/classes/ezsession.php" );
+include_once( "classes/ezhttptool.php" );
+
+$session =& eZSession::globalSession();
+
+if ( isSet ( $Next ) )
+{
+    $session->setVariable( "CurrentOverview", 1 );
+
+    eZHTTPTool::header( "Location: /trade/checkout/payment/" );
+    exit();
+}
+if ( isSet ( $RemoveVoucher ) )
+{
+    if ( count ( $RemoveVoucherArray ) > 0 )
+    {
+        $newArray = array();
+        $payWithVoucher = $session->arrayValue( "PayWithVoucher" );
+
+        while( list($key,$voucherID) = each( $payWithVoucher ) )
+        {
+            if ( !in_array ( $voucherID, $RemoveVoucherArray ) )
+                 $newArray[$voucherID] = $price;
+        }
+
+        $session->setVariable( "PayWithVoucher", "" );
+    }
+}
+
+
+
+$ini =& INIFile::globalINI();
+
+$Language = $ini->read_var( "eZTradeMain", "Language" );
+
+$t = new eZTemplate( "eztrade/user/" . $ini->read_var( "eZTradeMain", "TemplateDir" ),
+                     "eztrade/user/intl/", $Language , "checkoutoverview.php" );
+
+$t->setAllStrings();
+
+$t->set_file( "checkout_overview_page_tpl", "checkoutoverview.tpl" );
+
+$t->set_block( "checkout_overview_page_tpl", "shipping_address_tpl", "shipping_address" );
+$t->set_block( "checkout_overview_page_tpl", "billing_address_tpl", "billing_address" );
+
+$t->set_block( "checkout_overview_page_tpl", "empty_cart_tpl", "empty_cart" );
+$t->set_block( "checkout_overview_page_tpl", "full_cart_tpl", "full_cart" );
+
+$t->set_block( "full_cart_tpl", "cart_item_list_tpl", "cart_item_list" );
+$t->set_block( "cart_item_list_tpl", "header_savings_item_tpl", "header_savings_item" );
+$t->set_block( "cart_item_list_tpl", "header_inc_tax_item_tpl", "header_inc_tax_item" );
+$t->set_block( "cart_item_list_tpl", "header_ex_tax_item_tpl", "header_ex_tax_item" );
+
+$t->set_block( "cart_item_list_tpl", "cart_item_tpl", "cart_item" );
+$t->set_block( "cart_item_tpl", "cart_savings_item_tpl", "cart_savings_item" );
+$t->set_block( "cart_item_tpl", "cart_inc_tax_item_tpl", "cart_inc_tax_item" );
+$t->set_block( "cart_item_tpl", "cart_ex_tax_item_tpl", "cart_ex_tax_item" );
+
+$t->set_block( "cart_item_tpl", "cart_item_basis_tpl", "cart_item_basis" );
+$t->set_block( "cart_item_basis_tpl", "basis_savings_item_tpl", "basis_savings_item" );
+$t->set_block( "cart_item_basis_tpl", "basis_inc_tax_item_tpl", "basis_inc_tax_item" );
+$t->set_block( "cart_item_basis_tpl", "basis_ex_tax_item_tpl", "basis_ex_tax_item" );
+
+$t->set_block( "cart_item_tpl", "cart_item_option_tpl", "cart_item_option" );
+$t->set_block( "cart_item_option_tpl", "option_savings_item_tpl", "option_savings_item" );
+$t->set_block( "cart_item_option_tpl", "option_inc_tax_item_tpl", "option_inc_tax_item" );
+$t->set_block( "cart_item_option_tpl", "option_ex_tax_item_tpl", "option_ex_tax_item" );
+
+$t->set_block( "full_cart_tpl", "subtotal_ex_tax_item_tpl", "subtotal_ex_tax_item" );
+$t->set_block( "full_cart_tpl", "subtotal_inc_tax_item_tpl", "subtotal_inc_tax_item" );
+
+$t->set_block( "full_cart_tpl", "shipping_ex_tax_item_tpl", "shipping_ex_tax_item" );
+$t->set_block( "full_cart_tpl", "shipping_inc_tax_item_tpl", "shipping_inc_tax_item" );
+
+$t->set_block( "full_cart_tpl", "vouchers_tpl", "vouchers_tpl" );
+$t->set_block( "vouchers_tpl", "voucher_item_tpl", "voucher_item" );
+$t->set_block( "checkout_overview_page_tpl", "remove_voucher_tpl", "remove_voucher" );
+
+$t->set_block( "full_cart_tpl", "total_ex_tax_item_tpl", "total_ex_tax_item" );
+$t->set_block( "full_cart_tpl", "total_inc_tax_item_tpl", "total_inc_tax_item" );
+
+$t->set_block( "full_cart_tpl", "tax_specification_tpl", "tax_specification" );
+$t->set_block( "tax_specification_tpl", "tax_item_tpl", "tax_item" );
+
+// get the cart or create it
+$cart =& eZCart::getBySession( $session );
+$user =& eZUser::currentUser();
+
+$checkoutDisplayer = new eZCheckoutDisplayer( $t, $cart );
+
+$checkoutDisplayer->path( "checkout_overview_page_tpl" );
+
+$billingAddressID = $session->variable( "CurrentBillingAddressID" );
+$shippingAddressID = $session->variable( "CurrentShippingAddressID" );
+
+$title =& $user->title();
+if ( $title )
+    $t->set_var( "customer_title", $title->name() );
+else
+$t->set_var( "customer_title", "" );
+
+$t->set_var( "customer_first_name", $user->firstName() );
+$t->set_var( "customer_last_name", $user->lastName() );
+
+// Show the currect billing address
+if ( is_numeric ( $billingAddressID ) and $billingAddressID != 0 )
+{
+    if ( $ini->read_var( "eZTradeMain", "ShowBillingAddress" ) == "enabled" )
+    {
+        $billingAddress = new eZAddress( $billingAddressID );
+
+        $t->set_var( "billing_street1", $billingAddress->street1() );
+        $t->set_var( "billing_street2", $billingAddress->street2() );
+        $t->set_var( "billing_zip", $billingAddress->zip() );
+        $t->set_var( "billing_place", $billingAddress->place() );
+
+        $country = $billingAddress->country();
+
+        if ( $country )
+        {
+            if ( $ini->read_var( "eZUserMain", "SelectCountry" ) == "enabled" )
+                $t->set_var( "billing_country", $country->name() );
+            else
+                $t->set_var( "billing_country", "" );
+        }
+        else
+        {
+            $t->set_var( "billing_country", "" );
+        }
+        $t->parse( "billing_address", "billing_address_tpl" );
+    }
+    else
+    {
+        $t->set_var( "billing_address", "" );
+    }
+}
+
+// Show the currect shipping address
+if ( is_numeric ( $shippingAddressID ) and $shippingAddressID != 0 )
+{
+    $shippingUser = $user;
+    $title =& $shippingUser->title();
+    $t->set_var( "shipping_title", $title->name() );
+
+    $t->set_var( "shipping_first_name", $shippingUser->firstName() );
+    $t->set_var( "shipping_last_name", $shippingUser->lastName() );
+
+    $shippingAddress = new eZAddress( $billingAddressID );
+
+    $t->set_var( "shipping_street1", $shippingAddress->street1() );
+    $t->set_var( "shipping_street2", $shippingAddress->street2() );
+    $t->set_var( "shipping_zip", $shippingAddress->zip() );
+    $t->set_var( "shipping_place", $shippingAddress->place() );
+
+    $country = $shippingAddress->country();
+
+    if ( $country )
+    {
+        if ( $ini->read_var( "eZUserMain", "SelectCountry" ) == "enabled" )
+            $t->set_var( "shipping_country", $country->name() );
+        else
+            $t->set_var( "shipping_country", "" );
+    }
+    else
+    {
+        $t->set_var( "shipping_country", "" );
+    }
+    $t->parse( "shipping_address", "shipping_address_tpl" );
+}
+
+// Show the currect payment method
+$checkout = new eZCheckout();
+$instance =& $checkout->instance();
+$paymentMethod = $instance->paymentName( $session->variable( "CurrentPaymentMethodID" ) );
+$t->set_var( "payment_method", $paymentMethod );
+
+$shippingType = new eZShippingType( $session->variable( "CurrentShippingTypeID" ) );
+if ( $shippingType )
+{
+    $t->set_var( "shipping_type", $shippingType->name() );
+}
+
+$cart->cartTotals( $tax, $total );
+
+$checkoutDisplayer->displayItems( );
+$checkoutDisplayer->displayCart( $total );
+
+$t->pparse( "output", "checkout_overview_page_tpl" );
+?>
