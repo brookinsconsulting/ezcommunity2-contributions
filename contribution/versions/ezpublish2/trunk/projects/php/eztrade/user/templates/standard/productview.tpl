@@ -31,8 +31,7 @@
 <tr>
 	<td>
 	<a href="/imagecatalogue/imageview/{main_image_id}/?RefererURL=/trade/productview/{product_id}/">
-	<img src="{main_image_uri}" border="0" width="{main_image_width}" height="{main_image_height}" />
-	</a>
+	<img src="{main_image_uri}" border="0" width="{main_image_width}" height="{main_image_height}" /></a>
 	</td>
 </tr>
 <tr>
@@ -59,8 +58,7 @@
 <tr>
 	<td valign="top">
 	<a href="/imagecatalogue/imageview/{image_id}/?RefererURL=/trade/productview/{product_id}/">
-	<img src="{image_url}" border="0" alt="{image_caption}" width="{image_width}" height="{image_height}"/>
-	</a>
+	<img src="{image_url}" border="0" alt="{image_caption}" width="{image_width}" height="{image_height}"/></a>
 	</td>
 </tr>
 <tr>
