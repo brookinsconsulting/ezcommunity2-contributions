@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: checkout.php,v 1.96.2.2.4.8 2002/02/04 20:40:34 br Exp $
+// $Id: checkout.php,v 1.96.2.2.4.9 2002/03/27 14:33:56 br Exp $
 //
 // Created on: <28-Sep-2000 15:52:08 bf>
 //
@@ -50,7 +50,6 @@ $ShowCart = false;
 $ShowSavingsColumn = false;
 
 include_once( "ezuser/classes/ezuser.php" );
-include_once( "ezuser/classes/ezuser.php" );
 
 include_once( "eztrade/classes/ezproduct.php" );
 include_once( "eztrade/classes/ezoption.php" );
@@ -58,8 +57,9 @@ include_once( "eztrade/classes/ezoptionvalue.php" );
 include_once( "eztrade/classes/ezcart.php" );
 include_once( "eztrade/classes/ezcartitem.php" );
 include_once( "eztrade/classes/ezcartoptionvalue.php" );
-include_once( "eztrade/classes/ezpreorder.php" );
 include_once( "eztrade/classes/ezwishlist.php" );
+include_once( "eztrade/classes/ezpreorder.php" );
+include_once( "eztrade/classes/ezorder.php" );
 include_once( "eztrade/classes/ezvoucher.php" );
 
 // shipping
@@ -186,6 +186,9 @@ if ( isSet ( $RemoveVoucher ) )
     }
 }
 
+$locale = new eZLocale( $Language );
+$currency = new eZCurrency();
+
 if ( isSet( $SendOrder ) )
 {
 
@@ -222,6 +225,116 @@ if ( isSet( $SendOrder ) )
     $session->setVariable( "ShippingVAT", $cart->shippingVAT( new eZShippingType( $currentTypeID ) ) );
 
     $session->setVariable( "ShippingTypeID", eZHTTPTool::getVar( "ShippingTypeID", true ) );
+
+    // create a new order
+    $order = new eZOrder();
+    $user =& eZUser::currentUser();
+
+    if ( get_class( $user ) != "ezuser" )
+    {
+        eZLog::writeWarning( "user/payment.php: Got paymentSuccess without user logged in" );
+        eZHTTPTool::header( "Location: /trade/cart/" );
+        exit();
+    }
+
+    $order->setUser( $user );
+
+    if ( $ini->read_var( "eZTradeMain", "ShowBillingAddress" ) != "enabled" )
+    {
+        $billingAddressID = $shippingAddressID;
+    }
+
+    $shippingAddress = new eZAddress( $session->variable( "ShippingAddressID" ) );
+    $billingAddress = new eZAddress( $session->variable( "BillingAddressID" ) );
+
+    $order->setShippingCharge( $session->variable( "ShippingCost" ) );
+    $order->setShippingVAT( $session->variable( "ShippingVAT" ) );
+
+    $order->setShippingAddress( $shippingAddress, $user );
+    $order->setBillingAddress( $billingAddress, $user );
+
+    $order->setPaymentMethod( $session->arrayValue( "PaymentMethod" ) );
+
+    $order->setShippingTypeID( $session->variable( "ShippingTypeID" ) );
+
+    $order->setComment( $Comment );
+
+    $order->setPersonID( $cart->personID() );
+    $order->setCompanyID( $cart->companyID() );
+
+    $order->setIsVATInc( false );
+
+
+    // fetch the cart items
+    $items = $cart->items();
+
+    // exit if no items exist
+    if ( count ( $items ) == 0 )
+    {
+       eZHTTPTool::header( "Location: /trade/cart/" );
+       exit();
+    }
+
+    $order->store();
+
+
+    $order_id = $order->id();
+    
+    $session->setVariable( "OrderID", $order_id );
+
+    foreach ( $items as $item )
+    {
+        $totalVAT=0.0;
+        $price=0.0;
+        $totalPrice=0.0;
+        $product = $item->product();
+
+        // create a new order item.
+        $orderItem = new eZOrderItem();
+        $orderItem->setOrder( $order );
+        $orderItem->setProduct( $product );
+        $orderItem->setCount( $item->count() );
+
+        // Set the product price.
+        $price = $item->correctPrice( false, true, false );
+        $orderItem->setPrice( $price );
+
+        // Set the VAT for this product.
+        $totalVAT = $item->vat( false, true );
+        $orderItem->setVAT( $totalVAT );
+
+        $expiryTime = $product->expiryTime();
+        if ( $expiryTime > 0 )
+            $orderItem->setExpiryDate( eZDateTime::timeStamp( true ) + ( $expiryTime * 86400 ) );
+        else
+            $orderItem->setExpiryDate( 0 );
+
+        $orderItem->store();
+
+        // Store the optionvalues.
+        $optionValues =& $item->optionValues();
+        if ( count( $optionValues ) > 0 )
+        {
+            foreach ( $optionValues as $optionValue )
+            {
+                $option =& $optionValue->option();
+                $value =& $optionValue->optionValue();
+
+                $orderOptionValue = new eZOrderOptionValue();
+                $orderOptionValue->setOrderItem( $orderItem );
+
+                $orderOptionValue->setRemoteID( $optionValue->remoteID() );
+
+                $descriptions =& $value->descriptions();
+
+                $orderOptionValue->setOptionName( $option->name() );
+                $orderOptionValue->setValueName( $descriptions[0] );
+                // fix
+
+                $orderOptionValue->store();
+            }
+        }
+    }
 
     eZHTTPTool::header( "Location: /trade/payment/" );
     exit();

@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: datasupplier.php,v 1.54.8.10 2002/03/07 13:59:04 ce Exp $
+// $Id: datasupplier.php,v 1.54.8.11 2002/03/27 14:33:56 br Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -328,6 +328,12 @@ switch ( $url_array[2] )
     case "payment" :
     {
         include( "eztrade/user/payment.php" );
+    }
+    break;
+
+    case "confirmation" :
+    {
+        include( "eztrade/user/confirmation.php" );
     }
     break;
 
