@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: headlines.php,v 1.13 2000/12/13 00:26:48 bf Exp $
+// $Id: headlines.php,v 1.14 2001/01/30 19:05:10 pkej Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <16-Nov-2000 10:51:34 bf>
@@ -25,7 +25,7 @@
 
 // this page requires the variable $CategoryID to be set
 
-$PageCaching = $ini->read_var( "eZNewsFeedMain", "PageCaching" );
+$PageCaching = $ini->read_var( "eZNewsfeedMain", "PageCaching" );
 
 if ( $PageCaching == "enabled" )
 {
@@ -60,10 +60,10 @@ function printNewsHeaderList( $CategoryID, $GenerateStaticPage, $cachedFile )
     
     $ini = new INIFIle( "site.ini" );
     
-    $Language = $ini->read_var( "eZNewsFeedMain", "Language" );
-    $ImageDir = $ini->read_var( "eZNewsFeedMain", "ImageDir" );
+    $Language = $ini->read_var( "eZNewsfeedMain", "Language" );
+    $ImageDir = $ini->read_var( "eZNewsfeedMain", "ImageDir" );
     
-    $t = new eZTemplate( "eznewsfeed/user/" . $ini->read_var( "eZNewsFeedMain", "TemplateDir" ),
+    $t = new eZTemplate( "eznewsfeed/user/" . $ini->read_var( "eZNewsfeedMain", "TemplateDir" ),
                          "eznewsfeed/user/intl/", $Language, "headlines.php" );
     
     $t->setAllStrings();

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: sourcesiteedit.php,v 1.5 2001/01/12 13:56:54 ce Exp $
+// $Id: sourcesiteedit.php,v 1.6 2001/01/30 19:05:10 pkej Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <26-Nov-2000 17:55:31 bf>
@@ -27,8 +27,8 @@ include_once( "classes/INIFile.php" );
 
 $ini = new INIFIle( "site.ini" );
 
-$Language = $ini->read_var( "eZNewsFeedMain", "Language" );
-$ImageDir = $ini->read_var( "eZNewsFeedMain", "ImageDir" );
+$Language = $ini->read_var( "eZNewsfeedMain", "Language" );
+$ImageDir = $ini->read_var( "eZNewsfeedMain", "ImageDir" );
 
 include_once( "classes/eztemplate.php" );
 include_once( "classes/ezlocale.php" );
@@ -123,7 +123,7 @@ if ( $Action == "Delete" )
 
 
 
-$t = new eZTemplate( "eznewsfeed/admin/" . $ini->read_var( "eZNewsFeedMain", "AdminTemplateDir" ),
+$t = new eZTemplate( "eznewsfeed/admin/" . $ini->read_var( "eZNewsfeedMain", "AdminTemplateDir" ),
                      "eznewsfeed/admin/intl/", $Language, "sourcesiteedit.php" );
 
 $t->setAllStrings();

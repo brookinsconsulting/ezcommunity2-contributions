@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: search.php,v 1.3 2000/11/30 12:51:15 bf-cvs Exp $
+// $Id: search.php,v 1.4 2001/01/30 19:05:10 pkej Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <27-Nov-2000 11:52:01 bf>
@@ -32,11 +32,11 @@ include_once( "classes/ezlocale.php" );
 
 $ini = new INIFIle( "site.ini" );
 
-$Language = $ini->read_var( "eZNewsFeedMain", "Language" );
+$Language = $ini->read_var( "eZNewsfeedMain", "Language" );
 
 if ( $SearchText == "" )
 {   //show anohther template if the search is 
-    $t = new eZTemplate( "eznewsfeed/user/" . $ini->read_var( "eZNewsFeedMain", "TemplateDir" ),
+    $t = new eZTemplate( "eznewsfeed/user/" . $ini->read_var( "eZNewsfeedMain", "TemplateDir" ),
                          "eznewsfeed/user/intl/", $Language, "search.php" );
 
     $t->setAllStrings();
@@ -50,7 +50,7 @@ if ( $SearchText == "" )
 else
 {
 
-    $t = new eZTemplate( "eznewsfeed/user/" . $ini->read_var( "eZNewsFeedMain", "TemplateDir" ),
+    $t = new eZTemplate( "eznewsfeed/user/" . $ini->read_var( "eZNewsfeedMain", "TemplateDir" ),
                          "eznewsfeed/user/intl/", $Language, "search.php" );
     
     $t->setAllStrings();

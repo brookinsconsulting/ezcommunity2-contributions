@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: newssearch.php,v 1.1 2000/12/13 16:53:42 bf Exp $
+// $Id: newssearch.php,v 1.2 2001/01/30 19:05:10 pkej Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <13-Dec-2000 10:57:59 bf>
@@ -32,9 +32,9 @@ include_once( "classes/ezlocale.php" );
 
 $ini = new INIFile( "site.ini" );
 
-$Language = $ini->read_var( "eZNewsFeedMain", "Language" );
+$Language = $ini->read_var( "eZNewsfeedMain", "Language" );
 
-$t = new eZTemplate( "eznewsfeed/admin/" . $ini->read_var( "eZNewsFeedMain", "TemplateDir" ),
+$t = new eZTemplate( "eznewsfeed/admin/" . $ini->read_var( "eZNewsfeedMain", "TemplateDir" ),
                      "eznewsfeed/admin/intl/", $Language, "newssearch.php" );
 
 $t->setAllStrings();

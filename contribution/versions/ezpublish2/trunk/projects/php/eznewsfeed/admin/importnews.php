@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: importnews.php,v 1.6 2001/01/02 12:26:53 bf Exp $
+// $Id: importnews.php,v 1.7 2001/01/30 19:05:10 pkej Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <16-Nov-2000 13:02:19 bf>
@@ -68,9 +68,9 @@ if ( $Action == "ImportNews" )
 
 $ini = new INIFIle( "site.ini" );
 
-$Language = $ini->read_var( "eZNewsFeedMain", "Language" );
+$Language = $ini->read_var( "eZNewsfeedMain", "Language" );
 
-$t = new eZTemplate( "eznewsfeed/admin/" . $ini->read_var( "eZNewsFeedMain", "AdminTemplateDir" ),
+$t = new eZTemplate( "eznewsfeed/admin/" . $ini->read_var( "eZNewsfeedMain", "AdminTemplateDir" ),
                      "eznewsfeed/admin/intl/", $Language, "importnews.php" );
 
 $t->setAllStrings();

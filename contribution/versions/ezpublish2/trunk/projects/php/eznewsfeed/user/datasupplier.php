@@ -1,6 +1,6 @@
 <?php
 
-$PageCaching = $ini->read_var( "eZNewsFeedMain", "PageCaching" );
+$PageCaching = $ini->read_var( "eZNewsfeedMain", "PageCaching" );
 
 switch ( $url_array[2] )
 {

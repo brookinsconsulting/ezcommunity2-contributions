@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: unpublished.php,v 1.7 2001/01/02 12:26:54 bf Exp $
+// $Id: unpublished.php,v 1.8 2001/01/30 19:05:10 pkej Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <29-Nov-2000 18:10:27 bf>
@@ -94,9 +94,9 @@ if ( $Action == "Delete" )
 
 $ini = new INIFIle( "site.ini" );
 
-$Language = $ini->read_var( "eZNewsFeedMain", "Language" );
+$Language = $ini->read_var( "eZNewsfeedMain", "Language" );
 
-$t = new eZTemplate( "eznewsfeed/admin/" . $ini->read_var( "eZNewsFeedMain", "AdminTemplateDir" ),
+$t = new eZTemplate( "eznewsfeed/admin/" . $ini->read_var( "eZNewsfeedMain", "AdminTemplateDir" ),
                      "eznewsfeed/admin/intl/", $Language, "unpublished.php" );
 
 $t->setAllStrings();

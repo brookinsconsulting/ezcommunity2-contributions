@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: newsedit.php,v 1.7 2000/12/13 16:48:09 bf Exp $
+// $Id: newsedit.php,v 1.8 2001/01/30 19:05:10 pkej Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <16-Nov-2000 13:02:32 bf>
@@ -218,10 +218,10 @@ if ( $Action == "Delete" )
 
 $ini = new INIFIle( "site.ini" );
 
-$Language = $ini->read_var( "eZNewsFeedMain", "Language" );
-$ImageDir = $ini->read_var( "eZNewsFeedMain", "ImageDir" );
+$Language = $ini->read_var( "eZNewsfeedMain", "Language" );
+$ImageDir = $ini->read_var( "eZNewsfeedMain", "ImageDir" );
 
-$t = new eZTemplate( "eznewsfeed/admin/" . $ini->read_var( "eZNewsFeedMain", "AdminTemplateDir" ),
+$t = new eZTemplate( "eznewsfeed/admin/" . $ini->read_var( "eZNewsfeedMain", "AdminTemplateDir" ),
                      "eznewsfeed/admin/intl/", $Language, "newsedit.php" );
 
 $t->setAllStrings();
