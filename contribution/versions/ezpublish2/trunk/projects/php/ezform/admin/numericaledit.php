@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: numericaledit.php,v 1.2 2001/12/18 18:15:19 pkej Exp $
+// $Id: numericaledit.php,v 1.3 2001/12/19 16:23:55 pkej Exp $
 //
 // Created on: <12-Jun-2001 13:07:24 pkej>
 //
@@ -53,21 +53,21 @@ if ( isset( $OK ) )
         $elementNumerical->setMinValue( $MinValue );
         $elementNumerical->setMaxValue( $MaxValue );
         $elementNumerical->store();
-        eZHTTPTool::header( "Location: /form/form/pageedit/$FormID/$PageID" );
+        eZHTTPTool::header( "Location: /form/form/$From/$FormID/$PageID/$TableID" );
         exit();
     }
     
     if ( ( $MinValue == "" && $MaxValue == "" ) && $elementNumerical->id() > 0)
     {
         $elementNumerical->delete();
-        eZHTTPTool::header( "Location: /form/form/pageedit/$FormID/$PageID" );
+        eZHTTPTool::header( "Location: /form/form/$From/$FormID/$PageID/$TableID" );
         exit();        
     }
 }
 
 if ( isset( $Back ) )
 {
-    eZHTTPTool::header( "Location: /form/form/pageedit/$FormID/$PageID" );
+    eZHTTPTool::header( "Location: /form/form/$From/$FormID/$PageID/$TableID" );
     exit();
 }
 
@@ -93,6 +93,8 @@ else
 }
 
 
+$t->set_var( "from_page", $From );
+$t->set_var( "table_id", $TableID );
 
 $t->set_var( "element_name", $element->name() );
 $t->set_var( "element_id", $element->id() );

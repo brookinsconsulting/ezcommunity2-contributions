@@ -1,4 +1,4 @@
-<form action="{www_dir}{index}/form/form/numericaledit/{form_id}/{page_id}/{element_id}" method="post">
+<form action="{www_dir}{index}/form/form/numericaledit/{form_id}/{page_id}/{element_id}/{table_id}" method="post">
 
 <h1>{intl-numerical_values}</h1>
 
@@ -13,6 +13,7 @@
 <td>
 <p class="boxtext">{intl-max_value}:</p>
 <input type="text" size="8" name="MaxValue" value="{max_value}" />
+<input type="hidden" name="From" value="{from_page}" />
 </td>
 </tr>
 </table>

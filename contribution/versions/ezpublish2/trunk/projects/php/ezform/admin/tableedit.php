@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: tableedit.php,v 1.9 2001/12/19 14:34:22 pkej Exp $
+// $Id: tableedit.php,v 1.10 2001/12/19 16:23:55 pkej Exp $
 //
 // Created on: <13-Dec-2001 10:51:41 jhe>
 //
@@ -159,6 +159,7 @@ $elementTemplate->set_var( "element_page", "tableedit" );
 $elementTemplate->set_var( "form_id", $FormID );
 $elementTemplate->set_var( "page_id", $PageID );
 $elementTemplate->set_var( "table_id", $TableID );
+$elementTemplate->set_var( "this_page", "tableedit" );
 
 $elementList = eZFormTable::tableElements( $TableID );
 $types = eZFormElementType::getAll();

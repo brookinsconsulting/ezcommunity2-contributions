@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezformrenderer.php,v 1.31 2001/12/19 13:44:58 jhe Exp $
+// $Id: ezformrenderer.php,v 1.32 2001/12/19 16:23:55 pkej Exp $
 //
 // eZFormRenderer class
 //
@@ -209,6 +209,7 @@ class eZFormRenderer
                 $elementValue = $element->result();
 
             $this->Template->set_var( "field_value", $elementValue );
+            print_r($element);
             $this->Template->set_var( "element_name", $element->name() );
 
             if ( $elementType->name() == "text_block_item" )

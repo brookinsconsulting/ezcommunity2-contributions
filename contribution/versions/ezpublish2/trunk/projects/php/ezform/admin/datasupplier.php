@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: datasupplier.php,v 1.11 2001/12/18 16:32:46 pkej Exp $
+// $Id: datasupplier.php,v 1.12 2001/12/19 16:23:55 pkej Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -82,6 +82,7 @@ switch ( $Operation )
                 $FormID = $url_array[4];
                 $PageID = $url_array[5];
                 $ElementID = $url_array[6];
+                $TableID = $url_array[7];
                 include( "ezform/admin/numericaledit.php" );
             }
             break;
@@ -91,6 +92,7 @@ switch ( $Operation )
                 $FormID = $url_array[4];
                 $PageID = $url_array[5];
                 $ElementID = $url_array[6];
+                $TableID = $url_array[7];
                 include( "ezform/admin/textedit.php" );
             }
             break;

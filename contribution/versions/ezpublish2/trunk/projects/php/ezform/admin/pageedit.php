@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: pageedit.php,v 1.17 2001/12/19 15:55:06 br Exp $
+// $Id: pageedit.php,v 1.18 2001/12/19 16:23:55 pkej Exp $
 //
 // Definition of ||| class
 //
@@ -101,11 +101,11 @@ $elementTemplate->set_block( "element_list_tpl", "element_item_tpl", "element_it
 $elementTemplate->set_block( "element_item_tpl", "typelist_item_tpl", "typelist_item" );
 $elementTemplate->set_block( "element_item_tpl", "fixed_values_tpl", "fixed_values" );
 $elementTemplate->set_block( "element_item_tpl", "table_edit_tpl", "table_edit" );
-$elementTemplate->set_block( "element_item_tpl", "text_block_edit_tpl", "text_block_edit" );
-$elementTemplate->set_block( "element_item_tpl", "numerical_edit_tpl", "numerical_edit" );
 $elementTemplate->set_block( "element_item_tpl", "size_tpl", "size" );
 $elementTemplate->set_block( "element_item_tpl", "table_size_tpl", "table_size" );
 $elementTemplate->set_block( "element_item_tpl", "break_tpl", "break" );
+$elementTemplate->set_block( "element_item_tpl", "text_block_edit_tpl", "text_block_edit" );
+$elementTemplate->set_block( "element_item_tpl", "numerical_edit_tpl", "numerical_edit" );
 
 $move_item = true;
 $elementTemplate->set_block( "element_item_tpl", "item_move_up_tpl", "item_move_up" );
@@ -726,6 +726,7 @@ if ( $element )
         }
     }
 }
+$elementTemplate->set_var( "this_page", "pageedit" );
 
 $elementTemplate->setAllStrings();
 $elementListBody = $elementTemplate->parse( $target, "elementlist_tpl" );

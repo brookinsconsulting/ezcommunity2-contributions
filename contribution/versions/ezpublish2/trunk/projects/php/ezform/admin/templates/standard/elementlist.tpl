@@ -39,10 +39,10 @@
     <a href="{www_dir}{index}/form/form/tableedit/{form_id}/{page_id}/{element_id}/">{intl-edit_table}</a>
     <!-- END table_edit_tpl -->
     <!-- BEGIN text_block_edit_tpl -->
-    <a href="{www_dir}{index}/form/form/textedit/{form_id}/{page_id}/{element_id}/">{intl-edit_text_block}</a>
+    <a href="{www_dir}{index}/form/form/textedit/{form_id}/{page_id}/{element_id}/{table_id}?From={this_page}">{intl-edit_text_block}</a>
     <!-- END text_block_edit_tpl -->
     <!-- BEGIN numerical_edit_tpl -->
-    <a href="{www_dir}{index}/form/form/numericaledit/{form_id}/{page_id}/{element_id}/">{intl-edit_numerical}</a>
+    <a href="{www_dir}{index}/form/form/numericaledit/{form_id}/{page_id}/{element_id}/{table_id}?From={this_page}">{intl-edit_numerical}</a>
     <!-- END numerical_edit_tpl -->
     </td>
 
