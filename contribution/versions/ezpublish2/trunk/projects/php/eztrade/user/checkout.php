@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: checkout.php,v 1.52 2001/03/15 12:58:32 jb Exp $
+// $Id: checkout.php,v 1.53 2001/03/15 14:31:11 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <28-Sep-2000 15:52:08 bf>
@@ -127,81 +127,20 @@ $t->set_block( "checkout_tpl", "sendorder_item_tpl", "sendorder_item" );
 
 if ( isset( $SendOrder ) ) 
 {
-    $locale = new eZLocale( $Language );
-    $currency = new eZCurrency();
+    // set the variables as session variables and make sure that it is not read by
+    // the HTTP GET variables for security.
     
-    // create a new order
-    $order = new eZOrder();
-    $user = eZUser::currentUser();
-    $order->setUser( $user );
+    $session->setVariable( "ShippingAddressID", eZHTTPTool::getVar( "ShippingAddressID", true ) );
+    $session->setVariable( "BillingAddressID", eZHTTPTool::getVar( "BillingAddressID", true ) );
 
-    if ( $ini->read_var( "eZTradeMain", "ShowBillingAddress" ) != "enabled" )
-    {
-        $billingAddressID = $shippingAddressID;
-    }
+    $session->setVariable( "TotalCost", eZHTTPTool::getVar( "TotalCost", true ) );
+    $session->setVariable( "PaymentMethod", eZHTTPTool::getVar( "PaymentMethod", true ) );
+
+    $session->setVariable( "ShippingCost", eZHTTPTool::getVar( "ShippingCost", true ) );
+    $session->setVariable( "ShippingVAT", eZHTTPTool::getVar( "ShippingVAT", true ) );
+
+    $session->setVariable( "ShippingTypeID", eZHTTPTool::getVar( "ShippingTypeID", true ) );
     
-    $shippingAddress = new eZAddress( $ShippingAddressID );
-    $billingAddress = new eZAddress( $BillingAddressID );
-
-    $order->setShippingAddress( $shippingAddress );
-    $order->setBillingAddress( $billingAddress );
-
-
-    $order->setShippingCharge( eZHTTPTool::getVar( "ShippingCost", true ) );
-    $order->setShippingVAT( eZHTTPTool::getVar( "ShippingVAT", true ) );
-    $order->setPaymentMethod( $PaymentMethod );
-
-    $order->setShippingTypeID( eZHTTPTool::getVar( "ShippingTypeID" ) );
-
-
-    $order->store();
-
-    $order_id = $order->id();
-
-    // fetch the cart items
-    $items = $cart->items(  );
-
-    foreach( $items as $item )
-    {
-        $product = $item->product();
-
-        // product price
-        $price = $item->price( false );
-        
-        // create a new order item
-        $orderItem = new eZOrderItem();
-        $orderItem->setOrder( $order );
-        $orderItem->setProduct( $product );
-        $orderItem->setCount( $item->count() );
-        $orderItem->setPrice( $price );
-        $orderItem->store();
-        
-        $optionValues =& $item->optionValues();
-
-        $optionValues =& $item->optionValues();
-        
-        foreach ( $optionValues as $optionValue )
-        {
-            $option =& $optionValue->option();
-            $value =& $optionValue->optionValue();
-
-            $orderOptionValue = new eZOrderOptionValue();
-            $orderOptionValue->setOrderItem( $orderItem );
-
-            $descriptions =&$value->descriptions();
-            
-            $orderOptionValue->setOptionName( $option->name() );
-            $orderOptionValue->setValueName( $descriptions[0] );
-            // fix
-            $orderOptionValue->store();
-        }
-    }
-   
-//      $cart->clear();
-
-    $session->setVariable( "TotalCost", $TotalCost );
-    $session->setVariable( "PaymentMethod", $PaymentMethod );
-    $session->setVariable( "OrderID", $order_id );
 
     eZHTTPTool::header( "Location: /trade/payment/" );
     exit();
