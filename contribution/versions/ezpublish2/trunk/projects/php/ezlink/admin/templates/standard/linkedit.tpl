@@ -30,7 +30,7 @@
 	<!-- END link_group_tpl -->
 </select>
 
-<p class="boxtext">{intl-url}:</p>
+<p class="boxtext">{intl-url}: <a href="/link/gotolink/addhit/{link_id}/?Url={url}">{url}</a> </p>
 <!-- {intl-urledit} -->
 http://<input type="text" name="Url" size="40" value="{url}">
 
@@ -63,14 +63,16 @@ http://<input type="text" name="Url" size="40" value="{url}">
 <tr>
 	<td>
 	<input class="okbutton" type="submit" value="{intl-ok}">
-	</form>
 	</td>
 	<td>&nbsp;</td>
 	<td>
-	<form method="post" action="/link/group/">
-    <input class="okbutton" type="submit" name="Back" value="{intl-back}">
-	</form>
+	<input class="okbutton" type="submit" name="Delete" value="{intl-delete}">
+	</td>
+	<td>&nbsp;</td>
+	<td>
+	<input class="okbutton" type="submit" name="Back" value="{intl-back}">
 	</td>
 </tr>
+</form>
 </table>
 

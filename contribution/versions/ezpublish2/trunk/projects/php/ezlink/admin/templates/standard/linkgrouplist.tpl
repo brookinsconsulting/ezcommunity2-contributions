@@ -100,7 +100,7 @@ onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ela{linkgroup_id}-sl
 <!-- BEGIN link_item_tpl -->
 <tr>
 	<td class="{td_class}">
-	<a href="/link/linkedit/edit/{link_id}/">{link_title}</a><br />
+	<a href="/link/gotolink/addhit/{link_id}/?Url={link_url}">{link_title}</a><br />
 	{link_description}
 	</td>
 	<td class="{td_class}" width="80" align="right">

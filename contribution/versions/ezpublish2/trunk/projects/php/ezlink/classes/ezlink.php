@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezlink.php,v 1.35 2000/11/01 11:04:50 ce-cvs Exp $
+// $Id: ezlink.php,v 1.36 2000/11/23 09:36:36 ce-cvs Exp $
 //
 // Definition of eZLink class
 //
@@ -93,6 +93,7 @@ class eZLink
     */
     function store()
     {
+
         $this->dbInit();
        // Sets the created to the system clock
         $this->Created = date( "Y-m-d G:i:s" );        

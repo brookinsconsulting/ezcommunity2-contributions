@@ -1,5 +1,5 @@
 <?
-// $Id: linkedit.php,v 1.36 2000/11/22 12:11:06 bf-cvs Exp $
+// $Id: linkedit.php,v 1.37 2000/11/23 09:36:36 ce-cvs Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <26-Oct-2000 14:58:57 ce>
@@ -29,7 +29,6 @@
 include_once( "classes/INIFile.php" );
 
 $ini = new INIFile( "site.ini" );
-$DOC_ROOT = $ini->read_var( "eZLinkMain", "DocumentRoot" );
 $Language = $ini->read_var( "eZLinkMain", "Language" );
 $error = new INIFIle( "ezuser/admin/intl/" . $Language . "/useredit.php.ini", false );
 
@@ -42,6 +41,22 @@ include( "ezlink/classes/ezhit.php" );
 include_once( "ezlink/classes/ezmeta.php" );
 
 require( "ezuser/admin/admincheck.php" );
+
+if ( isSet( $Delete ) )
+{
+    $Action = "delete";
+}
+
+if ( isSet( $Back ) )
+{
+    $link = new eZLink();
+    $link->get( $LinkID );
+    $LinkGroupID = $link->linkGroupID();
+
+    Header( "Location: /link/group/$LinkGroupID" );
+    exit();
+}
+
 
 if ( $GetSite )
 {
@@ -134,12 +149,12 @@ if ( $Action == "delete" )
         $LinkGroupID = $deletelink->linkGroupID();
         $deletelink->delete();
 
-        if ( !$LinkGroupID )
+        if ( $deletelink->accepted() == "N" )
         {
             Header( "Location: /link/group/incoming" );
             exit();
         }
-        
+       
         Header( "Location: /link/group/$LinkGroupID" );
         exit();
         
@@ -162,7 +177,7 @@ if ( $Action == "insert" )
         $Url != "" )
         {
             $link = new eZLink();
-            
+
             $link->setTitle( $Title );
             $link->setDescription( $Description );
             $link->setLinkGroupID( $LinkGroupID );
@@ -178,8 +193,6 @@ if ( $Action == "insert" )
                 $tdescription = $Description;
             }
     
-            $message = "Legg til ny link";
-            $submit = "Legg til";
             $link->store();
             
             Header( "Location: /link/group/$LinkGroupID" );
@@ -198,8 +211,8 @@ if ( $Action == "insert" )
 
 // Sette template filer.
 
-$t = new eZTemplate( $DOC_ROOT . "/admin/" . $ini->read_var( "eZLinkMain", "AdminTemplateDir" ),
-$DOC_ROOT . "/admin/" . "/intl", $Language, "linkedit.php" );
+$t = new eZTemplate( "ezlink/admin/" . $ini->read_var( "eZLinkMain", "TemplateDir" ),
+"ezlink/admin/" . "/intl", $Language, "linkedit.php" );
 $t->setAllStrings();
 
 $t->setAllStrings();
@@ -324,7 +337,6 @@ $t->set_var( "description", $tdescription );
 $t->set_var( "headline", $headline );
 
 $t->set_var( "error_msg", $error_msg );
-$t->set_var( "document_root", $DOC_ROOT );
 
 $t->set_var( "link_id", $LinkID );
 $t->pparse( "output", "link_edit" );

@@ -1,5 +1,5 @@
 <?
-// $Id: linkgrouplist.php,v 1.6 2000/11/22 12:11:06 bf-cvs Exp $
+// $Id: linkgrouplist.php,v 1.7 2000/11/23 09:36:36 ce-cvs Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <26-Oct-2000 14:55:24 ce>
@@ -156,6 +156,7 @@ else
         $t->set_var( "link_created", $linkItem->created() );
         $t->set_var( "link_modified", $linkItem->modified() );
         $t->set_var( "link_accepted", $linkItem->id() );
+        $t->set_var( "link_url", $linkItem->url() );
         
         $hit = new eZHit();
         $hits = $hit->getLinkHits( $linkItem->id() );
