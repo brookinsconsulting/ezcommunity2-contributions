@@ -65,19 +65,19 @@ else
 	<td class="tdmini" width="1%">
 	<img src="<? print $GlobalSiteIni->WWWDir; ?>/sitedesign/<? print ($GlobalSiteDesign); ?>/images/tab-unmrk-left.gif" height="20" width="20" border="0" alt="" /><br />
 	</td>
-	<td class="tab" bgcolor="#e2efe2" width="23%">&nbsp;&nbsp;<a href="/">Standard</a>&nbsp;&nbsp;</td>
+	<td class="tab" bgcolor="#e2efe2" width="23%">&nbsp;&nbsp;<a href="/section-standard/">Standard</a>&nbsp;&nbsp;</td>
 	<td class="tdmini" width="1%">
 	<img src="<? print $GlobalSiteIni->WWWDir; ?>/sitedesign/<? print ($GlobalSiteDesign); ?>/images/tab-unmrk-mrk.gif" height="20" width="20" border="0" alt="" /><br />
 	</td>
-	<td class="tab" bgcolor="#ffffff" width="23%">&nbsp;&nbsp;<a href="/">Intranet</a>&nbsp;&nbsp;</td>
+	<td class="tab" bgcolor="#ffffff" width="23%">&nbsp;&nbsp;<a href="/section-intranet/">Intranet</a>&nbsp;&nbsp;</td>
 	<td class="tdmini" width="1%">
 	<img src="<? print $GlobalSiteIni->WWWDir; ?>/sitedesign/<? print ($GlobalSiteDesign); ?>/images/tab-mrk-unmrk.gif" height="20" width="20" border="0" alt="" /><br />
 	</td>
-	<td class="tab" bgcolor="#e2efe2" width="23%">&nbsp;&nbsp;<a href="/">Trade</a>&nbsp;&nbsp;</td>
+	<td class="tab" bgcolor="#e2efe2" width="23%">&nbsp;&nbsp;<a href="/section-trade/">Trade</a>&nbsp;&nbsp;</td>
 	<td class="tdmini" width="1%">
 	<img src="<? print $GlobalSiteIni->WWWDir; ?>/sitedesign/<? print ($GlobalSiteDesign); ?>/images/tab-unmrk-unmrk.gif" height="20" width="20" border="0" alt="" /><br />
 	</td>
-	<td class="tab" bgcolor="#e2efe2" width="23%">&nbsp;&nbsp;<a href="/">News</a>&nbsp;&nbsp;</td>
+	<td class="tab" bgcolor="#e2efe2" width="23%">&nbsp;&nbsp;<a href="/section-news/">News</a>&nbsp;&nbsp;</td>
 	<td class="tdmini" width="1%">
 	<img src="<? print $GlobalSiteIni->WWWDir; ?>/sitedesign/<? print ($GlobalSiteDesign); ?>/images/tab-unmrk-right.gif" height="20" width="20" border="0" alt="" /><br />
 	</td>
@@ -194,72 +194,6 @@ else
 	include( "ezcontact/user/consultationlist.php" );
 	?>
 	     
-	<hr noshade="noshade" size="4" />
-
-	
-    <?
-    // change design on the fly
-    
-$session =& eZSession::globalSession();
-
-if ( $session->fetch() == false )
-{
-    $session =& eZSession::globalSession();
-    $session->store();    
-}
-
-if ( $Design == 1 )
-{
-    $session->setVariable( "SiteDesign", "standard" );
-    include_once( "classes/ezhttptool.php" );
-
-    $redir = "/";
-    if ( isset( $REQUEST_URI ) && ( $REQUEST_URI != "" ) )
-    {
-        $redir = $REQUEST_URI;
-    }
-        
-    eZHTTPTool::header( "Location: $redir" );
-    exit();
-}
-
-if ( $Design == 2 )
-{
-    $session->setVariable( "SiteDesign", "trade" );
-    include_once( "classes/ezhttptool.php" );
-
-    $redir = "/";
-    if ( isset( $REQUEST_URI ) && ( $REQUEST_URI != "" ) )
-    {
-        $redir = $REQUEST_URI;
-    }
-        
-    eZHTTPTool::header( "Location: $redir" );
-    exit();
-}
-
-if ( $Design == 3 )
-{
-    $session->setVariable( "SiteDesign", "news" );
-    include_once( "classes/ezhttptool.php" );
-
-    $redir = "/";
-    if ( isset( $REQUEST_URI ) && ( $REQUEST_URI != "" ) )
-    {
-        $redir = $REQUEST_URI;
-    }
-        
-    eZHTTPTool::header( "Location: $redir" );
-    exit();
-}
-
-
-?>
-	<h2>Alternative sitedesigns:</h2>
-    <a href="<? print( $GlobalSiteIni->WWWDir . $GlobalSiteIni->Index . $REQUEST_URI . "?Design=1"); ?>"><b>Portal</b></a><br />
-    <a href="<? print( $GlobalSiteIni->WWWDir . $GlobalSiteIni->Index . $REQUEST_URI . "?Design=2"); ?>"><b>Trade</b></a><br />
-    <a href="<? print( $GlobalSiteIni->WWWDir . $GlobalSiteIni->Index . $REQUEST_URI . "?Design=3"); ?>"><b>News</b></a><br />
-
    	<!-- Right menu end -->
 	
 	<img src="<? print $GlobalSiteIni->WWWDir; ?>/images/1x1.gif" width="130" height="20" border="0" alt="" /><br />

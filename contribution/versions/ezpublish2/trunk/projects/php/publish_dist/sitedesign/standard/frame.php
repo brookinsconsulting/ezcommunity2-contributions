@@ -110,19 +110,19 @@ else
 	<td class="tdmini" width="1%">
 	<img src="<? print $GlobalSiteIni->WWWDir; ?>/sitedesign/<? print ($GlobalSiteDesign); ?>/images/tab-mrk-left.gif" height="20" width="20" border="0" alt="" /><br />
 	</td>
-	<td class="tab" bgcolor="#ffffff" width="23%">&nbsp;&nbsp;<a href="/">Standard</a>&nbsp;&nbsp;</td>
+	<td class="tab" bgcolor="#ffffff" width="23%">&nbsp;&nbsp;<a href="/section-standard/">Standard</a>&nbsp;&nbsp;</td>
 	<td class="tdmini" width="1%">
 	<img src="<? print $GlobalSiteIni->WWWDir; ?>/sitedesign/<? print ($GlobalSiteDesign); ?>/images/tab-mrk-unmrk.gif" height="20" width="20" border="0" alt="" /><br />
 	</td>
-	<td class="tab" bgcolor="#dcdcdc" width="23%">&nbsp;&nbsp;<a href="/">Intranet</a>&nbsp;&nbsp;</td>
+	<td class="tab" bgcolor="#dcdcdc" width="23%">&nbsp;&nbsp;<a href="/section-intranet/">Intranet</a>&nbsp;&nbsp;</td>
 	<td class="tdmini" width="1%">
 	<img src="<? print $GlobalSiteIni->WWWDir; ?>/sitedesign/<? print ($GlobalSiteDesign); ?>/images/tab-unmrk-unmrk.gif" height="20" width="20" border="0" alt="" /><br />
 	</td>
-	<td class="tab" bgcolor="#dcdcdc" width="23%">&nbsp;&nbsp;<a href="/">Trade</a>&nbsp;&nbsp;</td>
+	<td class="tab" bgcolor="#dcdcdc" width="23%">&nbsp;&nbsp;<a href="/section-trade/">Trade</a>&nbsp;&nbsp;</td>
 	<td class="tdmini" width="1%">
 	<img src="<? print $GlobalSiteIni->WWWDir; ?>/sitedesign/<? print ($GlobalSiteDesign); ?>/images/tab-unmrk-unmrk.gif" height="20" width="20" border="0" alt="" /><br />
 	</td>
-	<td class="tab" bgcolor="#dcdcdc" width="23%">&nbsp;&nbsp;<a href="/">News</a>&nbsp;&nbsp;</td>
+	<td class="tab" bgcolor="#dcdcdc" width="23%">&nbsp;&nbsp;<a href="/section-news/">News</a>&nbsp;&nbsp;</td>
 	<td class="tdmini" width="1%">
 	<img src="<? print $GlobalSiteIni->WWWDir; ?>/sitedesign/<? print ($GlobalSiteDesign); ?>/images/tab-unmrk-right.gif" height="20" width="20" border="0" alt="" /><br />
 	</td>
@@ -223,73 +223,25 @@ else
     include( "ezpoll/user/votebox.php" );
     ?>
 
-    <hr noshade="noshade" size="4" />
-
+<table width="100%" cellspacing="0" cellpadding="2" border="0">
+<tr>
+	<td class="menuhead">Site search</td>
+</tr>
+<tr>
+	<td>
 <form action="<? print $GlobalSiteIni->WWWDir . $GlobalSiteIni->Index; ?>/search/" method="get" style="margin-top: 0px; margin-bottom: 0px; padding: 0px;">
     <input type="hidden" name="SectionIDOverride" value="2" />
-    <input type="text" size="10" name="SearchText" value="" style="font-family: verdana; width: 80px; font-size: 9px; margin: 0px;" />
+    <input type="text" size="10" name="SearchText" value="" style="font-family: verdana; width: 130px; font-size: 9px; margin: 0px;" />
     <input type="submit" name="Search" value="search" style="font-size: 9px; margin: 0px; padding: 0px;" />
 </form>
+	</td>
+</tr>
+<tr>
+	<td class="menuspacer">&nbsp;</td>
+</tr>
+</table>
 
-    <hr noshade="noshade" size="4" />
-
-    <?
-    $session =& eZSession::globalSession();
-
-
-if ( $session->fetch() == false )
-{
-    $session =& eZSession::globalSession();
-    $session->store();
-}
-
-if ( isset( $Design ) and $Design == 1 )
-{
-    $session->setVariable( "SiteDesign", "intranet" );
-    include_once( "classes/ezhttptool.php" );
-    eZHTTPTool::header( "Location: $REQUEST_URI" );
-    exit();
-}
-
-if ( isset( $Design ) and $Design == 2 )
-{
-    $session->setVariable( "SiteDesign", "trade" );
-    include_once( "classes/ezhttptool.php" );
-
-    $redir = "/";
-    if ( isset( $REQUEST_URI ) && ( $REQUEST_URI != "" ) )
-    {
-        $redir = $REQUEST_URI;
-    }
-
-    eZHTTPTool::header( "Location: $redir" );
-    exit();
-}
-
-if ( isset( $Design ) and $Design == 3 )
-{
-    $session->setVariable( "SiteDesign", "news" );
-    include_once( "classes/ezhttptool.php" );
-
-    $redir = "/";
-    if ( isset( $REQUEST_URI ) && ( $REQUEST_URI != "" ) )
-    {
-        $redir = $REQUEST_URI;
-    }
-
-    eZHTTPTool::header( "Location: $redir" );
-    exit();
-}
-
-
-    ?>
-
-    <h2>Alternative sitedesigns:</h2>
-    <a href="<? print( $GlobalSiteIni->WWWDir . $GlobalSiteIni->Index . $REQUEST_URI . "?Design=1"); ?>"><b>Intranet</b></a><br />
-    <a href="<? print( $GlobalSiteIni->WWWDir . $GlobalSiteIni->Index . $REQUEST_URI . "?Design=2"); ?>"><b>Trade</b></a><br />
-    <a href="<? print( $GlobalSiteIni->WWWDir . $GlobalSiteIni->Index . $REQUEST_URI . "?Design=3"); ?>"><b>News</b></a><br />
-
-      <!-- Right menu end -->
+<!-- Right menu end -->
 
    <img src="<? print $GlobalSiteIni->WWWDir; ?>/images/1x1.gif" width="130" height="20" border="0" alt="" /><br />
 
@@ -297,7 +249,7 @@ if ( isset( $Design ) and $Design == 3 )
    <a target="_blank" href="http://developer.ez.no"><img src="<? print $GlobalSiteIni->WWWDir; ?>/images/powered-by-ezpublish-100x35-trans-lgrey.gif" width="100" height="35" border="0" alt="Powered by eZ publish" /></a>
    </div>
 
-    <a href="?PrintableVersion=enabled">Printerfriendly version</a>
+    <a class="path" href="?PrintableVersion=enabled">Printable page</a>
    <img src="<? print $GlobalSiteIni->WWWDir; ?>/images/1x1.gif" width="130" height="8" border="0" alt="" /><br />
 
    </td>
