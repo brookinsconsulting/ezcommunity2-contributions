@@ -176,27 +176,6 @@ switch ( $url_array[2] )
     }
     break;
 
-    case "articleedit":
-    {
-        switch ( $url_array[3] )
-        {
-            case "insert" :
-            {
-                $Action = "Insert";
-                include( "ezarticle/user/articleedit.php" );
-            }
-            break;
-
-            default :
-            {
-                include( "ezarticle/user/articleedit.php" );
-            }            
-            break;
-        }
-
-    }
-    break;
-
     case "rssheadlines":
     {
         include( "ezarticle/user/articlelistrss.php" );

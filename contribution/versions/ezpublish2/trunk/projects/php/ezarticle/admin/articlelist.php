@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: articlelist.php,v 1.14 2001/01/25 14:15:02 th Exp $
+// $Id: articlelist.php,v 1.15 2001/02/04 16:45:16 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <18-Oct-2000 14:41:37 bf>
@@ -30,7 +30,7 @@ include_once( "classes/ezlocale.php" );
 include_once( "ezarticle/classes/ezarticlecategory.php" );
 include_once( "ezarticle/classes/ezarticle.php" );
 
-$ini = new INIFIle( "site.ini" );
+$ini =& $GLOBALS["GlobalSiteIni"];
 
 $Language = $ini->read_var( "eZArticleMain", "Language" );
 $AdminListLimit = $ini->read_var( "eZArticleMain", "AdminListLimit" );

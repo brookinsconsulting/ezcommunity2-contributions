@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezarticlecategory.php,v 1.22 2001/01/25 14:03:39 bf Exp $
+// $Id: ezarticlecategory.php,v 1.23 2001/02/04 16:45:16 bf Exp $
 //
 // Definition of eZArticleCategory class
 //
@@ -352,7 +352,7 @@ class eZArticleCategory
       3 - alphabetic desc
       3 - absolute placement      
     */
-    function sortMode()
+    function sortMode( $return_id = false )
     {
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
@@ -388,8 +388,12 @@ class eZArticleCategory
                $SortMode = "time";
            }           
        }
-       
-       return $SortMode;
+
+       if ( $return_id == true )       
+           return $this->SortMode;
+       else
+           return $SortMode;
+           
     }
 
     /*!
@@ -667,7 +671,7 @@ class eZArticleCategory
 
        $db->query_single( $qry, "SELECT * FROM eZArticle_ArticleCategoryLink
                                   WHERE ArticleID='$id' AND CategoryID='$this->ID'" );
-
+       
        if ( is_numeric( $qry["ID"] ) )
        {
            $linkID = $qry["ID"];
@@ -675,10 +679,17 @@ class eZArticleCategory
            $placement = $qry["Placement"];
            
            $db->query_single( $qry, "SELECT ID, Placement FROM eZArticle_ArticleCategoryLink
-                                    WHERE Placement<'$placement' AND eZArticle_ArticleCategoryLink.CategoryID='$this->ID' ORDER BY Placement DESC LIMIT 1" );
+                                    WHERE Placement<='$placement' AND eZArticle_ArticleCategoryLink.CategoryID='$this->ID'
+                                    ORDER BY Placement DESC LIMIT 1" );
 
            $newPlacement = $qry["Placement"];
            $listid = $qry["ID"];
+
+           if ( $newPlacement == $placement )
+           {
+               $placement += 1;
+           }
+               
 
            if ( is_numeric( $listid ) )
            {           
@@ -708,10 +719,16 @@ class eZArticleCategory
            $placement = $qry["Placement"];
            
            $db->query_single( $qry, "SELECT ID, Placement FROM eZArticle_ArticleCategoryLink
-                                    WHERE Placement>'$placement' AND eZArticle_ArticleCategoryLink.CategoryID='$this->ID' ORDER BY Placement ASC LIMIT 1" );
+                                    WHERE Placement>='$placement' AND eZArticle_ArticleCategoryLink.CategoryID='$this->ID' ORDER BY Placement ASC LIMIT 1" );
 
            $newPlacement = $qry["Placement"];
            $listid = $qry["ID"];
+
+           if ( $newPlacement == $placement )
+           {
+               $newPlacement += 1;
+           }
+           
 
            if ( is_numeric( $listid ) )
            {

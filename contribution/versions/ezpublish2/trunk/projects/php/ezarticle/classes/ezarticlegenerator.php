@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezarticlegenerator.php,v 1.8 2001/01/22 14:42:59 jb Exp $
+// $Id: ezarticlegenerator.php,v 1.9 2001/02/04 16:45:16 bf Exp $
 //
 // Definition of eZArticleGenerator class
 //
@@ -41,12 +41,11 @@ class eZArticleGenerator
     {
         if ( $generatorType == "" )
         {
-            $ini = new INIFile( "site.ini" );
+            $ini =& $GLOBALS["GlobalSiteIni"];
 
             $Generator = $ini->read_var( "eZArticleMain", "Generator" );
             $generatorType = $Generator;
         }
-
 
         switch ( $generatorType )
         {            

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: groupedit.php,v 1.16 2001/01/24 10:42:08 ce Exp $
+// $Id: groupedit.php,v 1.17 2001/02/04 16:45:16 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <18-Sep-2000 14:46:19 bf>
@@ -168,6 +168,11 @@ $t->set_var( "name_value", "" );
 $t->set_var( "action_value", "insert" );
 $t->set_var( "exclude_checked", "" );
 
+$t->set_var( "1_selected", "" );
+$t->set_var( "2_selected", "" );
+$t->set_var( "3_selected", "" );
+$t->set_var( "4_selected", "" );
+
 // edit
 if ( $Action == "edit" )
 {
@@ -179,6 +184,9 @@ if ( $Action == "edit" )
     $t->set_var( "action_value", "update" );
     $t->set_var( "category_id", $category->id() );
     $parent = $category->parent();
+
+    // set the current sortmode to selected
+    $t->set_var( $category->sortMode( true ) . "_selected", "selected" );    
 
     if( is_object( $parent ) )
     {
