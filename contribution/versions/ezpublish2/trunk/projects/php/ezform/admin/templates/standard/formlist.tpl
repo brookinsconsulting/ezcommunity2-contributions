@@ -37,10 +37,6 @@
 
 <input class="stdbutton" type="submit" name="DeleteSelected" value="{intl-delete_selected_forms}" />
 
-<hr noshade="noshade" size="4" />
-
-<input class="okbutton" type="submit" name="OK" value="{intl-ok}" />
-
 </form>
 <!-- BEGIN type_list_tpl -->
 <br />
