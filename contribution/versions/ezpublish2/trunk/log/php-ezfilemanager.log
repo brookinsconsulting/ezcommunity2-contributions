@@ -53,3 +53,19 @@ Maintainer(s) : jhe@ez.no
 
     * user/templates/linmag/filelist.tpl: Layout
 
+
+Module : ezfilemanager
+Repository path : /home/cvsroot/projects/php/ezfilemanager
+Maintainer(s) : jhe@ez.no
+2001-09-13  fh  <fh@zev.ez.no>
+
+    * user/fileupload.php: Code cleanup
+
+    * user/fileupload.php: Obey upload permission
+
+    * user/intl/en_GB/folderedit.php.ini
+      user/templates/standard/folderedit.tpl
+      user/folderedit.php:
+    1. Upload functionality added to eZObjectPermission.
+    2. Upload toggles added to imagecatalogue (toggles work) functionality not.
+

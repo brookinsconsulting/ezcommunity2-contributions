@@ -27,3 +27,15 @@ Maintainer(s) : bf@ez.no
 
     * INIFile.php: fic
 
+
+Module : classes
+Repository path : /home/cvsroot/projects/php/classes
+Maintainer(s) : bf@ez.no
+2001-09-13  Bjoern Reiten  <br@ez.no>
+
+    * ezlist.php: added support for larger than 1000 items.
+
+2001-09-13  Gunnstein Lye  <gl@ez.no>
+
+    * locale/nl_NL.ini: updated nl_NL
+

@@ -330,3 +330,37 @@ Maintainer(s) : bf@ez.no
       user/datasupplier.php
       user/searchform.php: Added advanced search in user
 
+
+Module : ezarticle
+Repository path : /home/cvsroot/projects/php/ezarticle
+Maintainer(s) : bf@ez.no
+2001-09-13  Baard Farstad  <bf@ez.no>
+
+    * user/newsgroup.php: Fixed newsgroup list.
+
+2001-09-13  nca_intelhosting3  <bf@ez.no>
+
+    * user/mailtofriend.php: Added files
+
+2001-09-13  Baard Farstad  <bf@ez.no>
+
+    * user/templates/standard/articletags.tpl
+      classes/ezqdomrenderer.php: Added target to link tag.
+
+2001-09-13  Christofer Elo  <ce@ez.no>
+
+    * admin/search.php: Fixed the photograf bug in admin too.
+
+    * user/search.php
+      classes/ezarticle.php: Fixed photographer and ispublished bug in search
+
+2001-09-13  Bjoern Reiten  <br@ez.no>
+
+    * admin/intl/no_NO/imageedit.php.ini
+      admin/intl/no_NO/searchform.php.ini: added translation.
+
+2001-09-13  Baard Farstad  <bf@ez.no>
+
+    * classes/ezqdomrenderer.php:
+    Fixed rendering of file and media inside a table.
+

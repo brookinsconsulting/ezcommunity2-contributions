@@ -96,3 +96,21 @@ Maintainer(s) : br@ez.no
     * admin/unassigned.php
       classes/ezimage.php: Fixed a referance bug
 
+
+Module : ezimagecatalogue
+Repository path : /home/cvsroot/projects/php/ezimagecatalogue
+Maintainer(s) : br@ez.no
+2001-09-13  Christofer Elo  <ce@ez.no>
+
+    * classes/ezimage.php: Added reference
+
+    * classes/ezimage.php: Fixed one more bug
+
+    * classes/ezimage.php: Fixed a SQL bug
+
+    * classes/ezimage.php: Added a random image function
+
+2001-09-13  Bjoern Reiten  <br@ez.no>
+
+    * user/templates/linmag/imageedit.tpl: added template blocks.
+

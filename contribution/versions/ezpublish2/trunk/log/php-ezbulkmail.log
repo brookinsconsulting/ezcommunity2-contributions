@@ -66,3 +66,15 @@ Maintainer(s) : fh@ez.no
     * admin/intl/no_NO/userlist.php.ini:
     added translation for userlist in bulkmail.
 
+
+Module : ezbulkmail
+Repository path : /home/cvsroot/projects/php/ezbulkmail
+Maintainer(s) : fh@ez.no
+2001-09-13  Bjoern Reiten  <br@ez.no>
+
+    * admin/intl/no_NO/menubox.php.ini: added translation.
+
+2001-09-13  Gunnstein Lye  <gl@ez.no>
+
+    * user/intl/nl_NL/usermessages.php.ini: updated nl_NL
+

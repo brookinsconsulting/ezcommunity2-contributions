@@ -41,3 +41,18 @@ Maintainer(s) : jhe@ez.no
       user/datasupplier.php:
     fixed bug when adding new companies and deleting consultations
 
+
+Module : ezcontact
+Repository path : /home/cvsroot/projects/php/ezcontact
+Maintainer(s) : jhe@ez.no
+2001-09-13  Jo Henrik Endrerud  <jhe@ez.no>
+
+    * admin/consultationview.php
+      classes/ezconsultation.php:
+    small bug when viewing other persons consultations
+
+    * user/consultationlist.php
+      admin/consultationlist.php
+      classes/ezconsultation.php:
+    added setting to make consultations visible for everyone
+

@@ -113,3 +113,17 @@ Maintainer(s) : bf@ez.no
 
     * classes/ezuser.php: Fixed a VERY bad secruety bug
 
+
+Module : ezuser
+Repository path : /home/cvsroot/projects/php/ezuser
+Maintainer(s) : bf@ez.no
+2001-09-13  fh  <fh@zev.ez.no>
+
+    * classes/ezobjectpermission.php:
+    1. Upload functionality added to eZObjectPermission.
+    2. Upload toggles added to imagecatalogue (toggles work) functionality not.
+
+2001-09-13  Baard Farstad  <bf@ez.no>
+
+    * admin/useredit.php: Fixed used editing.
+

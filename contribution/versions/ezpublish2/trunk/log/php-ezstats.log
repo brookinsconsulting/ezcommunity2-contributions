@@ -11,3 +11,11 @@ Maintainer(s) : br@ez.no
 Module : ezstats
 Repository path : /home/cvsroot/projects/php/ezstats
 Maintainer(s) : br@ez.no
+
+Module : ezstats
+Repository path : /home/cvsroot/projects/php/ezstats
+Maintainer(s) : br@ez.no
+2001-09-13  Bjoern Reiten  <br@ez.no>
+
+    * admin/pageviewlist.php: fixed placement of drawNavigator (bugfix)
+

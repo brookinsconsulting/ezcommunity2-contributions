@@ -86,3 +86,11 @@ Maintainer(s) : jhe@ez.no
 
     * user/intl/no_NO/messagelist.php.ini: translation for show.
 
+
+Module : ezforum
+Repository path : /home/cvsroot/projects/php/ezforum
+Maintainer(s) : jhe@ez.no
+2001-09-13  Gunnstein Lye  <gl@ez.no>
+
+    * user/intl/nl_NL/message.php.ini: updated nl_NL
+

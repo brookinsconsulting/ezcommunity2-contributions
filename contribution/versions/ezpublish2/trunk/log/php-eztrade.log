@@ -116,3 +116,12 @@ Maintainer(s) : ce@ez.no
 
     * user/templates/standard/productlist.tpl: Reverted version
 
+
+Module : eztrade
+Repository path : /home/cvsroot/projects/php/eztrade
+Maintainer(s) : ce@ez.no
+2001-09-13  Gunnstein Lye  <gl@ez.no>
+
+    * user/intl/nl_NL/extendedsearch.php.ini
+      user/intl/nl_NL/mailorder.php.ini: updated nl_NL
+
