@@ -21,7 +21,7 @@
 	<td class="{td_class}">
 	<!-- BEGIN cart_image_tpl -->
 	<img src="{product_image_path}" border="0" width="{product_image_width}" height="{product_image_height}" alt="{product_image_caption}"/>
-	<!-- END cart_image_tpl -->
+	<!-- END cart_image_tpl -->&nbsp;
 	</td>
 	<td class="{td_class}">
 	{product_name}
