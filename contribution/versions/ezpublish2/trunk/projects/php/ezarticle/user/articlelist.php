@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: articlelist.php,v 1.5 2000/10/23 14:33:19 bf-cvs Exp $
+// $Id: articlelist.php,v 1.6 2000/10/24 12:59:07 bf-cvs Exp $
 //
 // 
 //
@@ -103,8 +103,8 @@ else
     $t->set_var( "category_list", "" );
 
 
-// articles
-if ( $ShowLatest == true )
+
+if ( $CategoryID == 0 )
 {
     $article = new eZArticle();
     $articleList = $article->articles();

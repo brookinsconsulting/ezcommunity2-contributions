@@ -1,9 +1,3 @@
-<h1>{intl-head_line} - {current_category_name}</h1>
-
-<p>
-{current_category_description}
-</p>
-
 <hr noshade="noshade" size="4" />
 
 <img src="/ezarticle/images/path-arrow.gif" height="10" width="15" border="0" alt="">
@@ -18,24 +12,11 @@
 
 
 <!-- BEGIN category_list_tpl -->
-<table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
-<tr>
-	<th>Kategori:</th>
-	<th>Beskrivelse:</th>
-</tr>
 
 <!-- BEGIN category_item_tpl -->
-<tr>
-	<td class="{td_class}">
-	<a href="/article/archive/{category_id}/">{category_name}</a>&nbsp;
-	</td>
-	<td class="{td_class}">
-	{category_description}&nbsp;
-	</td>
-</tr>
+
 <!-- END category_item_tpl -->
-</table>
-<hr noshade size="4"/>
+
 <!-- END category_list_tpl -->
 
 

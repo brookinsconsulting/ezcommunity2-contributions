@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eztechgenerator.php,v 1.9 2000/10/23 11:05:10 bf-cvs Exp $
+// $Id: eztechgenerator.php,v 1.10 2000/10/24 12:59:07 bf-cvs Exp $
 //
 // Definition of eZTechGenerator class
 //
@@ -63,7 +63,7 @@ class eZTechGenerator
             $tmpPage = ereg_replace ( "&", "&amp;", $tmpPage );
             
             // make unknown tags readable.. look-ahead assertion is used ( ?! ) 
-            $tmpPage = preg_replace( "/<(?!(page|php|\/|image|cpp|shell|sql|der))/", "&lt;", $tmpPage );
+            $tmpPage = preg_replace( "/<(?!(page|php|\/|image|cpp|shell|sql|hea))/", "&lt;", $tmpPage );
 
             // look-behind assertion is used here (?<!)
             // the expression must be fixed with eg just use the 3 last letters of the tag
@@ -132,6 +132,13 @@ class eZTechGenerator
                     {
                         $pageContent .= $paragraph->content;
                     }
+
+                    // header
+                    if ( $paragraph->name == "header" )
+                    {
+                        $pageContent .= "<header>" . $paragraph->children[0]->content . "</header>";
+                    }
+
 
                     // php code 
                     if ( $paragraph->name == "php" )

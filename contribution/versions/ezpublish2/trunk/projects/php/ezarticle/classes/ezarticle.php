@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezarticle.php,v 1.12 2000/10/24 09:28:15 bf-cvs Exp $
+// $Id: ezarticle.php,v 1.13 2000/10/24 12:59:07 bf-cvs Exp $
 //
 // Definition of eZArticle class
 //
@@ -171,6 +171,7 @@ class eZArticle
         {
             $this->Database->query( "DELETE FROM eZArticle_ArticleCategoryLink WHERE ArticleID='$this->ID'" );
             $this->Database->query( "DELETE FROM eZArticle_ArticleImageLink WHERE ArticleID='$this->ID'" );
+            $this->Database->query( "DELETE FROM eZArticle_ArticleImageDefinition WHERE ArticleID='$this->ID'" );
             
             $this->Database->query( "DELETE FROM eZArticle_Article WHERE ID='$this->ID'" );
         }
@@ -412,6 +413,8 @@ class eZArticle
 
             $imageID = $value->id();
             
+            $this->Database->query( "DELETE FROM eZArticle_ArticleImageDefinition WHERE ArticleID='$this->ID' AND ImageID='$imageID'" );
+
             $this->Database->query( "DELETE FROM eZArticle_ArticleImageLink WHERE ArticleID='$this->ID' AND ImageID='$imageID'" );
         }
     }

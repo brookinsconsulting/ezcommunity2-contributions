@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezproduct.php,v 1.16 2000/10/23 09:24:21 bf-cvs Exp $
+// $Id: ezproduct.php,v 1.17 2000/10/24 12:59:08 bf-cvs Exp $
 //
 // Definition of eZCompany class
 //
@@ -220,6 +220,9 @@ class eZProduct
         if ( isset( $this->ID ) )
         {
             $this->Database->query( "DELETE FROM eZTrade_ProductCategoryLink WHERE ProductID='$this->ID'" );
+
+            $this->Database->query( "DELETE FROM eZTrade_ProductImageLink WHERE ProductID='$this->ID'" );
+            $this->Database->query( "DELETE FROM eZTrade_ProductImageDefinition WHERE ProductID='$this->ID'" );
             
             $this->Database->query( "DELETE FROM eZTrade_Product WHERE ID='$this->ID'" );
         }
@@ -534,8 +537,9 @@ class eZProduct
             $this->dbInit();
 
             $imageID = $value->id();
-            
+
             $this->Database->query( "DELETE FROM eZTrade_ProductImageLink WHERE ProductID='$this->ID' AND ImageID='$imageID'" );
+            $this->Database->query( "DELETE FROM eZTrade_ProductImageDefinition WHERE ProductID='$this->ID' AND ImageID='$imageID'" );
         }
     }
     

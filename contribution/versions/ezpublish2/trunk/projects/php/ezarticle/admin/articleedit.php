@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: articleedit.php,v 1.11 2000/10/24 09:28:14 bf-cvs Exp $
+// $Id: articleedit.php,v 1.12 2000/10/24 12:59:07 bf-cvs Exp $
 //
 // 
 //
@@ -33,8 +33,9 @@ if ( $Action == "Insert" )
     $article->setAuthor( $user );
 
     $generator = new eZArticleGenerator();
-    
-    $article->setContents( $generator->generateXML( $Contents ) );
+
+    $contents = $generator->generateXML( $Contents );
+    $article->setContents( $contents );
 
     $article->setPageCount( $generator->pageCount() );
     
@@ -42,36 +43,43 @@ if ( $Action == "Insert" )
     
     $article->setLinkText( $LinkText );
 
-//      print( htmlspecialchars( $article->contents() ) );
+    // check if the contents is parseable
+    if ( xmltree( $contents ) )
+    {
+        $article->store();
     
-    $article->store();
-    
-    $category->addArticle( $article );
+        $category->addArticle( $article );
 
-    $articleID = $article->id();
+        $articleID = $article->id();
 
     // add images
-    if ( isset( $Image ) )
-    {
-        Header( "Location: /article/articleedit/imagelist/$articleID/" );
-        exit();
-    }
+        if ( isset( $Image ) )
+        {
+            Header( "Location: /article/articleedit/imagelist/$articleID/" );
+            exit();
+        }
 
-    // preview
-    if ( isset( $Preview ) )
-    {
-        Header( "Location: /article/articlepreview/$articleID/" );
-        exit();
-    }
+        // preview
+        if ( isset( $Preview ) )
+        {
+            Header( "Location: /article/articlepreview/$articleID/" );
+            exit();
+        }
 
 
-    // get the category to redirect to
-    $categories = $article->categories();    
-    $categoryID = $categories[0]->id();
+        // get the category to redirect to
+        $categories = $article->categories();    
+        $categoryID = $categories[0]->id();
 
     
-    Header( "Location: /article/archive/$categoryID/" );
-    exit();
+        Header( "Location: /article/archive/$categoryID/" );
+        exit();
+    }
+    else
+    {
+        $Action = "New";
+        $ErrorParsing = true;
+    }
 }
 
 
@@ -96,8 +104,12 @@ if ( $Action == "Update" )
     $article->setName( $Name );
 
     $generator = new eZArticleGenerator();
+
+    $contents = $generator->generateXML( $Contents );
     
-    $article->setContents( $generator->generateXML( $Contents ) );
+    $article->setContents( $contents  );
+
+    print( $contents );
 
     $article->setPageCount( $generator->pageCount() );
     
@@ -105,33 +117,41 @@ if ( $Action == "Update" )
     
     $article->setLinkText( $LinkText );
 
-    $article->store();
+    // check if the contents is parseable
+    if ( xmltree( $contents ) )
+    {
+        $article->store();
 
     // remove all category references
-    $article->removeFromCategories();
-    $category->addArticle( $article );
+        $article->removeFromCategories();
+        $category->addArticle( $article );
 
     // add images
-    if ( isset( $Image ) )
-    {
-        Header( "Location: /article/articleedit/imagelist/$ArticleID/" );
+        if ( isset( $Image ) )
+        {
+            Header( "Location: /article/articleedit/imagelist/$ArticleID/" );
+            exit();
+        }
+
+        // preview
+        if ( isset( $Preview ) )
+        {
+            Header( "Location: /article/articlepreview/$ArticleID/" );
+            exit();
+        }
+
+        // get the category to redirect to
+        $categories = $article->categories();    
+        $categoryID = $categories[0]->id();
+    
+        Header( "Location: /article/archive/$categoryID/" );
         exit();
     }
-    
-
-    // preview
-    if ( isset( $Preview ) )
+    else
     {
-        Header( "Location: /article/articlepreview/$ArticleID/" );
-        exit();
+        $Action = "Edit";
+        $ErrorParsing = true;        
     }
-
-    // get the category to redirect to
-    $categories = $article->categories();    
-    $categoryID = $categories[0]->id();
-    
-    Header( "Location: /article/archive/$categoryID/" );
-    exit();
 }
 
 
@@ -163,16 +183,29 @@ $t->set_file( array(
     "article_edit_page_tpl" => "articleedit.tpl"
     ) );
 
+
+
 $t->set_block( "article_edit_page_tpl", "value_tpl", "value" );
 
+$t->set_block( "article_edit_page_tpl", "error_message_tpl", "error_message" );
+
+if ( $ErrorParsing == true )
+{
+    $t->parse( "error_message", "error_message_tpl" );
+}
+else
+{
+    $t->set_var( "error_message", "" );
+}
+
 $t->set_var( "article_id", "" );
-$t->set_var( "article_name", "" );
-$t->set_var( "article_contents_0", "" );
-$t->set_var( "article_contents_1", "" );
-$t->set_var( "article_contents_2", "" );
-$t->set_var( "article_contents_3", "" );
-$t->set_var( "author_text", "" );
-$t->set_var( "link_text", "" );
+$t->set_var( "article_name", $Name );
+$t->set_var( "article_contents_0", $Contents[0] );
+$t->set_var( "article_contents_1", $Contents[1] );
+$t->set_var( "article_contents_2", $Contents[2] );
+$t->set_var( "article_contents_3", $Contents[3] );
+$t->set_var( "author_text", $AuthorText );
+$t->set_var( "link_text", $LinkText );
 
 $t->set_var( "action_value", "insert" );
 
@@ -208,7 +241,6 @@ if ( $Action == "Edit" )
     $t->set_var( "link_text", $article->linkText() );
     
     $t->set_var( "action_value", "update" );
-    
 }
 
 // category select

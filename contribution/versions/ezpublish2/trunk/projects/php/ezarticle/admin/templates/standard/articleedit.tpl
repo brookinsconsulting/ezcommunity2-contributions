@@ -1,6 +1,12 @@
 <form method="post" action="/article/articleedit/{action_value}/{article_id}/" >
 
+
+
 <h1>{intl-head_line}</h1>
+
+<!-- BEGIN error_message_tpl -->
+<h3 class="error">{intl-error_parsing_xml}</h3>
+<!-- END error_message_tpl -->
 
 <hr noshade="noshade" size="4" />
 
@@ -24,7 +30,7 @@
 <br /><br />
 
 <p class="boxtext">{intl-contents}</p>
-<textarea name="Contents[]" cols="40" rows="10" wrap="soft">{article_contents_1}</textarea>
+<textarea name="Contents[]" cols="50" rows="20" wrap="soft">{article_contents_1}</textarea>
 <br /><br />
 
 <p class="boxtext">{intl-link_text}</p>

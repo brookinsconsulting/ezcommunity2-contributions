@@ -4,17 +4,9 @@ switch ( $url_array[2] )
 {
     case "archive":
     {
-        if ( $url_array[3] == "latest" )
-        {
+        $CategoryID = $url_array[3];
+        if  ( !isset( $CategoryID ) || ( $CategoryID == "" ) )
             $CategoryID = 0;
-            $ShowLatest = true;
-        }
-        else
-        {
-            $CategoryID = $url_array[3];
-            if  ( !isset( $CategoryID ) || ( $CategoryID == "" ) )
-                $CategoryID = 0;
-        }
 
         include( "ezarticle/user/articlelist.php" );
     }

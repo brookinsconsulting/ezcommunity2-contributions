@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eztechrenderer.php,v 1.8 2000/10/22 13:48:09 bf-cvs Exp $
+// $Id: eztechrenderer.php,v 1.9 2000/10/24 12:59:07 bf-cvs Exp $
 //
 // Definition of eZTechRenderer class
 //
@@ -121,6 +121,13 @@ class eZTechRenderer
                         $pageContent .= $this->phpHighlight( $paragraph->children[0]->content );
                     }
 
+                    
+                    // header
+                    if ( $paragraph->name == "header" )
+                    {
+                        $pageContent .= "<h3>".  $paragraph->children[0]->content . "</h3>";
+                    }
+
 
                     // sql code 
                     if ( $paragraph->name == "sql" )
@@ -143,7 +150,7 @@ class eZTechRenderer
 
                     // image
                     if ( $paragraph->name == "image" )
-                    {
+                    { 
                         $imageID = $paragraph->children[0]->content;
                         setType( $imageID, "integer" );
                         
@@ -159,14 +166,14 @@ class eZTechRenderer
                             $imageHeight = $variation->height();
                             $imageCaption = $image->caption();
                                  
-                            $imageTags = "<table align=\"right\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\">
+                            $imageTags = "<table width=\"$imageWidth\" align=\"right\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\">
                                             <tr>
                                             <td>
                                                         <img src=\"$imageURL\" border=\"0\" width=\"$imageWidth\" height=\"$imageHeight\" />
                                                         </td>
                                                 </tr>
                                                 <tr>
-                                                         <td>
+                                                         <td class=\"pictext\">
                                                          $imageCaption
                                                          </td>
                                                 </tr>
@@ -333,6 +340,7 @@ class eZTechRenderer
 
         $reservedWords = array( "/(function)/",
                                 "/( as )/",
+                                "/(void )/",
                                 "/(class )/",
                                 "/(var )/",
                                 "/( for)/"
