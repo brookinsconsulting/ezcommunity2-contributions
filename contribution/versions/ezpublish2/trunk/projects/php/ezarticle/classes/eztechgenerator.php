@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eztechgenerator.php,v 1.12 2000/10/25 08:52:08 bf-cvs Exp $
+// $Id: eztechgenerator.php,v 1.13 2000/10/25 16:51:12 bf-cvs Exp $
 //
 // Definition of eZTechGenerator class
 //
@@ -72,18 +72,15 @@ class eZTechGenerator
             $tmpPage = ereg_replace ( "&", "&amp;", $tmpPage );
             
             // make unknown tags readable.. look-ahead assertion is used ( ?! ) 
-            $tmpPage = preg_replace( "/<(?!(page|php|\/|image|cpp|shell|sql|hea|lin))/", "&lt;", $tmpPage );
+            $tmpPage = preg_replace( "/<(?!(page|php|\/|image|cpp|shell|sql|hea|lin|per|bol|ita|und|str|pre|ver))/", "&lt;", $tmpPage );
 
-            // look-behind assertion is used here (?<!)
+            // look-behind assertion is used here (?<!) 
             // the expression must be fixed with eg just use the 3 last letters of the tag
 
-            $tmpPage = preg_replace( "#(?<!(age|php|age|cpp|ell|sql|der))>#", "&gt;", $tmpPage );
+            $tmpPage = preg_replace( "#(?<!(age|php|age|cpp|ell|sql|der|erl|old|lic|ine|ike|pre|tim))>#", "&gt;", $tmpPage );
             // make better..
             $tmpPage = preg_replace( "#/&gt;#", "/>", $tmpPage );
             
-
-            // strip for tags, not much sense to have this here... will problably remove this later
-//              $tmpPage = strip_tags( $tmpPage, "<page>,<php>,</php>,<image>,</image>,<cpp>,</cpp>,<shell>,</shell>,<sql>,</sql>,<header>,</header>" );
 
             $body .= "<page>" . $tmpPage  . "</page>";        
         }
@@ -234,6 +231,48 @@ class eZTechGenerator
                     if ( $paragraph->name == "cpp" )
                     {
                         $pageContent .= "<cpp>" . $paragraph->children[0]->content . "</cpp>";
+                    }
+
+                    // perl  code
+                    if ( $paragraph->name == "perl" )
+                    {
+                        $pageContent .= "<perl>" . $paragraph->children[0]->content . "</perl>";
+                    }
+
+                    // bold text
+                    if ( $paragraph->name == "bold" )
+                    {
+                        $pageContent .= "<bold>" . $paragraph->children[0]->content . "</bold>";
+                    }
+
+                    // italic text
+                    if ( $paragraph->name == "italic" )
+                    {
+                        $pageContent .= "<italic>" . $paragraph->children[0]->content . "</italic>";
+                    }
+
+                    // underline text
+                    if ( $paragraph->name == "underline" )
+                    {
+                        $pageContent .= "<underline>" . $paragraph->children[0]->content . "</underline>";
+                    }
+
+                    // strike text
+                    if ( $paragraph->name == "strike" )
+                    {
+                        $pageContent .= "<strike>" . $paragraph->children[0]->content . "</strike>";
+                    }
+
+                    // pre defined text
+                    if ( $paragraph->name == "pre" )
+                    {
+                        $pageContent .= "<pre>" . $paragraph->children[0]->content . "</pre>";
+                    }
+
+                    // verbatim text
+                    if ( $paragraph->name == "verbatim" )
+                    {
+                        $pageContent .= "<verbatim>" . $paragraph->children[0]->content . "</verbatim>";
                     }
                 }
 

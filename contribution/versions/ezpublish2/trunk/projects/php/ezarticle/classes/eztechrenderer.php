@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eztechrenderer.php,v 1.13 2000/10/25 10:12:18 bf-cvs Exp $
+// $Id: eztechrenderer.php,v 1.14 2000/10/25 16:51:12 bf-cvs Exp $
 //
 // Definition of eZTechRenderer class
 //
@@ -40,6 +40,26 @@
   <sql>
   sql code
   </sql>
+
+  <perl>
+  perl code
+  </perl>
+
+  <bold>
+  bold text
+  </bold>
+
+  <italic>
+  italic text
+  </italic>
+
+  <underline>
+  underlined text
+  </underline>
+
+  <strike>
+  strike text
+  </strike>
   
   \endcode
   \sa eZTechGenerator  
@@ -183,6 +203,42 @@ class eZTechRenderer
                         $pageContent .= $this->shellHighlight( $paragraph->children[0]->content );
                     }
 
+                    // perl code 
+                    if ( $paragraph->name == "perl" )
+                    {
+                        $pageContent .= $this->perlHighlight( $paragraph->children[0]->content );
+                    }
+
+                    // bold text
+                    if ( $paragraph->name == "bold" )
+                    {
+                        $pageContent .= "<b>" . $paragraph->children[0]->content . "</b>";
+                    }
+
+                    // italic text
+                    if ( $paragraph->name == "italic" )
+                    {
+                        $pageContent .= "<i>" . $paragraph->children[0]->content . "</i>";
+                    }
+
+                    // underline text
+                    if ( $paragraph->name == "underline" )
+                    {
+                        $pageContent .= "<u>" . $paragraph->children[0]->content . "</u>";
+                    }
+
+                    // strike text
+                    if ( $paragraph->name == "strike" )
+                    {
+                        $pageContent .= "<s>" . $paragraph->children[0]->content . "</s>";
+                    }
+
+                    // pre text
+                    if ( ( $paragraph->name == "pre" ) || ( $paragraph->name == "verbatim" ) )
+                    {
+                        $pageContent .= "<pre>" . $paragraph->children[0]->content . "</pre>";
+                    }
+                    
                     // link
                     if ( $paragraph->name == "link" )
                     {
@@ -498,6 +554,46 @@ class eZTechRenderer
         $string = "<pre>" . $string . "</pre>";
         return $string;
     }
+
+    /*!
+      Returns a perl highlighted string.
+    */
+    function &perlHighlight( $string )
+    {
+        $string = ereg_replace ( "(<)", "&lt;", $string );        
+        $string = ereg_replace ( "(>)", "&gt;", $string );        
+        
+        // some special characters
+        $string = ereg_replace ( "([(){}+-]|=|\[|\])", "<font color=\"red\">\\1</font>", $string );
+
+        // reserved words
+//          $string = ereg_replace ( "(foreach|function|for|while|switch|as)", "<font color=\"blue\">\\1</font>", $string );
+
+        // comments
+        $string = ereg_replace ( "(#[^\n]+)", "<font color=\"orange\">\\1</font>", $string );
+
+        $reservedWords = array( "/(function)/",
+                                "/( as )/",
+                                "/(class )/",
+                                "/(var )/",
+                                "/( for)/"
+                                );
+
+        $string = preg_replace( $reservedWords, "<font color=\"blue\">\\1</font>", $string );
+
+
+        $string = preg_replace( "/( [0-9]+)/", "<font color=\"green\">\\1</font>", $string );
+
+        $string = preg_replace( "/(\$[a-zA-Z0-9]+)/", "<font color=\"#00ffff\">\\1</font>", $string );
+
+        // indenting
+        $string = preg_replace( "/^( )+/m", "&nbsp;", $string );
+        
+        $string = "<p>" . $string . "</p>";
+        
+        return eZTextTool::nl2br( $string );
+    }
+
     
     var $Article;
 }

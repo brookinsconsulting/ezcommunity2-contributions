@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: imageedit.php,v 1.8 2000/10/25 13:12:35 bf-cvs Exp $
+// $Id: imageedit.php,v 1.9 2000/10/25 16:51:12 bf-cvs Exp $
 //
 // Definition of eZCompany class
 //
@@ -107,10 +107,11 @@ if ( $Action == "StoreDef" )
 {
     $article = new eZArticle( $ArticleID );
 
-    $thumbnail = new eZImage( $ThumbnailImageID );
-    $main = new eZImage( $MainImageID );
-
-    $article->setThumbnailImage( $thumbnail );
+    if ( isset( $ThumbnailImageID ) &&  ( $ThumbnailImageID != 0 ) &&  ( $ThumbnailImageID != "" ) )
+    {
+        $thumbnail = new eZImage( $ThumbnailImageID );
+        $article->setThumbnailImage( $thumbnail );
+    }
 
     if ( isset( $NewImage ) )
     {
