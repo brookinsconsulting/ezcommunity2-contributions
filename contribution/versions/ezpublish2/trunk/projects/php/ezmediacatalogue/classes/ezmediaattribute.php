@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezmediaattribute.php,v 1.3 2001/10/18 12:25:17 ce Exp $
+// $Id: ezmediaattribute.php,v 1.4 2001/11/01 17:20:32 ce Exp $
 //
 // Definition of eZMediaAttribute class
 //
@@ -25,19 +25,19 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, US
 //
 
-//!! eZCountryeZ
-//! eZCountry handles countries.
+//!! eZMediaAttribute
+//! eZMediaAttribute handles the attributes for a media.
 /*!
-    Example code:
+  Example code:
   \code
   // create a new country type and set some variables.
-  $country = new eZCountry();
-  $country->setName( "Norway" );
-  $country->setHasVAT( true );
-  $country->setISO( "NO" ); 
-  $country->store();
+  $attribute = new eZMediaAttribute();
+  $attribute->setName( "autoplay" );
+  $attribute->setValue( true );
+  $attribute->setType( $type ); 
+  $attribute->store();
   \endcode
-  \sa eZCompany eZPerson eZAddress eZPhone eZAddress
+  \sa eZMedia eZMediaType eZMediaCategory
 
 */
 
@@ -230,7 +230,7 @@ class eZMediaAttribute
     /*!
       Sets the name of the attribute.
     */
-    function setName( &$value )
+    function setName( $value )
     {
         $this->Name = $value;
     }

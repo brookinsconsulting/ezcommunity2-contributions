@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezmedia.php,v 1.4 2001/10/16 14:13:41 ce Exp $
+// $Id: ezmedia.php,v 1.5 2001/11/01 17:20:32 ce Exp $
 //
 // Definition of eZMedia class
 //
@@ -48,30 +48,8 @@
         print( $file->name() . " not uploaded successfully" );
     }
 
-    // Get an media from the database and request a variation from it
-
-    // gets an media from the eZProduct class
-    // can also use code like $mainMedia = new eZMedia( 2 );
-    // where 2 is the id of the media in the catalogue.
-    $mainMedia = $product->mainMedia();
-    
-    if ( $mainMedia )
-    {
-        $variation = $mainMedia->requestMediaVariation( 250, 250 );
-
-        // set some template variables
-        $t->set_var( "main_media_uri", "/" . $variation->mediaPath() );
-        $t->set_var( "main_media_width", $variation->width() );
-        $t->set_var( "main_media_height", $variation->height() );
-        $t->set_var( "main_media_caption", $mainMedia->caption() );
-    }
-    else
-    {
-        $t->set_var( "main_media", "" );    
-    }
-    
     \endcode
-  \sa eZMediaVariation eZMediaVariationGroup eZMediaFile
+  \sa eZMediaCategory eZMediaAttribute eZMediaType
 */
 /*!TODO
     $t in the example just pops out of nowhere, giving us no indication
@@ -107,11 +85,11 @@ class eZMedia
 
         $db->begin( );
         
-        $name = $db->escapeString( $this->Name );
-        $description = $db->escapeString( $this->Description );
-        $caption = $db->escapeString( $this->Caption );
-        $filename = $db->escapeString( $this->FileName );
-        $originalfilename = $db->fieldName( $this->OriginalFileName );
+        $name =& $db->escapeString( $this->Name );
+        $description =& $db->escapeString( $this->Description );
+        $caption =& $db->escapeString( $this->Caption );
+        $filename =& $db->escapeString( $this->FileName );
+        $originalfilename =& $db->fieldName( $this->OriginalFileName );
         
         if ( !isset( $this->ID ) )
         {
@@ -170,11 +148,16 @@ class eZMedia
     /*!
       Delete the eZMediaVariation object from the database and the filesystem.
     */
-    function delete()
+    function delete( $id=false )
     {
         $db =& eZDB::globalDatabase();
 
-        if ( isset( $this->ID ) )
+        if ( $id == false )
+        {
+            $id = $this->ID;
+        }
+
+        if ( isset( $id ) )
         {
             $db->query( "DELETE FROM eZMediaCatalogue_Media WHERE ID='$this->ID'" );
             $db->query( "DELETE FROM eZMediaCatalogue_MediaPermission WHERE ObjectID='$this->ID'" );
@@ -225,10 +208,10 @@ class eZMedia
     }
     
     /*!
-        \static
+      \static
       Fetches an media from the database if one with the same "original filename" is found.
     */
-    function getByOriginalFileName( $id = "" )
+    function &getByOriginalFileName( $id = "" )
     {
         $db =& eZDB::globalDatabase();
         $ret =& new eZMedia();
@@ -251,7 +234,7 @@ class eZMedia
       Returns true if the media is assigned to the category given
       as argument. False if not.
     */
-    function existsInCategory( $category )
+    function existsInCategory( &$category )
     {
        $ret = false;
        if ( get_class( $category ) == "ezmediacategory" )
@@ -274,7 +257,7 @@ class eZMedia
       Set's the medias defined category. This is the main category for the media.
       Additional categories can be added with eZMediaCategory::addMedia();
     */
-    function setCategoryDefinition( $value )
+    function setCategoryDefinition( &$value )
     {
         if ( get_class( $value ) == "ezmediacategory" )
         {
@@ -308,7 +291,7 @@ class eZMedia
     /*!
       Returns the media's definition category.
     */
-    function categoryDefinition( )
+    function &categoryDefinition( )
     {
         $db =& eZDB::globalDatabase();
 
@@ -334,7 +317,7 @@ class eZMedia
 
       The medias are returned as an array of eZMedia objects.
      */
-    function getUnassigned()
+    function &getUnassigned()
     {
         $db =& eZDB::globalDatabase();
 
@@ -355,7 +338,7 @@ class eZMedia
     /*!
       Get the total count of all the unassigned medias.
      */
-    function countUnassigned()
+    function &countUnassigned()
     {
         $db =& eZDB::globalDatabase();
 
@@ -369,159 +352,12 @@ class eZMedia
     }
 
     /*!
-      Check what read permission the user have to this eZVirtualFile object.
-
-      Returns:
-      User - if the user owns the file
-      Group - if the user is member of the group
-      All - if the file can be read by everybody
-      False - if the user don't have access
-    */
-    function checkReadPermission( &$currentUser )
-    {
-        $ret = false;
-
-        $read = $this->readPermission();
-        
-        if ( get_class( $currentUser ) == "ezuser" )
-        {
-            if ( $read == "User" )
-            {
-                if ( $this->UserID != 0 )
-                {
-                    if ( $currentUser->id() == $this->UserID )
-                    {
-                        $ret = "User";
-                    }
-                    else
-                    {
-                        return $ret;
-                    }
-                }
-            }
-            else if ( $read == "Group" )
-            {
-                if ( $this->UserID != 0 )
-                {
-                    $currentGroups =& $currentUser->groups();
-                    foreach( $currentGroups as $Groups )
-                    {
-                        $user = new eZUser( $this->UserID );
-                        $userGroups =& $user->groups();
-                            
-                        foreach( $userGroups as $userGroup )
-                        {
-                            if ( $Groups->id() == $userGroup->id() )
-                            {
-                                $ret = "Group";
-                            }
-                            else
-                            {
-                                return $ret;
-                            }
-                        }
-                    }
-                }
-            }
-            else if ( $read == "All" )
-            {
-                $ret = "Group";
-            }
-        }
-        else
-        {
-            if ( $read == "All" )
-            {
-                $ret = "All";
-            }
-        }
-
-        return $ret;
-
-    }
-
-    /*!
-      Check what write permission the user have to this eZVirtualFile object.
-
-      Returns:
-      User - if the user owns the file
-      Group - if the user is member of the group
-      All - if the file can be write by everybody
-      False - if the user don't have access
-    */
-    function checkWritePermission( &$currentUser )
-    {
-        $ret = false;
-        
-        $write = $this->writePermission();
-        
-        if ( get_class( $currentUser ) == "ezuser" )
-        {
-
-            if ( $write == "User" )
-            {
-                if ( $this->UserID != 0 )
-                {
-                    if ( $currentUser->id() == $this->UserID )
-                    {
-                        $ret = "User";
-                    }
-                    else
-                    {
-                        return $ret;
-                    }
-                }
-            }
-            else if ( $write == "Group" )
-            {
-                if ( $this->UserID != 0 )
-                {
-                    $currentGroups =& $currentUser->groups();
-                    foreach( $currentGroups as $Groups )
-                    {
-                        $user = new eZUser( $this->UserID );
-                        $userGroups =& $user->groups();
-                            
-                        foreach( $userGroups as $userGroup )
-                        {
-                            if ( $Groups->id() == $userGroup->id() )
-                            {
-                                $ret = "Group";
-                            }
-                            else
-                            {
-                                return $ret;
-                            }
-                        }
-                    }
-                }
-            }
-            else if ( $write == "All" )
-            {
-                $ret = "Group";
-            }
-        }
-        else
-        {
-            if ( $write == "All" )
-            {
-                $ret = "All";
-            }
-        }
-
-        return $ret;
-    }    
-    
-    
-    /*!
       Returns the id of the media.
     */
     function id()
     {
         return $this->ID;
     }
-
-    
     
     /*!
       Returns the name of the media.
@@ -550,10 +386,10 @@ class eZMedia
     */
     function &description( $html = true )
     {
-       if( $html )
-           return htmlspecialchars( $this->Description );
-       else
-           return $this->Description;
+        if( $html )
+            return htmlspecialchars( $this->Description );
+        else
+            return $this->Description;
     }    
 
     /*!
@@ -625,73 +461,9 @@ class eZMedia
     }    
 
     /*!
-      Returns the writePermission permission of the eZMedia object.
-    */
-    function writePermission()
-    {
-       switch( $this->WritePermission )
-       {
-           case 1:
-           {
-               $ret = "User";
-           }
-           break;
-
-           case 2:
-           {
-               $ret = "Group";
-           }
-           break;
-           
-           case 3:
-           {
-               $ret = "All";
-           }
-           break;
-
-           default:
-               $ret = "User";
-       }
-
-       return $ret;
-    }
-
-    /*!
-      Returns the read permission of the eZMedia object.
-    */
-    function readPermission()
-    {
-       switch( $this->ReadPermission )
-       {
-           case 1:
-           {
-               $ret = "User";
-           }
-           break;
-
-           case 2:
-           {
-               $ret = "Group";
-           }
-           break;
-           
-           case 3:
-           {
-               $ret = "All";
-           }
-           break;
-
-           default:
-               $ret = "User";
-       }
-       
-       return $ret;
-    }
-
-    /*!
       Returns a eZUser object.
     */
-    function user()
+    function &user()
     {
         if ( $this->UserID != 0 )
         {
@@ -705,7 +477,7 @@ class eZMedia
     /*!
       Sets the media name.
     */
-    function setName( $value )
+    function setName( &$value )
     {
         $this->Name = $value;
     }
@@ -713,7 +485,7 @@ class eZMedia
     /*!
       Sets the media caption.
     */
-    function setCaption( $value )
+    function setCaption( &$value )
     {
         $this->Caption = $value;
     }
@@ -721,7 +493,7 @@ class eZMedia
     /*!
       Sets the media description.
     */
-    function setDescription( $value )
+    function setDescription( &$value )
     {
         $this->Description = $value;
     }
@@ -729,7 +501,7 @@ class eZMedia
     /*!
       Sets the original medianame.
     */
-    function setOriginalFileName( $value )
+    function setOriginalFileName( &$value )
     {
         $this->OriginalFileName = $value;
     }
@@ -789,83 +561,9 @@ class eZMedia
     }
 
     /*!
-      Sets the writePermission permission of the eZMedia object.
-
-      1 = User
-      2 = Group
-      3 = All
-      
-    */
-    function setWritePermission( $value )
-    {
-       switch ( $value )
-       {
-           case "User":
-           {
-               $value = 1;
-           }
-           break;
-           
-           case "Group":
-           {
-               $value = 2;
-           }
-           break;
-           
-           case "All":
-           {
-               $value = 3;
-           }
-           break;
-           
-           default:
-               $value = 1;
-       }
-       
-       $this->WritePermission = $value;
-    }
-
-    /*!
-      Sets the read permission of the eZMedia object.
-
-      1 = User
-      2 = Group
-      3 = All
-      
-    */
-    function setReadPermission( $value )
-    {
-       switch ( $value )
-       {
-           case "User":
-           {
-               $value = 1;
-           }
-           break;
-           
-           case "Group":
-           {
-               $value = 2;
-           }
-           break;
-           
-           case "All":
-           {
-               $value = 3;
-           }
-           break;
-           
-           default:
-               $value = 1;
-       }
-       
-       $this->ReadPermission = $value;
-    }
-
-    /*!
       Sets the user of the eZMedia object.
     */
-    function setUser( $user )
+    function setUser( &$user )
     {
         if ( get_class( $user ) == "ezuser" )
         {
@@ -878,7 +576,7 @@ class eZMedia
     /*!
       Returns the media's categories.
     */
-    function categories()
+    function &categories()
     {
         $db =& eZDB::globalDatabase();
 
@@ -900,222 +598,12 @@ class eZMedia
     }
 
     /*!
-      Adds read permission to the user.
-    */
-    function addReadPermission( $value )
-    {
-        $db =& eZDB::globalDatabase();
-
-        $db->begin( );
-        $db->lock( "eZMediaCatalogue_MediaReadGroupLink" );
-        $nextID = $db->nextID( "eZMediaCatalogue_MediaReadGroupLink", "ID" );
-
-        $query = "INSERT INTO eZMediaCatalogue_MediaReadGroupLink ( ID, MediaID, GroupID ) VALUES ( '$nextID', '$this->ID', '$value' )";
-        
-        $res = $db->query( $query );
-
-        $db->unlock();
-    
-        if ( $res == false )
-            $db->rollback( );
-        else
-            $db->commit();        
-    }
-
-    /*!
-      Adds write permission to the user.
-    */
-    function addWritePermission( $value )
-    {
-        $db =& eZDB::globalDatabase();
-       
-        $db->begin( );
-        $db->lock( "eZMediaCatalogue_MediaWriteGroupLink" );
-        $nextID = $db->nextID( "eZMediaCatalogue_MediaWriteGroupLink", "ID" );
-        
-        $query = "INSERT INTO eZMediaCatalogue_MediaWriteGroupLink ( ID, MediaID, GroupID ) VALUES ( '$nextID', '$this->ID', '$value' )";
-        
-        $res = $db->query( $query );
-
-        $db->unlock();
-    
-        if ( $res == false )
-            $db->rollback( );
-        else
-            $db->commit();        
-    }
-
-    /*!
-      Check if the user have read permissions. Returns true if the user have permissions. False if not.
-    */
-    function hasReadPermissions( $user = false )
-    {
-        $db =& eZDB::globalDatabase();
-   
-        
-       $db->array_query( $userArrayID, "SELECT UserID FROM eZMediaCatalogue_Media WHERE ID='$this->ID'" );
-
-       if ( $user )
-       {
-           if ( $userArrayID[0][$db->fieldName("UserID")] == $user->id() )
-           {
-               return true;
-           }
-           
-           $groups = $user->groups();
-       }
-       $db->array_query( $readPermissions, "SELECT ReadPermission FROM eZMediaCatalogue_Media WHERE ID='$this->ID'" );
-
-       for ( $i = 0; $i < count( $readPermissions ); $i++ )
-       {
-           if ( $readPermissions[$i][$db->fieldName("GroupID")] == 0 )
-           {
-               return true;
-           }
-           else
-           {
-               if ( count( $groups ) > 0 )
-               {                   
-                   foreach ( $groups as $group )
-                   {
-                       if ( $group->id() == $readPermissions[$i][$db->fieldName("GroupID")] )
-                       {
-                           return true;
-                       }
-                   }
-               }
-           }
-       }
-       return false;
-    }
-
-    /*!
-      Check if the user have write permissions. Returns true if the user have permissions. False if not.
-    */
-    function hasWritePermissions( $user=false )
-    {
-        $db =& eZDB::globalDatabase();
-
-       $db->array_query( $userArrayID, "SELECT UserID FROM eZMediaCatalogue_Media WHERE ID='$this->ID'" );
-
-       if ( $user )
-       {
-           if ( $userArrayID[0][$db->fieldName("UserID")] == $user->id() )
-           {
-               return true;
-           }
-           
-           $groups = $user->groups();
-       }
-
-       $db->array_query( $writePermissions, "SELECT GroupID FROM eZMediaCatalogue_MediaWriteGroupLink WHERE MediaID='$this->ID'" );
-
-       for ( $i=0; $i < count ( $writePermissions ); $i++ )
-       {
-           if ( $writePermissions[$i][$db->fieldName("GroupID")] == 0 )
-           {
-               return true;
-           }
-           else
-           {
-               if ( count ( $groups ) > 0 )
-               {                   
-                   foreach ( $groups as $group )
-                   {
-                       if ( $group->id() == $writePermissions[$i][$db->fieldName("GroupID")] )
-                       {
-                           return true;
-                       }
-                   }
-               }
-           }
-       }
-       
-       return false;
-    }
-    
-    /*!
-      Returns all the read permission for this object.
-
-    */
-    function readPermissions( )
-    {
-        $db =& eZDB::globalDatabase();
-
-       $readPermissions = array();
-       $ret = false;
-
-       $db->array_query( $readPermissions, "SELECT GroupID FROM eZMediaCatalogue_MediaReadGroupLink WHERE MediaID='$this->ID'" );
-      
-       for ( $i=0; $i < count ( $readPermissions ); $i++ )
-       {
-           if ( $readPermissions[$i][$db->fieldName("GroupID")] == 0 )
-           {
-               $ret[] = "Everybody";
-           }
-          
-           $ret[] = new eZUserGroup( $readPermissions[$i][$db->fieldName("GroupID")] );
-       }
-
-       return $ret;
-    }
-
-    /*!
-      Returns all the write permission for this object.
-
-    */
-    function writePermissions( )
-    {
-        $db =& eZDB::globalDatabase();
-
-       $writePermissions = array();
-       $ret = false;
-
-       $db->array_query( $writePermissions, "SELECT GroupID FROM eZMediaCatalogue_MediaWriteGroupLink WHERE MediaID='$this->ID'" );
-      
-       for ( $i=0; $i < count ( $writePermissions ); $i++ )
-       {
-           if ( $writePermissions[$i][$db->fieldName("GroupID")] == 0 )
-           {
-               $ret[] = "Everybody";
-           }
-          
-           $ret[] = new eZUserGroup( $writePermissions[$i][$db->fieldName("GroupID")] );
-       }
-
-       return $ret;
-    }
-
-    /*!
-      Remove the read permissions from this eZVirtualFolder object.
-
-    */
-    function removeReadPermissions()
-    {
-        $db =& eZDB::globalDatabase();
-
-        $db->query( "DELETE FROM eZMediaCatalogue_MediaWriteGroupLink WHERE FolderID='$this->ID'" );
-    }
-
-
-    /*!
-      Remove the write permissions from this eZVirtualFolder object.
-
-    */
-    function removeWritePermissions()
-    {
-        $db =& eZDB::globalDatabase();
-
-        $db->query( "DELETE FROM eZMediaCatalogue_MediaWriteGroupLink WHERE FolderID='$this->ID'" );
-    }
-
-    /*!
       \Static
       Returns true if the given user is the owner of the given object.
       $user is either a userID or an eZUser.
       $media is the ID of the media.
      */
-    function isOwner( $user, $media )
+    function isOwner( &$user, &$media )
     {
         if( get_class( $user ) != "ezuser" )
             return false;
@@ -1132,7 +620,7 @@ class eZMedia
     /*!
       Sets the photographer of the media
     */
-    function setPhotographer( $author )
+    function setPhotographer( &$author )
     {
         if ( get_class( $author ) == "ezauthor" )
             $this->PhotographerID = $author->id();
@@ -1143,7 +631,7 @@ class eZMedia
     /*!
       Returns the photographer og the media
     */
-    function photographer()
+    function &photographer()
     {
         return new eZAuthor( $this->PhotographerID );
     }
@@ -1151,7 +639,7 @@ class eZMedia
     /*!
       Sets the links type.
     */
-    function setType( $type )
+    function setType( &$type )
     {
         if ( get_class( $type ) == "ezmediatype" )
         {
@@ -1192,7 +680,7 @@ class eZMedia
     /*!
       Returns the link's type.
     */
-    function type()
+    function &type()
     {
         $db =& eZDB::globalDatabase();
 

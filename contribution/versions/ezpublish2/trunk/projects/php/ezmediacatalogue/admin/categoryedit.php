@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: categoryedit.php,v 1.3 2001/10/16 10:08:45 ce Exp $
+// $Id: categoryedit.php,v 1.4 2001/11/01 17:20:32 ce Exp $
 //
 // Created on: <24-Jul-2001 10:31:09 ce>
 //
@@ -93,6 +93,8 @@ $permissionCheck = true;
 $nameCheck = true;
 $descriptionCheck = true;
 
+$t->set_var( "category_id", "$CategoryID" );
+
 if ( $Action == "Insert" || $Action == "Update" )
 {
     // Check if the user have write access to the category
@@ -183,9 +185,9 @@ if ( $Action == "Insert" || $Action == "Update" )
 }
 
 // Insert a category.
-if( $Action == "Insert" && $error == false )
+if( ( $Action == "Insert" || $Action == "Update" ) && $error == false )
 {
-    $category = new eZMediaCategory();
+    $category = new eZMediaCategory( $CategoryID );
     $category->setName( $Name );
     $category->setDescription( $Description );
 
@@ -196,7 +198,6 @@ if( $Action == "Insert" && $error == false )
     $category->setParent( $parent );
 
     $category->store();
-
 
      if ( count ( $ReadGroupArrayID ) > 0 )
      {
@@ -228,49 +229,6 @@ if( $Action == "Insert" && $error == false )
     exit();
 }
 
-// Update the category.
-if ( $Action == "Update" && $error == false )
-{
-    $category = new eZMediaCategory( $CategoryID );
-    $category->setName( $Name );
-    $category->setDescription( $Description );
-
-    $parent = new eZMediaCategory( $ParentID );
-    $category->setParent( $parent );
-
-    $category->store();
-
-    eZObjectPermission::removePermissions( $CategoryID, "mediacatalogue_category", 'r' );
-    if ( count ( $ReadGroupArrayID ) > 0 )
-    {
-        foreach ( $ReadGroupArrayID as $Read )
-        {
-            if ( $Read == 0 )
-                $group = -1;
-            else
-                $group = new eZUserGroup( $Read );
-
-            eZObjectPermission::setPermission( $group, $category->id(), "mediacatalogue_category", "r" );
-        }
-    }
-    
-    eZObjectPermission::removePermissions( $CategoryID, "mediacatalogue_category", 'w' );
-    if ( count ( $WriteGroupArrayID ) > 0 )
-    {
-        foreach ( $WriteGroupArrayID as $Write )
-        {
-            if ( $Write == 0 )
-                $group = -1;
-            else
-                $group = new eZUserGroup( $Write );
-            
-            eZObjectPermission::setPermission( $group, $category->id(), "mediacatalogue_category", "w" );
-        }
-    }
-    eZHTTPTool::header( "Location: /mediacatalogue/media/list/$ParentID" );
-    exit();
-  
-}
 
 // Delete the selected categories.
 if ( $Action == "Delete" && $error == false )
@@ -284,12 +242,24 @@ if ( $Action == "Delete" && $error == false )
         }
     }
 }
-    
+
+// Delete the selected categories.
+if ( isSet( $DeleteMedia ) && $error == false )
+{
+    if ( count ( $MediaArrayID ) > 0 )
+    {
+        foreach ( $MediaArrayID as $MediaID )
+        {
+            eZMedia::delete( $MediaID );
+        }
+    }
+}
+
 // Insert default values when creating a new category.
 if ( $Action == "New" || $error )
 {
     $t->set_var( "action_value", "insert" );
-    $t->set_var( "category_id", "" );
+    $t->set_var( "category_id", "$CategoryID" );
 
     $t->set_var( "user_read_checked", "checked" );
     $t->set_var( "user_write_checked", "checked" );

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezmediacategory.php,v 1.1 2001/07/24 15:42:35 ce Exp $
+// $Id: ezmediacategory.php,v 1.2 2001/11/01 17:20:32 ce Exp $
 //
 // Definition of eZMediaCategory class
 //
@@ -28,7 +28,18 @@
 //!! eZMediaCatalogue
 //! eZMediaCategory manages virtual folders.
 /*!
-  
+  Example code:
+  \code
+  // create a new country type and set some variables.
+  $category = new eZMediaAttribute();
+  $category->setName( "My media files" );
+  $category->setDescription( "Just some media files" );
+  $category->setParent( $parentCategory );
+  $category->setUser( $user ); 
+  $category->store();
+  \endcode
+  \sa eZMedia eZMediaType eZMediaAttribute
+
 */
 
 /*!TODO
@@ -69,7 +80,7 @@ class eZMediaCategory
         $name = $db->escapeString( $this->Name );
         $description = $db->escapeString( $this->Description );
         
-        if ( !isset( $this->ID ) )
+        if ( $this->ID == false )
         {
             $db->lock( "eZMediaCatalogue_Category" );
 
@@ -189,7 +200,7 @@ class eZMediaCategory
       \Static
       Returns all media in a category
     */
-    function &getMedia( $user, $category = false )
+    function &getMedia( &$user, $category=false )
     {
         if ( !$category )
             $category = $this->ID;
@@ -215,7 +226,7 @@ class eZMediaCategory
     /*! 
       Returns the number of categories in the the category given as parameter as parent.
     */  
-    function countByParent( $parent  )
+    function countByParent( &$parent  )
     { 
         if ( get_class( $parent ) == "ezmediacategory" ) 
         { 
@@ -242,7 +253,7 @@ class eZMediaCategory
       
       The categories are returned as an array of eZMediaCategory objects.      
     */  
-    function getByParent( $parent, $offset = 0, $max = -1 )
+    function &getByParent( &$parent, $offset = 0, $max = -1 )
     { 
         if ( get_class( $parent ) == "ezmediacategory" ) 
         { 
@@ -277,7 +288,7 @@ class eZMediaCategory
         
         Returns an object of eZMediaCategory.
      */
-    function &getByName( $name )
+    function &getByName( &$name )
     {
         $db =& eZDB::globalDatabase();
         
@@ -337,7 +348,7 @@ class eZMediaCategory
     /*!
       Recursive function that returns an array containing an int (tree position) and an array ( all items on that level )
      */
-    function getTree( $parentID=0, $level=0 )
+    function &getTree( $parentID=0, $level=0 )
     {
         $category = new eZMediaCategory( $parentID );
 
@@ -346,14 +357,14 @@ class eZMediaCategory
         $tree = array();
         $level++;
         foreach ( $categoryList as $category )
-            {
-                array_push( $tree, array( $return_array[] = new eZMediaCategory( $category->id() ), $level ) );
-
+        {
+            array_push( $tree, array( $return_array[] = new eZMediaCategory( $category->id() ), $level ) );
+            
             if ( $category != 0 )
             {
                 $tree = array_merge( $tree, $this->getTree( $category->id(), $level ) );
             }
-
+            
         }
 
         return $tree;
@@ -372,7 +383,7 @@ class eZMediaCategory
     /*!
       Returns the name of the category.
     */
-    function name( $html = true )
+    function &name( $html = true )
     {
        if( $html )
            return htmlspecialchars( $this->Name );
@@ -383,7 +394,7 @@ class eZMediaCategory
     /*!
       Returns the group description.
     */
-    function description( $html = true )
+    function &description( $html = true )
     {
        if( $html )
            return htmlspecialchars( $this->Description );
@@ -395,7 +406,7 @@ class eZMediaCategory
     /*!
       Returns the parent if one exist. If not 0 is returned.
     */
-    function parent()
+    function &parent()
     {
        if ( $this->ParentID != 0 )
        {
@@ -411,7 +422,7 @@ class eZMediaCategory
     /*!
       Returns a eZUser object.
     */
-    function user()
+    function &user()
     {
         if ( $this->UserID != 0 )
         {
@@ -427,7 +438,7 @@ class eZMediaCategory
       $user is either a userID or an eZUser.
       $mediacategory is the ID of the media category.
      */
-    function isOwner( $user, $mediacategory )
+    function isOwner( &$user, &$mediacategory )
     {
         if( get_class( $user ) != "ezuser" )
             return false;
@@ -445,7 +456,7 @@ class eZMediaCategory
     /*!
       Sets the name of the category.
     */
-    function setName( $value )
+    function setName( &$value )
     {
         $this->Name = $value;
     }
@@ -453,7 +464,7 @@ class eZMediaCategory
     /*!
       Sets the description of the category.
     */
-    function setDescription( $value )
+    function setDescription( &$value )
     {
         $this->Description = $value;
     }
@@ -461,7 +472,7 @@ class eZMediaCategory
     /*!
       Sets the parent category.
     */
-    function setParent( $value )
+    function setParent( &$value )
     {
        if ( get_class( $value ) == "ezmediacategory" )
        {
@@ -472,7 +483,7 @@ class eZMediaCategory
     /*!
       Sets the user of the file.
     */
-    function setUser( $user )
+    function setUser( &$user )
     {
         if ( get_class( $user ) == "ezuser" )
         {
@@ -487,7 +498,7 @@ class eZMediaCategory
       Adds a file to the category.
       Can be used as a static function if $categoryid is supplied
     */
-    function addMedia( $value, $categoryid = false )
+    function addMedia( &$value, $categoryid = false )
     {        
        if ( get_class( $value ) == "ezmedia" )
            $mediaID = $value->id();
@@ -531,7 +542,7 @@ class eZMediaCategory
       Removes an media from the category.
       Can be used as a static function if $categoryid is supplied
     */
-    function removeMedia( $value, $categoryid = false )
+    function removeMedia( &$value, $categoryid = false )
     {
         if ( get_class( $value ) == "ezmedia" )
             $mediaID = $value->id();
@@ -588,7 +599,7 @@ class eZMediaCategory
     /*!
       Returns every media in a category as a array of eZMedia objects.
     */
-    function media( $sortMode = "time", $offset = 0, $limit = -1 )
+    function &media( $sortMode = "time", $offset = 0, $limit = -1 )
     {
        $db =& eZDB::globalDatabase();
 
@@ -616,226 +627,11 @@ class eZMediaCategory
        return $return_array;
     } 
 
-    /*!
-      Adds read permission to the user.
-    */
-    function addReadPermission( $value )
-    {
-       $db =& eZDB::globalDatabase();
-
-       $db->begin( );
-       $db->lock( "eZMediaCatalogue_CategoryReadGroupLink" );
-       $nextID = $db->nextID( "eZMediaCatalogue_CategoryReadGroupLink", "ID" );
-       
-       $query = "INSERT INTO eZMediaCatalogue_CategoryReadGroupLink ( ID, CategoryID, GroupID )
-                 VALUES ( '$nextID', '$this->ID', '$value' )";
-       
-       $res = $db->query( $query );
-
-       $db->unlock();
-    
-       if ( $res == false )
-           $db->rollback( );
-       else
-           $db->commit();        
-    }
-
-    /*!
-      Adds write permission to the user.
-    */
-    function addWritePermission( $value )
-    {
-       $db =& eZDB::globalDatabase();
-       
-       $db->begin( );
-       $db->lock( "eZMediaCatalogue_CategoryReadGroupLink" );
-       $nextID = $db->nextID( "eZMediaCatalogue_CategoryReadGroupLink", "ID" );
-       
-       $query = "INSERT INTO eZMediaCatalogue_CategoryReadGroupLink ( ID, CategoryID, GroupID )
-                 VALUES ( '$nextID', '$this->ID', '$value' )";
-       
-       $res = $db->query( $query );
-
-       $db->unlock();
-    
-       if ( $res == false )
-           $db->rollback( );
-       else
-           $db->commit();       
-    }
-
-    /*!
-      Check if the user have read permissions. Returns true if the user have permissions. False if not.
-    */
-    function hasReadPermissions( $user=false )
-    {
-       $db =& eZDB::globalDatabase();
-
-       $db->array_query( $userArrayID, "SELECT UserID FROM eZMediaCatalogue_Category WHERE ID='$this->ID'" );
-
-       if ( $user )
-       {
-           if ( $userArrayID[0][$db->fieldName("UserID")] == $user->id() )
-           {
-               return true;
-           }
-           
-           $groups = $user->groups();
-       }
-
-       $db->array_query( $readPermissions, "SELECT GroupID FROM eZMediaCatalogue_CategoryReadGroupLink WHERE CategoryID='$this->ID'" );
-
-       for ( $i=0; $i < count ( $readPermissions ); $i++ )
-       {
-           if ( $readPermissions[$i][$db->fieldName("GroupID")] == 0 )
-           {
-               return true;
-           }
-           else
-           {
-               if ( count ( $groups ) > 0 )
-               {
-                   
-                   foreach ( $groups as $group )
-                   {
-                       if ( $group->id() == $readPermissions[$i][$db->fieldName("GroupID")] )
-                       {
-                           return true;
-                       }
-                   }
-               }
-           }
-       }
-       
-       return false;
-    }
-
-    /*!
-      Check if the user have write permissions. Returns true if the user have permissions. False if not.
-    */
-    function hasWritePermissions( $user=false )
-    {
-       $db =& eZDB::globalDatabase();
-
-       $db->array_query( $userArrayID, "SELECT UserID FROM eZMediaCatalogue_Category WHERE ID='$this->ID'" );
-
-       if ( $user )
-       {
-           if ( $userArrayID[0][$db->fieldName("UserID")] == $user->id() )
-           {
-               return true;
-           }
-           
-           $groups = $user->groups();
-       }
-
-       $db->array_query( $writePermissions, "SELECT GroupID FROM eZMediaCatalogue_CategoryWriteGroupLink WHERE CategoryID='$this->ID'" );
-
-       for ( $i=0; $i < count ( $writePermissions ); $i++ )
-       {
-           if ( $writePermissions[$i][$db->fieldName("GroupID")] == 0 )
-           {
-               return true;
-           }
-           else
-           {
-               if ( count ( $groups ) > 0 )
-               {                   
-                   foreach ( $groups as $group )
-                   {
-                       if ( $group->id() == $writePermissions[$i][$db->fieldName("GroupID")] )
-                       {
-                           return true;
-                       }
-                   }
-               }
-           }
-       }
-       
-       return false;
-    }
-    
-    /*!
-      Returns all the read permission for this object.
-
-    */
-    function readPermissions( )
-    {
-       $db =& eZDB::globalDatabase();
-
-       $readPermissions = array();
-       $ret = false;
-
-       $db->array_query( $readPermissions, "SELECT GroupID FROM eZMediaCatalogue_CategoryReadGroupLink WHERE CategoryID='$this->ID'" );
-      
-       for ( $i=0; $i < count ( $readPermissions ); $i++ )
-       {
-           if ( $readPermissions[$i][$db->fieldName("GroupID")] == 0 )
-           {
-               $ret[] = "Everybody";
-           }
-          
-           $ret[] = new eZUserGroup( $readPermissions[$i][$db->fieldName("GroupID")] );
-       }
-
-       return $ret;
-    }
-
-    /*!
-      Returns all the write permission for this object.
-
-    */
-    function writePermissions( )
-    {
-       $db =& eZDB::globalDatabase();
-
-       $writePermissions = array();
-       $ret = false;
-
-       $db->array_query( $writePermissions, "SELECT GroupID FROM eZMediaCatalogue_CategoryWriteGroupLink WHERE CategoryID='$this->ID'" );
-      
-       for ( $i=0; $i < count ( $writePermissions ); $i++ )
-       {
-           if ( $writePermissions[$i][$db->fieldName("GroupID")] == 0 )
-           {
-               $ret[] = "Everybody";
-           }
-          
-           $ret[] = new eZUserGroup( $writePermissions[$i][$db->fieldName("GroupID")] );
-       }
-
-       return $ret;
-    }
-
-    /*!
-      Remove the read permissions from this eZVirtualFolder object.
-
-    */
-    function removeReadPermissions()
-    {
-       $db =& eZDB::globalDatabase();
-
-       $db->query( "DELETE FROM eZMediaCatalogue_CategoryWriteGroupLink WHERE FolderID='$this->ID'" );
-    }
-
-
-    /*!
-      Remove the write permissions from this eZVirtualFolder object.
-
-    */
-    function removeWritePermissions()
-    {
-       $db =& eZDB::globalDatabase();
-
-       $this->Database->query( "DELETE FROM eZMediaCatalogue_CategoryWriteGroupLink WHERE FolderID='$this->ID'" );
-    }
-
     var $ID;
     var $Name;
     var $ParentID;
     var $Description;
     var $UserID;
-
 }
 
 ?>

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: medialist.php,v 1.5 2001/08/17 13:36:00 jhe Exp $
+// $Id: medialist.php,v 1.6 2001/11/01 17:20:32 ce Exp $
 //
 // Created on: <24-Jul-2001 11:36:48 ce>
 //
@@ -242,6 +242,7 @@ foreach ( $mediaList as $media )
     {
         $can_write = true;
         $t->parse( "write", "write_tpl" );
+        $t->parse( "delete_media_button", "delete_media_button_tpl" );
     }
 
     if ( $can_read )
@@ -250,6 +251,12 @@ foreach ( $mediaList as $media )
     $counter++;
 }
 eZList::drawNavigator( $t, $category->mediaCount(), $limit, $Offset, "media_list_page_tpl" );
+
+if ( $can_write )
+{
+    $t->parse( "delete_media_button", "delete_media_button_tpl" );
+    $t->parse( "default_delete", "default_delete_tpl" );
+}
 
 
 // Print out the category/media menu
