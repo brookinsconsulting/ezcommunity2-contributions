@@ -4,7 +4,7 @@ echo "Clearing the cache . . ."
 
 clear_dirs="
 ezcontact
-ezrfp
+ezprocurement
 ezaddress
 ezarticle
 ezstats
