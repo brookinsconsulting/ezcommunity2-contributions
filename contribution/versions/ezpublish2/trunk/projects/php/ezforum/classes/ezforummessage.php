@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: ezforummessage.php,v 1.1 2000/07/14 12:55:45 lw-cvs Exp $
+    $Id: ezforummessage.php,v 1.2 2000/07/14 13:01:56 lw-cvs Exp $
 
     Author: Lars Wilhelmsen <lw@ez.no>
     
@@ -151,50 +151,4 @@ class eZforumMessage
     
     function parent()
     {
-        return $this->parent;
-    }
-    function setParent($newParent)
-    {
-        $this->Parent = $newParent;    
-    }
-
-    function topic()
-    {   
-        return $this->Topic;
-    }
-        
-    function setTopic($newTopic)
-    {
-        $this->Topic = $newTopic;
-    }
-        
-    function body()
-    {
-        return $this->Body;
-    }
-
-    function setBody($newBody)
-    {
-        $this->Body = $newBody;
-    }
-    
-    function user()
-    {
-        return $this->UserId;
-    }
-        
-    function setUserId($newUserId)
-    {
-        $this->UserId = $newUserId;
-    }
-        
-    function postingTime()
-    {
-        $t = $this->PostingTime;
-        $returnTime = $t[4] . $t[5] ."/". $t[2] . $t[3] ."/20". $t[0] . $t[1] . " ";
-        $returnTime .= $t[6] . $t[7] . ":" . $t[8] . $t[9] . ":" . $t[10] . $t[11];
-        
-        return $returnTime;
-    }
-}
-?>
+  

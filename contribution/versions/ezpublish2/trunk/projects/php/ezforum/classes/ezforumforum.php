@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: ezforumforum.php,v 1.1 2000/07/14 12:55:45 lw-cvs Exp $
+    $Id: ezforumforum.php,v 1.2 2000/07/14 13:01:56 lw-cvs Exp $
 
     Author: Lars Wilhelmsen <lw@ez.no>
     
@@ -9,7 +9,7 @@
     Copyright (C) 2000 eZ systems. All rights reserved.
 */
 include("ezforum/dbsettings.php");
-include("$DOCROOT/src/ezdb.php");
+include("$DOCROOT/classes/ezdb.php");
 
 class eZforumForum
 {
@@ -144,22 +144,3 @@ class eZforumForum
         
     function moderated()
     {
-        return $this->Moderated;
-    }
-        
-    function setModerated($newModerated)
-    {
-        $this->Moderated = $newModerated;
-    }
-        
-    function private()
-    {
-        return $this->Private;
-    }
-        
-    function setPrivate($newPrivate)
-    {
-        $this->Private = $newPrivate;
-    }
-}
-?>
