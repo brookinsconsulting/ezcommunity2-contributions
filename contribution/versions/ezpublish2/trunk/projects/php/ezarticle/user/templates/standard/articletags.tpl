@@ -143,7 +143,7 @@
 
 <!-- BEGIN table_tpl -->
 <br clear="all" />
-<table width="100%" >
+<table width="{table_width}" >
 <tr>
 <td bgcolor="#aaaaaa">
 <table width="{table_width}" border="{table_border}" cellpadding="2" cellspacing="2">
