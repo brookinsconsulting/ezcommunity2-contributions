@@ -87,6 +87,9 @@ This is an example of a httpd.conf virtalhost (change publish.org to your
  own domain).
 \layout LyX-Code
 
+NameVirtaulHost publish.org:80
+\layout LyX-Code
+
 # User site 
 \layout LyX-Code
 

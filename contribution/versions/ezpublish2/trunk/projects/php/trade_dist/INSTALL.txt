@@ -42,6 +42,8 @@ The rewrite and php modules needs to be active to use trade.
 This is an example of a httpd.conf virtalhost (change trade.org to
 your own domain).
 
+NameVirtalHost trade.org:80
+
 # User site 
 
 <VirtualHost trade.org> 

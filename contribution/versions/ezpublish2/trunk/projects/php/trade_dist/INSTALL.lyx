@@ -87,6 +87,9 @@ This is an example of a httpd.conf virtalhost (change trade.org to your own
  domain).
 \layout LyX-Code
 
+NameVirtalHost trade.org:80
+\layout LyX-Code
+
 # User site 
 \layout LyX-Code
 
