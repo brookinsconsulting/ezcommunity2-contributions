@@ -3,6 +3,8 @@ eZ publish changelog:
 
 Changes from 2.2.6 to 2.2.7
 ---------------------------
+* Fixed problem with xmlrpc reply regarding payload. Made sure no extra characters
+  were present before the payload which would invalidate the content-length.
 * Made sure that permissions on images are correctly handled when read AND write is required (required with DE).
 * Removed qdom from meta keywords.
 * Made it possible to reuse headlines more than one time pr page.
