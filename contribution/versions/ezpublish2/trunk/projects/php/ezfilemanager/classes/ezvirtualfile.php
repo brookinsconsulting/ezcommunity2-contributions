@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezvirtualfile.php,v 1.25 2001/04/11 15:04:00 bf Exp $
+// $Id: ezvirtualfile.php,v 1.26 2001/05/04 10:40:50 ce Exp $
 //
 // Definition of eZVirtualFile class
 //
@@ -119,6 +119,8 @@ class eZVirtualfile
             $this->removeReadPermissions();
 
             $this->Database->query( "DELETE FROM eZFileManager_File WHERE ID='$this->ID'" );
+            $this->Database->query( "DELETE FROM eZFileManager_FileFolderLink WHERE FileID='$this->ID'" );
+            
             $this->Database->query( "DELETE FROM eZFileManager_FilePermission WHERE ObjectID='$this->ID'" );
         }
 

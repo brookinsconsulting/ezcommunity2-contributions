@@ -49,19 +49,28 @@
 	</td>
 </tr>
 <tr>
+        <td>&nbsp;</td>
+</tr>
+<tr>
+
 	<td >
-	<br />
 	<p class="boxtext">{intl-status}:</p>
 	<!-- BEGIN status_select_tpl -->
 	{todo_status}
 	<!-- END status_select_tpl -->
 	</td>
-	
+
+	<!-- BEGIN todo_is_public_tpl -->	
 	<td >
-	<br />
-	<p class="boxtext">{intl-view_others}:</p>
-	{todo_permission}
+	{intl-todo_is_public}
 	</td>
+	<!-- END todo_is_public_tpl -->	
+	<!-- BEGIN todo_is_private_tpl -->	
+	<td >
+	{intl-todo_is_private}
+	</td>
+	<!-- END todo_is_private_tpl -->	
+
 </tr>
 </table>
 <br />

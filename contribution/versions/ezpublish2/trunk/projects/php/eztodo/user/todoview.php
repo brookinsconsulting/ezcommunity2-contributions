@@ -1,5 +1,5 @@
 <?
-// $Id: todoview.php,v 1.5 2001/04/04 11:59:46 wojciechp Exp $
+// $Id: todoview.php,v 1.6 2001/05/04 10:40:50 ce Exp $
 //
 // Definition of todo list.
 //
@@ -45,6 +45,8 @@ $t->set_file( array(
 $t->set_block( "todo_edit_page", "category_select_tpl", "category_select" );
 $t->set_block( "todo_edit_page", "priority_select_tpl", "priority_select" );
 $t->set_block( "todo_edit_page", "status_select_tpl", "status_select" );
+$t->set_block( "todo_edit_page", "todo_is_public_tpl", "todo_is_public" );
+$t->set_block( "todo_edit_page", "todo_is_private_tpl", "todo_is_private" );
 //$t->set_block( "todo_edit_page", "mark_as_done", "mark_done" );
 $t->set_block( "todo_edit_page", "user_item_tpl", "user_item" );
 
@@ -55,13 +57,15 @@ $todo = new eZTodo();
 $todo->get( $TodoID );
 
 
-if ( $todo->permission() == "Public" )
+if ( $todo->IsPublic() )
 {
-    $t->set_var( "todo_permission", $lanugageIni->read_var( "strings", "public" ) );
+    $t->set_var( "todo_is_private", "" );
+    $t->parse( "todo_is_public", "todo_is_public_tpl" );
 }
 else
 {
-    $t->set_var( "todo_permission", $lanugageIni->read_var( "strings", "private" ) );
+    $t->set_var( "todo_is_private", "" );
+    $t->parse( "todo_is_public", "todo_is_private_tpl" );
 }
 
 $t->set_var( "todo_name", $todo->name() );

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezvirtualfolder.php,v 1.16 2001/04/04 15:46:18 fh Exp $
+// $Id: ezvirtualfolder.php,v 1.17 2001/05/04 10:40:50 ce Exp $
 //
 // Definition of eZVirtualFolder class
 //
@@ -125,6 +125,8 @@ class eZVirtualFolder
         $categoryID = $category->id();
 
         $this->Database->query( "DELETE FROM eZFileManager_Folder WHERE ID='$categoryID'" );
+        $this->Database->query( "DELETE FROM eZFileManager_FileFolderLink WHERE FolderID='$categoryID'" );
+
         $this->Database->query( "DELETE FROM eZFileManager_FolderPermission WHERE ObjectID='$categoryID'" );
     }
     

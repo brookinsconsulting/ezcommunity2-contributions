@@ -2376,7 +2376,7 @@ CREATE TABLE eZTodo_Status (
 CREATE TABLE eZTodo_Todo (
   Category int(11) default NULL,
   Priority int(11) default NULL,
-  Permission enum('Public','Private') default 'Private',
+  IsPublic int(11) default '0',
   ID int(11) NOT NULL auto_increment,
   UserID int(11) default NULL,
   OwnerID int(11) default NULL,
@@ -2387,7 +2387,6 @@ CREATE TABLE eZTodo_Todo (
   Status int(11) default '0',
   PRIMARY KEY (ID)
 ) TYPE=MyISAM;
-
 #
 # Dumping data for table 'eZTodo_Todo'
 #
