@@ -83,13 +83,13 @@
 <tr>
 	<!-- BEGIN type_list_previous_tpl -->
 	<td>
-	<a href="/address/{type}/{action}/{item_previous_index}/{search_text}">{intl-previous}</a>
+	<a class="path" href="/address/{type}/{action}/{item_previous_index}/{search_text}">&lt;&lt;&nbsp;{intl-previous}</a>
 	</td>
 	<!-- END type_list_previous_tpl -->
 
 	<!-- BEGIN type_list_previous_inactive_tpl -->
 	<td>
-	{intl-previous}
+	&nbsp;
 	</td>
 	<!-- END type_list_previous_inactive_tpl -->
 
@@ -97,13 +97,13 @@
 
 	<!-- BEGIN type_list_item_tpl -->
 	<td>
-	<a href="/address/{type}/{action}/{item_index}/{search_text}">{type_item_name}</a>
+	|&nbsp;<a class="path" href="/address/{type}/{action}/{item_index}/{search_text}">{type_item_name}</a>
 	</td>
 	<!-- END type_list_item_tpl -->
 
 	<!-- BEGIN type_list_inactive_item_tpl -->
 	<td>
-	{type_item_name}
+	|&nbsp;&lt;&nbsp;{type_item_name}&nbsp;&gt;
 	</td>
 	<!-- END type_list_inactive_item_tpl -->
 
@@ -111,13 +111,13 @@
 
 	<!-- BEGIN type_list_next_tpl -->
 	<td>
-	<a href="/address/{type}/{action}/{item_next_index}/{search_text}">{intl-next}</a>
+	|&nbsp;<a class="path" href="/address/{type}/{action}/{item_next_index}/{search_text}">{intl-next}&nbsp;&gt;&gt;</a>
 	</td>
 	<!-- END type_list_next_tpl -->
 
 	<!-- BEGIN type_list_next_inactive_tpl -->
 	<td>
-	{intl-next}
+	&nbsp;
 	</td>
 	<!-- END type_list_next_inactive_tpl -->
 
@@ -130,9 +130,17 @@
 <p class="boxtext">{intl-no_item}</p>
 <!-- END no_line_item_tpl -->
 <hr noshade="noshade" size="4" />
-<br />
-    <input class="stdbutton" type="submit" name="Back" value="{intl-new}">
-    <input type="submit" name="Delete" value="{intl-delete_selected}">
+<table cellpadding="0" cellspacing="0" border="0">
+<tr>
+	<td>
+	<input class="stdbutton" type="submit" name="Back" value="{intl-new}">
+	</td>
+	<td>&nbsp;</td>
+	<td>
+    <input class="stdbutton" type="submit" name="Delete" value="{intl-delete_selected}">
+	</td>
+</tr>
+</table>
 </form>
 
 <!-- END list_page -->

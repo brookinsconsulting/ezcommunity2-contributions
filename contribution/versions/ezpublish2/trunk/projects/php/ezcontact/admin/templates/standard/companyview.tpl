@@ -16,14 +16,15 @@
 
 <br />
 
+<!-- BEGIN logo_view_tpl -->
+<img src="{logo_image_src}" width="{image_width}" height="{image_height}" border="0" alt="{image_alt}" /><br /><br />
+<!-- END logo_view_tpl -->
+
 <table width="100%" cellpadding="0" cellspacing="0" border="0">
 <tr>
 	<td>
 	<p class="boxtext">{intl-name_headline}:</p>
 	<div class="p">{name}</div>
-	<!-- BEGIN logo_view_tpl -->
-	<img src="{logo_image_src}" width="{image_width}" height="{image_height}" border="0" alt="{image_alt}" />
-	<!-- END logo_view_tpl -->
 	</td>
 	<td valign="top">
 	<p class="boxtext">{intl-company_no}:</p>
@@ -132,7 +133,7 @@
 <!-- BEGIN person_table_item_tpl -->
 <h2>{intl-person_headline} - ({person_start}-{person_end}/{person_max})</h2>
 
-<table width="100%" cellpadding="0" cellspacing="0" border="0">
+<table class="list" width="100%" cellpadding="4" cellspacing="0" border="0">
 <tr>
 	<th>{intl-person_name}:</th>
 	<th colspan="1">&nbsp;</th>
@@ -205,7 +206,7 @@
 <!-- BEGIN consultation_table_item_tpl -->
 <h2>{intl-consultation_headline}</h2>
 
-<table class="list" width="100%" cellspacing="0" cellpadding="0" border="0">
+<table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
 <tr>
 	<th>{intl-consultation_date}:</th>
 	<th>{intl-consultation_short_description}:</th>

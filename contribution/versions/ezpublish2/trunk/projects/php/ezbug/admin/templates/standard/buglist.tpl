@@ -16,14 +16,14 @@
 </tr>
 </table>
 
-<hr noshade="noshade" size="4" />
 <form method="post" action="/bug/archive/{current_module_id}/">
+
+<hr noshade="noshade" size="4" />
 
 <!-- BEGIN path_tpl -->
 
 
 <img src="/images/{site_style}/path-arrow.gif" height="10" width="12" border="0" alt="" />
-
 <a class="path" href="/bug/archive/0/">{intl-top_level}</a>
 
 <!-- END path_tpl -->
@@ -137,5 +137,4 @@
 <input class="stdbutton" type="submit" name="Delete" value="{intl-delete_bugs}" />
 
 </form>
-<br /><br />
 

@@ -22,6 +22,9 @@
 
 <hr noshade="noshade" size="4" />
 
+<input type="hidden" name="TypeID" value="{type_id}" />
+<input type="hidden" name="Action" value="{action_value}" />
+
 <table cellpadding="0" cellspacing="0" border="0">
 <tr>
 	<td>
@@ -33,8 +36,5 @@
 	</td>
 </tr>
 </table>
-
-<input type="hidden" name="TypeID" value="{type_id}" />
-<input type="hidden" name="Action" value="{action_value}" />
 
 </form>

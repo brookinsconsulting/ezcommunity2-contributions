@@ -86,4 +86,5 @@ http://<input type="text" name="Url" size="40" value="{url}">
 	</td>
 </tr>
 </table>
+
 </form>

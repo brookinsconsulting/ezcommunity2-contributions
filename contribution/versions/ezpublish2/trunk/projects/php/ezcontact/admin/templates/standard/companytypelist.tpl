@@ -133,7 +133,7 @@
 <table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
 <tr>
 	<th>{intl-name}:</th>
-	<th>{intl-logo}:</th>
+	<th>&nbsp;</th>
 	<th colspan="2">&nbsp;</th>
 </tr>
 
@@ -152,7 +152,7 @@
         <img src="{company_logo_src}" width="{image_width}" height="{image_height}" border="0" alt="{image_alt}" />
 	<!-- END image_view_tpl -->
 	<!-- BEGIN no_image_tpl -->
-	<p>{intl-no_image}</p>
+	<!-- <p>{intl-no_image}</p> -->
 	<!-- END no_image_tpl -->	
 	</td>
 

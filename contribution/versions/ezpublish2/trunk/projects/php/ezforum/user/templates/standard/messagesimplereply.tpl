@@ -1,10 +1,9 @@
+<form action="/forum/messagesimplereply/insert/{forum_id}/{message_id}/" method="post">
+
 <h1>{forum_name} - {topic}</h1>
 
 <hr noshade="noshade" size="4" />
 
-<form action="/forum/messagesimplereply/insert/{forum_id}/{message_id}/" method="post">
-
-  
 <br />
 
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
@@ -24,7 +23,7 @@
 <textarea wrap="soft" name="Body" rows="15" cols="40" rows="10">{body}</textarea>
 <br /><br />
     
-<input type="checkbox" name="notice"> {intl-email_notice}
+<input type="checkbox" name="notice">&nbsp;<span class="check">{intl-email_notice}</span>
 <br /><br />
 
 <hr noshade="noshade" size="4" />
@@ -32,7 +31,7 @@
 <table cellspacing="0" cellpadding="0" border="0">
 <tr>
 	<td>
-	<input class="stdbutton" type="submit" name="reply" value="{intl-answer}">
+	<input class="okbutton" type="submit" name="reply" value="{intl-answer}">
 	<input type="hidden" name="Action" value="Insert" />
 
 	</td>
