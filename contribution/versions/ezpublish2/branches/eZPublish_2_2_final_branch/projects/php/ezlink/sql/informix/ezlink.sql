@@ -15,7 +15,7 @@ CREATE TABLE eZLink_Link (
   Modified int NOT NULL,
   Accepted int,
   Created int default NULL,
-  Url varchar(100) default NULL,
+  Url text default NULL,
   ImageID int NOT NULL,
   PRIMARY KEY (ID)
 );
