@@ -65,8 +65,14 @@
 
 <h2>Stillingsinformasjon</h2>
 
-<p class="boxtext">{intl-name}:</p>
-<div class="p">{classified_name}</div>
+<p class="boxtext">{intl-title}:</p>
+<div class="p">{classified_title}</div>
+
+<p class="boxtext">{intl-position_type}:</p>
+{classified_position_type}
+
+<p class="boxtext">{intl-initiate_type}:</p>
+{classified_initiate_type}
 
 <p class="boxtext">{intl-description}:</p>
 <div class="p">{classified_description}</div>
