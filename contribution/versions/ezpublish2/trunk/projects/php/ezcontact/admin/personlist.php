@@ -11,6 +11,7 @@ if ( !is_numeric( $Max ) )
 
 include_once( "classes/eztemplate.php" );
 include_once( "classes/ezuritool.php" );
+include_once( "classes/ezlist.php" );
 
 $t = new eZTemplate( "ezcontact/admin/" . $ini->read_var( "eZContactMain", "AdminTemplateDir" ),  "ezcontact/admin/intl", $Language, "personedit.php" );
 $t->setAllStrings();
@@ -57,12 +58,51 @@ $t->set_block( "person_page", "person_new_button_tpl", "person_new_button" );
 $t->set_block( "person_table_tpl", "person_list_tpl", "person_list" );
 
 $t->set_block( "person_list_tpl", "person_list_previous_tpl", "person_list_previous" );
-$t->set_block( "person_list_tpl", "person_list_item_tpl", "person_list_item" );
+$t->set_block( "person_list_tpl", "person_list_item_list_tpl", "person_list_item_list" );
+$t->set_block( "person_list_item_list_tpl", "person_list_item_tpl", "person_list_item" );
+$t->set_block( "person_list_item_list_tpl", "person_list_inactive_item_tpl", "person_list_inactive_item" );
 $t->set_block( "person_list_tpl", "person_list_next_tpl", "person_list_next" );
 $t->set_block( "person_list_tpl", "person_list_previous_inactive_tpl", "person_list_previous_inactive" );
 $t->set_block( "person_list_tpl", "person_list_next_inactive_tpl", "person_list_next_inactive" );
 
 $t->set_var( "person_item", "" );
+
+$session =& eZSession::globalSession();
+
+if ( $session->fetch() != false )
+{
+    if ( !isset( $LimitType ) )
+    {
+        $LimitType =& $session->variable( "PersonLimitType" );
+    }
+    else
+    {
+        $session->setVariable( "PersonLimitType", $LimitType );
+    }
+}
+
+$t->set_var( "is_all_selected", "" );
+$t->set_var( "is_without_selected", "" );
+$t->set_var( "is_with_selected", "" );
+switch( $LimitType )
+{
+    case "all":
+    {
+        $t->set_var( "is_all_selected", "selected" );
+        break;
+    }
+    case "standalone":
+    default:
+    {
+        $t->set_var( "is_without_selected", "selected" );
+        break;
+    }
+    case "connected":
+    {
+        $t->set_var( "is_with_selected", "selected" );
+        break;
+    }
+}
 
 $person = new eZPerson();
 
@@ -79,8 +119,8 @@ $t->set_var( "action", $Action );
 
 if ( !isset( $SearchText ) )
 {
-    $total_persons = $person->getAllCount();
-    $persons = $person->getAll( "", $Index, $Max );
+    $total_persons = $person->getAllCount( "", $LimitType );
+    $persons = $person->getAll( "", $Index, $Max, $LimitType );
     $t->set_var( "search_form_text", "" );
     $t->set_var( "search_text", "" );
 }
@@ -90,8 +130,8 @@ else
     $search_encoded = eZURITool::encode( $search_encoded );
     $t->set_var( "search_form_text", $SearchText );
     $t->set_var( "search_text", $search_encoded );
-    $total_persons = $person->getAllCount( $SearchText );
-    $persons = $person->getAll( $SearchText, $Index, $Max );
+    $total_persons = $person->getAllCount( $SearchText, $LimitType );
+    $persons = $person->getAll( $SearchText, $Index, $Max, $LimitType );
 }
 
 $count = count( $persons );
@@ -157,51 +197,66 @@ $t->set_var( "person_new_button", "" );
 if ( eZPermission::checkPermission( $user, "eZContact", "PersonAdd" ) )
     $t->parse( "person_new_button", "person_new_button_tpl" );
 
-if ( $total_persons > $Max || $Index > 0 )
-{
-    $t->set_var( "person_list_previous", "" );
-    $t->set_var( "person_list_item", "" );
-    $t->set_var( "person_list_next", "" );
-    $t->set_var( "person_list_previous_inactive", "" );
-    $t->set_var( "person_list_next_inactive", "" );
+eZList::drawNavigator( $t, $total_persons, $Max, $Index, false,
+array( "type_list" => "person_list",
+       "next" => "person_list_next",
+       "next_inactive" => "person_list_next_inactive",
+       "next_index" => "item_next_index",
+       "previous" => "person_list_previous",
+       "previous_inactive" => "person_list_previous_inactive",
+       "previous_index" => "item_previous_index",
+       "item" => "person_list_item",
+       "item_inactive" => "person_list_inactive_item",
+       "item_index" => "item_index",
+       "item_list" => "person_list_item_list",
+       "item_name" => "item_name" )
+                       );
 
-    if ( $Index > 0 )
-    {
-        $t->set_var( "item_previous_index", max( $Index - $Max, 0 ) );
-        $t->parse( "person_list_previous", "person_list_previous_tpl" );
-    }
-    else
-    {
-        $t->parse( "person_list_previous_inactive", "person_list_previous_inactive_tpl" );
-    }
-    if ( $Index + $Max < $total_persons )
-    {
-        $t->set_var( "item_next_index", $Index + $Max );
-        $t->parse( "person_list_next", "person_list_next_tpl" );
-    }
-    else
-    {
-        $t->parse( "person_list_next_inactive", "person_list_next_inactive_tpl" );
-    }
+//  if ( $total_persons > $Max || $Index > 0 )
+//  {
+//      $t->set_var( "person_list_previous", "" );
+//      $t->set_var( "person_list_item", "" );
+//      $t->set_var( "person_list_next", "" );
+//      $t->set_var( "person_list_previous_inactive", "" );
+//      $t->set_var( "person_list_next_inactive", "" );
 
-    $total = $total_persons;
-    $i = 0;
-    while ( $total > 0 )
-    {
-        $t->set_var( "item_index", $i*$Max );
-        $t->set_var( "item_name", $i );
-        $t->parse( "person_list_item", "person_list_item_tpl", true );
+//      if ( $Index > 0 )
+//      {
+//          $t->set_var( "item_previous_index", max( $Index - $Max, 0 ) );
+//          $t->parse( "person_list_previous", "person_list_previous_tpl" );
+//      }
+//      else
+//      {
+//          $t->parse( "person_list_previous_inactive", "person_list_previous_inactive_tpl" );
+//      }
+//      if ( $Index + $Max < $total_persons )
+//      {
+//          $t->set_var( "item_next_index", $Index + $Max );
+//          $t->parse( "person_list_next", "person_list_next_tpl" );
+//      }
+//      else
+//      {
+//          $t->parse( "person_list_next_inactive", "person_list_next_inactive_tpl" );
+//      }
 
-        $total = $total - $Max;
-        $i++;
-    }
+//      $total = $total_persons;
+//      $i = 0;
+//      while ( $total > 0 )
+//      {
+//          $t->set_var( "item_index", $i*$Max );
+//          $t->set_var( "item_name", $i );
+//          $t->parse( "person_list_item", "person_list_item_tpl", true );
 
-    $t->parse( "person_list", "person_list_tpl" );
-}
-else
-{
-    $t->set_var( "person_list", "" );
-}
+//          $total = $total - $Max;
+//          $i++;
+//      }
+
+//      $t->parse( "person_list", "person_list_tpl" );
+//  }
+//  else
+//  {
+//      $t->set_var( "person_list", "" );
+//  }
 
 $t->pparse( "output", "person_page" );
 
