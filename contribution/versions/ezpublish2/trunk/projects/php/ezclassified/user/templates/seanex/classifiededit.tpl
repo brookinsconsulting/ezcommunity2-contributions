@@ -96,7 +96,9 @@
 </select>
 <br />
 
+<input type="hidden" value="{classified_id}" name="PositionID">
 <input type="hidden" value="{company_id}" name="CompanyID">
 <input type="submit" value="{intl-ok}">
+<input type="submit" Name="Delete" value="{intl-delete}">
 
 </form>

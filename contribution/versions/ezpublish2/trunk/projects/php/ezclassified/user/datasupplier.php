@@ -21,6 +21,31 @@ switch ( $url_array[2] )
             }
             break;
 
+            case "edit":
+            {
+                $Action = "edit";
+                $PositionID = $url_array[4];
+                include( "ezclassified/user/classifiededit.php" );
+            }
+            break;
+
+            case "update":
+            {
+                $Action = "update";
+                $PositionID = $url_array[4];
+                include( "ezclassified/user/classifiededit.php" );
+            }
+            break;
+
+            case "delete":
+            {
+                $Action = "delete";
+                $PositionID = $url_array[4];
+                include( "ezclassified/user/classifiededit.php" );
+            }
+            break;
+
+
         }
     }
     break;

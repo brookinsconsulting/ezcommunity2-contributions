@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezclassified.php,v 1.4 2000/11/30 13:50:26 ce-cvs Exp $
+// $Id: ezclassified.php,v 1.5 2000/12/01 09:12:11 ce-cvs Exp $
 //
 // Definition of eZProduct class
 //
@@ -124,7 +124,10 @@ class eZClassified
 
         if ( isSet( $this->ID ) )
         {
+            $this->Database->query( "DELETE FROM eZClassified_ClassifiedCategoryLink WHERE ClassifiedID='$this->ID'" );
+            $this->Database->query( "DELETE FROM eZClassified_ClassifiedCompanyLink WHERE ClassifiedID='$this->ID'" );
             $this->Database->query( "DELETE FROM eZClassified_Classified WHERE ID='$this->ID'" );
+            $this->Database->query( "DELETE FROM eZClassified_Position WHERE ID='$this->ID'" );
         }
         return true;
     }
@@ -310,7 +313,7 @@ class eZClassified
 
         foreach( $categories_array as $categoriesItem )
         {
-            $return_array[] = new eZClassifiedType( $categoriesItem["CategoryID"] );
+            $return_array[] = new eZClassified( $categoriesItem["CategoryID"] );
         }
 
         return $return_array;

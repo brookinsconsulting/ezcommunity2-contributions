@@ -43,6 +43,11 @@ if ( isSet ( $Back ) )
     exit();
 }
 
+if ( isSet ( $Delete ) )
+{
+    $Action = "delete";
+}
+
 if ( isSet ( $Preview ) )
 {
     header( "Location: /contact/company/view/$CompanyID" );
@@ -74,13 +79,12 @@ if ( $Action == "insert" )
 
         for( $i=0; $i<count( $CategoryArray ); $i++ )
         {
-            print( $CategoryArray[$i] );
             $category->get( $CategoryArray[$i] );
             $category->addClassified( $position );
         }
     }
 
-    Header( "Location: /classified/classifiededit/new" );
+    Header( "Location: /classified/classifiedlist/list" );
     exit();
 }
 
@@ -98,6 +102,24 @@ if ( $Action == "update" )
     $position->setContactPerson( $ContactPerson );
     $position->setWorkPlace( $WorkPlace );
     $position->store();
+
+    $position->removeCategoryies();
+    
+    // Add classifed to categories
+    if ( ( $CategoryArray ) != "" )
+    {
+        $category = new eZCategory();
+
+        for( $i=0; $i<count( $CategoryArray ); $i++ )
+        {
+            $category->get( $CategoryArray[$i] );
+            $category->addClassified( $position );
+        }
+    }
+
+
+    Header( "Location: /classified/classifiedlist/list" );
+    exit();
 }
 
 if( $Action == "delete" )
@@ -105,7 +127,8 @@ if( $Action == "delete" )
     $position = new eZPosition( $PositionID );
     $position->delete();
 
-    header( "Location: /classified/list/" );
+    Header( "Location: /classified/classifiedlist/list" );
+    exit();
 }
 
 $t = new eZTemplate( "ezclassified/user/" . $ini->read_var( "eZClassifiedMain", "TemplateDir" ),
@@ -197,7 +220,6 @@ for( $i=0; $i < count( $categoryTypeList ); $i++ )
 }
 
 $company = new eZCompany();
-
 $companyList = $company->getByUser( $user );
 
 if ( count ( $companyList ) == 1 )
