@@ -107,6 +107,58 @@ switch ( $url_array[2] )
     }
     break;
 
+    case "statustypelist":
+    {
+        include( "eztodo/admin/statustypelist.php" );        
+    }
+    break;
+    
+    case "statustypeedit" :
+    {
+        switch( $url_array[3] )
+        {
+            case "new":
+            {
+                $Action = "new";
+                include( "eztodo/admin/statustypeedit.php" );
+            }
+            break;
+            
+            case "insert":
+            {
+                $CategoryID = $url_array[4];
+                $Action = "insert";
+                include( "eztodo/admin/statustypeedit.php" );
+            }
+            break;
+            
+            case "edit":
+            {
+                $CategoryID = $url_array[4];
+                $Action = "edit";
+                include( "eztodo/admin/statustypeedit.php" );
+            }
+            break;
+            
+            case "update":
+            {
+                $CategoryID = $url_array[4];
+                $Action = "update";
+                include( "eztodo/admin/statustypeedit.php" );
+            }
+            break;
+            
+            case "delete":
+            {
+                $CategoryID = $url_array[4];
+                $Action = "delete";
+                include( "eztodo/admin/statustypeedit.php" );
+            }
+            break;
+        }
+    }
+    break;
+
     default:
     {
         print( "<h1>Sorry, Your todo page could not be found. </h1>" );

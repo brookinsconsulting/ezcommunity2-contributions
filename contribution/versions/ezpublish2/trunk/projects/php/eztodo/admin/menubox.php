@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: menubox.php,v 1.3 2001/01/23 17:46:33 jb Exp $
+// $Id: menubox.php,v 1.4 2001/04/04 11:05:51 wojciechp Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <23-Oct-2000 17:53:46 bf>
@@ -27,7 +27,8 @@
 
 $menuItems = array(
     array( "/todo/categorytypelist/", "{intl-categorytypelist}" ),
-    array( "/todo/prioritytypelist/", "{intl-prioritytypelist}" )
+    array( "/todo/prioritytypelist/", "{intl-prioritytypelist}" ),
+    array( "/todo/statustypelist/", "{intl-statustypelist}" )
     );
 
 ?>
