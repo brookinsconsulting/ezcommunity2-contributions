@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: payment.php,v 1.28 2001/03/21 14:01:57 pkej Exp $
+// $Id: payment.php,v 1.29 2001/03/22 17:13:26 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <02-Feb-2001 16:31:53 bf>
@@ -322,10 +322,13 @@ if ( $PaymentSuccess == "true" )
     
     $country = $billingAddress->country();
 
-    if ( $ini->read_var( "eZUserMain", "SelectCountry" ) == "enabled" )
-        $mailTemplate->set_var( "billing_country", $country->name() );
-    else
-        $mailTemplate->set_var( "billing_country", "" );
+    if ( ( get_class( $country ) == "ezcountry" ) )
+    {        
+        if ( $ini->read_var( "eZUserMain", "SelectCountry" ) == "enabled" )
+            $mailTemplate->set_var( "billing_country", $country->name() );
+        else
+            $mailTemplate->set_var( "billing_country", "" );
+    }
         
     if ( $ini->read_var( "eZTradeMain", "ShowBillingAddress" ) == "enabled" )
         $mailTemplate->parse( "billing_address", "billing_address_tpl" );

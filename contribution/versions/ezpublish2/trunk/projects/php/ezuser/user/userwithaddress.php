@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: userwithaddress.php,v 1.45 2001/03/14 10:27:21 bf Exp $
+// $Id: userwithaddress.php,v 1.46 2001/03/22 17:13:26 bf Exp $
 //
 //
 // Christoffer A. Elo <ce@ez.no>
@@ -425,7 +425,7 @@ if ( get_class( $user ) == "ezuser" )
         $i = 0;
         foreach ( $addressArray as $address )
         {
-            if ( ( $address->id() == $mainAddress->id()  )and !isset( $MainAddressID ) )
+            if ( ( $address->id() == $mainAddress->id()  ) and !isset( $MainAddressID ) )
                 $MainAddressID = $i + 1;
             if ( !isset( $AddressID[$i] ) )
                 $AddressID[$i] = $i + 1;
