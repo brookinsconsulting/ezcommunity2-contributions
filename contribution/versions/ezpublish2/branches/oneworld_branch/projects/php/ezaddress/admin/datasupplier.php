@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: datasupplier.php,v 1.3.10.1 2002/06/03 15:03:13 pkej Exp $
+// $Id: datasupplier.php,v 1.3.10.2 2002/06/04 11:25:47 br Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -224,6 +224,45 @@ switch ( $ListType )
         break;
     }
 
+    case "language":
+    {
+        $Action = $url_array[3];
+        switch( $Action )
+        {
+            case "list":
+            {
+                if ( is_Numeric( $url_array[4] ) )
+                {
+                    $Index = $url_array[4];
+                }
+                else
+                {
+                    $Index = 0;
+                }
+                include( "ezaddress/admin/languagelist.php" );
+            }
+            break;
+            
+            case "new":
+            case "edit":
+            {
+                if ( is_Numeric( $url_array[4] ) )
+                {
+                    $LanguageID = $url_array[4];
+                    $Offset = $url_array[5];
+                }
+                else
+                {
+                    $LanguageID = "";
+                    $Offset = "";
+                }
+                include( "ezaddress/admin/languageedit.php" );
+            }
+            break;
+        }
+    }
+    break;
+    
     case "error":
     {
         include( "ezaddress/admin/error.php" );

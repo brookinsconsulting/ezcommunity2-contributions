@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: menubox.php,v 1.2 2001/07/19 12:06:56 jakobn Exp $
+// $Id: menubox.php,v 1.2.10.1 2002/06/04 11:25:47 br Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -30,6 +30,7 @@ $menuItems = array(
     array( "/address/addresstype/list/", "{intl-addresstypelist}" ),
     array( "/address/onlinetype/list/", "{intl-onlinetypelist}" ),
     array( "/address/country/list/", "{intl-countrylist}" ),
+    array( "/address/language/list/", "{intl-languagelist}" )
     );
 
 ?>
