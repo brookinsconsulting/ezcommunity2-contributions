@@ -27,6 +27,7 @@
 
 $menuItems = array(
     array( "/stats/overview/", "{intl-overview}" ),
+    array( "/stats/entryexitreport/", "{intl-entry_exit_report}" ),
     array( "/stats/pageviewlist/last/20", "{intl-last_page_views}" ),
     array( "/stats/visitorlist/top/20", "{intl-top_visitors}" ),
     array( "/stats/refererlist/top/20/", "{intl-referer_list}" ),
