@@ -14,11 +14,11 @@
 
 <hr noshade="noshade" size="4"/>
 
-<img src="/eztrade/images/path-arrow.gif" height="10" width="15" border="0">
+<img src="/images/path-arrow.gif" height="10" width="12" border="0" alt="" />
 <a class="path" href="/{module}/{module_list}/0/">{intl-top}</a>
 
 <!-- BEGIN path_tpl -->
-<img src="/eztrade/images/path-slash.gif" height="10" width="20" border="0">
+<img src="/eztrade/images/path-slash.gif" height="10" width="16" border="0" alt="" />
 <a class="path" href="/{module}/{module_list}/{category_id}/">{category_name}</a>
 <!-- END path_tpl -->
 
@@ -43,8 +43,6 @@
 <!-- END category_tpl -->
 
 </table>
-
-<hr noshade size="4"/>
 
 <!-- END category_list_tpl -->
 
