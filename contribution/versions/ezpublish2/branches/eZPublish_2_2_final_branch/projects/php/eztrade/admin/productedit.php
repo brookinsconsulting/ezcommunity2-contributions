@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: productedit.php,v 1.69.2.1 2001/11/19 10:10:58 bf Exp $
+// $Id: productedit.php,v 1.69.2.2 2003/07/22 08:49:52 br Exp $
 //
 // Created on: <19-Sep-2000 10:56:05 bf>
 //
@@ -265,7 +265,7 @@ if ( $Action == "Update"  or $Action == "Insert" )
             }
             else // some groups are selected.
             {
-                foreach ( $GroupArray as $groupID )
+                foreach ( $ReadGroupArray as $groupID )
                 {
                     eZObjectPermission::setPermission( $groupID, $productID, "trade_product", 'r' );
                 }
@@ -368,7 +368,6 @@ if ( $Action == "Update"  or $Action == "Insert" )
         // get the category to redirect to
         $category = $product->categoryDefinition();
         $categoryID = $category->id();
-    
         eZHTTPTool::header( "Location: /trade/categorylist/parent/$categoryID" );
         exit();
     }
@@ -805,26 +804,48 @@ $groupList = $group->getAll();
 $t->set_var( "selected", "" );
 foreach ( $groupList as $groupItem )
 {
+    
     // for the group owner selector
-    $t->set_var( "read_id", $groupItem->id() );
-    $t->set_var( "read_name", $groupItem->name() );
-    
-    if ( in_array( $groupItem->id(), $writeGroupsID ) )
-        $t->set_var( "is_selected", "selected" );
-    else
+    if ( in_array( -1, $writeGroupsID ) )
+    {
+        $t->set_var( "all_write_selected", "selected" );
+        $t->set_var( "write_name", $groupItem->name() );
+        $t->set_var( "write_id", $groupItem->id() );
         $t->set_var( "is_selected", "" );
+    }
+    else
+    {
+        $t->set_var( "all_write_selected", "" );
+        $t->set_var( "write_name", $groupItem->name() );
+        $t->set_var( "write_id", $groupItem->id() );
     
-    $t->parse( "read_group_item", "read_group_item_tpl", true );
+        if ( in_array( $groupItem->id(), $writeGroupsID ) )
+            $t->set_var( "is_selected", "selected" );
+        else
+            $t->set_var( "is_selected", "" );
+    }
+    $t->parse( "write_group_item", "write_group_item_tpl", true );
+    
     
     // for the read access groups selector
-    $t->set_var( "write_name", $groupItem->name() );
-    $t->set_var( "write_id", $groupItem->id() );
-    if ( in_array( $groupItem->id(), $readGroupsID ) )
-        $t->set_var( "selected", "selected" );
-    else
+    if ( in_array( -1, $readGroupsID ) )
+    {
+        $t->set_var( "all_selected", "selected" );
+        $t->set_var( "read_id", $groupItem->id() );
+        $t->set_var( "read_name", $groupItem->name() );
         $t->set_var( "selected", "" );
-
-    $t->parse( "write_group_item", "write_group_item_tpl", true );
+    }
+    else
+    {
+        $t->set_var( "all_selected", "" );
+        $t->set_var( "read_id", $groupItem->id() );
+        $t->set_var( "read_name", $groupItem->name() );
+        if ( in_array( $groupItem->id(), $readGroupsID ) )
+            $t->set_var( "selected", "selected" );
+        else
+            $t->set_var( "selected", "" );
+    }
+    $t->parse( "read_group_item", "read_group_item_tpl", true );
 }
 
 $t->pparse( "output", "product_edit_tpl" );
