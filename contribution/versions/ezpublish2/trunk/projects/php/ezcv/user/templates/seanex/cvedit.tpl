@@ -1,4 +1,3 @@
-
 <SCRIPT LANGUAGE="JavaScript1.2">
 <!--//
 
@@ -248,7 +247,7 @@
     <td class="small">{certificate_end}&nbsp;</td>
     <td>{certificate_name}&nbsp;</td>
     <td>{certificate_institution}&nbsp;</td>
-    <td width="1%"><a href="/cv/certificate/edit/{certificate_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezcvce{certificate_id}-red','','/images/redigerminimrk.gif',1)"><img name="ezcvce{certificate_id}-red" border="0" src="/images/redigermini.gif" width="16" height="16" align="top"></a></td>
+    <td width="1%"><a href="/cv/certificate/edit/{certificate_id}/?CVID={current_id}" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezcvce{certificate_id}-red','','/images/redigerminimrk.gif',1)"><img name="ezcvce{certificate_id}-red" border="0" src="/images/redigermini.gif" width="16" height="16" align="top"></a></td>
     <td width="1%"><a href="/cv/certificate/delete/{certificate_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezcvce{certificate_id}-slett','','/images/slettminimrk.gif',1)"><img name="ezcvce{certificate_id}-slett" border="0" src="/images/slettmini.gif" width="16" height="16" align="top"></a></td>
 </tr>
 <!-- END certificate_item_tpl -->
