@@ -7,6 +7,7 @@ Changes from 2.2.9 to 2.2.10
 * Fixed bug. In moderated forums, notifications are now sendt when message is approved (not when
   message is submitted)
 * Fixed bug with escape of strings in cron job for eZ stats.
+* Fixed bug with escape of strings in search in eZ article.
 
 Changes from 2.2.8 to 2.2.9
 ---------------------------
