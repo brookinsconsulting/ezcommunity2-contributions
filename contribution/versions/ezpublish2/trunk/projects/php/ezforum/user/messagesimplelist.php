@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: messagesimplelist.php,v 1.7 2001/01/22 14:43:00 jb Exp $
+// $Id: messagesimplelist.php,v 1.8 2001/01/26 09:36:21 bf Exp $
 //
 // Lars Wilhelmsen <lw@ez.no>
 // Created on: <11-Sep-2000 22:10:06 bf>
@@ -55,11 +55,8 @@ $forum = new eZForum( $ForumID );
 
 $locale = new eZLocale( $Language );
 
-if ( !isset( $Offset ) )
-    $Offset = 0;
-
-if ( !isset( $Limit ) )
-    $Limit = 30;
+$Offset = 0;
+$Limit = 30;
 
 $messageList =& $forum->messageTree( $Offset, $Limit );
 

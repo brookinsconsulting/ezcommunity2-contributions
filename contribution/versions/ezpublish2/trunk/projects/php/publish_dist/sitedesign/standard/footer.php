@@ -38,7 +38,7 @@ if ( $Design == 2 )
 }
 
     ?>
-    <a href="<? print( $REQUEST_URI . "?Design=2"); ?>"> here</a>
+    <a href="<? print( $REQUEST_URI . "?Design=2"); ?>">Portal site</a>
 	 <img src="/images/1x1.gif" width="130" height="1" border="0"><br />
 	 
 	</td>
