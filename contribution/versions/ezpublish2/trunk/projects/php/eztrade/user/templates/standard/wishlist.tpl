@@ -1,11 +1,11 @@
 <!-- wishlist.tpl -->
-<!-- $Id: wishlist.tpl,v 1.4 2000/12/19 10:15:00 bf Exp $ --> 
+<!-- $Id: wishlist.tpl,v 1.5 2000/12/19 11:53:40 bf Exp $ --> 
 <body onLoad="MM_preloadImages('/eztrade/user/images/slettminimrk.gif')">
-<table width="470" border="0" cellspacing="0" cellpadding="0" align="center">
+<table width="100%" border="0" cellspacing="0" cellpadding="0" align="center">
   <tr>
     <td>
       <h1>{intl-wishlist}</h1>
-      <hr noshade size="1" />
+      <hr noshade size="4" />
       <!-- BEGIN empty_wishlist_tpl -->
       <h2>{intl-empty_wishlist}</h2>
       <!-- END empty_wishlist_tpl --> <!-- BEGIN wishlist_item_list_tpl -->
@@ -48,7 +48,7 @@ onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezuser{wishlist_item
 		</tr>
 	  </table>
       <!-- END wishlist_item_list_tpl -->
-      <hr noshade size="1" />
+      <hr noshade size="4" />
     </td>
   </tr>
 </table>
