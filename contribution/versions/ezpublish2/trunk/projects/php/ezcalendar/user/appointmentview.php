@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: appointmentview.php,v 1.11 2001/07/20 11:57:16 jakobn Exp $
+// $Id: appointmentview.php,v 1.12 2001/07/30 06:51:46 jhe Exp $
 //
 // Created on: <08-Jan-2001 11:53:05 bf>
 //
@@ -59,6 +59,7 @@ $user = eZUser::currentUser();
 $session =& eZSession::globalSession();
 $session->fetch();
 
+$t->set_var( "view", "" );
 if ( $user == false )
     $userID = false;
 else

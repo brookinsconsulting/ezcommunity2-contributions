@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezappointment.php,v 1.19 2001/07/20 11:57:16 jakobn Exp $
+// $Id: ezappointment.php,v 1.20 2001/07/30 06:51:46 jhe Exp $
 //
 // Definition of eZAppointment class
 //
@@ -37,7 +37,6 @@
 include_once( "classes/ezdb.php" );
 include_once( "classes/ezdatetime.php" );
 include_once( "classes/eztime.php" );
-
 
 class eZAppointment
 {

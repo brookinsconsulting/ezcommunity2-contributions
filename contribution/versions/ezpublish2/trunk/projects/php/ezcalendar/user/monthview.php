@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: monthview.php,v 1.27 2001/07/27 06:18:55 jhe Exp $
+// $Id: monthview.php,v 1.28 2001/07/30 06:51:46 jhe Exp $
 //
 // Created on: <27-Dec-2000 14:09:56 bf>
 //
@@ -86,12 +86,11 @@ $t = new eZTemplate( "ezcalendar/user/" . $ini->read_var( "eZCalendarMain", "Tem
 
 $t->set_file( "month_view_page_tpl", "monthview.tpl" );
 
-if ( $t->hasCache() )
-{
+//{
 //    print( "cached<br />" );
-    print( $t->cache() );
-}
-else
+//    print( $t->cache() );
+//}
+//else
 {
 //    print( "not cached<br />" );
     $t->setAllStrings();
@@ -162,7 +161,7 @@ else
                     $tmpDate->setYear( $date->year() );
                     $tmpDate->setMonth( $date->month() );
                     $tmpDate->setDay( $date->day() );
-                    $appointments =& $tmpAppointment->getByDate( $appOwnerUser, $tmpDate, true );
+                    $appointments =& $tmpAppointment->getByDate( $tmpDate, $appOwnerUser, true );
 
                     $t->set_var( "public_appointment", "" );
                     $t->set_var( "private_appointment", "" );
