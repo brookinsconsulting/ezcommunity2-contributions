@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: menubox.php,v 1.2 2001/03/06 08:50:19 ce Exp $
+// $Id: menubox.php,v 1.3 2001/03/08 11:29:49 fh Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <23-Oct-2000 17:53:46 bf>
@@ -26,7 +26,7 @@
 // Supply $menuItems to get a menubox
 
 $menuItems = array(
-    array( "/imagecatalogue/list/", "{intl-image_list}" ),
+    array( "/imagecatalogue/image/list/", "{intl-image_list}" ),
     array( "/imagecatalogue/category/new/", "{intl-new_category}" ),
     array( "/imagecatalogue/image/new/", "{intl-new_image}" )
     );
