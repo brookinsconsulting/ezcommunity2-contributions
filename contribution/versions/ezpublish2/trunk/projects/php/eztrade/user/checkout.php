@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: checkout.php,v 1.43 2001/03/09 09:02:00 bf Exp $
+// $Id: checkout.php,v 1.44 2001/03/11 13:33:29 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <28-Sep-2000 15:52:08 bf>
@@ -169,7 +169,10 @@ if ( isset( $SendOrder ) )
         $orderItem->setCount( $item->count() );
         $orderItem->setPrice( $product->price() );
         $orderItem->store();
-        $price = $product->price() * $item->count();
+
+
+        // product price
+        $price = $item->price();    
         $currency->setValue( $price );
         
         $optionValues =& $item->optionValues();
@@ -317,13 +320,13 @@ foreach ( $types as $type )
             }
         }
 
-        $price = $product->price() * $item->count();
+        // product price
+        $price = $item->price();    
         $currency->setValue( $price );
-
+        
         $sum += $price;
+        $totalVAT += $product->vat( $price );
 
-        // VAT handling
-        $totalVAT += $product->vat() * $item->count();
         
         $t->set_var( "product_name", $product->name() );
         $t->set_var( "product_price", $locale->format( $currency ) );

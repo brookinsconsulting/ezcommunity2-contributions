@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: wishlist.php,v 1.13 2001/03/08 18:43:48 jb Exp $
+// $Id: wishlist.php,v 1.14 2001/03/11 13:33:29 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <21-Oct-2000 18:09:45 bf>
@@ -324,9 +324,13 @@ foreach ( $items as $item )
         $t->parse( "is_not_bought", "is_not_bought_tpl" );
     }
     
-    $currency->setValue( $product->price() * $item->count() );
 
-    $sum += $product->price();
+    // product price
+    $price = $item->price();    
+    $currency->setValue( $price );
+    $sum += $price;
+    
+    
     $t->set_var( "product_id", $product->id() );
     $t->set_var( "product_name", $product->name() );
 
@@ -348,9 +352,9 @@ foreach ( $items as $item )
         $value =& $optionValue->optionValue();
 
         $t->set_var( "option_name", $option->name() );
-        /* ** FIX THIS ** */
-        $t->set_var( "option_value", "" );
-//          $t->set_var( "option_value", $value->name() );
+
+        $descriptions =& $value->descriptions();
+        $t->set_var( "option_value", $descriptions[0] );
 
         $t->parse( "wishlist_item_option", "wishlist_item_option_tpl", true );
     }
@@ -364,9 +368,7 @@ foreach ( $items as $item )
 $shippingCost = 0;
 
 $currency->setValue( $shippingCost );
-$t->set_var( "shipping_cost", $locale->format( $currency ) );
 
-$sum += $shippingCost;
 $currency->setValue( $sum );
 $t->set_var( "wishlist_sum", $locale->format( $currency ) );
 

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: smallcart.php,v 1.7 2001/03/01 14:06:26 jb Exp $
+// $Id: smallcart.php,v 1.8 2001/03/11 13:33:29 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <12-Dec-2000 15:21:10 bf>
@@ -101,8 +101,12 @@ foreach ( $items as $item )
     
     $currency->setValue( $price );
 
+    // product price
+    $price = $item->price();    
+    $currency->setValue( $price );
+    
     $sum += $price;
-    $totalVAT += $product->vat() * $item->count();
+    $totalVAT += $product->vat( $price );
     
     $t->set_var( "product_id", $product->id() );
     $t->set_var( "product_name", $product->name() );
@@ -120,6 +124,7 @@ foreach ( $items as $item )
         
     $i++;
 }
+
 
 
 $currency->setValue( $sum );

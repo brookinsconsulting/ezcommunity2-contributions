@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: cart.php,v 1.23 2001/03/11 12:59:04 bf Exp $
+// $Id: cart.php,v 1.24 2001/03/11 13:33:29 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <27-Sep-2000 11:57:49 bf>
@@ -288,7 +288,7 @@ foreach ( $items as $item )
     
     $sum += $price;
     
-    $totalVAT += $product->vat() * $item->count();
+    $totalVAT += $product->vat( $price );
     
     
     $t->set_var( "product_id", $product->id() );

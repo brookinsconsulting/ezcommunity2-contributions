@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezproduct.php,v 1.41 2001/02/28 10:09:20 jb Exp $
+// $Id: ezproduct.php,v 1.42 2001/03/11 13:33:29 bf Exp $
 //
 // Definition of eZProduct class
 //
@@ -323,12 +323,24 @@ class eZProduct
 
     /*!
       Returns the price of the product exclusive VAT ( prive - VAT value ).
+
+      If a value is given as argument this value is used for VAT calculation.
+      This is used in carts where you have multiple products and prices on options.
     */
-    function priceExVAT( )
+    function priceExVAT( $price="" )
     {
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
 
+       if ( $price == "" )
+       {
+           $calcPrice = $this->Price;
+       }
+       else
+       {
+           $calcPrice = $price;
+       }
+       
        $vatType =& $this->vatType();
 
        $vat = 0;
@@ -337,28 +349,40 @@ class eZProduct
        {
            $value =& $vatType->value();
 
-           $vat = ( $this->Price / ( $value + 100  ) ) * $value;
+           $vat = ( $calcPrice / ( $value + 100  ) ) * $value;
        }
       
-       $priceExVat = $this->Price - $vat;
+       $priceExVat = $calcPrice - $vat;
 
        return $priceExVat;
     }
 
     /*!
       Returns the VAT value of the product.
+
+      If a value is given as argument this value is used for VAT calculation.
+      This is used in carts where you have multiple products and prices on options.
     */
-    function vat()
+    function vat( $price="" )
     {
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
 
+       if ( $price == "" )
+       {
+           $calcPrice = $this->Price;
+       }
+       else
+       {
+           $calcPrice = $price;
+       }
+       
        $vatType =& $this->vatType();
        $vat = 0;
        if ( $vatType )
        {
            $value =& $vatType->value();
-           $vat = ( $this->Price / ( $value + 100  ) ) * $value;        
+           $vat = ( $calcPrice / ( $value + 100  ) ) * $value;        
        }       
        
        return $vat;

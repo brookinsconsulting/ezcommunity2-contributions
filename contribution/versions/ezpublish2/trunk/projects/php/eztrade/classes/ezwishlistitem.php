@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezwishlistitem.php,v 1.6 2001/01/17 10:23:29 bf Exp $
+// $Id: ezwishlistitem.php,v 1.7 2001/03/11 13:33:29 bf Exp $
 //
 // Definition of eZWishItem class
 //
@@ -389,6 +389,52 @@ class eZWishListItem
 
        $this->Count = $count;
     }
+
+
+    /*!
+      Returns the price of the wishlist item.
+
+      Options and count is calculated.
+    */
+    function price()
+    {
+        $optionValues =& $this->optionValues();
+        $product =& $this->product();
+
+        $optionPrice = 0.0;
+        foreach ( $optionValues as $optionValue )
+        {
+            $option =& $optionValue->option();
+            $value =& $optionValue->optionValue();            
+
+            // the pricegroup is set in the datasupplier
+            
+            $PriceGroup = $GLOBALS["PriceGroup"];
+
+            // get the value price if exists
+            $price = eZPriceGroup::correctPrice( $product->id(), $PriceGroup,
+            $option->id(), $value->id() );
+        
+            $found_price = false;
+
+            if ( $price )
+            {
+                $found_price = true;
+            }
+            
+            // if not fetch the standard price
+            if ( !$found_price )
+            {
+                $price = $value->price();
+            }
+            
+            $optionPrice += $price;
+        }
+
+        $price = ( $product->price() + $optionPrice )  * $this->count();
+
+        return $price;        
+    }
         
     
     /*!
@@ -399,7 +445,7 @@ class eZWishListItem
     {
         if ( $this->IsConnected == false )
         {
-            $this->Database = eZDB::globalDatabase();
+            $this->Database =& eZDB::globalDatabase();
             $this->IsConnected = true;
         }
     }
