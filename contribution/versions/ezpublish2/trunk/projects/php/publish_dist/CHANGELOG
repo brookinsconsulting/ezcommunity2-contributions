@@ -11,6 +11,7 @@ Changes from 2.1.0B1 to 2.1.0B2
 * Added password and email verification in eZBulkMail
 * Added BulkMailNotifyGroup to site.ini under eZArticleMain -> send bulkmailnotification of new article to this bulkmail group
 * Added support for dynamic menuboxes in the admin interface, this means that each module may have it's own menubox template.
+* Added version number textfield in eZ bug
  
 Changes from 2.0.0 to 2.1.0B1
 ---------------------------
