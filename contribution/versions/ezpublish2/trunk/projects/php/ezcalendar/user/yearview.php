@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: yearview.php,v 1.13 2001/02/26 15:22:32 pkej Exp $
+// $Id: yearview.php,v 1.14 2001/02/28 20:37:06 gl Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <27-Dec-2000 11:29:22 bf>
@@ -117,7 +117,7 @@ if ( $build == true )
     
         $date->setMonth( $month );
         $t->set_var( "month_number", $month );
-        $t->set_var( "month_name", $Locale->monthName( $date->monthName(), false ) );
+        $t->set_var( "month_name", $Locale->monthName( $date->month(), false ) );
 
         $t->set_var( "week", "" );
         for ( $week=0; $week<6; $week++ )
