@@ -33,6 +33,7 @@
     <!-- BEGIN forum_item_tpl -->
     <tr>
 	<td class="{td_class}">
+	    <img src="/images/forum.gif" width="16" height="16" border="0" /> &nbsp;
 	    <a href="/forum/messagelist/{forum_id}/">
 	    {name}
 	    </a>
