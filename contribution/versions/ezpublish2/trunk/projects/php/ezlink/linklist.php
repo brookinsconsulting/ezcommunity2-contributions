@@ -40,7 +40,15 @@ else
 // print( "antall grupper " . count( $linkGroup_array )); 
     for ( $i=0; $i<count( $linkGroup_array ); $i++ )
     {
-        $t->set_var( "bg_color", "#eeeedd" );
+                if ( ( $i % 2 ) == 0 )
+        {
+            $t->set_var( "bg_color", "#f0f0f0" );
+        }
+        else
+        {
+            $t->set_var( "bg_color", "#dcdcdc" );
+        }  
+
         $link_group_id = $linkGroup_array[ $i ][ "ID" ];
         $t->set_var( "linkgroup_id", $link_group_id );
         $t->set_var( "linkgroup_title", $linkGroup_array[ $i ][ "Title" ] );
@@ -111,8 +119,14 @@ else
 {
     for ( $i=0; $i<count( $link_array ); $i++ )
     {
-
-        $t->set_var( "bg_color", "#eeddbb" );
+        if ( ( $i % 2 ) == 0 )
+        {
+            $t->set_var( "bg_color", "#f0f0f0" );
+        }
+        else
+        {
+            $t->set_var( "bg_color", "#dcdcdc" );
+        }  
 
         $t->set_var( "link_id", $link_array[ $i ][ "ID" ] );
         $t->set_var( "link_title", $link_array[ $i ][ "Title" ] );
