@@ -756,3 +756,11 @@ Maintainer(s) : br@ez.no
 
     * classes/ezlink.php: fixed bug: id() was declared twice.
 
+
+Module : ezlink
+Repository path : /home/cvsroot/projects/php/ezlink
+Maintainer(s) : br@ez.no
+2003-06-05  Bjoern Reiten  <br@ez.no>
+
+    * classes/ezhit.php: added optimalitation for the eZHit class in eZ link
+

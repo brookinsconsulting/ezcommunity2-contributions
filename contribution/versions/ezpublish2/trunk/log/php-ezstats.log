@@ -477,3 +477,11 @@ Maintainer(s) : br@ez.no
 
     * classes/ezpageviewquery.php: fixed bug with dayview.
 
+
+Module : ezstats
+Repository path : /home/cvsroot/projects/php/ezstats
+Maintainer(s) : br@ez.no
+2003-06-05  Bjoern Reiten  <br@ez.no>
+
+    * admin/overview.php: Removed link to Entry Exit Report in eZ stats
+

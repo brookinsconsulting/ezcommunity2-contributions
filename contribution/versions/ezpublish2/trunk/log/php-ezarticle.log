@@ -3662,3 +3662,13 @@ Maintainer(s) : bf@ez.no
     fixed bug with section override templates for articleview
     fixed typo in variable name
 
+
+Module : ezarticle
+Repository path : /home/cvsroot/projects/php/ezarticle
+Maintainer(s) : bf@ez.no
+2003-06-05  Bjoern Reiten  <br@ez.no>
+
+    * user/mailtofriend.php
+      user/templates/standard/mailtofriend.tpl:
+    fixed security bug with mailtofriend
+

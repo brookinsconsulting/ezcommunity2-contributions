@@ -805,3 +805,12 @@ Maintainer(s) : jhe@ez.no
 
     * user/filedownload.php: fixed suffix in eZ filemanager.
 
+
+Module : ezfilemanager
+Repository path : /home/cvsroot/projects/php/ezfilemanager
+Maintainer(s) : jhe@ez.no
+2003-06-05  Bjoern Reiten  <br@ez.no>
+
+    * user/search.php:
+    fixed security bug with variable check in search in eZ filemanager.
+

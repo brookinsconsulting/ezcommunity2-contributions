@@ -1252,3 +1252,12 @@ Maintainer(s) : jhe@ez.no
     * classes/ezforum.php
       admin/search.php: Fixed problem with search in forum admin interface.
 
+
+Module : ezforum
+Repository path : /home/cvsroot/projects/php/ezforum
+Maintainer(s) : jhe@ez.no
+2003-06-05  Bjoern Reiten  <br@ez.no>
+
+    * user/messagebody.php:
+    fixed security bug with message body (variable check)
+

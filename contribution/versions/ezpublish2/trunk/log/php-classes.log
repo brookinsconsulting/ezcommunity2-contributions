@@ -839,3 +839,11 @@ Maintainer(s) : bf@ez.no
 
     * ezpublish.php: updated version.
 
+
+Module : classes
+Repository path : /home/cvsroot/projects/php/classes
+Maintainer(s) : bf@ez.no
+2003-06-05  Bjoern Reiten  <br@ez.no>
+
+    * ezpublish.php: updated version number.
+
