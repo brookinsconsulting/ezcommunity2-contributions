@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: bugreport.php,v 1.13 2001/02/20 20:04:43 fh Exp $
+// $Id: bugreport.php,v 1.14 2001/02/23 13:48:43 fh Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <27-Nov-2000 20:31:00 bf>
@@ -288,8 +288,9 @@ if( $Action == "Edit" ) // load values from database
 
         $t->set_var( "file_number", $i + 1 );
         $t->set_var( "file_id", $file->id() );
-        
-        $t->set_var( "file_name", "<a href=\"/filemanager/download/" . $file->id() . "/" . $file->originalFileName() . "\">" . $file->name() . "</a>" );
+
+        $tmp = $file->name();
+        $t->set_var( "file_name", "<a href=\"/filemanager/download/" . $file->id() . "/" . $file->originalFileName() . "\">" . htmlspecialchars( $tmp ) . "</a>" );
     
         $t->parse( "file", "file_tpl", true );
     
@@ -311,7 +312,8 @@ if( $Action == "Edit" ) // load values from database
         $t->set_var( "image_number", $i + 1 );
         $t->set_var( "image_id", $image->id() );
 
-        $t->set_var( "image_name", "<a href=\"/imagecatalogue/imageview/" . $image->id()  . "\">" . $image->caption() . "</a>" );
+        $tmp = $image->caption();
+        $t->set_var( "image_name", "<a href=\"/imagecatalogue/imageview/" . $image->id()  . "\">" . htmlspecialchars( $tmp ) . "</a>" );
         $t->parse( "image", "image_tpl", true );
     
         $i++;
