@@ -25,7 +25,7 @@ if ( get_class( $user ) != "ezuser" )
 
 if ( $Action == "edit" || $Action == "update" )
 {
-    if ( !eZPermission::checkPermission( $user, "eZContact", "CategoryEdit" ) )
+    if ( !eZPermission::checkPermission( $user, "eZContact", "CategoryModify" ) )
     {
         include_once( "classes/ezhttptool.php" );
         eZHTTPTool::header( "Location: /contact/nopermission/category/edit" );
