@@ -39,6 +39,11 @@
 </table>
 <!-- END article_header_tpl -->
 
+<!-- BEGIN article_topic_tpl -->
+<a class="path" href="/article/topiclist/{topic_id}">{topic_name}</a>
+<!-- END article_topic_tpl -->
+
+
 <!-- BEGIN article_intro_tpl -->
 <p>
 <b>

@@ -106,6 +106,11 @@
 	<a class="path" href="{www_dir}{index}/article/articleview/{article_id}/1/{category_id}/">{article_link_text}</a>
 	<br /><br />
         <!-- END read_more_tpl -->
+
+	<!-- BEGIN article_topic_tpl -->
+
+	<!-- END article_topic_tpl -->
+
 	</td>
 </tr>
 <!-- END article_item_tpl -->
