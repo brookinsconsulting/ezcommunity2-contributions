@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezbugcategory.php,v 1.3 2000/12/09 18:59:02 bf Exp $
+// $Id: ezbugcategory.php,v 1.4 2001/02/12 15:27:18 fh Exp $
 //
 // Definition of eZBugCategory class
 //
@@ -114,8 +114,9 @@ class eZBugCategory
 
         if ( isset( $this->ID ) )
         {
+            // delete from BugCategoryLink
             $this->Database->query( "DELETE FROM eZBug_BugCategoryLink WHERE CategoryID='$this->ID'" );
-            
+            // delete actual group entry
             $this->Database->query( "DELETE FROM eZBug_Category WHERE ID='$this->ID'" );            
         }
         

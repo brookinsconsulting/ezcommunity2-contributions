@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezbugmodule.php,v 1.8 2001/02/06 16:26:28 fh Exp $
+// $Id: ezbugmodule.php,v 1.9 2001/02/12 15:27:19 fh Exp $
 //
 // Definition of eZBugModule class
 //
@@ -48,7 +48,7 @@
 */
 
 include_once( "classes/ezdb.php" );
-
+include_once( "ezbug/classes/ezbug.php" );
 
 class eZBugModule
 {
@@ -106,7 +106,7 @@ class eZBugModule
     }
 
     /*!
-      Deletes a eZBugGroup object from the database.
+      Deletes a eZBugModule object from the database.
 
     */
     function delete()
@@ -115,6 +115,26 @@ class eZBugModule
 
         if ( isset( $this->ID ) )
         {
+            // delete all bugs!
+            $bugs = array();
+            $this->Database->array_query( $bugs, "SELECT eZBug_BugModuleLink.BugID FROM eZBug_BugModuleLink WHERE ModuleID='$this->ID'" );
+            foreach( $bugs as $bugID )
+            {
+                $doomedBug =  new eZBug( $bugID["BugID"] );
+                $doomedBug->delete();
+            }
+
+            // delete the modules that have this module as parent.
+            $doomedModules = $this->getByParent( $this );
+            if( count( $doomedModules ) > 0 )
+            {
+                foreach( $doomedModules as $module )
+                {
+                    $module->delete();
+                }
+            }
+
+            
             $this->Database->query( "DELETE FROM eZBug_BugModuleLink WHERE ModuleID='$this->ID'" );
             
             $this->Database->query( "DELETE FROM eZBug_Module WHERE ID='$this->ID'" );            

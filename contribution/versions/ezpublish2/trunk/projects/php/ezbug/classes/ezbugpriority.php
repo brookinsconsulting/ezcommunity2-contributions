@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezbugpriority.php,v 1.2 2000/11/30 09:21:39 bf-cvs Exp $
+// $Id: ezbugpriority.php,v 1.3 2001/02/12 15:27:19 fh Exp $
 //
 // Definition of eZBugPriority class
 //
@@ -102,7 +102,7 @@ class eZBugPriority
     }
 
     /*!
-      Deletes a eZBugGroup object from the database.
+      Deletes a eZBugPriority object from the database.
 
     */
     function delete()
@@ -111,6 +111,9 @@ class eZBugPriority
 
         if ( isset( $this->ID ) )
         {
+            // remove all bugs from the database that have this priority.
+            $this->Database->query( "DELETE FROM eZBug_Bug WHERE PriorityID='$this->ID'" );
+            // remove the priority itself. 
             $this->Database->query( "DELETE FROM eZBug_Priority WHERE ID='$this->ID'" );
         }
         

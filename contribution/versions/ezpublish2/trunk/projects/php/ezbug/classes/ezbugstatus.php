@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezbugstatus.php,v 1.2 2000/11/30 09:21:39 bf-cvs Exp $
+// $Id: ezbugstatus.php,v 1.3 2001/02/12 15:27:19 fh Exp $
 //
 // Definition of eZBugStatus class
 //
@@ -111,6 +111,9 @@ class eZBugStatus
 
         if ( isset( $this->ID ) )
         {
+            // remove all bugs that have this status
+            $this->Database->query( "DELETE FROM eZBug_Bug WHERE StatusID='$this->ID'" );
+            // remove the actual status
             $this->Database->query( "DELETE FROM eZBug_Status WHERE ID='$this->ID'" );            
         }
         
