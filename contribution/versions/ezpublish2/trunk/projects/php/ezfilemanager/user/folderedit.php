@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: folderedit.php,v 1.2 2001/01/15 10:19:28 ce Exp $
+// $Id: folderedit.php,v 1.3 2001/01/15 13:27:39 ce Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <08-Jan-2001 11:13:29 ce>
@@ -47,7 +47,7 @@ $t->setAllStrings();
 $t->set_block( "folder_edit_tpl", "value_tpl", "value" );
 $t->set_block( "folder_edit_tpl", "errors_tpl", "errors" );
 
-$t->set_var( "errors", "&nbsp;" );
+$t->set_var( "errors", "" );
 $t->set_var( "name_value", "$Name" );
 $t->set_var( "description_value", "$Description" );
 
