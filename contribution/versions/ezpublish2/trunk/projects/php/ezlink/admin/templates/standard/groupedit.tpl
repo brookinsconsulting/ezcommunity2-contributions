@@ -1,24 +1,20 @@
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
-	<td width="35%">
-	<h1>{intl-headline}</h1>
-	</td>
-	<td width="45%" align="right">
-	<form method="post" action="/link/search/">
-	<input type="text" name="QueryText" size="20" value=""><input type="submit" value="Search">
-	<input type="hidden" name="Action" value="search">
-	</form>
-	</td>
-	</td>
-<tr>
+    <td align="left" valign="bottom">
+        <h1>{headline}</h1>
+     </td>
+     <td align="right">
+	 <form action="/link/search/" method="post">
+	       <input type="text" name="QueryString">
+	       <input type="submit" name="search" value="{intl-search}">
+         </form>
+     </td>
+</tr>
 </table>
 
 <hr noshade size="4">
 
 <form method="post" action="/link/groupedit/{action_value}/{linkgroup_id}/">
-<h1>{message}</h1>
-
-<hr noshade size="4"/>
 
 <p class="error">{error_msg}</p>
 

@@ -1,6 +1,6 @@
 <?
 /*!
-  $Id: linkedit.php,v 1.26 2000/10/19 12:51:02 ce-cvs Exp $
+  $Id: linkedit.php,v 1.27 2000/10/19 14:03:25 ce-cvs Exp $
 
   Author: Christoffer A. Elo <ce@ez.no>
     
@@ -200,7 +200,7 @@ if ( $Action == "edit" )
         $no_selected = "selected";
     }
     
-    $ini = new INIFIle( "ezlink/admin/intl/" . $Language . "/useredit.php.ini", false );
+    $ini = new INIFIle( "ezlink/admin/intl/" . $Language . "/linkedit.php.ini", false );
     $headline =  $ini->read_var( "strings", "headline_edit" );
 
 }

@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: groupedit.php,v 1.23 2000/10/19 12:26:06 ce-cvs Exp $
+    $Id: groupedit.php,v 1.24 2000/10/19 14:03:25 ce-cvs Exp $
 
     Author: Bård Farstad <bf@ez.no>
     
@@ -107,6 +107,9 @@ $t->set_file( array(
     "group_edit" => "groupedit.tpl"
     ));
 
+$ini = new INIFIle( "ezlink/admin/intl/" . $Language . "/groupedit.php.ini", false );
+$headline = $ini->read_var( "strings", "headline_insert" );
+
 $t->set_block( "group_edit", "parent_category_tpl", "parent_category" );
 
 $groupselect = new eZLinkGroup();
@@ -134,8 +137,10 @@ if ( $Action == "edit" )
     $action = "update";
     $message = "Rediger linkkategori";
     $submit = "Rediger";
-
     $ttitle = $editlinkgroup->title();
+
+    $ini = new INIFIle( "ezlink/admin/intl/" . $Language . "/groupedit.php.ini", false );
+    $headline = $ini->read_var( "strings", "headline_edit" );
 }
 
 
@@ -163,7 +168,8 @@ foreach( $groupLinkList as $groupLinkItem )
 
 $t->set_var( "submit_text", $submit );
 $t->set_var( "action_value", $action );
-$t->set_var( "message", $message );
+
+$t->set_var( "headline", $headline );
 
 $t->set_var( "title", $ttitle );
 $t->set_var( "error_msg", $error_msg );

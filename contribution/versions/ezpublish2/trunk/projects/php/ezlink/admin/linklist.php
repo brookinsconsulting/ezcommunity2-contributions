@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: linklist.php,v 1.28 2000/10/19 12:26:06 ce-cvs Exp $
+    $Id: linklist.php,v 1.29 2000/10/19 14:03:25 ce-cvs Exp $
 
     Author: Bård Farstad <bf@ez.no>
     
@@ -46,6 +46,11 @@ $linkGroup->get ( $LinkGroupID );
 $linkGroup->printPath( $LinkGroupID, "../ezlink/admin/linklist.php" );
 
 $linkGroupList = $linkGroup->getByParent( $LinkGroupID );
+
+if ( $LinkGroupID == "incoming" )
+{
+    $linkGroupList = array();
+}
 
 $i=0;
 foreach( $linkGroupList as $linkGroupItem )
