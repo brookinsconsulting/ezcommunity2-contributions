@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezformrenderer.php,v 1.58 2002/01/23 08:30:02 jhe Exp $
+// $Id: ezformrenderer.php,v 1.59 2002/01/23 16:14:08 jhe Exp $
 //
 // eZFormRenderer class
 //
@@ -91,6 +91,10 @@ class eZFormRenderer
         $this->Template->set_block( "form_renderer_page_tpl", "median_tpl", "median" );
         $this->Template->set_block( "form_renderer_page_tpl", "percentile_tpl", "percentile" );
         $this->Template->set_block( "form_renderer_page_tpl", "cross_table_tpl", "cross_table" );
+        $this->Template->set_block( "form_renderer_page_tpl", "graph_table_tpl", "graph_table" );
+        $this->Template->set_block( "graph_table_tpl", "graph_row_tpl", "graph_row" );
+        $this->Template->set_block( "graph_row_tpl", "graph_cell_tpl", "graph_cell" );
+        $this->Template->set_block( "graph_cell_tpl", "bar_tpl", "bar" );
         $this->Template->set_block( "cross_table_tpl", "header_row_tpl", "header_row" );
         $this->Template->set_block( "header_row_tpl", "header_cell_tpl", "header_cell" );
         $this->Template->set_block( "cross_table_tpl", "cross_table_row_tpl", "cross_table_row" );
@@ -132,6 +136,7 @@ class eZFormRenderer
         $this->Template->set_block( "form_renderer_page_tpl", "error_list_tpl", "error_list" );
         $this->Template->set_block( "error_list_tpl", "error_item_tpl", "error_item" );
 
+        $this->Template->set_var( "graph_table", "" );
         $this->Template->set_var( "cross_table", "" );
         $this->Template->set_var( "percentile", "" );
         $this->Template->set_var( "madian", "" );
@@ -237,6 +242,10 @@ class eZFormRenderer
                     if ( $reportElement->statisticsType( false ) == "Hide" )
                         return "";
                     $elementValue = $reportElement->analyze( $this->Template );
+                    if ( $reportElement->statisticsType( false ) == "Graph" )
+                    {
+                        return $elementValue;
+                    }
                 }
                 else
                 {
@@ -410,100 +419,111 @@ class eZFormRenderer
             if ( $element->hide() )
                 $hide = true;
 
+            $table = false;
             if ( $report && $element->ElementType->name() == "table_item" )
             {
-                $repElement = new eZFormReportElement( $element->id(), $report );
+                $table = true;
+                $repElement = new eZFormReportElement( $element->id(), $resultID );
                 if ( $repElement->statisticsType( false ) == "Hide" )
                     $hide = true;
             }
             
             if ( !$hide )
             {
-                $elementCounter++;
-                $eType = $element->elementType();
-                if ( $eType->name() == "table_item" )
+                if ( $table && $repElement->statisticsType( false ) == "Graph" )
                 {
-                    $table = new eZFormTable( $element->id() );
-                    $tableElements = $table->tableElements();
-                    $i = 0;
-                    for ( $rows = 0; $rows < $table->rows(); $rows++ )
-                    {
-                        for ( $cols = 0; $cols < $table->cols(); $cols++ )
-                        {
-                            $elementType = $tableElements[$i]->elementType();
-                            $colspan = 0;
-                            for ( $check = $cols + 1; $check < $table->cols(); $check++ )
-                            {
-                                $nextPos = $check + $table->cols() * $rows;
-                                $nextType = $tableElements[$nextPos]->elementType();
-                                if ( $nextType->name() == "empty_item" )
-                                {
-                                    if ( $colspan == 0 )
-                                        $colspan = 2;
-                                    else
-                                        $colspan++;
-                                }
-                                else
-                                {
-                                    $check = $table->cols();
-                                }
-                            }
-                            
-                            if ( $colspan > 0 )
-                                $this->Template->set_var( "colspan", "colspan=\"$colspan\"" );
-                            else
-                                $this->Template->set_var( "colspan", "" );
-
-                            $output = $this->renderElement( $tableElements[$i], true, false, $result, $resultID, $report );
-                                                        
-                            $this->Template->set_var( "element", $output );
-                            
-                            if ( $cols == 0 )
-                                $this->Template->parse( "table_item_cell", "table_item_cell_tpl" );
-                            else
-                                $this->Template->parse( "table_item_cell", "table_item_cell_tpl", true );
-                            
-                            if ( $colspan > 0 )
-                            {
-                                $i += $colspan - 1;
-                                $cols += $colspan - 1;
-                            }
-                            $i++;
-                        }
-                        if ( $rows == 0 )
-                            $this->Template->parse( "table_item_sub_item", "table_item_sub_item_tpl" );
-                        else
-                            $this->Template->parse( "table_item_sub_item", "table_item_sub_item_tpl", true );
-                        
-                    }
-                    $tableString = $this->Template->parse( "table_item", "table_item_tpl" );
-                    
-                    $this->Template->set_var( "element", $tableString );
-                    $this->Template->set_var( "colspan", " colspan=\"$maxBreakCount\"" );
-                    
-                    $this->Template->parse( "break", "break_tpl" );
+                    $output = $this->renderElement( $element, true, true, $result, $resultID, $report );
+                    $this->Template->set_var( "element", $output );
                     $this->Template->parse( "form_item", "form_item_tpl", true );
                 }
                 else
                 {
-                    $output = $this->renderElement( $element, true, true, $result, $resultID, $report );
-                    
-                    $this->Template->set_var( "element", $output );
-                    
-                    if ( $eType->name() != "text_field_item" )
+                    $elementCounter++;
+                    $eType = $element->elementType();
+                    if ( $eType->name() == "table_item" )
+                    {
+                        $table = new eZFormTable( $element->id() );
+                        $tableElements = $table->tableElements();
+                        $i = 0;
+                        for ( $rows = 0; $rows < $table->rows(); $rows++ )
+                        {
+                            for ( $cols = 0; $cols < $table->cols(); $cols++ )
+                            {
+                                $elementType = $tableElements[$i]->elementType();
+                                $colspan = 0;
+                                for ( $check = $cols + 1; $check < $table->cols(); $check++ )
+                                {
+                                    $nextPos = $check + $table->cols() * $rows;
+                                    $nextType = $tableElements[$nextPos]->elementType();
+                                    if ( $nextType->name() == "empty_item" )
+                                    {
+                                        if ( $colspan == 0 )
+                                            $colspan = 2;
+                                        else
+                                            $colspan++;
+                                    }
+                                    else
+                                    {
+                                        $check = $table->cols();
+                                    }
+                                }
+                                
+                                if ( $colspan > 0 )
+                                    $this->Template->set_var( "colspan", "colspan=\"$colspan\"" );
+                                else
+                                    $this->Template->set_var( "colspan", "" );
+                                
+                                $output = $this->renderElement( $tableElements[$i], true, false, $result, $resultID, $report );
+                                
+                                $this->Template->set_var( "element", $output );
+                                
+                                if ( $cols == 0 )
+                                    $this->Template->parse( "table_item_cell", "table_item_cell_tpl" );
+                                else
+                                    $this->Template->parse( "table_item_cell", "table_item_cell_tpl", true );
+                                
+                                if ( $colspan > 0 )
+                                {
+                                    $i += $colspan - 1;
+                                    $cols += $colspan - 1;
+                                }
+                                $i++;
+                            }
+                            if ( $rows == 0 )
+                                $this->Template->parse( "table_item_sub_item", "table_item_sub_item_tpl" );
+                            else
+                                $this->Template->parse( "table_item_sub_item", "table_item_sub_item_tpl", true );
+                            
+                        }
+                        $tableString = $this->Template->parse( "table_item", "table_item_tpl" );
+                        
+                        $this->Template->set_var( "element", $tableString );
                         $this->Template->set_var( "colspan", " colspan=\"$maxBreakCount\"" );
-                    else
-                        $this->Template->set_var( "colspan", " colspan=\"1\"" );
-                    
-                    if ( ( $eType->name() != "text_field_item" ) or $element->isBreaking() )
-                    {
+                        
                         $this->Template->parse( "break", "break_tpl" );
+                        $this->Template->parse( "form_item", "form_item_tpl", true );
                     }
                     else
                     {
-                        $this->Template->set_var( "break", "" );
+                        $output = $this->renderElement( $element, true, true, $result, $resultID, $report );
+                        
+                        $this->Template->set_var( "element", $output );
+                        
+                        if ( $eType->name() != "text_field_item" )
+                            $this->Template->set_var( "colspan", " colspan=\"$maxBreakCount\"" );
+                        else
+                            $this->Template->set_var( "colspan", " colspan=\"1\"" );
+                        
+                        if ( ( $eType->name() != "text_field_item" ) or $element->isBreaking() )
+                        {
+                            $this->Template->parse( "break", "break_tpl" );
+                        }
+                        else
+                        {
+                            $this->Template->set_var( "break", "" );
+                        }
+                        $this->Template->parse( "form_item", "form_item_tpl", true );
                     }
-                    $this->Template->parse( "form_item", "form_item_tpl", true );
                 }
             }
         }

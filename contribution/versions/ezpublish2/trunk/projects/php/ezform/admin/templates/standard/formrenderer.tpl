@@ -225,3 +225,25 @@
 <!-- END cross_table_row_tpl -->
 </table>
 <!-- END cross_table_tpl -->
+
+<!-- BEGIN graph_table_tpl -->
+<table cellspacing="3" cellpadding="3" border="1">
+<!-- BEGIN graph_row_tpl -->
+<tr>
+<!-- BEGIN graph_cell_tpl -->
+<td {colspan}>
+{text}
+<!-- BEGIN bar_tpl -->
+<table cellspacing="0" cellpadding="0" border="0" width="100%">
+<tr>
+<td bgcolor="#FFFF00" width="{width}%">&nbsp;</td>
+<td width="{leftover-width}%">&nbsp;</td>
+</tr>
+</table>
+<!-- END bar_tpl -->
+</td>
+<!-- END graph_cell_tpl -->
+</tr>
+<!-- END graph_row_tpl -->
+</table>
+<!-- END graph_table_tpl -->

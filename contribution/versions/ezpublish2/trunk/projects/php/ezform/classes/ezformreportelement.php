@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: ezformreportelement.php,v 1.13 2002/01/23 08:51:32 jhe Exp $
+// $Id: ezformreportelement.php,v 1.14 2002/01/23 16:14:08 jhe Exp $
 //
 // Definition of eZFormReportElement class
 //
@@ -234,12 +234,18 @@ class eZFormReportElement
                 return $this->statCrossTable( &$template );
             }
             break;
+
+            case "Graph":
+            {
+                return $this->statGraph( &$template );
+            }
+            break;
         }
     }
 
-    function statFrequency( &$template )
+    function statFrequency( &$t )
     {
-        $template->set_var( "frequency_element", "" );
+        $t->set_var( "frequency_element", "" );
         $res = array();
         $db =& eZDB::globalDatabase();
         $element = $this->element();
@@ -256,9 +262,9 @@ class eZFormReportElement
                                          eZForm_FormElementResult.ElementID='" . $element->id() . "' AND
                                          eZForm_FormElementResult.Result LIKE '%" . $fElement->value( false ) . "%'
                                          GROUP BY eZForm_FormElementResult.ID " );
-                $template->set_var( "result", $fElement->value() );
-                $template->set_var( "count", count( $res ) );
-                $template->parse( "frequency_element", "frequency_element_tpl", true );
+                $t->set_var( "result", $fElement->value() );
+                $t->set_var( "count", count( $res ) );
+                $t->parse( "frequency_element", "frequency_element_tpl", true );
             }
         }
         else
@@ -268,85 +274,85 @@ class eZFormReportElement
                                      GROUP BY TRIM(Result) ORDER BY Result" );
             foreach ( $res as $result )
             {
-                $template->set_var( "result", $result[$db->fieldName( "Result" )] );
-                $template->set_var( "count", $result[$db->fieldName( "Count" )] );
-                $template->parse( "frequency_element", "frequency_element_tpl", true );
+                $t->set_var( "result", $result[$db->fieldName( "Result" )] );
+                $t->set_var( "count", $result[$db->fieldName( "Count" )] );
+                $t->parse( "frequency_element", "frequency_element_tpl", true );
             }
         }
         
-        $output = $template->parse( $target, "frequency_tpl" );
+        $output = $t->parse( $target, "frequency_tpl" );
         return $output;
     }
 
-    function statCount( &$template )
+    function statCount( &$t )
     {
-        $template->set_var( "count", "" );
+        $t->set_var( "count", "" );
         $res = array();
         $db =& eZDB::globalDatabase();
         $db->query_single( $res, "SELECT Count(Result) AS Count
                                  FROM eZForm_FormElementResult
                                  WHERE ElementID='$this->ElementID' AND
                                  Result != ''" );
-        $template->set_var( "count", $res[$db->fieldName( "Count" )] );
-        $output = $template->parse( $target, "count_tpl" );
+        $t->set_var( "count", $res[$db->fieldName( "Count" )] );
+        $output = $t->parse( $target, "count_tpl" );
         return $output;        
     }
 
-    function statSum( &$template )
+    function statSum( &$t )
     {
-        $template->set_var( "sum", "" );
+        $t->set_var( "sum", "" );
         $res = array();
         $db =& eZDB::globalDatabase();
         $db->query_single( $res, "SELECT SUM(eZForm_FormElementResult.Result) as Sum
                                   FROM eZForm_FormElementResult
                                   WHERE ElementID='$this->ElementID'" );
-        $template->set_var( "sum", $res[$db->fieldName( "Sum" )] );
-        $output = $template->parse( $target, "sum_tpl" );
+        $t->set_var( "sum", $res[$db->fieldName( "Sum" )] );
+        $output = $t->parse( $target, "sum_tpl" );
         return $output;        
     }
 
-    function statAverage( &$template )
+    function statAverage( &$t )
     {
-        $template->set_var( "average" );
+        $t->set_var( "average" );
         $res = array();
         $db =& eZDB::globalDatabase();
         $db->query_single( $res, "SELECT AVG(eZForm_FormElementResult.Result) as Avg
                                   FROM eZForm_FormElementResult
                                   WHERE ElementID='$this->ElementID'" );
-        $template->set_var( "average", $res[$db->fieldName( "Avg" )] );
-        $output = $template->parse( $target, "average_tpl" );
+        $t->set_var( "average", $res[$db->fieldName( "Avg" )] );
+        $output = $t->parse( $target, "average_tpl" );
         return $output;
     }
 
-    function statMin( &$template )
+    function statMin( &$t )
     {
-        $template->set_var( "min" );
+        $t->set_var( "min" );
         $res = array();
         $db =& eZDB::globalDatabase();
         $db->query_single( $res, "SELECT MIN(eZForm_FormElementResult.Result) as Min
                                   FROM eZForm_FormElementResult
                                   WHERE ElementID='$this->ElementID'" );
-        $template->set_var( "min", $res[$db->fieldName( "Min" )] );
-        $output = $template->parse( $target, "min_tpl" );
+        $t->set_var( "min", $res[$db->fieldName( "Min" )] );
+        $output = $t->parse( $target, "min_tpl" );
         return $output;
     }
     
-    function statMax( &$template )
+    function statMax( &$t )
     {
-        $template->set_var( "max" );
+        $t->set_var( "max" );
         $res = array();
         $db =& eZDB::globalDatabase();
         $db->query_single( $res, "SELECT MAX(eZForm_FormElementResult.Result) as Max
                                   FROM eZForm_FormElementResult
                                   WHERE ElementID='$this->ElementID'" );
-        $template->set_var( "max", $res[$db->fieldName( "Max" )] );
-        $output = $template->parse( $target, "max_tpl" );
+        $t->set_var( "max", $res[$db->fieldName( "Max" )] );
+        $output = $t->parse( $target, "max_tpl" );
         return $output;
     }
 
-    function statMedian( &$template )
+    function statMedian( &$t )
     {
-        $template->set_var( "median", "" );
+        $t->set_var( "median", "" );
         $res = array();
         $db =& eZDB::globalDatabase();
         $db->array_query( $res, "SELECT Result FROM eZForm_FormElementResult
@@ -367,14 +373,14 @@ class eZFormReportElement
                 $median = $res[(count( $res ) / 2 ) - 1]["Result"];
             }
         }
-        $template->set_var( "median", $median );
-        $output = $template->parse( $target, "median_tpl" );
+        $t->set_var( "median", $median );
+        $output = $t->parse( $target, "median_tpl" );
         return $output;
     }
 
-    function statPercentile( &$template, $percentile )
+    function statPercentile( &$t, $percentile )
     {
-        $template->set_var( "percentile", "" );
+        $t->set_var( "percentile", "" );
         $res = array();
         $db =& eZDB::globalDatabase();
         $db->array_query( $res, "SELECT Result FROM eZForm_FormElementResult
@@ -382,9 +388,9 @@ class eZFormReportElement
                                  ORDER BY (Result+0)" );
 
         $pos = round( ( count( $res ) / 100 ) * $percentile );
-        $template->set_var( "percentile", $percentile );
-        $template->set_var( "value", $res[$pos - 1]["Result"] );
-        $output = $template->parse( $target, "percentile_tpl" );
+        $t->set_var( "percentile", $percentile );
+        $t->set_var( "value", $res[$pos - 1]["Result"] );
+        $output = $t->parse( $target, "percentile_tpl" );
         return $output;
     }
 
@@ -402,6 +408,7 @@ class eZFormReportElement
                                  GROUP BY a.Result, b.Result ORDER BY a.Result, b.Result" );
         $elementValues = $element->fixedValues();
         $referenceValues = $reference->fixedValues();
+
         
         foreach ( $elementValues as $elementItem )
         {
@@ -433,6 +440,88 @@ class eZFormReportElement
         $output = $t->parse( $target, "cross_table_tpl" );
         return $output;
     }
+
+    function statGraph( &$t )
+    {
+        $renderer = new eZFormRenderer();
+        $t->set_var( "graph", "" );
+        $res = array();
+        $db =& eZDB::globalDatabase();
+        $elementID = $this->element( false );
+        $db->query_single( $res, "SELECT COUNT(eZForm_FormElementResult.Result) as Count FROM
+                                  eZForm_FormTableElementDict, eZForm_FormElementResult WHERE
+                                  eZForm_FormTableElementDict.TableID='" . $elementID . "' AND
+                                  eZForm_FormElementResult.ElementID=eZForm_FormTableElementDict.ElementID
+                                  GROUP BY eZForm_FormTableElementDict.ElementID
+                                  ORDER BY Count desc" );
+        $max = $res[$db->fieldName( "Count" )];
+
+        $db->array_query( $res, "SELECT eZForm_FormElementResult.ElementID, COUNT(eZForm_FormElementResult.Result) as Count FROM
+                                 eZForm_FormTableElementDict, eZForm_FormElementResult WHERE
+                                 eZForm_FormTableElementDict.TableID='" . $elementID . "' AND
+                                 eZForm_FormElementResult.ElementID=eZForm_FormTableElementDict.ElementID AND
+                                 eZForm_FormElementResult.Result != ''
+                                 GROUP BY eZForm_FormTableElementDict.ElementID" );
+        $i = 0;
+        $i2 = 0;
+        $table = new eZFormTable( $elementID );
+        $elements = $table->tableElements();
+        
+        for ( $row = 0; $row < $table->rows(); $row++ )
+        {
+            $t->set_var( "graph_cell", "" );
+            for ( $col = 0; $col < $table->cols(); $col++ )
+            {
+                $colspan = 0;
+                for ( $check = $col + 1; $check < $table->cols(); $check++ )
+                {
+                    $nextPos = $check + $table->cols() * $row;
+                    $nextType = $elements[$nextPos]->elementType();
+                    if ( $nextType->name() == "empty_item" )
+                    {
+                        if ( $colspan == 0 )
+                            $colspan = 2;
+                        else
+                            $colspan++;
+                    }
+                    else
+                    {
+                        $check = $table->cols();
+                    }
+                }
+                
+                if ( $colspan > 0 )
+                    $t->set_var( "colspan", "colspan=\"$colspan\"" );
+                else
+                    $t->set_var( "colspan", "" );
+
+                if ( $res[$i][$db->fieldName( "ElementID" )] == $elements[$i2]->id() )
+                {
+                    $t->set_var( "width", round( ( $res[$i][$db->fieldName( "Count" )] / $max ) * 100 ) );
+                    $t->set_var( "leftover-width", 100 - round( ( $res[$i][$db->fieldName( "Count" )] / $max ) * 100 ) );
+                    $t->parse( "bar", "bar_tpl" );
+                    $t->set_var( "text", "" );
+                    $i++;
+                }
+                else
+                {
+                    $t->set_var( "bar", "" );
+                    $t->set_var( "text", $renderer->renderElement( $elements[$i2], true, false, true, true, false ) );
+                }
+                if ( $colspan > 0 )
+                {
+                    $i2 += $colspan - 1;
+                    $col += $colspan - 1;
+                }
+
+                $t->parse( "graph_cell", "graph_cell_tpl", true );
+                $i2++;
+            }
+            $t->parse( "graph_row", "graph_row_tpl", true );
+        }
+        $output = $t->parse( $target, "graph_table_tpl" );
+        return $output;
+    }
     
     function types( $no = -1 )
     {
@@ -448,7 +537,8 @@ class eZFormReportElement
             array( "Name" => "Median", "Description" => "intl-median" ),
             array( "Name" => "25percentile", "Description" => "intl-25percentile" ),
             array( "Name" => "75percentile", "Description" => "intl-75percentile" ),
-            array( "Name" => "Cross-reference", "Description" => "intl-cross_reference" )
+            array( "Name" => "Cross-reference", "Description" => "intl-cross_reference" ),
+            array( "Name" => "Graph", "Description" => "intl-graphical_representation" )
             );
         
         if ( $no > -1 )
