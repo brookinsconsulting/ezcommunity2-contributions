@@ -1,0 +1,412 @@
+<?php
+// 
+// $Id: ezimapmailfolder.php,v 1.1 2001/12/18 20:07:02 fh Exp $
+//
+// eZIMAPMailFolder class
+//
+// Created on: <20-Mar-2001 18:29:11 fh>
+//
+// This source file is part of eZ publish, publishing software.
+//
+// Copyright (C) 1999-2001 eZ Systems.  All rights reserved.
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, US
+//
+
+//!! eZMail
+//! eZMailFolder documentation.
+/*!
+
+  Example code:
+  \code
+  \endcode
+
+*/
+include_once( "ezuser/classes/ezuser.php" );
+include_once( "classes/INIFile.php" );
+include_once( "ezmail/classes/ezmailaccount.php" );
+include_once( "ezmail/classes/imapfunctions.php" );
+
+/* DEFINES TODO, these are now defined twice */
+//define( "USER", 0 );
+//define( "INBOX", 1 );
+//define( "DRAFTS", 2 );
+//define( "SENT", 3 );
+//define( "TRASH", 4 );
+
+class eZIMAPMailFolder
+{
+    /*!
+      constructor
+    */
+    function eZIMAPMailFolder( $id )
+    {
+        $elements = decodeFolderID( $id );
+        $this->Account = new eZMailAccount( $elements[0] );
+        $this->Name = $elements[1];
+    }
+
+    /*!
+      \static
+      Functions to encode more information into one url position. This allows us to use the same
+      templates for remote and local mail.
+    */
+    function encodeFolderID( $accountID = -1 , $folderName = -1 )
+    {
+        if( $accountID == -1 || $folderName == -1 )
+        {
+            $accountID = $this->account->id();
+            $folderName = $this->Name;
+        }
+//        echo "Was here: $accountID, $folderName";
+        return rawurlencode( $accountID . "-" . $folderName );
+    }
+    
+    /*!
+      \static
+      Returns an array with the 
+    */
+    function decodeFolderID( $codedString )
+    {
+        $elements = explode( "-", $codedString, 2 ); // max 1 split rest is foldername.
+        return $elements;
+    }
+
+
+    /*!
+      Deletes a eZImapMailFolder object from the imap server.
+    */
+    function delete( $id = -1 )
+    {
+    }
+
+    /*!
+      Stores a mail on the imap server.
+    */
+    function store()
+    {
+        return true;
+    }    
+
+    /*!
+      Fetches the object information from the database.
+    */
+    function get( $id="" )
+    {
+    }
+
+    /*!
+      Returns the object ID.
+    */
+    function id()
+    {
+//        return $this->ID;
+        return encodeFolderID();
+    }
+
+   /*!
+     Returns the ID of the owner user
+    */
+    function userID()
+    {
+        return $this->UserID;
+    }
+
+    /*!
+      Sets the user that owns this object
+    */
+    function setUser( $value )
+    {
+    }
+
+  /*!
+    Returns the name of the folder
+  */
+    function name( $asHTML = true )
+    {
+        if( $asHTML )
+            return htmlspecialchars( $this->Name );
+
+        return $this->Name;
+    }
+
+    /*!
+      Sets the name of the folder.
+    */
+    function setName( $value )
+    {
+        $this->Name = $value;
+    }
+
+    /*!
+      Returns the ID of the parent folder.
+    */
+    function parentID()
+    {
+        return $this->ParentID;
+    }
+
+    /*!
+      Sets the parent folder.
+    */
+    function setParent( $value )
+    {
+        $this->ParentID = $value;
+    }
+
+    /*!
+      Returns the type of this folder. Valid types are:
+      0 - Normal user created folder
+      1 - Inbox
+      2 - Outbox
+      3 - Sent mail
+      4 - Drafts
+      5 - Trash
+    */
+    function folderType()
+    {
+        return $this->FolderType;
+    }
+    
+    /*!
+      Sets the type of this folder. Valid types are:
+      0 - Normal user created folder
+      1 - Inbox
+      2 - Outbox
+      3 - Sent mail
+      4 - Drafts
+      5 - Trash
+    */
+    function setFolderType( $value )
+    {
+        $this->FolderType = $value;
+    }
+
+    /*!
+      Adds a mail to this folder. Returns true if successfull.
+    */
+    function addMail( $mail, $removeFromOld = true )
+    {
+       if ( get_class( $mail ) == "ezmail" )
+           $mail = $mail->id();
+
+       $db =& eZDB::globalDatabase();
+       $db->begin();
+       if ( $removeFromOld == true )
+           $res = $db->query( "DELETE FROM eZMail_MailFolderLink WHERE MailID='$mail'" );
+       
+      // code to insert into a imap server here!
+       
+        if ( $res == false )
+        {
+            $db->rollback( );
+            return false;
+        }
+        else
+            $db->commit();
+
+        return true;
+    }
+
+    /*!
+      Removes a mail from this folder
+     */
+    function removeMail( $mail )
+    {
+    }
+
+    /*!
+      Returns all folders with the folder given as parent.
+
+      The folder are returned as an array of eZMailFolder objects.
+    */
+    function getByParent( $parent )
+    {
+    }                                
+
+    /*!
+      \static
+      Returns all folders that belongs to this
+      user as an array of eZIMAPMailFolders.
+     */
+    function getByUser( $user = false, $withSpecialFolders=false, $parentFolder = -1 )
+    {
+        return $return_array;
+    }
+
+
+    /*
+      \static
+      Creates a tree of the folders for the current user.
+     */
+    function getTree( $parentID = 0, $level = 0 )
+    {
+    }
+
+    /*!
+      Imap spesific. Returns all folders in this account.
+     */
+    function &getImapTree( $account )
+    {
+        $mbox = imapConnect( $account );
+        $server = $account->server();
+        $mailBoxes = imap_getmailboxes( $mbox, "{" . $server . "}", "*" );
+//    echo "<pre>"; print_r( $mailBoxes ); echo "</pre>";
+        
+        $resultArray = array();
+        if( $mailBoxes  )
+        {
+            $i = 0;
+            foreach( $mailBoxes as $mailBox )
+            {
+                $key = explode( "}", $mailBox->name );
+                $resultArray[$i]->Name = $key[1];
+                $resultArray[$i]->FullName = $mailBox->name;
+//            echo "<pre>"; print_r( $resultArray ); echo "</pre>";
+            $i++;
+            }
+        }
+        else
+        {
+            echo "imap_getmailboxes failed: ".imap_last_error()."\n";
+        }
+
+        imapDisconnect( $mbox );
+        return $resultArray;
+    }
+
+    
+    /*!
+      Returns all the mail in the folder. $sortmode can be one of the following:
+      subject, sender, date, subjectdec, senderdesc, datedesc.
+      $offset and $limit sets how many mail to return in one bunch and where in the list to start.
+      Static if the folderID is supplied.
+
+
+      Fetches all mail headers for an imap mailbox.
+      Fetches data from INBOX for now.
+      
+      TODO:
+      - fetch email address correctly. (not just name)
+      - fetch email date.
+      - offset, range
+      
+     */
+    function &mail( $sortmode="subject_asc", $offset=0, $limit=50, $folderID = -1 )
+    {
+//        switch( $sortmode )
+//        {
+//            case "subject_asc" : $orderBySQL = "Mail.Subject ASC"; break;
+//            case "subject_desc" : $orderBySQL = "Mail.Subject DESC"; break;
+//            case "date_asc" : $orderBySQL = "Mail.UDate ASC"; break;
+//            case "date_desc" : $orderBySQL = "Mail.UDate DESC"; break;
+//            case "from_asc" : $orderBySQL = "Mail.FromField ASC"; break;
+//            case "from_desc" : $orderBySQL = "Mail.FromField DESC"; break;
+//            case "size_asc" : $orderBySQL = "Mail.Size ASC"; break;
+//            case "size_desc" : $orderBySQL = "Mail.Size DESC"; break;
+//        }
+        
+        $mbox = imapConnect( $this->Account );
+        
+        $MC = imap_check( $mbox ); 
+        $MN = $MC->Nmsgs; 
+        $overview = imap_fetch_overview( $mbox, "1:$MN", 0 );
+        foreach( $overview as $mailHeader )
+        {
+            $mailItem = new eZMail();
+            $mailItem->setSize( $mailHeader->size );
+            $mailItem->setSubject( $mailHeader->subject );
+            $mailItem->setFrom( $mailHeader->from );
+            $mailItem->setTo( $mailHeader->to );
+            if( $mailHeader->answered )
+                $mailItem->setStatus( REPLIED );
+            else if( $mailHeader->seen )
+                $mailItem->setStatus( READ );
+            else
+                $mailItem->setStatus( UNREAD );
+
+            $mail[] = $mailItem;
+//        echo "<pre>";print_r( $mailHeader ); echo "</pre>";
+        }
+
+        imapDisconnect( $mbox );
+        return $mail;
+    }
+
+    /*!
+      Returns the number of mail in this folder
+     */
+    function mailCount()
+    {
+    }
+    
+    /*!
+      Deletes all mail in the folder
+     */
+    function deleteAll()
+    {
+    }
+    
+    /*!
+      Returns the number for mail in the folder. If $unreadOnly is set to true the function returns the number of unread mails.
+      If you specify the folderID this function can be used as an static function.
+     */
+    function count( $unreadOnly = false, $folderID =-1 )
+    {
+    }
+    
+    /*
+      \static
+      
+      Returns the requested special folder of the current user or the user specified. Valid folders are:
+      INBOX
+      SENT
+      DRAFTS
+      TRASH
+      If the folder does not exist it will be created. If the creation should fail the function returns false.
+     */
+    function getSpecialFolder( $specialType, $user=false ) 
+    {
+        return false;
+    }
+
+    /*!
+      Returns true if the given folder is a child (doesn't have to be first level) of this folder.
+      If the second parameter is set to true, the function also checks if the folder given is itself.
+     */
+    function isChild( $folderID, $check_for_self = false )
+    {
+        $return_value = false;
+        return $return_value;
+    }
+
+    /*!
+      \static  
+      
+      Returns true if the given mail belongs to the given user.
+     */
+    function isOwner( $user, $folderID )
+    {
+        return false;
+    }
+
+    var $Account;
+    
+    var $ParentID;
+    var $Name;
+    var $FolderType=0;
+}
+
+?>

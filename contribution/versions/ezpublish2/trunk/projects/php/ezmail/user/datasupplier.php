@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: datasupplier.php,v 1.23 2001/12/16 13:24:18 fh Exp $
+// $Id: datasupplier.php,v 1.24 2001/12/18 20:07:02 fh Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -44,8 +44,9 @@ switch ( $url_array[2] )
 
     case "folder" :
     {
-        $FolderID = $url_array[3];
-        $Offset = $url_array[4];
+        $AccountType = $url_array[3];
+        $FolderID = $url_array[4];
+        $Offset = $url_array[5];
         if ( $Offset == "" )
             $Offset = 0;
 //        if ( $FolderID == "" )
@@ -124,14 +125,6 @@ switch ( $url_array[2] )
 
         eZHTTPTool::header( "Location: /mail/folderlist/" );
         exit();
-//        $server = "{" . "zap.ez.no" . "/pop3:" . "110" ."}";
-//        $mbox = imap_open( $server, "larson", "AcRXYJJA", OP_HALFOPEN)
-//             or die("can't connect: ".imap_last_error());
-
-//        $structure = imap_fetchstructure( $mbox, 1 );
-//        echo "<pre>"; print_r( $structure ); echo "</pre>";
-//        print( imap_fetchbody( $mbox, 1, 2 ) ); 
-//        imap_close( $mbox );
     }
     break;
 
@@ -157,12 +150,12 @@ switch ( $url_array[2] )
     }
     break;
 
-    case "imap" :
+    case "test":
     {
         include( "ezmail/user/imap.php" );
     }
     break;
-    
+
     default:
     {
         eZHTTPTool::header( "Location: /error/404/" );
@@ -170,5 +163,4 @@ switch ( $url_array[2] )
     }
     break;
 }
-
 ?>

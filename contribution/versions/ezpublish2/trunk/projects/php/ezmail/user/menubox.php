@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: menubox.php,v 1.11 2001/12/16 13:24:18 fh Exp $
+// $Id: menubox.php,v 1.12 2001/12/18 20:07:02 fh Exp $
 //
 // Created on: <23-Mar-2001 10:57:04 fh>
 //
@@ -109,20 +109,23 @@ if( $user )
     $imapAccounts = eZMailAccount::getByUser( $user, IMAP );
     if( count( $imapAccounts ) > 0 )
     {
-        include_once( "ezmail/classes/imapfunctions.php" );
+//        include_once( "ezmail/classes/imapfunctions.php" );
+        include_once( "ezmail/classes/ezimapmailfolder.php" );
         foreach( $imapAccounts as $imapAccount )
         {
             $t->set_var( "account_name", $imapAccount->name() );
 
             // fetch folders of imap account
             $t->set_var( "imap_folder", "" ); // default to none.
-            $boxes = imapGetFolderTree( $imapAccount );
+            $boxes = eZIMAPMailFolder::getImapTree( $imapAccount );
             if( count( $boxes ) > 0 )
             {
                 foreach( $boxes as $mailBox ) // show each mailbox for this account
                 {
-                    $t->set_var( "account_id", $imapAccount->id() );
                     $t->set_var( "folder_name", $mailBox->Name );
+                    $t->set_var( "folder_id",
+                                 encodeFolderID( $imapAccount->id(), $mailBox->Name ) );
+
                     $t->set_var( "indent", "" );
                     $t->parse( "imap_folder", "imap_folder_tpl", true );
                 }

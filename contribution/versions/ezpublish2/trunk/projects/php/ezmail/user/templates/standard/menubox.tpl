@@ -37,7 +37,7 @@
 <tr>
 <!--	<td width="1%" valign="top"><img src="{www_dir}/images/dot.gif" width="10" height="12" border="0" alt="" /><br /></td>-->
 	<td width="1%" valign="top">{indent}<img src="{www_dir}/sitedesign/{sitedesign}/images/dot.gif" width="10" height="12" border="0" alt="" /><br /></td>
-	<td width="99%"><a class="menu" href="{www_dir}{index}/mail/folder/{folder_id}">{folder_name} {unread}</a></td>
+	<td width="99%"><a class="menu" href="{www_dir}{index}/mail/folder/local/{folder_id}">{folder_name} {unread}</a></td>
 </tr>
 <!-- END mail_folder_tpl -->
 
@@ -51,7 +51,7 @@
 </tr>
 <!-- BEGIN imap_folder_tpl -->
 <tr>
-<td width="100%"><a class="menu" href="{www_dir}{index}/mail/imap/{account_id}/folder/{folder_name}">{indent}{folder_name} {unread}</a></td>
+<td width="100%"><a class="menu" href="{www_dir}{index}/mail/folder/remote/{folder_id}">{indent}{folder_name} {unread}</a></td>
 </tr>
 <!-- END imap_folder_tpl -->
 

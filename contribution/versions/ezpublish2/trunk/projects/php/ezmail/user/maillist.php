@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: maillist.php,v 1.25 2001/12/18 12:32:42 fh Exp $
+// $Id: maillist.php,v 1.26 2001/12/18 20:07:02 fh Exp $
 //
 // Created on: <19-Mar-2000 20:25:22 fh>
 //
@@ -32,16 +32,18 @@ include_once( "classes/ezhttptool.php" );
 include_once( "ezmail/classes/ezmailaccount.php" );
 include_once( "ezmail/classes/ezmail.php" );
 include_once( "ezmail/classes/ezmailfolder.php" );
+include_once( "ezmail/classes/ezimapmailfolder.php" );
 
 include_once( "classes/ezlist.php" );
 include_once( "ezsession/classes/ezpreferences.php" );
 
 // check that the folder beeing viewed is your folder
-if ( !eZMailFolder::isOwner( eZUser::currentUser(), $FolderID ) )
-{
-    eZHTTPTool::header( "Location: /error/403/" );
-    exit();
-}
+// TODO. This check is different for the two
+//if ( !eZMailFolder::isOwner( eZUser::currentUser(), $FolderID ) )
+//{
+//    eZHTTPTool::header( "Location: /error/403/" );
+//    exit();
+//}
 
 
 if ( isSet( $NewFolder ) )
@@ -77,9 +79,6 @@ $Language = $ini->read_var( "eZMailMain", "Language" );
 $t = new eZTemplate( "ezmail/user/" . $ini->read_var( "eZMailMain", "TemplateDir" ),
                      "ezmail/user/intl/", $Language, "maillist.php" );
 $t->setAllStrings();
-
-// we are in local mode!!!
-$t->set_var( "mode", "local" );
 
 $t->set_file( "mail_list_page_tpl", "maillist.tpl" );
 
@@ -124,8 +123,17 @@ foreach ( $limit_array as $element_number )
     $t->parse( "num_mail_element", "num_mail_element_tpl", true );
 }
 
+if( $AccountType == "local" )
+{
+    $t->set_var( "mode", "local" );
+    $folder = new eZMailFolder( $FolderID );
+}
+else if( $AccountType == "remote" )
+{
+    $t->set_var( "mode", "remote" );
+    $folder = new eZIMAPMailFolder( $FolderID );
+}
 
-$folder = new eZMailFolder( $FolderID );
 $isDraftsFolder = false;
 if ( $folder->folderType() == DRAFTS )
     $isDraftsFolder = true;

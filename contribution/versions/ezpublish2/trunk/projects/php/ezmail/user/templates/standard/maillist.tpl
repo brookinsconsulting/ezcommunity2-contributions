@@ -14,14 +14,14 @@
 
 <hr noshade="noshade" size="4" />
 
-<form method="post" action="{www_dir}{index}/mail/folder/{current_folder_id}" enctype="multipart/form-data" >
+<form method="post" action="{www_dir}{index}/mail/folder/{mode}/{current_folder_id}" enctype="multipart/form-data" >
 <table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
 <tr>
     <th widht="1%">&nbsp;</th>
-	<th width="40%"><a href="{www_dir}{index}/mail/foldersort/{current_folder_id}/subject">{intl-subject}:</a></th>
-	<th width="26%"><a href="{www_dir}{index}/mail/foldersort/{current_folder_id}/from">{intl-sender}:</a></th>
-	<th width="7%"><a href="{www_dir}{index}/mail/foldersort/{current_folder_id}/size">{intl-size}:</a></th>
-	<th width="24%"><a href="{www_dir}{index}/mail/foldersort/{current_folder_id}/date">{intl-date}:</a></th>
+	<th width="40%"><a href="{www_dir}{index}/mail/foldersort/{mode}/{current_folder_id}/subject">{intl-subject}:</a></th>
+	<th width="26%"><a href="{www_dir}{index}/mail/foldersort/{mode}/{current_folder_id}/from">{intl-sender}:</a></th>
+	<th width="7%"><a href="{www_dir}{index}/mail/foldersort/{mode}/{current_folder_id}/size">{intl-size}:</a></th>
+	<th width="24%"><a href="{www_dir}{index}/mail/foldersort/{mode}/{current_folder_id}/date">{intl-date}:</a></th>
 	<th width="1%">&nbsp;</th>
 	<th width="1%">&nbsp;</th>
 </tr>
@@ -52,7 +52,7 @@
 	<!-- END mail_status_renderer_tpl -->
 	</td>
 	<td class="{td_class}">
-	<a href="{www_dir}{index}/mail/view/{mail_id}">{mail_subject}</a>
+	<a href="{www_dir}{index}/mail/view/{mode}/{mail_id}">{mail_subject}</a>
 	</td>
 	<td class="{td_class}">
 	{mail_sender}
@@ -81,7 +81,7 @@
 	<img src="{www_dir}/images/mail.gif" />
 	</td>
 	<td class="{td_class}">
-	<b><a href="{www_dir}{index}/mail/view/{mail_id}">{mail_subject}</a></b>
+	<b><a href="{www_dir}{index}/mail/view/{mode}/{mail_id}">{mail_subject}</a></b>
 	</td>
 	<td class="{td_class}">
 	<b>{mail_sender}</b>
@@ -114,7 +114,7 @@
 <tr>
 	<!-- BEGIN type_list_previous_tpl -->
 	<td>
-	<a class="path" href="{www_dir}{index}/mail/folder/{current_folder_id}/{item_previous_index}">&lt;&lt;&nbsp;{intl-previous}</a>&nbsp;
+	<a class="path" href="{www_dir}{index}/mail/folder/{mode}/{current_folder_id}/{item_previous_index}">&lt;&lt;&nbsp;{intl-previous}</a>&nbsp;
 	</td>
 	<!-- END type_list_previous_tpl -->
 
@@ -128,7 +128,7 @@
 
 	<!-- BEGIN type_list_item_tpl -->
 	<td>
-	|&nbsp;<a class="path" href="{www_dir}{index}/mail/folder/{current_folder_id}/{item_index}">{type_item_name}</a>&nbsp;
+	|&nbsp;<a class="path" href="{www_dir}{index}/mail/folder/{mode}/{current_folder_id}/{item_index}">{type_item_name}</a>&nbsp;
 	</td>
 	<!-- END type_list_item_tpl -->
 
@@ -142,7 +142,7 @@
 
 	<!-- BEGIN type_list_next_tpl -->
 	<td>
-	|&nbsp;<a class="path" href="{www_dir}{index}/mail/folder/{current_folder_id}/{item_next_index}">{intl-next}&nbsp;&gt;&gt;</a>
+	|&nbsp;<a class="path" href="{www_dir}{index}/mail/folder/{mode}/{current_folder_id}/{item_next_index}">{intl-next}&nbsp;&gt;&gt;</a>
 	</td>
 	<!-- END type_list_next_tpl -->
 
@@ -177,7 +177,7 @@
 
 </form>
 <hr noshade="noshade" size="4" />
-<form action="{www_dir}{index}/mail/folder/{current_folder_id}/" method="post">
+<form action="{www_dir}{index}/mail/folder/{mode}/{current_folder_id}/" method="post">
 <select name="NumMessages">
 <!-- BEGIN num_mail_element_tpl -->
 <option value="{messages_number}" {is_selected} />{messages_number}</option>
