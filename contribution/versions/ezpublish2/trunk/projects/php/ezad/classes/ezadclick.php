@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezadclick.php,v 1.7 2001/07/19 11:56:33 jakobn Exp $
+// $Id: ezadclick.php,v 1.8 2001/08/20 16:58:29 br Exp $
 //
 // Definition of eZAdClick class
 //
@@ -47,29 +47,12 @@ class eZAdClick
       If $id is set the object's values are fetched from the
       database.
     */
-    function eZAdClick( $id="", $fetch=true )
+    function eZAdClick( $id="" )
     {
-        $this->IsConnected = false;
-
-        
         if ( $id != "" )
         {
-
             $this->ID = $id;
-            if ( $fetch == true )
-            {                
-                $this->get( $this->ID );
-            }
-            else
-            {
-                $this->State_ = "Dirty";
-                
-            }
-        }
-        else
-        {
-            $this->State_ = "New";
-            
+            $this->get( $this->ID );
         }
     }
 
@@ -78,32 +61,36 @@ class eZAdClick
     */
     function store()
     {
-        $this->dbInit();
-
+        $db =& eZDB::globalDatabase();
+        $db->begin();
         if ( !isset( $this->ID ) )
         {
-            $this->Database->query( "INSERT INTO eZAd_Click SET
-		                         PageViewID='$this->PageViewID',
-		                         AdID='$this->AdID',
-                                 ClickPrice='$this->ClickPrice'
-                                 " );
+            $db->lock( "eZAd_Click" );
+            $nextID = $db->nextID( "eZAd_Click", "ID" );
+            $res[] = $db->query( "INSERT INTO eZAd_Click
+                               ( ID,
+		                         PageViewID,
+		                         AdID,
+                                 ClickPrice )
+                               VALUES
+                               ( '$nextID',
+		                         '$this->PageViewID',
+		                         '$this->AdID',
+                                 '$this->ClickPrice' )" );
 
-			$this->ID = $this->Database->insertID();
-
-            $this->State_ = "Coherent";
+			$this->ID = $nextID;
         }
         else
         {
-            $this->Database->query( "UPDATE eZAd_Click SET
+            $res[] = $db->query( "UPDATE eZAd_Click SET
 		                         PageViewID='$this->PageViewID',
 		                         AdID='$this->AdID',
                                  ClickPrice='$this->ClickPrice'
                                  WHERE ID='$this->ID'
                                  " );
-
-            $this->State_ = "Coherent";
         }
-        
+
+        eZDB::finish( $res, $db );
         return true;
     }
 
@@ -112,29 +99,24 @@ class eZAdClick
     */
     function get( $id="" )
     {
-        $this->dbInit();
         $ret = false;
+        $db =& eZDB::globalDatabase();
         
         if ( $id != "" )
         {
-            $this->Database->array_query( $ad_array, "SELECT * FROM eZAd_Ad WHERE ID='$id'" );
+            $db->array_query( $ad_array, "SELECT * FROM eZAd_Ad WHERE ID='$id'" );
             if ( count( $ad_array ) > 1 )
             {
                 die( "Error: Ad's with the same ID was found in the database. This shouldent happen." );
             }
             else if( count( $ad_array ) == 1 )
             {
-                $this->ID =& $ad_array[0][ "ID" ];
-                $this->PageViewID =& $ad_array[0][ "PageViewID" ];
-                $this->ClickPrice =& $ad_array[0][ "ClickPrice" ];
+                $this->ID =& $ad_array[0][$db->fieldName( "ID" )];
+                $this->PageViewID =& $ad_array[0][$db->fieldName( "PageViewID" )];
+                $this->ClickPrice =& $ad_array[0][$db->fieldName( "ClickPrice" )];
 
-                $this->State_ = "Coherent";
                 $ret = true;
             }
-        }
-        else
-        {
-            $this->State_ = "Dirty";
         }
         return $ret;
     }
@@ -144,12 +126,15 @@ class eZAdClick
     */
     function delete()
     {
-        $this->dbInit();
+        $db =& eZDB::globalDatabase();
+        $db->begin();
 
         if ( isset( $this->ID ) )
         {
-            $this->Database->query( "DELETE FROM eZAd_Click WHERE ID='$this->ID'" );
+            $res[] = $db->query( "DELETE FROM eZAd_Click WHERE ID='$this->ID'" );
         }
+
+        eZDB::finish( $res, $db );
         
         return true;
     }
@@ -167,9 +152,6 @@ class eZAdClick
     */
     function &price()
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
        return $this->Price;
     }
 
@@ -178,11 +160,8 @@ class eZAdClick
     */
     function &clickTime()
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
        $dateTime = new eZDateTime();
-       $dateTime->setMySQLTimeStamp( $this->ClickTime );
+       $dateTime->setTimeStamp( $this->ClickTime );
        
        return $dateTime;
     }    
@@ -192,9 +171,6 @@ class eZAdClick
     */
     function setPageViewID( $value )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
        $this->PageViewID = $value;
     }
 
@@ -203,9 +179,6 @@ class eZAdClick
     */
     function setPrice( $value )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
        $this->ClickPrice = $value;
     }
 
@@ -214,42 +187,18 @@ class eZAdClick
     */
     function setAd( $ad )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
        if ( get_class( $ad ) == "ezad" )
        {
            $this->AdID = $ad->id();
        }
     }
 
-    /*!
-      \private
-      
-      Open the database for read and write. Gets all the database information from site.ini.
-    */
-    function dbInit()
-    {
-        if ( $this->IsConnected == false )
-        {
-            $this->Database = new eZDB( "site.ini", "site" );
-            $this->IsConnected = true;
-        }
-    }
-    
     var $ID;
     var $AdID;
     var $PageViewID;
     var $ClickTime;
     var $ViewPrice;
 
-    ///  Variable for keeping the database connection.
-    var $Database;
-
-    /// Indicates the state of the object. In regard to database information.
-    var $State_;
-    /// Is true if the object has database connection, false if not.
-    var $IsConnected;
 }
 
 ?>
