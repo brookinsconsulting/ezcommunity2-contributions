@@ -625,3 +625,7 @@ CREATE TABLE eZStats_Archive_Users (
   Count int(11) DEFAULT '0' NOT NULL,
   PRIMARY KEY(ID)
 );
+
+INSERT INTO eZLink_LinkCategoryLink ( LinkID, CategoryID ) SELECT ID, LinkGroup from eZLink_Link;
+INSERT INTO eZLink_LinkCategoryDefinition ( LinkID, CategoryID ) SELECT ID, LinkGroup from eZLink_Link;
+ALTER TABLE eZLink_Link DROP LinkGroup;
