@@ -5,11 +5,11 @@ function checkForm()
 {
     Ship = document.form1.ShippingTypeID;
     Pay = document.form1.PaymentMethod;
-    if (  Ship.options[Ship.selectedIndex].value == "2" & Pay.options[Pay.selectedIndex].value == "5" ) 
+    if (  Ship.options[Ship.selectedIndex].value == "2" & Pay.options[Pay.selectedIndex].value == "4" ) 
     {
         alert("Leider bietet die Post keine Lieferung per Express als Nachnahme an. \nBitte wählen Sie eine andere Zahlart oder Liefermethode aus.");
     }
-    if (  Ship.options[Ship.selectedIndex].value == "2" & Pay.options[Pay.selectedIndex].value == "4" ) 
+    if (  Ship.options[Ship.selectedIndex].value == "2" & Pay.options[Pay.selectedIndex].value == "3" ) 
     {
         alert("Auf Grund von Prüfmechanismen können per Bankeinzug (ELV) bezahlte Bestellungen nicht per Express verschickt werden! \nBitte wählen Sie eine andere Zahlart oder Liefermethode aus.");    
     }

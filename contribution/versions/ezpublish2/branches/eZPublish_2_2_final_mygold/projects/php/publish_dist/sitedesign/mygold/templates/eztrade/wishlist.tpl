@@ -10,18 +10,18 @@
     </td>
     <td align="right">
     <!-- BEGIN public_wishlist_tpl -->
-    <input type="checkbox" name="IsPublic" checked />&nbsp;<span class="boxtext">{intl-is_public}</span>
+    <span class="boxtext">{intl-non_public_wishlist_text}</span>&nbsp;<input type="submit" class="okbutton" name="IsPublic" value="{intl-non_public_wishlist}" />
     <!-- END public_wishlist_tpl -->
     <!-- BEGIN non_public_wishlist_tpl -->
-    <input type="checkbox" name="IsPublic" />&nbsp;<span class="boxtext">{intl-is_public}</span>
+    <span class="boxtext">{intl-non_public_wishlist_text}</span>&nbsp;<input type="submit" class="okbutton" name="IsPublic"  value="{intl-non_public_wishlist}"/>
     <!-- END non_public_wishlist_tpl -->
 	</td>
 </tr>
 </table>
 
-<hr noshade="noshade" size="4" />
+<hr noshade="noshade" size="1" />
 <br />
-<table width="100%" border="0" cellspacing="0" cellpadding="4">
+<table width="100%" border="1" cellspacing="0" cellpadding="4">
 <tr>
     <td colspan="2">
 
@@ -31,43 +31,45 @@
 
     <!-- BEGIN wishlist_item_list_tpl -->
     <tr> 
-        <th>&nbsp;</th>
+        <th>{intl-pic}</th>
+	<th>{intl-product_qty}:</th>		
 	<th>{intl-product_name}:</th>
-	<th>{intl-product_options}:</th>
 	<th>{intl-move_to_cart}:</th>
 	<th>{intl-someone_has_bought_this}:</th>
 	<!-- BEGIN product_available_header_tpl -->
-	<th>{intl-product_availability}:</th>
+	<!-- <th>{intl-product_availability}:</th> -->
 	<!-- END product_available_header_tpl -->
-	<th>{intl-product_qty}:</th>
-	<th class="right">{intl-product_price}:</th>
+	<th class="right">{intl-single_price}<br />{intl-inc_tax}</th>
 	<!-- BEGIN header_savings_item_tpl -->
 	<th class="right">{intl-product_savings}:</th>
 	<!-- END header_savings_item_tpl -->
 	<!-- BEGIN header_ex_tax_item_tpl -->
-	<th class="right">{intl-product_total_ex_tax}:</th>
+	<th class="right">{intl-total_price}<br />{intl-ex_tax}:</th>
 	<!-- END header_ex_tax_item_tpl -->
 	<!-- BEGIN header_inc_tax_item_tpl -->
-	<th class="right">{intl-product_total_inc_tax}:</th>
+	<th class="right">{intl-total_price}<br />{intl-inc_tax}:</th>
 	<!-- END header_inc_tax_item_tpl -->
+        <th>&nbsp;</th>	
 	</tr>
     <!-- BEGIN wishlist_item_tpl --> 
-    <tr> 
+    <tr valign="top"> 
         <td class="{td_class}"> 
         <!-- BEGIN wishlist_image_tpl --> 
 	<img src="{www_dir}{product_image_path}" border="0" width="{product_image_width}" height="{product_image_height}" alt="{product_image_caption}"/> 
 	<!-- END wishlist_image_tpl --> 
         </td>
-	<td class="{td_class}"> <a href="{www_dir}{index}/trade/productview/{product_id}/">{product_name}</a> 
-	</td>
-	<td class="{td_class}"> 
+	<td class="{td_class}">
+	<input type="hidden" name="WishlistIDArray[]" value="{wishlist_item_id}" />
+	{wishlist_item_count}
+	</td>	
+	<td class="{td_class}"><nobr><a href="{www_dir}{index}/trade/productview/{product_id}/">{product_name}</a></nobr>
 	<!-- BEGIN wishlist_item_option_tpl --> 
-	<div class="small">{option_name}: {option_value}
+	<div class="small"><br />{option_name}: {option_value}
 	<!-- BEGIN wishlist_item_option_availability_tpl -->
 	({option_availability})
 	<!-- END wishlist_item_option_availability_tpl -->
 	</div>
-	<!-- END wishlist_item_option_tpl --> &nbsp;
+	<!-- END wishlist_item_option_tpl --> &nbsp;	 
 	</td>
 	<td class="{td_class}">
 	<!-- BEGIN move_to_cart_item_tpl -->
@@ -88,14 +90,13 @@
 	<!-- END is_not_bought_tpl -->
 	</td>
 	<!-- BEGIN product_available_item_tpl -->
+	<!--
 	<td class="{td_class}">
 	{product_availability}
 	</td>
+	-->
 	<!-- END product_available_item_tpl -->
-	<td class="{td_class}">
-	<input type="hidden" name="WishlistIDArray[]" value="{wishlist_item_id}" />
-	<input size="3" type="text" name="WishlistCountArray[]" value="{wishlist_item_count}" />
-	</td>
+
 	<td class="{td_class}" align="right"><nobr>{product_price}</nobr></td>
 
 	<!-- BEGIN wishlist_savings_item_tpl -->
@@ -142,8 +143,7 @@
 </tr>
 
 <tr>
-    <td>&nbsp;</td>
-    <th colspan="{subtotals_span_size}" class="right">{intl-total}:</th>
+    <td colspan="6" class="right">{intl-total}:</td>
 
 	<!-- BEGIN total_ex_tax_item_tpl -->
     <td align="right"><nobr>{total_ex_tax}</nobr></td>
@@ -158,50 +158,29 @@
 
 
 </table>
+{intl-explain1}<br />
+{intl-explain2}<br />
+{intl-explain3}
 
 <!-- BEGIN tax_specification_tpl -->
-<br />
-<br />
-<br />
-<br />
-
-<table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
-<tr>
-<th class="right">{intl-tax_basis}:</th>
-<th class="right">{intl-tax_percentage}:</th>
-<th class="right">{intl-tax}:</th>
-</tr>
-
 <!-- BEGIN tax_item_tpl -->
-
-<tr>
-    <td class="{td_class}" align="right">{sub_tax_basis}</td>
-    <td class="{td_class}" align="right">{sub_tax_percentage} %</td>
-    <td class="{td_class}" align="right">{sub_tax}</td>
-</tr>
+&nbsp;
 <!-- END tax_item_tpl -->
-
-<tr>
-    <th colspan="2" class="right">{intl-total}:</th>
-    <td align="right">{tax}</td>
-</tr>
-
-</table>
 <!-- END tax_specification_tpl -->
 
 
-<hr noshade="noshade" size="4" />
+<hr noshade="noshade" size="1" />
 
 <input type="hidden" name="Action" value="Refresh" />
-<input class="stdbutton" type="submit" name="DeleteItems" value="{intl-delete_slected}" />&nbsp;
-<input class="stdbutton" type="submit" value="{intl-update}" />
+<input class="okbutton" type="submit" name="DeleteItems" value="{intl-delete_slected}" />&nbsp;
+<!-- <input class="stdbutton" type="submit" value="{intl-update}" /> -->
 
 <!-- END full_wishlist_tpl -->
 
 
 </form>
 
-<hr noshade="noshade" size="4" />
+<hr noshade="noshade" size="1" />
 
 <!-- BEGIN wishlist_checkout_tpl -->
 <form action="{www_dir}{index}/trade/sendwishlist/" method="post">
