@@ -1,0 +1,80 @@
+#!/bin/sh
+
+if [ "$1" = "" ] || [ `whoami` !=  "root" ] 
+then
+echo "Must be run as root"
+echo "Usage: cachefix_secure.sh apache_user"
+exit 0
+fi
+
+echo "Creating symbolic links and setting permissions as needed."
+chown $1:$1 site.ini
+chmod 600 site.ini
+if [ -f "override/site.ini" ]; then
+    chmod 600 override/site.ini
+fi
+if [ -f "override/site.ini.append" ]; then
+    chmod 600 override/site.ini.append
+fi
+
+touch error.log
+chmod 600 error.log
+chown $1:$1 error.log
+
+# [cache section]
+# This part will create the cache dirs which are needed and make sure
+# that they are writeable by php.
+
+dirs="
+admin/tmp
+ezad/admin/cache
+ezaddress/admin/cache
+ezarticle/admin/cache
+ezarticle/cache
+ezbug/user/cache
+ezbug/admin/cache
+ezcalendar/admin/cache
+ezcalendar/user/cache
+ezcontact/admin/cache
+ezexample/admin/cache
+ezfilemanager/files
+ezforum/admin/cache
+ezforum/cache
+ezimagecatalogue/catalogue
+ezimagecatalogue/catalogue/variations
+ezlink/admin/cache
+ezlink/cache
+eznewsfeed/admin/cache
+eznewsfeed/cache
+ezpoll/admin/cache
+ezpoll/cache
+ezstats/admin/cache
+eztodo/admin/cache
+eztrade/admin/cache
+eztrade/cache
+ezuser/admin/cache
+ezfilemanager/admin/cache
+ezimagecatalogue/admin/cache
+"
+
+for dir in $dirs
+do
+    if [ -d $dir ]; then
+	    echo "$dir already exist"
+    else
+        echo "Creating $dir"
+	    mkdir -p $dir
+            chown $1:$1 $dir
+    fi
+    chmod 750 $dir   
+done
+
+for dir in $dirs
+do
+    override_dir="override/"$dir
+    if [ -d $override_dir ]; then
+	chmod 750 $override_dir
+    fi
+done
+
+
