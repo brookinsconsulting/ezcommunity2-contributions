@@ -34,7 +34,38 @@ class eZPersonAddressDict
         return $address_array;
     }
 
-    
+    /*
+      Henter ut med ID == $id
+    */  
+    function getByAddress( $id )
+    {
+        $this->dbInit();    
+        if ( $id != "" )
+        {
+            array_query( $dict_array, "SELECT * FROM PersonAddressDict WHERE AddressID='$id'" );
+            if ( count( $dict_array ) > 1 )
+            {
+                die( "Feil: Flere dicter med samme ID funnet i database, dette skal ikke være mulig. " );
+            }
+            else if ( count( $dict_array ) == 1 )
+            {
+                $this->ID = $dict_array[ 0 ][ "ID" ];
+                $this->PersonID = $dict_array[ 0 ][ "PersonID" ];
+                $this->AddressID = $dict_array[ 0 ][ "AddressID" ];
+            }
+        }
+    }
+
+    /*
+      Sletter dicten med ID == $id;
+     */
+    function delete()
+    {
+        $this->dbInit();
+        
+        query( "DELETE FROM PersonAddressDict WHERE ID='$this->ID'" );
+    }    
+
     /*
       Setter personID variablen.
     */

@@ -111,6 +111,39 @@ if ( $PhoneAction == "DeletePhone" )
     $dict->delete();
 }
 
+// legge til adresse
+if ( $AddressAction == "AddAddress" )
+{
+    print( "ny adresse" );
+    $address = new eZAddress( );
+    $address->setStreet1( $Street1 );
+    $address->setStreet2( $Street2 );
+    $address->setZip( $Zip );
+    $address->setAddressType( $AddressType );
+    $aid = $address->store();
+
+    $dict = new eZPersonAddressDict();
+
+    $dict->setPersonID( $PID );
+    $dict->setAddressID( $aid );
+    $dict->store();
+}
+
+// slette adresse
+if ( $AddressAction == "DeleteAddress" )
+{
+    print( "sletter adresse" );
+    $address = new eZAddress( );
+    $address->get( $AddressID );
+
+    $dict = new eZPersonAddressDict();
+    $dict->getByAddress( $address->id() );
+    
+    $address->delete();
+    $dict->delete();
+}
+
+
 // sjekke session
 {
   include( $DOCUMENTROOT . "checksession.php" );
@@ -123,7 +156,8 @@ $t->set_file( array(
                     "company_select" => $DOCUMENTROOT . "templates/companyselect.tpl",
                     "address_type_select" => $DOCUMENTROOT . "templates/addresstypeselect.tpl",
                     "phone_type_select" => $DOCUMENTROOT . "templates/phonetypeselect.tpl",
-                    "phone_item" => $DOCUMENTROOT . "templates/phoneitem.tpl"
+                    "phone_item" => $DOCUMENTROOT . "templates/phoneitem.tpl",
+                    "address_item" => $DOCUMENTROOT . "templates/addressitem.tpl"
                     ) );
 
 
@@ -159,6 +193,8 @@ for ( $i=0; $i<count( $address_type_array ); $i++ )
   {
     $t->set_var( "is_selected", "" );    
   }
+
+  $address_select_dict[ $address_type_array[$i][ "ID" ] ] = $i;
   
   $t->parse( "address_type", "address_type_select", true );
 }
@@ -206,6 +242,7 @@ if ( $Action == "edit" )
     $phone_dict = new eZPersonPhoneDict();
     $phone_dict_array = $phone_dict->getByPerson( $PID );
 
+    // telefonliste
     for ( $i=0; $i<count( $phone_dict_array ); $i++ )
     {
         $phone->get( $phone_dict_array[ $i ][ "PhoneID" ] );
@@ -221,6 +258,39 @@ if ( $Action == "edit" )
         
         $t->parse( "phone_list", "phone_item", true );
     }
+
+
+    $address = new eZAddress();
+    $address_dict = new eZPersonAddressDict();
+    $address_dict_array = $address_dict->getByPerson( $PID );
+    
+
+    print( "antall:" . count( $address_dict_array ) );
+    // adresseliste
+    for ( $i=0; $i<count( $address_dict_array ); $i++ )
+    {
+        $address->get( $address_dict_array[ $i ][ "AddressID" ] );
+        $addressType->get( $address->addressType() );
+        
+        $t->set_var( "address_id", $address->id() );
+        $t->set_var( "address_street1", $address->street1() );
+        $t->set_var( "address_street2", $address->street2() );
+        $t->set_var( "address_zip", $address->zip() );
+        $t->set_var( "address_type_name", $addressType->name() );
+
+        $t->set_var( "address_type_id", $address_select_dict[ $addressType->id() ] );
+
+        $t->set_var( "person_id", $PID );
+
+        $t->set_var( "script_name", "personedit.php" );        
+        
+        $t->parse( "address_list", "address_item", true );                
+    }
+
+    $t->set_var( "address_action", "AddAddress" );    
+    $t->set_var( "address_action_value", "Legg til" );
+    $t->set_var( "address_action_type", "submit" );    
+    
 
     $t->set_var( "phone_action", "AddPhone" );
     $t->set_var( "phone_edit_id", "-1" );
@@ -274,6 +344,10 @@ $t->set_var( "comment", $Comment );
 //  $t->set_var( "street_1", $Street1 );
 //  $t->set_var( "street_2", $Street2 );
 //  $t->set_var( "zip_code", $Zip );
+
+$t->set_var( "street_1", "" );
+$t->set_var( "street_2", "" );
+$t->set_var( "zip_code", "" );
 
 $t->set_var( "phone_edit_number", $PhoneNumber );
 $t->set_var( "phone_edit_id", $PhoneID );

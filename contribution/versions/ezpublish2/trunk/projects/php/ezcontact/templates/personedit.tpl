@@ -31,7 +31,7 @@
 
 <table width="100%">
 <tr>
-	<td valign="top"  bgcolor="#eeeeff">
+	<td valign="top"  bgcolor="#ddeedd">
 
 <form method="post"  name="CompanyAddressEdit" action="index.php4?page={document_root}personedit.php4">
 Kontakt person type:
@@ -79,10 +79,19 @@ Adresse:<br>
 Postnummer:<br>
 <input type="text" name="Zip" value="{zip_code}"><br>
 
-<input type="hidden" name="Action" value="edit">
+<input type="hidden" name="AddressAction" value="{address_action}">
 <input type="hidden" name="PID" value="{person_id}">
 
-<input type="submit"  name="AddressSubmit" value="{submit_text}">
+<input type="submit"  name="AddressSubmit" value="{address_action_value}">
+
+	<center>
+	<table width="80%" cellspacing="0" cellpadding="3" border="0">
+	{address_list}
+	</table>
+	</center>
+
+
+<input type="hidden" name="Action" value="edit">
 
 </form>
 
@@ -110,8 +119,8 @@ Telefon:<br>
 </tr>
 </table>
 
-<input type="hidden" name="Action" value="edit">
 <input type="hidden" name="PID" value="{person_id}">
+<input type="hidden" name="Action" value="edit">
 
 <input type="submit" value="{submit_text}">
 

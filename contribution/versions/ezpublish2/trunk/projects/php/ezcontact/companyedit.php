@@ -307,6 +307,8 @@ if ( $Action == "edit" )
 
         $t->set_var( "company_id", $CID );
         
+        $t->set_var( "script_name", "companyedit.php" );
+        
         $t->parse( "address_list", "address_item", true );                
     }
     
