@@ -787,3 +787,20 @@ Maintainer(s) : jhe@ez.no
       admin/intl/no_NO/personedit.php.ini
       admin/intl/no_NO/personview.php.ini: epost -> e-post
 
+
+Module : ezcontact
+Repository path : /home/cvsroot/projects/php/ezcontact
+Maintainer(s) : jhe@ez.no
+2002-05-06  Jo Henrik Endrerud  <jhe@ez.no>
+
+    * classes/ezcompany.php
+      classes/ezprojecttype.php
+      sql/postgresql/ezcontact.sql: expiry time, warning time
+
+    * admin/templates/standard/Attic/projecttypeedit.tpl: New file.
+
+    * admin/intl/en_GB/projecttype.php.ini
+      admin/projecttypeedit.php
+      admin/templates/standard/Attic/projecttypeedit.tpl:
+    expiry time, warning time
+

@@ -410,3 +410,14 @@ Maintainer(s) : br@ez.no
       classes/ezpageview.php
       classes/ezpageviewquery.php: Major commit for the mygold project
 
+
+Module : ezstats
+Repository path : /home/cvsroot/projects/php/ezstats
+Maintainer(s) : br@ez.no
+2002-05-06  Bjoern Reiten  <br@ez.no>
+
+    * classes/ezpageviewquery.php: fixed bug with statistics overview
+
+    * classes/ezpageviewquery.php:
+    fixed bug with day and month report in eZ stats.
+
