@@ -1,0 +1,34 @@
+//Add the following lines to site.ini and modify as needed
+
+[eZGroupEventCalendarMain]
+AdminTemplateDir=templates/standard/
+TemplateDir=templates/standard/
+ImageDir=/images/standard/
+Language=en_GB
+DayStartTime=08:00
+DayStopTime=20:00
+DayInterval=00:30
+YearsPrint=19
+Priority=1
+SubGroupSelect=disabled
+TwelveHourSelect=enabled
+MinutesSelectInterval=15
+
+
+# DayStartTime:           The time that you would like the Calendar to start printing each day.
+#
+# DayStopTime:            The time that you would like the Calendar to stop printing each day.
+#
+# YearsPrint:             The number of years in advance you would like displayed in the 
+#                         eventedit year select.
+#
+# Priority:               The default priorty selected when a new event is created( 0, 1, or 2).
+#
+# SubGroupSelect:         Leave this option disabled.  This function will not work with standard versions
+#                         of eZPublish.  This is a special function programed for the Mobius Consortium Office
+#                         web site, and MCO developed code in eZUser is required.
+#
+# TwelveHourSelect:       If enabled U.S 12 hour time is displayed, if disabled 24 time is displayed
+#
+# MinutesSelectInterval:  The interval displayed between minutes in the start and stop time
+                          minutes select of eventedit
