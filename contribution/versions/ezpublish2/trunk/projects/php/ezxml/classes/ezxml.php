@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: ezxml.php,v 1.9 2001/11/19 15:37:41 bf Exp $
+// $Id: ezxml.php,v 1.10 2001/11/19 16:10:53 bf Exp $
 //
 // Definition of eZXML class
 //
@@ -64,7 +64,8 @@ class eZXML
 
         // strip comments
         $xmlDoc =& eZXML::stripComments( $xmlDoc );
-        
+
+        print( htmlspecialchars( $xmlDoc ));
         $domDocument = new eZDOMDocument();
         $domDocument->version = "1.0";
 
@@ -122,18 +123,37 @@ class eZXML
                     $firstSpaceEnd = strpos( $tagName, " " );
                     $firstNewlineEnd = strpos( $tagName, "\n" );
 
-                    if ( $firstSpaceEnd > 0 and ( $firstSpaceEnd < $firstNewlineEnd ) )
-                        $tagNameEnd = $firstSpaceEnd;
+                    if ( $firstNewlineEnd != false )
+                    {
+                        if ( $firstSpaceEnd != false )
+                        {
+                            $tagNameEnd = min( $firstSpaceEnd, $firstNewlineEnd );
+                        }
+                        else
+                        {
+                            
+                            $tagNameEnd = $firstNewlineEnd;
+                        }
+                    }
                     else
-                        $tagNameEnd = $firstNewlineEnd;
-
+                    {
+                        if ( $firstSpaceEnd != false )
+                        {
+                            $tagNameEnd = $firstSpaceEnd;
+                        }
+                        else
+                        {
+                            $tagNameEnd = 0;
+                        }
+                    }
+                    
                     if ( $tagNameEnd > 0 )
                     {
                         $justName = substr( $tagName, 0, $tagNameEnd );
-
                     }
                     else
                         $justName = $tagName;
+
 
                     // strip out namespace; nameSpace:Name
                     $colonPos = strpos( $justName, ":" );
