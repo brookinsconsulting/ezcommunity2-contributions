@@ -12,15 +12,17 @@
             <td><img src="/sitedesign/percolo/images/onepix.gif" alt="luft" width="14" height="14" hspace="0" vspace="0" /><br /></td>
             <td><img src="/sitedesign/percolo/images/onepix.gif" alt="luft" width="50" height="60" hspace="0" vspace="0"></td>
         </tr>
-		<tr>
-		    <td><img src="/sitedesign/percolo/images/onepix.gif" alt="luft" width="14" height="14" hspace="0" vspace="0" /><br /></td>
-			<td colspan="2">
+		</table>
 
 <!-- BEGIN path_tpl -->
 
 <!-- END path_tpl -->
 
-
+        <table width="100%" height="100" border="0" vspace="0" hspace="0" cellpadding="0" cellspacing="0">
+        <tr>
+            <td width="1%" class="tdmini"><img src="/sitedesign/percolo/images/onepix.gif" alt="luft" width="14" height="14" hspace="0" vspace="0" /><br /></td>
+			<td width="99%" valign="top" class="tdmini">
+			
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
 	<td>

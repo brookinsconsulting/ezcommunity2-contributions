@@ -95,7 +95,16 @@
 
 <!-- BEGIN cart_checkout_tpl -->
 
-<table cellpadding="0" cellspacing="0" border="0">
+</td>
+</tr>
+</table>
+
+ <table width="100%" height="100" border="0" vspace="0" hspace="0" cellpadding="0" cellspacing="0">
+        <tr>
+            <td width="1%"><img src="/sitedesign/percolo/images/onepix.gif" alt="luft" width="14" height="14" hspace="0" vspace="0" /><br /></td>
+			<td>
+
+<table width="100%" cellpadding="0" cellspacing="0" border="0">
 <tr>
 	<!-- BEGIN cart_checkout_button_tpl -->
 	<td>
@@ -104,8 +113,8 @@
 	<!-- END cart_checkout_button_tpl -->
 
 	<td>&nbsp;</td>
-	<td>
-	<input class="okbutton" type="submit" value="{intl-update}" />
+	<td align="right">
+	<input class="okbutton" type="submit" value="Oppdater pris og antall" />
 	</td>
 </td>
 </table>
@@ -122,8 +131,8 @@
 <input class="okbutton" type="submit" value="Kjøp flere varer" />
 </form>
 
+
 </td>
 </tr>
 </table>
-
 
