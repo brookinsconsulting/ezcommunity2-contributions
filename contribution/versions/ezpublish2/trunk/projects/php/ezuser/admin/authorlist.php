@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: authorlist.php,v 1.1 2001/06/06 09:53:07 bf Exp $
+// $Id: authorlist.php,v 1.2 2001/06/12 14:32:33 ce Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <31-May-2001 13:27:04 bf>
@@ -36,7 +36,16 @@ if ( isset( $NewAuthor ) )
     $author->store();    
 }
 
-if ( isset( $Store ) )
+if ( isset( $DeleteAuthor ) )
+{
+    foreach ( $DeleteIDArray as $id )
+    {
+        eZAuthor::delete( $id );
+    }
+}
+
+
+if ( ( isset( $Store ) ) || ( isset ( $NewAuthor ) ) ||( isset ( $DeleteAuthor ) ) )
 {
     $i=0;
     foreach ( $IDArray as $id )
@@ -63,17 +72,22 @@ $t->setAllStrings();
 $t->set_block( "author_page_tpl", "author_list_tpl", "author_list" );
 $t->set_block( "author_list_tpl", "author_item_tpl", "author_item" );
 
+$t->set_var( "author_item", "" );
+
 $author = new eZAuthor( );
 
 $authorArray = $author->getAll();
 
-foreach ( $authorArray as $author )
+if ( count ( $authorArray ) > 0 )
 {
-    $t->set_var( "id", $author->id() );
-    $t->set_var( "author_name", $author->name() );
-    $t->set_var( "author_email", $author->email() );
-
-    $t->parse( "author_item", "author_item_tpl", true );
+    foreach ( $authorArray as $author )
+    {
+        $t->set_var( "id", $author->id() );
+        $t->set_var( "author_name", $author->name() );
+        $t->set_var( "author_email", $author->email() );
+        
+        $t->parse( "author_item", "author_item_tpl", true );
+    }
 }
 $t->parse( "author_list", "author_list_tpl" );
 

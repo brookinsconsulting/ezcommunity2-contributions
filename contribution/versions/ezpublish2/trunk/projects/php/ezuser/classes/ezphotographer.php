@@ -1,8 +1,8 @@
 <?php
 // 
-// $Id: ezauthor.php,v 1.2 2001/06/12 14:32:33 ce Exp $
+// $Id: ezphotographer.php,v 1.1 2001/06/12 14:32:33 ce Exp $
 //
-// Definition of eZAuthor class
+// Definition of eZPhotographer class
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <31-May-2001 13:52:30 bf>
@@ -26,7 +26,7 @@
 //
 
 //!! eZUser
-//! eZAuthor handles authors/photographers.
+//! eZPhotographer handles photographers/photographers.
 /*!
   \sa eZUser eZUserGroup eZPermission eZModule eZForgot
 */
@@ -34,12 +34,12 @@
 include_once( "classes/ezdb.php" );
 
 
-class eZAuthor
+class eZPhotographer
 {
     /*!
-      Constructs a new eZAuthor object.
+      Constructs a new eZPhotographer object.
     */
-    function eZAuthor( $id=-1 )
+    function eZPhotographer( $id=-1 )
     {
         if ( $id != -1 )
         {
@@ -49,7 +49,7 @@ class eZAuthor
     }
 
     /*!
-      Stores or updates a eZAuthor object in the database.
+      Stores or updates a eZPhotographer object in the database.
     */
     function store()
     {
@@ -60,7 +60,7 @@ class eZAuthor
 
         if ( !isset( $this->ID ) )
         {
-            $db->query( "INSERT INTO eZUser_Author SET
+            $db->query( "INSERT INTO eZUser_Photographer SET
 		                 Name='$name',
                          EMail='$email'
                        " );
@@ -68,7 +68,7 @@ class eZAuthor
         }
         else
         {
-            $db->query( "UPDATE eZUser_Author SET
+            $db->query( "UPDATE eZUser_Photographer SET
 		                 Name='$name',
                          EMail='$email'
                         WHERE ID='$this->ID'" );
@@ -78,7 +78,7 @@ class eZAuthor
     }
 
     /*!
-      Deletes a eZAuthor object from the database.
+      Deletes a eZPhotographer object from the database.
     */
     function delete( $id )
     {
@@ -86,11 +86,11 @@ class eZAuthor
 
         if ( is_numeric( $id ) )
         {
-            $db->query( "DELETE FROM eZUser_Author WHERE ID='$id'" );
+            $db->query( "DELETE FROM eZUser_Photographer WHERE ID='$id'" );
         }
         else if ( isset( $this->ID ) )
         {
-            $db->query( "DELETE FROM eZUser_Author WHERE ID='$this->ID'" );
+            $db->query( "DELETE FROM eZUser_Photographer WHERE ID='$this->ID'" );
         }
         
         return true;
@@ -108,15 +108,15 @@ class eZAuthor
         $ret = false;
         if ( $id != "" )
         {
-            $db->array_query( $author_array, "SELECT * FROM eZUser_Author WHERE ID='$id'" );
-            if( count( $author_array ) == 1 )
+            $db->array_query( $photographer_array, "SELECT * FROM eZUser_Photographer WHERE ID='$id'" );
+            if( count( $photographer_array ) == 1 )
             {
-                $this->ID =& $author_array[0][ "ID" ];
-                $this->Name =& $author_array[0][ "Name" ];
-                $this->EMail =& $author_array[0][ "EMail" ];
+                $this->ID =& $photographer_array[0][ "ID" ];
+                $this->Name =& $photographer_array[0][ "Name" ];
+                $this->EMail =& $photographer_array[0][ "EMail" ];
                 $ret = true;
             }
-            elseif( count( $author_array ) == 1 )
+            elseif( count( $photographer_array ) == 1 )
             {
                 $this->ID = 0;
             }
@@ -126,22 +126,22 @@ class eZAuthor
 
 
     /*!
-      Fetches the user id from the database. And returns a array of eZAuthor objects.
+      Fetches the user id from the database. And returns a array of eZPhotographer objects.
     */
     function &getAll(  )
     {
         $db =& eZDB::globalDatabase();
 
         $return_array = array();
-        $author_array = array();
+        $photographer_array = array();
 
 
-        $db->array_query( $author_array, "SELECT ID FROM eZUser_Author
+        $db->array_query( $photographer_array, "SELECT ID FROM eZUser_Photographer
                                         ORDER By Name" );
 
-        foreach ( $author_array as $author )
+        foreach ( $photographer_array as $photographer )
         {
-            $return_array[] = new eZAuthor( $author[0] );
+            $return_array[] = new eZPhotographer( $photographer[0] );
         }
         return $return_array;
     }
@@ -165,7 +165,7 @@ class eZAuthor
 
 
     /*!
-      Returns the authors e-mail address.
+      Returns the photographers e-mail address.
     */
     function email( )
     {
