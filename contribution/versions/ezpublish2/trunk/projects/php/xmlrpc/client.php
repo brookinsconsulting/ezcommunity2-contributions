@@ -38,6 +38,7 @@ else
 // Local test
 
 $client = new eZXMLRPCClient( "php.ez.no", "/xmlrpc/server.php" );
+//$client->setDebug( true );
 
 // error test, to many parameters
 print( "error test:<br>" );
