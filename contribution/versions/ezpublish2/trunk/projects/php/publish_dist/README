@@ -23,5 +23,5 @@ ALTER TABLE eZForum_Forum DROP CategoryID;
 NOTE: To upgrade the database from 1.0.3 to 1.0.4 and higher 
       run the following SQL commands:
 
-ALTER TABLE eZContact_Address DROP AddressType
-ALTER TABLE eZContact_Address ADD AddressTypeID int
+ALTER TABLE eZContact_Address DROP AddressType;
+ALTER TABLE eZContact_Address ADD AddressTypeID int;
