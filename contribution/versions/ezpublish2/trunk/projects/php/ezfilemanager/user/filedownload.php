@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: filedownload.php,v 1.18 2001/08/28 16:51:26 jhe Exp $
+// $Id: filedownload.php,v 1.19 2001/09/03 16:05:31 bf Exp $
 //
 // Created on: <10-Dec-2000 16:39:10 bf>
 //
@@ -23,8 +23,6 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, US
 //
 
-// clear what might be in the output buffer and stop the buffer.
-ob_end_clean();
 
 
 include_once( "ezfilemanager/classes/ezvirtualfile.php" );
@@ -75,13 +73,37 @@ $filePath = preg_replace( "#.*/(.*)#", "\\1", $filePath );
 
 // Rewrote to be compatible with virtualhost-less install
 $size = eZFile::filesize( "ezfilemanager/files/$filePath" );
-header( "Content-Type: application/octet-stream" );
+
+$nameParts = explode( ".", $originalFileName  );
+$suffix = $nameParts[count( $nameParts ) - 1];
+
+// clear what might be in the output buffer and stop the buffer.
+ob_end_clean();
+
+switch ( $suffix )
+{
+    case "doc" :
+        header( "Content-Type: application/msword" );
+        break;
+    case "ppt" :
+        header( "Content-Type: application/vnd.ms-powerpoint" );
+        break;
+    case "xls" :
+        header( "Content-Type: application/vnd.ms-excel" );
+        break;    
+    case "pdf" :
+        header( "Content-Type: application/pdf" );
+        break;
+    default :        
+        header( "Content-Type: application/octet-stream" );
+        break;
+}
+
 header( "Content-Length: $size" );
 header( "Content-Disposition: attachment; filename=$originalFileName" );
 header( "Content-Transfer-Encoding: binary" );
 
 $fh = eZFile::fopen( "ezfilemanager/files/$filePath", "r" );
 fpassthru( $fh );
-
 exit();
 ?>

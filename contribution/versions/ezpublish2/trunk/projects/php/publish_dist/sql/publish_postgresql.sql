@@ -1880,8 +1880,7 @@ CREATE TABLE eZTrade_OrderItem (
   Count int default NULL,
   Price decimal(10,2) default NULL,
   ProductID int default NULL,
-  PriceIncVAT decimal(10,2) default NULL,
-  VATValue int default NULL,
+  VAT decimal(10,2) default NULL,
   ExpiryDate int default NULL,
   PRIMARY KEY (ID)
 );
@@ -1914,6 +1913,11 @@ CREATE TABLE eZTrade_OrderStatusType (
   PRIMARY KEY (ID)
 );
 
+INSERT INTO eZTrade_OrderStatusType VALUES (1,'intl-initial');
+INSERT INTO eZTrade_OrderStatusType VALUES (2,'intl-sendt');
+INSERT INTO eZTrade_OrderStatusType VALUES (3,'intl-payed');
+INSERT INTO eZTrade_OrderStatusType VALUES (4,'intl-undefined');
+
 CREATE TABLE eZTrade_PreOrder (
   ID int NOT NULL,
   Created int NOT NULL,
@@ -1934,6 +1938,7 @@ CREATE TABLE eZTrade_PriceGroup (
 CREATE TABLE eZTrade_Product (
   ID int NOT NULL,
   Name varchar(100) default NULL,
+  Description text,
   Brief text,
   Description text,
   Keywords varchar(100) default NULL,
@@ -1984,6 +1989,7 @@ CREATE TABLE eZTrade_ProductImageLink (
   ProductID int default NULL,
   ImageID int default NULL,
   Created int NOT NULL,
+  Placement int NOT NULL,
   PRIMARY KEY (ID)
 );
 
@@ -2167,6 +2173,18 @@ CREATE TABLE eZTrade_WishListOptionValue (
 
 
 CREATE UNIQUE INDEX eZTradeOrderStatusTypeName ON eZTrade_OrderStatusType (Name);
+
+
+CREATE INDEX Product_Name ON eZTrade_Product (Name);
+CREATE INDEX Product_Keywords ON eZTrade_Product (Keywords);
+CREATE INDEX Product_Price ON eZTrade_Product (Price);
+
+CREATE INDEX ProductLink_CategoryID ON eZTrade_ProductCategoryLink (CategoryID);
+CREATE INDEX ProductLink_ProductID ON eZTrade_ProductCategoryLink (ProductID);
+
+CREATE INDEX ProductOption_ProductID ON eZTrade_ProductOptionLink (ProductID);
+CREATE INDEX ProductOption_OptionID ON eZTrade_ProductOptionLink (OptionID);
+
 CREATE TABLE eZURLTranslator_URL (
   ID int NOT NULL,
   Source varchar(200) default NULL,

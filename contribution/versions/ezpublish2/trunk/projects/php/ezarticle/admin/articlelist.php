@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: articlelist.php,v 1.45 2001/09/03 15:54:59 bf Exp $
+// $Id: articlelist.php,v 1.46 2001/09/03 16:05:31 bf Exp $
 //
 // Created on: <18-Oct-2000 14:41:37 bf>
 //
@@ -86,6 +86,8 @@ if ( isset( $CopyCategories ) )
             $newCategory->setName( "Copy of " . $tmpCategory->name() );            
             $newCategory->setDescription( $tmpCategory->description() );            
             $newCategory->setParent( $tmpCategory->parent() );            
+            $newCategory->setOwner( eZUser::currentUser() );
+
             $newCategory->store();
 
             $tmpCategory->copyTree( $tCategoryID, $newCategory );

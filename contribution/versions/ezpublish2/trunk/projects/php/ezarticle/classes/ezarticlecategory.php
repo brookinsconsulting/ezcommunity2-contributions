@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezarticlecategory.php,v 1.88 2001/09/03 15:52:56 bf Exp $
+// $Id: ezarticlecategory.php,v 1.89 2001/09/03 16:05:31 bf Exp $
 //
 // Definition of eZArticleCategory class
 //
@@ -515,6 +515,7 @@ class eZArticleCategory
             $newCategory->setName( $category->name() );
             $newCategory->setDescription( $category->description() );
             $newCategory->setParent( $parentCategory );
+            $newCategory->setOwner( eZUser::currentUser() );
             $newCategory->store();
             
             if ( $category != 0 )

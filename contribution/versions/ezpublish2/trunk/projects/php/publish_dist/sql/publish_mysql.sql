@@ -739,9 +739,7 @@ CREATE TABLE eZBulkMail_Forgot (
   Hash varchar(33),
   Time int,
   PRIMARY KEY (ID)
-) TYPE=MyISAM;
-
-CREATE TABLE eZCalendar_Appointment (
+) TYPE=MyISAM;CREATE TABLE eZCalendar_Appointment (
   ID int NOT NULL,
   UserID int DEFAULT '0' NOT NULL,
   Date int,
@@ -1593,6 +1591,120 @@ CREATE TABLE eZPoll_PollForumLink (
   PRIMARY KEY (ID)
 );
 #
+# Table structure for table 'eZQuiz_Alternative'
+#
+
+DROP TABLE IF EXISTS eZQuiz_Alternative;
+CREATE TABLE eZQuiz_Alternative (
+  ID int(11) NOT NULL auto_increment,
+  QuestionID int(11) default '0',
+  Name char(100) default NULL,
+  IsCorrect int(11) default '0',
+  PRIMARY KEY (ID)
+) TYPE=MyISAM;
+
+#
+# Dumping data for table 'eZQuiz_Alternative'
+#
+
+INSERT INTO eZQuiz_Alternative VALUES (1,1,'',0);
+INSERT INTO eZQuiz_Alternative VALUES (2,2,'test 1',1);
+INSERT INTO eZQuiz_Alternative VALUES (3,2,'test 2',0);
+
+#
+# Table structure for table 'eZQuiz_Answer'
+#
+
+DROP TABLE IF EXISTS eZQuiz_Answer;
+CREATE TABLE eZQuiz_Answer (
+  ID int(11) NOT NULL auto_increment,
+  UserID int(11) default '0',
+  AlternativeID int(11) default '0',
+  PRIMARY KEY (ID)
+) TYPE=MyISAM;
+
+#
+# Dumping data for table 'eZQuiz_Answer'
+#
+
+
+#
+# Table structure for table 'eZQuiz_Game'
+#
+
+DROP TABLE IF EXISTS eZQuiz_Game;
+CREATE TABLE eZQuiz_Game (
+  ID int(11) NOT NULL auto_increment,
+  Name varchar(30) default NULL,
+  Description text,
+  StartDate date default NULL,
+  StopDate date default NULL,
+  PRIMARY KEY (ID)
+) TYPE=MyISAM;
+
+#
+# Dumping data for table 'eZQuiz_Game'
+#
+
+INSERT INTO eZQuiz_Game VALUES (1,'test','wegwegweg','2001-12-12','0000-00-00');
+
+#
+# Table structure for table 'eZQuiz_Question'
+#
+
+DROP TABLE IF EXISTS eZQuiz_Question;
+CREATE TABLE eZQuiz_Question (
+  ID int(11) NOT NULL auto_increment,
+  Name char(100) default NULL,
+  GameID int(11) default '0',
+  Placement int(11) default '0',
+  Score int(11) default '0',
+  PRIMARY KEY (ID)
+) TYPE=MyISAM;
+
+#
+# Dumping data for table 'eZQuiz_Question'
+#
+
+INSERT INTO eZQuiz_Question VALUES (1,'hei å hå',1,0,0);
+INSERT INTO eZQuiz_Question VALUES (2,'',1,1,0);
+
+#
+# Table structure for table 'eZQuiz_Score'
+#
+
+DROP TABLE IF EXISTS eZQuiz_Score;
+CREATE TABLE eZQuiz_Score (
+  ID int(11) NOT NULL auto_increment,
+  GameID int(11) default '0',
+  UserID int(11) default '0',
+  TotalScore int(11) default '0',
+  LastQuestion int(11) default '0',
+  FinishedGame int(1) default '1',
+  PRIMARY KEY (ID)
+) TYPE=MyISAM;
+
+#
+# Dumping data for table 'eZQuiz_Score'
+#
+
+#
+# Table structure for table 'eZQuiz_AllTimeScore'
+#
+
+DROP TABLE IF EXISTS eZQuiz_AllTimeScore;
+CREATE TABLE eZQuiz_Score (
+  ID int(11) NOT NULL auto_increment,
+  UserID int(11) default '0',
+  TotalScore int(11) default '0',
+  GamesPlayed int(11) default '0',
+  PRIMARY KEY (ID)
+) TYPE=MyISAM;
+
+#
+# Dumping data for table 'eZQuiz_AllTimeScore'
+#
+#
 # Table structure for table 'eZSession_Preferences'
 #
 DROP TABLE IF EXISTS eZSession_Preferences;
@@ -1645,11 +1757,12 @@ CREATE TABLE eZSiteManager_Section (
   SiteDesign varchar(30) default NULL,
   Created int(11) default NULL,
   TemplateStyle varchar(255) default NULL,
+  Language varchar(5) default NULL,
   PRIMARY KEY (ID)
 ) TYPE=MyISAM;
 
 
-INSERT INTO eZSiteManager_Section   ( ID,  Name, Created, Description,  SiteDesign, TemplateStyle) VALUES ( 1, 'Standard Section', 1, NULL, 'standard', NULL);
+INSERT INTO eZSiteManager_Section   ( ID,  Name, Created, Description,  SiteDesign, TemplateStyle, Language) VALUES ( 1, 'Standard Section', 1, NULL, 'standard', NULL, NULL);
 
 
 
@@ -1963,8 +2076,7 @@ CREATE TABLE eZTrade_OrderItem (
   Count int(11) default NULL,
   Price float(10,2) default NULL,
   ProductID int(11) default NULL,
-  PriceIncVAT float(10,2) default NULL,
-  VATValue int(11) default NULL,
+  VAT float(10,2) default NULL,
   ExpiryDate int(11) default NULL,
   PRIMARY KEY (ID)
 ) TYPE=MyISAM;
@@ -1998,6 +2110,10 @@ CREATE TABLE eZTrade_OrderStatusType (
   UNIQUE KEY Name(Name)
 ) TYPE=MyISAM;
 
+INSERT INTO eZTrade_OrderStatusType VALUES (1,'intl-initial');
+INSERT INTO eZTrade_OrderStatusType VALUES (2,'intl-sendt');
+INSERT INTO eZTrade_OrderStatusType VALUES (3,'intl-payed');
+INSERT INTO eZTrade_OrderStatusType VALUES (4,'intl-undefined');
 
 CREATE TABLE eZTrade_PreOrder (
   ID int NOT NULL,
@@ -2019,6 +2135,7 @@ CREATE TABLE eZTrade_PriceGroup (
 CREATE TABLE eZTrade_Product (
   ID int NOT NULL,
   Name varchar(100) default NULL,
+  Contents text,
   Brief text,
   Description text,
   Keywords varchar(100) default NULL,
@@ -2067,6 +2184,7 @@ CREATE TABLE eZTrade_ProductImageDefinition (
 CREATE TABLE eZTrade_ProductImageLink (
   ID int NOT NULL,
   ProductID int(11) default NULL,
+  Placement int(11) default NULL,
   ImageID int(11) default NULL,
   Created int(11) NOT NULL,
   PRIMARY KEY (ID)
@@ -2263,6 +2381,18 @@ CREATE TABLE eZTrade_WishListOptionValue (
   OptionValueID int(11) default NULL,
   PRIMARY KEY (ID)
 ) TYPE=MyISAM;
+
+
+CREATE INDEX Product_Name ON eZTrade_Product (Name);
+CREATE INDEX Product_Keywords ON eZTrade_Product (Keywords);
+CREATE INDEX Product_Price ON eZTrade_Product (Price);
+
+CREATE INDEX ProductLink_CategoryID ON eZTrade_ProductCategoryLink (CategoryID);
+CREATE INDEX ProductLink_ProductID ON eZTrade_ProductCategoryLink (ProductID);
+
+CREATE INDEX ProductOption_ProductID ON eZTrade_ProductOptionLink (ProductID);
+CREATE INDEX ProductOption_OptionID ON eZTrade_ProductOptionLink (OptionID);
+
 CREATE TABLE eZURLTranslator_URL (
   ID int NOT NULL,
   Source varchar(200) default NULL,
