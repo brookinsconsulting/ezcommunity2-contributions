@@ -3,6 +3,7 @@ eZ publish changelog:
 
 Changes from 2.2.4 to 2.2.5
 ---------------------------
+* Fixed several permission bugs in eZ filemanager.
 * Fixed problem with updating cache files introduced in 2.2.4
 * Fixed problem with notification mails not beeing sent when articles are submitted from the user site.
 * Fixed storing article category position when adding images to articles on user site
