@@ -1,5 +1,4 @@
-<form method="post" action="/contact/person/{action_value}/{person_id}/" enctype="multipart/form-data">
-<input type="hidden" name="max_file_size" value="3000000">
+<form method="post" action="/contact/person/{action_value}/{person_id}" enctype="multipart/form-data">
 
 <h1>{intl-edit_headline}</h1>
 
@@ -27,37 +26,21 @@
 <li>{intl-error_personno}
 <!-- END error_personno_item_tpl -->
 
-<!-- BEGIN error_loginname_item_tpl -->
-<li>{intl-error_loginname}
-<!-- END error_loginname_item_tpl -->
-
-<!-- BEGIN error_password_item_tpl -->
-<li>{intl-error_password}
-<!-- END error_password_item_tpl -->
-
-<!-- BEGIN error_password_too_short_item_tpl -->
-<li>{intl-error_password_too_short}
-<!-- END error_password_too_short_item_tpl -->
-
-<!-- BEGIN error_email_not_valid_item_tpl -->
-<li>{intl-error_email_not_valid_item}
-<!-- END error_email_not_valid_item_tpl -->
-
-<!-- BEGIN error_passwordrepeat_item_tpl -->
-<li>{intl-error_passwordrepeat}
-<!-- END error_passwordrepeat_item_tpl -->
-
-<!-- BEGIN error_passwordmatch_item_tpl -->
-<li>{intl-error_passwordmatch}
-<!-- END error_passwordmatch_item_tpl -->
-
-<!-- BEGIN error_email_item_tpl -->
-<li>{intl-error_email}
-<!-- END error_email_item_tpl -->
-
 <!-- BEGIN error_address_item_tpl -->
-<li>{intl-error_address}
+<li>{intl-error_address}{error_address_position}
 <!-- END error_address_item_tpl -->
+
+<!-- BEGIN error_phone_item_tpl -->
+<li>{intl-error_phone}{error_phone_position}
+<!-- END error_phone_item_tpl -->
+
+<!-- BEGIN error_online_item_tpl -->
+<li>{intl-error_online}{error_online_position}
+<!-- END error_online_item_tpl -->
+
+<!-- BEGIN error_contact_item_tpl -->
+<li>{intl-error_contact}
+<!-- END error_contact_item_tpl -->
 
 </ul>
 <!-- END errors_tpl -->
@@ -80,162 +63,217 @@
 <p class="boxtext">{intl-birthday_headline}:</p>
 <table width="100%" cellpadding="0" cellspacing="0" border="0">
 <tr>
-    <td width="50%" valign="bottom">
-        <table cellpadding="0" cellspacing="0" border="0">
-        <tr valign="bottom">
-            <td class="small">
-                {intl-year}:<br />
-                <input type="text" size="4" name="BirthYear" value="{birthyear}"/>&nbsp;&nbsp;
-            </td>
-            <td class="small">
-                {intl-month}:<br />
-                <input type="text" size="2" name="BirthMonth" value="{birthmonth}"/>&nbsp;&nbsp;
-            </td>
-            <td class="small">
-                {intl-day}:<br />
-                <input type="text" size="2" name="BirthDay" value="{birthday}"/>&nbsp;&nbsp;
-            </td>
-        </tr>
-        </table>
+    <td width="1%" valign="bottom">
+        <select name="BirthDay">
+	<!-- BEGIN day_item_tpl -->
+	<option value="{day_id}" {selected}>{day_value}</option>
+	<!-- END day_item_tpl -->
+	</select>
     </td>
-    <td width="50%">
+    <td width="1%" valign="bottom">
+        <select name="BirthMonth" >
+	<option value="1" {select_january}>{intl-january}</option>
+	<option value="2" {select_february}>{intl-february}</option>
+	<option value="3" {select_march}>{intl-march}</option>
+	<option value="4" {select_april}>{intl-april}</option>
+	<option value="5" {select_may}>{intl-may}</option>
+	<option value="6" {select_june}>{intl-june}</option>
+	<option value="7" {select_kuly}>{intl-july}</option>
+	<option value="8" {select_august}>{intl-august}</option>
+	<option value="9" {select_september}>{intl-september}</option>
+	<option value="10" {select_october}>{intl-october}</option>
+	<option value="11" {select_november}>{intl-november}</option>
+	<option value="12" {select_december}>{intl-december}</option>
+	</select>
+    </td>
+    <td width="1%" valign="bottom">
+        <input type="text" size="4" name="BirthYear" value="{birthyear}"/>
+    </td>
+    <td width="97%" valign="bottom">
         &nbsp;
     </td>
 </tr>
 </table>
 
-<!--- <p class="boxtext">{intl-comment_headline}:</p>
-<textarea name="Comment" rows="4" cols="40" wrap="soft">{comment}</textarea> --->
-<input type="hidden" name="ContactTypeID" value="{cv_contact_type_id}" />
-<input type="hidden" name="UserID" value="{user_id}" />
+<p class="boxtext">{intl-comment_headline}:</p>
+<textarea name="Comment" rows="4" cols="40" wrap="soft">{comment}</textarea>
 <!-- END person_item_tpl -->
 
 <!-- BEGIN address_item_tpl -->
 <h2>{intl-address_headline}</h2>
-<p class="boxtext">{intl-address}:</p>
-<input type="text" size="40" name="Street1" value="{street1}"/><br>
-<input type="text" size="40" name="Street2" value="{street2}"/>
-
-<br /><br />
-
 <table width="100%" cellpadding="0" cellspacing="0" border="0">
+<!-- BEGIN address_table_item_tpl -->
 <tr>
-	<td width="50%">
-        <p class="boxtext">{intl-zip}:</p>
-        <input type="text" size="4" name="Zip" value="{zip}"/>
-	</td>
-	<td width="50%">
-        <p class="boxtext">{intl-place}:</p>
-        <input type="text" size="20" name="Place" value="{place}"/>
+	<td>
+	    <p class="boxtext">{intl-address_pos} {address_position}</p>
 	</td>
 </tr>
+<tr>
+	<td colspan="2">
+	<p><select name="AddressTypeID[]">
+	    <option value="-1">{intl-unknown_type}</option>
+	    <!-- BEGIN address_item_select_tpl -->
+	    <option value="{type_id}" {selected}>{type_name}</option>
+	    <!-- END address_item_select_tpl -->
+
+	    </select>
+	<input type="checkbox" name="AddressDelete[]" value="{address_index}"/>
+	<span class="boxtext">{intl-delete}</span><br />
+        </p>
+	<p class="boxtext">{intl-address}:</p>
+	<input type="text" size="40" name="Street1[]" value="{street1}"/><br>
+	<input type="text" size="40" name="Street2[]" value="{street2}"/>
+	</td>
+</tr>
+
+<tr>
+	<td width="1%">
+        <p class="boxtext">{intl-zip}:</p>
+        <input type="text" size="4" name="Zip[]" value="{zip}"/>
+	</td>
+	<td>
+        <p class="boxtext">{intl-place}:</p>
+        <input type="text" size="20" name="Place[]" value="{place}"/>
+	</td>
+</tr>
+<tr>
+	<td colspan="2">
+        <p class="boxtext">{intl-country}:</p>
+        <select size="4" name="Country[]" value="{zip}"/>
+	    <!-- BEGIN country_item_select_tpl -->
+	    <option value="{type_id}" {selected}>{type_name}</option>
+	    <!-- END country_item_select_tpl -->
+	</select>
+	</td>
+</tr>
+<!-- END address_table_item_tpl -->
 </table>
-<input type="hidden" name="AddressTypeID" value="{cv_address_type_id}" />
-<input type="hidden" name="AddressID" value="{cv_address_id}" />
 <!-- END address_item_tpl -->
 
 <h2>{intl-telephone_headline}</h2><br />
 <table width="100%" cellpadding="0" cellspacing="0" border="0">
+<!-- BEGIN phone_table_item_tpl -->
 <tr>
+    <!-- BEGIN phone_item_tpl -->
     <td>
-        <!-- BEGIN home_phone_item_tpl -->
-        <p class="boxtext">{intl-home_phone}:</p>
-        <input type="text" size="20" name="Phone[]" value="{home_phone}"/>
-        <input type="hidden" name="PhoneTypeID[]" value="{cv_home_phone_type_id}">
-        <input type="hidden" name="PhoneID[]" value="{cv_home_phone_id}">
-        <!-- END home_phone_item_tpl -->
+	<p class="boxtext">{intl-phone_pos} {phone_position}</p>
+	<p><select name="PhoneTypeID[]">
+	    <option value="-1">{intl-unknown_type}</option>
+	    <!-- BEGIN phone_item_select_tpl -->
+	    <option value="{type_id}" {selected}>{type_name}</option>
+	    <!-- END phone_item_select_tpl -->
+
+	    </select>
+        </p>
+        <input type="text" size="20" name="Phone[]" value="{phone_number}"/>
+        <input type="hidden" name="PhoneID[]" value="{phone_id}" /><br />
+	<input type="checkbox" name="PhoneDelete[]" value="{phone_index}"/>
+	<span class="boxtext">{intl-delete}</span><br />
     </td>
-    <td>
-        <!-- BEGIN work_phone_item_tpl -->
-        <p class="boxtext">{intl-work_phone}:</p>
-        <input type="text" size="20" name="Phone[]" value="{work_phone}"/>
-        <input type="hidden" name="PhoneTypeID[]" value="{cv_work_phone_type_id}">
-        <input type="hidden" name="PhoneID[]" value="{cv_work_phone_id}">
-        <!-- END work_phone_item_tpl -->
-    </td>
-    <td>
-        <!-- BEGIN mobile_phone_item_tpl -->
-        <p class="boxtext">{intl-mobile_phone}:</p>
-        <input type="text" size="20" name="Phone[]" value="{mobile_phone}"/>
-        <input type="hidden" name="PhoneTypeID[]" value="{cv_mobile_phone_type_id}">
-        <input type="hidden" name="PhoneID[]" value="{cv_mobile_phone_id}">
-        <!-- END mobile_phone_item_tpl -->
-    </td>
+    <!-- END phone_item_tpl -->
 </tr>
+<!-- END phone_table_item_tpl -->
 </table>
 
 <h2>{intl-online_headline}</h2><br />
 <table width="100%" cellpadding="0" cellspacing="0" border="0">
+<!-- BEGIN online_table_item_tpl -->
 <tr>
+    <!-- BEGIN online_item_tpl -->
     <td>
-        <!-- BEGIN email_item_tpl -->
-        <p class="boxtext">{intl-email}:</p>
-        <input type="text" size="20" name="Online[]" value="{email}"/>
-        <input type="hidden" name="URLType[]" value="mailto">
-        <input type="hidden" name="OnlineTypeID[]" value="{cv_email_online_type_id}">
-        <input type="hidden" name="OnlineID[]" value="{cv_email_online_id}">
-        <!-- END email_item_tpl -->
+	<p class="boxtext">{intl-online_pos} {online_position}</p>
+	<p><select name="OnlineTypeID[]">
+	    <option value="-1">{intl-unknown_type}</option>
+	    <!-- BEGIN online_item_select_tpl -->
+	    <option value="{type_id}" {selected}>{type_name}</option>
+	    <!-- END online_item_select_tpl -->
+
+	    </select>
+        </p>
+        <input type="text" size="20" name="Online[]" value="{online_value}"/>
+        <input type="hidden" name="OnlineID[]" value="{online_id}"><br />
+	<input type="checkbox" name="OnlineDelete[]" value="{online_index}"/>
+	<span class="boxtext">{intl-delete}</span><br />
     </td>
-    <td>
-        <!-- BEGIN web_item_tpl -->
-        <p class="boxtext">{intl-web}:</p>
-        <input type="text" size="20" name="Online[]" value="{web}"/>
-        <input type="hidden" name="URLType[]" value="http">
-        <input type="hidden" name="OnlineTypeID[]" value="{cv_web_online_type_id}">
-        <input type="hidden" name="OnlineID[]" value="{cv_web_online_id}">
-        <!-- END web_item_tpl -->
-    </td>
+    <!-- END online_item_tpl -->
 </tr>
+<!-- END online_table_item_tpl -->
 </table>
 
-<!-- BEGIN password_item_tpl -->
-<h2>{intl-password_headline}</h2>
+<!-- BEGIN project_item_tpl -->
+<h2>{intl-project_headline}</h2>
 <table width="100%" cellpadding="0" cellspacing="0" border="0">
-<tr>
-    <td width="50%">
-        <p class="boxtext">{intl-user_name}:</p>
-        <input type="password" size="20" name="LoginName" value="{user_name}"/>
-    </td>
-    <td width="50%">
-        &nbsp;
-    </td>
-</tr>
-<tr>
-    <td>
-        <p class="boxtext">{intl-password}:</p>
-        <input type="password" size="20" name="Password" value="{old_password}"/>
-    </td>
-    <td>
-        <p class="boxtext">{intl-repeat_password}:</p>
-        <input type="password" size="20" name="PasswordRepeat" value=""/>
-    </td>
-</tr>
+    <tr>
+	    <td width="1%" valign="top">
+	            <p class="boxtext">{intl-contact}:</p>
+		    <select size="10" name="ContactID" />
+		    <!-- BEGIN contact_item_select_tpl -->
+		    <option value="{type_id}" {selected}>{type_lastname}, {type_firstname}</option>
+		    <!-- END contact_item_select_tpl -->
+		    </select>
+	    </td>
+	    <td width="1%" valign="top">
+	            <p class="boxtext">{intl-contact_group}:</p>
+		    <p>
+		    <select name="ContactGroupID" />
+		    <option value="-1">{intl-group_all}</option>
+		    <!-- BEGIN contact_group_item_select_tpl -->
+		    <option value="{type_id}" {selected}>{type_name}</option>
+		    <!-- END contact_group_item_select_tpl -->
+		    </select>
+		    </p>
+		    <input type="submit" name="RefreshUsers" value="{intl-refresh}">
+	    </td>
+
+	    <td width="1%" valign="top">
+	            <p class="boxtext">{intl-state}:</p>
+		    <select name="ProjectID" />
+		    <option value="-1">{intl-no_state}</option>
+		    <!-- BEGIN project_item_select_tpl -->
+		    <option value="{type_id}" {selected}>{type_name}</option>
+		    <!-- END project_item_select_tpl -->
+		    </select>
+	    </td>
+    </tr>
 </table>
 
+<!-- END project_item_tpl -->
 
-<!-- END password_item_tpl -->
+<input type="hidden" name="PersonID" value="{person_id}">
 
 <br />
 
-<!--  <hr noshade="noshade" size="4" /> -->
+<hr noshade="noshade" size="4" />
 
-<!--  <input class="stdbutton" name="addcv" type="submit" value="{intl-add_cv}" /> -->
-<!--  <input class="stdbutton" name="addimage" type="submit" value="{intl-add_image}" /> -->
+<table cellpadding="0" cellspacing="0" border="0">
+<tr>
+	<td>
+	<input type="submit" name="NewAddress" value="{intl-new_address}">
+	</td>
+	<td>
+	<input type="submit" name="NewPhone" value="{intl-new_phone}">
+	</td>
+	<td>
+	<input type="submit" name="NewOnline" value="{intl-new_online}">
+	</td>
+	<td>
+	<input type="submit" name="DeleteMarked" value="{intl-delete_marked}">
+	</td>
+</tr>
+</table>
 
 <hr noshade="noshade" size="4" />
 
 <table cellpadding="0" cellspacing="0" border="0">
 <tr>
     <td>
-	<input class="okbutton" type="submit" value="{intl-ok}" />
-	</form>
+	<input class="okbutton" type="submit" name="OK" value="{intl-ok}" />
 	</td>
 	<td>&nbsp;</td>
 	<td>
-	<form method="post" action="/contact/person/list/">
 	<input class="okbutton" type="submit" name="Back" value="{intl-back}">
-	</form>
 	</td>
 </tr>
 </table>
 
+</form>
