@@ -40,6 +40,15 @@ h2
 	text-decoration : none;
 }
 
+h3 
+{
+	font-family: Verdana, Arial, Helvetica, Swiss, Futura, sans-serif;	
+	font-weight: bold;
+	font-size: 13px;
+	color: #000000;
+	text-decoration : none;
+}
+
 .listheadline 
 {
 	font-family: Verdana, Arial, Helvetica, Swiss, Futura, sans-serif;	
@@ -62,15 +71,6 @@ h2
 	text-decoration : underline;
 }
 
-h3 
-{
-	font-family: Verdana, Arial, Helvetica, Swiss, Futura, sans-serif;	
-	font-weight: bold;
-	font-size: 13px;
-	color: #000000;
-	text-decoration : none;
-}
-
 a 
 {
 	font-family: Verdana, Arial, Helvetica, Swiss, Futura, sans-serif;
@@ -78,16 +78,17 @@ a
 	color : #000000;
 }
 
-.small
+a:hover 
 {
-	font-size: 10px;
-	font-weight: normal;
+	color: #404040;
+	text-decoration: underline;
 }
 
-.smallbold 
+.path 
 {
-	font-size: 10px;
+	font-size: 13px;
 	font-weight: bold;
+	text-decoration: none;
 }
 
 .menu 
@@ -118,22 +119,22 @@ a
 	text-align: center;
 }
 
-.spacer
+.menusubhead
 {
-	padding-top: 8px;
-	padding-bottom: 8px;
+	font-size: 13px;
+	color: #ffffff;
+	font-weight: bold;
+	text-align: left;
 }
-
 .menuspacer
 {
 	font-size: 2px;
 }
 
-.path 
+.spacer
 {
-	font-size: 13px;
-	font-weight: bold;
-	text-decoration: none;
+	padding-top: 8px;
+	padding-bottom: 8px;
 }
 
 .byline 
@@ -145,6 +146,18 @@ a
 {
 	font-weight: bold;
 	margin-bottom: 4px;
+}
+
+.small
+{
+	font-size: 10px;
+	font-weight: normal;
+}
+
+.smallbold 
+{
+	font-size: 10px;
+	font-weight: bold;
 }
 
 .list
@@ -250,12 +263,6 @@ textarea
 hr
 {
 	color: #777777;
-}
-
-a:hover 
-{
-	color: #404040;
-	text-decoration: underline;
 }
 
 .pictext 
