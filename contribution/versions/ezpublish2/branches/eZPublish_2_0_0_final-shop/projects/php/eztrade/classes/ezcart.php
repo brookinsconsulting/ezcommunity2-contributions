@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezcart.php,v 1.14 2001/03/12 13:07:53 bf Exp $
+// $Id: ezcart.php,v 1.14.2.1 2001/03/21 09:07:55 pkej Exp $
 //
 // Definition of eZCart class
 //
@@ -276,13 +276,16 @@ class eZCart
        {
            $product =& $item->product();
            $shippingGroup =& $product->shippingGroup();
-           $values =& $shippingGroup->startAddValue( $shippingType );
-           
-           for ( $i=0; $i<$item->count(); $i++  )
+           if ( $shippingGroup )
            {
-               $ShippingCostValues[] = $values;
-
-           }
+               $values =& $shippingGroup->startAddValue( $shippingType );
+           
+               for ( $i=0; $i<$item->count(); $i++  )
+               {
+                   $ShippingCostValues[] = $values;
+                   
+               }
+           }           
        }
 
        
