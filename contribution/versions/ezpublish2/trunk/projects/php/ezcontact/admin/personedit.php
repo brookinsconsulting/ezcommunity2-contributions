@@ -28,6 +28,13 @@ else
     $item_id = $PersonID;
 }
 
+if ( isset( $ListConsultation ) )
+{
+    include_once( "classes/ezhttptool.php" );
+    eZHTTPTool::header( "Location: /contact/consultation/$item_type/list/$item_id" );
+    exit;
+}
+
 if ( isset( $NewConsultation ) )
 {
     include_once( "classes/ezhttptool.php" );
