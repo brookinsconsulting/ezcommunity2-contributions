@@ -925,3 +925,5 @@ CREATE TABLE eZTrade_ProductPermission (
   KEY ProductPermissionWritePermission(WritePermission),
   KEY ProductPermissionReadPermission(ReadPermission)
 ) TYPE=MyISAM;
+
+alter table eZAddress_Address add Name varchar(30);
