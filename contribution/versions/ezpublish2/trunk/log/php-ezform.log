@@ -785,3 +785,56 @@ Maintainer(s) : pkej@ez.no
       classes/ezformelement.php
       classes/ezformrenderer.php: several bugfixes
 
+
+Module : ezform
+Repository path : /home/cvsroot/projects/php/ezform
+Maintainer(s) : pkej@ez.no
+2001-12-21  Jo Henrik Endrerud  <jhe@ez.no>
+
+    * classes/ezformelement.php: merry x-mas
+
+    * admin/pageedit.php
+      admin/templates/standard/formrenderer.tpl
+      admin/templates/standard/pageedit.tpl: fixed huge bugs, merry x-mas
+
+    * admin/pageedit.php: fixed small bug
+
+2001-12-21  Bjoern Reiten  <br@ez.no>
+
+    * admin/intl/en_GB/pageedit.php.ini
+      admin/pageedit.php
+      admin/templates/standard/pageedit.tpl
+      classes/ezformelement.php: added updates ...
+
+2001-12-21  Jo Henrik Endrerud  <jhe@ez.no>
+
+    * classes/ezformrenderer.php: fixed goto page
+
+    * admin/pageedit.php: fixed small bug
+
+    * admin/intl/en_GB/form.php.ini
+      admin/intl/no_NO/form.php.ini
+      admin/pageedit.php
+      admin/templates/standard/formrenderer.tpl
+      classes/ezform.php
+      classes/ezformelementnumerical.php
+      classes/ezformrenderer.php
+      user/formview.php: several fixes
+
+
+Module : ezform
+Repository path : /home/cvsroot/projects/php/ezform
+Maintainer(s) : pkej@ez.no
+2001-12-22  Jo Henrik Endrerud  <jhe@ez.no>
+
+    * classes/ezformrenderer.php: fixed "" = 0 in numerical
+
+    * admin/pageedit.php
+      classes/ezformpage.php
+      classes/ezformrenderer.php: fixed bugs
+
+    * admin/intl/no_NO/pageedit.php.ini
+      admin/pageedit.php
+      classes/ezformelement.php
+      classes/ezformrenderer.php: fixed several bugs
+

@@ -363,3 +363,29 @@ Maintainer(s) : jhe@ez.no
     * admin/templates/standard/typelist.tpl:
     fixed missing {www_dir} in templates
 
+
+Module : ezcalendar
+Repository path : /home/cvsroot/projects/php/ezcalendar
+Maintainer(s) : jhe@ez.no
+2001-12-21  Gunnstein Lye  <gl@ez.no>
+
+    * admin/intl/pt_PT/menubox.php.ini
+      admin/intl/pt_PT/typeedit.php.ini
+      admin/intl/pt_PT/typelist.php.ini
+      user/intl/pt_PT/appointmentedit.php.ini
+      user/intl/pt_PT/appointmentview.php.ini
+      user/intl/pt_PT/dayview.php.ini
+      user/intl/pt_PT/menubox.php.ini
+      user/intl/pt_PT/monthview.php.ini
+      user/intl/pt_PT/trustees.php.ini
+      user/intl/pt_PT/yearview.php.ini: pt_PT (Portuguese) version 2.2.2
+
+
+Module : ezcalendar
+Repository path : /home/cvsroot/projects/php/ezcalendar
+Maintainer(s) : jhe@ez.no
+2001-12-22  Kai Duebbert  <kai@duebbert.de>
+
+    * admin/typeedit.php
+      admin/typelist.php: fixed wrong use of header and ini file
+
