@@ -1,7 +1,19 @@
+<table width="100%" border="0">
+<tr>
+	<td valign="bottom">
+	<td>
+	<h1>{intl-files}
+	</td>
+	<td align="right">
+	<form action="/filemanager/search/" method="post">
+	<input type="text" name="SearchText" size="12" />	
+	<input class="stdbutton" type="submit" value="{intl-search}" />
+	</form>	
+	</td>
+</tr>
+</table>
+
 <form method="post" action="/filemanager/new/" enctype="multipart/form-data">
-
-<h1>{intl-files}</h1>
-
 <!-- BEGIN current_folder_tpl -->
 <!--
 <table width="100%" border="0" cellspacing="0" cellpadding="4" >
@@ -14,7 +26,6 @@
    {current_folder_description}
    </p>
    </td>
-</tr>
 </table>
 -->
 <!-- END current_folder_tpl -->

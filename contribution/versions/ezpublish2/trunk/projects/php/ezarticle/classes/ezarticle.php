@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezarticle.php,v 1.81 2001/05/08 07:38:27 fh Exp $
+// $Id: ezarticle.php,v 1.82 2001/05/10 11:35:16 ce Exp $
 //
 // Definition of eZArticle class
 //
@@ -1034,7 +1034,7 @@ class eZArticle
     /*!
       Does a search in the article archive.
     */
-    function search( $queryText, $sortMode=time, $fetchNonPublished=true, $offset=0, $limit=10 )
+    function &search( &$queryText, $sortMode=time, $fetchNonPublished=true, $offset=0, $limit=10 )
     {
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezvirtualfile.php,v 1.28 2001/05/05 11:16:03 bf Exp $
+// $Id: ezvirtualfile.php,v 1.29 2001/05/10 11:35:16 ce Exp $
 //
 // Definition of eZVirtualFile class
 //
@@ -201,7 +201,52 @@ class eZVirtualfile
         return $return_array;
     }
 
+    /*!
+      Does a search in the filemanager.
 
+      Default limit is set to 30.
+     */
+    function &search( &$queryText, $offset=0, $limit=30 )
+    {
+        $db =& eZDB::globalDatabase();
+        $returnArray = array();
+
+        $query = new eZQuery( array( "Name", "Description", "OriginalFileName" ), $queryText );
+
+        $queryString = ( "SELECT ID
+                        FROM eZFileManager_File
+                        WHERE (" . $query->buildQuery() . ")
+                        ORDER By Name
+                        LIMIT $offset, $limit" );
+
+
+        $db->array_query( $fileArray, $queryString );
+
+        foreach ( $fileArray as $file )
+        {
+            $returnArray[] = new eZVirtualFile( $file["ID"] );
+        }
+        return $returnArray;
+    }
+
+    /*!
+      Returns the total count of a query.
+     */
+    function searchCount( &$queryText )
+    {
+        $db =& eZDB::globalDatabase();
+        $ret = false;
+
+        $query = new eZQuery( array( "Name", "Description", "OriginalFileName" ), $queryText );
+
+        $queryString = ( "SELECT COUNT(ID) as Count
+                        FROM eZFileManager_File
+                        WHERE (" . $query->buildQuery() . ")" );
+
+        $db->query_single( $result, $queryString );
+        $ret = $result["Count"];
+        return $ret;
+    }
     
     /*!
       Returns the id of the virtual file.

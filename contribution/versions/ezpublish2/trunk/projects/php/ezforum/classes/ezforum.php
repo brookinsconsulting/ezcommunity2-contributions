@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezforum.php,v 1.31 2001/05/09 09:26:02 ce Exp $
+// $Id: ezforum.php,v 1.32 2001/05/10 11:35:16 ce Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <11-Sep-2000 22:10:06 bf>
@@ -195,7 +195,7 @@ class eZForum
     /*!
       Returns the messages in a forum.
     */
-    function messages( )
+    function &messages( )
     {
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
@@ -219,7 +219,7 @@ class eZForum
     /*!
       Returns the messages in every forum matching the query string.
     */
-    function search( $query, $offset, $limit )
+    function &search( &$query, $offset, $limit )
     {
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
@@ -247,7 +247,7 @@ class eZForum
     /*!
       Returns the total count of a query.
     */
-    function getQueryCount( $query  )
+    function &getQueryCount( $query  )
     {
         $db =& eZDB::globalDatabase();
         $message_array = 0;

@@ -106,6 +106,19 @@ switch ( $url_array[2] )
         }
     }
     break;
+
+    case "search":
+    {
+        if ( $url_array[3] == "parent" )
+        {
+            $SearchText = urldecode( $url_array[4] );
+            $Offset = $url_array[5];
+        }
+        
+        include( "ezfilemanager/user/search.php" );
+    }
+    break;
+    
     
     default:
     {
