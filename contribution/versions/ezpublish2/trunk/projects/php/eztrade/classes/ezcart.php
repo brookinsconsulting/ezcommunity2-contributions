@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezcart.php,v 1.16 2001/05/25 16:12:42 jb Exp $
+// $Id: ezcart.php,v 1.17 2001/06/11 09:45:57 descala Exp $
 //
 // Definition of eZCart class
 //
@@ -106,7 +106,7 @@ class eZCart
 		                         SessionID='$this->SessionID'
                                  " );
 
-            $this->ID = mysql_insert_id();
+            $this->ID = $this->Database->insertID();
 
             $this->State_ = "Coherent";
         }

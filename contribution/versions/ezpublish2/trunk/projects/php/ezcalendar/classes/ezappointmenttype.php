@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezappointmenttype.php,v 1.7 2001/05/05 11:16:03 bf Exp $
+// $Id: ezappointmenttype.php,v 1.8 2001/06/11 09:47:38 descala Exp $
 //
 // Definition of eZAppointmentType class
 //
@@ -74,7 +74,7 @@ class eZAppointmentType
 		                         Name='$this->Name',
                                  Description='$this->Description',
                                  ParentID='$this->ParentID'" );
-            $this->ID = mysql_insert_id();
+            $this->ID = $this->Database->insertID();
         }
         else
         {
