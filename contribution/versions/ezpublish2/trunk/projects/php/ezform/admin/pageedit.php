@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: pageedit.php,v 1.7 2001/12/17 14:18:21 br Exp $
+// $Id: pageedit.php,v 1.8 2001/12/17 17:04:54 br Exp $
 //
 // Definition of ||| class
 //
@@ -107,16 +107,16 @@ $page = new eZFormPage( $PageID );
 if ( $Action == "up" )
 {
     $element = new eZFormElement( $ElementID );
-    $form->moveUp( $element );
-    eZHTTPTool::header( "Location: /form/form/edit/$FormID/" );
+    $page->moveElementUp( $element );
+    eZHTTPTool::header( "Location: /form/form/pageedit/$FormID/$PageID" );
     exit();
 }
 
 if ( $Action == "down" )
 {
     $element = new eZFormElement( $ElementID );
-    $form->moveDown( $element );
-    eZHTTPTool::header( "Location: /form/form/edit/$FormID/" );
+    $page->moveElementDown( $element );
+    eZHTTPTool::header( "Location: /form/form/pageedit/$FormID/$PageID" );
     exit();
 }
 
@@ -269,7 +269,6 @@ if ( $page->numberOfElements() == 0 )
 }
 
 
-// ****************** BEGIN Elements ******************
 
 $elements = $page->pageElements();
 $count = $page->numberOfElements();
@@ -287,6 +286,10 @@ if ( $count > 0 )
         {
             $elementTemplate->set_var( "td_class", "bgdark" );
         }
+
+        // table is not used here, therefore set default to 0.
+        $elementTemplate->set_var( "table_id", "0" );
+        $elementTemplate->set_var( "element_page", "pageedit" );
         $elementTemplate->set_var( "element_name", $element->name() );
         $elementTemplate->set_var( "element_id", $element->id() );
         $elementTemplate->set_var( "element_size", $element->size() );
@@ -420,7 +423,6 @@ if ( count( $errorMessages ) > 0 && !isSet( $NewElement ) && !isSet( $DeleteSele
     $elementTemplate->parse( "error_list", "error_list_tpl" );
 }
 
-// ****************** END Elements ******************
 
 $elementTemplate->setAllStrings();
 $elementListBody = $elementTemplate->parse( $target, "elementlist_tpl" );

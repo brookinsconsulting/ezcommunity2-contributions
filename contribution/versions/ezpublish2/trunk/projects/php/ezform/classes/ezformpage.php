@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezformpage.php,v 1.3 2001/12/17 11:30:42 jhe Exp $
+// $Id: ezformpage.php,v 1.4 2001/12/17 17:04:55 br Exp $
 //
 // Definition of ||| class
 //
@@ -342,6 +342,119 @@ class eZFormPage
             }
         }
     }
+
+
+    /*!
+      Moves this item up one step in the order list, this means that it will swap place with the item above.
+    */
+    function moveElementUp( $object )
+    {
+        if ( get_class( $object ) == "ezformelement" )
+        {
+            $db =& eZDB::globalDatabase();
+
+            $formID = $this->id();
+            $elementID = $object->id();
+            
+            $db->query_single( $qry, "SELECT Placement FROM eZForm_PageElementDict
+                                      WHERE ElementID = '$elementID' AND FormID = '$formID' ORDER BY Placement DESC",
+                                      array( "Limit" => 1, "Offset" => 0) );
+
+            $elementPlacement = $qry[$db->fieldName( "Placement" )];
+
+            $db->query_single( $qry, "SELECT min( $db->fieldName( \"Placement\" ) ) as Placement
+                                      FROM eZForm_PageElementDict WHERE FormID='$formID'" );
+            $min =& $qry[$db->fieldName( "Placement" )];
+
+            if ( $min == $elementPlacement )
+            {
+                $db->query_single( $qry, "SELECT max($db->fieldName( \"Placement\" ) ) as Placement
+                                          FROM eZForm_PageElementDict WHERE FormID='$formID'" );
+                
+                $newOrder =& $qry[$db->fieldName( "Placement" )];
+                
+                $db->query_single( $qry, "SELECT ElementID FROM eZForm_PageElementDict
+                                          WHERE FormID='$formID' AND Placement='$newOrder'" );
+                
+                $oldElementID =& $qry[$db->fieldName( "ElementID" )];
+            }
+            else
+            {
+                $db->query_single( $qry, "SELECT FormID, ElementID, Placement FROM eZForm_PageElementDict
+                                          WHERE Placement < '$elementPlacement' AND FormID='$formID'
+                                          ORDER BY Placement DESC",
+                                          array( "Limit" => 1, "Offset" => 0 ) );
+
+                $newOrder = $qry[$db->fieldName( "Placement" )];
+                $oldElementID = $qry[$db->fieldName( "ElementID" )];
+            }
+
+            $res[] = $db->query( "UPDATE eZForm_PageElementDict SET Placement='$newOrder'
+                                 WHERE ElementID='$elementID' AND FormID='$formID'" );
+                
+            $res[] = $db->query( "UPDATE eZForm_PageElementDict SET Placement='$elementPlacement'
+                                 WHERE ElementID='$oldElementID' AND FormID='$formID'" );
+            eZDB::finish( $res, $db );
+        }
+    }
+
+    /*!
+      Moves this item down one step in the order list, this means that it will swap place with the item below.
+    */
+    function moveElementDown( $object )
+    {
+        if ( get_class( $object ) == "ezformelement" )
+        {
+            $db =& eZDB::globalDatabase();
+            $db->begin();
+            
+            $formID = $this->id();
+            $elementID = $object->id();
+            
+            $db->query_single( $qry, "SELECT Placement FROM eZForm_PageElementDict
+                                      WHERE ElementID = '$elementID' AND FormID = '$formID' ORDER BY Placement DESC",
+                                      array( "Limit" => 1, "Offset" => 0 ) );
+
+            $elementPlacement = $qry[$db->fieldName( "Placement" )];
+
+            $db->query_single( $qry, "SELECT max($db->fieldName( \"Placement\" )) as Placement
+                                      FROM eZForm_PageElementDict WHERE FormID='$formID'" );
+            
+            $max =& $qry[$db->fieldName( "Placement" )];
+
+            if ( $max == $elementPlacement )
+            {
+                $db->query_single( $qry, "SELECT min($db->fieldName( \"Placement\" ) ) as Placement
+                                          FROM eZForm_PageElementDict WHERE FormID='$formID'" );
+                
+                $newOrder =& $qry[$db->fieldName( "Placement" )];
+                
+                $db->query_single( $qry, "SELECT ElementID FROM eZForm_PageElementDict
+                                          WHERE FormID='$formID' AND Placement='$newOrder'" );
+                
+                $oldElementID =& $qry[$db->fieldName( "ElementID" )];
+            }
+            else
+            {
+                $db->query_single( $qry, "SELECT FormID, ElementID, Placement FROM eZForm_PageElementDict
+                                          WHERE Placement > '$elementPlacement' AND FormID='$formID' ORDER BY Placement",
+                                          array( "Limit" => 1, "Offset" => 0) );
+
+                $newOrder = $qry[$db->fieldName( "Placement" )];
+                $oldElementID = $qry[$db->fieldName( "ElementID" )];
+            }
+
+            $res[] = $db->query( "UPDATE eZForm_PageElementDict SET Placement='$newOrder'
+                                  WHERE ElementID='$elementID' AND FormID='$formID'" );
+            
+            $res[] = $db->query( "UPDATE eZForm_PageElementDict SET Placement='$elementPlacement'
+                                  WHERE ElementID='$oldElementID' AND FormID='$formID'" );
+            
+            eZDB::finish( $res, $db );
+        }
+    }
+
+    
 
     /*!
       Set the name for the page.
