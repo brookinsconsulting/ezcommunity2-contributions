@@ -1,9 +1,9 @@
 <?
 // 
-// $Id: bugpreview.php,v 1.2 2000/12/04 10:47:52 bf-cvs Exp $
+// $Id: bugview.php,v 1.1 2000/12/04 10:47:56 bf-cvs Exp $
 //
 // Bård Farstad <bf@ez.no>
-// Created on: <03-Dec-2000 18:56:58 bf>
+// Created on: <04-Dec-2000 11:44:31 bf>
 //
 // This source file is part of eZ publish, publishing software.
 // Copyright (C) 1999-2000 eZ systems as
@@ -40,12 +40,12 @@ include_once( "ezbug/classes/ezbugpriority.php" );
 include_once( "ezbug/classes/ezbugstatus.php" );
 include_once( "ezbug/classes/ezbuglog.php" );
 
-$t = new eZTemplate( "ezbug/admin/" . $ini->read_var( "eZBugMain", "AdminTemplateDir" ),
-                     "ezbug/admin/intl", $Language, "bugpreview.php" );
+$t = new eZTemplate( "ezbug/user/" . $ini->read_var( "eZBugMain", "TemplateDir" ),
+                     "ezbug/user/intl", $Language, "bugview.php" );
 $t->setAllStrings();
 
 $t->set_file( array(
-    "bug_edit_tpl" => "bugpreview.tpl"
+    "bug_edit_tpl" => "bugview.tpl"
     ) );
 
 

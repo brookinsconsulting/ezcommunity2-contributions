@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: bugedit.php,v 1.5 2000/12/03 18:37:28 bf-cvs Exp $
+// $Id: bugedit.php,v 1.6 2000/12/04 10:47:52 bf-cvs Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <28-Nov-2000 19:45:35 bf>
@@ -103,14 +103,19 @@ if ( $Action == "Update" )
             $bug->setStatus( $status );
             
             if ( $IsClosed == 'on' )
+            {
                 $bug->setIsClosed( true );
+            }
             else
+            {
                 $bug->setIsClosed( false );
+            }
+
 
             $bug->removeFromModules();
             $bug->removeFromCategories();
             $bug->store();
-            
+
 
             $category->addBug( $bug );
             $module->addBug( $bug );
@@ -132,50 +137,6 @@ if ( $Action == "Update" )
     }
 }
 
-$category = new eZBugCategory();
-$module = new eZBugModule();
-$priority = new eZBugPriority();
-$status = new eZBugStatus();
-
-// list the categories
-$categories = $category->getAll();
-foreach ( $categories as $category )
-{
-    $t->set_var( "category_id", $category->id() );
-    $t->set_var( "category_name", $category->name() );
-
-    $t->parse( "category_item", "category_item_tpl", true );
-}
-
-// list the modules
-$modules = $module->getAll();
-foreach ( $modules as $module )
-{
-    $t->set_var( "module_id", $module->id() );
-    $t->set_var( "module_name", $module->name() );
-
-    $t->parse( "module_item", "module_item_tpl", true );
-}
-
-// list the priorities
-$priorities = $priority->getAll();
-foreach ( $priorities as $priority )
-{
-    $t->set_var( "priority_id", $priority->id() );
-    $t->set_var( "priority_name", $priority->name() );
-
-    $t->parse( "priority_item", "priority_item_tpl", true );
-}
-
-// list the statuses
-$statuses = $status->getAll();
-foreach ( $statuses as $status )
-{
-    $t->set_var( "status_id", $status->id() );
-    $t->set_var( "status_name", $status->name() );
-
-    $t->parse( "status_item", "status_item_tpl", true );
-}
 
 $t->set_var( "action_value", "Insert" );
 
@@ -193,6 +154,22 @@ if ( $Action == "Edit" )
     $bugLog = new eZBugLog();
     $logList = $bugLog->getByBug( $bug );
 
+    $cat =& $bug->category();
+    $categoryID = $cat->id();
+
+    $module =& $bug->module();
+    $moduleID = $module->id();
+
+    $pri =& $bug->priority();
+    $status =& $bug->status();
+
+    if ( $status )
+        $statusID = $status->id();
+
+    if ( $priority )
+        $priorityID = $priority->id();
+    
+    
     foreach ( $logList as $log )
     {
         $date =& $log->created();
@@ -205,6 +182,90 @@ if ( $Action == "Edit" )
         $t->parse( "log_item", "log_item_tpl", true );
     }
 }
+
+
+$category = new eZBugCategory();
+$module = new eZBugModule();
+$priority = new eZBugPriority();
+$status = new eZBugStatus();
+
+
+// list the categories
+$categories = $category->getAll();
+foreach ( $categories as $category )
+{
+    if ( $category->id() == $categoryID )
+    {
+        $t->set_var( "selected", "selected" );
+    }
+    else
+    {
+        $t->set_var( "selected", "" );
+    }
+    
+    $t->set_var( "category_id", $category->id() );
+    $t->set_var( "category_name", $category->name() );
+
+    $t->parse( "category_item", "category_item_tpl", true );
+}
+
+// list the modules
+$modules = $module->getAll();
+foreach ( $modules as $module )
+{
+    if ( $module->id() == $moduleID )
+    {
+        $t->set_var( "selected", "selected" );
+    }
+    else
+    {
+        $t->set_var( "selected", "" );
+    }
+
+    $t->set_var( "module_id", $module->id() );
+    $t->set_var( "module_name", $module->name() );
+
+    $t->parse( "module_item", "module_item_tpl", true );
+}
+
+// list the priorities
+$priorities = $priority->getAll();
+foreach ( $priorities as $priority )
+{
+    if ( $priority->id() == $priorityID )
+    {
+        $t->set_var( "selected", "selected" );
+    }
+    else
+    {
+        $t->set_var( "selected", "" );
+    }
+    
+    $t->set_var( "priority_id", $priority->id() );
+    $t->set_var( "priority_name", $priority->name() );
+
+    $t->parse( "priority_item", "priority_item_tpl", true );
+}
+
+// list the statuses
+$statuses = $status->getAll();
+foreach ( $statuses as $status )
+{
+    if ( $status->id() == $statusID )
+    {
+        $t->set_var( "selected", "selected" );
+    }
+    else
+    {
+        $t->set_var( "selected", "" );
+    }
+    
+    $t->set_var( "status_id", $status->id() );
+    $t->set_var( "status_name", $status->name() );
+
+    $t->parse( "status_item", "status_item_tpl", true );
+}
+
 
 $t->pparse( "output", "bug_edit_tpl" );
 

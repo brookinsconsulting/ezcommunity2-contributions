@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezbug.php,v 1.6 2000/12/03 18:37:29 bf-cvs Exp $
+// $Id: ezbug.php,v 1.7 2000/12/04 10:47:55 bf-cvs Exp $
 //
 // Definition of eZBug class
 //
@@ -559,9 +559,9 @@ class eZBug
 
         $this->dbInit();
         
-        $this->Database->query( $category_array, "DELETE
-                                                   FROM eZBug_BugCategoryLink
-                                                   WHERE BugID='$this->ID'" );
+        $this->Database->query( "DELETE
+                                 FROM eZBug_BugCategoryLink
+                                 WHERE BugID='$this->ID'" );
 
     }
 
@@ -575,11 +575,40 @@ class eZBug
 
         $this->dbInit();
         
-        $this->Database->query( $module_array, "DELETE
-                                                   FROM eZBug_BugModuleLink
-                                                   WHERE BugID='$this->ID'" );
+        $this->Database->query( "DELETE
+                                 FROM eZBug_BugModuleLink
+                                 WHERE BugID='$this->ID'" );
 
     }
+
+    /*!
+      Searches the bug database and returns the result as an array
+      of eZBug objects.
+      
+      Default limit is set to 25.
+    */
+    function search( $query, $offset=0, $limit=25 )
+    {
+        $this->dbInit();
+        $link_array = array();
+        $return_array = array();
+
+        $query = new eZQuery( array( "Name", "Description" ), $query );
+        
+        $query_str =  "SELECT ID FROM eZBug_Bug WHERE (" .
+             $query->buildQuery()  .
+             ") ORDER BY Name LIMIT $offset, $limit";
+
+        $this->Database->array_query( $bug_array, $query_str );
+        $ret = array();
+
+        foreach( $bug_array as $bugItem )
+        {
+            $ret[] = new eZBug( $bugItem["ID"] );
+        }
+        return $ret;
+    }
+    
     
     /*!
       Private function.

@@ -10,6 +10,12 @@ switch ( $url_array[2] )
     }
     break;
 
+    case "search" :        
+    {
+        include( "ezbug/admin/search.php" );
+    }
+    break;
+    
     case "bugpreview" :
     case "view" :        
     {
