@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: categoryedit.php,v 1.21 2001/09/16 20:05:43 fh Exp $
+// $Id: categoryedit.php,v 1.22 2001/09/16 20:34:45 fh Exp $
 //
 // Created on: <08-Jan-2001 11:13:29 ce>
 //
@@ -205,9 +205,9 @@ if ( $Action == "New" || $error )
 {
     $t->set_var( "action_value", "insert" );
     $t->set_var( "category_id", "" );
-    $t->set_var( "read_everybody", "selected" );
-    $t->set_var( "write_everybody", "selected" );
-    $t->set_var( "upload_everybody", "selected" );
+    $readGroupArrayID[0] = -1;
+    $writeGroupArrayID[0] = -1;
+    $uploadGroupArrayID[0] = -1;
 }
 
 // Insert the category values when editing.
@@ -242,7 +242,7 @@ foreach ( $groups as $group )
     $t->set_var( "is_write_selected1", "" );
     $t->set_var( "is_read_selected1", "" );
     $t->set_var( "is_upload_selected1", "" );
-    
+
     if( in_array( $group->id(), $readGroupArrayID ) )
     {
         $t->set_var( "is_read_selected1", "selected" );
