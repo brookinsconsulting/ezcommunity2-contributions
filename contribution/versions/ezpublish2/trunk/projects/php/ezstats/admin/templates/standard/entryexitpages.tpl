@@ -15,7 +15,7 @@
 </tr>
 
 <!-- BEGIN exit_page_tpl -->
-<tr>
+<tr class="{bg_color}">
 	<td>
 	{page_uri}
 	</td>
@@ -40,7 +40,7 @@
 </tr>
 
 <!-- BEGIN entry_page_tpl -->
-<tr>
+<tr class="{bg_color}">
 	<td>
 	{page_uri}
 	</td>

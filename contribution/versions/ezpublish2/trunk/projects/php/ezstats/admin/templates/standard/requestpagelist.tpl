@@ -15,7 +15,7 @@
 	</th>
 </tr>
 <!-- BEGIN request_tpl -->
-<tr>
+<tr class="{bg_color}">
 	<td>
 	<a target="_blank" href="http://{request_domain}{request_uri}">
 	{request_uri}</a>

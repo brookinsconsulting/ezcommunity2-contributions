@@ -40,6 +40,16 @@ switch ( $url_array[2] )
     }
     break;
 
+    case "browserlist" :
+    {
+        $ViewMode = $url_array[3];
+        $ViewLimit = $url_array[4];
+        $Offset = $url_array[5];
+
+        include( "ezstats/admin/browserlist.php" );
+    }
+    break;
+
     case "requestpagelist" :
     {
         $ViewMode = $url_array[3];
@@ -56,6 +66,16 @@ switch ( $url_array[2] )
         $Month = $url_array[4];
 
         include( "ezstats/admin/monthreport.php" );
+    }
+    break;
+
+    case "dayreport" :
+    {
+        $Year = $url_array[3];
+        $Month = $url_array[4];
+        $Day = $url_array[5];
+
+        include( "ezstats/admin/dayreport.php" );
     }
     break;
 

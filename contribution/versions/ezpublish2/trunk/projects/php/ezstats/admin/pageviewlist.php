@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: pageviewlist.php,v 1.3 2001/02/09 14:39:43 jb Exp $
+// $Id: pageviewlist.php,v 1.4 2001/02/09 17:09:39 jb Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <06-Jan-2001 17:11:01 bf>
@@ -58,14 +58,20 @@ $t->set_var( "item_limit", $ViewLimit );
 
 if ( count( $latest ) > 0 )
 {
+    $i = 0;
     foreach ( $latest as $pageview )
     {
+        if ( ( $i %2 ) == 0 )
+            $t->set_var( "bg_color", "bglight" );
+        else
+            $t->set_var( "bg_color", "bgdark" );
+
         $t->set_var( "remote_ip", $pageview->remoteIP() );
         $t->set_var( "remote_host_name", $pageview->remoteHostName() );
-
         $t->set_var( "request_page", $pageview->requestPage() );
         
         $t->parse( "page_view", "page_view_tpl", true );
+        $i++;
     }
 
     $t->parse( "page_view_list", "page_view_list_tpl" );

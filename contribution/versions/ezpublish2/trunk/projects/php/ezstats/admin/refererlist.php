@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: refererlist.php,v 1.4 2001/02/09 14:39:46 jb Exp $
+// $Id: refererlist.php,v 1.5 2001/02/09 17:09:40 jb Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <07-Jan-2001 16:13:21 bf>
@@ -61,14 +61,20 @@ $t->set_var( "exclude_domain", $ExcludeDomain );
 
 if ( count( $latest ) > 0 )
 {
+    $i = 0;
     foreach ( $latest as $referer )
     {
+        if ( ( $i %2 ) == 0 )
+            $t->set_var( "bg_color", "bglight" );
+        else
+            $t->set_var( "bg_color", "bgdark" );
+
         $t->set_var( "referer_domain", $referer["Domain"] );
         $t->set_var( "referer_uri", $referer["URI"] );
-        
         $t->set_var( "page_view_count", $referer["Count"] );
 
         $t->parse( "referer", "referer_tpl", true );
+        $i++;
     }
 
     $t->parse( "referer_list", "referer_list_tpl" );

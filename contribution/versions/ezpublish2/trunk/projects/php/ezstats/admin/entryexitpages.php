@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: entryexitpages.php,v 1.3 2001/01/22 14:43:01 jb Exp $
+// $Id: entryexitpages.php,v 1.4 2001/02/09 17:09:33 jb Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <12-Jan-2001 16:31:41 bf>
@@ -67,6 +67,11 @@ $ExitPageLimit = 20;
 $i=0;
 foreach ( $exitPageArray as $exitPage )
 {
+    if ( ( $i %2 ) == 0 )
+        $t->set_var( "bg_color", "bglight" );
+    else
+        $t->set_var( "bg_color", "bgdark" );
+
     $t->set_var( "page_uri", $pageView->requestPageByID( $exitPage["PageID"] ) );
     $t->set_var( "exit_count", $exitPage["Count"] );
 
@@ -95,6 +100,11 @@ $EntryPageLimit = 20;
 $i=0;
 foreach ( $entryPageArray as $entryPage )
 {
+    if ( ( $i %2 ) == 0 )
+        $t->set_var( "bg_color", "bglight" );
+    else
+        $t->set_var( "bg_color", "bgdark" );
+
     $t->set_var( "page_uri", $pageView->requestPageByID( $entryPage["PageID"] ) );
     $t->set_var( "entry_count", $entryPage["Count"] );
 

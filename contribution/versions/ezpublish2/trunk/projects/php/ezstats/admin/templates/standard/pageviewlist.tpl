@@ -18,7 +18,7 @@
 	</th>
 </tr>
 <!-- BEGIN page_view_tpl -->
-<tr>
+<tr class="{bg_color}">
 	<td>
 	{remote_ip}
 	</td>

@@ -18,7 +18,7 @@
 	</th>
 </tr>
 <!-- BEGIN visitor_tpl -->
-<tr>
+<tr class="{bg_color}">
 	<td>
 	{remote_ip}
 	</td>

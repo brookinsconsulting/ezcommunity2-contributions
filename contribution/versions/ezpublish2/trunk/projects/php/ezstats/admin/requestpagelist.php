@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: requestpagelist.php,v 1.3 2001/02/09 14:39:51 jb Exp $
+// $Id: requestpagelist.php,v 1.4 2001/02/09 17:09:42 jb Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <07-Jan-2001 16:25:31 bf>
@@ -67,15 +67,20 @@ $request_domain = preg_replace( "#^admin.#", "", $request_domain );
 
 if ( count( $latest ) > 0 )
 {
+    $i = 0;
     foreach ( $latest as $request )
     {
+        if ( ( $i %2 ) == 0 )
+            $t->set_var( "bg_color", "bglight" );
+        else
+            $t->set_var( "bg_color", "bgdark" );
+
         $t->set_var( "request_domain", $request_domain );
-        
         $t->set_var( "request_uri", $request["URI"] );
-        
         $t->set_var( "page_view_count", $request["Count"] );
 
         $t->parse( "request", "request_tpl", true );
+        $i++;
     }
 
     $t->parse( "request_list", "request_list_tpl" );

@@ -62,7 +62,12 @@
 	<table width="100%" cellspacing="0" cellpadding="0" border="0">
 	<tr>
 		<td width="50%">
+		<!-- BEGIN day_link_tpl -->
+		<b>{intl-day}:</b> <a href="/stats/dayreport/{this_year}/{this_month}/{current_day}">{current_day}</a>
+		<!-- END day_link_tpl -->
+		<!-- BEGIN no_day_link_tpl -->
 		<b>{intl-day}:</b> {current_day}
+		<!-- END no_day_link_tpl -->
 		</td>
 		<td align="right">
 		{page_view_count} {intl-pages} ({percent_count}%)

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: visitorlist.php,v 1.3 2001/02/09 14:39:53 jb Exp $
+// $Id: visitorlist.php,v 1.4 2001/02/09 17:09:44 jb Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <07-Jan-2001 12:56:58 bf>
@@ -58,14 +58,20 @@ $t->set_var( "item_limit", $ViewLimit );
 
 if ( count( $latest ) > 0 )
 {
+    $i = 0;
     foreach ( $latest as $visitor )
     {
+        if ( ( $i %2 ) == 0 )
+            $t->set_var( "bg_color", "bglight" );
+        else
+            $t->set_var( "bg_color", "bgdark" );
+
         $t->set_var( "remote_ip", $visitor["IP"] );
         $t->set_var( "remote_host_name", $visitor["HostName"] );
-        
         $t->set_var( "page_view_count", $visitor["Count"] );
 
         $t->parse( "visitor", "visitor_tpl", true );
+        $i++;
     }
 
     $t->parse( "visitor_list", "visitor_list_tpl" );

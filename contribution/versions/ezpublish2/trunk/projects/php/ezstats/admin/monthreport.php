@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: monthreport.php,v 1.4 2001/02/09 14:39:40 jb Exp $
+// $Id: monthreport.php,v 1.5 2001/02/09 17:09:37 jb Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <07-Jan-2001 14:47:04 bf>
@@ -57,6 +57,9 @@ $t->set_block( "month_report_tpl", "month_december_tpl", "month_december" );
 $t->set_block( "month_report_tpl", "result_list_tpl", "result_list" );
 $t->set_block( "result_list_tpl", "day_tpl", "day" );
 
+$t->set_block( "day_tpl", "day_link_tpl", "day_link" );
+$t->set_block( "day_tpl", "no_day_link_tpl", "no_day_link" );
+
 $t->set_block( "day_tpl", "percent_marker_tpl", "percent_marker" );
 $t->set_block( "day_tpl", "no_percent_marker_tpl", "no_percent_marker" );
 
@@ -89,6 +92,7 @@ if ( count( $monthReport ) > 0 )
             $maxCount = $count;
     }
 
+    $cur_date = new eZDate();
     $i=1;
     foreach ( $monthReport["Days"] as $day )
     {
@@ -133,6 +137,15 @@ if ( count( $monthReport ) > 0 )
         else
             $t->parse( "percent_marker", "percent_marker_tpl" );
 
+        $t->set_var( "day_link", "" );
+        $t->set_var( "no_day_link", "" );
+
+        $next_date = new eZDate( $Year, $Month, $i );
+        if ( $cur_date->isGreater( $next_date ) )
+            $t->parse( "no_day_link", "no_day_link_tpl" );
+        else
+            $t->parse( "day_link", "day_link_tpl" );
+        
         $t->parse( "day", "day_tpl", true );
         $i++;
     }
@@ -166,7 +179,7 @@ foreach( $months as $cur_month )
 
 $t->parse( $months[$Month], $months[$Month] . "_tpl" );
 
-//  $t->set_var( "this_month", $Month );
+$t->set_var( "this_month", $Month );
 $t->set_var( "this_year", $Year );
 
 $NextYear = $Year;
