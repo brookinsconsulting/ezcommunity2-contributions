@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: imageedit.php,v 1.21 2001/03/08 10:42:05 fh Exp $
+// $Id: imageedit.php,v 1.22 2001/03/08 21:26:29 fh Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <09-Jan-2001 10:45:44 ce>
@@ -444,7 +444,8 @@ foreach ( $groups as $group )
 // Make a category list
 foreach ( $categoryList as $categoryItem )
 {
-    if( eZObjectPermission::hasPermission( $categoryItem[0]->id(), "imagecatalogue_category", 'w' ) )
+    if( eZObjectPermission::hasPermission( $categoryItem[0]->id(), "imagecatalogue_category", 'w' )
+        || eZImageCategory::isOwner( eZUser::currentUser(), $categoryItem[0]->id() ) )
     {
         $t->set_var( "option_name", $categoryItem[0]->name() );
         $t->set_var( "option_value", $categoryItem[0]->id() );

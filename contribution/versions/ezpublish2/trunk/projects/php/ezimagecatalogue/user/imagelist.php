@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: imagelist.php,v 1.21 2001/03/08 12:28:42 jb Exp $
+// $Id: imagelist.php,v 1.22 2001/03/08 21:26:29 fh Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <10-Dec-2000 16:16:20 bf>
@@ -121,7 +121,8 @@ $category = new eZImageCategory( $CategoryID );
 
 $error = true;
 
-if ( eZObjectPermission::hasPermission( $category->id(), "imagecatalogue_category", "r", $user ) )
+if ( eZObjectPermission::hasPermission( $category->id(), "imagecatalogue_category", "r", $user )
+     || eZImageCategory::isOwner( $user, $CategoryID ) )
 {
     $error = false;
 }
@@ -171,13 +172,15 @@ foreach ( $categoryList as $categoryItem )
     $t->set_var( "category_write", "" );
 
     // Check if user have read permission
-    if ( eZObjectPermission::hasPermission( $categoryItem->id(), "imagecatalogue_category", "r", $user ) )
+    if ( eZObjectPermission::hasPermission( $categoryItem->id(), "imagecatalogue_category", "r", $user ) ||
+         eZImageCategory::isOwner( $user, $categoryItem->id()) )
     {
         $t->parse( "category_read", "category_read_tpl" );
     }
 
     // Check if user have write permission
-    if ( ( eZObjectPermission::hasPermission( $categoryItem->id(), "imagecatalogue_category", "w", $user ) ) && $user )
+    if ( ( eZObjectPermission::hasPermission( $categoryItem->id(), "imagecatalogue_category", "w", $user ) ) ||
+         eZImageCategory::isOwner( $user, $categoryItem->id() ) )
     {
         $t->parse( "category_write", "category_write_tpl" );
         $t->parse( "delete_categories_button", "delete_categories_button_tpl" );
@@ -262,7 +265,8 @@ foreach ( $imageList as $image )
     $t->set_var( "detail_read", "" );
     $can_read = false;
     $can_write = false;
-    if ( eZObjectPermission::hasPermission( $image->id(), "imagecatalogue_image", "r", $user ) )
+    if ( eZObjectPermission::hasPermission( $image->id(), "imagecatalogue_image", "r", $user ) ||
+         eZImage::isOwner( $user, $image->id() ) )
     {
         $can_read = true;
         if ( ( $i % 4 ) == 0 )
@@ -286,7 +290,8 @@ foreach ( $imageList as $image )
     }
 
     // Check if user have write permission
-    if ( ( eZObjectPermission::hasPermission( $image->id(), "imagecatalogue_image", "w", $user ) ) && $user )
+    if ( ( eZObjectPermission::hasPermission( $image->id(), "imagecatalogue_image", "w", $user ) ) ||
+         eZImage::isOwner( $user, $image->id() ) )
     {
         $can_write = true;
         if ( isSet ( $DetailView ) )

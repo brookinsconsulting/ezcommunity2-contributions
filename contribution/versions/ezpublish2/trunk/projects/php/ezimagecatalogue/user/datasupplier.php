@@ -3,6 +3,7 @@ include_once( "ezuser/classes/ezpermission.php" );
 include_once( "ezuser/classes/ezobjectpermission.php" );
 include_once( "classes/ezhttptool.php" );
 include_once( "ezuser/classes/ezuser.php" );
+include_once( "ezimagecatalogue/classes/ezimagecategory.php" );
 
 function writeAtAll()
 {
@@ -18,6 +19,7 @@ function writeAtAll()
     return true;
 }
 
+$user = eZUser::currentUser();
 switch ( $url_array[2] )
 {
     case "imageview" :
@@ -59,7 +61,9 @@ switch ( $url_array[2] )
             {
                 $ImageID = $url_array[4];
                 $Action = "Edit";
-                if( eZObjectPermission::hasPermission( $ImageID, "imagecatalogue_image", 'w' ) && writeAtAll() )
+                if( ( eZImage::isOwner( $user, $ImageID ) ||
+                     eZObjectPermission::hasPermission( $ImageID, "imagecatalogue_image", 'w' ) )
+                    && writeAtAll() )
                 {
                     include( "ezimagecatalogue/user/imageedit.php" );
                 }
@@ -73,10 +77,17 @@ switch ( $url_array[2] )
 
             case "update" :
             {
-                writeAtAll();
                 $ImageID = $url_array[4];
                 $Action = "Update";
-                include( "ezimagecatalogue/user/imageedit.php" );
+                if( ( eZImage::isOwner( $user, $ImageID ) ||
+                     eZObjectPermission::hasPermission( $ImageID, "imagecatalogue_image", 'w' ) )
+                    && writeAtAll() )
+                    include( "ezimagecatalogue/user/imageedit.php" );
+                else
+                {
+                    eZHTTPTool::header( "Location: /error/403" );
+                    exit();
+                }
             }
             break;
             default :
@@ -91,7 +102,14 @@ switch ( $url_array[2] )
     case "download" :
     {
         $ImageID = $url_array[3];
-        include( "ezimagecatalogue/user/filedownload.php" );
+        if( ( eZImage::isOwner( $user, $ImageID ) ||
+              eZObjectPermission::hasPermission( $ImageID, "imagecatalogue_image", 'r' ) ) )
+            include( "ezimagecatalogue/user/filedownload.php" );
+        else
+        {
+            eZHTTPTool::header( "Location: /error/404" );
+            exit();
+        }
     }
     break;
     
@@ -121,7 +139,9 @@ switch ( $url_array[2] )
             {
                 $Action = "Edit";
                 $CategoryID = $url_array[4];
-                if( eZObjectPermission::hasPermission( $CategoryID, "imagecatalogue_category", 'w' ) && writeAtAll() )
+                if( ( eZObjectPermission::hasPermission( $CategoryID, "imagecatalogue_category", 'w' ) ||
+                      eZImageCategory::isOwner( $user, $CategoryID ) )
+                    && writeAtAll() )
                 {
                     include( "ezimagecatalogue/user/categoryedit.php" );
                 }
@@ -137,13 +157,15 @@ switch ( $url_array[2] )
             {
                 $Action = "Update";
                 $CategoryID = $url_array[4];
-                if( eZObjectPermission::hasPermission( $CategoryID, "imagecatalogue_category", 'w' ) && writeAtAll() )
+                if( ( eZObjectPermission::hasPermission( $CategoryID, "imagecatalogue_category", 'w' ) ||
+                     eZImageCategory::isOwner( $user, $CategoryID ) )
+                    && writeAtAll() )
                 {
                     include( "ezimagecatalogue/user/categoryedit.php" );
                 }
                 else
                 {
-                    eZHTTPTool::header( "Location: /error/403" );
+                    eZHTTPTool::header( "Location: /error/403?Info=FUCK" );
                     exit();
                 }
 

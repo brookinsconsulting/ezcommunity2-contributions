@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezimage.php,v 1.37 2001/03/08 11:19:55 jb Exp $
+// $Id: ezimage.php,v 1.38 2001/03/08 21:26:29 fh Exp $
 //
 // Definition of eZImage class
 //
@@ -1114,6 +1114,26 @@ class eZImage
        $this->dbInit();
 
        $this->Database->query( "DELETE FROM eZImageCatalogue_ImageWriteGroupLink WHERE FolderID='$this->ID'" );
+    }
+
+    /*!
+      \Static
+      Returns true if the given user is the owner of the given object.
+      $user is either a userID or an eZUser.
+      $image is the ID of the image.
+     */
+    function isOwner( $user, $image )
+    {
+        if( get_class( $user ) != "ezuser" )
+            return false;
+        
+        $database =& eZDB::globalDatabase();
+        $database->query_single( $res, "SELECT UserID from eZImageCatalogue_Image WHERE ID='$image'");
+        $userID = $res[ "UserID" ];
+        if(  $userID == $user->id() )
+            return true;
+
+        return false;
     }
 
 

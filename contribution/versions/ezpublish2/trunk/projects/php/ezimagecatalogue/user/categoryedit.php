@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: categoryedit.php,v 1.15 2001/03/08 10:42:05 fh Exp $
+// $Id: categoryedit.php,v 1.16 2001/03/08 21:26:29 fh Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <08-Jan-2001 11:13:29 ce>
@@ -384,29 +384,33 @@ if ( count ( $categoryList ) == 0 )
 // Print out the categories.
 foreach ( $categoryList as $categoryItem )
 {
-    $t->set_var( "option_name", $categoryItem[0]->name() );
-    $t->set_var( "option_value", $categoryItem[0]->id() );
-
-    if ( $categoryItem[1] > 0 )
-        $t->set_var( "option_level", str_repeat( "&nbsp;", $categoryItem[1] ) );
-    else
-        $t->set_var( "option_level", "" );
-
-    $t->set_var( "is_selected", "" );
-
-    if ( $CurrentCategoryID != 0 )
+    if( eZObjectPermission::hasPermission( $categoryItem[0]->id(), "imagecatalogue_category", 'w' )
+        || eZImageCategory::isOwner( eZUser::currentUser(), $categoryItem[0]->id() ) )
     {
-        if ( $categoryItem[0]->id() == $CurrentCategoryID )
-        {
-            $t->set_var( "is_selected", "selected" );
-        }
+        $t->set_var( "option_name", $categoryItem[0]->name() );
+        $t->set_var( "option_value", $categoryItem[0]->id() );
+
+        if ( $categoryItem[1] > 0 )
+            $t->set_var( "option_level", str_repeat( "&nbsp;", $categoryItem[1] ) );
         else
+            $t->set_var( "option_level", "" );
+
+        $t->set_var( "is_selected", "" );
+
+        if ( $CurrentCategoryID != 0 )
         {
-            $t->set_var( "is_selected", "" );
+            if ( $categoryItem[0]->id() == $CurrentCategoryID )
+            {
+                $t->set_var( "is_selected", "selected" );
+            }
+            else
+            {
+                $t->set_var( "is_selected", "" );
+            }
         }
-    }
     
-    $t->parse( "value", "value_tpl", true );
+        $t->parse( "value", "value_tpl", true );
+    }
 }
 
 $t->pparse( "output", "category_edit_tpl" );

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezimagecategory.php,v 1.9 2001/03/08 10:42:05 fh Exp $
+// $Id: ezimagecategory.php,v 1.10 2001/03/08 21:26:29 fh Exp $
 //
 // Definition of eZImageCategory class
 //
@@ -333,6 +333,26 @@ class eZImageCategory
         }
         
         return $ret;
+    }
+
+    /*!
+      \Static
+      Returns true if the given user is the owner of the given object.
+      $user is either a userID or an eZUser.
+      $imagecategory is the ID of the image category.
+     */
+    function isOwner( $user, $imagecategory )
+    {
+        if( get_class( $user ) != "ezuser" )
+            return false;
+        
+        $database =& eZDB::globalDatabase();
+        $database->query_single( $res, "SELECT UserID from eZImageCatalogue_Category WHERE ID='$imagecategory'");
+        $userID = $res[ "UserID" ];
+        if(  $userID == $user->id() )
+            return true;
+
+        return false;
     }
 
 
