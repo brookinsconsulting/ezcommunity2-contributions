@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: cron.php,v 1.1 2001/09/24 07:43:29 jhe Exp $
+// $Id: cron.php,v 1.2 2001/11/02 06:55:59 br Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -41,6 +41,7 @@ $oldelements = array();
 $res = array();
 
 $db->array_query( $newelements, "SELECT COUNT(*), BrowserTypeID FROM eZStats_PageView WHERE Date < " . $timestamp . " GROUP BY BrowserTypeID" );
+
 foreach ( $newelements as $element )
 {
     $browser = array();
@@ -93,29 +94,32 @@ foreach ( $newelements as $element )
 // ReferURL archive
 
 $db->array_query( $newelements, "SELECT Date, RefererURLID FROM eZStats_PageView WHERE Date < " . $timestamp . " ORDER BY Date" );
-
 foreach ( $newelements as $element )
 {
     $refer = array();
     $db->array_query( $refer, "SELECT URI, Domain FROM eZStats_RefererURL WHERE ID=" . $element[$db->fieldName("RefererURLID")] );
-    $refername = $request[0][$db->fieldName("URI")];
-    $domain = $request[0][$db->fieldName("Domain")];
+    $refername = $refer[0][$db->fieldName("URI")];
+    $domain = $refer[0][$db->fieldName("Domain")];
+    
     $date = new eZDateTime();
     $date->setTimeStamp( $element[$db->fieldName("Date")] );
     $month = new eZDateTime( $date->year(), $date->month() );
+    
     $db->array_query( $oldelements, "SELECT * FROM eZStats_Archive_RefererURL WHERE URI='$refername' AND Domain='$domain' AND Month='". $month->timeStamp() . "'" );
+
     
     if ( count( $oldelements ) == 0 )
     {
         $db->lock( "eZStats_Archive_RefererURL" );
         $nextid = $db->nextID( "eZStats_Archive_RefererURL", "ID" );
-        $res[] = $db->query( "INSERT INTO eZStats_Archive_RefererURL (ID, URI, Domain, Month, Count) VALUES ('$nextid', '$requestname', '$domain', '" . $month->timeStamp() . "', '1')" );
+        $res[] = $db->query( "INSERT INTO eZStats_Archive_RefererURL (ID, URI, Domain, Month, Count) VALUES " .
+                             "('$nextid', '$requestname', '$domain', '" . $month->timeStamp() . "', '1')" );
         $db->unlock();
     }
     else
     {
         $count = $oldelements[0][$db->fieldName("Count")] + 1;
-        $res[] = $db->query( "UPDATE eZStats_Archive_RefererURL SET Count='$count' WHERE URI='$requestname' AND Domain='$domain' AND Month='" . $month->timeStamp() . "'" );
+        $res[] = $db->query( "UPDATE eZStats_Archive_RefererURL SET Count='$count' WHERE URI='$refername' AND Domain='$domain' AND Month='" . $month->timeStamp() . "'" );
     }
 }
 
@@ -126,16 +130,24 @@ $db->array_query( $newelements, "SELECT RemoteHostID FROM eZStats_PageView WHERE
 foreach ( $newelements as $element )
 {
     $remote = array();
-    $db->array_query( $remote, "SELECT IP, HostName FROM eZStats_Archive_RemoteHost WHERE ID=" . $element[$db->fieldName("RemoteHostID")] );
+    $db->array_query( $remote, "SELECT IP, HostName FROM eZStats_RemoteHost WHERE ID=" . $element[$db->fieldName("RemoteHostID")] );
+
     $remotename = $remote[0][$db->fieldName("IP")];
     $hostname = $remote[0][$db->fieldName("HostName")];
+
     $db->array_query( $oldelements, "SELECT * FROM eZStats_Archive_RemoteHost WHERE IP='$remotename' AND HostName='$hostname'" );
     
     if ( count( $oldelements ) == 0 )
     {
+        $remote_host_id = $element[$db->fieldName( "RemoteHostID" )];
+        $db->array_query( $remote_host, "SELECT * FROM eZStats_RemoteHost WHERE ID='$remote_host_id'" );
+        
         $db->lock( "eZStats_Archive_RemoteHost" );
         $nextid = $db->nextID( "eZStats_Archive_RemoteHost", "ID" );
-        $res[] = $db->query( "INSERT INTO eZStats_Archive_RemoteHost (ID, IP, HostName, Count) VALUES ('$nextid', '$remotename', '$hostname', '1')" );
+        
+        $res[] = $db->query( "INSERT INTO eZStats_Archive_RemoteHost (ID, IP, HostName, Count) VALUES ('$nextid', '" .
+                             $remote_host[0][$db->fieldName( "IP" )] . "', '" . 
+                             $remote_host[0][$db->fieldName( "HostName" )] . "', '1')" );
         $db->unlock();
     }
     else
@@ -151,23 +163,23 @@ $db->array_query( $newelements, "SELECT Date, UserID FROM eZStats_PageView WHERE
 
 foreach ( $newelements as $element )
 {
-    $user = $element[$db->fieldName("UserID")];
+    $userID = $element[$db->fieldName("UserID")];
     $date = new eZDateTime();
     $date->setTimeStamp( $element[$db->fieldName("Date")] );
     $month = new eZDateTime( $date->year(), $date->month() );
-    $db->array_query( $oldelements, "SELECT * FROM eZStats_Archive_Users WHERE UserID='$user' AND Month='". $month->timeStamp() . "'" );
+    $db->array_query( $oldelements, "SELECT * FROM eZStats_Archive_Users WHERE UserID='$userID' AND Month='". $month->timeStamp() . "'" );
     
     if ( count( $oldelements ) == 0 )
     {
         $db->lock( "eZStats_Archive_Users" );
         $nextid = $db->nextID( "eZStats_Archive_Users", "ID" );
-        $res[] = $db->query( "INSERT INTO eZStats_Archive_Users (ID, UserID, Month, Count) VALUES ('$nextid', '$user', '" . $month->timeStamp() . "', '1')" );
+        $res[] = $db->query( "INSERT INTO eZStats_Archive_Users (ID, UserID, Month, Count) VALUES ('$nextid', '$userID', '" . $month->timeStamp() . "', '1')" );
         $db->unlock();
     }
     else
     {
         $count = $oldelements[0][$db->fieldName("Count")] + 1;
-        $res[] = $db->query( "UPDATE eZStats_Archive_Users SET Count='$count' WHERE UserID='$user' AND Month='" . $month->timeStamp() . "'" );
+        $res[] = $db->query( "UPDATE eZStats_Archive_Users SET Count='$count' WHERE UserID='$userID' AND Month='" . $month->timeStamp() . "'" );
     }
 }
 

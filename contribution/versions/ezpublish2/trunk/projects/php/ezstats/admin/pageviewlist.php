@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: pageviewlist.php,v 1.10 2001/09/13 13:01:17 br Exp $
+// $Id: pageviewlist.php,v 1.11 2001/11/02 06:55:59 br Exp $
 //
 // Created on: <06-Jan-2001 17:11:01 bf>
 //
@@ -50,7 +50,9 @@ if ( !isset( $Offset ) or !is_numeric( $Offset ) )
     $Offset = 0;
 
 $latest =& eZPageViewQuery::latest( $ViewLimit, $Offset );
+
 $ItemCount = eZPageViewQuery::latestCount();
+$ItemCount = count( $latest );
 
 $t->set_var( "item_start", $Offset + 1 );
 $t->set_var( "item_end", $Offset + $ViewLimit );
