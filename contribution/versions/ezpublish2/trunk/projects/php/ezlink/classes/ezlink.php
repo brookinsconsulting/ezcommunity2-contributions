@@ -165,7 +165,7 @@ class eZLink
 
         if ( $limit != -1 )
         {
-              $query_str .= "  LIMIT $offset,$limit";
+//                $query_str .= "  LIMIT $offset,$limit";
         }
         
 //           print( $query_str . "<br>" );
