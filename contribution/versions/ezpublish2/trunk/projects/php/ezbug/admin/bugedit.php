@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: bugedit.php,v 1.38 2001/05/02 08:25:24 fh Exp $
+// $Id: bugedit.php,v 1.39 2001/05/07 15:09:28 fh Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <28-Nov-2000 19:45:35 bf>
@@ -191,7 +191,7 @@ if ( $Action == "Update" )
                 sendAssignedMail( $bug, $owner->email(), $ini, $Language );
             }
             
-            if ( $MailReporter == "on" )
+            if ( $MailReporter == "on" && $LogMessage != "" )
             {            
                 // send email notice to the reporter            
                 if ( $bug->user() )
