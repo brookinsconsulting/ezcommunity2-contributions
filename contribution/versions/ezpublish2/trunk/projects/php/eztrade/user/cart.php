@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: cart.php,v 1.37 2001/07/05 16:17:46 jhe Exp $
+// $Id: cart.php,v 1.38 2001/07/09 06:25:35 jhe Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <27-Sep-2000 11:57:49 bf>
@@ -403,7 +403,6 @@ foreach ( $items as $item )
     }
     else
     {
-        $priceArray = "";
         $priceArray = "";
         $options =& $product->options();
         if ( count ( $options ) == 1 )

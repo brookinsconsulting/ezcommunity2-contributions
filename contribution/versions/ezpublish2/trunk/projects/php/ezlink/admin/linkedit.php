@@ -1,5 +1,5 @@
-<?
-// $Id: linkedit.php,v 1.58 2001/07/03 12:11:07 jhe Exp $
+<?php
+// $Id: linkedit.php,v 1.59 2001/07/09 06:25:35 jhe Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <26-Oct-2000 14:58:57 ce>
@@ -562,9 +562,11 @@ if ( $Action == "AttributeList" )
     
     $t->parse( "no_image_item", "no_image_item_tpl" );
     $t->set_var( "image_item", "" );
-    
-    $LinkCategoryIDArray = $CategoryArray;
 
+    if ( isset( $CategoryArray ) )
+        $LinkCategoryIDArray = $CategoryArray;
+    else
+        $LinkCategoryIDArray = array();
 
     if ( $Accepted == true )
     {
@@ -606,7 +608,7 @@ foreach( $linkCategoryList as $linkCategoryItem )
         $t->set_var( "option_level", "" );
 
     $link_select_dict[ $linkCategoryItem[0]->id() ] = $i;
-    if ( in_array( $linkCategoryItem[0]->id(), $LinkCategoryIDArray ) and (  $LinkCategoryID != $linkCategoryItem[0]->id() ) )
+    if ( in_array( $linkCategoryItem[0]->id(), $LinkCategoryIDArray ) and ( $LinkCategoryID != $linkCategoryItem[0]->id() ) )
     {
         $t->set_var( "multiple_selected", "selected" );
         $i++;

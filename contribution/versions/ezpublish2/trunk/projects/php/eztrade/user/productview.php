@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: productview.php,v 1.48 2001/05/15 15:28:59 ce Exp $
+// $Id: productview.php,v 1.49 2001/07/09 06:25:35 jhe Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <24-Sep-2000 12:20:32 bf>
@@ -167,7 +167,6 @@ $t->set_var( "path", "" );
 foreach ( $pathArray as $path )
 {
     $t->set_var( "category_id", $path[0] );
-
     $t->set_var( "category_name", $path[1] );
     
     $t->parse( "path", "path_tpl", true );
