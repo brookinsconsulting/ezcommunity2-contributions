@@ -5,6 +5,20 @@ include_once( "classes/ezlocale.php" );
 include_once( "ezuser/classes/ezuser.php" );
 include_once( "classes/ezhttptool.php" );
 include_once( "ezmail/classes/ezmail.php" );
+include_once( "ezmail/classes/ezmailfolder.php" );
+
+if( isset( $Reply ) )
+{
+    $mail = new eZMail( $MailID );
+    $reply = $mail->copyMail();
+    $replyid = $reply->id();
+
+    $drafts = eZMailFolder::getSpecialFolder( DRAFTS );
+    $drafts->addMail( $mail );
+    
+    eZHTTPTool::header( "Location: /mail/mailedit/$replyid" );
+    exit();
+}
 
 if( isset( $Delete ) )
 {

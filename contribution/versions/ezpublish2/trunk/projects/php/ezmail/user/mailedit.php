@@ -92,7 +92,7 @@ if( $MailID != 0 && eZMail::isOwner( eZUser::currentUser(), $MailID ) ) // load 
     $t->set_var( "to_value", htmlspecialchars( $mail->to() ) );
     $t->set_var( "from_value", htmlspecialchars( $mail->from() ) );
     $t->set_var( "subject_value", htmlspecialchars( $mail->subject() ) );
-    $t->set_var( "mail_body", nl2br( htmlspecialchars( $mail->body() ) ) );
+    $t->set_var( "mail_body", htmlspecialchars( $mail->body() ) );
     $t->set_var( "cc_value", htmlspecialchars( $mail->cc() ) );
     $t->set_var( "bcc_value", htmlspecialchars( $mail->bcc() ) );
 

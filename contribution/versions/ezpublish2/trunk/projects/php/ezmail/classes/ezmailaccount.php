@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezmailaccount.php,v 1.10 2001/03/26 17:33:33 fh Exp $
+// $Id: ezmailaccount.php,v 1.11 2001/03/27 12:03:54 fh Exp $
 //
 // eZMailAccount class
 //
@@ -428,17 +428,19 @@ class eZMailAccount
                 
                 $mailstructure = imap_fetchstructure( $mbox, $i );
                 disectThisPart( $mailstructure, "1", $mbox, $i, $mail );
+                $mail->setSize( $mailstructure->bytes );
                 $mail->store();
 
                 $inbox->addMail( $mail );
+
+                if( $this->$DeleteFromServer == true )
+                    imap_delete( $mbox, $i );
             }
-            
         }
         
 //        $headers = imap_headers( $mbox );
 //        print("<pre>"); print_r( $headers ); print("</pre>" );
-
-        imap_close( $mbox );
+        imap_close( $mbox, CL_EXPUNGE );
     }
     
     

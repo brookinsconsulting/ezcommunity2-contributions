@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: maillist.php,v 1.9 2001/03/27 09:32:59 fh Exp $
+// $Id: maillist.php,v 1.10 2001/03/27 12:03:54 fh Exp $
 //
 // Frederik Holljen <fh@ez.no>
 // Created on: <19-Mar-2000 20:25:22 fh>
@@ -73,7 +73,8 @@ foreach( $mail as $mailItem )
     $t->set_var( "mail_id", $mailItem->id() );
     $t->set_var( "mail_subject", htmlspecialchars( $mailItem->subject() ) );
     $t->set_var( "mail_sender", htmlspecialchars( $mailItem->sender() ) );
-    $t->set_var( "mail_size" ,"" );
+    $siSize = $mailItem->siSize();
+    $t->set_var( "mail_size" , $siSize["size-string"] . $siSize["unit"] );
     $t->set_var( "mail_date", "" );
     ( $i % 2 ) ? $t->set_var( "td_class", "bgdark" ) : $t->set_var( "td_class", "bglight" );
     

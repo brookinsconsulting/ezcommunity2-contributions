@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezmail.php,v 1.12 2001/03/27 09:32:59 fh Exp $
+// $Id: ezmail.php,v 1.13 2001/03/27 12:03:54 fh Exp $
 //
 // Definition of eZCompany class
 //
@@ -119,7 +119,8 @@ class eZMail
                                  ReplyTo='$this->ReplyTo',
                                  Subject='$this->Subject',
                                  BodyText='$this->BodyText',
-                                 IsRead='$this->IsRead'
+                                 IsRead='$this->IsRead',
+                                 Size='$this->Size'
                                  " );
 
             $this->ID = mysql_insert_id();
@@ -139,7 +140,8 @@ class eZMail
                                  ReplyTo='$this->ReplyTo',
                                  Subject='$this->Subject',
                                  BodyText='$this->BodyText',
-                                 IsRead='$this->IsRead'
+                                 IsRead='$this->IsRead',
+                                 Size='$this->Size'
                                  WHERE ID='$this->ID'
                                  " );
 
@@ -179,6 +181,7 @@ class eZMail
                 $this->Subject = $mail_array[0][ "Subject" ];
                 $this->BodyText = $mail_array[0][ "BodyText" ];
                 $this->IsRead = $mail_array[0][ "IsRead" ];
+                $this->Size = $mail_array[0][ "Size" ];
 
                 $this->State_ = "Coherent";
                 $ret = true;
@@ -468,12 +471,58 @@ class eZMail
             $this->UserID = $newOwner;
     }
 
+    /*!
+      Returns the size of this mail in bytes.
+     */
+    function size()
+    {
+        if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+        return $this->Size;
+    }
+
+    function siSize()
+    {
+        if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+        $units = array( "GB" => 10737741824,
+                        "MB" => 1048576,
+                        "KB" => 1024,
+                        "B" => 0 );
+        $decimals = 0;
+        $size = $this->Size;
+        $shortsize = $this->Size;
+
+        while( list($unit_key,$val) = each( $units ) )
+        {
+            if ( $size >= $val )
+            {
+                $unit = $unit_key;
+                if ( $val > 0 )
+                {
+                    $decimals = 2;
+                    $shortsize = $size / $val;
+                }
+                break;
+            }
+        }
+        $shortsize = number_format( ( $shortsize ), $decimals);
+        $size = array( "size" => $size,
+                       "size-string" => $shortsize,
+                       "unit" => $unit );
+        return $size;
+    }
     
     /*!
-      Sends the mail.
-    */
-    function send()
+      Returns the size of this mail in bytes.
+     */
+    function setSize( $value )
     {
+        if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+        $this->Size = $value;
     }
 
     /*!
@@ -713,6 +762,61 @@ class eZMail
         
         return false;
     }
+
+    /*!
+      Returns a new eZMail object with all fields set according to the parameter.
+      Valid values are: "reply", "replyall", "forward". If no parameter is given
+      it just returns a copy of the mail. If $attachments is set to true also the attachments are copied.
+      NOTE: The returned mail is not member of any folders. Set a folder for this mail
+      or it will be LOST.
+     */
+    function &copyMail( $copyType = "normal", $attachments = false )
+    {
+        $copy = new eZMail();
+
+        if( $copyType == "normal" || $copyType == "forward" )
+        {
+            if( $copyType == "normal" )
+            {
+                $copy->To = $this->To;
+                $copy->From = $this->From;
+                $copy->FromName = $this->FromName;
+                $copy->Cc = $this->Cc;
+                $copy->Bcc = $this->Bcc;
+                $copy->ReplyTo = $this->ReplyTo;
+            }
+            else
+            {
+                $copy->From = $this->To;
+            }
+            $copy->BodyText = $this->BodyText;
+            $copy->MessageID = $this->MessageID;
+            $copy->References = $this->References;
+        }
+        else if( $copyType == "reply" || $copyType == "replyall" )
+        {
+            $copy->To = $this->From;
+            $copy->Subject = "Re: " . $this->Subject();
+            $copy->References = $this->MessageID;
+            $copy->ReplyTo = $this->To;
+            $copy->UserID = $this->UserID;
+
+            if( $copyType == "replyall" )
+                $copy->Cc = $this->Cc;
+
+            $sentnsArray = explode( "\n", $this->BodyText );
+            $resultArray = array();
+
+            foreach( $sentnsArray as $sentence )
+                $resultArray[] = "> " . $sentence . "\n";
+
+            $copy->BodyText = implode( "", $resultArray );
+        }
+        
+        $copy->store();
+        return $copy;
+    }
+    
     /***************** FUNCTIONS THAT ARE USED WHEN SENDING MAIL, IDEAS FROM:
                        Sascha Schumann <sascha@schumann.cx>
                        Tobias Ratschiller <tobias@dnet.it
@@ -836,6 +940,7 @@ class eZMail
     var $Subject;
     var $BodyText;
 
+    var $Size;
     // we need a state so we can store if this mail is replyed/forwarded...
     // I suggest
     // 0 - Unread
