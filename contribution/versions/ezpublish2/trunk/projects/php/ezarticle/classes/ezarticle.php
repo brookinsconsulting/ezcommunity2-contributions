@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezarticle.php,v 1.174 2001/09/25 14:22:49 bf Exp $
+// $Id: ezarticle.php,v 1.175 2001/09/27 08:52:56 jb Exp $
 //
 // Definition of eZArticle class
 //
@@ -1976,7 +1976,8 @@ class eZArticle
             $db->query( "DROP  TABLE eZArticle_SearchTemp" );
 
             $SearchTotalCount = count( $article_array );
-            $article_array =& array_slice( $article_array, $offset, $limit );            
+            if ( $limit >= 0 )
+                $article_array =& array_slice( $article_array, $offset, $limit );            
         }
         else
         {
