@@ -1,32 +1,32 @@
 <?
 /*!
-    $Id: linkedit.php,v 1.15 2000/08/23 11:14:43 ce-cvs Exp $
+  $Id: linkedit.php,v 1.16 2000/08/25 09:39:28 ce-cvs Exp $
 
-    Author: Bård Farstad <bf@ez.no>
+  Author: Christoffer A. Elo <ce@ez.no>
     
-    Created on: 
+  Created on: 
     
-    Copyright (C) 2000 eZ systems. All rights reserved.
+  Copyright (C) 2000 eZ systems. All rights reserved.
 */
 
 /*
-  linkedit.php 
+  linkedit.php - Redigerer en link.
 */
 
-
 include_once( "class.INIFile.php" );
-$ini = new INIFile( "../site.ini" );
 
+$ini = new INIFile( "site.ini" );
 $DOC_ROOT = $ini->read_var( "eZLinkMain", "DocumentRoot" );
+$Language = $ini->read_var( "eZLinkMain", "Language" );
 
 include_once( "../classes/eztemplate.php" );
 include_once( "ezphputils.php" );
 
-include( "../ezlink/classes/ezlinkgroup.php" );
-include( "../ezlink/classes/ezlink.php" );
-include( "../ezlink/classes/ezhit.php" );
+include( "ezlink/classes/ezlinkgroup.php" );
+include( "ezlink/classes/ezlink.php" );
+include( "ezlink/classes/ezhit.php" );
 
-$Language = $ini->read_var( "eZLinkMain", "Language" );
+
 
 // Oppdatere
 if ( $Action == "update" )
@@ -61,7 +61,7 @@ if ( $Action == "delete" )
     }
     else
     {
-    Header( "Location: index.php?page=../ezlink/admin/linklist.php" );
+        Header( "Location: index.php?page=../ezlink/admin/linklist.php" );
     }
 }
 
@@ -91,7 +91,7 @@ if ( $Action == "insert" )
     Header( "Location: index.php?page=../ezlink/admin/linklist.php" );
 }
 
-// Sette template filer
+// Sette template filer.
 $t = new eZTemplate( $DOC_ROOT . "/" . $Ini->read_var( "eZLinkMain", "TemplateDir" ), $DOC_ROOT . "/intl", $Language, "linkedit.php" );
 $t->setAllStrings();
 

@@ -9,7 +9,7 @@ include_once( "class.INIFile.php" );
 
 $ini = new INIFile( "site.ini" );
 
-$Language = "no_NO";
+$Language = $ini->read_var( "eZLinkMain", "Language" );
 
 $DOC_ROOT = $ini->read_var( "eZLinkMain", "DocumentRoot" );
 
