@@ -193,6 +193,7 @@ CREATE TABLE eZContact_CompanyType (
   Name char(50) NOT NULL,
   Description text,
   ParentID int(11) DEFAULT '0' NOT NULL,
+  ImageID int(11) DEFAULT '0' NOT NULL,
   INDEX (ParentID),
   INDEX (Name),
   PRIMARY KEY (ID)
