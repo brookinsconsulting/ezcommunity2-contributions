@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezpreferences.php,v 1.6 2001/04/11 14:37:39 jb Exp $
+// $Id: ezpreferences.php,v 1.7 2001/04/19 07:33:13 jb Exp $
 //
 // Definition of eZPreferences class
 //
@@ -94,22 +94,21 @@ class eZPreferences
     */
     function variable( $name )
     {
-       $ret = false;
-       if ( get_class( $this->UserObject ) == "ezuser" )
-       {           
-           $this->dbInit();
+        $ret = false;
+        if ( get_class( $this->UserObject ) == "ezuser" )
+        {           
+            $db =& eZDB::globalDatabase();
+            $userID = $this->UserObject->id();
            
-           $userID = $this->UserObject->id();
-           
-           $this->Database->array_query( $value_array, "SELECT Value FROM eZSession_Preferences
+            $db->array_query( $value_array, "SELECT Value FROM eZSession_Preferences
                                                     WHERE UserID='$userID' AND Name='$name'" );
            
-           if ( count( $value_array ) == 1 )
-           {
-               $ret = $value_array[0]["Value"];
-           }
-       }
-       return $ret;
+            if ( count( $value_array ) == 1 )
+            {
+                $ret = $value_array[0]["Value"];
+            }
+        }
+        return $ret;
     }
 
 	/*!
@@ -126,24 +125,24 @@ class eZPreferences
             {
                 $value =& implode( ";", $value );
             }
-            $this->dbInit();
+            $db =& eZDB::globalDatabase();
 
             $userID = $this->UserObject->id();
             $name = addslashes( $name );
             $value = addslashes( $value );
-            $this->Database->array_query( $value_array, "SELECT ID FROM eZSession_Preferences
+            $db->array_query( $value_array, "SELECT ID FROM eZSession_Preferences
                                                     WHERE UserID='$userID' AND Name='$name'" );
             if ( count( $value_array ) == 1 )
             {
                 $valueID = $value_array[0]["ID"];
-                $this->Database->query( "UPDATE eZSession_Preferences SET
+                $db->query( "UPDATE eZSession_Preferences SET
 		                         Value='$value' WHERE ID='$valueID'
                                  " );
                 $ret = true;
             }
             else
             {
-                $this->Database->query( "INSERT INTO eZSession_Preferences SET
+                $db->query( "INSERT INTO eZSession_Preferences SET
 		                         UserID='$userID',
 		                         Name='$name',
 		                         Value='$value'
@@ -155,28 +154,8 @@ class eZPreferences
         return $ret;
     }
 
-    /*!
-      \private
-      Open the database for read and write. Gets all the database information from site.ini.
-    */
-    function dbInit()
-    {
-        if ( $this->IsConnected == false )
-        {
-            $this->Database = eZDB::globalDatabase();
-            $this->IsConnected = true;
-        }
-    }
-
     /// copy of the current logged in user 
     var $UserObject;
-    
-
-    ///  Variable for keeping the database connection.
-    var $Database;
-
-    /// Is true if the object has database connection, false if not.
-    var $IsConnected;
 }
 
 ?>
