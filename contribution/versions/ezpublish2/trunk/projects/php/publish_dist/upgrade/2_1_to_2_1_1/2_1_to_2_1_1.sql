@@ -401,6 +401,9 @@ update eZLink_Link set CreatedTmp= UNIX_TIMESTAMP( Created );
 alter table eZLink_Link drop Created; 
 alter table eZLink_Link change CreatedTmp Created int; 
 
+alter table eZImageCatalogue_Image add Photographer int;
+
+
 # Speed up listing of categories;
 
 alter table eZArticle_ArticleCategoryLink add index ( ArticleID );

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: imageedit.php,v 1.26 2001/06/25 15:23:28 bf Exp $
+// $Id: imageedit.php,v 1.27 2001/06/26 11:31:53 jhe Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <09-Jan-2001 10:45:44 ce>
@@ -27,6 +27,7 @@ include_once( "classes/ezhttptool.php" );
 include_once( "ezuser/classes/ezuser.php" );
 include_once( "ezuser/classes/ezpermission.php" );
 include_once( "ezuser/classes/ezobjectpermission.php" );
+include_once( "ezuser/classes/ezauthor.php" );
 
 $user = eZUser::currentUser();
 
@@ -56,7 +57,7 @@ if ( isSet ( $DeleteImages ) )
     $Action = "DeleteImages";
 }
 
-if( isset( $DeleteCategories ) )
+if ( isset( $DeleteCategories ) )
 {
     $Action = "DeleteCategories";
 }
@@ -79,9 +80,7 @@ $t = new eZTemplate( "ezimagecatalogue/user/" . $ini->read_var( "eZImageCatalogu
 
 $t->setAllStrings();
 
-$t->set_file( array(
-    "image_edit_page" => "imageedit.tpl",
-    ) );
+$t->set_file( "image_edit_page", "imageedit.tpl" );
 
 $t->set_block( "image_edit_page", "value_tpl", "value" );
 $t->set_block( "image_edit_page", "multiple_value_tpl", "multiple_value" );
@@ -90,6 +89,8 @@ $t->set_block( "image_edit_page", "errors_tpl", "errors" );
 
 $t->set_block( "image_edit_page", "write_group_item_tpl", "write_group_item" );
 $t->set_block( "image_edit_page", "read_group_item_tpl", "read_group_item" );
+
+$t->set_block( "image_edit_page", "photographer_item_tpl", "photographer_item" );
 
 $t->set_var( "errors", "&nbsp;" );
 
@@ -121,7 +122,6 @@ $t->set_var( "error_read_everybody_permission", "&nbsp;" );
 
 $t->set_block( "errors_tpl", "error_write_everybody_permission_tpl", "error_write_everybody_permission" );
 $t->set_var( "error_write_everybody_permission", "&nbsp;" );
-
 
 // Check for errors when inserting or updating.
 if ( $Action == "Insert" || $Action == "Update" )
@@ -200,13 +200,17 @@ if ( $Action == "Insert" || $Action == "Update" )
         $t->parse( "errors", "errors_tpl" );
         foreach( $WriteGroupArrayID as $unf )
         {
-            if( $unf == 0 ) $writeGroupArrayID[] = -1;
-            else $writeGroupArrayID[] = $unf;
+            if( $unf == 0 )
+                $writeGroupArrayID[] = -1;
+            else
+                $writeGroupArrayID[] = $unf;
         }
         foreach( $ReadGroupArrayID as $unf )
         {
-            if( $unf == 0 ) $readGroupArrayID[] = -1;
-            else $readGroupArrayID[] = $unf;
+            if( $unf == 0 )
+                $readGroupArrayID[] = -1;
+            else
+                $readGroupArrayID[] = $unf;
         }
     }
 }
@@ -216,6 +220,7 @@ if ( $Action == "Insert" && $error == false )
 {
     $image = new eZImage();
     $image->setName( $Name );
+    $image->setPhotographer( $PhotoID );
     $image->setCaption( $Caption );
     $image->setDescription( $Description );
     $image->setUser( $user );
@@ -272,6 +277,7 @@ if ( $Action == "Update" && $error == false )
 {
     $image = new eZImage( $ImageID );
     $image->setName( $Name );
+    $image->setPhotographer( $PhotoID );
     $image->setCaption( $Caption );
 
     $image->setDescription( $Description );
@@ -304,7 +310,6 @@ if ( $Action == "Update" && $error == false )
         }
     }
 
-
     $categoryArray = $image->categories();
     // Calculate new and unused categories
     $old_maincategory = $image->categoryDefinition();
@@ -313,20 +318,20 @@ if ( $Action == "Update" && $error == false )
 
     $new_categories = array_unique( array_merge( $CategoryID, $CategoryArray ) );
 
+    $category = new eZImageCategory( $CategoryID );
+    $image->setCategoryDefinition( $category );
+
     $remove_categories = array_diff( $old_categories, $new_categories );
     $add_categories = array_diff( $new_categories, $old_categories );
 
-    foreach ( $add_categories as $categoryItem )
-    {
-        eZImageCategory::addImage( $image, $CategoryID );
-    }
-    $category = new eZArticleCategory( $CategoryID );
-    $image->setCategoryDefinition( $category );
     foreach ( $remove_categories as $categoryItem )
     {
-        eZImageCategory::removeImage( $image, $CategoryID );
+        eZImageCategory::removeImage( $image, $categoryItem );
     }
-    
+    foreach ( $add_categories as $categoryItem )
+    {
+        eZImageCategory::addImage( $image, $categoryItem );
+    }
     if ( $fileOK )
     {
         $image->setImage( $file );
@@ -355,7 +360,7 @@ if ( $Action == "DeleteImages" )
 
     include_once( "classes/ezhttptool.php" );
     eZHTTPTool::header( "Location: /imagecatalogue/image/list/" . $CurrentCategoryID . "/" );
-    exit();    
+    exit();
 }
 
 // Delete a categorie
@@ -381,6 +386,18 @@ if ( $Action == "New" || $error )
     $t->set_var( "action_value", "Insert" );
     $t->set_var( "image", "" );
     $t->set_var( "image_id", "" );
+
+// author select
+    
+    $author = new eZAuthor();
+    $authorArray = $author->getAll();
+    foreach ( $authorArray as $author )
+    {
+        $t->set_var( "photo_id", $author->id() );
+        $t->set_var( "photo_name", $author->name() );
+        $t->parse( "photographer_item", "photographer_item_tpl", true );
+    }
+    
 }
 
 // Sets the values to the current image
@@ -396,6 +413,28 @@ if ( $Action == "Edit" )
 
     $t->set_var( "image_alt", $image->caption() );
 
+    $photographer = $image->photographer();
+    $PhotographerID = $photographer->id();
+
+// author select
+    
+    $author = new eZAuthor();
+    $authorArray = $author->getAll();
+    foreach ( $authorArray as $author )
+    {
+        if ( $PhotographerID == $author->id() )
+        {
+            $t->set_var( "selected", "selected" );
+        }
+        else
+        {
+            $t->set_var( "selected", "" );
+        }
+        $t->set_var( "photo_id", $author->id() );
+        $t->set_var( "photo_name", $author->name() );
+        $t->parse( "photographer_item", "photographer_item_tpl", true );
+    }
+    
     $variation = $image->requestImageVariation( 150, 150 );
     
     $t->set_var( "image_src", "/" .$variation->imagePath() );

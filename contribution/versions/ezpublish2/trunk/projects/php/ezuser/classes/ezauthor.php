@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezauthor.php,v 1.4 2001/06/24 15:54:27 bf Exp $
+// $Id: ezauthor.php,v 1.5 2001/06/26 11:31:53 jhe Exp $
 //
 // Definition of eZAuthor class
 //
@@ -178,7 +178,7 @@ class eZAuthor
     */
     function name( $html = true )
     {
-        if( $html )
+        if ( $html )
             return htmlspecialchars( $this->Name );
         return $this->Name;
     }

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezimage.php,v 1.55 2001/06/25 15:23:27 bf Exp $
+// $Id: ezimage.php,v 1.56 2001/06/26 11:31:52 jhe Exp $
 //
 // Definition of eZImage class
 //
@@ -125,7 +125,8 @@ class eZImage
                                              UserID,
                                              WritePermission,
                                              ReadPermission,
-                                             OriginalFileName )
+                                             OriginalFileName,
+                                             Photographer )
                                     VALUES ( '$this->ID',
                                              '$name',
                                              '$caption',
@@ -134,7 +135,8 @@ class eZImage
                                              '$this->UserID',
                                              '$this->WritePermission',
                                              '$this->ReadPermission',
-                                             '$originalfilename' )");
+                                             '$originalfilename',
+                                             '$this->PhotographerID' )");
         }
         else
         {
@@ -153,7 +155,8 @@ class eZImage
                                  UserID='$this->UserID',
                                  WritePermission='$this->WritePermission',
                                  ReadPermission='$this->ReadPermission',
-                                 OriginalFileName='$originalfilename'
+                                 OriginalFileName='$originalfilename',
+                                 Photographer='$this->PhotographerID'
                                  WHERE ID='$this->ID'
                                  " );
         }
@@ -222,6 +225,7 @@ class eZImage
                 $this->UserID =& $image_array[0][$db->fieldName("UserID")];
                 $this->WritePermission =& $image_array[0][$db->fieldName("WritePermission")];
                 $this->ReadPermission =& $image_array[0][$db->fieldName("ReadPermission")];
+                $this->PhotographerID =& $image_array[0][$db->fieldName("Photographer")];
 
                 $ret = true;
             }
@@ -935,22 +939,28 @@ class eZImage
     }
 
     /*!
-      Returns the image's category.
+      Returns the image's categories.
     */
-    function category( )
+    function categories()
     {
         $db =& eZDB::globalDatabase();
 
-       $db->array_query( $res, "SELECT CategoryID FROM
-                                            eZImageCatalogue_ImageCategoryLink
-                                            WHERE ImageID='$this->ID'" );
-       $category = false;
-       if ( count( $res ) == 1 )
-       {
-           $category = new eZImageCategory( $res[0][$db->fieldName("CategoryID")] );
-       }
+        $res = array();
+        print "<br>ID: " . $this->ID . "<br>";
+        $db->array_query( $res, "SELECT CategoryID, ImageID FROM
+                                 eZImageCatalogue_ImageCategoryLink
+                                 WHERE ImageID='$this->ID'" );
+        $category = false;
 
-       return $category;
+        if ( count( $res ) > 0 )
+            $category = array();
+    
+        for ( $i = 0; $i < count( $res ); $i++ )
+        {
+            array_push( $category, $res[$i][$db->fieldName("CategoryID")] );
+        }
+
+        return $category;
     }
 
     /*!
@@ -1018,7 +1028,6 @@ class eZImage
            
            $groups = $user->groups();
        }
-
        $db->array_query( $readPermissions, "SELECT GroupID FROM eZImageCatalogue_ImageReadGroupLink WHERE ImageID='$this->ID'" );
 
        for ( $i=0; $i < count ( $readPermissions ); $i++ )
@@ -1041,7 +1050,6 @@ class eZImage
                }
            }
        }
-       
        return false;
     }
 
@@ -1185,7 +1193,26 @@ class eZImage
         return false;
     }
 
+    /*!
+      Sets the photographer of the image
+    */
+    function setPhotographer( $author )
+    {
+        if ( get_class( $author ) == "ezauthor" )
+            $this->PhotographerID = $author->id();
+        else if ( is_numeric( $author ) )
+            $this->PhotographerID = $author;        
+    }
 
+    /*!
+      Returns the photographer og the image
+    */
+    function photographer()
+    {
+        return new eZAuthor( $this->PhotographerID );
+    }
+
+    
     var $ID;
     var $Name;
     var $Caption;
@@ -1195,7 +1222,7 @@ class eZImage
     var $ReadPermission;
     var $WritePermission;
     var $UserID;
-
+    var $PhotographerID;
 }
 
 ?>

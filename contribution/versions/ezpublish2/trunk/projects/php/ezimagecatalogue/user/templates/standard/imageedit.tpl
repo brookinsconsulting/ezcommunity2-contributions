@@ -48,13 +48,14 @@
 <p class="boxtext">{intl-imagetitle}:</p>
 <input type="text" class="box" size="40" name="Name" value="{name_value}"/>
 
-<p class="boxtext">{intl-photograph}:</p>
+<p class="boxtext">{intl-photographer}:</p>
 <select name="PhotoID">
 <!-- BEGIN photographer_item_tpl -->
-<option value="{photo_id}" {selected}>{photographer}</option>
+<option value="{photo_id}" {selected}>{photo_name}</option>
 <!-- END photographer_item_tpl -->
 </select>
 
+<p class="boxtext">{intl-category}:</p>
 <select name="CategoryID">
 <!-- BEGIN value_tpl -->
 <option value="{option_value}" {selected}>{option_level}{option_name}</option>
