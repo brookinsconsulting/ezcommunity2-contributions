@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: userwithaddress.php,v 1.10 2000/11/06 16:00:18 bf-cvs Exp $
+// $Id: userwithaddress.php,v 1.11 2000/11/07 09:29:25 ce-cvs Exp $
 //
 // 
 //
@@ -143,21 +143,50 @@ if ( $Action == "Update" )
             $user->setFirstName( $FirstName );
             $user->setLastName( $LastName );
 
-            $address = new eZAddress();
-            $address->get( $AddressID );
-            $address->setStreet1( $Street1 );
-            $address->setStreet2( $Street2 );
-            $address->setZip( $Zip );
-            $address->setPlace( $Place );
-
-            if ( isset( $CountryID ) )
+            $addresses = $user->addresses();
+            if( count( $addresses ) == 1 )
             {
-                $country = new eZCountry( $CountryID );
-                $address->setCountry( $country );
-            }
+                // will be fixed in the next version.
+                $AddressID = $addresses[0]->id();
                 
-            $address->store();
-            
+                $address = new eZAddress();
+
+                $address->get( $AddressID );
+                
+                $address->setStreet1( $Street1 );
+                $address->setStreet2( $Street2 );
+                $address->setZip( $Zip );
+                $address->setPlace( $Place );
+                
+                if ( isset( $CountryID ) )
+                {
+                    $country = new eZCountry( $CountryID );
+                    $address->setCountry( $country );
+                }
+                
+                $address->store();
+            }
+            else if ( count( $addresses ) == 0 )
+            {
+                $address = new eZAddress();
+                $address->setStreet1( $Street1 );
+                $address->setStreet2( $Street2 );
+                $address->setZip( $Zip );
+                $address->setPlace( $Place );
+                
+                if ( isset( $CountryID ) )
+                {
+                    $country = new eZCountry( $CountryID );
+                    $address->setCountry( $country );
+                }
+                
+                $address->store();
+                
+                // add the address to the user.
+                $user->addAddress( $address );
+
+            }
+
             if ( !$PasswordError )
                 $user->store();
 
@@ -207,27 +236,35 @@ if ( $Action == "Edit" )
 
     $t->set_var( "readonly", "readonly" );
     
-
-// print out the addresses
+    // print out the addresses
     // Dosent work with multiplie addresses.
 
-    $addressArray = $user->addresses();
-
-    foreach ( $addressArray as $address )
+    if( count( $user->addresses() ) == 1 )
     {
-        $Street1 =  $address->street1();
-        $Street2 = $address->street2();
-        $Zip = $address->zip();
-        $Place = $address->place();
-
-       $t->set_var( "address_id", $address->id() );
-
-//        $country = $address->country();
-//        $t->set_var( "country", $country->name() );
+        $addressArray = $user->addresses();
+        
+        foreach ( $addressArray as $address )
+        {
+            $Street1 =  $address->street1();
+            $Street2 = $address->street2();
+            $Zip = $address->zip();
+            $Place = $address->place();
+                
+            $t->set_var( "address_id", $address->id() );
+                
+            //        $country = $address->country();
+            //        $t->set_var( "country", $country->name() );
+        }
     }
-
+    else
+    {
+        $Street1 = "";
+        $Street2 = "";
+        $Zip = "";
+        $Place = "";
+    }
+        
     $action_value = "update";
-
 }
 
 
@@ -289,14 +326,17 @@ if ( $SelectCountry == "enabled" )
     {
         if ( $Action == "Edit" )
         {
-            $countryID = $address->country();
-            
-            if ( $country["ID"] == $countryID->id() )
+            if ( $address )
             {
-                $t->set_var( "is_selected", "selected" );
+                $countryID = $address->country();
+                
+                if ( $country["ID"] == $countryID->id() )
+                {
+                    $t->set_var( "is_selected", "selected" );
+                }
+                else
+                    $t->set_var( "is_selected", "" );
             }
-            else
-                $t->set_var( "is_selected", "" );
         }
         
         $t->set_var( "country_id", $country["ID"] );
