@@ -143,7 +143,14 @@ if ( ( $requireUserLogin == "disabled" ) ||
 
     $SiteCacheFile = "classes/cache/" . md5( $REQUEST_URI ) . ".php";
 
-    if ( !file_exists( $SiteCacheFile ) )
+
+    // check to use site cache
+    if ( !file_exists( $SiteCacheFile ) && ( $ini->read_var( "site", "SiteCache" ) == "enabled" ) )
+        $StoreSiteCache = true;
+    else
+        $StoreSiteCache = false;
+        
+    if ( $StoreSiteCache || $ini->read_var( "site", "SiteCache" ) == "disabled" )
     {
         $buffer =& ob_get_contents();
         ob_end_clean();
@@ -236,15 +243,19 @@ if ( ( $requireUserLogin == "disabled" ) ||
         }
 
         // store site cache
-        $fp = fopen ( $SiteCacheFile, "w+");
+        if ( $StoreSiteCache == true )
+        {
+            $fp = fopen ( $SiteCacheFile, "w+");
 
-        $SiteContents =& ob_get_contents();
-        fwrite ( $fp, $SiteContents );
-        fclose( $fp );
+            $SiteContents =& ob_get_contents();
+            fwrite ( $fp, $SiteContents );
+            fclose( $fp );
+        }
         
     }
     else
     {
+        print( "static" );
         // load site cache
         include( $SiteCacheFile );
     }

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: articlelog.php,v 1.1 2001/06/05 13:00:58 bf Exp $
+// $Id: articlelog.php,v 1.2 2001/06/06 08:30:46 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <05-Jun-2001 14:38:04 bf>
@@ -29,7 +29,7 @@ include_once( "classes/eztemplate.php" );
 include_once( "classes/INIFile.php" );
 
 
-$t = new eZTemplate( "ezarticle/admin/" . $ini->read_var( "eZUserMain", "AdminTemplateDir" ),
+$t = new eZTemplate( "ezarticle/admin/" . $ini->read_var( "eZArticleMain", "AdminTemplateDir" ),
                      "ezarticle/admin/intl", $Language, "articlelog.php" );
 
 $locale = new eZLocale( $Language ); 
@@ -52,9 +52,11 @@ foreach ( $logArray as $message )
 {
     $dateTime = new eZDateTime();    
     $dateTime->setMySQLTimeStamp( $message["Created"] );
-    
-    
     $t->set_var( "log_date", $locale->format( $dateTime ) );
+
+    $user = new eZUser( $message["UserID"] );
+    $t->set_var( "log_user", $user->firstName() . " " . $user->lastName() );     
+
     $t->set_var( "log_message", $message["Message"] );
 
     $t->parse( "log_item", "log_item_tpl", true );

@@ -12,15 +12,21 @@
 	{intl-log_date}:
 	</th>
 	<th>
+	{intl-log_user}:
+	</th>
+	<th>
 	{intl-log_message}:
 	</th>
 </tr>
 <!-- BEGIN log_item_tpl -->
 <tr>
-	<td>
+	<td valign="top">
 	{log_date}
 	</td>
-	<td>
+	<td valign="top">
+	{log_user}
+	</td>
+	<td valign="top">
 	{log_message}
 	</td>
 </tr>

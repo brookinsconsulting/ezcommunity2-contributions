@@ -268,3 +268,4 @@ alter table eZArticle_Topic add Created timestamp;
 create table eZMessage_Message( ID int primary key auto_increment, UserID int not null, Created timestamp, IsRead int not null default '0', Subject char(255) not null, Description text );
 
 create table eZArticle_Log( ID int primary key auto_increment, ArticleID int not null, Created timestamp not null, Message text not null );     
+alter table eZArticle_Log add UserID int not null;

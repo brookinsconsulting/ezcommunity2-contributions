@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezarticle.php,v 1.89 2001/06/05 12:40:49 bf Exp $
+// $Id: ezarticle.php,v 1.90 2001/06/06 08:30:46 bf Exp $
 //
 // Definition of eZArticle class
 //
@@ -1700,10 +1700,14 @@ class eZArticle
     {
         $db =& eZDB::globalDatabase();
 
+        $user = eZUser::currentUser();
+        $userID = $user->id();
+        
         $query = "INSERT INTO eZArticle_Log
                   SET ArticleID='$this->ID',
                   Created=now(),
-                  Message='$message'
+                  Message='$message',
+                  UserID='$userID'
                   ";
         
         $db->query( $query );        

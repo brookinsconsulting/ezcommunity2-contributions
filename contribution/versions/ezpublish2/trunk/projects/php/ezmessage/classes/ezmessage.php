@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezmessage.php,v 1.2 2001/06/05 12:40:49 bf Exp $
+// $Id: ezmessage.php,v 1.3 2001/06/06 08:30:46 bf Exp $
 //
 // Definition of eZMessage class
 //
@@ -64,7 +64,8 @@ class eZMessage
 		                 Subject='$subject',
                          Created=now(),
                          Description='$description',
-                         UserID='$this->UserID'
+                         FromUserID='$this->FromUserID',
+                         ToUserID='$this->ToUserID'
                        " );
 			$this->ID = $db->insertID();
         }
@@ -74,7 +75,8 @@ class eZMessage
 		                 Subject='$subject',
                          Created=Created, 
                          Description='$description',
-                         UserID='$this->UserID'
+                         FromUserID='$this->FromUserID',
+                         ToUserID='$this->ToUserID'
                          WHERE ID='$this->ID'" );
         }
 
@@ -115,7 +117,8 @@ class eZMessage
                 $this->Subject =& $author_array[0][ "Subject" ];
                 $this->Description =& $author_array[0][ "Description" ];
                 $this->Created =& $author_array[0][ "Created" ];
-                $this->UserID =& $author_array[0][ "UserID" ];
+                $this->FromUserID =& $author_array[0][ "FromUserID" ];
+                $this->ToUserID =& $author_array[0][ "ToUserID" ];
                 $ret = true;
             }
             elseif( count( $author_array ) == 1 )
@@ -147,6 +150,29 @@ class eZMessage
         }
         return $return_array;
     }
+
+    /*!
+      Fetches the messages for a user.
+    */
+    function &messagesToUser( $user )
+    {
+        $userID = $user->id();
+        $db =& eZDB::globalDatabase();
+
+        $return_array = array();
+        $message_array = array();
+
+
+        $db->array_query( $message_array, "SELECT ID FROM eZMessage_Message
+                                        WHERE ToUserID='$userID'
+                                        ORDER By Created" );
+
+        foreach ( $message_array as $message )
+        {
+            $return_array[] = new eZMessage( $message[0] );
+        }
+        return $return_array;
+    }
     
     /*!
       Returns the object id.
@@ -167,16 +193,56 @@ class eZMessage
     }
 
     /*!
-      Sets the use which the message is for.
+      Sets the use which the message is from.
     */
-    function setUser( $user )
+    function setFromUser( $user )
     {
         if ( get_class( $user ) == "ezuser" )
         {
-            $this->UserID = $user->id();
+            $this->FromUserID = $user->id();
         }
     }
 
+    /*!
+      Returns the from user as an eZUser object.
+    */
+    function fromUser()
+    {
+        return new eZUser( $this->FromUserID );
+    }
+     
+
+    /*!
+      Returns the to user as an eZUser object.
+    */
+    function toUser()
+    {
+        return new eZUser( $this->toUserID );
+    }
+     
+    
+    /*!
+      Sets the use which the message is to.
+    */
+    function setToUser( $user )
+    {
+        if ( get_class( $user ) == "ezuser" )
+        {
+            $this->ToUserID = $user->id();
+        }
+    }
+
+    /*!
+      Returns the message creation time as a eZDateTime object.
+    */
+    function &created()
+    {
+        $dateTime = new eZDateTime();    
+        $dateTime->setMySQLTimeStamp( $this->Created );
+
+        return $dateTime;
+    }
+    
     /*!
       Returns the description.
     */
@@ -202,7 +268,8 @@ class eZMessage
     }
     
     var $ID;
-    var $UserID;
+    var $FromUserID;
+    var $ToUserID;
     var $Created;
     var $Subject;
     var $Description;
