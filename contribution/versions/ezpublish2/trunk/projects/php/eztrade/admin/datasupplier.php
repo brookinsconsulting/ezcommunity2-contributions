@@ -44,6 +44,35 @@ switch ( $url_array[2] )
         {
             include( "eztrade/admin/categoryedit.php" );
         }        
+        break;
+        
+    case "productedit" :
+        if ( ( $url_array[3] == "insert") )
+        {
+            $Action = "Insert";
+            include( "eztrade/admin/productedit.php" );
+        }
+        else if ( ( $url_array[3] == "edit") )
+        {
+            $Action = "Edit";
+            $ProductID = $url_array[4];            
+            include( "eztrade/admin/productedit.php" );
+        }
+        else if ( ( $url_array[3] == "update") )
+        {
+            $Action = "Update";
+            include( "eztrade/admin/productedit.php" );
+        }        
+        else if ( ( $url_array[3] == "delete") )
+        {
+            $Action = "Delete";
+            $ProductID = $url_array[4];
+            include( "eztrade/admin/productedit.php" );
+        }        
+        else
+        {
+            include( "eztrade/admin/productedit.php" );
+        }        
         break;        
     case "testbench" :
         include( "eztrade/admin/testbench.php" );

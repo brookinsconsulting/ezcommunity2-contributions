@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezproductcategory.php,v 1.9 2000/09/15 12:47:35 bf-cvs Exp $
+// $Id: ezproductcategory.php,v 1.10 2000/09/19 15:50:46 bf-cvs Exp $
 //
 // Definition of eZCompany class
 //
@@ -94,16 +94,41 @@ class eZProductCategory
     {
         $this->dbInit();
 
-        $this->Database->query( "INSERT INTO eZTrade_Category SET
+        if ( !isset( $this->ID ) )
+        {
+            $this->Database->query( "INSERT INTO eZTrade_Category SET
 		                         Name='$this->Name',
                                  Description='$this->Description',
                                  Parent='$this->Parent'" );
-
-        $this->ID = mysql_insert_id();
+            $this->ID = mysql_insert_id();
+        }
+        else
+        {
+            $this->Database->query( "UPDATE eZTrade_Category SET
+		                         Name='$this->Name',
+                                 Description='$this->Description',
+                                 Parent='$this->Parent' WHERE ID='$this->ID'" );
+        }
         
         return true;
     }
 
+    /*!
+      Deletes a eZProductGroup object from the database.
+
+    */
+    function delete()
+    {
+        $this->dbInit();
+
+        if ( isset( $this->ID ) )
+        {
+            $this->Database->query( "DELETE FROM eZTrade_Category WHERE ID='$this->ID'" );
+        }
+        
+        return true;
+    }
+    
     /*!
       Fetches the object information from the database.
     */
@@ -272,7 +297,6 @@ class eZProductCategory
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
 
-       print get_class( $value );
        if ( get_class( $value ) == "ezproductcategory" )
        {
            $this->Parent = $value->id();
@@ -293,6 +317,7 @@ class eZProductCategory
             $this->dbInit();
 
             $prodID = $value->id();
+            print( $prodID );
             
             $query = "INSERT INTO
                            eZTrade_ProductCategoryLink
@@ -317,12 +342,10 @@ class eZProductCategory
        $return_array = array();
        $product_array = array();
        
-       $this->Database->array_query( $product_array, "SELECT ProductID FROM eZTrade_ProductCategoryLink WHERE ProductID='$this->ID'" );
+       $this->Database->array_query( $product_array, "SELECT ProductID FROM eZTrade_ProductCategoryLink WHERE CategoryID='$this->ID'" );
 
-       print( "bla" );
        for ( $i=0; $i<count($product_array); $i++ )
        {
-           print( "bla" );
            $return_array[$i] = new eZProduct( $product_array[$i]["ProductID"], false );
        }
        

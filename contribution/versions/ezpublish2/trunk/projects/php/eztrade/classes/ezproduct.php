@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezproduct.php,v 1.1 2000/09/15 13:47:53 bf-cvs Exp $
+// $Id: ezproduct.php,v 1.2 2000/09/19 15:50:46 bf-cvs Exp $
 //
 // Definition of eZCompany class
 //
@@ -45,19 +45,23 @@ class eZProduct
       If $id is set the object's values are fetched from the
       database.
     */
-    function eZProductCategory( $id=-1, $fetch=true )
+    function eZProduct( $id="", $fetch=true )
     {
         $this->IsConnected = false;
-        if ( $id != -1 )
+
+        if ( $id != "" )
         {
+
             $this->ID = $id;
             if ( $fetch == true )
             {
+                
                 $this->get( $this->ID );
             }
             else
             {
                 $this->State_ = "Dirty";
+                
             }
         }
         else
@@ -70,6 +74,8 @@ class eZProduct
             $this->Discontinued = false;
             $this->InheritOptions = false;
         }
+
+
     }
 
     /*!
@@ -99,7 +105,9 @@ class eZProduct
         else
             $inheritOptions = "false";            
         
-        $this->Database->query( "INSERT INTO eZTrade_Product SET
+        if ( !isset( $this->ID ) )
+        {
+            $this->Database->query( "INSERT INTO eZTrade_Product SET
 		                         Name='$this->Name',
                                  Brief='$this->Brief',
                                  Description='$this->Description',
@@ -112,7 +120,28 @@ class eZProduct
                                  InheritOptions='$inheritOptions'
                                  " );
 
-        $this->ID = mysql_insert_id();
+            $this->ID = mysql_insert_id();
+
+            $this->State_ = "Coherent";
+        }
+        else
+        {
+            $this->Database->query( "UPDATE eZTrade_Product SET
+		                         Name='$this->Name',
+                                 Brief='$this->Brief',
+                                 Description='$this->Description',
+                                 Keywords='$this->Keywords',
+                                 ProductNumber='$this->ProductNumber',
+                                 Price='$this->Price',
+                                 ShowPrice='$showPrice',
+                                 ShowProduct='$showProduct',
+                                 Discontinued='$discontinued',
+                                 InheritOptions='$inheritOptions'
+                                 WHERE ID='$this->ID'
+                                 " );
+
+            $this->State_ = "Coherent";
+        }
         
         return true;
     }
@@ -120,7 +149,7 @@ class eZProduct
     /*!
       Fetches the object information from the database.
     */
-    function get( $id=-1 )
+    function get( $id="" )
     {
         $this->dbInit();
         
@@ -135,10 +164,12 @@ class eZProduct
             {
                 $this->ID = $category_array[0][ "ID" ];
                 $this->Name = $category_array[0][ "Name" ];
-                $this->Brief = $category_array[0][ "Breif" ];
+                $this->Brief = $category_array[0][ "Brief" ];
                 $this->Description = $category_array[0][ "Description" ];
                 $this->Keywords = $category_array[0][ "Keywords" ];
                 $this->ProductNumber = $category_array[0][ "ProductNumber" ];
+                $this->Price = $category_array[0][ "Price" ];
+
                 if ( $category_array[0][ "ShowPrice" ] == "true" )                    
                     $this->ShowPrice = true;
                 else
@@ -158,8 +189,8 @@ class eZProduct
                     $this->InheritOptions = true;
                 else
                     $this->InheritOptions = false;
-                
-                $this->State_ = "Coherent";                
+
+                $this->State_ = "Coherent";
             }
         }
         else
@@ -167,6 +198,24 @@ class eZProduct
             $this->State_ = "Dirty";
         }
     }
+
+    /*!
+      Deletes a eZProduct object from the database.
+
+    */
+    function delete()
+    {
+        $this->dbInit();
+
+        if ( isset( $this->ID ) )
+        {
+            $this->Database->query( "DELETE FROM eZTrade_ProductCategoryLink WHERE ProductID='$this->ID'" );
+            
+            $this->Database->query( "DELETE FROM eZTrade_Product WHERE ID='$this->ID'" );
+        }
+        
+        return true;
+    }    
 
     /*!
       Returns the object ID to the product. This is the unique ID stored in the database.
@@ -180,7 +229,72 @@ class eZProduct
        
         return $ret;
     }
-    
+
+    /*!
+      Returns the name of the product.
+    */
+    function name( )
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+       return $this->Name;
+    }    
+
+    /*!
+      Returns the price of the product.
+    */
+    function price( )
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+       return $this->Price;
+    }    
+
+    /*!
+      Returns the keywords of the product.
+    */
+    function keywords( )
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+       return $this->Keywords;
+    }    
+
+    /*!
+      Returns the product number of the product.
+    */
+    function productNumber( )
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+       return $this->ProductNumber;
+    }    
+
+    /*!
+      Returns the introduction to the product.
+    */
+    function brief( )
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+       return $this->Brief;
+    }    
+
+    /*!
+      Returns the description of the product.
+    */
+    function description( )
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+       return $this->Description;
+    }    
     
     /*!
       Sets the product name.
@@ -258,7 +372,7 @@ class eZProduct
             $this->get( $this->ID );
 
        $this->ShowPrice = $value;
-       setType( $this->ShowPrice, "bool" );
+       setType( $this->ShowPrice, "integer" );
     }
     
     /*!

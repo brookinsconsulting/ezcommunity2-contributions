@@ -1,4 +1,4 @@
-<h1>Kategori liste</h1>
+<h1>Kategori- og produktoversikt</h1>
 
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
@@ -25,4 +25,27 @@
 </tr>
 {category_list}
 </table>
+
+<br>
+
+<table width="100%" cellspacing="0" cellpadding="0" border="0">
+<tr>
+	<tr>
+	<td>
+	Produkt:
+	</td>
+	<td align="right">
+	Pris:
+	</td>
+	<td>
+	Rediger:
+	</td>
+	<td>
+	Slett:
+	</td>
+</tr>
+{product_list}
+</table>
+
+
 

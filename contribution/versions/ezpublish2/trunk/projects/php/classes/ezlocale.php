@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezlocale.php,v 1.6 2000/09/15 12:47:35 bf-cvs Exp $
+// $Id: ezlocale.php,v 1.7 2000/09/19 15:50:46 bf-cvs Exp $
 //
 // Definition of eZCompany class
 //
@@ -145,7 +145,6 @@ class eZLocale
         {
             case "ezdatetime" :
             {
-//                print( "her ja" );
                 // Date
                 $date = $this->DateFormat;
 
@@ -220,6 +219,10 @@ class eZLocale
                 $revInteger = ereg_replace( "([0-9]{3})", "\\1$this->ThousandsSymbol", $revInteger );
                 $integerValue = strrev( $revInteger );
 
+                // remove leading .
+                if ( $integerValue[0] == "$this->ThousandsSymbol" )                    
+                    $integerValue = ereg_replace( "^.(.*)", "\\1", $integerValue );
+
                 $value = $integerValue . $this->DecimalSymbol . $fracts;
 
                 if ( $obj->isNegative )
@@ -235,7 +238,6 @@ class eZLocale
                 }
                 else
                 {
-                    echo $this->PositivePrefixCurrencySymbol;
                     if ( $this->PositivePrefixCurrencySymbol == "yes" )
                     {
                         $value = $this->CurrencySymbol . " " . $value;

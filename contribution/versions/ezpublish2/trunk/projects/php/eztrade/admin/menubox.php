@@ -8,7 +8,8 @@
 <td>
 <a class="small" href="/trade/testbench/">Test benk</a><br>
 <a class="small" href="/trade/categorylist/">Kategorier</a><br>
-<a class="small" href="/trade/categoryedit/">Ny kategorier</a><br>
+<a class="small" href="/trade/categoryedit/">Ny kategori</a><br>
+<a class="small" href="/trade/productedit/">Nytt produkt</a><br>
 
 </td>
 </tr>
