@@ -8,8 +8,8 @@ exit 0
 fi
 
 echo "Creating symbolic links and setting permissions as needed."
-chown $1:$1 site.ini
-chmod 600 site.ini
+chown $1:$2 site.ini
+chmod 640 site.ini
 if [ -f "override/site.ini" ]; then
     chmod 600 override/site.ini
 fi
