@@ -133,8 +133,8 @@ class eZCompany
         $this->dbInit();    
         $company_array = 0;
     
-        array_query( $company_array, "SELECT * FROM Company WHERE Name LIKE '%$query%' ORDER BY Name" );
-    
+        array_query( $company_array, "SELECT  Company.ID, Company.Name from Company, Person where ((Person.FirstName LIKE '%$query%' OR Person.LastName LIKE '%$query%') AND Company.ID=Person.Company) GROUP BY Company.ID ORDER BY Company.ID" );
+
         return $company_array;
     }
     

@@ -154,6 +154,19 @@ class eZPerson
     }
     
     /*
+      Henter ut alle personene hvor etternavn eller fornavn inneholder søkestrengen og Company = $company.
+    */
+    function searchByCompanyAndName( $company, $query )
+    {
+        $this->dbInit();    
+        $person_array = 0;
+    
+        array_query( $person_array, "SELECT * FROM Person WHERE (FirstName LIKE '%$query%' OR LastName LIKE '%$query%') AND Company='$company' ORDER BY LastName" );
+    
+        return $person_array;
+    }
+    
+    /*
      */
     function setFirstName( $value )
     {

@@ -9,6 +9,12 @@
 | bruker: <b>{current_user}</b> |
 
   </td>
+  <td bgcolor="#eeeeee">
+<form method="post" action="index.php4?page={document_root}contactlist.php4">
+ <input type="text" name="Query">
+<input type="submit" value="søk">
+</form>
+  </td>
   <td align="right"  valign="top">
 <form method="post" action="index.php4" >
 <select name="page" size="1">

@@ -21,9 +21,9 @@ $t->set_file( array(
 
 $company = new eZCompany();
 
-if ( $CompanyQuery != ""  )
+if ( $Query != ""  )
 {
-    $company_array = $company->search( $CompanyQuery );
+    $company_array = $company->searchByPerson( $Query );
 }
 else
 {
@@ -49,11 +49,12 @@ for ( $i=0; $i<count( $company_array ); $i++ )
       $person = new eZPerson();
       $personType = new eZPersonType();
 
-//        if ( $PersonQuery != ""  )
-//        {
-//            $person_array = $person->search( $PersonQuery );
-//        }
-//        else
+      if ( $Query != ""  )
+      {
+          $person_array = array();
+          $person_array = $person->searchByCompanyAndName( $cid, $Query );
+      }
+      else
       {
           $person_array = $person->getByCompany( $cid );
       }
