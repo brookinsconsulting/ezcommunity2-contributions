@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: appointmentedit.php,v 1.3 2001/01/17 10:19:20 ce Exp $
+// $Id: appointmentedit.php,v 1.4 2001/01/17 10:41:59 ce Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <03-Jan-2001 12:47:22 bf>
@@ -47,14 +47,18 @@ $Language = $ini->read_var( "eZCalendarMain", "Language" );
 // 14 14:30 14:0 143 1430
 // the : can be replaced with any non number character
 
-if ( $Action == "Insert" )
+if ( $Action == "Insert" || $Action == "Update" )
 {
     $user = eZUser::currentUser();
     if ( $user )
     {
         $type = new eZAppointmentType( $TypeID );
-    
-        $appointment = new eZAppointment();
+
+        if ( $Action == "Update" )
+            $appointment = new eZAppointment( $AppointmentID );
+        else
+            $appointment = new eZAppointment( );
+        
         $appointment->setName( $Name );
         $appointment->setDescription( $Description );
         $appointment->setType( $type );
@@ -123,8 +127,15 @@ if ( $Action == "Insert" )
         $appointment->setDuration( $duration );
         
         $appointment->store();
+
+        $year = eZTime::addZero( $date->year() );
+        $month = eZTime::addZero( $date->month() );
+        $day = eZTime::addZero( $date->day() );
+        Header( "Location: /calendar/dayview/$year/$month/$day/" );
+        exit();
     }
 }
+
 
 $t = new eZTemplate( "ezcalendar/user/" . $ini->read_var( "eZCalendarMain", "TemplateDir" ),
                      "ezcalendar/user/intl/", $Language, "appointmentedit.php" );
@@ -145,6 +156,7 @@ if ( $Action == "Edit" )
 {
     $appointment = new eZAppointment( $AppointmentID );
     $t->set_var( "name_value", $appointment->name() );
+    $t->set_var( "appointment_id", $appointment->id() );
     $t->set_var( "description_value", $appointment->description() );
 
     $type =& $appointment->type();

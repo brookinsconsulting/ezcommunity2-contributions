@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezappointment.php,v 1.4 2001/01/17 10:19:20 ce Exp $
+// $Id: ezappointment.php,v 1.5 2001/01/17 10:41:59 ce Exp $
 //
 // Definition of eZAppointment class
 //
@@ -139,14 +139,15 @@ class eZAppointment
             }
             else if( count( $appointment_array ) == 1 )
             {
-                $this->ID = $appointment_array[0][ "ID" ];
-                $this->Name = $appointment_array[0][ "Name" ];
-                $this->Description = $appointment_array[0][ "Description" ];
-                $this->AppointmentTypeID = $appointment_array[0][ "AppointmentTypeID" ];
-                $this->Date = $appointment_array[0][ "Date" ];
-                $this->Duration = $appointment_array[0][ "Duration" ];
-                $this->IsPrivate = $appointment_array[0][ "IsPrivate" ];
-                $this->UserID = $appointment_array[0][ "UserID" ];
+                $this->ID =& $appointment_array[0][ "ID" ];
+                $this->Name =& $appointment_array[0][ "Name" ];
+                $this->Description =& $appointment_array[0][ "Description" ];
+                $this->AppointmentTypeID =& $appointment_array[0][ "AppointmentTypeID" ];
+                $this->Date =& $appointment_array[0][ "Date" ];
+                $this->Duration =& $appointment_array[0][ "Duration" ];
+                $this->IsPrivate =& $appointment_array[0][ "IsPrivate" ];
+                $this->UserID =& $appointment_array[0][ "UserID" ];
+                $this->Priority =& $appointment_array[0][ "Priority" ];
 
                 $this->State_ = "Coherent";
             }
@@ -326,8 +327,8 @@ class eZAppointment
     {
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
-        
-        return $this->Priority;
+
+       return $this->Priority;
     }
 
     /*!
