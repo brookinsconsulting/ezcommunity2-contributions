@@ -97,7 +97,7 @@ CREATE TABLE eZForm_FormElementResult (
   ID int(11) NOT NULL default '0',
   ElementID int(11),
   ResultID int(11),
-  Result varchar(50),
+  Result text,
   PRIMARY KEY (ID)
 ) TYPE=MyISAM;
 
