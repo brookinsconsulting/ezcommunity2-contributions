@@ -1,14 +1,14 @@
-<?
+<?php
 // 
-// $Id: ezmail.php,v 1.33 2001/07/11 10:41:18 fh Exp $
+// $Id: ezmail.php,v 1.34 2001/07/20 11:18:28 jakobn Exp $
 //
 // Definition of eZMail class
 //
-// Frederik Holljen <fh@ez.no>
 // Created on: <15-Mar-2001 20:40:06 fh>
 //
 // This source file is part of eZ publish, publishing software.
-// Copyright (C) 1999-2001 eZ systems as
+//
+// Copyright (C) 1999-2001 eZ Systems.  All rights reserved.
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License

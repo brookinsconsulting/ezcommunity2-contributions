@@ -1,14 +1,14 @@
-<?
+<?php
 // 
-// $Id: ezmailfolder.php,v 1.25 2001/07/11 11:02:23 fh Exp $
+// $Id: ezmailfolder.php,v 1.26 2001/07/20 11:18:28 jakobn Exp $
 //
 // eZMailFolder class
 //
-// Frederik Holljen <fh@ez.no>
 // Created on: <20-Mar-2001 18:29:11 fh>
 //
-// Copyright (C) Frederik Holljen.  All rights reserved.
+// This source file is part of eZ publish, publishing software.
 //
+// Copyright (C) 1999-2001 eZ Systems.  All rights reserved.
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License

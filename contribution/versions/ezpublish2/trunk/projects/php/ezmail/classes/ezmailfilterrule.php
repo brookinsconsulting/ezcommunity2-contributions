@@ -1,14 +1,14 @@
-<?
+<?php
 // 
-// $Id: ezmailfilterrule.php,v 1.13 2001/07/10 11:27:43 fh Exp $
+// $Id: ezmailfilterrule.php,v 1.14 2001/07/20 11:18:28 jakobn Exp $
 //
 // eZMailFilterRule class
 //
-//  <fh@ez.no>
 // Created on: <29-Mar-2001 14:20:04 fh>
 //
 // This source file is part of eZ publish, publishing software.
-// Copyright (C) 1999-2001 eZ systems as
+//
+// Copyright (C) 1999-2001 eZ Systems.  All rights reserved.
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License
