@@ -1,10 +1,20 @@
-<table width="100%" cellspacing="0" cellpadding="0" border="0">
+<table width="100%" cellspacing="2" cellpadding="0" border="0">
 <tr>
         <td colspan="2" align="center">
 	<span style="font-size: 25px; font-weight: bold;">
 	  {year_number}
 	</span>
 	</td>
+</tr>
+<tr>
+        <td colspan="2" align="right">
+	<form action="{www_dir}{index}/groupeventcalendar/eventedit/edit/">
+ 	  <input class="stdbutton" type="submit" name="GoDay" value="{intl-day}">
+          <input class="stdbutton" type="submit" name="GoMonth" value="{intl-month}">
+	  <input class="stdbutton" type="submit" name="GoYear" value="{intl-year}">
+	  <input class="stdbutton" type="submit" name="GoToday" value="{intl-today}">
+	</form>
+        </td>
 </tr>
 <tr>
 	<td>
@@ -47,13 +57,3 @@
 
 <!-- END month_tpl -->
 </table>
-
-<form action="{www_dir}{index}/groupeventcalendar/eventedit/edit/">
-
-<hr noshade size="4" />
-
-<input class="stdbutton" type="submit" name="GoDay" value="{intl-day}">
-<input class="stdbutton" type="submit" name="GoMonth" value="{intl-month}">
-<input class="stdbutton" type="submit" name="GoYear" value="{intl-year}">
-<input class="stdbutton" type="submit" name="GoToday" value="{intl-today}">
-</form>
