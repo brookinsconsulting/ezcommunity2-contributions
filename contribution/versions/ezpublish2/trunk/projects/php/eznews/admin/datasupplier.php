@@ -1,6 +1,5 @@
 <?
-    include_once("eznews/classes/eznewscommand.php");
-
-    $item=new eZNewsCommand();
-
+    include_once("eznews/classes/eznewsitemviewer.php");
+    $item=new eZNewsItemViewer( "site.ini" );
+    $item->doActions();
 ?> 
