@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: messageedit.php,v 1.44 2001/04/25 11:51:45 jb Exp $
+// $Id: messageedit.php,v 1.45 2001/05/08 09:55:04 ce Exp $
 //
 // Paul K Egell-Johnsen <pkej@ez.no>
 // Created on: <21-Feb-2001 18:00:00 pkej>
@@ -319,7 +319,7 @@ switch( $Action )
                 $msg->store();
             }
         }
-        
+
         eZHTTPTool::header( "Location: /forum/messageedit/$ActionValue/$OriginalID?ReplyToID=$ReplyToID&ActionStart=$ActionStart&RedirectURL=$RedirectURL" );
     }
     break;
@@ -537,7 +537,6 @@ switch( $Action )
                         {
                             $msg->setIsApproved( true );
                         }
-
                     }
                     break;
                     
@@ -599,7 +598,7 @@ switch( $Action )
 
             $msg->store();
             $PreviewID = $msg->id();
-            
+
             if( $EndAction == "insert" )
             {
                 $OriginalID = $PreviewID;

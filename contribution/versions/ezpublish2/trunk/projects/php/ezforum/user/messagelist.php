@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: messagelist.php,v 1.23 2001/05/08 08:03:27 ce Exp $
+// $Id: messagelist.php,v 1.24 2001/05/08 09:55:04 ce Exp $
 //
 // Lars Wilhelmsen <lw@ez.no>
 // Created on: <11-Sep-2000 22:10:06 bf>
@@ -99,7 +99,7 @@ if ( $ini->read_var( "eZForumMain", "ShowReplies" ) == "enabled" )
 else
 {
     $messageList =& $forum->messageTreeArray( $Offset, $UserLimit, false, false );
-    $messageCount =& $forum->messageCount();
+    $messageCount =& $forum->messageCount( false, true );
 }
 
 if ( !$messageList )

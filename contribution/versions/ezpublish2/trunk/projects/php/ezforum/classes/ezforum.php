@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezforum.php,v 1.28 2001/05/08 08:03:27 ce Exp $
+// $Id: ezforum.php,v 1.29 2001/05/08 09:55:04 ce Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <11-Sep-2000 22:10:06 bf>
@@ -330,8 +330,8 @@ class eZForum
        }
        else
        {
-           $db->array_query( $message_array, "SELECT COUNT(ThreadID) as Count, ID, Topic, UserID, PostingTime, Depth FROM
-                                          eZForum_Message
+           $db->array_query( $message_array, "SELECT COUNT(ThreadID) as Count, ID, Topic, UserID, PostingTime, Depth
+                                          FROM eZForum_Message
                                           WHERE ForumID='$this->ID'
                                           AND IsTemporary='0'
                                           $approvedCode
@@ -347,18 +347,25 @@ class eZForum
 
       Default limit is set to 100
     */
-    function &messageThreadTree( $threadID, $offset=0, $limit=100 )
+    function &messageThreadTree( $threadID, $showUnApprived=false, $offset=0, $limit=100 )
     {
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
         
        $db =& eZDB::globalDatabase();
 
-       $db->array_query( $message_array, "SELECT ID FROM
-                                          eZForum_Message
-                                          WHERE ForumID='$this->ID' AND ThreadID='$threadID' AND
-                                          IsTemporary='0' ORDER BY TreeID DESC LIMIT $offset,$limit" );
-
+       if ( !$showUnApproved )
+           $showUnApproved = " AND IsApproved='1' ";
+       else
+           $showUnApproved = " AND IsApproved='0' ";
+       
+       $db->array_query( $message_array, "SELECT ID FROM eZForum_Message
+                                          WHERE ForumID='$this->ID'
+                                          AND ThreadID='$threadID'
+                                          AND IsTemporary='0'
+                                          $showUnApproved
+                                          ORDER BY TreeID DESC
+                                          LIMIT $offset,$limit" );
        $ret = array();
 
        foreach ( $message_array as $message )
@@ -625,7 +632,7 @@ class eZForum
     /*!
       Returns the number of messages in the forum.
     */
-    function messageCount( $countUnapproved = false)
+    function messageCount( $countUnapproved = false, $showReplies = false)
     {
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
@@ -636,9 +643,20 @@ class eZForum
        if( $countUnapproved == false )
            $unapprovedSQL = "AND IsApproved='1'";
 
-       $db->array_query( $message_array, "SELECT ID FROM eZForum_Message
+       if ( $showReplies )
+       {
+           $db->array_query( $message_array, "SELECT ID FROM eZForum_Message
+                                          WHERE ForumID='$this->ID'
+                                          AND IsTemporary='0'
+                                          $unapprovedSQL
+                                          GROUP BY ThreadID" );
+       }
+       else
+       {
+           $db->array_query( $message_array, "SELECT ID FROM eZForum_Message
                                           WHERE ForumID='$this->ID'
                                           AND IsTemporary='0' $unapprovedSQL" );
+       }
 
        $ret = count( $message_array );
 
