@@ -76,6 +76,11 @@ switch ( $url_array[2] )
                 break;
             }
 
+            default:
+            {
+                header( "Location: /contact/error?Type=404&Uri=$REQUEST_URI&Query=$QUERY_STRING&BackUrl=$HTTP_REFERER" );
+                break;
+            }
         }
         break;
     }
@@ -133,6 +138,12 @@ switch ( $url_array[2] )
                 include( "ezcontact/admin/companytypeedit.php" );
                 break;
             }
+
+            default:
+            {
+                header( "Location: /contact/error?Type=404&Uri=$REQUEST_URI&Query=$QUERY_STRING&BackUrl=$HTTP_REFERER" );
+                break;
+            }
         }
         break;
     }
@@ -188,12 +199,145 @@ switch ( $url_array[2] )
                 include( "ezcontact/admin/persondelete.php" );
                 break;
             }
+            default:
+            {
+                header( "Location: /contact/error?Type=404&Uri=$REQUEST_URI&Query=$QUERY_STRING&BackUrl=$HTTP_REFERER" );
+                break;
+            }
         }
         break;
     }
 
+    case "phonetype":
+    {
+        switch( $url_array[3] )
+        {
+            case "list":
+            {
+                $PhoneTypeID = $url_array[4];
+                $Action = "list";
+                include( "ezcontact/admin/phonetypelist.php" );
+                break;
+            }
+            case "new":
+            {
+                $Action = "new";
+                include( "ezcontact/admin/phonetypeedit.php" );
+                break;
+            }
+            case "insert":
+            {
+                $PhoneTypeID = $url_array[4];
+                $Action = "insert";
+                include( "ezcontact/admin/phonetypeedit.php" );
+                break;
+            }
+            case "view":
+            {
+                $PhoneTypeID = $url_array[4];
+                $Action = "view";
+                include( "ezcontact/admin/phonetypeview.php" );
+                break;
+            }
+            case "edit":
+            {
+                $PhoneTypeID = $url_array[4];
+                $Action = "edit";
+                include( "ezcontact/admin/phonetypeedit.php" );
+                break;
+            }
+            case "update":
+            {
+                $PhoneTypeID = $url_array[4];
+                $Action = "update";
+                include( "ezcontact/admin/phonetypeedit.php" );
+                break;
+            }
+            case "delete":
+            {
+                $PhoneTypeID = $url_array[4];
+                $Action = "delete";
+                include( "ezcontact/admin/phonetypeedit.php" );
+                break;
+            }
+            default:
+            {
+                header( "Location: /contact/error?Type=404&Uri=$REQUEST_URI&Query=$QUERY_STRING&BackUrl=$HTTP_REFERER" );
+                break;
+            }
+        }
+        break;
+    }
+
+    case "addresstype":
+    {
+        switch( $url_array[3] )
+        {
+            case "list":
+            {
+                $AddressTypeID = $url_array[4];
+                $Action = "list";
+                include( "ezcontact/admin/addresstypelist.php" );
+                break;
+            }
+            case "new":
+            {
+                $Action = "new";
+                include( "ezcontact/admin/addresstypeedit.php" );
+                break;
+            }
+            case "insert":
+            {
+                $AddressTypeID = $url_array[4];
+                $Action = "insert";
+                include( "ezcontact/admin/addresstypeedit.php" );
+                break;
+            }
+            case "view":
+            {
+                $AddressTypeID = $url_array[4];
+                $Action = "view";
+                include( "ezcontact/admin/addresstypeview.php" );
+                break;
+            }
+            case "edit":
+            {
+                $AddressTypeID = $url_array[4];
+                $Action = "edit";
+                include( "ezcontact/admin/addresstypeedit.php" );
+                break;
+            }
+            case "update":
+            {
+                $AddressTypeID = $url_array[4];
+                $Action = "update";
+                include( "ezcontact/admin/addresstypeedit.php" );
+                break;
+            }
+            case "delete":
+            {
+                $AddressTypeID = $url_array[4];
+                $Action = "delete";
+                include( "ezcontact/admin/addresstypeedit.php" );
+                break;
+            }
+            default:
+            {
+                header( "Location: /contact/error?Type=404&Uri=$REQUEST_URI&Query=$QUERY_STRING&BackUrl=$HTTP_REFERER" );
+                break;
+            }
+        }
+        break;
+    }
+
+    case "error":
+    {
+        include( "ezcontact/admin/error.php" );
+        break;
+    }
+
     default :
-        header( "Location: /error.php?type=404&reason=missingpage&hint[]=/contact/company/list/&hint[]=/contact/person/list&module=ezcontact" );
+        header( "Location: /contact/error?Type=404&Uri=$REQUEST_URI&Query=$QUERY_STRING&BackUrl=$HTTP_REFERER" );
         break;
 }
 
