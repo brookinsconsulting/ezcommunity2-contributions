@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezarticle.php,v 1.160 2001/09/07 10:41:34 bf Exp $
+// $Id: ezarticle.php,v 1.161 2001/09/07 21:39:10 fh Exp $
 //
 // Definition of eZArticle class
 //
@@ -2516,7 +2516,7 @@ class eZArticle
             {
                 case "count":
                 {
-                    $sort_text = "ORDER BY count( eZArticle_Article.ID )";
+                    $sort_text = "ORDER BY Count";
                     break;
                 }
                 default:
