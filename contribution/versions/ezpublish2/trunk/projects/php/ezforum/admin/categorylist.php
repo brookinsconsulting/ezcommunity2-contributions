@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: categorylist.php,v 1.9 2000/10/17 13:43:58 ce-cvs Exp $
+    $Id: categorylist.php,v 1.10 2000/10/17 14:19:16 ce-cvs Exp $
 
     Author: Lars Wilhelmsen <lw@ez.no>
     
@@ -8,39 +8,58 @@
     
     Copyright (C) 2000 eZ systems. All rights reserved.
 */
-include( "ezforum/dbsettings.php" );
-include_once( "ezphputils.php" );
-include_once( "template.inc" );
-include_once( "../classes/ezdb.php" );
-include_once( "$DOCROOT/classes/ezforumcategory.php" );
+
+//include( "ezforum/dbsettings.php" );
+
+include_once( "classes/INIFile.php" );
+$ini = new INIFile( "site.ini" );
+
+$DOC_ROOT = $ini->read_var( "eZForumMain", "DocumentRoot" );
+$Language = $ini->read_var( "eZForumMain", "Language" );
+
+include_once( "classes/eztemplate.php" );
+include_once( "ezforum/classes/ezforumcategory.php" );
   
-$cat = new eZforumCategory();
-$t = new Template( "$DOCROOT/admin/templates" );
+$cat = new eZForumCategory();
 
-$t->set_file(array( "category" => "category.tpl",
-                    "category-add" => "category-add.tpl",
-                    "category-modify" => "category-modify.tpl",
-                    "listelements" => "category-list-elements.tpl"
+$t = new eZTemplate( "ezforum/admin/" . $ini->read_var( "eZForumMain", "TemplateDir" ),
+"ezforum//admin/" . "/intl", $Language, "categorylist.php" );
+$t->setAllStrings();
+
+$t->set_file(array( "category_page" => "categorylist.tpl",
                     ) );
+$t->set_block( "category_page", "category_item_tpl", "category_item" );
 
-$t->set_var( "docroot", $DOCROOT );
-$t->set_var( "box", "" );
+$t->set_var( "docroot", $DOC_ROOT );
 
-$categories = eZforumCategory::getAllCategories();
+$category = new eZForumCategory();
+$categoryList = $category->getAll();
 
-for ($i = 0; $i < count( $categories ); $i++)
+if ( !$categoryList )
 {
-    arrayTemplate( $t, $categories[$i], Array( Array("Id", "list-Id" ),
-                                               Array("Name", "list-Name" ),
-                                               Array("Description", "list-Description" ),
-                                               Array("Private", "list-Private" )
-                                               )
-                   );
+    $ini = new INIFile( "ezforum/admin/" . "intl/" . $Language . "/categorylist.php.ini", false );
+    $noitem =  $ini->read_var( "strings", "noitem" );
 
-    $t->set_var( "color", switchColor( $i, "#f0f0f0", "#dcdcdc" ) );
-
-    $t->parse("categories","listelements",true);
+    $t->set_var( "category_item", $noitem );
 }
+else
+{
+    $i=0;
+    foreach( $categoryList as $categoryItem )
+        {
+            if ( ( $i %2 ) == 0 )
+                $t->set_var( "td_class", "bgdark" );
+            else
+                $t->set_var( "td_class", "bglight" );
 
-$t->pparse("output", "category");
+            $t->set_var( "category_id", $categoryItem->id() );
+            $t->set_var( "category_name", $categoryItem->name() );
+            $t->set_var( "category_description", $categoryItem->description() );
+
+            $t->parse( "category_item", "category_item_tpl", true );
+            $i++;
+        }
+} 
+
+$t->pparse( "output", "category_page" );
 ?>

@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: forum.php,v 1.19 2000/10/17 13:43:58 ce-cvs Exp $
+    $Id: forum.php,v 1.20 2000/10/17 14:19:16 ce-cvs Exp $
 
     Author: Lars Wilhelmsen <lw@ez.no>
     
@@ -9,7 +9,7 @@
     Copyright (C) 2000 eZ systems. All rights reserved.
 */
 include( "ezforum/dbsettings.php" );
-include_once( "template.inc" );
+include_once( "classes/template.inc" );
 include_once( "$DOCROOT/classes/ezforumcategory.php" );
 include_once( "$DOCROOT/classes/ezforumforum.php" );
 include_once( "../classes/ezusergroup.php" );
@@ -29,21 +29,9 @@ $t->set_var( "docroot", $DOCROOT );
 
 $t->set_var( "category_id", $category_id );
 
-if ( $session->get( $AuthenticatedSession ) != 0 )
-{
-    // fail  - reason: user not logged in.
-    die( "your not logged in.. (redirect to login page)" );
-}
-
 //actions (submit buttons)
-if ( $add )
+if ( $Action == "insert" )
 {
-    if ( !eZUserGroup::verifyCommand( $session->userID, "eZForum_AddForum" ) )
-    {
-        die( "Insufficient user rights to add forum, dying..." );
-        exit;
-    }
-
     $forum = new eZforumForum;
     $forum->newForum();
     $forum->setCategoryId( $category_id );
@@ -65,12 +53,6 @@ if ( $add )
 
 if ( $modify )
 {
-    if ( !eZUserGroup::verifyCommand( $session->userID(), "eZForum_DeleteForum" ) )
-    {
-        die( "Insufficient user rights to modify forum, dying..." );
-        exit;
-    }
-    
     $forum = new eZforumForum();
     $forum->get( $forum_id );
     $forum->setName( $name );
@@ -91,12 +73,6 @@ if ( $modify )
 
 if ( $delete )
 {
-    if ( !eZUserGroup::verifyCommand( $session->userID(), "eZForum_DeleteForum" ) )
-    {
-        die( "Insufficient user rights to delete forum, dying..." );
-        exit;
-    }
-
     $forum = new eZforumForum;
     $forum->delete( $forum_id );
 }

@@ -1,6 +1,6 @@
 <?
 /*!
-  $Id: messagelist.php,v 1.3 2000/10/17 14:16:49 ce-cvs Exp $
+  $Id: messagelist.php,v 1.4 2000/10/17 14:19:16 ce-cvs Exp $
 
   Author: Lars Wilhelmsen <lw@ez.no>
     
