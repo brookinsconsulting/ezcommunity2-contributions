@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: checkout.php,v 1.26 2001/01/29 11:15:07 ce Exp $
+// $Id: checkout.php,v 1.27 2001/01/29 11:30:08 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <28-Sep-2000 15:52:08 bf>
@@ -232,45 +232,38 @@ if ( $SendOrder == "true" )
     
     $user = $order->user();
 
-    print( $user );
     
     $mailTemplate->set_var( "user_first_name", $user->firstName() );
     $mailTemplate->set_var( "user_last_name", $user->lastName() );
 
-    $shippingAddress = $order->shippingAddress();
+   // print out the addresses
+
     $billingAddress = $order->billingAddress();
 
-    $mailTemplate->set_var( "shipping_user_street", "" );
-    $mailTemplate->set_var( "shipping_user_street2", "" );
-    $mailTemplate->set_var( "shipping_user_city", "" );
-    $mailTemplate->set_var( "shipping_user_zip", "" );
+    $mailTemplate->set_var( "billing_street1", $billingAddress->street1() );
+    $mailTemplate->set_var( "billing_street2", $billingAddress->street2() );
+    $mailTemplate->set_var( "billing_zip", $billingAddress->zip() );
+    $mailTemplate->set_var( "billing_place", $billingAddress->place() );
+    
+    $country = $billingAddress->country();
+    $mailTemplate->set_var( "billing_country", $country->name() );
 
-    $mailTemplate->set_var( "shipping_user_country", "" );
+    if ( $ini->read_var( "eZTradeMain", "BillingAddress" ) == "Enabled" )
+        $mailTemplate->parse( "billing_address", "billing_address_tpl" );
+    else
+        $mailTemplate->set_var( "billing_address", "" );
 
-    $mailTemplate->set_var( "billing_user_street", "" );
-    $mailTemplate->set_var( "billing_user_street2", "" );
-    $mailTemplate->set_var( "billing_user_city", "" );
-    $mailTemplate->set_var( "billing_user_zip", "" );
+    $shippingAddress = $order->shippingAddress();
 
-    $mailTemplate->set_var( "billing_user_country", "" );
-
-    // Select correct later PKEJ
-    $mailTemplate->set_var( "shipping_user_street", $shippingAddress->street1() );
-    $mailTemplate->set_var( "shipping_user_street2", $shippingAddress->street2() );
-    $mailTemplate->set_var( "shipping_user_city", $shippingAddress->place() );
-    $mailTemplate->set_var( "shipping_user_zip", $shippingAddress->zip() );
-
-    $shippingCountry = $shippingAddress->country();
-
-    $mailTemplate->set_var( "billing_user_street", $billingAddress->street1() );
-    $mailTemplate->set_var( "billing_user_street2", $billingAddress->street2() );
-    $mailTemplate->set_var( "billing_user_city", $billingAddress->place() );
-    $mailTemplate->set_var( "billing_user_zip", $billingAddress->zip() );
-
-    $billingCountry = $billingAddress->country();
-
-    $mailTemplate->set_var( "billing_user_country", $shippingCountry->name() );
-    $mailTemplate->set_var( "shipping_user_country", $billingCountry->name() );
+    $mailTemplate->set_var( "shipping_street1", $shippingAddress->street1() );
+    $mailTemplate->set_var( "shipping_street2", $shippingAddress->street2() );
+    $mailTemplate->set_var( "shipping_zip", $shippingAddress->zip() );
+    $mailTemplate->set_var( "shipping_place", $shippingAddress->place() );
+    
+    $country = $shippingAddress->country();
+    $mailTemplate->set_var( "shipping_country", $country->name() );
+    
+    $mailTemplate->parse( "shipping_address", "shipping_address_tpl" );
 
     foreach( $items as $item )
     {

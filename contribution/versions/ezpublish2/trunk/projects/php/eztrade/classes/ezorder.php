@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezorder.php,v 1.19 2001/01/27 16:51:33 jb Exp $
+// $Id: ezorder.php,v 1.20 2001/01/29 11:30:08 bf Exp $
 //
 // Definition of eZOrder class
 //
@@ -59,6 +59,7 @@ class eZOrder
     function eZOrder( $id="", $fetch=true )
     {
         $this->IsConnected = false;
+        $this->IsExported = 0;
 
         if ( $id != "" )
         {
@@ -93,6 +94,7 @@ class eZOrder
 		                         ShippingAddressID='$this->ShippingAddressID',
 		                         BillingAddressID='$this->BillingAddressID',
 		                         PaymentMethod='$this->PaymentMethod',
+		                         IsExported='$this->IsExported',
 		                         ShippingCharge='$this->ShippingCharge'
                                  " );
 
@@ -122,6 +124,7 @@ class eZOrder
 		                         ShippingAddressID='$this->ShippingAddressID',
 		                         BillingAddressID='$this->BillingAddressID',
 		                         PaymentMethod='$this->PaymentMethod',
+		                         IsExported='$this->IsExported',
 		                         ShippingCharge='$this->ShippingCharge'
                                  WHERE ID='$this->ID'
                                  " );
@@ -149,7 +152,7 @@ class eZOrder
                 $item->delete();
             }
         }
-
+        
         $this->Database->query( "DELETE FROM eZTrade_OrderStatus WHERE OrderID='$this->ID'" );
 
         
@@ -183,6 +186,8 @@ class eZOrder
                 $this->ShippingCharge = $cart_array[0][ "ShippingCharge" ];
                 $this->PaymentMethod = $cart_array[0][ "PaymentMethod" ];
 
+                $this->IsExported = $cart_array[0][ "IsExported" ];
+
                 $this->State_ = "Coherent";
                 $ret = true;
             }
@@ -197,9 +202,9 @@ class eZOrder
     /*!
       Fetches all the orders.
 
-      Note: Default limit is 20.
+      Note: Default limit is 40.
     */
-    function getAll( $offset=0, $limit=20 )
+    function getAll( $offset=0, $limit=40 )
     {
         $this->dbInit();
 
@@ -217,6 +222,28 @@ class eZOrder
         return $return_array;
     }
 
+    /*!
+      Fetches new orders, orders which is not exported.
+    */
+    function getNew( )
+    {
+        $this->dbInit();
+
+        $return_array = array();
+        $order_array = array();
+
+        $this->Database->array_query( $order_array,
+        "SELECT ID FROM eZTrade_Order
+         WHERE IsExported='0'" );
+
+        for ( $i=0; $i<count( $order_array ); $i++ )
+        {
+            $return_array[$i] = new eZOrder( $order_array[$i][ "ID" ], 0 );
+        }
+
+        return $return_array;
+    }
+    
     /*!
       Does a search in the order database.
 
@@ -354,6 +381,21 @@ class eZOrder
     }
 
     /*!
+      Returns true if the order is exported. This is for use with integration
+      with other systems.
+    */
+    function isExported( $value )
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+       if ( $this->IsExported == 1 )
+           return true;
+       else
+           return false;
+    }
+    
+    /*!
       Sets the payment method.
     */
     function setPaymentMethod( $value )
@@ -434,6 +476,22 @@ class eZOrder
            $this->OrderStatus_ = $type->id();
        }
     }
+
+    /*!
+      Sets the order to be exported or not. This is used for integration with
+      other systems. So you know if you have fetched this order or not.
+    */
+    function setIsExported( $value )
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+       if ( $value == true )
+           $this->IsExported = 1;
+       else
+           $this->IsExported = 0;       
+    }
+
 
     /*!
       Returns the initial status as a eZOrderStatus object.
@@ -610,6 +668,8 @@ class eZOrder
     var $PaymentMethod;
 
     var $OrderStatus_;
+
+    var $IsExported;
     
     ///  Variable for keeping the database connection.
     var $Database;
