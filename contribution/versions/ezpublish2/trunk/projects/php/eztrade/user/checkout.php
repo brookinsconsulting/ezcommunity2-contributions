@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: checkout.php,v 1.54 2001/03/15 17:18:16 bf Exp $
+// $Id: checkout.php,v 1.55 2001/03/21 10:19:54 ce Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <28-Sep-2000 15:52:08 bf>
@@ -405,9 +405,12 @@ foreach ( $addressArray as $address )
     $t->set_var( "is_selected", "" );
     $mainAddress = $address->mainAddress( $user );
 
-    if ( $mainAddress->id() == $address->id() )
+    if ( $mainAddress && $address )
     {
-        $t->set_var( "is_selected", "selected" );
+        if ( $mainAddress->id() == $address->id() )
+        {
+            $t->set_var( "is_selected", "selected" );
+        }
     }
 
     if ( $ini->read_var( "eZTradeMain", "ShowBillingAddress" ) == "enabled" )
