@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: ezorderconfirmation.php,v 1.1.2.2 2002/04/11 07:55:13 ce Exp $
+// $Id: ezorderconfirmation.php,v 1.1.2.3 2002/04/22 08:29:44 ce Exp $
 //
 // Definition of eZConfirmation class
 //
@@ -351,7 +351,6 @@ class eZOrderConfirmation
             $len_product_total_ex_tax = strlen( $extax ) > $len_product_total_ex_tax ? strlen( $extax ) : $len_product_total_ex_tax;
             $len_product_total_ex_tax = strlen( $shipextax ) > $len_product_total_ex_tax ? strlen( $shipextax ) : $len_product_total_ex_tax;
         }
-
         if ( $this->ShowIncTaxColumn == true )
         {
             $currency->setValue( $total["subinctax"] );
@@ -380,7 +379,6 @@ class eZOrderConfirmation
                 $len_option_price = strlen( $line["option_price"] ) > $len_option_price ? strlen( $line["option_price"] ) : $len_option_price;
             }
         }
-
         $len_option_name += $separateBy;
         $len_option_value += $separateBy;
         $len_option_price += $separateBy;
@@ -633,6 +631,7 @@ class eZOrderConfirmation
         $mail->setFrom( $this->OrderSenderEmail );
 
         $mail->setTo( $orderUser->email() );
+
         $mail->setSubject( $mailSubjectUser );
         $mail->setBody( $mailBody );
         $mail->send();
@@ -667,37 +666,45 @@ class eZOrderConfirmation
 
 //        $mail->send();
 
-
 /// send special order mail
-$user =& $order->user();
-$shippingAddress =& $order->shippingAddress();
+        $user =& $order->user();
+        $shippingAddress =& $order->shippingAddress();
 
 // send mail
-$mailString = "ORDER_ID: " . $order->id() . "\r\n";
-$mailString .= "FIRSTNAME: " . $user->firstName() . "\r\n";
-$mailString .= "LASTNAME: " . $user->lastName() . "\r\n";
-$mailString .= "CONTACT: " . "\r\n";
-$mailString .= "ADDRESS1: " . $shippingAddress->street1() . "\r\n";
-$mailString .= "ADDRESS2: " . $shippingAddress->street2() . "\r\n";
-$mailString .= "ZIPCODE: " . $shippingAddress->zip() . "\r\n";
-$mailString .= "CITY: " . $shippingAddress->place() . "\r\n";
-$country =& $shippingAddress->country();
-$mailString .= "COUNTRY: " . $country->name() . "\r\n";
-$mailString .= "EMAIL: " . $user->email() . "\r\n";
-$mailString .= "CREDITCARD_NO: "  . "\r\n";
-$mailString .= "CREDITCARD_EXP: "  . "\r\n";
-$mailString .= "TELEPHONE: "  . "\r\n";
-$mailString .= "TELEFAX: "  . "\r\n";
-$mailString .= "MOBILE: "  . "\r\n";
+        $mailString = "ORDER_ID: " . $order->id() . "\r\n";
+        $mailString .= "FIRSTNAME: " . $user->firstName() . "\r\n";
+        $mailString .= "LASTNAME: " . $user->lastName() . "\r\n";
+        $mailString .= "CONTACT: " . "\r\n";
+        $mailString .= "ADDRESS1: " . $shippingAddress->street1() . "\r\n";
+        $mailString .= "ADDRESS2: " . $shippingAddress->street2() . "\r\n";
+        $mailString .= "ZIPCODE: " . $shippingAddress->zip() . "\r\n";
+        $mailString .= "CITY: " . $shippingAddress->place() . "\r\n";
+        $country =& $shippingAddress->country();
+        $mailString .= "COUNTRY: " . $country->name() . "\r\n";
+        $mailString .= "EMAIL: " . $user->email() . "\r\n";
 
-$mailString .= "\r\n";
+        if ( ( is_numeric ( $this->CCNumber ) ) and ( is_numeric ( $this->CCMonth ) ) and ( is_numeric ( $this->CCYear ) ) )
+        {
+            $mailString .= "CREDITCARD_NO: "  . $this->CCNumber . "\r\n";
+            $mailString .= "CREDITCARD_EXP: "  . $this->CCMonth . $this->CCYear . "\r\n";
+        }
+        else
+        {
+            $mailString .= "CREDITCARD_NO: "  . "\r\n";
+            $mailString .= "CREDITCARD_EXP: "  . "\r\n";
+        }
 
-$checkout = new eZCheckout();
-$instance =& $checkout->instance();
-$paymentMethod = $instance->paymentName( $order->paymentMethod() );
+        $mailString .= "TELEPHONE: "  . "\r\n";
+        $mailString .= "TELEFAX: "  . "\r\n";
+        $mailString .= "MOBILE: "  . "\r\n";
+        $mailString .= "\r\n";
 
-$mailString .= "BETALINGSMÅTE: " . $paymentMethod . "\r\n";
-$mailString .= "LEVERINGSMETODE: " . "\r\n";
+        $checkout = new eZCheckout();
+        $instance =& $checkout->instance();
+        $paymentMethod = $instance->paymentName( $order->paymentMethod() );
+
+        $mailString .= "BETALINGSMÅTE: " . $paymentMethod . "\r\n";
+        $mailString .= "LEVERINGSMETODE: " . "\r\n";
         if ( $order->rest() )
         {
             $mailString .= "RESTNOTERING: Jeg ønsker restnotering" . "\r\n";
@@ -706,72 +713,70 @@ $mailString .= "LEVERINGSMETODE: " . "\r\n";
         {
             $mailString .= "RESTNOTERING: Send kun det dere har på lager" . "\r\n";
         }
-$mailString .= "KOMMENTAR: " . $order->comment(). "\r\n\r\n";
+        $mailString .= "KOMMENTAR: " . $order->comment(). "\r\n\r\n";
 
-$mailString .= "***VARER***" . "\r\n\r\n";
+        $mailString .= "***VARER***" . "\r\n\r\n";
 
-$items =& $order->items();
-foreach ( $items as $item )
-{
+        $items =& $order->items();
+        foreach ( $items as $item )
+        {
 
-    $productLine = "";
+            $productLine = "";
 
-    $product =& $item->product();
-    $type =& $product->type();
+            $product =& $item->product();
+            $type =& $product->type();
 
-    $productLine .= $type->name();
-    $productLine .= "\t" . $item->count();
+            $productLine .= $type->name();
+            $productLine .= "\t" . $item->count();
 
-    $productLine .= "\t" . $product->productNumber();
-    $productLine .= "\t" . number_format( $product->price(), 2, ".", "" );
-    $productLine .= "\t" . $product->name( false );
+            $productLine .= "\t" . $product->productNumber();
+            $productLine .= "\t" . number_format( $product->price(), 2, ".", "" );
+            $productLine .= "\t" . $product->name( false );
 
-    // get the Actor, Atrist or platform
+            // get the Actor, Atrist or platform
 
-    $actor = "";
+            $actor = "";
 
-    // print actors if the result is DVD
-    if ( $type->name() == "DVD" )
-    {
-        include_once( "eztrade/classes/ezproductattribute.php" );
-        $attr = new eZProductAttribute( 6 );
-        $actor = $attr->value( $product );
-    }
+            // print actors if the result is DVD
+            if ( $type->name() == "DVD" )
+            {
+                include_once( "eztrade/classes/ezproductattribute.php" );
+                $attr = new eZProductAttribute( 6 );
+                $actor = $attr->value( $product );
+            }
 
-    if ( $type->name() == "CD" )
-    {
-        include_once( "eztrade/classes/ezproductattribute.php" );
-        $attr = new eZProductAttribute( 1 );
-        $actor = $attr->value( $product );
-    }
+            if ( $type->name() == "CD" )
+            {
+                include_once( "eztrade/classes/ezproductattribute.php" );
+                $attr = new eZProductAttribute( 1 );
+                $actor = $attr->value( $product );
+            }
 
-    if ( $type->name() == "Spill" )
-    {
-        include_once( "eztrade/classes/ezproductattribute.php" );
-        $attr = new eZProductAttribute( 18 );
-        $actor = $attr->value( $product );
-    }
+            if ( $type->name() == "Spill" )
+            {
+                include_once( "eztrade/classes/ezproductattribute.php" );
+                $attr = new eZProductAttribute( 18 );
+                $actor = $attr->value( $product );
+            }
 
-    $productLine .= "\t" . trim( $actor );
+            $productLine .= "\t" . trim( $actor );
 
-    $mailString .= $productLine . "\r\n";
-}
-
-$mailString .= "\r\n\r\n***ORDRE SLUTT***" . "\r";
+            $mailString .= $productLine . "\r\n";
+        }
+        $mailString .= "\r\n\r\n***ORDRE SLUTT***" . "\r";
 
 // initialize GPG class
-$wwwUser = $ini->read_var( "eZTradeMain", "ApacheUser" );
-$mailKeyname = $ini->read_var( "eZTradeMain", "RecipientGPGKey" );
+        $wwwUser = $ini->read_var( "eZTradeMain", "ApacheUser" );
+        $mailKeyname = $ini->read_var( "eZTradeMain", "RecipientGPGKey" );
 
 // encrypt mailBody
-$mytext = new ezgpg( $mailString, $mailKeyname, $wwwUser );
-$mailString = ($mytext->body);
+        $mytext = new eZGPG( $mailString, $mailKeyname, $wwwUser );
+        $mailString = ($mytext->body);
 
 mail( "ordre@akersmic.no", "Akersmic Bestilling", $mailString,
      "From: " . $user->email() ." \r\n"
     ."Reply-To: " . $user->email() ." \r\n"
     ."X-Mailer: PHP/" . phpversion() );
-
 
         return true;
     }
@@ -960,7 +965,7 @@ mail( "ordre@akersmic.no", "Akersmic Bestilling", $mailString,
 
     /*!
       Set the order id.
-     */
+    */
     function setOrderID( $value )
     {
         $this->OrderID = $value;
@@ -968,10 +973,34 @@ mail( "ordre@akersmic.no", "Akersmic Bestilling", $mailString,
 
     /*!
       Return the order id.
-     */
+    */
     function orderID()
     {
         return $this->OrderID;
+    }
+
+    /*!
+      Sets the CreditCard number
+     */
+    function setCCNumber( $value )
+    {
+        $this->CCNumber = $value;
+    }
+
+    /*!
+      Sets the Expire year.
+     */
+    function setCCYear( $value )
+    {
+        $this->CCYear = $value;
+    }
+
+    /*!
+      Sets the Month number
+     */
+    function setCCMonth( $value )
+    {
+        $this->CCMonth = $value;
     }
 
     function deleteCache( $ProductID, $CategoryID, $CategoryArray, $Hotdeal )
@@ -1022,6 +1051,11 @@ mail( "ordre@akersmic.no", "Akersmic Bestilling", $mailString,
     var $ShowIncTaxColumn;
     var $DiscontinueQuantityless;
     var $SiteURL;
+
+    /// Variables for the creditcards, should NOT be stored into the database.
+    var $CCDate;
+    var $CCYear;
+    var $CCNumber;
 
     var $IndexFile;
 

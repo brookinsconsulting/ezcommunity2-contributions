@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: ezbulkmailcategory.php,v 1.25.2.3.4.2 2002/04/10 12:00:53 ce Exp $
+// $Id: ezbulkmailcategory.php,v 1.25.2.3.4.3 2002/04/22 08:29:43 ce Exp $
 //
 // Definition of eZBulkMailCategory class
 //
@@ -562,9 +562,9 @@ class eZBulkMailCategory
 
         for ( $i = 0; $i < count( $subscribe_array ); $i++ )
         {
-            $return_array[$i] = new eZBulkMailUserSubscripter( $subscribe_array[$i][$db->fieldName( "UserID" )], $this->ID );
+            $users[] = new eZBulkMailUserSubscripter( $subscribe_array[$i][$db->fieldName( "UserID" )], $this->ID );
         }
-        return $return_array;
+        return $users;
     }
 
     /*!

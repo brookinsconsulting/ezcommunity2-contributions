@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: mailview.php,v 1.8.2.1 2001/11/19 11:29:37 jhe Exp $
+// $Id: mailview.php,v 1.8.2.1.4.1 2002/04/22 08:29:43 ce Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -32,6 +32,8 @@ include_once( "classes/ezlocale.php" );
 include_once( "ezuser/classes/ezuser.php" );
 include_once( "classes/ezhttptool.php" );
 
+$delayID = 2;
+print( "<pre>" );
 
 if ( isset( $Edit ) )
 {
@@ -45,20 +47,26 @@ if ( isset( $Send ) )
     $categoryArray = $mail->categories();
     if ( count( $categoryArray ) > 0 )
     {
-        $mail->send();
+//        $mail->send();
 
         foreach ( $categoryArray as $category )
         {
-            $subscribers = $category->subscribers( true );
+            $subscribers = $category->subscribedUsers( $category->id() );
             foreach ( $subscribers as $subscripter )
             {
+                /*
                 $settings = $category->settings( $subscripter );
                 if ( ( get_class( $setting ) == "ezbulkmailcategorysettings" ) && ( $settings->delay() != 0 ) )
                 {
-                    $mail->addToDelayList( $subscripter->id(), $category->id(), $settings->delay() );
+                */
+                $user = $subscripter->user();
+                $mail->addToDelayList( $user->id(), $category->id(), $delayID );
+                    /*
                 }
+                    */
             }
         }
+        exit();
 
         $catID = $categoryArray[0]->id();
         eZHTTPTool::header( "Location: /bulkmail/categorylist/$catID" );
@@ -71,7 +79,7 @@ if ( isset( $Send ) )
 }
 
 $ini =& INIFile::globalINI();
-$Language = $ini->read_var( "eZBulkMailMain", "Language" ); 
+$Language = $ini->read_var( "eZBulkMailMain", "Language" );
 
 $t = new eZTemplate( "ezbulkmail/admin/" . $ini->read_var( "eZBulkMailMain", "AdminTemplateDir" ),
                      "ezbulkmail/admin/intl/", $Language, "mailview.php" );

@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: ezproduct.php,v 1.119.2.1.4.38 2002/04/15 07:01:05 bf Exp $
+// $Id: ezproduct.php,v 1.119.2.1.4.39 2002/04/22 08:29:44 ce Exp $
 //
 // Definition of eZProduct class
 //
@@ -447,6 +447,8 @@ class eZProduct
                 $this->ExpiryTime =& $category_array[0][$db->fieldName( "ExpiryTime" )];
                 $this->IncludesVAT =& $category_array[0][$db->fieldName( "IncludesVAT" )];
                 $this->TypeID =& $category_array[0][$db->fieldName( "TypeID" )];
+                $this->Innspilling =& $category_array[0][$db->fieldName( "Innspilling" )];
+                $this->Artist =& $category_array[0][$db->fieldName( "Artist" )];
                 if ( $this->Price == "NULL" )
                     unset( $this->Price );
 
@@ -1947,7 +1949,7 @@ class eZProduct
                        GROUP BY eZTrade_Product.ID
                        ORDER BY $OrderBy";
 
-                            
+
                             $db->query( $queryString );
 
                             $count += 1;
@@ -1956,7 +1958,7 @@ class eZProduct
                         {
                             $IngoredWords[] = $queryWord;
                         }
-                        
+
                     }
                     $count -= 1;
 

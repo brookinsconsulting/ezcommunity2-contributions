@@ -1,6 +1,6 @@
 <?php
-// 
-// $Id: ezbulkmailusersubscripter.php,v 1.5.2.1 2001/10/29 15:54:16 fh Exp $
+//
+// $Id: ezbulkmailusersubscripter.php,v 1.5.2.1.4.1 2002/04/22 08:29:43 ce Exp $
 //
 // eZBulkMailUserSubscription class
 //
@@ -157,7 +157,7 @@ class eZBulkMailUserSubscripter
         }
         return $ret_val;
     }
-    
+
     /*!
       Unsubscribes this user from the given category. If the supplied argument is true, the user is unsubscibed from all categories.
      */
@@ -167,7 +167,7 @@ class eZBulkMailUserSubscripter
         $db->begin();
         $db->lock( "eZBulkMail_UserCategorySettings" );
         $userID = $this->User->id();
-        
+
         $res[] = $db->query( "DELETE FROM eZBulkMail_UserCategorySettings WHERE CategoryID='$category'" );
         $nextID = $db->nextID( "eZBulkMail_UserCategorySettings", "ID" );
         $res[] = $db->query( "INSERT INTO  eZBulkMail_UserCategorySettings ( ID, CategoryID, UserID, Delay ) VALUES ( '$nextID','$category','$userID','$delay' )" );

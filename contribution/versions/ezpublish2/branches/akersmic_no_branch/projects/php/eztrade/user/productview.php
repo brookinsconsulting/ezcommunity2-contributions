@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: productview.php,v 1.77.2.2.4.15 2002/04/11 07:55:14 ce Exp $
+// $Id: productview.php,v 1.77.2.2.4.16 2002/04/22 08:29:45 ce Exp $
 //
 // Created on: <24-Sep-2000 12:20:32 bf>
 //
@@ -127,6 +127,8 @@ else
 
 $t->set_block( "product_view_tpl", "product_number_item_tpl", "product_number_item" );
 $t->set_block( "product_view_tpl", "price_tpl", "price" );
+
+$t->set_block( "product_view_tpl", "related_products_tpl", "related_products" );
 
 $t->set_block( "product_view_tpl", "price_to_high_tpl", "price_to_high" );
 $t->set_block( "product_view_tpl", "price_to_low_tpl", "price_to_low" );
@@ -494,6 +496,41 @@ $t->set_var( "mail_method", "" );
 $t->set_var( "product_price", $product->localePrice( $PricesIncludeVAT ) );
 
 // price code removed
+
+// related products
+{
+    $productID = $product->id();
+    $db =& eZDB::globalDatabase();
+
+    $db->query( "DROP TABLE IF EXISTS eZTrade_RelatedProducts" );
+
+    $db->query( "CREATE TEMPORARY TABLE eZTrade_RelatedProducts( OrderID int, UserID int )" );
+
+    $db->query( "insert INTO eZTrade_RelatedProducts ( OrderID, UserID ) SELECT O.ID, O.UserID
+	FROM eZTrade_OrderItem AS Item, eZTrade_Order AS O WHERE ProductID='$productID' AND Item.OrderID=O.ID" );
+
+    $queryString = "select eZTrade_Product.Name,
+eZTrade_OrderItem.ProductID,
+count(*) AS PCount from eZTrade_RelatedProducts,
+eZTrade_OrderItem, eZTrade_Product
+WHERE eZTrade_RelatedProducts.OrderID=eZTrade_OrderItem.OrderID
+AND eZTrade_OrderItem.ProductID <>'$productID'
+AND eZTrade_Product.ID=eZTrade_OrderItem.ProductID
+GROUP BY eZTrade_OrderItem.ProductID ORDER By PCount DESC LIMIT 10";
+
+    $db->array_query( $related_product_array, $queryString );
+
+    $db->query( "DROP TABLE eZTrade_RelatedProducts" );
+
+    $t->set_var( "related_products", "" );
+    foreach ( $related_product_array as $relatedProduct )
+    {
+        $t->set_var( "related_product_id", $relatedProduct["ProductID"] );
+        $t->set_var( "related_product_name", $relatedProduct["Name"] );
+        $t->parse( "related_products", "related_products_tpl", true );
+        print( "her" );
+    }
+}
 
 if ( ( $PurchaseProduct and !$product->discontinued() and $can_checkout ) and !$useVoucher )
     $t->parse( "add_to_cart", "add_to_cart_tpl" );
