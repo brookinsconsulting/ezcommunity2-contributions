@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eztemplate.php,v 1.6 2000/09/15 13:47:28 bf-cvs Exp $
+// $Id: eztemplate.php,v 1.7 2000/09/28 09:33:18 pkej-cvs Exp $
 //
 // Definition of eZCompany class
 //
@@ -38,9 +38,9 @@ class eZTemplate extends Template
         $this->phpFile = $phpFile;
         $this->Template( $templateDir );
 //        print( $intlDir . "/" . $language . "/" . $phpFile . ".ini" );
-        $ini = new INIFile( $intlDir . "/" . $language . "/" . $phpFile . ".ini", false );
+        $this->ini = new INIFile( $intlDir . "/" . $language . "/" . $phpFile . ".ini", false );
 
-        $this->TextStrings = $ini->read_group( "strings" );
+        $this->TextStrings = $this->ini->read_group( "strings" );
     }
 
     /*!
@@ -51,12 +51,49 @@ class eZTemplate extends Template
         for ( $i = 0; $i < count ( $this->TextStrings ); $i++ )
         {
             $tmp = each( $this->TextStrings );
-
+            
             $this->set_var( "intl-" . $tmp[0], $tmp[1] );
         }
     }
     
-    var $TextStrings;    
+    function set_var2($varname, $value = "")
+    {
+        Template::set_var($varname, $value = "");        
+        if (!is_array($varname))
+        {
+            if (!empty($varname))
+            {
+                if ($this->debug)
+                {
+                    print "scalar: set *$varname* to *$value*<br>\n";
+                }
+            }
+            $this->varkeys[$varname] = "/".$this->varname($varname)."/";
+            $this->varvals[$varname] = $value;
+        }
+        else
+        {
+            reset($varname);
+            while(list($k, $v) = each($varname))
+            {
+                if (!empty($k))
+                {
+                    if ($this->debug)
+                    {
+                        print "array: set *$k* to *$v*<br>\n";
+                    }
+                }
+
+                $this->varkeys[$k] = "/".$this->varname($k)."/";
+                $this->varvals[$k] = $v;
+                }
+        }
+    }
+    
+    
+    
+    var $TextStrings;
+    var $ini;    
 }
 
 ?>
