@@ -38,13 +38,16 @@
         <th>{intl-search_in_category}</th>
 </tr>
 <tr>
+	<!-- BEGIN category_list_tpl -->
         <td>
+	{category_main_name}
 	<select name="CategoryArrayID[]" multiple size="5">
 	<!-- BEGIN category_item_tpl -->
-	<option value="{category_id}" {is_selected}>{option_level}{category_name}</option>
+	<option value="{category_id}" {is_selected}>{category_name}</option>
 	<!-- END category_item_tpl -->
 	</select>
 	</td>
+	<!-- END category_list_tpl -->
 </tr>
 <tr>
         <td>&nbsp;</td>

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: extendedsearch.php,v 1.9 2001/03/22 08:31:20 ce Exp $
+// $Id: extendedsearch.php,v 1.10 2001/03/23 18:57:47 jb Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <10-Oct-2000 17:49:05 bf>
@@ -36,6 +36,7 @@ $ini =& INIFile::globalINI();
 $Language = $ini->read_var( "eZTradeMain", "Language" );
 $ShowPriceGroups = $ini->read_var( "eZTradeMain", "PriceGroupsEnabled" ) == "true";
 $RequireUserLogin = $ini->read_var( "eZTradeMain", "RequireUserLogin" ) == "true";
+$ExtendedSearchCategories = $ini->read_array( "eZTradeMain", "ExtendedSearchCategories" );
 
 include_once( "eztrade/classes/ezproduct.php" );
 include_once( "eztrade/classes/ezproductcategory.php" );
@@ -62,7 +63,8 @@ $t->set_file(  "extended_search_tpl", "extendedsearch.tpl" );
 
 $t->set_block( "extended_search_tpl", "extended_tpl", "product" );
 $t->set_block( "extended_search_tpl", "product_search_list_tpl", "product_search_list" );
-$t->set_block( "extended_search_tpl", "category_item_tpl", "category_item" );
+$t->set_block( "extended_search_tpl", "category_list_tpl", "category_list" );
+$t->set_block( "category_list_tpl", "category_item_tpl", "category_item" );
 
 $t->set_block( "extended_search_tpl", "empty_search_tpl", "empty_search" );
 
@@ -75,6 +77,8 @@ $t->set_var( "price_higher", "" );
 $t->set_var( "text", "" );
 
 $priceRange = explode( "-", $PriceRange );
+//  $PriceLower = !is_numeric( $priceRange[0] ) ? 0 : $priceRange[0];
+//  $PriceHigher = !is_numeric( $priceRange[1] ) ? 500 : $priceRange[1];
 $PriceLower = $priceRange[0];
 $PriceHigher = $priceRange[1];
 
@@ -88,13 +92,31 @@ if ( $Action == "SearchButton" )
     if ( $Offset == "" )
         $Offset = 0;
 
+    $mainCategoryArray = explode( "-", $MainCategories );
     if ( $Next || $Prev )
     {
-        if ( $CategoryArray != "" )
-            $CategoryArrayID = explode( "-", $CategoryArray );
-        
-        $productList =& $product->extendedSearch( $PriceLower, $PriceHigher, $Text, $Offset, $Limit, $CategoryArrayID );
-        $totalCount = $product->extendedSearchCount( $PriceLower, $PriceHigher, $Text, $CategoryArrayID );
+        $lists = explode( ":", $CategoryArray );
+        $cats = array();
+        foreach( $lists as $list )
+        {
+            $cats[] = explode( "-", $list );
+        }
+        $mains = explode( "-", $MainCategories );
+
+        $catIDArray = array();
+        reset( $mains );
+        list($key,$main) = each( $mains );
+        foreach ( $cats as $cat )
+        {
+            $cat_array = array();
+            $cat_array["id"] = $main;
+            $cat_array["categories"] = $cat;
+            $catIDArray[] = $cat_array;
+            list($key,$main) = each( $mains );
+        }
+
+        $productList =& $product->extendedSearch( $PriceLower, $PriceHigher, $Text, $Offset, $Limit, $catIDArray );
+        $totalCount = $product->extendedSearchCount( $PriceLower, $PriceHigher, $Text, $catIDArray );
     }
     else
     {
@@ -104,11 +126,25 @@ if ( $Action == "SearchButton" )
             $Offset = 0;
 
         $catIDArray = array();
-        
-        foreach ( $CategoryArrayID as $cat )
+
+        reset( $CategoryArrayID );
+        while ( list($main,$cats ) = each($CategoryArrayID) )
         {
-            $cats = explode( "-", $cat );
-            $catIDArray = array_merge( $cats, $catIDArray );
+            $cat_array = array();
+            $cat_array["id"] = $main;
+            $categories = array();
+            foreach( $cats as $cat )
+            {
+                $tree =& eZProductCategory::getTree( $cat == 0 ? $main : $cat );
+                foreach( $tree as $category_item )
+                {
+                    $categories[] = $category_item[0]->id();
+                }
+                if ( $cat != 0 )
+                    $categories[] = $cat;
+            }
+            $cat_array["categories"] = $categories;
+            $catIDArray[] = $cat_array;
         }
 
         $productList =& $product->extendedSearch( $PriceLower, $PriceHigher, $Text, $Offset, $Limit, $catIDArray );
@@ -119,23 +155,41 @@ if ( $Action == "SearchButton" )
     $t->set_var( "price_higher", $PriceHigher );
     $t->set_var( "text", $Text );
 
-    $t->set_var( "url_text", urlencode( $Text ) );
+    $t->set_var( "url_text", urlencode( $Text == "" ? " " : $Text ) );
     $t->set_var( "url_range", urlencode( $PriceRange ) );
 
-    if ( is_array ( $CategoryArrayID ) )
+    $urlCategory = "";
+    $i = 0;
+    foreach( $catIDArray as $catID )
     {
-        $i=0;
-        foreach ( $CategoryArrayID as $categoryID )
+        $categories =& $catID["categories"];
+        $cat_list = "";
+        $j = 0;
+        foreach( $categories as $category )
         {
-            if ( $i == 1 )
-                $urlCategory = $categoryID;
-            else
-                $urlCategory .= "-" . $categoryID;
-            $i++;
+            if ( $j > 0 )
+                $cat_list .= "-";
+            $cat_list .= $category;
+            ++$j;
         }
+        if ( $i > 0 )
+            $urlCategory .= ":";
+        $urlCategory .= $cat_list;
+        ++$i;
     }
 
     $t->set_var( "url_category", urlencode( $urlCategory ) );
+
+    $mainCategory = "";
+    $i = 0;
+    foreach( $catIDArray as $catID )
+    {
+        if ( $i > 0 )
+            $mainCategory .= "-";
+        $mainCategory .= $catID["id"];
+        ++$i;
+    }
+    $t->set_var( "url_main_categories", $mainCategory );
 }
 
 $locale = new eZLocale( $Language );
@@ -197,16 +251,8 @@ if ( count ( $productList ) > 0 )
         $defCat = $product->categoryDefinition();
         $t->set_var( "category_id", $defCat->id() );
 
-        if ( ( $i % 2 ) == 0 )
-        {
-            $t->set_var( "td_class", "bglight" );
-        }
-        else
-        {
-            $t->set_var( "td_class", "bgdark" );
-        }
+        $t->set_var( "td_class", ( $i % 2 ) == 0 ? "bglight" : "bgdark" );
 
-       
         $t->parse( "product_search_list", "product_search_list_tpl", true );
         $i++;
     }
@@ -222,30 +268,43 @@ eZList::drawNavigator( $t, $totalCount, $Limit, $Offset, "extended_search_tpl" )
 
 $category = new eZProductCategory();
 
-$categoryList =& $category->getTree();
+//$categoryList =& $category->getTree();
+$categoryList = array();
+foreach( $ExtendedSearchCategories as $category )
+{
+    $cat = new eZProductCategory( $category );
+    $cats = $cat->getByParent( $cat );
+    $categoryList[] = array( "categories" => $cats,
+                             "name" => $cat->name(),
+                             "id" => $cat->id() );
+}
 
 $subCategories = "";
+$t->set_var( "category_list", "" );
+$t->set_var( "is_all_selected", "" );
+if ( is_array( $CategoryArrayID ) )
+{
+    reset( $CategoryArrayID );
+    list($key,$categoryArray) = each( $CategoryArrayID );
+}
 foreach( $categoryList as $categoryItem )
 {
-    $level = $categoryItem[1];
-
-    if ( $level == 2 )
+    $t->set_var( "category_main_name", $categoryItem["name"] );
+    $t->set_var( "category_main_id", $categoryItem["id"] );
+    $cats =& $categoryItem["categories"];
+    $t->set_var( "category_item", "" );
+    foreach( $cats as $cat )
     {
-        $t->set_var( "category_name", $categoryItem[0]->name()  );
-        $t->set_var( "category_id", $categoryItem[0]->id() . $subCategories );
-        
-        if ( $categoryItem[1] > 0 )
-            $t->set_var( "option_level", str_repeat( "&nbsp;", $categoryItem[1] ) );
-        else
-            $t->set_var( "option_level", "" );
-        
+        $t->set_var( "category_name", $cat->name()  );
+        $t->set_var( "category_id", $cat->id() );
+        $t->set_var( "option_level", "" );
+
         $t->set_var( "is_selected", "" );
-        
-        if ( is_array ( $CategoryArrayID ) )
+        if ( is_array ( $categoryArray ) )
         {
-            foreach ( $CategoryArrayID as $categoryID )
+            foreach ( $categoryArray as $categoryID )
             {
-                if ( $categoryID == $categoryItem[0]->id() )
+                if ( $categoryID == $cat->id() )
                     $t->set_var( "is_selected", "selected" );
             }
         }
@@ -253,12 +312,10 @@ foreach( $categoryList as $categoryItem )
         $t->parse( "category_item", "category_item_tpl", true );
         $subCategories = "";
     }
-    else
+    $t->parse( "category_list", "category_list_tpl", true );
+    if ( is_array( $CategoryArrayID ) )
     {
-        if ( $level > 2 )
-        {
-            $subCategories .= "-" . $categoryItem[0]->id();            
-        }
+        list($key,$categoryArray) = each( $CategoryArrayID );
     }
 }
 

@@ -27,6 +27,7 @@
     <tr>
         <td>
 	    <select name="PriceRange">
+		<option value="-">{intl-all_range}</option>
 		<option value="50-100">50-100</option>
 		<option value="100-150">100-150</option>
 		<option value="150-200">150-200</option>
@@ -38,18 +39,23 @@
     </tr>
     <tr>
         <td>
-	    <b>{intl-cat_material}:</b>
+	    <b>{intl-search_in_category}:</b>
 	</td>
     </tr>
     <tr>
-        <td>
-	    <select name="CategoryArrayID[]">
+	<!-- BEGIN category_list_tpl -->
+	<input type="hidden" name="MainCategories[]" value="{category_main_id}">
+        <td width="1%">
+	<p class="boxtext">{category_main_name}:</p>
+	    <select name="CategoryArrayID[{category_main_id}][]">
+		<option value="0" {is_all_selected}>{intl-all_category}</option>
 		<!-- BEGIN category_item_tpl -->
 		<option value="{category_id}" {is_selected}>{option_level}{category_name}</option>
 		<!-- END category_item_tpl -->
 	    </select>
 	</td>
-	<td>&nbsp;</td> 
+	<!-- END category_list_tpl -->
+	<td width="*">&nbsp;</td> 
     </tr>
 </table>
 <hr noshade="noshade" size="1" />
@@ -103,7 +109,7 @@
 		<tr>
 		    <!-- BEGIN type_list_previous_tpl -->
 		    <td>
-			&lt;&lt;&nbsp;<a class="path" href="/trade/extendedsearch/move/{url_text}/{url_range}/{url_category}/{item_previous_index}">{intl-previous}</a>&nbsp;|
+			&lt;&lt;&nbsp;<a class="path" href="/trade/extendedsearch/move/{url_text}/{url_range}/{url_main_categories}/{url_category}/{item_previous_index}">{intl-previous}</a>&nbsp;|
 		    </td>
 		    <!-- END type_list_previous_tpl -->
 		    
@@ -117,7 +123,7 @@
 
 		    <!-- BEGIN type_list_item_tpl -->
 		    <td>
-			&nbsp;<a class="path" href="/trade/extendedsearch/move/{url_text}/{url_range}/{url_category}/{item_index}">{type_item_name}</a>&nbsp;|
+			&nbsp;<a class="path" href="/trade/extendedsearch/move/{url_text}/{url_range}/{url_main_categories}/{url_category}/{item_index}">{type_item_name}</a>&nbsp;|
 		    </td>
 		    <!-- END type_list_item_tpl -->
 
@@ -131,7 +137,7 @@
 
 		    <!-- BEGIN type_list_next_tpl -->
 		    <td>
-			&nbsp;<a class="path" href="/trade/extendedsearch/move/{url_text}/{url_range}/{url_category}/{item_next_index}">{intl-next}</a>&nbsp;&gt;&gt;
+			&nbsp;<a class="path" href="/trade/extendedsearch/move/{url_text}/{url_range}/{url_main_categories}/{url_category}/{item_next_index}">{intl-next}</a>&nbsp;&gt;&gt;
 		    </td>
 		    <!-- END type_list_next_tpl -->
 

@@ -223,8 +223,9 @@ switch ( $url_array[2] )
         {
             $Text = urldecode( $url_array[4] );
             $PriceRange = urldecode( $url_array[5] );
-            $CategoryArray = urldecode ( $url_array[6] );
-            $Offset = urldecode ( $url_array[7] );
+            $MainCategories = urldecode ( $url_array[6] );
+            $CategoryArray = urldecode ( $url_array[7] );
+            $Offset = urldecode ( $url_array[8] );
 
             $Action = "SearchButton";
             $Next = true;

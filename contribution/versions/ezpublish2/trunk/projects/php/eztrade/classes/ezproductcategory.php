@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezproductcategory.php,v 1.32 2001/03/19 13:58:09 ce Exp $
+// $Id: ezproductcategory.php,v 1.33 2001/03/23 18:57:47 jb Exp $
 //
 // Definition of eZProductCategory class
 //
@@ -304,6 +304,9 @@ class eZProductCategory
         return $path;
     }
 
+    /*!
+      \static
+    */
     function &getTree( $parentID=0, $level=0 )
     {
         $category = new eZProductCategory( $parentID );
@@ -318,7 +321,7 @@ class eZProductCategory
             
             if ( $category != 0 )
             {
-                $tree = array_merge( $tree, $this->getTree( $category->id(), $level ) );
+                $tree = array_merge( $tree, eZProductCategory::getTree( $category->id(), $level ) );
             }
             
         }

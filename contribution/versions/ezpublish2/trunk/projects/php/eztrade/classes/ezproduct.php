@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezproduct.php,v 1.51 2001/03/21 16:09:23 ce Exp $
+// $Id: ezproduct.php,v 1.52 2001/03/23 18:57:47 jb Exp $
 //
 // Definition of eZProduct class
 //
@@ -1061,54 +1061,76 @@ class eZProduct
     */
     function extendedSearch( $priceLower, $priceHigher, $text, $offset=0, $limit=10, $categoryArrayID=array() )
     {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
-        $this->dbInit();
+        $db =& eZDB::globalDatabase();
 
         $products = array();
 
-        $categorySQL = "";
-        if ( count ( $categoryArrayID ) > 0 )
+        if ( is_numeric( $priceLower )  )
         {
-            $i = 0;
-            foreach( $categoryArrayID as $categoryID )
-            {
-                if ( $i == 0 )
-                    $categorySQL = "eZTrade_ProductCategoryLink.CategoryID='$categoryID'";
-                else
-                    $categorySQL .= " OR eZTrade_ProductCategoryLink.CategoryID='$categoryID'";
-                $i++;
-            }
+            $price = " AND eZTrade_Product.Price > $priceLower";
         }
-        
-        if ( $priceHigher && $priceLower )
+        if ( is_numeric( $priceHigher )  )
         {
-            $price = "";
-            if ( $categorySQL )
-            {
-                $price = " AND";
-            }
-            $price .= " Price > $priceLower AND Price < $priceHigher";
+            $price .= " AND eZTrade_Product.Price < $priceHigher";
         }
-        
+
+        $text = trim( $text );
         if ( $text != "" )
         {
-            $query = new eZQuery( array( "Name", "Keywords", "Description" ), $text );
+            $query = new eZQuery( array( "eZTrade_Product.Name", "eZTrade_Product.Keywords", "eZTrade_Product.Description" ), $text );
             if ( $price || $categorySQL )
                 $text = "AND (" . $query->buildQuery()  . ")";
             else
                 $text = "(" . $query->buildQuery()  . ")";
         }
 
-        if ( $catID || $price || $text )
-        {
-            $queryString = "SELECT DISTINCT eZTrade_ProductCategoryLink.ProductID as PID
-                        FROM eZTrade_Product, eZTrade_ProductCategoryLink
-                        WHERE ( $categorySQL ) $price $text AND eZTrade_Product.ID = eZTrade_ProductCategoryLink.ProductID LIMIT $offset, $limit";
-        }               
+        $tables = array();
 
-        $this->Database->array_query( $res_array, $queryString );
+        foreach( $categoryArrayID as $cat )
+        {
+            $id = $cat["id"];
+            $table = "eZTrade_ExtendedTemp$id";
+            $tables[] = $table;
+            $db->query( "CREATE TEMPORARY TABLE $table
+                         ( ProductID int(11) NOT NULL, PRIMARY KEY( ProductID ) )" );
+            $cats =& $cat["categories"];
+            $catSQL = "";
+            $i = 0;
+            foreach( $cats as $cat_item )
+            {
+                if ( $i > 0 )
+                    $catSQL .= " OR ";
+                $catSQL .= "eZTrade_ProductCategoryLink.CategoryID='$cat_item'";
+                ++$i;
+            }
+            $db->query( "INSERT INTO $table(ProductID)
+                         SELECT eZTrade_Product.ID FROM eZTrade_Product, eZTrade_ProductCategoryLink
+                         WHERE eZTrade_Product.ID=eZTrade_ProductCategoryLink.ProductID AND ( $catSQL )
+                         GROUP BY eZTrade_Product.ID" );
+        }
+
+        reset( $tables );
+        list($key,$first_table) = each($tables);
+        $i = 0;
+        $table_sql = "";
+        $table_from = ", $first_table";
+        while( list($key,$table) = each($tables) )
+        {
+            if ( $i > 0 )
+                $table_sql = " AND ";
+            $table_sql .= "$first_table.ProductID=$table.ProductID";
+            $table_from .= ", $table";
+            ++$i;
+        }
+        if ( count( $tables ) > 0 )
+            $table_sql = "( $table_sql )";
+
+        $queryString = "SELECT eZTrade_Product.ID as PID
+                        FROM eZTrade_Product, eZTrade_ProductCategoryLink $table_from
+                        WHERE $table_sql $price $text AND
+                        eZTrade_Product.ID = $first_table.ProductID GROUP BY PID LIMIT $offset, $limit";
+
+        $db->array_query( $res_array, $queryString );
 
         if ( count ( $res_array ) > 0 )
         {
@@ -1116,6 +1138,11 @@ class eZProduct
             {
                 $products[] = new eZProduct( $productItem["PID"] );
             }
+        }
+
+        foreach( $tables as $table )
+        {
+            $db->query( "DROP TABLE $table" );
         }
 
         return $products;
@@ -1127,55 +1154,81 @@ class eZProduct
     */
     function extendedSearchCount( $priceLower, $priceHigher, $text, $categoryArrayID=array() )
     {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
-        $this->dbInit();
+        $db =& eZDB::globalDatabase();
 
         $products = array();
 
-        if ( count ( $categoryArrayID ) > 0 )
+        if ( is_numeric( $priceLower )  )
         {
-            $i=0;
-            foreach( $categoryArrayID as $categoryID )
-            {
-                if ( $i == 0 )
-                    $catID = "eZTrade_ProductCategoryLink.CategoryID='$categoryID'";
-                else
-                    $catID .= " OR eZTrade_ProductCategoryLink.CategoryID='$categoryID'";
-                $i++;
-            }
+            $price = " AND eZTrade_Product.Price > $priceLower";
         }
-        
-        if ( $priceHigher && $priceLower )
+        if ( is_numeric( $priceHigher )  )
         {
-            $price = "";
-            if ( $catID )
-            {
-                $price = " AND";
-            }
-            $price .= " Price > $priceLower AND Price < $priceHigher";
+            $price .= " AND eZTrade_Product.Price < $priceHigher";
         }
-        
+        $text = trim( $text );
         if ( $text != "" )
         {
-            $query = new eZQuery( array( "Name", "Keywords", "Description" ), $text );
-            if ( $price || $catID )
+            $query = new eZQuery( array( "eZTrade_Product.Name", "eZTrade_Product.Keywords", "eZTrade_Product.Description" ), $text );
+            if ( $price || $categorySQL )
                 $text = "AND (" . $query->buildQuery()  . ")";
             else
                 $text = "(" . $query->buildQuery()  . ")";
         }
 
-        if ( $catID || $price || $text )
+        $tables = array();
+
+        foreach( $categoryArrayID as $cat )
         {
-            $queryString = "SELECT count(DISTINCT eZTrade_ProductCategoryLink.ProductID) as PID
-                        FROM eZTrade_Product, eZTrade_ProductCategoryLink
-                        WHERE ( $catID ) $price $text AND eZTrade_Product.ID = eZTrade_ProductCategoryLink.ProductID";
+            $id = $cat["id"];
+            $table = "eZTrade_ExtendedTemp$id";
+            $tables[] = $table;
+            $db->query( "CREATE TEMPORARY TABLE $table
+                         ( ProductID int(11) NOT NULL, PRIMARY KEY( ProductID ) )" );
+            $cats =& $cat["categories"];
+            $catSQL = "";
+            $i = 0;
+            foreach( $cats as $cat_item )
+            {
+                if ( $i > 0 )
+                    $catSQL .= " OR ";
+                $catSQL .= "eZTrade_ProductCategoryLink.CategoryID='$cat_item'";
+                ++$i;
+            }
+            $db->query( "INSERT INTO $table(ProductID)
+                         SELECT eZTrade_Product.ID FROM eZTrade_Product, eZTrade_ProductCategoryLink
+                         WHERE eZTrade_Product.ID=eZTrade_ProductCategoryLink.ProductID AND ( $catSQL )
+                         GROUP BY eZTrade_Product.ID" );
         }
 
-        $this->Database->array_query( $res_array, $queryString );
+        reset( $tables );
+        list($key,$first_table) = each($tables);
+        $i = 0;
+        $table_sql = "";
+        $table_from = ", $first_table";
+        while( list($key,$table) = each($tables) )
+        {
+            if ( $i > 0 )
+                $table_sql = " AND ";
+            $table_sql .= "$first_table.ProductID=$table.ProductID";
+            $table_from .= ", $table";
+            ++$i;
+        }
+        if ( count( $tables ) > 0 )
+            $table_sql = "( $table_sql )";
 
-        return $res_array[0][0];
+        $queryString = "SELECT count( DISTINCT eZTrade_Product.ID ) AS Count
+                        FROM eZTrade_Product, eZTrade_ProductCategoryLink $table_from
+                        WHERE $table_sql $price $text AND
+                        eZTrade_Product.ID = $first_table.ProductID";
+        $db->query_single( $res_array, $queryString );
+
+        foreach( $tables as $table )
+        {
+            $db->query( "DROP TABLE $table" );
+        }
+
+        return $res_array["Count"];
     }
    
     
