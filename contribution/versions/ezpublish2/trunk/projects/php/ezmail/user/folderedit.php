@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: folderedit.php,v 1.4 2001/05/02 13:39:43 fh Exp $
+// $Id: folderedit.php,v 1.5 2001/05/03 09:43:29 fh Exp $
 //
 // Frederik Holljen <fh@ez.no>
 // Created on: <16-Feb-2001 14:33:48 fh>
@@ -38,10 +38,20 @@ if( isset( $Cancel ) )
 
 if( isset( $Ok ) && $Name != "" )
 {
+    
     if( $FolderID == 0 )
+    {
         $folder = new eZMailFolder();
+    }
     else
+    {
         $folder = new eZMailFolder( $FolderID );
+        if( $folder->isChild( $ParentID, true ) )
+        {
+            eZHTTPTool::header( "Location: /mail/folderlist" );
+            exit();
+        }
+    }
 
     $folder->setName( $Name );
     $folder->setParent( $ParentID );
@@ -69,6 +79,7 @@ $t->set_var( "current_folder_id", $FolderID );
 if( $FolderID != 0 )
 {
     $folder = new eZMailFolder( $FolderID );
+    $parentID = $folder->parentID();
     $t->set_var( "folder_name", htmlspecialchars( $folder->name() ) );
 }
 
@@ -80,7 +91,7 @@ foreach( $folders as $folderItem )
         $t->set_var( "folder_parent_id", $folderItem->id() );
         $t->set_var( "folder_parent_name", $folderItem->name() );
 
-        if( $folderItem->parentID() == $FolderID )
+        if( isset( $parentID ) && $folderItem->id() == $parentID )
             $t->set_var( "is_selected", "selected" );
         else
             $t->set_var( "is_selected", "" );

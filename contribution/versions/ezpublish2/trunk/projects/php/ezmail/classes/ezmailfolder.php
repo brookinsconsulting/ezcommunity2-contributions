@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezmailfolder.php,v 1.17 2001/05/02 13:01:18 fh Exp $
+// $Id: ezmailfolder.php,v 1.18 2001/05/03 09:43:29 fh Exp $
 //
 // eZMailFolder class
 //
@@ -555,6 +555,30 @@ class eZMailFolder
         return false;
     }
 
+    /*!
+      Returns true if the given folder is a child (doesn't have to be first level) of this folder.
+      If the second parameter is set to true, the function also checks if the folder given is itself.
+     */
+    function isChild( $folderID, $check_for_self = false )
+    {
+        $return_value = false;
+        $db = eZDB::globalDatabase();
+
+        if( get_class( $folderID ) == "ezmailfolder" )
+            $folderID = $folderID->id();
+
+        if( $check_for_self == true && $folderID == $this->ID )
+            return true;
+        
+        while( $folderID != 0 )
+        {
+            $db->query_single( $result, "SELECT ParentID FROM eZMail_Folder WHERE ID='$folderID'" );
+            $folderID = $result["ParentID"];
+            if( $folderID == $this->ID )
+                return true;
+        }
+        return $return_value;
+    }
     
     /*!
       \private
