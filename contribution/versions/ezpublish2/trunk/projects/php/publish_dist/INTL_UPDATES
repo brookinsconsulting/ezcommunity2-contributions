@@ -81,3 +81,19 @@ top_category=Top
 
 mod: ezbug/admin, mailreply.php.ini
 change: added bug_title=Bug title, original_bug_report=Original bug report
+
+mod: ezcontact/admin personedit.php.ini
+change: added
+new_consultation=New consultation with person
+edit_person=Edit person information
+delete_person=Delete person
+show_persons=Show persons
+show_all=Everybody
+without_relation=Without company relation
+with_relation=With company relation
+
+mod: ezcontact/admin companytype.php.ini
+change: added
+new_consultation=New consultation with company
+edit_person=Edit company/category information
+delete_person=Delete company/category
