@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: folderedit.php,v 1.21 2001/03/12 10:21:32 fh Exp $
+// $Id: folderedit.php,v 1.22 2001/05/08 08:16:23 fh Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <08-Jan-2001 11:13:29 ce>
@@ -144,7 +144,7 @@ if ( $Action == "Insert" || $Action == "Update" )
         {
             $parentFolder = new eZVirtualFolder( $FolderID );
             
-            if ( eZObjectPermission::hasPermission( $parentCategory, "filemanager_folder", "w", $user ) )
+            if ( eZObjectPermission::hasPermission( $parentCategory, "filemanager_folder", "w", $user ) != true )
             {
                 $t->parse( "error_write", "error_write_permission" );
                 $error = true;

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: fileupload.php,v 1.28 2001/04/20 15:17:45 ce Exp $
+// $Id: fileupload.php,v 1.29 2001/05/08 08:16:23 fh Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <10-Dec-2000 15:49:57 bf>
@@ -137,7 +137,7 @@ if ( $Action == "Insert" || $Action == "Update" )
     {
         $folder = new eZVirtualFolder( $FolderID );
         
-        if ( eZObjectPermission::hasPermission( $folder, "filemanager_folder", "w", $user ) )
+        if ( eZObjectPermission::hasPermission( $folder, "filemanager_folder", "w", $user ) != true )
         {
             $t->parse( "write_permission", "error_write_permission" ); 
             $error = true;
