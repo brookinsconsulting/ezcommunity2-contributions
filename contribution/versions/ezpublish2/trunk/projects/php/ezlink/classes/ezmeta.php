@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: ezmeta.php,v 1.8 2001/07/29 23:31:08 kaid Exp $
+// $Id: ezmeta.php,v 1.9 2001/10/31 08:48:59 jhe Exp $
 //
 // Created on: <01-Nov-2000 16:44:39 bf>
 //
@@ -26,16 +26,15 @@
 function &fetchURLInfo( $url )
 {
     $list = array();
-    $fp = @eZFile::fopen( $url, "r" );
+    $fp = @fopen( $url, "r" );
     if ( !$fp )
-        $fp = @eZFile::fopen( $url . "/", "r" );
+        $fp = @fopen( $url . "/", "r" );
     if ( $fp )
     {
         $output = fread( $fp, 5000 ); // First 5k should be enough
         fclose( $fp );
         if ( preg_match( "#<title>([^<]+)</title>#i", $output, $regs ) )
         {
-            
             $title = trim( $regs[1] );
             $list["title"] = $title;
         }
