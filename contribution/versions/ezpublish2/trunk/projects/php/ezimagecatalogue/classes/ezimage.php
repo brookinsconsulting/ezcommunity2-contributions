@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezimage.php,v 1.63 2001/07/03 15:16:49 jb Exp $
+// $Id: ezimage.php,v 1.64 2001/07/10 15:05:32 pkej Exp $
 //
 // Definition of eZImage class
 //
@@ -237,6 +237,29 @@ class eZImage
             }
         }
 
+        return $ret;
+    }
+    
+    /*!
+        \static
+      Fetches an image from the database if one with the same "original filename" is found.
+    */
+    function getByOriginalFileName( $id = "" )
+    {
+        $db =& eZDB::globalDatabase();
+        $ret =& new eZImage();
+        if ( $id != "" )
+        {
+            $db->array_query( $image_array, "SELECT * FROM eZImageCatalogue_Image WHERE OriginalFileName='$id'" );
+            if( count( $image_array ) > 0 )
+            {
+                if ( count( $image_array ) > 1 )
+                {
+                    print( "<br /><b>Error: Image's with the same  was found in the database. This shouldn't happen.</b><br />" );
+                }
+                $ret =& new eZImage( $image_array[0][$db->fieldName("ID")] );
+            }
+        }
         return $ret;
     }
 
