@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: frontpage.php,v 1.28.2.8 2001/12/10 17:34:28 br Exp $
+// $Id: frontpage.php,v 1.28.2.9 2001/12/14 14:17:03 bf Exp $
 //
 // Created on: <30-May-2001 14:06:59 bf>
 //
@@ -281,7 +281,7 @@ $t->set_var( "element_list", $pageContents );
 
 function &renderFrontpageArticle( &$t, &$locale, &$article )
 {
-    global $ini, $CategoryID;
+    global $ini, $CategoryID,$GrayScaleImageList;
 	
     $DefaultLinkText =  $ini->read_var( "eZArticleMain", "DefaultLinkText" );
     
@@ -372,7 +372,7 @@ function &renderFrontpageArticle( &$t, &$locale, &$article )
 
 function &renderFrontpageArticleDouble( &$t, &$locale, &$article1, &$article2 )
 {
-    global $ini, $CategoryID;
+    global $ini, $CategoryID, $GrayScaleImageList;
     $aid = $article1->id();
 	
     $DefaultLinkText =  $ini->read_var( "eZArticleMain", "DefaultLinkText" );
@@ -403,7 +403,7 @@ function &renderFrontpageArticleDouble( &$t, &$locale, &$article1, &$article2 )
         if ( $GrayScaleImageList == "enabled" )
             $convertToGray = true;
         else
-            $convertToGray = false;
+            $convertToGray = false;        
 
         $variation =& $thumbnailImage->requestImageVariation( $ini->read_var( "eZArticleMain", "ThumbnailImageWidth" ),
         $ini->read_var( "eZArticleMain", "ThumbnailImageHeight" ), $convertToGray );
@@ -547,7 +547,7 @@ function &renderFrontpageArticleDouble( &$t, &$locale, &$article1, &$article2 )
 
 function &renderShortSingleArticle( &$t, &$locale, &$article )
 {
-    global $ini, $CategoryID;
+    global $ini, $CategoryID, $GrayScaleImageList;
 
     $aid = $article->id();
 	

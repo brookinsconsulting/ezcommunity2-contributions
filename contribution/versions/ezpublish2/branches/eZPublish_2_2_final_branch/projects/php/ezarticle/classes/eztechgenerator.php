@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eztechgenerator.php,v 1.37 2001/09/11 11:56:39 bf Exp $
+// $Id: eztechgenerator.php,v 1.37.2.1 2001/12/14 14:17:03 bf Exp $
 //
 // Definition of eZTechGenerator class
 //
@@ -94,7 +94,6 @@ class eZTechGenerator
     function &generatePage( $tmpPage )
     {
         $tmpPage = $this->generateImage( $tmpPage );
-        $tmpPage = $this->generateFile( $tmpPage );
 
         $tmpPage = $this->generateLink( $tmpPage );
 
