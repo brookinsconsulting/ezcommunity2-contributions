@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: index.php,v 1.119.2.10 2001/12/03 15:55:32 kaid Exp $
+// $Id: index.php,v 1.119.2.11 2001/12/04 17:46:51 kaid Exp $
 //
 // Created on: <09-Nov-2000 14:52:40 ce>
 //
@@ -53,6 +53,12 @@ if ( $siteDir != "" )
     {
         $wwwDir = $regs[1];
         $index = $regs[2];
+
+        if ( $wwwDir == "/" )
+        {
+            $wwwDir = "";
+            $index = "/" . $index;
+        }
     }
  
     // Remove url parameters
