@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezsession.php,v 1.51 2001/07/11 07:31:42 bf Exp $
+// $Id: ezsession.php,v 1.52 2001/07/13 11:55:32 bf Exp $
 //
 // Definition of eZSession class
 //
@@ -24,6 +24,8 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, US
 //
+
+
 //!! eZSession
 //! eZSession handles sessions and session variables.
 /*!
