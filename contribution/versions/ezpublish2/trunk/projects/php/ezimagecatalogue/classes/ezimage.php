@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezimage.php,v 1.50 2001/05/29 11:59:20 ce Exp $
+// $Id: ezimage.php,v 1.51 2001/06/04 13:07:38 bf Exp $
 //
 // Definition of eZImage class
 //
@@ -1201,7 +1201,7 @@ class eZImage
     {
         if ( $this->IsConnected == false )
         {
-            $this->Database = eZDB::globalDatabase();
+            $this->Database =& eZDB::globalDatabase();
             $this->IsConnected = true;
         }
     }
