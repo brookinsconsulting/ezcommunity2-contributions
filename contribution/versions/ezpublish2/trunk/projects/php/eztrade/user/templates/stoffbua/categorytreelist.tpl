@@ -13,7 +13,7 @@
 	</td>
 </tr>
 <!-- END level_1_category_tpl -->
-
+<br />
 <!-- END top_category_tpl -->
 
 
