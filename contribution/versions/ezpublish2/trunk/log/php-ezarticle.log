@@ -3607,3 +3607,17 @@ Maintainer(s) : bf@ez.no
     * user/articleheaderlist.php:
     Fixed security bug with the variable $CategoryID.
 
+
+Module : ezarticle
+Repository path : /home/cvsroot/projects/php/ezarticle
+Maintainer(s) : bf@ez.no
+2003-04-09  Jo Henrik Endrerud  <jhe@ez.no>
+
+    * classes/ezarticle.php
+      classes/ezarticlecategory.php: speed improvement for 2.2.8
+
+2003-04-09  Bjoern Reiten  <br@ez.no>
+
+    * admin/cron.php
+      classes/ezarticle.php: fixed bug with time publishing of articles.
+

@@ -1458,3 +1458,11 @@ Maintainer(s) : bf@ez.no
     over-enthusiastic htmlspecialchars(). Used in eZArticle and
     eZImageCatalogue.
 
+
+Module : ezuser
+Repository path : /home/cvsroot/projects/php/ezuser
+Maintainer(s) : bf@ez.no
+2003-04-09  Jo Henrik Endrerud  <jhe@ez.no>
+
+    * classes/ezuser.php: speed improvement for 2.2.8
+
