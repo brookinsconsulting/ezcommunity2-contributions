@@ -115,8 +115,7 @@ CREATE TABLE eZContact_Address (
 DROP TABLE IF EXISTS eZContact_Phone;
 CREATE TABLE eZContact_Phone (
   ID int(11) DEFAULT '0' NOT NULL auto_increment,
-  AreaCode int(5),
-  Number int(22),
+  Number varchar(22),
   PhoneTypeID int(11),
   PRIMARY KEY (ID)
 );
