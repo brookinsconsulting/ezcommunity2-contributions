@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eztime.php,v 1.15 2001/08/29 10:37:22 jhe Exp $
+// $Id: eztime.php,v 1.15.2.1 2003/02/20 08:28:46 br Exp $
 //
 // Definition of eZCompany class
 //
@@ -333,21 +333,6 @@ class eZTime
             return mktime();
         else
             return $this->hour() * 3600 + $this->minute() * 60 + $this->second();
-    }
-
-    /*!
-      \private
-      Adds a "0" in front of the value if it's below 10.
-    */
-    function addZero( $value )
-    {
-        $ret = $value;
-        if ( $ret < 10 )
-        {
-            $ret = "0". $ret;
-        }
-        
-        return $ret;
     }
 
     /// Store the number of seconds since 00:00:00
