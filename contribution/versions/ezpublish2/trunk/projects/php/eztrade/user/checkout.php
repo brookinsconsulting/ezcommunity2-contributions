@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: checkout.php,v 1.77 2001/08/28 15:56:21 ce Exp $
+// $Id: checkout.php,v 1.78 2001/08/29 10:36:35 br Exp $
 //
 // Created on: <28-Sep-2000 15:52:08 bf>
 //
@@ -121,6 +121,7 @@ $t->set_block( "vouchers_tpl", "voucher_item_tpl", "voucher_item" );
 $t->set_var( "show_payment", "" );
 $t->set_var( "price_ex_vat", "" );
 $t->set_var( "price_inc_vat", "" );
+$t->set_var( "cart_item", "" );
 
 if ( isSet( $SendOrder ) ) 
 {
