@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: bugedit.php,v 1.51 2001/10/16 13:45:22 jhe Exp $
+// $Id: bugedit.php,v 1.51.2.1 2001/10/29 16:26:38 fh Exp $
 //
 // Created on: <28-Nov-2000 19:45:35 bf>
 //
@@ -551,9 +551,14 @@ $ownerGroup = eZObjectPermission::getGroups( $moduleID, "bug_module", 'w', false
 
 $owner = $bug->owner();
 $currentOwner = -1;
-if ( $ownerGroup[0] != "" )
+if ( count( $ownerGroup ) > 0 )
 {
-    $users = eZUserGroup::users( $ownerGroup );
+    $users = array();
+    foreach( $ownerGroup as $group )
+    {
+        $users = array_merge( $users, eZUserGroup::users( $ownerGroup ) );
+    }
+    
     if ( count( $users ) > 0 )
     {
         foreach ( $users as $userItem )

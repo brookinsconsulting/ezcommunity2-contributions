@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: moduleedit.php,v 1.11 2001/07/19 12:29:04 jakobn Exp $
+// $Id: moduleedit.php,v 1.11.2.1 2001/10/29 16:26:38 fh Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -47,6 +47,12 @@ if ( $Action == "insert" )
     $parent = new eZBugModule( $ParentID );
     $module->setParent( $parent );
     $module->store();
+    $ModuleID = $module->id();
+    eZObjectPermission::removePermissions( $ModuleID, "bug_module", "w" );
+    foreach( $WriteGroupArrayID as $moduleOwner )
+    {
+        eZObjectPermission::setPermission( $moduleOwner, $ModuleID, "bug_module", 'w' );
+    }
 
     Header( "Location: /bug/module/list/" );
     exit();
@@ -61,7 +67,12 @@ if ( $Action == "update" )
     {
         $module->setName( $Name );
         $module->setParent( $parent );
-//    $ownerGroup = new eZUserGroup( $OwnerID );
+
+        eZObjectPermission::removePermissions( $ModuleID, "bug_module", "w" );
+        foreach( $WriteGroupArrayID as $moduleOwner )
+        {
+            eZObjectPermission::setPermission( $moduleOwner, $ModuleID, "bug_module", 'w' );
+        }
 
         if( isset( $Recursive ) )
         {
@@ -83,11 +94,6 @@ if ( $Action == "update" )
                     }
                 }
             }
-        }
-        else
-        {
-            eZObjectPermission::removePermissions( $ModuleID, "bug_module", "w" );
-            eZObjectPermission::setPermission( $WriteGroupArrayID[0], $ModuleID, "bug_module", 'w' );
         }
 
         $module->store();
