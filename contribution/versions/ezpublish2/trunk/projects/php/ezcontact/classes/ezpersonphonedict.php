@@ -1,6 +1,8 @@
 <?
 
-/*
+//!! eZContact
+//!
+/*!
   Denne klassen håndterer link mellon personer og telefonnummer.
   Dette slik at en person kan ha flere telefonnummer uten at dette
   har konflikt med firma som er registrert.

@@ -1,5 +1,8 @@
 <?
-/*
+
+//!! eZContact
+//!
+/*!
   Denne klassen håndterer personer i eZ contact. Disse lagres og hentes ut fra databasen.
 */
 

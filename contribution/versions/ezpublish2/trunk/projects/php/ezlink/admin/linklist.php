@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: linklist.php,v 1.20 2000/09/07 15:44:44 bf-cvs Exp $
+    $Id: linklist.php,v 1.21 2000/09/12 07:54:39 bf-cvs Exp $
 
     Author: Bård Farstad <bf@ez.no>
     
@@ -14,7 +14,7 @@
 */
 
 include_once( "classes/template.inc" );
-include_once( "common/ezphputils.php" );
+include_once( "../common/ezphputils.php" );
 include_once( "classes/INIFile.php" );
 
 $ini = new INIFile( "site.ini" );

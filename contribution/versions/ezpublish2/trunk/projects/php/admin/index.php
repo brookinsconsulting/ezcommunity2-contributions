@@ -22,12 +22,12 @@ include_once( "../classes/ezuser.php" );
 //include_once( "../dbsettings.php" );
 
 include_once( "../classes/ezsession.php" );
-include_once( "common/ezphputils.php" );
+include_once( "../common/ezphputils.php" );
 
 $session = new eZSession();
 
-$Ini = new INIFile( "../site.ini" );
-$Db = $Ini->read_var( "eZPublishMain", "Database");
+$ini = new INIFile( "../site.ini" );
+$Db = $ini->read_var( "eZPublishMain", "Database");
 $t = new Template( "." );
 
 
@@ -37,18 +37,21 @@ include( "header.php" );
 if( $session->get( $AuthenticatedSession ) == 0 )
 {
 
-    if ( $Ini->read_var( "site", "eZPublish" ) == "enabled" )
+    if ( $ini->read_var( "site", "eZPublish" ) == "enabled" )
         include( "ezpublishadmin.php" );
 
-    if ( $Ini->read_var( "site", "eZForum" ) == "enabled" )
+    if ( $ini->read_var( "site", "eZForum" ) == "enabled" )
         include( "ezforumadmin.php" );
 
-    if ( $Ini->read_var( "site", "eZLink" ) == "enabled" )
+    if ( $ini->read_var( "site", "eZLink" ) == "enabled" )
         include( "ezlinkadmin.php" );
 
-    if ( $Ini->read_var( "site", "eZContact" ) == "enabled" )
+    if ( $ini->read_var( "site", "eZContact" ) == "enabled" )
         include( "ezcontactadmin.php" );
-    
+
+    if ( $ini->read_var( "site", "eZTrade" ) == "enabled" )
+        include( "eztradeadmin.php" );
+
     include( "useradmin.php" );
 
     $user = new eZUser( $session->userID() );

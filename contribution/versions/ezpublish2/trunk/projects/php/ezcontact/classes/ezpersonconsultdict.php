@@ -1,4 +1,11 @@
 <?
+
+//!! eZContact
+//!
+/*!
+
+*/
+
 class eZPersonConsultDict
 {
     /*

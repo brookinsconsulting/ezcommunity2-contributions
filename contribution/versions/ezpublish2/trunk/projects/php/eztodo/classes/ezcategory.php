@@ -1,5 +1,5 @@
 <?
-// $Id: ezcategory.php,v 1.2 2000/09/08 14:00:19 ce-cvs Exp $
+// $Id: ezcategory.php,v 1.3 2000/09/12 07:54:39 bf-cvs Exp $
 //
 // Definition of eZCategory class
 //
@@ -17,9 +17,9 @@
 /*!
   Handles the category informasjon stored in the database. All the todo's are grouped in to categorys.
 */
+
 class eZCategory
 {
-    //! eZCategory
     /*!
       eZCategory Constructor.
     */
@@ -43,7 +43,6 @@ class eZCategory
         }        
     }
 
-    //! store
     /*!
       Stores the category object to the database.
       Returnes the ID to the eZCategory object if the store is a success.
@@ -58,7 +57,6 @@ class eZCategory
         return mysql_insert_id();
     }
 
-    //! delete
     /*!
       Deletes the category object in the database.
     */
@@ -68,7 +66,6 @@ class eZCategory
         query( "DELETE FROM eZTodo_Category WHERE ID='$this->ID'" );
     }
 
-    //! update
     /*!
       Update the category object in the database.
     */
@@ -130,7 +127,6 @@ class eZCategory
     }
 
 
-     //! title
     /*!
       Tilte of the category.
       Returns the title of the category as a string.
@@ -142,7 +138,6 @@ class eZCategory
         return $this->Title;
     }
 
-    //! setTitle
     /*!
       Sets the title of the category.
       The new title of the category is passed as a paramenter ( $value ).
@@ -154,7 +149,6 @@ class eZCategory
         $this->Title = $value;
     }
 
-    //! description
     /*!
       Description of the category.
       Returns the description of the category as a string.
@@ -166,7 +160,6 @@ class eZCategory
         return $this->Description;
     }
 
-    //! setDescription
     /*!
       Sets the description of the category.
       The new description of the category is passed as a paramenter ( $value ).
@@ -178,7 +171,6 @@ class eZCategory
         $this->Description = $value;
     }
  
-    //! id
     /*!
       Id of the priority.
       Returns the id of the category as a string.
@@ -190,7 +182,6 @@ class eZCategory
         return $this->ID;
     }
 
-    //! dbInit
     /*!
       Private function.
       Open the database for read and write. Gets all the database informasjon from site.ini.

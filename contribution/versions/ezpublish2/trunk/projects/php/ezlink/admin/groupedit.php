@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: groupedit.php,v 1.14 2000/09/07 15:44:44 bf-cvs Exp $
+    $Id: groupedit.php,v 1.15 2000/09/12 07:54:39 bf-cvs Exp $
 
     Author: Bård Farstad <bf@ez.no>
     
@@ -14,12 +14,12 @@
 */
 
 include_once( "classes/INIFile.php" );
-$ini = new INIFile( "../site.ini" );
+$ini = new INIFile( "site.ini" );
 
 $DOC_ROOT = $ini->read_var( "eZLinkMain", "DocumentRoot" );
 
 include_once( "../classes/eztemplate.php" );
-include_once( "common/ezphputils.php" );
+include_once( "../common/ezphputils.php" );
 
 include( "../ezlink/classes/ezlinkgroup.php" );
 include( "../ezlink/classes/ezlink.php" );
@@ -71,7 +71,7 @@ if ( $Action == "update" )
 }
 
 // Sette template filer
-$t = new eZTemplate( $DOC_ROOT . "/" . $ini->read_var( "eZLinkMain", "TemplateDir" ), "../" . $DOC_ROOT . "intl/", $Language, "groupedit.php" );
+$t = new eZTemplate( $DOC_ROOT . "/" . $ini->read_var( "eZLinkMain", "TemplateDir" ), "../" . $DOC_ROOT . "/intl/", $Language, "groupedit.php" );
 $t->setAllStrings();
 
 $t->set_file( array(

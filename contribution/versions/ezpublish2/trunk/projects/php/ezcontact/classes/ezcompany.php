@@ -1,5 +1,11 @@
 <?
 
+//!! eZContact
+//!
+/*!
+
+*/
+
 //require "ezphputils.php";
 
 class eZCompany

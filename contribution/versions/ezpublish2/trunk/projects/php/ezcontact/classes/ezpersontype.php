@@ -1,18 +1,24 @@
 <?
 
+//!! eZContact
+//!
+/*!
+
+*/
+
 class eZPersonType
 {
     /*!
       Conctructor.
-  */
+    */
     function eZPersonType( )
     {
 
     }
 
     /*!
-    Oppdaterer informasjonen til databasen.
-  */
+      Oppdaterer informasjonen til databasen.
+    */
     function update()
     {
         $this->dbInit();
@@ -24,9 +30,9 @@ class eZPersonType
 
 
 
-/*!
-    Lagrer informasjonen til databasen.
-  */
+    /*!
+      Lagrer informasjonen til databasen.
+    */
     function store()
     {
         $this->dbInit();
@@ -34,9 +40,9 @@ class eZPersonType
         query( "INSERT INTO eZContact_PersonType set Name='$this->Name', Description='$this->Description'" );
     }
 
-    /*
+    /*!
       Sletter adressetypen fra databasen.
-     */
+    */
     function delete()
     {
         $this->dbInit();
@@ -44,8 +50,8 @@ class eZPersonType
     }
     
     /*!
-
-  */
+      
+    */
     function get( $id )
     {
         $this->dbInit();    
@@ -67,7 +73,7 @@ class eZPersonType
 
     /*!
 
-  */
+    */
     function getAll( )
     {
         $this->dbInit();
@@ -96,16 +102,16 @@ class eZPersonType
 
   
     /*!
-    Returnerer navnet.
-  */
+      Returnerer navnet.
+    */
     function name( )
     {
         return $this->Name;
     }
   
     /*!
-    Returnerer kommentaren.
-  */
+      Returnerer kommentaren.
+    */
     function description( )
     {
         return $this->Description;

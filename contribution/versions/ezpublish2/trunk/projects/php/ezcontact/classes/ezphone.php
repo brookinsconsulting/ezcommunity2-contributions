@@ -1,5 +1,11 @@
 <?
 
+//!! eZContact
+//!
+/*!
+
+*/
+
 class eZPhone
 {
     /*

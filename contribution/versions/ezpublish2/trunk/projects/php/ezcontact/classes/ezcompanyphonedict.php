@@ -1,6 +1,8 @@
 <?
 
-/*
+//!! eZContact
+//!
+/*!
   Denne klassen håndterer link mellon companyer og telefonnummer.
   Dette slik at en company kan ha flere telefonnummer uten at dette
   har konflikt med firma som er registrert.

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezlocale.php,v 1.3 2000/09/08 12:42:52 bf-cvs Exp $
+// $Id: ezlocale.php,v 1.4 2000/09/12 07:54:56 bf-cvs Exp $
 //
 // Definition of eZCompany class
 //
@@ -19,10 +19,9 @@
 /*!
   eZLocale handles locale information and formats time, date, and currency
   information to the locale format.
-
-
+<p>
   The following characters are regognized in the date/time format.
-  \pre
+<pre>
 a - "am" or "pm" 
 A - "AM" or "PM" 
 d - day of the month, 2 digits with leading zeros; i.e. "01" to "31" 
@@ -49,6 +48,45 @@ Y - year, 4 digits; i.e. "1999"
 y - year, 2 digits; i.e. "99" 
 z - day of the year; i.e. "0" to "365" 
 Z - timezone offset in seconds (i.e. "-43200" to "43200")
+</pre>
+
+Example:
+
+\code
+include_once( "classes/ezdate.php" );
+include_once( "classes/ezcurrency.php" );
+include_once( "classes/ezlocale.php" );
+include_once( "classes/eztime.php" );
+
+$locale = new eZLocale( "no_NO" );
+
+$date = new eZDate( 2000, 9, 2 );
+
+$date2 = new eZDate( );
+$date2->setMySQLDate( "2000-12-02" );
+
+$time = new eZTime( 12, 2, 23 );
+
+$currency = new eZCurrency( 4333222111.998877 );
+
+print( "Norwegian<br>" );
+print( "Locallized date: " . $locale->format( $date ) . "<br>" );
+print( "Locallized date: " . $locale->format( $date, false ) . "<br>" );
+print( "Locallized date: " . $locale->format( $date2 ) . "<br>" );
+print( "Locallized time: " . $locale->format( $time ) . "<br>" );
+print( "Locallized currency: " . $locale->format( $currency ) . "<br>" );
+
+$time->setMySQLTime( "13:37:12" );
+
+$locale = new eZLocale( );
+
+print( "UK English<br>" );
+print( "Locallized date: " . $locale->format( $date ) . "<br>" );
+print( "Locallized date: " . $locale->format( $date, false ) . "<br>" );
+print( "Locallized time: " . $locale->format( $time ) . "<br>" );
+print( "Locallized currency: " . $locale->format( $currency ) . "<br>" );
+
+\endcode
 
 \sa eZDate eZDateTime eZTime eZCurrency eZNumber
 */
@@ -81,6 +119,9 @@ class eZLocale
         $this->ThousandsSymbol = $localeIni->read_var( "RegionalSettings", "ThousandsSymbol" );
         $this->FractDigits = $localeIni->read_var( "RegionalSettings", "FractDigits" );
 
+        $this->PositivePrefixCurrencySymbol = $localeIni->read_var( "RegionalSettings", "PositivePrefixCurrencySymbol" );
+        $this->NegativePrefixCurrencySymbol = $localeIni->read_var( "RegionalSettings", "NegativePrefixCurrencySymbol" );
+        
         $this->TimeFormat = $localeIni->read_var( "RegionalSettings", "TimeFormat" );
         $this->DateFormat = $localeIni->read_var( "RegionalSettings", "DateFormat" );
         $this->ShortDateFormat = $localeIni->read_var( "RegionalSettings", "ShortDateFormat" );
@@ -145,6 +186,7 @@ class eZLocale
 
                 $valueArray = explode( ".", $value );
                 $fracts = $valueArray[1] . "<br>";
+                settype( $fracts, "integer" );
                 $integerValue = $valueArray[0];          
 
                 $revInteger = strrev( $integerValue );                
@@ -152,12 +194,40 @@ class eZLocale
                 $integerValue = strrev( $revInteger );
 
                 $value = $integerValue . $this->DecimalSymbol . $fracts;
+
+                if ( $obj->isNegative )
+                {
+                    if ( $this->NegativePrefixCurrencySymbol == "yes" )
+                    {
+                        $value = "- " . $this->CurrencySymbol . " " . $value;
+                    }
+                    else
+                    {
+                        $value = "- " . $value . " " . $this->CurrencySymbol;
+                    }
+                }
+                else
+                {
+                    echo $this->PositivePrefixCurrencySymbol;
+                    if ( $this->PositivePrefixCurrencySymbol == "yes" )
+                    {
+                        $value = $this->CurrencySymbol . " " . $value;
+                    }
+                    else
+                    {
+                        $value = $value . " " . $this->CurrencySymbol;
+                    }                    
+                }
+                
                 $returnString = $value;
                 break;
             }
         }
         return $returnString;
     }
+
+    var $PositivePrefixCurrencySymbol;
+    var $NegativePrefixCurrencySymbol;
 
     var $CurrencySymbol;
     var $DecimalSymbol;

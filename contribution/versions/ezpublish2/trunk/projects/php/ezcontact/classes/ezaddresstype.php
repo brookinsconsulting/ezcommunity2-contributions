@@ -1,4 +1,9 @@
 <?
+//!! eZContact
+//!
+/*!
+
+*/
 
 class eZAddressType
 {

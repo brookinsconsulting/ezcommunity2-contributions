@@ -16,6 +16,7 @@ $time = new eZTime( 12, 2, 23 );
 
 $currency = new eZCurrency( 4333222111.998877 );
 
+print( "Norwegian<br>" );
 print( "Locallized date: " . $locale->format( $date ) . "<br>" );
 print( "Locallized date: " . $locale->format( $date, false ) . "<br>" );
 print( "Locallized date: " . $locale->format( $date2 ) . "<br>" );
@@ -26,6 +27,7 @@ $time->setMySQLTime( "13:37:12" );
 
 $locale = new eZLocale( );
 
+print( "UK English<br>" );
 print( "Locallized date: " . $locale->format( $date ) . "<br>" );
 print( "Locallized date: " . $locale->format( $date, false ) . "<br>" );
 print( "Locallized time: " . $locale->format( $time ) . "<br>" );

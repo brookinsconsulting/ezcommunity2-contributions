@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: ezuser.php,v 1.4 2000/09/08 13:17:17 bf-cvs Exp $
+    $Id: ezuser.php,v 1.5 2000/09/12 07:54:56 bf-cvs Exp $
 
     Author: Lars Wilhelmsen <lw@ez.no>
     
@@ -692,9 +692,6 @@ class eZUser
         mysql_select_db( $DATABASE ) or die( "Kunne ikke velge database" );
     }
 
-    /*!
-        eZUser variables & constants
-    */
     var $ID;
     var $GroupId;
     var $FirstName;

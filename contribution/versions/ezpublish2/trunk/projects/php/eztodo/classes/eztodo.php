@@ -1,5 +1,5 @@
 <?
-// $Id: eztodo.php,v 1.2 2000/09/08 14:00:19 ce-cvs Exp $
+// $Id: eztodo.php,v 1.3 2000/09/12 07:54:39 bf-cvs Exp $
 //
 // Definition of eZTodo class
 //
@@ -15,7 +15,7 @@
 //!! eZTodo
 //! The eZTodo handles the todo informasjon. 
 /*!
-  Handles the todo informasjon stoered in the database.
+  Handles the todo informasjon stored in the database.
 */
 
 // include_once( "eztodo/classes/ezpriority.php" );

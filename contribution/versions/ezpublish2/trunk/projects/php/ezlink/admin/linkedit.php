@@ -1,6 +1,6 @@
 <?
 /*!
-  $Id: linkedit.php,v 1.20 2000/09/07 15:44:44 bf-cvs Exp $
+  $Id: linkedit.php,v 1.21 2000/09/12 07:54:39 bf-cvs Exp $
 
   Author: Christoffer A. Elo <ce@ez.no>
     
@@ -20,7 +20,7 @@ $DOC_ROOT = $ini->read_var( "eZLinkMain", "DocumentRoot" );
 $Language = $ini->read_var( "eZLinkMain", "Language" );
 
 include_once( "../classes/eztemplate.php" );
-include_once( "common/ezphputils.php" );
+include_once( "../common/ezphputils.php" );
 
 include( "ezlink/classes/ezlinkgroup.php" );
 include( "ezlink/classes/ezlink.php" );

@@ -1,27 +1,25 @@
 <?php
-print ( "tjo" );
-die();
-//  include_once( "../classes/ezdb.php" );
-//  include_once( "../classes/ezuser.php" );
-//  include_once( "../classes/ezsession.php" );
-//  include_once( "common/ezphputils.php" );
+include_once( "../classes/ezdb.php" );
+include_once( "../classes/ezuser.php" );
+include_once( "../classes/ezsession.php" );
+include_once( "../common/ezphputils.php" );
 
 
-//  $user = new eZUser();
+$user = new eZUser();
 
-//  $tmp = $user->validateUser( $userid, $passwd);
+$tmp = $user->validateUser( $userid, $passwd);
 
-//  if ($tmp != 0)
-//  {
-//      $session = new eZSession();
-//      $session->setUserID( $tmp );
-//      $session->store();
-//      Header( "Location: index.php" );
-//  }
-//  else
-//  {
-//      $message = "Feil brukernavn/passord!";
-//      include( "index.php" );
-//  }
+if ($tmp != 0)
+{
+    $session = new eZSession();
+    $session->setUserID( $tmp );
+    $session->store();
+    Header( "Location: index.php" );
+}
+else
+{
+    $message = "Feil brukernavn/passord!";
+    include( "index.php" );
+}
 
 ?>
