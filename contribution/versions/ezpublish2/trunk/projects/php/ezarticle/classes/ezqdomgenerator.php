@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezqdomgenerator.php,v 1.19 2001/08/03 08:06:35 bf Exp $
+// $Id: ezqdomgenerator.php,v 1.20 2001/08/06 10:55:36 virt Exp $
 //
 // Definition of eZQDomGenerator class
 //
@@ -95,13 +95,13 @@ class eZQDomGenerator
 
         $tmpPage = $this->generateHeader( $tmpPage );
 
-        
+        $tmpPage = $this->generateHr( $tmpPage );
+	
+	$tmpPage = $this->generateTable( $tmpPage );
+	
         // replace & with &amp; to prevent killing the xml parser..
         // is that a bug in the xmltree(); function ? answer to bf@ez.no
         $tmpPage = ereg_replace ( "&", "&amp;", $tmpPage );
-
-        // fix $ problem if used in article:        
-//        $tmpPage = ereg_replace ( "$", "&#36;", $tmpPage );
 
         $tmpPage = $this->generateUnknowns( $tmpPage );        
 
@@ -167,6 +167,26 @@ class eZQDomGenerator
         $tmpPage = preg_replace( "/(<media\s+?([0-9]+?)\s*?>)/", "<media id=\"\\2\"  />", $tmpPage );
         return $tmpPage;
     }
+
+    function &generateHr( $tmpPage )
+    {
+        // default horizontal line tag <hr>
+	$tmpPage = preg_replace( "/(<hr\s*?>)/", "<hr />", $tmpPage );
+	return $tmpPage;
+    }
+
+
+    function &generateTable( $tmpPage )
+    {
+        // default image tag <media id>
+	$tmpPage = preg_replace( "/(<tstart\s*?>)/", "<tstart />", $tmpPage );
+	$tmpPage = preg_replace( "/(<telem\s*?>)/", "<telem />", $tmpPage );
+	$tmpPage = preg_replace( "/(<trow\s*?>)/", "<trow />", $tmpPage );
+	$tmpPage = preg_replace( "/(<tend\s*?>)/", "<tend />", $tmpPage );
+	return $tmpPage;
+    }
+
+
         
     /*!
       \private
@@ -302,6 +322,8 @@ class eZQDomGenerator
                 $value .= $this->decodeImage( $paragraph );
                 $value .= $this->decodeMedia( $paragraph );
                 $value .= $this->decodeLink( $paragraph );
+		$value .= $this->decodeHr( $paragraph );
+		$value .= $this->decodeTable( $paragraph );
             }
         }
 
@@ -424,6 +446,44 @@ class eZQDomGenerator
         return $pageContent;
     }
     
+
+    function &decodeHr( $paragraph )
+    {
+	if ( $paragraph->name == "hr" )
+        {
+        
+            $pageContent = "<hr>";
+	}
+	return $pageContent;
+    }
+    
+    function &decodeTable( $paragraph )
+    {
+	if ( $paragraph->name == "tstart" )
+        {
+        
+            $pageContent = "<tstart>";
+	}
+	if ( $paragraph->name == "telem" )
+        {
+        
+            $pageContent = "<telem>";
+	}
+	if ( $paragraph->name == "trow" )
+        {
+        
+            $pageContent = "<trow>";
+	}
+	if ( $paragraph->name == "tend" )
+        {
+        
+            $pageContent = "<tend>";
+	}
+	return $pageContent;
+    }
+    
+
+
     /*!
       \private
     */
@@ -538,6 +598,7 @@ class eZQDomGenerator
 
             switch ( $paragraph->name )
             {
+	    
                 case "bold" :
                 {                        
                     $pageContent .= "<bold>" . $tmpContent . "</bold>";
