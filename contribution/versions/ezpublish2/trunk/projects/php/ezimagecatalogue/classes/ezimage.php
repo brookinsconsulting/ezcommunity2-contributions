@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezimage.php,v 1.6 2000/09/25 15:10:24 bf-cvs Exp $
+// $Id: ezimage.php,v 1.7 2000/10/02 09:48:47 pkej-cvs Exp $
 //
 // Definition of eZCompany class
 //
@@ -62,7 +62,10 @@
     \endcode
   \sa eZImageVariation eZImageVariationGroup eZImageFile
 */
-
+/*!TODO
+    $t in the example just pops out of nowhere, giving us no indication
+    of where it was created or what connection it has with this class
+ */
 include_once( "classes/ezdb.php" );
 
 include_once( "ezimagecatalogue/classes/ezimagevariation.php" );
@@ -349,6 +352,26 @@ class eZImage
            $this->OriginalFileName = $name;
            
        }
+    }
+    
+    /*!
+        Checks if the object is in the coherent state. This check can be applied
+        after a get to check if the object data really exists.
+        
+        /return
+            Returns true if the object is coherent.
+    */
+    
+    function isCoherent()
+    {
+        $value = true;
+        
+        if( $this->State_ == "Coherent" )
+        {
+            $value = true;
+        }
+        
+        return $value;
     }
     
     /*!
