@@ -932,6 +932,22 @@ class eZGroupEvent
     }    
 
     /*!
+      Returns true if the event notification is enabled.
+    */
+    function &isEventAlarmNotice()
+    {
+	if ( $this->State_ == "Dirty" )
+	  $this->get( $this->ID );
+
+	if ( $this->EventAlarmNotice == 0 )
+	  $ret = false;
+	else
+	  $ret = true;
+
+	return $ret;
+    }
+
+    /*!
       Sets the name of the event.
     */
     function setName( $value )
@@ -1081,6 +1097,26 @@ class eZGroupEvent
        }
     }    
     
+
+
+    /*!
+     Sets the event notification property.
+    */
+    function setIsEventAlarmNotice( $value )
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+       if ( $value == true )
+       {
+           $this->EventAlarmNotice = 1;
+       }
+       else
+       {
+           $this->EventAlarmNotice = 0;
+       }
+    }
+
     /*!
       Sets the event duration.
     */
@@ -1938,25 +1974,6 @@ class eZGroupEvent
 
     /// boolean stored as an int
     var $IsPrivate;          
-   
-    var $ID;
-    var $Name;
-    var $Description;
-
-    var $URL;
-    var $Location;
-    var $EventCategoryID;
-    
-    var $GroupID;
-    var $Date;
-    var $Duration;
-    var $EventTypeID;
-    var $EMailNotice;
-
-    var $EventAlarmNotice;
-
-    /// boolean stored as an int
-    var $IsPrivate;
 
     /// boolean stored as an int
     var $IsRecurring;
