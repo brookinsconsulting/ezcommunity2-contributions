@@ -39,7 +39,7 @@ class eZInformixDB
             if ( $GLOBALS["DEBUG"] )
             {
                 print( $this->Error );
-                exit();
+//                exit();
             }
             return false;
         }
@@ -48,6 +48,7 @@ class eZInformixDB
     
     function array_query( &$ret_array, $query, $min=0, $max=-1 )
     {
+        $ret_array = array();
         $res_id = ifx_prepare( $query, $this->Database );
 
         if ( !$res_id )

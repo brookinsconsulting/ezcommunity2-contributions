@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezmysqldb.php,v 1.5 2001/06/26 11:44:39 bf Exp $
+// $Id: ezmysqldb.php,v 1.6 2001/06/28 09:34:54 bf Exp $
 //
 // Definition of eZMySQLDB class
 //
@@ -118,6 +118,30 @@ class eZMySQLDB
      */    
     function array_query_append( &$array, $sql, $min = 0, $max = -1, $column = false )
     {
+        $limit = -1;
+        $offset = 0;
+        // check for array parameters
+        if ( is_array( $min ) )
+        {
+            $params = $min;
+            
+            if ( is_numeric( $params["Limit"] ) )
+            {
+                $limit = $params["Limit"];
+            }
+
+            if ( is_numeric( $params["Offset"] ) )
+            {
+                $offset = $params["Offset"];
+            }
+
+        }
+
+        if ( $limit != -1 )
+        {
+            $sql .= " LIMIT $offset, $limit ";
+        }
+
         $result =& $this->query( $sql );
 
         if ( $result == false )

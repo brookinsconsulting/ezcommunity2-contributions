@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezimagecategory.php,v 1.24 2001/06/27 14:35:00 pkej Exp $
+// $Id: ezimagecategory.php,v 1.25 2001/06/28 09:33:39 bf Exp $
 //
 // Definition of eZImageCategory class
 //
@@ -259,7 +259,7 @@ class eZImageCategory
 
             for ( $i=0; $i<count($category_array); $i++ ) 
             { 
-                $return_array[$i] = new eZImageCategory( $category_array[$i][$db->fieldName("ID")], 0 ); 
+                $return_array[$i] = new eZImageCategory( $category_array[$i][$db->fieldName("ID")] ); 
             } 
 
             return $return_array; 
@@ -601,7 +601,7 @@ class eZImageCategory
        $article_array = array();
 
        $db->array_query( $file_array, "
-                SELECT eZImageCatalogue_Image.ID AS ImageID
+                SELECT eZImageCatalogue_Image.ID AS ImageID, eZImageCatalogue_Image.OriginalFileName
                 FROM eZImageCatalogue_Image, eZImageCatalogue_Category, eZImageCatalogue_ImageCategoryLink
                 WHERE 
                 eZImageCatalogue_ImageCategoryLink.ImageID = eZImageCatalogue_Image.ID

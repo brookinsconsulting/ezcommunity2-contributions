@@ -41,6 +41,9 @@ switch ( $url_array[2] )
             case "list" :
             {
                 $CategoryID = $url_array[4];
+                if ( !is_numeric($CategoryID ) )
+                    $CategoryID = 0;
+                
                 include( "ezimagecatalogue/user/imagelist.php" );
             }
             break;
