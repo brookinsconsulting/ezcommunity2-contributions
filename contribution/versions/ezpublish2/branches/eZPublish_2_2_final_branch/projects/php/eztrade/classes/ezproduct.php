@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezproduct.php,v 1.119.2.10 2001/11/27 21:33:36 br Exp $
+// $Id: ezproduct.php,v 1.119.2.11 2002/02/04 15:03:37 br Exp $
 //
 // Definition of eZProduct class
 //
@@ -1888,14 +1888,16 @@ class eZProduct
             $db->begin();
 
             $typeID = $type->id();
-
+            $db->array_query( $typeArray, "SELECT ID FROM eZTrade_ProductTypeLink WHERE ProductID='$this->ID'" );
             
             $res[] = $db->query( "DELETE FROM eZTrade_AttributeValue
                                      WHERE ProductID='$this->ID'" );
             
-            $db->lock( "eZTrade_ProductTypeLink" );
-            $nextID = $db->nextID( "eZTrade_ProductTypeLink", "ID" );
-            $query = "INSERT INTO eZTrade_ProductTypeLink
+            if ( count( $typeArray ) == 0 )
+            {
+                $db->lock( "eZTrade_ProductTypeLink" );
+                $nextID = $db->nextID( "eZTrade_ProductTypeLink", "ID" );
+                $query = "INSERT INTO eZTrade_ProductTypeLink
                          ( ID,
                            TypeID,
                            ProductID )
@@ -1903,8 +1905,17 @@ class eZProduct
                          ( '$nextID',
                            '$typeID',
                            '$this->ID' )";
-            $db->unlock();
-            $res[] = $db->query( $query );
+                $db->unlock();
+                $res[] = $db->query( $query );
+            }
+            else
+            {
+                $res[] = $db->query( "UPDATE eZTrade_ProductTypeLink SET
+                                TypeID='$typeID',
+                                ProductID='$this->ID'
+                                WHERE ID='" . $typeArray[0][$db->fieldName( "ID" )] . "'" );
+            }
+            
             eZDB::finish( $res, $db );
        }       
     }
