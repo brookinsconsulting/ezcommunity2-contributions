@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: pageedit.php,v 1.26 2001/12/21 14:22:37 br Exp $
+// $Id: pageedit.php,v 1.27 2001/12/21 14:41:36 jhe Exp $
 //
 // Definition of ||| class
 //
@@ -373,6 +373,15 @@ else if ( isSet( $PageID ) && is_Array( $ElementChoiceID ) )
 else if ( isSet( $PageID ) )
 {
     $elementChoiceID = $page->getConditionElement();
+    $choiceElement = new eZFormElement( $elementChoiceID );
+    $condArray = $choiceElement->getConditions();
+    if ( count( $condArray ) == 1 )
+    {
+        if ( ( $condArray[0]["Min"] == -1000 ) && ( $condArray[0]["Max"] == 1000 ) )
+        {
+            $elementChoiceID = -1;
+        }
+    }
 }
 else if ( $elementChoiceID == 0 )
     unset( $elementChoiceID );
