@@ -59,7 +59,7 @@
 	
 <!-- BEGIN category_item_tpl -->
 <tr>
-	<td width="1" class="{td_class}">
+	<td width="1%" class="{td_class}">
 	<img src="/admin/images/folder.gif" height="16" width="16" border="0" alt="" align="top" />
 	</td>
 	<td class="{td_class}">

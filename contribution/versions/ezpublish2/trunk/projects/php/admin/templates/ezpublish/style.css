@@ -66,7 +66,13 @@ a:hover
 	text-align: center;
 }
 
-.menu, .menutext, .menubold, .pictext, .credit
+.menusubhead
+{
+	color: #777777;
+	font-weight: bold;
+}
+
+.menu, .menutext, .menubold, .pictext, .credit, .byline, .subhead
 {
 	font-size: 11px;
 }
@@ -138,6 +144,11 @@ th
 	text-align: left;
 }
 
+.right
+{
+	text-align: right;
+}
+
 .tdmini
 {
 	font-size: 1px;
@@ -158,6 +169,11 @@ th
 .linkselect
 {
 	color: #ffffff;
+}
+
+.linkselect:hover
+{
+	color: #dcdcdc;
 }
 
 .linknormal
@@ -213,6 +229,22 @@ hr
 	font-weight: bold;
 }
 
+.divider
+{
+	float: left;
+	padding-right: 10px;
+}
+
+.box
+{
+	width: 500px;
+}
+
+.halfbox
+{
+	width: 230px;
+}
+
 .error
 {
 	font-size: 14;
@@ -258,5 +290,5 @@ hr
 	font-size: 1px;
 }
 
-/* Hellstrøm 28.02.2001 */
+/* Hellstrøm 28.5.2001 */
 

@@ -2,7 +2,7 @@
         <tr>
             <td width="1%" class="tdmini"><img src="/sitedesign/percolo/images/onepix.gif" alt="luft" width="14" height="14" hspace="0" vspace="0" /><br /></td>
 			<td width="98%" valign="top" class="tdmini"><img src="/sitedesign/percolo/images/onepix.gif" alt="luft" width="1" height="14" hspace="0" vspace="0" /><br /></td>
-            <td rowspan="3" valign="top" width="1%" align="right"><img src="/sitedesign/percolo/images/tittelbilde.gif" alt="" width="140" height="100" /><br /></td>
+            <td rowspan="3" valign="top" width="1%" align="right"><a href="/tema/bildegalleri"><img src="/sitedesign/percolo/images/tittelbilde.gif" alt="Bygg mer enn hus..." width="140" height="100" border="0" /></a><br /></td>
         </tr>
         <tr>
             <td bgcolor="#009ebf" valign="top"><img src="/sitedesign/percolo/images/onepix.gif" alt="luft" width="14" height="32" hspace="0" vspace="0" /><br /></td>

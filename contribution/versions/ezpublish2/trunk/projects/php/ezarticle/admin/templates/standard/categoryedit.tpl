@@ -10,18 +10,12 @@
 <p class="error">{intl-permission_error}</p>
 <!-- END error_permission_tpl -->
 
-<table width="100%" cellspacing="0" cellpadding="0" border="0">
-<tr>
-	<td>
-	<p class="boxtext">{intl-name}:</p>
-	<input type="text" size="40" name="Name" value="{name_value}"/>
-	</td>	
-	<td>
-	<input type="checkbox" name="ExcludeFromSearch" {exclude_checked} />
-	<span class="boxtext">{intl-exclude_from_search}</span>
-	</td>
-</tr>
-</table>
+<p class="boxtext">{intl-name}:</p>
+<input type="text" size="40" name="Name" value="{name_value}" />
+<br /><br />
+
+<input type="checkbox" name="ExcludeFromSearch" {exclude_checked} />
+<span class="boxtext">{intl-exclude_from_search}</span><br />
 
 <br />
 
@@ -117,11 +111,10 @@
 
 <!-- BEGIN image_item_tpl -->
 <img src="{image_url}" alt="{image_caption}" width="{image_width}" height="{image_height}" />
-<input type="checkbox" name="DeleteImage"><span class="p">{intl-delete_image}</span><br /><br />
+<div><input type="checkbox" name="DeleteImage"><span class="p">{intl-delete_image}</span><div /><br />
 <!-- END image_item_tpl -->
 
-<input class="stdbutton" size="20" name="ImageFile" type="file" /><br /><br />
-
+<input size="20" name="ImageFile" type="file" />
 <input class="stdbutton" type="submit" name="Browse" value="{intl-browse}" />
 <br /><br />
 

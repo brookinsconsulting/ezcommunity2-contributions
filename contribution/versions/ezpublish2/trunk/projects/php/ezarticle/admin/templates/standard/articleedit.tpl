@@ -10,23 +10,23 @@
 
 
 <p class="boxtext">{intl-article_name}:</p>
-<input type="text" name="Name" size="40" value="{article_name}" />
+<input class="box" type="text" name="Name" size="40" value="{article_name}" />
 <br /><br />
 
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
 	<td valign="top">
 	<p class="boxtext">{intl-article_author}:</p>
-	<input type="text" name="AuthorText" size="20" value="{author_text}" />
+	<input class="halfbox" type="text" name="AuthorText" size="20" value="{author_text}" />
 	</td>
 	<td>
 	<p class="boxtext">{intl-article_author_email}:</p>
-	<input type="text" name="AuthorEmail" size="20" value="{author_email}" />
+	<input class="halfbox" type="text" name="AuthorEmail" size="20" value="{author_email}" />
 	</td>
 </tr>
 </table>
-
 <br />
+
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
 	<td valign="top">
@@ -54,8 +54,10 @@
 	</td>
 </tr>
 <tr>
+	<td colspan="2">&nbsp;</td>
+</tr>
+<tr>
 	<td align="top">
-	<br />
 	<p class="boxtext">{intl-groups}:</p>
 	<select name="GroupArray[]" size="3" multiple>
 	<option value="0" {all_selected}>{intl-all}</option>
@@ -64,8 +66,7 @@
 	<!-- END group_item_tpl -->
 	</select>
 	</td>	
-	<td>
-	<br />
+	<td align="top">
 	<p class="boxtext">{intl-groups_write}:</p>
 	<select name="WriteGroupArray[]" size="3" multiple>
 	<option value="0" {all_write_selected}>{intl-all}</option>
@@ -78,19 +79,19 @@
 </table>
 
 <p class="boxtext">{intl-keywords}:</p>
-<input type="text" name="Keywords" size="40" value="{article_keywords}" />
+<input class="box" type="text" name="Keywords" size="40" value="{article_keywords}" />
 <br /><br />
 
 <p class="boxtext">{intl-intro}:</p>
-<textarea name="Contents[]" cols="40" rows="5" wrap="soft">{article_contents_0}</textarea>
+<textarea class="box" name="Contents[]" cols="40" rows="5" wrap="soft">{article_contents_0}</textarea>
 <br /><br />
 
 <p class="boxtext">{intl-contents}:</p>
-<textarea name="Contents[]" cols="40" rows="20" wrap="soft">{article_contents_1}</textarea>
+<textarea class="box" name="Contents[]" cols="40" rows="20" wrap="soft">{article_contents_1}</textarea>
 <br /><br />
 
 <p class="boxtext">{intl-link_text}:</p>
-<input type="text" name="LinkText" size="20" value="{link_text}" />
+<input class="halfbox" type="text" name="LinkText" size="20" value="{link_text}" />
 <br /><br />
 
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
@@ -105,7 +106,9 @@
 	</td>
 </tr>
 </table>
+
 <br />
+
 <hr noshade="noshade" size="4" />
 
 <input class="stdbutton" type="submit" name="Image" value="{intl-pictures}" />
@@ -114,19 +117,14 @@
 
 <hr noshade="noshade" size="4" />
 
-<table cellspacing="0" cellpadding="0" border="0">
-<tr>
-	<td>
-	<input class="okbutton" type="submit" value="{intl-ok}" />
-	</form>
-	</td>
-	<td>&nbsp;</td>
-	<td>
-	<form method="post" action="/article/articleedit/cancel/{article_id}/">
-	<input class="okbutton" type="submit" value="{intl-cancel}" />	
-	</form>
-	</td>
-</tr>
-</table>
+<div class="divider">
+<input class="okbutton" type="submit" value="{intl-ok}" />
+</div>
+</form>
 
+<form method="post" action="/article/articleedit/cancel/{article_id}/">
+<div class="divider">
+<input class="okbutton" type="submit" value="{intl-cancel}" />	
+</div>
+</form>
 
