@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: payment.php,v 1.84 2001/10/17 13:14:38 ce Exp $
+// $Id: payment.php,v 1.84.2.1 2001/11/26 17:50:24 br Exp $
 //
 // Created on: <02-Feb-2001 16:31:53 bf>
 //
@@ -123,7 +123,30 @@ $cart = $cart->getBySession( $session, "Cart" );
 
 if ( !$cart )
 {
-    eZHTTPTool::header( "Location: /trade/cart/" );
+    $orderCompletedID = $session->variable( "OrderCompletedID" ) ;
+
+    if( $orderCompletedID > 0 )
+    {
+        $user =& eZUser::currentUser();
+        $order = new eZOrder( $orderCompletedID );
+        $orderUser = $order->user();
+        
+        if ( $user->id() == $orderUser->id() )
+        {
+            eZHTTPTool::header( "Location: http://$HTTP_HOST/trade/ordersendt/$orderCompletedID/" );
+            exit();
+        }
+        else
+        {
+            eZHTTPTool::header( "Location: /trade/cart/" );
+            exit();
+        }
+    }
+    else
+    {
+        eZHTTPTool::header( "Location: /trade/cart/" );
+        exit();
+    }
 }
 
 $items = $cart->items();
@@ -167,7 +190,7 @@ $currency = new eZCurrency();
 
 // create an order and empty the cart.
 // only do this if the payment was OK.
-if ( $PaymentSuccess == "true" ) 
+if ( $PaymentSuccess == "true" )
 {
     // create a new order
     $order = new eZOrder();
@@ -206,12 +229,21 @@ if ( $PaymentSuccess == "true" )
     // exit if no items exist
     if ( count ( $items ) == 0 )
     {
-       eZHTTPTool::header( "Location: /trade/cart/" );
-       exit();
+       $orderCompletedID = $session->variable( "OrderCompletedID" ) ;
+    
+       if( $orderCompletedID > 0 )
+       {
+          eZHTTPTool::header( "Location: http://$HTTP_HOST/trade/ordersendt/$orderCompletedID/" );
+          exit();
+       }
+       else
+       {
+          eZHTTPTool::header( "Location: /trade/cart/" );
+          exit();
+       }
     }
 
     $order->store();
-
 
     $order_id = $order->id();
     
@@ -957,6 +989,7 @@ if ( $PaymentSuccess == "true" )
     }
     
     $cart->delete();
+    $session->setVariable( "OrderCompletedID", $OrderID );
 
     // call the payment script after the payment is successful.
     // some systems needs this, e.g. to print out the OrderID which was cleared..
@@ -969,6 +1002,18 @@ if ( $PaymentSuccess == "true" )
 
     eZHTTPTool::header( "Location: http://$HTTP_HOST/trade/ordersendt/$OrderID/" );
     exit();
+}
+else if( $OrderID > 0 )
+{
+    $user =& eZUser::currentUser();
+    $order = new eZOrder( $OrderID );
+    $orderUser = $order->user();
+
+    if( $user->id() == $orderUser->id() )
+    {
+        eZHTTPTool::header( "Location: http://$HTTP_HOST/trade/ordersendt/$OrderID/" );
+        exit();
+    }
 }
 
 
