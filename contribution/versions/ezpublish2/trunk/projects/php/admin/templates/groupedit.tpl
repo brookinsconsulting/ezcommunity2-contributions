@@ -1,14 +1,53 @@
+<h1>Brukergrupperedigering</h1>
+
 <form action="index.php4?page=groupedit.php4" method="post">
-<p>
-Gruppe:<br>
-<input type="text" name="Name" value="{name}">
-</p>
 
-<p>
-Beskrivelse:<br>
-<input type="text" name="Description" value="{description}">
-</p>
+<table width="100%" cellspacing="0" cellpadding="4" border="0">
+<tr>
+	<td bgcolor="#3c3c3c">
+	<p class="white">
+	<b>Gruppe</b>
+	</p>
+	</td>
+</tr>
+<tr>
+	<td bgcolor="#f0f0f0">
+	<br>
+	<p>
+	Navn:<br>
+	<input type="text" name="Name" value="{name}">
+	</p>
+	
+	<p>
+	Beskrivelse:<br>
+	<input type="text" name="Description" value="{description}">
+	</p>
+	</td>
+</tr>
+<tr>
+	<td bgcolor="#f0f0f0">
+	<br>
+	</td>
+</tr>
+</table>
 
+<table width="100%" height="4" cellspacing="0" cellpadding="0" border="0">
+<tr>
+	<td bgcolor="ffffff"><img src="../ezpublish/images/1x1.gif" width="1" height="4" border="0"></td>
+</tr>
+</table>
+
+<table width="100%" cellspacing="0" cellpadding="4" border="0">
+<tr>
+	<td bgcolor="#3c3c3c">
+	<p class="white">
+	<b>Rettigheter</b>
+	</p>
+	</td>
+</tr>
+<tr>
+	<td bgcolor="#f0f0f0">	
+	
 <table>
 
   <tr>
@@ -157,6 +196,11 @@ Beskrivelse:<br>
     <td><input type="checkbox" name="zez_Admin" {zez_Admin}></td>
   </tr>
 </table>
+
+	</td>
+</tr>
+</table>
+<br>
 
 <input type="hidden" name="UserGroupID" value="{user_group_id}">
 <input type="hidden" name="Action" value="{action_value}">
