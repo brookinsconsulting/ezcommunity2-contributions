@@ -75,7 +75,7 @@ function &newOrders( $args )
         {
             // set the order item to be exported
             $orderItem->setIsExported( true );
-//              $orderItem->store();
+            $orderItem->store();
 
             $datetime =& $orderItem->date();
 
