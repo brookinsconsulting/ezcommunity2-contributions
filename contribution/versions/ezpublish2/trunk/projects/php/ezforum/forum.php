@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: forum.php,v 1.49 2000/10/13 13:39:32 bf-cvs Exp $
+// $Id: forum.php,v 1.50 2000/10/13 14:19:59 ce-cvs Exp $
 //
 // 
 //
@@ -34,6 +34,8 @@ $t = new eZTemplate( "ezforum/templates", "ezforum/intl", $Language, "forum.php"
 $t->set_file( "forum_tpl", "forum.tpl"  );
 
 $t->set_block( "forum_tpl", "message_tpl", "message" );
+$t->set_block( "forum_tpl", "previous_tpl", "previous" );
+$t->set_block( "forum_tpl", "next_tpl", "next" );
 
 $t->setAllStrings();
 
@@ -46,6 +48,8 @@ $t->set_var( "category_name", $category->name( ) );
 $t->set_var( "forum_id", $forum->id() );
 $t->set_var( "forum_name", $forum->name() );
 
+
+// make to $Action .. elo!
 
 $msg = new eZForumMessage( $forum_id );
 
@@ -73,7 +77,6 @@ if ( $Action == "post" )
     $message->store();
 
     // delete the cache file
-
 
     unlink( "ezforum/cache/forum," . $forum_id . ".cache" );
 
@@ -115,7 +118,31 @@ foreach ( $messages as $message )
     $t->set_var( "user", $user->firstName() . " " . $user->lastName() );
 
     $t->set_var( "limit", $Limit );
-    $t->set_var( "prev_offset", $Offset - $Limit );
+
+    $prevOffs = $Offset - $Limit;
+    $nextOffs = $Offset + $Limit;
+         
+    if ( $prevOffs >= 0 )
+    {
+        $t->set_var( "prev_offset", $prevOffs  );
+        $t->parse( "previous", "previous_tpl" );
+    }
+    else
+    {
+        $t->set_var( "previous", "" );
+    }
+    
+    if ( $nextOffs <= $forum->messageCount() )
+    {
+        $t->set_var( "next_offset", $nextOffs  );
+        $t->parse( "next", "next_tpl" );
+    }
+    else
+    {
+        $t->set_var( "next", "" );
+    }
+    
+    
     $t->set_var( "next_offset", $Offset + $Limit );    
     
     $t->parse( "message", "message_tpl", true );

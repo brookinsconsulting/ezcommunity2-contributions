@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: newmessage.php,v 1.13 2000/10/11 14:58:38 bf-cvs Exp $
+// $Id: newmessage.php,v 1.14 2000/10/13 14:19:59 ce-cvs Exp $
 //
 // 
 //
@@ -42,8 +42,16 @@ $category = new eZForumCategory();
 $infoString = $info["CategoryName"] . "::" . $info["ForumName"];
 
 $user = new eZUser();
+$category->get( $category_id );
+$t->set_var( "category_name", $category->name() );
+
+$forum = new eZForumForum();
+$forum->get( $forum_id );
+$t->set_var( "forum_name", $forum->name() );
+
 $t->set_var("info", $infoString );
 $t->set_var("forum_id", $forum_id);
+$t->set_var( "category_id", $category_id );
 
 
 $t->pparse( "output", "new_message_tpl" );

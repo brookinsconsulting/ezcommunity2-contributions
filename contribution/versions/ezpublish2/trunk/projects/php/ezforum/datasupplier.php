@@ -76,7 +76,9 @@ switch ( $url_array[2] )
             }
             else if ( $url_array[4] == "newpost" )
             {
-                $forum_id = $url_array[5];
+                $category_id = $url_array[5];
+                $forum_id = $url_array[6];
+                
                 include( "ezforum/newmessage.php" );                
             }
             else if ( $url_array[4] == "post" )
