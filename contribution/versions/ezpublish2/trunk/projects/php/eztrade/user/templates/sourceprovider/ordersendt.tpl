@@ -6,7 +6,78 @@
 
 <p>{intl-email_notice}</p>
 
-<h2>Order id: {order_id}</h2>
+
+<!-- BEGIN visa_tpl -->
+<pre>
+
+Order number: {order_id}
+
+Card holders name:
+
+--------------------------------
+
+Card holders address:
+
+--------------------------------
+
+Card number:
+
+---------------------------------
+
+Expire:
+
+---------------------------------
+
+Signature:
+
+---------------------------------
+
+CVC 2:
+
+---------------------------------
+</pre>
+<!-- END visa_tpl -->
+
+<!-- BEGIN mastercard_tpl -->
+<pre>
+
+Order number: {order_id}
+
+Card holders name:
+
+--------------------------------
+
+Card holders address:
+
+--------------------------------
+
+Card number:
+
+---------------------------------
+
+Expire:
+
+---------------------------------
+
+Signature:
+
+---------------------------------
+
+CVC 2:
+
+---------------------------------
+</pre>
+<!-- END mastercard_tpl -->
+
+<!-- BEGIN cod_tpl -->
+
+<!-- END cod_tpl -->
+
+<!-- BEGIN invoice_tpl -->
+invoice
+<!-- END invoice_tpl -->
+
+
 
 <h2>Kundeinformasjon</h2>
 

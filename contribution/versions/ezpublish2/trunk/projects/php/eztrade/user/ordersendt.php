@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ordersendt.php,v 1.6 2000/10/31 19:53:56 bf-cvs Exp $
+// $Id: ordersendt.php,v 1.7 2000/10/31 20:10:21 bf-cvs Exp $
 //
 // 
 //
@@ -31,6 +31,11 @@ $t->set_file( array(
     "order_sendt_tpl" => "ordersendt.tpl"
     ) );
 
+
+$t->set_block( "order_sendt_tpl", "visa_tpl", "visa" );
+$t->set_block( "order_sendt_tpl", "mastercard_tpl", "mastercard" );
+$t->set_block( "order_sendt_tpl", "cod_tpl", "cod" );
+$t->set_block( "order_sendt_tpl", "invoice_tpl", "invoice" );
 
 $t->set_block( "order_sendt_tpl", "address_tpl", "address" );
 
@@ -74,8 +79,6 @@ if ( $user )
 
 // fetch the order items
 $items = $order->items( $OrderType );
-
-print( $order->PaymentMethod() );
 
 
 $locale = new eZLocale( $Language );
@@ -136,6 +139,34 @@ foreach ( $items as $item )
 }
 
 $t->parse( "order_item_list", "order_item_list_tpl" );
+
+$t->set_var( "visa", "" );
+$t->set_var( "mastercard", "" );
+$t->set_var( "cod", "" );
+$t->set_var( "invoice", "" );
+switch ( $order->PaymentMethod() )
+{
+    case "1" :
+    {// VISA
+        $t->parse( "visa", "visa_tpl" );        
+    }
+    break;
+    case "2" :
+    {// Mastercard
+        $t->parse( "mastercard", "mastercard_tpl" );
+    }
+    break;
+    case "3" :
+    {// Postordre
+        $t->parse( "cod", "cod_tpl" );
+    }
+    break;
+    case "4" :
+    {// Faktura
+        $t->parse( "invoice", "invoice_tpl" );
+    }
+    break;
+}
 
 $shippingCost = $order->shippingCharge();
 $currency->setValue( $shippingCost );
