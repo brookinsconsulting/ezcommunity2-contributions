@@ -1,4 +1,3 @@
-Warning: Remote host denied X11 forwarding.
 #!/bin/sh
 echo "Creating symbolic links and setting permissions as needed."
 chmod 666 site.ini
