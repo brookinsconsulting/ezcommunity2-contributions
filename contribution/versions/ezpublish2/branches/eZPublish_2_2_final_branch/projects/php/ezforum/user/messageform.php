@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: messageform.php,v 1.16.2.3 2002/02/05 10:39:07 jhe Exp $
+// $Id: messageform.php,v 1.16.2.4 2002/04/16 15:48:20 jhe Exp $
 //
 // Created on: <21-Feb-2001 18:00:00 pkej>
 //
@@ -35,7 +35,7 @@ if ( $ShowMessageForm )
         $t->set_block( "form", "author_field_tpl", "author_field" );
         $t->set_block( "author_field_tpl", "author_logged_in_tpl", "author_logged_in" );
         $t->set_block( "author_field_tpl", "author_not_logged_in_tpl", "author_not_logged_in" );
-        
+
         $t->set_block( "form", "message_body_info_tpl", "message_body_info_item" );
         $t->set_block( "form", "message_reply_info_tpl", "message_reply_info_item" );
         $t->set_block( "form", "message_notice_checkbox_tpl", "message_notice_checkbox" );
@@ -68,6 +68,9 @@ if ( $ShowMessageForm )
     
     if ( $Error )
     {
+        $MessageTopic = $NewMessageTopic;
+        $MessageBody = $NewMessageBody;
+
         $t->set_block( "errors_tpl", "error_missing_body_item_tpl", "error_missing_body_item" );
         $t->set_block( "errors_tpl", "error_missing_topic_item_tpl", "error_missing_topic_item" );
         
