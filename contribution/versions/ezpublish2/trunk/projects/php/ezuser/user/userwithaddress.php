@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: userwithaddress.php,v 1.77 2001/11/12 08:05:04 ce Exp $
+// $Id: userwithaddress.php,v 1.78 2001/11/20 16:11:58 ce Exp $
 //
 // Created on: <10-ct-2000 12:52:42 bf>
 //
@@ -43,6 +43,7 @@ $session =& eZSession::globalSession();
 include_once( "ezuser/classes/ezuser.php" );
 include_once( "ezuser/classes/eztitle.php" );
 include_once( "ezuser/classes/ezusergroup.php" );
+include_once( "ezuser/classes/ezuseradditional.php" );
 include_once( "ezaddress/classes/ezaddress.php" );
 include_once( "ezaddress/classes/ezcountry.php" );
 include_once( "ezmail/classes/ezmail.php" );
@@ -60,6 +61,8 @@ $t->set_block( "user_edit_tpl", "user_exists_error_tpl", "user_exists_error" );
 $t->set_block( "user_edit_tpl", "password_error_tpl", "password_error" );
 $t->set_block( "user_edit_tpl", "missing_address_error_tpl", "missing_address_error" );
 $t->set_block( "user_edit_tpl", "address_actions_tpl", "address_actions" );
+
+$t->set_block( "user_edit_tpl", "additional_item_tpl", "additional_item" );
 
 $t->set_block( "user_edit_tpl", "address_tpl", "address" );
 $t->set_block( "address_tpl", "main_address_tpl", "main_address" );
@@ -378,6 +381,17 @@ if ( isSet( $OK ) and $error == false )
 
     $user_insert->store();
 
+    if ( count ( $AdditionalArrayID ) > 0 )
+    {
+        $i=0;
+        foreach( $AdditionalArrayID as $AdditionalID )
+        {
+            $additional = new eZUserAdditional( $AdditionalID );
+            $additional->addValue( $user_insert, $AdditionalValue[$i] );
+            $i++;
+        }
+    }
+
     // set title
     $title = new eZTitle( );
     if ( $title->get( $TitleID ) )
@@ -518,6 +532,16 @@ if ( get_class( $user ) == "ezuser" )
     }
     else
     {
+    }
+
+    // Show additional fields
+    $additionalList =& eZUserAdditional::getAll();
+    $i=0;
+    foreach( $additionalList as $additional )
+    {
+        if ( !isSet( $AdditionalValue[$i] ) )
+            $AdditionalValue[$i] = $additional->value( $user );
+        $i++;
     }
     
     if ( !isSet( $AddressID ) )
@@ -699,6 +723,20 @@ foreach ( $DeleteAddressArrayID as $aid )
     $delete_address = new eZAddress( $RealAddressID[$aid-1] );
     if ( $user )
         $user->removeAddress( $delete_address );
+}
+
+// Show additional fields
+$additionalList =& eZUserAdditional::getAll();
+
+$i = 0;
+foreach( $additionalList as $additional )
+{
+    $t->set_var( "additional_name", $additional->name() );
+    $t->set_var( "additional_id", $additional->id() );
+    $t->set_var( "additional_value", $AdditionalValue[$i] );
+
+    $i++;
+    $t->parse( "additional_item", "additional_item_tpl", true );
 }
 
 // Render addresses

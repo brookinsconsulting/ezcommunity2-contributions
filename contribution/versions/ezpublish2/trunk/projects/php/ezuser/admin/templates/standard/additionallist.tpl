@@ -12,17 +12,30 @@
 
 <!-- BEGIN additional_item_tpl -->
 <tr  class="{td_class}">
-	<td width="97%">
+	<td >
 	<input type="hidden" name="AdditionalArrayID[]" value="{additional_id}" />
 	<input type="text" name="Name[]" value="{additional_name}" />
 	</td>
 
+	<td >
+	<select name="Type[]">
+	<option {1_is_selected} value="1">{intl-textfield}</option>
+	<option {2_is_selected} value="2">{intl-radiobox}</option>
+	</select>
+	</td>
+
+	<td >
+<!-- BEGIN fixed_values_tpl --> 
+<a href="{www_dir}{index}/user/additional/fixedvalues/{additional_id}">{intl-fixed_values}</a>
+<!-- END fixed_values_tpl -->
+	</td>
+
 <!-- BEGIN item_move_down_tpl --> 
-	<td width="1%"><a href="{www_dir}{index}/user/additional/down/{additional_id}"><img src="{www_dir}/admin/images/move-down.gif" height="12" width="12" border="0" alt="Move down" /></a></td>
+	<td ><a href="{www_dir}{index}/user/additional/down/{additional_id}"><img src="{www_dir}/admin/images/move-down.gif" height="12" width="12" border="0" alt="Move down" /></a></td>
 <!-- END item_move_down_tpl -->
 
 <!-- BEGIN no_item_move_down_tpl -->
-	<td width="1%"> &nbsp; </td>
+	<td > &nbsp; </td>
 <!-- END no_item_move_down_tpl -->
 
 <!-- BEGIN item_separator_tpl -->
@@ -33,13 +46,13 @@
 <!-- END no_item_separator_tpl -->
 
 <!-- BEGIN item_move_up_tpl -->
-	<td width="1%"><a href="{www_dir}{index}/user/additional/up/{additional_id}"><img src="{www_dir}/admin/images/move-up.gif" height="12" width="12" border="0" alt="Move up" /></a></td>
+	<td ><a href="{www_dir}{index}/user/additional/up/{additional_id}"><img src="{www_dir}/admin/images/move-up.gif" height="12" width="12" border="0" alt="Move up" /></a></td>
 <!-- END item_move_up_tpl -->
 <!-- BEGIN no_item_move_up_tpl -->
-	<td width="1%"> &nbsp; </td>
+	<td > &nbsp; </td>
 <!-- END no_item_move_up_tpl -->
 
-	<td width="1%">
+	<td >
 	<input type="checkbox" name="DeleteArrayID[]" value="{additional_id}" />
 	</td>
 </tr>

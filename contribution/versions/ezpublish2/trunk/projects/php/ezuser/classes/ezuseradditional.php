@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezuseradditional.php,v 1.1 2001/11/16 16:16:43 ce Exp $
+// $Id: ezuseradditional.php,v 1.2 2001/11/20 16:11:58 ce Exp $
 //
 // Definition of eZCompany class
 //
@@ -93,9 +93,9 @@ class eZUserAdditional
             $nextID = $db->nextID( "eZUser_Additional", "ID" );
 
             $db->query( "INSERT INTO eZUser_Additional
-                         (ID, Name, Placement)
+                         (ID, Name, Type, Placement)
                          VALUES
-                         ('$nextID', '$name', '$place')" );
+                         ('$nextID', '$name', '$this->Type', '$place')" );
 
             $this->ID = $nextID;
 
@@ -103,7 +103,8 @@ class eZUserAdditional
         else
         {
             $db->query( "UPDATE eZUser_Additional SET
-                                 Name='$name'
+                                 Name='$name',
+                                 Type='$this->Type'
                                  WHERE ID='$this->ID'" );            
         }
 
@@ -163,6 +164,7 @@ class eZUserAdditional
         
         $this->ID = $user_group_array[$db->fieldName( "ID" )];
         $this->Name = $user_group_array[$db->fieldName( "Name" )];
+        $this->Type = $user_group_array[$db->fieldName( "Type" )];
         $this->Placement = $user_group_array[$db->fieldName( "Placement" )];
     }
 
@@ -223,11 +225,31 @@ class eZUserAdditional
     }
 
     /*!
+      Returns the additional type.
+      1 = textfield
+      2 = radiobox
+    */
+    function type( )
+    {
+        return $this->Type;
+    }
+
+    /*!
       Sets the name of the additional.
     */
     function setName( $value )
     {
        $this->Name = $value;
+    }
+
+    /*!
+      Sets the type of the additional.
+      1 = textfield
+      2 = radiobox
+    */
+    function setType( $value )
+    {
+       $this->Type = $value;
     }
 
     /*!
@@ -286,7 +308,7 @@ class eZUserAdditional
        } 
        return $ret;
     }
-
+    
     /*!
       Returns the attribute value to the given product.
     */
@@ -300,14 +322,87 @@ class eZUserAdditional
             
             $db->query_single( $valueArray,
             "SELECT Value FROM eZUser_AdditionalValue
-             WHERE UserID='$productID' AND AdditionalID='$this->ID'" );
+             WHERE UserID='$userID' AND AdditionalID='$this->ID'" );
 
-            if ( count( $valueArray ) == 1 )
+            if ( count( $valueArray ) == 2 )
             {
                 $ret = $valueArray[$db->fieldName( "Value" )];
             }
         }
         return $ret;
+    }
+
+    /*!
+      Adds a user to the current user group.
+
+      Returns true if successful, false if not.
+    */
+    function addFixedValue( $valueID=false, $value=false )
+    {
+        $ret = false;
+
+        $db =& eZDB::globalDatabase();
+
+        $dbError = false;
+        $db->begin( );
+        $id = false;
+           
+        $db->query_single( $checkArray, "SELECT ID FROM eZUser_AdditionalFixedValue
+                                  WHERE AdditionalID='$this->ID' AND ID='$valueID'" );
+        $id = $checkArray[$db->fieldName( "ID" )];
+        if ( is_numeric ( $id ) )
+        {
+            $res = $db->query( "UPDATE eZUser_AdditionalFixedValue
+                                   SET Value='$value'
+                                   WHERE ID='$valueID'" );
+            if ( $res == false )
+                $dbError = true;
+            $ret = true;
+        }
+        else
+        {
+            $db->lock( "eZUser_AdditionalFixedValue" );
+            $nextID = $db->nextID( "eZUser_AdditionalFixedValue", "ID" );
+               
+            $res = $db->query( "INSERT INTO eZUser_AdditionalFixedValue
+                            ( ID, AdditionalID, Value )
+                            VALUES
+                            ( '$nextID', '$this->ID', '$value' )" );
+               
+            if ( $res == false )
+                $dbError = true;
+            $ret = true;
+        }
+           
+        $db->unlock();  
+        if ( $dbError == true )
+            $db->rollback( );
+        else
+            $db->commit();
+        return $ret;
+    }
+
+    /*!
+      Returns the attribute value to the given product.
+    */
+    function fixedValues( $id=false )
+    {
+        $db =& eZDB::globalDatabase();
+        $return = array();
+
+        if ( $id == false )
+            $id = $this->ID;
+        
+        $db->array_query( $valuesArray,
+                           "SELECT ID, Value FROM eZUser_AdditionalFixedValue
+                            WHERE AdditionalID='$this->ID'" );
+
+        foreach( $valuesArray as $value )
+        {
+            $return[] = array( "ID" => $value[$db->fieldName( "ID" )], "Value" => $value[$db->fieldName( "Value" )] );
+        }
+        
+        return $return;
     }
 
     /*!
@@ -347,6 +442,7 @@ class eZUserAdditional
 
     var $ID;
     var $Name;
+    var $Type;
     var $Placement;
 }
 

@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: additionallist.php,v 1.1 2001/11/16 16:16:42 ce Exp $
+// $Id: additionallist.php,v 1.2 2001/11/20 16:11:57 ce Exp $
 //
 // Definition of ||| class
 //
@@ -49,6 +49,7 @@ if ( ( isset( $Update ) ) or ( isset ( $New ) ) or ( isset ( $Delete ) ) )
     {
         $additional = new eZUserAdditional( $additionalID );
         $additional->setName( $Name[$i] );
+        $additional->setType( $Type[$i] );
         $additional->store();
         $i++;
     }
@@ -100,6 +101,8 @@ $t->set_block( "additional_item_tpl", "no_item_move_up_tpl", "no_item_move_up" )
 $t->set_block( "additional_item_tpl", "no_item_separator_tpl", "no_item_separator" );
 $t->set_block( "additional_item_tpl", "no_item_move_down_tpl", "no_item_move_down" );
 
+$t->set_block( "additional_item_tpl", "fixed_values_tpl", "fixed_values" );
+
 $t->set_var( "no_item_move_down", "" );
 $t->set_var( "no_item_separator", "" );
 $t->set_var( "no_item_move_up", "" );
@@ -122,6 +125,20 @@ foreach ( $additionalList as $additionalItem )
     $t->set_var( "additional_id", $additionalItem->id() );
 
     $t->set_var( "additional_name", $additionalItem->name() );
+
+    $t->set_var( "fixed_values", "" );
+    if ( $additionalItem->type() == 1 )
+        $t->set_var( "1_is_selected", "selected" );
+    else
+        $t->set_var( "1_is_selected", "" );
+
+    if ( $additionalItem->type() == 2 )
+    {
+        $t->parse( "fixed_values", "fixed_values_tpl" );
+        $t->set_var( "2_is_selected", "selected" );
+    }
+    else
+        $t->set_var( "2_is_selected", "" );
 
     if ( ( $i % 2 ) == 0 )
     {

@@ -135,6 +135,19 @@
 </tr>
 </table>
 
+<table width="100%" cellspacing="0" cellpadding="0" border="0">
+<!-- BEGIN additional_item_tpl -->
+<tr>
+	<td>
+	<p class="boxtext">{additional_name}:</p>
+	<input type="text" size="20" name="AdditionalValue[]" value="{additional_value}"/>
+	<input type="hidden"name="AdditionalArrayID[]" value="{additional_id}"/>
+	</td>
+</tr>
+<!-- END additional_item_tpl -->
+</table>
+
+
 
 <!-- BEGIN address_tpl -->
 
