@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezpageviewquery.php,v 1.21.2.3 2002/02/20 15:08:48 br Exp $
+// $Id: ezpageviewquery.php,v 1.21.2.4 2002/05/06 13:31:37 br Exp $
 //
 // Definition of eZPageViewQuery class
 //
@@ -530,22 +530,17 @@ class eZPageViewQuery
         // loop over the days
         for ( $month = 1; $month <= 12; $month++ )
         {
-            if ( $month < 10 )
-                $smonth = "0" . $month;
-            else
-                $smonth = $month;
-
-            $stamp = new eZDateTime( $year,  $smonth );
+            $stamp = new eZDateTime( $year, $month, 1 );
             if ( $smonth == 12 )
                 $end = new eZDateTime( $year + 1, 1, 1, 0, 0, 0 );
             else
-                $end = new eZDateTime( $year, $smonth + 1, 1, 0, 0, 0 );
-            
+                $end = new eZDateTime( $year, $month + 1, 1, 0, 0, 0 );
+
             $db->array_query( $visitor_array,
             "SELECT SUM(Count) AS Count FROM eZStats_Archive_PageView
              WHERE Hour > '" . $stamp->timeStamp() . "' AND Hour < '" .
             $end->timeStamp() . "'" );
-
+            
             $TotalPages += $visitor_array[0][$db->fieldName( "Count" )];
             $month_array[] = array( "Count" => $visitor_array[0][$db->fieldName( "Count" )] );
         }
@@ -553,7 +548,6 @@ class eZPageViewQuery
         $return_array = array( "TotalPages" => $TotalPages,
                                "PagesPrMonth" => round( $TotalPages/max( $now["mon"], 1 ) ),
                                "Months" => $month_array );
-        
         return $return_array;
     }
 
@@ -621,14 +615,9 @@ class eZPageViewQuery
         $visitor_array = array();
         $hour_array = array();
 
-        if ( $month < 10 )
-            $month = "0" . $month;
-        if ( $day < 10 )
-            $day = "0" . $day;
-
         $TotalPages = 0;
         // loop over the days
-        for ( $hour = 0; $hour < 24; ++$hour )
+        for ( $hour = 1; $hour <= 24; ++$hour )
         {
             $stamp = new eZDateTime( $year, $month, $day, $hour );
             $db->array_query( $visitor_array,
@@ -663,10 +652,6 @@ class eZPageViewQuery
         
         foreach ( $visitor_array as $visit )
         {
-//              print( $visit["Date"] . " " .$visit["RemoteHostID"]. " ". $visit["URI"]  . " " . $visit["PageID"]. "<br>" );
-            
-//              $return_array[$visit["Date"]][$visit["RemoteHostID"]] = $visit["PageID"];
-            
             $idx = $visit["Date"] . $visit["RemoteHostID"];
             
             $return_array[$idx] = $visit["PageID"];
