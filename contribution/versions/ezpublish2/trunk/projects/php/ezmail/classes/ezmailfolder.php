@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezmailfolder.php,v 1.1 2001/03/20 20:51:03 fh Exp $
+// $Id: ezmailfolder.php,v 1.2 2001/03/24 13:17:21 fh Exp $
 //
 // eZMailFolder class
 //
@@ -34,7 +34,15 @@
   \endcode
 
 */
-	      
+include_once( "ezuser/classes/ezuser.php" );
+
+/* DEFINES */
+define( "INBOX", 1 );
+define( "OUTBOX", 2 );
+define( "SENT", 3 );
+define( "DRAFTS", 4 );
+define( "TRASH", 5 );
+
 class eZMailFolder
 {
 /************* CONSTRUCTORS DESTRUCTORS (virtual) ************************/    
@@ -161,7 +169,16 @@ class eZMailFolder
     }
 
 /****************** BORING SET AND GET FUNCTIONS ***************************/
-  /*!
+
+    /*!
+      Returns the object ID.
+    */
+    function id()
+    {
+        return $this->ID;
+    }
+
+/*!
     */
     function userID()
     {
@@ -255,6 +272,133 @@ class eZMailFolder
         $this->FolderType = $value;
     }
 
+/****** INTERESTING FUNCTIONS *******************/
+    /*!
+      Adds a mail to this folder
+     */
+    function addMail( $mail )
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+       if ( get_class( $mail ) == "ezmail" )
+       {
+           $mailID = $mail->id();
+            $query = "INSERT INTO eZMail_MailFolderLink
+                       SET FolderID='$this->ID', MailID='$mailID'";
+ 
+           $this->Database->query( $query );
+       }
+    }
+
+    /*!
+      Removes a mail from this folder
+     */
+    function removeMail( $mail )
+    {
+      if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+ 
+       if ( get_class( $mail ) == "ezmail" )
+       {
+           $mailID = $mail->id();
+            $query = "DELETE FROM eZMail_MailFolderLink
+                       WHERE FolderID='$this->ID' AND MailID='$mailID'";
+ 
+           $this->Database->query( $query );
+       }
+    }
+
+    /*!
+      Returns all folders with the folder given as parent.
+
+      The folder are returned as an array of eZMailFolder objects.
+    */
+    function getByParent( $parent )
+    {
+      if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+      if ( get_class( $parent ) == "ezmailfolder" )
+        {
+            $this->dbInit();
+ 
+            $return_array = array();
+            $folder_array = array();
+ 
+            $parentID = $parent->id();
+ 
+            $this->Database->array_query( $category_array, "SELECT ID, Name FROM eZMail_Folder
+                                          WHERE ParentID='$parentID'
+                                          ORDER BY Name" );
+ 
+            for ( $i=0; $i < count($category_array); $i++ )
+            {
+                $return_array[$i] = new eZMailFolder( $folder_array[$i]["ID"], 0 );
+            }
+ 
+            return $return_array;
+        }
+        else
+        {
+            return 0;
+        }
+    }                                
+
+
+    /*
+      Returns all the mail in the folder. $sortmode can be one of the following:
+      subject, sender, date, subjectdec, senderdesc, datedesc.
+      $offset and $limit sets how many mail to return in one bunch and where in the list to start.
+     */
+    function &mail( $sortmode="subject", $offset=0, $limit=50 )
+    {
+        if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+        
+        $query = "SELECT ID FROM eZMail_Mail AS Mail, eZMail_MailFolderLink AS Link
+                  WHERE Mail.ID=Link.MailID AND Link.FolderID='$this->ID'
+                  ORDER BY Mail.Subject ASC
+                  LIMIT $offset,$limit";
+
+        $mail_array = array();
+        $return_array = array();
+        $this->Database->array_query( $mail_array, $query );  
+        
+        for ( $i=0; $i < count($mail_array); $i++ )
+        {
+            $return_array[$i] = new eZMail( $article_array[$i]["ID"], false );
+        }
+
+        return $return_array;     
+    }
+
+    /*
+      \static
+      
+      Returns the requested special folder of the current user or the user specified. Valid folders are:
+      INBOX
+      OUTBOX
+      SENT
+      DRAFTS
+      TRASH
+     */
+    function getSpecialFolder( $specialType, $user=false ) 
+    {
+        if( get_class( $user ) != "ezuser" )
+            $user = eZUser::currentUser();
+
+        $userid = $user->id();
+        $database = eZDB::globalDatabase();
+        $database->query_single( $res, "SELECT ID FROM eZMail_Folder WHERE FolderType='$specialType' AND UserID='$userid'" );
+
+        if( $res["ID"] != "" )
+            return new eZMailFolder( $res["ID"] );
+
+        return false;
+    }
+    
     /*!
       \private
       

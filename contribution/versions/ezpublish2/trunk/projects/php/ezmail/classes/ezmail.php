@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezmail.php,v 1.4 2001/03/24 10:50:33 fh Exp $
+// $Id: ezmail.php,v 1.5 2001/03/24 13:17:21 fh Exp $
 //
 // Definition of eZCompany class
 //
@@ -186,6 +186,14 @@ class eZMail
     }
     
 /****************** BORING SET AND GET FUNCTIONS ***************************/    
+    /*!
+      Returns the object ID.
+    */
+    function id()
+    {
+        return $this->ID;
+    }
+
     /*!
       Returns the receiver address.
     */

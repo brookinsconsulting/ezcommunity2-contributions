@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: maillist.php,v 1.2 2001/03/20 20:51:03 fh Exp $
+// $Id: maillist.php,v 1.3 2001/03/24 13:17:21 fh Exp $
 //
 // Frederik Holljen <fh@ez.no>
 // Created on: <19-Mar-2000 20:25:22 fh>
@@ -33,8 +33,8 @@ include_once( "ezmail/classes/ezmailaccount.php" );
 $user = eZUser::currentUser();
 $accounts = eZMailAccount::getByUser( $user->id() );
 
-foreach( $accounts as $account )
-    $account->checkMail();
+//foreach( $accounts as $account )
+//    $account->checkMail();
 
 /*
 $user = eZUser::currentUser();
@@ -50,11 +50,11 @@ $account->setServer( "zap.ez.no" );
 $account->store();
 */
 
-/*
-$ini =& INIFile::globalINI();
-$Language = $ini->read_var( "eZArticleMain", "Language" ); // SET MAIL HERE!!!
 
-$t = new eZTemplate( "ezmail/user/" . $ini->read_var( "eZArticleMain", "TemplateDir" ),
+$ini =& INIFile::globalINI();
+$Language = $ini->read_var( "eZMailMain", "Language" ); 
+
+$t = new eZTemplate( "ezmail/user/" . $ini->read_var( "eZMailMain", "TemplateDir" ),
                      "ezmail/user/intl/", $Language, "maillist.php" );
 $t->setAllStrings();
 
@@ -62,8 +62,9 @@ $t->set_file( array(
     "mail_list_page_tpl" => "maillist.tpl"
     ) );
 
+$t->set_block( "mail_list_page_tpl", "mail_item_tpl", "mail_item_tpl" );
 
 
 $t->pparse( "output", "mail_list_page_tpl" );
-*/
+
 ?>

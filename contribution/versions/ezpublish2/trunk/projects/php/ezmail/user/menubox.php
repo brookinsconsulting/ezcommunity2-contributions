@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: menubox.php,v 1.1 2001/03/24 10:50:33 fh Exp $
+// $Id: menubox.php,v 1.2 2001/03/24 13:17:21 fh Exp $
 //
 // Frederik Holljen <fh@ez.no>
 // Created on: <23-Mar-2001 10:57:04 fh>
@@ -32,9 +32,10 @@ $Language = $ini->read_var( "eZMailMain", "Language" );
     
 include_once( "classes/eztemplate.php" );
 include_once( "classes/ezdb.php" );
+include_once( "ezmail/classes/ezmailfolder.php" );
 
-//if( eZUser::currentUser() )
-//{
+if( eZUser::currentUser() )
+{
     $t = new eZTemplate( "ezmail/user/" . $ini->read_var( "eZMailMain", "TemplateDir" ),
                          "ezmail/user/intl", $Language, "menubox.php" );
 
@@ -44,9 +45,18 @@ include_once( "classes/ezdb.php" );
         "menu_box_tpl" => "menubox.tpl"
         ) );
 
+    $t->set_block( "menu_box_tpl", "mail_folder_tpl", "mail_folder" );
 
-
+    // get the inbox!
+    $inbox = eZMailFolder::getSpecialFolder( INBOX );
+    if( $inbox )
+    {
+        $t->set_var( "folder_id", $inbox->id() );
+        $t->set_var( "folder_name", $inbox->name() );
+        $t->parse( "mail_folder", "mail_folder_tpl", true );
+    }
+    
     $t->pparse( "output", "menu_box_tpl" );
-//}
+}
 
 ?>
