@@ -80,8 +80,7 @@ switch( $url_array[2] )
         foreach( $accounts as $account )
             $account->checkMail();
 
-        $inbox = eZMailFolder::getSpecialFolder( INBOX );
-        eZHTTPTool::header( "Location: /mail/folder/" . $inbox->id() . "/" );
+        eZHTTPTool::header( "Location: /mail/folderlist/" );
         exit();
 //        $server = "{" . "zap.ez.no" . "/pop3:" . "110" ."}";
 //        $mbox = imap_open( $server, "larson", "AcRXYJJA", OP_HALFOPEN)

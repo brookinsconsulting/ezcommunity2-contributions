@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezmailaccount.php,v 1.18 2001/03/29 20:17:47 fh Exp $
+// $Id: ezmailaccount.php,v 1.19 2001/03/29 20:32:21 fh Exp $
 //
 // eZMailAccount class
 //
@@ -498,7 +498,7 @@ class eZMailAccount
 
                 $mail->store();
 
-//                $inbox->addMail( $mail );
+                $inbox->addMail( $mail ); // safety for now while we debug the filters 
                 $filters->runFilters( $mail );
 
                 if( $this->DeleteFromServer == true )

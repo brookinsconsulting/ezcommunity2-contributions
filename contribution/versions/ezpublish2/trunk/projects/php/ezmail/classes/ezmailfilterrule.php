@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezmailfilterrule.php,v 1.3 2001/03/29 20:17:47 fh Exp $
+// $Id: ezmailfilterrule.php,v 1.4 2001/03/29 20:32:21 fh Exp $
 //
 // eZMailFilterRule class
 //
@@ -487,7 +487,7 @@ define( "FILTER_REGEXP", 4 );
             }
             break;
         }
-
+        return $searchArray;
     }
 
     /*!
@@ -495,7 +495,7 @@ define( "FILTER_REGEXP", 4 );
      */
     function doFilter( &$mail )
     {
-        $folder = eZMailFolder( $this->FolderID );
+        $folder = new eZMailFolder( $this->FolderID );
 
         if( get_class( $folder ) == "ezmailfolder" )
         {
@@ -550,7 +550,7 @@ class eZMailFilter
 {
     function eZMailFilter( $userID = false )
     {
-        if( $userID = false )
+        if( $userID == false )
         {
             $user = eZUser::currentUser();
             $userID = $user->id();
@@ -566,12 +566,16 @@ class eZMailFilter
         $res = false;
         do
         {
+            echo "Running filter\n";
             $res = $this->Filters[$i]->applyFilter( $mail );
             $i++;
         }while( $i < $NumFilters && $res == false );
 
         if( $res == false )
+        {
+            echo "Didn't match\n";
             $this->Inbox->addMail( $mail );
+        }
     }
 
     var $NumFilters;
