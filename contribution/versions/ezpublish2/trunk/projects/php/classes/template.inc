@@ -5,7 +5,7 @@
  * (C) Copyright 1999-2000 NetUSE GmbH
  *                    Kristian Koehntopp
  *
- * $Id: template.inc,v 1.2 2000/09/28 09:32:38 pkej-cvs Exp $
+ * $Id: template.inc,v 1.3 2000/11/02 16:32:11 pkej-cvs Exp $
  *
  */ 
 
@@ -28,6 +28,7 @@ class Template {
   /* "remove"  => remove undefined variables
    * "comment" => replace undefined variables with comments
    * "keep"    => keep undefined variables
+   * "nbsp"    => replace all undefined variables with &nbsp; (very nice in tables with bg color)
    */
   var $unknowns = "remove";
   
@@ -62,7 +63,7 @@ class Template {
   }
 
   /* public: set_unknowns(enum $unknowns)
-   * unknowns: "remove", "comment", "keep"
+   * unknowns: "remove", "comment", "keep", "nbsp"
    *
    */
   function set_unknowns($unknowns = "keep") {
@@ -259,6 +260,9 @@ class Template {
       case "comment":
         $str = preg_replace('/{([^ \t\r\n}]+)}/', "<!-- Template $handle: Variable \\1 undefined -->", $str);
       break;
+      
+      case "nbsp":
+        $str = preg_replace('/{[^ \t\r\n}]+}/', "&nbsp;", $str);
     }
     
     return $str;
