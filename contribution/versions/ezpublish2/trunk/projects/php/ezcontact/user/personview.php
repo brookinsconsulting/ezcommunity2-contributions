@@ -9,8 +9,9 @@ $ini = new INIFIle( "site.ini" );
 $Language = $ini->read_var( "eZContactMain", "Language" );
 
 include_once( "classes/eztemplate.php" );
-
 include_once( "ezcontact/classes/ezperson.php" );
+include_once( "classes/ezdate.php" );
+    
 
 $error = false;
 
@@ -113,8 +114,6 @@ if ( $Action == "view" )
     $BirthDate = $person->birthDate();
     
     $t->set_var( "birthdate", $BirthDate );
-    
-    include( "classes/ezdate.php" );
     
     $date = new eZDate();
     $date->setMySQLDate( $BirthDate );

@@ -11,6 +11,7 @@ $Language = $ini->read_var( "eZContactMain", "Language" );
 include_once( "classes/eztemplate.php" );
 include_once( "classes/ezmail.php" );
 include_once( "ezcontact/classes/ezperson.php" );
+include_once( "classes/ezdate.php" );
 
 if( $Action == "delete" )
 {
@@ -421,7 +422,6 @@ if( $Action == "edit" )
     
     $t->set_var( "birthdate", $BirthDate );
     
-    include( "classes/ezdate.php" );
     
     $date = new eZDate();
     $date->setMySQLDate( $BirthDate );
