@@ -30,8 +30,10 @@ if ( $StoreStats == "enabled" )
 	include( "ezarticle/user/menubox.php" );
 	?>
 
-	<? include( "eztrade/user/categorylist.php" ); ?>
-
+	<?
+    $CategoryID = 0;
+    include( "eztrade/user/categorylist.php" ); ?>
+    
     <? include( "eztrade/user/hotdealslist.php" ); ?>     
 
 	<img src="/images/1x1.gif" width="130" height="8" border="0" alt="" /><br />
