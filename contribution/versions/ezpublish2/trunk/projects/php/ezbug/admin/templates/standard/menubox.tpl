@@ -8,8 +8,9 @@
 	<img src="/images/{site_style}/menu-arrow.gif" width="20" height="10"><a class="menu" href="/bug/archive/">{intl-bug_archive}</a><br>
 	<img src="/images/{site_style}/menu-arrow.gif" width="20" height="10"><a class="menu" href="/bug/unhandled/">{intl-unhandled_bugs}</a><br>
 	<img src="/images/{site_style}/menu-arrow.gif" width="20" height="10"><a class="menu" href="/bug/edit/new/">{intl-new_bug}</a><br>
-	<img src="/images/{site_style}/menu-arrow.gif" width="20" height="10"><a class="menu" href="/bug/priority/list//">{intl-priority_overview}</a><br>
-	<img src="/images/{site_style}/menu-arrow.gif" width="20" height="10"><a class="menu" href="/bug/category/list//">{intl-category_overview}</a><br>
+	<img src="/images/{site_style}/menu-arrow.gif" width="20" height="10"><a class="menu" href="/bug/priority/list/">{intl-priority_overview}</a><br>
+	<img src="/images/{site_style}/menu-arrow.gif" width="20" height="10"><a class="menu" href="/bug/category/list/">{intl-category_overview}</a><br>
+	<img src="/images/{site_style}/menu-arrow.gif" width="20" height="10"><a class="menu" href="/bug/module/list/0/">{intl-module_overview}</a><br>
     </td>
 </tr>
 <tr>

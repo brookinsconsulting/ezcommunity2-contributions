@@ -129,6 +129,59 @@ switch ( $url_array[2] )
     }
     break;
 
+    case "module" :
+    {
+        switch( $url_array[3] )
+        {
+            case "list":
+            {
+                $ParentID = $url_array[4];
+                include( "ezbug/admin/modulelist.php" );
+            }
+            break;
+
+            case "new":
+            {
+                $Action = "new";
+                include( "ezbug/admin/moduleedit.php" );
+            }
+            break;
+
+            case "insert":
+            {
+                $Action = "insert";
+                include( "ezbug/admin/moduleedit.php" );
+            }
+            break;
+
+            case "edit":
+            {
+                $Action = "edit";
+                $ModuleID = $url_array[4];
+                include( "ezbug/admin/moduleedit.php" );
+            }
+            break;
+
+            case "update":
+            {
+                $Action = "update";
+                $ModuleID = $url_array[4];
+                include( "ezbug/admin/moduleedit.php" );
+            }
+            break;
+
+            case "delete":
+            {
+                $Action = "delete";
+                $ModuleID = $url_array[4];
+                include( "ezbug/admin/moduleedit.php" );
+            }
+            break;
+
+        }
+    }
+    break;
+
     
     case "edit" :
     {
