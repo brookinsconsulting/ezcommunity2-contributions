@@ -1,17 +1,25 @@
 <!-- orderlist.tpl --> 
-<!-- $Id: orderedit.tpl,v 1.6 2001/09/26 07:09:32 ce Exp $ -->
+<!-- $Id: orderedit.tpl,v 1.7 2001/09/26 07:44:20 br Exp $ -->
 
-<h1>{intl-head_line}</h1>
+<h1>{intl-head_line} ({order_id})</h1>
 
 <hr noshade="noshade" size="4" />
 
-<p class="boxtext">{intl-customer_email}:</p>
-<div class="p"><a href="mailto:{customer_email}">{customer_email}</a> <a href="/trade/customerview/{customer_id}/" >( {intl-view_customer} )</a></div>
-<br />
 
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
-	<td>
+        <td><p class="boxtext">{intl-customer_email}:</p>
+	<div class="p"><a href="mailto:{customer_email}">{customer_email}</a> <a href="/trade/customerview/{customer_id}/" >( {intl-view_customer} )</a></div>
+	<br /><br /></td>
+	<td align="right"><p class="boxtext">{intl-preorder_id}:</p>
+        <div class="p">{preorder_id}</div>
+	<br /><br /></td>
+	<td align="right"><p class="boxtext">{intl-order_id}:</p>
+        <div class="p">{order_id}</div>
+	<br /><br /></td>
+</tr>
+<tr>
+	<td colspan="2">
 	<p class="boxtext">{intl-billing_address}:</p>
 	<div class="p">
 	{customer_first_name} {customer_last_name}<br /> 
@@ -35,7 +43,7 @@
 	</td>
 </tr>
 <tr>
-	<td>
+	<td colspan="2">
 	<p class="boxtext">{intl-payment_method}:</p>
 	<div class="p">{intl-payment_by} {payment_method}</div>
 	</td>

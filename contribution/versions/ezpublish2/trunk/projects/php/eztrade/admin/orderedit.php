@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: orderedit.php,v 1.29 2001/09/26 07:09:32 ce Exp $
+// $Id: orderedit.php,v 1.30 2001/09/26 07:44:20 br Exp $
 //
 // Created on: <30-Sep-2000 13:03:13 bf>
 //
@@ -47,6 +47,7 @@ $languageINI = new INIFIle( "eztrade/admin/intl/" . $Language . "/orderedit.php.
 include_once( "eztrade/classes/ezproductcategory.php" );
 include_once( "eztrade/classes/ezproduct.php" );
 include_once( "eztrade/classes/ezorder.php" );
+include_once( "eztrade/classes/ezpreorder.php" );
 include_once( "eztrade/classes/ezcheckout.php" );
 include_once( "eztrade/classes/ezpricegroup.php" );
 
@@ -133,6 +134,18 @@ if ( $user )
         }
         $emailList = $customer->emailAddress();
         $t->set_var( "customer_email", $emailList[0] );
+    }
+
+    // print preorder id
+    $preOrderId = new eZPreOrder();
+    $preOrderId->getByOrderId( $OrderID );
+    if ( $preOrderId->id() )
+    {
+        $t->set_var( "preorder_id", $preOrderId->id() );
+    }
+    else
+    {
+        $t->set_var( "preorder_id", "" );
     }
 
     // print out the addresses
