@@ -230,6 +230,7 @@ CREATE TABLE eZTrade_PriceGroup (
 CREATE TABLE eZTrade_Product (
   ID int NOT NULL,
   Name varchar(100) default NULL,
+  Contents text,
   Brief text,
   Description text,
   Keywords varchar(100) default NULL,
@@ -278,6 +279,7 @@ CREATE TABLE eZTrade_ProductImageDefinition (
 CREATE TABLE eZTrade_ProductImageLink (
   ID int NOT NULL,
   ProductID int(11) default NULL,
+  Placement int(11) default NULL,
   ImageID int(11) default NULL,
   Created int(11) NOT NULL,
   PRIMARY KEY (ID)
