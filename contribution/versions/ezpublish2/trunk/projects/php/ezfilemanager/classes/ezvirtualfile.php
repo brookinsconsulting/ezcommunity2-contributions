@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezvirtualfile.php,v 1.13 2001/01/30 11:45:49 jb Exp $
+// $Id: ezvirtualfile.php,v 1.14 2001/01/30 14:18:39 jb Exp $
 //
 // Definition of eZVirtualFile class
 //
@@ -518,10 +518,10 @@ class eZVirtualfile
     function &shortenedFileSize()
     {
         $size = $this->fileSize();
-        $units = array( "Gb" => 10737741824,
-                        "Mb" => 1048576,
-                        "Kb" => 1024,
-                        "b" => 0 );
+        $units = array( "GB" => 10737741824,
+                        "MB" => 1048576,
+                        "KB" => 1024,
+                        "B" => 0 );
         $decimals = 0;
         $shortsize = $size;
         while( list($unit_key,$val) = each( $units ) )
