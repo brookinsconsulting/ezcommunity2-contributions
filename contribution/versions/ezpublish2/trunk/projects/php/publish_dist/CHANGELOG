@@ -13,7 +13,7 @@ Changes from version 2.0 beta 2
 * Added explanation of fields in eZContact person and company edit.
 * More cleanup of templates and internationalization
 * Privilege based bug editing
-* Assign owners to bug modules
+* Assign owners to bug modules recursively, e-mail to owners on new bugs
 * Unhadled bugs informs user of module they belong to.
 * Auto redirect URL hackers in bugs to default page.
 * Added banner ads in templates
@@ -26,7 +26,7 @@ Changes from version 2.0 beta 2
 * Continued updating files/modules to use standard functionality and methods of doing stuff
 * Removed unsued files and clutter
 * Quite a few language fixes
-* Fixed bugs
+* Fixed bugs in all modules
 
 Changes from version 2.0 beta 1
 -------------------------------
