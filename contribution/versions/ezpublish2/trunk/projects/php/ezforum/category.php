@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: category.php,v 1.22 2000/08/29 07:56:31 bf-cvs Exp $
+    $Id: category.php,v 1.23 2000/08/29 13:56:04 th-cvs Exp $
 
     Author: Lars Wilhelmsen <lw@ez.no>
     
@@ -47,7 +47,7 @@ $t->set_var( "category_id", $category_id );
 
 $category = new eZForumCategory( );
 $category->get( $category_id );
-$forumPath = "/ <a href=\"index.php?page=" . $DOC_ROOT .  "category.php&category_id=" . $category_id . "\">" . $category->name() . "</a>";
+$forumPath = "<img src=\"ezforum/images/pil.gif\" width=\"10\" height=\"10\" border=\"0\"> <a href=\"index.php?page=" . $DOC_ROOT .  "category.php&category_id=" . $category_id . "\">" . $category->name() . "</a>";
 $t->set_var( "forum_path", $forumPath );
 
 if ( $session->get( $AuthenticatedSession ) == 0 )

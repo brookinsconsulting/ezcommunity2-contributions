@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: forum.php,v 1.27 2000/08/29 12:43:27 bf-cvs Exp $
+    $Id: forum.php,v 1.28 2000/08/29 13:56:04 th-cvs Exp $
 
     Author: Lars Wilhelmsen <lw@ez.no>
     
@@ -55,9 +55,9 @@ $category_id = $forum->categoryID();
 
 $category = new eZForumCategory( );
 $category->get( $category_id );
-$forumPath = "/ <a href=\"index.php?page=" . $DOC_ROOT .  "category.php&category_id=" . $category_id . "\">" . $category->name() . "</a> ";
+$forumPath = "<img src=\"ezforum/images/pil.gif\" width=\"10\" height=\"10\" border=\"0\"> <a href=\"index.php?page=" . $DOC_ROOT .  "category.php&category_id=" . $category_id . "\">" . $category->name() . "</a> ";
 
-$forumPath .= "/ <a href=\"index.php?page=" . $DOC_ROOT .  "forum.php&forum_id=" . $forum_id . "&category_id=" . $category_id . "\">" . $forum->name() . "</a>";
+$forumPath .= "<img src=\"ezforum/images/pil.gif\" width=\"10\" height=\"10\" border=\"0\"> <a href=\"index.php?page=" . $DOC_ROOT .  "forum.php&forum_id=" . $forum_id . "&category_id=" . $category_id . "\">" . $forum->name() . "</a>";
 
 $t->set_var( "forum_path", $forumPath );
 
