@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: wishlist.php,v 1.2 2000/10/22 10:46:20 bf-cvs Exp $
+// $Id: wishlist.php,v 1.3 2000/10/22 13:42:09 bf-cvs Exp $
 //
 // 
 //
@@ -146,6 +146,7 @@ foreach ( $items as $item )
     $currency->setValue( $product->price() );
 
     $sum += $product->price();
+    $t->set_var( "product_id", $product->id() );
     $t->set_var( "product_name", $product->name() );
     $t->set_var( "product_price", $locale->format( $currency ) );
 

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: cart.php,v 1.3 2000/10/22 13:38:56 bf-cvs Exp $
+// $Id: cart.php,v 1.4 2000/10/22 13:42:09 bf-cvs Exp $
 //
 // 
 //
@@ -155,7 +155,7 @@ foreach ( $items as $item )
     $currency->setValue( $product->price() );
 
     $sum += $product->price();
-
+    $t->set_var( "product_id", $product->id() );
     $t->set_var( "product_name", $product->name() );
     $t->set_var( "product_price", $locale->format( $currency ) );
 

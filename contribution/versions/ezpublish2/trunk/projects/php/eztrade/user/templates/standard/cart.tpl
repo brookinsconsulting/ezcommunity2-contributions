@@ -1,5 +1,5 @@
 <!-- cart.tpl --> 
-<!-- $Id: cart.tpl,v 1.2 2000/10/22 13:38:56 bf-cvs Exp $ -->
+<!-- $Id: cart.tpl,v 1.3 2000/10/22 13:42:09 bf-cvs Exp $ -->
 
 <h1>{intl-cart}</h1>
 
@@ -27,7 +27,7 @@
 	<img src="{product_image_path}" border="0" width="{product_image_width}" height="{product_image_height}" alt="{product_image_caption}"/>
 	</td>
 	<td class="{td_class}">
-	{product_name}
+	<a href="/trade/productview/{product_id}/">{product_name}</a>
 	</td>
 	<td class="{td_class}">
         <!-- BEGIN cart_item_option_tpl -->
