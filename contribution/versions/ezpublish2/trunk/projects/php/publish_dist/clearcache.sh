@@ -25,6 +25,7 @@ ezurltranslator
 ezbulkmail
 ezform
 ezmediacatalogue
+ezsysinfo
 "
 
 for dir in $dirs
