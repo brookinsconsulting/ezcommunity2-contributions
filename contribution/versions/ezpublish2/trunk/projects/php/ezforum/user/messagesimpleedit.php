@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: messagesimpleedit.php,v 1.5 2000/12/19 13:52:04 ce Exp $
+// $Id: messagesimpleedit.php,v 1.6 2001/01/15 10:39:41 ce Exp $
 //
 // Bård Farstad
 // Created on: <21-Nov-2000 16:04:30 bf>
@@ -32,6 +32,7 @@ if ( isset( $Cancel ) )
 include_once( "classes/INIFile.php" );
 
 include_once( "classes/ezlocale.php" );
+include_once( "classes/eztemplate.php" );
 include_once( "ezuser/classes/ezuser.php" );
 
 include_once( "ezforum/classes/ezforummessage.php" );
