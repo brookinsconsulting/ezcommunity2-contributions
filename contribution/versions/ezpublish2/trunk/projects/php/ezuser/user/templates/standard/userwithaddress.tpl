@@ -76,12 +76,13 @@
 </ul>
 
 <hr noshade size="4"/>
-
 <!-- END errors_item_tpl -->
 
 <!-- BEGIN edit_user_info_tpl -->
 <p>{intl-edit_usage}</p>
 <!-- END edit_user_info_tpl -->
+
+<br />
 
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>

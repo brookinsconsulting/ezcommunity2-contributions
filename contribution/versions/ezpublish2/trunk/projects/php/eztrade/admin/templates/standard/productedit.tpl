@@ -52,9 +52,6 @@ http://<input type="text" size="36" name="ExternalLink" value="{external_link}"/
 
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
-	<td>
-	<div class="check"><input type="checkbox" name="ShowPrice" {showprice_checked} />&nbsp;{intl-has_price}</div>
-	</td>
 	<td valign="top">
 	<p class="boxtext">{intl-price}:</p>
 	<input type="text" size="10" name="Price" value="{price_value}" />
@@ -70,15 +67,6 @@ http://<input type="text" size="36" name="ExternalLink" value="{external_link}"/
 
 	</select>
 	</td>
-
-</tr>
-<tr>
-	<td valign="top">
-	<div class="check"><input type="checkbox" name="Active" {showproduct_checked} />&nbsp;{intl-active}</div>
-	</td>
-	<td valign="top">
-	<div class="check"><input type="checkbox" name="IsHotDeal" {is_hot_deal_checked} />{intl-is_hot_deal}</div>
-	</td>
 	<td valign="top">
 	<p class="boxtext">{intl-shipping_group}:</p>
 	<select name="ShippingGroupID">
@@ -88,6 +76,18 @@ http://<input type="text" size="36" name="ExternalLink" value="{external_link}"/
 	<!-- END shipping_select_tpl -->
 
 	</select>
+	</td>
+
+</tr>
+<tr>
+	<td valign="top">
+	<div class="check"><input type="checkbox" name="ShowPrice" {showprice_checked} />&nbsp;{intl-has_price}</div>
+	</td>
+	<td valign="top">
+	<div class="check"><input type="checkbox" name="Active" {showproduct_checked} />&nbsp;{intl-active}</div>
+	</td>
+	<td valign="top">
+	<div class="check"><input type="checkbox" name="IsHotDeal" {is_hot_deal_checked} />{intl-is_hot_deal}</div>
 	</td>
 
 </tr>
@@ -113,12 +113,13 @@ http://<input type="text" size="36" name="ExternalLink" value="{external_link}"/
 	<!-- END price_group_item_tpl -->
 </tr>
 </table>
-<br />
 <!-- END price_groups_item_tpl -->
 <!-- BEGIN price_groups_no_item_tpl -->
 <p>{intl-no_price_groups}</p>
 <!-- END price_groups_no_item_tpl -->
 <!-- END price_group_list_tpl -->
+
+<br />
 
 <hr noshade="noshade" size="4" />
 
