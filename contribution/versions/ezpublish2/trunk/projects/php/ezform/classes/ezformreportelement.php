@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: ezformreportelement.php,v 1.16 2002/01/24 17:10:05 jhe Exp $
+// $Id: ezformreportelement.php,v 1.17 2002/01/24 17:41:51 jhe Exp $
 //
 // Definition of eZFormReportElement class
 //
@@ -490,8 +490,8 @@ class eZFormReportElement
         $db->array_query( $res, "SELECT eZForm_FormElementResult.ElementID, COUNT(eZForm_FormElementResult.Result) as Count FROM
                                  eZForm_FormTableElementDict, eZForm_FormElementResult WHERE
                                  eZForm_FormTableElementDict.TableID='" . $elementID . "' AND
-                                 eZForm_FormElementResult.ElementID=eZForm_FormTableElementDict.ElementID
-                                 eZForm_FormElementResult.Result != '' AND
+                                 eZForm_FormElementResult.ElementID=eZForm_FormTableElementDict.ElementID AND
+                                 eZForm_FormElementResult.Result != '' 
                                  $resultString
                                  GROUP BY eZForm_FormTableElementDict.ElementID" );
         $i = 0;
