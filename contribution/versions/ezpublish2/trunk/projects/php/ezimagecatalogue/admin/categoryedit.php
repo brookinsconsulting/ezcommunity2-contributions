@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: categoryedit.php,v 1.1 2001/09/27 11:48:27 br Exp $
+// $Id: categoryedit.php,v 1.2 2001/09/28 08:05:58 br Exp $
 //
 // Created on: <08-Jan-2001 11:13:29 ce>
 //
@@ -113,9 +113,13 @@ if ( $Action == "Insert" || $Action == "Update" )
             if ( eZObjectPermission::hasPermission( $ParentID, "imagecatalogue_category", "w", $user ) == false
                  && eZObjectPermission::hasPermission( $ParentID, "imagecatalogue_category", 'u', $user ) == false
                  )
+            {
                 $error = true;
-            if( $Action == "Update" && eZObjectPermission::hasPermission( $ParentID, "imagecatalogue_category", 'w' == false ) )
-            $error = true;
+            }
+            if( $Action == "Update" && eZObjectPermission::hasPermission( $ParentID, "imagecatalogue_category", 'w', $user ) == false )
+            {
+                $error = true;
+            }
             
         }
         if( $error )
