@@ -23,10 +23,7 @@
 	<th>
 	{intl-article}:
 	</th>
-	<th>
-	Kategori:
-	</th>
-	<th>
+	<th width="100">
 	<div align="right">Dato:</div>
 	</th>
 </tr>
@@ -37,7 +34,6 @@
 	{article_name}
 	</a>
 	</td>
-	<td class="{td_class}">{article_category_name}</td>
 	<td align="right" class="{td_class}">
 	<span class="small">{article_published}</span>
 	</td>
