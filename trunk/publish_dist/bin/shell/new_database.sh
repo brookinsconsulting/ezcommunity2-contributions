@@ -3,9 +3,9 @@
 # by Chris Mason
 
 #vars
-mysqldb='sql/publish_mysql.sql'
-postgresdb='sql/publish_postgresql.sql'
-mysqldata='sql/data_mysql.sql'
+mysqldb='bin/sql/publish_mysql.sql'
+postgresdb='bin/sql/publish_postgresql.sql'
+mysqldata='bin/sql/data_mysql.sql'
 default_dbname='publish'
 
 # delete old files
