@@ -26,4 +26,4 @@
 {product_ship_hand_string}{product_ship_hand}
 {product_total_string}{product_total}
 
-{intl-other_instructions_on_web_site}
+{intl-other_instructions_on_web_site} http://{intl-company}/
