@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: monthview.php,v 1.2 2001/01/09 17:00:07 bf Exp $
+// $Id: monthview.php,v 1.3 2001/01/12 17:26:57 gl Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <27-Dec-2000 14:09:56 bf>
@@ -35,6 +35,7 @@ include_once( "ezcalendar/classes/ezappointment.php" );
 $ini = new INIFIle( "site.ini" );
 
 $Language = $ini->read_var( "eZCalendarMain", "Language" );
+$locale = new eZLocale( $Language );
 
 $t = new eZTemplate( "ezcalendar/user/" . $ini->read_var( "eZCalendarMain", "TemplateDir" ),
                      "ezcalendar/user/intl/", $Language, "monthview.php" );
@@ -64,11 +65,11 @@ else
     $Month = $datetime->month();
 }
 
-
+$t->set_var( "month_name", $locale->monthName( $datetime->monthName(), false ) );
 $t->set_var( "month_number", $Month );
 $t->set_var( "year_number", $Year );
-
 $t->set_var( "week", "" );
+
 
 
 // draw the week day header. Using 2001 because it starts on a monday.
@@ -79,14 +80,13 @@ $dTime->setMonth( 1 );
 for ( $week_day=1; $week_day<=7; $week_day++ )
 {
     $dTime->setDay( $week_day );
-    $t->set_var( "week_day_name", $dTime->dayName() );
+    $t->set_var( "week_day_name", $locale->dayName( $dTime->dayName(), false ) );
 
     $t->parse( "week_day", "week_day_tpl", true );
 }
 
 $tmpDate = new eZDate();
 $tmpAppointment = new eZAppointment();
-$locale = new eZLocale( $Language );
 
 for ( $week=0; $week<6; $week++ )
 {

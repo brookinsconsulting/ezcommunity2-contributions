@@ -2,6 +2,8 @@
 
 switch ( $url_array[2] )
 {
+
+    // montlist => yearview
     case "monthlist" :
     {
         $Year = $url_array[3];
