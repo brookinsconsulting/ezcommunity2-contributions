@@ -12,21 +12,11 @@ require $DOCUMENTROOT . "classes/ezlinkgroup.php";
 require $DOCUMENTROOT . "classes/ezlink.php";
 require $DOCUMENTROOT . "classes/ezhit.php";
 
-$t = new Template();
-$t->set_file( array(
-    "suggestlink" => $DOCUMENTROOT . "templates/suggestlink.tpl",
-    "suggest_group_select" => $DOCUMENTROOT . "templates/suggestgroupselect.tpl"
-    ));
-
-$groupselect = new eZLinkGroup();
-$grouplink_array = $groupselect->getAll( );
-
-
 if ( $Action == "suggest" )
 {
     $newlink = new eZLink();
 
-    if ( ( $title == "" ) || ( $url = "" ) || ( $keywords == "" ) || ( $description == "" )  ) 
+    if ( ( $title == "" ) || ( $url == "" ) || ( $keywords == "" ) || ( $description == "" )  ) 
     {
         $terror_msg = "Legg til alle feltene..."; 
 
@@ -37,13 +27,13 @@ if ( $Action == "suggest" )
     }
     else
     {
-        print ( "Lagt inn i database" );
         $newlink->setTitle( $title );
-        $newlink->setDescription( $description );
+        $newlink->setUrl( $url );
         $newlink->setKeyWords( $keywords );
+        $newlink->setDescription( $description );
         $newlink->setLinkGroup( $linkgroup );
         $newlink->setAccepted( "N" );
-   
+
         $newlink->store();
 
         printRedirect( "../index.php?page=" . $DOCUMENTROOT . "linklist.php" );
@@ -51,6 +41,15 @@ if ( $Action == "suggest" )
    
     
 }
+
+$t = new Template();
+$t->set_file( array(
+    "suggestlink" => $DOCUMENTROOT . "templates/suggestlink.tpl",
+    "suggest_group_select" => $DOCUMENTROOT . "templates/suggestgroupselect.tpl"
+    ));
+
+$groupselect = new eZLinkGroup();
+$grouplink_array = $groupselect->getAll( );
 
 // Selecter
 $group_select_dict = "";

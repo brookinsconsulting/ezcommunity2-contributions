@@ -53,6 +53,7 @@ if ( $Action == "insert" )
     $newlink->setAccepted( $accepted );
     $newlink->setUrl( $url );
 
+
     $ttile = "";
     $turl = "";
     $tkeywords = "";
