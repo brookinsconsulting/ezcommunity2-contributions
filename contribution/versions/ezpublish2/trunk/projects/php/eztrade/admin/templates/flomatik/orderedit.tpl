@@ -1,5 +1,5 @@
 <!-- orderlist.tpl --> 
-<!-- $Id: orderedit.tpl,v 1.1 2001/03/23 10:49:50 pkej Exp $ -->
+<!-- $Id: orderedit.tpl,v 1.1 2001/03/23 12:09:15 pkej Exp $ -->
 
 <h1>{intl-head_line}</h1>
 

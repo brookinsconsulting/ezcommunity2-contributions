@@ -1,5 +1,5 @@
 <!-- orderlist.tpl --> 
-<!-- $Id: orderlist.tpl,v 1.1 2001/03/23 10:49:50 pkej Exp $ -->
+<!-- $Id: orderlist.tpl,v 1.1 2001/03/23 12:09:15 pkej Exp $ -->
 
 <table width="100%" border="0">
 <tr>
