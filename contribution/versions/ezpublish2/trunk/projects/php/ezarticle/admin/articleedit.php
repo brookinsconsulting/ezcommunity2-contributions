@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: articleedit.php,v 1.23 2000/11/09 18:15:04 bf-cvs Exp $
+// $Id: articleedit.php,v 1.24 2000/11/12 17:03:39 bf-cvs Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <18-Oct-2000 15:04:39 bf>
@@ -102,6 +102,14 @@ if ( $Action == "Insert" )
 
         $articleID = $article->id();
 
+        $categoryArray = $article->categories();
+        $categoryIDArray = array();
+        foreach ( $categoryArray as $cat )
+        {
+            $categoryIDArray[] = $cat->id();
+        }
+
+
         // clear the cache files.
         $dir = dir( "ezarticle/cache/" );
         $files = array();
@@ -135,7 +143,7 @@ if ( $Action == "Insert" )
 
                 if ( ereg( "articlelist,(.+)\..*", $entry, $regArray  ) )
                 {
-                    if ( ( $regArray[1] == $CategoryID ) || ( $regArray[1] == 0 ) )
+                    if ( in_array( $regArray[1], $categoryIDArray ) || ( $regArray[1] == 0 ) )
                     {
                         unlink( "ezarticle/cache/" . $entry );
                     }
@@ -160,9 +168,8 @@ if ( $Action == "Insert" )
 
 
         // get the category to redirect to
-        $categories = $article->categories();    
-        $categoryID = $categories[0]->id();
-
+        $category = $article->categoryDefinition( );
+        $categoryID = $category->id();
 
         Header( "Location: /article/archive/$categoryID/" );
         exit();
@@ -179,9 +186,8 @@ if ( $Action == "Cancel" )
 {
     $article = new eZArticle( $ArticleID );
 
-    $categories = $article->categories();
-
-    $categoryID = $categories[0]->id();
+    $category = $article->categoryDefinition( );
+    $categoryID = $category->id();
 
     Header( "Location: /article/archive/$categoryID/" );
     exit();
@@ -237,6 +243,15 @@ if ( $Action == "Update" )
         
         $article->store();
 
+        $categoryArray = $article->categories();
+
+        $categoryIDArray = array();
+        
+        foreach ( $categoryArray as $cat )
+        {
+            $categoryIDArray[] = $cat->id();
+        }
+
         // clear the cache files.
         $dir = dir( "ezarticle/cache/" );
         $files = array();
@@ -271,7 +286,7 @@ if ( $Action == "Update" )
 
                 if ( ereg( "articlelist,(.+)\..*", $entry, $regArray  ) )
                 {
-                    if ( ( $regArray[1] == $CategoryID ) || ( $regArray[1] == 0 ) )
+                    if ( in_array( $regArray[1], $categoryIDArray ) || ( $regArray[1] == 0 ) )
                     {
                         unlink( "ezarticle/cache/" . $entry );
                     }
@@ -315,9 +330,9 @@ if ( $Action == "Update" )
         }
 
         // get the category to redirect to
-        $categories = $article->categories();    
-        $categoryID = $categories[0]->id();
-    
+        $category = $article->categoryDefinition( );
+        $categoryID = $category->id();
+
         Header( "Location: /article/archive/$categoryID/" );
         exit();
     }
@@ -335,10 +350,15 @@ if ( $Action == "Delete" )
 
 
     // get the category to redirect to
-    $categories = $article->categories();    
-    $categoryID = $categories[0]->id();
-
     $articleID = $article->id();
+
+    $categoryArray = $article->categories();
+    $categoryIDArray = array();
+    foreach ( $categoryArray as $cat )
+    {
+        $categoryIDArray[] = $cat->id();
+    }
+    
     
     // clear the cache files.
     $dir = dir( "ezarticle/cache/" );
@@ -373,7 +393,7 @@ if ( $Action == "Delete" )
 
             if ( ereg( "articlelist,(.+)\..*", $entry, $regArray  ) )
             {
-                if ( ( $regArray[1] == $CategoryID ) || ( $regArray[1] == 0 ) )
+                if ( in_array( $regArray[1], $categoryIDArray ) || ( $regArray[1] == 0 ) )
                 {
                     unlink( "ezarticle/cache/" . $entry );
                 }
@@ -382,6 +402,8 @@ if ( $Action == "Delete" )
     } 
     $dir->close();
 
+    $categories = $article->categories();    
+    $categoryID = $categories[0]->id();
     
     $article->delete();    
     
