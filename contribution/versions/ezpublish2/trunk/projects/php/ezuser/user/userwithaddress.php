@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: userwithaddress.php,v 1.14 2000/11/21 16:23:12 ce-cvs Exp $
+// $Id: userwithaddress.php,v 1.15 2001/01/18 09:45:30 bf Exp $
 //
 // 
 //
@@ -39,6 +39,21 @@ include_once( "ezuser/classes/ezuser.php" );
 include_once( "ezuser/classes/ezusergroup.php" );
 include_once( "ezcontact/classes/ezaddress.php" );
 include_once( "ezcontact/classes/ezcountry.php" );
+
+$user = eZUser::currentUser();
+
+if ( isset( $NewAddress ) )
+{
+    $address = new eZAddress();
+    $country = new eZCountry( $CountryID );    
+    $address->setCountry( 0 );    
+    $address->store();
+                
+    // add the address to the user.
+    $user->addAddress( $address );
+    
+    $Action == "Edit";
+}
 
 if ( $Action == "Insert" )
 {
@@ -144,61 +159,47 @@ if ( $Action == "Update" )
             $user->setFirstName( $FirstName );
             $user->setLastName( $LastName );
 
-            $addresses = $user->addresses();
-            if( count( $addresses ) == 1 )
-            {
-                // will be fixed in the next version.
-                $AddressID = $addresses[0]->id();
-                
-                $address = new eZAddress();
+//              $addresses = $user->addresses();
 
-                $address->get( $AddressID );
+            print( $AddressID );
+            
+            for ( $i=0; $i<count($AddressID); $i++ )
+            {
+
+                if ( $addressID == -1 )
+                {
+                    $address = new eZAddress();
+                }
+                else
+                {
+                    $address = new eZAddress( $AddressID[$i] );
+                }
+
+                $address->setStreet1( $Street1[$i] );
+                $address->setStreet2( $Street2[$i] );
+                $address->setZip( $Zip[$i] );
+                $address->setPlace( $Place[$i] );
                 
-                $address->setStreet1( $Street1 );
-                $address->setStreet2( $Street2 );
-                $address->setZip( $Zip );
-                $address->setPlace( $Place );
-                
-                if ( isset( $CountryID ) )
+                if ( isset( $CountryID[$i] ) )
                 {
                     $country = new eZCountry( $CountryID );
                     $address->setCountry( $country );
                 }
                 
                 $address->store();
-            }
-            else if ( count( $addresses ) == 0 )
-            {
-                $address = new eZAddress();
-                $address->setStreet1( $Street1 );
-                $address->setStreet2( $Street2 );
-                $address->setZip( $Zip );
-                $address->setPlace( $Place );
-                
-                if ( isset( $CountryID ) )
-                {
-                    $country = new eZCountry( $CountryID );
-                    $address->setCountry( $country );
-                }
-                
-                $address->store();
-                
-                // add the address to the user.
-                $user->addAddress( $address );
-
-            }
+            }            
 
             if ( !$PasswordError )
                 $user->store();
 
 
-            if ( isSet( $RedirectURL )  && ( $RedirectURL != "" ) )
-            {
-                Header( "Location: $RedirectURL" );
-                exit();
-            }
-            Header( "Location: /" );
-            exit();
+//              if ( isSet( $RedirectURL )  && ( $RedirectURL != "" ) )
+//              {
+//                  Header( "Location: $RedirectURL" );
+//                  exit();
+//              }
+//              Header( "Location: /" );
+//              exit();
         }
     else
     {
@@ -217,63 +218,23 @@ $t->set_file( array(
     "user_edit_tpl" => "userwithaddress.tpl"
     ) );
 
+
 $t->set_var( "readonly", "" );
 $action_value = "insert";
+
 
 if ( $Action == "Update" )
     $action_value = "update";
 
-if ( $Action == "Edit" )
-{
-    $user = eZUser::currentUser();
-    if ( !$user )
-        Header( "Location: /" );
-    $UserID = $user->id();
-    $user->get( $user->id() );
-    $Login = $user->Login( );
-    $Email = $user->Email(  );
-    $FirstName = $user->FirstName(  );
-    $LastName = $user->LastName(  );
-
-    $t->set_var( "readonly", "readonly" );
-    
-    // print out the addresses
-    // Dosent work with multiplie addresses.
-
-    if( count( $user->addresses() ) == 1 )
-    {
-        $addressArray = $user->addresses();
-        
-        foreach ( $addressArray as $address )
-        {
-            $Street1 =  $address->street1();
-            $Street2 = $address->street2();
-            $Zip = $address->zip();
-            $Place = $address->place();
-                
-            $t->set_var( "address_id", $address->id() );
-                
-            //        $country = $address->country();
-            //        $t->set_var( "country", $country->name() );
-        }
-    }
-    else
-    {
-        $Street1 = "";
-        $Street2 = "";
-        $Zip = "";
-        $Place = "";
-    }
-        
-    $action_value = "update";
-}
 
 
 $t->set_block( "user_edit_tpl", "required_fields_error_tpl", "required_fields_error" );
 $t->set_block( "user_edit_tpl", "user_exists_error_tpl", "user_exists_error" );
 $t->set_block( "user_edit_tpl", "password_error_tpl", "password_error" );
 
-$t->set_block( "user_edit_tpl", "country_tpl", "country" );
+
+$t->set_block( "user_edit_tpl", "address_tpl", "address" );
+$t->set_block( "address_tpl", "country_tpl", "country" );
 $t->set_block( "country_tpl", "country_option_tpl", "country_option" );
 
 if ( $Error == true )
@@ -303,54 +264,158 @@ else
    $t->set_var( "password_error", "" );
 }
 
-$t->set_var( "login_value", $Login );
-$t->set_var( "password_value", $Password );
-$t->set_var( "verify_password_value", $VerifyPassword );
-$t->set_var( "email_value", $Email );
 
-$t->set_var( "first_name_value", $FirstName );
-$t->set_var( "last_name_value", $LastName );
 
-$t->set_var( "street1_value", $Street1 );
-$t->set_var( "street2_value", $Street2 );
-
-$t->set_var( "zip_value", $Zip );
-
-$t->set_var( "place_value", $Place );
-
-if ( $SelectCountry == "enabled" )
+if ( $Action == "Edit" )
 {
-    $ezcountry = new eZCountry();
-    $countryList =& $ezcountry->getAllArray();
+    $user = eZUser::currentUser();
+    if ( !$user )
+        Header( "Location: /" );
     
-    foreach ( $countryList as $country )
+    $UserID = $user->id();
+    $user->get( $user->id() );
+    
+    $Login = $user->Login( );
+    $Email = $user->Email(  );
+    $FirstName = $user->FirstName(  );
+    $LastName = $user->LastName(  );
+
+
+    $t->set_var( "login_value", $Login );
+    $t->set_var( "password_value", $Password );
+    $t->set_var( "verify_password_value", $VerifyPassword );
+    $t->set_var( "email_value", $Email );
+
+    $t->set_var( "first_name_value", $FirstName );
+    $t->set_var( "last_name_value", $LastName );
+    
+    $t->set_var( "readonly", "readonly" );
+    
+
+    if ( count( $user->addresses() ) > 0 )
     {
-        if ( $Action == "Edit" )
-        {
-            if ( $address )
-            {
-                $countryID = $address->country();
-                
-                if ( $country["ID"] == $countryID->id() )
-                {
-                    $t->set_var( "is_selected", "selected" );
-                }
-                else
-                    $t->set_var( "is_selected", "" );
-            }
-        }
+        $addressArray = $user->addresses();
         
-        $t->set_var( "country_id", $country["ID"] );
-        $t->set_var( "country_name", $country["Name"] );
-        $t->parse( "country_option", "country_option_tpl", true );
+        foreach ( $addressArray as $address )
+        {
+            $Street1 =  $address->street1();
+            $Street2 = $address->street2();
+            $Zip = $address->zip();
+            $Place = $address->place();
+                
+            $t->set_var( "address_id", $address->id() );
+                
+            //        $country = $address->country();
+            //        $t->set_var( "country", $country->name() );
+
+            $t->set_var( "street1_value", $Street1 );
+            $t->set_var( "street2_value", $Street2 );
+    
+            $t->set_var( "zip_value", $Zip );
+    
+            $t->set_var( "place_value", $Place );
+    
+            if ( $SelectCountry == "enabled" )
+            {
+                $ezcountry = new eZCountry();
+                $countryList =& $ezcountry->getAllArray();
+    
+                foreach ( $countryList as $country )
+                    {
+                        if ( $Action == "Edit" )
+                        {
+                            if ( $address )
+                            {
+                                $countryID = $address->country();
+                
+                                if ( $country["ID"] == $countryID->id() )
+                                {
+                                    $t->set_var( "is_selected", "selected" );
+                                }
+                                else
+                                    $t->set_var( "is_selected", "" );
+                            }
+                        }
+                        
+                        $t->set_var( "country_id", $country["ID"] );
+                        $t->set_var( "country_name", $country["Name"] );
+                        $t->parse( "country_option", "country_option_tpl", true );
+                    }
+                $t->parse( "country", "country_tpl" );
+            }
+            else
+            {
+                $t->set_var( "country", "" );
+            }
+
+            $t->parse( "address", "address_tpl" );
+            
+        }
     }
-    $t->parse( "country", "country_tpl" );
+    else
+    {
+        $t->set_var( "address_id", "-1" );
+        $t->parse( "address", "address_tpl" );        
+    }
+
+    $t->parse( "address", "address_tpl" );
+    
+    $action_value = "update";
 }
 else
 {
-    $t->set_var( "country", "" );
-}
+    $t->set_var( "address_id", "-1" );
     
+    $t->set_var( "login_value", $Login );
+    $t->set_var( "password_value", $Password );
+    $t->set_var( "verify_password_value", $VerifyPassword );
+    $t->set_var( "email_value", $Email );
+
+    $t->set_var( "first_name_value", $FirstName );
+    $t->set_var( "last_name_value", $LastName );
+    
+    $t->set_var( "street1_value", $Street1 );
+    $t->set_var( "street2_value", $Street2 );
+    
+    $t->set_var( "zip_value", $Zip );
+    
+    $t->set_var( "place_value", $Place );
+    
+    if ( $SelectCountry == "enabled" )
+    {
+        $ezcountry = new eZCountry();
+        $countryList =& $ezcountry->getAllArray();
+    
+        foreach ( $countryList as $country )
+            {
+                if ( $Action == "Edit" )
+                {
+                    if ( $address )
+                    {
+                        $countryID = $address->country();
+                
+                        if ( $country["ID"] == $countryID->id() )
+                        {
+                            $t->set_var( "is_selected", "selected" );
+                        }
+                        else
+                            $t->set_var( "is_selected", "" );
+                    }
+                }
+        
+                $t->set_var( "country_id", $country["ID"] );
+                $t->set_var( "country_name", $country["Name"] );
+                $t->parse( "country_option", "country_option_tpl", true );
+            }
+        $t->parse( "country", "country_tpl" );
+    }
+    else
+    {
+        $t->set_var( "country", "" );
+    }
+
+    $t->parse( "address", "address_tpl" );
+}
 
 
 $t->set_var( "action_value", $action_value );
