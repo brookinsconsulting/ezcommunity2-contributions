@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: bugview.php,v 1.4 2001/02/02 13:39:34 fh Exp $
+// $Id: bugview.php,v 1.5 2001/02/06 17:23:06 fh Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <04-Dec-2000 11:44:31 bf>
@@ -48,6 +48,8 @@ $t->set_file( array(
     "bug_edit_tpl" => "bugview.tpl"
     ) );
 
+// path
+$t->set_block( "bug_edit_tpl", "path_item_tpl", "path_item" );
 
 $t->set_block( "bug_edit_tpl", "log_item_tpl", "log_item" );
 $t->set_block( "bug_edit_tpl", "yes_tpl", "yes" );
@@ -56,6 +58,21 @@ $t->set_block( "bug_edit_tpl", "no_tpl", "no" );
 
 $locale = new eZLocale( $Language );
 $bug = new eZBug( $BugID );
+
+// path
+$module = $bug->module();
+$pathArray = $module->path();
+
+$t->set_var( "path_item", "" );
+foreach ( $pathArray as $path )
+{
+    $t->set_var( "module_id", $path[0] );
+
+    $t->set_var( "module_name", $path[1] );
+    
+    $t->parse( "path_item", "path_item_tpl", true );
+}
+
 
 $t->set_var( "bug_id", $bug->id() );
 $t->set_var( "name_value", $bug->name() );
