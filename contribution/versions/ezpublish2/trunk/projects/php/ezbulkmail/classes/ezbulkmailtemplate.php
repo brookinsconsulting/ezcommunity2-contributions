@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezbulkmailtemplate.php,v 1.2 2001/04/18 14:39:52 fh Exp $
+// $Id: ezbulkmailtemplate.php,v 1.3 2001/04/18 15:40:12 fh Exp $
 //
 // eZBulkMailTemplate class
 //
@@ -39,7 +39,7 @@ class eZBulkMailTemplate
 {
     /*!
     */
-    function eZBulkMail( $id=-1 )
+    function eZBulkMailTemplate( $id=-1 )
     {
         $this->IsConnected = false;
         if ( $id != -1 )
@@ -62,13 +62,15 @@ class eZBulkMailTemplate
         $name = addslashes( $this->Name );
         $header = addslashes( $this->Header );
         $footer = addslashes( $this->Footer );
+        $description = addslashes( $this->Description );
         
         if ( !isset( $this->ID ) )
         {
             $this->Database->query( "INSERT INTO eZBulkMail_Template SET
                                  Header='$header',
                                  Name='$name',
-                                 Footer='$footer'
+                                 Footer='$footer',
+                                 Description='$description'
                                  " );
             $this->ID = mysql_insert_id();
         }
@@ -77,7 +79,8 @@ class eZBulkMailTemplate
             $this->Database->query( "UPDATE eZBulkMail_Template SET
                                  Header='$header',
                                  Name='$name',
-                                 Footer='$footer'
+                                 Footer='$footer',
+                                 Description='$description'
                                  WHERE ID='$this->ID'" );
         }
         return true;
@@ -111,14 +114,14 @@ class eZBulkMailTemplate
             {
                 die( "Error: Templates with the same ID was found in the database. This shouldent happen." );
             }
-            else if( count( $mail_array ) == 1 )
+            else if( count( $template_array ) == 1 )
             {
-                $this->ID = $mail_array[0][ "ID" ];
-                $this->Name = $mail_array[0][ "Name" ];
-                $this->Header = $mail_array[0][ "Header" ];
-                $this->Footer = $mail_array[0][ "Footer" ];
+                $this->ID = $template_array[0][ "ID" ];
+                $this->Name = $template_array[0][ "Name" ];
+                $this->Header = $template_array[0][ "Header" ];
+                $this->Footer = $template_array[0][ "Footer" ];
+                $this->Description = $template_array[0]["Description"];
             }
-                 
             $this->State_ = "Coherent";
         }
         else
@@ -139,7 +142,6 @@ class eZBulkMailTemplate
         $template_array = array();
         
         $db->array_query( $template_array, "SELECT ID FROM eZBulkMail_Template ORDER BY Name" );
-        
         for ( $i=0; $i<count($template_array); $i++ )
         {
             $return_array[$i] = new eZBulkMailTemplate( $template_array[$i]["ID"] );
@@ -148,7 +150,14 @@ class eZBulkMailTemplate
         return $return_array;
     }
 
-    
+    /*!
+      Returns the header
+     */
+    function id()
+    {
+        return $this->ID;
+    }
+
     /*!
       Returns the header
      */
@@ -174,6 +183,15 @@ class eZBulkMailTemplate
     }
 
     /*!
+      Returns the description of this template
+     */
+    function description()
+    {
+        return $this->Description;
+    }
+
+    
+    /*!
       Sets the header.
      */
     function setHeader( $value )
@@ -197,6 +215,15 @@ class eZBulkMailTemplate
         $this->Name = $value;
     }
 
+        /*!
+      Sets the name
+    */
+    function setDescription( $value )
+    {
+        $this->Description = $value;
+    }
+
+    
     /*!
       Adds the footer and the header to the given message and returns the result.
      */
@@ -222,6 +249,7 @@ class eZBulkMailTemplate
     var $Header;
     var $Footer;
     var $Name;
+    var $Description;
     
     ///  Variable for keeping the database connection.
     var $Database;
