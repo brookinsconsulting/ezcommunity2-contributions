@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezforummessage.php,v 1.41 2000/10/03 16:47:19 bf-cvs Exp $
+// $Id: ezforummessage.php,v 1.42 2000/10/11 11:43:34 bf-cvs Exp $
 //
 // Definition of eZCompany class
 //
@@ -442,23 +442,20 @@ class eZForumMessage
       WARNING: denne funksjonen er rekursiv og kan bruke en del minne. Denne forutsetter
       også at databasekoblingen er oppe.
     */
-    function printHeaderTree( $forum_id, $parent_id, $level, $document_root, $category_id )
+    function printHeaderTree( $forum_id, $parent_id, $level, $category_id, &$t )
     {
         $level = $level + 1;
-    
-        $t = new Template(".");
+
+//          $t = new Template(".");
         $msg = new eZForumMessage();
         $t->set_var( "category_id", $category_id );
 
-        $t->set_file( "elements", $document_root . "/templates/forum-elements.tpl"   );
-
-        $t->set_var( "docroot", $document_root );
         $t->set_var( "category_id", $category_id );
         $t->set_var( "forum_id", $forum_id );
     
         $headers = $msg->getHeaders( $forum_id, $parent_id );
 
-        for ($i = 0; $i < count($headers); $i++)
+        for ( $i = 0; $i < count($headers); $i++ )
         {
             $Id = $headers[$i]["Id"];
             $Topic  = $headers[$i]["Topic"];
@@ -472,13 +469,13 @@ class eZForumMessage
             $t->set_var( "replies", $replies );
 
             // legger på kode for å vise "gren" ikon
-            $spacer = "<img src=\"/". $document_root ."/images/trans.gif\" border=\"0\" height=\"21\" width=\"5\" >";
+            $spacer = "<img src=\"/images/1x1.gif\" border=\"0\" height=\"21\" width=\"5\" >";
 
             if ( ( $replies == 0 ) )
             {
                 if ( $level == 1 )
                 {            
-                    $spacer .= "<img src=\"/". $document_root ."/images/n.gif\" border=\"0\" height=\"21\" width=\"9\" >";
+                    $spacer .= "<img src=\"/ezforum/images/n.gif\" border=\"0\" height=\"21\" width=\"9\" >";
                 }
                 else
                 {
@@ -493,7 +490,7 @@ class eZForumMessage
                     }
 
                     if ( $level > 2 )
-                        $spacer .= "<img  src=\"/". $document_root ."/images/trans.gif\" height=\"21\" width=\"" . ( ($level-2)*12 ) ."\" border=\"0\">";
+                        $spacer .= "<img  src=\"/images/1x1.gif\" height=\"21\" width=\"" . ( ($level-2)*12 ) ."\" border=\"0\">";
                 
                     $spacer .= "<img  src=\"/". $document_root ."/images/" . $imgtype . ".gif\"  height=\"21\" width=\"12\" border=\"0\">";
 
@@ -528,8 +525,8 @@ class eZForumMessage
             else
                 $t->set_var( "color", "#f0f0f0");
     
-            $messages .= $t->parse( "messages", "elements", true );
-            $messages .= $this->printHeaderTree( $forum_id, $Id, $level, $document_root, $category_id );
+            $messages .= $t->parse( "message", "message_tpl", true );
+            $messages .= $this->printHeaderTree( $forum_id, $Id, $level, $document_root, $category_id, $t );
         }
         return $messages;
     }

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezforumcategory.php,v 1.14 2000/09/15 13:47:28 bf-cvs Exp $
+// $Id: ezforumcategory.php,v 1.15 2000/10/11 11:43:34 bf-cvs Exp $
 //
 // Definition of eZCompany class
 //
@@ -25,12 +25,150 @@
 class eZForumCategory
 {
     /*!
+      Constructs a new eZForumCategory object.
+    */
+    function eZForumCategory( $id="", $fetch=true )
+    {
+        $this->IsConnected = false;
+
+        if ( $id != "" )
+        {
+            $this->ID = $id;
+            if ( $fetch == true )
+            {
+                
+                $this->get( $this->ID );
+            }
+            else
+            {
+                $this->State_ = "Dirty";
+            }
+        }
+        else
+        {
+            $this->State_ = "New";
+        }
+    }
+
+    /*!
+      Stores a eZForumCategory object to the database.
+    */
+    function store()
+    {
+        $this->dbInit();
+
+        if ( !isset( $this->ID ) )
+        {
+            $this->Database->query( "INSERT INTO eZTrade_Order SET
+		                         UserID='$this->UserID',
+		                         AddressID='$this->AddressID',
+		                         ShippingCharge='$this->ShippingCharge'
+                                 " );
+
+            $this->ID = mysql_insert_id();
+
+            // store the status
+            $statusType = new eZOrderStatusType( );
+            $statusType = $statusType->getByName( "Initial" );
+
+            $status = new eZOrderStatus();
+            $status->setType( $statusType );
+
+            $status->setOrderID( $this->ID );
+
+//              $user = eZUser::currentUser();
+//              print( $user->id() );
+            
+            $status->setAdmin( $user );
+            $status->store();            
+
+            $this->State_ = "Coherent";
+        }
+        else
+        {
+            $this->Database->query( "UPDATE eZTrade_Order SET
+		                         UserID='$this->UserID',
+		                         AddressID='$this->AddressID',
+		                         ShippingCharge='$this->ShippingCharge'
+                                 WHERE ID='$this->ID'
+                                 " );
+
+            $this->State_ = "Coherent";
+        }
+        
+        return true;
+    }
+
+    /*!
+      Deletes a eZOrder object from the database.
+    */
+    function delete()
+    {
+        $this->dbInit();
+
+        $items = $this->items();
+
+        if  ( $items )
+        {
+            $i = 0;
+            foreach ( $items as $item )
+            {
+                $item->delete();
+            }
+        }
+
+        $this->Database->query( "DELETE FROM eZTrade_OrderStatus WHERE OrderID='$this->ID'" );
+
+        
+        $this->Database->query( "DELETE FROM eZTrade_Order WHERE ID='$this->ID'" );
+            
+        return true;
+    }
+    
+
+    /*!
+      Fetches the object information from the database.
+    */
+    function get( $id="" )
+    {
+        $this->dbInit();
+        $ret = false;
+        
+        if ( $id != "" )
+        {
+            $this->Database->array_query( $cart_array, "SELECT * FROM eZTrade_Order WHERE ID='$id'" );
+            if ( count( $cart_array ) > 1 )
+            {
+                die( "Error: Cart's with the same ID was found in the database. This shouldent happen." );
+            }
+            else if( count( $cart_array ) == 1 )
+            {
+                $this->ID = $cart_array[0][ "ID" ];
+                $this->UserID = $cart_array[0][ "UserID" ];
+                $this->AddressID = $cart_array[0][ "AddressID" ];
+                $this->ShippingCharge = $cart_array[0][ "ShippingCharge" ];
+
+                $this->State_ = "Coherent";
+                $ret = true;
+            }
+        }
+        else
+        {
+            $this->State_ = "Dirty";
+        }
+        return $ret;
+    }
+    
+    
+    /*!
       
     */
     function newCategory()
     {
         unset( $this->Id );
     }
+    
+    
         
     /*!
       
@@ -181,27 +319,29 @@ class eZForumCategory
     }
 
     /*!
-      Privat funksjon, skal kun brukes ac ezuser klassen.
-      Funksjon for å åpne databasen.
+      \private
+      Opens the database for read and write.
     */
     function openDB( )
     {
-        include_once( "classes/INIFile.php" );
-
-        $ini = new INIFile( "site.ini" );
-        
-        $SERVER = $ini->read_var( "site", "Server" );
-        $DATABASE = $ini->read_var( "site", "Database" );
-        $USER = $ini->read_var( "site", "User" );
-        $PWD = $ini->read_var( "site", "Password" );
-        
-        mysql_pconnect( $SERVER, $USER, $PWD ) or die( "Kunne ikke kople til database" );
-        mysql_select_db( $DATABASE ) or die( "Kunne ikke velge database" );
+        if ( $this->IsConnected == false )
+        {
+            $this->Database = new eZDB( "site.ini", "site" );
+            $this->IsConnected = true;
+        }
     }
     
     var $Id;
     var $Name;
     var $Description;
     var $Private;
+
+    ///  Variable for keeping the database connection.
+    var $Database;
+
+    /// Indicates the state of the object. In regard to database information.
+    var $State_;
+    /// Is true if the object has database connection, false if not.
+    var $IsConnected;
 }
 ?>

@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: category.php,v 1.29 2000/10/11 10:09:06 bf-cvs Exp $
+    $Id: category.php,v 1.30 2000/10/11 11:43:33 bf-cvs Exp $
 
     Author: Lars Wilhelmsen <lw@ez.no>
     
@@ -60,14 +60,10 @@ for ($i = 0; $i < count( $forums ); $i++)
     $t->parse( "forum", "forum_tpl", true );
 }
 
-//  if ( count( $forums ) == 0 )
-//      $t->set_var( "forums", "noforums", true);
-
 $t->set_var( "link1-url", "main.php");
 $t->set_var( "link2-url", "search.php");
 
 $t->set_var( "back-url", "main.php");
-//  $t->parse( "navigation-bar-bottom", "navigation-bottom", true);
 
 $t->pparse( "output", "category_tpl" );
 ?>
