@@ -3248,3 +3248,31 @@ Maintainer(s) : ce@ez.no
       user/productlist.php
       user/productview.php: Updates design
 
+
+Module : eztrade
+Repository path : /home/cvsroot/projects/php/eztrade
+Maintainer(s) : ce@ez.no
+2002-03-01  Christoffer Elo  <ce@ez.no>
+
+    * user/payment.php:
+    Changed a $user = $order->user()  to $userOrder = $order->user()
+
+
+Module : eztrade
+Repository path : /home/cvsroot/projects/php/eztrade
+Maintainer(s) : ce@ez.no
+2002-03-04  Christoffer Elo  <ce@ez.no>
+
+    * classes/ezvoucher.php: Fixed a reference in the voucher class
+
+    * user/payment.php
+      user/precheckout.php
+      user/productview.php
+      user/templates/standard/precheckout.tpl:
+    Fixed nVH in eZHTTP::header() functions.
+
+    * user/checkout.php: Fixed a typo in the payment template
+
+    * user/payment.php:
+    Fixed a bug when reading PricesIncludeVAT from site.ini
+

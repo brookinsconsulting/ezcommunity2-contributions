@@ -295,3 +295,18 @@ Maintainer(s) : bf@ez.no
 
     * templates/ezpublish/separator.tpl: Fixed link for nvh setup.
 
+
+Module : admin
+Repository path : /home/cvsroot/projects/php/admin
+Maintainer(s) : bf@ez.no
+2002-03-04  Christoffer Elo  <ce@ez.no>
+
+    * templates/ezpublish/header.tpl
+      templates/ezpublish/loginheader.tpl
+      templates/ezpublish/print_header.tpl
+      intl/en_GB/header.php.ini
+      intl/en_GB/print_header.php.ini
+      intl/no_NO/header.php.ini
+      intl/no_NO/print_header.php.ini
+      loginheader.php: Added translation for the <title> field
+

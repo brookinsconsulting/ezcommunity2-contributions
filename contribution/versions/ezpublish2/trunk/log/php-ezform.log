@@ -1327,3 +1327,14 @@ Maintainer(s) : pkej@ez.no
     * admin/templates/standard/formrenderer.tpl
       classes/ezformreportelement.php: fixed radioboxes and checkboxes
 
+
+Module : ezform
+Repository path : /home/cvsroot/projects/php/ezform
+Maintainer(s) : pkej@ez.no
+2002-03-04  Christoffer Elo  <ce@ez.no>
+
+    * classes/ezform.php
+      classes/ezformrenderer.php
+      admin/formedit.php
+      admin/templates/standard/formedit.tpl: Added GPG support.
+

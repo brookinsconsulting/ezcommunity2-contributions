@@ -671,3 +671,11 @@ Maintainer(s) : bf@ez.no
 
     * ezcachefile.php: Fixed cache file bug.
 
+
+Module : classes
+Repository path : /home/cvsroot/projects/php/classes
+Maintainer(s) : bf@ez.no
+2002-03-04  Christoffer Elo  <ce@ez.no>
+
+    * ezfile.php: Added file() so it can work with nVH.
+

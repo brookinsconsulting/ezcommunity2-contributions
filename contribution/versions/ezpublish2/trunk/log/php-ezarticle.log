@@ -2943,3 +2943,26 @@ Maintainer(s) : bf@ez.no
       classes/ezarticle.php:
     SearchWithinSections=possibility to search only in the specific section(s)
 
+
+Module : ezarticle
+Repository path : /home/cvsroot/projects/php/ezarticle
+Maintainer(s) : bf@ez.no
+2002-03-01  Vlad Pavlenko  <vlad@epasaule.lv>
+
+    * user/templates/standard/search.tpl: serach
+
+    * user/search.php
+      classes/ezarticle.php: search
+
+
+Module : ezarticle
+Repository path : /home/cvsroot/projects/php/ezarticle
+Maintainer(s) : bf@ez.no
+2002-03-04  Baard Farstad  <bf@ez.no>
+
+    * classes/ezarticle.php
+      user/articleview.php:
+    Added template variables for showing the total number of pages and the current page.
+
+    * classes/eztechgenerator.php: uses now eZ xml instead of libxml.
+

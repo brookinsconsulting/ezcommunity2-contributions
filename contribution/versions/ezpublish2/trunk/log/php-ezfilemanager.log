@@ -701,3 +701,19 @@ Maintainer(s) : jhe@ez.no
 
     * user/fileview.php: added folder_name variable in fileview
 
+
+Module : ezfilemanager
+Repository path : /home/cvsroot/projects/php/ezfilemanager
+Maintainer(s) : jhe@ez.no
+2002-03-04  Baard Farstad  <bf@ez.no>
+
+    * user/filelist.php: Added template variables.
+
+    * user/filelist.php
+      user/fileupload.php:
+    When user uploads a file to a upload only folder userid is now kept.
+
+2002-03-04  Jo Henrik Endrerud  <jhe@ez.no>
+
+    * user/fileupload.php: code standard fixes
+

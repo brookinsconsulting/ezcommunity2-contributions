@@ -1056,3 +1056,13 @@ Maintainer(s) : bf@ez.no
 
     * user/forgot.php: Fixed wrong URL in nvh setup.
 
+
+Module : ezuser
+Repository path : /home/cvsroot/projects/php/ezuser
+Maintainer(s) : bf@ez.no
+2002-03-04  Christoffer Elo  <ce@ez.no>
+
+    * admin/groupedit.php
+      admin/intl/en_GB/menubox.php.ini:
+    Added translation for the <title> field
+
