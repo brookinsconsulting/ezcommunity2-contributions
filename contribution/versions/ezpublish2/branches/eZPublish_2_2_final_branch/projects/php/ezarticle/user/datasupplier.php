@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: datasupplier.php,v 1.95.2.10 2002/05/02 13:29:53 bf Exp $
+// $Id: datasupplier.php,v 1.95.2.11 2002/06/25 09:29:50 bf Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -193,11 +193,22 @@ switch ( $url_array[2] )
 
                 include( "ezarticle/user/articlelist.php" );
             }
+            else
+            {
+                eZHTTPTool::header( "Location: /error/403" );
+                exit();
+
+            }
         }
         else if ( $CategoryID == 0 || eZObjectPermission::hasPermission( $CategoryID, "article_category", 'r' )
         || eZArticleCategory::isOwner( $user, $CategoryID ) )
         {
             include( "ezarticle/user/articlelist.php" );
+        }
+        else
+        {
+            eZHTTPTool::header( "Location: /error/403" );
+            exit();
         }
     }
     break;
