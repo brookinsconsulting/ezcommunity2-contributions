@@ -1,15 +1,18 @@
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
 	<td>
-	    <h1>{intl-referer_list} - ({item_start}-{item_end}/{item_count})</h1>
+	    <h1>{intl-referer_list}</h1>
 	</td>
 	<td align="right">
 	    <form action="/stats/refererlist/{view_mode}/{view_limit}" method="post">
 	        <span class="boxtext">{intl-exclude_domain}:</span>
-	        <input type="text" value="" name="ExcludeDomain" />
+	        <input type="text" size="12" value="" name="ExcludeDomain" />
 	        <input class="stdbutton" type="submit" value="{intl-ok}" />
 	    </form>
 	</td>
+</tr>
+<tr>
+	<td colspan="2"><span class="boxtext">({item_start}-{item_end}/{item_count})</span></td>
 </tr>
 </table>
 

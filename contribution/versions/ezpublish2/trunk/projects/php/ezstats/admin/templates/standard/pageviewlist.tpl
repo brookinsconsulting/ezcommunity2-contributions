@@ -1,4 +1,13 @@
-<h1>{intl-latest_served_pages} - ({item_start}-{item_end}/{item_count})</h1>
+<table width="100%" cellpadding="0" cellspacing="0" border="0">
+<tr>
+	<td>
+	<h1>{intl-latest_served_pages}</h1>
+	</td>
+</tr>
+<tr>
+	<td><span class="boxtext">({item_start}-{item_end}/{item_count})</span></td>
+</tr>
+</table>
 
 <hr noshade size="4" />
 

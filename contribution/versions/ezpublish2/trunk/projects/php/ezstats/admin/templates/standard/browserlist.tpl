@@ -1,8 +1,11 @@
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
 	<td>
-	<h1>{intl-browser_list} - ({item_start}-{item_end}/{item_count})</h1>
+	<h1>{intl-browser_list}</h1>
 	</td>
+</tr>
+<tr>
+	<td><span class="boxtext">({item_start}-{item_end}/{item_count})</span></td>
 </tr>
 </table>
 

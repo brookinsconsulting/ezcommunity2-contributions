@@ -1,4 +1,13 @@
-<h1>{intl-request_list} - ({item_start}-{item_end}/{item_count})</h1>
+<table width="100%" cellspacing="0" cellpadding="0" border="0">
+<tr>
+	<td>
+	<h1>{intl-request_list}</h1>
+	</td>
+</tr>
+<tr>
+	<td colspan="2"><span class="boxtext">({item_start}-{item_end}/{item_count})</span></td>
+</tr>
+</table>
 
 <hr noshade size="4" />
 

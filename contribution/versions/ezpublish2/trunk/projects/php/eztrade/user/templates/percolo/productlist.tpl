@@ -83,6 +83,19 @@
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
 	<td>
+	<div class="listheadline"><a class="listheadline" href="/article/articleview/{article_id}/1/{category_id}/">Kjøpsinformasjon</a></div>
+
+	<div class="p">Her kan du få mer informasjon om hvordan du handler fra vår nettbutikk.</div>
+	<img src="/images/1x1.gif" height="8" width="1" border="0" alt="" /><br />
+	<a class="path" href="/article/articleview/14/1/{category_id}/">Les mer om dine rettigheter</a>
+	<br /><br />
+	</td>
+</tr>
+</table>
+
+<table width="100%" cellspacing="0" cellpadding="0" border="0">
+<tr>
+	<td>
 <!-- BEGIN type_list_tpl -->
 <br />
 <table cellpadding="0" cellspacing="0" border="0">
