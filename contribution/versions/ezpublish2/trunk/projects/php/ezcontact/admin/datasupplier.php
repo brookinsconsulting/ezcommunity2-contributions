@@ -256,6 +256,11 @@ switch ( $url_array[2] )
                 include( "ezcontact/admin/consultationedit.php" );
                 break;
             }
+            case "view":
+            {
+                include( "ezcontact/admin/consultationview.php" );
+                break;
+            }
             case "list":
             {
                 include( "ezcontact/admin/consultationlist.php" );
