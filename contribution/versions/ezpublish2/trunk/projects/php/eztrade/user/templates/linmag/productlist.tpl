@@ -20,6 +20,7 @@
 <a class="path" href="{www_dir}{index}/{module}/{module_list}/{category_id}/">{category_name}</a>
 <!-- END path_tpl -->
 
+<br /><br />
 <!-- BEGIN category_list_tpl -->
 
 <table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">

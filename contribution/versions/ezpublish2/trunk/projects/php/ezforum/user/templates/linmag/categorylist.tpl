@@ -1,7 +1,7 @@
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
   <tr>
     <td align="left" valign="bottom">
-        <h1>{intl-headline}</h1>
+        <h1>Forumkategorier</h1>
      </td>
      <td align="right">
         <form action="{www_dir}{index}/forum/search/" method="post">
@@ -15,6 +15,7 @@
 	<img src="{www_dir}/images/path-arrow.gif" height="10" width="12" border="0" alt="" />
 	<a class="path" href="{www_dir}{index}/forum/categorylist/">{intl-forum-main}</a>
 
+<br /><br />
 <table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
 <tr>
    	<th colspan="2" width="1%">{intl-name}:</th>
