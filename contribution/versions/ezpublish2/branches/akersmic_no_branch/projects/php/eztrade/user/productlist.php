@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: productlist.php,v 1.41.8.13 2002/01/30 11:08:59 bf Exp $
+// $Id: productlist.php,v 1.41.8.14 2002/01/31 10:05:33 bf Exp $
 //
 // Created on: <23-Sep-2000 14:46:20 bf>
 //
@@ -219,7 +219,7 @@ foreach ( $productList as $product )
     {
         $t->set_var( "thumbnail_image_uri", "/sitedesign/am/img/a_100x100.gif" );
         $t->set_var( "thumbnail_image_width", "50" );
-        $t->set_var( "thumbnail_image_height", "100" );
+        $t->set_var( "thumbnail_image_height", "50" );
         $t->set_var( "thumbnail_image_caption", "" );
 
         $t->parse( "product_image", "product_image_tpl" );
