@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezlocale.php,v 1.19 2001/01/16 10:46:14 gl Exp $
+// $Id: ezlocale.php,v 1.20 2001/01/17 10:17:27 gl Exp $
 //
 // Definition of eZLocale class
 //
@@ -135,6 +135,7 @@ class eZLocale
         $this->NegativePrefixCurrencySymbol =& $this->$LocaleIni->read_var( "RegionalSettings", "NegativePrefixCurrencySymbol" );
         
         $this->TimeFormat =& $this->$LocaleIni->read_var( "RegionalSettings", "TimeFormat" );
+        $this->ShortTimeFormat =& $this->$LocaleIni->read_var( "RegionalSettings", "ShortTimeFormat" );
         $this->DateFormat =& $this->$LocaleIni->read_var( "RegionalSettings", "DateFormat" );
         $this->ShortDateFormat =& $this->$LocaleIni->read_var( "RegionalSettings", "ShortDateFormat" );
     }
@@ -164,19 +165,19 @@ class eZLocale
 
                 // d - day of the month, 2 digits with leading zeros; i.e. "01" to "31"
                 $date =& str_replace( "%d", "" . $obj->day() . "", $date );
-                     
+
                 // D - day of the week, textual, 3 letters; i.e. "Fri"
                 $date =& str_replace( "%D", "" . $this->dayName( $obj->dayName() ) . "", $date );
-                     
+
                 // E - day of the week, textual, long; i.e. "Friday"
                 $date =& str_replace( "%E", "" . $this->dayName( $obj->dayName(), false ) . "", $date );
-                     
+
                 // F - month, textual, long; i.e. "January"
                 $date =& str_replace( "%F", "" . $this->monthName( $obj->monthName(), false ) . "", $date );
-                     
+
                 // M - month, textual, 3 letters; i.e. "Jan"
                 $date =& str_replace( "%M", "" . $this->monthName( $obj->monthName() ) . "", $date );
-                     
+
                 // m - month; i.e. "01" to "12"
                 $date =& str_replace( "%m", "" . $obj->month(), $date );
 
@@ -189,7 +190,7 @@ class eZLocale
                     $hour = "0" . $obj->hour();
                 else
                     $hour =  $obj->hour();
-                
+
                 // H - hour, 24-hour format; i.e. "00" to "23"
                 $time =& str_replace( "%H", "" . $hour . "", $time );
 
@@ -197,7 +198,7 @@ class eZLocale
                     $minute = "0" . $obj->minute();
                 else
                     $minute = $obj->minute();
-                
+
                 // i - minutes; i.e. "00" to "59"
                 $time =& str_replace( "%i", "" . $minute . "", $time );
 
@@ -205,16 +206,15 @@ class eZLocale
                     $second = "0" . $obj->second();
                 else
                     $second =  $obj->second();
-                    
+
                 // s - seconds; i.e. "00" to "59"
                 $time = str_replace( "%s", "" . $second . "", $time );
 
                 $returnString = $date . " " . $time;
 
                 break;
-
             }
-            
+
             case "ezdate" :
             {
                 if ( $isShort == true )
@@ -224,44 +224,49 @@ class eZLocale
 
                 // d - day of the month, 2 digits with leading zeros; i.e. "01" to "31" 
                 $date =& str_replace( "%d", "" . $obj->day() . "", $date );
-                
+
                 // D - day of the week, textual, 3 letters; i.e. "Fri"
                 $date =& str_replace( "%D", "" . $this->dayName( $obj->dayName() ) . "", $date );
-                     
+
                 // E - day of the week, textual, long; i.e. "Friday"
                 $date =& str_replace( "%E", "" . $this->dayName( $obj->dayName(), false ) . "", $date );
-                     
+
                 // F - month, textual, long; i.e. "January"
                 $date =& str_replace( "%F", "" . $this->monthName( $obj->monthName(), false ) . "", $date );
-                     
+
                 // M - month, textual, 3 letters; i.e. "Jan"
                 $date =& str_replace( "%M", "" . $this->monthName( $obj->monthName() ) . "", $date );
-                     
+
                 // m - month; i.e. "01" to "12" 
                 $date =& str_replace( "%m", "" . $obj->month(), $date );
 
                 // Y - year, 4 digits; i.e. "1999"
                 $date =& str_replace( "%Y", "" . $obj->year(), $date );
-                
+
                 $returnString =& $date;
                 break;
             }
+
             case "eztime" :
             {
-                $time = $this->TimeFormat;
-                
+                if ( $isShort == true )
+                    $time = $this->ShortTimeFormat;
+                else
+                    $time = $this->TimeFormat;
+
                 // H - hour, 24-hour format; i.e. "00" to "23"
-                $time =& str_replace( "%H", "" . $obj->hour() . "", $time );
-                
+                $time =& str_replace( "%H", "" . $this->addZero( $obj->hour() ) . "", $time );
+
                 // i - minutes; i.e. "00" to "59"
-                $time =& str_replace( "%i", "" . $obj->minute() . "", $time );
+                $time =& str_replace( "%i", "" . $this->addZero( $obj->minute() ) . "", $time );
 
                 // s - seconds; i.e. "00" to "59"
-                $time =& str_replace( "%s", "" . $obj->second() . "", $time );
+                $time =& str_replace( "%s", "" . $this->addZero( $obj->second() ) . "", $time );
 
                 $returnString =& $time;
                 break;
             }
+
             case "ezcurrency" :
             {
                 $value = $obj->value();
@@ -281,7 +286,7 @@ class eZLocale
 
                 if ( $fracts < 10 )
                     $fracts = "0" . $fracts;
-                
+
                 $value = $integerValue . $this->DecimalSymbol . $fracts;
 
                 if ( $obj->isNegative )
@@ -306,7 +311,7 @@ class eZLocale
                         $value = $value . " " . $this->CurrencySymbol;
                     }                    
                 }
-                
+
                 $returnString = $value;
                 break;
             }
@@ -374,6 +379,21 @@ class eZLocale
         }
     }
 
+    /*!
+      \private
+      Adds a "0" in front of the value if it's below 10.
+    */
+    function addZero( $value )
+    {
+        $ret = $value;
+        if ( $ret < 10 )
+        {
+            $ret = "0". $ret;
+        }
+
+        return $ret;
+    }
+
     var $PositivePrefixCurrencySymbol;
     var $NegativePrefixCurrencySymbol;
 
@@ -382,6 +402,7 @@ class eZLocale
     var $ThousandsSymbol;
     var $FractDigits;
     var $TimeFormat;
+    var $ShortTimeFormat;
     var $DateFormat;
     var $ShortDateFormat;
 
