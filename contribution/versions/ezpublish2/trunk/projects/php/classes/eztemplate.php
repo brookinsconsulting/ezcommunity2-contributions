@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eztemplate.php,v 1.38 2001/07/29 23:30:57 kaid Exp $
+// $Id: eztemplate.php,v 1.39 2001/08/02 16:01:52 kaid Exp $
 //
 // Definition of eZTemplate class
 //
@@ -183,13 +183,16 @@ class eZTemplate
     */
     function setAllStrings()
     {
-        reset( $this->TextStrings );
-        $tmp =& each( $this->TextStrings );
-        while( $tmp )
+        if ( isset( $this->TextStrings ) and is_array( $this->TextStrings ) )
         {
-            $tmp_key = "intl-" . $tmp[0];
-            $this->set_var_internal( $tmp_key, $tmp[1] );
+            reset( $this->TextStrings );
             $tmp =& each( $this->TextStrings );
+            while( $tmp )
+            {
+                $tmp_key = "intl-" . $tmp[0];
+                $this->set_var_internal( $tmp_key, $tmp[1] );
+                $tmp =& each( $this->TextStrings );
+            }
         }
     }
 
@@ -416,7 +419,7 @@ class eZTemplate
         }
 
         // For non-virtualhost, non-rewrite setup
-	    global $wwwDir, $index;
+        global $wwwDir, $index;
         $this->set_var( 'www_dir', $wwwDir );
         $this->set_var( 'index', $index );
     }

@@ -1,6 +1,6 @@
 <?php 
 // 
-// $Id: INIFile.php,v 1.36 2001/08/01 16:34:14 kaid Exp $
+// $Id: INIFile.php,v 1.37 2001/08/02 16:01:52 kaid Exp $
 //
 // Implements a simple INI-file parser
 //
@@ -208,6 +208,8 @@ class INIFile
         {
             $split_data =& split( "=", $data );
             
+            if ( !isset( $split_data[1] ) )
+                $split_data[1] = "";
             $this->GROUPS[ $this->CURRENT_GROUP ][ $split_data[0] ] = $split_data[1]; 
         }
     }
