@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: categorylist.php,v 1.15 2001/02/21 15:16:32 jb Exp $
+// $Id: categorylist.php,v 1.16 2001/02/21 15:20:56 jb Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <13-Sep-2000 14:56:11 bf>
@@ -34,6 +34,7 @@ include_once( "classes/ezlist.php" );
 $ini =& $GlobalSiteIni;
 
 $Language = $ini->read_var( "eZTradeMain", "Language" );
+$Limit = $ini->read_var( "eZTradeMain", "ProductLimit" );
 
 include_once( "eztrade/classes/ezproductcategory.php" );
 include_once( "eztrade/classes/ezproduct.php" );

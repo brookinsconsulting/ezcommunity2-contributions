@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: productsearch.php,v 1.1 2001/02/21 15:16:32 jb Exp $
+// $Id: productsearch.php,v 1.2 2001/02/21 15:20:56 jb Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <13-Sep-2000 14:56:11 bf>
@@ -34,6 +34,7 @@ include_once( "classes/ezlist.php" );
 $ini =& $GlobalSiteIni;
 
 $Language = $ini->read_var( "eZTradeMain", "Language" );
+$Limit = $ini->read_var( "eZTradeMain", "ProductSearchLimit" );
 
 include_once( "eztrade/classes/ezproductcategory.php" );
 include_once( "eztrade/classes/ezproduct.php" );
@@ -57,7 +58,7 @@ $t->set_block( "product_item_tpl", "product_inactive_item_tpl", "product_inactiv
 $t->set_var( "site_style", $SiteStyle );
 
 if ( !isset( $Limit ) or !is_numeric( $Limit ) )
-    $Limit = 4;
+    $Limit = 10;
 if ( !isset( $Offset ) or !is_numeric( $Offset ) )
     $Offset = 0;
 
@@ -78,8 +79,10 @@ foreach ( $productList as $product )
 
     $t->set_var( "product_name", $product->name() );
     $category = $product->categoryDefinition();
-    $t->set_var( "product_category", $category->name() );
-    $t->set_var( "product_category_id", $category->id() );
+    $t->set_var( "product_category", get_class( $category ) == "ezproductcategory" ?
+                 $category->name() : "", "&nbsp;" );
+    $t->set_var( "product_category_id", get_class( $category ) == "ezproductcategory" ?
+                 $category->id() : "", "&nbsp;" );
 
     $price = new eZCurrency( $product->price() );
 
