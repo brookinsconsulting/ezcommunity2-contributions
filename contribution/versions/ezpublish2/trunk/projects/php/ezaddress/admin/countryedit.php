@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: countryedit.php,v 1.3 2001/07/19 12:06:56 jakobn Exp $
+// $Id: countryedit.php,v 1.4 2001/10/17 12:19:26 ce Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -44,9 +44,11 @@ $block_array = array( "extra_type_input" => "country_tpl" );
 
 $func_call = array( "item_id" => "id",
                     "item_name" => "name",
+                    "item_has_vat" => "hasVAT",
                     "item_iso" => "iso" );
 
 $func_call_set = array( "setName" => "ItemName",
+                        "setHasVAT" => "ItemHasVAT",
                         "setISO" => "ItemISO" );
 
 include( "ezaddress/admin/typeedit.php" );

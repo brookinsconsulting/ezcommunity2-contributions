@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: typeedit.php,v 1.5 2001/07/19 12:06:56 jakobn Exp $
+// $Id: typeedit.php,v 1.6 2001/10/17 12:19:26 ce Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -108,7 +108,15 @@ if( $Action == "insert" or $Action == "update" )
         reset( $func_call_set );
         while( list($key,$val) = each( $func_call_set ) )
         {
-            $item_type->$key( ${$val} );
+            if ( $key == "setHasVAT" )
+            {
+                if ( ${$val} == "on" )
+                    $item_type->$key( true );
+                else
+                    $item_type->$key( false );
+            }
+            else
+                $item_type->$key( ${$val} );
         }
     }
     else
@@ -159,7 +167,15 @@ if ( isset( $func_call ) and is_array( $func_call ) )
     reset( $func_call );
     while( list($key,$val) = each( $func_call ) )
     {
-        $t->set_var( $key, $item_type->$val() );
+        if ( $key == "item_has_vat" )
+        {
+            if(  $item_type->$val() )
+            {
+                $t->set_var( $key, "checked" );
+            }
+        }
+        else
+            $t->set_var( $key, $item_type->$val() );
     }
 }
 else
