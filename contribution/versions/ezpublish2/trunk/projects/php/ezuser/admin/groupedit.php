@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: groupedit.php,v 1.3 2000/10/03 15:17:28 ce-cvs Exp $
+// $Id: groupedit.php,v 1.4 2000/10/06 09:59:15 ce-cvs Exp $
 //
 // Definition of eZUser class
 //
@@ -26,177 +26,171 @@ include_once( "ezuser/classes/ezusergroup.php" );
 include_once( "ezuser/classes/ezmodule.php" );
 include_once( "ezuser/classes/ezpermission.php" );
 
-if ( eZPermission::checkPermission( $user, "eZUser", "AdminRead" ) )
+require( "ezuser/admin/admincheck.php" );
+
+if ( $Action == "insert" )
 {
-
-    if ( $Action == "insert" )
+    if ( eZPermission::checkPermission( $user, "eZUser", "GroupAdd" ) )
     {
-        if ( eZPermission::checkPermission( $user, "eZUser", "GroupAdd" ) )
-        {
 
-            $group = new eZUserGroup();
-            $group->setName( $Name );
-            $group->setDescription( $Description );
+        $group = new eZUserGroup();
+        $group->setName( $Name );
+        $group->setDescription( $Description );
 
-            $permission = new eZPermission(); 
+        $permission = new eZPermission(); 
 
-            $group->store();
+        $group->store();
 
-            $group->get( $group->id() );
+        $group->get( $group->id() );
 
-            $permissionList = $permission->getAll();
+        $permissionList = $permission->getAll();
 
-            foreach( $permissionList as $permissionItem )
-                {
-                    $permissionItem->setEnabled( $group, false );
-                }
+        foreach( $permissionList as $permissionItem )
+            {
+                $permissionItem->setEnabled( $group, false );
+            }
     
-            foreach( $PermissionArray as $PermissionID )
-                {
-                    $permission->get( $PermissionID );
-                    $permission->setEnabled( $group, true );
-                }
-            Header( "Location: /user/grouplist/" );
-            exit();
-        }
-        else
-        {
-            print( "Du har ikke rettigheter til å legge til brukere.");
-        }
+        foreach( $PermissionArray as $PermissionID )
+            {
+                $permission->get( $PermissionID );
+                $permission->setEnabled( $group, true );
+            }
+        Header( "Location: /user/grouplist/" );
+        exit();
     }
-
-    if ( $Action == "delete" )
+    else
     {
-        if ( eZPermission::checkPermission( $user, "eZUser", "GroupDelete" ) )
-        {
-
-            $group = new eZUserGroup();
-            $group->get( $GroupID );
-
-            $group->delete();
-
-            Header( "Location: /user/grouplist/" );
-            exit();
-        }
-        else
-        {
-            print( "Du har ikke rettigheter.");
-        }
+        print( "Du har ikke rettigheter til å legge til brukere.");
     }
- 
-    if ( $Action == "update" )
+}
+
+if ( $Action == "delete" )
+{
+    if ( eZPermission::checkPermission( $user, "eZUser", "GroupDelete" ) )
     {
-    if ( eZPermission::checkPermission( $user, "eZUser", "UserAdd" ) )
-    {
-            $permission = new eZPermission();
-            $group = new eZUserGroup();
-            $group->get( $GroupID );
-            $group->setName( $Name );
-            $group->setDescription( $Description );
 
-            $permissionList = $permission->getAll();
-
-            foreach( $permissionList as $permissionItem )
-                {
-                    $permissionItem->setEnabled( $group, false );
-                }
-    
-            foreach( $PermissionArray as $PermissionID )
-                {
-                    $permission->get( $PermissionID );
-                    $permission->setEnabled( $group, true );
-                }
-
-            $group->store();
-
-            Header( "Location: /user/grouplist/" );
-            exit();
-        }
-        else
-        {
-            print( "Du har ikke rettigheter.");
-        }
-    }
-
-    // Template
-    $t = new eZTemplate( $DOC_ROOT . "/admin/" . $ini->read_var( "eZUserMain", "TemplateDir" ). "/groupedit/",
-    $DOC_ROOT . "/admin/" . "/intl", $Language, "groupedit.php" );
-    $t->setAllStrings();
-
-    $t->set_file( array(
-        "group_edit" => "groupedit.tpl"
-        ) );
-
-    $t->set_block( "group_edit", "module_list_header_tpl", "module_header" );
-    $t->set_block( "module_list_header_tpl", "permission_list_tpl", "permission_item" );
-    $t->set_block( "permission_list_tpl", "permission_enabled_tpl", "is_enabled_item" );
-
-    $headline = new INIFIle( "ezuser/admin/intl/" . $Language . "/groupedit.php.ini", false );
-    $t->set_var( "head_line", $headline->read_var( "strings", "head_line_insert" ) );
-
-    $Name = "";
-    $Description = "";
-    $ActionValue = "insert";
-
-    // Edit
-    if ( $Action == "edit" )
-    {
         $group = new eZUserGroup();
         $group->get( $GroupID );
 
-        $Name = $group->Name();
-        $Description = $group->Description();
-        $ActionValue = "update";
+        $group->delete();
 
-        $headline = new INIFIle( "ezuser/admin/intl/" . $Language . "/groupedit.php.ini", false );
-        $t->set_var( "head_line", $headline->read_var( "strings", "head_line_edit" ) );
+        Header( "Location: /user/grouplist/" );
+        exit();
     }
-
-    // List over all modules.
-    $module = new eZModule();
-    $moduleList = $module->getAll();
-
-    foreach ( $moduleList as $moduleItem )
+    else
     {
-        $t->set_var( "module_name", $moduleItem->name() );
-        $t->set_var( "module_id", $moduleItem->id() );
-
+        print( "Du har ikke rettigheter.");
+    }
+}
+ 
+if ( $Action == "update" )
+{
+    if ( eZPermission::checkPermission( $user, "eZUser", "UserAdd" ) )
+    {
         $permission = new eZPermission();
-        $permissionList = $permission->getAllByModule( $moduleItem );
+        $group = new eZUserGroup();
+        $group->get( $GroupID );
+        $group->setName( $Name );
+        $group->setDescription( $Description );
 
-        $t->set_var( "permission_item", "" );
+        $permissionList = $permission->getAll();
 
-        foreach ( $permissionList as $permissionItem )
+        foreach( $permissionList as $permissionItem )
             {
-                $t->set_var( "permission_name", $permissionItem->name() );
-                $t->set_var( "permission_id", $permissionItem->id() );
-
-                if ( $permissionItem->isEnabled( $group ) )
-                {
-                    $t->set_var( "is_enabled", "checked" );
-                }
-                else
-                {
-                    $t->set_var( "is_enabled", "" );
-                }
-        
-                $t->parse( "permission_item", "permission_list_tpl", true );
+                $permissionItem->setEnabled( $group, false );
+            }
+    
+        foreach( $PermissionArray as $PermissionID )
+            {
+                $permission->get( $PermissionID );
+                $permission->setEnabled( $group, true );
             }
 
-        $t->parse( "module_header", "module_list_header_tpl", true );
+        $group->store();
+
+        Header( "Location: /user/grouplist/" );
+        exit();
     }
-
-    $t->set_var( "name_value", $Name );
-    $t->set_var( "description_value", $Description );
-    $t->set_var( "action_value", $ActionValue );
-
-    $t->set_var( "group_id", $GroupID );
-
-    $t->pparse( "output", "group_edit" );
+    else
+    {
+        print( "Du har ikke rettigheter.");
+    }
 }
-else
+
+// Template
+$t = new eZTemplate( $DOC_ROOT . "/admin/" . $ini->read_var( "eZUserMain", "TemplateDir" ). "/groupedit/",
+$DOC_ROOT . "/admin/" . "/intl", $Language, "groupedit.php" );
+$t->setAllStrings();
+
+$t->set_file( array(
+    "group_edit" => "groupedit.tpl"
+    ) );
+
+$t->set_block( "group_edit", "module_list_header_tpl", "module_header" );
+$t->set_block( "module_list_header_tpl", "permission_list_tpl", "permission_item" );
+$t->set_block( "permission_list_tpl", "permission_enabled_tpl", "is_enabled_item" );
+
+$headline = new INIFIle( "ezuser/admin/intl/" . $Language . "/groupedit.php.ini", false );
+$t->set_var( "head_line", $headline->read_var( "strings", "head_line_insert" ) );
+
+$Name = "";
+$Description = "";
+$ActionValue = "insert";
+
+// Edit
+if ( $Action == "edit" )
 {
-    print( "Du har ikke rettigheter.");
+    $group = new eZUserGroup();
+    $group->get( $GroupID );
+
+    $Name = $group->Name();
+    $Description = $group->Description();
+    $ActionValue = "update";
+
+    $headline = new INIFIle( "ezuser/admin/intl/" . $Language . "/groupedit.php.ini", false );
+    $t->set_var( "head_line", $headline->read_var( "strings", "head_line_edit" ) );
 }
+
+// List over all modules.
+$module = new eZModule();
+$moduleList = $module->getAll();
+
+foreach ( $moduleList as $moduleItem )
+{
+    $t->set_var( "module_name", $moduleItem->name() );
+    $t->set_var( "module_id", $moduleItem->id() );
+
+    $permission = new eZPermission();
+    $permissionList = $permission->getAllByModule( $moduleItem );
+
+    $t->set_var( "permission_item", "" );
+
+    foreach ( $permissionList as $permissionItem )
+        {
+            $t->set_var( "permission_name", $permissionItem->name() );
+            $t->set_var( "permission_id", $permissionItem->id() );
+
+            if ( $permissionItem->isEnabled( $group ) )
+            {
+                $t->set_var( "is_enabled", "checked" );
+            }
+            else
+            {
+                $t->set_var( "is_enabled", "" );
+            }
+        
+            $t->parse( "permission_item", "permission_list_tpl", true );
+        }
+
+    $t->parse( "module_header", "module_list_header_tpl", true );
+}
+
+$t->set_var( "name_value", $Name );
+$t->set_var( "description_value", $Description );
+$t->set_var( "action_value", $ActionValue );
+
+$t->set_var( "group_id", $GroupID );
+
+$t->pparse( "output", "group_edit" );
 
 ?>

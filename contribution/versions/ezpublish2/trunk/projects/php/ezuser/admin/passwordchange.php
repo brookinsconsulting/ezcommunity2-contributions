@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: passwordchange.php,v 1.1 2000/10/02 15:46:42 ce-cvs Exp $
+// $Id: passwordchange.php,v 1.2 2000/10/06 09:59:15 ce-cvs Exp $
 //
 // Definition of eZUser class
 //
@@ -27,6 +27,7 @@ include_once( "ezuser/classes/ezmodule.php" );
 include_once( "ezuser/classes/ezpermission.php" );
 include_once( "ezsession/classes/ezsession.php" );
 
+require( "ezuser/admin/admincheck.php" );
 
 // Template
 $t = new eZTemplate( $DOC_ROOT . "/admin/" . $ini->read_var( "eZUserMain", "TemplateDir" ). "/passwordchange/",

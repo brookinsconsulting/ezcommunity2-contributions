@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: useredit.php,v 1.2 2000/10/03 07:13:48 ce-cvs Exp $
+// $Id: useredit.php,v 1.3 2000/10/06 09:59:15 ce-cvs Exp $
 //
 // Definition of eZUser class
 //
@@ -24,17 +24,7 @@ $DOC_ROOT = $ini->read_var( "eZUserMain", "DocumentRoot" );
 include_once( "ezuser/classes/ezuser.php" );
 include_once( "ezuser/classes/ezusergroup.php" );
 
-$user = eZUser::currentUser();
-if ( !$user )
-{
-    Header( "Location: /user/login" );
-    exit();
-}
-
-if ( !eZPermission::checkPermission( $user, "eZUser", "AdminRead" ) )
-{
-    print( "ikke adminread" );
-}
+require( "ezuser/admin/admincheck.php" );
 
 if ( $Action == "insert" )
 {

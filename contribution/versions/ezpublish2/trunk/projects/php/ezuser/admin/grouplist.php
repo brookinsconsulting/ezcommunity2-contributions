@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: grouplist.php,v 1.1 2000/10/02 15:46:42 ce-cvs Exp $
+// $Id: grouplist.php,v 1.2 2000/10/06 09:59:15 ce-cvs Exp $
 //
 // Definition of eZUser class
 //
@@ -23,6 +23,8 @@ $DOC_ROOT = $ini->read_var( "eZUserMain", "DocumentRoot" );
 
 include_once( "ezuser/classes/ezuser.php" );
 include_once( "ezuser/classes/ezusergroup.php" );
+
+require( "ezuser/admin/admincheck.php" );
 
 $t = new eZTemplate( $DOC_ROOT . "/admin/" . $ini->read_var( "eZUserMain", "TemplateDir" ) . "/grouplist/",
                      $DOC_ROOT . "/admin/" . "/intl", $Language, "grouplist.php" );
