@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezarticlecategory.php,v 1.64 2001/05/28 20:03:40 fh Exp $
+// $Id: ezarticlecategory.php,v 1.65 2001/05/29 17:41:24 fh Exp $
 //
 // Definition of eZArticleCategory class
 //
@@ -571,7 +571,7 @@ class eZArticleCategory
        
        if ( get_class( $value ) == "ezimage" )
            $value = $value->id();
-
+       
        $this->ImageID = $value;
     }
 
@@ -598,6 +598,10 @@ class eZArticleCategory
        {
            $this->ParentID = $value->id();
        }
+       else
+       {
+           $this->ParentID = $value;
+       }
     }
 
 
@@ -612,6 +616,10 @@ class eZArticleCategory
        if ( get_class( $value ) == "ezuser" )
        {
            $this->OwnerID = $value->id();
+       }
+       else
+       {
+           $this->OwnerID = $value;
        }
     }
 
