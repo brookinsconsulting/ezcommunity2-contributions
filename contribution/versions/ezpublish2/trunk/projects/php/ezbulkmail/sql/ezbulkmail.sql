@@ -107,7 +107,7 @@ DROP TABLE IF EXISTS eZBulkMail_SentLog;
 CREATE TABLE eZBulkMail_SentLog (
   ID int(11) default '0' NOT NULL auto_increment,
   MailID int(11) NOT NULL default '0',
-  AddressID int(11) NOT NULL default '0',
+  Mail varchar(255) NOT NULL default '0',  
   SentDate timestamp(14) NOT NULL,
   PRIMARY KEY (ID)
 ) TYPE=MyISAM;

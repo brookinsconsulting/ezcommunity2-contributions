@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezbulkmail.php,v 1.8 2001/04/20 12:57:05 fh Exp $
+// $Id: ezbulkmail.php,v 1.9 2001/04/27 21:50:26 fh Exp $
 //
 // eZBulkMail class
 //
@@ -357,17 +357,52 @@ class eZBulkMail
             $mail->setBodyText( $this->BodyText );
             $mail->setSubject( $this->Subject );
             $mail->setSender( $this->From );
-            
-            $subscribers = $category->subscribers();
+            // get subscribers from groups
+            $subscribers = array();
+            $groups = $category->groupSubscriptions();
+            foreach( $groups as $group )
+                $subscribers = array_merge( $subscribers, $group->userEmails() );
+
+            // normal subscribers...
+            $subscribers = array_merge( $subscribers,  $category->subscribers() );
             foreach( $subscribers as $subscriber )
             {
-                $mail->setTo( $subscriber );
-                $mail->send();
+                if( !$this->isSent( $subscriber ) )
+                {
+                    $mail->setTo( $subscriber );
+                    $mail->send();
+                    $this->addLogEntry( $subscriber );
+                }
             }
             $this->store();
             /** The mail was sent.. now lets set the timestamp **/
             $this->Database->query( "UPDATE eZBulkMail_Mail SET SentDate=now() WHERE ID='$this->ID'");
         }
+    }
+
+    /*** FUNCTIONS THAT HANDLE THE LOGGING **/
+    /*!
+      \private
+      Sets this mail as sent for the address given which is the email address as a text.
+    */
+    function addLogEntry( $mail )
+    {
+        $db = eZDB::globalDatabase();
+        $db->query( "INSERT INTO eZBulkMail_SentLog SET SentDate=now(), Mail='$mail', MailID='$this->ID'" );
+    }
+
+    /*!
+      \private
+      Checks if this mail is sent for the given address.
+     */
+    function isSent( $mail )
+    {
+        $db = eZDB::globalDatabase();
+        $db->query_single( $result, "SELECT Count( ID ) as Count FROM eZBulkMail_SentLog WHERE Mail='$mail' AND MailID='$this->ID'" );
+        if( $result[ "Count" ] > 0 )
+            return true;
+
+        return false;
     }
     
     /*!

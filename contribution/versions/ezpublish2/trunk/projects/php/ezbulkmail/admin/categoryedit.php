@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: categoryedit.php,v 1.3 2001/04/27 20:13:32 fh Exp $
+// $Id: categoryedit.php,v 1.4 2001/04/27 21:50:26 fh Exp $
 //
 // Frederik Holljen <fh@ez.no>
 // Created on: <18-Apr-2001 11:15:33 fh>
@@ -83,7 +83,9 @@ $t->set_var( "category_name", "" );
 $t->set_var( "description", "" );
 $t->set_var( "category_id", $CategoryID );
 $t->set_var( "subscribe_group_item", "" );
+$t->set_var( "checked", "checked" );
 
+$subscribedGroups = array();
 if( $CategoryID != 0  )
 {
     $category = new eZBulkMailCategory( $CategoryID );
