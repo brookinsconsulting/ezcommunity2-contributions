@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezarticle.php,v 1.123 2001/07/13 11:56:02 bf Exp $
+// $Id: ezarticle.php,v 1.124 2001/07/16 15:26:11 jb Exp $
 //
 // Definition of eZArticle class
 //
@@ -325,6 +325,10 @@ class eZArticle
                 $this->StartDate =& $article_array[0][$db->fieldName("StartDate")];
                 $this->StopDate =& $article_array[0][$db->fieldName("StopDate")];
                 $this->ImportID =& $article_array[0][$db->fieldName("ImportID")];
+                if ( $this->StartDate == 0 )
+                    $this->StartDate = false;
+                if ( $this->StopDate == 0 )
+                    $this->StopDate = false;
                 $ret = true;
             }
         }
