@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: messageedit.php,v 1.11 2000/12/23 15:10:04 bf Exp $
+// $Id: messageedit.php,v 1.12 2000/12/23 15:49:22 bf Exp $
 //
 // Lars Wilhelmsen <lw@ez.no>
 // Created on: <11-Sep-2000 22:10:06 bf>
@@ -57,31 +57,6 @@ if ( $Action == "insert" )
 
     $message->store();
 
-    // delete the cache file(s)
-
-    $dir = dir( "ezforum/cache/" );
-    $files = array();
-    while( $entry = $dir->read() )
-    { 
-        if ( $entry != "." && $entry != ".." )
-        { 
-            $files[] = $entry; 
-            $numfiles++; 
-        } 
-    } 
-    $dir->close();
-
-    foreach( $files as $file )
-        {
-            if ( ereg( "forum,([^,]+),.*", $file, $regArray  ) )
-            {
-                if ( $regArray[1] == $forum_id )
-                {
-                    unlink( "ezforum/cache/" . $file );
-                }
-            }
-        }    
- 
     Header( "Location: /forum/messagelist/$ForumID/" );
 }
 

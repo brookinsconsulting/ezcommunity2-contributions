@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezforummessage.php,v 1.59 2000/12/23 15:10:04 bf Exp $
+// $Id: ezforummessage.php,v 1.60 2000/12/23 15:49:22 bf Exp $
 //
 // Definition of eZCompany class
 //
@@ -245,6 +245,31 @@ class eZForumMessage
         }
         return $ret;
     }
+
+    /*!
+      Returns every message as an array of eZForumCategory objects.
+    */
+    function getAll( )
+    {
+        $this->dbInit();
+
+        $ret = array();
+
+        $this->dbInit();
+
+        $this->Database->array_query( $message_array, "SELECT ID FROM
+                                                       eZForum_Message" );
+                                                     
+        $ret = array();
+
+        foreach ( $message_array as $message )
+        {
+            $ret[] = new eZForumMessage( $message["ID"] );
+        }
+        
+        return $ret;
+    }
+    
 
     /*!
       Returns the object id.
