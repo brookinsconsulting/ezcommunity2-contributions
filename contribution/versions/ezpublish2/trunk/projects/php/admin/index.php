@@ -5,12 +5,12 @@ ob_start();
 include_once( "../classes/ezdb.php" );
 include_once( "classes/INIFile.php" );
 include_once( "classes/template.inc" );
-include_once( "../classes/ezuser.php" );
+// include_once( "../classes/ezuser.php" );
 
-include_once( "../classes/ezsession.php" );
+// include_once( "../classes/ezsession.php" );
 include_once( "../common/ezphputils.php" );
 
-$session = new eZSession();
+// $session = new eZSession();
 
 $ini = new INIFile( "../site.ini" );
 $t = new Template( "." );
@@ -32,8 +32,8 @@ switch ( $SiteStyle )
 // html header
 include( "header.php" );
 
-if ( $session->get( $AuthenticatedSession ) == 0 )
-{
+//if ( $session->get( $AuthenticatedSession ) == 0 )
+// {
 
     if ( $ini->read_var( "site", "eZPublish" ) == "enabled" )
         include( "ezpublishadmin.php" );
@@ -53,7 +53,14 @@ if ( $session->get( $AuthenticatedSession ) == 0 )
     if ( $ini->read_var( "site", "eZTrade" ) == "enabled" )
         include( "eztrade/admin/menubox.php" );
 
-    include( "useradmin.php" );
+    if ( $ini->read_var( "site", "eZPoll" ) == "enabled" )
+        include( "ezpoll/admin/menubox.php" );
+
+    if ( $ini->read_var( "site", "eZUser" ) == "enabled" )
+        include( "ezuser/admin/menubox.php" );
+
+    
+//      include( "useradmin.php" );
 
 
     // break the column an draw a horizontal line
@@ -71,21 +78,21 @@ if ( $session->get( $AuthenticatedSession ) == 0 )
     $url_array = explode( "/", $REQUEST_URI );
 
     
-    // send the URI to the right decoder
-    $page = "ez" . $url_array[1] . "/admin/datasupplier.php";
+     // send the URI to the right decoder
+     $page = "ez" . $url_array[1] . "/admin/datasupplier.php";
 
-    // handle users
-    if ( $url_array[1] == "user" )
-    {
-        if ( $url_array[2] == "logout" )
-        {
-            $page = "logout.php";
-        }
-        else
-        {
-            $page = "userlist.php";
-        }
-    }
+//      // handle users
+//      if ( $url_array[1] == "user" )
+//      {
+//          if ( $url_array[2] == "logout" )
+//          {
+//              $page = "logout.php";
+//          }
+//          else
+//          {
+//              $page = "userlist.php";
+//          }
+//      }
 
     if ( file_exists( $page ) )
     {
@@ -96,21 +103,21 @@ if ( $session->get( $AuthenticatedSession ) == 0 )
         // Load the default page
         include( "main.php" );
     }        
-}
-else
-{
-    include( "separator.php" );
+// }
+//  else
+//  //  {
+//      include( "separator.php" );
     
-    $t->set_file( "login", "./templates/login.tpl" );
+//      $t->set_file( "login", "./templates/login.tpl" );
     
-    if( !isset( $message ) )
-    {
-        $message = "Skriv inn brukernavn og passord!";
-    }
+//      if( !isset( $message ) )
+//      {
+//          $message = "Skriv inn brukernavn og passord!";
+//      }
     
-    $t->set_var( "text", $message );
-    $t->pparse( "output", "login" );
-}
+//      $t->set_var( "text", $message );
+//      $t->pparse( "output", "login" );
+//  }
 
 // html footer
 include( "footer.php" );
