@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezdate.php,v 1.8 2001/01/07 15:56:31 bf Exp $
+// $Id: ezdate.php,v 1.9 2001/01/11 22:09:49 jb Exp $
 //
 // Definition of eZCompany class
 //
@@ -136,7 +136,7 @@ class eZDate
     }
     
     /*!
-        Returns the date foramtted for mySQL...
+        Returns the date formatted for mySQL...
      */
     function mySQLDate()
     {
