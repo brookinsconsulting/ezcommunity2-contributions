@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: search.php,v 1.4 2001/01/22 14:43:00 jb Exp $
+// $Id: search.php,v 1.5 2001/03/01 11:15:15 pkej Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <12-Oct-2000 20:33:02 bf>
@@ -104,8 +104,15 @@ if ( $QueryString != "" )
         $t->set_var( "message_id", $message->id() );
         
         $user = $message->user();
-        
-        $t->set_var( "user", $user->firstName() . " " . $user->lastName() );
+
+        if( $user->id() == 0 )
+        {
+            $t->set_var( "user", $ini->read_var( "eZForumMain", "AnonymousPoster" ) );
+        }
+        else
+        {
+            $t->set_var( "user", $user->firstName() . " " . $user->lastName() );
+        }
 
         $prevOffs = $Offset - $Limit;
         $nextOffs = $Offset + $Limit;
