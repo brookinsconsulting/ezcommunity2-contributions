@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: articlelist.php,v 1.10 2000/10/25 18:19:56 bf-cvs Exp $
+// $Id: articlelist.php,v 1.11 2000/10/26 11:07:13 bf-cvs Exp $
 //
 // 
 //
@@ -25,6 +25,7 @@ include_once( "ezarticle/classes/ezarticlerenderer.php" );
 $ini = new INIFIle( "site.ini" );
 
 $Language = $ini->read_var( "eZArticleMain", "Language" );
+$ImageDir = $ini->read_var( "eZArticleMain", "ImageDir" );
 
 $t = new eZTemplate( "ezarticle/user/" . $ini->read_var( "eZArticleMain", "TemplateDir" ),
                      "ezarticle/user/intl/", $Language, "articlelist.php" );
@@ -48,6 +49,8 @@ $t->set_block( "article_list_tpl", "article_item_tpl", "article_item" );
 
 $t->set_block( "article_item_tpl", "article_image_tpl", "article_image" );
 
+// image dir
+$t->set_var( "image_dir", $ImageDir );
 
 $category = new eZArticleCategory( $CategoryID );
 
