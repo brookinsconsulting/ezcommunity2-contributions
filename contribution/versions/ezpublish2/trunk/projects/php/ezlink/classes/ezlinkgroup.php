@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezlinkgroup.php,v 1.35 2000/10/30 13:05:43 ce-cvs Exp $
+// $Id: ezlinkgroup.php,v 1.36 2000/10/31 08:39:27 ce-cvs Exp $
 //
 // Definition of eZLinkGroup class
 //
@@ -150,7 +150,7 @@ class eZLinkGroup
         
         if ( $parent != 0 )
         {
-            $path = array_merge( $path, $this->path( $parent->id() ) );
+            $path = array_merge( $path, $this->path( $parent ) );
         }
         else
         {
