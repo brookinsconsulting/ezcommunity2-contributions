@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezforumcategory.php,v 1.19 2000/10/13 12:52:25 ce-cvs Exp $
+// $Id: ezforumcategory.php,v 1.20 2000/10/17 09:46:49 ce-cvs Exp $
 //
 // Definition of eZForumCategory class
 //
@@ -17,17 +17,17 @@
 //! The eZForumCategory class handles forum categories.
 /*!
   
-  \sa eZForumForum
+  \sa eZForum
 */
 
 
 /*!TODO
-  Rename the SQL tables and Id -> ID.
+  
 
 */
 
 include_once( "classes/ezdb.php" );
-include_once( "ezforum/classes/ezforumforum.php" );
+include_once( "ezforum/classes/ezforum.php" );
 
 class eZForumCategory
 {
@@ -66,7 +66,7 @@ class eZForumCategory
 
         if ( !isset( $this->ID ) )
         {
-            $this->Database->query( "INSERT INTO ezforum_CategoryTable SET
+            $this->Database->query( "INSERT INTO eZForum_Category SET
 		                         Name='$this->Name',
 		                         Description='$this->Description'
                                  " );
@@ -77,7 +77,7 @@ class eZForumCategory
         }
         else
         {
-            $this->Database->query( "UPDATE ezforum_CategoryTable SET
+            $this->Database->query( "UPDATE eZForum_Category SET
 		                         Name='$this->Name',
 		                         Description='$this->Description'
                                  WHERE ID='$this->ID'
@@ -97,7 +97,7 @@ class eZForumCategory
         print( $this->ID );
         $this->dbInit();
 
-        $this->Database->query( "DELETE FROM ezforum_CategoryTable WHERE ID='$this->ID'" );
+        $this->Database->query( "DELETE FROM eZForum_Category WHERE ID='$this->ID'" );
         
         return true;
     }
@@ -113,14 +113,14 @@ class eZForumCategory
         
         if ( $id != "" )
         {
-            $this->Database->array_query( $category_array, "SELECT * FROM ezforum_CategoryTable WHERE ID='$id'" );
+            $this->Database->array_query( $category_array, "SELECT * FROM eZForum_Category WHERE ID='$id'" );
             if ( count( $category_array ) > 1 )
             {
                 die( "Error: Category's with the same ID was found in the database. This shouldent happen." );
             }
             else if( count( $category_array ) == 1 )
             {
-                $this->ID = $category_array[0][ "Id" ];
+                $this->ID = $category_array[0][ "ID" ];
                 $this->Name = $category_array[0][ "Name" ];
                 $this->Description = $category_array[0][ "Description" ];
 
@@ -146,8 +146,8 @@ class eZForumCategory
 
         $this->dbInit();
 
-        $this->Database->array_query( $category_array, "SELECT Id as ID FROM
-                                                       ezforum_CategoryTable" );
+        $this->Database->array_query( $category_array, "SELECT ID FROM
+                                                       eZForum_Category" );
                                                      
         $ret = array();
 
@@ -169,15 +169,15 @@ class eZForumCategory
         
        $this->dbInit();
 
-       $this->Database->array_query( $forum_array, "SELECT Id as ID FROM
-                                                       ezforum_ForumTable
-                                                       WHERE CategoryId='$this->ID'" );
+       $this->Database->array_query( $forum_array, "SELECT ID FROM
+                                                       eZForum_Forum
+                                                       WHERE CategoryID='$this->ID'" );
 
        $ret = array();
 
        foreach ( $forum_array as $forum )
        {
-           $ret[] = new eZForumForum( $forum["ID"] );
+           $ret[] = new eZForum( $forum["ID"] );
        }
        
        return $ret;
@@ -191,20 +191,13 @@ class eZForumCategory
     {
         $this->dbInit();
 
-        $this->Database->array_query( $category_array, "SELECT Id as ID FROM ezforum_CategoryTable" );
-  //        $query_id = mysql_query( "SELECT * FROM ezforum_CategoryTable" )
-//               or die("eZforumCategory::getAllCategories() failed, dying...");
+        $this->Database->array_query( $category_array, "SELECT ID FROM eZForum_Category" );
 
         $ret = array();
         foreach( $category_array as $category )
         {
             $ret[] = new eZForumCategory( $category["ID"] );
         }
-//          for ($i = 0;$i < mysql_num_rows( $query_id ); $i++ )
-//          {
-//              $returnArray[$i] = mysql_fetch_array($query_id);   
-//          }
-//          return $returnArray;
         return $ret;
     }
 

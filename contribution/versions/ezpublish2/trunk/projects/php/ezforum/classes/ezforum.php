@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezforumforum.php,v 1.26 2000/10/13 15:38:08 ce-cvs Exp $
+// $Id: ezforum.php,v 1.1 2000/10/17 09:46:49 ce-cvs Exp $
 //
 // 
 //
@@ -14,17 +14,13 @@
 //
 
 //!! eZForum
-//! The eZForumForum class handles forum's in the database.
+//! The eZForum class handles forum's in the database.
 /*!
   
   \sa eZForumMessage \eZForumCategory
 */
 
 /*!TODO
-  Rename SQL tables and Id->ID.
-
-  CategoryId -> CategoryID
-  
   Moderated='$this->Moderated',  Private='$this->Private' to use enum( 'true', 'false' )
   and use bool in the class. Rename the functions an variables to IsModerated and IsPrivate.  
 */
@@ -34,12 +30,12 @@ include_once( "classes/ezquery.php" );
 include_once( "ezforum/classes/ezforummessage.php" );
 
 
-class eZForumForum
+class eZForum
 {
     /*!
-      Constructs a new eZForumForum object.
+      Constructs a new eZForum object.
     */
-    function eZForumForum( $id="", $fetch=true )
+    function eZForum( $id="", $fetch=true )
     {
         $this->IsConnected = false;
 
@@ -63,7 +59,7 @@ class eZForumForum
     }
 
     /*!
-      Stores a eZForumForum object to the database.
+      Stores a eZForum object to the database.
     */
     function store()
     {
@@ -71,8 +67,8 @@ class eZForumForum
 
         if ( !isset( $this->ID ) )
         {
-            $this->Database->query( "INSERT INTO ezforum_ForumTable SET
-		                         CategoryId='$this->CategoryID',
+            $this->Database->query( "INSERT INTO eZForum_Forum SET
+		                         CategoryID='$this->CategoryID',
 		                         Name='$this->Name',
 		                         Description='$this->Description',
 		                         Moderated='$this->Moderated',
@@ -85,8 +81,8 @@ class eZForumForum
         }
         else
         {
-            $this->Database->query( "UPDATE ezforum_ForumTable SET
-		                         CategoryId='$this->CategoryID',
+            $this->Database->query( "UPDATE ezforum_Forum SET
+		                         CategoryID='$this->CategoryID',
 		                         Name='$this->Name',
 		                         Description='$this->Description',
 		                         Moderated='$this->Moderated',
@@ -107,7 +103,7 @@ class eZForumForum
     {
         $this->dbInit();
 
-        $this->Database->query( "DELETE FROM ezforum_ForumTable WHERE ID='$this->ID'" );
+        $this->Database->query( "DELETE FROM eZForum_Forum WHERE ID='$this->ID'" );
         
         return true;
     }
@@ -123,14 +119,14 @@ class eZForumForum
         
         if ( $id != "" )
         {
-            $this->Database->array_query( $forum_array, "SELECT * FROM ezforum_ForumTable WHERE ID='$id'" );
+            $this->Database->array_query( $forum_array, "SELECT * FROM eZForum_Forum WHERE ID='$id'" );
             if ( count( $forum_array ) > 1 )
             {
                 die( "Error: Forum's with the same ID was found in the database. This shouldent happen." );
             }
             else if( count( $forum_array ) == 1 )
             {
-                $this->ID = $forum_array[0][ "Id" ];
+                $this->ID = $forum_array[0][ "ID" ];
                 $this->CategoryID = $forum_array[0][ "CategoryId" ];
                 $this->Name = $forum_array[0][ "Name" ];
                 $this->Description = $forum_array[0][ "Description" ];
@@ -168,14 +164,14 @@ class eZForumForum
 
         $this->dbInit();
 
-        $this->Database->array_query( $forum_array, "SELECT Id as ID FROM
-                                                       ezforum_ForumTable WHERE CategoryId='$CategoryID'" );
+        $this->Database->array_query( $forum_array, "SELECT ID FROM
+                                                       eZForum_Forum WHERE CategoryID='$CategoryID'" );
                                                      
         $ret = array();
 
         foreach ( $forum_array as $forum )
             {
-                $ret[] = new eZForumForum( $forum["ID"] );
+                $ret[] = new eZForum( $forum["ID"] );
             }
 
         return $ret;
@@ -193,9 +189,9 @@ class eZForumForum
         
        $this->dbInit();
 
-       $this->Database->array_query( $message_array, "SELECT Id as ID FROM
-                                                       ezforum_MessageTable
-                                                       WHERE ForumId='$this->ID' ORDER BY PostingTime DESC" );
+       $this->Database->array_query( $message_array, "SELECT ID FROM
+                                                       eZForum_Message
+                                                       WHERE ForumID='$this->ID' ORDER BY PostingTime DESC" );
 
        $ret = array();
 
@@ -219,7 +215,7 @@ class eZForumForum
 
        $query = new eZQuery( array( "Topic", "Body" ), $query );
                
-       $query_str = "SELECT Id as ID FROM ezforum_MessageTable WHERE (" .
+       $query_str = "SELECT ID FROM eZForum_Message WHERE (" .
              $query->buildQuery()  .
              ") ORDER BY PostingTime LIMIT $offset, $limit";       
 
@@ -245,7 +241,7 @@ class eZForumForum
 
         $query = new eZQuery( array( "Topic", "Body" ), $query );
 
-        $query_str = "SELECT count(Id) AS Count FROM ezforum_MessageTable WHERE (" . $query->buildQuery() . ") ORDER BY PostingTime";
+        $query_str = "SELECT count(ID) AS Count FROM eZForum_Message WHERE (" . $query->buildQuery() . ") ORDER BY PostingTime";
         
         $this->Database->array_query( $message_array, $query_str );
 
@@ -269,9 +265,9 @@ class eZForumForum
         
        $this->dbInit();
 
-       $this->Database->array_query( $message_array, "SELECT Id as ID FROM
-                                                       ezforum_MessageTable
-                                                       WHERE ForumId='$this->ID' ORDER BY TreeID DESC LIMIT $offset,$limit" );
+       $this->Database->array_query( $message_array, "SELECT ID FROM
+                                                       eZForum_Message
+                                                       WHERE ForumID='$this->ID' ORDER BY TreeID DESC LIMIT $offset,$limit" );
 
        $ret = array();
 
@@ -295,9 +291,9 @@ class eZForumForum
         
        $this->dbInit();
 
-       $this->Database->array_query( $message_array, "SELECT Id as ID FROM
-                                                       ezforum_MessageTable
-                                                       WHERE ForumId='$this->ID' AND ThreadID='$threadID' ORDER BY TreeID DESC LIMIT $offset,$limit" );
+       $this->Database->array_query( $message_array, "SELECT ID FROM
+                                                       eZForum_Message
+                                                       WHERE ForumID='$this->ID' AND ThreadID='$threadID' ORDER BY TreeID DESC LIMIT $offset,$limit" );
 
        $ret = array();
 
@@ -444,9 +440,9 @@ class eZForumForum
 
        $this->dbInit();
 
-       $this->Database->array_query( $message_array, "SELECT Id as ID FROM
-                                                       ezforum_MessageTable
-                                                       WHERE ForumId='$this->ID' GROUP BY ThreadID" );
+       $this->Database->array_query( $message_array, "SELECT ID FROM
+                                                       eZForum_Message
+                                                       WHERE ForumID='$this->ID' GROUP BY ThreadID" );
 
        $ret = count( $message_array );
 
@@ -463,9 +459,9 @@ class eZForumForum
 
        $this->dbInit();
 
-       $this->Database->array_query( $message_array, "SELECT Id as ID FROM
-                                                       ezforum_MessageTable
-                                                       WHERE ForumId='$this->ID'" );
+       $this->Database->array_query( $message_array, "SELECT ID FROM
+                                                       eZForum_Message
+                                                       WHERE ForumID='$this->ID'" );
 
        $ret = count( $message_array );
 

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezforummessage.php,v 1.52 2000/10/16 10:01:37 bf-cvs Exp $
+// $Id: ezforummessage.php,v 1.53 2000/10/17 09:46:49 ce-cvs Exp $
 //
 // Definition of eZCompany class
 //
@@ -20,8 +20,6 @@
 */
 
 /*!TODO
-  Rename tables and sql row names Id -> ID.
-
   EmailNotice to use enum( true, false) and bool in the class.
 */
 
@@ -31,7 +29,7 @@ include_once( "ezuser/classes/ezuser.php" );
 class eZForumMessage
 {
     /*!
-      Constructs a new eZForumForum object.
+      Constructs a new eZForumMessage object.
     */
     function eZForumMessage( $id="", $fetch=true )
     {
@@ -59,7 +57,7 @@ class eZForumMessage
     }
 
     /*!
-      Stores a eZForumForum object to the database.
+      Stores a eZForumMessage object to the database.
     */
     function store()
     {
@@ -72,7 +70,7 @@ class eZForumMessage
             { // new node
 
                 // find the biggest treeID
-                $this->Database->array_query( $result, "SELECT TreeID FROM ezforum_MessageTable ORDER BY TreeID DESC LIMIT 1" );
+                $this->Database->array_query( $result, "SELECT TreeID FROM eZForum_Message ORDER BY TreeID DESC LIMIT 1" );
 
                 $this->Depth = 0;
                 if ( count( $result ) > 0 )
@@ -85,7 +83,7 @@ class eZForumMessage
                 }
 
                 // get the biggest thread ID
-                $this->Database->array_query( $result, "SELECT ThreadID FROM ezforum_MessageTable WHERE Parent='0' ORDER BY TreeID DESC LIMIT 1" );
+                $this->Database->array_query( $result, "SELECT ThreadID FROM eZForum_Message WHERE Parent='0' ORDER BY TreeID DESC LIMIT 1" );
 
                 if ( count( $result ) > 0 )
                 {
@@ -96,11 +94,11 @@ class eZForumMessage
                     $this->ThreadID = 0;
                 }                
                      
-                $this->Database->query( "INSERT INTO ezforum_MessageTable SET
-		                         ForumId='$this->ForumID',
+                $this->Database->query( "INSERT INTO eZForum_Message SET
+		                         ForumID='$this->ForumID',
 		                         Topic='$this->Topic',
 		                         Body='$this->Body',
-		                         UserId='$this->UserID',
+		                         UserID='$this->UserID',
 		                         Parent='$this->ParentID',
 		                         TreeID='$this->TreeID',
 		                         ThreadID='$this->ThreadID',
@@ -114,7 +112,7 @@ class eZForumMessage
             { // child node
 
                 // find the TreeID, ThreadID and Depth of the parent
-                $this->Database->array_query( $result, "SELECT TreeID, ThreadID, Depth FROM ezforum_MessageTable
+                $this->Database->array_query( $result, "SELECT TreeID, ThreadID, Depth FROM eZForum_Message
                                                         WHERE ID='$this->ParentID'
                                                         ORDER BY TreeID DESC LIMIT 1" );
 
@@ -131,13 +129,13 @@ class eZForumMessage
                     $this->Depth = $d + 1;
                     
                     // update the whole tree's ThreeID.
-                    $this->Database->query( "UPDATE ezforum_MessageTable SET TreeID=(TreeID +1 ) WHERE TreeID >= $parentID" );
+                    $this->Database->query( "UPDATE eZForum_Message SET TreeID=(TreeID +1 ) WHERE TreeID >= $parentID" );
 
-                    $this->Database->query( "INSERT INTO ezforum_MessageTable SET
-		                         ForumId='$this->ForumID',
+                    $this->Database->query( "INSERT INTO ezforum_Message SET
+		                         ForumID='$this->ForumID',
 		                         Topic='$this->Topic',
 		                         Body='$this->Body',
-		                         UserId='$this->UserID',
+		                         UserID='$this->UserID',
 		                         Parent='$this->ParentID',
 		                         TreeID='$this->TreeID',
 		                         ThreadID='$this->ThreadID',
@@ -163,11 +161,11 @@ class eZForumMessage
         }
         else
         {
-            $this->Database->query( "UPDATE ezforum_MessageTable SET
-		                         ForumId='$this->ForumID',
+            $this->Database->query( "UPDATE eZForum_Message SET
+		                         ForumID='$this->ForumID',
 		                         Topic='$this->Topic',
 		                         Body='$this->Body',
-		                         UserId='$this->UserID',
+		                         UserID='$this->UserID',
 		                         Parent='$this->ParentID',
 		                         EmailNotice='$this->EmailNotice'
                                  WHERE ID='$this->ID'
@@ -186,7 +184,7 @@ class eZForumMessage
     {
         $this->dbInit();
 
-        $this->Database->query( "DELETE FROM ezforumMessageTable WHERE ID='$this->ID'" );
+        $this->Database->query( "DELETE FROM eZForum_Meessage WHERE ID='$this->ID'" );
         
         return true;
     }
@@ -202,18 +200,18 @@ class eZForumMessage
         
         if ( $id != "" )
         {
-            $this->Database->array_query( $message_array, "SELECT * FROM ezforum_MessageTable WHERE ID='$id'" );
+            $this->Database->array_query( $message_array, "SELECT * FROM eZForum_Message WHERE ID='$id'" );
             if ( count( $message_array ) > 1 )
             {
                 die( "Error: Message's with the same ID was found in the database. This shouldn't happen." );
             }
             else if( count( $message_array ) == 1 )
             {
-                $this->ID = $message_array[0][ "Id" ];
-                $this->ForumID = $message_array[0][ "ForumId" ];
+                $this->ID = $message_array[0][ "ID" ];
+                $this->ForumID = $message_array[0][ "ForumID" ];
                 $this->Topic = $message_array[0][ "Topic" ];
                 $this->Body = $message_array[0][ "Body" ];
-                $this->UserID = $message_array[0][ "UserId" ];
+                $this->UserID = $message_array[0][ "UserID" ];
                 $this->ParentID = $message_array[0][ "Parent" ];
                 $this->PostingTime = $message_array[0][ "PostingTime" ];
                 $this->EmailNotice = $message_array[0][ "EmailNotice" ];
@@ -233,26 +231,6 @@ class eZForumMessage
         }
         return $ret;
     }
-
-
-//      /*!
-//        Searches the forum and returnes the result.
-//      */
-//      function search( $criteria )
-//      {
-//          $this->dbInit();
-
-
-        
-//          $query_id = mysql_query( "SELECT Id, Topic, UserId, Parent, PostingTime FROM ezforum_MessageTable
-//                        WHERE Topic LIKE '%$criteria%' OR Body LIKE '%$criteria%'" )
-//              or die("Could not execute search, dying...");
-
-//          for ( $i = 0; $i < mysql_num_rows( $query_id ); $i++ )
-//              $resultArray[$i] = mysql_fetch_array( $query_id );
-
-//          return $resultArray;
-//      }
 
     /*!
       Returns the object id.
@@ -276,12 +254,12 @@ class eZForumMessage
     /*!
       
     */      
-    function setForumId( $newForumId )
+    function setForumID( $newForumID )
     {
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
         
-        $this->ForumID = $newForumId;
+        $this->ForumID = $newForumID;
     }
     
     /*!
@@ -370,7 +348,7 @@ class eZForumMessage
             $this->get( $this->ID );
         
         
-        return $this->UserId;
+        return $this->UserID;
     }
 
     /*!
@@ -389,12 +367,12 @@ class eZForumMessage
     /*!
       
     */      
-    function setUserId( $newUserId )
+    function setUserID( $newUserID )
     {
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
         
-        $this->UserID = $newUserId;
+        $this->UserID = $newUserID;
     }
 
     /*!
@@ -508,15 +486,15 @@ class eZForumMessage
     /*!
       
     */      
-    function countMessages( $Id )
+    function countMessages( $ID )
     {
         $this->dbInit();
         
-        $query_id = mysql_query("SELECT COUNT(Id) AS Messages
-                             FROM ezforum_MessageTable
-                             WHERE ForumId='$Id'
+        $query_id = mysql_query("SELECT COUNT(ID) AS Messages
+                             FROM eZForum_Message
+                             WHERE ForumID='$ID'
                              AND Parent IS NULL")
-             or die("eZForumMessage::countMessages($Id) failed, dying...");
+             or die("eZForumMessage::countMessages($ID) failed, dying...");
         
         return mysql_result($query_id,0,"Messages");
     }
@@ -524,11 +502,11 @@ class eZForumMessage
     /*!
       
     */      
-    function countReplies( $Id )
+    function countReplies( $ID )
     {
         $this->dbInit();
          
-        $query_id = mysql_query("SELECT COUNT(Id) AS replies FROM ezforum_MessageTable WHERE Parent='$Id'")
+        $query_id = mysql_query("SELECT COUNT(ID) AS replies FROM eZForum_Message WHERE Parent='$ID'")
              or die("could not count replies, dying");
          
         return mysql_result($query_id,0,"replies");
