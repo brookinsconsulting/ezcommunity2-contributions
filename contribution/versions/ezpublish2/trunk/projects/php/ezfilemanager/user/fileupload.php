@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: fileupload.php,v 1.31 2001/07/26 08:29:48 jhe Exp $
+// $Id: fileupload.php,v 1.32 2001/08/15 14:37:23 bf Exp $
 //
 // Created on: <10-Dec-2000 15:49:57 bf>
 //
@@ -74,7 +74,7 @@ if ( isSet ( $Download ) )
     exit();
 }
 
-$user = eZUser::currentUser();
+$user =& eZUser::currentUser();
 
 if ( !$user )
 {
@@ -137,10 +137,11 @@ if ( $Action == "Insert" || $Action == "Update" )
     {
         $folder = new eZVirtualFolder( $FolderID );
         
-        if ( eZObjectPermission::hasPermission( $folder, "filemanager_folder", "w", $user ) != true )
+        if ( eZObjectPermission::hasPermission( $folder->id(), "filemanager_folder", "w", $user ) == false )
         {
             $t->parse( "write_permission", "error_write_permission" ); 
             $error = true;
+            print( "$FolderID error" );
         }
     }
 
