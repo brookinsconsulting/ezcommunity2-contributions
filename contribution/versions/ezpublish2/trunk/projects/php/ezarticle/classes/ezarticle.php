@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezarticle.php,v 1.109 2001/07/03 14:33:50 bf Exp $
+// $Id: ezarticle.php,v 1.110 2001/07/04 08:47:48 jb Exp $
 //
 // Definition of eZArticle class
 //
@@ -760,7 +760,10 @@ class eZArticle
     */
     function setContentsWriter( $author )
     {
-        $this->ContentsWriterID = $author->id();
+        if ( is_numeric( $author ) )
+            $this->ContentsWriterID = $author;
+        else
+            $this->ContentsWriterID = $author->id();
     }
 
     /*!
