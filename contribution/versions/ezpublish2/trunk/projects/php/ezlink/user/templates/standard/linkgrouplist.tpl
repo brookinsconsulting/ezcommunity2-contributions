@@ -41,7 +41,11 @@
 </tr>
 <!-- BEGIN group_item_tpl -->
 <tr>
-        <td class="{td_class}" width="20%">
+	<td class="{td_class}" valign="top" width="80%">
+	<b><a href="/link/group/{linkgroup_id}/">{linkgroup_title}</a></b><br />
+	<div class="spacer"><span class="p">{linkgroup_description}</span></div>
+	</td>
+    <td class="{td_class}" width="20%">
 	<!-- BEGIN image_item_tpl -->
 	<a href="/link/group/{linkgroup_id}/">
 	<img src="{image_url}" alt="{image_caption}" width="{image_width}" height="{image_height}" /></a>
@@ -49,13 +53,7 @@
 	<!-- BEGIN no_image_tpl -->
 	&nbsp;
 	<!-- END no_image_tpl -->
-        </td>
-	<td class="{td_class}" valign="top" width="80%">
-	<b><a href="/link/group/{linkgroup_id}/">{linkgroup_title}</a></b>
-	<p>
-	{linkgroup_description}
-	</p>
-	</td>
+    </td>
 </tr>
 <!-- END group_item_tpl -->
 </table>
@@ -71,18 +69,16 @@
 </tr>
 <!-- BEGIN link_item_tpl -->
 <tr>
+	<td  width="80%"  valign="top" class="{td_class}">
+	<b><a href="/link/gotolink/addhit/{link_id}/?Url={link_url}"  target="_blank">{link_title}</a></b><br />
+    <div class="spacer"><span class="p">{link_description}</span><br />
+	<span class="small">(Hits: {link_hits})</span></div>
+   	</td>
 	<td  width="20%" valign="top"  class="{td_class}">
 	<!-- BEGIN link_image_item_tpl -->
 	<img src="{image_url}" alt="{image_caption}" width="{image_width}" height="{image_height}" />
 	<!-- END link_image_item_tpl -->
 	</td>
-	<td  width="80%"  valign="top" class="{td_class}">
-
-	<b><a href="/link/gotolink/addhit/{link_id}/?Url={link_url}"  target="_blank">{link_title}</a></b><br />
-        {link_description}
-	<br />
-	(Hits: {link_hits})
-     	</td>
 </tr>
 <!-- END link_item_tpl -->
 </table>
