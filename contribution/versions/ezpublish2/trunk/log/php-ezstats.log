@@ -514,3 +514,12 @@ Maintainer(s) : br@ez.no
     * admin/cron.php:
     - Fixed bugs with no escaping of database variables in cron for eZStats
 
+
+Module : ezstats
+Repository path : /home/cvsroot/projects/php/ezstats
+Maintainer(s) : br@ez.no
+2004-07-08  Bjoern Reiten  <br@ez.no>
+
+    * admin/cron.php
+      classes/ezpageviewquery.php: - Fixed bugs with timestamp in eZ stats.
+

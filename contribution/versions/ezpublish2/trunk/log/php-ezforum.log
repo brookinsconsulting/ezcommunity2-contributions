@@ -1283,3 +1283,12 @@ Maintainer(s) : jhe@ez.no
     - Fixed bug. In moderated forums, notifications are now sendt when message is approved (not when
       message is submitted)
 
+
+Module : ezforum
+Repository path : /home/cvsroot/projects/php/ezforum
+Maintainer(s) : jhe@ez.no
+2004-07-08  Bjoern Reiten  <br@ez.no>
+
+    * user/messagebody.php:
+    - Fixed bug with newlines when posting a new message in forum.
+

@@ -3726,3 +3726,12 @@ Maintainer(s) : bf@ez.no
     * user/datasupplier.php
       user/search.php: - Fixed bug with escape of strings in search.
 
+
+Module : ezarticle
+Repository path : /home/cvsroot/projects/php/ezarticle
+Maintainer(s) : bf@ez.no
+2004-07-08  Bjoern Reiten  <br@ez.no>
+
+    * user/frontpage.php:
+    - Fixed bug with price and vat on singlepoduct on the frontpage.
+
