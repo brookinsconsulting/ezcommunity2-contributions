@@ -46,15 +46,15 @@
 </p>
 
 <!-- BEGIN attached_file_list_tpl -->
-<p class="boxtext">{intl-attached_files}:</p>
+<h2>{intl-attached_files}:</h2>
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
 <!-- BEGIN attached_file_tpl -->
 <tr class="{td_class}">
-     <td width="20%">
+     <td>
      {file_name}
      </td>
-     <td width="80%">
-     <div class="p"><a href="/filemanager/download/{file_id}/{original_file_name}/">( {original_file_name} {file_size}&nbsp;{file_unit} )</a></div>
+     <td align="right">
+     <div class="p"><a href="/filemanager/download/{file_id}/{original_file_name}/">{original_file_name} {file_size}&nbsp;{file_unit}</a></div>
      </td>
 </tr>
 <tr class="{td_class}">
@@ -96,7 +96,7 @@
 <!-- END numbered_page_link_tpl -->
 
 <!-- BEGIN print_page_link_tpl -->
-<!-- | <a class="path" href="/article/articleprint/{article_id}/">{intl-print_page}</a> | -->
+| <a class="path" href="/article/articleprint/{article_id}/">{intl-print_page}</a> |
 <!-- END print_page_link_tpl -->
 </div>
 
