@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: payment.php,v 1.18 2001/03/13 13:24:45 bf Exp $
+// $Id: payment.php,v 1.19 2001/03/13 13:48:42 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <02-Feb-2001 16:31:53 bf>
@@ -160,11 +160,37 @@ if ( $PaymentSuccess == "true" )
     
     $user = $order->user();
 
-    $mailTemplate->set_var( "user_first_name", $user->firstName() );
-    $mailTemplate->set_var( "user_last_name", $user->lastName() );
 
-   // print out the addresses
+    // name to ship to
+    
+    $mailTemplate->set_var( "customer_first_name", $user->firstName() );
+    $mailTemplate->set_var( "customer_last_name", $user->lastName() );
+    
+    $shippingUser = $order->shippingUser();
+    
+    if ( $shippingUser )
+    {
+        $mailTemplate->set_var( "shipping_customer_first_name", $shippingUser->firstName() );
+        $mailTemplate->set_var( "shipping_customer_last_name", $shippingUser->lastName() );
+    }
 
+    // the shipping type text
+    $shippingType = $order->shippingType();
+    if ( $shippingType )
+    {    
+        $mailTemplate->set_var( "shipping_type", $shippingType->name() );
+    }
+
+
+    // payment method text
+    $checkout = new eZCheckout();
+    $instance =& $checkout->instance();
+    $paymentMethod = $instance->paymentName( $order->paymentMethod() );
+
+    $t->set_var( "payment_method", $paymentMethod );
+    
+    
+    // print out the addresses
     $mailTemplate->set_var( "billing_street1", $billingAddress->street1() );
     $mailTemplate->set_var( "billing_street2", $billingAddress->street2() );
     $mailTemplate->set_var( "billing_zip", $billingAddress->zip() );

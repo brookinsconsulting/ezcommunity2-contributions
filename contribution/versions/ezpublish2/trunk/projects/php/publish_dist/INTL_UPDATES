@@ -194,3 +194,10 @@ vat_type=VAT type
 mod: eztrade/user ordersendt.php.ini
 change: added
 shipping_type=Shipping type
+
+mod: eztrade/user mailorder.php.ini
+change: added
+other_instructions_on_web_site=For further instructions please visit:
+shipping_type=Shipping type
+payment_method=Payment method
+
