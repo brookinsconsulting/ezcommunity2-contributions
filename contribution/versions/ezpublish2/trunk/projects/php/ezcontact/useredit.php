@@ -8,14 +8,14 @@ require "ezusergroup.php";
 
 // sjekke session
 {
-  include( "checksession.php" );
+    include( "checksession.php" );
 }
 
 $t = new Template( "." );
 $t->set_file( array(
-                    "user_edit_page" => "templates/useredit.tpl",
-                    "user_group_select" => "templates/usergroupselect.tpl"
-                    ) );    
+    "user_edit_page" => "templates/useredit.tpl",
+    "user_group_select" => "templates/usergroupselect.tpl"
+    ) );    
 
 $t->set_var( "submit_text", "Legg til" );
 $t->set_var( "action_value", "insert" );
@@ -42,7 +42,7 @@ if ( $Action == "update" )
   $user->get( $UID );
 
   $user->setLogin( $Login );
-  $user->setGroup( $Group );
+  $user->setGroup( $UserGroup );
 
   $user->update();
 }
@@ -56,25 +56,32 @@ if ( $Action == "edit" )
   $Group = $user->group();
  
   $t->set_var( "submit_text", "Lagre endringer" );
-  $menuTemplate->set_var( "action_value", "update" );
-  $menuTemplate->set_var( "user_id", $UID  );  
+  $t->set_var( "action_value", "update" );
+  $t->set_var( "user_id", $UID  );  
 }
-
-  
 
 $group = new eZUserGroup();
 $group_array = $group->getAll();
 
 for ( $i=0; $i<count( $group_array ); $i++ )
 {
-  $t->set_var( "user_group_id", $group_array[$i][ "ID" ] );
-  $t->set_var( "user_group_name", $group_array[$i][ "Name" ] );
-  
-  $t->parse( "user_group", "user_group_select", true );  
+    if  ( $Group == $group_array[$i][ "ID" ] )
+    {
+        $t->set_var( "is_selected", "selected" );
+    }
+    else
+    {
+        $t->set_var( "is_selected", "" );        
+    }
+        
+    $t->set_var( "user_group_id", $group_array[$i][ "ID" ] );
+    $t->set_var( "user_group_name", $group_array[$i][ "Name" ] );
+    
+    $t->parse( "user_group", "user_group_select", true );  
 }
 
 $t->set_var( "user_login", $Login );
-$t->set_var( "user_login", $Login );
+//$t->set_var( "user_group", $Group );
 
 
 $t->pparse( "output", "user_edit_page" );
