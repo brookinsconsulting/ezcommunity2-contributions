@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezformrenderer.php,v 1.11 2001/10/09 10:16:45 bf Exp $
+// $Id: ezformrenderer.php,v 1.12 2001/10/09 10:49:20 ce Exp $
 //
 // eZFormRenderer class
 //
@@ -70,9 +70,19 @@ class eZFormRenderer
         $this->Template->set_block( "form_renderer_page_tpl", "text_field_item_tpl", "text_field_item" );
         $this->Template->set_block( "form_renderer_page_tpl", "text_area_item_tpl", "text_area_item" );
         $this->Template->set_block( "form_renderer_page_tpl", "multiple_select_item_tpl", "multiple_select_item" );
-        $this->Template->set_block( "multiple_select_item_tpl", "sub_item_tpl", "sub_item" );
+        $this->Template->set_block( "multiple_select_item_tpl", "multiple_select_item_sub_item_tpl", "multiple_select_item_sub_item" );
         $this->Template->set_block( "form_renderer_page_tpl", "dropdown_item_tpl", "dropdown_item" );
-        $this->Template->set_block( "dropdown_item_tpl", "sub_item_tpl", "sub_item" );
+        $this->Template->set_block( "dropdown_item_tpl", "dropdown_item_sub_item_tpl", "dropdown_item_sub_item" );
+
+
+        
+        $this->Template->set_block( "form_renderer_page_tpl", "radiobox_item_tpl", "radiobox_item" );
+        $this->Template->set_block( "radiobox_item_tpl", "radiobox_item_sub_item_tpl", "radiobox_item_sub_item" );
+
+        $this->Template->set_block( "form_renderer_page_tpl", "checkbox_item_tpl", "checkbox_item" );
+        $this->Template->set_block( "checkbox_item_tpl", "checkbox_item_sub_item_tpl", "checkbox_item_sub_item" );
+
+
         $this->Template->set_block( "form_renderer_page_tpl", "form_list_tpl", "form_list" );
         $this->Template->set_block( "form_list_tpl", "form_item_tpl", "form_item" );
         $this->Template->set_block( "form_list_tpl", "form_start_tag_tpl", "form_start_tag" );
@@ -167,10 +177,16 @@ class eZFormRenderer
                 $subItems =& $element->fixedValues();
                 $this->Template->set_var( "sub_item", "" );
 
+                $type =& $element->elementType();
+
+                $name = $type->name();
+
+                $this->Template->set_var( $name . "_sub_item", "" );
+                
                 foreach ( $subItems as $subItem )
                 {
                     $this->Template->set_var( "sub_value", $subItem->value() );
-                    $this->Template->parse( "sub_item", "sub_item_tpl", true );
+                    $this->Template->parse( $name . "_sub_item", $name . "_sub_item_tpl", true );
                 }                
 
                 $output = $this->renderElement( $element );

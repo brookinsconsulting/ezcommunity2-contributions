@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: formedit.php,v 1.6 2001/10/09 09:50:55 bf Exp $
+// $Id: formedit.php,v 1.7 2001/10/09 10:49:20 ce Exp $
 //
 // Created on: <12-Jun-2001 13:07:24 pkej>
 //
@@ -369,7 +369,9 @@ if( $count > 0 )
             {
                 $name = $currentType->name();
                 if ( $name == "multiple_select_item" ||
-                $name == "dropdown_item"  )
+                     $name == "dropdown_item" ||
+                     $name == "radiobox_item" ||
+                     $name == "checkbox_item" )
                 {
                     $t->parse( "fixed_values", "fixed_values_tpl" );
                 }

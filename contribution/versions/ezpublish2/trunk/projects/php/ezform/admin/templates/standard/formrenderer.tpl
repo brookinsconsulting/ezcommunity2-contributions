@@ -6,21 +6,33 @@
 <textarea class="box" name="{field_name}" cols="40" rows="5" wrap="soft">{field_value}</textarea>
 <!-- END text_area_item_tpl -->
 
-<!-- BEGIN multiple_select_item_tpl -->
+<!-- BEGIN multiple_select_item_sub_item_tpl -->
 <select name="{field_name}[]" multiple="multiple" >
 <!-- BEGIN sub_item_tpl -->
 <option value="{sub_value}">{sub_value}</option>
-<!-- END sub_item_tpl -->
+<!-- END multiple_select_item_sub_item_tpl -->
 </select>
 <!-- END multiple_select_item_tpl -->
 
 <!-- BEGIN dropdown_item_tpl -->
 <select name="{field_name}">
-<!-- BEGIN sub_item_tpl -->
+<!-- BEGIN dropdown_item_sub_item_tpl -->
 <option value="{sub_value}">{sub_value}</option>
-<!-- END sub_item_tpl -->
+<!-- END dropdown_item_sub_item_tpl -->
 </select>
 <!-- END dropdown_item_tpl -->
+
+<!-- BEGIN radiobox_item_tpl -->
+<!-- BEGIN radiobox_item_sub_item_tpl -->
+{sub_value}: <input type="radio" name="{field_name}" />
+<!-- END radiobox_item_sub_item_tpl -->
+<!-- END radiobox_item_tpl -->
+
+<!-- BEGIN checkbox_item_tpl -->
+<!-- BEGIN checkbox_item_sub_item_tpl -->
+{sub_value}: <input type="checkbox" name="{field_name}[]" />
+<!-- END checkbox_item_sub_item_tpl -->
+<!-- END checkbox_item_tpl -->
 
 
 <!-- BEGIN error_list_tpl -->
