@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: index.php,v 1.115 2001/10/11 11:44:30 ce Exp $
+// $Id: index.php,v 1.116 2001/10/16 12:22:23 bf Exp $
 //
 // Created on: <09-Nov-2000 14:52:40 ce>
 //
@@ -71,17 +71,12 @@ $REQUEST_URI = $regs[1];
 
   
 $GLOBALS["DEBUG"] = true;
-$UsePHPSessions = false;
+$UsePHPSessions = true;
 
 ob_start();
 // Turn on output buffering with gz compression
 //ob_start("ob_gzhandler");
 
-  include_once( "classes/ezbenchmark.php" );
-
-  $bench = new eZBenchmark();
-  $bench->start();
-  
 
 if ( $UsePHPSessions == true )
 {
@@ -100,6 +95,7 @@ include_once( "classes/ezdb.php" );
 include_once( "classes/ezhttptool.php" );
 $ini =& INIFile::globalINI();
 $GlobalSiteIni =& $ini;
+
 
 // Set the global nVH variables.
 $GlobalSiteIni->Index = $index;
@@ -328,11 +324,10 @@ if ( ( $requireUserLogin == "disabled" ) ||
 
             if ( $DEBUG == true )
             {
-
-                print( "Section Debug $GlobalSectionID: <br>" );
-                print( "sitedesign: " . $sectionObject->siteDesign() . " <br>" );
-                print( "template: " . $sectionObject->templateStyle() . " <br>" );
-                print( "language: " . $sectionObject->language() . " <br>" );
+//                print( "Section Debug $GlobalSectionID: <br>" );
+//                print( "sitedesign: " . $sectionObject->siteDesign() . " <br>" );
+//                print( "template: " . $sectionObject->templateStyle() . " <br>" );
+//                print( "language: " . $sectionObject->language() . " <br>" );
             }
 
         
@@ -398,10 +393,5 @@ else
 $db =& eZDB::globalDatabase();
 $db->close();
 
-$bench->stop();
-
-// $bench->printResults();
-
 ob_end_flush();
-
 ?>
