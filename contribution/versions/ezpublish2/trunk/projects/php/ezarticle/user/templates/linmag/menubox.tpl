@@ -1,5 +1,4 @@
 <table width="100%" cellspacing="5" cellpadding="1" border="0">
-
 <!-- BEGIN submit_article_tpl -->
 
 <!-- END submit_article_tpl -->

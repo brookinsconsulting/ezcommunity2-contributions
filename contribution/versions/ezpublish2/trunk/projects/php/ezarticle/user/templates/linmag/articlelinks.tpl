@@ -1,6 +1,13 @@
 <!-- BEGIN article_list_tpl -->
 <table width="100%" cellspacing="5" cellpadding="1" border="0">
 
+<tr>
+	<td bgcolor="#9097b2">&nbsp;&#149&nbsp;<a class="menu" href="/link/category/0/">Linker</a></td>
+</tr>
+<tr>
+	<td bgcolor="#9097b2">&nbsp;&#149&nbsp;<a class="menu" href="/filemanager/list/">Nedlastning</a></td>
+</tr>
+
 <!-- BEGIN article_item_tpl -->
 <tr>
 	<td bgcolor="#9097b2">&nbsp;&#149&nbsp;<a class="menu" href="/article/articlestatic/{article_id}/1/{article_category_id}/">{article_name}</a></td>
