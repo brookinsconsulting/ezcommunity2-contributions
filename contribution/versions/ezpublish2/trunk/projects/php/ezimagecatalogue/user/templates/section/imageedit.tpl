@@ -75,7 +75,7 @@
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
     <td valign="top">
-    <p class="boxtext">{intl-read_permissions}</p>
+    <p class="boxtext">{intl-read_permissions}:</p>
     <select multiple size="5" name="ReadGroupArrayID[]">
     <option value="0" {read_everybody}>{intl-everybody}</option>
     <!-- BEGIN read_group_item_tpl -->
@@ -85,7 +85,7 @@
     <br /><br />
     </td>
     <td valign="top">
-    <p class="boxtext">{intl-write_permissions}</p>
+    <p class="boxtext">{intl-write_permissions}:</p>
     <select multiple size="5" name="WriteGroupArrayID[]">
     <option value="0" {write_everybody}>{intl-everybody}</option>
     <!-- BEGIN write_group_item_tpl -->
