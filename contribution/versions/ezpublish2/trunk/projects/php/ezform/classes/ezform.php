@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezform.php,v 1.5 2001/08/17 13:35:59 jhe Exp $
+// $Id: ezform.php,v 1.6 2001/10/01 10:46:30 pkej Exp $
 //
 // ezform class
 //
@@ -572,7 +572,7 @@ class eZForm
                                       FROM eZForm_FormElementDict WHERE FormID='$formID'" );
             
             $max =& $qry[$db->fieldName( "Placement" )];
-            echo "$max, $elementPlacement<br>";
+
             if( $max == $elementPlacement )
             {
                 $db->query_single( $qry, "SELECT min($db->fieldName( \"Placement\" ) ) as Placement

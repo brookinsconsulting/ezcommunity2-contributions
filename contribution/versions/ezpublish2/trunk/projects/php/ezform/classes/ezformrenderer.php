@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezformrenderer.php,v 1.5 2001/09/24 10:04:06 pkej Exp $
+// $Id: ezformrenderer.php,v 1.6 2001/10/01 10:46:30 pkej Exp $
 //
 // eZFormRenderer class
 //
@@ -316,12 +316,12 @@ class eZFormRenderer
                 }
                 else
                 {
-                    $content = $element->name() . ": " . $content . "\n\n" . $value;
+                    $content = $content  . "\n\n" . $element->name() . ":\n". $value;
                 }
             }
             else
             {
-                $content = $element->name() . ": " . $content . "\n\n" . $value;
+                $content = $content  . "\n\n" . $element->name() . ":\n". $value;
             }
         }
         
