@@ -29,6 +29,7 @@ switch ( $url_array[2] )
             }
             break;
 
+
             case "update":
             {
                 $Action = "update";
@@ -50,6 +51,13 @@ switch ( $url_array[2] )
     }
     break;
 
+    case "view":
+    {
+        $PositionID = $url_array[3];
+        include( "ezclassified/user/classifiedview.php" );
+    }
+    break;
+    
     case "list":
     case "classifiedlist":
     {

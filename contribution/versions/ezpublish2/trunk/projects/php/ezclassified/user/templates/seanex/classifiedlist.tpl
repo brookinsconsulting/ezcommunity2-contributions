@@ -77,7 +77,7 @@
 <!-- BEGIN classified_item_tpl -->
 <tr>
 	<td class="{td_class}">
-	<a href="/contact/company/view/{classified_id}/">{classified_name}</a>
+	<a href="/classified/view/{classified_id}/">{classified_name}</a>
 	</td>
 	<td class="{td_class}">
 	{company_name}
