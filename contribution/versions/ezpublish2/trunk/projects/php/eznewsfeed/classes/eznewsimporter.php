@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eznewsimporter.php,v 1.12 2001/07/20 11:21:41 jakobn Exp $
+// $Id: eznewsimporter.php,v 1.13 2001/08/23 17:49:39 br Exp $
 //
 // Definition of eZNewsImporter class
 //
@@ -68,7 +68,7 @@ class eZNewsImporter
      */
     function listDecoders( )
     {
-        $list = array( "nyheter.no", "rdf", "backslash" );
+        $list = array( "nyheter.no", "rdf", "rss", "backslash" );
         return $list;
     }
     
@@ -97,6 +97,15 @@ class eZNewsImporter
                 include_once( "eznewsfeed/classes/ezrdfimporter.php" );
                 
                 $importer = new eZRDFImporter( $this->Site, $this->Login, $this->Password );
+                $newsList =& $importer->news();
+            }
+            break;
+
+            case "rss" :
+            {
+                include_once( "eznewsfeed/classes/ezrssimporter.php" );
+                
+                $importer = new eZRSSImporter( $this->Site, $this->Login, $this->Password );
                 $newsList =& $importer->news();
             }
             break;

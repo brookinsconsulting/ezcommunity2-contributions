@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezrdfimporter.php,v 1.13 2001/08/17 13:36:00 jhe Exp $
+// $Id: ezrdfimporter.php,v 1.14 2001/08/23 17:49:39 br Exp $
 //
 // Definition of ezrdfimporter class
 //
@@ -62,77 +62,71 @@ class eZRDFImporter
         $fp = eZFile::fopen( $this->Site, "r" );
         $output = fread ( $fp, 10000000 );
         fclose( $fp );
-        
         $doc = qdom_tree( $output );
+
         if ( count( $doc->children ) > 0 )
-        foreach ( $doc->children as $child )
         {
-            if ( $child->name == "rss" )
+            foreach ( $doc->children as $child )
             {
-                foreach ( $child->children as $channel )
+                if ( $child->name == "rdf:RDF" )
                 {
-                    if ( $channel->name == "channel" )
+                    foreach ( $child->children as $channel )
                     {
-                        foreach ( $channel->children as $item )
+                        if ( $channel->name == "item" )
                         {
-                            if ( $item->name == "item" )
+                            $title = "";
+                            $link = "";
+                            $description = "";
+                            foreach ( $channel->children as $value )
                             {
-                                $title = "";
-                                $link = "";
-                                $description = "";
-                                
-                                foreach ( $item->children as $value )
+                                $contentValue = "";
+                                foreach ( $value->children as $content )
                                 {
-                                    $contentValue = "";
-                                    foreach ( $value->children as $content )
+                                    if ( $content->name = "#text" )
                                     {
-                                        if ( $content->name = "#text" )
-                                        {
-                                            $contentValue = $content->content;
-                                        }
-                                    }
-
-                                    switch ( $value->name )
-                                    {
-                                        case "title" :
-                                        {
-                                            $title = $contentValue;
-                                        }
-                                        break;
-
-                                        case "link" :
-                                        {
-                                            $link = $contentValue;
-                                        }
-                                        break;
-
-                                        case "description" :
-                                        {
-                                            $description = $contentValue;
-                                        }
-                                        break;                                        
+                                        $contentValue = $content->content;
                                     }
                                 }
-
-                                $news = new eZNews();
-                                $news->setName( $title );
-                                $news->setIntro( $description );
-                                $news->setURL( $link );
-
-                                $dateTime = new eZDateTime();
-                                $news->setOriginalPublishingDate( $dateTime );
-                                
-                                $return_array[] = $news;
+                                switch ( $value->name )
+                                {
+                                    case "title" :
+                                    {
+                                        $title = $contentValue;
+                                    }
+                                    break;
+                                    
+                                    case "link" :
+                                    {
+                                        $link = $contentValue;
+                                    }
+                                    break;
+                                    
+                                    case "description" :
+                                    {
+                                        $description = $contentValue;
+                                    }
+                                    break;                                        
+                                }
                             }
+                            
+                            $news = new eZNews();
+                            $news->setName( $title );
+                            $news->setIntro( $description );
+                            $news->setURL( $link );
+                            
+                            $dateTime = new eZDateTime();
+                            $news->setOriginalPublishingDate( $dateTime );
+                            
+                            $return_array[] = $news;
+                            
                         }
                     }
                 }
             }
         }
-        
         return $return_array;
     }
-
+    
     var $Site;
     var $Login;
     var $Password;    
