@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezcompany.php,v 1.38 2000/12/07 11:19:55 ce-cvs Exp $
+// $Id: ezcompany.php,v 1.39 2000/12/07 13:00:07 ce-cvs Exp $
 //
 // Definition of eZProduct class
 //
@@ -47,6 +47,7 @@ include_once( "ezcontact/classes/ezcompanytype.php" );
 include_once( "ezcontact/classes/ezphone.php" );
 include_once( "classes/ezimagefile.php" );
 include_once( "ezimagecatalogue/classes/ezimage.php" );
+include_once( "ezclassified/classes/ezclassified.php" );
 
 // include_once( "ezcontact/classes/ezonline.php" );
 
@@ -808,7 +809,7 @@ class eZCompany
 
         if ( $found == true )
         {
-            $this->Database->array_query( $classifiedArray, "SELECT ClassifiedID FROM eZClassified_ClassifiedLink WHERE CompanyID='$this->ID'" );
+            $this->Database->array_query( $classifiedArray, "SELECT ClassifiedID FROM eZClassified_ClassifiedCompanyLink WHERE CompanyID='$this->ID'" );
 
             if ( count( $classifiedArray != 0 ) )
             {
@@ -820,6 +821,11 @@ class eZCompany
                 $this->Database->query( "DELETE FROM eZContact_CompanyImageDefinition WHERE CompanyID='$this->ID'" );
                 
                 return $return_array;
+            }
+            else
+            {
+                print( "1" );
+                exit();
             }
         }
     }

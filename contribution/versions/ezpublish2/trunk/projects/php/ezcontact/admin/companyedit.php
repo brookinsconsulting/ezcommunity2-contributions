@@ -87,6 +87,7 @@ if( $Action == "delete" )
     $company->removeOnlines();
     $company->removeImages();
     $company->removeUser();
+    $company->removeClassified();
     $company->delete();
 
     header( "Location: /contact/company/list/" );

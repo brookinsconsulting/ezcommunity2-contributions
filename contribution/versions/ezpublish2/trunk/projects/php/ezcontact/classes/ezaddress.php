@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezaddress.php,v 1.22 2000/11/29 11:51:17 pkej-cvs Exp $
+// $Id: ezaddress.php,v 1.23 2000/12/07 13:00:07 ce-cvs Exp $
 //
 // Definition of eZAddress class
 //
@@ -349,8 +349,6 @@ class eZAddress
     }
 
     
-  
-
     /*!
       \private
       Open the database.

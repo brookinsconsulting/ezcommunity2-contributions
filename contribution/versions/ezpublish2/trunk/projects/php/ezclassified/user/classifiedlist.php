@@ -55,7 +55,6 @@ else
     $i=0;
     foreach( $categoryList as $categoryItem )
     {
-        print( $i );
         if ( ( $i %2 ) == 0 )
             $t->set_var( "td_class", "bglight" );
         else
@@ -78,13 +77,11 @@ $positionList = $position->getByCategory( $CategoryID );
 if ( count ( $positionList ) == 0 )
 {
     $t->set_var( "classified_list", "" );
-//    print( "Gjør noe slemt" );
 }
 else
 {
     for( $i=0;$i<count( $positionList ); $i++ )
     {
-        print( "123" . $i );
         if ( ( $i %2 ) == 0 )
             $t->set_var( "td_class", "bglight" );
         else
