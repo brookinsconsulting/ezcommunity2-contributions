@@ -101,19 +101,19 @@
 <!-- BEGIN write_menu_tpl -->
 <tr>
         <td>
-	<input type="submit" name="NewImage" value="{intl-new_image}">
+	<input class="stdbutton" type="submit" name="NewImage" value="{intl-new_image}">
 	</td>
         <td>
-	<input type="submit" name="NewCategory" value="{intl-new_category}">
+	<input class="stdbutton" type="submit" name="NewCategory" value="{intl-new_category}">
 	</td>
         <!-- BEGIN delete_categories_button_tpl -->
         <td>
-	<input type="submit" name="DeleteCategories" value="{intl-delete_categories}">
+	<input class="stdbutton" type="submit" name="DeleteCategories" value="{intl-delete_categories}">
 	</td>
         <!-- END delete_categories_button_tpl -->
         <!-- BEGIN delete_images_button_tpl -->
         <td>
-	<input type="submit" name="DeleteImages" value="{intl-delete_images}">
+	<input class="stdbutton" type="submit" name="DeleteImages" value="{intl-delete_images}">
 	</td>
         <!-- END delete_images_button_tpl -->
 </tr>
@@ -124,12 +124,12 @@
 <tr>
         <!-- BEGIN normal_view_button -->
         <td>
-	<input type="submit" name="NormalView" value="{intl-normal_view}">
+	<input class="stdbutton" type="submit" name="NormalView" value="{intl-normal_view}">
 	</td>
         <!-- END normal_view_button -->
         <!-- BEGIN detail_view_button -->
         <td>
-	<input type="submit" name="DetailView" value="{intl-detail_view}">
+	<input class="stdbutton" type="submit" name="DetailView" value="{intl-detail_view}">
 	</td>
         <!-- END detail_view_button -->
 

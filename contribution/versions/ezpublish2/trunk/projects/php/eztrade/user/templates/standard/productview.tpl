@@ -1,11 +1,11 @@
 <h1>{intl-head_line}</h1>
 
 <hr noshade size="4"/>
-<img src="/eztrade/images/path-arrow.gif" height="10" width="15" border="0">
+<img src="/images/path-arrow.gif" height="10" width="12" border="0" alt="" />
 <a class="path" href="/{module}/{module_list}/0/">{intl-top}</a>
 
 <!-- BEGIN path_tpl -->
-<img src="/eztrade/images/path-slash.gif" height="10" width="20" border="0">
+<img src="/images/path-slash.gif" height="10" width="16" border="0" alt="" />
 <a class="path" href="/{module}/{module_list}/{category_id}/">{category_name}</a>
 <!-- END path_tpl -->
 
@@ -133,7 +133,7 @@
 <br /><br />
 
 <!-- BEGIN attribute_list_tpl -->
-<table width="100%" cellspacing="0" cellpadding="2" border="0">
+<table width="50%" cellspacing="0" cellpadding="2" border="0">
 <tr>
 	<th>
 	{intl-attribute_name}
@@ -165,6 +165,8 @@
 
 <input class="okbutton" type="submit" name="WishList" value="{intl-wishlist}" />
 <!-- END add_to_cart_tpl -->
+
+<br /><br />
 
 <!-- BEGIN numbered_page_link_tpl -->
 <div align="center"><a class="path" href="/{module}/{module_view}/{product_id}/0/">| {intl-numbered_page} |</a></div>

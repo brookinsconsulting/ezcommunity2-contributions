@@ -56,9 +56,10 @@
 	</td>
 </tr>
 </table>
-<p class="boxtext">{intl-infosubscription}:</p>
-<input {info_subscription} type="checkbox" name="InfoSubscription" /
-<br /><br />
+
+<br />
+<div class="p"><input {info_subscription} type="checkbox" name="InfoSubscription" />&nbsp;{intl-infosubscription}</div>
+<br />
 
 <hr noshade="noshade" size="4" />
 
