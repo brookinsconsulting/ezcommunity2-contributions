@@ -1,7 +1,7 @@
 #!/bin/sh
 
 #
-# ezinstaller - version 1.6 - (c) 2001 Kai Dübbert <kai@duebbert.de> - Licence: GPL
+# ezinstaller - version 1.7 - (c) 2001 Kai Dübbert <kai@duebbert.de> - Licence: GPL
 # =================================================================================
 #
 # This shell script will install eZ publish (http://publish.ez.no) on a Linux 
@@ -25,6 +25,7 @@
 #
 # changelog:
 #
+# 1.7: - more cache directories
 # 1.6: - changed to allow installation of php files in same directory for
 #        people who can't install it properly
 # 1.5: - partial rewrite
@@ -52,8 +53,8 @@ DEF_INSTALL=1
 ############################################################################
 #Let's go
 #
-DATE="2001-08-31"
-VERSION="1.6 [$DATE]"
+DATE="2001-09-03"
+VERSION="1.7 [$DATE]"
 
 echo "ezinstaller.sh - version $VERSION - (c) 2001 Kai Dübbert <kai@duebbert.de>"
 echo ""
@@ -530,47 +531,53 @@ else
 
 	dirs="
 	admin/tmp
-	classes/cache
 	ezad/admin/cache
 	ezaddress/admin/cache
 	ezarticle/admin/cache
 	ezarticle/cache
 	ezbug/user/cache
 	ezbug/admin/cache
-	ezbulkmail/admin/cache
 	ezcalendar/admin/cache
 	ezcalendar/user/cache
 	ezcontact/admin/cache
 	ezexample/admin/cache
-	ezfilemanager/admin/cache
 	ezfilemanager/files
-	ezform/admin/cache
 	ezforum/admin/cache
 	ezforum/cache
-	ezimagecatalogue/admin/cache
 	ezimagecatalogue/catalogue
 	ezimagecatalogue/catalogue/variations
 	ezlink/admin/cache
 	ezlink/cache
-	ezmediacatalogue/admin/cache
-	ezmessage/admin/cache
 	eznewsfeed/admin/cache
 	eznewsfeed/cache
 	ezpoll/admin/cache
 	ezpoll/cache
-	ezquiz/admin/cache
-	ezquiz/cache
-	ezsitemanager/admin/cache
 	ezstats/admin/cache
-	ezsysinfo/admin/cache
 	eztodo/admin/cache
 	eztrade/admin/cache
 	eztrade/cache
+	ezuser/admin/cache
+	ezfilemanager/admin/cache
+	ezimagecatalogue/admin/cache
+	ezbulkmail/admin/cache
+	classes/cache
+	ezsysinfo/admin/cache
 	ezurltranslator/admin/cache
-	ezuser/admin/cache"
+	ezsitemanager/admin/cache
+	ezquiz/admin/cache
+	ezquiz/cache
+	ezmessage/admin/cache
+	ezform/admin/cache
+	ezsitemanager/staticfiles
+	ezsitemanager/staticfiles/images
+	ezmediacatalogue/admin/cache
+	ezmediacatalogue/cache
+	"
 
 	for dir in $dirs; do
-		mkdir -p $dir
+		if [ ! -d $dir ]; then
+			mkdir -p $dir
+		fi
 		chmod 770 $dir
 		chgrp $C_GROUP $dir
 	done
