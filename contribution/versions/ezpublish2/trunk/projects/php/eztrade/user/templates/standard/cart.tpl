@@ -208,7 +208,6 @@
 	</td>
 </td>
 </table>
-<hr noshade="noshade" size="4" />
 <!-- END full_cart_tpl -->
 
 
