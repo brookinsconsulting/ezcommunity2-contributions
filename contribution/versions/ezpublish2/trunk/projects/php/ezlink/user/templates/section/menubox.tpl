@@ -23,7 +23,27 @@
 	</td>
 </tr>
 <!-- END no_link_group_tpl -->
-
+<tr>
+	<td>
+	<div class="leftmenu">
+	<a href="http://ez.no"><img src="/images/ezsystems-logo-100x21-svart.gif" height="22" width="100" border="0" alt="eZ systems" /></a>
+	</div>
+	</td>
+</tr>
+<tr>
+	<td>
+	<div class="leftmenu">
+	<a href="http://zez.org"><img src="/images/zez-logo-100x28-svart.gif" height="28" width="100" border="0" alt="zez.org: about code" /></a>
+	</div>
+	</td>
+</tr>
+<tr>
+	<td>
+	<div class="leftmenu">
+	<a href="http://sourceprovider.com"><img src="/images/sourceprovider-100x26-svart.gif" height="26" width="100" border="0" alt="sourceprovider.com" /></a>
+	</div>
+	</td>
+</tr>
 <tr>
 	<td>
 	<div class="leftmenu">
