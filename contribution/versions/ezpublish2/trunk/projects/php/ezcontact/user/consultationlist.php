@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: consultationlist.php,v 1.2 2001/01/17 15:21:46 jb Exp $
+// $Id: consultationlist.php,v 1.3 2001/01/22 14:15:12 jb Exp $
 //
 // 
 //
@@ -65,6 +65,7 @@ if ( $user )
     $t->set_block( "consultation_item_tpl", "consultation_company_item_tpl", "consultation_company_item" );
 
     $t->set_var( "consultation_item", "" );
+    $t->set_var( "last_consultations_item", "" );
 
     $consultations = eZConsultation::findLatestConsultations( $user->id(), $max );
 

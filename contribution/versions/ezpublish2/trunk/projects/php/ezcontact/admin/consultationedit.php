@@ -199,24 +199,47 @@ if( ( $Action == "insert" || $Action == "update" ) && $error == false )
 
     $t->set_var( "consultation_id", $ConsultationID );
 
+    $consult_id = $ConsultationID. "-" . $user->id();
     if ( isset( $CompanyContact ) )
     {
         $company = new eZCompany( $CompanyContact );
         $consult_name = $company->name();
+        $consult_id .= "-" . $CompanyContact;
     }
     else if ( isset( $PersonContact ) )
     {
         $person = new eZPerson( $PersonContact );
         $consult_name = $person->name();
+        $consult_id .= "-" . $PersonContact;
     }
+
+    $mail_t = new eZTemplate( "ezcontact/admin/" . $ini->read_var( "eZContactMain", "AdminTemplateDir" ),
+                              "ezcontact/admin/intl", $Language, "consultationmail" );
+    $mail_t->setAllStrings();
+
+    $mail_t->set_file( array( "consultation_mail" => "consultationmail.tpl" ) );
+    $mail_t->set_block( "consultation_mail", "subject_tpl", "subject" );
+    $mail_t->set_block( "consultation_mail", "body_tpl", "body" );
+
+    $stateid = $consultation->state();
+    $state = new eZConsultationType( $stateid );
+
+    $mail_t->set_var( "consultation_name", $consult_name );
+    $mail_t->set_var( "short_description", $consultation->shortDescription() );
+    $mail_t->set_var( "type_name", $state->name() );
+    $mail_t->set_var( "description", $consultation->description() );
+    $mail_t->set_var( "consultation_id", $consult_id );
+    $mail_t->set_var( "signature", $user->signature() );
 
     $mail = new eZMail();
     $mail->setFromName( $user->name() );
     $mail->setFrom( $user->email() );
-    $mail->setSubject( "Konsultasjon med " . $consult_name . ": " . $consultation->shortDescription() );
-    $stateid = $consultation->state();
-    $state = new eZConsultationType( $stateid );
-    $mail->setBody( "Konsultasjons type: " . $state->name() . "\n\n" . $consultation->description() );
+
+    $mail_t->parse( "subject", "subject_tpl" );
+    $mail_t->parse( "body", "body_tpl" );
+
+    $mail->setSubject( $mail_t->get_var( "subject" ) );
+    $mail->setBody( $mail_t->get_var( "body" ) );
 
     $emails = $consultation->emailList();
     foreach( $emails as $email )

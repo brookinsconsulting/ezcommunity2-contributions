@@ -228,12 +228,13 @@
 <tr>
 <!--       <p class="boxtext">{logo_name}:</p> -->
     <td>
-    <img src="{logo_image_src}" width="{logo_image_width}" height="{logo_image_height}" border="0" alt="{image_alt}" /><br /><br />
-   	<p class="boxtext">{intl-logo}:</p>
-	<input size="20" name="logo" type="file" />
-	<input type="hidden" name="LogoImageID" value="{logo_id}">
-	<br /><br />
-	<p class="boxtext">{intl-delete}: <input name="DeleteLogo" type="checkbox" /></p>
+    <img src="{logo_image_src}" width="{logo_image_width}" height="{logo_image_height}" border="0" alt="{image_alt}" />
+    <p class="boxtext">{intl-delete}: <input name="DeleteLogo" type="checkbox" /></p>
+    <p class="boxtext">{intl-logo}:</p>
+    <br /><br />
+    <input size="20" name="logo" type="file" />
+    <input type="hidden" name="LogoImageID" value="{logo_id}">
+    <br /><br />
     </td>
 <tr>
 </table>

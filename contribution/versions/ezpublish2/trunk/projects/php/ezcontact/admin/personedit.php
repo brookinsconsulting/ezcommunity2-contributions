@@ -915,7 +915,7 @@ if ( !$confirm )
         if ( isset( $CompanyEdit ) )
         {
             // View logo.
-//          $logoImage = $company->logoImage();
+            $logoImage = eZCompany::logoImage( $CompanyID );
             if ( is_numeric( $LogoImageID ) )
             {
                 $logoImage = new eZImage( $LogoImageID );
@@ -943,7 +943,7 @@ if ( !$confirm )
             }
 
             // View company image.
-//          $companyImage = $company->companyImage();
+            $companyImage = eZCompany::companyImage( $CompanyID );
             if ( is_numeric( $CompanyImageID ) )
             {
                 $companyImage = new eZImage( $CompanyImageID );

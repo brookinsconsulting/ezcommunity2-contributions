@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezcompany.php,v 1.54 2001/01/21 18:13:24 jb Exp $
+// $Id: ezcompany.php,v 1.55 2001/01/22 14:15:12 jb Exp $
 //
 // Definition of eZProduct class
 //
@@ -154,8 +154,8 @@ class eZCompany
             }
             $db->query( "DELETE FROM eZContact_CompanyOnlineDict WHERE CompanyID='$id'" );
 
-            $db->query( "DELETE FROM eZContact_CompanyTypeDict WHERE CompanyID='$this->ID'" );
-            $db->query( "DELETE FROM eZContact_Company WHERE ID='$this->ID'" );
+            $db->query( "DELETE FROM eZContact_CompanyTypeDict WHERE CompanyID='$id'" );
+            $db->query( "DELETE FROM eZContact_Company WHERE ID='$id'" );
         }
         return true;
     }
@@ -569,22 +569,25 @@ class eZCompany
     /*!
       Returns the logo image of the company as a eZImage object.
     */
-    function logoImage( )
+    function logoImage( $id = false )
     {
+        if ( !$id )
+            $id = $this->ID;
+
         $ret = false;
         $db =& eZDB::globalDatabase();
 
         $db->array_query( $res_array, "SELECT * FROM eZContact_CompanyImageDefinition
                                      WHERE
-                                     CompanyID='$this->ID'
+                                     CompanyID='$id'
                                    " );
 
         if ( count( $res_array ) == 1 )
         {
             if ( $res_array[0]["LogoImageID"] != "NULL" )
             {
-                $ret =& new eZImage( $res_array[0]["LogoImageID"], false );
-            }               
+                $ret = new eZImage( $res_array[0]["LogoImageID"], false );
+            }
         }
         return $ret;
     }
@@ -594,8 +597,11 @@ class eZCompany
 
       The argument must be a eZImage object.
     */
-    function setLogoImage( &$image )
+    function setLogoImage( &$image, $id = false )
     {
+        if ( !$id )
+            $id = $this->ID;
+
         if ( get_class( $image ) == "ezimage" )
         {
             $db =& eZDB::globalDatabase();
@@ -604,7 +610,7 @@ class eZCompany
 
             $db->array_query( $res_array, "SELECT COUNT(*) AS Number FROM eZContact_CompanyImageDefinition
                                      WHERE
-                                     CompanyID='$this->ID'" );
+                                     CompanyID='$id'" );
 
             if ( $res_array[0]["Number"] == "1" )
             {            
@@ -612,13 +618,13 @@ class eZCompany
                                      SET
                                      LogoImageID='$imageID'
                                      WHERE
-                                     CompanyID='$this->ID'" );
+                                     CompanyID='$id'" );
             }
             else
             {
                 $db->query( "INSERT INTO eZContact_CompanyImageDefinition
                                      SET
-                                     CompanyID='$this->ID',
+                                     CompanyID='$id',
                                      LogoImageID='$imageID'" );
             }
         }
@@ -654,8 +660,11 @@ class eZCompany
 
       The argument must be a eZImage object.
     */
-    function setCompanyImage( &$image )
+    function setCompanyImage( &$image, $id = false )
     {
+        if ( !$id )
+            $id = $this->ID;
+
         if ( get_class( $image ) == "ezimage" )
         {
             $db =& eZDB::globalDatabase();
@@ -663,7 +672,7 @@ class eZCompany
 
             $db->array_query( $res_array, "SELECT COUNT(*) AS Number FROM eZContact_CompanyImageDefinition
                                      WHERE
-                                     CompanyID='$this->ID'" );
+                                     CompanyID='$id'" );
 
             if ( $res_array[0]["Number"] == "1" )
             {            
@@ -671,13 +680,13 @@ class eZCompany
                                      SET
                                      CompanyImageID='$imageID'
                                      WHERE
-                                     CompanyID='$this->ID'" );
+                                     CompanyID='$id'" );
             }
             else
             {
                 $db->query( "INSERT INTO eZContact_CompanyImageDefinition
                                      SET
-                                     CompanyID='$this->ID',
+                                     CompanyID='$id',
                                      CompanyImageID='$imageID'" );
             }
         }
@@ -687,13 +696,15 @@ class eZCompany
     /*!
       Returns the logo image of the company as a eZImage object.
     */
-    function companyImage( )
+    function companyImage( $id = false )
     {
+        if ( !$id )
+            $id = $this->ID;
         $ret = false;
         $db =& eZDB::globalDatabase();
 
         $db->array_query( $res_array, "SELECT * FROM eZContact_CompanyImageDefinition
-                                       WHERE CompanyID='$this->ID'" );
+                                       WHERE CompanyID='$id'" );
 
         if ( count( $res_array ) == 1 )
         {

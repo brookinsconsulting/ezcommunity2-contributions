@@ -94,7 +94,6 @@ switch ( $url_array[2] )
             case "new":
             {
                 $NewCompanyCategory = $url_array[4];
-                unset( $CompanyID );
                 include( "ezcontact/admin/companyedit.php" );
                 break;
             }
@@ -109,6 +108,12 @@ switch ( $url_array[2] )
             case "view":
             {
                 include( "ezcontact/admin/companyview.php" );
+                break;
+            }
+            case "list":
+            {
+                $TypeID = $url_array[4];
+                include( "ezcontact/admin/companytypelist.php" );
                 break;
             }
 
@@ -142,11 +147,6 @@ switch ( $url_array[2] )
             case "insert":
             {
                 include( "ezcontact/admin/companytypeedit.php" );
-                break;
-            }
-            case "list":
-            {
-                include( "ezcontact/admin/companytypelist.php" );
                 break;
             }
             default:

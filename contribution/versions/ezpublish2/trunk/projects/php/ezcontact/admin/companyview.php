@@ -178,27 +178,42 @@ if ( $count != 0)
     for( $i=0; $i< $count; $i++ )
     {
         $t->set_var( "online_id", $OnlineList[$i]->id() );
-        $t->set_var( "online", $OnlineList[$i]->URL() );
-        $t->set_var( "online_url_type", $OnlineList[$i]->URLType() );
-            
         $onlineType = $OnlineList[$i]->onlineType();
 
-        $t->set_var( "online_type_id", $onlineType->id() );
-        $t->set_var( "online_type_name", $onlineType->name() );
-        $t->set_var( "online_url_type", $OnlineList[$i]->urlType() );
-        $t->set_var( "online_width", 100/$count );
-            
-        if( $OnlineList[$i]->urlType() == "mailto" )
+        $prefix = $onlineType->URLPrefix();
+        $vis_prefix = $prefix;
+        $url = $OnlineList[$i]->URL();
+        if ( $onlineType->prefixLink() )
         {
-            $t->set_var( "url_line", "" );
-            $t->parse( "email_line", "email_line_tpl" );
+            if ( strncasecmp( $url, $prefix, count( $prefix ) ) == 0 )
+            {
+                $prefix = "";
+            }
         }
         else
         {
-            $t->set_var( "email_line", "" );
-            $t->parse( "url_line", "url_line_tpl" );
+            $prefix = "";
         }
-            
+        if ( $onlineType->prefixVisual() )
+        {
+            if ( strncasecmp( $url, $vis_prefix, count( $vis_prefix ) ) == 0 )
+            {
+                $vis_prefix = "";
+            }
+        }
+        else
+        {
+            $vis_prefix = "";
+        }
+
+        $t->set_var( "online_prefix", $prefix );
+        $t->set_var( "online_visual_prefix", $vis_prefix );
+        $t->set_var( "online", $OnlineList[$i]->URL() );
+        $t->set_var( "online_url_type", $OnlineList[$i]->URLType() );
+        $t->set_var( "online_type_id", $onlineType->id() );
+        $t->set_var( "online_type_name", $onlineType->name() );
+        $t->set_var( "online_width", 100/$count );
+
         $t->parse( "online_line", "online_line_tpl", true );
     }
     $t->parse( "online_item", "online_item_tpl" );
