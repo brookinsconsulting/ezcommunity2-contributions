@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ordersendt.php,v 1.14 2001/01/29 11:15:07 ce Exp $
+// $Id: ordersendt.php,v 1.15 2001/02/02 20:49:16 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <06-Oct-2000 14:04:17 bf>
@@ -42,11 +42,6 @@ $t->set_file( array(
     ) );
 
 
-$t->set_block( "order_sendt_tpl", "visa_tpl", "visa" );
-$t->set_block( "order_sendt_tpl", "mastercard_tpl", "mastercard" );
-$t->set_block( "order_sendt_tpl", "cod_tpl", "cod" );
-$t->set_block( "order_sendt_tpl", "invoice_tpl", "invoice" );
-
 $t->set_block( "order_sendt_tpl", "billing_address_tpl", "billing_address" );
 $t->set_block( "order_sendt_tpl", "shipping_address_tpl", "shipping_address" );
 
@@ -59,9 +54,8 @@ $t->set_block( "order_item_tpl", "order_item_option_tpl", "order_item_option" );
 
 $order = new eZOrder( $OrderID );
 
+
 // get the customer
-
-
 $user = $order->user();
 
 $currentUser = eZUser::currentUser();
@@ -82,11 +76,15 @@ if ( $currentUser->id() != $user->id() )
 
 if ( $user )
 {
+
+    // this is now an active 
+    $order->setIsSendt( true );
+    $order->store();
+    
     $t->set_var( "customer_first_name", $user->firstName() );
     $t->set_var( "customer_last_name", $user->lastName() );
 
-// print out the addresses
-
+    // print out the addresses
     $billingAddress = $order->billingAddress();
 
     $t->set_var( "billing_street1", $billingAddress->street1() );
@@ -178,34 +176,6 @@ foreach ( $items as $item )
 }
 
 $t->parse( "order_item_list", "order_item_list_tpl" );
-
-$t->set_var( "visa", "" );
-$t->set_var( "mastercard", "" );
-$t->set_var( "cod", "" );
-$t->set_var( "invoice", "" );
-switch ( $order->paymentMethod() )
-{
-    case "1" :
-    {// VISA
-        $t->parse( "visa", "visa_tpl" );        
-    }
-    break;
-    case "2" :
-    {// Mastercard
-        $t->parse( "mastercard", "mastercard_tpl" );
-    }
-    break;
-    case "3" :
-    {// Postordre
-        $t->parse( "cod", "cod_tpl" );
-    }
-    break;
-    case "4" :
-    {// Faktura
-        $t->parse( "invoice", "invoice_tpl" );
-    }
-    break;
-}
 
 $shippingCost = $order->shippingCharge();
 $currency->setValue( $shippingCost );

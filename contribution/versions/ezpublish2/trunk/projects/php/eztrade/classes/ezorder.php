@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezorder.php,v 1.20 2001/01/29 11:30:08 bf Exp $
+// $Id: ezorder.php,v 1.21 2001/02/02 20:49:15 bf Exp $
 //
 // Definition of eZOrder class
 //
@@ -60,6 +60,7 @@ class eZOrder
     {
         $this->IsConnected = false;
         $this->IsExported = 0;
+        $this->IsSendt = 0;
 
         if ( $id != "" )
         {
@@ -95,6 +96,7 @@ class eZOrder
 		                         BillingAddressID='$this->BillingAddressID',
 		                         PaymentMethod='$this->PaymentMethod',
 		                         IsExported='$this->IsExported',
+		                         IsSendt='$this->IsSendt',
 		                         ShippingCharge='$this->ShippingCharge'
                                  " );
 
@@ -125,6 +127,7 @@ class eZOrder
 		                         BillingAddressID='$this->BillingAddressID',
 		                         PaymentMethod='$this->PaymentMethod',
 		                         IsExported='$this->IsExported',
+		                         IsSendt='$this->IsSendt',
 		                         ShippingCharge='$this->ShippingCharge'
                                  WHERE ID='$this->ID'
                                  " );
@@ -187,6 +190,7 @@ class eZOrder
                 $this->PaymentMethod = $cart_array[0][ "PaymentMethod" ];
 
                 $this->IsExported = $cart_array[0][ "IsExported" ];
+                $this->IsSendt = $cart_array[0][ "IsSendt" ];
 
                 $this->State_ = "Coherent";
                 $ret = true;
@@ -394,6 +398,20 @@ class eZOrder
        else
            return false;
     }
+
+    /*!
+      Returns true if the order is sendt/activated.
+    */
+    function isSendt( $value )
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+       if ( $this->IsSendt == 1 )
+           return true;
+       else
+           return false;
+    }
     
     /*!
       Sets the payment method.
@@ -492,6 +510,20 @@ class eZOrder
            $this->IsExported = 0;       
     }
 
+    /*!
+      Sets the order to be sendt/active.
+    */
+    function setIsSendt( $value )
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+       if ( $value == true )
+           $this->IsSendt = 1;
+       else
+           $this->IsSendt = 0;       
+    }
+    
 
     /*!
       Returns the initial status as a eZOrderStatus object.
@@ -670,6 +702,9 @@ class eZOrder
     var $OrderStatus_;
 
     var $IsExported;
+
+    /// is 0 if the order is not sendt 1 if it is sendt.
+    var $IsSendt;
     
     ///  Variable for keeping the database connection.
     var $Database;

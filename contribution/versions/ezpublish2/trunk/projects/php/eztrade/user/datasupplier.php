@@ -1,7 +1,5 @@
 <?
 
-include_once( "eztrade/classes/ezproducttype.php" );
-
 $PageCaching = $ini->read_var( "eZTradeMain", "PageCaching");
 
 switch ( $url_array[2] )
@@ -164,9 +162,19 @@ switch ( $url_array[2] )
         break;
 
     case "checkout" :
+    {
         include( "eztrade/user/checkout.php" );
+    }
         break;
 
+    case "payment" :
+    {
+        $OrderID = $url_array[3];
+        $PaymentType = $url_array[4];
+        include( "eztrade/user/payment.php" );
+    }
+        break;
+        
     case "ordersendt" :
         $OrderID = $url_array[3];
         include( "eztrade/user/ordersendt.php" );

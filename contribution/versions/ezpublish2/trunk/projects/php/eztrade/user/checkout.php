@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: checkout.php,v 1.27 2001/01/29 11:30:08 bf Exp $
+// $Id: checkout.php,v 1.28 2001/02/02 20:49:16 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <28-Sep-2000 15:52:08 bf>
@@ -35,11 +35,6 @@ $OrderSenderEmail = $ini->read_var( "eZTradeMain", "OrderSenderEmail" );
 $OrderReceiverEmail = $ini->read_var( "eZTradeMain", "OrderReceiverEmail" );
 $ShippingCost = $ini->read_var( "eZTradeMain", "ShippingCost" );
 
-$VISAShopping = $ini->read_var( "eZTradeMain", "VISAShopping" );
-$MasterCardShopping = $ini->read_var( "eZTradeMain", "MasterCardShopping" );
-$CODShopping = $ini->read_var( "eZTradeMain", "CODShopping" );
-$InvoiceShopping = $ini->read_var( "eZTradeMain", "InvoiceShopping" );
-
 include_once( "ezuser/classes/ezuser.php" );
 include_once( "eztrade/classes/ezproduct.php" );
 include_once( "eztrade/classes/ezoption.php" );
@@ -51,6 +46,8 @@ include_once( "eztrade/classes/ezorder.php" );
 include_once( "eztrade/classes/ezorderitem.php" );
 include_once( "eztrade/classes/ezorderoptionvalue.php" );
 include_once( "eztrade/classes/ezwishlist.php" );
+
+include_once( "eztrade/classes/ezcheckout.php" );
 
 include_once( "ezsession/classes/ezsession.php" );
 include_once( "ezuser/classes/ezuser.php" );
@@ -82,10 +79,7 @@ $t->set_file( array(
     "checkout_tpl" => "checkout.tpl"
     ) );
 
-$t->set_block( "checkout_tpl", "visa_tpl", "visa" );
-$t->set_block( "checkout_tpl", "mastercard_tpl", "mastercard" );
-$t->set_block( "checkout_tpl", "cod_tpl", "cod" );
-$t->set_block( "checkout_tpl", "invoice_tpl", "invoice" );
+$t->set_block( "checkout_tpl", "payment_method_tpl", "payment_method" );
 
 $t->set_block( "checkout_tpl", "cart_item_list_tpl", "cart_item_list" );
 $t->set_block( "cart_item_list_tpl", "cart_item_tpl", "cart_item" );
@@ -96,46 +90,6 @@ $t->set_block( "checkout_tpl", "shipping_address_tpl", "shipping_address" );
 $t->set_block( "checkout_tpl", "billing_address_tpl", "billing_address" );
 $t->set_block( "billing_address_tpl", "billing_option_tpl", "billing_option" );
 $t->set_block( "checkout_tpl", "wish_user_tpl", "wish_user" );
-
-
-if ( $VISAShopping == "enabled" )
-{
-    $t->parse( "visa", "visa_tpl" );
-}
-else
-{
-    $t->set_var( "visa", "" );
-}
-
-if ( $MasterCardShopping == "enabled" )
-{
-    $t->parse( "mastercard", "mastercard_tpl" );
-}
-else
-{
-    $t->set_var( "mastercard", "" );
-}
-
-if ( $CODShopping == "enabled" )
-{
-    $t->parse( "cod", "cod_tpl" );
-}
-else
-{
-    $t->set_var( "cod", "" );
-}
-
-if ( $InvoiceShopping == "enabled" )
-{
-    $t->parse( "invoice", "invoice_tpl" );
-}
-else
-{
-    $t->set_var( "invoice", "" );
-}
-
-    
-//  $t->set_block( "cart_page", "cart_header_tpl", "cart_header" );
 
 
 // create an order and empty the cart.
@@ -372,9 +326,6 @@ if ( $SendOrder == "true" )
     $mail = new eZMail();
     $mailToAdmin = $ini->read_var( "eZTradeMain", "mailToAdmin" );
     
-//      $mailSubjectAdmin = $mailTemplateIni->read_var( "strings", "mail_subject_admin" );
-//      $mailSubjectUser = $mailTemplateIni->read_var( "strings", "mail_subject_user" );
-
     $mailBody = $mailTemplate->parse( "dummy", "mail_order_tpl" );
     $mail->setFrom( $OrderSenderEmail );
     
@@ -386,14 +337,13 @@ if ( $SendOrder == "true" )
     $mail->setSubject( $mailSubjectAdmin );
     $mail->setTo( $mailToAdmin );
 
-    $mail->send();
+//      $mail->send();
 
     $cart->clear();
-    Header( "Location: /trade/ordersendt/$order_id/" );
+    Header( "Location: /trade/payment/$order_id/$PaymentMethod/" );
 }
 
 // print the cart contents
-
 {
 // fetch the cart items
     $items = $cart->items( $CartType );
@@ -534,6 +484,25 @@ if ( $ini->read_var( "eZTradeMain", "ShowBillingAddress" ) == "enabled" )
     $t->parse( "billing_address", "billing_address_tpl", true );
 else
 $t->set_var( "billing_address" );
+
+
+// show the checkout types
+
+$checkout = new eZCheckout();
+
+$instance =& $checkout->instance();
+
+$paymentMethods =& $instance->paymentMethods();
+
+foreach ( $paymentMethods as $paymentMethod )
+{
+    $t->set_var( "payment_method_id", $paymentMethod["ID"] );
+    $t->set_var( "payment_method_text", $paymentMethod["Text"] );
+
+    $t->parse( "payment_method", "payment_method_tpl", true );
+}
+
+
    
 $t->pparse( "output", "checkout_tpl" );
 
