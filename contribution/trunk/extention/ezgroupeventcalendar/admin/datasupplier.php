@@ -29,6 +29,33 @@ switch ( $url_array[2] )
     }
     break;
 
+ case "categorylist":
+   {
+     include( "ezgroupeventcalendar/admin/categorylist.php" );
+   }
+   break;
+
+ case "categoryedit" :
+   {
+     if ( $url_array[3] == "edit" )
+       {
+	 $Action = "Edit";
+	 $CategoryID = $url_array[4];
+       }
+     else if ( $url_array[3] == "delete" )
+       {
+	 $Action = "Delete";
+	 $CategoryID = $url_array[4];
+       }
+     else if ( $url_array[3] == "new" )
+       {
+	 $Action = "New";
+       }
+
+     include( "ezgroupeventcalendar/admin/categoryedit.php" );
+   }
+   break;
+
 	case "grpdspl" :
 	{
 		include( "ezgroupeventcalendar/admin/groupdisplay.php" );
