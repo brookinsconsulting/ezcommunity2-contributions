@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezappointment.php,v 1.8 2001/01/21 18:35:19 gl Exp $
+// $Id: ezappointment.php,v 1.9 2001/01/22 12:55:42 gl Exp $
 //
 // Definition of eZAppointment class
 //
@@ -510,7 +510,7 @@ class eZAppointment
     /*!
       Returns start time for the day view timetable
     */
-    function dayStartTime()
+    function &dayStartTime()
     {
         return new eZTime( 8, 0, 0 );
     }
@@ -518,7 +518,7 @@ class eZAppointment
     /*!
       Returns stop time for the day view timetable
     */
-    function dayStopTime()
+    function &dayStopTime()
     {
         return new eZTime( 18, 0, 0 );
     }
@@ -526,7 +526,7 @@ class eZAppointment
     /*!
       Returns interval for the day view timetable
     */
-    function dayInterval()
+    function &dayInterval()
     {
         return new eZTime( 0, 30, 0 );
     }
