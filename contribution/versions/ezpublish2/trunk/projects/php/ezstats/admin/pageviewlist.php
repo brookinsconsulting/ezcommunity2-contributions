@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: pageviewlist.php,v 1.7 2001/07/20 11:28:54 jakobn Exp $
+// $Id: pageviewlist.php,v 1.8 2001/08/27 15:26:48 br Exp $
 //
 // Created on: <06-Jan-2001 17:11:01 bf>
 //
@@ -87,7 +87,7 @@ else
     $t->set_var( "page_view_list", "" );
 }
 
-eZList::drawNavigator( $t, $ItemCount, $ViewLimit, $Offset, "page_view_list" );
+eZList::drawNavigator( $t, $ItemCount, $ViewLimit, $Offset, "page_view_list_tpl" );
 
 $t->pparse( "output", "page_view_page_tpl" );
 
