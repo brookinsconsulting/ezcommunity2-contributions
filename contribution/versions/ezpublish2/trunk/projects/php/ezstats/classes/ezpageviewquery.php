@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezpageviewquery.php,v 1.9 2001/02/09 14:36:35 jb Exp $
+// $Id: ezpageviewquery.php,v 1.10 2001/02/09 17:08:06 jb Exp $
 //
 // Definition of eZPageViewQuery class
 //
@@ -270,6 +270,51 @@ class eZPageViewQuery
     }
 
     /*!
+      Returns the browsers which are most frequent.
+
+      The files are returned as an assiciative array of
+      array( ID => $id, Name => $name, Count => $count ).
+    */
+    function &topBrowsers( $limit = 25, $offset = 0 )
+    {
+        $db =& eZDB::globalDatabase();
+
+        $return_array = array();
+
+        $db->array_query( $visitor_array,
+        "SELECT count(eZStats_PageView.ID) AS Count, eZStats_BrowserType.ID, eZStats_BrowserType.BrowserType
+         FROM eZStats_PageView, eZStats_BrowserType
+         WHERE eZStats_PageView.BrowserTypeID=eZStats_BrowserType.ID
+         GROUP BY eZStats_BrowserType.ID
+         ORDER BY Count DESC
+         LIMIT $offset,$limit" );
+
+        for ( $i=0; $i < count($visitor_array); $i++ )
+        {
+            $return_array[$i] = array( "ID" => $visitor_array[$i]["ID"],
+                                       "Name" => $visitor_array[$i]["BrowserType"],
+                                       "Count" => $visitor_array[$i]["Count"] );
+        }
+        
+        return $return_array;
+    }
+
+    /*!
+      Returns the number of browsers which are most frequent.
+    */
+    function &topBrowsersCount()
+    {
+        $db =& eZDB::globalDatabase();
+
+        $return_array = array();
+
+        $db->array_query( $visitor_array,
+        "SELECT count(eZStats_BrowserType.ID) AS Count FROM eZStats_BrowserType" );
+
+        return $visitor_array[0]["Count"];
+    }
+
+    /*!
       Returns the requests which is most frequent.
 
       The files are returned as an assiciative array of
@@ -430,7 +475,7 @@ class eZPageViewQuery
         
             $stamp = $year . $month . $sday;
             $db->array_query( $visitor_array,
-            "SELECT count(eZStats_PageView.ID) AS Count FROM eZStats_PageView WHERE Date LIKE '$stamp%'" );
+            "SELECT count(eZStats_PageView.ID) AS Count FROM eZStats_PageView WHERE DateValue='$stamp'" );
 
             $TotalPages += $visitor_array[0]["Count"];
             $day_array[] = array( "Count" => $visitor_array[0]["Count"] );
@@ -440,6 +485,45 @@ class eZPageViewQuery
                                "PagesPrDay" => round( $TotalPages/$date->daysInMonth() ),
                                "Days" => $day_array );
         
+        return $return_array;
+    }
+
+    /*!
+      Returns the statistics for one month.
+
+      Returns an array of hours with the statistics as an associative array:
+      array( "Hours" => array( "Count" => $count )
+    */
+    function &dayStats( $year, $month, $day )
+    {
+        $db =& eZDB::globalDatabase();
+
+        $return_array = array();
+        $visitor_array = array();
+        $hour_array = array();
+
+        if ( $month < 10 )
+            $month = "0" . $month;
+        if ( $day < 10 )
+            $sday = "0" . $day;
+        $stamp = $year . $month . $sday;
+
+        $TotalPages = 0;
+        // loop over the days
+        for ( $hour = 0; $hour < 24; ++$hour )
+        {
+            $db->array_query( $visitor_array,
+            "SELECT count(eZStats_PageView.ID) AS Count FROM eZStats_PageView WHERE DateValue='$stamp'
+                    AND TimeValue>='$hour:00:00' AND TimeValue<='$hour:59:59'" );
+
+            $TotalPages += $visitor_array[0]["Count"];
+            $hour_array[] = array( "Count" => $visitor_array[0]["Count"] );
+        }
+
+        $return_array = array( "TotalPages" => $TotalPages,
+                               "PagesPrHour" => round( $TotalPages/24 ),
+                               "Hours" => $hour_array );
+
         return $return_array;
     }
 
