@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: article.php,v 1.20.2.4 2002/04/25 13:30:51 jb Exp $
+// $Id: article.php,v 1.20.2.5 2002/04/26 14:59:10 jb Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -103,8 +103,10 @@ else if( $Command == "data" ) // return all the data in the category
         $section_lang = false;
         if ( $section_id != 0 )
         {
+            eZLog::writeNotice( "Section=$section_id for article $ID" );
             $section = new eZSection( $section_id );
             $section_lang = $section->language();
+            eZLog::writeNotice( "Language = $section_lang" );
         }
         $cats = $article->categories( false );
         $cats = array_diff( $cats, array( $cat_def_id ) );
@@ -133,10 +135,10 @@ else if( $Command == "data" ) // return all the data in the category
                       );
         if ( $section_lang != false )
         {
-            $charsetLocale = new eZLocale( $charsetLanguage );
+            $charsetLocale = new eZLocale( $section_lang );
             $section_charset = $charsetLocale->languageISO();
-            $return["Section"] = new eZXMLRPCStruct( array( "Language" => $section_lang,
-                                                            "Charset" => $section_charset ) );
+            $ret["Section"] = new eZXMLRPCStruct( array( "Language" => $section_lang,
+                                                         "Charset" => $section_charset ) );
         }
         $start_date = $article->startDate( false );
         if ( !is_bool( $start_date ) )

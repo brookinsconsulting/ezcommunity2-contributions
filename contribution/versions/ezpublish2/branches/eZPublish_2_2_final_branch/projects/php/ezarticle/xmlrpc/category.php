@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: category.php,v 1.14.2.1 2002/04/25 13:30:51 jb Exp $
+// $Id: category.php,v 1.14.2.2 2002/04/26 14:59:10 jb Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -30,6 +30,8 @@ include_once( "ezuser/classes/ezobjectpermission.php" );
 include_once( "ezxmlrpc/classes/ezxmlrpcarray.php" );
 include_once( "ezxmlrpc/classes/ezxmlrpcbool.php" );
 include_once( "ezxmlrpc/classes/ezxmlrpcint.php" );
+include_once( "classes/ezlocale.php" );
+include_once( "ezsitemanager/classes/ezsection.php" );
 
 if( $Command == "info" )
 {
@@ -65,20 +67,40 @@ else if( $Command == "data" ) // Dump category info!
         $wgp[] = new eZXMLRPCInt( $group );
 
     $category = new eZArticleCategory( $ID );
-    $ReturnData = new eZXMLRPCStruct( array( "Location" => createURLStruct( "ezarticle", "category", $category->id() ),
-                                             "Name" => new eZXMLRPCString( $category->name( false ) ),
-                                             "ParentID" => new eZXMLRPCInt( $category->parent( false ) ),
-                                             "Description" => new eZXMLRPCString( $category->description( false ) ),
-                                             "ExcludeFromSearch" => new eZXMLRPCBool( $category->excludeFromSearch() ),
-                                             "SortMode" => new eZXMLRPCInt( $category->sortMode( true ) ),
-                                             "OwnerID" => new eZXMLRPCInt( $category->owner( false ) ),
-                                             "SectionID" => new eZXMLRPCInt( $category->sectionIDStatic( $ID ) ),
-                                             "ImageID" => new eZXMLRPCInt( $category->image( false ) ),
-                                             "BulkMailID" => new eZXMLRPCInt( $category->bulkMailCategory(false ) ),
-                                             "ReadGroups" => new eZXMLRPCArray( $rgp ),
-                                             "WriteGroups" => new eZXMLRPCArray( $wgp )
-                                             )
-                                      );
+
+    $cat_def_id = $category->parent( false );
+    $section_id = eZArticleCategory::sectionIDStatic( $cat_def_id );
+    $section_lang = false;
+    if ( $section_id != 0 )
+    {
+        eZLog::writeNotice( "Section=$section_id for article cat $ID" );
+        $section = new eZSection( $section_id );
+        $section_lang = $section->language();
+        eZLog::writeNotice( "Language = $section_lang" );
+    }
+
+    $ret = array( "Location" => createURLStruct( "ezarticle", "category", $category->id() ),
+                  "Name" => new eZXMLRPCString( $category->name( false ) ),
+                  "ParentID" => new eZXMLRPCInt( $category->parent( false ) ),
+                  "Description" => new eZXMLRPCString( $category->description( false ) ),
+                  "ExcludeFromSearch" => new eZXMLRPCBool( $category->excludeFromSearch() ),
+                  "SortMode" => new eZXMLRPCInt( $category->sortMode( true ) ),
+                  "OwnerID" => new eZXMLRPCInt( $category->owner( false ) ),
+                  "SectionID" => new eZXMLRPCInt( $category->sectionIDStatic( $ID ) ),
+                  "ImageID" => new eZXMLRPCInt( $category->image( false ) ),
+                  "BulkMailID" => new eZXMLRPCInt( $category->bulkMailCategory(false ) ),
+                  "ReadGroups" => new eZXMLRPCArray( $rgp ),
+                  "WriteGroups" => new eZXMLRPCArray( $wgp )
+                  );
+
+    if ( $section_lang != false )
+    {
+        $charsetLocale = new eZLocale( $section_lang );
+        $section_charset = $charsetLocale->languageISO();
+        $ret["Section"] = new eZXMLRPCStruct( array( "Language" => $section_lang,
+                                                     "Charset" => $section_charset ) );
+    }
+    $ReturnData = new eZXMLRPCStruct( $ret );
 }
 else if( $Command == "storedata" ) // save the category data!
 {
@@ -101,7 +123,7 @@ else if( $Command == "storedata" ) // save the category data!
         $old_category = $category->parent( false );
         $category->setParent( $parent );
         $category->setExcludeFromSearch( $Data["ExcludeFromSearch"]->value() );
-    
+
         $category->setBulkMailCategory( $Data["BulkMailID"]->value() );
         $category->setSortMode( $Data["SortMode"]->value() );
         $category->setSectionID( $Data["SectionID"]->value() );

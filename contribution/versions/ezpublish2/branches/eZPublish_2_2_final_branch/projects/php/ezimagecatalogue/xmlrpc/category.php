@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: category.php,v 1.5.2.1 2002/04/25 13:30:52 jb Exp $
+// $Id: category.php,v 1.5.2.2 2002/04/26 14:59:11 jb Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -30,6 +30,8 @@ include_once( "ezuser/classes/ezobjectpermission.php" );
 include_once( "ezxmlrpc/classes/ezxmlrpcarray.php" );
 include_once( "ezxmlrpc/classes/ezxmlrpcbool.php" );
 include_once( "ezxmlrpc/classes/ezxmlrpcint.php" );
+include_once( "classes/ezlocale.php" );
+include_once( "ezsitemanager/classes/ezsection.php" );
 
 if( $Command == "info" )
 {
@@ -72,15 +74,35 @@ else if( $Command == "data" ) // Dump category info!
         $ugp[] = new eZXMLRPCInt( $group );
 
     $category = new eZImageCategory( $ID );
-    $ReturnData = new eZXMLRPCStruct( array( "Location" => createURLStruct( "ezimagecatalogue", "category", $category->id() ),
-                                             "Name" => new eZXMLRPCString( $category->name( false ) ),
-                                             "ParentID" => new eZXMLRPCInt( $category->parent( false ) ),
-                                             "Description" => new eZXMLRPCString( $category->description( false ) ),
-                                             "ReadGroups" => new eZXMLRPCArray( $rgp ),
-                                             "WriteGroups" => new eZXMLRPCArray( $wgp ),
-                                             "UploadGroups" => new eZXMLRPCArray( $ugp )
-                                             )
-                                      );
+    $cat_def_id = $category->parent( false );
+    $section_id = eZImageCategory::sectionIDStatic( $cat_def_id );
+    $section_lang = false;
+    if ( $section_id != 0 )
+    {
+        eZLog::writeNotice( "Section=$section_id for img cat $ID" );
+        $section = new eZSection( $section_id );
+        $section_lang = $section->language();
+        eZLog::writeNotice( "Language = $section_lang" );
+    }
+
+    $ret = array( "Location" => createURLStruct( "ezimagecatalogue", "category", $category->id() ),
+                  "Name" => new eZXMLRPCString( $category->name( false ) ),
+                  "ParentID" => new eZXMLRPCInt( $category->parent( false ) ),
+                  "Description" => new eZXMLRPCString( $category->description( false ) ),
+                  "ReadGroups" => new eZXMLRPCArray( $rgp ),
+                  "WriteGroups" => new eZXMLRPCArray( $wgp ),
+                  "UploadGroups" => new eZXMLRPCArray( $ugp )
+                  );
+
+    if ( $section_lang != false )
+    {
+        $charsetLocale = new eZLocale( $section_lang );
+        $section_charset = $charsetLocale->languageISO();
+        $ret["Section"] = new eZXMLRPCStruct( array( "Language" => $section_lang,
+                                                     "Charset" => $section_charset ) );
+    }
+
+    $ReturnData = new eZXMLRPCStruct( $ret );
 }
 else if( $Command == "storedata" ) // save the category data!
 {

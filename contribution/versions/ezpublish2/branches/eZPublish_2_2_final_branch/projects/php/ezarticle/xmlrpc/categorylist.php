@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: categorylist.php,v 1.20.2.2 2002/01/17 12:31:07 jb Exp $
+// $Id: categorylist.php,v 1.20.2.3 2002/04/26 14:59:10 jb Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -29,6 +29,8 @@ include_once( "ezarticle/classes/ezarticle.php" );
 include_once( "ezxmlrpc/classes/ezxmlrpcarray.php" );
 include_once( "ezxmlrpc/classes/ezxmlrpcstruct.php" );
 include_once( "ezxmlrpc/classes/ezxmlrpcstring.php" );
+include_once( "classes/ezlocale.php" );
+include_once( "ezsitemanager/classes/ezsection.php" );
 
 if ( $Command == "list" )
 {
@@ -73,11 +75,11 @@ if ( $Command == "list" )
     $cat = array();
     if ( $list_categories )
     {
-        $categoryCount = $category->countByParent( $category, true, $User );
+        $categoryCount = $category->countByParent( $category, true, $User, true );
         $total += $categoryCount;
         if ( $loc_offset < $categoryCount )
         {
-            $categoryList =& $category->getByParent( $category, true, "placement", $loc_offset, $loc_max, $User );
+            $categoryList =& $category->getByParent( $category, true, "placement", $loc_offset, $loc_max, $User, true );
             $loc_max -= count( $categoryList );
 
             foreach ( $categoryList as $catItem )
@@ -96,11 +98,11 @@ if ( $Command == "list" )
     $art = array();
     if ( $list_articles )
     {
-        $articleCount = $category->articleCount( true, true );
+        $articleCount = $category->articleCount( true, true, true );
         $total += $articleCount;
         if ( $loc_max > 0 and $loc_offset >= 0 )
         {
-            $articleList =& $category->articles( "alpha", true, true, $loc_offset, $loc_max );
+            $articleList =& $category->articles( "alpha", true, true, $loc_offset, $loc_max, 0, true );
             foreach( $articleList as $artItem )
             {
                 $topic =& $artItem->topic();
@@ -160,6 +162,16 @@ if ( $Command == "list" )
                                            "Modification date" => new eZXMLRPCString( "datetime" )
                                            ) );
 
+    $section_id = eZArticleCategory::sectionIDStatic( $category->id() );
+    $section_lang = false;
+    if ( $section_id != 0 )
+    {
+        eZLog::writeNotice( "Section=$section_id for article $ID" );
+        $section = new eZSection( $section_id );
+        $section_lang = $section->language();
+        eZLog::writeNotice( "Language = $section_lang" );
+    }
+
     if ( $articleCount >= count( $art ) && $categoryCount >= count( $cat ) )
     {
         $ret = array( "Catalogues" => $cat,
@@ -168,6 +180,13 @@ if ( $Command == "list" )
                       "Part" => $part );
         if ( $offset == 0 )
             $ret["Columns"] = $cols;
+        if ( $section_lang != false )
+        {
+            $charsetLocale = new eZLocale( $section_lang );
+            $section_charset = $charsetLocale->languageISO();
+            $ret["Section"] = new eZXMLRPCStruct( array( "Language" => $section_lang,
+                                                         "Charset" => $section_charset ) );
+        }
         $ReturnData = new eZXMLRPCStruct( $ret );
     }
     else
@@ -190,7 +209,7 @@ else if ( $Command == "tree" )
 {
     $cat = new eZArticleCategory();
 //      $cat->setName( "test" );
-    $tree =& categoryTree( $cat );
+    $tree =& categoryTree( $cat, $User );
     $ReturnData = createTreeStruct( $tree, "ezarticle", "category" );
 }
 else if ( $Command == "search" )
@@ -223,18 +242,32 @@ else if ( $Command == "search" )
     $ReturnData = new eZXMLRPCStruct( $ret );
 }
 
-function &categoryTree( $cat )
+function &categoryTree( $cat, &$User )
 {
-    $children =& eZArticleCategory::getByParent( $cat, true );
+    $children =& eZArticleCategory::getByParent( $cat, true, 'placement', 0, -1, $User, true );
     $child_array = array();
     foreach( $children as $child )
     {
-        $child_array[] = categoryTree( $child );
+        $child_array[] = categoryTree( $child, $user );
 //          break;
+    }
+    $section_id = eZArticleCategory::sectionIDStatic( $cat->id() );
+    $section_lang = false;
+    if ( $section_id != 0 )
+    {
+        $section = new eZSection( $section_id );
+        $section_lang = $section->language();
     }
     $item = array( "ID" => $cat->id(),
                    "Name" => $cat->name( false ),
                    "Children" => $child_array );
+    if ( $section_lang != false )
+    {
+        $charsetLocale = new eZLocale( $section_lang );
+        $section_charset = $charsetLocale->languageISO();
+        $item["Section"] = new eZXMLRPCStruct( array( "Language" => $section_lang,
+                                                      "Charset" => $section_charset ) );
+    }
     return $item;
 }
 

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezarticlecategory.php,v 1.103.2.4 2001/12/03 10:57:25 kaid Exp $
+// $Id: ezarticlecategory.php,v 1.103.2.5 2002/04/26 14:59:09 jb Exp $
 //
 // Definition of eZArticleCategory class
 //
@@ -344,7 +344,8 @@ class eZArticleCategory
 
       The categories are returned as an array of eZArticleCategory objects.      
     */
-    function getByParent( $parent, $showAll=false, $sortby='placement', $offset = 0, $max = -1, $user = false )
+    function getByParent( $parent, $showAll=false, $sortby='placement', $offset = 0, $max = -1, $user = false,
+                          $check_write = false )
     {
         if ( get_class( $parent ) == "ezarticlecategory" )
         {
@@ -391,7 +392,15 @@ class eZArticleCategory
             }
 
             if ( $usePermission )
-                $permissionSQL = "( ($groupSQL Permission.GroupID='-1') AND Permission.ReadPermission='1' ) AND ";
+            {
+                if ( $check_write )
+                {
+                    $permissionSQL = "( ($groupSQL Permission.GroupID='-1') AND Permission.ReadPermission='1' ) AND " .
+                         "( ($groupSQL Permission.GroupID='-1') AND Permission.WritePermission='1' ) AND ";
+                }
+                else
+                    $permissionSQL = "( ($groupSQL Permission.GroupID='-1') AND Permission.ReadPermission='1' ) AND ";
+            }
             else
                 $permissionSQL = "";
 
@@ -429,7 +438,7 @@ class eZArticleCategory
       The categories are returned as an array of eZArticleCategory objects.
       If $user is not a eZUser object the current user is used.
     */
-    function countByParent( $parent, $showAll=false, $user = false )
+    function countByParent( $parent, $showAll=false, $user = false, $check_write = false )
     {
         if ( get_class( $parent ) == "ezarticlecategory" )
         {
@@ -470,7 +479,12 @@ class eZArticleCategory
             $permissionTables = "";
 
             if ( $usePermission )
-                $permissionSQL = "( ($groupSQL Permission.GroupID='-1') AND Permission.ReadPermission='1' ) AND ";
+            {
+                if ( $check_write )
+                    $permissionSQL = "( ($groupSQL Permission.GroupID='-1') AND Permission.ReadPermission='1' AND Permission.WritePermission='1' ) AND ";
+                else
+                    $permissionSQL = "( ($groupSQL Permission.GroupID='-1') AND Permission.ReadPermission='1' ) AND ";
+            }
             else
                 $permissionSQL = "";
 
@@ -1070,7 +1084,8 @@ class eZArticleCategory
                         $fetchPublished=true,
                         $offset=0,
                         $limit=50,
-                        $categoryID=0 )
+                        $categoryID=0,
+                        $check_write = false )
     {
 
         if ( $categoryID != 0 )
@@ -1155,9 +1170,17 @@ class eZArticleCategory
        }
 
        if ( $usePermission )
-           $permissionSQL = "( $loggedInSQL ( $groupSQL Permission.GroupID='-1' AND CategoryPermission.GroupID='-1' )
+       {
+           if ( $check_write )
+           {
+               $permissionSQL = "( $loggedInSQL ( $groupSQL Permission.GroupID='-1' AND CategoryPermission.GroupID='-1' )
                                                AND Permission.ReadPermission='1' AND CategoryPermission.ReadPermission='1'
-                             ) ";
+                                               AND Permission.WritePermission='1' AND CategoryPermission.WritePermission='1') ";
+           }
+           else
+               $permissionSQL = "( $loggedInSQL ( $groupSQL Permission.GroupID='-1' AND CategoryPermission.GroupID='-1' )
+                                               AND Permission.ReadPermission='1' AND CategoryPermission.ReadPermission='1' ) ";
+       }
        else
            $permissionSQL = "";
        
@@ -1229,7 +1252,7 @@ class eZArticleCategory
       set to true then only published articles will be counted. If it is false, then only
       non-published articles will be counted.       
     */
-    function articleCount( $fetchAll=true, $fetchPublished=true )
+    function articleCount( $fetchAll=true, $fetchPublished=true, $check_write = false )
     {
         $db =& eZDB::globalDatabase();
 
@@ -1261,7 +1284,13 @@ class eZArticleCategory
         }
 
         if ( $usePermission )
-            $permissionSQL = "( ( $loggedInSQL ($groupSQL Permission.GroupID='-1' AND CategoryPermission.GroupID='-1' ) AND Permission.ReadPermission='1' AND CategoryPermission.ReadPermission='1') ) ";
+        {
+            if ( $check_write )
+                $permissionSQL = "( ( $loggedInSQL ($groupSQL Permission.GroupID='-1' AND CategoryPermission.GroupID='-1' ) AND Permission.ReadPermission='1' AND CategoryPermission.ReadPermission='1'
+                                   AND Permission.WritePermission='1' AND CategoryPermission.WritePermission='1') ) ";
+            else
+                $permissionSQL = "( ( $loggedInSQL ($groupSQL Permission.GroupID='-1' AND CategoryPermission.GroupID='-1' ) AND Permission.ReadPermission='1' AND CategoryPermission.ReadPermission='1') ) ";
+        }
         else
             $permissionSQL = "";
        

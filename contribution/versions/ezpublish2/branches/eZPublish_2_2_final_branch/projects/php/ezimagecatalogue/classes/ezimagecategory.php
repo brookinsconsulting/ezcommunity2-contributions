@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezimagecategory.php,v 1.44.2.2 2002/03/06 10:34:39 jhe Exp $
+// $Id: ezimagecategory.php,v 1.44.2.3 2002/04/26 14:59:10 jb Exp $
 //
 // Definition of eZImageCategory class
 //
@@ -611,7 +611,7 @@ class eZImageCategory
     /*!
       Returns every images in a category as a array of eZImage objects.
     */
-    function imageCount()
+    function imageCount( $check_write = false )
     {
         if ( $limit == 0 )
         {
@@ -642,7 +642,12 @@ class eZImageCategory
         }
         
         if ( $usePermission )
-            $permissionSQL = "( ( $groupSQL Permission.GroupID='-1' AND CategoryPermission.GroupID='-1' ) AND Permission.ReadPermission='1' AND CategoryPermission.ReadPermission='1') AND ";
+        {
+            if ( $check_write )
+                $permissionSQL = "( ( $groupSQL Permission.GroupID='-1' AND CategoryPermission.GroupID='-1' ) AND Permission.ReadPermission='1' AND CategoryPermission.ReadPermission='1' AND Permission.WritePermission='1' AND CategoryPermission.WritePermission='1') AND ";
+            else
+                $permissionSQL = "( ( $groupSQL Permission.GroupID='-1' AND CategoryPermission.GroupID='-1' ) AND Permission.ReadPermission='1' AND CategoryPermission.ReadPermission='1') AND ";
+        }
         else
             $permissionSQL = "";
         
@@ -667,7 +672,7 @@ class eZImageCategory
     /*!
       Returns every images in a category as a array of eZImage objects.
     */
-    function images( $sortMode = "time", $offset = 0, $limit = -1, $category=false )
+    function images( $sortMode = "time", $offset = 0, $limit = -1, $category=false, $check_write = false )
     {
        $db =& eZDB::globalDatabase();
 
@@ -711,8 +716,13 @@ class eZImageCategory
            $fromTablePermissionsSQL = ", eZImageCatalogue_ImagePermission as Permission, " .
                                       "eZImageCatalogue_CategoryPermission as CategoryPermission";
 
-           $permissionSQL = "( ( $groupSQL Permission.GroupID='-1' AND CategoryPermission.GroupID='-1' ) AND " .
-                            "Permission.ReadPermission='1' AND CategoryPermission.ReadPermission='1') AND ";
+           if ( $check_write )
+               $permissionSQL = "( ( $groupSQL Permission.GroupID='-1' AND CategoryPermission.GroupID='-1' ) AND " .
+                   "Permission.ReadPermission='1' AND CategoryPermission.ReadPermission='1' AND " .
+                   "Permission.WritePermission='1' AND CategoryPermission.WritePermission='1') AND ";
+           else
+               $permissionSQL = "( ( $groupSQL Permission.GroupID='-1' AND CategoryPermission.GroupID='-1' ) AND " .
+                   "Permission.ReadPermission='1' AND CategoryPermission.ReadPermission='1') AND ";
        }
        else
        {

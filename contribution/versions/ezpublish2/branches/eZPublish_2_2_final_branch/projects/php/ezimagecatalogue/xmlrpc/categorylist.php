@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: categorylist.php,v 1.8.2.2 2002/01/17 12:31:26 jb Exp $
+// $Id: categorylist.php,v 1.8.2.3 2002/04/26 14:59:11 jb Exp $
 //
 // Created on: <26-Oct-2000 19:40:18 bf>
 //
@@ -25,6 +25,8 @@
 
 include_once( "ezimagecatalogue/classes/ezimagecategory.php" );
 include_once( "ezimagecatalogue/classes/ezimage.php" );
+include_once( "classes/ezlocale.php" );
+include_once( "ezsitemanager/classes/ezsection.php" );
 
 if ( $Command == "list" )
 {
@@ -90,11 +92,11 @@ if ( $Command == "list" )
     $art = array();
     if ( $list_images )
     {
-        $imageCount = $category->imageCount();
+        $imageCount = $category->imageCount( true );
         $total += $imageCount;
         if ( $loc_max > 0 and $loc_offset >= 0 )
         {
-            $imageList =& $category->images( "time", $loc_offset, $loc_max );
+            $imageList =& $category->images( "time", $loc_offset, $loc_max, false, true );
             foreach( $imageList as $imageItem )
             {
                 $cols = array( "Caption" => new eZXMLRPCString( $imageItem->caption( false ) ),
@@ -136,6 +138,16 @@ if ( $Command == "list" )
 
     $part_arr = array( "Offset" => new eZXMLRPCInt( $offset ),
                        "Total" => new eZXMLRPCInt( $total ) );
+
+    $section_id = eZImageCategory::sectionIDStatic( $category->id() );
+    $section_lang = false;
+    if ( $section_id != 0 )
+    {
+        eZLog::writeNotice( "Section=$section_id for image category $ID" );
+        $section = new eZSection( $section_id );
+        $section_lang = $section->language();
+        eZLog::writeNotice( "Language = $section_lang" );
+    }
     if ( $offset == 0 )
     {
         $part_arr["Begin"] = new eZXMLRPCBool( true );
@@ -157,6 +169,15 @@ if ( $Command == "list" )
                   "Part" => $part );
     if ( $offset == 0 )
         $ret["Columns"] = $cols;
+
+    if ( $section_lang != false )
+    {
+        $charsetLocale = new eZLocale( $section_lang );
+        $section_charset = $charsetLocale->languageISO();
+        $ret["Section"] = new eZXMLRPCStruct( array( "Language" => $section_lang,
+                                                     "Charset" => $section_charset ) );
+    }
+
     $ReturnData = new eZXMLRPCStruct( $ret );
 }
 else if ( $Command == "tree" )
@@ -202,9 +223,23 @@ function &categoryTree( $cat )
     {
         $child_array[] = categoryTree( $child );
     }
+    $section_id = eZImageCategory::sectionIDStatic( $cat->id() );
+    $section_lang = false;
+    if ( $section_id != 0 )
+    {
+        $section = new eZSection( $section_id );
+        $section_lang = $section->language();
+    }
     $item = array( "ID" => $cat->id(),
                    "Name" => $cat->name( false ),
                    "Children" => $child_array );
+    if ( $section_lang != false )
+    {
+        $charsetLocale = new eZLocale( $section_lang );
+        $section_charset = $charsetLocale->languageISO();
+        $item["Section"] = new eZXMLRPCStruct( array( "Language" => $section_lang,
+                                                      "Charset" => $section_charset ) );
+    }
     return $item;
 }
 ?>

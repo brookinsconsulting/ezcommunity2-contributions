@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: index_xmlrpc.php,v 1.27.2.10 2002/04/24 13:47:46 jb Exp $
+// $Id: index_xmlrpc.php,v 1.27.2.11 2002/04/26 14:59:09 jb Exp $
 //
 // Created on: <09-Nov-2000 14:52:40 ce>
 //
@@ -734,6 +734,8 @@ function &createTreeStruct( $tree, $module, $type )
     }
     $item_arr = array( "Location" => createURLStruct( $module, $type, $id ),
                        "Name" => new eZXMLRPCString( $name ) );
+    if ( isset( $tree["Section"] ) )
+        $item_arr["Section"] = $tree["Section"];
     if ( count( $child_arr ) > 0 )
         $item_arr["Children"] = $child_arr;
     $item = new eZXMLRPCStruct( $item_arr );

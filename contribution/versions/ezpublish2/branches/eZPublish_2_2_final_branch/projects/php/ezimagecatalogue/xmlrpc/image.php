@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: image.php,v 1.17.2.3 2002/04/25 13:30:52 jb Exp $
+// $Id: image.php,v 1.17.2.4 2002/04/26 14:59:11 jb Exp $
 //
 // Created on: <14-Jun-2001 13:18:27 amos>
 //
@@ -30,6 +30,8 @@ include_once( "ezuser/classes/ezobjectpermission.php" );
 include_once( "ezxmlrpc/classes/ezxmlrpcarray.php" );
 include_once( "ezxmlrpc/classes/ezxmlrpcbool.php" );
 include_once( "ezxmlrpc/classes/ezxmlrpcint.php" );
+include_once( "classes/ezlocale.php" );
+include_once( "ezsitemanager/classes/ezsection.php" );
 
 if( $Command == "info" )
 {
@@ -104,7 +106,19 @@ else if( $Command == "data" ) // Dump image info!
                 $cats = $image->categories();
                 $cats = array_diff( $cats, array( $cat_def_id ) );
 
-                $ret = array( 
+                $cat_def = $image->categoryDefinition();
+                $cat_def_id = $cat_def->id();
+                $section_id = eZImageCategory::sectionIDStatic( $cat_def_id );
+                $section_lang = false;
+                if ( $section_id != 0 )
+                {
+                    eZLog::writeNotice( "Section=$section_id for image $ID" );
+                    $section = new eZSection( $section_id );
+                    $section_lang = $section->language();
+                    eZLog::writeNotice( "Language = $section_lang" );
+                }
+
+                $ret = array(
                     "Name" => new eZXMLRPCString( $image->name( false ) ),
                     "Caption" => new eZXMLRPCString( $image->caption( false ) ),
                     "Description" => new eZXMLRPCString( $image->description( false ) ),
@@ -121,6 +135,13 @@ else if( $Command == "data" ) // Dump image info!
                     "Size" => createSizeStruct( $variation->width(), $variation->height() ),
                     "RequestSize" => createSizeStruct( $width, $height )
                     );
+                if ( $section_lang != false )
+                {
+                    $charsetLocale = new eZLocale( $section_lang );
+                    $section_charset = $charsetLocale->languageISO();
+                    $ret["Section"] = new eZXMLRPCStruct( array( "Language" => $section_lang,
+                                                                 "Charset" => $section_charset ) );
+                }
                 $ReturnData = new eZXMLRPCStruct( $ret );
             }
             else
