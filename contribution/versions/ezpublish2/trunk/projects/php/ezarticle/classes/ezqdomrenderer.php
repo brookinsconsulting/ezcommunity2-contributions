@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezqdomrenderer.php,v 1.35 2001/08/24 13:24:49 bf Exp $
+// $Id: ezqdomrenderer.php,v 1.36 2001/08/29 12:49:16 bf Exp $
 //
 // Definition of eZQDomRenderer class
 //
@@ -405,6 +405,7 @@ class eZQDomrenderer
                 }
             }
 
+            if ( count( $paragraph->children ) > 0 )
             foreach ( $paragraph->children as $child )
             {
                 if ( $child->name == "text" )
