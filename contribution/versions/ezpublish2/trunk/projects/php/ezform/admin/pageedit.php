@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: pageedit.php,v 1.28 2001/12/21 17:43:30 jhe Exp $
+// $Id: pageedit.php,v 1.29 2001/12/22 12:14:14 jhe Exp $
 //
 // Definition of ||| class
 //
@@ -285,9 +285,14 @@ if ( isSet( $OK ) || isSet( $Update ) || isSet( $NewElement ) )
         $values =& $element->fixedValues();
         $elementType =& $element->elementType();
         $page->store();
-        if ( ( get_class( $elementType ) == "ezformelementtype" &&
-               $elementType->name() == "text_field_item" ) ||
-             $elementType == "text_field_item" )
+        if ( get_class( $elementType ) == "ezformelementtype" )
+            $name = $elementType->name();
+        else
+            $name = $elementType;
+        
+        if ( $name == "text_field_item" ||
+             $name == "numerical_float_item" ||
+             $name == "numerical_integer_item" )
         {
             if ( count( $ElementRange ) > 0 )
             {
@@ -606,6 +611,41 @@ if ( $element )
                 
                 $t->parse( "element_choice", "element_choice_tpl", true );
             }
+            else if ( $name == "table_item" )
+            {
+                $tableElements = eZFormTable::tableElements( $pageElement->id() );
+                foreach ( $tableElements as $pageElement )
+                {
+                    $elementType = $pageElement->elementType();
+                    if ( get_class( $elementType ) == "ezformelementtype" )
+                        $name = $elementType->name();
+                    else
+                        $name = $elementType;
+                    
+                    if ( $name == "multiple_select_item" ||
+                         $name == "dropdown_item" ||
+                         $name == "radiobox_item" ||
+                         $name == "checkbox_item" ||
+                         $name == "numerical_float_item" ||
+                         $name == "numerical_integer_item" ||
+                         $name == "text_field_item" )
+                    {
+                        if ( $pageElement->id() == $elementChoiceID )
+                        {
+                            $t->set_var( "selected", "selected" );
+                        }
+                        else
+                        {
+                            $t->set_var( "selected", "" );
+                        }
+                
+                        $t->set_var( "element_choice_id", $pageElement->id() );
+                        $t->set_var( "element_choice_name", $pageElement->name() );
+                        
+                        $t->parse( "element_choice", "element_choice_tpl", true );
+                    }
+                }
+            }
         }
 
         if ( $elementChoiceID == -1 )
@@ -653,19 +693,18 @@ if ( $element )
         $t->parse( "fixed_value_select", "fixed_value_select_tpl", true );
         $t->parse( "fixed_value_item", "fixed_value_item_tpl", true );
         $t->parse( "fixed_value_list", "fixed_value_list_tpl", true );
-
-        
     }
     else if ( isSet( $elementChoiceID ) )
     {
-        
         $elementType =& $element->elementType();
         if ( get_class( $elementType ) == "ezformelementtype" )
             $name = $elementType->name();
         else
             $name =  $elementType;
 
-        if ( $elementType && $elementType->name() == "text_field_item" )
+        if ( $name == "text_field_item" ||
+             $name == "numerical_float_item" ||
+             $name == "numerical_integer_item" )
         {
             if ( count( $TextFieldFrom ) <= 0 )
             {
@@ -677,7 +716,6 @@ if ( $element )
                     $TextFieldPage[$i] = $pageArray[$i]["Page"];
                     $ElementRange[$i] = $i;
                 }
-
             }
         
             $i = 0;
@@ -693,8 +731,6 @@ if ( $element )
                 $t->set_var( "fixed_value_id", $range_id );
                 $t->set_var( "from_value", $TextFieldFrom[$i] );
                 $t->set_var( "to_value", $TextFieldTo[$i] );
-                
-                
                 $t->set_var( "element_range", $i );
                 
                 $pages =& eZFormPage::getByFormID( $FormID );

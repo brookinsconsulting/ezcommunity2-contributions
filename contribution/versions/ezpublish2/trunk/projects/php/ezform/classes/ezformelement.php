@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezformelement.php,v 1.23 2001/12/21 17:44:47 jhe Exp $
+// $Id: ezformelement.php,v 1.24 2001/12/22 12:14:14 jhe Exp $
 //
 // ezformelement class
 //
@@ -541,7 +541,7 @@ class eZFormElement
                  $this->ElementType->name() == "checkbox_item" ||
                  $this->ElementType->name() == "radiobox_item" )
             {
-                $db->array_query( $formArray, "SELECT FixedValueID FROM eZForm_FormElementFixedValueLink WHERE ElementID='$this->ID'" );
+                $db->array_query( $formArray, "SELECT FixedValueID FROM eZForm_FormElementFixedValueLink WHERE ElementID='$this->ID' ORDER BY FixedValueID" );
                 
                 for ( $i = 0; $i < count( $formArray ); $i++ )
                 {

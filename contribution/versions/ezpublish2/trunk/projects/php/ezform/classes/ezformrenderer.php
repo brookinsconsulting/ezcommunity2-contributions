@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezformrenderer.php,v 1.36 2001/12/21 12:39:27 jhe Exp $
+// $Id: ezformrenderer.php,v 1.37 2001/12/22 12:14:14 jhe Exp $
 //
 // eZFormRenderer class
 //
@@ -558,7 +558,7 @@ class eZFormRenderer
                      ( $conditionArray[0]["Max"] == 1000 ) )
                     return $conditionArray[0]["Page"];
             }
-            
+
             foreach ( $conditionArray as $condition )
             {
                 if ( $condition["Min"] <= $value &&
@@ -568,6 +568,7 @@ class eZFormRenderer
                 }
             }
         }
+
         $db->query_single( $qa, "SELECT FormID, Placement FROM eZForm_FormPage WHERE ID='$pageID'" );
         $next = $qa[$db->fieldName( "Placement" )] + 1;
         $db->query_single( $nextPage, "SELECT ID FROM eZForm_FormPage
@@ -613,6 +614,16 @@ class eZFormRenderer
             {
                 $errorMessages[] = "form_sender_missing";
                 $errorMessagesAdditionalInfo[] = "";
+            }
+        }
+
+        $elementSize = count( $elements );
+        for ( $i = 0; $i < $elementSize; $i++ )
+        {
+            $elementType = $elements[$i]->elementType();
+            if ( $elementType->name() == "table_item" )
+            {
+                $elements = array_merge( $elements, eZFormTable::tableElements( $elements[$i]->id() ) );
             }
         }
 
