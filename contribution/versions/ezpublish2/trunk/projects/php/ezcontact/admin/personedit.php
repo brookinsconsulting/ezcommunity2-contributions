@@ -70,6 +70,8 @@ $t->set_block( "errors_tpl", "error_email_item_tpl", "error_email_item" );
 $t->set_block( "errors_tpl", "error_personno_item_tpl", "error_personno_item" );
 $t->set_block( "errors_tpl", "error_loginname_item_tpl", "error_loginname_item" );
 $t->set_block( "errors_tpl", "error_password_item_tpl", "error_password_item" );
+$t->set_block( "errors_tpl", "error_passwordrepeat_item_tpl", "error_passwordrepeat_item" );
+$t->set_block( "errors_tpl", "error_passwordmatch_item_tpl", "error_passwordmatch_item" );
 $t->set_block( "errors_tpl", "error_password_too_short_item_tpl", "error_password_too_short_item" );
 $t->set_block( "errors_tpl", "error_email_not_valid_item_tpl", "error_email_not_valid_item" );
 $t->set_block( "errors_tpl", "error_address_item_tpl", "error_address_item" );
@@ -85,6 +87,7 @@ $t->set_var( "person_id", "" );
 $t->set_var( "user_id", $UserID );
 
 $t->set_var( "user_name", "" );
+$t->set_var( "password_item", "" );
 $t->set_var( "old_password", "" );
 
 $t->set_var( "street1", "" );
@@ -181,37 +184,37 @@ if( $Action == "insert" || $Action == "update" )
 //         $error = true;
 //     }
     
-    if( empty( $LoginName ) && empty( $UserID ) )
-    {
-        $t->parse( "error_loginname_item", "error_loginname_item_tpl" );
-        $error = true;
-    }
+//      if( empty( $LoginName ) && empty( $UserID ) )
+//      {
+//          $t->parse( "error_loginname_item", "error_loginname_item_tpl" );
+//          $error = true;
+//      }
         
-    if( empty( $Password ) && empty( $UserID ) )
-    {
-        $t->parse( "error_password_item", "error_password_item_tpl" );
-        $error = true;
-    }
+//      if( empty( $Password ) && empty( $UserID ) )
+//      {
+//          $t->parse( "error_password_item", "error_password_item_tpl" );
+//          $error = true;
+//      }
     
-    if( empty( $PasswordRepeat ) && !empty( $Password ) && empty( $UserID ) )
-    {
-        $t->parse( "error_passwordrepeat_item", "error_passwordrepeat_item_tpl" );
-        $error = true;
-    }
+//      if( empty( $PasswordRepeat ) && !empty( $Password ) && empty( $UserID ) )
+//      {
+//          $t->parse( "error_passwordrepeat_item", "error_passwordrepeat_item_tpl" );
+//          $error = true;
+//      }
 
-    if( $PasswordRepeat != $Password &&  !empty( $Password ) && !empty( $PasswordRepeat ) && empty( $UserID ) )
-    {
-        $t->parse( "error_passwordmatch_item", "error_passwordmatch_item_tpl" );
-        $error = true;
-    }
-    else
-    {
-        if( strlen( $Password ) < 4 )
-        {
-            $t->parse( "error_password_too_short_item", "error_password_too_short_item_tpl" );
-            $error = true;
-        }
-    }
+//      if( $PasswordRepeat != $Password &&  !empty( $Password ) && !empty( $PasswordRepeat ) && empty( $UserID ) )
+//      {
+//          $t->parse( "error_passwordmatch_item", "error_passwordmatch_item_tpl" );
+//          $error = true;
+//      }
+//      else
+//      {
+//          if( strlen( $Password ) < 4 )
+//          {
+//              $t->parse( "error_password_too_short_item", "error_password_too_short_item_tpl" );
+//              $error = true;
+//          }
+//      }
     
     if( empty( $Street1 ) || empty( $Place ) || empty( $Zip ) )
     {
@@ -242,20 +245,20 @@ if( $Action == "insert" && $error == false && $Add_User == true )
     $user->setLastName( $LastName );
     $user->setLogin( $LoginName );
     $user->setEmail( $Online[0] );
-    if( $Password == $PasswordRepeat && !empty( $Password ) )
-    {
-        $user->setPassword( $Password );
-        $user->store();
-        $UserID = $user->id();
-        $Add_User = false;
+//      if( $Password == $PasswordRepeat && !empty( $Password ) )
+//      {
+//          $user->setPassword( $Password );
+//          $user->store();
+//          $UserID = $user->id();
+//          $Add_User = false;
                     
-        // add user to usergroup
-        $AnonymousUserGroup = $ini->read_var( "eZUserMain", "AnonymousUserGroup" );
-        setType( $AnonymousUserGroup, "integer" );
+//          // add user to usergroup
+//          $AnonymousUserGroup = $ini->read_var( "eZUserMain", "AnonymousUserGroup" );
+//          setType( $AnonymousUserGroup, "integer" );
 
-        $group = new eZUserGroup( $AnonymousUserGroup );
-        $group->addUser( $user );
-    }
+//          $group = new eZUserGroup( $AnonymousUserGroup );
+//          $group->addUser( $user );
+//      }
 }
 
 if( ( $Action == "insert" || $Action == "update" ) && $error == false && $Add_User == false )
@@ -278,7 +281,7 @@ if( ( $Action == "insert" || $Action == "update" ) && $error == false && $Add_Us
     $person->setContactType( $ContactType );
     $person->setCreator( $UserID );
     $person->store();
-    $person->addUser( $user );
+//      $person->addUser( $user );
 
     // adresss
     $address = new eZAddress( $AddressID, true );
@@ -336,18 +339,18 @@ if( $Action == "new" )
 
     $t->set_var( "person_id", "0" );
        
-    if( $Add_User == false )
-    { 
+//      if( $Add_User == false )
+//      { 
         $t->set_var( "user_id", $user->id() );
         $t->set_var( "firstname", $user->firstName() );
         $t->set_var( "lastname", $user->lastName() );
         $t->set_var( "email", $user->email() );
         $t->set_var( "password_item", "" );
-    }
-    else
-    {
-        $t->parse( "password_item", "password_item_tpl" );
-    }
+//      }
+//      else
+//      {
+//          $t->parse( "password_item", "password_item_tpl" );
+//      }
 
     $t->parse( "person_item", "person_item_tpl" );
     $t->parse( "address_item", "address_item_tpl" );
@@ -374,9 +377,9 @@ if( $Action == "edit" )
     $t->set_var( "lastname", $person->lastName() );
     $t->set_var( "personno", $person->personNo() );
     
-    $user = $person->user();
+//      $user = $person->user();
     
-    $t->set_var( "user_id", $user[0]->id() );
+//      $t->set_var( "user_id", $user->id() );
 
     $BirthDate = $person->birthDate();
     
@@ -503,9 +506,9 @@ if( $Action == "formdata" )
     $t->set_var( "birthyear", $BirthYear );
     $t->set_var( "comment", $Comment );
 
-    $t->set_var( "user_name", $LoginName );
-    $t->set_var( "password", $Password );
-    $t->set_var( "old_password", "" );
+//      $t->set_var( "user_name", $LoginName );
+//      $t->set_var( "password", $Password );
+//      $t->set_var( "old_password", "" );
 
     $t->set_var( "street1", $Street1 );
     $t->set_var( "street2", $Street2 );
@@ -520,14 +523,14 @@ if( $Action == "formdata" )
     $t->set_var( "email", $Online[0] );
     $t->set_var( "person_id", "" );
 
-    if( empty( $UserID ) )
-    {
-        $t->parse( "password_item", "password_item_tpl" );
-    }
-    else
-    {
-        $t->set_var( "password_item", "" );
-    }
+//      if( empty( $UserID ) )
+//      {
+//          $t->parse( "password_item", "password_item_tpl" );
+//      }
+//      else
+//      {
+//          $t->set_var( "password_item", "" );
+//      }
     $t->parse( "person_item", "person_item_tpl" );
     $t->parse( "web_item", "web_item_tpl" );
     $t->parse( "email_item", "email_item_tpl" );
