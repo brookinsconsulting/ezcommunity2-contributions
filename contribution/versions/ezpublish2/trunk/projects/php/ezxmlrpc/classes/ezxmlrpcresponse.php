@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezxmlrpcresponse.php,v 1.15 2001/07/05 09:25:01 bf Exp $
+// $Id: ezxmlrpcresponse.php,v 1.16 2001/11/05 10:44:12 bf Exp $
 //
 // Definition of eZXMLRPCResponse class
 //
@@ -66,7 +66,8 @@ class eZXMLRPCResponse
         
         $stream = $this->stripHTTPHeader( $stream );
 
-        $domTree =& qdom_tree( $stream );
+//        $domTree =& qdom_tree( $stream );
+        $domTree =& xmltree( $stream );
 
         foreach ( $domTree->children as $response )
         {

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezxmlrpcdatatypedecoder.php,v 1.6 2001/07/03 15:17:38 jb Exp $
+// $Id: ezxmlrpcdatatypedecoder.php,v 1.7 2001/11/05 10:44:12 bf Exp $
 //
 // Definition of eZXMLRPCDataTypeDecoder class
 //
@@ -56,6 +56,7 @@ class eZXMLRPCDataTypeDecoder
             {
                 // if no type is specified make it a string
                 case "#text" :
+                case "text" :
                 case "string" :
                 {                                    
                     $result =& $this->decodeString( $type );
@@ -121,7 +122,9 @@ class eZXMLRPCDataTypeDecoder
         {
             foreach ( $type->children as $content )
             {
-                if ( $content->name == "#text" )
+                if ( $content->name == "#text" ||
+                      $content->name == "text"
+                     )
                 {
                     $result = new eZXMLRPCString( $content->content );
                 }
@@ -143,7 +146,9 @@ class eZXMLRPCDataTypeDecoder
         $result = 0;
         foreach ( $type->children as $content )
         {
-            if ( $content->name == "#text" )
+            if ( $content->name == "#text" ||
+            $content->name == "text"
+                 )
             {
                 $result = new eZXMLRPCInt( $content->content );
             }
@@ -159,7 +164,7 @@ class eZXMLRPCDataTypeDecoder
         $result = 0;
         foreach ( $type->children as $content )
         {
-            if ( $content->name == "#text" )
+            if ( $content->name == "#text" ||  $content->name == "text"  )
             {
                 $result = new eZXMLRPCDouble( $content->content );
             }
@@ -175,7 +180,7 @@ class eZXMLRPCDataTypeDecoder
         $result = 0;
         foreach ( $type->children as $content )
         {
-            if ( $content->name == "#text" )
+            if ( $content->name == "#text" ||  $content->name == "text"  )
             {
                 $bool = new eZXMLRPCBool( );
                 $bool->decode( $content->content );
@@ -193,7 +198,7 @@ class eZXMLRPCDataTypeDecoder
         $result = 0;
         foreach ( $type->children as $content )
         {
-            if ( $content->name == "#text" )
+            if ( $content->name == "#text" ||  $content->name == "text"  )
             {
                 $bin = new eZXMLRPCBase64( );
                 $bin->decode( $content->content );
@@ -211,7 +216,7 @@ class eZXMLRPCDataTypeDecoder
         $result = 0;
         foreach ( $type->children as $content )
         {
-            if ( $content->name == "#text" )
+            if ( $content->name == "#text" ||  $content->name == "text"  )
             {
                 $date = new eZXMLRPCDateTime( );
                 $date->decode( $content->content );
@@ -272,7 +277,7 @@ class eZXMLRPCDataTypeDecoder
                     {
                         foreach ( $memberValue->children as $content )
                         {
-                            if ( $content->name == "#text" )
+                            if ( $content->name == "#text" || $content->name == "text" )
                             {
                                 $memberName = $content->content;
                             }
