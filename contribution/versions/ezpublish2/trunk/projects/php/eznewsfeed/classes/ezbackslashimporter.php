@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezbackslashimporter.php,v 1.2 2001/01/02 15:38:36 bf Exp $
+// $Id: ezbackslashimporter.php,v 1.3 2001/01/12 15:09:33 ce Exp $
 //
 // Definition of ezbackslashimporter class
 //
@@ -66,7 +66,7 @@ class eZBackslashImporter
         if ( count( $doc->children ) > 0 )
         foreach ( $doc->children as $child )
         {
-            if ( $child->name == "backslash" )
+            if ( $child->name == "backslash" || $child->name == "linuxtoday" )
             {
                 foreach ( $child->children as $channel )
                 {
