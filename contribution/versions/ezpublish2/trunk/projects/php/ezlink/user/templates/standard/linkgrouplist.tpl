@@ -41,6 +41,15 @@
 </tr>
 <!-- BEGIN group_item_tpl -->
 {start_tr}
+        <td class="{td_class}">
+	<!-- BEGIN image_item_tpl -->
+	<p><img src="{image_url}" alt="{image_caption}" width="{image_width}" height="{image_height}" />
+	</p>
+	<!-- END image_item_tpl -->
+	<!-- BEGIN no_image_tpl -->
+	&nbsp;
+	<!-- END no_image_tpl -->
+        </td>
 	<td class="{td_class}">
 	<b><a href="/link/group/{linkgroup_id}/">{linkgroup_title}</a></b>
 	</td>

@@ -1,6 +1,6 @@
 <?
 //
-// $Id: groupedit.php,v 1.36 2001/01/25 10:43:16 ce Exp $
+// $Id: groupedit.php,v 1.37 2001/02/09 11:05:49 ce Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <26-Oct-2000 14:57:28 ce>
@@ -39,6 +39,9 @@ include_once( "classes/ezhttptool.php" );
 include( "ezlink/classes/ezlinkgroup.php" );
 include( "ezlink/classes/ezlink.php" );
 include( "ezlink/classes/ezhit.php" );
+include_once( "ezimagecatalogue/classes/ezimage.php" );
+include_once( "ezimagecatalogue/classes/ezimagecategory.php" );
+
 
 require( "ezuser/admin/admincheck.php" );
 
@@ -62,6 +65,22 @@ if ( $Action == "insert" )
             $group->setTitle( $Title );
             $group->setParent( $ParentCategory );
             $ttile = "";
+
+            $file = new eZImageFile();
+            if ( $file->getUploadedFile( "ImageFile" ) )
+            {
+                $image = new eZImage( );
+                $image->setName( "Image" );
+                $image->setImage( $file );
+
+                $image->store();
+                
+                $group->setImage( $image );
+            }
+            else
+            {
+            }
+            
             $group->store();
             eZHTTPTool::header( "Location: /link/group/". $ParentCategory );
             exit();
@@ -73,7 +92,8 @@ if ( $Action == "insert" )
     }
     else
     {
-        $error_msg = $error->read_var( "strings", "error_norights" );eZHTTPTool::header( "Location: /link/norights" );
+        $error_msg = $error->read_var( "strings", "error_norights" );
+        eZHTTPTool::header( "Location: /link/norights" );
     }
 }
 
@@ -127,8 +147,24 @@ if ( $Action == "update" )
             $group->get ( $LinkGroupID );
             $group->setTitle ( $Title );
             $group->setParent( $ParentCategory );
+
+            $file = new eZImageFile();
+            if ( $file->getUploadedFile( "ImageFile" ) )
+            {
+                $image = new eZImage( );
+                $image->setName( "Image" );
+                $image->setImage( $file );
+                
+                $image->store();
+                
+                $group->setImage( $image );
+            }
+            else
+            {
+            }
+            
             $group->update();
-            eZHTTPTool::header( "Location: /link/group/" );
+            eZHTTPTool::header( "Location: /link/group/$ParentCategory" );
             exit();
         }
         else
@@ -154,6 +190,7 @@ $languageIni = new INIFIle( "ezlink/admin/intl/" . $Language . "/groupedit.php.i
 $headline = $languageIni->read_var( "strings", "headline_insert" );
 
 $t->set_block( "group_edit", "parent_category_tpl", "parent_category" );
+$t->set_block( "group_edit", "image_item_tpl", "image_item" );
 
 $groupselect = new eZLinkGroup();
 $groupLinkList = $groupselect->getTree( );
@@ -165,7 +202,10 @@ if ( $Action == "new" )
         eZHTTPTool::header( "Location: /link/norights" );
     }
 
-    $action = "insert";
+    $t->set_var( "image_item", "" );
+    $t->set_var( "category_name", "" );
+    
+    $t->set_var( "action_value", "insert" );
 }
 
 // Modifing a group.
@@ -180,16 +220,42 @@ if ( $Action == "edit" )
     }
     else
     {
+        $linkGroup = new eZLinkGroup();
+        $linkGroup->get ( $LinkGroupID );
 
-    $editlinkgroup = new eZLinkGroup();
-    $editlinkgroup->get ( $LinkGroupID );
+        $parentID = $linkGroup->parent();
+        
+        $t->set_var( "category_name", $linkGroup->title() );
+        $t->set_var( "category_id", $linkGroup->id() );
 
-    $title = $editlinkgroup->title();
-    
-    $action = "update";
-    $message = "Rediger linkkategori";
-    $submit = "Rediger";
-    $ttitle = $editlinkgroup->title();
+        $image =& $linkGroup->image();
+        
+        if ( $image->id() != 0 )
+        {
+            $imageWidth =& $ini->read_var( "eZLinkMain", "CategoryImageWidth" );
+            $imageHeight =& $ini->read_var( "eZLinkMain", "CategoryImageHeight" );
+            
+            $variation =& $image->requestImageVariation( $imageWidth, $imageHeight );
+            
+            $imageURL = "/" . $variation->imagePath();
+            $imageWidth = $variation->width();
+            $imageHeight = $variation->height();
+            $imageCaption = $image->caption();
+            
+            $t->set_var( "image_width", $imageWidth );
+            $t->set_var( "image_height", $imageHeight );
+            $t->set_var( "image_url", $imageURL );
+            $t->set_var( "image_caption", $imageCaption );
+            $t->set_var( "no_image", "" );
+            $t->parse( "image_item", "image_item_tpl" );
+        }
+        else
+        {
+            $t->parse( "no_image", "no_image_tpl" );
+            $t->set_var( "image_item", "" );
+        }
+
+        $t->set_var( "action_value", "update" );
     }
 
 }
@@ -203,9 +269,9 @@ foreach( $groupLinkList as $groupLinkItem )
     $t->set_var( "grouplink_title", $groupLinkItem[0]->title() );
     $t->set_var( "grouplink_parent", $groupLinkItem[0]->parent() );
 
-    if ( $editlinkgroup )
+    if ( is_numeric( $parentID ) )
     {
-        if ( $editlinkgroup->id() == $groupLinkItem[0]->id() )
+        if ( $parentID == $groupLinkItem[0]->id() )
         {
             $t->set_var( "is_selected", "selected" );
         }
@@ -226,14 +292,9 @@ foreach( $groupLinkList as $groupLinkItem )
     $t->parse( "parent_category", "parent_category_tpl", true );
 }
 
-$t->set_var( "submit_text", $submit );
-$t->set_var( "action_value", $action );
-
 $t->set_var( "headline", $headline );
 
-$t->set_var( "title", $ttitle );
 $t->set_var( "error_msg", $error_msg );
 
-$t->set_var( "linkgroup_id", $LinkGroupID );
 $t->pparse( "output", "group_edit" );
 ?>

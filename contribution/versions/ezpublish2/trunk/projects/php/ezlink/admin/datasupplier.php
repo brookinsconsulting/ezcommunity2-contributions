@@ -21,6 +21,11 @@ switch ( $url_array[2] )
         include( "ezlink/admin/linkgrouplist.php" );
     }
     break;
+
+    case "unacceptedlist":
+    {
+        include( "ezlink/admin/unacceptedlist.php" );
+    }
     
     case "linkedit" :
     {

@@ -1,5 +1,5 @@
 <?
-// $Id: ezaddress.php,v 1.2 2001/01/26 10:13:51 jb Exp $
+// $Id: ezaddress.php,v 1.3 2001/02/09 11:05:49 ce Exp $
 //
 // Definition of eZAddress class
 //
@@ -142,9 +142,8 @@ class eZAddress
     {
         if ( !$id )
             $id = $this->ID;
-        $GLOBALS["DEBUG"] = true;
         $db =& eZDB::globalDatabase();
-        $db->query( "DELETE FROM eZAddress_Address WHERE ID='$id'", true );
+        $db->query( "DELETE FROM eZAddress_Address WHERE ID='$id'" );
     }    
     
 

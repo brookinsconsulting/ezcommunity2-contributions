@@ -14,12 +14,14 @@
 
 <hr noshade size="4">
 
-<form method="post" action="/link/groupedit/{action_value}/{linkgroup_id}/">
+<form method="post" action="/link/groupedit/{action_value}/{category_id}/" enctype="multipart/form-data">
+<input type="hidden" name="max_file_size" value="3000000">
+
 
 <p class="error">{error_msg}</p>
 
 <p class="boxtext">{intl-name}:</p>
-<input type="text" name="Title" size="40" value="{title}">
+<input type="text" name="Title" size="40" value="{category_name}">
 
 <p class="boxtext">{intl-where}:</p>
 <select name="ParentCategory">
@@ -29,9 +31,19 @@
 <!-- END parent_category_tpl -->
 </select>
 
-<br /><br />
+<!-- BEGIN image_item_tpl -->
+<p class="boxtext">{intl-th_type_current_image}:</p>
+<p><img src="{image_url}" alt="{image_caption}" width="{image_width}" height="{image_height}" />
+</p>
+<!-- END image_item_tpl -->
+<p class="boxtext">{intl-th_type_image}:</p>
+<!-- BEGIN no_image_item_tpl -->
 
-<hr noshade size="4"/>
+<!-- END no_image_item_tpl -->
+<input size="40" name="ImageFile" type="file" /><br /><br />
+<hr noshade="noshade" size="4" />
+
+<br />
 
 <table cellspacing="0" cellpadding="0" border="0">
 <tr>

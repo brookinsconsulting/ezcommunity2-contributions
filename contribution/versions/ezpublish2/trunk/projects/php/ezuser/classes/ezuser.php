@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezuser.php,v 1.50 2001/02/06 15:46:30 jb Exp $
+// $Id: ezuser.php,v 1.51 2001/02/09 11:05:49 ce Exp $
 //
 // Definition of eZCompany class
 //
@@ -708,7 +708,7 @@ class eZUser
         $db =& eZDB::globalDatabase();
 
        $db->array_query( $address_array, "SELECT AddressID FROM eZUser_UserAddressLink
-                                WHERE UserID='$this->ID'" );
+                                WHERE UserID='$this->ID' ORDER BY AddressID" );
 
        foreach ( $address_array as $address )
        {

@@ -5,7 +5,7 @@
 <form metdod="post" action="/forum/unapprovededit/">
 
 <table cellspacing="0" cellpadding="4" border="0">
-<!-- BEGIN message_item_tpl -->
+<!-- BEGIN link_item_tpl -->
 <tr>
     <td>
         <div class="boxtext">{intl-subject}:</div>
@@ -42,7 +42,7 @@
     &nbsp;
     </td>
 </tr>
-<!-- END message_item_tpl -->
+<!-- END link_item_tpl -->
 </table>
 
 <br />

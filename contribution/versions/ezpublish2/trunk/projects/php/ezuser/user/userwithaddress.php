@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: userwithaddress.php,v 1.35 2001/02/09 10:06:03 ce Exp $
+// $Id: userwithaddress.php,v 1.36 2001/02/09 11:05:49 ce Exp $
 //
 //
 // Christoffer A. Elo <ce@ez.no>
@@ -100,6 +100,7 @@ $t->set_var( "login_value", "$Login" );
 $t->set_var( "email_value", "$Email" );
 $t->set_var( "password_value", "$Password" );
 $t->set_var( "verify_password_value", "$VerifyPassword" );
+
 
 // Check if there are addresses
 if ( count ( $AddressID ) != 0 )
@@ -325,10 +326,17 @@ if ( isset( $NewAddress ) && $error == false )
         $user->addAddress( $newAddress );
 
     if ( $Action == "Insert" )
+    {
         $Action = "Insert";
-    else
-        $Action = "Edit";                
-
+    }
+    if ( $Action == "Update" )
+    {
+        $Action = "Update";
+    }
+}
+elseif ( isset( $NewAddress ) && $error == true )
+{
+    $Action = "Edit";
 }
 
 // Delete address
@@ -338,11 +346,20 @@ if ( isset( $DeleteAddress ) )
     {
         foreach( $DeleteAddressArrayID as $ID )
         {
+            
             $address = new eZAddress( $ID );
             $user->removeAddress( $address );
         }
     }
-    $Action = "Edit";
+
+    if ( $Action == "Insert" )
+    {
+        $Action = "Insert";
+    }
+    if ( $Action == "Update" )
+    {
+        $Action = "Update";
+    }
 }
 
 // Insert a user with address
@@ -415,7 +432,7 @@ if ( $Action == "Insert" && $error == false )
 if ( $Action == "Update" )
 {
     $user = eZUser::currentUser();
- 
+
     if ( $Password != "dummy" )
         $user->setPassword( $Password );
     
@@ -455,17 +472,29 @@ if ( $Action == "Update" )
 
                 
         $address->store();
-
     }
 
     $user->store();
 
     $mainAddress = new eZAddress( $MainAddressID );
-    $address->setMainAddress( $mainAddress, $user );
+
+    if ( get_class( $address ) == "ezaddress" )
+        $address->setMainAddress( $mainAddress, $user );
 
     if ( isSet( $RedirectURL )  && ( $RedirectURL != "" ) )
     {
         eZHTTPTool::header( "Location: $RedirectURL" );
+        exit();
+    }
+
+    if ( isSet ( $NewAddress ) )
+    {
+        eZHTTPTool::header( "Location: /user/userwithaddress/edit/" );
+        exit();
+    }
+    if ( isSet ( $DeleteAddress ) )
+    {
+        eZHTTPTool::header( "Location: /user/userwithaddress/edit/" );
         exit();
     }
     

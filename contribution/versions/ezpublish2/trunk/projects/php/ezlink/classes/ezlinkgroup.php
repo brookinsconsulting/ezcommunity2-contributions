@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezlinkgroup.php,v 1.41 2001/01/22 14:43:01 jb Exp $
+// $Id: ezlinkgroup.php,v 1.42 2001/02/09 11:05:49 ce Exp $
 //
 // Definition of eZLinkGroup class
 //
@@ -89,6 +89,7 @@ class eZLinkGroup
         $this->Database->query( "INSERT INTO eZLink_LinkGroup SET
                 ID='$this->ID',
                 Title='$this->Title',
+                ImageID='$this->ImageID',
                 Parent='$this->Parent'" );
     }
 
@@ -100,7 +101,8 @@ class eZLinkGroup
         $this->dbInit();
         $this->Database->query( "UPDATE eZLink_LinkGroup SET 
                 Title='$this->Title',
-                Parent='$this->Parent'
+                Parent='$this->Parent',
+                ImageID='$this->ImageID'
                 WHERE ID='$this->ID'" );
     }
 
@@ -130,6 +132,7 @@ class eZLinkGroup
             $this->ID =& $linkgroup_array[ 0 ][ "ID" ];
             $this->Title =& $linkgroup_array[ 0 ][ "Title" ];
             $this->Parent =& $linkgroup_array[ 0 ][ "Parent" ];
+            $this->ImageID = $linkgroup_array[ 0 ][ "ImageID" ];
         }
     }
 
@@ -365,6 +368,38 @@ class eZLinkGroup
         return $this->Parent;
 
     }
+
+    /*!
+        Set an image for this category.
+     */
+    function setImage( &$value )
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+        
+        if ( get_class( $value ) == "ezimage" )
+        {
+            $this->ImageID = $value->id();
+        }
+        elseif( is_numeric( $value ) )
+        {
+            $this->ImageID = $value;
+        }
+    }
+
+    /*!
+      Returns the image id.
+    */
+    function &image( )
+    {
+        if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+        $image = new eZImage( $this->ImageID );
+
+        return $image;
+    }
+
     
 	/*!
       Initializing the database.
@@ -381,6 +416,7 @@ class eZLinkGroup
     var $ID;
     var $Title;
     var $Parent;
+    var $ImageID;
 
     /// Is true if the object has database connection, false if not.
     var $IsConnected;

@@ -178,7 +178,7 @@ CREATE TABLE eZArticle_ArticleFileLink (
 DROP TABLE IF EXISTS eZContact_AddressDefinition;
 CREATE TABLE eZContact_AddressDefinition (
   AddressID int(11),
-  UserID int(11),
+  UserID int(11) NOT NULL,
   PRIMARY KEY (UserID)
 );
 
@@ -280,10 +280,15 @@ CREATE TABLE eZTrade_AttributeValue (
 );
 
 
+### BETA 1- BETA 2
+
+alter table eZTrade_Order add IsExported int not null default 0;    
+
 # user table
 alter table eZUser_User add Signature text NOT NULL;   
 
-### BETA 1- BETA 2
+
+alter table eZLink_LinkGroup add ImageID int;
 
 alter table eZTrade_Order add IsExported int not null default 0;    
 alter table eZTrade_Order add Date datetime;
