@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezuser.php,v 1.26 2000/11/23 11:06:59 pkej-cvs Exp $
+// $Id: ezuser.php,v 1.27 2000/11/28 09:43:48 bf-cvs Exp $
 //
 // Definition of eZCompany class
 //
@@ -548,7 +548,7 @@ class eZUser
                  
             if ( $idle > $user->timeoutValue() )
             {
-                $session->delete( );                
+//                  $session->delete( );                
             }
             else            
             {
