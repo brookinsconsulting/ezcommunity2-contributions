@@ -14,14 +14,21 @@ alter table eZArticle_ArticlePermission add index ( ReadPermission );
 alter table eZArticle_ArticlePermission add index ( WritePermission );  
 alter table eZArticle_Article add index ( Published );  
 
+# uses much space:
+alter table eZArticle_Article add index ( Keywords );  
+
 optimize table eZArticle_Article;
 optimize table eZArticle_ArticlePermission;
 optimize table eZArticle_ArticleCategoryLink;
 optimize table eZArticle_Category;
 
+#
+# Order by the field which you normally order articles by
+alter table eZArticle_Article order by Published;  
 
 
 SELECT Article.ID as ArticleID FROM eZArticle_Article AS Article, eZArticle_ArticleCategoryLink as Link, eZArticle_ArticlePermission AS Permission, eZArticle_Category AS Category WHERE ( (  ( Permission.GroupID='-1') AND Permission.ReadPermission='1' )  ) AND Article.IsPublished = 'true'  AND Link.CategoryID='1' AND Permission.ObjectID=Article.ID AND Link.ArticleID=Article.ID AND Category.ID=Link.CategoryID ORDER BY Article.Published DESC LIMIT 10,10
+
 
 SELECT Article.ID as ArticleID FROM eZArticle_Article AS Article, eZArticle_ArticleCategoryLink as Link, eZArticle_ArticlePermission AS Permission, eZArticle_Category AS Category WHERE Article.IsPublished = 'true'  AND Link.CategoryID='1' AND Permission.ObjectID=Article.ID AND Link.ArticleID=Article.ID AND Category.ID=Link.CategoryID GROUP BY Article.ID ORDER BY Article.Published DESC LIMIT 10,10
 

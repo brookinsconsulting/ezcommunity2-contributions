@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezlocale.php,v 1.34 2001/03/01 14:06:24 jb Exp $
+// $Id: ezlocale.php,v 1.35 2001/03/19 09:44:48 bf Exp $
 //
 // Definition of eZLocale class
 //
@@ -266,12 +266,7 @@ class eZLocale
             {
                 $value = $obj->value();
 
-                $valueArray =& explode( ".", $value );
-                $fracts = $valueArray[1] . "<br>";
-                settype( $fracts, "integer" );
-                $integerValue =& $valueArray[0];          
-
-                $value =& number_format( $integerValue, 2, $this->DecimalSymbol, $this->ThousandsSymbol );
+                $value =& number_format( $value, 2, $this->DecimalSymbol, $this->ThousandsSymbol );
 
                 if ( $obj->isNegative )
                 {
@@ -296,7 +291,10 @@ class eZLocale
                     }                    
                 }
 
-                $returnString = $value;
+                $returnString =& $value;
+
+                
+                
                 break;
             }
         }

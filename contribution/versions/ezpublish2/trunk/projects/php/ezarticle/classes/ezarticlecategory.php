@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezarticlecategory.php,v 1.50 2001/03/17 16:02:34 bf Exp $
+// $Id: ezarticlecategory.php,v 1.51 2001/03/19 09:44:48 bf Exp $
 //
 // Definition of eZArticleCategory class
 //
@@ -715,7 +715,7 @@ class eZArticleCategory
            $currentUserID = $user->id();
            $loggedInSQL = "Article.AuthorID=$currentUserID OR";
        }
-    
+
 
        $query = "SELECT Article.ID as ArticleID
                   FROM eZArticle_Article AS Article,
@@ -730,6 +730,7 @@ class eZArticleCategory
                         AND Link.ArticleID=Article.ID
                  ORDER BY $OrderBy
                  LIMIT $offset,$limit";
+       
 
        /* SQL before optimizing
        $query = "SELECT Article.ID as ArticleID

@@ -3,6 +3,8 @@ eZ publish changelog:
 
 Changes from 2.0.0 to 2.0.1
 ---------------------------
+* Optimised eZ article. Is now much more capable of handling > 10.000 articles.
+* Fixed renering of currencies with decimals, the integerpart was only rendered.
 * Fixed cron update of news feeds.
 * Fixed a reply/post error in forum where anonymous users could post when they shouldn't be able to.
 * Fixed the links in the e-mails sent when people posts to the forum.
