@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezxmlrpcclient.php,v 1.10 2001/03/16 10:40:56 bf Exp $
+// $Id: ezxmlrpcclient.php,v 1.11 2001/03/16 14:07:42 bf Exp $
 //
 // Definition of eZXMLRPCClient class
 //
@@ -126,15 +126,12 @@ class eZXMLRPCClient
             // send the XML-RPC call
             if ( $fp != 0 )
             {
+                $authentification = "";
                 if ( ( $this->login() != "" ) )
                 {
-                    $authentification = "Authorization: Basic " . base64_encode( $this->login() . ":" . $this->password() . "\r\n");
+                    $authentification = "Authorization: Basic " . base64_encode( $this->login() . ":" . $this->password() ) . "\r\n" ;
                 }
-                else
-                {
-                    $authentification = "";
-                }
-                
+                         
                 $HTTPCall = "POST " . $this->Path . " HTTP/1.0\r\n" .
                      "User-Agent: eZ xmlrpc client\r\n" .
                      "Host: " . $this->Server . "\r\n" .
