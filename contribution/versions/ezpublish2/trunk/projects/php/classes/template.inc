@@ -2,12 +2,10 @@
 /*
  * Session Management for PHP3
  *
- * (C) Copyright 1999 NetUSE GmbH
+ * (C) Copyright 1999-2000 NetUSE GmbH
  *                    Kristian Koehntopp
  *
- * $Id: template.inc,v 1.1 2000/09/01 08:44:13 ce-cvs Exp $
- *
- * Modified by Jo Henrik Endrerud <jhe@ez.no>
+ * $Id: template.inc,v 1.2 2000/09/28 09:32:38 pkej-cvs Exp $
  *
  */ 
 
@@ -106,9 +104,9 @@ class Template {
       $name = $handle;
 
     $str = $this->get_var($parent);
-    $reg = "/<!--\s+BEGIN $handle\s+-->(.*)<!--\s+END $handle\s+-->/sm";
+    $reg = "/<!--\s+BEGIN $handle\s+-->(.*)\n\s*<!--\s+END $handle\s+-->/sm";
     preg_match_all($reg, $str, $m);
-    $str = preg_replace($reg, "{$name}", $str);
+    $str = preg_replace($reg, "{" . "$name}", $str);
     $this->set_var($handle, $m[1][0]);
     $this->set_var($parent, $str);
   }
@@ -255,11 +253,11 @@ class Template {
       break;
       
       case "remove":
-        $str = preg_replace("/\{[^}]+\}/", "", $str);
+        $str = preg_replace('/{[^ \t\r\n}]+}/', "", $str);
       break;
 
       case "comment":
-        $str = preg_replace("/\{([^}]+)\}/", "<!-- Template $handle: Variable \\1 undefined -->", $str);
+        $str = preg_replace('/{([^ \t\r\n}]+)}/', "<!-- Template $handle: Variable \\1 undefined -->", $str);
       break;
     }
     
@@ -283,12 +281,9 @@ class Template {
    */
   function filename($filename) {
     if (substr($filename, 0, 1) != "/") {
-      if (substr($this->root, -1) == "/") {
-        $filename = $this->root.$filename;
-      } else {
-        $filename = $this->root."/".$filename;
-      }
+      $filename = $this->root."/".$filename;
     }
+    
     if (!file_exists($filename))
       $this->halt("filename: file $filename does not exist.");
 
@@ -306,16 +301,15 @@ class Template {
    * handle:  load file defined by handle, if it is not loaded yet.
    */
   function loadfile($handle) {
-    if ($this->varkeys[$handle] and !empty($this->varvals[$handle]))
+    if (isset($this->varkeys[$handle]) and !empty($this->varvals[$handle]))
       return true;
 
     if (!isset($this->file[$handle])) {
       $this->halt("loadfile: $handle is not a valid handle.");
       return false;
     }
-//    $filename = $this->filename($this->file[$handle]);
-
     $filename = $this->file[$handle];
+
     $str = implode("", @file($filename));
     if (empty($str)) {
       $this->halt("loadfile: While loading $handle, $filename does not exist or is empty.");
