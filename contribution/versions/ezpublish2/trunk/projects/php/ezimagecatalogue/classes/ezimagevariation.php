@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezimagevariation.php,v 1.16 2001/03/07 16:24:03 jb Exp $
+// $Id: ezimagevariation.php,v 1.17 2001/03/26 19:27:08 bf Exp $
 //
 // Definition of eZImageVariation class
 //
@@ -150,11 +150,7 @@ class eZImageVariation
         if ( $groupID != "" )
         {
             $this->Database->array_query( $image_variation_array, "SELECT * FROM eZImageCatalogue_ImageVariation WHERE VariationGroupID='$groupID' AND ImageID='$imageID'" );
-            if ( count( $image_variation_array ) > 1 )
-            {
-                die( "Error: ImageVariations's with the same ID was found in the database. This shouldent happen." );
-            }
-            else if( count( $image_variation_array ) == 1 )
+            if ( count( $image_variation_array ) > 0 )
             {
                 $this->ID =& $image_variation_array[0][ "ID" ];
                 $this->ImageID =& $image_variation_array[0][ "ImageID" ];
