@@ -13,6 +13,7 @@ Changes from version 2.0 PRE 1 to PRE 2
 * Bugfix for files with uppercase letters in the suffix.
 * Image list is improved, there's no longer images which take up more than one cell,
   they are also centered.
+* File sizes for images are shown correctly.
 
 
 Changes from version 2.0 beta 3 to PRE 1
