@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: footer.php,v 1.16 2001/07/29 23:30:57 kaid Exp $
+// $Id: footer.php,v 1.17 2001/09/29 12:35:14 kaid Exp $
 //
 // Created on: <23-Jan-2001 16:06:07 bf>
 //
@@ -30,8 +30,8 @@ $Language = $ini->read_var( "eZArticleMain", "Language" );
 
 // include_once( "classes/template.inc" );
 // $t = new Template( $siteDir . "admin/templates/" . $SiteStyle );
-// $t->set_var( "www_dir", $wwwDir );
-// $t->set_var( "index", $index );
+// $t->set_var( "www_dir", $GlobalSiteIni->WWWDir );
+// $t->set_var( "index", $GlobalSiteIni->Index );
 
 include_once( "classes/eztemplate.php" );
 $t = new eZTemplate( "admin/templates/" . $SiteStyle,

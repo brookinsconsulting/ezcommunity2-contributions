@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: index.php,v 1.113 2001/09/29 11:22:23 kaid Exp $
+// $Id: index.php,v 1.114 2001/09/29 12:35:14 kaid Exp $
 //
 // Created on: <09-Nov-2000 14:52:40 ce>
 //
@@ -100,6 +100,11 @@ include_once( "classes/ezhttptool.php" );
 $ini =& INIFile::globalINI();
 $GlobalSiteIni =& $ini;
 
+// Set the global nVH variables.
+$GlobalSiteIni->Index = $index;
+$GlobalSiteIni->WWWDir = $wwwDir;
+unset($index);
+unset($wwwDir);
 
 // Design
 include_once( "ezsession/classes/ezsession.php" );

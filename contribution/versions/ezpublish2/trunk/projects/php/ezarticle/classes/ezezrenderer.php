@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezezrenderer.php,v 1.20 2001/07/29 23:30:58 kaid Exp $
+// $Id: ezezrenderer.php,v 1.21 2001/09/29 12:35:14 kaid Exp $
 //
 // Definition of eZEzRenderer class
 //
@@ -183,7 +183,7 @@ class eZEzRenderer
                              <tr>
                              <td bgcolor=\"#c0c0c0\" width=\"100%\">
                              
-                             <div class=\"listheadline\"><img src=\"$wwwDir$index/images/1x1.gif\" width=\"4\" height=\"1\" border=\"0\">"
+                             <div class=\"listheadline\"><img src=\"$GlobalSiteIni->WWWDir$GlobalSiteIni->Index/images/1x1.gif\" width=\"4\" height=\"1\" border=\"0\">"
                              .
                              $paragraph->children[0]->content
                              .
@@ -250,7 +250,7 @@ class eZEzRenderer
 
                         if ( ( $href[0] == "/" ) || ( $href[0] == "#" ) )
                         {                        
-                            $pageContent .= "<a href=\"$wwwDir$index$href\">" . $text . "</a>";
+                            $pageContent .= "<a href=\"$GlobalSiteIni->WWWDir$GlobalSiteIni->Index$href\">" . $text . "</a>";
                         }
                         else
                         {
@@ -314,13 +314,13 @@ class eZEzRenderer
                         if ( ( $href[0] == "/" ) || ( $href[0] == "#" ) )
                         {
                             $pageContent .= "
-                                       <img align=\"baseline\" src=\"$wwwDir$index/images/pil-space.gif\" width=\"50\" height=\"10\" border=\"0\" hspace=\"0\">&nbsp;<a class=\"path\" href=\"$wwwDir$index$href\">"
+                                       <img align=\"baseline\" src=\"$GlobalSiteIni->WWWDir$GlobalSiteIni->Index/images/pil-space.gif\" width=\"50\" height=\"10\" border=\"0\" hspace=\"0\">&nbsp;<a class=\"path\" href=\"$GlobalSiteIni->WWWDir$GlobalSiteIni->Index$href\">"
                                  . $text . "</a>";
                         }
                         else
                         {
                             $pageContent .= "
-                                       <img align=\"baseline\" src=\"$wwwDir$index/images/pil-space.gif\" width=\"50\" height=\"10\" border=\"0\" hspace=\"0\">&nbsp;<a class=\"path\" href=\"http://$href\">"
+                                       <img align=\"baseline\" src=\"$GlobalSiteIni->WWWDir$GlobalSiteIni->Index/images/pil-space.gif\" width=\"50\" height=\"10\" border=\"0\" hspace=\"0\">&nbsp;<a class=\"path\" href=\"http://$href\">"
                                  . $text . "</a>";
 
                         }
@@ -414,7 +414,7 @@ class eZEzRenderer
                             $imageTags = "<table width=\"$imageWidth\" align=\"$imageAlignment\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\">
                                             <tr>
                                             <td>
-                                                        <img src=\"$wwwDir$index$imageURL\" border=\"0\" width=\"$imageWidth\" height=\"$imageHeight\" />
+                                                        <img src=\"$GlobalSiteIni->WWWDir$GlobalSiteIni->Index$imageURL\" border=\"0\" width=\"$imageWidth\" height=\"$imageHeight\" />
                                                         </td>
                                                 </tr>
                                                 <tr>

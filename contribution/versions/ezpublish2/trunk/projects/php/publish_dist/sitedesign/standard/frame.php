@@ -25,7 +25,7 @@ if ( isset( $MetaRedirectLocation ) && isset( $MetaRedirectTimer ) )
 
 ?>
 
-<link rel="stylesheet" type="text/css" href="<? print $wwwDir; ?>/sitedesign/<? print ($GlobalSiteDesign); ?>/style.css" />
+<link rel="stylesheet" type="text/css" href="<? print $GlobalSiteIni->WWWDir; ?>/sitedesign/<? print ($GlobalSiteDesign); ?>/style.css" />
 
 <script language="JavaScript1.2">
 <!--//
@@ -81,9 +81,9 @@ else
 
 </head>
 
-<body bgcolor="#b5b5b5" topmargin="6" marginheight="6" leftmargin="6" marginwidth="6"  onload="MM_preloadImages('<? print $wwwDir; ?>/images/redigerminimrk.gif','<? print $wwwDir; ?>/images/slettminimrk.gif','<? print $wwwDir; ?>/images/downloadminimrk.gif','<? print $wwwDir; ?>/images/addminimrk.gif')">
+<body bgcolor="#b5b5b5" topmargin="6" marginheight="6" leftmargin="6" marginwidth="6"  onload="MM_preloadImages('<? print $GlobalSiteIni->WWWDir; ?>/images/redigerminimrk.gif','<? print $GlobalSiteIni->WWWDir; ?>/images/slettminimrk.gif','<? print $GlobalSiteIni->WWWDir; ?>/images/downloadminimrk.gif','<? print $GlobalSiteIni->WWWDir; ?>/images/addminimrk.gif')">
 
-<img src="<? print $wwwDir; ?>/sitedesign/<? print ($GlobalSiteDesign); ?>/images/ezpublish-standard.gif" height="40" width="610" border="0" alt="" />
+<img src="<? print $GlobalSiteIni->WWWDir; ?>/sitedesign/<? print ($GlobalSiteDesign); ?>/images/ezpublish-standard.gif" height="40" width="610" border="0" alt="" />
 
 
 <table width="100%" border="0" cellspacing="0" cellpadding="4">
@@ -119,10 +119,10 @@ else
 
    <!-- Left menu end -->
 
-   <img src="<? print $wwwDir; ?>/images/1x1.gif" width="130" height="8" border="0"><br />
+   <img src="<? print $GlobalSiteIni->WWWDir; ?>/images/1x1.gif" width="130" height="8" border="0"><br />
    </td>
 
-   <td width="1%" bgcolor="#ffffff"><img src="<? print $wwwDir; ?>/images/1x1.gif" width="2" height="1" border="0" alt="0" /></td>
+   <td width="1%" bgcolor="#ffffff"><img src="<? print $GlobalSiteIni->WWWDir; ?>/images/1x1.gif" width="2" height="1" border="0" alt="0" /></td>
    <td width="96%" bgcolor="#ffffff">
     <?
     $CategoryID = 1;
@@ -145,7 +145,7 @@ else
 
     <br />
     </td>
-    <td width="1%" bgcolor="#ffffff"><img src="<? print $wwwDir; ?>/images/1x1.gif" width="2" height="1" border="0" alt="" /></td>
+    <td width="1%" bgcolor="#ffffff"><img src="<? print $GlobalSiteIni->WWWDir; ?>/images/1x1.gif" width="2" height="1" border="0" alt="" /></td>
 
     <td width="1%" bgcolor="#f0f0f0">
 
@@ -228,20 +228,20 @@ if ( isset( $Design ) and $Design == 3 )
     ?>
 
     <h2>Alternative sitedesigns:</h2>
-    <a href="<? print( $wwwDir . $index . $REQUEST_URI . "?Design=1"); ?>"><b>Intranet</b></a><br />
-    <a href="<? print( $wwwDir . $index . $REQUEST_URI . "?Design=2"); ?>"><b>Trade</b></a><br />
-    <a href="<? print( $wwwDir . $index . $REQUEST_URI . "?Design=3"); ?>"><b>News</b></a><br />
+    <a href="<? print( $GlobalSiteIni->WWWDir . $GlobalSiteIni->Index . $REQUEST_URI . "?Design=1"); ?>"><b>Intranet</b></a><br />
+    <a href="<? print( $GlobalSiteIni->WWWDir . $GlobalSiteIni->Index . $REQUEST_URI . "?Design=2"); ?>"><b>Trade</b></a><br />
+    <a href="<? print( $GlobalSiteIni->WWWDir . $GlobalSiteIni->Index . $REQUEST_URI . "?Design=3"); ?>"><b>News</b></a><br />
 
       <!-- Right menu end -->
 
-   <img src="<? print $wwwDir; ?>/images/1x1.gif" width="130" height="20" border="0" alt="" /><br />
+   <img src="<? print $GlobalSiteIni->WWWDir; ?>/images/1x1.gif" width="130" height="20" border="0" alt="" /><br />
 
    <div align="center">
-   <a target="_blank" href="http://developer.ez.no"><img src="<? print $wwwDir; ?>/images/powered-by-ezpublish-100x35-trans-lgrey.gif" width="100" height="35" border="0" alt="Powered by eZ publish" /></a>
+   <a target="_blank" href="http://developer.ez.no"><img src="<? print $GlobalSiteIni->WWWDir; ?>/images/powered-by-ezpublish-100x35-trans-lgrey.gif" width="100" height="35" border="0" alt="Powered by eZ publish" /></a>
    </div>
 
     <a href="?PrintableVersion=enabled">Printerfriendly version</a>
-   <img src="<? print $wwwDir; ?>/images/1x1.gif" width="130" height="8" border="0" alt="" /><br />
+   <img src="<? print $GlobalSiteIni->WWWDir; ?>/images/1x1.gif" width="130" height="8" border="0" alt="" /><br />
 
    </td>
 </tr>
@@ -257,7 +257,7 @@ $StoreStats = $ini->read_var( "eZStatsMain", "StoreStats" );
 if ( $StoreStats == "enabled" )
 {
     // callback for storing the stats
-    $imgSrc = $wwwDir . "/stats/store" . $REQUEST_URI . "1x1.gif";
+    $imgSrc = $GlobalSiteIni->WWWDir . "/stats/store" . $REQUEST_URI . "1x1.gif";
     print( "<img src=\"$imgSrc\" height=\"1\" width=\"1\" border=\"0\" alt=\"\" />" );
 }
 

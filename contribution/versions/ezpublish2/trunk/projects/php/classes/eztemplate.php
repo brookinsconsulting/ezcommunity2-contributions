@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eztemplate.php,v 1.44 2001/09/25 11:51:10 bf Exp $
+// $Id: eztemplate.php,v 1.45 2001/09/29 12:35:14 kaid Exp $
 //
 // Definition of eZTemplate class
 //
@@ -447,9 +447,9 @@ class eZTemplate
         }
 
         // For non-virtualhost, non-rewrite setup
-        global $wwwDir, $index;
-        $this->set_var( 'www_dir', $wwwDir );
-        $this->set_var( 'index', $index );
+        global $GlobalSiteIni;
+        $this->set_var( 'www_dir', $GlobalSiteIni->WWWDir );
+        $this->set_var( 'index', $GlobalSiteIni->Index );
 
     }
 

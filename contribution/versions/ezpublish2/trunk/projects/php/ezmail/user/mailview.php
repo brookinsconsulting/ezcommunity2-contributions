@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: mailview.php,v 1.18 2001/09/04 10:34:55 fh Exp $
+// $Id: mailview.php,v 1.19 2001/09/29 12:35:15 kaid Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -159,7 +159,7 @@ $files = $mail->files();
 $i = 0;
 foreach ( $files as $file )
 {
-    $t->set_var( "file_name", "<a href=\"$wwwDir$index/filemanager/download/" . $file->id() . "/" /*. $file->originalFileName()*/ . "\">" . htmlspecialchars( $file->originalFileName() ) . "</a>" );
+    $t->set_var( "file_name", "<a href=\"$GlobalSiteIni->WWWDir$GlobalSiteIni->Index/filemanager/download/" . $file->id() . "/" /*. $file->originalFileName()*/ . "\">" . htmlspecialchars( $file->originalFileName() ) . "</a>" );
     $t->set_var( "file_id", $file->id() );
     
     $size = $file->siFileSize();

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: adlist.php,v 1.20 2001/07/29 23:30:58 kaid Exp $
+// $Id: adlist.php,v 1.21 2001/09/29 12:35:14 kaid Exp $
 //
 // Created on: <25-Nov-2000 15:44:37 bf>
 //
@@ -67,7 +67,7 @@ foreach ( $adList as $ad )
     }
     else
     {
-        print( "<a target=\"_blank\" href=\"$wwwDir$index/ad/goto/$adID/\"><img src=\"$wwwDir$imgSRC\" width=\"$imgWidth\" height=\"$imgHeight\" border=\"0\" alt=\"\" /></a><br />" );
+        print( "<a target=\"_blank\" href=\"".$GlobalSiteIni->WWWDir.$GlobalSiteIni->Index."/ad/goto/$adID/\"><img src=\"".$GlobalSiteIni->WWWDir."$imgSRC\" width=\"$imgWidth\" height=\"$imgHeight\" border=\"0\" alt=\"\" /></a><br />" );
     }
 }
 

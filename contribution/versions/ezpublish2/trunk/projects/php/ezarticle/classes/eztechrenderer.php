@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eztechrenderer.php,v 1.74 2001/08/17 12:57:42 bf Exp $
+// $Id: eztechrenderer.php,v 1.75 2001/09/29 12:35:14 kaid Exp $
 //
 // Definition of eZTechRenderer class
 //
@@ -342,7 +342,7 @@ class eZTechRenderer
    
     function &renderLink( $pageContent, $paragraph )
     {
-        global $wwwDir, $index;
+        global $GlobalSiteIni;
 
         // link
         if ( $paragraph->name == "link" )
@@ -368,7 +368,7 @@ class eZTechRenderer
 
             if ( !preg_match( "%^(([a-z]+://)|/|#)%", $href ) )
                 $href = "http://" . $href;
-            $pageContent .= "<a href=\"$wwwDir$index$href\">" . $text . "</a>";
+            $pageContent .= "<a href=\"" . $GlobalSiteIni->WWWDir . $GlobalSiteIni->Index . $href . "\">" . $text . "</a>";
         }
 
         // link
@@ -396,7 +396,7 @@ class eZTechRenderer
             if ( !preg_match( "%^(([a-z]+://)|/|#)%", $href ) )
                 $href = "http://" . $href;
 
-            $pageContent .= "<img align=\"baseline\" src=\"$wwwDir/images/bulletlink.gif\" width=\"50\" height=\"10\" border=\"0\" hspace=\"0\">&nbsp;<a class=\"path\" href=\"$href\">" . $text . "</a>";
+            $pageContent .= "<img align=\"baseline\" src=\"" . $GlobalSiteIni->WWWDir . "/images/bulletlink.gif\" width=\"50\" height=\"10\" border=\"0\" hspace=\"0\">&nbsp;<a class=\"path\" href=\"$href\">" . $text . "</a>";
         }
         
         // ez anchor
@@ -511,7 +511,7 @@ class eZTechRenderer
 
     function &renderImage( $pageContent, $paragraph, $articleImages )
     {
-        global $wwwDir, $index;
+        global $GlobalSiteIni;
 
         $articleID = $this->Article->id();
         // image
@@ -622,8 +622,8 @@ class eZTechRenderer
                     $imageTags = "<br clear=\"all\"><table width=\"$imageWidth\" align=\"$imageAlignment\" border=\"0\" cellspacing=\"0\" cellpadding=\"4\">
                                             <tr>
                                             <td>
-                                                         <a href=\"$wwwDir$index/imagecatalogue/imageview/$imageID/?RefererURL=/article/$viewMode/$articleID/\">
-                                                        <img src=\"$wwwDir$imageURL\" border=\"0\" width=\"$imageWidth\" height=\"$imageHeight\" alt=\"\" />
+                                                         <a href=\"" . $GlobalSiteIni->WWWDir . $GlobalSiteIni->Index . "/imagecatalogue/imageview/$imageID/?RefererURL=/article/$viewMode/$articleID/\">
+                                                        <img src=\"" . $GlobalSiteIni->WWWDir . "imageURL\" border=\"0\" width=\"$imageWidth\" height=\"$imageHeight\" alt=\"\" />
                                                         </a>   
                                                         </td>
                                                 </tr>
@@ -636,7 +636,7 @@ class eZTechRenderer
                 }
                 else
                 {                    
-                    $imageTags = "<a href=\"$wwwDir$index/imagecatalogue/imageview/$imageID/?RefererURL=/article/$viewMode/$articleID/\"><img src=\"$wwwDir$imageURL\" border=\"0\" width=\"$imageWidth\" height=\"$imageHeight\" alt=\"\" /></a>";
+                    $imageTags = "<a href=\"" . $GlobalSiteIni->WWWDir . $GlobalSiteIni->Index . "/imagecatalogue/imageview/$imageID/?RefererURL=/article/$viewMode/$articleID/\"><img src=\"" . $GlobalSiteIni->WWWDir . "$imageURL\" border=\"0\" width=\"$imageWidth\" height=\"$imageHeight\" alt=\"\" /></a>";
                 }
                 $pageContent .=  $imageTags;
             }

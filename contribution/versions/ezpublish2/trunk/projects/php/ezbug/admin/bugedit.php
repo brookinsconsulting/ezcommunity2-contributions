@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: bugedit.php,v 1.46 2001/09/07 20:06:24 fh Exp $
+// $Id: bugedit.php,v 1.47 2001/09/29 12:35:14 kaid Exp $
 //
 // Created on: <28-Nov-2000 19:45:35 bf>
 //
@@ -401,7 +401,7 @@ if ( $Action == "Edit" )
             $t->set_var( "file_number", $i + 1 );
             $t->set_var( "file_id", $file->id() );
         
-            $t->set_var( "file_name", "<a href=\"$wwwDir$index/filemanager/download/" . $file->id() . "/" . $file->originalFileName() . "\">" . $file->name() . "</a>" );
+            $t->set_var( "file_name", "<a href=\"".$GlobalSiteIni->WWWDir.$GlobalSiteIni->Index."/filemanager/download/" . $file->id() . "/" . $file->originalFileName() . "\">" . $file->name() . "</a>" );
     
             $t->parse( "file", "file_tpl", true );
     
@@ -436,8 +436,8 @@ if ( $Action == "Edit" )
             if( $caption() == "" )
                 $caption = "-";
             
-            $t->set_var( "image_name", "<a href=\"$wwwDir$index/imagecatalogue/imageview/" . $image->id()
-                         . "?RefererURL=$wwwDir$index/bug/edit/edit/$BugID" ."\">" . $caption . "</a>" );
+            $t->set_var( "image_name", "<a href=\"".$GlobalSiteIni->WWWDir.$GlobalSiteIni->Index."/imagecatalogue/imageview/" . $image->id()
+                         . "?RefererURL=/bug/edit/edit/$BugID" ."\">" . $caption . "</a>" );
             $t->parse( "image", "image_tpl", true );
     
             $i++;
@@ -610,7 +610,7 @@ function sendAssignedMail( $bug, $userEmail, $ini, $Language )
 
     $host = preg_replace( "/^admin\./", "", $headerInfo["Host"] );
             
-    $mailTemplate->set_var( "bug_url", "http://" . $host . "$wwwDir$index/bug/bugview/" . $bug->id() );
+    $mailTemplate->set_var( "bug_url", "http://" . $host . $GlobalSiteIni->WWWDir . $GlobalSiteIni->Index . "/bug/bugview/" . $bug->id() );
     $mailTemplate->set_var( "bug_id", $bug->id() );
     $mailTemplate->set_var( "bug_title", $bug->name( false ) );
     $mailTemplate->set_var( "bug_module", $module->name( false ) );

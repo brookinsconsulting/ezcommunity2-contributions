@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezhttptool.php,v 1.13 2001/07/29 23:30:57 kaid Exp $
+// $Id: ezhttptool.php,v 1.14 2001/09/29 12:35:14 kaid Exp $
 //
 // Definition of eZTextTool class
 //
@@ -87,7 +87,7 @@ class eZHTTPTool
     */
     function header( $string )
     {
-        global $wwwDir, $index;        
+        global $GlobalSiteIni;        
 
         $sid =& $GLOBALS["PHPSESSID"];
 
@@ -103,7 +103,7 @@ class eZHTTPTool
         // Redirect differently, when we are not using virtual hosts/mod_rewrite
         if ( ereg( "^Location:[ ]*(/.*)", $string, $regs ) )
         {
-            $string = "Location: " . $wwwDir . $index . $regs[1];
+            $string = "Location: " . $GlobalSiteIni->WWWDir . $GlobalSiteIni->Index . $regs[1];
         }
 
         header( $string );

@@ -1,6 +1,6 @@
 <?php 
 // 
-// $Id: INIFile.php,v 1.45 2001/09/27 16:22:31 jakobn Exp $
+// $Id: INIFile.php,v 1.46 2001/09/29 12:35:14 kaid Exp $
 //
 // Implements a simple INI-file parser
 //
@@ -425,5 +425,7 @@ class INIFile
     var $GROUPS = array();
     var $CURRENT_GROUP = "";
     var $WRITE_ACCESS = "";    
+    var $Index = "";
+    var $WWWDir = "";
 } 
 ?>

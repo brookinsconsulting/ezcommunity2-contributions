@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: print_footer.php,v 1.4 2001/07/29 23:30:57 kaid Exp $
+// $Id: print_footer.php,v 1.5 2001/09/29 12:35:14 kaid Exp $
 //
 // Created on: <04-Mar-2001 13:57:25 bf>
 //
@@ -38,8 +38,8 @@ $t->set_file( array(
 
 $t->set_var( "site_style", $SiteStyle );
 $t->set_var( "module_dir", $moduleName );
-$t->set_var( "www_dir", $wwwDir );
-$t->set_var( "index", $index );
+$t->set_var( "www_dir", $GlobalSiteIni->WWWDir );
+$t->set_var( "index", $GlobalSiteIni->Index );
 
 
 $t->pparse( "output", "print_footer_tpl" );

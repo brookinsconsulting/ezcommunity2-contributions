@@ -3,7 +3,7 @@
 <hr noshade="noshade" size="4" />
 <br />
 
-<form action="<? print $wwwDir.$index; ?>/example/page/" method="post">
+<form action="<? print $GlobalSiteIni->WWWDir.$GlobalSiteIni->Index; ?>/example/page/" method="post">
 
 <input type="text" name="Value" value="" />
 

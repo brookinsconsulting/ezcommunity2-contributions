@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: optionedit.php,v 1.23 2001/07/20 11:42:01 jakobn Exp $
+// $Id: optionedit.php,v 1.24 2001/09/29 12:35:15 kaid Exp $
 //
 // Created on: <20-Sep-2000 10:18:33 bf>
 //
@@ -377,7 +377,7 @@ foreach ( $OptionValue as $value )
     {
         $t->set_var( "price_value", $option_price[1][$group] );
         $t->set_var( "price_group", $group );
-        $t->set_var( "index", $i );
+        $t->set_var( "value_index", $i );
         $t->parse( "option_price_item", "option_price_item_tpl", true );
         $i++;
     }

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: loginfooter.php,v 1.5 2001/07/29 23:30:57 kaid Exp $
+// $Id: loginfooter.php,v 1.6 2001/09/29 12:35:14 kaid Exp $
 //
 // Created on: <23-Jan-2001 16:06:07 bf>
 //
@@ -40,8 +40,8 @@ $t->set_file( array(
 
 $t->set_var( "site_style", $SiteStyle );
 $t->set_var( "module_dir", $moduleName );
-$t->set_var( "www_dir", $wwwDir );
-$t->set_var( "index", $index );
+$t->set_var( "www_dir", $GlobalSiteIni->WWWDir );
+$t->set_var( "index", $GlobalSiteIni->Index );
 
 
 $t->pparse( "output", "footer_tpl" );

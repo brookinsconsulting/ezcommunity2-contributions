@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: bugview.php,v 1.13 2001/07/29 23:31:02 kaid Exp $
+// $Id: bugview.php,v 1.14 2001/09/29 12:35:14 kaid Exp $
 //
 // Created on: <04-Dec-2000 11:44:31 bf>
 //
@@ -185,8 +185,8 @@ if( count( $images ) > 0 )
         $t->set_var( "image_id", $image->id() );
 
         $tmp = $image->caption();
-        $t->set_var( "image_name", "<a href=\"$wwwDir$index/imagecatalogue/imageview/" . $image->id()
-                     . "?RefererURL=$wwwDir$index/bug/bugview/$BugID" . "\">" . $tmp . "</a>" );
+        $t->set_var( "image_name", "<a href=\"".$GlobalSiteIni->WWWDir.$GlobalSiteIni->Index."/imagecatalogue/imageview/" . $image->id()
+                     . "?RefererURL=/bug/bugview/$BugID" . "\">" . $tmp . "</a>" );
         $t->parse( "screenshot_item", "screenshot_item_tpl", true );
     
         $i++;
@@ -218,7 +218,7 @@ if( count( $files ) > 0 )
         $t->set_var( "file_number", $i + 1 );
 //        $t->set_var( "file_id", $file->id() );
         $tmp = $file->name();
-        $t->set_var( "file_name", "<a href=\"$wwwDir$index/filemanager/download/" . $file->id() . "/" . $file->originalFileName() . "\">" .  $tmp . "</a>" );
+        $t->set_var( "file_name", "<a href=\"".$GlobalSiteIni->WWWDir.$GlobalSiteIni->Index."/filemanager/download/" . $file->id() . "/" . $file->originalFileName() . "\">" .  $tmp . "</a>" );
     
         $t->parse( "patch_item", "patch_item_tpl", true );
     
