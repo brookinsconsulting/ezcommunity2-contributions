@@ -9,7 +9,7 @@
 <table width="100%" cellpadding="0" cellspacing="0" border="0">
 <h3 class="error">{error}</h3>
 <tr>
-	<td>
+	<td width="1%">
 	<p class="boxtext">{intl-firstname}:</p>
 	<input type="text" size="20" name="FirstName" value="{first_name_value}"/>
 	</td>
@@ -18,24 +18,38 @@
 	<input type="text" size="20" name="LastName" value="{last_name_value}"/>
 	</td>
 </tr>
-</table>
+<tr>
+	<td colspan="2">
+	<p class="boxtext">{intl-email}:</p>
+	<input type="text" size="40" name="Email" value="{email_value}"/>
+	</td>
+</tr>
 
-<p class="boxtext">{intl-email}:</p>
-<input type="text" size="40" name="Email" value="{email_value}"/>
+<tr>
+	<td rowspan="2" valign="top">
+	<p class="boxtext">{intl-signature}:</p>
+	<textarea name="Signature" cols="40" rows="9" wrap="soft">{signature}</textarea>
+	</td>
 
-<p class="boxtext">{intl-login}:</p>
-<input type="text" {read_only} size="20" name="Login" value="{login_value}"/>
+	<td>
+	<p class="boxtext">{intl-login}:</p>
+	<input type="text" {read_only} size="20" name="Login" value="{login_value}"/>
+	</td>
+</tr>
 
-<p class="boxtext">{intl-groups}:</p>
-<select name="GroupArray[]" multiple size="5">
-<!-- BEGIN group_item_tpl -->
-<option value="{group_id}" {selected}>{group_name}</option>
-<!-- END group_item_tpl -->
-</select>
+<tr>
+	<td>
+	<p class="boxtext">{intl-groups}:</p>
+	<select name="GroupArray[]" multiple size="5">
+	<!-- BEGIN group_item_tpl -->
+	<option value="{group_id}" {selected}>{group_name}</option>
+	<!-- END group_item_tpl -->
+	</select>
+	</td>
+</tr>
 
-<br /><br />
+<br />
 
-<table width="100%" cellpadding="0" cellspacing="0" border="0">
 <tr>
 	<td>
 	<p class="boxtext">{intl-password}:</p>
