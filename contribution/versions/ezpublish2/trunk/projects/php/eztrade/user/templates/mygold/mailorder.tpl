@@ -5,11 +5,17 @@
 {intl-sent_to}
 
 {intl-name}: {user_first_name} {user_last_name}
-{intl-street}: {user_street}
-{intl-street}: {user_street2}
-{intl-city}: {user_city}
-{intl-zip}: {user_zip}
-{intl-country}: {user_country}
+
+{intl-shipping_address}
+{intl-shipping_street1}: {shipping_street1}
+{intl-shipping_street2}: {shipping_street2}
+{intl-shipping_city}: {shipping_place}
+{intl-shipping_zip}: {shipping_zip}
+
+{intl-billing_street1}: {billing_street1}
+{intl-billing_street2}: {billing_street2}
+{intl-billing_city}: {billing_place}
+{intl-billing_zip}: {billing_zip}
 
 {intl-order_no}: {order_number}
 

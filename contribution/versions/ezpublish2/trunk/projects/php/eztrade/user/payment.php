@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: payment.php,v 1.3 2001/02/06 17:00:00 bf Exp $
+// $Id: payment.php,v 1.4 2001/02/07 10:08:25 ce Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <02-Feb-2001 16:31:53 bf>
@@ -25,7 +25,29 @@
 
 unset( $PaymentSuccess );
 
+
+include_once( "ezuser/classes/ezuser.php" );
+include_once( "eztrade/classes/ezproduct.php" );
+include_once( "eztrade/classes/ezoption.php" );
+include_once( "eztrade/classes/ezoptionvalue.php" );
+include_once( "eztrade/classes/ezcart.php" );
+include_once( "eztrade/classes/ezcartitem.php" );
+include_once( "eztrade/classes/ezcartoptionvalue.php" );
+include_once( "eztrade/classes/ezorder.php" );
+include_once( "eztrade/classes/ezorderitem.php" );
+include_once( "eztrade/classes/ezorderoptionvalue.php" );
+include_once( "eztrade/classes/ezwishlist.php" );
+
 include_once( "eztrade/classes/ezcheckout.php" );
+
+include_once( "ezsession/classes/ezsession.php" );
+include_once( "ezuser/classes/ezuser.php" );
+
+include_once( "classes/ezmail.php" );
+
+include_once( "eztrade/classes/ezcheckout.php" );
+include_once( "eztrade/classes/ezorder.php" );
+include_once( "eztrade/classes/ezcart.php" );
 
 $checkout = new eZCheckout();
 $instance =& $checkout->instance();
@@ -44,20 +66,23 @@ if ( $PaymentSuccess == "true" )
 {
     $locale = new eZLocale( $Language );
     $currency = new eZCurrency();
+    
     // create a new order
     $order = new eZOrder();
     $user = eZUser::currentUser();
     $order->setUser( $user );
 
+    $cart = new eZCart();
+    $cart = $cart->getBySession( $session, "Cart" );
     
     if ( $ini->read_var( "eZTradeMain", "ShowBillingAddress" ) != "enabled" )
     {
-        $BillingAddressID = $ShippingAddressID;
+        $billingAddressID = $shippingAddressID;
     }
     
-    $shippingAddress = new eZAddress( $ShippingAddressID );
-    $billingAddress = new eZAddress( $BillingAddressID );
-    
+    $shippingAddress = new eZAddress( $shippingAddressID );
+    $billingAddress = new eZAddress( $billingAddressID );
+
     $order->setShippingAddress( $shippingAddress );
     $order->setBillingAddress( $billingAddress );
     
@@ -134,7 +159,6 @@ if ( $PaymentSuccess == "true" )
     
     $user = $order->user();
 
-    
     $mailTemplate->set_var( "user_first_name", $user->firstName() );
     $mailTemplate->set_var( "user_last_name", $user->lastName() );
 

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: checkout.php,v 1.29 2001/02/06 16:50:05 bf Exp $
+// $Id: checkout.php,v 1.30 2001/02/07 10:08:25 ce Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <28-Sep-2000 15:52:08 bf>
@@ -97,7 +97,7 @@ if ( $SendOrder == "true" )
     $session->setVariable( "BillingAddressID", $BillingAddressID );
     $session->setVariable( "ShippingAddressID", $ShippingAddressID );
 
-    Header( "Location: /trade/payment/$order_id/$PaymentMethod/" );
+    Header( "Location: /trade/payment/$PaymentMethod/" );
     exit();
 }
 
