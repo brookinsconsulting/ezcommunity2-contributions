@@ -15,25 +15,36 @@
 
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
-	<td rowspan="4">
+	<td>
 	<h2>{long_date}</h2>
 	</td>
-	<td align="right">
-	<a href="/calendar/dayview/{1_year_number}/{1_month_number}/{1_day_number}">&lt;&lt; {intl-previous_year}</a>
+
+	<td>
+		<a href="/calendar/monthview/{year_number}/{month_number}">{month_name}:</a>
+		<br />
+		<table width="100%" border="1" cellspacing="0" cellpadding="1">
+		<!-- BEGIN week_tpl -->
+		<tr>
+			<!-- BEGIN day_tpl -->
+			<td class="{td_class}">
+			<a href="/calendar/dayview/{year_number}/{month_number}/{day_number}">{day_number}</a>
+			</td>
+			<!-- END day_tpl -->
+
+			<!-- BEGIN empty_day_tpl -->
+			<td class="{td_class}">
+			&nbsp;
+			</td>
+			<!-- END empty_day_tpl -->
+		</tr>
+		<!-- END week_tpl -->
+		</table>
 	</td>
-</tr>
-<tr>
+
 	<td align="right">
-	<a href="/calendar/dayview/{2_year_number}/{2_month_number}/{2_day_number}">{intl-next_year} &gt;&gt;</a>
-	</td>
-</tr>
-<tr>
-	<td align="right">
-	<a href="/calendar/dayview/{3_year_number}/{3_month_number}/{3_day_number}">&lt;&lt; {intl-previous_month}</a>
-	</td>
-</tr>
-<tr>
-	<td align="right">
+	<a href="/calendar/dayview/{1_year_number}/{1_month_number}/{1_day_number}">&lt;&lt; {intl-previous_year}</a><br />
+	<a href="/calendar/dayview/{2_year_number}/{2_month_number}/{2_day_number}">{intl-next_year} &gt;&gt;</a><br />
+	<a href="/calendar/dayview/{3_year_number}/{3_month_number}/{3_day_number}">&lt;&lt; {intl-previous_month}</a><br />
 	<a href="/calendar/dayview/{4_year_number}/{4_month_number}/{4_day_number}">{intl-next_month} &gt;&gt;</a>
 	</td>
 </tr>

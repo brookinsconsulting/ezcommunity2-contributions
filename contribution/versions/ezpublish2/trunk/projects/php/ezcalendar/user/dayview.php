@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: dayview.php,v 1.26 2001/01/25 14:04:58 gl Exp $
+// $Id: dayview.php,v 1.27 2001/01/25 15:40:23 gl Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <08-Jan-2001 12:48:35 bf>
@@ -105,10 +105,12 @@ else
     $t->setAllStrings();
 
     $t->set_block( "day_view_page_tpl", "user_item_tpl", "user_item" );
-    $t->set_block( "day_view_page_tpl", "link_tpl", "link" );
     $t->set_block( "day_view_page_tpl", "time_table_tpl", "time_table" );
     $t->set_block( "time_table_tpl", "appointment_tpl", "appointment" );
     $t->set_block( "appointment_tpl", "delete_check_tpl", "delete_check" );
+    $t->set_block( "day_view_page_tpl", "week_tpl", "week" );
+    $t->set_block( "week_tpl", "day_tpl", "day" );
+    $t->set_block( "week_tpl", "empty_day_tpl", "empty_day" );
 
     $t->set_var( "month_number", $Month );
     $t->set_var( "year_number", $Year );
@@ -424,6 +426,49 @@ else
     $t->set_var( "4_year_number", $date->year() );
     $t->set_var( "4_month_number", $date->month() );
     $t->set_var( "4_day_number", $date->day() );
+
+    $date->setYear( $Year );
+    $date->setMonth( $Month );
+    $date->setDay( $Day );
+
+
+    // parse month table
+    $t->set_var( "month_number", $date->month() );
+    $t->set_var( "month_name", $Locale->monthName( $date->monthName(), false ) );
+
+    $t->set_var( "week", "" );
+    for ( $week=0; $week<6; $week++ )
+    {
+        $t->set_var( "day", "" );
+        $t->set_var( "empty_day", "" );
+
+        for ( $day=1; $day<=7; $day++ )
+        {
+            $date->setDay( 1 );
+            $firstDay = $date->dayOfWeek( $Locale->mondayFirst() );
+
+            $currentDay = $day + ( $week * 7 ) - $firstDay + 1;
+
+            if ( ( ( $day + ( $week * 7 ) )  >= $firstDay ) &&
+                 ( $currentDay <= $date->daysInMonth() ) )
+            {
+                $date->setDay( $currentDay );
+
+                $t->set_var( "td_class", "bglight" );
+                if ( $date->equals( $today ) )
+                    $t->set_var( "td_class", "bgcurrent" );
+
+                $t->set_var( "day_number", $currentDay );
+                $t->parse( "day", "day_tpl", true );
+            }
+            else
+            {
+                $t->set_var( "td_class", "bglight" );                
+                $t->parse( "day", "empty_day_tpl", true );
+            }
+        }
+        $t->parse( "week", "week_tpl", true );
+    }
 
 
     $t->storeCache( "output", "day_view_page_tpl", true );
