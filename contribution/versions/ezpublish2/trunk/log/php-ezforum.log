@@ -1054,3 +1054,14 @@ Maintainer(s) : jhe@ez.no
 
     * sql/mysql/ezforum.sql: Added indeces.
 
+
+Module : ezforum
+Repository path : /home/cvsroot/projects/php/ezforum
+Maintainer(s) : jhe@ez.no
+2002-02-14  Jo Henrik Endrerud  <jhe@ez.no>
+
+    * user/templates/standard/messagebody.tpl
+      user/templates/standard/messageform.tpl
+      user/templates/standard/messagereply.tpl:
+    fixed small bug with <br> at start of message
+

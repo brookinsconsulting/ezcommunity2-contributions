@@ -691,3 +691,13 @@ Maintainer(s) : jhe@ez.no
     * user/filelist.php:
     not printing row for folders where the user doesn't have permission
 
+
+Module : ezfilemanager
+Repository path : /home/cvsroot/projects/php/ezfilemanager
+Maintainer(s) : jhe@ez.no
+2002-02-14  Jo Henrik Endrerud  <jhe@ez.no>
+
+    * user/filelist.php: fixed buttons in root directory
+
+    * user/fileview.php: added folder_name variable in fileview
+
