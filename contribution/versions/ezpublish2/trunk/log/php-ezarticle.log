@@ -2881,3 +2881,11 @@ Maintainer(s) : bf@ez.no
 
     * classes/ezarticle.php: Added a fix for IsPublished
 
+
+Module : ezarticle
+Repository path : /home/cvsroot/projects/php/ezarticle
+Maintainer(s) : bf@ez.no
+2002-02-21  Bjoern Reiten  <br@ez.no>
+
+    * classes/eztechrenderer.php: fixed bug when render the page.
+
