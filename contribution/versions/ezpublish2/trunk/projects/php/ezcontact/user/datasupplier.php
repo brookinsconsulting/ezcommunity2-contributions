@@ -14,110 +14,60 @@ else
 
 switch ( $url_array[2] )
 {
-    case "person" :
+    case "person":
     {
-        if ( $url_array[3] == "list" )
+        switch( $url_array[3] )
         {
-            $Action = "list";
-            include( "ezcontact/user/personlist.php" );
-        }
-        elseif ( $url_array[3] == "new" )
-        {
-            if( $PersonID > 0 )
+            case "list":
             {
-                header("Redirect: contact/user/edit/$PersonID" );
-                exit();
+                $PersonID = $url_array[4];
+                $Action = "list";
+                include( "ezcontact/admin/personlist.php" );
+                break;
             }
-            else
+            case "new":
             {
                 $Action = "new";
-                include( "ezcontact/user/personedit.php" );
+                include( "ezcontact/admin/personedit.php" );
+                break;
             }
-        }
-        else if ( $url_array[3] == "insert" )
-        {
-            if( $url_array[4] == 0 )
+            case "insert":
             {
+                $PersonID = $url_array[4];
                 $Action = "insert";
-                include( "ezcontact/user/personedit.php" );
+                include( "ezcontact/admin/personedit.php" );
+                break;
             }
-            else
+            case "view":
             {
-                header("Redirect: contact/user/forbidden.php?insert");
-                exit();
-            }
-        }
-        else if ( $url_array[3] == "view" )
-        {
-            if( $PersonID == $url_array[4] )
-            {
+                $PersonID = $url_array[4];
                 $Action = "view";
-                include( "ezcontact/user/personview.php" );
+                include( "ezcontact/admin/personview.php" );
+                break;
             }
-            elseif( $UserID == 0 )
+            case "edit":
             {
-                header("Redirect: login");
-            }
-            else
-            {
-                header("Redirect: contact/user/forbidden.php?view");
-                exit();
-            }
-        }
-        else if ( $url_array[3] == "edit" )
-        {
-            if( $PersonID == $url_array[4] )
-            {
+                $PersonID = $url_array[4];
                 $Action = "edit";
-                include( "ezcontact/user/personedit.php" );
+                include( "ezcontact/admin/personedit.php" );
+                break;
             }
-            elseif( $UserID == 0 )
+            case "update":
             {
-                header("Redirect: login");
-                exit();
-            }
-            else
-            {
-                header("Redirect: contact/user/forbidden.php?edit");
-                exit();
-            }
-        }
-        else if ( $url_array[3] == "update" )
-        {
-            if( $PersonID == $url_array[4] )
-            {
+                $PersonID = $url_array[4];
                 $Action = "update";
-                include( "ezcontact/user/personedit.php" );
+                include( "ezcontact/admin/personedit.php" );
+                break;
             }
-            elseif( $UserID == 0 )
+            case "delete":
             {
-                header("Redirect: login");
-                exit();
-            }
-            else
-            {
-                header("Redirect: contact/user/forbidden.php?update");
-                exit();
-            }
-        }
-        else if ( $url_array[3] == "delete" )
-        {
-            if( $PersonID == $url_array[4] )
-            {
+                $PersonID = $url_array[4];
                 $Action = "delete";
-                include( "ezcontact/user/persondelete.php" );
-            }
-            elseif( $UserID == 0 )
-            {
-                header("Redirect: login");
-                exit();
-            }
-            else
-            {
-                header("Redirect: contact/user/forbidden.php?update");
-                exit();
+                include( "ezcontact/admin/persondelete.php" );
+                break;
             }
         }
+        break;
     }
     break;
 
