@@ -12,7 +12,8 @@ switch ( $url_array[2] )
     {
         $ViewMode = $url_array[3];
         $ViewLimit = $url_array[4];
-        
+        $Offset = $url_array[5];
+
         include( "ezstats/admin/pageviewlist.php" );
     }
     break;
@@ -21,7 +22,8 @@ switch ( $url_array[2] )
     {
         $ViewMode = $url_array[3];
         $ViewLimit = $url_array[4];
-        
+        $Offset = $url_array[5];
+
         include( "ezstats/admin/visitorlist.php" );
     }
     break;
@@ -30,7 +32,10 @@ switch ( $url_array[2] )
     {
         $ViewMode = $url_array[3];
         $ViewLimit = $url_array[4];
-        
+        $Offset = $url_array[5];
+        if ( !isset( $ExcludeDomain ) )
+            $ExcludeDomain = $url_array[6];
+
         include( "ezstats/admin/refererlist.php" );
     }
     break;
@@ -39,7 +44,8 @@ switch ( $url_array[2] )
     {
         $ViewMode = $url_array[3];
         $ViewLimit = $url_array[4];
-        
+        $Offset = $url_array[5];
+
         include( "ezstats/admin/requestpagelist.php" );
     }
     break;
@@ -48,7 +54,7 @@ switch ( $url_array[2] )
     {
         $Year = $url_array[3];
         $Month = $url_array[4];
-        
+
         include( "ezstats/admin/monthreport.php" );
     }
     break;
