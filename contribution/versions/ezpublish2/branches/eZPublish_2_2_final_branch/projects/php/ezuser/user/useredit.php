@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: useredit.php,v 1.24 2001/08/17 13:36:01 jhe Exp $
+// $Id: useredit.php,v 1.24.2.1 2002/05/08 11:51:36 vl Exp $
 //
 // Created on: <10-Oct-2000 12:52:42 bf>
 //
@@ -30,6 +30,8 @@ include_once( "classes/eztemplate.php" );
 include_once( "ezmail/classes/ezmail.php" );
 include_once( "classes/ezlog.php" );
 include_once( "classes/ezhttptool.php" );
+include_once( "classes/eztexttool.php" );
+
 
 $ini =& INIFile::globalINI();
 $Language = $ini->read_var( "eZUserMain", "Language" );
@@ -311,7 +313,7 @@ $t->set_var( "last_name_value", $LastName );
 
 $t->set_var( "action_value", $actionValue );
 
-$t->set_var( "redirect_url", $RedirectURL );
+$t->set_var( "redirect_url", eZTextTool::htmlspecialchars( $RedirectURL ) );
 
 $t->pparse( "output", "user_edit_tpl" );
 

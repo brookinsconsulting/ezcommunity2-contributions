@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: norights.php,v 1.8 2001/07/20 11:45:40 jakobn Exp $
+// $Id: norights.php,v 1.8.2.1 2002/05/08 11:51:36 vl Exp $
 //
 // Created on: <26-Oct-2000 14:56:23 ce>
 //
@@ -24,6 +24,7 @@
 //
 
 include_once( "classes/INIFile.php" );
+include_once( "classes/eztexttool.php" );
 
 $ini =& INIFile::globalINI();
 $DOC_ROOT = $ini->read_var( "eZUserMain", "DocumentRoot" );
@@ -58,7 +59,7 @@ switch ( $Error )
     break;
 }
 
-$t->set_var( "redirect_url", $RedirectURL );
+$t->set_var( "redirect_url", eZTextTool::htmlspecialchars( $RedirectURL ) );
 $t->set_var( "error_msg", $errorMsg );
 $t->set_file( array( "norights" => "norights.tpl" ) );
 

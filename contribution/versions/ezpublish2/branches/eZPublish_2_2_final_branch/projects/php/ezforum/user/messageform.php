@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: messageform.php,v 1.16.2.5 2002/04/24 07:26:42 jhe Exp $
+// $Id: messageform.php,v 1.16.2.6 2002/05/08 11:51:36 vl Exp $
 //
 // Created on: <21-Feb-2001 18:00:00 pkej>
 //
@@ -24,6 +24,8 @@
 //
 
 include_once( "classes/ezlocale.php" );
+include_once( "classes/eztexttool.php" );
+
 $AllowHTML = $ini->read_var( "eZForumMain", "AllowHTML" );
 $author = eZUser::currentUser();
 
@@ -231,7 +233,7 @@ if ( $ShowMessageForm )
 
     $t->set_var( "forum_id", $ForumID );
 
-    $t->set_var( "redirect_url", $RedirectURL );      
+    $t->set_var( "redirect_url", eZTextTool::htmlspecialchars( $RedirectURL ) );
     $t->set_var( "end_action", $EndAction );      
     $t->set_var( "start_action", $StartAction );      
     $t->set_var( "action_value", $ActionValue );

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: customerlogin.php,v 1.20 2001/10/17 07:17:03 ce Exp $
+// $Id: customerlogin.php,v 1.20.2.1 2002/05/08 11:51:36 vl Exp $
 //
 // Created on: <03-Oct-2000 16:45:30 bf>
 //
@@ -26,6 +26,7 @@
 include_once( "classes/INIFile.php" );
 include_once( "classes/eztemplate.php" );
 include_once( "classes/ezhttptool.php" );
+include_once( "classes/eztexttool.php" );
 
 include_once( "ezuser/classes/ezuser.php" );
 
@@ -91,7 +92,7 @@ else
 
     if ( isset( $RedirectURL ) && ( $RedirectURL != "" ) )
     {      
-        $t->set_var( "redirect_url", $RedirectURL );
+	$t->set_var( "redirect_url", eZTextTool::htmlspecialchars( $RedirectURL ) );
     }
     else
     {

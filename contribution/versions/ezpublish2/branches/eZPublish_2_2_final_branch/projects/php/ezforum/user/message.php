@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: message.php,v 1.36.2.3 2002/04/09 12:22:17 jhe Exp $
+// $Id: message.php,v 1.36.2.4 2002/05/08 11:51:36 vl Exp $
 //
 // Created on: <11-Sep-2000 22:10:06 bf>
 //
@@ -249,8 +249,7 @@ foreach ( $messages as $threadmessage )
 if ( !isSet( $RedirectURL ) )
     $RedirectURL = "";
 
-$t->set_var( "redirect_url", $RedirectURL );
-
+$t->set_var( "redirect_url", eZTextTool::htmlspecialchars( $RedirectURL ) );
 if ( $message->id() > 0 && !$message->isTemporary() && $message->isApproved() )
 {
     $t->parse( "message_body", "message_body_tpl" );

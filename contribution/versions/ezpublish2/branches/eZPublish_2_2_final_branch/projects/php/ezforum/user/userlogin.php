@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: userlogin.php,v 1.14 2001/09/24 11:53:43 jhe Exp $
+// $Id: userlogin.php,v 1.14.2.1 2002/05/08 11:51:36 vl Exp $
 //
 // Created on: <14-Oct-2000 15:41:17 bf>
 //
@@ -26,6 +26,8 @@
 include_once( "classes/INIFile.php" );
 include_once( "classes/eztemplate.php" );
 include_once( "classes/ezhttptool.php" );
+include_once( "classes/eztexttool.php" );
+
 
 $ini =& INIFile::globalINI();
 
@@ -121,12 +123,12 @@ else
 
         if ( $Action == "newsimple" )
         {
-            $t->set_var( "redirect_url", $RedirectURL );
+            $t->set_var( "redirect_url", eZTextTool::htmlspecialchars( $RedirectURL ) );
         }
 
         if ( $Action == "replysimple" )
         {
-            $t->set_var( "redirect_url", $RedirectURL );
+            $t->set_var( "redirect_url", eZTextTool::htmlspecialchars( $RedirectURL ) );
         }
 
         if ( $Action == "new" )

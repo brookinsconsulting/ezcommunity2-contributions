@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: login.php,v 1.35 2001/08/13 06:58:07 jhe Exp $
+// $Id: login.php,v 1.35.2.1 2002/05/08 11:51:36 vl Exp $
 //
 // Created on: <20-Sep-2000 13:32:11 ce>
 //
@@ -27,6 +27,7 @@ include_once( "classes/INIFile.php" );
 include_once( "classes/eztemplate.php" );
 include_once( "classes/ezlog.php" );
 include_once( "classes/ezhttptool.php" );
+include_once( "classes/eztexttool.php" );
 
 $ini =& INIFile::globalINI();
 $Language = $ini->read_var( "eZUserMain", "Language" );
@@ -173,7 +174,8 @@ if ( $Action == "logout" )
     exit();
 }
 
-$t->set_var( "redirect_url", $RedirectURL );
+$t->set_var( "redirect_url", eZTextTool::htmlspecialchars( $RedirectURL ) );
+// $t->set_var( "redirect_url", $RedirectURL );
 $t->set_var( "action_value", "login" );
 
 $t->pparse( "output", "login" );

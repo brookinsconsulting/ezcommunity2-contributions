@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: messagesimplelist.php,v 1.15.2.1 2002/02/05 10:39:07 jhe Exp $
+// $Id: messagesimplelist.php,v 1.15.2.2 2002/05/08 11:51:36 vl Exp $
 //
 // Created on: <11-Sep-2000 22:10:06 bf>
 //
@@ -102,7 +102,7 @@ else
 }
 eZList::drawNavigator( $t, $messageCount, $SimpleUserList, $Offset, "messagelist" );
 
-$t->set_var( "redirect_url", $RedirectURL );
+$t->set_var( "redirect_url", eZTextTool::htmlspecialchars( $RedirectURL ) );
 
 $t->set_var( "newmessage", $newmessage );
 

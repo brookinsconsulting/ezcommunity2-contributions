@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: userbox.php,v 1.34.2.3 2002/01/04 14:14:01 kaid Exp $
+// $Id: userbox.php,v 1.34.2.4 2002/05/08 11:51:36 vl Exp $
 //
 // Created on: <20-Sep-2000 13:32:11 ce>
 //
@@ -28,6 +28,8 @@
 
 include_once( "classes/INIFile.php" );
 include_once( "classes/eztemplate.php" );
+include_once( "classes/eztexttool.php" );
+
 
 $ini =& INIFile::globalINI();
 $Language = $ini->read_var( "eZUserMain", "Language" );
@@ -108,7 +110,7 @@ if ( !$user )
     }
     else
     {
-        $t->set_var( "redirect_url", $RedirectURL );
+	$t->set_var( "redirect_url", eZTextTool::htmlspecialchars( $RedirectURL ) );
     }
    
     $t->set_var( "action_value", "login" );
@@ -152,7 +154,7 @@ else
     }
     else
     {
-        $t->set_var( "redirect_url", $RedirectURL );
+        $t->set_var( "redirect_url", eZTextTool::htmlspecialchars( $RedirectURL ) );
     }
 
     if ( $UserWithAddress == "enabled" )

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: userwithaddress.php,v 1.75.2.3 2002/01/13 14:34:59 kaid Exp $
+// $Id: userwithaddress.php,v 1.75.2.4 2002/05/08 11:51:36 vl Exp $
 //
 // Created on: <10-ct-2000 12:52:42 bf>
 //
@@ -30,6 +30,7 @@ include_once( "classes/INIFile.php" );
 include_once( "classes/eztemplate.php" );
 include_once( "classes/ezhttptool.php" );
 include_once( "ezsession/classes/ezsession.php" );
+include_once( "classes/eztexttool.php" );
 
 $ini =& INIFile::globalINI();
 $Language = $ini->read_var( "eZUserMain", "Language" );
@@ -741,7 +742,7 @@ $t->set_var( "global_section_id", $GlobalSectionID );
 
 $t->set_var( "user_id", $UserID );
 
-$t->set_var( "redirect_url", $RedirectURL );
+$t->set_var( "redirect_url", eZTextTool::htmlspecialchars( $RedirectURL ) );
 
 $t->pparse( "output", "user_edit_tpl" );
 
