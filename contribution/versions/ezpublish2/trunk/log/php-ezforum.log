@@ -525,3 +525,11 @@ Maintainer(s) : jhe@ez.no
       user/intl/no_NO/noaccess.php.ini
       user/intl/no_NO/search.php.ini: updated no_NO
 
+
+Module : ezforum
+Repository path : /home/cvsroot/projects/php/ezforum
+Maintainer(s) : jhe@ez.no
+2001-10-22  Jo Henrik Endrerud  <jhe@ez.no>
+
+    * user/datasupplier.php: fixed small bug with including of template
+

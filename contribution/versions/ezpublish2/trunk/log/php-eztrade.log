@@ -1429,3 +1429,77 @@ Maintainer(s) : ce@ez.no
       user/intl/no_NO/voucherview.php.ini
       user/intl/no_NO/wishlist.php.ini: updated no_NO
 
+
+Module : eztrade
+Repository path : /home/cvsroot/projects/php/eztrade
+Maintainer(s) : ce@ez.no
+2001-10-22  Christoffer Elo  <ce@ez.no>
+
+    * user/orderlist.php
+      user/templates/standard/orderlist.tpl:
+    Added a error sting when no orders is found in the order list
+
+2001-10-22  Sascha Frinken  <sascha@impetex.de>
+
+    * user/voucherinformation.php: Added fiels
+
+2001-10-22  Christoffer Elo  <ce@ez.no>
+
+    * classes/ezvoucherinformation.php: Fix
+
+    * classes/ezvoucherinformation.php: Fixed a bug
+
+    * user/payment.php:
+    Using product() from the cartitem insted of the voucherinformation
+
+    * user/intl/de_MG/ordersendt.php.ini: Added translation
+
+    * user/voucherinformation.php: Removed a setProduct() function
+
+    * classes/ezvoucherinformation.php:
+    Remvoed ProductID from the voucherinformation
+
+    * classes/ezvoucherinformation.php: Fixses
+
+    * user/voucherinformation.php: Fixed some voucher id bugs
+
+    * classes/ezcart.php
+      classes/ezproduct.php
+      classes/ezvoucherinformation.php
+      user/cart.php
+      user/datasupplier.php
+      user/productview.php
+      user/voucherinformation.php:
+    Updated the base eztrade classes from the head branch
+
+    * classes/ezcart.php: Fixed some bugs
+
+    * classes/ezvoucherinformation.php
+      user/cart.php
+      user/datasupplier.php
+      user/intl/en_GB/productview.php.ini
+      user/intl/en_GB/voucherinformation.php.ini
+      user/productview.php
+      user/templates/mygold/cart.tpl
+      user/templates/mygold/productview.tpl
+      user/templates/mygold/voucherinformation.tpl
+      user/voucherinformation.php
+      xmlrpc/Attic/xmlrpcserverimport.php
+      classes/ezcart.php
+      classes/ezproduct.php: Added mygold design
+
+    * xmlrpc/Attic/xmlrpcserverimport.php: Added files to the mygold branch
+
+2001-10-22  Sascha Frinken  <sascha@impetex.de>
+
+    * admin/intl/de_MG/orderedit.php.ini
+      user/intl/de_MG/mailorder.php.ini
+      user/intl/de_MG/ordersendt.php.ini
+      user/orderlist.php
+      user/templates/mygold/mailorder.tpl
+      user/templates/mygold/orderlist.tpl
+      user/templates/mygold/ordersendt.tpl
+      user/templates/mygold/orderview.tpl
+      user/templates/mygold/vouchermain.tpl
+      user/voucher.php: Added mygold design
+

@@ -1546,3 +1546,22 @@ Maintainer(s) : bf@ez.no
       user/intl/no_NO/topiclist.php.ini
       admin/intl/no_NO/articleedit.php.ini: updated no_NO
 
+
+Module : ezarticle
+Repository path : /home/cvsroot/projects/php/ezarticle
+Maintainer(s) : bf@ez.no
+2001-10-22  Christoffer Elo  <ce@ez.no>
+
+    * user/articleview.php
+      xmlrpc/xmlrpcserver.php: Added mygold design
+
+2001-10-22  Sascha Frinken  <sascha@impetex.de>
+
+    * admin/intl/de_MG/articleedit.php.ini
+      admin/intl/de_MG/articlelist.php.ini
+      user/templates/mygold/articletags.tpl: Added mygold design
+
+2001-10-22  Jo Henrik Endrerud  <jhe@ez.no>
+
+    * classes/ezarticlecategory.php: small bugfix
+
