@@ -1,6 +1,6 @@
 <?php
-// 
-// $Id: payment.php,v 1.84.8.4 2002/02/04 20:40:34 br Exp $
+//
+// $Id: payment.php,v 1.84.8.5 2002/03/05 14:06:06 ce Exp $
 //
 // Created on: <02-Feb-2001 16:31:53 bf>
 //
@@ -73,7 +73,6 @@ $ShowExTaxTotal = $ini->read_var( "eZTradeMain", "ShowExTaxTotal" ) == "enabled"
 $ColSpanSizeTotals = $ini->read_var( "eZTradeMain", "ColSpanSizeTotals" );
 $DiscontinueQuantityless = $ini->read_var( "eZTradeMain", "DiscontinueQuantityless" ) == "true";
 $SiteURL =  $ini->read_var( "site", "SiteURL" );
-$PricesIncludeVAT = $ini->read_var( "eZTradeMain", "PricesIncludeVAT" );
 
 // Set some variables to defaults.
 $ShowCart = false;
@@ -107,7 +106,7 @@ function deleteCache( $ProductID, $CategoryID, $CategoryArray, $Hotdeal )
     {
         $file->delete();
     }
-    
+
     if ( $Hotdeal )
     {
         $files = eZCacheFile::files( "eztrade/cache/", array( "hotdealslist", NULL ),
@@ -174,19 +173,19 @@ $currency = new eZCurrency();
 
 // create an order and empty the cart.
 // only do this if the payment was OK.
-if ( $PaymentSuccess == "true" ) 
+if ( $PaymentSuccess == "true" )
 {
     // create a new order
     $order = new eZOrder();
     $user =& eZUser::currentUser();
-    
+
     if ( get_class( $user ) != "ezuser" )
     {
         eZLog::writeWarning( "user/payment.php: Got paymentSuccess without user logged in" );
         eZHTTPTool::header( "Location: /trade/cart/" );
         exit();
     }
-    
+
     $order->setUser( $user );
 
     // set pnutr id to paynet.
@@ -194,12 +193,12 @@ if ( $PaymentSuccess == "true" )
     {
         $order->setPnutr( $Pnutr );
     }
-    
+
     if ( $ini->read_var( "eZTradeMain", "ShowBillingAddress" ) != "enabled" )
     {
         $billingAddressID = $shippingAddressID;
     }
-    
+
     $shippingAddress = new eZAddress( $session->variable( "ShippingAddressID" ) );
     $billingAddress = new eZAddress( $session->variable( "BillingAddressID" ) );
 
@@ -208,7 +207,7 @@ if ( $PaymentSuccess == "true" )
 
     $order->setShippingAddress( $shippingAddress, $user );
     $order->setBillingAddress( $billingAddress, $user );
-    
+
     $order->setPaymentMethod( $session->arrayValue( "PaymentMethod" ) );
 
     $order->setShippingTypeID( $session->variable( "ShippingTypeID" ) );
@@ -219,7 +218,7 @@ if ( $PaymentSuccess == "true" )
     $order->setCompanyID( $cart->companyID() );
 
     $order->setIsVATInc( false );
-    
+
 
     // fetch the cart items
     $items = $cart->items();
@@ -235,14 +234,14 @@ if ( $PaymentSuccess == "true" )
 
 
     $order_id = $order->id();
-    
+
     foreach ( $items as $item )
     {
         $totalVAT=0.0;
         $price=0.0;
         $totalPrice=0.0;
         $product = $item->product();
-        
+
         // create a new order item.
         $orderItem = new eZOrderItem();
         $orderItem->setOrder( $order );
@@ -262,9 +261,9 @@ if ( $PaymentSuccess == "true" )
             $orderItem->setExpiryDate( eZDateTime::timeStamp( true ) + ( $expiryTime * 86400 ) );
         else
             $orderItem->setExpiryDate( 0 );
-    
+
         $orderItem->store();
-    
+
         // Store the optionvalues.
         $optionValues =& $item->optionValues();
         if ( count( $optionValues ) > 0 )
@@ -273,28 +272,28 @@ if ( $PaymentSuccess == "true" )
             {
                 $option =& $optionValue->option();
                 $value =& $optionValue->optionValue();
-                
+
                 $orderOptionValue = new eZOrderOptionValue();
                 $orderOptionValue->setOrderItem( $orderItem );
-                
+
                 $orderOptionValue->setRemoteID( $optionValue->remoteID() );
-                
+
                 $descriptions =& $value->descriptions();
-                
+
                 $orderOptionValue->setOptionName( $option->name() );
                 $orderOptionValue->setValueName( $descriptions[0] );
                 // fix
-                
+
                 $orderOptionValue->store();
             }
         }
     }
-    
+
     $cart->cartTotals( $tax, $total );
 
     //
     // Send mail confirmation
-    //      
+    //
     $mailTemplate = new eZTemplate( "eztrade/user/" . $ini->read_var( "eZTradeMain", "TemplateDir" ),
                                     "eztrade/user/intl", $Language, "mailorder.php" );
 
@@ -320,7 +319,7 @@ if ( $PaymentSuccess == "true" )
     $orderUser = $order->user();
 
     // check if the user is logged in
-    if ( !( $user && $orderUser ) ) 
+    if ( !( $user && $orderUser ) )
     {
         eZHTTPTool::header( "Location: /trade/cart/" );
         exit();
@@ -365,7 +364,7 @@ if ( $PaymentSuccess == "true" )
             $mailTemplate->set_var( "billing_street2", "\n". $billingAddress->street2() );
         else
             $mailTemplate->set_var( "billing_street2", "" );
-        
+
         $mailTemplate->set_var( "billing_zip", $billingAddress->zip() );
         $mailTemplate->set_var( "billing_place", $billingAddress->place() );
 
@@ -417,11 +416,11 @@ if ( $PaymentSuccess == "true" )
         $shippingAddress = $order->shippingAddress();
 
         $mailTemplate->set_var( "shipping_street1", $shippingAddress->street1() );
-        if ( trim( $shippingAddress->street2() ) != "" )        
+        if ( trim( $shippingAddress->street2() ) != "" )
             $mailTemplate->set_var( "shipping_street2", "\n" . $shippingAddress->street2() );
         else
             $mailTemplate->set_var( "shipping_street2", "" );
-        
+
         $mailTemplate->set_var( "shipping_zip", $shippingAddress->zip() );
         $mailTemplate->set_var( "shipping_place", $shippingAddress->place() );
 
@@ -558,7 +557,7 @@ if ( $PaymentSuccess == "true" )
             $len_option_price = strlen( $line["option_price"] ) > $len_option_price ? strlen( $line["option_price"] ) : $len_option_price;
         }
     }
-    
+
     $len_option_name += $separateBy;
     $len_option_value += $separateBy;
     $len_option_price += $separateBy;
@@ -710,7 +709,7 @@ if ( $PaymentSuccess == "true" )
         $taxPercentageLen = strlen( trim( $mailTemplateIni->read_var( "strings", "tax_percentage" ) ) );
         $taxLen = strlen( trim( $mailTemplateIni->read_var( "strings", "tax" ) ) );
 
-        $currency->setValue( $total["tax"] );    
+        $currency->setValue( $total["tax"] );
         $taxValue = preg_replace( $search, $replace, $locale->format( $currency ) );
         $taxLen =  strlen( $taxValue ) > $taxLen ? strlen(  $taxValue ) : $taxLen;
 
@@ -720,7 +719,7 @@ if ( $PaymentSuccess == "true" )
             $subTaxBasis = trim( preg_replace( $search, $replace, $locale->format( $currency ) ) );
             $taxBasisLen = strlen( $subTaxBasis ) > $taxBasisLen ? strlen(  $subTaxBasis ) : $taxBasisLen;
 
-            $currency->setValue( $taxGroup["tax"] );    
+            $currency->setValue( $taxGroup["tax"] );
             $subTax = trim( preg_replace( $search, $replace, $locale->format( $currency ) ) );
             $taxLen = strlen( $subTax ) > $taxLen ? strlen(  $subTax ) : $taxLen;
 
@@ -739,7 +738,7 @@ if ( $PaymentSuccess == "true" )
 
             $mailTemplate->set_var( "sub_tax_percentage", str_pad( $taxGroup["percentage"], $taxPercentageLen, " ", STR_PAD_LEFT ) );
 
-            $currency->setValue( $taxGroup["tax"] );    
+            $currency->setValue( $taxGroup["tax"] );
             $subTax = trim( preg_replace( $search, $replace, $locale->format( $currency ) ) );
             $mailTemplate->set_var( "sub_tax", str_pad( $subTax, $taxLen, " ", STR_PAD_LEFT ) );
 
@@ -777,7 +776,7 @@ if ( $PaymentSuccess == "true" )
 
     $shippingType = $order->shippingType();
     if ( $shippingType )
-    {    
+    {
         $mailTemplate->set_var( "shipping_type", $shippingType->name() );
     }
 
@@ -797,42 +796,42 @@ if ( $PaymentSuccess == "true" )
     $mailTemplate->set_var( "order_vat_sum", $locale->format( $currency ) );
 
     $mailTemplate->set_var( "order_id", $order->id() );
-    
-    // Send E-mail    
+
+    // Send E-mail
     $mail = new eZMail();
-    
+
     $mailBody = $mailTemplate->parse( "dummy", "order_sendt_tpl" );
     $mail->setFrom( $OrderSenderEmail );
-    
+
     $mail->setTo( $user->email() );
     $mail->setSubject( $mailSubjectUser );
     $mail->setBody( $mailBody );
     $mail->send();
-    
+
     // admin email
     // check to see if the email should be encrypted for the administrator
     $mailEncrypt = $ini->read_var( "eZTradeMain", "MailEncrypt" );
-    
+
 	if ( $mailEncrypt == "GPG" )
-	{	
-	    // initialize GPG class 
+	{
+	    // initialize GPG class
 	    $wwwUser = $ini->read_var( "eZTradeMain", "ApacheUser" );
         $mailKeyname = $ini->read_var( "eZTradeMain", "RecipientGPGKey" );
         // At this point you can add any information to the template as needed
         // remember to provide a variable in the template for it.
-     	// add credit card info for the administrator
-    	$mailTemplate->set_var( "payment_method", $paymentMethod );
-    	$mailTemplate->set_var( "cc_number", $CCNumber );
-    	$mailTemplate->set_var( "cc_expiremonth", $ExpireMonth );
-    	$mailTemplate->set_var( "cc_expireyear", $ExpireYear );
+	// add credit card info for the administrator
+	$mailTemplate->set_var( "payment_method", $paymentMethod );
+	$mailTemplate->set_var( "cc_number", $CCNumber );
+	$mailTemplate->set_var( "cc_expiremonth", $ExpireMonth );
+	$mailTemplate->set_var( "cc_expireyear", $ExpireYear );
 
 	    $mailBody = $mailTemplate->parse( "dummy", "order_sendt_tpl" );
-    	// encrypt mailBody
+	// encrypt mailBody
 		$mytext = new ezgpg( $mailBody, $mailKeyname, $wwwUser );
 		$mailBody=($mytext->body);
 		$mail->setBody( $mailBody );
 	}
-    
+
     $mail->setSubject( $mailSubject );
     $mail->setTo( $OrderReceiverEmail );
     $mail->setFrom( $user->email() );
@@ -939,13 +938,13 @@ if ( $PaymentSuccess == "true" )
             }
         }
     }
-    
+
     //
     if ( is_file ( "checkout/user/postpayment.php" ) )
     {
         include( "checkout/user/postpayment.php" );
     }
-    
+
     //  $cart->clear();
 
     $OrderID = $order->id();
@@ -966,19 +965,19 @@ if ( $PaymentSuccess == "true" )
                 $voucher->setAvailable( false );
 
             $voucher->store();
-            
+
             $voucherUsed = new eZVoucherUsed();
             $voucherUsed->setVoucher( $voucher );
             $voucherUsed->setPrice( $price );
             $voucherUsed->setOrder( $order );
             $voucherUsed->setUser( $user );
             $voucherUsed->store();
-            
+
         }
         $session->setVariable( "PayedWith", "" );
         $session->setVariable( "PayWithVoucher", "" );
     }
-    
+
     $cart->delete();
 
     // call the payment script after the payment is successful.

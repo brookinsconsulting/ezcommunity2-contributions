@@ -7,7 +7,7 @@ include_once( "classes/ezcachefile.php" );
 include_once( "classes/eztemplate.php" );
 include_once( "ezimagecatalogue/classes/ezimage.php" );
 
-function &similarProducts( $SimilarCategoryID )
+function &similarProducts( $SimilarCategoryID, $twoColums=true )
 {
     $SimilarCacheFile = new eZCacheFile( "eztrade/cache/similar/",
                                          array_merge( "sp", $SimilarCategoryID, NULL, NULL ),
@@ -29,11 +29,9 @@ function &similarProducts( $SimilarCategoryID )
         $t->set_file( "product_view_tpl", "similarproducts.tpl" );
         $t->set_block( "product_view_tpl", "product_line_tpl", "product_line" );
         $t->set_block( "product_line_tpl", "product_item_tpl", "product_item" );
-        $t->set_block( "product_line_tpl", "product_item_button_tpl", "product_item_button" );
+        $t->set_block( "product_item_tpl", "product_item_button_tpl", "product_item_button" );
 
         $catID = $SimilarCategoryID;
-        $limit = 12;
-        $offset = 0;
         $db =& eZDB::globalDatabase();
 
         $t->set_var(  "product_line", "" );
@@ -52,9 +50,7 @@ function &similarProducts( $SimilarCategoryID )
                                                  AND eZTrade_ProductCategoryLink.ProductID = eZTrade_Product.ID
                                                  AND eZTrade_ProductCategoryLink.ProductID = Definition.ProductID
                                                  AND eZTrade_Category.ID = Definition.CategoryID
-                                           ORDER BY $OrderBy",
-                                           array( "Limit" => $limit,
-                                                  "Offset" => $offset ) );
+                                           ORDER BY $OrderBy" );
         $i=0;
         foreach ( $product_array as $product )
         {
@@ -90,11 +86,13 @@ function &similarProducts( $SimilarCategoryID )
             $t->set_var( "small_product_id", $product["ID"] );
             $t->set_var( "small_product_price", number_format( $product["Price"], 0, " ", " " ) );
 
+            $t->parse( "product_item_button", "product_item_button_tpl" );
             $t->parse( "product_item", "product_item_tpl",true );
-            $t->parse( "product_item_button", "product_item_button_tpl",true );
             $i++;
 
-            if ( $i == 2 )
+            if ( ( $i == 2 ) and
+                 ( $twoColums == true )
+                 )
             {
                 $t->parse( "product_line", "product_line_tpl",true );
                 $t->set_var( "product_item", "" );
@@ -102,9 +100,15 @@ function &similarProducts( $SimilarCategoryID )
 
                 $i = 0;
             }
+            else if ( $twoColums == false )
+            {
+                $t->parse( "product_line", "product_line_tpl",true );
+                $t->set_var( "product_item", "" );
+                $t->set_var( "product_item_button", "" );
+            }
         }
         $output =& $t->parse(  "output", "product_view_tpl" );
-        $SimilarCacheFile->store( $output );
+//        $SimilarCacheFile->store( $output );
         return $output;
     }
 }

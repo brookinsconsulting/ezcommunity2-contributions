@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: biglist.php,v 1.1.2.3 2002/02/26 12:13:32 ce Exp $
+// $Id: biglist.php,v 1.1.2.4 2002/03/05 14:06:06 ce Exp $
 //
 // Created on: <12-Dec-2000 14:43:08 bf>
 //
@@ -36,7 +36,7 @@ include_once( "classes/ezcachefile.php" );
 $ini =& INIFile::globalINI();
 $Language = $ini->read_var( "eZTradeMain", "Language" );
 
-function &bigList( $CategoryID, $ParentID, $Offset=0, $module )
+function &bigList( $CategoryID, $ParentID, $Offset=0, $module, $parse=false )
 {
     $bigListCacheFile = new eZCacheFile( "eztrade/cache/biglist/",
 					 array_merge( "list", $CategoryID, $ParentID, $Offset ),
@@ -138,7 +138,12 @@ function &bigList( $CategoryID, $ParentID, $Offset=0, $module )
 
 	$output =& $t->parse( "output", "category_list_page_tpl" );
 	$bigListCacheFile->store( $output );
-	return $output;
+    if ( $parse )
+    {
+        $t->pparse( "output", "category_list_page_tpl" );
+    }
+    else
+        return $output;
     }
 }
 ?>

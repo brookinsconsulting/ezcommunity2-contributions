@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: datasupplier.php,v 1.54.8.8 2002/02/26 12:13:32 ce Exp $
+// $Id: datasupplier.php,v 1.54.8.9 2002/03/05 14:06:06 ce Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -126,6 +126,7 @@ switch ( $url_array[2] )
             {
                 $forum = $product->forum();
                 $ForumID = $forum->id();
+
                 include( "ezforum/user/messagesimplelist.php" );
             }
 
