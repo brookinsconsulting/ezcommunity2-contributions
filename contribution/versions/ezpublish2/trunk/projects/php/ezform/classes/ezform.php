@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezform.php,v 1.8 2001/12/12 10:11:47 jhe Exp $
+// $Id: ezform.php,v 1.9 2001/12/14 13:10:44 br Exp $
 //
 // ezform class
 //
@@ -390,6 +390,16 @@ class eZForm
         $this->Counter++;
     }
 
+    /*!
+      Return the the pages for the form.
+     */
+    function pages()
+    {
+        $db =& eZDB::globalDatabase();
+        
+        
+    }
+    
     /*!
       Returns every form element of this form.
       The form elements are returned as an array of eZFormElement objects.

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: formedit.php,v 1.16 2001/12/14 12:57:50 jhe Exp $
+// $Id: formedit.php,v 1.17 2001/12/14 13:10:44 br Exp $
 //
 // Created on: <12-Jun-2001 13:07:24 pkej>
 //
@@ -31,6 +31,7 @@ include_once( "ezform/classes/ezform.php" );
 include_once( "ezform/classes/ezformelement.php" );
 include_once( "ezform/classes/ezformelementtype.php" );
 include_once( "ezform/classes/ezformtable.php" );
+include_once( "ezform/classes/ezformpage.php" );
 include_once( "ezmail/classes/ezmail.php" );
 
 $ini =& INIFile::globalINI();
@@ -240,44 +241,33 @@ if ( isSet( $OK ) || isSet( $Update ) || isSet( $Preview ) || isSet( $NewElement
 
 $Language = $ini->read_var( "eZFormMain", "Language" );
 
+// set the templates.
 $t = new eZTemplate( "ezform/admin/" . $ini->read_var( "eZFormMain", "AdminTemplateDir" ),
                      "ezform/admin/intl/", $Language, "form.php" );
 
 $t->set_file( "form_edit_page_tpl", "formedit.tpl" );
 
-$elementTemplate = new eZTemplate( "ezform/admin/" . $ini->read_var( "eZFormMain", "AdminTemplateDir" ),
+
+$pageTemplate = new eZTemplate( "ezform/admin/" . $ini->read_var( "eZFormMain", "AdminTemplateDir" ),
                      "ezform/admin/intl/", $Language, "form.php" );
 
-$elementTemplate->set_file( "elementlist_tpl", "elementlist.tpl" );
+$pageTemplate->set_file( "pagelist_tpl", "pagelist.tpl" );
 
-
+// set all blocks for this file.
 $t->set_block( "form_edit_page_tpl", "form_item_tpl", "form_item" );
 $t->set_block( "form_edit_page_tpl", "error_list_tpl", "error_list" );
 $t->set_block( "error_list_tpl", "error_item_tpl", "error_item" );
 $t->set_block( "form_edit_page_tpl", "no_types_item_tpl", "no_types_item" );
-$elementTemplate->set_block( "elementlist_tpl", "no_elements_item_tpl", "no_elements_item" );
-$elementTemplate->set_block( "elementlist_tpl", "element_list_tpl", "element_list" );
-$elementTemplate->set_block( "element_list_tpl", "element_item_tpl", "element_item" );
-$elementTemplate->set_block( "element_item_tpl", "typelist_item_tpl", "typelist_item" );
-$elementTemplate->set_block( "element_item_tpl", "fixed_values_tpl", "fixed_values" );
-$elementTemplate->set_block( "element_item_tpl", "table_edit_tpl", "table_edit" );
-$elementTemplate->set_block( "element_item_tpl", "size_tpl", "size" );
-$elementTemplate->set_block( "element_item_tpl", "table_size_tpl", "table_size" );
-$elementTemplate->set_block( "element_item_tpl", "break_tpl", "break" );
 
-$move_item = true;
-$elementTemplate->set_block( "element_item_tpl", "item_move_up_tpl", "item_move_up" );
-$elementTemplate->set_block( "element_item_tpl", "item_separator_tpl", "item_separator" );
-$elementTemplate->set_block( "element_item_tpl", "item_move_down_tpl", "item_move_down" );
-$elementTemplate->set_block( "element_item_tpl", "no_item_move_up_tpl", "no_item_move_up" );
-$elementTemplate->set_block( "element_item_tpl", "no_item_separator_tpl", "no_item_separator" );
-$elementTemplate->set_block( "element_item_tpl", "no_item_move_down_tpl", "no_item_move_down" );
+// set all page template blocks.
+$pageTemplate->set_block( "pagelist_tpl", "no_page_items_tpl", "no_page_items" );
+$pageTemplate->set_block( "pagelist_tpl", "page_list_tpl", "page_list" );
+$pageTemplate->set_block( "page_list_tpl", "page_item_tpl", "page_item" );
 
-$elementTemplate->set_var( "no_elements_item", "" );
-$elementTemplate->set_var( "element_list", "" );
-$elementTemplate->set_var( "element_item", "" );
-$elementTemplate->set_var( "typelist_item", "" );
-$elementTemplate->set_var( "checked", "" );
+$pageTemplate->set_var( "no_page_items", "" );
+
+
+
 $t->set_var( "no_types_item", "" );
 $t->set_var( "error_list", "" );
 
@@ -338,17 +328,17 @@ if ( $form->numberOfElements() == 0 )
     }
     else
     {
-        if ( $Action != "new" && !isSet( $NewElement ) && !isSet( $DeleteSelected ) )
-            $elementTemplate->parse( "no_elements_item", "no_elements_item_tpl" );
+//        if ( $Action != "new" && !isSet( $NewElement ) && !isSet( $DeleteSelected ) )
+//            $elementTemplate->parse( "no_elements_item", "no_elements_item_tpl" );
     }
 }
 
 $t->set_var( "form_id", $FormID );
-$elementTemplate->set_var( "form_id", $FormID );
 $t->set_var( "form_name", $form->name() );
 $t->set_var( "form_receiver", $form->receiver() );
 $t->set_var( "form_cc", $form->cc() );
 $t->set_var( "form_sender", $form->sender() );
+
 
 if ( $form->isSendAsUser() )
 {
@@ -361,158 +351,45 @@ else
     $t->set_var( "checked", "" );
 }
 
-$elements = $form->formElements();
-$count = $form->numberOfElements();
+$FormID = 1;
 
-if ( $count > 0 )
+if ( $FormID )
 {
-    $i = 0;
-    foreach ( $elements as $element )
+    $pages =& eZFormPage::getByFormID( $FormID );
+
+    if ( count( $pages ) > 0 )
     {
-        if ( ( $i % 2 ) == 0 )
+        $i = 0;
+        foreach ( $pages as $page )
         {
-            $elementTemplate->set_var( "td_class", "bglight" );
-        }
-        else
-        {
-            $elementTemplate->set_var( "td_class", "bgdark" );
-        }
-        $elementTemplate->set_var( "element_name", $element->name() );
-        $elementTemplate->set_var( "element_id", $element->id() );
-        $elementTemplate->set_var( "element_size", $element->size() );
-        
-        if ( $element->isRequired() )
-        {
-            $elementTemplate->set_var( "element_required", "checked" );
-        }
-        else
-        {
-            $elementTemplate->set_var( "element_required", "" );
-        }
-
-        if ( $element->isBreaking() )
-        {
-            $elementTemplate->set_var( "element_is_breaking", "checked" );
-        }
-        else
-        {
-            $elementTemplate->set_var( "element_is_breaking", "" );
-        }
-
-        $currentType = $element->elementType();
-        $types = $currentType->getAll();
-
-        $elementTemplate->set_var( "fixed_values", "" );
-        $elementTemplate->set_var( "table_table", "" );
-        $elementTemplate->set_var( "size", "" );
-        $elementTemplate->set_var( "table_size", "" );
-        $elementTemplate->set_var( "typelist_item", "" );
-        $elementTemplate->set_var( "break", "" );
-        $elementTemplate->set_var( "table_edit", "" );
-
-        foreach ( $types as $type )
-        {
-            $elementTemplate->set_var( "selected", "" );
-            
-            if ( $type->id() == $currentType->id() )
+            if ( ( $i % 2 ) == 0 )
             {
-                $name = $currentType->name();
-                if ( $name == "multiple_select_item" ||
-                     $name == "dropdown_item" ||
-                     $name == "radiobox_item" ||
-                     $name == "checkbox_item" )
-                {
-                    $elementTemplate->parse( "fixed_values", "fixed_values_tpl" );
-                }
-                else
-                {
-                    $elementTemplate->set_var( "fixed_values", "" );
-                }
-                
-                $elementTemplate->set_var( "selected", "selected" );
-
-                $elementTemplate->set_var( "element_nr", $i );
-                if ( $name == "text_field_item" )
-                {
-                    $elementTemplate->parse( "size", "size_tpl" );
-                    $elementTemplate->parse( "break", "break_tpl" );
-                }
-                else
-                {
-                    $elementTemplate->set_var( "break", "" );
-                    if ( $name == "table_item" )
-                    {
-                        $table = new eZFormTable( $element->id() );
-                        $elementTemplate->set_var( "element_size", $table->cols() );
-                        $elementTemplate->set_var( "element_rows", $table->rows() );
-                        $elementTemplate->parse( "size", "size_tpl" );
-                        $elementTemplate->parse( "table_size", "table_size_tpl" );
-                        $elementTemplate->parse( "table_edit", "table_edit_tpl" );
-                    }
-                }
+                $pageTemplate->set_var( "td_class", "bglight" );
+            }
+            else
+            {
+                $pageTemplate->set_var( "td_class", "bgdark" );
             }
             
-            $elementTemplate->set_var( "element_type_id", $type->id() );
-            $elementTemplate->set_var( "element_type_name", $type->name() );
-            $elementTemplate->parse( "typelist_item", "typelist_item_tpl", true );
+            $pageTemplate->set_var( "page_id", $page->id() );
+//            $pageTemplate->set_var( "form_id", $form->id() );
+            $pageTemplate->set_var( "form_id", 1 );
+            $pageTemplate->set_var( "page_name", $page->name() );
+            
+            $pageTemplate->parse( "page_item", "page_item_tpl", true );
+            $i++;
         }
-        
-        $elementTemplate->set_var( "item_move_up", "" );
-        $elementTemplate->set_var( "no_item_move_up", "" );
-        $elementTemplate->set_var( "item_move_down", "" );
-        $elementTemplate->set_var( "no_item_move_down", "" );
-        $elementTemplate->set_var( "item_separator", "" );
-        $elementTemplate->set_var( "no_item_separator", "" );
-
-        if ( isSet( $move_item ) )
-        {
-            $elementTemplate->parse( "item_move_up", "item_move_up_tpl" );
-        }
-        
-        if ( isSet( $move_item ) )
-        {
-            $elementTemplate->parse( "item_separator", "item_separator_tpl" );
-        }
-        
-        if ( isSet( $move_item ) )
-        {
-            $elementTemplate->parse( "item_move_down", "item_move_down_tpl" );
-        }
-
-        $elementTemplate->parse( "element_item", "element_item_tpl", true );
-        $i++;
     }
-    $elementTemplate->parse( "element_list", "element_list_tpl" );
 }
 
-if ( count( $errorMessages ) > 0 && !isSet( $NewElement ) && !isSet( $DeleteSelected ) )
-{
-    foreach ( $errorMessages as $errorMessage )
-    {
-        $errorMessage =& $t->Ini->read_var( "strings", $errorMessage );
-        $elementTemplate->set_var( "error_message", $errorMessage );
-        $elementTemplate->parse( "error_item", "error_item_tpl", true );
-    }
-    
-    $t->set_var( "form_name", $formName );
-    $t->set_var( "form_receiver", $formReceiver );
-    $t->set_var( "form_cc", $formCC );
-    $t->set_var( "form_completed_page", $formCompletedPage );
-    $t->set_var( "form_sender", $formSender );
-    
-    if ( isSet( $formSendAsUser ) )
-    {
-        $t->set_var( "checked", "checked" );
-    }
-    $t->set_var( "form_instruction_page", $formInstructionPage );
+$pageTemplate->parse( "page_list", "page_list_tpl" );
 
-    $elementTemplate->parse( "error_list", "error_list_tpl" );
-}
 
 $t->parse( "form_item", "form_item_tpl" );
 
-$elementListBody = $elementTemplate->parse( $target, "elementlist_tpl" );
+$pageListBody = $pageTemplate->parse( $target, "pagelist_tpl" );
 $t->set_var( "element_list", $elementListBody );
+$t->set_var( "page_list", $pageListBody );
 $t->set_var( "action_value", $ActionValue );
 $t->set_var( "site_style", $SiteStyle );
 $t->setAllStrings();

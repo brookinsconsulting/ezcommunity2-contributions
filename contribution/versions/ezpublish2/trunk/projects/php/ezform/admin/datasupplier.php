@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: datasupplier.php,v 1.5 2001/12/13 09:48:17 jhe Exp $
+// $Id: datasupplier.php,v 1.6 2001/12/14 13:10:44 br Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -81,6 +81,14 @@ switch ( $Operation )
                 $FormID = $url_array[4];
                 $ElementID = $url_array[5];
                 include( "ezform/admin/tableedit.php" );
+            }
+            break;
+
+            case "pageedit":
+            {
+                $FormID = $url_array[4];
+                $PageID = $url_array[5];
+                include( "ezform/admin/pageedit.php" );
             }
             break;
             

@@ -68,14 +68,14 @@
 <!-- END form_item_tpl -->
 <br/>
 
-{element_list}
+{page_list}
 
 <hr noshade="noshade" size="4" />
 
-<input class="stdbutton" type="submit" name="NewElement" value="{intl-add_element}" />
-<input class="stdbutton" type="submit" name="Update" value="{intl-update}" />
-<input class="stdbutton" type="submit" name="DeleteSelected" value="{intl-delete_selected_elements}" />
+<input class="stdbutton" type="submit" name="NewPage" value="{intl-add_page}" />
+<input class="stdbutton" type="submit" name="DeleteSelectedPages" value="{intl-delete_selected_pages}" />
 <br/>
+
 
 <hr noshade="noshade" size="4" />
 
