@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: fixedvalues.php,v 1.5 2001/12/20 10:20:46 jhe Exp $
+// $Id: fixedvalues.php,v 1.6 2001/12/20 11:49:07 jhe Exp $
 //
 // Created on: <12-Jun-2001 13:07:24 pkej>
 //
@@ -44,7 +44,6 @@ if ( isSet( $AddValue ) )
 {
     $value = new eZFormElementFixedValue();
     $value->store();
-    print_r( $value );
     $element->addValue( $value );
 }
 

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: pageedit.php,v 1.21 2001/12/20 09:10:05 jhe Exp $
+// $Id: pageedit.php,v 1.22 2001/12/20 11:49:07 jhe Exp $
 //
 // Definition of ||| class
 //
@@ -201,7 +201,6 @@ if ( isSet( $OK ) || isSet( $Update ) || isSet( $NewElement ) )
 
         $elementCount = count( $elementID );
         $elementTypeError = false;
-        
         for ( $i = 0; $i < $elementCount; $i++ )
         {
             $element = new eZFormElement( $elementID[$i] );
@@ -216,7 +215,6 @@ if ( isSet( $OK ) || isSet( $Update ) || isSet( $NewElement ) )
 
             $element->setName( $elementName[$i] );
             $element->setSize( $Size[$i] );
-
 
             $required = false;
             $break = false;
@@ -242,12 +240,10 @@ if ( isSet( $OK ) || isSet( $Update ) || isSet( $NewElement ) )
                     }
                 }
             }
-
             $element->setBreak( $break );
 //            $element->setRequired( $required );
 
             $element->store();
-
             if ( $elementType->name() == "table_item" )
             {
                 $table = new eZFormTable( $element->ID() );
@@ -256,8 +252,6 @@ if ( isSet( $OK ) || isSet( $Update ) || isSet( $NewElement ) )
                 $table->setElementID( $element->id() );
                 $table->store();
             }
-
-            
         }
     }
 
@@ -267,7 +261,8 @@ if ( isSet( $OK ) || isSet( $Update ) || isSet( $NewElement ) )
     $values =& $element->fixedValues();
     $elementType =& $element->elementType();
     $page->store();
-    if ( $elementType && $elementType->name() == "text_field_item" )
+    if ( ( get_class( $elementType ) == "ezformelementtype" && $elementType->name() == "text_field_item" ) ||
+         $elementType == "text_field_item" )
     {
         if ( count( $ElementRange ) > 0 )
         {
