@@ -1,1 +1,0 @@
-<option {is_selected} value="{category_id}">{category_title}</option>
