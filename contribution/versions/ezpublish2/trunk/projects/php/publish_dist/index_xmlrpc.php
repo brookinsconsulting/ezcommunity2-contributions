@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: index_xmlrpc.php,v 1.23 2001/09/26 14:25:01 jb Exp $
+// $Id: index_xmlrpc.php,v 1.24 2001/09/27 09:06:27 jb Exp $
 //
 // Created on: <09-Nov-2000 14:52:40 ce>
 //
@@ -291,6 +291,11 @@ function Call( $args )
     }
 }
 
+/*!
+  Added the urls $urls to the search structure, if not search
+  structure exists a new is created.
+*/
+
 function appendSearchURLS( $urls )
 {
     global $ReturnData;
@@ -317,6 +322,10 @@ function appendSearchURLS( $urls )
         $ReturnData = new eZXMLRPCStruct( $ret );
 }
 
+/*!
+  Makes the $ret variable contain the proper data taken from the current search.
+*/
+
 function handleSearchData( &$ret )
 {
     global $Data;
@@ -328,6 +337,10 @@ function handleSearchData( &$ret )
     if ( isset( $Data["Parameters"] ) )
         $ret["Parameters"] = $Data["Parameters"];
 }
+
+/*!
+  Catches PHP errors and sends the result as an XMLRPC response to the client.
+*/
 
 function xmlrpcErrorHandler ($errno, $errmsg, $filename, $linenum, $vars)
 {
@@ -445,23 +458,31 @@ function &createErrorMessage( $error_id, $error_msg = false, $error_sub_id = fal
     return $ret;
 }
 
+/*!
+  Creates an url XMLRPC struct from the $module, $type and $id.
+  If $id is equal to 0 it is not included in the struct.
+  The resulting struct is returned.
+*/
+
 function createURLStruct( $module, $type , $id = 0 )
 {
     if( $id != 0 )
     {
         $ret = new eZXMLRPCStruct( array( "ID" => new eZXMLRPCInt( $id ),
                                           "Type" => new eZXMLRPCString( $type ),
-                                          "Module" => new eZXMLRPCString( $module ) )
-                            );
+                                          "Module" => new eZXMLRPCString( $module ) ) );
     }
     else
     {
         $ret = new eZXMLRPCStruct( array( "Type" => new eZXMLRPCString( $type ),
-                                          "Module" => new eZXMLRPCString( $module ) )
-                            );
+                                          "Module" => new eZXMLRPCString( $module ) ) );
     }
     return $ret;
 }
+
+/*!
+  Creates a size XMLRPC struct of the $width and $height params and returns it.
+*/
 
 function createSizeStruct( $width, $height )
 {
@@ -470,6 +491,10 @@ function createSizeStruct( $width, $height )
     return $ret;
 }
 
+/*!
+  Creates a Date XMLRPC struct of an eZDate or eZDateTime object and returns it.
+*/
+
 function createDateStruct( $date )
 {
     $ret = new eZXMLRPCStruct( array( "Year" => new eZXMLRPCInt( $date->year() ),
@@ -477,6 +502,10 @@ function createDateStruct( $date )
                                       "Day" => new eZXMLRPCInt( $date->day() ) ) );
     return $ret;
 }
+
+/*!
+  Creates a DateTime XMLRPC struct of an eZDateTime object and returns it.
+*/
 
 function createDateTimeStruct( $datetime )
 {
@@ -488,6 +517,15 @@ function createDateTimeStruct( $datetime )
                                       "Second" => new eZXMLRPCInt( $datetime->second() ) ) );
     return $ret;
 }
+
+/*!
+  Creates a XMLRPC structure of a tree. Each entry in the tree will have an url struct
+  and a name. The url struct consists of $module, $type and each respective $id from the tree.
+  The $tree input must be an array with "ID" being the id of the top level,
+  "Name" being the name of the top level and "Children" being an array of the children
+  where each children is the same structure as the toplevel.
+  The resulting tree structure is returned.
+*/
 
 function &createTreeStruct( $tree, $module, $type )
 {
@@ -507,6 +545,11 @@ function &createTreeStruct( $tree, $module, $type )
     return $item;
 }
 
+/*!
+  Creates a eZDateTime object from a DateTime struct and returns it.
+  \sa createDateTimeStruct()
+*/
+
 function createDateTime( $struct )
 {
     $datetime = new eZDateTime();
@@ -518,6 +561,16 @@ function createDateTime( $struct )
     $datetime->setSecond( $struct["Second"]->value() );
     return $datetime;
 }
+
+/*!
+  Creates an array of urls which represents the total path of a certain object.
+  The object is require to have a function path() which returns an array of category ids,
+  the object must also have a function id() which returns the id of the object.
+  Each url will have the $module, $type and corresponding id from the array.
+  If include_self is false the category id which has the same id as the object is
+  not included.
+  The resulting url array is returned.
+*/
 
 function &createPath( &$obj, $module, $type, $include_self = true )
 {
@@ -537,6 +590,12 @@ function &createPath( &$obj, $module, $type, $include_self = true )
     }
     return $par;
 }
+
+/*!
+  Creates an array of urls structs from an array of ids(int),
+  each url will consist of the $module $type and $id of each entry in the list.
+  The resulting url array is returned.
+*/
 
 function &createURLArray( &$ids, $module, $type )
 {
