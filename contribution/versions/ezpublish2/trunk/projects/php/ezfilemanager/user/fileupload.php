@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: fileupload.php,v 1.33 2001/09/05 11:54:47 jhe Exp $
+// $Id: fileupload.php,v 1.34 2001/09/13 21:22:36 fh Exp $
 //
 // Created on: <10-Dec-2000 15:49:57 bf>
 //
@@ -137,7 +137,8 @@ if ( $Action == "Insert" || $Action == "Update" )
     {
         $folder = new eZVirtualFolder( $FolderID );
         
-        if ( eZObjectPermission::hasPermission( $folder->id(), "filemanager_folder", "w", $user ) == false )
+        if ( eZObjectPermission::hasPermission( $folder->id(), "filemanager_folder", "w", $user ) == false &&
+             eZObjectPermission::hasPermission( $folder->id(), "filemanager_folder", "u", $user ) == false )
         {
             $t->parse( "write_permission", "error_write_permission" ); 
             $error = true;
@@ -458,7 +459,8 @@ $folderList = $folder->getTree( );
 foreach ( $folderList as $folderItem )
 {
     if ( eZObjectPermission::hasPermission( $folderItem[0]->id(), "filemanager_folder", 'w' ) ||
-        eZVirtualFolder::isOwner( eZUser::currentUser(), $folderItem[0]->id() ) )
+        eZVirtualFolder::isOwner( eZUser::currentUser(), $folderItem[0]->id() ) ||
+         eZObjectPermission::hasPermission( $folderItem[0]->id(), "filemanager_folder", 'u' ))
     {
         $t->set_var( "option_name", $folderItem[0]->name() );
         $t->set_var( "option_value", $folderItem[0]->id() );
