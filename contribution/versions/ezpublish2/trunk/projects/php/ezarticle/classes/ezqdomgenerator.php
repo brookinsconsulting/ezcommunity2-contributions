@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezqdomgenerator.php,v 1.39 2001/10/17 10:51:32 bf Exp $
+// $Id: ezqdomgenerator.php,v 1.40 2002/02/06 14:50:20 bf Exp $
 //
 // Definition of eZQDomGenerator class
 //
@@ -36,6 +36,8 @@
   
 */
 
+include_once( "ezxml/classes/ezxml.php" );
+
 class eZQDomGenerator
 {
     /*!
@@ -66,7 +68,7 @@ class eZQDomGenerator
         //add the generator, this is used for rendering.
         $newContents .= "<article><generator>qdom</generator>\n";
 
-        //add the contents
+        //add the contents        
         $newContents .= "<intro>" . $this->generatePage( $this->Contents[0] ) . "</intro>";
 
         // get every page in an array
@@ -86,7 +88,7 @@ class eZQDomGenerator
         
 
         $newContents .= "<body>" . $body . "</body></article>";
-
+        
         return $newContents;
     }
 
@@ -367,7 +369,7 @@ class eZQDomGenerator
     {
         $contentsArray = array();
 
-        $xml =& xmltree( $this->Contents );
+        $xml =& eZXML::domTree( $this->Contents );
 
 //        $xml =& qdom_tree( $this->Contents );
 
@@ -388,6 +390,7 @@ class eZQDomGenerator
                     {
                         if ( $article->name == "intro" )
                         {
+                            print_r( $article );
                             $intro = $this->decodePage( $article );
                         }
                         
@@ -404,6 +407,7 @@ class eZQDomGenerator
             $bodyContents = "";
             $i=0;
             // loop on the pages
+            if ( is_array( $body ) )
             foreach ( $body as $page )
             {
                 if ( $page->name == "page" )
