@@ -1,7 +1,7 @@
-<h1>{intl-ad_edit}</h1>
-
 <form method="post" action="/ad/ad/" enctype="multipart/form-data">
 <input type="hidden" name="max_file_size" value="3000000">
+
+<h1>{intl-ad_edit}</h1>
 
 <hr noshade="noshade" size="4" />
 
@@ -31,9 +31,9 @@
 <!-- END image_tpl -->
 
 
-<br />
+<br /><br />
 <input type="checkbox" name="IsActive" {ad_is_active} />
-<span class="boxtext">{intl-ad_is_active}</span><br />
+<span class="boxtext">{intl-ad_is_active}</span><br /><br />
 <hr noshade="noshade" size="4" />
 <input type="submit" name="Update" value="{intl-update}" />
 <hr noshade="noshade" size="4" />

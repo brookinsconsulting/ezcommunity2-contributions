@@ -79,9 +79,9 @@
 <!-- END image_item_tpl -->
 <p class="boxtext">{intl-th_type_image}:</p>
 <!-- BEGIN no_image_item_tpl -->
-<br />
+
 <!-- END no_image_item_tpl -->
-<input size="40" name="ImageFile" type="file" />
+<input size="40" name="ImageFile" type="file" /><br /><br />
 <hr noshade="noshade" size="4" />
 <input class="okbutton" type="submit" name="{intl-command_ok}" value="{intl-button_ok}" />
 </form>

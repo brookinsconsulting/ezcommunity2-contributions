@@ -29,9 +29,9 @@
 <p class="boxtext">{intl-news_keywords}:</p>
 <input type="text" size="40" name="NewsKeywords" value="{news_keywords_value}"/>
 
-<br />
+<br /><br />
 <input type="checkbox" name="IsPublished" {news_is_published} />
-<span class="boxtext">{intl-news_is_published}</span><br />
+<span class="boxtext">{intl-news_is_published}</span><br /><br />
 
 <hr noshade="noshade" size="4" />
 

@@ -1,5 +1,7 @@
-<h1>{intl-category_edit}</h1>
 <form method="post" action="/newsfeed/category/">
+
+<h1>{intl-category_edit}</h1>
+
 <hr noshade="noshade" size="4" />
 
 <p class="boxtext">{intl-category_name}:</p>
@@ -7,7 +9,7 @@
 
 <p class="boxtext">{intl-category_description}:</p>
 <textarea cols="40" rows="5" wrap="soft" name="CategoryDescription">{category_description_value}</textarea>
-
+<br /><br />
 
 <hr noshade="noshade" size="4" />
 
