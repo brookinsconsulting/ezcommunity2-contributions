@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: datasupplier.php,v 1.14 2001/08/21 15:11:27 jb Exp $
+// $Id: datasupplier.php,v 1.15 2001/09/19 11:49:10 jb Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -31,6 +31,17 @@ define( "EZARTICLE_WRONG_ARTICLE_COUNT", 5 );
 
 switch ( $RequestType )
 {
+    case "tag" :
+    {
+        switch( $Command )
+        {
+            case "list":
+            {
+                include( "ezarticle/xmlrpc/tag.php" );
+                break;
+            }
+        }
+    } break;
     case "type" :
     {
         switch( $Command )
