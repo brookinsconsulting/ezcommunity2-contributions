@@ -360,7 +360,7 @@ if( $user )
                         }
                     }
 
-                    $t->set_var( "day_number", $currentDay );
+                    $t->set_var( "day_number", $tmpDate->day() );
                     $t->set_var( "month_number_p", $Month );
                     $t->set_var( "year_number", $Year );
 
