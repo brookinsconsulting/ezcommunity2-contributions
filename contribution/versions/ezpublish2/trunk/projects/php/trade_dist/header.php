@@ -6,6 +6,6 @@
      <a href="/article/archive/1/">NEWS</a><br />
      <a href="/trade/productlist/1/">PRODUCTS</a><br />
      <a href="/trade/cart/">YOUR CART</a><br />
-    </td>
-    <td rowspan="2" bgcolor="#ffffff" width="97%" valign="top">
+</td>
+<td rowspan="2" bgcolor="#ffffff" width="97%" valign="top">
 	
