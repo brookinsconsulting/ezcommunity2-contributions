@@ -64,6 +64,7 @@ switch ( $url_array[2] )
         else
             $user = 0;
 //        print( "Checking category: $CategoryID <br>" );
+        
         if ( $PageCaching == "enabled" )
         {
             //$CategoryID = $url_array[3];
@@ -71,6 +72,7 @@ switch ( $url_array[2] )
             include_once( "classes/ezcachefile.php" );
             $file = new eZCacheFile( "ezarticle/cache/", array( "articlelist", $CategoryID, $Offset, $groupstr ),
                                      "cache", "," );
+            
             $cachedFile = $file->filename( true );
 //            print( "Cache file name: $cachedFile" );
             if ( $file->exists() )
