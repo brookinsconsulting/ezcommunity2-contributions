@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: replymessage.php,v 1.6 2000/09/01 13:29:00 ce-cvs Exp $
+    $Id: replymessage.php,v 1.7 2000/09/08 13:10:05 bf-cvs Exp $
 
     Author: Lars Wilhelmsen <lw@ez.no>
     
@@ -10,14 +10,17 @@
 */
 
 
+include_once( "classes/INIFile.php" );
+
 $ini = new INIFile( "site.ini" ); // get language settings
 $DOC_ROOT = $ini->read_var( "eZForumMain", "DocumentRoot" );
 
 
 include_once( "common/ezphputils.php" );
 include_once( "classes/template.inc" );
-include_once( $DOC_ROOT . "/classes/ezdb.php" );
+include_once( "classes/ezdb.php" );
 include_once( $DOC_ROOT . "/classes/ezforummessage.php");
+include_once( $DOC_ROOT . "/classes/ezforumcategory.php");
 include_once( "classes/ezsession.php" );
 include_once( "classes/ezuser.php" );
 

@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: main.php,v 1.30 2000/09/07 15:44:44 bf-cvs Exp $
+    $Id: main.php,v 1.31 2000/09/08 13:10:05 bf-cvs Exp $
 
     Author: Lars Wilhelmsen <lw@ez.no>
     
@@ -17,7 +17,7 @@ $DOC_ROOT = $ini->read_var( "eZForumMain", "DocumentRoot" );
 include_once( "common/ezphputils.php" );
 include_once( "classes/template.inc" );
 
-include_once( $DOC_ROOT . "classes/ezdb.php" );
+include_once( "classes/ezdb.php" );
 include_once( $DOC_ROOT . "classes/ezforumcategory.php" );
 include_once( $DOC_ROOT . "classes/ezforummessage.php" );
 

@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: ezmail.php,v 1.2 2000/07/18 10:19:32 lw Exp $
+    $Id: ezmail.php,v 1.1 2000/09/08 13:10:05 bf-cvs Exp $
 
     Author: Lars Wilhelmsen <lw@ez.no>
     
@@ -11,6 +11,13 @@
 /*!
   Quite selfexplaining class. Just a wrapper for PHPs mail() function
  */
+
+//!! eZCommon
+//!
+/*!
+  
+*/
+
 class eZMail
 {
     var $To;

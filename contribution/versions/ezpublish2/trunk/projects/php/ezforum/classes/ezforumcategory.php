@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: ezforumcategory.php,v 1.11 2000/09/07 15:44:44 bf-cvs Exp $
+    $Id: ezforumcategory.php,v 1.12 2000/09/08 13:10:05 bf-cvs Exp $
 
     Author: Lars Wilhelmsen <lw@ez.no>
     
@@ -10,6 +10,12 @@
 */
 //include_once( "ezforum/dbsettings.php" );
 //include_once( "$DOCROOT/classes/ezdb.php" );
+
+//!! eZForum
+//!
+/*!
+  
+*/
 
 class eZforumCategory
 {
