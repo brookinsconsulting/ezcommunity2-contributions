@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezcheckout.php,v 1.2 2001/03/01 14:06:26 jb Exp $
+// $Id: ezcheckout.php,v 1.3 2001/03/07 11:36:34 bf Exp $
 //
 // Definition of eZCheckout class
 //
@@ -28,6 +28,19 @@
 //!! eZTrade
 //! eZCheckout handles user chekcouts and payment methods.
 /*!
+  This class handles the chechout and payment methods. This is the
+  default implementation which is meant to be used as a skeleton for
+  your own specific implementation.
+
+  To create your own checkout routine simply create a folder named checkout/
+  in the eZ publish root and copy the ezcheckoutsupplier.php to the classes/
+  folder of that directory. The reason for the checkout folder for custom checkout
+  code is compatibility with upgrades of the software and some CVS issues.
+
+  You will also find an example implementation of a custom checkout routine
+  in the file checkout.tar.gz which is found in the custom folder of your
+  eZ publish installation.
+  
 */
 
 class eZCheckout
@@ -41,7 +54,15 @@ class eZCheckout
 
         $Checkout = $ini->read_var( "eZTradeMain", "Checkout" );
 
-        include_once( "eztrade/classes/checkout/" . $Checkout . "/classes/ezcheckoutsupplier.php" );
+        // check for local checkout code
+        if ( file_exists( "checkout/classes/ezcheckoutsupplier.php" ) )
+        {
+            include_once( "checkout/classes/ezcheckoutsupplier.php" );
+        }
+        else
+        {
+            include_once( "eztrade/classes/ezcheckoutsupplier.php" );
+        }
         
         $this->CheckoutObject = new eZCheckoutSupplier( );
     }
