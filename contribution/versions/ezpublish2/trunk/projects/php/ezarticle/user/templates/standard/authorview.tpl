@@ -17,7 +17,7 @@
 
 <table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
 <tr>
-	<td><h2>{intl-head_line}{author_name}</h2></td>
+	<td><h2>{intl-head_line} {author_name}</h2></td>
 	<td width="10%" align="right"><nobr><b>({article_start}-{article_end}/{article_count})</b></nobr></td>
 </tr>
 </table>
