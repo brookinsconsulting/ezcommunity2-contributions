@@ -54,7 +54,12 @@
     <!-- BEGIN online_line_tpl -->
     <td width="{online_width}%">
         <span class="boxtext">{online_type_name}:</span>
+        <!-- BEGIN email_line_tpl -->
         <a href="{online_url_type}:{online}">{online}</a>
+        <!-- END email_line_tpl -->
+        <!-- BEGIN url_line_tpl -->
+        <a href="{online_url_type}://{online}">{online}</a>
+        <!-- END url_line_tpl -->
     </td>
     <!-- END online_line_tpl -->
 </tr>
