@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezsession.php,v 1.48 2001/06/29 07:08:39 bf Exp $
+// $Id: ezsession.php,v 1.49 2001/07/03 13:31:01 bf Exp $
 //
 // Definition of eZSession class
 //
@@ -531,7 +531,11 @@ class eZSession
 
         if ( get_class( $session ) != "ezsession" )
         {
-            $session = new eZSession( $id, $fetch );
+            $session = new eZSession();
+            if ( !$session->fetch() )
+            {
+                $session->store();
+            }
         }
 
         return $session;
