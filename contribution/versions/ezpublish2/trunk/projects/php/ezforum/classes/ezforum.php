@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezforum.php,v 1.18 2001/02/26 09:40:58 ce Exp $
+// $Id: ezforum.php,v 1.19 2001/02/26 19:01:49 pkej Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <11-Sep-2000 22:10:06 bf>
@@ -165,6 +165,11 @@ class eZForum
 
                 $this->State_ = "Coherent";
                 $ret = true;
+            }
+            else if( count( $category_array ) == 0 )
+            {
+                $this->ID = 0;
+                $this->State_ = "New";
             }
         }
         else

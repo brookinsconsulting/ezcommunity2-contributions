@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezforumcategory.php,v 1.30 2001/02/26 16:35:09 pkej Exp $
+// $Id: ezforumcategory.php,v 1.31 2001/02/26 19:01:49 pkej Exp $
 //
 // Definition of eZForumCategory class
 //
@@ -146,6 +146,11 @@ class eZForumCategory
 
                 $this->State_ = "Coherent";
                 $ret = true;
+            }
+            else if( count( $category_array ) == 0 )
+            {
+                $this->ID = 0;
+                $this->State_ = "New";
             }
         }
         else

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezforummessage.php,v 1.76 2001/02/26 12:57:27 pkej Exp $
+// $Id: ezforummessage.php,v 1.77 2001/02/26 19:01:49 pkej Exp $
 //
 // Definition of eZCompany class
 //
@@ -285,6 +285,12 @@ class eZForumMessage
                 
                 $this->State_ = "Coherent";
                 $ret = true;
+            }
+            else if( count( $message_array ) == 0 )
+            {
+                $this->ID = 0;
+                $this->State_ = "New";
+                $ret = false;
             }
         }
         else
