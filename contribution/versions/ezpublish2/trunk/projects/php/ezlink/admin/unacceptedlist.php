@@ -1,5 +1,5 @@
 <?
-// $Id: unacceptedlist.php,v 1.1 2001/02/12 12:13:43 ce Exp $
+// $Id: unacceptedlist.php,v 1.2 2001/02/13 13:01:10 gl Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <26-Oct-2000 14:55:24 ce>
@@ -52,6 +52,7 @@ $t->set_block( "unacceptedlist", "link_item_tpl", "link_item" );
 $t->set_block( "link_item_tpl", "category_item_tpl", "category_item" );
 
 $t->set_var( "site_style", $SiteStyle );
+$t->set_var( "link_item", "" );
 
 $link = new eZLink();
 
