@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: articlepreview.php,v 1.4 2000/10/21 19:33:10 bf-cvs Exp $
+// $Id: articlepreview.php,v 1.5 2000/10/21 20:10:56 bf-cvs Exp $
 //
 // 
 //
@@ -57,7 +57,7 @@ $t->set_var( "article_id", $article->id() );
 
 $pageCount = $article->pageCount();
 
-if ( $PageNumber > 1 )
+if ( $pageCount > 1 )
 {
     for ( $i=0; $i<$pageCount; $i++ )
     {
@@ -66,12 +66,13 @@ if ( $PageNumber > 1 )
 
         $t->parse( "page_link", "page_link_tpl", true );
     }
+
+    $t->parse( "page_menu_separator", "page_menu_separator_tpl" );    
 }
 else
 {
     $t->set_var( "page_link", "" );
     $t->set_var( "page_menu_separator", "" );
-    
 }
 
 if ( $PageNumber > 1 )

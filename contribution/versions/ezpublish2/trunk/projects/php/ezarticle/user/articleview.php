@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: articleview.php,v 1.5 2000/10/21 12:33:22 bf-cvs Exp $
+// $Id: articleview.php,v 1.6 2000/10/21 20:10:56 bf-cvs Exp $
 //
 // 
 //
@@ -58,7 +58,7 @@ $t->set_var( "link_text", $article->linkText() );
 $t->set_var( "article_id", $article->id() );
 
 
-if ( $PageNumber > 1 )
+if ( $pageCount > 1 )
 {
     for ( $i=0; $i<$pageCount; $i++ )
     {
