@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: messagelistflat.php,v 1.1 2001/07/03 11:38:11 bf Exp $
+// $Id: messagelistflat.php,v 1.2 2001/07/05 17:12:31 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <03-Jul-2001 13:24:26 bf>
@@ -123,9 +123,9 @@ else
         $t->set_var( "edit_message_item", "" );
 
         if ( ( $i % 2 ) == 0 )
-            $t->set_var( "td_class", "bglight" );
+            $t->set_var( "td_class", "articlelist1" );
         else
-            $t->set_var( "td_class", "bgdark" );
+            $t->set_var( "td_class", "articlelist2" );
         
         $t->set_var( "topic", $message[$db->fieldName("Topic")] );
         $t->set_var( "body", $message[$db->fieldName("Body")] );
